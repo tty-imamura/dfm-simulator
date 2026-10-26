@@ -3,7 +3,7 @@
  "libVersion": "w307c-spindecomp-lib-1",
  "generator": "tests/exp-w307c-spindecomp.mjs",
  "target": "beta/index.html",
- "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
  "ruling": "原仮定者の裁定(第100報)(観測の自転 = 慣性軸回転 + 引きずり軸回転・軸引きずりは受け手の球面の近い側と遠い側の回転引きずりの差分・金星と太陽–木星を先に・木星–イオと太陽–木星–イオを対照・太陽の自転は分解しない・観測の自転が安定なら引きずり軸回転と潮汐のブレーキが釣り合う)・決断事項 AN345 ④(ω_obs = ω_I + ω_D・ω̇_obs = τ/I + ω̇_D)・統括の検証項目 R211",
  "quick": false,
  "ids": {
@@ -1575,42 +1575,54 @@
  "ok": true,
  "timing": {
   "checks": {
-   "wallSec": 0.102
+   "wallSec": 0.088
   },
   "decomp": {
-   "wallSec": 0.133
+   "wallSec": 0.138
   },
   "radius": {
-   "wallSec": 0.25
+   "wallSec": 0.183
   },
   "misc": {
-   "wallSec": 0.045
+   "wallSec": 0.037
   },
   "evolution": {
-   "wallSec": 4.573
+   "wallSec": 4.973
   }
  },
- "elapsedS": 7.154,
+ "elapsedS": 7.377,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便c",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T10:34:57.462Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T21:17:37.605Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w307c-spindecomp.mjs",
-    "bytes": 37764,
-    "sha256": "82e94d775916067a74a2648134a3b73cc1e54ea6c17eb85d8c4d530f0fa9c05a",
-    "mtime": "2026-10-20T16:19:56.656Z"
+    "bytes": 38217,
+    "sha256": "c60d0b0e0eed806d10f1cf036393567a2f24e760c0987fffa233abfee093f32f",
+    "mtime": "2026-10-25T16:42:07.795Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w307c-spindecomp.mjs",
@@ -1643,7 +1655,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "b2371d5478f2a92b5449c59034b7a82fc38c60dd4c60b8ab94928be50da61ba8",
+  "codeSha256": "1787e6b1f703fd91239b824c9a3d328b8d267dd4783dd6f26ffc91c90a2c2bfb",
   "harnessVersion": "w307c-spindecomp-1",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— 本の宣言を読むだけ。軸引きずりの球面の核・三次元の CTL・内部熱は器の参照の純関数〔エンジンの式ではない〕)",
   "notClaim": [
@@ -1674,13 +1686,20 @@
    "core": false,
    "consts": [],
    "complete": true,
-   "names": 1514,
-   "segments": 1349,
-   "closureShare": 0.3423
+   "names": 1517,
+   "segments": 1352,
+   "closureShare": 0.3431
   },
-  "scopeSha256": "9fe4e535a5690ce58a70441997c088f2c536b9372b73c5fd83036ec069087e0a",
+  "scopeSha256": "ca6c715738be2a40fcf3566f12f450eec9b940546a76cbc4235d686cdf622899",
   "scopeComplete": true,
-  "inputsStable": [],
+  "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
   "stableHashVersion": "w282e-stable-1"
  }
 }

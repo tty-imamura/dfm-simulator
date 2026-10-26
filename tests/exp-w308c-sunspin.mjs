@@ -37,6 +37,7 @@ import { sourceM1 } from './lib-w307a-sphereaxial.mjs';
 import { keplerElements, keplerState } from './lib-w307c-spindecomp.mjs';
 import { idsFromDecl, buildConfigs, unitsOf, bodyOf } from './exp-w307c-spindecomp.mjs';
 import * as L from './lib-w308c-sunspin.mjs';
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 + 本 11 本 —— 惑星 7・木星系 1・銀河 3)
 const REGEN_SCOPE = {"presets":["galaxy","galaxyGeo2","galaxyStd","jupiterGalilean","jupiterSunInertial3d","marsSunInertial3d","mercurySunInertial3d","neptuneSunInertial3d","saturnSunInertial3d","uranusSunInertial3d","venusSunInertial3d"],"roots":["$","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","T","ctx","cw","sim"],"core":false,"consts":[],"complete":true};
 
@@ -448,14 +449,15 @@ export async function main() {
   const t0 = Date.now();
   const W281A_SCOPE = w281aScopeStamp(html, REGEN_SCOPE);
   const { HP } = loadHtmlMain(html);
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const R = runAll(HP);
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w308c-sunspin.mjs', target: TARGET,
     targetSha256: crypto.createHash('sha256').update(fs.readFileSync(html)).digest('hex'),
     ruling: '原仮定者の裁定(第102報)②(太陽の観測の自転と要求される慣性自転の乖離・銀河の慣性自転に由来する引きずり軸回転の比率)・①(相互の引きずりに反作用を返すと二重計上にならないか)・原仮定者の裁定(第101報)((C) のエネルギーの出所は太陽の慣性自転・中心部の収縮で釣り合う・軸引きずりは軸方向に対する角度差の 2 倍で傾いた軸)・決断事項 AN355・AN348・統括の検証項目 R216',
     ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w308c-sunspin.mjs', 'tests/lib-w308c-sunspin.mjs', 'tests/exp-w307c-spindecomp.mjs', 'tests/lib-w307c-spindecomp.mjs', 'tests/lib-w307b-tide3d.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第308便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
+  const CODE = ['tests/exp-w308c-sunspin.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w308c-sunspin.mjs', 'tests/exp-w307c-spindecomp.mjs', 'tests/lib-w307c-spindecomp.mjs', 'tests/lib-w307b-tide3d.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第308便c', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION,
     engine: 'Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— 本の宣言を読むだけ。鏡映の核・curl の核・三次元の CTL は器の参照の純関数〔エンジンの式ではない〕)',
     notClaim: NOT_CLAIM });

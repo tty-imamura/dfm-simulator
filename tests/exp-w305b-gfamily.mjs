@@ -46,6 +46,7 @@ import * as PL from './exp-w299c-planets3d.mjs';
 import * as P3 from './lib-w299c-planets3d.mjs';
 import * as I3 from './exp-w295c-inertial3.mjs';
 import * as PRE305 from './lib-w306a-pre.mjs';   // 第306便a(AN336): 在位の惑星 7 本の宣言の世代の門(pin.liveSame の比べ方だけ —— 写しの値は凍結のデータのまま)
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.GLOC_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_I2_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.fitCondSig","HP.gLocPeriAdvance","HP.gLocState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragLedgerOf","HP.inertialDragState","HP.inertialR2Q","HP.inertialR2State","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.wbgEstimateOf","LAWS","T","ab","ch","ctx","cw","dfmGaussLegendre01","dfmInertialDrag3Build","dfmInertialDrag3Solve","dfmInertialDragStep","dfmInertialDragStep3","dragCoreAngular","dragCoreAvgK","dragCoreLookup","dragCoreTableBuild","fmt","inertialDragComposeSolve","inertialDragI2Apply","inertialDragNormApply","inertialR2SumOf","pnSource","relDragCoefficientOf","relDragSolveFromOf","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -479,6 +480,7 @@ if (IS_MAIN) {
   const OUT_PATH = process.env.W305B_OUT || path.join(ROOT, 'tests', 'out', 'gfamily-w305b.json');
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const out = { meta: null, harnessVersion: HARNESS_VERSION, gLocVersion: HP.GLOC_VERSION, i2Version: HP.REL_DRAG_I2_VERSION, apsisVersion: AP.APSIS_VERSION, fitstopVersion: FS.FITSTOP_VERSION, parts: PARTS,
     pin: { file: DECL_FILE, version: PIN.version, base: PIN.base, liveSame: liveSame(HP) } };
   const tp = {};
@@ -512,9 +514,9 @@ if (IS_MAIN) {
     gates.flat2dAnalytic = out.flat2d.twoD.gLocOnly.every((z) => Math.abs(z.ratio - 1) < 2e-3);
   }
   out.gates = gates; out.ok = Object.values(gates).every(Boolean); out.timing = tp; out.stats = STATS;
-  const CODE = ['tests/exp-w305b-gfamily.mjs', 'tests/lib-w306a-pre.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/exp-w304b-shell.mjs', 'tests/exp-w303b-inertialr2.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs',
+  const CODE = ['tests/exp-w305b-gfamily.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w306a-pre.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/exp-w304b-shell.mjs', 'tests/exp-w303b-inertialr2.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs',
     'tests/exp-w295c-inertial3.mjs', 'tests/lib-core-budget.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第305便b', target: TARGET, code: CODE, inputs: [TARGET, DECL_FILE] }), {
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第305便b', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE, DECL_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '第95報・AN332 の裁定(アプリは絶対時間・慣性速度は絶対時間の慣性速度を維持・観察者の時計の率 α = c_loc/c₀・読み (ii) n = 2 を先に確認・読み (i) n = +1 は次点・n = 0 は対照・近点では n は決まらない)',
     reading: '統括の検証項目 R200(惑星の n の族 × λ ∝ m の写し —— 水星の k・6 本への移送〔新しい抽出器 + 検出器 B〕・周期の表・🟫 の扱いの得失)・決断事項 AN331・AN330',

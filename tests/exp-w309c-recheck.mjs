@@ -29,6 +29,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { inputsFromDecl } from './exp-w308c-sunspin.mjs';
 import * as L from './lib-w309c-recheck.mjs';
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 + 本)
 const REGEN_SCOPE = {"presets":["galaxy","galaxyGeo2","galaxyStd","jupiterGalilean","jupiterSunInertial3d","marsSunInertial3d","mercurySunInertial3d","neptuneSunInertial3d","saturnSunInertial3d","uranusSunInertial3d","venusSunInertial3d"],"roots":["$","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","REL_DRAG_INIT_OBS_VERSION","T","appStepDt","ckRestoreOne","ckSnapOne","ctx","cw","inertialDragInitObsRedo","inertialDragInitObsState","inertialDragInverseMap","sim"],"core":true,"consts":[],"complete":true};
 
@@ -390,15 +391,16 @@ export async function main() {
   const t0 = Date.now();
   const W281A_SCOPE = w281aScopeStamp(html, REGEN_SCOPE);
   const H = loadHtmlHeadless(html);
+  pinDecl315c(H.evalExpr);   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const R = runAll(H, QUICK);
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w309c-recheck.mjs', target: TARGET,
     targetSha256: crypto.createHash('sha256').update(fs.readFileSync(html)).digest('hex'),
     ruling: '原仮定者の裁定(第103報)AN355(慣性自転の初期値 = 観測値の自転 − 引きずり軸回転の初期値)・AN357(正確な引きずりの修正版で再確認)・(第104報)AN362・AN363・(第105報)AN364(慣性移動の初期値 = 観測値の移動 − 引きずり移動の初期値)・決断事項 AN355・AN357・AN362・AN363・AN364・統括の検証項目 R220',
     initObsVersion: H.evalExpr('REL_DRAG_INIT_OBS_VERSION'), ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w309c-recheck.mjs', 'tests/lib-w309c-recheck.mjs', 'tests/exp-w308c-sunspin.mjs', 'tests/lib-w308c-sunspin.mjs', 'tests/exp-w307c-spindecomp.mjs', 'tests/lib-w307c-spindecomp.mjs',
+  const CODE = ['tests/exp-w309c-recheck.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w309c-recheck.mjs', 'tests/exp-w308c-sunspin.mjs', 'tests/lib-w308c-sunspin.mjs', 'tests/exp-w307c-spindecomp.mjs', 'tests/lib-w307c-spindecomp.mjs',
     'tests/lib-w307b-tide3d.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第309便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第309便c', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION,
     engine: 'Node(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— validatePreset・build・step・読み口はエンジンのまま。修正版の引きずりは器の参照の純関数〔エンジンの式ではない —— 第309便a の新則と統合の後に照合〕)',
     notClaim: NOT_CLAIM });

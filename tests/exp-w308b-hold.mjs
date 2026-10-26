@@ -38,6 +38,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as L from './lib-w308b-hold.mjs';
 import { ctl3 } from './lib-w307b-tide3d.mjs';
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 // 第281便a の領域 hash の宣言(器と lib から引いた下限 + 写しの本 2 本)
 const REGEN_SCOPE = {"presets":["jupiterSunInertial3d","venusSunInertial3d"],"roots":["$","CK_ARRS","CK_SC","HP.allPresets","HP.coord3d","HP.tideState","HP.validatePreset","INERTIAL_DRAG3_HOLD_SC_CK","REL_DRAG_AXIS_HOLD_KEYS","REL_DRAG_AXIS_HOLD_REACTIONS","REL_DRAG_AXIS_HOLD_VERSION","T","appStepDt","ckRestoreOne","ckSnapOne","ctx","inertialDrag3AxialSign","inertialDrag3SpinState","inertialR2Q"],"core":true,"consts":[],"complete":true};
 
@@ -422,14 +423,15 @@ export async function main() {
   const t0 = Date.now();
   const W281A_SCOPE = w281aScopeStamp(html, REGEN_SCOPE);
   const H = loadHtmlHeadless(html);
+  pinDecl315c(H.evalExpr);   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const R = runAll(H, { quick });
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w308b-hold.mjs', target: TARGET,
     targetSha256: crypto.createHash('sha256').update(fs.readFileSync(html)).digest('hex'),
     ruling: '原仮定者の裁定(第101報)AN348 → (C)・(第102報)①「引きずりの計算は相互 —— 反作用を返すと二重計上にならないかを確認する」・決断事項 AN348・AN349・AN355・統括の検証項目 R215',
     holdVersion: H.evalExpr('REL_DRAG_AXIS_HOLD_VERSION'), ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w308b-hold.mjs', 'tests/lib-w308b-hold.mjs', 'tests/lib-w307b-tide3d.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第308便b', target: TARGET, code: CODE, inputs: [TARGET] }), {
+  const CODE = ['tests/exp-w308b-hold.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w308b-hold.mjs', 'tests/lib-w307b-tide3d.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第308便b', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION,
     engine: 'Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)',
     notClaim: ['帳簿が完全に閉じた', '自転が釣り合った', '金星の逆行を説明した', 'イオの加熱を説明した', '太陽の自転を分解した', 'τ_C の応答則の導出'] });

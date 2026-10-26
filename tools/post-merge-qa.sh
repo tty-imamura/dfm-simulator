@@ -310,6 +310,34 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.k1outer314 docs.k1em314 docs.k1confirm3
 #   状態の契約・S._core・正本の段の lint.regenScope・lint.stableHashPaths・CANON の lint.canon304・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.pn1x3d314 docs.pn1x3d314 behavior.coord3d298 preset.coord3d298 docs.coord3d298 behavior.coord3dHaltAB299 behavior.drag3d298 preset.planets3d299 docs.planets3d299 behavior.pn1Binary behavior.pn1Sources docs.pn1Contract behavior.geoModeResolve ui.paramTab299 lint.stateContract302 lint.coreBudget lint.regenScope lint.stableHashPaths lint.canon304 lint.qaHeapRelease310"
 # ==== 第314便d の塊(ここまで)====
+# ==== 第315便a の塊(ここから)====
+# 第315便a(原仮定者の裁定(第117報)AN414・統括の推奨 AN419・R242): 枝 a の新設 3 本(docs.symbols315 —— 記号の体系の正本と文書・ui.physLock315 —— 物理対応ロックの読込時の
+#   自動 ON〔値を書き直さない〕・lint.kappaSymbol315 —— 新しい説明の裸のカッパ)と、世代切替を受けた物理対応ロックとパラメータのラベルを読む physlock.kt-derive・physlock.ui-110・
+#   budget.consistency・params.direct-input・ab.edit-target・wave124.ui・wave125.ui・ui.wave96a、SYSTEM_PROMPT を読む prompt.spec-sync・prompt.schema-sync・ai.external-prompt・
+#   preset.lambdaPN297、文を読む behavior.lambdaPnOnDrag297・ai.stabilize・behavior.clusterAnalogy、loadSave の指紋の behavior.ckFixcapRestore、一覧の lint.scopeAll312、
+#   正本の段の lint.regenScope・lint.stableHashPaths・CANON の lint.canon304・状態の契約 lint.stateContract302・lint.coreBudget・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.symbols315 ui.physLock315 lint.kappaSymbol315 physlock.kt-derive physlock.ui-110 budget.consistency params.direct-input ab.edit-target wave124.ui wave125.ui ui.wave96a prompt.spec-sync prompt.schema-sync ai.external-prompt preset.lambdaPN297 behavior.lambdaPnOnDrag297 ai.stabilize behavior.clusterAnalogy behavior.ckFixcapRestore lint.scopeAll312 lint.regenScope lint.stableHashPaths lint.canon304 lint.stateContract302 lint.coreBudget lint.sectionLookup313"
+# ==== 第315便a の塊(ここまで)====
+# ==== 第315便b の塊(ここから)====
+# 第315便b(決断事項 AN415・原仮定者の裁定(第117報)AN414 の記号・K1 の境界の 1 点・R243): 枝 b の新設 3 本(behavior.rsExcess315 —— r_s > R_obs の読み口の表・等号・質量の割合と本の種類で不変・
+#   状態を書かない・K1 の境界の 1 点・ui.rsExcess315 —— 選択粒子の欄 #beRsX・説明の 1 行 #rsExcessNotice・灰の破線の円・画素・docs.rsExcess315 —— 正本と文書)と、表示を世代切替した
+#   ui.rdExcess314・受理の境界を世代切替した器を読む behavior.rdExcess314・docs.rdExcess314・受理器を読む behavior.kappaM313・docs.kappaM313・behavior.dragCoreGate・選択粒子の欄と説明の並びの
+#   ui.selEdit299・ui.descOrder・ui.gwGroupMove(🎻 の家族のカード)・状態の契約・CANON・段の lint
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rsExcess315 ui.rsExcess315 docs.rsExcess315 ui.rdExcess314 behavior.rdExcess314 docs.rdExcess314 behavior.kappaM313 docs.kappaM313 behavior.dragCoreGate ui.selEdit299 ui.descOrder ui.gwGroupMove lint.stateContract302 lint.coreBudget lint.regenScope lint.stableHashPaths lint.canon304 lint.qaHeapRelease310"
+# ==== 第315便b の塊(ここまで)====
+# ==== 第315便c の塊(ここから)====
+# 第315便c(原仮定者の裁定(第117報)・決断事項 AN406・AN410・R244): 枝 c の新設 3 本(preset.inposK1_315 —— 在位の 7 本の K1 + rdRule の宣言・behavior.inposK1_315 —— 凍結の写し + 変換と
+#   移行した本のビット同一・r_d の読み口・docs.inposK1_315 —— 継ぎ目の正本と文書)と、世代切替を受けた在位の 7 本を読む QA(凍結の写し pinHeadless・legacyView —— 第299便c〜第314便c)・
+#   正本の段の lint.regenScope・lint.stableHashPaths・lint.regenChain・CANON の lint.canon304・状態の契約・lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.inposK1_315 behavior.inposK1_315 docs.inposK1_315 preset.planets3d299 docs.planets3d299 behavior.dragNorm301 preset.refit301 behavior.gLoc302 behavior.wbgDirect302 ui.wbgSlider302 behavior.wbgEstimate302 preset.gLocPlanets302 preset.revertGLoc303 behavior.inertialR2_303 behavior.shell304 behavior.j2_305 behavior.pairNorm305 behavior.invSq309 behavior.invSq310 behavior.coreSpin311 behavior.initObs309 behavior.shellTinyEta305 docs.charonAudit305 docs.obsTime305 preset.planets306 preset.emResolve306 preset.charonFix306 behavior.galaxial311 behavior.galaxialRd312 behavior.decayK1_312 docs.mdSweep310 docs.planet3_311 docs.confirm312 docs.k1confirm313 docs.k1outer314 docs.an336_306 behavior.composeGate theory.refs-all ui.v59Text301 behavior.maintain309 behavior.holdLedger310 docs.pairHeat310 behavior.galaxialRdm313 behavior.gLocNull307 preset.fitRole308 docs.timeStd3d299 lint.regenScope lint.stableHashPaths lint.regenChain lint.canon304 lint.stateContract302 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第315便c の塊(ここまで)====
+# ==== 第315便d の塊(ここから)====
+# 第315便d(原仮定者の裁定(第117報)・AN413・AN410・AN412・AN414・R245): 枝 d の新設 1 本(docs.satK1_315 —— 衛星 6 本の K1 の検証の正本〔二体と三体 × 引きずりの有無・
+#   近似要素の種・数値の帯の判定〕と文書・外惑星の一様の門の表・16 体の入力の契約の変種の表)と、門を一様へ世代切替した docs.k1outer314・同じ器の docs.k1em314・
+#   入力の契約を更新した docs.solar16Contract300・16 体の写しを読む docs.pn1x3d314・第313便d の正本の docs.k1confirm313・正本の段の lint.regenScope・lint.stableHashPaths・
+#   lint.regenChain・lint.scopeAll312・CANON の lint.canon304・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satK1_315 docs.k1outer314 docs.k1em314 docs.solar16Contract300 docs.pn1x3d314 docs.k1confirm313 lint.regenScope lint.stableHashPaths lint.regenChain lint.scopeAll312 lint.canon304 lint.qaHeapRelease310"
+# ==== 第315便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

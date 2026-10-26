@@ -49,6 +49,7 @@ import * as B302 from './exp-w302b-gloc.mjs';
 import * as EMO from './exp-w300b-emonly.mjs';
 import * as H4C from './lib-w311c-h4carry.mjs';   // 第311便c(AN393 (a)・R228): h/4 の転記の型
 import * as I3 from './exp-w295c-inertial3.mjs';   // 🟪 の公転周期(runPair —— フィットの器 exp-w296b-fit と同じ抽出器)   // 🌦️ の近地点の周期と恒星月(runEm3・windowsOf —— 118 公転窓)
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.GLOC_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_I2_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.fitCondSig","HP.gLocPeriAdvance","HP.gLocState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragLedgerOf","HP.inertialDragState","HP.inertialR2Q","HP.inertialR2State","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.wbgEstimateOf","LAWS","T","ab","ch","ctx","cw","fmt","pnSource","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -781,6 +782,7 @@ if (IS_MAIN) {
   const OUT_PATH = process.env.W303B_OUT || path.join(ROOT, 'tests', 'out', 'inertialr2-w303b.json');
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   pinDecl303();   // 第304便c: 🌦️🌔 を第303便の宣言へ(軟化 0.01・初期配置・W_bg —— この正本は第303便の宣言で測った歴史の記録)
   pinDecl305();   // 第306便e: 🟪 を第305便の宣言へ(引きずり ON の W_bg 0.0001486103・初期の距離 19595.764 km —— 第305便の html では no-op)
   CARRY = H4C.openCarry(OUT_PATH, { harnessVersion: HARNESS_VERSION });   // 第311便c: h/4 の転記(前の正本 —— 書き換える前に開く)
@@ -820,9 +822,9 @@ if (IS_MAIN) {
   const h4s = H4C.shadowStamp(CARRY, { unit: '段 Z6 の人工二体の行(Z6:<鍵>)・根の行(M:<変種>:<G_loc>:<標的> —— 段 M・参考・段 N)・移送の行(T:<変種>:<本>)・対照(control:<本>)',
     valueKeys: '転記の判定は第311便c の値の鍵(h と h/2)/ 比べる値: Z6 は h/4 の走行・根の行は行の全欄・移送の行は行が読む h/4 の欄(予言・周期・近点周期・離心率の変化)・対照は h/4 の aps・periodDays・ecc' });
   if (h4s) out.h4Carry = h4s;   // 第312便c(AN400): 影の記録
-  const CODE = ['tests/exp-w303b-inertialr2.mjs', 'tests/lib-w306e-pre.mjs', 'tests/lib-w304c-pre.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w302b-gloc.mjs', 'tests/lib-w302a-wbg.mjs', 'tests/lib-w302c-pre.mjs',
+  const CODE = ['tests/exp-w303b-inertialr2.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w306e-pre.mjs', 'tests/lib-w304c-pre.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w302b-gloc.mjs', 'tests/lib-w302a-wbg.mjs', 'tests/lib-w302c-pre.mjs',
     'tests/lib-w297b-fit.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/lib-w302h-splitrec.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w311c-h4carry.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第303便b', target: TARGET, code: CODE, inputs: [TARGET, DECL303_DATA_FILE, DECL305_DATA_FILE] }), {
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第303便b', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE, DECL303_DATA_FILE, DECL305_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, i2Version: HP.REL_DRAG_I2_VERSION, loadErrors: errors.length, quick: QUICK,
     ruling: '原仮定者の裁定(第93報)④(太陽からの慣性決定力は r⁻²・引きずりは r⁻³・各惑星に対する太陽の影響は公転半径から・太陽が背景側に含まれる時の W_bg をそのまま別の惑星に使わない)・⑤(G_loc に迫る —— G_loc = G·c_loc/c も候補)・前便の指摘(1PN 相当は引きずりだけでは合わない量を埋める為 —— 引きずりを無くすのは本末転倒)',
     reading: '統括の検証項目 R192(分母に源の慣性決定力 w_I = m/(λr²)・変種 A〔公転半径の定数〕と B〔瞬間の距離〕・水星で λ を決めて移送の予言・G_loc の候補の表・λ の読み〔普遍の長さ / λ ∝ m〕・太陽の受け手)',

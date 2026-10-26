@@ -2,7 +2,7 @@
  "version": "w314d-pn1x3d-1",
  "generator": "tests/exp-w314d-pn1x3d.mjs",
  "target": "beta/index.html",
- "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
  "ruling": "原仮定者の裁定(第116報)の補足 —— 太陽と全惑星とトリトン以上の 7 大衛星を 1 つにまとめた三次元サンプルの対照に geoPN=1 と geoPN=3 の両方・統括の検証項目 R241",
  "coord3dPn1Version": "w314d-pn1-3d-1",
  "pn1EihVersion": "w291b-eih-2",
@@ -461,7 +461,7 @@
      "maxRel": 0
     },
     "rateSame": true,
-    "wallSec": 0.151
+    "wallSec": 0.16399999999999998
    },
    {
     "variant": "pinned",
@@ -495,7 +495,7 @@
      "maxRel": 0
     },
     "rateSame": true,
-    "wallSec": 0.122
+    "wallSec": 0.185
    },
    {
     "variant": "free",
@@ -529,7 +529,7 @@
      "maxRel": 0
     },
     "rateSame": true,
-    "wallSec": 0.048999999999999995
+    "wallSec": 0.063
    },
    {
     "variant": "free",
@@ -563,7 +563,7 @@
      "maxRel": 0
     },
     "rateSame": true,
-    "wallSec": 0.06599999999999999
+    "wallSec": 0.08399999999999999
    },
    {
     "variant": "freeLeapfrog",
@@ -597,7 +597,7 @@
      "maxRel": 0
     },
     "rateSame": true,
-    "wallSec": 0.124
+    "wallSec": 0.15200000000000002
    }
   ],
   "deltaRows": [
@@ -661,7 +661,7 @@
     "absRate": 1.1559763563040448e-15,
     "planeDrift": 5.158807480286034e-16,
     "zEnd": 5.56178033683275e-16,
-    "wallSec": 0.032
+    "wallSec": 0.064
    },
    {
     "rot": [
@@ -678,7 +678,7 @@
     "absRate": 1.0325941490751944e-15,
     "planeDrift": 1.128084379585066e-15,
     "zEnd": 6.257002878936875e-16,
-    "wallSec": 0.028999999999999998
+    "wallSec": 0.038
    },
    {
     "rot": [
@@ -695,7 +695,7 @@
     "absRate": 5.526178473158616e-16,
     "planeDrift": 1.6709682002982022e-15,
     "zEnd": 1.6685341010498433e-15,
-    "wallSec": 0.03
+    "wallSec": 0.037
    }
   ],
   "worst": {
@@ -743,7 +743,7 @@
     "dP1PN1": 1.251329749593879e-10,
     "dPNewton0": 2.350705041291402e-16,
     "dP1PN0": 1.2010388781322307e-9,
-    "wallSec": 0.081
+    "wallSec": 0.119
    },
    {
     "conf": "3dFlat",
@@ -759,7 +759,7 @@
     "dP1PN1": 1.251329749593879e-10,
     "dPNewton0": 2.350705041291402e-16,
     "dP1PN0": 1.2010388781322307e-9,
-    "wallSec": 0.040999999999999995
+    "wallSec": 0.055
    },
    {
     "conf": "3dTilt",
@@ -775,7 +775,7 @@
     "dP1PN1": 1.2407094393283631e-10,
     "dPNewton0": 2.5549813317505944e-16,
     "dP1PN0": 1.2199301375669954e-9,
-    "wallSec": 0.028999999999999998
+    "wallSec": 0.043
    }
   ],
   "flatBits": {
@@ -796,42 +796,42 @@
     "hDiv": 1,
     "steps": 2000,
     "dP1PN": 1.2407094393283631e-10,
-    "wallSec": 0.022
+    "wallSec": 0.023
    },
    {
     "integrator": "leapfrog",
     "hDiv": 2,
     "steps": 4000,
     "dP1PN": 6.205482279704377e-11,
-    "wallSec": 0.038
+    "wallSec": 0.046
    },
    {
     "integrator": "leapfrog",
     "hDiv": 4,
     "steps": 8000,
     "dP1PN": 3.103087936039365e-11,
-    "wallSec": 0.076
+    "wallSec": 0.086
    },
    {
     "integrator": "semi",
     "hDiv": 1,
     "steps": 2000,
     "dP1PN": 2.4686594446597114e-10,
-    "wallSec": 0.013
+    "wallSec": 0.017
    },
    {
     "integrator": "semi",
     "hDiv": 2,
     "steps": 4000,
     "dP1PN": 1.236796257120483e-10,
-    "wallSec": 0.025
+    "wallSec": 0.027
    },
    {
     "integrator": "semi",
     "hDiv": 4,
     "steps": 8000,
     "dP1PN": 6.189856618130918e-11,
-    "wallSec": 0.049
+    "wallSec": 0.051
    }
   ],
   "hOrder": {
@@ -872,21 +872,21 @@
     "warnings": 0,
     "deny": [],
     "build": {
-     "wallSec": 0
+     "wallSec": 0.001
     },
     "h": 0.00421862799335,
     "n": 16,
     "integrator": "leapfrog",
     "run20": {
-     "wallSec": 0.033
+     "wallSec": 0.037
     },
     "finite": true,
     "halt": null,
     "t": 0.08437255986700003,
     "cost": {
      "steps": 200,
-     "wallSec": 0.05,
-     "rateStepsPerSec": 4000
+     "wallSec": 0.092,
+     "rateStepsPerSec": 2173.913043478261
     },
     "pn1": {
      "version": "w314d-pn1-3d-1",
@@ -913,15 +913,15 @@
     "n": 16,
     "integrator": "leapfrog",
     "run20": {
-     "wallSec": 0.001
+     "wallSec": 0.003
     },
     "finite": true,
     "halt": null,
     "t": 0.08437255986700003,
     "cost": {
      "steps": 200,
-     "wallSec": 0.013,
-     "rateStepsPerSec": 15384.615384615385
+     "wallSec": 0.027,
+     "rateStepsPerSec": 7407.407407407408
     }
    },
    "g3": {
@@ -930,21 +930,21 @@
     "warnings": 0,
     "deny": [],
     "build": {
-     "wallSec": 0.862
+     "wallSec": 1.124
     },
     "h": 0.00421862799335,
     "n": 16,
     "integrator": "leapfrog",
     "run20": {
-     "wallSec": 2.796
+     "wallSec": 4.301
     },
     "finite": true,
     "halt": null,
     "t": 0.08437255986700003,
     "cost": {
      "steps": 20,
-     "wallSec": 2.796,
-     "rateStepsPerSec": 7.15307582260372
+     "wallSec": 4.301,
+     "rateStepsPerSec": 4.650081376424088
     }
    }
   },
@@ -1020,34 +1020,34 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.08
+   "wallSec": 0.082
   },
   "P": {
-   "wallSec": 0.54
+   "wallSec": 0.67
   },
   "R": {
-   "wallSec": 0.129
+   "wallSec": 0.191
   },
   "N": {
-   "wallSec": 0.375
+   "wallSec": 0.468
   },
   "X": {
-   "wallSec": 3.804
+   "wallSec": 5.661
   }
  },
- "elapsedS": 6.593,
+ "elapsedS": 9.008,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便d",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T11:18:23.909Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T21:17:49.137Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
    }
   ],
   "code": [
@@ -1059,9 +1059,9 @@
    },
    {
     "file": "tests/lib-w300c-solar16.mjs",
-    "bytes": 28107,
-    "sha256": "84b61917cdeb56a1bcc85512b420715a0a573ca84e8b52c4d88a6d52fd75c676",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "bytes": 35537,
+    "sha256": "7ed0c2f1b34e66c13a8ed51be562b73623224a6ba092af5c341262e422214eae",
+    "mtime": "2026-10-25T15:04:20.693Z"
    },
    {
     "file": "tests/lib-w302a-wbg.mjs",
@@ -1094,7 +1094,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "6ccdab1421acf1ebdc192a4e252a14d1534e2984e6369006832f2a689d2266fd",
+  "codeSha256": "b57da37196e94e275d3f525c488fb381117750b93c3cd03cabaf8eb880afdea9",
   "harnessVersion": "w314d-pn1x3d-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1126,11 +1126,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1526,
-   "segments": 1361,
-   "closureShare": 0.3449
+   "names": 1529,
+   "segments": 1364,
+   "closureShare": 0.3457
   },
-  "scopeSha256": "ffcf66f22a12c385034d81b7b019671da9a642ff7ee6add40e018725b8050c79",
+  "scopeSha256": "9f4c7ab5550e5046f47fd9133000844becdf132fd0a0a1258b7b14fe90acceaf",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

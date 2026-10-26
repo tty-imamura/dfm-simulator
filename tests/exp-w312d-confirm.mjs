@@ -59,6 +59,7 @@ import * as Q from './lib-w311d-planet3.mjs';
 import * as PL3 from './exp-w311d-planet3.mjs';
 import * as EMX from './exp-w303c-earthmoon.mjs';
 import * as C from './lib-w312d-confirm.mjs';
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— tests/lib-w299c-planets3d.mjs が allPresets() を値で読むので presets は "all")
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.FIT_COND_VERSION","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragIsqState","HP.inertialDragState","HP.sim","HP.validateFitRecord","HP.validatePreset","T","ab","ch","ctx","cw","dfmGaussLegendre01","dfmInertialDragStep","dragCoreAngular","dragCoreAvgK","dragCoreLookup","dragCoreTableBuild","fmt","inertialDragNormApply","pnSource","relDragCoefficientOf","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
@@ -473,6 +474,7 @@ export async function main() {
   if (process.argv.includes('--child')) {
     const spec = JSON.parse(argOf('--child'));
     const { HP } = loadHtmlMain(path.isAbsolute(TARGET) ? TARGET : path.join(ROOT, TARGET));
+    pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
     process.stdout.write('\n' + JSON.stringify(runSpec(HP, spec)) + '\n');
     return;
   }
@@ -497,6 +499,7 @@ export async function main() {
   const t0 = Date.now(), targetSha256 = crypto.createHash('sha256').update(fs.readFileSync(html)).digest('hex');
   const W281A_SCOPE = w281aScopeStamp(html, REGEN_SCOPE);
   const { HP } = loadHtmlMain(html);
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const NW = Math.max(1, Number(process.env.W312D_WORKERS) || 2), run = makePool(NW, fileURLToPath(import.meta.url));
   const log = (r) => console.log(`  ${r.key}: ${r.status}${r.status === 'run' ? (r.spec.system === 'jupiter' ? '・新 ' + Number(r.apsNew).toFixed(6) + '・B ' + Number(r.detB).toFixed(6) + '″/世紀'
     : '・EMB ' + Number(r.emb).toFixed(6) + '・地球 ' + Number(r.earth).toFixed(6) + '″/世紀・月 ' + (r.moon ? Number(r.moon.sidH).toFixed(9) + ' d・' + Number(r.moon.T4p).toFixed(6) + ' 年・' + Number(r.moon.node).toFixed(6) + ' 年' : '—'))
@@ -509,10 +512,10 @@ export async function main() {
       'v2(第313便d —— 原仮定者の裁定(第115報)AN399・AN402・統括の検証項目 R237): 全天体の規則 kappa0(太陽も・κ₀ 固定)の口・受理の目安の cap を外す',
     invSqVersion: HP.REL_DRAG_INVSQ_VERSION || null, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w312d-confirm.mjs', 'tests/lib-w312d-confirm.mjs', 'tests/exp-w311d-planet3.mjs', 'tests/lib-w311d-planet3.mjs', 'tests/exp-w303c-earthmoon.mjs', 'tests/lib-w306a-an336.mjs',
+  const CODE = ['tests/exp-w312d-confirm.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w312d-confirm.mjs', 'tests/exp-w311d-planet3.mjs', 'tests/lib-w311d-planet3.mjs', 'tests/exp-w303c-earthmoon.mjs', 'tests/lib-w306a-an336.mjs',
     'tests/lib-w304e-apsis.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第313便d', target: TARGET, code: CODE,
-    inputs: [TARGET, PL3.DECL_FILE, PLANET3_OUT, AN336_OUT, AN.CANDIDATE_FILE, AN.AUDIT_FILE] }), {
+    inputs: [TARGET, LEGACY7_DATA_FILE, PL3.DECL_FILE, PLANET3_OUT, AN336_OUT, AN.CANDIDATE_FILE, AN.AUDIT_FILE] }), {
     harnessVersion: HARNESS_VERSION,
     engine: 'Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W312D_WORKERS)',
     notClaim: NOT_CLAIM });

@@ -40,6 +40,7 @@ import { ORDER_PRE_VERSION } from './lib-w302d-orderpre.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便m: gain ⇔ W_bg の読み書き(器の側 —— 第302便a の世代の宣言は Wbg)
 import { pinDecl302, DECL302_DATA_FILE } from './lib-w303a-pre.mjs';   // 第303便a: 第302便の本の宣言の写し(この正本は第302便の宣言で測った歴史の記録 —— 器の中だけ・html と署名は変えない)
 import { pinDecl303, DECL303_DATA_FILE } from './lib-w304c-pre.mjs';   // 第304便c: 第303便の 🌦️🌔 の宣言の写し(pinDecl302 の前に —— 軟化・初期配置・引きずりの宣言を第303便へ戻してから第302便の欄を戻す・歴史の値を保つ)
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 const REGEN_SCOPE = {"presets":"all","roots":["FIT_RECORD_VERSION","HP.FIT_COND_VERSION","HP.PROBE_VERSION","HP.REL_DRAG_AXIAL_LAW","HP.REL_DRAG_CHAIN_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SEMIC_VERSION","HP.REL_DRAG_SOLVER_TOL_DEFAULT","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.REL_DRAG_SPIN3_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.ckRestoreOne","HP.ckSnapOne","HP.cloneSimStateNow","HP.coord3d","HP.dfmGaussLegendre01","HP.dfmInertialDragStep","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.geoEffectiveMode","HP.geoLawOfSim","HP.geoModeOf","HP.inertialDrag3AxialOmega","HP.inertialDrag3RotTerm","HP.inertialDragComposeSolve","HP.inertialDragEpoch","HP.inertialDragLedgerOf","HP.inertialDragProbeAt","HP.inertialDragProbeBilinear","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.inertialSpinMoment","HP.loadPreset","HP.modeSettingIssues","HP.presetSig","HP.relDragStepOrderOf","HP.sim","HP.stepCarryFrame","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.validateRelativeDrag","ckRestoreOne","ckSnapOne","dfmSphereKernelQEff"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -265,6 +266,7 @@ export function chainPart(log) {
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (IS_MAIN && process.argv.includes('--base-fp')) {   // 子プロセス: 基点の html で指紋(stepOrder の鍵を知らない世代 —— 宣言のまま)
   const { HP } = loadHtmlMain(path.join(ROOT, process.argv[process.argv.indexOf('--base-fp') + 1]));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const ids = JSON.parse(process.argv[process.argv.indexOf('--ids') + 1]);
   process.stdout.write(JSON.stringify(fingerprints(HP, ids, null)));
   process.exit(0);
@@ -272,6 +274,7 @@ if (IS_MAIN && process.argv.includes('--base-fp')) {   // 子プロセス: 基�
   const t0 = Date.now(), log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a);
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   pinDecl303();   // 第304便c: 🌦️🌔 を第303便の宣言へ(軟化 0.01・初期配置・W_bg —— 続く pinDecl302 が第302便の欄を戻す)
   pinDecl302();   // 第303便a: 在位の惑星の本の G_loc と フィットの本の W_bg・初期配置を第302便の宣言に戻して測る(歴史の値を保つ)
   const prev = fs.existsSync(OUT_PATH) ? JSON.parse(fs.readFileSync(OUT_PATH, 'utf8')) : null;
@@ -306,8 +309,8 @@ if (IS_MAIN && process.argv.includes('--base-fp')) {   // 子プロセス: 基�
   if (PARTS.includes('fit')) { const tf = Date.now(); out.fit = fitPart(HP, log); out.fit.wallSec = (Date.now() - tf) / 1000; }
   if (PARTS.includes('chain')) { const tc = Date.now(); out.chain = chainPart(log); out.chain.wallSec = (Date.now() - tc) / 1000; }
   out.ok = out.gates ? Object.values(out.gates.ok).every(Boolean) : null;
-  const CODE = ['tests/exp-w302d-semic.mjs', 'tests/lib-w302c-pre.mjs', 'tests/lib-w302d-orderpre.mjs', 'tests/lib-w301d-coupled.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303a-pre.mjs', 'tests/lib-w304c-pre.mjs'].concat(SUBS.map((s) => s.script));
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第302便d', target: TARGET, code: CODE, inputs: [TARGET, DECL302_DATA_FILE, DECL303_DATA_FILE] }), {
+  const CODE = ['tests/exp-w302d-semic.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w302c-pre.mjs', 'tests/lib-w302d-orderpre.mjs', 'tests/lib-w301d-coupled.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303a-pre.mjs', 'tests/lib-w304c-pre.mjs'].concat(SUBS.map((s) => s.script));
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第302便d', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE, DECL302_DATA_FILE, DECL303_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, semicVersion: HP.REL_DRAG_SEMIC_VERSION, orderPreVersion: ORDER_PRE_VERSION, coupledLibVersion: L.COUPLED_LIB_VERSION, loadErrors: errors.length,
     ruling: '決断事項 AN303 ①②⑤(semic を既定に・R_E を読み口に・inertialDragWork の記帳の定義)—— 原仮定者の裁定(第92報)で概ね同意',
     reading: '統括の検証項目 R188(本体の積分器 semic —— G_loc より先に既定化)',

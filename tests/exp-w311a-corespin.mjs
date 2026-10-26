@@ -37,6 +37,7 @@ import { loadHtmlHeadless } from './lib-w279b-headless.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as CL from './lib-w311a-corespin.mjs';
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限)
 const REGEN_SCOPE = {"presets":["mercurySunInertial3d"],"roots":["$","HP.allPresets","HP.coord3d","HP.validatePreset","REL_DRAG_CORE_SPIN_VERSION","REL_DRAG_INVSQ_SHELL_VERSION","REL_DRAG_INVSQ_VERSION","T","appStepDt","ckRestoreOne","ckSnapOne","ctx","dragCoreEdit","inertialDragInitObsRedo","inertialDragInitObsState","inertialDragIsqEval","inertialDragIsqPointAt","inertialDragIsqRule","inertialDragIsqState"],"core":true,"consts":[],"complete":true};
 
@@ -416,15 +417,16 @@ export async function main() {
   const t0 = Date.now();
   const W281A_SCOPE = w281aScopeStamp(html, REGEN_SCOPE);
   const H = loadHtmlHeadless(html);
+  pinDecl315c(H.evalExpr);   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const R = runAll(H, { quick });
   const out = { version: HARNESS_VERSION, libVersion: CL.LIB_VERSION, generator: 'tests/exp-w311a-corespin.mjs', target: TARGET,
     targetSha256: crypto.createHash('sha256').update(fs.readFileSync(html)).digest('hex'),
     ruling: '原仮定者の裁定(第110報)AN387 ④ 選択肢として dragCore の自転も軸方向を含めてノブ・(第113報)・DECISIONS v70 §0c ①・§1 AN397(推奨の型 —— 宣言の一定のベクトル)・決断事項 AN384(数値的に解像できない薄さの厚い殻は受理で拒否)・統括の検証項目 R226',
     coreSpinVersion: E(H, 'REL_DRAG_CORE_SPIN_VERSION'), invSqVersion: E(H, 'REL_DRAG_INVSQ_VERSION'), shellVersion: E(H, 'REL_DRAG_INVSQ_SHELL_VERSION'), versionReaders: VERSION_READERS, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w311a-corespin.mjs', 'tests/lib-w311a-corespin.mjs', 'tests/lib-w310a-shell.mjs', 'tests/lib-w309a-invsq.mjs',
+  const CODE = ['tests/exp-w311a-corespin.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w311a-corespin.mjs', 'tests/lib-w310a-shell.mjs', 'tests/lib-w309a-invsq.mjs',
     'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第311便a', target: TARGET, code: CODE, inputs: [TARGET, DECL_FILE] }), {
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第311便a', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE, DECL_FILE] }), {
     harnessVersion: HARNESS_VERSION,
     engine: 'Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)',
     notClaim: NOT_CLAIM });

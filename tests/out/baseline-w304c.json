@@ -3,14 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第304便c",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T09:32:34.683Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T19:22:17.248Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    },
    {
     "file": "tests/data-w304c-decl303.json",
@@ -28,9 +34,15 @@
   "code": [
    {
     "file": "tests/exp-w304c-baseline.mjs",
-    "bytes": 35409,
-    "sha256": "2fa2ed3ba621c3ddebcea036beae69511a99d15132dfc18cf02d1629d505d036",
-    "mtime": "2026-10-20T16:19:56.652Z"
+    "bytes": 35862,
+    "sha256": "25fdda2fbb4545c8c24db9d30e3c4d02cb54274bd5ad89ef052fb474d928239f",
+    "mtime": "2026-10-25T16:42:07.786Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w304c-pre.mjs",
@@ -46,9 +58,9 @@
    },
    {
     "file": "tests/exp-w303c-earthmoon.mjs",
-    "bytes": 73010,
-    "sha256": "ab97e15d1348db27bea081c2bdf36b2b282e45a68f33b52fa2bf1b337d94c00a",
-    "mtime": "2026-10-20T16:19:56.648Z"
+    "bytes": 73463,
+    "sha256": "11b93ede35632be26dbe4fc9050fafd7ea4d688c723c028c5af861d3187cd7da",
+    "mtime": "2026-10-25T16:42:07.785Z"
    },
    {
     "file": "tests/exp-w300b-emonly.mjs",
@@ -93,7 +105,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "a108302eb20662c055470012b3bc5a905c9668783c4fac9fa450133e5d899d3f",
+  "codeSha256": "24b0d1ad648796190c2512417501803444a4389e5e3d9e4c0b9a9f181d8e63f4",
   "harnessVersion": "w304c-baseline-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第94報)—— 決断事項 AN316 ①〜④ の提案に同意",
@@ -151,13 +163,19 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1567,
-   "segments": 1402,
-   "closureShare": 0.3526
+   "names": 1570,
+   "segments": 1405,
+   "closureShare": 0.3534
   },
-  "scopeSha256": "333211b709003b0be67f4179d8183907eae90b221e8cb5ebe023f0d97ccf8941",
+  "scopeSha256": "e7267294e6aaf8876ad81220b0da4f13bc5d292ac032127606afa2e383234f26",
   "scopeComplete": true,
   "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
    {
     "file": "tests/data-w304c-decl303.json",
     "stableSha256": "ee2dcf7b40adc14214e6b293ef561b91c193439262352cd5e2b72701c1dd69c2",
@@ -359,7 +377,7 @@
    "e": 0.016708600000002977,
    "rDot": 0
   },
-  "wallSec": 433.109
+  "wallSec": 524.032
  },
  "measure": {
   "note": "本の宣言(html)の 🌦️・引きずり OFF(宣言)と ON(第303便a の W_bg —— 対照)",
@@ -1303,7 +1321,7 @@
      ]
     },
     "steps": 15668354,
-    "wallSec": 43.377,
+    "wallSec": 57.942,
     "m4a": {
      "slide": {
       "n": 79,
@@ -1473,7 +1491,7 @@
      }
     ],
     "steps": 31336703,
-    "wallSec": 84.311
+    "wallSec": 102.098
    },
    "h4": {
     "fromZero": [
@@ -1513,7 +1531,7 @@
      }
     ],
     "steps": 20891114,
-    "wallSec": 50.273
+    "wallSec": 76.497
    }
   },
   "on": {
@@ -2448,7 +2466,7 @@
      ]
     },
     "steps": 15667838,
-    "wallSec": 56.951,
+    "wallSec": 68.129,
     "drag": {
      "boundMax": 0.00006825417555982632,
      "boundOver": 0,
@@ -2651,7 +2669,7 @@
    "softYrOld": 0.010658164787251751,
    "note": "軟化の近点への効き(解析)= 3π(ε/a)²/(1−e²)² ÷ 近点の 1 近点月あたりの回転 —— 近点の周期を伸ばす向き"
   },
-  "wallSec": 342.73
+  "wallSec": 434.925
  },
  "record": {
   "record": {
@@ -2842,7 +2860,7 @@
       "nPeri": 354
      }
     ],
-    "wallSec": 14.239
+    "wallSec": 18.099
    },
    "h2": {
     "key": "ctrl-h2",
@@ -2865,7 +2883,7 @@
       "nPeri": 118
      }
     ],
-    "wallSec": 9.21
+    "wallSec": 12.85
    },
    "on": {
     "key": "ctrl-on-h",
@@ -2888,7 +2906,7 @@
       "nPeri": 118
      }
     ],
-    "wallSec": 5.536
+    "wallSec": 7.654
    }
   },
   "sun118": {
@@ -2904,7 +2922,7 @@
    "sid": 0.000003283515425778205,
    "synUniform": 0.000003839747318323816
   },
-  "wallSec": 33.797
+  "wallSec": 45.302
  },
  "gates": {
   "solved": true,
@@ -2923,5 +2941,5 @@
   "「引きずりが無いことを示した」",
   "「現実を再現した」"
  ],
- "elapsedS": 809.759
+ "elapsedS": 1004.501
 }

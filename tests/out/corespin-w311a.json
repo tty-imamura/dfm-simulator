@@ -3,7 +3,7 @@
  "libVersion": "w311a-corespin-lib-1",
  "generator": "tests/exp-w311a-corespin.mjs",
  "target": "beta/index.html",
- "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
  "ruling": "原仮定者の裁定(第110報)AN387 ④ 選択肢として dragCore の自転も軸方向を含めてノブ・(第113報)・DECISIONS v70 §0c ①・§1 AN397(推奨の型 —— 宣言の一定のベクトル)・決断事項 AN384(数値的に解像できない薄さの厚い殻は受理で拒否)・統括の検証項目 R226",
  "coreSpinVersion": "w311a-corespin-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -1248,13 +1248,13 @@
    {
     "decl": "未宣言",
     "evalSec": {
-     "wallSec": 0.003281198333
+     "wallSec": 0.003529785833
     }
    },
    {
     "decl": "宣言",
     "evalSec": {
-     "wallSec": 0.004452033233
+     "wallSec": 0.0044085345
     }
    }
   ]
@@ -1282,40 +1282,46 @@
  "ok": true,
  "timing": {
   "T": {
-   "wallSec": 0.323
+   "wallSec": 0.307
   },
   "K": {
-   "wallSec": 0.03
+   "wallSec": 0.022
   },
   "B": {
-   "wallSec": 1.107
+   "wallSec": 1.393
   },
   "R": {
-   "wallSec": 0.322
+   "wallSec": 0.289
   },
   "M": {
-   "wallSec": 0.718
+   "wallSec": 0.621
   },
   "C": {
-   "wallSec": 0.223
+   "wallSec": 0.222
   },
   "P": {
-   "wallSec": 1.039
+   "wallSec": 1.078
   }
  },
- "elapsedS": 5.449,
+ "elapsedS": 6.23,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第311便a",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T11:18:42.868Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T21:30:16.013Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -1327,9 +1333,15 @@
   "code": [
    {
     "file": "tests/exp-w311a-corespin.mjs",
-    "bytes": 43106,
-    "sha256": "01c7eb881598db78cf7c7a4a15a9586ec5e73018f8e05ef4d82e8a05cbb82663",
-    "mtime": "2026-10-20T19:41:54.131Z"
+    "bytes": 43569,
+    "sha256": "de8dc75cd5f01bed401247bd9ad68d562f523529be568103a7d178c6a44c7c09",
+    "mtime": "2026-10-25T16:42:07.801Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w311a-corespin.mjs",
@@ -1368,7 +1380,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "07a1250e0e91f131c5295904e27f1e7f49b1188f98c8942e27fdafdc7e50d640",
+  "codeSha256": "f176095c8dcb6d5cd3065326dc3261861a5d0ed7ba60104de28579acff73e188",
   "harnessVersion": "w311a-corespin-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1407,13 +1419,19 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1535,
-   "segments": 1370,
-   "closureShare": 0.3486
+   "names": 1540,
+   "segments": 1375,
+   "closureShare": 0.3494
   },
-  "scopeSha256": "bf29f67e2f3bc8952287774d399e4a929aa540c7d2a68cd15fb15c7cdea1826c",
+  "scopeSha256": "9084c6e7d0767576fd9463f93c75a47892a01815ca7b1c8af1675dc9efccae50",
   "scopeComplete": true,
   "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
    {
     "file": "tests/data-w306a-decl305.json",
     "stableSha256": "c10b4d8e1de38a93f2333725bcae84a28cbd79c0d5c9609c09209b3a3b34e371",

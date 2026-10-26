@@ -3,7 +3,7 @@
  "libVersion": "w308a-bevel-lib-1",
  "generator": "tests/exp-w308a-bevel.mjs",
  "target": "beta/index.html",
- "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
  "ruling": "原仮定者の裁定(第101報)(源の軸回転は軸方向に対する角度差の 2 倍で傾いた軸で作用する —— 赤道で逆・軸方向で順・45° でベベルギヤの様に 90°・軸引きずりは回転引きずりの差分で仰角が上がると弱まる・受け手は体積平均)・決断事項 AN346・AN347・AN354・統括の検証項目 R214",
  "axialVersion": "w308a-axial-bevel-1",
  "axialLaw": "bevel-mirror-sin",
@@ -3862,48 +3862,60 @@
  "ok": true,
  "timing": {
   "G": {
-   "wallSec": 0.006
+   "wallSec": 0.009
   },
   "K": {
-   "wallSec": 0.003
+   "wallSec": 0.007
   },
   "L": {
-   "wallSec": 0.231
+   "wallSec": 0.258
   },
   "S": {
-   "wallSec": 0.104
+   "wallSec": 0.127
   },
   "V": {
-   "wallSec": 0.382
+   "wallSec": 0.607
   },
   "E": {
-   "wallSec": 12.734
+   "wallSec": 13.684
   },
   "P": {
-   "wallSec": 0.006
+   "wallSec": 0.004
   }
  },
- "elapsedS": 15.116,
+ "elapsedS": 16.564,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便a",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T10:34:28.564Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T20:13:42.241Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w308a-bevel.mjs",
-    "bytes": 44864,
-    "sha256": "7e98f4c743d4cb8dd07d6afbc44b854a6a2f5aaf1b41effece85d6dfc6324470",
-    "mtime": "2026-10-20T16:19:56.656Z"
+    "bytes": 45327,
+    "sha256": "e6574849d291c45923c73a5997254851aa176152b2dd6a32aefddd84b021a756",
+    "mtime": "2026-10-25T16:42:07.795Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w308a-bevel.mjs",
@@ -3925,9 +3937,9 @@
    },
    {
     "file": "tests/exp-w307c-spindecomp.mjs",
-    "bytes": 37764,
-    "sha256": "82e94d775916067a74a2648134a3b73cc1e54ea6c17eb85d8c4d530f0fa9c05a",
-    "mtime": "2026-10-20T16:19:56.656Z"
+    "bytes": 38217,
+    "sha256": "c60d0b0e0eed806d10f1cf036393567a2f24e760c0987fffa233abfee093f32f",
+    "mtime": "2026-10-25T16:42:07.795Z"
    },
    {
     "file": "tests/lib-w307c-spindecomp.mjs",
@@ -3954,7 +3966,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "4bd2026a174415be996f5b64647884e1fabbbf552eda520bcec74e1743d6a479",
+  "codeSha256": "7dc90c6c4d5572ab2d52ba5c54698f33163dfc2941b35b650dece578db0e549f",
   "harnessVersion": "w308a-bevel-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -4018,13 +4030,20 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1542,
-   "segments": 1377,
-   "closureShare": 0.3478
+   "names": 1545,
+   "segments": 1380,
+   "closureShare": 0.3485
   },
-  "scopeSha256": "b30cab568c76ea9fc6406771d1de24c37002e0d8315582e92f72e34e78df484f",
+  "scopeSha256": "0fc59af9c014049cb57b1ba8e020563c2347bafdce012595a4749898c09bfb89",
   "scopeComplete": true,
-  "inputsStable": [],
+  "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
   "stableHashVersion": "w282e-stable-1"
  }
 }

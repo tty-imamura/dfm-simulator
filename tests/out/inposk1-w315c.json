@@ -1,0 +1,3406 @@
+{
+ "version": "w315c-inposk1-1",
+ "planet3HarnessVersion": "w313d-planet3-3",
+ "planet3LibVersion": "w313d-planet3-lib-3",
+ "confirmLibVersion": "w313d-confirm-lib-2",
+ "an336LibVersion": "w306a-an336-1",
+ "apsisVersion": "w304e-apsis-1",
+ "legacyLibVersion": "w315c-legacy7-1",
+ "generator": "tests/exp-w315c-inposk1.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+ "reuseFrom": null,
+ "ruling": "原仮定者の裁定(第117報)・決断事項 AN406(在位の 7 本を K1 + rdRule:\"kappaM\" へ —— 外殻なし・shellRecv 省略・initMotion \"observed\"・値は鎖で測り直す)・AN410(全系に一様の門)・AN405(有限質量比は既知の寄与)・AN401(比例定数は 1PN だけ)・AN396′(ε_fit・ε_num)・統括の検証項目 R244。Y_k は規則で置いた値(合わせない)。現実の宇宙とは主張しない",
+ "invSqVersion": "w310a-invsq-wbg0-1",
+ "quick": false,
+ "parts": [
+  "P",
+  "B",
+  "T",
+  "E",
+  "K",
+  "G",
+  "C"
+ ],
+ "plan": {
+  "N": 8,
+  "divs": [
+   1,
+   2
+  ],
+  "outerDivs": [
+   1,
+   2,
+   4
+  ],
+  "kinds": [
+   "q00",
+   "q10",
+   "q11"
+  ],
+  "bitSteps": 20000
+ },
+ "gate": {
+  "fit": 0.001,
+  "num": 0.0003,
+  "rel": 0.01,
+  "unit": "″/世紀",
+  "note": "決断事項 AN410: 全系に一様の門 abs(r_1PN) ≤ min(ε_fit, 1e-2 q_1PN)・帯 ≤ min(ε_num, 1e-2 q_1PN)(最も細かい刻みの残差と隣り合う刻みの差)—— 数値の門で、観測の 3σ ではない"
+ },
+ "inPositionK1": {
+  "version": "w315c-inpos-k1-1",
+  "state": {
+   "version": "w315c-inpos-k1-1",
+   "ids": [
+    "mercurySunInertial3d",
+    "venusSunInertial3d",
+    "marsSunInertial3d",
+    "jupiterSunInertial3d",
+    "saturnSunInertial3d",
+    "uranusSunInertial3d",
+    "neptuneSunInertial3d"
+   ],
+   "migrated": [
+    "mercurySunInertial3d",
+    "venusSunInertial3d",
+    "marsSunInertial3d",
+    "jupiterSunInertial3d",
+    "saturnSunInertial3d",
+    "uranusSunInertial3d",
+    "neptuneSunInertial3d"
+   ]
+  }
+ },
+ "book": {
+  "drag": {
+   "law": "inertial",
+   "invSq": {
+    "kernel": "k1",
+    "rdRule": "kappaM"
+   },
+   "pairs": "all",
+   "history": "positions",
+   "initMotion": "observed"
+  },
+  "offDrag": {
+   "law": "inertial",
+   "invSq": {},
+   "enabled": false,
+   "pairs": "all",
+   "history": "positions"
+  },
+  "gLoc": {
+   "law": "kappaC2"
+  },
+  "legacyFile": "tests/data-w315c-legacy7.json",
+  "legacyVersion": "w315c-legacy7-1",
+  "legacyBase": {
+   "commit": "af2f426",
+   "publicMain": "7cd6234",
+   "htmlSha12": "17efa0b8b48f",
+   "htmlSha256": "17efa0b8b48fef19245dcc73ad63270931737df8e932c5b7a114a6a38eaf8ea3",
+   "note": "第315便の基点(作業ブランチ af2f426 = public main 7cd6234〔第314便〕+ 便の開始の 1 本 —— beta の html の sha256 17efa0b8b48f)の在位の惑星の本 7 本(🌡️🌋🔴🏀🟡🔷💙)の宣言の全体(BUILTIN_PRESETS の要素の写し —— 全欄)。第315便c(決断事項 AN406)で 7 本の宣言を新則 invSq の K1 + rdRule:\"kappaM\" へ移した後に、旧則(λ ∝ m の k・W_bg = W_ext・fitRecord w298b-1)を研究対象にする器を移行の前の宣言で測るための凍結のデータ(tests/lib-w315c-legacy7.mjs が読む・html は読まない)"
+  },
+  "extractor": {
+   "main": "apsNew",
+   "sub": "detB",
+   "K": 3
+  },
+  "rule": "rdRule:\"kappaM\" —— 太陽を含む全天体 r_d = Y_k m(Y_k = 10G_0/(C_1c_0²) —— 本の単位・K1・合わせない)"
+ },
+ "P": {
+  "C1": 0.8431139667085161,
+  "systems": {
+   "mercury": {
+    "id": "mercurySunInertial3d",
+    "emoji": "🌡️",
+    "scaleExp": {
+     "L": 8,
+     "T": 4,
+     "M": 27
+    },
+    "G0": 6.674,
+    "c0": 29979.2458,
+    "YkBook": 8.80761885975153e-8,
+    "YkSI": 8.80761885975153e-27,
+    "rdOverRs": 5.930396360909314,
+    "decl": {
+     "kernel": "k1",
+     "rdRule": "kappaM",
+     "outerShell": false,
+     "shellRecv": null,
+     "initMotion": "observed",
+     "dragCoreDefault": null,
+     "oldLawKeys": [],
+     "gLoc": "kappaC2",
+     "sunFree": true,
+     "fitRecord": false,
+     "migrated": true,
+     "version": "w315c-inpos-k1-1"
+    },
+    "validated": {
+     "kernel": "k1",
+     "rdRule": "kappaM",
+     "outerShell": null,
+     "shellRecv": null,
+     "warnings": 0
+    },
+    "bodies": [
+     {
+      "name": "太陽",
+      "m": 1.9885e+30,
+      "mEngine": 1.9885e+30,
+      "R": 695000000,
+      "rdRule": 17513.950102615916,
+      "rsBook": 0.000029532511887503056,
+      "rs": 2953.2511887503056,
+      "rdOverRs": 5.930396360909314,
+      "rdOverR": 0.000025199928205202756,
+      "pinned": false,
+      "receiver": true,
+      "rdEngine": 17513.950102615916,
+      "mdEngine": 1.9885e+30,
+      "beta": [
+       0,
+       3.5127724721818435e-14
+      ],
+      "rdEngineSame": true,
+      "mdEngineSame": true,
+      "ruleSrc": "rule"
+     },
+     {
+      "name": "惑星",
+      "m": 3.3011e+23,
+      "mEngine": 3.3010999322868886e+23,
+      "R": 2440000,
+      "rdRule": 0.0029074830021534495,
+      "rsBook": 4.9026790541663594e-12,
+      "rs": 0.0004902679054166359,
+      "rdOverRs": 5.930396360909314,
+      "rdOverR": 1.1915913943251841e-9,
+      "pinned": false,
+      "receiver": true,
+      "rdEngine": 0.0029074830021534495,
+      "mdEngine": 3.3010999322868886e+23,
+      "beta": [
+       2.116005788757701e-7,
+       0
+      ],
+      "rdEngineSame": true,
+      "mdEngineSame": true,
+      "ruleSrc": "rule"
+     }
+    ],
+    "betaMax": 0,
+    "h": 0.016
+   },
+   "venus": {
+    "id": "venusSunInertial3d",
+    "emoji": "🌋",
+    "scaleExp": {
+     "L": 8,
+     "T": 4,
+     "M": 27
+    },
+    "G0": 6.674,
+    "c0": 29979.2458,
+    "YkBook": 8.80761885975153e-8,
+    "YkSI": 8.80761885975153e-27,
+    "rdOverRs": 5.930396360909314,
+    "decl": {
+     "kernel": "k1",
+     "rdRule": "kappaM",
+     "outerShell": false,
+     "shellRecv": null,
+     "initMotion": "observed",
+     "dragCoreDefault": null,
+     "oldLawKeys": [],
+     "gLoc": "kappaC2",
+     "sunFree": true,
+     "fitRecord": false,
+     "migrated": true,
+     "version": "w315c-inpos-k1-1"
+    },
+    "validated": {
+     "kernel": "k1",
+     "rdRule": "kappaM",
+     "outerShell": null,
+     "shellRecv": null,
+     "warnings": 0
+    },
+    "bodies": [
+     {
+      "name": "太陽",
+      "m": 1.9885e+30,
+      "mEngine": 1.9885e+30,
+      "R": 695000000,
+      "rdRule": 17513.950102615916,
+      "rsBook": 0.000029532511887503056,
+      "rs": 2953.2511887503056,
+      "rdOverRs": 5.930396360909314,
+      "rdOverR": 0.000025199928205202756,
+      "pinned": false,
+      "receiver": true,
+      "rdEngine": 17513.950102615916,
+      "mdEngine": 1.9885e+30,
+      "beta": [
+       0,
+       3.3547063427404135e-13
+      ],
+      "rdEngineSame": true,
+      "mdEngineSame": true,
+      "ruleSrc": "rule"
+     },
+     {
+      "name": "惑星",
+      "m": 4.8675e+24,
+      "mEngine": 4.86750015988946e+24,
+      "R": 6050000,
+      "rdRule": 0.04287108620808599,
+      "rsBook": 7.229042310000427e-11,
+      "rs": 0.007229042310000427,
+      "rdOverRs": 5.930396360909314,
+      "rdOverR": 7.086129951749751e-9,
+      "pinned": false,
+      "receiver": true,
+      "rdEngine": 0.04287108620808599,
+      "mdEngine": 4.86750015988946e+24,
+      "beta": [
+       1.3704843181805606e-7,
+       0
+      ],
+      "rdEngineSame": true,
+      "mdEngineSame": true,
+      "ruleSrc": "rule"
+     }
+    ],
+    "betaMax": 0,
+    "h": 0.04087
+   },
+   "mars": {
+    "id": "marsSunInertial3d",
+    "emoji": "🔴",
+    "scaleExp": {
+     "L": 8,
+     "T": 4,
+     "M": 27
+    },
+    "G0": 6.674,
+    "c0": 29979.2458,
+    "YkBook": 8.80761885975153e-8,
+    "YkSI": 8.80761885975153e-27,
+    "rdOverRs": 5.930396360909314,
+    "decl": {
+     "kernel": "k1",
+     "rdRule": "kappaM",
+     "outerShell": false,
+     "shellRecv": null,
+     "initMotion": "observed",
+     "dragCoreDefault": null,
+     "oldLawKeys": [],
+     "gLoc": "kappaC2",
+     "sunFree": true,
+     "fitRecord": false,
+     "migrated": true,
+     "version": "w315c-inpos-k1-1"
+    },
+    "validated": {
+     "kernel": "k1",
+     "rdRule": "kappaM",
+     "outerShell": null,
+     "shellRecv": null,
+     "warnings": 0
+    },
+    "bodies": [
+     {
+      "name": "太陽",
+      "m": 1.9885e+30,
+      "mEngine": 1.9885e+30,
+      "R": 695000000,
+      "rdRule": 17513.950102615916,
+      "rsBook": 0.000029532511887503056,
+      "rs": 2953.2511887503056,
+      "rdOverRs": 5.930396360909314,
+      "rdOverR": 0.000025199928205202756,
+      "pinned": false,
+      "receiver": true,
+      "rdEngine": 17513.950102615916,
+      "mdEngine": 1.9885e+30,
+      "beta": [
+       0,
+       2.289714794365669e-14
+      ],
+      "rdEngineSame": true,
+      "mdEngineSame": true,
+      "ruleSrc": "rule"
+     },
+     {
+      "name": "惑星",
+      "m": 6.4171e+23,
+      "mEngine": 6.41710008494556e+23,
+      "R": 3389500,
+      "rdRule": 0.005651937173307965,
+      "rsBook": 9.530454339549992e-12,
+      "rs": 0.0009530454339549992,
+      "rdOverRs": 5.930396360909314,
+      "rdOverR": 1.6674840458203173e-9,
+      "pinned": false,
+      "receiver": true,
+      "rdEngine": 0.005651937173307965,
+      "mdEngine": 6.41710008494556e+23,
+      "beta": [
+       7.095257174705882e-8,
+       0
+      ],
+      "rdEngineSame": true,
+      "mdEngineSame": true,
+      "ruleSrc": "rule"
+     }
+    ],
+    "betaMax": 0,
+    "h": 0.1249
+   },
+   "jupiter": {
+    "id": "jupiterSunInertial3d",
+    "emoji": "🏀",
+    "scaleExp": {
+     "L": 9,
+     "T": 5,
+     "M": 28
+    },
+    "G0": 6.674,
+    "c0": 29979.2458,
+    "YkBook": 8.80761885975153e-8,
+    "YkSI": 8.807618859751531e-27,
+    "rdOverRs": 5.930396360909314,
+    "decl": {
+     "kernel": "k1",
+     "rdRule": "kappaM",
+     "outerShell": false,
+     "shellRecv": null,
+     "initMotion": "observed",
+     "dragCoreDefault": null,
+     "oldLawKeys": [],
+     "gLoc": "kappaC2",
+     "sunFree": true,
+     "fitRecord": false,
+     "migrated": true,
+     "version": "w315c-inpos-k1-1"
+    },
+    "validated": {
+     "kernel": "k1",
+     "rdRule": "kappaM",
+     "outerShell": null,
+     "shellRecv": null,
+     "warnings": 0
+    },
+    "bodies": [
+     {
+      "name": "太陽",
+      "m": 1.9885e+30,
+      "mEngine": 1.988500061035156e+30,
+      "R": 695000000,
+      "rdRule": 17513.950640190313,
+      "rsBook": 0.0000029532512793976016,
+      "rs": 2953.2512793976016,
+      "rdOverRs": 5.930396360909314,
+      "rdOverR": 0.0000251999289786911,
+      "pinned": false,
+      "receiver": true,
+      "rdEngine": 17513.950640190313,
+      "mdEngine": 1.988500061035156e+30,
+      "beta": [
+       0,
+       1.896682586427754e-11
+      ],
+      "rdEngineSame": true,
+      "mdEngineSame": true,
+      "ruleSrc": "rule"
+     },
+     {
+      "name": "惑星",
+      "m": 1.898e+27,
+      "mEngine": 1.8979999423027037e+27,
+      "R": 71492000,
+      "rdRule": 16.71686008763261,
+      "rsBook": 2.8188436438790397e-9,
+      "rs": 2.8188436438790396,
+      "rdOverRs": 5.930396360909315,
+      "rdOverR": 2.3382840160623024e-7,
+      "pinned": false,
+      "receiver": true,
+      "rdEngine": 16.71686008763261,
+      "mdEngine": 1.8979999423027037e+27,
+      "beta": [
+       1.9871198513162374e-8,
+       0
+      ],
+      "rdEngineSame": true,
+      "mdEngineSame": true,
+      "ruleSrc": "rule"
+     }
+    ],
+    "betaMax": 0,
+    "h": 0.0788
+   },
+   "saturn": {
+    "id": "saturnSunInertial3d",
+    "emoji": "🟡",
+    "scaleExp": {
+     "L": 9,
+     "T": 5,
+     "M": 28
+    },
+    "G0": 6.674,
+    "c0": 29979.2458,
+    "YkBook": 8.80761885975153e-8,
+    "YkSI": 8.807618859751531e-27,
+    "rdOverRs": 5.930396360909314,
+    "decl": {
+     "kernel": "k1",
+     "rdRule": "kappaM",
+     "outerShell": false,
+     "shellRecv": null,
+     "initMotion": "observed",
+     "dragCoreDefault": null,
+     "oldLawKeys": [],
+     "gLoc": "kappaC2",
+     "sunFree": true,
+     "fitRecord": false,
+     "migrated": true,
+     "version": "w315c-inpos-k1-1"
+    },
+    "validated": {
+     "kernel": "k1",
+     "rdRule": "kappaM",
+     "outerShell": null,
+     "shellRecv": null,
+     "warnings": 0
+    },
+    "bodies": [
+     {
+      "name": "太陽",
+      "m": 1.9885e+30,
+      "mEngine": 1.988500061035156e+30,
+      "R": 695000000,
+      "rdRule": 17513.950640190313,
+      "rsBook": 0.0000029532512793976016,
+      "rs": 2953.2512793976016,
+      "rdOverRs": 5.930396360909314,
+      "rdOverR": 0.0000251999289786911,
+      "pinned": false,
+      "receiver": true,
+      "rdEngine": 17513.950640190313,
+      "mdEngine": 1.988500061035156e+30,
+      "beta": [
+       0,
+       3.075730782091589e-12
+      ],
+      "rdEngineSame": true,
+      "mdEngineSame": true,
+      "ruleSrc": "rule"
+     },
+     {
+      "name": "惑星",
+      "m": 5.6834e+26,
+      "mEngine": 5.683400109410286e+26,
+      "R": 60300000,
+      "rdRule": 5.005722199115595,
+      "rsBook": 8.440788599074449e-10,
+      "rs": 0.8440788599074449,
+      "rdOverRs": 5.930396360909314,
+      "rdOverR": 8.301363514287885e-8,
+      "pinned": false,
+      "receiver": true,
+      "rdEngine": 5.005722199115595,
+      "mdEngine": 5.683400109410286e+26,
+      "beta": [
+       1.076132361548859e-8,
+       0
+      ],
+      "rdEngineSame": true,
+      "mdEngineSame": true,
+      "ruleSrc": "rule"
+     }
+    ],
+    "betaMax": 0,
+    "h": 0.1957
+   },
+   "uranus": {
+    "id": "uranusSunInertial3d",
+    "emoji": "🔷",
+    "scaleExp": {
+     "L": 9,
+     "T": 5,
+     "M": 28
+    },
+    "G0": 6.674,
+    "c0": 29979.2458,
+    "YkBook": 8.80761885975153e-8,
+    "YkSI": 8.807618859751531e-27,
+    "rdOverRs": 5.930396360909314,
+    "decl": {
+     "kernel": "k1",
+     "rdRule": "kappaM",
+     "outerShell": false,
+     "shellRecv": null,
+     "initMotion": "observed",
+     "dragCoreDefault": null,
+     "oldLawKeys": [],
+     "gLoc": "kappaC2",
+     "sunFree": true,
+     "fitRecord": false,
+     "migrated": true,
+     "version": "w315c-inpos-k1-1"
+    },
+    "validated": {
+     "kernel": "k1",
+     "rdRule": "kappaM",
+     "outerShell": null,
+     "shellRecv": null,
+     "warnings": 0
+    },
+    "bodies": [
+     {
+      "name": "太陽",
+      "m": 1.9885e+30,
+      "mEngine": 1.988500061035156e+30,
+      "R": 695000000,
+      "rdRule": 17513.950640190313,
+      "rsBook": 0.0000029532512793976016,
+      "rs": 2953.2512793976016,
+      "rdOverRs": 5.930396360909314,
+      "rdOverR": 0.0000251999289786911,
+      "pinned": false,
+      "receiver": true,
+      "rdEngine": 17513.950640190313,
+      "mdEngine": 1.988500061035156e+30,
+      "beta": [
+       0,
+       2.1630572304783628e-13
+      ],
+      "rdEngineSame": true,
+      "mdEngineSame": true,
+      "ruleSrc": "rule"
+     },
+     {
+      "name": "惑星",
+      "m": 8.6811e+25,
+      "mEngine": 8.681099861860274e+25,
+      "R": 25559000,
+      "rdRule": 0.7645981886670696,
+      "rsBook": 1.2892868235704787e-10,
+      "rs": 0.12892868235704788,
+      "rdOverRs": 5.930396360909314,
+      "rdOverR": 2.9915027531087665e-8,
+      "pinned": false,
+      "receiver": true,
+      "rdEngine": 0.7645981886670696,
+      "mdEngine": 8.681099861860274e+25,
+      "beta": [
+       4.954717123082474e-9,
+       0
+      ],
+      "rdEngineSame": true,
+      "mdEngineSame": true,
+      "ruleSrc": "rule"
+     }
+    ],
+    "betaMax": 0,
+    "h": 0.5581
+   },
+   "neptune": {
+    "id": "neptuneSunInertial3d",
+    "emoji": "💙",
+    "scaleExp": {
+     "L": 9,
+     "T": 5,
+     "M": 28
+    },
+    "G0": 6.674,
+    "c0": 29979.2458,
+    "YkBook": 8.80761885975153e-8,
+    "YkSI": 8.807618859751531e-27,
+    "rdOverRs": 5.930396360909314,
+    "decl": {
+     "kernel": "k1",
+     "rdRule": "kappaM",
+     "outerShell": false,
+     "shellRecv": null,
+     "initMotion": "observed",
+     "dragCoreDefault": null,
+     "oldLawKeys": [],
+     "gLoc": "kappaC2",
+     "sunFree": true,
+     "fitRecord": false,
+     "migrated": true,
+     "version": "w315c-inpos-k1-1"
+    },
+    "validated": {
+     "kernel": "k1",
+     "rdRule": "kappaM",
+     "outerShell": null,
+     "shellRecv": null,
+     "warnings": 0
+    },
+    "bodies": [
+     {
+      "name": "太陽",
+      "m": 1.9885e+30,
+      "mEngine": 1.988500061035156e+30,
+      "R": 695000000,
+      "rdRule": 17513.950640190313,
+      "rsBook": 0.0000029532512793976016,
+      "rs": 2953.2512793976016,
+      "rdOverRs": 5.930396360909314,
+      "rdOverR": 0.0000251999289786911,
+      "pinned": false,
+      "receiver": true,
+      "rdEngine": 17513.950640190313,
+      "mdEngine": 1.988500061035156e+30,
+      "beta": [
+       0,
+       1.6878796232808718e-13
+      ],
+      "rdEngineSame": true,
+      "mdEngineSame": true,
+      "ruleSrc": "rule"
+     },
+     {
+      "name": "惑星",
+      "m": 1.02409e+26,
+      "mEngine": 1.0240900330245494e+26,
+      "R": 24764000,
+      "rdRule": 0.9019794688950589,
+      "rsBook": 1.5209429758195073e-10,
+      "rs": 0.15209429758195073,
+      "rdOverRs": 5.930396360909314,
+      "rdOverR": 3.6423011988978307e-8,
+      "pinned": false,
+      "receiver": true,
+      "rdEngine": 0.9019794688950589,
+      "mdEngine": 1.0240900330245494e+26,
+      "beta": [
+       3.2773961415054377e-9,
+       0
+      ],
+      "rdEngineSame": true,
+      "mdEngineSame": true,
+      "ruleSrc": "rule"
+     }
+    ],
+    "betaMax": 0,
+    "h": 1.095
+   }
+  }
+ },
+ "B": {
+  "steps": 20000,
+  "systems": {
+   "mercury": {
+    "id": "mercurySunInertial3d",
+    "declSame": true,
+    "nState": 14,
+    "nDiff": 0,
+    "bitSame": true,
+    "betaMaxSame": true,
+    "abQ00": true,
+    "legacyOldLaw": true,
+    "legacyFit": true,
+    "wallSec": 6.619
+   },
+   "venus": {
+    "id": "venusSunInertial3d",
+    "declSame": true,
+    "nState": 14,
+    "nDiff": 0,
+    "bitSame": true,
+    "betaMaxSame": true,
+    "abQ00": true,
+    "legacyOldLaw": true,
+    "legacyFit": false,
+    "wallSec": 6.815
+   },
+   "mars": {
+    "id": "marsSunInertial3d",
+    "declSame": true,
+    "nState": 14,
+    "nDiff": 0,
+    "bitSame": true,
+    "betaMaxSame": true,
+    "abQ00": true,
+    "legacyOldLaw": true,
+    "legacyFit": false,
+    "wallSec": 6.44
+   },
+   "jupiter": {
+    "id": "jupiterSunInertial3d",
+    "declSame": true,
+    "nState": 14,
+    "nDiff": 0,
+    "bitSame": true,
+    "betaMaxSame": true,
+    "abQ00": true,
+    "legacyOldLaw": true,
+    "legacyFit": false,
+    "wallSec": 6.484
+   },
+   "saturn": {
+    "id": "saturnSunInertial3d",
+    "declSame": true,
+    "nState": 14,
+    "nDiff": 0,
+    "bitSame": true,
+    "betaMaxSame": true,
+    "abQ00": true,
+    "legacyOldLaw": true,
+    "legacyFit": false,
+    "wallSec": 7.131
+   },
+   "uranus": {
+    "id": "uranusSunInertial3d",
+    "declSame": true,
+    "nState": 14,
+    "nDiff": 0,
+    "bitSame": true,
+    "betaMaxSame": true,
+    "abQ00": true,
+    "legacyOldLaw": true,
+    "legacyFit": false,
+    "wallSec": 7.108
+   },
+   "neptune": {
+    "id": "neptuneSunInertial3d",
+    "declSame": true,
+    "nState": 14,
+    "nDiff": 0,
+    "bitSame": true,
+    "betaMaxSame": true,
+    "abQ00": true,
+    "legacyOldLaw": true,
+    "legacyFit": false,
+    "wallSec": 7.079
+   }
+  }
+ },
+ "T": {
+  "mercury": {
+   "id": "mercurySunInertial3d",
+   "q1pn": 42.98051038206748,
+   "a": 579.0922654152438,
+   "e": 0.20563592999999875,
+   "M": 1.9885e+30,
+   "m": 3.3011e+23,
+   "eta": 1.6600949982257926e-7,
+   "fm": 0.000009513564040861596,
+   "G0": 6.674,
+   "c0": 29979.2458,
+   "h": 0.016,
+   "formula": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+  },
+  "venus": {
+   "id": "venusSunInertial3d",
+   "q1pn": 8.62452062017885,
+   "a": 1082.094745373791,
+   "e": 0.006776719999992832,
+   "M": 1.9885e+30,
+   "m": 4.8675e+24,
+   "eta": 0.0000024478130100634555,
+   "fm": 0.00002814828503951244,
+   "G0": 6.674,
+   "c0": 29979.2458,
+   "h": 0.04087,
+   "formula": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+  },
+  "mars": {
+   "id": "marsSunInertial3d",
+   "q1pn": 1.3508652247462132,
+   "a": 2279.438224275731,
+   "e": 0.09339409999999983,
+   "M": 1.9885e+30,
+   "m": 6.4171e+23,
+   "eta": 3.2271037758460165e-7,
+   "fm": 5.812509689916777e-7,
+   "G0": 6.674,
+   "c0": 29979.2458,
+   "h": 0.1249,
+   "formula": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+  },
+  "jupiter": {
+   "id": "jupiterSunInertial3d",
+   "q1pn": 0.06238664095813723,
+   "a": 778.3408166927109,
+   "e": 0.04838624000000159,
+   "M": 1.9885e+30,
+   "m": 1.898e+27,
+   "eta": 0.000952668817348051,
+   "fm": 0.00007924507661320809,
+   "G0": 6.674,
+   "c0": 29979.2458,
+   "h": 0.0788,
+   "formula": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+  },
+  "saturn": {
+   "id": "saturnSunInertial3d",
+   "q1pn": 0.013709400874347216,
+   "a": 1426.6664141799204,
+   "e": 0.05386178999999787,
+   "M": 1.9885e+30,
+   "m": 5.6834e+26,
+   "eta": 0.00028565011859312044,
+   "fm": 0.000005221455980797215,
+   "G0": 6.674,
+   "c0": 29979.2458,
+   "h": 0.1957,
+   "formula": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+  },
+  "uranus": {
+   "id": "uranusSunInertial3d",
+   "q1pn": 0.002384637457426602,
+   "a": 2870.6581706557336,
+   "e": 0.047257440000000456,
+   "M": 1.9885e+30,
+   "m": 8.6811e+25,
+   "eta": 0.00004365271348410435,
+   "fm": 1.3879452759000874e-7,
+   "G0": 6.674,
+   "c0": 29979.2458,
+   "h": 0.5581,
+   "formula": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+  },
+  "neptune": {
+   "id": "neptuneSunInertial3d",
+   "q1pn": 0.0007741015435735884,
+   "a": 4498.396417009467,
+   "e": 0.008590480000006806,
+   "M": 1.9885e+30,
+   "m": 1.02409e+26,
+   "eta": 0.00005149532439479767,
+   "fm": 5.315014680111406e-8,
+   "G0": 6.674,
+   "c0": 29979.2458,
+   "h": 1.095,
+   "formula": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+  }
+ },
+ "E": {
+  "N": 8,
+  "divs": [
+   1,
+   2
+  ],
+  "outerDivs": [
+   1,
+   2,
+   4
+  ],
+  "rows": {
+   "mercury|q00|div=1|N=8": {
+    "key": "mercury|q00|div=1|N=8",
+    "spec": {
+     "book": "mercury",
+     "kind": "q00",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.016,
+    "dt": 0.016,
+    "warnings": 0,
+    "detB": -9.267888359086529,
+    "apsNew": -9.26783351808272,
+    "periodDays": 87.96929064938412,
+    "ecc": 0.20563319420179002,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380028,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.383
+   },
+   "mercury|q10|div=1|N=8": {
+    "key": "mercury|q10|div=1|N=8",
+    "spec": {
+     "book": "mercury",
+     "kind": "q10",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.016,
+    "dt": 0.016,
+    "warnings": 0,
+    "detB": -37.921584861475836,
+    "apsNew": -37.921546851367964,
+    "periodDays": 87.9693068684665,
+    "ecc": 0.20563310975986804,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380028,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.528
+   },
+   "mercury|q11|div=1|N=8": {
+    "key": "mercury|q11|div=1|N=8",
+    "spec": {
+     "book": "mercury",
+     "kind": "q11",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.016,
+    "dt": 0.016,
+    "warnings": 0,
+    "detB": 33.712663756388274,
+    "apsNew": 33.71274311297933,
+    "periodDays": 87.96932558750369,
+    "ecc": 0.2056329854303943,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380028,
+    "nan": false,
+    "betaMax": 3.209975441893601e-7,
+    "isqSteps": 380028,
+    "overlap": 0,
+    "wallSec": 58.219
+   },
+   "mercury|q00|div=2|N=8": {
+    "key": "mercury|q00|div=2|N=8",
+    "spec": {
+     "book": "mercury",
+     "kind": "q00",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.016,
+    "dt": 0.008,
+    "warnings": 0,
+    "detB": -7.237235699023904,
+    "apsNew": -7.237231329136549,
+    "periodDays": 87.9693672084348,
+    "ecc": 0.20563455709498643,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760056,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 2.319
+   },
+   "mercury|q10|div=2|N=8": {
+    "key": "mercury|q10|div=2|N=8",
+    "spec": {
+     "book": "mercury",
+     "kind": "q10",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.016,
+    "dt": 0.008,
+    "warnings": 0,
+    "detB": -35.89089114996531,
+    "apsNew": -35.89091783088389,
+    "periodDays": 87.9693834275242,
+    "ecc": 0.2056344726536718,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760056,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 2.654
+   },
+   "mercury|q11|div=2|N=8": {
+    "key": "mercury|q11|div=2|N=8",
+    "spec": {
+     "book": "mercury",
+     "kind": "q11",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.016,
+    "dt": 0.008,
+    "warnings": 0,
+    "detB": 35.74315101900121,
+    "apsNew": 35.74330523380123,
+    "periodDays": 87.96940214813718,
+    "ecc": 0.20563434834819522,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760056,
+    "nan": false,
+    "betaMax": 3.2099790839957065e-7,
+    "isqSteps": 760056,
+    "overlap": 0,
+    "wallSec": 120.293
+   },
+   "venus|q00|div=1|N=8": {
+    "key": "venus|q00|div=1|N=8",
+    "spec": {
+     "book": "venus",
+     "kind": "q00",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.04087,
+    "dt": 0.04087,
+    "warnings": 0,
+    "detB": -1.5962116208851826,
+    "apsNew": -1.5963096770543663,
+    "periodDays": 224.70212437671773,
+    "ecc": 0.006725032192769121,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380020,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.585
+   },
+   "venus|q10|div=1|N=8": {
+    "key": "venus|q10|div=1|N=8",
+    "spec": {
+     "book": "venus",
+     "kind": "q10",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.04087,
+    "dt": 0.04087,
+    "warnings": 0,
+    "detB": -7.345954292567164,
+    "apsNew": -7.3459502343337535,
+    "periodDays": 224.7021490138458,
+    "ecc": 0.0067250670859351335,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380020,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.583
+   },
+   "venus|q11|div=1|N=8": {
+    "key": "venus|q11|div=1|N=8",
+    "spec": {
+     "book": "venus",
+     "kind": "q11",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.04087,
+    "dt": 0.04087,
+    "warnings": 0,
+    "detB": 7.02863895301092,
+    "apsNew": 7.028269778020998,
+    "periodDays": 224.70221126593012,
+    "ecc": 0.0067251556146890315,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380020,
+    "nan": false,
+    "betaMax": 1.373838936819006e-7,
+    "isqSteps": 380020,
+    "overlap": 0,
+    "wallSec": 61.843
+   },
+   "venus|q00|div=2|N=8": {
+    "key": "venus|q00|div=2|N=8",
+    "spec": {
+     "book": "venus",
+     "kind": "q00",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.04087,
+    "dt": 0.020435,
+    "warnings": 0,
+    "detB": -0.9053605357595742,
+    "apsNew": -0.9051483749917514,
+    "periodDays": 224.7022406425058,
+    "ecc": 0.0067508435058409475,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760041,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 2.665
+   },
+   "venus|q10|div=2|N=8": {
+    "key": "venus|q10|div=2|N=8",
+    "spec": {
+     "book": "venus",
+     "kind": "q10",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.04087,
+    "dt": 0.020435,
+    "warnings": 0,
+    "detB": -6.655764362332155,
+    "apsNew": -6.654756382854403,
+    "periodDays": 224.70226527963433,
+    "ecc": 0.006750878265645654,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760041,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 2.857
+   },
+   "venus|q11|div=2|N=8": {
+    "key": "venus|q11|div=2|N=8",
+    "spec": {
+     "book": "venus",
+     "kind": "q11",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.04087,
+    "dt": 0.020435,
+    "warnings": 0,
+    "detB": 7.7195088549792885,
+    "apsNew": 7.719441897233037,
+    "periodDays": 224.70232753190967,
+    "ecc": 0.006750966463331709,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760041,
+    "nan": false,
+    "betaMax": 1.3738741643910089e-7,
+    "isqSteps": 760041,
+    "overlap": 0,
+    "wallSec": 121.418
+   },
+   "mars|q00|div=1|N=8": {
+    "key": "mars|q00|div=1|N=8",
+    "spec": {
+     "book": "mars",
+     "kind": "q00",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.1249,
+    "dt": 0.1249,
+    "warnings": 0,
+    "detB": -0.3604202731987368,
+    "apsNew": -0.36042347043506584,
+    "periodDays": 686.9862726513481,
+    "ecc": 0.09336280411409484,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380181,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.567
+   },
+   "mars|q10|div=1|N=8": {
+    "key": "mars|q10|div=1|N=8",
+    "spec": {
+     "book": "mars",
+     "kind": "q10",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.1249,
+    "dt": 0.1249,
+    "warnings": 0,
+    "detB": -1.2609968056049352,
+    "apsNew": -1.2610067339781605,
+    "periodDays": 686.9863122017769,
+    "ecc": 0.09336283036643551,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380181,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.685
+   },
+   "mars|q11|div=1|N=8": {
+    "key": "mars|q11|div=1|N=8",
+    "spec": {
+     "book": "mars",
+     "kind": "q11",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.1249,
+    "dt": 0.1249,
+    "warnings": 0,
+    "detB": 0.9904342045999048,
+    "apsNew": 0.9904543014375494,
+    "periodDays": 686.9864319243634,
+    "ecc": 0.0933629082834483,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380181,
+    "nan": false,
+    "betaMax": 7.14515336166036e-8,
+    "isqSteps": 380181,
+    "overlap": 0,
+    "wallSec": 61.034
+   },
+   "mars|q00|div=2|N=8": {
+    "key": "mars|q00|div=2|N=8",
+    "spec": {
+     "book": "mars",
+     "kind": "q00",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.1249,
+    "dt": 0.06245,
+    "warnings": 0,
+    "detB": -0.12804787943911766,
+    "apsNew": -0.12806280065662973,
+    "periodDays": 686.9893060086694,
+    "ecc": 0.09337844428521563,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760364,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 2.323
+   },
+   "mars|q10|div=2|N=8": {
+    "key": "mars|q10|div=2|N=8",
+    "spec": {
+     "book": "mars",
+     "kind": "q10",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.1249,
+    "dt": 0.06245,
+    "warnings": 0,
+    "detB": -1.0286433393925247,
+    "apsNew": -1.0286415581582062,
+    "periodDays": 686.9893455590895,
+    "ecc": 0.09337847053308765,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760364,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 2.536
+   },
+   "mars|q11|div=2|N=8": {
+    "key": "mars|q11|div=2|N=8",
+    "spec": {
+     "book": "mars",
+     "kind": "q11",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.1249,
+    "dt": 0.06245,
+    "warnings": 0,
+    "detB": 1.2228134618759479,
+    "apsNew": 1.2228085152318695,
+    "periodDays": 686.9894652824449,
+    "ecc": 0.09337854844209914,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760364,
+    "nan": false,
+    "betaMax": 7.145255595238911e-8,
+    "isqSteps": 760364,
+    "overlap": 0,
+    "wallSec": 123.808
+   },
+   "jupiter|q00|div=1|N=8": {
+    "key": "jupiter|q00|div=1|N=8",
+    "spec": {
+     "book": "jupiter",
+     "kind": "q00",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.0788,
+    "dt": 0.0788,
+    "warnings": 0,
+    "detB": -0.11608803980932397,
+    "apsNew": -0.11609195261241287,
+    "periodDays": 4332.674509147152,
+    "ecc": 0.04835953596345825,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380044,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.534
+   },
+   "jupiter|q10|div=1|N=8": {
+    "key": "jupiter|q10|div=1|N=8",
+    "spec": {
+     "book": "jupiter",
+     "kind": "q10",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.0788,
+    "dt": 0.0788,
+    "warnings": 0,
+    "detB": -0.1576086453823951,
+    "apsNew": -0.1576040078715522,
+    "periodDays": 4332.674578225342,
+    "ecc": 0.04835954337350122,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380044,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.582
+   },
+   "jupiter|q11|div=1|N=8": {
+    "key": "jupiter|q11|div=1|N=8",
+    "spec": {
+     "book": "jupiter",
+     "kind": "q11",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.0788,
+    "dt": 0.0788,
+    "warnings": 0,
+    "detB": -0.05362733692418473,
+    "apsNew": -0.05362597885378967,
+    "periodDays": 4332.674770529163,
+    "ecc": 0.048359563732487724,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380044,
+    "nan": false,
+    "betaMax": 1.9935577531312565e-8,
+    "isqSteps": 380044,
+    "overlap": 0,
+    "wallSec": 61.25
+   },
+   "jupiter|q00|div=2|N=8": {
+    "key": "jupiter|q00|div=2|N=8",
+    "spec": {
+     "book": "jupiter",
+     "kind": "q00",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.0788,
+    "dt": 0.0394,
+    "warnings": 0,
+    "detB": -0.07997845846857217,
+    "apsNew": -0.07998265466871898,
+    "periodDays": 4332.682889192641,
+    "ecc": 0.04837286323368799,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760089,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 2.395
+   },
+   "jupiter|q10|div=2|N=8": {
+    "key": "jupiter|q10|div=2|N=8",
+    "spec": {
+     "book": "jupiter",
+     "kind": "q10",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.0788,
+    "dt": 0.0394,
+    "warnings": 0,
+    "detB": -0.12150592907551708,
+    "apsNew": -0.12149469775600306,
+    "periodDays": 4332.682958271979,
+    "ecc": 0.04837287064166436,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760089,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 2.627
+   },
+   "jupiter|q11|div=2|N=8": {
+    "key": "jupiter|q11|div=2|N=8",
+    "spec": {
+     "book": "jupiter",
+     "kind": "q11",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.0788,
+    "dt": 0.0394,
+    "warnings": 0,
+    "detB": -0.017518912444119687,
+    "apsNew": -0.017516753250599888,
+    "periodDays": 4332.683150576658,
+    "ecc": 0.048372890995968476,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760089,
+    "nan": false,
+    "betaMax": 1.9935831028457676e-8,
+    "isqSteps": 760089,
+    "overlap": 0,
+    "wallSec": 118.224
+   },
+   "saturn|q00|div=1|N=8": {
+    "key": "saturn|q00|div=1|N=8",
+    "spec": {
+     "book": "saturn",
+     "kind": "q00",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.1957,
+    "dt": 0.1957,
+    "warnings": 0,
+    "detB": -0.02759927600299109,
+    "apsNew": -0.027602844084649348,
+    "periodDays": 10755.620895411312,
+    "ecc": 0.0539140575609614,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 379882,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.472
+   },
+   "saturn|q10|div=1|N=8": {
+    "key": "saturn|q10|div=1|N=8",
+    "spec": {
+     "book": "saturn",
+     "kind": "q10",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.1957,
+    "dt": 0.1957,
+    "warnings": 0,
+    "detB": -0.036736921758675,
+    "apsNew": -0.03673717917992397,
+    "periodDays": 10755.6209882757,
+    "ecc": 0.05391406055060484,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 379882,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.579
+   },
+   "saturn|q11|div=1|N=8": {
+    "key": "saturn|q11|div=1|N=8",
+    "spec": {
+     "book": "saturn",
+     "kind": "q11",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.1957,
+    "dt": 0.1957,
+    "warnings": 0,
+    "detB": -0.013890670085367568,
+    "apsNew": -0.013888263347132924,
+    "periodDays": 10755.62124226389,
+    "ecc": 0.053914068888989135,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 379882,
+    "nan": false,
+    "betaMax": 1.0939939669553132e-8,
+    "isqSteps": 379882,
+    "overlap": 0,
+    "wallSec": 62.367
+   },
+   "saturn|q00|div=2|N=8": {
+    "key": "saturn|q00|div=2|N=8",
+    "spec": {
+     "book": "saturn",
+     "kind": "q00",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.1957,
+    "dt": 0.09785,
+    "warnings": 0,
+    "detB": -0.013019315957404057,
+    "apsNew": -0.013017603710126176,
+    "periodDays": 10755.57523604139,
+    "ecc": 0.05388790694622592,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 759761,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 2.523
+   },
+   "saturn|q10|div=2|N=8": {
+    "key": "saturn|q10|div=2|N=8",
+    "spec": {
+     "book": "saturn",
+     "kind": "q10",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.1957,
+    "dt": 0.09785,
+    "warnings": 0,
+    "detB": -0.022149103346838298,
+    "apsNew": -0.02215202208234371,
+    "periodDays": 10755.57532890674,
+    "ecc": 0.053887909937351396,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 759761,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 2.661
+   },
+   "saturn|q11|div=2|N=8": {
+    "key": "saturn|q11|div=2|N=8",
+    "spec": {
+     "book": "saturn",
+     "kind": "q11",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.1957,
+    "dt": 0.09785,
+    "warnings": 0,
+    "detB": 0.0006937047466226857,
+    "apsNew": 0.0006969467375493381,
+    "periodDays": 10755.575582894922,
+    "ecc": 0.05388791827943871,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 759761,
+    "nan": false,
+    "betaMax": 1.0939668254982774e-8,
+    "isqSteps": 759761,
+    "overlap": 0,
+    "wallSec": 118.64
+   },
+   "saturn|q00|div=4|N=8": {
+    "key": "saturn|q00|div=4|N=8",
+    "spec": {
+     "book": "saturn",
+     "kind": "q00",
+     "div": 4,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.1957,
+    "dt": 0.048925,
+    "warnings": 0,
+    "detB": -0.009364076010971412,
+    "apsNew": -0.009371419040846443,
+    "periodDays": 10755.552434241174,
+    "ecc": 0.053874836291282126,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 1519518,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 4.921
+   },
+   "saturn|q10|div=4|N=8": {
+    "key": "saturn|q10|div=4|N=8",
+    "spec": {
+     "book": "saturn",
+     "kind": "q10",
+     "div": 4,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.1957,
+    "dt": 0.048925,
+    "warnings": 0,
+    "detB": -0.018498240607213008,
+    "apsNew": -0.018505690536812582,
+    "periodDays": 10755.552527106189,
+    "ecc": 0.053874839283134364,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 1519518,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 5.158
+   },
+   "saturn|q11|div=4|N=8": {
+    "key": "saturn|q11|div=4|N=8",
+    "spec": {
+     "book": "saturn",
+     "kind": "q11",
+     "div": 4,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.1957,
+    "dt": 0.048925,
+    "warnings": 0,
+    "detB": 0.00434969369216696,
+    "apsNew": 0.0043432326522907004,
+    "periodDays": 10755.552781091565,
+    "ecc": 0.053874847627034796,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 1519518,
+    "nan": false,
+    "betaMax": 1.0939532586896659e-8,
+    "isqSteps": 1519518,
+    "overlap": 0,
+    "wallSec": 235.555
+   },
+   "uranus|q00|div=1|N=8": {
+    "key": "uranus|q00|div=1|N=8",
+    "spec": {
+     "book": "uranus",
+     "kind": "q00",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.5581,
+    "dt": 0.5581,
+    "warnings": 0,
+    "detB": -0.0074887808975896124,
+    "apsNew": -0.00748943468724464,
+    "periodDays": 30702.292524843957,
+    "ecc": 0.04722274418479866,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380245,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.523
+   },
+   "uranus|q10|div=1|N=8": {
+    "key": "uranus|q10|div=1|N=8",
+    "spec": {
+     "book": "uranus",
+     "kind": "q10",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.5581,
+    "dt": 0.5581,
+    "warnings": 0,
+    "detB": -0.009079190950536884,
+    "apsNew": -0.009079052516294213,
+    "periodDays": 30702.292646908914,
+    "ecc": 0.047222742567065774,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380245,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.531
+   },
+   "uranus|q11|div=1|N=8": {
+    "key": "uranus|q11|div=1|N=8",
+    "spec": {
+     "book": "uranus",
+     "kind": "q11",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.5581,
+    "dt": 0.5581,
+    "warnings": 0,
+    "detB": -0.005105004767295411,
+    "apsNew": -0.005104649155879852,
+    "periodDays": 30702.292922467634,
+    "ecc": 0.047222738912069684,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380245,
+    "nan": false,
+    "betaMax": 5.3988215379513735e-9,
+    "isqSteps": 380245,
+    "overlap": 0,
+    "wallSec": 62.758
+   },
+   "uranus|q00|div=2|N=8": {
+    "key": "uranus|q00|div=2|N=8",
+    "spec": {
+     "book": "uranus",
+     "kind": "q00",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.5581,
+    "dt": 0.27905,
+    "warnings": 0,
+    "detB": -0.002400347369199774,
+    "apsNew": -0.0024009032018010843,
+    "periodDays": 30702.36804453618,
+    "ecc": 0.047240097992033256,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760491,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 2.251
+   },
+   "uranus|q10|div=2|N=8": {
+    "key": "uranus|q10|div=2|N=8",
+    "spec": {
+     "book": "uranus",
+     "kind": "q10",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.5581,
+    "dt": 0.27905,
+    "warnings": 0,
+    "detB": -0.003989117510144325,
+    "apsNew": -0.003990535126961804,
+    "periodDays": 30702.368166601056,
+    "ecc": 0.04724009637490501,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760491,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 2.43
+   },
+   "uranus|q11|div=2|N=8": {
+    "key": "uranus|q11|div=2|N=8",
+    "spec": {
+     "book": "uranus",
+     "kind": "q11",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.5581,
+    "dt": 0.27905,
+    "warnings": 0,
+    "detB": -0.000014852357924320785,
+    "apsNew": -0.000016135329500642378,
+    "periodDays": 30702.36844216371,
+    "ecc": 0.047240092721520716,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760491,
+    "nan": false,
+    "betaMax": 5.398911021193524e-9,
+    "isqSteps": 760491,
+    "overlap": 0,
+    "wallSec": 117.921
+   },
+   "uranus|q00|div=4|N=8": {
+    "key": "uranus|q00|div=4|N=8",
+    "spec": {
+     "book": "uranus",
+     "kind": "q00",
+     "div": 4,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.5581,
+    "dt": 0.139525,
+    "warnings": 0,
+    "detB": -0.0011276296884528136,
+    "apsNew": -0.001128790124139724,
+    "periodDays": 30702.405870039518,
+    "ecc": 0.04724877927132868,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 1520983,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 4.836
+   },
+   "uranus|q10|div=4|N=8": {
+    "key": "uranus|q10|div=4|N=8",
+    "spec": {
+     "book": "uranus",
+     "kind": "q10",
+     "div": 4,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.5581,
+    "dt": 0.139525,
+    "warnings": 0,
+    "detB": -0.002717528376358138,
+    "apsNew": -0.0027183921641552432,
+    "periodDays": 30702.405992109027,
+    "ecc": 0.04724877765454749,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 1520983,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 4.749
+   },
+   "uranus|q11|div=4|N=8": {
+    "key": "uranus|q11|div=4|N=8",
+    "spec": {
+     "book": "uranus",
+     "kind": "q11",
+     "div": 4,
+     "N": 8
+    },
+    "status": "run",
+    "h": 0.5581,
+    "dt": 0.139525,
+    "warnings": 0,
+    "detB": 0.0012554769121578676,
+    "apsNew": 0.0012560046537087816,
+    "periodDays": 30702.40626765862,
+    "ecc": 0.04724877400192702,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 1520983,
+    "nan": false,
+    "betaMax": 5.398955780893419e-9,
+    "isqSteps": 1520983,
+    "overlap": 0,
+    "wallSec": 235.765
+   },
+   "neptune|q00|div=1|N=8": {
+    "key": "neptune|q00|div=1|N=8",
+    "spec": {
+     "book": "neptune",
+     "kind": "q00",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 1.095,
+    "dt": 1.095,
+    "warnings": 0,
+    "detB": -0.0035822197814282366,
+    "apsNew": -0.0035815050443921462,
+    "periodDays": 60226.32090420012,
+    "ecc": 0.008655170984612133,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380169,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.455
+   },
+   "neptune|q10|div=1|N=8": {
+    "key": "neptune|q10|div=1|N=8",
+    "spec": {
+     "book": "neptune",
+     "kind": "q10",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 1.095,
+    "dt": 1.095,
+    "warnings": 0,
+    "detB": -0.004095597359287273,
+    "apsNew": -0.004097566624355623,
+    "periodDays": 60226.32106210542,
+    "ecc": 0.008655170740616993,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380169,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.473
+   },
+   "neptune|q11|div=1|N=8": {
+    "key": "neptune|q11|div=1|N=8",
+    "spec": {
+     "book": "neptune",
+     "kind": "q11",
+     "div": 1,
+     "N": 8
+    },
+    "status": "run",
+    "h": 1.095,
+    "dt": 1.095,
+    "warnings": 0,
+    "detB": -0.002808892790945537,
+    "apsNew": -0.0028075935787432475,
+    "periodDays": 60226.32145533184,
+    "ecc": 0.008655170159770445,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380169,
+    "nan": false,
+    "betaMax": 3.3112155775509976e-9,
+    "isqSteps": 380169,
+    "overlap": 0,
+    "wallSec": 61.469
+   },
+   "neptune|q00|div=2|N=8": {
+    "key": "neptune|q00|div=2|N=8",
+    "spec": {
+     "book": "neptune",
+     "kind": "q00",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 1.095,
+    "dt": 0.5475,
+    "warnings": 0,
+    "detB": -0.0010042688675717234,
+    "apsNew": -0.0010046027463737094,
+    "periodDays": 60226.27015002592,
+    "ecc": 0.008622826213590408,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760337,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 2.519
+   },
+   "neptune|q10|div=2|N=8": {
+    "key": "neptune|q10|div=2|N=8",
+    "spec": {
+     "book": "neptune",
+     "kind": "q10",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 1.095,
+    "dt": 0.5475,
+    "warnings": 0,
+    "detB": -0.0015207436890626962,
+    "apsNew": -0.0015208230099751344,
+    "periodDays": 60226.2703079453,
+    "ecc": 0.008622825968647633,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760337,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 2.747
+   },
+   "neptune|q11|div=2|N=8": {
+    "key": "neptune|q11|div=2|N=8",
+    "spec": {
+     "book": "neptune",
+     "kind": "q11",
+     "div": 2,
+     "N": 8
+    },
+    "status": "run",
+    "h": 1.095,
+    "dt": 0.5475,
+    "warnings": 0,
+    "detB": -0.00023295136523098723,
+    "apsNew": -0.00023036299013540163,
+    "periodDays": 60226.270701163354,
+    "ecc": 0.0086228253854604,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760337,
+    "nan": false,
+    "betaMax": 3.3111094069221228e-9,
+    "isqSteps": 760337,
+    "overlap": 0,
+    "wallSec": 120.341
+   },
+   "neptune|q00|div=4|N=8": {
+    "key": "neptune|q00|div=4|N=8",
+    "spec": {
+     "book": "neptune",
+     "kind": "q00",
+     "div": 4,
+     "N": 8
+    },
+    "status": "run",
+    "h": 1.095,
+    "dt": 0.27375,
+    "warnings": 0,
+    "detB": -0.0003662081748988846,
+    "apsNew": -0.00036028182022647897,
+    "periodDays": 60226.24491226268,
+    "ecc": 0.008606655378528505,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 1520672,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 4.722
+   },
+   "neptune|q10|div=4|N=8": {
+    "key": "neptune|q10|div=4|N=8",
+    "spec": {
+     "book": "neptune",
+     "kind": "q10",
+     "div": 4,
+     "N": 8
+    },
+    "status": "run",
+    "h": 1.095,
+    "dt": 0.27375,
+    "warnings": 0,
+    "detB": -0.0008794654298189317,
+    "apsNew": -0.0008762600387399713,
+    "periodDays": 60226.24507016601,
+    "ecc": 0.00860665513317375,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 1520672,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 5.333
+   },
+   "neptune|q11|div=4|N=8": {
+    "key": "neptune|q11|div=4|N=8",
+    "spec": {
+     "book": "neptune",
+     "kind": "q11",
+     "div": 4,
+     "N": 8
+    },
+    "status": "run",
+    "h": 1.095,
+    "dt": 0.27375,
+    "warnings": 0,
+    "detB": 0.0004243154156285383,
+    "apsNew": 0.00041381903069174987,
+    "periodDays": 60226.24546338947,
+    "ecc": 0.008606654548724486,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 1520672,
+    "nan": false,
+    "betaMax": 3.3110563239753912e-9,
+    "isqSteps": 1520672,
+    "overlap": 0,
+    "wallSec": 237.234
+   }
+  }
+ },
+ "K": {
+  "systems": {
+   "mercury": {
+    "byDiv": {
+     "1": {
+      "q": {
+       "q00": -9.26783351808272,
+       "q10": -37.921546851367964,
+       "q11": 33.71274311297933
+      },
+      "DG": 71.63428996434729,
+      "dqG": -28.653713333285246,
+      "r1pn": 0.00006624899457108313,
+      "rOverQ": 0.0000015413729148903692,
+      "period": 87.96932558750369,
+      "periodQ00": 87.96929064938412
+     },
+     "2": {
+      "q": {
+       "q00": -7.237231329136549,
+       "q10": -35.89091783088389,
+       "q11": 35.74330523380123
+      },
+      "DG": 71.63422306468513,
+      "dqG": -28.653686501747345,
+      "r1pn": 0.000026180870300152037,
+      "rOverQ": 6.091335367454207e-7,
+      "period": 87.96940214813718,
+      "periodQ00": 87.9693672084348
+     }
+    },
+    "fine": 2,
+    "bands": {
+     "1-2": 0.000040068124270931094
+    },
+    "r1pn": 0.000026180870300152037,
+    "DG": 71.63422306468513,
+    "rOverQ": 6.091335367454207e-7,
+    "rAfterFm": 0.00001666730625929044
+   },
+   "venus": {
+    "byDiv": {
+     "1": {
+      "q": {
+       "q00": -1.5963096770543663,
+       "q10": -7.3459502343337535,
+       "q11": 7.028269778020998
+      },
+      "DG": 14.374220012354751,
+      "dqG": -5.749640557279387,
+      "r1pn": 0.000058834896515591595,
+      "rOverQ": 0.000006821816435563408,
+      "period": 224.70221126593012,
+      "periodQ00": 224.70212437671773
+     },
+     "2": {
+      "q": {
+       "q00": -0.9051483749917514,
+       "q10": -6.654756382854403,
+       "q11": 7.719441897233037
+      },
+      "DG": 14.374198280087441,
+      "dqG": -5.749608007862652,
+      "r1pn": 0.00006965204593889496,
+      "rOverQ": 0.000008076048398090625,
+      "period": 224.70232753190967,
+      "periodQ00": 224.7022406425058
+     }
+    },
+    "fine": 2,
+    "bands": {
+     "1-2": 0.000010817149423303363
+    },
+    "r1pn": 0.00006965204593889496,
+    "DG": 14.374198280087441,
+    "rOverQ": 0.000008076048398090625,
+    "rAfterFm": 0.00004150376089938252
+   },
+   "mars": {
+    "byDiv": {
+     "1": {
+      "q": {
+       "q00": -0.36042347043506584,
+       "q10": -1.2610067339781605,
+       "q11": 0.9904543014375494
+      },
+      "DG": 2.25146103541571,
+      "dqG": -0.9005832635430947,
+      "r1pn": 0.000012547126402084885,
+      "rOverQ": 0.000009288214821313585,
+      "period": 686.9864319243634,
+      "periodQ00": 686.9862726513481
+     },
+     "2": {
+      "q": {
+       "q00": -0.12806280065662973,
+       "q10": -1.0286415581582062,
+       "q11": 1.2228085152318695
+      },
+      "DG": 2.2514500733900755,
+      "dqG": -0.9005787575015765,
+      "r1pn": 0.0000060911422861131825,
+      "rOverQ": 0.000004509067355151973,
+      "period": 686.9894652824449,
+      "periodQ00": 686.9893060086694
+     }
+    },
+    "fine": 2,
+    "bands": {
+     "1-2": 0.000006455984115971702
+    },
+    "r1pn": 0.0000060911422861131825,
+    "DG": 2.2514500733900755,
+    "rOverQ": 0.000004509067355151973,
+    "rAfterFm": 0.000005509891317121505
+   },
+   "jupiter": {
+    "byDiv": {
+     "1": {
+      "q": {
+       "q00": -0.11609195261241287,
+       "q10": -0.1576040078715522,
+       "q11": -0.05362597885378967
+      },
+      "DG": 0.10397802901776254,
+      "dqG": -0.04151205525913934,
+      "r1pn": 0.00007933280048597058,
+      "rOverQ": 0.0012716312221266182,
+      "period": 4332.674770529163,
+      "periodQ00": 4332.674509147152
+     },
+     "2": {
+      "q": {
+       "q00": -0.07998265466871898,
+       "q10": -0.12149469775600306,
+       "q11": -0.017516753250599888
+      },
+      "DG": 0.10397794450540318,
+      "dqG": -0.04151204308728408,
+      "r1pn": 0.0000792604599818697,
+      "rOverQ": 0.001270471670931204,
+      "period": 4332.683150576658,
+      "periodQ00": 4332.682889192641
+     }
+    },
+    "fine": 2,
+    "bands": {
+     "1-2": 7.234050410087622e-8
+    },
+    "r1pn": 0.0000792604599818697,
+    "DG": 0.10397794450540318,
+    "rOverQ": 0.001270471670931204,
+    "rAfterFm": 1.5383368661610352e-8
+   },
+   "saturn": {
+    "byDiv": {
+     "1": {
+      "q": {
+       "q00": -0.027602844084649348,
+       "q10": -0.03673717917992397,
+       "q11": -0.013888263347132924
+      },
+      "DG": 0.02284891583279105,
+      "dqG": -0.009134335095274625,
+      "r1pn": 0.000005179863169207238,
+      "rOverQ": 0.00037783293498257133,
+      "period": 10755.62124226389,
+      "periodQ00": 10755.620895411312
+     },
+     "2": {
+      "q": {
+       "q00": -0.013017603710126176,
+       "q10": -0.02215202208234371,
+       "q11": 0.0006969467375493381
+      },
+      "DG": 0.022848968819893047,
+      "dqG": -0.009134418372217533,
+      "r1pn": 0.000005149573328297463,
+      "rOverQ": 0.00037562351378412544,
+      "period": 10755.575582894922,
+      "periodQ00": 10755.57523604139
+     },
+     "4": {
+      "q": {
+       "q00": -0.009371419040846443,
+       "q10": -0.018505690536812582,
+       "q11": 0.0043432326522907004
+      },
+      "DG": 0.022848923189103282,
+      "dqG": -0.009134271495966139,
+      "r1pn": 0.000005250818789926531,
+      "rOverQ": 0.00038300862583657967,
+      "period": 10755.552781091565,
+      "periodQ00": 10755.552434241174
+     }
+    },
+    "fine": 4,
+    "bands": {
+     "1-2": 3.0289840909775156e-8,
+     "2-4": 1.0124546162906811e-7
+    },
+    "r1pn": 0.000005250818789926531,
+    "DG": 0.022848923189103282,
+    "rOverQ": 0.00038300862583657967,
+    "rAfterFm": 2.9362809129316697e-8
+   },
+   "uranus": {
+    "byDiv": {
+     "1": {
+      "q": {
+       "q00": -0.00748943468724464,
+       "q10": -0.009079052516294213,
+       "q11": -0.005104649155879852
+      },
+      "DG": 0.003974403360414361,
+      "dqG": -0.0015896178290495727,
+      "r1pn": 1.4807393818646458e-7,
+      "rOverQ": 0.0000620949476933318,
+      "period": 30702.292922467634,
+      "periodQ00": 30702.292524843957
+     },
+     "2": {
+      "q": {
+       "q00": -0.0024009032018010843,
+       "q10": -0.003990535126961804,
+       "q11": -0.000016135329500642378
+      },
+      "DG": 0.003974399797461161,
+      "dqG": -0.0015896319251607195,
+      "r1pn": 1.304148738398049e-7,
+      "rOverQ": 0.00005468960215887199,
+      "period": 30702.36844216371,
+      "periodQ00": 30702.36804453618
+     },
+     "4": {
+      "q": {
+       "q00": -0.001128790124139724,
+       "q10": -0.0027183921641552432,
+       "q11": 0.0012560046537087816
+      },
+      "DG": 0.003974396817864025,
+      "dqG": -0.0015896020400155192,
+      "r1pn": 1.573204219036152e-7,
+      "rOverQ": 0.00006597246948950832,
+      "period": 30702.40626765862,
+      "periodQ00": 30702.405870039518
+     }
+    },
+    "fine": 4,
+    "bands": {
+     "1-2": 1.7659064346659675e-8,
+     "2-4": 2.6905548063810292e-8
+    },
+    "r1pn": 1.573204219036152e-7,
+    "DG": 0.003974396817864025,
+    "rOverQ": 0.00006597246948950832,
+    "rAfterFm": 1.852589431360646e-8
+   },
+   "neptune": {
+    "byDiv": {
+     "1": {
+      "q": {
+       "q00": -0.0035815050443921462,
+       "q10": -0.004097566624355623,
+       "q11": -0.0028075935787432475
+      },
+      "DG": 0.0012899730456123757,
+      "dqG": -0.0005160615799634769,
+      "r1pn": -1.900779246896602e-7,
+      "rOverQ": -0.00024554650002657025,
+      "period": 60226.32145533184,
+      "periodQ00": 60226.32090420012
+     },
+     "2": {
+      "q": {
+       "q00": -0.0010046027463737094,
+       "q10": -0.0015208230099751344,
+       "q11": -0.00023036299013540163
+      },
+      "DG": 0.0012904600198397327,
+      "dqG": -0.0005162202636014249,
+      "r1pn": 1.382126647193893e-7,
+      "rOverQ": 0.0001785459102449786,
+      "period": 60226.270701163354,
+      "periodQ00": 60226.27015002592
+     },
+     "4": {
+      "q": {
+       "q00": -0.00036028182022647897,
+       "q10": -0.0008762600387399713,
+       "q11": 0.00041381903069174987
+      },
+      "DG": 0.0012900790694317212,
+      "dqG": -0.0005159782185134923,
+      "r1pn": -6.926553595010959e-10,
+      "rOverQ": -8.947861753427055e-7,
+      "period": 60226.24546338947,
+      "periodQ00": 60226.24491226268
+     }
+    },
+    "fine": 4,
+    "bands": {
+     "1-2": 3.282905894090495e-7,
+     "2-4": 1.389053200788904e-7
+    },
+    "r1pn": -6.926553595010959e-10,
+    "DG": 0.0012900790694317212,
+    "rOverQ": -8.947861753427055e-7,
+    "rAfterFm": -5.384280216061515e-8
+   }
+  }
+ },
+ "G": {
+  "rule": {
+   "fit": 0.001,
+   "num": 0.0003,
+   "rel": 0.01,
+   "unit": "″/世紀",
+   "note": "決断事項 AN410: 全系に一様の門 abs(r_1PN) ≤ min(ε_fit, 1e-2 q_1PN)・帯 ≤ min(ε_num, 1e-2 q_1PN)(最も細かい刻みの残差と隣り合う刻みの差)—— 数値の門で、観測の 3σ ではない"
+  },
+  "systems": {
+   "mercury": {
+    "fine": 2,
+    "r": 0.000026180870300152037,
+    "q1pn": 42.98051038206748,
+    "rOverQ": 6.091335367454207e-7,
+    "tolR": 0.001,
+    "rOk": true,
+    "bands": [
+     0.000040068124270931094
+    ],
+    "tolB": 0.0003,
+    "bOk": true,
+    "pass": true,
+    "verdict": "規則で置いた残差が数値の門の内"
+   },
+   "venus": {
+    "fine": 2,
+    "r": 0.00006965204593889496,
+    "q1pn": 8.62452062017885,
+    "rOverQ": 0.000008076048398090625,
+    "tolR": 0.001,
+    "rOk": true,
+    "bands": [
+     0.000010817149423303363
+    ],
+    "tolB": 0.0003,
+    "bOk": true,
+    "pass": true,
+    "verdict": "規則で置いた残差が数値の門の内"
+   },
+   "mars": {
+    "fine": 2,
+    "r": 0.0000060911422861131825,
+    "q1pn": 1.3508652247462132,
+    "rOverQ": 0.000004509067355151973,
+    "tolR": 0.001,
+    "rOk": true,
+    "bands": [
+     0.000006455984115971702
+    ],
+    "tolB": 0.0003,
+    "bOk": true,
+    "pass": true,
+    "verdict": "規則で置いた残差が数値の門の内"
+   },
+   "jupiter": {
+    "fine": 2,
+    "r": 0.0000792604599818697,
+    "q1pn": 0.06238664095813723,
+    "rOverQ": 0.001270471670931204,
+    "tolR": 0.0006238664095813723,
+    "rOk": true,
+    "bands": [
+     7.234050410087622e-8
+    ],
+    "tolB": 0.0003,
+    "bOk": true,
+    "pass": true,
+    "verdict": "規則で置いた残差が数値の門の内"
+   },
+   "saturn": {
+    "fine": 4,
+    "r": 0.000005250818789926531,
+    "q1pn": 0.013709400874347216,
+    "rOverQ": 0.00038300862583657967,
+    "tolR": 0.00013709400874347216,
+    "rOk": true,
+    "bands": [
+     3.0289840909775156e-8,
+     1.0124546162906811e-7
+    ],
+    "tolB": 0.00013709400874347216,
+    "bOk": true,
+    "pass": true,
+    "verdict": "規則で置いた残差が数値の門の内"
+   },
+   "uranus": {
+    "fine": 4,
+    "r": 1.573204219036152e-7,
+    "q1pn": 0.002384637457426602,
+    "rOverQ": 0.00006597246948950832,
+    "tolR": 0.000023846374574266022,
+    "rOk": true,
+    "bands": [
+     1.7659064346659675e-8,
+     2.6905548063810292e-8
+    ],
+    "tolB": 0.000023846374574266022,
+    "bOk": true,
+    "pass": true,
+    "verdict": "規則で置いた残差が数値の門の内"
+   },
+   "neptune": {
+    "fine": 4,
+    "r": -6.926553595010959e-10,
+    "q1pn": 0.0007741015435735884,
+    "rOverQ": -8.947861753427055e-7,
+    "tolR": 0.000007741015435735885,
+    "rOk": true,
+    "bands": [
+     3.282905894090495e-7,
+     1.389053200788904e-7
+    ],
+    "tolB": 0.000007741015435735885,
+    "bOk": true,
+    "pass": true,
+    "verdict": "規則で置いた残差が数値の門の内"
+   }
+  },
+  "allPass": true
+ },
+ "C": {
+  "sources": {
+   "k1confirm": "tests/out/k1confirm-w313d.json",
+   "k1outer": "tests/out/k1outer-w314c.json",
+   "k1outerWindow": 8
+  },
+  "systems": {
+   "mercury": {
+    "src": "k1confirm",
+    "rows": {
+     "1": {
+      "q": {
+       "q00": {
+        "live": -9.26783351808272,
+        "confirm": -9.26783351808272,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -37.921546851367964,
+        "confirm": -37.921546851367964,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": 33.71274311297933,
+        "confirm": 33.71274243113649,
+        "diff": 6.818428417432187e-7,
+        "same": false
+       }
+      },
+      "r1pnLive": 0.00006624899457108313,
+      "r1pnConfirm": 0.00006556715172933991,
+      "dr": 6.818428417432187e-7
+     },
+     "2": {
+      "q": {
+       "q00": {
+        "live": -7.237231329136549,
+        "confirm": -7.237231329136549,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -35.89091783088389,
+        "confirm": -35.89091783088389,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": 35.74330523380123,
+        "confirm": 35.74330324580337,
+        "diff": 0.0000019879978623293937,
+        "same": false
+       }
+      },
+      "r1pnLive": 0.000026180870300152037,
+      "r1pnConfirm": 0.000024192872437822643,
+      "dr": 0.0000019879978623293937
+     }
+    },
+    "n": 6,
+    "nSame": 4,
+    "allSame": false,
+    "fine": 2,
+    "drFine": 0.0000019879978623293937,
+    "fm": 0.000009513564040861596,
+    "bandLive": {
+     "1-2": 0.000040068124270931094
+    },
+    "note": "確認の系の q11 は明示の dragCore {massFrac: 1, radius: 10 G m/(C₁ c²)}(宣言の質量・演算の順が規則の鍵と違う)—— q00・q10 は同じ宣言"
+   },
+   "venus": {
+    "src": "k1confirm",
+    "rows": {
+     "1": {
+      "q": {
+       "q00": {
+        "live": -1.5963096770543663,
+        "confirm": -1.5963096770543663,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -7.3459502343337535,
+        "confirm": -7.3459502343337535,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": 7.028269778020998,
+        "confirm": 7.028283532235743,
+        "diff": -0.000013754214744921,
+        "same": false
+       }
+      },
+      "r1pnLive": 0.000058834896515591595,
+      "r1pnConfirm": 0.0000725891112605126,
+      "dr": -0.000013754214744921
+     },
+     "2": {
+      "q": {
+       "q00": {
+        "live": -0.9051483749917514,
+        "confirm": -0.9051483749917514,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -6.654756382854403,
+        "confirm": -6.654756382854403,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": 7.719441897233037,
+        "confirm": 7.719446074400694,
+        "diff": -0.000004177167657104519,
+        "same": false
+       }
+      },
+      "r1pnLive": 0.00006965204593889496,
+      "r1pnConfirm": 0.00007382921359599948,
+      "dr": -0.000004177167657104519
+     }
+    },
+    "n": 6,
+    "nSame": 4,
+    "allSame": false,
+    "fine": 2,
+    "drFine": -0.000004177167657104519,
+    "fm": 0.00002814828503951244,
+    "bandLive": {
+     "1-2": 0.000010817149423303363
+    },
+    "note": "確認の系の q11 は明示の dragCore {massFrac: 1, radius: 10 G m/(C₁ c²)}(宣言の質量・演算の順が規則の鍵と違う)—— q00・q10 は同じ宣言"
+   },
+   "mars": {
+    "src": "k1confirm",
+    "rows": {
+     "1": {
+      "q": {
+       "q00": {
+        "live": -0.36042347043506584,
+        "confirm": -0.36042347043506584,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -1.2610067339781605,
+        "confirm": -1.2610067339781605,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": 0.9904543014375494,
+        "confirm": 0.9904545697202151,
+        "diff": -2.6828266563860836e-7,
+        "same": false
+       }
+      },
+      "r1pnLive": 0.000012547126402084885,
+      "r1pnConfirm": 0.000012815409067723493,
+      "dr": -2.6828266563860836e-7
+     },
+     "2": {
+      "q": {
+       "q00": {
+        "live": -0.12806280065662973,
+        "confirm": -0.12806280065662973,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -1.0286415581582062,
+        "confirm": -1.0286415581582062,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": 1.2228085152318695,
+        "confirm": 1.222808167501772,
+        "diff": 3.4773009760513673e-7,
+        "same": false
+       }
+      },
+      "r1pnLive": 0.0000060911422861131825,
+      "r1pnConfirm": 0.000005743412188508046,
+      "dr": 3.4773009760513673e-7
+     }
+    },
+    "n": 6,
+    "nSame": 4,
+    "allSame": false,
+    "fine": 2,
+    "drFine": 3.4773009760513673e-7,
+    "fm": 5.812509689916777e-7,
+    "bandLive": {
+     "1-2": 0.000006455984115971702
+    },
+    "note": "確認の系の q11 は明示の dragCore {massFrac: 1, radius: 10 G m/(C₁ c²)}(宣言の質量・演算の順が規則の鍵と違う)—— q00・q10 は同じ宣言"
+   },
+   "jupiter": {
+    "src": "k1confirm",
+    "rows": {
+     "1": {
+      "q": {
+       "q00": {
+        "live": -0.11609195261241287,
+        "confirm": -0.11609195261241287,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -0.1576040078715522,
+        "confirm": -0.1576040078715522,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": -0.05362597885378967,
+        "confirm": -0.05362609937207807,
+        "diff": 1.2051828840453638e-7,
+        "same": false
+       }
+      },
+      "r1pnLive": 0.00007933280048597058,
+      "r1pnConfirm": 0.00007921228219756604,
+      "dr": 1.2051828840453638e-7
+     },
+     "2": {
+      "q": {
+       "q00": {
+        "live": -0.07998265466871898,
+        "confirm": -0.07998265466871898,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -0.12149469775600306,
+        "confirm": -0.12149469775600306,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": -0.017516753250599888,
+        "confirm": -0.017516789694370018,
+        "diff": 3.644377013015121e-8,
+        "same": false
+       }
+      },
+      "r1pnLive": 0.0000792604599818697,
+      "r1pnConfirm": 0.00007922401621173608,
+      "dr": 3.6443770133620657e-8
+     }
+    },
+    "n": 6,
+    "nSame": 4,
+    "allSame": false,
+    "fine": 2,
+    "drFine": 3.6443770133620657e-8,
+    "fm": 0.00007924507661320809,
+    "bandLive": {
+     "1-2": 7.234050410087622e-8
+    },
+    "note": "確認の系の q11 は明示の dragCore {massFrac: 1, radius: 10 G m/(C₁ c²)}(宣言の質量・演算の順が規則の鍵と違う)—— q00・q10 は同じ宣言"
+   },
+   "saturn": {
+    "src": "k1outer",
+    "rows": {
+     "1": {
+      "q": {
+       "q00": {
+        "live": -0.027602844084649348,
+        "confirm": -0.027602844084649348,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -0.03673717917992397,
+        "confirm": -0.03673717917992397,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": -0.013888263347132924,
+        "confirm": -0.013888263347132924,
+        "diff": 0,
+        "same": true
+       }
+      },
+      "r1pnLive": 0.000005179863169207238,
+      "r1pnConfirm": 0.000005179863169207238,
+      "dr": 0
+     },
+     "2": {
+      "q": {
+       "q00": {
+        "live": -0.013017603710126176,
+        "confirm": -0.013017603710126176,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -0.02215202208234371,
+        "confirm": -0.02215202208234371,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": 0.0006969467375493381,
+        "confirm": 0.0006969467375493381,
+        "diff": 0,
+        "same": true
+       }
+      },
+      "r1pnLive": 0.000005149573328297463,
+      "r1pnConfirm": 0.000005149573328297463,
+      "dr": 0
+     },
+     "4": {
+      "q": {
+       "q00": {
+        "live": -0.009371419040846443,
+        "confirm": -0.009371419040846443,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -0.018505690536812582,
+        "confirm": -0.018505690536812582,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": 0.0043432326522907004,
+        "confirm": 0.0043432326522907004,
+        "diff": 0,
+        "same": true
+       }
+      },
+      "r1pnLive": 0.000005250818789926531,
+      "r1pnConfirm": 0.000005250818789926531,
+      "dr": 0
+     }
+    },
+    "n": 9,
+    "nSame": 9,
+    "allSame": true,
+    "fine": 4,
+    "drFine": 0,
+    "fm": 0.000005221455980797215,
+    "bandLive": {
+     "1-2": 3.0289840909775156e-8,
+     "2-4": 1.0124546162906811e-7
+    },
+    "note": "確認の系の q11 は明示の dragCore {massFrac: 1, radius: Y_k × エンジンの質量}(規則の鍵とビット同一の型)・窓 8 は 16 公転の入れ子の窓"
+   },
+   "uranus": {
+    "src": "k1outer",
+    "rows": {
+     "1": {
+      "q": {
+       "q00": {
+        "live": -0.00748943468724464,
+        "confirm": -0.00748943468724464,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -0.009079052516294213,
+        "confirm": -0.009079052516294213,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": -0.005104649155879852,
+        "confirm": -0.005104649155879852,
+        "diff": 0,
+        "same": true
+       }
+      },
+      "r1pnLive": 1.4807393818646458e-7,
+      "r1pnConfirm": 1.4807393818646458e-7,
+      "dr": 0
+     },
+     "2": {
+      "q": {
+       "q00": {
+        "live": -0.0024009032018010843,
+        "confirm": -0.0024009032018010843,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -0.003990535126961804,
+        "confirm": -0.003990535126961804,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": -0.000016135329500642378,
+        "confirm": -0.000016135329500642378,
+        "diff": 0,
+        "same": true
+       }
+      },
+      "r1pnLive": 1.304148738398049e-7,
+      "r1pnConfirm": 1.304148738398049e-7,
+      "dr": 0
+     },
+     "4": {
+      "q": {
+       "q00": {
+        "live": -0.001128790124139724,
+        "confirm": -0.001128790124139724,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -0.0027183921641552432,
+        "confirm": -0.0027183921641552432,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": 0.0012560046537087816,
+        "confirm": 0.0012560046537087816,
+        "diff": 0,
+        "same": true
+       }
+      },
+      "r1pnLive": 1.573204219036152e-7,
+      "r1pnConfirm": 1.573204219036152e-7,
+      "dr": 0
+     }
+    },
+    "n": 9,
+    "nSame": 9,
+    "allSame": true,
+    "fine": 4,
+    "drFine": 0,
+    "fm": 1.3879452759000874e-7,
+    "bandLive": {
+     "1-2": 1.7659064346659675e-8,
+     "2-4": 2.6905548063810292e-8
+    },
+    "note": "確認の系の q11 は明示の dragCore {massFrac: 1, radius: Y_k × エンジンの質量}(規則の鍵とビット同一の型)・窓 8 は 16 公転の入れ子の窓"
+   },
+   "neptune": {
+    "src": "k1outer",
+    "rows": {
+     "1": {
+      "q": {
+       "q00": {
+        "live": -0.0035815050443921462,
+        "confirm": -0.0035815050443921462,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -0.004097566624355623,
+        "confirm": -0.004097566624355623,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": -0.0028075935787432475,
+        "confirm": -0.0028075935787432475,
+        "diff": 0,
+        "same": true
+       }
+      },
+      "r1pnLive": -1.900779246896602e-7,
+      "r1pnConfirm": -1.900779246896602e-7,
+      "dr": 0
+     },
+     "2": {
+      "q": {
+       "q00": {
+        "live": -0.0010046027463737094,
+        "confirm": -0.0010046027463737094,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -0.0015208230099751344,
+        "confirm": -0.0015208230099751344,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": -0.00023036299013540163,
+        "confirm": -0.00023036299013540163,
+        "diff": 0,
+        "same": true
+       }
+      },
+      "r1pnLive": 1.382126647193893e-7,
+      "r1pnConfirm": 1.382126647193893e-7,
+      "dr": 0
+     },
+     "4": {
+      "q": {
+       "q00": {
+        "live": -0.00036028182022647897,
+        "confirm": -0.00036028182022647897,
+        "diff": 0,
+        "same": true
+       },
+       "q10": {
+        "live": -0.0008762600387399713,
+        "confirm": -0.0008762600387399713,
+        "diff": 0,
+        "same": true
+       },
+       "q11": {
+        "live": 0.00041381903069174987,
+        "confirm": 0.00041381903069174987,
+        "diff": 0,
+        "same": true
+       }
+      },
+      "r1pnLive": -6.926553595010959e-10,
+      "r1pnConfirm": -6.926553595010959e-10,
+      "dr": 0
+     }
+    },
+    "n": 9,
+    "nSame": 9,
+    "allSame": true,
+    "fine": 4,
+    "drFine": 0,
+    "fm": 5.315014680111406e-8,
+    "bandLive": {
+     "1-2": 3.282905894090495e-7,
+     "2-4": 1.389053200788904e-7
+    },
+    "note": "確認の系の q11 は明示の dragCore {massFrac: 1, radius: Y_k × エンジンの質量}(規則の鍵とビット同一の型)・窓 8 は 16 公転の入れ子の窓"
+   }
+  },
+  "nSame": 43,
+  "n": 51
+ },
+ "gates": {
+  "declK1": true,
+  "bitSame": true,
+  "runsComplete": true,
+  "uniformGate": true
+ },
+ "ok": true,
+ "timing": {
+  "P": {
+   "wallSec": 0.051
+  },
+  "B": {
+   "wallSec": 47.717
+  },
+  "T": {
+   "wallSec": 0.001
+  },
+  "E": {
+   "wallSec": 694.682
+  },
+  "K": {
+   "wallSec": 0.001
+  },
+  "G": {
+   "wallSec": 0.001
+  },
+  "C": {
+   "wallSec": 0.003
+  }
+ },
+ "stats": {
+  "runs": 51,
+  "steps": 37628643
+ },
+ "elapsedS": 743.986,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第315便c",
+  "target": "beta/index.html",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T23:02:57.075Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
+   },
+   {
+    "file": "tests/out/k1confirm-w313d.json",
+    "bytes": 86912,
+    "sha256": "ab8535e7aeee11563ace68557b8a20c13492b9a6844a9eb8779894bdecf07fcc",
+    "mtime": "2026-10-25T22:20:37.638Z"
+   },
+   {
+    "file": "tests/out/k1outer-w314c.json",
+    "bytes": 74018,
+    "sha256": "dd7925076d95b183885fa517fbf5bb88a4e8014d6b1bc20d25299b6e23b06545",
+    "mtime": "2026-10-25T22:08:34.074Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w315c-inposk1.mjs",
+    "bytes": 33438,
+    "sha256": "f179115663dfb97676621741cd7a936ba7c3c13fe869fb76feaa5dfff0ba82a5",
+    "mtime": "2026-10-25T16:42:07.814Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
+   },
+   {
+    "file": "tests/exp-w311d-planet3.mjs",
+    "bytes": 65046,
+    "sha256": "5b97b9f648a7c5903328785f5ced1946463c5504cfc6f2154bfd4b470c7ed014",
+    "mtime": "2026-10-25T16:42:07.805Z"
+   },
+   {
+    "file": "tests/lib-w311d-planet3.mjs",
+    "bytes": 23994,
+    "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
+    "mtime": "2026-10-22T15:03:06.002Z"
+   },
+   {
+    "file": "tests/lib-w312d-confirm.mjs",
+    "bytes": 19950,
+    "sha256": "3da97537c3c0e9feda171b17a68dde2960adbb38f02b657bda30c7cfa844ee63",
+    "mtime": "2026-10-22T15:03:06.002Z"
+   },
+   {
+    "file": "tests/lib-w306a-an336.mjs",
+    "bytes": 15115,
+    "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
+    "mtime": "2026-10-20T16:19:56.680Z"
+   },
+   {
+    "file": "tests/lib-w304e-apsis.mjs",
+    "bytes": 13145,
+    "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
+    "mtime": "2026-10-20T16:19:56.680Z"
+   },
+   {
+    "file": "tests/exp-w299c-planets3d.mjs",
+    "bytes": 52338,
+    "sha256": "ecff672647e6d96c73d5822d504ccdcc7b2f27142c3de958d913b02dfa5fd859",
+    "mtime": "2026-10-25T16:42:07.778Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16510,
+    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
+    "mtime": "2026-10-20T16:19:56.680Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-20T16:19:56.672Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-20T16:19:56.668Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-20T16:19:56.676Z"
+   }
+  ],
+  "codeSha256": "08eab6828b564bd0b53fc00140f1c34421d7a30574b4f53178833ee1795fc113",
+  "harnessVersion": "w315c-inposk1-1",
+  "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W315C_WORKERS)",
+  "notClaim": [
+   "フィットした",
+   "較正した",
+   "収束した",
+   "完全に一致",
+   "法則を確かめた",
+   "r_d を決めた",
+   "検証が完了した",
+   "現実の宇宙"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "DT",
+    "FIT_COND_KEYS",
+    "FIT_COND_VERSION",
+    "FIT_KNOB_KEYS",
+    "FIT_NUMERICS_KEYS",
+    "FIT_RECORD_KEYS",
+    "FIT_RECORD_VERSION",
+    "FIT_RECORD_VERSIONS",
+    "FIT_RESIDUAL_KEYS",
+    "FIT_TARGET_KEYS",
+    "FIT_TOL_KEYS",
+    "HP.FIT_COND_VERSION",
+    "HP.REL_DRAG_INVSQ_VERSION",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.fitCondSig",
+    "HP.inertialDragIsqState",
+    "HP.inertialDragState",
+    "HP.sim",
+    "HP.validateFitRecord",
+    "HP.validatePreset",
+    "IN_POSITION_K1_IDS",
+    "IN_POSITION_K1_VERSION",
+    "T",
+    "ab",
+    "ch",
+    "ctx",
+    "cw",
+    "dfmGaussLegendre01",
+    "dfmInertialDragStep",
+    "dragCoreAngular",
+    "dragCoreAvgK",
+    "dragCoreLookup",
+    "dragCoreTableBuild",
+    "fmt",
+    "inPositionK1Of",
+    "inPositionK1State",
+    "inertialDragNormApply",
+    "invSqEngineMass",
+    "invSqKappa0",
+    "pnSource",
+    "relDragCoefficientOf",
+    "validateFitRecord"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1566,
+   "segments": 1400,
+   "closureShare": 0.3549
+  },
+  "scopeSha256": "b3e6b6820457033782f0e39c9473e0935fce40cb66abd03ade00e8125c4da58e",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
+   {
+    "file": "tests/out/k1confirm-w313d.json",
+    "stableSha256": "22135b6cc4feffbb90849974b3a4292ffe6cbe72fd4e9f4e70a2af2804f9882f",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/E/rows/*/wallSec",
+     "/M/cost/rate/*/rateStepsPerSec",
+     "/M/cost/rows/*/wallSec",
+     "/M/cost/stage2/*/*/spentSec",
+     "/M/planetCost/*/wallSec",
+     "/elapsedS",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime",
+     "/timing/*/wallSec"
+    ]
+   },
+   {
+    "file": "tests/out/k1outer-w314c.json",
+    "stableSha256": "08dcf901f832ff2e042b3c7485ed76ffcaa2fa24173228a7d2bac815bacf5a4e",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/E/rows/*/wallSec",
+     "/cost/rate/rateStepsPerSec",
+     "/cost/rows/*/wallSec",
+     "/elapsedS",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime",
+     "/timing/*/wallSec"
+    ]
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

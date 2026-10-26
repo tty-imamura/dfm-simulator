@@ -52,6 +52,7 @@ import * as B from './exp-w303b-inertialr2.mjs';
 import * as PL from './exp-w299c-planets3d.mjs';
 import * as P3 from './lib-w299c-planets3d.mjs';
 import * as EM from './exp-w303c-earthmoon.mjs';
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.GLOC_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_I2_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_PAIRNORM_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.fitCondSig","HP.gLocPeriAdvance","HP.gLocState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragLedgerOf","HP.inertialDragState","HP.inertialR2Q","HP.inertialR2State","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.wbgEstimateOf","LAWS","T","ab","ch","ctx","cw","dfmGaussLegendre01","dfmInertialDrag3Build","dfmInertialDrag3Solve","dfmInertialDragStep","dfmInertialDragStep3","dragCoreAngular","dragCoreAvgK","dragCoreLookup","dragCoreTableBuild","fmt","inertialDragComposeBuild","inertialDragComposeSolve","inertialDragI2Apply","inertialDragNormApply","inertialDragPairApply","inertialDragPairState","inertialDragShellApply","inertialR2SumOf","pnSource","relDragCoefficientOf","relDragPairNormOf","relDragSolveFromOf","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -546,6 +547,7 @@ if (IS_MAIN && process.argv.includes('--tables')) {
   const OUT_PATH = process.env.W306B_OUT || path.join(ROOT, 'tests', 'out', 'periodn-w306b.json');
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   KN = kOfN(HP);
   console.log('k ' + JSON.stringify(KN.k) + ' ← ' + JSON.stringify(KN.source));
   if (process.env.W306B_PLANETS) { const only = process.env.W306B_PLANETS.split(','); PLANETS.splice(0, PLANETS.length, ...PLANETS.filter((id) => only.includes(id))); }
@@ -561,10 +563,10 @@ if (IS_MAIN && process.argv.includes('--tables')) {
   if (PARTS.includes('E')) out.moon = timed('E', () => partE(HP));
   if (PARTS.includes('T')) { const P = out.periods ? Object.assign({}, out.periods, { leverRows: out.commonGM ? out.commonGM.lever.n2.rows : null }) : null; out.timeSystems = timed('T', () => partT(HP, P, out.moon)); }
   out.gates = gatesOf(out); out.ok = Object.values(out.gates).every(Boolean); out.timing = tp; out.stats = STATS;
-  const CODE = ['tests/exp-w306b-periodn.mjs', 'tests/lib-w306b-meanlon.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/exp-w305b-gfamily.mjs', 'tests/exp-w303b-inertialr2.mjs', 'tests/exp-w299c-planets3d.mjs',
+  const CODE = ['tests/exp-w306b-periodn.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w306b-meanlon.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/exp-w305b-gfamily.mjs', 'tests/exp-w303b-inertialr2.mjs', 'tests/exp-w299c-planets3d.mjs',
     'tests/lib-w299c-planets3d.mjs', 'tests/exp-w303c-earthmoon.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第306便b', target: TARGET, code: CODE,
-    inputs: [TARGET, DECL_FILE, EM_DECL_FILE, 'tests/out/gfamily-w305b.json', 'tests/out/pairnorm-w305a.json', 'paper/data/obs-time-standard-20261016.csv', 'paper/data/solar-observations.csv'] }), {
+    inputs: [TARGET, LEGACY7_DATA_FILE, DECL_FILE, EM_DECL_FILE, 'tests/out/gfamily-w305b.json', 'tests/out/pairnorm-w305a.json', 'paper/data/obs-time-standard-20261016.csv', 'paper/data/solar-observations.csv'] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第97報)AN336(水星の標的を 1PN + A1 へ —— k は 1PN + A1 の値)・第95報・AN332 の裁定(アプリは絶対時間・慣性速度は絶対時間の慣性速度を維持・α = c_loc/c₀・n = 2 を先・n = +1 は次点・n = 0 は対照・近点では n は決まらない)',
     reading: '統括の検証項目 R205(周期による n の識別の器 —— 平均経度の周期の抽出器・n ごとに GM と初速を合わせ直した写し・共通の太陽の GM で残る惑星間の P²/a³ の型・時刻系の対応の記録・🌦️ の恒星月の n の欄)・決断事項 AN336 ③・AN333・AN335 ③',

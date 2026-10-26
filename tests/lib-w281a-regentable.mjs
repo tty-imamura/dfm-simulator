@@ -1329,6 +1329,43 @@ export const REGEN_STEPS = [
       '/X/rows/*/build/wallSec', '/X/rows/*/run20/wallSec', '/X/rows/*/cost/wallSec', '/X/rows/*/cost/rateStepsPerSec']) },
     note: '第314便d: 三次元の geoPN=1(EIH の 1PN の 3 成分 —— Δ₃ を核の前・試験粒子形₃ を核の中 —— 二次元と同じ相)の受理の表・平面の写しで二次元とビット同一・回転の共変・N 体の運動量の収支(刻みの一次)・16 体の人工の配置の受理と有限と所要(geoPN=0・3 と並べて)—— 在位へ入れない' }),
   // ==== 第314便d の塊(ここまで)====
+  // ==== 第315便a の塊(ここから)====
+  // ---- 第315便a(原仮定者の裁定(第117報)・決断事項 AN414・統括の推奨 AN417/AN419/AN420・統括の検証項目 R242): **記号の体系の器**(段 K〔html の C_1 と自動 ON の許容〕・
+  //   F〔記号の表・旧記号との対応・式の 3 段と太陽の数〕・L〔物理対応ロックの読込時の自動 ON の受理の表 —— html の判定と器の独立の実装〕・P〔内蔵の全本の数え —— 領域 presets "all"〕)。
+  //   本の宣言・鍵・エンジンの式は変えない(読むだけ)。html と凍結の写し tests/data-w306a-decl305.json を読む・1 プロセス。所要は第315便a の枝の実測(正本の elapsedS)
+  S('symbols-315a', 'node tests/exp-w315a-symbols.mjs', ['tests/out/symbols-w315a.json'], 11, { secSource: 'w315a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/symbols-w315a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第315便a: 記号の体系(X_k・Y_k・κ_D・r_s・r_d・c_0・G_0)の式の 3 段と太陽の数・物理対応ロックの読込時の自動 ON(版 w315a-physlock-auto-1 —— 値を書き直さない)の受理の表と内蔵の全本の数え' }),
+  // ==== 第315便a の塊(ここまで)====
+  // ==== 第315便b の塊(ここから)====
+  // ---- 第315便b(決断事項 AN415・原仮定者の裁定(第116報)の補足と訂正②・原仮定者の裁定(第117報)AN414 の記号・統括の検証項目 R243): **観測半径を超えたシュヴァルツシルト半径 r_s の
+  //   表示の読み口と K1 の境界の 1 点の器**(段 P〔1.4 M☉ の星の写し —— R 12 km は円なし・R 3 km は円あり・SI の閉じた式〕・E〔等号の境界〕・F〔質量の割合で不変〕・V〔本の種類で不変〕・
+  //   Z〔状態を書かない〕・B〔内蔵の全本の t = 0 —— r_s > R_obs の天体の一覧・太陽系の三次元の本〕・K〔K1 の境界の 1 点の受理の表〕)。本の宣言は変えない(写しは器の中で組む)。
+  //   html だけを読む・1 プロセス(段 B が全本を読み込む —— 領域は presets:"all")。所要は第315便b の枝の実測(正本の elapsedS)
+  S('rsexcess-315b', 'node tests/exp-w315b-rsexcess.mjs', ['tests/out/rsexcess-w315b.json'], 14, { secSource: 'w315b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/rsexcess-w315b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第315便b: 観測半径 R_obs を超えたシュヴァルツシルト半径 r_s = 2G_0m/c_0²(全質量・本の基準値 —— 表示専用・本の種類を限らない・DFM による地平面の判定ではない)の読み口 schwarzschildExcessOf(版 w315b-rs-excess-1)の写しの表・等号の境界・質量の割合と本の種類で不変・状態を書かない・内蔵の全本の一覧と K1 の境界の 1 点(外殻なしの r_d = R ∧ massFrac < 1 を受理)' }),
+  // ==== 第315便b の塊(ここまで)====
+  // ==== 第315便c の塊(ここから)====
+  // ---- 第315便c(原仮定者の裁定(第117報)・決断事項 AN406・AN410・AN405・AN401・AN396′・統括の検証項目 R244): **在位の惑星 7 本の K1 への移行の継ぎ目**(段 inposk1-315c ——
+  //   移行した在位の本そのもの〔K1 + rdRule:"kappaM"・太陽を含む全天体 r_d = Y_k m・合わせない〕を q00・q10・q11 × h・h/2〔外惑星は h/4 も〕× 8 公転で走らせ、r_1PN = q11 − q00 − q_1PN・
+  //   刻みの帯・AN410 の一様の門・凍結の写し tests/data-w315c-legacy7.json に移行の変換を当てた本と移行した本のビット同一・K1 の確認の系の行〔k1confirm-313d・k1outer-314c の窓 8〕との比較)。
+  //   html・凍結の写し・第313便d と第314便c の正本を読む(after に連ねる)。走行は子プロセス 3 本(workers 3)。所要は第315便c の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)。
+  //   移行の前の宣言を研究対象にする器(42 本 —— 段 43)は凍結の写しへ世代切替(tests/lib-w315c-legacy7.mjs の pinDecl315c —— 正本の意味的出力は移行の前と同じ・meta だけが動く)
+  S('inposk1-315c', 'node tests/exp-w315c-inposk1.mjs', ['tests/out/inposk1-w315c.json'], 2700, { secSource: 'w315c-branch', node: true, workers: 3, after: ['k1confirm-313d', 'k1outer-314c', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/inposk1-w315c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/B/systems/*/wallSec']) },
+    note: '第315便c: 在位の惑星 7 本(🌡️🌋🔴🏀🟡🔷💙)を K1 + rdRule:"kappaM" へ移した継ぎ目の正本(移行した本そのものの r_1PN・刻みの帯・AN410 の一様の門・凍結の写し + 変換とのビット同一・K1 の確認の系の行との比較 —— Y_k は合わせない)' }),
+  // ==== 第315便c の塊(ここまで)====
+  // ==== 第315便d の塊(ここから)====
+  // ---- 第315便d(原仮定者の裁定(第117報)・決断事項 AN413・AN414〔新記号〕・統括の検証項目 R245): **衛星 6 本の K1 の検証の器**(段 satk1-315d —— イオ・エウロパ・ガニメデ・
+  //   カリスト・タイタン・トリトン × 母惑星との二体・太陽 + 母惑星 + 衛星の三体 × q00・q10・q11〔全天体 r_d = Y_k m —— 規則の鍵 rdRule:"kappaM"〕× h・h/2・h/4 × 32 公転の
+  //   入れ子の窓 8・16・32)。母惑星と太陽は凍結の写し tests/data-w306a-decl305.json・在位の本は jupiterGalilean・saturnRingReal の値だけを .find で読む(在位の 🏀🟡💙 の
+  //   宣言は読まない)。走行は子プロセス 2 本(workers 2)。所要は第315便d の枝の実測(他の 3 枝と同じ 4 核の容器で並走 —— 全走行の 1 回目 828.7 s〔負荷平均 7〜10〕・
+  //   軸の角を atan2 へ直した 2 回目 1114.4 s〔負荷平均 10 前後〕を採る。正本は 2 回目の走行の行を再開の写し W315D_CACHE から読んで純関数の段を作り直した —— resumed 108)
+  S('satk1-315d', 'node tests/exp-w315d-satk1.mjs', ['tests/out/satk1-w315d.json'], 1115, { secSource: 'w315d-branch', node: true, workers: 2, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/satk1-w315d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/cost/rows/*/wallSec', '/cost/rate/*/rateStepsPerSec']) },
+    note: '第315便d: 衛星 6 本の K1 の検証の正本(二体と三体 × 引きずりの有無の差 —— 恒星周期・近点・交点・軸。近似要素の種〔観測レコードではない〕・数値の帯の判定〔観測の 3σ を付けない〕—— 在位へ入れない)' }),
+  // ==== 第315便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -1499,6 +1536,11 @@ export const EXTERNAL_VOLATILE = {
   //   歴史の記録の器〔fit-297b〕の派生本の照合〔derivedCheck〕と QA preset.fitRole309 の入力)
   'tests/data-w309d-decl308.json': [],
   // ==== 第309便d の塊(ここまで)====
+  // ==== 第315便c の塊(ここから)====
+  // 第315便c(AN406・R244): 移行の前(af2f426)の在位の惑星 7 本の宣言の全欄の凍結の写し(tests/lib-w315c-legacy7.mjs が読む —— 書き換えない・除く欄は無い。
+  //   移行の前の宣言を研究対象にする器 42 本〔段 43〕と継ぎ目の器 inposk1-315c・QA の入力)
+  'tests/data-w315c-legacy7.json': [],
+  // ==== 第315便c の塊(ここまで)====
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

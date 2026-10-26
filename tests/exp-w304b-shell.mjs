@@ -55,6 +55,7 @@ import * as EMO from './exp-w300b-emonly.mjs';
 import * as I3 from './exp-w295c-inertial3.mjs';
 import * as DC from './lib-w292c-dragcore.mjs';
 import * as H4C from './lib-w311c-h4carry.mjs';   // 第311便c(AN393 (a)・R228): h/4 の転記の型
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.GLOC_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_I2_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.fitCondSig","HP.gLocPeriAdvance","HP.gLocState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragLedgerOf","HP.inertialDragState","HP.inertialR2Q","HP.inertialR2State","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.wbgEstimateOf","LAWS","T","ab","ch","ctx","cw","dfmGaussLegendre01","dfmInertialDrag3Build","dfmInertialDrag3Solve","dfmInertialDragStep","dfmInertialDragStep3","dragCoreAngular","dragCoreAvgK","dragCoreLookup","dragCoreTableBuild","fmt","inertialDragComposeSolve","inertialDragI2Apply","inertialDragNormApply","inertialR2SumOf","pnSource","relDragCoefficientOf","relDragSolveFromOf","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -842,6 +843,7 @@ if (IS_MAIN) {
   const OUT_PATH = process.env.W304B_OUT || path.join(ROOT, 'tests', 'out', 'shell-w304b.json');
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const prev = (() => { try { return JSON.parse(fs.readFileSync(OUT_PATH, 'utf8')); } catch { return null; } })();
   CARRY = H4C.openCarry(OUT_PATH, { harnessVersion: HARNESS_VERSION });   // 第311便c: h/4 の転記(前の正本 —— 書き換える前に開く)
   // 包みを入れる前の指紋(段 Z の素通りのビット同一)
@@ -886,10 +888,10 @@ if (IS_MAIN) {
   const h4s = H4C.shadowStamp(CARRY, { unit: '段 M の水星の根の行(M:<構成>)・段 T の T_FINE の行(T:<構成>:<本>)・本ごとの対照(control:<本>)',
     valueKeys: '転記の判定は第311便c の値の鍵(h と h/2)/ 比べる値: 段 M は diffs・periodShiftDays・eccShift の [2]・段 T は h/4 の予言と周期・離心率の変化・対照(水星)は h/4 の aps・periodDays・ecc' });
   if (h4s) out.h4Carry = h4s;   // 第312便c(AN400): 影の記録
-  const CODE = ['tests/exp-w304b-shell.mjs', 'tests/exp-w303b-inertialr2.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w302b-gloc.mjs', 'tests/lib-w302a-wbg.mjs', 'tests/lib-w302c-pre.mjs',
+  const CODE = ['tests/exp-w304b-shell.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/exp-w303b-inertialr2.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w302b-gloc.mjs', 'tests/lib-w302a-wbg.mjs', 'tests/lib-w302c-pre.mjs',
     'tests/lib-w303a-pre.mjs', 'tests/lib-w297b-fit.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/lib-w302h-splitrec.mjs', 'tests/lib-w280b-emgrid.mjs',
     'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/lib-w292c-dragcore.mjs', 'tests/lib-w311c-h4carry.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第304便b', target: TARGET, code: CODE, inputs: [TARGET, DECL_FILE] }), {
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第304便b', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE, DECL_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length, fitstop: FS.FITSTOP_VERSION,
     ruling: '原仮定者の裁定(第94報)「引きずり核球面近似係数」(引きずり核の球面に質量が集まるとする便宜上の近似 —— 引きずり量の分母の慣性決定力に自分自身を入れる・恒星は小さい半径・似た天体では近い値を予想・まず引きずり核表面で検証)・前便の指摘(1PN 相当は引きずりだけでは合わない量を埋める為 —— 引きずりが主)',
     reading: '統括の検証項目 R196(器の中の写しで η〔と λ〕・移送・太陽の η・地球–月・冥王星–カロン・多体・対ごとの正規化の対照)',

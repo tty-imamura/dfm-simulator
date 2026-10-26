@@ -33,6 +33,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as PL from './exp-w299c-planets3d.mjs';
 import * as P3 from './lib-w299c-planets3d.mjs';
 import { pin305, DECL305_DATA_FILE } from './lib-w306a-pre.mjs';   // 第306便a(AN336): 在位の惑星 7 本の宣言を変えた世代では、この正本(歴史の記録)は第305便の 🌡️ の宣言の写しで測る
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_SHELL_VERSION","HP.FIT_COND_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.dragShellK2","HP.dragShellK3","HP.fitCondSig","HP.inertialDragState","HP.sim","HP.validateFitRecord","HP.validatePreset","HP.wbgEstimateOf","T","ab","ch","ctx","cw","fmt","pnSource","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -360,6 +361,7 @@ if (IS_MAIN) {
   const OUT_PATH = process.env.W304A_OUT || path.join(ROOT, 'tests', 'out', 'shell-w304a.json');
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const out = { meta: null, version: HP.DRAG_SHELL_VERSION, harnessVersion: HARNESS_VERSION, parts: PARTS, quick: QUICK };
   const tp = {};
   const timed = (k, f) => { const t = Date.now(); const r = f(); tp[k] = { wallSec: (Date.now() - t) / 1000 }; console.log(`[${k}] ${tp[k].wallSec.toFixed(1)} s`); return r; };
@@ -374,8 +376,8 @@ if (IS_MAIN) {
     gates.refMeasured = M.ref.runs.every((z) => z.complete && !z.nan && Number.isFinite(z.diff)) && M.refSun.runs.every((z) => z.complete && !z.nan && Number.isFinite(z.diff));
   }
   out.gates = gates; out.ok = Object.values(gates).every(Boolean); out.timing = tp;
-  const CODE = ['tests/exp-w304a-shell.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w306a-pre.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第304便a', target: TARGET, code: CODE, inputs: [TARGET, DECL305_DATA_FILE] }), {
+  const CODE = ['tests/exp-w304a-shell.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w306a-pre.mjs'];
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第304便a', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE, DECL305_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, shellVersion: HP.DRAG_SHELL_VERSION, loadErrors: errors.length, quick: QUICK,
     ruling: '原仮定者の裁定(第94報)「引きずり核球面近似係数」(引きずり核の球面に質量が集まるとして、自分の殻の移動で自分の重心を引きずる —— 引きずり量の分母の慣性決定力に自分自身を入れる・恒星は小さい半径・まずは引きずり核表面・dragCore の拡張)',
     reading: '統括の検証項目 R195(エンジンへ殻の形・自己の項 S3/S2・総速度の読み口 —— 省略時オフ・在位の本は宣言しない)',

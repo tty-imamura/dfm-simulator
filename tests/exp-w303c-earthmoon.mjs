@@ -40,6 +40,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as L from './lib-w297b-fit.mjs';
 import * as DC from './lib-w292c-dragcore.mjs';
 import { pinDecl305, DECL305_DATA_FILE } from './lib-w306e-pre.mjs';   // 第306便e(AN339 の案 (A)・R208): 🟪 の第305便の宣言の写し(段 radius の 冥王星→カロン の行 —— 歴史の値を保つ)
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 const REGEN_SCOPE = {"presets":["earthMoonOnly3d","earthMoonSunInertial3d","mercurySunInertial3d","plutoCharonInertialFit"],"roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragState","HP.sim","HP.validatePreset","T","cw","dfmGaussLegendre01","dfmInertialDragStep","dragCoreAngular","dragCoreAvgK","dragCoreLookup","dragCoreTableBuild","inertialDragNormApply","pnSource","relDragCoefficientOf","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -716,6 +717,7 @@ export async function main() {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   pinDecl305();   // 第306便e(AN339 の案 (A)・R208): 🟪 を第305便の宣言へ(段 radius の一様の確かめの 冥王星→カロン の行 —— 第303便の宣言と同じ欄・第305便の html では no-op)
   const wrap = installDenWrap();
   const prev = (PARTS.length < PARTS_ALL.length && fs.existsSync(OUT)) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {};
@@ -731,8 +733,8 @@ export async function main() {
   J.gates = gatesOf(J);
   J.ok = Object.values(J.gates).every(Boolean) && PARTS_ALL.every((k) => !!J[k]);
   J.notClaim = ['「地球の核を同定した」', '「dragCore が一意に決まった」', '「月を再現した」', '「現実を再現した」', '「天体半径の効果が大きいことを示した」(数なし)'];   // 書かない語(引用 —— 本文には書かない)
-  const CODE = ['tests/exp-w303c-earthmoon.mjs', 'tests/lib-w306e-pre.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs', 'tests/lib-w292c-dragcore.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第303便c', target: TARGET, code: CODE, inputs: [TARGET, DECL305_DATA_FILE] }), {
+  const CODE = ['tests/exp-w303c-earthmoon.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w306e-pre.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs', 'tests/lib-w292c-dragcore.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第303便c', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE, DECL305_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, extractorVersion: EXTRACTOR_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第93報)③「密度が高く距離が近い地球と月の関係では、質点とはみなせず天体半径の影響が大きい」', reading: '統括の検証項目 R193(地球–月の天体半径と基線の監査)' });
   J.elapsedS = (Date.now() - t0) / 1000;

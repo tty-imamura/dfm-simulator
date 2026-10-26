@@ -2,7 +2,7 @@
  "version": "w313b-galaxialrdm-1",
  "generator": "tests/exp-w313b-galaxialrdm.mjs",
  "target": "beta/index.html",
- "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
  "ruling": "原仮定者の裁定(第115報)一様軸引きずりの R_d の応答の次数は K1 を主にする q = 1 で質量も入る(決断事項 AN395)・K1 を採用する(AN399)・太陽を含む全天体に同じ規則 R_d = κm(AN402)・統括の検証項目 R235",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "galaxyAxialRdVersion": "w312b-galaxial-rd-1",
@@ -2696,45 +2696,57 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.031
+   "wallSec": 0.027
   },
   "B": {
-   "wallSec": 0.156
+   "wallSec": 0.159
   },
   "N": {
-   "wallSec": 1.808
+   "wallSec": 1.767
   },
   "X": {
-   "wallSec": 120.692
+   "wallSec": 126.986
   }
  },
- "elapsedS": 124.43,
+ "elapsedS": 130.69,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第313便b",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T11:14:07.521Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T22:56:16.036Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w313b-galaxialrdm.mjs",
-    "bytes": 54216,
-    "sha256": "20818fdb1ad398eac0c857e4d54f270771d8e26040838545187ca96cd2385974",
-    "mtime": "2026-10-22T15:06:06.432Z"
+    "bytes": 54679,
+    "sha256": "8947af2605020d086027f4f5dd02aef36174b727bd467416eccb27d98e523947",
+    "mtime": "2026-10-25T16:42:07.809Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/exp-w311b-galaxial.mjs",
-    "bytes": 40328,
-    "sha256": "6dfdcc61a3b8783f59e3c85045ff8277c2aecb1f6bddf4b0a88b03205adc77dc",
-    "mtime": "2026-10-20T18:41:40.636Z"
+    "bytes": 40791,
+    "sha256": "360391b86e7491ab40d3ce0e22e2057c4c6f40fe6912fafb985afeae2a684822",
+    "mtime": "2026-10-25T16:42:07.801Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
@@ -2767,7 +2779,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "66e7c5d68260cdefc8863cd8a84b703ea6db678f032febdf352c334ae8001efe",
+  "codeSha256": "2e45e2894f9fa5084b57fcec50dd2385776a2dcabe07a458ec7ef22d8c6cfe65",
   "harnessVersion": "w313b-galaxialrdm-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2821,13 +2833,20 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1552,
-   "segments": 1387,
-   "closureShare": 0.3518
+   "names": 1557,
+   "segments": 1392,
+   "closureShare": 0.3526
   },
-  "scopeSha256": "63bc618e5f505241de9eda0bc740e7a20a19ecddb36aaac20a1bd95c2a3ab5d6",
+  "scopeSha256": "99ae89a3aa1a89feb0beca04859908d80d903d24a9658126fab5a8ebd9b635a7",
   "scopeComplete": true,
-  "inputsStable": [],
+  "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
   "stableHashVersion": "w282e-stable-1"
  }
 }
