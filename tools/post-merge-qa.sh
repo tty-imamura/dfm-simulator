@@ -350,6 +350,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.uiText316 params.i18n316 ui.symDisp316 
 #   preset.revived292b・preset.inposK1_315・ui.samplePicker・preset.revertGLoc303・preset.emBaseline304・preset.emJ2_305・preset.emResolve306)・SAMPLE_STATUS の同期
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.presetText316b preset.referenceKind316b ui.mercuryNaming preset.earthMoonInertial docs.analogyKernelNote preset.revived292b ui.samplePicker preset.revertGLoc303 preset.emBaseline304 preset.emJ2_305 preset.emResolve306 docs.sampleStatus-sync"
 # ==== 第316便b の塊(ここまで)====
+# ==== 第316便c の塊(ここから)====
+# 第316便c(原仮定者の裁定(第118報)・AN417・AN420・AN426・R248): 枝 c の新設 3 本(lint.presetText316c —— サンプルの説明の後半 71 本の表示の欄に来歴の語と旧記号が無い・
+#   lint.miscText316c —— 受理器の理由ほかその他の画面の文と出す側で外す欄 provTextClean・docs.w316c —— 文書)と、受理の理由の文の照合を世代切替した QA
+#   (behavior.tide3d307・behavior.tide3Recv308・behavior.galaxial311・behavior.rdExcess314・ui.rdExcess314・behavior.alphaCenAB)・後半の本の説明を読む QA。
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.presetText316c lint.miscText316c docs.w316c behavior.tide3d307 behavior.tide3Recv308 behavior.galaxial311 behavior.rdExcess314 ui.rdExcess314 docs.rdExcess314 behavior.kappaM313 behavior.rsExcess315 behavior.alphaCenAB behavior.siriusAB docs.period-definitions lint.kappaSymbol315 lint.stateContract302 lint.coreBudget lint.regenScope lint.stableHashPaths lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第316便c の塊(ここまで)====
 # ==== 第316便d の塊(ここから)====
 # 第316便d(原仮定者の裁定(第118報)・AN423・AN424・AN416・AN422 ②・R249): 枝 d の新設 3 本(docs.satH316 —— 衛星 6 本の三体の診断の正本と文書・docs.paperSymbols316 —— 論文 1〜5 の
 #   記号と記号表と脚注・lint.perfTargets316 —— perf の正本に測った対象の sha256 と Node の版)と、停止集合の版上げを読む lint.scopeStop・lint.regenScope・lint.regenChain・lint.scopeAll312・

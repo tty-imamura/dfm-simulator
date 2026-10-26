@@ -37934,6 +37934,49 @@ R_d を r_s にした式で今と同じ引きずりを出すには、並進に 5
 
 **⑩ 言わないこと。** 「法則を確かめた」「較正した」「フィットした」「完全に一致」「確認した」「収束した」。本便は**表示の文を直しただけ**で、どの本の物理・数・判定の語も変えていない。
 
+〔第316便c — サンプルの説明の後半とその他の画面の文から来歴の語を外し記号を新しく(原仮定者の裁定(第118報)「アプリ内の説明文: 『第〜便』『決断事項〜』などの記述は無くす。必要で有ればソース内のコメントに残す」・AN417・AN420・AN426・統括の検証項目 R248)(**表示の文だけ —— 物理・宣言の鍵・保存の鍵・エンジンの式・受理の判定は 1 bit も変えていない**・`S._core` 不変・内蔵の全 176 本 sigsame 同一・bitsame 同一)〕
+
+**範囲**: 内蔵の本の配列の **`plutoCharonKF0Control`(基点の 18508 行)〜 末尾 `starSeed` の 71 本**の表示の欄と、枝 a の表(I18N・PARAM_DEFS・LAWS・SYSTEM_PROMPT・`DFM_*`・`T()`)と内蔵の本と SAMPLE_STATUS の生成領域の外の関数・定数の中の画面に出る文字列。境界は本の名と行で切った(先頭の `gclock` から `plutoCharonDFM` までは配列の 0〜104 番の 105 本 —— 枝の数え「前半 106 本・後半 70 本」と 1 本ずれる。統合で枝 b の lint の固定の一覧と重ならないことを確かめる)。
+
+**表示の欄の調べ(本の欄 —— 出す関数を grep)**: 出す欄 = `descStruct`(summary・observe・control —— 連結が description)・`obsCard`(q・model・obs —— 観測結果カード)・`parameterAudit`(observedInputs・fitted・derived・numerical・fixedConventions)・`failureFirst`(fail・pass)・`claims` の `chain.note`/`noteEn`・`roleNote`/`roleNoteEn`・`calibrationForecast`(note・basis —— 較正の現在地チップの tooltip)・`abBody.label`・`name`・`en` の同じ欄。**出さない欄**(変えない): `physics.*` の文字列(presetSig が読む —— 1 字も変えない)・`bodies[].spinAxis.source`(出所の鍵 —— 受理器が必須として読み・画面に出ない・署名しない)・`massCalibration.note`/`history`・`massLedger.note`/`noteEn`(台帳 —— 画面に出ない・QA が読む)・`timeRef`・`claims[].testId`(QA のブロック名)・`id`。**データを変えず出す側で外した欄**: `fitRecord`(law・procedure・fixed・notFitted ほか —— QA と器が `第303便a`・`周期優先(第298便e)` などを世代の目印に読む)・観測結果カードの q のうち**判定器の量の名と引く鍵**の 25 文字列(`OBS_COMPARE_ROWS`・`LIVE_COMPARE_SPEC`・`tests/lib-w283c-calstages.mjs` の量の名と同じ文字列 —— ライブ比較の行の対応と観測の比較の行がこの一致で引く)。
+
+**その他の画面の文の調べ**: 出す文 = 受理器の理由と警告(`validatePreset`・`validateRelativeDragInertial`・`validateInvSq`・`validateDragCoreBody`・`validateDragShellBody`・`validateGalaxyAxial`・`validateAxisHold` ほか 42 関数 —— 読込・取り込み・AI 生成・選択粒子の編集で利用者に見える)・`buildAstroFromRecords`(観測レコードから作る本の説明の文)・`MASS_BASIS` の注(質量の由来のバッジ)・光の定規のキャンバスの字(`drawLightRulerOn` —— `X_k=`)・選択粒子の編集の静的なラベル `#beLdcR`(R_d)。**出さないもの**(変えない): `CAL_CONTRACT`(画面に出ない —— 器 `exp-w282a-calcontract` が 1 行の JSON を読み、QA が正本の contract と一致を見る)・`RETIRED_PRESETS` の ja/en(QA が `/^第90報/` を世代の目印に読む —— **出す側 `retiredNoticeText` で外す**)・`OBS_COMPARE_ROWS`・`ASSESSED_VALUES`(生成領域 —— 判定器の正本の量の名の転記・**出す側で外す**)・`LIVE_COMPARE_SPEC`(量の名で引く鍵 —— **出す側で外す**)・`SIM_STATE_DERIVED`・`SIM_BUILD_RESET`・`GEO_MODE_TABLE_CASES`・`SCALE_BASES`・`ASSESSED_CANON`(状態の契約と器の表)・`console.warn`・診断の記録の注(`dfmMeshV2Solve`・`dfmLightTrapLedger`・`dfmGalaxyMeshRecord` —— 器の読み口)・鍵の名 `physics.Kt`(旧表記の鍵)。
+
+**出す側で外す純関数 `provTextClean(s)`**(HP に出す・版 `MISC_TEXT_CLEAN_VERSION = "w316c-misc-text-1"`・`PRESET_TEXT_CLEAN_B_VERSION = "w316c-preset-text-1"`): 括弧(`()`・`()`・`〔〕`・`[]`)の中で来歴だけの項(第N便・第N報・原仮定者の裁定・決断事項 AN・統括の検証項目 R・日付の裁定・en の wave/ruling/report/AN/R)を区切り(・、——;,)ごと落とし、空の括弧は消す/文頭の「第N報: 」型の見出しを落とす/文中の「第N便 で・の・から・以降」は語ごと落とし、「第N便まで(は)」は「以前は」/「本便・次便・後便」は「ここ・今後」。**来歴の語を含まない文は 1 字も変えない**(判定の前に `PROV_TEST`)。使う所: 退役の本の理由(`retiredNoticeText`)・フィットの記録のカード(`#fitRecordBox` の各行)・観測結果カード(q・model・obs)・観測の比較の名(説明タブの観測との差・観測の比較のパネル・アプリ内実測の行の label)。保存 JSON・宣言・正本・照合の鍵は 1 字も変わらない。
+
+**置き換えの数**(文字列リテラルの中だけ・TypeScript の AST で数えた —— コメントは数えない。前 → 後):
+
+| 語の種類 | 後半 71 本の表示の欄 | その他の画面の文 |
+|---|---|---|
+| 第N便 | 701 → 0 | 227 → 1(🌰 の凍結の領域 —— 下) |
+| 第N報 | 114 → 0 | 7 → 0 |
+| en の wave N | 576 → 2(QA のブロック名 `wave121.ui` —— ID) | 10 → 0 |
+| 原仮定者 | 62 → 0 | 6 → 0 |
+| 決断事項 | 1 → 0 | 3 → 0 |
+| AN### | 46 → 0 | 24 → 0 |
+| 統括の検証項目 R### | 16 → 0 | 0 → 0 |
+| 統括の裁定キューの項目(AD9・AE13・AB3・AM5 ほか) | 13 → 0 | 0 → 0 |
+| en の adjudicator・ruling | 91 → 0 | 0 → 0 |
+| `κ₀` → Y_k | 0 → 0 | 10 → 0(Y_k 10) |
+| `κ_T`・`κ_g` → X_k | 8 → 0 | 3 → 0 |
+| `κ_S` → S_k | 39 → 0(S_k 39) | — |
+| 時空係数の裸のカッパ → X_k | 143 → 78(残りは別の量 —— 下) | 9 → 3(同) |
+| dragCore の `R_c` → R_d | 2 → 0 | 4 → 1(別の量 —— 下)+ 静的なラベル 1 → 0 |
+
+文字列 1223 個を直した(本の欄 989・その他 234)。判定器の量の名と引く鍵の q 25 個・`fitRecord`・`RETIRED_PRESETS`・観測の比較の名はデータを変えず出す側で外した(上)。`r_d` は範囲に無かった。外部の照合の来歴(外部の回答系統の名前・照合の回の言及)(30 か所 —— 天王星・海王星・αケンタウリ・二重パルサー・GW150914 の 3 本・超新星と白色矮星の本)と開発の回を指す「本便・次便・後便・この便」(35 か所 —— 「ここ・今後・このサンプル」へ)も同じ型で外した。
+
+**残したもの(理由)**: ① 別の量の裸のカッパ —— コンパクト力の係数(鍵 `compactForce.kappa` —— 案K の 5 本 🪝🪄🩹🪤🪗)・軸引きずりの係数(鍵 `spinDrag.axialCoupling` —— 🪛 chainDiskToy3dTilt と受理器の理由 3 文の単位の注)・相対すべり則の係数(鍵 `relativeDrag.kappa` —— pairSlip の 🌨️☃️)・帯状重力の近点の周転円の振動数(📡 saturnZonalD68 の永年理論の式)。時空係数ではないので X_k にしない(lint の許可の表に本ごと・関数ごとに理由つき —— 許可した所に記号が無くなれば古い許可として落ちる)。② 別の意味の `R_c` —— 中心の捕獲の慣性半径の式 R′ = √(R_c² + R_j²)(`centerCaptureCheck` —— 中心天体の半径。この関数は 🌰 の版 `w287a-capture-1` の領域〔1 字も変えない契約 —— `behavior.fixedCaptureContract` が基点の sha256 で照合〕の中なので、理由の文「centerCapture はオブジェクト」の来歴の 1 語も残した)・コア v2 の幾何の慣性 `½M_cR_c²Ω_c`(⚙️ spinDipoleBinary —— コアの半径)。③ 旧表記の注「旧表記 Kt=3600」(📡 の X_k の値の説明 —— 旧記号として明示)。④ 「裁定」の語だけ(誰の・どの回の裁定かは外した —— 「裁定「三次元では…」」のように中身を引く文)。
+
+**来歴の行き先**: 外した来歴は各本・各関数の直上の既存のコメント(`// 第NNN便x(…)`)と PHYSICS の各節・git の履歴に残る。行ごとのコメントは足していない(同じ来歴がコメントに既にある)。
+
+**世代切替した QA と器**(受理の理由の文の照合 —— 判定は不変・新旧どちらの文でも通る型): `behavior.tide3d307`(`第308便d・決断事項 AN350` の警告の除外 → 文の本体「τ⊥ は数えるだけ」「潮汐の B ∝ R⁵ は」)・`behavior.tide3Recv308`(同じ警告の数え)・`behavior.galaxial311` と器 `tests/exp-w311b-galaxial.mjs`(新則の質量 0 の拒否 `AN389` → 「質量の下限で持ち上げて受け手にしない」)・`behavior.rdExcess314`・`ui.rdExcess314` と器 `tests/exp-w314a-rdexcess.mjs`・`tests/exp-w315b-rsexcess.mjs`・`tests/exp-w313a-kappam.mjs`(R_d > 観測半径の警告 `AN404` → 「重力半径に比例する長さとして受理」・外殻の組の拒否 `AN403・AN409` → 「将来の地表のサンプル」・K2 のマントルの拒否 `AN411` → 「マントルなし)の宣言だけ受理」・旧則の契約の文 `0<R_c≤radius` → `0<R_d≤radius`・警告の語の一覧から `第314便a`・`AN404` を外す)・`behavior.alphaCenAB`(✨ の観測安定則の宣言 —— 日付の裁定 → 「適用第1号」)・`ai.obs-binary`(観測レコードからの生成の規約宣言 —— 日付の裁定 → 「観測安定則」)・`docs.d68FactorRow`(📡 の否の要因の行 —— 項目 AB3 を求めない)。
+
+**鎖で動く段**(`tools/regen-plan.mjs --base beta/_w316_base.html` —— 基点そのものは regen 35・reuse 72・recheck 75): 本枝の html では **regen 167・reuse 15・always 13・history 33(下限 17.55 h)**。内訳を写しで分けた —— 後半の本の表示の欄だけ: regen 105・reuse 46・recheck 31(11.32 h)/ 出す側の関数(provTextClean とその呼び出し)だけ: regen 36(基点 + `obscompare` 1 段)/ 受理器の理由の文(`validatePreset` の依存の閉包)を含むと regen 167。**受理の理由の文の 1 字が `validatePreset` を根に持つほぼ全段の領域 hash を動かす**(物理は 1 bit も変わらない —— bitsame・sigsame 176/176)。器の正本が受理の理由の文を持つ 3 段(`jeans286` —— `behavior.jeans2D`・`fixcap288` —— `behavior.fixedCaptureContract` ①・`drag3d-298c` —— `behavior.drag3d298` の part5)は鎖で引き直すまで「正本と違う」で落ちる(枝では引き直していない —— 統合の後の鎖で直る)。
+
+**新しい QA**: `lint.presetText316c`(後半 71 本の ID を固定の一覧で —— 宣言の物の木を歩き、出す欄に来歴の語と旧記号が無い・量の名の q は `provTextClean` の出力を見る)・`lint.miscText316c`(42 関数の本文の文字列〔scanJs でコメントを潰す〕・`MASS_BASIS` の注・出す側で外す 400 文〔退役の理由 ja/en・観測の比較の名・ライブ比較の名・フィットの記録〕に来歴の語が無い・`provTextClean` の型の例)・`docs.w316c`。
+
+**継ぎ目(統合で確かめる)**: 枝 b の前半の本にも判定器の量の名と引く鍵の q がある(☄️ の「近日点前進(推定器つき宣言 —— 第250便d)」ほか)—— データで外すと `OBS_COMPARE_ROWS`・`LIVE_COMPARE_SPEC`・calaudit の量の名との一致が切れる(本枝は出す側で外した —— 観測結果カードの表示は全本で `provTextClean` を通る)。退役の告知の型 `T("retiredNotice")`(I18N —— 枝 a)の「原仮定者の裁定(第73報〜第90報)」「(第301便e)」は枝 a の範囲。選択粒子の編集の静的なラベル `#beLdcR` は本枝で R_d にした(枝 a の I18N の dragCore の文と揃える)。
+
 〔第316便d — 衛星の三体の診断(表の代表は二体・三体は太陽の効きの記録・太陽の位相の調和の回帰・トリトンの離心率ベクトル)・論文 1〜5 の記号・停止集合の版上げ・perf の正本に対象の sha(原仮定者の裁定(第118報)・決断事項 AN423・AN424・AN416・AN422 ②・統括の検証項目 R249)(**html・本の宣言・エンジンの式は 1 bit も変えていない** —— 器・正本・論文・道具だけ・`S._core` 不変・在位の本は 1 本も宣言しない・確認の値を在位へ入れない)〕
 
 **① 裁定と読み。** 原仮定者の裁定(第118報)で閉じた決断事項のうち、本節は AN423(衛星の表の代表は二体〔母惑星 + 衛星〕の引きずりの効き・三体は太陽の効きの記録の別の列〔合否の数にしない〕・太陽の位相の調和の回帰で三体の永年の効きを診断)・AN424(トリトンの近点は値と未解決の理由を残して判定から外す・離心率ベクトルで記録)・AN416(論文はまだほぼ読まれていないので本文の記号を置き換え、記号表に文末の注を付ける程度 —— 大幅改訂は未着手)・AN422 ②(領域 hash の停止集合に物理を読まない表示の関数を足す)を扱う。記号は第118報の体系で書く —— 時空係数 X_k・引きずり係数 Y_k・スピン拡散 S_k・決定力定数 κ_D(定義は論文 1 の C3 の 1 回)・基準光速 c_0・基準重力 G_0・引きずり半径 R_d(鍵の名は `r_d`・規則の鍵 `rdRule:"kappaM"` —— 鍵は変えない)。
