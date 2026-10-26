@@ -124,7 +124,7 @@ function simOf(HP, q) {
   const S = HP.coord3d.makeSim(); S.build(clone(v.preset));
   return { S, preset: v.preset, warnings: v.warnings || [] };
 }
-const isX = (w) => /AN404/.test(w) && /観測半径/.test(w);
+const isX = (w) => /AN404|重力半径に比例する長さとして受理/.test(w) && /観測半径/.test(w);   // 第316便c(R248): 受理の理由の文から AN404 を外した世代も同じ警告(重力半径に比例する長さとして受理)
 /** 写しの要点(本の ID と宣言の要点 —— 出力に必ず印字する) */
 const declOf = (q) => ({ id: q.id, invSq: q.physics.relativeDrag.invSq, cap: q.physics.relativeDrag.dragCoreDefault || null,
   bodies: q.bodies.filter((b) => b.type === 'single').map((b) => ({ m: b.m, R: b.radius === undefined ? null : b.radius, dragCore: b.dragCore || null })) });

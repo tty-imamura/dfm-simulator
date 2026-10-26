@@ -147,7 +147,7 @@ export function partA(H) {
   for (const bad of ['Core', 'shell', 0, false, ['core']]) T('shellRecv ' + JSON.stringify(bad), (q) => { q.physics.relativeDrag.invSq.shellRecv = bad; }, false, /shellRecv は "mass"/);
   // 第314便a(世代切替): R_d > 観測半径を受理する html では受理して警告 1 行(AN404 —— 第116報)・前の世代は拒否(AN404 —— 第313便a)
   T('規則 + 太陽の半径 1.0e-3 < κ₀M☉ = 1.75e-4 × 10(radiusFloor 0.001 —— AN404)', (q) => { q.physics.relativeDrag.invSq.rdRule = 'kappaM'; q.physics.radiusFloor = 0.001; q.bodies[0].m = 1988.5 * 10; q.bodies[0].radius = 0.001; },
-    gen314, gen314 ? null : /AN404/, gen314 ? (p, v) => p.bodies[0].radius === 0.001 && (v.warnings || []).some((w) => /AN404/.test(w)) : undefined);
+    gen314, gen314 ? null : /AN404/, gen314 ? (p, v) => p.bodies[0].radius === 0.001 && (v.warnings || []).some((w) => /AN404|重力半径に比例する長さとして受理/.test(w)) : undefined);   // 第316便c(R248): 理由の文から AN404 を外した世代も
   T('規則 + 太陽の半径 0.001(radiusFloor —— R_d = κ₀M☉ の内)', (q) => { q.physics.relativeDrag.invSq.rdRule = 'kappaM'; q.physics.radiusFloor = 0.001; q.bodies[0].radius = 0.001; }, true, null, (p) => p.bodies[0].radius === 0.001);
   T('規則 + dragCore:{massFrac:0.5}(radius の省略)', (q) => { q.physics.relativeDrag.invSq.rdRule = 'kappaM'; q.bodies[1].dragCore = { massFrac: 0.5 }; }, true, null, (p) => JSON.stringify(p.bodies[1].dragCore) === '{"massFrac":0.5}');
   // 第314便a(世代切替): 新則の本の明示の radius の文は「正の有限数 —— radius の省略は invSq.rdRule の本だけ」(R_c > radius は受理の世代)・前の世代は「0<R_c≤radius」
