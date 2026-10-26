@@ -280,6 +280,12 @@ const env = {
 try { env.commit = execSync('git rev-parse HEAD', { cwd: ROOT, stdio: 'pipe' }).toString().trim(); } catch { env.commit = 'unknown'; }
 env.run = { githubRunId: process.env.GITHUB_RUN_ID || null, sha: process.env.GITHUB_SHA || null,
   attempt: process.env.GITHUB_RUN_ATTEMPT || null };
+// 第316便d(原仮定者の裁定(第118報)・統括の検証項目 R249): **測った対象の html の sha256 と Node の版**(既存の欄は不変 —— 新しい欄 targets だけ)。
+//   手元のゲート(Node 22)と CI(Node 24)の perf を、同じ対象を測ったか・同じ Node かで読み分けられるように(閾値・判定式は変えない)。
+//   sha は測定の前(2 ページを開いた直後)に読む —— 測った html と同じもの。
+const perfTargetOf = (rel) => { let sha256 = null; try { sha256 = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, rel))).digest('hex'); } catch { sha256 = null; } return { file: rel, sha256 }; };
+const PERF_TARGETS = { version: 'w316d-perf-targets-1', root: perfTargetOf('index.html'), beta: perfTargetOf(path.join('beta', 'index.html')),
+  node: process.version, nodeMajor: Number(process.versions.node.split('.')[0]) };
 
 let fail = 0;
 const rows = [];
@@ -655,6 +661,7 @@ fs.mkdirSync(OUT_DIR, { recursive: true });
 fs.writeFileSync(path.join(OUT_DIR, ABJIT_ONLY ? 'perf-abjit-only.json' : 'perf-results.json'), JSON.stringify({
   when: new Date().toISOString(), threshold: THRESH,
   reps: REPS, frames: FRAMES, sets: SETS, env,
+  targets: PERF_TARGETS,   // 第316便d: 測った root と beta の html の sha256・Node の版(既存の欄は不変)
   // results: 比較ゲート対象(pass/fail 判定あり。ratio はペア比の中央値。
   //          pairs に各ペアの順序・両側 ms・比、rawRoot/BetaMs に全反復生値を記録)
   //          第160便: 再トスが走ったサンプルにのみ retossed:true と first*/final*(初回測定の

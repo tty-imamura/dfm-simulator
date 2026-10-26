@@ -2470,6 +2470,9 @@ lastAddAt = Date.now();
       // ==== 第315便d の塊(ここから)==== 衛星 6 本の K1 の検証の器(satk1-315d —— 二体と三体 × 引きずりの有無)。領域 REGEN_SCOPE を刻む
       'tests/out/satk1-w315d.json',
       // ==== 第315便d の塊(ここまで)====
+      // ==== 第316便d の塊(ここから)==== 衛星 6 本の三体の診断の器(sath-316d —— 二体を代表・三体は太陽の効きの記録・太陽の位相の調和の回帰・離心率ベクトル)。領域 REGEN_SCOPE を刻む
+      'tests/out/sath-w316d.json',
+      // ==== 第316便d の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
@@ -2773,10 +2776,25 @@ lastAddAt = Date.now();
       // ①
       // 第283便e(AN32): 版 3 は w283e-scope-3(停止集合は版 2 と同じ)。第286便d の統合(統括・R105): 現行版は w286d-scope-4
       //   (停止集合に lcAfterStep/lcReset —— ライブ比較の入口。版 3 以前の刻印は SCOPE_STOP_3 で引き直す)。旧 3 版は照合だけ
-      if (SC.SCOPE_VERSION !== 'w286d-scope-4' || SC.SCOPE_VERSION_LEGACY !== 'w281a-scope-1' || SC.SCOPE_VERSION_2 !== 'w282e-scope-2' || SC.SCOPE_VERSION_3 !== 'w283e-scope-3'
-        || JSON.stringify(SC.SCOPE_VERSIONS) !== JSON.stringify(['w281a-scope-1', 'w282e-scope-2', 'w283e-scope-3', 'w286d-scope-4'])) bad.push('① 版が契約と違う: ' + SC.SCOPE_VERSION);
-      if (!(Array.isArray(SC.SCOPE_STOP_3) && SC.SCOPE_STOP.length === SC.SCOPE_STOP_3.length + 2 && SC.SCOPE_STOP.includes('lcAfterStep') && SC.SCOPE_STOP.includes('lcReset')
-        && !SC.SCOPE_STOP_3.includes('lcAfterStep'))) bad.push('① 版 4 の停止集合が版 3 + lcAfterStep/lcReset でない');
+      // 第316便d(原仮定者の裁定(第118報)・決断事項 AN422 ②・統括の検証項目 R249): 世代切替 = 器の版の定数 SCOPE_STOP_ADDED_316 の有無。
+      //   新しい世代: 現行版 w316d-scope-5(停止集合 = 版 4 の SCOPE_STOP_4 + 物理を読まない表示の関数 SCOPE_STOP_ADDED_316)・版 4 の刻印は SCOPE_STOP_4
+      //   (第286便d の SCOPE_STOP と同じ並び)で引き直す(stopSetOf)。旧い世代(版 4 が現行)は従来どおり
+      if (Array.isArray(SC.SCOPE_STOP_ADDED_316)) {
+        if (SC.SCOPE_VERSION !== 'w316d-scope-5' || SC.SCOPE_VERSION_4 !== 'w286d-scope-4' || SC.SCOPE_VERSION_LEGACY !== 'w281a-scope-1' || SC.SCOPE_VERSION_2 !== 'w282e-scope-2' || SC.SCOPE_VERSION_3 !== 'w283e-scope-3'
+          || JSON.stringify(SC.SCOPE_VERSIONS) !== JSON.stringify(['w281a-scope-1', 'w282e-scope-2', 'w283e-scope-3', 'w286d-scope-4', 'w316d-scope-5'])) bad.push('① 版が契約と違う: ' + SC.SCOPE_VERSION);
+        const S4 = SC.SCOPE_STOP_4 || [], S3 = SC.SCOPE_STOP_3 || [], AD = SC.SCOPE_STOP_ADDED_316;
+        if (!(S4.length === S3.length + 2 && S4.includes('lcAfterStep') && S4.includes('lcReset') && !S3.includes('lcAfterStep')
+          && JSON.stringify(SC.SCOPE_STOP) === JSON.stringify(S4.concat(AD)) && AD.length > 0 && AD.every((n) => !S4.includes(n)) && new Set(AD).size === AD.length))
+          bad.push('① 版 5 の停止集合が版 4 + SCOPE_STOP_ADDED_316 でない(版 4 = 版 3 + lcAfterStep/lcReset)');
+        if (!(typeof SC.stopSetOf === 'function' && SC.stopSetOf('w316d-scope-5') === SC.SCOPE_STOP && SC.stopSetOf('w286d-scope-4') === S4 && SC.stopSetOf('w283e-scope-3') === S3 && SC.stopSetOf('w282e-scope-2') === S3))
+          bad.push('① 刻印の版 → 停止集合(stopSetOf)が契約と違う');
+        for (const nm of AD) if (['updateBodyEdit', 'loadPreset', 'validatePreset'].includes(nm)) bad.push('① 版 5 で足した停止集合に ' + nm + ' がある(物理・選択粒子の編集の状態を書く関数は入れない)');
+      } else {
+        if (SC.SCOPE_VERSION !== 'w286d-scope-4' || SC.SCOPE_VERSION_LEGACY !== 'w281a-scope-1' || SC.SCOPE_VERSION_2 !== 'w282e-scope-2' || SC.SCOPE_VERSION_3 !== 'w283e-scope-3'
+          || JSON.stringify(SC.SCOPE_VERSIONS) !== JSON.stringify(['w281a-scope-1', 'w282e-scope-2', 'w283e-scope-3', 'w286d-scope-4'])) bad.push('① 版が契約と違う: ' + SC.SCOPE_VERSION);
+        if (!(Array.isArray(SC.SCOPE_STOP_3) && SC.SCOPE_STOP.length === SC.SCOPE_STOP_3.length + 2 && SC.SCOPE_STOP.includes('lcAfterStep') && SC.SCOPE_STOP.includes('lcReset')
+          && !SC.SCOPE_STOP_3.includes('lcAfterStep'))) bad.push('① 版 4 の停止集合が版 3 + lcAfterStep/lcReset でない');
+      }
       for (const nm of SC.SCOPE_STOP) if (!PT.segments.some((z) => z.kind === 'function' && z.names.includes(nm))) bad.push('① 停止集合の ' + nm + ' が最上位の function 宣言でない');
       for (const nm of ['$', 'ctx', 'sim'].concat(SC.PHYSICS_KEEP)) if (SC.SCOPE_STOP.includes(nm)) bad.push('① 停止集合に ' + nm + ' がある(止めてはいけない)');
       cases.push(`停止集合 ${SC.SCOPE_STOP.length} 関数(最上位の function)・$/ctx/sim と物理側 ${SC.PHYSICS_KEEP.length} 名を含まない`);

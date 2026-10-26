@@ -60,7 +60,12 @@ import { volatilePathsOf, companionsOf } from './lib-w281a-regentable.mjs';
  * (`CLAIM_PROSE_KEYS`・`CHAIN_PROSE_KEYS`・`MASSCAL_PROSE_KEYS`)を領域から外す(expected・testId・descPattern・
  * chain.ax/eq・control・noteRatio は残す)。新しい刻印は版 3 だけで作る。
  */
-export const SCOPE_VERSION = 'w286d-scope-4';   // 第286便d の統合(統括・R105): 停止集合に lcAfterStep/lcReset(版 3 の閉包・本文はそのまま)
+// 第316便d(原仮定者の裁定(第118報)・決断事項 AN422 ②・統括の検証項目 R249): 現行版を w316d-scope-5 へ —— 停止集合に**物理を読まない表示の関数**
+//   (SCOPE_STOP_ADDED_316 —— HUD・キャンバスの描画・パラメータ行と選択の表示同期・観測比較のパネル)を足した。版 4 以前の刻印は
+//   版 4 の停止集合 SCOPE_STOP_4(= 第286便d の SCOPE_STOP と 1 字も違わない)・版 2〜3 は SCOPE_STOP_3 で引き直す(stopSetOf)。
+export const SCOPE_VERSION = 'w316d-scope-5';
+/** 第286便d の統合の版 4(停止集合に lcAfterStep/lcReset —— 版 3 の閉包・本文はそのまま)。旧刻印の照合用 —— 停止集合は SCOPE_STOP_4。 */
+export const SCOPE_VERSION_4 = 'w286d-scope-4';
 /** 第283便e の版 3(claims の説明文字列を外す)。旧刻印の照合用 —— 停止集合は SCOPE_STOP_3。 */
 export const SCOPE_VERSION_3 = 'w283e-scope-3';
 /** 旧版(第281便a —— 停止集合なし)。この版の刻印は旧版の閉包で照合する(`scopeHash(…, {version})`)。 */
@@ -68,7 +73,7 @@ export const SCOPE_VERSION_LEGACY = 'w281a-scope-1';
 /** 版 2(第282便e —— 停止集合あり・説明文の除外は最上位の PROSE_KEYS だけ)。この版の刻印は版 2 の規則で照合する。 */
 export const SCOPE_VERSION_2 = 'w282e-scope-2';
 /** 照合できる版の一覧(これ以外の版の刻印は照合できない = 不一致)。 */
-export const SCOPE_VERSIONS = [SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION_3, SCOPE_VERSION];
+export const SCOPE_VERSIONS = [SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION_3, SCOPE_VERSION_4, SCOPE_VERSION];
 
 /**
  * **停止集合**(第282便e・AN22 —— 原仮定者の裁定(第72報)・統括の検証項目 R82)。
@@ -96,8 +101,32 @@ export const SCOPE_STOP = [
   //   ビット一致 —— 器 tests/qa.mjs behavior.liveMeterPure)なので、ここで止める(書くのは liveCmp だけ —— 境界に入れる)
   'lcAfterStep', 'lcReset',
 ];
+/**
+ * 第316便d(原仮定者の裁定(第118報)・決断事項 AN422 ②・統括の検証項目 R249): 版 5 で足した**物理を読まない表示の関数**。
+ * 条件は第282便e と同じ(lint.scopeStop ①〜③ —— 最上位の function・本体の直接の書き込みが表示の境界 SCOPE_STOP_BOUNDARY の中・
+ * 宣言した器が HP/文字列で読まない・物理側 PHYSICS_KEEP は入れない)。宣言した全器の版 4 の閉包に入っていた DOM/キャンバスの関数のうち、
+ * 直接の書き込みが境界の中のものだけ(updateBodyEdit は選択粒子の編集の表示状態 be* を書くので入れない —— loadPreset・validatePreset・
+ * 物理の定義と計算の関数も入れない)。止めたときに閉包から落ちる名前は、残る閉包から参照されない(書き手の検出は全関数を走査する)。
+ */
+export const SCOPE_STOP_ADDED_316 = [
+  // HUD とキャンバスの描画(drawWorldInto は 1 フレームの粒子・軌跡・空間の線を描く —— 色の分位 S._p90 などは表示の写し)
+  'syncHud', 'drawWorldInto', 'drawSpaceGridOn', 'drawGalaxyTracerInto', '_smDrawLegend', '_smLineStyle',
+  // パラメータの行・選択・カードの表示同期(値は読むだけ —— 適用は操作ハンドラの中)
+  'beLayNumsFill', 'buildInertialWbgRow', 'inertialWbgRowSync', 'wbgRowSync', 'geo3InertialSync', 'geo0ChoiceBuild', 'geo0ChoiceSync',
+  'bgRangeCardSync', 'bgRangeCardFill', 'syncMeshChip', 'refreshGeoInfoNotes', 'refreshModeDeviation',
+  // 選択とボタンとバッジの表示
+  'rebuildAiBaseSelect', 'setPresetSelectValue', 'updatePresetPickBtn', 'updatePhysLockBadge', 'updateSaveNameDefault', 'updatePlayBtn',
+  'updateAbTargetUI', 'updateAbBtn',
+  // 観測比較のパネル(表示と開閉)
+  'ocRender', 'ocBuildControls', 'ocOpen',
+];
+SCOPE_STOP.push(...SCOPE_STOP_ADDED_316);
+/** 版 4 の停止集合(第286便d の統合の SCOPE_STOP そのもの —— 並びも同じ。版 4 の刻印を同じ規則で引き直すため)。 */
+export const SCOPE_STOP_4 = SCOPE_STOP.filter((n) => !SCOPE_STOP_ADDED_316.includes(n));
 /** 版 2・3 の停止集合(第286便d の統合で足した 2 名を除く —— 旧刻印を同じ規則で引き直すため)。 */
-export const SCOPE_STOP_3 = SCOPE_STOP.filter((n) => n !== 'lcAfterStep' && n !== 'lcReset');
+export const SCOPE_STOP_3 = SCOPE_STOP_4.filter((n) => n !== 'lcAfterStep' && n !== 'lcReset');
+/** 刻印の版 → 停止集合(版 1 は停止集合なし —— 呼ぶ側が閉包の引き方を分ける。版 2〜3 は SCOPE_STOP_3・版 4 は SCOPE_STOP_4・現行版は SCOPE_STOP) */
+export const stopSetOf = (version) => (version === SCOPE_VERSION ? SCOPE_STOP : (version === SCOPE_VERSION_4 ? SCOPE_STOP_4 : SCOPE_STOP_3));
 
 /**
  * プリセットの**説明文だけの欄**(`sim.build`・`validatePreset` の受理判定・`applyQLock` が読まない欄)。
@@ -734,7 +763,7 @@ export function scopeHash(htmlPath, decl, opts) {
     }
   }
   // ② ③ 依存閉包
-  const stopSet = (version === SCOPE_VERSION) ? SCOPE_STOP : SCOPE_STOP_3;   // 第286便d の統合: 版 4 だけ lcAfterStep/lcReset を止める
+  const stopSet = stopSetOf(version);   // 第286便d の統合: 版 4 だけ lcAfterStep/lcReset を止める。第316便d: 版 5 は SCOPE_STOP・版 4 は SCOPE_STOP_4
   const cl = legacy ? closureOf(X.parsed, sc.roots)
     : closureOf(X.parsed, sc.roots, undefined, { hardStop: stopSet });
   for (const r of cl.missing) why.push('roots の名前が最上位に無い: ' + r);
@@ -803,7 +832,7 @@ export function scopeStamp(htmlPath, decl) {
   scopeSha256: r.scopeSha256, scopeComplete: r.scopeComplete };
 }
 
-export default { SCOPE_VERSION, SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION_3, SCOPE_VERSIONS, SCOPE_STOP, SCOPE_STOP_3, PROSE_KEYS, DATA_REGISTRIES, TEXT_REGISTRIES,
+export default { SCOPE_VERSION, SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION_3, SCOPE_VERSION_4, SCOPE_VERSIONS, SCOPE_STOP, SCOPE_STOP_3, SCOPE_STOP_4, SCOPE_STOP_ADDED_316, stopSetOf, PROSE_KEYS, DATA_REGISTRIES, TEXT_REGISTRIES,
   CLAIM_PROSE_KEYS, CHAIN_PROSE_KEYS, MASSCAL_PROSE_KEYS, stripPresetProse,
   scanJs, normText, parseTopLevel, hpProps, closureOf, countDynamicRefs, canonJson, normalizeScope, scopeHash, scopeStamp };
 
