@@ -87563,11 +87563,12 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   ① PARAM_DEFS の全鍵に I18N.ja.params・paramDescs と I18N.en.params・paramDescs があり、空でなく、en は ja と違う(T が ja へ落ちない)・表の鍵は PARAM_DEFS の鍵と同じ集合
 // ----   ② PARAM_DEFS の要素に label・desc が無い(数の設定だけ)・paramLabel/paramDesc が LANG の表を返す・③ 鍵の数(ja の最上位は en と同じ・ja.params/paramDescs = PARAM_DEFS の数)
 {
-  const H316p = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
-  if (!(TARGET.startsWith('beta/') && H316p.indexOf('const UI_TEXT_CLEAN_VERSION="w316a-ui-text-clean-1"') >= 0)) {
-    console.log('SKIP params.i18n316(第316便a の PARAM_DEFS の文言の移しの前の世代 — ' + TARGET + ')');
-  } else {
-    await (async () => {   // 第310便c(heap)の型: 抜けたら headless の写しを手放す
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+    const H316p = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    if (!(TARGET.startsWith('beta/') && H316p.indexOf('const UI_TEXT_CLEAN_VERSION="w316a-ui-text-clean-1"') >= 0)) {
+      console.log('SKIP params.i18n316(第316便a の PARAM_DEFS の文言の移しの前の世代 — ' + TARGET + ')');
+      return;
+    }
       const bad = [], cases = [];
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
       const H = loadHtmlHeadless(path.join(ROOT, TARGET)), E = H.evalExpr;
@@ -87594,8 +87595,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① ${keys.length} 鍵 × ja/en × ラベル/説明(空でない・en ≠ ja)② PARAM_DEFS は数の設定だけ・paramLabel/paramDesc ${nOk}/${2 * P.length} ③ 最上位の鍵 ja ${nJa}/en ${nEn}・en の bM/etaRad`);
       add('params.i18n316', bad.length === 0,
         `**パラメータのラベルと説明は I18N の表**(第316便a・決断事項 AN422 ①・R246): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
-    })();
-  }
+  })();   // 第310便c(heap)
 }
 // ---- 第316便a(決断事項 AN426・R246): ui.symDisp316 —— **記号の下付きの表示**(新設 —— root は SKIP)。世代切替は lint.uiText316 と同じ。
 // ----   ① 純関数 HP.symDisp の表(入力 → 文字の文脈・html の文脈・DOM の textContent)を照合(DOM の文字でなく関数の戻り値で)
