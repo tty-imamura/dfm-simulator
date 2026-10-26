@@ -61,7 +61,7 @@ import { volatilePathsOf, companionsOf } from './lib-w281a-regentable.mjs';
  * chain.ax/eq・control・noteRatio は残す)。新しい刻印は版 3 だけで作る。
  */
 // 第316便d(原仮定者の裁定(第118報)・決断事項 AN422 ②・統括の検証項目 R249): 現行版を w316d-scope-5 へ —— 停止集合に**物理を読まない表示の関数**
-//   (SCOPE_STOP_ADDED_316 —— HUD・キャンバスの描画・パラメータ行と選択の表示同期・観測比較のパネル)を足した。版 4 以前の刻印は
+//   (SCOPE_STOP_ADDED_316 —— HUD・キャンバスの描画・パラメータ行と選択とボタンの表示同期の 26 個)を足した。版 4 以前の刻印は
 //   版 4 の停止集合 SCOPE_STOP_4(= 第286便d の SCOPE_STOP と 1 字も違わない)・版 2〜3 は SCOPE_STOP_3 で引き直す(stopSetOf)。
 export const SCOPE_VERSION = 'w316d-scope-5';
 /** 第286便d の統合の版 4(停止集合に lcAfterStep/lcReset —— 版 3 の閉包・本文はそのまま)。旧刻印の照合用 —— 停止集合は SCOPE_STOP_4。 */
@@ -117,8 +117,7 @@ export const SCOPE_STOP_ADDED_316 = [
   // 選択とボタンとバッジの表示
   'rebuildAiBaseSelect', 'setPresetSelectValue', 'updatePresetPickBtn', 'updatePhysLockBadge', 'updateSaveNameDefault', 'updatePlayBtn',
   'updateAbTargetUI', 'updateAbBtn',
-  // 観測比較のパネル(表示と開閉)
-  'ocRender', 'ocBuildControls', 'ocOpen',
+  // 観測比較のパネル ocRender・ocOpen・ocBuildControls は入れない(器 tests/exp-w285d-obscompare.mjs が HP.obsCompare から読む —— lint.scopeStop ②)
 ];
 SCOPE_STOP.push(...SCOPE_STOP_ADDED_316);
 /** 版 4 の停止集合(第286便d の統合の SCOPE_STOP そのもの —— 並びも同じ。版 4 の刻印を同じ規則で引き直すため)。 */
