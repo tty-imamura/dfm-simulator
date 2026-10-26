@@ -3,7 +3,7 @@
  "libVersion": "w312a-decay-lib-1",
  "generator": "tests/exp-w312a-decay.mjs",
  "target": "beta/index.html",
- "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+ "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
  "ruling": "原仮定者の裁定(第114報)AN398 —— R_d² が惑星の質量 × 軌道の半直弦に比例する結果は、距離に応じた引きずりの減衰が強すぎる可能性(r⁻³ なら r⁻² などを調査・軸引きずりだけ違う場合・受け側の質量が影響する場合も)・決断事項 AN398・統括の検証項目 R230",
  "kernelVersion": "w312a-invsq-k1-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -2042,31 +2042,31 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.296
+   "wallSec": 0.404
   },
   "P": {
-   "wallSec": 0.737
+   "wallSec": 1.153
   },
   "S": {
-   "wallSec": 0.16
+   "wallSec": 0.197
   },
   "E": {
-   "wallSec": 1.27
+   "wallSec": 1.497
   }
  },
- "elapsedS": 4.384,
+ "elapsedS": 5.14,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第312便a",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T23:26:51.359Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T18:01:30.799Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2082,9 +2082,9 @@
    },
    {
     "file": "tests/out/planet3-w311d.json",
-    "bytes": 80716,
-    "sha256": "73f8d9b6162bdf44996ea011a88dec5ebf1a85177a85b6a505032ccbf43c73c0",
-    "mtime": "2026-10-25T23:26:45.142Z"
+    "bytes": 80704,
+    "sha256": "3abba01eaf9afedb69b7d78b76697c320a977d0e88c5c771b31201b1d5a9f1b1",
+    "mtime": "2026-10-26T17:09:43.952Z"
    }
   ],
   "code": [
@@ -2150,12 +2150,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "e33f4a24c54f4d2cbb69ab1d7f304463c6210b5f59e03373113370e3bc5e6059",
+  "codeSha256": "4daf8b23711b3902dfdec9ffc552da6051a1de5b0f96ab803f7dcba73f807803",
   "harnessVersion": "w312a-decay-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2167,7 +2167,7 @@
    "収束した"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "earthMoonSunInertial3d",
     "jupiterSunInertial3d",
@@ -2201,11 +2201,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1538,
-   "segments": 1373,
-   "closureShare": 0.3488
+   "names": 1310,
+   "segments": 1151,
+   "closureShare": 0.3107
   },
-  "scopeSha256": "d8e06cc5a7c1228180c2e065305a45360f8d3a44b1ff74b18237ffe75c9259f7",
+  "scopeSha256": "8f5ac0b2b8c89ef54f91aaf38335b295da41048546a7276ae282eb7b21cf1d64",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -2222,7 +2222,7 @@
    },
    {
     "file": "tests/out/planet3-w311d.json",
-    "stableSha256": "0ae9ad196c7dd6a9fcb01242ec2e9c79ce3c02a9eed80b9028f2867b8d47e438",
+    "stableSha256": "a89f3b0d07863de08067201e292b6a368538efef0b5b6b002afcab8c58ab4ab7",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/E/rows/*/wallSec",
