@@ -1394,7 +1394,8 @@ export const REGEN_STEPS = [
   //   第316便d の正本 tests/out/sath-w316d.json を読む(n = 2 の K1-rule・q10・q00 の通過の窓のビット同一の照合 —— after に連ねる)。母惑星と太陽は凍結の写し。
   //   走行は子プロセス 2 本(workers 2)。所要は第317便b の枝の実測(他の 3 枝と同じ 4 核の容器で並走 —— 負荷平均 7〜9・正本の 1 回目の全走行 4730.5 s を採る。
   //   正本は器の main の引数〔段 ③ の組の絞り W317B_COMBOS3〕を足した後に再開の写し W317B_CACHE から読んで作り直した —— resumed 316・行は 1 回目とビット同一)
-  S('satn-317b', 'node tests/exp-w317b-satn.mjs', ['tests/out/satn-w317b.json'], 4731, { secSource: 'w317b-branch', node: true, workers: 2, after: ['sath-316d', 'obscompare', 'samplestatus'],
+  // 第317便(統括の統合): 秒は統合の後に混まない箱(b と c の 2 本だけを並走・4 process)で器を走らせ直した実測 2981 s(枝の 4731 s は 4 枝並走の負荷 7〜9 の実測)—— 走らせ直した正本は枝の正本と値が同一(来歴の mtime と再開の印 resumed の欄だけ違う)
+  S('satn-317b', 'node tests/exp-w317b-satn.mjs', ['tests/out/satn-w317b.json'], 2981, { secSource: 'w317b-branch', node: true, workers: 2, after: ['sath-316d', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/satn-w317b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E2/rows/*/wallSec', '/E3/rows/*/wallSec', '/cost/rows/*/wallSec', '/cost/rate/*/rateStepsPerSec']) },
     note: '第317便b: 衛星の物理の軸の正本(G_loc の n = 2・1・0 × 核 K1-rule・K1-Y(n)〔候補 —— 普遍則として採らない〕・K2 の半径の方針 3 つ・測る量 M0 と判定 R1 ∧ R2・二体で帯を外れた組を三体へ流さない —— 在位へ入れない)' }),
   // ==== 第317便b の塊(ここまで)====
@@ -1405,7 +1406,8 @@ export const REGEN_STEPS = [
   //   tests/data-w306a-decl305.json・第316便d の正本 tests/out/sath-w316d.json を読む(V0 の通過の窓のビット同一の照合 —— after に連ねる)。走行は子プロセス 2 本(workers 2)。
   //   所要は第317便c の枝の実測(他の 3 枝と同じ 4 核の容器で並走 —— 負荷平均 7〜10・正本の 1 回目の全走行 4329.3 s〔走行 144 本・行ごとの壁時計の和 8846 s〕を採る。
   //   第316便d の同じ三体の q11 の h/4 は 128 s 前後・本便の並走では 188〜216 s —— 混まない容器なら 2700 s 前後の見込み。正本は再開の写し W317C_CACHE から読んで作り直した —— resumed 144)
-  S('satcut-317c', 'node tests/exp-w317c-satcut.mjs', ['tests/out/satcut-w317c.json'], 4329, { secSource: 'w317c-branch', node: true, workers: 2, after: ['sath-316d', 'obscompare', 'samplestatus'],
+  // 第317便(統括の統合): 秒は統合の後に混まない箱(b と c の 2 本だけを並走・4 process)で器を走らせ直した実測 2576 s(枝の 4329 s は 4 枝並走の負荷 7〜10 の実測)—— 走らせ直した正本は枝の正本と値が同一(来歴の mtime と再開の印 resumed の欄だけ違う)
+  S('satcut-317c', 'node tests/exp-w317c-satcut.mjs', ['tests/out/satcut-w317c.json'], 2576, { secSource: 'w317c-branch', node: true, workers: 2, after: ['sath-316d', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/satcut-w317c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/runs/*/wallSec', '/cost/wallSec']) },
     note: '第317便c: 衛星の三体の切る変種の正本(宣言の形・軸引きずりの分解〔補足 1 —— (b) を主に〕・太陽の引きずりを切る・共通の測る量 M0 —— 決まらない変種は「この予算では永年項として決まらない」・在位へ入れない)' }),
   // ==== 第317便c の塊(ここまで)====
