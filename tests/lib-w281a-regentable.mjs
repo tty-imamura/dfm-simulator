@@ -1377,6 +1377,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/sath-w316d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/cost/rows/*/wallSec', '/cost/rate/*/rateStepsPerSec']) },
     note: '第316便d: 衛星 6 本の三体の診断の正本(表の代表は二体の引きずりの効き・三体は太陽の効きの記録〔合否の数にしない〕・太陽の位相の調和の回帰で三体の永年の効きが帯の内で決まるか・トリトンの近点は判定から外し離心率ベクトルで記録 —— 在位へ入れない)' }),
   // ==== 第316便d の塊(ここまで)====
+  // ==== 第317便b の塊(ここから)====
+  // ---- 第317便b(原仮定者の決断事項 AN431・統括の検証項目 R251): **衛星の物理の軸の器**(段 satn-317b —— 第315便d の本の写しの G_loc・relativeDrag・dragCore だけを差し替え、
+  //   G_loc の n = 2・1・0 × 核の行〔K1-rule・K1-Y(n)〔候補 Y_k(n) = (6+2n)G_0/(C_1c_0²)〕・K2(i)〜(iii)〕× q00・q10・q11 × h・h/2・h/4。① 二体 6 衛星 × 32 公転〔窓 8・16・32〕→
+  //   ② 三体はイオだけ・二体で M0 が R1 ∧ R2 の組だけ × 64 公転〔窓 8・16・32・64〕。測る量 M0 = 共通の座標時刻 t₁ = N·P_seed の窓の L 模型の近点の率の差)。
+  //   第316便d の正本 tests/out/sath-w316d.json を読む(n = 2 の K1-rule・q10・q00 の通過の窓のビット同一の照合 —— after に連ねる)。母惑星と太陽は凍結の写し。
+  //   走行は子プロセス 2 本(workers 2)。所要は第317便b の枝の実測(他の 3 枝と同じ 4 核の容器で並走 —— 正本の 1 回目の全走行 4200 s を採る —— 走行の後に実測で置き換える)
+  S('satn-317b', 'node tests/exp-w317b-satn.mjs', ['tests/out/satn-w317b.json'], 4200, { secSource: 'w317b-branch', node: true, workers: 2, after: ['sath-316d', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/satn-w317b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E2/rows/*/wallSec', '/E3/rows/*/wallSec', '/cost/rows/*/wallSec', '/cost/rate/*/rateStepsPerSec']) },
+    note: '第317便b: 衛星の物理の軸の正本(G_loc の n = 2・1・0 × 核 K1-rule・K1-Y(n)〔候補 —— 普遍則として採らない〕・K2 の半径の方針 3 つ・測る量 M0 と判定 R1 ∧ R2・二体で帯を外れた組を三体へ流さない —— 在位へ入れない)' }),
+  // ==== 第317便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
