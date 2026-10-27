@@ -87,6 +87,9 @@ export const SMOKE_KNOBS = Object.freeze({
   'satk1-315d': { env: { W315D_PARTS: 'P,T', W315D_OUT: 'tests/out/_smoke-satk1-w315d.json' }, note: '段 P・T だけ(約 10 s —— 6 衛星の二体と三体の q11 の写しの全天体 r_d = Y_k × エンジンの質量の照合・t = 0 の β・近似要素の種。段 E のエンジンの走行は鎖 —— 子プロセス 2 本で約 830 s)' },   // 第315便d
   'sath-316d': { env: { W316D_PARTS: 'E,A,C,V', W316D_QUICK: '1', W316D_SATS: 'io,triton', W316D_OUT: 'tests/out/_smoke-sath-w316d.json' }, note: '試走(8 公転・h と h/2・イオとトリトンの二体と三体 —— 約 20 s。正本の 64 公転 × h/4 の走行は鎖 —— 子プロセス 2 本で約 1210 s)' },   // 第316便d
   // ==== 第315便d の塊(ここまで)====
+  // ==== 第317便b の塊(ここから)====
+  'satn-317b': { env: { W317B_QUICK: '1', W317B_SATS: 'io', W317B_SATS3: 'io', W317B_WORKERS: '1', W317B_OUT: 'tests/out/_smoke-satn-w317b.json' }, note: '試走(4 公転・h と h/2・180 → 360 步/公転・イオの二体の全組と三体 —— 約 40 s。正本の 6 衛星 × 32 公転 × h/4 と三体の 64 公転は鎖 —— 子プロセス 2 本)' },   // 第317便b
+  // ==== 第317便b の塊(ここまで)====
   // ==== 第311便b の塊(ここまで)====
 });
 

@@ -22,7 +22,8 @@
 //     (K1-rule の何分の一か)と α² の伸び・三体で n と核が決まり方を変えるか。
 //
 // ■ 試走: W317B_QUICK=1(W317B_OUT が要る —— 正本を書かない)。再開: W317B_CACHE=<dir>(走行 1 本ごとの結果を逐次書き、同じ html・同じ器の版・同じ走行の鍵があれば読む)。
-//   衛星: W317B_SATS(二体 —— 正本は 6 本)・W317B_SATS3(三体 —— 正本はイオ・トリトンは探索)。W317B_STAGE3=1 は段 ③(W317B_OUT が要る)。
+//   衛星: W317B_SATS(二体 —— 正本は 6 本)・W317B_SATS3(三体 —— 正本はイオ・トリトンは探索)。W317B_STAGE3=1 は段 ②〔イオ・トリトン〕+ 段 ③〔他の 4 衛星〕
+//   (W317B_OUT が要る)。W317B_COMBOS3=k1rule|n=0,… は段 ③ の組を絞る(費用 —— 正本では使わない)。
 //
 // ■ 言わないこと: 「フィットした」「較正した」「収束した」「完全に一致」「法則を確かめた」「検証が完了した」「シュヴァルツシルト半径そのもの」。候補 Y_k(n) を普遍則と書かない。
 //   近似要素の種を観測レコードと呼ばない。数値の帯は観測の 3σ ではない。h・h/2・h/4 は刻みの感度診断・窓は抽出の感度診断。決まらなければ「この予算では永年項として
@@ -290,7 +291,7 @@ export function gatesOf(J) {
     // n = 0 の q10(G_loc = G・(c_loc/c_0)⁰)は q00 とビット同一
     const z0 = Es.flatMap((E) => Object.values(E.rows).filter((r) => r.status === 'run' && r.spec.kind === 'q10' && r.spec.n === 0).map((r) => [r, E.rows[specKey(Object.assign({}, r.spec, { kind: 'q00', n: null }))]]));
     g.n0Identity = z0.length > 0 && z0.every(([a, b]) => sameRun(a, b));
-    if (J.E3 && J.J2) g.flowOk = J.E3.sats.every((sat) => { const want = flowOf(J.J2, sat, combosOf(J.E2.kernels), SATS3_STAGE2.includes(sat) ? null : J.J3).map((c) => c.kr + '|n=' + c.n).sort(), got = J.E3.combos[sat].map((c) => c.kr + '|n=' + c.n).sort(); return JSON.stringify(want) === JSON.stringify(got); });
+    if (J.E3 && J.J2) g.flowOk = J.E3.sats.every((sat) => { const want = flowOf(J.J2, sat, combosOf(J.E2.kernels), SATS3_STAGE2.includes(sat) ? null : J.J3).filter((c) => SATS3_STAGE2.includes(sat) || !J.combos3 || J.combos3.includes(c.kr + '|n=' + c.n)).map((c) => c.kr + '|n=' + c.n).sort(), got = J.E3.combos[sat].map((c) => c.kr + '|n=' + c.n).sort(); return JSON.stringify(want) === JSON.stringify(got); });
     if (J.prefix) g.prefixSame = J.prefix.compared > 0 && J.prefix.same === J.prefix.compared;
   }
   return g;
@@ -342,7 +343,7 @@ async function runAll(o, specs) {
 export async function runSatN(HP, o) {
   const P = o.plan, sats = o.sats, sats3 = o.sats3, t = {}; let t0 = Date.now();
   const tick = (k) => { t[k] = { wallSec: (Date.now() - t0) / 1000 }; t0 = Date.now(); };
-  const J = { stage: 'satn', quick: !!o.quick, stage3: !!o.stage3, sats: sats.slice(), sats3: sats3.slice(), plan: clone(P), decl: clone(DECL), harmRule: clone(HARM_RULE),
+  const J = { stage: 'satn', quick: !!o.quick, stage3: !!o.stage3, combos3: o.combos3 ? o.combos3.slice() : null, sats: sats.slice(), sats3: sats3.slice(), plan: clone(P), decl: clone(DECL), harmRule: clone(HARM_RULE),
     kernels: clone(B.KERNEL_ROWS), gLoc: { 2: B.glocOf(2), 1: B.glocOf(1), 0: B.glocOf(0) } };
   J.book = { units: clone(L.UNITS), softening: L.SOFTENING, radiusFloor: L.RADIUS_FLOOR, integrator: L.INTEGRATOR, offDrag: clone(L.OFF_DRAG), k1RuleDrag: clone(L.K1_RULE_DRAG),
     drags: Object.fromEntries(B.KERNEL_ROWS.map((kr) => [kr.key, B.dragOf(kr)])), declFile: L.DECL_FILE, parents: clone(L.PARENTS), seedBooks: ['jupiterGalilean', 'saturnRingReal'],
@@ -363,8 +364,8 @@ export async function runSatN(HP, o) {
     let specs = specsOf(base3, 'three', P, P.three, combos, true), rows = await runAll(o, specs);
     J.E3 = { sats: base3.slice(), ns: P.ns.slice(), kernels: P.kernels.slice(), combos, runN: P.three.runN, windows: P.three.windows.slice(), divs: P.divs.slice(), stepsPerOrbit: P.stepsPerOrbit, planned: specs.length, rows };
     J.J3 = judgeOf(J.E3, 'three');
-    if (extra3.length) {   // ③(探索 —— 正本に入れない): 二体と三体のイオで決まった組だけ
-      const c3 = Object.fromEntries(extra3.map((k) => [k, flowOf(J.J2, k, all, J.J3)])), sp3 = specsOf(extra3, 'three', P, P.three, c3, false), r3 = await runAll(o, sp3);
+    if (extra3.length) {   // ③(探索 —— 正本に入れない): 二体と三体のイオで決まった組だけ(W317B_COMBOS3 で組を絞れる —— 費用)
+      const c3 = Object.fromEntries(extra3.map((k) => [k, flowOf(J.J2, k, all, J.J3).filter((c) => !o.combos3 || o.combos3.includes(c.kr + '|n=' + c.n))])), sp3 = specsOf(extra3, 'three', P, P.three, c3, false), r3 = await runAll(o, sp3);
       Object.assign(J.E3.rows, r3); Object.assign(J.E3.combos, c3); J.E3.sats = J.E3.sats.concat(extra3); J.E3.planned += sp3.length; J.J3 = judgeOf(J.E3, 'three');
     }
     tick('E3');
@@ -390,10 +391,11 @@ export async function main() {
   }
   const quick = process.env.W317B_QUICK === '1', stage3 = process.env.W317B_STAGE3 === '1';
   const OUT = process.env.W317B_OUT ? (path.isAbsolute(process.env.W317B_OUT) ? process.env.W317B_OUT : path.join(ROOT, process.env.W317B_OUT)) : path.join(ROOT, OUT_SATN);
-  if ((quick || stage3) && !process.env.W317B_OUT) throw new Error('試走(W317B_QUICK=1)と段 ③(W317B_STAGE3=1)は W317B_OUT を指定する(正本を書かない)');
+  if ((quick || stage3 || process.env.W317B_COMBOS3) && !process.env.W317B_OUT) throw new Error('試走(W317B_QUICK=1)と段 ③(W317B_STAGE3=1)は W317B_OUT を指定する(正本を書かない)');
   const sats = process.env.W317B_SATS ? process.env.W317B_SATS.split(',') : SATS.slice();
   let sats3 = process.env.W317B_SATS3 !== undefined ? process.env.W317B_SATS3.split(',').filter(Boolean) : SATS3.slice();
-  if (stage3) sats3 = SATS3.concat(SATS.filter((k) => !SATS3_STAGE2.includes(k)));
+  if (stage3) sats3 = SATS3_STAGE2.concat(SATS.filter((k) => !SATS3_STAGE2.includes(k)));
+  const combos3 = process.env.W317B_COMBOS3 ? process.env.W317B_COMBOS3.split(',').filter(Boolean) : null;
   if (sats.some((k) => !L.satOf(k)) || sats3.some((k) => !sats.includes(k))) throw new Error('W317B_SATS は ' + SATS.join(',') + ' から・W317B_SATS3 は W317B_SATS の内');
   if (!process.env.W317B_OUT && (sats.length !== SATS.length || JSON.stringify(sats3) !== JSON.stringify(SATS3))) throw new Error('正本は 6 衛星の二体とイオの三体(トリトンの三体と段 ③ は W317B_OUT へ)');
   const html = path.isAbsolute(TARGET) ? TARGET : path.join(ROOT, TARGET);
@@ -408,7 +410,7 @@ export async function main() {
       + '・' + r.steps + ' 步・' + r.wallSec.toFixed(1) + ' s' : '・' + (r.err || '').slice(0, 160)}`); };
   const plan = quick ? QUICK : PLAN;
   console.log('第317便b satn: ' + (quick ? '試走' : (stage3 ? '段 ③(探索)' : '正本')) + '・workers ' + NW + '・二体 ' + sats.join(',') + '・三体 ' + sats3.join(','));
-  const R = await runSatN(HP, { quick, stage3, plan, sats, sats3, run, log, sath });
+  const R = await runSatN(HP, { quick, stage3, combos3, plan, sats, sats3, run, log, sath });
   const out = { version: HARNESS_VERSION, libVersion: B.LIB_VERSION, satk1LibVersion: L.LIB_VERSION, apsisVersion: AP.APSIS_VERSION, sathVersion: X316.HARNESS_VERSION, generator: 'tests/exp-w317b-satn.mjs',
     target: TARGET, targetSha256, reuseFrom: null,
     ruling: '原仮定者の決断事項 AN431(衛星の三体の永年の効きが 6 衛星とも帯の内で決まらないことについて、何が必要かを探索する —— G_loc の n = 2・1・0 と核 K1・K2)・統括の検証項目 R251。'

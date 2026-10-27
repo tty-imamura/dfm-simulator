@@ -1382,8 +1382,9 @@ export const REGEN_STEPS = [
   //   G_loc の n = 2・1・0 × 核の行〔K1-rule・K1-Y(n)〔候補 Y_k(n) = (6+2n)G_0/(C_1c_0²)〕・K2(i)〜(iii)〕× q00・q10・q11 × h・h/2・h/4。① 二体 6 衛星 × 32 公転〔窓 8・16・32〕→
   //   ② 三体はイオだけ・二体で M0 が R1 ∧ R2 の組だけ × 64 公転〔窓 8・16・32・64〕。測る量 M0 = 共通の座標時刻 t₁ = N·P_seed の窓の L 模型の近点の率の差)。
   //   第316便d の正本 tests/out/sath-w316d.json を読む(n = 2 の K1-rule・q10・q00 の通過の窓のビット同一の照合 —— after に連ねる)。母惑星と太陽は凍結の写し。
-  //   走行は子プロセス 2 本(workers 2)。所要は第317便b の枝の実測(他の 3 枝と同じ 4 核の容器で並走 —— 正本の 1 回目の全走行 4200 s を採る —— 走行の後に実測で置き換える)
-  S('satn-317b', 'node tests/exp-w317b-satn.mjs', ['tests/out/satn-w317b.json'], 4200, { secSource: 'w317b-branch', node: true, workers: 2, after: ['sath-316d', 'obscompare', 'samplestatus'],
+  //   走行は子プロセス 2 本(workers 2)。所要は第317便b の枝の実測(他の 3 枝と同じ 4 核の容器で並走 —— 負荷平均 7〜9・正本の 1 回目の全走行 4730.5 s を採る。
+  //   正本は器の main の引数〔段 ③ の組の絞り W317B_COMBOS3〕を足した後に再開の写し W317B_CACHE から読んで作り直した —— resumed 316・行は 1 回目とビット同一)
+  S('satn-317b', 'node tests/exp-w317b-satn.mjs', ['tests/out/satn-w317b.json'], 4731, { secSource: 'w317b-branch', node: true, workers: 2, after: ['sath-316d', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/satn-w317b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E2/rows/*/wallSec', '/E3/rows/*/wallSec', '/cost/rows/*/wallSec', '/cost/rate/*/rateStepsPerSec']) },
     note: '第317便b: 衛星の物理の軸の正本(G_loc の n = 2・1・0 × 核 K1-rule・K1-Y(n)〔候補 —— 普遍則として採らない〕・K2 の半径の方針 3 つ・測る量 M0 と判定 R1 ∧ R2・二体で帯を外れた組を三体へ流さない —— 在位へ入れない)' }),
   // ==== 第317便b の塊(ここまで)====
