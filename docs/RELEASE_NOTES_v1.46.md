@@ -38,7 +38,7 @@
 | 統合直後の部分 QA(`tools/post-merge-qa.sh --base` = 03c9070 の beta) | 落ちたのは全体の hash を持つ正本の来歴・sync の型(鎖で作り直す型)と生成文書 FAMILIES の見出しの版名だけ —— CHANGELOG を節で読む QA は第311便から `## v1.46(?:-b\d+\|\.0)\(` の形で、昇格の RC 節の見出しも受けた(直す所は無かった)。全内蔵の 600 步の指紋 176/176 同一 |
 | 再生成の鎖(`tools/regen-plan.mjs` → `tools/regen-chain.mjs`・`--base` = 03c9070 の beta) | 計画 always 13 / regen 31 / reuse 72 / recheck 80 / history 33 → **済み 126 段(run 44・gate 82)・段の失敗 0**(1 h 09 min)。鎖の後の html は鎖の前と byte 同一(ルートへの写し直しは要らなかった) |
 | 転記照合(`tools/pregate-transcript.mjs --base-rev 03c9070`) | **64/64 PASS**(名前の型 37・転記の型 25・来歴 2) |
-| フルゲート(手元・heap の上限 6144 MiB —— CI の qa ジョブと同じ) | (記入) |
+| フルゲート(手元・heap の上限 6144 MiB —— CI の qa ジョブと同じ) | 順序の検査 ok・指紋 176/176 同一・署名 176/176 同一(基点 = 03c9070 の beta)・root と beta が byte 同一(`--check` 7/7)・**beta 1298/1298**(59 min)・**root 943/943** ALL PASS(28 min)・**perf 21/21 PASS**(2 回目 —— nebulaBipolar は初回 1.297 → 器の決まりどおり 1 回だけ開き直して 0.964。1 回目は 19/21〔starSeed 1.202・frictionHeat 1.314〕—— root と beta は byte 同一の html なので比の差は箱の揺れ。判定は CI の perf に委ねる) |
 
 ## 3. root で SKIP する試験(昇格の後の root の QA の範囲)
 
