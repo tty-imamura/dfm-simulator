@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便d",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T15:15:01.024Z",
+  "targetSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
+  "generatedAt": "2026-10-27T08:07:07.885Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "sha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
+    "mtime": "2026-10-27T06:40:18.248Z"
    },
    {
     "file": "tests/out/galaxychain-w281b.json",
     "bytes": 254774,
-    "sha256": "cce0b7040c750a8f98a8f42e4bfd7ceba5ad2e6d5b231f5815b651c59ab162c7",
-    "mtime": "2026-10-26T13:56:17.832Z"
+    "sha256": "792fb839d8d98d90e150aee17c2cb18d7f2e707938b3341ea8e1eeee29e21404",
+    "mtime": "2026-10-27T08:05:54.736Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -168,7 +168,7 @@
   "inputsStable": [
    {
     "file": "tests/out/galaxychain-w281b.json",
-    "stableSha256": "f05c5ec8d36818f6efbe50e3779ea12b997e19d556a6cceaa1c33f27dcd7b231",
+    "stableSha256": "889310b3f3c39f7d46b30c722d3809b5c191bb760c1497d9be6612815f7a501c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
@@ -934,7 +934,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 3.752,
+    "msPerStep": 3.4568,
     "recs": [
      {
       "t": 0,
@@ -1179,7 +1179,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 3.8288,
+    "msPerStep": 3.3872,
     "recs": [
      {
       "t": 0,
@@ -1426,7 +1426,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 2.236,
+    "msPerStep": 1.8436,
     "recs": [
      {
       "t": 0,
@@ -1673,7 +1673,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 2.0052,
+    "msPerStep": 1.9232,
     "recs": [
      {
       "t": 0,
@@ -2868,7 +2868,7 @@
     "spin": 1.2000000476837158,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 2.929666666666667,
+    "msPerStep": 2.864,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -2933,7 +2933,7 @@
     "spin": 0,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 3.0656666666666665,
+    "msPerStep": 2.885,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -3107,5 +3107,5 @@
    "source": "未取得"
   }
  ],
- "elapsedSec": 49.179
+ "elapsedSec": 45.447
 }
