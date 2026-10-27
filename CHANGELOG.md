@@ -4,7 +4,27 @@
 2026-07-21 に分離 — ロードマップ P2 群)。新しい版が上。バージョンは `APP_VERSION`
 (index.html)と package.json の major.minor が QA `version.sync` で同期検査される。
 
-## v1.46-b316(開発中 — beta)
+## v1.47-b317(開発中 — beta)
+
+(v1.46 昇格直後 — エントリはまだ無い)
+
+## v1.46.0(RC・2026-10-27)
+
+**更新前の注意**: β版とルート版は同一オリジンで localStorage(セーブ・APIキー)を共有する。
+大きな更新の前にはセーブタブから JSON エクスポートでのバックアップを推奨する。
+
+**v1.46 は検証版(RC)である**(第310〜316便・2026-10-20〜10-26)。
+第317便の最初の段で統括が `tests/release-promote.mjs --apply --version 1.46 --wave 317 --date 2026-10-27` によりルートへ昇格した
+(基点 main 03c9070 —— 第316便のゲート beta 1298/1298・root 943/943 と CI を通した版。昇格の後に、版の 2 行で全体の hash が変わった分の正本・生成文書を鎖で作り直し、
+root と beta が byte 同一であることを確かめてから root と beta のフルゲート・perf・CI を通した —— 数は `docs/RELEASE_NOTES_v1.46.md` §2)。
+ルートの中身は v1.45.0(35780a1 —— 第310便の最初の段の昇格から不変)から beta v1.46-b316 の中身へ替わる(`APP_VERSION` と `BETA_BUILD` の 2 行のほかは beta と byte 同一)。
+**この版が名乗らないもの**: 「現実較正の完了」・「Release した」(HOLD 6 項の解除宣言は行っていない —— `docs/RELEASE_NOTES_v1.44.md` §4⁶″ を継ぐ)・
+「引きずり係数 Y_k をフィットした」(在位の惑星 7 本の K1 の規則 R_d = Y_k m の Y_k = 10G_0/(C_1c_0²) は閉じた式の値であって合わせた値ではない —— 数値の門は観測の 3σ ではない)・
+「衛星の三体の永年の効きを決めた」(第316便d の診断では 6 衛星とも帯の内で決まらない)・「🌦️ earthMoonSunInertial3d を K1 へ移した」(移していない)・
+「16 体の三次元サンプルを入れた」(入力の契約だけ)。
+何が検証済みで何が未検証かは `docs/RELEASE_NOTES_v1.46.md`・`docs/RELEASE_NOTES_v1.45.md` と、v1.44 の Negative Claims 1〜40(`docs/RELEASE_NOTES_v1.44.md`)を正とする。版別 DOI は発行しない(第150便規約を継続)。
+論文対応は `docs/PHYSICS.md` §7 と `paper/dfm-paper6-outline.md`。
+以下の便別エントリは開発線 v1.46-b310〜v1.46-b316 の記録をそのまま収載する。
 - **第316便(統括・2026-10-26・原仮定者の裁定(第118報)—— 記号の直し〔スピン拡散 S_k・引きずり半径 R_d・旧記号の時空係数を X_k〕・命名規則〔定数 `_D`・係数 `_k`・dragCore の変数 `_d`・距離 r・半径 R〕・下付きの表示・アプリ内の説明文の来歴の語を外す・AN416 論文の記号・AN422 鎖の止め方・AN423/AN424 衛星・AN425)**: 枝 a〜d を統合(PHYSICS〔第316便 — 統括〕—— 閉じた規則の記録と統合の照合)。統合の照合: 基点 → 統合の指紋/署名は 176/176 同一・html の衝突は dragCore の欄の 1 行(a を採った)・サンプルの範囲は 105/71 で重なり無し・継ぎ目の部分 QA beta 82/82・root 11/11・`REGEN_SCOPE:"all"` の理由の一覧は不変。煙試験 153/153 段(門の偽 1 —— 器 exp-w310a-invsq が受理の理由の文の来歴の語を照合 → 器の照合を世代切替)。鎖 1(181 段・段の失敗 0)・転記照合 175/175(1 回目 173/175 —— `preset.condRowsRenamed` の model/obs の照合を世代切替〔来歴の語を外した文は数の並びで同値〕・PHYSICS〔第276便a〕に第316便の更新〔D₀ の出現 613 → 615 —— I18N の表の鍵〕)・ゲート: 順序 ok・指紋/署名 176/176 同一・root の `index.html` は 78aa3fa から不変・beta 1298/1298・root 943/943(SKIP 252 —— beta だけの門)・perf 21/21(再トス 4 件 —— 保存物に対象の root/beta の sha256 と Node の版)
 - **第316便a(2026-10-26・原仮定者の裁定(第118報)・決断事項 AN417・AN420・AN422 ①・AN426・統括の検証項目 R246 —— 表示の文だけ・保存と宣言の鍵・エンジンの式は不変・内蔵の全 176 本 bitsame・sigsame 同一)**: 記号 —— スピン拡散 S_k(旧 K_s)・引きずり半径 R_d(旧 r_d・選択粒子の編集の dragCore の R_c)・命名の 1 文(定数 `_D`・係数 `_k`・dragCore の変数 `_d`・距離 r・半径 R・r_s は慣例)/下付きの表示 `symDisp`(ソースは `_` のまま・表示で c₀・Xₖ・R<sub>d</sub> —— `UI_TEXT_CLEAN_VERSION`)/画面の文言の表(I18N・LAWS・PARAM_DEFS・SYSTEM_PROMPT)から来歴の語を外した(便・報・決断事項・AN・wave など 589 語 → 0)/PARAM_DEFS の ja のラベルと説明を `I18N.ja.params`・`paramDescs` へ(AN422 ① —— 説明の 1 字の直しが正本の再生成を動かさない)/英語の `bM`・`etaRad` のラベルを戻した/QA 新設 `lint.uiText316`・`params.i18n316`・`ui.symDisp316`・`docs.uiText316`。
 - **第316便b(2026-10-26・原仮定者の裁定(第118報)・決断事項 AN425・統括の検証項目 R247 —— 表示の文と宣言専用メタだけ・物理と署名は不変・内蔵の全 176 本 bitsame・sigsame 同一)**: サンプルの説明の前半(配列の先頭 105 本 gclock 〜 plutoCharonDFM)の表示の欄(name・descStruct・obsCard・parameterAudit・failureFirst・claims の note/roleNote・abBody.label —— ja/en)から来歴の語(第〜便 530 → 7・第〜報 75・原仮定者 48・決断事項 21・統括 31・AN〜 132・R〜 56 → 0・en の wave NNN 479 → 7 —— 残りは判定器が量の名として読む較正の本の観測カードの行名)を外し、記号を新しくした(時空係数 `κ` → X_k・`κs`/`K_s` → S_k・引きずり半径 `r_d` と dragCore の `R_c` → R_d —— 別の量の `κ₀`・周転円の振動数・鍵の名 `kappa`・コア v2 の `R_c` は残した)。🌡️ mercurySunInertial3d の referenceKind を "theory-control" へ(AN425)。SAMPLE_STATUS の原稿の表示の文(在位の 7 本の R_d・コンパクト力 案K の 3 本の「結合係数」・「以前」・en の「restated」)を直して生成領域と docs/SAMPLE_STATUS を作り直した。版 `PRESET_TEXT_CLEAN_A_VERSION = "w316b-preset-text-a-1"`。QA: `lint.presetText316b`・`preset.referenceKind316b`(新設)・表示の文を照合していた 7 本の QA を世代切替。PHYSICS〔第316便b〕・AI_SPEC §140。
