@@ -169,9 +169,10 @@ function diffAt(a, b, j) {
 export function tableQty(J316, Psys, Rpart, specKey, sat = 'triton') {
   const ds = J316.E.divs.slice().sort((a, b) => a - b), Ts = Math.pow(10, L.UNITS.T), T = J316.T.systems[sat], out = { sat, eSeed: T.e, systems: {} };
   for (const sys of J316.E.systems) {
-    const rows = [], beta = betaRelOf(Psys[sat][sys], sys), rate = Rpart.systems[sat].byN[2].K1.tb.drag;
+    const rows = [], beta = betaRelOf(Psys[sat][sys], sys), rate = Rpart.systems[sat].byN[2].K1.tb.drag, pts = Object.fromEntries(ds.map((d) => [d, []]));
     for (const N of J316.E.windows) { const j = N - 1, z = {};
       for (const d of ds) { const a = rowOf(J316, specKey, sat, sys, 'q10', d), b = rowOf(J316, specKey, sat, sys, 'q11', d); if (a && b && a.evec && b.evec && a.evec.P.length > j && b.evec.P.length > j) z[d] = diffAt(a, b, j); }
+      for (const d of ds) if (z[d]) pts[d].push({ N, tCy: z[d].tA * Ts / CENTURY, perpOverE: z[d].perp / z[d].e10, parOverE: z[d].par / z[d].e10 });
       const f = ds[ds.length - 1], x = z[f]; if (!x) continue;
       const bandOf = (g) => { const b = []; for (let i = 1; i < ds.length; i++) { const p = z[ds[i - 1]], q = z[ds[i]]; b.push(p && q ? g(q, p) : null); } return b; };
       const bV = bandOf((q, p) => Math.hypot(q.dE[0] - p.dE[0], q.dE[1] - p.dE[1])), bPar = bandOf((q, p) => Math.abs(q.par - p.par)), bPerp = bandOf((q, p) => Math.abs(q.perp - p.perp));
@@ -181,7 +182,13 @@ export function tableQty(J316, Psys, Rpart, specKey, sat = 'triton') {
         bandV: bV, bandPar: bPar, bandPerp: bPerp, dPhi10: dPhi, e10ByDiv: ds.map((d) => (z[d] ? z[d].e10 : null)), parByDiv: ds.map((d) => (z[d] ? z[d].par : null)), perpByDiv: ds.map((d) => (z[d] ? z[d].perp : null)), magOverBand: x.mag / mx(bV), parOverBand: Math.abs(x.par) / mx(bPar), perpOverBand: Math.abs(x.perp) / mx(bPerp),
         refPerpOverE: rate * tCy / RAD2AS, refPerp: rate * tCy / RAD2AS * x.e10, parRef: beta.rel * (1 + T.e) });
     }
-    out.systems[sys] = { betaRel: beta, rows };
+    // 垂直の成分の窓の間の傾き(窓 N の Δe⊥/e の時刻への直線 —— 刻みごと。近点の率の判定ではない —— 記録)と、平行の成分の同じ傾き
+    const slope = {};
+    for (const d of ds) { const P = pts[d]; if (P.length < 2) continue; const fit = (key) => { const mt = P.reduce((a, q) => a + q.tCy, 0) / P.length, my = P.reduce((a, q) => a + q[key], 0) / P.length;
+      let sxy = 0, sxx = 0; for (const q of P) { sxy += (q.tCy - mt) * (q[key] - my); sxx += (q.tCy - mt) ** 2; } const b = sxy / sxx; return { slope: b, icpt: my - b * mt }; };
+      const fp = fit('perpOverE'), fa = fit('parOverE'); slope[d] = { perpRate: fp.slope * RAD2AS, perpIcpt: fp.icpt, parSlope: fa.slope, nWin: P.length }; }
+    const sk = Object.keys(slope).map(Number).sort((a, b) => a - b), sBands = []; for (let i = 1; i < sk.length; i++) sBands.push(Math.abs(slope[sk[i]].perpRate - slope[sk[i - 1]].perpRate));
+    out.systems[sys] = { betaRel: beta, rows, slope, slopeBands: sBands, rateRef: rate };
   }
   return out;
 }

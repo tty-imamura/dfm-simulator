@@ -2844,7 +2844,32 @@
        "refPerp": 7.390202550116342e-12,
        "parRef": 2.1441448033047473e-9
       }
-     ]
+     ],
+     "slope": {
+      "1": {
+       "perpRate": 8.640322038726477,
+       "perpIcpt": -2.6617139825231364e-7,
+       "parSlope": -3.882150259563012e-7,
+       "nWin": 4
+      },
+      "2": {
+       "perpRate": 8.621372482818025,
+       "perpIcpt": -2.253215694622609e-7,
+       "parSlope": 4.0021580150788214e-8,
+       "nWin": 4
+      },
+      "4": {
+       "perpRate": 8.62634895768911,
+       "perpIcpt": -1.356010885851726e-7,
+       "parSlope": -1.2568362082645857e-7,
+       "nWin": 4
+      }
+     },
+     "slopeBands": [
+      0.01894955590845271,
+      0.0049764748710856566
+     ],
+     "rateRef": 8.634688794942345
     },
     "three": {
      "betaRel": {
@@ -3051,7 +3076,32 @@
        "refPerp": 7.40189842830225e-12,
        "parRef": 5.421645160529069e-9
       }
-     ]
+     ],
+     "slope": {
+      "1": {
+       "perpRate": 135.24666211544567,
+       "perpIcpt": -0.000003050871773344797,
+       "parSlope": 0.0005957378318347595,
+       "nWin": 4
+      },
+      "2": {
+       "perpRate": 96.47697592446085,
+       "perpIcpt": 0.000005719126980134626,
+       "parSlope": 0.0021674098843764505,
+       "nWin": 4
+      },
+      "4": {
+       "perpRate": 2604.4315296324144,
+       "perpIcpt": -0.0000026626204344044234,
+       "parSlope": 0.006195819655393683,
+       "nWin": 4
+      }
+     },
+     "slopeBands": [
+      38.76968619098483,
+      2507.9545537079534
+     ],
+     "rateRef": 8.634688794942345
     }
    }
   },
@@ -3185,10 +3235,10 @@
  "ok": true,
  "timing": {
   "R": {
-   "wallSec": 0.025
+   "wallSec": 0.015
   },
   "Y": {
-   "wallSec": 0.003
+   "wallSec": 0.006
   },
   "M": {
    "wallSec": 0.001
@@ -3197,7 +3247,7 @@
    "wallSec": 0.001
   },
   "V": {
-   "wallSec": 0.001
+   "wallSec": 0.003
   }
  },
  "conclusion": {
@@ -3239,13 +3289,13 @@
   "mSumInBand": "6/6",
   "mRef315InBand": "2/6"
  },
- "elapsedS": 0.098,
+ "elapsedS": 0.106,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第317便d",
   "target": "tests/lib-w317d-satan.mjs",
-  "targetSha256": "90a08b41a45948c4e424d0a93f2df85658f64089c1e641de07cf2082b32413f7",
-  "generatedAt": "2026-10-27T10:55:40.566Z",
+  "targetSha256": "48b55f2cdb4e05b2bf1f3856bd2b93da840f8d5d7f2dedb6e24a111375c9baeb",
+  "generatedAt": "2026-10-27T10:59:42.091Z",
   "inputs": [
    {
     "file": "tests/out/sath-w316d.json",
@@ -3275,9 +3325,9 @@
    },
    {
     "file": "tests/lib-w317d-satan.mjs",
-    "bytes": 19133,
-    "sha256": "90a08b41a45948c4e424d0a93f2df85658f64089c1e641de07cf2082b32413f7",
-    "mtime": "2026-10-27T10:55:10.353Z"
+    "bytes": 20318,
+    "sha256": "48b55f2cdb4e05b2bf1f3856bd2b93da840f8d5d7f2dedb6e24a111375c9baeb",
+    "mtime": "2026-10-27T10:58:11.765Z"
    },
    {
     "file": "tests/lib-w315d-satk1.mjs",
@@ -3328,7 +3378,7 @@
     "mtime": "2026-10-27T10:38:16.060Z"
    }
   ],
-  "codeSha256": "101bea920565f89e1e451f47e059960992f059cca4b09f26b397f3fb4dc1810a",
+  "codeSha256": "6838d679cfd3f3b13cca8e44e4a1c14983360451025420705d73328763dbacc2",
   "harnessVersion": "w317d-satan-1",
   "stage": "satan",
   "engine": "Node の純関数だけ(html を読まない・走行しない)",
