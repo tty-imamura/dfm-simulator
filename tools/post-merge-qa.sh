@@ -363,6 +363,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.presetText316c lint.miscText316c docs.w
 #   lint.qaHeapRelease310・lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satH316 docs.paperSymbols316 lint.perfTargets316 lint.scopeStop lint.regenScope lint.regenChain lint.scopeAll312 docs.satK1_315 docs.symbols315 p2sens.papersync lint.perfAbJit lint.stableHashPaths lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第316便d の塊(ここまで)====
+# ==== 第317便b の塊(ここから)====
+# 第317便b(原仮定者の決断事項 AN431・R251): 枝 b の新設 2 本(docs.satN317b —— 衛星の物理の軸の正本〔G_loc の n = 2・1・0 × 核 K1-rule・K1-Y(n)・K2 —— 測る量 M0・
+#   二体 → 三体〕と文書・behavior.satN317b —— 変種の本の作り手と判定の純関数)と、第316便d の正本を読む docs.satH316・正本の段の lint.regenScope・lint.stableHashPaths・
+#   lint.regenChain・lint.scopeAll312・CANON の lint.canon304・lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satN317b behavior.satN317b docs.satH316 lint.regenScope lint.stableHashPaths lint.regenChain lint.scopeAll312 lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第317便b の塊(ここまで)====
 # ==== 第317便d の塊(ここから)====
 # 第317便d(原仮定者の裁定(第119報)・AN431・AN432・R253): 枝 d の新設 2 本(docs.satAn317d —— 二体の解析の一次の率の表とトリトンの離心率ベクトルの表の量の正本と文書・
 #   docs.paper3Key317d —— 論文 3 の保存の鍵の文)と、論文の記号を読む docs.paperSymbols316・入力の正本を読む docs.satH316・docs.satK1_315・正本の段の lint.stableHashPaths・
