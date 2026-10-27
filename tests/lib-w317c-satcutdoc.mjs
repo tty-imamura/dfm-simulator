@@ -38,6 +38,15 @@ export function physicsTablesSatCut(J) {
       const g = ['V6b_f05', 'V6b_f0'].map((v) => J.P.cells[v + '|' + k + '|three']).filter((z) => z && z.galaxy).map((z) => z.galaxy.maxDev);
       out.push(`| ${SAT_JA[k]} | ${ex(mag(1), 2)} | ${ex(mag(2), 2)} | ${ex(aMax, 1)} | ${ex(ps.uRotOverV, 1)} | ${ex(ps.uTrOverV, 2)} | ${ex(beta(1), 3)} | ${ex(beta(2), 3)} | ${g.length ? fl(Math.max(...g), 1e-16) : '—'} |`); }
   }
+  if (J.P) {   // 太陽の引きずりの大きさ(t = 0 —— 衛星の Σβ を V0〔母惑星と太陽から〕と V1a〔母惑星からだけ —— 分母 W は同じ〕で)
+    const has = sats.some((k) => J.P.cells['V1a|' + k + '|three'] && J.P.cells['V0|' + k + '|three']);
+    if (has) {
+      out.push('', '| 衛星(三体・t = 0) | 衛星の Σβ(V0 —— 母惑星と太陽から) | 母惑星からだけ(V1a) | 太陽の分(差) | 太陽の分 / 母惑星の分 | 母惑星の Σβ(V0 —— 太陽から) |', '|---|---|---|---|---|---|');
+      for (const k of sats) { const a = J.P.cells['V0|' + k + '|three'], b = J.P.cells['V1a|' + k + '|three']; if (!a || !b || !a.omega || !b.omega) continue;
+        const bs = (o, i) => { const z = o.omega.find((r) => r.i === i); return z ? z.betaSum : null; }, s0 = bs(a, 2), s1 = bs(b, 2), d = s0 - s1;
+        out.push(`| ${SAT_JA[k]} | ${ex(s0, 3)} | ${ex(s1, 3)} | ${ex(d, 3)} | ${fx(d / s1, 2)} | ${ex(bs(a, 1), 3)} |`); }
+    }
+  }
   if (J.A) {
     const ws = J.E.windows.slice().sort((a, b) => a - b), ds = J.E.divs.slice().sort((a, b) => a - b), fine = ds[ds.length - 1], last = ws[ws.length - 1];
     out.push('', `| 衛星(変種・系) | M0 q11 − q10 [″/世紀](h/${fine})窓 ${ws.join(' | 窓 ')} | 刻みの帯 h–h/2・h/2–h/4(窓 ${last}) | 窓 ${ws[ws.length - 2]}→${last} の差 / 帯 | 帯 / 許容 | R1 | R2 | 判定(HARM_RULE の L) | V0 との差(窓 ${last}・h/${fine}) | V0 とビット同一 |`,

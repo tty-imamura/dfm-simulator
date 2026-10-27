@@ -88227,7 +88227,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----     ④ 表の行と数が PHYSICS〔第317便c〕に逐語・節が「## 7.」の前・語・AI_SPEC §145・CHANGELOG・再生成の段・.gitignore・post-merge・CANON
 // ----     ⑤ 書かない語・禁句・新しい説明に裸の係数記号が無いこと・「銀河の軸引きずりを決めた」と書かない
 {
-  await (async () => {   // 第310便c(heap)
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const cHarn = path.join(ROOT, 'tests', 'exp-w317c-satcut.mjs'), cLib = path.join(ROOT, 'tests', 'lib-w317c-satcut.mjs'), cDoc = path.join(ROOT, 'tests', 'lib-w317c-satcutdoc.mjs');
   const cOut = path.join(ROOT, 'tests', 'out', 'satcut-w317c.json'), hOut = path.join(ROOT, 'tests', 'out', 'sath-w316d.json');
   if (!(TARGET.startsWith('beta/') && fs.existsSync(cHarn) && fs.existsSync(cLib) && fs.existsSync(cDoc))) {
