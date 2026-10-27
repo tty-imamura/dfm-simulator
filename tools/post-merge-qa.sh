@@ -375,6 +375,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satMeas317a behavior.satMeas317a docs.s
 #   lint.regenChain・lint.scopeAll312・CANON の lint.canon304・lint.qaHeapRelease310・lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satN317b behavior.satN317b docs.satH316 lint.regenScope lint.stableHashPaths lint.regenChain lint.scopeAll312 lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第317便b の塊(ここまで)====
+# ==== 第317便c の塊(ここから)====
+# 第317便c(原仮定者の裁定(第119報)・同 補足 1・AN435・AN431・R252): 枝 c の新設 2 本(behavior.satCut317c —— 衛星の三体の切る変種の本〔受理・軸の分解の値・軸の経路・pairs と分母・
+#   母惑星中心の写し〕・docs.satCut317c —— 切る変種の正本と文書)と、第316便d の正本を読む docs.satH316・正本の段の lint.stableHashPaths・CANON の lint.canon304・lint.regenScope・
+#   lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.satCut317c docs.satCut317c docs.satH316 lint.regenScope lint.stableHashPaths lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第317便c の塊(ここまで)====
 # ==== 第317便d の塊(ここから)====
 # 第317便d(原仮定者の裁定(第119報)・AN431・AN432・R253): 枝 d の新設 2 本(docs.satAn317d —— 二体の解析の一次の率の表とトリトンの離心率ベクトルの表の量の正本と文書・
 #   docs.paper3Key317d —— 論文 3 の保存の鍵の文)と、論文の記号を読む docs.paperSymbols316・入力の正本を読む docs.satH316・docs.satK1_315・正本の段の lint.stableHashPaths・
