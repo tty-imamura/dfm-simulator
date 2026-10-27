@@ -8,6 +8,8 @@
 
 (v1.46 昇格直後 — エントリはまだ無い)
 
+- **第317便a**(原仮定者の裁定(第119報)・決断事項 AN431・統括の検証項目 R250): 衛星 6 本の三体の永年の効きのうち**測り方**(窓の終端・要素の定義・差の直接の回帰・会合周期の窓)と**予算**(步 h/8・窓 128 公転)の分を切り分ける器 `tests/exp-w317a-satmeas.mjs` → 正本 `tests/out/satmeas-w317a.json`(段 satmeas-317a)・lib `tests/lib-w317a-satmeas.mjs`・QA `docs.satMeas317a`・`behavior.satMeas317a`・PHYSICS〔第317便a〕・AI_SPEC §143(html・本の宣言・エンジンの式は不変 —— 器・正本・QA・文書だけ)。
+
 ## v1.46.0(RC・2026-10-27)
 
 **更新前の注意**: β版とルート版は同一オリジンで localStorage(セーブ・APIキー)を共有する。
