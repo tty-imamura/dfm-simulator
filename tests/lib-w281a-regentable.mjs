@@ -1382,8 +1382,8 @@ export const REGEN_STEPS = [
   //   第316便d と同じ本・同じ步〕、6 衛星 × 二体・三体 × q10・q11 × h・h/2・h/4 × 64 公転〔步の数で止める〕+ 長い窓 128 公転〔三体のイオ・ガニメデ・カリスト〕+ 細かい步 h/8〔三体の
   //   エウロパ・タイタン〕。測る量は通過の窓・共通の座標時刻の窓 M0・要素の定義 E_I/E_C/E_X・差の直接の回帰・会合周期の窓 —— HARM_RULE の R1・R2)。母惑星と太陽は凍結の写し
   //   tests/data-w306a-decl305.json・第316便d の正本 tests/out/sath-w316d.json を読む(通過の窓 8〜64 のビット同一の照合 —— after に連ねる)。走行は子プロセス 2 本(workers 2)。
-  //   所要は第317便a の枝の実測(他の枝と同じ 4 核の容器で並走 —— 正本の 1 回目の全走行の elapsedS を採る)
-  S('satmeas-317a', 'node tests/exp-w317a-satmeas.mjs', ['tests/out/satmeas-w317a.json'], 1800, { secSource: 'w317a-branch', node: true, workers: 2, after: ['sath-316d', 'satk1-315d', 'obscompare', 'samplestatus'],
+  //   所要は第317便a の枝の実測(他の枝と同じ 4 核の容器で並走 —— 負荷平均 6〜10・正本の 1 回目の全走行 2864.1 s を採る)
+  S('satmeas-317a', 'node tests/exp-w317a-satmeas.mjs', ['tests/out/satmeas-w317a.json'], 2865, { secSource: 'w317a-branch', node: true, workers: 2, after: ['sath-316d', 'satk1-315d', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/satmeas-w317a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/E/rows/*/q10/wallSec', '/E/rows/*/q11/wallSec', '/cost/rows/*/wallSec', '/cost/rate/*/rateStepsPerSec']) },
     note: '第317便a: 衛星 6 本の測る量と予算の正本(三体の永年の効きのうち測り方〔窓の終端・要素の定義・差の直接の回帰・会合周期の窓〕と予算〔步 h/8・窓 128 公転〕の分を R1・R2 で切り分ける —— 物理の変種は足さない・在位へ入れない)' }),
   // ==== 第317便a の塊(ここまで)====
