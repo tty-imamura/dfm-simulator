@@ -1382,8 +1382,9 @@ export const REGEN_STEPS = [
   //   n = 2・K1 のまま、第315便d の本の写しに変種を写しの外から足す〔V0 基線・V2 在位の 7 本の宣言の形・V6b 軸引きずりの分解 (b) f = 0.5・0・V1a 太陽の引きずりを切る〕×
   //   6 衛星 × 二体・三体 × q10・q11 × h・h/2・h/4 × 64 公転〔共通の座標時刻の終端〕・共通の測る量 M0 と判定 HARM_RULE の L 模型)。母惑星と太陽は凍結の写し
   //   tests/data-w306a-decl305.json・第316便d の正本 tests/out/sath-w316d.json を読む(V0 の通過の窓のビット同一の照合 —— after に連ねる)。走行は子プロセス 2 本(workers 2)。
-  //   所要は第317便c の枝の実測(他の 3 枝と同じ 4 核の容器で並走 —— 正本の全走行 (実測を後で書く) s)
-  S('satcut-317c', 'node tests/exp-w317c-satcut.mjs', ['tests/out/satcut-w317c.json'], 4000, { secSource: 'w317c-branch', node: true, workers: 2, after: ['sath-316d', 'obscompare', 'samplestatus'],
+  //   所要は第317便c の枝の実測(他の 3 枝と同じ 4 核の容器で並走 —— 負荷平均 7〜10・正本の 1 回目の全走行 4329.3 s〔走行 144 本・行ごとの壁時計の和 8846 s〕を採る。
+  //   第316便d の同じ三体の q11 の h/4 は 128 s 前後・本便の並走では 188〜216 s —— 混まない容器なら 2700 s 前後の見込み。正本は再開の写し W317C_CACHE から読んで作り直した —— resumed 144)
+  S('satcut-317c', 'node tests/exp-w317c-satcut.mjs', ['tests/out/satcut-w317c.json'], 4329, { secSource: 'w317c-branch', node: true, workers: 2, after: ['sath-316d', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/satcut-w317c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/runs/*/wallSec', '/cost/wallSec']) },
     note: '第317便c: 衛星の三体の切る変種の正本(宣言の形・軸引きずりの分解〔補足 1 —— (b) を主に〕・太陽の引きずりを切る・共通の測る量 M0 —— 決まらない変種は「この予算では永年項として決まらない」・在位へ入れない)' }),
   // ==== 第317便c の塊(ここまで)====

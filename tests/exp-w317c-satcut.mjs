@@ -59,11 +59,14 @@ const ALL = Object.freeze(['two', 'three']), THREE = Object.freeze(['three']);
 export const PLAN = Object.freeze({ runN: 64, windows: Object.freeze([8, 16, 32, 64]), divs: Object.freeze([1, 2, 4]), stepsPerOrbit: 720,
   cover: Object.freeze({ V0: Object.freeze({ systems: ALL }), V2: Object.freeze({ systems: THREE }), V6b_f0: Object.freeze({ systems: ALL }), V1a: Object.freeze({ systems: THREE }) }) });
 export const QUICK = Object.freeze({ runN: 8, windows: Object.freeze([2, 4, 8]), divs: Object.freeze([1, 2]), stepsPerOrbit: 360, cover: PLAN.cover });
-/** 探索(scratch の JSON —— 正本の段の外): 正本の被覆に加えて V6b f = 0.5(二体と三体)・V2 の二体・V6a(イオ・3 点 —— AN435 で対照)・V3(イオ・トリトン)・V1b */
+/**
+ * 探索(scratch の JSON —— 正本の段の外): 正本の被覆に加えて V6b f = 0.5(三体)・V6a(AN435 で対照 —— イオの三体・r = 1・10 の 2 点)・V3(イオ・トリトン)・
+ * V1b(三体の差の大きいイオ・ガニメデ・カリスト)。4 枝の並走の容器(負荷平均 8〜10)で三体の q11 の 1 セルが 380 s 前後 —— 時間の予算で点を減らした(走行の前に宣言)
+ */
 export const EXPLORE = Object.freeze({ runN: 64, windows: PLAN.windows, divs: PLAN.divs, stepsPerOrbit: 720,
-  cover: Object.freeze({ V0: Object.freeze({ systems: ALL }), V2: Object.freeze({ systems: ALL }), V6b_f05: Object.freeze({ systems: ALL }), V6b_f0: Object.freeze({ systems: ALL }), V1a: Object.freeze({ systems: THREE }),
-    V6a_r01: Object.freeze({ systems: ALL, sats: Object.freeze(['io']) }), V6a_r1: Object.freeze({ systems: ALL, sats: Object.freeze(['io']) }), V6a_r10: Object.freeze({ systems: ALL, sats: Object.freeze(['io']) }),
-    V3: Object.freeze({ systems: THREE }), V1b: Object.freeze({ systems: THREE }) }) });
+  cover: Object.freeze({ V0: Object.freeze({ systems: ALL }), V2: Object.freeze({ systems: THREE }), V6b_f05: Object.freeze({ systems: THREE }), V6b_f0: Object.freeze({ systems: ALL }), V1a: Object.freeze({ systems: THREE }),
+    V6a_r1: Object.freeze({ systems: THREE, sats: Object.freeze(['io']) }), V6a_r10: Object.freeze({ systems: THREE, sats: Object.freeze(['io']) }),
+    V3: Object.freeze({ systems: THREE }), V1b: Object.freeze({ systems: THREE, sats: Object.freeze(['io', 'ganymede', 'callisto']) }) }) });
 const CENTURY = 36525 * 86400, RAD2AS = 180 / Math.PI * 3600;
 const finiteOr = (x) => (Number.isFinite(x) ? x : null);
 const nrm = (a) => Math.hypot(a[0], a[1], a[2]);
@@ -177,6 +180,13 @@ export function partP(HP, sats, cells, S) {
           omegaG: st.gal.receivers.map((r) => r.omegaG) };
       }
       o.omega = st.isq.receivers.map((r) => ({ i: r.i, omega: r.omega, betaSum: r.betaSum }));
+      // 軸と回転の経路の大きさ(t = 0 —— inertialDragIsqBuild と同じ式: 回転の右辺 u_rot,i = Σ_j (Ω_j â_j) × RV_ij・並進の右辺 u_tr,i = Σ_j β_ij (v_j − v_i))を、
+      //   衛星の母惑星に対する速さで割った比(倍精度の速度の最下位の桁は相対 2⁻⁵² ≈ 2.2e-16)
+      const ip = b.timeRef.pair[0], is = b.timeRef.pair[1], vRel = Math.hypot(Sm.vx[is] - Sm.vx[ip], Sm.vy[is] - Sm.vy[ip], Sm.vz[is] - Sm.vz[ip]);
+      o.path = st.isq.receivers.map((r) => { const n = Sm.n; let ux = 0, uy = 0, uz = 0, tx = 0, ty = 0, tz = 0;
+        for (let j = 0; j < n; j++) { const bj = r.beta[j]; if (bj) { tx += bj * (Sm.vx[j] - Sm.vx[r.i]); ty += bj * (Sm.vy[j] - Sm.vy[r.i]); tz += bj * (Sm.vz[j] - Sm.vz[r.i]); }
+          if (r.rot) { const c = j * 3, Om = Sm.spin[j], a0 = Sm.sax[j] * Om, a1 = Sm.say[j] * Om, a2 = Sm.saz[j] * Om; ux += a1 * r.rot[c + 2] - a2 * r.rot[c + 1]; uy += a2 * r.rot[c] - a0 * r.rot[c + 2]; uz += a0 * r.rot[c + 1] - a1 * r.rot[c]; } }
+        return { i: r.i, uRotOverV: Math.hypot(ux, uy, uz) / vRel, uTrOverV: Math.hypot(tx, ty, tz) / vRel, omegaT64: r.omega ? Math.hypot(r.omega[0], r.omega[1], r.omega[2]) * 64 * b.timeRef.pRef : null }; });
       if (C.variantOf(c.v).group === 'V3') {   // 相対の状態が V0 と同じか(天体どうしの差)
         let mx = 0; for (let i = 1; i < b.bodies.length; i++) for (const q of ['x', 'y', 'z', 'vx', 'vy', 'vz']) { const a = b.bodies[i][q] - b.bodies[0][q], z = b0.bodies[i][q] - b0.bodies[0][q]; mx = Math.max(mx, Math.abs(a - z) / Math.max(Math.abs(z), 1e-300)); }
         const ip = b.timeRef.pair[0]; o.v3 = { relDevMax: mx, planetAtOrigin: ['x', 'y', 'z', 'vx', 'vy', 'vz'].every((q) => b.bodies[ip][q] === 0), sunDist: Math.hypot(b.bodies[0].x, b.bodies[0].y, b.bodies[0].z) };

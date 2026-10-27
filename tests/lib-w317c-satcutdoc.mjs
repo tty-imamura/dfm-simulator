@@ -31,11 +31,12 @@ export function physicsTablesSatCut(J) {
     }
   }
   if (J.P) {
-    out.push('', '| 衛星(三体・t = 0・V0 の q11) | 太陽の軸の ω の大きさ [1/本の時間] | 母惑星の軸の ω | 衛星の軸の ω | 母惑星の Σβ | 衛星の Σβ | 銀河の分の係数の 1 からの差の最大(V6b) |', '|---|---|---|---|---|---|---|');
-    for (const k of sats) { const o = J.P.cells['V0|' + k + '|three']; if (!o || !o.omega) continue;
+    out.push('', '| 衛星(三体・t = 0・V0 の q11) | 母惑星の軸の ω [1/本の時間] | 衛星の軸の ω [1/本の時間] | 64 公転の軸の角の一次の見積り(最大)[rad] | 回転の右辺 / 相対の速さ(衛星) | 並進の右辺 / 相対の速さ(衛星) | 母惑星の Σβ | 衛星の Σβ | 銀河の分の係数の 1 からの差の最大(V6b) |', '|---|---|---|---|---|---|---|---|---|');
+    for (const k of sats) { const o = J.P.cells['V0|' + k + '|three']; if (!o || !o.omega || !o.path) continue;
       const mag = (i) => { const z = o.omega.find((r) => r.i === i); return z && z.omega ? Math.hypot(z.omega[0], z.omega[1], z.omega[2]) : null; }, beta = (i) => { const z = o.omega.find((r) => r.i === i); return z ? z.betaSum : null; };
+      const ps = o.path.find((r) => r.i === 2), aMax = Math.max(...o.path.map((r) => r.omegaT64 || 0));
       const g = ['V6b_f05', 'V6b_f0'].map((v) => J.P.cells[v + '|' + k + '|three']).filter((z) => z && z.galaxy).map((z) => z.galaxy.maxDev);
-      out.push(`| ${SAT_JA[k]} | ${ex(mag(0), 2)} | ${ex(mag(1), 2)} | ${ex(mag(2), 2)} | ${ex(beta(1), 3)} | ${ex(beta(2), 3)} | ${g.length ? fl(Math.max(...g), 1e-16) : '—'} |`); }
+      out.push(`| ${SAT_JA[k]} | ${ex(mag(1), 2)} | ${ex(mag(2), 2)} | ${ex(aMax, 1)} | ${ex(ps.uRotOverV, 1)} | ${ex(ps.uTrOverV, 2)} | ${ex(beta(1), 3)} | ${ex(beta(2), 3)} | ${g.length ? fl(Math.max(...g), 1e-16) : '—'} |`); }
   }
   if (J.A) {
     const ws = J.E.windows.slice().sort((a, b) => a - b), ds = J.E.divs.slice().sort((a, b) => a - b), fine = ds[ds.length - 1], last = ws[ws.length - 1];
