@@ -53,12 +53,13 @@ export const HARM_RULE = X316.HARM_RULE;
 const ALL = Object.freeze(['two', 'three']), THREE = Object.freeze(['three']);
 /**
  * 計画(正本)。cover = 変種ごとの系と衛星(変種の宣言 VARIANTS の被覆の部分集合 —— 走行の前に宣言)。正本の段は 2 worker で 60 分の目安
- * (原仮定者の裁定(第119報 補足)AN435: (b) を主に —— 優先の順 V2 → V6b → V1a。V6b の二体は f = 0 の 1 点・V2 は三体だけ)。残りは探索(EXPLORE —— scratch)。
+ * (原仮定者の裁定(第119報 補足)AN435: (b) を主に —— 優先の順 V2 → V6b → V1a。V6b は端の f = 0 を二体と三体・V2 は三体だけ)。
+ * 残り(f = 0.5・V2 と f = 0.5 の二体・V6a・V3・V1b)は探索(EXPLORE —— scratch。4 枝の並走の容器で三体の q11 の h/4 が 1 本 190 s 前後 —— 全部を正本にすると 60 分を越える)。
  */
 export const PLAN = Object.freeze({ runN: 64, windows: Object.freeze([8, 16, 32, 64]), divs: Object.freeze([1, 2, 4]), stepsPerOrbit: 720,
-  cover: Object.freeze({ V0: Object.freeze({ systems: ALL }), V2: Object.freeze({ systems: THREE }), V6b_f05: Object.freeze({ systems: THREE }), V6b_f0: Object.freeze({ systems: ALL }), V1a: Object.freeze({ systems: THREE }) }) });
+  cover: Object.freeze({ V0: Object.freeze({ systems: ALL }), V2: Object.freeze({ systems: THREE }), V6b_f0: Object.freeze({ systems: ALL }), V1a: Object.freeze({ systems: THREE }) }) });
 export const QUICK = Object.freeze({ runN: 8, windows: Object.freeze([2, 4, 8]), divs: Object.freeze([1, 2]), stepsPerOrbit: 360, cover: PLAN.cover });
-/** 探索(scratch の JSON —— 正本の段の外): 正本の被覆に加えて V2 と V6b f = 0.5 の二体・V6a(イオ・3 点 —— AN435 で対照)・V3(イオ・トリトン)・V1b */
+/** 探索(scratch の JSON —— 正本の段の外): 正本の被覆に加えて V6b f = 0.5(二体と三体)・V2 の二体・V6a(イオ・3 点 —— AN435 で対照)・V3(イオ・トリトン)・V1b */
 export const EXPLORE = Object.freeze({ runN: 64, windows: PLAN.windows, divs: PLAN.divs, stepsPerOrbit: 720,
   cover: Object.freeze({ V0: Object.freeze({ systems: ALL }), V2: Object.freeze({ systems: ALL }), V6b_f05: Object.freeze({ systems: ALL }), V6b_f0: Object.freeze({ systems: ALL }), V1a: Object.freeze({ systems: THREE }),
     V6a_r01: Object.freeze({ systems: ALL, sats: Object.freeze(['io']) }), V6a_r1: Object.freeze({ systems: ALL, sats: Object.freeze(['io']) }), V6a_r10: Object.freeze({ systems: ALL, sats: Object.freeze(['io']) }),
@@ -283,7 +284,7 @@ export function prefixOf(J, Js) {
 export function costOf(J) {
   const runs = Object.values(J.E.runs).filter((r) => r.status === 'run'), byVar = {};
   for (const [rk, key] of Object.entries(J.E.index)) { const r = J.E.runs[key]; if (!r) continue; const v = rk.split('|')[0]; byVar[v] = byVar[v] || { rows: 0 }; byVar[v].rows++; }
-  return { runs: runs.length, rowsIndexed: Object.keys(J.E.index).length, wallSecSum: runs.reduce((a, r) => a + r.wallSec, 0), steps: runs.reduce((a, r) => a + r.steps, 0), byVariant: byVar };
+  return { runs: runs.length, rowsIndexed: Object.keys(J.E.index).length, wallSec: runs.reduce((a, r) => a + r.wallSec, 0), steps: runs.reduce((a, r) => a + r.steps, 0), byVariant: byVar };
 }
 
 /* ───────── 走行の計画 ───────── */
@@ -354,7 +355,8 @@ export async function main() {
     ruling: '原仮定者の裁定(第119報)「AN431: 衛星の三体の永年の効きが 6 衛星とも帯の内で決まらないについて、何が必要かを探索する」・同 補足 1(軸引きずりを太陽由来と銀河由来に分解する)・'
       + '原仮定者の裁定(第119報 補足)AN435: (b) を主に(太陽と母惑星の二体の母惑星の軸の ω の和を保つ分解 —— (a) 足すは対照)・統括の検証項目 R252。確認の材料(在位へ入れない —— 近似要素の種は観測レコードではない・ω_G は変種の値で銀河の模型からの数ではない)',
     invSqVersion: HP.REL_DRAG_INVSQ_VERSION || null, ...R };
-  out.resumed = cstat.resumed; out.shared = cstat.shared;
+  if (cstat.resumed > 0) out.resumed = cstat.resumed;
+  out.shared = cstat.shared;
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w317c-satcut.mjs', 'tests/lib-w317c-satcut.mjs', 'tests/exp-w316d-sath.mjs', 'tests/exp-w315d-satk1.mjs', 'tests/lib-w315d-satk1.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第317便c', target: TARGET, code: CODE, inputs: [TARGET, L.DECL_FILE, SATH_OUT] }), {

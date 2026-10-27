@@ -363,6 +363,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.presetText316c lint.miscText316c docs.w
 #   lint.qaHeapRelease310・lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satH316 docs.paperSymbols316 lint.perfTargets316 lint.scopeStop lint.regenScope lint.regenChain lint.scopeAll312 docs.satK1_315 docs.symbols315 p2sens.papersync lint.perfAbJit lint.stableHashPaths lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第316便d の塊(ここまで)====
+# ==== 第317便c の塊(ここから)====
+# 第317便c(原仮定者の裁定(第119報)・同 補足 1・AN435・AN431・R252): 枝 c の新設 2 本(behavior.satCut317c —— 衛星の三体の切る変種の本〔受理・軸の分解の値・軸の経路・pairs と分母・
+#   母惑星中心の写し〕・docs.satCut317c —— 切る変種の正本と文書)と、第316便d の正本を読む docs.satH316・正本の段の lint.stableHashPaths・CANON の lint.canon304・lint.regenScope・
+#   lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.satCut317c docs.satCut317c docs.satH316 lint.regenScope lint.stableHashPaths lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第317便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
