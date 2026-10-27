@@ -2473,6 +2473,9 @@ lastAddAt = Date.now();
       // ==== 第316便d の塊(ここから)==== 衛星 6 本の三体の診断の器(sath-316d —— 二体を代表・三体は太陽の効きの記録・太陽の位相の調和の回帰・離心率ベクトル)。領域 REGEN_SCOPE を刻む
       'tests/out/sath-w316d.json',
       // ==== 第316便d の塊(ここまで)====
+      // ==== 第317便d の塊(ここから)==== 二体の解析の一次の率の表とトリトンの離心率ベクトルの表の量の器(satan-317d —— 走行しない・html を読まない・target は純関数 tests/lib-w317d-satan.mjs)
+      'tests/out/satan-w317d.json',
+      // ==== 第317便d の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
