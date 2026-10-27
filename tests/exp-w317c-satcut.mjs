@@ -35,9 +35,9 @@ import * as C from './lib-w317c-satcut.mjs';
 import * as X315 from './exp-w315d-satk1.mjs';
 import * as X316 from './exp-w316d-sath.mjs';
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 在位の本は .find で引く〔jupiterGalilean・saturnRingReal の値・在位の 7 本の relativeDrag の照合〕・
-//   "saturn" は母惑星の鍵の文字列が 🪐 の id と同じ綴りで数えられた分・"ab"・"cv" は器の変数名が最上位名と同じ綴りで数えられた分〔広めの宣言は許される〕。
+//   "saturn" は母惑星の鍵の文字列が 🪐 の id と同じ綴りで数えられた分・"ab" は器の変数名が最上位名と同じ綴りで数えられた分〔広めの宣言は許される〕。第317便(統括の統合): 器の局所の変数を最上位の停止関数と同じ綴りから改名して宣言から外した(lint.scopeStop ②)。
 //   読み口 inertialDragGalaxyAxialState は HP に無いので最上位の名で読む)
-const REGEN_SCOPE = {"presets":["jupiterGalilean","jupiterSunInertial3d","marsSunInertial3d","mercurySunInertial3d","neptuneSunInertial3d","saturn","saturnRingReal","saturnSunInertial3d","uranusSunInertial3d","venusSunInertial3d"],"roots":["$","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragIsqState","HP.sim","HP.validatePreset","T","ab","ch","ctx","cv","cw","inertialDragGalaxyAxialState","pnSource"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["jupiterGalilean","jupiterSunInertial3d","marsSunInertial3d","mercurySunInertial3d","neptuneSunInertial3d","saturn","saturnRingReal","saturnSunInertial3d","uranusSunInertial3d","venusSunInertial3d"],"roots":["$","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragIsqState","HP.sim","HP.validatePreset","T","ab","ch","ctx","cw","inertialDragGalaxyAxialState","pnSource"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w317c-satcut-1';
@@ -75,8 +75,8 @@ const nrm = (a) => Math.hypot(a[0], a[1], a[2]);
 /** 計画の被覆を展開(変種 × 衛星 × 系 —— 変種の宣言の被覆と計画の cover の交わり) */
 export function cellsOf(plan, sats) {
   const out = [];
-  for (const v of C.VARIANTS) { const cv = plan.cover[v.key]; if (!cv) continue;
-    for (const sat of sats) for (const sys of cv.systems) { if (!C.variantCovers(v, sat, sys)) continue; if (cv.sats && !cv.sats.includes(sat)) continue; out.push({ v: v.key, sat, sys }); } }
+  for (const v of C.VARIANTS) { const cov = plan.cover[v.key]; if (!cov) continue;
+    for (const sat of sats) for (const sys of cov.systems) { if (!C.variantCovers(v, sat, sys)) continue; if (cov.sats && !cov.sats.includes(sat)) continue; out.push({ v: v.key, sat, sys }); } }
   return out;
 }
 export const rowKey = (c, kind, div) => c.v + '|' + c.sat + '|' + c.sys + '|' + kind + '|div=' + div;
