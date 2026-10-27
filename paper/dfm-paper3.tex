@@ -563,11 +563,12 @@ DFM reads clocks and light from the single dimensionless potential
 $\psi = W X_k$, where $X_k$ (the parameter \texttt{kappaT}) is
 the spacetime coefficient and $W$ the determinacy field; the legacy
 form of the same quantity is $\psi=W/K_t$ with $K_t=1/X_k$.
-The two forms are equivalent, and $X_k$ is the canonical
-editing, declaration, and storage key throughout the implementation
-and throughout the companion papers, with $K_t$ retained only as a
-backward-compatible input key (and on the committed figure panels of
-Papers~1 and~2, whose labels predate the change).\footnote{The engine's internal canonicalization to $X_k$
+The two forms are equivalent. $X_k$ is the symbol with which this
+paper and its companions describe the spacetime coefficient; the
+canonical editing, declaration, and storage key throughout the
+implementation is the parameter \texttt{kappaT}, with $K_t$ retained
+only as a backward-compatible input key (and on the committed figure
+panels of Papers~1 and~2, whose labels predate the change).\footnote{The engine's internal canonicalization to $X_k$
 (with $\psi=W X_k$ evaluated as a multiplication rather than a
 division) leaves the matter sector bit-identical---E4 gravity,
 E6$'$ dragging and the E12 geodesic term do not read $X_k$---and

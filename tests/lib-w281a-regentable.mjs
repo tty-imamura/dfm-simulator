@@ -1377,6 +1377,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/sath-w316d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/cost/rows/*/wallSec', '/cost/rate/*/rateStepsPerSec']) },
     note: '第316便d: 衛星 6 本の三体の診断の正本(表の代表は二体の引きずりの効き・三体は太陽の効きの記録〔合否の数にしない〕・太陽の位相の調和の回帰で三体の永年の効きが帯の内で決まるか・トリトンの近点は判定から外し離心率ベクトルで記録 —— 在位へ入れない)' }),
   // ==== 第316便d の塊(ここまで)====
+  // ==== 第317便d の塊(ここから)====
+  // ---- 第317便d(原仮定者の裁定(第119報)・決断事項 AN431・AN432・統括の検証項目 R253): **二体の解析の一次の率の表とトリトンの離心率ベクトルの表の量の器**
+  //   (段 satan-317d —— 6 衛星 × G_loc の n = 2・1・0 × 核 K1・K2 × 固定中心・試験粒子/二体の質量の因子の一次の率・候補 Y_k(n) = (6 + 2n) G_0/(C_1 c_0²) の検算・
+  //   第316便d の二体〔n = 2・K1〕との対照・刻みの帯の次数の観察・トリトンの表の量〔大きさ・平行・垂直・刻みの帯・比較の時刻・種の離心率〕)。
+  //   **走行しない・html を読まない**(来歴の対象は純関数 tests/lib-w317d-satan.mjs —— 第289便c の reldrag の型・領域の宣言なし)。第316便d・第315便d の正本と
+  //   凍結の写し tests/data-w306a-decl305.json を読む(after に連ねる)。1 プロセス。所要は第317便d の枝の実測(正本の elapsedS 0.1 秒 —— 下限の 1 秒で置く)
+  S('satan-317d', 'node tests/exp-w317d-satan.mjs', ['tests/out/satan-w317d.json'], 1, { secSource: 'w317d-branch', node: true, after: ['sath-316d', 'satk1-315d'],
+    volatilePaths: { 'tests/out/satan-w317d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第317便d: 二体の解析の一次の率の表(G_loc の n = 2・1・0 × K1・K2 × 6 衛星)と候補 Y_k(n) の検算(そろうのは固定中心・試験粒子の q11 − q00 の一次の和 —— 普遍則として採らない)・'
+      + 'トリトンの離心率ベクトルの表の量(AN432 —— 近点を確定したことにしない)。走行しない(純関数と既存の正本の読み)' }),
+  // ==== 第317便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
