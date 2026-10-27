@@ -42,7 +42,10 @@
 
 ## 3. root で SKIP する試験(昇格の後の root の QA の範囲)
 
-(ゲートの後に記入 —— root のフル走行の `^SKIP <id>` と、同じ html の beta のフル走行の結果を突き合わせる)
+昇格の後の root のフル QA は **943 件 PASS・SKIP 252 行**(1 行に複数の試験を並べる SKIP があるので、試験の数で **364**)。
+**SKIP 364 のうち 359 は beta だけの門(`TARGET.startsWith('beta/')` ほか)や「適用の前の世代」を見る門の試験**で、同じ html(root と beta は byte 同一)の beta のフル走行(1298 件)で **359/359 PASS** している。
+残り 5 件(`behavior.phase`・`merger.bulk-velocity`・`obs.attrs`・`behavior.agnjet`・`behavior.starcore`)は**廃止した本・属性を読む旧い試験**で、beta でも走らない。
+**root のフル QA の件数だけで第316便までの新機能をすべて試したとは言わない** —— 新機能の試験は beta の走行で数える(v1.45 の §3 と同じ読み —— 門を「機能の世代」で開く作り替えはまだ行っていない)。
 
 ## 4. ルートで動きが変わる本(v1.45.0 のルート → v1.46.0 のルート)
 
