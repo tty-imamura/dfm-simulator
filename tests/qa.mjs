@@ -2473,6 +2473,9 @@ lastAddAt = Date.now();
       // ==== 第316便d の塊(ここから)==== 衛星 6 本の三体の診断の器(sath-316d —— 二体を代表・三体は太陽の効きの記録・太陽の位相の調和の回帰・離心率ベクトル)。領域 REGEN_SCOPE を刻む
       'tests/out/sath-w316d.json',
       // ==== 第316便d の塊(ここまで)====
+      // ==== 第317便a の塊(ここから)==== 衛星 6 本の測る量と予算の器(satmeas-317a —— 共通の座標時刻の窓 M0・要素の定義・差の直接の回帰・会合周期の窓・步 h/8・窓 128 公転)。領域 REGEN_SCOPE を刻む
+      'tests/out/satmeas-w317a.json',
+      // ==== 第317便a の塊(ここまで)====
       // ==== 第317便b の塊(ここから)==== 衛星の物理の軸の器(satn-317b —— G_loc の n = 2・1・0 × 核 K1-rule・K1-Y(n)・K2・測る量 M0・二体 → 三体〔イオ〕)。領域 REGEN_SCOPE を刻む
       'tests/out/satn-w317b.json',
       // ==== 第317便b の塊(ここまで)====
@@ -88214,6 +88217,179 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 // ==== 第316便d の塊(ここまで)====
+// ==== 第317便a の塊(ここから —— docs.satMeas317a・behavior.satMeas317a の 2 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第317便a(原仮定者の裁定(第119報)・決断事項 AN431・統括の検証項目 R250): docs.satMeas317a —— **衛星 6 本の測る量と予算の正本と文書**
+// ----   (新設 —— root は SKIP)。世代切替 = beta 対象 ∧ 正本 tests/out/satmeas-w317a.json ∧ 器 tests/exp-w317a-satmeas.mjs ∧ 文書の lib tests/lib-w317a-satmeasdoc.mjs(html の宣言・エンジンは変えない)。
+// ----   ① 正本の門(器の gatesOf で作り直して一致・全部真)・試走でも探索でもない・6 衛星・版/来歴(w272e-1)・領域 hash(完全)・計画が器の宣言(格子 base・long・step8)・
+// ----     判定の規則 HARM_RULE は第316便d の器の宣言そのもの(閾値 1e-2 のまま)・測る量の並び
+// ----   ② 通過の窓 8〜64・h〜h/4 は第316便d の正本とビット同一(prefixOf を作り直して一致・全部同じ)・種は第316便d の正本と同じ(相対 1e-12)
+// ----   ③ 段 M・I・C・V・A を走行の行から器の純関数で作り直して相対 1e-12(数でない欄は表現の一致)・判定 = R1 ∧ R2・線形の恒等式の最大 ≤ 1e-6
+// ----   ④ 表の行と数が PHYSICS〔第317便a〕に逐語・節が「## 7.」の前・語・AI_SPEC §143・CHANGELOG・README・再生成の段・.gitignore・post-merge・CANON・煙試験の窓
+// ----   ⑤ 書かない語・禁句・新しい説明に裸の係数記号が無いこと(節の κ は κ_D だけ・コードの書式の中は引用)
+{
+  await (async () => {   // 第310便c(heap)
+  const mOut = path.join(ROOT, 'tests', 'out', 'satmeas-w317a.json'), hOut = path.join(ROOT, 'tests', 'out', 'sath-w316d.json');
+  const mHarn = path.join(ROOT, 'tests', 'exp-w317a-satmeas.mjs'), mDoc = path.join(ROOT, 'tests', 'lib-w317a-satmeasdoc.mjs'), hHarn = path.join(ROOT, 'tests', 'exp-w316d-sath.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(mOut) && fs.existsSync(mHarn) && fs.existsSync(mDoc))) {
+    console.log('SKIP docs.satMeas317a(第317便a の衛星の測る量と予算の器の前の世代 — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QA0 = rd('tests/qa.mjs'), CLx = rd('CHANGELOG.md'), RMx = rd('README.md'), SMx = rd('tools/harness-smoke.mjs');
+  const i0 = PH.indexOf('〔第317便a — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+  const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+  // 超越関数を通る数は相対 1e-12 の内(数でない欄は JSON の表現の一致)
+  const near317 = (a, b) => (typeof a === 'number' && typeof b === 'number') ? (Object.is(a, b) || Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b)))
+    : (a && b && typeof a === 'object' && typeof b === 'object') ? (Array.isArray(a) === Array.isArray(b) && Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => Object.prototype.hasOwnProperty.call(b, k) && near317(a[k], b[k])))
+    : JSON.stringify(a) === JSON.stringify(b);
+  const strip = (t) => t.replace(/「[^」]*」/g, '');
+  const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /法則を確かめた/, /シュヴァルツシルト半径そのもの/, /現実の核/, /検証が完了した/, /地平面を判定した/];
+  const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+  const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+  const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+  const bad = [], cases = [];
+  let J = null, Jh = null, X = null, D = null, H = null;
+  try { J = JSON.parse(fs.readFileSync(mOut, 'utf8')); } catch (e) { bad.push('正本 satmeas が読めない'); }
+  try { Jh = JSON.parse(fs.readFileSync(hOut, 'utf8')); } catch (e) { Jh = null; }
+  try { X = await import('file://' + mHarn); D = await import('file://' + mDoc); H = await import('file://' + hHarn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+  if (J && X && D && H) {
+    try {
+      // ①
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('① 正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('① 正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('① 門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length || !GK.includes('prefixSame') || !GK.includes('diffIdentity')) bad.push('① 門の数が器と違う(prefixSame・diffIdentity を含む)');
+      if (J.quick === true || J.explore === true) bad.push('① 正本が試走(QUICK)か探索(PLAN)');
+      if (JSON.stringify(J.sats) !== JSON.stringify(X.SATS)) bad.push('① 正本が 6 衛星でない');
+      if (J.version !== X.HARNESS_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.stage === 'satmeas')) bad.push('① 正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('① 正本に領域 hash(完全)が無い');
+      if (J.reuseFrom !== null || J.kernel !== 'k1') bad.push('① 正本が行の使い回しか K1 でない');
+      if (!near317(J.plan, JSON.parse(JSON.stringify(X.PLAN))) || Object.keys(J.E.rows).length !== X.specsOf(X.PLAN, X.SATS).length) bad.push('① 計画が器の宣言と違う');
+      if (!near317(J.harmRule, JSON.parse(JSON.stringify(H.HARM_RULE))) || J.harmRule.rel !== 1e-2 || J.harmRule.version !== 'w316d-harm-rule-1') bad.push('① 判定の規則が第316便d の HARM_RULE(閾値 1e-2)でない');
+      if (JSON.stringify(J.measures.map((m) => m.key)) !== JSON.stringify(X.MEASURE_KEYS)) bad.push('① 測る量の並び');
+      cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・${X.SATS.length} 衛星・格子 ${X.PLAN.grids.map((g) => g.key + '〔h/' + g.divs.join('・h/') + ' × 窓 ' + g.windows.join('・') + '〕').join('・')}・走行の組 ${Object.keys(J.E.rows).length}・HARM_RULE ${J.harmRule.version}`);
+      // ②
+      if (Jh) {
+        const pf = X.prefixOf(J, Jh);
+        if (!near317(pf, J.prefix) || !(pf.compared > 0 && pf.same === pf.compared)) bad.push('② 通過の窓が第316便d の走行とビット同一でない(' + pf.same + '/' + pf.compared + ')');
+        for (const k of X.SATS) if (!near317(J.T.systems[k], Jh.T.systems[k])) bad.push('② 種が第316便d の正本と違う ' + k);
+        cases.push(`② 通過の窓 8〜64・h〜h/4 は第316便d の走行とビット同一 ${pf.same}/${pf.compared}(行 × 走行の種類 × 窓)・種は第316便d の正本と同じ`);
+      } else cases.push('② 第316便d の正本が無い(照合しない)');
+      // ③
+      const M2 = X.partM(J), I2 = X.partI(J), C2 = X.partC(J), V2 = X.partV(J);
+      if (!near317(M2, J.M)) bad.push('③ 段 M を作り直すと違う');
+      if (!near317(I2, J.I)) bad.push('③ 段 I を作り直すと違う');
+      if (!near317(C2, J.C)) bad.push('③ 段 C を作り直すと違う');
+      if (!near317(V2, J.V)) bad.push('③ 段 V を作り直すと違う');
+      const A2 = X.partA(Object.assign({}, J, { M: M2 })); if (!near317(A2, J.A)) bad.push('③ 段 A を作り直すと違う');
+      for (const [gk, g] of Object.entries(J.M.grids)) for (const [id, o] of Object.entries(g.systems)) for (const [Mk, m] of Object.entries(o.measures)) if (m.determined !== (m.R1 === true && m.R2 === true)) { bad.push('③ 判定 = R1 ∧ R2 でない ' + gk + '/' + id + '/' + Mk); break; }
+      if (!(J.I.linMax <= 1e-6)) bad.push('③ 線形の恒等式の最大が 1e-6 を越える');
+      const n3 = X.SATS.filter((k) => J.A.systems[k] && J.A.systems[k].measOnly.length > 0).length, nb = X.SATS.filter((k) => J.A.systems[k] && J.A.systems[k].budgetBy.length > 0).length;
+      cases.push(`③ 段 M・I・C・V・A を走行の行から作り直して一致 —— 三体で測り方だけで決まった衛星 ${n3}/${X.SATS.length}・予算の格子で決まった衛星 ${nb}・線形の恒等式の最大 ${J.I.linMax.toExponential(1)}`);
+      // ④
+      if (!sec) bad.push('PHYSICS〔第317便a〕が無い');
+      else {
+        const rows = D.physicsTablesSatMeas(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'));
+        let nMiss = 0; for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第317便a〕の表に行が無い: ' + r.slice(0, 70)); }
+        const nums = D.docNumbersSatMeas(J), missN = nums.filter((x) => sec.indexOf(x) < 0); if (missN.length) bad.push('PHYSICS〔第317便a〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第317便a〕が「## 7. 論文」の後');
+        if (PH.indexOf('〔第316便d — ') < 0 || i0 < PH.indexOf('〔第316便d — ')) bad.push('PHYSICS〔第317便a〕が〔第316便d〕の前');
+        for (const w of ['R250', '第119報', 'AN431', 'exp-w317a-satmeas.mjs', 'satmeas-w317a.json', 'lib-w317a-satmeas.mjs', 'docs.satMeas317a', 'behavior.satMeas317a', 'W317A_OUT', 'W317A_QUICK', 'W317A_CACHE', 'W317A_PLAN',
+          'HARM_RULE', 'M0', 'E_I', 'E_C', 'E_X', 'この予算では永年項として決まらない', '会合周期', '条件数', '実効ランク', 'prefixSame', 'diffIdentity', '離心率ベクトル', 'Y_k', 'R_d', 'G_loc', '言わないこと'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第317便a〕に「' + w + '」が無い');
+        cases.push(`④ PHYSICS〔第317便a〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
+      }
+      { const ai = AS.indexOf('## 143.'); if (ai < 0) bad.push('AI_SPEC に §143 が無い');
+        else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w317a-satmeas.mjs', 'satmeas-w317a.json', 'lib-w317a-satmeas.mjs', 'docs.satMeas317a', 'behavior.satMeas317a', 'AN431', 'R250', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §143 に「' + w + '」が無い'); }
+        if (AS.indexOf('## 142.') < 0 || AS.indexOf('## 143.') < AS.indexOf('## 142.')) bad.push('AI_SPEC §143 が §142 の前'); }
+      { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, ci + 40000) : ''; if (cs.indexOf('第317便a') < 0) bad.push('CHANGELOG の beta の節に第317便a が無い'); }
+      if (RMx.indexOf('第317便a') < 0) bad.push('README に第317便a が無い');
+      if (RT.indexOf("S('satmeas-317a', 'node tests/exp-w317a-satmeas.mjs', ['tests/out/satmeas-w317a.json']") < 0 || !/secSource: 'w317a-branch'/.test(RT)) bad.push('再生成の段 satmeas-317a');
+      if (GI.indexOf('!tests/out/satmeas-w317a.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.satMeas317a') < 0 || PM.indexOf('behavior.satMeas317a') < 0) bad.push('post-merge に docs.satMeas317a・behavior.satMeas317a が無い');
+      if (QA0.indexOf("'tests/out/satmeas-w317a.json',") < 0) bad.push('CANON(lint.canon304)に第317便a の正本が無い');
+      if (SMx.indexOf("'satmeas-317a':") < 0) bad.push('煙試験の窓 satmeas-317a が無い');
+      // ⑤
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第317便a〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第317便a〕に禁句(' + w.length + ' 字)');
+      if (/κ(?!_D)/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第317便a〕に裸の κ(κ は κ_D だけ —— コードの書式の外)');
+      if (/(?<![\w`])r_d(?![\w`])/.test(sec.replace(/`[^`\n]*`/g, '').replace(/鍵 r_d/g, ''))) bad.push('PHYSICS〔第317便a〕の新しい文に r_d(引きずり半径は R_d —— 鍵の名はコードの書式で)');
+      for (const f of ['tests/exp-w317a-satmeas.mjs', 'tests/lib-w317a-satmeas.mjs', 'tests/lib-w317a-satmeasdoc.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); if (tx.indexOf('κ') >= 0) bad.push(f + ' に κ の字'); }
+      cases.push('⑤ 書かない語・禁句・裸の κ・新しい文の r_d(節と器と lib)');
+    } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+  }
+  add('docs.satMeas317a', bad.length === 0,
+    `**衛星 6 本の測る量と予算の正本と文書**(第317便a・原仮定者の裁定(第119報)・AN431・R250 —— 正本 satmeas-w317a.json・n=2・K1・第316便d と同じ本と步・測る量〔通過の窓・共通の座標時刻の窓 M0・E_I/E_C/E_X・差の直接の回帰・会合周期の窓〕と予算〔步 h/8・窓 128 公転〕を HARM_RULE の R1・R2 で・決まらなければ「この予算では永年項として決まらない」・観測の 3σ を付けない・在位へ入れない): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ---- 第317便a(原仮定者の裁定(第119報)・決断事項 AN431・統括の検証項目 R250): behavior.satMeas317a —— **測る量の lib の純関数**(新設 —— root は SKIP・html を読まない)。
+// ----   ① 片側ヤコビの特異値(対角と直交の既知の行列 —— 条件数と実効ランク)② fitL の率が apsisRate とビット同一(合成の系列)③ 差の直接の回帰の一次の関係
+// ----   (q10 の歳差 ω₀ と平行の一定のずれ δ を入れた合成 —— 固定の ê₀ は ω₀·δ を拾い、回る ê₁₀ は差の率を返す・線形の恒等式)④ 位置だけの離心ベクトル(ケプラーの 1/r)
+// ----   ⑤ 共通の時刻の標本(等速直線の疑似の sim —— 中心差分の座標速度 = 慣性速度・標本の数と時刻)⑥ 会合周期の向き(イオは順行・トリトンは逆行)⑦ 判定の格子 ruleOf と刻みの見積り stepNeed
+{
+  await (async () => {   // 第310便c(heap)
+  const mLib = path.join(ROOT, 'tests', 'lib-w317a-satmeas.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(mLib))) { console.log('SKIP behavior.satMeas317a(第317便a の測る量の lib の前の世代 — ' + TARGET + ')'); return; }
+  const bad = [], cases = [];
+  try {
+    const M = await import('file://' + mLib), AP = await import('file://' + path.join(ROOT, 'tests', 'lib-w304e-apsis.mjs')), Ls = await import('file://' + path.join(ROOT, 'tests', 'lib-w315d-satk1.mjs'));
+    const near = (a, b, r) => Math.abs(a - b) <= r * Math.max(Math.abs(a), Math.abs(b), 1e-300);
+    // ① 特異値(列を単位の長さにした)—— 直交の 2 列 + 1 列の重なり(cos と cos + 10⁻³ cos 2φ の角 ≈ 10⁻³)
+    { const n = 64, c0 = [], c1 = [], c2 = []; for (let i = 0; i < n; i++) { c0.push(Math.cos(2 * Math.PI * i / n)); c1.push(Math.sin(2 * Math.PI * i / n)); c2.push(Math.cos(2 * Math.PI * i / n) + 1e-3 * Math.cos(4 * Math.PI * i / n)); }
+      const sv = M.svdCols([c0, c1, c2]), s = sv.sigma.slice().sort((a, b) => b - a), dg = M.designDiag(c0.map((_, i) => [c0[i], c1[i], c2[i]]));
+      // 列 c0 と c2 の角 ≈ 1e-3 → 特異値 √(1 ± cos) の比
+      const ang = Math.atan(1e-3), want = Math.sqrt((1 + Math.cos(ang)) / (1 - Math.cos(ang)));
+      if (!near(s[0] / s[2], want, 1e-6) || !near(dg.cond, want, 1e-6) || dg.rank !== 3) bad.push('① 特異値の比 ' + (s[0] / s[2]) + ' ≠ ' + want);
+      const dg2 = M.designDiag(c0.map((_, i) => [c0[i], c1[i], c0[i]])); if (dg2.rank !== 2) bad.push('① 同じ列 2 本の実効ランクが 2 でない(' + dg2.rank + ')');
+      cases.push(`① 特異値の比 ${dg.cond.toExponential(3)}(解析 ${want.toExponential(3)})・同じ列 2 本の実効ランク ${dg2.rank}`); }
+    // 合成の系列(低離心率の回る離心ベクトル + 位置の角の調和)
+    const synth = (w, e0, n, extra) => { const s = { t: [], eP: [], eQ: [], th: [] }; for (let i = 0; i < n; i++) { const t = i * 0.01, th = 2 * Math.PI * t / 5, ph = 0.3 + w * t, ee = e0 * (extra ? extra(t) : 1);
+      s.t.push(t); s.th.push(th); s.eP.push(ee * Math.cos(ph) + 0.002 * Math.cos(th) - 0.001 * Math.sin(2 * th)); s.eQ.push(ee * Math.sin(ph) + 0.002 * Math.sin(th) + 0.0007 * Math.cos(2 * th)); } return s; };
+    // ② fitL と apsisRate
+    { const s = synth(3e-3, 0.007, 4000), f = M.fitL(s, { t0: -Infinity, t1: Infinity, K: 3, diag: true }), r = AP.apsisRate(s, { K: 3 });
+      if (!(f && r && Object.is(f.rate, r.rate))) bad.push('② fitL の率が apsisRate とビット同一でない');
+      cases.push(`② fitL の率 = apsisRate(ビット同一)・条件数 ${f ? f.cond.toFixed(3) : '—'}`); }
+    // ③ 差の回帰 —— q10: ω₀ で回る・q11: (1 + δ) 倍の大きさで ω₀ + ω₁ で回る(同じ時刻)
+    { const w0 = -2e-3, w1 = 2e-5, dl = 3e-4, n = 6000, s10 = synth(w0, 0.004, n), s11 = synth(w0 + w1, 0.004, n, () => 1 + dl);
+      const d = M.diffFit(s10, s11, { t0: -Infinity, t1: Infinity, K: 3 }), f10 = M.fitL(s10, { t0: -Infinity, t1: Infinity, K: 3 }), f11 = M.fitL(s11, { t0: -Infinity, t1: Infinity, K: 3 }), dr = f11.rate - f10.rate;
+      if (!(d && d.sameTimes)) bad.push('③ 差の回帰が作れない');
+      else {
+        if (!near(dr, w1, 2e-3)) bad.push('③ 回帰の差 ' + dr + ' ≠ ω₁ ' + w1);   // 窓の中の回転 0.12 rad の二次の分(L 模型の直線の近似)
+        if (!near(d.c1rot, dr, 2e-3)) bad.push('③ 回る ê₁₀ の差の回帰 ' + d.c1rot + ' ≠ 回帰の差 ' + dr);
+        if (!near(d.c1 - dr, w0 * dl, 0.05)) bad.push('③ 固定の ê₀ の差の回帰の ω₀·δ の項 ' + (d.c1 - dr) + ' ≠ ' + (w0 * dl));
+        if (!(d.lin <= 1e-9)) bad.push('③ 線形の恒等式 ' + d.lin);
+        if (!(Math.abs(d.resid2) <= 0.05 * Math.abs(d.corr1))) bad.push('③ 一次の関係の残りが大きい ' + d.resid2 + '(補正 ' + d.corr1 + ')');
+      }
+      cases.push(`③ 合成(ω₀ ${w0}・ω₁ ${w1}・δ ${dl}): 回帰の差 ${dr.toExponential(4)}・回る ê₁₀ ${d.c1rot.toExponential(4)}・固定の ê₀ − 回帰の差 = ${(d.c1 - dr).toExponential(3)}(ω₀·δ = ${(w0 * dl).toExponential(3)})・線形の恒等式 ${d.lin.toExponential(1)}`); }
+    // ④ 位置だけの離心ベクトル(ケプラーの 1/r = (1 + e cos(θ − ϖ))/p)
+    { const e = 0.01, vp = 0.7, p = 1.3, g = { t: [], r: [], th: [] }; for (let j = 1; j <= 64; j++) { const th = 2 * Math.PI * j / 16 + 0.01 * Math.sin(j); g.t.push(j / 16); g.th.push(th); g.r.push(p / (1 + e * Math.cos(th - vp))); }
+      const x = M.exPerOrbit(g); if (x.t.length !== 4 || !x.eP.every((v) => near(v, e * Math.cos(vp), 1e-10)) || !x.eQ.every((v) => near(v, e * Math.sin(vp), 1e-10))) bad.push('④ 1/r の最小二乗の離心ベクトル');
+      cases.push(`④ 位置だけの離心ベクトル(ケプラー・4 公転 × 16 標本): (${x.eP[0].toExponential(6)}, ${x.eQ[0].toExponential(6)})`); }
+    // ⑤ 共通の時刻の標本(等速直線の疑似の sim —— 中心差分 = 慣性速度)
+    { const S = { x: [0, 0.5], y: [0, 0.2], z: [0, 0], vx: [0, -0.01], vy: [0, 0.7], vz: [0, 0.003] }; S.step = function (dt) { for (const k of ['x', 'y', 'z']) S[k][1] += S['v' + k][1] * dt; };
+      const smp = M.attachGridSampler(S, { ci: 0, oi: 1, mu: 1, every: 5, basis: { P: [1, 0, 0], Q: [0, 1, 0] } }); for (let k = 0; k < 5 * 8 + 4; k++) S.step(0.01);
+      const g = smp.samples(); let mx = 0; for (let j = 0; j < g.t.length; j++) mx = Math.max(mx, Math.abs(g.eCP[j] - g.eIP[j]), Math.abs(g.eCQ[j] - g.eIQ[j]));
+      if (g.t.length !== 8 || !near(g.t[7], 0.4, 1e-12) || !(mx <= 1e-9)) bad.push('⑤ 共通の時刻の標本(数 ' + g.t.length + '・差 ' + mx + ')');
+      smp.detach(); cases.push(`⑤ 共通の時刻の標本 ${g.t.length} 個(5 步ごと)・等速直線の座標速度 − 慣性速度の離心ベクトル ${mx.toExponential(1)}`); }
+    // ⑥ 会合周期の向き
+    { const sdOf = (k) => { const s = Ls.satOf(k), P = Ls.parentOf(s.parent); const a = k === 'triton' ? s.pub.aKm * 1e3 / 1e9 : 0.4217, m = k === 'triton' ? s.pub.gmKm3s2 * 1e9 / (P.physics.G * 1e-11) / 1e28 : 8.93e-6;
+        const mu = P.physics.G * (P.planet.m + m); return { key: k, parent: s.parent, m, a, e: 0.004, iEqDeg: s.pub.iEqDeg, P: 2 * Math.PI * Math.sqrt(a * a * a / mu) }; };
+      const io = M.synodicOf(sdOf('io')), tr = M.synodicOf(sdOf('triton'));
+      if (!(io.sense === 1 && tr.sense === -1 && io.Psyn > sdOf('io').P && tr.Psyn < sdOf('triton').P)) bad.push('⑥ 会合周期の向き(イオ ' + io.sense + '・トリトン ' + tr.sense + ')');
+      cases.push(`⑥ 会合周期の向き: イオ ${io.sense > 0 ? '順行' : '逆行'}(P_syn/P = ${io.ratio.toFixed(6)})・トリトン ${tr.sense > 0 ? '順行' : '逆行'}(${tr.ratio.toFixed(6)})`); }
+    // ⑦ 判定の格子と刻みの見積り
+    { const G = { divs: [1, 2, 4], windows: [32, 64] };
+      const ok = M.ruleOf({ 32: { 1: 10.4, 2: 10.1, 4: 10.05 }, 64: { 1: 10.08, 2: 10.04, 4: 10.03 } }, G, 1e-2), r1 = M.ruleOf({ 32: { 1: 10.4, 2: 10.1, 4: 10.05 }, 64: { 1: 10.68, 2: 10.64, 4: 10.63 } }, G, 1e-2);
+      if (!(ok.R1 === true && ok.R2 === true && ok.determined === true && r1.R1 === false && r1.R2 === true)) bad.push('⑦ ruleOf(' + JSON.stringify([ok.R1, ok.R2, r1.R1, r1.R2]) + ')');
+      const sn = M.stepNeed({ bands: [4, 1], tol: 0.3 }, 4); if (!(near(sn.p, 2, 1e-12) && sn.div === 16)) bad.push('⑦ stepNeed ' + JSON.stringify(sn));
+      cases.push(`⑦ ruleOf(帯の内の格子は R1 ∧ R2・窓で動く格子は R1 偽)・stepNeed(帯 4・1 → p ${sn.p}・h/${sn.div})`); }
+  } catch (e) { bad.push('lib が読めない・試せない: ' + String(e && e.stack || e).slice(0, 200)); }
+  add('behavior.satMeas317a', bad.length === 0,
+    `**測る量の lib の純関数**(第317便a・AN431・R250 —— html を読まない): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ==== 第317便a の塊(ここまで)====
 // ==== 第317便b の塊(ここから —— docs.satN317b・behavior.satN317b の 2 ブロック。統合で他の枝の塊と混ぜない)====
 // ---- 第317便b(原仮定者の決断事項 AN431・統括の検証項目 R251): docs.satN317b —— **衛星の物理の軸の正本と文書**(新設 —— root は SKIP)。
 // ----   世代切替 = beta 対象 ∧ 正本 tests/out/satn-w317b.json ∧ 器 tests/exp-w317b-satn.mjs ∧ 文書の lib tests/lib-w317b-satndoc.mjs(html の宣言・エンジンは変えない)。
