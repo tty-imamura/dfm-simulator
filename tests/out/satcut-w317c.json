@@ -29246,27 +29246,27 @@
    "wallSec": 0.002
   },
   "D": {
-   "wallSec": 0.185
+   "wallSec": 0.109
   },
   "P": {
-   "wallSec": 0.526
+   "wallSec": 0.346
   },
   "E": {
-   "wallSec": 0.044
+   "wallSec": 0.038
   },
   "A": {
-   "wallSec": 0.003
+   "wallSec": 0.002
   }
  },
  "resumed": 144,
  "shared": 72,
- "elapsedS": 2.884,
+ "elapsedS": 2.411,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第317便c",
   "target": "beta/index.html",
   "targetSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-  "generatedAt": "2026-10-27T12:13:00.270Z",
+  "generatedAt": "2026-10-27T12:59:00.880Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -29290,9 +29290,9 @@
   "code": [
    {
     "file": "tests/exp-w317c-satcut.mjs",
-    "bytes": 36270,
-    "sha256": "a2b274c9997da341e9351a758ffee75121885817815dc80719739ac54cba6e68",
-    "mtime": "2026-10-27T11:04:49.093Z"
+    "bytes": 36376,
+    "sha256": "0cf971f5598f2c260809fbac2f1330d132254b08d9c4aa488e4cfa40dec6cac2",
+    "mtime": "2026-10-27T12:58:45.187Z"
    },
    {
     "file": "tests/lib-w317c-satcut.mjs",
@@ -29343,7 +29343,7 @@
     "mtime": "2026-10-27T10:38:15.260Z"
    }
   ],
-  "codeSha256": "cb1b1b546aae0769a71095d04e781a787e97004232e865062e65230b7078fa7d",
+  "codeSha256": "f00753a9f839452960234305fb84e408f4987ae5c5fd7499e031b6757ebb263e",
   "harnessVersion": "w317c-satcut-1",
   "stage": "satcut",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W317C_WORKERS)",

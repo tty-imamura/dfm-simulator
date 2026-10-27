@@ -272,7 +272,7 @@ export function gatesOf(J) {
     g.allRows = Object.keys(J.E.index).length === J.E.cells.length * KINDS.length * J.E.divs.length && Object.values(J.E.index).every((k) => J.E.runs[k]);
     // q10 は V3 を除き V0 と同じ本 —— 同じ走行(本の sha の鍵が同じ)
     g.q10Shared = J.E.cells.filter((c) => !C.changesQ10(C.variantOf(c.v))).every((c) => J.E.divs.every((d) => { const z = { v: 'V0', sat: c.sat, sys: c.sys }; const a = J.E.index[rowKey(c, 'q10', d)], b = J.E.index[rowKey(z, 'q10', d)]; return !b || a === b; }));
-    if (J.prefix) g.prefix316 = J.prefix.compared > 0 && J.prefix.same === J.prefix.compared;
+    if (J.prefix && !J.quick) g.prefix316 = J.prefix.compared > 0 && J.prefix.same === J.prefix.compared;   // 試走(S 360・8 公転)は第316便d の行と同じ本でない —— 照合しない
   }
   return g;
 }
