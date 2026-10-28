@@ -21702,8 +21702,12 @@ if (!FAST) {
         // 第296便c(原仮定者の裁定(第86報)・R159): 🔗 chainDiskToy(多粒子の連鎖引きずりの試作本 —— 中心 pinned 1 個・粒子どうしの接触なし)は契約どおり none を宣言する
         //   (器の適用表は変えない —— 表の外の新しい本として許す)
         const new296 = r.nDeclNone.filter((id) => id === 'chainDiskToy' || W298C_IDS.includes(id));   // 第298便c: 🔗 の三次元の写し 🔩🪛 も同じ契約(none・中心 pinned)
-        const extra = r.nDeclNone.filter((id) => !EC.APPLIED.some((a) => a.id === id) && !copies.includes(id) && !new296.includes(id));
+        // 第318便c(原仮定者の指示(第120報)・R256): 🗺️ solarSystem16Inertial3d(太陽系 16 体 —— 全天体 free・天体どうしの接触判定なし)は入力の宣言どおり none
+        //   (中心 pinned の契約の外の天体力学の本 —— 器の適用表は変えない・表の外の新しい本として許す。宣言の照合は behavior.solar16Builtin318c)
+        const new318 = r.nDeclNone.filter((id) => id === 'solarSystem16Inertial3d');
+        const extra = r.nDeclNone.filter((id) => !EC.APPLIED.some((a) => a.id === id) && !copies.includes(id) && !new296.includes(id) && !new318.includes(id));
         if (new296.length) cases.push('第296便c の 🔗 は契約(none・中心 pinned)を宣言する新しい本');
+        if (new318.length) cases.push('第318便c の 🗺️ は入力の宣言どおり none(全天体 free —— 接触判定なし)');
         if (extra.length) bad.push('適用表の外で none を宣言した本 ' + extra.join(','));
         if (copies.length) cases.push(`写しの本 ${copies.join(',')} は写し元(🌚・🥏・📀)と同じ契約(none)を持つ`);
         for (const z of r.capture) if (!(z.ok && z.mode === 'none')) bad.push(z.id + ': centerCapture/fixedCapture の宣言が受理器を通らない');
