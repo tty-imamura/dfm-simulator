@@ -7129,8 +7129,11 @@ if (!TARGET.startsWith('beta/')) {
       nHtml = Object.keys(T).length;
       const md = fs.readFileSync(path.join(ROOT, 'docs', 'SAMPLE_STATUS_v1.45.md'), 'utf8');
       const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'samplestatus-w279a.json'), 'utf8'));
-      const rows = SS.parseMdRows(md);
-      nMd = rows.length; nCanon = (J.rows || []).length;
+      // 第318便c(原仮定者の指示(第120報)・R256): root 等の**別の世代の html**(beta でない)で、正本と md に html の表に無い本(beta だけに足した内蔵の本 —— 🗺️)が
+      //   あるときは、その本を行数・行の照合・集計・帰属から除いて照合する(除いた本は記録 —— beta の世代で照合する)
+      const betaOnly318 = !TARGET.startsWith('beta/') ? new Set((J.rows || []).map((z) => z.id).filter((id) => !T[id])) : new Set();
+      const rows = SS.parseMdRows(md).filter((z) => !betaOnly318.has(z.id));
+      nMd = rows.length; nCanon = (J.rows || []).filter((z) => !betaOnly318.has(z.id)).length;
       // 第294便b(原仮定者の裁定(第84報)・R149): 一覧 md は**掲載の本(在位)だけ**の世代(正本 tally.scope "listed")—— 退役の本(原稿の retired.ids)は
       //   md の表・集計に出さない。html の表と正本の rows は内蔵の全本のまま
       const listed294 = !!(J.tally && J.tally.scope === 'listed');
@@ -7145,14 +7148,16 @@ if (!TARGET.startsWith('beta/')) {
         if (z.cal !== SS.CAL_WORD.ja[T[z.id].calibration]) bad.push(`②${z.id}: md「${z.cal}」≠ html ${T[z.id].calibration}`);
       }
       tl = SS.tally(listed294 ? Object.fromEntries(Object.entries(T).filter(([id]) => !retSet294.has(id))) : T, []);   // 第294便b: 掲載の本で数える
-      const jt = J.tally || {};
+      // 第318便c: beta だけの本を除いた世代では、正本の集計を除いた行から作り直して比べる(md の集計行は正本の集計 —— beta の世代 —— と照合)
+      const jt = betaOnly318.size ? SS.tally(Object.fromEntries((J.rows || []).filter((z) => !betaOnly318.has(z.id) && !retSet294.has(z.id)).map((z) => [z.id, z.status])), []) : (J.tally || {});
+      const tlMd = betaOnly318.size ? (J.tally || {}) : tl;
       const eqo = (a, b) => JSON.stringify(a) === JSON.stringify(b);
       if (!eqo(jt.objective, tl.objective)) bad.push('③正本 tally.objective ≠ html');
       if (!eqo(jt.four, tl.four)) bad.push('③正本 tally.four ≠ html');
       if (!eqo(jt.calibration, tl.calibration)) bad.push('③正本 tally.calibration ≠ html');
-      const want = `状況: **達 ${tl.objective.met}・部分 ${tl.objective.partial}・未達 ${tl.objective.unmet}・対象外 ${tl.objective['n/a']}**`;
+      const want = `状況: **達 ${tlMd.objective.met}・部分 ${tlMd.objective.partial}・未達 ${tlMd.objective.unmet}・対象外 ${tlMd.objective['n/a']}**`;
       if (md.indexOf(want) < 0) bad.push('③md の状況の集計行 ≠ html');
-      const want4 = `**${tl.four['合']}/${tl.four['量限定合']}/${tl.four['否']}/${tl.four['保留']}**(台帳の転記)・判定保留(量定義不一致)**${tl.calibration['hold-definition']}**・較正対象外 **${tl.calibration['out-of-scope']}**`;
+      const want4 = `**${tlMd.four['合']}/${tlMd.four['量限定合']}/${tlMd.four['否']}/${tlMd.four['保留']}**(台帳の転記)・判定保留(量定義不一致)**${tlMd.calibration['hold-definition']}**・較正対象外 **${tlMd.calibration['out-of-scope']}**`;
       if (md.indexOf(want4) < 0) bad.push('③md の較正の集計行 ≠ html');
       // 第315便(統合 —— 決断事項 AN406 の在位の 7 本の移行で説明の文が beta だけ変わった): root 等の**別の世代の html**(正本の生成の対象 sha と違う・beta でない)では、
       //   判定の欄(objective・calibration・mismatch・outlook)を 1 字も違わないことを見て、説明の文(purpose・state・evidence・en・brief)だけの違いは数えて記録する
@@ -7161,11 +7166,13 @@ if (!TARGET.startsWith('beta/')) {
       const VERDICT315 = ['objective', 'calibration', 'mismatch', 'outlook'];
       let textOnly315 = 0;
       for (const z of J.rows || []) {
+        if (betaOnly318.has(z.id)) continue;   // 第318便c: beta だけの本(別の世代の html の表に無い)
         if (JSON.stringify(z.status) === JSON.stringify(T[z.id])) continue;
         if (otherGen315 && T[z.id] && VERDICT315.every((k) => JSON.stringify((z.status || {})[k]) === JSON.stringify(T[z.id][k]))) { textOnly315++; continue; }
         bad.push('④正本の status ≠ html ' + z.id);
       }
-      if (otherGen315) note315 = `④ 対象は正本の生成の対象と別の世代の html(root)—— 判定の欄は全本一致・説明の文だけ違う本 ${textOnly315}(第315便 —— beta の世代で照合)`;
+      if (otherGen315) note315 = `④ 対象は正本の生成の対象と別の世代の html(root)—— 判定の欄は全本一致・説明の文だけ違う本 ${textOnly315}(第315便 —— beta の世代で照合)`
+        + (betaOnly318.size ? `・beta だけの本 ${[...betaOnly318].join(',')} は行数・集計・帰属から除いた(第318便c —— beta の世代で照合)` : '');
       for (const line of md.split('\n')) {
         const bare = line.replace(/[「『][^」』]*[」』]/g, '');
         if (SS.FORBIDDEN.test(bare)) bad.push('⑤禁止語: ' + line.slice(0, 40));
@@ -7202,9 +7209,10 @@ if (!TARGET.startsWith('beta/')) {
         let cmp = '正本は旧帰属(統合時の samplestatus の段で入れ替わる)';
         if (tn && tn.version === SS.QA_ATTRIBUTION_VERSION) {
           if (ev.commit === (QA.commit || null) && ev.date === (QA.date || null)) {
-            const off = (J.rows || []).filter((z) => !z.timing || !z.timing.qa || !A.byId[z.id] || z.timing.qa.n !== A.byId[z.id].n || z.timing.qa.attributed !== A.byId[z.id].attributed);
+            const rows318 = (J.rows || []).filter((z) => !betaOnly318.has(z.id));   // 第318便c: beta だけの本は別の世代の html の帰属に無い
+            const off = rows318.filter((z) => !z.timing || !z.timing.qa || !A.byId[z.id] || z.timing.qa.n !== A.byId[z.id].n || z.timing.qa.attributed !== A.byId[z.id].attributed);
             if (off.length) bad.push('⑥正本の QA 帰属の本数が再計算と違う: ' + off.slice(0, 4).map((z) => z.id).join(','));
-            cmp = `正本の帰属 ${J.rows.length - off.length}/${J.rows.length} 本が再計算と一致`;
+            cmp = `正本の帰属 ${rows318.length - off.length}/${rows318.length} 本が再計算と一致`;
             if (md.indexOf('qaTargets') < 0) bad.push('⑥md の保存 QA の説明に qaTargets が無い');
           } else cmp = '保存 QA が正本の生成後に更新された(本数の照合は飛ばす)';
         }
