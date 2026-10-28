@@ -143,12 +143,14 @@ function partC(H) {
   return { rows, isolatedOk: isoOk, otherOnlyRel: r6(Math.max(eg, ew)), termsFinite, positiveREngVsLib: r6(ep) };
 }
 
+// 第318便(統括の統合 —— 煙試験で見つけた): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本(K1 の規則の宣言)—— 数え上げの外に置く(正本の欄と値は不変・QA の側も同じ本を外して比べる)
+const LATER_BOOKS_318 = new Set(['solarSystem16Inertial3d']);
 /* ───────── 段 N(節点で r = 0 は起きない)───────── */
 function partN(H, quick) {
   const rule = E(H, 'inertialDragIsqRule'), HP = H.HP, retired = E(H, 'retiredOf');
   let tMin = 1, tMax = 0;
   for (let n = 2; n <= 24; n++) { const R = rule(n); for (let k = 0; k < R.N; k++) { if (R.T[k] < tMin) tMin = R.T[k]; if (R.T[k] > tMax) tMax = R.T[k]; } }
-  const all = HP.allPresets();
+  const all = HP.allPresets().filter((q) => !LATER_BOOKS_318.has(q.id));   // 第318便(統括): 後に入った本は数え上げの外
   const decl = all.filter((q) => { const r = (q.physics || {}).relativeDrag, r2 = q.abBody && q.abBody.physicsPatch && q.abBody.physicsPatch.relativeDrag;
     return [r, r2].some((x) => x && x.invSq !== undefined); }).map((q) => q.id);
   // 在位の三次元の慣性の本(単位あり)の新則の写し(既定の半径)の 1 步が有限
