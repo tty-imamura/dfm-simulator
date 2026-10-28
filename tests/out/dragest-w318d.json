@@ -2904,7 +2904,7 @@
      3.5598507439180858,
      0.056213538280470314
     ],
-    "wallSec": 2.262,
+    "wallSec": 2.42,
     "nan": false
    },
    "on|2": {
@@ -2920,7 +2920,7 @@
      3.5656899968253404,
      0.05743818512910459
     ],
-    "wallSec": 5.353,
+    "wallSec": 4.213,
     "nan": false
    },
    "off|1": {
@@ -2936,7 +2936,7 @@
      3.5598507439180858,
      0.056213538280470314
     ],
-    "wallSec": 2.423,
+    "wallSec": 1.972,
     "nan": false
    },
    "off|2": {
@@ -2952,7 +2952,7 @@
      3.5656899968253404,
      0.05743818512910459
     ],
-    "wallSec": 4.169,
+    "wallSec": 3.823,
     "nan": false
    }
   },
@@ -3092,31 +3092,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.084
+   "wallSec": 0.082
   },
   "B": {
-   "wallSec": 31.908
+   "wallSec": 34.093
   },
   "C": {
-   "wallSec": 0.258
+   "wallSec": 0.284
   },
   "DE": {
-   "wallSec": 0.159
+   "wallSec": 0.134
   },
   "Drun": {
-   "wallSec": 14.237
+   "wallSec": 12.453
   },
   "F": {
-   "wallSec": 0.013
+   "wallSec": 0.009
   }
  },
- "elapsedS": 48.936,
+ "elapsedS": 49.578,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第318便d",
   "target": "beta/index.html",
   "targetSha256": "f47e1f2153b45767b95d888fd2f373aaaccf941bf790a5f41628cfb27500b1dc",
-  "generatedAt": "2026-10-28T15:47:14.953Z",
+  "generatedAt": "2026-10-28T15:52:59.964Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -3140,15 +3140,15 @@
   "code": [
    {
     "file": "tests/exp-w318d-dragest.mjs",
-    "bytes": 39506,
-    "sha256": "690f0d45074e2f57359e14eee5799ce917b2f2984c1453ebf0be718db73fe381",
-    "mtime": "2026-10-28T15:46:11.959Z"
+    "bytes": 39590,
+    "sha256": "2948fa8ddc68e590e8aeb5d0b81f38612a3ce9c6936547f8fb501eb2e18f998d",
+    "mtime": "2026-10-28T15:50:40.076Z"
    },
    {
     "file": "tests/lib-w318d-dragest.mjs",
-    "bytes": 30454,
-    "sha256": "37f380562d8e15246b85f3dffab882073907b545e801dc2d34c4024d628162ea",
-    "mtime": "2026-10-28T15:36:39.059Z"
+    "bytes": 30422,
+    "sha256": "5494fcbfc3028f95bce97196106af3ad96491b98164705cf3a2e8990c28ee86c",
+    "mtime": "2026-10-28T15:50:40.068Z"
    },
    {
     "file": "tests/lib-w317c-satcut.mjs",
@@ -3187,7 +3187,7 @@
     "mtime": "2026-10-28T15:09:18.504Z"
    }
   ],
-  "codeSha256": "7f32281334cebc95465e8a167cd15b6d4966ec549568031b2a16fefc66802cff",
+  "codeSha256": "764d9fa7814c0f4f263a112a686aaf23e9c6b0944e67d120289a20176779cdf7",
   "harnessVersion": "w318d-dragest-1",
   "stage": "dragest",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
@@ -3198,18 +3198,12 @@
    "太陽の慣性モーメントの係数 I/(MR²)(標準の太陽模型の型 —— 文献の値) = 0.07 -(本便は一次資料に当たっていない)"
   ],
   "notClaim": [
-   "フィットした",
-   "較正した",
-   "収束した",
-   "完全に一致",
-   "法則を確かめた",
-   "一致した",
-   "ダークマターを説明した",
-   "回転曲線を説明した",
-   "金星の逆転を説明した",
-   "木星の熱源を特定した",
-   "銀河の引きずりを測った",
-   "観測の 3σ の合否"
+   "最小二乗の値を合わせた値・較正の値と呼ばない",
+   "刻みの差を収束の判定に使わない(感度診断)",
+   "ハロー・回転曲線・金星の自転・木星の熱を引きずりで説明したとは書かない",
+   "銀河の R_d・ω_G・τ_hold を観測から決めたと書かない",
+   "数の桁が近いことを証拠と呼ばない",
+   "観測の 3σ の合否を付けない"
   ],
   "scope": {
    "version": "w316d-scope-5",

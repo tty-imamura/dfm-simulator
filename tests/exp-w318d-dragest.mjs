@@ -17,8 +17,8 @@
 //   F まとめ: 仮定ごとの「要る大きさ」「今の K1」「比」と候補の規則(R_d,spin = 観測半径・J を別の入力)で同じ表をもう一度。
 //
 // ■ 試走: W318D_QUICK=1(W318D_OUT が要る —— 正本を書かない・B の格子を 1 つ・D の走行を 2 公転)。W318D_WORKERS は受けるが使わない(1 プロセス)。
-// ■ 言わないこと: 「フィットした」(最小二乗の値・最良の値)「較正した」「収束した」「完全に一致」「法則を確かめた」「一致した」・ハロー・回転曲線・金星の逆転・木星の熱源を説明したと書かない・
-//   銀河の R_d・ω_G・τ_hold を観測から決めたと書かない。合否・観測の 3σ は付けない。
+// ■ 言わないこと: 最小二乗の値は見積りの値(合わせた値・較正の値と呼ばない)・ハロー・回転曲線・金星の自転・木星の熱を引きずりで説明したとは書かない・
+//   銀河の R_d・ω_G・τ_hold を観測から決めたと書かない・数の桁が近いことを証拠と呼ばない。合否・観測の 3σ は付けない。
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -38,7 +38,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w318d-dragest-1';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const clone = (x) => JSON.parse(JSON.stringify(x));
-const NOT_CLAIM = ['フィットした', '較正した', '収束した', '完全に一致', '法則を確かめた', '一致した', 'ダークマターを説明した', '回転曲線を説明した', '金星の逆転を説明した', '木星の熱源を特定した', '銀河の引きずりを測った', '観測の 3σ の合否'];
+const NOT_CLAIM = ['最小二乗の値を合わせた値・較正の値と呼ばない', '刻みの差を収束の判定に使わない(感度診断)', 'ハロー・回転曲線・金星の自転・木星の熱を引きずりで説明したとは書かない', '銀河の R_d・ω_G・τ_hold を観測から決めたと書かない', '数の桁が近いことを証拠と呼ばない', '観測の 3σ の合否を付けない'];
 export const OUT_DRAGEST = 'tests/out/dragest-w318d.json';
 export const INPUT16 = 'tests/data-w318c-solar16-input.json';
 export const CSV_GAL = 'paper/data/cluster-galaxy-observations.csv';
