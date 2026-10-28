@@ -88913,7 +88913,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   ⑥ 選択粒子の編集 updateBodyEdit の本体に非 ASCII の文字列が無い(文は I18N の beCvShellGas・beCvCoreBare・beCvLsNone —— ja/en)
 // ----   ⑦ 内蔵の全本が空でない id を持つ(makeSim の乱数の種の preset.id||preset.name が名へ落ちない —— 名を説明文の欄にしてよい根拠)
 {
-  await (async () => {   // 第310便c(heap)の型: 本文を関数で包む —— 抜けたら headless の写しを手放す
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const H318 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   if (!(TARGET.startsWith('beta/') && H318.indexOf('const TEXT_REGISTRY_318_VERSION="w318a-text-registry-1"') >= 0)) {
     console.log('SKIP lint.textRegistry318(第318便a の文の登録簿の前の世代 — ' + TARGET + ')');
@@ -89016,14 +89016,14 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   add('lint.textRegistry318', bad.length === 0,
     `**受理の判定と理由の文を分けた・文の登録簿**(第318便a・原仮定者の裁定(第120報)・AN427 ①〜④・R254 —— 判定のコードは閉包に残り、文だけが表から引かれる・受理の結果はビット同一): ${cases.join(' / ')}`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
-  })();
+  })();   // 第310便c(heap)
 }
 // ---- 第318便a(AN427 ⑤・R254): lint.toolStamp318 —— **刻印の道具の変更は照合だけ**(新設 —— root は SKIP・世代切替は器の定数 TOOL_CHECK_VERSION の有無)。
 // ----   ① 自己試験(一時ディレクトリ): 刻印の名(scopeStamp・stableInputs・provenanceMetaScoped)だけを import する器 → true / 他の名・import * as・動的な import → false / 道具でないファイル → false
 // ----   ② 実物: 宣言した器の現行の正本のうち、道具を刻印だけに使う本と計算に使う本の数(計算に使う本は従来どおり「式」で regen)・刻印を今の道具で引き直して一致(toolStampRecheck)
 // ----   ③ 照合が効く: 刻印の領域 hash を 1 字変えた meta の写しは toolStampRecheck が不一致を返す(照合を素通りしない)
 {
-  await (async () => {
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   if (!TARGET.startsWith('beta/')) { console.log('SKIP lint.toolStamp318(beta 対象でない: ' + TARGET + ')'); return; }
   const SC = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
   if (SC.TOOL_CHECK_VERSION !== 'w318a-toolcheck-1') { console.log('SKIP lint.toolStamp318(第318便a の道具の照合の前の世代)'); return; }
@@ -89064,13 +89064,13 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   add('lint.toolStamp318', bad.length === 0,
     `**刻印の道具の変更は照合だけ**(第318便a・原仮定者の裁定(第120報)・AN427 ⑤・R254 —— 道具の hash は meta.code に残し、計算のコードの「式」の判定から外す・道具を計算に使う器は従来どおり regen): ${cases.join(' / ')}`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
-  })();
+  })();   // 第310便c(heap)
 }
 // ---- 第318便a(決断事項 AN429・R254): ui.symDisp318 —— **観測結果カードと監査ビューの記号の下付き**(新設 —— root は SKIP・世代切替は lint.textRegistry318 と同じ)。ページで:
 // ----   ① 監査ビュー: 説明の文の行(fail・out)と本の名は symDispSet の表示(textContent = HP.symDispText(文)・下付きの字の無い添字は <sub>)・resid・gates・files・corr の行は文字のまま
 // ----   ② 観測結果カード: 宣言行 .ocRow の textContent = HP.symDispText(文)(宣言行の数は宣言のまま)・量の id(row.q)と保存の JSON は不変(写しの宣言と比べる)
 {
-  await (async () => {
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const H318u = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   if (!(TARGET.startsWith('beta/') && H318u.indexOf('const TEXT_REGISTRY_318_VERSION="w318a-text-registry-1"') >= 0)) { console.log('SKIP ui.symDisp318(第318便a の前の世代 — ' + TARGET + ')'); return; }
   const bad = [], cases = [];
@@ -89114,7 +89114,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   add('ui.symDisp318', bad.length === 0,
     `**観測結果カードと監査ビューの記号の下付き**(第318便a・原仮定者の裁定(第120報)・AN429・R254 —— symDispSet の表示だけ・量の id と保存の JSON は不変・キャンバスと title は文字のまま): ${cases.join(' / ')}`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
-  })();
+  })();   // 第310便c(heap)
 }
 // ---- 第318便a(決断事項 AN430・R254): lint.axialSymbol318 —— **軸の係数の表示の記号 A_k**(新設 —— root は SKIP・世代切替は lint.textRegistry318 と同じ)。
 // ----   ① I18N の hudSpin3・nc_axial_drag_unfitted(ja/en)に A_k があり、カッパ(κ・en の kappa)が無い・nc_axial_drag_unfitted が鍵 axialCoupling と倍率 axialGain を区別する
@@ -89122,7 +89122,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   ③ 鍵は不変: 受理器の本体が spinDrag.axialCoupling を読み、REL_DRAG_SPIN3_KEYS に axialCoupling・axialGain がある(保存の鍵は変えない)
 // ----   ④ 天体力学の慣例のカッパ(LAWS の E13 —— 周転円の振動数)は残す・トイの本(chainDiskToy3dTilt)のカッパは lint.presetText316c の許可の表(理由つき)
 {
-  await (async () => {
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const H318x = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   if (!(TARGET.startsWith('beta/') && H318x.indexOf('const TEXT_REGISTRY_318_VERSION="w318a-text-registry-1"') >= 0)) { console.log('SKIP lint.axialSymbol318(第318便a の前の世代 — ' + TARGET + ')'); return; }
   const bad = [], cases = [];
@@ -89148,7 +89148,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   add('lint.axialSymbol318', bad.length === 0,
     `**軸の係数 axialCoupling の表示の記号 A_k**(第318便a・原仮定者の裁定(第120報)・AN430・R254 —— 鍵は不変・倍率 axialGain と区別・周転円の振動数のカッパは慣例として残す): ${cases.join(' / ')}`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
-  })();
+  })();   // 第310便c(heap)
 }
 // ---- 第318便a(決断事項 AN383・R254): lint.docNames318 —— **版なしの文書名**(新設 —— beta/root の両方で走る〔文書は共有〕)。
 // ----   ① 版なしの 5 本(SAMPLE_STATUS・FAMILIES・KF0_LEDGER・CALIBRATION_ISSUES・BH_DESIGN)がある・旧名は 1 行の案内だけ(版なしの名へのリンク —— 生成器は書かない)
@@ -89211,7 +89211,17 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const T = J.cases.filter((c) => c.kind === 'text'), P = J.cases.filter((c) => c.kind === 'physics');
         if (T.length !== 8 || P.length !== 5) bad.push(`① 変更の種類 ${T.length}+${P.length}`);
         for (const c of J.cases) if (!(c.before && c.before.made && c.after && c.after.made)) bad.push('① 作れない変更 ' + c.key);
-        for (const c of T) if (!(c.after && c.after.scoped === 0)) bad.push('② 表示の文 ' + c.key + ' が後で ' + (c.after && c.after.scoped) + ' 段');
+        // 表示の文は後の領域の段 0 —— ただし器が consts でその文を宣言して読む段(本の名を一覧に書く families の BUILTIN_PRESETS.map(…p.name…))は正しく動く
+        const RTm = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+        const constReads = (key, re) => { const st = RTm.REGEN_STEPS.find((z) => z.key === key); const h = st && (st.cmd.match(/tests\/exp-[\w.-]+\.mjs/) || [null])[0];
+          if (!h) return false; const ln = (fs.readFileSync(path.join(ROOT, h), 'utf8').match(/^const REGEN_SCOPE = (.*)$/m) || [])[1] || ''; const m = /"consts":\[(.*?)\],"complete"/.exec(ln); return !!m && re.test(m[1]); };
+        const CONST_FIELD = { presetName: /\bp\.name\b/ };
+        let nConst = 0;
+        for (const c of T) {
+          const extra = (c.after && c.after.scopedSteps || []).filter((k) => !(CONST_FIELD[c.key] && constReads(k, CONST_FIELD[c.key])));
+          nConst += (c.after && c.after.scopedSteps || []).length - extra.length;
+          if (!(c.after && extra.length === 0)) bad.push('② 表示の文 ' + c.key + ' が後で ' + extra.length + ' 段(consts の宣言の外): ' + extra.slice(0, 3).join(','));
+        }
         for (const c of P) if (!(c.after && c.before && c.after.scoped >= c.before.scoped && c.after.scoped > 0)) bad.push('② 物理 ' + c.key + ' の段が前より少ないか 0');
         const wh = new Set(J.cases.flatMap((c) => [c.before && c.before.wholeHtml, c.after && c.after.wholeHtml]));
         if (wh.size !== 2 && wh.size !== 1) bad.push('② html 全体の段が種類で変わる');
@@ -89220,7 +89230,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (!sec) bad.push('③ PHYSICS〔第318便a〕が無い');
         for (const c of J.cases) { const row = '| ' + c.ja + ' | ' + (c.kind === 'text' ? '表示の文' : '物理') + ' | ' + c.before.regen + '(領域 ' + c.before.scoped + ') | ' + c.after.regen + '(領域 ' + c.after.scoped + ') |';
           if (sec.indexOf(row) < 0) bad.push('③ PHYSICS の表に ' + c.key + ' の行が無い'); }
-        cases.push(`① 変更 ${J.cases.length} 種(表示の文 ${T.length}・物理 ${P.length})/ ② 表示の文は後の領域の段 0・物理は前以上・html 全体の段 ${[...wh].join('/')} / ③ PHYSICS の表 ${J.cases.length} 行`);
+        cases.push(`① 変更 ${J.cases.length} 種(表示の文 ${T.length}・物理 ${P.length})/ ② 表示の文は後の領域の段 0(器が consts でその文を宣言して読む段 ${nConst} を除く)・物理は前以上・html 全体の段 ${[...wh].join('/')} / ③ PHYSICS の表 ${J.cases.length} 行`);
       }
       add('docs.scopeProbe318', bad.length === 0,
         `**鎖の費用の対照**(第318便a・原仮定者の裁定(第120報)・AN427・R254 —— 表示の文の 1 字で regen する段・物理の 1 字で regen する段の前と後): ${cases.join(' / ')}`
