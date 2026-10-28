@@ -357,7 +357,7 @@
     ],
     "resMax": 6.07834e-16,
     "fail": 0,
-    "wallSec": 0.948
+    "wallSec": 0.862
    },
    "B": {
     "bands": [
@@ -575,17 +575,17 @@
    "minParticles": 16,
    "massRatio": 0.9
   },
-  "n": 29,
+  "n": 30,
   "moved": [
    "saturnRingInertial3d",
    "chainSpreadToy3d"
   ],
-  "notMoved": 27,
+  "notMoved": 28,
   "byReason": {
    "calibration": 2,
    "core2d": 20,
    "testParticle": 2,
-   "governorFree": 7,
+   "governorFree": 8,
    "referenceModel": 4,
    "contactPurpose": 1,
    "chainZeroTest": 2,
@@ -977,6 +977,26 @@
     "reasons": []
    },
    {
+    "id": "solarSystem16Inertial3d",
+    "emoji": "🗺️",
+    "group": "現実較正",
+    "coord": "3d",
+    "n": 16,
+    "groups": 0,
+    "governorRow": 0,
+    "governorMass": 198.84992514426042,
+    "governorPinned": false,
+    "ratio": 745.255,
+    "relativeDrag": "inertial",
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "governorFree"
+    ]
+   },
+   {
     "id": "uranusReal",
     "emoji": "💠",
     "group": "現実較正",
@@ -1193,46 +1213,46 @@
  "ok": true,
  "timing": {
   "accept": {
-   "wallSec": 0.023
+   "wallSec": 0.022
   },
   "zero": {
-   "wallSec": 2.037
+   "wallSec": 1.818
   },
   "effect": {
-   "wallSec": 2.485
+   "wallSec": 2.313
   },
   "remeasure": {
-   "wallSec": 0.001
+   "wallSec": 0.002
   },
   "audit": {
-   "wallSec": 0.002
+   "wallSec": 0.001
   }
  },
- "elapsedS": 4.548,
+ "elapsedS": 4.157,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第301便b",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T18:01:39.426Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-28T21:03:53.252Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/out/geo4stable-w299d.json",
-    "bytes": 36190,
-    "sha256": "b142d8cda7ec91855d9c6e4cd7795f5b9c6499f39908c371f17ef7633fcf24a5",
-    "mtime": "2026-10-26T12:58:18.391Z"
+    "bytes": 36194,
+    "sha256": "acac6d44558be05ffa0e7d9f4e96a42f3968182204e60667b288966a6993f37e",
+    "mtime": "2026-10-28T20:47:23.625Z"
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
-    "bytes": 41119,
-    "sha256": "9a6845b893f72f648657ad29e82c9c3634e9e8e76c67a417cc793d9eeb9bd3ac",
-    "mtime": "2026-10-26T17:54:32.396Z"
+    "bytes": 41127,
+    "sha256": "89ab214a3035e0a4a362c643877b2009b901f7e46041ffc75f657a9fb31384a1",
+    "mtime": "2026-10-28T20:55:57.205Z"
    }
   ],
   "code": [
@@ -1274,18 +1294,18 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "4554112e3af43ff6ce428f12a583e25e5dc684bc850d73732b11a7d5883131b7",
+  "codeSha256": "91099d82ce64be2a155e420d1eef322e8fa227a5b03856b6ce456bf00ab68988",
   "harnessVersion": "w301b-approxmany-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第91報)①③「近似多粒子のサンプルでは支配天体は固定する。近似多粒子同士は接触判定を切る。塵は重力も引きずりも無し・天体は自転を設定して重力も引きずりも有り」「chainSpreadToy3d を近似多粒子のフォーマットに合わせる」",
   "reading": "統括の検証項目 R180(対のマスクを辺を作る段で・宣言は physics の 1 つの鍵・🍥 は天体型・🍩 の帯は塵・銀河などの本の監査)",
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "DT",
@@ -1326,16 +1346,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1351,
-   "segments": 1190,
-   "closureShare": 0.3182
+   "names": 1349,
+   "segments": 1188,
+   "closureShare": 0.3061
   },
-  "scopeSha256": "92f515577eedb18152124623bbc490aa83588ab157a6b55a287bd20fea1e6d2f",
+  "scopeSha256": "fe09300c1461402556f074aa320f5617ebec4c449aad23cbe6752e6556677dfc",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/geo4stable-w299d.json",
-    "stableSha256": "e3e143b0cbb778d5e98c3c4647acecf936132eca62a1fa54b01a38b0869b56ab",
+    "stableSha256": "70ba613d7725a9cef120ff32f231efd74cf1f42d0396cd1460d55e2cc9789842",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1349,7 +1369,7 @@
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
-    "stableSha256": "f69ebc5ae443064b7f411dd9a9e31ca30bf26b74bfc1171d04dcbe02f49d3feb",
+    "stableSha256": "e2ee0fa0b01a440b2e84601769387a344e4428b7ac8fa8f35ecc1095ecd32e1c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
