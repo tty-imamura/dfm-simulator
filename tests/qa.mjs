@@ -60127,7 +60127,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     const want5 = W296B_FIT ? want4.split(',').concat(W296B_FITIDS).sort().join(',') : want4;
     // 第298便c(R167): 🌦️(🌥️ の三次元の写し —— fidelity real・principle)を足した世代は +1(宣言から: 三次元の慣性決定力の本のうち fidelity:"real")
     const fid298c = W298C_IDS.filter((id) => W298C_BLOCK(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'), id).indexOf('fidelity:"real"') >= 0);
-    const want = fid298c.length ? want5.split(',').concat(fid298c).sort().join(',') : want5;
+    const want6 = fid298c.length ? want5.split(',').concat(fid298c).sort().join(',') : want5;
+    // 第318便c(原仮定者の指示(第120報)・R256): 🗺️ solarSystem16Inertial3d(太陽系 16 体の三次元の診断の本 —— fidelity real・principle)を足した世代は +1(id の辞書順に差し込む)
+    const want = W318C_S16 ? want6.split(',').concat(['solarSystem16Inertial3d']).sort().join(',') : want6;
     add('ui.fidelity',
       r.reals.join(',') === want && r.chipOn && r.chipOff && r.chipOffLegacy,
       `fidelity:"real"=${r.reals.length}件[${r.reals.join(',')}](${gen120 ? '第120便: スケール換算込み較正のみ' : '第93便: 3件(root)'})/ ` +
@@ -70272,7 +70274,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const JR = new Map(((J.derive || {}).rows || []).map((z) => [z.id, z]));
         let nCmp = 0, nAdded = 0;
         // 第290便(統括の統合): 第290便e の 🍭 shapeToySpiral・🎢 shapeToySpiralCore と第290便c の 🐌 inertialDragPair も履歴の正本の後に入った本(段 geomode は role:'history' —— 再生成しない)
-        const addedAfterCanon = ['clusterGrowthCopy', 'galaxyAnalogyBHCompose', 'galaxyAnalogyBHTilt90', 'fixedCaptureCopy', 'galaxyAnalogyBHTilt90Layers', 'shapeToySpiral', 'shapeToySpiralCore', 'inertialDragPair', 'earthMoonTide', 'earthMoonInertial', 'earthMoonSunInertial', 'mercurySunInertial', 'plutoCharonInertial', 'chainDiskToy'].concat(W296B_FITIDS, W298A_IDS);   // 第298便a: 🌐🎲(三次元の本)も履歴の正本の後に入った本   // 第296便c: 🔗 も   // 第296便b: 🟫🟪(フィットの派生本 —— 正本 fit-w296b.json の ID)も履歴の正本の後に入った本   // 第295便c: 🌤️🟤🟣 も履歴の正本の後に入った本   // 第292便d: 🌜・第292便c: 🌛 も履歴の正本の後に入った本   // 第289便e: 🪆 も履歴の正本の後に入った本   // 第288便g: 🛸(第288便e)も履歴の正本の後に入った本   // 第288便c: 🧩 も同じ扱い   // 第287便a: 正本 geomode-w283a.json(履歴)の後に入った本 —— 導出は ① の規則で検査し、正本との照合は対象外
+        const addedAfterCanon = ['clusterGrowthCopy', 'galaxyAnalogyBHCompose', 'galaxyAnalogyBHTilt90', 'fixedCaptureCopy', 'galaxyAnalogyBHTilt90Layers', 'shapeToySpiral', 'shapeToySpiralCore', 'inertialDragPair', 'earthMoonTide', 'earthMoonInertial', 'earthMoonSunInertial', 'mercurySunInertial', 'plutoCharonInertial', 'chainDiskToy'].concat(W296B_FITIDS, W298A_IDS, W318C_S16 ? ['solarSystem16Inertial3d'] : []);   // 第318便c: 🗺️(三次元 —— 入力の宣言のまま physics の先頭が coord でないので W298A_IDS に入らない)も履歴の正本の後に入った本   // 第298便a: 🌐🎲(三次元の本)も履歴の正本の後に入った本   // 第296便c: 🔗 も   // 第296便b: 🟫🟪(フィットの派生本 —— 正本 fit-w296b.json の ID)も履歴の正本の後に入った本   // 第295便c: 🌤️🟤🟣 も履歴の正本の後に入った本   // 第292便d: 🌜・第292便c: 🌛 も履歴の正本の後に入った本   // 第289便e: 🪆 も履歴の正本の後に入った本   // 第288便g: 🛸(第288便e)も履歴の正本の後に入った本   // 第288便c: 🧩 も同じ扱い   // 第287便a: 正本 geomode-w283a.json(履歴)の後に入った本 —— 導出は ① の規則で検査し、正本との照合は対象外
         // 第288便b(原仮定者の裁定(第78報)④): 在位移行した 10 本は正本(履歴)の後に宣言が動いた —— 正本の行は移行表の「前」、ページの行は「後」の導出と照合する
         let MIGT = null; try { MIGT = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w288b-unify.json'), 'utf8')); } catch (e) { MIGT = null; }
         const migRows = new Map(((MIGT || {}).rows || []).filter((x) => x.action === 'migrate').map((x) => [x.id, x]));
@@ -73480,7 +73482,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       // 第298便a(R165): 第297便c の正本(移行表)の後に入った三次元の新本 🌐🎲(W298A_IDS —— 宣言から列挙)は、正本に行が無い間は照合の外
       //   (時間の標準〔stepDt=pRef/360・timeRef〕は preset.coord3d298 が照合する。鎖で正本を刻み直して行が入れば従来どおり照合する)
       const J0 = J;
-      const decl = decl0.filter((d) => W298A_IDS.indexOf(d.id) < 0 || (J0 && J0.rows.some((x) => x.id === d.id)));
+      // 第318便c(R256): 🗺️ solarSystem16Inertial3d(三次元 —— 入力の宣言のまま physics の先頭が coord でないので W298A_IDS に入らない)も同じ扱い
+      //   (刻みの宣言〔stepDt = 入力の値・timeRef の stepsPerOrbit 1440 と note〕は behavior.solar16Builtin318c ①・preset.timeStd297 が照合する)
+      const decl = decl0.filter((d) => (W298A_IDS.indexOf(d.id) < 0 && !(W318C_S16 && d.id === 'solarSystem16Inertial3d')) || (J0 && J0.rows.some((x) => x.id === d.id)));
       let nOk = 0, nNot = [];
       if (!J) bad.push('正本 tests/out/timestd-w297c.json が読めない');
       else {
@@ -78360,7 +78364,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       //   第303便a より前の世代では写しは元と同じ
       const PRE302w = await import('file://' + path.join(ROOT, 'tests', 'lib-w303a-pre.mjs')).catch(() => null);
       const gen303aW = !!(PRE302w && PRE302w.isGen303a(all));
-      const allW = gen303aW ? all.map((p) => PRE302w.pin302(p)) : all;
+      // 第318便c(R256): 🗺️ solarSystem16Inertial3d は第302便a の移行表より後に入った本(K1 の law inertial —— 今の宣言は behavior.solar16Builtin318c ①)—— 移行表の照合から外す
+      const allW = (gen303aW ? all.map((p) => PRE302w.pin302(p)) : all).filter((p) => !(W318C_S16 && p.id === 'solarSystem16Inertial3d'));
       // ① 宣言から作る集合と表
       const decls = [];
       for (const p of allW) for (const [where, rd] of [['本', p.physics && p.physics.relativeDrag], ['A/B の B 側', p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.relativeDrag]])
@@ -78721,7 +78726,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           // ①
           // 第306便a(AN336・R204): 在位の惑星 7 本に G_loc n = 2 を宣言した世代(lib-w306a-pre の gate305 —— 宣言から)は、その 7 本を第302便の G_loc の数から外す(今の宣言は preset.planets306)
           const PRE306g = await import('file://' + path.join(ROOT, 'tests', 'lib-w306a-pre.mjs'));
-          const live = all.filter((p) => p.familyRole !== 'retired'), decl = live.filter((p) => p.physics && p.physics.gLoc && !PRE306g.gate305(p)).map((p) => p.id).sort();
+          const live = all.filter((p) => p.familyRole !== 'retired'), decl = live.filter((p) => p.physics && p.physics.gLoc && !PRE306g.gate305(p) && !(W318C_S16 && p.id === 'solarSystem16Inertial3d')).map((p) => p.id).sort();   // 第318便c(R256): 🗺️ solarSystem16Inertial3d は在位の惑星 7 本と同じ K1 の G_loc {law:"kappaC2"}(後に入った本 —— 今の宣言は behavior.solar16Builtin318c ①)
           const decl302 = gen303a ? Object.keys(PRE303.DECL302).filter((id) => PRE303.DECL302[id].gLoc).sort() : decl;
           if (gen303a && decl.length) bad.push('① 第303便a の世代で G_loc を宣言した在位の本 ' + decl.join(','));
           if (JSON.stringify(decl302) !== JSON.stringify(P.ids.slice().sort())) bad.push('① G_loc を宣言した本 ' + decl302.join(',') + ' ≠ 正本 ' + P.ids.join(','));
@@ -78911,7 +78916,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         // 第306便a(AN336・R204): 在位の惑星のうち第305便の宣言で引きずり OFF だった本(今は λ ∝ m の k を移送して ON —— lib-w306a-pre の DECL305)は、今の集合の側から外して比べる(宣言から導く)
         let moved306 = [];
         try { const P6a = await import('file://' + path.join(ROOT, 'tests', 'lib-w306a-pre.mjs')); moved306 = r.err ? [] : Object.keys(P6a.DECL305).filter((id) => r.ids.drag.includes(id) && (((P6a.DECL305[id].physics || {}).relativeDrag || {}).Wbg === null)); } catch (e) { moved306 = []; }
-        if (!r.err && JSON.stringify(((SE.ids || {}).drag || []).filter((id) => !moved304.includes(id))) !== JSON.stringify(r.ids.drag.filter((id) => !moved306.includes(id)))) bad.push('正本の本の集合が宣言から導いた集合と違う' + (moved304.length ? '(第304便c・第306便e の引きずり OFF の ' + moved304.join('・') + ' を除いて)' : '') + (moved306.length ? '(第306便a の ' + moved306.join('・') + ' を除いて)' : ''));
+        // 第318便c(R256): 🗺️ solarSystem16Inertial3d は後に入った本 —— 正本の側と宣言の側の両方から外して比べる(鎖で作り直した正本に入っても入らなくても同じ照合)
+        const not318 = (id) => !(W318C_S16 && id === 'solarSystem16Inertial3d');
+        if (!r.err && JSON.stringify(((SE.ids || {}).drag || []).filter((id) => !moved304.includes(id) && not318(id))) !== JSON.stringify(r.ids.drag.filter((id) => !moved306.includes(id) && not318(id)))) bad.push('正本の本の集合が宣言から導いた集合と違う' + (moved304.length ? '(第304便c・第306便e の引きずり OFF の ' + moved304.join('・') + ' を除いて)' : '') + (moved306.length ? '(第306便a の ' + moved306.join('・') + ' を除いて)' : ''));
         if (!SE.fit || !(SE.fit.rows || []).length) bad.push('正本に影響の表(fit)が無い');
         if (!SE.chain) bad.push('正本に連鎖の段(chain)が無い');
       }
@@ -79270,7 +79277,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (!(J.version === X.HARNESS_VERSION && J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION && J.preVersion === PRE.LIB_VERSION)) bad.push('⑤ 正本の版・来歴');
         if (!(J.ok === true && J.gates && Object.keys(J.gates).length >= 10 && Object.values(J.gates).every(Boolean))) bad.push('⑤ 正本の門 ' + JSON.stringify(J.gates));
         // ①
-        const glocNow = live.filter((p) => p.physics && p.physics.gLoc).map((p) => p.id), glocWas = Object.keys(PRE.DECL302).filter((id) => PRE.DECL302[id].gLoc);
+        const glocNow = live.filter((p) => p.physics && p.physics.gLoc && !(W318C_S16 && p.id === 'solarSystem16Inertial3d')).map((p) => p.id), glocWas = Object.keys(PRE.DECL302).filter((id) => PRE.DECL302[id].gLoc);
         if (glocNow.length) bad.push('① 在位の本に physics.gLoc が残る ' + glocNow.join(','));
         if (!(glocWas.length === 7 && glocWas.every((id) => find(id)))) bad.push('① 第302便の宣言の写しの G_loc の本 ' + glocWas.length);
         const off6 = glocWas.filter((id) => !PRE.DECL302[id].fitRecord);
@@ -81483,7 +81490,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       for (const [mut, re] of rej) { const v = HP.validatePreset(mk(mut)), msg = (v.errors || []).join(' '); if (v.ok || !re.test(msg)) bad.push('① 拒否されない/理由の文 ' + re.source.slice(0, 40) + ' → ' + msg.slice(0, 100)); else nRej++; }
       { const q = clone(jup); q.physics.relativeDrag.dragCoreDefault = 'cap6500km'; const v = HP.validatePreset(q); if (!(v.ok && v.preset.physics.relativeDrag.dragCoreDefault === 'cap6500km')) bad.push('① 旧則の本の dragCoreDefault の受理'); }
       const decl = HP.allPresets().filter((q) => { const r = (q.physics || {}).relativeDrag, r2 = q.abBody && q.abBody.physicsPatch && q.abBody.physicsPatch.relativeDrag;
-        return [r, r2].some((x) => x && (x.invSq !== undefined || x.dragCoreDefault !== undefined)); }).map((q) => q.id);
+        return [r, r2].some((x) => x && (x.invSq !== undefined || x.dragCoreDefault !== undefined)) && !(W318C_S16 && q.id === 'solarSystem16Inertial3d'); }).map((q) => q.id);   // 第318便c(R256): 🗺️ solarSystem16Inertial3d は在位の 7 本と同じ K1 の短い形(後に入った本 —— 7 本は移行の前の写しで読む・🗺️ には写しが無い)
       if (decl.length) bad.push('① 在位/内蔵の本が invSq/dragCoreDefault を宣言 ' + decl.join(','));
       cases.push(`① 正準形・拒否 ${nRej}/${rej.length}・在位の宣言 0 本`);
       // ②
@@ -83742,7 +83749,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       { const A = X.partA(H), B = X.partB(H), G = X.gatesOf({ A, B, D: { rows: [], maintain: [], initSpin: { ok: [true] }, geometry: { omHatDotNgp: -1 }, zeroDeclaredSameAsUndeclared: true } });
         for (const k of ['acceptance', 'receiverRestriction', 'motionDenomSmall', 'fixedStateBitSame', 'twoStepsTranslationSame', 'isolatedOmegaIsG', 'twoBodySameG', 'wbg2StaysZero', 'explicitZeroSameRun', 'runtimeMass0', 'badRowZeroed', 'lowDenCounted'])
           if (G[k] !== true) bad.push('⑤ 器の門 ' + k + ' が真でない');
-        const nG = HP.allPresets().filter((p) => p.physics && p.physics.relativeDrag && (p.physics.relativeDrag.galaxyAxial !== undefined || p.physics.relativeDrag.invSq !== undefined)).length;
+        const nG = HP.allPresets().filter((p) => p.physics && p.physics.relativeDrag && (p.physics.relativeDrag.galaxyAxial !== undefined || p.physics.relativeDrag.invSq !== undefined) && !(W318C_S16 && p.id === 'solarSystem16Inertial3d')).length;   // 第318便c(R256): 🗺️ solarSystem16Inertial3d は在位の 7 本と同じ K1 の短い形(後に入った本)
         if (nG) bad.push('⑤ 内蔵の本で galaxyAxial/invSq を宣言する本 ' + nG);
         cases.push(`⑤ 器の段 A(${A.nPass}/${A.nCases})・B の門(非有限の行 ${B.badRow.counted}・分母の小さい行 ${B.lowDen.lowDenRows})・内蔵の本の宣言 ${nG}`); }
     } catch (e) { bad.push('走らない: ' + String(e && e.stack || e).slice(0, 200)); }
@@ -88901,7 +88908,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----     ④ 1PN の対照の写し(geoPN 1・λ_PN 1・gLoc と relativeDrag なし): 受理・拒否の門 空・内蔵の本には無い(器の写し)
 // ----     ⑤ 入力の検査(lib の inputCheck)の門が全部真・逆行の自転は金星・天王星・トリトンだけ
 // ----     ⑥ 表示の欄(name・descStruct・obsCard・parameterAudit・abBody.label —— ja/en)に来歴の語・旧記号・裸のカッパが無い・obsCard ≤ 8 行・ja の文 ≤ 120 字・
-// ----        絵文字が他の本と重ならない・家族 solarSystem16 の primary・notClaim solar16_diag の文(ja/en)・群 現実較正・sampleClass principle・較正母集団の外
+// ----        絵文字が他の本と重ならない・家族 solarSystem16 の primary・notClaim solar_cal(fidelity real の本の共通の行 —— 三次元の文)と solar16_diag の文(ja/en)・群 現実較正・sampleClass principle・較正母集団の外
 // ----   docs.solar16Builtin318c(正本 tests/out/solar16-w318c.json):
 // ----     ① 正本の門(全部真)・試走でない・版/来歴(w272e-1)・領域 hash(完全)・入力の sha256 が今の入力と同じ・器の門 builtin(html の本 = builtinDecl)
 // ----     ② 入力の検査・丸めの床・視点を lib で作り直して正本と一致(相対 1e-12)
@@ -88992,9 +88999,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           if ((H318.match(new RegExp('emoji:"' + p.emoji + '"', 'g')) || []).length !== 1) bad.push('⑥ html の emoji の宣言が 1 つでない');
           if (!(p.familyId === 'solarSystem16' && p.familyRole === 'primary' && HP.allPresets().filter((q) => q.familyId === 'solarSystem16').length === 1)) bad.push('⑥ 家族 solarSystem16 の primary');
           if (!(p.group === '現実較正' && p.sampleClass === 'principle' && p.fidelity === 'real' && p.referenceKind === 'theory-control')) bad.push('⑥ 群・sampleClass・fidelity・referenceKind');
-          if (!(JSON.stringify(p.notClaim) === '["solar16_diag"]' && /\n  nc_solar16_diag:"16 体の/.test(H318) && /\n  nc_solar16_diag:"The 16-body/.test(H318))) bad.push('⑥ notClaim solar16_diag の文(ja/en)');
+          if (!(JSON.stringify(p.notClaim) === '["solar_cal","solar16_diag"]' && /\n  nc_solar16_diag:"16 体の/.test(H318) && /\n  nc_solar16_diag:"The 16-body/.test(H318))) bad.push('⑥ notClaim solar_cal と solar16_diag の文(ja/en)');
           if (p.massCalibration || p.fitRecord || p.claims) bad.push('⑥ 較正・フィットの記録・claims を持たない(診断の本)');
-          cases.push(`⑥ 表示の欄 ${strs.length} 個に来歴の語 ${hitP.length}・旧記号 ${hitS.length}・obsCard ${p.obsCard.length} 行・絵文字 ${p.emoji} は 1 本だけ・家族 solarSystem16(primary)・notClaim solar16_diag`);
+          cases.push(`⑥ 表示の欄 ${strs.length} 個に来歴の語 ${hitP.length}・旧記号 ${hitS.length}・obsCard ${p.obsCard.length} 行・絵文字 ${p.emoji} は 1 本だけ・家族 solarSystem16(primary)・notClaim solar_cal と solar16_diag`);
         }
       } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
     }

@@ -216,11 +216,14 @@ export function stepDtOf(inp, spo) {
  * 内蔵の本の宣言の物理の部分(入力の physics・bodies・timeRef・camera・scaleExp・integrator —— relativeDrag と gLoc を短い形へ・刻みは o.stepsPerOrbit)。
  * o.form = 'input' は入力の長い形のまま(短い形と同じ走りかの照合)。
  */
+/** 刻みを 1 公転 1440 步に上げた理由(timeRef.note —— 数は正本 solar16-w318c.json の刻みの検査 step の K1 の行と choice.rows の ioRelOverA を丸めた文) */
+export const TIME_NOTE_1440 = '360 步ではイオの木星に対する位置の刻みの差 h − h/4 が 1 公転で 254 km(長半径の 6.0e-4)—— 1440 步で 15.9 km(3.8e-5)';
 export function builtinDecl(inp, o = {}) {
   const spo = o.stepsPerOrbit || inp.timeRef.stepsPerOrbit, ph = clone(inp.physics);
   if (o.form !== 'input') { ph.relativeDrag = clone(K1_DRAG); ph.gLoc = clone(GLOC); }
   ph.stepDt = stepDtOf(inp, spo);
   const tr = clone(inp.timeRef); tr.stepsPerOrbit = spo;
+  if (spo === 1440) tr.note = TIME_NOTE_1440;   // 1 公転 360 步から上げた本の理由(時間の標準の規則 —— preset.timeStd297)
   return { id: ID, scaleExp: clone(inp.scaleExp), integrator: inp.integrator, timeRef: tr, camera: clone(inp.camera), world: clone(inp.world), physics: ph, bodies: clone(inp.bodies) };
 }
 /** 器の走行の本(宣言 + 名前と説明の欄 —— 受理器に通す形) */
