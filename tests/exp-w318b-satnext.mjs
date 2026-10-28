@@ -39,7 +39,7 @@ import * as NX from './lib-w318b-satnext.mjs';
 import * as X315 from './exp-w315d-satk1.mjs';
 import * as X316 from './exp-w316d-sath.mjs';
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 在位の本は .find で引く〔jupiterGalilean・saturnRingReal の値・在位の 7 本の relativeDrag の照合〕・
-//   "saturn" は母惑星の鍵の文字列が 🪐 の id と同じ綴りで数えられた分・"ab"・"ch"・"ctx"・"cw"・"T"・"$" は import した第315便d・第316便d の器の綴りで数えられた分〔広めの宣言は許される —— 第317便c と同じ宣言〕。
+//   saturn は母惑星の鍵の文字列が 🪐 の id と同じ綴りで数えられた分・ab・ch・ctx・cw・T・$ は import した第315便d・第316便d の器の綴りで数えられた分〔広めの宣言は許される —— 第317便c と同じ宣言〕。
 //   読み口 inertialDragGalaxyAxialState は第317便c の lib の名で数えられた分)
 const REGEN_SCOPE = {"presets":["jupiterGalilean","jupiterSunInertial3d","marsSunInertial3d","mercurySunInertial3d","neptuneSunInertial3d","saturn","saturnRingReal","saturnSunInertial3d","uranusSunInertial3d","venusSunInertial3d"],"roots":["$","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragIsqState","HP.sim","HP.validatePreset","T","ab","ch","ctx","cw","inertialDragGalaxyAxialState","pnSource"],"core":true,"consts":[],"complete":true};
 
@@ -360,7 +360,7 @@ export function costOf(J) {
   const runs = Object.values(J.E.runs).filter((r) => r.status === 'run'), byJob = {};
   for (const [rk, key] of Object.entries(J.E.index)) { const r = J.E.runs[key]; if (!r) continue; const j = rk.split('|').slice(0, 3).join('|'); byJob[j] = byJob[j] || { rows: 0, wallSec: 0 }; byJob[j].rows++; byJob[j].wallSec += r.wallSec; }
   const steps = runs.reduce((a, r) => a + r.runs.q10.steps + r.runs.q11.steps, 0), q11 = runs.reduce((a, r) => a + r.runs.q11.wallSec, 0), q11Steps = runs.reduce((a, r) => a + r.runs.q11.steps, 0);
-  return { runs: runs.length, wallSec: runs.reduce((a, r) => a + r.wallSec, 0), steps, q11MsPerStep: q11Steps ? 1000 * q11 / q11Steps : null, byJob };
+  return { runs: runs.length, wallSec: runs.reduce((a, r) => a + r.wallSec, 0), steps, q11Steps, rateStepsPerSec: q11 > 0 ? q11Steps / q11 : null, byJob };
 }
 
 /* ───────── 走行の計画 ───────── */

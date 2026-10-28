@@ -1428,8 +1428,9 @@ export const REGEN_STEPS = [
   //   窓 W1 = (0, P_母]・W2 = (P_母/2, 3P_母/2]〕・模型 LS〔L + λ☉ の 1・2 倍の調和〕の M0 型の差・差の直接の回帰〔回る ê₁₀〕・判定 R1 ∧ R2〔HARM_RULE の型・閾値 1e-2〕・
   //   トリトンの V3V1a と V1a × 128 公転〔離心率ベクトルの差の表の量〕・1 ulp の診断の列)。母惑星と太陽は凍結の写し tests/data-w306a-decl305.json・
   //   第317便c の正本 tests/out/satcut-w317c.json を読む(64 公転の M0 のビット同一の照合と二体の参照 —— after に連ねる)。走行は子プロセス 2 本(workers 2)。
-  //   所要は第318便b の枝の見積り(混まない箱の 1 步の実測 —— q11 0.48 ms・q10 0.014 ms —— から 2 worker で約 6400 s。正本の走行の後に実測へ置き換える)
-  S('satnext-318b', 'node tests/exp-w318b-satnext.mjs', ['tests/out/satnext-w318b.json'], 6400, { secSource: 'w318b-branch', node: true, workers: 2, after: ['satcut-317c', 'obscompare', 'samplestatus'],
+  //   所要は第318便b の枝の実測 —— **並走の秒**(他の 3 枝と同じ 4 核の容器で並走 —— 負荷平均 5〜9・正本の 1 回目の全走行 7429.7 s〔走行 29 本・行ごとの壁時計の和 14779 s〕を採る。
+  //   混まない箱の 1 步の実測〔q11 0.47〜0.48 ms・q10 0.014 ms〕からの見積りは 2 worker で約 6300 s —— 統括が混まない箱で測り直す。正本は再開の写し W318B_CACHE から読んで作り直した —— resumed 29)
+  S('satnext-318b', 'node tests/exp-w318b-satnext.mjs', ['tests/out/satnext-w318b.json'], 7430, { secSource: 'w318b-branch', node: true, workers: 2, after: ['satcut-317c', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/satnext-w318b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/runs/*/wallSec', '/E/runs/*/runs/q10/wallSec', '/E/runs/*/runs/q11/wallSec', '/cost/wallSec', '/cost/byJob/*/wallSec', '/cost/rateStepsPerSec']) },
     note: '第318便b: 衛星の次の正本(q11 を在位の宣言の形へ・V1a を主の列・V0 を残す列・V0 − V1a は反実仮想の差の記録・母惑星の公転周期の窓 W1/W2 と λ☉ の 1・2 倍の調和の模型を走行の前に宣言・'
       + 'トリトンは V3V1a〔ガリレイの変換〕の離心率ベクトルの差 —— 決まらない列は「この予算では永年項として決まらない」・在位へ入れない)' }),
