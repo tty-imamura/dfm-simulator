@@ -123,7 +123,7 @@
    "momRel": 0,
    "relPosRel": 0,
    "relVelRel": 0,
-   "wallSec": 0.001
+   "wallSec": 0.002
   },
   "run": {
    "short": false,
@@ -176,7 +176,7 @@
        "synUniform": 29.727713690026132
       }
      ],
-     "wallSec": 10.939
+     "wallSec": 9.3
     },
     "ctrlH2": {
      "key": "ctrl-h2",
@@ -209,7 +209,7 @@
        "synUniform": 29.727709850259718
       }
      ],
-     "wallSec": 7.763
+     "wallSec": 6.333
     },
     "ctrlG0": {
      "key": "ctrl-gain0",
@@ -242,7 +242,7 @@
        "synUniform": 29.727713690026672
       }
      ],
-     "wallSec": 3.913
+     "wallSec": 3.309
     },
     "sunH": {
      "key": "sun3d-h",
@@ -271,7 +271,7 @@
        "synUniform": 29.521417538369015
       }
      ],
-     "wallSec": 4.175
+     "wallSec": 3.614
     },
     "sunHsplit": {
      "key": "sun3d-h-split",
@@ -302,7 +302,7 @@
        "synUniform": 29.530588764262017
       }
      ],
-     "wallSec": 5.25
+     "wallSec": 5.286
     }
    },
    "check": {
@@ -357,18 +357,18 @@
     "sid": 0.000003283532173270487,
     "synUniform": 0.000003839766954172319
    },
-   "wallSec": 32.045
+   "wallSec": 27.848
   }
  },
  "timing": {
-  "wallSec": 33.645
+  "wallSec": 29.353
  },
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第300便b",
   "target": "beta/index.html",
   "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-28T21:09:46.724Z",
+  "generatedAt": "2026-10-28T22:31:40.664Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -378,15 +378,15 @@
    },
    {
     "file": "tests/out/moon3d-w298c.json",
-    "bytes": 26562,
-    "sha256": "204b58713709ae85c83122c936fdc360d77a695412b36e9991b637c76e308c03",
-    "mtime": "2026-10-28T20:10:09.417Z"
+    "bytes": 26552,
+    "sha256": "91062bbb97435a432441d80025a60e18897b2492e4de4b90d6ae7605f94dd2cc",
+    "mtime": "2026-10-28T21:29:42.808Z"
    },
    {
     "file": "tests/out/synodic-w299b.json",
-    "bytes": 35514,
-    "sha256": "af1a118f763363be70e948c16d00f7612103faeb92b703dfa667c3fe3d73ad6d",
-    "mtime": "2026-10-28T21:09:11.181Z"
+    "bytes": 35519,
+    "sha256": "e70e6cdcc59f20213fde436bcf193f2cd55a904b08a00c6fadb8acfe0f5f659d",
+    "mtime": "2026-10-28T22:31:09.376Z"
    },
    {
     "file": "tests/data-w303a-decl302.json",
@@ -524,7 +524,7 @@
    },
    {
     "file": "tests/out/synodic-w299b.json",
-    "stableSha256": "62fd61ff29a4029cd1f8efcb3e527a8ca0174f71aa62835f21b74695de2e1e28",
+    "stableSha256": "6a42cc600a4e68032e9c5228456607db72ed2ce4d55aa5f6b97dd036b8106c32",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -553,5 +553,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 33.645
+ "elapsedS": 29.353
 }
