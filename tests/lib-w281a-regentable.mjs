@@ -1422,6 +1422,18 @@ export const REGEN_STEPS = [
     note: '第317便d: 二体の解析の一次の率の表(G_loc の n = 2・1・0 × K1・K2 × 6 衛星)と候補 Y_k(n) の検算(そろうのは固定中心・試験粒子の q11 − q00 の一次の和 —— 普遍則として採らない)・'
       + 'トリトンの離心率ベクトルの表の量(AN432 —— 近点を確定したことにしない)。走行しない(純関数と既存の正本の読み)' }),
   // ==== 第317便d の塊(ここまで)====
+  // ==== 第318便b の塊(ここから)====
+  // ---- 第318便b(原仮定者の指示(第120報)・決断事項 AN436・AN437・AN439・AN440・AN442・統括の検証項目 R255): **衛星の次の正本の器**(段 satnext-318b ——
+  //   q11 を在位の 7 本と同じ宣言の形へ〔AN439〕・三体の V1a〔主の列〕と V0〔残す列〕× ガニメデ・カリスト・タイタン × q10・q11 × h・h/2・h/4 × 1.5 P_母〔母惑星の公転周期 ——
+  //   窓 W1 = (0, P_母]・W2 = (P_母/2, 3P_母/2]〕・模型 LS〔L + λ☉ の 1・2 倍の調和〕の M0 型の差・差の直接の回帰〔回る ê₁₀〕・判定 R1 ∧ R2〔HARM_RULE の型・閾値 1e-2〕・
+  //   トリトンの V3V1a と V1a × 128 公転〔離心率ベクトルの差の表の量〕・1 ulp の診断の列)。母惑星と太陽は凍結の写し tests/data-w306a-decl305.json・
+  //   第317便c の正本 tests/out/satcut-w317c.json を読む(64 公転の M0 のビット同一の照合と二体の参照 —— after に連ねる)。走行は子プロセス 2 本(workers 2)。
+  //   所要は第318便b の枝の見積り(混まない箱の 1 步の実測 —— q11 0.48 ms・q10 0.014 ms —— から 2 worker で約 6400 s。正本の走行の後に実測へ置き換える)
+  S('satnext-318b', 'node tests/exp-w318b-satnext.mjs', ['tests/out/satnext-w318b.json'], 6400, { secSource: 'w318b-branch', node: true, workers: 2, after: ['satcut-317c', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/satnext-w318b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/runs/*/wallSec', '/E/runs/*/runs/q10/wallSec', '/E/runs/*/runs/q11/wallSec', '/cost/wallSec', '/cost/byJob/*/wallSec', '/cost/rateStepsPerSec']) },
+    note: '第318便b: 衛星の次の正本(q11 を在位の宣言の形へ・V1a を主の列・V0 を残す列・V0 − V1a は反実仮想の差の記録・母惑星の公転周期の窓 W1/W2 と λ☉ の 1・2 倍の調和の模型を走行の前に宣言・'
+      + 'トリトンは V3V1a〔ガリレイの変換〕の離心率ベクトルの差 —— 決まらない列は「この予算では永年項として決まらない」・在位へ入れない)' }),
+  // ==== 第318便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
