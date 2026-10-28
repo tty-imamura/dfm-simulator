@@ -88887,7 +88887,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----     ④ 観測結果カード(ja/en)に正本の数(文書の lib の obsNumbers)
 // ----     ⑤ 書かない語・禁句・裸の κ・新しい文の r_d(節・器・lib・文書の lib)
 {
-  await (async () => {   // 第310便c(heap)の型
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const sHarn = path.join(ROOT, 'tests', 'exp-w318c-solar16.mjs'), sLib = path.join(ROOT, 'tests', 'lib-w318c-solar16.mjs'), sDoc = path.join(ROOT, 'tests', 'lib-w318c-solar16doc.mjs');
   const sOut = path.join(ROOT, 'tests', 'out', 'solar16-w318c.json');
   const H318 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
