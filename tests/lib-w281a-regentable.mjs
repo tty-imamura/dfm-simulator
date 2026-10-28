@@ -89,7 +89,8 @@
 // ■ しないこと: 走らせない・判定しない(表と、表を読む計画の純関数だけ)。
 import fs from 'node:fs';
 import crypto from 'node:crypto';
-import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha, stableValueSha, canonJson, parseTopLevel, closureOf, SCOPE_STOP, normalizeScope, stopSetOf } from './lib-w281a-scope.mjs';
+import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha, stableValueSha, canonJson, parseTopLevel, closureOf, SCOPE_STOP, normalizeScope, stopSetOf,
+  SCOPE_TOOLING, toolStampOnly, DATA_REGISTRIES, textRegistriesOf } from './lib-w281a-scope.mjs';   // 第318便a(AN427 ⑤): 道具の照合・刻印の版の登録簿
 import { HTML_STAGE_ORDER, HTML_STAGE_VERSION } from './lib-w288f-htmlstage.mjs';   // 第288便f(AN90): 集約段の断片の順序
 
 // ■ 第284便c(原仮定者の裁定(第74報)⑥・AN33・AN43・統括の検証項目 R93)
@@ -1753,8 +1754,27 @@ export function planRegen(o) {
         }
       } else if (shaFile(abs(t)) !== m.targetSha256) { why.push(out + ': 対象 ' + t + ' の hash が違う'); cause('入力(対象): ' + t); }
       // コード
+      // 第318便a(原仮定者の裁定(第120報)・決断事項 AN427 ⑤・統括の検証項目 R254): 刻印の道具(SCOPE_TOOLING)を刻印だけに使う器(toolStampOnly)は、
+      //   道具の sha の違いを「式」にしない —— 刻印(領域 hash・入力の安定 hash)を今の道具で引き直して照合するだけ(一致 → 走らせ直さない・
+      //   row.toolChecked に記録 / 不一致 → regen「道具(照合が不一致)」)。道具を計算に使う器と器・lib のコードの変更は従来どおり regen。
       if (!Array.isArray(m.code) || !m.code.length) { why.push(out + ': 器・lib の刻印が無い'); cause('刻印が無い'); }
-      else for (const c of m.code) if (c.sha256 && shaFile(abs(c.file)) !== c.sha256) { why.push(out + ': コード ' + c.file + ' が変わった'); cause('式(器・lib): ' + c.file); }
+      else {
+        const toolDrift = [];
+        const codeFiles = m.code.map((z) => z.file);
+        for (const c of m.code) if (c.sha256 && shaFile(abs(c.file)) !== c.sha256) {
+          if (SCOPE_TOOLING.includes(c.file) && toolStampOnly(root, codeFiles, c.file)) { toolDrift.push(c.file); continue; }
+          why.push(out + ': コード ' + c.file + ' が変わった'); cause('式(器・lib): ' + c.file);
+        }
+        if (toolDrift.length) {
+          // 照合は計画の対象 html(--html の候補を含む)で引く —— 領域は刻印の版で・安定 hash は刻印の行の版で
+          const rc = { why: [] };
+          if (m.scope && m.scopeComplete === true && /\.html$/.test(String(t || ''))) { const hA2 = (t === 'beta/index.html') ? htmlAbs : abs(t); if (scopeOn(hA2, m.scope) !== m.scopeSha256) rc.why.push('領域 hash'); }
+          for (const z of (m.inputsStable || [])) if (!stableMatches(root, z)) rc.why.push('安定 hash ' + z.file);
+          rc.ok = rc.why.length === 0;
+          if (rc.ok) { row.toolChecked = (row.toolChecked || []).concat(toolDrift.map((f) => out + ':' + f)); }
+          else { why.push(out + ': 道具 ' + toolDrift.join(',') + ' が変わり、刻印を今の道具で引き直すと一致しない(' + rc.why.slice(0, 2).join('・') + ')'); cause('道具(照合が不一致): ' + toolDrift.join(',')); }
+        }
+      }
       // 第284便f(原仮定者の裁定(第74報)AN43): **刻印の Pointer ≠ 今の宣言 → regen**(第283便は刻印の Pointer で照合して再利用し、
       //   宣言を足した後も古い Pointer の刻印が残った —— 刻み直すまで「今の宣言で同じ」かは分からない)
       for (const z of (m.inputsStable || [])) {
@@ -1791,6 +1811,7 @@ export function planRegen(o) {
     if (st.alwaysRun) { row.status = 'always'; row.reasons = ['常時群'].concat(why); }
     else if (why.length) { row.status = 'regen'; row.reasons = why; }
     else row.status = 'reuse';
+    if (row.toolChecked && row.status === 'reuse') row.reasons.push('道具の変更は刻印を今の道具で引き直して一致(走らせ直さない —— 第318便a の「道具」の照合): ' + row.toolChecked.slice(0, 3).join(', '));
     // 第283便e: 依存の伝播の前の**自分の判定**(鎖の --gate が上流の走行後に引き直す値)
     row.ownStatus = row.status;
     rows.set(st.key, row);
@@ -1838,6 +1859,8 @@ export function planRegen(o) {
   for (const r of list) count[r.status] = (count[r.status] || 0) + 1;
   return {
     version: REGEN_TABLE_VERSION,
+    // 第318便a(AN427 ⑤): 道具の変更を刻印の照合で通した段の数(status の数とは別の欄 —— 走らせない)
+    toolChecked: list.filter((r) => r.toolChecked && r.toolChecked.length).length,
     html: htmlAbs.replace(root + '/', ''), htmlSha256: htmlSha,
     baseHtml: o.baseHtml ? o.baseHtml.replace(root + '/', '') : null, baseSha256: baseSha,
     count,
@@ -2702,7 +2725,7 @@ export function htmlTailAudit(o) {
     if (!segs) {
       const stop = stopSetOf(m.scope.version);   // 第316便d(AN422 ②): 刻印の版の停止集合(版 5 = SCOPE_STOP・版 4 = SCOPE_STOP_4・それ以前 = SCOPE_STOP_3 —— 第286便d の 2 分岐と同じ規則)
       let cl = null;
-      try { cl = closureOf(P.parsed, sc.roots, undefined, { hardStop: stop }); } catch { cl = null; }
+      try { cl = closureOf(P.parsed, sc.roots, DATA_REGISTRIES.concat(textRegistriesOf(m.scope.version)), { hardStop: stop }); } catch { cl = null; }   // 第318便a: 文の登録簿も刻印の版で
       segs = cl ? cl.segIdx.map((i) => P.parsed.segments[i]) : [];
       for (const nm of sc.consts) for (const s of P.parsed.segments) if ((s.names || []).includes(nm)) segs.push(s);
       P.closures.set(ck, segs);
