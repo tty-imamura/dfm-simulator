@@ -169,8 +169,8 @@ export function partA(E, radiiAu) {
     row.selfPart = row.toward.betaG * a.vOrb; row.tidal2 = a.tidal2; row.betaSunOverG = row.toward.betaSun / row.toward.betaG;
     rows.push(row);
   }
-  const ok = !err && rows.every((r) => r.toward && r.away);
-  return { ok, err, decl: an.decl, beta0C1: an.beta0, beta10V2: an.beta10V2, uniform: an.uniform, betaGEngine: ok ? rows[0].toward.betaG : null, rows, ruleCheck: worst, replica: { worst: rep }, warnings: warn, units: clone(UNITS_GAL) };
+  const ok = !err && rows.every((r) => r.toward && r.away), rad8 = L.radialOf(E.ruleK1(8)), g0 = L.gRule(0, rad8);
+  return { ok, err, gRule0: g0, gRule0RelC1: relD(g0, L.C1), decl: an.decl, beta0C1: an.beta0, beta10V2: an.beta10V2, uniform: an.uniform, betaGEngine: ok ? rows[0].toward.betaG : null, rows, ruleCheck: worst, replica: { worst: rep }, warnings: warn, units: clone(UNITS_GAL) };
 }
 
 /* ───────── B ───────── */
@@ -263,7 +263,7 @@ export function partDE(E, plan) {
 }
 /** D の測る形の試し(太陽 + 水星・回転の引きずりの有無 × h・h/2 —— 傾斜と交点を太陽の軸に対して) */
 export function partDRun(E, orbits) {
-  const out = {}, tilt = L.DECL.dRuns.tiltRad;
+  const out = {}, tilt = L.DECL.dRuns.tiltRad, b0 = bookD(false, tilt), pSec = b0.timeRef.pRef * Math.pow(10, b0.scaleExp.T);
   for (const rot of [true, false]) for (const div of [1, 2]) {
     const b = bookD(rot, tilt), v = E.HP.validatePreset(clone(b));
     if (!v.ok) { out[(rot ? 'on' : 'off') + '|' + div] = { ok: false, err: JSON.stringify(v.errors).slice(0, 200) }; continue; }
@@ -276,7 +276,7 @@ export function partDRun(E, orbits) {
   }
   const g = (k) => out[k] && out[k].ok ? out[k] : null, on1 = g('on|1'), off1 = g('off|1'), on2 = g('on|2'), off2 = g('off|2');
   const same = (a, b) => a && b && a.state.every((x, k) => Object.is(x, b.state[k]));
-  return { orbits, tiltRad: tilt, runs: out, dIncRot: on1 && off1 ? on1.inc - off1.inc : null, dNodeRot: on1 && off1 ? on1.node - off1.node : null,
+  return { orbits, tiltRad: tilt, pSec, runs: out, dIncRot: on1 && off1 ? on1.inc - off1.inc : null, dNodeRot: on1 && off1 ? on1.node - off1.node : null,
     dIncStep: off1 && off2 ? off1.inc - off2.inc : null, dNodeStep: off1 && off2 ? off1.node - off2.node : null, bitSameH: !!same(on1, off1), bitSameH2: !!same(on2, off2) };
 }
 

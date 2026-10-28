@@ -84,6 +84,8 @@
  "A": {
   "ok": true,
   "err": null,
+  "gRule0": 0.8431139639813788,
+  "gRule0RelC1": 3.234601016531904e-9,
   "decl": {
    "V0": 230000,
    "R0": 253025561682292080000,
@@ -2887,6 +2889,7 @@
  "Drun": {
   "orbits": 10,
   "tiltRad": 0.001,
+  "pSec": 10054252.0748,
   "runs": {
    "on|1": {
     "ok": true,
@@ -2901,7 +2904,7 @@
      3.5598507439180858,
      0.056213538280470314
     ],
-    "wallSec": 3.386,
+    "wallSec": 2.262,
     "nan": false
    },
    "on|2": {
@@ -2917,7 +2920,7 @@
      3.5656899968253404,
      0.05743818512910459
     ],
-    "wallSec": 5.423,
+    "wallSec": 5.353,
     "nan": false
    },
    "off|1": {
@@ -2933,7 +2936,7 @@
      3.5598507439180858,
      0.056213538280470314
     ],
-    "wallSec": 2.224,
+    "wallSec": 2.423,
     "nan": false
    },
    "off|2": {
@@ -2949,7 +2952,7 @@
      3.5656899968253404,
      0.05743818512910459
     ],
-    "wallSec": 4.737,
+    "wallSec": 4.169,
     "nan": false
    }
   },
@@ -3089,31 +3092,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.334
+   "wallSec": 0.084
   },
   "B": {
-   "wallSec": 50.012
+   "wallSec": 31.908
   },
   "C": {
-   "wallSec": 0.41
+   "wallSec": 0.258
   },
   "DE": {
-   "wallSec": 0.343
+   "wallSec": 0.159
   },
   "Drun": {
-   "wallSec": 15.795
+   "wallSec": 14.237
   },
   "F": {
-   "wallSec": 0.012
+   "wallSec": 0.013
   }
  },
- "elapsedS": 70.953,
+ "elapsedS": 48.936,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第318便d",
   "target": "beta/index.html",
   "targetSha256": "f47e1f2153b45767b95d888fd2f373aaaccf941bf790a5f41628cfb27500b1dc",
-  "generatedAt": "2026-10-28T15:39:09.934Z",
+  "generatedAt": "2026-10-28T15:47:14.953Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -3137,9 +3140,9 @@
   "code": [
    {
     "file": "tests/exp-w318d-dragest.mjs",
-    "bytes": 39325,
-    "sha256": "aea96e4d87c50d853aabba88152218353636515a8b69b8405edb5280cb6e7110",
-    "mtime": "2026-10-28T15:37:21.955Z"
+    "bytes": 39506,
+    "sha256": "690f0d45074e2f57359e14eee5799ce917b2f2984c1453ebf0be718db73fe381",
+    "mtime": "2026-10-28T15:46:11.959Z"
    },
    {
     "file": "tests/lib-w318d-dragest.mjs",
@@ -3184,7 +3187,7 @@
     "mtime": "2026-10-28T15:09:18.504Z"
    }
   ],
-  "codeSha256": "8ce2fba578e227543c23b795865ce3d63b8d80862c5fa65b6630d48b78436599",
+  "codeSha256": "7f32281334cebc95465e8a167cd15b6d4966ec549568031b2a16fefc66802cff",
   "harnessVersion": "w318d-dragest-1",
   "stage": "dragest",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
