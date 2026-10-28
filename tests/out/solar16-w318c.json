@@ -1,0 +1,5831 @@
+{
+ "version": "w318c-solar16-1",
+ "libVersion": "w318c-solar16-lib-1",
+ "generator": "tests/exp-w318c-solar16.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "9035c235ed09477d1cba8ca046e40eb6d6e0f10b9a016ca546f9c2e5df6f98c6",
+ "quick": false,
+ "ruling": "原仮定者の指示(第120報)「支障がなければ、太陽系の１６体サンプルを作成する」・統括の検証項目 R256 —— 内蔵の本 solarSystem16Inertial3d(診断の本 —— 較正の母集団に入れない・観測の 3σ を付けない)。入力は原仮定者から受け取った 16 体の本(第120報)の geoPN=3・K1 の側をそのまま(本便は一次資料に当たっていない —— 暦表との照合はしていない)",
+ "input": {
+  "file": "tests/data-w318c-solar16-input.json",
+  "sha256": "9bc96f52ebb2c9824600fcea9b10ce4be22f1627a6dbe362704fcfc28d72484f",
+  "id": "solarSystem16GeoPN3K1J2000",
+  "name": "太陽系16体 J2000・DFM K1",
+  "description": "J2000.0 TDB・SSBのJPL暦表状態から作った16体の診断サンプル。軸と自転率は同元期のSPICE姿勢変換から求めた値を凍結し、半径はPCK参照楕円体の体積相当球。暦表への長期一致・永年率・観測較正は未検証。 G_loc n=2、K1質量比例半径、並進引きずりだけ。銀河・太陽の自転由来の追加引きずりは入れていない。",
+  "timeRef": {
+   "basis": "orbit",
+   "pRef": 1.53048593443,
+   "pair": [
+    6,
+    7
+   ],
+   "def": "revolution",
+   "stepsPerOrbit": 1440,
+   "source": "イオの木星に対する接触軌道の周期(入力の元期 JD 2451545 TDB の状態から μ=G(m_J+m_Io)・DE441+MAR099+JUP365+SAT441+URA184+NEP098)"
+  },
+  "stepDt": 0.0010628374544626486,
+  "members": [
+   "sun",
+   "mercury",
+   "venus",
+   "earth",
+   "moon",
+   "mars",
+   "jupiter",
+   "io",
+   "europa",
+   "ganymede",
+   "callisto",
+   "saturn",
+   "titan",
+   "uranus",
+   "neptune",
+   "triton"
+  ]
+ },
+ "check": {
+  "ok": true,
+  "gates": {
+   "count16": true,
+   "units": true,
+   "finite": true,
+   "com": true,
+   "distSpeed": true,
+   "mass": true,
+   "hill": true,
+   "elements": true,
+   "spinAxis": true,
+   "spinSign": true
+  },
+  "tables": {
+   "com": {
+    "comKm": 1.6294565277131657e-10,
+    "comKmS": 6.206408637392018e-18,
+    "massKg": 1.9911674661138782e+30
+   },
+   "planets": [
+    {
+     "key": "mercury",
+     "ja": "水星",
+     "rAu": 0.46647147415676643,
+     "aAu": 0.39,
+     "distFactor": 1.1960807029660676,
+     "speedKmS": 38.88224871955084,
+     "speedFactor": 0.8916015367037169,
+     "ok": true
+    },
+    {
+     "key": "venus",
+     "ja": "金星",
+     "rAu": 0.7202129240067815,
+     "aAu": 0.72,
+     "distFactor": 1.0002957277871967,
+     "speedKmS": 35.171915739438845,
+     "speedFactor": 1.002151470800839,
+     "ok": true
+    },
+    {
+     "key": "earth",
+     "ja": "地球",
+     "rAu": 0.9833276788690561,
+     "aAu": 1,
+     "distFactor": 0.9833276788690561,
+     "speedKmS": 30.292096664247367,
+     "speedFactor": 1.0085219501502183,
+     "ok": true
+    },
+    {
+     "key": "mars",
+     "ja": "火星",
+     "rAu": 1.3912076740619137,
+     "aAu": 1.52,
+     "distFactor": 0.91526820661968,
+     "speedKmS": 26.32693700144108,
+     "speedFactor": 1.0425651544594636,
+     "ok": true
+    },
+    {
+     "key": "jupiter",
+     "ja": "木星",
+     "rAu": 4.965381027103502,
+     "aAu": 5.2,
+     "distFactor": 0.9548809667506735,
+     "speedKmS": 13.676410536537722,
+     "speedFactor": 1.0231876937400097,
+     "ok": true
+    },
+    {
+     "key": "saturn",
+     "ja": "土星",
+     "rAu": 9.18384777267171,
+     "aAu": 9.5,
+     "distFactor": 0.9667208181759694,
+     "speedKmS": 10.031868969129338,
+     "speedFactor": 1.0207069647504268,
+     "ok": true
+    },
+    {
+     "key": "uranus",
+     "ja": "天王星",
+     "rAu": 19.924025635439843,
+     "aAu": 19.2,
+     "distFactor": 1.037709668512492,
+     "speedKmS": 6.551396815898041,
+     "speedFactor": 0.9818142704219289,
+     "ok": true
+    },
+    {
+     "key": "neptune",
+     "ja": "海王星",
+     "rAu": 30.12058035143255,
+     "aAu": 30.1,
+     "distFactor": 1.0006837326057325,
+     "speedKmS": 5.424755742782913,
+     "speedFactor": 0.9995827317939715,
+     "ok": true
+    }
+   ],
+   "masses": [
+    {
+     "key": "sun",
+     "ja": "太陽",
+     "kg": 1.9884992514426043e+30,
+     "gmKm3s2": 132712440041.2794,
+     "refKg": 1.9885000000000003e+30,
+     "ref": "🌡️ mercurySunInertial3d[0]",
+     "rel": -3.764432466857315e-7,
+     "ok": true
+    },
+    {
+     "key": "mercury",
+     "ja": "水星",
+     "kg": 3.3011490187893326e+23,
+     "gmKm3s2": 22031.868551400003,
+     "refKg": 3.3011e+23,
+     "ref": "🌡️ mercurySunInertial3d[1]",
+     "rel": 0.000014849228842539475,
+     "ok": true
+    },
+    {
+     "key": "venus",
+     "ja": "金星",
+     "kg": 4.86752460293677e+24,
+     "gmKm3s2": 324858.592,
+     "refKg": 4.8675e+24,
+     "ref": "🌋 venusSunInertial3d[1]",
+     "rel": 0.000005054532464132677,
+     "ok": true
+    },
+    {
+     "key": "earth",
+     "ja": "地球",
+     "kg": 5.972436852068065e+24,
+     "gmKm3s2": 398600.4355070226,
+     "refKg": 5.9724e+24,
+     "ref": "🌦️ earthMoonSunInertial3d[1]",
+     "rel": 0.000006170395161930742,
+     "ok": true
+    },
+    {
+     "key": "moon",
+     "ja": "月",
+     "kg": 7.3461194462953986e+22,
+     "gmKm3s2": 4902.800118457549,
+     "refKg": 7.346e+22,
+     "ref": "🌦️ earthMoonSunInertial3d[2]",
+     "rel": 0.000016260045657245925,
+     "ok": true
+    },
+    {
+     "key": "mars",
+     "ja": "火星",
+     "kg": 6.417197311560722e+23,
+     "gmKm3s2": 42828.374857356255,
+     "refKg": 6.4171e+23,
+     "ref": "🔴 marsSunInertial3d[1]",
+     "rel": 0.000015164413944335209,
+     "ok": true
+    },
+    {
+     "key": "jupiter",
+     "ja": "木星",
+     "kg": 1.8982099475632367e+27,
+     "gmKm3s2": 126686531.90037042,
+     "refKg": 1.898e+27,
+     "ref": "🏀 jupiterSunInertial3d[1]",
+     "rel": 0.00011061515449783954,
+     "ok": true
+    },
+    {
+     "key": "io",
+     "ja": "イオ",
+     "kg": 8.930050144112287e+22,
+     "gmKm3s2": 5959.915466180539,
+     "refKg": 8.93e+22,
+     "ref": "🟠 jupiterGalilean[1]",
+     "rel": 0.00000561524213726905,
+     "ok": true
+    },
+    {
+     "key": "europa",
+     "ja": "エウロパ",
+     "kg": 4.798789480981863e+22,
+     "gmKm3s2": 3202.7120996072954,
+     "refKg": 4.800000000000001e+22,
+     "ref": "🟠 jupiterGalilean[2]",
+     "rel": -0.0002521914621119725,
+     "ok": true
+    },
+    {
+     "key": "ganymede",
+     "ja": "ガニメデ",
+     "kg": 1.4815452131734551e+23,
+     "gmKm3s2": 9887.832752719638,
+     "refKg": 1.48e+23,
+     "ref": "🟠 jupiterGalilean[3]",
+     "rel": 0.0010440629550372282,
+     "ok": true
+    },
+    {
+     "key": "callisto",
+     "ja": "カリスト",
+     "kg": 1.0757092302337185e+23,
+     "gmKm3s2": 7179.283402579837,
+     "refKg": 1.0759999999999998e+23,
+     "ref": "🟠 jupiterGalilean[4]",
+     "rel": -0.0002702321247967099,
+     "ok": true
+    },
+    {
+     "key": "saturn",
+     "ja": "土星",
+     "kg": 5.683429163074869e+26,
+     "gmKm3s2": 37931206.23436167,
+     "refKg": 5.6834e+26,
+     "ref": "🟡 saturnSunInertial3d[1]",
+     "rel": 0.0000051312726305763334,
+     "ok": true
+    },
+    {
+     "key": "titan",
+     "ja": "タイタン",
+     "kg": 1.3452407994487635e+23,
+     "gmKm3s2": 8978.137095521048,
+     "refKg": 1.3452e+23,
+     "ref": "💍 saturnRingReal[6]",
+     "rel": 0.000030329652663807494,
+     "ok": true
+    },
+    {
+     "key": "uranus",
+     "ja": "天王星",
+     "kg": 8.681376401469728e+25,
+     "gmKm3s2": 5793950.610340896,
+     "refKg": 8.6811e+25,
+     "ref": "🔷 uranusSunInertial3d[1]",
+     "rel": 0.000031839452342197205,
+     "ok": true
+    },
+    {
+     "key": "neptune",
+     "ja": "海王星",
+     "kg": 1.0241384429797446e+26,
+     "gmKm3s2": 6835099.968446815,
+     "refKg": 1.02409e+26,
+     "ref": "💙 neptuneSunInertial3d[1]",
+     "rel": 0.000047303439878021436,
+     "ok": true
+    },
+    {
+     "key": "triton",
+     "ja": "トリトン",
+     "kg": 2.1403887667223017e+22,
+     "gmKm3s2": 1428.495462910464,
+     "refKg": 2.1390470482469285e+22,
+     "ref": "衛星の種(tests/lib-w315d-satk1.mjs —— 公表の平均要素の近似の GM 1427.6 km³/s² を G_0 で kg)",
+     "rel": 0.0006272505677109574,
+     "ok": true
+    }
+   ],
+   "sats": [
+    {
+     "key": "moon",
+     "ja": "月",
+     "parent": "earth",
+     "rKm": 402448.63990823086,
+     "hillKm": 1471607.4212929048,
+     "hillFrac": 0.2734755438747741,
+     "energy": -0.00528319132814526,
+     "ok": true
+    },
+    {
+     "key": "io",
+     "ja": "イオ",
+     "parent": "jupiter",
+     "rKm": 420232.12966357963,
+     "hillKm": 50711973.5177348,
+     "hillFrac": 0.008286645155243615,
+     "energy": -1.5009662953764533,
+     "ok": true
+    },
+    {
+     "key": "europa",
+     "ja": "エウロパ",
+     "parent": "jupiter",
+     "rKm": 664878.1894721965,
+     "hillKm": 50711973.5177348,
+     "hillFrac": 0.013110871917451165,
+     "energy": -0.9436872860676445,
+     "ok": true
+    },
+    {
+     "key": "ganymede",
+     "ja": "ガニメデ",
+     "parent": "jupiter",
+     "rKm": 1070308.2932398936,
+     "hillKm": 50711973.5177348,
+     "hillFrac": 0.021105632831772747,
+     "energy": -0.5917642123383616,
+     "ok": true
+    },
+    {
+     "key": "callisto",
+     "ja": "カリスト",
+     "parent": "jupiter",
+     "rKm": 1881684.6822696768,
+     "hillKm": 50711973.5177348,
+     "hillFrac": 0.03710533335113888,
+     "energy": -0.3364550965187228,
+     "ok": true
+    },
+    {
+     "key": "titan",
+     "ja": "タイタン",
+     "parent": "saturn",
+     "rKm": 1255510.7074147165,
+     "hillKm": 62748691.91666918,
+     "hillFrac": 0.020008555860926088,
+     "energy": -0.15524635333693101,
+     "ok": true
+    },
+    {
+     "key": "triton",
+     "ja": "トリトン",
+     "parent": "neptune",
+     "rKm": 354716.3730715663,
+     "hillKm": 116241018.91258998,
+     "hillFrac": 0.003051559392629749,
+     "energy": -0.09635262779656571,
+     "ok": true
+    }
+   ],
+   "elements": [
+    {
+     "key": "mercury",
+     "ja": "水星",
+     "center": "sun",
+     "aKm": 57909068.29452709,
+     "aAu": 0.38709821218415974,
+     "e": 0.20563029337055697,
+     "iDeg": 7.005014303275355,
+     "refs": [
+      {
+       "src": "🌡️ mercurySunInertial3d(在位の本の t = 0 の状態)",
+       "aKm": 57909226.54152439,
+       "e": 0.20563593000000002,
+       "iDeg": 7.004979019999978,
+       "aRel": 0.0000027326807692240607,
+       "eDiff": 0.00000563662944305654,
+       "iDiff": -0.00003528327537694054,
+       "ok": true
+      },
+      {
+       "src": "🌡️ 凍結の写し tests/data-w306a-decl305.json の mercurySunInertial3d",
+       "aKm": 57909226.54152438,
+       "e": 0.20563592999999988,
+       "iDeg": 7.00497902000003,
+       "aRel": 0.0000027326807692240607,
+       "eDiff": 0.000005636629442917762,
+       "iDiff": -0.00003528327532542619,
+       "ok": true
+      }
+     ],
+     "ok": true
+    },
+    {
+     "key": "venus",
+     "ja": "金星",
+     "center": "sun",
+     "aKm": 108208168.17092901,
+     "aAu": 0.7233269274796504,
+     "e": 0.006755786251885362,
+     "iDeg": 3.394589649080595,
+     "refs": [
+      {
+       "src": "🌋 venusSunInertial3d(在位の本の t = 0 の状態)",
+       "aKm": 108209474.53737912,
+       "e": 0.006776719999999586,
+       "iDeg": 3.3946760500000455,
+       "aRel": 0.000012072715694033676,
+       "eDiff": 0.000020933748114224104,
+       "iDiff": 0.00008640091945055772,
+       "ok": true
+      },
+      {
+       "src": "🌋 凍結の写し tests/data-w306a-decl305.json の venusSunInertial3d",
+       "aKm": 108209474.5373791,
+       "e": 0.00677671999999959,
+       "iDeg": 3.3946760500000455,
+       "aRel": 0.000012072715693811631,
+       "eDiff": 0.000020933748114227574,
+       "iDiff": 0.00008640091945055772,
+       "ok": true
+      }
+     ],
+     "ok": true
+    },
+    {
+     "key": "earth",
+     "ja": "地球",
+     "center": "sun",
+     "aKm": 149665014.55286264,
+     "aAu": 1.0004488289341853,
+     "e": 0.01711862906746882,
+     "iDeg": 0.0004181085669866187,
+     "refs": [
+      {
+       "src": "🌦️ earthMoonSunInertial3d(在位の本の t = 0 の状態)",
+       "aKm": 149452406.52688256,
+       "e": 0.015779710197566677,
+       "iDeg": 0.0023382040585664884,
+       "aRel": -0.001420559284447842,
+       "eDiff": -0.0013389188699021413,
+       "iDiff": 0.0019200954915798698,
+       "ok": true
+      }
+     ],
+     "ok": true
+    },
+    {
+     "key": "moon",
+     "ja": "月",
+     "center": "earth",
+     "aKm": 381874.52485005494,
+     "aAu": 0.0025526735311350588,
+     "e": 0.06314721685092368,
+     "iDeg": 5.240273000308553,
+     "refs": [
+      {
+       "src": "🌦️ earthMoonSunInertial3d(在位の本の t = 0 の状態)",
+       "aKm": 386328.9966487286,
+       "e": 0.07628359999996698,
+       "iDeg": 5.288440000000048,
+       "aRel": 0.011664752448262261,
+       "eDiff": 0.013136383149043293,
+       "iDiff": 0.04816699969149507,
+       "ok": true
+      }
+     ],
+     "iEqDeg": 20.941071185819055,
+     "ok": true
+    },
+    {
+     "key": "mars",
+     "ja": "火星",
+     "center": "sun",
+     "aKm": 227939132.97393218,
+     "aAu": 1.5236789929385819,
+     "e": 0.09331510145811774,
+     "iDeg": 1.8498764771099332,
+     "refs": [
+      {
+       "src": "🔴 marsSunInertial3d(在位の本の t = 0 の状態)",
+       "aKm": 227943822.4275731,
+       "e": 0.09339410000000035,
+       "iDeg": 1.8496914200002779,
+       "aRel": 0.000020573271380719405,
+       "eDiff": 0.0000789985418826189,
+       "iDiff": -0.00018505710965532884,
+       "ok": true
+      },
+      {
+       "src": "🔴 凍結の写し tests/data-w306a-decl305.json の marsSunInertial3d",
+       "aKm": 227943822.4275731,
+       "e": 0.09339410000000035,
+       "iDeg": 1.8496914200002779,
+       "aRel": 0.000020573271380719405,
+       "eDiff": 0.0000789985418826189,
+       "iDiff": -0.00018505710965532884,
+       "ok": true
+      }
+     ],
+     "ok": true
+    },
+    {
+     "key": "jupiter",
+     "ja": "木星",
+     "center": "sun",
+     "aKm": 778557615.6961246,
+     "aAu": 5.20433621182634,
+     "e": 0.048787594291639313,
+     "iDeg": 1.304630586519777,
+     "refs": [
+      {
+       "src": "🏀 jupiterSunInertial3d(在位の本の t = 0 の状態)",
+       "aKm": 778340816.6927109,
+       "e": 0.048386240000000205,
+       "iDeg": 1.3043969499999324,
+       "aRel": -0.0002784623758639304,
+       "eDiff": -0.0004013542916391083,
+       "iDiff": -0.00023363651984453782,
+       "ok": true
+      },
+      {
+       "src": "🏀 凍結の写し tests/data-w306a-decl305.json の jupiterSunInertial3d",
+       "aKm": 778340816.6927109,
+       "e": 0.048386240000000205,
+       "iDeg": 1.3043969499999324,
+       "aRel": -0.0002784623758639304,
+       "eDiff": -0.0004013542916391083,
+       "iDiff": -0.00023363651984453782,
+       "ok": true
+      }
+     ],
+     "ok": true
+    },
+    {
+     "key": "io",
+     "ja": "イオ",
+     "center": "jupiter",
+     "aKm": 422036.43148449645,
+     "aAu": 0.0028211392950293944,
+     "e": 0.004715688921419022,
+     "iDeg": 2.212617763555439,
+     "refs": [
+      {
+       "src": "衛星の種(tests/lib-w315d-satk1.mjs の seedOf —— jupiterGalilean の t = 0 の状態の接触の長半径(μ = G(m_木星 + m_イオ)・本の G))",
+       "aKm": 421779.99136660475,
+       "e": 0.004052755942894086,
+       "iEqDeg": 0.05,
+       "aRel": -0.0006076255478458803,
+       "eDiff": -0.0006629329785249362,
+       "iDiff": 0.012489666551109925,
+       "ok": true
+      }
+     ],
+     "iEqDeg": 0.03751033344889008,
+     "ok": true
+    },
+    {
+     "key": "europa",
+     "ja": "エウロパ",
+     "center": "jupiter",
+     "aKm": 671248.4976903077,
+     "aAu": 0.004487019063502671,
+     "e": 0.009812823575637385,
+     "iDeg": 1.7909712097181416,
+     "refs": [
+      {
+       "src": "衛星の種(tests/lib-w315d-satk1.mjs の seedOf —— jupiterGalilean の t = 0 の状態の接触の長半径(μ = G(m_木星 + m_エウロパ)・本の G)",
+       "aKm": 671082.7246037998,
+       "e": 0.008974489109901262,
+       "iEqDeg": 0.47,
+       "aRel": -0.00024696232033039056,
+       "eDiff": -0.0008383344657361229,
+       "iDiff": 0.008338814970872244,
+       "ok": true
+      }
+     ],
+     "iEqDeg": 0.46166118502912773,
+     "ok": true
+    },
+    {
+     "key": "ganymede",
+     "ja": "ガニメデ",
+     "center": "jupiter",
+     "aKm": 1070497.48101935,
+     "aAu": 0.007155833676042757,
+     "e": 0.0014572152925828477,
+     "iDeg": 2.2141480418476327,
+     "refs": [
+      {
+       "src": "衛星の種(tests/lib-w315d-satk1.mjs の seedOf —— jupiterGalilean の t = 0 の状態の接触の長半径(μ = G(m_木星 + m_ガニメデ)・本の G)",
+       "aKm": 1070316.3378017459,
+       "e": 0.001221935754463181,
+       "iEqDeg": 0.2,
+       "aRel": -0.0001692140531069919,
+       "eDiff": -0.0002352795381196668,
+       "iDiff": -0.006839962183391113,
+       "ok": true
+      }
+     ],
+     "iEqDeg": 0.20683996218339112,
+     "ok": true
+    },
+    {
+     "key": "callisto",
+     "ja": "カリスト",
+     "center": "jupiter",
+     "aKm": 1882772.9538750334,
+     "aAu": 0.01258555984162837,
+     "e": 0.007439434600906909,
+     "iDeg": 2.016916220859282,
+     "refs": [
+      {
+       "src": "衛星の種(tests/lib-w315d-satk1.mjs の seedOf —— jupiterGalilean の t = 0 の状態の接触の長半径(μ = G(m_木星 + m_カリスト)・本の G)",
+       "aKm": 1882591.6892029084,
+       "e": 0.007342892929035147,
+       "iEqDeg": 0.192,
+       "aRel": -0.0000962753749739198,
+       "eDiff": -0.00009654167187176255,
+       "iDiff": -0.00706912395182463,
+       "ok": true
+      }
+     ],
+     "iEqDeg": 0.19906912395182463,
+     "ok": true
+    },
+    {
+     "key": "saturn",
+     "ja": "土星",
+     "center": "sun",
+     "aKm": 1433436205.5897696,
+     "aAu": 9.581929200478719,
+     "e": 0.05563834267345028,
+     "iDeg": 2.484252387625148,
+     "refs": [
+      {
+       "src": "🟡 saturnSunInertial3d(在位の本の t = 0 の状態)",
+       "aKm": 1426666414.1799204,
+       "e": 0.053861789999999715,
+       "iDeg": 2.4859918700001713,
+       "aRel": -0.004722771326306607,
+       "eDiff": -0.0017765526734505668,
+       "iDiff": 0.0017394823750231936,
+       "ok": true
+      },
+      {
+       "src": "🟡 凍結の写し tests/data-w306a-decl305.json の saturnSunInertial3d",
+       "aKm": 1426666414.1799204,
+       "e": 0.053861789999999715,
+       "iDeg": 2.4859918700001713,
+       "aRel": -0.004722771326306607,
+       "eDiff": -0.0017765526734505668,
+       "iDiff": 0.0017394823750231936,
+       "ok": true
+      }
+     ],
+     "ok": true
+    },
+    {
+     "key": "titan",
+     "ja": "タイタン",
+     "center": "saturn",
+     "aKm": 1221934.8009133476,
+     "aAu": 0.008168129634437022,
+     "e": 0.02860066256426141,
+     "iDeg": 27.718338873112458,
+     "refs": [
+      {
+       "src": "衛星の種(tests/lib-w315d-satk1.mjs の seedOf —— saturnRingReal の t = 0 の状態の接触の長半径(μ = G(m_土星 + m_タイタン)・本の G))",
+       "aKm": 1221658.1370097212,
+       "e": 0.0288,
+       "iEqDeg": 0.3485,
+       "aRel": -0.0002264146200104955,
+       "eDiff": 0.0001993374357385884,
+       "iDiff": -0.011546038293043626,
+       "ok": true
+      }
+     ],
+     "iEqDeg": 0.3600460382930436,
+     "ok": true
+    },
+    {
+     "key": "uranus",
+     "ja": "天王星",
+     "center": "sun",
+     "aKm": 2876789143.05565,
+     "aAu": 19.230147659151477,
+     "e": 0.044392765133240024,
+     "iDeg": 0.7726757776953591,
+     "refs": [
+      {
+       "src": "🔷 uranusSunInertial3d(在位の本の t = 0 の状態)",
+       "aKm": 2870658170.6557336,
+       "e": 0.0472574399999997,
+       "iDeg": 0.7726378300005144,
+       "aRel": -0.002131185879478248,
+       "eDiff": 0.0028646748667596755,
+       "iDiff": -0.000037947694844664426,
+       "ok": true
+      },
+      {
+       "src": "🔷 凍結の写し tests/data-w306a-decl305.json の uranusSunInertial3d",
+       "aKm": 2870658170.6557336,
+       "e": 0.0472574399999997,
+       "iDeg": 0.7726378300005144,
+       "aRel": -0.002131185879478248,
+       "eDiff": 0.0028646748667596755,
+       "iDiff": -0.000037947694844664426,
+       "ok": true
+      }
+     ],
+     "ok": true
+    },
+    {
+     "key": "neptune",
+     "ja": "海王星",
+     "center": "sun",
+     "aKm": 4501986736.008002,
+     "aAu": 30.093922560142445,
+     "e": 0.011203528156777278,
+     "iDeg": 1.770214096250494,
+     "refs": [
+      {
+       "src": "💙 neptuneSunInertial3d(在位の本の t = 0 の状態)",
+       "aKm": 4498396417.009467,
+       "e": 0.008590479999999902,
+       "iDeg": 1.7700434700003165,
+       "aRel": -0.0007974965740833451,
+       "eDiff": -0.0026130481567773756,
+       "iDiff": -0.00017062625017749689,
+       "ok": true
+      },
+      {
+       "src": "💙 凍結の写し tests/data-w306a-decl305.json の neptuneSunInertial3d",
+       "aKm": 4498396417.009467,
+       "e": 0.008590479999999902,
+       "iDeg": 1.7700434700003165,
+       "aRel": -0.0007974965740833451,
+       "eDiff": -0.0026130481567773756,
+       "iDiff": -0.00017062625017749689,
+       "ok": true
+      }
+     ],
+     "ok": true
+    },
+    {
+     "key": "triton",
+     "ja": "トリトン",
+     "center": "neptune",
+     "aKm": 354766.0619253709,
+     "aAu": 0.002371464648964224,
+     "e": 0.00014610790993369814,
+     "iDeg": 130.2614060072321,
+     "refs": [
+      {
+       "src": "衛星の種(tests/lib-w315d-satk1.mjs の seedOf —— 公表の平均要素の近似(原表は未取得 —— 公表値の転記・観測レコードではない))",
+       "aKm": 354759,
+       "e": 0.000016,
+       "iEqDeg": 156.865,
+       "aRel": -0.00001990586510036696,
+       "eDiff": -0.00013010790993369813,
+       "iDiff": -0.4728874150215745,
+       "ok": true
+      }
+     ],
+     "iEqDeg": 157.33788741502158,
+     "ok": true
+    }
+   ],
+   "spin": [
+    {
+     "key": "sun",
+     "ja": "太陽",
+     "tiltDeg": 7.251726805680406,
+     "azimuthDeg": 345.76581951415443,
+     "spin": 0.28653296576375425,
+     "spinRadS": 0.0000028653296576375425,
+     "periodH": 609.1198781760244,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 286.13,
+      "decDeg": 63.87,
+      "diffDeg": 0
+     },
+     "axisBook": {
+      "src": "🌡️ mercurySunInertial3d",
+      "diffDeg": 0.000011578964636160848
+     },
+     "spinBook": {
+      "src": "🌡️ mercurySunInertial3d",
+      "spin": 0.29031,
+      "rel": -0.01301034837327597
+     },
+     "eclDeg": 7.251726805680406,
+     "retro": false,
+     "signOk": true,
+     "obliquityDeg": 7.251726805680406,
+     "ok": true
+    },
+    {
+     "key": "mercury",
+     "ja": "水星",
+     "tiltDeg": 7.03692687866017,
+     "azimuthDeg": 318.23530039921775,
+     "spin": 0.12398323930822497,
+     "spinRadS": 0.0000012398323930822497,
+     "periodH": 1407.713866594019,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 281.0103,
+      "decDeg": 61.4155,
+      "diffDeg": 5.290308106758986e-14
+     },
+     "axisBook": {
+      "src": "🌡️ mercurySunInertial3d",
+      "diffDeg": 0.0012454544266264982
+     },
+     "spinBook": {
+      "src": "🌡️ mercurySunInertial3d",
+      "spin": 0.12399999999999999,
+      "rel": -0.00013516686915338028
+     },
+     "eclDeg": 7.036926878660169,
+     "retro": false,
+     "signOk": true,
+     "obliquityDeg": 0.03396953738776242,
+     "ok": true
+    },
+    {
+     "key": "venus",
+     "ja": "金星",
+     "tiltDeg": 1.23900871439825,
+     "azimuthDeg": 30.186738527944367,
+     "spin": -0.029924494208700664,
+     "spinRadS": -2.9924494208700665e-7,
+     "periodH": 5832.443615661407,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 272.76,
+      "decDeg": 67.16,
+      "diffDeg": 0
+     },
+     "axisBook": {
+      "src": "🌋 venusSunInertial3d",
+      "diffDeg": 0.000011664627175076371
+     },
+     "spinBook": {
+      "src": "🌋 venusSunInertial3d",
+      "spin": -0.0299236919,
+      "rel": 0.000026811821995265106
+     },
+     "eclDeg": 178.76099128560173,
+     "retro": true,
+     "signOk": true,
+     "obliquityDeg": 177.36245693930556,
+     "ok": true
+    },
+    {
+     "key": "earth",
+     "ja": "地球",
+     "tiltDeg": 23.43771668642211,
+     "azimuthDeg": 90.00362815866637,
+     "spin": 7.292115069816146,
+     "spinRadS": 0.00007292115069816146,
+     "periodH": 23.934472170065938,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 227.492596283,
+      "decDeg": 89.9978642324,
+      "diffDeg": 3.511903836579172e-11
+     },
+     "spinBook": {
+      "src": "🌦️ earthMoonSunInertial3d",
+      "spin": 7.29212,
+      "rel": -6.76097466012493e-7
+     },
+     "eclDeg": 23.43771668642211,
+     "retro": false,
+     "signOk": true,
+     "obliquityDeg": 23.437420643227117,
+     "ok": true
+    },
+    {
+     "key": "moon",
+     "ja": "月",
+     "tiltDeg": 1.5688996271710498,
+     "azimuthDeg": 214.33643003628455,
+     "spin": 0.26619606639829396,
+     "spinRadS": 0.0000026619606639829396,
+     "periodH": 655.6555382688838,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 266.857572273,
+      "decDeg": 65.6432416432,
+      "diffDeg": 6.244006478993483e-11
+     },
+     "spinBook": {
+      "src": "🌦️ earthMoonSunInertial3d",
+      "spin": 0.26616999999999996,
+      "rel": 0.0000979313908178181
+     },
+     "eclDeg": 1.5688996271710496,
+     "retro": false,
+     "signOk": true,
+     "obliquityDeg": 6.809146277181494,
+     "syncOk": true,
+     "ok": true
+    },
+    {
+     "key": "mars",
+     "ja": "火星",
+     "tiltDeg": 26.717769757000912,
+     "azimuthDeg": 352.90696634733195,
+     "spin": 7.088217997642015,
+     "spinRadS": 0.00007088217997642015,
+     "periodH": 24.622962394426008,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 317.680854407,
+      "decDeg": 52.8864392751,
+      "diffDeg": 1.8765664097232145e-10
+     },
+     "axisBook": {
+      "src": "🔴 marsSunInertial3d",
+      "diffDeg": 0.000344512517358282
+     },
+     "spinBook": {
+      "src": "🔴 marsSunInertial3d",
+      "spin": 7.0882163799999995,
+      "rel": 2.282156652544387e-7
+     },
+     "eclDeg": 26.71776975700091,
+     "retro": false,
+     "signOk": true,
+     "obliquityDeg": 25.191451538338963,
+     "ok": true
+    },
+    {
+     "key": "jupiter",
+     "ja": "木星",
+     "tiltDeg": 2.21593353618099,
+     "azimuthDeg": 247.8195016541506,
+     "spin": 17.585323433791654,
+     "spinRadS": 0.00017585323433791654,
+     "periodH": 9.92491982627135,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 268.057204043,
+      "decDeg": 64.4958099534,
+      "diffDeg": 1.2597754166062333e-10
+     },
+     "axisBook": {
+      "src": "🏀 jupiterSunInertial3d",
+      "diffDeg": 0.0005809851002541564
+     },
+     "spinBook": {
+      "src": "🏀 jupiterSunInertial3d",
+      "spin": 17.5851814,
+      "rel": 0.000008076902275000464
+     },
+     "eclDeg": 2.21593353618099,
+     "retro": false,
+     "signOk": true,
+     "obliquityDeg": 3.119784456959532,
+     "ok": true
+    },
+    {
+     "key": "io",
+     "ja": "イオ",
+     "tiltDeg": 2.2082667816785095,
+     "azimuthDeg": 246.54636351052721,
+     "spin": 4.110592854942084,
+     "spinRadS": 0.00004110592854942084,
+     "periodH": 42.459307296658075,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 267.956994934,
+      "decDeg": 64.5205795809,
+      "diffDeg": 4.839121613973599e-11
+     },
+     "spinBook": {
+      "src": "🟠 jupiterGalilean",
+      "spin": 4.1105924,
+      "rel": 1.1067555227839421e-7
+     },
+     "eclDeg": 2.20826678167851,
+     "retro": false,
+     "signOk": true,
+     "obliquityDeg": 0.012581794489769527,
+     "syncOk": true,
+     "ok": true
+    },
+    {
+     "key": "europa",
+     "ja": "エウロパ",
+     "tiltDeg": 1.79030180905746,
+     "azimuthDeg": 242.3946398276747,
+     "spin": 2.047827246872582,
+     "spinRadS": 0.00002047827246872582,
+     "periodH": 85.22834407344544,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 268.039806524,
+      "decDeg": 64.9612460221,
+      "diffDeg": 2.5570755951991082e-11
+     },
+     "spinBook": {
+      "src": "🟠 jupiterGalilean",
+      "spin": 2.0478272499999997,
+      "rel": -1.527188153715997e-9
+     },
+     "eclDeg": 1.79030180905746,
+     "retro": false,
+     "signOk": true,
+     "obliquityDeg": 0.007345347048920484,
+     "syncOk": true,
+     "ok": true
+    },
+    {
+     "key": "ganymede",
+     "ja": "ガニメデ",
+     "tiltDeg": 2.212805575385499,
+     "azimuthDeg": 253.06902399624445,
+     "spin": 1.0164443583652387,
+     "spinRadS": 0.000010164443583652387,
+     "periodH": 171.70927632491032,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 268.506836873,
+      "decDeg": 64.4361513989,
+      "diffDeg": 2.124713467083428e-10
+     },
+     "spinBook": {
+      "src": "🟠 jupiterGalilean",
+      "spin": 1.01644438,
+      "rel": -2.1284746853922343e-8
+     },
+     "eclDeg": 2.2128055753854996,
+     "retro": false,
+     "signOk": true,
+     "obliquityDeg": 0.0042286374750183835,
+     "syncOk": true,
+     "ok": true
+    },
+    {
+     "key": "callisto",
+     "ja": "カリスト",
+     "tiltDeg": 2.017042158148851,
+     "azimuthDeg": 247.82183918245175,
+     "spin": 0.4357479358502222,
+     "spinRadS": 0.000004357479358502222,
+     "periodH": 400.53643595324894,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 268.219592373,
+      "decDeg": 64.6820952792,
+      "diffDeg": 1.3023536101668972e-10
+     },
+     "spinBook": {
+      "src": "🟠 jupiterGalilean",
+      "spin": 0.435747966,
+      "rel": -6.919086292800358e-8
+     },
+     "eclDeg": 2.017042158148851,
+     "retro": false,
+     "signOk": true,
+     "obliquityDeg": 0.004252484937485788,
+     "syncOk": true,
+     "ok": true
+    },
+    {
+     "key": "saturn",
+     "ja": "土星",
+     "tiltDeg": 28.052173725274418,
+     "azimuthDeg": 79.52751282107374,
+     "spin": 16.378498998704238,
+     "spinRadS": 0.0001637849899870424,
+     "periodH": 10.656222234604092,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 40.589,
+      "decDeg": 83.537,
+      "diffDeg": 1.7996326291585777e-14
+     },
+     "axisBook": {
+      "src": "🟡 saturnSunInertial3d",
+      "diffDeg": 0.000011624013643932495
+     },
+     "spinBook": {
+      "src": "🟡 saturnSunInertial3d",
+      "spin": 16.528,
+      "rel": -0.009045317116151974
+     },
+     "eclDeg": 28.052173725274425,
+     "retro": false,
+     "signOk": true,
+     "obliquityDeg": 26.7295399553261,
+     "ok": true
+    },
+    {
+     "key": "titan",
+     "ja": "タイタン",
+     "tiltDeg": 28.053987199290024,
+     "azimuthDeg": 79.17383044958534,
+     "spin": 0.45606780128052476,
+     "spinRadS": 0.000004560678012805248,
+     "periodH": 382.69074183572707,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 39.4827,
+      "decDeg": 83.4279,
+      "diffDeg": 0
+     },
+     "spinBook": {
+      "src": "💍 saturnRingReal",
+      "spin": 0.456,
+      "rel": 0.00014868701869463763
+     },
+     "eclDeg": 28.053987199290027,
+     "retro": false,
+     "signOk": true,
+     "obliquityDeg": 0.3370362391765046,
+     "syncOk": true,
+     "ok": true
+    },
+    {
+     "key": "uranus",
+     "ja": "天王星",
+     "tiltDeg": 82.27820151431882,
+     "azimuthDeg": 257.6466793555975,
+     "spin": -10.12371955898186,
+     "spinRadS": -0.0001012371955898186,
+     "periodH": 17.240000000255407,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 257.311,
+      "decDeg": -15.175,
+      "diffDeg": 4.8183451620991853e-14
+     },
+     "axisBook": {
+      "src": "🔷 uranusSunInertial3d",
+      "diffDeg": 0.000011401513546597796
+     },
+     "spinBook": {
+      "src": "🔷 uranusSunInertial3d",
+      "spin": -10.1237196,
+      "rel": -4.051686652850606e-9
+     },
+     "eclDeg": 97.72179848568118,
+     "retro": true,
+     "signOk": true,
+     "obliquityDeg": 97.77017441953988,
+     "ok": true
+    },
+    {
+     "key": "neptune",
+     "ja": "海王星",
+     "tiltDeg": 28.48291887199962,
+     "azimuthDeg": 318.7548384890904,
+     "spin": 10.931331942292841,
+     "spinRadS": 0.00010931331942292842,
+     "periodH": 15.966300000841871,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 299.333738959,
+      "decDeg": 42.9503590218,
+      "diffDeg": 1.7234782597036093e-10
+     },
+     "axisBook": {
+      "src": "💙 neptuneSunInertial3d",
+      "diffDeg": 0.00001089094534423991
+     },
+     "spinBook": {
+      "src": "💙 neptuneSunInertial3d",
+      "spin": 10.8338253,
+      "rel": 0.009000204414671531
+     },
+     "eclDeg": 28.482918871999612,
+     "retro": false,
+     "signOk": true,
+     "obliquityDeg": 28.318068903138812,
+     "ok": true
+    },
+    {
+     "key": "triton",
+     "ja": "トリトン",
+     "tiltDeg": 49.73296545943043,
+     "azimuthDeg": 305.8429238170747,
+     "spin": -1.2374339677632218,
+     "spinRadS": -0.000012374339677632219,
+     "periodH": 141.0442332651637,
+     "enable": true,
+     "poleSrc": {
+      "raDeg": 298.450983409,
+      "decDeg": 20.3023612605,
+      "diffDeg": 1.0519028668203743e-10
+     },
+     "eclDeg": 130.26703454056957,
+     "retro": true,
+     "signOk": true,
+     "obliquityDeg": 0.013573507612975738,
+     "syncOk": true,
+     "ok": true
+    }
+   ]
+  },
+  "notes": [],
+  "tol": {
+   "comKm": 1000,
+   "comKmS": 0.0001,
+   "distFactor": [
+    0.5,
+    1.6
+   ],
+   "speedFactor": [
+    0.5,
+    1.6
+   ],
+   "hillFrac": 0.5,
+   "massRel": 0.01,
+   "aRel": 0.05,
+   "eAbs": 0.02,
+   "iDeg": 1,
+   "axisDeg": 0.5,
+   "poleSrcDeg": 0.000001,
+   "spinRel": 0.05,
+   "satAxisDeg": 10
+  }
+ },
+ "form": {
+  "normSame": true,
+  "steps": 60,
+  "runSame": true,
+  "stepDtSame": true,
+  "shortForm": {
+   "relativeDrag": {
+    "law": "inertial",
+    "invSq": {
+     "kernel": "k1",
+     "rdRule": "kappaM"
+    },
+    "pairs": "all",
+    "history": "positions",
+    "initMotion": "observed"
+   },
+   "gLoc": {
+    "law": "kappaC2"
+   }
+  },
+  "inputForm": {
+   "relativeDrag": {
+    "law": "inertial",
+    "invSq": {
+     "Wbg2": 0,
+     "order": 8,
+     "kernel": "k1",
+     "rdRule": "kappaM"
+    },
+    "pairs": "all",
+    "history": "positions",
+    "initMotion": "observed"
+   },
+   "gLoc": {
+    "law": "kappaC2",
+    "n": 2,
+    "pair": "receiver",
+    "kappa": "lock",
+    "ref": "background"
+   }
+  },
+  "normalized": {
+   "relativeDrag": {
+    "law": "inertial",
+    "invSq": {
+     "Wbg2": 0,
+     "order": 8,
+     "kernel": "k1",
+     "rdRule": "kappaM"
+    },
+    "pairs": "all",
+    "history": "positions",
+    "initMotion": "observed"
+   },
+   "gLoc": {
+    "law": "kappaC2",
+    "n": 2,
+    "pair": "receiver",
+    "kappa": "lock",
+    "ref": "background"
+   }
+  },
+  "warnings": 0,
+  "deny": 0
+ },
+ "builtin": {
+  "present": true,
+  "emoji": "🗺️",
+  "declSame": true
+ },
+ "step": [
+  {
+   "phys": "k1",
+   "spo": 360,
+   "dt": 0.004251349817850594,
+   "maxKm": {
+    "h_h4": 254.30301182595943,
+    "h2_h4": 50.86475033604909
+   },
+   "ioRelKm": {
+    "h_h4": 254.3164304029872,
+    "h2_h4": 50.86743361212732
+   },
+   "order": 4.999592319561322,
+   "perBody": [
+    {
+     "key": "sun",
+     "h_h4Km": 1.4805600870072875e-7,
+     "h2_h4Km": 1.5682520166973314e-7,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "mercury",
+     "h_h4Km": 0.06548499213262454,
+     "h2_h4Km": 0.013096150612493725,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "venus",
+     "h_h4Km": 0.016117264554725116,
+     "h2_h4Km": 0.0032233262852887886,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "earth",
+     "h_h4Km": 0.005661108015335547,
+     "h2_h4Km": 0.0011322866326526906,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "moon",
+     "h_h4Km": 0.02149179404344227,
+     "h2_h4Km": 0.00429661532867433,
+     "relH_h4Km": 0.024992888071982796,
+     "relH2_h4Km": 0.004998215118101677
+    },
+    {
+     "key": "mars",
+     "h_h4Km": 0.001676288546153175,
+     "h2_h4Km": 0.00033518479470116873,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "jupiter",
+     "h_h4Km": 0.013453813951289664,
+     "h2_h4Km": 0.0026892479176995913,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "io",
+     "h_h4Km": 254.30301182595943,
+     "h2_h4Km": 50.86475033604909,
+     "relH_h4Km": 254.3164304029872,
+     "relH2_h4Km": 50.86743361212732
+    },
+    {
+     "key": "europa",
+     "h_h4Km": 56.736005260097265,
+     "h2_h4Km": 11.347510945210967,
+     "relH_h4Km": 56.74694016072485,
+     "relH2_h4Km": 11.34968801635713
+    },
+    {
+     "key": "ganymede",
+     "h_h4Km": 4.653038041031027,
+     "h2_h4Km": 0.9306236669744028,
+     "relH_h4Km": 4.666179546288545,
+     "relH2_h4Km": 0.9332473010375175
+    },
+    {
+     "key": "callisto",
+     "h_h4Km": 0.6165778100962388,
+     "h2_h4Km": 0.12330674757281113,
+     "relH_h4Km": 0.6111082166868153,
+     "relH2_h4Km": 0.12222698138770252
+    },
+    {
+     "key": "saturn",
+     "h_h4Km": 0.0001576833328650199,
+     "h2_h4Km": 0.00012008290293173748,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "titan",
+     "h_h4Km": 0.4129581879607707,
+     "h2_h4Km": 0.08258575302396838,
+     "relH_h4Km": 0.41308958201956475,
+     "relH2_h4Km": 0.0826175445447672
+    },
+    {
+     "key": "uranus",
+     "h_h4Km": 0.00036651242725593673,
+     "h2_h4Km": 0.00046082064893498346,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "neptune",
+     "h_h4Km": 0.0010306490373641368,
+     "h2_h4Km": 0.0005850296663787044,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "triton",
+     "h_h4Km": 3.3603630551903483,
+     "h2_h4Km": 0.6722342756557921,
+     "relH_h4Km": 3.3613773535824585,
+     "relH2_h4Km": 0.6728022374636218
+    }
+   ]
+  },
+  {
+   "phys": "k1",
+   "spo": 1440,
+   "dt": 0.0010628374544626486,
+   "maxKm": {
+    "h_h4": 15.895182592357362,
+    "h2_h4": 3.178468564394012
+   },
+   "ioRelKm": {
+    "h_h4": 15.896122022316302,
+    "h2_h4": 3.178724837225245
+   },
+   "order": 5.000785798179454,
+   "perBody": [
+    {
+     "key": "sun",
+     "h_h4Km": 3.148276944211844e-7,
+     "h2_h4Km": 6.306700268091678e-7,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "mercury",
+     "h_h4Km": 0.0040918671145478555,
+     "h2_h4Km": 0.0008180835297044344,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "venus",
+     "h_h4Km": 0.001007169781870367,
+     "h2_h4Km": 0.00020144930118893266,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "earth",
+     "h_h4Km": 0.000353936822183608,
+     "h2_h4Km": 0.0000707226604354761,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "moon",
+     "h_h4Km": 0.0013418583727283107,
+     "h2_h4Km": 0.00026871786933169124,
+     "relH_h4Km": 0.0015627341436502955,
+     "relH2_h4Km": 0.00031297215644430327
+    },
+    {
+     "key": "mars",
+     "h_h4Km": 0.00010462430259896666,
+     "h2_h4Km": 0.000020891084547026634,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "jupiter",
+     "h_h4Km": 0.0009546223920530241,
+     "h2_h4Km": 0.0002567080833945392,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "io",
+     "h_h4Km": 15.895182592357362,
+     "h2_h4Km": 3.178468564394012,
+     "relH_h4Km": 15.896122022316302,
+     "relH2_h4Km": 3.178724837225245
+    },
+    {
+     "key": "europa",
+     "h_h4Km": 3.5464393684410056,
+     "h2_h4Km": 0.7097278853356132,
+     "relH_h4Km": 3.547269994165038,
+     "relH2_h4Km": 0.7099155742974468
+    },
+    {
+     "key": "ganymede",
+     "h_h4Km": 0.2908409682750837,
+     "h2_h4Km": 0.05825993589197908,
+     "relH_h4Km": 0.291789904929631,
+     "relH2_h4Km": 0.05850168566085531
+    },
+    {
+     "key": "callisto",
+     "h_h4Km": 0.03855412203461132,
+     "h2_h4Km": 0.0077078724303004725,
+     "relH_h4Km": 0.03807641406884867,
+     "relH2_h4Km": 0.007636646543501755
+    },
+    {
+     "key": "saturn",
+     "h_h4Km": 0.0001641841497771697,
+     "h2_h4Km": 0.00032765442347987007,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "titan",
+     "h_h4Km": 0.025815592669340526,
+     "h2_h4Km": 0.005164024717277445,
+     "relH_h4Km": 0.025734804021741522,
+     "relH2_h4Km": 0.004994812126289943
+    },
+    {
+     "key": "uranus",
+     "h_h4Km": 0.0009233450831344698,
+     "h2_h4Km": 0.001843181613236765,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "neptune",
+     "h_h4Km": 0.0014144944993842662,
+     "h2_h4Km": 0.0013001269888442179,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "triton",
+     "h_h4Km": 0.20878951956460642,
+     "h2_h4Km": 0.04067020174228955,
+     "relH_h4Km": 0.20747338727580966,
+     "relH2_h4Km": 0.0397136832092228
+    }
+   ]
+  },
+  {
+   "phys": "ctrl",
+   "spo": 360,
+   "dt": 0.004251349817850594,
+   "maxKm": {
+    "h_h4": 254.30417487809243,
+    "h2_h4": 50.86523768808535
+   },
+   "ioRelKm": {
+    "h_h4": 254.31759456831722,
+    "h2_h4": 50.86792203774211
+   },
+   "order": 4.999567200319742,
+   "perBody": [
+    {
+     "key": "sun",
+     "h_h4Km": 3.452670768825071e-8,
+     "h2_h4Km": 8.71621818467144e-9,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "mercury",
+     "h_h4Km": 0.065492536536528,
+     "h2_h4Km": 0.013098719329837631,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "venus",
+     "h_h4Km": 0.016118528645082238,
+     "h2_h4Km": 0.003223761189280876,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "earth",
+     "h_h4Km": 0.005660624047795727,
+     "h2_h4Km": 0.001132099566304126,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "moon",
+     "h_h4Km": 0.02150455443268614,
+     "h2_h4Km": 0.0043008905846584344,
+     "relH_h4Km": 0.02499419315551508,
+     "relH2_h4Km": 0.004998686403449841
+    },
+    {
+     "key": "mars",
+     "h_h4Km": 0.0016768712546134706,
+     "h2_h4Km": 0.00033536960327763994,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "jupiter",
+     "h_h4Km": 0.013456477242829003,
+     "h2_h4Km": 0.002691686253313593,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "io",
+     "h_h4Km": 254.30417487809243,
+     "h2_h4Km": 50.86523768808535,
+     "relH_h4Km": 254.31759456831722,
+     "relH2_h4Km": 50.86792203774211
+    },
+    {
+     "key": "europa",
+     "h_h4Km": 56.7357046333858,
+     "h2_h4Km": 11.347375153490068,
+     "relH_h4Km": 56.74665396228068,
+     "relH2_h4Km": 11.349565501035942
+    },
+    {
+     "key": "ganymede",
+     "h_h4Km": 4.652967054688044,
+     "h2_h4Km": 0.9305945381290566,
+     "relH_h4Km": 4.6661155938064915,
+     "relH2_h4Km": 0.9332247027131213
+    },
+    {
+     "key": "callisto",
+     "h_h4Km": 0.6165904320836196,
+     "h2_h4Km": 0.1233196918851531,
+     "relH_h4Km": 0.6111008796900247,
+     "relH2_h4Km": 0.12222129255968152
+    },
+    {
+     "key": "saturn",
+     "h_h4Km": 0.00009811878257683395,
+     "h2_h4Km": 0.000019562319043342984,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "titan",
+     "h_h4Km": 0.4129646486259053,
+     "h2_h4Km": 0.0825934156450209,
+     "relH_h4Km": 0.41306276538019515,
+     "relH2_h4Km": 0.08261294603904408
+    },
+    {
+     "key": "uranus",
+     "h_h4Km": 0.000004093028374198936,
+     "h2_h4Km": 0.0000029122285532676357,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "neptune",
+     "h_h4Km": 0.0007047614611664255,
+     "h2_h4Km": 0.00014684033547514695,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "triton",
+     "h_h4Km": 3.3602751262498898,
+     "h2_h4Km": 0.6720281439149278,
+     "relH_h4Km": 3.3609798842603107,
+     "relH2_h4Km": 0.6721749617940689
+    }
+   ]
+  },
+  {
+   "phys": "ctrl",
+   "spo": 1440,
+   "dt": 0.0010628374544626486,
+   "maxKm": {
+    "h_h4": 15.895925204242687,
+    "h2_h4": 3.179173181621604
+   },
+   "ioRelKm": {
+    "h_h4": 15.896767328158155,
+    "h2_h4": 3.179343926042422
+   },
+   "order": 5.000015002449296,
+   "perBody": [
+    {
+     "key": "sun",
+     "h_h4Km": 1.1328527951612192e-9,
+     "h2_h4Km": 3.8822165731763813e-10,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "mercury",
+     "h_h4Km": 0.004093330414093373,
+     "h2_h4Km": 0.0008185551421289153,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "venus",
+     "h_h4Km": 0.0010073971018546618,
+     "h2_h4Km": 0.0002015079706219065,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "earth",
+     "h_h4Km": 0.0003537685787183168,
+     "h2_h4Km": 0.00007067911869069663,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "moon",
+     "h_h4Km": 0.0013447531859650146,
+     "h2_h4Km": 0.0002694263667849395,
+     "relH_h4Km": 0.0015626796894679673,
+     "relH2_h4Km": 0.00031326825330562686
+    },
+    {
+     "key": "mars",
+     "h_h4Km": 0.00010483323759217971,
+     "h2_h4Km": 0.000020978976993797405,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "jupiter",
+     "h_h4Km": 0.0008444438941172836,
+     "h2_h4Km": 0.00017098074782856393,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "io",
+     "h_h4Km": 15.895925204242687,
+     "h2_h4Km": 3.179173181621604,
+     "relH_h4Km": 15.896767328158155,
+     "relH2_h4Km": 3.179343926042422
+    },
+    {
+     "key": "europa",
+     "h_h4Km": 3.546109510186185,
+     "h2_h4Km": 0.7092471653715331,
+     "relH_h4Km": 3.5467968509140064,
+     "relH2_h4Km": 0.7093841619639216
+    },
+    {
+     "key": "ganymede",
+     "h_h4Km": 0.29081150142132955,
+     "h2_h4Km": 0.0581637837562738,
+     "relH_h4Km": 0.29163671141995806,
+     "relH2_h4Km": 0.058330048472543826
+    },
+    {
+     "key": "callisto",
+     "h_h4Km": 0.038535696263793884,
+     "h2_h4Km": 0.007708522321321988,
+     "relH_h4Km": 0.03819085239123595,
+     "relH2_h4Km": 0.00764208530213126
+    },
+    {
+     "key": "saturn",
+     "h_h4Km": 0.000005494958255163025,
+     "h2_h4Km": 0.0000021845925005636256,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "titan",
+     "h_h4Km": 0.025812782703396042,
+     "h2_h4Km": 0.005164449267386412,
+     "relH_h4Km": 0.025817886773004492,
+     "relH2_h4Km": 0.005163123659227996
+    },
+    {
+     "key": "uranus",
+     "h_h4Km": 0.000004314164828367657,
+     "h2_h4Km": 0.000007850159624001189,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "neptune",
+     "h_h4Km": 0.000033146504284618326,
+     "h2_h4Km": 0.000010040635753676382,
+     "relH_h4Km": null,
+     "relH2_h4Km": null
+    },
+    {
+     "key": "triton",
+     "h_h4Km": 0.21005172056466084,
+     "h2_h4Km": 0.04200960456641897,
+     "relH_h4Km": 0.21008466594424346,
+     "relH2_h4Km": 0.042014765099427843
+    }
+   ]
+  }
+ ],
+ "choice": {
+  "chosen": 1440,
+  "inputSpo": 1440,
+  "nominalStepsPerSec": 120,
+  "rows": [
+   {
+    "spo": 360,
+    "dt": 0.004251349817850594,
+    "ioRelKm": 254.3164304029872,
+    "ioRelOverA": 0.0006025935474538044,
+    "stepsPerIo": 360,
+    "stepsPerYear": 74230,
+    "secPerIoNominal": 3,
+    "minPerYearNominal": 10.309722222222224
+   },
+   {
+    "spo": 1440,
+    "dt": 0.0010628374544626486,
+    "ioRelKm": 15.896122022316302,
+    "ioRelOverA": 0.00003766528393390666,
+    "stepsPerIo": 1440,
+    "stepsPerYear": 296918,
+    "secPerIoNominal": 12,
+    "minPerYearNominal": 41.23861111111111
+   }
+  ],
+  "why": "入力の値のまま 1440(入力の stepDt を使う —— 数を作り直さない)。360 はイオの 1 公転の h と h/4 の終わりの相対の位置の差がイオの長半径の 6e-4 の桁で、1 年で位相が数度ずれる型 —— 1440 は 16 倍小さい。表示は 1440 で 4 倍遅い(公称 120 步/秒でイオ 1 公転 12 s・地球 1 年 41 分)"
+ },
+ "diff": {
+  "io": {
+   "rows": [
+    {
+     "n": 360,
+     "dt": 0.004251349817850594,
+     "maxKm": 0.2520360394083306,
+     "maxRelKm": 0.252075649297835,
+     "perBody": [
+      {
+       "key": "sun",
+       "ja": "太陽",
+       "posKm": 3.6554135894044445e-8,
+       "relKm": null
+      },
+      {
+       "key": "mercury",
+       "ja": "水星",
+       "posKm": 0.07313646420332817,
+       "relKm": null
+      },
+      {
+       "key": "venus",
+       "ja": "金星",
+       "posKm": 0.02024778385516787,
+       "relKm": null
+      },
+      {
+       "key": "earth",
+       "ja": "地球",
+       "posKm": 0.007982504695295954,
+       "relKm": null
+      },
+      {
+       "key": "moon",
+       "ja": "月",
+       "posKm": 0.006830453567669946,
+       "relKm": 0.002052007796454641
+      },
+      {
+       "key": "mars",
+       "ja": "火星",
+       "posKm": 0.002831519802670479,
+       "relKm": null
+      },
+      {
+       "key": "jupiter",
+       "ja": "木星",
+       "posKm": 0.00006971962112964547,
+       "relKm": null
+      },
+      {
+       "key": "io",
+       "ja": "イオ",
+       "posKm": 0.2520360394083306,
+       "relKm": 0.252075649297835
+      },
+      {
+       "key": "europa",
+       "ja": "エウロパ",
+       "posKm": 0.18154860292708627,
+       "relKm": 0.1815513285307949
+      },
+      {
+       "key": "ganymede",
+       "ja": "ガニメデ",
+       "posKm": 0.05127207578059471,
+       "relKm": 0.05133330904994679
+      },
+      {
+       "key": "callisto",
+       "ja": "カリスト",
+       "posKm": 0.009111612310067558,
+       "relKm": 0.009056947637231898
+      },
+      {
+       "key": "saturn",
+       "ja": "土星",
+       "posKm": 0.000022120300067380965,
+       "relKm": null
+      },
+      {
+       "key": "titan",
+       "ja": "タイタン",
+       "posKm": 0.003262730522271207,
+       "relKm": 0.0032671318742864617
+      },
+      {
+       "key": "uranus",
+       "ja": "天王星",
+       "posKm": 0.00009808044722806976,
+       "relKm": null
+      },
+      {
+       "key": "neptune",
+       "ja": "海王星",
+       "posKm": 0.00008389791062259988,
+       "relKm": null
+      },
+      {
+       "key": "triton",
+       "ja": "トリトン",
+       "posKm": 0.0035855202688570642,
+       "relKm": 0.0035418170071355127
+      }
+     ]
+    },
+    {
+     "n": 720,
+     "dt": 0.002125674908925297,
+     "maxKm": 0.25271197058694017,
+     "maxRelKm": 0.2527515674230678,
+     "perBody": [
+      {
+       "key": "sun",
+       "ja": "太陽",
+       "posKm": 3.6192097417151456e-8,
+       "relKm": null
+      },
+      {
+       "key": "mercury",
+       "ja": "水星",
+       "posKm": 0.07304236399718846,
+       "relKm": null
+      },
+      {
+       "key": "venus",
+       "ja": "金星",
+       "posKm": 0.020222215991841673,
+       "relKm": null
+      },
+      {
+       "key": "earth",
+       "ja": "地球",
+       "posKm": 0.007972631847802163,
+       "relKm": null
+      },
+      {
+       "key": "moon",
+       "ja": "月",
+       "posKm": 0.006822141417429985,
+       "relKm": 0.0020476868916424786
+      },
+      {
+       "key": "mars",
+       "ja": "火星",
+       "posKm": 0.0028280266484493393,
+       "relKm": null
+      },
+      {
+       "key": "jupiter",
+       "ja": "木星",
+       "posKm": 0.00006828521613703216,
+       "relKm": null
+      },
+      {
+       "key": "io",
+       "ja": "イオ",
+       "posKm": 0.25271197058694017,
+       "relKm": 0.2527515674230678
+      },
+      {
+       "key": "europa",
+       "ja": "エウロパ",
+       "posKm": 0.18136946594719736,
+       "relKm": 0.18137314224084017
+      },
+      {
+       "key": "ganymede",
+       "ja": "ガニメデ",
+       "posKm": 0.05119269648051293,
+       "relKm": 0.051253150567534586
+      },
+      {
+       "key": "callisto",
+       "ja": "カリスト",
+       "posKm": 0.009093362412696825,
+       "relKm": 0.009039176476665628
+      },
+      {
+       "key": "saturn",
+       "ja": "土星",
+       "posKm": 0.000030415406562476518,
+       "relKm": null
+      },
+      {
+       "key": "titan",
+       "ja": "タイタン",
+       "posKm": 0.003252162141734662,
+       "relKm": 0.003222438713451396
+      },
+      {
+       "key": "uranus",
+       "ja": "天王星",
+       "posKm": 0.0001275337058358693,
+       "relKm": null
+      },
+      {
+       "key": "neptune",
+       "ja": "海王星",
+       "posKm": 0.00009706324718977518,
+       "relKm": null
+      },
+      {
+       "key": "triton",
+       "ja": "トリトン",
+       "posKm": 0.003713471537532725,
+       "relKm": 0.003789714652134085
+      }
+     ]
+    },
+    {
+     "n": 1440,
+     "dt": 0.0010628374544626486,
+     "maxKm": 0.2531994079416872,
+     "maxRelKm": 0.253240086108606,
+     "perBody": [
+      {
+       "key": "sun",
+       "ja": "太陽",
+       "posKm": 1.4582694128276178e-7,
+       "relKm": null
+      },
+      {
+       "key": "mercury",
+       "ja": "水星",
+       "posKm": 0.07299534036580063,
+       "relKm": null
+      },
+      {
+       "key": "venus",
+       "ja": "金星",
+       "posKm": 0.020209033983021617,
+       "relKm": null
+      },
+      {
+       "key": "earth",
+       "ja": "地球",
+       "posKm": 0.007967775162445971,
+       "relKm": null
+      },
+      {
+       "key": "moon",
+       "ja": "月",
+       "posKm": 0.0068179337159575285,
+       "relKm": 0.002045682006150744
+      },
+      {
+       "key": "mars",
+       "ja": "火星",
+       "posKm": 0.002826350680834471,
+       "relKm": null
+      },
+      {
+       "key": "jupiter",
+       "ja": "木星",
+       "posKm": 0.00005443103575062876,
+       "relKm": null
+      },
+      {
+       "key": "io",
+       "ja": "イオ",
+       "posKm": 0.2531994079416872,
+       "relKm": 0.253240086108606
+      },
+      {
+       "key": "europa",
+       "ja": "エウロパ",
+       "posKm": 0.1812245264528467,
+       "relKm": 0.18123954633380301
+      },
+      {
+       "key": "ganymede",
+       "ja": "ガニメデ",
+       "posKm": 0.051138819720148804,
+       "relKm": 0.05119141636531083
+      },
+      {
+       "key": "callisto",
+       "ja": "カリスト",
+       "posKm": 0.009088156903719653,
+       "relKm": 0.009038667112114547
+      },
+      {
+       "key": "saturn",
+       "ja": "土星",
+       "posKm": 0.0000877980028965548,
+       "relKm": null
+      },
+      {
+       "key": "titan",
+       "ja": "タイタン",
+       "posKm": 0.0032675338201629193,
+       "relKm": 0.003348170161498225
+      },
+      {
+       "key": "uranus",
+       "ja": "天王星",
+       "posKm": 0.00033524472190801113,
+       "relKm": null
+      },
+      {
+       "key": "neptune",
+       "ja": "海王星",
+       "posKm": 0.0003541108256202251,
+       "relKm": null
+      },
+      {
+       "key": "triton",
+       "ja": "トリトン",
+       "posKm": 0.0034358835402449528,
+       "relKm": 0.0032202295368112146
+      }
+     ]
+    },
+    {
+     "n": 2880,
+     "dt": 0.0005314187272313243,
+     "maxKm": 0.2532376708338868,
+     "maxRelKm": 0.25326634562667333,
+     "perBody": [
+      {
+       "key": "sun",
+       "ja": "太陽",
+       "posKm": 1.771528227880219e-7,
+       "relKm": null
+      },
+      {
+       "key": "mercury",
+       "ja": "水星",
+       "posKm": 0.07297210858327455,
+       "relKm": null
+      },
+      {
+       "key": "venus",
+       "ja": "金星",
+       "posKm": 0.020202968869134457,
+       "relKm": null
+      },
+      {
+       "key": "earth",
+       "ja": "地球",
+       "posKm": 0.007964452736920742,
+       "relKm": null
+      },
+      {
+       "key": "moon",
+       "ja": "月",
+       "posKm": 0.006815831253497095,
+       "relKm": 0.002043933891394727
+      },
+      {
+       "key": "mars",
+       "ja": "火星",
+       "posKm": 0.0028257255456526835,
+       "relKm": null
+      },
+      {
+       "key": "jupiter",
+       "ja": "木星",
+       "posKm": 0.00016922168008068832,
+       "relKm": null
+      },
+      {
+       "key": "io",
+       "ja": "イオ",
+       "posKm": 0.2532376708338868,
+       "relKm": 0.25326634562667333
+      },
+      {
+       "key": "europa",
+       "ja": "エウロパ",
+       "posKm": 0.18136673000352574,
+       "relKm": 0.18130165617815272
+      },
+      {
+       "key": "ganymede",
+       "ja": "ガニメデ",
+       "posKm": 0.05118861812046119,
+       "relKm": 0.05128974674996882
+      },
+      {
+       "key": "callisto",
+       "ja": "カリスト",
+       "posKm": 0.009079405262228155,
+       "relKm": 0.009003694149980677
+      },
+      {
+       "key": "saturn",
+       "ja": "土星",
+       "posKm": 0.00012168480646428225,
+       "relKm": null
+      },
+      {
+       "key": "titan",
+       "ja": "タイタン",
+       "posKm": 0.0032448350014033936,
+       "relKm": 0.003188469661690799
+      },
+      {
+       "key": "uranus",
+       "ja": "天王星",
+       "posKm": 0.0005806295342332093,
+       "relKm": null
+      },
+      {
+       "key": "neptune",
+       "ja": "海王星",
+       "posKm": 0.0004294163157266802,
+       "relKm": null
+      },
+      {
+       "key": "triton",
+       "ja": "トリトン",
+       "posKm": 0.0034526559894979673,
+       "relKm": 0.0033468051780699065
+      }
+     ]
+    },
+    {
+     "n": 5760,
+     "dt": 0.00026570936361566214,
+     "maxKm": 0.2539422913818689,
+     "maxRelKm": 0.2538854682058525,
+     "perBody": [
+      {
+       "key": "sun",
+       "ja": "太陽",
+       "posKm": 4.5796140492780846e-7,
+       "relKm": null
+      },
+      {
+       "key": "mercury",
+       "ja": "水星",
+       "posKm": 0.07296034819909392,
+       "relKm": null
+      },
+      {
+       "key": "venus",
+       "ja": "金星",
+       "posKm": 0.020199180940638595,
+       "relKm": null
+      },
+      {
+       "key": "earth",
+       "ja": "地球",
+       "posKm": 0.007963928895178428,
+       "relKm": null
+      },
+      {
+       "key": "moon",
+       "ja": "月",
+       "posKm": 0.00681516392751272,
+       "relKm": 0.0020436968988171125
+      },
+      {
+       "key": "mars",
+       "ja": "火星",
+       "posKm": 0.0028240212172919717,
+       "relKm": null
+      },
+      {
+       "key": "jupiter",
+       "ja": "木星",
+       "posKm": 0.00015389196758447497,
+       "relKm": null
+      },
+      {
+       "key": "io",
+       "ja": "イオ",
+       "posKm": 0.2539422913818689,
+       "relKm": 0.2538854682058525
+      },
+      {
+       "key": "europa",
+       "ja": "エウロパ",
+       "posKm": 0.18089652465626996,
+       "relKm": 0.18077198429721741
+      },
+      {
+       "key": "ganymede",
+       "ja": "ガニメデ",
+       "posKm": 0.05105378548487403,
+       "relKm": 0.05106800016575735
+      },
+      {
+       "key": "callisto",
+       "ja": "カリスト",
+       "posKm": 0.009100678233313932,
+       "relKm": 0.009113663874898665
+      },
+      {
+       "key": "saturn",
+       "ja": "土星",
+       "posKm": 0.00023219021933817621,
+       "relKm": null
+      },
+      {
+       "key": "titan",
+       "ja": "タイタン",
+       "posKm": 0.0033051738798513873,
+       "relKm": 0.0035306295017310243
+      },
+      {
+       "key": "uranus",
+       "ja": "天王星",
+       "posKm": 0.0012566683127754386,
+       "relKm": null
+      },
+      {
+       "key": "neptune",
+       "ja": "海王星",
+       "posKm": 0.001130859816508029,
+       "relKm": null
+      },
+      {
+       "key": "triton",
+       "ja": "トリトン",
+       "posKm": 0.00492048924364572,
+       "relKm": 0.005840908209679996
+      }
+     ]
+    }
+   ],
+   "ioRel": {
+    "values": [
+     0.252075649297835,
+     0.2527515674230678,
+     0.253240086108606,
+     0.25326634562667333,
+     0.2538854682058525
+    ],
+    "mean": 0.25304382333240694,
+    "spread": 0.0071521955532582735
+   }
+  },
+  "year": {
+   "360": {
+    "steps": 74232,
+    "dt": 0.004251349817850594,
+    "days": 365.26180518366357,
+    "points": [
+     {
+      "k": 9279,
+      "days": 45.657725647957946,
+      "maxKm": 89.42349895988042,
+      "maxRelKm": 5.587303604526893,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.00001457514666157032,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 89.42349895988042,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 15.619001653650525,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 5.688275414141469,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 5.551623792103475,
+        "relKm": 0.6403529364158085
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 1.8916643452192732,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 0.041483504628352326,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 5.546836962447354,
+        "relKm": 5.587303604526893
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 4.495069074593467,
+        "relKm": 4.459195036585167
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 2.603263872057909,
+        "relKm": 2.6297299816398567
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 1.4190087768624389,
+        "relKm": 1.4517305350388017
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.006437542905825413,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 0.5005915116911681,
+        "relKm": 0.49620704469267524
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.0013783475659199934,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.0020520848993987257,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 0.1477957734997477,
+        "relKm": 0.14910819856807792
+       }
+      ]
+     },
+     {
+      "k": 18558,
+      "days": 91.31545129591589,
+      "maxKm": 108.34954888355631,
+      "maxRelKm": 9.123318001700747,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.000045532545934716525,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 108.34954888355631,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 71.5851507139181,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 25.8075975974226,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 25.485704967489976,
+        "relKm": 1.0376971580912766
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 7.870230970274534,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 0.1640435891108011,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 9.139590703685531,
+        "relKm": 9.123318001700747
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 8.768649814638154,
+        "relKm": 8.619955260372977
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 5.536709502969176,
+        "relKm": 5.373431614502526
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 2.630204716720182,
+        "relKm": 2.7096408229649422
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.026152319648437537,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 0.9991475958646477,
+        "relKm": 1.0000469682508402
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.0037673721631664705,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.002607880441473067,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 0.28587983228544495,
+        "relKm": 0.2869333479689694
+       }
+      ]
+     },
+     {
+      "k": 27837,
+      "days": 136.97317694387382,
+      "maxKm": 261.9453271497275,
+      "maxRelKm": 12.389690352878752,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.0003761559269898756,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 261.9453271497275,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 149.1686442788885,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 62.360297025305535,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 63.610040216042016,
+        "relKm": 1.6046230766633267
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 18.50868872411424,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 0.3707581363850365,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 11.131274955184807,
+        "relKm": 10.761205204013624
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 12.45297987066668,
+        "relKm": 12.389690352878752
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 7.629089632627291,
+        "relKm": 7.907864362498711
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 4.335695363920436,
+        "relKm": 3.992883390924857
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.0591784234021122,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 1.4490373959423433,
+        "relKm": 1.4929596865172323
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.00697370746582264,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.003546418058186413,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 0.41902933201017034,
+        "relKm": 0.4188110020945429
+       }
+      ]
+     },
+     {
+      "k": 37116,
+      "days": 182.63090259183178,
+      "maxKm": 218.88242629104298,
+      "maxRelKm": 15.681651752962997,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.0006338571337295903,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 218.88242629104298,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 199.31937449270814,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 109.92435863040961,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 107.57765356129423,
+        "relKm": 2.417657749750303
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 34.031745526362606,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 0.6616543486755474,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 10.820509419544129,
+        "relKm": 10.699851599876196
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 15.203190123089211,
+        "relKm": 15.681651752962997
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 10.591914143108712,
+        "relKm": 10.509002871904318
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 5.715325452039478,
+        "relKm": 5.4955554655690735
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.10531010543381593,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 1.8560217486932886,
+        "relKm": 1.950737627528787
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.010594015463399067,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.005734662427582087,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 0.558735228411856,
+        "relKm": 0.5532262987184018
+       }
+      ]
+     },
+     {
+      "k": 46395,
+      "days": 228.28862823978972,
+      "maxKm": 423.3512885951944,
+      "maxRelKm": 18.458188752473042,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.0007373560163424467,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 423.3512885951944,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 206.94804846414922,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 157.38965835521896,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 159.9978351459295,
+        "relKm": 2.647473754606866
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 54.1947581097824,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 1.038561781770111,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 7.889432883494257,
+        "relKm": 8.878433894582159
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 17.45042445668319,
+        "relKm": 18.458188752473042
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 13.825398268195965,
+        "relKm": 13.142518040259223
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 5.915489728798057,
+        "relKm": 6.935640067793717
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.16445142338336013,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 2.3089187622187026,
+        "relKm": 2.3679293225345552
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.014816065909721786,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.00842931851834365,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 0.6933668051918889,
+        "relKm": 0.6896137048845086
+       }
+      ]
+     },
+     {
+      "k": 55674,
+      "days": 273.94635388774765,
+      "maxKm": 334.57277023276527,
+      "maxRelKm": 20.663350200424286,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.00043340419558973324,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 334.57277023276527,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 218.51928925527798,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 193.64112999240518,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 191.0043883913323,
+        "relKm": 3.2536764894787407
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 78.4337215537847,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 1.5038113934969595,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 4.664070551685743,
+        "relKm": 5.0661613779366395
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 20.191642574207343,
+        "relKm": 20.663350200424286
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 14.074238391527809,
+        "relKm": 15.566139806333668
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 8.193257276039144,
+        "relKm": 8.127601374898049
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.23677138638272885,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 2.880738388624872,
+        "relKm": 2.778838976383073
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.023234529947048117,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.009628090848926841,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 0.8121350270360599,
+        "relKm": 0.8173797242984854
+       }
+      ]
+     },
+     {
+      "k": 64953,
+      "days": 319.60407953570564,
+      "maxKm": 567.5730526365975,
+      "maxRelKm": 22.234492919141733,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.0014007571722742256,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 567.5730526365975,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 277.6279142142065,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 212.04657703603044,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 214.4514647945217,
+        "relKm": 4.118238695635349
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 105.99271592312051,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 2.0551442078152222,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 1.5774472327999227,
+        "relKm": 0.6003745174431665
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 23.506108200148546,
+        "relKm": 22.234492919141733
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 19.809019057850463,
+        "relKm": 18.162840068310167
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 11.487354901889416,
+        "relKm": 9.438031237562566
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.32271266287608913,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 3.517289522671525,
+        "relKm": 3.2255198282904995
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.031957352876783064,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.012074150677987013,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 0.9298573725203234,
+        "relKm": 0.9389038258924146
+       }
+      ]
+     },
+     {
+      "k": 74232,
+      "days": 365.26180518366357,
+      "maxKm": 458.4221857888962,
+      "maxRelKm": 23.072781311927198,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.0027239215683170334,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 458.4221857888962,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 359.50525007362654,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 215.88295499044247,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 214.3728931828952,
+        "relKm": 4.145682932690036
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 135.95578703838177,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 2.705084286851643,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 6.28520627783265,
+        "relKm": 7.61988618537566
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 25.772573190447048,
+        "relKm": 23.072781311927198
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 20.567563463532128,
+        "relKm": 20.703587657447816
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 10.85124758827347,
+        "relKm": 11.015713213972157
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.4227459113459706,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 4.075482192080733,
+        "relKm": 3.7367626956289546
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.04131136240231487,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.015141709822264524,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 1.056106836665999,
+        "relKm": 1.0576324720337862
+       }
+      ]
+     }
+    ]
+   },
+   "1440": {
+    "steps": 296928,
+    "dt": 0.0010628374544626486,
+    "days": 365.26180518366357,
+    "points": [
+     {
+      "k": 37116,
+      "days": 45.657725647957946,
+      "maxKm": 89.41777646426704,
+      "maxRelKm": 6.299817567600364,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.000014066083025512157,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 89.41777646426704,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 15.617755718726617,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 5.687834600617026,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 5.551206986063985,
+        "relKm": 0.6401710426484419
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 1.891521243239576,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 0.04154253328134488,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 6.259144525233243,
+        "relKm": 6.299817567600364
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 4.548320918043824,
+        "relKm": 4.512462165667612
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 2.612955976950631,
+        "relKm": 2.6394244044673587
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 1.4212974089600032,
+        "relKm": 1.4540420708694768
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.006474347238732891,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 0.5041438227177686,
+        "relKm": 0.4997473502199655
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.006567813471709408,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.00938690810188694,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 0.1272377664186412,
+        "relKm": 0.12583074426255872
+       }
+      ]
+     },
+     {
+      "k": 74232,
+      "days": 91.31545129591589,
+      "maxKm": 108.38237645051164,
+      "maxRelKm": 11.93422787907358,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.00004512837627571638,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 108.38237645051164,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 71.58302101250757,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 25.80659704731235,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 25.48490068232658,
+        "relKm": 1.0371333252064372
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 7.869923064963221,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 0.16408032902410136,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 11.944766017959516,
+        "relKm": 11.93422787907358
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 9.159964924315004,
+        "relKm": 9.010862945664567
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 5.5780793272373295,
+        "relKm": 5.4147887523574525
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 2.634758212474117,
+        "relKm": 2.7143959433052745
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.026128677808369378,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 1.0087267244158644,
+        "relKm": 1.0096308225769042
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.01334070202952562,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.018712647025111714,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 0.26534609519477304,
+        "relKm": 0.24664558235012327
+       }
+      ]
+     },
+     {
+      "k": 111348,
+      "days": 136.97317694387382,
+      "maxKm": 262.0290146873025,
+      "maxRelKm": 17.039604449989362,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.0003757815572448631,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 262.0290146873025,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 149.16853835517705,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 62.35900229330322,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 63.60773770545803,
+        "relKm": 1.6033864621068414
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 18.50820570929024,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 0.3705083231056665,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 17.40848911629983,
+        "relKm": 17.039604449989362
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 13.376239340776408,
+        "relKm": 13.310587793988722
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 7.721219180292152,
+        "relKm": 8.000095931706175
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 4.345539588469911,
+        "relKm": 4.003020618078861
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.05906759962930242,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 1.4455989126470787,
+        "relKm": 1.4894691925466597
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.020443977270660656,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.028141881148232566,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 0.3591849044027504,
+        "relKm": 0.3548097785936661
+       }
+      ]
+     },
+     {
+      "k": 148464,
+      "days": 182.63090259183178,
+      "maxKm": 219.01853508978692,
+      "maxRelKm": 21.86442290006433,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.0006338195442789919,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 219.01853508978692,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 199.32404890052473,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 109.9234009293574,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 107.57915030322802,
+        "relKm": 2.4151258630074457
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 34.031117307410206,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 0.6615574594019785,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 22.01453303954369,
+        "relKm": 21.86442290006433
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 16.932010726253637,
+        "relKm": 17.40607391856037
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 10.758310945019131,
+        "relKm": 10.675496268081117
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 5.731363720316604,
+        "relKm": 5.512116269752374
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.10513781812750472,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 1.840005668438087,
+        "relKm": 1.9346288561817964
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.02766960047238038,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.037674155563795324,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 0.43095388478708674,
+        "relKm": 0.4675480523713151
+       }
+      ]
+     },
+     {
+      "k": 185580,
+      "days": 228.28862823978972,
+      "maxKm": 423.60742376009443,
+      "maxRelKm": 26.456254449063007,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.000737426280676335,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 423.60742376009443,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 206.95715556530374,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 157.38999401881503,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 159.9947240150745,
+        "relKm": 2.6439720696437945
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 54.19405657791844,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 1.039406471798174,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 25.487271736298602,
+        "relKm": 26.456254449063007
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 20.312819936103406,
+        "relKm": 21.32566000569365
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 14.101250031462333,
+        "relKm": 13.419187094276259
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 5.942845101406953,
+        "relKm": 6.963847903048534
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.16414595617094935,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 2.2943426889878764,
+        "relKm": 2.3536919307881865
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.03507734187897155,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.047004786057348806,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 0.5744939584986504,
+        "relKm": 0.588762787501506
+       }
+      ]
+     },
+     {
+      "k": 222696,
+      "days": 273.94635388774765,
+      "maxKm": 334.8863754440831,
+      "maxRelKm": 30.56787271332545,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.0004333999785050762,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 334.8863754440831,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 218.53077101020912,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 193.64322820408665,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 191.0105754925304,
+        "relKm": 3.248578321949252
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 78.43303451207836,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 1.504482581563396,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 29.881529213067562,
+        "relKm": 30.56787271332545
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 24.565564895173527,
+        "relKm": 25.079087097719537
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 14.468151880490906,
+        "relKm": 15.960369376405923
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 8.23319186162855,
+        "relKm": 8.169675974995602
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.23640053714391188,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 2.855157694512426,
+        "relKm": 2.7537691619658555
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.04261287661716076,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.05621217951030859,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 0.7553486054481117,
+        "relKm": 0.7047919212746553
+       }
+      ]
+     },
+     {
+      "k": 259812,
+      "days": 319.60407953570564,
+      "maxKm": 568.0723683214931,
+      "maxRelKm": 33.97700624758565,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.001400422402336384,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 568.0723683214931,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 277.64217707557845,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 212.05077387424183,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 214.45120753488965,
+        "relKm": 4.110810312703249
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 105.99215666951885,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 2.0536839306541634,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 35.65466765928353,
+        "relKm": 33.97700624758565
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 29.941035286777275,
+        "relKm": 28.726241455732044
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 20.3640439814645,
+        "relKm": 18.717026303511943
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 11.54510390834675,
+        "relKm": 9.497153389059363
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.32250715240884265,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 3.4933044465339087,
+        "relKm": 3.201684679268235
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.0502253263032181,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.06556733813006936,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 0.8484329101209012,
+        "relKm": 0.8104047412468074
+       }
+      ]
+     },
+     {
+      "k": 296928,
+      "days": 365.26180518366357,
+      "maxKm": 458.99410161380723,
+      "maxRelKm": 36.849306233521865,
+      "perBody": [
+       {
+        "key": "sun",
+        "ja": "太陽",
+        "posKm": 0.0027235664064384703,
+        "relKm": null
+       },
+       {
+        "key": "mercury",
+        "ja": "水星",
+        "posKm": 458.99410161380723,
+        "relKm": null
+       },
+       {
+        "key": "venus",
+        "ja": "金星",
+        "posKm": 359.5257388811251,
+        "relKm": null
+       },
+       {
+        "key": "earth",
+        "ja": "地球",
+        "posKm": 215.88865685672417,
+        "relKm": null
+       },
+       {
+        "key": "moon",
+        "ja": "月",
+        "posKm": 214.3816932201778,
+        "relKm": 4.136945127468321
+       },
+       {
+        "key": "mars",
+        "ja": "火星",
+        "posKm": 135.9554793343174,
+        "relKm": null
+       },
+       {
+        "key": "jupiter",
+        "ja": "木星",
+        "posKm": 2.7033762363422045,
+        "relKm": null
+       },
+       {
+        "key": "io",
+        "ja": "イオ",
+        "posKm": 38.77098356598991,
+        "relKm": 36.849306233521865
+       },
+       {
+        "key": "europa",
+        "ja": "エウロパ",
+        "posKm": 34.99545674985735,
+        "relKm": 32.29531956051867
+       },
+       {
+        "key": "ganymede",
+        "ja": "ガニメデ",
+        "posKm": 21.25535105744241,
+        "relKm": 21.40000855433467
+       },
+       {
+        "key": "callisto",
+        "ja": "カリスト",
+        "posKm": 10.929372871915273,
+        "relKm": 11.096869515712303
+       },
+       {
+        "key": "saturn",
+        "ja": "土星",
+        "posKm": 0.4229195498929724,
+        "relKm": null
+       },
+       {
+        "key": "titan",
+        "ja": "タイタン",
+        "posKm": 4.0456131282423815,
+        "relKm": 3.7066285040540667
+       },
+       {
+        "key": "uranus",
+        "ja": "天王星",
+        "posKm": 0.05802289819317419,
+        "relKm": null
+       },
+       {
+        "key": "neptune",
+        "ja": "海王星",
+        "posKm": 0.07520993166708363,
+        "relKm": null
+       },
+       {
+        "key": "triton",
+        "ja": "トリトン",
+        "posKm": 0.8648041712864447,
+        "relKm": 0.9209959673226565
+       }
+      ]
+     }
+    ]
+   },
+   "h": [
+    {
+     "days": 45.657725647957946,
+     "perBody": [
+      {
+       "key": "sun",
+       "d1440": 0.000014066083025512157,
+       "d360": 0.00001457514666157032,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "mercury",
+       "d1440": 89.41777646426704,
+       "d360": 89.42349895988042,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "venus",
+       "d1440": 15.617755718726617,
+       "d360": 15.619001653650525,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "earth",
+       "d1440": 5.687834600617026,
+       "d360": 5.688275414141469,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "moon",
+       "d1440": 5.551206986063985,
+       "d360": 5.551623792103475,
+       "rel1440": 0.6401710426484419,
+       "rel360": 0.6403529364158085
+      },
+      {
+       "key": "mars",
+       "d1440": 1.891521243239576,
+       "d360": 1.8916643452192732,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "jupiter",
+       "d1440": 0.04154253328134488,
+       "d360": 0.041483504628352326,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "io",
+       "d1440": 6.259144525233243,
+       "d360": 5.546836962447354,
+       "rel1440": 6.299817567600364,
+       "rel360": 5.587303604526893
+      },
+      {
+       "key": "europa",
+       "d1440": 4.548320918043824,
+       "d360": 4.495069074593467,
+       "rel1440": 4.512462165667612,
+       "rel360": 4.459195036585167
+      },
+      {
+       "key": "ganymede",
+       "d1440": 2.612955976950631,
+       "d360": 2.603263872057909,
+       "rel1440": 2.6394244044673587,
+       "rel360": 2.6297299816398567
+      },
+      {
+       "key": "callisto",
+       "d1440": 1.4212974089600032,
+       "d360": 1.4190087768624389,
+       "rel1440": 1.4540420708694768,
+       "rel360": 1.4517305350388017
+      },
+      {
+       "key": "saturn",
+       "d1440": 0.006474347238732891,
+       "d360": 0.006437542905825413,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "titan",
+       "d1440": 0.5041438227177686,
+       "d360": 0.5005915116911681,
+       "rel1440": 0.4997473502199655,
+       "rel360": 0.49620704469267524
+      },
+      {
+       "key": "uranus",
+       "d1440": 0.006567813471709408,
+       "d360": 0.0013783475659199934,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "neptune",
+       "d1440": 0.00938690810188694,
+       "d360": 0.0020520848993987257,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "triton",
+       "d1440": 0.1272377664186412,
+       "d360": 0.1477957734997477,
+       "rel1440": 0.12583074426255872,
+       "rel360": 0.14910819856807792
+      }
+     ]
+    },
+    {
+     "days": 91.31545129591589,
+     "perBody": [
+      {
+       "key": "sun",
+       "d1440": 0.00004512837627571638,
+       "d360": 0.000045532545934716525,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "mercury",
+       "d1440": 108.38237645051164,
+       "d360": 108.34954888355631,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "venus",
+       "d1440": 71.58302101250757,
+       "d360": 71.5851507139181,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "earth",
+       "d1440": 25.80659704731235,
+       "d360": 25.8075975974226,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "moon",
+       "d1440": 25.48490068232658,
+       "d360": 25.485704967489976,
+       "rel1440": 1.0371333252064372,
+       "rel360": 1.0376971580912766
+      },
+      {
+       "key": "mars",
+       "d1440": 7.869923064963221,
+       "d360": 7.870230970274534,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "jupiter",
+       "d1440": 0.16408032902410136,
+       "d360": 0.1640435891108011,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "io",
+       "d1440": 11.944766017959516,
+       "d360": 9.139590703685531,
+       "rel1440": 11.93422787907358,
+       "rel360": 9.123318001700747
+      },
+      {
+       "key": "europa",
+       "d1440": 9.159964924315004,
+       "d360": 8.768649814638154,
+       "rel1440": 9.010862945664567,
+       "rel360": 8.619955260372977
+      },
+      {
+       "key": "ganymede",
+       "d1440": 5.5780793272373295,
+       "d360": 5.536709502969176,
+       "rel1440": 5.4147887523574525,
+       "rel360": 5.373431614502526
+      },
+      {
+       "key": "callisto",
+       "d1440": 2.634758212474117,
+       "d360": 2.630204716720182,
+       "rel1440": 2.7143959433052745,
+       "rel360": 2.7096408229649422
+      },
+      {
+       "key": "saturn",
+       "d1440": 0.026128677808369378,
+       "d360": 0.026152319648437537,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "titan",
+       "d1440": 1.0087267244158644,
+       "d360": 0.9991475958646477,
+       "rel1440": 1.0096308225769042,
+       "rel360": 1.0000469682508402
+      },
+      {
+       "key": "uranus",
+       "d1440": 0.01334070202952562,
+       "d360": 0.0037673721631664705,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "neptune",
+       "d1440": 0.018712647025111714,
+       "d360": 0.002607880441473067,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "triton",
+       "d1440": 0.26534609519477304,
+       "d360": 0.28587983228544495,
+       "rel1440": 0.24664558235012327,
+       "rel360": 0.2869333479689694
+      }
+     ]
+    },
+    {
+     "days": 136.97317694387382,
+     "perBody": [
+      {
+       "key": "sun",
+       "d1440": 0.0003757815572448631,
+       "d360": 0.0003761559269898756,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "mercury",
+       "d1440": 262.0290146873025,
+       "d360": 261.9453271497275,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "venus",
+       "d1440": 149.16853835517705,
+       "d360": 149.1686442788885,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "earth",
+       "d1440": 62.35900229330322,
+       "d360": 62.360297025305535,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "moon",
+       "d1440": 63.60773770545803,
+       "d360": 63.610040216042016,
+       "rel1440": 1.6033864621068414,
+       "rel360": 1.6046230766633267
+      },
+      {
+       "key": "mars",
+       "d1440": 18.50820570929024,
+       "d360": 18.50868872411424,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "jupiter",
+       "d1440": 0.3705083231056665,
+       "d360": 0.3707581363850365,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "io",
+       "d1440": 17.40848911629983,
+       "d360": 11.131274955184807,
+       "rel1440": 17.039604449989362,
+       "rel360": 10.761205204013624
+      },
+      {
+       "key": "europa",
+       "d1440": 13.376239340776408,
+       "d360": 12.45297987066668,
+       "rel1440": 13.310587793988722,
+       "rel360": 12.389690352878752
+      },
+      {
+       "key": "ganymede",
+       "d1440": 7.721219180292152,
+       "d360": 7.629089632627291,
+       "rel1440": 8.000095931706175,
+       "rel360": 7.907864362498711
+      },
+      {
+       "key": "callisto",
+       "d1440": 4.345539588469911,
+       "d360": 4.335695363920436,
+       "rel1440": 4.003020618078861,
+       "rel360": 3.992883390924857
+      },
+      {
+       "key": "saturn",
+       "d1440": 0.05906759962930242,
+       "d360": 0.0591784234021122,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "titan",
+       "d1440": 1.4455989126470787,
+       "d360": 1.4490373959423433,
+       "rel1440": 1.4894691925466597,
+       "rel360": 1.4929596865172323
+      },
+      {
+       "key": "uranus",
+       "d1440": 0.020443977270660656,
+       "d360": 0.00697370746582264,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "neptune",
+       "d1440": 0.028141881148232566,
+       "d360": 0.003546418058186413,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "triton",
+       "d1440": 0.3591849044027504,
+       "d360": 0.41902933201017034,
+       "rel1440": 0.3548097785936661,
+       "rel360": 0.4188110020945429
+      }
+     ]
+    },
+    {
+     "days": 182.63090259183178,
+     "perBody": [
+      {
+       "key": "sun",
+       "d1440": 0.0006338195442789919,
+       "d360": 0.0006338571337295903,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "mercury",
+       "d1440": 219.01853508978692,
+       "d360": 218.88242629104298,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "venus",
+       "d1440": 199.32404890052473,
+       "d360": 199.31937449270814,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "earth",
+       "d1440": 109.9234009293574,
+       "d360": 109.92435863040961,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "moon",
+       "d1440": 107.57915030322802,
+       "d360": 107.57765356129423,
+       "rel1440": 2.4151258630074457,
+       "rel360": 2.417657749750303
+      },
+      {
+       "key": "mars",
+       "d1440": 34.031117307410206,
+       "d360": 34.031745526362606,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "jupiter",
+       "d1440": 0.6615574594019785,
+       "d360": 0.6616543486755474,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "io",
+       "d1440": 22.01453303954369,
+       "d360": 10.820509419544129,
+       "rel1440": 21.86442290006433,
+       "rel360": 10.699851599876196
+      },
+      {
+       "key": "europa",
+       "d1440": 16.932010726253637,
+       "d360": 15.203190123089211,
+       "rel1440": 17.40607391856037,
+       "rel360": 15.681651752962997
+      },
+      {
+       "key": "ganymede",
+       "d1440": 10.758310945019131,
+       "d360": 10.591914143108712,
+       "rel1440": 10.675496268081117,
+       "rel360": 10.509002871904318
+      },
+      {
+       "key": "callisto",
+       "d1440": 5.731363720316604,
+       "d360": 5.715325452039478,
+       "rel1440": 5.512116269752374,
+       "rel360": 5.4955554655690735
+      },
+      {
+       "key": "saturn",
+       "d1440": 0.10513781812750472,
+       "d360": 0.10531010543381593,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "titan",
+       "d1440": 1.840005668438087,
+       "d360": 1.8560217486932886,
+       "rel1440": 1.9346288561817964,
+       "rel360": 1.950737627528787
+      },
+      {
+       "key": "uranus",
+       "d1440": 0.02766960047238038,
+       "d360": 0.010594015463399067,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "neptune",
+       "d1440": 0.037674155563795324,
+       "d360": 0.005734662427582087,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "triton",
+       "d1440": 0.43095388478708674,
+       "d360": 0.558735228411856,
+       "rel1440": 0.4675480523713151,
+       "rel360": 0.5532262987184018
+      }
+     ]
+    },
+    {
+     "days": 228.28862823978972,
+     "perBody": [
+      {
+       "key": "sun",
+       "d1440": 0.000737426280676335,
+       "d360": 0.0007373560163424467,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "mercury",
+       "d1440": 423.60742376009443,
+       "d360": 423.3512885951944,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "venus",
+       "d1440": 206.95715556530374,
+       "d360": 206.94804846414922,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "earth",
+       "d1440": 157.38999401881503,
+       "d360": 157.38965835521896,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "moon",
+       "d1440": 159.9947240150745,
+       "d360": 159.9978351459295,
+       "rel1440": 2.6439720696437945,
+       "rel360": 2.647473754606866
+      },
+      {
+       "key": "mars",
+       "d1440": 54.19405657791844,
+       "d360": 54.1947581097824,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "jupiter",
+       "d1440": 1.039406471798174,
+       "d360": 1.038561781770111,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "io",
+       "d1440": 25.487271736298602,
+       "d360": 7.889432883494257,
+       "rel1440": 26.456254449063007,
+       "rel360": 8.878433894582159
+      },
+      {
+       "key": "europa",
+       "d1440": 20.312819936103406,
+       "d360": 17.45042445668319,
+       "rel1440": 21.32566000569365,
+       "rel360": 18.458188752473042
+      },
+      {
+       "key": "ganymede",
+       "d1440": 14.101250031462333,
+       "d360": 13.825398268195965,
+       "rel1440": 13.419187094276259,
+       "rel360": 13.142518040259223
+      },
+      {
+       "key": "callisto",
+       "d1440": 5.942845101406953,
+       "d360": 5.915489728798057,
+       "rel1440": 6.963847903048534,
+       "rel360": 6.935640067793717
+      },
+      {
+       "key": "saturn",
+       "d1440": 0.16414595617094935,
+       "d360": 0.16445142338336013,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "titan",
+       "d1440": 2.2943426889878764,
+       "d360": 2.3089187622187026,
+       "rel1440": 2.3536919307881865,
+       "rel360": 2.3679293225345552
+      },
+      {
+       "key": "uranus",
+       "d1440": 0.03507734187897155,
+       "d360": 0.014816065909721786,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "neptune",
+       "d1440": 0.047004786057348806,
+       "d360": 0.00842931851834365,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "triton",
+       "d1440": 0.5744939584986504,
+       "d360": 0.6933668051918889,
+       "rel1440": 0.588762787501506,
+       "rel360": 0.6896137048845086
+      }
+     ]
+    },
+    {
+     "days": 273.94635388774765,
+     "perBody": [
+      {
+       "key": "sun",
+       "d1440": 0.0004333999785050762,
+       "d360": 0.00043340419558973324,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "mercury",
+       "d1440": 334.8863754440831,
+       "d360": 334.57277023276527,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "venus",
+       "d1440": 218.53077101020912,
+       "d360": 218.51928925527798,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "earth",
+       "d1440": 193.64322820408665,
+       "d360": 193.64112999240518,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "moon",
+       "d1440": 191.0105754925304,
+       "d360": 191.0043883913323,
+       "rel1440": 3.248578321949252,
+       "rel360": 3.2536764894787407
+      },
+      {
+       "key": "mars",
+       "d1440": 78.43303451207836,
+       "d360": 78.4337215537847,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "jupiter",
+       "d1440": 1.504482581563396,
+       "d360": 1.5038113934969595,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "io",
+       "d1440": 29.881529213067562,
+       "d360": 4.664070551685743,
+       "rel1440": 30.56787271332545,
+       "rel360": 5.0661613779366395
+      },
+      {
+       "key": "europa",
+       "d1440": 24.565564895173527,
+       "d360": 20.191642574207343,
+       "rel1440": 25.079087097719537,
+       "rel360": 20.663350200424286
+      },
+      {
+       "key": "ganymede",
+       "d1440": 14.468151880490906,
+       "d360": 14.074238391527809,
+       "rel1440": 15.960369376405923,
+       "rel360": 15.566139806333668
+      },
+      {
+       "key": "callisto",
+       "d1440": 8.23319186162855,
+       "d360": 8.193257276039144,
+       "rel1440": 8.169675974995602,
+       "rel360": 8.127601374898049
+      },
+      {
+       "key": "saturn",
+       "d1440": 0.23640053714391188,
+       "d360": 0.23677138638272885,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "titan",
+       "d1440": 2.855157694512426,
+       "d360": 2.880738388624872,
+       "rel1440": 2.7537691619658555,
+       "rel360": 2.778838976383073
+      },
+      {
+       "key": "uranus",
+       "d1440": 0.04261287661716076,
+       "d360": 0.023234529947048117,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "neptune",
+       "d1440": 0.05621217951030859,
+       "d360": 0.009628090848926841,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "triton",
+       "d1440": 0.7553486054481117,
+       "d360": 0.8121350270360599,
+       "rel1440": 0.7047919212746553,
+       "rel360": 0.8173797242984854
+      }
+     ]
+    },
+    {
+     "days": 319.60407953570564,
+     "perBody": [
+      {
+       "key": "sun",
+       "d1440": 0.001400422402336384,
+       "d360": 0.0014007571722742256,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "mercury",
+       "d1440": 568.0723683214931,
+       "d360": 567.5730526365975,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "venus",
+       "d1440": 277.64217707557845,
+       "d360": 277.6279142142065,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "earth",
+       "d1440": 212.05077387424183,
+       "d360": 212.04657703603044,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "moon",
+       "d1440": 214.45120753488965,
+       "d360": 214.4514647945217,
+       "rel1440": 4.110810312703249,
+       "rel360": 4.118238695635349
+      },
+      {
+       "key": "mars",
+       "d1440": 105.99215666951885,
+       "d360": 105.99271592312051,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "jupiter",
+       "d1440": 2.0536839306541634,
+       "d360": 2.0551442078152222,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "io",
+       "d1440": 35.65466765928353,
+       "d360": 1.5774472327999227,
+       "rel1440": 33.97700624758565,
+       "rel360": 0.6003745174431665
+      },
+      {
+       "key": "europa",
+       "d1440": 29.941035286777275,
+       "d360": 23.506108200148546,
+       "rel1440": 28.726241455732044,
+       "rel360": 22.234492919141733
+      },
+      {
+       "key": "ganymede",
+       "d1440": 20.3640439814645,
+       "d360": 19.809019057850463,
+       "rel1440": 18.717026303511943,
+       "rel360": 18.162840068310167
+      },
+      {
+       "key": "callisto",
+       "d1440": 11.54510390834675,
+       "d360": 11.487354901889416,
+       "rel1440": 9.497153389059363,
+       "rel360": 9.438031237562566
+      },
+      {
+       "key": "saturn",
+       "d1440": 0.32250715240884265,
+       "d360": 0.32271266287608913,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "titan",
+       "d1440": 3.4933044465339087,
+       "d360": 3.517289522671525,
+       "rel1440": 3.201684679268235,
+       "rel360": 3.2255198282904995
+      },
+      {
+       "key": "uranus",
+       "d1440": 0.0502253263032181,
+       "d360": 0.031957352876783064,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "neptune",
+       "d1440": 0.06556733813006936,
+       "d360": 0.012074150677987013,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "triton",
+       "d1440": 0.8484329101209012,
+       "d360": 0.9298573725203234,
+       "rel1440": 0.8104047412468074,
+       "rel360": 0.9389038258924146
+      }
+     ]
+    },
+    {
+     "days": 365.26180518366357,
+     "perBody": [
+      {
+       "key": "sun",
+       "d1440": 0.0027235664064384703,
+       "d360": 0.0027239215683170334,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "mercury",
+       "d1440": 458.99410161380723,
+       "d360": 458.4221857888962,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "venus",
+       "d1440": 359.5257388811251,
+       "d360": 359.50525007362654,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "earth",
+       "d1440": 215.88865685672417,
+       "d360": 215.88295499044247,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "moon",
+       "d1440": 214.3816932201778,
+       "d360": 214.3728931828952,
+       "rel1440": 4.136945127468321,
+       "rel360": 4.145682932690036
+      },
+      {
+       "key": "mars",
+       "d1440": 135.9554793343174,
+       "d360": 135.95578703838177,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "jupiter",
+       "d1440": 2.7033762363422045,
+       "d360": 2.705084286851643,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "io",
+       "d1440": 38.77098356598991,
+       "d360": 6.28520627783265,
+       "rel1440": 36.849306233521865,
+       "rel360": 7.61988618537566
+      },
+      {
+       "key": "europa",
+       "d1440": 34.99545674985735,
+       "d360": 25.772573190447048,
+       "rel1440": 32.29531956051867,
+       "rel360": 23.072781311927198
+      },
+      {
+       "key": "ganymede",
+       "d1440": 21.25535105744241,
+       "d360": 20.567563463532128,
+       "rel1440": 21.40000855433467,
+       "rel360": 20.703587657447816
+      },
+      {
+       "key": "callisto",
+       "d1440": 10.929372871915273,
+       "d360": 10.85124758827347,
+       "rel1440": 11.096869515712303,
+       "rel360": 11.015713213972157
+      },
+      {
+       "key": "saturn",
+       "d1440": 0.4229195498929724,
+       "d360": 0.4227459113459706,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "titan",
+       "d1440": 4.0456131282423815,
+       "d360": 4.075482192080733,
+       "rel1440": 3.7066285040540667,
+       "rel360": 3.7367626956289546
+      },
+      {
+       "key": "uranus",
+       "d1440": 0.05802289819317419,
+       "d360": 0.04131136240231487,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "neptune",
+       "d1440": 0.07520993166708363,
+       "d360": 0.015141709822264524,
+       "rel1440": null,
+       "rel360": null
+      },
+      {
+       "key": "triton",
+       "d1440": 0.8648041712864447,
+       "d360": 1.056106836665999,
+       "rel1440": 0.9209959673226565,
+       "rel360": 1.0576324720337862
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "floor": [
+  {
+   "key": "moon",
+   "ja": "月",
+   "parent": "earth",
+   "ssbUnits": 146.67396186184803,
+   "ulpM": 0.000028421709430404007,
+   "aKm": 381874.52485005494,
+   "e": 0.06314721685092368,
+   "periodD": 27.01616162999385,
+   "ulpOverA": 7.442682761193338e-14,
+   "ulpOverStep": 2.7456247576853024e-10,
+   "angERad": 1.1786240363947997e-12,
+   "linCenturyAs": 0.0003286752527436077,
+   "parentCentricOverA": 1.4536489767955738e-16,
+   "ratioSsbOverPc": 512
+  },
+  {
+   "key": "io",
+   "ja": "イオ",
+   "parent": "jupiter",
+   "ssbUnits": 742.1003697961253,
+   "ulpM": 0.00011368683772161603,
+   "aKm": 422036.43148449645,
+   "e": 0.004715688921419022,
+   "periodD": 1.771395757437747,
+   "ulpOverA": 2.6937683394233784e-13,
+   "ulpOverStep": 6.147324641087352e-11,
+   "angERad": 5.7123537712338816e-11,
+   "linCenturyAs": 0.2429488532305631,
+   "parentCentricOverA": 1.3153165719840715e-16,
+   "ratioSsbOverPc": 2048
+  },
+  {
+   "key": "europa",
+   "ja": "エウロパ",
+   "parent": "jupiter",
+   "ssbUnits": 741.039467128358,
+   "ulpM": 0.00011368683772161603,
+   "aKm": 671248.4976903077,
+   "e": 0.009812823575637385,
+   "periodD": 3.553206130670322,
+   "ulpOverA": 1.6936624530676781e-13,
+   "ulpOverStep": 7.712454309147326e-11,
+   "angERad": 1.725968514579829e-11,
+   "linCenturyAs": 0.036595511691140274,
+   "parentCentricOverA": 1.6539672393239044e-16,
+   "ratioSsbOverPc": 1024
+  },
+  {
+   "key": "ganymede",
+   "ja": "ガニメデ",
+   "parent": "jupiter",
+   "ssbUnits": 740.6352442203047,
+   "ulpM": 0.00011368683772161603,
+   "aKm": 1070497.48101935,
+   "e": 0.0014572152925828477,
+   "periodD": 7.155869785747523,
+   "ulpOverA": 1.062000048924553e-13,
+   "ulpOverStep": 9.83053688668305e-11,
+   "angERad": 7.287873345346289e-11,
+   "linCenturyAs": 0.07672797652471898,
+   "parentCentricOverA": 2.0742188455557675e-16,
+   "ratioSsbOverPc": 512
+  },
+  {
+   "key": "callisto",
+   "ja": "カリスト",
+   "parent": "jupiter",
+   "ssbUnits": 743.060509888555,
+   "ulpM": 0.00011368683772161603,
+   "aKm": 1882772.9538750334,
+   "e": 0.007439434600906909,
+   "periodD": 16.691121689189085,
+   "ulpOverA": 6.038265925141489e-14,
+   "ulpOverStep": 1.303208048662092e-10,
+   "angERad": 8.116565638476599e-12,
+   "linCenturyAs": 0.0036635501376892188,
+   "parentCentricOverA": 1.179348813504197e-16,
+   "ratioSsbOverPc": 512
+  },
+  {
+   "key": "titan",
+   "ja": "タイタン",
+   "parent": "saturn",
+   "ssbUnits": 1372.7402676288796,
+   "ulpM": 0.00011368683772161603,
+   "aKm": 1221934.8009133476,
+   "e": 0.02860066256426141,
+   "periodD": 15.947347507547281,
+   "ulpOverA": 9.303838276529945e-14,
+   "ulpOverStep": 1.9731224326701977e-10,
+   "angERad": 3.253014945239682e-12,
+   "linCenturyAs": 0.0015367844530817176,
+   "parentCentricOverA": 1.8171559133847549e-16,
+   "ratioSsbOverPc": 512
+  },
+  {
+   "key": "triton",
+   "ja": "トリトン",
+   "parent": "neptune",
+   "ssbUnits": 4505.509506199888,
+   "ulpM": 0.0004547473508864641,
+   "aKm": 354766.0619253709,
+   "e": 0.00014610790993369814,
+   "periodD": 5.877077441614853,
+   "ulpOverA": 1.2818231496510098e-12,
+   "ulpOverStep": 9.745311374849648e-10,
+   "angERad": 8.77312631624588e-9,
+   "linCenturyAs": 11.2462653639286,
+   "parentCentricOverA": 1.5647255244763304e-16,
+   "ratioSsbOverPc": 8192
+  }
+ ],
+ "view": [
+  {
+   "view": "portrait",
+   "w": 390,
+   "h": 700,
+   "halfW": 3000,
+   "halfH": 5384.615384615385,
+   "tilts": [
+    {
+     "tilt": -90,
+     "out": []
+    },
+    {
+     "tilt": -60,
+     "out": []
+    },
+    {
+     "tilt": -45,
+     "out": []
+    },
+    {
+     "tilt": -30,
+     "out": []
+    },
+    {
+     "tilt": 0,
+     "out": []
+    }
+   ],
+   "inAt": [
+    -90,
+    -60,
+    -45,
+    -30,
+    0
+   ]
+  },
+  {
+   "view": "landscape",
+   "w": 700,
+   "h": 390,
+   "halfW": 5384.615384615385,
+   "halfH": 3000,
+   "tilts": [
+    {
+     "tilt": -90,
+     "out": [
+      "neptune",
+      "triton"
+     ]
+    },
+    {
+     "tilt": -60,
+     "out": [
+      "neptune",
+      "triton"
+     ]
+    },
+    {
+     "tilt": -45,
+     "out": []
+    },
+    {
+     "tilt": -30,
+     "out": []
+    },
+    {
+     "tilt": 0,
+     "out": []
+    }
+   ],
+   "inAt": [
+    -45,
+    -30,
+    0
+   ]
+  },
+  {
+   "view": "square",
+   "w": 600,
+   "h": 600,
+   "halfW": 3000,
+   "halfH": 3000,
+   "tilts": [
+    {
+     "tilt": -90,
+     "out": [
+      "neptune",
+      "triton"
+     ]
+    },
+    {
+     "tilt": -60,
+     "out": [
+      "neptune",
+      "triton"
+     ]
+    },
+    {
+     "tilt": -45,
+     "out": []
+    },
+    {
+     "tilt": -30,
+     "out": []
+    },
+    {
+     "tilt": 0,
+     "out": []
+    }
+   ],
+   "inAt": [
+    -45,
+    -30,
+    0
+   ]
+  }
+ ],
+ "runs": [
+  {
+   "key": "io-ctrl-1440",
+   "steps": 1440,
+   "dt": 0.0010628374544626486,
+   "nan": false,
+   "finite": true,
+   "stop": null,
+   "stops": [],
+   "clamps": {
+    "clampVN": 0,
+    "clampSN": 0,
+    "clampHN": 0,
+    "clampRN": 0,
+    "clampTN": 0,
+    "clampAN": 0,
+    "inertialDragOver": 0,
+    "inertialDragIsqOverlap": 0,
+    "inertialDragIsqLowDen": 0
+   },
+   "clampSum": 0,
+   "isq": null,
+   "warnings": 0,
+   "deny": 0,
+   "wallSec": 0.131
+  },
+  {
+   "key": "io-ctrl-2880",
+   "steps": 2880,
+   "dt": 0.0005314187272313243,
+   "nan": false,
+   "finite": true,
+   "stop": null,
+   "stops": [],
+   "clamps": {
+    "clampVN": 0,
+    "clampSN": 0,
+    "clampHN": 0,
+    "clampRN": 0,
+    "clampTN": 0,
+    "clampAN": 0,
+    "inertialDragOver": 0,
+    "inertialDragIsqOverlap": 0,
+    "inertialDragIsqLowDen": 0
+   },
+   "clampSum": 0,
+   "isq": null,
+   "warnings": 0,
+   "deny": 0,
+   "wallSec": 0.24
+  },
+  {
+   "key": "io-ctrl-360",
+   "steps": 360,
+   "dt": 0.004251349817850594,
+   "nan": false,
+   "finite": true,
+   "stop": null,
+   "stops": [],
+   "clamps": {
+    "clampVN": 0,
+    "clampSN": 0,
+    "clampHN": 0,
+    "clampRN": 0,
+    "clampTN": 0,
+    "clampAN": 0,
+    "inertialDragOver": 0,
+    "inertialDragIsqOverlap": 0,
+    "inertialDragIsqLowDen": 0
+   },
+   "clampSum": 0,
+   "isq": null,
+   "warnings": 0,
+   "deny": 0,
+   "wallSec": 0.478
+  },
+  {
+   "key": "io-ctrl-5760",
+   "steps": 5760,
+   "dt": 0.00026570936361566214,
+   "nan": false,
+   "finite": true,
+   "stop": null,
+   "stops": [],
+   "clamps": {
+    "clampVN": 0,
+    "clampSN": 0,
+    "clampHN": 0,
+    "clampRN": 0,
+    "clampTN": 0,
+    "clampAN": 0,
+    "inertialDragOver": 0,
+    "inertialDragIsqOverlap": 0,
+    "inertialDragIsqLowDen": 0
+   },
+   "clampSum": 0,
+   "isq": null,
+   "warnings": 0,
+   "deny": 0,
+   "wallSec": 0.386
+  },
+  {
+   "key": "io-ctrl-720",
+   "steps": 720,
+   "dt": 0.002125674908925297,
+   "nan": false,
+   "finite": true,
+   "stop": null,
+   "stops": [],
+   "clamps": {
+    "clampVN": 0,
+    "clampSN": 0,
+    "clampHN": 0,
+    "clampRN": 0,
+    "clampTN": 0,
+    "clampAN": 0,
+    "inertialDragOver": 0,
+    "inertialDragIsqOverlap": 0,
+    "inertialDragIsqLowDen": 0
+   },
+   "clampSum": 0,
+   "isq": null,
+   "warnings": 0,
+   "deny": 0,
+   "wallSec": 0.095
+  },
+  {
+   "key": "io-k1-1440",
+   "steps": 1440,
+   "dt": 0.0010628374544626486,
+   "nan": false,
+   "finite": true,
+   "stop": null,
+   "stops": [],
+   "clamps": {
+    "clampVN": 0,
+    "clampSN": 0,
+    "clampHN": 0,
+    "clampRN": 0,
+    "clampTN": 0,
+    "clampAN": 0,
+    "inertialDragOver": 0,
+    "inertialDragIsqOverlap": 0,
+    "inertialDragIsqLowDen": 0
+   },
+   "clampSum": 0,
+   "isq": {
+    "tooLarge": 0,
+    "overlapSteps": 0,
+    "betaMax": 2.116234713205292e-7
+   },
+   "warnings": 0,
+   "deny": 0,
+   "wallSec": 17.537
+  },
+  {
+   "key": "io-k1-2880",
+   "steps": 2880,
+   "dt": 0.0005314187272313243,
+   "nan": false,
+   "finite": true,
+   "stop": null,
+   "stops": [],
+   "clamps": {
+    "clampVN": 0,
+    "clampSN": 0,
+    "clampHN": 0,
+    "clampRN": 0,
+    "clampTN": 0,
+    "clampAN": 0,
+    "inertialDragOver": 0,
+    "inertialDragIsqOverlap": 0,
+    "inertialDragIsqLowDen": 0
+   },
+   "clampSum": 0,
+   "isq": {
+    "tooLarge": 0,
+    "overlapSteps": 0,
+    "betaMax": 2.116234713205292e-7
+   },
+   "warnings": 0,
+   "deny": 0,
+   "wallSec": 37.356
+  },
+  {
+   "key": "io-k1-360",
+   "steps": 360,
+   "dt": 0.004251349817850594,
+   "nan": false,
+   "finite": true,
+   "stop": null,
+   "stops": [],
+   "clamps": {
+    "clampVN": 0,
+    "clampSN": 0,
+    "clampHN": 0,
+    "clampRN": 0,
+    "clampTN": 0,
+    "clampAN": 0,
+    "inertialDragOver": 0,
+    "inertialDragIsqOverlap": 0,
+    "inertialDragIsqLowDen": 0
+   },
+   "clampSum": 0,
+   "isq": {
+    "tooLarge": 0,
+    "overlapSteps": 0,
+    "betaMax": 2.116234713205292e-7
+   },
+   "warnings": 0,
+   "deny": 0,
+   "wallSec": 5.256
+  },
+  {
+   "key": "io-k1-5760",
+   "steps": 5760,
+   "dt": 0.00026570936361566214,
+   "nan": false,
+   "finite": true,
+   "stop": null,
+   "stops": [],
+   "clamps": {
+    "clampVN": 0,
+    "clampSN": 0,
+    "clampHN": 0,
+    "clampRN": 0,
+    "clampTN": 0,
+    "clampAN": 0,
+    "inertialDragOver": 0,
+    "inertialDragIsqOverlap": 0,
+    "inertialDragIsqLowDen": 0
+   },
+   "clampSum": 0,
+   "isq": {
+    "tooLarge": 0,
+    "overlapSteps": 0,
+    "betaMax": 2.116234713205292e-7
+   },
+   "warnings": 0,
+   "deny": 0,
+   "wallSec": 81.682
+  },
+  {
+   "key": "io-k1-720",
+   "steps": 720,
+   "dt": 0.002125674908925297,
+   "nan": false,
+   "finite": true,
+   "stop": null,
+   "stops": [],
+   "clamps": {
+    "clampVN": 0,
+    "clampSN": 0,
+    "clampHN": 0,
+    "clampRN": 0,
+    "clampTN": 0,
+    "clampAN": 0,
+    "inertialDragOver": 0,
+    "inertialDragIsqOverlap": 0,
+    "inertialDragIsqLowDen": 0
+   },
+   "clampSum": 0,
+   "isq": {
+    "tooLarge": 0,
+    "overlapSteps": 0,
+    "betaMax": 2.116234713205292e-7
+   },
+   "warnings": 0,
+   "deny": 0,
+   "wallSec": 8.254
+  },
+  {
+   "key": "yr-ctrl-1440",
+   "steps": 296928,
+   "dt": 0.0010628374544626486,
+   "nan": false,
+   "finite": true,
+   "stop": null,
+   "stops": [],
+   "clamps": {
+    "clampVN": 0,
+    "clampSN": 0,
+    "clampHN": 0,
+    "clampRN": 0,
+    "clampTN": 0,
+    "clampAN": 0,
+    "inertialDragOver": 0,
+    "inertialDragIsqOverlap": 0,
+    "inertialDragIsqLowDen": 0
+   },
+   "clampSum": 0,
+   "isq": null,
+   "warnings": 0,
+   "deny": 0,
+   "wallSec": 24.466
+  },
+  {
+   "key": "yr-ctrl-360",
+   "steps": 74232,
+   "dt": 0.004251349817850594,
+   "nan": false,
+   "finite": true,
+   "stop": null,
+   "stops": [],
+   "clamps": {
+    "clampVN": 0,
+    "clampSN": 0,
+    "clampHN": 0,
+    "clampRN": 0,
+    "clampTN": 0,
+    "clampAN": 0,
+    "inertialDragOver": 0,
+    "inertialDragIsqOverlap": 0,
+    "inertialDragIsqLowDen": 0
+   },
+   "clampSum": 0,
+   "isq": null,
+   "warnings": 0,
+   "deny": 0,
+   "wallSec": 7.408
+  },
+  {
+   "key": "yr-k1-1440",
+   "steps": 296928,
+   "dt": 0.0010628374544626486,
+   "nan": false,
+   "finite": true,
+   "stop": null,
+   "stops": [],
+   "clamps": {
+    "clampVN": 0,
+    "clampSN": 0,
+    "clampHN": 0,
+    "clampRN": 0,
+    "clampTN": 0,
+    "clampAN": 0,
+    "inertialDragOver": 0,
+    "inertialDragIsqOverlap": 0,
+    "inertialDragIsqLowDen": 0
+   },
+   "clampSum": 0,
+   "isq": {
+    "tooLarge": 0,
+    "overlapSteps": 0,
+    "betaMax": 3.2102394633085384e-7
+   },
+   "warnings": 0,
+   "deny": 0,
+   "wallSec": 4180.613
+  },
+  {
+   "key": "yr-k1-360",
+   "steps": 74232,
+   "dt": 0.004251349817850594,
+   "nan": false,
+   "finite": true,
+   "stop": null,
+   "stops": [],
+   "clamps": {
+    "clampVN": 0,
+    "clampSN": 0,
+    "clampHN": 0,
+    "clampRN": 0,
+    "clampTN": 0,
+    "clampAN": 0,
+    "inertialDragOver": 0,
+    "inertialDragIsqOverlap": 0,
+    "inertialDragIsqLowDen": 0
+   },
+   "clampSum": 0,
+   "isq": {
+    "tooLarge": 0,
+    "overlapSteps": 0,
+    "betaMax": 3.2102392537876904e-7
+   },
+   "warnings": 0,
+   "deny": 0,
+   "wallSec": 1331.607
+  }
+ ],
+ "cost": {
+  "rate": {
+   "k1": {
+    "rateStepsPerSec": 74.35786387713628
+   },
+   "ctrl": {
+    "rateStepsPerSec": 8390.977443609023
+   }
+  }
+ },
+ "gates": {
+  "input": true,
+  "form": true,
+  "builtin": true,
+  "finite": true,
+  "noClampStop": true,
+  "order2": true,
+  "chosen": true,
+  "diffSpread": true,
+  "viewPortrait": true,
+  "viewTilt": true
+ },
+ "ok": true,
+ "notClaim": [
+  "暦表への長期の一致",
+  "永年の率",
+  "観測の較正",
+  "衛星の三体の永年の効きの決定",
+  "🌦️ の K1 への移行(この本は独立の診断の本)",
+  "銀河や太陽の自転由来の追加の引きずり(入れていない)"
+ ],
+ "timing": {
+  "check": {
+   "wallSec": 1.693
+  },
+  "runs": {
+   "wallSec": 4181.577
+  }
+ },
+ "elapsedS": 4186.2,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第318便c",
+  "target": "beta/index.html",
+  "targetSha256": "9035c235ed09477d1cba8ca046e40eb6d6e0f10b9a016ca546f9c2e5df6f98c6",
+  "generatedAt": "2026-10-28T16:50:05.726Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7261092,
+    "sha256": "9035c235ed09477d1cba8ca046e40eb6d6e0f10b9a016ca546f9c2e5df6f98c6",
+    "mtime": "2026-10-28T15:31:17.604Z"
+   },
+   {
+    "file": "tests/data-w318c-solar16-input.json",
+    "bytes": 14135,
+    "sha256": "9bc96f52ebb2c9824600fcea9b10ce4be22f1627a6dbe362704fcfc28d72484f",
+    "mtime": "2026-10-28T15:09:17.528Z"
+   },
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "bytes": 25529,
+    "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
+    "mtime": "2026-10-28T15:09:17.526Z"
+   },
+   {
+    "file": "tests/data-w300c-solar16-schema.json",
+    "bytes": 10149,
+    "sha256": "c321f5d0199c4804922a34ab2ba6154eec43590315033a368733b5880b04b78d",
+    "mtime": "2026-10-28T15:09:17.526Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w318c-solar16.mjs",
+    "bytes": 17312,
+    "sha256": "c10453f004dbc7a15ee020245defe43b65778497c2212ce3fd31bb0f5d079910",
+    "mtime": "2026-10-28T16:25:26.783Z"
+   },
+   {
+    "file": "tests/lib-w318c-solar16.mjs",
+    "bytes": 26325,
+    "sha256": "2c7a4357eeae34bfe32b9da35e43e46684080a2b5321b7b9760ced5bb00d2014",
+    "mtime": "2026-10-28T15:48:06.871Z"
+   },
+   {
+    "file": "tests/lib-w300c-solar16.mjs",
+    "bytes": 35537,
+    "sha256": "7ed0c2f1b34e66c13a8ed51be562b73623224a6ba092af5c341262e422214eae",
+    "mtime": "2026-10-28T15:09:17.644Z"
+   },
+   {
+    "file": "tests/lib-w315d-satk1.mjs",
+    "bytes": 25049,
+    "sha256": "3aebe79ebc1209fa55d66a050b73e0ceb50c0b450810b5173cbbb6b8d1ecfe30",
+    "mtime": "2026-10-28T15:09:17.648Z"
+   },
+   {
+    "file": "tests/lib-w304e-apsis.mjs",
+    "bytes": 13145,
+    "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
+    "mtime": "2026-10-28T15:09:17.644Z"
+   },
+   {
+    "file": "tests/lib-w302a-wbg.mjs",
+    "bytes": 9488,
+    "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
+    "mtime": "2026-10-28T15:09:17.644Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-28T15:09:17.632Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-28T15:09:17.628Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-28T15:09:17.636Z"
+   }
+  ],
+  "codeSha256": "a2721bdd76061f19d3db6c3397d1f804076d5b2ff79ec4555a3708991f2d9921",
+  "harnessVersion": "w318c-solar16-1",
+  "stage": "solar16",
+  "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W318C_WORKERS)",
+  "notClaim": [
+   "暦表への長期の一致",
+   "永年の率",
+   "観測の較正",
+   "衛星の三体の永年の効きの決定",
+   "🌦️ の K1 への移行(この本は独立の診断の本)",
+   "銀河や太陽の自転由来の追加の引きずり(入れていない)"
+  ],
+  "scope": {
+   "version": "w316d-scope-5",
+   "presets": [
+    "earthMoonSunInertial3d",
+    "jupiterGalilean",
+    "jupiterSunInertial3d",
+    "marsSunInertial3d",
+    "mercury",
+    "mercurySunInertial3d",
+    "neptuneSunInertial3d",
+    "saturn",
+    "saturnRingReal",
+    "saturnSunInertial3d",
+    "solarSystem16Inertial3d",
+    "uranusSunInertial3d",
+    "venusSunInertial3d"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.inertialDragIsqState",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "ctx",
+    "cw",
+    "pnSource"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1307,
+   "segments": 1148,
+   "closureShare": 0.3083
+  },
+  "scopeSha256": "1b42a69b611fd4a20b016b52e99a3e2f4d5fb355641b72792509739973fff31d",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/data-w318c-solar16-input.json",
+    "stableSha256": "588d344600488641c9bc5991fbfca60a8575342eaae3bac217a602d782703cb9",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "stableSha256": "c10b4d8e1de38a93f2333725bcae84a28cbd79c0d5c9609c09209b3a3b34e371",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
+   {
+    "file": "tests/data-w300c-solar16-schema.json",
+    "stableSha256": "59b66c020ee3e316f55cd6b54b1115ef7c523d530534033756c0bfccc3e4dfe8",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

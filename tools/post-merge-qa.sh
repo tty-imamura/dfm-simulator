@@ -400,6 +400,14 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.textRegistry318 lint.toolStamp318 ui.sy
 #   CANON の lint.canon304・lint.regenScope・lint.regenChain・lint.scopeStop・lint.qaHeapRelease310・lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.satNext318b docs.satNext318b docs.satCut317c lint.stableHashPaths lint.canon304 lint.regenScope lint.regenChain lint.scopeStop lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第318便b の塊(ここまで)====
+# ==== 第318便c の塊(ここから)====
+# 第318便c(原仮定者の指示(第120報)・R256): 枝 c の新設 2 本(behavior.solar16Builtin318c —— 太陽系 16 体の内蔵の本の宣言と走り・docs.solar16Builtin318c —— 正本と文書)と、
+#   世代切替を受けた docs.solar16Contract300(予約 id が内蔵に 1 本)・lint.presetText316b(並びの照合から新本を除く)・docs.sampleStatus-sync(root で beta だけの本を除く)・正本の段の lint.regenScope・lint.stableHashPaths・
+#   lint.regenChain・CANON の lint.canon304・lint.qaHeapRelease310・lint.sectionLookup313・lint.scopeStop、QA_FAST で見付けた世代切替(ui.fidelity・ui.notclaim-real・lint.cLightTrue・behavior.geoMode・
+#   preset.timeStd297・docs.timeStd297・後に入った本として外す behavior.wbgDirect302・preset.gLocPlanets302・docs.semic302・preset.revertGLoc303・behavior.invSq309・behavior.galaxial311)と lint.kappaSymbol315
+#   (内蔵の本の数の式 W318C_S16 の behavior.shellSpinMassLaw・coreV2Migrate・coreV2ReplaceReport は上流の局所の定数 W284_CORE を読むので部分 QA で走らない —— フル QA で見る)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.solar16Builtin318c docs.solar16Builtin318c docs.solar16Contract300 lint.presetText316b docs.sampleStatus-sync docs.preset-table-sync preset.multiParticleContract behavior.inertialDragGate theory.refs-all preset.massPrecision preset.softeningFloor lint.regenScope lint.stableHashPaths lint.regenChain lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.scopeStop ui.fidelity ui.notclaim-real lint.cLightTrue behavior.geoMode preset.timeStd297 docs.timeStd297 behavior.wbgDirect302 preset.gLocPlanets302 docs.semic302 preset.revertGLoc303 behavior.invSq309 behavior.galaxial311 lint.kappaSymbol315"
+# ==== 第318便c の塊(ここまで)====
 # ==== 第318便d の塊(ここから)====
 # 第318便d(原仮定者の指示(第120報)・AN438・R257): 枝 d の新設 2 本(docs.dragEst318d —— 銀河と太陽の引きずりの見積りの正本と文書・behavior.dragEst318d —— 読み口と解析の式・
 #   節点の和の写し・maintain の帳簿の式の照合)と、正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・CANON の lint.canon304・lint.qaHeapRelease310・
