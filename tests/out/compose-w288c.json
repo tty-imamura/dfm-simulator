@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第288便c",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T11:41:07.347Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-28T19:40:17.839Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "ac73d599eb9fbc288ee8b7303593f867436adc6ed033028b3ce8b160eafb9cc7",
+  "codeSha256": "6c3f0a9b2bdc55fff6d67dacf6ded9b9df5c5e945e80a4197187d62c60f3efc4",
   "harnessVersion": "w288c-compose-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第78報)⑧と第78報で閉じた AN84(背景の台帳に中心を 1 源として足す・中心は 1 回だけ・A_spin は別に構成)/AN85(complex-p2 は既定にしない)・統括の検証項目 R115",
@@ -63,7 +63,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": [
     "galaxyAnalogyBH",
     "galaxyAnalogyBHCompose"
@@ -86,11 +86,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1288,
-   "segments": 1129,
-   "closureShare": 0.3052
+   "names": 1286,
+   "segments": 1127,
+   "closureShare": 0.2934
   },
-  "scopeSha256": "5119dcb37adaf58298db838123cecaeef25d7b8179846efb9313e79e1047e733",
+  "scopeSha256": "c1ba3bcc66df005053b9c1bff1a9ef52ca4c50ead08b9688884aefa2804bfcb0",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -443,6 +443,6 @@
   },
   "ok": true
  },
- "elapsedS": 2.775,
+ "elapsedS": 2.296,
  "ok": true
 }

@@ -722,7 +722,7 @@
  "part4": {
   "chain3d": {
    "steps": 2000,
-   "wallSec": 3.149,
+   "wallSec": 2.542,
    "itersMax": 40,
    "resMax": 9.99311e-11,
    "fail": 0,
@@ -776,7 +776,7 @@
   },
   "chain3dTilt": {
    "steps": 2000,
-   "wallSec": 4.537,
+   "wallSec": 4.649,
    "itersMax": 40,
    "resMax": 9.99383e-11,
    "fail": 0,
@@ -861,7 +861,7 @@
   },
   "noCoupling": {
    "ok": false,
-   "err": "physics.relativeDrag.spinDrag.axialCoupling(軸引きずりの係数 κ [L³/M] —— gain とは別の宣言・未較正)は axial:\"on\" のとき 0〜1000000000000 の有限数"
+   "err": "physics.relativeDrag.spinDrag.axialCoupling(軸引きずりの係数 A_k [L³/M] —— 倍率 axialGain とは別の宣言・未較正)は axial:\"on\" のとき 0〜1000000000000 の有限数"
   },
   "couplingOff": {
    "ok": false,
@@ -941,14 +941,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便c",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T13:02:19.988Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-28T19:39:40.510Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    }
   ],
   "code": [
@@ -972,12 +972,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "b4c58df6502b010a0a7f9bd8582b370fe0c2dfb194cd8414220140c5fbccae3d",
+  "codeSha256": "140e5a38fbfa4820d48e2d0dc441186ff01fba061b62e5356ebacf6a85c0edfa",
   "harnessVersion": "w298c-drag3d-1",
   "spin3Version": "w298c-spin3-1",
   "probeVersion": "w298c-probe-1",
@@ -986,7 +986,7 @@
   "ruling": "原仮定者の裁定(第88報)「三次元の慣性決定力: 回転引きずりは赤道面で最大・自転軸方向でゼロ/軸引きずり —— 自転軸方向で最大・同じ軸の向きに回転させる・赤道面でゼロ」「表示の空間メッシュで渦状の引きずりが見えるよう物理と表示の両面で精度を上げる(表示は Z=0 の公転面)」",
   "reading": "統括の検証項目 R167",
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "DT",
@@ -1016,14 +1016,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1345,
-   "segments": 1184,
-   "closureShare": 0.3168
+   "names": 1343,
+   "segments": 1182,
+   "closureShare": 0.3047
   },
-  "scopeSha256": "944e95c922f12ba5256a892be30a39f287b98a37e3be9f3cb88640d12fef0cd8",
+  "scopeSha256": "bd48066f82b0e01edf1bc9c95db8501276f147c3d5317076d7c0d745487ab8d9",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 21.448
+ "elapsedS": 19.82
 }

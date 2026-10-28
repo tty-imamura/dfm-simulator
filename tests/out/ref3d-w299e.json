@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第299便e",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T11:40:26.270Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-28T19:39:16.265Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/data-w299e-ref2d.json",
@@ -40,12 +40,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "b4ce95b3b309282f5b603ac500712c1bc1b400a1ad9adf77a9eb8fe85b73dc27",
+  "codeSha256": "9476e84e65b83c29c9f93ee94e06cd68a792c44c53b1a807254b045c059b456e",
   "harnessVersion": "w299e-ref3d-1",
   "ref3dVersion": "w299e-ref3d-1",
   "loadErrors": 0,
@@ -58,7 +58,7 @@
    "模型の固有基底を世界座標に対して傾ける宣言(未実装)"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": [
     "shapeToyArm",
     "shapeToyArmCore",
@@ -87,11 +87,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1305,
-   "segments": 1146,
-   "closureShare": 0.3085
+   "names": 1303,
+   "segments": 1144,
+   "closureShare": 0.2966
   },
-  "scopeSha256": "9b67058edf4aeeb38ff6a70f48b4056cac04f0897b8e8ccc3de434a77dc3e9af",
+  "scopeSha256": "0c3466e921cf28d1c79b399862df9a9473df26ef9b5a392db7c256126feb7994",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -1125,5 +1125,5 @@
   "accepted": true
  },
  "ok": true,
- "elapsedS": 61.185
+ "elapsedS": 55.38
 }
