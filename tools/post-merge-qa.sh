@@ -387,6 +387,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.satCut317c docs.satCut317c docs.sat
 #   CANON の lint.canon304・lint.regenScope・lint.regenChain・lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satAn317d docs.paper3Key317d docs.paperSymbols316 docs.satH316 docs.satK1_315 lint.stableHashPaths lint.canon304 lint.regenScope lint.regenChain lint.sectionLookup313"
 # ==== 第317便d の塊(ここまで)====
+# ==== 第318便b の塊(ここから)====
+# 第318便b(原仮定者の指示(第120報)・AN436・AN437・AN439・AN440・AN442・R255): 枝 b の新設 2 本(behavior.satNext318b —— q11 の宣言の形の写し・V1a の pair の mask と分母・V3 の写し・
+#   判定と回帰の純関数・短い走行・docs.satNext318b —— 衛星の次の正本と文書・第317便の記録の訂正)と、第317便c の正本を読む docs.satCut317c・正本の段の lint.stableHashPaths・
+#   CANON の lint.canon304・lint.regenScope・lint.regenChain・lint.scopeStop・lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.satNext318b docs.satNext318b docs.satCut317c lint.stableHashPaths lint.canon304 lint.regenScope lint.regenChain lint.scopeStop lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第318便b の塊(ここまで)====
 # ==== 第318便d の塊(ここから)====
 # 第318便d(原仮定者の指示(第120報)・AN438・R257): 枝 d の新設 2 本(docs.dragEst318d —— 銀河と太陽の引きずりの見積りの正本と文書・behavior.dragEst318d —— 読み口と解析の式・
 #   節点の和の写し・maintain の帳簿の式の照合)と、正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・CANON の lint.canon304・lint.qaHeapRelease310・
