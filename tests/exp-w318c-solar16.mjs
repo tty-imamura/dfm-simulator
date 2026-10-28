@@ -33,8 +33,8 @@ const clone = (x) => JSON.parse(JSON.stringify(x));
 export const CHOSEN_SPO = 1440;
 /** 刻みの列(イオ 1 公転の步数 —— 入力の stepDt の 4・2・1・1/2・1/4 倍) */
 export const IO_STEPS = Object.freeze([360, 720, 1440, 2880, 5760]);
-/** 地球の 1 年の窓: 刻み P/360 で 74232 步(= 8 × 9279)= P/1440 で 296928 步 —— 365.26 日。8 等分の点で比べる */
-export const YEAR = Object.freeze({ n360: 74232, parts: 8 });
+/** 地球の 1 年の窓: 刻み P/360 で 74232 步(= 8 × 9279)= P/1440 で 296928 步 —— 365.26 日。8 等分の点で比べる(試走は 2320 步 = 8 × 290 —— 11.4 日) */
+export const YEAR = Object.freeze({ n360: 74232, quick360: 2320, parts: 8 });
 /** 二次の積分器の比 (h − h/4)/(h/2 − h/4) の目安(4 + 1 = 5)の幅 */
 export const ORDER_BAND = Object.freeze([4.5, 5.5]);
 /** K1 − 1PN の差のイオの相対の位置の、刻みの列の広がりの目安(刻みの感度診断 —— 平均に対する相対) */
@@ -124,7 +124,7 @@ export async function main() {
   timing.check = { wallSec: (Date.now() - ts) / 1000 };
   // ②③ 走行(子プロセス)
   ts = Date.now();
-  const n360 = quick ? YEAR.n360 / 32 : YEAR.n360;
+  const n360 = quick ? YEAR.quick360 : YEAR.n360;   // 8 等分の点が整数の步になる数
   const jobs = [];
   jobs.push({ job: { kind: 'yr', phys: 'k1', n: 1440, steps: n360 * 4 }, pri: 10 });
   jobs.push({ job: { kind: 'yr', phys: 'k1', n: 360, steps: n360 }, pri: 9 });

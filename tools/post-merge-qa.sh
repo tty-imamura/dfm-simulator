@@ -387,6 +387,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.satCut317c docs.satCut317c docs.sat
 #   CANON の lint.canon304・lint.regenScope・lint.regenChain・lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satAn317d docs.paper3Key317d docs.paperSymbols316 docs.satH316 docs.satK1_315 lint.stableHashPaths lint.canon304 lint.regenScope lint.regenChain lint.sectionLookup313"
 # ==== 第317便d の塊(ここまで)====
+# ==== 第318便c の塊(ここから)====
+# 第318便c(原仮定者の指示(第120報)・R256): 枝 c の新設 2 本(behavior.solar16Builtin318c —— 太陽系 16 体の内蔵の本の宣言と走り・docs.solar16Builtin318c —— 正本と文書)と、
+#   世代切替を受けた docs.solar16Contract300(予約 id が内蔵に 1 本)・lint.presetText316b(並びの照合から新本を除く)・正本の段の lint.regenScope・lint.stableHashPaths・
+#   lint.regenChain・CANON の lint.canon304・lint.qaHeapRelease310・lint.sectionLookup313・lint.scopeStop
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.solar16Builtin318c docs.solar16Builtin318c docs.solar16Contract300 lint.presetText316b lint.regenScope lint.stableHashPaths lint.regenChain lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.scopeStop"
+# ==== 第318便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

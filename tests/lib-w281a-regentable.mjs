@@ -1422,6 +1422,16 @@ export const REGEN_STEPS = [
     note: '第317便d: 二体の解析の一次の率の表(G_loc の n = 2・1・0 × K1・K2 × 6 衛星)と候補 Y_k(n) の検算(そろうのは固定中心・試験粒子の q11 − q00 の一次の和 —— 普遍則として採らない)・'
       + 'トリトンの離心率ベクトルの表の量(AN432 —— 近点を確定したことにしない)。走行しない(純関数と既存の正本の読み)' }),
   // ==== 第317便d の塊(ここまで)====
+  // ==== 第318便c の塊(ここから)====
+  // ---- 第318便c(原仮定者の指示(第120報)「支障がなければ、太陽系の１６体サンプルを作成する」・統括の検証項目 R256): **太陽系 16 体の内蔵の本の器**(段 solar16-318c ——
+  //   入力 tests/data-w318c-solar16-input.json〔原仮定者から受け取った 16 体の本(第120報)〕の意味の検査・宣言の形〔長い形と短い形のビット同一〕・内蔵の本の宣言の照合・
+  //   刻みの検査〔K1 の本と 1PN の対照の写し × イオ 1 公転 × P/360〜P/5760〕・K1 − 1PN の差〔イオ 1 公転と地球 1 年の窓 —— P/1440 と P/360〕・衛星の丸めの床・視点の投影)。
+  //   html と入力・凍結の写し tests/data-w306a-decl305.json・tests/data-w300c-solar16-schema.json を読む。走行は子プロセス 2 本(workers 2 —— 地球 1 年の K1 の P/1440 が最長)。
+  //   所要は第318便c の枝の実測(他の 3 枝と同じ 4 核の容器で並走 —— 正本の 1 回目の全走行の elapsedS を採る〔並走の秒 —— 統括が混まない箱で測り直す〕)
+  S('solar16-318c', 'node tests/exp-w318c-solar16.mjs', ['tests/out/solar16-w318c.json'], 3600, { secSource: 'w318c-branch', node: true, workers: 2, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/solar16-w318c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/runs/*/wallSec', '/cost/rate/*/rateStepsPerSec']) },
+    note: '第318便c: 太陽系 16 体の内蔵の本(🗺️ solarSystem16Inertial3d —— 診断の本)の入力の検査・刻みの検査・K1 − 1PN の差(暦表との比較ではない)・衛星の丸めの床・視点 —— 1PN の対照は器の写し(内蔵にしない)' }),
+  // ==== 第318便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
