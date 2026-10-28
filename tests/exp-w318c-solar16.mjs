@@ -1,5 +1,5 @@
 // 第318便c(原仮定者の指示(第120報)「支障がなければ、太陽系の１６体サンプルを作成する」・統括の検証項目 R256)——
-// **太陽系 16 体の内蔵の本 🪷 solarSystem16Inertial3d の器**(段 solar16-318c → 正本 tests/out/solar16-w318c.json)。
+// **太陽系 16 体の内蔵の本 🗺️ solarSystem16Inertial3d の器**(段 solar16-318c → 正本 tests/out/solar16-w318c.json)。
 //
 // ■ 何をするか(Node だけ —— 対象 html の inline script を tests/lib-w280b-emgrid.mjs の loadHtmlMain で読み、validatePreset・coord3d.makeSim・build・step をそのまま呼ぶ)
 //   ① 入力の検査(tests/lib-w318c-solar16.mjs の inputCheck —— 意味の検査の目安。暦表の精度の判定ではない)と、宣言の形の照合(入力の長い形と内蔵の短い形 ——

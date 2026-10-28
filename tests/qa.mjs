@@ -88897,7 +88897,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
   const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
   const clone = (x) => JSON.parse(JSON.stringify(x));
-  const near318 = (a, b) => (typeof a === 'number' && typeof b === 'number') ? (Object.is(a, b) || Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b)))
+  // 超越関数を通る数は相対 1e-12(角の丸めの桁の量 —— 10⁻¹³ 未満の差 —— は絶対の床 1e-13 で受ける: Node の版で libm の最下位が違う)
+  const near318 = (a, b) => (typeof a === 'number' && typeof b === 'number') ? (Object.is(a, b) || Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b)) || Math.abs(a - b) <= 1e-13)
     : (a && b && typeof a === 'object' && typeof b === 'object') ? (Array.isArray(a) === Array.isArray(b) && Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => Object.prototype.hasOwnProperty.call(b, k) && near318(a[k], b[k])))
     : JSON.stringify(a) === JSON.stringify(b);
   let X = null, L = null, D = null, H = null, err0 = null;
