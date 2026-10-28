@@ -933,12 +933,14 @@ export function deriveScope(htmlPath, codeFiles) {
   const allWhy = [];
   for (const cf of codeFiles) {
     const sc = scanJs(cf.text);
-    // 第318便a(AN427 ①②): 版 6 で足した文の表を器が**直に**読む(HP.<表>・引用符の名 —— REGEN_SCOPE の行は除く)なら consts の下限に入れる
-    //   (表は閉包で辿らないので、読む器は評価値を領域に入れる)。素の識別子は器の局所変数との同名なので数えない
-    {
+    // 第318便a(AN427 ①②): 版 6 で足した文の表を器が**直に**読む(器本体と lib〔primary〕の HP.<表>・式の評価 `('<表>')` —— REGEN_SCOPE の行は除く)なら
+    //   consts の下限に入れる(表は閉包で辿らないので、読む器は評価値を領域に入れる)。素の識別子は器の局所変数との同名なので数えない。
+    //   名で引くだけの他の器(primary でない —— 例 calaudit の roots の一覧の文字列)は数えない
+    if (cf.primary) {
       const txt = cf.text.split('\n').filter((l) => !/^const REGEN_SCOPE = /.test(l)).join('\n');
+      const code = scanJs(txt).code;
       for (const nm of TEXT_REGISTRIES_ADDED_318) {
-        if (new RegExp('\\bHP\\s*\\.\\s*' + nm + '\\b').test(scanJs(txt).code) || new RegExp('([\'"`])' + nm + '\\1').test(txt)) consts.add(nm);
+        if (new RegExp('\\bHP\\s*\\.\\s*' + nm + '\\b').test(code) || new RegExp('\\(\\s*([\'"`])' + nm + '\\1\\s*\\)').test(txt)) consts.add(nm);
       }
     }
     for (const m of sc.code.matchAll(/\bHP\s*\.\s*([A-Za-z_$][\w$]*)/g)) if (hpx.props.has(m[1])) roots.add('HP.' + m[1]);
