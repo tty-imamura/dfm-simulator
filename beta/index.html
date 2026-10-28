@@ -2621,7 +2621,7 @@ ja: {
   // 第276便f(第66報(5)②): 概要(要約の要約 — 宣言 descStruct.brief が無ければ summary から機械抽出)
   descBriefHead:"🔖 概要", descBriefTip:"このサンプルを数行で言うと。宣言(descStruct.brief)があればその文・無ければ「要約」の先頭 1〜2 文を機械抽出したもの(120字上限・切ったときだけ末尾が「…」)。内蔵サンプルは「目的。状況。較正。」の 1 行 3 節を宣言している。詳しくは下の「📌 要約」を読む。",
   // 第279便a(第69報・R60): 状態チップ(status の転記 — この画面では何も測らない)
-  stAria:"サンプルの状況", stTip:"サンプルの状況(宣言の転記)。目的=目的の達成(保存 QA・完成門の ID で裏づく語)/較正=4 値の台帳の語(合・量限定合・否・保留)か、判定保留(量定義不一致)・較正対象外/見込み=正本の数から決まる語。一覧は docs/SAMPLE_STATUS_v1.45.md。",
+  stAria:"サンプルの状況", stTip:"サンプルの状況(宣言の転記)。目的=目的の達成(保存 QA・完成門の ID で裏づく語)/較正=4 値の台帳の語(合・量限定合・否・保留)か、判定保留(量定義不一致)・較正対象外/見込み=正本の数から決まる語。一覧は docs/SAMPLE_STATUS.md。",
   stChipObj:"目的", stChipCal:"較正", stChipOutlook:"見込み",
   // 第291便e(原仮定者の裁定(第81報)⑦「『較正 保留』は具体的に何をすれば保留でなくなるのかを報告する」・R136): 状態チップの下の 1 行の見出しと既定表(HOLD_REMEDY_RULES)の文。
   //   **何をすれば判定器が 4 値の判定を出すか**までを書く(合否の約束は書かない)。原稿 holdRemedy の行があればそれを優先する
@@ -3909,7 +3909,7 @@ en: {
   descSummaryHead:"📌 Summary", descObserveHead:"👀 What to observe", descControlHead:"🎛 Controls & contrasts",
   // 第276便f: the brief (a summary of the summary — declared descStruct.brief, else extracted from summary)
   descBriefHead:"🔖 In brief", descBriefTip:"This sample in a few lines. It is the declared descStruct.brief when there is one, otherwise the first one or two sentences extracted from \"Summary\" (120-character cap; the trailing \"…\" appears only when something was cut). Built-in samples declare one line in three parts: purpose, state, calibration (up to 200 characters in English). Read \"📌 Summary\" below for the full text.",
-  stAria:"Sample status", stTip:"The sample's status (a transcription of its declaration). Goal = whether the purpose is met (only words backed by a saved QA or completion-gate ID) / Calibration = the ledger's four values (pass, limited pass, fail, hold), or hold (definitions differ), or out of calibration scope / Outlook = words fixed by the numbers in the canonical files. The full list is docs/SAMPLE_STATUS_v1.45.md.",
+  stAria:"Sample status", stTip:"The sample's status (a transcription of its declaration). Goal = whether the purpose is met (only words backed by a saved QA or completion-gate ID) / Calibration = the ledger's four values (pass, limited pass, fail, hold), or hold (definitions differ), or out of calibration scope / Outlook = words fixed by the numbers in the canonical files. The full list is docs/SAMPLE_STATUS.md.",
   stChipObj:"Goal", stChipCal:"Calibration", stChipOutlook:"Outlook",
   // wave 291e (81st report ⑦, R136): the line under the status chips when the calibration is on hold (what to do so the judge can give a verdict — no promise of a pass)
   stHoldRemedyHead:"To lift the hold",

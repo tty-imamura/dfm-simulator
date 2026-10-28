@@ -340,7 +340,7 @@ paper/*Notes.bib
 !tests/out/j1946adopt-w270c.json
 # 第272便a(第62報・原仮定者の仮説(第62報)「現実較正サンプルで起きている問題を一覧で整理」):
 #   問題一覧の機械可読版(tests/exp-w272a-issues.mjs が正本 JSON から生成)。
-#   docs/CALIBRATION_ISSUES_v1.45.md の件数と一致することを QA `docs.issuesSync` が機械固定するので
+#   docs/CALIBRATION_ISSUES.md の件数と一致することを QA `docs.issuesSync` が機械固定するので
 #   コミットする(**数えただけ**であって、直した記録ではない)。
 !tests/out/issues-w272a.json
 # 第272便b(第62報「カロン」): ❄️ 冥王星–カロンの**対照系列 C0〜C7/S(診断のみ)**の実測正本
@@ -401,7 +401,7 @@ paper/*Notes.bib
 #   ② armbar —— パターン腕 U_arm の力(A′ 項も ∂χ/∂r 項も落とさない)・横幅 σ_⊥ の小振幅収束・
 #      棒(6 節点鎖)の Hessian の**ゼロモード 5 本と最小非ゼロ固有値**・観測写像(視線積分・
 #      σ_LOS・AE5 の √2)の値表(tests/exp-w274e-armbar.mjs)。**「腕の創発」は主張していない。**
-#   QA `docs.bhDesignSync` が設計書 docs/BH_DESIGN_v1.45.md と純関数の API を集合照合し、
+#   QA `docs.bhDesignSync` が設計書 docs/BH_DESIGN.md と純関数の API を集合照合し、
 #   `behavior.armBarPure` が上の量を純関数で再計算するのでコミットする(値表は記録であって判定ではない)。
 !tests/out/bhcore-w274e.json
 !tests/out/armbar-w274e.json
@@ -429,7 +429,7 @@ paper/*Notes.bib
 !tests/out/shapetoy-w274d.json
 # 第274便a(第64報・原仮定者の優先課題(2)): **kF0 棚卸し表の正本**。較正 37 本 + 診断系列を行にし、
 #   kF1 側と kF0 側それぞれに 4 列(走行成立/構造安定/数値成立/観測成立 —— R28)を置く。
-#   `tests/exp-w274a-kf0ledger.mjs` が正本 JSON から機械生成し、`docs/KF0_LEDGER_v1.45.md` を書く。
+#   `tests/exp-w274a-kf0ledger.mjs` が正本 JSON から機械生成し、`docs/KF0_LEDGER.md` を書く。
 #   QA `docs.kf0Ledger` が表と正本を突き合わせ、`lint.provenanceMeta` が来歴を照合するのでコミットする。
 #   **未測定は未測定と書く**(推定で埋めない)。ラベルは**候補**であって較正完了ではない。
 !tests/out/kf0ledger-w274a.json
@@ -438,7 +438,7 @@ paper/*Notes.bib
 #      bodies の SHA-256〕を抜いたもの。`tests/exp-w275a-presetaxes.mjs`)。**「f 固定・k のみの対照」の
 #      定義そのもの**で、第274便a が f だけを見ていた誤分類(統括の検証項目 R33)を直すために要る。
 #   ② kf0ledger-w275a —— kF0 棚卸し表の**改版**(列を 5 本にし、門を通っていない `|nσ|≤3` を
-#      「観測成立」から「外挿残差」へ分けた)。`docs/KF0_LEDGER_v1.45.md` を機械生成する正本。
+#      「観測成立」から「外挿残差」へ分けた)。`docs/KF0_LEDGER.md` を機械生成する正本。
 #   ③ kfgate —— **kFrame 二値の既定契約**(第65報 (1))の案A(拒否)/案B(丸めて警告)を
 #      同じ html で切り替えて測った実測(`tests/exp-w275a-kfgate.mjs`)。
 #   QA `docs.kf0Ledger` が ② と文書を突き合わせ、`lint.provenanceMeta` が 3 本の来歴を照合するので
@@ -644,7 +644,7 @@ _scratch-*.log
 !tests/out/emgrid-w280b.json
 # 第279便a(原仮定者の裁定(第69報)「各サンプルの状況確認」・統括の読み R59/R60): **内蔵 133 本の status(目的・状況・
 #   較正・合わない量・見込み・根拠)と概要の正本**(tests/exp-w279a-samplestatus.mjs)。較正の語・合わない量・見込みは
-#   calaudit-w249.json / charonwin-w278b.json から機械で作る。QA docs.sampleStatus-sync が docs/SAMPLE_STATUS_v1.45.md と
+#   calaudit-w249.json / charonwin-w278b.json から機械で作る。QA docs.sampleStatus-sync が docs/SAMPLE_STATUS.md と
 #   html の生成領域 sample-status と突き合わせ、lint.provenanceMeta が来歴を固定するのでコミットする。**判定はしない**(台帳の転記)。
 !tests/out/samplestatus-w279a.json
 # 第280便a(原仮定者の裁定(第70報)「mercuryReal: 観測値版で問題が出ている理由を調査する」・統括の検証項目 R66):
@@ -718,7 +718,7 @@ tests/out/regen-plan-w281a.json
 #   QA behavior.geo1Momentum・docs.geo1Contract が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**。
 !tests/out/geo1-w282b.json
 # 第283便b(原仮定者の裁定(第73報)④・統括の検証項目 R84/R85): **同一天体の家族の差分表と統廃合の候補・退役 7 本の棚卸し**の正本
-#   (tests/exp-w283b-families.mjs —— Node だけで html を読む・1 步も走らせない。一覧 docs/FAMILIES_v1.45.md も同じ器が書く)。
+#   (tests/exp-w283b-families.mjs —— Node だけで html を読む・1 步も走らせない。一覧 docs/FAMILIES.md も同じ器が書く)。
 #   QA docs.families・docs.retired が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**候補であって実行ではない**。
 !tests/out/families-w283b.json
 # 第283便c(原仮定者の裁定(第73報)⑤・統括の検証項目 R86 (iv)): **重い較正 4 本と試験粒子契約**の正本

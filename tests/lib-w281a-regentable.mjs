@@ -124,7 +124,7 @@ import { HTML_STAGE_ORDER, HTML_STAGE_VERSION } from './lib-w288f-htmlstage.mjs'
 //     書く段の順序・after 欠落・領域の閉包の重なり・依存の循環を検査する(自己試験 (q))。検査で見つけた欠落 2 型を表で直した:
 //     families の領域が SAMPLE_STATUS を読む → after に samplestatus / meta を刻まない d68three・confirm4 が html の本文を読む → obscompare の after に。
 //     順序で直せない読み(pn1 の領域の閉包が OBS_COMPARE_* に掛かる —— obscompare が pn1 を読む)は `HTML_REGION_READ_DECL` に理由つきで宣言。
-//   ・families の `touches`(docs/FAMILIES_v1.45.md)を足した(outs の外に書くファイル —— 入力の並びから除く)。
+//   ・families の `touches`(docs/FAMILIES.md)を足した(outs の外に書くファイル —— 入力の並びから除く)。
 // ■ 第288便f(原仮定者の裁定(第78報)AN90・統括の検証項目 R118): **一時出力の集約**(版 w288f-regentable-9)
 //   ・html を書く段(obscompare → samplestatus)は鎖の中(REGEN_HTML_STAGE —— chainShell が $REGEN_LOG/html を入れる)で html を直に書かず、
 //     領域 1 つぶんの断片を置く(tests/lib-w288f-htmlstage.mjs)。集約段 'htmlagg'(tools/regen-html-aggregate.mjs —— 常時群・単独)が
@@ -138,7 +138,7 @@ import { HTML_STAGE_ORDER, HTML_STAGE_VERSION } from './lib-w288f-htmlstage.mjs'
 //   ・`HTML_REGION_READ_DECL` から pn1 → obs-compare を外した(AN90 —— 読込依存が無いことを lint.pn1RegionDecl・自己試験 (q6)(q6b) で機械検査してから)。
 // ■ 第310便c(統括の検証項目 R224・運用の正本 追記 28 ⑤): **同じ md を書く 2 段の順**(版 w310c-regentable-10)
 //   ・段 kf0ledger-old(tests/exp-w274a-kf0ledger.mjs)と kf0ledger(tests/exp-w275a-kf0ledger.mjs)は、どちらも outs の外の
-//     docs/KF0_LEDGER_v1.45.md を書く(正本 JSON は別)。表に順が無く、第309便の鎖で同じ時刻に始まって旧の生成器が後に終わり、
+//     docs/KF0_LEDGER.md を書く(正本 JSON は別)。表に順が無く、第309便の鎖で同じ時刻に始まって旧の生成器が後に終わり、
 //     旧の版の md が残った(前便までは順が偶然よかった)。md を読む QA は今の版(kf0ledger-w275a.json)と照合する。
 //   ・処置(**依存 —— 新を後**): kf0ledger の after に 'kf0ledger-old' を足し、2 段の `touches` に md を宣言した。器は変えない
 //     (器の code の sha が動かない —— 正本の再生成を呼ばない)。
@@ -343,11 +343,11 @@ export const REGEN_STEPS = [
   // 第283便e: cmd は 1 行のシェルでない(部分走行 4 本 + --merge)—— 鎖は「手動の段」として止まる(済み印を置けば進む)
   S('emgrid', 'node tests/exp-w280b-emgrid.mjs(4 部分 + --merge —— 第280便の chain2c と同じ分割)', ['tests/out/emgrid-w280b.json'], 2295, { secSource: 'w281a-chain', node: true, manual: true }),
   // ---- 後段(calaudit と署名の後 —— 読む正本が揃ってから)
-  // 第310便c(R224): 2 段とも docs/KF0_LEDGER_v1.45.md を書く(touches)—— 今の版(kf0ledger)を後に(after に kf0ledger-old)。
+  // 第310便c(R224): 2 段とも docs/KF0_LEDGER.md を書く(touches)—— 今の版(kf0ledger)を後に(after に kf0ledger-old)。
   S('kf0ledger-old', 'node tests/exp-w274a-kf0ledger.mjs', ['tests/out/kf0ledger-w274a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'calcontract'],
-    touches: ['docs/KF0_LEDGER_v1.45.md'] }),
+    touches: ['docs/KF0_LEDGER.md'] }),
   S('kf0ledger', 'node tests/exp-w275a-kf0ledger.mjs', ['tests/out/kf0ledger-w275a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'presetaxes', 'calcontract', 'kf0ledger-old'],
-    touches: ['docs/KF0_LEDGER_v1.45.md'] }),
+    touches: ['docs/KF0_LEDGER.md'] }),
   S('charonInput', 'node tests/exp-w280d-charonInput.mjs', ['tests/out/charoninput-w280d.json'], 603, { secSource: 'w281a-chain', after: ['kf0'] }),
   S('geo3', 'node tests/exp-w280c-geo3.mjs', ['tests/out/geo3-w280c.json'], 1016, { secSource: 'w281a-chain', after: ['kf0', 'bgbudget2'],
     env: { W280_BASE: 'beta/_w280_base.html(第280便の基点 d0286cf の beta/index.html —— 項目 g・h の対照)' } }),
@@ -386,7 +386,7 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/obscompare-w285d.json': META_RUN.concat(['/elapsedS']) },
     note: '第285便d: 正本の量ごとの行の転記(判定しない)。枝 b の診断正本 tests/out/pn1-w285b.json があれば obsCompareRows を λ_PN=0 の対照として足す(統合で b の段 pn1 を after に入れた —— 第285便の鎖 2 で pn1 の前に走り check-order が順序違反を出した)' }),
   S('samplestatus', 'node tests/exp-w279a-samplestatus.mjs && node tests/exp-w279a-samplestatus.mjs --check', ['tests/out/samplestatus-w279a.json'], 2, { alwaysRun: true, after: ['kf0', 'charonwin', 'obscompare', 'assessed'],
-    touches: ['beta/index.html', 'docs/SAMPLE_STATUS_v1.45.md'], htmlRegions: ['sample-status'] }),
+    touches: ['beta/index.html', 'docs/SAMPLE_STATUS.md'], htmlRegions: ['sample-status'] }),
   // 第288便f(原仮定者の裁定(第78報)AN90・R118): **集約段**。書く段(obscompare → samplestatus)が $REGEN_HTML_STAGE に置いた断片を順に当て、
   //   beta/index.html を 1 回だけ置き換える(断片が合わなければ書かずに rc 1)。常時群(断片が無ければ何もしない —— 所要 1 s 未満)。
   //   html を書くので単独(exclusive)。html 全体を読む下流の段(after に samplestatus を持っていた段)は、この段の後に置く
@@ -455,9 +455,9 @@ export const REGEN_STEPS = [
   // 第287便f(AN69): families の領域(REGEN_SCOPE の roots)は SAMPLE_STATUS(生成領域 sample-status —— samplestatus が書く)を読む ——
   //   html を書く段の検査 ⑤ が見つけた after 欠落。samplestatus の後に置く(samplestatus は families を読まない —— 循環なし)
   S('families', 'node tests/exp-w283b-families.mjs', ['tests/out/families-w283b.json'], 8, { secSource: 'w283b-branch', node: true, after: ['calaudit', 'dt3', 'kf0', 'samplestatus'],
-    touches: ['docs/FAMILIES_v1.45.md'],
+    touches: ['docs/FAMILIES.md'],
     volatilePaths: { 'tests/out/families-w283b.json': META_RUN.concat(['/elapsedS']) },
-    note: '第283便b: 家族 21・鍵ごとの差・推定の列・候補(畳まない)・退役 7 本の棚卸し。一覧 docs/FAMILIES_v1.45.md も同じ器が書く(QA docs.families が照合)' }),
+    note: '第283便b: 家族 21・鍵ごとの差・推定の列・候補(畳まない)・退役 7 本の棚卸し。一覧 docs/FAMILIES.md も同じ器が書く(QA docs.families が照合)' }),
   // ---- 第283便b(第73報④・R84): 退役 7 本を名指しする**表の外の器**のうち tests/out に出力が残るもの —— **履歴**として登録する
   //   (再生成しない。退役の本を走らせ直す段を現行の計画に入れない)。退役後も走る器(rotorledger・analogy)は凍結の写しを読む。
   //   凍結の写しそのもの(tests/fixtures/retired-w283b.json —— 器 tests/exp-w283b-retiredfx.mjs が基点 de9e39b から 1 度だけ作る)は
@@ -3666,7 +3666,7 @@ export function an43Probe(o) {
  */
 export function touchOrderProbe(steps) {
   const S0 = steps || REGEN_STEPS;
-  const MD = 'docs/KF0_LEDGER_v1.45.md';
+  const MD = 'docs/KF0_LEDGER.md';
   const now = touchWritersAudit(S0);
   const w = now.writers.find((z) => z.file === MD);
   const s1 = { unordered: now.unordered.map((z) => z.file + ':' + z.a + '|' + z.b), writers: now.writers.map((z) => z.file + '←' + z.keys.join('+')),
