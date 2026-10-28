@@ -124,7 +124,9 @@ export function diffFitLS(s10, s11, lam, o) {
   const yRot = Dm.idx.map((i, j) => { const tau = s10.t[i] - f10.tm, a = f10.A + f10.B * tau, c = f10.C + f10.D * tau, ee = a * a + c * c; return (-c * dP[j] + a * dQ[j]) / ee; });
   const R = AP.lsqMulti(Dm.X, [yRot, yFix]); if (!R) return null;
   const dg = o.diagOf || null, dof = Math.max(1, Dm.idx.length - Dm.cols), s2 = R[0].rms * R[0].rms * Dm.idx.length / dof;
-  return { sameTimes: true, n: Dm.idx.length, c1rot: R[0].c[1], c1fix: R[1].c[1], seRot: dg && Number.isFinite(dg.invTT) ? Math.sqrt(s2 * dg.invTT) : null };
+  // 差の系列(回る ê₁₀ の Δϖ⊥ —— rad)の λ☉ の調和の振幅(1 倍・2 倍 —— 母惑星の公転周期の項の大きさの記録)
+  const h0 = 2 + 2 * o.K, harmRot = o.KL ? Array.from({ length: o.KL }, (_, j) => Math.hypot(R[0].c[h0 + 2 * j], R[0].c[h0 + 2 * j + 1])) : null;
+  return { sameTimes: true, n: Dm.idx.length, c1rot: R[0].c[1], c1fix: R[1].c[1], seRot: dg && Number.isFinite(dg.invTT) ? Math.sqrt(s2 * dg.invTT) : null, harmRot, rmsRot: R[0].rms };
 }
 
 /* ───────── 窓と判定(走行の前に固定 —— 閾値は HARM_RULE の 1e-2 のまま)───────── */
