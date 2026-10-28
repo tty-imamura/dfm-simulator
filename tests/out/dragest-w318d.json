@@ -2904,7 +2904,7 @@
      3.5598507439180858,
      0.056213538280470314
     ],
-    "wallSec": 2.42,
+    "wallSec": 3.608,
     "nan": false
    },
    "on|2": {
@@ -2920,7 +2920,7 @@
      3.5656899968253404,
      0.05743818512910459
     ],
-    "wallSec": 4.213,
+    "wallSec": 7.876,
     "nan": false
    },
    "off|1": {
@@ -2936,7 +2936,7 @@
      3.5598507439180858,
      0.056213538280470314
     ],
-    "wallSec": 1.972,
+    "wallSec": 2.657,
     "nan": false
    },
    "off|2": {
@@ -2952,7 +2952,7 @@
      3.5656899968253404,
      0.05743818512910459
     ],
-    "wallSec": 3.823,
+    "wallSec": 11.944,
     "nan": false
    }
   },
@@ -3092,31 +3092,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.082
+   "wallSec": 0.089
   },
   "B": {
-   "wallSec": 34.093
+   "wallSec": 49.038
   },
   "C": {
-   "wallSec": 0.284
+   "wallSec": 0.358
   },
   "DE": {
-   "wallSec": 0.134
+   "wallSec": 0.243
   },
   "Drun": {
-   "wallSec": 12.453
+   "wallSec": 26.132
   },
   "F": {
-   "wallSec": 0.009
+   "wallSec": 0.014
   }
  },
- "elapsedS": 49.578,
+ "elapsedS": 78.251,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第318便d",
   "target": "beta/index.html",
   "targetSha256": "f47e1f2153b45767b95d888fd2f373aaaccf941bf790a5f41628cfb27500b1dc",
-  "generatedAt": "2026-10-28T15:52:59.964Z",
+  "generatedAt": "2026-10-28T16:06:28.205Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -3140,9 +3140,9 @@
   "code": [
    {
     "file": "tests/exp-w318d-dragest.mjs",
-    "bytes": 39590,
-    "sha256": "2948fa8ddc68e590e8aeb5d0b81f38612a3ce9c6936547f8fb501eb2e18f998d",
-    "mtime": "2026-10-28T15:50:40.076Z"
+    "bytes": 39569,
+    "sha256": "73f324003aa00d83ee240fbeab00afc7acbbd23a8b921b73ce18bb58adf559da",
+    "mtime": "2026-10-28T15:58:56.235Z"
    },
    {
     "file": "tests/lib-w318d-dragest.mjs",
@@ -3187,7 +3187,7 @@
     "mtime": "2026-10-28T15:09:18.504Z"
    }
   ],
-  "codeSha256": "764d9fa7814c0f4f263a112a686aaf23e9c6b0944e67d120289a20176779cdf7",
+  "codeSha256": "88e6c3c054d94aaf620106114411d7c228f6fba7abae62414630be3db21099f8",
   "harnessVersion": "w318d-dragest-1",
   "stage": "dragest",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",

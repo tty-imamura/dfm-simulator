@@ -30,7 +30,7 @@ import * as L from './lib-w318d-dragest.mjs';
 import { galaxyAxis, eclipticOf, GAL } from './lib-w317c-satcut.mjs';
 import { axisDecl } from './lib-w315d-satk1.mjs';
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 + 器が大域で読む最上位の関数 inertialDragIsqRule・inertialDragIsqRuleK1・inertialDrag3MaintCell
-//   〔glob.名 の読みは deriveScope が数えない —— 広めの宣言は許される〕。presets と "ab"・"ch"・"ctx"・"cw"・"T"・"$" は import した lib〔tests/lib-w317c-satcut.mjs・
+//   〔glob.名 の読みは deriveScope が数えない —— 広めの宣言は許される〕。presets と roots の短い名は import した lib〔tests/lib-w317c-satcut.mjs・
 //   tests/lib-w315d-satk1.mjs ほか〕の綴りが数えられた分 —— 器の局所の変数には使わない)
 const REGEN_SCOPE = {"presets":["jupiterGalilean","jupiterSunInertial3d","marsSunInertial3d","mercury","mercurySunInertial3d","neptuneSunInertial3d","saturn","saturnRingReal","saturnSunInertial3d","uranusSunInertial3d","venusSunInertial3d"],"roots":["$","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragIsqState","HP.sim","HP.validatePreset","T","ab","ch","ctx","cw","inertialDrag3MaintCell","inertialDragGalaxyAxialState","inertialDragIsqRule","inertialDragIsqRuleK1","pnSource"],"core":true,"consts":[],"complete":true};
 
