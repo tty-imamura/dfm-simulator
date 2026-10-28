@@ -4338,6 +4338,17 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **QA**: `docs.satAn317d`(新設 —— 正本の門・全段を入力の正本から作り直して相対 1e-12・PHYSICS〔第317便d〕の表と数・文書・書かない語・禁句)・`docs.paper3Key317d`(新設 —— 論文 3 の新しい文・古い文が無い・他の論文に同じ型の文が無い・括弧と環境)—— どちらも root は SKIP。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない(本の宣言の鍵は増えていない)。AI が `X_k` を保存の鍵と書かない(鍵は `kappaT`)・候補 Y_k(n) を採用した規則と書かない・トリトンの近点を決まった値と書かない・平行のずれ Δe∥ を引きずりの永年の効きと書かない(観測の運動の分解に由来する t = 0 の定義の差)・近似要素の種を観測レコードと呼ばない。
 
+
+## 147. 第318便a —— 鎖の費用の残りを外す(受理器の理由の文の表 ACCEPT_REASONS・文の登録簿・説明文の欄・刻印の道具の照合)・版なしの文書名・観測結果カードと監査ビューの下付き・軸の係数の表示 A_k(原仮定者の裁定(第120報)・決断事項 AN427・AN383・AN429・AN430・AN433・統括の検証項目 R254・**物理・受理の判定・正本の値はビット同一** —— 宣言の鍵・保存の鍵・エンジンの式・`S._core` は不変・root の index.html は不変)
+
+- **受理器の理由の文**: validatePreset とその下の受理器(validate*・*Check・*DenyOf・*Warn)が返す理由の文(errors・warnings・err・why)は表 `ACCEPT_REASONS`(925 項 —— 文字列か、差し込む値を引数に取る関数)から `reasonText(鍵, 値…)` で引く。判定のコードは受理器に残る。返す文は元の文と 1 字も違わない(内蔵の本と決定的な変異 52976 件で基点と同じ)。**AI が作る本の受理の結果は変わらない** —— 理由の文の綴りに頼る処理を書かない(移行の有無は機械可読の欄 legacyCoreMigrated 等で読む)。
+- **領域 hash の版 `w318a-scope-6`**(tests/lib-w281a-scope.mjs): 文の登録簿 = I18N・ACCEPT_REASONS・LAWS・SYSTEM_PROMPT(閉包で辿らない)・説明文の欄に本の名 name と abBody.label・受理後の定義に warnings。referenceKind・law・kernel・rdRule は意味を持つので領域に残る。版 1〜5 の刻印は旧規則で照合。
+- **刻印の道具の照合**: 器が刻印の道具を刻印の名(scopeStamp・stableInputs・provenanceMetaScoped)だけで使うなら、道具の sha の違いは刻印を今の道具で引き直す照合だけ(planRegen の toolChecked・lint.provenanceMeta の「道具の照合」)。道具の hash は meta.code に残る。
+- **選択粒子の編集の文**: I18N の beCvShellGas・beCvCoreBare・beCvLsNone(ja/en)。
+- **版なしの文書名**: docs/SAMPLE_STATUS.md・docs/FAMILIES.md・docs/KF0_LEDGER.md・docs/CALIBRATION_ISSUES.md・docs/BH_DESIGN.md(旧名は 1 行の案内)。版は見出しと中身が持つ。版ごとの文書(RELEASE_NOTES_v1.4x.md・CALIBRATION_VERDICT_v1.44.md)は改名しない。
+- **表示**: 観測結果カードと監査ビューの説明の文は記号の下付き(symDispSet —— 量の id・保存の JSON は不変)。軸引きずりの係数 axialCoupling の表示の記号は A_k(鍵は不変・倍率 axialGain とは別の量)。器 tests/exp-w315a-symbols.mjs の表の表示は R_d・S_k(器の版 w315a-symbols-2 —— 鍵 r_d は表示の R_d)。
+- **AI 生成の規則**: SYSTEM_PROMPT の本文は変えていない(本の宣言の鍵は増えていない)。AI が axialCoupling を説明するときは A_k と書き、axialGain と同じ量と書かない。文書の参照は版なしの名で書く。
+- **QA**: lint.textRegistry318・lint.toolStamp318・ui.symDisp318・lint.axialSymbol318・lint.docNames318(beta と root)・docs.scopeProbe318・docs.w318a(新設)。対照の道具 tools/scope-probe318.mjs(記録 tests/out/scopeprobe-w318a.json —— 段にしない)。
 ## 148. 第318便b —— 衛星の次の正本(q11 を在位の宣言の形へ・V1a を主の列・母惑星の公転周期の窓と λ☉ の調和の模型・トリトンの離心率ベクトルの差・1 ulp の診断の列)と第317便の記録の訂正(原仮定者の指示(第120報)・決断事項 AN436・AN437・AN439・AN440・AN442・統括の検証項目 R255・**器と lib と正本と QA と文書だけ** —— html・宣言の鍵・正準形・エンジンの式・受理の判定・`S._core` は不変・在位の本は 1 本も宣言しない・確認の値を在位へ入れない・**SYSTEM_PROMPT には載せない**)
 
 - **器と正本**: `tests/exp-w318b-satnext.mjs`(版 w318b-satnext-1・`W318B_OUT`・`W318B_QUICK`・`W318B_EXPLORE`〔イオ・エウロパ × h・h/2 —— 正本を書かない〕・`W318B_WORKERS`・`W318B_CACHE`・`W318B_TARGET`)→ `tests/out/satnext-w318b.json`(段 satnext-318b —— after `satcut-317c`)。lib `tests/lib-w318b-satnext.mjs`(版 w318b-satnext-lib-1 —— `Q11_DRAG`・`v2Book`・`VARIANTS`〔V1a・V0・V3V1a —— 走行の前に宣言〕・`variantBook`・`nextUp`・`parentPeriodOf`・`lamOf`・`MODELS`〔LS・L〕・`designOf`・`fitLS`・`diffFitLS`・`WINDOWS`〔W1・W2〕・`RULE`〔版 w318b-rule-1〕・`verdictOf`・`orbitMeanVec`・`perpSlope`・`evecRow`)・文書の lib `tests/lib-w318b-satnextdoc.mjs`(`physicsTablesSatNext`・`correctionTable317`・`docNumbersSatNext` —— 正本の meta.code に入れない)。器の契約 `CONTRACT`(版 w318b-contract-1 —— 走行の前に宣言・正本の `contract` に同じ文)。

@@ -387,6 +387,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.satCut317c docs.satCut317c docs.sat
 #   CANON の lint.canon304・lint.regenScope・lint.regenChain・lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satAn317d docs.paper3Key317d docs.paperSymbols316 docs.satH316 docs.satK1_315 lint.stableHashPaths lint.canon304 lint.regenScope lint.regenChain lint.sectionLookup313"
 # ==== 第317便d の塊(ここまで)====
+# ==== 第318便a の塊(ここから)====
+# 第318便a(原仮定者の裁定(第120報)・AN427・AN383・AN429・AN430・AN433・R254): 枝 a の新設 7 本(lint.textRegistry318 —— 受理器の理由の文の表と文の登録簿・lint.toolStamp318 —— 刻印の道具の照合・
+#   ui.symDisp318 —— 観測結果カードと監査ビューの下付き・lint.axialSymbol318 —— 軸の係数の表示 A_k・lint.docNames318 —— 版なしの文書名・docs.scopeProbe318 —— 鎖の費用の対照・docs.w318a —— 文書)と、
+#   世代切替を受けた lint.scopeStop・lint.regenScope・lint.provenanceMeta・lint.canon303・lint.canon304・lint.presetText316c(同じブロックの lint.miscText316c)・lint.uiText316・lint.kappaSymbol315・
+#   docs.symbols315(器の版 w315a-symbols-2)と、版なしの名の文書を読む docs.*・lint.betaBuild300・lint.regenChain・正本の段の lint.stableHashPaths・lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.textRegistry318 lint.toolStamp318 ui.symDisp318 lint.axialSymbol318 lint.docNames318 docs.scopeProbe318 docs.w318a lint.scopeStop lint.regenScope lint.provenanceMeta lint.canon303 lint.canon304 lint.presetText316c lint.uiText316 lint.kappaSymbol315 docs.symbols315 docs.bhDesignSync docs.families docs.fourValuesHistory docs.intake8 docs.issuesD68Explain docs.issuesSync docs.kf0Ledger docs.mappingRowsDeclared docs.noRetiredMention293 docs.noRetiredMention294 docs.retired docs.sampleStatus-sync docs.tallySource docs.tallySync docs.terminologyOpticalCamouflage docs.w310c lint.betaBuild300 lint.regenChain lint.stableHashPaths lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第318便a の塊(ここまで)====
 # ==== 第318便b の塊(ここから)====
 # 第318便b(原仮定者の指示(第120報)・AN436・AN437・AN439・AN440・AN442・R255): 枝 b の新設 2 本(behavior.satNext318b —— q11 の宣言の形の写し・V1a の pair の mask と分母・V3 の写し・
 #   判定と回帰の純関数・短い走行・docs.satNext318b —— 衛星の次の正本と文書・第317便の記録の訂正)と、第317便c の正本を読む docs.satCut317c・正本の段の lint.stableHashPaths・

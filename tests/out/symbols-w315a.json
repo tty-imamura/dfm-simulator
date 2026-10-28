@@ -1,8 +1,8 @@
 {
- "version": "w315a-symbols-1",
+ "version": "w315a-symbols-2",
  "generator": "tests/exp-w315a-symbols.mjs",
  "target": "beta/index.html",
- "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+ "targetSha256": "2133ad7a735ec650eb2a1301fd3d353a66d1c395963c75d6a1d1a1243b1a0569",
  "ruling": "原仮定者の裁定(第117報)・決断事項 AN414(記号の体系: 時空係数 X_k・引きずり係数 Y_k・決定力定数 κ_D = 2G/c²・r_s = κ_D m・r_d = Y_k m・光速定数 c・重力定数 G・基準光速 c_0・基準重力 G_0・局所光速 c_loc・局所重力 G_loc・物理対応ロックの読込時の自動 ON)・統括の推奨 AN417・AN419・AN420・統括の検証項目 R242。保存形式の鍵とエンジンの式は変えない(表示の文とロックのフラグだけ)",
  "physLockAutoVersion": "w315a-physlock-auto-1",
  "quick": false,
@@ -108,21 +108,21 @@
    },
    {
     "id": "rd",
-    "sym": "r_d",
+    "sym": "R_d",
     "ja": "引きずり半径",
     "en": "drag radius",
     "layer": "length",
     "key": "dragCore.radius",
-    "note": "r_d = Y_k m(天体の大きさではない —— 旧表記 R_d・Rd)"
+    "note": "R_d = Y_k m(天体の大きさではない —— 器と正本の鍵の名は r_d のまま・表示は R_d)"
    },
    {
     "id": "Ks",
-    "sym": "K_s",
+    "sym": "S_k",
     "ja": "スピン拡散",
     "en": "spin diffusion",
     "layer": "coefficient",
     "key": "physics.kappaS",
-    "note": "熱の拡散(時空の量ではない)"
+    "note": "熱の拡散(時空の量ではない —— 第315便の表示は K_s)"
    }
   ],
   "oldToNew": [
@@ -137,8 +137,8 @@
     "key": "rdRule:\"kappaM\""
    },
    {
-    "old": "R_d・Rd",
-    "now": "引きずり半径 r_d",
+    "old": "Rd・r_d(第315便の表示)",
+    "now": "引きずり半径 R_d(器と正本の鍵の名は r_d のまま)",
     "key": "dragCore.radius"
    },
    {
@@ -152,8 +152,8 @@
     "key": "G"
    },
    {
-    "old": "スピン拡散 κs",
-    "now": "スピン拡散 K_s",
+    "old": "スピン拡散 κs・K_s(第315便の表示)",
+    "now": "スピン拡散 S_k",
     "key": "kappaS"
    },
    {
@@ -2885,73 +2885,73 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.056
+   "wallSec": 0.883
   },
   "F": {
    "wallSec": 0
   },
   "L": {
-   "wallSec": 0.001
+   "wallSec": 0
   },
   "P": {
-   "wallSec": 3.111
+   "wallSec": 10.288
   }
  },
- "elapsedS": 5.202,
+ "elapsedS": 18.183,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便a",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T13:57:37.404Z",
+  "targetSha256": "2133ad7a735ec650eb2a1301fd3d353a66d1c395963c75d6a1d1a1243b1a0569",
+  "generatedAt": "2026-10-28T15:51:03.653Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7332198,
+    "sha256": "2133ad7a735ec650eb2a1301fd3d353a66d1c395963c75d6a1d1a1243b1a0569",
+    "mtime": "2026-10-28T15:42:06.140Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
-    "mtime": "2026-10-20T16:19:56.589Z"
+    "mtime": "2026-10-28T15:09:11.660Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w315a-symbols.mjs",
-    "bytes": 20320,
-    "sha256": "fab01211a2e0e0dd137575df004486cf4394375efcae75ed6dc15091817f8e6c",
-    "mtime": "2026-10-25T15:57:19.876Z"
+    "bytes": 20976,
+    "sha256": "0298f10cc30431894ca16250d2ee38cf9ee9399eb2d36610fa6714a9d86cc1b6",
+    "mtime": "2026-10-28T15:43:04.927Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-10-28T15:09:12.936Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-10-28T15:09:12.936Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-10-28T15:09:12.932Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96147,
+    "sha256": "010ab11ac465dcd4b1e9191ec30cbe854ecdae82adcf2892c6525270fa9fc4e2",
+    "mtime": "2026-10-28T15:38:11.121Z"
    }
   ],
-  "codeSha256": "332b9ae4b0b01c79f2d6855223a80cffc4ffb2254c413676c99b8d40ae1dc483",
-  "harnessVersion": "w315a-symbols-1",
+  "codeSha256": "26883fc1aa006cc4ccd4a9667549e3943af5c23df95d2969522675b704179de4",
+  "harnessVersion": "w315a-symbols-2",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
    "法則を確かめた",
@@ -2963,7 +2963,7 @@
    "地平面を判定した"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "HP.PHYS_LOCK_AUTO_VERSION",
@@ -2992,11 +2992,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1302,
-   "segments": 1143,
-   "closureShare": 0.3076
+   "names": 1300,
+   "segments": 1141,
+   "closureShare": 0.2967
   },
-  "scopeSha256": "8a30cad0a2daa586d165492d393c6b2bdc30c5625dbde4740c051071d9c7fbb5",
+  "scopeSha256": "bb5e10722efbcad244b8e3b90e4de73139e8b62df8eb1dc999187f3fbfde0b99",
   "scopeComplete": true,
   "inputsStable": [
    {

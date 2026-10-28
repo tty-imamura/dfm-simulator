@@ -39011,6 +39011,90 @@ R_d を r_s にした式で今と同じ引きずりを出すには、並進に 5
 
 **⑦ 言わないこと。** 太陽系の検証は終わっていない(衛星の三体と 16 体が残る)。数値の帯は観測の 3σ ではなく、値は合わせていない。エウロパ・タイタンが決まったのは**器の写しの対を変えた変種**の上で、規則も本の宣言も変えていない。軸引きずりは「無い」ではなく「K1 の写しでは近点に届かない」。銀河の軸引きずりの大きさは決めていない。
 
+〔第318便a — 鎖の費用の残りを外す(受理器の理由の文の表・文の登録簿・本の名と比較の欄の名を説明文の欄へ・選択粒子の編集の文を I18N へ・刻印の道具の照合)・版なしの文書名・観測結果カードと監査ビューの下付き・軸の係数の表示 A_k・記号の器の表示・preflight の所要の注記(原仮定者の裁定(第120報)・決断事項 AN427・AN383・AN429・AN430・AN433・統括の検証項目 R254)(**物理・受理の判定・正本の値はビット同一** —— 内蔵の全 176 本 bitsame・sigsame 同一・受理器の出力は内蔵の本と決定的な変異 52976 件で基点と同じ・`S._core` 不変・root の index.html は 1 byte も変えていない)〕
+
+**① 裁定と読み。** 原仮定者の裁定(第120報)で閉じた AN427(表示の文だけの変更で鎖のほぼ全段が動く残りを外す —— 第316便は表示の文の便で 181 段・6 h 31 min)の ①〜⑤ と、版名つきの文書のファイル名を版なしの名へ移す AN383、観測結果カードと監査ビューの下付き(AN429)、軸の係数の表示の記号(AN430)、記号の器の表示の記号(AN433)を扱う。境界は原仮定者が同意した形のまま —— **受理の判定と理由の文を分ける**(判定のコードは閉包に残り、文だけが文の登録簿から引かれる)・本の名と比較の欄の名は説明文の欄・`referenceKind` と law/kernel/rdRule の文字列は意味を持つので閉包と領域に残す・刻印の道具の hash は削除せず「式」の判定から外す。記号は第118報の体系(時空係数 X_k・引きずり係数 Y_k・スピン拡散 S_k・決定力定数 κ_D・引きずり半径 R_d・基準光速 c_0・基準重力 G_0)。
+
+**② 受理器の理由の文の表(AN427 ①)。** html の最上位に表 `ACCEPT_REASONS`(925 項 —— 値は文字列 509 項か、差し込む値を引数に取る関数 416 項)と引き口 `reasonText(鍵, 値…)` を置き、`validatePreset` とその下の受理器 68 個(validatePreset の閉包の `validate*`・`*Check`・`*DenyOf`・`*Warn`)の**理由の位置**(`bad(`・`no(`・`warnings`/`warn`/`errs`/`errors` の `push(`・`err:`・`why:`・`errors:[`・`*DenyOf`/`*Warn` の 1 行の `return`)の文を表へ移した(呼び出し 969 か所)。鍵は「受理器の名/文の先頭の鍵の道(無ければ msg)#通し番号」(例 `validatePreset/camera.follow`・`validateGLoc/physics.gLoc.law#2`)。連結の文(`"…"+x+"…"`)は 1 項の関数 `(a0)=>"…"+a0+"…"` へ、差し込みの文字列(テンプレート)は引数へ —— **元の文と 1 字も違わない文を返す**(演算の結合も同じ)。比較の位置の文字列(`===` の相手・`.indexOf` の対象)は動かさない。🌰 の版 w287a-capture-1 の領域(`centerCaptureCheck` —— 1 字も変えない契約 behavior.fixedCaptureContract)は動かさない。内蔵の本の宣言より後ろの受理器の文で `core:{` を含む 2 式(旧コアの移行の通知)も動かさない —— 器 corecensus の棚卸しが本の宣言の id から次の id まで(最後の本は `</script>` まで)の `core:{` の数を数えるため(表は本の宣言より前に置くので、後ろの文を表へ移すと最後の本の数が変わる —— 動かさなければ数は基点と同じ)。
+- **ビット同一の確かめ**: 内蔵の全 176 本と決定的な変異(本ごとに 300 件 —— 葉を null・削除・文字列・負・巨大・配列・object・別の law の値へ 1〜3 か所)の **52976 件**で、`validatePreset` の受理/拒否・正規化した宣言・errors・warnings(異なる文 4275 種)が基点と同じ(軸の係数の記号を直した 3 項〔⑨〕の文は写像を掛けて同じ —— 写像なしの差はその 4 件だけ)。tests/exp-w258c-bitsame.mjs(600 步・176/176 同一)・tests/exp-w272d-sigsame.mjs(176/176 同一)。
+- 新しい理由の文も表へ足す(lint.textRegistry318 ③ が受理器の本体の理由の位置に日本語の文字列が無いことを見る)。
+- **残り**: 受理器 69 個の本体の文字列の非 ASCII は 18178 字 → 3154 字。残るのは理由の位置の外 —— 変数に組んでから渡す文(`const why=…`)・複数行の `return`・理由の表を持つ受理器(coord3dDenyOf・validateMassLedger・meshVelocityCrossCheck・approxManyCrossCheck・bgLawCrossCheck ほか)・引数の中の語と、🌰 の領域の centerCaptureCheck(416 字 —— 1 字も変えない契約)と corecensus の数えの 2 式。これらの文の 1 字は今も閉包に入る(決断事項の候補 ⑬ (f))。
+
+**③ 文の登録簿と説明文の欄(AN427 ②〜④)—— 領域 hash の版 `w318a-scope-6`。** `tests/lib-w281a-scope.mjs` の現行版を w318a-scope-6 へ。
+- 文の登録簿 `TEXT_REGISTRIES` = I18N + `TEXT_REGISTRIES_ADDED_318`(**ACCEPT_REASONS・LAWS・SYSTEM_PROMPT**)—— 閉包で辿らない。葉は文字列か関数だけ(物理を選ぶ鍵の値を持たない —— lint.textRegistry318 ①)。LAWS の鍵の集合は受理器が claims の chain の照合に読むが、内蔵の本の受理後の定義は領域に入るので鍵の増減は宣言した本の段で見える。
+- 説明文の欄: `PROSE_KEYS_ADDED_318`(本の名 **name**)・`AB_BODY_PROSE_KEYS`(**abBody.label** —— 文字列か葉が文字列だけの object のとき。physicsPatch は残す)。`makeSim` は `preset.id||preset.name` で乱数の種の代わりに名を読むが、内蔵の本はすべて id を持つので名は種に届かない(lint.textRegistry318 ⑦・lint.regenScope ⑤ はこの 1 形だけを許す)。`validatePreset` は名の有無を見る(空にすれば受理が変わる —— 受理の結果 ok は領域に残る)。**`referenceKind`・law・kernel・rdRule は外さない**(意味を持つ分類と物理を選ぶ値)。
+- 受理後の定義に受理器の **warnings** を入れた(版 6 だけ)—— 内蔵の本に警告の文が出れば、その本を宣言した段は文の変更で動く(今の内蔵の本の警告は 0 件)。
+- 選択粒子の編集 `updateBodyEdit` の文(「・殻=気体」「・裸コア(終端)」「—/—/…」)を I18N の `beCvShellGas`・`beCvCoreBare`・`beCvLsNone`(ja/en)へ(第316便a の PARAM_DEFS の型)。
+- 器が文の表を**直に**読む(`HP.<表>`・引用符の名)なら、その表を `consts` に宣言する(評価値が領域に入る —— deriveScope の consts の下限・lint.regenScope ②)。今の宣言した器で直に読む器は 0 本。
+- **旧版の刻印は旧規則で照合**: 版 1〜5 の刻印は版 5 までの登録簿 `TEXT_REGISTRIES_5`(I18N だけ)・`PROSE_KEYS`・`stopSetOf` で引き直す(`textRegistriesOf`・`proseKeysOf` —— 旧版の本文は元の実装と 1 字も違わない)。新しい刻印は版 6 だけで作る。
+- 残る制約(決断事項の候補 ⑬ (b)): 器が**変種の本**(内蔵の本の写しを書き換えて受理器に通した本)の warnings・errors の文を正本に書く場合、理由の文の変更でその正本の文は古くなりうる(値は動かない —— 表示の文の種類)。
+
+**④ 刻印の道具の照合(AN427 ⑤)。** 刻印の道具 `SCOPE_TOOLING`(tests/lib-w281a-scope.mjs・tests/lib-w281a-regentable.mjs)の sha を planRegen と来歴の照合の「式」の判定から外した —— **道具の hash は削除しない**(正本の `meta.code[]` に残り、鎖の済み印の契約〔キャッシュの健全性〕もそのまま)。
+- `toolStampOnly(root, codeFiles, tool)`: 器と lib(正本の meta.code[] の道具でないファイル)が道具から import する名がすべて刻印の名 `TOOL_STAMP_NAMES`(scopeStamp・stableInputs・provenanceMetaScoped)なら真。他の名・`import * as`・既定の import・動的な import なら偽(道具を計算に使う器 —— 従来どおり「式」で regen)。
+- 真の器の正本は、道具の sha が違っても**刻印を今の道具で引き直して照合するだけ**(planRegen —— 刻印の版の領域 hash と入力の安定 hash が一致すれば走らせ直さない・段の `toolChecked` と件数の「道具の照合」/ 一致しなければ regen「道具(照合が不一致)」)。lint.provenanceMeta・lint.canon303・lint.canon304 の ④ も同じ規則(`toolStampRecheck` —— 「道具の照合」の欄)。
+- 効き(基点の html のまま、本便の道具で `tools/regen-plan.mjs --html beta/_w318_base.html` —— 道具の lib を書き換えた後): 道具の照合で通った段 **115**・道具を計算に使う器の段 4(families・tpsign・contact285・bgaudit291 —— 「式」で regen)。第316便d の版上げでは道具の変更だけで正本 121 本(+ regentable を刻む 2 本)が regen だった。
+
+**⑤ 対照(道具 `tools/scope-probe318.mjs` —— 記録 `tests/out/scopeprobe-w318a.json`・段にしない)。** 基点の html(版 5 の規則の世代)と今の html(版 6)の写しに、同じ意味の 1 か所の変更を入れ、再生成表の段(履歴を除く 200 段)のうち**その変更で regen になる段**を数えた —— 前 = 正本の刻印 meta.scope を刻印の版のまま(今の鎖が実際に引く版)・後 = 器の宣言 REGEN_SCOPE を版 6 で(次の鎖で全段が版 6 で刻み直された後の見込み)。「領域」は領域 hash が変わる段、残りは領域の宣言の無い正本(html 全体を刻む)の段 24 で、**html のどんな変更でも regen**(変更の種類に依らない)。常時群 13 段・正本の無い段 6・html を読まない段 16 は変更に依らないので数えない。recheck は依存で下流に伝わる段(表示の文の変更なら上流の意味的出力が同じで reuse に戻る見込み)。
+
+| 変更(写しに 1 か所) | 種類 | 前(版 5 の刻印): regen | 後(版 6): regen | recheck 前 → 後 |
+|---|---|---|---|---|
+| 受理器の理由の文(validatePreset の warnings —— seed の文に 1 字) | 表示の文 | 165(領域 141) | 24(領域 0) | 1 → 87 |
+| 受理器の理由の文(下の受理器 validateTimeRef の err —— tObs の文に 1 字) | 表示の文 | 165(領域 141) | 24(領域 0) | 1 → 87 |
+| 理論用語集 LAWS(ja A1 に 1 字) | 表示の文 | 164(領域 140) | 24(領域 0) | 2 → 87 |
+| AI の生成の仕様 SYSTEM_PROMPT(見出しに 1 字) | 表示の文 | 164(領域 140) | 24(領域 0) | 2 → 87 |
+| 本の名(🟠 jupiterGalilean の name に 1 字) | 表示の文 | 100(領域 76) | 25(領域 1) | 34 → 86 |
+| 比較の欄の名(abBody.label の ja に 1 字) | 表示の文 | 85(領域 61) | 24(領域 0) | 48 → 87 |
+| 選択粒子の編集の文(updateBodyEdit の「・殻=気体」に 1 字) | 表示の文 | 165(領域 141) | 24(領域 0) | 1 → 87 |
+| I18N の文(対照 —— ja physLockOn に 1 字) | 表示の文 | 24(領域 0) | 24(領域 0) | 87 → 87 |
+| 受理の判定の閾値(validatePreset の world.size の上限 5000 → 5001) | 物理 | 165(領域 141) | 165(領域 141) | 1 → 1 |
+| エンジンの式の係数(引きずりの規則 Y_k の 10 → 10.000001) | 物理 | 165(領域 141) | 165(領域 141) | 1 → 1 |
+| law の値(🌡️ mercurySunInertial3d の gLoc.law "kappaC2" → "cRatio") | 物理 | 100(領域 76) | 100(領域 76) | 33 → 33 |
+| referenceKind の値(意味を持つ分類 —— "tide-diagnostic" → "observation-fit") | 物理 | 87(領域 63) | 87(領域 63) | 47 → 47 |
+| 質量(🟠 の最初の m の最下位桁) | 物理 | 101(領域 77) | 101(領域 77) | 33 → 33 |
+
+- **表示の文の 1 字で regen する段**(領域): 受理器の理由の文 141 → **0**・LAWS 140 → **0**・SYSTEM_PROMPT 140 → **0**・本の名 76 → **1**(段 families —— 家族の一覧に本の名を書く器が consts で名を宣言して読む〔`BUILTIN_PRESETS.map(…p.name…)`〕—— 正しく動く段)・abBody.label 61 → **0**・選択粒子の編集の文 141 → **0**(I18N の文は前から 0)。残るのは html 全体を刻む 24 段(どの変更でも同じ —— 領域の宣言の無い正本を宣言へ移すのは決断事項の候補 ⑬ (a))。
+- **物理の 1 字で regen する段**は前と同じかそれ以上: 受理の判定の閾値・エンジンの式の係数(全段)・law の値・referenceKind の値・質量(その本か all を宣言した段)—— 表の後の列。
+- 「同じ領域を読んだ」は結果が正しいことの保証ではない(領域 hash の一致の意味は第281便a のまま)。
+
+**⑥ 本便の鎖の見込み。** 刻印の版を上げると全正本の刻印が旧い版になるが、旧版の刻印は旧規則で照合する(③)。本便は受理器の本体(validatePreset の閉包)の文を表へ移したので、領域を宣言した段はすべて旧規則でも領域が変わる —— **本便の鎖は全段**(`tools/regen-plan.mjs --base beta/_w318_base.html` —— always 13・regen 171・reuse 14・recheck 2・history 33。reuse は html を読まない段だけ)。器を走らせ直した段から版 6 で刻まれ、次便から表の効きが出る。道具の lib の変更は ④ の照合で吸われる(本便は html の変更で全段が動くので段の数は減らない)。
+
+**⑦ 版なしの文書名(AN383)。** `git mv` で 5 本を版なしの名へ: docs/SAMPLE_STATUS.md・docs/FAMILIES.md・docs/KF0_LEDGER.md・docs/CALIBRATION_ISSUES.md・docs/BH_DESIGN.md。版は見出しと中身(APP/BETA/SHA・生成元)が持つ。**現行の参照 77 か所(16 ファイル)を同時に**直した —— 生成器(issues・kf0ledger 2 本・samplestatus・families)・再生成の表の touches・QA(42 か所)・beta の説明の文(stTip ja/en)・README・.gitignore の注・docs/SAMPLE_RANKING.md・docs/dev/RC_RESEARCH.md・tools/beta-build.mjs・器の注。
+- **旧名を残した規則**: 過去の便の記録の中の旧名は履歴として書き換えない —— PHYSICS の過去の節(17)・CHANGELOG の過去の行(8)・AI_SPEC の過去の節(3)・版ごとの文書 RELEASE_NOTES_v1.45.md(5)・RELEASE_NOTES_v1.46.md(1)・CALIBRATION_VERDICT_v1.44.md(5)・root の index.html(2 —— 本便は 1 byte も変えない)。正本 JSON の中のパス(samplestatus・families)と QA の結果の記録は鎖と QA の走行で作り直す(手で書き換えない)。版ごとの文書(RELEASE_NOTES_v1.4x.md・CALIBRATION_VERDICT_v1.44.md)は改名しない。
+- **旧名の互換**: 旧名のファイルは「版なしの名へ移した」の 1 行だけの案内(版なしの名へのリンク)として残した —— root の index.html と過去の記録が旧名を指すため。生成器は書かない・QA は中身を照合しない(lint.docNames318 は 1 行の案内であることだけを見る)。
+
+**⑧ 観測結果カードと監査ビューの下付き(AN429)。** 観測結果カードの宣言行(.ocRow)・正式判定値の行・較正の現在地の行・自転軸の行と、監査ビューの本の名と説明の文の行(fail・out)を `symDispSet` で表示(c₀・G₀・Xₖ・R<sub>d</sub> …)。量の id(row.q)・保存の JSON・宣言行の数は不変。量の名(resid)・ゲートの id(gates)・結果ファイル(files)・合わせた欄の鍵(corr)の行と、キャンバス・title は文字のまま(ui.symDisp318)。
+
+**⑨ 軸の係数の表示の記号 A_k(AN430)。** 軸引きずりの係数 `axialCoupling` の表示の記号だけを **A_k** に(鍵は不変・別の倍率 `axialGain` と混同しない —— 表示で区別)。直したのは HUD の文 hudSpin3(μ² 則の行 —— 球面・鏡映・新則の行の「×」は倍率 axialGain)・較正の注 nc_axial_drag_unfitted(ja/en —— 「A_k(鍵 axialCoupling —— 倍率 axialGain とは別の量)」)・受理器の理由の文 3 項(「A_k [L³/M]」)。周転円の振動数のカッパ(📡・LAWS の E13 —— 天体力学の慣例)は残す。退役とトイの本のカッパ(コンパクト力の係数・相対すべり則の係数・トイの本 chainDiskToy3dTilt の軸の係数)は lint.presetText316c の許可の表(理由つき)のまま。D₀ の名は変えない。命名規則(第316便の型)に 1 行を足した:
+
+| 種類 | 添字・字 | 例 | 表示 |
+|---|---|---|---|
+| A_k | 軸の係数(軸引きずりの係数 —— 鍵 `axialCoupling`・[L³/M]) | A_k(倍率 `axialGain` は無次元の別の量 —— 記号を付けない) | Aₖ |
+
+**⑩ 記号の器の表示(AN433)。** 器 `tests/exp-w315a-symbols.mjs` の表の表示の記号だけを第118報の体系へ(器の版 **w315a-symbols-2**): 引きずり半径 R_d(第315便の表示 r_d)・スピン拡散 S_k(第315便の表示 K_s)。id(rd・Ks)・数の鍵(rdKm・rdOverRs …)・保存の鍵(dragCore.radius・kappaS)・正本の鍵の名 `r_d` は不変 —— **鍵 `r_d` は表示の R_d**。正本 tests/out/symbols-w315a.json は本枝で走らせ直した(値は 1 つも変わらない —— 違いは表示の記号の 8 欄だけ・版 6 で刻んだ)。記号の表(器の SYMBOLS —— docs.symbols315 が版 2 の世代でこの表を読む):
+
+| 記号 | 名 | 層 | 鍵(不変) |
+|---|---|---|---|
+| c | 光速定数 | 基準の定数 | — |
+| G | 重力定数(万有引力定数) | 基準の定数 | — |
+| c_0 | 基準光速 | サンプル | physics.cLight |
+| G_0 | 基準重力 | サンプル | physics.G |
+| c_loc | 局所光速 | その場 | — |
+| G_loc | 局所重力 | その場 | physics.gLoc |
+| X_k | 時空係数 | 係数 | physics.kappaT |
+| Y_k | 引きずり係数 | 係数 | rdRule:"kappaM" |
+| κ_D | 決定力定数 | 定義 | — |
+| r_s | シュヴァルツシルト半径(重力半径) | 長さ | — |
+| R_d | 引きずり半径 | 長さ | dragCore.radius(器と正本の鍵の名は r_d) |
+| S_k | スピン拡散 | 係数 | physics.kappaS |
+
+**⑪ preflight の所要の注記。** QA の preflight(tests/qa-preflight.mjs)の冒頭の注記「所要は秒」を実測へ直した —— 今の箱で約 22.5 分(第318便の統括の実測 —— 試験 358 本)。重いのは領域 hash と鎖の表を引き直す lint(フル QA の結果の ms で lint.scopeStop 約 6 分・lint.scopeClosureSame294 約 3 分・lint.regenChain 約 3 分・lint.readyQueue311・lint.regenScope・docs.retired・lint.provenanceMeta が 0.5〜1 分ずつ)で、残りの大半は 1 本あたり秒の桁。
+
+**⑫ QA と段。** 新設 7 本 —— lint.textRegistry318(登録簿・閉包・理由の位置・鍵の対応・説明文の欄の単体・updateBodyEdit・内蔵の本の id)・lint.toolStamp318(道具の照合の自己試験と実物)・ui.symDisp318(ページ)・lint.axialSymbol318・lint.docNames318(beta と root)・docs.scopeProbe318(記録と本節の表)・docs.w318a(文書と運用)。世代切替を受けたもの: lint.scopeStop ①(版 6 の契約)・lint.regenScope ⑤(名は乱数の種の 1 形だけ)・lint.provenanceMeta・lint.canon303・lint.canon304 の ④(道具の照合)・lint.presetText316c の ②(lint.miscText316c —— 表 ACCEPT_REASONS の項も数える・軸の係数の許可を外す)・lint.uiText316 と lint.kappaSymbol315(軸の係数の許可を外す)・docs.symbols315(器の版 2 の記号の表は本節で)。新しい段は無い(対照の記録は段にしない)。post-merge の ③′ に第318便a の塊。
+
+**⑬ 残ったこと(決断事項の候補)。** (a) 領域の宣言の無い正本(html 全体を刻む 24 段)は html のどんな変更でも regen —— 器に REGEN_SCOPE を宣言して版 6 で刻めば表示の文の 1 字で 0 段になる(推奨: 段の所要の大きい順に宣言を足す)。(b) 器が変種の本の受理器の warnings・errors の文を正本に書く場合の扱い —— 案 1 そのまま(表示の文の種類・値は動かない)/案 2 文を正本に書く器は consts に ACCEPT_REASONS を宣言する lint(推奨: 案 1 —— 理由の文を正本に書く器は記録の欄だけで、判定に使わない)。(c) 旧名の案内(5 本)を消す時期 —— 推奨: 次に root を昇格する便(root の index.html が版なしの名を指した後)。(d) 道具の照合の型(planRegen の中で即時に照合する —— 鎖の recheck〔依存先の後で計画し直す〕とは別の欄 toolChecked)の扱い —— 推奨: このまま(照合は計画と同じ関数で決まる)。(e) 表示の関数で LAWS・symDispSet を呼ぶもの(説明タブの組み立て)の本体の文は閉包に残る —— 停止集合へ足すかは次の対照で。(f) 受理器の本体に残る文 3154 字(② の残り)を表へ移すか —— 推奨: 次に受理器を触る便で、変数に組む文と理由の表を持つ受理器から(本便の写像の器と同じ照合 —— 決定的な変異の受理の出力が基点と同じ)。
+
+**⑭ 言わないこと。** 「収束した」「完全に一致」(受理器の出力の照合は決定的な変異の 52976 件で同じ —— 全入力の証明ではない)。領域 hash の一致は「同じ領域を読んだ」ことだけを意味する(結果が正しいことの保証ではない)。道具の照合の一致は「今の道具で刻印を引き直して同じ」ことだけを意味する。
+
 〔第318便b — 衛星の次の正本(q11 を在位の宣言の形へ・V1a を主の列・母惑星の公転周期の窓と λ☉ の調和の模型・トリトンの離心率ベクトルの差・1 ulp の診断の列)と第317便の記録の訂正(原仮定者の指示(第120報)・決断事項 AN436・AN437・AN439・AN440・AN442・統括の検証項目 R255)(**html・本の宣言・エンジンの式・受理の判定は 1 bit も変えていない** —— 器・lib・正本・QA・文書だけ・`S._core` 不変・在位の本は 1 本も宣言しない・確認の値を在位へ入れない)〕
 
 **① 指示と読み。** 原仮定者の指示(第120報)の並列タスク「優先度の高い問題点を挙げ、対策を検討する」のうち、統括の表の優先 3「三体の数値の信頼性」への対策を、閉じた決断事項(DECISIONS v77 §0)の型で正本にする: **AN439** 衛星の器の q11 を在位の惑星 7 本と同じ宣言の形へ・**AN436** 三体の近点の主の列は太陽の引きずりの対を外した写し V1a・通常の三体 V0 を残す・V0 − V1a は太陽の引きずりの効きの記録(**初期の分解と軌道の変化を含む反実仮想の差 —— 独立な線形の寄与の和とは扱わない**)・**AN437** 窓は母惑星の公転周期 P_母 の整数倍・λ☉ の 1 倍と 2 倍の調和の模型を走行の前に宣言・1 周期の結果を別の開始位相で確かめる・**AN440** トリトンは V3 + V1a で離心率ベクトルの差を表の量にする(V3 は初期の母惑星の位置と速度を引くガリレイの変換 —— 真の相対の積分とは別物)・**AN442** 共通の測る量 M0 と `HARM_RULE` は緩めない・差の直接の回帰は回る ê₁₀ を主・1 ulp は診断の列・有限の格子の通過と永年の値の確定を区別する。本は〔第317便c〕と同じ(n = 2 の G_loc `kappaC2`・K1 —— 全天体 R_d = Y_k m・規則の鍵 `rdRule:"kappaM"`)。記号は時空係数 X_k・引きずり係数 Y_k・引きずり半径 R_d・基準光速 c_0・基準重力 G_0・局所の重力 G_loc。

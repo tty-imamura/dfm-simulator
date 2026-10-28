@@ -9,7 +9,7 @@
 //      (較正の語・合わない量・見込みは手で書かない)。
 //   ② 書き換えた html を Chromium で開き、133 本すべてに status と宣言の概要が付いていること・
 //      表と 1 字も違わないことを確かめる(食い違えば何も書かずに終了コード 1)。
-//   ③ 一覧 docs/SAMPLE_STATUS_v1.45.md(群別の表)と正本 tests/out/samplestatus-w279a.json
+//   ③ 一覧 docs/SAMPLE_STATUS.md(群別の表)と正本 tests/out/samplestatus-w279a.json
 //      (来歴 w272e-1)を書く。QA `docs.sampleStatus-sync`・`preset.statusLedger-sync` が照合する。
 //
 // ■ この器がしないこと
@@ -56,7 +56,7 @@ const RETIRED_FX4 = 'tests/fixtures/retired-w286f.json';
 const RETIRED_FX5 = 'tests/fixtures/retired-w287b.json';
 const RETIRED_FXS = [RETIRED_FX, RETIRED_FX2, RETIRED_FX3, RETIRED_FX4, RETIRED_FX5].filter((f) => fs.existsSync(path.join(ROOT, f)));
 const OUT = 'tests/out/samplestatus-w279a.json';
-const MD = 'docs/SAMPLE_STATUS_v1.45.md';
+const MD = 'docs/SAMPLE_STATUS.md';
 const CODE = ['tests/exp-w279a-samplestatus.mjs', 'tests/lib-w279a-samplestatus.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w283c-calstages.mjs', 'tests/lib-w288f-htmlstage.mjs'];
 const CHECK = process.argv.includes('--check');
 

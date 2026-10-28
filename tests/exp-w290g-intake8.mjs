@@ -504,7 +504,7 @@ export function writeIntake8(root = ROOT) {
   return done;
 }
 
-/** docs/CALIBRATION_ISSUES_v1.45.md の節(`tests/exp-w272a-issues.mjs` が呼ぶ —— 数は CSV の実体から数える)。 */
+/** docs/CALIBRATION_ISSUES.md の節(`tests/exp-w272a-issues.mjs` が呼ぶ —— 数は CSV の実体から数える)。 */
 export function intakeSectionMd(root = ROOT) {
   const r = checkIntake8(root);
   const md = [];

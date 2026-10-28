@@ -16,6 +16,8 @@
 //   第282便e: 各段に `causeText`(どの入力・式・受理規則で無効化されたか)を出す。領域の不一致の内訳
 //     (プリセット/受理規則/式〔関数名〕/S._core/定数)は、--base が刻印時の html(meta.targetSha256 と同じ sha)の
 //     ときだけ引ける。領域 hash・安定 hash は**刻印の版で**照合する(旧版の刻印は旧版で引き直す)。
+//   第318便a(AN427 ⑤): 刻印の道具(tests/lib-w281a-scope.mjs・tests/lib-w281a-regentable.mjs)を刻印だけに使う器の段は、道具の sha の違いを
+//     「式」にせず刻印を今の道具で照合するだけ(一致 → 走らせ直さない —— 件数の「道具の照合」・段の toolChecked)。
 // 終了コード: 0(計画を出した)/ 2(表に無い正本が lint の CANON にある等、表が壊れている)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -41,7 +43,8 @@ if (!QUIET) {
   const fmt = (s) => (s >= 3600 ? (s / 3600).toFixed(2) + ' h' : (s / 60).toFixed(1) + ' min');
   console.log(`regen-plan: html ${plan.html}(${String(plan.htmlSha256).slice(0, 12)}…)`
     + (plan.baseHtml ? ` / base ${plan.baseHtml}` : ''));
-  console.log('  件数: ' + Object.entries(plan.count).map(([k, v]) => k + ' ' + v).join(' / '));
+  console.log('  件数: ' + Object.entries(plan.count).map(([k, v]) => k + ' ' + v).join(' / ')
+    + (plan.toolChecked ? ` / 道具の照合 ${plan.toolChecked}(刻印の道具の変更を照合で通した段 —— 第318便a)` : ''));
   console.log(`  所要(実測秒の和): 下限 ${fmt(plan.secLower)}(regen+always)〜 上限 ${fmt(plan.secUpper)}(+recheck)`);
   for (const r of plan.steps) if (r.status !== 'reuse' && r.status !== 'history')
     console.log(`  ${r.status.padEnd(7)} ${r.key.padEnd(16)} ${String(r.sec).padStart(5)} s  ${(r.causeText || r.reasons[0] || '').slice(0, 110)}`);

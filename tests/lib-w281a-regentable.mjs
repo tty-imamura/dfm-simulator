@@ -89,7 +89,8 @@
 // ■ しないこと: 走らせない・判定しない(表と、表を読む計画の純関数だけ)。
 import fs from 'node:fs';
 import crypto from 'node:crypto';
-import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha, stableValueSha, canonJson, parseTopLevel, closureOf, SCOPE_STOP, normalizeScope, stopSetOf } from './lib-w281a-scope.mjs';
+import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha, stableValueSha, canonJson, parseTopLevel, closureOf, SCOPE_STOP, normalizeScope, stopSetOf,
+  SCOPE_TOOLING, toolStampOnly, DATA_REGISTRIES, textRegistriesOf } from './lib-w281a-scope.mjs';   // 第318便a(AN427 ⑤): 道具の照合・刻印の版の登録簿
 import { HTML_STAGE_ORDER, HTML_STAGE_VERSION } from './lib-w288f-htmlstage.mjs';   // 第288便f(AN90): 集約段の断片の順序
 
 // ■ 第284便c(原仮定者の裁定(第74報)⑥・AN33・AN43・統括の検証項目 R93)
@@ -123,7 +124,7 @@ import { HTML_STAGE_ORDER, HTML_STAGE_VERSION } from './lib-w288f-htmlstage.mjs'
 //     書く段の順序・after 欠落・領域の閉包の重なり・依存の循環を検査する(自己試験 (q))。検査で見つけた欠落 2 型を表で直した:
 //     families の領域が SAMPLE_STATUS を読む → after に samplestatus / meta を刻まない d68three・confirm4 が html の本文を読む → obscompare の after に。
 //     順序で直せない読み(pn1 の領域の閉包が OBS_COMPARE_* に掛かる —— obscompare が pn1 を読む)は `HTML_REGION_READ_DECL` に理由つきで宣言。
-//   ・families の `touches`(docs/FAMILIES_v1.45.md)を足した(outs の外に書くファイル —— 入力の並びから除く)。
+//   ・families の `touches`(docs/FAMILIES.md)を足した(outs の外に書くファイル —— 入力の並びから除く)。
 // ■ 第288便f(原仮定者の裁定(第78報)AN90・統括の検証項目 R118): **一時出力の集約**(版 w288f-regentable-9)
 //   ・html を書く段(obscompare → samplestatus)は鎖の中(REGEN_HTML_STAGE —— chainShell が $REGEN_LOG/html を入れる)で html を直に書かず、
 //     領域 1 つぶんの断片を置く(tests/lib-w288f-htmlstage.mjs)。集約段 'htmlagg'(tools/regen-html-aggregate.mjs —— 常時群・単独)が
@@ -137,7 +138,7 @@ import { HTML_STAGE_ORDER, HTML_STAGE_VERSION } from './lib-w288f-htmlstage.mjs'
 //   ・`HTML_REGION_READ_DECL` から pn1 → obs-compare を外した(AN90 —— 読込依存が無いことを lint.pn1RegionDecl・自己試験 (q6)(q6b) で機械検査してから)。
 // ■ 第310便c(統括の検証項目 R224・運用の正本 追記 28 ⑤): **同じ md を書く 2 段の順**(版 w310c-regentable-10)
 //   ・段 kf0ledger-old(tests/exp-w274a-kf0ledger.mjs)と kf0ledger(tests/exp-w275a-kf0ledger.mjs)は、どちらも outs の外の
-//     docs/KF0_LEDGER_v1.45.md を書く(正本 JSON は別)。表に順が無く、第309便の鎖で同じ時刻に始まって旧の生成器が後に終わり、
+//     docs/KF0_LEDGER.md を書く(正本 JSON は別)。表に順が無く、第309便の鎖で同じ時刻に始まって旧の生成器が後に終わり、
 //     旧の版の md が残った(前便までは順が偶然よかった)。md を読む QA は今の版(kf0ledger-w275a.json)と照合する。
 //   ・処置(**依存 —— 新を後**): kf0ledger の after に 'kf0ledger-old' を足し、2 段の `touches` に md を宣言した。器は変えない
 //     (器の code の sha が動かない —— 正本の再生成を呼ばない)。
@@ -342,11 +343,11 @@ export const REGEN_STEPS = [
   // 第283便e: cmd は 1 行のシェルでない(部分走行 4 本 + --merge)—— 鎖は「手動の段」として止まる(済み印を置けば進む)
   S('emgrid', 'node tests/exp-w280b-emgrid.mjs(4 部分 + --merge —— 第280便の chain2c と同じ分割)', ['tests/out/emgrid-w280b.json'], 2295, { secSource: 'w281a-chain', node: true, manual: true }),
   // ---- 後段(calaudit と署名の後 —— 読む正本が揃ってから)
-  // 第310便c(R224): 2 段とも docs/KF0_LEDGER_v1.45.md を書く(touches)—— 今の版(kf0ledger)を後に(after に kf0ledger-old)。
+  // 第310便c(R224): 2 段とも docs/KF0_LEDGER.md を書く(touches)—— 今の版(kf0ledger)を後に(after に kf0ledger-old)。
   S('kf0ledger-old', 'node tests/exp-w274a-kf0ledger.mjs', ['tests/out/kf0ledger-w274a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'calcontract'],
-    touches: ['docs/KF0_LEDGER_v1.45.md'] }),
+    touches: ['docs/KF0_LEDGER.md'] }),
   S('kf0ledger', 'node tests/exp-w275a-kf0ledger.mjs', ['tests/out/kf0ledger-w275a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'presetaxes', 'calcontract', 'kf0ledger-old'],
-    touches: ['docs/KF0_LEDGER_v1.45.md'] }),
+    touches: ['docs/KF0_LEDGER.md'] }),
   S('charonInput', 'node tests/exp-w280d-charonInput.mjs', ['tests/out/charoninput-w280d.json'], 603, { secSource: 'w281a-chain', after: ['kf0'] }),
   S('geo3', 'node tests/exp-w280c-geo3.mjs', ['tests/out/geo3-w280c.json'], 1016, { secSource: 'w281a-chain', after: ['kf0', 'bgbudget2'],
     env: { W280_BASE: 'beta/_w280_base.html(第280便の基点 d0286cf の beta/index.html —— 項目 g・h の対照)' } }),
@@ -385,7 +386,7 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/obscompare-w285d.json': META_RUN.concat(['/elapsedS']) },
     note: '第285便d: 正本の量ごとの行の転記(判定しない)。枝 b の診断正本 tests/out/pn1-w285b.json があれば obsCompareRows を λ_PN=0 の対照として足す(統合で b の段 pn1 を after に入れた —— 第285便の鎖 2 で pn1 の前に走り check-order が順序違反を出した)' }),
   S('samplestatus', 'node tests/exp-w279a-samplestatus.mjs && node tests/exp-w279a-samplestatus.mjs --check', ['tests/out/samplestatus-w279a.json'], 2, { alwaysRun: true, after: ['kf0', 'charonwin', 'obscompare', 'assessed'],
-    touches: ['beta/index.html', 'docs/SAMPLE_STATUS_v1.45.md'], htmlRegions: ['sample-status'] }),
+    touches: ['beta/index.html', 'docs/SAMPLE_STATUS.md'], htmlRegions: ['sample-status'] }),
   // 第288便f(原仮定者の裁定(第78報)AN90・R118): **集約段**。書く段(obscompare → samplestatus)が $REGEN_HTML_STAGE に置いた断片を順に当て、
   //   beta/index.html を 1 回だけ置き換える(断片が合わなければ書かずに rc 1)。常時群(断片が無ければ何もしない —— 所要 1 s 未満)。
   //   html を書くので単独(exclusive)。html 全体を読む下流の段(after に samplestatus を持っていた段)は、この段の後に置く
@@ -454,9 +455,9 @@ export const REGEN_STEPS = [
   // 第287便f(AN69): families の領域(REGEN_SCOPE の roots)は SAMPLE_STATUS(生成領域 sample-status —— samplestatus が書く)を読む ——
   //   html を書く段の検査 ⑤ が見つけた after 欠落。samplestatus の後に置く(samplestatus は families を読まない —— 循環なし)
   S('families', 'node tests/exp-w283b-families.mjs', ['tests/out/families-w283b.json'], 8, { secSource: 'w283b-branch', node: true, after: ['calaudit', 'dt3', 'kf0', 'samplestatus'],
-    touches: ['docs/FAMILIES_v1.45.md'],
+    touches: ['docs/FAMILIES.md'],
     volatilePaths: { 'tests/out/families-w283b.json': META_RUN.concat(['/elapsedS']) },
-    note: '第283便b: 家族 21・鍵ごとの差・推定の列・候補(畳まない)・退役 7 本の棚卸し。一覧 docs/FAMILIES_v1.45.md も同じ器が書く(QA docs.families が照合)' }),
+    note: '第283便b: 家族 21・鍵ごとの差・推定の列・候補(畳まない)・退役 7 本の棚卸し。一覧 docs/FAMILIES.md も同じ器が書く(QA docs.families が照合)' }),
   // ---- 第283便b(第73報④・R84): 退役 7 本を名指しする**表の外の器**のうち tests/out に出力が残るもの —— **履歴**として登録する
   //   (再生成しない。退役の本を走らせ直す段を現行の計画に入れない)。退役後も走る器(rotorledger・analogy)は凍結の写しを読む。
   //   凍結の写しそのもの(tests/fixtures/retired-w283b.json —— 器 tests/exp-w283b-retiredfx.mjs が基点 de9e39b から 1 度だけ作る)は
@@ -1782,8 +1783,27 @@ export function planRegen(o) {
         }
       } else if (shaFile(abs(t)) !== m.targetSha256) { why.push(out + ': 対象 ' + t + ' の hash が違う'); cause('入力(対象): ' + t); }
       // コード
+      // 第318便a(原仮定者の裁定(第120報)・決断事項 AN427 ⑤・統括の検証項目 R254): 刻印の道具(SCOPE_TOOLING)を刻印だけに使う器(toolStampOnly)は、
+      //   道具の sha の違いを「式」にしない —— 刻印(領域 hash・入力の安定 hash)を今の道具で引き直して照合するだけ(一致 → 走らせ直さない・
+      //   row.toolChecked に記録 / 不一致 → regen「道具(照合が不一致)」)。道具を計算に使う器と器・lib のコードの変更は従来どおり regen。
       if (!Array.isArray(m.code) || !m.code.length) { why.push(out + ': 器・lib の刻印が無い'); cause('刻印が無い'); }
-      else for (const c of m.code) if (c.sha256 && shaFile(abs(c.file)) !== c.sha256) { why.push(out + ': コード ' + c.file + ' が変わった'); cause('式(器・lib): ' + c.file); }
+      else {
+        const toolDrift = [];
+        const codeFiles = m.code.map((z) => z.file);
+        for (const c of m.code) if (c.sha256 && shaFile(abs(c.file)) !== c.sha256) {
+          if (SCOPE_TOOLING.includes(c.file) && toolStampOnly(root, codeFiles, c.file)) { toolDrift.push(c.file); continue; }
+          why.push(out + ': コード ' + c.file + ' が変わった'); cause('式(器・lib): ' + c.file);
+        }
+        if (toolDrift.length) {
+          // 照合は計画の対象 html(--html の候補を含む)で引く —— 領域は刻印の版で・安定 hash は刻印の行の版で
+          const rc = { why: [] };
+          if (m.scope && m.scopeComplete === true && /\.html$/.test(String(t || ''))) { const hA2 = (t === 'beta/index.html') ? htmlAbs : abs(t); if (scopeOn(hA2, m.scope) !== m.scopeSha256) rc.why.push('領域 hash'); }
+          for (const z of (m.inputsStable || [])) if (!stableMatches(root, z)) rc.why.push('安定 hash ' + z.file);
+          rc.ok = rc.why.length === 0;
+          if (rc.ok) { row.toolChecked = (row.toolChecked || []).concat(toolDrift.map((f) => out + ':' + f)); }
+          else { why.push(out + ': 道具 ' + toolDrift.join(',') + ' が変わり、刻印を今の道具で引き直すと一致しない(' + rc.why.slice(0, 2).join('・') + ')'); cause('道具(照合が不一致): ' + toolDrift.join(',')); }
+        }
+      }
       // 第284便f(原仮定者の裁定(第74報)AN43): **刻印の Pointer ≠ 今の宣言 → regen**(第283便は刻印の Pointer で照合して再利用し、
       //   宣言を足した後も古い Pointer の刻印が残った —— 刻み直すまで「今の宣言で同じ」かは分からない)
       for (const z of (m.inputsStable || [])) {
@@ -1820,6 +1840,7 @@ export function planRegen(o) {
     if (st.alwaysRun) { row.status = 'always'; row.reasons = ['常時群'].concat(why); }
     else if (why.length) { row.status = 'regen'; row.reasons = why; }
     else row.status = 'reuse';
+    if (row.toolChecked && row.status === 'reuse') row.reasons.push('道具の変更は刻印を今の道具で引き直して一致(走らせ直さない —— 第318便a の「道具」の照合): ' + row.toolChecked.slice(0, 3).join(', '));
     // 第283便e: 依存の伝播の前の**自分の判定**(鎖の --gate が上流の走行後に引き直す値)
     row.ownStatus = row.status;
     rows.set(st.key, row);
@@ -1867,6 +1888,8 @@ export function planRegen(o) {
   for (const r of list) count[r.status] = (count[r.status] || 0) + 1;
   return {
     version: REGEN_TABLE_VERSION,
+    // 第318便a(AN427 ⑤): 道具の変更を刻印の照合で通した段の数(status の数とは別の欄 —— 走らせない)
+    toolChecked: list.filter((r) => r.toolChecked && r.toolChecked.length).length,
     html: htmlAbs.replace(root + '/', ''), htmlSha256: htmlSha,
     baseHtml: o.baseHtml ? o.baseHtml.replace(root + '/', '') : null, baseSha256: baseSha,
     count,
@@ -2731,7 +2754,7 @@ export function htmlTailAudit(o) {
     if (!segs) {
       const stop = stopSetOf(m.scope.version);   // 第316便d(AN422 ②): 刻印の版の停止集合(版 5 = SCOPE_STOP・版 4 = SCOPE_STOP_4・それ以前 = SCOPE_STOP_3 —— 第286便d の 2 分岐と同じ規則)
       let cl = null;
-      try { cl = closureOf(P.parsed, sc.roots, undefined, { hardStop: stop }); } catch { cl = null; }
+      try { cl = closureOf(P.parsed, sc.roots, DATA_REGISTRIES.concat(textRegistriesOf(m.scope.version)), { hardStop: stop }); } catch { cl = null; }   // 第318便a: 文の登録簿も刻印の版で
       segs = cl ? cl.segIdx.map((i) => P.parsed.segments[i]) : [];
       for (const nm of sc.consts) for (const s of P.parsed.segments) if ((s.names || []).includes(nm)) segs.push(s);
       P.closures.set(ck, segs);
@@ -3672,7 +3695,7 @@ export function an43Probe(o) {
  */
 export function touchOrderProbe(steps) {
   const S0 = steps || REGEN_STEPS;
-  const MD = 'docs/KF0_LEDGER_v1.45.md';
+  const MD = 'docs/KF0_LEDGER.md';
   const now = touchWritersAudit(S0);
   const w = now.writers.find((z) => z.file === MD);
   const s1 = { unordered: now.unordered.map((z) => z.file + ':' + z.a + '|' + z.b), writers: now.writers.map((z) => z.file + '←' + z.keys.join('+')),

@@ -30,7 +30,7 @@ export const BH_CORE_VERSION = 'w274e-1';
 
 /**
  * DFM 版ブラックホールの共通状態の欄。**この並びが正本**で、
- * docs/BH_DESIGN_v1.45.md §2 の表と QA `docs.bhDesignSync` が突き合わせる。
+ * docs/BH_DESIGN.md §2 の表と QA `docs.bhDesignSync` が突き合わせる。
  */
 export const CORE_STATE_KEYS = ['M_rest', 'M_grav', 'R_core', 'X', 'P',
   'J_spin', 'J_mesh', 'E_core', 'E_mesh', 'Q'];

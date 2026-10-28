@@ -22,7 +22,7 @@
 //   ・「kF0 版が成立した」「引きずりが消えた」とは書かない ——**ラベルは候補**である。
 //
 // 実行: node tests/exp-w274a-kf0ledger.mjs
-// 出力: tests/out/kf0ledger-w274a.json(正本)・docs/KF0_LEDGER_v1.45.md(機械生成の表)
+// 出力: tests/out/kf0ledger-w274a.json(正本)・docs/KF0_LEDGER.md(機械生成の表)
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -30,7 +30,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_JSON = path.join(ROOT, 'tests', 'out', 'kf0ledger-w274a.json');
-const OUT_DOC = path.join(ROOT, 'docs', 'KF0_LEDGER_v1.45.md');
+const OUT_DOC = path.join(ROOT, 'docs', 'KF0_LEDGER.md');
 
 export const LEDGER_VERSION = 'w274a-1';
 export const COL = { OK: '✓', NG: '✗', NA: '未測定' };
