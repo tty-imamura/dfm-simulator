@@ -925,11 +925,19 @@ export function deriveScope(htmlPath, codeFiles) {
   for (const s of X.parsed.segments) for (const nm of s.names) topNames.add(nm);
   const hpx = hpProps(X.parsed);
   const ids = new Set(X.L && X.L.HP ? X.L.evalExpr('BUILTIN_PRESETS').map((p) => p.id) : []);
-  const roots = new Set(), presets = new Set();
+  const roots = new Set(), presets = new Set(), consts = new Set();
   let all = false;
   const allWhy = [];
   for (const cf of codeFiles) {
     const sc = scanJs(cf.text);
+    // 第318便a(AN427 ①②): 版 6 で足した文の表を器が**直に**読む(HP.<表>・引用符の名 —— REGEN_SCOPE の行は除く)なら consts の下限に入れる
+    //   (表は閉包で辿らないので、読む器は評価値を領域に入れる)。素の識別子は器の局所変数との同名なので数えない
+    {
+      const txt = cf.text.split('\n').filter((l) => !/^const REGEN_SCOPE = /.test(l)).join('\n');
+      for (const nm of TEXT_REGISTRIES_ADDED_318) {
+        if (new RegExp('\\bHP\\s*\\.\\s*' + nm + '\\b').test(scanJs(txt).code) || new RegExp('([\'"`])' + nm + '\\1').test(txt)) consts.add(nm);
+      }
+    }
     for (const m of sc.code.matchAll(/\bHP\s*\.\s*([A-Za-z_$][\w$]*)/g)) if (hpx.props.has(m[1])) roots.add('HP.' + m[1]);
     for (const id of identsOf(sc.code)) if (topNames.has(id) && id !== 'HP') roots.add(id);
     for (const m of cf.text.matchAll(/(['"`])([A-Za-z_$][\w$]*)\1/g)) {
@@ -946,7 +954,8 @@ export function deriveScope(htmlPath, codeFiles) {
     }
   }
   for (const r of [...roots]) if (DATA_REGISTRIES.includes(r) || TEXT_REGISTRIES.includes(r)) roots.delete(r);
-  return { presets: all ? 'all' : [...presets].sort(), roots: [...roots].sort(), allWhy };
+  for (const r of [...roots]) if (/^HP\./.test(r) && TEXT_REGISTRIES_ADDED_318.includes(r.slice(3))) roots.delete(r);   // 第318便a: HP.<表> は consts で覆う
+  return { presets: all ? 'all' : [...presets].sort(), roots: [...roots].sort(), allWhy, consts: [...consts].sort() };
 }
 
 /** 宣言が下限を覆っているか(presets: 'all' か上位集合 / roots: 宣言 roots の閉包が下限の roots を全部含む)。 */
@@ -967,6 +976,8 @@ export function coversDerived(htmlPath, decl, derived) {
     if (DATA_REGISTRIES.includes(r) || TEXT_REGISTRIES.includes(r)) continue;
     miss.push('root ' + r);
   }
+  // 第318便a: 器が直に読む文の表は consts に宣言する(評価値が領域に入る)
+  for (const c of (derived.consts || [])) if (!sc.consts.includes(c)) miss.push('const ' + c + '(文の表を直に読む —— consts に宣言する)');
   return { ok: miss.length === 0, miss };
 }
 
