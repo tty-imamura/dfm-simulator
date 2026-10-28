@@ -78,10 +78,10 @@ export function physicsTablesSatNext(J) {
 }
 /**
  * 第317便の記録の訂正の表: 第317便a の正本(satmeas-w317a.json —— 基の格子・窓 64・h/4)の三体ガニメデとトリトンの測る量の値と、
- * 第317便b の正本(satn-w317b.json)の K2 の同じ半径の行の二体の q11 − q10(窓 32・h/4)。Ja = 第317便d の正本(satan-w317d.json)の二体の解析の一次は本文に書く。
+ * 第317便b の正本(satn-w317b.json)の K2 の同じ半径の行の二体の q11 − q10(窓 8〜32・h/4)と、第317便d の正本(satan-w317d.json —— Ja)の二体の解析の一次(tb・K2 の引きずり)。
  */
 export const CORR_MEASURES = Object.freeze([['pass', '通過の窓'], ['M0', 'M0'], ['EIg', 'E_I(Δ)'], ['ECg', 'E_C(Δ)〔座標速度〕'], ['EX', 'E_X〔位置だけ〕'], ['direct', '差の回帰(固定の ê₀)'], ['directRot', '差の回帰(回る ê₁₀)'], ['syn', '会合周期の窓']]);
-export function correctionTable317(Jm, Jn) {
+export function correctionTable317(Jm, Jn, Ja) {
   const out = [];
   if (Jm && Jm.M) {
     const sys = Jm.M.grids.base.systems, ms = CORR_MEASURES.filter(([k]) => ['ganymede|three', 'triton|three'].every((s) => sys[s] && sys[s].measures[k]));
@@ -90,9 +90,10 @@ export function correctionTable317(Jm, Jn) {
       out.push(`| ${SAT_JA[s.split('|')[0]]} | ${ms.map(([k]) => ex(z.measures[k].v, 5)).join(' | ')} | ${ms.every(([k]) => z.measures[k].determined === false) ? 'どれも決まらない' : '—'} |`); }
   }
   if (Jn && Jn.J2) {
-    out.push('', '| 第317便b の K2(同じ半径・n = 2 —— 正本 satn-w317b.json)の二体の q11 − q10(M0・h/4)[″/世紀] | 窓 8 | 窓 16 | 窓 32 |', '|---|---|---|---|');
+    out.push('', '| 第317便b の K2(同じ半径・n = 2 —— 正本 satn-w317b.json)の二体の q11 − q10(M0・h/4)[″/世紀] | 窓 8 | 窓 16 | 窓 32 | 解析の一次(二体の質量の因子 tb・K2 の引きずり —— 第317便d の正本 satan-w317d.json) |', '|---|---|---|---|---|');
     for (const k of ['io', 'europa', 'ganymede']) { const z = Jn.J2.systems[k] && Jn.J2.systems[k]['k2same|n=2']; if (!z) continue;
-      out.push(`| ${SAT_JA[k]} | ${['8', '16', '32'].map((N) => ex(z.m0.byWin[N].byDiv['4'].dDG, 4)).join(' | ')} |`); }
+      const a = Ja && Ja.R && Ja.R.systems[k] && Ja.R.systems[k].byN['2'] ? Ja.R.systems[k].byN['2'].K2.tb.drag : null;
+      out.push(`| ${SAT_JA[k]} | ${['8', '16', '32'].map((N) => ex(z.m0.byWin[N].byDiv['4'].dDG, 4)).join(' | ')} | ${ex(a, 5)} |`); }
   }
   return out.join('\n');
 }
@@ -108,6 +109,6 @@ if (IS_MAIN && process.argv.includes('--tables')) {
   const J = JSON.parse(fs.readFileSync(i >= 0 ? process.argv[i + 1] : path.join(ROOT, 'tests/out/satnext-w318b.json'), 'utf8'));
   const rdj = (f) => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8')); } catch (e) { return null; } };
   console.log(physicsTablesSatNext(J));
-  console.log('\n' + correctionTable317(rdj('tests/out/satmeas-w317a.json'), rdj('tests/out/satn-w317b.json')));
+  console.log('\n' + correctionTable317(rdj('tests/out/satmeas-w317a.json'), rdj('tests/out/satn-w317b.json'), rdj('tests/out/satan-w317d.json')));
   console.log('\n' + docNumbersSatNext(J).join(' / '));
 }

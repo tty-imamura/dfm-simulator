@@ -88964,12 +88964,13 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
     const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
     const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
-    let J = null, Jc = null, Jm = null, Jn = null;
+    let J = null, Jc = null, Jm = null, Jn = null, Ja = null;
     if (err0) bad.push('器/lib が読めない: ' + err0);
     try { J = JSON.parse(fs.readFileSync(bOut, 'utf8')); } catch (e) { bad.push('正本 satnext が読めない'); }
     try { Jc = JSON.parse(fs.readFileSync(cOut, 'utf8')); } catch (e) { Jc = null; }
     try { Jm = JSON.parse(rd('tests/out/satmeas-w317a.json')); } catch (e) { Jm = null; }
     try { Jn = JSON.parse(rd('tests/out/satn-w317b.json')); } catch (e) { Jn = null; }
+    try { Ja = JSON.parse(rd('tests/out/satan-w317d.json')); } catch (e) { Ja = null; }
     if (J && X && D) {
       try {
         // ①
@@ -88999,7 +89000,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         // ④
         if (!sec) bad.push('PHYSICS〔第318便b〕が無い');
         else {
-          const rows = D.physicsTablesSatNext(J).split('\n').concat(D.correctionTable317(Jm, Jn).split('\n')).filter((l) => l.startsWith('|') && !l.startsWith('|---'));
+          const rows = D.physicsTablesSatNext(J).split('\n').concat(D.correctionTable317(Jm, Jn, Ja).split('\n')).filter((l) => l.startsWith('|') && !l.startsWith('|---'));
           let nMiss = 0; for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第318便b〕の表に行が無い: ' + r.slice(0, 70)); }
           const nums = D.docNumbersSatNext(J), missN = nums.filter((x) => sec.indexOf(x) < 0); if (missN.length) bad.push('PHYSICS〔第318便b〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
           if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第318便b〕が「## 7. 論文」の後');
