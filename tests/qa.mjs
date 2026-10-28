@@ -26837,6 +26837,8 @@ if (!FAST) {
       o.has290c = HP.allPresets().some((z) => z.id === 'inertialDragPair');
       o.has295c = HP.allPresets().some((z) => z.id === 'plutoCharonInertial' && z.physics && z.physics.massPrecision === 'double');   // 第295便c: 🟣 は 🥶 の写しなので double を宣言(8→9)   // 第290便c: 🐌 も double を宣言(新法則版 relativeDrag.law:"inertial" の診断本・6→7)
       o.n296b = HP.allPresets().filter((z) => z.referenceKind === 'observation-fit' && z.physics && z.physics.massPrecision === 'double').length;   // 第296便b: 🟪 は 🟣 の写しなので double を宣言(9→10)
+      // 第318便c(原仮定者の指示(第120報)・R256): 🗺️ solarSystem16Inertial3d も double を宣言する(入力の宣言のまま)・softeningFloor 1e-4 を宣言する(入力の宣言のまま)
+      o.has318c = HP.allPresets().some((z) => z.id === 'solarSystem16Inertial3d' && z.physics && z.physics.massPrecision === 'double');
       o.nSoftFloor = HP.allPresets().filter((z) => z.physics && z.physics.softeningFloor !== undefined).length;
       // 第304便c(R197): 内蔵で softeningFloor を宣言する本(🌦️🌔 の基線の見直し)—— ID・較正クラスでない・softening ≥ 宣言の下限 ≥ 最小
       o.softFloorBooks = HP.allPresets().filter((z) => z.physics && z.physics.softeningFloor !== undefined).map((z) => ({ id: z.id, cls: z.sampleClass,
@@ -26846,15 +26848,17 @@ if (!FAST) {
       return o;
     });
     add('preset.massPrecision',
-      r.badDropped && r.singleNotCanonical && r.doubleCanonical && r.f64 && r.f32Default && r.nMassPrec === (r.has280d ? 4 : 2) + (r.has287a ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has290c ? 1 : 0) + (r.has295c ? 1 : 0) + (r.n296b || 0),
+      r.badDropped && r.singleNotCanonical && r.doubleCanonical && r.f64 && r.f32Default && r.nMassPrec === (r.has280d ? 4 : 2) + (r.has287a ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has290c ? 1 : 0) + (r.has295c ? 1 : 0) + (r.n296b || 0) + (r.has318c ? 1 : 0),
       `不正値は警告つき削除=${r.badDropped} / 既定 "single" は正準形に出ない(署名同一)=${r.singleNotCanonical} / `
       + `"double" は正準形と署名に入る=${r.doubleCanonical} / build で S.m・S.mEff が Float64Array=${r.f64} / `
       + `**未宣言の本は Float32 のまま**(❄️ で確認・自転も Float32)=${r.f32Default} / `
-      + `内蔵の宣言 ${r.nMassPrec} 本(第277便b の ⛄🌨️${r.has280d ? '・第280便d の 🥶☃️' : ''}${r.has287a ? '・第287便a の 🌰' : ''}${r.has288a ? '・第288便a の 🥜' : ''}${r.has290c ? '・第290便c の 🐌' : ''})`);
+      + `内蔵の宣言 ${r.nMassPrec} 本(第277便b の ⛄🌨️${r.has280d ? '・第280便d の 🥶☃️' : ''}${r.has287a ? '・第287便a の 🌰' : ''}${r.has288a ? '・第288便a の 🥜' : ''}${r.has290c ? '・第290便c の 🐌' : ''}${r.has318c ? '・第318便c の 🗺️' : ''})`);
     // 第304便c(R197): 世代切替 —— 内蔵で softeningFloor を宣言してよいのは第303便の宣言の写し(tests/data-w304c-decl303.json)の本だけ(第304便c の基線の見直し)。無い世代は 0 本
     let sf304 = [];
     try { sf304 = Object.keys(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w304c-decl303.json'), 'utf8')).decl || {}); } catch (e) { sf304 = []; }
-    const sfOk = r.nSoftFloor === 0 || (r.softFloorBooks.every((z) => z.ok && sf304.includes(z.id)) && r.nSoftFloor === r.softFloorBooks.length);
+    // 第318便c(原仮定者の指示(第120報)・R256): 🗺️ solarSystem16Inertial3d も入力の宣言どおり softeningFloor 1e-4(最小と同値 —— 較正クラスでない・softening ≥ 下限 ≥ 最小)を持つ
+    const sfAllow318 = ['solarSystem16Inertial3d'];
+    const sfOk = r.nSoftFloor === 0 || (r.softFloorBooks.every((z) => z.ok && (sf304.includes(z.id) || sfAllow318.includes(z.id))) && r.nSoftFloor === r.softFloorBooks.length);
     add('preset.softeningFloor',
       r.calibRejected && r.diagAccepted && r.floorClamped && r.defaultClamp && r.floorEqualDropped
       && r.mfsDeclared && r.mfsFalseDropped && sfOk && r.nMfs === 0,

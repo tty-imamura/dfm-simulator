@@ -391,7 +391,7 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satAn317d docs.paper3Key317d docs.paper
 # 第318便c(原仮定者の指示(第120報)・R256): 枝 c の新設 2 本(behavior.solar16Builtin318c —— 太陽系 16 体の内蔵の本の宣言と走り・docs.solar16Builtin318c —— 正本と文書)と、
 #   世代切替を受けた docs.solar16Contract300(予約 id が内蔵に 1 本)・lint.presetText316b(並びの照合から新本を除く)・docs.sampleStatus-sync(root で beta だけの本を除く)・正本の段の lint.regenScope・lint.stableHashPaths・
 #   lint.regenChain・CANON の lint.canon304・lint.qaHeapRelease310・lint.sectionLookup313・lint.scopeStop
-DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.solar16Builtin318c docs.solar16Builtin318c docs.solar16Contract300 lint.presetText316b docs.sampleStatus-sync docs.preset-table-sync preset.multiParticleContract behavior.inertialDragGate theory.refs-all lint.regenScope lint.stableHashPaths lint.regenChain lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.scopeStop"
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.solar16Builtin318c docs.solar16Builtin318c docs.solar16Contract300 lint.presetText316b docs.sampleStatus-sync docs.preset-table-sync preset.multiParticleContract behavior.inertialDragGate theory.refs-all preset.massPrecision preset.softeningFloor lint.regenScope lint.stableHashPaths lint.regenChain lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.scopeStop"
 # ==== 第318便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
