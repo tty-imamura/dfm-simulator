@@ -88901,7 +88901,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第317便d の塊(ここまで)====
 // ==== 第318便a の塊(ここから —— lint.textRegistry318・lint.toolStamp318・ui.symDisp318・lint.axialSymbol318・lint.docNames318・docs.scopeProbe318・docs.w318a の 7 ブロック。統合で他の枝の塊と混ぜない)====
-// ---- 第318便a(原仮定者の裁定(第120報)「概ね添付の提案に同意」・決断事項 AN427 ①〜④・統括の検証項目 R254): lint.textRegistry318 —— **受理の判定と理由の文を分けた・文の登録簿**(新設 —— root は SKIP)。
+// ---- 第318便a(原仮定者の裁定(第120報)・決断事項 AN427 ①〜④・統括の検証項目 R254): lint.textRegistry318 —— **受理の判定と理由の文を分けた・文の登録簿**(新設 —— root は SKIP)。
 // ----   世代切替 = beta 対象 ∧ html の `const TEXT_REGISTRY_318_VERSION="w318a-text-registry-1"`。headless の写しで:
 // ----   ① 文の登録簿(版 6 の TEXT_REGISTRIES_ADDED_318 —— ACCEPT_REASONS・LAWS・SYSTEM_PROMPT)が最上位にあり、葉が文字列/関数だけ(ACCEPT_REASONS は文字列か文字列を返す関数・
 // ----      LAWS は ja/en の文字列・SYSTEM_PROMPT は文字列)。物理を選ぶ鍵の値を持たない(ACCEPT_REASONS の項の値に数・配列・object が無い)
@@ -89264,7 +89264,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (PM.indexOf('# ==== 第318便a の塊(ここから)====') < 0 || !/lint\.textRegistry318/.test(PM) || !/docs\.w318a/.test(PM)) bad.push('post-merge の ③′ に第318便a の塊が無い');
     if (GI.indexOf('!tests/out/scopeprobe-w318a.json') < 0) bad.push('.gitignore の例外 scopeprobe-w318a.json が無い');
     // 禁句(引用も含めて)と書かない語(「」の引用を除いて)
-    const BAN = ['私信', '添付', '審査', '再現した', '再現しない', '合わせられない', '普遍定数'];
+    const BAN = [String.fromCodePoint(0x79c1, 0x4fe1), String.fromCodePoint(0x6dfb, 0x4ed8), String.fromCodePoint(0x5be9, 0x67fb), String.fromCodePoint(0x518d, 0x73fe, 0x3057, 0x305f), String.fromCodePoint(0x518d, 0x73fe, 0x3057, 0x306a, 0x3044), String.fromCodePoint(0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044), String.fromCodePoint(0x666e, 0x904d, 0x5b9a, 0x6570)];   // 禁句(コード点で持つ —— 本文に語を書かない)
     const NOT = ['フィットした', '較正した', '収束した', '完全に一致', '法則を確かめた', '検証が完了した'];
     for (const [nm, t] of [['節', sec], ['§147', s147]]) {
       for (const w of BAN) if (t.indexOf(w) >= 0) bad.push(nm + 'に禁句「' + w + '」');

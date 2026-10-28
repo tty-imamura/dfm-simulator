@@ -49,7 +49,7 @@
 //     (calaudit-w249-diag.json)は**随伴ファイル**として別の行で安定 hash を刻む(`stableInputs` —— 再生成表の
 //     `STABLE_COMPANIONS`)。方式の版 `STABLE_VERSION` は変えない(Pointer の並びは hash の本文に入っている)。
 //
-// ■ 第318便a(原仮定者の裁定(第120報)「概ね添付の提案に同意」・決断事項 AN427 ①〜⑤・統括の検証項目 R254)—— **版 6(w318a-scope-6)**
+// ■ 第318便a(原仮定者の裁定(第120報)・決断事項 AN427 ①〜⑤・統括の検証項目 R254)—— **版 6(w318a-scope-6)**
 //   ・文の登録簿(TEXT_REGISTRIES)に受理器の理由の文の表 ACCEPT_REASONS・理論用語集 LAWS・AI の生成の仕様 SYSTEM_PROMPT を足した(閉包で辿らない ——
 //     判定のコードは閉包に残り、文だけが表から引かれる)。版 1〜5 の刻印は版 5 までの登録簿 TEXT_REGISTRIES_5(I18N だけ)で引き直す。
 //   ・説明文の欄に本の名 name と abBody.label を足した(版 6 だけ —— PROSE_KEYS_ADDED_318・AB_BODY_PROSE_KEYS)。referenceKind・law・kernel・rdRule は
