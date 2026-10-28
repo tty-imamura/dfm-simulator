@@ -4,7 +4,7 @@
  "generator": "tests/exp-w300b-emonly.mjs",
  "ruling": "原仮定者の裁定(第90報)③・統括の検証項目 R176",
  "target": "beta/index.html",
- "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+ "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
  "parts": {
   "decl": {
    "rule": "🌦️ の地球→月の相対位置・相対速度を質量比で分け、地球–月の重心を原点・重心速度 0 に置いた(太陽を外す)・physics は 🌦️ の写しで relativeDrag.pairs を [[0,1]] へ",
@@ -123,7 +123,7 @@
    "momRel": 0,
    "relPosRel": 0,
    "relVelRel": 0,
-   "wallSec": 0.003
+   "wallSec": 0.001
   },
   "run": {
    "short": false,
@@ -176,7 +176,7 @@
        "synUniform": 29.727713690026132
       }
      ],
-     "wallSec": 13.591
+     "wallSec": 10.939
     },
     "ctrlH2": {
      "key": "ctrl-h2",
@@ -209,7 +209,7 @@
        "synUniform": 29.727709850259718
       }
      ],
-     "wallSec": 9.001
+     "wallSec": 7.763
     },
     "ctrlG0": {
      "key": "ctrl-gain0",
@@ -242,7 +242,7 @@
        "synUniform": 29.727713690026672
       }
      ],
-     "wallSec": 4.537
+     "wallSec": 3.913
     },
     "sunH": {
      "key": "sun3d-h",
@@ -271,7 +271,7 @@
        "synUniform": 29.521417538369015
       }
      ],
-     "wallSec": 4.929
+     "wallSec": 4.175
     },
     "sunHsplit": {
      "key": "sun3d-h-split",
@@ -302,7 +302,7 @@
        "synUniform": 29.530588764262017
       }
      ],
-     "wallSec": 6.308
+     "wallSec": 5.25
     }
    },
    "check": {
@@ -357,36 +357,36 @@
     "sid": 0.000003283532173270487,
     "synUniform": 0.000003839766954172319
    },
-   "wallSec": 38.372
+   "wallSec": 32.045
   }
  },
  "timing": {
-  "wallSec": 40.325
+  "wallSec": 33.645
  },
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第300便b",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T13:08:01.689Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-28T21:09:46.724Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/out/moon3d-w298c.json",
-    "bytes": 26574,
-    "sha256": "d3f4c7cd9de98bea61db6ee94492d9698c20ed094ddbe81085a07bc7769820ee",
-    "mtime": "2026-10-26T12:11:04.055Z"
+    "bytes": 26562,
+    "sha256": "204b58713709ae85c83122c936fdc360d77a695412b36e9991b637c76e308c03",
+    "mtime": "2026-10-28T20:10:09.417Z"
    },
    {
     "file": "tests/out/synodic-w299b.json",
-    "bytes": 35518,
-    "sha256": "19a0702f170e3a87e1d7cef29017a679115e13dc83b8a6db717f501508b5143d",
-    "mtime": "2026-10-26T13:07:19.359Z"
+    "bytes": 35514,
+    "sha256": "af1a118f763363be70e948c16d00f7612103faeb92b703dfa667c3fe3d73ad6d",
+    "mtime": "2026-10-28T21:09:11.181Z"
    },
    {
     "file": "tests/data-w303a-decl302.json",
@@ -434,9 +434,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    },
    {
     "file": "tests/lib-w303a-pre.mjs",
@@ -451,7 +451,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "004d92c7bf95e6437c2835a9de484eadf8981f91deb4750fac2eb34d63546cfa",
+  "codeSha256": "4d8e32301ed9c3b47d4897cbb96e62a06bc794a78dc66f30f8b7f2a819a9ecbd",
   "harnessVersion": "w300b-emonly-1",
   "extractorVersion": "w300b-em3-1",
   "parts": [
@@ -468,7 +468,7 @@
    "この本の gain はフィット"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": [
     "earthMoonOnly3d",
     "earthMoonSunInertial3d"
@@ -501,16 +501,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1313,
-   "segments": 1154,
-   "closureShare": 0.3081
+   "names": 1311,
+   "segments": 1152,
+   "closureShare": 0.2961
   },
-  "scopeSha256": "3b5fcebb680508787cea888421a3e6de9fa7fd2a6495c6bc6b54d78c9ed97dd4",
+  "scopeSha256": "67ca28426dd15dc43d71b23c40df07d9bccc77ff763eb85ef2ad48cbacc7c37d",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/moon3d-w298c.json",
-    "stableSha256": "ee4d503d7ae4b65da69bb9f83f394eb3bef5aa62c1e9f283edd16e2b396bdb65",
+    "stableSha256": "c159b6a1194db8a934ee018dd753ca85f25479c595b697b82ebe8092e7ef0245",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -524,7 +524,7 @@
    },
    {
     "file": "tests/out/synodic-w299b.json",
-    "stableSha256": "5cfc39e3c7edb930a27284cc0c7ab3e46e3e56b087d231fafbe3864856b7ca31",
+    "stableSha256": "62fd61ff29a4029cd1f8efcb3e527a8ca0174f71aa62835f21b74695de2e1e28",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -553,5 +553,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 40.325
+ "elapsedS": 33.645
 }
