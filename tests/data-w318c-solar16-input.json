@@ -1,0 +1,420 @@
+{
+  "id": "solarSystem16GeoPN3K1J2000",
+  "name": "太陽系16体 J2000・DFM K1",
+  "description": "J2000.0 TDB・SSBのJPL暦表状態から作った16体の診断サンプル。軸と自転率は同元期のSPICE姿勢変換から求めた値を凍結し、半径はPCK参照楕円体の体積相当球。暦表への長期一致・永年率・観測較正は未検証。 G_loc n=2、K1質量比例半径、並進引きずりだけ。銀河・太陽の自転由来の追加引きずりは入れていない。",
+  "emoji": "🌞",
+  "sampleClass": "principle",
+  "scaleExp": {
+    "L": 9,
+    "T": 5,
+    "M": 28
+  },
+  "integrator": "leapfrog",
+  "timeRef": {
+    "basis": "orbit",
+    "pRef": 1.53048593443,
+    "pair": [
+      6,
+      7
+    ],
+    "def": "revolution",
+    "stepsPerOrbit": 1440,
+    "source": "イオの木星に対する接触軌道の周期(入力の元期 JD 2451545 TDB の状態から μ=G(m_J+m_Io)・DE441+MAR099+JUP365+SAT441+URA184+NEP098)"
+  },
+  "camera": {
+    "scale": 3000
+  },
+  "world": {
+    "boundary": "none",
+    "size": 0
+  },
+  "physics": {
+    "G": 6.674,
+    "D0": 0.1,
+    "kFrame": 0,
+    "q": 3,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 7.425826474101849e-9,
+    "cLight": 29979.2458,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "cHeat": 1,
+    "gravityX": 0,
+    "gravityY": 0,
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 0.0001,
+    "timeScale": 1,
+    "dispMag": 10,
+    "coord": "3d",
+    "massFloor": 0.000001,
+    "softeningFloor": 0.0001,
+    "radiusFloor": 0.001,
+    "stepDt": 0.0010628374544626486,
+    "stateCarry": "double",
+    "frameWeight": "share",
+    "contactMode": "none",
+    "relativeDrag": {
+      "law": "inertial",
+      "invSq": {
+        "Wbg2": 0,
+        "order": 8,
+        "kernel": "k1",
+        "rdRule": "kappaM"
+      },
+      "pairs": "all",
+      "history": "positions",
+      "initMotion": "observed"
+    },
+    "massPrecision": "double",
+    "gLoc": {
+      "law": "kappaC2",
+      "n": 2,
+      "pair": "receiver",
+      "kappa": "lock",
+      "ref": "background"
+    }
+  },
+  "bodies": [
+    {
+      "type": "single",
+      "m": 198.84992514426042,
+      "x": -1.0675970240124972,
+      "y": -0.41827134191658777,
+      "vx": 0.0009312603535969025,
+      "vy": -0.0012824742223686103,
+      "spin": 0.28653296576375425,
+      "pinned": false,
+      "radius": 0.6956999999999995,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 7.251726805680406,
+        "azimuthDeg": 345.76581951415443,
+        "source": "太陽の極 α0 286.13°・δ0 63.87° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to IAU_SUN at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": 0.030843716393519075,
+      "vz": -0.00001633391099069078
+    },
+    {
+      "type": "single",
+      "m": 0.00003301149018789333,
+      "x": -20.529323379866227,
+      "y": -67.3315466054406,
+      "vx": 3.700430446081516,
+      "vy": -1.1177240667842183,
+      "spin": 0.12398323930822497,
+      "pinned": false,
+      "radius": 0.002439773098613627,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 7.03692687866017,
+        "azimuthDeg": 318.23530039921775,
+        "source": "水星の極 α0 281.0103°・δ0 61.4155° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to IAU_MERCURY at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": -3.6490106273560197,
+      "vz": -0.4307791457768126
+    },
+    {
+      "type": "single",
+      "m": 0.000486752460293677,
+      "x": -108.52409107620305,
+      "y": -5.303286317789124,
+      "vx": 0.13912186327994155,
+      "vy": -3.5153119918670384,
+      "spin": -0.029924494208700664,
+      "pinned": false,
+      "radius": 0.006051799999999998,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 1.23900871439825,
+        "azimuthDeg": 30.186738527944367,
+        "source": "金星の極 α0 272.76°・δ0 67.16° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to IAU_VENUS at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": 6.166478016111922,
+      "vz": -0.05602056773919877
+    },
+    {
+      "type": "single",
+      "m": 0.0005972436852068066,
+      "x": -27.566630701442996,
+      "y": 144.27902545063276,
+      "vx": -2.9784947466901435,
+      "vy": -0.5482119681994287,
+      "spin": 7.292115069816146,
+      "pinned": false,
+      "radius": 0.006371000385249619,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 23.43771668642211,
+        "azimuthDeg": 90.00362815866637,
+        "source": "地球の極 α0 227.492596283°・δ0 89.9978642324° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to ITRF93 at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": 0.030232566967564076,
+      "vz": 0.0000018444568595942918
+    },
+    {
+      "type": "single",
+      "m": 0.000007346119446295399,
+      "x": -27.858239085630707,
+      "y": 144.00404570895955,
+      "vx": -2.9141416077912483,
+      "vy": -0.6213103664681389,
+      "spin": 0.26619606639829396,
+      "pinned": false,
+      "radius": 0.0017373999999999994,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 1.5688996271710498,
+        "azimuthDeg": 214.33643003628455,
+        "source": "月の極 α0 266.857572273°・δ0 65.6432416432° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to MOON_ME_DE440_ME421 at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": 0.06650376359455511,
+      "vz": -0.0011488020170590536
+    },
+    {
+      "type": "single",
+      "m": 0.00006417197311560723,
+      "x": 206.98054361782945,
+      "y": -2.425323969941809,
+      "vx": 0.11719850073020564,
+      "vy": 2.6283239803238976,
+      "spin": 7.088217997642015,
+      "pinned": false,
+      "radius": 0.0033895135502710794,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 26.717769757000912,
+        "azimuthDeg": 352.90696634733195,
+        "source": "火星の極 α0 317.680854407°・δ0 52.8864392751° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to IAU_MARS at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": -5.125445242874504,
+      "vz": 0.052213368388537865
+    },
+    {
+      "type": "single",
+      "m": 0.1898209947563237,
+      "x": 597.5000276330519,
+      "y": 439.18640860625635,
+      "vx": -0.7900547688636038,
+      "vy": 1.1143392784143595,
+      "spin": 17.585323433791654,
+      "pinned": false,
+      "radius": 0.06991130840807078,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 2.21593353618099,
+        "azimuthDeg": 247.8195016541506,
+        "source": "木星の極 α0 268.057204043°・δ0 64.4958099534° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to IAU_JUPITER at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": -15.196017956593957,
+      "vz": 0.013070234247245953
+    },
+    {
+      "type": "single",
+      "m": 0.000008930050144112288,
+      "x": 597.8997418693815,
+      "y": 439.31567525720294,
+      "vx": -1.329762940442281,
+      "vy": 2.7677814867768102,
+      "spin": 4.110592854942084,
+      "pinned": false,
+      "radius": 0.0018214908175629497,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 2.2082667816785095,
+        "azimuthDeg": 246.54636351052721,
+        "source": "イオの極 α0 267.956994934°・δ0 64.5205795809° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to IAU_IO at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": -15.185354700520689,
+      "vz": 0.06361369626211388
+    },
+    {
+      "type": "single",
+      "m": 0.000004798789480981863,
+      "x": 596.9387831593045,
+      "y": 438.83039554764497,
+      "vx": -0.04382528414016809,
+      "vy": -0.05451079074427721,
+      "spin": 2.047827246872582,
+      "pinned": false,
+      "radius": 0.0015607994470247513,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 1.79030180905746,
+        "azimuthDeg": 242.3946398276747,
+        "source": "エウロパの極 α0 268.039806524°・δ0 64.9612460221° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to IAU_EUROPA at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": -15.21397205423316,
+      "vz": -0.008658589226808846
+    },
+    {
+      "type": "single",
+      "m": 0.000014815452131734551,
+      "x": 596.6786825381917,
+      "y": 438.50101978192635,
+      "vx": -0.09129105899906545,
+      "vy": 0.2805854115599645,
+      "spin": 1.0164443583652387,
+      "pinned": false,
+      "radius": 0.002631199999999999,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 2.212805575385499,
+        "azimuthDeg": 253.06902399624445,
+        "source": "ガニメデの極 α0 268.506836873°・δ0 64.4361513989° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to IAU_GANYMEDE at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": -15.23057569394231,
+      "vz": -0.00996437267993608
+    },
+    {
+      "type": "single",
+      "m": 0.000010757092302337186,
+      "x": 597.8251073636851,
+      "y": 441.038668639958,
+      "vx": -1.597351996235885,
+      "vy": 1.2624121899158207,
+      "spin": 0.4357479358502222,
+      "pinned": false,
+      "radius": 0.0024102999999999993,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 2.017042158148851,
+        "azimuthDeg": 247.82183918245175,
+        "source": "カリストの極 α0 268.219592373°・δ0 64.6820952792° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to IAU_CALLISTO at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": -15.13126319019586,
+      "vz": 0.0072266658447546145
+    },
+    {
+      "type": "single",
+      "m": 0.05683429163074869,
+      "x": 957.3177618917092,
+      "y": 982.4380116174115,
+      "vx": -0.7421900355228671,
+      "vy": 0.6723931010685088,
+      "spin": 16.378498998704238,
+      "pinned": false,
+      "radius": 0.05823199302231827,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 28.052173725274418,
+        "azimuthDeg": 79.52751282107374,
+        "source": "土星の極 α0 40.589°・δ0 83.537° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to IAU_SATURN at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": -55.18213598236161,
+      "vz": 0.017757495422930127
+    },
+    {
+      "type": "single",
+      "m": 0.000013452407994487635,
+      "x": 956.3709589532602,
+      "y": 983.2048796491121,
+      "vx": -1.0983243874585502,
+      "vy": 0.3244904673046019,
+      "spin": 0.45606780128052476,
+      "pinned": false,
+      "radius": 0.002574799984995713,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 28.053987199290024,
+        "azimuthDeg": 79.17383044958534,
+        "source": "タイタンの極 α0 39.4827°・δ0 83.4279° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to IAU_TITAN at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": -55.48509597003829,
+      "vz": 0.2322752838767574
+    },
+    {
+      "type": "single",
+      "m": 0.008681376401469728,
+      "x": 2157.9072225047853,
+      "y": -2055.043807810134,
+      "vx": 0.4646584709221101,
+      "vy": 0.46147734869256823,
+      "spin": -10.12371955898186,
+      "pinned": false,
+      "radius": 0.025362154531444973,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 82.27820151431882,
+        "azimuthDeg": 257.6466793555975,
+        "source": "天王星の極 α0 257.311°・δ0 -15.175° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to IAU_URANUS at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": -35.594657600476076,
+      "vz": -0.004308520727998061
+    },
+    {
+      "type": "single",
+      "m": 0.010241384429797447,
+      "x": 2513.9789267662763,
+      "y": -3739.132838964067,
+      "vx": 0.44745879499919283,
+      "vy": 0.3063155156502445,
+      "spin": 10.931331942292841,
+      "pinned": false,
+      "radius": 0.024622189475123592,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 28.48291887199962,
+        "azimuthDeg": 318.7548384890904,
+        "source": "海王星の極 α0 299.333738959°・δ0 42.9503590218° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to IAU_NEPTUNE at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": 19.063060668946086,
+      "vz": -0.016641198368058916
+    },
+    {
+      "type": "single",
+      "m": 0.000002140388766722302,
+      "x": 2513.7732302918084,
+      "y": -3739.008777440245,
+      "vx": 0.7465025832470358,
+      "vy": 0.6152588566851743,
+      "spin": -1.2374339677632218,
+      "pinned": false,
+      "radius": 0.0013525999999999994,
+      "pnSource": true,
+      "spinAxis": {
+        "tiltDeg": 49.73296545943043,
+        "azimuthDeg": 305.8429238170747,
+        "source": "トリトンの極 α0 298.450983409°・δ0 20.3023612605° を黄道へ(ε 84381.448″・軸は一定の近似)—— NAIF SPICE sxform J2000 to IAU_TRITON at ET=0; body +Z in ICRF; frozen at J2000",
+        "enable": true
+      },
+      "z": 19.324061442936237,
+      "vz": 0.0721623423175584
+    }
+  ],
+  "overlays": {
+    "rotationCurve": false,
+    "tempHistogram": false,
+    "field": false,
+    "spectrum": false,
+    "trail": true,
+    "monitor": false,
+    "boxGraph": false,
+    "phaseGraph": false,
+    "mechSpectrum": false,
+    "emergence": false
+  },
+  "fidelity": "real",
+  "referenceKind": "theory-control"
+}
