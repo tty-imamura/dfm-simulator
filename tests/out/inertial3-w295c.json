@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第295便c",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T12:17:21.954Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-28T20:18:43.060Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/out/swing-w293d.json",
-    "bytes": 538345,
-    "sha256": "bd433354a4354e96cfdc4cd2dd5a41ad8da1eb648ea88d14fef5687b90eeacfb",
-    "mtime": "2026-10-26T12:15:52.099Z"
+    "bytes": 538327,
+    "sha256": "f6f78e43da35b69f88cf709c07655062b26966e6ea90f53f441c63ca67799387",
+    "mtime": "2026-10-28T20:14:37.361Z"
    }
   ],
   "code": [
@@ -52,9 +52,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    },
    {
     "file": "tests/lib-w302h-splitrec.mjs",
@@ -63,7 +63,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "a2d8085ec6dbfb1587f42f9495a2ecb633528b9d52b76fac09eab2e73258a681",
+  "codeSha256": "fbd4d2456bc09c7d293a4fef1f72b71a44a116c4e65abd76d169f24e9b5dbbfd",
   "harnessVersion": "w295c-inertial3-1",
   "swingVersion": "w293d-swing-1",
   "engineVersion": "w290c-inertial-1",
@@ -85,7 +85,7 @@
    "全系の保存則が閉じた"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": [
     "earthMoonInertial",
     "earthMoonSunInertial",
@@ -114,16 +114,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1320,
-   "segments": 1161,
-   "closureShare": 0.3121
+   "names": 1318,
+   "segments": 1159,
+   "closureShare": 0.3001
   },
-  "scopeSha256": "e628fd93de567e86d64587fa5d07f6019755a0906586ba7c9f2f94d8b6bf466a",
+  "scopeSha256": "d4a80999a85d7bebbdc195ad194aee6a7b536a9784d4f69a8d9901071347e813",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/swing-w293d.json",
-    "stableSha256": "e0742e60e14fb8d80a14f345ad3ebf604e9ca3a5d36e1c47ccfe3070ce072f20",
+    "stableSha256": "a435f0cdec39559e5a0caf7b9105a1105185440891dfd3e3e646956e9e41f94c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1963,49 +1963,49 @@
  "ok": true,
  "timing": {
   "em-G0-0.008": {
-   "wallSec": 15.032
+   "wallSec": 15.863
   },
   "em-A1-0.008": {
-   "wallSec": 17.241
+   "wallSec": 17.582
   },
   "em-A2-0.008": {
-   "wallSec": 18.427
+   "wallSec": 18.925
   },
   "em-A1-0.016": {
-   "wallSec": 9.359
+   "wallSec": 8.512
   },
   "em-A2-0.016": {
-   "wallSec": 9.311
+   "wallSec": 8.411
   },
   "em-G0-0.016": {
-   "wallSec": 8.43
+   "wallSec": 7.431
   },
   "mer-gain0-h2": {
-   "wallSec": 3.232
-  },
-  "mer-gain-h2": {
-   "wallSec": 3.412
+   "wallSec": 2.983
   },
   "mer-gain0-h": {
-   "wallSec": 3.961
+   "wallSec": 2.739
+  },
+  "mer-gain-h2": {
+   "wallSec": 3.27
   },
   "mer-gain-h": {
-   "wallSec": 3.852
+   "wallSec": 3.124
   },
   "plu-gain-h2": {
-   "wallSec": 27.425
+   "wallSec": 24.406
   },
   "plu-gain0-h2": {
-   "wallSec": 28.467
+   "wallSec": 25.044
   },
   "plu-gain0-h": {
-   "wallSec": 29.32
+   "wallSec": 27.119
   },
   "plu-gain-h": {
-   "wallSec": 25.197
+   "wallSec": 24.862
   }
  },
  "inputMapping": "🟤・🟣 は親の vx/vy を力学速度 v にそのまま与えた(ẋ=v+u)—— 観測の座標速度と同一の比較ではない(🌤️ も 🔆 の状態を v に与えた)。gain 0 の行だけが親と同じ座標速度で始まる",
  "notTarget": "合否・年数の約束は書かない(値の記録)。gain はフィットしない —— 8.85 年・43″/世紀・公転周期のどれにも合わせない",
- "elapsedS": 85.624
+ "elapsedS": 80.367
 }

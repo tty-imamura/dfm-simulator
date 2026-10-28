@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便a",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T13:02:27.031Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-28T20:10:24.306Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    }
   ],
   "code": [
@@ -34,12 +34,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "a1911c6d262a37cdd5dc6dbacbfb9f9cc1faa66f317791f081bf05df5711dfaf",
+  "codeSha256": "a8ef0d2d9be6f2e6c411291dd389383af031ed7d267f77714e65d0a33d68b88c",
   "harnessVersion": "w298a-coord3d-1",
   "coord3dVersion": "w298a-coord3d-1",
   "loadErrors": 0,
@@ -52,7 +52,7 @@
    "トルクから求めた歳差"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "$",
@@ -137,11 +137,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1318,
-   "segments": 1159,
-   "closureShare": 0.31
+   "names": 1316,
+   "segments": 1157,
+   "closureShare": 0.2981
   },
-  "scopeSha256": "eed31380be59b7771ab33f6346b270af7644f4929d7cafcd8796c7e323f2f439",
+  "scopeSha256": "1653064aaa13c2e40c0531674bb926a83034c9c3424aba43750d557cf4d8a260",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -692,5 +692,5 @@
   "covariantDouble": true
  },
  "ok": true,
- "elapsedS": 3.982
+ "elapsedS": 4.457
 }

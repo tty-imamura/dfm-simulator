@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第288便c",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T12:11:25.359Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-28T20:10:17.092Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    }
   ],
   "code": [
@@ -34,12 +34,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "3fe030674fe9f809d7755b360f6c8be7392894f1ae5bb3a7379a0be9daeee069",
+  "codeSha256": "2b1815cff6628c8c0e3e26f9f8b11f41072d2d0fdc8dc05d2a04b64f5077cd38",
   "harnessVersion": "w288c-bgrange-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第78報)⑧と第78報で閉じた AN86(有効幅を超えても再展開しない・超えた歩数を観測結果カードに出す・超えた走行を含む観測比較は「契約範囲外」)・統括の検証項目 R115",
@@ -51,7 +51,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "$",
@@ -72,11 +72,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1288,
-   "segments": 1129,
-   "closureShare": 0.3048
+   "names": 1286,
+   "segments": 1127,
+   "closureShare": 0.2929
   },
-  "scopeSha256": "bf424fd5887d13e0308e177118c87903319a5c1224c22e3d55211735eb5cdc0e",
+  "scopeSha256": "d521862a15aea9cf9a2c6cc488cbdeaa17a0b3c1015dcbcfc4a9f9704a4daa1b",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -273,7 +273,7 @@
   "ok": true
  },
  "census": {
-  "nPresets": 176,
+  "nPresets": 177,
   "timeContract": [
    "charonGeoToy3"
   ],
@@ -328,7 +328,7 @@
   "declHist": true,
   "charonBitSameNow": false
  },
- "elapsedS": 6.465,
+ "elapsedS": 5.469,
  "fingerprintHist": {
   "restored": {
    "lambdaPN": 1,

@@ -13,97 +13,97 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "c2f44d98a901ec998682c1ff0cdb3c1faaee8e89879a78b95aeac37949aa5b32",
-  "generatedAt": "2026-10-28T18:14:22.761Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-28T20:14:47.134Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
     "bytes": 116969,
     "sha256": "339314c2886d0b09795ff10ec0203139e75b4d0bfaca33ce61e17256726183a0",
-    "mtime": "2026-10-28T15:42:44.388Z"
+    "mtime": "2026-10-28T18:28:18.393Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1736840,
-    "sha256": "c5f218308daa5122da88ee83bc7d9bd8c6cd592d795efbb15860604d6d2ec0d2",
-    "mtime": "2026-10-28T15:09:17.860Z"
+    "bytes": 1719662,
+    "sha256": "5fe05312c8ec2929db8c0bfcd00c352e4bf2d39806a5d6adc67346f37362d4f5",
+    "mtime": "2026-10-28T20:04:10.941Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90746,
-    "sha256": "6b822a523c4be0c23a813c0726e7d529392cfc6aa4450832d1ef48c26c2aa3e7",
-    "mtime": "2026-10-28T15:09:17.876Z"
+    "bytes": 90734,
+    "sha256": "00053d1dea8cdffcf3b7532cab39b150dc73fa24cf65084286afafadd1a0dbe3",
+    "mtime": "2026-10-28T19:38:18.689Z"
    },
    {
-    "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 245615,
-    "sha256": "4c109c1c02d559f84fec02b84be0c70b941208012d5a5075cfd64603c46751f8",
-    "mtime": "2026-10-28T18:14:22.737Z"
+    "file": "docs/SAMPLE_STATUS.md",
+    "bytes": 245660,
+    "sha256": "45252175c9d730c6092e89dc5e92210800018c23d1e4b422d9a74dc985a498ed",
+    "mtime": "2026-10-28T20:14:47.117Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-10-28T15:09:17.619Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w284b.json",
     "bytes": 244564,
     "sha256": "1fffd3f45fe2e8625b16e6243f9888ad74a32637a8f40bc43564c452ff92fb29",
-    "mtime": "2026-10-28T15:09:17.619Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w285f.json",
     "bytes": 64583,
     "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
-    "mtime": "2026-10-28T15:09:17.620Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w286f.json",
     "bytes": 71553,
     "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
-    "mtime": "2026-10-28T15:09:17.620Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w287b.json",
     "bytes": 56177,
     "sha256": "ae12f0fdfa73e2d98ec7293e46113325c8de8fd2218bb03c2d91330c4b0c33f0",
-    "mtime": "2026-10-28T15:09:17.620Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w279a-samplestatus.mjs",
-    "bytes": 33262,
-    "sha256": "7c0632edbe27cfe09a97af233cc5abbcab347181872a30580fa11a0263a97e28",
-    "mtime": "2026-10-28T15:09:17.572Z"
+    "bytes": 33250,
+    "sha256": "207bc8f8b5f8e237f56f0291ccf9d6ad6ad6e36eb80ca427c0e4586b62a3d02d",
+    "mtime": "2026-10-28T18:04:20.429Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 31458,
     "sha256": "16a147e300ca0dfcf28c055b791689f434a1e2fdf9a86d8dadef8eaf8c89891b",
-    "mtime": "2026-10-28T15:09:17.632Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-28T15:09:17.628Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
     "bytes": 39201,
     "sha256": "c6e9b7ef66592b357bc0931831642147d75072bbc73ef16e99cb8ef0b4376c79",
-    "mtime": "2026-10-28T15:09:17.640Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    },
    {
     "file": "tests/lib-w288f-htmlstage.mjs",
     "bytes": 10343,
     "sha256": "c6425fa01e5360716b3e98872f9d0ac3c56cc75f79875bb4abb12d74e16160e1",
-    "mtime": "2026-10-28T15:09:17.640Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "8b7dffff282ac2d9640768fb92ca32364d41cff5123f9d8c2cccf8836dbd8a00",
+  "codeSha256": "0e2eb51d713637b37bd030208c6a47d0b92b36204ab1b0e22139471aaacfe025",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
    "commit": "6f4f6b02645d4d36074d6665b6e18753f0b24757",
@@ -30878,23 +30878,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 43.426,
+     "wallSec": 128.579,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 43.426,
+       "wallSec": 42.222,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 80.33,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 86.357,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 80.33,
-     "reusedH2Sec": 80.33,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -33654,23 +33654,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.369,
+     "wallSec": 4.149,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.369,
+       "wallSec": 1.498,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.148,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 2.651,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 2.148,
-     "reusedH2Sec": 2.148,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -37710,6 +37710,12 @@
       "always": false
      },
      {
+      "key": "dragest-318d",
+      "sec": 71,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 757,
       "share": "all",
@@ -37782,23 +37788,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.819,
+     "wallSec": 9.101,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.819,
+       "wallSec": 3.22,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.254,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 5.881,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 5.254,
-     "reusedH2Sec": 5.254,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -39609,9 +39615,21 @@
       "always": false
      },
      {
+      "key": "satnext-318b",
+      "sec": 7430,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "solar16-318c",
       "sec": 4187,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "dragest-318d",
+      "sec": 71,
+      "share": 11,
       "always": false
      },
      {
@@ -40148,9 +40166,21 @@
       "always": false
      },
      {
+      "key": "satnext-318b",
+      "sec": 7430,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "solar16-318c",
       "sec": 4187,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "dragest-318d",
+      "sec": 71,
+      "share": 11,
       "always": false
      },
      {
@@ -40633,9 +40663,21 @@
       "always": false
      },
      {
+      "key": "satnext-318b",
+      "sec": 7430,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "solar16-318c",
       "sec": 4187,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "dragest-318d",
+      "sec": 71,
+      "share": 11,
       "always": false
      },
      {
@@ -41142,9 +41184,21 @@
       "always": false
      },
      {
+      "key": "satnext-318b",
+      "sec": 7430,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "solar16-318c",
       "sec": 4187,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "dragest-318d",
+      "sec": 71,
+      "share": 11,
       "always": false
      },
      {
@@ -41615,9 +41669,21 @@
       "always": false
      },
      {
+      "key": "satnext-318b",
+      "sec": 7430,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "solar16-318c",
       "sec": 4187,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "dragest-318d",
+      "sec": 71,
+      "share": 11,
       "always": false
      },
      {
@@ -42548,9 +42614,21 @@
       "always": false
      },
      {
+      "key": "satnext-318b",
+      "sec": 7430,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "solar16-318c",
       "sec": 4187,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "dragest-318d",
+      "sec": 71,
+      "share": 11,
       "always": false
      },
      {
@@ -43009,9 +43087,21 @@
       "always": false
      },
      {
+      "key": "satnext-318b",
+      "sec": 7430,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "solar16-318c",
       "sec": 4187,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "dragest-318d",
+      "sec": 71,
+      "share": 11,
       "always": false
      },
      {
@@ -45241,23 +45331,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 15.014,
+     "wallSec": 45.942,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 15.014,
+       "wallSec": 15.264,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 31.264,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 30.678,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 31.264,
-     "reusedH2Sec": 31.264,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -45718,9 +45808,21 @@
       "always": false
      },
      {
+      "key": "satnext-318b",
+      "sec": 7430,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "solar16-318c",
       "sec": 4187,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "dragest-318d",
+      "sec": 71,
+      "share": 11,
       "always": false
      },
      {
@@ -45795,23 +45897,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.014,
+     "wallSec": 22.433,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 8.014,
+       "wallSec": 7.674,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 15.826,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 14.759,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 15.826,
-     "reusedH2Sec": 15.826,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -46313,23 +46415,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.852,
+     "wallSec": 16.723,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.852,
+       "wallSec": 5.359,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 10.344,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 11.364,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 10.344,
-     "reusedH2Sec": 10.344,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -48237,23 +48339,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 83.783,
+     "wallSec": 240.213,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 83.783,
+       "wallSec": 78.077,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 161.19,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 162.136,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 161.19,
-     "reusedH2Sec": 161.19,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -50559,11 +50661,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 56.438,
+     "wallSec": 55.405,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 56.438,
+       "wallSec": 55.405,
        "reused": false,
        "reusedBy": null
       }
@@ -51023,23 +51125,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.141,
+     "wallSec": 6.2139999999999995,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.141,
+       "wallSec": 2.082,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.973,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 4.132,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 3.973,
-     "reusedH2Sec": 3.973,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -51539,11 +51641,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 11.369,
+     "wallSec": 59.400999999999996,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 11.369,
+       "wallSec": 12.523,
        "reused": false,
        "reusedBy": null
       },
@@ -51555,14 +51657,14 @@
       },
       {
        "tag": "dt/4",
-       "wallSec": 60.398,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 46.878,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 83.66900000000001,
+     "reusedSec": 23.271,
      "reusedH2Sec": 23.271,
-     "reusedH4Sec": 60.39800000000001
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -52521,30 +52623,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.046,
+     "wallSec": 33.063,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.046,
+       "wallSec": 7.192,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.37,
+       "wallSec": 12.315,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 39.731,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 25.871,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 53.101,
-     "reusedH2Sec": 13.37,
-     "reusedH4Sec": 39.731
+     "reusedSec": 12.315,
+     "reusedH2Sec": 12.315,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -53506,23 +53608,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.811,
+     "wallSec": 11.303,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.811,
+       "wallSec": 3.444,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 8.167,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 7.859,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 8.167,
-     "reusedH2Sec": 8.167,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -55363,23 +55465,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.628,
+     "wallSec": 8.175,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.628,
+       "wallSec": 2.504,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.083,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 5.671,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 5.083,
-     "reusedH2Sec": 5.083,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -55882,23 +55984,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.278,
+     "wallSec": 3.5580000000000003,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.278,
+       "wallSec": 1.245,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.205,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 2.313,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 2.205,
-     "reusedH2Sec": 2.205,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -59053,23 +59155,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 20.99,
+     "wallSec": 59.629999999999995,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 20.99,
+       "wallSec": 20.233,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 38.84,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 39.397,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 38.84,
-     "reusedH2Sec": 38.84,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -65355,23 +65457,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.788,
+     "wallSec": 1.8599999999999999,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.788,
+       "wallSec": 0.704,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.39,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 1.156,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 1.39,
-     "reusedH2Sec": 1.39,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -66279,7 +66381,7 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.098,
+     "wallSec": 0.198,
      "stages": [
       {
        "tag": "dt",
@@ -66289,13 +66391,13 @@
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.09,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 0.1,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0.09,
-     "reusedH2Sec": 0.09,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -70599,9 +70701,21 @@
       "always": false
      },
      {
+      "key": "satnext-318b",
+      "sec": 7430,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "solar16-318c",
       "sec": 4187,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "dragest-318d",
+      "sec": 71,
+      "share": 11,
       "always": false
      },
      {
@@ -71133,30 +71247,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.775,
+     "wallSec": 33.775999999999996,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.775,
+       "wallSec": 7.242,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 11.848,
+       "wallSec": 12.471,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 33.066,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 26.534,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 44.914,
-     "reusedH2Sec": 11.848,
-     "reusedH4Sec": 33.066
+     "reusedSec": 12.471,
+     "reusedH2Sec": 12.471,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -72481,11 +72595,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 132.887,
+     "wallSec": 129.874,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 132.887,
+       "wallSec": 129.874,
        "reused": false,
        "reusedBy": null
       }
@@ -72910,9 +73024,21 @@
       "always": false
      },
      {
+      "key": "satnext-318b",
+      "sec": 7430,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "solar16-318c",
       "sec": 4187,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "dragest-318d",
+      "sec": 71,
+      "share": 11,
       "always": false
      },
      {
@@ -79803,8 +79929,8 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 201,
-  "regenSecSum": 82973,
+  "regenSteps": 203,
+  "regenSecSum": 90474,
   "alwaysSec": 681,
   "undeclaredSteps": 46,
   "undeclaredSec": 1872,
@@ -79813,12 +79939,12 @@
   "reuse": {
    "since": "第284便c",
    "h2": {
-    "n": 17,
-    "sec": 414.59299999999996
+    "n": 3,
+    "sec": 48.057
    },
    "h4": {
-    "n": 3,
-    "sec": 133.195
+    "n": 0,
+    "sec": 0
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },
