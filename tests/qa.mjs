@@ -23094,6 +23094,9 @@ if (!FAST) {
         const wantDecl290 = has292cI ? ['earthMoonInertial'].concat(ids295cI, [E290.DIAG_ID]) : [E290.DIAG_ID];
         // 第296便b(R158): フィットの派生本(🟫🟪)も inertial を宣言する —— 並びは内蔵の順(親の直後)
         if (W296B_FIT) { const set296 = new Set(wantDecl290.concat(W296B_FITIDS, HP290.allPresets().some((q) => q.id === 'chainDiskToy') ? ['chainDiskToy'] : [], W298C_IDS)); wantDecl290.splice(0, wantDecl290.length, ...HP290.allPresets().map((q) => q.id).filter((id) => set296.has(id))); }   // 第296便c(R159): 🔗 も慣性宣言(内蔵の順)
+        // 第318便c(原仮定者の指示(第120報)・R256): 🗺️ solarSystem16Inertial3d(太陽系 16 体 —— K1 の短い形)も inertial を宣言する(世代切替 = 内蔵にある —— 並びは内蔵の順)
+        if (HP290.allPresets().some((q) => q.id === 'solarSystem16Inertial3d') && wantDecl290.indexOf('solarSystem16Inertial3d') < 0) {
+          const set318 = new Set(wantDecl290.concat(['solarSystem16Inertial3d'])); wantDecl290.splice(0, wantDecl290.length, ...HP290.allPresets().map((q) => q.id).filter((id) => set318.has(id))); }
         if (JSON.stringify(decl) !== JSON.stringify(wantDecl290)) bad.push('(a) inertial を宣言する内蔵が ' + wantDecl290.join('・') + ' でない: ' + decl.join(','));
         let nUndecl = 0, nLeak = 0;
         for (const q of HP290.allPresets()) {
