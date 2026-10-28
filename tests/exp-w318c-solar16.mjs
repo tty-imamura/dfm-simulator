@@ -134,7 +134,7 @@ export async function main() {
   jobs.push({ job: { kind: 'yr', phys: 'ctrl', n: 360, steps: n360 }, pri: 1 });
   const R = {};
   await Promise.all(jobs.map(({ job, pri }) => run(job, pri).then((r) => { R[jobKey(job)] = r;
-    console.log(`  ${new Date().toISOString().slice(11, 19)} ${jobKey(job)}: ${r.steps} 步・${r.wallSec.toFixed(1)} s・NaN ${r.nan}・クランプ ${r.clampSum}・停止 ${r.stops.length}`); })));
+    console.log(`  ${new Date().toISOString().slice(11, 19)} ${jobKey(job)}: ${r.steps} 步・${r.wallSec.toFixed(1)} s・${r.nan ? 'NaN あり' : 'NaN なし'}・クランプ ${r.clampSum}・停止 ${r.stops.length}`); })));
   timing.runs = { wallSec: (Date.now() - ts) / 1000 };
   const runs = Object.values(R).map((r) => ({ key: r.key, steps: r.steps, dt: r.dt, nan: r.nan, finite: r.finite, stop: r.stop, stops: r.stops, clamps: r.clamps, clampSum: r.clampSum, isq: r.isq,
     warnings: r.warnings, deny: r.deny, wallSec: r.wallSec })).sort((a, b) => (a.key < b.key ? -1 : 1));

@@ -1427,8 +1427,9 @@ export const REGEN_STEPS = [
   //   入力 tests/data-w318c-solar16-input.json〔原仮定者から受け取った 16 体の本(第120報)〕の意味の検査・宣言の形〔長い形と短い形のビット同一〕・内蔵の本の宣言の照合・
   //   刻みの検査〔K1 の本と 1PN の対照の写し × イオ 1 公転 × P/360〜P/5760〕・K1 − 1PN の差〔イオ 1 公転と地球 1 年の窓 —— P/1440 と P/360〕・衛星の丸めの床・視点の投影)。
   //   html と入力・凍結の写し tests/data-w306a-decl305.json・tests/data-w300c-solar16-schema.json を読む。走行は子プロセス 2 本(workers 2 —— 地球 1 年の K1 の P/1440 が最長)。
-  //   所要は第318便c の枝の実測(他の 3 枝と同じ 4 核の容器で並走 —— 正本の 1 回目の全走行の elapsedS を採る〔並走の秒 —— 統括が混まない箱で測り直す〕)
-  S('solar16-318c', 'node tests/exp-w318c-solar16.mjs', ['tests/out/solar16-w318c.json'], 3600, { secSource: 'w318c-branch', node: true, workers: 2, after: ['obscompare', 'samplestatus'],
+  //   所要は第318便c の枝の実測(他の 3 枝と同じ 4 核の容器で並走 —— 負荷平均 4〜10・正本の 1 回目の全走行の elapsedS 4186.2 s を採る〔並走の秒 —— 統括が混まない箱で測り直す〕。
+  //   最長は地球 1 年の K1 の P/1440〔296928 步・4180.6 s —— 子プロセスの CPU は 60% 前後〕・K1 の 1 步は混まない容器で 10 ms 前後の見込み)
+  S('solar16-318c', 'node tests/exp-w318c-solar16.mjs', ['tests/out/solar16-w318c.json'], 4187, { secSource: 'w318c-branch', node: true, workers: 2, after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/solar16-w318c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/runs/*/wallSec', '/cost/rate/*/rateStepsPerSec']) },
     note: '第318便c: 太陽系 16 体の内蔵の本(🗺️ solarSystem16Inertial3d —— 診断の本)の入力の検査・刻みの検査・K1 − 1PN の差(暦表との比較ではない)・衛星の丸めの床・視点 —— 1PN の対照は器の写し(内蔵にしない)' }),
   // ==== 第318便c の塊(ここまで)====
