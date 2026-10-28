@@ -4340,7 +4340,7 @@ SYSTEM_PROMPT の規則 13(逐語):
 
 ## 147. 第318便a —— 鎖の費用の残りを外す(受理器の理由の文の表 ACCEPT_REASONS・文の登録簿・説明文の欄・刻印の道具の照合)・版なしの文書名・観測結果カードと監査ビューの下付き・軸の係数の表示 A_k(原仮定者の裁定(第120報)・決断事項 AN427・AN383・AN429・AN430・AN433・統括の検証項目 R254・**物理・受理の判定・正本の値はビット同一** —— 宣言の鍵・保存の鍵・エンジンの式・`S._core` は不変・root の index.html は不変)
 
-- **受理器の理由の文**: validatePreset とその下の受理器(validate*・*Check・*DenyOf・*Warn)が返す理由の文(errors・warnings・err・why)は表 `ACCEPT_REASONS`(930 項 —— 文字列か、差し込む値を引数に取る関数)から `reasonText(鍵, 値…)` で引く。判定のコードは受理器に残る。返す文は元の文と 1 字も違わない(内蔵の本と決定的な変異 52976 件で基点と同じ)。**AI が作る本の受理の結果は変わらない** —— 理由の文の綴りに頼る処理を書かない(移行の有無は機械可読の欄 legacyCoreMigrated 等で読む)。
+- **受理器の理由の文**: validatePreset とその下の受理器(validate*・*Check・*DenyOf・*Warn)が返す理由の文(errors・warnings・err・why)は表 `ACCEPT_REASONS`(925 項 —— 文字列か、差し込む値を引数に取る関数)から `reasonText(鍵, 値…)` で引く。判定のコードは受理器に残る。返す文は元の文と 1 字も違わない(内蔵の本と決定的な変異 52976 件で基点と同じ)。**AI が作る本の受理の結果は変わらない** —— 理由の文の綴りに頼る処理を書かない(移行の有無は機械可読の欄 legacyCoreMigrated 等で読む)。
 - **領域 hash の版 `w318a-scope-6`**(tests/lib-w281a-scope.mjs): 文の登録簿 = I18N・ACCEPT_REASONS・LAWS・SYSTEM_PROMPT(閉包で辿らない)・説明文の欄に本の名 name と abBody.label・受理後の定義に warnings。referenceKind・law・kernel・rdRule は意味を持つので領域に残る。版 1〜5 の刻印は旧規則で照合。
 - **刻印の道具の照合**: 器が刻印の道具を刻印の名(scopeStamp・stableInputs・provenanceMetaScoped)だけで使うなら、道具の sha の違いは刻印を今の道具で引き直す照合だけ(planRegen の toolChecked・lint.provenanceMeta の「道具の照合」)。道具の hash は meta.code に残る。
 - **選択粒子の編集の文**: I18N の beCvShellGas・beCvCoreBare・beCvLsNone(ja/en)。

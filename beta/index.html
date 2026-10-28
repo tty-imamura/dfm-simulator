@@ -4735,64 +4735,59 @@ const ACCEPT_REASONS = {
   "validatePreset/msg#83": (a0,a1)=>a0+".precessionRate を値域["+a1+"]に修正",
   "validatePreset/msg#84": (a0,a1)=>a0+" の未知キー("+a1+")— 無視",
   "validatePreset/msg#85": (a0,a1,a2)=>a0+".layers の Σm="+a1+" が body.m="+a2+" と一致しません(補完はしません)— layers を無視します",
-  "validatePreset/msg#86": ': legacy core keys (coreMR/coreSR/coreRR) were removed in delivery 81 — migrated to core-v2 core:{mode:"',
-  "validatePreset/msg#87": '"}. The initial state is migrated, but in configurations where the core evolves over time the trajectory may not match the old version.',
-  "validatePreset/msg#88": ': 旧コア指定(coreMR/coreSR/coreRR)は廃止 — コアv2 core:{mode:"',
-  "validatePreset/msg#89": '"} へ移行しました。初期状態は移行されるが、コアが時間発展する構成では旧版と同じ軌跡にならない場合がある。',
-  "validatePreset/msg#90": (a0)=>a0+": core:{} と旧 coreMR/coreSR/coreRR の併記 — core を優先し旧キーを無効化",
-  "validatePreset/msg#91": (a0)=>a0+" がオブジェクトではありません",
-  "validatePreset/msg#92": (a0)=>a0+".spinAxis は single 専用(点粒子の表示専用の軸の宣言)— 無視します",
-  "validatePreset/msg#93": (a0)=>a0+".dragCore は single 専用(慣性決定力の構造核)— 無視します",
-  "validatePreset/msg#94": (a0)=>a0+".j2 は single 専用(三次元の J₂)— 無視します",
-  "validatePreset/msg#95": (a0)=>a0+".microSpinRms が数値ではありません",
-  "validatePreset/msg#96": (a0)=>a0+".microSpinRms を値域に修正",
-  "validatePreset/msg#97": (a0)=>a0+" は tInt と microSpinRms の併記 — tInt を優先します",
-  "validatePreset/msg#98": (a0)=>a0+".tide は single 専用です(群・代表粒子には明示潮汐を足さない)— 無視します",
-  "validatePreset/msg#99": (a0,a1)=>a0+"."+a1+" が数値ではありません",
-  "validatePreset/msg#100": (a0)=>a0+".pinned(boolean)が必要",
-  "validatePreset/msg#101": (a0,a1)=>a0+"."+a1+" は廃止されました — 無視します",
-  "validatePreset/msg#102": (a0)=>a0+".frameSource は true/false のみ — 無視します",
-  "validatePreset/msg#103": (a0)=>a0+'.lightSweep は数値(0〜1)か "auto" — 削除します',
-  "validatePreset/msg#104": (a0)=>a0+".pnSource は true か false のみ受理 — 削除します",
-  "validatePreset/msg#105": (a0,a1,a2,a3,a4)=>a0+".tide: 宣言の半径 "+a1+" が明示半径の下限 "+a2+" に丸められた —— 潮汐の B ∝ R⁵ は (下限/宣言)⁵ = "+a3+" 倍(physics.radiusFloor の宣言〔較正クラスの本では使えない・下限 "+a4+"〕か単位の選び直し)",
-  "validatePreset/msg#106": (a0)=>a0+".testParticle は true のみ受理 — 削除します",
-  "validatePreset/msg#107": (a0)=>a0+'.pulse は {omega:数値, source:"observed"} — 削除します',
-  "validatePreset/msg#108": (a0)=>a0+'.spinDipole は {omega:数値, radius:正の数値, source:"observed"|"declared"} — 削除します',
-  "validatePreset/msg#109": (a0)=>a0+'.shell:"gas" の殻はコヒーレント回転を保持しない — core.Kcs を 0 に修正',
-  "validatePreset/msg#110": (a0)=>a0+'.shell は "solid"|"gas" のみ — 削除します',
-  "validatePreset/msg#111": (a0)=>a0+".railOmega が数値ではありません",
-  "validatePreset/msg#112": (a0)=>a0+".railOmega は pinned 粒子のみ有効 — 無視します",
-  "validatePreset/msg#113": (a0)=>a0+".railCx/railCy が数値ではありません",
-  "validatePreset/msg#114": (a0)=>a0+".railCx/railCy は railOmega+pinned のみ有効 — 無視します",
-  "validatePreset/msg#115": (a0)=>a0+".zonal が不正(refR:数値・J:オブジェクト が必要)",
-  "validatePreset/msg#116": (a0,a1)=>a0+".zonal.J の未対応次数 "+a1+" を無視(偶数2〜12のみ)",
-  "validatePreset/msg#117": (a0,a1)=>a0+".zonal.J["+a1+"] が数値ではありません",
-  "validatePreset/msg#118": (a0)=>a0+".vMode が不正",
-  "validatePreset/msg#119": (a0)=>a0+".direction は 1 か -1",
-  "validatePreset/msg#120": (a0)=>a0+".rMul が数値ではありません",
-  "validatePreset/msg#121": (a0)=>a0+".particleRadius は正の有限値(個々の代表粒子の半径)",
-  "validatePreset/msg#122": (a0)=>a0+".particleRadius があるので rMul は半径に使いません",
-  "validatePreset/msg#123": (a0)=>a0+'.layers は single 専用です(群は層を持てません)— 無視します',
-  "validatePreset/msg#124": (a0)=>a0+".tInt が数値ではありません",
-  "validatePreset/msg#125": (a0)=>a0+".railH が数値ではありません",
-  "validatePreset/msg#126": (a0)=>a0+".railH は pinned リングのみ有効 — 無視します",
-  "validatePreset/msg#127": (a0)=>a0+'.profile は uniform/plummer/king/sersic/exponential のみ — 削除します',
-  "validatePreset/msg#128": (a0)=>a0+".plummerScale(数値)が必要",
-  "validatePreset/msg#129": (a0)=>a0+".kingRc/kingRt(数値)が必要",
-  "validatePreset/msg#130": (a0)=>a0+".kingRt は kingRc より大きい必要があります",
-  "validatePreset/msg#131": (a0)=>a0+".sersicRe(数値)が必要",
-  "validatePreset/msg#132": (a0)=>a0+'.vMode "equilibrium" は profile:"plummer" の disk 行だけ',
-  "validatePreset/msg#133": (a0)=>a0+'.eqSources は "all"/"pinned" のみ',
-  "validatePreset/msg#134": (a0)=>a0+'.eqSources は vMode "equilibrium" の行だけ — 削除します',
-  "validatePreset/msg#135": (a0)=>a0+'.vMode "jeans" は profile:"plummer" の disk 行だけ',
-  "validatePreset/msg#136": (a0,a1)=>a0+'.jeansRot は 0〜'+a1+'(外側の v_rot/σ —— 門の上限の内側で宣言)',
-  "validatePreset/msg#137": (a0)=>a0+'.angularSym は 2〜12 の整数で n の約数(位置だけ k 回対称)',
-  "validatePreset/msg#138": (a0)=>a0+'.jeansRot は vMode "jeans" の行だけ — 削除します',
-  "validatePreset/msg#139": (a0)=>a0+'.angularSym は vMode "jeans" の行だけ — 削除します',
-  "validatePreset/msg#140": (a0)=>a0+".jitter が数値ではありません",
-  "validatePreset/msg#141": (a0)=>a0+".vScale が数値ではありません",
-  "validatePreset/msg#142": (a0,a1)=>a0+".type が不正です("+a1+")",
-  "validatePreset/msg#143": (a0)=>"粒子総数を上限"+a0+"に縮小しました",
+  "validatePreset/msg#86": (a0)=>a0+" がオブジェクトではありません",
+  "validatePreset/msg#87": (a0)=>a0+".spinAxis は single 専用(点粒子の表示専用の軸の宣言)— 無視します",
+  "validatePreset/msg#88": (a0)=>a0+".dragCore は single 専用(慣性決定力の構造核)— 無視します",
+  "validatePreset/msg#89": (a0)=>a0+".j2 は single 専用(三次元の J₂)— 無視します",
+  "validatePreset/msg#90": (a0)=>a0+".microSpinRms が数値ではありません",
+  "validatePreset/msg#91": (a0)=>a0+".microSpinRms を値域に修正",
+  "validatePreset/msg#92": (a0)=>a0+" は tInt と microSpinRms の併記 — tInt を優先します",
+  "validatePreset/msg#93": (a0)=>a0+".tide は single 専用です(群・代表粒子には明示潮汐を足さない)— 無視します",
+  "validatePreset/msg#94": (a0,a1)=>a0+"."+a1+" が数値ではありません",
+  "validatePreset/msg#95": (a0)=>a0+".pinned(boolean)が必要",
+  "validatePreset/msg#96": (a0,a1)=>a0+"."+a1+" は廃止されました — 無視します",
+  "validatePreset/msg#97": (a0)=>a0+".frameSource は true/false のみ — 無視します",
+  "validatePreset/msg#98": (a0)=>a0+'.lightSweep は数値(0〜1)か "auto" — 削除します',
+  "validatePreset/msg#99": (a0)=>a0+".pnSource は true か false のみ受理 — 削除します",
+  "validatePreset/msg#100": (a0,a1,a2,a3,a4)=>a0+".tide: 宣言の半径 "+a1+" が明示半径の下限 "+a2+" に丸められた —— 潮汐の B ∝ R⁵ は (下限/宣言)⁵ = "+a3+" 倍(physics.radiusFloor の宣言〔較正クラスの本では使えない・下限 "+a4+"〕か単位の選び直し)",
+  "validatePreset/msg#101": (a0)=>a0+".testParticle は true のみ受理 — 削除します",
+  "validatePreset/msg#102": (a0)=>a0+'.pulse は {omega:数値, source:"observed"} — 削除します',
+  "validatePreset/msg#103": (a0)=>a0+'.spinDipole は {omega:数値, radius:正の数値, source:"observed"|"declared"} — 削除します',
+  "validatePreset/msg#104": (a0)=>a0+'.shell:"gas" の殻はコヒーレント回転を保持しない — core.Kcs を 0 に修正',
+  "validatePreset/msg#105": (a0)=>a0+'.shell は "solid"|"gas" のみ — 削除します',
+  "validatePreset/msg#106": (a0)=>a0+".railOmega が数値ではありません",
+  "validatePreset/msg#107": (a0)=>a0+".railOmega は pinned 粒子のみ有効 — 無視します",
+  "validatePreset/msg#108": (a0)=>a0+".railCx/railCy が数値ではありません",
+  "validatePreset/msg#109": (a0)=>a0+".railCx/railCy は railOmega+pinned のみ有効 — 無視します",
+  "validatePreset/msg#110": (a0)=>a0+".zonal が不正(refR:数値・J:オブジェクト が必要)",
+  "validatePreset/msg#111": (a0,a1)=>a0+".zonal.J の未対応次数 "+a1+" を無視(偶数2〜12のみ)",
+  "validatePreset/msg#112": (a0,a1)=>a0+".zonal.J["+a1+"] が数値ではありません",
+  "validatePreset/msg#113": (a0)=>a0+".vMode が不正",
+  "validatePreset/msg#114": (a0)=>a0+".direction は 1 か -1",
+  "validatePreset/msg#115": (a0)=>a0+".rMul が数値ではありません",
+  "validatePreset/msg#116": (a0)=>a0+".particleRadius は正の有限値(個々の代表粒子の半径)",
+  "validatePreset/msg#117": (a0)=>a0+".particleRadius があるので rMul は半径に使いません",
+  "validatePreset/msg#118": (a0)=>a0+'.layers は single 専用です(群は層を持てません)— 無視します',
+  "validatePreset/msg#119": (a0)=>a0+".tInt が数値ではありません",
+  "validatePreset/msg#120": (a0)=>a0+".railH が数値ではありません",
+  "validatePreset/msg#121": (a0)=>a0+".railH は pinned リングのみ有効 — 無視します",
+  "validatePreset/msg#122": (a0)=>a0+'.profile は uniform/plummer/king/sersic/exponential のみ — 削除します',
+  "validatePreset/msg#123": (a0)=>a0+".plummerScale(数値)が必要",
+  "validatePreset/msg#124": (a0)=>a0+".kingRc/kingRt(数値)が必要",
+  "validatePreset/msg#125": (a0)=>a0+".kingRt は kingRc より大きい必要があります",
+  "validatePreset/msg#126": (a0)=>a0+".sersicRe(数値)が必要",
+  "validatePreset/msg#127": (a0)=>a0+'.vMode "equilibrium" は profile:"plummer" の disk 行だけ',
+  "validatePreset/msg#128": (a0)=>a0+'.eqSources は "all"/"pinned" のみ',
+  "validatePreset/msg#129": (a0)=>a0+'.eqSources は vMode "equilibrium" の行だけ — 削除します',
+  "validatePreset/msg#130": (a0)=>a0+'.vMode "jeans" は profile:"plummer" の disk 行だけ',
+  "validatePreset/msg#131": (a0,a1)=>a0+'.jeansRot は 0〜'+a1+'(外側の v_rot/σ —— 門の上限の内側で宣言)',
+  "validatePreset/msg#132": (a0)=>a0+'.angularSym は 2〜12 の整数で n の約数(位置だけ k 回対称)',
+  "validatePreset/msg#133": (a0)=>a0+'.jeansRot は vMode "jeans" の行だけ — 削除します',
+  "validatePreset/msg#134": (a0)=>a0+'.angularSym は vMode "jeans" の行だけ — 削除します',
+  "validatePreset/msg#135": (a0)=>a0+".jitter が数値ではありません",
+  "validatePreset/msg#136": (a0)=>a0+".vScale が数値ではありません",
+  "validatePreset/msg#137": (a0,a1)=>a0+".type が不正です("+a1+")",
+  "validatePreset/msg#138": (a0)=>"粒子総数を上限"+a0+"に縮小しました",
   "validatePreset/rays.n": "rays.n/spread が不正です",
   "validatePreset/integrator": "integrator が不正のため semi に修正",
   "validatePreset/thermal": "thermal が不正のため spin に修正",
@@ -4808,13 +4803,13 @@ const ACCEPT_REASONS = {
   "validatePreset/scaleTier": "scaleTier が不正のため削除",
   "validatePreset/emergence": "emergence が不正のため削除",
   "validatePreset/phaseMap": (a0)=>"phaseMap "+a0+" — 無視します",
-  "validatePreset/msg#144": (a0)=>a0+" は 2〜12 個の配列が必要",
-  "validatePreset/msg#145": (a0)=>a0+" に非数が含まれる",
-  "validatePreset/msg#146": "はオブジェクトが必要",
-  "validatePreset/msg#147": "の xKey/yKey が物理パラメータキーでない",
-  "validatePreset/msg#148": "の xKey と yKey が同一",
-  "validatePreset/msg#149": (a0)=>"の metric が不正(["+a0+"])",
-  "validatePreset/msg#150": "の steps が数値でない",
+  "validatePreset/msg#139": (a0)=>a0+" は 2〜12 個の配列が必要",
+  "validatePreset/msg#140": (a0)=>a0+" に非数が含まれる",
+  "validatePreset/msg#141": "はオブジェクトが必要",
+  "validatePreset/msg#142": "の xKey/yKey が物理パラメータキーでない",
+  "validatePreset/msg#143": "の xKey と yKey が同一",
+  "validatePreset/msg#144": (a0)=>"の metric が不正(["+a0+"])",
+  "validatePreset/msg#145": "の steps が数値でない",
   "validatePreset/balanceFrame": 'balanceFrame は "barycentric" のみ — 無視します',
   "validatePreset/balanceFrame#2": "balanceFrame は pinned 粒子を含む構成では無効 — 削除します",
   "validatePreset/physics.contactMode#2": 'physics.contactMode:"none" は fusion と併用できません(融合は E9 の重なりで起きる —— 衝突・合体を再現する本は "normal")',
@@ -4855,9 +4850,9 @@ const ACCEPT_REASONS = {
   "validatePreset/world.wallRest#4": (a0)=>"world.wallRest."+a0+" を値域(0..1)に修正",
   "validatePreset/echoFlipAt": "echoFlipAt が数値でないため無視",
   "validatePreset/echoFlipAt#2": "echoFlipAt を値域に修正",
-  "validatePreset/msg#151": (a0)=>a0+" の連結が description と一致しないため無視(純分割が必要)",
-  "validatePreset/msg#152": (a0)=>a0+".brief が文字列でないため無視",
-  "validatePreset/msg#153": (a0,a1)=>a0+".brief が上限"+a1+"字を超過 — 切り詰めます",
+  "validatePreset/msg#146": (a0)=>a0+" の連結が description と一致しないため無視(純分割が必要)",
+  "validatePreset/msg#147": (a0)=>a0+".brief が文字列でないため無視",
+  "validatePreset/msg#148": (a0,a1)=>a0+".brief が上限"+a1+"字を超過 — 切り詰めます",
   "validatePreset/measureBox": "measureBox が真偽値でないため無視",
   "validatePreset/measureBox#2": "measureBox は universeBox と併用できません — 規定 a(t) を優先し無視します",
   "validatePreset/universeBox": "universeBox はオブジェクトが必要です",
@@ -4891,10 +4886,10 @@ const ACCEPT_REASONS = {
   "validatePreset/abBody.patch#4": "abBody.patch に有効なキーがありません — 無視します",
   "validatePreset/abBody#2": "abBody は targets+patch か physics のいずれかが必要 — 無視します",
   "validatePreset/claims": "claims は配列が必要 — 無視します",
-  "validatePreset/msg#154": (a0)=>a0+".descPattern は文字列(≤200字)が必要 — 無視します",
-  "validatePreset/msg#155": (a0,a1)=>a0+".descPattern がコンパイル不能なため無視: "+a1,
-  "validatePreset/msg#156": (a0)=>a0+".descPattern にキャプチャ群が無いため無視",
-  "validatePreset/msg#157": (a0)=>a0+".descScale は数値が必要 — 無視します",
+  "validatePreset/msg#149": (a0)=>a0+".descPattern は文字列(≤200字)が必要 — 無視します",
+  "validatePreset/msg#150": (a0,a1)=>a0+".descPattern がコンパイル不能なため無視: "+a1,
+  "validatePreset/msg#151": (a0)=>a0+".descPattern にキャプチャ群が無いため無視",
+  "validatePreset/msg#152": (a0)=>a0+".descScale は数値が必要 — 無視します",
   "validatePreset/claims#2": "claims の要素はオブジェクトが必要 — その要素を無視",
   "validatePreset/claims.id": "claims.id(文字列)が必要 — その要素を無視",
   "validatePreset/claims#3": (a0)=>"claims["+a0+"].metric(文字列)が必要 — その要素を無視",
@@ -4923,19 +4918,19 @@ const ACCEPT_REASONS = {
   "validatePreset/overlays.galaxyField": 'overlays.galaxyField は {unSource:"all"|"disk", unFit:"mean"|"affine"} のみ — 無視します',
   "validatePreset/overlays.galaxyField#2": "overlays.galaxyField はオブジェクト — 無視します",
   "validatePreset/fitRecord#2": "fitRecord の条件の署名が本の宣言と一致しません(以前の条件でのフィット —— 条件が変わった後は未再測定。記録は残します)",
-  "validatePreset/msg#158": (a0)=>'三次元(physics.coord:"3d")では未対応 —— '+a0,
+  "validatePreset/msg#153": (a0)=>'三次元(physics.coord:"3d")では未対応 —— '+a0,
   "validatePreset/physics.relativeDrag.spinDrag": 'physics.relativeDrag.spinDrag は三次元の本(physics.coord:"3d")だけ —— 二次元の自転源は spinSource:"surfaceFlip"',
   "validatePreset/physics.relativeDrag.invSq": 'physics.relativeDrag.invSq は三次元の本(physics.coord:"3d")だけ(源と受け手の球の体積平均)',
   "validatePreset/physics.relativeDrag.invSq#2": 'physics.relativeDrag.invSq は physics.approxMany と一緒に宣言しない(代表粒子の球を新則の源にしない)',
   "validatePreset/physics.relativeDrag.invSq.outerShell": 'physics.relativeDrag.invSq.outerShell: 外殻の質量を持つ天体が無い(dragCore.massFrac < 1 かつ天体の半径 radius > dragCore.radius の天体だけが外殻 —— この本では外殻を作らない)',
   "validatePreset/bodies#2": (a0)=>'bodies['+a0+'].particleRadius は invSq.rdRule の本では宣言しない(規則 R_d = Y_k m は single の天体の質量から置く —— 群の代表粒子の半径は対象外)',
   "validatePreset/bodies#3": (a0,a1)=>'bodies['+a0+'] の規則の引きずりの半径 R_d = Y_k m = '+a1+' が正の有限数でない(radius を超える R_d は受理)',
-  "validatePreset/msg#159": (a0)=>a0,
+  "validatePreset/msg#154": (a0)=>a0,
   "validatePreset/physics.relativeDrag.dragCoreDefault": 'physics.relativeDrag.dragCoreDefault は物理の単位の宣言 scaleExp.L が要る(6.5×10⁶ m を本の長さの単位へ換算する —— 単位の無い本には当てない)',
   "validatePreset/physics.relativeDrag.galaxyAxial.rdPow": 'physics.relativeDrag.galaxyAxial.rdPow(1・2)で refRadius を省略する本は物理の単位の宣言 scaleExp.L が要る(R_ref の既定 6.5×10⁶ m を本の長さの単位へ換算する —— 単位の無い本は refRadius を宣言する)',
   "validatePreset/bodies#4": (a0)=>'bodies['+a0+'] は宣言の質量が正でない(m ≤ 0)のに引きずりの半径(radius・dragCore)を宣言している —— 新しい引きずり則 invSq の受け手と源は宣言の質量 m > 0 かつ R_d > 0 の天体だけ(質量の下限で持ち上げて受け手にしない —— 半径を外すか質量を正に)',
   "validatePreset/physics.relativeDrag.initMotion": 'physics.relativeDrag.initMotion は三次元の本(physics.coord:"3d")で stateCarry:"double" と一緒にだけ',
-  "validatePreset/msg#160": "ルートがオブジェクトではありません",
+  "validatePreset/msg#155": "ルートがオブジェクトではありません",
   "fixedCaptureCheck/fixedEject": "fixedEject は fixedCapture と組む",
   "fixedCaptureCheck/fixedCapture": "fixedCapture はオブジェクト",
   "fixedCaptureCheck/fixedCapture.version": (a0)=>'fixedCapture.version は "'+a0+'"',
@@ -26630,7 +26625,7 @@ function validatePreset(obj){
   // 第283便a: geoPN=2・kFrame=0 の互換入力の機械可読な記録(無ければ null。**preset には入らない**)
   let geoCompat=null;
   const bad=(m)=>{errors.push(m);};
-  if(!obj || typeof obj!=="object" || Array.isArray(obj)) return {ok:false, errors:[reasonText("validatePreset/msg#160")], warnings};
+  if(!obj || typeof obj!=="object" || Array.isArray(obj)) return {ok:false, errors:[reasonText("validatePreset/msg#155")], warnings};
   const p = JSON.parse(JSON.stringify(obj)); // 破壊防止コピー
   if(typeof p.name!=="string" || !p.name.trim()) bad(reasonText("validatePreset/name"));
   else p.name=p.name.trim().slice(0,30);
@@ -27586,8 +27581,8 @@ function validatePreset(obj){
       // 構成(differential/active/cavity の omega・Kcs・pump 等)では旧版(coreSR·s(t) 追従)と
       // 同じ軌跡にならない場合があることを明示する(変換ロジック自体は不変)
       warnings.push(LANG==="en"
-        ? (at+reasonText("validatePreset/msg#86")+c.mode+reasonText("validatePreset/msg#87"))
-        : (at+reasonText("validatePreset/msg#88")+c.mode+reasonText("validatePreset/msg#89")));
+        ? (at+': legacy core keys (coreMR/coreSR/coreRR) were removed in delivery 81 — migrated to core-v2 core:{mode:"'+c.mode+'"}. The initial state is migrated, but in configurations where the core evolves over time the trajectory may not match the old version.')
+        : (at+': 旧コア指定(coreMR/coreSR/coreRR)は廃止 — コアv2 core:{mode:"'+c.mode+'"} へ移行しました。初期状態は移行されるが、コアが時間発展する構成では旧版と同じ軌跡にならない場合がある。'));
       // 第86便: 実際に v2 コアが得られたときだけ「移行あり」を立てる(vCore が null/false を
       // 返した場合はコアが採用されていないので移行とは呼ばない)
       const oc2=vCore(c);
@@ -27597,34 +27592,34 @@ function validatePreset(obj){
     // 旧キーの後始末(新形式優先。core:{} と併記されていたら旧キーを黙って捨てず警告する)
     const dropLegacyCore=(b, hasNew)=>{
       const had=(b.coreMR!==undefined)||(b.coreSR!==undefined)||(b.coreRR!==undefined);
-      if(had && hasNew) warnings.push(reasonText("validatePreset/msg#90", at));
+      if(had && hasNew) warnings.push(at+": core:{} と旧 coreMR/coreSR/coreRR の併記 — core を優先し旧キーを無効化");
       return had;
     };
     const out=[];
     p.bodies.forEach((b,idx)=>{
       at="bodies["+idx+"]";
-      if(!b||typeof b!=="object"){ bad(reasonText("validatePreset/msg#91", at)); return; }
-      if(b.spinAxis!==undefined && b.type!=="single") warnings.push(reasonText("validatePreset/msg#92", at));
-      if(b.dragCore!==undefined && b.type!=="single") warnings.push(reasonText("validatePreset/msg#93", at));
-      if(b.j2!==undefined && b.type!=="single") warnings.push(reasonText("validatePreset/msg#94", at));
+      if(!b||typeof b!=="object"){ bad(reasonText("validatePreset/msg#86", at)); return; }
+      if(b.spinAxis!==undefined && b.type!=="single") warnings.push(reasonText("validatePreset/msg#87", at));
+      if(b.dragCore!==undefined && b.type!=="single") warnings.push(reasonText("validatePreset/msg#88", at));
+      if(b.j2!==undefined && b.type!=="single") warnings.push(reasonText("validatePreset/msg#89", at));
       // 第64便 64B(A9″): microSpinRms — 内部スピン揺らぎの RMS √⟨δs²⟩ による初期温度指定。
       // T_int = σ_s²(A9″)の別表記なので、受理時に tInt = rms² へ正規化する(正本状態は従来どおり
       // tInt — 全 body 型に共通なので型分岐の前で1回だけ処理する)。値域 [0,100] は tInt の
       // 上限 10000 = 100² と整合。tInt と併記されたときは tInt を優先して警告(静かに解決しない)
       if(b.microSpinRms!==undefined){
-        if(!isNum(b.microSpinRms)){ bad(reasonText("validatePreset/msg#95", at)); return; }
+        if(!isNum(b.microSpinRms)){ bad(reasonText("validatePreset/msg#90", at)); return; }
         const _rms=clamp(b.microSpinRms,0,100);
-        if(_rms!==b.microSpinRms) warnings.push(reasonText("validatePreset/msg#96", at));
-        if(b.tInt!==undefined) warnings.push(reasonText("validatePreset/msg#97", at));
+        if(_rms!==b.microSpinRms) warnings.push(reasonText("validatePreset/msg#91", at));
+        if(b.tInt!==undefined) warnings.push(reasonText("validatePreset/msg#92", at));
         else b.tInt=_rms*_rms;
         delete b.microSpinRms;
       }
       const t=b.type;
-      if(t!=="single" && b.tide!==undefined) warnings.push(reasonText("validatePreset/msg#98", at));   // 第292便d
-      const needNum=(keys)=>{ for(const k of keys){ if(!isNum(b[k])){ bad(reasonText("validatePreset/msg#99", at, k)); return false; } } return true; };
+      if(t!=="single" && b.tide!==undefined) warnings.push(reasonText("validatePreset/msg#93", at));   // 第292便d
+      const needNum=(keys)=>{ for(const k of keys){ if(!isNum(b[k])){ bad(reasonText("validatePreset/msg#94", at, k)); return false; } } return true; };
       if(t==="single"){
         if(!needNum(["m","x","y","vx","vy","spin"])) return;
-        if(typeof b.pinned!=="boolean"){ bad(reasonText("validatePreset/msg#100", at)); return; }
+        if(typeof b.pinned!=="boolean"){ bad(reasonText("validatePreset/msg#95", at)); return; }
         if(!(b.m>0)) isqMassNonPos.push(idx);   // 第311便b(AN389): 下限を当てる前の宣言の質量
         const o={type:"single", m:MASS(b.m,"m"), x:CO(b.x,"x"), y:CO(b.y,"y"), vx:VEL(b.vx,"vx"), vy:VEL(b.vy,"vy"), spin:SPN(b.spin,"spin"), pinned:b.pinned};
         // 第22便(原仮定者裁定): 観測温度・半径系。スピン役割分離(sFrame/sTherm/sRep)は
@@ -27638,7 +27633,7 @@ function validatePreset(obj){
         // 第36便 D(台帳4-51): tInt=内部温度 T_int の初期値(thermal:"tint" のときだけ使われる。
         // 既定0。spin モードのプリセットに書かれていても build が参照しないので無害)
         for(const oldKey of ["obsT","coreOT"])
-          if(b[oldKey]!==undefined){ warnings.push(reasonText("validatePreset/msg#101", at, oldKey)); delete b[oldKey]; }
+          if(b[oldKey]!==undefined){ warnings.push(reasonText("validatePreset/msg#96", at, oldKey)); delete b[oldKey]; }
         // 第300便c(R177): 明示半径の下限は physics.radiusFloor を宣言した本(較正クラス以外)だけ下げる(未宣言は 0.01 —— 1 bit 不変)
         const rLo=(p.sampleClass!=="calibration" && p.physics && isNum(p.physics[RADIUS_FLOOR_KEY]))? clamp(p.physics[RADIUS_FLOOR_KEY],RADIUS_FLOOR_MIN,RADIUS_EXPLICIT_RANGE[0]) : RADIUS_EXPLICIT_RANGE[0];
         for(const [k,lo,hi] of [["radius",0.01,100],["rMul",0.2,40],   /* 第118便: R 0.01〜100 / 第121便: rMul 上限 40(💍e6 実環代表粒 m=1e-5 の表示半径 0.1=rMul31.62) */
@@ -27646,7 +27641,7 @@ function validatePreset(obj){
                                  ["dragQ",0.5,40],      /* 第237便: 粒子別の引きずり減衰指数 q_i(E2/E3 専用・未宣言=physics.q) */
                                  ["dragQTrans",0.5,40]]){   /* 第239便: 並進チャネルの粒子別減衰指数(未宣言=physics.qTrans・0=掛けない) */
           if(b[k]!==undefined){
-            if(!isNum(b[k])){ bad(reasonText("validatePreset/msg#99", at, k)); return; }
+            if(!isNum(b[k])){ bad(reasonText("validatePreset/msg#94", at, k)); return; }
             o[k]=wc(b[k],(k==="radius")? Math.min(lo,rLo) : lo,hi,k);   /* 第300便c: radius の下限は radiusFloor の宣言で下げる(未宣言は rLo=0.01 —— 1 bit 不変) */
           }
         }
@@ -27660,7 +27655,7 @@ function validatePreset(obj){
         }
         if(b.frameSource!==undefined){
           if(b.frameSource===false) o.frameSource=false;
-          else if(b.frameSource!==true) warnings.push(reasonText("validatePreset/msg#102", at));
+          else if(b.frameSource!==true) warnings.push(reasonText("validatePreset/msg#97", at));
         }
         // 第77便(コアv2): core:{} — 中心コアの独立サブシステム(opt-in。第80便で disk/ring 群にも開放)。
         // J_core を主変数とする絶対量管理(第81便でコアの唯一の仕様になった):
@@ -27702,7 +27697,7 @@ function validatePreset(obj){
         if(b.lightSweep!==undefined){
           if(b.lightSweep==="auto") o.lightSweep="auto";
           else if(isNum(b.lightSweep)) o.lightSweep=wc(b.lightSweep,0,1,"lightSweep");
-          else warnings.push(reasonText("validatePreset/msg#103", at));
+          else warnings.push(reasonText("validatePreset/msg#98", at));
         }
         // 第113便: pnSource=true — 1PN 源の明示宣言(偏向角しきい値 m≥pnK·max(R,ε) の上書き。
         // しきい値は c² に比例するため、ティア別実c値の観測較正では太陽級でも届かない — opt-in で解決。
@@ -27712,7 +27707,7 @@ function validatePreset(obj){
         if(b.pnSource!==undefined){
           if(b.pnSource===true) o.pnSource=true;
           else if(b.pnSource===false) o.pnSource=false;
-          else warnings.push(reasonText("validatePreset/msg#104", at));
+          else warnings.push(reasonText("validatePreset/msg#99", at));
         }
         // 第292便d(第82報⑦・R140): tide:{k2, lag} — 明示潮汐の受け手の宣言(single 専用・物理半径 radius>0 が要る)。
         // 未宣言はキーが無い = 署名も挙動も 1 bit 不変。physics.tide を宣言した本だけが読む(不正は拒否)
@@ -27722,14 +27717,14 @@ function validatePreset(obj){
           o.tide=tbv.tide;
           // 第308便d(AN350・R217): 宣言の半径が明示半径の下限(physics.radiusFloor —— 未宣言は 0.01)に丸められた天体の潮汐は B ∝ R⁵ を丸めた半径で読む(警告だけ)
           if(isNum(b.radius) && b.radius>0 && isNum(o.radius) && o.radius>b.radius)
-            warnings.push(reasonText("validatePreset/msg#105", at, b.radius, o.radius, Number(Math.pow(o.radius/b.radius,5).toPrecision(3)), RADIUS_FLOOR_MIN));
+            warnings.push(reasonText("validatePreset/msg#100", at, b.radius, o.radius, Number(Math.pow(o.radius/b.radius,5).toPrecision(3)), RADIUS_FLOOR_MIN));
         }
         // 第283便c(原仮定者の裁定(第73報)⑤・統括の検証項目 R86 (iv)): testParticle=true — **試験粒子契約**(既定 off)。
         // 宣言した粒子は力を受けるが**源にならない**(重力・決定力 W・フレーム u・1PN の反作用・E6′ 反作用の相手から外す)。
         // true 以外は削除+警告(未宣言はキーが無い = 署名も挙動も 1 bit 不変)。署名(presetSig)には bodies ごと入る
         if(b.testParticle!==undefined){
           if(b.testParticle===true) o.testParticle=true;
-          else warnings.push(reasonText("validatePreset/msg#106", at));
+          else warnings.push(reasonText("validatePreset/msg#101", at));
         }
         // 第226便(第25報 原仮定者裁定GO): pulse — 運動学パルス時計チャネル。パルスを「コアの
         // スピンに随伴する発光スペクトル」として宣言する(原子スピンの超微細発光〔水素 21cm 線〕の
@@ -27740,7 +27735,7 @@ function validatePreset(obj){
         if(b.pulse!==undefined){
           const pl=b.pulse;
           if(!pl||typeof pl!=="object"||Array.isArray(pl)||!isNum(pl.omega)||pl.source!=="observed")
-            warnings.push(reasonText("validatePreset/msg#107", at));
+            warnings.push(reasonText("validatePreset/msg#102", at));
           else o.pulse={omega:wc(pl.omega,0,1e6,"pulse.omega"), source:"observed"};
         }
         // 第246便(第38報 最優先): spinDipole — 観測 Q の転写チャネル(single 専用)。
@@ -27753,7 +27748,7 @@ function validatePreset(obj){
           const sp=b.spinDipole;
           if(!sp || typeof sp!=="object" || Array.isArray(sp) || !isNum(sp.omega) || !isNum(sp.radius) || !(sp.radius>0)
             || (sp.source!==undefined && sp.source!=="observed" && sp.source!=="declared"))
-            warnings.push(reasonText("validatePreset/msg#108", at));
+            warnings.push(reasonText("validatePreset/msg#103", at));
           else o.spinDipole={omega:wc(sp.omega,SPIN_DIP_OM_CLAMP[0],SPIN_DIP_OM_CLAMP[1],"spinDipole.omega"),
             radius:wc(sp.radius,SPIN_DIP_R_CLAMP[0],SPIN_DIP_R_CLAMP[1],"spinDipole.radius"),
             source:(sp.source==="declared")? "declared" : "observed"};
@@ -27780,32 +27775,32 @@ function validatePreset(obj){
           if(b.shell==="solid"||b.shell==="gas"){
             o.shell=b.shell;
             if(b.shell==="gas" && o.core && o.core.mode!=="cavity" && o.core.Kcs>0){
-              warnings.push(reasonText("validatePreset/msg#109", at));
+              warnings.push(reasonText("validatePreset/msg#104", at));
               o.core.Kcs=0;
             }
-          } else warnings.push(reasonText("validatePreset/msg#110", at));
+          } else warnings.push(reasonText("validatePreset/msg#105", at));
         }
         // E13(第11次裁定 保留分の実施): AI生成・インポートへ zonal を開放。
         // 偶数次 J2〜J12 のみ受理し、|J|≤0.1・refR 1〜5000・calib 0〜2 にクランプする
                 // 第27便: 単体粒子のレール駆動(規定運動)— pinned のときのみ有効。原点中心の円軌道の角速度
         if(b.railOmega!==undefined){
-          if(!isNum(b.railOmega)){ bad(reasonText("validatePreset/msg#111", at)); return; }
+          if(!isNum(b.railOmega)){ bad(reasonText("validatePreset/msg#106", at)); return; }
           o.railOmega=wc(b.railOmega,-2,2,"railOmega");
-          if(!b.pinned){ warnings.push(reasonText("validatePreset/msg#112", at)); o.railOmega=0; }
+          if(!b.pinned){ warnings.push(reasonText("validatePreset/msg#107", at)); o.railOmega=0; }
         }
         // 第32便(台帳4-57): レール中心 railCx/railCy を公開(未指定は原点=従来と厳密等価)
         if(b.railCx!==undefined || b.railCy!==undefined){
-          if((b.railCx!==undefined && !isNum(b.railCx)) || (b.railCy!==undefined && !isNum(b.railCy))){ bad(reasonText("validatePreset/msg#113", at)); return; }
+          if((b.railCx!==undefined && !isNum(b.railCx)) || (b.railCy!==undefined && !isNum(b.railCy))){ bad(reasonText("validatePreset/msg#108", at)); return; }
           o.railCx=CO(b.railCx||0,"railCx"); o.railCy=CO(b.railCy||0,"railCy");
-          if(!o.railOmega){ warnings.push(reasonText("validatePreset/msg#114", at)); delete o.railCx; delete o.railCy; }
+          if(!o.railOmega){ warnings.push(reasonText("validatePreset/msg#109", at)); delete o.railCx; delete o.railCy; }
         }
         if(b.zonal!==undefined){
           const z=b.zonal;
-          if(!z||typeof z!=="object"||Array.isArray(z)||!isNum(z.refR)||!z.J||typeof z.J!=="object"||Array.isArray(z.J)){ bad(reasonText("validatePreset/msg#115", at)); return; }
+          if(!z||typeof z!=="object"||Array.isArray(z)||!isNum(z.refR)||!z.J||typeof z.J!=="object"||Array.isArray(z.J)){ bad(reasonText("validatePreset/msg#110", at)); return; }
           const J={};
           for(const k of Object.keys(z.J)){
-            if(["2","4","6","8","10","12"].indexOf(String(k))<0){ warnings.push(reasonText("validatePreset/msg#116", at, k)); continue; }
-            if(!isNum(z.J[k])){ bad(reasonText("validatePreset/msg#117", at, k)); return; }
+            if(["2","4","6","8","10","12"].indexOf(String(k))<0){ warnings.push(reasonText("validatePreset/msg#111", at, k)); continue; }
+            if(!isNum(z.J[k])){ bad(reasonText("validatePreset/msg#112", at, k)); return; }
             J[k]=wc(z.J[k],-0.1,0.1,"zonal.J["+k+"]");
           }
           o.zonal={refR:wc(z.refR,1,5000,"zonal.refR"), calib:isNum(z.calib)?wc(z.calib,0,2,"zonal.calib"):1, J};
@@ -27816,7 +27811,7 @@ function validatePreset(obj){
         // 第35便(台帳4-61): hubble — 群の重心を中心とする放射方向初速 v=vScale·(r−r̄)。
         // 「自由な箱」の壁リングに外向き初速を与えるための最小追加(disk の hubble と同じ意味論だが、
         //  中心は cx/cy ではなく生成後の群の重心 — 群の総運動量を厳密に 0 にするため)
-        if(["kepler","omega","hubble","none"].indexOf(b.vMode)<0){ bad(reasonText("validatePreset/msg#118", at)); return; }
+        if(["kepler","omega","hubble","none"].indexOf(b.vMode)<0){ bad(reasonText("validatePreset/msg#113", at)); return; }
         // 第83便: aroundMass は vMode:"kepler" のときだけ読まれる(build 側 `b.vMode==="kepler" &&
         // b.aroundMass>0 && r>1` — 他モードでは 1 命令も参照されない)。従来は全 vMode で必須にして
         // いたため、kepler を使わない群(random/none 等)の定義が致命エラーで弾かれていた
@@ -27824,8 +27819,8 @@ function validatePreset(obj){
         // vScale/bulkVx と同じ「未指定=0 の任意キー」へ揃える。kepler では従来どおり必須(=中心質量
         // の宣言漏れは黙って v=0 の非軌道にせず致命で止める — 正当な検査なので残す)
         if(b.vMode==="kepler" && !needNum(["aroundMass"])) return;
-        if(b.direction!==1 && b.direction!==-1){ bad(reasonText("validatePreset/msg#119", at)); return; }
-        if(typeof b.pinned!=="boolean"){ bad(reasonText("validatePreset/msg#100", at)); return; }
+        if(b.direction!==1 && b.direction!==-1){ bad(reasonText("validatePreset/msg#114", at)); return; }
+        if(typeof b.pinned!=="boolean"){ bad(reasonText("validatePreset/msg#95", at)); return; }
         const oR={type:"ring", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"),
           rIn:LEN(Math.min(b.rIn,b.rOut),"rIn"), rOut:LEN(Math.max(b.rIn,b.rOut),"rOut"),
           mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
@@ -27835,33 +27830,33 @@ function validatePreset(obj){
           vScale:isNum(b.vScale)?wc(b.vScale,0,50,"vScale"):0,   // 第35便: vMode="hubble" の膨張率(他モードでは未使用)
           bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
         if(b.rMul!==undefined){   // 第36便 C1: 群共通の半径倍率(0.2〜5・既定1)
-          if(!isNum(b.rMul)){ bad(reasonText("validatePreset/msg#120", at)); return; }
+          if(!isNum(b.rMul)){ bad(reasonText("validatePreset/msg#115", at)); return; }
           oR.rMul=wc(b.rMul,0.2,40,"rMul");   /* 第118便: 5→20 / 第121便: 20→40(💍e6 実環代表粒 rMul=31.62) */
         }
         // 第285便a(原仮定者の裁定(第75報)⑤・R96): 群の**個々の代表粒子の半径** particleRadius(正の有限値・長さの値域)。
         // 群の分布半径(radius/rIn/rOut/w/h/pitch)とは別の欄。宣言すると粒子は明示半径(single の radius と同じ radOv)を持ち、rMul は半径に使われない
         if(b.particleRadius!==undefined){
-          if(!isNum(b.particleRadius) || !(b.particleRadius>0)){ bad(reasonText("validatePreset/msg#121", at)); return; }
+          if(!isNum(b.particleRadius) || !(b.particleRadius>0)){ bad(reasonText("validatePreset/msg#116", at)); return; }
           oR.particleRadius=LEN(b.particleRadius,"particleRadius");
-          if(b.rMul!==undefined) warnings.push(reasonText("validatePreset/msg#122", at));
+          if(b.rMul!==undefined) warnings.push(reasonText("validatePreset/msg#117", at));
         }
         // 第231便: 群共通の殻の相(disk と同じ — 第230便の ring 拡張。省略は 1 bit 不変)
         if(b.shell!==undefined){
           if(b.shell==="solid"||b.shell==="gas") oR.shell=b.shell;
-          else warnings.push(reasonText("validatePreset/msg#110", at));
+          else warnings.push(reasonText("validatePreset/msg#105", at));
         }
         if(b.frameSource!==undefined){   // 第243便: 群共通の frameSource:false(粗視化の代表粒子をフレーム源から除く)
           if(b.frameSource===false) oR.frameSource=false;
-          else if(b.frameSource!==true) warnings.push(reasonText("validatePreset/msg#102", at));
+          else if(b.frameSource!==true) warnings.push(reasonText("validatePreset/msg#97", at));
         }
         if(b.testParticle!==undefined){   // 第283便c: 群共通の試験粒子契約(既定 off — true のみ受理)
           if(b.testParticle===true) oR.testParticle=true;
-          else warnings.push(reasonText("validatePreset/msg#106", at));
+          else warnings.push(reasonText("validatePreset/msg#101", at));
         }
         // 第259便b: layers は single 専用(群はメンバーごとに m が違うので絶対質量の層を共通化できない)
-        if(b.layers!==undefined) warnings.push(reasonText("validatePreset/msg#123", at));
+        if(b.layers!==undefined) warnings.push(reasonText("validatePreset/msg#118", at));
         if(b.tInt!==undefined){   // 第36便 D(台帳4-51): 群共通の内部温度初期値(既定0)
-          if(!isNum(b.tInt)){ bad(reasonText("validatePreset/msg#124", at)); return; }
+          if(!isNum(b.tInt)){ bad(reasonText("validatePreset/msg#119", at)); return; }
           oR.tInt=wc(b.tInt,0,10000,"tInt");
         }
         // 第70便(ChatGPT レビュー P2): 群共通の減光 lightSweep — single と同じ意味論
@@ -27869,7 +27864,7 @@ function validatePreset(obj){
         if(b.lightSweep!==undefined){
           if(b.lightSweep==="auto") oR.lightSweep="auto";
           else if(isNum(b.lightSweep)) oR.lightSweep=wc(b.lightSweep,0,1,"lightSweep");
-          else warnings.push(reasonText("validatePreset/msg#103", at));
+          else warnings.push(reasonText("validatePreset/msg#98", at));
         }
         // 第80便(コアv2): 群共通の core:{}(single と同じ意味論・クランプ)。massFrac は各メンバーの
         // 質量に対する比・radius/omega は絶対量なので、群の全メンバーが同じコア設定を持つ。
@@ -27888,15 +27883,15 @@ function validatePreset(obj){
         }
         // 第31便: railH(膨張レール)— pinned リングを a(t)=e^{H·t} で相似膨張させる規定運動
         if(b.railH!==undefined){
-          if(!isNum(b.railH)){ bad(reasonText("validatePreset/msg#125", at)); return; }
+          if(!isNum(b.railH)){ bad(reasonText("validatePreset/msg#120", at)); return; }
           oR.railH=wc(b.railH,-0.2,0.2,"railH");
-          if(!b.pinned){ warnings.push(reasonText("validatePreset/msg#126", at)); oR.railH=0; }
+          if(!b.pinned){ warnings.push(reasonText("validatePreset/msg#121", at)); oR.railH=0; }
         }
         out.push(oR);
       } else if(t==="disk"){
         if(!needNum(["n","cx","cy","radius","mMin","mMax","spinMin","spinMax","vScale"])) return;
-        if(["kepler","rigid","flat","random","hubble","none","enclosed","virial",VMODE_EQUILIBRIUM,VMODE_JEANS].indexOf(b.vMode)<0){ bad(reasonText("validatePreset/msg#118", at)); return; }   // 第235便: enclosed(自己無撞着円運動)/virial(ビリアル等方)   // 第31便: hubble(初期 Hubble 流 v=vScale·(r−c))を追加   // 第284便a: equilibrium(2D 等方の基準解)   // 第286便a: jeans(動径 Jeans の初期分布)
-        if(b.direction!==1 && b.direction!==-1){ bad(reasonText("validatePreset/msg#119", at)); return; }
+        if(["kepler","rigid","flat","random","hubble","none","enclosed","virial",VMODE_EQUILIBRIUM,VMODE_JEANS].indexOf(b.vMode)<0){ bad(reasonText("validatePreset/msg#113", at)); return; }   // 第235便: enclosed(自己無撞着円運動)/virial(ビリアル等方)   // 第31便: hubble(初期 Hubble 流 v=vScale·(r−c))を追加   // 第284便a: equilibrium(2D 等方の基準解)   // 第286便a: jeans(動径 Jeans の初期分布)
+        if(b.direction!==1 && b.direction!==-1){ bad(reasonText("validatePreset/msg#114", at)); return; }
         if(b.vMode==="kepler" && !needNum(["aroundMass"])) return;   // 第83便: ring と同条件(kepler 以外は build が参照しない任意キー)
         const oD={type:"disk", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), radius:LEN(b.radius,"radius"),
           mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
@@ -27904,58 +27899,58 @@ function validatePreset(obj){
           vMode:b.vMode, aroundMass:isNum(b.aroundMass)?wc(b.aroundMass,0,MASS_CAP,"aroundMass"):0, vScale:wc(b.vScale,0,50,"vScale"), direction:b.direction,   // 第83便: 未指定=0(kepler 以外は未使用)
           bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
         if(b.rMul!==undefined){   // 第36便 C1: 群共通の半径倍率(0.2〜5・既定1)
-          if(!isNum(b.rMul)){ bad(reasonText("validatePreset/msg#120", at)); return; }
+          if(!isNum(b.rMul)){ bad(reasonText("validatePreset/msg#115", at)); return; }
           oD.rMul=wc(b.rMul,0.2,20,"rMul");   /* 第118便: 上限 5→20 */
         }
         // 第285便a(原仮定者の裁定(第75報)⑤・R96): 群の**個々の代表粒子の半径** particleRadius(正の有限値・長さの値域)。
         // 群の分布半径(radius/rIn/rOut/w/h/pitch)とは別の欄。宣言すると粒子は明示半径(single の radius と同じ radOv)を持ち、rMul は半径に使われない
         if(b.particleRadius!==undefined){
-          if(!isNum(b.particleRadius) || !(b.particleRadius>0)){ bad(reasonText("validatePreset/msg#121", at)); return; }
+          if(!isNum(b.particleRadius) || !(b.particleRadius>0)){ bad(reasonText("validatePreset/msg#116", at)); return; }
           oD.particleRadius=LEN(b.particleRadius,"particleRadius");
-          if(b.rMul!==undefined) warnings.push(reasonText("validatePreset/msg#122", at));
+          if(b.rMul!==undefined) warnings.push(reasonText("validatePreset/msg#117", at));
         }
         if(b.tInt!==undefined){   // 第36便 D(台帳4-51): 群共通の内部温度初期値(既定0)
-          if(!isNum(b.tInt)){ bad(reasonText("validatePreset/msg#124", at)); return; }
+          if(!isNum(b.tInt)){ bad(reasonText("validatePreset/msg#119", at)); return; }
           oD.tInt=wc(b.tInt,0,10000,"tInt");
         }
         // 第70便(ChatGPT レビュー P2): 群共通の減光(single と同じ意味論・未指定=0 で従来等価)
         if(b.lightSweep!==undefined){
           if(b.lightSweep==="auto") oD.lightSweep="auto";
           else if(isNum(b.lightSweep)) oD.lightSweep=wc(b.lightSweep,0,1,"lightSweep");
-          else warnings.push(reasonText("validatePreset/msg#103", at));
+          else warnings.push(reasonText("validatePreset/msg#98", at));
         }
         // 第230便: 群共通の殻の相(第229便 shell の disk 拡張 — HI ガス円盤の宣言用。
         // disk 行は core を持たないため意味論は相フラグ+表示のみ。省略=solid で 1 bit 不変)
         if(b.shell!==undefined){
           if(b.shell==="solid"||b.shell==="gas") oD.shell=b.shell;
-          else warnings.push(reasonText("validatePreset/msg#110", at));
+          else warnings.push(reasonText("validatePreset/msg#105", at));
         }
         if(b.frameSource!==undefined){   // 第243便: 群共通の frameSource:false(粗視化の代表粒子をフレーム源から除く)
           if(b.frameSource===false) oD.frameSource=false;
-          else if(b.frameSource!==true) warnings.push(reasonText("validatePreset/msg#102", at));
+          else if(b.frameSource!==true) warnings.push(reasonText("validatePreset/msg#97", at));
         }
         if(b.testParticle!==undefined){   // 第283便c: 群共通の試験粒子契約(既定 off — true のみ受理)
           if(b.testParticle===true) oD.testParticle=true;
-          else warnings.push(reasonText("validatePreset/msg#106", at));
+          else warnings.push(reasonText("validatePreset/msg#101", at));
         }
         // 第259便b: layers は single 専用(群は層を持てない)
-        if(b.layers!==undefined) warnings.push(reasonText("validatePreset/msg#123", at));
+        if(b.layers!==undefined) warnings.push(reasonText("validatePreset/msg#118", at));
         // 第228便(第27報 裁定GO): 観測プロファイル生成器 — 投影面密度の逆関数サンプリング。
         // profile 省略・"uniform" は現行の一様円盤(r=R√u)とビット一致(キーも付けない=署名不変)
         if(b.profile!==undefined){
           const PROFS=["uniform","plummer","king","sersic","exponential"];
-          if(PROFS.indexOf(b.profile)<0) warnings.push(reasonText("validatePreset/msg#127", at));
+          if(PROFS.indexOf(b.profile)<0) warnings.push(reasonText("validatePreset/msg#122", at));
           else if(b.profile!=="uniform"){
             oD.profile=b.profile;
             if(b.profile==="plummer"){
-              if(!isNum(b.plummerScale)){ bad(reasonText("validatePreset/msg#128", at)); return; }
+              if(!isNum(b.plummerScale)){ bad(reasonText("validatePreset/msg#123", at)); return; }
               oD.plummerScale=wc(b.plummerScale,1e-3,5000,"plummerScale");
             } else if(b.profile==="king"){
-              if(!isNum(b.kingRc)||!isNum(b.kingRt)){ bad(reasonText("validatePreset/msg#129", at)); return; }
+              if(!isNum(b.kingRc)||!isNum(b.kingRt)){ bad(reasonText("validatePreset/msg#124", at)); return; }
               oD.kingRc=wc(b.kingRc,1e-3,5000,"kingRc"); oD.kingRt=wc(b.kingRt,1e-2,5000,"kingRt");
-              if(!(oD.kingRt>oD.kingRc)){ bad(reasonText("validatePreset/msg#130", at)); return; }
+              if(!(oD.kingRt>oD.kingRc)){ bad(reasonText("validatePreset/msg#125", at)); return; }
             } else {
-              if(!isNum(b.sersicRe)){ bad(reasonText("validatePreset/msg#131", at)); return; }
+              if(!isNum(b.sersicRe)){ bad(reasonText("validatePreset/msg#126", at)); return; }
               oD.sersicRe=wc(b.sersicRe,1e-3,5000,"sersicRe");
               if(b.profile==="sersic") oD.sersicN=isNum(b.sersicN)? wc(b.sersicN,0.3,10,"sersicN") : 1;
             }
@@ -27966,29 +27961,29 @@ function validatePreset(obj){
         //   任意鍵 eqSources: "all"(既定・配置した全粒子の場 = 自己無撞着)/"pinned"(pinned 源だけ = 中心固定の基準)。
         //   vMode が equilibrium でない行の eqSources は警告つきで落とす(他の vMode の経路は 1 bit も変えない)。
         if(b.vMode===VMODE_EQUILIBRIUM){
-          if(oD.profile!=="plummer"){ bad(reasonText("validatePreset/msg#132", at)); return; }
+          if(oD.profile!=="plummer"){ bad(reasonText("validatePreset/msg#127", at)); return; }
           if(b.eqSources!==undefined){
-            if(EQ_SOURCES.indexOf(b.eqSources)<0){ bad(reasonText("validatePreset/msg#133", at)); return; }
+            if(EQ_SOURCES.indexOf(b.eqSources)<0){ bad(reasonText("validatePreset/msg#128", at)); return; }
             if(b.eqSources!==EQ_SOURCES[0]) oD.eqSources=b.eqSources;   // 既定 "all" は 1 文字も出さない
           }
-        } else if(b.eqSources!==undefined) warnings.push(reasonText("validatePreset/msg#134", at));
+        } else if(b.eqSources!==undefined) warnings.push(reasonText("validatePreset/msg#129", at));
         // 第286便a(原仮定者の裁定(第76報)⑤・R103・AN60): vMode:"jeans" も **profile:"plummer" の disk 行だけ**(面密度 Σ の解析形を Jeans 式に使う)。
         //   任意鍵 jeansRot(0〜JEANS_ROT_MAX —— 外側の漸近値 v_rot/σ・既定 0)・angularSym(2〜12 の整数・n が倍数 —— 位置だけ k 回対称)。
         //   jeans でない行のこれらの鍵は警告つきで落とす(他の vMode の経路は 1 bit も変えない)。
         if(b.vMode===VMODE_JEANS){
-          if(oD.profile!=="plummer"){ bad(reasonText("validatePreset/msg#135", at)); return; }
+          if(oD.profile!=="plummer"){ bad(reasonText("validatePreset/msg#130", at)); return; }
           if(b.jeansRot!==undefined){
-            if(!isNum(b.jeansRot) || !(b.jeansRot>=0) || !(b.jeansRot<=JEANS_ROT_MAX)){ bad(reasonText("validatePreset/msg#136", at, JEANS_ROT_MAX)); return; }
+            if(!isNum(b.jeansRot) || !(b.jeansRot>=0) || !(b.jeansRot<=JEANS_ROT_MAX)){ bad(reasonText("validatePreset/msg#131", at, JEANS_ROT_MAX)); return; }
             if(b.jeansRot!==0) oD.jeansRot=Number(b.jeansRot);
           }
           if(b.angularSym!==undefined){
             const k=b.angularSym;
-            if(!Number.isInteger(k) || k<2 || k>12 || (oD.n%k)!==0){ bad(reasonText("validatePreset/msg#137", at)); return; }
+            if(!Number.isInteger(k) || k<2 || k>12 || (oD.n%k)!==0){ bad(reasonText("validatePreset/msg#132", at)); return; }
             oD.angularSym=k;
           }
         } else {
-          if(b.jeansRot!==undefined) warnings.push(reasonText("validatePreset/msg#138", at));
-          if(b.angularSym!==undefined) warnings.push(reasonText("validatePreset/msg#139", at));
+          if(b.jeansRot!==undefined) warnings.push(reasonText("validatePreset/msg#133", at));
+          if(b.angularSym!==undefined) warnings.push(reasonText("validatePreset/msg#134", at));
         }
         // 第80便(コアv2): 群共通の core:{}(ring と同じ — single と同じ意味論・クランプ)
         // 第81便: 旧キー(コアv1)だけの群は代表値(平均質量・平均スピン)で v2 へ移行する
@@ -28012,18 +28007,18 @@ function validatePreset(obj){
           vScale:wc(b.vScale,0,50,"vScale"),
           bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
         if(b.rMul!==undefined){   // 第36便 C1: 群共通の半径倍率(0.2〜5・既定1)
-          if(!isNum(b.rMul)){ bad(reasonText("validatePreset/msg#120", at)); return; }
+          if(!isNum(b.rMul)){ bad(reasonText("validatePreset/msg#115", at)); return; }
           oB.rMul=wc(b.rMul,0.2,20,"rMul");   /* 第118便: 上限 5→20 */
         }
         // 第285便a(原仮定者の裁定(第75報)⑤・R96): 群の**個々の代表粒子の半径** particleRadius(正の有限値・長さの値域)。
         // 群の分布半径(radius/rIn/rOut/w/h/pitch)とは別の欄。宣言すると粒子は明示半径(single の radius と同じ radOv)を持ち、rMul は半径に使われない
         if(b.particleRadius!==undefined){
-          if(!isNum(b.particleRadius) || !(b.particleRadius>0)){ bad(reasonText("validatePreset/msg#121", at)); return; }
+          if(!isNum(b.particleRadius) || !(b.particleRadius>0)){ bad(reasonText("validatePreset/msg#116", at)); return; }
           oB.particleRadius=LEN(b.particleRadius,"particleRadius");
-          if(b.rMul!==undefined) warnings.push(reasonText("validatePreset/msg#122", at));
+          if(b.rMul!==undefined) warnings.push(reasonText("validatePreset/msg#117", at));
         }
         if(b.tInt!==undefined){   // 第36便 D(台帳4-51): 群共通の内部温度初期値(既定0)
-          if(!isNum(b.tInt)){ bad(reasonText("validatePreset/msg#124", at)); return; }
+          if(!isNum(b.tInt)){ bad(reasonText("validatePreset/msg#119", at)); return; }
           oB.tInt=wc(b.tInt,0,10000,"tInt");
         }
         out.push(oB);
@@ -28036,37 +28031,37 @@ function validatePreset(obj){
           mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
           bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
         if(b.jitter!==undefined){
-          if(!isNum(b.jitter)){ bad(reasonText("validatePreset/msg#140", at)); return; }
+          if(!isNum(b.jitter)){ bad(reasonText("validatePreset/msg#135", at)); return; }
           oG.jitter=wc(b.jitter,0,20,"jitter");
         }
         if(b.vScale!==undefined){   // 第53便 53B: 乱数向き初期速度(box と同じ値域)
-          if(!isNum(b.vScale)){ bad(reasonText("validatePreset/msg#141", at)); return; }
+          if(!isNum(b.vScale)){ bad(reasonText("validatePreset/msg#136", at)); return; }
           oG.vScale=wc(b.vScale,0,50,"vScale");
         }
         if(b.rMul!==undefined){
-          if(!isNum(b.rMul)){ bad(reasonText("validatePreset/msg#120", at)); return; }
+          if(!isNum(b.rMul)){ bad(reasonText("validatePreset/msg#115", at)); return; }
           oG.rMul=wc(b.rMul,0.2,20,"rMul");   /* 第118便: 上限 5→20 */
         }
         // 第285便a(原仮定者の裁定(第75報)⑤・R96): 群の**個々の代表粒子の半径** particleRadius(正の有限値・長さの値域)。
         // 群の分布半径(radius/rIn/rOut/w/h/pitch)とは別の欄。宣言すると粒子は明示半径(single の radius と同じ radOv)を持ち、rMul は半径に使われない
         if(b.particleRadius!==undefined){
-          if(!isNum(b.particleRadius) || !(b.particleRadius>0)){ bad(reasonText("validatePreset/msg#121", at)); return; }
+          if(!isNum(b.particleRadius) || !(b.particleRadius>0)){ bad(reasonText("validatePreset/msg#116", at)); return; }
           oG.particleRadius=LEN(b.particleRadius,"particleRadius");
-          if(b.rMul!==undefined) warnings.push(reasonText("validatePreset/msg#122", at));
+          if(b.rMul!==undefined) warnings.push(reasonText("validatePreset/msg#117", at));
         }
         if(b.tInt!==undefined){
-          if(!isNum(b.tInt)){ bad(reasonText("validatePreset/msg#124", at)); return; }
+          if(!isNum(b.tInt)){ bad(reasonText("validatePreset/msg#119", at)); return; }
           oG.tInt=wc(b.tInt,0,10000,"tInt");
         }
         out.push(oG);
-      } else bad(reasonText("validatePreset/msg#142", at, String(t)));
+      } else bad(reasonText("validatePreset/msg#137", at, String(t)));
     });
     // 粒子総数のクランプ(比例縮小)
     let total=0; out.forEach(b=>{ total += (b.type==="single")?1:b.n; });
     if(total>N_CAP){
       const ratio=(N_CAP - out.filter(b=>b.type==="single").length) / Math.max(1,(total - out.filter(b=>b.type==="single").length));
       out.forEach(b=>{ if(b.type!=="single") b.n=Math.max(0,Math.floor(b.n*ratio)); });
-      warnings.push(reasonText("validatePreset/msg#143", N_CAP));
+      warnings.push(reasonText("validatePreset/msg#138", N_CAP));
     }
     // 第298便a(R165): 粒子の z・vz(single)と群の傾き incl・node(ring/disk)を検証して写す(二次元の本でも**値は捨てない** —— 警告は「目的の組」の coord2dZ)
     if(!errors.length && out.length===p.bodies.length) out.forEach((ob,k)=>coord3dBodyKeys(p.bodies[k], ob, "bodies["+k+"]", warnings, bad, CO, VEL));
@@ -28226,15 +28221,15 @@ function validatePreset(obj){
     const J=p.phaseMap;
     const bad=(msg)=>{ warnings.push(reasonText("validatePreset/phaseMap", msg)); delete p.phaseMap; };
     const axVals=(a,nm)=>{
-      if(!Array.isArray(a) || a.length<2 || a.length>12){ bad(reasonText("validatePreset/msg#144", nm)); return null; }
-      if(!a.every(isNum)){ bad(reasonText("validatePreset/msg#145", nm)); return null; }
+      if(!Array.isArray(a) || a.length<2 || a.length>12){ bad(reasonText("validatePreset/msg#139", nm)); return null; }
+      if(!a.every(isNum)){ bad(reasonText("validatePreset/msg#140", nm)); return null; }
       return a.slice();
     };
-    if(!J || typeof J!=="object" || Array.isArray(J)) bad(reasonText("validatePreset/msg#146"));
-    else if(!CLAMPS[J.xKey] || !CLAMPS[J.yKey]) bad(reasonText("validatePreset/msg#147"));
-    else if(J.xKey===J.yKey) bad(reasonText("validatePreset/msg#148"));
-    else if(PM_METRICS.indexOf(J.metric)<0) bad(reasonText("validatePreset/msg#149", PM_METRICS.join("/")));
-    else if(!isNum(J.steps)) bad(reasonText("validatePreset/msg#150"));
+    if(!J || typeof J!=="object" || Array.isArray(J)) bad(reasonText("validatePreset/msg#141"));
+    else if(!CLAMPS[J.xKey] || !CLAMPS[J.yKey]) bad(reasonText("validatePreset/msg#142"));
+    else if(J.xKey===J.yKey) bad(reasonText("validatePreset/msg#143"));
+    else if(PM_METRICS.indexOf(J.metric)<0) bad(reasonText("validatePreset/msg#144", PM_METRICS.join("/")));
+    else if(!isNum(J.steps)) bad(reasonText("validatePreset/msg#145"));
     else {
       const xs=axVals(J.xValues,"xValues");
       const ys=xs && axVals(J.yValues,"yValues");
@@ -28470,7 +28465,7 @@ function validatePreset(obj){
     };
     const out={summary:g("summary"), observe:g("observe"), control:g("control")};
     if(out.summary+out.observe+out.control !== (desc||"")){
-      warnings.push(reasonText("validatePreset/msg#151", tag)); return undefined;
+      warnings.push(reasonText("validatePreset/msg#146", tag)); return undefined;
     }
     // 第276便f: 任意の 4 つ目の節 **brief(概要)**。**純分割の検査には入らない**
     // (上の連結一致は summary+observe+control のまま — 契約は 1 バイトも変えていない)。
@@ -28480,9 +28475,9 @@ function validatePreset(obj){
       const b=(typeof o.brief==="string")? o.brief.trim() : "";
       // 第279便a: en(tag が en.descStruct)の上限は DESC_BRIEF_CAP_EN=200(ja は 120 のまま)
       const cap=(tag.indexOf("en.")===0)? DESC_BRIEF_CAP_EN : DESC_BRIEF_CAP;
-      if(!b) warnings.push(reasonText("validatePreset/msg#152", tag));
+      if(!b) warnings.push(reasonText("validatePreset/msg#147", tag));
       else if(b.length>cap){
-        warnings.push(reasonText("validatePreset/msg#153", tag, cap));
+        warnings.push(reasonText("validatePreset/msg#148", tag, cap));
         out.brief=b.slice(0,cap);
       } else out.brief=b;
     }
@@ -28715,15 +28710,15 @@ function validatePreset(obj){
       const groupCount=(re)=>{ try{ return new RegExp(re.source+"|", re.flags).exec("").length-1; } catch(e){ return -1; } };
       const chkDescPat=(v, label)=>{
         if(v===undefined) return undefined;
-        if(typeof v!=="string" || !v.trim() || v.length>200){ warnings.push(reasonText("validatePreset/msg#154", label)); return undefined; }
+        if(typeof v!=="string" || !v.trim() || v.length>200){ warnings.push(reasonText("validatePreset/msg#149", label)); return undefined; }
         let re;
-        try{ re=new RegExp(v); }catch(e){ warnings.push(reasonText("validatePreset/msg#155", label, e.message)); return undefined; }
-        if(groupCount(re)<1){ warnings.push(reasonText("validatePreset/msg#156", label)); return undefined; }
+        try{ re=new RegExp(v); }catch(e){ warnings.push(reasonText("validatePreset/msg#150", label, e.message)); return undefined; }
+        if(groupCount(re)<1){ warnings.push(reasonText("validatePreset/msg#151", label)); return undefined; }
         return v;
       };
       const chkDescScale=(v, label)=>{
         if(v===undefined) return undefined;
-        if(!isNum(v)){ warnings.push(reasonText("validatePreset/msg#157", label)); return undefined; }
+        if(!isNum(v)){ warnings.push(reasonText("validatePreset/msg#152", label)); return undefined; }
         return v;
       };
       const out=[];
@@ -28974,7 +28969,7 @@ function validatePreset(obj){
   if(!errors.length && p.fitRecord && FIT_COND_RECORD_VERSIONS.indexOf(p.fitRecord.version)>=0 && p.fitRecord.cond && fitCondSig(p,p.fitRecord)!==p.fitRecord.cond.sig)
     warnings.push(reasonText("validatePreset/fitRecord#2"));
   // 第298便a(原仮定者の裁定(第88報)・R165): **三次元の本の受理の門** —— 三次元で未対応の機能は拒否する(黙って二次元の式で動かさない)
-  if(!errors.length && coordOf(p.physics)==="3d") for(const d of coord3dDenyOf(p)) bad(reasonText("validatePreset/msg#158", d.why));
+  if(!errors.length && coordOf(p.physics)==="3d") for(const d of coord3dDenyOf(p)) bad(reasonText("validatePreset/msg#153", d.why));
   // 第298便c(R167): 三次元の慣性決定力の宣言 spinDrag は三次元の本だけ(二次元の本の自転源は従来の spinSource —— 黙って二次元の式で動かさない)
   if(!errors.length && coordOf(p.physics)!=="3d" && p.physics && p.physics[REL_DRAG_KEY] && p.physics[REL_DRAG_KEY][REL_DRAG_SPIN3_KEY]!==undefined)
     bad(reasonText("validatePreset/physics.relativeDrag.spinDrag"));
@@ -29002,7 +28997,7 @@ function validatePreset(obj){
       if(b.dragCore || !(isNum(b.radius) && b.radius>0)) continue;
       const Rd=kap*invSqEngineMass(b.m, ph);
       if(!(Rd>0) || !Number.isFinite(Rd)){ bad(reasonText("validatePreset/bodies#3", k, Rd)); break; }
-      if(Rd>b.radius) warnings.push(reasonText("validatePreset/msg#159", invSqRdExcessWarn('bodies['+k+'] の規則の引きずりの半径(Y_k m)', Rd, b.radius)));   // 第314便a(原仮定者の裁定(第116報)AN404): 受理して警告 1 行(外殻を持たない —— dragCore を宣言しない天体は m_d = m)
+      if(Rd>b.radius) warnings.push(reasonText("validatePreset/msg#154", invSqRdExcessWarn('bodies['+k+'] の規則の引きずりの半径(Y_k m)', Rd, b.radius)));   // 第314便a(原仮定者の裁定(第116報)AN404): 受理して警告 1 行(外殻を持たない —— dragCore を宣言しない天体は m_d = m)
     }
   }
   if(!errors.length && p.physics && p.physics[REL_DRAG_KEY] && p.physics[REL_DRAG_KEY][DRAG_CORE_DEFAULT_KEY]!==undefined && !(p.scaleExp && isNum(p.scaleExp.L)))
