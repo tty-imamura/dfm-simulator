@@ -2485,6 +2485,9 @@ lastAddAt = Date.now();
       // ==== 第317便d の塊(ここから)==== 二体の解析の一次の率の表とトリトンの離心率ベクトルの表の量の器(satan-317d —— 走行しない・html を読まない・target は純関数 tests/lib-w317d-satan.mjs)
       'tests/out/satan-w317d.json',
       // ==== 第317便d の塊(ここまで)====
+      // ==== 第318便d の塊(ここから)==== 銀河と太陽の引きずりの見積りの器(dragest-318d —— A〜F・1 プロセス)。領域 REGEN_SCOPE を刻む
+      'tests/out/dragest-w318d.json',
+      // ==== 第318便d の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {

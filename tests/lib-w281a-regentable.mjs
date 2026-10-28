@@ -1422,6 +1422,17 @@ export const REGEN_STEPS = [
     note: '第317便d: 二体の解析の一次の率の表(G_loc の n = 2・1・0 × K1・K2 × 6 衛星)と候補 Y_k(n) の検算(そろうのは固定中心・試験粒子の q11 − q00 の一次の和 —— 普遍則として採らない)・'
       + 'トリトンの離心率ベクトルの表の量(AN432 —— 近点を確定したことにしない)。走行しない(純関数と既存の正本の読み)' }),
   // ==== 第317便d の塊(ここまで)====
+  // ==== 第318便d の塊(ここから)====
+  // ---- 第318便d(原仮定者の指示(第120報)「引きずりについて」・決断事項 AN438・統括の検証項目 R257): **銀河と太陽の引きずりの見積りの器**(段 dragest-318d ——
+  //   A 銀河の並進〔規約の大きさ〕・B ハロー〔NGC 3198 —— 見える質量の薄い円盤・要る移送・回転の項の源の粒度 4 つの最小二乗の値〕・C 銀河の軸・D 太陽の回転〔測る形の試し 4 走行〕・
+  //   E 太陽の軸〔金星・木星 —— maintain の帳簿の式〕・F まとめ)。規則・在位の本・エンジンの式は変えない。html を読む(読み口 inertialDragIsqState・inertialDragGalaxyAxialState と
+  //   最上位の inertialDragIsqRule・inertialDragIsqRuleK1・inertialDrag3MaintCell)・入力は tests/data-w318c-solar16-input.json と paper/data/cluster-galaxy-observations.csv
+  //   (他の正本は読まない —— html の生成領域の後)。1 プロセス(子プロセスなし)。所要は第318便d の枝の実測 71 s(**並走の秒** —— 4 枝並走の容器・負荷平均 8 前後 ——
+  //   統括が混まない箱で測り直す)
+  S('dragest-318d', 'node tests/exp-w318d-dragest.mjs', ['tests/out/dragest-w318d.json'], 71, { secSource: 'w318d-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/dragest-w318d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/Drun/runs/*/wallSec']) },
+    note: '第318便d: 銀河と太陽の引きずりの見積り(第120報の仮定を仮定として置き、要る大きさと今の K1 の大きさを同じ表に並べる —— 規則・在位の本・エンジンの式は変えない・新しい法則は足さない・合否と観測の 3σ を付けない)' }),
+  // ==== 第318便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

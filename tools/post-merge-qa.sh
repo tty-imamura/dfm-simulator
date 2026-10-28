@@ -387,6 +387,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.satCut317c docs.satCut317c docs.sat
 #   CANON の lint.canon304・lint.regenScope・lint.regenChain・lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satAn317d docs.paper3Key317d docs.paperSymbols316 docs.satH316 docs.satK1_315 lint.stableHashPaths lint.canon304 lint.regenScope lint.regenChain lint.sectionLookup313"
 # ==== 第317便d の塊(ここまで)====
+# ==== 第318便d の塊(ここから)====
+# 第318便d(原仮定者の指示(第120報)・AN438・R257): 枝 d の新設 2 本(docs.dragEst318d —— 銀河と太陽の引きずりの見積りの正本と文書・behavior.dragEst318d —— 読み口と解析の式・
+#   節点の和の写し・maintain の帳簿の式の照合)と、正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・CANON の lint.canon304・lint.qaHeapRelease310・
+#   lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.dragEst318d behavior.dragEst318d lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第318便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

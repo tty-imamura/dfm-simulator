@@ -96,6 +96,9 @@ export const SMOKE_KNOBS = Object.freeze({
   // ==== 第317便c の塊(ここから)====
   'satcut-317c': { env: { W317C_QUICK: '1', W317C_SATS: 'io,triton', W317C_WORKERS: '1', W317C_OUT: 'tests/out/_smoke-satcut-w317c.json' }, note: '試走(8 公転・S 360・h と h/2・イオとトリトンの V0・V2・V6b f=0・V1a —— 約 60 s。正本の 64 公転 × h/4 の走行は鎖 —— 子プロセス 2 本)' },   // 第317便c
   // ==== 第317便c の塊(ここまで)====
+  // ==== 第318便d の塊(ここから)====
+  'dragest-318d': { env: { W318D_QUICK: '1', W318D_OUT: 'tests/out/_smoke-dragest-w318d.json' }, note: '試走(B の格子を 16×32 だけ・D の走行を 2 公転 —— 約 15 s。正本は 1 プロセスで約 71 s〔並走の秒〕)' },   // 第318便d
+  // ==== 第318便d の塊(ここまで)====
   // ==== 第311便b の塊(ここまで)====
 });
 
