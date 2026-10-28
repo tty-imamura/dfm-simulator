@@ -54,7 +54,9 @@ export const CASES = [
 //   関数と表の文の変更は閉包の部分だけを動かす。プリセットの欄の変更は宣言にその本か "all" がある器だけを動かす(版に依らない —— 下で数える)。
 const crypto = await import('node:crypto');
 const sha = (t) => crypto.createHash('sha256').update(t).digest('hex');
-const closureSha = (PT, d, stop) => { const sc = SC.normalizeScope(d), cl = SC.closureOf(PT, sc.roots, undefined, { hardStop: stop });
+// 第318便a: 版 4・版 5 の閉包は版 5 までの文の登録簿で引く(現行の TEXT_REGISTRIES は版 6 で ACCEPT_REASONS・LAWS・SYSTEM_PROMPT を足した —— 本器は版 4/5 の対照の記録)
+const REG5 = SC.DATA_REGISTRIES.concat(SC.TEXT_REGISTRIES_5 || SC.TEXT_REGISTRIES);
+const closureSha = (PT, d, stop) => { const sc = SC.normalizeScope(d), cl = SC.closureOf(PT, sc.roots, REG5, { hardStop: stop });
   const parts = {}; for (const k of cl.segIdx) { const s = PT.segments[k]; parts[s.names.length ? s.names.join(',') : '(stmt)#' + sha(s.text).slice(0, 8)] = sha(s.text); }
   for (const h of cl.hp) parts['HP.' + h.name] = sha(h.text);
   return { sha: sha(SC.canonJson(parts)), parts }; };

@@ -811,8 +811,11 @@ export function scopeHash(htmlPath, decl, opts) {
   const stopSet = stopSetOf(version);   // 第286便d の統合: 版 4 だけ lcAfterStep/lcReset を止める。第316便d: 版 5 は SCOPE_STOP・版 4 は SCOPE_STOP_4
   // 第318便a: 文の登録簿も刻印の版で(版 1〜5 は I18N だけ —— 元の実装と同じ閉包)
   const regs = textRegistriesOf(version);
+  // 第318便a: 版 6 は宣言の roots に文の表の名(素の名・HP.<表>)があっても辿らない —— 表は閉包の外(器が文を読むなら consts に宣言する)。
+  //   REGEN_SCOPE の roots は器のコードから機械で引いた下限で、局所変数の同名(器の lib の LAWS など)を拾っていた。版 1〜5 は元の roots のまま
+  const rootsV = version === SCOPE_VERSION ? sc.roots.filter((r) => !regs.includes(String(r).replace(/^HP\./, ''))) : sc.roots;
   const cl = legacy ? closureOf(X.parsed, sc.roots, DATA_REGISTRIES.concat(TEXT_REGISTRIES_5))
-    : closureOf(X.parsed, sc.roots, DATA_REGISTRIES.concat(regs), { hardStop: stopSet });
+    : closureOf(X.parsed, rootsV, DATA_REGISTRIES.concat(regs), { hardStop: stopSet });
   for (const r of cl.missing) why.push('roots の名前が最上位に無い: ' + r);
   const segs = cl.segIdx.map((k) => X.parsed.segments[k]);
   const fnTexts = segs.map((s) => [s.names.length ? s.names.join(',') : '(stmt)', s.text]);
@@ -967,7 +970,7 @@ export function coversDerived(htmlPath, decl, derived) {
   else if (sc.presets !== 'all') for (const id of derived.presets) if (!sc.presets.includes(id)) miss.push('preset ' + id);
   // 第282便e: 下限は**現行版の閉包**(停止集合で止めた閉包)で覆う —— 器が表示関数の先にしか無い名前を
   //   読んでいたら、ここで「root … が無い」になり宣言を広げさせる(素の名前の roots は宣言そのものなので覆う扱い)
-  const cl = closureOf(X.parsed, sc.roots, undefined, { hardStop: SCOPE_STOP });
+  const cl = closureOf(X.parsed, sc.roots.filter((r) => !TEXT_REGISTRIES.includes(String(r).replace(/^HP\./, ''))), undefined, { hardStop: SCOPE_STOP });   // 第318便a: 版 6 と同じ roots
   const have = new Set(cl.functions.concat(sc.roots));
   for (const r of derived.roots) {
     if (have.has(r)) continue;

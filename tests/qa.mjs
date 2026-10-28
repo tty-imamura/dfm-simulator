@@ -88948,7 +88948,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       for (const nm of ['I18N', 'ACCEPT_REASONS', 'LAWS', 'SYSTEM_PROMPT']) if (h.detail.names.includes(nm)) bad.push('② 版 6 の閉包に文の表 ' + nm + ' が入る');
       for (const nm of ['validatePreset', 'reasonText']) if (!h.detail.names.includes(nm)) bad.push('② 版 6 の閉包に ' + nm + ' が無い');
       if (!h.scopeComplete) bad.push('② 版 6 の領域が complete でない: ' + h.detail.why.join(';'));
-      cases.push(`② 版 6 の閉包 ${h.detail.nNames} 名(inline script の ${h.detail.closureShare})に文の表 4 つが入らず validatePreset・reasonText が入る`);
+      // 宣言の roots に文の表の名がある器(下限が器の局所変数の同名を拾った —— LAWS)も版 6 では表を辿らない
+      const dL = (rows.find((r) => (r.decl.roots || []).includes('LAWS')) || {}).decl;
+      let nL = 0;
+      if (dL) { nL = 1; const hL = SC.scopeHash(path.join(ROOT, TARGET), dL, { version: SC.SCOPE_VERSION }); if (hL.detail.names.includes('LAWS')) bad.push('② roots に LAWS を宣言した器の版 6 の閉包に LAWS が入る'); }
+      cases.push(`② 版 6 の閉包 ${h.detail.nNames} 名(inline script の ${h.detail.closureShare})に文の表 4 つが入らず validatePreset・reasonText が入る(roots に表の名を宣言した器 ${nL} 本の標本も表を辿らない)`);
     }
     for (const k of ['referenceKind', 'law', 'kernel', 'rdRule', 'physics', 'bodies', 'id']) if (SC.proseKeysOf(SC.SCOPE_VERSION).includes(k)) bad.push('② 説明文の欄に意味を持つ ' + k + ' がある');
     // ③
@@ -89168,7 +89172,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   const walkDir = (d, re) => { for (const f of fs.readdirSync(path.join(ROOT, d))) { const rel = d + '/' + f; if (re.test(f) && fs.statSync(path.join(ROOT, rel)).isFile()) files.push(rel); } };
   walkDir('tests', /\.mjs$/); walkDir('tools', /\.(?:mjs|sh)$/); walkDir('docs', /\.md$/);
   if (fs.existsSync(path.join(ROOT, 'docs', 'dev'))) walkDir('docs/dev', /\.md$/);
-  files.push('README.md', 'tests/README.md', 'tools/README.md', '.gitignore', 'beta/index.html');
+  files.push('README.md', 'tests/README.md', 'tools/README.md', '.gitignore', 'beta/index.html', 'CHANGELOG.md', 'index.html');
   let nHist = 0; const hit = [];
   for (const f of files) {
     const t = rdr(f); if (t === null) continue;
