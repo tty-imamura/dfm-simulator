@@ -8,7 +8,7 @@
  "legacyLibVersion": "w315c-legacy7-1",
  "generator": "tests/exp-w315c-inposk1.mjs",
  "target": "beta/index.html",
- "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+ "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
  "reuseFrom": null,
  "ruling": "原仮定者の裁定(第117報)・決断事項 AN406(在位の 7 本を K1 + rdRule:\"kappaM\" へ —— 外殻なし・shellRecv 省略・initMotion \"observed\"・値は鎖で測り直す)・AN410(全系に一様の門)・AN405(有限質量比は既知の寄与)・AN401(比例定数は 1PN だけ)・AN396′(ε_fit・ε_num)・統括の検証項目 R244。Y_k は規則で置いた値(合わせない)。現実の宇宙とは主張しない",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -707,7 +707,7 @@
     "abQ00": true,
     "legacyOldLaw": true,
     "legacyFit": true,
-    "wallSec": 8.678
+    "wallSec": 9.056
    },
    "venus": {
     "id": "venusSunInertial3d",
@@ -719,7 +719,7 @@
     "abQ00": true,
     "legacyOldLaw": true,
     "legacyFit": false,
-    "wallSec": 8.269
+    "wallSec": 9.09
    },
    "mars": {
     "id": "marsSunInertial3d",
@@ -731,7 +731,7 @@
     "abQ00": true,
     "legacyOldLaw": true,
     "legacyFit": false,
-    "wallSec": 8.904
+    "wallSec": 9.38
    },
    "jupiter": {
     "id": "jupiterSunInertial3d",
@@ -743,7 +743,7 @@
     "abQ00": true,
     "legacyOldLaw": true,
     "legacyFit": false,
-    "wallSec": 8.561
+    "wallSec": 10.754
    },
    "saturn": {
     "id": "saturnSunInertial3d",
@@ -755,7 +755,7 @@
     "abQ00": true,
     "legacyOldLaw": true,
     "legacyFit": false,
-    "wallSec": 8.981
+    "wallSec": 9.149
    },
    "uranus": {
     "id": "uranusSunInertial3d",
@@ -767,7 +767,7 @@
     "abQ00": true,
     "legacyOldLaw": true,
     "legacyFit": false,
-    "wallSec": 9.002
+    "wallSec": 9.078
    },
    "neptune": {
     "id": "neptuneSunInertial3d",
@@ -779,7 +779,7 @@
     "abQ00": true,
     "legacyOldLaw": true,
     "legacyFit": false,
-    "wallSec": 8.379
+    "wallSec": 7.971
    }
   }
  },
@@ -918,7 +918,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.971
+    "wallSec": 1.348
    },
    "mercury|q10|div=1|N=8": {
     "key": "mercury|q10|div=1|N=8",
@@ -943,7 +943,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.439
+    "wallSec": 2.05
    },
    "mercury|q11|div=1|N=8": {
     "key": "mercury|q11|div=1|N=8",
@@ -968,7 +968,7 @@
     "betaMax": 3.209975441893601e-7,
     "isqSteps": 380028,
     "overlap": 0,
-    "wallSec": 101.722
+    "wallSec": 68.679
    },
    "mercury|q00|div=2|N=8": {
     "key": "mercury|q00|div=2|N=8",
@@ -993,7 +993,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.619
+    "wallSec": 2.839
    },
    "mercury|q10|div=2|N=8": {
     "key": "mercury|q10|div=2|N=8",
@@ -1018,7 +1018,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.937
+    "wallSec": 2.702
    },
    "mercury|q11|div=2|N=8": {
     "key": "mercury|q11|div=2|N=8",
@@ -1043,7 +1043,7 @@
     "betaMax": 3.2099790839957065e-7,
     "isqSteps": 760056,
     "overlap": 0,
-    "wallSec": 136.62
+    "wallSec": 135.219
    },
    "venus|q00|div=1|N=8": {
     "key": "venus|q00|div=1|N=8",
@@ -1068,7 +1068,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.582
+    "wallSec": 1.529
    },
    "venus|q10|div=1|N=8": {
     "key": "venus|q10|div=1|N=8",
@@ -1093,7 +1093,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.778
+    "wallSec": 1.383
    },
    "venus|q11|div=1|N=8": {
     "key": "venus|q11|div=1|N=8",
@@ -1118,7 +1118,7 @@
     "betaMax": 1.373838936819006e-7,
     "isqSteps": 380020,
     "overlap": 0,
-    "wallSec": 73.79
+    "wallSec": 71.117
    },
    "venus|q00|div=2|N=8": {
     "key": "venus|q00|div=2|N=8",
@@ -1143,7 +1143,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.816
+    "wallSec": 2.245
    },
    "venus|q10|div=2|N=8": {
     "key": "venus|q10|div=2|N=8",
@@ -1168,7 +1168,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.901
+    "wallSec": 2.937
    },
    "venus|q11|div=2|N=8": {
     "key": "venus|q11|div=2|N=8",
@@ -1193,7 +1193,7 @@
     "betaMax": 1.3738741643910089e-7,
     "isqSteps": 760041,
     "overlap": 0,
-    "wallSec": 135.466
+    "wallSec": 136.64
    },
    "mars|q00|div=1|N=8": {
     "key": "mars|q00|div=1|N=8",
@@ -1218,7 +1218,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.625
+    "wallSec": 1.72
    },
    "mars|q10|div=1|N=8": {
     "key": "mars|q10|div=1|N=8",
@@ -1243,7 +1243,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.764
+    "wallSec": 1.667
    },
    "mars|q11|div=1|N=8": {
     "key": "mars|q11|div=1|N=8",
@@ -1268,7 +1268,7 @@
     "betaMax": 7.14515336166036e-8,
     "isqSteps": 380181,
     "overlap": 0,
-    "wallSec": 76.094
+    "wallSec": 68.304
    },
    "mars|q00|div=2|N=8": {
     "key": "mars|q00|div=2|N=8",
@@ -1293,7 +1293,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.467
+    "wallSec": 2.329
    },
    "mars|q10|div=2|N=8": {
     "key": "mars|q10|div=2|N=8",
@@ -1318,7 +1318,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.845
+    "wallSec": 3.217
    },
    "mars|q11|div=2|N=8": {
     "key": "mars|q11|div=2|N=8",
@@ -1343,7 +1343,7 @@
     "betaMax": 7.145255595238911e-8,
     "isqSteps": 760364,
     "overlap": 0,
-    "wallSec": 133.953
+    "wallSec": 140.537
    },
    "jupiter|q00|div=1|N=8": {
     "key": "jupiter|q00|div=1|N=8",
@@ -1368,7 +1368,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.532
+    "wallSec": 1.47
    },
    "jupiter|q10|div=1|N=8": {
     "key": "jupiter|q10|div=1|N=8",
@@ -1393,7 +1393,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.661
+    "wallSec": 1.55
    },
    "jupiter|q11|div=1|N=8": {
     "key": "jupiter|q11|div=1|N=8",
@@ -1418,7 +1418,7 @@
     "betaMax": 1.9935577531312565e-8,
     "isqSteps": 380044,
     "overlap": 0,
-    "wallSec": 78.666
+    "wallSec": 69.316
    },
    "jupiter|q00|div=2|N=8": {
     "key": "jupiter|q00|div=2|N=8",
@@ -1443,7 +1443,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.49
+    "wallSec": 2.508
    },
    "jupiter|q10|div=2|N=8": {
     "key": "jupiter|q10|div=2|N=8",
@@ -1468,7 +1468,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.913
+    "wallSec": 2.717
    },
    "jupiter|q11|div=2|N=8": {
     "key": "jupiter|q11|div=2|N=8",
@@ -1493,7 +1493,7 @@
     "betaMax": 1.9935831028457676e-8,
     "isqSteps": 760089,
     "overlap": 0,
-    "wallSec": 134.955
+    "wallSec": 139.032
    },
    "saturn|q00|div=1|N=8": {
     "key": "saturn|q00|div=1|N=8",
@@ -1518,7 +1518,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.724
+    "wallSec": 1.344
    },
    "saturn|q10|div=1|N=8": {
     "key": "saturn|q10|div=1|N=8",
@@ -1543,7 +1543,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.847
+    "wallSec": 1.627
    },
    "saturn|q11|div=1|N=8": {
     "key": "saturn|q11|div=1|N=8",
@@ -1568,7 +1568,7 @@
     "betaMax": 1.0939939669553132e-8,
     "isqSteps": 379882,
     "overlap": 0,
-    "wallSec": 71.445
+    "wallSec": 73.582
    },
    "saturn|q00|div=2|N=8": {
     "key": "saturn|q00|div=2|N=8",
@@ -1593,7 +1593,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.707
+    "wallSec": 2.438
    },
    "saturn|q10|div=2|N=8": {
     "key": "saturn|q10|div=2|N=8",
@@ -1618,7 +1618,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 3.001
+    "wallSec": 2.577
    },
    "saturn|q11|div=2|N=8": {
     "key": "saturn|q11|div=2|N=8",
@@ -1643,7 +1643,7 @@
     "betaMax": 1.0939668254982774e-8,
     "isqSteps": 759761,
     "overlap": 0,
-    "wallSec": 136.022
+    "wallSec": 136.236
    },
    "saturn|q00|div=4|N=8": {
     "key": "saturn|q00|div=4|N=8",
@@ -1668,7 +1668,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 5.56
+    "wallSec": 5.108
    },
    "saturn|q10|div=4|N=8": {
     "key": "saturn|q10|div=4|N=8",
@@ -1693,7 +1693,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 6.018
+    "wallSec": 5.163
    },
    "saturn|q11|div=4|N=8": {
     "key": "saturn|q11|div=4|N=8",
@@ -1718,7 +1718,7 @@
     "betaMax": 1.0939532586896659e-8,
     "isqSteps": 1519518,
     "overlap": 0,
-    "wallSec": 314.172
+    "wallSec": 265.63
    },
    "uranus|q00|div=1|N=8": {
     "key": "uranus|q00|div=1|N=8",
@@ -1743,7 +1743,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.647
+    "wallSec": 1.283
    },
    "uranus|q10|div=1|N=8": {
     "key": "uranus|q10|div=1|N=8",
@@ -1768,7 +1768,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.69
+    "wallSec": 1.415
    },
    "uranus|q11|div=1|N=8": {
     "key": "uranus|q11|div=1|N=8",
@@ -1793,7 +1793,7 @@
     "betaMax": 5.3988215379513735e-9,
     "isqSteps": 380245,
     "overlap": 0,
-    "wallSec": 69.472
+    "wallSec": 69.954
    },
    "uranus|q00|div=2|N=8": {
     "key": "uranus|q00|div=2|N=8",
@@ -1818,7 +1818,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 3.087
+    "wallSec": 2.603
    },
    "uranus|q10|div=2|N=8": {
     "key": "uranus|q10|div=2|N=8",
@@ -1843,7 +1843,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.752
+    "wallSec": 2.904
    },
    "uranus|q11|div=2|N=8": {
     "key": "uranus|q11|div=2|N=8",
@@ -1868,7 +1868,7 @@
     "betaMax": 5.398911021193524e-9,
     "isqSteps": 760491,
     "overlap": 0,
-    "wallSec": 141.234
+    "wallSec": 138.777
    },
    "uranus|q00|div=4|N=8": {
     "key": "uranus|q00|div=4|N=8",
@@ -1893,7 +1893,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 5.142
+    "wallSec": 4.781
    },
    "uranus|q10|div=4|N=8": {
     "key": "uranus|q10|div=4|N=8",
@@ -1918,7 +1918,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 5.5
+    "wallSec": 5.602
    },
    "uranus|q11|div=4|N=8": {
     "key": "uranus|q11|div=4|N=8",
@@ -1943,7 +1943,7 @@
     "betaMax": 5.398955780893419e-9,
     "isqSteps": 1520983,
     "overlap": 0,
-    "wallSec": 313.214
+    "wallSec": 271.908
    },
    "neptune|q00|div=1|N=8": {
     "key": "neptune|q00|div=1|N=8",
@@ -1968,7 +1968,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.556
+    "wallSec": 1.194
    },
    "neptune|q10|div=1|N=8": {
     "key": "neptune|q10|div=1|N=8",
@@ -1993,7 +1993,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.666
+    "wallSec": 1.558
    },
    "neptune|q11|div=1|N=8": {
     "key": "neptune|q11|div=1|N=8",
@@ -2018,7 +2018,7 @@
     "betaMax": 3.3112155775509976e-9,
     "isqSteps": 380169,
     "overlap": 0,
-    "wallSec": 70.743
+    "wallSec": 71.759
    },
    "neptune|q00|div=2|N=8": {
     "key": "neptune|q00|div=2|N=8",
@@ -2043,7 +2043,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.659
+    "wallSec": 2.602
    },
    "neptune|q10|div=2|N=8": {
     "key": "neptune|q10|div=2|N=8",
@@ -2068,7 +2068,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 3.131
+    "wallSec": 2.973
    },
    "neptune|q11|div=2|N=8": {
     "key": "neptune|q11|div=2|N=8",
@@ -2093,7 +2093,7 @@
     "betaMax": 3.3111094069221228e-9,
     "isqSteps": 760337,
     "overlap": 0,
-    "wallSec": 158.756
+    "wallSec": 142.057
    },
    "neptune|q00|div=4|N=8": {
     "key": "neptune|q00|div=4|N=8",
@@ -2118,7 +2118,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 5.041
+    "wallSec": 5.528
    },
    "neptune|q10|div=4|N=8": {
     "key": "neptune|q10|div=4|N=8",
@@ -2143,7 +2143,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 5.254
+    "wallSec": 5.663
    },
    "neptune|q11|div=4|N=8": {
     "key": "neptune|q11|div=4|N=8",
@@ -2168,7 +2168,7 @@
     "betaMax": 3.3110563239753912e-9,
     "isqSteps": 1520672,
     "overlap": 0,
-    "wallSec": 286.184
+    "wallSec": 269.497
    }
   }
  },
@@ -3160,41 +3160,41 @@
    "wallSec": 0.072
   },
   "B": {
-   "wallSec": 60.83
+   "wallSec": 64.53
   },
   "T": {
    "wallSec": 0.001
   },
   "E": {
-   "wallSec": 850.383
+   "wallSec": 793.441
   },
   "K": {
    "wallSec": 0.001
   },
   "G": {
-   "wallSec": 0.001
+   "wallSec": 0
   },
   "C": {
-   "wallSec": 0.003
+   "wallSec": 0.004
   }
  },
  "stats": {
   "runs": 51,
   "steps": 37628643
  },
- "elapsedS": 913.312,
+ "elapsedS": 860.259,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便c",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T17:41:28.103Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-29T08:59:41.780Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -3204,15 +3204,15 @@
    },
    {
     "file": "tests/out/k1confirm-w313d.json",
-    "bytes": 86894,
-    "sha256": "62612ba7e32910f7336c6abb56ae14dae0e6b72dad816a599ec2d5b2bf05245f",
-    "mtime": "2026-10-26T16:43:21.992Z"
+    "bytes": 86880,
+    "sha256": "a5366a9fa602e2d649ccb27c7188a3c52047247bf7777d1c54b6458f8ebc0d9e",
+    "mtime": "2026-10-29T06:03:28.861Z"
    },
    {
     "file": "tests/out/k1outer-w314c.json",
-    "bytes": 74027,
-    "sha256": "29e48b9780d8e390df1107c28c984ed57f64811bac213189c2efec4df6db8c32",
-    "mtime": "2026-10-26T16:22:42.820Z"
+    "bytes": 74018,
+    "sha256": "ee8a28734cf6be2892d08e5d0b5a0d5542e1d43e40b0c2541cd17e7f29b1be84",
+    "mtime": "2026-10-29T06:17:14.734Z"
    }
   ],
   "code": [
@@ -3284,12 +3284,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "706bb695ba66b0f7af8ea07c9d86027390189a8b1a08a9b3216f8d04bcfc109c",
+  "codeSha256": "2073ef3a31cf7881b4957a0079021ba7ccd7324f4699db30040ac355cc795a59",
   "harnessVersion": "w315c-inposk1-1",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W315C_WORKERS)",
   "notClaim": [
@@ -3303,7 +3303,7 @@
    "現実の宇宙"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "$",
@@ -3355,11 +3355,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1343,
-   "segments": 1183,
-   "closureShare": 0.3172
+   "names": 1341,
+   "segments": 1181,
+   "closureShare": 0.3051
   },
-  "scopeSha256": "cf79567e0b9a7b3fede4eef9f33bbd90751030b2bc8dc2f08e72d41ab123c6dc",
+  "scopeSha256": "5e96043454a90a7c1d17a0204ec880c41cfdc63019aa03bb9b267f4b2aca4041",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -3370,7 +3370,7 @@
    },
    {
     "file": "tests/out/k1confirm-w313d.json",
-    "stableSha256": "4ac68701dd5cf780d26d69b4e72bb0a38ca4882681bdbf53aac58e578899b65d",
+    "stableSha256": "0040429c8462dcb479298bf86cf0e9128f5be453c107570454bcdd556b01b8ab",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/E/rows/*/wallSec",
@@ -3387,7 +3387,7 @@
    },
    {
     "file": "tests/out/k1outer-w314c.json",
-    "stableSha256": "84db7b2b9e6ec00dec8a97d6caa515034c341ae57eced32751b8ded78df6289f",
+    "stableSha256": "61e1ddb86b7e0aaa66e9c21f9245197748e48132a9c37f9973833549f4926dd9",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/E/rows/*/wallSec",

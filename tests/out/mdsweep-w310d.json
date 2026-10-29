@@ -5,7 +5,7 @@
  "apsisVersion": "w304e-apsis-1",
  "generator": "tests/exp-w310d-mdsweep.mjs",
  "target": "beta/index.html",
- "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+ "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
  "ruling": "原仮定者の裁定(第109報)AN380: 太陽の R_d は cap6500km で固定し、太陽の m_d の適正値を探索する。dragCore(R_d, m_d)と、外殻(観測半径, 観測質量 − m_d)の引きずりを、それぞれ計算する —— 決断事項 AN384(外殻の形)・AN385(受け手の側)・AN386(m_d の値域)・AN336(標的 1PN + A1)・統括の検証項目 R225。探索の材料(フィットの値を在位へ入れない)",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "quick": false,
@@ -1906,7 +1906,7 @@
      "betaMax": 0,
      "isqSteps": 0,
      "overlap": 0,
-     "wallSec": 1.526
+     "wallSec": 1.348
     },
     {
      "div": 2,
@@ -1921,7 +1921,7 @@
      "betaMax": 0,
      "isqSteps": 0,
      "overlap": 0,
-     "wallSec": 3.078
+     "wallSec": 2.578
     }
    ],
    "C1": [
@@ -1938,7 +1938,7 @@
      "betaMax": 0,
      "isqSteps": 0,
      "overlap": 0,
-     "wallSec": 2.132
+     "wallSec": 1.948
     },
     {
      "div": 2,
@@ -1953,7 +1953,7 @@
      "betaMax": 0,
      "isqSteps": 0,
      "overlap": 0,
-     "wallSec": 3.523
+     "wallSec": 4.047
     }
    ],
    "E1": [
@@ -1970,7 +1970,7 @@
      "betaMax": 0.007672561571136631,
      "isqSteps": 380437,
      "overlap": 0,
-     "wallSec": 142.77
+     "wallSec": 150.247
     },
     {
      "div": 2,
@@ -1985,7 +1985,7 @@
      "betaMax": 0.0076725807046072085,
      "isqSteps": 760875,
      "overlap": 0,
-     "wallSec": 274.459
+     "wallSec": 269.891
     }
    ],
    "E2": [
@@ -2002,7 +2002,7 @@
      "betaMax": 0.007672903544908667,
      "isqSteps": 380437,
      "overlap": 0,
-     "wallSec": 145.13
+     "wallSec": 141.952
     },
     {
      "div": 2,
@@ -2017,7 +2017,7 @@
      "betaMax": 0.007672922683713031,
      "isqSteps": 760875,
      "overlap": 0,
-     "wallSec": 297.179
+     "wallSec": 297.638
     }
    ]
   },
@@ -2215,19 +2215,19 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.239
+   "wallSec": 0.25
   },
   "P": {
-   "wallSec": 0.955
+   "wallSec": 0.816
   },
   "E": {
-   "wallSec": 0.124
+   "wallSec": 0.091
   },
   "S": {
-   "wallSec": 0.233
+   "wallSec": 0.175
   },
   "R": {
-   "wallSec": 869.804
+   "wallSec": 869.651
   },
   "Z": {
    "wallSec": 0.006
@@ -2237,19 +2237,19 @@
   "runs": 8,
   "steps": 4562792
  },
- "elapsedS": 873.26,
+ "elapsedS": 873.152,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第310便d",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T17:24:30.015Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-29T08:58:38.652Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2265,9 +2265,9 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "bytes": 89237,
-    "sha256": "afbcf3dd23e41a0f6d12a192c162a68e03742c449bf76c5e21e5bdbb54857ec2",
-    "mtime": "2026-10-26T15:34:50.872Z"
+    "bytes": 89235,
+    "sha256": "fef170121869488cb9fbc564e0f9b4ab50adc09d3b1bec2739027057fcd1b4a7",
+    "mtime": "2026-10-29T03:02:54.541Z"
    },
    {
     "file": "paper/data/pn1-ephemeris-candidates.csv",
@@ -2351,12 +2351,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "872af127f5942ffb2b650da95a96af844049c4ce2692f9ba63134af9d73d5e51",
+  "codeSha256": "99158f736e1b5bcab89fb48329ebf098de8e995c2e7023a6a52c742b58753cb1",
   "harnessVersion": "w310d-mdsweep-1",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2367,7 +2367,7 @@
    "完全に一致"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "$",
@@ -2405,11 +2405,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1339,
-   "segments": 1180,
-   "closureShare": 0.3166
+   "names": 1337,
+   "segments": 1178,
+   "closureShare": 0.3045
   },
-  "scopeSha256": "73527adb97011fb61b2f7efb0d92522ea7b56233824922da4d72346025628335",
+  "scopeSha256": "84af4dd6789fba803a2c6c69e06c1e7174aa836dd3b857c1678e161b13137b5b",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -2426,7 +2426,7 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "stableSha256": "fcd5ed5daf645955f67582466ffb896ed57530080259974d6a51667e306dfe2b",
+    "stableSha256": "998112c931c39b69d6b341a9044c9aae32874e8b211ed9d50e131f79e15a8913",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
