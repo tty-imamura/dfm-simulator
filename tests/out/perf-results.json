@@ -1,5 +1,5 @@
 {
-  "when": "2026-10-27T18:11:38.014Z",
+  "when": "2026-10-29T13:37:39.808Z",
   "threshold": 1.1,
   "reps": 2,
   "frames": 60,
@@ -11,8 +11,8 @@
     "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
     "cores": 4,
     "method": "paired-alternating(SETS=3 REPS=2 FRAMES=60 WARMUP=20)",
-    "startedAt": "2026-10-27T18:04:27.728Z",
-    "commit": "389fb002b176fe5d0f6ec95d4bb414a38570e615",
+    "startedAt": "2026-10-29T13:30:38.668Z",
+    "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
     "run": {
       "githubRunId": null,
       "sha": null,
@@ -27,7 +27,7 @@
     },
     "beta": {
       "file": "beta/index.html",
-      "sha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0"
+      "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311"
     },
     "node": "v22.22.0",
     "nodeMajor": 22
@@ -35,11 +35,11 @@
   "results": [
     {
       "id": "galaxy",
-      "rootMs": 1881.3,
-      "betaMs": 1889.1,
-      "ratio": 1.011,
+      "rootMs": 1880,
+      "betaMs": 1815,
+      "ratio": 0.934,
       "tsNorm": 1,
-      "normRatio": 1.011,
+      "normRatio": 0.934,
       "genGap": false,
       "limit": 1.1,
       "frames": 60,
@@ -51,47 +51,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 1909.7,
-          "betaMs": 1870.9,
-          "ratio": 0.98
+          "rootMs": 2229.7,
+          "betaMs": 1824.5,
+          "ratio": 0.818
         },
         {
           "order": "beta→root",
-          "rootMs": 1884.9,
-          "betaMs": 1905.7,
-          "ratio": 1.011
+          "rootMs": 1905.9,
+          "betaMs": 1780.6,
+          "ratio": 0.934
         },
         {
           "order": "root→beta",
-          "rootMs": 1742.9,
-          "betaMs": 1940.6,
-          "ratio": 1.113
+          "rootMs": 1823.1,
+          "betaMs": 1970.3,
+          "ratio": 1.081
         }
       ],
       "rawRootMs": [
-        1909.7,
-        1778,
-        1884.9,
-        1881.3,
-        1735.6,
-        1742.9
+        2229.7,
+        1843.2,
+        1880,
+        1905.9,
+        1823.1,
+        1808.5
       ],
       "rawBetaMs": [
-        1870.9,
-        1819.8,
-        1809.7,
-        1905.7,
-        1889.1,
-        1940.6
+        1569.8,
+        1824.5,
+        1747.5,
+        1780.6,
+        1970.3,
+        1815
       ]
     },
     {
       "id": "darkrotor",
-      "rootMs": 1483.6,
-      "betaMs": 1446.5,
-      "ratio": 1.006,
+      "rootMs": 1481.7,
+      "betaMs": 1510.7,
+      "ratio": 1.024,
       "tsNorm": 1,
-      "normRatio": 1.006,
+      "normRatio": 1.024,
       "genGap": false,
       "limit": 1.1,
       "frames": 60,
@@ -103,47 +103,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 1505.9,
-          "betaMs": 1618.9,
-          "ratio": 1.075
+          "rootMs": 1574.9,
+          "betaMs": 1521,
+          "ratio": 0.966
         },
         {
           "order": "beta→root",
-          "rootMs": 1699.5,
-          "betaMs": 1402.2,
-          "ratio": 0.825
+          "rootMs": 1415.2,
+          "betaMs": 1456.4,
+          "ratio": 1.029
         },
         {
           "order": "root→beta",
-          "rootMs": 1437.4,
-          "betaMs": 1446.5,
-          "ratio": 1.006
+          "rootMs": 1564.6,
+          "betaMs": 1602.6,
+          "ratio": 1.024
         }
       ],
       "rawRootMs": [
-        1480.6,
-        1505.9,
-        1483.6,
-        1699.5,
-        1437.4,
-        1437
+        1574.9,
+        1373.8,
+        1415.2,
+        1286.1,
+        1481.7,
+        1564.6
       ],
       "rawBetaMs": [
-        1618.9,
-        1614.3,
-        1372.2,
-        1402.2,
-        1446.5,
-        1366.3
+        1521,
+        1340.5,
+        1456.4,
+        1344.9,
+        1510.7,
+        1602.6
       ]
     },
     {
       "id": "convection",
-      "rootMs": 611.1,
-      "betaMs": 523.2,
-      "ratio": 0.856,
+      "rootMs": 561.5,
+      "betaMs": 590.8,
+      "ratio": 1.134,
       "tsNorm": 1,
-      "normRatio": 0.856,
+      "normRatio": 1.134,
       "genGap": false,
       "limit": 1.1,
       "frames": 60,
@@ -151,51 +151,96 @@
       "stepsPerFrameBeta": 4,
       "nRoot": 210,
       "nBeta": 210,
-      "pass": true,
+      "pass": false,
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 661.6,
-          "betaMs": 704.3,
-          "ratio": 1.065
+          "rootMs": 612.2,
+          "betaMs": 745.6,
+          "ratio": 1.218
         },
         {
           "order": "beta→root",
-          "rootMs": 652.1,
-          "betaMs": 523.2,
-          "ratio": 0.802
+          "rootMs": 548.6,
+          "betaMs": 622.2,
+          "ratio": 1.134
         },
         {
           "order": "root→beta",
-          "rootMs": 611.1,
-          "betaMs": 523.4,
-          "ratio": 0.856
+          "rootMs": 747.7,
+          "betaMs": 519.7,
+          "ratio": 0.695
         }
       ],
       "rawRootMs": [
-        519.8,
-        661.6,
-        652.1,
+        612.2,
+        561.5,
+        475.2,
         548.6,
-        611.1,
-        509.5
+        555.3,
+        747.7
       ],
       "rawBetaMs": [
-        513.4,
-        704.3,
-        498,
-        523.2,
-        523.4,
-        508.4
-      ]
+        539.3,
+        745.6,
+        622.2,
+        590.8,
+        519.7,
+        381
+      ],
+      "retossed": true,
+      "firstRatio": 1.209,
+      "firstNormRatio": 1.209,
+      "firstPass": false,
+      "firstRootMs": 590,
+      "firstBetaMs": 704,
+      "firstPairs": [
+        {
+          "order": "root→beta",
+          "rootMs": 800.4,
+          "betaMs": 967.4,
+          "ratio": 1.209
+        },
+        {
+          "order": "beta→root",
+          "rootMs": 564.3,
+          "betaMs": 704,
+          "ratio": 1.248
+        },
+        {
+          "order": "root→beta",
+          "rootMs": 604.2,
+          "betaMs": 641.5,
+          "ratio": 1.062
+        }
+      ],
+      "firstRawRootMs": [
+        581.3,
+        800.4,
+        542.4,
+        564.3,
+        590,
+        604.2
+      ],
+      "firstRawBetaMs": [
+        858.8,
+        967.4,
+        566.6,
+        704,
+        641.5,
+        550.1
+      ],
+      "finalRatio": 1.134,
+      "finalPass": false,
+      "retossNote": "初回 FAILのため、fresh pages で1回だけ再測定し、その結果で判定を置き換えた(第160便・閾値/判定式は不変)"
     },
     {
       "id": "counterring",
-      "rootMs": 666.1,
-      "betaMs": 634.6,
-      "ratio": 0.96,
+      "rootMs": 656.6,
+      "betaMs": 685.7,
+      "ratio": 1.055,
       "tsNorm": 1,
-      "normRatio": 0.96,
+      "normRatio": 1.055,
       "genGap": false,
       "limit": 1.1,
       "frames": 240,
@@ -207,47 +252,92 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 666.1,
-          "betaMs": 639.3,
-          "ratio": 0.96
+          "rootMs": 656.6,
+          "betaMs": 692.4,
+          "ratio": 1.055
         },
         {
           "order": "beta→root",
-          "rootMs": 854.7,
-          "betaMs": 622.9,
-          "ratio": 0.729
+          "rootMs": 806.4,
+          "betaMs": 1002,
+          "ratio": 1.243
         },
         {
           "order": "root→beta",
-          "rootMs": 669.6,
-          "betaMs": 673.6,
-          "ratio": 1.006
+          "rootMs": 823.5,
+          "betaMs": 630.1,
+          "ratio": 0.765
         }
       ],
       "rawRootMs": [
-        666.1,
-        593.3,
-        606.5,
-        854.7,
-        665.9,
-        669.6
+        656.6,
+        593.8,
+        806.4,
+        552.5,
+        555.5,
+        823.5
       ],
       "rawBetaMs": [
-        606.2,
-        639.3,
-        601.1,
-        622.9,
-        634.6,
-        673.6
-      ]
+        685.7,
+        692.4,
+        636,
+        1002,
+        630.1,
+        603.4
+      ],
+      "retossed": true,
+      "firstRatio": 1.362,
+      "firstNormRatio": 1.362,
+      "firstPass": false,
+      "firstRootMs": 737.4,
+      "firstBetaMs": 816.9,
+      "firstPairs": [
+        {
+          "order": "root→beta",
+          "rootMs": 599.6,
+          "betaMs": 816.9,
+          "ratio": 1.362
+        },
+        {
+          "order": "beta→root",
+          "rootMs": 809.9,
+          "betaMs": 718.2,
+          "ratio": 0.887
+        },
+        {
+          "order": "root→beta",
+          "rootMs": 737.4,
+          "betaMs": 1025.9,
+          "ratio": 1.391
+        }
+      ],
+      "firstRawRootMs": [
+        598.2,
+        599.6,
+        792.3,
+        809.9,
+        737.4,
+        694.3
+      ],
+      "firstRawBetaMs": [
+        662.4,
+        816.9,
+        718.2,
+        555,
+        870,
+        1025.9
+      ],
+      "finalRatio": 1.055,
+      "finalPass": true,
+      "retossNote": "初回 FAILのため、fresh pages で1回だけ再測定し、その結果で判定を置き換えた(第160便・閾値/判定式は不変)"
     },
     {
       "id": "saturnLayered",
-      "rootMs": 916.6,
-      "betaMs": 882,
-      "ratio": 0.942,
+      "rootMs": 834.8,
+      "betaMs": 914.4,
+      "ratio": 1.068,
       "tsNorm": 1,
-      "normRatio": 0.942,
+      "normRatio": 1.068,
       "genGap": false,
       "limit": 1.1,
       "frames": 60,
@@ -259,47 +349,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 940.9,
-          "betaMs": 935.3,
-          "ratio": 0.994
+          "rootMs": 888.8,
+          "betaMs": 948.8,
+          "ratio": 1.068
         },
         {
           "order": "beta→root",
-          "rootMs": 869.4,
-          "betaMs": 819.1,
-          "ratio": 0.942
+          "rootMs": 834.8,
+          "betaMs": 914.4,
+          "ratio": 1.095
         },
         {
           "order": "root→beta",
-          "rootMs": 978.2,
-          "betaMs": 888.5,
-          "ratio": 0.908
+          "rootMs": 886.7,
+          "betaMs": 937.6,
+          "ratio": 1.057
         }
       ],
       "rawRootMs": [
-        940.9,
-        887.1,
-        869.4,
-        860.8,
-        978.2,
-        916.6
+        888.8,
+        755.1,
+        834.8,
+        814.5,
+        886.7,
+        769.7
       ],
       "rawBetaMs": [
-        882,
-        935.3,
-        803.1,
-        819.1,
-        888.5,
-        808.7
+        948.8,
+        876.8,
+        914.4,
+        764.1,
+        937.6,
+        844.7
       ]
     },
     {
       "id": "echo",
-      "rootMs": 108.5,
-      "betaMs": 86.5,
-      "ratio": 0.783,
+      "rootMs": 94.3,
+      "betaMs": 103.4,
+      "ratio": 0.798,
       "tsNorm": 1,
-      "normRatio": 0.783,
+      "normRatio": 0.798,
       "genGap": false,
       "limit": 1.1,
       "frames": 720,
@@ -311,47 +401,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 148,
-          "betaMs": 139.6,
-          "ratio": 0.943
+          "rootMs": 207,
+          "betaMs": 165.2,
+          "ratio": 0.798
         },
         {
           "order": "beta→root",
-          "rootMs": 110.5,
-          "betaMs": 86.5,
-          "ratio": 0.783
+          "rootMs": 111,
+          "betaMs": 83.1,
+          "ratio": 0.749
         },
         {
           "order": "root→beta",
-          "rootMs": 108.5,
-          "betaMs": 83.9,
-          "ratio": 0.773
+          "rootMs": 94.3,
+          "betaMs": 103.4,
+          "ratio": 1.097
         }
       ],
       "rawRootMs": [
-        148,
-        92.5,
-        110.5,
-        91.8,
-        96,
-        108.5
+        207,
+        78.5,
+        111,
+        85,
+        84.5,
+        94.3
       ],
       "rawBetaMs": [
-        136.2,
-        139.6,
-        84.9,
-        86.5,
-        83.9,
-        81
+        165.2,
+        149.1,
+        83.1,
+        80.8,
+        100.3,
+        103.4
       ]
     },
     {
       "id": "freebox",
-      "rootMs": 367.4,
-      "betaMs": 372.8,
-      "ratio": 1.009,
+      "rootMs": 486.3,
+      "betaMs": 362.7,
+      "ratio": 0.91,
       "tsNorm": 1,
-      "normRatio": 1.009,
+      "normRatio": 0.91,
       "genGap": false,
       "limit": 1.1,
       "frames": 480,
@@ -363,92 +453,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 376.2,
-          "betaMs": 379.6,
-          "ratio": 1.009
+          "rootMs": 486.3,
+          "betaMs": 333.4,
+          "ratio": 0.686
         },
         {
           "order": "beta→root",
-          "rootMs": 503.9,
-          "betaMs": 372.8,
-          "ratio": 0.74
+          "rootMs": 449.5,
+          "betaMs": 428.3,
+          "ratio": 0.953
         },
         {
           "order": "root→beta",
-          "rootMs": 367.4,
-          "betaMs": 381.1,
-          "ratio": 1.037
+          "rootMs": 580.2,
+          "betaMs": 528.1,
+          "ratio": 0.91
         }
       ],
       "rawRootMs": [
-        376.2,
-        326.4,
-        503.9,
-        336.1,
-        367.4,
-        343.7
+        334.7,
+        486.3,
+        420.6,
+        449.5,
+        489.9,
+        580.2
       ],
       "rawBetaMs": [
-        379.6,
-        349.8,
-        372.8,
-        353.4,
-        381.1,
-        344.7
-      ],
-      "retossed": true,
-      "firstRatio": 1.188,
-      "firstNormRatio": 1.188,
-      "firstPass": false,
-      "firstRootMs": 355.4,
-      "firstBetaMs": 401,
-      "firstPairs": [
-        {
-          "order": "root→beta",
-          "rootMs": 394.8,
-          "betaMs": 401,
-          "ratio": 1.016
-        },
-        {
-          "order": "beta→root",
-          "rootMs": 421.2,
-          "betaMs": 500.5,
-          "ratio": 1.188
-        },
-        {
-          "order": "root→beta",
-          "rootMs": 354.5,
-          "betaMs": 474.1,
-          "ratio": 1.337
-        }
-      ],
-      "firstRawRootMs": [
-        394.8,
-        335.7,
-        355.4,
-        421.2,
-        354.5,
-        336.5
-      ],
-      "firstRawBetaMs": [
-        401,
-        347.3,
-        325.2,
-        500.5,
-        367.1,
-        474.1
-      ],
-      "finalRatio": 1.009,
-      "finalPass": true,
-      "retossNote": "初回 FAILのため、fresh pages で1回だけ再測定し、その結果で判定を置き換えた(第160便・閾値/判定式は不変)"
+        333.4,
+        325.9,
+        428.3,
+        336.8,
+        362.7,
+        528.1
+      ]
     },
     {
       "id": "emergent",
-      "rootMs": 162.7,
-      "betaMs": 207,
-      "ratio": 1.08,
+      "rootMs": 222.1,
+      "betaMs": 159.9,
+      "ratio": 0.777,
       "tsNorm": 1,
-      "normRatio": 1.08,
+      "normRatio": 0.777,
       "genGap": false,
       "limit": 1.1,
       "frames": 60,
@@ -460,47 +505,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 282.7,
-          "betaMs": 305.2,
-          "ratio": 1.08
+          "rootMs": 430.3,
+          "betaMs": 250.2,
+          "ratio": 0.581
         },
         {
           "order": "beta→root",
-          "rootMs": 203.4,
-          "betaMs": 207,
-          "ratio": 1.018
+          "rootMs": 289.9,
+          "betaMs": 225.2,
+          "ratio": 0.777
         },
         {
           "order": "root→beta",
-          "rootMs": 160,
-          "betaMs": 272,
-          "ratio": 1.7
+          "rootMs": 177.7,
+          "betaMs": 159.9,
+          "ratio": 0.9
         }
       ],
       "rawRootMs": [
-        282.7,
-        162.7,
-        203.4,
-        153.5,
-        160,
-        157.1
+        430.3,
+        215.8,
+        289.9,
+        222.1,
+        177.7,
+        161.9
       ],
       "rawBetaMs": [
-        305.2,
-        153.7,
-        207,
-        184.2,
-        272,
-        168.2
+        250.2,
+        153.4,
+        225.2,
+        147.2,
+        158.1,
+        159.9
       ]
     },
     {
       "id": "emergent2",
-      "rootMs": 345,
-      "betaMs": 387.7,
-      "ratio": 1.089,
+      "rootMs": 415.6,
+      "betaMs": 345.2,
+      "ratio": 0.858,
       "tsNorm": 1,
-      "normRatio": 1.089,
+      "normRatio": 0.858,
       "genGap": false,
       "limit": 1.1,
       "frames": 60,
@@ -512,92 +557,92 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 410,
-          "betaMs": 446.3,
-          "ratio": 1.089
+          "rootMs": 417.9,
+          "betaMs": 392.1,
+          "ratio": 0.938
         },
         {
           "order": "beta→root",
-          "rootMs": 428.8,
-          "betaMs": 359.6,
-          "ratio": 0.839
+          "rootMs": 415.6,
+          "betaMs": 356.4,
+          "ratio": 0.858
         },
         {
           "order": "root→beta",
-          "rootMs": 327.8,
-          "betaMs": 387.7,
-          "ratio": 1.183
+          "rootMs": 443,
+          "betaMs": 345.2,
+          "ratio": 0.779
         }
       ],
       "rawRootMs": [
-        345,
-        410,
-        334.6,
-        428.8,
-        326,
-        327.8
+        417.9,
+        333,
+        341.3,
+        415.6,
+        443,
+        300.5
       ],
       "rawBetaMs": [
-        394.6,
-        446.3,
-        359.6,
-        318.2,
-        387.7,
-        330.1
+        392.1,
+        314.5,
+        356.4,
+        320.9,
+        333.7,
+        345.2
       ],
       "retossed": true,
-      "firstRatio": 1.118,
-      "firstNormRatio": 1.118,
+      "firstRatio": 1.126,
+      "firstNormRatio": 1.126,
       "firstPass": false,
-      "firstRootMs": 339.9,
-      "firstBetaMs": 379.6,
+      "firstRootMs": 358.3,
+      "firstBetaMs": 423.9,
       "firstPairs": [
         {
           "order": "root→beta",
-          "rootMs": 391.8,
-          "betaMs": 437.9,
-          "ratio": 1.118
+          "rootMs": 393,
+          "betaMs": 442.5,
+          "ratio": 1.126
         },
         {
           "order": "beta→root",
-          "rootMs": 339.9,
-          "betaMs": 337.4,
-          "ratio": 0.993
+          "rootMs": 372.7,
+          "betaMs": 470.2,
+          "ratio": 1.262
         },
         {
           "order": "root→beta",
-          "rootMs": 329.8,
-          "betaMs": 498.1,
-          "ratio": 1.51
+          "rootMs": 358.3,
+          "betaMs": 325.2,
+          "ratio": 0.908
         }
       ],
       "firstRawRootMs": [
-        391.8,
-        382.8,
-        339.9,
-        326.6,
-        329.8,
-        322.4
+        345.8,
+        393,
+        372.7,
+        263.7,
+        358.3,
+        282.2
       ],
       "firstRawBetaMs": [
-        437.9,
-        335.7,
-        337.4,
-        321.4,
-        379.6,
-        498.1
+        423.9,
+        442.5,
+        470.2,
+        347.3,
+        314.4,
+        325.2
       ],
-      "finalRatio": 1.089,
+      "finalRatio": 0.858,
       "finalPass": true,
       "retossNote": "初回 FAILのため、fresh pages で1回だけ再測定し、その結果で判定を置き換えた(第160便・閾値/判定式は不変)"
     },
     {
       "id": "chain2",
-      "rootMs": 390.2,
-      "betaMs": 376.2,
-      "ratio": 1.024,
+      "rootMs": 361.1,
+      "betaMs": 359.3,
+      "ratio": 0.837,
       "tsNorm": 1,
-      "normRatio": 1.024,
+      "normRatio": 0.837,
       "genGap": false,
       "limit": 1.1,
       "frames": 60,
@@ -609,47 +654,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 503.5,
-          "betaMs": 515.8,
-          "ratio": 1.024
+          "rootMs": 663.7,
+          "betaMs": 377.6,
+          "ratio": 0.569
         },
         {
           "order": "beta→root",
-          "rootMs": 319.3,
-          "betaMs": 351.1,
-          "ratio": 1.1
+          "rootMs": 405.2,
+          "betaMs": 339,
+          "ratio": 0.837
         },
         {
           "order": "root→beta",
-          "rootMs": 390.2,
-          "betaMs": 376.2,
-          "ratio": 0.964
+          "rootMs": 361.1,
+          "betaMs": 503.3,
+          "ratio": 1.394
         }
       ],
       "rawRootMs": [
-        418.9,
-        503.5,
-        318.9,
-        319.3,
-        390.2,
-        350.2
+        663.7,
+        334.3,
+        405.2,
+        346.3,
+        271.7,
+        361.1
       ],
       "rawBetaMs": [
-        515.8,
-        443.4,
-        336.2,
-        351.1,
-        376.2,
-        324.6
+        377.6,
+        359.3,
+        339,
+        304.1,
+        335.2,
+        503.3
       ]
     },
     {
       "id": "galaxyStd",
-      "rootMs": 1752.6,
-      "betaMs": 1691.5,
-      "ratio": 1.021,
+      "rootMs": 1797.7,
+      "betaMs": 2007.5,
+      "ratio": 1.075,
       "tsNorm": 1,
-      "normRatio": 1.021,
+      "normRatio": 1.075,
       "genGap": false,
       "limit": 1.1,
       "frames": 60,
@@ -661,47 +706,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 1937.2,
-          "betaMs": 1796.9,
-          "ratio": 0.928
+          "rootMs": 1782.6,
+          "betaMs": 1728.4,
+          "ratio": 0.97
         },
         {
           "order": "beta→root",
-          "rootMs": 1772.3,
-          "betaMs": 2051,
-          "ratio": 1.157
+          "rootMs": 1797.7,
+          "betaMs": 2007.5,
+          "ratio": 1.117
         },
         {
           "order": "root→beta",
-          "rootMs": 1600.9,
-          "betaMs": 1634.8,
-          "ratio": 1.021
+          "rootMs": 1999.9,
+          "betaMs": 2149.8,
+          "ratio": 1.075
         }
       ],
       "rawRootMs": [
-        1752.6,
-        1937.2,
-        1552.1,
-        1772.3,
-        1504.6,
-        1600.9
+        1782.6,
+        1419.5,
+        1797.7,
+        1652.5,
+        1999.9,
+        1919.7
       ],
       "rawBetaMs": [
-        1796.9,
-        1691.5,
-        2051,
-        1639.4,
-        1624.4,
-        1634.8
+        1647.6,
+        1728.4,
+        1669.7,
+        2007.5,
+        2062.1,
+        2149.8
       ]
     },
     {
       "id": "galaxyGeo2",
-      "rootMs": 2441.2,
-      "betaMs": 2364.9,
-      "ratio": 0.971,
+      "rootMs": 2442.4,
+      "betaMs": 2481.5,
+      "ratio": 0.995,
       "tsNorm": 1,
-      "normRatio": 0.971,
+      "normRatio": 0.995,
       "genGap": false,
       "limit": 1.1,
       "frames": 60,
@@ -713,47 +758,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 2498.3,
-          "betaMs": 2352.2,
-          "ratio": 0.942
+          "rootMs": 2545.9,
+          "betaMs": 2481.5,
+          "ratio": 0.975
         },
         {
           "order": "beta→root",
-          "rootMs": 2441.2,
-          "betaMs": 2371.4,
-          "ratio": 0.971
+          "rootMs": 2442.4,
+          "betaMs": 2647.2,
+          "ratio": 1.084
         },
         {
           "order": "root→beta",
-          "rootMs": 2480.3,
-          "betaMs": 2510.9,
-          "ratio": 1.012
+          "rootMs": 2515.6,
+          "betaMs": 2502.3,
+          "ratio": 0.995
         }
       ],
       "rawRootMs": [
-        2334.2,
-        2498.3,
-        2441.2,
-        2230.4,
-        2480.3,
-        2416
+        2414.6,
+        2545.9,
+        2356.5,
+        2442.4,
+        2426,
+        2515.6
       ],
       "rawBetaMs": [
-        2352.2,
-        2256.6,
-        2364.9,
-        2371.4,
-        2510.9,
-        2338.4
+        2481.5,
+        1899.1,
+        2647.2,
+        2418.6,
+        2502.3,
+        2426.3
       ]
     },
     {
       "id": "chaincycle",
-      "rootMs": 374.7,
-      "betaMs": 367.3,
-      "ratio": 0.997,
+      "rootMs": 396.1,
+      "betaMs": 362.8,
+      "ratio": 0.849,
       "tsNorm": 1,
-      "normRatio": 0.997,
+      "normRatio": 0.849,
       "genGap": false,
       "limit": 1.1,
       "frames": 60,
@@ -765,47 +810,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 375.4,
-          "betaMs": 367.3,
-          "ratio": 0.978
+          "rootMs": 427.2,
+          "betaMs": 362.8,
+          "ratio": 0.849
         },
         {
           "order": "beta→root",
-          "rootMs": 427.4,
-          "betaMs": 426.2,
-          "ratio": 0.997
+          "rootMs": 369.5,
+          "betaMs": 354.5,
+          "ratio": 0.959
         },
         {
           "order": "root→beta",
-          "rootMs": 374.7,
-          "betaMs": 397.1,
-          "ratio": 1.06
+          "rootMs": 481.3,
+          "betaMs": 398.5,
+          "ratio": 0.828
         }
       ],
       "rawRootMs": [
-        337.8,
-        375.4,
-        427.4,
-        338.4,
-        357.7,
-        374.7
+        427.2,
+        396.1,
+        278.6,
+        369.5,
+        481.3,
+        322.3
       ],
       "rawBetaMs": [
-        367.3,
-        357.5,
-        426.2,
-        363.1,
-        355.7,
-        397.1
+        362.8,
+        331,
+        261.8,
+        354.5,
+        381.7,
+        398.5
       ]
     },
     {
       "id": "galaxyDB",
-      "rootMs": 1594.9,
-      "betaMs": 1526.3,
-      "ratio": 1.016,
+      "rootMs": 1470.4,
+      "betaMs": 1536.9,
+      "ratio": 1.025,
       "tsNorm": 1,
-      "normRatio": 1.016,
+      "normRatio": 1.025,
       "genGap": false,
       "limit": 1.1,
       "frames": 60,
@@ -817,47 +862,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 1594.9,
-          "betaMs": 1627.4,
-          "ratio": 1.02
+          "rootMs": 1470.4,
+          "betaMs": 1929.5,
+          "ratio": 1.312
         },
         {
           "order": "beta→root",
-          "rootMs": 1612.3,
-          "betaMs": 1554.5,
-          "ratio": 0.964
+          "rootMs": 1499.6,
+          "betaMs": 1536.9,
+          "ratio": 1.025
         },
         {
           "order": "root→beta",
-          "rootMs": 1502.2,
-          "betaMs": 1526.3,
-          "ratio": 1.016
+          "rootMs": 1475.4,
+          "betaMs": 1481,
+          "ratio": 1.004
         }
       ],
       "rawRootMs": [
-        1511.2,
-        1594.9,
-        1612.3,
-        1610.3,
-        1502.2,
-        1393.4
+        1470.4,
+        1428.6,
+        1258.3,
+        1499.6,
+        1475.4,
+        1414.6
       ],
       "rawBetaMs": [
-        1627.4,
-        1439.2,
-        1519,
-        1554.5,
-        1520.5,
-        1526.3
+        1622.8,
+        1929.5,
+        1383.1,
+        1536.9,
+        1481,
+        1302.8
       ]
     },
     {
       "id": "nebulaRotor",
-      "rootMs": 663.2,
-      "betaMs": 615.7,
-      "ratio": 0.987,
+      "rootMs": 613.6,
+      "betaMs": 688.7,
+      "ratio": 1.056,
       "tsNorm": 1,
-      "normRatio": 0.987,
+      "normRatio": 1.056,
       "genGap": false,
       "limit": 1.1,
       "frames": 480,
@@ -869,47 +914,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 703.2,
-          "betaMs": 615.7,
-          "ratio": 0.876
+          "rootMs": 698.1,
+          "betaMs": 737.2,
+          "ratio": 1.056
         },
         {
           "order": "beta→root",
-          "rootMs": 691.6,
-          "betaMs": 767.3,
-          "ratio": 1.109
+          "rootMs": 777.7,
+          "betaMs": 729.3,
+          "ratio": 0.938
         },
         {
           "order": "root→beta",
-          "rootMs": 650.1,
-          "betaMs": 641.9,
-          "ratio": 0.987
+          "rootMs": 613.6,
+          "betaMs": 688.7,
+          "ratio": 1.122
         }
       ],
       "rawRootMs": [
-        703.2,
-        560.2,
-        691.6,
-        663.2,
-        650.1,
-        540
+        698.1,
+        546.8,
+        777.7,
+        522.8,
+        613.6,
+        584.3
       ],
       "rawBetaMs": [
-        615.7,
-        612.9,
-        605.4,
-        767.3,
-        598.5,
-        641.9
+        737.2,
+        574.8,
+        659.1,
+        729.3,
+        554.2,
+        688.7
       ]
     },
     {
       "id": "nebulaShell",
-      "rootMs": 107.4,
-      "betaMs": 88.6,
-      "ratio": 0.888,
+      "rootMs": 119,
+      "betaMs": 128,
+      "ratio": 1.076,
       "tsNorm": 1,
-      "normRatio": 0.888,
+      "normRatio": 1.076,
       "genGap": false,
       "limit": 1.1,
       "frames": 60,
@@ -921,92 +966,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 115.7,
-          "betaMs": 101.7,
-          "ratio": 0.879
+          "rootMs": 135.1,
+          "betaMs": 145.4,
+          "ratio": 1.076
         },
         {
           "order": "beta→root",
-          "rootMs": 110.6,
+          "rootMs": 101.1,
           "betaMs": 98.2,
-          "ratio": 0.888
+          "ratio": 0.971
         },
         {
           "order": "root→beta",
-          "rootMs": 91.2,
-          "betaMs": 88.6,
-          "ratio": 0.971
+          "rootMs": 124,
+          "betaMs": 151.4,
+          "ratio": 1.221
         }
       ],
       "rawRootMs": [
-        115.7,
-        107.4,
-        110.6,
-        87.4,
-        91.2,
-        84.4
+        135.1,
+        92.4,
+        101.1,
+        100.1,
+        119,
+        124
       ],
       "rawBetaMs": [
-        101.7,
-        87.3,
+        145.4,
+        128,
+        96.3,
         98.2,
-        86.9,
-        82.8,
-        88.6
-      ],
-      "retossed": true,
-      "firstRatio": 1.137,
-      "firstNormRatio": 1.137,
-      "firstPass": false,
-      "firstRootMs": 130.9,
-      "firstBetaMs": 117.4,
-      "firstPairs": [
-        {
-          "order": "root→beta",
-          "rootMs": 132.7,
-          "betaMs": 176.4,
-          "ratio": 1.329
-        },
-        {
-          "order": "beta→root",
-          "rootMs": 132.4,
-          "betaMs": 150.5,
-          "ratio": 1.137
-        },
-        {
-          "order": "root→beta",
-          "rootMs": 130.9,
-          "betaMs": 91.1,
-          "ratio": 0.696
-        }
-      ],
-      "firstRawRootMs": [
-        132.7,
-        82.8,
-        130.5,
-        132.4,
-        90,
-        130.9
-      ],
-      "firstRawBetaMs": [
-        176.4,
-        117.4,
-        96.1,
-        150.5,
-        91.1,
-        84.8
-      ],
-      "finalRatio": 0.888,
-      "finalPass": true,
-      "retossNote": "初回 FAILのため、fresh pages で1回だけ再測定し、その結果で判定を置き換えた(第160便・閾値/判定式は不変)"
+        119.1,
+        151.4
+      ]
     },
     {
       "id": "nebulaBipolar",
-      "rootMs": 93.2,
-      "betaMs": 53,
-      "ratio": 0.581,
+      "rootMs": 48.9,
+      "betaMs": 41.9,
+      "ratio": 0.857,
       "tsNorm": 1,
-      "normRatio": 0.581,
+      "normRatio": 0.857,
       "genGap": false,
       "limit": 1.1,
       "frames": 60,
@@ -1018,47 +1018,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 104.6,
-          "betaMs": 89,
-          "ratio": 0.851
+          "rootMs": 97.8,
+          "betaMs": 74,
+          "ratio": 0.757
         },
         {
           "order": "beta→root",
-          "rootMs": 93.2,
-          "betaMs": 52,
-          "ratio": 0.558
+          "rootMs": 42.2,
+          "betaMs": 40.6,
+          "ratio": 0.962
         },
         {
           "order": "root→beta",
-          "rootMs": 91.2,
-          "betaMs": 53,
-          "ratio": 0.581
+          "rootMs": 48.9,
+          "betaMs": 41.9,
+          "ratio": 0.857
         }
       ],
       "rawRootMs": [
-        104.6,
-        94.3,
-        93.2,
-        91.7,
-        91.2,
-        65
+        97.8,
+        55.3,
+        38.3,
+        42.2,
+        48.9,
+        37.6
       ],
       "rawBetaMs": [
-        85.6,
-        89,
-        52,
-        51.9,
-        53,
-        50.8
+        74,
+        67.3,
+        38.3,
+        40.6,
+        41.9,
+        39.4
       ]
     },
     {
       "id": "starSeed",
-      "rootMs": 398.8,
-      "betaMs": 344,
-      "ratio": 0.976,
+      "rootMs": 328.1,
+      "betaMs": 338.9,
+      "ratio": 1.044,
       "tsNorm": 1,
-      "normRatio": 0.976,
+      "normRatio": 1.044,
       "genGap": false,
       "limit": 1.1,
       "frames": 60000,
@@ -1070,47 +1070,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 467.4,
-          "betaMs": 498.3,
-          "ratio": 1.066
+          "rootMs": 369.3,
+          "betaMs": 545.2,
+          "ratio": 1.476
         },
         {
           "order": "beta→root",
-          "rootMs": 395.5,
-          "betaMs": 386,
-          "ratio": 0.976
+          "rootMs": 335.2,
+          "betaMs": 350.1,
+          "ratio": 1.044
         },
         {
           "order": "root→beta",
-          "rootMs": 432.7,
-          "betaMs": 324.9,
-          "ratio": 0.751
+          "rootMs": 328.1,
+          "betaMs": 338.9,
+          "ratio": 1.033
         }
       ],
       "rawRootMs": [
-        467.4,
-        397.7,
-        307.5,
-        395.5,
-        398.8,
-        432.7
+        369.3,
+        278.1,
+        320.7,
+        335.2,
+        323.9,
+        328.1
       ],
       "rawBetaMs": [
-        498.3,
-        344,
-        386,
-        327.6,
-        324.9,
-        311.2
+        545.2,
+        297.9,
+        293.5,
+        350.1,
+        297.7,
+        338.9
       ]
     },
     {
       "id": "bhCore",
-      "rootMs": 1141.5,
-      "betaMs": 1155.5,
-      "ratio": 1.057,
+      "rootMs": 1293.6,
+      "betaMs": 1196.4,
+      "ratio": 0.816,
       "tsNorm": 1,
-      "normRatio": 1.057,
+      "normRatio": 0.816,
       "genGap": false,
       "limit": 1.1,
       "frames": 60,
@@ -1122,92 +1122,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 1185.7,
-          "betaMs": 1302.7,
-          "ratio": 1.099
+          "rootMs": 1272.9,
+          "betaMs": 1301.9,
+          "ratio": 1.023
         },
         {
           "order": "beta→root",
-          "rootMs": 1141.5,
-          "betaMs": 1206.1,
-          "ratio": 1.057
+          "rootMs": 1332.1,
+          "betaMs": 1087.1,
+          "ratio": 0.816
         },
         {
           "order": "root→beta",
-          "rootMs": 1258.9,
-          "betaMs": 1155.5,
-          "ratio": 0.918
+          "rootMs": 1554.1,
+          "betaMs": 1196.4,
+          "ratio": 0.77
         }
       ],
       "rawRootMs": [
-        1124.4,
-        1185.7,
-        1132.3,
-        1141.5,
-        1258.9,
-        1133.8
+        1272.9,
+        1032.9,
+        1293.6,
+        1332.1,
+        1271.3,
+        1554.1
       ],
       "rawBetaMs": [
-        1085.2,
-        1302.7,
-        1140.6,
-        1206.1,
-        1155.5,
-        1120.5
-      ],
-      "retossed": true,
-      "firstRatio": 1.118,
-      "firstNormRatio": 1.118,
-      "firstPass": false,
-      "firstRootMs": 1172.1,
-      "firstBetaMs": 1268.1,
-      "firstPairs": [
-        {
-          "order": "root→beta",
-          "rootMs": 1517,
-          "betaMs": 1268.1,
-          "ratio": 0.836
-        },
-        {
-          "order": "beta→root",
-          "rootMs": 1083.2,
-          "betaMs": 1210.9,
-          "ratio": 1.118
-        },
-        {
-          "order": "root→beta",
-          "rootMs": 1190.8,
-          "betaMs": 1411.7,
-          "ratio": 1.186
-        }
-      ],
-      "firstRawRootMs": [
-        1517,
-        1130.8,
-        1054.5,
-        1083.2,
-        1172.1,
-        1190.8
-      ],
-      "firstRawBetaMs": [
-        1268.1,
-        1074.5,
-        1210.9,
-        1042.9,
-        1302.6,
-        1411.7
-      ],
-      "finalRatio": 1.057,
-      "finalPass": true,
-      "retossNote": "初回 FAILのため、fresh pages で1回だけ再測定し、その結果で判定を置き換えた(第160便・閾値/判定式は不変)"
+        1240.2,
+        1301.9,
+        971.5,
+        1087.1,
+        995.2,
+        1196.4
+      ]
     },
     {
       "id": "frictionHeat",
-      "rootMs": 2093.4,
-      "betaMs": 2070.4,
-      "ratio": 0.973,
+      "rootMs": 2155.8,
+      "betaMs": 2044.9,
+      "ratio": 0.993,
       "tsNorm": 1,
-      "normRatio": 0.973,
+      "normRatio": 0.993,
       "genGap": false,
       "limit": 1.1,
       "frames": 480,
@@ -1219,47 +1174,47 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 2158,
-          "betaMs": 2099.4,
-          "ratio": 0.973
+          "rootMs": 2258.7,
+          "betaMs": 2243.8,
+          "ratio": 0.993
         },
         {
           "order": "beta→root",
-          "rootMs": 1991.4,
-          "betaMs": 2135.8,
-          "ratio": 1.073
+          "rootMs": 1962.5,
+          "betaMs": 2200.6,
+          "ratio": 1.121
         },
         {
           "order": "root→beta",
-          "rootMs": 2160.6,
-          "betaMs": 1910.8,
-          "ratio": 0.884
+          "rootMs": 2207.8,
+          "betaMs": 2044.9,
+          "ratio": 0.926
         }
       ],
       "rawRootMs": [
-        2158,
-        2093.4,
-        1991.4,
-        1952.9,
-        1944.8,
-        2160.6
+        1999.2,
+        2258.7,
+        1959,
+        1962.5,
+        2155.8,
+        2207.8
       ],
       "rawBetaMs": [
-        2070.4,
-        2099.4,
-        2135.8,
-        1860.2,
-        1899.1,
-        1910.8
+        1985.7,
+        2243.8,
+        2200.6,
+        1919.7,
+        1712.8,
+        2044.9
       ]
     },
     {
       "id": "cooling",
-      "rootMs": 691.9,
-      "betaMs": 711.7,
-      "ratio": 1.045,
+      "rootMs": 634.1,
+      "betaMs": 655.3,
+      "ratio": 1.017,
       "tsNorm": 1,
-      "normRatio": 1.045,
+      "normRatio": 1.017,
       "genGap": false,
       "limit": 1.1,
       "frames": 60,
@@ -1271,38 +1226,38 @@
       "pairs": [
         {
           "order": "root→beta",
-          "rootMs": 745.7,
-          "betaMs": 657.2,
-          "ratio": 0.881
+          "rootMs": 630.6,
+          "betaMs": 832,
+          "ratio": 1.319
         },
         {
           "order": "beta→root",
-          "rootMs": 717.5,
-          "betaMs": 825.5,
-          "ratio": 1.151
+          "rootMs": 667.4,
+          "betaMs": 679,
+          "ratio": 1.017
         },
         {
           "order": "root→beta",
-          "rootMs": 691.9,
-          "betaMs": 723.1,
-          "ratio": 1.045
+          "rootMs": 701.1,
+          "betaMs": 655.3,
+          "ratio": 0.935
         }
       ],
       "rawRootMs": [
-        745.7,
-        641.5,
-        717.5,
-        656.8,
-        691.9,
-        610.2
+        585.1,
+        630.6,
+        667.4,
+        595.5,
+        701.1,
+        634.1
       ],
       "rawBetaMs": [
-        657.2,
-        657.1,
-        711.7,
-        825.5,
-        723.1,
-        679.6
+        600.7,
+        832,
+        593.3,
+        679,
+        630.4,
+        655.3
       ]
     }
   ],
@@ -1310,35 +1265,35 @@
   "geo2": {
     "gate": {
       "id": "geo2-overhead",
-      "ratio": 1.356,
+      "ratio": 1.564,
       "limit": 1.65,
       "pairs": [
         {
           "order": "std→geo2",
-          "stdMs": 2074.4,
-          "geo2Ms": 2469.4,
+          "stdMs": 1866.2,
+          "geo2Ms": 2426,
           "spfStd": 6,
           "spfGeo2": 6,
-          "rawRatio": 1.19,
-          "ratio": 1.19
+          "rawRatio": 1.3,
+          "ratio": 1.3
         },
         {
           "order": "geo2→std",
-          "stdMs": 1782.7,
-          "geo2Ms": 2676.6,
+          "stdMs": 1599.1,
+          "geo2Ms": 2598,
           "spfStd": 6,
           "spfGeo2": 6,
-          "rawRatio": 1.501,
-          "ratio": 1.501
+          "rawRatio": 1.625,
+          "ratio": 1.625
         },
         {
           "order": "std→geo2",
-          "stdMs": 1902.4,
-          "geo2Ms": 2579,
+          "stdMs": 1711.9,
+          "geo2Ms": 2676.6,
           "spfStd": 6,
           "spfGeo2": 6,
-          "rawRatio": 1.356,
-          "ratio": 1.356
+          "rawRatio": 1.564,
+          "ratio": 1.564
         }
       ],
       "pass": true,
@@ -1347,68 +1302,59 @@
     "sweep": [
       {
         "n": 100,
-        "geo0Ms": 309.6,
-        "geo2Ms": 364.7,
-        "ratio": 1.178,
+        "geo0Ms": 278.6,
+        "geo2Ms": 593.3,
+        "ratio": 2.13,
         "nan": false
       },
       {
         "n": 200,
-        "geo0Ms": 964.4,
-        "geo2Ms": 1655.4,
-        "ratio": 1.717,
+        "geo0Ms": 1047,
+        "geo2Ms": 1786.6,
+        "ratio": 1.706,
         "nan": false
       },
       {
         "n": 381,
-        "geo0Ms": 3676.8,
-        "geo2Ms": 5465.4,
-        "ratio": 1.486,
+        "geo0Ms": 3810.7,
+        "geo2Ms": 5638.6,
+        "ratio": 1.48,
         "nan": false
       },
       {
         "n": 600,
-        "geo0Ms": 8476.1,
-        "geo2Ms": 14387.3,
-        "ratio": 1.697,
+        "geo0Ms": 8540.2,
+        "geo2Ms": 13625.6,
+        "ratio": 1.595,
         "nan": false
       }
     ]
   },
   "firstFailures": [
     {
-      "id": "freebox",
-      "firstNormRatio": 1.188,
+      "id": "convection",
+      "firstNormRatio": 1.209,
       "firstPass": false,
       "forced": false,
-      "finalRatio": 1.009,
+      "finalRatio": 1.134,
+      "finalPass": false,
+      "frames": 60
+    },
+    {
+      "id": "counterring",
+      "firstNormRatio": 1.362,
+      "firstPass": false,
+      "forced": false,
+      "finalRatio": 1.055,
       "finalPass": true,
-      "frames": 480
+      "frames": 240
     },
     {
       "id": "emergent2",
-      "firstNormRatio": 1.118,
+      "firstNormRatio": 1.126,
       "firstPass": false,
       "forced": false,
-      "finalRatio": 1.089,
-      "finalPass": true,
-      "frames": 60
-    },
-    {
-      "id": "nebulaShell",
-      "firstNormRatio": 1.137,
-      "firstPass": false,
-      "forced": false,
-      "finalRatio": 0.888,
-      "finalPass": true,
-      "frames": 60
-    },
-    {
-      "id": "bhCore",
-      "firstNormRatio": 1.118,
-      "firstPass": false,
-      "forced": false,
-      "finalRatio": 1.057,
+      "finalRatio": 0.858,
       "finalPass": true,
       "frames": 60
     }
@@ -1418,9 +1364,9 @@
       {
         "id": "galaxyGeo2",
         "arm": "self-control",
-        "msPerStep": 4.236,
-        "baseRef": 6.744,
-        "ratio": 0.628,
+        "msPerStep": 4.327,
+        "baseRef": 6.035,
+        "ratio": 0.717,
         "warn": false,
         "warnRatio": 3,
         "failed": false,
@@ -1433,27 +1379,27 @@
         "sims": 2,
         "reps": 3,
         "perAb": [
-          7.6015,
-          4.236,
-          4.1125
+          7.4145,
+          4.327,
+          3.7915
         ],
         "perPlain": [
-          9.453,
-          6.664,
-          6.744
+          7.759,
+          5.457,
+          6.035
         ],
         "nan": false,
         "prev": {
-          "ratio": 0.737
+          "ratio": 0.628
         },
         "judgement": "gate"
       },
       {
         "id": "galaxyGeo2",
         "arm": "cross-html",
-        "msPerStep": 5.298,
-        "baseRef": 4.8695,
-        "ratio": 1.088,
+        "msPerStep": 4.5805,
+        "baseRef": 4.37,
+        "ratio": 1.048,
         "warn": false,
         "warnRatio": 1.5,
         "failed": false,
@@ -1467,29 +1413,29 @@
         "sims": 2,
         "reps": 3,
         "perBeta": [
-          4.9525,
-          5.6245,
-          5.298
+          6.383,
+          4.2365,
+          4.5805
         ],
         "perBase": [
-          5.191,
-          4.8695,
-          4.2825
+          5.579,
+          4.37,
+          3.74
         ],
         "nan": false,
         "prev": {
-          "msPerStep": 6.1795,
-          "baseRef": 4.846,
-          "ratio": 1.275
+          "msPerStep": 5.298,
+          "baseRef": 4.8695,
+          "ratio": 1.088
         },
         "judgement": "informational"
       },
       {
         "id": "bhCore",
         "arm": "self-control",
-        "msPerStep": 3.073,
-        "baseRef": 3.116,
-        "ratio": 0.986,
+        "msPerStep": 2.45,
+        "baseRef": 2.863,
+        "ratio": 0.856,
         "warn": false,
         "warnRatio": 3,
         "failed": false,
@@ -1502,27 +1448,27 @@
         "sims": 2,
         "reps": 3,
         "perAb": [
-          3.073,
-          2.3475,
-          3.49
+          2.305,
+          2.694,
+          2.45
         ],
         "perPlain": [
-          3.116,
-          2.82,
-          3.367
+          2.768,
+          2.881,
+          2.863
         ],
         "nan": false,
         "prev": {
-          "ratio": 0.756
+          "ratio": 0.986
         },
         "judgement": "gate"
       },
       {
         "id": "bhCore",
         "arm": "cross-html",
-        "msPerStep": 2.3375,
-        "baseRef": 2.535,
-        "ratio": 0.922,
+        "msPerStep": 2.844,
+        "baseRef": 2.107,
+        "ratio": 1.35,
         "warn": false,
         "warnRatio": 1.5,
         "failed": false,
@@ -1536,20 +1482,20 @@
         "sims": 2,
         "reps": 3,
         "perBeta": [
-          2.3375,
-          2.766,
-          2.3085
+          2.5885,
+          2.844,
+          2.9695
         ],
         "perBase": [
-          2.535,
-          2.7435,
-          2.258
+          1.8035,
+          2.9165,
+          2.107
         ],
         "nan": false,
         "prev": {
-          "msPerStep": 2.3345,
-          "baseRef": 2.4475,
-          "ratio": 0.954
+          "msPerStep": 2.3375,
+          "baseRef": 2.535,
+          "ratio": 0.922
         },
         "judgement": "informational"
       }

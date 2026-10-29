@@ -27,6 +27,9 @@
 //      **claims の testId + 原稿の明示 `qaTargets`** へ(`L.qaAttribution` —— どちらにも無い本は「帰属なし」)。
 //   ⑥ 第284便c(原仮定者の裁定(第74報)⑥・AN33・R93): 所要時間の節に**再利用 h2/h4 の内訳**(転記した段の種別 —— h2 = dt/2 の同一便の
 //      転記 `skippedBy:"reuse-dt2"`・h4 = 同一契約の dt/4 の転記 `skippedBy:"reuse"` —— と本数・元の走行の秒)。
+//   ⑦ 第318便(原仮定者の指示 2026-10-29「サンプルの本のリストの『関与する再生成の段』の列を無くす。再生成の段のリストを用意し、秒に加えて、
+//      対象が all でなければ対象サンプルの本を列挙する」): 本の表から段の列を外し、**再生成の段の表**(段・実測秒・区分・対象の本)を別に置く
+//      (正本の rows[].timing.regenSteps は残す —— 段の表は timingNote.stageList)。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -267,20 +270,37 @@ md.push('> **測った値の転記であって判定ではない**(第282便・�
 md.push('');
 md.push('- **較正走行(calaudit)**: 較正母集団の各本を calaudit が走らせた壁時計(段 dt / dt/2 / dt/4 の和・`presets[].run.timeBudget[].wallSec`。第283便c: dt/8 は常時の鎖から外した —— 旧形式の記録だけ dt/8 を 1 回数える・転記した段〔再利用〕は和に入れず「元 N s」を添える)。母集団の外の本は「—」。');
 md.push(`- **再利用 h2/h4 の内訳**(第284便c): 転記した段は **h2**(dt/2 の同一便の再走の転記 —— h の生の走行がビット一致・\`skippedBy:"reuse-dt2"\`)${reuseTally.h2.n} 段(元の走行 ${fmtS(reuseTally.h2.sec)} s)・**h4**(同一契約の dt/4 の転記 —— \`skippedBy:"reuse"\`)${reuseTally.h4.n} 段(元の走行 ${fmtS(reuseTally.h4.sec)} s)。第284便c から dt/4 は常時の鎖では例外の登録簿の本だけ(登録の外の本は dt/4 の段が無い)。**転記は収束の証明ではない**。`);
-md.push('- **関与する再生成の段**: 領域(REGEN_SCOPE)を宣言した段のうち、この本を宣言に含むもの。表記「段 秒/本数」は**段 1 回の実測秒とその段が宣言した本数**(所要は宣言した本で共有する —— 本ごとに足し上げない)。all は全プリセットを走査する段。');
-md.push(`- **宣言の無い段**(対象 html の全体に縛られ、どの本に関与するかを宣言していない ${undeclaredSteps.length} 段・実測 ${fmtS(secUndeclared)} s)と**常時群**(${stepsCurrent.filter((z) => z.alwaysRun).length} 段・実測 ${fmtS(secAlways)} s・毎回走る)は本ごとの行に配らない。現行の段 ${stepsCurrent.length} 段の実測秒の和 ${fmtS(secAll)} s(${(secAll / 3600).toFixed(2)} h・逐次の上限。履歴の段は除く)。`);
+md.push('- **再生成の段**: 下の「再生成の段の表」に段ごとの実測秒と対象の本を置いた(第318便 —— 本の表の段の列は外した)。段の所要は対象の本で共有する(本ごとに足し上げない)。');
+md.push(`- **宣言の無い段**(対象 html の全体に縛られ、どの本に関与するかを宣言していない ${undeclaredSteps.length} 段・実測 ${fmtS(secUndeclared)} s)と**常時群**(${stepsCurrent.filter((z) => z.alwaysRun).length} 段・実測 ${fmtS(secAlways)} s・毎回走る)は下の「再生成の段の表」で区分「宣言なし」「常時群」として載せる。現行の段 ${stepsCurrent.length} 段の実測秒の和 ${fmtS(secAll)} s(${(secAll / 3600).toFixed(2)} h・逐次の上限。履歴の段は除く)。`);
 md.push(`- **保存 QA**: \`${QAF}\`(${qa.total || qaAll.length} 試験・全体 ${fmtS((qa.durationMs || 0) / 1000)} s${qa.commit ? '・commit ' + String(qa.commit).slice(0, 7) : ''})のうち、**その本の claims が挙げる testId と、原稿 \`${SRC}\` の \`qaTargets\` がその本を挙げた試験**(帰属 ${qaAttr.version} —— 試験の id の部分文字列では帰属させない)の所要の和と本数(1 つの試験が複数の本に数えられうる —— 本ごとの列は重なりを含む)。どちらにも無い本は「帰属なし」(${qaAttr.unattributed.length} 本)。内訳は所要の上位 3。`);
 md.push('');
-md.push('| 本 | 較正走行(s) | 段別(s) | 関与する再生成の段(段 秒/本数) | 保存 QA(s・本数) | QA の内訳(上位 3) |');
-md.push('|---|---|---|---|---|---|');
+md.push('| 本 | 較正走行(s) | 段別(s) | 保存 QA(s・本数) | QA の内訳(上位 3) |');
+md.push('|---|---|---|---|---|');
 for (const id of groups.flatMap((g) => g.ids)) {   // 第294便b: 退役の本は所要時間表にも再掲しない
   const r = byId[id], t = timing[id];
   const cal = t.calaudit.stages.length ? fmtS(t.calaudit.wallSec) : '—';
   const st = t.calaudit.stages.length ? t.calaudit.stages.map((z) => z.reused ? `${z.tag} 再利用〔${z.reusedBy === 'reuse-dt2' ? 'h2' : 'h4'}〕(元 ${fmtS(z.wallSec)})` : `${z.tag} ${fmtS(z.wallSec)}`).join('・') : '—';
-  const steps = t.regenSteps.length ? t.regenSteps.map((z) => `${z.key} ${fmtS(z.sec)}/${z.share}`).join('・') : '—';
   const qs = t.qa.attributed ? `${fmtS(t.qa.ms / 1000)}・${t.qa.n}` : '帰属なし';
   const top = t.qa.tests.slice(0, 3).map((z) => `\`${z.id}\` ${fmtS(z.ms / 1000)}`).join('・') || '—';
-  md.push(`| ${r.emoji || ''} \`${id}\` | ${cal} | ${st} | ${steps} | ${qs} | ${top} |`);
+  md.push(`| ${r.emoji || ''} \`${id}\` | ${cal} | ${st} | ${qs} | ${top} |`);
+}
+md.push('');
+// 第318便(原仮定者の指示 2026-10-29): 再生成の段の表 —— 履歴でない段の全部を実測秒の大きい順に。区分 = 常時群(毎回走る)/ 領域の宣言(REGEN_SCOPE の presets)/
+//   宣言なし(対象 html の全体に縛られる)。対象 = all(内蔵の全本)/ 宣言した本の列挙(退役の本は「退役」と明記)/ —(宣言なし)
+const stageKind = (st) => st.alwaysRun ? '常時群' : (stepScope.get(st.key).presets ? '領域の宣言' : '宣言なし');
+const bookLabel = (id) => { const b = byId[id]; return (b && b.emoji ? b.emoji + ' ' : '') + '`' + id + '`' + (retiredIds.has(id) ? '(退役)' : ''); };
+const stageList = stepsCurrent.map((st, k) => { const sc = stepScope.get(st.key);
+  return { key: st.key, sec: st.sec || 0, kind: stageKind(st), presets: sc.presets === 'all' ? 'all' : (sc.presets ? sc.presets.slice() : null), order: k }; })
+  .sort((a, b) => (b.sec - a.sec) || (a.order - b.order));
+md.push('### 再生成の段の表');
+md.push('');
+md.push(`> 段 ${stageList.length}(履歴の段を除く)・実測秒の和 ${fmtS(secAll)} s。実測秒は \`tests/lib-w281a-regentable.mjs\` の段の秒(段 1 回の実測 —— 対象の本で共有する)。区分: **常時群** = 毎回走る段・**領域の宣言** = REGEN_SCOPE の presets で対象の本を宣言した段・**宣言なし** = 対象 html の全体に縛られる段。対象: **all** = 内蔵の全本(${got.rows.length} 本)・それ以外は宣言した本の列挙(退役の本は「退役」と明記)。並びは実測秒の大きい順。`);
+md.push('');
+md.push('| 段 | 実測(s) | 区分 | 対象の本 |');
+md.push('|---|---|---|---|');
+for (const z of stageList) {
+  const tgt = z.presets === 'all' ? `all(内蔵の全 ${got.rows.length} 本)` : z.presets ? `${z.presets.length} 本: ${z.presets.map(bookLabel).join('・')}` : '—';
+  md.push(`| ${z.key} | ${fmtS(z.sec)} | ${z.kind} | ${tgt} |`);
 }
 md.push('');
 const mdText = md.join('\n');
@@ -310,7 +330,9 @@ const canon = {
     regenSteps: stepsCurrent.length, regenSecSum: secAll, alwaysSec: secAlways, undeclaredSteps: undeclaredSteps.length, undeclaredSec: secUndeclared,
     qaTotal: qa.total || qaAll.length, qaDurationMs: qa.durationMs || null,
     reuse: { since: '第284便c', h2: reuseTally.h2, h4: reuseTally.h4, rule: 'h2 = skippedBy "reuse-dt2"(同一便の dt/2 の転記)・h4 = skippedBy "reuse"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)' },
-    qaAttribution: { version: qaAttr.version, rule: 'claims の testId + 原稿の qaTargets(明示)', unattributed: qaAttr.unattributed.length } },
+    qaAttribution: { version: qaAttr.version, rule: 'claims の testId + 原稿の qaTargets(明示)', unattributed: qaAttr.unattributed.length },
+    // 第318便(原仮定者の指示 2026-10-29): 再生成の段の表(md の「再生成の段の表」—— 本の表の段の列は外した)
+    stageList: { since: '第318便(原仮定者の指示 2026-10-29)', order: '実測秒の大きい順', rows: stageList.map((z) => ({ key: z.key, sec: z.sec, kind: z.kind, presets: z.presets })) } },
 };
 if (CHECK) {
   const prev = fs.existsSync(path.join(ROOT, MD)) ? fs.readFileSync(path.join(ROOT, MD), 'utf8') : null;

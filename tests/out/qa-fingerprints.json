@@ -277,18 +277,18 @@
    "allDecls": "484f4b6c556b4b1021ecb465b528a65882d635ea1ba4a85c5913950b44e8565b"
   },
   "index.html": {
-   "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
+   "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
    "date": "2026-10-29",
    "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
    "target": "index.html",
    "env": {
     "engine": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-    "qa": "262c986dbab448164b982e0d152e9e44f35807fe6d8d8d801117d026f176ccb6",
+    "qa": "508801e316d3b74ed72e472ea6bb1040a04949a454cf645881f0f2bf32bac6d9",
     "lock": "73c562f0d95b530e824c2aef2cf05acfffdfeb28ce91d53599f6249f96500d7c",
     "node": "v22.22.0",
     "chromium": "141.0.7390.37"
    },
-   "envSha256": "d81b9c1ad83805c55cc5e18b083c11659f9c27ecdeb32fd926582b05693b8e3d",
+   "envSha256": "a5f6ce1b8d75ea384f6d80a9c2506e5660d6bb9cbc0d7d61708a97809fae35b4",
    "runs": {
     "emergent@3000": "87b4fb2e3277faa59f74cd571332f5771ea43f71fc15a30f1ac2869694a3429b",
     "emergent2@3000": "0fb9459749ad943286906d49e96199d5213fda79c78973f18570ea1603974159",
@@ -311,11 +311,11 @@
    },
    "tests": {
     "behavior.selfrotor": {
-     "key": "ecf18b77778489f9ee37492832e0490dd0df55fb308dacde635e9f1fa09c2079",
-     "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
+     "key": "5e7a244052a26c5a2541f1aef7354678b85bc4c9cb6040f2e691cf4a3e6e2789",
+     "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
      "date": "2026-10-29",
      "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-     "ms": 24074,
+     "ms": 44363,
      "results": [
       {
        "id": "behavior.selfrotor",
@@ -324,26 +324,12 @@
       }
      ]
     },
-    "phasechange.emergent": {
-     "key": "442c1a7d0fe1d3985fae32dba949778ad086780ea767ad5fc45a46d19757076c",
-     "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
-     "date": "2026-10-29",
-     "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-     "ms": 52178,
-     "results": [
-      {
-       "id": "phasechange.emergent",
-       "pass": true,
-       "detail": "🧬emergent: 1500步 固体状(c̄=3.46>3.2・最大32≥25) → 12000步 液滴・分子群(c̄=2.36<2.9・34成分) → 45000步 分子ガス(c̄=2.41・30成分 最大9≤15 — 予算集中で「分子」が創発) 帳簿残差=6.32e-4(<1e-2 — 潜熱なしでも share 再配分の熱交換で閉鎖) クランプ=0回・あふれ=0回"
-      }
-     ]
-    },
     "behavior.selfrotor-multiseed": {
-     "key": "de948a6592429c663c38f63be5b55c7a87e3084ab8681892af83e668347b8127",
-     "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
+     "key": "235c16188395cd70cf2f6780368e2b748bb1ab2fcec4e6ac96ff60196a9fbe6d",
+     "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
      "date": "2026-10-29",
      "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-     "ms": 79166,
+     "ms": 72657,
      "results": [
       {
        "id": "behavior.selfrotor-multiseed",
@@ -352,12 +338,26 @@
       }
      ]
     },
-    "preset.roundtrip-builtins": {
-     "key": "251632a6304a0a39b4dc4936264a54a7123cd41a712efa851fc8b608812215eb",
-     "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
+    "phasechange.emergent": {
+     "key": "3a48cb7ac08d599923eae873617226cbf9f61f72169e4de0c80e71ccd94ab188",
+     "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
      "date": "2026-10-29",
      "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-     "ms": 173503,
+     "ms": 47447,
+     "results": [
+      {
+       "id": "phasechange.emergent",
+       "pass": true,
+       "detail": "🧬emergent: 1500步 固体状(c̄=3.46>3.2・最大32≥25) → 12000步 液滴・分子群(c̄=2.36<2.9・34成分) → 45000步 分子ガス(c̄=2.41・30成分 最大9≤15 — 予算集中で「分子」が創発) 帳簿残差=6.32e-4(<1e-2 — 潜熱なしでも share 再配分の熱交換で閉鎖) クランプ=0回・あふれ=0回"
+      }
+     ]
+    },
+    "preset.roundtrip-builtins": {
+     "key": "b1ceb30840d612b79538d397d50688b2ef3ad24f7263ae302101d470e3c6651d",
+     "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
+     "date": "2026-10-29",
+     "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
+     "ms": 167284,
      "results": [
       {
        "id": "preset.roundtrip-builtins",
@@ -367,11 +367,11 @@
      ]
     },
     "phasechange.emergent2": {
-     "key": "fa5dfb0752cbe1772bd308de500824b51339a850a3760e857d14d12ddc7548e3",
-     "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
+     "key": "7bd466eb67be5a764739de3bbb490db64099f96d96ea34e58da6fb5ccb6480ad",
+     "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
      "date": "2026-10-29",
      "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-     "ms": 64690,
+     "ms": 73003,
      "results": [
       {
        "id": "phasechange.emergent2",
@@ -381,11 +381,11 @@
      ]
     },
     "phasechange.chain2": {
-     "key": "4286c4d8023d77b5e96765a638db6e19300bc75e0dadd89deef7b3754718df0a",
-     "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
+     "key": "eba95b370b4fd3cc05aa47b22107382469971f8be2074f84e1719b94ecf8185a",
+     "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
      "date": "2026-10-29",
      "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-     "ms": 46769,
+     "ms": 54360,
      "results": [
       {
        "id": "phasechange.chain2",
@@ -395,11 +395,11 @@
      ]
     },
     "phasechange.multiseed": {
-     "key": "6e23ff32abda2be67b87d12802bf4764cb6bf832b059f9e015b17d2448a5c8ff",
-     "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
+     "key": "f1726eb4a6489a8ee3142151505925731569b37b995b797ac128e4d48f26a1bb",
+     "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
      "date": "2026-10-29",
      "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-     "ms": 32121,
+     "ms": 32973,
      "results": [
       {
        "id": "phasechange.multiseed",
@@ -408,12 +408,26 @@
       }
      ]
     },
-    "behavior.uranusReal": {
-     "key": "a4341cdb6d798d6b10c0e35e008b55882f8df51ef532635b77169bce03b28c93",
-     "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
+    "claim.galaxystd-outerboost": {
+     "key": "28d9ff663b8126ee9e3f309d519887948b3b565507860cd813f10b54d50d28ff",
+     "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
      "date": "2026-10-29",
      "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-     "ms": 24731,
+     "ms": 62368,
+     "results": [
+      {
+       "id": "claim.galaxystd-outerboost",
+       "pass": true,
+       "detail": "vφ外縁 kF1=3.982 kF0=3.145 比=1.2659(窓1.15〜1.4・較正実測1.2646) / 純度Π: 測地線=0 熱斥力=0 結合=0(厳密0)・引きずり=37.9%(>15% — 実測24.5%)"
+      }
+     ]
+    },
+    "behavior.uranusReal": {
+     "key": "307d34721fb30a7b7cfb5ec65835e1a6f1e8203ca146c66c50710b06345305f3",
+     "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
+     "date": "2026-10-29",
+     "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
+     "ms": 26398,
      "results": [
       {
        "id": "behavior.uranusReal",
@@ -427,40 +441,12 @@
       }
      ]
     },
-    "claim.galaxystd-outerboost": {
-     "key": "2591973c96f0f0e6942ae233cf50c2f78871e4adca9da4268b5526466fab71b8",
-     "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
-     "date": "2026-10-29",
-     "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-     "ms": 66380,
-     "results": [
-      {
-       "id": "claim.galaxystd-outerboost",
-       "pass": true,
-       "detail": "vφ外縁 kF1=3.982 kF0=3.145 比=1.2659(窓1.15〜1.4・較正実測1.2646) / 純度Π: 測地線=0 熱斥力=0 結合=0(厳密0)・引きずり=37.9%(>15% — 実測24.5%)"
-      }
-     ]
-    },
-    "claim.chaincycle": {
-     "key": "88b3750e4935e13f1a27f6d58afa966c43adf17e93845d601725f2139e0f1582",
-     "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
-     "date": "2026-10-29",
-     "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-     "ms": 44473,
-     "results": [
-      {
-       "id": "claim.chaincycle",
-       "pass": true,
-       "detail": "♻️凍結末(t=288): 最大連結=36(窓25〜50・実測36) 組替=0.010(<0.05) T̄=1.24 / 解離末(t=528): 65成分(窓50〜95・実測71) 最大=6(≤12) 組替=0.328(>0.15) T̄=12.20(凍結末の3倍超) — 相・融点・潜熱の入力なしで凍結⇄解離が壁温だけで往復"
-      }
-     ]
-    },
     "behavior.phase-multiseed": {
-     "key": "113427354252f93eee2502a5e1a9e21847cd1b0eff60f4247d29e5cac67020d9",
-     "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
+     "key": "8095ac7553fafaa80cf812a7543dc31d760204861b837cf2668edc7a93d7b4a3",
+     "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
      "date": "2026-10-29",
      "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-     "ms": 297712,
+     "ms": 267940,
      "results": [
       {
        "id": "behavior.phase-multiseed",
@@ -469,12 +455,26 @@
       }
      ]
     },
-    "claim.bhcore-free": {
-     "key": "93a519b9e577bbde6c5275c2a81ffa19031f353908f3d325ad3cc8b90655af35",
-     "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
+    "claim.chaincycle": {
+     "key": "863efa56a20213367a83fee6274f13ccf95ddfe3f8208346faabe7858ab68e7e",
+     "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
      "date": "2026-10-29",
      "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-     "ms": 60261,
+     "ms": 37370,
+     "results": [
+      {
+       "id": "claim.chaincycle",
+       "pass": true,
+       "detail": "♻️凍結末(t=288): 最大連結=36(窓25〜50・実測36) 組替=0.010(<0.05) T̄=1.24 / 解離末(t=528): 65成分(窓50〜95・実測71) 最大=6(≤12) 組替=0.328(>0.15) T̄=12.20(凍結末の3倍超) — 相・融点・潜熱の入力なしで凍結⇄解離が壁温だけで往復"
+      }
+     ]
+    },
+    "claim.bhcore-free": {
+     "key": "d91668f644a0c06ef76c621aed4ba2e7c99cf36cc1ad68d55a2bc2960f7b054c",
+     "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
+     "date": "2026-10-29",
+     "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
+     "ms": 46163,
      "results": [
       {
        "id": "claim.bhcore-free",
@@ -484,11 +484,11 @@
      ]
     },
     "claim.galaxydb-contrast": {
-     "key": "d4f7e93f71ad339765e8d90759f9f5560da996700f9dd086111129100c76bf08",
-     "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
+     "key": "7769bcaa31aae1fffad3afed3138edf0831080c43638631db3cd91be593154e0",
+     "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
      "date": "2026-10-29",
      "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-     "ms": 41719,
+     "ms": 44301,
      "results": [
       {
        "id": "claim.galaxydb-contrast",
@@ -498,11 +498,11 @@
      ]
     },
     "claim.bhcore-selfdrive": {
-     "key": "d24ecb9d040e102a8491a3264ac8bb20ba55480f5b68772827fc604f53438766",
-     "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
+     "key": "767dfceb5535edd0f1c7e935e0e425c20412ac983acd7774aff15e001461082b",
+     "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
      "date": "2026-10-29",
      "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-     "ms": 87808,
+     "ms": 81644,
      "results": [
       {
        "id": "claim.bhcore-selfdrive",
@@ -512,11 +512,11 @@
      ]
     },
     "claim.galaxygeo2-outerboost": {
-     "key": "8d210294226e1ec3fa48fec1acb45bb841583c225e9993e4153ee050156e28c4",
-     "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
+     "key": "cd042719c88e48be725addcce428dd627468beb017265a6bbe25035adbb93503",
+     "commit": "b7f22874571d68ada57df8a83b6fa7cacf69718c",
      "date": "2026-10-29",
      "htmlSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-     "ms": 152640,
+     "ms": 150455,
      "results": [
       {
        "id": "claim.galaxygeo2-outerboost",
