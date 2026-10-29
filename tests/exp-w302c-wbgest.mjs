@@ -264,8 +264,10 @@ export const MSUN = 1.98847e30, PC = 3.0857e16, KPC = 3.0857e19, AU = 1.49597870
 export const GAL_TRIAL = Object.freeze({ rhoSI: 0.097 * 1.98847e30 / Math.pow(3.0857e16, 3), RSI: 8.2 * 3.0857e19,
   source: '太陽近傍の局所の全密度 0.097 M☉/pc³(McKee, Parravano & Hollenbach 2015, ApJ 814, 13 —— 恒星・ガス・暗黒物質の和)と銀河中心距離 R₀ = 8.2 kpc(Bland-Hawthorn & Gerhard 2016, ARA&A 54, 529)の転記 —— 本便のコンテナはネットワークに出られず原表は未取得(公表値の転記・照合は次の見直し)' });
 const kEps = (d, eps) => { const q = d * d + eps * eps; return d / (q * q); };
+// 第318便(統括の統合 —— 鎖で見つけた同じ型): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本 —— 数え上げの外に置く(正本の行と値は不変)
+const LATER_BOOKS_318 = new Set(['solarSystem16Inertial3d']);
 export function partE(HP, log = console.log) {
-  const books = HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.scaleExp && p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial');
+  const books = HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.scaleExp && p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial' && !LATER_BOOKS_318.has(p.id));   // 第318便(統括): 後に入った本は数え上げの外
   const rows = [];
   for (const p of books) {
     const e = HP.wbgEstimateOf(p); if (!e.ok) continue;
