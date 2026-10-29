@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便d",
   "target": "beta/index.html",
-  "targetSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-  "generatedAt": "2026-10-27T08:07:07.885Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-28T23:55:36.676Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-    "mtime": "2026-10-27T06:40:18.248Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/out/galaxychain-w281b.json",
     "bytes": 254774,
-    "sha256": "792fb839d8d98d90e150aee17c2cb18d7f2e707938b3341ea8e1eeee29e21404",
-    "mtime": "2026-10-27T08:05:54.736Z"
+    "sha256": "863ad843f33d8261e3b37e4ca951537b20009f099953831f9f77242853908b4e",
+    "mtime": "2026-10-28T23:54:54.660Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -64,12 +64,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "dc3339714a628f2a8ca7c9d491d6e36878cf63fb9f377afb2ab755fc95514417",
+  "codeSha256": "6c3835cf00ed6f49c2af3f8513d22d5f6d59e4b8df121088097c8787e9cf58db",
   "harnessVersion": "w282d-analogy-1",
   "loadErrors": 0,
   "headlessErrors": 0,
@@ -108,7 +108,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": [
     "galaxyAnalogyBH",
     "galaxyMeshSpiral",
@@ -159,16 +159,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1292,
-   "segments": 1133,
-   "closureShare": 0.3066
+   "names": 1290,
+   "segments": 1131,
+   "closureShare": 0.2947
   },
-  "scopeSha256": "e7e2c103c7081b837f11f0754bbb7811fd4a16089a888de5f2f579d9a1e24121",
+  "scopeSha256": "23e4605cf6822ee48e9993c95f8f20fa76cec2f217f07cc96e782d4b748659c9",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/galaxychain-w281b.json",
-    "stableSha256": "889310b3f3c39f7d46b30c722d3809b5c191bb760c1497d9be6612815f7a501c",
+    "stableSha256": "09ec4290f299f01947ca3b86131a07286f53dd6133796e26fc47998c5948b6cd",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
@@ -934,7 +934,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 3.4568,
+    "msPerStep": 2.4984,
     "recs": [
      {
       "t": 0,
@@ -1179,7 +1179,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 3.3872,
+    "msPerStep": 2.6148,
     "recs": [
      {
       "t": 0,
@@ -1426,7 +1426,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 1.8436,
+    "msPerStep": 1.6796,
     "recs": [
      {
       "t": 0,
@@ -1673,7 +1673,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 1.9232,
+    "msPerStep": 1.5264,
     "recs": [
      {
       "t": 0,
@@ -2868,7 +2868,7 @@
     "spin": 1.2000000476837158,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 2.864,
+    "msPerStep": 2.7263333333333333,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -2933,7 +2933,7 @@
     "spin": 0,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 2.885,
+    "msPerStep": 2.6613333333333333,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -3107,5 +3107,5 @@
    "source": "未取得"
   }
  ],
- "elapsedSec": 45.447
+ "elapsedSec": 38.299
 }
