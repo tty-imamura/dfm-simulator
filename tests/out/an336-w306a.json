@@ -4,7 +4,7 @@
   "wave": "第306便a",
   "target": "beta/index.html",
   "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T00:20:10.321Z",
+  "generatedAt": "2026-10-29T03:02:54.524Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -38,9 +38,9 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "bytes": 109866,
-    "sha256": "97eb26f2037881c9c3f80f40897791ad7052e71595c2c75e195686b333b2ff55",
-    "mtime": "2026-10-29T00:10:28.076Z"
+    "bytes": 109865,
+    "sha256": "be0d854fab2ab5fdc4c1d06f6014a7b5359531ab30b8b47449293733e43abdf3",
+    "mtime": "2026-10-29T02:53:07.269Z"
    },
    {
     "file": "tests/data-w308d-decl307.json",
@@ -3411,19 +3411,19 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.023
+   "wallSec": 0.031
   },
   "M": {
-   "wallSec": 76.254
+   "wallSec": 72.505
   },
   "T": {
-   "wallSec": 441.031
+   "wallSec": 448.99
   },
   "R": {
-   "wallSec": 0.04
+   "wallSec": 0.072
   },
   "G": {
-   "wallSec": 33.694
+   "wallSec": 33.958
   }
  },
  "stats": {
@@ -3477,11 +3477,11 @@
    }
   },
   "prev": {
-   "generatedAt": "2026-10-26T15:34:50.861Z",
-   "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-   "fileSha256": "afbcf3dd23e41a0f6d12a192c162a68e03742c449bf76c5e21e5bdbb54857ec2"
+   "generatedAt": "2026-10-29T00:20:10.321Z",
+   "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+   "fileSha256": "10b9db7f7e22a4cf0c9e4e6788da9b1409ad065525e55162dec2df7ee01946fd"
   },
   "env": "H4_CARRY=1 は比較の実験だけ(既定は全部測る)"
  },
- "elapsedS": 579.788
+ "elapsedS": 585.202
 }

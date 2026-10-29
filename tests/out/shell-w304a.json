@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第304便a",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T15:33:24.358Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-29T03:02:23.583Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -64,9 +64,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    },
    {
     "file": "tests/lib-w306a-pre.mjs",
@@ -75,7 +75,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "80591951c1e206a183ab6dc73a69b447d450559bef7497ace74eb5e12565cd87",
+  "codeSha256": "d422bfd6d37de82c5518572143bded2bdeacb660aa60b3bf9df0d8b87a0de6af",
   "harnessVersion": "w304a-shell-1",
   "shellVersion": "w304a-shell-1",
   "loadErrors": 0,
@@ -91,7 +91,7 @@
    "現実を再現した"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "$",
@@ -131,11 +131,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1337,
-   "segments": 1178,
-   "closureShare": 0.3161
+   "names": 1335,
+   "segments": 1176,
+   "closureShare": 0.304
   },
-  "scopeSha256": "3971ab558e517abd5108a7e630444752e34859f2df33b01ef63e761d728ec4d5",
+  "scopeSha256": "b580374e6f0bc02c8fc33e711a03ce2b38dbb01bef3f2cbacaf5732e69a962c3",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -824,11 +824,11 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 0.389
+   "wallSec": 0.251
   },
   "M": {
-   "wallSec": 39.837
+   "wallSec": 30.342
   }
  },
- "elapsedS": 42.501
+ "elapsedS": 32.256
 }

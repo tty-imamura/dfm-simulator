@@ -2,7 +2,7 @@
  "version": "w315a-symbols-2",
  "generator": "tests/exp-w315a-symbols.mjs",
  "target": "beta/index.html",
- "targetSha256": "2133ad7a735ec650eb2a1301fd3d353a66d1c395963c75d6a1d1a1243b1a0569",
+ "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
  "ruling": "原仮定者の裁定(第117報)・決断事項 AN414(記号の体系: 時空係数 X_k・引きずり係数 Y_k・決定力定数 κ_D = 2G/c²・r_s = κ_D m・r_d = Y_k m・光速定数 c・重力定数 G・基準光速 c_0・基準重力 G_0・局所光速 c_loc・局所重力 G_loc・物理対応ロックの読込時の自動 ON)・統括の推奨 AN417・AN419・AN420・統括の検証項目 R242。保存形式の鍵とエンジンの式は変えない(表示の文とロックのフラグだけ)",
  "physLockAutoVersion": "w315a-physlock-auto-1",
  "quick": false,
@@ -470,8 +470,8 @@
   "version": "w315a-physlock-auto-1"
  },
  "P": {
-  "n": 176,
-  "on": 85,
+  "n": 177,
+  "on": 86,
   "off": 91,
   "byRole": {
    "none": {
@@ -479,8 +479,8 @@
     "on": 7
    },
    "primary": {
-    "n": 31,
-    "on": 18
+    "n": 32,
+    "on": 19
    },
    "variant": {
     "n": 47,
@@ -493,7 +493,7 @@
   },
   "flagEqJudge": true,
   "allBitSame": true,
-  "onDerivedBitSame": 85,
+  "onDerivedBitSame": 86,
   "onIds": [
    "grcalGps",
    "grcalLight",
@@ -523,6 +523,7 @@
    "saturnRingInertial3d",
    "uranusSunInertial3d",
    "neptuneSunInertial3d",
+   "solarSystem16Inertial3d",
    "mercuryGeoToy3",
    "mercuryMeshMigrate3d",
    "mercuryRealKF1",
@@ -1831,6 +1832,19 @@
     "derivedBitSame": true
    },
    {
+    "id": "solarSystem16Inertial3d",
+    "emoji": "🗺️",
+    "role": "primary",
+    "on": true,
+    "judge": true,
+    "reason": "within",
+    "kappaT": 7.425826474101849e-9,
+    "G": 6.674,
+    "cLight": 29979.2458,
+    "bitSame": true,
+    "derivedBitSame": true
+   },
+   {
     "id": "mercuryGeoToy3",
     "emoji": "🔁",
     "role": "retired",
@@ -2885,37 +2899,37 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.883
+   "wallSec": 0.036
   },
   "F": {
    "wallSec": 0
   },
   "L": {
-   "wallSec": 0
+   "wallSec": 0.001
   },
   "P": {
-   "wallSec": 10.288
+   "wallSec": 2.03
   }
  },
- "elapsedS": 18.183,
+ "elapsedS": 3.732,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便a",
   "target": "beta/index.html",
-  "targetSha256": "2133ad7a735ec650eb2a1301fd3d353a66d1c395963c75d6a1d1a1243b1a0569",
-  "generatedAt": "2026-10-28T15:51:03.653Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-29T03:03:12.651Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7332198,
-    "sha256": "2133ad7a735ec650eb2a1301fd3d353a66d1c395963c75d6a1d1a1243b1a0569",
-    "mtime": "2026-10-28T15:42:06.140Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
-    "mtime": "2026-10-28T15:09:11.660Z"
+    "mtime": "2026-10-20T16:19:56.589Z"
    }
   ],
   "code": [
@@ -2923,34 +2937,34 @@
     "file": "tests/exp-w315a-symbols.mjs",
     "bytes": 20976,
     "sha256": "0298f10cc30431894ca16250d2ee38cf9ee9399eb2d36610fa6714a9d86cc1b6",
-    "mtime": "2026-10-28T15:43:04.927Z"
+    "mtime": "2026-10-28T18:04:20.429Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-28T15:09:12.936Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-28T15:09:12.936Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-28T15:09:12.932Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96147,
-    "sha256": "010ab11ac465dcd4b1e9191ec30cbe854ecdae82adcf2892c6525270fa9fc4e2",
-    "mtime": "2026-10-28T15:38:11.121Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "26883fc1aa006cc4ccd4a9667549e3943af5c23df95d2969522675b704179de4",
+  "codeSha256": "2200bcb4f8425fcc82ca5151ce68e1aa80b01a31119616e085de6617952e64bb",
   "harnessVersion": "w315a-symbols-2",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2994,9 +3008,9 @@
    "complete": true,
    "names": 1300,
    "segments": 1141,
-   "closureShare": 0.2967
+   "closureShare": 0.2957
   },
-  "scopeSha256": "bb5e10722efbcad244b8e3b90e4de73139e8b62df8eb1dc999187f3fbfde0b99",
+  "scopeSha256": "e78166826042574475349a64d6b9dbd5ce4f8b2d2cbcf9869bd97e4b98f7baec",
   "scopeComplete": true,
   "inputsStable": [
    {
