@@ -4,7 +4,7 @@
   "wave": "第303便a",
   "target": "beta/index.html",
   "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T09:21:26.101Z",
+  "generatedAt": "2026-10-29T10:22:05.078Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -52,9 +52,9 @@
   "code": [
    {
     "file": "tests/exp-w303a-refit.mjs",
-    "bytes": 40642,
-    "sha256": "0245f7a8304210f2bea18711dcc0a2e3f9bd45d9c2a897370360bd4df351fc1d",
-    "mtime": "2026-10-25T16:42:07.781Z"
+    "bytes": 40962,
+    "sha256": "896405d4d57b3458227d365cecbc784246008db95e95399365c7dc5f69cd1c9a",
+    "mtime": "2026-10-29T09:49:15.846Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -159,7 +159,7 @@
     "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "8cce87e91c339dba05e3a959c799f6902389ecabffa0942158ae90c175a1fb33",
+  "codeSha256": "793a4e5d78f0f3f22d1afb336ea444b4da0b51cf4fb465ae154608c5d989df70",
   "harnessVersion": "w303a-refit-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第93報)①②(geoPN=3 のフィットの探索を優先・引きずりが主 —— G_loc は引きずりだけでは合わない量を埋めるため)",
@@ -1095,7 +1095,7 @@
   "refitEms": true,
   "recordsAccepted": true,
   "recordsFitted": true,
-  "gLocZero": false,
+  "gLocZero": true,
   "sixOff": true,
   "htmlSame": true,
   "emoTransfer": true
@@ -1223,9 +1223,7 @@
    "noGLoc": true
   }
  },
- "gLocBooks": [
-  "solarSystem16Inertial3d"
- ],
+ "gLocBooks": [],
  "off6": [
   "venusSunInertial3d",
   "marsSunInertial3d",
@@ -1235,22 +1233,22 @@
   "neptuneSunInertial3d"
  ],
  "emoWbg": 3.85583,
- "ok": false,
+ "ok": true,
  "timing": {
   "mer3": {
-   "wallSec": 18.519
+   "wallSec": 18.04
   },
   "mer2": {
-   "wallSec": 21.243
+   "wallSec": 23.524
   },
   "plu": {
-   "wallSec": 230.57
+   "wallSec": 223.926
   },
   "ems3": {
-   "wallSec": 70.187
+   "wallSec": 71.202
   },
   "emo": {
-   "wallSec": 13.092
+   "wallSec": 14.912
   }
  },
  "notClaim": [
@@ -1259,5 +1257,5 @@
   "「現実を再現した」",
   "「W_bg の宇宙の値が決まった」"
  ],
- "elapsedS": 353.774
+ "elapsedS": 351.789
 }
