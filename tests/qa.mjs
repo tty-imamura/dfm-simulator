@@ -21510,7 +21510,9 @@ if (!FAST) {
         //   第299便a(AN282 ①): 正本は第298便の鎖で刻み直した世代(三次元の本が survey に入っている)だけを受ける —— 三次元の本の無い古い世代の分岐を外した
         const w298News = W298A_IDS.filter((id) => R.survey.some((z) => z.id === id));
         if (w298News.length !== W298A_IDS.length) bad.push('三次元の本が正本の survey に無い(正本を鎖で作り直すこと): ' + W298A_IDS.filter((id) => w298News.indexOf(id) < 0).join(','));
-        if (w298News.length) { const ix = (id) => R.survey.findIndex((z) => z.id === id); const all = wantNews.concat(w298News);
+        // 第318便(統括の統合): 🗺️ solarSystem16Inertial3d(第318便c —— 三次元の 16 体。W298A_IDS の html の文字列の型に入らない —— AN460)も基点に無い(正本に行がある世代だけ期待の並びに足す)
+        const w318News = ['solarSystem16Inertial3d'].filter((id) => R.survey.some((z) => z.id === id));
+        if (w298News.length || w318News.length) { const ix = (id) => R.survey.findIndex((z) => z.id === id); const all = wantNews.concat(w298News, w318News);
           if (all.every((id) => ix(id) >= 0)) all.sort((a, b) => ix(a) - ix(b)); wantNews.splice(0, wantNews.length, ...all); }
         if (news.join(',') !== wantNews.join(',')) bad.push('基点に無い本 ' + news.join(','));
         if (has288aRL && !canonHas288a) cases.push('🥜 は正本 cluster-w283f.json より後に入った本(段 clusterAnalogy の再走で入る)');
@@ -21656,6 +21658,8 @@ if (!FAST) {
         //   +W298A_IDS.length(正本が鎖で刻み直されるまでは前の世代の本数 —— 両方を許す)。🔩🪛 は contactMode none の宣言の側・🌦️🌐🎲 は宣言の外でよい
         //   第299便a(AN282 ①): 正本は第298便の鎖で刻み直した世代(三次元の本を含む本数)だけを受ける —— 前の世代の本数の分岐を外した
         if (has292d285 && W298A_IDS.length) { for (const id of W298A_IDS) OTHER285.add(id); nBuiltin285.splice(0, nBuiltin285.length, nBuiltin285[nBuiltin285.length - 1] + W298A_IDS.length); }
+        // 第318便(統括の統合): 🗺️ solarSystem16Inertial3d(第318便c —— W298A_IDS の html の文字列の型に入らない三次元の本・AN460)も基点 b92ffa1 に無い本
+        if (has292d285 && html285.indexOf('id:"solarSystem16Inertial3d"') >= 0) { OTHER285.add('solarSystem16Inertial3d'); nBuiltin285.push(nBuiltin285[nBuiltin285.length - 1] + 1); }
         const extra285 = (O.differ || []).filter((id) => !(O.declared || []).includes(id));
         if (!(nBuiltin285.includes(O.n) && extra285.every((id) => OTHER285.has(id)) && O.identical + O.differ.length === O.n)) bad.push('1 步の比較 ' + JSON.stringify(O).slice(0, 160));
         const C = JC.constraint;
