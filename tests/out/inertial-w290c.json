@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便c",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T11:34:01.598Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-28T21:24:48.634Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "0463698be61467ee7a603a27dab86271352ca740c35e16d7d5ba62d3ebefd330",
+  "codeSha256": "0fa217f777c4f4ce92cbddd25cb524a50b68b59b765254de1c787cc90e78f861",
   "harnessVersion": "w290c-inertial-1",
   "libVersion": "w290c-inertial-lib-1",
   "engineVersion": "w290c-inertial-1",
@@ -75,7 +75,7 @@
    "観測一致を達成した"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": [
     "boxBinaryToy",
     "compactForceToy",
@@ -106,11 +106,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1321,
-   "segments": 1162,
-   "closureShare": 0.3126
+   "names": 1319,
+   "segments": 1160,
+   "closureShare": 0.3006
   },
-  "scopeSha256": "37f6e852df38cf836f5fef1c1080eb72465f85c53bed9bf8cf12c33e9dc2fb24",
+  "scopeSha256": "79d13e12dc2bf3661804fd684b064bd861e7bdda62b5281729e8f566f45e4cfe",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -783,5 +783,5 @@
   "ok": true
  },
  "ok": true,
- "elapsedS": 4.594
+ "elapsedS": 3.579
 }

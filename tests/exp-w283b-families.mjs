@@ -13,7 +13,7 @@
 //      **観測版と DFM 版を 1 ID にしない**(kF0 版と DFM 版の組は「畳まない組」として別に並べる)。
 //   ⑤ 退役 7 本(familyRole:"retired")の棚卸し: 内蔵に残っていること・凍結の写し(tests/fixtures/retired-w283b.json)と
 //      presetSigHash が同じこと・7 本の ID を名指しする器(tests/*.mjs・tools/*.mjs)と再生成表の段の対応。
-//   ⑥ 一覧 docs/FAMILIES_v1.45.md(**生成物 —— 手で直さない**)を書く。QA docs.families が正本から作り直して 1 字ずつ照合する。
+//   ⑥ 一覧 docs/FAMILIES.md(**生成物 —— 手で直さない**)を書く。QA docs.families が正本から作り直して 1 字ずつ照合する。
 //
 // ■ しないこと: 走らせない・判定しない・html を変えない・プリセットを畳まない(候補を出すだけ)。
 //   「観測一致を達成した」「較正を完了した」「統合した」とは書かない。
@@ -42,7 +42,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 //   基準(ref)が退役の本だった家族は在位の入口(primary)へ移した(mercury・saturn・psrDoubleAB・gw150914・alphaCen・sirius)。
 export const HARNESS_VERSION = 'w294b-families-2';
 export const OUT = 'tests/out/families-w283b.json';
-export const MD = 'docs/FAMILIES_v1.45.md';
+export const MD = 'docs/FAMILIES.md';
 export const CAL = 'tests/out/calaudit-w249.json';
 export const RETIRED_FX = 'tests/fixtures/retired-w283b.json';
 // 第284便b(原仮定者の裁定(第74報)⑤・AN35): 退役 6 本(🎋🪶🪃🪀⭕🪝)と ⚡ の旧則(f≈2)の凍結の写し(器 tests/exp-w284b-retiredfx.mjs)

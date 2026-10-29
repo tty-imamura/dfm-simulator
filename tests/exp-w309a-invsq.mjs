@@ -261,12 +261,15 @@ function partB(H, cfgs) {
   return { rows, books, oldSource: old ? 'tests/out/bevel-w308a.json(第308便a の正本 —— P.terms の diffPair)' : null };
 }
 
+// 第318便(統括の統合 —— 煙試験で見つけた): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本(K1 の規則の宣言)—— 数え上げの外に置く(正本の欄と値は不変・QA の側も同じ本を外して比べる)
+const LATER_BOOKS_318 = new Set(['solarSystem16Inertial3d']);
 /* ───────── 段 D(dragCore の既定の数え上げ)───────── */
 function partD(H, quick) {
   const HP = H.HP, all = HP.allPresets(), retired = E(H, 'retiredOf'), cand = [];
   for (const p of all) {
     const rd = p.physics && p.physics.relativeDrag;
     if (!rd || rd.law !== 'inertial' || !p.scaleExp || !Number.isFinite(p.scaleExp.L)) continue;
+    if (LATER_BOOKS_318.has(p.id)) continue;   // 第318便(統括): 後に入った本(K1 の規則の宣言 —— dragCoreDefault は rdRule と一緒に宣言しない)
     const en = E(H, 'relDragEnabledOf')(rd);
     p.bodies.forEach((b, i) => {
       if (b.type !== 'single' || !(b.m > 0) || !(b.radius > 0) || b.dragCore) return;

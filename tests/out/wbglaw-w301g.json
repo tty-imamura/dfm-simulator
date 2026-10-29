@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第301便g",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T15:39:40.978Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-29T08:19:37.223Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -34,9 +34,9 @@
   "code": [
    {
     "file": "tests/exp-w301g-wbglaw.mjs",
-    "bytes": 43278,
-    "sha256": "0abe1d0f5fad6046871a7083988c12a34749858316a4adc8e60494823e66bbde",
-    "mtime": "2026-10-25T16:42:07.781Z"
+    "bytes": 43709,
+    "sha256": "8a90a91a481b050ec5eb422747e3c0af6b01a9ab9551f5da7f36a686b8db61c9",
+    "mtime": "2026-10-29T00:14:40.877Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -100,9 +100,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    },
    {
     "file": "tests/lib-w303a-pre.mjs",
@@ -117,7 +117,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "87bb4c2f89f1ff931260cfccbd9b72c004119e7b3434e7109888091602aab359",
+  "codeSha256": "16e60920ec847a4af772905e24ee7c82627504626e3881747da06e34421d0f6d",
   "harnessVersion": "w301g-wbglaw-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(AN300 —— 第91報への追加): 慣性決定力は、重力決定力に比べて近距離の天体の影響が大きい為、背景慣性決定力がサンプル毎に異なるのは問題無い。法則性の探索を行う",
@@ -129,7 +129,7 @@
    "現実の再現の主張"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "$",
@@ -178,11 +178,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1334,
-   "segments": 1175,
-   "closureShare": 0.3149
+   "names": 1332,
+   "segments": 1173,
+   "closureShare": 0.3028
   },
-  "scopeSha256": "1e9f3f6da8fe9d83f44a63f46573f51873bad0aeafafaeaece3ddff4c71144ee",
+  "scopeSha256": "b371e95f01ccdf6f7af9d69f2bdeccec81c8f53b4a60ae07ba9ed3ae6d89f5e4",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -517,7 +517,7 @@
     "steps": 1282677,
     "nan": false,
     "complete": true,
-    "wallSec": 4.819
+    "wallSec": 3.656
    },
    "run": {
     "P": 23464.58872731004,
@@ -527,7 +527,7 @@
     "steps": 1275004,
     "nan": false,
     "complete": true,
-    "wallSec": 5.6
+    "wallSec": 5.292
    },
    "sys": {
     "unit": {
@@ -604,7 +604,7 @@
     "steps": 5605428,
     "nan": false,
     "complete": true,
-    "wallSec": 25.888
+    "wallSec": 22.648
    },
    "run": {
     "P": 234.4657765388979,
@@ -614,7 +614,7 @@
     "steps": 5568459,
     "nan": false,
     "complete": true,
-    "wallSec": 29.932
+    "wallSec": 26.12
    },
    "sys": {
     "unit": {
@@ -707,7 +707,7 @@
     "steps": 1741364,
     "nan": false,
     "complete": true,
-    "wallSec": 9.217
+    "wallSec": 7.257
    },
    "run": null,
    "sys": {
@@ -801,7 +801,7 @@
     "steps": 1741422,
     "nan": false,
     "complete": true,
-    "wallSec": 4.737
+    "wallSec": 4.246
    },
    "run": {
     "P": 236.05913902529588,
@@ -811,7 +811,7 @@
     "steps": 1741368,
     "nan": false,
     "complete": true,
-    "wallSec": 5.51
+    "wallSec": 5.229
    },
    "sys": {
     "unit": {
@@ -896,7 +896,7 @@
     "steps": 382305,
     "nan": false,
     "complete": true,
-    "wallSec": 1.845
+    "wallSec": 1.099
    },
    "run": {
     "P": 237.45213976932067,
@@ -906,7 +906,7 @@
     "steps": 382294,
     "nan": false,
     "complete": true,
-    "wallSec": 2.239
+    "wallSec": 1.734
    },
    "sys": {
     "unit": {
@@ -978,7 +978,7 @@
     "steps": 380027,
     "nan": false,
     "complete": true,
-    "wallSec": 2.26
+    "wallSec": 1.484
    },
    "run": {
     "P": 759.3879075452348,
@@ -988,7 +988,7 @@
     "steps": 379694,
     "nan": false,
     "complete": true,
-    "wallSec": 1.82
+    "wallSec": 1.574
    },
    "sys": {
     "unit": {
@@ -1068,7 +1068,7 @@
     "steps": 380027,
     "nan": false,
     "complete": true,
-    "wallSec": 1.668
+    "wallSec": 1.333
    },
    "run": {
     "P": 760.0533575960889,
@@ -1078,7 +1078,7 @@
     "steps": 380027,
     "nan": false,
     "complete": true,
-    "wallSec": 1.882
+    "wallSec": 1.505
    },
    "sys": {
     "unit": {
@@ -1150,7 +1150,7 @@
     "steps": 380028,
     "nan": false,
     "complete": true,
-    "wallSec": 1.63
+    "wallSec": 1.307
    },
    "run": {
     "P": 760.054615492685,
@@ -1160,7 +1160,7 @@
     "steps": 380028,
     "nan": false,
     "complete": true,
-    "wallSec": 2.142
+    "wallSec": 1.798
    },
    "sys": {
     "unit": {
@@ -1232,7 +1232,7 @@
     "steps": 380020,
     "nan": false,
     "complete": true,
-    "wallSec": 1.89
+    "wallSec": 1.366
    },
    "run": null,
    "sys": {
@@ -1305,7 +1305,7 @@
     "steps": 380181,
     "nan": false,
     "complete": true,
-    "wallSec": 1.674
+    "wallSec": 1.637
    },
    "run": null,
    "sys": {
@@ -1378,7 +1378,7 @@
     "steps": 380044,
     "nan": false,
     "complete": true,
-    "wallSec": 1.722
+    "wallSec": 1.421
    },
    "run": null,
    "sys": {
@@ -1451,7 +1451,7 @@
     "steps": 379882,
     "nan": false,
     "complete": true,
-    "wallSec": 1.801
+    "wallSec": 1.359
    },
    "run": null,
    "sys": {
@@ -1524,7 +1524,7 @@
     "steps": 380245,
     "nan": false,
     "complete": true,
-    "wallSec": 1.86
+    "wallSec": 1.608
    },
    "run": null,
    "sys": {
@@ -1597,7 +1597,7 @@
     "steps": 380169,
     "nan": false,
     "complete": true,
-    "wallSec": 1.677
+    "wallSec": 1.488
    },
    "run": null,
    "sys": {
@@ -1670,7 +1670,7 @@
     "steps": 380027,
     "nan": false,
     "complete": true,
-    "wallSec": 1.654
+    "wallSec": 1.639
    },
    "run": {
     "P": 760.0533575961334,
@@ -1680,7 +1680,7 @@
     "steps": 380027,
     "nan": false,
     "complete": true,
-    "wallSec": 1.896
+    "wallSec": 1.667
    },
    "sys": {
     "unit": {
@@ -1752,7 +1752,7 @@
     "steps": 379941,
     "nan": false,
     "complete": true,
-    "wallSec": 2.6
+    "wallSec": 1.968
    },
    "run": {
     "P": 49160.03728113461,
@@ -1762,7 +1762,7 @@
     "steps": 336035,
     "nan": false,
     "complete": true,
-    "wallSec": 2.403
+    "wallSec": 1.56
    },
    "sys": {
     "unit": {
@@ -1842,7 +1842,7 @@
     "steps": 2759319,
     "nan": false,
     "complete": true,
-    "wallSec": 15.666
+    "wallSec": 13.312
    },
    "run": {
     "P": 55185.643872033084,
@@ -1852,7 +1852,7 @@
     "steps": 2759283,
     "nan": false,
     "complete": true,
-    "wallSec": 19.659
+    "wallSec": 15.549
    },
    "sys": {
     "unit": {
@@ -4905,7 +4905,7 @@
    "gain0": -703299.901763844,
    "steps": 1282675,
    "nan": false,
-   "wallSec": 5.891
+   "wallSec": 4.939
   },
   {
    "cand": "const",
@@ -4928,7 +4928,7 @@
    "gain0": 8.898473561886753,
    "steps": 1741398,
    "nan": false,
-   "wallSec": 8.287
+   "wallSec": 7.8
   },
   {
    "cand": "const",
@@ -4951,7 +4951,7 @@
    "gain0": 0,
    "steps": 380024,
    "nan": false,
-   "wallSec": 1.569
+   "wallSec": 1.465
   },
   {
    "cand": "const",
@@ -4974,7 +4974,7 @@
    "gain0": 551863.6598982827,
    "steps": 2757209,
    "nan": false,
-   "wallSec": 17.735
+   "wallSec": 14.7
   },
   {
    "cand": "resp",
@@ -4997,7 +4997,7 @@
    "gain0": -703299.901763844,
    "steps": 1274276,
    "nan": false,
-   "wallSec": 6.467
+   "wallSec": 5.776
   },
   {
    "cand": "resp",
@@ -5020,7 +5020,7 @@
    "gain0": 8.898473561886753,
    "steps": 1741355,
    "nan": false,
-   "wallSec": 10.071
+   "wallSec": 7.803
   },
   {
    "cand": "resp",
@@ -5043,7 +5043,7 @@
    "gain0": 0,
    "steps": 380027,
    "nan": false,
-   "wallSec": 1.614
+   "wallSec": 1.766
   },
   {
    "cand": "resp",
@@ -5066,7 +5066,7 @@
    "gain0": 551863.6598982827,
    "steps": 2759296,
    "nan": false,
-   "wallSec": 17.264
+   "wallSec": 15.372
   },
   {
    "cand": "respKind",
@@ -5089,7 +5089,7 @@
    "gain0": -703299.901763844,
    "steps": 1275656,
    "nan": false,
-   "wallSec": 6.281
+   "wallSec": 5.192
   },
   {
    "cand": "respKind",
@@ -5112,7 +5112,7 @@
    "gain0": 8.898473561886753,
    "steps": 1741364,
    "nan": false,
-   "wallSec": 9.817
+   "wallSec": 7.591
   },
   {
    "cand": "respKind",
@@ -5135,7 +5135,7 @@
    "gain0": 0,
    "steps": 380027,
    "nan": false,
-   "wallSec": 1.696
+   "wallSec": 1.47
   },
   {
    "cand": "respKind",
@@ -5285,7 +5285,7 @@
       "periodDays": 224.7020743089923,
       "nan": false,
       "steps": 380020,
-      "wallSec": 1.851
+      "wallSec": 1.747
      },
      {
       "cand": "Ma3",
@@ -5298,7 +5298,7 @@
       "periodDays": 224.69834532800454,
       "nan": false,
       "steps": 380014,
-      "wallSec": 1.957
+      "wallSec": 1.593
      },
      {
       "cand": "ref1pn",
@@ -5311,7 +5311,7 @@
       "periodDays": 224.7021186366644,
       "nan": false,
       "steps": 380020,
-      "wallSec": 1.714,
+      "wallSec": 1.475,
       "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
      }
     ]
@@ -5340,7 +5340,7 @@
       "periodDays": 686.9862545620496,
       "nan": false,
       "steps": 380181,
-      "wallSec": 1.613
+      "wallSec": 1.236
      },
      {
       "cand": "Ma3",
@@ -5353,7 +5353,7 @@
       "periodDays": 686.9735113821038,
       "nan": false,
       "steps": 380174,
-      "wallSec": 1.826
+      "wallSec": 1.526
      },
      {
       "cand": "ref1pn",
@@ -5366,7 +5366,7 @@
       "periodDays": 686.9862634898603,
       "nan": false,
       "steps": 380181,
-      "wallSec": 1.885,
+      "wallSec": 1.421,
       "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
      }
     ]
@@ -5395,7 +5395,7 @@
       "periodDays": 4332.674506479273,
       "nan": false,
       "steps": 380044,
-      "wallSec": 1.944
+      "wallSec": 1.605
      },
      {
       "cand": "Ma3",
@@ -5408,7 +5408,7 @@
       "periodDays": 4332.599585004692,
       "nan": false,
       "steps": 380038,
-      "wallSec": 2.249
+      "wallSec": 1.679
      },
      {
       "cand": "ref1pn",
@@ -5421,7 +5421,7 @@
       "periodDays": 4332.674493343214,
       "nan": false,
       "steps": 380044,
-      "wallSec": 2.024,
+      "wallSec": 1.445,
       "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
      }
     ]
@@ -5450,7 +5450,7 @@
       "periodDays": 10755.620894340293,
       "nan": false,
       "steps": 379882,
-      "wallSec": 1.671
+      "wallSec": 1.549
      },
      {
       "cand": "Ma3",
@@ -5463,7 +5463,7 @@
       "periodDays": 10755.435688142357,
       "nan": false,
       "steps": 379876,
-      "wallSec": 1.856
+      "wallSec": 1.401
      },
      {
       "cand": "ref1pn",
@@ -5476,7 +5476,7 @@
       "periodDays": 10755.620874107855,
       "nan": false,
       "steps": 379882,
-      "wallSec": 1.714,
+      "wallSec": 1.559,
       "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
      }
     ]
@@ -5505,7 +5505,7 @@
       "periodDays": 30702.292524464727,
       "nan": false,
       "steps": 380245,
-      "wallSec": 2.099
+      "wallSec": 1.492
      },
      {
       "cand": "Ma3",
@@ -5518,7 +5518,7 @@
       "periodDays": 30701.765123911908,
       "nan": false,
       "steps": 380238,
-      "wallSec": 1.829
+      "wallSec": 1.949
      },
      {
       "cand": "ref1pn",
@@ -5531,7 +5531,7 @@
       "periodDays": 30702.292494675974,
       "nan": false,
       "steps": 380245,
-      "wallSec": 2.06,
+      "wallSec": 1.584,
       "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
      }
     ]
@@ -5560,7 +5560,7 @@
       "periodDays": 60226.32090400599,
       "nan": false,
       "steps": 380169,
-      "wallSec": 2.11
+      "wallSec": 1.446
      },
      {
       "cand": "Ma3",
@@ -5573,7 +5573,7 @@
       "periodDays": 60225.30795664844,
       "nan": false,
       "steps": 380162,
-      "wallSec": 2.01
+      "wallSec": 1.451
      },
      {
       "cand": "ref1pn",
@@ -5586,7 +5586,7 @@
       "periodDays": 60226.3208671913,
       "nan": false,
       "steps": 380169,
-      "wallSec": 1.875,
+      "wallSec": 1.578,
       "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
      }
     ]
@@ -5602,7 +5602,7 @@
     "aMedSI": 106235961.40840091,
     "sumWMedSI": 474.98686193651787,
     "gain0": {
-     "wallSec": 0.638
+     "wallSec": 0.589
     },
     "preds": [
      {
@@ -5616,7 +5616,7 @@
       "halt": false,
       "uMax": 0.24035648571125404,
       "steps": 720,
-      "wallSec": 0.963
+      "wallSec": 0.86
      },
      {
       "cand": "Ma3",
@@ -5629,7 +5629,7 @@
       "halt": false,
       "uMax": 0.00006256371404921136,
       "steps": 720,
-      "wallSec": 0.783
+      "wallSec": 0.666
      }
     ]
    }
@@ -5648,5 +5648,5 @@
   "predictions": true
  },
  "ok": true,
- "elapsedS": 287.761
+ "elapsedS": 242.085
 }

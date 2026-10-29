@@ -2,7 +2,7 @@
  "version": "w315b-rsexcess-1",
  "generator": "tests/exp-w315b-rsexcess.mjs",
  "target": "beta/index.html",
- "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+ "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
  "ruling": "決断事項 AN415 観測半径を超えた R_d の表示を、観測半径を超えたシュヴァルツシルト半径 r_s の表示に変更(r_s は全質量と本の G_0・c_0 から・DFM による地平面の判定ではない・R_d の受理と警告と読み口は残す)・原仮定者の裁定(第117報)AN414 の記号・K1 の境界の 1 点・統括の検証項目 R243",
  "units": {
   "book": {
@@ -21,7 +21,7 @@
  },
  "quick": false,
  "rsVersion": "w315b-rs-excess-1",
- "nBuiltin": 176,
+ "nBuiltin": 177,
  "P": {
   "rows": [
    {
@@ -841,9 +841,9 @@
   "ok": true
  },
  "B": {
-  "nPresets": 176,
-  "judged": 1191,
-  "nSame": 176,
+  "nPresets": 177,
+  "judged": 1207,
+  "nSame": 177,
   "excess": [
    {
     "id": "massLadder",
@@ -1378,40 +1378,40 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.025
+   "wallSec": 0.041
   },
   "E": {
-   "wallSec": 0.005
+   "wallSec": 0.014
   },
   "F": {
-   "wallSec": 0.008
+   "wallSec": 0.012
   },
   "V": {
-   "wallSec": 0.022
+   "wallSec": 0.015
   },
   "Z": {
-   "wallSec": 0.112
+   "wallSec": 0.123
   },
   "B": {
-   "wallSec": 11.517
+   "wallSec": 10.657
   },
   "K": {
-   "wallSec": 0.22
+   "wallSec": 0.19
   }
  },
- "elapsedS": 13.961,
+ "elapsedS": 13.137,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便b",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T15:34:09.614Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-29T08:27:59.194Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    }
   ],
   "code": [
@@ -1441,12 +1441,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "c94597059b5c7815a93ea57c4d8b584db8b0c321917716bc71eb54e8552a44c1",
+  "codeSha256": "ac3c63b3393df9042dad730fdc138dcddfebdf01e740b9080753f1f2dc1fe601",
   "harnessVersion": "w315b-rsexcess-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1458,7 +1458,7 @@
    "収束した"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "$",
@@ -1479,11 +1479,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1308,
-   "segments": 1149,
-   "closureShare": 0.3097
+   "names": 1306,
+   "segments": 1147,
+   "closureShare": 0.2977
   },
-  "scopeSha256": "2b251da7971afa02f0486de40aa3d64b752147c1e85aaacc137db652438f374f",
+  "scopeSha256": "db2bbccd7e6c832fe4d64bc3ad3c062d243295bbf11d9fd5efbe1c266c9db7d9",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

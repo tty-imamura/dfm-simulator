@@ -11,12 +11,12 @@
    "find-only": 19
   },
   "byKind": {
-   "filter": 14,
+   "filter": 16,
    "map": 2,
    "declared-wide": 11,
    "count": 2,
    "iterate": 6,
-   "value": 12,
+   "value": 10,
    "find-via-var": 24
   }
  },
@@ -1321,11 +1321,11 @@
    "reasons": [
     {
      "file": "tests/exp-w301g-wbglaw.mjs",
-     "line": 113,
+     "line": 115,
      "use": "filter",
      "kind": "filter",
      "via": "harness",
-     "text": "const inert = HP.allPresets().filter((p) => ((p.physics || {}).relativeDrag || {}).law === 'inertial').map((p) => pre302c(p));   // 第302便c"
+     "text": "const inert = HP.allPresets().filter((p) => ((p.physics || {}).relativeDrag || {}).law === 'inertial' && !LATER_BOOKS_318.has(p.id)).map((p)"
     },
     {
      "file": "tests/lib-w299c-planets3d.mjs",
@@ -1368,12 +1368,13 @@
     "saturnRingInertial3d",
     "saturnRingReal",
     "saturnSunInertial3d",
+    "solarSystem16Inertial3d",
     "uranusReal",
     "uranusSunInertial3d",
     "venusReal",
     "venusSunInertial3d"
    ],
-   "nNamed": 31,
+   "nNamed": 32,
    "prospect": "enumerates"
   },
   {
@@ -1381,21 +1382,17 @@
    "harness": "tests/exp-w302d-semic.mjs",
    "derivedAll": true,
    "kinds": [
-    "find-via-var",
-    "value"
+    "filter",
+    "find-via-var"
    ],
    "reasons": [
     {
      "file": "tests/exp-w302d-semic.mjs",
-     "line": 63,
-     "use": "(値)",
-     "kind": "value",
+     "line": 65,
+     "use": "filter",
+     "kind": "filter",
      "via": "harness",
-     "text": "const all = HP.allPresets(), isInertial = (p) => !!(p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial');",
-     "var": "all",
-     "varUses": [
-      ".filter"
-     ]
+     "text": "const all = HP.allPresets().filter((p) => !LATER_BOOKS_318.has(p.id)), isInertial = (p) => !!(p.physics && p.physics.relativeDrag && p.physi"
     },
     {
      "file": "tests/lib-w299c-planets3d.mjs",
@@ -1439,12 +1436,13 @@
     "saturn",
     "saturnRingReal",
     "saturnSunInertial3d",
+    "solarSystem16Inertial3d",
     "uranusReal",
     "uranusSunInertial3d",
     "venusReal",
     "venusSunInertial3d"
    ],
-   "nNamed": 32,
+   "nNamed": 33,
    "prospect": "enumerates"
   },
   {
@@ -1462,11 +1460,11 @@
      "use": "filter",
      "kind": "filter",
      "via": "harness",
-     "text": "export function gLocBooks(HP) { return HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.physics && p.physics.gLoc).map((p) => p"
+     "text": "export function gLocBooks(HP) { return HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.physics && p.physics.gLoc && !LATER_BOO"
     },
     {
      "file": "tests/exp-w302c-wbgest.mjs",
-     "line": 268,
+     "line": 270,
      "use": "filter",
      "kind": "filter",
      "via": "harness",
@@ -1516,12 +1514,13 @@
     "saturnRingInertial3d",
     "saturnRingReal",
     "saturnSunInertial3d",
+    "solarSystem16Inertial3d",
     "uranusReal",
     "uranusSunInertial3d",
     "venusReal",
     "venusSunInertial3d"
    ],
-   "nNamed": 34,
+   "nNamed": 35,
    "prospect": "enumerates"
   },
   {
@@ -1535,7 +1534,7 @@
    "reasons": [
     {
      "file": "tests/exp-w303a-refit.mjs",
-     "line": 293,
+     "line": 295,
      "use": "(値)",
      "kind": "value",
      "via": "harness",
@@ -1589,12 +1588,13 @@
     "saturnRingInertial3d",
     "saturnRingReal",
     "saturnSunInertial3d",
+    "solarSystem16Inertial3d",
     "uranusReal",
     "uranusSunInertial3d",
     "venusReal",
     "venusSunInertial3d"
    ],
-   "nNamed": 34,
+   "nNamed": 35,
    "prospect": "enumerates"
   },
   {
@@ -1930,7 +1930,7 @@
    "reasons": [
     {
      "file": "tests/exp-w309a-invsq.mjs",
-     "line": 266,
+     "line": 268,
      "use": "(値)",
      "kind": "value",
      "via": "harness",
@@ -1944,9 +1944,10 @@
    "namedIds": [
     "jupiterGalilean",
     "jupiterSunInertial3d",
+    "solarSystem16Inertial3d",
     "venusSunInertial3d"
    ],
-   "nNamed": 3,
+   "nNamed": 4,
    "prospect": "enumerates"
   },
   {
@@ -1954,30 +1955,26 @@
    "harness": "tests/exp-w310a-invsq.mjs",
    "derivedAll": true,
    "kinds": [
-    "value"
+    "filter"
    ],
    "reasons": [
     {
      "file": "tests/exp-w310a-invsq.mjs",
-     "line": 150,
-     "use": "(値)",
-     "kind": "value",
+     "line": 153,
+     "use": "filter",
+     "kind": "filter",
      "via": "harness",
-     "text": "const all = HP.allPresets();",
-     "var": "all",
-     "varUses": [
-      ".filter",
-      ".length"
-     ]
+     "text": "const all = HP.allPresets().filter((q) => !LATER_BOOKS_318.has(q.id));   // 第318便(統括): 後に入った本は数え上げの外"
     }
    ],
    "namedIds": [
     "jupiterGalilean",
     "jupiterSunInertial3d",
     "mercurySunInertial3d",
+    "solarSystem16Inertial3d",
     "venusSunInertial3d"
    ],
-   "nNamed": 4,
+   "nNamed": 5,
    "prospect": "enumerates"
   },
   {
@@ -2411,9 +2408,10 @@
    "namedIds": [
     "mercury",
     "mercuryReal",
-    "saturn"
+    "saturn",
+    "solarSystem16Inertial3d"
    ],
-   "nNamed": 3,
+   "nNamed": 4,
    "prospect": "enumerates"
   },
   {
@@ -2426,7 +2424,7 @@
    "reasons": [
     {
      "file": "tests/exp-w315a-symbols.mjs",
-     "line": 153,
+     "line": 155,
      "use": "(値)",
      "kind": "value",
      "via": "harness",

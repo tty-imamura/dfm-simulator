@@ -48,6 +48,15 @@
 //     バイト数・引用したファイルの sha)を宣言してよくした(値の型は QA が照合)。除くと中身の変化を見落とす分割先
 //     (calaudit-w249-diag.json)は**随伴ファイル**として別の行で安定 hash を刻む(`stableInputs` —— 再生成表の
 //     `STABLE_COMPANIONS`)。方式の版 `STABLE_VERSION` は変えない(Pointer の並びは hash の本文に入っている)。
+//
+// ■ 第318便a(原仮定者の裁定(第120報)・決断事項 AN427 ①〜⑤・統括の検証項目 R254)—— **版 6(w318a-scope-6)**
+//   ・文の登録簿(TEXT_REGISTRIES)に受理器の理由の文の表 ACCEPT_REASONS・理論用語集 LAWS・AI の生成の仕様 SYSTEM_PROMPT を足した(閉包で辿らない ——
+//     判定のコードは閉包に残り、文だけが表から引かれる)。版 1〜5 の刻印は版 5 までの登録簿 TEXT_REGISTRIES_5(I18N だけ)で引き直す。
+//   ・説明文の欄に本の名 name と abBody.label を足した(版 6 だけ —— PROSE_KEYS_ADDED_318・AB_BODY_PROSE_KEYS)。referenceKind・law・kernel・rdRule は
+//     物理を選ぶ/意味を持つので外さない。受理後の定義に受理器の warnings を足した(内蔵の本の警告の文が変われば、その本を宣言した段は動く)。
+//   ・器が文の表を直に読む(HP.<表>・引用符の名)なら、その表を consts に宣言する(下限 —— deriveScope の consts)。
+//   ・刻印の道具(SCOPE_TOOLING)の sha は「式」の判定から外す: 器が刻印の名(TOOL_STAMP_NAMES)だけを読むなら、道具の変更は
+//     刻印を今の道具で引き直して照合するだけ(toolStampOnly —— planRegen と lint.provenanceMeta)。道具を計算に使う器は従来どおり regen。
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { loadHtmlHeadless } from './lib-w279b-headless.mjs';
@@ -63,7 +72,9 @@ import { volatilePathsOf, companionsOf } from './lib-w281a-regentable.mjs';
 // 第316便d(原仮定者の裁定(第118報)・決断事項 AN422 ②・統括の検証項目 R249): 現行版を w316d-scope-5 へ —— 停止集合に**物理を読まない表示の関数**
 //   (SCOPE_STOP_ADDED_316 —— HUD・キャンバスの描画・パラメータ行と選択とボタンの表示同期の 26 個)を足した。版 4 以前の刻印は
 //   版 4 の停止集合 SCOPE_STOP_4(= 第286便d の SCOPE_STOP と 1 字も違わない)・版 2〜3 は SCOPE_STOP_3 で引き直す(stopSetOf)。
-export const SCOPE_VERSION = 'w316d-scope-5';
+export const SCOPE_VERSION = 'w318a-scope-6';
+/** 第316便d の版 5(停止集合 SCOPE_STOP —— 登録簿は版 5 までの TEXT_REGISTRIES_5・説明文の欄は PROSE_KEYS だけ)。旧刻印の照合用。 */
+export const SCOPE_VERSION_5 = 'w316d-scope-5';
 /** 第286便d の統合の版 4(停止集合に lcAfterStep/lcReset —— 版 3 の閉包・本文はそのまま)。旧刻印の照合用 —— 停止集合は SCOPE_STOP_4。 */
 export const SCOPE_VERSION_4 = 'w286d-scope-4';
 /** 第283便e の版 3(claims の説明文字列を外す)。旧刻印の照合用 —— 停止集合は SCOPE_STOP_3。 */
@@ -73,7 +84,7 @@ export const SCOPE_VERSION_LEGACY = 'w281a-scope-1';
 /** 版 2(第282便e —— 停止集合あり・説明文の除外は最上位の PROSE_KEYS だけ)。この版の刻印は版 2 の規則で照合する。 */
 export const SCOPE_VERSION_2 = 'w282e-scope-2';
 /** 照合できる版の一覧(これ以外の版の刻印は照合できない = 不一致)。 */
-export const SCOPE_VERSIONS = [SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION_3, SCOPE_VERSION_4, SCOPE_VERSION];
+export const SCOPE_VERSIONS = [SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION_3, SCOPE_VERSION_4, SCOPE_VERSION_5, SCOPE_VERSION];
 
 /**
  * **停止集合**(第282便e・AN22 —— 原仮定者の裁定(第72報)・統括の検証項目 R82)。
@@ -125,7 +136,8 @@ export const SCOPE_STOP_4 = SCOPE_STOP.filter((n) => !SCOPE_STOP_ADDED_316.inclu
 /** 版 2・3 の停止集合(第286便d の統合で足した 2 名を除く —— 旧刻印を同じ規則で引き直すため)。 */
 export const SCOPE_STOP_3 = SCOPE_STOP_4.filter((n) => n !== 'lcAfterStep' && n !== 'lcReset');
 /** 刻印の版 → 停止集合(版 1 は停止集合なし —— 呼ぶ側が閉包の引き方を分ける。版 2〜3 は SCOPE_STOP_3・版 4 は SCOPE_STOP_4・現行版は SCOPE_STOP) */
-export const stopSetOf = (version) => (version === SCOPE_VERSION ? SCOPE_STOP : (version === SCOPE_VERSION_4 ? SCOPE_STOP_4 : SCOPE_STOP_3));
+// 第318便a: 版 6 の停止集合は版 5 と同じ(SCOPE_STOP)—— 版 6 で変えたのは文の登録簿・説明文の欄・受理後の warnings
+export const stopSetOf = (version) => ((version === SCOPE_VERSION || version === SCOPE_VERSION_5) ? SCOPE_STOP : (version === SCOPE_VERSION_4 ? SCOPE_STOP_4 : SCOPE_STOP_3));
 
 /**
  * プリセットの**説明文だけの欄**(`sim.build`・`validatePreset` の受理判定・`applyQLock` が読まない欄)。
@@ -134,6 +146,16 @@ export const stopSetOf = (version) => (version === SCOPE_VERSION ? SCOPE_STOP : 
  */
 export const PROSE_KEYS = ['descStruct', 'en', 'description', 'status', 'notClaim', 'obsCard',
   'failureFirst', 'parameterAudit', 'fidelity', 'emoji', 'familyRole'];
+/**
+ * 第318便a(AN427 ③): 版 6 で足した**最上位の説明文の欄**(本の名)。`makeSim` は `preset.id||preset.name` で乱数の種の代わりに読むが、
+ * 内蔵の本はすべて id を持つ(lint.textRegistry318 が照合)ので名は種に届かない。`validatePreset` は有無だけを見る(空にすれば受理が変わる ——
+ * 受理の結果 ok は領域に残る)。`referenceKind`・`law`・`kernel`・`rdRule` は意味を持つので入れない。
+ */
+export const PROSE_KEYS_ADDED_318 = ['name'];
+/** 第318便a(AN427 ③): 版 6 で外す `abBody` の中の説明文の欄(値が文字列か、葉が文字列だけの object のとき —— physicsPatch は残す)。 */
+export const AB_BODY_PROSE_KEYS = ['label'];
+/** 刻印の版 → 最上位の説明文の欄。 */
+export const proseKeysOf = (version) => (version === SCOPE_VERSION ? PROSE_KEYS.concat(PROSE_KEYS_ADDED_318) : PROSE_KEYS);
 
 /** 閉包を辿らない名前(**プリセットの配列そのもの** —— ① で宣言したプリセットだけを入れる)。 */
 export const DATA_REGISTRIES = ['BUILTIN_PRESETS'];
@@ -143,7 +165,16 @@ export const DATA_REGISTRIES = ['BUILTIN_PRESETS'];
  * `lint.regenScope` が「表の葉が文字列/関数だけ」であることを headless で毎回照合する
  * (数値や配列が入ったら外してはいけない)。
  */
-export const TEXT_REGISTRIES = ['I18N'];
+export const TEXT_REGISTRIES_5 = ['I18N'];
+/**
+ * 第318便a(AN427 ① ②): 版 6 で足した**文の登録簿** —— 受理器の理由の文の表 `ACCEPT_REASONS`(値は文字列か文字列を返す関数)・
+ * 理論用語集 `LAWS`(ja/en の文字列)・AI の生成の仕様 `SYSTEM_PROMPT`(文字列)。物理を選ぶ鍵の値は入れない(葉の型を lint.textRegistry318 が照合)。
+ */
+export const TEXT_REGISTRIES_ADDED_318 = ['ACCEPT_REASONS', 'LAWS', 'SYSTEM_PROMPT'];
+/** 現行(版 6)の文の登録簿。 */
+export const TEXT_REGISTRIES = TEXT_REGISTRIES_5.concat(TEXT_REGISTRIES_ADDED_318);
+/** 刻印の版 → 文の登録簿(版 1〜5 は I18N だけ)。 */
+export const textRegistriesOf = (version) => (version === SCOPE_VERSION ? TEXT_REGISTRIES : TEXT_REGISTRIES_5);
 
 /**
  * JS を走査して 2 つの写しを作る(どちらも元と同じ長さ・改行位置も同じ):
@@ -634,7 +665,8 @@ const dropStrings = (o, keys) => {
 export function stripPresetProse(p, version) {
   const v = version || SCOPE_VERSION;
   const o = {};
-  for (const k of Object.keys(p || {}).sort()) if (PROSE_KEYS.indexOf(k) < 0) o[k] = p[k];
+  const PK = proseKeysOf(v);   // 第318便a: 版 6 は本の名 name も外す(版 1〜5 は PROSE_KEYS だけ —— 元の実装と同じ)
+  for (const k of Object.keys(p || {}).sort()) if (PK.indexOf(k) < 0) o[k] = p[k];
   if (v === SCOPE_VERSION_LEGACY || v === SCOPE_VERSION_2) return o;
   if (Array.isArray(o.claims)) {
     o.claims = o.claims.map((c) => {
@@ -644,7 +676,19 @@ export function stripPresetProse(p, version) {
     });
   }
   if (o.massCalibration && typeof o.massCalibration === 'object') o.massCalibration = dropStrings(o.massCalibration, MASSCAL_PROSE_KEYS);
+  // 第318便a(AN427 ③): 版 6 は abBody.label(文字列か、葉が文字列だけの object)を外す —— physicsPatch は残す
+  if (v === SCOPE_VERSION && o.abBody && typeof o.abBody === 'object' && !Array.isArray(o.abBody)) {
+    const r = {};
+    for (const k of Object.keys(o.abBody)) if (!(AB_BODY_PROSE_KEYS.indexOf(k) >= 0 && proseLeaves(o.abBody[k]))) r[k] = o.abBody[k];
+    o.abBody = r;
+  }
   return o;
+}
+/** 値が文字列か、葉が文字列だけの object(配列を含まない)か。 */
+function proseLeaves(x) {
+  if (typeof x === 'string') return true;
+  if (!x || typeof x !== 'object' || Array.isArray(x)) return false;
+  return Object.keys(x).every((k) => proseLeaves(x[k]));
 }
 
 /**
@@ -757,14 +801,21 @@ export function scopeHash(htmlPath, decl, opts) {
         acc = { ok: !!v.ok, legacyCore: v.legacyCore === undefined ? null : v.legacyCore,
           kFrameSnapped: v.kFrameSnapped === undefined ? null : v.kFrameSnapped,
           preset: v.preset ? stripPresetProse(v.preset, version) : null };
+        // 第318便a: 版 6 は受理器の warnings(内蔵の本に出た警告の文)も受理後の定義に入れる(理由の文は表へ移したので、出た文だけを数える)
+        if (version === SCOPE_VERSION) acc.warnings = Array.isArray(v.warnings) ? v.warnings.map(String) : [];
       } catch (e) { why.push('validatePreset が投げた: ' + id); }
       presets.push({ id, raw: stripPresetProse(raw, version), accepted: acc });
     }
   }
   // ② ③ 依存閉包
   const stopSet = stopSetOf(version);   // 第286便d の統合: 版 4 だけ lcAfterStep/lcReset を止める。第316便d: 版 5 は SCOPE_STOP・版 4 は SCOPE_STOP_4
-  const cl = legacy ? closureOf(X.parsed, sc.roots)
-    : closureOf(X.parsed, sc.roots, undefined, { hardStop: stopSet });
+  // 第318便a: 文の登録簿も刻印の版で(版 1〜5 は I18N だけ —— 元の実装と同じ閉包)
+  const regs = textRegistriesOf(version);
+  // 第318便a: 版 6 は宣言の roots に文の表の名(素の名・HP.<表>)があっても辿らない —— 表は閉包の外(器が文を読むなら consts に宣言する)。
+  //   REGEN_SCOPE の roots は器のコードから機械で引いた下限で、局所変数の同名(器の lib の LAWS など)を拾っていた。版 1〜5 は元の roots のまま
+  const rootsV = version === SCOPE_VERSION ? sc.roots.filter((r) => !regs.includes(String(r).replace(/^HP\./, ''))) : sc.roots;
+  const cl = legacy ? closureOf(X.parsed, sc.roots, DATA_REGISTRIES.concat(TEXT_REGISTRIES_5))
+    : closureOf(X.parsed, rootsV, DATA_REGISTRIES.concat(regs), { hardStop: stopSet });
   for (const r of cl.missing) why.push('roots の名前が最上位に無い: ' + r);
   const segs = cl.segIdx.map((k) => X.parsed.segments[k]);
   const fnTexts = segs.map((s) => [s.names.length ? s.names.join(',') : '(stmt)', s.text]);
@@ -788,14 +839,20 @@ export function scopeHash(htmlPath, decl, opts) {
   }
   const body = legacy
     ? canonJson({ v: SCOPE_VERSION_LEGACY, presets, closure: fnTexts, hp: hpTexts, core, consts,
-      proseKeys: PROSE_KEYS, registries: DATA_REGISTRIES, textRegistries: TEXT_REGISTRIES })
+      proseKeys: PROSE_KEYS, registries: DATA_REGISTRIES, textRegistries: TEXT_REGISTRIES_5 })
     : version === SCOPE_VERSION_2
       ? canonJson({ v: version, presets, closure: fnTexts, hp: hpTexts, core, consts,
-        proseKeys: PROSE_KEYS, registries: DATA_REGISTRIES, textRegistries: TEXT_REGISTRIES, scopeStop: stopSet })
-      // 第283便e: 版 3 は外した説明文の欄名も本文に入れる(欄の集合を変えたら hash も変わる)
-      : canonJson({ v: version, presets, closure: fnTexts, hp: hpTexts, core, consts,
-        proseKeys: PROSE_KEYS, registries: DATA_REGISTRIES, textRegistries: TEXT_REGISTRIES, scopeStop: stopSet,
-        claimProse: { claim: CLAIM_PROSE_KEYS, chain: CHAIN_PROSE_KEYS, massCalibration: MASSCAL_PROSE_KEYS } });
+        proseKeys: PROSE_KEYS, registries: DATA_REGISTRIES, textRegistries: TEXT_REGISTRIES_5, scopeStop: stopSet })
+      : version !== SCOPE_VERSION
+        // 第283便e: 版 3 は外した説明文の欄名も本文に入れる(欄の集合を変えたら hash も変わる)—— 版 3〜5 の本文は元の実装と 1 字も違わない
+        ? canonJson({ v: version, presets, closure: fnTexts, hp: hpTexts, core, consts,
+          proseKeys: PROSE_KEYS, registries: DATA_REGISTRIES, textRegistries: TEXT_REGISTRIES_5, scopeStop: stopSet,
+          claimProse: { claim: CLAIM_PROSE_KEYS, chain: CHAIN_PROSE_KEYS, massCalibration: MASSCAL_PROSE_KEYS } })
+        // 第318便a: 版 6 は登録簿・説明文の欄(name・abBody.label)・受理後の warnings を本文に入れる
+        : canonJson({ v: version, presets, closure: fnTexts, hp: hpTexts, core, consts,
+          proseKeys: proseKeysOf(version), registries: DATA_REGISTRIES, textRegistries: regs, scopeStop: stopSet,
+          claimProse: { claim: CLAIM_PROSE_KEYS, chain: CHAIN_PROSE_KEYS, massCalibration: MASSCAL_PROSE_KEYS },
+          abBodyProse: AB_BODY_PROSE_KEYS, acceptedWarnings: true });
   const complete = why.length === 0;
   const scopeSha256 = sha256(body);
   const closureBytes = segs.reduce((a, s) => a + (s.end - s.start), 0);
@@ -871,11 +928,21 @@ export function deriveScope(htmlPath, codeFiles) {
   for (const s of X.parsed.segments) for (const nm of s.names) topNames.add(nm);
   const hpx = hpProps(X.parsed);
   const ids = new Set(X.L && X.L.HP ? X.L.evalExpr('BUILTIN_PRESETS').map((p) => p.id) : []);
-  const roots = new Set(), presets = new Set();
+  const roots = new Set(), presets = new Set(), consts = new Set();
   let all = false;
   const allWhy = [];
   for (const cf of codeFiles) {
     const sc = scanJs(cf.text);
+    // 第318便a(AN427 ①②): 版 6 で足した文の表を器が**直に**読む(器本体と lib〔primary〕の HP.<表>・式の評価 `('<表>')` —— REGEN_SCOPE の行は除く)なら
+    //   consts の下限に入れる(表は閉包で辿らないので、読む器は評価値を領域に入れる)。素の識別子は器の局所変数との同名なので数えない。
+    //   名で引くだけの他の器(primary でない —— 例 calaudit の roots の一覧の文字列)は数えない
+    if (cf.primary) {
+      const txt = cf.text.split('\n').filter((l) => !/^const REGEN_SCOPE = /.test(l)).join('\n');
+      const code = scanJs(txt).code;
+      for (const nm of TEXT_REGISTRIES_ADDED_318) {
+        if (new RegExp('\\bHP\\s*\\.\\s*' + nm + '\\b').test(code) || new RegExp('\\(\\s*([\'"`])' + nm + '\\1\\s*\\)').test(txt)) consts.add(nm);
+      }
+    }
     for (const m of sc.code.matchAll(/\bHP\s*\.\s*([A-Za-z_$][\w$]*)/g)) if (hpx.props.has(m[1])) roots.add('HP.' + m[1]);
     for (const id of identsOf(sc.code)) if (topNames.has(id) && id !== 'HP') roots.add(id);
     for (const m of cf.text.matchAll(/(['"`])([A-Za-z_$][\w$]*)\1/g)) {
@@ -892,7 +959,8 @@ export function deriveScope(htmlPath, codeFiles) {
     }
   }
   for (const r of [...roots]) if (DATA_REGISTRIES.includes(r) || TEXT_REGISTRIES.includes(r)) roots.delete(r);
-  return { presets: all ? 'all' : [...presets].sort(), roots: [...roots].sort(), allWhy };
+  for (const r of [...roots]) if (/^HP\./.test(r) && TEXT_REGISTRIES_ADDED_318.includes(r.slice(3))) roots.delete(r);   // 第318便a: HP.<表> は consts で覆う
+  return { presets: all ? 'all' : [...presets].sort(), roots: [...roots].sort(), allWhy, consts: [...consts].sort() };
 }
 
 /** 宣言が下限を覆っているか(presets: 'all' か上位集合 / roots: 宣言 roots の閉包が下限の roots を全部含む)。 */
@@ -904,7 +972,7 @@ export function coversDerived(htmlPath, decl, derived) {
   else if (sc.presets !== 'all') for (const id of derived.presets) if (!sc.presets.includes(id)) miss.push('preset ' + id);
   // 第282便e: 下限は**現行版の閉包**(停止集合で止めた閉包)で覆う —— 器が表示関数の先にしか無い名前を
   //   読んでいたら、ここで「root … が無い」になり宣言を広げさせる(素の名前の roots は宣言そのものなので覆う扱い)
-  const cl = closureOf(X.parsed, sc.roots, undefined, { hardStop: SCOPE_STOP });
+  const cl = closureOf(X.parsed, sc.roots.filter((r) => !TEXT_REGISTRIES.includes(String(r).replace(/^HP\./, ''))), undefined, { hardStop: SCOPE_STOP });   // 第318便a: 版 6 と同じ roots
   const have = new Set(cl.functions.concat(sc.roots));
   for (const r of derived.roots) {
     if (have.has(r)) continue;
@@ -913,6 +981,8 @@ export function coversDerived(htmlPath, decl, derived) {
     if (DATA_REGISTRIES.includes(r) || TEXT_REGISTRIES.includes(r)) continue;
     miss.push('root ' + r);
   }
+  // 第318便a: 器が直に読む文の表は consts に宣言する(評価値が領域に入る)
+  for (const c of (derived.consts || [])) if (!sc.consts.includes(c)) miss.push('const ' + c + '(文の表を直に読む —— consts に宣言する)');
   return { ok: miss.length === 0, miss };
 }
 
@@ -952,6 +1022,58 @@ export function codeFilesOf(root, harness, metaCode) {
 
 /** 刻印の道具(下限を引く対象から外す —— 第282便e)。 */
 export const SCOPE_TOOLING = ['tests/lib-w281a-scope.mjs', 'tests/lib-w281a-regentable.mjs'];
+
+/**
+ * 第318便a(原仮定者の裁定(第120報)・決断事項 AN427 ⑤・統括の検証項目 R254): **刻印の道具を刻印だけに使う器か**。
+ * 器と lib(正本の `meta.code[]` の道具でないファイル)が道具の lib から import する名がすべて刻印の名(`TOOL_STAMP_NAMES` ——
+ * 領域 hash の刻印・入力の安定 hash・来歴 meta の包み)なら true。名指しの import が 1 つでも他の名(scopeHash・closureOf・REGEN_STEPS …)・
+ * `import * as`・既定の import・動的な import(`import('./lib-w281a-…')`)なら false(道具を計算に使う器 —— 道具の変更は従来どおり「式」で regen)。
+ * true の器の正本は、道具の sha が変わっても**刻印を今の道具で引き直して照合するだけ**(planRegen の「道具」の照合・lint.provenanceMeta の「道具」の欄)。
+ * 道具の hash は `meta.code[]` に残る(刻印の再照合と鎖の済み印の契約〔キャッシュの健全性〕は従来どおり —— 削除しない)。
+ * @param {string} root リポジトリ root
+ * @param {string[]} codeFiles 正本の meta.code[] の相対パス
+ * @param {string} tool 道具の相対パス(SCOPE_TOOLING の要素)
+ */
+export const TOOL_STAMP_NAMES = ['scopeStamp', 'stableInputs', 'provenanceMetaScoped'];
+export const TOOL_CHECK_VERSION = 'w318a-toolcheck-1';
+const toolOnlyCache = new Map();
+export function toolStampOnly(root, codeFiles, tool) {
+  if (!SCOPE_TOOLING.includes(tool)) return false;
+  const base = tool.replace(/^tests\//, '');
+  const files = (codeFiles || []).filter((f) => !SCOPE_TOOLING.includes(f));
+  const key = root + '|' + tool + '|' + files.join(',');
+  if (toolOnlyCache.has(key)) return toolOnlyCache.get(key);
+  let ok = true;
+  const esc = base.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  for (const f of files) {
+    let s = '';
+    try { s = fs.readFileSync(root.replace(/\/$/, '') + '/' + f, 'utf8'); } catch { continue; }
+    const sc = scanJs(s).nocom;   // 注釈の中の言及は数えない
+    if (new RegExp('import\\s*\\(\\s*[\'"`][^\'"`]*' + esc).test(sc)) { ok = false; break; }   // 動的な import
+    for (const m of sc.matchAll(new RegExp('import\\s+([^;]*?)\\s+from\\s+[\'"]\\./' + esc + '[\'"]', 'g'))) {
+      const spec = m[1].trim();
+      const named = /^\{([^}]*)\}$/.exec(spec);
+      if (!named) { ok = false; break; }
+      const names = named[1].split(',').map((x) => x.trim().split(/\s+as\s+/)[0].trim()).filter(Boolean);
+      if (!names.every((n) => TOOL_STAMP_NAMES.includes(n))) { ok = false; break; }
+    }
+    if (!ok) break;
+  }
+  toolOnlyCache.set(key, ok);
+  return ok;
+}
+
+/**
+ * 第318便a(AN427 ⑤): **道具の照合**(走らせ直さず照合だけ)—— 正本の刻印(領域 hash・入力の安定 hash)を今の道具で引き直して刻印と一致するか。
+ * 領域は刻印の版で今の html から引く(`scopeOkNow` —— html が刻印の時と違えば、領域の一致がそのまま「同じ領域を読んだ」の判定)。
+ * @returns {{ok:boolean, why:string[]}}
+ */
+export function toolStampRecheck(root, meta) {
+  const why = [];
+  if (meta && meta.scope && meta.scopeComplete === true) { if (!scopeOkNow(root, meta)) why.push('領域 hash'); }
+  for (const z of ((meta && meta.inputsStable) || [])) if (!stableMatches(root, z)) why.push('安定 hash ' + z.file);
+  return { ok: why.length === 0, why };
+}
 
 /** 器の本文から `const REGEN_SCOPE = {…};`(1 行の JSON)を読む。無ければ null。 */
 export function readDeclaredScope(harnessText) {

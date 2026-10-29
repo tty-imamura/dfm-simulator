@@ -96,6 +96,15 @@ export const SMOKE_KNOBS = Object.freeze({
   // ==== 第317便c の塊(ここから)====
   'satcut-317c': { env: { W317C_QUICK: '1', W317C_SATS: 'io,triton', W317C_WORKERS: '1', W317C_OUT: 'tests/out/_smoke-satcut-w317c.json' }, note: '試走(8 公転・S 360・h と h/2・イオとトリトンの V0・V2・V6b f=0・V1a —— 約 60 s。正本の 64 公転 × h/4 の走行は鎖 —— 子プロセス 2 本)' },   // 第317便c
   // ==== 第317便c の塊(ここまで)====
+  // ==== 第318便b の塊(ここから)====
+  'satnext-318b': { env: { W318B_QUICK: '1', W318B_WORKERS: '1', W318B_OUT: 'tests/out/_smoke-satnext-w318b.json' }, note: '試走(S 360・h と h/2・窓は P_母 の 1/32 —— カリストの V1a・V0 とトリトンの V3V1a・V1a・1 ulp の列 —— 約 50 s。正本の 1.5 P_母 × h/4 の走行は鎖 —— 子プロセス 2 本)' },   // 第318便b
+  // ==== 第318便b の塊(ここまで)====
+  // ==== 第318便c の塊(ここから)====
+  'solar16-318c': { env: { W318C_QUICK: '1', W318C_WORKERS: '1', W318C_OUT: 'tests/out/_smoke-solar16-w318c.json' }, note: '試走(地球 1 年の窓を 1/32 に・イオ 1 公転の刻みの列はそのまま —— 子プロセス 1 本で約 4 分)' },
+  // ==== 第318便c の塊(ここまで)====
+  // ==== 第318便d の塊(ここから)====
+  'dragest-318d': { env: { W318D_QUICK: '1', W318D_OUT: 'tests/out/_smoke-dragest-w318d.json' }, note: '試走(B の格子を 16×32 だけ・D の走行を 2 公転 —— 約 15 s。正本は 1 プロセスで約 71 s〔並走の秒〕)' },   // 第318便d
+  // ==== 第318便d の塊(ここまで)====
   // ==== 第311便b の塊(ここまで)====
 });
 

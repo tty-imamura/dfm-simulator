@@ -18,7 +18,7 @@
 //                                                  --wave が無ければ CHANGELOG の最大)。--wave を付けた検査はその番号との厳密な一致を見る
 //   --root <dir> で対象のリポジトリを替える(既定はこの器の 1 つ上)・--json で 1 行の JSON も出す。
 // **書かないもの**: ルートの index.html・sw.js(root では BETA_BUILD を使わない —— 昇格の器の役目)・生成文書
-// (docs/SAMPLE_STATUS_v1.45.md・docs/FAMILIES_v1.45.md の見出しは、各生成器が html の BETA_BUILD を読んで書く —— 鎖で追従する)。
+// (docs/SAMPLE_STATUS.md・docs/FAMILIES.md の見出しは、各生成器が html の BETA_BUILD を読んで書く —— 鎖で追従する)。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

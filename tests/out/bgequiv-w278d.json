@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第278便d",
   "target": "beta/index.html",
-  "targetSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-  "generatedAt": "2026-10-27T08:01:30.902Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-29T02:35:02.840Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-    "mtime": "2026-10-27T06:40:18.248Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/out/bgpredict-w276a.json",
     "bytes": 96091,
-    "sha256": "9bafa530aa128f08a580e9b61b8ec631485e6b5fa44e9ac60b13ea078d522ed8",
-    "mtime": "2026-10-27T07:59:52.136Z"
+    "sha256": "2c713abae02f1b95caa0b6c35f7538027630f8436002f65064a32c8645d8af8c",
+    "mtime": "2026-10-28T23:51:01.088Z"
    }
   ],
   "code": [
@@ -69,7 +69,7 @@
    "観測と合った"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": [
     "earthMoonRealKF1",
     "plutoCharonReal",
@@ -99,16 +99,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1287,
-   "segments": 1128,
-   "closureShare": 0.3047
+   "names": 1285,
+   "segments": 1126,
+   "closureShare": 0.2929
   },
-  "scopeSha256": "3629b51aa6ce4f0c66b67da9df6e03db21671d8a5cb4b3cff1d492e7dfb7cd8b",
+  "scopeSha256": "6a09c8433a71c48365bc9d2fee1a35a96e2a67234b5c940b77c3d2ab040de98e",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/bgpredict-w276a.json",
-    "stableSha256": "5e8cd82a1700e40c58584391aa3d79037c4f42202bf3954b5bf9b108834f4874",
+    "stableSha256": "63626cc98886a3f8fdb937729afb6d1be26adab2ef3b8043047b1069910a5570",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
@@ -3705,5 +3705,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 46.25
+ "elapsedS": 37.802
 }

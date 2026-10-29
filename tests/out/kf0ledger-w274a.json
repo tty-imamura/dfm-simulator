@@ -3,32 +3,32 @@
   "provenanceVersion": "w272e-1",
   "wave": "第274便a(第64報・kF0 棚卸し便)",
   "target": "beta/index.html",
-  "targetSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-  "generatedAt": "2026-10-27T16:29:58.050Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-29T10:42:00.020Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1736840,
-    "sha256": "c5f218308daa5122da88ee83bc7d9bd8c6cd592d795efbb15860604d6d2ec0d2",
-    "mtime": "2026-10-27T15:13:58.993Z"
+    "bytes": 1736863,
+    "sha256": "f161a220332b1130ae20f510d945e24055f63fd0eca7cb204a3c3015d497de99",
+    "mtime": "2026-10-29T10:02:15.246Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 174695,
-    "sha256": "ab9e065653b288cab2b1b65dec2f796b3a1da52289a1dc5421a56dd6b8e33ee6",
-    "mtime": "2026-10-27T16:29:56.970Z"
+    "bytes": 174694,
+    "sha256": "fc1c26765a59d431d3d3076af03b2fbb4d4f56c11b78e913d789c915c9695638",
+    "mtime": "2026-10-29T10:41:59.586Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
     "bytes": 12914,
-    "sha256": "e6a209bb4af19c3c2a3705521d62c6be57ca6fb6808c37fc0301d95816ef6f67",
-    "mtime": "2026-10-27T08:21:35.324Z"
+    "sha256": "cee4d6065b27577e757b145fe5f34356b8f4319cbe4208804aa6f5ba3cb2f7e7",
+    "mtime": "2026-10-29T08:29:56.138Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
-    "bytes": 223873,
-    "sha256": "649dbe7abb27ad85d622d289758126679059798701fdf05f9c512700e7382541",
-    "mtime": "2026-10-26T17:24:42.620Z"
+    "bytes": 223871,
+    "sha256": "ab942dcbfec5076641ca881419369e71908322c148b1afaebda882ffb2a60da9",
+    "mtime": "2026-10-28T22:30:07.420Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
@@ -38,17 +38,17 @@
    },
    {
     "file": "tests/out/calcontract-w282a.json",
-    "bytes": 136384,
-    "sha256": "14c91a7c7e6c809f514aaa91dbc032b49f73453b613f5644e99016469bd6b692",
-    "mtime": "2026-10-27T15:27:48.113Z"
+    "bytes": 137108,
+    "sha256": "58b3a3cade031d008159fe2462ef07a27b0e78a7b8f7aa2280ba20e730d35756",
+    "mtime": "2026-10-29T10:11:58.558Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w274a-kf0ledger.mjs",
-    "bytes": 34130,
-    "sha256": "8124ff2a9eb4950bcd6e9eda4f0e86db568b1cff5f79fd25aa50f59f3b90906a",
-    "mtime": "2026-10-20T16:19:56.624Z"
+    "bytes": 34118,
+    "sha256": "9f0225ae9fcae06281d76a2ed361756196076f416f28b9bac955a4d43d35f1d6",
+    "mtime": "2026-10-28T18:04:20.425Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -57,7 +57,7 @@
     "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
-  "codeSha256": "58a3d2b7a8a645fb2503022da97e15f27b1e52cb1e7008f2cc208da681678c96",
+  "codeSha256": "9f261d17368e1dd6811f0d7676a23e27b96757bb6024ab863f310caa9c16a3be",
   "ledgerVersion": "w274a-1",
   "question": "**「kFrame=1 が成立しないサンプルで、kF0 版が成立しているか」**(原仮定者の優先課題・第64報)",
   "answerRule": "**4 列がすべて ✓ のときだけ「成立」と書く**。完走だけを成立と書かない。**「kF1 不成立・kF0 成立」と言えるのは、kF1 が 否(3σ) で kF0 が 合(3σ) の行だけである** ——保留(数値未解決・mapping-unresolved・未判定)は「不成立」ではない。",
@@ -2281,7 +2281,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "5188fefa43e4b16b1bd3c7eb2cd4de1c32ba7aa8d49966abc907dd65297828c2",
+   "fileSha256": "075151077a3bc9dfea7f893695ac458e6dc2080684ccca383d3f21331e30c2cf",
    "citedValue": 551864.0613634228,
    "citedCfg": {
     "kFrame": 0,
@@ -2289,7 +2289,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
+   "citedTargetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
    "thisRunValue": null,
    "relDiff": null,
    "identical": null,

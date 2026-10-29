@@ -3,7 +3,7 @@
  "libVersion": "w310a-shell-lib-1",
  "generator": "tests/exp-w310a-invsq.mjs",
  "target": "beta/index.html",
- "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+ "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
  "ruling": "原仮定者の裁定(第107報)分母に背景宇宙を入れると二重計上 —— 自分が分母に入れば良い・(第109報)AN380 太陽の R_d は cap6500km で固定し m_d の適正値を探索・dragCore(R_d, m_d)と外殻(観測半径, 観測質量 − m_d)の引きずりをそれぞれ計算・決断事項 AN378・AN384・AN385・AN386・AN382・DECISIONS v69 §0b ②・§2・統括の検証項目 R222",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "invSqLaw": "invsq-ball-total-ratio",
@@ -1874,30 +1874,30 @@
     "order": 4,
     "nodes": 384,
     "table": {
-     "wallSec": 0.0007047299333
+     "wallSec": 0.0006818158833
     },
     "direct": {
-     "wallSec": 0.0009254863667
+     "wallSec": 0.0009386883333
     }
    },
    {
     "order": 8,
     "nodes": 3072,
     "table": {
-     "wallSec": 0.00542546825
+     "wallSec": 0.0052664842
     },
     "direct": {
-     "wallSec": 0.0072241055
+     "wallSec": 0.0065273224
     }
    },
    {
     "order": 16,
     "nodes": 24576,
     "table": {
-     "wallSec": 0.04220490883
+     "wallSec": 0.04669887017
     },
     "direct": {
-     "wallSec": 0.0621482715
+     "wallSec": 0.05034267767
     }
    }
   ]
@@ -2079,43 +2079,43 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.139
+   "wallSec": 0.109
   },
   "C": {
-   "wallSec": 0.006
+   "wallSec": 0.002
   },
   "N": {
-   "wallSec": 0.249
+   "wallSec": 0.254
   },
   "S": {
-   "wallSec": 0.224
+   "wallSec": 0.214
   },
   "E": {
-   "wallSec": 0.873
+   "wallSec": 0.632
   },
   "M": {
-   "wallSec": 0.041
+   "wallSec": 0.034
   },
   "P": {
-   "wallSec": 4.807
+   "wallSec": 4.378
   },
   "Z": {
-   "wallSec": 0.141
+   "wallSec": 0.111
   }
  },
- "elapsedS": 8.53,
+ "elapsedS": 7.74,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第310便a",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T13:57:29.897Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-29T08:28:22.608Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2127,9 +2127,9 @@
   "code": [
    {
     "file": "tests/exp-w310a-invsq.mjs",
-    "bytes": 45608,
-    "sha256": "5708acf4a44b36053230dd2977a84546ff9fc820eb7e4e313fbdc430069774f1",
-    "mtime": "2026-10-26T11:20:35.462Z"
+    "bytes": 46059,
+    "sha256": "b3057d09b449907e6e2dc33550c328f63ffd606f984c267483178fa989337e95",
+    "mtime": "2026-10-28T19:19:27.746Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -2181,12 +2181,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "3909203554e55a1ec812bb0640eb9c49d8e2d46436959bce85790dfa9d31fb66",
+  "codeSha256": "84949f095c9f702775bdbe74a9c7364d43028cb467c4fefc33e240793d69e7b7",
   "harnessVersion": "w310a-invsq-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2198,7 +2198,7 @@
    "m_d を同定した"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "$",
@@ -2230,11 +2230,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1313,
-   "segments": 1154,
-   "closureShare": 0.3113
+   "names": 1311,
+   "segments": 1152,
+   "closureShare": 0.2993
   },
-  "scopeSha256": "9e90b9308c4ca67ba0864898a229cf76e50cff5d8c78e7a766daaf0c94a46ac4",
+  "scopeSha256": "aca4d82b30619e04574fb2fbf0afec8f4dcbec00822d0c9ee8e311904fc2241e",
   "scopeComplete": true,
   "inputsStable": [
    {

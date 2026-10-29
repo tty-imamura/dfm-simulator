@@ -29,7 +29,7 @@
 //   (6) カロンの `correlates.chi` と一次則の χ_A/χ_B は**別の量**である(注記を入れた)。
 //
 // 実行: node tests/exp-w272a-issues.mjs
-// 出力: docs/CALIBRATION_ISSUES_v1.45.md(QA `docs.issuesSync` / `docs.issuesD68Explain` が
+// 出力: docs/CALIBRATION_ISSUES.md(QA `docs.issuesSync` / `docs.issuesD68Explain` が
 //       件数・D68 の説明・参照先の存在を JSON と突き合わせる)
 //       tests/out/issues-w272a.json(機械可読の同じ内容)
 import fs from 'node:fs';
@@ -42,7 +42,7 @@ import { intakeSectionMd } from './exp-w290g-intake8.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CAL = path.join(ROOT, 'tests', 'out', 'calaudit-w249.json');
 const SOLAR = path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json');
-const OUT_MD = path.join(ROOT, 'docs', 'CALIBRATION_ISSUES_v1.45.md');
+const OUT_MD = path.join(ROOT, 'docs', 'CALIBRATION_ISSUES.md');
 const OUT_JSON = path.join(ROOT, 'tests', 'out', 'issues-w272a.json');
 
 const cal = JSON.parse(fs.readFileSync(CAL, 'utf8'));

@@ -4,11 +4,11 @@
   "section": "潮汐ロック枝(kFrame=0・f=1・λPN=1)",
   "harness": "w272c-nslock-1",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
   "csvSha256": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
   "libSha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
   "src265Sha256": "e39a0bd29a955736c0f3718fad2361efcad83bfc6ec598e8b6642bd0156dc0f1",
-  "at": "2026-10-26T12:29:57.184Z",
+  "at": "2026-10-28T22:04:20.906Z",
   "dt0": 0.016,
   "divs": [
    1,
@@ -27,7 +27,7 @@
   "signConvention": "面直(z)は画面手前向きが正・反時計回り(x→y)が正・視線は +z 側から見下ろす。Ω_AB=(r×v)_z/r² と spin を**同じ符号規約**で比べる。同期比は符号つきの ω_spin/Ω_orb で読み、**+1 が同期・−1 は逆行の同期**である(**絶対値では同期と逆行を区別できない**ので絶対値で判定しない)。",
   "spinZeroNote": "**NS 4 系の内蔵 spin=0 は「観測同期の代用」ではない**(自転が転写できないので 0 を宣言してある = エンジンに自転源を置かない)。",
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": [
     "alphaCenAB",
     "alphaCenABDFM",
@@ -54,11 +54,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1287,
-   "segments": 1128,
-   "closureShare": 0.3047
+   "names": 1285,
+   "segments": 1126,
+   "closureShare": 0.2929
   },
-  "scopeSha256": "71bb554c11d0194e5c9c0fa2803b87d89593015f39ab6ed5d7d1ba747daf8af7",
+  "scopeSha256": "9cbc3de745a699b3b37c7c22d158c3b87dd48ab5b51723bc7544a8ae6386686b",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -92,7 +92,7 @@
    }
   ],
   "codeSha256": "d9faf10f0abd529667e68b1b27965b8cbf92614d30a577756b6535a735b61ec7",
-  "spentSec": 1099.5,
+  "spentSec": 647.4,
   "stages": 102
  },
  "builtinDeclared": [

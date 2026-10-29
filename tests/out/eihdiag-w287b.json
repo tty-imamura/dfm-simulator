@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第287便b",
   "target": "beta/index.html",
-  "targetSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-  "generatedAt": "2026-10-27T15:27:38.659Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-29T10:11:51.015Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
-    "mtime": "2026-10-27T06:40:18.248Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
-    "bytes": 364454,
-    "sha256": "68ad7c7411c1451ae2a56b10770a2223c8fdb1dbdee5c5eeef7181b970a0faa5",
-    "mtime": "2026-10-20T16:19:56.608Z"
+    "bytes": 364448,
+    "sha256": "6b12767df048ff28f6ec5dbf68f44c0075cc38737fea73c6b831dfafa7a8dfb4",
+    "mtime": "2026-10-28T18:04:20.425Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
     "bytes": 51469,
-    "sha256": "b29d375e647faa7f3c8893e04d70912067cd09670664774865284031b4d20c65",
-    "mtime": "2026-10-27T15:20:48.085Z"
+    "sha256": "e15cffd37af650010259cecd17822e5e954ce7ebb0fa7d95c6122c7078aa1979",
+    "mtime": "2026-10-29T10:07:13.542Z"
    }
   ],
   "code": [
@@ -58,14 +58,14 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "b4b137a3ba8490460dc247c3ec0bf5701527eb8541ca92aaff7efabdee0bcabd",
+  "codeSha256": "479703ced7b1526712eaa660e787d0293476cee4e0d9878d7e675912647c4460",
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "GEO_CORE_PN",
@@ -84,16 +84,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1288,
-   "segments": 1129,
-   "closureShare": 0.3048
+   "names": 1286,
+   "segments": 1127,
+   "closureShare": 0.2929
   },
-  "scopeSha256": "12b447d52d00cf7e4b7ca8bfe972710db13db8585d6fa526c24b31c0bc18455f",
+  "scopeSha256": "d90f10820f0ecfcb63270fca7570ada90aaeff299b141b1ef829245a0b4d1c93",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "72dc4a0650e5a286ec114c3070aabee3cf81fd5b4d3df69bd913c23a075b4363",
+    "stableSha256": "48b2604608c6d5d8c8f0d5d795c82f23d463c8f3af54be70b91dcd61bf8f73af",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -346,8 +346,8 @@
   "新発見"
  ],
  "headless": {
-  "wallSec": 0.095,
+  "wallSec": 0.082,
   "errors": 0
  },
- "elapsedS": 8.603
+ "elapsedS": 6.824
 }

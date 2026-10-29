@@ -4,7 +4,9 @@
 //   T(記号の表 —— 純データ SYMBOLS): 光速定数 c・重力定数 G(基準の定数)/基準光速 c_0・基準重力 G_0(サンプルごとの基準値 —— パラメータ)/
 //     局所光速 c_loc・局所重力 G_loc(その場の値)/時空係数 X_k(時計と光 —— ψ = X_k W)/引きずり係数 Y_k(引きずり半径の比例係数)/
 //     決定力定数 κ_D = 2G/c²(論文 1 の実効レンズ係数 —— κ の字を使うのはこの記号だけ)/シュヴァルツシルト半径(重力半径)r_s = κ_D m/
-//     引きずり半径 r_d = Y_k m/スピン拡散 K_s。鍵の名(kappaT・cLight・G・kappaS・rdRule:"kappaM"・gLoc.law:"kappaC2")は不変 —— 旧記号との対応表 OLD_TO_NEW。
+//     引きずり半径 R_d = Y_k m/スピン拡散 S_k。鍵の名(kappaT・cLight・G・kappaS・rdRule:"kappaM"・gLoc.law:"kappaC2")は不変 —— 旧記号との対応表 OLD_TO_NEW。
+//   第318便a(原仮定者の裁定(第120報)・決断事項 AN433・統括の検証項目 R254): 表の**表示の記号だけ**を第118報の体系へ —— 引きずり半径 R_d(第315便の表示 r_d)・
+//     スピン拡散 S_k(第315便の表示 K_s)。id(rd・Ks)・数の鍵(rdKm・rdOverRs …)・保存の鍵(dragCore.radius・kappaS)・正本の鍵 r_d は不変 —— 器の版 w315a-symbols-2。
 //   F(式の 3 段 —— 純関数 tierA・tierB・tierC): A 定義(現実の参照定数 —— κ_D ≡ 2G/c²・r_s = κ_D m)/B サンプルで計算(Y_k = 10G_0/(C_1c_0²)・
 //     r_d = Y_k m・r_s = 2G_0m/c_0²・r_d/r_s = 5/C_1)/C 物理対応ロックの本で追加(X_k = G_0/c_0²・Y_k = (10/C_1)X_k・X_k = κ_D/2・κ_D = 2X_k・
 //     r_d = (5/C_1)κ_D m)。**ロック解除中の X_k に κ_D = 2X_k を出さない**(tierC はロックの条件を満たさないとき null を返す)。
@@ -30,7 +32,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 const REGEN_SCOPE = {"presets":"all","roots":["HP.PHYS_LOCK_AUTO_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.loadPreset","HP.physLock","HP.physLockAutoOnOf","HP.physLockCalc","HP.sim","HP.validatePreset","PHYS_LOCK_AUTO_REL","PHYS_LOCK_AUTO_VERSION","REL_DRAG_INVSQ_C1","ctx","cw","enforcePhysLock","loadPreset","loadSave","physLockAutoApply","physLockAutoOnOf","physLockSetFlag","updatePhysLockBadge"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w315a-symbols-1';
+export const HARNESS_VERSION = 'w315a-symbols-2';   // 第318便a(AN433): 表の表示の記号 R_d・S_k(版 1 は r_d・K_s)
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const clone = (o) => JSON.parse(JSON.stringify(o));
 const NOT_CLAIM = ['法則を確かめた', 'フィットした', '較正した', '完全に一致', '確認した', '収束した', '地平面を判定した'];
@@ -60,16 +62,16 @@ export const SYMBOLS = Object.freeze([
   { id: 'Yk', sym: 'Y_k', ja: '引きずり係数', en: 'drag coefficient', layer: 'coefficient', key: 'physics.relativeDrag.invSq.rdRule:"kappaM"', note: '引きずり半径の比例係数 Y_k = 10G_0/(C_1c_0²)' },
   { id: 'kD', sym: 'κ_D', ja: '決定力定数', en: 'determinacy constant', layer: 'definition', key: null, note: 'κ_D ≡ 2G/c²(論文 1 の実効レンズ係数 —— κ の字を使うのはこの記号だけ)' },
   { id: 'rs', sym: 'r_s', ja: 'シュヴァルツシルト半径(重力半径)', en: 'Schwarzschild (gravitational) radius', layer: 'length', key: null, note: 'r_s = 2Gm/c² = κ_D m(長さの物差し)' },
-  { id: 'rd', sym: 'r_d', ja: '引きずり半径', en: 'drag radius', layer: 'length', key: 'dragCore.radius', note: 'r_d = Y_k m(天体の大きさではない —— 旧表記 R_d・Rd)' },
-  { id: 'Ks', sym: 'K_s', ja: 'スピン拡散', en: 'spin diffusion', layer: 'coefficient', key: 'physics.kappaS', note: '熱の拡散(時空の量ではない)' }].map((o) => Object.freeze(o)));
+  { id: 'rd', sym: 'R_d', ja: '引きずり半径', en: 'drag radius', layer: 'length', key: 'dragCore.radius', note: 'R_d = Y_k m(天体の大きさではない —— 器と正本の鍵の名は r_d のまま・表示は R_d)' },
+  { id: 'Ks', sym: 'S_k', ja: 'スピン拡散', en: 'spin diffusion', layer: 'coefficient', key: 'physics.kappaS', note: '熱の拡散(時空の量ではない —— 第315便の表示は K_s)' }].map((o) => Object.freeze(o)));
 /** 旧記号 → 新記号(鍵の名は不変) */
 export const OLD_TO_NEW = Object.freeze([
   { old: '時空係数 κ', now: '時空係数 X_k', key: 'kappaT' },
   { old: 'κ₀(引きずりの比例定数)', now: '引きずり係数 Y_k', key: 'rdRule:"kappaM"' },
-  { old: 'R_d・Rd', now: '引きずり半径 r_d', key: 'dragCore.radius' },
+  { old: 'Rd・r_d(第315便の表示)', now: '引きずり半径 R_d(器と正本の鍵の名は r_d のまま)', key: 'dragCore.radius' },
   { old: '光速 c₀', now: '基準光速 c_0', key: 'cLight' },
   { old: '重力 G', now: '基準重力 G_0', key: 'G' },
-  { old: 'スピン拡散 κs', now: 'スピン拡散 K_s', key: 'kappaS' },
+  { old: 'スピン拡散 κs・K_s(第315便の表示)', now: 'スピン拡散 S_k', key: 'kappaS' },
   { old: 'κ_g(gLoc の "lock")', now: 'X_k = G_0/c_0²(物理対応のとき)', key: 'gLoc.kappa:"lock"' },
   { old: 'κ·c_loc²(gLoc.law:"kappaC2")', now: 'X_k·c_loc²', key: 'gLoc.law:"kappaC2"' }].map((o) => Object.freeze(o)));
 

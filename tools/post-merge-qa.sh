@@ -31,6 +31,8 @@
 set -u
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT" || exit 2
+# 第318便(統括の統合 —— ③′ の一覧が伸びて qapart が既定の heap で落ちた〔363/750 本で heap out of memory〕): qapart の heap の既定を 8192 MiB に(外から NODE_OPTIONS を渡せばそれを使う)
+export NODE_OPTIONS="${NODE_OPTIONS:---max-old-space-size=8192}"
 DEFAULT_IDS="lint.regenScope behavior.rayLensExcluded ai.stabilize docs.fourValuesHistory docs.preset-table-sync docs.families ui.samplePicker lint.provenanceMeta ui.pickerSeparators"
 IDS="${POST_MERGE_IDS:-$DEFAULT_IDS}"
 # 第288便f(AN90): ③′ 本便の新設ブロック。統合直後の常設集合(④)とは別。
@@ -387,6 +389,33 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.satCut317c docs.satCut317c docs.sat
 #   CANON の lint.canon304・lint.regenScope・lint.regenChain・lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satAn317d docs.paper3Key317d docs.paperSymbols316 docs.satH316 docs.satK1_315 lint.stableHashPaths lint.canon304 lint.regenScope lint.regenChain lint.sectionLookup313"
 # ==== 第317便d の塊(ここまで)====
+# ==== 第318便a の塊(ここから)====
+# 第318便a(原仮定者の裁定(第120報)・AN427・AN383・AN429・AN430・AN433・R254): 枝 a の新設 7 本(lint.textRegistry318 —— 受理器の理由の文の表と文の登録簿・lint.toolStamp318 —— 刻印の道具の照合・
+#   ui.symDisp318 —— 観測結果カードと監査ビューの下付き・lint.axialSymbol318 —— 軸の係数の表示 A_k・lint.docNames318 —— 版なしの文書名・docs.scopeProbe318 —— 鎖の費用の対照・docs.w318a —— 文書)と、
+#   世代切替を受けた lint.scopeStop・lint.regenScope・lint.provenanceMeta・lint.canon303・lint.canon304・lint.presetText316c(同じブロックの lint.miscText316c)・lint.uiText316・lint.kappaSymbol315・
+#   docs.symbols315(器の版 w315a-symbols-2)と、版なしの名の文書を読む docs.*・lint.betaBuild300・lint.regenChain・正本の段の lint.stableHashPaths・lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.textRegistry318 lint.toolStamp318 ui.symDisp318 lint.axialSymbol318 lint.docNames318 docs.scopeProbe318 docs.w318a lint.scopeStop lint.regenScope lint.provenanceMeta lint.canon303 lint.canon304 lint.presetText316c lint.uiText316 lint.kappaSymbol315 docs.symbols315 docs.bhDesignSync docs.families docs.fourValuesHistory docs.intake8 docs.issuesD68Explain docs.issuesSync docs.kf0Ledger docs.mappingRowsDeclared docs.noRetiredMention293 docs.noRetiredMention294 docs.retired docs.sampleStatus-sync docs.tallySource docs.tallySync docs.terminologyOpticalCamouflage docs.w310c lint.betaBuild300 lint.regenChain lint.stableHashPaths lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第318便a の塊(ここまで)====
+# ==== 第318便b の塊(ここから)====
+# 第318便b(原仮定者の指示(第120報)・AN436・AN437・AN439・AN440・AN442・R255): 枝 b の新設 2 本(behavior.satNext318b —— q11 の宣言の形の写し・V1a の pair の mask と分母・V3 の写し・
+#   判定と回帰の純関数・短い走行・docs.satNext318b —— 衛星の次の正本と文書・第317便の記録の訂正)と、第317便c の正本を読む docs.satCut317c・正本の段の lint.stableHashPaths・
+#   CANON の lint.canon304・lint.regenScope・lint.regenChain・lint.scopeStop・lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.satNext318b docs.satNext318b docs.satCut317c lint.stableHashPaths lint.canon304 lint.regenScope lint.regenChain lint.scopeStop lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第318便b の塊(ここまで)====
+# ==== 第318便c の塊(ここから)====
+# 第318便c(原仮定者の指示(第120報)・R256): 枝 c の新設 2 本(behavior.solar16Builtin318c —— 太陽系 16 体の内蔵の本の宣言と走り・docs.solar16Builtin318c —— 正本と文書)と、
+#   世代切替を受けた docs.solar16Contract300(予約 id が内蔵に 1 本)・lint.presetText316b(並びの照合から新本を除く)・docs.sampleStatus-sync(root で beta だけの本を除く)・正本の段の lint.regenScope・lint.stableHashPaths・
+#   lint.regenChain・CANON の lint.canon304・lint.qaHeapRelease310・lint.sectionLookup313・lint.scopeStop、QA_FAST で見付けた世代切替(ui.fidelity・ui.notclaim-real・lint.cLightTrue・behavior.geoMode・
+#   preset.timeStd297・docs.timeStd297・後に入った本として外す behavior.wbgDirect302・preset.gLocPlanets302・docs.semic302・preset.revertGLoc303・behavior.invSq309・behavior.galaxial311)と lint.kappaSymbol315
+#   (内蔵の本の数の式 W318C_S16 の behavior.shellSpinMassLaw・coreV2Migrate・coreV2ReplaceReport は上流の局所の定数 W284_CORE を読むので部分 QA で走らない —— フル QA で見る)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.solar16Builtin318c docs.solar16Builtin318c docs.solar16Contract300 lint.presetText316b docs.sampleStatus-sync docs.preset-table-sync preset.multiParticleContract behavior.inertialDragGate theory.refs-all preset.massPrecision preset.softeningFloor lint.regenScope lint.stableHashPaths lint.regenChain lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.scopeStop ui.fidelity ui.notclaim-real lint.cLightTrue behavior.geoMode preset.timeStd297 docs.timeStd297 behavior.wbgDirect302 preset.gLocPlanets302 docs.semic302 preset.revertGLoc303 behavior.invSq309 behavior.galaxial311 lint.kappaSymbol315"
+# ==== 第318便c の塊(ここまで)====
+# ==== 第318便d の塊(ここから)====
+# 第318便d(原仮定者の指示(第120報)・AN438・R257): 枝 d の新設 2 本(docs.dragEst318d —— 銀河と太陽の引きずりの見積りの正本と文書・behavior.dragEst318d —— 読み口と解析の式・
+#   節点の和の写し・maintain の帳簿の式の照合)と、正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・CANON の lint.canon304・lint.qaHeapRelease310・
+#   lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.dragEst318d behavior.dragEst318d lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第318便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

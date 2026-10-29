@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便e",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T15:41:35.557Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-28T21:51:17.427Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    }
   ],
   "code": [
@@ -40,12 +40,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "8e3f3b5ea2e67a694a32b6b0c53314722fa9ddd0ca4d0260703f9cf00a105f02",
+  "codeSha256": "7fedd84c86783e45c80ddc1de25481761c94850d7a3e69146982d127dc8bf274",
   "harnessVersion": "w289e-tilt90layers-1",
   "layerAxisVersion": "w289e-layeraxis-1",
   "loadErrors": 0,
@@ -62,7 +62,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": [
     "galaxyAnalogyBH",
     "galaxyAnalogyBHTilt90",
@@ -89,11 +89,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1291,
-   "segments": 1132,
-   "closureShare": 0.3057
+   "names": 1289,
+   "segments": 1130,
+   "closureShare": 0.2938
   },
-  "scopeSha256": "061447c92eed31b331fb111ddb2790ae653a303c788e20789ae2ba634c73d074",
+  "scopeSha256": "602d140e8ce81c56d4bd66c36e424d839cd3160d44c4cf30419ec686492b25a2",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -360,7 +360,7 @@
    "kickSteps": 0,
    "insideSteps": 58530,
    "insideMax": 29,
-   "wallSec": 10.663
+   "wallSec": 10.052
   },
   {
    "key": "spin0",
@@ -413,7 +413,7 @@
    "kickSteps": 0,
    "insideSteps": 58530,
    "insideMax": 29,
-   "wallSec": 9.429
+   "wallSec": 8.232
   },
   {
    "key": "upright",
@@ -465,7 +465,7 @@
    "kickSteps": 0,
    "insideSteps": 64885,
    "insideMax": 31,
-   "wallSec": 9.828
+   "wallSec": 8.682
   },
   {
    "key": "layers",
@@ -550,7 +550,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 10.093
+   "wallSec": 9.081
   },
   {
    "key": "layers-noLF",
@@ -636,7 +636,7 @@
    "kickSteps": 0,
    "insideSteps": 58530,
    "insideMax": 29,
-   "wallSec": 9.385
+   "wallSec": 9.458
   },
   {
    "key": "layers-tilt0",
@@ -706,7 +706,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 10.176
+   "wallSec": 8.793
   },
   {
    "key": "layers-noJ",
@@ -775,7 +775,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 8.903
+   "wallSec": 8.486
   },
   {
    "key": "layers-om0",
@@ -865,7 +865,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 8.993
+   "wallSec": 7.984
   },
   {
    "key": "layers-om2x",
@@ -956,7 +956,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 9.558
+   "wallSec": 7.589
   },
   {
    "key": "layers-az90",
@@ -1048,7 +1048,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 9.273
+   "wallSec": 8.176
   },
   {
    "key": "layers-shell-noLF",
@@ -1135,7 +1135,7 @@
    "kickSteps": 0,
    "insideSteps": 64885,
    "insideMax": 31,
-   "wallSec": 9.72
+   "wallSec": 9.461
   }
  ],
  "same": [
@@ -1539,7 +1539,7 @@
    "warns": 0
   }
  },
- "elapsedS": 110.805,
+ "elapsedS": 100.809,
  "docRows": {
   "runs": [
    "| tilt90 | — | 58530 | — | 0 | 0 |",

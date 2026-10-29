@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第287便c",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T15:33:24.906Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-28T22:32:24.644Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    }
   ],
   "code": [
@@ -34,12 +34,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "c2a0702330f2c171a7e1a6c31fbf7e52ac2bd526da86d9300538e39d48fb8d00",
+  "codeSha256": "71edd32e51b1d4e20c03830d53c40a32971bd57f262037b3439239e1e001f1cc",
   "harnessVersion": "w287c-bgtime-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第77報)⑤と第77報で閉じた AN64(complex-p2 を既定にしない・昇格条件)/AN73(🌒 の扱い)・統括の検証項目 R109(背景場の時間発展の契約)",
@@ -51,7 +51,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "$",
@@ -80,11 +80,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1289,
-   "segments": 1130,
-   "closureShare": 0.3049
+   "names": 1287,
+   "segments": 1128,
+   "closureShare": 0.293
   },
-  "scopeSha256": "85b20c37f1a4d1e038ba6c20c49ac21b6d0ca10cdc71d13e6f25a95fbfecdf7b",
+  "scopeSha256": "649ee23193b3db5df501ff4e4467c77c23b37000c2546f0678d336780dc4cab0",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -803,7 +803,7 @@
   "ok": true
  },
  "census": {
-  "nPresets": 176,
+  "nPresets": 177,
   "timeContract": [
    "charonGeoToy3"
   ],
@@ -1187,5 +1187,5 @@
   "maxAbsDiff": 0,
   "ok": true
  },
- "elapsedS": 50.514
+ "elapsedS": 40.044
 }

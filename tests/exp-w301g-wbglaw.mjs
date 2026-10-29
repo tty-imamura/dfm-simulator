@@ -108,9 +108,11 @@ function windowOfTarget(t) {
   const m = s.match(/(\d+)\s*公転/) || s.match(/(\d+)\s*$/);
   return m ? Number(m[1]) : null;
 }
+// 第318便(統括の統合 —— 鎖で見つけた): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本(K1 の規則の宣言 —— gain を書き込む写しは受理されない)—— 分類の外に置く(正本の欄と値は不変)
+const LATER_BOOKS_318 = new Set(['solarSystem16Inertial3d']);
 export function classify(HP) {
   const rows = [], excluded = [];
-  const inert = HP.allPresets().filter((p) => ((p.physics || {}).relativeDrag || {}).law === 'inertial').map((p) => pre302c(p));   // 第302便c
+  const inert = HP.allPresets().filter((p) => ((p.physics || {}).relativeDrag || {}).law === 'inertial' && !LATER_BOOKS_318.has(p.id)).map((p) => pre302c(p));   // 第318便(統括): 後に入った本は分類の外   // 第302便c
   const recIds = new Set(RETIRED_FIT_RECORDS.map((r) => r.id));
   for (const p of inert) {
     const rd = p.physics.relativeDrag, retired = p.familyRole === 'retired', f = p.fitRecord || null;

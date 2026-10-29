@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第302便c",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T15:04:22.625Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-29T08:36:30.080Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -34,9 +34,9 @@
   "code": [
    {
     "file": "tests/exp-w302c-wbgest.mjs",
-    "bytes": 51087,
-    "sha256": "712863528dc064e9b6f81ceae19a4ee0ceadc22b48db74e49310f295eb30de55",
-    "mtime": "2026-10-25T16:42:07.781Z"
+    "bytes": 51556,
+    "sha256": "9376339c47bf4c6f17a173b4fd411bcafc30ef272772731870c6c7438dd80e70",
+    "mtime": "2026-10-29T07:22:25.997Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -70,9 +70,9 @@
    },
    {
     "file": "tests/exp-w302d-semic.mjs",
-    "bytes": 33012,
-    "sha256": "b0bd618d7bc3491826e73d783e13a2bf6d6868a9b5dcabf4df853b056e44792c",
-    "mtime": "2026-10-25T16:42:07.781Z"
+    "bytes": 33399,
+    "sha256": "b716d0dde19e78b1d6830b76fe2ff43b7ebe6ba2d82ee52a2617e73d3659e3d6",
+    "mtime": "2026-10-28T19:19:27.747Z"
    },
    {
     "file": "tests/exp-w301a-dragnorm.mjs",
@@ -100,9 +100,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    },
    {
     "file": "tests/lib-w303a-pre.mjs",
@@ -117,7 +117,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "6dc814809fdb7711a98268c6f3a8132ac6e55b0fe741af1f5adb9f26909bd09a",
+  "codeSha256": "5cdc35347e5c283e1c40db24e20125ad6a1b29f9dd53329153fcaec9c16c4d9c",
   "harnessVersion": "w302c-wbgest-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第92報)AN304 ①(慣性速度に影響する重力の計算に 1PN 相当の補正 —— G_loc = κ·c_loc² ほか)・③(W_bg は背景宇宙・銀河の中の位置・恒星系の中の位置などの合算で決まると推定 —— 推定値で dragCore のフィットが安定する)",
@@ -130,7 +130,7 @@
    "推定とフィットが一致した"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "$",
@@ -197,11 +197,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1357,
-   "segments": 1198,
-   "closureShare": 0.318
+   "names": 1355,
+   "segments": 1196,
+   "closureShare": 0.3059
   },
-  "scopeSha256": "11b058989c248425ef1e4faac38b0fc8ebd401f054119628e42fb805440cb344",
+  "scopeSha256": "a6e34b7936cd040e25a42649ce2b5e4dde91b1cda82774111410e158971c10d3",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -2585,23 +2585,23 @@
  "ok": true,
  "timing": {
   "N": {
-   "wallSec": 229.426
+   "wallSec": 200.948
   },
   "P": {
-   "wallSec": 89.068
+   "wallSec": 80.003
   },
   "G": {
-   "wallSec": 97.629
+   "wallSec": 78.981
   },
   "E": {
    "wallSec": 0.005
   },
   "C": {
-   "wallSec": 222.437
+   "wallSec": 157.2
   },
   "L": {
-   "wallSec": 0.159
+   "wallSec": 0.136
   }
  },
- "elapsedS": 640.878
+ "elapsedS": 519.247
 }

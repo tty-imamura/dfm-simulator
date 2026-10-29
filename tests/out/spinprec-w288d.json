@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第288便d",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T11:41:12.166Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-28T21:30:58.450Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "1e2ff4ad8b85ed06cbbaef80fd1214402bc2d5f4bd0e06118d14de26bd8adbb9",
+  "codeSha256": "fe933b8e7c771973fa01572faa3604097bbc2c816c208748fb2de5d36e0c4018",
   "harnessVersion": "w288d-spinprec-h1",
   "libVersion": "w288d-spinprec-1",
   "ruling": "原仮定者の裁定(第78報)⑥・統括の検証項目 R116",
@@ -65,7 +65,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": [
     "bhCoreTilt"
    ],
@@ -81,11 +81,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1288,
-   "segments": 1129,
-   "closureShare": 0.305
+   "names": 1286,
+   "segments": 1127,
+   "closureShare": 0.2931
   },
-  "scopeSha256": "8bcbd96e52fa657f96f176b486e5379ecff0ad8ca83c2164c8586d606fe8295d",
+  "scopeSha256": "a30188bc117a37421ae3d3544e65a95d7044b7395fba72702ba9ec72b6f055e2",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1662,5 +1662,5 @@
    "note": "宣言を読むだけ(退役のまま・復活させない)。tilt=90° の J_z/|J| = cos 90° は機械ゼロ —— 2D の引きずりは z 射影しか読まない"
   }
  },
- "elapsedS": 0.623
+ "elapsedS": 0.433
 }

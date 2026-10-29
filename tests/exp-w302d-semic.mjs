@@ -59,8 +59,10 @@ const fnvState = (S) => { let h = 0x811c9dc5; const f = new Float64Array(1), u8 
   return h.toString(16); };
 
 /* 宣言から導く本の集合(手書きの ID 一覧を持たない) */
+// 第318便(統括の統合 —— 煙試験で見つけた): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本(K1 の規則の宣言)—— 数え上げの外に置く(正本の欄と値は不変・QA の側も同じ本を外して比べる)
+const LATER_BOOKS_318 = new Set(['solarSystem16Inertial3d']);
 export function idsOf(HP) {
-  const all = HP.allPresets(), isInertial = (p) => !!(p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial');
+  const all = HP.allPresets().filter((p) => !LATER_BOOKS_318.has(p.id)), isInertial = (p) => !!(p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial');
   const solve = (p) => isInertial(p) && p.physics.relativeDrag.compose !== 'sum';
   const coef = (p) => W302A.rdCoefOf(p.physics.relativeDrag);   // 第302便m: 引きずりが効くか(係数 c>0 —— Wbg の宣言は 1/W_bg・OFF と未推定は 0。前の世代は gain)
   const drag = all.filter((p) => solve(p) && coef(p) > 0 && p.physics.relativeDrag.stepOrder !== 'split').map((p) => p.id);

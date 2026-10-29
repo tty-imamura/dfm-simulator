@@ -186,7 +186,7 @@ export function partN(HP, log = console.log) {
 
 /* ── 段 P: 惑星の本の記録(G_loc を宣言した本 —— 宣言から選ぶ) ── */
 /** G_loc を宣言した在位の本(宣言から —— 手書きの一覧を持たない)。 */
-export function gLocBooks(HP) { return HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.physics && p.physics.gLoc).map((p) => p.id); }
+export function gLocBooks(HP) { return HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.physics && p.physics.gLoc && !LATER_BOOKS_318.has(p.id)).map((p) => p.id); }   // 第318便(統括): 後に入った本は数え上げの外
 /** 🌡️ の W_bg の同定の幅: 照合許容 ±tol が写る W_bg の範囲(引きずりの近点 ∝ 1/W_bg と置いた一次)。 */
 export function wbgBand(fit) { const d = fit.dragPart; return d > TOL_APS ? [fit.Wbg * d / (d + TOL_APS), fit.Wbg * d / (d - TOL_APS)] : [fit.Wbg * d / (d + TOL_APS), null]; }
 /** fitRecord(w298b-1 —— 近点率の差〔引きずり OFF ∧ G_loc なしの対照との差〕・恒星周期)。fit は fitMercury の戻り値。 */
@@ -264,8 +264,10 @@ export const MSUN = 1.98847e30, PC = 3.0857e16, KPC = 3.0857e19, AU = 1.49597870
 export const GAL_TRIAL = Object.freeze({ rhoSI: 0.097 * 1.98847e30 / Math.pow(3.0857e16, 3), RSI: 8.2 * 3.0857e19,
   source: '太陽近傍の局所の全密度 0.097 M☉/pc³(McKee, Parravano & Hollenbach 2015, ApJ 814, 13 —— 恒星・ガス・暗黒物質の和)と銀河中心距離 R₀ = 8.2 kpc(Bland-Hawthorn & Gerhard 2016, ARA&A 54, 529)の転記 —— 本便のコンテナはネットワークに出られず原表は未取得(公表値の転記・照合は次の見直し)' });
 const kEps = (d, eps) => { const q = d * d + eps * eps; return d / (q * q); };
+// 第318便(統括の統合 —— 鎖で見つけた同じ型): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本 —— 数え上げの外に置く(正本の行と値は不変)
+const LATER_BOOKS_318 = new Set(['solarSystem16Inertial3d']);
 export function partE(HP, log = console.log) {
-  const books = HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.scaleExp && p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial');
+  const books = HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.scaleExp && p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial' && !LATER_BOOKS_318.has(p.id));   // 第318便(統括): 後に入った本は数え上げの外
   const rows = [];
   for (const p of books) {
     const e = HP.wbgEstimateOf(p); if (!e.ok) continue;

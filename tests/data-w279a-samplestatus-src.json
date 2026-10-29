@@ -400,6 +400,18 @@
     "state": "r_1PN -6.927e-10\"/cy (h/4); rule residual inside the gate 7.741e-6"
    }
   },
+  "solarSystem16Inertial3d": {
+   "purpose": "太陽系 16 体を J2000 の入力のまま三次元に置き入力と刻みと K1 − 1PN の差を測る",
+   "objective": "met",
+   "state": "入力の検査 10 門・P/1440 のイオの刻みの差 15.9 km・K1 − 1PN はイオ 1 公転 0.253 km",
+   "evidence": [
+    "tests/out/solar16-w318c.json"
+   ],
+   "en": {
+    "purpose": "16-body solar system in 3D from the J2000 input: input, step and K1 - 1PN checks",
+    "state": "10 input checks pass; Io step gap 15.9 km at P/1440; K1 - 1PN 0.253 km per Io orbit"
+   }
+  },
   "plutoCharonInertial": {
    "purpose": "🌛 の gain を同じ SI 係数で移送し冥王星とカロンの周期の応答を測る",
    "objective": "met",

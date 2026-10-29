@@ -1,6 +1,8 @@
 // 第279便b(原仮定者の裁定 第69報「簡易チェックを先に一周回す」・統括の検証項目 R61 ①): QA の preflight。
 //   `npm run test:preflight`(= `QA_TIER=lint npm test`)。QA_TARGET 対応(既定 index.html — tests/qa.mjs と同じ)。
-// 一周するもの(**Chromium を起動しない** — 所要は秒):
+// 一周するもの(**Chromium を起動しない**)。第318便a(統括の検証項目 R254)で所要の注記を実測へ直した: 今の箱で**約 22.5 分**(第318便の統括の実測 —— 試験 358 本)。
+//   重いのは領域 hash と鎖の表を引き直す lint(フル QA の結果 tests/out/qa-results-full-beta.json の ms で lint.scopeStop 約 6 分・lint.scopeClosureSame294 約 3 分・
+//   lint.regenChain 約 3 分・lint.readyQueue311 と lint.regenScope と docs.retired と lint.provenanceMeta が 0.5〜1 分ずつ)で、残りの大半は 1 本あたり秒の桁:
 //   ① tests/qa.mjs の**ブラウザに触れない最上位の試験ブロック**(構文 `syntax`・`lint.coreBudget`・hash・
 //      provenance・文書検査 等)を、**qa.mjs の本文そのまま**切り出して実行する(コピーを持たない —
 //      切り出しは tests/lib-w279b-qaorder.mjs splitTopLevel。page/browser/ワーカーに触れる文と、
