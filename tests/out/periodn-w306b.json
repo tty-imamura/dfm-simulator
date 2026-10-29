@@ -4,7 +4,7 @@
   "wave": "第306便b",
   "target": "beta/index.html",
   "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T07:22:05.107Z",
+  "generatedAt": "2026-10-29T08:31:54.442Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -5345,7 +5345,7 @@
    "nodeOffY": 0.00000906843694536974,
    "eOff": -3.8744234077958684e-8,
    "offSidB1D": -0.000025257130523925753,
-   "wallSec": 152.184,
+   "wallSec": 161.258,
    "note": "刻み h だけ(h/2 は省く —— 転記の行の h と h/2 の差 |sidOff| の桁は 1e-7 日)。差 = n = 2・対 − 引きずり OFF(同じ刻み・同じ初期状態)"
   }
  },
@@ -5797,22 +5797,22 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 2.279
+   "wallSec": 2.549
   },
   "P": {
-   "wallSec": 432.516
+   "wallSec": 475.389
   },
   "R": {
-   "wallSec": 460.201
+   "wallSec": 468.573
   },
   "G": {
    "wallSec": 0.002
   },
   "E": {
-   "wallSec": 152.186
+   "wallSec": 161.261
   },
   "T": {
-   "wallSec": 0.06
+   "wallSec": 0.08
   }
  },
  "stats": {
@@ -5820,5 +5820,5 @@
   "memoHits": 70,
   "emRuns": 2
  },
- "elapsedS": 1049.024
+ "elapsedS": 1109.803
 }
