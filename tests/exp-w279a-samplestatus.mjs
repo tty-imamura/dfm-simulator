@@ -286,20 +286,22 @@ for (const id of groups.flatMap((g) => g.ids)) {   // 第294便b: 退役の本�
 }
 md.push('');
 // 第318便(原仮定者の指示 2026-10-29): 再生成の段の表 —— 履歴でない段の全部を実測秒の大きい順に。区分 = 常時群(毎回走る)/ 領域の宣言(REGEN_SCOPE の presets)/
-//   宣言なし(対象 html の全体に縛られる)。対象 = all(内蔵の全本)/ 宣言した本の列挙(退役の本は「退役」と明記)/ —(宣言なし)
+//   宣言なし(対象 html の全体に縛られる)。対象 = all(内蔵の全本)/ 宣言した本のうち掲載の本の列挙(掲載の外の本は数だけ —— 第294便b の「いま使う資料に退役の本を書かない」)/ —(宣言なし)
 const stageKind = (st) => st.alwaysRun ? '常時群' : (stepScope.get(st.key).presets ? '領域の宣言' : '宣言なし');
-const bookLabel = (id) => { const b = byId[id]; return (b && b.emoji ? b.emoji + ' ' : '') + '`' + id + '`' + (retiredIds.has(id) ? '(退役)' : ''); };
+const bookLabel = (id) => { const b = byId[id]; return (b && b.emoji ? b.emoji + ' ' : '') + '`' + id + '`'; };
 const stageList = stepsCurrent.map((st, k) => { const sc = stepScope.get(st.key);
   return { key: st.key, sec: st.sec || 0, kind: stageKind(st), presets: sc.presets === 'all' ? 'all' : (sc.presets ? sc.presets.slice() : null), order: k }; })
   .sort((a, b) => (b.sec - a.sec) || (a.order - b.order));
 md.push('### 再生成の段の表');
 md.push('');
-md.push(`> 段 ${stageList.length}(履歴の段を除く)・実測秒の和 ${fmtS(secAll)} s。実測秒は \`tests/lib-w281a-regentable.mjs\` の段の秒(段 1 回の実測 —— 対象の本で共有する)。区分: **常時群** = 毎回走る段・**領域の宣言** = REGEN_SCOPE の presets で対象の本を宣言した段・**宣言なし** = 対象 html の全体に縛られる段。対象: **all** = 内蔵の全本(${got.rows.length} 本)・それ以外は宣言した本の列挙(退役の本は「退役」と明記)。並びは実測秒の大きい順。`);
+md.push(`> 段 ${stageList.length}(履歴の段を除く)・実測秒の和 ${fmtS(secAll)} s。実測秒は \`tests/lib-w281a-regentable.mjs\` の段の秒(段 1 回の実測 —— 対象の本で共有する)。区分: **常時群** = 毎回走る段・**領域の宣言** = REGEN_SCOPE の presets で対象の本を宣言した段・**宣言なし** = 対象 html の全体に縛られる段。対象: **all** = 内蔵の全本(${got.rows.length} 本)・それ以外は宣言した本のうち掲載の本の列挙(掲載の外の本は数だけ)。並びは実測秒の大きい順。`);
 md.push('');
 md.push('| 段 | 実測(s) | 区分 | 対象の本 |');
 md.push('|---|---|---|---|');
 for (const z of stageList) {
-  const tgt = z.presets === 'all' ? `all(内蔵の全 ${got.rows.length} 本)` : z.presets ? `${z.presets.length} 本: ${z.presets.map(bookLabel).join('・')}` : '—';
+  const listed = z.presets && z.presets !== 'all' ? z.presets.filter((id) => !retiredIds.has(id)) : [];
+  const nOff = z.presets && z.presets !== 'all' ? z.presets.length - listed.length : 0;
+  const tgt = z.presets === 'all' ? `all(内蔵の全 ${got.rows.length} 本)` : z.presets ? `${listed.length} 本${listed.length ? ': ' + listed.map(bookLabel).join('・') : ''}${nOff ? `(ほかに掲載の外の本 ${nOff} 本)` : ''}` : '—';
   md.push(`| ${z.key} | ${fmtS(z.sec)} | ${z.kind} | ${tgt} |`);
 }
 md.push('');
