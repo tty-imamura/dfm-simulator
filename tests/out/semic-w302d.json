@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第302便d",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T13:47:27.729Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-29T07:17:39.464Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -34,9 +34,9 @@
   "code": [
    {
     "file": "tests/exp-w302d-semic.mjs",
-    "bytes": 33012,
-    "sha256": "b0bd618d7bc3491826e73d783e13a2bf6d6868a9b5dcabf4df853b056e44792c",
-    "mtime": "2026-10-25T16:42:07.781Z"
+    "bytes": 33399,
+    "sha256": "b716d0dde19e78b1d6830b76fe2ff43b7ebe6ba2d82ee52a2617e73d3659e3d6",
+    "mtime": "2026-10-28T19:19:27.747Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -88,9 +88,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    },
    {
     "file": "tests/lib-w303a-pre.mjs",
@@ -135,7 +135,7 @@
     "mtime": "2026-10-21T20:13:23.977Z"
    }
   ],
-  "codeSha256": "cde3bad9a637f18484e27506f3bb7ac9c4888926adbc1e14777ed7f29446c637",
+  "codeSha256": "36e8e553319df1d5357062ccd5ec29ab23bcc30e820b3041553e1fbedb92f0b7",
   "harnessVersion": "w302d-semic-1",
   "semicVersion": "w302d-semic-1",
   "orderPreVersion": "w302d-orderpre-1",
@@ -150,7 +150,7 @@
    "目的の門を緩めた"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "FIT_RECORD_VERSION",
@@ -206,11 +206,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1362,
-   "segments": 1201,
-   "closureShare": 0.3186
+   "names": 1360,
+   "segments": 1199,
+   "closureShare": 0.3064
   },
-  "scopeSha256": "023167e6b49223e6994d5becbddd5e0fe215a4b9d21a56fc238c87885bfd5e0d",
+  "scopeSha256": "e272df322c0a9f5a2d870d5346425644318f3dac5db5782bb0acef3069e05cce",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -377,7 +377,7 @@
   "split": {
    "steps": 600,
    "dt": 0.016,
-   "baseFrom": "carried(carried(carried(carried(carried(carried(beta/_w302_base.html))))))",
+   "baseFrom": "carried(carried(carried(carried(carried(carried(carried(beta/_w302_base.html)))))))",
    "fpSplit": {
     "earthMoonInertial": "232cfc51",
     "earthMoonSunInertial": "bf61fc85",
@@ -515,7 +515,7 @@
    "gain0Same": true,
    "ledger": true
   },
-  "wallSec": 45.778
+  "wallSec": 37.921
  },
  "fit": {
   "rows": [
@@ -665,7 +665,7 @@
     "boundMaxSemic": 0.002065939296275486
    }
   ],
-  "wallSec": 90.367
+  "wallSec": 70.567
  },
  "chain": {
   "w296c": {
@@ -677,7 +677,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 13.041,
+    "wallSec": 12.395,
     "bools": {
      "part5.accept.ok": true,
      "part5.gates.noNaN": true,
@@ -704,7 +704,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 13.273,
+    "wallSec": 11.142,
     "bools": {
      "part5.accept.ok": true,
      "part5.gates.noNaN": true,
@@ -2605,7 +2605,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 24.009,
+    "wallSec": 19.362,
     "bools": {
      "part5.spinSource3d.ok": true,
      "part5.dragCore3d.ok": true,
@@ -2638,7 +2638,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 25.555,
+    "wallSec": 18.692,
     "bools": {
      "part5.spinSource3d.ok": true,
      "part5.dragCore3d.ok": true,
@@ -3531,7 +3531,7 @@
      },
      "noCoupling": {
       "ok": false,
-      "err": "physics.relativeDrag.spinDrag.axialCoupling(軸引きずりの係数 κ [L³/M] —— gain とは別の宣言・未較正)は axial:\"on\" のとき 0〜1000000000000 の有限数"
+      "err": "physics.relativeDrag.spinDrag.axialCoupling(軸引きずりの係数 A_k [L³/M] —— 倍率 axialGain とは別の宣言・未較正)は axial:\"on\" のとき 0〜1000000000000 の有限数"
      },
      "couplingOff": {
       "ok": false,
@@ -4469,7 +4469,7 @@
      },
      "noCoupling": {
       "ok": false,
-      "err": "physics.relativeDrag.spinDrag.axialCoupling(軸引きずりの係数 κ [L³/M] —— gain とは別の宣言・未較正)は axial:\"on\" のとき 0〜1000000000000 の有限数"
+      "err": "physics.relativeDrag.spinDrag.axialCoupling(軸引きずりの係数 A_k [L³/M] —— 倍率 axialGain とは別の宣言・未較正)は axial:\"on\" のとき 0〜1000000000000 の有限数"
      },
      "couplingOff": {
       "ok": false,
@@ -4556,7 +4556,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 6.974,
+    "wallSec": 3.998,
     "bools": {
      "selfTest.ok": true,
      "gateB.rows.0.allSame": true,
@@ -4605,7 +4605,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 5.959,
+    "wallSec": 4.177,
     "bools": {
      "selfTest.ok": true,
      "gateB.rows.0.allSame": true,
@@ -6002,7 +6002,7 @@
    "env": null,
    "split": {
     "code": 0,
-    "wallSec": 350.713,
+    "wallSec": 244.736,
     "bools": {
      "gate.stableAll": true,
      "gate.migrateAll": true,
@@ -6013,7 +6013,7 @@
    },
    "semic": {
     "code": 0,
-    "wallSec": 351.671,
+    "wallSec": 268.764,
     "bools": {
      "gate.stableAll": true,
      "gate.migrateAll": true,
@@ -9176,7 +9176,7 @@
    },
    "split": {
     "code": 0,
-    "wallSec": 54.688,
+    "wallSec": 44.548,
     "bools": {},
     "numbers": {
      "A.base": {
@@ -9203,7 +9203,7 @@
    },
    "semic": {
     "code": 0,
-    "wallSec": 56.739,
+    "wallSec": 45.448,
     "bools": {},
     "numbers": {
      "A.base": {
@@ -9233,8 +9233,8 @@
    "rawSplit": null,
    "rawSemic": null
   },
-  "wallSec": 902.671
+  "wallSec": 673.278
  },
  "ok": true,
- "elapsedS": 1041.211
+ "elapsedS": 783.552
 }
