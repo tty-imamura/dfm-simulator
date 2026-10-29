@@ -3,7 +3,7 @@
  "libVersion": "w311a-corespin-lib-1",
  "generator": "tests/exp-w311a-corespin.mjs",
  "target": "beta/index.html",
- "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+ "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
  "ruling": "原仮定者の裁定(第110報)AN387 ④ 選択肢として dragCore の自転も軸方向を含めてノブ・(第113報)・DECISIONS v70 §0c ①・§1 AN397(推奨の型 —— 宣言の一定のベクトル)・決断事項 AN384(数値的に解像できない薄さの厚い殻は受理で拒否)・統括の検証項目 R226",
  "coreSpinVersion": "w311a-corespin-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -1248,13 +1248,13 @@
    {
     "decl": "未宣言",
     "evalSec": {
-     "wallSec": 0.003963777933
+     "wallSec": 0.002979968933
     }
    },
    {
     "decl": "宣言",
     "evalSec": {
-     "wallSec": 0.005169721467
+     "wallSec": 0.003515538367
     }
    }
   ]
@@ -1282,40 +1282,40 @@
  "ok": true,
  "timing": {
   "T": {
-   "wallSec": 0.362
+   "wallSec": 0.383
   },
   "K": {
-   "wallSec": 0.031
+   "wallSec": 0.029
   },
   "B": {
-   "wallSec": 1.798
+   "wallSec": 1.555
   },
   "R": {
-   "wallSec": 0.316
+   "wallSec": 0.274
   },
   "M": {
-   "wallSec": 0.754
+   "wallSec": 0.612
   },
   "C": {
-   "wallSec": 0.315
+   "wallSec": 0.27
   },
   "P": {
-   "wallSec": 1.169
+   "wallSec": 0.89
   }
  },
- "elapsedS": 6.777,
+ "elapsedS": 6.173,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第311便a",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T15:43:32.296Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-29T08:28:44.465Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1375,12 +1375,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "2e6ccfd291e05bba3f7a22d3337843ab8b023003269a9352d3851989ddc56620",
+  "codeSha256": "860d7115aec714e99f0b4a4e0517f441722466e113f5a9f688ec4c3474a49e19",
   "harnessVersion": "w311a-corespin-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1391,7 +1391,7 @@
    "核の角運動量を解いた"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": [
     "mercurySunInertial3d"
    ],
@@ -1419,11 +1419,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1312,
-   "segments": 1153,
-   "closureShare": 0.3113
+   "names": 1310,
+   "segments": 1151,
+   "closureShare": 0.2993
   },
-  "scopeSha256": "759f5f4e469272d84cf47482b430028a7ddbf4a105606d9bbf28b24593126507",
+  "scopeSha256": "6068997c916f1255522f0bfa179d65438b1af5386d3d38ca1e42dee0f94be48d",
   "scopeComplete": true,
   "inputsStable": [
    {
