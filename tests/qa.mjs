@@ -74396,7 +74396,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         // 第300便g: 退役した三次元の本(第300便a の 🔂 mercuryMeshMigrate3d —— familyRole:"retired")は、正本の行が退役の記録(retired・coord なし —— 在位の時間の宣言のまま凍結)
         //   の世代では三次元の行に数えない(宣言から数える —— 退役は本の familyRole と正本の行の retired の両方で見る)
         const retRec3 = (p) => p.familyRole === 'retired' && J.rows.some((r) => r.id === p.id && r.retired === true && r.coord !== '3d');
-        const ids3 = HP.allPresets().filter((p) => (W298A_IDS.indexOf(p.id) >= 0 || (W299E_IDS.indexOf(p.id) >= 0 && J.rows.some((r) => r.id === p.id && r.coord === '3d'))) && !retRec3(p)).map((p) => p.id);
+        // 第318便(統括の統合): 🗺️ solarSystem16Inertial3d(第318便c —— 三次元の 16 体)は正本に三次元の行が入った世代(鎖で作り直した後)だけ三次元の本に数える(W299E と同じ型)
+        const W318C_3D_IDS = ['solarSystem16Inertial3d'];
+        const ids3 = HP.allPresets().filter((p) => (W298A_IDS.indexOf(p.id) >= 0 || ((W299E_IDS.indexOf(p.id) >= 0 || W318C_3D_IDS.indexOf(p.id) >= 0) && J.rows.some((r) => r.id === p.id && r.coord === '3d'))) && !retRec3(p)).map((p) => p.id);
         const ret3 = HP.allPresets().filter((p) => W298A_IDS.indexOf(p.id) >= 0 && retRec3(p)).map((p) => p.emoji || p.id);
         if (ret3.length) cases.push(`退役の三次元の本 ${ret3.join('')} は退役の記録の行(三次元の行に数えない)`);
         const rows3 = J.rows.filter((r) => r.coord === '3d').map((r) => r.id);

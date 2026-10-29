@@ -289,9 +289,11 @@ export function transferEmo(HP, R, log) {
 /* ── 段 G・D ── */
 const canon = (v) => { if (Array.isArray(v)) return v.map(canon); if (v && typeof v === 'object') { const o = {}; for (const k of Object.keys(v).sort()) o[k] = canon(v[k]); return o; } return v; };
 const same = (a, b) => JSON.stringify(canon(a)) === JSON.stringify(canon(b));
+// 第318便(統括の統合 —— 転記照合で見つけた同じ型): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本 —— 数え上げの外に置く(正本の行と値は不変)
+const LATER_BOOKS_318 = new Set(['solarSystem16Inertial3d']);
 export function gatesOf(HP, J) {
   const P = HP.allPresets(), inSvc = P.filter((p) => p.familyRole !== 'retired');
-  const gLocBooks = inSvc.filter((p) => p.physics && p.physics.gLoc).map((p) => p.id);
+  const gLocBooks = inSvc.filter((p) => p.physics && p.physics.gLoc && !LATER_BOOKS_318.has(p.id)).map((p) => p.id);
   const planets = P3.PLANETS.map((pl) => pl.id), off6 = planets.filter((id) => id !== IDS.mer3);
   const offOk = off6.every((id) => { const rd = find(HP, id).physics.relativeDrag; return rd && rd.Wbg === null && rd.enabled === false; });
   const books = {};

@@ -339,7 +339,10 @@ export const REGEN_STEPS = [
   S('d68', 'node tests/exp-w280e-d68.mjs', ['tests/out/d68-w280e.json'], 153, { secSource: 'w281a-chain', after: ['d68three'],
     note: '第286便 統合: 第268便a の 3 段(d68-w268a.json)をビット再現の照合先に読む → d68three の後' }),
   // QA の確認順・並列化の実測(統括がフル QA の後に --record —— chain の外。所要は QA 本体に含まれる)
-  S('qaorder', 'node tests/exp-w279b-qaorder.mjs --record', ['tests/out/qaorder-w279b.json'], 0, { secSource: 'chain の外(フル QA の後)', outside: true }),
+  // 第318便(統括の統合 —— 転記照合 lint.provenanceMeta で見つけた): 第279便b の QA の所要の実測の記録は、当時の前後のフル QA の結果 JSON(作業領域 —— リポジトリに無い)が
+  //   無いと作り直せない。第318便a が tests/qa-preflight.mjs の冒頭の注記(所要)を実測へ直して刻印の code が違った → **履歴**(再生成しない —— 正本は第279便b の走行のまま)
+  S('qaorder', 'node tests/exp-w279b-qaorder.mjs --record', ['tests/out/qaorder-w279b.json'], 0, { role: 'history', secSource: '履歴(第318便 統括で登録 —— 走らせない)',
+    note: '第318便(統括): 第279便b の前後のフル QA の結果 JSON が無いと作り直せない記録。**再生成しない**(計画は常に「履歴」)' }),
   // 第283便e: cmd は 1 行のシェルでない(部分走行 4 本 + --merge)—— 鎖は「手動の段」として止まる(済み印を置けば進む)
   S('emgrid', 'node tests/exp-w280b-emgrid.mjs(4 部分 + --merge —— 第280便の chain2c と同じ分割)', ['tests/out/emgrid-w280b.json'], 2295, { secSource: 'w281a-chain', node: true, manual: true }),
   // ---- 後段(calaudit と署名の後 —— 読む正本が揃ってから)
