@@ -186,7 +186,7 @@ export function partN(HP, log = console.log) {
 
 /* ── 段 P: 惑星の本の記録(G_loc を宣言した本 —— 宣言から選ぶ) ── */
 /** G_loc を宣言した在位の本(宣言から —— 手書きの一覧を持たない)。 */
-export function gLocBooks(HP) { return HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.physics && p.physics.gLoc).map((p) => p.id); }
+export function gLocBooks(HP) { return HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.physics && p.physics.gLoc && !LATER_BOOKS_318.has(p.id)).map((p) => p.id); }   // 第318便(統括): 後に入った本は数え上げの外
 /** 🌡️ の W_bg の同定の幅: 照合許容 ±tol が写る W_bg の範囲(引きずりの近点 ∝ 1/W_bg と置いた一次)。 */
 export function wbgBand(fit) { const d = fit.dragPart; return d > TOL_APS ? [fit.Wbg * d / (d + TOL_APS), fit.Wbg * d / (d - TOL_APS)] : [fit.Wbg * d / (d + TOL_APS), null]; }
 /** fitRecord(w298b-1 —— 近点率の差〔引きずり OFF ∧ G_loc なしの対照との差〕・恒星周期)。fit は fitMercury の戻り値。 */
