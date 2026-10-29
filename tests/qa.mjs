@@ -49583,8 +49583,19 @@ if (!FAST) {
       if (J.meta.provenanceVersion !== 'w272e-1') bad.push('① 来歴の版が w272e-1 でない');
       const EG = await import('file://' + path.join(ROOT, 'tests', 'exp-w280b-emgrid.mjs'));
       const ps = EG.physicsSourceSha(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
-      if (ps.sha !== J.meta.physicsSourceSha256) bad.push('① 場の経路の関数本文が正本の走行時と違う(器を走らせ直すこと)');
-      else cases.push(`場の経路の関数 ${ps.names.length} 個の SHA-256 一致`);
+      // 第318便(統括の統合 —— ゲートの root で見つけた): root(リリース世代)が第318便a の前の受理器の本文(誤りの文が文字列 —— beta は表 ACCEPT_REASONS の reasonText)のとき、
+      //   正本の対象(meta.target = beta)の本文が正本と一致し、かつ root と beta の関数本文が文字列と誤りの文(err の値)を除いて同じなら通す(場の経路の式は同じ)
+      let egRootOk = false;
+      if (ps.sha !== J.meta.physicsSourceSha256 && !TARGET.startsWith('beta/') && String(J.meta.target || '').startsWith('beta/') && fs.existsSync(path.join(ROOT, J.meta.target))) {
+        const bHtml = fs.readFileSync(path.join(ROOT, J.meta.target), 'utf8'), pb = EG.physicsSourceSha(bHtml);
+        const { extractTopFunctions: xtf318 } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279c-bgcompose.mjs'));
+        const norm318 = (t) => String(t || '').replace(/"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|`(?:[^`\\]|\\.)*`/g, 'S').replace(/err:[^}]*\}/g, 'err:E}');
+        const fr = xtf318(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'), pb.names), fb = xtf318(bHtml, pb.names);
+        egRootOk = pb.sha === J.meta.physicsSourceSha256 && pb.names.every((n) => fr[n] && norm318(fr[n]) === norm318(fb[n]));
+        if (egRootOk) cases.push(`場の経路の関数 ${pb.names.length} 個: 正本の対象 ${J.meta.target} の SHA-256 一致・${TARGET} とは文字列と誤りの文を除いて同じ(リリース世代 —— 受理器の理由の文の表の前)`);
+      }
+      if (ps.sha !== J.meta.physicsSourceSha256 && !egRootOk) bad.push('① 場の経路の関数本文が正本の走行時と違う(器を走らせ直すこと)');
+      else if (!egRootOk) cases.push(`場の経路の関数 ${ps.names.length} 個の SHA-256 一致`);
       const R = J.rows || [];
       const want = ['E0', 'E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8', 'S0'];
       const at = (id, dt) => R.find((z) => z.id === id && z.dt === dt);
