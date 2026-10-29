@@ -2,7 +2,7 @@
  "version": "w311b-galaxial-1",
  "generator": "tests/exp-w311b-galaxial.mjs",
  "target": "beta/index.html",
- "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+ "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
  "ruling": "原仮定者の裁定(第110報)太陽系における天の川銀河による一様軸引きずりを検討・一様並進引きずりと一様回転引きずりは慣性系では無視できる・背景慣性決定力は引きずりの分母に入れない・(第113報)・決断事項 AN389・AN382・AN390・AN395・統括の検証項目 R227",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -1050,28 +1050,28 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.157
+   "wallSec": 0.088
   },
   "B": {
-   "wallSec": 0.258
+   "wallSec": 0.164
   },
   "D": {
-   "wallSec": 264.005
+   "wallSec": 201.509
   }
  },
- "elapsedS": 266.778,
+ "elapsedS": 203.643,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第311便b",
   "target": "beta/index.html",
-  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-  "generatedAt": "2026-10-26T15:30:35.376Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-29T09:19:04.007Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7237667,
-    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
-    "mtime": "2026-10-26T10:28:42.335Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1113,12 +1113,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 86053,
-    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
-    "mtime": "2026-10-26T09:03:02.858Z"
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "5c2db4ab912a5a7021d4f7af5fbc6b7233dfabca15ea2fdb72c3134afba50164",
+  "codeSha256": "50776a0de71a91a292fd85a2cd9c512f9115cd0b51f64343c486f890645f455c",
   "harnessVersion": "w311b-galaxial-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1130,7 +1130,7 @@
    "銀河の模型から ω_G を導いた"
   ],
   "scope": {
-   "version": "w316d-scope-5",
+   "version": "w318a-scope-6",
    "presets": "all",
    "roots": [
     "$",
@@ -1166,11 +1166,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1330,
-   "segments": 1171,
-   "closureShare": 0.3145
+   "names": 1328,
+   "segments": 1169,
+   "closureShare": 0.3025
   },
-  "scopeSha256": "14112b2532441e6f72a231193a023ad273eba36b2f0120b6d82fba0b67073a25",
+  "scopeSha256": "6970b217e8d61c81c199b115c51fadc5a046142441d5eda5e5b274604847ae98",
   "scopeComplete": true,
   "inputsStable": [
    {
