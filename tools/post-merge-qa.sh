@@ -416,6 +416,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.solar16Builtin318c docs.solar16Buil
 #   lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.dragEst318d behavior.dragEst318d lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第318便d の塊(ここまで)====
+# ==== 第319便a の塊(ここから)====
+# 第319便a(原仮定者の指示(第121報)・AN447・AN468・AN469・R258): 枝 a の新設 2 本(behavior.axisHoldBalance319 —— 維持の型の源ごとの維持と釣り合いの口座の受理・同一・純関数の場面・
+#   状態の契約・docs.axisHeat319 —— 正本と文書・PHYSICS〔第318便d〕の訂正の段落)と、維持の型の既存の 2 本(behavior.maintain309・docs.maintain309)・帳簿の欄(behavior.holdLedger310・
+#   docs.pairHeat310)・維持の型の段の正本を読む docs.dragEst318d・正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.canon304・
+#   lint.qaHeapRelease310・lint.sectionLookup313・lint.provenanceMeta・lint.presetText316c(受理器の理由の文の表)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisHoldBalance319 docs.axisHeat319 behavior.maintain309 docs.maintain309 docs.dragEst318d behavior.dragEst318d lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.provenanceMeta lint.presetText316c"
+# ==== 第319便a の塊(ここまで)====
 # ==== 第319便b の塊(ここから)====
 # 第319便b(原仮定者の指示(第121報)・AN445・AN446・AN449・R259): 枝 b の新設 1 本(docs.srcRadius319 —— 引きずる側の半径 R_src の 3 案・分布した銀河の太陽系近傍・天体別の役割の表の
 #   正本と文書・純関数の作り直し)と、正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・CANON の lint.canon304・
