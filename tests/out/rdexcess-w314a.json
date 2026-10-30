@@ -2,7 +2,7 @@
  "version": "w314a-rdexcess-1",
  "generator": "tests/exp-w314a-rdexcess.mjs",
  "target": "beta/index.html",
- "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+ "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
  "ruling": "原仮定者の裁定(第116報)AN404 R_d は観測半径を超えても受理する・超えた場合の表示も用意する・AN403/AN409 外殻の引きずりは粒子同士が触れるぐらいの距離の特別処理(将来の地表のサンプル)・決断事項 AN411 の推奨の型・統括の検証項目 R238",
  "units": {
   "book": {
@@ -1464,31 +1464,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.01
+   "wallSec": 0.011
   },
   "W": {
    "wallSec": 0.001
   },
   "N": {
-   "wallSec": 0.372
+   "wallSec": 0.334
   },
   "S": {
-   "wallSec": 0.151
+   "wallSec": 0.118
   }
  },
- "elapsedS": 2.347,
+ "elapsedS": 2.244,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便a",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T08:29:28.767Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T19:05:07.345Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1591,11 +1591,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1307,
-   "segments": 1148,
-   "closureShare": 0.298
+   "names": 1320,
+   "segments": 1161,
+   "closureShare": 0.2986
   },
-  "scopeSha256": "f84c9091dee1cd06caf0660f3f71fa114b09c40d08006f93bcdb3be79f483b11",
+  "scopeSha256": "5c2f015580d5ab1cea678387c010aeb32fa168bcbb3c53b39f1c360d36e51bae",
   "scopeComplete": true,
   "inputsStable": [
    {
