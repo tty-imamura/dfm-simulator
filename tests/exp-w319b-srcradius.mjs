@@ -269,19 +269,22 @@ export function partR(E, st16, PR, G) {
     const i = ro.i, Om = spinVec(i), gc = G.perBody[i], row = { i, name: L.BODY16[i], role: ro.role, req: ro.req, note: ro.note, Om, OmAbs: nrm(Om), spinSign: Math.sign(P.spin[i]) || 1,
       angOmG: angDeg(Om, ga.g), angOmGdist: angDeg(Om, omG), angOmGcen: angDeg(Om, gc.omLead), omGcenUpper: gc.omUpper, omGdist: nrm(omG),
       cGdist: L.composeOf(Om, omG), cGcen: L.composeOf(Om, gc.omLead), plans: {} };
+    row.antagDist = null; row.antagCen = null;
     for (const pk of L.PLAN_KEYS) {
       const om = omSrc(pk, i, 0), wr = wRotOf(pk, i, 0), cS = L.composeOf(Om, om), cSum = L.composeOf(Om, add3(om, omG)), r = { omSun: nrm(om), angOmSun: angDeg(Om, om), angSunGdist: angDeg(om, omG), cSun: cS, cSum, uRot: wr.u, wRot: wr.w, rAu: wr.r / L.AU };
       if (ro.req === 'plane') { r.reqVal = req.plane; r.ratio = wr.w / req.plane; r.arcsecCentury = wr.w * 100 * L.YEAR * 180 / Math.PI * 3600; }
       else if (ro.req === 'venus') { r.reqVal = req.venus; r.ratio = nrm(om) / req.venus; }
       if (ro.req === 'jupiter' || ro.req === 'venus') {
         const cs = cellOf(i, om), cg = cellOf(i, omG), cc = cellOf(i, add3(om, omG)); maintSame = maintSame && cs.same && cg.same && cc.same;
-        r.heat = { sun: cs, gal: cg, comp: cc, perSourceQ: cs.Q + cg.Q, perSourceQabs: cs.Qabs + cg.Qabs, Psun: cs.Q / h0, Pper: (cs.Q + cg.Q) / h0, Pcomp: cc.Q / h0, PabsPer: (cs.Qabs + cg.Qabs) / h0, PabsComp: cc.Qabs / h0 };
-        if (ro.req === 'jupiter') Object.assign(r.heat, { ratioPer: r.heat.Pper / req.jupiterP, ratioComp: r.heat.Pcomp / req.jupiterP, ratioAbsPer: r.heat.PabsPer / req.jupiterP, ratioAbsComp: r.heat.PabsComp / req.jupiterP,
+        r.heat = { sun: cs, gal: cg, comp: cc, perSourceQ: cs.Q + cg.Q, perSourceQabs: cs.Qabs + cg.Qabs, Psun: cs.Q / h0, PabsSun: cs.Qabs / h0, Pper: (cs.Q + cg.Q) / h0, Pcomp: cc.Q / h0, PabsPer: (cs.Qabs + cg.Qabs) / h0, PabsComp: cc.Qabs / h0 };
+        if (ro.req === 'jupiter') Object.assign(r.heat, { ratioSun: r.heat.Psun / req.jupiterP, ratioAbsSun: r.heat.PabsSun / req.jupiterP, ratioPer: r.heat.Pper / req.jupiterP, ratioComp: r.heat.Pcomp / req.jupiterP, ratioAbsPer: r.heat.PabsPer / req.jupiterP, ratioAbsComp: r.heat.PabsComp / req.jupiterP,
           ratioPerAlt: r.heat.Pper / req.jupiterPAlt, ratioAbsPerAlt: r.heat.PabsPer / req.jupiterPAlt, tauReqPer: (cs.Q + cg.Q) / req.jupiterP, tauReqAbsPer: (cs.Qabs + cg.Qabs) / req.jupiterP });
         if (ro.req === 'jupiter') { r.reqVal = req.jupiterP; r.ratio = r.heat.ratioAbsPer; }
       }
       row.plans[pk] = r;
     }
+    // 拮抗(第121報 —— 太陽の駆動と銀河の駆動の減速/加速が逆)を銀河の候補の向きごとに(分布の半渦度 +ĝ・中心 1 体の主項 −ĝ)
+    row.antagDist = row.plans.now.cSun.decel !== row.cGdist.decel; row.antagCen = row.plans.now.cSun.decel !== row.cGcen.decel;
     rows.push(row);
   }
   // 地球の行: 月(潮汐ロック)の受け手 —— 地球 → 月・太陽 → 月、地球の受け手 —— 月 → 地球
@@ -325,14 +328,15 @@ export function partF(J) {
     line('planeEarth', '公転面(地球)', (pk) => ea.plans[pk].ratio),
     line('planeMars', '公転面(火星 —— 対照)', (pk) => ma.plans[pk].ratio),
     line('venus', '金星の軸を π(仮の期間 1 Gyr)', (pk) => ve.plans[pk].ratio),
-    line('jupiterNow', '木星の熱(今の帳簿 —— 源ごと・τ_hold = h₀)', (pk) => ju.plans[pk].heat.ratioPer),
-    line('jupiterAbs', '木星の熱(候補 (b) 減速の分も熱 —— 源ごと・τ_hold = h₀)', (pk) => ju.plans[pk].heat.ratioAbsPer)];
+    line('jupiterSunNow', '木星の熱(今の帳簿 —— 太陽の項・τ_hold = h₀)', (pk) => ju.plans[pk].heat.ratioSun),
+    line('jupiterSunAbs', '木星の熱(候補 (b) 減速の分も熱 —— 太陽の項・τ_hold = h₀)', (pk) => ju.plans[pk].heat.ratioAbsSun),
+    line('jupiterPerAbs', '木星の熱(候補 (b) —— 源ごと〔太陽 + 分布の半渦度の候補〕・τ_hold = h₀)', (pk) => ju.plans[pk].heat.ratioAbsPer)];
   const galaxy = { ja: '銀河の軸(分布の半渦度 / 第318便d の散逸の率 1/τ —— 大きさだけの比)', req: 1 / R.req.Tage, now: J.G.halfCurlAbs, ratio: J.G.halfCurlAbs * R.req.Tage,
     cenUpper: J.G.perBody[0].omUpper, cenUpperRatio: J.G.perBody[0].omUpper * R.req.Tage };
   const spread = {};
-  for (const pk of keys) { const v = ['planeMercury', 'venus', 'jupiterAbs'].map((k) => Math.log10(Math.abs(rows.find((r) => r.key === k)[pk]))); spread[pk] = Math.max(...v) - Math.min(...v); }
+  for (const pk of keys) { const v = ['planeMercury', 'venus', 'jupiterSunAbs'].map((k) => Math.log10(Math.abs(rows.find((r) => r.key === k)[pk]))); spread[pk] = Math.max(...v) - Math.min(...v); }
   const spreadNow = {};
-  for (const pk of keys) { const v = ['planeMercury', 'venus', 'jupiterNow'].map((k) => Math.log10(Math.abs(rows.find((r) => r.key === k)[pk]))); spreadNow[pk] = Math.max(...v) - Math.min(...v); }
+  for (const pk of keys) { const v = ['planeMercury', 'venus', 'jupiterSunNow'].map((k) => Math.log10(Math.abs(rows.find((r) => r.key === k)[pk]))); spreadNow[pk] = Math.max(...v) - Math.min(...v); }
   return { rows, galaxy, spreadAbs: spread, spreadNow };
 }
 
