@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第303便a",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T10:22:05.078Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T19:22:33.672Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -100,15 +100,15 @@
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
-    "bytes": 52338,
-    "sha256": "ecff672647e6d96c73d5822d504ccdcc7b2f27142c3de958d913b02dfa5fd859",
-    "mtime": "2026-10-25T16:42:07.778Z"
+    "bytes": 52861,
+    "sha256": "266dda8f0884604421d04b2bb03398260bebd9b0f761d47861160309149bbe8a",
+    "mtime": "2026-10-30T11:33:02.834Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
-    "bytes": 16510,
-    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-10-30T11:33:02.854Z"
    },
    {
     "file": "tests/exp-w295c-inertial3.mjs",
@@ -130,9 +130,9 @@
    },
    {
     "file": "tests/exp-w298c-moon3d.mjs",
-    "bytes": 38229,
-    "sha256": "7df3ab3c8f8949a48e650de1846778dab876a97399db58967059cfea1f1731e1",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "bytes": 38451,
+    "sha256": "6a7036d76a1401cd91833c68377f8ec88b79478095df990ddab76db5ab71731a",
+    "mtime": "2026-10-30T11:33:02.834Z"
    },
    {
     "file": "tests/exp-w300b-emonly.mjs",
@@ -159,7 +159,7 @@
     "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "793a4e5d78f0f3f22d1afb336ea444b4da0b51cf4fb465ae154608c5d989df70",
+  "codeSha256": "2ef603a3ac9ac84846790a9bf1ad1b54f6c6246b5cdbee48bc0bbcaa63fd7a93",
   "harnessVersion": "w303a-refit-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第93報)①②(geoPN=3 のフィットの探索を優先・引きずりが主 —— G_loc は引きずりだけでは合わない量を埋めるため)",
@@ -230,11 +230,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1354,
-   "segments": 1195,
-   "closureShare": 0.3059
+   "names": 1372,
+   "segments": 1213,
+   "closureShare": 0.3076
   },
-  "scopeSha256": "6d4bac6430d8ebbedd5a9abe0964131d049a37762d2ae5c8f21722a47d662076",
+  "scopeSha256": "eabdcf894a26cb0e48b4f67dba4c7dc9611f5add549026b68cd6bcca3067ece7",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -1236,19 +1236,19 @@
  "ok": true,
  "timing": {
   "mer3": {
-   "wallSec": 18.04
+   "wallSec": 16.294
   },
   "mer2": {
-   "wallSec": 23.524
+   "wallSec": 21.196
   },
   "plu": {
-   "wallSec": 223.926
+   "wallSec": 220.375
   },
   "ems3": {
-   "wallSec": 71.202
+   "wallSec": 88.056
   },
   "emo": {
-   "wallSec": 14.912
+   "wallSec": 18.958
   }
  },
  "notClaim": [
@@ -1257,5 +1257,5 @@
   "「現実を再現した」",
   "「W_bg の宇宙の値が決まった」"
  ],
- "elapsedS": 351.789
+ "elapsedS": 365.041
 }
