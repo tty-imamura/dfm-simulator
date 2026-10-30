@@ -1461,6 +1461,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/dragest-w318d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/Drun/runs/*/wallSec']) },
     note: '第318便d: 銀河と太陽の引きずりの見積り(第120報の仮定を仮定として置き、要る大きさと今の K1 の大きさを同じ表に並べる —— 規則・在位の本・エンジンの式は変えない・新しい法則は足さない・合否と観測の 3σ を付けない)' }),
   // ==== 第318便d の塊(ここまで)====
+  // ==== 第319便b の塊(ここから)====
+  // ---- 第319便b(原仮定者の指示(第121報)「引きずり半径について」「検証時の天体別の役割の参考」・決断事項 AN445・AN446・AN449・統括の検証項目 R259): **引きずる側の半径 R_src の 3 案・
+  //   分布した銀河の太陽系近傍・天体別の役割の表の器**(段 srcradius-319b —— K 核の照合・S 源の表〔器の中の源のモーメントだけを替えた写し 3 つ〕・G 分布した銀河〔格子 3 段〕・
+  //   A 加法性〔32 要素の写し〕・R 6 天体の役割〔maintain の帳簿の式〕・C 120° の表・F まとめ)。html・エンジン・在位の本・受け手の R_d は変えない。html を読む(読み口
+  //   inertialDragIsqState と最上位の inertialDragIsqRule・inertialDragIsqRuleK1・inertialDragIsqK2・inertialDragIsqM2・inertialDrag3MaintCell)・入力は tests/data-w318c-solar16-input.json
+  //   (他の正本は読まない —— html の生成領域の後)。1 プロセス(子プロセスなし・步は進めない)。所要は第319便b の枝の実測 4.2〜4.8 s(**並走の秒** —— 4 枝並走の容器・負荷平均 7 前後 ——
+  //   統括が混まない箱で測り直す)
+  S('srcradius-319b', 'node tests/exp-w319b-srcradius.mjs', ['tests/out/srcradius-w319b.json'], 5, { secSource: 'w319b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/srcradius-w319b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第319便b: 引きずる側の半径 R_src の 3 案(源の回転と軸のモーメントだけ —— 受け手の R_d = Y_k m は不変)・分布した銀河の太陽系近傍(宣言の密度の模型と平均の流れ —— 格子 3 段)・天体別の役割の表(120° の合成の一般形・拮抗・要る大きさとの比)—— エンジン・在位の本は変えない・新しい法則は足さない' }),
+  // ==== 第319便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

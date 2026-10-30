@@ -2494,6 +2494,9 @@ lastAddAt = Date.now();
       // ==== 第318便d の塊(ここから)==== 銀河と太陽の引きずりの見積りの器(dragest-318d —— A〜F・1 プロセス)。領域 REGEN_SCOPE を刻む
       'tests/out/dragest-w318d.json',
       // ==== 第318便d の塊(ここまで)====
+      // ==== 第319便b の塊(ここから)==== 引きずる側の半径 R_src の 3 案・分布した銀河の太陽系近傍・天体別の役割の表の器(srcradius-319b —— 1 プロセス・步は進めない)。領域 REGEN_SCOPE を刻む
+      'tests/out/srcradius-w319b.json',
+      // ==== 第319便b の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
@@ -89865,6 +89868,108 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第318便d の塊(ここまで)====
+// ==== 第319便b の塊(ここから —— docs.srcRadius319 の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第319便b(原仮定者の指示(第121報)「引きずり半径について」「検証時の天体別の役割の参考」・決断事項 AN445・AN446・AN449・統括の検証項目 R259):
+// ----   **引きずる側の半径 R_src の 3 案・分布した銀河の太陽系近傍・天体別の役割の表**(新設 —— root は SKIP)。html を読まない QA(正本と純関数と文書だけ)。
+// ----   世代切替 = beta 対象 ∧ 器 tests/exp-w319b-srcradius.mjs ∧ lib tests/lib-w319b-srcradius.mjs ∧ 文書の lib tests/lib-w319b-srcradiusdoc.mjs(html・エンジン・在位の本は変えない)。
+// ----   docs.srcRadius319(正本 tests/out/srcradius-w319b.json):
+// ----     ① 正本の門(器の gatesOf で作り直して同じ・全部真)・試走でない・計画が器の PLAN・版/来歴(w272e-1)・領域 hash(完全)・文献の値の出典の欄
+// ----     ② 純関数で作り直して相対 1e-12: 段 F(partF)・段 C(partC)・分布した銀河の最も粗い格子(mwLocal —— 打ち消しの無い量)・中心 1 体(centralLocal)・
+// ----        加法性の行(additivityRow)・120° の合成の一般形(composeOf —— 正本の自転と半渦度のベクトルから)・遠方の倍率(farFactor)・混成のモーメントの遠方の極限(mixMoment)
+// ----     ③ 表の行と数が PHYSICS〔第319便b〕に逐語・節が「## 7.」の前・必須の語・AI_SPEC §152・CHANGELOG・再生成の段・.gitignore・post-merge・CANON
+// ----     ④ 書かない語・禁句・新しい説明に裸の係数記号が無いこと・新しい文の r_d(節と器と lib と文書の lib)
+{
+  await (async () => {   // 第310便c(heap)の型: 本文を関数で包む
+  const bHarn = path.join(ROOT, 'tests', 'exp-w319b-srcradius.mjs'), bLib = path.join(ROOT, 'tests', 'lib-w319b-srcradius.mjs'), bDoc = path.join(ROOT, 'tests', 'lib-w319b-srcradiusdoc.mjs');
+  const bOut = path.join(ROOT, 'tests', 'out', 'srcradius-w319b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(bHarn) && fs.existsSync(bLib) && fs.existsSync(bDoc))) {
+    console.log('SKIP docs.srcRadius319(第319便b の引きずる側の半径の器の前の世代 — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+  const near319 = (a, b) => (typeof a === 'number' && typeof b === 'number') ? (Object.is(a, b) || Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b)))
+    : (a && b && typeof a === 'object' && typeof b === 'object') ? (Array.isArray(a) === Array.isArray(b) && Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => Object.prototype.hasOwnProperty.call(b, k) && near319(a[k], b[k])))
+    : JSON.stringify(a) === JSON.stringify(b);
+  let X = null, L9 = null, D9 = null, err0 = null;
+  try { X = await import('file://' + bHarn); L9 = await import('file://' + bLib); D9 = await import('file://' + bDoc); } catch (e) { err0 = String(e).slice(0, 160); }
+  const bad = [], cases = [];
+  const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QA0 = rd('tests/qa.mjs'), CLx = rd('CHANGELOG.md');
+  const i0 = PH.indexOf('〔第319便b — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+  const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+  const strip = (t) => t.replace(/「[^」]*」/g, '');
+  const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /一致した/, /確認した/, /法則を確かめた/, /シュヴァルツシルト半径そのもの/, /現実の核/, /検証が完了した/, /地平面を判定した/, /ダークマターを説明した/,
+    /暦表に一致した/, /内部熱を説明した/, /金星の逆転を説明した/, /中心 1 体の銀河の引きずり/, /銀河の引きずりを測った/];
+  const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+  const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+  const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+  let J = null;
+  if (err0) bad.push('器/lib が読めない: ' + err0);
+  try { J = JSON.parse(fs.readFileSync(bOut, 'utf8')); } catch (e) { bad.push('正本 srcradius が読めない'); }
+  if (J && X && L9 && D9) {
+    try {
+      // ①
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('① 正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('① 正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('① 門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length) bad.push('① 門の数が器と違う');
+      if (J.quick === true) bad.push('① 正本が試走(QUICK)');
+      if (!near319(J.plan, clone(X.PLAN))) bad.push('① 計画が器の PLAN と違う');
+      if (J.version !== X.HARNESS_VERSION || J.libVersion !== L9.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.stage === 'srcradius')) bad.push('① 正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('① 正本に領域 hash(完全)が無い');
+      if (!(J.meta && Array.isArray(J.meta.literature) && J.meta.literature.length === Object.keys(L9.LIT319).length && J.meta.literature.every((t) => t.indexOf('一次資料に当たっていない') >= 0))) bad.push('① 文献の値の出典の欄(meta.literature)');
+      cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して同じ)・案 ${J.plans.length}・源 ${J.S.rows.length}・格子 ${J.G.grids.length} 段・役割 ${J.R.rows.length} 天体・文献の値 ${J.meta.literature.length}(一次資料に当たっていない —— 出典の名)`);
+      // ②
+      const F2 = X.partF(J); if (!near319(F2, J.F)) bad.push('② 段 F を作り直すと違う');
+      const C2 = X.partC(); if (!near319(clone(C2), J.C)) bad.push('② 段 C を作り直すと違う');
+      const m0 = L9.mwLocal(L9.GRIDS[0]), j0 = J.G.grids[0], pick = (m) => [m.total.mSun, m.total.beta, m.total.uCo[1], m.total.uGC[1], m.total.halfCurlCo[2], m.total.dUyDx, m.total.dUxDy, m.total.frob, m.total.Jz].concat(m.parts.map((p) => p.beta));
+      if (!near319(pick(m0), pick(j0))) bad.push('② 分布した銀河(最も粗い格子)を作り直すと違う');
+      if (!near319(clone(L9.centralLocal(J.G.MG)), J.G.central318)) bad.push('② 中心 1 体を作り直すと違う');
+      const A = J.A; let nAdd = 0;
+      for (const r of A.rows) { const z = L9.additivityRow(r.n, A.m, A.a, A.Om, A.rOverA, A.Rd1); nAdd++; for (const k of ['N', 'J', 'Jphys', 'uTrans', 'uDip', 'transOverDip', 'uNow1', 'uPiecesNow', 'piecesOverOne', 'rSrcJ']) if (!near319(z[k], r[k])) { bad.push('② 加法性の行 n = ' + r.n + ' の ' + k + ' を作り直すと違う'); break; } }
+      let nCo = 0;
+      for (const r of J.R.rows) { const z = L9.composeOf(r.Om, J.R.omGdist); nCo++; if (!near319(clone(z), r.cGdist)) bad.push('② 120° の合成(' + r.name + ' と分布の半渦度)を作り直すと違う'); }
+      let nFac = 0;
+      for (const r of J.S.rows) for (const k of ['p1', 'p2a', 'p2b', 'p3']) { nFac++; if (!near319(L9.farFactor(k, r.Rd, r.Rsrc[k]), r.factor[k]) && Math.abs(L9.farFactor(k, r.Rd, r.Rsrc[k]) / r.factor[k] - 1) > 1e-12) bad.push('② 遠方の倍率 ' + r.name + '・' + k); }
+      const mx = L9.mixMoment(1e6, 1, 1), lim = (2 / 5) / (1e6 * 1e6); if (!(Math.abs(mx[0] / lim - 1) < 1e-11)) bad.push('② 混成のモーメントの遠方の極限 (2/5)R²/r² から外れる ' + mx[0] / lim);
+      if (!(Math.abs(L9.equalMagRatio(120) - 1) < 1e-15)) bad.push('② 等しい大きさの 120° の合成が元の大きさでない');
+      cases.push(`② 純関数で作り直して相対 1e-12 —— 段 F(${J.F.rows.length} 行)・段 C・分布した銀河の最も粗い格子(${j0.cellsDisk} セル × 4 + バルジ ${j0.cellsBulge})・中心 1 体・加法性 ${nAdd} 行・120° の合成 ${nCo} 組・遠方の倍率 ${nFac} 個・混成の遠方の極限 2(R_src/R_d)²・等しい大きさの 120° で元の大きさ`);
+      // ③
+      if (!sec) bad.push('PHYSICS〔第319便b〕が無い');
+      else {
+        const rows = D9.physicsTablesSrcRadius(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'));
+        let nMiss = 0; for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第319便b〕の表に行が無い: ' + r.slice(0, 70)); }
+        const nums = D9.docNumbersSrcRadius(J), missN = nums.filter((x) => sec.indexOf(x) < 0); if (missN.length) bad.push('PHYSICS〔第319便b〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第319便b〕が「## 7. 論文」の後');
+        for (const w of ['R259', '第121報', 'AN445', 'AN446', 'AN449', 'AN471', 'exp-w319b-srcradius.mjs', 'lib-w319b-srcradius.mjs', 'lib-w319b-srcradiusdoc.mjs', 'srcradius-w319b.json', 'docs.srcRadius319', 'W319B_OUT', 'W319B_QUICK',
+          'R_src', 'R_d = Y_k m', '案1', '案2a', '案2b', '案3', '加法性', '受け手の並進は変わらない', '混成', 'mixMoment', 'k1RecvSrc', 'cap6500km', 'GALAXY_AXIAL_REF_RADIUS_M', '半渦度', '診断量', '中心 1 体',
+          '120°', '一般形', '拮抗', '丸めの床', '文献の値', '一次資料に当たっていない', '決断事項の候補', '言わないこと', '一つの案ではそろわない', '命名'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第319便b〕に「' + w + '」が無い');
+        cases.push(`③ PHYSICS〔第319便b〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
+      }
+      { const ai = AS.indexOf('## 152.'); if (ai < 0) bad.push('AI_SPEC に §152 が無い');
+        else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w319b-srcradius.mjs', 'lib-w319b-srcradius.mjs', 'srcradius-w319b.json', 'docs.srcRadius319', 'AN445', 'R259', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §152 に「' + w + '」が無い'); } }
+      { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, ci + 40000) : ''; if (cs.indexOf('第319便b') < 0) bad.push('CHANGELOG の beta の節に第319便b が無い'); }
+      if (RT.indexOf("S('srcradius-319b', 'node tests/exp-w319b-srcradius.mjs', ['tests/out/srcradius-w319b.json']") < 0 || !/secSource: 'w319b-branch'/.test(RT)) bad.push('再生成の段 srcradius-319b');
+      if (GI.indexOf('!tests/out/srcradius-w319b.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.srcRadius319') < 0) bad.push('post-merge に第319便b のブロックが無い');
+      if (QA0.indexOf("'tests/out/srcradius-w319b.json',") < 0) bad.push('CANON(lint.canon304)に第319便b の正本が無い');
+      // ④
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第319便b〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第319便b〕に禁句(' + w.length + ' 字)');
+      if (/κ(?!_D)/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第319便b〕に裸の κ(κ は κ_D だけ —— コードの書式の外)');
+      if (/(?<![\w`])r_d(?![\w`])/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第319便b〕の新しい文に r_d(引きずり半径は R_d)');
+      for (const f of ['tests/exp-w319b-srcradius.mjs', 'tests/lib-w319b-srcradius.mjs', 'tests/lib-w319b-srcradiusdoc.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); if (tx.indexOf('κ') >= 0) bad.push(f + ' に κ の字'); for (const re of NOT) if (re.test(tx)) bad.push(f + ' に書かない語 ' + re.source); }
+      { const ai = AS.indexOf('## 152.'), as = ai >= 0 ? AS.slice(ai, ai + 8000) : ''; for (const w of NG.concat(NG2)) if (as.indexOf(w) >= 0) bad.push('AI_SPEC §152 に禁句(' + w.length + ' 字)'); }
+      cases.push('④ 書かない語・禁句・裸の κ・新しい文の r_d(節と器と lib と文書の lib・AI_SPEC §152)');
+    } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+  }
+  add('docs.srcRadius319', bad.length === 0,
+    `**引きずる側の半径 R_src の 3 案・分布した銀河の太陽系近傍・天体別の役割の表の正本と文書**(第319便b・原仮定者の指示(第121報)・AN445・AN446・AN449・R259 —— 正本 srcradius-w319b.json・受け手の R_d = Y_k m・エンジン・在位の本は不変・案を採った規則と書かない・半渦度を ω_G と書かない): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ==== 第319便b の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

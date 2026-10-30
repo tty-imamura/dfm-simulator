@@ -416,6 +416,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.solar16Builtin318c docs.solar16Buil
 #   lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.dragEst318d behavior.dragEst318d lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第318便d の塊(ここまで)====
+# ==== 第319便b の塊(ここから)====
+# 第319便b(原仮定者の指示(第121報)・AN445・AN446・AN449・R259): 枝 b の新設 1 本(docs.srcRadius319 —— 引きずる側の半径 R_src の 3 案・分布した銀河の太陽系近傍・天体別の役割の表の
+#   正本と文書・純関数の作り直し)と、正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・CANON の lint.canon304・
+#   lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.srcRadius319 lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第319便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
