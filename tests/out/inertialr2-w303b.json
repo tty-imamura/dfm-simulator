@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第303便b",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T01:35:41.946Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T14:24:54.609Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -34,9 +34,9 @@
   "code": [
    {
     "file": "tests/exp-w303b-inertialr2.mjs",
-    "bytes": 87468,
-    "sha256": "5b341ac60eef51235c4e8df403575f8727d680c45ebcbe9602890b572006deb1",
-    "mtime": "2026-10-25T16:42:07.781Z"
+    "bytes": 88175,
+    "sha256": "7a10345c1dfcfd39deb09b96ea27faaad92a52ff4f60d1b6394b7f01d0bdd746",
+    "mtime": "2026-10-30T11:33:02.838Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -58,15 +58,15 @@
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
-    "bytes": 52338,
-    "sha256": "ecff672647e6d96c73d5822d504ccdcc7b2f27142c3de958d913b02dfa5fd859",
-    "mtime": "2026-10-25T16:42:07.778Z"
+    "bytes": 52861,
+    "sha256": "266dda8f0884604421d04b2bb03398260bebd9b0f761d47861160309149bbe8a",
+    "mtime": "2026-10-30T11:33:02.834Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
-    "bytes": 16510,
-    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-10-30T11:33:02.854Z"
    },
    {
     "file": "tests/exp-w302b-gloc.mjs",
@@ -94,9 +94,9 @@
    },
    {
     "file": "tests/exp-w298c-moon3d.mjs",
-    "bytes": 38229,
-    "sha256": "7df3ab3c8f8949a48e650de1846778dab876a97399db58967059cfea1f1731e1",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "bytes": 38451,
+    "sha256": "6a7036d76a1401cd91833c68377f8ec88b79478095df990ddab76db5ab71731a",
+    "mtime": "2026-10-30T11:33:02.834Z"
    },
    {
     "file": "tests/exp-w300b-emonly.mjs",
@@ -141,7 +141,7 @@
     "mtime": "2026-10-21T20:13:23.994Z"
    }
   ],
-  "codeSha256": "67e4dd5cae4f9da92d150fc46ab13af10c40739731365197957a23ed5be091c5",
+  "codeSha256": "42f411a5a97b3c5d5a97c4f4e9df7f4ebdd09aa390d69bda1c4d6f727e224287",
   "harnessVersion": "w303b-inertialr2-1",
   "i2Version": "w303b-inertialr2-1",
   "loadErrors": 0,
@@ -158,7 +158,36 @@
   ],
   "scope": {
    "version": "w318a-scope-6",
-   "presets": "all",
+   "presets": [
+    "chainDiskToy3d",
+    "earthMoonInertial",
+    "earthMoonOnly3d",
+    "earthMoonSunInertial",
+    "earthMoonSunInertial3d",
+    "earthMoonSunInertialFit",
+    "emAuditSolar",
+    "jupiterGalilean",
+    "jupiterSunInertial3d",
+    "marsMoonsReal",
+    "marsSunInertial3d",
+    "mercury",
+    "mercuryReal",
+    "mercurySunInertial",
+    "mercurySunInertial3d",
+    "mercurySunInertialFit",
+    "neptuneReal",
+    "neptuneSunInertial3d",
+    "plutoCharonDiagInput",
+    "plutoCharonInertial",
+    "plutoCharonInertialFit",
+    "saturn",
+    "saturnRingReal",
+    "saturnSunInertial3d",
+    "uranusReal",
+    "uranusSunInertial3d",
+    "venusReal",
+    "venusSunInertial3d"
+   ],
    "roots": [
     "$",
     "DT",
@@ -212,11 +241,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1349,
-   "segments": 1190,
-   "closureShare": 0.3048
+   "names": 1367,
+   "segments": 1208,
+   "closureShare": 0.3066
   },
-  "scopeSha256": "9fe1e35f586ab3a9a1c89498d77672d0579996b98a838aaf3b715371b6ab48e4",
+  "scopeSha256": "7f7b3cb64b21a34019f262eac1ee07edd0e9b5891c4d7ba4ea7299065ff26d87",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -4106,22 +4135,22 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 4.595
+   "wallSec": 5.448
   },
   "M": {
-   "wallSec": 98.665
+   "wallSec": 107.136
   },
   "T": {
-   "wallSec": 331.186
+   "wallSec": 381.169
   },
   "N": {
-   "wallSec": 355.653
+   "wallSec": 397.776
   },
   "E": {
-   "wallSec": 307.882
+   "wallSec": 346.598
   },
   "K": {
-   "wallSec": 0.023
+   "wallSec": 0.026
   }
  },
  "h4Carry": {
@@ -4349,11 +4378,11 @@
    }
   },
   "prev": {
-   "generatedAt": "2026-10-28T22:51:47.543Z",
+   "generatedAt": "2026-10-29T01:35:41.946Z",
    "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-   "fileSha256": "3d3c4c3d286a190e43b4b5aac256a3656d0acdd885641e0d9848bda18fec2076"
+   "fileSha256": "27b7cc86eb42af4f46cadda0bd6b50b8d269cea4e1c2354cfae2290ecfbce2e5"
   },
   "env": "H4_CARRY=1 は比較の実験だけ(既定は全部測る)"
  },
- "elapsedS": 1100.034
+ "elapsedS": 1239.976
 }
