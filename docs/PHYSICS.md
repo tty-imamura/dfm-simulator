@@ -40211,6 +40211,8 @@ V1a の t = 0 の β(読み口 `inertialDragIsqState`):太陽の能動の対の 
 | bh90 | 16 | 宣言なしのまま | 来歴を独自の measurementStamp で刻む器(provenanceMeta の形でない —— 器の書き直しは次便) |
 | (15 段) | — | 宣言なしのまま | twobody・meshnod0・d0audit2・bgcompose・sphereKernel・qsplit・rpar・nslockledger・bhcore・presetaxes・bgfield・bgpredict・selfinertia・rotorledger・slipaudit(見積り 0〜8 s —— 合わせて約 25 s)—— 次に器を触る便で |
 
+**第319便の更新(統括の統合)。** 鎖 1 の後の転記照合で lint.regenScope ② —— 表 3 の galaxialrd-312b・galaxialrdm-313b の宣言が下限を覆わなかった(器が import する第311便b の器 `tests/exp-w311b-galaxial.mjs` と、器の文字列が名指しする第311便d の器 `tests/exp-w311d-planet3.mjs` の本の id が下限に入る)。宣言に足した: galaxialrd-312b は 17 → 23 本(earthMoonOnly3d・earthMoonSunInertialFit・galaxy・galaxyGeo2・galaxyStd・mercurySunInertialFit)・galaxialrdm-313b は 17 → 21 本(earthMoonOnly3d・galaxy・galaxyGeo2・galaxyStd)。2 段は鎖 2 で作り直した —— 正本の値は鎖 1 と同じ(違いは所要の秒と meta の領域・コードの刻印だけ)。表 3 の 2 行の「17 本」はこの段落で読む。
+
 **⑨ 表 4 —— AN454 の段の変異の対照(領域 hash —— 版 6)。**
 
 | 段 | presets | 表示の文(LAWS) | 表示の文(受理器の理由) | 宣言した本の物理の数(最下位桁) |
@@ -40309,7 +40311,7 @@ lint.laterBooks319 は qa.mjs の名指しの除外(`!(W<便><枝>_… && ….id
 | 4 | 鎖の費用(受理する鍵を足すと validatePreset の閉包でほぼ全段) | 本を足す・本の宣言を変える変更の regen を減らした(本便 c)・「核が変わったときだけ全本」の型は次便 | 本便・次便 |
 | 5 | QA の名簿の型の残り | 受理した宣言から作り直す(本便 d の続き) | 次便 |
 
-**⑥ 統合の照合。** 基点 7c6bf88(便の開始)→ 統合 b(fast-forward)→ a → d → c(完了の順)。衝突は挿入だけ(塊の順は枝の順 a → b → c → d に並べ直した)。継ぎ目の部分 QA(a + b)20/21(lint.canon304 —— 枝 a のエンジンの変更で正本の刻印が古い型 —— 鎖で直る)・PHYSICS を走査する一式 18/18。部分 QA の道具 `tests/exp-w258c-qapart.mjs` に第284〜287便の複数行の世代定数を写す直しを入れた(枝 d の指摘)。
+**⑥ 統合の照合。** 基点 7c6bf88(便の開始)→ 統合 b(fast-forward)→ a → d → c(完了の順)。衝突は挿入だけ(塊の順は枝の順 a → b → c → d に並べ直した)。継ぎ目の部分 QA(a + b)20/21(lint.canon304 —— 枝 a のエンジンの変更で正本の刻印が古い型 —— 鎖で直る)・PHYSICS を走査する一式 18/18。部分 QA の道具 `tests/exp-w258c-qapart.mjs` に第284〜287便の複数行の世代定数を写す直しを入れた(枝 d の指摘)。 統合後の検査で、枝 c が履歴にした 2 段(satmeas-317a・satn-317b)を煙試験の窓の表 `tools/harness-smoke.mjs` から外した(lint.harnessSmoke303 ①)・`tools/post-merge-qa.sh` の qapart の heap は外の NODE_OPTIONS に heap の宣言が無いときも 8192 MiB を足す形に。鎖 1(run 185・止まり 0)の後の転記照合で、枝 c が絞った 2 段の presets が下限を覆わなかった → 宣言に足して鎖 2 で作り直した(〔第319便c〕表 3 の後の更新の段落)。
 
 **⑦ 言わないこと。** 金星の逆回転・木星の内部熱の原因を引きずりと言っていない(拮抗が熱に出るかは宣言の向きと口座の読みで決まる —— 測った量は仮定の下の大きさ)。金星の表面温度を内部熱の流束の値に置き換えていない。分布した銀河の値は文献の模型の入力の転記から計算した診断で、銀河の軸引きずりを測ったのではない。半渦度を今の軸引きずりと同じ量とは書かない。
 
