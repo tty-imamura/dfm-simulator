@@ -4375,3 +4375,11 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **中身**: A 銀河の並進(規約の大きさ —— 共通の β_G = 10V0²/c_0²・勾配と潮汐)・B ハロー(NGC 3198 —— 見える質量の薄い円盤・要る移送 u_req = V − V_bar²/V・回転の項の源の粒度 4 つの R_tot の最小二乗の値・M_drag = R_tot/Y_k と M_vis の比)・C 銀河の軸(南銀極 ĝ と 16 体の符号つきの自転・歳差は向きを選ばない)・D 太陽の回転(回転の移送・測る形の試し)・E 太陽の軸(金星・木星 —— `maintain` の帳簿の式で要る τ_hold)・F まとめ(候補 R_d,spin = 観測半径・J を別の入力)。
 - **QA**: `behavior.dragEst318d`(新設 —— 読み口と節点の和の写し・規則の節点の式・maintain の 1 回の量の照合)・`docs.dragEst318d`(新設 —— 正本の門・PHYSICS〔第318便d〕の表と数・必須の語・禁句)—— どちらも root は SKIP。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない(本の宣言の鍵は増えていない)。AI が R_d,spin・J の入力・熱の契約 (b)・銀河の軸の復元の項を採用した規則と書かない(候補の式だけ)。ダークマター・回転曲線・金星の自転・木星の熱を引きずりで説明したと書かない。最小二乗の値を合わせた値と呼ばない。ω_G・τ_hold を観測から決めた値と書かない。
+
+## 153. 第319便c —— 再生成の段の短縮(閉じた探索の段の履歴化・presets "all" の段の絞り込み・html を読む宣言の無い段に REGEN_SCOPE)(原仮定者の指示(第121報)「時間が掛かっている再生成の段について、時間短縮を行う」・決断事項 AN454・統括の検証項目 R260・**再生成表と器の宣言と道具と QA と文書だけ** —— html・本の宣言・エンジンの式・受理の判定・`S._core` は不変・窓・刻み・門・閾値・母集団は削らない・作り直した正本の物理の値は基点と同じ・**SYSTEM_PROMPT には載せない**)
+
+- **再生成表**: `tests/lib-w281a-regentable.mjs` の第319便c の塊 —— `HISTORY_319C`(satmeas-317a〔AN442・AN450〕・satn-317b〔AN441〕を履歴へ —— 判定の規則 `CLOSED_RULE_319C`: 結論が決断事項に記録・現行の段が正本を読まない・正本を読む QA が凍結の正本として照合できる)・`CLOSED_KEEP_319C`(sath-316d・satcut-317c・satk1-315d —— 現行の正本 satnext-318b の上流)・`NARROWED_319C`(presets "all" → 名指しの本の 24 段)・`KEEP_ALL_319C`(文字列の式・別の器の本文・子プロセスで全本を数える 6 段)・`AN454_319C`(5 段)・`AN454_SKIP_319C`。表の S(...) の行は書き換えない(役割と secSource を塊で上書き —— 元の秒は secMeasured)。
+- **器と lib**: `tests/lib-w299c-planets3d.mjs`・`tests/lib-w300c-saturnring3d.mjs` の allPresets() を `.find` で直に引く形に(値は同じ)・器 23 本の REGEN_SCOPE の presets を「deriveScope の下限 ∪ 器が import する凍結の写しの lib のデータの本の ID」へ・AN454 の 5 器(galaxychain・galaxylite・strain・d0audit・bgbudget)に REGEN_SCOPE と `scopeStamp`(正本を作り直した —— 物理の値は基点と同じ・壁時計の欄だけ違う)。
+- **道具**: `tools/scope-probe319.mjs`(版 w319c-scope-probe-1 —— 変更の種類 6 つで前後の regen の段の数と見積りの秒)・記録 `tests/out/scopeprobe-w319c.json`(段にしない道具の記録)・文書の lib `tests/lib-w319c-regenshort.mjs`(版 w319c-regenshort-lib-1 —— PHYSICS の表 1〜4)。
+- **QA**: `docs.regenShort319c`(新設 —— 履歴・絞り・AN454 の宣言と刻印・記録の契約・PHYSICS の表の逐語)・`docs.satMeas317a`・`docs.satN317b`(履歴の世代では、第316便d の正本のバイトが刻印と違えば正本に刻んだ通過の窓の記録を照合)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(本の宣言の鍵・式・受理の判定は変えていない)。

@@ -416,6 +416,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.solar16Builtin318c docs.solar16Buil
 #   lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.dragEst318d behavior.dragEst318d lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第318便d の塊(ここまで)====
+# ==== 第319便c の塊(ここから)====
+# 第319便c(原仮定者の指示(第121報)・決断事項 AN454・統括の検証項目 R260): 枝 c の新設 1 本(docs.regenShort319c —— 再生成の段の短縮の記録と文書)と、履歴へ移した段の
+#   docs.satMeas317a・docs.satN317b(履歴の世代の照合)・器の宣言と正本の刻印の lint.regenScope・lint.regenChain・lint.scopeAll312・lint.scopeStop・lint.stableHashPaths・
+#   lint.provenanceMeta・lint.canon304
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.regenShort319c docs.satMeas317a docs.satN317b lint.regenScope lint.regenChain lint.scopeAll312 lint.scopeStop lint.stableHashPaths lint.provenanceMeta lint.canon304"
+# ==== 第319便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
