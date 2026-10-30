@@ -2,7 +2,7 @@
  "version": "w311b-galaxial-1",
  "generator": "tests/exp-w311b-galaxial.mjs",
  "target": "beta/index.html",
- "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+ "targetSha256": "ccee583ecf42ef8266c7d839a88e222983fe13ab47094884b4d4658d36393b4d",
  "ruling": "原仮定者の裁定(第110報)太陽系における天の川銀河による一様軸引きずりを検討・一様並進引きずりと一様回転引きずりは慣性系では無視できる・背景慣性決定力は引きずりの分母に入れない・(第113報)・決断事項 AN389・AN382・AN390・AN395・統括の検証項目 R227",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -1050,75 +1050,75 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.088
+   "wallSec": 0.113
   },
   "B": {
-   "wallSec": 0.164
+   "wallSec": 0.194
   },
   "D": {
-   "wallSec": 201.509
+   "wallSec": 245.631
   }
  },
- "elapsedS": 203.643,
+ "elapsedS": 247.891,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第311便b",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T09:19:04.007Z",
+  "targetSha256": "ccee583ecf42ef8266c7d839a88e222983fe13ab47094884b4d4658d36393b4d",
+  "generatedAt": "2026-10-30T10:06:59.340Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "sha256": "ccee583ecf42ef8266c7d839a88e222983fe13ab47094884b4d4658d36393b4d",
+    "mtime": "2026-10-30T09:07:13.381Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
     "bytes": 194518,
     "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
-    "mtime": "2026-10-25T16:42:07.778Z"
+    "mtime": "2026-10-30T09:07:13.593Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w311b-galaxial.mjs",
-    "bytes": 40971,
-    "sha256": "a12c4b8bba7c492d9655592988a97a24493315893bf5482b24aeed6ade5a9dc0",
-    "mtime": "2026-10-26T10:28:30.995Z"
+    "bytes": 41422,
+    "sha256": "a4376f503d6f5ab53745ea1ab0d539b2d7560764986d28e43d598ba24a4bae98",
+    "mtime": "2026-10-30T09:29:19.763Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
-    "mtime": "2026-10-25T16:42:07.814Z"
+    "mtime": "2026-10-30T09:07:13.785Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
-    "bytes": 16510,
-    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-10-30T09:20:03.995Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-10-30T09:07:13.757Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-10-30T09:07:13.749Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 96951,
     "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "mtime": "2026-10-30T09:07:13.765Z"
    }
   ],
-  "codeSha256": "50776a0de71a91a292fd85a2cd9c512f9115cd0b51f64343c486f890645f455c",
+  "codeSha256": "399f5715398f021c37eeeeecd9c87960cd30b9fc8dd187b116dd69def5438552",
   "harnessVersion": "w311b-galaxial-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1131,7 +1131,29 @@
   ],
   "scope": {
    "version": "w318a-scope-6",
-   "presets": "all",
+   "presets": [
+    "earthMoonOnly3d",
+    "earthMoonSunInertial3d",
+    "galaxy",
+    "galaxyGeo2",
+    "galaxyStd",
+    "jupiterGalilean",
+    "jupiterSunInertial3d",
+    "marsMoonsReal",
+    "marsSunInertial3d",
+    "mercury",
+    "mercuryReal",
+    "mercurySunInertial3d",
+    "neptuneReal",
+    "neptuneSunInertial3d",
+    "saturn",
+    "saturnRingReal",
+    "saturnSunInertial3d",
+    "uranusReal",
+    "uranusSunInertial3d",
+    "venusReal",
+    "venusSunInertial3d"
+   ],
    "roots": [
     "$",
     "GALAXY_AXIAL_VERSION",
@@ -1170,7 +1192,7 @@
    "segments": 1169,
    "closureShare": 0.3025
   },
-  "scopeSha256": "6970b217e8d61c81c199b115c51fadc5a046142441d5eda5e5b274604847ae98",
+  "scopeSha256": "05a75dada179f728aabfdd8e401820e138f806e9d50bc3f060adcd2a6fef5827",
   "scopeComplete": true,
   "inputsStable": [
    {

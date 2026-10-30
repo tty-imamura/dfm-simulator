@@ -141,7 +141,11 @@ try {
   for (const z of (RT.AN454_319C || [])) {
     const d = declOf(z.harness, 'after'); if (!d) { res.an454.push({ key: z.key, declared: false }); continue; }
     const pid = d.presets === 'all' ? 'venusSunInertial3d' : d.presets[0];
-    const mass = (t) => { const s = segOf(t, pid); if (!s) return null; const m = /(\bm:\s*)(\d+\.\d*[1-9])/.exec(s.text); return m ? t.slice(0, s.i + m.index) + bumpLast(m) + t.slice(s.i + m.index + m[0].length) : null; };
+    // 宣言した本の物理の数(最初の質量 m の最下位桁 —— 質量に小数の無い本は physics の宣言の中の最初の小数の最下位桁)
+    let field = 'm';
+    const mass = (t) => { const s = segOf(t, pid); if (!s) return null; let m = /(\bm:\s*)(\d+\.\d*[1-9])/.exec(s.text), off = 0;
+      if (!m) { const k = s.text.indexOf('physics:{'); if (k < 0) return null; const r = /(\b([A-Za-z_]\w*)\s*:\s*)(\d+\.\d*[1-9])/.exec(s.text.slice(k)); if (!r) return null; off = k; field = 'physics.' + r[2]; m = [r[0], r[1], r[3]]; m.index = r.index; }
+      return t.slice(0, s.i + off + m.index) + bumpLast(m) + t.slice(s.i + off + m.index + m[0].length); };
     const row = { key: z.key, declared: true, presets: d.presets === 'all' ? 'all' : d.presets.length, massOf: pid };
     const h0z = h0.get(keyOf(d));
     for (const [mk, fn, want] of [['lawsText', CASES.find((c) => c.key === 'lawsText').make, 'same'], ['reasonText', CASES.find((c) => c.key === 'reasonText').make, 'same'], ['mass', mass, 'changed']]) {
@@ -150,6 +154,7 @@ try {
       const h = SC.scopeHash(f1, d, { version: SC.SCOPE_VERSION }); fs.rmSync(f1, { force: true });
       row[mk] = (h.scopeComplete ? h.scopeSha256 : 'incomplete') === h0z ? 'same' : 'changed'; row[mk + 'Ok'] = row[mk] === want;
     }
+    row.massField = field;
     res.an454.push(row);
     console.log('AN454', z.key.padEnd(12), JSON.stringify(row));
   }

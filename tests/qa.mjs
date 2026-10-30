@@ -89969,6 +89969,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       for (const k of ['lawsText', 'reasonText']) if (C[k] && !(C[k].after.scoped === 0 && C[k].after.wholeHtml < C[k].before.wholeHtml)) bad.push('④ 表示の文 ' + k + ' の後の領域の段 ' + C[k].after.scoped + '・html 全体 ' + C[k].before.wholeHtml + '→' + C[k].after.wholeHtml);
       for (const k of ['addPreset', 'planetDecl', 'stepMaint', 'engineCoef']) if (C[k] && !(C[k].after.regen <= C[k].before.regen && C[k].after.regenSec <= C[k].before.regenSec)) bad.push('④ ' + k + ' の後の regen が前より多い');
       if (C.addPreset && !(C.addPreset.after.regen < C.addPreset.before.regen)) bad.push('④ 本を足す変更で後の regen が減っていない');
+      for (const c of J.cases) { const sb = D.savedBy(J, RTm, c); if (sb.other[0] !== 0) bad.push('④ ' + c.key + ' で本便の変更の外の段が省ける(' + sb.other[0] + ' 段)'); if (c.after.regenSteps.some((k) => !c.before.regenSteps.includes(k) && !(RTm.HISTORY_319C || []).some((z) => z.key === k))) bad.push('④ ' + c.key + ' で後だけ regen の段がある'); }
       if (J.totals.after.steps !== J.totals.before.steps - (RTm.HISTORY_319C || []).length) bad.push('④ 後の現行の段 ' + J.totals.after.steps + ' ≠ 前 ' + J.totals.before.steps + ' − 履歴へ');
       if (!(J.an454 || []).length || !J.an454.every((r) => r.lawsTextOk && r.reasonTextOk && r.massOk)) bad.push('④ AN454 の変異の対照');
       cases.push(`④ 記録 ${J.version}(基点 ${J.baseRev})—— ${J.cases.map((c) => c.key + ' ' + c.before.regen + '→' + c.after.regen).join('・')}・見積りの秒の和 ${J.totals.before.sec}→${J.totals.after.sec} s・AN454 の対照 ${(J.an454 || []).length} 段`);
@@ -89976,7 +89977,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     // ⑤
     if (!sec) bad.push('PHYSICS〔第319便c〕が無い');
     else if (J) {
-      for (const [nm, tb] of [['表 1', D.probeTable(J)], ['表 2', D.totalsTable(J)], ['表 3', D.stageTable(RTm, J)], ['表 4', D.an454Table(J)]]) {
+      for (const [nm, tb] of [['表 1', D.probeTable(J, RTm)], ['表 2', D.totalsTable(J)], ['表 3', D.stageTable(RTm, J)], ['表 4', D.an454Table(J)]]) {
         let nMiss = 0; for (const r of tb.split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'))) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 3) bad.push('PHYSICS〔第319便c〕の' + nm + 'に行が無い: ' + r.slice(0, 70)); }
       }
       for (const x of D.docNumbers(J)) if (sec.indexOf(x) < 0) bad.push('PHYSICS〔第319便c〕に記録の数が無い: ' + x);

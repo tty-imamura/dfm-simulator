@@ -11,13 +11,22 @@ export const PROBE_VERSION = 'w319c-scope-probe-1';
 /** 変更の種類の並び(道具の CASES と同じ) */
 export const CASE_KEYS = Object.freeze(['addPreset', 'planetDecl', 'stepMaint', 'engineCoef', 'lawsText', 'reasonText']);
 const KIND_JA = { book: '本', step: '步の関数', text: '表示の文' };
+/** 省ける段を本便の変更の種類(履歴へ・presets の絞り・AN454)に分ける(段の秒は記録 J.stages) */
+export function savedBy(J, RT, c) {
+  const S = J.stages || {}, cat = (k) => (RT.HISTORY_319C.some((z) => z.key === k) ? 'history' : RT.NARROWED_319C.some((z) => z.key === k) ? 'narrowed' : RT.AN454_319C.some((z) => z.key === k) ? 'an454' : 'other');
+  const o = { history: [0, 0], narrowed: [0, 0], an454: [0, 0], other: [0, 0] };
+  for (const k of (c.saved.steps_ || [])) { const g = cat(k); o[g][0]++; o[g][1] += (S[k] && Number.isFinite(S[k].sec)) ? S[k].sec : 0; }
+  return o;
+}
 /** 変更の種類ごとの前後の regen の段の数と見積りの秒(PHYSICS〔第319便c〕の表 1) */
-export function probeTable(J) {
-  const out = ['| 変更の種類 | 区分 | 前: regen の段(見積りの秒) | 後: regen の段(見積りの秒) | 省ける段(秒) | 後の内訳: 領域の段・html 全体の段 | 後の recheck |', '|---|---|---|---|---|---|---|'];
+export function probeTable(J, RT) {
+  const out = ['| 変更の種類 | 区分 | 前: regen の段(見積りの秒) | 後: regen の段(見積りの秒) | 省ける段(秒) | 省ける内訳: 履歴へ・presets の絞り・AN454(段/秒) | 後の内訳: 領域の段・html 全体の段 | 後の recheck |',
+    '|---|---|---|---|---|---|---|---|'];
   for (const k of CASE_KEYS) {
     const c = (J.cases || []).find((z) => z.key === k);
-    if (!c || !c.made) { out.push(`| ${k} | — | 作れない | 作れない | — | — | — |`); continue; }
-    out.push(`| ${c.ja} | ${KIND_JA[c.kind] || c.kind} | ${c.before.regen}(${c.before.regenSec} s) | ${c.after.regen}(${c.after.regenSec} s) | ${c.saved.steps}(${c.saved.sec} s) | ${c.after.scoped}・${c.after.wholeHtml} | ${c.after.recheck} |`);
+    if (!c || !c.made) { out.push(`| ${k} | — | 作れない | 作れない | — | — | — | — |`); continue; }
+    const b = savedBy(J, RT, c), f = (x) => x[0] + '/' + x[1];
+    out.push(`| ${c.ja} | ${KIND_JA[c.kind] || c.kind} | ${c.before.regen}(${c.before.regenSec} s) | ${c.after.regen}(${c.after.regenSec} s) | ${c.saved.steps}(${c.saved.sec} s) | ${f(b.history)}・${f(b.narrowed)}・${f(b.an454)}${b.other[0] ? '・ほか ' + f(b.other) : ''} | ${c.after.scoped}・${c.after.wholeHtml} | ${c.after.recheck} |`);
   }
   return out.join('\n');
 }
@@ -35,9 +44,9 @@ export function totalsTable(J) {
 }
 /** AN454 の段ごとの変異の対照(表 4) */
 export function an454Table(J) {
-  const out = ['| 段 | presets | 表示の文(LAWS) | 表示の文(受理器の理由) | 宣言した本の質量(最下位桁) |', '|---|---|---|---|---|'];
+  const out = ['| 段 | presets | 表示の文(LAWS) | 表示の文(受理器の理由) | 宣言した本の物理の数(最下位桁) |', '|---|---|---|---|---|'];
   const ja = (v) => (v === 'same' ? '領域 hash 不変' : v === 'changed' ? '変わる' : v);
-  for (const r of (J.an454 || [])) out.push(`| ${r.key} | ${r.presets === 'all' ? 'all' : r.presets + ' 本'} | ${ja(r.lawsText)} | ${ja(r.reasonText)} | ${ja(r.mass)}(${r.massOf}) |`);
+  for (const r of (J.an454 || [])) out.push(`| ${r.key} | ${r.presets === 'all' ? 'all' : r.presets + ' 本'} | ${ja(r.lawsText)} | ${ja(r.reasonText)} | ${ja(r.mass)}(${r.massOf} の ${r.massField}) |`);
   return out.join('\n');
 }
 /**
