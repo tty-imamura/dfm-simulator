@@ -40126,6 +40126,49 @@ V1a の t = 0 の β(読み口 `inertialDragIsqState`):太陽の能動の対の 
 
 **⑪ 言わないこと。** 案のどれかを採った規則と書かない(候補の式の比較 —— エンジン・在位の本は変えていない)。半渦度を軸引きずり ω_G と同じと書かない(移送場の診断量)。中心 1 体の値を銀河の効きと呼ばない。金星の自転・木星の熱・公転面を引きずりで説明したと書かない(要る大きさとの比を並べただけ)。τ_hold を合わせた値と書かない(h₀ の規約)。格子の差は感度診断。数の桁が近いことを証拠と呼ばない(宣言の時間尺度で決まる比どうし)。文献の値(慣性モーメントの係数・天の川銀河の質量の模型の入力・土星の環の半径)は本便は一次資料に当たっていない(正本の `meta.literature` に出典の名)。
 
+〔第319便d — QA の片付けと小さい決定(三次元の本を受理した宣言で数える・規則で置いた本の較正の注・後に入った本の除外の理由の表・🗺️ の保存 QA の帰属・受理の理由の文の領域の見積り)(決断事項 AN460・AN461・AN462・AN455・統括の検証項目 R261)(**物理・本の宣言・エンジンの式・受理の判定・器・正本は 1 bit も変えていない** —— html は表示の文 1 つ〔nc_solar_rule3d の ja/en〕と表示の関数 pNotClaims の選び方だけ・root の index.html は不変)〕
+
+**① AN460 —— 三次元の本は受理した宣言で数える。** QA の名簿の型の 1 つ目は、三次元の本を html の文字列(physics の最初の鍵が coord の本 —— `W298A_IDS`・`W298A_C3`)で数える形だった。この型は physics の鍵の並びが入力の宣言のままの本(第318便c の 🗺️ `solarSystem16Inertial3d`)と、physics の途中に coord を書いた参照模型 8 本(第299便e)を数え落とす(第318便の統合で 3 本の QA が後から落ち、名指しの分岐 `W318C_3D_IDS`・`w318News`・behavior.contactMode の 🗺️ の行・`W318C_S16` の加算を足した)。本便から tests/qa.mjs の最上位の `W319D_D3` が、内蔵の各本を `HP.validatePreset` に通した**受理後の宣言** `preset.physics.coord === "3d"` で数える(all = 三次元の本の全部・toy = shapeToy を宣言した参照模型・fresh = all − toy〔本数を増やす側〕・retired = 退役)。beta は all 26・toy 8・fresh 18(退役 1 —— 🔂)・root は all 25・toy 8・fresh 17(🗺️ が無い)。受理の前後で coord が変わる本は無い(177 本・176 本とも)。
+- 書き換えた QA(名指しの分岐を外し、同じ判定): behavior.rayLensExcluded(基点に無い本の並び —— fresh のうち正本の survey に行がある本)・behavior.contactMode(1 步の比較の本数 —— fresh のうち正本の oneStep.differ に行がある本)・docs.coreCensus(棚卸しの世代の判定)・behavior.coreV2Migrate・behavior.coreV2ReplaceReport・behavior.shellSpinMassLaw(core 宣言なしの本数 —— fresh の数)・behavior.geoMode(履歴の正本の後に入った本)・docs.timeStd297(移行表の照合の外 —— all のうち正本に行の無い本)・behavior.coord3dHaltAB299(三次元の本 —— fresh の在位)・docs.timeStd3d299(三次元の行 —— all のうち正本に行がある本)。
+- **世代の守り**(正本に行が入った世代だけ数える)は各ブロックが正本の行で見る —— 行の無い本は「正本の後に入った本(鎖で作り直すと入る)」として事例に出し、落とさない。docs.timeStd3d299 は行がある本の行が三次元でなければ落ちる(第298便a の本の型を全部の三次元の本へ —— 二次元の本を三次元へ変える枝は、鎖で正本を作り直すまでこの照合が落ちる)。
+- 残した一覧(本便では変えない —— 決断事項の候補): `W298C_IDS`・`W298C_DCIDS`(三次元の慣性決定力の本 —— `W298A_IDS` の上に html の文字列で重ねた一覧・10 ブロックが読む)・ui.fidelity の 🗺️ の加算(`fid298c` が `W298C_IDS` から作るので 🗺️ を名指しで足す)・`W299E_IDS`(参照模型 —— html の文字列で数え、世代切替は html の版の印)。`W298A_IDS` を読む所は `W298C_IDS` の定義だけになった。
+
+**② AN461 —— 規則で置いた本・診断の本の較正の注。** notClaim `solar_cal` の三次元の文 nc_solar_cal3d は「…条件で合わせたモデルです」。🗺️ と在位の惑星 7 本(🌡️🌋🔴🏀🟡🔷💙)は引きずりの半径 R_d = Y_k m と G_loc を規則で置いた本・診断の本で、観測量に合わせた係数を持たない。**本の生の定義を変えない形**で分けた: 表示の関数 pNotClaims(説明タブの renderHelp だけが呼ぶ —— renderHelp は停止集合の中)が、三次元で G_loc を規則 `{law:"kappaC2"}` で宣言し、フィットの記録(`fitRecord`・referenceKind `observation-fit`)の無い本に新しい文 nc_solar_rule3d(ja/en —— 「合わせたモデルではありません —— …規則で置いた本・診断の本です」)を選ぶ。本の宣言 `notClaim:["solar_cal"]` は変えない。選ばれる本は宣言から 8 本(在位の三次元の G_loc {law:"kappaC2"} の本の全部)・nc_solar_cal3d のままの三次元の本は 🌦️(observation-fit)・🌔・🍩 と退役の 🔂。
+- **費用**: notClaim は領域 hash の説明文の欄(PROSE_KEYS)・I18N は文の登録簿(閉包で辿らない)・pNotClaims は器の閉包の外。`node tools/regen-plan.mjs --base beta/_w319_base.html` で、領域を宣言した段は全部 reuse か recheck(regen 31 段は全部、領域の宣言の無い段〔html 全体に縛られる —— 便の開始の版名の変更でも同じ〕・正本の無い段・入力の表の変わった timing294)—— AN461 が足す regen は 0 段。
+- QA: ui.notclaim-real(説明タブの表示 —— 規則の本の文は記号の下付きの表示を通るので HP.symDispText で照合)・ui.v59Text301 ⑤(pNotClaims の選び方・文の語・規則の本の数 = 在位の三次元の G_loc {law:"kappaC2"} の本の数)。世代切替 = I18N に nc_solar_rule3d(root は従来どおり)。
+
+**③ AN462 —— 後に入った本の除外の理由の表。** 器の数え上げが宣言で本を選ぶ段に、器の世代より後に入った本が入ると、その段の正本の行と値が変わる(または写しが受理されない)。第318便の統合はその本を器の集合 `LATER_BOOKS_318` で数え上げの外に置き、正本を変えなかった。**未対応を恒久的に隠す一覧にしない**ため、集合ごとに理由と、入れるのに要ることを表にする(器の本体は変えない —— 器を変えるとその段が regen する。書き直しは器を触る便)。lint.laterBooks319 が tests/exp-*.mjs・tests/lib-*.mjs の `LATER_BOOKS_*` を走査し、集合ごとに宣言の形・直前の注記(便・本の id・「後に入った本」・「の外に置く」・正本は不変)・使う所の数が表 1 と一致することを見る。
+
+**表 1(器の後に入った本の除外)**
+| 器 | 集合 | 外す本 | 使う所 | 段 | 外す数え上げ | なぜ外すか | 入れるのに要ること |
+|---|---|---|---|---|---|---|---|
+| `tests/exp-w301g-wbglaw.mjs` | `LATER_BOOKS_318` | 🗺️ `solarSystem16Inertial3d` | 1 | `wbglaw-301g` | classify —— law "inertial" の本を第302便c の前の宣言の写し(pre302c)で分類 | 🗺️ は K1 の規則の宣言で生まれた本で前の宣言の写しが無い —— gain を書き込む写しは受理されない | 規則の宣言の本を写しの外で分類する形(器を触る便 —— 段は regen) |
+| `tests/exp-w302c-wbgest.mjs` | `LATER_BOOKS_318` | 🗺️ `solarSystem16Inertial3d` | 2 | `wbgest-302c` | gLocBooks(G_loc を宣言した在位の本 —— 段 P)・partE(scaleExp と law "inertial" の在位の本 —— W_bg の同定の幅) | 器の表は惑星 1 体の W_bg の行の型で、🗺️(16 体・W_bg の宣言なし)はその行の型に入らない | 行の型を本の天体ごとに広げる(器を触る便 —— 段は regen) |
+| `tests/exp-w302d-semic.mjs` | `LATER_BOOKS_318` | 🗺️ `solarSystem16Inertial3d` | 1 | `semic-302d` | idsOf —— 内蔵の全本から引きずりの解の対象を選ぶ | 入れると分類の行が増えて正本の欄が変わる(K1 の規則の宣言 —— 第318便の煙試験で見つけた) | 分類の母集団を器の世代の宣言の表で固定するか、行を足して正本を作り直す(器を触る便) |
+| `tests/exp-w303a-refit.mjs` | `LATER_BOOKS_318` | 🗺️ `solarSystem16Inertial3d` | 1 | `refit-303a` | gatesOf の gLocBooks —— G_loc の在位の本が惑星の表(P3.PLANETS)と同じ集合である門 | 門の型が惑星 7 本の写しで、🗺️ は惑星の表に無い | 門を惑星の表の本に絞る宣言の形(器を触る便 —— 段は regen) |
+| `tests/exp-w309a-invsq.mjs` | `LATER_BOOKS_318` | 🗺️ `solarSystem16Inertial3d` | 1 | `invsq-309a` | partD —— dragCore の既定の候補(law "inertial"・scaleExp の本の single の天体) | K1 の規則の宣言(dragCoreDefault は rdRule と一緒に宣言しない)—— 候補の型に入らない | 規則の宣言の本を候補の外に置く宣言の条件(器を触る便 —— 段は regen) |
+| `tests/exp-w310a-invsq.mjs` | `LATER_BOOKS_318` | 🗺️ `solarSystem16Inertial3d` | 1 | `invsq-310a` | partN —— invSq を宣言した本の数え上げ | 在位の 7 本は移行の前の写しで読み、🗺️ には写しが無い(K1 の短い形で生まれた本) | 写しの無い本を今の宣言で読む分岐(器を触る便 —— 段は regen) |
+
+**表 2(QA の側の名指しの除外 —— 器の除外と同じ本を外して比べる)**
+| QA | 外す本 | 比べるもの | なぜ外すか |
+|---|---|---|---|
+| `behavior.wbgDirect302` | 🗺️ `solarSystem16Inertial3d` | 第302便a の移行表(law "inertial" の本の宣言の写し) | 移行表より後に入った本(今の宣言は behavior.solar16Builtin318c ①) |
+| `preset.gLocPlanets302` | 🗺️ `solarSystem16Inertial3d` | 第302便の G_loc の宣言の本(在位の本) | 在位の惑星 7 本と同じ K1 の G_loc {law:"kappaC2"} の後に入った本 |
+| `docs.semic302` | 🗺️ `solarSystem16Inertial3d` | 正本 semic-w302d.json の分類と今の宣言 | 器の除外(表 1 の semic-302d)と同じ本を両側から外す |
+| `preset.revertGLoc303` | 🗺️ `solarSystem16Inertial3d` | 第302便の宣言の G_loc の本と今の G_loc の本 | 移行の前の宣言の表に無い本 |
+| `behavior.invSq309` | 🗺️ `solarSystem16Inertial3d` | invSq・dragCoreDefault を宣言した本(移行の前の写しで読む 7 本) | 🗺️ は K1 の短い形で生まれた本で写しが無い |
+| `behavior.galaxial311` | 🗺️ `solarSystem16Inertial3d` | galaxyAxial・invSq を宣言した本の数 | 在位の 7 本と同じ K1 の短い形の後に入った本 |
+
+lint.laterBooks319 は qa.mjs の名指しの除外(`!(W<便><枝>_… && ….id === '<本>')` の形)のブロックが表 2 の行と一致することも見る(QA の本体は変えない)。**内蔵の本を足す枝は、統合の前に presets "all" の段を煙試験 `--keys` で回す**(AN462 —— 第318便は鎖・煙試験・転記照合で 6 本の器を後から見つけた)。
+
+**④ 🗺️ の保存 QA の帰属。** SAMPLE_STATUS の所要時間の表で 🗺️ が「帰属なし」(claims なし・原稿の qaTargets に行なし)だった。原稿 `tests/data-w279a-samplestatus-src.json` の qaTargets に、その本を読み込み・受理・步で試験する QA を足した: behavior.solar16Builtin318c・docs.solar16Builtin318c(allPresets().find で本の obsCard を読む)・preset.solarSystem16Inertial3d(全本の步の試験)。docs.solar16Contract300 は予約 id の存在だけを見る(世代切替の門)ので足さない(第311便c と同じ規則)。掲載の表の「帰属なし」は 🗺️ の 1 本だけで、残る 6 本(🧩💮🌰🥜🌥️🔂)は退役の本(掲載の外 —— 帰属なしの数に入るだけ)。SAMPLE_STATUS は鎖の常時群 samplestatus で作り直す。
+
+**⑤ AN455 —— 受理の理由の文の領域(費用を見積もって止めた)。** 第318便a で受理器の errors・warnings の文は文の表 ACCEPT_REASONS(閉包で辿らない登録簿)へ移った。段 drag3d-298c の段 5(受理の開閉)は errors の最初の文を正本に書き、behavior.drag3d298 が引き直して照合する —— 理由の文だけを変えると領域 hash が動かず、正本が古いまま reuse になりうる。器 tests/exp-w298c-drag3d.mjs の REGEN_SCOPE の consts に `ACCEPT_REASONS` を宣言する形を枝で試した(正本を作り直すと本体はビット同一 —— 刻印だけが変わる)。ところが段 **semic-302d** の器 tests/exp-w302d-semic.mjs がこの器を前段として走らせ、正本の code にこの器のファイルを刻む(lint.canon303 ④)—— 宣言の 1 行で semic-302d が regen になる(`node tools/regen-plan.mjs --base beta/_w319_base.html` で regen 31 → 32 段・下限 953 s → 1819 s —— semic-302d の 866 s。宣言しなければ semic-302d は依存先の後に計画し直す recheck)。ブリーフの予算(1 段なら可)を超えるので**実装は止め、器と正本は基点のまま**にした(決断事項の候補 —— 宣言は semic-302d を作り直す便に載せるか、受理の理由の文を変える便で 2 段を走らせる)。
+
+**⑥ QA と段。** 新設 2 本: lint.laterBooks319(③)・docs.w319d(① の数・② の文と選び方・④ の原稿・⑤ の見積り・本節・AI_SPEC §154・CHANGELOG)。書き換え: ① の 10 ブロック・② の 2 ブロック・docs.sampleStatus-sync ⑥(原稿〔qaTargets〕が正本の生成後に更新された世代は本ごとの本数の照合を飛ばす —— 鎖の samplestatus の段で入れ替わる)。段・正本は変えていない(新しい段・正本の行は無い)。
+
+**⑦ 言わないこと。** 規則で置いた本の文は「合わせていない」ことを書く文で、規則の本の差を観測との一致の主張に使わない。三次元の本の数え方の変更は QA の数え方の変更で、物理と本の数は動かない。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

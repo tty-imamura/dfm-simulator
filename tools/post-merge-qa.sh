@@ -429,6 +429,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisHoldBalance319 docs.axisHeat319
 #   lint.qaHeapRelease310・lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.srcRadius319 lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第319便b の塊(ここまで)====
+# ==== 第319便d の塊(ここから)====
+# 第319便d(決断事項 AN460・AN461・AN462・AN455・R261): 枝 d の新設 2 本(lint.laterBooks319 —— 後に入った本の除外の理由の表・docs.w319d —— 三次元の本の数と較正の注と
+#   帰属と受理の理由の文の領域の見積り)と、書き換えた QA(三次元の本を受理した宣言で数える 10 ブロック・較正の注の 2 ブロック・docs.sampleStatus-sync の原稿の世代)・lint.regenScope
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.laterBooks319 docs.w319d behavior.rayLensExcluded behavior.contactMode docs.coreCensus behavior.coreV2Migrate behavior.coreV2ReplaceReport behavior.shellSpinMassLaw behavior.geoMode docs.timeStd297 behavior.coord3dHaltAB299 docs.timeStd3d299 ui.notclaim-real ui.v59Text301 docs.sampleStatus-sync lint.regenScope"
+# ==== 第319便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
