@@ -30,7 +30,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as L from './lib-w319a-axisheat.mjs';
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— roots の ctx・cw・HP.sim・HP.dfmMeshVelocityFieldAt は import した tests/lib-w280b-emgrid.mjs・
 //   tests/lib-w279b-headless.mjs の綴りが数えられた分。presets は器が .find で引く在位の本 3 本だけ)
-const REGEN_SCOPE = {"presets":["jupiterSunInertial3d","solarSystem16Inertial3d","venusSunInertial3d"],"roots":["HP.REL_DRAG_AXIS_HOLD_BALANCE_VERSION","HP.REL_DRAG_AXIS_HOLD_MAINT_VERSION","HP.REL_DRAG_AXIS_HOLD_SRC_VERSION","HP.allPresets","HP.axisHoldComposeJudge","HP.axisHoldSourceSum","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDrag3MaintCell","HP.inertialDrag3MaintStateOf","HP.inertialDragIsqState","HP.sim","HP.validatePreset","ctx","cw"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["jupiterSunInertial3d","solarSystem16Inertial3d","venusSunInertial3d"],"roots":["HP.REL_DRAG_AXIS_HOLD_BALANCE_VERSION","HP.REL_DRAG_AXIS_HOLD_MAINT_VERSION","HP.REL_DRAG_AXIS_HOLD_SRC_VERSION","HP.allPresets","HP.axisHoldComposeJudge","HP.axisHoldSourceSum","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDrag3MaintCell","HP.inertialDrag3MaintStateOf","HP.inertialDragIsqState","HP.sim","HP.tideState","HP.validatePreset","ctx","cw"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w319a-axisheat-1';
@@ -47,7 +47,7 @@ const relD = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Ma
 
 /* ───────── エンジンの口(器は loadHtmlMain の HP・QA は headless の HP から同じ形で渡す)───────── */
 export function portsOf(HP) {
-  return { HP, cell: HP.inertialDrag3MaintCell, sourceSum: HP.axisHoldSourceSum, judge: HP.axisHoldComposeJudge, maintOf: HP.inertialDrag3MaintStateOf, isqOf: HP.inertialDragIsqState };
+  return { HP, cell: HP.inertialDrag3MaintCell, sourceSum: HP.axisHoldSourceSum, judge: HP.axisHoldComposeJudge, maintOf: HP.inertialDrag3MaintStateOf, isqOf: HP.inertialDragIsqState, tideOf: HP.tideState };
 }
 /** 在位の本の写し(宣言は写しにだけ足す)。o.hold: axisHold・o.galaxy: galaxyAxial・o.initSpin: 観測の自転の分解 */
 export function copyBook(HP, key, o = {}) {
@@ -58,6 +58,12 @@ export function copyBook(HP, key, o = {}) {
   if (o.initSpin) sd.initSpin = 'observed';
   b.physics.relativeDrag = Object.assign(clone(b.physics.relativeDrag), { spinDrag: sd });
   if (o.galaxy) b.physics.relativeDrag.galaxyAxial = clone(o.galaxy);
+  if (o.tide) {   // 2 体の本の惑星(添字 1)だけ明示潮汐(第309便b の写しと同じ規格化 —— τ_T = 4 公転・k2 = 1・内部熱は線形・冷却 1 公転)
+    const tp = b.timeRef.pRef, sun = b.bodies[0], pl = b.bodies[1], G = b.physics.G, r0 = Math.hypot(pl.x - sun.x, pl.y - sun.y, pl.z - sun.z);
+    const I = 0.4 * pl.m * pl.radius * pl.radius, tauT = 4 * tp;
+    pl.tide = { k2: 1, lag: I * Math.pow(r0, 6) / (tauT * 3 * G * 1 * sun.m * sun.m * Math.pow(pl.radius, 5)) };
+    b.physics.tide = { maxN: 4, inertia: 'sphere', heat: { model: 'linear', tau: tp } };
+  }
   return b;
 }
 /** 受理して build(步は進めない) */
@@ -132,8 +138,15 @@ export function partQ(E, plan) {
     fieldLSame: deepSame(strip(src.m).field, strip(sum.m).field), heatSource: src.m.source.heat.source, heatComposite: src.m.source.heat.composite };
   const one = { perBodySame: src0.m.source.receivers.every((r) => Object.is(r.heatSource, r.heatComposite)), totalSame: Object.is(src0.m.heat.total, sum0.m.heat.total), stateSame: stateSame(src0.S, sum0.S) };
   const bal = src.m.balance, closeRel = Math.abs(bal.residual) / Math.max(Math.abs(bal.drive), Math.abs(bal.fromField), Math.abs(bal.radiation), 1e-300);
-  return { omit, modes, one, balance: { drive: bal.drive, driveSpeed: bal.driveSpeed, driveAxis: bal.driveAxis, fromField: bal.fromField, radiation: bal.radiation, toInternal: bal.toInternal, closeRel },
-    pass: omit.declSame && omit.readSame && omit.stateSame && modes.stateSame && modes.compositeTotalSame && modes.compositePerBodySame && modes.sumResMax === 0 && one.perBodySame && one.totalSame && one.stateSame && closeRel <= 1e-12 };
+  // 明示潮汐の内部熱の受け手(木星): 源ごとの熱は E_i へ(潮汐の入力とは別の積算 maintainInput)・釣り合いの口座の放射に二重に数えない
+  const td = runBook(E, copyBook(E.HP, 'jupiter', { hold: holdOf(h0, { compose: 'source', balance: 'background' }), galaxy: gal, tide: true }), h0, n);
+  const ih = td.ok ? E.tideOf(td.S).internalHeat : null, kT = ih ? ih.receivers.indexOf(1) : -1, tb = td.ok ? td.m.balance : null;
+  const tide = td.ok ? { toInternal: tb.toInternal, radiation: tb.radiation, heatTotal: td.m.heat.total, maintainInput: kT >= 0 ? ih.maintainInput[kT] : null, sink: td.m.heat.sink,
+    splitSame: Object.is(tb.radiation + tb.toInternal, td.m.heat.total) || relD(tb.radiation + tb.toInternal, td.m.heat.total) <= 1e-15,
+    inputSame: kT >= 0 && Object.is(ih.maintainInput[kT], tb.toInternal), closeRel: Math.abs(tb.residual) / Math.max(Math.abs(tb.drive), Math.abs(tb.fromField), Math.abs(tb.radiation), 1e-300) } : { ok: false, err: td.err };
+  return { omit, modes, one, balance: { drive: bal.drive, driveSpeed: bal.driveSpeed, driveAxis: bal.driveAxis, fromField: bal.fromField, radiation: bal.radiation, toInternal: bal.toInternal, closeRel }, tide,
+    pass: omit.declSame && omit.readSame && omit.stateSame && modes.stateSame && modes.compositeTotalSame && modes.compositePerBodySame && modes.sumResMax === 0 && one.perBodySame && one.totalSame && one.stateSame && closeRel <= 1e-12
+      && !!tide.splitSame && !!tide.inputSame && tide.toInternal > 0 && tide.closeRel <= 1e-12 };
 }
 
 /* ───────── V・J・S16 の写し ───────── */

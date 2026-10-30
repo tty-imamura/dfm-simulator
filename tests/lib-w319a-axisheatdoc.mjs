@@ -37,7 +37,8 @@ export function physicsTablesAxisHeat(J) {
     `| 合成と源ごと: 状態のビット同一・合成の 1 回の熱の総和と受け手ごと | ${yn(Q.modes.stateSame)}・${yn(Q.modes.compositeTotalSame)}・${yn(Q.modes.compositePerBodySame)} |`,
     `| 源の ω の和と姿勢へ適用した ω_D の相対の差の最大 | ${Q.modes.sumResMax === 0 ? '0' : fmtFloor(Q.modes.sumResMax, 1e-15, 2)} |`,
     `| 銀河の項の無い写し(源が 1 つ): 源ごと = 合成(受け手ごと・総和)・状態 | ${yn(Q.one.perBodySame)}・${yn(Q.one.totalSame)}・${yn(Q.one.stateSame)} |`,
-    `| 釣り合いの口座の閉じ(駆動 + 場 − 放射 − E_i へ)/ 大きい方 | ${fmtFloor(Q.balance.closeRel, 1e-12, 2)} |`);
+    `| 釣り合いの口座の閉じ(駆動 + 場 − 放射 − E_i へ)/ 大きい方 | ${fmtFloor(Q.balance.closeRel, 1e-12, 2)} |`,
+    `| 明示潮汐の内部熱の受け手(木星の写し): E_i へ入った熱 = 潮汐の maintainInput・放射 + E_i へ = 熱の総和・閉じ / 大きい方 | ${yn(Q.tide.inputSame)}・${yn(Q.tide.splitSame)}・${fmtFloor(Q.tide.closeRel, 1e-12, 2)} |`);
   // 🗺️ の受け手の表
   const b16 = J.books.solar16;
   out.push('', '| 受け手(🗺️ の写し) | 役割(第121報) | abs(Ω_I) [rad/s] | abs(ω_☉) [rad/s] | ∠(Ω_I, ω_☉) [°] | 太陽の項 | ∠(Ω_I, ω_G) [°] | 銀河の項 | ∠(ω_☉, ω_G) [°] | 源ごとの 1 回の熱 [J] | (源ごと − 合成)/合成 | 背景からの供給 [J] | (b) 源ごと [J] |',

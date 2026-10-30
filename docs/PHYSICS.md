@@ -39725,6 +39725,7 @@ V1a の t = 0 の β(読み口 `inertialDragIsqState`):太陽の能動の対の 
 | 源の ω の和と姿勢へ適用した ω_D の相対の差の最大 | 0 |
 | 銀河の項の無い写し(源が 1 つ): 源ごと = 合成(受け手ごと・総和)・状態 | 真・真・真 |
 | 釣り合いの口座の閉じ(駆動 + 場 − 放射 − E_i へ)/ 大きい方 | < 1e-12 |
+| 明示潮汐の内部熱の受け手(木星の写し): E_i へ入った熱 = 潮汐の maintainInput・放射 + E_i へ = 熱の総和・閉じ / 大きい方 | 真・真・< 1e-12 |
 
 **④ 純関数の場面**(エンジンの `axisHoldSourceSum`・`axisHoldComposeJudge`・`inertialDrag3MaintCell`):
 

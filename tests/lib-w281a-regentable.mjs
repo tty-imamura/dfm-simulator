@@ -1466,7 +1466,7 @@ export const REGEN_STEPS = [
   //   背景宇宙への熱放射で収支」・「金星と木星は太陽の軸引きずりと銀河の逆回転の引きずりの拮抗で高い内部熱と仮定」・「120° の合成を軸引きずりの合成で考慮」・
   //   決断事項 AN447・AN468・AN469・統括の検証項目 R258): **軸を保つトルクの熱の経路の器**(段 axisheat-319a —— P 純関数の場面・A 受理・Q 同一〔compose の省略と "sum"・
   //   合成と源ごとの状態・合成の 1 回の熱〕・🌋🏀🗺️ の写し〔銀河の一様軸引きずり + 維持の型 compose:"source"・balance:"background"〕・TS 刻みの感度・F 写しの外の倍率と
-  //   木星の内部熱の主列・代替の列に要る τ_hold)。在位の本の宣言は変えない(写しにだけ足す)。html だけを読む・1 プロセス。所要は第319便a の枝の実測 2.3 s
+  //   木星の内部熱の主列・代替の列に要る τ_hold)。在位の本の宣言は変えない(写しにだけ足す)。html だけを読む・1 プロセス。所要は第319便a の枝の実測 2.3〜3.6 s
   //   (**並走の秒** —— 4 枝並走の容器 —— 統括が混まない箱で測り直す)
   S('axisheat-319a', 'node tests/exp-w319a-axisheat.mjs', ['tests/out/axisheat-w319a.json'], 3, { secSource: 'w319a-branch', node: true, after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/axisheat-w319a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },

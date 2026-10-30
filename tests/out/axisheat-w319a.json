@@ -302,6 +302,19 @@
    "toInternal": 0,
    "closeRel": 1.863115788148665e-17
   },
+  "tide": {
+   "toInternal": 8.308443548712587e-24,
+   "radiation": 9.446682949854034e-19,
+   "heatTotal": 9.44676603428952e-19,
+   "maintainInput": 8.308443548712587e-24,
+   "sink": [
+    "ledger",
+    "internal"
+   ],
+   "splitSame": true,
+   "inputSame": true,
+   "closeRel": 1.8936073771134324e-17
+  },
   "pass": true
  },
  "TS": {
@@ -2869,37 +2882,37 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.001
+   "wallSec": 0.002
   },
   "A": {
-   "wallSec": 0.007
+   "wallSec": 0.01
   },
   "Q": {
-   "wallSec": 0.092
+   "wallSec": 0.204
   },
   "book_venus": {
-   "wallSec": 0.013
+   "wallSec": 0.012
   },
   "book_jupiter": {
-   "wallSec": 0.011
+   "wallSec": 0.015
   },
   "book_solar16": {
-   "wallSec": 0.252
+   "wallSec": 0.298
   },
   "TS": {
-   "wallSec": 0.041
+   "wallSec": 0.043
   },
   "F": {
-   "wallSec": 0.169
+   "wallSec": 0.189
   }
  },
- "elapsedS": 2.288,
+ "elapsedS": 3.634,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第319便a",
   "target": "beta/index.html",
   "targetSha256": "1d425cea0e983942d3d3ada6b73a44840f372e69a04411fbfb3580057723dbc2",
-  "generatedAt": "2026-10-30T09:37:32.000Z",
+  "generatedAt": "2026-10-30T09:52:40.344Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -2911,9 +2924,9 @@
   "code": [
    {
     "file": "tests/exp-w319a-axisheat.mjs",
-    "bytes": 25935,
-    "sha256": "cf740d478dddf27591afd1eb2ff81aff24e21af743032a0ff85c2bd39b758b95",
-    "mtime": "2026-10-30T09:37:29.646Z"
+    "bytes": 27679,
+    "sha256": "a554f332e4ec2af47f79c2158ccd70a8862fc41c1820f71543735d8e7b742c8b",
+    "mtime": "2026-10-30T09:49:37.474Z"
    },
    {
     "file": "tests/lib-w319a-axisheat.mjs",
@@ -2940,7 +2953,7 @@
     "mtime": "2026-10-30T09:07:07.129Z"
    }
   ],
-  "codeSha256": "e3ac444a42d0a1e38851f25d29f3da350db90b3db4166cf6bfb755304bf8b398",
+  "codeSha256": "f978b80260e532cad89c5b6e4a3c27acc36e6130c3d2e3a2cd7c478c9ffa7d2d",
   "harnessVersion": "w319a-axisheat-1",
   "stage": "axisheat",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
@@ -2978,6 +2991,7 @@
     "HP.inertialDrag3MaintStateOf",
     "HP.inertialDragIsqState",
     "HP.sim",
+    "HP.tideState",
     "HP.validatePreset",
     "ctx",
     "cw"
@@ -2985,11 +2999,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1328,
-   "segments": 1169,
-   "closureShare": 0.3001
+   "names": 1332,
+   "segments": 1173,
+   "closureShare": 0.301
   },
-  "scopeSha256": "dae66083e7328ea8483e46db9e5b2d56db1bcca90bd8c1d5db7d9aeba2de3f79",
+  "scopeSha256": "a3094846207d70072cbef06b9bfaf0bb3c00da8e2e4e0aa182c810a05c6d0039",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
