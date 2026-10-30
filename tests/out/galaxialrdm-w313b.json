@@ -2696,25 +2696,25 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.035
+   "wallSec": 0.027
   },
   "B": {
-   "wallSec": 0.169
+   "wallSec": 0.184
   },
   "N": {
-   "wallSec": 1.508
+   "wallSec": 1.502
   },
   "X": {
-   "wallSec": 119.166
+   "wallSec": 114.308
   }
  },
- "elapsedS": 122.645,
+ "elapsedS": 117.819,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第313便b",
   "target": "beta/index.html",
   "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-  "generatedAt": "2026-10-30T19:32:13.465Z",
+  "generatedAt": "2026-10-30T20:13:34.620Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -2732,9 +2732,9 @@
   "code": [
    {
     "file": "tests/exp-w313b-galaxialrdm.mjs",
-    "bytes": 55078,
-    "sha256": "9b3ac25d32cb92f6228519a5eb8d5905dce0444331433b6876f901cc42ab48d2",
-    "mtime": "2026-10-30T11:33:02.846Z"
+    "bytes": 55130,
+    "sha256": "6446ca53b28e3e5a89aaaa24d2e6e53c80604646151468127681d9cb54a0ffbc",
+    "mtime": "2026-10-30T19:46:51.737Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -2779,7 +2779,7 @@
     "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "82aa0390e0991957e2b1721d6168c8d793a18ed31460c6380ee35970e0e1fc5b",
+  "codeSha256": "86bae411784565e0f5292bd661cc98a9445885d722fd02de3feb91dcba9b8e36",
   "harnessVersion": "w313b-galaxialrdm-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2794,7 +2794,11 @@
   "scope": {
    "version": "w318a-scope-6",
    "presets": [
+    "earthMoonOnly3d",
     "earthMoonSunInertial3d",
+    "galaxy",
+    "galaxyGeo2",
+    "galaxyStd",
     "jupiterGalilean",
     "jupiterSunInertial3d",
     "marsMoonsReal",
@@ -2855,7 +2859,7 @@
    "segments": 1187,
    "closureShare": 0.3043
   },
-  "scopeSha256": "d7cefc8b05b856c2b096fb024853f2ba978f3787c3c05cf9bc6197f7312bc0d9",
+  "scopeSha256": "c350137585914823f755dc1675efc5571882f6b807c2f1b522aec1cda677ceb2",
   "scopeComplete": true,
   "inputsStable": [
    {
