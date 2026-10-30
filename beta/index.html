@@ -2258,6 +2258,9 @@ ja: {
   //   二次元の本は nc_solar_cal・三次元の本(physics.coord:"3d")は nc_solar_cal3d。宣言 notClaim:["solar_cal"] は変えない(合否の語も変えない)
   nc_solar_cal:"明示した観測量について、宣言した次元(二次元 —— 公転面の中だけ)・入力・計算法の条件で合わせたモデルです。太陽系全体・三次元の摂動・未掲載の観測量は別途照合します。",
   nc_solar_cal3d:"明示した観測量について、宣言した次元(三次元)・入力・計算法の条件で合わせたモデルです。太陽系全体・未掲載の観測量は別途照合します。",
+  // 第319便d(DECISIONS v78 AN461・R261): 規則で置いた本・診断の本(三次元で G_loc {law:"kappaC2"} を宣言し、フィットの記録の無い本 —— 🗺️ と在位の惑星 7 本)は
+  //   「合わせたモデル」の文でなく nc_solar_rule3d を出す(pNotClaims が宣言を読んで選ぶ —— 本の宣言 notClaim:["solar_cal"] は変えない・物理は不変)
+  nc_solar_rule3d:"合わせたモデルではありません —— 宣言した次元(三次元)・入力・計算法の条件で、引きずりの半径(R_d = Y_k m)と G_loc を規則で置いた本・診断の本です。明示した観測量との差は規則のままの差で、観測量に合わせた係数はありません。太陽系全体の暦表・未掲載の観測量との照合は別途です。",
   // 第301便e(DECISIONS v60 §0 AN290 ①): 説明タブの近似の 1 行(approxLineText —— 宣言 approximation の鍵ごと)
   apx_head:"🧭 近似の宣言: ", apx_sep:" / ",
   "apx_background_dominant-direction-fixed":"背景 —— 本に置かない直属の支配天体(地球にとっての太陽など)の方向を慣性系で固定",
@@ -3567,6 +3570,7 @@ en: {
   // 第157便: wording reserved for the real-calibration family (fidelity:"real")
   nc_solar_cal:"A model fitted on the observables stated here under the declared dimension (two-dimensional - within the orbital plane only), inputs and method. The solar system as a whole, three-dimensional perturbations and observables not listed are checked separately.",
   nc_solar_cal3d:"A model fitted on the observables stated here under the declared dimension (three-dimensional), inputs and method. The solar system as a whole and observables not listed are checked separately.",
+  nc_solar_rule3d:"Not a fitted model - under the declared dimension (three-dimensional), inputs and method, this is a rule-placed or diagnostic book: the drag radius (R_d = Y_k m) and G_loc are placed by the rule. Differences from the observables stated here are those of the rule as placed, and no coefficient is matched to the observables. Comparison with the full solar-system ephemeris and with observables not listed is separate.",
   // wave 301e: the one-line approximation declaration in the Description tab
   apx_head:"🧭 Approximation: ", apx_sep:" / ",
   "apx_background_dominant-direction-fixed":"background - the direction of the dominant body that is not placed in the sample (e.g. the Sun for the Earth) is held fixed in the inertial frame",
@@ -5376,8 +5380,11 @@ function sampleStatusCheck(o,tag,full,warnings){
 function pNotClaims(p){
   const v=p && p.notClaim; if(!v) return [];
   // 第301便e(AN292 ③): solar_cal は宣言の次元で出し分ける(三次元の本 = physics.coord:"3d" は nc_solar_cal3d)
+  // 第319便d(AN461): 三次元で G_loc を規則 {law:"kappaC2"} で宣言し、フィットの記録(fitRecord・referenceKind "observation-fit")の無い本は nc_solar_rule3d
+  //   (規則で置いた本・診断の本 —— 「合わせたモデル」と分けた文。表示の文だけで、本の宣言と物理は変えない)
   const d3=!!(p.physics && p.physics.coord==="3d");
-  return (Array.isArray(v)?v:[v]).map(k=>T("nc_"+((k==="solar_cal" && d3)? "solar_cal3d" : k))).filter(t=>typeof t==="string" && t);
+  const rule3=d3 && !!(p.physics.gLoc && p.physics.gLoc.law==="kappaC2") && !p.fitRecord && p.referenceKind!=="observation-fit";
+  return (Array.isArray(v)?v:[v]).map(k=>T("nc_"+((k==="solar_cal" && d3)? (rule3? "solar_rule3d" : "solar_cal3d") : k))).filter(t=>typeof t==="string" && t);
 }
 // 第88便 EXT-09: Failure First — failureFirst:{fail,pass} は宣言専用メタ(en は p.en 側)。
 // 「baseの失敗 → オプションでの回復」を本文より先に見せる(☿。負の結果を隠さない方針の UI 化)

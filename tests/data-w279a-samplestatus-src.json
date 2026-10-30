@@ -3300,8 +3300,18 @@
    ],
    "preset.saturnRing3d300": [
     "saturnRingInertial3d"
+   ],
+   "behavior.solar16Builtin318c": [
+    "solarSystem16Inertial3d"
+   ],
+   "docs.solar16Builtin318c": [
+    "solarSystem16Inertial3d"
+   ],
+   "preset.solarSystem16Inertial3d": [
+    "solarSystem16Inertial3d"
    ]
   },
-  "w311c": "第311便c(統括の検証項目 R228): 帰属なしだった 18 本(三次元の慣性決定力の本・三次元の玩具ほか)に、その本を実際に読み込み・受理・步で試験している QA の id を足した(tests/qa.mjs の本文で、その本を loadPreset・allPresets().find・代表の本の並び・本の id の定数で引く行を含む試験 —— 文書の語の照合・世代切替の門・存在だけの言及は根拠にしない。世代で本を切り替える試験は今の世代で読む本に帰属)"
+  "w311c": "第311便c(統括の検証項目 R228): 帰属なしだった 18 本(三次元の慣性決定力の本・三次元の玩具ほか)に、その本を実際に読み込み・受理・步で試験している QA の id を足した(tests/qa.mjs の本文で、その本を loadPreset・allPresets().find・代表の本の並び・本の id の定数で引く行を含む試験 —— 文書の語の照合・世代切替の門・存在だけの言及は根拠にしない。世代で本を切り替える試験は今の世代で読む本に帰属)",
+  "w319d": "第319便d(統括の検証項目 R261): 帰属なしだった 🗺️ solarSystem16Inertial3d(第318便c —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.solar16Builtin318c —— 宣言・入力・步の照合・docs.solar16Builtin318c —— allPresets().find で本の obsCard を読む・preset.solarSystem16Inertial3d —— 全本の步の試験)。docs.solar16Contract300 は予約 id の存在だけを見る(世代切替の門)ので足さない(第311便c と同じ規則)"
  }
 }
