@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第281便d",
   "target": "beta/index.html",
-  "targetSha256": "ccee583ecf42ef8266c7d839a88e222983fe13ab47094884b4d4658d36393b4d",
-  "generatedAt": "2026-10-30T09:40:42.137Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T18:28:19.930Z",
   "inputs": [
    {
     "file": "tests/out/galaxyproto-w276e.json",
     "bytes": 47959,
     "sha256": "2b2d64977bf101f18fee465b2492b867798af26cb748b6de388d96cdb0ae9803",
-    "mtime": "2026-10-30T09:07:13.973Z"
+    "mtime": "2026-10-20T16:19:56.776Z"
    },
    {
     "file": "tests/out/corefield-w276d.json",
     "bytes": 65662,
-    "sha256": "82f540ca3093ebf1d664323e8ea1cd2c9144076df9f49ccb913d174377dfe1ac",
-    "mtime": "2026-10-30T09:07:13.893Z"
+    "sha256": "440e0b5cb2732eb8833026a35fba8f5f53805c6f532a826d4d219fdf4372ce0d",
+    "mtime": "2026-10-30T13:54:02.986Z"
    }
   ],
   "code": [
@@ -24,43 +24,43 @@
     "file": "tests/exp-w281d-strain.mjs",
     "bytes": 19445,
     "sha256": "061de777f53ae5e6273f5f0c39d5f84000feeb970c68f67353bd37bf7071ef41",
-    "mtime": "2026-10-30T09:38:01.091Z"
+    "mtime": "2026-10-30T11:33:02.830Z"
    },
    {
     "file": "tests/lib-w281d-strain.mjs",
     "bytes": 19744,
     "sha256": "b73fc4d2f0a5d60a1c228763a1ebadd2e5ba4899fc6f71e1f5fa162a59074360",
-    "mtime": "2026-10-30T09:07:13.769Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    },
    {
     "file": "tests/lib-w276e-galaxyproto.mjs",
     "bytes": 51536,
     "sha256": "ee7752be43e39dd3690e1a9fcc67db29d9031185ae2939168f77e268add8e6d1",
-    "mtime": "2026-10-30T09:07:13.753Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w274e-armbar.mjs",
     "bytes": 16448,
     "sha256": "988d4541cf90451ffdb312a36918a453748a370c00c4fb35a776fd88bd66c879",
-    "mtime": "2026-10-30T09:07:13.749Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-30T09:07:13.757Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-30T09:07:13.749Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 96951,
     "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-30T09:07:13.765Z"
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
   "codeSha256": "caf3f34c5926ca30df830650fa0cb13bba3df4f6c5d20868ac121459edd4b469",
@@ -84,11 +84,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1287,
-   "segments": 1128,
-   "closureShare": 0.2939
+   "names": 1300,
+   "segments": 1141,
+   "closureShare": 0.2945
   },
-  "scopeSha256": "0c1afb62611322321061332ce4d292e81e4b8a1c8e9b8487d1733eb65e540288",
+  "scopeSha256": "7fe05242315af2d87c14cc6905623fa1f32b2e2f6e97b6ed585852b3aa1b613a",
   "scopeComplete": true,
   "harness": "w281d-strain-1",
   "note": "第281便d — 渦伸長便(原仮定者の裁定(第71報)・統括の読み R75)。**エンジン未接続・粘性項なし・NS ソルバなし・形状門なし**",
@@ -1696,5 +1696,5 @@
   ],
   "armCoreDeclaredFlow": 2.072425564492164e-12
  },
- "wallSec": 20.91
+ "wallSec": 18.863
 }

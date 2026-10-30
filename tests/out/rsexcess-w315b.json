@@ -2,7 +2,7 @@
  "version": "w315b-rsexcess-1",
  "generator": "tests/exp-w315b-rsexcess.mjs",
  "target": "beta/index.html",
- "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+ "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
  "ruling": "決断事項 AN415 観測半径を超えた R_d の表示を、観測半径を超えたシュヴァルツシルト半径 r_s の表示に変更(r_s は全質量と本の G_0・c_0 から・DFM による地平面の判定ではない・R_d の受理と警告と読み口は残す)・原仮定者の裁定(第117報)AN414 の記号・K1 の境界の 1 点・統括の検証項目 R243",
  "units": {
   "book": {
@@ -1378,40 +1378,40 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.041
+   "wallSec": 0.034
   },
   "E": {
-   "wallSec": 0.014
+   "wallSec": 0.011
   },
   "F": {
-   "wallSec": 0.012
+   "wallSec": 0.013
   },
   "V": {
-   "wallSec": 0.015
+   "wallSec": 0.014
   },
   "Z": {
-   "wallSec": 0.123
+   "wallSec": 0.136
   },
   "B": {
-   "wallSec": 10.657
+   "wallSec": 9.557
   },
   "K": {
-   "wallSec": 0.19
+   "wallSec": 0.088
   }
  },
- "elapsedS": 13.137,
+ "elapsedS": 11.89,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便b",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T08:27:59.194Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T18:29:32.249Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    }
   ],
   "code": [
@@ -1479,11 +1479,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1306,
-   "segments": 1147,
-   "closureShare": 0.2977
+   "names": 1319,
+   "segments": 1160,
+   "closureShare": 0.2983
   },
-  "scopeSha256": "db2bbccd7e6c832fe4d64bc3ad3c062d243295bbf11d9fd5efbe1c266c9db7d9",
+  "scopeSha256": "e453aad1fa02a74abfb3fbd5e9aa1ada86be4e710fc8b4c0bdab302bde24065c",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

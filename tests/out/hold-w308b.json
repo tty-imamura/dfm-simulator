@@ -3,7 +3,7 @@
  "libVersion": "w308b-hold-lib-1",
  "generator": "tests/exp-w308b-hold.mjs",
  "target": "beta/index.html",
- "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+ "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
  "ruling": "原仮定者の裁定(第101報)AN348 → (C)・(第102報)①「引きずりの計算は相互 —— 反作用を返すと二重計上にならないかを確認する」・決断事項 AN348・AN349・AN355・統括の検証項目 R215",
  "holdVersion": "w308b-axishold-1",
  "quick": false,
@@ -3937,37 +3937,37 @@
    "wallSec": 0.001
   },
   "A": {
-   "wallSec": 0.005
+   "wallSec": 0.004
   },
   "E": {
-   "wallSec": 0.024
+   "wallSec": 0.016
   },
   "L": {
-   "wallSec": 0.257
+   "wallSec": 0.297
   },
   "K": {
-   "wallSec": 0.015
+   "wallSec": 0.02
   },
   "D": {
-   "wallSec": 0.329
+   "wallSec": 0.268
   },
   "V": {
-   "wallSec": 7.824
+   "wallSec": 7.166
   }
  },
- "elapsedS": 10.409,
+ "elapsedS": 9.515,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便b",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T08:28:12.125Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T18:29:43.664Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -4061,11 +4061,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1321,
-   "segments": 1162,
-   "closureShare": 0.2999
+   "names": 1339,
+   "segments": 1180,
+   "closureShare": 0.3017
   },
-  "scopeSha256": "7f165f3eed56eb65e4733e59e37787c18de09613cff5e9799326a3714697e700",
+  "scopeSha256": "2cc7965c14de85a2844599e60c836bc377c8506ff88df9faf47265de0ff679a6",
   "scopeComplete": true,
   "inputsStable": [
    {
