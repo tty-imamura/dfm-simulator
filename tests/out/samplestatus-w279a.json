@@ -14,7 +14,7 @@
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
   "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-  "generatedAt": "2026-10-30T13:24:34.913Z",
+  "generatedAt": "2026-10-30T19:58:33.566Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
@@ -24,9 +24,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1719683,
-    "sha256": "2af6c1ca0712efa7376bc7b1e2981b62c94e213b19b7b86b41f779afca49ea76",
-    "mtime": "2026-10-30T13:14:57.454Z"
+    "bytes": 1736879,
+    "sha256": "fad13fbdb6dd3632ea0fa5abf1d661fdd300eabc1467fdb1bb4c1f3862340b42",
+    "mtime": "2026-10-30T19:53:31.723Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
@@ -36,9 +36,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 100071,
-    "sha256": "9fb703fdbe0ef6d3363ead40b70b8068a0ec7f328af742fa285ae4c23e78dbc9",
-    "mtime": "2026-10-30T13:24:34.874Z"
+    "bytes": 100655,
+    "sha256": "23ed85249bd31ed6b3fc2b438676a5ee26040bdec2413e195b4fab621da4e47e",
+    "mtime": "2026-10-30T19:58:33.547Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -5590,6 +5590,18 @@
       "always": false
      },
      {
+      "key": "galaxialrd-312b",
+      "sec": 233,
+      "share": 23,
+      "always": false
+     },
+     {
+      "key": "galaxialrdm-313b",
+      "sec": 133,
+      "share": 21,
+      "always": false
+     },
+     {
       "key": "pn1x3d-314d",
       "sec": 10,
       "share": "all",
@@ -5911,6 +5923,18 @@
       "always": false
      },
      {
+      "key": "galaxialrd-312b",
+      "sec": 233,
+      "share": 23,
+      "always": false
+     },
+     {
+      "key": "galaxialrdm-313b",
+      "sec": 133,
+      "share": 21,
+      "always": false
+     },
+     {
       "key": "pn1x3d-314d",
       "sec": 10,
       "share": "all",
@@ -6222,6 +6246,18 @@
      {
       "key": "galaxial-311b",
       "sec": 204,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "galaxialrd-312b",
+      "sec": 233,
+      "share": 23,
+      "always": false
+     },
+     {
+      "key": "galaxialrdm-313b",
+      "sec": 133,
       "share": 21,
       "always": false
      },
@@ -21350,23 +21386,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 107.863,
+     "wallSec": 30.11,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 36.261,
+       "wallSec": 30.11,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 71.602,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 71.602,
+     "reusedH2Sec": 71.602,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -23352,23 +23388,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.258,
+     "wallSec": 0.941,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.992,
+       "wallSec": 0.941,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 2.266,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 2.266,
+     "reusedH2Sec": 2.266,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -24339,6 +24375,12 @@
       "always": false
      },
      {
+      "key": "galaxialrd-312b",
+      "sec": 233,
+      "share": 23,
+      "always": false
+     },
+     {
       "key": "planet3-311d",
       "sec": 1332,
       "share": 19,
@@ -24789,7 +24831,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -24807,7 +24849,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -25241,8 +25283,20 @@
       "always": false
      },
      {
+      "key": "galaxialrd-312b",
+      "sec": 233,
+      "share": 23,
+      "always": false
+     },
+     {
       "key": "confirm-312d",
       "sec": 946,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "galaxialrdm-313b",
+      "sec": 133,
       "share": 21,
       "always": false
      },
@@ -26546,7 +26600,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -26564,7 +26618,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -26712,23 +26766,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.135,
+     "wallSec": 2.224,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.348,
+       "wallSec": 2.224,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 4.787,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 4.787,
+     "reusedH2Sec": 4.787,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -27041,7 +27095,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -27059,7 +27113,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -27772,6 +27826,12 @@
       "always": false
      },
      {
+      "key": "galaxialrd-312b",
+      "sec": 233,
+      "share": 23,
+      "always": false
+     },
+     {
       "key": "planet3-311d",
       "sec": 1332,
       "share": 19,
@@ -28253,7 +28313,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -28271,7 +28331,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -28786,7 +28846,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -28804,7 +28864,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -29271,7 +29331,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -29289,7 +29349,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -29774,7 +29834,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -29792,7 +29852,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -30253,7 +30313,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -30271,7 +30331,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -31048,7 +31108,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -31066,7 +31126,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -31503,7 +31563,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -31521,7 +31581,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -33164,23 +33224,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 41.364,
+     "wallSec": 11.98,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 14.068,
+       "wallSec": 11.98,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 27.296,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 27.296,
+     "reusedH2Sec": 27.296,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -33517,7 +33577,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -33535,7 +33595,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -33694,23 +33754,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 19.578,
+     "wallSec": 5.605,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.886,
+       "wallSec": 5.605,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 12.692,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 12.692,
+     "reusedH2Sec": 12.692,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -34047,7 +34107,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -34065,7 +34125,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -34182,23 +34242,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 14.370000000000001,
+     "wallSec": 4.007,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.873,
+       "wallSec": 4.007,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 9.497,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 9.497,
+     "reusedH2Sec": 9.497,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -34499,7 +34559,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -34517,7 +34577,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -35668,23 +35728,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 204.29399999999998,
+     "wallSec": 55.077,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 69.867,
+       "wallSec": 55.077,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 134.427,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 134.427,
+     "reusedH2Sec": 134.427,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -37432,11 +37492,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 55.47,
+     "wallSec": 44.804,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 55.47,
+       "wallSec": 44.804,
        "reused": false,
        "reusedBy": null
       }
@@ -37731,7 +37791,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -37749,7 +37809,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -37866,23 +37926,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.245,
+     "wallSec": 1.503,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.98,
+       "wallSec": 1.503,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 3.265,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 3.265,
+     "reusedH2Sec": 3.265,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -38219,7 +38279,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -38237,7 +38297,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -38352,11 +38412,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 46.069,
+     "wallSec": 8.585,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.006,
+       "wallSec": 8.585,
        "reused": false,
        "reusedBy": null
       },
@@ -38369,13 +38429,13 @@
       {
        "tag": "dt/4",
        "wallSec": 36.063,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 18.246,
+     "reusedSec": 54.309,
      "reusedH2Sec": 18.246,
-     "reusedH4Sec": 0
+     "reusedH4Sec": 36.063
     },
     "regenSteps": [
      {
@@ -39058,11 +39118,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 26.892,
+     "wallSec": 4.688,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.607,
+       "wallSec": 4.688,
        "reused": false,
        "reusedBy": null
       },
@@ -39075,13 +39135,13 @@
       {
        "tag": "dt/4",
        "wallSec": 21.285,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 10.801,
+     "reusedSec": 32.086,
      "reusedH2Sec": 10.801,
-     "reusedH4Sec": 0
+     "reusedH4Sec": 21.284999999999997
     },
     "regenSteps": [
      {
@@ -39767,23 +39827,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 9.108,
+     "wallSec": 2.642,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.962,
+       "wallSec": 2.642,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 6.146,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 6.146,
+     "reusedH2Sec": 6.146,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -41078,23 +41138,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.9079999999999995,
+     "wallSec": 2.194,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.172,
+       "wallSec": 2.194,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 4.736,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 4.736,
+     "reusedH2Sec": 4.736,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -41459,23 +41519,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.52,
+     "wallSec": 0.848,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.817,
+       "wallSec": 0.848,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 1.703,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 1.703,
+     "reusedH2Sec": 1.703,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -43664,23 +43724,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 44.831,
+     "wallSec": 13.343,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 14.813,
+       "wallSec": 13.343,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 30.018,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 30.018,
+     "reusedH2Sec": 30.018,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -48124,23 +48184,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.389,
+     "wallSec": 0.486,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.462,
+       "wallSec": 0.486,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 0.927,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 0.927,
+     "reusedH2Sec": 0.927,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -48772,23 +48832,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.14700000000000002,
+     "wallSec": 0.072,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.078,
+       "wallSec": 0.072,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 0.069,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 0.069,
+     "reusedH2Sec": 0.069,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -51726,7 +51786,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -51744,7 +51804,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -52234,11 +52294,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 30.973,
+     "wallSec": 5.533,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.868,
+       "wallSec": 5.533,
        "reused": false,
        "reusedBy": null
       },
@@ -52251,13 +52311,13 @@
       {
        "tag": "dt/4",
        "wallSec": 24.105,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 12.028,
+     "reusedSec": 36.133,
      "reusedH2Sec": 12.028,
-     "reusedH4Sec": 0
+     "reusedH4Sec": 24.105000000000004
     },
     "regenSteps": [
      {
@@ -53168,11 +53228,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 118.806,
+     "wallSec": 106.5,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 118.806,
+       "wallSec": 106.5,
        "reused": false,
        "reusedBy": null
       }
@@ -53479,7 +53539,7 @@
      {
       "key": "galaxialrd-312b",
       "sec": 233,
-      "share": 17,
+      "share": 23,
       "always": false
      },
      {
@@ -53497,7 +53557,7 @@
      {
       "key": "galaxialrdm-313b",
       "sec": 133,
-      "share": 17,
+      "share": 21,
       "always": false
      },
      {
@@ -58274,12 +58334,12 @@
   "reuse": {
    "since": "第284便c",
    "h2": {
-    "n": 3,
-    "sec": 41.074999999999996
+    "n": 17,
+    "sec": 350.50600000000003
    },
    "h4": {
-    "n": 0,
-    "sec": 0
+    "n": 3,
+    "sec": 81.453
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },
@@ -59240,7 +59300,12 @@
      "sec": 233,
      "kind": "領域の宣言",
      "presets": [
+      "earthMoonOnly3d",
       "earthMoonSunInertial3d",
+      "earthMoonSunInertialFit",
+      "galaxy",
+      "galaxyGeo2",
+      "galaxyStd",
       "jupiterGalilean",
       "jupiterSunInertial3d",
       "marsMoonsReal",
@@ -59248,6 +59313,7 @@
       "mercury",
       "mercuryReal",
       "mercurySunInertial3d",
+      "mercurySunInertialFit",
       "neptuneReal",
       "neptuneSunInertial3d",
       "saturn",
@@ -59415,7 +59481,11 @@
      "sec": 133,
      "kind": "領域の宣言",
      "presets": [
+      "earthMoonOnly3d",
       "earthMoonSunInertial3d",
+      "galaxy",
+      "galaxyGeo2",
+      "galaxyStd",
       "jupiterGalilean",
       "jupiterSunInertial3d",
       "marsMoonsReal",
