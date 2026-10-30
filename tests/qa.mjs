@@ -88377,7 +88377,16 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (JSON.stringify(J.measures.map((m) => m.key)) !== JSON.stringify(X.MEASURE_KEYS)) bad.push('① 測る量の並び');
       cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・${X.SATS.length} 衛星・格子 ${X.PLAN.grids.map((g) => g.key + '〔h/' + g.divs.join('・h/') + ' × 窓 ' + g.windows.join('・') + '〕').join('・')}・走行の組 ${Object.keys(J.E.rows).length}・HARM_RULE ${J.harmRule.version}`);
       // ②
-      if (Jh) {
+      // 第319便c(原仮定者の指示(第121報)・R260): 段が履歴(閉じた探索 —— 再生成しない)へ移った世代では、第316便d の正本のバイトが刻印(meta.inputs の sha)と同じときだけ
+      //   作り直して照合し、違えば(第316便d を鎖で作り直した後の世代)正本に刻んだ記録(prefix の same/compared)を凍結の記録として照合する
+      let frozen319c = false;
+      try { const RTm = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs')); if (RTm.historyOuts().includes('tests/out/satmeas-w317a.json') && Jh) {
+        const rec = ((J.meta || {}).inputs || []).find((z) => z.file === 'tests/out/sath-w316d.json'), now = crypto.createHash('sha256').update(fs.readFileSync(hOut)).digest('hex');
+        frozen319c = !(rec && rec.sha256 === now); } } catch (e) { frozen319c = false; }
+      if (frozen319c) {
+        if (!(J.prefix && J.prefix.compared > 0 && J.prefix.same === J.prefix.compared)) bad.push('② 凍結の正本の記録で通過の窓がビット同一でない');
+        cases.push(`② 履歴の段(第319便c —— 閉じた探索): 第316便d の正本が刻印と違う世代なので正本に刻んだ記録を照合 ${J.prefix.same}/${J.prefix.compared}`);
+      } else if (Jh) {
         const pf = X.prefixOf(J, Jh);
         if (!near317(pf, J.prefix) || !(pf.compared > 0 && pf.same === pf.compared)) bad.push('② 通過の窓が第316便d の走行とビット同一でない(' + pf.same + '/' + pf.compared + ')');
         for (const k of X.SATS) if (!near317(J.T.systems[k], Jh.T.systems[k])) bad.push('② 種が第316便d の正本と違う ' + k);
@@ -88552,7 +88561,16 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const nRows = Object.keys(J.E2.rows).length + Object.keys(J.E3.rows).length;
       cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・二体 ${X.SATS.length} 衛星 × n ${P.ns.join('・')} × 核の行 ${P.kernels.length} × h/${P.divs.join('・h/')} × ${P.two.runN} 公転・三体 ${X.SATS3.length} 衛星(二体で決まった組)× ${P.three.runN} 公転・走行 ${nRows} 本`);
       // ②
-      if (Jh) {
+      // 第319便c(原仮定者の指示(第121報)・R260): 段が履歴(閉じた探索 —— 再生成しない)へ移った世代では、第316便d の正本のバイトが刻印(meta.inputs の sha)と同じときだけ
+      //   作り直して照合し、違えば(第316便d を鎖で作り直した後の世代)正本に刻んだ記録(prefix の same/compared)を凍結の記録として照合する
+      let frozen319c = false;
+      try { const RTm = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs')); if (RTm.historyOuts().includes('tests/out/satn-w317b.json') && Jh) {
+        const rec = ((J.meta || {}).inputs || []).find((z) => z.file === 'tests/out/sath-w316d.json'), now = crypto.createHash('sha256').update(fs.readFileSync(hOut)).digest('hex');
+        frozen319c = !(rec && rec.sha256 === now); } } catch (e) { frozen319c = false; }
+      if (frozen319c) {
+        if (!(J.prefix && J.prefix.compared > 0 && J.prefix.same === J.prefix.compared)) bad.push('② 凍結の正本の記録で n = 2 の K1-rule・q10・q00 の通過の窓がビット同一でない');
+        cases.push(`② 履歴の段(第319便c —— 閉じた探索): 第316便d の正本が刻印と違う世代なので正本に刻んだ記録を照合 ${J.prefix.same}/${J.prefix.compared}`);
+      } else if (Jh) {
         const pf = X.prefixOf(J, Jh);
         if (!near317b(pf, J.prefix) || !(pf.compared > 0 && pf.same === pf.compared)) bad.push('② n = 2 の K1-rule・q10・q00 が第316便d の走行とビット同一でない(' + pf.same + '/' + pf.compared + ')');
         for (const k of X.SATS) { const a = Object.assign({}, J.T.systems[k]); delete a.refs; if (!near317b(a, Jh.T.systems[k])) bad.push('② 種が第316便d の正本と違う ' + k); }
