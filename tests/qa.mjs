@@ -89900,6 +89900,163 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第318便d の塊(ここまで)====
+// ==== 第319便d の塊(ここから —— lint.laterBooks319・docs.w319d の 2 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第319便d(決断事項 AN462・AN460・AN461・AN455・統括の検証項目 R261): **QA の片付けと小さい決定**(新設 —— beta 対象だけ・器と QA の本体は変えない)
+// ----   lint.laterBooks319 …… 器(tests/exp-*.mjs・tests/lib-*.mjs)の「後に入った本」の除外の集合 LATER_BOOKS_* ごとに: 宣言の形(1 行の new Set([…]))・直前の注記
+// ----     (便・本の id・「後に入った本」・「の外に置く」・正本の欄/行と値は不変)・使う所(.has( の数 —— 他の使い方をしない)・PHYSICS〔第319便d〕の表 1 の行(器・集合・本・
+// ----     使う所の数・段・外す数え上げ・なぜ・入れるのに要ること)と一致・段は再生成の表にその器の段として有る・外す本は内蔵の在位の本。
+// ----     QA の側の名指しの除外(最上位の世代定数と本の id の否定の形)のブロックは表 2 の行と一致
+// ----   docs.w319d …… ① 三次元の本の数(W319D_D3 —— 受理した宣言・all/toy/fresh/retired の関係と html の文字列の型 W298A_IDS・W299E_IDS との関係)
+// ----     ② 規則で置いた本の較正の注(nc_solar_rule3d の ja/en・pNotClaims が選ぶ本 = 在位の三次元の G_loc {law:"kappaC2"} の本・他の三次元の本は nc_solar_cal3d)
+// ----     ③ 原稿の qaTargets(🗺️ の 3 試験 —— 試験の id が qa.mjs に有る・注記 w319d)④ drag3d-298c の REGEN_SCOPE の consts と正本の刻印(ACCEPT_REASONS)
+// ----     ⑤ PHYSICS〔第319便d〕が「## 7.」の前・必須の語・書かない語・禁句・裸の係数記号 が無い・AI_SPEC §154・CHANGELOG の beta 節・post-merge の ③′
+{
+  await (async () => {   // 第310便c(heap)の型: 本文を関数で包む
+  if (!TARGET.startsWith('beta/')) { console.log('SKIP lint.laterBooks319 / docs.w319d(第319便d —— beta 線の検査 — ' + TARGET + ')'); return; }
+  const rd319 = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const PH319 = rd319('docs/PHYSICS.md'), a319 = PH319.indexOf('〔第319便d — ');
+  const sec319 = a319 < 0 ? '' : PH319.slice(a319, (() => { const e = [PH319.indexOf('\n〔第', a319 + 10), PH319.indexOf('\n## 7.', a319)].filter((k) => k > a319); return e.length ? Math.min(...e) : undefined; })());
+  const live319 = await page.evaluate(() => HP.allPresets().map((p) => ({ id: p.id, emoji: p.emoji || '', retired: p.familyRole === 'retired' })));
+  const cells319 = (l) => l.replace(/^\| /, '').replace(/ \|$/, '').split(' | ');
+  const ticks319 = (s) => (String(s).match(/`([^`]+)`/g) || []).map((x) => x.slice(1, -1));
+  // ---- lint.laterBooks319
+  {
+    const bad = [], cases = [];
+    if (!sec319) bad.push('PHYSICS〔第319便d〕が無い');
+    const RT = rd319('tests/lib-w281a-regentable.mjs');
+    const found = [];
+    for (const f of fs.readdirSync(path.join(ROOT, 'tests')).filter((x) => /^(exp|lib)-.*\.mjs$/.test(x)).sort()) {
+      const t = rd319('tests/' + f); if (t.indexOf('LATER_BOOKS_') < 0) continue;
+      const L = t.split('\n');
+      for (const nm of new Set(t.match(/\bLATER_BOOKS_[A-Za-z0-9_]+/g) || [])) {
+        const di = L.findIndex((l) => new RegExp('^const ' + nm + ' = new Set\\(\\[[^\\]]*\\]\\);').test(l));
+        if (di < 0) { bad.push(f + ' の ' + nm + ' の宣言が 1 行の new Set([…]) でない'); continue; }
+        const ids = (/\[([^\]]*)\]/.exec(L[di])[1].match(/'([^']+)'/g) || []).map((x) => x.slice(1, -1));
+        let c0 = di; while (c0 > 0 && /^\s*\/\//.test(L[c0 - 1])) c0--;
+        const note = L.slice(c0, di).join('\n');
+        if (!/第\d+便/.test(note)) bad.push(f + ' の ' + nm + ' の注記に便が無い');
+        for (const id of ids) if (note.indexOf(id) < 0) bad.push(f + ' の ' + nm + ' の注記に本 ' + id + ' が無い');
+        for (const w of ['後に入った本', 'の外に置く']) if (note.indexOf(w) < 0) bad.push(f + ' の ' + nm + ' の注記に「' + w + '」が無い');
+        if (!/正本の(欄|行)と値は不変/.test(note)) bad.push(f + ' の ' + nm + ' の注記に正本が不変であることが無い');
+        const nUse = (t.match(new RegExp('\\b' + nm + '\\.has\\(', 'g')) || []).length, nAll = (t.match(new RegExp('\\b' + nm + '\\b', 'g')) || []).length;
+        if (nAll !== nUse + 1) bad.push(f + ' の ' + nm + ' を .has( の外で使う(' + (nAll - 1 - nUse) + ' か所)');
+        for (const id of ids) { const q = live319.find((z) => z.id === id); if (!q) bad.push(f + ' の ' + nm + ' の本 ' + id + ' が内蔵に無い'); else if (q.retired) bad.push(f + ' の ' + nm + ' の本 ' + id + ' は退役(除外を外す)'); }
+        found.push({ key: 'tests/' + f + '|' + nm, ids: ids.slice().sort().join(','), uses: nUse });
+      }
+    }
+    const t1 = sec319.indexOf('**表 1'), t2 = sec319.indexOf('**表 2'), t3 = t2 < 0 ? -1 : sec319.indexOf('\n\n', sec319.indexOf('\n|', t2));
+    const rows1 = (t1 < 0 || t2 < t1) ? [] : sec319.slice(t1, t2).split('\n').filter((l) => /^\| `tests\//.test(l)).map(cells319);
+    const tab1 = [];
+    for (const c of rows1) {
+      if (c.length !== 8) { bad.push('表 1 の行の欄の数 ' + c.length + ': ' + c[0]); continue; }
+      const file = ticks319(c[0])[0], nm = ticks319(c[1])[0], ids = ticks319(c[2]).sort().join(','), stage = ticks319(c[4])[0];
+      if (!/^\d+$/.test(c[3])) bad.push('表 1 の使う所の数 ' + c[3]);
+      for (const k of [5, 6, 7]) if (!(c[k] && c[k].length >= 8)) bad.push('表 1 の ' + file + ' の欄 ' + (k + 1) + ' が空');
+      for (const id of ticks319(c[2])) { const q = live319.find((z) => z.id === id); if (!(q && c[2].indexOf(q.emoji) >= 0)) bad.push('表 1 の ' + file + ' の本 ' + id + ' の絵文字'); }
+      if (!(stage && RT.indexOf("S('" + stage + "', 'node " + file + "'") >= 0)) bad.push('表 1 の段 ' + stage + ' が再生成の表に器 ' + file + ' の段として無い');
+      tab1.push({ key: file + '|' + nm, ids, uses: Number(c[3]) });
+    }
+    const k1 = (a) => a.map((z) => z.key + '|' + z.ids + '|' + z.uses).sort().join('\n');
+    if (!found.length) bad.push('器に LATER_BOOKS_* が無い(表 1 を外すこと)');
+    if (k1(found) !== k1(tab1)) bad.push('器の集合 ⇔ 表 1: ' + found.filter((z) => !tab1.some((w) => w.key === z.key && w.ids === z.ids && w.uses === z.uses)).map((z) => z.key + '(' + z.uses + ')').concat(tab1.filter((w) => !found.some((z) => z.key === w.key && z.ids === w.ids && z.uses === w.uses)).map((w) => '表の ' + w.key)).join(' , '));
+    cases.push(`器の除外 ${found.length} 集合・使う所 ${found.reduce((n, z) => n + z.uses, 0)} か所 = 表 1 の ${tab1.length} 行(注記に便・本・「後に入った本」・「の外に置く」・正本は不変 —— 段は再生成の表に有る)`);
+    // 表 2: QA の側の名指しの除外(最上位の世代定数 && 本の id の否定)
+    const reQ = new RegExp('!\\((W\\d{3}[A-Z]_[A-Z0-9_]+) && [A-Za-z0-9_.]*id === \'([A-Za-z0-9]+)\'\\)');
+    const reAdd = /(?:^|[^.\w])add\('((?:behavior|preset|docs|lint|ui|ai|params)\.[A-Za-z0-9_.\-]+)'/;
+    const QL = rd319('tests/qa.mjs').split('\n'), qfound = [];
+    for (let i = 0; i < QL.length; i++) { const m = reQ.exec(QL[i]); if (!m) continue; let j = i, id = null; for (; j < QL.length && !id; j++) { const a = reAdd.exec(QL[j]); if (a) id = a[1]; } qfound.push((id || '?') + '|' + m[2]); }
+    const rows2 = (t2 < 0 || t3 < t2) ? [] : sec319.slice(t2, t3).split('\n').filter((l) => /^\| `[a-z]+\./.test(l)).map(cells319);
+    const tab2 = rows2.map((c) => { if (c.length !== 4 || !(c[2].length >= 6 && c[3].length >= 6)) bad.push('表 2 の行 ' + c[0]); return ticks319(c[0])[0] + '|' + ticks319(c[1])[0]; });
+    const uq = [...new Set(qfound)].sort();
+    if (uq.join(',') !== tab2.slice().sort().join(',')) bad.push('QA の名指しの除外 ' + uq.join(',') + ' ⇔ 表 2 ' + tab2.join(','));
+    cases.push(`QA の側の名指しの除外 ${qfound.length} か所(${uq.length} ブロック)= 表 2 の ${tab2.length} 行`);
+    add('lint.laterBooks319', bad.length === 0,
+      `**後に入った本の除外の理由の表**(第319便d・決断事項 AN462・R261 —— 未対応を恒久的に隠す一覧にしない・器と QA の本体は変えない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+  // ---- docs.w319d
+  {
+    const bad = [], cases = [];
+    // ① 三次元の本の数(受理した宣言)
+    const D = W319D_D3;
+    if (D.err) bad.push('W319D_D3 が読めない: ' + D.err);
+    const raw3 = await page.evaluate(() => HP.allPresets().filter((p) => (p.physics || {}).coord === '3d').map((p) => p.id));
+    if (JSON.stringify(D.all) !== JSON.stringify(raw3)) bad.push('① 受理の前後で三次元の本が違う ' + D.all.length + ' ⇔ ' + raw3.length);
+    if (!(D.toy.every((id) => D.all.includes(id)) && D.fresh.length + D.toy.length === D.all.length && D.fresh.every((id) => !D.toy.includes(id)) && D.retired.every((id) => D.all.includes(id)))) bad.push('① all/toy/fresh/retired の関係');
+    if (!W298A_IDS.every((id) => D.fresh.includes(id))) bad.push('① html の文字列の型の本が受理した宣言の三次元の本に無い');
+    if (JSON.stringify(W299E_IDS.slice().sort()) !== JSON.stringify(D.toy.slice().sort())) bad.push('① 参照模型 ' + D.toy.join(',') + ' ⇔ W299E_IDS ' + W299E_IDS.join(','));
+    const miss298 = D.all.filter((id) => !W298A_IDS.includes(id)), em = (id) => (live319.find((z) => z.id === id) || {}).emoji || id;
+    cases.push(`① 三次元の本(受理した宣言)${D.all.length} 本 = 参照模型 ${D.toy.length} + fresh ${D.fresh.length}(退役 ${D.retired.map(em).join('')})・html の文字列の型 ${W298A_IDS.length} 本が数え落とす ${miss298.length} 本 ${miss298.map(em).join('')}`);
+    // ② 規則で置いた本の較正の注
+    const nc = await page.evaluate(() => {
+      const o = { ja: I18N.ja.nc_solar_rule3d, en: I18N.en.nc_solar_rule3d, cal3: { ja: I18N.ja.nc_solar_cal3d, en: I18N.en.nc_solar_cal3d }, rule: [], cal: [], want: [], fn: typeof pNotClaims === 'function' ? String(pNotClaims) : '' };
+      for (const p of HP.allPresets()) {
+        const ph = p.physics || {};
+        if (p.familyRole !== 'retired' && ph.coord === '3d' && (ph.gLoc || {}).law === 'kappaC2') o.want.push(p.id);
+        if (![].concat(p.notClaim || []).includes('solar_cal') || ph.coord !== '3d') continue;
+        HP.setLang('ja'); const t = pNotClaims(p);
+        if (t.includes(o.ja)) o.rule.push(p.id); else if (t.includes(o.cal3.ja)) o.cal.push(p.id);
+      }
+      HP.setLang('ja');
+      return o;
+    });
+    if (!(typeof nc.ja === 'string' && typeof nc.en === 'string')) bad.push('② nc_solar_rule3d の ja/en が無い');
+    else {
+      for (const w of ['合わせたモデルではありません', '規則で置いた本・診断の本', 'R_d = Y_k m', 'G_loc']) if (nc.ja.indexOf(w) < 0) bad.push('② ja に「' + w + '」が無い');
+      for (const w of ['Not a fitted model', 'rule-placed or diagnostic book', 'R_d = Y_k m', 'G_loc']) if (nc.en.indexOf(w) < 0) bad.push('② en に「' + w + '」が無い');
+      if (nc.ja.indexOf('合わせたモデルです') >= 0 || nc.en.indexOf('A model fitted') >= 0) bad.push('② 規則の本の文に合わせたモデルの文');
+    }
+    if (!/rule3\s*=\s*d3\s*&&[^\n]*gLoc\.law\s*===\s*"kappaC2"[^\n]*fitRecord[^\n]*observation-fit/.test(nc.fn)) bad.push('② pNotClaims の選び方(三次元・G_loc kappaC2・フィットの記録なし)');
+    const liveRule = nc.rule.filter((id) => !(live319.find((z) => z.id === id) || {}).retired);
+    if (JSON.stringify(liveRule.slice().sort()) !== JSON.stringify(nc.want.slice().sort())) bad.push('② 規則の文の本 ' + liveRule.join(',') + ' ⇔ 在位の三次元の G_loc kappaC2 の本 ' + nc.want.join(','));
+    if (!nc.cal.length) bad.push('② 合わせたモデルの文の三次元の本が無い');
+    cases.push(`② 規則で置いた本・診断の本 ${nc.rule.length} 本 ${nc.rule.map(em).join('')} は nc_solar_rule3d・nc_solar_cal3d のままの三次元の本 ${nc.cal.length} 本 ${nc.cal.map(em).join('')}(本の宣言は不変)`);
+    // ③ 原稿の qaTargets
+    let SRC = null; try { SRC = JSON.parse(rd319('tests/data-w279a-samplestatus-src.json')); } catch (e) { bad.push('③ 原稿が読めない'); }
+    if (SRC) {
+      const T3 = (SRC.qaTargets || {}).tests || {}, QS = rd319('tests/qa.mjs');
+      const s16 = Object.keys(T3).filter((k) => (T3[k] || []).includes('solarSystem16Inertial3d'));
+      for (const k of ['behavior.solar16Builtin318c', 'docs.solar16Builtin318c', 'preset.solarSystem16Inertial3d']) if (!s16.includes(k)) bad.push('③ qaTargets に ' + k + ' → 🗺️ が無い');
+      for (const k of s16) if (!(QS.indexOf("add('" + k + "'") >= 0 || (k === 'preset.solarSystem16Inertial3d' && QS.indexOf("add('preset.' + id") >= 0))) bad.push('③ qaTargets の試験 ' + k + ' が qa.mjs に無い');
+      if (s16.includes('docs.solar16Contract300')) bad.push('③ 存在だけを見る試験 docs.solar16Contract300 を帰属させた');
+      if (!(typeof (SRC.qaTargets || {}).w319d === 'string' && SRC.qaTargets.w319d.indexOf('solarSystem16Inertial3d') >= 0)) bad.push('③ qaTargets の注記 w319d');
+      cases.push(`③ 🗺️ の保存 QA の帰属 ${s16.length} 試験(${s16.join('・')})`);
+    }
+    // ④ drag3d-298c の REGEN_SCOPE の consts と正本の刻印
+    const HD = rd319('tests/exp-w298c-drag3d.mjs'), mS = /^const REGEN_SCOPE = (\{.*\});$/m.exec(HD);
+    let scD = null; try { scD = mS ? JSON.parse(mS[1]) : null; } catch (e) { scD = null; }
+    if (!(scD && Array.isArray(scD.consts) && scD.consts.includes('ACCEPT_REASONS') && scD.complete === true)) bad.push('④ drag3d-298c の REGEN_SCOPE の consts に ACCEPT_REASONS が無い');
+    let JD = null; try { JD = JSON.parse(rd319('tests/out/drag3d-w298c.json')); } catch (e) { bad.push('④ 正本 drag3d-w298c.json が読めない'); }
+    if (JD && !(JD.meta && JD.meta.scope && Array.isArray(JD.meta.scope.consts) && JD.meta.scope.consts.includes('ACCEPT_REASONS'))) bad.push('④ 正本の刻印に ACCEPT_REASONS が無い(器を走らせ直すこと)');
+    if (JD && !(JD.part5 && typeof (JD.part5.noCoupling || {}).err === 'string' && JD.part5.noCoupling.err.length > 0)) bad.push('④ 段 5 の受理の理由の文が正本に無い');
+    cases.push('④ drag3d-298c: REGEN_SCOPE の consts に ACCEPT_REASONS・正本の刻印も同じ(段 5 は受理器の errors の文を正本に書く)');
+    // ⑤ 文書
+    const rv = (s) => [...s].reverse().join('');
+    const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);
+    const NOT = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'たため確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転逆の星金', 'たし明説をータマクーダ'].map(rv);
+    if (!sec319) bad.push('⑤ PHYSICS〔第319便d〕が無い');
+    else {
+      const i7 = PH319.indexOf('\n## 7.'), i318 = PH319.indexOf('〔第318便 — 統括');
+      if (!(a319 < i7 && i318 >= 0 && i318 < a319)) bad.push('⑤ 節の位置(〔第318便 — 統括〕の後・「## 7.」の前)');
+      for (const w of ['AN460', 'AN461', 'AN462', 'AN455', 'R261', 'W319D_D3', 'validatePreset', 'nc_solar_rule3d', 'pNotClaims', 'lint.laterBooks319', 'docs.w319d', 'LATER_BOOKS_318', 'ACCEPT_REASONS', 'drag3d-298c', 'qaTargets', '世代の守り', '**表 1', '**表 2']) if (sec319.indexOf(w) < 0) bad.push('⑤ PHYSICS〔第319便d〕に「' + w + '」が無い');
+    }
+    const AI = rd319('docs/AI_SPEC.md'), ai154 = (() => { const m = /\n## 154\. 第319便d[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+    if (!(ai154 && ai154.indexOf('W319D_D3') >= 0 && ai154.indexOf('nc_solar_rule3d') >= 0 && ai154.indexOf('ACCEPT_REASONS') >= 0)) bad.push('⑤ AI_SPEC §154');
+    const CL = rd319('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+    const cl319 = (clb.split('\n').find((l) => l.indexOf('**第319便d**') >= 0)) || '';
+    if (!cl319) bad.push('⑤ CHANGELOG の beta 節に第319便d の行が無い');
+    const texts = [['PHYSICS〔第319便d〕', sec319], ['AI_SPEC §154', ai154], ['CHANGELOG の第319便d の行', cl319], ['nc_solar_rule3d', String(nc.ja || '') + String(nc.en || '')]];
+    for (const [nm, tx] of texts) { for (const w of NG) if (tx.indexOf(w) >= 0) bad.push('⑤ ' + nm + ' に禁句(' + w.length + ' 字)'); for (const w of NOT) if (tx.indexOf(w) >= 0) bad.push('⑤ ' + nm + ' に書かない語(' + w.length + ' 字)'); if (tx.indexOf(String.fromCharCode(0x3ba)) >= 0) bad.push('⑤ ' + nm + ' に裸の係数記号'); }
+    const PM = rd319('tools/post-merge-qa.sh');
+    if (!(PM.indexOf('# ==== 第319便d の塊(ここから)====') >= 0 && /lint\.laterBooks319/.test(PM) && /docs\.w319d/.test(PM))) bad.push('⑤ post-merge の ③′ に第319便d の塊が無い');
+    cases.push('⑤ PHYSICS〔第319便d〕(〔第318便 — 統括〕の後・「## 7.」の前)・AI_SPEC §154・CHANGELOG・post-merge の ③′・書かない語・禁句・裸の係数記号 なし');
+    add('docs.w319d', bad.length === 0,
+      `**QA の片付けと小さい決定**(第319便d・決断事項 AN460・AN461・AN455・R261 —— 物理・本の宣言・エンジンの式・受理の判定は不変): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第319便d の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

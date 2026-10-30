@@ -4375,3 +4375,11 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **中身**: A 銀河の並進(規約の大きさ —— 共通の β_G = 10V0²/c_0²・勾配と潮汐)・B ハロー(NGC 3198 —— 見える質量の薄い円盤・要る移送 u_req = V − V_bar²/V・回転の項の源の粒度 4 つの R_tot の最小二乗の値・M_drag = R_tot/Y_k と M_vis の比)・C 銀河の軸(南銀極 ĝ と 16 体の符号つきの自転・歳差は向きを選ばない)・D 太陽の回転(回転の移送・測る形の試し)・E 太陽の軸(金星・木星 —— `maintain` の帳簿の式で要る τ_hold)・F まとめ(候補 R_d,spin = 観測半径・J を別の入力)。
 - **QA**: `behavior.dragEst318d`(新設 —— 読み口と節点の和の写し・規則の節点の式・maintain の 1 回の量の照合)・`docs.dragEst318d`(新設 —— 正本の門・PHYSICS〔第318便d〕の表と数・必須の語・禁句)—— どちらも root は SKIP。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない(本の宣言の鍵は増えていない)。AI が R_d,spin・J の入力・熱の契約 (b)・銀河の軸の復元の項を採用した規則と書かない(候補の式だけ)。ダークマター・回転曲線・金星の自転・木星の熱を引きずりで説明したと書かない。最小二乗の値を合わせた値と呼ばない。ω_G・τ_hold を観測から決めた値と書かない。
+
+## 154. 第319便d —— QA の片付けと小さい決定(三次元の本を受理した宣言で数える・規則で置いた本の較正の注・後に入った本の除外の理由の表・🗺️ の保存 QA の帰属・受理の理由の文の領域)(決断事項 AN460・AN461・AN462・AN455・統括の検証項目 R261)
+
+- **三次元の本の数え方(AN460)**: QA は三次元の本を受理後の宣言 `HP.validatePreset(p).preset.physics.coord === "3d"` で数える(tests/qa.mjs の `W319D_D3` —— all・toy〔shapeToy の参照模型〕・fresh〔all − toy〕・retired)。html の文字列の型 `W298A_IDS` と第318便の名指しの分岐を外した。AI が生成する本の宣言の鍵は増えていない(三次元の本は従来どおり `physics.coord:"3d"`)。
+- **較正の注の文(AN461)**: notClaim `solar_cal` の三次元の文は、三次元で `physics.gLoc:{law:"kappaC2"}` を宣言しフィットの記録(`fitRecord`・referenceKind `observation-fit`)の無い本では `nc_solar_rule3d`(規則で置いた本・診断の本 —— 「合わせたモデルではありません」)、それ以外の三次元の本では従来の `nc_solar_cal3d`。表示の関数 pNotClaims が宣言から選ぶ(本の宣言 `notClaim:["solar_cal"]` は変えない)。AI が規則の本を作るときも `notClaim:["solar_cal"]` のままでよい。
+- **後に入った本の除外(AN462)**: 器の `LATER_BOOKS_*` は、集合ごとに理由と入れるのに要ることを PHYSICS〔第319便d〕の表 1 に置き、lint.laterBooks319 が器の注記の形と表の一致を見る(器の本体は変えない)。QA の側の名指しの除外は表 2。
+- **受理の理由の文(AN455)**: 受理器の errors・warnings の文を正本に書いて QA が照合する器は、REGEN_SCOPE の consts に `ACCEPT_REASONS` を宣言する(本便は drag3d-298c の 1 段)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(宣言の鍵・受理の判定は不変)。AI が規則の本の注を「観測に合わせた」と書かない。
