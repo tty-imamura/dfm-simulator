@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第287便b",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T10:11:51.015Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T13:25:41.577Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
@@ -20,9 +20,9 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "bytes": 51469,
-    "sha256": "e15cffd37af650010259cecd17822e5e954ce7ebb0fa7d95c6122c7078aa1979",
-    "mtime": "2026-10-29T10:07:13.542Z"
+    "bytes": 51468,
+    "sha256": "a1e83adf5045ac051f20dac67b35383b910a7dfea51f8e65266bdcbe27eae88f",
+    "mtime": "2026-10-30T13:21:05.174Z"
    }
   ],
   "code": [
@@ -84,16 +84,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1286,
-   "segments": 1127,
-   "closureShare": 0.2929
+   "names": 1299,
+   "segments": 1140,
+   "closureShare": 0.2935
   },
-  "scopeSha256": "d90f10820f0ecfcb63270fca7570ada90aaeff299b141b1ef829245a0b4d1c93",
+  "scopeSha256": "45b0805c44588b403fa42b40d7eccaf907b8d711bc7c49207627c2c93a271f59",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "48b2604608c6d5d8c8f0d5d795c82f23d463c8f3af54be70b91dcd61bf8f73af",
+    "stableSha256": "baacd5c9f04117e2f0d1e04f03960ad2e549c44c552497b44fe5e2af70472b2b",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -346,8 +346,8 @@
   "新発見"
  ],
  "headless": {
-  "wallSec": 0.082,
+  "wallSec": 0.084,
   "errors": 0
  },
- "elapsedS": 6.824
+ "elapsedS": 7.191
 }
