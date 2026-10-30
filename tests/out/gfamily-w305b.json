@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第305便b",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T02:53:07.260Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T15:52:21.193Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -28,9 +28,9 @@
   "code": [
    {
     "file": "tests/exp-w305b-gfamily.mjs",
-    "bytes": 50286,
-    "sha256": "e195c71bc84d72a5e2799035fa68b7071339cab4fa396d74ccdfba5be322fd6a",
-    "mtime": "2026-10-25T16:42:07.789Z"
+    "bytes": 51011,
+    "sha256": "1b33ac0c72b20b48c209003a1426beac4b54b08fe91fb31278e5a1955d9efd68",
+    "mtime": "2026-10-30T11:33:02.842Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -58,27 +58,27 @@
    },
    {
     "file": "tests/exp-w304b-shell.mjs",
-    "bytes": 89724,
-    "sha256": "61b4dc4137bd604a80c01973709605f0c236697d39057bbba742209fffe16fc1",
-    "mtime": "2026-10-25T16:42:07.786Z"
+    "bytes": 90449,
+    "sha256": "27df835cf7ede9c90876345956f5abd577490f1950f5b8752b43331b1344c93c",
+    "mtime": "2026-10-30T11:33:02.838Z"
    },
    {
     "file": "tests/exp-w303b-inertialr2.mjs",
-    "bytes": 87468,
-    "sha256": "5b341ac60eef51235c4e8df403575f8727d680c45ebcbe9602890b572006deb1",
-    "mtime": "2026-10-25T16:42:07.781Z"
+    "bytes": 88175,
+    "sha256": "7a10345c1dfcfd39deb09b96ea27faaad92a52ff4f60d1b6394b7f01d0bdd746",
+    "mtime": "2026-10-30T11:33:02.838Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
-    "bytes": 52338,
-    "sha256": "ecff672647e6d96c73d5822d504ccdcc7b2f27142c3de958d913b02dfa5fd859",
-    "mtime": "2026-10-25T16:42:07.778Z"
+    "bytes": 52861,
+    "sha256": "266dda8f0884604421d04b2bb03398260bebd9b0f761d47861160309149bbe8a",
+    "mtime": "2026-10-30T11:33:02.834Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
-    "bytes": 16510,
-    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-10-30T11:33:02.854Z"
    },
    {
     "file": "tests/exp-w295c-inertial3.mjs",
@@ -111,7 +111,7 @@
     "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "9b1e0c1089b31a1f40ff5561baa32b9fa86eb8e923370bd64bd013ea1cd5d4df",
+  "codeSha256": "8e2565f485b31173f3a2110b31609a08cd8726519dd03a1637ec18f9289672c7",
   "harnessVersion": "w305b-gfamily-1",
   "loadErrors": 0,
   "ruling": "第95報・AN332 の裁定(アプリは絶対時間・慣性速度は絶対時間の慣性速度を維持・観察者の時計の率 α = c_loc/c₀・読み (ii) n = 2 を先に確認・読み (i) n = +1 は次点・n = 0 は対照・近点では n は決まらない)",
@@ -127,7 +127,38 @@
   ],
   "scope": {
    "version": "w318a-scope-6",
-   "presets": "all",
+   "presets": [
+    "chainDiskToy3d",
+    "earthMoon",
+    "earthMoonInertial",
+    "earthMoonOnly3d",
+    "earthMoonSunInertial",
+    "earthMoonSunInertial3d",
+    "earthMoonSunInertialFit",
+    "emAuditSolar",
+    "gas",
+    "jupiterGalilean",
+    "jupiterSunInertial3d",
+    "marsMoonsReal",
+    "marsSunInertial3d",
+    "mercury",
+    "mercuryReal",
+    "mercurySunInertial",
+    "mercurySunInertial3d",
+    "mercurySunInertialFit",
+    "neptuneReal",
+    "neptuneSunInertial3d",
+    "plutoCharonDiagInput",
+    "plutoCharonInertial",
+    "plutoCharonInertialFit",
+    "saturn",
+    "saturnRingReal",
+    "saturnSunInertial3d",
+    "uranusReal",
+    "uranusSunInertial3d",
+    "venusReal",
+    "venusSunInertial3d"
+   ],
    "roots": [
     "$",
     "DT",
@@ -196,11 +227,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1349,
-   "segments": 1190,
-   "closureShare": 0.3048
+   "names": 1367,
+   "segments": 1208,
+   "closureShare": 0.3066
   },
-  "scopeSha256": "9fe1e35f586ab3a9a1c89498d77672d0579996b98a838aaf3b715371b6ab48e4",
+  "scopeSha256": "fbea0269b6a5cbf38c6b0e2e776ff2ad1cdbda99873e05be7c32b19846e307c5",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -4342,22 +4373,22 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 29.115
+   "wallSec": 28.847
   },
   "M": {
-   "wallSec": 127.564
+   "wallSec": 139.628
   },
   "T": {
-   "wallSec": 755.837
+   "wallSec": 721.643
   },
   "P": {
    "wallSec": 0.002
   },
   "S": {
-   "wallSec": 30.152
+   "wallSec": 33.376
   },
   "D": {
-   "wallSec": 72.205
+   "wallSec": 80.893
   }
  },
  "stats": {
@@ -4365,5 +4396,5 @@
   "memoHits": 18,
   "measures2d": 21
  },
- "elapsedS": 1016.63
+ "elapsedS": 1006.062
 }
