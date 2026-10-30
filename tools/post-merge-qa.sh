@@ -32,7 +32,9 @@ set -u
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT" || exit 2
 # 第318便(統括の統合 —— ③′ の一覧が伸びて qapart が既定の heap で落ちた〔363/750 本で heap out of memory〕): qapart の heap の既定を 8192 MiB に(外から NODE_OPTIONS を渡せばそれを使う)
-export NODE_OPTIONS="${NODE_OPTIONS:---max-old-space-size=8192}"
+# 第319便(統括の統合 —— 上の既定は外の NODE_OPTIONS〔例 --use-openssl-ca〕が空でないと効かず、③′ の 381/803 本で heap out of memory〔2 GB〕):
+#   外の NODE_OPTIONS に heap の宣言が無ければ 8192 MiB を足す(宣言があればそれを使う)
+case " ${NODE_OPTIONS:-} " in *--max-old-space-size=*) ;; *) export NODE_OPTIONS="${NODE_OPTIONS:+$NODE_OPTIONS }--max-old-space-size=8192" ;; esac
 DEFAULT_IDS="lint.regenScope behavior.rayLensExcluded ai.stabilize docs.fourValuesHistory docs.preset-table-sync docs.families ui.samplePicker lint.provenanceMeta ui.pickerSeparators"
 IDS="${POST_MERGE_IDS:-$DEFAULT_IDS}"
 # 第288便f(AN90): ③′ 本便の新設ブロック。統合直後の常設集合(④)とは別。
