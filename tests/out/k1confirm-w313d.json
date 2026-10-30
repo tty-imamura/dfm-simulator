@@ -9,7 +9,7 @@
  "emxVersion": "w303c-emx4-1",
  "generator": "tests/exp-w313d-k1confirm.mjs",
  "target": "beta/index.html",
- "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+ "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
  "ruling": "原仮定者の裁定(第115報)AN399(K1 を採用)・AN402(太陽を含む全天体に R_d = κm —— 重力半径に比例する長さ)・補足(小さい係数は背景宇宙由来か太陽の構造由来かを候補・6.5e6 m は K2 の未宣言の上限 —— K1 は無視)・決断事項 AN401(比例定数は 1PN だけ・A1 は暦表ごとの列)・AN405(有限質量比は既知の寄与)・AN396′(ε_fit・ε_num)・AN336・統括の検証項目 R237。κ は一次の値 κ₀ = 10G/(C₁c²) に固定(合わせない)。確認の材料(在位へ入れない)",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "quick": false,
@@ -697,7 +697,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 11.045
+    "wallSec": 10.26
    },
    "confirm:earthmoon|q10|-|div=2|N=118": {
     "key": "confirm:earthmoon|q10|-|div=2|N=118",
@@ -738,7 +738,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 11.726
+    "wallSec": 11.664
    },
    "planet3:mercury|q00|-|div=1|N=8": {
     "key": "planet3:mercury|q00|-|div=1|N=8",
@@ -764,7 +764,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.454
+    "wallSec": 1.287
    },
    "planet3:mercury|q10|-|div=1|N=8": {
     "key": "planet3:mercury|q10|-|div=1|N=8",
@@ -790,7 +790,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.451
+    "wallSec": 1.523
    },
    "planet3:mercury|q00|-|div=2|N=8": {
     "key": "planet3:mercury|q00|-|div=2|N=8",
@@ -816,7 +816,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.85
+    "wallSec": 2.47
    },
    "planet3:mercury|q10|-|div=2|N=8": {
     "key": "planet3:mercury|q10|-|div=2|N=8",
@@ -842,7 +842,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.653
+    "wallSec": 2.539
    },
    "planet3:mercury|q00|-|div=4|N=8": {
     "key": "planet3:mercury|q00|-|div=4|N=8",
@@ -868,7 +868,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 4.647
+    "wallSec": 5.611
    },
    "planet3:mercury|q10|-|div=4|N=8": {
     "key": "planet3:mercury|q10|-|div=4|N=8",
@@ -894,7 +894,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 5.404
+    "wallSec": 5.33
    },
    "planet3:mercury|q11|rd=1.1915914187674497e-9|md=1|sun=1|rule=kappa0|kf=1|kernel=k1|div=4|N=8": {
     "key": "planet3:mercury|q11|rd=1.1915914187674497e-9|md=1|sun=1|rule=kappa0|kf=1|kernel=k1|div=4|N=8",
@@ -928,7 +928,7 @@
     "betaMax": 3.209980967844365e-7,
     "isqSteps": 1520112,
     "overlap": 0,
-    "wallSec": 335.466
+    "wallSec": 375.515
    },
    "planet3:venus|q00|-|div=1|N=8": {
     "key": "planet3:venus|q00|-|div=1|N=8",
@@ -954,7 +954,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.241
+    "wallSec": 1.316
    },
    "planet3:mercury|q11|rd=1.191591299608308e-9|md=1|sun=1|rule=kappa0|kf=0.9999999|kernel=k1|div=4|N=8": {
     "key": "planet3:mercury|q11|rd=1.191591299608308e-9|md=1|sun=1|rule=kappa0|kf=0.9999999|kernel=k1|div=4|N=8",
@@ -988,7 +988,7 @@
     "betaMax": 3.209980646846485e-7,
     "isqSteps": 1520112,
     "overlap": 0,
-    "wallSec": 364.015
+    "wallSec": 362.473
    },
    "planet3:mercury|q11|rd=1.191591299608308e-9|md=1|sun=1|rule=kappa0|kf=0.9999999|kernel=k1|div=1|N=8": {
     "key": "planet3:mercury|q11|rd=1.191591299608308e-9|md=1|sun=1|rule=kappa0|kf=0.9999999|kernel=k1|div=1|N=8",
@@ -1022,7 +1022,7 @@
     "betaMax": 3.209975186740265e-7,
     "isqSteps": 380028,
     "overlap": 0,
-    "wallSec": 86.115
+    "wallSec": 90.36
    },
    "planet3:mercury|q11|rd=1.191591299608308e-9|md=1|sun=1|rule=kappa0|kf=0.9999999|kernel=k1|div=2|N=8": {
     "key": "planet3:mercury|q11|rd=1.191591299608308e-9|md=1|sun=1|rule=kappa0|kf=0.9999999|kernel=k1|div=2|N=8",
@@ -1056,7 +1056,7 @@
     "betaMax": 3.2099788288422163e-7,
     "isqSteps": 760056,
     "overlap": 0,
-    "wallSec": 168.721
+    "wallSec": 183.689
    },
    "planet3:venus|q10|-|div=1|N=8": {
     "key": "planet3:venus|q10|-|div=1|N=8",
@@ -1082,7 +1082,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.125
+    "wallSec": 1.608
    },
    "planet3:venus|q00|-|div=2|N=8": {
     "key": "planet3:venus|q00|-|div=2|N=8",
@@ -1108,7 +1108,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.971
+    "wallSec": 2.367
    },
    "planet3:venus|q10|-|div=2|N=8": {
     "key": "planet3:venus|q10|-|div=2|N=8",
@@ -1134,7 +1134,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.768
+    "wallSec": 2.571
    },
    "planet3:venus|q00|-|div=4|N=8": {
     "key": "planet3:venus|q00|-|div=4|N=8",
@@ -1160,7 +1160,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 4.268
+    "wallSec": 4.605
    },
    "planet3:venus|q10|-|div=4|N=8": {
     "key": "planet3:venus|q10|-|div=4|N=8",
@@ -1186,7 +1186,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 3.836
+    "wallSec": 5.204
    },
    "confirm:earthmoon|q11|kappa0|kernel=k1|div=2|N=118": {
     "key": "confirm:earthmoon|q11|kappa0|kernel=k1|div=2|N=118",
@@ -1230,7 +1230,7 @@
     },
     "betaMax": 1.0076159691889976e-7,
     "isqSteps": 3481719,
-    "wallSec": 1156.797
+    "wallSec": 1241.159
    },
    "planet3:mars|q00|-|div=1|N=8": {
     "key": "planet3:mars|q00|-|div=1|N=8",
@@ -1256,7 +1256,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.099
+    "wallSec": 1.573
    },
    "planet3:mars|q10|-|div=1|N=8": {
     "key": "planet3:mars|q10|-|div=1|N=8",
@@ -1282,7 +1282,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.268
+    "wallSec": 1.648
    },
    "planet3:mars|q00|-|div=2|N=8": {
     "key": "planet3:mars|q00|-|div=2|N=8",
@@ -1308,7 +1308,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.844
+    "wallSec": 2.306
    },
    "planet3:mars|q10|-|div=2|N=8": {
     "key": "planet3:mars|q10|-|div=2|N=8",
@@ -1334,7 +1334,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.963
+    "wallSec": 2.487
    },
    "planet3:mars|q00|-|div=4|N=8": {
     "key": "planet3:mars|q00|-|div=4|N=8",
@@ -1360,7 +1360,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 3.894
+    "wallSec": 4.745
    },
    "planet3:mars|q10|-|div=4|N=8": {
     "key": "planet3:mars|q10|-|div=4|N=8",
@@ -1386,7 +1386,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 4.182
+    "wallSec": 5.076
    },
    "planet3:venus|q11|rd=7.086129718981915e-9|md=1|sun=1|rule=kappa0|kf=1|kernel=k1|div=4|N=8": {
     "key": "planet3:venus|q11|rd=7.086129718981915e-9|md=1|sun=1|rule=kappa0|kf=1|kernel=k1|div=4|N=8",
@@ -1420,7 +1420,7 @@
     "betaMax": 1.3738917663792057e-7,
     "isqSteps": 1520082,
     "overlap": 0,
-    "wallSec": 312.293
+    "wallSec": 371.302
    },
    "planet3:mars|q11|rd=1.6674840237472056e-9|md=1|sun=1|rule=kappa0|kf=1|kernel=k1|div=4|N=8": {
     "key": "planet3:mars|q11|rd=1.6674840237472056e-9|md=1|sun=1|rule=kappa0|kf=1|kernel=k1|div=4|N=8",
@@ -1454,7 +1454,7 @@
     "betaMax": 7.145306651096303e-8,
     "isqSteps": 1520731,
     "overlap": 0,
-    "wallSec": 313.08
+    "wallSec": 373.698
    },
    "planet3:venus|q11|rd=7.0861376838625795e-9|md=1|sun=1|rule=kappa0|kf=1.00000112401|kernel=k1|div=4|N=8": {
     "key": "planet3:venus|q11|rd=7.0861376838625795e-9|md=1|sun=1|rule=kappa0|kf=1.00000112401|kernel=k1|div=4|N=8",
@@ -1488,7 +1488,7 @@
     "betaMax": 1.3738933106470275e-7,
     "isqSteps": 1520082,
     "overlap": 0,
-    "wallSec": 325.26
+    "wallSec": 390.972
    },
    "confirm:earthmoon|q11|kappa0|kernel=k1|div=1|N=118": {
     "key": "confirm:earthmoon|q11|kappa0|kernel=k1|div=1|N=118",
@@ -1532,7 +1532,7 @@
     },
     "betaMax": 1.007616337262405e-7,
     "isqSteps": 1740860,
-    "wallSec": 550.055
+    "wallSec": 651.947
    },
    "planet3:venus|q11|rd=7.0861376838625795e-9|md=1|sun=1|rule=kappa0|kf=1.00000112401|kernel=k1|div=1|N=8": {
     "key": "planet3:venus|q11|rd=7.0861376838625795e-9|md=1|sun=1|rule=kappa0|kf=1.00000112401|kernel=k1|div=1|N=8",
@@ -1566,7 +1566,7 @@
     "betaMax": 1.3738404358990226e-7,
     "isqSteps": 380020,
     "overlap": 0,
-    "wallSec": 81.571
+    "wallSec": 92.41
    },
    "planet3:venus|q11|rd=7.0861376838625795e-9|md=1|sun=1|rule=kappa0|kf=1.00000112401|kernel=k1|div=2|N=8": {
     "key": "planet3:venus|q11|rd=7.0861376838625795e-9|md=1|sun=1|rule=kappa0|kf=1.00000112401|kernel=k1|div=2|N=8",
@@ -1600,7 +1600,7 @@
     "betaMax": 1.3738756635095825e-7,
     "isqSteps": 760041,
     "overlap": 0,
-    "wallSec": 160.62
+    "wallSec": 184.231
    },
    "planet3:mars|q11|rd=1.6674817613715814e-9|md=1|sun=1|rule=kappa0|kf=0.99999864324|kernel=k1|div=4|N=8": {
     "key": "planet3:mars|q11|rd=1.6674817613715814e-9|md=1|sun=1|rule=kappa0|kf=0.99999864324|kernel=k1|div=4|N=8",
@@ -1634,7 +1634,7 @@
     "betaMax": 7.145296956631353e-8,
     "isqSteps": 1520731,
     "overlap": 0,
-    "wallSec": 324.114
+    "wallSec": 365.21
    },
    "planet3:mars|q11|rd=1.6674817613715814e-9|md=1|sun=1|rule=kappa0|kf=0.99999864324|kernel=k1|div=1|N=8": {
     "key": "planet3:mars|q11|rd=1.6674817613715814e-9|md=1|sun=1|rule=kappa0|kf=0.99999864324|kernel=k1|div=1|N=8",
@@ -1668,7 +1668,7 @@
     "betaMax": 7.145143572820247e-8,
     "isqSteps": 380181,
     "overlap": 0,
-    "wallSec": 81.689
+    "wallSec": 91.791
    },
    "planet3:mars|q11|rd=1.6674817613715814e-9|md=1|sun=1|rule=kappa0|kf=0.99999864324|kernel=k1|div=2|N=8": {
     "key": "planet3:mars|q11|rd=1.6674817613715814e-9|md=1|sun=1|rule=kappa0|kf=0.99999864324|kernel=k1|div=2|N=8",
@@ -1702,7 +1702,7 @@
     "betaMax": 7.145245806257978e-8,
     "isqSteps": 760364,
     "overlap": 0,
-    "wallSec": 167.621
+    "wallSec": 190.495
    },
    "confirm:jupiter|q01|kappa0|kernel=k1|div=4|N=8": {
     "key": "confirm:jupiter|q01|kappa0|kernel=k1|div=4|N=8",
@@ -1732,7 +1732,7 @@
     "betaMax": 1.9935958559602402e-8,
     "isqSteps": 1520180,
     "overlap": 0,
-    "wallSec": 333.537,
+    "wallSec": 385.347,
     "status": "run"
    },
    "confirm:jupiter|q11|kappa0|kernel=k1|div=4|N=8": {
@@ -1763,7 +1763,7 @@
     "betaMax": 1.9935958548954473e-8,
     "isqSteps": 1520180,
     "overlap": 0,
-    "wallSec": 334.904,
+    "wallSec": 375.017,
     "status": "run"
    },
    "confirm:jupiter|q01|kappa0|kernel=k1|div=2|N=8": {
@@ -1794,7 +1794,7 @@
     "betaMax": 1.993583164511306e-8,
     "isqSteps": 760089,
     "overlap": 0,
-    "wallSec": 165.467,
+    "wallSec": 181.579,
     "status": "run"
    },
    "confirm:jupiter|q11|kappa0|kernel=k1|div=2|N=8": {
@@ -1825,7 +1825,7 @@
     "betaMax": 1.993583163448671e-8,
     "isqSteps": 760089,
     "overlap": 0,
-    "wallSec": 169.586,
+    "wallSec": 183.778,
     "status": "run"
    },
    "planet3:mercury|q11|rd=1.1915914187674497e-9|md=1|sun=1|rule=kappa0|kf=1|kernel=k1|div=2|N=8": {
@@ -1860,7 +1860,7 @@
     "betaMax": 3.2099791498396126e-7,
     "isqSteps": 760056,
     "overlap": 0,
-    "wallSec": 169.813
+    "wallSec": 179.861
    },
    "planet3:venus|q11|rd=7.086129718981915e-9|md=1|sun=1|rule=kappa0|kf=1|kernel=k1|div=2|N=8": {
     "key": "planet3:venus|q11|rd=7.086129718981915e-9|md=1|sun=1|rule=kappa0|kf=1|kernel=k1|div=2|N=8",
@@ -1894,7 +1894,7 @@
     "betaMax": 1.3738741192615196e-7,
     "isqSteps": 760041,
     "overlap": 0,
-    "wallSec": 175.385
+    "wallSec": 179.192
    },
    "planet3:mars|q11|rd=1.6674840237472056e-9|md=1|sun=1|rule=kappa0|kf=1|kernel=k1|div=2|N=8": {
     "key": "planet3:mars|q11|rd=1.6674840237472056e-9|md=1|sun=1|rule=kappa0|kf=1|kernel=k1|div=2|N=8",
@@ -1928,7 +1928,7 @@
     "betaMax": 7.145255500654371e-8,
     "isqSteps": 760364,
     "overlap": 0,
-    "wallSec": 173.209
+    "wallSec": 180.803
    },
    "confirm:jupiter|q01|kappa0|kernel=k1|div=1|N=8": {
     "key": "confirm:jupiter|q01|kappa0|kernel=k1|div=1|N=8",
@@ -1958,7 +1958,7 @@
     "betaMax": 1.9935578147920902e-8,
     "isqSteps": 380044,
     "overlap": 0,
-    "wallSec": 83.801,
+    "wallSec": 88.443,
     "status": "run"
    },
    "confirm:jupiter|q11|kappa0|kernel=k1|div=1|N=8": {
@@ -1989,7 +1989,7 @@
     "betaMax": 1.9935578137334324e-8,
     "isqSteps": 380044,
     "overlap": 0,
-    "wallSec": 88.724,
+    "wallSec": 88.131,
     "status": "run"
    },
    "planet3:mercury|q11|rd=1.1915914187674497e-9|md=1|sun=1|rule=kappa0|kf=1|kernel=k1|div=1|N=8": {
@@ -2024,7 +2024,7 @@
     "betaMax": 3.209975507737516e-7,
     "isqSteps": 380028,
     "overlap": 0,
-    "wallSec": 90.096
+    "wallSec": 89.765
    },
    "planet3:venus|q11|rd=7.086129718981915e-9|md=1|sun=1|rule=kappa0|kf=1|kernel=k1|div=1|N=8": {
     "key": "planet3:venus|q11|rd=7.086129718981915e-9|md=1|sun=1|rule=kappa0|kf=1|kernel=k1|div=1|N=8",
@@ -2058,7 +2058,7 @@
     "betaMax": 1.373838891690662e-7,
     "isqSteps": 380020,
     "overlap": 0,
-    "wallSec": 87.556
+    "wallSec": 89.776
    },
    "confirm:earthmoon|q00|-|div=1|N=118": {
     "key": "confirm:earthmoon|q00|-|div=1|N=118",
@@ -2099,7 +2099,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 4.286
+    "wallSec": 4.681
    },
    "confirm:earthmoon|q10|-|div=1|N=118": {
     "key": "confirm:earthmoon|q10|-|div=1|N=118",
@@ -2140,7 +2140,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 5.033
+    "wallSec": 4.958
    },
    "confirm:jupiter|q00|-|div=4|N=8": {
     "key": "confirm:jupiter|q00|-|div=4|N=8",
@@ -2167,7 +2167,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 4.211,
+    "wallSec": 4.439,
     "status": "run"
    },
    "confirm:jupiter|q10|-|div=4|N=8": {
@@ -2195,7 +2195,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 4.43,
+    "wallSec": 4.76,
     "status": "run"
    },
    "confirm:jupiter|q00|-|div=2|N=8": {
@@ -2223,7 +2223,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.109,
+    "wallSec": 2.145,
     "status": "run"
    },
    "confirm:jupiter|q10|-|div=2|N=8": {
@@ -2251,7 +2251,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.348,
+    "wallSec": 2.276,
     "status": "run"
    },
    "confirm:jupiter|q00|-|div=1|N=8": {
@@ -2279,7 +2279,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.32,
+    "wallSec": 1.231,
     "status": "run"
    },
    "confirm:jupiter|q10|-|div=1|N=8": {
@@ -2307,7 +2307,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.426,
+    "wallSec": 1.35,
     "status": "run"
    },
    "planet3:mars|q11|rd=1.6674840237472056e-9|md=1|sun=1|rule=kappa0|kf=1|kernel=k1|div=1|N=8": {
@@ -2342,7 +2342,7 @@
     "betaMax": 7.145153267077229e-8,
     "isqSteps": 380181,
     "overlap": 0,
-    "wallSec": 85.9
+    "wallSec": 86.761
    }
   }
  },
@@ -3166,7 +3166,7 @@
      "div": 2,
      "n": 2,
      "steps": 6963437,
-     "wallSec": 22.771
+     "wallSec": 21.924
     },
     "earthmoon|drag|h/2": {
      "system": "earthmoon",
@@ -3174,7 +3174,7 @@
      "div": 2,
      "n": 1,
      "steps": 3481719,
-     "wallSec": 1156.797
+     "wallSec": 1241.159
     },
     "earthmoon|drag|h/1": {
      "system": "earthmoon",
@@ -3182,7 +3182,7 @@
      "div": 1,
      "n": 1,
      "steps": 1740860,
-     "wallSec": 550.055
+     "wallSec": 651.947
     },
     "jupiter|drag|h/4": {
      "system": "jupiter",
@@ -3190,7 +3190,7 @@
      "div": 4,
      "n": 2,
      "steps": 3040360,
-     "wallSec": 668.441
+     "wallSec": 760.364
     },
     "jupiter|drag|h/2": {
      "system": "jupiter",
@@ -3198,7 +3198,7 @@
      "div": 2,
      "n": 2,
      "steps": 1520178,
-     "wallSec": 335.053
+     "wallSec": 365.35699999999997
     },
     "jupiter|drag|h/1": {
      "system": "jupiter",
@@ -3206,7 +3206,7 @@
      "div": 1,
      "n": 2,
      "steps": 760088,
-     "wallSec": 172.525
+     "wallSec": 176.574
     },
     "earthmoon|nodrag|h/1": {
      "system": "earthmoon",
@@ -3214,7 +3214,7 @@
      "div": 1,
      "n": 2,
      "steps": 3481720,
-     "wallSec": 9.318999999999999
+     "wallSec": 9.639
     },
     "jupiter|nodrag|h/4": {
      "system": "jupiter",
@@ -3222,7 +3222,7 @@
      "div": 4,
      "n": 2,
      "steps": 3040360,
-     "wallSec": 8.641
+     "wallSec": 9.199
     },
     "jupiter|nodrag|h/2": {
      "system": "jupiter",
@@ -3230,7 +3230,7 @@
      "div": 2,
      "n": 2,
      "steps": 1520178,
-     "wallSec": 4.457
+     "wallSec": 4.420999999999999
     },
     "jupiter|nodrag|h/1": {
      "system": "jupiter",
@@ -3238,15 +3238,15 @@
      "div": 1,
      "n": 2,
      "steps": 760088,
-     "wallSec": 2.746
+     "wallSec": 2.5810000000000004
     }
    },
    "rate": {
     "jupiter": {
-     "rateStepsPerSec": 4524.268740556063
+     "rateStepsPerSec": 4085.5766166651947
     },
     "earthmoon": {
-     "rateStepsPerSec": 3059.7726106305645
+     "rateStepsPerSec": 2758.735643962884
     }
    },
    "stage2": {
@@ -3254,37 +3254,37 @@
     "jupiter": {
      "h": {
       "steps": 380044,
-      "spentSec": 84
+      "spentSec": 93
      },
      "h2": {
       "steps": 760088,
-      "spentSec": 168
+      "spentSec": 186
      },
      "h4": {
       "steps": 1520176,
-      "spentSec": 336
+      "spentSec": 372
      }
     },
     "earthmoon": {
      "h": {
       "steps": 1740860,
-      "spentSec": 569
+      "spentSec": 631
      },
      "h2": {
       "steps": 3481720,
-      "spentSec": 1138
+      "spentSec": 1262
      },
      "h4": {
       "steps": 6963440,
-      "spentSec": 2276
+      "spentSec": 2524
      },
      "long354": {
       "steps": 5222580,
-      "spentSec": 1707
+      "spentSec": 1893
      },
      "long1062": {
       "steps": 15667740,
-      "spentSec": 5121
+      "spentSec": 5679
      }
     }
    }
@@ -3293,92 +3293,92 @@
    "mercury|nodrag|h/1": {
     "n": 2,
     "steps": 760056,
-    "wallSec": 2.9050000000000002
+    "wallSec": 2.8099999999999996
    },
    "mercury|nodrag|h/2": {
     "n": 2,
     "steps": 1520112,
-    "wallSec": 5.503
+    "wallSec": 5.009
    },
    "mercury|nodrag|h/4": {
     "n": 2,
     "steps": 3040224,
-    "wallSec": 10.051
+    "wallSec": 10.940999999999999
    },
    "mercury|drag|h/4": {
     "n": 2,
     "steps": 3040224,
-    "wallSec": 699.481
+    "wallSec": 737.988
    },
    "venus|nodrag|h/1": {
     "n": 2,
     "steps": 760040,
-    "wallSec": 2.366
+    "wallSec": 2.9240000000000004
    },
    "mercury|drag|h/1": {
     "n": 2,
     "steps": 760056,
-    "wallSec": 176.211
+    "wallSec": 180.125
    },
    "mercury|drag|h/2": {
     "n": 2,
     "steps": 1520112,
-    "wallSec": 338.534
+    "wallSec": 363.54999999999995
    },
    "venus|nodrag|h/2": {
     "n": 2,
     "steps": 1520082,
-    "wallSec": 3.739
+    "wallSec": 4.938000000000001
    },
    "venus|nodrag|h/4": {
     "n": 2,
     "steps": 3040162,
-    "wallSec": 8.104
+    "wallSec": 9.809000000000001
    },
    "mars|nodrag|h/1": {
     "n": 2,
     "steps": 760362,
-    "wallSec": 2.367
+    "wallSec": 3.221
    },
    "mars|nodrag|h/2": {
     "n": 2,
     "steps": 1520728,
-    "wallSec": 3.8070000000000004
+    "wallSec": 4.793
    },
    "mars|nodrag|h/4": {
     "n": 2,
     "steps": 3041462,
-    "wallSec": 8.076
+    "wallSec": 9.821
    },
    "venus|drag|h/4": {
     "n": 2,
     "steps": 3040164,
-    "wallSec": 637.553
+    "wallSec": 762.274
    },
    "mars|drag|h/4": {
     "n": 2,
     "steps": 3041462,
-    "wallSec": 637.194
+    "wallSec": 738.9079999999999
    },
    "venus|drag|h/1": {
     "n": 2,
     "steps": 760040,
-    "wallSec": 169.127
+    "wallSec": 182.18599999999998
    },
    "venus|drag|h/2": {
     "n": 2,
     "steps": 1520082,
-    "wallSec": 336.005
+    "wallSec": 363.423
    },
    "mars|drag|h/1": {
     "n": 2,
     "steps": 760362,
-    "wallSec": 167.589
+    "wallSec": 178.552
    },
    "mars|drag|h/2": {
     "n": 2,
     "steps": 1520728,
-    "wallSec": 340.83000000000004
+    "wallSec": 371.298
    }
   },
   "moonPinnedSun": true,
@@ -3396,13 +3396,13 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.101
+   "wallSec": 0.097
   },
   "T": {
-   "wallSec": 0.014
+   "wallSec": 0.01
   },
   "E": {
-   "wallSec": 3258.236
+   "wallSec": 3599.145
   },
   "K": {
    "wallSec": 0.001
@@ -3421,19 +3421,19 @@
   "runs": 54,
   "steps": 58235446
  },
- "elapsedS": 3260.26,
+ "elapsedS": 3600.846,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第313便d",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T06:03:28.825Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T17:03:18.879Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -3449,9 +3449,9 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "bytes": 89235,
-    "sha256": "fef170121869488cb9fbc564e0f9b4ab50adc09d3b1bec2739027057fcd1b4a7",
-    "mtime": "2026-10-29T03:02:54.541Z"
+    "bytes": 89936,
+    "sha256": "2ca80fabfcb9bc947c5746a3cbf3516a966dec1dd0662090b3397c73a297fd6b",
+    "mtime": "2026-10-30T16:03:15.891Z"
    },
    {
     "file": "paper/data/pn1-ephemeris-candidates.csv",
@@ -3469,9 +3469,9 @@
   "code": [
    {
     "file": "tests/exp-w313d-k1confirm.mjs",
-    "bytes": 35770,
-    "sha256": "285ccdb6671103407dd43cb7acb54ebd59534708255eb8c6055b7d7ee3214d9e",
-    "mtime": "2026-10-25T16:42:07.809Z"
+    "bytes": 36262,
+    "sha256": "c1490392c95aad3e51ca620168001b29a0aeb47f93914f40e91f86c38ec88b50",
+    "mtime": "2026-10-30T11:33:02.846Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -3481,9 +3481,9 @@
    },
    {
     "file": "tests/exp-w312d-confirm.mjs",
-    "bytes": 50774,
-    "sha256": "8e02f7c93d8eb698006da1ca3e5ed6bec08f31796fba42d1dcaf7dd6b4a5b962",
-    "mtime": "2026-10-25T16:42:07.805Z"
+    "bytes": 51266,
+    "sha256": "bcd9566c774ebdfb3dd417ba3fd243e969f6e89651d15c04a9121e8fb183cc54",
+    "mtime": "2026-10-30T11:33:02.846Z"
    },
    {
     "file": "tests/lib-w312d-confirm.mjs",
@@ -3493,9 +3493,9 @@
    },
    {
     "file": "tests/exp-w311d-planet3.mjs",
-    "bytes": 65046,
-    "sha256": "5b97b9f648a7c5903328785f5ced1946463c5504cfc6f2154bfd4b470c7ed014",
-    "mtime": "2026-10-25T16:42:07.805Z"
+    "bytes": 65495,
+    "sha256": "0d0676e08119ddd37d9b02dccf3e7b5832598db6035948fd9db856aec61b049f",
+    "mtime": "2026-10-30T11:33:02.846Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
@@ -3523,15 +3523,15 @@
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
-    "bytes": 52338,
-    "sha256": "ecff672647e6d96c73d5822d504ccdcc7b2f27142c3de958d913b02dfa5fd859",
-    "mtime": "2026-10-25T16:42:07.778Z"
+    "bytes": 52861,
+    "sha256": "266dda8f0884604421d04b2bb03398260bebd9b0f761d47861160309149bbe8a",
+    "mtime": "2026-10-30T11:33:02.834Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
-    "bytes": 16510,
-    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-10-30T11:33:02.854Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -3552,7 +3552,7 @@
     "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "c0999f7c34059a203784d36f528191819aab853100497fe8989f77074466010a",
+  "codeSha256": "e1f7b6181336d24671e30998696fcc90fc92bfa68641c650169f8557eec990e9",
   "harnessVersion": "w313d-k1confirm-1",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W313D_WORKERS)",
   "notClaim": [
@@ -3566,7 +3566,29 @@
   ],
   "scope": {
    "version": "w318a-scope-6",
-   "presets": "all",
+   "presets": [
+    "earthMoonOnly3d",
+    "earthMoonSunInertial3d",
+    "earthMoonSunInertialFit",
+    "jupiterGalilean",
+    "jupiterSunInertial3d",
+    "marsMoonsReal",
+    "marsSunInertial3d",
+    "mercury",
+    "mercuryReal",
+    "mercurySunInertial3d",
+    "mercurySunInertialFit",
+    "neptuneReal",
+    "neptuneSunInertial3d",
+    "plutoCharonInertialFit",
+    "saturn",
+    "saturnRingReal",
+    "saturnSunInertial3d",
+    "uranusReal",
+    "uranusSunInertial3d",
+    "venusReal",
+    "venusSunInertial3d"
+   ],
    "roots": [
     "$",
     "DT",
@@ -3611,11 +3633,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1337,
-   "segments": 1178,
-   "closureShare": 0.3045
+   "names": 1355,
+   "segments": 1196,
+   "closureShare": 0.3063
   },
-  "scopeSha256": "84af4dd6789fba803a2c6c69e06c1e7174aa836dd3b857c1678e161b13137b5b",
+  "scopeSha256": "8cfe9a63306a9b0961d70ac7fa5aa99d466dc4c7e01b80cb3e4658276f6f10d0",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -3632,7 +3654,7 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "stableSha256": "998112c931c39b69d6b341a9044c9aae32874e8b211ed9d50e131f79e15a8913",
+    "stableSha256": "419e3b64be295288653084b9cfed8f678c579ea857255c443187131e65daf23d",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

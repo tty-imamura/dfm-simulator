@@ -1461,6 +1461,28 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/dragest-w318d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/Drun/runs/*/wallSec']) },
     note: '第318便d: 銀河と太陽の引きずりの見積り(第120報の仮定を仮定として置き、要る大きさと今の K1 の大きさを同じ表に並べる —— 規則・在位の本・エンジンの式は変えない・新しい法則は足さない・合否と観測の 3σ を付けない)' }),
   // ==== 第318便d の塊(ここまで)====
+  // ==== 第319便a の塊(ここから)====
+  // ---- 第319便a(原仮定者の指示(第121報)「軸引きずりが内部熱になる経路は、遠方宇宙に対して自転軸方向を保持するトルク」・「観測値は釣り合い —— 背景宇宙からの影響で駆動し、
+  //   背景宇宙への熱放射で収支」・「金星と木星は太陽の軸引きずりと銀河の逆回転の引きずりの拮抗で高い内部熱と仮定」・「120° の合成を軸引きずりの合成で考慮」・
+  //   決断事項 AN447・AN468・AN469・統括の検証項目 R258): **軸を保つトルクの熱の経路の器**(段 axisheat-319a —— P 純関数の場面・A 受理・Q 同一〔compose の省略と "sum"・
+  //   合成と源ごとの状態・合成の 1 回の熱〕・🌋🏀🗺️ の写し〔銀河の一様軸引きずり + 維持の型 compose:"source"・balance:"background"〕・TS 刻みの感度・F 写しの外の倍率と
+  //   木星の内部熱の主列・代替の列に要る τ_hold)。在位の本の宣言は変えない(写しにだけ足す)。html だけを読む・1 プロセス。所要は第319便a の枝の実測 2.3〜3.6 s
+  //   (**並走の秒** —— 4 枝並走の容器 —— 統括が混まない箱で測り直す)
+  S('axisheat-319a', 'node tests/exp-w319a-axisheat.mjs', ['tests/out/axisheat-w319a.json'], 3, { secSource: 'w319a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/axisheat-w319a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第319便a: 軸を保つトルクの熱の経路(維持の型の opt-in compose:"source"〔源ごとの維持 —— 銀河の項は 1 つの源〕・balance:"background"〔背景の駆動と放射の口座〕・合成の判定の記録)を在位の本の写しで測る(在位の本の宣言は変えない・内部熱を説明したとは書かない・要る τ_hold は要る大きさの記録)' }),
+  // ==== 第319便a の塊(ここまで)====
+  // ==== 第319便b の塊(ここから)====
+  // ---- 第319便b(原仮定者の指示(第121報)「引きずり半径について」「検証時の天体別の役割の参考」・決断事項 AN445・AN446・AN449・統括の検証項目 R259): **引きずる側の半径 R_src の 3 案・
+  //   分布した銀河の太陽系近傍・天体別の役割の表の器**(段 srcradius-319b —— K 核の照合・S 源の表〔器の中の源のモーメントだけを替えた写し 3 つ〕・G 分布した銀河〔格子 3 段〕・
+  //   A 加法性〔32 要素の写し〕・R 6 天体の役割〔maintain の帳簿の式〕・C 120° の表・F まとめ)。html・エンジン・在位の本・受け手の R_d は変えない。html を読む(読み口
+  //   inertialDragIsqState と最上位の inertialDragIsqRule・inertialDragIsqRuleK1・inertialDragIsqK2・inertialDragIsqM2・inertialDrag3MaintCell)・入力は tests/data-w318c-solar16-input.json
+  //   (他の正本は読まない —— html の生成領域の後)。1 プロセス(子プロセスなし・步は進めない)。所要は第319便b の枝の実測 4.2〜4.8 s(**並走の秒** —— 4 枝並走の容器・負荷平均 7 前後 ——
+  //   統括が混まない箱で測り直す)
+  S('srcradius-319b', 'node tests/exp-w319b-srcradius.mjs', ['tests/out/srcradius-w319b.json'], 5, { secSource: 'w319b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/srcradius-w319b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第319便b: 引きずる側の半径 R_src の 3 案(源の回転と軸のモーメントだけ —— 受け手の R_d = Y_k m は不変)・分布した銀河の太陽系近傍(宣言の密度の模型と平均の流れ —— 格子 3 段)・天体別の役割の表(120° の合成の一般形・拮抗・要る大きさとの比)—— エンジン・在位の本は変えない・新しい法則は足さない' }),
+  // ==== 第319便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -1499,6 +1521,73 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/timing-w294d.json': META_RUN.concat(['/elapsedS']) },
     note: '第294便d: 時間の内訳の器(較正走行・保存 QA・鎖の段 —— 判定の欄なし)とその場の実測(上位 5 本の μs/步・試験粒子を外した写し・閉包の参照実装との一致・退役の上限・二体の μs/步)' }),
 ];
+// ==== 第319便c の塊(ここから)====
+// ---- 第319便c(原仮定者の指示(第121報)「時間が掛かっている再生成の段について、時間短縮を行う」・決断事項 AN454・統括の検証項目 R260): **閉じた探索の段を履歴へ**
+//   判定の規則 `CLOSED_RULE_319C`(段ごとに 3 つとも満たすときだけ履歴へ —— 満たさない段は現行のまま・理由を `CLOSED_KEEP_319C` に):
+//     ① 探索の結論が決断事項に記録された(段の正本の問いが閉じた —— 番号を `closedBy` に)
+//     ② 現行の段が正本を入力に読まない(meta.inputs —— lint.regenScope ④「現行の正本の入力に履歴が無い」)
+//     ③ 正本を読む QA が凍結の正本として照合できる(器の純関数で正本の行から作り直す —— 今の html を走らせない。上流の正本と突き合わせる照合は、
+//        上流の正本のバイトが刻印の sha と同じときだけ作り直し、違えば正本に刻んだ記録〔prefix の same/compared〕を照合する —— docs.satMeas317a・docs.satN317b)
+//   表の S(...) の行は書き換えない(器の名・secSource の行は当時の実測の記録として残す —— 役割と secSource をこの塊で上書きし、元の秒は secMeasured に残す)。
+//   **走らせない**: 計画は常に「履歴」(planRegen)・鎖に乗らない・正本は第317便の走行のまま(lint.provenanceMeta は ①⑤ の形だけ)。
+export const CLOSED_RULE_319C = Object.freeze({ version: 'w319c-closed-1', criteria: ['decision-recorded', 'no-current-reader', 'qa-frozen-ok'] });
+export const HISTORY_319C = Object.freeze([
+  Object.freeze({ key: 'satmeas-317a', closedBy: ['AN442', 'AN450'], why: '衛星 6 本の測る量と予算の探索(第317便a)—— 共通の測る量 M0・HARM_RULE を緩めない(AN442)・三体の測る量の既定は第318便b の契約(AN450 —— 正本 satnext-318b)。現行の段は正本を読まない' }),
+  Object.freeze({ key: 'satn-317b', closedBy: ['AN441'], why: '衛星の物理の軸の探索(第317便b —— G_loc の n・K1-Y(n)・K2 の半径の方針)—— 在位は n = 2・K1 のまま・衛星での K2 の調査は閉じる(AN441)。現行の段は正本を読まない' }),
+]);
+/** 履歴へ移さない探索の段(② に当たる —— 現行の正本の上流)。 */
+export const CLOSED_KEEP_319C = Object.freeze([
+  Object.freeze({ key: 'satcut-317c', why: '② 現行の正本 satnext-318b(第318便b)が meta.inputs に読む(64 公転の M0 のビット同一の照合と二体の参照)' }),
+  Object.freeze({ key: 'sath-316d', why: '② 現行の段 satcut-317c・satan-317d が読む(通過の窓の照合)—— satcut-317c が現行の間は残す' }),
+  Object.freeze({ key: 'satk1-315d', why: '② 現行の段 sath-316d・satan-317d が読む' }),
+]);
+export const HISTORY_SEC_SOURCE_319C = '履歴(第319便c で登録 —— 走らせない)';
+for (const h of HISTORY_319C) {
+  const st = REGEN_STEPS.find((z) => z.key === h.key);
+  if (!st) continue;
+  st.secMeasured = { sec: st.sec, secSource: st.secSource };
+  st.role = 'history'; st.secSource = HISTORY_SEC_SOURCE_319C; st.closedBy = h.closedBy.slice();
+  st.note = '第319便c(R260): 閉じた探索の段 —— ' + h.why + '。**再生成しない**(計画は常に「履歴」)。元の注: ' + (st.note || '');
+}
+// ---- 第319便c(R260): **presets "all" の段の絞り込み**と **AN454(領域の宣言の無い段に REGEN_SCOPE)** の記録(段ごとの扱いと根拠 —— QA docs.regenShort319c が器の宣言と照合する)
+//   ・絞った段(`NARROWED_319C`): 器と lib の下限(deriveScope)が名指しの本の集合で、器の REGEN_SCOPE だけが "all" だった段。'lib-find' は
+//     tests/lib-w299c-planets3d.mjs(太陽と惑星の元の本 2 本)・tests/lib-w300c-saturnring3d.mjs(💍 と 🟡)が allPresets() を変数に受けて .find で引いていた
+//     (下限が "all" になる形)のを .find で直に引く形にした段・'declared-wide' は下限が元から名指しの本だった段。宣言の presets = 下限 ∪ 器が import する
+//     凍結の写しの lib(tests/lib-w3xx?-pre.mjs・lib-w315c-legacy7.mjs)のデータの本の ID(門を本ごとに引くので、写しの本の宣言が変われば作り直す)。
+//     値は同じ(.find の結果の本は同じ —— 本の ID は一意)。実行時に器が中身を読んだ本が宣言の内にあることは枝の探索で確かめた(PHYSICS〔第319便c〕)。
+//   ・"all" のまま残す段(`KEEP_ALL_319C`): 下限の機械の読みは名指しの本だが、器が文字列の式(evalExpr)・別の器の関数の本文・別の器の子プロセスで内蔵の全本を数える段。
+//   ・AN454(`AN454_319C`): html を読む宣言の無い段のうち所要の大きい段に REGEN_SCOPE(器と lib の下限 —— scopeStamp で刻む)。付けない段は理由つき(`AN454_SKIP_319C`)。
+//     宣言の無い 45 段のうち 21 段は html を読まない(対象が lib・CSV —— nsgrid・galaxyproto・nsmode ほか —— 領域の宣言は当たらない。html の変更では元から作り直さない)。
+export const NARROWED_319C = Object.freeze([
+  ...['shell-304b', 'k1confirm-313d', 'k1em-314c', 'k1outer-314c', 'pairnorm-305a', 'planet3-311d', 'periodn-306b', 'inertialr2-303b', 'gfamily-305b', 'confirm-312d', 'inposk1-315c',
+    'mdsweep-310d', 'an336-306a', 'galaxialrd-312b', 'galaxial-311b', 'planets3d-299c', 'galaxialrdm-313b', 'shell-304a'].map((key) => Object.freeze({ key, via: 'lib-find', lib: 'tests/lib-w299c-planets3d.mjs' })),
+  Object.freeze({ key: 'saturnring3d-300c', via: 'lib-find', lib: 'tests/lib-w300c-saturnring3d.mjs' }),
+  ...['clusterStable', 'moon3d-298c', 'drag3d-298c', 'coord3d-298a', 'jeans286'].map((key) => Object.freeze({ key, via: 'declared-wide', lib: null })),
+]);
+export const KEEP_ALL_319C = Object.freeze([
+  Object.freeze({ key: 'pn1', why: '文字列の式 evalExpr で HP.allPresets().filter(geoPN)・.map(id)・.length を読む(内蔵の全本の数え上げ)' }),
+  Object.freeze({ key: 'pnsource286', why: '文字列の式 evalExpr で HP.allPresets().filter(scaleExp)・.map(id) を読む(内蔵の全本の数え上げ)' }),
+  Object.freeze({ key: 'pnsources291', why: '文字列の式 evalExpr の中で for (const p of HP.allPresets()) —— 内蔵の全本を回す' }),
+  Object.freeze({ key: 'refit-297a', why: 'vm で BUILTIN_PRESETS を読み .filter(geoPN ≥ 2) で本を選ぶ(内蔵の全本の数え上げ)' }),
+  Object.freeze({ key: 'eihdiag287', why: '較正走行の器 tests/exp-w249b-calaudit.mjs の関数の本文を html の中で評価する(本文の読みは機械の下限に出ない)' }),
+  Object.freeze({ key: 'tpsign', why: '較正走行の器を子プロセス(--only)で走らせる(子プロセスの読みは機械の下限に出ない)' }),
+]);
+export const AN454_319C = Object.freeze([
+  Object.freeze({ key: 'galaxychain', harness: 'tests/exp-w281b-galaxychain.mjs' }),
+  Object.freeze({ key: 'galaxylite', harness: 'tests/exp-w274c-galaxylite.mjs' }),
+  Object.freeze({ key: 'strain', harness: 'tests/exp-w281d-strain.mjs' }),
+  Object.freeze({ key: 'd0audit', harness: 'tests/exp-w275b-d0audit.mjs' }),
+  Object.freeze({ key: 'bgbudget', harness: 'tests/exp-w277d-bgbudget.mjs' }),
+]);
+export const AN454_SKIP_319C = Object.freeze([
+  Object.freeze({ key: 'galaxyprof2', why: '器が停止関数 render を名で読む(描画の時間の測定 —— lint.scopeStop ② に当たる)' }),
+  Object.freeze({ key: 'galaxyprof', why: '基点 html($BASE_HTML)と今の html の 2 つを比べる器(領域は今の html の 1 つだけを刻む)' }),
+  Object.freeze({ key: 'needmesh', why: '基点 html($BASE_HTML)と今の html の 2 つを比べる器' }),
+  Object.freeze({ key: 'bh90', why: '来歴を独自の measurementStamp で刻む器(provenanceMeta の形でない —— 器の書き直しは次便)' }),
+  Object.freeze({ key: '(15 段)', why: 'twobody・meshnod0・d0audit2・bgcompose・sphereKernel・qsplit・rpar・nslockledger・bhcore・presetaxes・bgfield・bgpredict・selfinertia・rotorledger・slipaudit(見積り 0〜8 s —— 合わせて約 25 s)'
+    + '—— 次に器を触る便で' }),
+]);
+// ==== 第319便c の塊(ここまで)====
 
 /**
  * 第285便f(原仮定者の裁定(第75報)AN53): **html 全体を刻む段**(正本の meta.target が beta/index.html・完全な領域の宣言なし —— 第285便f の
@@ -3915,10 +4004,14 @@ export async function regenChainSelfTest(o) {
     const whole = htmlWholeSteps({ root });
     const intoUp = W285F_AFTER_SAMPLESTATUS.filter((k) => up.has(k));
     const det = N1.beforeSamplestatus.slice().sort();
-    res.n = { whole: whole.length, upstream: [...up].sort(), added: W285F_AFTER_SAMPLESTATUS.length, now: N0.beforeSamplestatus, detected: det.length,
+    // 第319便c(AN454・R260): 足した after の段のうち、領域の宣言(REGEN_SCOPE —— 完全)を刻むようになった段は html 全体の段ではない(検出の対象の外)。
+    //   検出されるのは「足した段 ∩ 今も html 全体を刻む段」で、外れた段は領域を刻んでいること(after は外さない —— 生成領域を閉包に持てば samplestatus の後で刻み直す)
+    const wholeSet = new Set(whole), wantDet = W285F_AFTER_SAMPLESTATUS.filter((k) => wholeSet.has(k)).sort(), scopedNow = W285F_AFTER_SAMPLESTATUS.filter((k) => !wholeSet.has(k));
+    const scopedOk = scopedNow.every((k) => { const st = REGEN_STEPS.find((z) => z.key === k); return !!st && (st.outs || []).every((f) => { const m = readMetaAt(root, f); return !m || m.target !== 'beta/index.html' || (m.scope && m.scopeComplete === true); }); });
+    res.n = { whole: whole.length, upstream: [...up].sort(), added: W285F_AFTER_SAMPLESTATUS.length, now: N0.beforeSamplestatus, detected: det.length, scopedNow,
       cycles: N0.cycles.length, intoUpstream: intoUp,
-      ok: N0.beforeSamplestatus.length === 0 && N0.cycles.length === 0 && intoUp.length === 0
-        && JSON.stringify(det) === JSON.stringify(W285F_AFTER_SAMPLESTATUS.slice().sort()) && ['calaudit', 'dt3', 'kf0', 'charonwin'].every((k) => up.has(k)) };
+      ok: N0.beforeSamplestatus.length === 0 && N0.cycles.length === 0 && intoUp.length === 0 && scopedOk
+        && JSON.stringify(det) === JSON.stringify(wantDet) && ['calaudit', 'dt3', 'kf0', 'charonwin'].every((k) => up.has(k)) };
   }
   // (o) 第286便f(再生成表の after 検査): 今の表で静的な欠落 0・宣言した読みが実態に合う(stale 0)・第285便の型(obscompare の after から pn1 を外した写し)と
   //     galaxydiag の after から sparc を外した写しで**検出される**・宣言を空にした写しで宣言した読みがすべて欠落として出る(宣言が素通しでない)

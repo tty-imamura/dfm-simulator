@@ -722,7 +722,7 @@
  "part4": {
   "chain3d": {
    "steps": 2000,
-   "wallSec": 2.328,
+   "wallSec": 2.89,
    "itersMax": 40,
    "resMax": 9.99311e-11,
    "fail": 0,
@@ -776,7 +776,7 @@
   },
   "chain3dTilt": {
    "steps": 2000,
-   "wallSec": 3.642,
+   "wallSec": 4.735,
    "itersMax": 40,
    "resMax": 9.99383e-11,
    "fail": 0,
@@ -941,22 +941,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便c",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-28T21:30:23.436Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T13:19:07.745Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w298c-drag3d.mjs",
-    "bytes": 31970,
-    "sha256": "f35c5d33aa62e3a7601d0d27353b0efedc9ab3f94923a252034a2ab13c876a2c",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "bytes": 32238,
+    "sha256": "ed45ced9754ff5249f59b430e448d70ef287402cbf841c5202e4be8696918f65",
+    "mtime": "2026-10-30T11:33:02.834Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -977,7 +977,7 @@
     "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "140e5a38fbfa4820d48e2d0dc441186ff01fba061b62e5356ebacf6a85c0edfa",
+  "codeSha256": "5d88701d3b4b36b06391ef2368fed92405ba31e094df6b1cf0a51dcf6542c18e",
   "harnessVersion": "w298c-drag3d-1",
   "spin3Version": "w298c-spin3-1",
   "probeVersion": "w298c-probe-1",
@@ -987,7 +987,13 @@
   "reading": "統括の検証項目 R167",
   "scope": {
    "version": "w318a-scope-6",
-   "presets": "all",
+   "presets": [
+    "chainDiskToy",
+    "chainDiskToy3d",
+    "chainDiskToy3dTilt",
+    "earthMoonSunInertial3d",
+    "inertialDragPair"
+   ],
    "roots": [
     "DT",
     "HP.PROBE_VERSION",
@@ -1016,14 +1022,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1343,
-   "segments": 1182,
-   "closureShare": 0.3047
+   "names": 1361,
+   "segments": 1200,
+   "closureShare": 0.3065
   },
-  "scopeSha256": "bd48066f82b0e01edf1bc9c95db8501276f147c3d5317076d7c0d745487ab8d9",
+  "scopeSha256": "6062e0008fd314d839affd37a7f1abb38ad1e52be256ebd907577b80d9973edc",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 18.117
+ "elapsedS": 19.971
 }

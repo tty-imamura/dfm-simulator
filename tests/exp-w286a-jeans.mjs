@@ -18,7 +18,8 @@ import * as JL from './lib-w286a-jeans.mjs';
 import * as E283 from './exp-w283f-cluster.mjs';
 // 第281便a(AN16・R71): **この器が読む html の領域**の宣言(1 行の JSON —— lint.regenScope が読む)
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["$","CONTACT_MODE_KEY","DT","HP.allPresets","HP.dfmField","HP.dfmFieldContractOf","HP.dfmFieldSnapshot","HP.sim","HP.validatePreset","T","ch","contactNoneOf","ctx","cw","dfmField","dfmFieldContract","geoCoreDispatch","jeansRowsVelocities","jeansSigma2Profile"],"core":true,"consts":[],"complete":true};
+// 第319便c(原仮定者の指示(第121報)・R260): presets は "all" から名指しの本へ(器と lib の deriveScope の下限 ∪ 器が読む凍結の写しの本)
+const REGEN_SCOPE = {"presets":["clusterAnalogyBH","galaxyAnalogyBH","gas"],"roots":["$","CONTACT_MODE_KEY","DT","HP.allPresets","HP.dfmField","HP.dfmFieldContractOf","HP.dfmFieldSnapshot","HP.sim","HP.validatePreset","T","ch","contactNoneOf","ctx","cw","dfmField","dfmFieldContract","geoCoreDispatch","jeansRowsVelocities","jeansSigma2Profile"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w286a-jeans-1';

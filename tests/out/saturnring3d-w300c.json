@@ -282,7 +282,7 @@
      "max": 0
     }
    },
-   "wallSec": 76.638
+   "wallSec": 106.794
   },
   "m5h2": {
    "key": "m5h2",
@@ -508,7 +508,7 @@
      "max": 0
     }
    },
-   "wallSec": 79.995
+   "wallSec": 106.631
   },
   "h": {
    "key": "h",
@@ -734,7 +734,7 @@
      "max": 0
     }
    },
-   "wallSec": 40.878
+   "wallSec": 48.362
   },
   "m5": {
    "key": "m5",
@@ -960,7 +960,7 @@
      "max": 0
     }
    },
-   "wallSec": 41.73
+   "wallSec": 49.165
   },
   "transfer": {
    "key": "transfer",
@@ -1186,7 +1186,7 @@
      "max": 0.006420567838183037
     }
    },
-   "wallSec": 48.394
+   "wallSec": 53.642
   },
   "flat2d": {
    "key": "flat2d",
@@ -1399,7 +1399,7 @@
    },
    "conserved": null,
    "drag": null,
-   "wallSec": 4.107
+   "wallSec": 5.209
   },
   "flat2dh2": {
    "key": "flat2dh2",
@@ -1612,7 +1612,7 @@
    },
    "conserved": null,
    "drag": null,
-   "wallSec": 8.59
+   "wallSec": 10.411
   },
   "probe": {
    "key": "probe",
@@ -1678,7 +1678,7 @@
      ]
     }
    },
-   "wallSec": 1.67
+   "wallSec": 1.912
   }
  },
  "stepDependence": {
@@ -1924,28 +1924,28 @@
  "ok": true,
  "timing": {
   "h2": {
-   "wallSec": 76.638
+   "wallSec": 106.794
   },
   "m5h2": {
-   "wallSec": 79.995
+   "wallSec": 106.631
   },
   "h": {
-   "wallSec": 40.878
+   "wallSec": 48.362
   },
   "m5": {
-   "wallSec": 41.73
+   "wallSec": 49.165
   },
   "transfer": {
-   "wallSec": 48.394
+   "wallSec": 53.642
   },
   "flat2d": {
-   "wallSec": 4.107
+   "wallSec": 5.209
   },
   "flat2dh2": {
-   "wallSec": 8.59
+   "wallSec": 10.411
   },
   "probe": {
-   "wallSec": 1.67
+   "wallSec": 1.912
   }
  },
  "notClaim": [
@@ -1957,14 +1957,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第300便c",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T01:02:54.209Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T13:53:38.665Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1976,9 +1976,9 @@
   "code": [
    {
     "file": "tests/exp-w300c-saturnring3d.mjs",
-    "bytes": 43931,
-    "sha256": "1dae86cc34d8997ef4a8046c978de03fd82facc60b67771bb2e8b8b07f9027cd",
-    "mtime": "2026-10-25T16:42:07.778Z"
+    "bytes": 44305,
+    "sha256": "195b780c637a14f9845cd4205ea77d8fba2f4d8751411b666affc2045eac4339",
+    "mtime": "2026-10-30T11:33:02.838Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -1988,9 +1988,9 @@
    },
    {
     "file": "tests/lib-w300c-saturnring3d.mjs",
-    "bytes": 10077,
-    "sha256": "fb516e6d45c6238baac8ba4166224b75a37d99bd1345fe682314c504b0e69100",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "bytes": 10279,
+    "sha256": "d419274a1aead8fb2c960395013905049b3e103d947d0cfbdcaa7252179862ba",
+    "mtime": "2026-10-30T11:33:02.854Z"
    },
    {
     "file": "tests/lib-w301b-approxmany.mjs",
@@ -2017,14 +2017,25 @@
     "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "8355b6bacb630cf923ac322a989e334942200a71fff2b9502d97627817e37180",
+  "codeSha256": "f85045037b6f619970beaea3845fa17fc4305e3f2a2e3f2ef5f29abf6c9723da",
   "harnessVersion": "w300c-saturnring3d-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第90報)⑥「土星の輪の geoPN=3 版の三次元サンプルを作成する」",
   "reading": "統括の検証項目 R177(土星の輪の三次元の新本・試験粒子の扱い・面の保持と損失と刻み依存・回転引きずりの見え方)",
   "scope": {
    "version": "w318a-scope-6",
-   "presets": "all",
+   "presets": [
+    "jupiterSunInertial3d",
+    "marsSunInertial3d",
+    "mercurySunInertial3d",
+    "neptuneSunInertial3d",
+    "saturn",
+    "saturnRingInertial3d",
+    "saturnRingReal",
+    "saturnSunInertial3d",
+    "uranusSunInertial3d",
+    "venusSunInertial3d"
+   ],
    "roots": [
     "$",
     "HP.allPresets",
@@ -2039,11 +2050,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1333,
-   "segments": 1174,
-   "closureShare": 0.3036
+   "names": 1351,
+   "segments": 1192,
+   "closureShare": 0.3054
   },
-  "scopeSha256": "0a666ed3f636b397d0b109ff610557bc348327ac403abb77ef3bded0023f7edd",
+  "scopeSha256": "c8bdc3d5addbe84a61e33b57fc06772fa3d32d58cd2d6ab234617d76111bfd1d",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -2055,5 +2066,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 167.008
+ "elapsedS": 210.151
 }

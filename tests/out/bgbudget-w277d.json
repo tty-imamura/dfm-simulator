@@ -3,34 +3,34 @@
   "provenanceVersion": "w272e-1",
   "wave": "第278便d(第277便d の器の版上げ)",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T08:27:25.184Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T18:29:16.667Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/out/bgpredict-w276a.json",
     "bytes": 96091,
-    "sha256": "2c713abae02f1b95caa0b6c35f7538027630f8436002f65064a32c8645d8af8c",
-    "mtime": "2026-10-28T23:51:01.088Z"
+    "sha256": "356624b1d762b7e48b3b567007b393562baafc76281e583a71c1214a9288dddd",
+    "mtime": "2026-10-30T15:25:14.806Z"
    },
    {
     "file": "tests/out/bgequiv-w278d.json",
     "bytes": 87314,
-    "sha256": "220e87dfb906fdfa8e740db6db4f8accd67a97b18b94df143e3ba8b2459cb02b",
-    "mtime": "2026-10-29T02:35:02.845Z"
+    "sha256": "88536ca8fd04bd875a614a3fd48293f9a3470809b8f562f841d5e8053087c639",
+    "mtime": "2026-10-30T15:46:52.919Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w277d-bgbudget.mjs",
-    "bytes": 32475,
-    "sha256": "6f6b0e0fec3e6d039d57e3d4226678b6e0f883504c513015a29447051b123cec",
-    "mtime": "2026-10-20T16:19:56.628Z"
+    "bytes": 33203,
+    "sha256": "e2f1d37b4b082fe812e56210119b681fb266e9039b40cf0fd40594656d6251ec",
+    "mtime": "2026-10-30T11:33:02.830Z"
    },
    {
     "file": "tests/lib-w275b-meshfield.mjs",
@@ -49,9 +49,44 @@
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
     "mtime": "2026-10-20T16:19:56.668Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "6df04d28929d65269501b61e5a51c0c405d6cf69cb75337dcb46a113940a3f12",
+  "codeSha256": "784fc6a04ae43642145d0820fda524e4cd07b576040e720711b39481f5568665",
+  "scope": {
+   "version": "w318a-scope-6",
+   "presets": [
+    "earthMoonRealKF1",
+    "plutoCharonReal",
+    "psrDoubleAB"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.frameWeightPow",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "cv",
+    "dfmField",
+    "dfmGeoToyStep",
+    "dfmLocalMeshField",
+    "validateBackgroundTidal"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1298,
+   "segments": 1139,
+   "closureShare": 0.2935
+  },
+  "scopeSha256": "2a3316265e00093ba97f2c77c4bb3ec32a82d2514931efa9833112a298da42f9",
+  "scopeComplete": true,
   "harnessVersion": "w278d-bgbudget-2",
   "comovingVersion": "w277d-comoving-1",
   "steps": 20000,

@@ -31,6 +31,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
+// 第319便c(原仮定者の指示(第121報)・決断事項 AN454・統括の検証項目 R260): 領域の宣言(器と lib から deriveScope で引いた下限 —— html 全体の刻印をやめ、表示の文だけの変更では作り直さない。値は宣言の前と同じ)
+import { scopeStamp as w319cScopeStamp } from './lib-w281a-scope.mjs';
+const REGEN_SCOPE = {"presets":["galaxyMeshSpiral","galaxyMeshSpiralGeoToy","galaxyMeshSpiralGeoToyLite","ngc3198DFM"],"roots":["$","DT","HP.allPresets","HP.dfmBlendComplexMoments","HP.dfmComplexMomentsOf","HP.dfmField","HP.dfmFieldSnapshot","HP.dfmGalaxyMeshField","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","T","ctx","cw","dfmBlendComplexMoments","dfmComplexMomentsOf","dfmField","dfmFieldSnapshot","dfmGalaxyMeshField"],"core":true,"consts":[],"complete":true};
 import * as CH from './lib-w281b-chain.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -292,7 +295,7 @@ export function responseOf(A, B, dOmega) {
 export function ledgerCanon(root) {
   const suite = CH.chainLedgerSuite();
   const meta = Object.assign(provenanceMeta({ root, wave: '第281便b', target: 'tests/lib-w281b-chain.mjs',
-    code: ['tests/exp-w281b-galaxychain.mjs', 'tests/lib-w281b-chain.mjs', 'tests/lib-w272e-provenance.mjs'],
+    code: ['tests/exp-w281b-galaxychain.mjs', 'tests/lib-w281b-chain.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'],
     inputs: ['tests/lib-w281b-chain.mjs'] }), {
     harnessVersion: HARNESS_VERSION, libVersion: CH.CHAIN_LIB_VERSION,
     ruling: '第71報: 中心天体群から外縁にかけて引きずりが連鎖する(連鎖引きずりの限界による背景宇宙との境界)',
@@ -308,6 +311,8 @@ if (IS_MAIN) {
   const outDir = path.join(ROOT, 'tests', 'out');
   fs.mkdirSync(outDir, { recursive: true });
   const L = ledgerCanon(ROOT);
+  // 第319便c(AN454・R260): 器が REGEN_SCOPE を宣言したので、同じ段の正本(対象は lib —— 計画は領域を引かない)にも同じ宣言を刻む(lint.regenScope ②)
+  Object.assign(L.meta, w319cScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE));
   fs.writeFileSync(path.join(outDir, 'chainledger-w281b.json'), JSON.stringify(L, null, 1));
   console.log('chainledger: J 相対 ' + L.suite.closed.ledger.jRelMax.toExponential(2) + '・閉じ ' + L.suite.closed.ledger.closeRelMax.toExponential(2)
     + '・次数 ' + L.suite.convergence.rows.slice(1).map((r) => r.order.toFixed(4)).join('/') + '・因果対照 ' + L.suite.causal.outerExactZero);
@@ -331,8 +336,8 @@ if (IS_MAIN) {
     const CA = chainRun(HP, 'galaxyMeshSpiral', 1.2), CB = chainRun(HP, 'galaxyMeshSpiral', 0);
     console.log('🎠 2 走行 ' + ((Date.now() - t2) / 1000).toFixed(1) + ' s');
     const meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第281便b', target: TARGET,
-      code: ['tests/exp-w281b-galaxychain.mjs', 'tests/lib-w281b-chain.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs'],
-      inputs: [TARGET] }), {
+      code: ['tests/exp-w281b-galaxychain.mjs', 'tests/lib-w281b-chain.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'],
+      inputs: [TARGET] }), w319cScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE), {
       harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
       ruling: '第71報: 銀河の引きずり(座標変換)の分布を確認する。中心天体群から外縁にかけて引きずりが連鎖する事で、引きずり強度のなだらかな変化と、連鎖引きずりの限界による背景宇宙との境界が生じる',
       reading: 'R72(場の契約が割れている)・R73(連鎖を測る量・R_edge は診断量)',

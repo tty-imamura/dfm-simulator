@@ -3,7 +3,7 @@
  "libVersion": "w309c-recheck-lib-1",
  "generator": "tests/exp-w309c-recheck.mjs",
  "target": "beta/index.html",
- "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+ "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
  "ruling": "原仮定者の裁定(第103報)AN355(慣性自転の初期値 = 観測値の自転 − 引きずり軸回転の初期値)・AN357(正確な引きずりの修正版で再確認)・(第104報)AN362・AN363・(第105報)AN364(慣性移動の初期値 = 観測値の移動 − 引きずり移動の初期値)・決断事項 AN355・AN357・AN362・AN363・AN364・統括の検証項目 R220",
  "initObsVersion": "w309c-initobs-1",
  "ok": true,
@@ -4190,31 +4190,31 @@
  },
  "timing": {
   "K": {
-   "wallSec": 0.098
+   "wallSec": 0.049
   },
   "E": {
-   "wallSec": 0.22
+   "wallSec": 0.204
   },
   "P": {
-   "wallSec": 0.182
+   "wallSec": 0.189
   },
   "R": {
-   "wallSec": 1.511
+   "wallSec": 1.354
   }
  },
- "elapsedS": 4.465,
+ "elapsedS": 3.479,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第309便c",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T05:09:24.911Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T15:52:20.225Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -4351,11 +4351,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1304,
-   "segments": 1145,
-   "closureShare": 0.2974
+   "names": 1317,
+   "segments": 1158,
+   "closureShare": 0.298
   },
-  "scopeSha256": "7768db57e802124b2aa4c772650952730eae1e20f2554af59b0b985cf5aa77f8",
+  "scopeSha256": "f1776ca759b3dabe9943d25499d771962d859b3851f4603012d6c0f3e4ab2ec7",
   "scopeComplete": true,
   "inputsStable": [
    {

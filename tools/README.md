@@ -173,3 +173,17 @@ node tools/pregate-transcript.mjs --list [--all]              # 列挙だけ
 新しい器のフィットの探索が使う小さなライブラリ: 根の停止幅 = **宣言の許容 × 1/10**(`rootTolOf`)・丸めた最終値で刻み h と h/2 を**必ず**測り直す門
 (`|残差| + |h − h/2| ≤ 許容` のときだけ fitted —— `fitStopSync` / `fitStop`)・割線と Illinois(挟めなければ unreachable-in-bounds)。
 歴史の器(第302便c までの器)の中は書き換えない。自己試験 `fitstopSelfTest()`(QA lint.harnessSmoke303 ④)。
+
+## tools/scope-probe319.mjs — 再生成の段の短縮の対照(第319便c)
+
+原仮定者の指示(第121報)「時間が掛かっている再生成の段について、時間短縮を行う」・AN454・R260。同じ html の写しに変更の種類ごと(内蔵の本を 1 本足す・
+在位の惑星 1 本の宣言・步の関数 2 種・表示の文 2 種)の 1 か所の変更を入れ、再生成表の段のうち regen になる段の数と見積りの秒(`tests/data-w311c-regensec.json`)を
+前(`--base-rev` の器の REGEN_SCOPE と履歴の集合)と後(今)で数える(領域 hash は前後とも版 6)。記録 `tests/out/scopeprobe-w319c.json`(段にしない道具の記録)を
+QA `docs.regenShort319c` が PHYSICS〔第319便c〕の表と照合する。
+
+```
+node tools/scope-probe319.mjs --base-rev 7c6bf88 --out tests/out/scopeprobe-w319c.json   # 1 プロセス・数分
+```
+
+段ごとの扱い(閉じた探索の段の履歴化 `HISTORY_319C`・presets の絞り `NARROWED_319C`・"all" のまま `KEEP_ALL_319C`・領域の宣言 `AN454_319C`)は再生成表
+`tests/lib-w281a-regentable.mjs` の第319便c の塊に置いた。数は段 1 回の実測の見積りの和で、鎖の壁時計ではない。

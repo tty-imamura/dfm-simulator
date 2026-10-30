@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第293便c",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-28T21:30:08.475Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T12:53:24.394Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    }
   ],
   "code": [
@@ -81,11 +81,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1289,
-   "segments": 1130,
-   "closureShare": 0.2941
+   "names": 1302,
+   "segments": 1143,
+   "closureShare": 0.2947
   },
-  "scopeSha256": "906039c2155a304a473f99d865304841a61516fcc7f3a33927a168f8c44f8d53",
+  "scopeSha256": "448c09544883763cf645325edc2264198ae873556f8c782c78df555b0d811841",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -9146,7 +9146,7 @@
      "desc": 16,
      "physics": []
     },
-    "wallSec": 6.4559999999999995,
+    "wallSec": 7.122,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
     "removable": false,
@@ -9217,7 +9217,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.20900000000000002,
+    "wallSec": 0.218,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -9288,7 +9288,7 @@
      "desc": 2,
      "physics": []
     },
-    "wallSec": 11.081,
+    "wallSec": 13.465,
     "cls": "B",
     "why": "8 量が動いた",
     "removable": false,
@@ -9358,7 +9358,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.018,
+    "wallSec": 0.023,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -9428,7 +9428,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.595,
+    "wallSec": 0.7709999999999999,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -9500,7 +9500,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.044,
+    "wallSec": 0.078,
     "cls": "C",
     "why": "差 0・軸の鍵(tilt)",
     "removable": false,
@@ -9574,7 +9574,7 @@
      "desc": 90,
      "physics": []
     },
-    "wallSec": 1.341,
+    "wallSec": 1.674,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -9646,7 +9646,7 @@
      "desc": 80,
      "physics": []
     },
-    "wallSec": 0.19,
+    "wallSec": 0.252,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -9720,7 +9720,7 @@
      "desc": 89,
      "physics": []
     },
-    "wallSec": 0.119,
+    "wallSec": 0.261,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -9792,7 +9792,7 @@
      "desc": 38,
      "physics": []
     },
-    "wallSec": 0.17400000000000002,
+    "wallSec": 0.133,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -9866,7 +9866,7 @@
      "desc": 29,
      "physics": []
     },
-    "wallSec": 0.565,
+    "wallSec": 0.434,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
     "removable": false,
@@ -9932,7 +9932,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.123
+    "wallSec": 0.196
    }
   ]
  },
@@ -9973,7 +9973,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.118
+    "wallSec": 0.161
    },
    {
     "id": "earthMoonOnly3d",
@@ -10010,7 +10010,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.058
+    "wallSec": 0.065
    },
    {
     "id": "plutoCharonInertialFit",
@@ -10047,7 +10047,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.11599999999999999
+    "wallSec": 0.154
    }
   ]
  },
@@ -10175,5 +10175,5 @@
   "rule": "A ∧ 在位 ∧ 較正の在位でない ∧ 主張・説明・本の宣言がコアを読まない ∧ 観測層(T_obs・Q・lSw)の差 0(QA・samplestatus の参照は器の外で文書に書く)"
  },
  "ok": true,
- "elapsedS": 21.963
+ "elapsedS": 25.98
 }

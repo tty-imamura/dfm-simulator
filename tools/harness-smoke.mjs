@@ -88,10 +88,10 @@ export const SMOKE_KNOBS = Object.freeze({
   'sath-316d': { env: { W316D_PARTS: 'E,A,C,V', W316D_QUICK: '1', W316D_SATS: 'io,triton', W316D_OUT: 'tests/out/_smoke-sath-w316d.json' }, note: '試走(8 公転・h と h/2・イオとトリトンの二体と三体 —— 約 20 s。正本の 64 公転 × h/4 の走行は鎖 —— 子プロセス 2 本で約 1210 s)' },   // 第316便d
   // ==== 第315便d の塊(ここまで)====
   // ==== 第317便a の塊(ここから)====
-  'satmeas-317a': { env: { W317A_QUICK: '1', W317A_SATS: 'io,europa', W317A_OUT: 'tests/out/_smoke-satmeas-w317a.json' }, note: '試走(480 步/公転・8〜12 公転・h〜h/4 —— イオとエウロパの二体と三体・約 25 s。正本の 64〜128 公転 × h〜h/8 の走行は鎖 —— 子プロセス 2 本)' },   // 第317便a
+  // 第319便(統括の統合): 第319便c で段を履歴へ(role:'history' —— 走らせない)—— 試走の窓を外した(lint.harnessSmoke303 ①)。旧の行: 'satmeas-317a': { env: { W317A_QUICK: '1', W317A_SATS: 'io,europa', W317A_OUT: 'tests/out/_smoke-satmeas-w317a.json' }, note: '試走(480 步/公転・8〜12 公転・h〜h/4 —— イオとエウロパの二体と三体・約 25 s。正本の 64〜128 公転 × h〜h/8 の走行は鎖 —— 子プロセス 2 本)' },   // 第317便a
   // ==== 第317便a の塊(ここまで)====
   // ==== 第317便b の塊(ここから)====
-  'satn-317b': { env: { W317B_QUICK: '1', W317B_SATS: 'io', W317B_SATS3: 'io', W317B_WORKERS: '1', W317B_OUT: 'tests/out/_smoke-satn-w317b.json' }, note: '試走(4 公転・h と h/2・180 → 360 步/公転・イオの二体の全組と三体 —— 約 40 s。正本の 6 衛星 × 32 公転 × h/4 と三体の 64 公転は鎖 —— 子プロセス 2 本)' },   // 第317便b
+  // 第319便(統括の統合): 第319便c で段を履歴へ(role:'history' —— 走らせない)—— 試走の窓を外した(lint.harnessSmoke303 ①)。旧の行: 'satn-317b': { env: { W317B_QUICK: '1', W317B_SATS: 'io', W317B_SATS3: 'io', W317B_WORKERS: '1', W317B_OUT: 'tests/out/_smoke-satn-w317b.json' }, note: '試走(4 公転・h と h/2・180 → 360 步/公転・イオの二体の全組と三体 —— 約 40 s。正本の 6 衛星 × 32 公転 × h/4 と三体の 64 公転は鎖 —— 子プロセス 2 本)' },   // 第317便b
   // ==== 第317便b の塊(ここまで)====
   // ==== 第317便c の塊(ここから)====
   'satcut-317c': { env: { W317C_QUICK: '1', W317C_SATS: 'io,triton', W317C_WORKERS: '1', W317C_OUT: 'tests/out/_smoke-satcut-w317c.json' }, note: '試走(8 公転・S 360・h と h/2・イオとトリトンの V0・V2・V6b f=0・V1a —— 約 60 s。正本の 64 公転 × h/4 の走行は鎖 —— 子プロセス 2 本)' },   // 第317便c
@@ -105,6 +105,12 @@ export const SMOKE_KNOBS = Object.freeze({
   // ==== 第318便d の塊(ここから)====
   'dragest-318d': { env: { W318D_QUICK: '1', W318D_OUT: 'tests/out/_smoke-dragest-w318d.json' }, note: '試走(B の格子を 16×32 だけ・D の走行を 2 公転 —— 約 15 s。正本は 1 プロセスで約 71 s〔並走の秒〕)' },   // 第318便d
   // ==== 第318便d の塊(ここまで)====
+  // ==== 第319便a の塊(ここから)====
+  'axisheat-319a': { env: { W319A_QUICK: '1', W319A_OUT: 'tests/out/_smoke-axisheat-w319a.json' }, note: '試走(步を 2 に・🗺️ を外す —— 約 1 s。正本は 1 プロセスで約 2.3 s〔並走の秒〕)' },   // 第319便a
+  // ==== 第319便a の塊(ここまで)====
+  // ==== 第319便b の塊(ここから)====
+  'srcradius-319b': { env: { W319B_QUICK: '1', W319B_OUT: 'tests/out/_smoke-srcradius-w319b.json' }, note: '試走(分布した銀河の格子を 1 段・加法性の N を 2 つ —— 約 2 s。正本は 1 プロセスで約 5 s〔並走の秒〕)' },   // 第319便b
+  // ==== 第319便b の塊(ここまで)====
   // ==== 第311便b の塊(ここまで)====
 });
 

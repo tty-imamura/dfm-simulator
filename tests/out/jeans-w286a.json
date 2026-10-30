@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便a",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-28T21:30:33.972Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T13:19:21.147Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w286a-jeans.mjs",
-    "bytes": 10825,
-    "sha256": "5d90daa98982d91daa591d2a83d427d505cb044b8e3308b485aef8f5c262b1c5",
-    "mtime": "2026-10-20T16:19:56.636Z"
+    "bytes": 11039,
+    "sha256": "3c667decaa09cacc91547040a8e21c8f7ae22a00f552ac36d8a5bb67bf52b2b4",
+    "mtime": "2026-10-30T11:33:02.830Z"
    },
    {
     "file": "tests/lib-w286a-jeans.mjs",
@@ -51,7 +51,7 @@
     "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "b73d9132079699004804c2c7d07ffb42e7f580f972f12520fc75eba811e7a2f1",
+  "codeSha256": "6695d5a7176bcf9d98af087bfb4fd5b2bc16fb0be441a3ddbc6a6ea50a52868d",
   "harnessVersion": "w286a-jeans-1",
   "libVersion": "w286a-jeans-1",
   "ruling": "原仮定者の裁定(第76報)⑤: 球状星団はわずかに回転している —— これをヒントにバランスの取れる状態を計算で割り出す",
@@ -64,7 +64,11 @@
   ],
   "scope": {
    "version": "w318a-scope-6",
-   "presets": "all",
+   "presets": [
+    "clusterAnalogyBH",
+    "galaxyAnalogyBH",
+    "gas"
+   ],
    "roots": [
     "$",
     "CONTACT_MODE_KEY",
@@ -89,11 +93,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1289,
-   "segments": 1130,
-   "closureShare": 0.2944
+   "names": 1302,
+   "segments": 1143,
+   "closureShare": 0.295
   },
-  "scopeSha256": "8416cc568573452a3c03dfd7a389e3c0a1c7d047e9a8f16f8c7c3e1a20acd583",
+  "scopeSha256": "3ce1f35af1580cad782adaed5cb8f6969013ffab08bb0bfff307bfcbd6843995",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -431,5 +435,5 @@
    "err": ""
   }
  },
- "elapsedS": 8.099
+ "elapsedS": 7.945
 }

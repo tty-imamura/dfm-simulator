@@ -3,7 +3,7 @@
  "libVersion": "w308c-sunspin-lib-1",
  "generator": "tests/exp-w308c-sunspin.mjs",
  "target": "beta/index.html",
- "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+ "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
  "ruling": "原仮定者の裁定(第102報)②(太陽の観測の自転と要求される慣性自転の乖離・銀河の慣性自転に由来する引きずり軸回転の比率)・①(相互の引きずりに反作用を返すと二重計上にならないか)・原仮定者の裁定(第101報)((C) のエネルギーの出所は太陽の慣性自転・中心部の収縮で釣り合う・軸引きずりは軸方向に対する角度差の 2 倍で傾いた軸)・決断事項 AN355・AN348・統括の検証項目 R216",
  "inputs": {
   "planets": [
@@ -3367,34 +3367,34 @@
  "ok": true,
  "timing": {
   "checks": {
-   "wallSec": 0.118
+   "wallSec": 0.088
   },
   "required": {
-   "wallSec": 0.064
+   "wallSec": 0.056
   },
   "galaxy": {
-   "wallSec": 0.027
+   "wallSec": 0.017
   },
   "doubleCount": {
-   "wallSec": 0.01
+   "wallSec": 0.001
   },
   "contraction": {
-   "wallSec": 0.049
+   "wallSec": 0.046
   }
  },
- "elapsedS": 2.041,
+ "elapsedS": 1.831,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便c",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T08:29:52.859Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T19:05:32.075Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -3505,11 +3505,11 @@
    "core": false,
    "consts": [],
    "complete": true,
-   "names": 1285,
-   "segments": 1126,
-   "closureShare": 0.2929
+   "names": 1298,
+   "segments": 1139,
+   "closureShare": 0.2935
   },
-  "scopeSha256": "90187a9ffdaf5fa70a847523b8156bec3ce525d92598896c9ba90fcc25ce72bd",
+  "scopeSha256": "a903d7264110901c4a17a9b6964bef2a3938c15213ef9ade0221e643962e44cd",
   "scopeComplete": true,
   "inputsStable": [
    {

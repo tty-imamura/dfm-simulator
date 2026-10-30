@@ -32,7 +32,9 @@ set -u
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT" || exit 2
 # 第318便(統括の統合 —— ③′ の一覧が伸びて qapart が既定の heap で落ちた〔363/750 本で heap out of memory〕): qapart の heap の既定を 8192 MiB に(外から NODE_OPTIONS を渡せばそれを使う)
-export NODE_OPTIONS="${NODE_OPTIONS:---max-old-space-size=8192}"
+# 第319便(統括の統合 —— 上の既定は外の NODE_OPTIONS〔例 --use-openssl-ca〕が空でないと効かず、③′ の 381/803 本で heap out of memory〔2 GB〕):
+#   外の NODE_OPTIONS に heap の宣言が無ければ 8192 MiB を足す(宣言があればそれを使う)
+case " ${NODE_OPTIONS:-} " in *--max-old-space-size=*) ;; *) export NODE_OPTIONS="${NODE_OPTIONS:+$NODE_OPTIONS }--max-old-space-size=8192" ;; esac
 DEFAULT_IDS="lint.regenScope behavior.rayLensExcluded ai.stabilize docs.fourValuesHistory docs.preset-table-sync docs.families ui.samplePicker lint.provenanceMeta ui.pickerSeparators"
 IDS="${POST_MERGE_IDS:-$DEFAULT_IDS}"
 # 第288便f(AN90): ③′ 本便の新設ブロック。統合直後の常設集合(④)とは別。
@@ -416,6 +418,30 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.solar16Builtin318c docs.solar16Buil
 #   lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.dragEst318d behavior.dragEst318d lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第318便d の塊(ここまで)====
+# ==== 第319便a の塊(ここから)====
+# 第319便a(原仮定者の指示(第121報)・AN447・AN468・AN469・R258): 枝 a の新設 2 本(behavior.axisHoldBalance319 —— 維持の型の源ごとの維持と釣り合いの口座の受理・同一・純関数の場面・
+#   状態の契約・docs.axisHeat319 —— 正本と文書・PHYSICS〔第318便d〕の訂正の段落)と、維持の型の既存の 2 本(behavior.maintain309・docs.maintain309)・帳簿の欄(behavior.holdLedger310・
+#   docs.pairHeat310)・維持の型の段の正本を読む docs.dragEst318d・正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.canon304・
+#   lint.qaHeapRelease310・lint.sectionLookup313・lint.provenanceMeta・lint.presetText316c(受理器の理由の文の表)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisHoldBalance319 docs.axisHeat319 behavior.maintain309 docs.maintain309 docs.dragEst318d behavior.dragEst318d lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.provenanceMeta lint.presetText316c"
+# ==== 第319便a の塊(ここまで)====
+# ==== 第319便b の塊(ここから)====
+# 第319便b(原仮定者の指示(第121報)・AN445・AN446・AN449・R259): 枝 b の新設 1 本(docs.srcRadius319 —— 引きずる側の半径 R_src の 3 案・分布した銀河の太陽系近傍・天体別の役割の表の
+#   正本と文書・純関数の作り直し)と、正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・CANON の lint.canon304・
+#   lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.srcRadius319 lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第319便b の塊(ここまで)====
+# ==== 第319便c の塊(ここから)====
+# 第319便c(原仮定者の指示(第121報)・決断事項 AN454・統括の検証項目 R260): 枝 c の新設 1 本(docs.regenShort319c —— 再生成の段の短縮の記録と文書)と、履歴へ移した段の
+#   docs.satMeas317a・docs.satN317b(履歴の世代の照合)・器の宣言と正本の刻印の lint.regenScope・lint.regenChain・lint.scopeAll312・lint.scopeStop・lint.stableHashPaths・
+#   lint.provenanceMeta・lint.canon304
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.regenShort319c docs.satMeas317a docs.satN317b lint.regenScope lint.regenChain lint.scopeAll312 lint.scopeStop lint.stableHashPaths lint.provenanceMeta lint.canon304"
+# ==== 第319便c の塊(ここまで)====
+# ==== 第319便d の塊(ここから)====
+# 第319便d(決断事項 AN460・AN461・AN462・AN455・R261): 枝 d の新設 2 本(lint.laterBooks319 —— 後に入った本の除外の理由の表・docs.w319d —— 三次元の本の数と較正の注と
+#   帰属と受理の理由の文の領域の見積り)と、書き換えた QA(三次元の本を受理した宣言で数える 10 ブロック・較正の注の 2 ブロック・docs.sampleStatus-sync の原稿の世代)・lint.regenScope
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.laterBooks319 docs.w319d behavior.rayLensExcluded behavior.contactMode docs.coreCensus behavior.coreV2Migrate behavior.coreV2ReplaceReport behavior.shellSpinMassLaw behavior.geoMode docs.timeStd297 behavior.coord3dHaltAB299 docs.timeStd3d299 ui.notclaim-real ui.v59Text301 docs.sampleStatus-sync lint.regenScope"
+# ==== 第319便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

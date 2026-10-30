@@ -3,7 +3,7 @@
  "libVersion": "w308a-bevel-lib-1",
  "generator": "tests/exp-w308a-bevel.mjs",
  "target": "beta/index.html",
- "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+ "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
  "ruling": "原仮定者の裁定(第101報)(源の軸回転は軸方向に対する角度差の 2 倍で傾いた軸で作用する —— 赤道で逆・軸方向で順・45° でベベルギヤの様に 90°・軸引きずりは回転引きずりの差分で仰角が上がると弱まる・受け手は体積平均)・決断事項 AN346・AN347・AN354・統括の検証項目 R214",
  "axialVersion": "w308a-axial-bevel-1",
  "axialLaw": "bevel-mirror-sin",
@@ -3862,40 +3862,40 @@
  "ok": true,
  "timing": {
   "G": {
-   "wallSec": 0.005
+   "wallSec": 0.007
   },
   "K": {
-   "wallSec": 0.004
+   "wallSec": 0.005
   },
   "L": {
-   "wallSec": 0.258
+   "wallSec": 0.237
   },
   "S": {
-   "wallSec": 0.107
+   "wallSec": 0.109
   },
   "V": {
-   "wallSec": 0.596
+   "wallSec": 0.491
   },
   "E": {
-   "wallSec": 13.303
+   "wallSec": 12.739
   },
   "P": {
-   "wallSec": 0.009
+   "wallSec": 0.003
   }
  },
- "elapsedS": 16.038,
+ "elapsedS": 15.299,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便a",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T08:26:33.537Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T15:51:59.179Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -4030,11 +4030,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1315,
-   "segments": 1156,
-   "closureShare": 0.2985
+   "names": 1333,
+   "segments": 1174,
+   "closureShare": 0.3003
   },
-  "scopeSha256": "d52f4818e088a56d0ada9e1f32a224ae9722843da90e109b8d68223c4aed448f",
+  "scopeSha256": "5e83fd88d8639750cbe73abcd2f326b23754cae8675290695610092dc9cfd884",
   "scopeComplete": true,
   "inputsStable": [
    {

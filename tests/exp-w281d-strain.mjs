@@ -25,6 +25,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadHtmlHeadless } from './lib-w279b-headless.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
+// 第319便c(原仮定者の指示(第121報)・決断事項 AN454・統括の検証項目 R260): 領域の宣言(器と lib から deriveScope で引いた下限 —— html 全体の刻印をやめ、表示の文だけの変更では作り直さない。値は宣言の前と同じ)
+import { scopeStamp as w319cScopeStamp } from './lib-w281a-scope.mjs';
+const REGEN_SCOPE = {"presets":["galaxyMeshSpiral","shapeToyArmCore"],"roots":["$","HP.allPresets","HP.dfmField","HP.dfmFieldSnapshot","HP.dfmGalaxyMeshField","HP.sim","HP.validatePreset","T","ctx"],"core":true,"consts":[],"complete":true};
 import * as L from './lib-w281d-strain.mjs';
 import { ARM_DEFAULT } from './lib-w276e-galaxyproto.mjs';
 
@@ -264,7 +267,7 @@ const out = {
   meta: Object.assign(provenanceMeta({ root: ROOT, wave: '第281便d', target: TARGET,
     inputs: [GP_CANON, CF_CANON],
     code: ['tests/exp-w281d-strain.mjs', 'tests/lib-w281d-strain.mjs', 'tests/lib-w276e-galaxyproto.mjs',
-      'tests/lib-w274e-armbar.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs'] }), {
+      'tests/lib-w274e-armbar.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'] }), w319cScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE), {
     harness: L.STRAIN_VERSION,
     note: '第281便d — 渦伸長便(原仮定者の裁定(第71報)・統括の読み R75)。**エンジン未接続・粘性項なし・NS ソルバなし・形状門なし**',
     doNotWrite: ['腕が創発した', 'NS を解いた', '腕が力学から出た', '渦伸長で腕を説明した'],

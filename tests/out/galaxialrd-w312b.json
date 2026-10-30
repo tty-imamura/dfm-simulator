@@ -2,7 +2,7 @@
  "version": "w312b-galaxialrd-1",
  "generator": "tests/exp-w312b-galaxialrd.mjs",
  "target": "beta/index.html",
- "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+ "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
  "ruling": "原仮定者の裁定(第114報)一様軸引きずりは受ける側の dragCore の R_d に応じて変わる・一様重力の様に一定の勾配で近似するのでどの場所でも R_d が同じなら影響は同じ・一様回転引きずりは慣性系であってもコリオリの項が必要(背景側の支配天体を明示していない場合は規約として無視)・決断事項 AN395・統括の検証項目 R231",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "galaxyAxialRdVersion": "w312b-galaxial-rd-1",
@@ -2262,31 +2262,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.037
+   "wallSec": 0.031
   },
   "B": {
-   "wallSec": 0.41
+   "wallSec": 0.483
   },
   "N": {
-   "wallSec": 0.551
+   "wallSec": 0.575
   },
   "X": {
-   "wallSec": 230.059
+   "wallSec": 221.594
   }
  },
- "elapsedS": 233.177,
+ "elapsedS": 224.548,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第312便b",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T08:40:25.399Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T20:11:34.768Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2298,9 +2298,9 @@
   "code": [
    {
     "file": "tests/exp-w312b-galaxialrd.mjs",
-    "bytes": 46220,
-    "sha256": "a701488f117db225df56494991311e1a8ba0b99ac1dc0ac8dcf88a6b16146cbe",
-    "mtime": "2026-10-25T16:42:07.805Z"
+    "bytes": 46721,
+    "sha256": "2a280a63b7b279c8c05caa06d9840a778d6fc915e90137404dc826a0891815a7",
+    "mtime": "2026-10-30T19:46:51.736Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -2310,15 +2310,15 @@
    },
    {
     "file": "tests/exp-w311b-galaxial.mjs",
-    "bytes": 40971,
-    "sha256": "a12c4b8bba7c492d9655592988a97a24493315893bf5482b24aeed6ade5a9dc0",
-    "mtime": "2026-10-26T10:28:30.995Z"
+    "bytes": 41422,
+    "sha256": "a4376f503d6f5ab53745ea1ab0d539b2d7560764986d28e43d598ba24a4bae98",
+    "mtime": "2026-10-30T11:33:02.842Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
-    "bytes": 16510,
-    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-10-30T11:33:02.854Z"
    },
    {
     "file": "tests/lib-w311c-h4carry.mjs",
@@ -2345,7 +2345,7 @@
     "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "fd9a43188b5e5ddf3d26124d086d766ffcbd636f5016a5c4d37f9b5e9f87469a",
+  "codeSha256": "e11f3312e245ba60918d770059eaf3e71136217953055a4d58aeede65f0d3e71",
   "harnessVersion": "w312b-galaxialrd-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2359,7 +2359,31 @@
   ],
   "scope": {
    "version": "w318a-scope-6",
-   "presets": "all",
+   "presets": [
+    "earthMoonOnly3d",
+    "earthMoonSunInertial3d",
+    "earthMoonSunInertialFit",
+    "galaxy",
+    "galaxyGeo2",
+    "galaxyStd",
+    "jupiterGalilean",
+    "jupiterSunInertial3d",
+    "marsMoonsReal",
+    "marsSunInertial3d",
+    "mercury",
+    "mercuryReal",
+    "mercurySunInertial3d",
+    "mercurySunInertialFit",
+    "neptuneReal",
+    "neptuneSunInertial3d",
+    "saturn",
+    "saturnRingReal",
+    "saturnSunInertial3d",
+    "uranusReal",
+    "uranusSunInertial3d",
+    "venusReal",
+    "venusSunInertial3d"
+   ],
    "roots": [
     "$",
     "DT",
@@ -2414,11 +2438,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1329,
-   "segments": 1170,
-   "closureShare": 0.3025
+   "names": 1347,
+   "segments": 1188,
+   "closureShare": 0.3043
   },
-  "scopeSha256": "413b0bdef1ff16c4dbd076795da2f69d3ece1e3b88739924239b89d006aebb5b",
+  "scopeSha256": "f5b75b19e68ab073d374467d6f751000983a3475082db83bfaf7fa57bd07844a",
   "scopeComplete": true,
   "inputsStable": [
    {

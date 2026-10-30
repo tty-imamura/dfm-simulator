@@ -52,6 +52,9 @@ import { createRequire } from 'node:module';
 import { meshFieldNoD0, toComovingFrame, comovingCheck, COMOVING_VERSION, COMOVING_CONVENTIONS }
   from './lib-w275b-meshfield.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
+// 第319便c(原仮定者の指示(第121報)・決断事項 AN454・統括の検証項目 R260): 領域の宣言(器と lib から deriveScope で引いた下限 —— html 全体の刻印をやめ、表示の文だけの変更では作り直さない。値は宣言の前と同じ)
+import { scopeStamp as w319cScopeStamp } from './lib-w281a-scope.mjs';
+const REGEN_SCOPE = {"presets":["earthMoonRealKF1","plutoCharonReal","psrDoubleAB"],"roots":["$","HP.allPresets","HP.frameWeightPow","HP.sim","HP.validatePreset","T","cv","dfmField","dfmGeoToyStep","dfmLocalMeshField","validateBackgroundTidal"],"core":true,"consts":[],"complete":true};
 import { shieldBackgroundPointSource, scaleBackground, convergence } from './lib-w278d-bgequiv.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -437,10 +440,10 @@ const verdicts = rows.filter((r) => !r.skipped).map((r) => {
 
 /* ── ⑧ 書き出し ─────────────────────────────────────────────────────────── */
 const CODE = ['tests/exp-w277d-bgbudget.mjs', 'tests/lib-w275b-meshfield.mjs', 'tests/lib-w278d-bgequiv.mjs',
-  'tests/lib-w272e-provenance.mjs'];
+  'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
 const out = {
   meta: Object.assign(provenanceMeta({ root: ROOT, wave: '第278便d(第277便d の器の版上げ)', target: TARGET,
-    code: CODE, inputs: [TARGET, 'tests/out/bgpredict-w276a.json', 'tests/out/bgequiv-w278d.json'] }), {
+    code: CODE, inputs: [TARGET, 'tests/out/bgpredict-w276a.json', 'tests/out/bgequiv-w278d.json'] }), w319cScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE), {
     harnessVersion: HARNESS_VERSION, comovingVersion: COMOVING_VERSION,
     steps: STEPS, integrator: 'RK4(固定刻み・1 公転)',
     declarations: {

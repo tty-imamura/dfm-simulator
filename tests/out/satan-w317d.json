@@ -3235,16 +3235,16 @@
  "ok": true,
  "timing": {
   "R": {
-   "wallSec": 0.011
+   "wallSec": 0.007
   },
   "Y": {
    "wallSec": 0.004
   },
   "M": {
-   "wallSec": 0.001
+   "wallSec": 0
   },
   "B": {
-   "wallSec": 0
+   "wallSec": 0.001
   },
   "V": {
    "wallSec": 0.001
@@ -3289,25 +3289,25 @@
   "mSumInBand": "6/6",
   "mRef315InBand": "2/6"
  },
- "elapsedS": 0.045,
+ "elapsedS": 0.04,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第317便d",
   "target": "tests/lib-w317d-satan.mjs",
   "targetSha256": "48b55f2cdb4e05b2bf1f3856bd2b93da840f8d5d7f2dedb6e24a111375c9baeb",
-  "generatedAt": "2026-10-29T08:30:06.796Z",
+  "generatedAt": "2026-10-30T19:05:41.452Z",
   "inputs": [
    {
     "file": "tests/out/sath-w316d.json",
-    "bytes": 2245276,
-    "sha256": "d0086b113f54f4ec246cf6ecad1a7a385631712021ce09c7ba3a3a74c610cf9a",
-    "mtime": "2026-10-29T01:29:56.692Z"
+    "bytes": 2245314,
+    "sha256": "79b3b23ac3d1f4c7bf3d54e2db30ff9cf029f89f1b6b11ab2e18d41627c5a1a3",
+    "mtime": "2026-10-30T14:26:12.182Z"
    },
    {
     "file": "tests/out/satk1-w315d.json",
-    "bytes": 495430,
-    "sha256": "340f525bf47de4d88e28490b5034ff1d53aed96b7c03fb023a011ac262c50585",
-    "mtime": "2026-10-28T22:39:36.028Z"
+    "bytes": 495445,
+    "sha256": "8d46c73c0d9dde5d07495ef94ce6b21e5585275eef2e9e525a382a680a2ad4e7",
+    "mtime": "2026-10-30T14:11:10.202Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -3396,7 +3396,7 @@
   "inputsStable": [
    {
     "file": "tests/out/sath-w316d.json",
-    "stableSha256": "f0a18e907db70d27cc4c3c9191c7ee59ebe618d5ec2f1d94795c102855add593",
+    "stableSha256": "f2f85a5407527cf21518b100fc253f8beb1da5d2d239409cce82f36750d51e12",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/E/rows/*/wallSec",
@@ -3411,7 +3411,7 @@
    },
    {
     "file": "tests/out/satk1-w315d.json",
-    "stableSha256": "85d1ca32e89adddd5de76917275c096922724c7042b6dd114a8dfae17b3d77e3",
+    "stableSha256": "fb7c9a5aa868611cb7cc351acf8d24d4fb8da46fd3f5812bb1e206f00b78e0d1",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/E/rows/*/wallSec",

@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第294便d",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T10:24:53.542Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T20:13:39.846Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1736863,
-    "sha256": "f161a220332b1130ae20f510d945e24055f63fd0eca7cb204a3c3015d497de99",
-    "mtime": "2026-10-29T10:02:15.246Z"
+    "bytes": 1736879,
+    "sha256": "fad13fbdb6dd3632ea0fa5abf1d661fdd300eabc1467fdb1bb4c1f3862340b42",
+    "mtime": "2026-10-30T19:53:31.723Z"
    },
    {
     "file": "tests/data-w311c-regensec.json",
-    "bytes": 10372,
-    "sha256": "c6a99839aefe6151d42499813a0ec0561e2245dc6c8ac9ebaee442b634b87fc9",
-    "mtime": "2026-10-28T14:59:23.224Z"
+    "bytes": 11602,
+    "sha256": "1695904f68ec8acb6b0d72f46ca9dd6ee7a39c229bed47c3083c8c63ef552573",
+    "mtime": "2026-10-30T09:05:57.217Z"
    }
   ],
   "code": [
@@ -34,9 +34,9 @@
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 457223,
-    "sha256": "8d1a9a92c9e285baa2e8b92692f316a2e6097cbe884e927e136672b81625469b",
-    "mtime": "2026-10-29T09:52:19.268Z"
+    "bytes": 470640,
+    "sha256": "cb84435bde90bb30d6c21b4c7407c5fd2465cef323fa022e87549a62b78d1ff6",
+    "mtime": "2026-10-30T11:33:02.850Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -45,7 +45,7 @@
     "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
-  "codeSha256": "5d7fe62d8687ed6eea08c7ac507175622e05f0b7bbbc9c3adeb2a91e32b1001f",
+  "codeSha256": "f66a2d5050eb0c18065c5e30a9677c323c73455d1b280974142f9e925a6a85ba",
   "harnessVersion": "w294d-timing-1",
   "ruling": "原仮定者の裁定(第84報): 較正走行と QA で時間が掛かっているサンプルについて、改善を行う",
   "reading": "統括の検証項目 R151: 先に内訳を測り、物理・入力・窓・抽出器・判定を変えずに時間を減らす(速さと判定は別の文)",
@@ -68,16 +68,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1286,
-   "segments": 1127,
-   "closureShare": 0.2967
+   "names": 1299,
+   "segments": 1140,
+   "closureShare": 0.2974
   },
-  "scopeSha256": "420ec5de36792a52c62aed701f5562d0ffb7d35d6f9dba2426d06edb816d9470",
+  "scopeSha256": "bdac15fae76f1ea1ca342920b8bdf9362bb608fd48e275ad0c355e5915fc1a39",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "37826d14550ed48bc3df722d765f200002d23baf7d33f0b0d16c0a917d69d4d0",
+    "stableSha256": "5e7b35659ac8def06d0be3bcfc3ee409e2f6e40cbe2984dd8929cdf78c378ad0",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -105,7 +105,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "ded4429516a4975a37ab58c4fe266b8538bc00561f15013ceb2b36d2e6f77a80",
+    "stableSha256": "4d8b292dd13fdbd2c57ca39fb444315598e92536e821bfa0a397e44d38dce207",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -138,14 +138,14 @@
  "sources": {
   "calaudit": {
    "file": "tests/out/calaudit-w249.json",
-   "generatedAt": "2026-10-29T10:02:14.953Z"
+   "generatedAt": "2026-10-30T19:53:31.511Z"
   },
   "qa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "sha256": "810f9f46ceaada71cdeac95c590b3ba9d1ceb10ad92b0b61faab7eeb4af5b765",
-   "commit": "6f4f6b02645d4d36074d6665b6e18753f0b24757",
-   "date": "2026-10-27T17:39:43.416Z",
-   "targetSha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0",
+   "sha256": "a3c8a875816c5007a412d253b07972c628b7766f1f84ce724fcbfa5816b3bcaf",
+   "commit": "381202a98d8eda7fbf8bba44cafeaccd0289cc94",
+   "date": "2026-10-29T12:42:01.328Z",
+   "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
    "note": "QA の記録(QA が走るたびに変わる)—— 来歴の inputs に入れず、読んだ版の sha をここに写す"
   },
   "chain": "tests/lib-w281a-regentable.mjs の REGEN_STEPS(sec —— 段の実測秒の記録。第311便c から前回の鎖の実測 tests/data-w311c-regensec.json で上書き)"
@@ -160,8 +160,8 @@
      "n": 127,
      "dt": 0.016,
      "steps": 2042988,
-     "wallSec": 112.286,
-     "rateStepsPerSec": 16694,
+     "wallSec": 106.5,
+     "rateStepsPerSec": 17652,
      "targets": [
       "C環内縁",
       "ミマス",
@@ -176,8 +176,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 40000000,
-     "wallSec": 60.996,
-     "rateStepsPerSec": 500000,
+     "wallSec": 55.077,
+     "rateStepsPerSec": 526316,
      "targets": [
       "カロン"
      ],
@@ -185,7 +185,7 @@
       "steps": 80000000,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 162.136
+      "reusedFromWallSec": 134.427
      },
      "dtQuarter": null
     },
@@ -195,8 +195,8 @@
      "n": 94,
      "dt": 0.016,
      "steps": 1075028,
-     "wallSec": 48.527,
-     "rateStepsPerSec": 22051,
+     "wallSec": 44.804,
+     "rateStepsPerSec": 23529,
      "targets": [
       "ミランダ",
       "アリエル",
@@ -213,8 +213,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 40000000,
-     "wallSec": 34.898,
-     "rateStepsPerSec": 444444,
+     "wallSec": 30.11,
+     "rateStepsPerSec": 588235,
      "targets": [
       "月"
      ],
@@ -222,7 +222,26 @@
       "steps": 80000000,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 86.357
+      "reusedFromWallSec": 71.602
+     },
+     "dtQuarter": null
+    },
+    {
+     "id": "psrB1534",
+     "emoji": "📿",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 13631880,
+     "wallSec": 13.343,
+     "rateStepsPerSec": 689655,
+     "targets": [
+      "B"
+     ],
+     "dtHalf": {
+      "steps": 27263758,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 30.018
      },
      "dtQuarter": null
     },
@@ -232,8 +251,8 @@
      "n": 5,
      "dt": 0.016,
      "steps": 5405815,
-     "wallSec": 14.06,
-     "rateStepsPerSec": 540541,
+     "wallSec": 11.98,
+     "rateStepsPerSec": 263158,
      "targets": [
       "イオ",
       "エウロパ",
@@ -244,26 +263,7 @@
       "steps": 10811628,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 30.678
-     },
-     "dtQuarter": null
-    },
-    {
-     "id": "psrB1534",
-     "emoji": "📿",
-     "n": 2,
-     "dt": 0.016,
-     "steps": 13631880,
-     "wallSec": 12.401,
-     "rateStepsPerSec": 869565,
-     "targets": [
-      "B"
-     ],
-     "dtHalf": {
-      "steps": 27263758,
-      "wallSec": null,
-      "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 39.397
+      "reusedFromWallSec": 27.296
      },
      "dtQuarter": null
     },
@@ -273,8 +273,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 9439328,
-     "wallSec": 9.448,
-     "rateStepsPerSec": 512821,
+     "wallSec": 8.585,
+     "rateStepsPerSec": 454545,
      "targets": [
       "B"
      ],
@@ -282,37 +282,13 @@
       "steps": 18878657,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 23.271
+      "reusedFromWallSec": 18.246
      },
      "dtQuarter": {
       "steps": 37757313,
       "wallSec": null,
       "skippedBy": "reuse",
-      "reusedFromWallSec": 46.878
-     }
-    },
-    {
-     "id": "saturnZonalD68",
-     "emoji": "📡",
-     "n": 11,
-     "dt": 0.016,
-     "steps": 668676,
-     "wallSec": 6.811,
-     "rateStepsPerSec": 71429,
-     "targets": [
-      "D68"
-     ],
-     "dtHalf": {
-      "steps": 1337353,
-      "wallSec": null,
-      "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 12.471
-     },
-     "dtQuarter": {
-      "steps": 2674708,
-      "wallSec": null,
-      "skippedBy": "reuse",
-      "reusedFromWallSec": 26.534
+      "reusedFromWallSec": 36.063
      }
     },
     {
@@ -321,8 +297,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 7280208,
-     "wallSec": 6.152,
-     "rateStepsPerSec": 800000,
+     "wallSec": 5.605,
+     "rateStepsPerSec": 666667,
      "targets": [
       "金星"
      ],
@@ -330,9 +306,57 @@
       "steps": 14560415,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 14.759
+      "reusedFromWallSec": 12.692
      },
      "dtQuarter": null
+    },
+    {
+     "id": "saturnZonalD68",
+     "emoji": "📡",
+     "n": 11,
+     "dt": 0.016,
+     "steps": 668676,
+     "wallSec": 5.533,
+     "rateStepsPerSec": 87336,
+     "targets": [
+      "D68"
+     ],
+     "dtHalf": {
+      "steps": 1337353,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 12.028
+     },
+     "dtQuarter": {
+      "steps": 2674708,
+      "wallSec": null,
+      "skippedBy": "reuse",
+      "reusedFromWallSec": 24.105
+     }
+    },
+    {
+     "id": "siriusAB",
+     "emoji": "🌟",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 5932383,
+     "wallSec": 4.688,
+     "rateStepsPerSec": 416667,
+     "targets": [
+      "B"
+     ],
+     "dtHalf": {
+      "steps": 11864765,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 10.801
+     },
+     "dtQuarter": {
+      "steps": 23729530,
+      "wallSec": null,
+      "skippedBy": "reuse",
+      "reusedFromWallSec": 21.285
+     }
     },
     {
      "id": "marsMoonsReal",
@@ -340,7 +364,7 @@
      "n": 3,
      "dt": 0.016,
      "steps": 4091814,
-     "wallSec": 5.267,
+     "wallSec": 4.007,
      "rateStepsPerSec": 1333333,
      "targets": [
       "フォボス",
@@ -350,33 +374,9 @@
       "steps": 8183629,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 11.364
+      "reusedFromWallSec": 9.497
      },
      "dtQuarter": null
-    },
-    {
-     "id": "siriusAB",
-     "emoji": "🌟",
-     "n": 2,
-     "dt": 0.016,
-     "steps": 5932383,
-     "wallSec": 4.66,
-     "rateStepsPerSec": 645161,
-     "targets": [
-      "B"
-     ],
-     "dtHalf": {
-      "steps": 11864765,
-      "wallSec": null,
-      "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 12.315
-     },
-     "dtQuarter": {
-      "steps": 23729530,
-      "wallSec": null,
-      "skippedBy": "reuse",
-      "reusedFromWallSec": 25.871
-     }
     },
     {
      "id": "psrDoubleAB",
@@ -384,8 +384,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 3312950,
-     "wallSec": 2.569,
-     "rateStepsPerSec": 1111111,
+     "wallSec": 2.642,
+     "rateStepsPerSec": 1176471,
      "targets": [
       "B"
      ],
@@ -393,7 +393,7 @@
       "steps": 6625899,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 7.859
+      "reusedFromWallSec": 6.146
      },
      "dtQuarter": null
     },
@@ -403,8 +403,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 2850199,
-     "wallSec": 2.186,
-     "rateStepsPerSec": 571429,
+     "wallSec": 2.224,
+     "rateStepsPerSec": 1111111,
      "targets": [
       "水星"
      ],
@@ -412,7 +412,7 @@
       "steps": 5700398,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 5.881
+      "reusedFromWallSec": 4.787
      },
      "dtQuarter": null
     },
@@ -422,8 +422,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 2180354,
-     "wallSec": 2.061,
-     "rateStepsPerSec": 1000000,
+     "wallSec": 2.194,
+     "rateStepsPerSec": 952381,
      "targets": [
       "B"
      ],
@@ -431,7 +431,7 @@
       "steps": 4360708,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 5.671
+      "reusedFromWallSec": 4.736
      },
      "dtQuarter": null
     },
@@ -441,8 +441,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 1904169,
-     "wallSec": 1.663,
-     "rateStepsPerSec": 1111111,
+     "wallSec": 1.503,
+     "rateStepsPerSec": 1250000,
      "targets": [
       "トリトン"
      ],
@@ -450,7 +450,7 @@
       "steps": 3808338,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 4.132
+      "reusedFromWallSec": 3.265
      },
      "dtQuarter": null
     },
@@ -460,8 +460,8 @@
      "n": 3,
      "dt": 0.016,
      "steps": 885179,
-     "wallSec": 0.862,
-     "rateStepsPerSec": 869565,
+     "wallSec": 0.941,
+     "rateStepsPerSec": 800000,
      "targets": [
       "月"
      ],
@@ -469,7 +469,7 @@
       "steps": 1770360,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 2.651
+      "reusedFromWallSec": 2.266
      },
      "dtQuarter": null
     },
@@ -479,7 +479,7 @@
      "n": 2,
      "dt": 0.016,
      "steps": 932492,
-     "wallSec": 0.783,
+     "wallSec": 0.848,
      "rateStepsPerSec": 1333333,
      "targets": [
       "B"
@@ -488,7 +488,7 @@
       "steps": 1864984,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 2.313
+      "reusedFromWallSec": 1.703
      },
      "dtQuarter": null
     },
@@ -498,8 +498,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 681306,
-     "wallSec": 0.481,
-     "rateStepsPerSec": 1818182,
+     "wallSec": 0.486,
+     "rateStepsPerSec": 1111111,
      "targets": [
       "B"
      ],
@@ -507,7 +507,7 @@
       "steps": 1362611,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 1.156
+      "reusedFromWallSec": 0.927
      },
      "dtQuarter": null
     },
@@ -517,8 +517,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 34013,
-     "wallSec": 0.073,
-     "rateStepsPerSec": 800000,
+     "wallSec": 0.072,
+     "rateStepsPerSec": 434783,
      "targets": [
       "B"
      ],
@@ -526,7 +526,7 @@
       "steps": 68025,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 0.1
+      "reusedFromWallSec": 0.069
      },
      "dtQuarter": null
     }
@@ -536,13 +536,13 @@
     "plutoCharonDiagInput",
     "uranusReal",
     "earthMoonReal",
-    "jupiterGalilean"
+    "psrB1534"
    ],
-   "wallSecDt": 326.184,
-   "wallSecRun": 326.184,
+   "wallSecDt": 301.142,
+   "wallSecRun": 301.142,
    "transcribedSec": {
-    "dtHalf": 422.511,
-    "dtQuarter": 99.283
+    "dtHalf": 350.506,
+    "dtQuarter": 81.453
    }
   },
   "top5": [
@@ -551,15 +551,15 @@
     "emoji": "💍",
     "n": 127,
     "steps": 2042988,
-    "wallSec": 112.286,
-    "rateStepsPerSec": 16694,
-    "usPerStepLive": 56.81,
-    "stepSecRecord": 122.379,
-    "extractShareLive": 0,
+    "wallSec": 106.5,
+    "rateStepsPerSec": 17652,
+    "usPerStepLive": 50.665,
+    "stepSecRecord": 115.737,
+    "extractShareLive": 0.037,
     "splitFrom": "live-ratio",
-    "stepSec": 112.286,
-    "extractSec": 0,
-    "rateProbeSec": 1.498,
+    "stepSec": 102.56,
+    "extractSec": 3.94,
+    "rateProbeSec": 1.416,
     "dtHalf": null,
     "dtQuarter": null
    },
@@ -568,20 +568,20 @@
     "emoji": "🥶",
     "n": 2,
     "steps": 40000000,
-    "wallSec": 60.996,
-    "rateStepsPerSec": 500000,
-    "usPerStepLive": 1.364,
-    "stepSecRecord": 80,
-    "extractShareLive": 0.053,
+    "wallSec": 55.077,
+    "rateStepsPerSec": 526316,
+    "usPerStepLive": 1.323,
+    "stepSecRecord": 76,
+    "extractShareLive": 0,
     "splitFrom": "live-ratio",
-    "stepSec": 57.763,
-    "extractSec": 3.233,
-    "rateProbeSec": 0.05,
+    "stepSec": 55.077,
+    "extractSec": 0,
+    "rateProbeSec": 0.047,
     "dtHalf": {
      "steps": 80000000,
      "wallSec": null,
      "skippedBy": "reuse-dt2",
-     "reusedFromWallSec": 162.136
+     "reusedFromWallSec": 134.427
     },
     "dtQuarter": null
    },
@@ -590,15 +590,15 @@
     "emoji": "💠",
     "n": 94,
     "steps": 1075028,
-    "wallSec": 48.527,
-    "rateStepsPerSec": 22051,
-    "usPerStepLive": 45.177,
-    "stepSecRecord": 48.752,
-    "extractShareLive": 0.045,
+    "wallSec": 44.804,
+    "rateStepsPerSec": 23529,
+    "usPerStepLive": 42.356,
+    "stepSecRecord": 45.689,
+    "extractShareLive": 0.025,
     "splitFrom": "live-ratio",
-    "stepSec": 46.343,
-    "extractSec": 2.184,
-    "rateProbeSec": 1.134,
+    "stepSec": 43.684,
+    "extractSec": 1.12,
+    "rateProbeSec": 1.063,
     "dtHalf": null,
     "dtQuarter": null
    },
@@ -607,42 +607,42 @@
     "emoji": "🌙",
     "n": 2,
     "steps": 40000000,
-    "wallSec": 34.898,
-    "rateStepsPerSec": 444444,
-    "usPerStepLive": 0.825,
-    "stepSecRecord": 90,
-    "extractShareLive": 0,
+    "wallSec": 30.11,
+    "rateStepsPerSec": 588235,
+    "usPerStepLive": 0.62,
+    "stepSecRecord": 68,
+    "extractShareLive": 0.152,
     "splitFrom": "live-ratio",
-    "stepSec": 34.898,
-    "extractSec": 0,
-    "rateProbeSec": 0.056,
+    "stepSec": 25.533,
+    "extractSec": 4.577,
+    "rateProbeSec": 0.043,
     "dtHalf": {
      "steps": 80000000,
      "wallSec": null,
      "skippedBy": "reuse-dt2",
-     "reusedFromWallSec": 86.357
+     "reusedFromWallSec": 71.602
     },
     "dtQuarter": null
    },
    {
-    "id": "jupiterGalilean",
-    "emoji": "🟠",
-    "n": 5,
-    "steps": 5405815,
-    "wallSec": 14.06,
-    "rateStepsPerSec": 540541,
-    "usPerStepLive": 2.086,
-    "stepSecRecord": 10.001,
-    "extractShareLive": 0.108,
-    "splitFrom": "record-rate",
-    "stepSec": 10.001,
-    "extractSec": 4.059,
-    "rateProbeSec": 0.046,
+    "id": "psrB1534",
+    "emoji": "📿",
+    "n": 2,
+    "steps": 13631880,
+    "wallSec": 13.343,
+    "rateStepsPerSec": 689655,
+    "usPerStepLive": 0.929,
+    "stepSecRecord": 19.766,
+    "extractShareLive": 0,
+    "splitFrom": "live-ratio",
+    "stepSec": 13.343,
+    "extractSec": 0,
+    "rateProbeSec": 0.036,
     "dtHalf": {
-     "steps": 10811628,
+     "steps": 27263758,
      "wallSec": null,
      "skippedBy": "reuse-dt2",
-     "reusedFromWallSec": 30.678
+     "reusedFromWallSec": 30.018
     },
     "dtQuarter": null
    }
@@ -652,205 +652,205 @@
   "split": "step = 走った步数 / calaudit が走行の直前に同じ負荷で測った步/秒(record-rate)。それが壁時計を超える本(n=2 —— 20000 步の測定が短すぎる)は、live で同じページに交互に測った「step だけ」と「step + 抽出の代理」の比で壁時計を分ける(live-ratio)/ 抽出 = 壁時計 − step(步ごとの検出器・停止の検査)/ 前置の步/秒の測定 = 25000 步 ÷ 步/秒(壁時計の外 —— 走らせる段ごと)。live の μs/步 は別の時刻・別の負荷の値で、比だけを使う"
  },
  "qa": {
-  "total": 1306,
-  "durationMs": 3243434,
-  "wallDurationMs": 3243571,
+  "total": 1320,
+  "durationMs": 2913527,
+  "wallDurationMs": 2936809,
   "tier": "full",
   "prefixMs": {
-   "replay": 21,
+   "replay": 23168,
    "changed": null
   },
-  "syntaxMs": 226,
+  "syntaxMs": 259,
   "syntaxNote": "第294便d より前の qa.mjs は前置(② 前回 FAIL の先行・③ 変更依存の先行)の時間を syntax に請求していた(lastAddAt の起点)。第294便d 以降の記録では syntax は node --check だけ",
   "top15": [
    {
     "id": "lint.scopeStop",
-    "ms": 381088
+    "ms": 352461
    },
    {
     "id": "lint.scopeClosureSame294",
-    "ms": 201179
+    "ms": 180978
    },
    {
     "id": "preset.roundtrip-builtins",
-    "ms": 187418
-   },
-   {
-    "id": "lint.regenChain",
-    "ms": 176786
+    "ms": 175798
    },
    {
     "id": "claim.galaxygeo2-outerboost",
-    "ms": 164626
+    "ms": 145378
    },
    {
     "id": "behavior.clusterScale",
-    "ms": 145661
+    "ms": 118192
    },
    {
-    "id": "behavior.drag3d298",
-    "ms": 96734
-   },
-   {
-    "id": "lint.readyQueue311",
-    "ms": 76431
-   },
-   {
-    "id": "claim.galaxystd-outerboost",
-    "ms": 69908
+    "id": "lint.regenChain",
+    "ms": 112449
    },
    {
     "id": "lint.regenScope",
-    "ms": 67605
+    "ms": 80493
+   },
+   {
+    "id": "behavior.drag3d298",
+    "ms": 78668
+   },
+   {
+    "id": "claim.galaxystd-outerboost",
+    "ms": 59157
    },
    {
     "id": "preset.layerAxisDecl",
-    "ms": 62459
-   },
-   {
-    "id": "behavior.ref3d299",
-    "ms": 53921
+    "ms": 53561
    },
    {
     "id": "kernel.bitident",
-    "ms": 53226
+    "ms": 46304
+   },
+   {
+    "id": "behavior.ref3d299",
+    "ms": 45921
+   },
+   {
+    "id": "behavior.ckDrag3d299",
+    "ms": 44677
    },
    {
     "id": "ui.liveMeasure297",
-    "ms": 50061
+    "ms": 37489
    },
    {
     "id": "behavior.wave100c",
-    "ms": 35654
+    "ms": 32336
    }
   ],
   "units": [
    {
-    "unit": "W5b:phaseMultiseed",
-    "where": "worker",
-    "runMs": 307327
-   },
-   {
     "unit": "W5b:phasechangeSchema",
     "where": "worker",
-    "runMs": 275092
+    "runMs": 268507
+   },
+   {
+    "unit": "W5b:phaseMultiseed",
+    "where": "worker",
+    "runMs": 262257
    },
    {
     "unit": "W5b:roundtripBuiltins",
     "where": "main(stolen)",
-    "runMs": 187418
-   },
-   {
-    "unit": "W5b:selfrotorMultiseed",
-    "where": "worker",
-    "runMs": 166470
+    "runMs": 175798
    },
    {
     "unit": "W5b:galaxyGeo2",
     "where": "main(stolen)",
-    "runMs": 164626
+    "runMs": 145378
    },
    {
     "unit": "W5c:galaxyAB",
     "where": "worker",
-    "runMs": 147341
+    "runMs": 129077
    },
    {
     "unit": "W5c:cosmicweb",
     "where": "worker",
-    "runMs": 127874
+    "runMs": 114329
    },
    {
     "unit": "W5c:collapseCooling",
     "where": "worker",
-    "runMs": 104200
+    "runMs": 96191
    },
    {
     "unit": "W5b:bhcoreSelfdrive",
     "where": "worker",
-    "runMs": 100495
+    "runMs": 91751
    },
    {
     "unit": "W5c:saturnLayered",
     "where": "worker",
-    "runMs": 95265
+    "runMs": 88219
+   },
+   {
+    "unit": "W5b:selfrotorMultiseed",
+    "where": "worker",
+    "runMs": 78508
    },
    {
     "unit": "W5c:convection24000",
     "where": "worker",
-    "runMs": 85033
+    "runMs": 76978
    },
    {
     "unit": "W5c:saturn24000",
     "where": "worker",
-    "runMs": 75546
+    "runMs": 71579
    },
    {
     "unit": "W5c:saturnExp",
     "where": "worker",
-    "runMs": 70589
+    "runMs": 62449
+   },
+   {
+    "unit": "W5b:reactionCap",
+    "where": "worker",
+    "runMs": 59856
    },
    {
     "unit": "W5b:galaxyStd",
     "where": "main(stolen)",
-    "runMs": 69908
-   },
-   {
-    "unit": "W5c:fpDigests",
-    "where": "worker",
-    "runMs": 64044
-   },
-   {
-    "unit": "W5b:nsThreeStage",
-    "where": "worker",
-    "runMs": 55468
-   },
-   {
-    "unit": "W5b:galaxyDB",
-    "where": "worker",
-    "runMs": 55419
+    "runMs": 59157
    },
    {
     "unit": "W5c:buoyancy",
     "where": "worker",
-    "runMs": 55283
+    "runMs": 56856
+   },
+   {
+    "unit": "W5c:fpDigests",
+    "where": "worker",
+    "runMs": 56758
    },
    {
     "unit": "W5b:toyLedger",
     "where": "worker",
-    "runMs": 54813
+    "runMs": 48152
    },
    {
-    "unit": "W5b:ledgerNorm",
+    "unit": "W5b:selfrotor",
     "where": "worker",
-    "runMs": 51313
+    "runMs": 47609
+   },
+   {
+    "unit": "W5b:bhcoreFree",
+    "where": "worker",
+    "runMs": 43155
    }
   ],
   "heavy": [
    {
     "unit": "W5b:phaseMultiseed",
     "where": "worker",
-    "runMs": 307327
+    "runMs": 262257
    },
    {
     "unit": "W5b:phasechangeSchema",
     "where": "worker",
-    "runMs": 275092
+    "runMs": 268507
    },
    {
     "unit": "W5b:galaxyGeo2",
     "where": "main(stolen)",
-    "runMs": 164626
+    "runMs": 145378
    },
    {
     "unit": "W5b:roundtripBuiltins",
     "where": "main(stolen)",
-    "runMs": 187418
+    "runMs": 175798
    },
    {
     "unit": "W5c:galaxyAB",
     "where": "worker",
-    "runMs": 147341
+    "runMs": 129077
    }
   ],
   "w5": {
@@ -861,158 +861,50 @@
  },
  "chain": {
   "nCurrent": 202,
-  "secCurrent": 90474,
+  "secCurrent": 64143,
   "nAlways": 13,
-  "secAlways": 681,
+  "secAlways": 567,
   "presetsAll": [
    {
-    "key": "shell-304b",
-    "sec": 4975,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w304b-shell.mjs"
-   },
-   {
-    "key": "k1confirm-313d",
-    "sec": 4110,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w313d-k1confirm.mjs"
-   },
-   {
-    "key": "pairnorm-305a",
-    "sec": 2688,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w305a-pairnorm.mjs"
-   },
-   {
-    "key": "k1em-314c",
-    "sec": 2620,
-    "secSource": "w314c-branch",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w314c-k1outer.mjs"
-   },
-   {
-    "key": "k1outer-314c",
-    "sec": 2329,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w314c-k1outer.mjs"
-   },
-   {
     "key": "refit-297a",
-    "sec": 2010,
-    "secSource": "w316-chain1",
+    "sec": 1464,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [],
     "harness": "tests/exp-w297a-refit.mjs"
    },
    {
-    "key": "inertialr2-303b",
-    "sec": 1628,
-    "secSource": "w315-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w303b-inertialr2.mjs"
-   },
-   {
-    "key": "planet3-311d",
-    "sec": 1579,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w311d-planet3.mjs"
-   },
-   {
-    "key": "periodn-306b",
-    "sec": 1310,
-    "secSource": "w315-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w306b-periodn.mjs"
-   },
-   {
-    "key": "gfamily-305b",
-    "sec": 1214,
-    "secSource": "w313-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w305b-gfamily.mjs"
-   },
-   {
     "key": "semic-302d",
-    "sec": 1041,
-    "secSource": "w316-chain1",
+    "sec": 866,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [],
     "harness": "tests/exp-w302d-semic.mjs"
    },
    {
-    "key": "confirm-312d",
-    "sec": 946,
-    "secSource": "w312-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w312d-confirm.mjs"
-   },
-   {
-    "key": "inposk1-315c",
-    "sec": 914,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w315c-inposk1.mjs"
-   },
-   {
-    "key": "mdsweep-310d",
-    "sec": 800,
-    "secSource": "w310d-branch",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w310d-mdsweep.mjs"
-   },
-   {
-    "key": "an336-306a",
-    "sec": 757,
-    "secSource": "w315-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w306a-an336.mjs"
-   },
-   {
     "key": "wbgest-302c",
-    "sec": 641,
-    "secSource": "w316-chain1",
+    "sec": 520,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [],
     "harness": "tests/exp-w302c-wbgest.mjs"
    },
    {
+    "key": "fit-297b",
+    "sec": 465,
+    "secSource": "第318便の鎖 1",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w297b-fit.mjs"
+   },
+   {
     "key": "pnsource286",
-    "sec": 603,
-    "secSource": "w313-chain1",
+    "sec": 451,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [
@@ -1021,45 +913,36 @@
     "harness": "tests/exp-w286b-pnsource.mjs"
    },
    {
-    "key": "fit-297b",
-    "sec": 578,
-    "secSource": "w315-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w297b-fit.mjs"
-   },
-   {
     "key": "compose293",
-    "sec": 476,
-    "secSource": "w316-chain1",
+    "sec": 411,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [],
     "harness": "tests/exp-w293e-compose.mjs"
    },
    {
+    "key": "timestd-297c",
+    "sec": 361,
+    "secSource": "第318便の鎖 1",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w297c-timestd.mjs"
+   },
+   {
     "key": "refit-303a",
-    "sec": 410,
-    "secSource": "w316-chain1",
+    "sec": 356,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [],
     "harness": "tests/exp-w303a-refit.mjs"
    },
    {
-    "key": "moon3d-298c",
-    "sec": 399,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w298c-moon3d.mjs"
-   },
-   {
     "key": "pn1",
-    "sec": 383,
-    "secSource": "w317-chain2",
+    "sec": 293,
+    "secSource": "第318便の鎖 2",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [
@@ -1068,18 +951,9 @@
     "harness": "tests/exp-w285b-pn1.mjs"
    },
    {
-    "key": "clusterStable",
-    "sec": 326,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w284a-cluster.mjs"
-   },
-   {
     "key": "wbglaw-301g",
-    "sec": 288,
-    "secSource": "w316-chain1",
+    "sec": 242,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [],
@@ -1087,35 +961,17 @@
    },
    {
     "key": "clone-301f",
-    "sec": 280,
-    "secSource": "w316-chain1",
+    "sec": 231,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [],
     "harness": "tests/exp-w301f-clone.mjs"
    },
    {
-    "key": "galaxialrd-312b",
-    "sec": 280,
-    "secSource": "w315-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w312b-galaxialrd.mjs"
-   },
-   {
-    "key": "galaxial-311b",
-    "sec": 267,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w311b-galaxial.mjs"
-   },
-   {
     "key": "clusterAnalogy",
-    "sec": 233,
-    "secSource": "w315-chain1",
+    "sec": 180,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [
@@ -1125,8 +981,8 @@
    },
    {
     "key": "contact285",
-    "sec": 222,
-    "secSource": "w317-chain2",
+    "sec": 177,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [
@@ -1135,74 +991,18 @@
     "harness": "tests/exp-w285a-contact.mjs"
    },
    {
-    "key": "planets3d-299c",
-    "sec": 204,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w299c-planets3d.mjs"
-   },
-   {
     "key": "geo4-295b",
-    "sec": 175,
-    "secSource": "w311-chain1",
+    "sec": 146,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [],
     "harness": "tests/exp-w295b-geo4.mjs"
    },
    {
-    "key": "saturnring3d-300c",
-    "sec": 175,
-    "secSource": "w315-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w300c-saturnring3d.mjs"
-   },
-   {
-    "key": "d68",
-    "sec": 174,
-    "secSource": "w311-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w280e-d68.mjs"
-   },
-   {
-    "key": "pnsources291",
-    "sec": 155,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [
-     "全本を loadPreset して数步の状態指紋(基点 html と今の html の 2 回)"
-    ],
-    "harness": "tests/exp-w291b-pnsources.mjs"
-   },
-   {
-    "key": "galaxialrdm-313b",
-    "sec": 155,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w313b-galaxialrdm.mjs"
-   },
-   {
-    "key": "timestd-297c",
-    "sec": 143,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w297c-timestd.mjs"
-   },
-   {
     "key": "timing294",
-    "sec": 126,
-    "secSource": "w312-chain1",
+    "sec": 142,
+    "secSource": "第318便の鎖 2",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [
@@ -1211,9 +1011,29 @@
     "harness": "tests/exp-w294d-timing.mjs"
    },
    {
-    "key": "dragnorm-301a",
+    "key": "d68",
+    "sec": 139,
+    "secSource": "第318便の鎖 1",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w280e-d68.mjs"
+   },
+   {
+    "key": "pnsources291",
     "sec": 123,
-    "secSource": "w316-chain1",
+    "secSource": "第318便の鎖 1",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [
+     "全本を loadPreset して数步の状態指紋(基点 html と今の html の 2 回)"
+    ],
+    "harness": "tests/exp-w291b-pnsources.mjs"
+   },
+   {
+    "key": "dragnorm-301a",
+    "sec": 98,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [],
@@ -1221,8 +1041,8 @@
    },
    {
     "key": "shapecrit",
-    "sec": 76,
-    "secSource": "w316-chain1",
+    "sec": 64,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [],
@@ -1230,48 +1050,30 @@
    },
    {
     "key": "bgtime287",
-    "sec": 53,
-    "secSource": "w315-chain1",
+    "sec": 42,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [],
     "harness": "tests/exp-w287c-bgtime.mjs"
    },
    {
-    "key": "shell-304a",
-    "sec": 43,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w304a-shell.mjs"
-   },
-   {
     "key": "corecensus293",
-    "sec": 37,
-    "secSource": "w316-chain1",
+    "sec": 24,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [],
     "harness": "tests/exp-w293c-corecensus.mjs"
    },
    {
-    "key": "drag3d-298c",
-    "sec": 24,
-    "secSource": "w316-chain1",
+    "key": "d0audit",
+    "sec": 19,
+    "secSource": "第318便の鎖 2",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [],
-    "harness": "tests/exp-w298c-drag3d.mjs"
-   },
-   {
-    "key": "chain-296c",
-    "sec": 15,
-    "secSource": "w313-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w296c-chain.mjs"
+    "harness": "tests/exp-w275b-d0audit.mjs"
    },
    {
     "key": "statecontract-302e",
@@ -1281,15 +1083,6 @@
     "presetsAll": true,
     "perPresetLoops": [],
     "harness": "tests/exp-w302e-statecontract.mjs"
-   },
-   {
-    "key": "jeans286",
-    "sec": 14,
-    "secSource": "w313-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w286a-jeans.mjs"
    },
    {
     "key": "rsexcess-315b",
@@ -1310,6 +1103,15 @@
     "harness": "tests/exp-w284e-bgfield.mjs"
    },
    {
+    "key": "chain-296c",
+    "sec": 11,
+    "secSource": "第318便の鎖 1",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w296c-chain.mjs"
+   },
+   {
     "key": "eihdiag287",
     "sec": 10,
     "secSource": "w314-chain1",
@@ -1317,15 +1119,6 @@
     "presetsAll": true,
     "perPresetLoops": [],
     "harness": "tests/exp-w287b-eihdiag.mjs"
-   },
-   {
-    "key": "contractrange289",
-    "sec": 10,
-    "secSource": "w313-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w289b-contractrange.mjs"
    },
    {
     "key": "invsq-310a",
@@ -1346,13 +1139,13 @@
     "harness": "tests/exp-w314d-pn1x3d.mjs"
    },
    {
-    "key": "bgrange288",
-    "sec": 9,
-    "secSource": "w316-chain1",
+    "key": "contractrange289",
+    "sec": 7,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [],
-    "harness": "tests/exp-w288c-bgrange.mjs"
+    "harness": "tests/exp-w289b-contractrange.mjs"
    },
    {
     "key": "invsq-309a",
@@ -1364,6 +1157,15 @@
     "harness": "tests/exp-w309a-invsq.mjs"
    },
    {
+    "key": "bgrange288",
+    "sec": 6,
+    "secSource": "第318便の鎖 1",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w288c-bgrange.mjs"
+   },
+   {
     "key": "weakfield289",
     "sec": 6,
     "secSource": "w313-chain1",
@@ -1371,15 +1173,6 @@
     "presetsAll": true,
     "perPresetLoops": [],
     "harness": "tests/exp-w289a-weakfield.mjs"
-   },
-   {
-    "key": "coord3d-298a",
-    "sec": 6,
-    "secSource": "w313-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w298a-coord3d.mjs"
    },
    {
     "key": "approxmany-301b",
@@ -1436,12 +1229,12 @@
     "harness": "tests/exp-w284e-tpsign.mjs"
    }
   ],
-  "secPresetsAll": 36128,
+  "secPresetsAll": 6942,
   "rows": [
    {
     "key": "satnext-318b",
-    "sec": 7430,
-    "secSource": "w318b-branch",
+    "sec": 4493,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": false,
     "perPresetLoops": [],
@@ -1449,8 +1242,8 @@
    },
    {
     "key": "synodic-299b",
-    "sec": 5371,
-    "secSource": "w315-chain1",
+    "sec": 3987,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": false,
     "perPresetLoops": [],
@@ -1458,71 +1251,44 @@
    },
    {
     "key": "shell-304b",
-    "sec": 4975,
-    "secSource": "w316-chain1",
+    "sec": 3626,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
-    "presetsAll": true,
+    "presetsAll": false,
     "perPresetLoops": [],
     "harness": "tests/exp-w304b-shell.mjs"
    },
    {
-    "key": "solar16-318c",
-    "sec": 4187,
-    "secSource": "w318c-branch",
+    "key": "k1confirm-313d",
+    "sec": 3260,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": false,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w318c-solar16.mjs"
-   },
-   {
-    "key": "k1confirm-313d",
-    "sec": 4110,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
     "perPresetLoops": [],
     "harness": "tests/exp-w313d-k1confirm.mjs"
-   },
-   {
-    "key": "satn-317b",
-    "sec": 2981,
-    "secSource": "w317b-branch",
-    "alwaysRun": false,
-    "presetsAll": false,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w317b-satn.mjs"
-   },
-   {
-    "key": "satmeas-317a",
-    "sec": 2865,
-    "secSource": "w317a-branch",
-    "alwaysRun": false,
-    "presetsAll": false,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w317a-satmeas.mjs"
-   },
-   {
-    "key": "pairnorm-305a",
-    "sec": 2688,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w305a-pairnorm.mjs"
    },
    {
     "key": "k1em-314c",
     "sec": 2620,
     "secSource": "w314c-branch",
     "alwaysRun": false,
-    "presetsAll": true,
+    "presetsAll": false,
     "perPresetLoops": [],
     "harness": "tests/exp-w314c-k1outer.mjs"
    },
    {
+    "key": "solar16-318c",
+    "sec": 2164,
+    "secSource": "第318便の鎖 1",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w318c-solar16.mjs"
+   },
+   {
     "key": "satcut-317c",
-    "sec": 2576,
-    "secSource": "w317c-branch",
+    "sec": 2024,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": false,
     "perPresetLoops": [],
@@ -1530,143 +1296,170 @@
    },
    {
     "key": "emgrid",
-    "sec": 2575,
-    "secSource": "w315-chain1",
+    "sec": 1983,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": false,
     "perPresetLoops": [],
     "harness": "tests/exp-w280b-emgrid.mjs"
    },
    {
-    "key": "k1outer-314c",
-    "sec": 2329,
-    "secSource": "w316-chain1",
+    "key": "pairnorm-305a",
+    "sec": 1914,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
-    "presetsAll": true,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w305a-pairnorm.mjs"
+   },
+   {
+    "key": "k1outer-314c",
+    "sec": 1875,
+    "secSource": "第318便の鎖 1",
+    "alwaysRun": false,
+    "presetsAll": false,
     "perPresetLoops": [],
     "harness": "tests/exp-w314c-k1outer.mjs"
    },
    {
     "key": "refit-297a",
-    "sec": 2010,
-    "secSource": "w316-chain1",
+    "sec": 1464,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": true,
     "perPresetLoops": [],
     "harness": "tests/exp-w297a-refit.mjs"
    },
    {
-    "key": "inertialr2-303b",
-    "sec": 1628,
-    "secSource": "w315-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w303b-inertialr2.mjs"
-   },
-   {
-    "key": "refit-298b",
-    "sec": 1593,
-    "secSource": "w316-chain1",
+    "key": "planet3-311d",
+    "sec": 1332,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
     "presetsAll": false,
-    "perPresetLoops": [],
-    "harness": "tests/exp-w298b-refit.mjs"
-   },
-   {
-    "key": "planet3-311d",
-    "sec": 1579,
-    "secSource": "w316-chain1",
-    "alwaysRun": false,
-    "presetsAll": true,
     "perPresetLoops": [],
     "harness": "tests/exp-w311d-planet3.mjs"
    },
    {
+    "key": "periodn-306b",
+    "sec": 1110,
+    "secSource": "第318便の鎖 1",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w306b-periodn.mjs"
+   },
+   {
+    "key": "inertialr2-303b",
+    "sec": 1101,
+    "secSource": "第318便の鎖 1",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w303b-inertialr2.mjs"
+   },
+   {
     "key": "charon-h2",
-    "sec": 1538,
-    "secSource": "w316-chain1",
+    "sec": 1074,
+    "secSource": "第318便の鎖 2",
     "alwaysRun": false,
     "presetsAll": false,
     "perPresetLoops": [],
     "harness": "tests/exp-w272b-charon.mjs"
    },
    {
-    "key": "periodn-306b",
-    "sec": 1310,
-    "secSource": "w315-chain1",
+    "key": "refit-298b",
+    "sec": 1073,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
-    "presetsAll": true,
+    "presetsAll": false,
     "perPresetLoops": [],
-    "harness": "tests/exp-w306b-periodn.mjs"
+    "harness": "tests/exp-w298b-refit.mjs"
    },
    {
     "key": "gfamily-305b",
-    "sec": 1214,
-    "secSource": "w313-chain1",
+    "sec": 1017,
+    "secSource": "第318便の鎖 1",
     "alwaysRun": false,
-    "presetsAll": true,
+    "presetsAll": false,
     "perPresetLoops": [],
     "harness": "tests/exp-w305b-gfamily.mjs"
    },
    {
-    "key": "geo3",
-    "sec": 1210,
-    "secSource": "w316-chain1",
+    "key": "nsgrid",
+    "sec": 955,
+    "secSource": "w280-chain",
     "alwaysRun": false,
     "presetsAll": false,
     "perPresetLoops": [],
-    "harness": "tests/exp-w280c-geo3.mjs"
+    "harness": "tests/exp-w277c-nsgrid.mjs"
+   },
+   {
+    "key": "chainburst-301d",
+    "sec": 948,
+    "secSource": "第318便の鎖 1",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w301d-chainburst.mjs"
+   },
+   {
+    "key": "confirm-312d",
+    "sec": 946,
+    "secSource": "w312-chain1",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w312d-confirm.mjs"
    }
   ],
   "retiredBound": [
    {
     "key": "pnsource286",
-    "sec": 603,
+    "sec": 451,
     "loops": [
      "全本(または部分集合)を loadPreset して数步 —— 基点 html と今の html の 2 回"
     ],
-    "retiredSecUpperPerHtml": 7.149
+    "retiredSecUpperPerHtml": 7.644
    },
    {
     "key": "pn1",
-    "sec": 383,
+    "sec": 293,
     "loops": [
      "全本(または部分集合)を loadPreset して数步 —— 基点 html と今の html の 2 回"
     ],
-    "retiredSecUpperPerHtml": 7.149
+    "retiredSecUpperPerHtml": 7.644
    },
    {
     "key": "clusterAnalogy",
-    "sec": 233,
+    "sec": 180,
     "loops": [
      "全本を validatePreset → build して重い天体と光線の扇(基点と今の 2 回)"
     ],
-    "retiredSecUpperPerHtml": 7.149
+    "retiredSecUpperPerHtml": 7.644
    },
    {
     "key": "contact285",
-    "sec": 222,
+    "sec": 177,
     "loops": [
      "全本を validatePreset → build して数步の状態 hash(子プロセス —— 基点と今の 2 回)"
     ],
-    "retiredSecUpperPerHtml": 7.149
-   },
-   {
-    "key": "pnsources291",
-    "sec": 155,
-    "loops": [
-     "全本を loadPreset して数步の状態指紋(基点 html と今の html の 2 回)"
-    ],
-    "retiredSecUpperPerHtml": 7.149
+    "retiredSecUpperPerHtml": 7.644
    },
    {
     "key": "timing294",
-    "sec": 126,
+    "sec": 142,
     "loops": [
      "全本を validatePreset → build して数步の状態 hash(子プロセス —— 基点と今の 2 回)"
     ],
-    "retiredSecUpperPerHtml": 7.149
+    "retiredSecUpperPerHtml": 7.644
+   },
+   {
+    "key": "pnsources291",
+    "sec": 123,
+    "loops": [
+     "全本を loadPreset して数步の状態指紋(基点 html と今の html の 2 回)"
+    ],
+    "retiredSecUpperPerHtml": 7.644
    }
   ],
   "retiredNote": "全本段のうち本ごとの走行の印がある段だけ、退役 33 本の build と loadPreset+32 步の和(1 html あたり)を上限の目安として添える。印の無い全本段(clusterStable・compose293・clusterAnalogy の門の走行等)は、領域の宣言が全本なだけで走るのは決まった本 —— 退役を外しても時間は減らない"
@@ -1679,94 +1472,94 @@
     "K": 20000,
     "nTargets": 3,
     "usPerStep": [
-     66.995,
-     56.81,
-     41.355
+     48.5,
+     54.21,
+     50.665
     ],
-    "usMedian": 56.81,
+    "usMedian": 50.665,
     "usProxy": [
-     51.795,
-     49.795,
-     38.57
+     46.555,
+     52.63,
+     54.285
     ],
-    "usProxyMedian": 49.795,
-    "extractShare": 0
+    "usProxyMedian": 52.63,
+    "extractShare": 0.037
    },
    {
     "id": "plutoCharonDiagInput",
     "n": 2,
-    "K": 500000,
+    "K": 526316,
     "nTargets": 1,
     "usPerStep": [
-     1.656,
-     1.364,
-     0.997
+     1.607,
+     1.323,
+     1.146
     ],
-    "usMedian": 1.364,
+    "usMedian": 1.323,
     "usProxy": [
-     1.441,
-     1.662,
-     1.017
+     1.243,
+     1.361,
+     1.275
     ],
-    "usProxyMedian": 1.441,
-    "extractShare": 0.053
+    "usProxyMedian": 1.275,
+    "extractShare": 0
    },
    {
     "id": "uranusReal",
     "n": 94,
-    "K": 22051,
+    "K": 23529,
     "nTargets": 5,
     "usPerStep": [
-     45.177,
-     48.279,
-     42.374
+     42.356,
+     36.678,
+     44.15
     ],
-    "usMedian": 45.177,
+    "usMedian": 42.356,
     "usProxy": [
-     45.662,
-     47.309,
-     47.558
+     43.44,
+     39.581,
+     45.731
     ],
-    "usProxyMedian": 47.309,
-    "extractShare": 0.045
+    "usProxyMedian": 43.44,
+    "extractShare": 0.025
    },
    {
     "id": "earthMoonReal",
     "n": 2,
-    "K": 444444,
+    "K": 588235,
     "nTargets": 1,
     "usPerStep": [
-     0.698,
-     0.825,
-     1.009
+     0.62,
+     0.632,
+     0.604
     ],
-    "usMedian": 0.825,
+    "usMedian": 0.62,
     "usProxy": [
-     0.788,
-     1.1,
-     0.817
+     0.73,
+     0.669,
+     0.732
     ],
-    "usProxyMedian": 0.817,
-    "extractShare": 0
+    "usProxyMedian": 0.73,
+    "extractShare": 0.152
    },
    {
-    "id": "jupiterGalilean",
-    "n": 5,
-    "K": 540541,
-    "nTargets": 4,
+    "id": "psrB1534",
+    "n": 2,
+    "K": 689655,
+    "nTargets": 1,
     "usPerStep": [
-     2.086,
-     2.5,
-     1.862
+     1.042,
+     0.899,
+     0.929
     ],
-    "usMedian": 2.086,
+    "usMedian": 0.929,
     "usProxy": [
-     2.339,
-     2.139,
-     2.404
+     0.873,
+     0.787,
+     0.92
     ],
-    "usProxyMedian": 2.339,
-    "extractShare": 0.108
+    "usProxyMedian": 0.873,
+    "extractShare": 0
    }
   ],
   "subset": [
@@ -1774,9 +1567,9 @@
     "id": "saturnRingReal",
     "nFull": 127,
     "nStrip": 7,
-    "usFullMedian": 51.69,
-    "usStripMedian": 3.409,
-    "speedup": 15.163,
+    "usFullMedian": 50.145,
+    "usStripMedian": 2.972,
+    "speedup": 16.875,
     "singlesAfter": {
      "nSingle": 7,
      "steps": 2000,
@@ -1789,9 +1582,9 @@
     "id": "uranusReal",
     "nFull": 94,
     "nStrip": 6,
-    "usFullMedian": 47.84,
-    "usStripMedian": 2.962,
-    "speedup": 16.151,
+    "usFullMedian": 46.19,
+    "usStripMedian": 2.479,
+    "speedup": 18.633,
     "singlesAfter": {
      "nSingle": 6,
      "steps": 2000,
@@ -1806,55 +1599,55 @@
     "id": "earthMoonInertial",
     "K": 400000,
     "usPerStep": [
-     1.702,
-     1.547,
-     1.352
+     1.365,
+     1.154,
+     1.186
     ],
-    "usMedian": 1.547
+    "usMedian": 1.186
    },
    {
     "id": "inertialDragPair",
     "K": 400000,
     "usPerStep": [
-     1.558,
-     1.366,
-     1.202
+     1.436,
+     1.237,
+     1.208
     ],
-    "usMedian": 1.366
+    "usMedian": 1.237
    }
   ],
   "cost": {
    "build": {
-    "live": 442.5,
-    "retired": 575.8
+    "live": 430.5,
+    "retired": 529.9
    },
    "load32": {
-    "live": 20659.4,
-    "retired": 6573.6
+    "live": 19112.9,
+    "retired": 7113.7
    },
    "nRetired": 56,
    "nLive": 121
   },
   "closure": {
-   "scopes": 125,
+   "scopes": 132,
    "modes": [
     "legacy",
     "v3",
     "now"
    ],
-   "closures": 375,
-   "same": 375,
+   "closures": 396,
+   "same": 396,
    "diffs": [],
-   "digest": "4dfc1a6ee811d7263167d1d1c1843f413ed5a4ed27575875f5614ee31cbc04ad",
+   "digest": "7602c83867c88dcaab86c75f6082bbdc44999d89726b9601dcc0601e43a8de57",
    "msRef": [
-    25313
+    27269
    ],
    "msNew": [
-    40517
+    26822
    ],
-   "msRefMedian": 25313,
-   "msNewMedian": 40517
+   "msRefMedian": 27269,
+   "msNewMedian": 26822
   }
  },
- "elapsedS": 141.94
+ "elapsedS": 123.422
 }

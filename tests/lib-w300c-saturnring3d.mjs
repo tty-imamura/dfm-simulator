@@ -58,7 +58,8 @@ export function poleUnit(tiltDeg, azimuthDeg) {
 }
 /** 元の本(💍 と 🟡)を読む。 */
 export function sources(HP) {
-  const all = HP.allPresets(), src = all.find((q) => q.id === SRC_ID), pol = all.find((q) => q.id === POLE_ID);
+  // 第319便c(原仮定者の指示(第121報)・R260): 名指しの 2 本だけを `.find` で直に引く(変数に受けると領域の下限が「内蔵の全本」になる —— 値は同じ)
+  const src = HP.allPresets().find((q) => q.id === SRC_ID), pol = HP.allPresets().find((q) => q.id === POLE_ID);
   if (!src || !pol) throw new Error('元の本が無い ' + SRC_ID + '/' + POLE_ID);
   const sa = pol.bodies[POLE_INDEX] && pol.bodies[POLE_INDEX].spinAxis;
   if (!(sa && sa.enable === true && typeof sa.tiltDeg === 'number' && typeof sa.azimuthDeg === 'number')) throw new Error(POLE_ID + ' の土星の spinAxis が無い');

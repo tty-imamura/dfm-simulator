@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第299便c",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-28T21:48:51.968Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T13:26:05.476Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -22,9 +22,9 @@
   "code": [
    {
     "file": "tests/exp-w299c-planets3d.mjs",
-    "bytes": 52338,
-    "sha256": "ecff672647e6d96c73d5822d504ccdcc7b2f27142c3de958d913b02dfa5fd859",
-    "mtime": "2026-10-25T16:42:07.778Z"
+    "bytes": 52861,
+    "sha256": "266dda8f0884604421d04b2bb03398260bebd9b0f761d47861160309149bbe8a",
+    "mtime": "2026-10-30T11:33:02.834Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -34,15 +34,15 @@
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
-    "bytes": 16510,
-    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-10-30T11:33:02.854Z"
    },
    {
     "file": "tests/exp-w298c-moon3d.mjs",
-    "bytes": 38229,
-    "sha256": "7df3ab3c8f8949a48e650de1846778dab876a97399db58967059cfea1f1731e1",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "bytes": 38451,
+    "sha256": "6a7036d76a1401cd91833c68377f8ec88b79478095df990ddab76db5ab71731a",
+    "mtime": "2026-10-30T11:33:02.834Z"
    },
    {
     "file": "tests/lib-w297b-fit.mjs",
@@ -81,7 +81,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "f3a32fbe3fa27842d4e6912458a56c07698510aa94c1ccd958654bd92f495eb2",
+  "codeSha256": "2e72f97aa1766ad97929e3a3cdc8b4a7be9f92f02a8e8ac97e1e79ae54158631",
   "harnessVersion": "w299c-planets3d-1",
   "extractorVersion": "w299c-plx3-1",
   "loadErrors": 0,
@@ -89,7 +89,27 @@
   "reading": "統括の検証項目 R171(惑星の geoPN=3 三次元の新本・初期状態の生成器・測定と標的のある惑星のフィット)",
   "scope": {
    "version": "w318a-scope-6",
-   "presets": "all",
+   "presets": [
+    "earthMoonSunInertial3d",
+    "earthMoonSunInertialFit",
+    "jupiterGalilean",
+    "jupiterSunInertial3d",
+    "marsMoonsReal",
+    "marsSunInertial3d",
+    "mercury",
+    "mercuryReal",
+    "mercurySunInertial3d",
+    "mercurySunInertialFit",
+    "neptuneReal",
+    "neptuneSunInertial3d",
+    "saturn",
+    "saturnRingReal",
+    "saturnSunInertial3d",
+    "uranusReal",
+    "uranusSunInertial3d",
+    "venusReal",
+    "venusSunInertial3d"
+   ],
    "roots": [
     "$",
     "DT",
@@ -109,11 +129,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1331,
-   "segments": 1172,
-   "closureShare": 0.3027
+   "names": 1349,
+   "segments": 1190,
+   "closureShare": 0.3045
   },
-  "scopeSha256": "73cb319c5cab8938b2d6c7c07f9751fc095d93076d931f25e14c978e1fb0f0dd",
+  "scopeSha256": "1defb991bd208ecd33f5995513b68464b195ec42d1420791ef1a4cbe0d5e7e17",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -1345,172 +1365,172 @@
  "ok": true,
  "timing": {
   "mercury-g0-h": {
-   "wallSec": 7.658
+   "wallSec": 7.535
   },
   "mercury-g0-h2": {
-   "wallSec": 14.549
+   "wallSec": 14.399
   },
   "venus-g0-h": {
-   "wallSec": 8.647
+   "wallSec": 7.313
   },
   "mars-g0-h": {
-   "wallSec": 8.005
+   "wallSec": 7.337
   },
   "venus-g0-h2": {
-   "wallSec": 15.347
+   "wallSec": 14.712
   },
   "jupiter-g0-h": {
-   "wallSec": 7.756
+   "wallSec": 6.881
   },
   "mars-g0-h2": {
-   "wallSec": 14.785
+   "wallSec": 14.37
   },
   "saturn-g0-h": {
-   "wallSec": 8.321
+   "wallSec": 6.821
   },
   "jupiter-g0-h2": {
-   "wallSec": 13.825
+   "wallSec": 13.71
   },
   "uranus-g0-h": {
-   "wallSec": 8.501
+   "wallSec": 6.65
   },
   "saturn-g0-h2": {
-   "wallSec": 14.781
+   "wallSec": 13.053
   },
   "neptune-g0-h": {
-   "wallSec": 8.206
+   "wallSec": 6.219
   },
   "uranus-g0-h2": {
-   "wallSec": 15.214
+   "wallSec": 12.849
   },
   "neptune-g0-h2": {
-   "wallSec": 11.392
-  },
-  "mer-grid0": {
-   "wallSec": 1.109
+   "wallSec": 11.564
   },
   "mer-grid1": {
-   "wallSec": 1.394
+   "wallSec": 1.3
+  },
+  "mer-grid0": {
+   "wallSec": 1.398
   },
   "mer-grid3": {
-   "wallSec": 1.316
+   "wallSec": 1.123
   },
   "mer-grid2": {
-   "wallSec": 1.208
+   "wallSec": 1.536
   },
   "mer-grid4": {
-   "wallSec": 1.065
+   "wallSec": 0.907
   },
   "mer-grid5": {
-   "wallSec": 1.408
+   "wallSec": 0.994
   },
   "mer-grid6": {
-   "wallSec": 1.52
+   "wallSec": 1.271
   },
   "mer-grid7": {
-   "wallSec": 1.432
-  },
-  "mer-grid9": {
-   "wallSec": 1.057
+   "wallSec": 1.495
   },
   "mer-grid8": {
-   "wallSec": 1.463
-  },
-  "mer-grid11": {
-   "wallSec": 1.085
-  },
-  "mer-grid10": {
-   "wallSec": 1.594
-  },
-  "mer-grid12": {
-   "wallSec": 1.109
-  },
-  "mer-it0": {
    "wallSec": 1.207
   },
+  "mer-grid9": {
+   "wallSec": 1.342
+  },
+  "mer-grid10": {
+   "wallSec": 1.038
+  },
+  "mer-grid11": {
+   "wallSec": 1.351
+  },
+  "mer-grid12": {
+   "wallSec": 1.232
+  },
+  "mer-it0": {
+   "wallSec": 0.977
+  },
   "mer-it1": {
-   "wallSec": 0.98
+   "wallSec": 1.001
   },
   "mer-it2": {
-   "wallSec": 0.8
+   "wallSec": 0.953
   },
   "mer-it3": {
-   "wallSec": 0.77
+   "wallSec": 0.985
   },
   "mer-it4": {
-   "wallSec": 0.833
+   "wallSec": 0.925
   },
   "mer-it5": {
-   "wallSec": 1.218
+   "wallSec": 0.948
   },
   "mer-it6": {
-   "wallSec": 1.035
+   "wallSec": 1.001
   },
   "mer-it7": {
-   "wallSec": 1.17
+   "wallSec": 1.072
   },
   "mer-it8": {
-   "wallSec": 1.09
+   "wallSec": 1.169
   },
   "mer-it9": {
-   "wallSec": 0.846
+   "wallSec": 0.981
   },
   "mer-it10": {
-   "wallSec": 1.24
+   "wallSec": 0.989
   },
   "mer-it11": {
-   "wallSec": 0.848
+   "wallSec": 0.949
   },
   "mer-it12": {
-   "wallSec": 0.869
+   "wallSec": 1.035
   },
   "mer-it13": {
-   "wallSec": 1.371
+   "wallSec": 0.953
   },
   "mer-it14": {
-   "wallSec": 1.312
+   "wallSec": 0.936
   },
   "mer-fit-h": {
-   "wallSec": 8.361
+   "wallSec": 7.93
   },
   "mer-fit-h2": {
-   "wallSec": 15.966
+   "wallSec": 15.17
   },
   "venus-tr-h": {
-   "wallSec": 1.759
-  },
-  "venus-tr-h2": {
-   "wallSec": 2.777
+   "wallSec": 1.54
   },
   "mars-tr-h": {
-   "wallSec": 1.146
+   "wallSec": 0.942
+  },
+  "venus-tr-h2": {
+   "wallSec": 2.96
   },
   "jupiter-tr-h": {
-   "wallSec": 1.362
+   "wallSec": 1.306
   },
   "mars-tr-h2": {
-   "wallSec": 1.995
-  },
-  "jupiter-tr-h2": {
-   "wallSec": 2.097
+   "wallSec": 2.304
   },
   "saturn-tr-h": {
-   "wallSec": 1.753
+   "wallSec": 1.243
+  },
+  "jupiter-tr-h2": {
+   "wallSec": 2.165
   },
   "uranus-tr-h": {
    "wallSec": 1.246
   },
   "saturn-tr-h2": {
-   "wallSec": 2.127
+   "wallSec": 2.648
   },
   "neptune-tr-h": {
-   "wallSec": 1.09
+   "wallSec": 1.352
   },
   "uranus-tr-h2": {
-   "wallSec": 2.832
+   "wallSec": 2.699
   },
   "neptune-tr-h2": {
-   "wallSec": 1.631
+   "wallSec": 2.081
   }
  },
  "notClaim": [
@@ -1519,5 +1539,5 @@
   "「gain は普遍定数」",
   "「二次元の値を写して fitted」"
  ],
- "elapsedS": 148.149
+ "elapsedS": 138.503
 }

@@ -2,7 +2,7 @@
  "version": "w313b-galaxialrdm-1",
  "generator": "tests/exp-w313b-galaxialrdm.mjs",
  "target": "beta/index.html",
- "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+ "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
  "ruling": "原仮定者の裁定(第115報)一様軸引きずりの R_d の応答の次数は K1 を主にする q = 1 で質量も入る(決断事項 AN395)・K1 を採用する(AN399)・太陽を含む全天体に同じ規則 R_d = κm(AN402)・統括の検証項目 R235",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "galaxyAxialRdVersion": "w312b-galaxial-rd-1",
@@ -2696,31 +2696,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.035
+   "wallSec": 0.027
   },
   "B": {
-   "wallSec": 0.192
+   "wallSec": 0.184
   },
   "N": {
-   "wallSec": 1.866
+   "wallSec": 1.502
   },
   "X": {
-   "wallSec": 128.541
+   "wallSec": 114.308
   }
  },
- "elapsedS": 132.804,
+ "elapsedS": 117.819,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第313便b",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T07:18:35.302Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T20:13:34.620Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2732,9 +2732,9 @@
   "code": [
    {
     "file": "tests/exp-w313b-galaxialrdm.mjs",
-    "bytes": 54679,
-    "sha256": "8947af2605020d086027f4f5dd02aef36174b727bd467416eccb27d98e523947",
-    "mtime": "2026-10-25T16:42:07.809Z"
+    "bytes": 55130,
+    "sha256": "6446ca53b28e3e5a89aaaa24d2e6e53c80604646151468127681d9cb54a0ffbc",
+    "mtime": "2026-10-30T19:46:51.737Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -2744,15 +2744,15 @@
    },
    {
     "file": "tests/exp-w311b-galaxial.mjs",
-    "bytes": 40971,
-    "sha256": "a12c4b8bba7c492d9655592988a97a24493315893bf5482b24aeed6ade5a9dc0",
-    "mtime": "2026-10-26T10:28:30.995Z"
+    "bytes": 41422,
+    "sha256": "a4376f503d6f5ab53745ea1ab0d539b2d7560764986d28e43d598ba24a4bae98",
+    "mtime": "2026-10-30T11:33:02.842Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
-    "bytes": 16510,
-    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-10-30T11:33:02.854Z"
    },
    {
     "file": "tests/lib-w311c-h4carry.mjs",
@@ -2779,7 +2779,7 @@
     "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "1006040b46acd8bebaf620282222c1434c9de94da0c63117721a747c2d89aad8",
+  "codeSha256": "86bae411784565e0f5292bd661cc98a9445885d722fd02de3feb91dcba9b8e36",
   "harnessVersion": "w313b-galaxialrdm-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2793,7 +2793,29 @@
   ],
   "scope": {
    "version": "w318a-scope-6",
-   "presets": "all",
+   "presets": [
+    "earthMoonOnly3d",
+    "earthMoonSunInertial3d",
+    "galaxy",
+    "galaxyGeo2",
+    "galaxyStd",
+    "jupiterGalilean",
+    "jupiterSunInertial3d",
+    "marsMoonsReal",
+    "marsSunInertial3d",
+    "mercury",
+    "mercuryReal",
+    "mercurySunInertial3d",
+    "neptuneReal",
+    "neptuneSunInertial3d",
+    "saturn",
+    "saturnRingReal",
+    "saturnSunInertial3d",
+    "uranusReal",
+    "uranusSunInertial3d",
+    "venusReal",
+    "venusSunInertial3d"
+   ],
    "roots": [
     "$",
     "GALAXY_AXIAL_MASS_POWS",
@@ -2833,11 +2855,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1328,
-   "segments": 1169,
-   "closureShare": 0.3025
+   "names": 1346,
+   "segments": 1187,
+   "closureShare": 0.3043
   },
-  "scopeSha256": "d4d1447bfb0c2de5b855199a687a95e0a6af18169213b66c56ad7bbc029bb072",
+  "scopeSha256": "c350137585914823f755dc1675efc5571882f6b807c2f1b522aec1cda677ceb2",
   "scopeComplete": true,
   "inputsStable": [
    {
