@@ -32,6 +32,9 @@ import { createRequire } from 'node:module';
 import { DSPLIT_VERSION, ASSUMPTIONS, assumptionRows, determinacySum, splitInvariance,
   ruleBackgroundSI, d0UnitSI } from './lib-w275b-dsplit.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
+// 第319便c(原仮定者の指示(第121報)・決断事項 AN454・統括の検証項目 R260): 領域の宣言(器と lib から deriveScope で引いた下限 —— html 全体の刻印をやめ、表示の文だけの変更では作り直さない。値は宣言の前と同じ)
+import { scopeStamp as w319cScopeStamp } from './lib-w281a-scope.mjs';
+const REGEN_SCOPE = {"presets":"all","roots":["$","HP.allPresets","HP.frameWeightPow","HP.sim","HP.validatePreset","T","clamp","dfmGeoToyStep"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -333,10 +336,10 @@ if (XCHECK) {
 
 // ---------------------------------------------------------------- 書き出し
 const CODE = ['tests/exp-w275b-d0audit.mjs', 'tests/lib-w275b-dsplit.mjs',
-  'tests/lib-w272e-provenance.mjs'];
+  'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
 const out = {
   meta: Object.assign(provenanceMeta({ root: ROOT, wave: '第275便b', target: TARGET,
-    code: CODE, inputs: [TARGET, 'tests/out/calaudit-w249.json'] }), {
+    code: CODE, inputs: [TARGET, 'tests/out/calaudit-w249.json'] }), w319cScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE), {
     harness: 'tests/exp-w275b-d0audit.mjs', harnessVersion: HARNESS_VERSION,
     dsplitVersion: DSPLIT_VERSION,
     definition: 'D_bg(x*) = Σ_{j∉分解集合} m_j/(r_j²+ε²)^(p/2)(p=1 で M/L・p=2 で M/L²)',

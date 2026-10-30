@@ -88423,7 +88423,16 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (JSON.stringify(J.measures.map((m) => m.key)) !== JSON.stringify(X.MEASURE_KEYS)) bad.push('① 測る量の並び');
       cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・${X.SATS.length} 衛星・格子 ${X.PLAN.grids.map((g) => g.key + '〔h/' + g.divs.join('・h/') + ' × 窓 ' + g.windows.join('・') + '〕').join('・')}・走行の組 ${Object.keys(J.E.rows).length}・HARM_RULE ${J.harmRule.version}`);
       // ②
-      if (Jh) {
+      // 第319便c(原仮定者の指示(第121報)・R260): 段が履歴(閉じた探索 —— 再生成しない)へ移った世代では、第316便d の正本のバイトが刻印(meta.inputs の sha)と同じときだけ
+      //   作り直して照合し、違えば(第316便d を鎖で作り直した後の世代)正本に刻んだ記録(prefix の same/compared)を凍結の記録として照合する
+      let frozen319c = false;
+      try { const RTm = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs')); if (RTm.historyOuts().includes('tests/out/satmeas-w317a.json') && Jh) {
+        const rec = ((J.meta || {}).inputs || []).find((z) => z.file === 'tests/out/sath-w316d.json'), now = crypto.createHash('sha256').update(fs.readFileSync(hOut)).digest('hex');
+        frozen319c = !(rec && rec.sha256 === now); } } catch (e) { frozen319c = false; }
+      if (frozen319c) {
+        if (!(J.prefix && J.prefix.compared > 0 && J.prefix.same === J.prefix.compared)) bad.push('② 凍結の正本の記録で通過の窓がビット同一でない');
+        cases.push(`② 履歴の段(第319便c —— 閉じた探索): 第316便d の正本が刻印と違う世代なので正本に刻んだ記録を照合 ${J.prefix.same}/${J.prefix.compared}`);
+      } else if (Jh) {
         const pf = X.prefixOf(J, Jh);
         if (!near317(pf, J.prefix) || !(pf.compared > 0 && pf.same === pf.compared)) bad.push('② 通過の窓が第316便d の走行とビット同一でない(' + pf.same + '/' + pf.compared + ')');
         for (const k of X.SATS) if (!near317(J.T.systems[k], Jh.T.systems[k])) bad.push('② 種が第316便d の正本と違う ' + k);
@@ -88598,7 +88607,16 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const nRows = Object.keys(J.E2.rows).length + Object.keys(J.E3.rows).length;
       cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・二体 ${X.SATS.length} 衛星 × n ${P.ns.join('・')} × 核の行 ${P.kernels.length} × h/${P.divs.join('・h/')} × ${P.two.runN} 公転・三体 ${X.SATS3.length} 衛星(二体で決まった組)× ${P.three.runN} 公転・走行 ${nRows} 本`);
       // ②
-      if (Jh) {
+      // 第319便c(原仮定者の指示(第121報)・R260): 段が履歴(閉じた探索 —— 再生成しない)へ移った世代では、第316便d の正本のバイトが刻印(meta.inputs の sha)と同じときだけ
+      //   作り直して照合し、違えば(第316便d を鎖で作り直した後の世代)正本に刻んだ記録(prefix の same/compared)を凍結の記録として照合する
+      let frozen319c = false;
+      try { const RTm = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs')); if (RTm.historyOuts().includes('tests/out/satn-w317b.json') && Jh) {
+        const rec = ((J.meta || {}).inputs || []).find((z) => z.file === 'tests/out/sath-w316d.json'), now = crypto.createHash('sha256').update(fs.readFileSync(hOut)).digest('hex');
+        frozen319c = !(rec && rec.sha256 === now); } } catch (e) { frozen319c = false; }
+      if (frozen319c) {
+        if (!(J.prefix && J.prefix.compared > 0 && J.prefix.same === J.prefix.compared)) bad.push('② 凍結の正本の記録で n = 2 の K1-rule・q10・q00 の通過の窓がビット同一でない');
+        cases.push(`② 履歴の段(第319便c —— 閉じた探索): 第316便d の正本が刻印と違う世代なので正本に刻んだ記録を照合 ${J.prefix.same}/${J.prefix.compared}`);
+      } else if (Jh) {
         const pf = X.prefixOf(J, Jh);
         if (!near317b(pf, J.prefix) || !(pf.compared > 0 && pf.same === pf.compared)) bad.push('② n = 2 の K1-rule・q10・q00 が第316便d の走行とビット同一でない(' + pf.same + '/' + pf.compared + ')');
         for (const k of X.SATS) { const a = Object.assign({}, J.T.systems[k]); delete a.refs; if (!near317b(a, Jh.T.systems[k])) bad.push('② 種が第316便d の正本と違う ' + k); }
@@ -90179,6 +90197,131 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第319便b の塊(ここまで)====
+// ==== 第319便c の塊(ここから —— docs.regenShort319c の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第319便c(原仮定者の指示(第121報)「時間が掛かっている再生成の段について、時間短縮を行う」・決断事項 AN454・統括の検証項目 R260): docs.regenShort319c ——
+// ----   **再生成の段の短縮**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ 記録 tests/out/scopeprobe-w319c.json ∧ 文書の lib tests/lib-w319c-regenshort.mjs。
+// ----   ① 閉じた探索の段: HISTORY_319C の段が履歴(role)・決断事項の番号つき・正本は現行の段の meta.inputs に無い / CLOSED_KEEP_319C の根拠(現行の読み手)が今も成り立つ
+// ----   ② presets の絞り: NARROWED_319C の段の器の REGEN_SCOPE の presets が配列(下限を覆うことは lint.regenScope ②)・器が import する凍結の写しの lib のデータの本の ID を含む・
+// ----     lib-w299c-planets3d・lib-w300c-saturnring3d に allPresets() を変数に受ける形が無い / KEEP_ALL_319C の段は "all" のまま
+// ----   ③ AN454: AN454_319C の段の器が REGEN_SCOPE(complete)を宣言し、正本(全部)の meta.scope が宣言と同じ・scopeComplete
+// ----   ④ 記録の契約: 版・変更 6 種が作れた・表示の文 2 種は後の領域の段 0(文を consts で読む器を除く)・本と步の 4 種は後 ≤ 前・本を足す変更は後 < 前・
+// ----     後の現行の段 = 前 − 履歴へ移した段・AN454 の変異の対照(表示の文 → 不変・質量 → 変わる)が全部期待どおり
+// ----   ⑤ PHYSICS〔第319便c〕に表 1〜4 が逐語(lib の関数で記録から作り直す)・節が「## 7.」の前で〔第318便 — 統括〕の後・語・AI_SPEC §153・CHANGELOG・tools/README・.gitignore・post-merge
+// ----   ⑥ 書かない語・禁句・新しい説明に裸の係数記号が無いこと
+{
+  await (async () => {   // 第310便c(heap)
+  const f = path.join(ROOT, 'tests', 'out', 'scopeprobe-w319c.json'), libF = path.join(ROOT, 'tests', 'lib-w319c-regenshort.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(f) && fs.existsSync(libF))) { console.log('SKIP docs.regenShort319c(第319便c の再生成の段の短縮の前の世代 — ' + TARGET + ')'); return; }
+  const rd = (p) => { try { return fs.readFileSync(path.join(ROOT, p), 'utf8'); } catch (e) { return ''; } };
+  const rj = (p) => { try { return JSON.parse(rd(p)); } catch (e) { return null; } };
+  const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), CLx = rd('CHANGELOG.md'), TR = rd('tools/README.md'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh');
+  const i0 = PH.indexOf('〔第319便c — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+  const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+  const strip = (t) => t.replace(/「[^」]*」/g, '');
+  const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /法則を確かめた/, /シュヴァルツシルト半径そのもの/, /現実の核/, /検証が完了した/, /地平面を判定した/];
+  const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+  const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+  const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+  const bad = [], cases = [];
+  try {
+    const RTm = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+    const SC = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
+    const D = await import('file://' + libF);
+    const J = rj('tests/out/scopeprobe-w319c.json');
+    const stepOf = (k) => RTm.REGEN_STEPS.find((z) => z.key === k) || null;
+    const harnessOf = (k) => { const st = stepOf(k); return st ? (st.cmd.match(/tests\/exp-[\w.-]+\.mjs/) || [null])[0] : null; };
+    const declOf = (k) => { const h = harnessOf(k); return h ? SC.readDeclaredScope(rd(h)) : null; };
+    // ①
+    const hist = new Set(RTm.historyOuts());
+    const curInputs = new Set();
+    for (const st of RTm.REGEN_STEPS.filter((z) => z.role !== 'history')) for (const o of st.outs) { const m = (rj(o) || {}).meta; for (const z of ((m && m.inputs) || [])) curInputs.add(z.file); }
+    for (const h of (RTm.HISTORY_319C || [])) {
+      const st = stepOf(h.key);
+      if (!st || st.role !== 'history' || st.secSource !== RTm.HISTORY_SEC_SOURCE_319C) bad.push('① ' + h.key + ' が履歴でない');
+      if (!(Array.isArray(h.closedBy) && h.closedBy.length && h.closedBy.every((x) => /^AN\d+$/.test(x)))) bad.push('① ' + h.key + ' に決断事項の番号が無い');
+      for (const o of (st ? st.outs : [])) { if (!hist.has(o)) bad.push('① 履歴の集合に ' + o + ' が無い'); if (curInputs.has(o)) bad.push('① 現行の段が履歴 ' + o + ' を読む'); }
+    }
+    const reads = (k, file) => { const st = stepOf(k); return !!st && st.outs.some((o) => (((rj(o) || {}).meta || {}).inputs || []).some((z) => z.file === file)); };
+    const KEEP = { 'satcut-317c': [['satnext-318b', 'tests/out/satcut-w317c.json']], 'sath-316d': [['satcut-317c', 'tests/out/sath-w316d.json'], ['satan-317d', 'tests/out/sath-w316d.json']],
+      'satk1-315d': [['sath-316d', 'tests/out/satk1-w315d.json'], ['satan-317d', 'tests/out/satk1-w315d.json']] };
+    for (const h of (RTm.CLOSED_KEEP_319C || [])) { const rs = KEEP[h.key] || []; if (!rs.length || !rs.some(([k, fl]) => reads(k, fl) && (stepOf(k) || {}).role !== 'history')) bad.push('① 残す理由(現行の読み手)が成り立たない ' + h.key); }
+    cases.push(`① 履歴へ ${(RTm.HISTORY_319C || []).length} 段(${(RTm.HISTORY_319C || []).map((h) => h.key + '〔' + h.closedBy.join('・') + '〕').join('・')})—— 現行の段の入力に無い・残す ${(RTm.CLOSED_KEEP_319C || []).length} 段は現行の読み手あり`);
+    // ②
+    const BIDS = new Set([...rd(TARGET).matchAll(/\n\{ id:"([^"]+)"/g)].map((z) => z[1]));   // 内蔵の本の ID(html の宣言の行頭)
+    const pinIds = {};
+    for (const fl of fs.readdirSync(path.join(ROOT, 'tests')).filter((x) => /^lib-w3\d\d[a-z]-(pre|legacy7)\.mjs$/.test(x))) {
+      const m = rd('tests/' + fl).match(/_DATA_FILE\s*=\s*['"]([^'"]+)['"]/); const dj = m ? rj(m[1]) : null; if (!dj) continue;
+      const ids = new Set(); const walk = (o, d) => { if (d > 4 || !o || typeof o !== 'object') return; for (const kk of Object.keys(o)) { if (BIDS.has(kk)) ids.add(kk); walk(o[kk], d + 1); } if (typeof o.id === 'string' && BIDS.has(o.id)) ids.add(o.id); };
+      walk(dj, 0); pinIds['tests/' + fl] = [...ids];
+    }
+    let nNar = 0;
+    for (const n of (RTm.NARROWED_319C || [])) {
+      const d = declOf(n.key), h = harnessOf(n.key);
+      if (!d || !Array.isArray(d.presets) || !d.presets.length) { bad.push('② ' + n.key + ' の presets が名指しの本でない'); continue; }
+      nNar++;
+      const files = SC.codeFilesOf(ROOT, h, []).map((z) => z.file);
+      for (const [pl, ids] of Object.entries(pinIds)) if (files.includes(pl)) for (const id of ids) if (!d.presets.includes(id)) bad.push('② ' + n.key + ' の presets に凍結の写しの本 ' + id + ' が無い(' + pl + ')');
+    }
+    for (const lf of ['tests/lib-w299c-planets3d.mjs', 'tests/lib-w300c-saturnring3d.mjs']) if (/\b(?:const|let|var)\s+[A-Za-z_$][\w$]*\s*=\s*HP\.allPresets\(\)\s*[,;]/.test(SC.scanJs(rd(lf)).code)) bad.push('② ' + lf + ' が allPresets() を変数に受ける');
+    for (const k of (RTm.KEEP_ALL_319C || [])) { const d = declOf(k.key); if (!d || d.presets !== 'all') bad.push('② ' + k.key + ' は "all" のまま残す段'); }
+    cases.push(`② 絞った ${nNar}/${(RTm.NARROWED_319C || []).length} 段の presets は名指しの本(凍結の写しの本を含む)・lib 2 本に変数受けなし・"all" のまま ${(RTm.KEEP_ALL_319C || []).length} 段`);
+    // ③
+    let n454 = 0;
+    for (const z of (RTm.AN454_319C || [])) {
+      const d = declOf(z.key), st = stepOf(z.key);
+      if (!d || d.complete !== true || harnessOf(z.key) !== z.harness) { bad.push('③ ' + z.key + ' の器に REGEN_SCOPE(complete)が無い'); continue; }
+      for (const o of st.outs) { const m = (rj(o) || {}).meta || {}; const a = SC.normalizeScope(m.scope || {}), b = SC.normalizeScope(d); delete a.note; delete b.note;
+        if (!(m.scope && m.scopeComplete === true && JSON.stringify(a) === JSON.stringify(b))) bad.push('③ ' + o + ' の領域の刻印が宣言と違う'); }
+      n454++;
+    }
+    cases.push(`③ AN454 ${n454} 段(${(RTm.AN454_319C || []).map((z) => z.key).join('・')})の器が宣言し正本が同じ宣言を刻む・付けない ${(RTm.AN454_SKIP_319C || []).length} 行は理由つき`);
+    // ④
+    if (!J || J.version !== D.PROBE_VERSION || J.scopeVersion !== SC.SCOPE_VERSION) bad.push('④ 記録の版');
+    else {
+      if (JSON.stringify(J.cases.map((c) => c.key)) !== JSON.stringify(D.CASE_KEYS) || !J.cases.every((c) => c.made)) bad.push('④ 変更の種類 6 種が作れていない');
+      const C = Object.fromEntries(J.cases.map((c) => [c.key, c]));
+      for (const k of ['lawsText', 'reasonText']) if (C[k] && !(C[k].after.scoped === 0 && C[k].after.wholeHtml < C[k].before.wholeHtml)) bad.push('④ 表示の文 ' + k + ' の後の領域の段 ' + C[k].after.scoped + '・html 全体 ' + C[k].before.wholeHtml + '→' + C[k].after.wholeHtml);
+      for (const k of ['addPreset', 'planetDecl', 'stepMaint', 'engineCoef']) if (C[k] && !(C[k].after.regen <= C[k].before.regen && C[k].after.regenSec <= C[k].before.regenSec)) bad.push('④ ' + k + ' の後の regen が前より多い');
+      if (C.addPreset && !(C.addPreset.after.regen < C.addPreset.before.regen)) bad.push('④ 本を足す変更で後の regen が減っていない');
+      for (const c of J.cases) { const sb = D.savedBy(J, RTm, c); if (sb.other[0] !== 0) bad.push('④ ' + c.key + ' で本便の変更の外の段が省ける(' + sb.other[0] + ' 段)'); if (c.after.regenSteps.some((k) => !c.before.regenSteps.includes(k) && !(RTm.HISTORY_319C || []).some((z) => z.key === k))) bad.push('④ ' + c.key + ' で後だけ regen の段がある'); }
+      if (J.totals.after.steps !== J.totals.before.steps - (RTm.HISTORY_319C || []).length) bad.push('④ 後の現行の段 ' + J.totals.after.steps + ' ≠ 前 ' + J.totals.before.steps + ' − 履歴へ');
+      if (!(J.an454 || []).length || !J.an454.every((r) => r.lawsTextOk && r.reasonTextOk && r.massOk)) bad.push('④ AN454 の変異の対照');
+      cases.push(`④ 記録 ${J.version}(基点 ${J.baseRev})—— ${J.cases.map((c) => c.key + ' ' + c.before.regen + '→' + c.after.regen).join('・')}・見積りの秒の和 ${J.totals.before.sec}→${J.totals.after.sec} s・AN454 の対照 ${(J.an454 || []).length} 段`);
+    }
+    // ⑤
+    if (!sec) bad.push('PHYSICS〔第319便c〕が無い');
+    else if (J) {
+      for (const [nm, tb] of [['表 1', D.probeTable(J, RTm)], ['表 2', D.totalsTable(J)], ['表 3', D.stageTable(RTm, J)], ['表 4', D.an454Table(J)]]) {
+        let nMiss = 0; for (const r of tb.split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'))) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 3) bad.push('PHYSICS〔第319便c〕の' + nm + 'に行が無い: ' + r.slice(0, 70)); }
+      }
+      for (const x of D.docNumbers(J)) if (sec.indexOf(x) < 0) bad.push('PHYSICS〔第319便c〕に記録の数が無い: ' + x);
+      if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第319便c〕が「## 7. 論文」の後');
+      const iU = PH.indexOf('〔第318便 — 統括');
+      if (iU < 0 || i0 < iU) bad.push('PHYSICS〔第319便c〕が〔第318便 — 統括〕の前');
+      for (const w of ['R260', '第121報', 'AN454', 'scope-probe319.mjs', 'scopeprobe-w319c.json', 'lib-w319c-regenshort.mjs', 'docs.regenShort319c', 'HISTORY_319C', 'NARROWED_319C', 'KEEP_ALL_319C', 'AN454_319C',
+        'CLOSED_RULE_319C', 'satnext-318b', 'W1', 'W2', 'solar16-318c', 'synodic-299b', '言わないこと', '決断事項候補'])
+        if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第319便c〕に「' + w + '」が無い');
+    }
+    { const ai = AS.indexOf('## 153.'); if (ai < 0) bad.push('AI_SPEC に §153 が無い');
+      else { const as = AS.slice(ai, ai + 6000); for (const w of ['scope-probe319.mjs', 'scopeprobe-w319c.json', 'lib-w319c-regenshort.mjs', 'docs.regenShort319c', 'AN454', 'R260', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §153 に「' + w + '」が無い'); }
+      if (AS.indexOf('## 150.') < 0 || AS.indexOf('## 153.') < AS.indexOf('## 150.')) bad.push('AI_SPEC §153 が §150 の前'); }
+    { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, ci + 60000) : ''; if (cs.indexOf('第319便c') < 0) bad.push('CHANGELOG の beta の節に第319便c が無い'); }
+    if (TR.indexOf('scope-probe319.mjs') < 0) bad.push('tools/README に scope-probe319.mjs が無い');
+    if (GI.indexOf('!tests/out/scopeprobe-w319c.json') < 0) bad.push('.gitignore の例外 scopeprobe-w319c.json が無い');
+    if (PM.indexOf('# ==== 第319便c の塊(ここから)====') < 0 || PM.indexOf('docs.regenShort319c') < 0) bad.push('post-merge の ③′ に第319便c の塊が無い');
+    // ⑥
+    for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第319便c〕に書かない語 ' + re.source);
+    for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第319便c〕に禁句(' + w.length + ' 字)');
+    if (/κ(?!_D)/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第319便c〕に裸の κ(κ は κ_D だけ —— コードの書式の外)');
+    for (const fl of ['tools/scope-probe319.mjs', 'tests/lib-w319c-regenshort.mjs']) { const tx = rd(fl); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(fl + ' に禁句(' + w.length + ' 字)'); }
+    cases.push('⑤ PHYSICS〔第319便c〕の表 1〜4 を記録から作り直して逐語・節の位置・語・AI_SPEC §153・CHANGELOG・tools/README・.gitignore・post-merge / ⑥ 書かない語・禁句・裸の κ');
+  } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+  add('docs.regenShort319c', bad.length === 0,
+    `**再生成の段の短縮**(第319便c・原仮定者の指示(第121報)・AN454・R260 —— 閉じた探索の段の履歴化・presets "all" の段の絞り込み・html を読む宣言の無い段に REGEN_SCOPE・正本の値は不変): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ==== 第319便c の塊(ここまで)====
 // ==== 第319便d の塊(ここから —— lint.laterBooks319・docs.w319d の 2 ブロック。統合で他の枝の塊と混ぜない)====
 // ---- 第319便d(決断事項 AN462・AN460・AN461・AN455・統括の検証項目 R261): **QA の片付けと小さい決定**(新設 —— beta 対象だけ・器と QA の本体は変えない)
 // ----   lint.laterBooks319 …… 器(tests/exp-*.mjs・tests/lib-*.mjs)の「後に入った本」の除外の集合 LATER_BOOKS_* ごとに: 宣言の形(1 行の new Set([…]))・直前の注記

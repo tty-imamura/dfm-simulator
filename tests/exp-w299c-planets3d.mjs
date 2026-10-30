@@ -33,7 +33,8 @@ import { inPlaneLongitude } from './exp-w298c-moon3d.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 import { pinSplit302 } from './lib-w302h-splitrec.mjs';   // 第302便h: 第299便c の 🌡️ のフィット(G_loc の前)と移送の記録を同じ分割の步で保つ(器の中だけ —— 宣言・署名は変えない)
 import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
-const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_RECORD_VERSION","HP.FIT_COND_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragState","HP.relDragStepOrderOf","HP.sim","HP.validateFitRecord","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+// 第319便c(原仮定者の指示(第121報)・R260): presets は "all" から名指しの本へ(器と lib の deriveScope の下限 ∪ 器が読む凍結の写しの本)
+const REGEN_SCOPE = {"presets":["earthMoonSunInertial3d","earthMoonSunInertialFit","jupiterGalilean","jupiterSunInertial3d","marsMoonsReal","marsSunInertial3d","mercury","mercuryReal","mercurySunInertial3d","mercurySunInertialFit","neptuneReal","neptuneSunInertial3d","saturn","saturnRingReal","saturnSunInertial3d","uranusReal","uranusSunInertial3d","venusReal","venusSunInertial3d"],"roots":["$","DT","FIT_RECORD_VERSION","HP.FIT_COND_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragState","HP.relDragStepOrderOf","HP.sim","HP.validateFitRecord","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w299c-planets3d-1';

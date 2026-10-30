@@ -429,6 +429,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisHoldBalance319 docs.axisHeat319
 #   lint.qaHeapRelease310・lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.srcRadius319 lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第319便b の塊(ここまで)====
+# ==== 第319便c の塊(ここから)====
+# 第319便c(原仮定者の指示(第121報)・決断事項 AN454・統括の検証項目 R260): 枝 c の新設 1 本(docs.regenShort319c —— 再生成の段の短縮の記録と文書)と、履歴へ移した段の
+#   docs.satMeas317a・docs.satN317b(履歴の世代の照合)・器の宣言と正本の刻印の lint.regenScope・lint.regenChain・lint.scopeAll312・lint.scopeStop・lint.stableHashPaths・
+#   lint.provenanceMeta・lint.canon304
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.regenShort319c docs.satMeas317a docs.satN317b lint.regenScope lint.regenChain lint.scopeAll312 lint.scopeStop lint.stableHashPaths lint.provenanceMeta lint.canon304"
+# ==== 第319便c の塊(ここまで)====
 # ==== 第319便d の塊(ここから)====
 # 第319便d(決断事項 AN460・AN461・AN462・AN455・R261): 枝 d の新設 2 本(lint.laterBooks319 —— 後に入った本の除外の理由の表・docs.w319d —— 三次元の本の数と較正の注と
 #   帰属と受理の理由の文の領域の見積り)と、書き換えた QA(三次元の本を受理した宣言で数える 10 ブロック・較正の注の 2 ブロック・docs.sampleStatus-sync の原稿の世代)・lint.regenScope

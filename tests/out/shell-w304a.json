@@ -3,79 +3,79 @@
   "provenanceVersion": "w272e-1",
   "wave": "第304便a",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T08:25:42.384Z",
+  "targetSha256": "ccee583ecf42ef8266c7d839a88e222983fe13ab47094884b4d4658d36393b4d",
+  "generatedAt": "2026-10-30T09:47:36.699Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "sha256": "ccee583ecf42ef8266c7d839a88e222983fe13ab47094884b4d4658d36393b4d",
+    "mtime": "2026-10-30T09:07:13.381Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
     "bytes": 194518,
     "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
-    "mtime": "2026-10-25T16:42:07.778Z"
+    "mtime": "2026-10-30T09:07:13.593Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
-    "mtime": "2026-10-20T16:19:56.589Z"
+    "mtime": "2026-10-30T09:07:13.586Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w304a-shell.mjs",
-    "bytes": 36966,
-    "sha256": "dee75121e33b209dbf6f4e8b9213ac18cf8894e50ee0ab8159841528bb37a097",
-    "mtime": "2026-10-25T16:42:07.786Z"
+    "bytes": 37509,
+    "sha256": "3fb7aaaabb18131a4bcd2b99da60ca455b909d84f66f7b5d2d497f137dce151f",
+    "mtime": "2026-10-30T09:29:19.739Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
-    "mtime": "2026-10-25T16:42:07.814Z"
+    "mtime": "2026-10-30T09:07:13.785Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
-    "bytes": 52338,
-    "sha256": "ecff672647e6d96c73d5822d504ccdcc7b2f27142c3de958d913b02dfa5fd859",
-    "mtime": "2026-10-25T16:42:07.778Z"
+    "bytes": 52861,
+    "sha256": "266dda8f0884604421d04b2bb03398260bebd9b0f761d47861160309149bbe8a",
+    "mtime": "2026-10-30T09:29:19.728Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
-    "bytes": 16510,
-    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-10-30T09:20:03.995Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-10-30T09:07:13.757Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-10-30T09:07:13.749Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 96951,
     "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "mtime": "2026-10-30T09:07:13.765Z"
    },
    {
     "file": "tests/lib-w306a-pre.mjs",
     "bytes": 5337,
     "sha256": "29de399a2c1d1df45a31a0f197ab366b5ac7d7a89540990b64abc8acba5ac1db",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-10-30T09:07:13.777Z"
    }
   ],
-  "codeSha256": "d422bfd6d37de82c5518572143bded2bdeacb660aa60b3bf9df0d8b87a0de6af",
+  "codeSha256": "2056ca38253b5140a4346990e2bd358ef6d92fd61baa9f63dcfe3e6f0e82ff8c",
   "harnessVersion": "w304a-shell-1",
   "shellVersion": "w304a-shell-1",
   "loadErrors": 0,
@@ -92,7 +92,28 @@
   ],
   "scope": {
    "version": "w318a-scope-6",
-   "presets": "all",
+   "presets": [
+    "earthMoonInertial",
+    "earthMoonSunInertial3d",
+    "earthMoonSunInertialFit",
+    "jupiterGalilean",
+    "jupiterSunInertial3d",
+    "marsMoonsReal",
+    "marsSunInertial3d",
+    "mercury",
+    "mercuryReal",
+    "mercurySunInertial3d",
+    "mercurySunInertialFit",
+    "neptuneReal",
+    "neptuneSunInertial3d",
+    "saturn",
+    "saturnRingReal",
+    "saturnSunInertial3d",
+    "uranusReal",
+    "uranusSunInertial3d",
+    "venusReal",
+    "venusSunInertial3d"
+   ],
    "roots": [
     "$",
     "DT",
@@ -135,7 +156,7 @@
    "segments": 1176,
    "closureShare": 0.304
   },
-  "scopeSha256": "b580374e6f0bc02c8fc33e711a03ce2b38dbb01bef3f2cbacaf5732e69a962c3",
+  "scopeSha256": "525b1be4d5a79da37b39d564464a6e6bf3ce9d44c20d25fbf8e318bc4a6e94be",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -824,11 +845,11 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 0.295
+   "wallSec": 0.394
   },
   "M": {
-   "wallSec": 32.569
+   "wallSec": 36.235
   }
  },
- "elapsedS": 34.779
+ "elapsedS": 38.727
 }

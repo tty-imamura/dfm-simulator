@@ -26,6 +26,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
+// 第319便c(原仮定者の指示(第121報)・決断事項 AN454・統括の検証項目 R260): 領域の宣言(器と lib から deriveScope で引いた下限 —— html 全体の刻印をやめ、表示の文だけの変更では作り直さない。値は宣言の前と同じ)
+import { scopeStamp as w319cScopeStamp } from './lib-w281a-scope.mjs';
+const REGEN_SCOPE = {"presets":["galaxyMeshSpiralGeoToy","galaxyMeshSpiralGeoToyLite"],"roots":["DT","HP.SPACE_MESH_KEY","HP.allPresets","HP.currentPreset","HP.sim","HP.validatePreset","T"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -168,7 +171,7 @@ const out = {
     windowNote: '円盤 = index 91 以降(核 1 + バルジ 90 を外す)。R_ref は**その走行の** t=0 の最大半径。'
       + '**母集団が違うので 🪁 と 🎋 の数は一致しない。**' },
     provenanceMeta({ root: ROOT, wave: '第274便c', target: TARGET,
-      code: ['tests/exp-w274c-galaxylite.mjs', 'tests/lib-w272e-provenance.mjs'], inputs: [TARGET] })),
+      code: ['tests/exp-w274c-galaxylite.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'], inputs: [TARGET] }), w319cScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE)),
   table, perfRounds, pageErrors: pageErrors.slice(0, 3),
 };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
