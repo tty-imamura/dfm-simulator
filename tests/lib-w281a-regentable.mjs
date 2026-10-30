@@ -1461,6 +1461,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/dragest-w318d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/Drun/runs/*/wallSec']) },
     note: '第318便d: 銀河と太陽の引きずりの見積り(第120報の仮定を仮定として置き、要る大きさと今の K1 の大きさを同じ表に並べる —— 規則・在位の本・エンジンの式は変えない・新しい法則は足さない・合否と観測の 3σ を付けない)' }),
   // ==== 第318便d の塊(ここまで)====
+  // ==== 第319便a の塊(ここから)====
+  // ---- 第319便a(原仮定者の指示(第121報)「軸引きずりが内部熱になる経路は、遠方宇宙に対して自転軸方向を保持するトルク」・「観測値は釣り合い —— 背景宇宙からの影響で駆動し、
+  //   背景宇宙への熱放射で収支」・「金星と木星は太陽の軸引きずりと銀河の逆回転の引きずりの拮抗で高い内部熱と仮定」・「120° の合成を軸引きずりの合成で考慮」・
+  //   決断事項 AN447・AN468・AN469・統括の検証項目 R258): **軸を保つトルクの熱の経路の器**(段 axisheat-319a —— P 純関数の場面・A 受理・Q 同一〔compose の省略と "sum"・
+  //   合成と源ごとの状態・合成の 1 回の熱〕・🌋🏀🗺️ の写し〔銀河の一様軸引きずり + 維持の型 compose:"source"・balance:"background"〕・TS 刻みの感度・F 写しの外の倍率と
+  //   木星の内部熱の主列・代替の列に要る τ_hold)。在位の本の宣言は変えない(写しにだけ足す)。html だけを読む・1 プロセス。所要は第319便a の枝の実測 2.3 s
+  //   (**並走の秒** —— 4 枝並走の容器 —— 統括が混まない箱で測り直す)
+  S('axisheat-319a', 'node tests/exp-w319a-axisheat.mjs', ['tests/out/axisheat-w319a.json'], 3, { secSource: 'w319a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/axisheat-w319a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第319便a: 軸を保つトルクの熱の経路(維持の型の opt-in compose:"source"〔源ごとの維持 —— 銀河の項は 1 つの源〕・balance:"background"〔背景の駆動と放射の口座〕・合成の判定の記録)を在位の本の写しで測る(在位の本の宣言は変えない・内部熱を説明したとは書かない・要る τ_hold は要る大きさの記録)' }),
+  // ==== 第319便a の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

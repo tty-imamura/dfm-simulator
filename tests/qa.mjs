@@ -2494,6 +2494,9 @@ lastAddAt = Date.now();
       // ==== 第318便d の塊(ここから)==== 銀河と太陽の引きずりの見積りの器(dragest-318d —— A〜F・1 プロセス)。領域 REGEN_SCOPE を刻む
       'tests/out/dragest-w318d.json',
       // ==== 第318便d の塊(ここまで)====
+      // ==== 第319便a の塊(ここから)==== 軸を保つトルクの熱の経路の器(axisheat-319a —— 純関数の場面・受理・同一・🌋🏀🗺️ の写し・刻みの感度・写しの外の倍率)。領域 REGEN_SCOPE を刻む
+      'tests/out/axisheat-w319a.json',
+      // ==== 第319便a の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
@@ -89865,6 +89868,161 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第318便d の塊(ここまで)====
+// ==== 第319便a の塊(ここから —— behavior.axisHoldBalance319・docs.axisHeat319 の 2 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第319便a(原仮定者の指示(第121報)「軸引きずりが内部熱になる経路は、遠方宇宙に対して自転軸方向を保持するトルク —— この経路の実装を優先」・「観測値は釣り合い ——
+// ----   背景宇宙からの影響で駆動し、背景宇宙への熱放射で収支」・「120° の合成を軸引きずりの合成で考慮」・決断事項 AN447・AN468・AN469・統括の検証項目 R258):
+// ----   **維持の型の源ごとの維持と釣り合いの口座**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ 器 tests/exp-w319a-axisheat.mjs ∧ lib tests/lib-w319a-axisheat.mjs ∧
+// ----   文書の lib tests/lib-w319a-axisheatdoc.mjs ∧ html の REL_DRAG_AXIS_HOLD_SRC_VERSION。
+// ----   behavior.axisHoldBalance319(html を headless で読む —— 正本は読まない):
+// ----     ① 宣言の無い本: 内蔵の本で axisHold を宣言した本は 0(三次元の本は宣言 physics.coord === "3d" で数える)・宣言の無い写しと既存の維持の型の写しに新しい鍵が無い
+// ----     ② 既存の維持の型の写しのビット同一(compose の省略と "sum"・balance の省略と "none")・合成と源ごとで状態がビット同一・合成の 1 回の熱がビット同一・源が 1 つは源ごと = 合成・口座の閉じ
+// ----     ③ 純関数の場面(等しい大きさの 120° の境界・大きさの比 0.1 の境界・反対で同じ大きさの 2 源 —— 合成の熱 0 と源ごとの熱 > 0・平行の駆動は軸のコスト 0・口座の閉じ)
+// ----     ④ 受理と拒否(正準形に既定値を出さない)・⑤ 状態の契約(新しい鍵と配列が一覧に登録)・⑥ 合成の判定とlib の参照の式
+// ----   docs.axisHeat319(正本 tests/out/axisheat-w319a.json):
+// ----     ① 正本の門(器の gatesOf で作り直して同じ・全部真)・試走でない・計画が器の PLAN・版/来歴(w272e-1)・領域 hash(完全)・文献の値の欄
+// ----     ② 作り直し: 純関数の門(pureGates)・要る τ_hold = 1 回の量 / P_req(相対 1e-12)・P_req = 熱流 × 4πR²
+// ----     ③ 表の行と数が PHYSICS〔第319便a〕に逐語・節が「## 7.」の前で〔第318便 — 統括〕の後・必須の語・PHYSICS〔第318便d〕の訂正の段落・AI_SPEC §151・CHANGELOG・段・.gitignore・post-merge・CANON
+// ----     ④ 書かない語・禁句・新しい説明に裸の係数記号が無いこと・新しい文の r_d(節と器と lib と文書の lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す
+  const aHarn = path.join(ROOT, 'tests', 'exp-w319a-axisheat.mjs'), aLib = path.join(ROOT, 'tests', 'lib-w319a-axisheat.mjs'), aDoc = path.join(ROOT, 'tests', 'lib-w319a-axisheatdoc.mjs');
+  const aOut = path.join(ROOT, 'tests', 'out', 'axisheat-w319a.json');
+  const aHtml = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(aHarn) && fs.existsSync(aLib) && fs.existsSync(aDoc) && aHtml.indexOf('const REL_DRAG_AXIS_HOLD_SRC_VERSION = "w319a-axishold-src-1"') >= 0)) {
+    console.log('SKIP behavior.axisHoldBalance319 / docs.axisHeat319(第319便a の源ごとの維持と釣り合いの口座の前の世代 — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+  const rel319 = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, L9 = null, D9 = null, err0 = null;
+  try { X = await import('file://' + aHarn); L9 = await import('file://' + aLib); D9 = await import('file://' + aDoc); } catch (e) { err0 = String(e).slice(0, 160); }
+  // ───── behavior.axisHoldBalance319 ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        const E = X.portsOf(H.HP), all = H.HP.allPresets();
+        // ①
+        let n3 = 0, nHold = 0;
+        for (const p of all) { if (p.physics && p.physics.coord === '3d') n3++; const sd = p.physics && p.physics.relativeDrag && p.physics.relativeDrag.spinDrag; if (sd && sd.axisHold) nHold++; }
+        if (nHold !== 0) bad.push('① 内蔵の本に axisHold を宣言した本がある: ' + nHold);
+        const h0 = X.copyBook(H.HP, 'jupiter').physics.stepDt, newKeys = (S) => Object.keys(S).filter((k) => /MaintSrc|^_rdMaintSrc/.test(k));
+        const u0 = X.runBook(E, X.copyBook(H.HP, 'jupiter'), h0, 2), u1 = X.runBook(E, X.copyBook(H.HP, 'jupiter', { hold: { mode: 'maintain' } }), h0, 2);
+        if (!(u0.ok && u1.ok)) bad.push('① 写しが受理されない');
+        else {
+          if (newKeys(u0.S).length || newKeys(u1.S).length) bad.push('① 宣言の無い写し・既存の維持の型の写しに新しい鍵: ' + newKeys(u0.S).concat(newKeys(u1.S)).slice(0, 4).join(','));
+          if (u0.m !== null || (u1.m && (u1.m.source || u1.m.balance))) bad.push('① 読み口に新しい欄(宣言の無い本・既存の宣言)');
+        }
+        cases.push(`① 内蔵 ${all.length} 本(三次元の本 ${n3} —— 宣言 physics.coord で数えた)で axisHold を宣言した本 ${nHold}・宣言の無い写しと既存の維持の型の写しに新しい鍵 ${u0.ok && u1.ok ? newKeys(u0.S).length + newKeys(u1.S).length : '—'}`);
+        // ②
+        const Qq = X.partQ(E, X.QUICK);
+        if (!Qq.pass) bad.push('② 同一の門: ' + JSON.stringify({ omit: Qq.omit, modes: Qq.modes, one: Qq.one, close: Qq.balance.closeRel }).slice(0, 240));
+        cases.push(`② 🏀 の写し: 省略と既定の明示 正準形 ${Qq.omit.declSame}・読み口 ${Qq.omit.readSame}・状態 ${Qq.omit.stateSame} / 合成と源ごと 状態 ${Qq.modes.stateSame}・合成の 1 回の熱 ${Qq.modes.compositeTotalSame && Qq.modes.compositePerBodySame}・源の和と ω_D の差 ${Qq.modes.sumResMax} / 源が 1 つ ${Qq.one.perBodySame && Qq.one.totalSame} / 口座の閉じ ${Qq.balance.closeRel.toExponential(1)}`);
+        // ③
+        const Pp = X.partP(E), PG = Pp.gates;
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('③ 純関数の場面 ' + k);
+        cases.push(`③ 純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(等しい大きさ 119°/120°/121° で ${Pp.equal.map((r) => r.less ? '減' : '減らない').join('/')}・比 0.1 の境界 ${Pp.ratio01.thresholdDeg.toFixed(3)}°・反対の 2 源 合成 ${Pp.opposed.compositeHeat}・源ごと ${Pp.opposed.sourceHeat.toExponential(3)}・平行の軸のコスト ${Pp.parallel.axisCost})`);
+        // ④
+        const Aa = X.partA(E);
+        if (!Aa.pass) bad.push('④ 受理と拒否: ' + Aa.rows.filter((r) => !r.pass).map((r) => r.key).join(','));
+        cases.push(`④ 受理 ${Aa.rows.filter((r) => r.ok).length}・拒否 ${Aa.rows.filter((r) => !r.ok).length}(${Aa.rows.length} 例 —— 既定の "sum"・"none" は正準形に出さない)`);
+        // ⑤
+        const s1 = X.runBook(E, X.copyBook(H.HP, 'jupiter', { hold: X.holdOf(h0, { compose: 'source', balance: 'background' }), galaxy: X.galaxyDeclOf(E, 'jupiter') }), h0, 2);
+        const SCL = H.evalExpr('INERTIAL_DRAG3_MAINT_SRC_SC'), CKS = H.evalExpr('INERTIAL_DRAG_CK_SAMPLES'), SCR = H.evalExpr('SIM_STEP_SCRATCH'), D3 = H.evalExpr('INERTIAL_DRAG3_SC');
+        const kS = newKeys(s1.S), miss = kS.filter((k) => !(SCL.includes(k) || CKS.includes(k) || SCR.includes(k)));
+        if (miss.length) bad.push('⑤ 状態の契約に無い鍵: ' + miss.join(','));
+        if (!SCL.every((k) => D3.includes(k))) bad.push('⑤ 源ごとの維持の帳簿が INERTIAL_DRAG3_SC に無い');
+        if (!(s1.m.source && s1.m.source.offSteps === 0 && s1.m.source.cells > 0 && s1.m.balance && s1.m.balance.version === 'w319a-axishold-balance-1')) bad.push('⑤ 読み口の欄');
+        cases.push(`⑤ 源ごとの維持の写しの新しい鍵 ${kS.length}(スカラー ${kS.filter((k) => SCL.includes(k)).length}・持ち越す配列 ${kS.filter((k) => CKS.includes(k)).length}・步の作業 ${kS.filter((k) => SCR.includes(k)).length})がすべて一覧に登録`);
+        // ⑥
+        const VEC = [[[1, 0, 0], [-0.5, 0.8, 0.1]], [[0.3, -0.2, 0.9], [-0.1, 0.05, -0.2]], [[2, 1, -1], [-3, 0, 1]], [[1e-3, 0, 0], [0, 1e-3, 0]]];
+        let w6 = 0, s6 = 0;
+        for (const [a, b] of VEC) { const j = E.judge(a[0], a[1], a[2], b[0], b[1], b[2]), r = L9.composeRef(a, b); if (j.less !== r.less || j.lessByAngle !== r.less) s6++; w6 = Math.max(w6, rel319(j.change, r.change), rel319(j.cosThreshold, r.cosThreshold)); }
+        if (s6 || !(w6 <= 1e-12)) bad.push('⑥ 合成の判定と参照の式: 判定の違い ' + s6 + '・相対の差 ' + w6);
+        cases.push(`⑥ 合成の判定(axisHoldComposeJudge)と lib の参照の式: ${VEC.length} 組の判定が同じ・相対の差の最大 ${w6.toExponential(1)}`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.axisHoldBalance319', bad.length === 0,
+      `**維持の型の源ごとの維持と釣り合いの口座**(第319便a・原仮定者の指示(第121報)・AN447・AN468・AN469・R258 —— opt-in・宣言の無い本と既存の維持の型の宣言は不変・在位の本に宣言を足さない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.axisHeat319 ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QA0 = rd('tests/qa.mjs'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第319便a — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10), iG = PH.indexOf('〔第318便 — 統括');
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    const d0 = PH.indexOf('〔第318便d — '), d1 = PH.indexOf('\n〔第', d0 + 10), sec318 = d0 >= 0 ? PH.slice(d0, d1 > d0 ? d1 : undefined) : '';
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /一致した/, /法則を確かめた/, /シュヴァルツシルト半径そのもの/, /検証が完了した/, /ダークマターを説明した/, /内部熱を説明した/, /金星の逆転を説明した/, /暦表に一致/, /地平面を判定した/, /確認した/];
+    const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+    const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+    const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+    let J = null;
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    try { J = JSON.parse(fs.readFileSync(aOut, 'utf8')); } catch (e) { bad.push('正本 axisheat が読めない'); }
+    if (J && X && L9 && D9) {
+      try {
+        // ①
+        const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+        if (J.ok !== true) bad.push('① 正本の ok が真でない');
+        for (const k of GK) { if (G[k] !== true) bad.push('① 正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('① 門 ' + k + ' を作り直すと正本と違う'); }
+        if (Object.keys(G).length !== GK.length) bad.push('① 門の数が器と違う');
+        if (J.quick === true) bad.push('① 正本が試走(QUICK)');
+        if (JSON.stringify(J.plan) !== JSON.stringify(clone(X.PLAN))) bad.push('① 計画が器の PLAN と違う');
+        if (J.version !== X.HARNESS_VERSION || J.libVersion !== L9.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.stage === 'axisheat')) bad.push('① 正本の版/来歴(w272e-1)');
+        if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('① 正本に領域 hash(完全)が無い');
+        if (!(J.meta && Array.isArray(J.meta.literature) && J.meta.literature.length === Object.keys(L9.LIT).length && J.meta.literature.every((t) => t.indexOf('一次資料に当たっていない') >= 0))) bad.push('① 文献の値の出典の欄');
+        if (J.srcVersion !== 'w319a-axishold-src-1' || J.balanceVersion !== 'w319a-axishold-balance-1') bad.push('① 正本のエンジンの版');
+        cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して同じ)・写し ${Object.keys(J.books).length} 本・文献の値 ${J.meta.literature.length}(一次資料に当たっていない)`);
+        // ②
+        const PG = L9.pureGates(J.P); if (!Object.values(PG).every(Boolean) || JSON.stringify(PG) !== JSON.stringify(J.P.gates)) bad.push('② 純関数の門を作り直すと違う');
+        const Pq = L9.powerOf(L9.LIT.jupiterFlux.value, J.F.RjM), Pa = L9.powerOf(L9.LIT.jupiterFluxAlt.value, J.F.RjM);
+        if (!(rel319(Pq, J.F.Preq) <= 1e-12 && rel319(Pa, J.F.PreqAlt) <= 1e-12)) bad.push('② P_req を作り直すと違う');
+        let wT = 0, nT = 0; for (const r of J.F.rows) if (r.tauReq !== undefined) { nT++; wT = Math.max(wT, rel319(r.tauReq, r.eventSource / J.F.Preq), rel319(r.tauReqAlt, r.eventSource / J.F.PreqAlt), rel319(r.tauReqB, r.eventSourceB / J.F.Preq)); }
+        if (!(wT <= 1e-12)) bad.push('② 要る τ_hold を作り直すと違う ' + wT);
+        cases.push(`② 純関数の門・P_req(主列 ${Pq.toExponential(5)} W・代替の列 ${Pa.toExponential(5)} W —— 混ぜない)・要る τ_hold ${nT} 行を作り直して相対 1e-12`);
+        // ③
+        if (!sec) bad.push('PHYSICS〔第319便a〕が無い');
+        else {
+          const rows = D9.physicsTablesAxisHeat(J).filter((l) => l.startsWith('|') && !l.startsWith('|---'));
+          let nMiss = 0; for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第319便a〕の表に行が無い: ' + r.slice(0, 70)); }
+          const nums = D9.docNumbersAxisHeat(J), missN = nums.filter((x) => sec.indexOf(x) < 0); if (missN.length) bad.push('PHYSICS〔第319便a〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+          if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第319便a〕が「## 7. 論文」の後');
+          if (iG >= 0 && i0 < iG) bad.push('PHYSICS〔第319便a〕が〔第318便 — 統括〕の前');
+          for (const w of ['R258', '第121報', 'AN447', 'AN468', 'AN469', 'exp-w319a-axisheat.mjs', 'lib-w319a-axisheat.mjs', 'lib-w319a-axisheatdoc.mjs', 'axisheat-w319a.json', 'behavior.axisHoldBalance319', 'docs.axisHeat319',
+            'W319A_OUT', 'W319A_QUICK', 'compose', 'balance', 'axisHoldSourceSum', 'axisHoldComposeJudge', 'inertialDrag3MaintCell', '源ごとの維持', '釣り合いの口座', '120°', '要る τ_hold', '仮定',
+            '文献の値', '一次資料に当たっていない', 'R_d', 'R_src', '決断事項の候補', '言わないこと', '固定の角'])
+            if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第319便a〕に「' + w + '」が無い');
+          cases.push(`③ PHYSICS〔第319便a〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
+        }
+        if (sec318.indexOf('訂正(第319便a)') < 0 || sec318.indexOf('2.232e-18') < 0) bad.push('PHYSICS〔第318便d〕に第319便a の訂正の段落が無い');
+        { const ai = AS.indexOf('## 151.'); if (ai < 0) bad.push('AI_SPEC に §151 が無い');
+          else { const as = AS.slice(ai, ai + 8000); for (const w of ['compose', 'balance', 'exp-w319a-axisheat.mjs', 'axisheat-w319a.json', 'behavior.axisHoldBalance319', 'docs.axisHeat319', 'AN468', 'R258']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §151 に「' + w + '」が無い'); } }
+        { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, ci + 40000) : ''; if (cs.indexOf('第319便a') < 0) bad.push('CHANGELOG の beta の節に第319便a が無い'); }
+        if (RT.indexOf("S('axisheat-319a', 'node tests/exp-w319a-axisheat.mjs', ['tests/out/axisheat-w319a.json']") < 0 || !/secSource: 'w319a-branch'/.test(RT)) bad.push('再生成の段 axisheat-319a');
+        if (GI.indexOf('!tests/out/axisheat-w319a.json') < 0) bad.push('.gitignore の例外');
+        if (PM.indexOf('docs.axisHeat319') < 0 || PM.indexOf('behavior.axisHoldBalance319') < 0) bad.push('post-merge に第319便a のブロックが無い');
+        if (QA0.indexOf("'tests/out/axisheat-w319a.json',") < 0) bad.push('CANON(lint.canon304)に第319便a の正本が無い');
+        // ④
+        for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第319便a〕に書かない語 ' + re.source);
+        for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第319便a〕に禁句(' + w.length + ' 字)');
+        if (/κ(?!_D)/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第319便a〕に裸の κ(κ は κ_D だけ —— コードの書式の外)');
+        if (/(?<![\w`])r_d(?![\w`])/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第319便a〕の新しい文に r_d(引きずり半径は R_d)');
+        for (const f of ['tests/exp-w319a-axisheat.mjs', 'tests/lib-w319a-axisheat.mjs', 'tests/lib-w319a-axisheatdoc.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); if (tx.indexOf('κ') >= 0) bad.push(f + ' に κ の字'); }
+        cases.push('④ 書かない語・禁句・裸の κ・新しい文の r_d(節と器と lib と文書の lib)');
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('docs.axisHeat319', bad.length === 0,
+      `**軸を保つトルクの熱の経路の正本と文書**(第319便a・原仮定者の指示(第121報)・AN447・AN468・AN469・R258 —— 正本 axisheat-w319a.json・在位の本の写しで源ごとの維持と合成の 1 回を並べる・要る τ_hold は要る大きさの記録・内部熱を説明したとは書かない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第319便a の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

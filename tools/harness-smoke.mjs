@@ -105,6 +105,9 @@ export const SMOKE_KNOBS = Object.freeze({
   // ==== 第318便d の塊(ここから)====
   'dragest-318d': { env: { W318D_QUICK: '1', W318D_OUT: 'tests/out/_smoke-dragest-w318d.json' }, note: '試走(B の格子を 16×32 だけ・D の走行を 2 公転 —— 約 15 s。正本は 1 プロセスで約 71 s〔並走の秒〕)' },   // 第318便d
   // ==== 第318便d の塊(ここまで)====
+  // ==== 第319便a の塊(ここから)====
+  'axisheat-319a': { env: { W319A_QUICK: '1', W319A_OUT: 'tests/out/_smoke-axisheat-w319a.json' }, note: '試走(步を 2 に・🗺️ を外す —— 約 1 s。正本は 1 プロセスで約 2.3 s〔並走の秒〕)' },   // 第319便a
+  // ==== 第319便a の塊(ここまで)====
   // ==== 第311便b の塊(ここまで)====
 });
 
