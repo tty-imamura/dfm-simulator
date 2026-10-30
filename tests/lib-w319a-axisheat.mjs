@@ -18,7 +18,14 @@ export const DECL = Object.freeze({
   steps: 6,                // 履歴の步の後に数える步(銀河の項は履歴に依らないので履歴の步にも 1 回の量がある —— 累計は 1 + steps 步)
   halfSteps: 13,           // h/2 の写し(同じ時間 —— 履歴の步を含めて 2(1 + steps) 步)
   srcCap: 6.5e6,           // 源の側の候補の上限 [m](受け手の R_d には掛けない —— GALAXY_AXIAL_REF_RADIUS_M とは別の数)
-  sunFactors: Object.freeze(['k1', 'cap', 'spinJ', 'spinR']),
+  sunFactors: Object.freeze(['k1', 'cap', 'spinJ', 'spinR', 'k2near']),
+  // 太陽の項の倍率の候補のうち案2b(源 K2 + 受け手 K1 の混成の近くの形込み)は第319便b の器の値(統合の前の報告の数 —— 統括が統合の後に照合)。ほかは写しの R_d と R から作る
+  k2nearFactor: 3.156e9,
+  // 銀河の項の候補(向き ±ĝ と大きさ —— 走行の前に置く。どれかを採ったとは書かない): decl は第318便d の写しと同じ尺度 Ω_ref(+ĝ・−ĝ の両方)。vort・one は第319便b の器の値
+  //   (統合の前の報告の数 —— 統括が統合の後に照合): vort = 分布した銀河の太陽系近傍の半渦度(+ĝ —— 移送場の診断量で、今の軸引きずり ω_G と同じではない)・
+  //   one = 中心 1 体の上限(−ĝ —— 中心 1 体の値を銀河の引きずりと呼ばない)。equal は太陽の項と同じ大きさ(拮抗の型の比較 —— 値を決めたのではない)
+  galaxyCands: Object.freeze(['none', 'declPlus', 'declMinus', 'vortPlus', 'oneMinus', 'equalPlus', 'equalMinus']),
+  galaxyVort: 1.487e-21, galaxyOne: 1.047e-31,
   galaxy: '第318便d の写しと同じ型: ω_G = Ω_ref ĝ(Ω_ref = V0/R0 —— 尺度だけ)・rdPow 1・refRadius = 太陽の R_d・massPow −1・refMass = 太陽のエンジンの質量(K1 の全天体で応答の係数 1)',
   hold: '維持の型 mode:"maintain"・reaction:"background"・heatTiming:{tauHold: h₀}(本の画面の刻み —— 1 步の量 × h/τ_hold)・compose:"source"・balance:"background"',
   roles: Object.freeze({ 水星: '恒星近傍の特殊軌道', 金星: '自転の逆回転・内部熱', 地球: '三体・衛星の潮汐ロック', 火星: '標準の固体惑星', 木星: '気体惑星・内部熱', 土星: '気体惑星・環' }),
@@ -63,9 +70,24 @@ export function composeRef(a, b) {
 /** 源の大きさの倍率の候補(太陽の項 —— 写しの外で掛ける。遠方では源の回転モーメントの半径の二乗で比べる型 —— 第318便d の表の倍率と同じ型) */
 export function sunFactorsOf(RdSunM, RSunM) {
   const spinR = Math.pow(RSunM / RdSunM, 2);
-  return { k1: 1, cap: Math.pow(Math.min(RSunM, DECL.srcCap) / RdSunM, 2), spinJ: spinR * 2.5 * LIT.sunMoI.value, spinR };
+  return { k1: 1, cap: Math.pow(Math.min(RSunM, DECL.srcCap) / RdSunM, 2), spinJ: spinR * 2.5 * LIT.sunMoI.value, spinR, k2near: DECL.k2nearFactor };
 }
-export const FACTOR_JA = Object.freeze({ k1: '今の K1(R_d = Y_k m)', cap: '観測半径の上限 6.5e6 m(源の側の候補)', spinJ: '源の角運動量 J(I = 0.07 M R²)', spinR: '観測半径 R_☉' });
+export const FACTOR_JA = Object.freeze({ k1: '今の K1(R_d = Y_k m)', cap: '案1 観測半径の上限 6.5e6 m', spinJ: '案3 源の角運動量 J(I = 0.07 M R²)', spinR: '案2a 観測半径 R_☉', k2near: '案2b K2 の近くの形込み(第319便b の値)' });
+export const GALAXY_JA = Object.freeze({ none: '無し', declPlus: '+ĝ Ω_ref(宣言の尺度)', declMinus: '−ĝ Ω_ref(宣言の尺度)', vortPlus: '+ĝ 分布の半渦度(第319便b の値)',
+  oneMinus: '−ĝ 中心 1 体の上限(第319便b の値)', equalPlus: '+ĝ 太陽の項と同じ大きさ', equalMinus: '−ĝ 太陽の項と同じ大きさ' });
+/** 銀河の項の倍率(写しの宣言の +ĝ Ω_ref に対する符号つきの倍率)。galSI: 写しの銀河の項の大きさ [rad/s]・sunSI: 倍率を掛けた太陽の項の大きさ [rad/s] */
+export function galaxyMulOf(key, galSI, sunSI) {
+  if (!(galSI > 0) || key === 'none') return 0;
+  switch (key) {
+    case 'declPlus': return 1;
+    case 'declMinus': return -1;
+    case 'vortPlus': return DECL.galaxyVort / galSI;
+    case 'oneMinus': return -DECL.galaxyOne / galSI;
+    case 'equalPlus': return sunSI / galSI;
+    case 'equalMinus': return -sunSI / galSI;
+    default: return NaN;
+  }
+}
 /**
  * 写しの外で源の大きさに倍率を掛けた 1 回の量(エンジンの純関数 E.sourceSum = axisHoldSourceSum・E.cell = inertialDrag3MaintCell を呼ぶ)。
  * rec = {I, s0, ax: [3], flat, sources: [{key, omega: [3], sigma}]}・mul = {key: 倍率}(無い源は 1・0 は外す)。

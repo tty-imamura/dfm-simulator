@@ -40,8 +40,8 @@ const NOT_CLAIM = ['内部熱・金星の逆転を引きずりで説明したと
   '木星の内部熱の主列と代替の列を混ぜない', '銀河の大きさ ω_G = Ω_ref ĝ は尺度だけ(中心 1 体の値を銀河の引きずりと呼ばない)', '刻みの差を収束の判定に使わない(感度診断)', '固定の角 120° を閾値にしない'];
 export const OUT_AXISHEAT = 'tests/out/axisheat-w319a.json';
 export const BOOK_IDS = Object.freeze({ venus: 'venusSunInertial3d', jupiter: 'jupiterSunInertial3d', solar16: 'solarSystem16Inertial3d' });
-export const PLAN = Object.freeze({ steps: L.DECL.steps, halfSteps: L.DECL.halfSteps, books: Object.freeze(['venus', 'jupiter', 'solar16']) });
-export const QUICK = Object.freeze({ steps: 2, halfSteps: 5, books: Object.freeze(['venus', 'jupiter']) });
+export const PLAN = Object.freeze({ steps: L.DECL.steps, halfSteps: L.DECL.halfSteps, books: Object.freeze(['venus', 'jupiter', 'solar16']), minusBooks: Object.freeze(['solar16']) });
+export const QUICK = Object.freeze({ steps: 2, halfSteps: 5, books: Object.freeze(['venus', 'jupiter']), minusBooks: Object.freeze(['jupiter']) });
 const nrm = (a) => Math.hypot(a[0], a[1], a[2]);
 const relD = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
 
@@ -73,10 +73,10 @@ export function stateOf(E, book) {
   const S = E.HP.coord3d.makeSim(); S.build(clone(v.preset));
   return { ok: true, S, preset: v.preset, warnings: (v.warnings || []).length, isq: E.isqOf(S) };
 }
-/** 銀河の一様軸引きずりの宣言(第318便d の写しと同じ型 —— ω_G = Ω_ref ĝ・K1 の応答の係数 1) */
-export function galaxyDeclOf(E, key) {
+/** 銀河の一様軸引きずりの宣言(第318便d の写しと同じ型 —— ω_G = Ω_ref ĝ・K1 の応答の係数 1)。sign −1 は −ĝ(向きの両方の列 —— どちらかを採ったのではない) */
+export function galaxyDeclOf(E, key, sign = 1) {
   const st = stateOf(E, copyBook(E.HP, key)), ga = L.galaxyAxis(), U = L.unitsOf(st.preset.scaleExp);
-  const Rref = st.isq.rdRule.bodies.find((q) => q.i === 0).Rd, mRef = st.S.m[0], w = ga.g.map((q) => q * ga.OmRefSI * U.time);
+  const Rref = st.isq.rdRule.bodies.find((q) => q.i === 0).Rd, mRef = st.S.m[0], w = ga.g.map((q) => sign * q * ga.OmRefSI * U.time);
   return { wx: w[0], wy: w[1], wz: w[2], rdPow: 1, refRadius: Rref, massPow: -1, refMass: mRef };
 }
 export const holdOf = (h0, o = {}) => Object.assign({ mode: 'maintain', reaction: 'background', heatTiming: { tauHold: h0 } }, o);
@@ -174,13 +174,13 @@ export function receiverRows(E, R, names) {
       cumSource: r.heatSource * U.E, cumComposite: r.heatComposite * U.E };
   });
 }
-export function partBook(E, key, plan) {
-  const b0 = copyBook(E.HP, key), h0 = b0.physics.stepDt, gal = galaxyDeclOf(E, key);
+export function partBook(E, key, plan, sign = 1) {
+  const b0 = copyBook(E.HP, key), h0 = b0.physics.stepDt, gal = galaxyDeclOf(E, key, sign);
   const R = runBook(E, copyBook(E.HP, key, { hold: holdOf(h0, { compose: 'source', balance: 'background' }), galaxy: gal }), h0, plan.steps);
   if (!R.ok) return { ok: false, err: R.err };
   const U = L.unitsOf(R.preset.scaleExp), names = (key === 'solar16') ? L.BODY16 : ['太陽', key === 'venus' ? '金星' : '木星'];
   const bal = R.m.balance;
-  return { ok: true, id: BOOK_IDS[key], n: R.S.n, h0: h0 * U.time, steps: plan.steps, warnings: R.warnings, galaxy: gal, units: clone(R.preset.scaleExp),
+  return { ok: true, id: BOOK_IDS[key], galaxySign: sign, n: R.S.n, h0: h0 * U.time, steps: plan.steps, warnings: R.warnings, galaxy: gal, units: clone(R.preset.scaleExp),
     source: { cells: R.m.source.cells, decelCells: R.m.source.decelCells, offSteps: R.m.source.offSteps, sumResMax: R.m.source.sumResMax,
       heatSource: R.m.source.heat.source * U.E, heatComposite: R.m.source.heat.composite * U.E },
     balance: { drive: bal.drive * U.E, driveSpeed: bal.driveSpeed * U.E, driveAxis: bal.driveAxis * U.E, fromField: bal.fromField * U.E, radiation: bal.radiation * U.E, toInternal: bal.toInternal * U.E,
@@ -220,18 +220,19 @@ export function partF(E, books) {
     const R = B._R, U = L.unitsOf(R.preset.scaleExp), rec = recOf(R, i);
     const st = stateOf(E, copyBook(E.HP, key)), RdSun = st.isq.rdRule.bodies.find((q) => q.i === 0).Rd * U.len, RSun = R.S.R[0] * U.len;
     const fac = L.sunFactorsOf(RdSun, RSun); out.factors[key] = Object.assign({ RdSunM: RdSun, RSunM: RSun }, fac);
-    const tauRange = [1e-30 * U.time, 1e30 * U.time], isJup = (ja.indexOf('木星') === 0);
-    for (const fk of L.DECL.sunFactors) for (const gk of ['decl', 'none', 'equal']) {
-      const k = fac[fk], kg = gk === 'decl' ? 1 : gk === 'none' ? 0 : (rec.galMag > 0 ? k * rec.sunMag / rec.galMag : 0);
+    const tauRange = [1e-30 * U.time, 1e30 * U.time], isJup = (ja.indexOf('木星') === 0), h0 = R.h * U.time;
+    for (const fk of L.DECL.sunFactors) for (const gk of L.DECL.galaxyCands) {
+      const k = fac[fk], kg = L.galaxyMulOf(gk, rec.galMag * U.W, rec.sunMag * k * U.W);
       const mul = {}; for (const q of rec.sources) mul[q.key] = 1; mul.sun = k; mul.gal = kg;
       const z = L.rescaled(E, rec, mul), ev = z.heat * U.E, evC = z.composite.heat * U.E;
-      const row = { book: B.id, i, ja, factor: fk, factorJa: L.FACTOR_JA[fk], k, galaxy: gk, kGalaxy: kg, sunMag: rec.sunMag * k * U.W, galMag: rec.galMag * kg * U.W,
+      const row = { book: B.id, i, ja, factor: fk, factorJa: L.FACTOR_JA[fk], k, galaxy: gk, galaxyJa: L.GALAXY_JA[gk], kGalaxy: kg, sunMag: rec.sunMag * k * U.W, galMag: Math.abs(rec.galMag * kg * U.W),
         eventSource: ev, eventComposite: evC, eventDiff: (z.heat - z.composite.heat) * U.E, supplyEvent: z.supply * U.E, decelSources: z.decel, cells: z.cells,
         eventSourceB: (z.axisCost + z.speedPos + z.supply) * U.E, eventCompositeB: (z.composite.axisCost + Math.abs(z.composite.speed)) * U.E };
       if (isJup) {
         const inR = (t) => t >= tauRange[0] && t <= tauRange[1];
         row.tauReq = ev / out.Preq; row.tauReqAlt = ev / out.PreqAlt; row.tauReqInRange = inR(row.tauReq); row.tauReqAltInRange = inR(row.tauReqAlt);
         row.tauReqB = row.eventSourceB / out.Preq; row.tauReqBAlt = row.eventSourceB / out.PreqAlt; row.tauReqBInRange = inR(row.tauReqB);
+        row.ratioBAtH0 = row.eventSourceB / h0 / out.Preq;   // (b) の読みで τ_hold = h₀ の電力と主列の比(第319便b の「要る大きさとの比」と同じ型)
       }
       out.rows.push(row);
     }
@@ -245,7 +246,7 @@ export function gatesOf(J) {
   G.pure = !!(J.P && Object.values(J.P.gates).every(Boolean));
   G.accept = !!(J.A && J.A.pass);
   G.same = !!(J.Q && J.Q.pass);
-  for (const k of ['venus', 'jupiter', 'solar16']) if (J.books[k]) G['book_' + k] = !!(J.books[k].ok && J.books[k].source.offSteps === 0 && J.books[k].source.sumResMax === 0 && J.books[k].balance.closeRel <= 1e-12);
+  for (const k of Object.keys(J.books)) G['book_' + k] = !!(J.books[k].ok && J.books[k].source.offSteps === 0 && J.books[k].source.sumResMax === 0 && J.books[k].balance.closeRel <= 1e-12);
   G.tStep = !!(J.TS && Number.isFinite(J.TS.tauHold.rel) && Number.isFinite(J.TS.step.ratio));
   G.factors = !!(J.F && J.F.rows.length > 0 && J.F.rows.every((r) => Number.isFinite(r.eventSource) && Number.isFinite(r.eventComposite)));
   return G;
@@ -259,6 +260,7 @@ export async function runAxisHeat(E, o) {
   J.Q = partQ(E, P); tick('Q');
   const books = {};
   for (const k of P.books) { books[k] = partBook(E, k, P); tick('book_' + k); }
+  for (const k of (P.minusBooks || [])) { books[k + 'Minus'] = partBook(E, k, P, -1); tick('book_' + k + 'Minus'); }   // 銀河の項の向き −ĝ の写し(+ĝ と並べる —— どちらかを採ったのではない)
   J.TS = partT(E, P); tick('TS');
   J.F = partF(E, books); tick('F');
   J.books = {}; for (const [k, v] of Object.entries(books)) { const c = Object.assign({}, v); delete c._R; J.books[k] = c; }
