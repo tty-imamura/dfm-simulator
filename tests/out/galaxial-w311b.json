@@ -2,7 +2,7 @@
  "version": "w311b-galaxial-1",
  "generator": "tests/exp-w311b-galaxial.mjs",
  "target": "beta/index.html",
- "targetSha256": "ccee583ecf42ef8266c7d839a88e222983fe13ab47094884b4d4658d36393b4d",
+ "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
  "ruling": "原仮定者の裁定(第110報)太陽系における天の川銀河による一様軸引きずりを検討・一様並進引きずりと一様回転引きずりは慣性系では無視できる・背景慣性決定力は引きずりの分母に入れない・(第113報)・決断事項 AN389・AN382・AN390・AN395・統括の検証項目 R227",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -1050,34 +1050,34 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.113
+   "wallSec": 0.12
   },
   "B": {
-   "wallSec": 0.194
+   "wallSec": 0.207
   },
   "D": {
-   "wallSec": 245.631
+   "wallSec": 197.81
   }
  },
- "elapsedS": 247.891,
+ "elapsedS": 199.94,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第311便b",
   "target": "beta/index.html",
-  "targetSha256": "ccee583ecf42ef8266c7d839a88e222983fe13ab47094884b4d4658d36393b4d",
-  "generatedAt": "2026-10-30T10:06:59.340Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T19:30:09.519Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "ccee583ecf42ef8266c7d839a88e222983fe13ab47094884b4d4658d36393b4d",
-    "mtime": "2026-10-30T09:07:13.381Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
     "bytes": 194518,
     "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
-    "mtime": "2026-10-30T09:07:13.593Z"
+    "mtime": "2026-10-25T16:42:07.778Z"
    }
   ],
   "code": [
@@ -1085,37 +1085,37 @@
     "file": "tests/exp-w311b-galaxial.mjs",
     "bytes": 41422,
     "sha256": "a4376f503d6f5ab53745ea1ab0d539b2d7560764986d28e43d598ba24a4bae98",
-    "mtime": "2026-10-30T09:29:19.763Z"
+    "mtime": "2026-10-30T11:33:02.842Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
-    "mtime": "2026-10-30T09:07:13.785Z"
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
     "bytes": 16742,
     "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
-    "mtime": "2026-10-30T09:20:03.995Z"
+    "mtime": "2026-10-30T11:33:02.854Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-30T09:07:13.757Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-30T09:07:13.749Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 96951,
     "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-30T09:07:13.765Z"
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
   "codeSha256": "399f5715398f021c37eeeeecd9c87960cd30b9fc8dd187b116dd69def5438552",
@@ -1188,11 +1188,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1328,
-   "segments": 1169,
-   "closureShare": 0.3025
+   "names": 1346,
+   "segments": 1187,
+   "closureShare": 0.3043
   },
-  "scopeSha256": "05a75dada179f728aabfdd8e401820e138f806e9d50bc3f060adcd2a6fef5827",
+  "scopeSha256": "6d6b7c24602845dca7e2e763cfc4960c42c4d108a3b07d4cfbe8baa983e828d3",
   "scopeComplete": true,
   "inputsStable": [
    {

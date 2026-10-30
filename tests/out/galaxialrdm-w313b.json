@@ -2,7 +2,7 @@
  "version": "w313b-galaxialrdm-1",
  "generator": "tests/exp-w313b-galaxialrdm.mjs",
  "target": "beta/index.html",
- "targetSha256": "ccee583ecf42ef8266c7d839a88e222983fe13ab47094884b4d4658d36393b4d",
+ "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
  "ruling": "原仮定者の裁定(第115報)一様軸引きずりの R_d の応答の次数は K1 を主にする q = 1 で質量も入る(決断事項 AN395)・K1 を採用する(AN399)・太陽を含む全天体に同じ規則 R_d = κm(AN402)・統括の検証項目 R235",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "galaxyAxialRdVersion": "w312b-galaxial-rd-1",
@@ -2696,37 +2696,37 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.034
+   "wallSec": 0.035
   },
   "B": {
-   "wallSec": 0.197
+   "wallSec": 0.169
   },
   "N": {
-   "wallSec": 2.136
+   "wallSec": 1.508
   },
   "X": {
-   "wallSec": 183.999
+   "wallSec": 119.166
   }
  },
- "elapsedS": 188.447,
+ "elapsedS": 122.645,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第313便b",
   "target": "beta/index.html",
-  "targetSha256": "ccee583ecf42ef8266c7d839a88e222983fe13ab47094884b4d4658d36393b4d",
-  "generatedAt": "2026-10-30T09:57:32.354Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T19:32:13.465Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "ccee583ecf42ef8266c7d839a88e222983fe13ab47094884b4d4658d36393b4d",
-    "mtime": "2026-10-30T09:07:13.381Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
     "bytes": 194518,
     "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
-    "mtime": "2026-10-30T09:07:13.593Z"
+    "mtime": "2026-10-25T16:42:07.778Z"
    }
   ],
   "code": [
@@ -2734,49 +2734,49 @@
     "file": "tests/exp-w313b-galaxialrdm.mjs",
     "bytes": 55078,
     "sha256": "9b3ac25d32cb92f6228519a5eb8d5905dce0444331433b6876f901cc42ab48d2",
-    "mtime": "2026-10-30T09:29:19.772Z"
+    "mtime": "2026-10-30T11:33:02.846Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
-    "mtime": "2026-10-30T09:07:13.785Z"
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/exp-w311b-galaxial.mjs",
     "bytes": 41422,
     "sha256": "a4376f503d6f5ab53745ea1ab0d539b2d7560764986d28e43d598ba24a4bae98",
-    "mtime": "2026-10-30T09:29:19.763Z"
+    "mtime": "2026-10-30T11:33:02.842Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
     "bytes": 16742,
     "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
-    "mtime": "2026-10-30T09:20:03.995Z"
+    "mtime": "2026-10-30T11:33:02.854Z"
    },
    {
     "file": "tests/lib-w311c-h4carry.mjs",
     "bytes": 25956,
     "sha256": "fdfd657710b8e568d2affb33481bdaa5a292702d935ee5ff7f1430bbbde6e885",
-    "mtime": "2026-10-30T09:07:13.781Z"
+    "mtime": "2026-10-21T20:13:23.994Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-30T09:07:13.757Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-30T09:07:13.749Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 96951,
     "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-30T09:07:13.765Z"
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
   "codeSha256": "82aa0390e0991957e2b1721d6168c8d793a18ed31460c6380ee35970e0e1fc5b",
@@ -2851,11 +2851,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1328,
-   "segments": 1169,
-   "closureShare": 0.3025
+   "names": 1346,
+   "segments": 1187,
+   "closureShare": 0.3043
   },
-  "scopeSha256": "6bd329b7bf0b20cdd94b929e5c61cf0de07b132babf37985f115fb4e0fd263fb",
+  "scopeSha256": "d7cefc8b05b856c2b096fb024853f2ba978f3787c3c05cf9bc6197f7312bc0d9",
   "scopeComplete": true,
   "inputsStable": [
    {
