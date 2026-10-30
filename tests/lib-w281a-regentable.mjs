@@ -3982,10 +3982,14 @@ export async function regenChainSelfTest(o) {
     const whole = htmlWholeSteps({ root });
     const intoUp = W285F_AFTER_SAMPLESTATUS.filter((k) => up.has(k));
     const det = N1.beforeSamplestatus.slice().sort();
-    res.n = { whole: whole.length, upstream: [...up].sort(), added: W285F_AFTER_SAMPLESTATUS.length, now: N0.beforeSamplestatus, detected: det.length,
+    // 第319便c(AN454・R260): 足した after の段のうち、領域の宣言(REGEN_SCOPE —— 完全)を刻むようになった段は html 全体の段ではない(検出の対象の外)。
+    //   検出されるのは「足した段 ∩ 今も html 全体を刻む段」で、外れた段は領域を刻んでいること(after は外さない —— 生成領域を閉包に持てば samplestatus の後で刻み直す)
+    const wholeSet = new Set(whole), wantDet = W285F_AFTER_SAMPLESTATUS.filter((k) => wholeSet.has(k)).sort(), scopedNow = W285F_AFTER_SAMPLESTATUS.filter((k) => !wholeSet.has(k));
+    const scopedOk = scopedNow.every((k) => { const st = REGEN_STEPS.find((z) => z.key === k); return !!st && (st.outs || []).every((f) => { const m = readMetaAt(root, f); return !m || m.target !== 'beta/index.html' || (m.scope && m.scopeComplete === true); }); });
+    res.n = { whole: whole.length, upstream: [...up].sort(), added: W285F_AFTER_SAMPLESTATUS.length, now: N0.beforeSamplestatus, detected: det.length, scopedNow,
       cycles: N0.cycles.length, intoUpstream: intoUp,
-      ok: N0.beforeSamplestatus.length === 0 && N0.cycles.length === 0 && intoUp.length === 0
-        && JSON.stringify(det) === JSON.stringify(W285F_AFTER_SAMPLESTATUS.slice().sort()) && ['calaudit', 'dt3', 'kf0', 'charonwin'].every((k) => up.has(k)) };
+      ok: N0.beforeSamplestatus.length === 0 && N0.cycles.length === 0 && intoUp.length === 0 && scopedOk
+        && JSON.stringify(det) === JSON.stringify(wantDet) && ['calaudit', 'dt3', 'kf0', 'charonwin'].every((k) => up.has(k)) };
   }
   // (o) 第286便f(再生成表の after 検査): 今の表で静的な欠落 0・宣言した読みが実態に合う(stale 0)・第285便の型(obscompare の after から pn1 を外した写し)と
   //     galaxydiag の after から sparc を外した写しで**検出される**・宣言を空にした写しで宣言した読みがすべて欠落として出る(宣言が素通しでない)

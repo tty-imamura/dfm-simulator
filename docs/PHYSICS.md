@@ -39703,6 +39703,109 @@ V1a の t = 0 の β(読み口 `inertialDragIsqState`):太陽の能動の対の 
 
 **⑧ 残った決断事項(DECISIONS の §1 —— 統括の推奨つき)。** AN444(16 体の 1PN の対照を内蔵にするか —— 器の写しのまま)・AN445(回転・軸の重みの規則 —— 在位は今のまま・候補の第一は源の角運動量 J)・AN446(銀河の源の粗視化の契約 —— 既定の粒度を置かない)・AN447(熱の契約 —— 帳簿は変えず型を記録)・AN448(銀河の軸の復元/散逸の項 —— 足さない・型を記録)・AN449(ハローの最小二乗をエンジンの走行で —— AN445・AN446 の後)・AN450(衛星の三体の測る量の既定 —— 本便の契約)・AN451(真の相対の積分 —— 器の写しで対照から)・AN452(イオ・エウロパの長い窓 —— 次便以降の別の段)・AN453(1 ulp の床と窓の安定 —— 診断の列のまま)・AN454〜AN457(鎖の費用の残り・器の理由の文の扱い・旧名の案内・受理器の本体の文)・AN418(🌦️ —— 次便)・AN428(calaudit の便)。
 
+〔第319便c — 再生成の段の短縮(閉じた探索の段の履歴化・presets "all" の段の絞り込み・html を読む宣言の無い段に REGEN_SCOPE —— 正本の物理の値は不変)(原仮定者の指示(第121報)「時間が掛かっている再生成の段について、時間短縮を行う」・決断事項 AN454・統括の検証項目 R260)(**html・本の宣言・エンジンの式・受理の判定・`S._core` は 1 bit も変えていない** —— 再生成表・器の宣言・lib 2 本の本の引き方・道具・QA・文書だけ。窓・刻み・門・閾値・母集団は削らない)〕
+
+**① 何を短くしたか。** 短くしたのは「変更が届かない段の再走」と「段の中の重複した走行」の確かめだけで、物理の確かめの量(窓・刻み・門・閾値・母集団)は同じ。数は段 1 回の実測の見積り(`tests/data-w311c-regensec.json` —— 第318便の鎖の実測)の和で、鎖の壁時計ではない(並列・再起動・混みぐあいで変わる)。前後の数は道具 `tools/scope-probe319.mjs`(記録 `tests/out/scopeprobe-w319c.json` —— 前 = 基点 7c6bf88 の器の REGEN_SCOPE と履歴の集合・後 = 本便・領域 hash は前後とも版 6)で、同じ html の写しに変更の種類ごとに 1 か所の変更を入れて regen になる段を数えた(表 1・表 2)。
+
+**② 閉じた探索の段を履歴へ(`HISTORY_319C`・判定の規則 `CLOSED_RULE_319C`)。** 3 つとも満たす段だけを履歴へ移した: (1) 探索の結論が決断事項に記録された (2) 現行の段が正本を入力に読まない(lint.regenScope ④)(3) 正本を読む QA が凍結の正本として照合できる。satmeas-317a(測る量と予算 —— AN442・AN450)と satn-317b(物理の軸 —— AN441)が当たる。正本を読む QA の docs.satMeas317a・docs.satN317b は器の純関数で正本の行から作り直す型(html を走らせない)で、第316便d の正本と突き合わせる照合だけは、第316便d の正本のバイトが刻印(meta.inputs の sha)と同じときだけ作り直し、違えば正本に刻んだ通過の窓の記録(same/compared)を照合する形にした。sath-316d・satcut-317c・satk1-315d は (2) に当たる(現行の正本 satnext-318b〔第318便b〕の上流 —— `CLOSED_KEEP_319C`)ので現行のまま。表の S(...) の行は当時の実測の記録として残し、役割と secSource を塊で上書きした(元の秒は secMeasured)。
+
+**③ presets "all" の段の絞り込み(`NARROWED_319C`・`KEEP_ALL_319C`)。** 基点の presets "all" の 62 段を段ごとに確かめた。19 段は器の本文が名指しの本だけを読むのに、共通の lib `tests/lib-w299c-planets3d.mjs`(太陽と惑星の元の本 2 本を読む `sourceBodies`)・`tests/lib-w300c-saturnring3d.mjs`(💍 と 🟡 を読む `sources`)が `HP.allPresets()` を変数に受けて `.find` で引く形で、機械の下限(deriveScope)が「内蔵の全本」になっていた。2 つの lib を `.find` で直に引く形にした(同じ本を返す —— 本の ID は一意で、allPresets は BUILTIN_PRESETS の連結を返すだけ)。ほかに 11 段は下限が元から名指しの本で宣言だけが広かったが、うち 6 段は器が文字列の式(evalExpr の中の `HP.allPresets().filter(…)`・`for (const p of HP.allPresets())`)・vm で読む BUILTIN_PRESETS・別の器の関数の本文・別の器の子プロセスで内蔵の全本を数える(機械の下限には出ない読み)ので "all" のまま残した。絞った 24 段(器 23 本)の presets は「下限 ∪ 器が import する凍結の写しの lib(lib-w3xx?-pre・lib-w315c-legacy7)のデータの本の ID」(写しの門は本ごとに本の宣言を読むので、写しの本の宣言が変われば作り直す —— 下限だけだと saturnring3d-300c で 6 本・an336-306a で 1 本が外れた)。枝の探索で、器 15 本(QUICK の窓か全走行 —— drag3d・coord3d・shell-304a・planets3d・saturnring3d・galaxial・galaxialrd・galaxialrdm・planet3・inposk1・mdsweep・confirm-312d・k1confirm・k1outer・inertialr2)を「本の中身を読んだ ID を記録する Proxy」(html の読み込みに差し込む —— 表示の停止関数〔SCOPE_STOP〕の下と刻印の道具の読みは数えない)の下で走らせ、読んだ本がどれも宣言の内にあることを確かめた(読んだ本 2〜14 本・宣言 4〜28 本)。全走行しか無い長い器(shell-304b・pairnorm-305a・periodn-306b・gfamily-305b・an336-306a・k1em-314c の --stage em)と、出力の名を変えられない器(clusterStable・moon3d-298c・jeans286)は機械の下限と凍結の写しの照合だけ。絞った段のうち短い 11 段(coord3d-298a・drag3d-298c・jeans286・shell-304a・moon3d-298c・clusterStable・galaxial-311b・galaxialrd-312b・galaxialrdm-313b・planets3d-299c・saturnring3d-300c)は枝で正本を作り直し、物理の値が基点の正本と同じ(違うのは meta・壁時計の欄・正本の上位に写した対象 html の sha だけ)ことを確かめた。長い 13 段は本便の鎖で作り直す(⑩)。
+
+**④ AN454 —— 領域の宣言の無い段に REGEN_SCOPE(`AN454_319C`・`AN454_SKIP_319C`)。** 宣言の無い現行の 45 段のうち **21 段は html を読まない**(正本の対象が lib・CSV —— nsgrid・galaxyproto・nsmode・sync ほか。html の変更では元から作り直さない —— 領域の宣言は当たらない。統括の読みの「所要の大きい順 nsgrid・galaxyproto・nsmode」は html を読まない 3 段で、第318便の鎖にも乗っていない)。html を読む 24 段(見積り 242 s)のうち、所要の大きい 5 段(galaxychain・galaxylite・strain・d0audit・bgbudget —— 155 s)に器と lib の下限の REGEN_SCOPE と `scopeStamp` を足し、正本を作り直した(物理の値は基点と同じ —— 違うのは壁時計の欄〔msPerStep・wallSec —— 宣言の除外 Pointer の外の所要の欄〕と meta だけ)。変異の対照は表 4。付けない段は理由つき(galaxyprof2 は停止関数 render を名で読む・galaxyprof と needmesh は基点 html と今の html の 2 つを比べる・bh90 は独自の刻印・残り 15 段は合わせて約 25 s)。
+
+**⑤ 長い段の中の重複した走行(確かめた)。** satnext-318b の W1 = (0, P_母]・W2 = (P_母/2, 3P_母/2] は、衛星 × 変種 × 刻み × q10/q11 ごとに 1.5 P_母 までの **1 本の走行の標本から切り出している**(W1・W2 を t = 0 から別々に積分していない —— 重複なし)。solar16-318c の 14 本の走行はどれも別の刻み・別の物理(K1 と 1PN の写し)で、イオ 1 公転の P/1440・P/360 の 4 本だけが地球の 1 年の同じ刻みの走行の先頭と同じ步(4 本で合わせて約 16 s —— 段の 2164 s の 1% 未満)。synodic-299b の段 scan・fit の D0pull = 1×10⁻³ の短い走行は段 long の走行の先頭と同じ(短い)。どれも作り直した正本をビット同一に保つ短縮の余地は 1% 前後で、本便では入れない。壁時計だけなら synodic-299b は段を 3 本の process に分けて並走できる(正本の段ごとの壁時計 long 1581 s・longh2 1423 s・残り 4 段 980 s —— 1 process の 3986 s が並走で約 1581 s の見込み)が、合わせた正本が 1 process の正本とビット同一かを 1 回走らせて確かめてからにする(決断事項候補)。
+
+**⑥ 表 1 —— 変更の種類ごとの regen の段の数と見積りの秒(前 = 基点・後 = 本便)。**
+
+| 変更の種類 | 区分 | 前: regen の段(見積りの秒) | 後: regen の段(見積りの秒) | 省ける段(秒) | 省ける内訳: 履歴へ・presets の絞り・AN454(段/秒) | 後の内訳: 領域の段・html 全体の段 | 後の recheck |
+|---|---|---|---|---|---|---|---|
+| 内蔵の本を 1 本足す(🌀 binary の宣言の写しに新しい id —— 🗺️ の前) | 本 | 86(29857 s) | 58(7029 s) | 28(22828 s) | 0/0・24/22692・4/136 | 39・19 | 69 |
+| 在位の惑星 1 本の宣言を変える(🌋 venusSunInertial3d の最初の m の最下位桁) | 本 | 103(38767 s) | 94(37970 s) | 9(797 s) | 0/0・5/661・4/136 | 75・19 | 35 |
+| 步の関数を変える(軸を保つ維持の型の 1 步の帳簿 inertialDrag3MaintCell の本体の先頭に無害な文) | 步の関数 | 168(65700 s) | 166(61980 s) | 2(3720 s) | 2/3720・0/0・0/0 | 147・19 | 1 |
+| 步の関数の係数を変える(引きずりの規則 Y_k の 10 → 10.000001) | 步の関数 | 168(65700 s) | 166(61980 s) | 2(3720 s) | 2/3720・0/0・0/0 | 147・19 | 1 |
+| 表示の文(理論用語集 LAWS の ja A1 に 1 字) | 表示の文 | 24(242 s) | 19(87 s) | 5(155 s) | 0/0・0/0・5/155 | 0・19 | 93 |
+| 表示の文(受理器の理由の文 —— seed の警告に 1 字) | 表示の文 | 24(242 s) | 19(87 s) | 5(155 s) | 0/0・0/0・5/155 | 0・19 | 93 |
+
+**⑦ 表 2 —— 鎖の全段の見積りの秒の和と区分。**
+
+| 区分 | 前(基点 7c6bf88) | 後(第319便c) |
+|---|---|---|
+| 現行の段(履歴を除く) | 202 | 200 |
+| 見積りの秒の和(段 1 回の実測の和 —— 鎖の壁時計ではない) | 67855 s | 64135 s |
+| 履歴の段 | 34 | 36 |
+| presets "all" の段(見積りの秒) | 62(29615 s) | 39(6942 s) |
+| html 全体を刻む段(見積りの秒) | 24(242 s) | 19(87 s) |
+| 常時群(見積りの秒) | 13(567 s) | 13(567 s) |
+| html を読まない段・正本の無い段 | 15・6 | 15・6 |
+
+**⑧ 表 3 —— 段ごとの扱いと根拠。**
+
+| 段 | 見積りの秒 | 扱い | 根拠 |
+|---|---|---|---|
+| satmeas-317a | 1332 | 履歴へ(走らせない) | AN442・AN450 —— 衛星 6 本の測る量と予算の探索(第317便a)—— 共通の測る量 M0・HARM_RULE を緩めない(AN442)・三体の測る量の既定は第318便b の契約(AN450 —— 正本 satnext-318b)。現行の段は正本を読まない |
+| satn-317b | 2388 | 履歴へ(走らせない) | AN441 —— 衛星の物理の軸の探索(第317便b —— G_loc の n・K1-Y(n)・K2 の半径の方針)—— 在位は n = 2・K1 のまま・衛星での K2 の調査は閉じる(AN441)。現行の段は正本を読まない |
+| satcut-317c | 2024 | 現行のまま | ② 現行の正本 satnext-318b(第318便b)が meta.inputs に読む(64 公転の M0 のビット同一の照合と二体の参照) |
+| sath-316d | 756 | 現行のまま | ② 現行の段 satcut-317c・satan-317d が読む(通過の窓の照合)—— satcut-317c が現行の間は残す |
+| satk1-315d | 387 | 現行のまま | ② 現行の段 sath-316d・satan-317d が読む |
+| shell-304b | 3626 | presets "all" → 30 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| k1confirm-313d | 3260 | presets "all" → 21 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| k1em-314c | 2620 | presets "all" → 21 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| k1outer-314c | 1875 | presets "all" → 21 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| pairnorm-305a | 1914 | presets "all" → 29 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| planet3-311d | 1332 | presets "all" → 19 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| periodn-306b | 1110 | presets "all" → 30 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| inertialr2-303b | 1101 | presets "all" → 28 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| gfamily-305b | 1017 | presets "all" → 30 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| confirm-312d | 946 | presets "all" → 21 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| inposk1-315c | 914 | presets "all" → 19 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| mdsweep-310d | 800 | presets "all" → 19 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| an336-306a | 585 | presets "all" → 29 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| galaxialrd-312b | 233 | presets "all" → 17 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| galaxial-311b | 204 | presets "all" → 21 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| planets3d-299c | 151 | presets "all" → 19 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| galaxialrdm-313b | 133 | presets "all" → 17 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| shell-304a | 35 | presets "all" → 20 本 | tests/lib-w299c-planets3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| saturnring3d-300c | 175 | presets "all" → 10 本 | tests/lib-w300c-saturnring3d.mjs を .find で直に引く形に(下限が名指しの本へ) |
+| clusterStable | 326 | presets "all" → 3 本 | 下限が元から名指しの本(宣言だけが広かった) |
+| moon3d-298c | 298 | presets "all" → 2 本 | 下限が元から名指しの本(宣言だけが広かった) |
+| drag3d-298c | 20 | presets "all" → 5 本 | 下限が元から名指しの本(宣言だけが広かった) |
+| coord3d-298a | 6 | presets "all" → 4 本 | 下限が元から名指しの本(宣言だけが広かった) |
+| jeans286 | 11 | presets "all" → 3 本 | 下限が元から名指しの本(宣言だけが広かった) |
+| pn1 | 293 | "all" のまま | 文字列の式 evalExpr で HP.allPresets().filter(geoPN)・.map(id)・.length を読む(内蔵の全本の数え上げ) |
+| pnsource286 | 451 | "all" のまま | 文字列の式 evalExpr で HP.allPresets().filter(scaleExp)・.map(id) を読む(内蔵の全本の数え上げ) |
+| pnsources291 | 123 | "all" のまま | 文字列の式 evalExpr の中で for (const p of HP.allPresets()) —— 内蔵の全本を回す |
+| refit-297a | 1464 | "all" のまま | vm で BUILTIN_PRESETS を読み .filter(geoPN ≥ 2) で本を選ぶ(内蔵の全本の数え上げ) |
+| eihdiag287 | 10 | "all" のまま | 較正走行の器 tests/exp-w249b-calaudit.mjs の関数の本文を html の中で評価する(本文の読みは機械の下限に出ない) |
+| tpsign | 2 | "all" のまま | 較正走行の器を子プロセス(--only)で走らせる(子プロセスの読みは機械の下限に出ない) |
+| galaxychain | 53 | REGEN_SCOPE を足す(AN454 —— presets 4 本) | html を読む宣言の無い段(所要の大きい順) |
+| galaxylite | 44 | REGEN_SCOPE を足す(AN454 —— presets 2 本) | html を読む宣言の無い段(所要の大きい順) |
+| strain | 22 | REGEN_SCOPE を足す(AN454 —— presets 2 本) | html を読む宣言の無い段(所要の大きい順) |
+| d0audit | 19 | REGEN_SCOPE を足す(AN454 —— presets all) | html を読む宣言の無い段(所要の大きい順) |
+| bgbudget | 17 | REGEN_SCOPE を足す(AN454 —— presets 3 本) | html を読む宣言の無い段(所要の大きい順) |
+| galaxyprof2 | 18 | 宣言なしのまま | 器が停止関数 render を名で読む(描画の時間の測定 —— lint.scopeStop ② に当たる) |
+| galaxyprof | 26 | 宣言なしのまま | 基点 html($BASE_HTML)と今の html の 2 つを比べる器(領域は今の html の 1 つだけを刻む) |
+| needmesh | 2 | 宣言なしのまま | 基点 html($BASE_HTML)と今の html の 2 つを比べる器 |
+| bh90 | 16 | 宣言なしのまま | 来歴を独自の measurementStamp で刻む器(provenanceMeta の形でない —— 器の書き直しは次便) |
+| (15 段) | — | 宣言なしのまま | twobody・meshnod0・d0audit2・bgcompose・sphereKernel・qsplit・rpar・nslockledger・bhcore・presetaxes・bgfield・bgpredict・selfinertia・rotorledger・slipaudit(見積り 0〜8 s —— 合わせて約 25 s)—— 次に器を触る便で |
+
+**⑨ 表 4 —— AN454 の段の変異の対照(領域 hash —— 版 6)。**
+
+| 段 | presets | 表示の文(LAWS) | 表示の文(受理器の理由) | 宣言した本の物理の数(最下位桁) |
+|---|---|---|---|---|
+| galaxychain | 4 本 | 領域 hash 不変 | 領域 hash 不変 | 変わる(galaxyMeshSpiral の physics.G) |
+| galaxylite | 2 本 | 領域 hash 不変 | 領域 hash 不変 | 変わる(galaxyMeshSpiralGeoToy の physics.G) |
+| strain | 2 本 | 領域 hash 不変 | 領域 hash 不変 | 変わる(galaxyMeshSpiral の physics.G) |
+| d0audit | all | 領域 hash 不変 | 領域 hash 不変 | 変わる(venusSunInertial3d の m) |
+| bgbudget | 3 本 | 領域 hash 不変 | 領域 hash 不変 | 変わる(earthMoonRealKF1 の m) |
+
+**⑩ 本便の鎖で刻印が変わる段(値は同じ)。** 器・lib を書き換えた段は器の code の sha が変わるので、本便の鎖で一度だけ作り直す(物理の値は同じ —— 刻印の領域 hash と来歴だけが変わる)。枝 c だけの木の計画(`node tools/regen-plan.mjs --base beta/_w319_base.html`): regen 51・reuse 65・recheck 71・履歴 36・常時群 13。うち本便 c の変更で regen になる段は 25 段(見積り 23409 s —— 絞った器の 13 段 21100 s〔clusterStable は枝で作り直した〕・絞った器を import する器と、作り直した正本を入力に読む下流の 12 段 2309 s〔analogy・families・growth287・fixcap288・ejectstate289・emonly-300b・approxmany-301b・wbglaw-301g・semic-302d・wbgest-302c・refit-303a・timing294〕)。残りの regen は宣言の無い html 全体の段と正本の無い段(便の開始の版名の変更で動く —— 本便 c の変更ではない)。25 段はどれも表 1 の「步の関数を変える」で regen になる段の集合の内で、統合で步の関数が変われば鎖の増分は 0。枝で作り直した 11 段と AN454 の 5 段は計画で reuse か recheck。
+
+**⑪ 道具と QA。** 対照の道具 `tools/scope-probe319.mjs`(版 w319c-scope-probe-1)・記録 `tests/out/scopeprobe-w319c.json`・表の lib `tests/lib-w319c-regenshort.mjs`・QA `docs.regenShort319c`(新設 —— 表 1〜4 を記録から作り直して逐語)・`docs.satMeas317a`・`docs.satN317b`(履歴の世代の照合)。
+
+**⑫ 決断事項候補(推奨つき)。** (a) **「核が変わったときだけ全本・本を足したときはその本だけ」の型**: 領域 hash の内訳(`scopeHash` の parts —— 本ごとの生の定義と受理後の定義・閉包の関数ごと・`S._core`)で、変わったのが本の定義だけ(閉包・核は同じ)なら、本ごとに分けられる器(本ごとの行と集計)は変わった本だけを走らせて集計を作り直す(較正走行の `--only` と `--merge` の型)。"all" のまま残る 39 段(見積り 6942 s)の「本を 1 本足す」が段ごとに本 1 本ぶんになる見込み —— **推奨: 次便で計画の判定(parts の差の分類)と、本ごとに分けられる器の名簿を先に作る**(器の書き直しは名簿の順に)。(b) **閉じた探索の段の判定の規則**: `CLOSED_RULE_319C` の 3 つ(結論が決断事項に記録・現行の段が正本を読まない・QA が凍結の正本として照合できる)—— **推奨: 採る**(探索の段を足す便が、結論の便で履歴へ移すかを規則で決める)。(c) **長い段の再開の型(AN452 の別の段の形)**: 行ごとの再開の写し(W316D_CACHE・W317B_CACHE・W318B_CACHE の型)を、鍵 = 行の宣言 + 器の code の sha + 領域 hash にそろえ、鎖の済み印と同じ契約で再開する —— **推奨: イオ・エウロパの 1.5 P_母 の段(AN452)を作る便でこの型にそろえる**。(d) **synodic-299b の段の並走**(⑤)—— **推奨: 合わせた正本のビット同一を 1 回確かめてから cmd を分ける**。(e) **時間の欄の除外の宣言**(galaxylite・strain・d0audit の msPerStep・wallSec は除外 Pointer の外 —— 作り直すたびに安定 hash が変わる)—— **推奨: 読み手の段が出たら除外を宣言する**(今は読み手が無い)。
+
+**⑬ 言わないこと。** 「鎖が N 時間短くなった」(数は段 1 回の実測の見積りの和)。「絞った段は他の本を読まない」(機械の下限と、枝の探索の実行時の記録で確かめた範囲 —— 器を書き換えた便は下限を引き直す)。「探索の結論が永久に閉じた」(履歴は再生成しない記録 —— 問いを開き直す便は段を現行へ戻して走らせる)。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
