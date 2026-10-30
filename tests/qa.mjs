@@ -7215,7 +7215,7 @@ if (!TARGET.startsWith('beta/')) {
         const tt = qt.tests || {};
         for (const [tid, ids] of Object.entries(tt)) {
           if (!Array.isArray(ids) || !ids.length) { bad.push('⑥qaTargets の ' + tid + ' に本が無い'); continue; }
-          for (const id of ids) if (!T[id]) bad.push('⑥qaTargets の ' + tid + ' が内蔵に無い本 ' + id + ' を挙げる');
+          for (const id of ids) if (!T[id] && !betaOnly318.has(id)) bad.push('⑥qaTargets の ' + tid + ' が内蔵に無い本 ' + id + ' を挙げる');   // 第319便d: beta だけの本(root では正本の行にだけ有る本 —— 🗺️)の帰属は root の検査の外
         }
         const L = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(path.join(ROOT, TARGET));
         const rowsP = L.evalExpr('BUILTIN_PRESETS').map((p) => ({ id: p.id, claimTests: Array.isArray(p.claims) ? [...new Set(p.claims.map((c) => c.testId).filter(Boolean))] : [] }));
@@ -7238,7 +7238,12 @@ if (!TARGET.startsWith('beta/')) {
         const ev = (J.meta || {}).evidenceQa || {};
         let cmp = '正本は旧帰属(統合時の samplestatus の段で入れ替わる)';
         if (tn && tn.version === SS.QA_ATTRIBUTION_VERSION) {
-          if (ev.commit === (QA.commit || null) && ev.date === (QA.date || null)) {
+          // 第319便d(R261): 原稿(qaTargets)が正本の生成後に更新された世代(正本の meta.inputs の原稿の sha256 ≠ 今の原稿)は、本ごとの本数の照合を飛ばす
+          //   (鎖の常時群 samplestatus の段で入れ替わる —— 原稿と刻印の食い違いは lint.provenanceMeta ③ が見る)
+          const srcIn319 = ((J.meta || {}).inputs || []).find((x) => x && x.file === 'tests/data-w279a-samplestatus-src.json');
+          const srcNow319 = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'))).digest('hex');
+          if (srcIn319 && srcIn319.sha256 && srcIn319.sha256 !== srcNow319) cmp = '原稿(qaTargets)が正本の生成後に更新された(本数の照合は飛ばす —— 統合の samplestatus の段で入れ替わる)';
+          else if (ev.commit === (QA.commit || null) && ev.date === (QA.date || null)) {
             const rows318 = (J.rows || []).filter((z) => !betaOnly318.has(z.id));   // 第318便c: beta だけの本は別の世代の html の帰属に無い
             const off = rows318.filter((z) => !z.timing || !z.timing.qa || !A.byId[z.id] || z.timing.qa.n !== A.byId[z.id].n || z.timing.qa.attributed !== A.byId[z.id].attributed);
             if (off.length) bad.push('⑥正本の QA 帰属の本数が再計算と違う: ' + off.slice(0, 4).map((z) => z.id).join(','));
@@ -89908,7 +89913,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----     QA の側の名指しの除外(最上位の世代定数と本の id の否定の形)のブロックは表 2 の行と一致
 // ----   docs.w319d …… ① 三次元の本の数(W319D_D3 —— 受理した宣言・all/toy/fresh/retired の関係と html の文字列の型 W298A_IDS・W299E_IDS との関係)
 // ----     ② 規則で置いた本の較正の注(nc_solar_rule3d の ja/en・pNotClaims が選ぶ本 = 在位の三次元の G_loc {law:"kappaC2"} の本・他の三次元の本は nc_solar_cal3d)
-// ----     ③ 原稿の qaTargets(🗺️ の 3 試験 —— 試験の id が qa.mjs に有る・注記 w319d)④ drag3d-298c の REGEN_SCOPE の consts と正本の刻印(ACCEPT_REASONS)
+// ----     ③ 原稿の qaTargets(🗺️ の 3 試験 —— 試験の id が qa.mjs に有る・注記 w319d)④ AN455 の費用の見積り(semic-302d が drag3d の器を前段に走らせる —— 止めた)
 // ----     ⑤ PHYSICS〔第319便d〕が「## 7.」の前・必須の語・書かない語・禁句・裸の係数記号 が無い・AI_SPEC §154・CHANGELOG の beta 節・post-merge の ③′
 {
   await (async () => {   // 第310便c(heap)の型: 本文を関数で包む
@@ -90022,14 +90027,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (!(typeof (SRC.qaTargets || {}).w319d === 'string' && SRC.qaTargets.w319d.indexOf('solarSystem16Inertial3d') >= 0)) bad.push('③ qaTargets の注記 w319d');
       cases.push(`③ 🗺️ の保存 QA の帰属 ${s16.length} 試験(${s16.join('・')})`);
     }
-    // ④ drag3d-298c の REGEN_SCOPE の consts と正本の刻印
-    const HD = rd319('tests/exp-w298c-drag3d.mjs'), mS = /^const REGEN_SCOPE = (\{.*\});$/m.exec(HD);
-    let scD = null; try { scD = mS ? JSON.parse(mS[1]) : null; } catch (e) { scD = null; }
-    if (!(scD && Array.isArray(scD.consts) && scD.consts.includes('ACCEPT_REASONS') && scD.complete === true)) bad.push('④ drag3d-298c の REGEN_SCOPE の consts に ACCEPT_REASONS が無い');
-    let JD = null; try { JD = JSON.parse(rd319('tests/out/drag3d-w298c.json')); } catch (e) { bad.push('④ 正本 drag3d-w298c.json が読めない'); }
-    if (JD && !(JD.meta && JD.meta.scope && Array.isArray(JD.meta.scope.consts) && JD.meta.scope.consts.includes('ACCEPT_REASONS'))) bad.push('④ 正本の刻印に ACCEPT_REASONS が無い(器を走らせ直すこと)');
-    if (JD && !(JD.part5 && typeof (JD.part5.noCoupling || {}).err === 'string' && JD.part5.noCoupling.err.length > 0)) bad.push('④ 段 5 の受理の理由の文が正本に無い');
-    cases.push('④ drag3d-298c: REGEN_SCOPE の consts に ACCEPT_REASONS・正本の刻印も同じ(段 5 は受理器の errors の文を正本に書く)');
+    // ④ AN455 の見積り(drag3d-298c の REGEN_SCOPE の consts —— 宣言すると前段に走らせる semic-302d も regen になるので止めた)。本節に費用と止めた理由
+    const SEM = rd319('tests/exp-w302d-semic.mjs');
+    if (SEM.indexOf("script: 'tests/exp-w298c-drag3d.mjs'") < 0) cases.push('④ semic-302d の器が drag3d の器を前段に走らせなくなった(AN455 の費用の見積りを見直す)');
+    for (const w of ['semic-302d', 'ACCEPT_REASONS', '866 s', '止め']) if (sec319.indexOf(w) < 0) bad.push('④ PHYSICS〔第319便d〕⑤ に「' + w + '」が無い');
+    cases.push('④ AN455: drag3d-298c の REGEN_SCOPE に ACCEPT_REASONS を宣言すると semic-302d も regen(下限 +866 s)—— 見積もって止めた(器・正本は不変)');
     // ⑤ 文書
     const rv = (s) => [...s].reverse().join('');
     const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);
@@ -90038,10 +90040,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     else {
       const i7 = PH319.indexOf('\n## 7.'), i318 = PH319.indexOf('〔第318便 — 統括');
       if (!(a319 < i7 && i318 >= 0 && i318 < a319)) bad.push('⑤ 節の位置(〔第318便 — 統括〕の後・「## 7.」の前)');
-      for (const w of ['AN460', 'AN461', 'AN462', 'AN455', 'R261', 'W319D_D3', 'validatePreset', 'nc_solar_rule3d', 'pNotClaims', 'lint.laterBooks319', 'docs.w319d', 'LATER_BOOKS_318', 'ACCEPT_REASONS', 'drag3d-298c', 'qaTargets', '世代の守り', '**表 1', '**表 2']) if (sec319.indexOf(w) < 0) bad.push('⑤ PHYSICS〔第319便d〕に「' + w + '」が無い');
+      for (const w of ['AN460', 'AN461', 'AN462', 'AN455', 'R261', 'W319D_D3', 'validatePreset', 'nc_solar_rule3d', 'pNotClaims', 'lint.laterBooks319', 'docs.w319d', 'LATER_BOOKS_318', 'ACCEPT_REASONS', 'drag3d-298c', 'qaTargets', '世代の守り', '**表 1', '**表 2', 'docs.sampleStatus-sync']) if (sec319.indexOf(w) < 0) bad.push('⑤ PHYSICS〔第319便d〕に「' + w + '」が無い');
     }
     const AI = rd319('docs/AI_SPEC.md'), ai154 = (() => { const m = /\n## 154\. 第319便d[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
-    if (!(ai154 && ai154.indexOf('W319D_D3') >= 0 && ai154.indexOf('nc_solar_rule3d') >= 0 && ai154.indexOf('ACCEPT_REASONS') >= 0)) bad.push('⑤ AI_SPEC §154');
+    if (!(ai154 && ai154.indexOf('W319D_D3') >= 0 && ai154.indexOf('nc_solar_rule3d') >= 0 && ai154.indexOf('ACCEPT_REASONS') >= 0 && ai154.indexOf('semic-302d') >= 0)) bad.push('⑤ AI_SPEC §154');
     const CL = rd319('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
     const cl319 = (clb.split('\n').find((l) => l.indexOf('**第319便d**') >= 0)) || '';
     if (!cl319) bad.push('⑤ CHANGELOG の beta 節に第319便d の行が無い');
@@ -90051,7 +90053,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (!(PM.indexOf('# ==== 第319便d の塊(ここから)====') >= 0 && /lint\.laterBooks319/.test(PM) && /docs\.w319d/.test(PM))) bad.push('⑤ post-merge の ③′ に第319便d の塊が無い');
     cases.push('⑤ PHYSICS〔第319便d〕(〔第318便 — 統括〕の後・「## 7.」の前)・AI_SPEC §154・CHANGELOG・post-merge の ③′・書かない語・禁句・裸の係数記号 なし');
     add('docs.w319d', bad.length === 0,
-      `**QA の片付けと小さい決定**(第319便d・決断事項 AN460・AN461・AN455・R261 —— 物理・本の宣言・エンジンの式・受理の判定は不変): ${cases.join(' / ')}`
+      `**QA の片付けと小さい決定**(第319便d・決断事項 AN460・AN461・AN455・R261 —— 物理・本の宣言・エンジンの式・受理の判定・器・正本は不変): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
   })();

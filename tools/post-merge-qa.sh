@@ -418,8 +418,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.dragEst318d behavior.dragEst318d lint.s
 # ==== 第318便d の塊(ここまで)====
 # ==== 第319便d の塊(ここから)====
 # 第319便d(決断事項 AN460・AN461・AN462・AN455・R261): 枝 d の新設 2 本(lint.laterBooks319 —— 後に入った本の除外の理由の表・docs.w319d —— 三次元の本の数と較正の注と
-#   帰属と受理の理由の文の領域)と、書き換えた QA(三次元の本を受理した宣言で数える 10 ブロック・較正の注の 2 ブロック)・drag3d-298c の宣言の behavior.drag3d298・lint.regenScope
-DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.laterBooks319 docs.w319d behavior.rayLensExcluded behavior.contactMode docs.coreCensus behavior.coreV2Migrate behavior.coreV2ReplaceReport behavior.shellSpinMassLaw behavior.geoMode docs.timeStd297 behavior.coord3dHaltAB299 docs.timeStd3d299 ui.notclaim-real ui.v59Text301 behavior.drag3d298 lint.regenScope"
+#   帰属と受理の理由の文の領域の見積り)と、書き換えた QA(三次元の本を受理した宣言で数える 10 ブロック・較正の注の 2 ブロック・docs.sampleStatus-sync の原稿の世代)・lint.regenScope
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.laterBooks319 docs.w319d behavior.rayLensExcluded behavior.contactMode docs.coreCensus behavior.coreV2Migrate behavior.coreV2ReplaceReport behavior.shellSpinMassLaw behavior.geoMode docs.timeStd297 behavior.coord3dHaltAB299 docs.timeStd3d299 ui.notclaim-real ui.v59Text301 docs.sampleStatus-sync lint.regenScope"
 # ==== 第319便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====

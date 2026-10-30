@@ -26,9 +26,7 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
-const REGEN_SCOPE = {"presets":"all","roots":["DT","HP.PROBE_VERSION","HP.REL_DRAG_AXIAL_LAW","HP.REL_DRAG_SPIN3_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.coord3d","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.inertialDrag3AxialOmega","HP.inertialDrag3RotTerm","HP.inertialDragProbeAt","HP.inertialDragProbeBilinear","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.inertialSpinMoment","HP.sim","HP.validatePreset","T","ch","cw"],"core":true,"consts":["ACCEPT_REASONS"],"complete":true};
-// 第319便d(DECISIONS v78 AN455・R261): 段 5(受理の開閉)は受理器の errors の文を正本に書き、QA(behavior.drag3d298)が引き直して照合する —— 文は第318便a から
-//   文の表 ACCEPT_REASONS(閉包で辿らない登録簿)にあるので、表を consts に宣言して評価値を領域に入れる(理由の文を変えると、この段は reuse でなく regen になる)
+const REGEN_SCOPE = {"presets":"all","roots":["DT","HP.PROBE_VERSION","HP.REL_DRAG_AXIAL_LAW","HP.REL_DRAG_SPIN3_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.coord3d","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.inertialDrag3AxialOmega","HP.inertialDrag3RotTerm","HP.inertialDragProbeAt","HP.inertialDragProbeBilinear","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.inertialSpinMoment","HP.sim","HP.validatePreset","T","ch","cw"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w298c-drag3d-1';

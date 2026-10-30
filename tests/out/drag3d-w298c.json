@@ -722,7 +722,7 @@
  "part4": {
   "chain3d": {
    "steps": 2000,
-   "wallSec": 2.283,
+   "wallSec": 2.328,
    "itersMax": 40,
    "resMax": 9.99311e-11,
    "fail": 0,
@@ -776,7 +776,7 @@
   },
   "chain3dTilt": {
    "steps": 2000,
-   "wallSec": 3.724,
+   "wallSec": 3.642,
    "itersMax": 40,
    "resMax": 9.99383e-11,
    "fail": 0,
@@ -941,43 +941,43 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便c",
   "target": "beta/index.html",
-  "targetSha256": "6465affe6d86782555bbb60756e7d77e5ee10c7499f380d93e0d8b65e40b5b03",
-  "generatedAt": "2026-10-30T09:38:12.253Z",
+  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+  "generatedAt": "2026-10-28T21:30:23.436Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7358253,
-    "sha256": "6465affe6d86782555bbb60756e7d77e5ee10c7499f380d93e0d8b65e40b5b03",
-    "mtime": "2026-10-30T09:26:48.961Z"
+    "bytes": 7356498,
+    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+    "mtime": "2026-10-28T18:28:18.317Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w298c-drag3d.mjs",
-    "bytes": 32400,
-    "sha256": "037db5c552ad12630d7d9476b941f9eee02c180f0c20cbc872163b830e422b5a",
-    "mtime": "2026-10-30T09:36:55.238Z"
+    "bytes": 31970,
+    "sha256": "f35c5d33aa62e3a7601d0d27353b0efedc9ab3f94923a252034a2ab13c876a2c",
+    "mtime": "2026-10-20T16:19:56.644Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-30T09:07:14.849Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-30T09:07:14.841Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 96951,
     "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-30T09:07:14.857Z"
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "6379d669eb35e44762e2b3a019cbb39cd799e293a5a241625ac1dd8568ca17ee",
+  "codeSha256": "140e5a38fbfa4820d48e2d0dc441186ff01fba061b62e5356ebacf6a85c0edfa",
   "harnessVersion": "w298c-drag3d-1",
   "spin3Version": "w298c-spin3-1",
   "probeVersion": "w298c-probe-1",
@@ -1014,18 +1014,16 @@
     "cw"
    ],
    "core": true,
-   "consts": [
-    "ACCEPT_REASONS"
-   ],
+   "consts": [],
    "complete": true,
    "names": 1343,
    "segments": 1182,
    "closureShare": 0.3047
   },
-  "scopeSha256": "6231f2b2aa11f3557f257b26e6b10f7cd22d51408d2b3efdda4eff20b363fc09",
+  "scopeSha256": "bd48066f82b0e01edf1bc9c95db8501276f147c3d5317076d7c0d745487ab8d9",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 16.873
+ "elapsedS": 18.117
 }
