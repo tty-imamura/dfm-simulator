@@ -27,7 +27,8 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as R3 from './lib-w300c-saturnring3d.mjs';
 import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
-const REGEN_SCOPE = {"presets":"all","roots":["$","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragProbeAt","HP.inertialDragState","HP.sim","HP.validateApproxMany","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+// 第319便c(原仮定者の指示(第121報)・R260): presets は "all" から名指しの本へ(器と lib の deriveScope の下限 ∪ 器が読む凍結の写しの本)
+const REGEN_SCOPE = {"presets":["jupiterSunInertial3d","marsSunInertial3d","mercurySunInertial3d","neptuneSunInertial3d","saturn","saturnRingInertial3d","saturnRingReal","saturnSunInertial3d","uranusSunInertial3d","venusSunInertial3d"],"roots":["$","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragProbeAt","HP.inertialDragState","HP.sim","HP.validateApproxMany","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w300c-saturnring3d-1';

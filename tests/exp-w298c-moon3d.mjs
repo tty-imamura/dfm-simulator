@@ -32,7 +32,8 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as L from './lib-w297b-fit.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 import { pinSplit302 } from './lib-w302h-splitrec.mjs';   // 第302便h: 第298便c の 🌦️ のフィット(gain と初期配置の探索 —— 本の fitRecord の記録)を同じ分割の步で保つ(器の中だけ —— 宣言・署名は変えない)
-const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.FIT_COND_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragState","HP.relDragStepOrderOf","HP.sim","HP.validateFitRecord","HP.validatePreset","T","ch","cw","validateFitRecord"],"core":true,"consts":[],"complete":true};
+// 第319便c(原仮定者の指示(第121報)・R260): presets は "all" から名指しの本へ(器と lib の deriveScope の下限 ∪ 器が読む凍結の写しの本)
+const REGEN_SCOPE = {"presets":["earthMoonSunInertial3d","earthMoonSunInertialFit"],"roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.FIT_COND_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragState","HP.relDragStepOrderOf","HP.sim","HP.validateFitRecord","HP.validatePreset","T","ch","cw","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w298c-moon3d-1';

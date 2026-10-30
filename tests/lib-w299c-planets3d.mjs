@@ -112,7 +112,8 @@ export function orbitFrame(el) {
 }
 /** 既存の本(HP.allPresets)から太陽と惑星の m・radius・spin を本の単位で読む。 */
 export function sourceBodies(HP, pl) {
-  const all = HP.allPresets(), sp = all.find((q) => q.id === SUN.src), pp = all.find((q) => q.id === pl.src);
+  // 第319便c(原仮定者の指示(第121報)・AN454・統括の検証項目 R260): 名指しの 2 本だけを `.find` で直に引く(変数に受けると領域の下限が「内蔵の全本」になる —— 値は同じ)
+  const sp = HP.allPresets().find((q) => q.id === SUN.src), pp = HP.allPresets().find((q) => q.id === pl.src);
   if (!sp || !pp) throw new Error('元の本が無い ' + SUN.src + '/' + pl.src);
   const X = expOf(pl), cs = convUnits(sp.scaleExp, X), cp = convUnits(pp.scaleExp, X), sb = sp.bodies[SUN.index], pb = pp.bodies[pl.index];
   const sun = { m: r12(sb.m * cs.m), radius: r12(sb.radius * cs.len), spin: r12(Math.abs(sb.spin) * cs.spin) * SUN.pole.wSign };
