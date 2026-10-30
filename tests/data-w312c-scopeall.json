@@ -3,14 +3,14 @@
  "what": "再生成表の現行の段のうち、器の領域の宣言(REGEN_SCOPE)が presets:\"all\" の段の理由の一覧(決断事項 AN394 —— 絞らない・記録だけ)。理由は器と lib の本文の allPresets() / BUILTIN_PRESETS の使い方(行は書いた時点の行 —— 照合は段・種類・見込みだけ)。namedIds は本文が文字列で名指す内蔵の本の ID(絞るときの候補)",
  "tool": "node tools/regen-chain.mjs --scope-all --write",
  "counts": {
-  "steps": 38,
-  "harnesses": 38,
+  "steps": 39,
+  "harnesses": 39,
   "byProspect": {
-   "enumerates": 32,
+   "enumerates": 33,
    "narrow-now": 6
   },
   "byKind": {
-   "filter": 16,
+   "filter": 17,
    "map": 2,
    "declared-wide": 6,
    "count": 2,
@@ -38,6 +38,33 @@
   "enumerates": "全本を読む —— 絞ると器の目的(全本の一覧・数え上げ・条件の選別)が変わる"
  },
  "steps": [
+  {
+   "key": "d0audit",
+   "harness": "tests/exp-w275b-d0audit.mjs",
+   "derivedAll": true,
+   "kinds": [
+    "filter"
+   ],
+   "reasons": [
+    {
+     "file": "tests/exp-w275b-d0audit.mjs",
+     "line": 189,
+     "use": "filter",
+     "kind": "filter",
+     "via": "harness",
+     "text": "const ids = await page.evaluate(() => HP.allPresets()"
+    }
+   ],
+   "namedIds": [
+    "galaxy",
+    "galaxyMeshSpiralGeoToy",
+    "galaxyMeshSpiralGeoToyLite",
+    "saturn",
+    "venusReal"
+   ],
+   "nNamed": 5,
+   "prospect": "enumerates"
+  },
   {
    "key": "shapecrit",
    "harness": "tests/exp-w275d-shapecrit.mjs",

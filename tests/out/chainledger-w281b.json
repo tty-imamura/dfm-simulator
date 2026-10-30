@@ -4,7 +4,7 @@
   "wave": "第281便b",
   "target": "tests/lib-w281b-chain.mjs",
   "targetSha256": "86ad1a2efcb6f2a4f74aa9405d44717a44d2e92c985d9d8d0885627d6021b422",
-  "generatedAt": "2026-10-30T09:38:34.572Z",
+  "generatedAt": "2026-10-30T09:44:09.030Z",
   "inputs": [
    {
     "file": "tests/lib-w281b-chain.mjs",
@@ -16,9 +16,9 @@
   "code": [
    {
     "file": "tests/exp-w281b-galaxychain.mjs",
-    "bytes": 25167,
-    "sha256": "f381621b4ac7b8073ae95ccfd917fc74ff412ee3fe28ab185b354aadc2ae6f58",
-    "mtime": "2026-10-30T09:38:01.085Z"
+    "bytes": 25470,
+    "sha256": "54381d1a227b9440b49666ca114b5b0720a4dc227ef5680d7cd4fa97e678763a",
+    "mtime": "2026-10-30T09:44:08.133Z"
    },
    {
     "file": "tests/lib-w281b-chain.mjs",
@@ -31,9 +31,15 @@
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
     "mtime": "2026-10-30T09:07:13.749Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-10-30T09:07:13.765Z"
    }
   ],
-  "codeSha256": "c0e109eaf24d2bc466b674887d2d8642fe7fddb73be6e7f80c088e8cc0f3a1ed",
+  "codeSha256": "5fadea9f7e8150e594e2d5b8f37a94e69874ebb6bd648596e79eb1c1d35e6171",
   "harnessVersion": "w281b-galaxychain-1",
   "libVersion": "w281b-chain-1",
   "ruling": "第71報: 中心天体群から外縁にかけて引きずりが連鎖する(連鎖引きずりの限界による背景宇宙との境界)",
@@ -44,7 +50,45 @@
    "平坦回転を再現した",
    "境界を発見した",
    "新発見"
-  ]
+  ],
+  "scope": {
+   "version": "w318a-scope-6",
+   "presets": [
+    "galaxyMeshSpiral",
+    "galaxyMeshSpiralGeoToy",
+    "galaxyMeshSpiralGeoToyLite",
+    "ngc3198DFM"
+   ],
+   "roots": [
+    "$",
+    "DT",
+    "HP.allPresets",
+    "HP.dfmBlendComplexMoments",
+    "HP.dfmComplexMomentsOf",
+    "HP.dfmField",
+    "HP.dfmFieldSnapshot",
+    "HP.dfmGalaxyMeshField",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "ctx",
+    "cw",
+    "dfmBlendComplexMoments",
+    "dfmComplexMomentsOf",
+    "dfmField",
+    "dfmFieldSnapshot",
+    "dfmGalaxyMeshField"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1287,
+   "segments": 1128,
+   "closureShare": 0.2939
+  },
+  "scopeSha256": "6ad87ad71f278326643b4cd8f2e76c9644d1d3a1b1c3d68ef9321669a738a317",
+  "scopeComplete": true
  },
  "suite": {
   "libVersion": "w281b-chain-1",

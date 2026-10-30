@@ -295,7 +295,7 @@ export function responseOf(A, B, dOmega) {
 export function ledgerCanon(root) {
   const suite = CH.chainLedgerSuite();
   const meta = Object.assign(provenanceMeta({ root, wave: '第281便b', target: 'tests/lib-w281b-chain.mjs',
-    code: ['tests/exp-w281b-galaxychain.mjs', 'tests/lib-w281b-chain.mjs', 'tests/lib-w272e-provenance.mjs'],
+    code: ['tests/exp-w281b-galaxychain.mjs', 'tests/lib-w281b-chain.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'],
     inputs: ['tests/lib-w281b-chain.mjs'] }), {
     harnessVersion: HARNESS_VERSION, libVersion: CH.CHAIN_LIB_VERSION,
     ruling: '第71報: 中心天体群から外縁にかけて引きずりが連鎖する(連鎖引きずりの限界による背景宇宙との境界)',
@@ -311,6 +311,8 @@ if (IS_MAIN) {
   const outDir = path.join(ROOT, 'tests', 'out');
   fs.mkdirSync(outDir, { recursive: true });
   const L = ledgerCanon(ROOT);
+  // 第319便c(AN454・R260): 器が REGEN_SCOPE を宣言したので、同じ段の正本(対象は lib —— 計画は領域を引かない)にも同じ宣言を刻む(lint.regenScope ②)
+  Object.assign(L.meta, w319cScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE));
   fs.writeFileSync(path.join(outDir, 'chainledger-w281b.json'), JSON.stringify(L, null, 1));
   console.log('chainledger: J 相対 ' + L.suite.closed.ledger.jRelMax.toExponential(2) + '・閉じ ' + L.suite.closed.ledger.closeRelMax.toExponential(2)
     + '・次数 ' + L.suite.convergence.rows.slice(1).map((r) => r.order.toFixed(4)).join('/') + '・因果対照 ' + L.suite.causal.outerExactZero);
