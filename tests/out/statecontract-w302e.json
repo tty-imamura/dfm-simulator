@@ -2,12 +2,12 @@
  "version": "w302e-statecontract-1",
  "generator": "tests/exp-w302e-statecontract.mjs",
  "target": "beta/index.html",
- "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
+ "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
  "ruling": "DECISIONS v60 AN305 ②⑧(新しい状態の鍵の登録の lint・前の本の持ち越しの検出)・統括の検証項目 R189",
  "books": 121,
  "steps": 3,
  "registry": {
-  "names": 612,
+  "names": 626,
   "regex": [
    "/^(inertialDrag|_rd|rdPrev)|^rdEpoch$/",
    "/^gLoc[A-Z]/",
@@ -23,7 +23,7 @@
   ]
  },
  "static": {
-  "assigned": 986,
+  "assigned": 1000,
   "outside": 248,
   "outsideSeen": 218,
   "outsideStepChanged": 0,
@@ -152,19 +152,19 @@
   "carried0": true
  },
  "ok": true,
- "elapsedS": 16.343,
+ "elapsedS": 15.025,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第302便e",
   "target": "beta/index.html",
-  "targetSha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-  "generatedAt": "2026-10-29T08:27:43.954Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T16:01:51.154Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "4a08a62ca155f74e596b03047721d5c7cacfb5b3c09645fce350974a5a1b8311",
-    "mtime": "2026-10-28T18:28:18.317Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    }
   ],
   "code": [
@@ -234,11 +234,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1289,
-   "segments": 1130,
-   "closureShare": 0.294
+   "names": 1302,
+   "segments": 1143,
+   "closureShare": 0.2946
   },
-  "scopeSha256": "549a2b9a16b514bdcd11c28da41d61a94dc6383f94c7b8a537b86eee0cd61411",
+  "scopeSha256": "c6538b3ef6d6c362ecd4d67394567d7fe566d6e2e88f8e8a3add63adb7b91311",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
