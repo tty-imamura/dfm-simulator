@@ -282,7 +282,7 @@
      "max": 0
     }
    },
-   "wallSec": 153.546
+   "wallSec": 106.794
   },
   "m5h2": {
    "key": "m5h2",
@@ -508,7 +508,7 @@
      "max": 0
     }
    },
-   "wallSec": 164.02
+   "wallSec": 106.631
   },
   "h": {
    "key": "h",
@@ -734,7 +734,7 @@
      "max": 0
     }
    },
-   "wallSec": 95.629
+   "wallSec": 48.362
   },
   "m5": {
    "key": "m5",
@@ -960,7 +960,7 @@
      "max": 0
     }
    },
-   "wallSec": 90.658
+   "wallSec": 49.165
   },
   "transfer": {
    "key": "transfer",
@@ -1186,7 +1186,7 @@
      "max": 0.006420567838183037
     }
    },
-   "wallSec": 72.381
+   "wallSec": 53.642
   },
   "flat2d": {
    "key": "flat2d",
@@ -1399,7 +1399,7 @@
    },
    "conserved": null,
    "drag": null,
-   "wallSec": 10.524
+   "wallSec": 5.209
   },
   "flat2dh2": {
    "key": "flat2dh2",
@@ -1612,7 +1612,7 @@
    },
    "conserved": null,
    "drag": null,
-   "wallSec": 15.451
+   "wallSec": 10.411
   },
   "probe": {
    "key": "probe",
@@ -1678,7 +1678,7 @@
      ]
     }
    },
-   "wallSec": 2.44
+   "wallSec": 1.912
   }
  },
  "stepDependence": {
@@ -1924,28 +1924,28 @@
  "ok": true,
  "timing": {
   "h2": {
-   "wallSec": 153.546
+   "wallSec": 106.794
   },
   "m5h2": {
-   "wallSec": 164.02
+   "wallSec": 106.631
   },
   "h": {
-   "wallSec": 95.629
+   "wallSec": 48.362
   },
   "m5": {
-   "wallSec": 90.658
+   "wallSec": 49.165
   },
   "transfer": {
-   "wallSec": 72.381
+   "wallSec": 53.642
   },
   "flat2d": {
-   "wallSec": 10.524
+   "wallSec": 5.209
   },
   "flat2dh2": {
-   "wallSec": 15.451
+   "wallSec": 10.411
   },
   "probe": {
-   "wallSec": 2.44
+   "wallSec": 1.912
   }
  },
  "notClaim": [
@@ -1957,20 +1957,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第300便c",
   "target": "beta/index.html",
-  "targetSha256": "ccee583ecf42ef8266c7d839a88e222983fe13ab47094884b4d4658d36393b4d",
-  "generatedAt": "2026-10-30T10:02:51.283Z",
+  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+  "generatedAt": "2026-10-30T13:53:38.665Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7356498,
-    "sha256": "ccee583ecf42ef8266c7d839a88e222983fe13ab47094884b4d4658d36393b4d",
-    "mtime": "2026-10-30T09:07:13.381Z"
+    "bytes": 7379828,
+    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+    "mtime": "2026-10-30T11:20:58.670Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
     "bytes": 194518,
     "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
-    "mtime": "2026-10-30T09:07:13.593Z"
+    "mtime": "2026-10-25T16:42:07.778Z"
    }
   ],
   "code": [
@@ -1978,43 +1978,43 @@
     "file": "tests/exp-w300c-saturnring3d.mjs",
     "bytes": 44305,
     "sha256": "195b780c637a14f9845cd4205ea77d8fba2f4d8751411b666affc2045eac4339",
-    "mtime": "2026-10-30T09:29:19.732Z"
+    "mtime": "2026-10-30T11:33:02.838Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
-    "mtime": "2026-10-30T09:07:13.785Z"
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w300c-saturnring3d.mjs",
     "bytes": 10279,
     "sha256": "d419274a1aead8fb2c960395013905049b3e103d947d0cfbdcaa7252179862ba",
-    "mtime": "2026-10-30T09:20:03.996Z"
+    "mtime": "2026-10-30T11:33:02.854Z"
    },
    {
     "file": "tests/lib-w301b-approxmany.mjs",
     "bytes": 5302,
     "sha256": "98d22edfa3bbdeab91f6b2d61ad1a2c2ff9bfbda45eaf9affe4ebfd2c840c23b",
-    "mtime": "2026-10-30T09:07:13.777Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-30T09:07:13.757Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-30T09:07:13.749Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 96951,
     "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-30T09:07:13.765Z"
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
   "codeSha256": "f85045037b6f619970beaea3845fa17fc4305e3f2a2e3f2ef5f29abf6c9723da",
@@ -2050,11 +2050,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1333,
-   "segments": 1174,
-   "closureShare": 0.3036
+   "names": 1351,
+   "segments": 1192,
+   "closureShare": 0.3054
   },
-  "scopeSha256": "b0fc705b043c8f1ce74b793aae2f751766a3641297fb34a6371ba94105f7cb4c",
+  "scopeSha256": "c8bdc3d5addbe84a61e33b57fc06772fa3d32d58cd2d6ab234617d76111bfd1d",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -2066,5 +2066,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 323.475
+ "elapsedS": 210.151
 }
