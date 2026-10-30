@@ -89884,7 +89884,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----     ③ 表の行と数が PHYSICS〔第319便a〕に逐語・節が「## 7.」の前で〔第318便 — 統括〕の後・必須の語・PHYSICS〔第318便d〕の訂正の段落・AI_SPEC §151・CHANGELOG・段・.gitignore・post-merge・CANON
 // ----     ④ 書かない語・禁句・新しい説明に裸の係数記号が無いこと・新しい文の r_d(節と器と lib と文書の lib)
 {
-  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const aHarn = path.join(ROOT, 'tests', 'exp-w319a-axisheat.mjs'), aLib = path.join(ROOT, 'tests', 'lib-w319a-axisheat.mjs'), aDoc = path.join(ROOT, 'tests', 'lib-w319a-axisheatdoc.mjs');
   const aOut = path.join(ROOT, 'tests', 'out', 'axisheat-w319a.json');
   const aHtml = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
@@ -89943,6 +89943,17 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         for (const [a, b] of VEC) { const j = E.judge(a[0], a[1], a[2], b[0], b[1], b[2]), r = L9.composeRef(a, b); if (j.less !== r.less || j.lessByAngle !== r.less) s6++; w6 = Math.max(w6, rel319(j.change, r.change), rel319(j.cosThreshold, r.cosThreshold)); }
         if (s6 || !(w6 <= 1e-12)) bad.push('⑥ 合成の判定と参照の式: 判定の違い ' + s6 + '・相対の差 ' + w6);
         cases.push(`⑥ 合成の判定(axisHoldComposeJudge)と lib の参照の式: ${VEC.length} 組の判定が同じ・相対の差の最大 ${w6.toExponential(1)}`);
+        // ⑦ チェックポイント(源ごとの維持の累計が復帰の後も同じ步で同じビット)
+        const snapF = H.evalExpr('ckSnapOne'), restF = H.evalExpr('ckRestoreOne'), MSC = H.evalExpr('INERTIAL_DRAG3_MAINT_SC').concat(SCL);
+        const s7 = X.runBook(E, X.copyBook(H.HP, 'jupiter', { hold: X.holdOf(h0, { compose: 'source', balance: 'background' }), galaxy: X.galaxyDeclOf(E, 'jupiter') }), h0, 3), S7 = s7.S, ck7 = snapF(S7);
+        for (let k = 0; k < 3; k++) S7.step(h0);
+        const AR7 = ['_rdMaintQ', '_rdMaintSrcQ', '_rdMaintSrcC', 'spin', 'sax', 'say', 'saz', 'x', 'vx'], aft = {}, sc7 = {};
+        for (const k of AR7) aft[k] = Array.from(S7[k]); for (const k of MSC) sc7[k] = S7[k];
+        restF(S7, ck7); for (let k = 0; k < 3; k++) S7.step(h0);
+        let d7 = 0; for (const k of AR7) for (let q = 0; q < aft[k].length; q++) if (!Object.is(aft[k][q], S7[k][q])) d7++;
+        for (const k of MSC) if (!Object.is(sc7[k], S7[k])) d7++;
+        if (d7) bad.push('⑦ チェックポイントの復帰の後の差 ' + d7);
+        cases.push(`⑦ チェックポイント(🏀 の源ごとの写し 3 步 → 復帰 → 3 步): 配列 ${AR7.length}・スカラー ${MSC.length} の差 ${d7}`);
       } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
     }
     add('behavior.axisHoldBalance319', bad.length === 0,
