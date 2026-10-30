@@ -62,6 +62,9 @@ const body = merged.map(([s0, e0]) => lines.slice(s0, e0).map((l, k) => headRewr
 // 第296便(統合): tests/qa.mjs が最上位で作る世代定数(`const W29xX_… = …` の 1 行 —— fs/path/ROOT/TARGET だけを読む)を切り出しの前文に写す
 //   (枝 b・c の W296B_FITIDS / W296C_CHAIN などを参照するブロックが部分実行でも走るように —— 切り出した範囲に同じ宣言があれば二重になるので外す)
 const consts = lines.filter((l) => /^const W\d{3}[A-Z]_[A-Z0-9_]+ = /.test(l) && !merged.some(([s0, e0]) => lines.slice(s0, e0).includes(l))).join('\n');
+// 第319便(統括の統合 —— 枝 d の直し): 第284〜287便の世代定数は複数行(W284_PSR_F1 … W284_CORE —— 便の番号の後に文字が無い名)なので上の 1 行の型に入らない —— その範囲をまとめて写す
+const i284a = lines.findIndex((l) => l.startsWith('const W284_PSR_F1 = ')), i284b = lines.findIndex((l) => l.startsWith('const W284_CORE = '));
+const consts284 = (i284a >= 0 && i284b >= i284a && !merged.some(([s0, e0]) => s0 <= i284a && i284a < e0)) ? lines.slice(i284a, i284b + 1).join('\n') : '';
 
 const src = `import fs from 'node:fs';
 import crypto from 'node:crypto';
@@ -103,6 +106,7 @@ const add = (id, pass, detail) => {
   console.log(\`\${pass ? 'PASS' : 'FAIL'} \${id}\${detail ? '  ' + detail : ''}  [\${(ms / 1000).toFixed(1)}s]\`);
 };
 ${consts}
+${consts284}
 ${body}
 await browser.close();
 const pass = results.every((r) => r.pass);
