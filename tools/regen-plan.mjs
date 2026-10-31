@@ -33,10 +33,43 @@ const OUT = resolve(getArg('--out', 'tests/out/regen-plan-w281a.json'));
 const QUIET = argv.includes('--quiet');
 
 const T = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs')).href);
+// 第320便d(AN478): `--roster [--write|--check]` —— 本ごとに分けられる器の名簿(tests/data-w320d-perbook.json)を作る/照合する(計画は引かない)
+if (argv.includes('--roster')) {
+  const PB = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w320d-perbook.mjs')).href);
+  const doc = PB.rosterDoc({ root: ROOT, html: HTML });
+  const file = path.join(ROOT, PB.ROSTER_FILE);
+  console.log(`roster(AN478 —— ${doc.version}): A ${doc.count.A}(${doc.secByTier.A} s)・B ${doc.count.B}(${doc.secByTier.B} s)・C ${doc.count.C}(${doc.secByTier.C} s)`);
+  for (const r of doc.rows) if (r.tier !== 'C') console.log(`  ${r.tier} ${r.key.padEnd(20)} ${r.why.slice(0, 110)}`);
+  if (argv.includes('--write')) { fs.writeFileSync(file, JSON.stringify(doc, null, 1) + '\n'); console.log('  → ' + PB.ROSTER_FILE); }
+  if (argv.includes('--check')) {
+    let cur = null; try { cur = JSON.parse(fs.readFileSync(file, 'utf8')); } catch { cur = null; }
+    const keys = (d) => (d && d.rows ? d.rows.map((z) => z.key).sort().join(',') : '');
+    const ok = !!cur && cur.version === doc.version && keys(cur) === keys(doc);
+    console.log(ok ? '  --check: 名簿の段の集合と版は今の表と同じ' : '  --check: 名簿が今の表と違う(統合で段が増えた —— node tools/regen-plan.mjs --roster --write で引き直す)');
+    process.exit(ok ? 0 : 1);
+  }
+  process.exit(0);
+}
 const t0 = Date.now();
 const plan = T.planRegen({ root: ROOT, html: HTML, baseHtml: BASE });
 plan.generatedAt = new Date().toISOString();
 plan.planMs = Date.now() - t0;
+// 第320便d(決断事項 AN478・R265): `--classify` で領域の差を**核・本・表示**に分ける(tests/lib-w320d-perbook.mjs —— 段の判定〔status〕は変えない)。
+//   刻印時の html は --base・--stamp-html <f>(何度でも)・--stamp-git <N>(beta/index.html の直近 N 版 —— 写しは --stamp-dir〔既定 os の一時〕)から sha で引く。
+//   行ごとに「本 X の変更だけで動く(名簿 A/B/C)」/「核: 式 …」/「表示だけ」を plan.classify320 に出す。引けない刻印は unknown
+if (argv.includes('--classify')) {
+  const PB = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w320d-perbook.mjs')).href);
+  const t1 = Date.now();
+  const files = argv.map((a, i) => (a === '--stamp-html' ? resolve(argv[i + 1]) : null)).filter(Boolean).concat(BASE ? [BASE] : []);
+  const shas = new Set();
+  for (const r of plan.steps) for (const f of (T.REGEN_STEPS.find((z) => z.key === r.key) || { outs: [] }).outs) {
+    try { const m = JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8')).meta || {}; if (m.target === 'beta/index.html' && m.targetSha256) shas.add(m.targetSha256); } catch { /* 無い */ }
+  }
+  const stampHtmls = PB.findStampHtmls({ root: ROOT, shas: [...shas], files, gitDepth: Number(getArg('--stamp-git', '0')) || 0, dir: resolve(getArg('--stamp-dir', null)) || undefined });
+  const cl = PB.classifyPlan(plan, { root: ROOT, html: HTML, stampHtmls });
+  plan.classify320 = { version: cl.version, stampShas: shas.size, stampFound: stampHtmls.size, count: cl.count, books: cl.books, ms: Date.now() - t1,
+    rows: cl.rows.map((z) => ({ key: z.key, status: z.status, kind: z.kind, tier: z.tier, books: z.books, text: z.text })) };
+}
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(plan, null, 1));
 if (!QUIET) {
@@ -48,5 +81,12 @@ if (!QUIET) {
   console.log(`  所要(実測秒の和): 下限 ${fmt(plan.secLower)}(regen+always)〜 上限 ${fmt(plan.secUpper)}(+recheck)`);
   for (const r of plan.steps) if (r.status !== 'reuse' && r.status !== 'history')
     console.log(`  ${r.status.padEnd(7)} ${r.key.padEnd(16)} ${String(r.sec).padStart(5)} s  ${(r.causeText || r.reasons[0] || '').slice(0, 110)}`);
+  // 第320便d(AN478): 領域の差の分類の要約
+  if (plan.classify320) {
+    const c = plan.classify320;
+    console.log(`  領域の差の分類(AN478 —— 刻印時の html ${c.stampFound}/${c.stampShas}): ` + Object.entries(c.count).map(([k, v]) => k + ' ' + v).join(' / ')
+      + (Object.keys(c.books).length ? ' / 本だけで動く段: ' + Object.entries(c.books).map(([b, ks]) => b + '(' + ks.length + ' 段)').join('・') : ''));
+    for (const r of c.rows) if (r.kind === 'book') console.log(`    本だけ ${r.key.padEnd(18)} 名簿 ${r.tier}  ${r.text.slice(0, 110)}`);
+  } else console.log('  領域の差の分類(AN478): --classify で出す(刻印時の html は --base / --stamp-html / --stamp-git N)');
   console.log('  → ' + OUT);
 }
