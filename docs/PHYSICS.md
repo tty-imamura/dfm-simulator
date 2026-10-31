@@ -40372,7 +40372,7 @@ lint.laterBooks319 は qa.mjs の名指しの除外(`!(W<便><枝>_… && ….id
 | `behavior.invSq309` | 🗺️ `solarSystem16Inertial3d` | invSq・dragCoreDefault を宣言した本(移行の前の写しで読む 7 本) | 🗺️ は K1 の短い形で生まれた本で写しが無い |
 | `behavior.galaxial311` | 🗺️ `solarSystem16Inertial3d` | galaxyAxial・invSq を宣言した本の数 | 在位の 7 本と同じ K1 の短い形の後に入った本 |
 
-**⑦ 鎖で動く段**: CHAIN_PLACEHOLDER
+**⑦ 鎖で動く段**(枝 d だけ —— `node tools/regen-plan.mjs --base beta/_w320_base.html`・heap 6144・計画 424 s): always 13・regen 32・reuse 70・recheck 87・history 36(実測秒の和 下限 36.2 min〜上限 13.88 h)。regen 32 のうち枝 d の器と再生成表の変更で動くのは 7 段(families・timing294〔再生成表を計算に使う器〕・drag3d-298c・semic-302d・wbgest-302c〔semic の器の関数を読む〕・invsq-309a・invsq-310a)。残りの 25 段は便の開始の版名による html 全体の変更(領域の宣言なし 19 段)と、この作業ツリーに正本が無い段(6 段)。刻印の道具だけを読む器は再生成表の変更を道具の照合で通す。枝 a の受理の鍵の追加と合わせると本便の鎖はほぼ全段(AN481 —— 器を直す費用は増えない)。
 
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 

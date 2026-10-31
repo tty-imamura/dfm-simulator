@@ -543,6 +543,13 @@ else
   say "② scope-all: 一覧と今の器が違う —— 統合で段が増えた。node tools/regen-chain.mjs --scope-all --write で引き直して、一覧の差を確かめてからコミットする"
 fi
 # ==== 第313便c の塊(ここまで)====
+# ==== 第320便d の塊(ここから)====
+# 第320便d(決断事項 AN478・R265): ② に本ごとに分けられる器の名簿(tests/data-w320d-perbook.json)の段の集合と版の照合 —— 統合で段が増えたら
+#   node tools/regen-plan.mjs --roster --write で引き直す(QA docs.w320d ① と同じ照合)
+node tools/regen-plan.mjs --roster --check >"$LOG/2-roster.log" 2>&1; rro=$?
+if [ $rro -eq 0 ]; then S2="$S2・roster ok"
+else S2="$S2・roster FAIL(統合で段が増えた —— node tools/regen-plan.mjs --roster --write で引き直す)"; fail=1; fi
+# ==== 第320便d の塊(ここまで)====
 
 # ③ 前回失敗項
 if [ -z "$FAILED" ] && [ -f tests/out/qa-results-full-beta.json ]; then
