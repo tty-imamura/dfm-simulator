@@ -36,7 +36,8 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { idsFromDecl as idsPlanets, buildConfigs } from './exp-w307c-spindecomp.mjs';
 import * as L from './lib-w309a-invsq.mjs';
-import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';
+import { isRuleBookNoCopy, RULE_BOOKS_WHY } from './lib-w320d-rulebooks.mjs';   // 第320便d(AN477): 後に入った本の除外の宣言の条件   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 段 D が在位の全本を数えるので presets は "all")
 const REGEN_SCOPE = {"presets":"all","roots":["$","DRAG_CORE_DEFAULT_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","REL_DRAG_INVSQ_LAW","REL_DRAG_INVSQ_VERSION","REL_DRAG_SPIN_NODES","T","appStepDt","ckRestoreOne","ckSnapOne","ctx","cw","dfmGaussLegendre01","dragCoreDefaultState","inertialDragIsqK2","inertialDragIsqM2","inertialDragIsqPointAt","inertialDragIsqRule","inertialDragIsqState","inertialSpinMoment","inertialSpinMomentFar","relDragEnabledOf","retiredOf","sim"],"core":true,"consts":[],"complete":true};
 
@@ -264,7 +265,7 @@ function partB(H, cfgs) {
 // 第320便d(決断事項 AN477・AN462・R265): 後に入った本の名指しの除外の集合(第318便 —— 🗺️)を**宣言の条件**へ。K1 の規則の宣言の本(relativeDrag.invSq.rdRule ——
 //   在位の 7 本は pinDecl315c で移行の前の写しへ戻すので、写しの無い K1 の短い形で生まれた本だけが当たる)は dragCore の既定の候補の外に置く
 //   (受理器の規則「dragCoreDefault は rdRule と一緒に宣言しない」—— 候補の写しが受理されない)。外した本は段 D の ruleBooks に数える(既存の欄と値は不変)
-const isRuleBookW320 = (p) => { const r = p && p.physics && p.physics.relativeDrag; return !!(r && r.invSq && r.invSq.rdRule); };
+const isRuleBookW320 = isRuleBookNoCopy;   // tests/lib-w320d-rulebooks.mjs(写しの無い K1 の規則の宣言の本 —— html を写しへ戻す前でも後でも同じ集合)
 /* ───────── 段 D(dragCore の既定の数え上げ)───────── */
 function partD(H, quick) {
   const HP = H.HP, all = HP.allPresets(), retired = E(H, 'retiredOf'), cand = [], ruleBooks = [];
@@ -313,7 +314,7 @@ function partD(H, quick) {
       oldM1.push({ id, source: 'Sun', which, rOverR: r6(r0 / R), eps, maxRelVsFar: r6(mx) });
     }
   }
-  return { ruleBooks, ruleBooksWhy: 'K1 の規則の宣言(relativeDrag.invSq.rdRule)の本 —— dragCoreDefault は rdRule と一緒に宣言しない(第320便d・AN477)', capM: CAP, candidates: cand, liveBooks: books, liveRecords: live.length, enabledBooksInclRetired: booksAllEn.length, enabledRecordsInclRetired: allEn.length,
+  return { ruleBooks, ruleBooksWhy: RULE_BOOKS_WHY, capM: CAP, candidates: cand, liveBooks: books, liveRecords: live.length, enabledBooksInclRetired: booksAllEn.length, enabledRecordsInclRetired: allEn.length,
     allBooks: [...new Set(cand.map((r) => r.id))].length, allRecords: cand.length, runs, oldLawRatios: ratios, oldRotM1: oldM1 };
 }
 
@@ -460,7 +461,7 @@ export async function main() {
     ruling: '原仮定者の裁定(第103報)正確な引きずり(修正版)①球体による引きずり ②各引きずりは慣性決定力(質量に比例・距離の二乗に反比例)に比例しトータルの慣性決定力(背景・自分自身の体積平均を含む)で割る ③球の半径は dragCore の半径 ⑤回転は引きずる側の球の近い側と遠い側の移動の差分 ⑥軸は引きずられる側の球の近い側と遠い側の回転引きずりの差分 ⑦鏡映の向き ⑧軸方向で弱い・第104報 AN363(dragCore の既定)・決断事項 AN359・AN363・統括の検証項目 R218',
     invSqVersion: E(H, 'REL_DRAG_INVSQ_VERSION'), invSqLaw: E(H, 'REL_DRAG_INVSQ_LAW'), capVersion: E(H, 'DRAG_CORE_DEFAULT_VERSION'), ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w309a-invsq.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/exp-w307c-spindecomp.mjs', 'tests/lib-w307c-spindecomp.mjs',
+  const CODE = ['tests/exp-w309a-invsq.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w320d-rulebooks.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/exp-w307c-spindecomp.mjs', 'tests/lib-w307c-spindecomp.mjs',
     'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第309便a', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE, 'tests/out/bevel-w308a.json'] }), {
     harnessVersion: HARNESS_VERSION,

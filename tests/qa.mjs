@@ -90678,7 +90678,12 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const hs = crypto.createHash('sha256').update(t).digest('hex');
       if (J && ((J.meta || {}).code || []).some((z) => z.file === f && z.sha256 === hs) && !((J[part] || {}).ruleBooks || []).includes('solarSystem16Inertial3d')) bad.push('⑤ ' + out + ' の ' + part + '.ruleBooks に 🗺️ が無い');
     }
-    cases.push('⑤ AN477: invsq-309a・invsq-310a の名指しの除外を宣言の条件(K1 の規則の宣言 relativeDrag.invSq.rdRule)へ —— 外した本は ruleBooks に数える・既存の欄と値は不変');
+    // 条件の集合(写しへ戻す前の今の html —— 戻した後は在位の 7 本が invSq を持たないので同じ集合)= 名指しの集合だった 🗺️ の 1 本
+    { const RB = await imp320('tests/lib-w320d-rulebooks.mjs'); let hit = null;
+      try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); const H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        hit = H.HP.allPresets().filter((p) => RB.isRuleBookNoCopy(p)).map((p) => p.id); } catch (e) { bad.push('⑤ 条件の集合が引けない: ' + String(e).slice(0, 80)); }
+      if (hit && JSON.stringify(hit) !== JSON.stringify(['solarSystem16Inertial3d'])) bad.push('⑤ 条件 isRuleBookNoCopy に当たる本が 🗺️ だけでない: ' + hit.join(','));
+      cases.push(`⑤ AN477: invsq-309a・invsq-310a の名指しの除外を宣言の条件 isRuleBookNoCopy(K1 の規則の宣言 relativeDrag.invSq.rdRule の本のうち移行の前の写しが無い本 —— 今の html で ${hit ? hit.length : '?'} 本 = 🗺️)へ —— 外した本は ruleBooks に数える・既存の欄と値は不変`); }
     // ⑥ 文書
     const rv = (s) => [...s].reverse().join('');
     const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);

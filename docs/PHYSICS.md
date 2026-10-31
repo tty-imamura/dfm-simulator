@@ -40351,7 +40351,7 @@ lint.laterBooks319 は qa.mjs の名指しの除外(`!(W<便><枝>_… && ….id
 
 **⑥ AN455・AN477・AN476。**
 - **AN455**: drag3d-298c(受理されない宣言の理由の文を正本に書く)・semic-302d(前段に drag3d の器を走らせて読む)の REGEN_SCOPE の consts に ACCEPT_REASONS(2 段 —— 本便は全段の鎖なので費用は増えない)。
-- **AN477**: invsq-309a(段 D)・invsq-310a(段 N)の名指しの除外を宣言の条件 `isRuleBookW320`(relativeDrag.invSq.rdRule —— 在位の 7 本は pinDecl315c で移行の前の写しへ戻すので、写しの無い K1 の短い形で生まれた本だけが当たる)へ。外した本は `ruleBooks` に数える(🗺️)。枝で 2 器を走らせ、正本の既存の欄と値は同じで `ruleBooks`・`ruleBooksWhy` の 2 欄だけが増えることを見た(コミットしない)。残りの 4 器(semic-302d 866 s・wbgest-302c 520 s・refit-303a 356 s・wbglaw-301g 316 s)は表 1 のまま(器の行の型を本の天体ごとに広げる・写しの外で分類する設計が要る —— 次に器を触る便)。lint.laterBooks319 は表を持つ最新の節(本節)の表 1・表 2 を読む(世代切替)。
+- **AN477**: invsq-309a(段 D)・invsq-310a(段 N)の名指しの除外を宣言の条件 `isRuleBookNoCopy`(`tests/lib-w320d-rulebooks.mjs` —— K1 の規則の宣言 relativeDrag.invSq.rdRule の本のうち移行の前の宣言の写し〔LEGACY7_IDS〕が無い本。器の中では `isRuleBookW320` の名で使う。html を写しへ戻す前でも後でも当たるのは K1 の短い形で生まれた本だけ —— 今の html で 🗺️ の 1 本)へ。外した本は `ruleBooks` に数える(🗺️)。枝で 2 器を走らせ、正本の既存の欄と値は同じで `ruleBooks`・`ruleBooksWhy` の 2 欄だけが増えることを見た(コミットしない)。残りの 4 器(semic-302d 866 s・wbgest-302c 520 s・refit-303a 356 s・wbglaw-301g 316 s)は表 1 のまま(器の行の型を本の天体ごとに広げる・写しの外で分類する設計が要る —— 次に器を触る便。同じ条件で置き換えると値は同じだが 🗺️ を数える欄が無く、6 器とも置き換えると表 1 が空になり lint.laterBooks319 も畳む —— 決断事項の候補)。lint.laterBooks319 は表を持つ最新の節(本節)の表 1・表 2 を読む(世代切替)。
 - **AN476**: 残した名簿 W298C_IDS(9 か所)・W298C_DCIDS(4)・W299E_IDS(18)と ui.fidelity の 🗺️ の加算は本便では変えない(受理した宣言から作り直すと 🗺️ が玩具の本の試験の母集団に入る —— Chromium の QA_FAST を回す便で)。
 
 **表 1(器の後に入った本の除外 —— 本便の後に残る 4 器)**
