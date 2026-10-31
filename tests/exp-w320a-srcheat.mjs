@@ -228,8 +228,10 @@ export function partBook(E, key, kind, sign, plan) {
     balance: { version: bal.version, drive: bal.drive * U.E, driveSpeed: bal.driveSpeed * U.E, driveAxis: bal.driveAxis * U.E, fieldPos: bal.fieldPos * U.E, radiation: bal.radiation * U.E, toInternal: bal.toInternal * U.E,
       closeRel: Math.abs(bal.residual) / Math.max(Math.abs(bal.drive), Math.abs(bal.fromField), Math.abs(bal.radiation), 1e-300),
       c319: { heat: c3.heat * U.E, fromField: c3.fromField * U.E, radiation: c3.radiation * U.E, closeRel: Math.abs(c3.residual) / Math.max(Math.abs(bal.drive), Math.abs(c3.fromField), Math.abs(c3.radiation), 1e-300) } },
-    rows: receiverRows(R, names), _R: R };
+    rows: receiverRows(R, names).filter((r) => key !== 'solar16' || ROWS16.indexOf(r.i) >= 0), _R: R };
 }
+/** 🗺️ の写しで正本に残す受け手(太陽と 6 天体の役割 —— 正本の大きさを抑える) */
+export const ROWS16 = Object.freeze([0, 1, 2, 3, 5, 6, 11]);
 
 /* ───────── R 6 天体の役割の表(初期の状態の読み口)───────── */
 export function partR(E, plan, ref319b) {

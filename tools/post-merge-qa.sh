@@ -442,6 +442,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.regenShort319c docs.satMeas317a docs.sa
 #   帰属と受理の理由の文の領域の見積り)と、書き換えた QA(三次元の本を受理した宣言で数える 10 ブロック・較正の注の 2 ブロック・docs.sampleStatus-sync の原稿の世代)・lint.regenScope
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.laterBooks319 docs.w319d behavior.rayLensExcluded behavior.contactMode docs.coreCensus behavior.coreV2Migrate behavior.coreV2ReplaceReport behavior.shellSpinMassLaw behavior.geoMode docs.timeStd297 behavior.coord3dHaltAB299 docs.timeStd3d299 ui.notclaim-real ui.v59Text301 docs.sampleStatus-sync lint.regenScope"
 # ==== 第319便d の塊(ここまで)====
+# ==== 第320便a の塊(ここから)====
+# 第320便a(原仮定者の回答(2026-10-30 —— AN475)・原仮定者の裁定(第122報)AN471・決断事項 AN471・AN474・AN475・R262): 枝 a の新設 2 本(behavior.srcHeat320 —— 読み (b) と源のモーメントの半径の
+#   受理・同一・純関数の場面・状態の契約・チェックポイント・docs.srcHeat320 —— 正本と文書)と、版の世代で分けた第319便a の 2 本(behavior.axisHoldBalance319・docs.axisHeat319)・維持の型の既存の
+#   本(behavior.maintain309・docs.maintain309・behavior.holdLedger310・docs.pairHeat310)・維持の型の純関数を読む docs.dragEst318d・behavior.dragEst318d・docs.srcRadius319・正本の段の lint 一式・
+#   受理器の理由の文の表 lint.presetText316c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcHeat320 docs.srcHeat320 behavior.axisHoldBalance319 docs.axisHeat319 behavior.maintain309 docs.maintain309 behavior.holdLedger310 docs.pairHeat310 docs.dragEst318d behavior.dragEst318d docs.srcRadius319 lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.provenanceMeta lint.presetText316c lint.harnessSmoke303"
+# ==== 第320便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
