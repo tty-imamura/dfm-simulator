@@ -5,7 +5,7 @@
  "apsisVersion": "w304e-apsis-1",
  "generator": "tests/exp-w310d-mdsweep.mjs",
  "target": "beta/index.html",
- "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+ "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
  "ruling": "原仮定者の裁定(第109報)AN380: 太陽の R_d は cap6500km で固定し、太陽の m_d の適正値を探索する。dragCore(R_d, m_d)と、外殻(観測半径, 観測質量 − m_d)の引きずりを、それぞれ計算する —— 決断事項 AN384(外殻の形)・AN385(受け手の側)・AN386(m_d の値域)・AN336(標的 1PN + A1)・統括の検証項目 R225。探索の材料(フィットの値を在位へ入れない)",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "quick": false,
@@ -1906,7 +1906,7 @@
      "betaMax": 0,
      "isqSteps": 0,
      "overlap": 0,
-     "wallSec": 1.033
+     "wallSec": 1.066
     },
     {
      "div": 2,
@@ -1921,7 +1921,7 @@
      "betaMax": 0,
      "isqSteps": 0,
      "overlap": 0,
-     "wallSec": 2.37
+     "wallSec": 2.359
     }
    ],
    "C1": [
@@ -1938,7 +1938,7 @@
      "betaMax": 0,
      "isqSteps": 0,
      "overlap": 0,
-     "wallSec": 1.403
+     "wallSec": 1.704
     },
     {
      "div": 2,
@@ -1953,7 +1953,7 @@
      "betaMax": 0,
      "isqSteps": 0,
      "overlap": 0,
-     "wallSec": 3.219
+     "wallSec": 3.154
     }
    ],
    "E1": [
@@ -1970,7 +1970,7 @@
      "betaMax": 0.007672561571136631,
      "isqSteps": 380437,
      "overlap": 0,
-     "wallSec": 127.119
+     "wallSec": 123.168
     },
     {
      "div": 2,
@@ -1985,7 +1985,7 @@
      "betaMax": 0.0076725807046072085,
      "isqSteps": 760875,
      "overlap": 0,
-     "wallSec": 260.317
+     "wallSec": 228.631
     }
    ],
    "E2": [
@@ -2002,7 +2002,7 @@
      "betaMax": 0.007672903544908667,
      "isqSteps": 380437,
      "overlap": 0,
-     "wallSec": 123.389
+     "wallSec": 120.206
     },
     {
      "div": 2,
@@ -2017,7 +2017,7 @@
      "betaMax": 0.007672922683713031,
      "isqSteps": 760875,
      "overlap": 0,
-     "wallSec": 250.762
+     "wallSec": 232.284
     }
    ]
   },
@@ -2215,41 +2215,41 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.218
+   "wallSec": 0.264
   },
   "P": {
-   "wallSec": 0.844
+   "wallSec": 0.813
   },
   "E": {
-   "wallSec": 0.121
+   "wallSec": 0.136
   },
   "S": {
-   "wallSec": 0.18
+   "wallSec": 0.19
   },
   "R": {
-   "wallSec": 769.616
+   "wallSec": 712.575
   },
   "Z": {
-   "wallSec": 0.007
+   "wallSec": 0.005
   }
  },
  "stats": {
   "runs": 8,
   "steps": 4562792
  },
- "elapsedS": 772.5,
+ "elapsedS": 715.669,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第310便d",
   "target": "beta/index.html",
-  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-  "generatedAt": "2026-10-30T18:57:41.602Z",
+  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+  "generatedAt": "2026-10-31T09:42:52.273Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7379828,
-    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-    "mtime": "2026-10-30T11:20:58.670Z"
+    "bytes": 7401797,
+    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+    "mtime": "2026-10-31T03:14:16.264Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2265,9 +2265,9 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "bytes": 89936,
-    "sha256": "2ca80fabfcb9bc947c5746a3cbf3516a966dec1dd0662090b3397c73a297fd6b",
-    "mtime": "2026-10-30T16:03:15.891Z"
+    "bytes": 89934,
+    "sha256": "8c50c27dde09664c3940239131665244fb7fd53a290929865fc0e0d59e892cf6",
+    "mtime": "2026-10-31T07:12:41.245Z"
    },
    {
     "file": "paper/data/pn1-ephemeris-candidates.csv",
@@ -2425,11 +2425,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1355,
-   "segments": 1196,
-   "closureShare": 0.3063
+   "names": 1367,
+   "segments": 1205,
+   "closureShare": 0.3079
   },
-  "scopeSha256": "66d474ddb0e9397034663b21509f641267f249575073de3c0d6f3337918c68d0",
+  "scopeSha256": "1cf6e92c81750e634488d9081b8c6dc10e53e5452976818243774ea3a00793f4",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -2446,7 +2446,7 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "stableSha256": "419e3b64be295288653084b9cfed8f678c579ea857255c443187131e65daf23d",
+    "stableSha256": "635e6618e2648a08f962f8535489acc285dd8aae1d224904819c2b28c86b7f5f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
