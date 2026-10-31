@@ -40334,6 +40334,17 @@ lint.laterBooks319 は qa.mjs の名指しの除外(`!(W<便><枝>_… && ….id
 - **内部の M1**: 受け手の節点が源の R_src の球の内に入るときは一様な球の内部の M1 = (r R²/2 − 3r³/10)/R³・dM1/dr = (R²/2 − 9r²/10)/R³(r = R で値も微分も連続 —— `inertialDragIsqM1Src`。外部は `inertialDragIsqM1` と同じ式・同じ演算の順)。本便の写しでは入る対は 0(読み口 `inertialDragIsqState(S).sourceMoment.inside`)。
 - **読み口**: `inertialDragIsqState(S).sourceMoment`(宣言した本だけ —— 天体ごとの R_d・R_obs・f・R_src・置いたか・遠方の源のモーメントの倍率 (R_src/R_d)²・内に入る対)と、読み口の選択 `inertialDragIsqState(S, {perSource:true})` の受け手ごとの `omegaSrc`(源ごとの軸の ω_ij —— 呼び手が求めたときだけ・既定の読み口は変えない)。状態の契約: 步の作業 `_rdIsqRs`(`SIM_STEP_SCRATCH` —— 宣言した本だけ・步の頭で宣言と状態から作り直す)。
 
+**③′ 命名の表**(既存の記号と衝突しない名 —— AN474 の R_src の登録は記号の器を触る便で)。本節の f は源の慣性係数 f_src(鍵 `sourceMoment.f`)。
+
+| 記号 | 意味 | 既存の記号との区別 |
+|---|---|---|
+| R_src | 源(引きずる側)の回転と軸のモーメントの有効半径(K1 の核の M1 の R) | R_d(引きずり半径 —— 規則の Y_k m・受け手の側と β・W・分母はこちら)とは別の量 |
+| R_obs | 天体の宣言の半径 radius(状態の radOv —— 単精度) | 接触・慣性の半径 S.R = radiusScale·radius とは K1 の本で同じ数 |
+| f_src | 源の慣性係数 I_src/(m R_obs²)(J の宣言 —— 天体ごと) | 維持の型の受け手の慣性係数・扁平率・旧則のフィットの係数とは別の名 |
+| f_recv | 受け手の慣性係数(熱の比較の受け手 I = f_recv m R²) | エンジンの維持の型の I の係数(既定 ½・明示潮汐の inertia)—— 表の 2 列で f_src と分ける |
+| J | 源の角運動量 f_src m R_obs² Ω(一様な球の等価 (2/5) m R_src² Ω) | 鍵の種類の名 "J" は同じ量を指す |
+| D・F₊ | 読み (b) の駆動 Σ[E_axis^cost + max(−E_speed, 0)]・場の正の分 Σ max(E_speed, 0) | 第319便a の契約の「源の場からの符号つきの分 Σ E_speed」とは別の欄 |
+
 **④ 同一(ビット)。** 内蔵 177 本の 600 步の指紋が基点の html(`beta/_w320_base.html`)と同じ(枝の確かめ —— `tests/exp-w258c-bitsame.mjs` —— 177/177)。正本の中の同一(🏀 の写し):
 
 | 同一(🏀 の写し) | 値 |

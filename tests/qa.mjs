@@ -90621,7 +90621,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           if (iG >= 0 && i0 < iG) bad.push('PHYSICS〔第320便a〕が〔第319便 — 統括〕の前');
           for (const w of ['R262', '第122報', 'AN471', 'AN474', 'AN475', 'exp-w320a-srcheat.mjs', 'lib-w320a-srcheat.mjs', 'lib-w320a-srcheatdoc.mjs', 'srcheat-w320a.json', 'behavior.srcHeat320', 'docs.srcHeat320',
             'W320A_OUT', 'W320A_QUICK', 'balance', 'sourceMoment', 'w320a-axishold-balance-2', 'w319a-axishold-balance-1', 'w320a-srcmoment-1', 'contract319', 'inertialDragIsqM1Src', 'axisHoldSourceSum',
-            'R_src', 'R_obs', 'R_d', 'radOv', '単精度', 'k2near', '源の慣性係数', '受け手の慣性係数', '要る τ_hold', '仮定', '文献の値', '一次資料に当たっていない', '履歴', '決断事項の候補', '言わないこと', 'AN481'])
+            'R_src', 'R_obs', 'R_d', 'radOv', '単精度', 'k2near', '源の慣性係数', '受け手の慣性係数', '要る τ_hold', '仮定', '文献の値', '一次資料に当たっていない', '履歴', '決断事項の候補', '言わないこと', 'AN481',
+            '命名の表', 'f_src', 'f_recv'])
             if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第320便a〕に「' + w + '」が無い');
           cases.push(`③ PHYSICS〔第320便a〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
         }
