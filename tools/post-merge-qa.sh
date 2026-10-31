@@ -508,6 +508,18 @@ if [ $NOPRE -eq 0 ]; then
   p=$(count PASS "$LOG/1-preflight.log"); f=$(count FAIL "$LOG/1-preflight.log")
   S1="preflight ${p}/$((p + f))"; [ $rc -eq 0 ] || { S1="$S1 FAIL(rc $rc)"; fail=1; }
 fi
+# ==== 第320便d の塊(ここから)====
+# 第320便d(統括の検証項目 R265 —— 第319便の見落とし): lint の違反を種類で数える(tests/lib-w320d-lintkinds.mjs の印 〔違反の種類 w320d: …〕 を拾う)。
+#   刻印の型(targetSha256・meta.scope・「器を走らせ直す」—— 鎖で直る)とそれ以外を分け、**刻印の型以外が 1 件でもあれば ‼ で目立たせる**(判定は変えない —— fail は従来どおり)。
+kinds320() {
+  [ -f "$1" ] || { echo ""; return; }
+  node --input-type=module -e 'import fs from "node:fs"; const L = await import(process.argv[1]); const r = L.summarizeLog(fs.readFileSync(process.argv[2], "utf8"));
+if (!r.byLint.length) { console.log(""); process.exit(0); }
+const by = r.byLint.filter((z) => z[1] > 0).map((z) => z[0] + " " + z[1]).join("・");
+console.log(r.other > 0 ? "・‼ 刻印の型以外の違反 " + r.other + " 件(" + by + ")・刻印の型 " + r.stamp + " 件" : "・刻印の型以外の違反 0 件(刻印の型 " + r.stamp + " 件 —— 鎖で直る)");' "$ROOT/tests/lib-w320d-lintkinds.mjs" "$1" 2>/dev/null || echo ""
+}
+[ "$S1" = "skip" ] || S1="$S1$(kinds320 "$LOG/1-preflight.log")"
+# ==== 第320便d の塊(ここまで)====
 
 # ② 接続契約
 say "② 接続契約(regen-chain --audit / --self-test)→ $LOG/2-*.log"
@@ -562,6 +574,9 @@ node tests/exp-w258c-qapart.mjs $IDS >"$LOG/4-beta.log" 2>&1; rb=$?
 pb=$(count PASS "$LOG/4-beta.log"); fb=$(count FAIL "$LOG/4-beta.log"); sb=$(count SKIP "$LOG/4-beta.log")
 S4="beta ${pb}/$((pb + fb))$([ "$sb" -gt 0 ] && echo "(SKIP $sb)")"
 [ $rb -eq 0 ] || { S4="$S4 FAIL"; fail=1; }
+# ==== 第320便d の塊(ここから)====
+S4="$S4$(kinds320 "$LOG/4-beta.log")"   # 第320便d(R265): 常設集合の lint.regenScope・lint.provenanceMeta の違反の種類
+# ==== 第320便d の塊(ここまで)====
 if [ $NOROOT -eq 0 ]; then
   say "④ 常設集合 root → $LOG/4-root.log"
   # shellcheck disable=SC2086

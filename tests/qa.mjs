@@ -2574,6 +2574,7 @@ lastAddAt = Date.now();
       rows.push(r);
     }
   } catch (e) { bad.push('来歴の器が読めない: ' + String(e).slice(0, 110)); }
+  const LK320pm = await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null);   // 第320便d(R265): 違反の種類
   add('lint.provenanceMeta', bad.length === 0,
     `**正本 JSON の来歴**(第272便e・AG11・統括の検証項目 R11): 版 \`${PV}\` を `
     + `**${rows.length} 本**に同じ形で持たせた(\`provenanceVersion\`・\`wave\`・\`target\`・`
@@ -2584,7 +2585,8 @@ lastAddAt = Date.now();
     + ` / **第281便a**: 領域一致 ${rows.filter((r) => r.scopeOk === true).length} 本・履歴 ${rows.filter((r) => r.history).length} 本`
     + ` / **不一致は FAIL のまま**(AG10 —— 走らせ直せば直る種類の FAIL で、html や器を変えた枝の`
     + `統合後は統括が再走する)。短縮 hash は表示用で、**判定は完全値**で行う`
-    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+    // 第320便d(R265): 違反は種類で数え、刻印の型以外を先に(判定は不変 —— tests/lib-w320d-lintkinds.mjs)
+    + (bad.length ? (LK320pm ? LK320pm.violationText(bad, { stampMax: 4 }) : ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}`) : ''));
 }
 
 // ---- 第281便a(原仮定者の裁定(第71報)・AN16 採用・統括の検証項目 R71): lint.regenScope ----
@@ -2773,13 +2775,15 @@ lastAddAt = Date.now();
         cases.push(`旧版の刻印の照合: 対象が今の html と同じ ${nSame} 本(${Object.entries(byV).map(([k, v]) => k + ' ' + v).join('・') || 'なし'})のうち刻印の版で一致 ${nOk}`);
       }
     } catch (e) { bad.push('再生成範囲の器が読めない: ' + String(e).slice(0, 160)); }
+    const LK320rs = await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null);   // 第320便d(R265): 違反の種類
     add('lint.regenScope', bad.length === 0,
       `**正本の再生成範囲**(第281便a・原仮定者の裁定(第71報)AN16 採用・統括の検証項目 R71): ${cases.join(' / ')} —— `
       + `**領域 hash** = 器が宣言した html の領域(宣言したプリセットの生の定義と受理後の定義・roots から辿った最上位の依存閉包・`
       + `S._core の本文・宣言した定数)の正準 JSON の sha256。\`targetSha256\` は生成当時の値のまま残し、`
       + `lint.provenanceMeta ② は「一致 **または**(scopeComplete かつ領域 hash 一致)」で通す。**履歴は再生成しない・現行の結論に昇格させない**。`
       + `閉包は**静的な識別子の閉包**(過大近似)で、UI の操作で閉包の値を書き換える経路は辿らない(器は UI を操作しない)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      // 第320便d(R265 —— 第319便は先頭 5 件が刻印の型で「宣言が下限を覆わない」2 件が隠れた): 刻印の型以外を先に(判定は不変)
+      + (bad.length ? (LK320rs ? LK320rs.violationText(bad, { stampMax: 5 }) : ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));
   }
   })();   // 第310便c(heap)
 }
@@ -3075,11 +3079,13 @@ lastAddAt = Date.now();
         } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
       }
     } catch (e) { bad.push('安定 hash の器が読めない: ' + String(e).slice(0, 160)); }
+    const LK320sh = await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null);   // 第320便d(R265): 違反の種類
     add('lint.stableHashPaths', bad.length === 0,
       `**安定 hash の除外契約**(第282便e・統括の検証項目 R82): ${cases.join(' / ')} —— 除くのは**正本ごとに宣言した JSON Pointer**`
       + `(再生成表の段の volatilePaths —— 既定は除外なし・\`*\` は 1 段の任意)だけ。方式の版と Pointer の並びを hash の本文に入れる。`
       + `**安定 hash の一致は「実行時刻と所要以外が同じ」ことだけを意味する**(結果が正しいことの保証ではない)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      // 第320便d(R265): 刻印の型以外を先に(判定は不変)
+      + (bad.length ? (LK320sh ? LK320sh.violationText(bad, { stampMax: 5 }) : ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));
   }
 }
 
@@ -3587,9 +3593,11 @@ lastAddAt = Date.now();
             cases.push(`段 ${c.steps}(器 ${c.harnesses})—— 見込み ${Object.entries(c.byProspect || {}).map(([k, v]) => k + ' ' + v).join(' / ')} —— 使い方 ${Object.entries(c.byKind || {}).map(([k, v]) => k + ' ' + v).join(' / ')}`);
           }
         } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+        const LK320sa = await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null);   // 第320便d(R265): 違反の種類
         add('lint.scopeAll312', bad.length === 0,
           `**REGEN_SCOPE の presets:"all" の段の理由の一覧**(第312便c・決断事項 AN394・統括の検証項目 R232): ${cases.join(' / ')} —— **絞らない**(記録だけ —— 絞るのは影の運用の後)`
-          + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+          // 第320便d(R265): 刻印の型以外を先に(判定は不変)
+          + (bad.length ? (LK320sa ? LK320sa.violationText(bad, { stampMax: 5 }) : ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));
       }
       // ---- docs.w312c
       {
@@ -80684,10 +80692,12 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (out274.length) bad.push('⑤ 第274〜303便の現行の正本で CANON の外 ' + out274.join(','));
       cases.push(`⑤ 第274〜303便の現行の正本で CANON の外 ${out274.length} 本・第304便以降の新しい正本で CANON の外 ${newer.length} 本${newer.length ? '(' + newer.join(',') + ' —— 統合で入れるかを決める)' : ''}`);
     } catch (e) { bad.push('来歴の器が読めない: ' + String(e && e.stack || e).slice(0, 160)); }
+    const LK320c4 = await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null);   // 第320便d(R265): 違反の種類
     add('lint.canon304', bad.length === 0,
       `**第297便以降の現行の正本 16 本と第303便の 3 本を CANON へ**(第304便e・決断事項 AN312 ③ の続き・R198 —— 来歴の照合 lint.provenanceMeta の対象に): ${cases.join(' / ')}`
       + ` —— 不一致は FAIL のまま(AG10 —— 鎖で作り直す段)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      // 第320便d(R265): 刻印の型以外を先に(判定は不変)
+      + (bad.length ? (LK320c4 ? LK320c4.violationText(bad, { stampMax: 6 }) : ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
   }
 }
 
