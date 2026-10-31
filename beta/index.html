@@ -4297,6 +4297,8 @@ const ACCEPT_REASONS = {
   "validateRelativeDragInvSq/physics.relativeDrag.invSq.sourceMoment": 'physics.relativeDrag.invSq.sourceMoment は spinDrag(回転引きずりか軸引きずり)と一緒にだけ(源のモーメントは回転と軸の項にだけ入る —— spinDrag の無い本では何もしない宣言)',
   "validatePreset/physics.relativeDrag.invSq.sourceMoment": (a0, a1)=>'physics.relativeDrag.invSq.sourceMoment.f の添字 '+a0+' の天体は R_src を置けない('+a1+' —— f は dragCore を宣言しない single の天体〔半径 radius > 0 —— 規則の R_d = Y_k m の天体〕だけ)',
   "validatePreset/physics.relativeDrag.invSq.sourceMoment#2": 'physics.relativeDrag.invSq.sourceMoment の kind:"capObs" は物理の単位の宣言 scaleExp {L, M} が要る(上限 6.5×10⁶ m を本の長さの単位へ換算する)',
+  // 第321便d(決断事項 AN502・統括の検証項目 R269): f の添字の天体より前に 1 粒子でない天体(群)がある宣言の拒否の文
+  "validatePreset/physics.relativeDrag.invSq.sourceMoment#3": (a0, a1, a2, a3)=>'physics.relativeDrag.invSq.sourceMoment.f の添字 '+a0+' の天体より前の bodies['+a1+'](type:"'+a2+'"・n = '+a3+')が 1 粒子でない —— 前方の群の展開で天体と粒子の添字が一致しない(f は天体の添字・実行は展開後の粒子の添字で読む —— f を置く天体は、1 粒子でない群より前に並べる)',
   "validateRelativeDragInvSq/msg": '{rot, axial, axialModel?, axialGain?, axialNorm?, axisHold?}',
   "validateRelativeDragInvSq/msg#2": (a0)=>'未知の鍵 '+a0,
   "validateRelativeDragInvSq/rot": 'rot は "surfaceFlip"(回転引きずり —— 源の球の M2)か "off"',
@@ -29176,6 +29178,11 @@ function validatePreset(obj){
       const j=Number(k), b=bs[j];
       const why=!(j<bs.length)? '添字が天体の数の外' : (!b || typeof b!=="object" || b.type!=="single")? 'single の天体でない' : b.dragCore? 'dragCore を宣言した天体' : !(isNum(b.radius) && b.radius>0)? '半径 radius が無い' : null;
       if(why){ bad(reasonText("validatePreset/physics.relativeDrag.invSq.sourceMoment", j, why)); break; }
+      // 第321便d(決断事項 AN502・統括の検証項目 R269): f は天体の添字 —— 実行(inertialDragIsqSrcMoment)と読み口は展開後の粒子の添字で読む。build の展開は
+      //   single → 1 粒子・群(ring・disk・box・grid)→ n 粒子(n は上の正規化で 0〜N_CAP の整数 —— 総数の縮小の後の値)で、三次元の本(spinDrag が要る)の步は粒子を足さず消さない。
+      //   j より前の天体がすべて 1 粒子(single か n = 1 の群)のときだけ両者が一致する —— それ以外は拒否(天体 → 粒子の対応は作らない・自動で付け替えない)
+      const g=bs.findIndex((q,i)=>i<j && q && q.type!=="single" && q.n!==1);
+      if(g>=0){ bad(reasonText("validatePreset/physics.relativeDrag.invSq.sourceMoment#3", j, g, bs[g].type, bs[g].n)); break; }
     }
     if(!errors.length && sm.kind===REL_DRAG_INVSQ_SRC_MOMENT_KINDS[2] && !(p.scaleExp && isNum(p.scaleExp.L) && isNum(p.scaleExp.M))) bad(reasonText("validatePreset/physics.relativeDrag.invSq.sourceMoment#2"));
   }
