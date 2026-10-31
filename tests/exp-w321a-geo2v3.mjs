@@ -17,7 +17,7 @@
 //
 // ■ 試走: W321A_QUICK=1(W321A_OUT が要る —— 正本を書かない・base を 600 步に)。W321A_WORKERS(既定 2 —— base の h/2 の行を子プロセス 1 本で並走)。
 //   W321A_PART=<段,…> で段を絞る(既存の出力の他の段を残して上書き —— 正本は全段で作る)。
-// ■ 言わないこと: 3D で銀河を再現した・3D の回転曲線(本はまだ無い)・q 近似を導いた法則と呼ばない・退化の照合を「法則を確かめた」と書かない(同じ演算列の照合)。
+// ■ 言わないこと: 3D で銀河を表せた・3D の回転曲線(本はまだ無い)・q 近似を導いた法則と呼ばない・退化の照合を「法則を確かめた」と書かない(同じ演算列の照合)。
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -44,7 +44,7 @@ export const PLAN = Object.freeze({ dt: 0.016, degenSteps: 20, d3Steps: 20, covS
   base: Object.freeze({ steps: 12000, mid: 6000, dt: 0.016, h2: true }), rotations: 4, fdH: 1e-4, shellPoints: 12 });
 export const QUICK = Object.freeze({ dt: 0.016, degenSteps: 6, d3Steps: 6, covSteps: 4, ledgerSteps: 10, histSteps: 2,
   base: Object.freeze({ steps: 600, mid: 300, dt: 0.016, h2: false }), rotations: 2, fdH: 1e-4, shellPoints: 4 });
-const NOT_CLAIM = ['3D で銀河を再現したと書かない(本はまだ無い —— 純関数と試験だけ)', '3D の回転曲線と書かない', 'q 近似を導いた法則と呼ばない',
+const NOT_CLAIM = ['3D で銀河を表せたと書かない(本はまだ無い —— 純関数と試験だけ)', '3D の回転曲線と書かない', 'q 近似を導いた法則と呼ばない',
   '退化の照合は同じ演算列の照合(法則の確かめではない)', 'galaxyGeo2 の外縁の比は原理の本の機構の値(実在の銀河の観測の較正ではない)', 'S2 の門の案は案(エンジンは変えていない)'];
 
 /* ───────── 小さい系の本(受理を通す —— 宣言は galaxyGeo2 と同じ物理の欄)───────── */

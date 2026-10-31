@@ -25,7 +25,7 @@
 // ■ この lib の範囲の外(拒否 —— 理由を返す): λ_PN ≠ 0・接触(contactMode が "none" でない)・frameWeight が "share" でない(pull 族は別の分母)・kRep・muF・kappaS・etaRad・
 //   一様外場・ハロー・UniverseBox・pairReduced・coupleSink・cmGauge・dragRef・粒子別 q・コア・熱・相変化・機構スペクトル。
 //
-// ■ 言わないこと: 3D で銀河を再現した・3D の回転曲線(本はまだ無い —— 純関数と試験だけ)。q 近似を導いた法則と呼ばない。
+// ■ 言わないこと: 3D で銀河を表せた・3D の回転曲線(本はまだ無い —— 純関数と試験だけ)。q 近似を導いた法則と呼ばない。
 export const GEO2V3_VERSION = 'w321a-geo2v3-1';
 /** 2D の核から写した上限(行は基点 a708bfe)。 */
 export const GEO2V3_LIMITS = Object.freeze({ duMax: 0.8, duMax2: 0.64, vMax: 100, vMax2: 10000, spinMax: 40, reactDvCap: 16, reactDvCap2: 256, iMin: 1e-9, wMin: 1e-9, dMin: 1e-9 });
