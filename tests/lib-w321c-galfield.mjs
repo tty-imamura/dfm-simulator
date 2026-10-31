@@ -37,8 +37,8 @@ export const DECL = Object.freeze({
   zTop: 40,
   /** 求積の許容(相対 —— 表) */
   quadRel: 1e-10,
-  /** 照合の別経路の中心差分の幅 [kpc](動径・鉛直 —— 鉛直は |z| の 1/4 を上限に: 面の対称の点を跨がない) */
-  fdKpc: 0.02,
+  /** 照合の別経路の中心差分の幅 [kpc](動径・鉛直 —— 鉛直は |z| の 1/4 と fdZmaxKpc を上限に: 面の対称の点を跨がない・最も薄い H2 の層 z_d = 0.045 kpc を刻む) */
+  fdKpc: 0.02, fdZmaxKpc: 0.01,
   /** 有効域(銀河中心系の円筒座標 —— 軸の近くは φ̂ が定まらない・R_max の外は宣言の模型の打ち切りの外) */
   domain: Object.freeze({ RminKpc: 1e-3, RmaxKpc: 40, zAbsMaxKpc: 5 }),
 });
@@ -197,7 +197,7 @@ export function sample(positionKpc, time, sourceState, opts = {}) {
     const u = [c.u * B[0][1], c.u * B[1][1], 0], k = t.coef, G = Gc.map((r) => r.map((v) => v * k)), uk = scl3(u, k);
     const p = { key: t.key, coef: k, kind: 'model', uPhi: c.u * k, halfCurlCyl: { R: c.wr * k, phi: 0, z: c.wz * k }, u: uk, gradU: flat9(G), halfCurl: halfCurlOfG(G), quadErr: { u: c.eU * Math.abs(k), z: c.eZ * Math.abs(k), R: c.eR * Math.abs(k) } };
     if (o.check) {   // 照合の別経路: u_φ の 4 次の中心差分
-      const hR = o.fdKpc, hZ = z === 0 ? o.fdKpc : Math.min(o.fdKpc, Math.abs(z) / 4);
+      const hR = o.fdKpc, hZ = z === 0 ? o.fdKpc : Math.min(o.fdKpc, Math.abs(z) / 4, DECL.fdZmaxKpc);
       const fR = (r) => termUphiOnly(t, r, z, o) * r, dRuFD = d4(fR, R, hR) / (R * KPC);   // ∂_R(R u_φ)/R
       const dZuFD = z === 0 ? 0 : d4((zz) => termUphiOnly(t, R, zz, o), z, hZ) / KPC;
       p.check = { wzFD: 0.5 * dRuFD * k, wrFD: -0.5 * dZuFD * k, routeZ: Math.abs(0.5 * dRuFD - c.wz) * Math.abs(k), routeR: Math.abs(-0.5 * dZuFD - c.wr) * Math.abs(k), hR, hZ };

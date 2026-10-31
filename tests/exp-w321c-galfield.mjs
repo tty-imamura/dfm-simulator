@@ -57,14 +57,14 @@ export const BASE_RECORD = Object.freeze({
 const G384 = Object.freeze({ nr: 384, np: 768, nz: 48 });
 export const PLAN = Object.freeze({
   g0: Object.freeze({ stdSteps: 6000, dbSteps: 6000, ngcSteps: 2500, chainSteps: 400, dt: 0.016 }),
-  R: Object.freeze([2, 4, 6, 8, 8.2, 10, 15]), z: Object.freeze([0, 0.1, -0.1, 0.5, -0.5, 1, -1]), normZ: Object.freeze([0, 0.5]),
+  R: Object.freeze([2, 4, 6, 8, 8.2, 10, 15]), z: Object.freeze([0, 0.1, -0.1, 0.5, -0.5, 1, -1]), normZ: Object.freeze([0, 0.5]), sunZ: Object.freeze([0.01, 0.02, 0.03]),
   rCut: Object.freeze([1, 2, 4, 6, 8, 10]), splitPos: Object.freeze([[8.2, 0, 0], [8.2, 0, 0.5], [4, 0, 0.1], [8.2 * Math.cos(1), 8.2 * Math.sin(1), -0.3], [12, 0, 1]]), rotPhi: Object.freeze([0, 1, 2.5]),
   cells: Object.freeze({ grids: Object.freeze([...L9.GRIDS.map((g) => ({ nr: g.nr, np: g.np, nz: g.nz })), G384]), eps: Object.freeze([0, 0.3]), pos: Object.freeze([[8.2, 0, 0], [4, 0, 0.5]]) }),
   recon: Object.freeze({ edges: Object.freeze([0, 1, 2, 3, 4, 5, 6, 7, 8, 8.2, 9, 10, 11, 12, 13, 14, 15]), n: Object.freeze([6, 12]), RinKpc: 4, perturb: Object.freeze([0.9, 1.1, 0]) }),
   antag: Object.freeze({ rows: Object.freeze([1, 2, 3, 5, 6, 11]), rCut: Object.freeze([2, 4, 6]), rCutMain: 4, kind: 'J' }) });
 export const QUICK = Object.freeze({
   g0: Object.freeze({ stdSteps: 200, dbSteps: 200, ngcSteps: 200, chainSteps: 40, dt: 0.016 }),
-  R: Object.freeze([4, 8.2]), z: Object.freeze([0, 0.5, -0.5]), normZ: Object.freeze([0]),
+  R: Object.freeze([4, 8.2]), z: Object.freeze([0, 0.5, -0.5]), normZ: Object.freeze([0]), sunZ: Object.freeze([0.02]),
   rCut: Object.freeze([2, 4]), splitPos: Object.freeze([[8.2, 0, 0], [8.2, 0, 0.5]]), rotPhi: Object.freeze([0, 1]),
   cells: Object.freeze({ grids: Object.freeze([L9.GRIDS[0], L9.GRIDS[1]].map((g) => ({ nr: g.nr, np: g.np, nz: g.nz }))), eps: Object.freeze([0]), pos: Object.freeze([[8.2, 0, 0]]) }),
   recon: Object.freeze({ edges: Object.freeze([0, 2, 4, 8.2]), n: Object.freeze([4]), RinKpc: 4, perturb: Object.freeze([1.1]) }),
@@ -152,9 +152,11 @@ export function partT(plan) {
     if (r) plane.push({ RKpc: R, uPhi: r.uPhi, uPhi320c: u20, uRel: relDiff(r.uPhi, u20), wZ: r.wZ, wZ320c: w20, wRel: relDiff(r.wZ, w20) });
   }
   for (const r of rows) if (r.zKpc > 0) { const m = rows.find((q) => q.RKpc === r.RKpc && q.zKpc === -r.zKpc); if (m) mirror.push({ RKpc: r.RKpc, zKpc: r.zKpc, uRel: relDiff(r.uPhi, m.uPhi), wZRel: relDiff(r.wZ, m.wZ), wROdd: relDiff(r.wR, -m.wR) }); }
-  const routeRelMax = Math.max(...rows.map((r) => Math.max(r.routeZ / r.wAbs, r.routeR / r.wAbs)));
+  // 太陽の高さの感度(宣言の模型は太陽を面の上 z = 0 に置く —— 面の外へ少し動かしたときの半渦度の向き)
+  const sunZ = plan.sunZ.map((z) => rowOf(F.sample([L9.FLOW.R0kpc, 0, z], 0, null, { check: true })));
+  const routeRelMax = Math.max(...rows.concat(sunZ).map((r) => Math.max(r.routeZ / r.wAbs, r.routeR / r.wAbs)));
   const divRelMax = Math.max(...rows.map((r) => Math.abs(r.divU) / Math.max(...r.gradU.map(Math.abs))));
-  return { rows, plane, mirror, routeRelMax, divRelMax, planeRelMax: Math.max(...plane.map((p) => Math.max(p.uRel, p.wRel))), mirrorRelMax: mirror.length ? Math.max(...mirror.map((m) => Math.max(m.uRel, m.wZRel, m.wROdd))) : 0 };
+  return { rows, sunZ, plane, mirror, routeRelMax, divRelMax, planeRelMax: Math.max(...plane.map((p) => Math.max(p.uRel, p.wRel))), mirrorRelMax: mirror.length ? Math.max(...mirror.map((m) => Math.max(m.uRel, m.wZRel, m.wROdd))) : 0 };
 }
 
 /* ───────── P 中心と残余の重ならない分割・源の宣言・回転の共変 ───────── */
@@ -271,9 +273,9 @@ export function partH(HP, plan) {
     const V = new Float64Array(bodyW.length * 4); bodyW.forEach((q, k) => { V[k * 4] = q.w[0]; V[k * 4 + 1] = q.w[1]; V[k * 4 + 2] = q.w[2]; });
     const SM = new Float64Array(27); E.sourceSum(I, s0, a[0], a[1], a[2], false, V, bodyW.length, SM, null, 0, true);
     gateEngine.push({ i, engine: SM[2], lib: res.solar.source, same: Object.is(SM[2], res.solar.source) });
-    const Om = a.map((q) => q * s0);
+    const Om = a.map((q) => q * s0), aI = scl3(a, Math.sign(s0) || 1);   // â_I = Ω_I の向き(符号つきの自転)
     rows.push({ i, name: L9.BODY16[i], I, Om: Math.abs(s0), OmDotG: dot(a, ga.g) * Math.sign(s0), sats: sats.map((j) => L9.BODY16[j]), wSunAbs: nrm(w(0)), galCenterZ: dot(gc, ga.g), galResidualZ: dot(gr, ga.g), galFullAbs: nrm(gFull),
-      angOmGal: A20.angDeg(Om, gFull), sets: res, cols, h0: st.preset.physics.stepDt * U.time });
+      pSun: dot(w(0), aI), pGal: dot(gFull, aI), pCenter: dot(gc, aI), pResidual: dot(gr, aI), angOmGal: A20.angDeg(Om, gFull), sets: res, cols, h0: st.preset.physics.stepDt * U.time });
   }
   // R_cut の感度(銀河の場だけの 2 源の差 —— 中心と残余の分け方で源ごとの和が動く・合成は動かない)
   const rcRows = [];
@@ -283,7 +285,17 @@ export function partH(HP, plan) {
     const I = 0.5 * S.m[i] * U.mass * Math.pow(S.R[i] * U.len, 2), s0 = S.spin[i] * U.W, a = [S.sax[i], S.say[i], S.saz[i]], q = F.antagOf(cell, I, s0, a, [gc, gr]);
     rcRows.push({ rCutKpc: rc, i, name: L9.BODY16[i], source: q.source, composite: q.composite, diff: q.diff });
   }
-  return { kind: plan.antag.kind, rCutMain: plan.antag.rCutMain, bodies, rows, rcRows, gateEngine, sunDecl: { OmRef: ga.OmRefSI }, warnings: st.warnings };
+  // 衛星の列の対照(源のモーメント capObs —— 衛星の源の R_src が観測の半径〔上限 6.5e6 m〕に: capObs の全熱を太陽の効果と呼ばない —— AN498)
+  const sc = stateOf(E, copyBook(HP, 'solar16', { hold: { mode: 'maintain' }, sm: A20.sourceMomentOf('capObs') })), capRows = [];
+  if (sc.ok) for (const i of plan.antag.rows) {
+    const S2 = sc.S, r = sc.isq.receivers.find((q) => q.i === i), osrc = r.omegaSrc, w = (j) => [osrc[j * 4], osrc[j * 4 + 1], osrc[j * 4 + 2]].map((q) => q * U.W);
+    const I = 0.5 * S2.m[i] * U.mass * Math.pow(S2.R[i] * U.len, 2), s0 = S2.spin[i] * U.W, a = [S2.sax[i], S2.say[i], S2.saz[i]], one = (v) => F.antagOf(cell, I, s0, a, [v]).source;
+    const sats = [], others = []; for (let j = 0; j < n; j++) { if (j === i || j === 0) continue; (L9.SAT_PARENT[j] === i ? sats : others).push(j); }
+    const all = F.antagOf(cell, I, s0, a, [0].concat(sats, others).map(w)), noSat = F.antagOf(cell, I, s0, a, [0].concat(others).map(w));
+    capRows.push({ i, name: L9.BODY16[i], sun: one(w(0)), sats: sats.reduce((q, j) => q + one(w(j)), 0), others: others.reduce((q, j) => q + one(w(j)), 0), allSource: all.source, allComposite: all.composite, allDiff: all.diff,
+      noSatSource: noSat.source, noSatComposite: noSat.composite, sunShareOfAll: one(w(0)) / all.source });
+  }
+  return { kind: plan.antag.kind, rCutMain: plan.antag.rCutMain, bodies, rows, rcRows, capRows, gateEngine, sunDecl: { OmRef: ga.OmRefSI }, warnings: st.warnings };
 }
 
 /* ───────── 門 ───────── */

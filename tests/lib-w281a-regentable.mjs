@@ -1517,6 +1517,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/nbcompose-w320c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第320便c: 太陽系近傍の銀河の軸の源の合成(中心 1 体と銀河の渦の中の半渦度 —— 重ならない成分のベクトル和・κ_v は宣言する対応)を第319便b の宣言の模型の写しで測る(源の半渦度の格子の感度と環の積分の連続の値・中心と残余の分割・6 天体の拮抗)—— エンジン・在位の本は変えない・半渦度を受け手の軸へ直結する項は足さない' }),
   // ==== 第320便c の塊(ここまで)====
+  // ==== 第321便c の塊(ここから)====
+  // ---- 第321便c(原仮定者の予定(第123報)「geoPN=4の予定: 処理を一新する。銀河の軸引きずりの知見から、銀河の回転引きずりを推定して、銀河のサンプルを作成する」・原仮定者の回答
+  //   (2026-10-31 —— AN489)・決断事項 AN486・AN487・AN488・AN496・AN497・AN498・統括の検証項目 R268): **geoPN=4 の一新の S1 の器**(段 galfield-321c —— G0 比較の基準の凍結〔在位の
+  //   🔩🍥 と 🎡🍳🛞 を QA と同じ測り方で走らせて宣言の署名・窓・値・状態の指紋・所要〕・T 銀河の中の任意の位置の源の流れの場〔R × z の表・2 経路・面への退化・鏡の対称〕・P 中心と
+  //   残余の重ならない分割〔R_cut × 任意の位置〕・N 点のセルの和〔格子の感度〕・V 半渦度 ↔ u_φ の対照〔境界つきの復元〕・H 太陽系の天体ごとの位置と 6 天体の拮抗の符号つきの表)。
+  //   html・エンジン・在位の本は変えない。html を読む(G0 は在位の本を build して步を進める〔🎡🍳 は loadPreset と abStart の A/B —— QA と同じ〕・H は第320便a の器の 🗺️ の写し +
+  //   源のモーメント J の初期の状態の読み口と純関数)。子プロセス 2 本(W321C_WORKERS)。所要は第321便c の枝の実測(**並走の秒** —— 4 枝並走の容器 —— 統括が混まない箱で測り直す)
+  S('galfield-321c', 'node tests/exp-w321c-galfield.mjs', ['tests/out/galfield-w321c.json'], 180, { secSource: 'w321c-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/galfield-w321c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/G0/std/wallSec', '/G0/db/wallSec', '/G0/rest/*/wallSec', '/G0/rest/*/usPerStep']) },
+    note: '第321便c: geoPN=4 の一新の S1 —— 比較の基準の凍結(在位の geoPN=4 と銀河の本)・銀河の中の任意の位置の源の流れの場の純関数(u・∇u・半渦度・有効域・誤差 —— 中心と残余の重ならない分割・演算 B・環の積分を参照)・半渦度 ↔ u_φ の対照(境界つきの復元)・6 天体の拮抗の符号つきの表と衛星の列(エンジン・在位の本は変えない・半渦度を受け手の軸へ直結する項は足さない)' }),
+  // ==== 第321便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

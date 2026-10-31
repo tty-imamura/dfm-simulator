@@ -2509,6 +2509,9 @@ lastAddAt = Date.now();
       // ==== 第320便c の塊(ここから)==== 太陽系近傍の銀河の軸の源の合成の器(nbcompose-320c —— 1 プロセス・步は進めない)。領域 REGEN_SCOPE を刻む
       'tests/out/nbcompose-w320c.json',
       // ==== 第320便c の塊(ここまで)====
+      // ==== 第321便c の塊(ここから)==== geoPN=4 の一新の S1 の器(galfield-321c —— G0 は在位の本を走らせる・子プロセス 2 本)。領域 REGEN_SCOPE を刻む
+      'tests/out/galfield-w321c.json',
+      // ==== 第321便c の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
@@ -91141,6 +91144,126 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第320便d の塊(ここまで)====
+// ==== 第321便c の塊(ここから —— docs.galField321c の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第321便c(原仮定者の予定(第123報)「geoPN=4の予定: 処理を一新する。銀河の軸引きずりの知見から、銀河の回転引きずりを推定して、銀河のサンプルを作成する」・
+// ----   原仮定者の回答(2026-10-31 —— AN489)・決断事項 AN486・AN487・AN488・AN496・統括の検証項目 R268): **geoPN=4 の一新の S1**(新設 —— root は SKIP)。html を読まない QA
+// ----   (正本と純関数と文書だけ)。世代切替 = beta 対象 ∧ 器 tests/exp-w321c-galfield.mjs ∧ lib tests/lib-w321c-galfield.mjs ∧ 文書の lib tests/lib-w321c-galfielddoc.mjs
+// ----   (html・エンジン・在位の本は変えない)。
+// ----   docs.galField321c(正本 tests/out/galfield-w321c.json):
+// ----     ① 正本の門(器の gatesOf で作り直して同じ・全部真)・試走でない・計画が器の PLAN・基点の記録が器の BASE_RECORD・版/来歴(w272e-1)・領域 hash(完全)・文献の値の出典の欄
+// ----     ② 純関数で作り直す: 場の API(太陽の位置と面の外の点の u_φ・ω½ —— 正本の表の行)・中心と残余の分割の和 = 全場(R_cut 4 kpc・面の外の点)・源の宣言の受理と拒否・
+// ----        円筒 → デカルトの勾配(剛体の回転で ω½ = Ω・発散 0)・J 双極子(第320便c の dipoleHalfCurl と同じ)・境界つきの復元の解析の場面(剛体・差動・C/R)・
+// ----        拮抗の表の内部の整合(1 源の差 0・源ごとの和の加法)(超越関数と適応の求積を通る数は相対 1e-9 —— 完全一致で比べない)
+// ----     ③ 表の行と数が PHYSICS〔第321便c〕に逐語・節が「## 7.」の前・必須の語・AI_SPEC §161・CHANGELOG・再生成の段・.gitignore・post-merge・CANON・煙試験の窓
+// ----     ④ 書かない語・禁句・裸の κ・新しい文の r_d・km/s の数(節と器と lib と文書の lib・AI_SPEC §161)
+{
+  await (async () => {   // 第310便c(heap)の型: 本文を関数で包む
+  const cHarn = path.join(ROOT, 'tests', 'exp-w321c-galfield.mjs'), cLib = path.join(ROOT, 'tests', 'lib-w321c-galfield.mjs'), cDoc = path.join(ROOT, 'tests', 'lib-w321c-galfielddoc.mjs');
+  const cOut = path.join(ROOT, 'tests', 'out', 'galfield-w321c.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(cHarn) && fs.existsSync(cLib) && fs.existsSync(cDoc))) {
+    console.log('SKIP docs.galField321c(第321便c の geoPN=4 の一新の S1 の器の前の世代 — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+  const nearT = (tol) => { const f = (a, b) => (typeof a === 'number' && typeof b === 'number') ? (Object.is(a, b) || Math.abs(a - b) <= tol * Math.max(Math.abs(a), Math.abs(b)))
+    : (a && b && typeof a === 'object' && typeof b === 'object') ? (Array.isArray(a) === Array.isArray(b) && Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => Object.prototype.hasOwnProperty.call(b, k) && f(a[k], b[k])))
+    : JSON.stringify(a) === JSON.stringify(b); return f; };
+  const near12 = nearT(1e-12), near9 = nearT(1e-9);
+  let X = null, F0 = null, D0 = null, C20 = null, err0 = null;
+  try { X = await import('file://' + cHarn); F0 = await import('file://' + cLib); D0 = await import('file://' + cDoc); C20 = await import('file://' + path.join(ROOT, 'tests', 'lib-w320c-nbcompose.mjs')); } catch (e) { err0 = String(e).slice(0, 160); }
+  const bad = [], cases = [];
+  const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QA0 = rd('tests/qa.mjs'), CLx = rd('CHANGELOG.md'), HS = rd('tools/harness-smoke.mjs');
+  const i0 = PH.indexOf('〔第321便c — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+  const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+  const strip = (t) => t.replace(/「[^」]*」/g, '');
+  const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /一致した/, /確認した/, /法則を確かめた/, /シュヴァルツシルト半径そのもの/, /現実の核/, /検証が完了した/, /地平面を判定した/, /ダークマターを説明した/,
+    /暦表に一致した/, /内部熱を説明した/, /金星の逆転を説明した/, /中心 1 体の銀河の引きずり/, /銀河の引きずりを測った/, /半渦度は軸引きずり/, /回転曲線を予言した/, /流れが自己形成した/];
+  const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+  const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+  const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+  let J = null;
+  if (err0) bad.push('器/lib が読めない: ' + err0);
+  try { J = JSON.parse(fs.readFileSync(cOut, 'utf8')); } catch (e) { bad.push('正本 galfield が読めない'); }
+  if (J && X && F0 && D0 && C20) {
+    try {
+      // ①
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('① 正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('① 正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('① 門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length) bad.push('① 門の数が器と違う');
+      if (J.quick === true) bad.push('① 正本が試走(QUICK)');
+      if (!near12(J.plan, clone(X.PLAN))) bad.push('① 計画が器の PLAN と違う');
+      if (!near12(J.baseRecord, clone(X.BASE_RECORD))) bad.push('① 基点の記録が器の BASE_RECORD と違う');
+      if (J.version !== X.HARNESS_VERSION || J.libVersion !== F0.LIB_VERSION || J.fieldVersion !== F0.FIELD_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.stage === 'galfield')) bad.push('① 正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('① 正本に領域 hash(完全)が無い');
+      if (!(J.meta && Array.isArray(J.meta.literature) && J.meta.literature.length >= 1 && J.meta.literature.every((t) => t.indexOf('一次資料に当たっていない') >= 0))) bad.push('① 文献の値の出典の欄(meta.literature)');
+      cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して同じ)・G0 ${2 + J.G0.rest.length} 本・場の表 ${J.T.rows.length} 点・分割 ${J.P.rows.length}・点の和 ${J.N.rows.length}・復元 ${J.V.rows.length}・拮抗 ${J.H.rows.length} 天体`);
+      // ② 場の API(太陽の位置・面の外の点)
+      const s0 = F0.sample([8.2, 0, 0], 0, null, {}), t0 = J.T.rows.find((r) => r.RKpc === 8.2 && r.zKpc === 0);
+      if (!(t0 && near9(s0.uPhi, t0.uPhi) && near9(s0.halfCurlCyl.z, t0.wZ) && s0.halfCurlCyl.R === 0 && s0.ok && s0.version === F0.FIELD_VERSION && Array.isArray(s0.gradU) && s0.gradU.length === 9 && near12(s0.dUdt, [0, 0, 0]))) bad.push('② 太陽の位置の場を作り直すと正本の行と違う');
+      const s5 = F0.sample([8.2, 0, 0.5], 0, null, {}), t5 = J.T.rows.find((r) => r.RKpc === 8.2 && r.zKpc === 0.5);
+      if (!(t5 && near9(s5.uPhi, t5.uPhi) && near9(s5.halfCurlCyl.z, t5.wZ) && near9(s5.halfCurlCyl.R, t5.wR))) bad.push('② 面の外の点(8.2, 0, 0.5)の場を作り直すと正本の行と違う');
+      const sp = F0.sample([8.2, 0, 0.5], 0, F0.splitState(4), {}), pc = sp.parts.find((p) => p.key === 'center'), pr = sp.parts.find((p) => p.key === 'residual');
+      const vr = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]) / Math.max(Math.hypot(...a), Math.hypot(...b));
+      if (!(vr(sp.halfCurl, s5.halfCurl) <= 1e-8 && vr(sp.u, s5.u) <= 1e-8 && Math.abs(pc.halfCurlCyl.z + pr.halfCurlCyl.z - s5.halfCurlCyl.z) <= 1e-8 * Math.abs(s5.halfCurlCyl.z))) bad.push('② 中心と残余の和(R_cut 4 kpc・面の外の点)が全場と違う');
+      let threw = 0; for (const st of [{ model: F0.MODEL_ID, terms: [F0.splitState(5).terms[0], F0.splitState(4).terms[1]] }, { model: F0.MODEL_ID, terms: [{ key: 'p', owns: [{ comp: 'galaxy:proxy' }], proxy: { J: 1 } }, F0.splitState(4).terms[1]] },
+        { model: 'x', terms: F0.fullState().terms }, { model: F0.MODEL_ID, terms: [{ key: 'p', owns: [{ comp: 'galaxy:proxy' }] }] }]) { try { F0.checkState(st); } catch (e) { threw++; } }
+      if (!(threw === 4 && F0.checkState(F0.splitState(4)).length === 2)) bad.push('② 源の宣言の受理と拒否(重なり・代理 + 残余・模型の名・代理の J)');
+      { const Om = 3e-16, Rm = 5 * F0.KPC, G3 = F0.gradCartOf(0.7, Om * Rm, Rm, Om, 0), hc = F0.halfCurlOfG(G3);
+        if (!(Math.abs(hc[2] - Om) <= 1e-12 * Om && Math.abs(hc[0]) <= 1e-12 * Om && Math.abs(hc[1]) <= 1e-12 * Om && Math.abs(G3[0][0] + G3[1][1] + G3[2][2]) <= 1e-12 * Om)) bad.push('② 円筒 → デカルトの勾配(剛体の回転で ω½ = Ω・発散 0)'); }
+      { const Jv = [0.3e67, -0.2e67, 1e67], x = [7e19, 1e20, -3e19], d = F0.dipoleField(Jv, x), w = C20.dipoleHalfCurl(Jv, x);
+        if (!(vr(d.halfCurl, w) <= 1e-12)) bad.push('② J 双極子の半渦度が第320便c の dipoleHalfCurl と違う'); }
+      { const K = F0.KPC, U = (o) => F0.uphiFromHalfCurl(Object.assign({ n: 8 }, o)), w = 1e-15, a = 1e-15, b = 2e-17;
+        const ok = Math.abs(U({ RKpc: 5, RinKpc: 0, uIn: 0, omegaOf: () => w }) - w * 5 * K) <= 1e-12 * w * 5 * K && Math.abs(U({ RKpc: 3, RinKpc: 0, uIn: 0, omegaOf: (s) => a + b * s * s }) - (a * 3 + b * 13.5) * K) <= 1e-12 * (a * 3 + b * 13.5) * K
+          && U({ RKpc: 4, RinKpc: 2, uIn: 3, omegaOf: () => 0 }) === 1.5 && U({ RKpc: 4, RinKpc: 2, uIn: 5, omegaOf: () => 0 }) === 2.5;
+        let rj = 0; try { U({ RKpc: 1, RinKpc: 0, uIn: 1, omegaOf: () => 0 }); } catch (e) { rj++; }
+        if (!(ok && rj === 1)) bad.push('② 境界つきの復元の解析の場面(剛体・差動・C/R・正則な原点)'); }
+      for (const r of J.H.rows) {
+        const S = r.sets, sc = Math.max(S.all.source, 1e-300);
+        if (!(S.sun.diff === 0 && S.galaxyOne.diff === 0)) bad.push('② ' + r.name + ' の 1 源の差が 0 でない');
+        if (!(Math.abs(S.all.source - (S.solar.source + r.cols.galCenter + r.cols.galResidual)) <= 1e-12 * sc && Math.abs(S.sunGalaxy.source - (r.cols.sun + r.cols.galCenter + r.cols.galResidual)) <= 1e-12 * sc)) bad.push('② ' + r.name + ' の源ごとの和の加法');
+        if (!(S.solar.source >= r.cols.sun)) bad.push('② ' + r.name + ' の太陽系の源ごとの和が太陽の列より小さい');
+      }
+      cases.push(`② 純関数で作り直す —— 場の API(太陽の位置・面の外の点)・中心と残余の和 = 全場・源の宣言(拒否 ${threw})・円筒 → デカルト・J 双極子・境界つきの復元の解析の場面・拮抗の表の内部の整合 ${J.H.rows.length} 天体(相対 1e-9/1e-12)`);
+      // ③
+      if (!sec) bad.push('PHYSICS〔第321便c〕が無い');
+      else {
+        const rows = D0.physicsTablesGalField(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'));
+        let nMiss = 0; for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第321便c〕の表に行が無い: ' + r.slice(0, 70)); }
+        const nums = D0.docNumbersGalField(J), missN = nums.filter((x) => sec.indexOf(x) < 0); if (missN.length) bad.push('PHYSICS〔第321便c〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第321便c〕が「## 7. 論文」の後');
+        for (const w of ['R268', '第123報', 'AN489', 'AN486', 'AN487', 'AN488', 'AN496', 'AN498', 'exp-w321c-galfield.mjs', 'lib-w321c-galfield.mjs', 'lib-w321c-galfielddoc.mjs', 'galfield-w321c.json', 'docs.galField321c', 'W321C_OUT', 'W321C_QUICK',
+          'sample(position, time, sourceState)', 'validDomain', 'dUdt', '0 で埋めない', '演算 B', '重ならない', 'R_cut', '環の積分', '部分積分', '格子の感度', '軟化の幅', '一意に決まらない', 'C/R', '剛体の回転だけ', '境界つきの復元',
+          '符号つき', '非負へ切らない', '衛星', '同じ τ', '規定された外部場', '自己無撞着', 'AN501', 'AN503', '(∇Z × A)/(2Z²)', '二度加えない', '文献の値', '一次資料に当たっていない', '決断事項の候補', '言わないこと', 'エンジンに足していない', 'S2'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第321便c〕に「' + w + '」が無い');
+        cases.push(`③ PHYSICS〔第321便c〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
+      }
+      const ai = AS.indexOf('## 161.'), as = ai >= 0 ? AS.slice(ai, ai + 8000) : '';
+      if (ai < 0) bad.push('AI_SPEC に §161 が無い');
+      else for (const w of ['exp-w321c-galfield.mjs', 'lib-w321c-galfield.mjs', 'galfield-w321c.json', 'docs.galField321c', 'AN489', 'R268', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §161 に「' + w + '」が無い');
+      { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, ci + 60000) : ''; if (cs.indexOf('第321便c') < 0) bad.push('CHANGELOG の beta の節に第321便c が無い'); }
+      if (RT.indexOf("S('galfield-321c', 'node tests/exp-w321c-galfield.mjs', ['tests/out/galfield-w321c.json']") < 0 || !/secSource: 'w321c-branch'/.test(RT)) bad.push('再生成の段 galfield-321c');
+      if (GI.indexOf('!tests/out/galfield-w321c.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('# ==== 第321便c の塊(ここから)====') < 0 || PM.indexOf('docs.galField321c') < 0) bad.push('post-merge の ③′ に第321便c の塊が無い');
+      if (QA0.indexOf("'tests/out/galfield-w321c.json',") < 0) bad.push('CANON(lint.canon304)に第321便c の正本が無い');
+      if (HS.indexOf("'galfield-321c': {") < 0) bad.push('煙試験の窓の表(SMOKE_KNOBS)に galfield-321c が無い');
+      // ④
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第321便c〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) { if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第321便c〕に禁句(' + w.length + ' 字)'); if (as.indexOf(w) >= 0) bad.push('AI_SPEC §161 に禁句(' + w.length + ' 字)'); }
+      if (/κ(?!_D)/.test(sec.replace(/`[^`\n]*`/g, '')) || /κ(?!_D)/.test(as.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第321便c〕/AI_SPEC §161 に裸の κ(κ_v はコードの書式の中・κ は κ_D だけ)');
+      if (/(?<![\w`])r_d(?![\w`])/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第321便c〕の新しい文に r_d(引きずり半径は R_d)');
+      if (/\d\s*km\/s/.test(sec)) bad.push('PHYSICS〔第321便c〕に km/s の数(SI で書く)');
+      for (const f of ['tests/exp-w321c-galfield.mjs', 'tests/lib-w321c-galfield.mjs', 'tests/lib-w321c-galfielddoc.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); if (/κ(?!_[Dv])/.test(tx)) bad.push(f + ' に裸の κ'); for (const re of NOT) if (re.test(tx)) bad.push(f + ' に書かない語 ' + re.source); }
+      cases.push('④ 書かない語・禁句・裸の κ・新しい文の r_d・km/s の数(節と器と lib と文書の lib・AI_SPEC §161)');
+    } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+  }
+  add('docs.galField321c', bad.length === 0,
+    `**geoPN=4 の一新の S1 —— 比較の基準の凍結・銀河の中の任意の位置の源の流れの場・半渦度 ↔ u_φ の対照・拮抗の符号つきの表**(第321便c・原仮定者の予定(第123報)・AN489・AN486・AN487・AN488・AN496・R268 —— 正本 galfield-w321c.json・エンジン・在位の本は不変・半渦度を受け手の軸へ直結する項は足さない): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)の型
+}
+// ==== 第321便c の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
