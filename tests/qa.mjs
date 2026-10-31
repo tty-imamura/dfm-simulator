@@ -90515,6 +90515,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (!LK) bad.push('① tests/lib-w320d-lintkinds.mjs が読めない');
     else {
       const S1 = '② tests/out/x.json の meta.scope が器の宣言と違う(器を走らせ直すこと)', S2 = '②tests/out/y.json の targetSha256 が現行 beta/index.html と一致しない —— **器を走らせ直すこと**';
+      const S3 = '④ tests/out/z.json のコード tests/exp-z.mjs が刻印と違う —— 鎖で作り直す段 z';   // lint.canon304 の刻印の型の書き方
+      if (LK.classifyViolation(S3) !== 'stamp') bad.push('① 「鎖で作り直す」の文が刻印の型でない');
       const O1 = '② exp-a.mjs の宣言が下限を覆わない: preset p', O2 = '③ 常時群の集合が契約と違う: x';
       if (!(LK.classifyViolation(S1) === 'stamp' && LK.classifyViolation(S2) === 'stamp' && LK.classifyViolation(O1) === 'other' && LK.classifyViolation(O2) === 'other')) bad.push('① 分類');
       const k = LK.violationKinds([S1, O1, S2, O2]);
@@ -90525,7 +90527,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (LK.violationText([]) !== '') bad.push('① 違反 0 件で空でない');
       const sl = LK.summarizeLog('FAIL lint.regenScope  x' + t + '\nPASS lint.a  y\nFAIL lint.provenanceMeta  z' + LK.violationText([S1]) + '\n');
       if (!(sl.other === 1 && sl.stamp === 6 && sl.byLint.length === 2)) bad.push('① summarizeLog');
-      cases.push(`① 版 ${LK.LINT_KINDS_VERSION}: 刻印の型 =「走らせ直す」の文・それ以外を先(元の順)・刻印の型は 2 件まで・印 〔違反の種類 w320d: …〕・ログの集計`);
+      cases.push(`① 版 ${LK.LINT_KINDS_VERSION}: 刻印の型 =「走らせ直す」「鎖で作り直す」の文・それ以外を先(元の順)・刻印の型は 2 件まで・印 〔違反の種類 w320d: …〕・ログの集計`);
     }
     // ② 5 本の lint の detail
     const VAR = { 'lint.provenanceMeta': 'LK320pm', 'lint.regenScope': 'LK320rs', 'lint.stableHashPaths': 'LK320sh', 'lint.scopeAll312': 'LK320sa', 'lint.canon304': 'LK320c4' };
@@ -90685,7 +90687,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     else {
       const i7 = PH320.indexOf('\n## 7.'), i319 = PH320.indexOf('〔第319便 — 統括');
       if (!(a320 < i7 && i319 >= 0 && i319 < a320)) bad.push('⑥ 節の位置(〔第319便 — 統括〕の後・「## 7.」の前)');
-      for (const b of ['a', 'b', 'c']) { const k = PH320.indexOf('〔第320便' + b + ' — '); if (k >= 0 && k > a320) bad.push('⑥ 〔第320便' + b + '〕が〔第320便d〕の後'); }
+      for (const [b, k] of [['a', PH320.indexOf('〔第320便a — ')], ['b', PH320.indexOf('〔第320便b — ')], ['c', PH320.indexOf('〔第320便c — ')]]) if (k >= 0 && k > a320) bad.push('⑥ 〔第320便' + b + '〕が〔第320便d〕の後');
       for (const w of ['AN478', 'AN481', 'AN477', 'AN455', 'AN476', 'R265', 'lint.violationKinds320', 'lint.byproducts320', 'docs.w320d', 'violationText', 'BYPRODUCTS_320D', 'tools/an481-probe.mjs', 'tests/data-w320d-perbook.json', '--classify', 'P0', 'P1', 'P2', 'P4', 'm1key', 'm3reject', 'isRuleBookW320', 'qaProvenance', '**表 1', '**表 2']) if (sec320.indexOf(w) < 0) bad.push('⑥ PHYSICS〔第320便d〕に「' + w + '」が無い');
     }
     const AI = rd320('docs/AI_SPEC.md'), ai158 = (() => { const m = /\n## 158\. 第320便d[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
