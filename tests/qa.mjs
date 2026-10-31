@@ -2500,6 +2500,9 @@ lastAddAt = Date.now();
       // ==== 第319便b の塊(ここから)==== 引きずる側の半径 R_src の 3 案・分布した銀河の太陽系近傍・天体別の役割の表の器(srcradius-319b —— 1 プロセス・步は進めない)。領域 REGEN_SCOPE を刻む
       'tests/out/srcradius-w319b.json',
       // ==== 第319便b の塊(ここまで)====
+      // ==== 第320便c の塊(ここから)==== 太陽系近傍の銀河の軸の源の合成の器(nbcompose-320c —— 1 プロセス・步は進めない)。領域 REGEN_SCOPE を刻む
+      'tests/out/nbcompose-w320c.json',
+      // ==== 第320便c の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {

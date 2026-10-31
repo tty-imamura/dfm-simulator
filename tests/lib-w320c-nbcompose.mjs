@@ -206,6 +206,8 @@ export function gradBetaOf(GGC, GCo, Vref) {
 }
 /** ω_GC = ω_Co + ½ ∇β × V_ref(V_ref は一様 —— 回る座標や場所で変わる V_ref には別の項が要る) */
 export function sourceCurlOf(wCo, gradBeta, Vref) { const c = cross(gradBeta, Vref); return [wCo[0] + 0.5 * c[0], wCo[1] + 0.5 * c[1], wCo[2] + 0.5 * c[2]]; }
+/** ベクトルの差の大きさ(尺度のベクトル s の大きさで割る —— 小さい成分の相対で割らない) */
+export const vecRelOf = (a, b, s) => { const d = Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]), q = nrm(s); return q > 0 ? d / q : d; };
 /** 受け手の動きの項 −½ ∇β × V_ref(ω_Co = ω_GC + この項) */
 export function observerCurlOf(gradBeta, Vref) { return scl3(cross(gradBeta, Vref), -0.5); }
 
