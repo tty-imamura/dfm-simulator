@@ -1,0 +1,1650 @@
+{
+ "version": "w320d-roster-1",
+ "lib": "w320d-perbook-1",
+ "count": {
+  "A": 12,
+  "B": 33,
+  "C": 159
+ },
+ "secByTier": {
+  "A": 5492,
+  "B": 11180,
+  "C": 51307
+ },
+ "reuseContract": "本ごとの行を再利用してよいのは入力 hash(本の生の定義と受理後の定義の hash)・コード(器と lib の sha)・環境(Node と Chromium の版)の一致する行だけ(AN478)",
+ "note": "機械の読み(器の --only/--merge・正本の本ごとの容器・全体集計/共有フィット/対の比較の印)。A = 本ごとに分けられる(--merge の実装は名簿の上位から)・B = 器を読んで確かめる候補・C = 全体の再走",
+ "rows": [
+  {
+   "key": "obsintake",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "recordid",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "corrections",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "bh90",
+   "tier": "C",
+   "presets": null,
+   "only": true,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "nslock",
+   "tier": "A",
+   "presets": 9,
+   "only": true,
+   "merge": false,
+   "why": "器に --only があり正本に本ごとの容器 nslock-w272c.json#/builtinDeclared(8 本)"
+  },
+  {
+   "key": "plutostates",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "calaudit",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "dt3",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "kf0",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "solarsigma",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "d68three",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "stoprule",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "issues",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "assessed",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": true,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "d0audit",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(39/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "charon-h",
+   "tier": "A",
+   "presets": 10,
+   "only": true,
+   "merge": false,
+   "why": "器に --only があり正本に本ごとの容器 charon-w272b.json#/declaredSystems(9 本)"
+  },
+  {
+   "key": "charon-h2",
+   "tier": "A",
+   "presets": 10,
+   "only": true,
+   "merge": false,
+   "why": "器に --only があり正本に本ごとの容器 charon-w272b.json#/declaredSystems(9 本)"
+  },
+  {
+   "key": "charon-h4",
+   "tier": "A",
+   "presets": 10,
+   "only": true,
+   "merge": false,
+   "why": "器に --only があり正本に本ごとの容器 charon-w272b.json#/declaredSystems(9 本)"
+  },
+  {
+   "key": "charonk",
+   "tier": "C",
+   "presets": 2,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "charoneps-h",
+   "tier": "A",
+   "presets": 10,
+   "only": true,
+   "merge": false,
+   "why": "器に --only があり正本に本ごとの容器 charoneps-w276b.json#/declaredSystems(9 本)"
+  },
+  {
+   "key": "charoneps-h2",
+   "tier": "A",
+   "presets": 10,
+   "only": true,
+   "merge": false,
+   "why": "器に --only があり正本に本ごとの容器 charoneps-w276b.json#/declaredSystems(9 本)"
+  },
+  {
+   "key": "charoneps-h4",
+   "tier": "A",
+   "presets": 10,
+   "only": true,
+   "merge": false,
+   "why": "器に --only があり正本に本ごとの容器 charoneps-w276b.json#/declaredSystems(9 本)"
+  },
+  {
+   "key": "charonfactors",
+   "tier": "C",
+   "presets": 2,
+   "only": true,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "charondfm",
+   "tier": "A",
+   "presets": 2,
+   "only": true,
+   "merge": false,
+   "why": "器に --only があり正本に本ごとの容器 charondfm-w277b.json#/history/w277b/columns(2 本)"
+  },
+  {
+   "key": "charonwin",
+   "tier": "C",
+   "presets": 2,
+   "only": true,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "sparc",
+   "tier": "A",
+   "presets": 3,
+   "only": true,
+   "merge": false,
+   "why": "器に --only があり正本に本ごとの容器 sparc-w269c.json#/presetFacts(2 本)"
+  },
+  {
+   "key": "cluster",
+   "tier": "A",
+   "presets": 3,
+   "only": true,
+   "merge": false,
+   "why": "器に --only があり正本に本ごとの容器 cluster-w269d.json#/presetFacts(2 本)"
+  },
+  {
+   "key": "galaxydiag",
+   "tier": "A",
+   "presets": 2,
+   "only": true,
+   "merge": false,
+   "why": "器に --only があり正本に本ごとの容器 galaxydiag-w271d.json#/quasiSteady/columns(2 本)"
+  },
+  {
+   "key": "qsplit",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "twobody",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "rpar",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "nslockledger",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "intakeB",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "confirm2",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "confirm3",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "confirm4",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "declmatch",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "solutionid",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "derived",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "bhcore",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "armbar",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "sync",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "shapetoy",
+   "tier": "B",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 shapetoy-w274d.json#/reference(3/3 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "galaxylite",
+   "tier": "B",
+   "presets": 2,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 galaxylite-w274c.json#/table(2/2 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "galaxyprof2",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "meshnod0",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "shapecrit",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(3/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "dyncenter",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "powerball",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "presetaxes",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "bgfield",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "d0audit2",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "bgpredict",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "powerball2",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "corefield",
+   "tier": "B",
+   "presets": 5,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 corefield-w276d.json#/engineMatch(3/5 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "galaxyproto",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "nsgrid",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "selfinertia",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "slipaudit",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "nsmode",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "bgequiv",
+   "tier": "B",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 bgequiv-w278d.json#/samples(3/3 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "bgbudget",
+   "tier": "B",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 bgbudget-w277d.json#/declaredFromPage(3/3 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "bgcompose",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "bgbudget2",
+   "tier": "B",
+   "presets": 4,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 bgbudget2-w279c.json#/samples(3/4 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "sphereKernel",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "galaxyprof",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "needmesh",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "d68",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(2/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "emgrid",
+   "tier": "C",
+   "presets": 5,
+   "only": false,
+   "merge": true,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "kf0ledger-old",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "kf0ledger",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "charonInput",
+   "tier": "A",
+   "presets": 5,
+   "only": true,
+   "merge": false,
+   "why": "器に --only があり正本に本ごとの容器 charoninput-w280d.json#/sameDef/rows(4 本)"
+  },
+  {
+   "key": "geo3",
+   "tier": "C",
+   "presets": 35,
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(2/35 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "galaxychain",
+   "tier": "B",
+   "presets": 4,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 galaxychain-w281b.json#/contract(4/4 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "rotorledger",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "analogy",
+   "tier": "B",
+   "presets": 7,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 analogy-w282d.json#/contract/presets(4/7 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "strain",
+   "tier": "C",
+   "presets": 2,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "calcontract",
+   "tier": "B",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 calcontract-w282a.json#/rows(177/177 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "obscompare",
+   "tier": "C",
+   "presets": 38,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "samplestatus",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "htmlagg",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "mercury",
+   "tier": "C",
+   "presets": 35,
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(2/35 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "dragprofile",
+   "tier": "B",
+   "presets": 21,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 dragprofile-w282c.json#/table/presets(19/21 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "clusterAnalogy",
+   "tier": "B",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 cluster-w283f.json#/rays/survey(177/177 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "clusterStable",
+   "tier": "C",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "pn1",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "全体集計: 文字列の式 evalExpr で HP.allPresets().filter(geoPN)・.map(id)・.length を読む(内蔵の全本の数え上げ)"
+  },
+  {
+   "key": "pnsource286",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "全体集計: 文字列の式 evalExpr で HP.allPresets().filter(scaleExp)・.map(id) を読む(内蔵の全本の数え上げ)"
+  },
+  {
+   "key": "eihdiag287",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "全体集計: 較正走行の器 tests/exp-w249b-calaudit.mjs の関数の本文を html の中で評価する(本文の読みは機械の下限に出ない)"
+  },
+  {
+   "key": "families",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(16/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "tpsign",
+   "tier": "C",
+   "presets": "all",
+   "only": true,
+   "merge": false,
+   "why": "全体集計: 較正走行の器を子プロセス(--only)で走らせる(子プロセスの読みは機械の下限に出ない)"
+  },
+  {
+   "key": "bgfield284",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(4/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "contact285",
+   "tier": "C",
+   "presets": "all",
+   "only": true,
+   "merge": false,
+   "why": "対の比較(基点 html と今・前後・A/B)"
+  },
+  {
+   "key": "jeans286",
+   "tier": "C",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "growth287",
+   "tier": "C",
+   "presets": 4,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "fixcap288",
+   "tier": "C",
+   "presets": 5,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "bgderiv",
+   "tier": "C",
+   "presets": 0,
+   "only": false,
+   "merge": false,
+   "why": "本が 1 冊以下(本ごと = 全体)"
+  },
+  {
+   "key": "bgdiff286",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(6/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "bgtime287",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "対の比較(基点 html と今・前後・A/B)"
+  },
+  {
+   "key": "bgrange288",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "対の比較(基点 html と今・前後・A/B)"
+  },
+  {
+   "key": "compose288",
+   "tier": "C",
+   "presets": 2,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "pairfuse288",
+   "tier": "B",
+   "presets": 5,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 pairfuse-w288c.json#/short/rows(4/5 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "spinprec288",
+   "tier": "C",
+   "presets": 1,
+   "only": false,
+   "merge": false,
+   "why": "本が 1 冊以下(本ごと = 全体)"
+  },
+  {
+   "key": "tilt90288",
+   "tier": "C",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "ejectstate289",
+   "tier": "C",
+   "presets": 5,
+   "only": false,
+   "merge": false,
+   "why": "対の比較(基点 html と今・前後・A/B)"
+  },
+  {
+   "key": "pnsources291",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "全体集計: 文字列の式 evalExpr の中で for (const p of HP.allPresets()) —— 内蔵の全本を回す"
+  },
+  {
+   "key": "ckfixcap290",
+   "tier": "C",
+   "presets": 7,
+   "only": false,
+   "merge": false,
+   "why": "対の比較(基点 html と今・前後・A/B)"
+  },
+  {
+   "key": "weakfield289",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(6/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "reldrag289",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "nearfar289",
+   "tier": "C",
+   "presets": 1,
+   "only": false,
+   "merge": false,
+   "why": "本が 1 冊以下(本ごと = 全体)"
+  },
+  {
+   "key": "contractrange289",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(2/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "tilt90layers289",
+   "tier": "C",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "inertial290",
+   "tier": "B",
+   "presets": 4,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 inertial-w290c.json#/gateB/rows(4/4 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "spiral290",
+   "tier": "C",
+   "presets": 6,
+   "only": false,
+   "merge": false,
+   "why": "対の比較(基点 html と今・前後・A/B)"
+  },
+  {
+   "key": "bgaudit291",
+   "tier": "B",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 bgaudit-w291d.json#/translationLive/rows(3/3 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "calcause292",
+   "tier": "B",
+   "presets": 19,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 calcause-w292a.json#/books(19/19 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "dragcore292",
+   "tier": "C",
+   "presets": 2,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "tide292",
+   "tier": "C",
+   "presets": 4,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "corecensus293",
+   "tier": "B",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 corecensus-w293c.json#/census/rows(177/177 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "swing293",
+   "tier": "C",
+   "presets": 2,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "compose293",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "geo3-294a",
+   "tier": "C",
+   "presets": 2,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "geo4-295b",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(9/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "inertial3-295c",
+   "tier": "C",
+   "presets": 7,
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(3/7 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "fit-297b",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "共有フィット(段の名か注記 —— 本どうしで 1 つの係数)"
+  },
+  {
+   "key": "chain-296c",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "refit-297a",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": true,
+   "why": "全体集計: vm で BUILTIN_PRESETS を読み .filter(geoPN ≥ 2) で本を選ぶ(内蔵の全本の数え上げ)"
+  },
+  {
+   "key": "refit-298b",
+   "tier": "C",
+   "presets": 2,
+   "only": false,
+   "merge": true,
+   "why": "共有フィット(段の名か注記 —— 本どうしで 1 つの係数)"
+  },
+  {
+   "key": "synodic-299b",
+   "tier": "C",
+   "presets": 3,
+   "only": false,
+   "merge": true,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "emonly-300b",
+   "tier": "C",
+   "presets": 2,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "timestd-297c",
+   "tier": "B",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 timestd-w297c.json#/rows(177/177 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "coord3d-298a",
+   "tier": "C",
+   "presets": 4,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "drag3d-298c",
+   "tier": "C",
+   "presets": 5,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "moon3d-298c",
+   "tier": "C",
+   "presets": 2,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "planets3d-299c",
+   "tier": "C",
+   "presets": 19,
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(7/19 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "geo4stable-299d",
+   "tier": "C",
+   "presets": 5,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "ref3d-299e",
+   "tier": "B",
+   "presets": 8,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 ref3d-w299e.json#/bit/rows(8/8 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "saturnring3d-300c",
+   "tier": "C",
+   "presets": 10,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "dragnorm-301a",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(25/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "approxmany-301b",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(30/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "clone-301f",
+   "tier": "B",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 clone-w301f.json#/rows(121/177 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "axialsign-302e",
+   "tier": "C",
+   "presets": 1,
+   "only": false,
+   "merge": false,
+   "why": "本が 1 冊以下(本ごと = 全体)"
+  },
+  {
+   "key": "statecontract-302e",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "wbglaw-301g",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "共有フィット(段の名か注記 —— 本どうしで 1 つの係数)"
+  },
+  {
+   "key": "chainburst-301d",
+   "tier": "C",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "gloc-302b",
+   "tier": "B",
+   "presets": 7,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 gloc-w302b.json#/part3/offBitSame(4/7 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "semic-302d",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(16/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "wbgest-302c",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(12/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "refit-303a",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "共有フィット(段の名か注記 —— 本どうしで 1 つの係数)"
+  },
+  {
+   "key": "inertialr2-303b",
+   "tier": "C",
+   "presets": 28,
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(7/28 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "shell-304a",
+   "tier": "C",
+   "presets": 20,
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(2/20 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "earthmoon-303c",
+   "tier": "B",
+   "presets": 4,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 earthmoon-w303c.json#/radius/uniformCheck(3/4 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "shell-304b",
+   "tier": "C",
+   "presets": 30,
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(9/30 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "gfamily-305b",
+   "tier": "C",
+   "presets": 30,
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(8/30 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "periodn-306b",
+   "tier": "C",
+   "presets": 30,
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(8/30 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "baseline-304c",
+   "tier": "C",
+   "presets": 5,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "pairnorm-305a",
+   "tier": "C",
+   "presets": 29,
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(8/29 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "j2-305c",
+   "tier": "C",
+   "presets": 4,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "emresolve-306c",
+   "tier": "C",
+   "presets": 5,
+   "only": false,
+   "merge": false,
+   "why": "対の比較(基点 html と今・前後・A/B)"
+  },
+  {
+   "key": "spinavg-305d",
+   "tier": "B",
+   "presets": 5,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 spinavg-w305d.json#/books(5/5 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "rotframe-306d",
+   "tier": "B",
+   "presets": 4,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 rotframe-w306d.json#/ids(4/4 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "sphereaxial-307a",
+   "tier": "B",
+   "presets": 4,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 sphereaxial-w307a.json#/E/books(4/4 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "tide3d-307b",
+   "tier": "C",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "hold-308b",
+   "tier": "C",
+   "presets": 2,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "maintain-309b",
+   "tier": "C",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "pairheat-310b",
+   "tier": "C",
+   "presets": 13,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "spindecomp-307c",
+   "tier": "C",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "対の比較(基点 html と今・前後・A/B)"
+  },
+  {
+   "key": "bevel-308a",
+   "tier": "B",
+   "presets": 7,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 bevel-w308a.json#/E/books(4/7 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "sunspin-308c",
+   "tier": "B",
+   "presets": 11,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 sunspin-w308c.json#/inputs/planets(7/11 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "invsq-309a",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(14/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "invsq-310a",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(10/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "corespin-311a",
+   "tier": "C",
+   "presets": 1,
+   "only": false,
+   "merge": false,
+   "why": "本が 1 冊以下(本ごと = 全体)"
+  },
+  {
+   "key": "decay-312a",
+   "tier": "C",
+   "presets": 7,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "kappam-313a",
+   "tier": "B",
+   "presets": 7,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 kappam-w313a.json#/E/rows(5/7 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "recheck-309c",
+   "tier": "B",
+   "presets": 11,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 recheck-w309c.json#/engine/planets/rows(7/11 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "mdsweep-310d",
+   "tier": "C",
+   "presets": 19,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "galaxial-311b",
+   "tier": "C",
+   "presets": 21,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "galaxialrd-312b",
+   "tier": "C",
+   "presets": 23,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "planet3-311d",
+   "tier": "C",
+   "presets": 19,
+   "only": false,
+   "merge": true,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(3/19 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "confirm-312d",
+   "tier": "C",
+   "presets": 21,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "galaxialrdm-313b",
+   "tier": "C",
+   "presets": 21,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "k1confirm-313d",
+   "tier": "C",
+   "presets": 21,
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(3/21 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "rdexcess-314a",
+   "tier": "B",
+   "presets": 7,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 rdexcess-w314a.json#/S/rows(5/7 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "rdscale-314b",
+   "tier": "B",
+   "presets": 10,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 rdscale-w314b.json#/K/bodyInputs(8/10 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "k1outer-314c",
+   "tier": "C",
+   "presets": 21,
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(3/21 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "k1em-314c",
+   "tier": "C",
+   "presets": 21,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "pn1x3d-314d",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(15/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "symbols-315a",
+   "tier": "B",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 symbols-w315a.json#/P/rows(177/177 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "rsexcess-315b",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(8/177 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "inposk1-315c",
+   "tier": "C",
+   "presets": 19,
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(2/19 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "satk1-315d",
+   "tier": "C",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "sath-316d",
+   "tier": "C",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "satcut-317c",
+   "tier": "B",
+   "presets": 10,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 satcut-w317c.json#/P/inPos(7/10 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "satan-317d",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
+  },
+  {
+   "key": "satnext-318b",
+   "tier": "B",
+   "presets": 10,
+   "only": false,
+   "merge": false,
+   "why": "正本に宣言の本の過半を覆う本ごとの容器 satnext-w318b.json#/P/inPos(7/10 本 —— 器を読んで確かめる)"
+  },
+  {
+   "key": "solar16-318c",
+   "tier": "C",
+   "presets": 13,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "dragest-318d",
+   "tier": "C",
+   "presets": 11,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "axisheat-319a",
+   "tier": "C",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "srcradius-319b",
+   "tier": "C",
+   "presets": 11,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "jexplore-320b",
+   "tier": "C",
+   "presets": 11,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "nbcompose-320c",
+   "tier": "C",
+   "presets": 11,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "charonaudit-305e",
+   "tier": "C",
+   "presets": 1,
+   "only": false,
+   "merge": false,
+   "why": "本が 1 冊以下(本ごと = 全体)"
+  },
+  {
+   "key": "an336-306a",
+   "tier": "C",
+   "presets": 29,
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(7/29 —— 宣言の多くは参照・凍結の写し)"
+  },
+  {
+   "key": "charonfix-306e",
+   "tier": "C",
+   "presets": 2,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "timing294",
+   "tier": "C",
+   "presets": "all",
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(19/177 —— 宣言の多くは参照・凍結の写し)"
+  }
+ ]
+}

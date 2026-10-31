@@ -187,3 +187,11 @@ node tools/scope-probe319.mjs --base-rev 7c6bf88 --out tests/out/scopeprobe-w319
 
 段ごとの扱い(閉じた探索の段の履歴化 `HISTORY_319C`・presets の絞り `NARROWED_319C`・"all" のまま `KEEP_ALL_319C`・領域の宣言 `AN454_319C`)は再生成表
 `tests/lib-w281a-regentable.mjs` の第319便c の塊に置いた。数は段 1 回の実測の見積りの和で、鎖の壁時計ではない。
+
+## 第320便d —— 道具と QA(決断事項 AN478・AN481・統括の検証項目 R265)
+
+- **lint の違反の種類**: `tests/lib-w320d-lintkinds.mjs` —— 刻印の型(「走らせ直す」の文 —— 鎖で直る)とそれ以外を分け、lint.provenanceMeta・lint.regenScope ほか 3 本の detail で**刻印の型以外を先に**並べる(判定は不変)。`post-merge-qa.sh` の ① と ④ の要約に「刻印の型以外の違反 k 件」(1 件でもあれば ‼)。
+- **領域の差の分類(AN478)**: `node tools/regen-plan.mjs --classify [--stamp-html <刻印時の html>] [--stamp-git <N>] [--stamp-dir <写しの置き場>]` —— 計画の行ごとに核・本・表示(「本 X の変更だけで動く —— 名簿 A/B/C」)を `plan.classify320` に出す(段の判定は変えない)。刻印時の html は sha で引く(--stamp-git は beta/index.html の直近 N 版を git から写す)。
+- **本ごとに分けられる器の名簿(AN478)**: `node tools/regen-plan.mjs --roster [--write|--check]` —— `tests/data-w320d-perbook.json`(A = 器に --only・B = 器を読んで確かめる候補・C = 全体の再走)。統合で段が増えたら `--roster --write` で引き直す。
+- **受理の鍵を足すとほぼ全段の型の調べ(AN481)**: `node --max-old-space-size=4096 tools/an481-probe.mjs [--json] [--ids <本>] [--steps <N>] [--harness <器>]` —— 候補 P0/P1/P2 × 変異の表(動く宣言の数)と、P4(実行した関数の閉包 —— V8 の precise coverage)の静的/実行の閉包の大きさ。走らせない(1 冊の短い走行だけ)・書くのは標準出力だけ。
+- **段の副産物の md**: 再生成表の `BYPRODUCTS_320D`(samplestatus・families・kf0ledger-old・kf0ledger・issues の一覧の md)は段の書き(writesOf —— 鎖の JSON の writes)に入る。段階コミットの脚本は writes を拾えばよい。

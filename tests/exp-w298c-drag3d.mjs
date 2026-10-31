@@ -27,7 +27,8 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 // 第319便c(原仮定者の指示(第121報)・R260): presets は "all" から名指しの本へ(器と lib の deriveScope の下限 ∪ 器が読む凍結の写しの本)
-const REGEN_SCOPE = {"presets":["chainDiskToy","chainDiskToy3d","chainDiskToy3dTilt","earthMoonSunInertial3d","inertialDragPair"],"roots":["DT","HP.PROBE_VERSION","HP.REL_DRAG_AXIAL_LAW","HP.REL_DRAG_SPIN3_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.coord3d","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.inertialDrag3AxialOmega","HP.inertialDrag3RotTerm","HP.inertialDragProbeAt","HP.inertialDragProbeBilinear","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.inertialSpinMoment","HP.sim","HP.validatePreset","T","ch","cw"],"core":true,"consts":[],"complete":true};
+// 第320便d(決断事項 AN455・R265 —— 本便は全段の鎖なので費用は増えない): consts に受理器の理由の文の表 ACCEPT_REASONS(受理されない宣言の理由の文(errors の先頭 —— ACCEPT_REASONS から引く文)を正本に書く)
+const REGEN_SCOPE = {"presets":["chainDiskToy","chainDiskToy3d","chainDiskToy3dTilt","earthMoonSunInertial3d","inertialDragPair"],"roots":["DT","HP.PROBE_VERSION","HP.REL_DRAG_AXIAL_LAW","HP.REL_DRAG_SPIN3_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.coord3d","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.inertialDrag3AxialOmega","HP.inertialDrag3RotTerm","HP.inertialDragProbeAt","HP.inertialDragProbeBilinear","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.inertialSpinMoment","HP.sim","HP.validatePreset","T","ch","cw"],"core":true,"consts":["ACCEPT_REASONS"],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w298c-drag3d-1';

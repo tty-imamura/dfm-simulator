@@ -1610,6 +1610,26 @@ export const AN454_SKIP_319C = Object.freeze([
     + '—— 次に器を触る便で' }),
 ]);
 // ==== 第319便c の塊(ここまで)====
+// ==== 第320便d の塊(ここから)====
+// ---- 第320便d(統括の検証項目 R265 —— 運用の正本 追記 38 ⑨「段の writes に無い副産物の md は段階コミットの脚本が拾わない」): **段の副産物の md を段の書きに**。
+//   器が outs の外に書く一覧の md(生成物 —— 手で直さない)を段の `byproducts` に宣言し、`writesOf`(outs + merges + byproducts)に入れる。
+//   touches にも残す(touches を含めた書き手の全順序 touchUnordered と html を書く段の検査は従来どおり)。kf0ledger-old と kf0ledger は同じ md を書く ——
+//   after で全順序(kf0ledger の after に kf0ledger-old —— 第310便c)なので書込排他の鍵が重なっても並ばない。表の版(REGEN_TABLE_VERSION)は変えない
+//   (段の判定 planRegen は writes を使わない —— 済み印の契約の policy と鎖の JSON の writes だけが変わる。本便は全段の鎖)。QA lint.byproducts320
+export const BYPRODUCTS_320D = Object.freeze({
+  samplestatus: Object.freeze(['docs/SAMPLE_STATUS.md']),
+  families: Object.freeze(['docs/FAMILIES.md']),
+  'kf0ledger-old': Object.freeze(['docs/KF0_LEDGER.md']),
+  kf0ledger: Object.freeze(['docs/KF0_LEDGER.md']),
+  issues: Object.freeze(['docs/CALIBRATION_ISSUES.md']),
+});
+for (const st of REGEN_STEPS) {
+  const b = BYPRODUCTS_320D[st.key];
+  if (!b) continue;
+  st.byproducts = b.slice();
+  st.touches = [...new Set((st.touches || []).concat(b))];
+}
+// ==== 第320便d の塊(ここまで)====
 
 /**
  * 第285便f(原仮定者の裁定(第75報)AN53): **html 全体を刻む段**(正本の meta.target が beta/index.html・完全な領域の宣言なし —— 第285便f の
@@ -2032,8 +2052,10 @@ export function planRegen(o) {
 // 第283便e(原仮定者の裁定(第73報)⑤・統括の検証項目 R88): **鎖の機械生成**と**順序の照合**(純関数 —— 走らせない)
 // ======================================================================================================
 
-/** 段が書くファイル(outs + merges)。 */
-export function writesOf(st) { return [...new Set((st.outs || []).concat(st.merges || []))]; }
+/** 段が書くファイル(outs + merges + 第320便d の副産物の md —— byproducts)。 */
+// 第320便d(統括の検証項目 R265 —— 運用の正本 追記 38 ⑨): 段が outs の外に書く**一覧の md**(副産物 —— BYPRODUCTS_320D)も段の書き(writes)に入れる
+//   (鎖の JSON の writes を読む段階コミットが md を拾う・書込排他の鍵と済み印の契約の policy にも入る)。beta/index.html(touches)は入れない(集約段 htmlagg が書く)
+export function writesOf(st) { return [...new Set((st.outs || []).concat(st.merges || [], st.byproducts || []))]; }
 
 /** ファイル → 書く段の key の並び(表の順・履歴の段も含む)。 */
 export function writersMap(steps) {
@@ -2259,7 +2281,8 @@ export function touchWritersAudit(steps, closure) {
   const m = new Map();
   for (const st of S0) {
     if (st.role === 'history') continue;
-    const own = writesOf(st);
+    // 第320便d(R265): 副産物の md(byproducts —— writesOf に入れた)は「outs の外に書くファイル」として touches の側で数える(この検査の意味は不変)
+    const own = writesOf(st).filter((f) => !(st.byproducts || []).includes(f));
     for (const f of new Set(own.concat(st.touches || []))) {
       if (!m.has(f)) m.set(f, []);
       m.get(f).push({ key: st.key, touch: !own.includes(f) });

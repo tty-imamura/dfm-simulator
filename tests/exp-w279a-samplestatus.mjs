@@ -36,7 +36,7 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import * as L from './lib-w279a-samplestatus.mjs';
-import { REGEN_STEPS } from './lib-w281a-regentable.mjs';
+import { REGEN_STEPS, htmlReadOf } from './lib-w281a-regentable.mjs';   // 第320便d(R265): 宣言の無い段の html の読み方(none = html を読まない)
 import { readDeclaredScope } from './lib-w281a-scope.mjs';
 import { calStagesOf } from './lib-w283c-calstages.mjs';   // 第283便c: 段別の壁時計(二重加算の修正)
 import * as HS from './lib-w288f-htmlstage.mjs';   // 第288便f(AN90): 鎖の中は一時出力の断片へ(集約段 htmlagg が 1 回だけ書く)
@@ -271,7 +271,19 @@ md.push('');
 md.push('- **較正走行(calaudit)**: 較正母集団の各本を calaudit が走らせた壁時計(段 dt / dt/2 / dt/4 の和・`presets[].run.timeBudget[].wallSec`。第283便c: dt/8 は常時の鎖から外した —— 旧形式の記録だけ dt/8 を 1 回数える・転記した段〔再利用〕は和に入れず「元 N s」を添える)。母集団の外の本は「—」。');
 md.push(`- **再利用 h2/h4 の内訳**(第284便c): 転記した段は **h2**(dt/2 の同一便の再走の転記 —— h の生の走行がビット一致・\`skippedBy:"reuse-dt2"\`)${reuseTally.h2.n} 段(元の走行 ${fmtS(reuseTally.h2.sec)} s)・**h4**(同一契約の dt/4 の転記 —— \`skippedBy:"reuse"\`)${reuseTally.h4.n} 段(元の走行 ${fmtS(reuseTally.h4.sec)} s)。第284便c から dt/4 は常時の鎖では例外の登録簿の本だけ(登録の外の本は dt/4 の段が無い)。**転記は収束の証明ではない**。`);
 md.push('- **再生成の段**: 下の「再生成の段の表」に段ごとの実測秒と対象の本を置いた(第318便 —— 本の表の段の列は外した)。段の所要は対象の本で共有する(本ごとに足し上げない)。');
-md.push(`- **宣言の無い段**(対象 html の全体に縛られ、どの本に関与するかを宣言していない ${undeclaredSteps.length} 段・実測 ${fmtS(secUndeclared)} s)と**常時群**(${stepsCurrent.filter((z) => z.alwaysRun).length} 段・実測 ${fmtS(secAlways)} s・毎回走る)は下の「再生成の段の表」で区分「宣言なし」「常時群」として載せる。現行の段 ${stepsCurrent.length} 段の実測秒の和 ${fmtS(secAll)} s(${(secAll / 3600).toFixed(2)} h・逐次の上限。履歴の段は除く)。`);
+// 第320便d(統括の検証項目 R265 —— 第319便c の記録): 宣言の無い段のうち **html を読まない段**(対象が lib・CSV・正本 —— 再生成表の htmlReadOf が none)を別の区分に
+//   (html の変更では元から作り直さない —— 「対象 html の全体に縛られる」段と混ぜない)。読み方の判定は鎖の済み印の契約と同じ関数(保守側: 引けなければ html 全体)
+const noReadW320 = new Set(undeclaredSteps.filter((z) => htmlReadOf(z, { root: ROOT }).kind === 'none').map((z) => z.key));
+const secNoReadW320 = undeclaredSteps.filter((z) => noReadW320.has(z.key)).reduce((a, z) => a + (z.sec || 0), 0);
+md.push(`- **宣言の無い段**(どの本に関与するかを宣言していない ${undeclaredSteps.length} 段・実測 ${fmtS(secUndeclared)} s —— うち **html を読まない段** ${noReadW320.size} 段・実測 ${fmtS(secNoReadW320)} s〔対象が lib・CSV・正本 —— html の変更では作り直さない〕・**対象 html の全体に縛られる段** ${undeclaredSteps.length - noReadW320.size} 段・実測 ${fmtS(secUndeclared - secNoReadW320)} s)と**常時群**(${stepsCurrent.filter((z) => z.alwaysRun).length} 段・実測 ${fmtS(secAlways)} s・毎回走る)は下の「再生成の段の表」で区分「html を読まない」「宣言なし(html 全体)」「常時群」として載せる。現行の段 ${stepsCurrent.length} 段の実測秒の和 ${fmtS(secAll)} s(${(secAll / 3600).toFixed(2)} h・逐次の上限。履歴の段は除く)。`);
+// 第320便d(R265): 保存 QA の時間の**来歴**(どの便・どの commit の QA の保存物か)。鎖の常時群の段 samplestatus は**ゲートの QA の前**に走るので、
+//   ここに載る QA の時間は前の便のゲートの保存物(1 便遅れる)—— 保存物の版名(swCache = QA を回したときの BETA_BUILD)と対象 html の sha で今の html と比べて書く
+const htmlSha0W320 = (await import('node:crypto')).createHash('sha256').update(fs.readFileSync(HTML)).digest('hex');
+const qaProvW320 = { file: QAF, commit: qa.commit || null, date: qa.date || null, betaBuild: qa.swCache || null, targetSha256: qa.targetSha256 || null,
+  sameBuild: !!(qa.swCache && qa.swCache === BETA_BUILD_W300D), sameHtml: !!(qa.targetSha256 && qa.targetSha256 === htmlSha0W320),
+  rule: '鎖の常時群の段 samplestatus はゲートの QA の前に走る —— 保存 QA の時間は前の便のゲートの保存物(1 便遅れる)。版名が同じでも html の sha が違えば同じ便の中の前の html の QA' };
+const qaLagW320 = qaProvW320.sameHtml ? 'この html の QA の保存物' : qaProvW320.sameBuild ? '同じ版名の前の html の QA の保存物(html の sha が違う)' : '**前の便のゲートの保存物**(1 便遅れる —— 鎖の常時群の段 samplestatus はゲートの QA の前に走る)';
+md.push(`- **保存 QA の来歴**(第320便d): 保存物は版名 \`${qaProvW320.betaBuild || '—'}\`・commit ${qaProvW320.commit ? String(qaProvW320.commit).slice(0, 7) : '—'}・${qaProvW320.date || '—'}・対象 html の sha ${qaProvW320.targetSha256 ? String(qaProvW320.targetSha256).slice(0, 12) : '—'} —— 今の html(版名 \`${BETA_BUILD_W300D}\`)に対して ${qaLagW320}。`);
 md.push(`- **保存 QA**: \`${QAF}\`(${qa.total || qaAll.length} 試験・全体 ${fmtS((qa.durationMs || 0) / 1000)} s${qa.commit ? '・commit ' + String(qa.commit).slice(0, 7) : ''})のうち、**その本の claims が挙げる testId と、原稿 \`${SRC}\` の \`qaTargets\` がその本を挙げた試験**(帰属 ${qaAttr.version} —— 試験の id の部分文字列では帰属させない)の所要の和と本数(1 つの試験が複数の本に数えられうる —— 本ごとの列は重なりを含む)。どちらにも無い本は「帰属なし」(${qaAttr.unattributed.length} 本)。内訳は所要の上位 3。`);
 md.push('');
 md.push('| 本 | 較正走行(s) | 段別(s) | 保存 QA(s・本数) | QA の内訳(上位 3) |');
@@ -287,14 +299,14 @@ for (const id of groups.flatMap((g) => g.ids)) {   // 第294便b: 退役の本�
 md.push('');
 // 第318便(原仮定者の指示 2026-10-29): 再生成の段の表 —— 履歴でない段の全部を実測秒の大きい順に。区分 = 常時群(毎回走る)/ 領域の宣言(REGEN_SCOPE の presets)/
 //   宣言なし(対象 html の全体に縛られる)。対象 = all(内蔵の全本)/ 宣言した本のうち掲載の本の列挙(掲載の外の本は数だけ —— 第294便b の「いま使う資料に退役の本を書かない」)/ —(宣言なし)
-const stageKind = (st) => st.alwaysRun ? '常時群' : (stepScope.get(st.key).presets ? '領域の宣言' : '宣言なし');
+const stageKind = (st) => st.alwaysRun ? '常時群' : (stepScope.get(st.key).presets ? '領域の宣言' : (noReadW320.has(st.key) ? 'html を読まない' : '宣言なし(html 全体)'));   // 第320便d: 宣言なしを 2 つに
 const bookLabel = (id) => { const b = byId[id]; return (b && b.emoji ? b.emoji + ' ' : '') + '`' + id + '`'; };
 const stageList = stepsCurrent.map((st, k) => { const sc = stepScope.get(st.key);
   return { key: st.key, sec: st.sec || 0, kind: stageKind(st), presets: sc.presets === 'all' ? 'all' : (sc.presets ? sc.presets.slice() : null), order: k }; })
   .sort((a, b) => (b.sec - a.sec) || (a.order - b.order));
 md.push('### 再生成の段の表');
 md.push('');
-md.push(`> 段 ${stageList.length}(履歴の段を除く)・実測秒の和 ${fmtS(secAll)} s。実測秒は \`tests/lib-w281a-regentable.mjs\` の段の秒(段 1 回の実測 —— 対象の本で共有する)。区分: **常時群** = 毎回走る段・**領域の宣言** = REGEN_SCOPE の presets で対象の本を宣言した段・**宣言なし** = 対象 html の全体に縛られる段。対象: **all** = 内蔵の全本(${got.rows.length} 本)・それ以外は宣言した本のうち掲載の本の列挙(掲載の外の本は数だけ)。並びは実測秒の大きい順。`);
+md.push(`> 段 ${stageList.length}(履歴の段を除く)・実測秒の和 ${fmtS(secAll)} s。実測秒は \`tests/lib-w281a-regentable.mjs\` の段の秒(段 1 回の実測 —— 対象の本で共有する)。区分: **常時群** = 毎回走る段・**領域の宣言** = REGEN_SCOPE の presets で対象の本を宣言した段・**宣言なし(html 全体)** = 対象 html の全体に縛られる段・**html を読まない** = 宣言は無いが対象が lib・CSV・正本の段(第320便d —— html の変更では作り直さない)。対象: **all** = 内蔵の全本(${got.rows.length} 本)・それ以外は宣言した本のうち掲載の本の列挙(掲載の外の本は数だけ)。並びは実測秒の大きい順。`);
 md.push('');
 md.push('| 段 | 実測(s) | 区分 | 対象の本 |');
 md.push('|---|---|---|---|');
@@ -331,6 +343,8 @@ const canon = {
   timingNote: { since: '第282便(原仮定者の指示 2026-09-26)', what: '各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない',
     regenSteps: stepsCurrent.length, regenSecSum: secAll, alwaysSec: secAlways, undeclaredSteps: undeclaredSteps.length, undeclaredSec: secUndeclared,
     qaTotal: qa.total || qaAll.length, qaDurationMs: qa.durationMs || null,
+    qaProvenance: Object.assign({ since: '第320便d(R265)' }, qaProvW320),   // 第320便d: 保存 QA の時間の来歴(1 便遅れの印)
+    noHtmlSteps: { since: '第320便d(R265)', n: noReadW320.size, sec: secNoReadW320, keys: [...noReadW320], rule: '宣言の無い段のうち再生成表の htmlReadOf が none(html を読まない)の段' },
     reuse: { since: '第284便c', h2: reuseTally.h2, h4: reuseTally.h4, rule: 'h2 = skippedBy "reuse-dt2"(同一便の dt/2 の転記)・h4 = skippedBy "reuse"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)' },
     qaAttribution: { version: qaAttr.version, rule: 'claims の testId + 原稿の qaTargets(明示)', unattributed: qaAttr.unattributed.length },
     // 第318便(原仮定者の指示 2026-10-29): 再生成の段の表(md の「再生成の段の表」—— 本の表の段の列は外した)

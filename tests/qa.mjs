@@ -2580,6 +2580,7 @@ lastAddAt = Date.now();
       rows.push(r);
     }
   } catch (e) { bad.push('来歴の器が読めない: ' + String(e).slice(0, 110)); }
+  const LK320pm = await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null);   // 第320便d(R265): 違反の種類
   add('lint.provenanceMeta', bad.length === 0,
     `**正本 JSON の来歴**(第272便e・AG11・統括の検証項目 R11): 版 \`${PV}\` を `
     + `**${rows.length} 本**に同じ形で持たせた(\`provenanceVersion\`・\`wave\`・\`target\`・`
@@ -2590,7 +2591,8 @@ lastAddAt = Date.now();
     + ` / **第281便a**: 領域一致 ${rows.filter((r) => r.scopeOk === true).length} 本・履歴 ${rows.filter((r) => r.history).length} 本`
     + ` / **不一致は FAIL のまま**(AG10 —— 走らせ直せば直る種類の FAIL で、html や器を変えた枝の`
     + `統合後は統括が再走する)。短縮 hash は表示用で、**判定は完全値**で行う`
-    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+    // 第320便d(R265): 違反は種類で数え、刻印の型以外を先に(判定は不変 —— tests/lib-w320d-lintkinds.mjs)
+    + (bad.length ? (LK320pm ? LK320pm.violationText(bad, { stampMax: 4 }) : ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}`) : ''));
 }
 
 // ---- 第281便a(原仮定者の裁定(第71報)・AN16 採用・統括の検証項目 R71): lint.regenScope ----
@@ -2779,13 +2781,15 @@ lastAddAt = Date.now();
         cases.push(`旧版の刻印の照合: 対象が今の html と同じ ${nSame} 本(${Object.entries(byV).map(([k, v]) => k + ' ' + v).join('・') || 'なし'})のうち刻印の版で一致 ${nOk}`);
       }
     } catch (e) { bad.push('再生成範囲の器が読めない: ' + String(e).slice(0, 160)); }
+    const LK320rs = await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null);   // 第320便d(R265): 違反の種類
     add('lint.regenScope', bad.length === 0,
       `**正本の再生成範囲**(第281便a・原仮定者の裁定(第71報)AN16 採用・統括の検証項目 R71): ${cases.join(' / ')} —— `
       + `**領域 hash** = 器が宣言した html の領域(宣言したプリセットの生の定義と受理後の定義・roots から辿った最上位の依存閉包・`
       + `S._core の本文・宣言した定数)の正準 JSON の sha256。\`targetSha256\` は生成当時の値のまま残し、`
       + `lint.provenanceMeta ② は「一致 **または**(scopeComplete かつ領域 hash 一致)」で通す。**履歴は再生成しない・現行の結論に昇格させない**。`
       + `閉包は**静的な識別子の閉包**(過大近似)で、UI の操作で閉包の値を書き換える経路は辿らない(器は UI を操作しない)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      // 第320便d(R265 —— 第319便は先頭 5 件が刻印の型で「宣言が下限を覆わない」2 件が隠れた): 刻印の型以外を先に(判定は不変)
+      + (bad.length ? (LK320rs ? LK320rs.violationText(bad, { stampMax: 5 }) : ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));
   }
   })();   // 第310便c(heap)
 }
@@ -3081,11 +3085,13 @@ lastAddAt = Date.now();
         } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
       }
     } catch (e) { bad.push('安定 hash の器が読めない: ' + String(e).slice(0, 160)); }
+    const LK320sh = await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null);   // 第320便d(R265): 違反の種類
     add('lint.stableHashPaths', bad.length === 0,
       `**安定 hash の除外契約**(第282便e・統括の検証項目 R82): ${cases.join(' / ')} —— 除くのは**正本ごとに宣言した JSON Pointer**`
       + `(再生成表の段の volatilePaths —— 既定は除外なし・\`*\` は 1 段の任意)だけ。方式の版と Pointer の並びを hash の本文に入れる。`
       + `**安定 hash の一致は「実行時刻と所要以外が同じ」ことだけを意味する**(結果が正しいことの保証ではない)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      // 第320便d(R265): 刻印の型以外を先に(判定は不変)
+      + (bad.length ? (LK320sh ? LK320sh.violationText(bad, { stampMax: 5 }) : ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));
   }
 }
 
@@ -3593,9 +3599,11 @@ lastAddAt = Date.now();
             cases.push(`段 ${c.steps}(器 ${c.harnesses})—— 見込み ${Object.entries(c.byProspect || {}).map(([k, v]) => k + ' ' + v).join(' / ')} —— 使い方 ${Object.entries(c.byKind || {}).map(([k, v]) => k + ' ' + v).join(' / ')}`);
           }
         } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+        const LK320sa = await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null);   // 第320便d(R265): 違反の種類
         add('lint.scopeAll312', bad.length === 0,
           `**REGEN_SCOPE の presets:"all" の段の理由の一覧**(第312便c・決断事項 AN394・統括の検証項目 R232): ${cases.join(' / ')} —— **絞らない**(記録だけ —— 絞るのは影の運用の後)`
-          + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+          // 第320便d(R265): 刻印の型以外を先に(判定は不変)
+          + (bad.length ? (LK320sa ? LK320sa.violationText(bad, { stampMax: 5 }) : ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));
       }
       // ---- docs.w312c
       {
@@ -80690,10 +80698,12 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (out274.length) bad.push('⑤ 第274〜303便の現行の正本で CANON の外 ' + out274.join(','));
       cases.push(`⑤ 第274〜303便の現行の正本で CANON の外 ${out274.length} 本・第304便以降の新しい正本で CANON の外 ${newer.length} 本${newer.length ? '(' + newer.join(',') + ' —— 統合で入れるかを決める)' : ''}`);
     } catch (e) { bad.push('来歴の器が読めない: ' + String(e && e.stack || e).slice(0, 160)); }
+    const LK320c4 = await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null);   // 第320便d(R265): 違反の種類
     add('lint.canon304', bad.length === 0,
       `**第297便以降の現行の正本 16 本と第303便の 3 本を CANON へ**(第304便e・決断事項 AN312 ③ の続き・R198 —— 来歴の照合 lint.provenanceMeta の対象に): ${cases.join(' / ')}`
       + ` —— 不一致は FAIL のまま(AG10 —— 鎖で作り直す段)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      // 第320便d(R265): 刻印の型以外を先に(判定は不変)
+      + (bad.length ? (LK320c4 ? LK320c4.violationText(bad, { stampMax: 6 }) : ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
   }
 }
 
@@ -90372,8 +90382,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         found.push({ key: 'tests/' + f + '|' + nm, ids: ids.slice().sort().join(','), uses: nUse });
       }
     }
-    const t1 = sec319.indexOf('**表 1'), t2 = sec319.indexOf('**表 2'), t3 = t2 < 0 ? -1 : sec319.indexOf('\n\n', sec319.indexOf('\n|', t2));
-    const rows1 = (t1 < 0 || t2 < t1) ? [] : sec319.slice(t1, t2).split('\n').filter((l) => /^\| `tests\//.test(l)).map(cells319);
+    // 第320便d(決断事項 AN477・R265): 表 1・表 2 は**表を持つ最新の節**(〔第320便d〕に表 1 があればそこ —— 器の除外を宣言の条件へ移した後の表)から読む(世代切替 —— 無ければ〔第319便d〕)
+    const secT319 = (() => { const a = PH319.indexOf('〔第320便d — '); if (a < 0) return sec319; const e = [PH319.indexOf('\n〔第', a + 10), PH319.indexOf('\n## 7.', a)].filter((k) => k > a);
+      const s0 = PH319.slice(a, e.length ? Math.min(...e) : undefined); return (s0.indexOf('**表 1') >= 0 && s0.indexOf('**表 2') >= 0) ? s0 : sec319; })();
+    const t1 = secT319.indexOf('**表 1'), t2 = secT319.indexOf('**表 2'), t3 = t2 < 0 ? -1 : secT319.indexOf('\n\n', secT319.indexOf('\n|', t2));
+    const rows1 = (t1 < 0 || t2 < t1) ? [] : secT319.slice(t1, t2).split('\n').filter((l) => /^\| `tests\//.test(l)).map(cells319);
     const tab1 = [];
     for (const c of rows1) {
       if (c.length !== 8) { bad.push('表 1 の行の欄の数 ' + c.length + ': ' + c[0]); continue; }
@@ -90393,7 +90406,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const reAdd = /(?:^|[^.\w])add\('((?:behavior|preset|docs|lint|ui|ai|params)\.[A-Za-z0-9_.\-]+)'/;
     const QL = rd319('tests/qa.mjs').split('\n'), qfound = [];
     for (let i = 0; i < QL.length; i++) { const m = reQ.exec(QL[i]); if (!m) continue; let j = i, id = null; for (; j < QL.length && !id; j++) { const a = reAdd.exec(QL[j]); if (a) id = a[1]; } qfound.push((id || '?') + '|' + m[2]); }
-    const rows2 = (t2 < 0 || t3 < t2) ? [] : sec319.slice(t2, t3).split('\n').filter((l) => /^\| `[a-z]+\./.test(l)).map(cells319);
+    const rows2 = (t2 < 0 || t3 < t2) ? [] : secT319.slice(t2, t3).split('\n').filter((l) => /^\| `[a-z]+\./.test(l)).map(cells319);
     const tab2 = rows2.map((c) => { if (c.length !== 4 || !(c[2].length >= 6 && c[3].length >= 6)) bad.push('表 2 の行 ' + c[0]); return ticks319(c[0])[0] + '|' + ticks319(c[1])[0]; });
     const uq = [...new Set(qfound)].sort();
     if (uq.join(',') !== tab2.slice().sort().join(',')) bad.push('QA の名指しの除外 ' + uq.join(',') + ' ⇔ 表 2 ' + tab2.join(','));
@@ -90726,6 +90739,233 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();
 }
 // ==== 第320便c の塊(ここまで)====
+// ==== 第320便d の塊(ここから —— lint.violationKinds320・lint.byproducts320・docs.w320d の 3 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第320便d(決断事項 AN478・AN481・AN477・AN455・統括の検証項目 R265): **道具と QA**(新設 —— beta 対象だけ・物理・本の宣言・エンジンの式・受理の判定は不変)
+// ----   lint.violationKinds320 …… lint の違反の種類(tests/lib-w320d-lintkinds.mjs): ① 分類と並びの自己試験(刻印の型 =「走らせ直す」の文・それ以外を先に・元の順・印の形)
+// ----     ② 5 本の lint(provenanceMeta・regenScope・stableHashPaths・scopeAll312・canon304)の detail が lib の violationText を通る(判定の式は不変)
+// ----     ③ lint.provenanceMeta・lint.regenScope の本文の刻印の型の違反の文はすべて「走らせ直す」を含み、「宣言が下限を覆わない」は含まない(分類の前提)
+// ----     ④ tools/post-merge-qa.sh の ① と ④ の要約が lib の summarizeLog で「刻印の型以外の違反 k 件」を出す(印の正規表現は lib の 1 か所)
+// ----   lint.byproducts320 …… 段の副産物の md(BYPRODUCTS_320D)が段の書き(writesOf)と touches にあり、器が md を書く・器が書く docs の md は全部宣言した・
+// ----     鎖の JSON の writes に md が載る・touches を含めた書き手の全順序の自己試験 (s) が通る
+// ----   docs.w320d …… ① AN478 の名簿(tests/data-w320d-perbook.json —— 版・段の集合・A の器に --only・分類の純関数)② AN481 の変異試験の表と P4 の調べ(子プロセス tools/an481-probe.mjs)
+// ----     ③ SAMPLE_STATUS の保存 QA の来歴・html を読まない段の区分(器が今の器で作った正本なら欄と md の行)④ AN455(drag3d-298c・semic-302d の consts に ACCEPT_REASONS)
+// ----     ⑤ AN477(invsq-309a・invsq-310a の名指しの除外を宣言の条件へ —— ruleBooks)⑥ PHYSICS〔第320便d〕・AI_SPEC §158・CHANGELOG・post-merge の ③′・tools/README・書かない語・禁句
+{
+  await (async () => {   // 第310便c(heap)の型: 本文を関数で包む
+  if (!TARGET.startsWith('beta/')) { console.log('SKIP lint.violationKinds320 / lint.byproducts320 / docs.w320d(第320便d —— beta 線の検査 — ' + TARGET + ')'); return; }
+  const rd320 = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const imp320 = async (f) => { try { return await import('file://' + path.join(ROOT, f)); } catch (e) { return null; } };
+  const QA320 = rd320('tests/qa.mjs'), PM320 = rd320('tools/post-merge-qa.sh');
+  const PH320 = rd320('docs/PHYSICS.md'), a320 = PH320.indexOf('〔第320便d — ');
+  const sec320 = a320 < 0 ? '' : PH320.slice(a320, (() => { const e = [PH320.indexOf('\n〔第', a320 + 10), PH320.indexOf('\n## 7.', a320)].filter((k) => k > a320); return e.length ? Math.min(...e) : undefined; })());
+  // ---- lint.violationKinds320
+  {
+    const bad = [], cases = [];
+    const LK = await imp320('tests/lib-w320d-lintkinds.mjs');
+    if (!LK) bad.push('① tests/lib-w320d-lintkinds.mjs が読めない');
+    else {
+      const S1 = '② tests/out/x.json の meta.scope が器の宣言と違う(器を走らせ直すこと)', S2 = '②tests/out/y.json の targetSha256 が現行 beta/index.html と一致しない —— **器を走らせ直すこと**';
+      const S3 = '④ tests/out/z.json のコード tests/exp-z.mjs が刻印と違う —— 鎖で作り直す段 z';   // lint.canon304 の刻印の型の書き方
+      if (LK.classifyViolation(S3) !== 'stamp') bad.push('① 「鎖で作り直す」の文が刻印の型でない');
+      const O1 = '② exp-a.mjs の宣言が下限を覆わない: preset p', O2 = '③ 常時群の集合が契約と違う: x';
+      if (!(LK.classifyViolation(S1) === 'stamp' && LK.classifyViolation(S2) === 'stamp' && LK.classifyViolation(O1) === 'other' && LK.classifyViolation(O2) === 'other')) bad.push('① 分類');
+      const k = LK.violationKinds([S1, O1, S2, O2]);
+      if (!(k.n === 4 && k.stamp === 2 && k.other === 2 && JSON.stringify(k.ordered) === JSON.stringify([O1, O2, S1, S2]))) bad.push('① 並び(それ以外を先・元の順)');
+      const t = LK.violationText([S1, S1, S1, S1, S1, O1]);
+      const m = LK.MARKER_RE.exec(t);
+      if (!(m && m[1] === '1' && m[2] === '5' && t.indexOf(O1) >= 0 && t.indexOf(O1) < t.indexOf(S1) && /ほか 3 件/.test(t))) bad.push('① 文(印・それ以外が先・刻印の型は 2 件まで)');
+      if (LK.violationText([]) !== '') bad.push('① 違反 0 件で空でない');
+      const sl = LK.summarizeLog('FAIL lint.regenScope  x' + t + '\nPASS lint.a  y\nFAIL lint.provenanceMeta  z' + LK.violationText([S1]) + '\n');
+      if (!(sl.other === 1 && sl.stamp === 6 && sl.byLint.length === 2)) bad.push('① summarizeLog');
+      cases.push(`① 版 ${LK.LINT_KINDS_VERSION}: 刻印の型 =「走らせ直す」「鎖で作り直す」の文・それ以外を先(元の順)・刻印の型は 2 件まで・印 〔違反の種類 w320d: …〕・ログの集計`);
+    }
+    // ② 5 本の lint の detail
+    const VAR = { 'lint.provenanceMeta': 'LK320pm', 'lint.regenScope': 'LK320rs', 'lint.stableHashPaths': 'LK320sh', 'lint.scopeAll312': 'LK320sa', 'lint.canon304': 'LK320c4' };
+    for (const [id, v] of Object.entries(VAR)) {
+      const i = QA320.indexOf("add('" + id + "', bad.length === 0,");
+      const seg = i < 0 ? '' : QA320.slice(Math.max(0, i - 400), i + 4000);
+      if (!(seg.indexOf('const ' + v + ' = await import(') >= 0 && seg.indexOf(v + '.violationText(bad') >= 0)) bad.push('② ' + id + ' の detail が violationText を通らない');
+    }
+    cases.push(`② ${Object.keys(VAR).length} 本の lint の detail は lib の violationText(判定 bad.length === 0 は不変)`);
+    // ③ 分類の前提(刻印の型の文に「走らせ直す」)
+    const body = (start, end) => { const a = QA320.indexOf(start), b = a < 0 ? -1 : QA320.indexOf(end, a); return a < 0 || b < 0 ? '' : QA320.slice(a, b); };
+    const PMB = body("const CANON = ['tests/out/bh90-w269c.json'", "add('lint.provenanceMeta'"), RSB = body('// ① 表が CANON を覆う', "add('lint.regenScope'");
+    let nStamp = 0;
+    for (const [nm, b] of [['lint.provenanceMeta', PMB], ['lint.regenScope', RSB]]) {
+      if (!b) { bad.push('③ ' + nm + ' の本文が読めない'); continue; }
+      for (const l of b.split('\n').filter((x) => /bad\.push\(/.test(x))) {
+        const stampy = /targetSha256 が現行|meta\.scope が器の宣言と違う|領域の刻印が無い|が刻印と違う/.test(l);
+        if (stampy) { nStamp++; if (!/走らせ直す/.test(l) && !/走らせ直す/.test(b.slice(b.indexOf(l), b.indexOf(l) + l.length + 400))) bad.push('③ ' + nm + ' の刻印の型の文に「走らせ直す」が無い: ' + l.trim().slice(0, 60)); }
+        if (/下限を覆わない/.test(l) && /走らせ直す/.test(l)) bad.push('③ ' + nm + ' の「宣言が下限を覆わない」が刻印の型に分類される');
+      }
+    }
+    cases.push(`③ 刻印の型の文 ${nStamp} 種は「走らせ直す」を含み、「宣言が下限を覆わない」は含まない`);
+    // ④ post-merge
+    if (!(PM320.indexOf('# ==== 第320便d の塊(ここから)====') >= 0 && /kinds320\(\)/.test(PM320) && /summarizeLog/.test(PM320) && /S1="\$S1\$\(kinds320 "\$LOG\/1-preflight\.log"\)"/.test(PM320) && /S4="\$S4\$\(kinds320 "\$LOG\/4-beta\.log"\)"/.test(PM320) && /刻印の型以外の違反/.test(PM320))) bad.push('④ post-merge の ① と ④ の要約');
+    cases.push('④ post-merge の ① と ④ の要約に「刻印の型以外の違反 k 件」(1 件でもあれば ‼ —— fail は従来どおり)');
+    add('lint.violationKinds320', bad.length === 0,
+      `**lint の違反を種類で数え、刻印の型以外を先に**(第320便d・R265 —— 第319便の lint.regenScope は先頭 5 件が刻印の型で「宣言が下限を覆わない」2 件が隠れた): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- lint.byproducts320
+  {
+    const bad = [], cases = [];
+    const RT = await imp320('tests/lib-w281a-regentable.mjs');
+    if (!RT || !RT.BYPRODUCTS_320D) bad.push('① 再生成表に BYPRODUCTS_320D が無い');
+    else {
+      const B = RT.BYPRODUCTS_320D, cur = RT.REGEN_STEPS.filter((z) => z.role !== 'history');
+      const tracked = new Set(String(execSync('git ls-files docs', { cwd: ROOT })).split('\n').filter(Boolean));
+      for (const [k, files] of Object.entries(B)) {
+        const st = cur.find((z) => z.key === k);
+        if (!st) { bad.push('① 段 ' + k + ' が現行の表に無い'); continue; }
+        const h = (st.cmd.match(/tests\/exp-[\w-]+\.mjs/) || [])[0], ht = h ? rd320(h) : '';
+        for (const f of files) {
+          if (!RT.writesOf(st).includes(f)) bad.push('① ' + k + ' の writes に ' + f + ' が無い');
+          if (!(st.touches || []).includes(f)) bad.push('① ' + k + ' の touches に ' + f + ' が無い');
+          if (!tracked.has(f)) bad.push('① ' + f + ' が追跡されていない');
+          const base = f.replace(/^docs\//, '');
+          if (!(ht.indexOf(f) >= 0 || ht.indexOf("'" + base + "'") >= 0) || ht.indexOf('writeFileSync') < 0) bad.push('① 器 ' + h + ' が ' + f + ' を書かない');
+        }
+      }
+      for (const st of cur) if (!B[st.key] && RT.writesOf(st).some((f) => /^docs\/.*\.md$/.test(f))) bad.push('① 宣言の外の段 ' + st.key + ' の writes に md');
+      // 器が書く docs の md(変数に名を受けて writeFileSync —— 名で引く)は全部宣言した
+      const decl = new Set(Object.values(B).flat());
+      const writers = [];
+      for (const st of cur) {
+        const h = (st.cmd.match(/tests\/exp-[\w-]+\.mjs/) || [])[0]; if (!h) continue;
+        const t = rd320(h);
+        for (const m of t.matchAll(/const (\w+) = (?:path\.join\(ROOT, 'docs', '([A-Z0-9_]+\.md)'\)|'(docs\/[A-Z0-9_]+\.md)')/g)) {
+          const v = m[1], f = m[2] ? 'docs/' + m[2] : m[3];
+          if (new RegExp('writeFileSync\\((?:path\\.join\\(ROOT, )?' + v + '\\b').test(t)) { writers.push(st.key + '→' + f); if (!decl.has(f) || !(B[st.key] || []).includes(f)) bad.push('① 段 ' + st.key + ' が ' + f + ' を書くのに副産物の宣言が無い'); }
+        }
+      }
+      cases.push(`① 副産物の md ${decl.size} 本・段 ${Object.keys(B).length}(${Object.entries(B).map(([k, f]) => k + '→' + f.map((x) => x.replace('docs/', '')).join(',')).join('・')})—— writes と touches にあり・器が書く・器の書く md の名指し ${writers.length} 件は宣言の内`);
+      // ② 鎖の JSON の writes(5 段だけ always —— 他は reuse)
+      try {
+        const plan = { steps: RT.REGEN_STEPS.map((z) => ({ key: z.key, status: z.role === 'history' ? 'history' : (B[z.key] ? 'always' : 'reuse') })) };
+        const ch = RT.buildChain(plan, { steps: RT.REGEN_STEPS, deps: RT.tableDeps({ steps: RT.REGEN_STEPS }) });
+        for (const [k, files] of Object.entries(B)) { const r = ch.steps[k]; if (!r) { bad.push('② 鎖に ' + k + ' が無い'); continue; } for (const f of files) if (!(r.writes || []).includes(f)) bad.push('② 鎖の JSON の ' + k + ' の writes に ' + f + ' が無い'); }
+        cases.push('② 鎖の JSON の writes に md(段階コミットが拾う —— 書込排他の鍵と済み印の契約の policy にも入る)');
+      } catch (e) { bad.push('② 鎖が作れない: ' + String(e).slice(0, 120)); }
+      // ③ touches を含めた書き手の全順序(自己試験 (s))
+      const tp = RT.touchOrderProbe();
+      if (!tp.ok) bad.push('③ 自己試験 (s) が通らない');
+      const au = RT.tableDepsAudit({ steps: RT.REGEN_STEPS });
+      if (au.unordered.length || au.touchUnordered.length) bad.push('③ 書き手の全順序: unordered ' + au.unordered.length + '・touch ' + au.touchUnordered.length);
+      cases.push(`③ 自己試験 (s) と書き手の全順序(KF0_LEDGER の md は kf0ledger-old → kf0ledger)`);
+    }
+    add('lint.byproducts320', bad.length === 0,
+      `**段の副産物の md を段の書きに**(第320便d・R265 —— 運用の正本 追記 38 ⑨: 段階コミットの脚本が鎖の JSON の writes を読むので md を拾わなかった): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- docs.w320d
+  {
+    const bad = [], cases = [];
+    // ① AN478 の名簿と分類
+    const PB = await imp320('tests/lib-w320d-perbook.mjs');
+    let roster = null; try { roster = JSON.parse(rd320('tests/data-w320d-perbook.json')); } catch (e) { bad.push('① 名簿が読めない'); }
+    if (!PB) bad.push('① tests/lib-w320d-perbook.mjs が読めない');
+    else if (roster) {
+      const RT = await imp320('tests/lib-w281a-regentable.mjs');
+      const cur = RT.REGEN_STEPS.filter((z) => z.role !== 'history' && !z.outside).map((z) => z.key).sort();
+      if (roster.version !== PB.ROSTER_VERSION) bad.push('① 名簿の版 ' + roster.version);
+      const rk = roster.rows.map((z) => z.key).sort();
+      if (JSON.stringify(rk) !== JSON.stringify(cur)) bad.push('① 名簿の段 ≠ 今の表(node tools/regen-plan.mjs --roster --write で引き直す): ' + cur.filter((k) => !rk.includes(k)).concat(rk.filter((k) => !cur.includes(k)).map((k) => '名簿だけ ' + k)).slice(0, 4).join(','));
+      const cnt = { A: 0, B: 0, C: 0 }; for (const r of roster.rows) cnt[r.tier] = (cnt[r.tier] || 0) + 1;
+      if (JSON.stringify(cnt) !== JSON.stringify(roster.count)) bad.push('① 名簿の数');
+      for (const r of roster.rows.filter((z) => z.tier === 'A')) { const st = RT.REGEN_STEPS.find((z) => z.key === r.key); const h = st && (st.cmd.match(/tests\/exp-[\w-]+\.mjs/) || [])[0]; if (!(h && /['"`]--only['"`]/.test(rd320(h)))) bad.push('① 名簿 A の ' + r.key + ' の器に --only が無い'); }
+      const pd = (raw, acc, fn, core) => ({ parts: { presetsRaw: raw, presetsAccepted: acc, closure: fn, hp: {}, core, consts: {} }, scope: { version: 'v' } });
+      const c1 = PB.classifyDiff(PB.partsDiff(pd({ a: '1', b: '1' }, { a: '1', b: '1' }, { f: '1' }, 'c'), pd({ a: '2', b: '1' }, { a: '2', b: '1' }, { f: '1' }, 'c')));
+      const c2 = PB.classifyDiff(PB.partsDiff(pd({ a: '1' }, { a: '1' }, { f: '1' }, 'c'), pd({ a: '2' }, { a: '2' }, { f: '2' }, 'c')));
+      const c3 = PB.classifyDiff(PB.partsDiff(pd({ a: '1' }, { a: '1' }, { f: '1' }, 'c'), pd({ a: '1' }, { a: '1' }, { f: '1' }, 'c')));
+      const c4 = PB.classifyDiff(PB.partsDiff(pd({ a: '1' }, { a: '1' }, { f: '1' }, 'c'), pd({ a: '1' }, { a: '9' }, { f: '1' }, 'c')));
+      if (!(c1.kind === 'book' && c1.books.join() === 'a' && c2.kind === 'core' && c2.books.join() === 'a' && c3.kind === 'none' && c4.kind === 'book' && c4.books.join() === 'a')) bad.push('① 分類の純関数(本だけ → book・式が違えば core・差なし → none・受理後だけ → book)');
+      const want = sec320 ? (/名簿 A (\d+)・B (\d+)・C (\d+)/.exec(sec320) || []) : [];
+      if (!(want.length && +want[1] === roster.count.A && +want[2] === roster.count.B && +want[3] === roster.count.C)) bad.push('① PHYSICS〔第320便d〕の「名簿 A n・B n・C n」が名簿と違う');
+      cases.push(`① AN478: 名簿 ${roster.version} A ${roster.count.A}・B ${roster.count.B}・C ${roster.count.C}(段 ${rk.length} = 今の表・A の器に --only)・分類の純関数(核・本・表示)`);
+    }
+    // ② AN481(子プロセス —— inspector を QA のプロセスで使わない)
+    {
+      const { spawnSync } = await import('node:child_process');
+      const r = spawnSync(process.execPath, ['--max-old-space-size=4096', path.join(ROOT, 'tools', 'an481-probe.mjs'), '--json'], { cwd: ROOT, encoding: 'utf8', timeout: 300000, maxBuffer: 1 << 26 });
+      let J = null; try { J = JSON.parse(String(r.stdout || '').trim().split('\n').pop()); } catch (e) { bad.push('② tools/an481-probe.mjs の出力が読めない(rc ' + r.status + ')'); }
+      if (J) {
+        const T = J.table.table, n = J.table.decls, A = await imp320('tests/lib-w320d-an481.mjs');
+        if (J.table.missing.length) bad.push('② 変異の段が html に無い: ' + J.table.missing.join(','));
+        for (const m of ['m1key', 'm1guard', 'm3reject', 'm4step', 'w319acc', 'w319step']) if (T[m].P0 !== n) bad.push('② 現行 P0 で ' + m + ' が全宣言を動かさない(' + T[m].P0 + '/' + n + ')');
+        if (T.m3reject.P1 !== 0 || T.m1guard.P1 !== 0) bad.push('② P1(validatePreset を停止)で拒否の条件の変更が見えない、の対照が崩れた');
+        if (T.m1key.P2 !== 0 || T.m4step.P2 !== n || T.m3reject.P2 !== n) bad.push('② P2(鍵の表を閉包の外)の対照');
+        for (const m of ['w319acc', 'w319step']) if (T[m].P1 !== n || T[m].P2 !== n) bad.push('② 第319便a の段が P1/P2 でも全宣言を動かす、が崩れた(' + m + ')');
+        const C = J.coverage, w319 = (A ? A.W319A_ACCEPT.concat(A.W319A_STEP) : []);
+        if (!(C.coverage && C.ran === 1 && C.dynamicFns > 0 && C.dynamicFns < C.staticFns && C.dynamicBytes < C.staticBytes)) bad.push('② P4 の調べ(coverage・1 冊・実行の閉包 < 静的)');
+        if (C.inDynamic.some((x) => w319.includes(x)) || !C.inStatic.some((x) => w319.includes(x)) || !C.inDynamic.includes('validatePreset')) bad.push('② P4: 第319便a の段が実行の閉包に入った/静的な閉包に無い');
+        cases.push(`② AN481: 宣言 ${n} 器 —— 現行 P0 は 4 変異と第319便a の受理/步の段のすべてで ${n} 器・P1 は拒否の条件の変更 ${T.m3reject.P1}(見落とす —— 採らない)・P2 は使わない鍵 ${T.m1key.P2}・步 ${T.m4step.P2}`
+          + ` / P4(${J.harness} の roots・❄️ ${C.steps} 步): 静的 ${C.staticFns} 関数 → 実行 ${C.dynamicFns} 関数・第319便a の段は静的 ${C.inStatic.filter((x) => w319.includes(x)).length}・実行 0`);
+      }
+    }
+    // ③ SAMPLE_STATUS(器 —— 今の器で作った正本なら欄と md の行)
+    const SSH = rd320('tests/exp-w279a-samplestatus.mjs');
+    for (const w of ['qaProvenance', 'noHtmlSteps', 'htmlReadOf', "'html を読まない'", '保存 QA の来歴', '1 便遅れる']) if (SSH.indexOf(w) < 0) bad.push('③ 器に「' + w + '」が無い');
+    { let SS = null; try { SS = JSON.parse(rd320('tests/out/samplestatus-w279a.json')); } catch (e) { SS = null; }
+      const hs = crypto.createHash('sha256').update(SSH).digest('hex');
+      const cur = SS && ((SS.meta || {}).code || []).some((z) => z.file === 'tests/exp-w279a-samplestatus.mjs' && z.sha256 === hs);
+      if (cur) {
+        const tn = SS.timingNote || {}, md = rd320('docs/SAMPLE_STATUS.md');
+        if (!(tn.qaProvenance && 'sameBuild' in tn.qaProvenance && tn.noHtmlSteps && tn.noHtmlSteps.n > 0)) bad.push('③ 正本の timingNote に qaProvenance・noHtmlSteps が無い');
+        if (md.indexOf('保存 QA の来歴') < 0 || md.indexOf('| html を読まない |') < 0) bad.push('③ md に保存 QA の来歴・区分「html を読まない」が無い');
+        cases.push(`③ SAMPLE_STATUS: 保存 QA の来歴(版名 ${(tn.qaProvenance || {}).betaBuild}・同じ便 ${(tn.qaProvenance || {}).sameBuild})・html を読まない段 ${(tn.noHtmlSteps || {}).n}`);
+      } else cases.push('③ SAMPLE_STATUS: 器に保存 QA の来歴と区分「html を読まない」(正本は鎖の常時群 samplestatus の段で入れ替わる)');
+    }
+    // ④ AN455
+    { const SCm = await imp320('tests/lib-w281a-scope.mjs');
+      for (const f of ['tests/exp-w298c-drag3d.mjs', 'tests/exp-w302d-semic.mjs']) { const d = SCm && SCm.readDeclaredScope(rd320(f)); if (!(d && (d.consts || []).includes('ACCEPT_REASONS') && d.complete === true)) bad.push('④ ' + f + ' の consts に ACCEPT_REASONS が無い'); }
+      cases.push('④ AN455: drag3d-298c・semic-302d の REGEN_SCOPE の consts に ACCEPT_REASONS(受理されない宣言の理由の文を正本に書く 2 段 —— 本便は全段の鎖)'); }
+    // ⑤ AN477
+    for (const [f, out, part] of [['tests/exp-w309a-invsq.mjs', 'tests/out/invsq-w309a.json', 'D'], ['tests/exp-w310a-invsq.mjs', 'tests/out/invsq-w310a.json', 'N']]) {
+      const t = rd320(f);
+      if (/LATER_BOOKS_/.test(t) || t.indexOf('isRuleBookW320') < 0 || t.indexOf('ruleBooks') < 0) bad.push('⑤ ' + f + ' の除外が宣言の条件でない');
+      let J = null; try { J = JSON.parse(rd320(out)); } catch (e) { J = null; }
+      const hs = crypto.createHash('sha256').update(t).digest('hex');
+      if (J && ((J.meta || {}).code || []).some((z) => z.file === f && z.sha256 === hs) && !((J[part] || {}).ruleBooks || []).includes('solarSystem16Inertial3d')) bad.push('⑤ ' + out + ' の ' + part + '.ruleBooks に 🗺️ が無い');
+    }
+    // 条件の集合(写しへ戻す前の今の html —— 戻した後は在位の 7 本が invSq を持たないので同じ集合)= 名指しの集合だった 🗺️ の 1 本
+    { const RB = await imp320('tests/lib-w320d-rulebooks.mjs'); let hit = null;
+      try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); const H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        hit = H.HP.allPresets().filter((p) => RB.isRuleBookNoCopy(p)).map((p) => p.id); } catch (e) { bad.push('⑤ 条件の集合が引けない: ' + String(e).slice(0, 80)); }
+      if (hit && JSON.stringify(hit) !== JSON.stringify(['solarSystem16Inertial3d'])) bad.push('⑤ 条件 isRuleBookNoCopy に当たる本が 🗺️ だけでない: ' + hit.join(','));
+      cases.push(`⑤ AN477: invsq-309a・invsq-310a の名指しの除外を宣言の条件 isRuleBookNoCopy(K1 の規則の宣言 relativeDrag.invSq.rdRule の本のうち移行の前の写しが無い本 —— 今の html で ${hit ? hit.length : '?'} 本 = 🗺️)へ —— 外した本は ruleBooks に数える・既存の欄と値は不変`); }
+    // ⑥ 文書
+    const rv = (s) => [...s].reverse().join('');
+    const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);
+    const NOT = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'たため確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転逆の星金', 'たし明説をータマクーダ'].map(rv);
+    if (!sec320) bad.push('⑥ PHYSICS〔第320便d〕が無い');
+    else {
+      const i7 = PH320.indexOf('\n## 7.'), i319 = PH320.indexOf('〔第319便 — 統括');
+      if (!(a320 < i7 && i319 >= 0 && i319 < a320)) bad.push('⑥ 節の位置(〔第319便 — 統括〕の後・「## 7.」の前)');
+      for (const [b, k] of [['a', PH320.indexOf('〔第320便a — ')], ['b', PH320.indexOf('〔第320便b — ')], ['c', PH320.indexOf('〔第320便c — ')]]) if (k >= 0 && k > a320) bad.push('⑥ 〔第320便' + b + '〕が〔第320便d〕の後');
+      for (const w of ['AN478', 'AN481', 'AN477', 'AN455', 'AN476', 'R265', 'lint.violationKinds320', 'lint.byproducts320', 'docs.w320d', 'violationText', 'BYPRODUCTS_320D', 'tools/an481-probe.mjs', 'tests/data-w320d-perbook.json', '--classify', 'P0', 'P1', 'P2', 'P4', 'm1key', 'm3reject', 'isRuleBookW320', 'qaProvenance', '**表 1', '**表 2']) if (sec320.indexOf(w) < 0) bad.push('⑥ PHYSICS〔第320便d〕に「' + w + '」が無い');
+    }
+    const AI = rd320('docs/AI_SPEC.md'), ai158 = (() => { const m = /\n## 158\. 第320便d[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+    if (!(ai158 && ai158.indexOf('AN481') >= 0 && ai158.indexOf('AN478') >= 0 && ai158.indexOf('BYPRODUCTS_320D') >= 0)) bad.push('⑥ AI_SPEC §158');
+    const CL = rd320('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+    const cl320 = (clb.split('\n').find((l) => l.indexOf('**第320便d**') >= 0)) || '';
+    if (!cl320) bad.push('⑥ CHANGELOG の beta 節に第320便d の行が無い');
+    const TR = rd320('tools/README.md');
+    if (!(TR.indexOf('an481-probe.mjs') >= 0 && TR.indexOf('--classify') >= 0 && TR.indexOf('--roster') >= 0)) bad.push('⑥ tools/README に an481-probe・--classify・--roster が無い');
+    for (const [nm, tx] of [['PHYSICS〔第320便d〕', sec320], ['AI_SPEC §158', ai158], ['CHANGELOG の第320便d の行', cl320]]) {
+      for (const w of NG) if (tx.indexOf(w) >= 0) bad.push('⑥ ' + nm + ' に禁句(' + w.length + ' 字)');
+      for (const w of NOT) if (tx.indexOf(w) >= 0) bad.push('⑥ ' + nm + ' に書かない語(' + w.length + ' 字)');
+      if (tx.indexOf(String.fromCharCode(0x3ba)) >= 0) bad.push('⑥ ' + nm + ' に裸の係数記号');
+    }
+    if (!(PM320.indexOf('# ==== 第320便d の塊(ここから)====') >= 0 && /lint\.violationKinds320/.test(PM320) && /docs\.w320d/.test(PM320) && /lint\.byproducts320/.test(PM320))) bad.push('⑥ post-merge の ③′ に第320便d の塊が無い');
+    cases.push('⑥ PHYSICS〔第320便d〕(〔第319便 — 統括〕の後・「## 7.」の前)・AI_SPEC §158・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号 なし');
+    add('docs.w320d', bad.length === 0,
+      `**道具と QA**(第320便d・決断事項 AN478・AN481・AN477・AN455・R265 —— 物理・本の宣言・エンジンの式・受理の判定は不変・領域 hash の版は変えない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第320便d の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
