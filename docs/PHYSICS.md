@@ -41263,7 +41263,7 @@ balance:"background" の受理の正準形は第319便a のまま(真)・版 w32
 | `psrJ1946DFM` | 3704.7・— | 185.2・— | 20.0・0.0(値域に修正) | 1.914・1.860 | pulse・spinDipole・dragQ | —・— | GR-timing |
 | `psrB1534` | 1657.8・— | 82.9・— | 20.0・0.0(値域に修正) | 1.987・2.006 | pulse・spinDipole・dragQ・core | —・— | GR-timing |
 
-**⑦ 既存の器の除外(段 X —— AN492)。** 写しの geo3 の連星の本(並進だけ —— シリウス・α Cen・玩具)は、〔第320便d〕の表 1 の 4 段(wbglaw-301g・wbgest-302c・semic-302d・refit-303a —— 器の名指しの除外 `LATER_BOOKS_318` で 🗺️ だけを外している)の数え上げの述語の写しに**全部入る**(名指しの外 —— 内蔵にすると器の正本の欄が変わるか落ちる)。宣言の条件 isRuleBookNoCopy(invsq-309a・invsq-310a)には当たる(ruleBooks に数えられる —— 値が変わるので鎖)。QA の名指しの除外(世代定数 `W318C_S16` と 🗺️ の否定)は `behavior.wbgDirect302`・`preset.gLocPlanets302`・`docs.semic302`・`preset.revertGLoc303`・`behavior.invSq309`・`behavior.galaxial311` の 6 本 —— 同じ型の除外か宣言の条件が要る。presets "all" の段(第312便c の一覧で 39 段)は本を足す便で煙試験 `--keys` に先に回す。
+**⑦ 既存の器の除外(段 X —— AN492)。** 写しの geo3 の連星の本(並進だけ —— シリウス・α Cen・玩具)は、〔第320便d〕の表 1 の 4 段(wbglaw-301g・wbgest-302c・semic-302d・refit-303a —— 器の名指しの除外 `LATER_BOOKS_318` で 🗺️ だけを外している)の数え上げの述語の写しに**全部入る**(名指しの外 —— 内蔵にすると器の正本の欄が変わるか落ちる)。宣言の条件 isRuleBookNoCopy(invsq-309a・invsq-310a)には当たる(ruleBooks に数えられる —— 値が変わるので鎖)。QA の名指しの除外(世代定数 `W318C_S16` と 🗺️ の否定)は `behavior.wbgDirect302`・`preset.gLocPlanets302`・`docs.semic302`・`preset.revertGLoc303`・`behavior.invSq309`・`behavior.galaxial311` の 6 本 —— 同じ型の除外か宣言の条件が要る。presets "all" の段(tests/data-w312c-scopeall.json の一覧で 40 段 —— 本便の geo3bin-321b を含む)は本を足す便で煙試験 `--keys` に先に回す。
 
 | 段(〔第320便d〕の表 1・宣言の条件) | 数え上げの述語(写し) | シリウス AB | α Cen AB | 玩具 等質量・離心 0.5 |
 |---|---|---|---|---|
