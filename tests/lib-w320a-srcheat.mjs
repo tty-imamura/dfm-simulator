@@ -28,7 +28,8 @@ export const DECL = Object.freeze({
   // 源のモーメントの種類(エンジンの鍵 invSq.sourceMoment.kind —— "now" は宣言しない写し)。J は 2 つの宣言: 太陽だけに f(第319便a の F の「案3」と同じ型 —— 第319便b の比の照合)と
   //   名のある 8 天体に f(MOI16 —— 第319便b の案3 の写しは名の無い天体も 0.4 —— 本便は宣言しない天体を R_d のまま)
   kinds: Object.freeze(['now', 'Jsun', 'J', 'J16', 'obs', 'capObs']),
-  // J16(🗺️ だけ —— 2 体の本は J と同じ): 名のある 8 天体の f に加えて名の無い天体(衛星 7 つ)に一様な球の 0.4(第319便b の案3 の写しの型 —— 宣言の値で文献の値ではない)
+  // J16(🗺️ だけ —— 2 体の本は J と同じ): 名のある 8 天体の f に加えて名の無い 8 天体(衛星 6 つ〔イオ・エウロパ・ガニメデ・カリスト・タイタン・トリトン〕と天王星・海王星)に
+  //   一様な球の 0.4(第319便b の案3 の写しの型 —— 宣言の値で文献の値ではない)
   fUniform: 0.4,
   galaxyCands: Object.freeze(['none', 'declPlus', 'declMinus']),
   // 受け手の慣性係数の 2 列: engine(エンジンの維持の型の I = ½ m R² —— 明示潮汐を宣言しない本)・src(受け手の f = 源の f —— 木星 0.254。熱・率・要る τ_hold は f に比例 ——
@@ -44,7 +45,9 @@ export const DECL = Object.freeze({
   hold: '維持の型 mode:"maintain"・reaction:"background"・heatTiming:{tauHold: h₀}(本の画面の刻み —— 1 步の量 × h/τ_hold)・compose:"source"・balance:"background"(読み (b) —— 版 w320a-axishold-balance-2)',
   galaxy: '第319便a の写しと同じ型: ω_G = ±Ω_ref ĝ(Ω_ref = V0/R0 —— 尺度だけ)・rdPow 1・refRadius = 太陽の R_d・massPow −1・refMass = 太陽のエンジンの質量(K1 の全天体で応答の係数 1)',
 });
-export const KIND_JA = Object.freeze({ now: '今(R_src = R_d = Y_k m)', Jsun: 'J(太陽だけ f = 0.07)', J: 'J(8 天体に f)', J16: 'J(8 天体に f + 衛星 7 つに 0.4)', obs: 'obs(R_src = R_obs —— 案2a の比較の列)', capObs: 'capObs(min(R_obs, 6.5e6 m) —— 案1 の比較の列)' });
+export const KIND_JA = Object.freeze({ now: '今(R_src = R_d = Y_k m)', Jsun: 'J(太陽だけ f = 0.07)', J: 'J(8 天体に f)', J16: 'J(8 天体に f + 名の無い 8 天体に 0.4)', obs: 'obs(R_src = R_obs —— 案2a の比較の列)', capObs: 'capObs(min(R_obs, 6.5e6 m) —— 案1 の比較の列)' });
+/** 2 体の本の J の名(J と J16 は太陽と惑星に f —— 同じ宣言) */
+export const KIND_JA2 = Object.freeze(Object.assign({}, KIND_JA, { J: 'J(太陽と惑星に f)', J16: 'J(太陽と惑星に f)' }));
 export const GALAXY_JA = Object.freeze({ none: '無し', declPlus: '+ĝ Ω_ref(宣言の尺度)', declMinus: '−ĝ Ω_ref(宣言の尺度)' });
 export const RECVF_JA = Object.freeze({ engine: '受け手 I = ½ m R²(エンジン)', src: '受け手 f = 源の f(木星 0.254)' });
 /** 2 体の本の惑星の f(🌋 金星・🏀 木星 —— MOI16 と同じ値。添字 1 が惑星) */

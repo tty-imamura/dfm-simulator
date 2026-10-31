@@ -212,7 +212,8 @@ export function receiverRows(R, names) {
     const evB = r.last.source.heat * U.E, ev319 = r.sources.reduce((a, q) => a + q.Eax + Math.max(q.Esp, 0), 0) * U.E, evNoGal = bodies.reduce((a, q) => a + q.heat, 0) * U.E;
     return { i: r.i, name: names ? names[r.i] : null, I: r.inertia * U.I, Om: nrm(r.omegaI) * U.W, sun: srcRowOf(sun, U), galaxy: srcRowOf(gal, U),
       eventB: evB, event319: ev319, eventNoGalaxyB: evNoGal, eventCompositeB: r.last.composite.heat * U.E, supplyEvent: r.sources.reduce((a, q) => a + Math.max(-q.Esp, 0), 0) * U.E,
-      cumB: r.heatSource * U.E, cumCompositeB: r.heatComposite * U.E };
+      cumB: r.heatSource * U.E, cumCompositeB: r.heatComposite * U.E,
+      topB: bodies.map((q) => ({ src: q.src, name: names ? names[q.src] : null, heatB: q.heat * U.E })).sort((a, b) => b.heatB - a.heatB).slice(0, 4) };   // 天体の源の (b) の 1 回の熱の大きい順 4 つ
   });
 }
 export function partBook(E, key, kind, sign, plan) {
@@ -287,7 +288,7 @@ export function partF(books, plan, Rj) {
       if (rm) cand.push(['declMinus', rm.eventB, rm.event319]);
       for (const [gk, evB, ev319] of cand) for (const fk of L.DECL.recvF) {
         const mul = (fk === 'src' && isJup) ? L.MOI16[6] / L.DECL.engineRecvF : (fk === 'src') ? L.MOI16[2] / L.DECL.engineRecvF : 1;
-        const row = { book: bp.id, i, ja, kind, kindJa: L.KIND_JA[kind], galaxy: gk, galaxyJa: L.GALAXY_JA[gk], recvF: fk, recvFJa: L.RECVF_JA[fk], recvMul: mul,
+        const row = { book: bp.id, i, ja, kind, kindJa: (key === 'solar16' ? L.KIND_JA : L.KIND_JA2)[kind], galaxy: gk, galaxyJa: L.GALAXY_JA[gk], recvF: fk, recvFJa: L.RECVF_JA[fk], recvMul: mul,
           sunMag: rp.sun.mag, galMag: rp.galaxy ? rp.galaxy.mag : 0, sunHeatB: rp.sun.heat * mul, sunDecel: rp.sun.decel, eventB: evB * mul, event319: ev319 === null ? null : ev319 * mul };
         if (isJup) { row.tauReqB = row.eventB / out.Preq; row.tauReqBAlt = row.eventB / out.PreqAlt; row.ratioBAtH0 = row.eventB / bp.h0 / out.Preq; row.ratioBAtH0Alt = row.eventB / bp.h0 / out.PreqAlt;
           row.sunRatioBAtH0 = row.sunHeatB / bp.h0 / out.Preq; if (row.event319 !== null) row.tauReq319 = row.event319 / out.Preq; }
