@@ -2,7 +2,7 @@
  "version": "w305d-spinavg-1",
  "generator": "tests/exp-w305d-spinavg.mjs",
  "target": "beta/index.html",
- "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+ "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
  "ruling": "原仮定者の裁定(第96報)後半(回転引きずり = 移動と回転の両方に効く座標変換・軸引きずり = 引きずり元による様々な軸の回転・多粒子の平均と熱力学との類似)・統括の検証項目 R202",
  "spinVersion": "w298c-spin3-1",
  "axialLaw": "mu2-pointK",
@@ -80,7 +80,7 @@
    "dt": 0.016,
    "steps": 600,
    "drag": true,
-   "wallSec": 5.249,
+   "wallSec": 5.099,
    "axial": false,
    "kappa": 4,
    "kappaFrom": "readout",
@@ -254,7 +254,7 @@
    "dt": 0.016,
    "steps": 600,
    "drag": true,
-   "wallSec": 7.557,
+   "wallSec": 7.369,
    "axial": true,
    "kappa": 4,
    "kappaFrom": "declared",
@@ -441,7 +441,7 @@
    "dt": 0.016,
    "steps": 600,
    "drag": true,
-   "wallSec": 81.98,
+   "wallSec": 80.374,
    "axial": false,
    "kappa": 4,
    "kappaFrom": "readout",
@@ -639,7 +639,7 @@
    "dt": 0.016,
    "steps": 600,
    "drag": true,
-   "wallSec": 109.658,
+   "wallSec": 104.914,
    "axial": true,
    "kappa": 4,
    "kappaFrom": "declared",
@@ -831,7 +831,7 @@
    "dt": 0.002,
    "steps": 600,
    "drag": true,
-   "wallSec": 1.748,
+   "wallSec": 1.784,
    "axial": false,
    "kappa": 4,
    "kappaFrom": "readout",
@@ -1005,7 +1005,7 @@
    "dt": 0.58,
    "steps": 600,
    "drag": true,
-   "wallSec": 5.868,
+   "wallSec": 5.359,
    "axial": false,
    "kappa": 4,
    "kappaFrom": "readout",
@@ -1179,7 +1179,7 @@
    "dt": 0.58,
    "steps": 600,
    "drag": true,
-   "wallSec": 5.041,
+   "wallSec": 3.775,
    "axial": false,
    "kappa": 4,
    "kappaFrom": "readout",
@@ -1694,7 +1694,7 @@
       }
      ]
     },
-    "wallSec": 0.022
+    "wallSec": 0.031
    },
    {
     "geom": "ball",
@@ -1832,7 +1832,7 @@
       }
      ]
     },
-    "wallSec": 0.121
+    "wallSec": 0.085
    },
    {
     "geom": "ball",
@@ -2108,7 +2108,7 @@
       }
      ]
     },
-    "wallSec": 0.971
+    "wallSec": 0.966
    },
    {
     "geom": "ball",
@@ -2246,7 +2246,7 @@
       }
      ]
     },
-    "wallSec": 4.294
+    "wallSec": 4.223
    },
    {
     "geom": "ball",
@@ -2384,7 +2384,7 @@
       }
      ]
     },
-    "wallSec": 0.279
+    "wallSec": 0.3
    },
    {
     "geom": "ball",
@@ -2522,7 +2522,7 @@
       }
      ]
     },
-    "wallSec": 0.27
+    "wallSec": 0.223
    },
    {
     "geom": "ball",
@@ -2660,7 +2660,7 @@
       }
      ]
     },
-    "wallSec": 0.295
+    "wallSec": 0.229
    },
    {
     "geom": "ball",
@@ -2798,7 +2798,7 @@
       }
      ]
     },
-    "wallSec": 0.344
+    "wallSec": 0.233
    },
    {
     "geom": "ball",
@@ -2936,7 +2936,7 @@
       }
      ]
     },
-    "wallSec": 0.259
+    "wallSec": 0.224
    },
    {
     "geom": "ball",
@@ -3080,7 +3080,7 @@
      "sRotMeanAbs": 0.012370831998825724,
      "sRotRms": 0.4735902344885329
     },
-    "wallSec": 0.252
+    "wallSec": 0.242
    },
    {
     "geom": "disk",
@@ -3218,7 +3218,7 @@
       }
      ]
     },
-    "wallSec": 0.023
+    "wallSec": 0.013
    },
    {
     "geom": "disk",
@@ -3356,7 +3356,7 @@
       }
      ]
     },
-    "wallSec": 0.084
+    "wallSec": 0.063
    },
    {
     "geom": "disk",
@@ -3494,7 +3494,7 @@
       }
      ]
     },
-    "wallSec": 0.275
+    "wallSec": 0.245
    },
    {
     "geom": "disk",
@@ -3632,7 +3632,7 @@
       }
      ]
     },
-    "wallSec": 1.018
+    "wallSec": 0.995
    },
    {
     "geom": "disk",
@@ -3770,7 +3770,7 @@
       }
      ]
     },
-    "wallSec": 5.119
+    "wallSec": 4.15
    },
    {
     "geom": "disk",
@@ -3908,7 +3908,7 @@
       }
      ]
     },
-    "wallSec": 0.273
+    "wallSec": 0.294
    },
    {
     "geom": "disk",
@@ -4046,7 +4046,7 @@
       }
      ]
     },
-    "wallSec": 0.224
+    "wallSec": 0.245
    },
    {
     "geom": "disk",
@@ -4184,7 +4184,7 @@
       }
      ]
     },
-    "wallSec": 0.282
+    "wallSec": 0.255
    },
    {
     "geom": "disk",
@@ -4322,7 +4322,7 @@
       }
      ]
     },
-    "wallSec": 0.245
+    "wallSec": 0.255
    },
    {
     "geom": "disk",
@@ -4460,7 +4460,7 @@
       }
      ]
     },
-    "wallSec": 0.346
+    "wallSec": 0.274
    },
    {
     "geom": "disk",
@@ -4604,7 +4604,7 @@
      "sRotMeanAbs": 0.03967392658793669,
      "sRotRms": 2.1841012859087776
     },
-    "wallSec": 0.244
+    "wallSec": 0.259
    }
   ]
  },
@@ -4666,34 +4666,34 @@
  "ok": true,
  "timing": {
   "pass": {
-   "wallSec": 40.568
+   "wallSec": 39.96
   },
   "books": {
-   "wallSec": 347.285
+   "wallSec": 330.225
   },
   "order": {
-   "wallSec": 0.044
+   "wallSec": 0.048
   },
   "identity": {
-   "wallSec": 0.037
+   "wallSec": 0.042
   },
   "scan": {
-   "wallSec": 40.012
+   "wallSec": 37.206
   }
  },
- "elapsedS": 429.657,
+ "elapsedS": 409.098,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第305便d",
   "target": "beta/index.html",
-  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-  "generatedAt": "2026-10-30T19:04:53.082Z",
+  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+  "generatedAt": "2026-10-31T10:09:21.002Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7379828,
-    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-    "mtime": "2026-10-30T11:20:58.670Z"
+    "bytes": 7401797,
+    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+    "mtime": "2026-10-31T03:14:16.264Z"
    }
   ],
   "code": [
@@ -4767,11 +4767,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1315,
-   "segments": 1156,
-   "closureShare": 0.297
+   "names": 1325,
+   "segments": 1163,
+   "closureShare": 0.298
   },
-  "scopeSha256": "dc2499109da1d4fc3c7e4b67c1fd5dcccef3a0644af57b31c984d7f5df30b843",
+  "scopeSha256": "7cd980c0cbaf6e0baf0168749f4ebef33ac04d192e39ac61fee2e74776208756",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

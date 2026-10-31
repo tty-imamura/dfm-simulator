@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-  "generatedAt": "2026-10-30T20:15:11.758Z",
+  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+  "generatedAt": "2026-10-31T10:00:45.109Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7379828,
-    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-    "mtime": "2026-10-30T11:20:58.670Z"
+    "bytes": 7401797,
+    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+    "mtime": "2026-10-31T03:14:16.264Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1736879,
-    "sha256": "fad13fbdb6dd3632ea0fa5abf1d661fdd300eabc1467fdb1bb4c1f3862340b42",
-    "mtime": "2026-10-30T19:53:31.723Z"
+    "bytes": 1719674,
+    "sha256": "3e4dc511542269a4d4e0698b0675653ca017f00629e22f3a3b627a123de0070d",
+    "mtime": "2026-10-31T04:41:33.124Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -51,8 +51,8 @@
    {
     "file": "docs/FAMILIES.md",
     "bytes": 55396,
-    "sha256": "fd865ce86e0d3bcef4ac70ed9c426f0cbe64951c6ac9e6dff56394e4812d4f2e",
-    "mtime": "2026-10-30T20:15:11.731Z"
+    "sha256": "7a6c19d834a958bf3c42b7cba8248007142500ba0259e3ad8fed681086b64856",
+    "mtime": "2026-10-31T10:00:45.081Z"
    }
   ],
   "code": [
@@ -88,12 +88,12 @@
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 470640,
-    "sha256": "cb84435bde90bb30d6c21b4c7407c5fd2465cef323fa022e87549a62b78d1ff6",
-    "mtime": "2026-10-30T11:33:02.850Z"
+    "bytes": 479863,
+    "sha256": "e51283d328f07310089c9bbaea5a527f51be618fbc6236dc55a949256eaa41ae",
+    "mtime": "2026-10-31T03:14:16.547Z"
    }
   ],
-  "codeSha256": "480e6eb8788fec893d2f4f5e552ffe31f5f6913dac82330370719ae2fc470757",
+  "codeSha256": "ad9a1de90b1cc49f77719ed1e222f0259f80629025803942aa0d0ba4b3c8990d",
   "harnessVersion": "w294b-families-2",
   "scope": {
    "version": "w318a-scope-6",
@@ -116,16 +116,16 @@
     "BUILTIN_PRESETS.map((p)=>[p.id,p.emoji||null,p.name||null,p.familyRole||null])"
    ],
    "complete": true,
-   "names": 1305,
-   "segments": 1146,
-   "closureShare": 0.3212
+   "names": 1315,
+   "segments": 1153,
+   "closureShare": 0.3221
   },
-  "scopeSha256": "69d47518131d06853b840a9fb876ed232e1a60a84ba37868a44d4d21da58f4cd",
+  "scopeSha256": "7b5a080eccf95841336bfce76a7a0d936ff8614ff5ac214dca711392157f546c",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "5e7b35659ac8def06d0be3bcfc3ee409e2f6e40cbe2984dd8929cdf78c378ad0",
+    "stableSha256": "421c6b23787b2b32b42082a45974d86b0954eb621f35c101cfd9895a7216856f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -153,7 +153,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "4d8b292dd13fdbd2c57ca39fb444315598e92536e821bfa0a397e44d38dce207",
+    "stableSha256": "590da40342bcfb266ba7fac0d3ca887fde8ac72662e2e72b74efb3b28afb6484",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -227,7 +227,7 @@
    "畳まない組: 較正の派生値が kF0 版と DFM 版で違う組(観測版と DFM 版を 1 ID にしない)"
   ]
  },
- "betaBuild": "v1.47-b319",
+ "betaBuild": "v1.47-b320",
  "ruling": "原仮定者の裁定(第73報)④: 同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)・ダークローター〔現 光学迷彩矮星〕関連の一部は廃止の方向",
  "reading": "統括の検証項目 R84(退役はフラグ・BUILTIN_PRESETS から消さない)・R85(鍵ごとの差・同じ入力/違う入力・主系列/比較/診断/履歴・候補を出すだけで畳まない)",
  "notClaim": [
@@ -5604,5 +5604,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.946
+ "elapsedS": 0.766
 }
