@@ -448,6 +448,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.laterBooks319 docs.w319d behavior.rayLe
 #   lint.qaHeapRelease310・lint.sectionLookup313・lint.harnessSmoke303
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.jExplore320b lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.harnessSmoke303"
 # ==== 第320便b の塊(ここまで)====
+# ==== 第320便c の塊(ここから)====
+# 第320便c(原仮定者の指示(第122報)・AN472・AN473・R264): 枝 c の新設 1 本(docs.nbCompose320c —— 太陽系近傍の銀河の軸の源の合成の正本と文書・純関数の作り直し)と、
+#   正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・CANON の lint.canon304・lint.qaHeapRelease310・
+#   lint.sectionLookup313・新しい記号のコードの書式の lint.kappaSymbol315・煙試験の窓の表の lint.harnessSmoke303
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.nbCompose320c lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.harnessSmoke303"
+# ==== 第320便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

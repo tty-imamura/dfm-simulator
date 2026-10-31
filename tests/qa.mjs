@@ -2503,6 +2503,9 @@ lastAddAt = Date.now();
       // ==== 第320便b の塊(ここから)==== 源の角運動量 J の確かめ・案2b の混成の導き直し・候補を並べて数える探索の器(jexplore-320b —— 1 プロセス・步は進めない)。領域 REGEN_SCOPE を刻む
       'tests/out/jexplore-w320b.json',
       // ==== 第320便b の塊(ここまで)====
+      // ==== 第320便c の塊(ここから)==== 太陽系近傍の銀河の軸の源の合成の器(nbcompose-320c —— 1 プロセス・步は進めない)。領域 REGEN_SCOPE を刻む
+      'tests/out/nbcompose-w320c.json',
+      // ==== 第320便c の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
@@ -90598,6 +90601,131 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第320便b の塊(ここまで)====
+// ==== 第320便c の塊(ここから —— docs.nbCompose320c の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第320便c(原仮定者の指示(第122報)・決断事項 AN472「中心１体の影響が大きいが、銀河の渦の中では半渦度は無視出来ない。太陽系近傍においては合成された影響になる」・
+// ----   AN473・統括の検証項目 R264): **太陽系近傍の銀河の軸の源の合成**(新設 —— root は SKIP)。html を読まない QA(正本と純関数と文書だけ)。
+// ----   世代切替 = beta 対象 ∧ 器 tests/exp-w320c-nbcompose.mjs ∧ lib tests/lib-w320c-nbcompose.mjs ∧ 文書の lib tests/lib-w320c-nbcomposedoc.mjs(html・エンジン・在位の本は変えない)。
+// ----   docs.nbCompose320c(正本 tests/out/nbcompose-w320c.json):
+// ----     ① 正本の門(器の gatesOf で作り直して同じ・全部真)・試走でない・計画が器の PLAN・版/来歴(w272e-1)・領域 hash(完全)・文献の値の出典の欄
+// ----     ② 純関数で作り直す: 座標の補正の式(合成の勾配の行列で ∇β を取り出して ω_GC へ戻す —— 階数 1・最も粗い格子の mwLocal で正本の行)・
+// ----        重ならない成分の和の拒否(重なる区間・代理 + 残余・バルジを二度)・一様な球の √(5/6) の 0 と境の連続・面の中の bevel/半渦度の比 4 と軸の上の 0・
+// ----        環の積分(1 成分)・中心と残余の分割(R_cut 4 kpc の行)・段 Shape・D・B(器の関数)・6 天体の拮抗(judgeOf —— 正本の自転と太陽の項から)
+// ----        (超越関数と適応の求積を通る数は相対 1e-9 —— 完全一致で比べない)
+// ----     ③ 表の行と数が PHYSICS〔第320便c〕に逐語・節が「## 7.」の前・必須の語・AI_SPEC §157・CHANGELOG・再生成の段・.gitignore・post-merge・CANON
+// ----     ④ 書かない語・禁句・裸の κ(新しい記号 κ_v はコードの書式の中)・新しい文の r_d(節と器と lib と文書の lib・AI_SPEC §157)
+{
+  await (async () => {   // 第310便c(heap)の型: 本文を関数で包む
+  const cHarn = path.join(ROOT, 'tests', 'exp-w320c-nbcompose.mjs'), cLib = path.join(ROOT, 'tests', 'lib-w320c-nbcompose.mjs'), cDoc = path.join(ROOT, 'tests', 'lib-w320c-nbcomposedoc.mjs');
+  const cOut = path.join(ROOT, 'tests', 'out', 'nbcompose-w320c.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(cHarn) && fs.existsSync(cLib) && fs.existsSync(cDoc))) {
+    console.log('SKIP docs.nbCompose320c(第320便c の太陽系近傍の銀河の軸の源の合成の器の前の世代 — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+  const nearT = (tol) => { const f = (a, b) => (typeof a === 'number' && typeof b === 'number') ? (Object.is(a, b) || Math.abs(a - b) <= tol * Math.max(Math.abs(a), Math.abs(b)))
+    : (a && b && typeof a === 'object' && typeof b === 'object') ? (Array.isArray(a) === Array.isArray(b) && Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => Object.prototype.hasOwnProperty.call(b, k) && f(a[k], b[k])))
+    : JSON.stringify(a) === JSON.stringify(b); return f; };
+  const near12 = nearT(1e-12), near9 = nearT(1e-9);
+  let X = null, C0 = null, D0 = null, L9 = null, err0 = null;
+  try { X = await import('file://' + cHarn); C0 = await import('file://' + cLib); D0 = await import('file://' + cDoc); L9 = await import('file://' + path.join(ROOT, 'tests', 'lib-w319b-srcradius.mjs')); } catch (e) { err0 = String(e).slice(0, 160); }
+  const bad = [], cases = [];
+  const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QA0 = rd('tests/qa.mjs'), CLx = rd('CHANGELOG.md');
+  const i0 = PH.indexOf('〔第320便c — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+  const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+  const strip = (t) => t.replace(/「[^」]*」/g, '');
+  const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /一致した/, /確認した/, /法則を確かめた/, /シュヴァルツシルト半径そのもの/, /現実の核/, /検証が完了した/, /地平面を判定した/, /ダークマターを説明した/,
+    /暦表に一致した/, /内部熱を説明した/, /金星の逆転を説明した/, /中心 1 体の銀河の引きずり/, /銀河の引きずりを測った/, /半渦度は軸引きずり/, /κ_v の法則/];
+  const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+  const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+  const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+  let J = null;
+  if (err0) bad.push('器/lib が読めない: ' + err0);
+  try { J = JSON.parse(fs.readFileSync(cOut, 'utf8')); } catch (e) { bad.push('正本 nbcompose が読めない'); }
+  if (J && X && C0 && D0 && L9) {
+    try {
+      // ①
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('① 正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('① 正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('① 門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length) bad.push('① 門の数が器と違う');
+      if (J.quick === true) bad.push('① 正本が試走(QUICK)');
+      if (!near12(J.plan, clone(X.PLAN))) bad.push('① 計画が器の PLAN と違う');
+      if (J.version !== X.HARNESS_VERSION || J.libVersion !== C0.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.stage === 'nbcompose')) bad.push('① 正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('① 正本に領域 hash(完全)が無い');
+      if (!(J.meta && Array.isArray(J.meta.literature) && J.meta.literature.length >= 1 && J.meta.literature.every((t) => t.indexOf('一次資料に当たっていない') >= 0))) bad.push('① 文献の値の出典の欄(meta.literature)');
+      cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して同じ)・格子 ${J.F.grids.length} 段 + 感度 ${J.N.rows.length} × ${J.N.rows[0].cells.length}・R_cut ${J.P.rows.length}・掃引 ${J.P.sweep.length}・6 天体 ${J.R.rows.length}`);
+      // ② 座標の補正の式(合成の行列 —— 階数 1 の差を作って取り出す)
+      const VR = J.F.vref, hc = (M) => [0.5 * (M[2][1] - M[1][2]), 0.5 * (M[0][2] - M[2][0]), 0.5 * (M[1][0] - M[0][1])];
+      const Gco = [[1.3e-27, -2.1e-27, 0.4e-27], [3.7e-27, 0.2e-27, -1.1e-27], [-0.6e-27, 2.9e-27, 0.8e-27]], gb = [-1.37e-26, 2.2e-28, -5.1e-29];
+      const Ggc = Gco.map((r, a) => r.map((x, c) => x + VR[a] * gb[c])), q = C0.gradBetaOf(Ggc, Gco, VR), back = C0.sourceCurlOf(hc(Gco), q.gradBeta, VR), want = hc(Ggc);
+      if (!(C0.vecRelOf(q.gradBeta, gb, gb) <= 1e-12 && q.rank1Rel <= 1e-12 && C0.vecRelOf(back, want, want) <= 1e-12)) bad.push('② 座標の補正の式(合成の行列)で ∇β と ω_GC へ戻らない');
+      if (!near12(C0.observerCurlOf(gb, VR), C0.cross(gb, VR).map((x) => -0.5 * x))) bad.push('② 受け手の動きの項 −½∇β × V_ref の式');
+      for (const g of J.F.grids) { const b2 = C0.sourceCurlOf(g.co, g.gradBeta, VR); if (!near12(b2, g.back)) bad.push('② 正本の格子 ' + g.grid.nr + ' の戻りを作り直すと違う'); if (!(Math.abs(C0.observerCurlOf(g.gradBeta, VR)[2] - g.obs) <= 1e-12 * Math.abs(g.obs))) bad.push('② 格子 ' + g.grid.nr + ' の受け手の動きの項'); }
+      { const m0 = L9.mwLocal(L9.GRIDS[0]), t0 = m0.total, z = C0.gradBetaOf(t0.GGC, t0.GCo, VR), j0 = J.F.grids[0];
+        // ベクトルは大きさの尺度で比べる(∇β の y 成分・半渦度の x・y 成分は打ち消しの丸めの程度 —— 成分ごとの相対では比べない)
+        if (!(C0.vecRelOf(z.gradBeta, j0.gradBeta, j0.gradBeta) <= 1e-12 && C0.vecRelOf(t0.halfCurlCo, j0.co, j0.co) <= 1e-12 && C0.vecRelOf(t0.halfCurlGC, j0.gc, j0.co) <= 1e-12 && near12(t0.beta, j0.beta))) bad.push('② 最も粗い格子(mwLocal)の座標の補正を作り直すと違う'); }
+      // 重ならない成分の和
+      const D2 = X.partD(J.P); if (!near9(clone(D2), J.D)) bad.push('② 段 D を作り直すと違う');
+      let threw = 0; for (const tt of [[{ key: 'a', omega: [0, 0, 1], owns: [{ comp: 'disk:HI', lo: 0, hi: 3 }] }, { key: 'b', omega: [0, 0, 1], owns: [{ comp: 'disk:HI', lo: 2, hi: 9 }] }],
+        [{ key: 'p', omega: [0, 0, 1], owns: [{ comp: 'galaxy:proxy' }] }, { key: 'r', omega: [0, 0, 1], owns: [{ comp: 'bulge' }] }], [{ key: 'x', omega: [0, 0, 1], owns: [{ comp: 'disk:other' }] }]]) { try { C0.combineDisjoint(tt); } catch (e) { threw++; } }
+      const ok1 = C0.combineDisjoint([{ key: 'a', omega: [0, 0, 1], owns: [{ comp: 'disk:HI', lo: 0, hi: 3 }] }, { key: 'b', omega: [0, 0, 2], owns: [{ comp: 'disk:HI', lo: 3, hi: 9 }] }]);
+      if (!(threw === 3 && ok1.omega[2] === 3)) bad.push('② 重ならない成分の和(重なり・代理 + 成分・未知の成分を拒否・接する区間を受理)');
+      // 一様な球・演算の比べ
+      const Jz = J.P.Jt, Rm = 11.2159 * C0.KPC, r0 = Rm * Math.sqrt(5 / 6), sc = Math.abs(C0.uniformSphereCurl(Jz, Rm, 0.5 * Rm));
+      if (!(Math.abs(C0.uniformSphereCurl(Jz, Rm, r0)) <= 1e-12 * sc && Math.abs(C0.uniformSphereCurl(Jz, Rm, Rm * (1 - 1e-12)) - C0.uniformSphereCurl(Jz, Rm, Rm)) <= 1e-9 * Math.abs(C0.uniformSphereCurl(Jz, Rm, Rm)))) bad.push('② 一様な球の √(5/6) の 0・境の連続');
+      const xr = [8.2 * C0.KPC, 0, 0], xa = [0, 0, 8.2 * C0.KPC];
+      if (!(Math.abs(C0.nrm(C0.bevelLead(Jz, [0, 0, 1], xr)) / C0.nrm(C0.dipoleHalfCurl([0, 0, Jz], xr)) - 4) <= 1e-12 && C0.nrm(C0.bevelLead(Jz, [0, 0, 1], xa)) === 0 && C0.nrm(C0.dipoleHalfCurl([0, 0, Jz], xa)) > 0)) bad.push('② 面の中の bevel/半渦度の比 4・軸の上の bevel の主項 0');
+      const B2 = X.partB(J.P); if (!near9(clone(B2), J.B)) bad.push('② 段 B を作り直すと違う');
+      const S2 = X.partShape(J.P, J.F); if (!near9(clone(S2), J.Shape)) bad.push('② 段 Shape を作り直すと違う');
+      // 環の積分(1 成分 —— 厚い円盤)と R_cut 4 kpc の分割
+      const Dk = L9.MW.disks.find((d) => d.key === 'thick'), rk = J.F.ring.find((r) => r.key === 'thick'), wk = C0.ringCurlZ(Dk, 0, L9.MW.RmaxKpc).omegaZ;
+      if (!(Math.abs(wk - rk.gc) <= 1e-9 * Math.abs(rk.gc))) bad.push('② 環の積分(厚い円盤)を作り直すと違う');
+      const p4 = J.P.rows.find((r) => r.rCutKpc === 4);
+      if (p4) { let inn = 0, res = 0, Jc = 0; for (const D of L9.MW.disks) { inn += C0.ringCurlZ(D, 0, 4).omegaZ; res += C0.ringCurlZ(D, 4, L9.MW.RmaxKpc).omegaZ; Jc += C0.diskJ(D, 0, 4).J; }
+        if (!(near9(inn, p4.inner) && near9(res, p4.residual) && near9(Jc, p4.Jc) && Math.abs(inn + res - J.F.cont.gc) <= 1e-10 * Math.abs(J.F.cont.gc))) bad.push('② R_cut 4 kpc の分割を作り直すと違う(内側 + 残余 = 全場)'); }
+      else bad.push('② R_cut 4 kpc の行が無い');
+      // 6 天体の拮抗(正本の自転と太陽の項 —— judgeOf)
+      let nJ = 0; for (const r of J.R.rows) for (const c of J.R.cands) { const z = C0.judgeOf(r.Om, r.wSunP3, C0.scl3(J.R.g, c.w)); nJ++; if (z.antag !== r.judge[c.key].antag || z.sumDecel !== r.judge[c.key].sumDecel || z.galDecel !== r.judge[c.key].galDecel) bad.push('② ' + r.name + '・' + c.key + ' の拮抗の判定を作り直すと違う'); }
+      if (!(J.R.bitsPlus === '000000' || J.R.bitsPlus === '111111') || J.R.bitsPlus === J.R.bitsMinus) bad.push('② +ĝ と −ĝ の拮抗の印');
+      cases.push(`② 純関数で作り直す —— 座標の補正の式(合成の行列・正本の格子 ${J.F.grids.length} 段・最も粗い格子の mwLocal)・重ならない成分の和(拒否 ${threw}・受理 1)・一様な球の √(5/6)・面の中の比 4 と軸の上の 0・段 D・B・Shape・環の積分(厚い円盤)・R_cut 4 kpc の分割・拮抗 ${nJ} 組(相対 1e-12/1e-9)`);
+      // ③
+      if (!sec) bad.push('PHYSICS〔第320便c〕が無い');
+      else {
+        const rows = D0.physicsTablesNbCompose(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'));
+        let nMiss = 0; for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第320便c〕の表に行が無い: ' + r.slice(0, 70)); }
+        const nums = D0.docNumbersNbCompose(J), missN = nums.filter((x) => sec.indexOf(x) < 0); if (missN.length) bad.push('PHYSICS〔第320便c〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第320便c〕が「## 7. 論文」の後');
+        for (const w of ['R264', '第122報', 'AN472', 'AN473', 'exp-w320c-nbcompose.mjs', 'lib-w320c-nbcompose.mjs', 'lib-w320c-nbcomposedoc.mjs', 'nbcompose-w320c.json', 'docs.nbCompose320c', 'W320C_OUT', 'W320C_QUICK',
+          'ω_Co = ω_GC − ½∇β × V_ref', '受け手の動きの項', '源の流れ', '環の積分', '完全楕円積分', '格子の感度', '軟化の幅', '局所の分割', '符号が決まらない', '代理', '実在の中心成分', '全体の有効中心質量', 'combineDisjoint',
+          'R_cut', 'λ_c', '`κ_v`', '宣言する対応', '√(5/6)', '同じベクトル演算ではない', '拮抗', '合成の後の向き', '一般形', '文献の値', '一次資料に当たっていない', '決断事項の候補', '言わないこと', 'エンジンに足していない'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第320便c〕に「' + w + '」が無い');
+        cases.push(`③ PHYSICS〔第320便c〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
+      }
+      const ai = AS.indexOf('## 157.'), as = ai >= 0 ? AS.slice(ai, ai + 8000) : '';
+      if (ai < 0) bad.push('AI_SPEC に §157 が無い');
+      else for (const w of ['exp-w320c-nbcompose.mjs', 'lib-w320c-nbcompose.mjs', 'nbcompose-w320c.json', 'docs.nbCompose320c', 'AN472', 'R264', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §157 に「' + w + '」が無い');
+      { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, ci + 60000) : ''; if (cs.indexOf('第320便c') < 0) bad.push('CHANGELOG の beta の節に第320便c が無い'); }
+      if (RT.indexOf("S('nbcompose-320c', 'node tests/exp-w320c-nbcompose.mjs', ['tests/out/nbcompose-w320c.json']") < 0 || !/secSource: 'w320c-branch'/.test(RT)) bad.push('再生成の段 nbcompose-320c');
+      if (GI.indexOf('!tests/out/nbcompose-w320c.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('# ==== 第320便c の塊(ここから)====') < 0 || PM.indexOf('docs.nbCompose320c') < 0) bad.push('post-merge の ③′ に第320便c の塊が無い');
+      if (QA0.indexOf("'tests/out/nbcompose-w320c.json',") < 0) bad.push('CANON(lint.canon304)に第320便c の正本が無い');
+      // ④
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第320便c〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) { if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第320便c〕に禁句(' + w.length + ' 字)'); if (as.indexOf(w) >= 0) bad.push('AI_SPEC §157 に禁句(' + w.length + ' 字)'); }
+      if (/κ(?!_D)/.test(sec.replace(/`[^`\n]*`/g, '')) || /κ(?!_D)/.test(as.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第320便c〕/AI_SPEC §157 に裸の κ(κ_v はコードの書式の中・κ は κ_D だけ)');
+      if (/(?<![\w`])r_d(?![\w`])/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第320便c〕の新しい文に r_d(引きずり半径は R_d)');
+      if (/\d\s*km\/s/.test(sec)) bad.push('PHYSICS〔第320便c〕に km/s の数(SI で書く)');
+      for (const f of ['tests/exp-w320c-nbcompose.mjs', 'tests/lib-w320c-nbcompose.mjs', 'tests/lib-w320c-nbcomposedoc.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); if (/κ(?!_[Dv])/.test(tx)) bad.push(f + ' に裸の κ'); for (const re of NOT) if (re.test(tx)) bad.push(f + ' に書かない語 ' + re.source); }
+      cases.push('④ 書かない語・禁句・裸の κ・新しい文の r_d・km/s の数(節と器と lib と文書の lib・AI_SPEC §157)');
+    } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+  }
+  add('docs.nbCompose320c', bad.length === 0,
+    `**太陽系近傍の銀河の軸の源の合成の正本と文書**(第320便c・原仮定者の指示(第122報)・AN472・AN473・R264 —— 正本 nbcompose-w320c.json・エンジン・在位の本は不変・半渦度を受け手の軸へ直結する項は足さない・κ_v は宣言する対応): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();
+}
+// ==== 第320便c の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

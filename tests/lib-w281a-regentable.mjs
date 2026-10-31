@@ -1494,6 +1494,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/jexplore-w320b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第320便b: 源の角運動量 J の確かめ(有限の一様球の内外・分割の加法性・太陽の J の体積積分)・案2b の混成の導き直し・候補を並べて自由な係数と新しい仮定を数える 6 天体の表(源の回転と軸のモーメントだけ —— 受け手の R_d = Y_k m と並進は不変・エンジン・在位の本は変えない・新しい法則は足さない)' }),
   // ==== 第320便b の塊(ここまで)====
+  // ==== 第320便c の塊(ここから)====
+  // ---- 第320便c(原仮定者の指示(第122報)・決断事項 AN472「中心１体の影響が大きいが、銀河の渦の中では半渦度は無視出来ない。太陽系近傍においては合成された影響になる」・
+  //   AN473・統括の検証項目 R264): **太陽系近傍の銀河の軸の源の合成の器**(段 nbcompose-320c —— F 座標の補正〔共動系 → 銀河中心系〕・N 近傍のセルの積分〔環の積分の連続の値・
+  //   格子 48/96/192/384 × 軟化の幅・局所の分割〕・P 中心と残余の重ならない分割〔R_cut・λ_c・κ_v の掃引〕・Shape 有限の分布の型・D 中心の宣言の型・B 演算の比べ・R 6 天体の拮抗)。
+  //   html・エンジン・在位の本は変えない。html を読む(第319便b の器の 16 体の写し —— 6 天体の自転と太陽の項の軸の ω だけ・読み口 inertialDragIsqState と最上位の
+  //   inertialDragIsqRule・inertialDragIsqRuleK1)・入力は tests/data-w318c-solar16-input.json(他の正本は読まない —— html の生成領域の後)。1 プロセス(子プロセスなし・步は進めない)。
+  //   所要は第320便c の枝の実測 43.3〜46.0 s(**並走の秒** —— 4 枝並走の容器・負荷平均 0.5〜2・1 本で CPU 100% —— 統括が混まない箱で測り直す。最長は N の格子 384 × 軟化の幅 6 つ —— 約 37 s)
+  S('nbcompose-320c', 'node tests/exp-w320c-nbcompose.mjs', ['tests/out/nbcompose-w320c.json'], 46, { secSource: 'w320c-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/nbcompose-w320c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第320便c: 太陽系近傍の銀河の軸の源の合成(中心 1 体と銀河の渦の中の半渦度 —— 重ならない成分のベクトル和・κ_v は宣言する対応)を第319便b の宣言の模型の写しで測る(源の半渦度の格子の感度と環の積分の連続の値・中心と残余の分割・6 天体の拮抗)—— エンジン・在位の本は変えない・半渦度を受け手の軸へ直結する項は足さない' }),
+  // ==== 第320便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

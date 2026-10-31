@@ -114,6 +114,9 @@ export const SMOKE_KNOBS = Object.freeze({
   // ==== 第320便b の塊(ここから)====
   'jexplore-320b': { env: { W320B_QUICK: '1', W320B_OUT: 'tests/out/_smoke-jexplore-w320b.json' }, note: '試走(求積の格子を 2 段・分割の n を 3 つ —— 約 1.5 s。正本は 1 プロセスで約 2.5 s)' },   // 第320便b
   // ==== 第320便b の塊(ここまで)====
+  // ==== 第320便c の塊(ここから)====
+  'nbcompose-320c': { env: { W320C_QUICK: '1', W320C_OUT: 'tests/out/_smoke-nbcompose-w320c.json' }, note: '試走(格子 48 と 96・軟化の幅 2 つ・R_cut 3 つ・λ_c 3 つ —— 約 3 s。正本は 1 プロセスで約 43 s〔並走の秒〕)' },   // 第320便c
+  // ==== 第320便c の塊(ここまで)====
   // ==== 第311便b の塊(ここまで)====
 });
 
