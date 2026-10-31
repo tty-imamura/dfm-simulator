@@ -4437,3 +4437,10 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **AN481**: 変異試験(tools/an481-probe.mjs)—— 受理器だけを閉包の外へ出す型では、受理の段と步の段を一緒に足す変更(第319便a の型)の鎖は減らない。validatePreset を丸ごと止める型は既存の拒否の条件の変更を見落とす。推奨は実行した関数の閉包(器の走行の coverage を刻む版 7 —— 本便は実装しない)。
 - **段の副産物の md**: 再生成表の `BYPRODUCTS_320D` を段の書きに入れた(鎖の JSON の writes)。SAMPLE_STATUS は保存 QA の来歴(1 便遅れ)と「html を読まない」段の区分を書く。
 - **AN455・AN477**: drag3d-298c・semic-302d の領域の宣言に ACCEPT_REASONS・invsq-309a・invsq-310a の後に入った本の除外を宣言の条件(K1 の規則の宣言)へ —— 外した本は ruleBooks に数える(既存の値は不変)。
+
+## 159. 第321便a —— geoPN=2(v−u 則)の 3D の S1(輸送の 3 成分の純関数・面への退化・回転共変・解析の場・初回の履歴・口座・galaxyGeo2 の 2D の基準の凍結・S2 の接続の設計)(原仮定者の予定(第123報)・統括の検証項目 R266・**器と lib と正本と QA と文書だけ** —— html・宣言の鍵・正準形・エンジンの式・受理の判定・`S._core` は不変・3D の geoPN=2 の本はまだ無い・**SYSTEM_PROMPT には載せない**)
+
+- **AI が生成する本の扱いは変わらない**: 三次元の本(physics.coord:"3d")で kFrame>0・geoPN=2 は今も受理で拒否(coord3dDenyOf の kFrame・geoPN12)・走行中の編集では步を止める(coord3dRuntimeWhy)。SYSTEM_PROMPT・受理器の鍵は不変。
+- **純関数** tests/lib-w321a-geo2v3.mjs(版 w321a-geo2v3-1): 2D の v−u 則の輸送 Δu − ((v−u)·∇)u dt + (∇×u) × (v − k_F u) dt を 3 成分に(u の履歴 3・∇u 3×3・curl 3・源の自転のベクトル Ω = s â・反作用の Δp と残余トルクのベクトル)。範囲は geoPN 2 の宣言 ∧ kFrame>0 ∧ λ_PN=0 ∧ contactMode:"none" ∧ frameWeight:"share"。
+- **器** tests/exp-w321a-geo2v3.mjs(段 geo2v3-321a —— 正本 tests/out/geo2v3-w321a.json): 面への退化(html の 2D の步と全状態が同じビット)・三次元の html の步(kFrame=0)と同じビット・回転共変・解析の場・初回の履歴・口座・galaxyGeo2 の 2D の基準の凍結(claim の手続き 12000 步と h/2)。QA behavior.geo2v3321a・docs.geo2v3321a。
+- **S2(第322便〜)**: dfmStep3 への接続(步・状態 S.uPz・反作用・口座)と、受理の門と実行時の門を同時に・対応した範囲だけ開ける。3D の本は新しい ID(平面 → 傾き → 有限厚)。慣性決定力・連鎖と重ねない。

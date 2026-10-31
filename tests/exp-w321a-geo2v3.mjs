@@ -350,12 +350,12 @@ export function partLedger(plan) {
 
 /* ───────── S2(dfmStep3 への接続)の変更の一覧(データ —— 文書と報告が読む)───────── */
 export const S2_PLAN = Object.freeze([
-  { area: '步', what: 'dfmStep3 の核の中(dfmCore3 の後ではなく同じ相)に輸送を入れる: semi は 1 パス・leapfrog は B のパス(doPost)だけで輸送と反作用 —— `S._core` の mode と同じ', where: 'dfmCore3(58616 行付近)・dfmStep3(58721 行付近)', gate: '退化の照合(degen)が 3D の步でも同じビット' },
+  { area: '步', what: 'dfmStep3 の核の中(dfmCore3 の後ではなく同じ相)に輸送を入れる: semi は 1 パス・leapfrog は B のパス(doPost)だけで輸送と反作用 —— `S._core` の mode と同じ', where: 'dfmCore3(58622 行付近)・dfmStep3(58721 行付近)', gate: '退化の照合(degen)が 3D の步でも同じビット' },
   { area: '対ループ', what: 'dfmCore3 の対ループに決定力 w・フレームの分子 P(3)・勾配 ∂P(9)・∂W(3)を足す(kFrame>0 の本だけ —— 未宣言の 3D の本は真偽値 1 つで素通り)', where: 'dfmCore3', gate: '在位の 3D の本はビット同一(bitsame)' },
-  { area: '状態', what: 'u の履歴 S.uPz(S.uPx/uPy と同じ型・framePrecision に従う)・S.hasU は共有・作業の配列 uAz・dpz・勾配 9 成分(S._g3 —— 遅延確保)', where: 'coord3dPrepare・COORD3D_ARRS・CK_ARRS', gate: 'A/B の複製・チェックポイント・保存往復で同じビット' },
+  { area: '状態', what: 'u の履歴 S.uPz(S.uPx/uPy と同じ型・framePrecision に従う)・S.hasU は共有・作業の配列 uAz・dpz・勾配 9 成分(S._g3 —— 遅延確保)', where: 'coord3dPrepare(58790 行付近)・COORD3D_ARRS(10944 行)・CK_ARRS(43168 行)', gate: 'A/B の複製・チェックポイント・保存往復で同じビット' },
   { area: '自転', what: '源の Ω = S.spin × (S.sax, S.say, S.saz)・残余トルクの入れ方(spinPolicy —— vector か parallel か)を裁定して 1 つに', where: '新しい関数(三次元の残余トルク)', gate: '回転共変(cov)・口座の閉じ' },
-  { area: '反作用', what: 'φ_ij 分配・残余トルク(ベクトル)・|Δv| ≤ 16・背景 D₀ と pinned の源のリザーバ(resPz・resLx・resLy を足す)', where: 'dfmCore3 の後段(倍精度へ集積して一括適用)', gate: '口座の閉じ(ledger)' },
-  { area: '口座', what: '拘束の口座 conP・conL(固定中心が受けた重力の力積)・仕事の口座 dragWorkE/KE/dragSpinE の 3 成分', where: 'coord3dTotals・読み口', gate: '固定中心の本で P・L が閉じる' },
+  { area: '反作用', what: 'φ_ij 分配・残余トルク(ベクトル)・‖Δv‖ ≤ 16・背景 D₀ と pinned の源のリザーバ(resPz・resLx・resLy を足す)', where: 'dfmCore3 の後段(倍精度へ集積して一括適用)', gate: '口座の閉じ(ledger)' },
+  { area: '口座', what: '拘束の口座 conP・conL(固定中心が受けた重力の力積)・仕事の口座 dragWorkE/KE/dragSpinE の 3 成分', where: 'coord3dTotals(58839 行付近)・読み口', gate: '固定中心の本で P・L が閉じる' },
   { area: '受理の門', what: 'coord3dDenyOf の kFrame>0・geoPN=2 を**同時に**開ける —— 条件: geoPN 2 の宣言 ∧ kFrame>0 ∧ λ_PN=0 ∧ contactMode:"none" ∧ frameWeight:"share"(他は拒否のまま —— geoPN=3/4 が v−u 則に解決する宣言・geodesic:true・pull 族・λ_PN≠0・接触)', where: 'coord3dDenyOf(10972 行付近)', gate: '拒否の一覧(COORD3D_REJECTED)の行の更新と受理の試験' },
   { area: '実行時の門', what: 'coord3dRuntimeWhy の kFrame≠0・geoPN を同じ条件で通す(走行中の編集で範囲の外になったら步を止める)', where: 'coord3dRuntimeWhy(11040 行付近)', gate: '受理と実行時の門の一致の試験' },
   { area: '重ねない', what: '慣性決定力(geoPN=3 の relativeDrag.law:"inertial")・連鎖(geoPN=4)・軸保持・J と同時に ON にしない(二重の引きずり —— 受理で拒否)', where: 'coord3dDenyOf', gate: '組の拒否の試験' },

@@ -1517,6 +1517,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/nbcompose-w320c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第320便c: 太陽系近傍の銀河の軸の源の合成(中心 1 体と銀河の渦の中の半渦度 —— 重ならない成分のベクトル和・κ_v は宣言する対応)を第319便b の宣言の模型の写しで測る(源の半渦度の格子の感度と環の積分の連続の値・中心と残余の分割・6 天体の拮抗)—— エンジン・在位の本は変えない・半渦度を受け手の軸へ直結する項は足さない' }),
   // ==== 第320便c の塊(ここまで)====
+  // ==== 第321便a の塊(ここから)====
+  // ---- 第321便a(原仮定者の予定(第123報)「geoPN=2の予定: 3D対応する。現状、最も銀河を再現しているのがgalaxyGeo2であり、引きずり近似としての需要が有る」・統括の検証項目 R266):
+  //   **geoPN=2(v−u 則)の 3D の S1 の器**(段 geo2v3-321a —— base〔galaxyGeo2 の 2D の基準の凍結 —— claim の手続き 12000 步と h/2〕・degen〔面への退化 —— 純関数の步と html の 2D の步の全状態〕・
+  //   d3〔三次元の html の步(kFrame=0)と今の門〕・cov〔回転共変〕・field〔解析の場〕・hist〔初回の u の履歴〕・ledger〔運動量・角運動量・仕事の口座〕)。html・エンジン・在位の本は変えない
+  //   (3 成分の純関数は tests/lib-w321a-geo2v3.mjs)。html を読む(本は galaxyGeo2 を .find で引く・ほかは器の中の小さい系の本を受理に通す)・他の正本は読まない(html の生成領域の後)。
+  //   base の h/2 の行は子プロセス 1 本(W321A_WORKERS ≥ 2 —— 親は h の行)。所要は第321便a の枝の実測(**並走の秒** —— 4 枝並走の容器・負荷平均 6 前後 —— 統括が混まない箱で測り直す。
+  //   最長は base の h/2 の行〔24000 步 × A と B〕)
+  S('geo2v3-321a', 'node tests/exp-w321a-geo2v3.mjs', ['tests/out/geo2v3-w321a.json'], 330, { secSource: 'w321a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/geo2v3-w321a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/parts/base/rows/h/wallSec', '/parts/base/rows/h2/wallSec', '/parts/degen/rows/*/wallSec']) },
+    note: '第321便a: geoPN=2(v−u 則)の輸送の 3 成分の純関数の面への退化(html の 2D の步と同じビット)・回転共変・解析の場・初回の履歴・口座と galaxyGeo2 の 2D の基準の凍結(3D の本は新しい ID —— 第322便〜)—— エンジン・在位の本は変えない' }),
+  // ==== 第321便a の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

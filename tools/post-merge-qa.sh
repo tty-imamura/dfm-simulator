@@ -467,6 +467,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.nbCompose320c lint.stableHashPaths lint
 #   表を世代で読む lint.laterBooks319・器を直した段の正本を読む docs.invSq309・docs.invSq310・behavior.invSq309・docs.semic302・docs.sampleStatus-sync・再生成表の lint.regenChain
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.violationKinds320 lint.byproducts320 docs.w320d lint.provenanceMeta lint.regenScope lint.stableHashPaths lint.scopeAll312 lint.canon304 lint.laterBooks319 docs.invSq309 docs.invSq310 behavior.invSq309 docs.semic302 docs.sampleStatus-sync lint.regenChain"
 # ==== 第320便d の塊(ここまで)====
+# ==== 第321便a の塊(ここから)====
+# 第321便a(原仮定者の予定(第123報)・R266): 枝 a の新設 2 本(behavior.geo2v3321a —— geoPN=2 の 3D の S1 の純関数の面への退化・回転共変・解析の場・初回の履歴・口座・今の門・
+#   docs.geo2v3321a —— 正本と文書)と、正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・CANON の lint.canon304・
+#   lint.qaHeapRelease310・lint.sectionLookup313・煙試験の窓の表の lint.harnessSmoke303
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.geo2v3321a docs.geo2v3321a lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.harnessSmoke303"
+# ==== 第321便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

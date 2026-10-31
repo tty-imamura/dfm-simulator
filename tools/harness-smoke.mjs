@@ -120,6 +120,9 @@ export const SMOKE_KNOBS = Object.freeze({
   // ==== 第320便c の塊(ここから)====
   'nbcompose-320c': { env: { W320C_QUICK: '1', W320C_OUT: 'tests/out/_smoke-nbcompose-w320c.json' }, note: '試走(格子 48 と 96・軟化の幅 2 つ・R_cut 3 つ・λ_c 3 つ —— 約 3 s。正本は 1 プロセスで約 43 s〔並走の秒〕)' },   // 第320便c
   // ==== 第320便c の塊(ここまで)====
+  // ==== 第321便a の塊(ここから)====
+  'geo2v3-321a': { env: { W321A_QUICK: '1', W321A_WORKERS: '1', W321A_OUT: 'tests/out/_smoke-geo2v3-w321a.json' }, note: '試走(base を 600 步・h/2 なし・退化と共変の步を縮める —— 約 10 s〔並走の秒〕。正本は base の 12000 步と h/2 〔子プロセス 1 本〕)' },   // 第321便a
+  // ==== 第321便a の塊(ここまで)====
   // ==== 第311便b の塊(ここまで)====
 });
 

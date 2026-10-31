@@ -34,9 +34,9 @@ export const GEO2V3_SOURCE_LINES = Object.freeze([
   { part: '対ループのフレームの分子(generic)', lines: '34005-34006', what: 'uAx += w_j (v_j + ω_j ẑ×(r−r_j))' },
   { part: '対ループの勾配(generic)', lines: '34015-34048', what: '∂P/∂x・∂W/∂x(Plummer の w の厳密微分・∂ω/∂d = −qω/(R+d))' },
   { part: '対ループ(特別化 pairCorePN)', lines: '29842-29877', what: '同じ式(ω を使い回す —— 値は同じ)' },
-  { part: '輸送 3 項(②)', lines: '34558-34587', what: 'Δu − ((v−u)·∇)u dt + curl ẑ×(v − k_F u) dt・|Δu|≤0.8・Δp' },
-  { part: '反作用(③)', lines: '34692-34789', what: 'φ_ij 分配・残余トルク・|Δv|≤16・背景 D₀ のリザーバ' },
-  { part: '位置更新(④)', lines: '34903-34922', what: 'rotA・|v|≤100・|s|≤40・ドリフト' },
+  { part: '輸送 3 項(②)', lines: '34558-34587', what: 'Δu − ((v−u)·∇)u dt + curl ẑ×(v − k_F u) dt・‖Δu‖≤0.8・Δp' },
+  { part: '反作用(③)', lines: '34692-34789', what: 'φ_ij 分配・残余トルク・‖Δv‖≤16・背景 D₀ のリザーバ' },
+  { part: '位置更新(④)', lines: '34903-34922', what: 'rotA・‖v‖≤100・‖s‖≤40・ドリフト' },
   { part: '上限の定数', lines: '6973', what: 'REACTION_DV_CAP = 16' }]);
 
 const F32 = Float32Array, F64 = Float64Array;
