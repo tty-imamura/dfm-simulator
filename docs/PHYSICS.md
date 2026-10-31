@@ -41025,6 +41025,50 @@ balance:"background" の受理の正準形は第319便a のまま(真)・版 w32
 
 **⑨ 原仮定者の回答(2026-10-31 —— AN489・AN496 —— 鎖の走行中に受けた)。** 「中心１体だけだと、銀河全体が一意に決まらない問題の対策。半渦度は引きずられた結果の動きなので、引きずる側で考慮する。銀河内のそれぞれの位置で、適切な引きずりが計算出来れば良い。金星と木星は、影響が見え易いのであって、土星など他の天体全てで影響は有る」→ 受け手(太陽)が β の勾配の中を動く項(−½∇β×V_ref)は軸の源に数えない。〔第320便c〕の銀河中心系の源の流れの列(連続の値 −9.655×10⁻²³ s⁻¹・−ĝ)が採る列で、6 天体とも拮抗の側。次は銀河の中のそれぞれの位置の源の流れの場(太陽の位置の 1 点ではなく、天体ごとの位置)を計算する型。「「拮抗」は、「相殺して消えない」と言う意味合い。ある物体を両側から反対向きの同じ強さの力で押した時、その物体は動かないがエネルギーが消えた訳ではない」→ 拮抗の量は、源ごとの保持の熱と合成の 1 回の熱の差(〔第319便a〕の欄 heat.source・heat.composite・heat.difference)で読む。読み (b) の下でも、合成で打ち消す源どうしの散逸はこの差の列に残る。
 
+
+〔第321便d — sourceMoment.f の添字の守り(受理の拒否の型 —— 本便唯一のエンジンの変更)とゲートの後の samplestatus の段の道具(決断事項 AN502・AN493・統括の検証項目 R269)(**エンジンの変更は受理器 validatePreset の拒否の条件 1 つと表 ACCEPT_REASONS の理由の文 1 項だけ** —— 宣言の無い本はビット同一〔内蔵 177 本〕・群の無い正しい入力の値は不変・步の関数・実行の経路・`S._core` は不変・在位の本の宣言は不変・root の index.html は不変)〕
+
+**① 何が食い違っていたか。** 源のモーメントの半径の宣言 `physics.relativeDrag.invSq.sourceMoment:{kind:"J", f:{<添字>: f}}`(第320便a)の f の添字を、受理器 `validatePreset` は**本の天体の添字**(`p.bodies[j]` —— single・dragCore なし・radius > 0 の天体か)で検査し、実行 `inertialDragIsqSrcMoment`(`F[String(j)]`)と読み口 `inertialDragIsqState(S).sourceMoment` は**展開後の粒子の添字**で読む。天体の並びに複数の粒子へ展開する群があると、2 つの添字がずれる。基点(a708bfe)の html で、jupiterSunInertial3d の前に n = 2 の円盤を置き f = {1: 0.07, 2: 0.254}(太陽と木星のつもり)を宣言すると受理され、**粒子 1(円盤の 2 個目)に 0.07・粒子 2(太陽)に 0.254・粒子 3(木星)は f なし**で走る。内蔵の本は sourceMoment を 1 本も宣言しない(behavior.srcHeat320 ①)ので在位の走行は影響を受けていない。
+
+**② 「単体 = 粒子 1 個」の判定の根拠(build の展開の実装)。**
+- `S.build` の展開の loop は天体ごとに: **single → `push` 1 回**(1 粒子)・**ring・disk・box・grid → `for(i < b.n)` で `push`**(n 粒子 —— 群の分岐にほかの `push` は無い)。未知の type は受理で拒否される(validatePreset の型の分岐の最後)。展開の後に粒子を足す・消す段は build に無い(配列の確保は `P.length` で 1 回)。
+- 群の n は受理の正規化で `clamp(Math.round(n), 0, N_CAP)` の整数・粒子の総数が N_CAP を超えると群の n を比例で縮める(floor)。sourceMoment の検査は正規化の**後**の `p.bodies` を読むので、縮めた後の n で判定する(1 → 0 に縮んだ群も拒否に入る)。**0 個の群(n = 0)も後ろの添字を 1 つ詰める**(基点の html では n = 0 の円盤の前置で木星の粒子に太陽の f が付く)。
+- sourceMoment は spinDrag が要り(validateRelativeDragInvSq)、spinDrag は三次元の本だけ(validatePreset)。三次元の步 `dfmStep3` は粒子を足さず消さない —— 融合・分裂・中心捕獲・固定中心の合体・外層の放出(`S._compact`・`S._grow`)は二次元の步 `S.step` の離散イベントだけで、融合は三次元の本では受理で拒否される。
+- 規則: **f の添字 j より前の天体がすべて 1 粒子(single か n = 1 の群)のときだけ、天体の添字 = 粒子の添字**。
+
+**③ 直し(拒否の型 —— AN502 の推奨「今は拒否」)。** validatePreset の sourceMoment の検査に 1 条件を足した: 既存の理由(添字の範囲の外・single でない・dragCore・radius が無い)の後で、`bs.findIndex((q,i)=>i<j && q && q.type!=="single" && q.n!==1)` が見つかれば拒否する。理由の文は表 ACCEPT_REASONS の新しい項 `"validatePreset/physics.relativeDrag.invSq.sourceMoment#3"`(既存の項と文は 1 字も変えない)—— 「physics.relativeDrag.invSq.sourceMoment.f の添字 j の天体より前の bodies[g](type:"disk"・n = 2)が 1 粒子でない —— 前方の群の展開で天体と粒子の添字が一致しない(f は天体の添字・実行は展開後の粒子の添字で読む —— f を置く天体は、1 粒子でない群より前に並べる)」。f の天体そのものが群なら従来の理由(single の天体でない)。**天体 → 粒子の対応は作らない**(自動で付け替えない —— 粒子の生成・削除・合体の契約と一緒に決める・⑥)。受理器を通らずに `S.build` を直に呼ぶ器の写しは守らない(内蔵の本は sourceMoment を宣言しない)。
+
+**表 1(behavior.srcMomentIdx321 —— 直した html を headless で読む)**
+| 場面 | 入力 | 結果 |
+|---|---|---|
+| 群の前置 | jupiterSunInertial3d の前に n = 2 の円盤・f = {1: 0.07, 2: 0.254} | 拒否(#3 の文 —— 群の位置 bodies[0]・type・n) |
+| 群の 4 種 × n × 前/後 | ring・disk・box・grid × n ∈ {0, 1, 2, 3} × 前/後(32 例) | 受理 20(後ろか n = 1 —— 粒子の数 2 + n・f は天体の粒子)・拒否 12(前の n ≠ 1) |
+| 群の無い正しい入力 | K1 の規則の三次元の本 8 本(宣言 physics.coord === "3d" で数えた)・f を置いた天体 30 | 受理・f と R_src = R_obs√(5f/2) が天体と同じ添字の粒子(相対の差 0) |
+| f の天体が群 | 円盤に f | 従来の理由(single の天体でない)・#3 の文なし |
+| 内蔵の全本 | 177 本の受理 | 受理 177・#3 の文 0 件 |
+| 契約 | validatePreset が #3 を引く・inertialDragIsqSrcMoment は粒子の添字で読む | 天体 → 粒子の対応を足したらこの試験を直す |
+基点の html と直した html の比較(枝の scratch の試走 —— QA には入れない —— 基点の html は CI に無い): 受理される 11 例(群の無い K1 の規則の三次元の本 8 本・群が後ろ 2・n = 1 の群が前 1)の正準形・sourceMoment の読み口・20 步の後の状態(位置・速度・自転・軸)が 2 つの html でビット同一(受理の結果が変わるのは群の前置の入力だけ)。第320便a の J の比(木星 7.990e-2 ほか)は器 srcheat-320a の正本と QA behavior.srcHeat320・docs.srcHeat320 が見る(この便は器と正本に触らない)。
+
+**④ AN493 —— ゲートの後の samplestatus の段(道具 `tools/samplestatus-postgate.mjs`・分類の lib `tests/lib-w321d-postgate.mjs` —— 版 w321d-postgate-1)。** 鎖の常時群の段 samplestatus はゲートの QA の**前**に走るので、SAMPLE_STATUS の保存 QA の欄(meta.evidenceQa・timingNote.qaProvenance・本ごとの QA の秒)は前の便のゲートの保存物を写す(1 便遅れる —— 第320便d)。道具はゲートの後に段を 1 回だけ走らせ、来歴と時間の欄だけが変わったことを機械で確かめる:
+- **前提**: 保存 QA `tests/out/qa-results-full-beta.json` がフルの QA で、刻印 targetSha256 が今の beta/index.html と同じ(違えば走らせずに rc 3 —— `--any-qa` で外す)。
+- **走行**: 再生成表の段 samplestatus の cmd(器 + `--check`)を**そのまま**・`REGEN_HTML_STAGE` を外して(鎖の外 —— html を直に読む)。書いてよいのは段の書き(outs + touches)から html を除いた 2 つ(`tests/out/samplestatus-w279a.json`・`docs/SAMPLE_STATUS.md`)—— html は 1 byte も変わらない。
+- **照合**: 木の全ファイルの sha の前後(段の書きの外の変化 0)・正本の差を JSON Pointer で分類(**来歴** = 実行の時刻・入力とコードの mtime・meta.evidenceQa・timingNote.qaProvenance・入力の行のうち md そのものの sha256 と bytes / **時間** = rows[].timing.qa・保存 QA の総数と総時間・帰属なしの本の数 / それ以外〔状態・較正・tally・台帳の出どころ・較正走行の秒・再生成の段の秒・コードと対象 html の sha・版〕は変わってはならない)・md の差を行で分類(「保存 QA の来歴」「保存 QA」の 2 行と所要時間の表の保存 QA の 2 列だけ)・正本の meta.evidenceQa = 保存 QA の commit・date・timingNote.qaProvenance.sameHtml が真。
+- **終了コード**: 0 = 許す欄の外の差 0(書いたまま —— 統括が 2 つのファイルを commit)・1 = 許す欄の外の差(段の書きを走行の前へ戻す —— `--keep` で残す)・2 = 器が rc ≠ 0(戻す)・3 = 前提を満たさない。`--dry-run` は判定の後に必ず戻す(試走)。所要は Chromium 1 本で 3〜4 s。
+- **QA docs.w321d**: lib の分類を今の正本と md への変異で試す(正本の変異 17 —— 来歴 5・時間 3・外 9 / md の変異 7 —— 来歴 1・時間 2・外 4)・道具が段の宣言(cmd・書き)を読むこと・文書(Chromium は使わない —— 道具の走行は QA に入れない)。
+
+**表 2(道具の試走 —— 枝の scratch に書き出した写しで)**
+| 写し | 場面 | 結果 |
+|---|---|---|
+| 0d7d7f1(第320便の最後 —— 正本は鎖の中・保存 QA は第320便のゲート・同じ html) | ゲートの後の 1 回 | rc 0・正本の差 552(来歴 26・時間 526・外 0)・md の違う行 104(来歴 1・時間 103・外 0)・変わったファイル 2・html 不変・evidenceQa 83f384c → 002d485・sameHtml false → true(3.5 s) |
+| 同じ写しでもう 1 回 | 冪等 | rc 0・正本の差 2(来歴 2 —— 実行の時刻)・md の差 0 |
+| 段の秒の表(tests/data-w311c-regensec.json)の 1 段を +7 s | 許す欄の外 | rc 1・正本の外 38(rows[].timing.regenSteps[].sec ほか)・md の外 3・段の書きを戻した |
+| 原稿(tests/data-w279a-samplestatus-src.json)の目的の文を変える | 状態と html | rc 1・html の生成領域が変わる(段の書きの外)・正本の外 5・戻した(html の sha は元のまま) |
+| --dry-run | 試走 | rc 0・判定の後に戻した |
+
+**⑤ 統括の手順(1 行)。** フルゲートの後(保存 QA を書いた後)に `PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright node tools/samplestatus-postgate.mjs` —— 期待の出力は `samplestatus-postgate(w321d-postgate-1): PASS(rc 0 …)`・「段の書きの外 0 / html 不変 true」・「正本: 差 N(来歴 a・時間 b・外 0)」・「一覧 md: 違う行 M(来歴 1・時間 M−1・外 0)」・「来歴: evidenceQa <前のゲート> → <今のゲート>(保存 QA と同じ true)・sameHtml false → true」。PASS なら 2 つのファイルを commit(html は変わらないので保存 QA は今の html のまま)。
+
+**⑥ 残したもの(決断事項の候補)。** 天体 → 粒子の安定した対応(AN494 の将来)は作っていない —— 案: build が `S.bodyRow`(粒子 → 宣言の行・群の中の番号)を持ち、f は天体の添字のまま実行で天体 → 粒子の先頭へ写す(群の天体に f を許すかは別の決定)・二次元の融合・分裂・放出が粒子を詰める/足すときの写しを `S._compact` の写像 nm と同じ所で更新する・保存 JSON と checkpoint にも行の写しを持つ。拒否の型はその契約ができるまで残す。samplestatus の段を常時群から外してゲートの後だけにする案は、鎖の中の html の生成領域(状態の表)の作り直しと html 全体を刻む段の順序(AN53)を壊すので、常時群に残してゲートの後にもう 1 回の型(この道具)を推奨する。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

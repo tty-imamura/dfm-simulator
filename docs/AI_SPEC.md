@@ -4437,3 +4437,8 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **AN481**: 変異試験(tools/an481-probe.mjs)—— 受理器だけを閉包の外へ出す型では、受理の段と步の段を一緒に足す変更(第319便a の型)の鎖は減らない。validatePreset を丸ごと止める型は既存の拒否の条件の変更を見落とす。推奨は実行した関数の閉包(器の走行の coverage を刻む版 7 —— 本便は実装しない)。
 - **段の副産物の md**: 再生成表の `BYPRODUCTS_320D` を段の書きに入れた(鎖の JSON の writes)。SAMPLE_STATUS は保存 QA の来歴(1 便遅れ)と「html を読まない」段の区分を書く。
 - **AN455・AN477**: drag3d-298c・semic-302d の領域の宣言に ACCEPT_REASONS・invsq-309a・invsq-310a の後に入った本の除外を宣言の条件(K1 の規則の宣言)へ —— 外した本は ruleBooks に数える(既存の値は不変)。
+
+## 162. 第321便d —— sourceMoment.f の添字の守り(受理の拒否の型)とゲートの後の samplestatus の段の道具(決断事項 AN502・AN493・統括の検証項目 R269・**受理器の拒否の条件 1 つと理由の文 1 項だけ** —— 宣言の無い本はビット同一・正しい入力の値は不変・步の関数と `S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **sourceMoment の f の添字**: `physics.relativeDrag.invSq.sourceMoment.f` の添字は本の天体の添字(§155)で、実行は展開後の粒子の添字で読む。f を置く天体より前に 1 粒子でない天体(ring・disk・box・grid の群で n ≠ 1 —— n = 0 も)があると受理で拒否される(理由の文 `validatePreset/physics.relativeDrag.invSq.sourceMoment#3`「前方の群の展開で天体と粒子の添字が一致しない」)。f を置く天体は群より前に並べる。天体 → 粒子の対応は作らない(自動で付け替えない)。AI が作る本の受理は、この宣言を書かない限り変わらない。
+- **ゲートの後の samplestatus の段**(AN493): `tools/samplestatus-postgate.mjs` がゲートの後に段 samplestatus を 1 回だけ走らせ、SAMPLE_STATUS の正本と md で来歴と時間の欄(保存 QA の記録・本ごとの QA の秒)だけが変わったことを `tests/lib-w321d-postgate.mjs`(版 w321d-postgate-1)で確かめる(html は 1 byte も変えない —— 許す欄の外の差があれば戻して rc 1)。状態・較正の語・概要は変わらない。
