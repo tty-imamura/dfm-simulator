@@ -2259,7 +2259,8 @@ export function touchWritersAudit(steps, closure) {
   const m = new Map();
   for (const st of S0) {
     if (st.role === 'history') continue;
-    const own = writesOf(st);
+    // 第320便d(R265): 副産物の md(byproducts —— writesOf に入れた)は「outs の外に書くファイル」として touches の側で数える(この検査の意味は不変)
+    const own = writesOf(st).filter((f) => !(st.byproducts || []).includes(f));
     for (const f of new Set(own.concat(st.touches || []))) {
       if (!m.has(f)) m.set(f, []);
       m.get(f).push({ key: st.key, touch: !own.includes(f) });

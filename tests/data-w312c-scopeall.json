@@ -10,12 +10,12 @@
    "narrow-now": 6
   },
   "byKind": {
-   "filter": 17,
+   "filter": 16,
    "map": 2,
    "declared-wide": 6,
    "count": 2,
    "iterate": 6,
-   "value": 10,
+   "value": 11,
    "find-via-var": 1
   }
  },
@@ -1243,7 +1243,7 @@
    "reasons": [
     {
      "file": "tests/exp-w302d-semic.mjs",
-     "line": 65,
+     "line": 66,
      "use": "filter",
      "kind": "filter",
      "via": "harness",
@@ -1424,11 +1424,11 @@
    "reasons": [
     {
      "file": "tests/exp-w309a-invsq.mjs",
-     "line": 268,
+     "line": 270,
      "use": "(値)",
      "kind": "value",
      "via": "harness",
-     "text": "const HP = H.HP, all = HP.allPresets(), retired = E(H, 'retiredOf'), cand = [];",
+     "text": "const HP = H.HP, all = HP.allPresets(), retired = E(H, 'retiredOf'), cand = [], ruleBooks = [];",
      "var": "all",
      "varUses": [
       ")"
@@ -1438,10 +1438,9 @@
    "namedIds": [
     "jupiterGalilean",
     "jupiterSunInertial3d",
-    "solarSystem16Inertial3d",
     "venusSunInertial3d"
    ],
-   "nNamed": 4,
+   "nNamed": 3,
    "prospect": "enumerates"
   },
   {
@@ -1449,26 +1448,29 @@
    "harness": "tests/exp-w310a-invsq.mjs",
    "derivedAll": true,
    "kinds": [
-    "filter"
+    "value"
    ],
    "reasons": [
     {
      "file": "tests/exp-w310a-invsq.mjs",
-     "line": 153,
-     "use": "filter",
-     "kind": "filter",
+     "line": 155,
+     "use": "(値)",
+     "kind": "value",
      "via": "harness",
-     "text": "const all = HP.allPresets().filter((q) => !LATER_BOOKS_318.has(q.id));   // 第318便(統括): 後に入った本は数え上げの外"
+     "text": "const all0 = HP.allPresets(), all = all0.filter((q) => !isRuleBookW320(q)), ruleBooks = all0.filter(isRuleBookW320).map((q) => q.id);   // 第",
+     "var": "all0",
+     "varUses": [
+      ".filter"
+     ]
     }
    ],
    "namedIds": [
     "jupiterGalilean",
     "jupiterSunInertial3d",
     "mercurySunInertial3d",
-    "solarSystem16Inertial3d",
     "venusSunInertial3d"
    ],
-   "nNamed": 5,
+   "nNamed": 4,
    "prospect": "enumerates"
   },
   {

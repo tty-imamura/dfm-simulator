@@ -261,15 +261,17 @@ function partB(H, cfgs) {
   return { rows, books, oldSource: old ? 'tests/out/bevel-w308a.json(第308便a の正本 —— P.terms の diffPair)' : null };
 }
 
-// 第318便(統括の統合 —— 煙試験で見つけた): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本(K1 の規則の宣言)—— 数え上げの外に置く(正本の欄と値は不変・QA の側も同じ本を外して比べる)
-const LATER_BOOKS_318 = new Set(['solarSystem16Inertial3d']);
+// 第320便d(決断事項 AN477・AN462・R265): 後に入った本の名指しの除外の集合(第318便 —— 🗺️)を**宣言の条件**へ。K1 の規則の宣言の本(relativeDrag.invSq.rdRule ——
+//   在位の 7 本は pinDecl315c で移行の前の写しへ戻すので、写しの無い K1 の短い形で生まれた本だけが当たる)は dragCore の既定の候補の外に置く
+//   (受理器の規則「dragCoreDefault は rdRule と一緒に宣言しない」—— 候補の写しが受理されない)。外した本は段 D の ruleBooks に数える(既存の欄と値は不変)
+const isRuleBookW320 = (p) => { const r = p && p.physics && p.physics.relativeDrag; return !!(r && r.invSq && r.invSq.rdRule); };
 /* ───────── 段 D(dragCore の既定の数え上げ)───────── */
 function partD(H, quick) {
-  const HP = H.HP, all = HP.allPresets(), retired = E(H, 'retiredOf'), cand = [];
+  const HP = H.HP, all = HP.allPresets(), retired = E(H, 'retiredOf'), cand = [], ruleBooks = [];
   for (const p of all) {
     const rd = p.physics && p.physics.relativeDrag;
     if (!rd || rd.law !== 'inertial' || !p.scaleExp || !Number.isFinite(p.scaleExp.L)) continue;
-    if (LATER_BOOKS_318.has(p.id)) continue;   // 第318便(統括): 後に入った本(K1 の規則の宣言 —— dragCoreDefault は rdRule と一緒に宣言しない)
+    if (isRuleBookW320(p)) { ruleBooks.push(p.id); continue; }   // 第320便d(AN477): K1 の規則の宣言の本は候補の外(数える —— ruleBooks)
     const en = E(H, 'relDragEnabledOf')(rd);
     p.bodies.forEach((b, i) => {
       if (b.type !== 'single' || !(b.m > 0) || !(b.radius > 0) || b.dragCore) return;
@@ -311,7 +313,7 @@ function partD(H, quick) {
       oldM1.push({ id, source: 'Sun', which, rOverR: r6(r0 / R), eps, maxRelVsFar: r6(mx) });
     }
   }
-  return { capM: CAP, candidates: cand, liveBooks: books, liveRecords: live.length, enabledBooksInclRetired: booksAllEn.length, enabledRecordsInclRetired: allEn.length,
+  return { ruleBooks, ruleBooksWhy: 'K1 の規則の宣言(relativeDrag.invSq.rdRule)の本 —— dragCoreDefault は rdRule と一緒に宣言しない(第320便d・AN477)', capM: CAP, candidates: cand, liveBooks: books, liveRecords: live.length, enabledBooksInclRetired: booksAllEn.length, enabledRecordsInclRetired: allEn.length,
     allBooks: [...new Set(cand.map((r) => r.id))].length, allRecords: cand.length, runs, oldLawRatios: ratios, oldRotM1: oldM1 };
 }
 
