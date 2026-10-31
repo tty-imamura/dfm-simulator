@@ -60015,6 +60015,7 @@ function inertialDragIsqState(S,opt){
     const beta=Array.from(BE.subarray(i*n,i*n+n)), om=[0,0,0];
     if(ax) for(let j=0;j<n;j++){ const b=(i*n+j)*4; om[0]+=OP[b]; om[1]+=OP[b+1]; om[2]+=OP[b+2]; }
     const rr={i, Rd:T._rdIsqRd[i], md:T._rdIsqMd[i], beta, betaSum:beta.reduce((a,b)=>a+b,0), rot:rot? Array.from(RV.subarray(i*n*3,i*n*3+n*3)) : null, omega:ax? om : null, pinned:!!S.pinned[i]};
+    if(ax && opt && opt.perSource) rr.omegaSrc=Array.from(OP.subarray(i*n*4,i*n*4+n*4));   // 第320便a(R262): 読み口の選択 perSource(呼び手が求めたときだけ —— 源ごとの軸の ω_ij と符号つきのスカラー〔源 × 4〕・既定の読み口は変えない)
     if(parts){
       rr.betaSrcShell=Array.from(parts.BS.subarray(i*n,i*n+n));
       rr.parts={core:Array.from({length:n},(_,j)=>parts.BP[(i*n+j)*2]), shell:Array.from({length:n},(_,j)=>parts.BP[(i*n+j)*2+1])};
@@ -65098,7 +65099,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   axisHoldSourceSum, axisHoldComposeJudge, inertialDrag3MaintGalaxyOf, inertialDrag3MaintSourceOf, inertialDrag3Maint319Of,
   REL_DRAG_AXIS_HOLD_BALANCE_VERSION_319, INERTIAL_DRAG3_MAINT_BG_SC,   // 第320便a(AN475・R262)
   REL_DRAG_INVSQ_SRC_MOMENT_KEY, REL_DRAG_INVSQ_SRC_MOMENT_KEYS, REL_DRAG_INVSQ_SRC_MOMENT_KINDS, REL_DRAG_INVSQ_SRC_MOMENT_VERSION, REL_DRAG_INVSQ_SRC_F_MAX,   // 第320便a(AN471・R262)
-  validateInvSqSourceMoment, inertialDragIsqSrcRadiusOf, inertialDragIsqSrcMoment, inertialDragIsqM1Src, inertialDragIsqSrcMomentState,
+  validateInvSqSourceMoment, inertialDragIsqSrcRadiusOf, inertialDragIsqSrcMoment, inertialDragIsqM1, inertialDragIsqM1Src, inertialDragIsqSrcMomentState,
   REL_DRAG_INIT_SPIN_KEY, REL_DRAG_INIT_MOTION_KEY, REL_DRAG_INIT_OBS_VERSION, REL_DRAG_INIT_SPIN_KEYS, REL_DRAG_INIT_MOTION_KEYS, REL_DRAG_INIT_SPLITS, REL_DRAG_INIT_FIRST,   // 第309便c(R220)
   REL_DRAG_INIT_TOL_DEFAULT, REL_DRAG_INIT_ITER_DEFAULT, REL_DRAG_INIT_COND_MAX, validateInitObs, relDragInitObsOf, inertialDragInitObsApply, inertialDragInitObsRedo, inertialDragInitObsState,
   inertialDragInitObsEval, inertialDragInitObsU,

@@ -2500,6 +2500,9 @@ lastAddAt = Date.now();
       // ==== 第319便b の塊(ここから)==== 引きずる側の半径 R_src の 3 案・分布した銀河の太陽系近傍・天体別の役割の表の器(srcradius-319b —— 1 プロセス・步は進めない)。領域 REGEN_SCOPE を刻む
       'tests/out/srcradius-w319b.json',
       // ==== 第319便b の塊(ここまで)====
+      // ==== 第320便a の塊(ここから)==== 読み (b) と源のモーメントの半径 R_src の器(srcheat-320a —— 純関数の場面・受理・同一・🌋🏀🗺️ の写し × 種類 × ±ĝ・6 天体の役割・木星の要る τ_hold)。領域 REGEN_SCOPE を刻む
+      'tests/out/srcheat-w320a.json',
+      // ==== 第320便a の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {

@@ -1468,7 +1468,9 @@ export const REGEN_STEPS = [
   //   合成と源ごとの状態・合成の 1 回の熱〕・🌋🏀🗺️ の写し〔銀河の一様軸引きずり + 維持の型 compose:"source"・balance:"background"〕・TS 刻みの感度・F 写しの外の倍率と
   //   木星の内部熱の主列・代替の列に要る τ_hold)。在位の本の宣言は変えない(写しにだけ足す)。html だけを読む・1 プロセス。所要は第319便a の枝の実測 2.3〜3.6 s
   //   (**並走の秒** —— 4 枝並走の容器 —— 統括が混まない箱で測り直す)
-  S('axisheat-319a', 'node tests/exp-w319a-axisheat.mjs', ['tests/out/axisheat-w319a.json'], 3, { secSource: 'w319a-branch', node: true, after: ['obscompare', 'samplestatus'],
+  // 第320便a(AN475・R262): balance:"background" の版を上げて読み (b) に —— 第319便a の器の同一の門(源ごとの本の合成の熱 = balance を宣言しない本の熱)は今の html では
+  //   成り立たない(第319便a の契約の記録)。**履歴**(再生成しない —— 正本は第319便の鎖の走行のまま)。新しい契約の実測は srcheat-320a(下)
+  S('axisheat-319a', 'node tests/exp-w319a-axisheat.mjs', ['tests/out/axisheat-w319a.json'], 3, { secSource: 'w319a-branch(第320便a から履歴 —— 走らせない)', node: true, role: 'history', after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/axisheat-w319a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第319便a: 軸を保つトルクの熱の経路(維持の型の opt-in compose:"source"〔源ごとの維持 —— 銀河の項は 1 つの源〕・balance:"background"〔背景の駆動と放射の口座〕・合成の判定の記録)を在位の本の写しで測る(在位の本の宣言は変えない・内部熱を説明したとは書かない・要る τ_hold は要る大きさの記録)' }),
   // ==== 第319便a の塊(ここまで)====
@@ -1483,6 +1485,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/srcradius-w319b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第319便b: 引きずる側の半径 R_src の 3 案(源の回転と軸のモーメントだけ —— 受け手の R_d = Y_k m は不変)・分布した銀河の太陽系近傍(宣言の密度の模型と平均の流れ —— 格子 3 段)・天体別の役割の表(120° の合成の一般形・拮抗・要る大きさとの比)—— エンジン・在位の本は変えない・新しい法則は足さない' }),
   // ==== 第319便b の塊(ここまで)====
+  // ==== 第320便a の塊(ここから)====
+  // ---- 第320便a(原仮定者の回答(2026-10-30 —— AN475)「減速させる側の引きずりを背景宇宙が補う分も熱に数える」・原仮定者の裁定(第122報)AN471「案3(J)を確かめる。案2bは次点」・
+  //   決断事項 AN471・AN474・AN475・統括の検証項目 R262): **読み (b) と源のモーメントの半径 R_src の器**(段 srcheat-320a —— P 純関数の場面・A 受理・Q 同一〔contract319 =
+  //   balance を宣言しない写し・(b) の合成 = (b) の compose:"sum"・β と R_d が同じビット・回転の係数と軸の ω の比 = (R_src/R_d)²〕・🌋🏀🗺️ の写し × 源のモーメントの種類 × ±ĝ・
+  //   R 🗺️ の 6 天体の役割の表と第319便b の数の照合・F 木星の 1 回の量と要る τ_hold〔受け手の慣性係数の 2 列〕・TS 刻みの感度)。在位の本の宣言は変えない(写しにだけ足す)。
+  //   html と第319便b の正本(比較の照合の数)を読む・1 プロセス。所要は第320便a の枝の実測 5.3〜5.8 s(**並走の秒** —— 4 枝並走の容器 —— 統括が混まない箱で測り直す)
+  S('srcheat-320a', 'node tests/exp-w320a-srcheat.mjs', ['tests/out/srcheat-w320a.json'], 6, { secSource: 'w320a-branch', node: true, after: ['obscompare', 'samplestatus', 'srcradius-319b'],
+    volatilePaths: { 'tests/out/srcheat-w320a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第320便a: 読み (b)(balance:"background" の版 w320a-axishold-balance-2 —— 減速を補う分も熱・口座を一緒に・第319便a の契約は欄 contract319)と源のモーメントの半径 invSq.sourceMoment(J・obs・capObs —— 源の回転と軸のモーメントだけ・受け手の R_d と並進は不変)を在位の本の写しで測る(在位の本の宣言は変えない・内部熱・金星の逆転・公転面を引きずりで説明したとは書かない)' }),
+  // ==== 第320便a の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
