@@ -473,6 +473,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.violationKinds320 lint.byproducts320 do
 #   lint.qaHeapRelease310・lint.sectionLookup313・煙試験の窓の表の lint.harnessSmoke303
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.geo2v3321a docs.geo2v3321a lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.harnessSmoke303"
 # ==== 第321便a の塊(ここまで)====
+# ==== 第321便c の塊(ここから)====
+# 第321便c(原仮定者の予定(第123報)・原仮定者の回答(2026-10-31 —— AN489)・AN486・AN487・AN488・AN496・R268): 枝 c の新設 1 本(docs.galField321c —— geoPN=4 の一新の S1 の正本と文書・
+#   場の純関数の作り直し)と、第320便c の lib を import する docs.nbCompose320c・第320便a の器を import する docs.srcHeat320・正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・
+#   lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・CANON の lint.canon304・lint.qaHeapRelease310・lint.sectionLookup313・新しい記号のコードの書式の lint.kappaSymbol315・
+#   煙試験の窓の表の lint.harnessSmoke303
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.galField321c docs.nbCompose320c docs.srcHeat320 lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.harnessSmoke303"
+# ==== 第321便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

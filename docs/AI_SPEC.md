@@ -4444,3 +4444,10 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **純関数** tests/lib-w321a-geo2v3.mjs(版 w321a-geo2v3-1): 2D の v−u 則の輸送 Δu − ((v−u)·∇)u dt + (∇×u) × (v − k_F u) dt を 3 成分に(u の履歴 3・∇u 3×3・curl 3・源の自転のベクトル Ω = s â・反作用の Δp と残余トルクのベクトル)。範囲は geoPN 2 の宣言 ∧ kFrame>0 ∧ λ_PN=0 ∧ contactMode:"none" ∧ frameWeight:"share"。
 - **器** tests/exp-w321a-geo2v3.mjs(段 geo2v3-321a —— 正本 tests/out/geo2v3-w321a.json): 面への退化(html の 2D の步と全状態が同じビット)・三次元の html の步(kFrame=0)と同じビット・回転共変・解析の場・初回の履歴・口座・galaxyGeo2 の 2D の基準の凍結(claim の手続き 12000 步と h/2)。QA behavior.geo2v3321a・docs.geo2v3321a。
 - **S2(第322便〜)**: dfmStep3 への接続(步・状態 S.uPz・反作用・口座)と、受理の門と実行時の門を同時に・対応した範囲だけ開ける。3D の本は新しい ID(平面 → 傾き → 有限厚)。慣性決定力・連鎖と重ねない。
+
+## 161. 第321便c —— geoPN=4 の一新の S1(比較の基準の凍結・銀河の中の任意の位置の源の流れの場の純関数・半渦度 ↔ u_φ の対照・6 天体の拮抗の符号つきの表と衛星の列・場の API の契約の案)(原仮定者の予定(第123報)・原仮定者の回答(2026-10-31 —— AN489)・決断事項 AN486・AN487・AN488・AN496・AN497・AN498・統括の検証項目 R268・**器と lib と正本と QA と文書だけ** —— html・宣言の鍵・正準形・エンジンの式・受理の判定・受け手の R_d = Y_k m・`S._core` は不変・在位の本は 1 本も宣言しない・新しい法則は足さない・**SYSTEM_PROMPT には載せない**)
+
+- **器と正本**: `tests/exp-w321c-galfield.mjs`(版 w321c-galfield-1・`W321C_OUT`・`W321C_QUICK`・`W321C_WORKERS`)・lib `tests/lib-w321c-galfield.mjs`(版 w321c-galfield-lib-1 —— 場の API の契約の版 w321c-galfield-1: `sample(positionKpc, time, sourceState, opts)` → u[3]・gradU[9]・dUdt[3]〔定常の宣言から導いた 0 だけ —— 定常でない宣言は null〕・halfCurl[3]・source・normalization・version・validDomain・error・parts)・文書の lib `tests/lib-w321c-galfielddoc.mjs` → `tests/out/galfield-w321c.json`(段 galfield-321c)。
+- **中身**: G0(在位の geoPN=4 の本と銀河の本を QA と同じ測り方で走らせた宣言の署名・実行の法則・窓・値・状態の指紋)・銀河の中の任意の位置の源の流れの場(R × z の表・部分積分の形と中心差分の 2 経路・面への退化・鏡の対称・正規化の項・太陽の高さの感度)・中心と残余の重ならない分割(R_cut × 任意の位置で和 = 全場・源の宣言の受理と拒否・回転の共変・有効域の外の拒否)・点のセルの和(格子の感度)・半渦度 ↔ u_φ の対照(境界つきの復元・循環 C/R の自由度・剛体の読みとの比)・天体ごとの位置と 6 天体の拮抗の符号つきの表(読み (b) × J × 源の組)・衛星の列(J と capObs)。
+- **QA**: `docs.galField321c`(新設 —— 正本の門・純関数の作り直し・PHYSICS〔第321便c〕の表と数・必須の語・禁句)—— root は SKIP。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(本の宣言の鍵は増えていない)。AI が半渦度を今の軸引きずり ω_G と同じ量と書かない。半渦度だけから回転の流れを決めない(勾配と循環 C/R の自由度)。u_φ = Rω を差動回転に使わない。中心 1 体の値を銀河の場と呼ばない。観測の流れを入力して同じ曲線を得ることを予言と呼ばない。拮抗の差を非負へ切らない(AN496)。`κ_v` は宣言する対応(較正の係数にしない)。
