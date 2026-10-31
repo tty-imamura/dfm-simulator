@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第303便b",
   "target": "beta/index.html",
-  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-  "generatedAt": "2026-10-31T05:44:35.385Z",
+  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+  "generatedAt": "2026-10-31T20:01:01.708Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7401797,
-    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-    "mtime": "2026-10-31T03:14:16.264Z"
+    "bytes": 7403262,
+    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+    "mtime": "2026-10-31T17:17:55.600Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -245,7 +245,7 @@
    "segments": 1216,
    "closureShare": 0.3079
   },
-  "scopeSha256": "312706a138a6bff0301383f402b5e9b7d3a09302b5b82192a0bbf6f240133b77",
+  "scopeSha256": "65c24949e97b906dc36c4f14101a8e248ba3926b2074105c4108558938f2e25a",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -4135,22 +4135,22 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 4.745
+   "wallSec": 5.594
   },
   "M": {
-   "wallSec": 96.293
+   "wallSec": 115.857
   },
   "T": {
-   "wallSec": 330.7
+   "wallSec": 388.874
   },
   "N": {
-   "wallSec": 341.581
+   "wallSec": 386.562
   },
   "E": {
-   "wallSec": 298.744
+   "wallSec": 337.786
   },
   "K": {
-   "wallSec": 0.021
+   "wallSec": 0.033
   }
  },
  "h4Carry": {
@@ -4378,11 +4378,11 @@
    }
   },
   "prev": {
-   "generatedAt": "2026-10-30T14:24:54.609Z",
-   "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-   "fileSha256": "9de3a316651bb7a5c7fcc074b65f5bdad06e02292d5f74e9223dc31650e0cff6"
+   "generatedAt": "2026-10-31T05:44:35.385Z",
+   "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+   "fileSha256": "b389a0bdf641991a0b76240be2a5e3874efb95337196d5242eb77fe8af2296c6"
   },
   "env": "H4_CARRY=1 は比較の実験だけ(既定は全部測る)"
  },
- "elapsedS": 1073.708
+ "elapsedS": 1236.701
 }
