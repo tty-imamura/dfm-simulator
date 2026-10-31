@@ -4406,3 +4406,10 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **後に入った本の除外(AN462)**: 器の `LATER_BOOKS_*` は、集合ごとに理由と入れるのに要ることを PHYSICS〔第319便d〕の表 1 に置き、lint.laterBooks319 が器の注記の形と表の一致を見る(器の本体は変えない)。QA の側の名指しの除外は表 2。
 - **受理の理由の文(AN455 —— 見積もりで止めた)**: 受理器の errors・warnings の文を正本に書いて QA が照合する器(drag3d-298c)の REGEN_SCOPE の consts に `ACCEPT_REASONS` を宣言すると、その器を前段に走らせる semic-302d も regen になる(2 段・下限 +866 s)—— 本便は宣言しない(決断事項の候補)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない(宣言の鍵・受理の判定は不変)。AI が規則の本の注を「観測に合わせた」と書かない。
+
+## 157. 第320便c —— 太陽系近傍の銀河の軸の源の合成(中心 1 体と銀河の渦の中の半渦度 —— 座標の補正と源の半渦度の格子の感度・中心と残余の重ならない分割・中心の強さの掃引・有限の分布の型・6 天体の拮抗)(原仮定者の指示(第122報)・決断事項 AN472・AN473・統括の検証項目 R264・**器と lib と正本と QA と文書だけ** —— html・宣言の鍵・正準形・エンジンの式・受理の判定・受け手の R_d = Y_k m・`S._core` は不変・在位の本は 1 本も宣言しない・新しい法則は足さない・**SYSTEM_PROMPT には載せない**)
+
+- **器と正本**: `tests/exp-w320c-nbcompose.mjs`(版 w320c-nbcompose-1・`W320C_OUT`・`W320C_QUICK`)・lib `tests/lib-w320c-nbcompose.mjs`(版 w320c-nbcompose-lib-1 —— `ringCurlZ`〔源の流れの半渦度の環の積分 —— 部分積分の形・方位は第一種の完全楕円積分〕・`ringCurlZviaA`〔u_φ の差分の別経路〕・`ringBetaDisk`・`ringBetaBulge`・`ringGradBetaDisk`・`gradBetaOf`・`sourceCurlOf`・`observerCurlOf`〔座標の補正 ω_GC = ω_Co + ½∇β × V_ref〕・`diskCells`・`bulgeCells`〔点のセルの和 —— 軟化の幅と局所の分割〕・`diskJ`・`shellCurl`・`uniformSphereCurl`・`dipoleHalfCurl`・`bevelLead`・`combineDisjoint`〔重ならない成分の和 —— 重なりと代理 + 残余を拒否〕・`judgeOf`)・文書の lib `tests/lib-w320c-nbcomposedoc.mjs`(`physicsTablesNbCompose`・`docNumbersNbCompose`)→ `tests/out/nbcompose-w320c.json`(段 nbcompose-320c・1 プロセス・步は進めない)。入力は `tests/data-w318c-solar16-input.json`(読むだけ)。
+- **中身**: 共動系の半渦度を受け手の動きの項と源の流れの項に分けた表(格子 3 段と環の積分の連続の値)・源の流れの半渦度の格子の感度(格子 48/96/192/384 × 軟化の幅・局所の分割)・中心(バルジ + R < R_cut の円盤)と残余の分割と J 双極子・中心の強さの倍率 λ_c × `κ_v` × 演算 A・B・Bco の掃引・同じ総 J の有限の分布の型・「中心」の宣言の型(代理 M_G/実在の中心成分)・bevel の主項と半渦度の演算の比べ・6 天体の自転と太陽の項(案3 J・今)と銀河の項の候補の拮抗。
+- **QA**: `docs.nbCompose320c`(新設 —— 正本の門・純関数の作り直し〔座標の補正の式・重ならない成分の和の拒否・一様な球の √(5/6)・面の中の比 4〕・PHYSICS〔第320便c〕の表と数・必須の語・禁句)—— root は SKIP。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(本の宣言の鍵は増えていない)。AI が半渦度を今の軸引きずり ω_G と同じ量と書かない。`κ_v` を導いた法則と書かない(宣言する対応)。中心 1 体の値を銀河の効きと呼ばない。M_G を実在の中心単体と書かない。銀河の軸の源の向きを ±ĝ の一方に決めたと書かない(座標と演算の宣言で入れ替わる)。金星・木星の熱や逆回転を拮抗で説明したと書かない。
