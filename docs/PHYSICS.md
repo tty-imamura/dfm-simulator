@@ -40317,6 +40317,63 @@ lint.laterBooks319 は qa.mjs の名指しの除外(`!(W<便><枝>_… && ….id
 
 **⑧ 残った決断事項(DECISIONS の §1 —— 統括の推奨つき)。** AN467(120° の判定の形 —— 一般形)・AN468(拮抗の熱 —— 既定は合成・源ごとは opt-in)・AN469(熱の率 —— τ_hold・結合の係数は候補の記録)・AN470(背景への放射の帳簿 —— 釣り合いの欄)・AN471(次にエンジンの opt-in にする引きずる側の半径 —— 源の J)・AN472(銀河の軸の源の向き —— 両方の列)・AN473(分布源の粒度 —— 既定を置かない)・AN474(R_src を記号の器へ —— 次に記号の器を触る便)・AN475(減速の分を背景が補う電力を熱に数えるか —— 原仮定者の確かめ)・AN476(QA の名簿の型の残り)・AN477(後に入った本の器の書き直しの時期)・AN455(継続)・AN418・AN428(継続)。
 
+〔第320便d — 道具と QA(lint の違反の種類・本ごとに分けられる器の名簿と計画の分類・受理の鍵を足すとほぼ全段の型の変異試験・SAMPLE_STATUS の保存 QA の来歴と html を読まない段・段の副産物の md・受理の理由の文と後に入った本の器)(決断事項 AN478・AN481・AN477・AN455・AN476・統括の検証項目 R265 —— 物理・本の宣言・エンジンの式・受理の判定はビット同一・html は変えない・領域 hash の版は版 6 のまま)〕
+
+**① lint の違反の種類(第319便の見落とし —— lint.regenScope の先頭 5 件が刻印の型で「宣言が下限を覆わない」2 件が隠れた)。** `tests/lib-w320d-lintkinds.mjs` が違反の文を 2 種類に分ける: **刻印の型**(文に「走らせ直す」を含む —— targetSha256・meta.scope・領域の刻印の欠け・入力とコードの刻印。鎖で器を走らせ直せば直る)と**それ以外**(宣言が下限を覆わない・常時群の集合・履歴の入力・版・欄の欠け —— 走らせ直しても直らない)。lint.provenanceMeta・lint.regenScope・lint.stableHashPaths・lint.scopeAll312・lint.canon304 の detail は `violationText` を通る(それ以外を元の順で先に 12 件まで・刻印の型は後ろに 2 件まで〔それ以外が 0 件なら従来どおり 4〜6 件〕・印 `〔違反の種類 w320d: 刻印の型以外 b 件・刻印の型 a 件〕`)。**判定(bad.length === 0)は変えない**。`tools/post-merge-qa.sh` の ① と ④ の要約は同じ lib の `summarizeLog` で「刻印の型以外の違反 k 件(lint 名 k)」を出す(1 件でもあれば ‼ —— fail の扱いは従来どおり)。基点の部分 QA の lint.provenanceMeta は違反 36 件がすべて刻印の型(便の開始の版名で html が変わった —— 鎖で直る)。QA `lint.violationKinds320`(分類と並びの自己試験・5 本の detail・刻印の型の文に「走らせ直す」があり「宣言が下限を覆わない」に無いこと・post-merge の要約)。
+
+**② AN478 —— 領域の差の分類(核・本・表示)と本ごとに分けられる器の名簿。** `tests/lib-w320d-perbook.mjs`:
+- **分類**(段ごと —— 刻印した html と今の html の scopeHash の parts の差): display(対象 html は違うが領域 hash が同じ)・book(差が本の生の定義/受理後の定義だけ —— 本の id の集合)・core(閉包の関数・HP・S._core・定数・領域の版のどれか)・none・nodecl(領域の宣言なし)・other(html 以外の理由)・unknown(刻印時の html が手元に無い)。`node tools/regen-plan.mjs --classify [--stamp-html <f>] [--stamp-git <N>]` が `plan.classify320` に行ごとの分類と文(「本 X の変更だけで動く —— 名簿 A/B/C」「核: 式 …」「表示だけ」)を出す(**段の判定 status は変えない**)。
+- **判定の例**(枝の写し —— 刻印時の html は git の履歴から 12 種のうち 2 種を引けた): ❄️ の質量の最下位桁だけを変えた写しでは book 55 段(すべて plutoCharonReal —— 名簿の型で A が 7 段・B が 10 段・C が 38 段)・display 94・nodecl 24・other 28・unknown 1。validatePreset の本体に 1 文を足した写しでは core 149 段(核: 式: validatePreset)・book 0。
+- **名簿**(`tests/data-w320d-perbook.json` —— `node tools/regen-plan.mjs --roster --write|--check`・版 w320d-roster-1・機械の読み): 名簿 A 12・B 33・C 157(現行の段 202 —— 見積りの秒 A 5492 s・B 11180 s・C 51258 s)。**A** = 器に `--only` があり正本に本ごとの容器がある段(charon-h2 1074 s・charoneps-h4 838 s・nslock 650 s・charonInput 595 s・charon-h 554 s・charon-h4 513 s・charoneps-h2 423 s・galaxydiag 293 s・charoneps-h 220 s・sparc 185 s・cluster 78 s・charondfm 69 s)/ **B** = 正本に宣言の本の過半を覆う本ごとの容器があり全体集計・共有フィット・対の比較の印が無い段(器を読んで確かめる候補 —— satnext-318b 5151 s・satcut-317c 2446 s・earthmoon-303c 807 s・rotframe-306d 542 s・spinavg-305d 430 s・timestd-297c 425 s ほか)/ **C** = 全体の再走(領域の宣言なし 52・正本に本ごとの容器が無い 48・本ごとの容器が宣言の本の過半を覆わない 33〔宣言の多くは凍結の写しと参照の本 —— 下限〕・対の比較 8・全体集計 6〔KEEP_ALL_319C〕・本が 1 冊以下 6・共有フィット 4)。
+- **本ごとの行の再利用の契約**(--merge の器が守る条件): 入力 hash(本の生の定義と受理後の定義の hash)・コード(器と lib の sha)・環境(Node と Chromium の版)の**一致する行だけ**を再利用する。全体集計・共有フィット・対の比較は全体の再走。本便は名簿と判定まで(器の `--only/--merge` の実装は名簿 A の上位から —— 決断事項の候補)。
+
+**③ AN481 —— 受理の鍵を足すとほぼ全段の型(変異試験 —— `tools/an481-probe.mjs`・`tests/lib-w320d-an481.mjs`)。** 1 つの最上位の段の本文だけを変える変異(識別子は増やさない —— 閉包の集合は同じなので、その段が閉包にある宣言だけが動く)で、宣言した 154 器のうち動く器の数を候補の閉包の型ごとに数えた:
+
+**表 3(候補 × 変異 → 動く器 / 154)**
+| 変異 | 望む | P0 現行(版 6) | P1 validatePreset を停止 | P2 鍵・値の表を閉包の外 |
+|---|---|---|---|---|
+| m1key 使わない鍵を鍵の配列に足す | 再利用 | 154 | 154 | 0 |
+| m1guard validatePreset に使わない鍵の門の塊 | 再利用 | 154 | 0 | 154 |
+| m3reject 既存の拒否・丸めの条件(camera.scale の上限) | **再生成** | 154 | **0(見落とす)** | 154 |
+| m4step 步の側の関数(inertialDrag3MaintStep) | その步を通る器 | 154 | 154 | 154 |
+| 第319便a の受理の段(validateAxisHoldMaintain と鍵の配列 7 段) | — | 154 | 154 | 154 |
+| 第319便a の步の段(inertialDrag3Maint* ほか 18 段) | — | 154 | 154 | 154 |
+
+- 第319便a は受理の段と步の段を一緒に変えた。どちらも宣言した全 154 器の閉包にある(受理器は validatePreset と HP の公開から・步の関数は makeSim から辿る)。**受理器だけを閉包の外へ出す型(P1・P2)では第319便a の鎖は減らない**(步の側が同じ閉包)。
+- P1 は既存の拒否・丸めの条件の変更を 0 器で見落とす(器が作る合成の本に効く変更 —— 内蔵の本の受理後の定義は変わらない)ので採らない(決断事項 v79 §0 の「丸ごと停止集合へ入れない」と同じ結論)。P2 は鍵の配列への追加だけを 0 器にする(受理器の本文の門・步の側は全器のまま —— 値の表を変える器の合成の本は見えないので、表の値を名指す器に consts を求める下限が要る)。
+- **P4(実行した関数の閉包 —— 器の走行の V8 の precise coverage)の調べ**: ❄️ を 600 步(器 exp-w272b-charon の roots)では静的な閉包 620 関数・1.62 MB に対し実行した閉包 95 関数・0.64 MB。内蔵の全 177 本 × 8 步(器 exp-w294d-timing の roots)では 615 関数・1.64 MB に対し 348 関数・1.23 MB。第319便a の段は静的な閉包に入るが、**どちらの走行でも実行した閉包に入らない**(内蔵に axisHold の maintain を宣言した本は無い)。P4 なら第319便a の型の変更で動くのは、その步を通る本を走らせる器だけになる(見込み —— 器ごとの coverage の刻印が要る)。
+- **P4 の安全の条件**(決断事項の候補): ① 器の走行の全部(子プロセス・Chromium の頁を含む)の coverage を刻む ② 領域の本文 = 実行した関数で止めた閉包 + 止めた名の集合(存在の判定を落とさない)+ 宣言した本(生・受理後・警告)+ S._core + consts(版 7)③ 器が決定的(乱数の種・時刻を読まない)④ validatePreset は 1 つの関数(19,039 行)なので、その本文の変更(m1guard の型)は P4 でも実行した閉包の中 —— 塊の粒度(block coverage の対応づけ)は次の段。
+- **本便は実装しない**(領域 hash は版 6 のまま): 安全と言える形には器ごとの coverage の刻印が要り(宣言した器 154・Chromium の器と子プロセスの器を含む)、本便の時間に収まらない。推奨は P4(段階: Node の headless の器から opt-in の版 7・P0 の照合と並べて影の運用)。
+
+**④ SAMPLE_STATUS(器 tests/exp-w279a-samplestatus.mjs)。** (i) **保存 QA の時間の来歴**: md の「保存 QA の来歴」の行(保存物の版名 swCache・commit・日時・対象 html の sha と、今の html に対して「前の便のゲートの保存物(1 便遅れる —— 鎖の常時群の段 samplestatus はゲートの QA の前に走る)」/「同じ版名の前の html の QA」/「この html の QA」)と正本 `timingNote.qaProvenance`。(ii) **html を読まない段**: 宣言の無い段のうち再生成表の `htmlReadOf` が none の段(鎖の済み印の契約と同じ関数 —— 引けなければ html 全体の保守側)を区分「html を読まない」(20 段・1588 s —— nsgrid・galaxyproto・nsmode・armbar・satan-317d ほか)・残りを「宣言なし(html 全体)」(20 段・84 s —— confirm4 は html の本文を読むので html 全体)。正本 `timingNote.noHtmlSteps`。枝で器を直接走らせ md と正本の差を見た(コミットしない —— 鎖の常時群の段で入れ替わる)。
+
+**⑤ 段の副産物の md(`BYPRODUCTS_320D` —— 運用の正本 追記 38 ⑨)。** samplestatus → docs/SAMPLE_STATUS.md・families → docs/FAMILIES.md・kf0ledger-old と kf0ledger → docs/KF0_LEDGER.md・issues → docs/CALIBRATION_ISSUES.md を段の `byproducts` に宣言し `writesOf` に入れた(鎖の JSON の writes —— 段階コミットの脚本が拾う・書込排他の鍵・済み印の契約の policy)。touches にも残し、touches を含めた書き手の全順序の検査は副産物を outs の外の書きとして数える(自己試験 (s) は不変)。表の版は変えない(planRegen は writes を使わない)。QA `lint.byproducts320`。
+
+**⑥ AN455・AN477・AN476。**
+- **AN455**: drag3d-298c(受理されない宣言の理由の文を正本に書く)・semic-302d(前段に drag3d の器を走らせて読む)の REGEN_SCOPE の consts に ACCEPT_REASONS(2 段 —— 本便は全段の鎖なので費用は増えない)。
+- **AN477**: invsq-309a(段 D)・invsq-310a(段 N)の名指しの除外を宣言の条件 `isRuleBookW320`(relativeDrag.invSq.rdRule —— 在位の 7 本は pinDecl315c で移行の前の写しへ戻すので、写しの無い K1 の短い形で生まれた本だけが当たる)へ。外した本は `ruleBooks` に数える(🗺️)。枝で 2 器を走らせ、正本の既存の欄と値は同じで `ruleBooks`・`ruleBooksWhy` の 2 欄だけが増えることを見た(コミットしない)。残りの 4 器(semic-302d 866 s・wbgest-302c 520 s・refit-303a 356 s・wbglaw-301g 316 s)は表 1 のまま(器の行の型を本の天体ごとに広げる・写しの外で分類する設計が要る —— 次に器を触る便)。lint.laterBooks319 は表を持つ最新の節(本節)の表 1・表 2 を読む(世代切替)。
+- **AN476**: 残した名簿 W298C_IDS(9 か所)・W298C_DCIDS(4)・W299E_IDS(18)と ui.fidelity の 🗺️ の加算は本便では変えない(受理した宣言から作り直すと 🗺️ が玩具の本の試験の母集団に入る —— Chromium の QA_FAST を回す便で)。
+
+**表 1(器の後に入った本の除外 —— 本便の後に残る 4 器)**
+| 器 | 集合 | 外す本 | 使う所 | 段 | 外す数え上げ | なぜ外すか | 入れるのに要ること |
+|---|---|---|---|---|---|---|---|
+| `tests/exp-w301g-wbglaw.mjs` | `LATER_BOOKS_318` | 🗺️ `solarSystem16Inertial3d` | 1 | `wbglaw-301g` | classify —— law "inertial" の本を第302便c の前の宣言の写し(pre302c)で分類 | 🗺️ は K1 の規則の宣言で生まれた本で前の宣言の写しが無い —— gain を書き込む写しは受理されない | 規則の宣言の本を写しの外で分類する形(器を触る便 —— 段は regen) |
+| `tests/exp-w302c-wbgest.mjs` | `LATER_BOOKS_318` | 🗺️ `solarSystem16Inertial3d` | 2 | `wbgest-302c` | gLocBooks(G_loc を宣言した在位の本 —— 段 P)・partE(scaleExp と law "inertial" の在位の本 —— W_bg の同定の幅) | 器の表は惑星 1 体の W_bg の行の型で、🗺️(16 体・W_bg の宣言なし)はその行の型に入らない | 行の型を本の天体ごとに広げる(器を触る便 —— 段は regen) |
+| `tests/exp-w302d-semic.mjs` | `LATER_BOOKS_318` | 🗺️ `solarSystem16Inertial3d` | 1 | `semic-302d` | idsOf —— 内蔵の全本から引きずりの解の対象を選ぶ | 入れると分類の行が増えて正本の欄が変わる(K1 の規則の宣言 —— 第318便の煙試験で見つけた) | 分類の母集団を器の世代の宣言の表で固定するか、行を足して正本を作り直す(器を触る便) |
+| `tests/exp-w303a-refit.mjs` | `LATER_BOOKS_318` | 🗺️ `solarSystem16Inertial3d` | 1 | `refit-303a` | gatesOf の gLocBooks —— G_loc の在位の本が惑星の表(P3.PLANETS)と同じ集合である門 | 門の型が惑星 7 本の写しで、🗺️ は惑星の表に無い | 門を惑星の表の本に絞る宣言の形(器を触る便 —— 段は regen) |
+
+**表 2(QA の側の名指しの除外 —— 本便は変えない)**
+| QA | 外す本 | 比べるもの | なぜ外すか |
+|---|---|---|---|
+| `behavior.wbgDirect302` | 🗺️ `solarSystem16Inertial3d` | 第302便a の移行表(law "inertial" の本の宣言の写し) | 移行表より後に入った本(今の宣言は behavior.solar16Builtin318c ①) |
+| `preset.gLocPlanets302` | 🗺️ `solarSystem16Inertial3d` | 第302便の G_loc の宣言の本(在位の本) | 在位の惑星 7 本と同じ K1 の G_loc {law:"kappaC2"} の後に入った本 |
+| `docs.semic302` | 🗺️ `solarSystem16Inertial3d` | 正本 semic-w302d.json の分類と今の宣言 | 器の除外(表 1 の semic-302d)と同じ本を両側から外す |
+| `preset.revertGLoc303` | 🗺️ `solarSystem16Inertial3d` | 第302便の宣言の G_loc の本と今の G_loc の本 | 移行の前の宣言の表に無い本 |
+| `behavior.invSq309` | 🗺️ `solarSystem16Inertial3d` | invSq・dragCoreDefault を宣言した本(移行の前の写しで読む 7 本) | 🗺️ は K1 の短い形で生まれた本で写しが無い |
+| `behavior.galaxial311` | 🗺️ `solarSystem16Inertial3d` | galaxyAxial・invSq を宣言した本の数 | 在位の 7 本と同じ K1 の短い形の後に入った本 |
+
+**⑦ 鎖で動く段**: CHAIN_PLACEHOLDER
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

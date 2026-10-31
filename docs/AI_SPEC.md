@@ -4406,3 +4406,12 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **後に入った本の除外(AN462)**: 器の `LATER_BOOKS_*` は、集合ごとに理由と入れるのに要ることを PHYSICS〔第319便d〕の表 1 に置き、lint.laterBooks319 が器の注記の形と表の一致を見る(器の本体は変えない)。QA の側の名指しの除外は表 2。
 - **受理の理由の文(AN455 —— 見積もりで止めた)**: 受理器の errors・warnings の文を正本に書いて QA が照合する器(drag3d-298c)の REGEN_SCOPE の consts に `ACCEPT_REASONS` を宣言すると、その器を前段に走らせる semic-302d も regen になる(2 段・下限 +866 s)—— 本便は宣言しない(決断事項の候補)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない(宣言の鍵・受理の判定は不変)。AI が規則の本の注を「観測に合わせた」と書かない。
+
+## 158. 第320便d —— 道具と QA(lint の違反の種類・本ごとに分けられる器の名簿と計画の分類・受理の鍵を足すとほぼ全段の型の変異試験・SAMPLE_STATUS の保存 QA の来歴・段の副産物の md)(決断事項 AN478・AN481・AN477・AN455・統括の検証項目 R265)
+
+- **物理・本の宣言・エンジンの式・受理の判定はビット同一**(html は変えない)。AI の生成の仕様 SYSTEM_PROMPT・受理器の鍵は不変 —— AI が生成する本の扱いは変わらない。
+- **lint の違反の種類**: lint.provenanceMeta・lint.regenScope ほか 3 本は違反を刻印の型(器を走らせ直せば直る)とそれ以外に分け、それ以外を先に出す(tests/lib-w320d-lintkinds.mjs —— 判定は不変)。
+- **AN478**: 領域の差を核・本・表示に分ける計画の分類(`tools/regen-plan.mjs --classify`)と、本ごとに分けられる器の名簿(tests/data-w320d-perbook.json —— 名簿 A 12・B 33・C 157)。本ごとの行の再利用は入力 hash・コード・環境の一致する行だけ。
+- **AN481**: 変異試験(tools/an481-probe.mjs)—— 受理器だけを閉包の外へ出す型では、受理の段と步の段を一緒に足す変更(第319便a の型)の鎖は減らない。validatePreset を丸ごと止める型は既存の拒否の条件の変更を見落とす。推奨は実行した関数の閉包(器の走行の coverage を刻む版 7 —— 本便は実装しない)。
+- **段の副産物の md**: 再生成表の `BYPRODUCTS_320D` を段の書きに入れた(鎖の JSON の writes)。SAMPLE_STATUS は保存 QA の来歴(1 便遅れ)と「html を読まない」段の区分を書く。
+- **AN455・AN477**: drag3d-298c・semic-302d の領域の宣言に ACCEPT_REASONS・invsq-309a・invsq-310a の後に入った本の除外を宣言の条件(K1 の規則の宣言)へ —— 外した本は ruleBooks に数える(既存の値は不変)。
