@@ -36,6 +36,8 @@ export function physicsTablesGalField(J) {
   // T 場の表
   out.push('', '| R [kpc] | z [kpc] | u_φ [m/s] | ω½_R [1/s] | ω½_z [1/s] | ω½ の ĝ からの傾き [°] | 2 経路の差 / abs(ω½) | 求積の誤差の見積り(u_φ の相対) | 外縁の面の項の割合 | Rω½_z / u_φ |', '|---|---|---|---|---|---|---|---|---|---|');
   for (const r of J.T.rows) out.push(`| ${fx(r.RKpc, 1)} | ${fx(r.zKpc, 1)} | ${e4(r.uPhi)} | ${r.wR === 0 ? '0(鏡の対称)' : e3(r.wR)} | ${e3(r.wZ)} | ${fx(r.tiltDeg, 1)} | ${fmtFloor(Math.max(r.routeZ, r.routeR) / r.wAbs, 1e-7, 1)} | ${fmtFloor(r.quadU / Math.abs(r.uPhi), 1e-10, 1)} | ${fx(r.edgeShare, 4)} | ${fx(r.rigidRead, 4)} |`);
+  out.push('', '| 太陽の高さ z [kpc](R = 8.2 kpc —— 宣言の模型は z = 0) | ω½_R [1/s] | ω½_z [1/s] | ω½ の ĝ からの傾き [°] | 2 経路の差 / abs(ω½) |', '|---|---|---|---|---|');
+  for (const r of J.T.sunZ) out.push(`| ${fx(r.zKpc, 2)} | ${e3(r.wR)} | ${e3(r.wZ)} | ${fx(r.tiltDeg, 1)} | ${fmtFloor(Math.max(r.routeZ, r.routeR) / r.wAbs, 1e-7, 1)} |`);
   out.push('', '| 照合 | 値 |', '|---|---|',
     `| 面への退化(z = 0 の行と第320便c の面上の環の積分 —— u_φ と ω½_z の相対の差の最大) | ${fmtFloor(J.T.planeRelMax, 1e-9, 1)} |`,
     `| 鏡の対称(z と −z —— u_φ・ω½_z は偶・ω½_R は奇の相対の差の最大) | ${fmtFloor(J.T.mirrorRelMax, 1e-9, 1)} |`,
@@ -78,5 +80,7 @@ export function physicsTablesGalField(J) {
   const rcs = [...new Set(J.H.rcRows.map((q) => q.rCutKpc))];
   out.push('', `| R_cut [kpc](銀河の場だけ —— 中心と残余の 2 源の差 heat.source − heat.composite [J]) | ${J.H.rows.map((r) => r.name).join(' | ')} |`, '|---|' + J.H.rows.map(() => '---|').join(''));
   for (const rc of rcs) out.push(`| ${fx(rc, 1)} | ${J.H.rows.map((r) => { const q = J.H.rcRows.find((z) => z.rCutKpc === rc && z.i === r.i); return q ? dDiff(q.diff, q.source) : '—'; }).join(' | ')} |`);
+  out.push('', '| 天体(源のモーメント capObs の写し —— 衛星の列の対照) | 太陽の (b) の熱 [J] | 自分の衛星 [J] | 他の天体 [J] | 太陽系の全天体の源ごとの和 [J] | 太陽の列 / 源ごとの和 |', '|---|---|---|---|---|---|');
+  for (const r of J.H.capRows) out.push(`| ${r.name} | ${e3(r.sun)} | ${r.sats === 0 ? '0' : e3(r.sats)} | ${e3(r.others)} | ${e3(r.allSource)} | ${fx(r.sunShareOfAll, 4)} |`);
   return out.join('\n');
 }

@@ -1523,9 +1523,9 @@ export const REGEN_STEPS = [
   //   🔩🍥 と 🎡🍳🛞 を QA と同じ測り方で走らせて宣言の署名・窓・値・状態の指紋・所要〕・T 銀河の中の任意の位置の源の流れの場〔R × z の表・2 経路・面への退化・鏡の対称〕・P 中心と
   //   残余の重ならない分割〔R_cut × 任意の位置〕・N 点のセルの和〔格子の感度〕・V 半渦度 ↔ u_φ の対照〔境界つきの復元〕・H 太陽系の天体ごとの位置と 6 天体の拮抗の符号つきの表)。
   //   html・エンジン・在位の本は変えない。html を読む(G0 は在位の本を build して步を進める〔🎡🍳 は loadPreset と abStart の A/B —— QA と同じ〕・H は第320便a の器の 🗺️ の写し +
-  //   源のモーメント J の初期の状態の読み口と純関数)。子プロセス 2 本(W321C_WORKERS)。所要は第321便c の枝の実測(**並走の秒** —— 4 枝並走の容器 —— 統括が混まない箱で測り直す)
-  S('galfield-321c', 'node tests/exp-w321c-galfield.mjs', ['tests/out/galfield-w321c.json'], 180, { secSource: 'w321c-branch', node: true, after: ['obscompare', 'samplestatus'],
-    volatilePaths: { 'tests/out/galfield-w321c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/G0/std/wallSec', '/G0/db/wallSec', '/G0/rest/*/wallSec', '/G0/rest/*/usPerStep']) },
+  //   源のモーメント J の初期の状態の読み口と純関数)。子プロセス 2 本(W321C_WORKERS)。所要は第321便c の枝の実測 199〜295 s(**並走の秒** —— 4 枝並走の容器・負荷平均 3〜6 —— 統括が混まない箱で測り直す。最長の部は T〔場の表 49 点 × 2 経路〕)
+  S('galfield-321c', 'node tests/exp-w321c-galfield.mjs', ['tests/out/galfield-w321c.json'], 300, { secSource: 'w321c-branch', node: true, after: ['obscompare', 'samplestatus', 'srcradius-319b'],   // import する第320便a の器が第319便b の正本の名を持つ(この器は読まない —— 鎖の監査の型に合わせて順序だけ)
+    volatilePaths: { 'tests/out/galfield-w321c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/G0/std/wallSec', '/G0/db/wallSec', '/G0/rest/*/wallSec']) },
     note: '第321便c: geoPN=4 の一新の S1 —— 比較の基準の凍結(在位の geoPN=4 と銀河の本)・銀河の中の任意の位置の源の流れの場の純関数(u・∇u・半渦度・有効域・誤差 —— 中心と残余の重ならない分割・演算 B・環の積分を参照)・半渦度 ↔ u_φ の対照(境界つきの復元)・6 天体の拮抗の符号つきの表と衛星の列(エンジン・在位の本は変えない・半渦度を受け手の軸へ直結する項は足さない)' }),
   // ==== 第321便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と

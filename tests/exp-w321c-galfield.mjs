@@ -50,7 +50,7 @@ export const G0_IDS = Object.freeze(['chainDiskToy3d', 'chainSpreadToy3d', 'gala
 export const BASE_RECORD = Object.freeze({
   galaxyStd: Object.freeze({ qa: 'claim.galaxystd-outerboost', verdict: '達・外縁速度比 1.266 が窓 1.15〜1.4 内', gA: 3.982, gB: 3.145, ratio: 1.2659, window: [1.15, 1.4], drag: 0.379 }),
   galaxyDB: Object.freeze({ qa: 'claim.galaxydb-contrast', verdict: '達・速度分散の比 2.37 が窓 2.2〜3.0 内', sigB: 4.246, sigD: 1.788, sigRatio: 2.37, spinRatio: 1.80, window: [2.2, 3.0] }),
-  ngc3198DFM: Object.freeze({ qa: 'behavior.ngc3198', verdict: '未達・外縁 55 km/s で未達 —— 次の見直しへ', vt: 5.53, rmax: 514, cDisp: 75.7, window: [4.6, 6.3] }),
+  ngc3198DFM: Object.freeze({ qa: 'behavior.ngc3198', verdict: '未達・外縁の速さ 5.5 × 10⁴ m/s で未達 —— 次の見直しへ', vt: 5.53, rmax: 514, cDisp: 75.7, window: [4.6, 6.3] }),
   chainDiskToy3d: Object.freeze({ qa: 'behavior.drag3d298・behavior.meshField298', verdict: '達・零試験で二次元の 🔗 とビット同一・帯の Δθ 2.169/0.577/0.196 rad・循環 36.6' }),
   chainSpreadToy3d: Object.freeze({ qa: 'behavior.geo4Stable299', verdict: '達・8 条件を満たす(残差 ≤ 5.2e-12・反復 7)' }),
   galaxyGeo2: Object.freeze({ qa: 'claim.galaxygeo2-outerboost', verdict: '達・λ_PN=0 で外縁速度比 1.180 が窓 1.14〜1.23 内・クランプ 0(基準の記録は第321便a)' }) });
@@ -129,7 +129,7 @@ export function partG0rest(HP, plan) {
     let dr = 0; for (let i = 1; i < S.n; i++) { zMax = Math.max(zMax, Math.abs(S.z[i] - S.z[0])); dr += Math.hypot(S.x[i] - S.x[0], S.y[i] - S.y[0]) - r0[i]; }
     const st = HP.inertialDragState(S), cp = (st && st.compose) || {}, ch = cp.chain || {};
     out.push({ id, decl: d, n: S.n, law: HP.geoLawOfSim(S), window: { steps: plan.g0.chainSteps, dt }, solver: { method: cp.method || null, itersMax: ch.itersMax === undefined ? null : ch.itersMax, resMax: cp.resMax === undefined ? null : cp.resMax,
-      fail: ch.fail || 0, restarts: ch.restarts || 0 }, zMax, meanDr: dr / (S.n - 1), nan: S.hasNaN(), digest: digestOf(S), wallSec: (Date.now() - t0) / 1000, usPerStep: (Date.now() - t0) * 1000 / plan.g0.chainSteps });
+      fail: ch.fail || 0, restarts: ch.restarts || 0 }, zMax, meanDr: dr / (S.n - 1), nan: S.hasNaN(), digest: digestOf(S), wallSec: (Date.now() - t0) / 1000 });
   }
   out.push({ id: 'galaxyGeo2', decl: declOf(HP, 'galaxyGeo2'), note: '宣言の署名だけ(走行と基準の記録は第321便a の器)' });
   return out;
