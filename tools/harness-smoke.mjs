@@ -106,11 +106,14 @@ export const SMOKE_KNOBS = Object.freeze({
   'dragest-318d': { env: { W318D_QUICK: '1', W318D_OUT: 'tests/out/_smoke-dragest-w318d.json' }, note: '試走(B の格子を 16×32 だけ・D の走行を 2 公転 —— 約 15 s。正本は 1 プロセスで約 71 s〔並走の秒〕)' },   // 第318便d
   // ==== 第318便d の塊(ここまで)====
   // ==== 第319便a の塊(ここから)====
-  'axisheat-319a': { env: { W319A_QUICK: '1', W319A_OUT: 'tests/out/_smoke-axisheat-w319a.json' }, note: '試走(步を 2 に・🗺️ を外す —— 約 1 s。正本は 1 プロセスで約 2.3 s〔並走の秒〕)' },   // 第319便a
+  // 第320便a: axisheat-319a は履歴(再生成しない —— lint.harnessSmoke303 ①)へ移したので窓の表から外した
   // ==== 第319便a の塊(ここまで)====
   // ==== 第319便b の塊(ここから)====
   'srcradius-319b': { env: { W319B_QUICK: '1', W319B_OUT: 'tests/out/_smoke-srcradius-w319b.json' }, note: '試走(分布した銀河の格子を 1 段・加法性の N を 2 つ —— 約 2 s。正本は 1 プロセスで約 5 s〔並走の秒〕)' },   // 第319便b
   // ==== 第319便b の塊(ここまで)====
+  // ==== 第320便a の塊(ここから)====
+  'srcheat-320a': { env: { W320A_QUICK: '1', W320A_OUT: 'tests/out/_smoke-srcheat-w320a.json' }, note: '試走(步を 2 に・🗺️ と obs/capObs と −ĝ を外す —— 約 2 s。正本は 1 プロセスで約 6 s〔並走の秒〕)' },   // 第320便a
+  // ==== 第320便a の塊(ここまで)====
   // ==== 第320便b の塊(ここから)====
   'jexplore-320b': { env: { W320B_QUICK: '1', W320B_OUT: 'tests/out/_smoke-jexplore-w320b.json' }, note: '試走(求積の格子を 2 段・分割の n を 3 つ —— 約 1.5 s。正本は 1 プロセスで約 2.5 s)' },   // 第320便b
   // ==== 第320便b の塊(ここまで)====
