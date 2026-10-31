@@ -3,7 +3,7 @@
  "libVersion": "w310a-shell-lib-1",
  "generator": "tests/exp-w310a-invsq.mjs",
  "target": "beta/index.html",
- "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+ "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
  "ruling": "原仮定者の裁定(第107報)分母に背景宇宙を入れると二重計上 —— 自分が分母に入れば良い・(第109報)AN380 太陽の R_d は cap6500km で固定し m_d の適正値を探索・dragCore(R_d, m_d)と外殻(観測半径, 観測質量 − m_d)の引きずりをそれぞれ計算・決断事項 AN378・AN384・AN385・AN386・AN382・DECISIONS v69 §0b ②・§2・統括の検証項目 R222",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "invSqLaw": "invsq-ball-total-ratio",
@@ -280,6 +280,10 @@
   "positiveREngVsLib": 0
  },
  "N": {
+  "ruleBooks": [
+   "solarSystem16Inertial3d"
+  ],
+  "ruleBooksWhy": "K1 の規則の宣言(relativeDrag.invSq.rdRule)の本のうち移行の前の宣言の写しが無い本(K1 の短い形で生まれた本 —— 第320便d・AN477)",
   "tMin": 0.00480698929,
   "tMax": 0.000005790712839,
   "builtins": 176,
@@ -1874,30 +1878,30 @@
     "order": 4,
     "nodes": 384,
     "table": {
-     "wallSec": 0.0005037296833
+     "wallSec": 0.0006300977667
     },
     "direct": {
-     "wallSec": 0.0006657785
+     "wallSec": 0.0008795161833
     }
    },
    {
     "order": 8,
     "nodes": 3072,
     "table": {
-     "wallSec": 0.0051075952
+     "wallSec": 0.0051591883
     },
     "direct": {
-     "wallSec": 0.0061903123
+     "wallSec": 0.00638873055
     }
    },
    {
     "order": 16,
     "nodes": 24576,
     "table": {
-     "wallSec": 0.03314725883
+     "wallSec": 0.0560700755
     },
     "direct": {
-     "wallSec": 0.04791875617
+     "wallSec": 0.06976141733
     }
    }
   ]
@@ -2079,43 +2083,43 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.096
+   "wallSec": 0.104
   },
   "C": {
    "wallSec": 0.002
   },
   "N": {
-   "wallSec": 0.225
+   "wallSec": 0.242
   },
   "S": {
-   "wallSec": 0.193
+   "wallSec": 0.217
   },
   "E": {
-   "wallSec": 0.528
+   "wallSec": 0.743
   },
   "M": {
-   "wallSec": 0.029
+   "wallSec": 0.033
   },
   "P": {
-   "wallSec": 3.7
+   "wallSec": 4.814
   },
   "Z": {
-   "wallSec": 0.125
+   "wallSec": 0.113
   }
  },
- "elapsedS": 6.75,
+ "elapsedS": 8.243,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第310便a",
   "target": "beta/index.html",
-  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-  "generatedAt": "2026-10-30T18:29:52.542Z",
+  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+  "generatedAt": "2026-10-31T10:00:01.296Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7379828,
-    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-    "mtime": "2026-10-30T11:20:58.670Z"
+    "bytes": 7401797,
+    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+    "mtime": "2026-10-31T03:14:16.264Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2127,15 +2131,21 @@
   "code": [
    {
     "file": "tests/exp-w310a-invsq.mjs",
-    "bytes": 46059,
-    "sha256": "b3057d09b449907e6e2dc33550c328f63ffd606f984c267483178fa989337e95",
-    "mtime": "2026-10-28T19:19:27.746Z"
+    "bytes": 46865,
+    "sha256": "8715249b4cdbae89d57fc6b6d69828b62cc0296df376c0fb2c8b5f7e0782c2ac",
+    "mtime": "2026-10-31T02:33:26.520Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
     "mtime": "2026-10-25T16:42:07.814Z"
+   },
+   {
+    "file": "tests/lib-w320d-rulebooks.mjs",
+    "bytes": 1726,
+    "sha256": "c7cb484c8a577d4cf241b0a8e297bf6abe09a52747ec4bc95e78651698f8b201",
+    "mtime": "2026-10-31T02:33:26.529Z"
    },
    {
     "file": "tests/lib-w310a-shell.mjs",
@@ -2186,7 +2196,7 @@
     "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "84949f095c9f702775bdbe74a9c7364d43028cb467c4fefc33e240793d69e7b7",
+  "codeSha256": "40207cef7fc9b707a3c476715c931dbb6e646a1d1d5785821cc78434fd24b3ef",
   "harnessVersion": "w310a-invsq-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2230,11 +2240,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1324,
-   "segments": 1165,
-   "closureShare": 0.2999
+   "names": 1335,
+   "segments": 1173,
+   "closureShare": 0.3014
   },
-  "scopeSha256": "4d5319f83cdca46b1f21c76209d6b4f0a424ad26151fbcfdd3bcab5080b59aab",
+  "scopeSha256": "e16c7fcd4c6f9fd67eb3922b58dbbb997d98a539b6637b218eefa0ac78179846",
   "scopeComplete": true,
   "inputsStable": [
    {

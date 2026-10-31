@@ -3,7 +3,7 @@
  "generator": "tests/exp-w299b-synodic.mjs",
  "ruling": "原仮定者の裁定(第89報)①・統括の検証項目 R170",
  "target": "beta/index.html",
- "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+ "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
  "clockVersion": "w299b-syn-1",
  "obs": {
   "synodicDays": 29.530588857710324,
@@ -53,7 +53,7 @@
      "phase0": 30.033496531254613,
      "phase180": 29.95011227314169,
      "virtualMinusUniform": -0.09143568926740997,
-     "wallSec": 49.848
+     "wallSec": 40.986
     },
     {
      "D0pull": 0.00002,
@@ -72,7 +72,7 @@
      "phase0": 29.794816611621126,
      "phase180": 29.66564372591744,
      "virtualMinusUniform": -0.0417053030248411,
-     "wallSec": 50.035
+     "wallSec": 37.835
     },
     {
      "D0pull": 0.0000306883,
@@ -91,7 +91,7 @@
      "phase0": 29.723673606858895,
      "phase180": 29.578098891870876,
      "virtualMinusUniform": -0.024525969749010557,
-     "wallSec": 49.946
+     "wallSec": 38.791
     },
     {
      "D0pull": 0.0001,
@@ -110,7 +110,7 @@
      "phase0": 29.64895482735711,
      "phase180": 29.485006508203853,
      "virtualMinusUniform": -0.002921388903306621,
-     "wallSec": 48.489
+     "wallSec": 39.911
     },
     {
      "D0pull": 0.00035,
@@ -129,7 +129,7 @@
      "phase0": 29.631156671878166,
      "phase180": 29.462866409880057,
      "virtualMinusUniform": 0.003627912422714985,
-     "wallSec": 47.666
+     "wallSec": 39.675
     },
     {
      "D0pull": 0.0006,
@@ -148,7 +148,7 @@
      "phase0": 29.62853135316256,
      "phase180": 29.459619836760087,
      "virtualMinusUniform": 0.004699897786238694,
-     "wallSec": 45.46
+     "wallSec": 38.011
     },
     {
      "D0pull": 0.001,
@@ -167,7 +167,7 @@
      "phase0": 29.6271033433941,
      "phase180": 29.457858612125932,
      "virtualMinusUniform": 0.005297474998005924,
-     "wallSec": 45.688
+     "wallSec": 37.865
     },
     {
      "D0pull": 0.01,
@@ -186,7 +186,7 @@
      "phase0": 29.625230473744825,
      "phase180": 29.45555254531674,
      "virtualMinusUniform": 0.006100797526841006,
-     "wallSec": 43.839
+     "wallSec": 37.256
     },
     {
      "D0pull": 0.001,
@@ -205,7 +205,7 @@
      "phase0": 29.625026147600778,
      "phase180": 29.455301309913835,
      "virtualMinusUniform": 0.006189809114218292,
-     "wallSec": 32.446
+     "wallSec": 29.022
     }
    ],
    "monotone": {
@@ -229,9 +229,9 @@
     "phase0": 29.625026147600778,
     "phase180": 29.455301309913835,
     "virtualMinusUniform": 0.006189809114218292,
-    "wallSec": 32.446
+    "wallSec": 29.022
    },
-   "wallSec": 413.438
+   "wallSec": 339.387
   },
   "sun3d": {
    "id": "earthMoonSunInertial3d",
@@ -373,7 +373,7 @@
    "yearN": 30,
    "yearNote": "地心から見た太陽の黄道経度の同方向 1 周の平均(模型の 1 年 —— 太陽 pinned・地球の公転)",
    "uniformWithModelYear": 29.570616240728935,
-   "wallSec": 23.116
+   "wallSec": 20.857
   },
   "fit": {
    "id": "earthMoonRealKF1",
@@ -596,7 +596,7 @@
    },
    "fitRecordAccepted": true,
    "fitRecordErr": null,
-   "wallSec": 305.34
+   "wallSec": 278.177
   },
   "aps": {
    "id": "earthMoonRealKF1",
@@ -654,7 +654,7 @@
     "minusUniform": -0.024525969749010557,
     "gated": false
    },
-   "wallSec": 221.298
+   "wallSec": 216.374
   },
   "long": {
    "adoptedH": {
@@ -664,7 +664,7 @@
     "nSyn": 370,
     "steps": 591679489,
     "err": null,
-    "wallSec": 1759.669,
+    "wallSec": 1459.509,
     "revN": 400,
     "conjN": 371,
     "windows": {
@@ -803,7 +803,7 @@
      "uniform": 29.53365483614985
     }
    ],
-   "wallSec": 1759.674
+   "wallSec": 1459.513
   },
   "longh2": {
    "adoptedH2": {
@@ -813,7 +813,7 @@
     "nSyn": 130,
     "steps": 417853441,
     "err": null,
-    "wallSec": 1175.363,
+    "wallSec": 985.002,
     "revN": 141,
     "conjN": 131,
     "windows": {
@@ -908,7 +908,7 @@
     "nSyn": 130,
     "steps": 208916481,
     "err": null,
-    "wallSec": 503.169,
+    "wallSec": 374.72,
     "revN": 141,
     "conjN": 131,
     "windows": {
@@ -996,24 +996,24 @@
      }
     }
    },
-   "wallSec": 1678.538
+   "wallSec": 1359.725
   }
  },
  "timing": {
-  "wallSec": 4403.151
+  "wallSec": 3675.495
  },
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第299便b",
   "target": "beta/index.html",
-  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-  "generatedAt": "2026-10-30T14:03:21.982Z",
+  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+  "generatedAt": "2026-10-31T05:22:21.064Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7379828,
-    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-    "mtime": "2026-10-30T11:20:58.670Z"
+    "bytes": 7401797,
+    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+    "mtime": "2026-10-31T03:14:16.264Z"
    },
    {
     "file": "tests/data-w303a-decl302.json",
@@ -1114,11 +1114,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1309,
-   "segments": 1150,
-   "closureShare": 0.294
+   "names": 1319,
+   "segments": 1157,
+   "closureShare": 0.295
   },
-  "scopeSha256": "a59f5e362c23f66ec00ada8cc4bd23bf959cfe5ab60c353b285b967b51d01fac",
+  "scopeSha256": "f4acf8d11f69025a5f95ffe9ad1c6b1327800f26f2cab6c5a74375705b335513",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -1136,5 +1136,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 4403.151
+ "elapsedS": 3675.495
 }

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第302便c",
   "target": "beta/index.html",
-  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-  "generatedAt": "2026-10-30T18:44:03.017Z",
+  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+  "generatedAt": "2026-10-31T09:31:38.613Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7379828,
-    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-    "mtime": "2026-10-30T11:20:58.670Z"
+    "bytes": 7401797,
+    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+    "mtime": "2026-10-31T03:14:16.264Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -70,9 +70,9 @@
    },
    {
     "file": "tests/exp-w302d-semic.mjs",
-    "bytes": 33399,
-    "sha256": "b716d0dde19e78b1d6830b76fe2ff43b7ebe6ba2d82ee52a2617e73d3659e3d6",
-    "mtime": "2026-10-28T19:19:27.747Z"
+    "bytes": 33681,
+    "sha256": "33cbe32f40a92ba56a3bd051dff02efe6fce5014b330edb034ad691f8c38d12a",
+    "mtime": "2026-10-31T02:33:26.520Z"
    },
    {
     "file": "tests/exp-w301a-dragnorm.mjs",
@@ -117,7 +117,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "e2b1dae25da9c8b1fa650588d11001c3ed9091ed276af589dda41934a3085bb4",
+  "codeSha256": "46db0812867b74ae8829844d18456fc64fa3ca1a9b93a51e0efe2cf7a86a7f06",
   "harnessVersion": "w302c-wbgest-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第92報)AN304 ①(慣性速度に影響する重力の計算に 1PN 相当の補正 —— G_loc = κ·c_loc² ほか)・③(W_bg は背景宇宙・銀河の中の位置・恒星系の中の位置などの合算で決まると推定 —— 推定値で dragCore のフィットが安定する)",
@@ -197,11 +197,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1373,
-   "segments": 1214,
-   "closureShare": 0.3077
+   "names": 1384,
+   "segments": 1222,
+   "closureShare": 0.3089
   },
-  "scopeSha256": "440e0552e386c1009216c0b078f617adaa0d814fcb2331f9941fde6a964ed5fd",
+  "scopeSha256": "c77784b45def24f88b76dcf764ffd6f73ccd88aaa557ad7f56da2ce6a5bc5223",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -2585,23 +2585,23 @@
  "ok": true,
  "timing": {
   "N": {
-   "wallSec": 167.281
+   "wallSec": 164.745
   },
   "P": {
-   "wallSec": 73.559
+   "wallSec": 71.583
   },
   "G": {
-   "wallSec": 77.017
+   "wallSec": 75.331
   },
   "E": {
-   "wallSec": 0.005
+   "wallSec": 0.004
   },
   "C": {
-   "wallSec": 159.955
+   "wallSec": 150.428
   },
   "L": {
-   "wallSec": 0.151
+   "wallSec": 0.156
   }
  },
- "elapsedS": 479.906
+ "elapsedS": 464.439
 }

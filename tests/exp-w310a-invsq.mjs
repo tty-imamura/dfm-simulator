@@ -37,7 +37,8 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import { idsFromDecl as idsPlanets, buildConfigs } from './exp-w307c-spindecomp.mjs';
 import * as L from './lib-w310a-shell.mjs';
 import * as L9 from './lib-w309a-invsq.mjs';
-import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';
+import { isRuleBookNoCopy, RULE_BOOKS_WHY } from './lib-w320d-rulebooks.mjs';   // 第320便d(AN477): 後に入った本の除外の宣言の条件   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 段 N が内蔵の全本を数えるので presets は "all")
 const REGEN_SCOPE = {"presets":"all","roots":["$","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","REL_DRAG_INVSQ_LAW","REL_DRAG_INVSQ_SHELL_VERSION","REL_DRAG_INVSQ_VERSION","T","appStepDt","ckRestoreOne","ckSnapOne","ctx","cw","inertialDragInitObsState","inertialDragIsqEval","inertialDragIsqK2","inertialDragIsqPointAt","inertialDragIsqRule","inertialDragIsqShellK","inertialDragIsqShellM","inertialDragIsqState","retiredOf","sim"],"core":true,"consts":[],"complete":true};
 
@@ -143,14 +144,16 @@ function partC(H) {
   return { rows, isolatedOk: isoOk, otherOnlyRel: r6(Math.max(eg, ew)), termsFinite, positiveREngVsLib: r6(ep) };
 }
 
-// 第318便(統括の統合 —— 煙試験で見つけた): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本(K1 の規則の宣言)—— 数え上げの外に置く(正本の欄と値は不変・QA の側も同じ本を外して比べる)
-const LATER_BOOKS_318 = new Set(['solarSystem16Inertial3d']);
+// 第320便d(決断事項 AN477・AN462・R265): 後に入った本の名指しの除外の集合(第318便 —— 🗺️)を**宣言の条件**へ。K1 の規則の宣言の本(relativeDrag.invSq.rdRule ——
+//   在位の 7 本は pinDecl315c で移行の前の写しへ戻すので、写しの無い K1 の短い形で生まれた本だけが当たる)は段 N の数え上げの外に置く
+//   (この器の世代の門「内蔵の本で invSq を宣言する本 0」は移行の前の宣言の門 —— K1 の短い形の本はその門の対象でない)。外した本は段 N の ruleBooks に数える(既存の欄と値は不変)
+const isRuleBookW320 = isRuleBookNoCopy;   // tests/lib-w320d-rulebooks.mjs(写しの無い K1 の規則の宣言の本 —— html を写しへ戻す前でも後でも同じ集合)
 /* ───────── 段 N(節点で r = 0 は起きない)───────── */
 function partN(H, quick) {
   const rule = E(H, 'inertialDragIsqRule'), HP = H.HP, retired = E(H, 'retiredOf');
   let tMin = 1, tMax = 0;
   for (let n = 2; n <= 24; n++) { const R = rule(n); for (let k = 0; k < R.N; k++) { if (R.T[k] < tMin) tMin = R.T[k]; if (R.T[k] > tMax) tMax = R.T[k]; } }
-  const all = HP.allPresets().filter((q) => !LATER_BOOKS_318.has(q.id));   // 第318便(統括): 後に入った本は数え上げの外
+  const all0 = HP.allPresets(), all = all0.filter((q) => !isRuleBookW320(q)), ruleBooks = all0.filter(isRuleBookW320).map((q) => q.id);   // 第320便d(AN477): K1 の規則の宣言の本は数え上げの外(数える —— ruleBooks)
   const decl = all.filter((q) => { const r = (q.physics || {}).relativeDrag, r2 = q.abBody && q.abBody.physicsPatch && q.abBody.physicsPatch.relativeDrag;
     return [r, r2].some((x) => x && x.invSq !== undefined); }).map((q) => q.id);
   // 在位の三次元の慣性の本(単位あり)の新則の写し(既定の半径)の 1 步が有限
@@ -165,7 +168,7 @@ function partN(H, quick) {
       runs.push({ id, n: a.S.n, finite: fin, overlap: st.overlap, betaMax: r6(st.receivers.reduce((m, r) => Math.max(m, r.betaSum), 0)), nan: st.receivers.some((r) => r.beta.some((b) => !Number.isFinite(b))) });
     } catch (e) { const m = String(e); runs.push({ id, rejected: /approxMany と一緒に宣言しない/.test(m) ? 'approxMany(新則の受理が拒否 —— 第309便a)' : null, error: m.slice(0, 160) }); }
   }
-  return { tMin: r6(tMin), tMax: r6(1 - tMax), builtins: all.length, declaringInvSq: decl, live3d: live3.length, runs,
+  return { ruleBooks, ruleBooksWhy: RULE_BOOKS_WHY, tMin: r6(tMin), tMax: r6(1 - tMax), builtins: all.length, declaringInvSq: decl, live3d: live3.length, runs,
     allFinite: runs.every((r) => (r.finite === true && r.nan === false) || !!r.rejected), nRun: runs.filter((r) => r.finite === true).length, nRejected: runs.filter((r) => !!r.rejected).length };
 }
 
@@ -470,7 +473,7 @@ export async function main() {
     ruling: '原仮定者の裁定(第107報)分母に背景宇宙を入れると二重計上 —— 自分が分母に入れば良い・(第109報)AN380 太陽の R_d は cap6500km で固定し m_d の適正値を探索・dragCore(R_d, m_d)と外殻(観測半径, 観測質量 − m_d)の引きずりをそれぞれ計算・決断事項 AN378・AN384・AN385・AN386・AN382・DECISIONS v69 §0b ②・§2・統括の検証項目 R222',
     invSqVersion: E(H, 'REL_DRAG_INVSQ_VERSION'), invSqLaw: E(H, 'REL_DRAG_INVSQ_LAW'), shellVersion: E(H, 'REL_DRAG_INVSQ_SHELL_VERSION'), versionReaders: VERSION_READERS, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w310a-invsq.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w310a-shell.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/exp-w307c-spindecomp.mjs', 'tests/lib-w307c-spindecomp.mjs',
+  const CODE = ['tests/exp-w310a-invsq.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w320d-rulebooks.mjs', 'tests/lib-w310a-shell.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/exp-w307c-spindecomp.mjs', 'tests/lib-w307c-spindecomp.mjs',
     'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第310便a', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION,

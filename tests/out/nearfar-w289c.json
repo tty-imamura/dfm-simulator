@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便c",
   "target": "beta/index.html",
-  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-  "generatedAt": "2026-10-30T13:26:04.929Z",
+  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+  "generatedAt": "2026-10-31T04:46:14.711Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7379828,
-    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-    "mtime": "2026-10-30T11:20:58.670Z"
+    "bytes": 7401797,
+    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+    "mtime": "2026-10-31T03:14:16.264Z"
    },
    {
     "file": "tests/out/compose-w288c.json",
     "bytes": 9586,
-    "sha256": "e027577000eda3877a42c0fdc24928fe51698549837b18e111a4d02a4bed9d32",
-    "mtime": "2026-10-30T12:53:45.282Z"
+    "sha256": "17bac3de8c69ab73161aae080cdabf6e79579b1ebd89ebfd87f4f91b5bfda32d",
+    "mtime": "2026-10-31T04:24:19.976Z"
    }
   ],
   "code": [
@@ -106,16 +106,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1299,
-   "segments": 1140,
-   "closureShare": 0.294
+   "names": 1309,
+   "segments": 1147,
+   "closureShare": 0.295
   },
-  "scopeSha256": "93e06ed3d6157ab6dbd57a73550f1dd061dfc4780c275f713085632160bbbf8f",
+  "scopeSha256": "f5ffeb4ff1ec2250fe02e84de062e7588704e76b558afff2d2af473060826136",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/compose-w288c.json",
-    "stableSha256": "8dbaa8876663577098243f78791055cd807935906077215c20c4d1b726f8745c",
+    "stableSha256": "c2961ec2a311948530907e0395710a03232af576a3b02d185cd7e6272fde0c84",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -423,5 +423,5 @@
   "how": "既存の u = HP.dfmFieldContract(toy の宣言・excludeBodyId=i)。候補は C=1 で評価し addCandidate(u, du, C) に通す —— C=0 は u をそのまま写す"
  },
  "ok": true,
- "elapsedS": 1.327
+ "elapsedS": 1.125
 }

@@ -2,7 +2,7 @@
  "version": "w312b-galaxialrd-1",
  "generator": "tests/exp-w312b-galaxialrd.mjs",
  "target": "beta/index.html",
- "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+ "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
  "ruling": "原仮定者の裁定(第114報)一様軸引きずりは受ける側の dragCore の R_d に応じて変わる・一様重力の様に一定の勾配で近似するのでどの場所でも R_d が同じなら影響は同じ・一様回転引きずりは慣性系であってもコリオリの項が必要(背景側の支配天体を明示していない場合は規約として無視)・決断事項 AN395・統括の検証項目 R231",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "galaxyAxialRdVersion": "w312b-galaxial-rd-1",
@@ -2262,31 +2262,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.031
+   "wallSec": 0.023
   },
   "B": {
-   "wallSec": 0.483
+   "wallSec": 0.409
   },
   "N": {
-   "wallSec": 0.575
+   "wallSec": 0.631
   },
   "X": {
-   "wallSec": 221.594
+   "wallSec": 211.616
   }
  },
- "elapsedS": 224.548,
+ "elapsedS": 214.608,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第312便b",
   "target": "beta/index.html",
-  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-  "generatedAt": "2026-10-30T20:11:34.768Z",
+  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+  "generatedAt": "2026-10-31T10:17:28.006Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7379828,
-    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-    "mtime": "2026-10-30T11:20:58.670Z"
+    "bytes": 7401797,
+    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+    "mtime": "2026-10-31T03:14:16.264Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2438,11 +2438,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1347,
-   "segments": 1188,
-   "closureShare": 0.3043
+   "names": 1359,
+   "segments": 1197,
+   "closureShare": 0.306
   },
-  "scopeSha256": "f5b75b19e68ab073d374467d6f751000983a3475082db83bfaf7fa57bd07844a",
+  "scopeSha256": "2932ee05ecb6e4214e5186199886dbac5928eade9bd2df9afb4eef22676d276f",
   "scopeComplete": true,
   "inputsStable": [
    {

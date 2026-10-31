@@ -3,7 +3,7 @@
  "libVersion": "w307c-spindecomp-lib-1",
  "generator": "tests/exp-w307c-spindecomp.mjs",
  "target": "beta/index.html",
- "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+ "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
  "ruling": "原仮定者の裁定(第100報)(観測の自転 = 慣性軸回転 + 引きずり軸回転・軸引きずりは受け手の球面の近い側と遠い側の回転引きずりの差分・金星と太陽–木星を先に・木星–イオと太陽–木星–イオを対照・太陽の自転は分解しない・観測の自転が安定なら引きずり軸回転と潮汐のブレーキが釣り合う)・決断事項 AN345 ④(ω_obs = ω_I + ω_D・ω̇_obs = τ/I + ω̇_D)・統括の検証項目 R211",
  "quick": false,
  "ids": {
@@ -1575,34 +1575,34 @@
  "ok": true,
  "timing": {
   "checks": {
-   "wallSec": 0.102
+   "wallSec": 0.104
   },
   "decomp": {
-   "wallSec": 0.14
+   "wallSec": 0.139
   },
   "radius": {
-   "wallSec": 0.183
+   "wallSec": 0.176
   },
   "misc": {
-   "wallSec": 0.042
+   "wallSec": 0.04
   },
   "evolution": {
-   "wallSec": 3.72
+   "wallSec": 4.67
   }
  },
- "elapsedS": 5.983,
+ "elapsedS": 6.738,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便c",
   "target": "beta/index.html",
-  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-  "generatedAt": "2026-10-30T18:30:00.396Z",
+  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+  "generatedAt": "2026-10-31T10:00:09.947Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7379828,
-    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-    "mtime": "2026-10-30T11:20:58.670Z"
+    "bytes": 7401797,
+    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+    "mtime": "2026-10-31T03:14:16.264Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1686,11 +1686,11 @@
    "core": false,
    "consts": [],
    "complete": true,
-   "names": 1298,
-   "segments": 1139,
-   "closureShare": 0.2935
+   "names": 1308,
+   "segments": 1146,
+   "closureShare": 0.2945
   },
-  "scopeSha256": "a675553704b651871a146f71688577d832ecc2d3a10a19830273eaf5fc7cc5bf",
+  "scopeSha256": "5d18d424500c32026bbfefd9d6fadd20cbc869cd97fd5300f218ead5c90b7fa8",
   "scopeComplete": true,
   "inputsStable": [
    {

@@ -1468,7 +1468,9 @@ export const REGEN_STEPS = [
   //   合成と源ごとの状態・合成の 1 回の熱〕・🌋🏀🗺️ の写し〔銀河の一様軸引きずり + 維持の型 compose:"source"・balance:"background"〕・TS 刻みの感度・F 写しの外の倍率と
   //   木星の内部熱の主列・代替の列に要る τ_hold)。在位の本の宣言は変えない(写しにだけ足す)。html だけを読む・1 プロセス。所要は第319便a の枝の実測 2.3〜3.6 s
   //   (**並走の秒** —— 4 枝並走の容器 —— 統括が混まない箱で測り直す)
-  S('axisheat-319a', 'node tests/exp-w319a-axisheat.mjs', ['tests/out/axisheat-w319a.json'], 3, { secSource: 'w319a-branch', node: true, after: ['obscompare', 'samplestatus'],
+  // 第320便a(AN475・R262): balance:"background" の版を上げて読み (b) に —— 第319便a の器の同一の門(源ごとの本の合成の熱 = balance を宣言しない本の熱)は今の html では
+  //   成り立たない(第319便a の契約の記録)。**履歴**(再生成しない —— 正本は第319便の鎖の走行のまま)。新しい契約の実測は srcheat-320a(下)
+  S('axisheat-319a', 'node tests/exp-w319a-axisheat.mjs', ['tests/out/axisheat-w319a.json'], 3, { secSource: 'w319a-branch(第320便a から履歴 —— 走らせない)', node: true, role: 'history', after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/axisheat-w319a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第319便a: 軸を保つトルクの熱の経路(維持の型の opt-in compose:"source"〔源ごとの維持 —— 銀河の項は 1 つの源〕・balance:"background"〔背景の駆動と放射の口座〕・合成の判定の記録)を在位の本の写しで測る(在位の本の宣言は変えない・内部熱を説明したとは書かない・要る τ_hold は要る大きさの記録)' }),
   // ==== 第319便a の塊(ここまで)====
@@ -1483,6 +1485,38 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/srcradius-w319b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第319便b: 引きずる側の半径 R_src の 3 案(源の回転と軸のモーメントだけ —— 受け手の R_d = Y_k m は不変)・分布した銀河の太陽系近傍(宣言の密度の模型と平均の流れ —— 格子 3 段)・天体別の役割の表(120° の合成の一般形・拮抗・要る大きさとの比)—— エンジン・在位の本は変えない・新しい法則は足さない' }),
   // ==== 第319便b の塊(ここまで)====
+  // ==== 第320便a の塊(ここから)====
+  // ---- 第320便a(原仮定者の回答(2026-10-30 —— AN475)「減速させる側の引きずりを背景宇宙が補う分も熱に数える」・原仮定者の裁定(第122報)AN471「案3(J)を確かめる。案2bは次点」・
+  //   決断事項 AN471・AN474・AN475・統括の検証項目 R262): **読み (b) と源のモーメントの半径 R_src の器**(段 srcheat-320a —— P 純関数の場面・A 受理・Q 同一〔contract319 =
+  //   balance を宣言しない写し・(b) の合成 = (b) の compose:"sum"・β と R_d が同じビット・回転の係数と軸の ω の比 = (R_src/R_d)²〕・🌋🏀🗺️ の写し × 源のモーメントの種類 × ±ĝ・
+  //   R 🗺️ の 6 天体の役割の表と第319便b の数の照合・F 木星の 1 回の量と要る τ_hold〔受け手の慣性係数の 2 列〕・TS 刻みの感度)。在位の本の宣言は変えない(写しにだけ足す)。
+  //   html と第319便b の正本(比較の照合の数)を読む・1 プロセス。所要は第320便a の枝の実測 5.3〜5.8 s(**並走の秒** —— 4 枝並走の容器 —— 統括が混まない箱で測り直す)
+  S('srcheat-320a', 'node tests/exp-w320a-srcheat.mjs', ['tests/out/srcheat-w320a.json'], 6, { secSource: 'w320a-branch', node: true, after: ['obscompare', 'samplestatus', 'srcradius-319b'],
+    volatilePaths: { 'tests/out/srcheat-w320a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第320便a: 読み (b)(balance:"background" の版 w320a-axishold-balance-2 —— 減速を補う分も熱・口座を一緒に・第319便a の契約は欄 contract319)と源のモーメントの半径 invSq.sourceMoment(J・obs・capObs —— 源の回転と軸のモーメントだけ・受け手の R_d と並進は不変)を在位の本の写しで測る(在位の本の宣言は変えない・内部熱・金星の逆転・公転面を引きずりで説明したとは書かない)' }),
+  // ==== 第320便a の塊(ここまで)====
+  // ==== 第320便b の塊(ここから)====
+  // ---- 第320便b(原仮定者の裁定(第122報)「案3(J)を確かめる。案2bは次点。様々な可能性を探索する」・決断事項 AN471・統括の検証項目 R263): **源の角運動量 J の確かめ・案2b の混成の
+  //   導き直し・候補を並べて数える探索の器**(段 jexplore-320b —— E エンジンとの照合〔源のモーメントだけを J の半径に替えた写し・1 つの源の写し〕・J 有限の一様球の内外〔格子 3 段・
+  //   有限差分 h と h/2〕・P 分割の加法性・D 太陽の J の体積積分・B 案2b の導き直し・S 源の表・T 6 天体の表〔候補 17 行〕・候補の数の真偽)。html・エンジン・在位の本・受け手の R_d は
+  //   変えない。html を読む(読み口 inertialDragIsqState と最上位の inertialDragIsqRule・inertialDragIsqRuleK1・inertialDragIsqK2・inertialDragIsqM2・inertialDrag3MaintCell —— 口と写しの本は
+  //   第319便b の器のもの)・入力は tests/data-w318c-solar16-input.json(他の正本は読まない —— html の生成領域の後)。1 プロセス(子プロセスなし・步は進めない)。所要は第320便b の枝の実測
+  //   2.5〜2.6 s(負荷平均 0.8 前後の箱 —— 4 枝の容器で他の枝が軽い時間に測った)
+  S('jexplore-320b', 'node tests/exp-w320b-jexplore.mjs', ['tests/out/jexplore-w320b.json'], 3, { secSource: 'w320b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/jexplore-w320b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第320便b: 源の角運動量 J の確かめ(有限の一様球の内外・分割の加法性・太陽の J の体積積分)・案2b の混成の導き直し・候補を並べて自由な係数と新しい仮定を数える 6 天体の表(源の回転と軸のモーメントだけ —— 受け手の R_d = Y_k m と並進は不変・エンジン・在位の本は変えない・新しい法則は足さない)' }),
+  // ==== 第320便b の塊(ここまで)====
+  // ==== 第320便c の塊(ここから)====
+  // ---- 第320便c(原仮定者の指示(第122報)・決断事項 AN472「中心１体の影響が大きいが、銀河の渦の中では半渦度は無視出来ない。太陽系近傍においては合成された影響になる」・
+  //   AN473・統括の検証項目 R264): **太陽系近傍の銀河の軸の源の合成の器**(段 nbcompose-320c —— F 座標の補正〔共動系 → 銀河中心系〕・N 近傍のセルの積分〔環の積分の連続の値・
+  //   格子 48/96/192/384 × 軟化の幅・局所の分割〕・P 中心と残余の重ならない分割〔R_cut・λ_c・κ_v の掃引〕・Shape 有限の分布の型・D 中心の宣言の型・B 演算の比べ・R 6 天体の拮抗)。
+  //   html・エンジン・在位の本は変えない。html を読む(第319便b の器の 16 体の写し —— 6 天体の自転と太陽の項の軸の ω だけ・読み口 inertialDragIsqState と最上位の
+  //   inertialDragIsqRule・inertialDragIsqRuleK1)・入力は tests/data-w318c-solar16-input.json(他の正本は読まない —— html の生成領域の後)。1 プロセス(子プロセスなし・步は進めない)。
+  //   所要は第320便c の枝の実測 43.3〜46.0 s(**並走の秒** —— 4 枝並走の容器・負荷平均 0.5〜2・1 本で CPU 100% —— 統括が混まない箱で測り直す。最長は N の格子 384 × 軟化の幅 6 つ —— 約 37 s)
+  S('nbcompose-320c', 'node tests/exp-w320c-nbcompose.mjs', ['tests/out/nbcompose-w320c.json'], 46, { secSource: 'w320c-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/nbcompose-w320c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第320便c: 太陽系近傍の銀河の軸の源の合成(中心 1 体と銀河の渦の中の半渦度 —— 重ならない成分のベクトル和・κ_v は宣言する対応)を第319便b の宣言の模型の写しで測る(源の半渦度の格子の感度と環の積分の連続の値・中心と残余の分割・6 天体の拮抗)—— エンジン・在位の本は変えない・半渦度を受け手の軸へ直結する項は足さない' }),
+  // ==== 第320便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -1588,6 +1622,26 @@ export const AN454_SKIP_319C = Object.freeze([
     + '—— 次に器を触る便で' }),
 ]);
 // ==== 第319便c の塊(ここまで)====
+// ==== 第320便d の塊(ここから)====
+// ---- 第320便d(統括の検証項目 R265 —— 運用の正本 追記 38 ⑨「段の writes に無い副産物の md は段階コミットの脚本が拾わない」): **段の副産物の md を段の書きに**。
+//   器が outs の外に書く一覧の md(生成物 —— 手で直さない)を段の `byproducts` に宣言し、`writesOf`(outs + merges + byproducts)に入れる。
+//   touches にも残す(touches を含めた書き手の全順序 touchUnordered と html を書く段の検査は従来どおり)。kf0ledger-old と kf0ledger は同じ md を書く ——
+//   after で全順序(kf0ledger の after に kf0ledger-old —— 第310便c)なので書込排他の鍵が重なっても並ばない。表の版(REGEN_TABLE_VERSION)は変えない
+//   (段の判定 planRegen は writes を使わない —— 済み印の契約の policy と鎖の JSON の writes だけが変わる。本便は全段の鎖)。QA lint.byproducts320
+export const BYPRODUCTS_320D = Object.freeze({
+  samplestatus: Object.freeze(['docs/SAMPLE_STATUS.md']),
+  families: Object.freeze(['docs/FAMILIES.md']),
+  'kf0ledger-old': Object.freeze(['docs/KF0_LEDGER.md']),
+  kf0ledger: Object.freeze(['docs/KF0_LEDGER.md']),
+  issues: Object.freeze(['docs/CALIBRATION_ISSUES.md']),
+});
+for (const st of REGEN_STEPS) {
+  const b = BYPRODUCTS_320D[st.key];
+  if (!b) continue;
+  st.byproducts = b.slice();
+  st.touches = [...new Set((st.touches || []).concat(b))];
+}
+// ==== 第320便d の塊(ここまで)====
 
 /**
  * 第285便f(原仮定者の裁定(第75報)AN53): **html 全体を刻む段**(正本の meta.target が beta/index.html・完全な領域の宣言なし —— 第285便f の
@@ -2010,8 +2064,10 @@ export function planRegen(o) {
 // 第283便e(原仮定者の裁定(第73報)⑤・統括の検証項目 R88): **鎖の機械生成**と**順序の照合**(純関数 —— 走らせない)
 // ======================================================================================================
 
-/** 段が書くファイル(outs + merges)。 */
-export function writesOf(st) { return [...new Set((st.outs || []).concat(st.merges || []))]; }
+/** 段が書くファイル(outs + merges + 第320便d の副産物の md —— byproducts)。 */
+// 第320便d(統括の検証項目 R265 —— 運用の正本 追記 38 ⑨): 段が outs の外に書く**一覧の md**(副産物 —— BYPRODUCTS_320D)も段の書き(writes)に入れる
+//   (鎖の JSON の writes を読む段階コミットが md を拾う・書込排他の鍵と済み印の契約の policy にも入る)。beta/index.html(touches)は入れない(集約段 htmlagg が書く)
+export function writesOf(st) { return [...new Set((st.outs || []).concat(st.merges || [], st.byproducts || []))]; }
 
 /** ファイル → 書く段の key の並び(表の順・履歴の段も含む)。 */
 export function writersMap(steps) {
@@ -2237,7 +2293,8 @@ export function touchWritersAudit(steps, closure) {
   const m = new Map();
   for (const st of S0) {
     if (st.role === 'history') continue;
-    const own = writesOf(st);
+    // 第320便d(R265): 副産物の md(byproducts —— writesOf に入れた)は「outs の外に書くファイル」として touches の側で数える(この検査の意味は不変)
+    const own = writesOf(st).filter((f) => !(st.byproducts || []).includes(f));
     for (const f of new Set(own.concat(st.touches || []))) {
       if (!m.has(f)) m.set(f, []);
       m.get(f).push({ key: st.key, touch: !own.includes(f) });

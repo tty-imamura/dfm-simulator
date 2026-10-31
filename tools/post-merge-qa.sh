@@ -442,6 +442,31 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.regenShort319c docs.satMeas317a docs.sa
 #   帰属と受理の理由の文の領域の見積り)と、書き換えた QA(三次元の本を受理した宣言で数える 10 ブロック・較正の注の 2 ブロック・docs.sampleStatus-sync の原稿の世代)・lint.regenScope
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.laterBooks319 docs.w319d behavior.rayLensExcluded behavior.contactMode docs.coreCensus behavior.coreV2Migrate behavior.coreV2ReplaceReport behavior.shellSpinMassLaw behavior.geoMode docs.timeStd297 behavior.coord3dHaltAB299 docs.timeStd3d299 ui.notclaim-real ui.v59Text301 docs.sampleStatus-sync lint.regenScope"
 # ==== 第319便d の塊(ここまで)====
+# ==== 第320便a の塊(ここから)====
+# 第320便a(原仮定者の回答(2026-10-30 —— AN475)・原仮定者の裁定(第122報)AN471・決断事項 AN471・AN474・AN475・R262): 枝 a の新設 2 本(behavior.srcHeat320 —— 読み (b) と源のモーメントの半径の
+#   受理・同一・純関数の場面・状態の契約・チェックポイント・docs.srcHeat320 —— 正本と文書)と、版の世代で分けた第319便a の 2 本(behavior.axisHoldBalance319・docs.axisHeat319)・維持の型の既存の
+#   本(behavior.maintain309・docs.maintain309・behavior.holdLedger310・docs.pairHeat310)・維持の型の純関数を読む docs.dragEst318d・behavior.dragEst318d・docs.srcRadius319・正本の段の lint 一式・
+#   受理器の理由の文の表 lint.presetText316c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcHeat320 docs.srcHeat320 behavior.axisHoldBalance319 docs.axisHeat319 behavior.maintain309 docs.maintain309 behavior.holdLedger310 docs.pairHeat310 docs.dragEst318d behavior.dragEst318d docs.srcRadius319 lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.provenanceMeta lint.presetText316c lint.harnessSmoke303"
+# ==== 第320便a の塊(ここまで)====
+# ==== 第320便b の塊(ここから)====
+# 第320便b(原仮定者の裁定(第122報)・決断事項 AN471・R263): 枝 b の新設 1 本(docs.jExplore320b —— 源の角運動量 J の確かめ・案2b の混成の導き直し・候補を並べて数える 6 天体の表の
+#   正本と文書・純関数の作り直し)と、正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・CANON の lint.canon304・
+#   lint.qaHeapRelease310・lint.sectionLookup313・lint.harnessSmoke303
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.jExplore320b lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.harnessSmoke303"
+# ==== 第320便b の塊(ここまで)====
+# ==== 第320便c の塊(ここから)====
+# 第320便c(原仮定者の指示(第122報)・AN472・AN473・R264): 枝 c の新設 1 本(docs.nbCompose320c —— 太陽系近傍の銀河の軸の源の合成の正本と文書・純関数の作り直し)と、
+#   正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・CANON の lint.canon304・lint.qaHeapRelease310・
+#   lint.sectionLookup313・新しい記号のコードの書式の lint.kappaSymbol315・煙試験の窓の表の lint.harnessSmoke303
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.nbCompose320c lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.harnessSmoke303"
+# ==== 第320便c の塊(ここまで)====
+# ==== 第320便d の塊(ここから)====
+# 第320便d(決断事項 AN478・AN481・AN477・AN455・R265): 枝 d の新設 3 本(lint.violationKinds320 —— lint の違反の種類と刻印の型以外を先に・lint.byproducts320 —— 段の副産物の md を段の書きに・
+#   docs.w320d —— 名簿と分類・変異試験・SAMPLE_STATUS の来歴・文書)と、detail を書き換えた lint 5 本(lint.provenanceMeta・lint.regenScope・lint.stableHashPaths・lint.scopeAll312・lint.canon304)・
+#   表を世代で読む lint.laterBooks319・器を直した段の正本を読む docs.invSq309・docs.invSq310・behavior.invSq309・docs.semic302・docs.sampleStatus-sync・再生成表の lint.regenChain
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.violationKinds320 lint.byproducts320 docs.w320d lint.provenanceMeta lint.regenScope lint.stableHashPaths lint.scopeAll312 lint.canon304 lint.laterBooks319 docs.invSq309 docs.invSq310 behavior.invSq309 docs.semic302 docs.sampleStatus-sync lint.regenChain"
+# ==== 第320便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
@@ -508,6 +533,18 @@ if [ $NOPRE -eq 0 ]; then
   p=$(count PASS "$LOG/1-preflight.log"); f=$(count FAIL "$LOG/1-preflight.log")
   S1="preflight ${p}/$((p + f))"; [ $rc -eq 0 ] || { S1="$S1 FAIL(rc $rc)"; fail=1; }
 fi
+# ==== 第320便d の塊(ここから)====
+# 第320便d(統括の検証項目 R265 —— 第319便の見落とし): lint の違反を種類で数える(tests/lib-w320d-lintkinds.mjs の印 〔違反の種類 w320d: …〕 を拾う)。
+#   刻印の型(targetSha256・meta.scope・「器を走らせ直す」—— 鎖で直る)とそれ以外を分け、**刻印の型以外が 1 件でもあれば ‼ で目立たせる**(判定は変えない —— fail は従来どおり)。
+kinds320() {
+  [ -f "$1" ] || { echo ""; return; }
+  node --input-type=module -e 'import fs from "node:fs"; const L = await import(process.argv[1]); const r = L.summarizeLog(fs.readFileSync(process.argv[2], "utf8"));
+if (!r.byLint.length) { console.log(""); process.exit(0); }
+const by = r.byLint.filter((z) => z[1] > 0).map((z) => z[0] + " " + z[1]).join("・");
+console.log(r.other > 0 ? "・‼ 刻印の型以外の違反 " + r.other + " 件(" + by + ")・刻印の型 " + r.stamp + " 件" : "・刻印の型以外の違反 0 件(刻印の型 " + r.stamp + " 件 —— 鎖で直る)");' "$ROOT/tests/lib-w320d-lintkinds.mjs" "$1" 2>/dev/null || echo ""
+}
+[ "$S1" = "skip" ] || S1="$S1$(kinds320 "$LOG/1-preflight.log")"
+# ==== 第320便d の塊(ここまで)====
 
 # ② 接続契約
 say "② 接続契約(regen-chain --audit / --self-test)→ $LOG/2-*.log"
@@ -525,6 +562,13 @@ else
   say "② scope-all: 一覧と今の器が違う —— 統合で段が増えた。node tools/regen-chain.mjs --scope-all --write で引き直して、一覧の差を確かめてからコミットする"
 fi
 # ==== 第313便c の塊(ここまで)====
+# ==== 第320便d の塊(ここから)====
+# 第320便d(決断事項 AN478・R265): ② に本ごとに分けられる器の名簿(tests/data-w320d-perbook.json)の段の集合と版の照合 —— 統合で段が増えたら
+#   node tools/regen-plan.mjs --roster --write で引き直す(QA docs.w320d ① と同じ照合)
+node tools/regen-plan.mjs --roster --check >"$LOG/2-roster.log" 2>&1; rro=$?
+if [ $rro -eq 0 ]; then S2="$S2・roster ok"
+else S2="$S2・roster FAIL(統合で段が増えた —— node tools/regen-plan.mjs --roster --write で引き直す)"; fail=1; fi
+# ==== 第320便d の塊(ここまで)====
 
 # ③ 前回失敗項
 if [ -z "$FAILED" ] && [ -f tests/out/qa-results-full-beta.json ]; then
@@ -562,6 +606,9 @@ node tests/exp-w258c-qapart.mjs $IDS >"$LOG/4-beta.log" 2>&1; rb=$?
 pb=$(count PASS "$LOG/4-beta.log"); fb=$(count FAIL "$LOG/4-beta.log"); sb=$(count SKIP "$LOG/4-beta.log")
 S4="beta ${pb}/$((pb + fb))$([ "$sb" -gt 0 ] && echo "(SKIP $sb)")"
 [ $rb -eq 0 ] || { S4="$S4 FAIL"; fail=1; }
+# ==== 第320便d の塊(ここから)====
+S4="$S4$(kinds320 "$LOG/4-beta.log")"   # 第320便d(R265): 常設集合の lint.regenScope・lint.provenanceMeta の違反の種類
+# ==== 第320便d の塊(ここまで)====
 if [ $NOROOT -eq 0 ]; then
   say "④ 常設集合 root → $LOG/4-root.log"
   # shellcheck disable=SC2086
