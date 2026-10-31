@@ -3,7 +3,7 @@
  "libVersion": "w319b-srcradius-lib-1",
  "generator": "tests/exp-w319b-srcradius.mjs",
  "target": "beta/index.html",
- "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+ "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
  "reuseFrom": null,
  "ruling": "原仮定者の指示(第121報)「引きずり半径について」(今の R_d は K1 の引きずられる側で合わせた値 —— 引きずる側の半径を別の値に分ける案を検討する: 案1 上限 6.5e6 m の観測半径・案2 K2・上限なし・案3 計算式を探索する/銀河の引きずりは中心天体だけの影響ではない —— 手掛かりとして太陽系近傍の影響を算出する)・「検証時の天体別の役割の参考」(水星〜土星)・決断事項 AN445・AN446・AN449・統括の検証項目 R259。受け手の R_d = Y_k m・規則・在位の本・エンジンの式は変えない(器・lib・正本・文書だけ)",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -5037,19 +5037,19 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.241
+   "wallSec": 0.209
   },
   "S": {
-   "wallSec": 0.484
+   "wallSec": 0.437
   },
   "G": {
-   "wallSec": 1.147
+   "wallSec": 1.142
   },
   "A": {
-   "wallSec": 0.057
+   "wallSec": 0.079
   },
   "R": {
-   "wallSec": 0.031
+   "wallSec": 0.07
   },
   "C": {
    "wallSec": 0.001
@@ -5058,19 +5058,19 @@
    "wallSec": 0
   }
  },
- "elapsedS": 3.918,
+ "elapsedS": 3.685,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第319便b",
   "target": "beta/index.html",
-  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-  "generatedAt": "2026-10-30T18:44:05.596Z",
+  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+  "generatedAt": "2026-10-31T07:02:12.001Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7379828,
-    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-    "mtime": "2026-10-30T11:20:58.670Z"
+    "bytes": 7401797,
+    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+    "mtime": "2026-10-31T03:14:16.264Z"
    },
    {
     "file": "tests/data-w318c-solar16-input.json",
@@ -5193,11 +5193,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1319,
-   "segments": 1160,
-   "closureShare": 0.2986
+   "names": 1330,
+   "segments": 1168,
+   "closureShare": 0.3
   },
-  "scopeSha256": "037eb6ad1b533a724ebc80cf15046d19a4a69d4ecd1894584a23bf2e83e768d2",
+  "scopeSha256": "ddf0156536742bc25412b1f39ce73f32e8f34e2d7e3ef9adc0c3c9a60dd4d636",
   "scopeComplete": true,
   "inputsStable": [
    {

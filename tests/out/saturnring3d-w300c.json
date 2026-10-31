@@ -282,7 +282,7 @@
      "max": 0
     }
    },
-   "wallSec": 106.794
+   "wallSec": 75.611
   },
   "m5h2": {
    "key": "m5h2",
@@ -508,7 +508,7 @@
      "max": 0
     }
    },
-   "wallSec": 106.631
+   "wallSec": 77.145
   },
   "h": {
    "key": "h",
@@ -734,7 +734,7 @@
      "max": 0
     }
    },
-   "wallSec": 48.362
+   "wallSec": 38.866
   },
   "m5": {
    "key": "m5",
@@ -960,7 +960,7 @@
      "max": 0
     }
    },
-   "wallSec": 49.165
+   "wallSec": 39.286
   },
   "transfer": {
    "key": "transfer",
@@ -1186,7 +1186,7 @@
      "max": 0.006420567838183037
     }
    },
-   "wallSec": 53.642
+   "wallSec": 48.488
   },
   "flat2d": {
    "key": "flat2d",
@@ -1399,7 +1399,7 @@
    },
    "conserved": null,
    "drag": null,
-   "wallSec": 5.209
+   "wallSec": 4.311
   },
   "flat2dh2": {
    "key": "flat2dh2",
@@ -1612,7 +1612,7 @@
    },
    "conserved": null,
    "drag": null,
-   "wallSec": 10.411
+   "wallSec": 7.752
   },
   "probe": {
    "key": "probe",
@@ -1678,7 +1678,7 @@
      ]
     }
    },
-   "wallSec": 1.912
+   "wallSec": 1.412
   }
  },
  "stepDependence": {
@@ -1924,28 +1924,28 @@
  "ok": true,
  "timing": {
   "h2": {
-   "wallSec": 106.794
+   "wallSec": 75.611
   },
   "m5h2": {
-   "wallSec": 106.631
+   "wallSec": 77.145
   },
   "h": {
-   "wallSec": 48.362
+   "wallSec": 38.866
   },
   "m5": {
-   "wallSec": 49.165
+   "wallSec": 39.286
   },
   "transfer": {
-   "wallSec": 53.642
+   "wallSec": 48.488
   },
   "flat2d": {
-   "wallSec": 5.209
+   "wallSec": 4.311
   },
   "flat2dh2": {
-   "wallSec": 10.411
+   "wallSec": 7.752
   },
   "probe": {
-   "wallSec": 1.912
+   "wallSec": 1.412
   }
  },
  "notClaim": [
@@ -1957,14 +1957,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第300便c",
   "target": "beta/index.html",
-  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-  "generatedAt": "2026-10-30T13:53:38.665Z",
+  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+  "generatedAt": "2026-10-31T07:08:32.038Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7379828,
-    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-    "mtime": "2026-10-30T11:20:58.670Z"
+    "bytes": 7401797,
+    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+    "mtime": "2026-10-31T03:14:16.264Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2050,11 +2050,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1351,
-   "segments": 1192,
-   "closureShare": 0.3054
+   "names": 1362,
+   "segments": 1200,
+   "closureShare": 0.3067
   },
-  "scopeSha256": "c8bdc3d5addbe84a61e33b57fc06772fa3d32d58cd2d6ab234617d76111bfd1d",
+  "scopeSha256": "f6c13275b092e0f5abb38765de7db034eb5c3eadff49f6c931c4258c2c567b70",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -2066,5 +2066,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 210.151
+ "elapsedS": 164.293
 }
