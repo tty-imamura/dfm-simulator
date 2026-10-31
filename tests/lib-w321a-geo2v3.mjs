@@ -41,6 +41,8 @@ export const GEO2V3_SOURCE_LINES = Object.freeze([
 
 const F32 = Float32Array, F64 = Float64Array;
 const ctorOf = (p) => (p === 'double' ? F64 : F32);
+/** Float64Array か(別の realm〔headless の vm の文脈〕の配列でも —— instanceof は realm をまたがない) */
+const isF64 = (a) => Object.prototype.toString.call(a) === '[object Float64Array]';
 const SCALAR_LEDGER = ['resPx', 'resPy', 'resPz', 'resLx', 'resLy', 'resLz', 'conPx', 'conPy', 'conPz', 'conLx', 'conLy', 'conLz',
   'spinPerpLx', 'spinPerpLy', 'spinPerpLz', 'dragWorkE', 'dragWorkKE', 'dragSpinE', 'dragWorkN', 'clampVN', 'clampSN', 'clampRN', 'axisTurnN'];
 
@@ -94,7 +96,7 @@ export function cloneState(st) {
 }
 /** html の二次元の sim(build の後)から状態を写す(z = v_z = 0・軸 +z・配列は sim と同じ型)。 */
 export function stateOf2D(S, extra = {}) {
-  const n = S.n, p = S.params, pr = { state: S.x instanceof F64 ? 'double' : 'single', frame: S.uPx instanceof F64 ? 'double' : 'single', mass: S.mEff instanceof F64 ? 'double' : 'single', spin: S.spin instanceof F64 ? 'double' : 'single' };
+  const n = S.n, p = S.params, pr = { state: isF64(S.x) ? 'double' : 'single', frame: isF64(S.uPx) ? 'double' : 'single', mass: isF64(S.mEff) ? 'double' : 'single', spin: isF64(S.spin) ? 'double' : 'single' };
   const st = makeState(Array.from({ length: n }, () => ({ m: 0, R: 0 })), { G: p.G, D0: p.D0, kFrame: p.kFrame, q: p.q, softening: p.softening }, pr, { integrator: S.integrator, spinPolicy: extra.spinPolicy, carry: !!S.carVx });
   for (let i = 0; i < n; i++) {
     st.m[i] = S.mEff[i]; st.R[i] = S.R[i]; st.pinned[i] = S.pinned[i]; st.x[i] = S.x[i]; st.y[i] = S.y[i]; st.vx[i] = S.vx[i]; st.vy[i] = S.vy[i]; st.spin[i] = S.spin[i];

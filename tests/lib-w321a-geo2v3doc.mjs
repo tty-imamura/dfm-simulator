@@ -7,6 +7,8 @@ export const DOC_LIB_VERSION = 'w321a-geo2v3doc-1';
 const yn = (b) => (b ? '真' : '偽');
 const kk = (k) => (k === 2 ? '特別化 pairCorePN' : k === 1 ? '特別化 pairCorePlain' : 'generic');
 const pr = (p) => (p.state === 'double' ? '倍精度(状態・フレーム・質量)・自転は単精度' : '単精度(html の既定)');
+/** 丸めの程度の数は桁の帯で(逐語照合する表に丸めの程度の数を書かない) */
+const band = (x) => (!(x > 0) ? '0' : x < 1e-12 ? '< 1e-12' : x < 1e-9 ? '1e-12〜1e-9' : x < 1e-6 ? '1e-9〜1e-6' : x < 1e-3 ? '1e-6〜1e-3' : '≥ 1e-3');
 const rot = (r) => `(${r.k.join(', ')})・${fx(r.a, 4)} rad`;
 
 /** 本文に書く数(QA が節の中にあることを照合する) */
@@ -49,7 +51,7 @@ export function physicsTablesGeo2v3(J) {
   // cov
   out.push('', '| 回転(軸・角) | 積分器 | 自転の入れ方 | 位置・速度・u の履歴・自転のベクトル・rotA・口座(P と L の尺度)・仕事(初期の運動エネルギーで割る)の差の最大(相対) | 軸が回った回数 | 蹴りの回数 |', '|---|---|---|---|---|---|');
   for (const r of P.cov.rows) out.push(`| ${rot(r.rot)} | ${r.integrator} | ${r.policy} | ${fmtFloor(r.max, 1e-12, 1)} | ${r.axisTurns} | ${r.kicks} |`);
-  out.push(`| 記録だけ: ${rot(P.cov.single.rot)}・単精度 | ${P.cov.single.integrator} | ${P.cov.single.policy} | 位置 ${ex(P.cov.single.pos, 1)}・速度 ${ex(P.cov.single.vel, 1)}(Float32 の格納の丸め —— 回転で共変でない) | ${P.cov.single.axisTurns} | ${P.cov.single.kicks} |`);
+  out.push(`| 記録だけ: ${rot(P.cov.single.rot)}・単精度 | ${P.cov.single.integrator} | ${P.cov.single.policy} | 位置・速度 ${band(Math.max(P.cov.single.pos, P.cov.single.vel))}(Float32 の格納の丸め —— 回転で共変でない) | ${P.cov.single.axisTurns} | ${P.cov.single.kicks} |`);
   // field
   const F = P.field;
   out.push('', '| 解析の場 | 照合 | 差の最大(相対) | 門 |', '|---|---|---|---|',
@@ -64,7 +66,7 @@ export function physicsTablesGeo2v3(J) {
     `| 純関数の 1 步目に蹴られた受け手 / 2 步目 | ${H.pure.first.kicks} / ${H.pure.second.kicks}(受け手 ${H.pure.first.receivers}) | ${yn(H.pass)} |`,
     `| html の 1 步目(kFrame=1)と純関数の kFrame=0 の写しの位置・速度・自転 | 違う値 ${H.html.nDiff} / ${H.html.nVal} | ${yn(H.html.same)} |`,
     `| 運動量・角運動量の閉じ(倍精度 semi・leapfrog —— 拘束 conP・conL とリザーバを含む) | ${fmtFloor(Math.max(L.rows['double-semi'].dP, L.rows['double-semi'].dL, L.rows['double-leapfrog'].dP, L.rows['double-leapfrog'].dL), 1e-12, 1)} | ${yn(L.pass)} |`,
-    `| 同じ —— 単精度(記録だけ) | P ${ex(L.rows['single-semi'].dP, 1)}・L ${ex(L.rows['single-semi'].dL, 1)} | — |`,
+    `| 同じ —— 単精度(記録だけ) | P・L ${band(Math.max(L.rows['single-semi'].dP, L.rows['single-semi'].dL))}(Float32 の格納の丸め) | — |`,
     `| 拘束の口座を外したときの P のずれ(相対) | ${ex(L.rows.withoutCon.dP, 2)} | — |`,
     `| 仕事の口座(G = 0): ΔK と dragWorkKE・ΔK_spin と dragSpinE(vector) | ${fmtFloor(Math.max(L.work.vector.kRel, L.work.vector.ksRel), 1e-10, 1)} | — |`,
     `| 同じ(parallel —— 垂直の分は角運動量の口座 spinPerpL へ・その分の自転のエネルギーは入らない) | ΔK ${fmtFloor(L.work.parallel.kRel, 1e-10, 1)}・ΔK_spin と dragSpinE の差 ${ex(L.work.parallel.ksRel, 1)} | — |`);
