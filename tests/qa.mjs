@@ -90541,7 +90541,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (!near12(C0.observerCurlOf(gb, VR), C0.cross(gb, VR).map((x) => -0.5 * x))) bad.push('② 受け手の動きの項 −½∇β × V_ref の式');
       for (const g of J.F.grids) { const b2 = C0.sourceCurlOf(g.co, g.gradBeta, VR); if (!near12(b2, g.back)) bad.push('② 正本の格子 ' + g.grid.nr + ' の戻りを作り直すと違う'); if (!(Math.abs(C0.observerCurlOf(g.gradBeta, VR)[2] - g.obs) <= 1e-12 * Math.abs(g.obs))) bad.push('② 格子 ' + g.grid.nr + ' の受け手の動きの項'); }
       { const m0 = L9.mwLocal(L9.GRIDS[0]), t0 = m0.total, z = C0.gradBetaOf(t0.GGC, t0.GCo, VR), j0 = J.F.grids[0];
-        if (!(near12(z.gradBeta, j0.gradBeta) && near12(t0.halfCurlCo, j0.co) && near12(t0.halfCurlGC, j0.gc) && near12(t0.beta, j0.beta))) bad.push('② 最も粗い格子(mwLocal)の座標の補正を作り直すと違う'); }
+        // ベクトルは大きさの尺度で比べる(∇β の y 成分・半渦度の x・y 成分は打ち消しの丸めの程度 —— 成分ごとの相対では比べない)
+        if (!(C0.vecRelOf(z.gradBeta, j0.gradBeta, j0.gradBeta) <= 1e-12 && C0.vecRelOf(t0.halfCurlCo, j0.co, j0.co) <= 1e-12 && C0.vecRelOf(t0.halfCurlGC, j0.gc, j0.co) <= 1e-12 && near12(t0.beta, j0.beta))) bad.push('② 最も粗い格子(mwLocal)の座標の補正を作り直すと違う'); }
       // 重ならない成分の和
       const D2 = X.partD(J.P); if (!near9(clone(D2), J.D)) bad.push('② 段 D を作り直すと違う');
       let threw = 0; for (const tt of [[{ key: 'a', omega: [0, 0, 1], owns: [{ comp: 'disk:HI', lo: 0, hi: 3 }] }, { key: 'b', omega: [0, 0, 1], owns: [{ comp: 'disk:HI', lo: 2, hi: 9 }] }],
