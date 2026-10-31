@@ -10,7 +10,7 @@
  "emxVersion": "w303c-emx4-1",
  "generator": "tests/exp-w314c-k1outer.mjs --stage em",
  "target": "beta/index.html",
- "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
+ "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
  "reuseFrom": null,
  "ruling": "原仮定者の裁定(第116報)の補足(太陽系の各天体の検証の後に 16 体の三次元サンプル)・決断事項 AN410(推奨 —— 外惑星の相対の門と数値の帯の門・裁定で変わる)・AN405(有限質量比は既知の寄与)・AN401(比例定数は 1PN だけ・A1 は暦表ごとの列)・AN396′(ε_fit・ε_num)・AN336・統括の検証項目 R240。κ は一次の値 κ₀ = 10G/(C₁c²) に固定(合わせない)。確認の材料(在位へ入れない)",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -171,7 +171,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 17.903
+    "wallSec": 17.923
    },
    "confirm:earthmoon|q10|-|div=4|N=118": {
     "key": "confirm:earthmoon|q10|-|div=4|N=118",
@@ -212,7 +212,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 20.026
+    "wallSec": 18.899
    },
    "confirm:earthmoon|q11|kappa0|kernel=k1|div=1|N=354": {
     "key": "confirm:earthmoon|q11|kappa0|kernel=k1|div=1|N=354",
@@ -256,7 +256,7 @@
     },
     "betaMax": 1.0076462786787211e-7,
     "isqSteps": 5222781,
-    "wallSec": 1810.139
+    "wallSec": 1707.067
    },
    "confirm:earthmoon|q00|-|div=1|N=354": {
     "key": "confirm:earthmoon|q00|-|div=1|N=354",
@@ -297,7 +297,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 13.128
+    "wallSec": 12.715
    },
    "confirm:earthmoon|q10|-|div=1|N=354": {
     "key": "confirm:earthmoon|q10|-|div=1|N=354",
@@ -338,7 +338,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 14.541
+    "wallSec": 14.228
    },
    "confirm:earthmoon|q11|kappa0|kernel=k1|div=4|N=118": {
     "key": "confirm:earthmoon|q11|kappa0|kernel=k1|div=4|N=118",
@@ -382,7 +382,7 @@
     },
     "betaMax": 1.0076157849255032e-7,
     "isqSteps": 6963437,
-    "wallSec": 2382.301
+    "wallSec": 2287.391
    }
   }
  },
@@ -694,22 +694,22 @@
    "nodrag|h/4|N=118": {
     "n": 2,
     "steps": 13926871,
-    "wallSec": 37.929
+    "wallSec": 36.822
    },
    "drag|h/1|N=354": {
     "n": 1,
     "steps": 5222781,
-    "wallSec": 1810.139
+    "wallSec": 1707.067
    },
    "nodrag|h/1|N=354": {
     "n": 2,
     "steps": 10445560,
-    "wallSec": 27.669
+    "wallSec": 26.942999999999998
    },
    "drag|h/4|N=118": {
     "n": 1,
     "steps": 6963437,
-    "wallSec": 2382.301
+    "wallSec": 2287.391
    }
   }
  },
@@ -722,13 +722,13 @@
  "ok": true,
  "timing": {
   "T": {
-   "wallSec": 0.011
+   "wallSec": 0.007
   },
   "E": {
-   "wallSec": 2401.045
+   "wallSec": 2306.153
   },
   "K": {
-   "wallSec": 0.001
+   "wallSec": 0
   },
   "M": {
    "wallSec": 0.001
@@ -741,19 +741,19 @@
   "runs": 6,
   "steps": 36558649
  },
- "elapsedS": 2402.65,
+ "elapsedS": 2307.62,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便c",
   "target": "beta/index.html",
-  "targetSha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-  "generatedAt": "2026-10-30T17:43:21.849Z",
+  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+  "generatedAt": "2026-10-31T08:18:29.266Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7379828,
-    "sha256": "9a0dd1c8be7e193515f702c323d21dab9502954717b6a58030b1c2db2dcd792c",
-    "mtime": "2026-10-30T11:20:58.670Z"
+    "bytes": 7401797,
+    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+    "mtime": "2026-10-31T03:14:16.264Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -769,9 +769,9 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "bytes": 89936,
-    "sha256": "2ca80fabfcb9bc947c5746a3cbf3516a966dec1dd0662090b3397c73a297fd6b",
-    "mtime": "2026-10-30T16:03:15.891Z"
+    "bytes": 89934,
+    "sha256": "8c50c27dde09664c3940239131665244fb7fd53a290929865fc0e0d59e892cf6",
+    "mtime": "2026-10-31T07:12:41.245Z"
    },
    {
     "file": "paper/data/pn1-ephemeris-candidates.csv",
@@ -961,11 +961,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1355,
-   "segments": 1196,
-   "closureShare": 0.3063
+   "names": 1367,
+   "segments": 1205,
+   "closureShare": 0.3079
   },
-  "scopeSha256": "8cfe9a63306a9b0961d70ac7fa5aa99d466dc4c7e01b80cb3e4658276f6f10d0",
+  "scopeSha256": "9a92163b65f8cfa665b4a1459d8bf51154a7fd17f10e3d3422936b958146fee0",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -982,7 +982,7 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "stableSha256": "419e3b64be295288653084b9cfed8f678c579ea857255c443187131e65daf23d",
+    "stableSha256": "635e6618e2648a08f962f8535489acc285dd8aae1d224904819c2b28c86b7f5f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
