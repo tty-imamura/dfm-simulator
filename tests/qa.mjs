@@ -90926,7 +90926,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----     ③ SAMPLE_STATUS の保存 QA の来歴・html を読まない段の区分(器が今の器で作った正本なら欄と md の行)④ AN455(drag3d-298c・semic-302d の consts に ACCEPT_REASONS)
 // ----     ⑤ AN477(invsq-309a・invsq-310a の名指しの除外を宣言の条件へ —— ruleBooks)⑥ PHYSICS〔第320便d〕・AI_SPEC §158・CHANGELOG・post-merge の ③′・tools/README・書かない語・禁句
 {
-  await (async () => {   // 第310便c(heap)の型: 本文を関数で包む
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   if (!TARGET.startsWith('beta/')) { console.log('SKIP lint.violationKinds320 / lint.byproducts320 / docs.w320d(第320便d —— beta 線の検査 — ' + TARGET + ')'); return; }
   const rd320 = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
   const imp320 = async (f) => { try { return await import('file://' + path.join(ROOT, f)); } catch (e) { return null; } };
@@ -91138,7 +91138,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       `**道具と QA**(第320便d・決断事項 AN478・AN481・AN477・AN455・R265 —— 物理・本の宣言・エンジンの式・受理の判定は不変・領域 hash の版は変えない): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
-  })();
+  })();   // 第310便c(heap)
 }
 // ==== 第320便d の塊(ここまで)====
 
