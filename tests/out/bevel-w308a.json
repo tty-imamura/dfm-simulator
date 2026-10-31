@@ -3,7 +3,7 @@
  "libVersion": "w308a-bevel-lib-1",
  "generator": "tests/exp-w308a-bevel.mjs",
  "target": "beta/index.html",
- "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+ "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
  "ruling": "原仮定者の裁定(第101報)(源の軸回転は軸方向に対する角度差の 2 倍で傾いた軸で作用する —— 赤道で逆・軸方向で順・45° でベベルギヤの様に 90°・軸引きずりは回転引きずりの差分で仰角が上がると弱まる・受け手は体積平均)・決断事項 AN346・AN347・AN354・統括の検証項目 R214",
  "axialVersion": "w308a-axial-bevel-1",
  "axialLaw": "bevel-mirror-sin",
@@ -3862,40 +3862,40 @@
  "ok": true,
  "timing": {
   "G": {
-   "wallSec": 0.006
+   "wallSec": 0.007
   },
   "K": {
-   "wallSec": 0.003
+   "wallSec": 0.012
   },
   "L": {
-   "wallSec": 0.206
+   "wallSec": 0.224
   },
   "S": {
-   "wallSec": 0.097
+   "wallSec": 0.115
   },
   "V": {
-   "wallSec": 0.479
+   "wallSec": 0.595
   },
   "E": {
-   "wallSec": 12.552
+   "wallSec": 13.52
   },
   "P": {
    "wallSec": 0.003
   }
  },
- "elapsedS": 14.961,
+ "elapsedS": 16.24,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便a",
   "target": "beta/index.html",
-  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-  "generatedAt": "2026-10-31T07:02:06.401Z",
+  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+  "generatedAt": "2026-10-31T21:01:40.400Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7401797,
-    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-    "mtime": "2026-10-31T03:14:16.264Z"
+    "bytes": 7403262,
+    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+    "mtime": "2026-10-31T17:17:55.600Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -4034,7 +4034,7 @@
    "segments": 1182,
    "closureShare": 0.3016
   },
-  "scopeSha256": "ca76e664323e8940f860568d7a4fc11eb2686545a5c55df02053731cfe12fccf",
+  "scopeSha256": "af196d15859f592b73d97c6e0e4f0117647b248f183891c5c6a40e0c25506870",
   "scopeComplete": true,
   "inputsStable": [
    {

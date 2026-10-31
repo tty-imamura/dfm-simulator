@@ -3,7 +3,7 @@
  "libVersion": "w319b-srcradius-lib-1",
  "generator": "tests/exp-w319b-srcradius.mjs",
  "target": "beta/index.html",
- "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+ "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
  "reuseFrom": null,
  "ruling": "原仮定者の指示(第121報)「引きずり半径について」(今の R_d は K1 の引きずられる側で合わせた値 —— 引きずる側の半径を別の値に分ける案を検討する: 案1 上限 6.5e6 m の観測半径・案2 K2・上限なし・案3 計算式を探索する/銀河の引きずりは中心天体だけの影響ではない —— 手掛かりとして太陽系近傍の影響を算出する)・「検証時の天体別の役割の参考」(水星〜土星)・決断事項 AN445・AN446・AN449・統括の検証項目 R259。受け手の R_d = Y_k m・規則・在位の本・エンジンの式は変えない(器・lib・正本・文書だけ)",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -5037,40 +5037,40 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.209
+   "wallSec": 0.262
   },
   "S": {
-   "wallSec": 0.437
+   "wallSec": 0.517
   },
   "G": {
-   "wallSec": 1.142
+   "wallSec": 1.238
   },
   "A": {
-   "wallSec": 0.079
+   "wallSec": 0.074
   },
   "R": {
-   "wallSec": 0.07
+   "wallSec": 0.084
   },
   "C": {
-   "wallSec": 0.001
+   "wallSec": 0
   },
   "F": {
-   "wallSec": 0
+   "wallSec": 0.001
   }
  },
- "elapsedS": 3.685,
+ "elapsedS": 3.96,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第319便b",
   "target": "beta/index.html",
-  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-  "generatedAt": "2026-10-31T07:02:12.001Z",
+  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+  "generatedAt": "2026-10-31T21:00:35.992Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7401797,
-    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-    "mtime": "2026-10-31T03:14:16.264Z"
+    "bytes": 7403262,
+    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+    "mtime": "2026-10-31T17:17:55.600Z"
    },
    {
     "file": "tests/data-w318c-solar16-input.json",
@@ -5197,7 +5197,7 @@
    "segments": 1168,
    "closureShare": 0.3
   },
-  "scopeSha256": "ddf0156536742bc25412b1f39ce73f32e8f34e2d7e3ef9adc0c3c9a60dd4d636",
+  "scopeSha256": "7b1a6487ecabde252275481674621f0366798ec685535e1123ba4323e099578d",
   "scopeComplete": true,
   "inputsStable": [
    {
