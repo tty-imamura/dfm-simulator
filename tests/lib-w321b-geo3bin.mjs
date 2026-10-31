@@ -10,7 +10,7 @@
 //   ④ 解析の目安(二体の 1PN の近点の移動 q_1PN = 6πGM/(c²a(1−e²))・G_loc の一次の式 −4π μ_eff/(c²a(1−e²))〔受け手の対・μ_eff = G(m₁²+m₂²)/M〕・
 //      有限質量比の一次の予測 (4/3)η q_1PN —— 〔第313便d〕〔第314便c〕の型)と、量ごとの差の表・刻みの帯・器の門。
 //
-// ■ 言わないこと: 「連星の観測と一致した」「近点移動を説明した」「法則を確かめた」「収束した」(h・h/2・h/4 は刻みの感度診断)。周期だけの一致を系全体の合格に広げない
+// ■ 言わないこと: 写しの比較を連星の観測との照合と呼ばない・近点の移動の原因を述べない・法則の検証と呼ばない・h・h/2・h/4 を収束の判定に使わない(刻みの感度診断)。周期だけの一致を系全体の合格に広げない
 //   (量ごとの表)。写しの比較で、観測との照合ではない。
 export const LIB_VERSION = 'w321b-geo3bin-lib-1';
 
@@ -97,7 +97,7 @@ export function siblingOf(base, col, o = {}) {
     const q = Object.assign({}, b), r = ap([b.x, b.y, b.z || 0]), v = ap([b.vx, b.vy, b.vz || 0]);
     q.x = r[0]; q.y = r[1]; q.z = r[2]; q.vx = v[0]; q.vy = v[1]; q.vz = v[2];
     delete q.spinAxis;   // 二次元の表示の軸(psrDoubleAB の B など)は三次元へ写さない —— 軸は軌道の法線(二次元の本の約束)
-    if (R) { const a = ap([0, 0, 1]); q.spinAxis = { enable: true, tiltDeg: Math.acos(Math.max(-1, Math.min(1, a[2]))) * 180 / Math.PI, azimuthDeg: Math.atan2(a[1], a[0]) * 180 / Math.PI }; }
+    if (R) { const a = ap([0, 0, 1]); q.spinAxis = { enable: true, tiltDeg: Math.acos(Math.max(-1, Math.min(1, a[2]))) * 180 / Math.PI, azimuthDeg: Math.atan2(a[1], a[0]) * 180 / Math.PI, source: '第321便b の回した写し(軸は軌道の法線を同じ回転で回した —— 二次元の本の約束)' }; }
     return q;
   });
   if (col === 'g1_3d') { ph.geoPN = 1; ph.kFrame = 0; ph.lambdaPN = 1; return c; }

@@ -18,8 +18,8 @@
 //   F 第一陣の順の材料(AN499 —— 系ごとの費用〔段 E の秒〕・門・宣言の要るもの)。
 //
 // ■ 試走: W321B_QUICK=1(W321B_OUT が要る —— 正本を書かない・窓 3 公転・刻み h・h/2・玩具 2 つ)。W321B_WORKERS(既定 2)。W321B_TARGET(既定 beta/index.html)。
-// ■ 言わないこと: 「連星の観測と一致した」「近点移動を説明した」「法則を確かめた」「収束した」(h・h/2・h/4 は刻みの感度診断)「完全に一致」。周期だけの一致を系全体の合格に
-//   広げない(量ごとの表)。解析の目安は二体の 1PN の式と一次の予測で、観測ではない。
+// ■ 言わないこと: 写しの比較を連星の観測との照合と呼ばない・近点の移動の原因を述べない・法則の検証と呼ばない・h・h/2・h/4 を収束の判定に使わない(刻みの感度診断)・
+//   ビット同一でない量を同じと呼ばない。周期だけの一致を系全体の合格に広げない(量ごとの表)。解析の目安は二体の 1PN の式と一次の予測で、観測ではない。
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -31,18 +31,18 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as AP from './lib-w304e-apsis.mjs';
 import * as L from './lib-w321b-geo3bin.mjs';
 import { isRuleBookNoCopy, RULE_BOOKS_WHY } from './lib-w320d-rulebooks.mjs';
-// 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 段 I が内蔵の全本から連星を宣言で数え上げるので presets は "all")
-const REGEN_SCOPE = null;
+// 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 段 I が内蔵の全本から連星を宣言で数え上げるので presets は "all"〔後に入る連星の本は一覧に入る ——
+//   除外を置かない〕。calTargetOf は lib の式の写しと同じ名の html の関数 —— 下限に入れて html の分類が変われば作り直す)
+const REGEN_SCOPE = {"presets":"all","roots":["$","HP.MASS_BASIS","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.geoEffectiveMode","HP.geoLawOfSim","HP.geoModeOf","HP.inertialDragLedgerOf","HP.sim","HP.validatePreset","T","calTargetOf","ctx","cw","pnSource"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w321b-geo3bin-1';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const clone = (x) => JSON.parse(JSON.stringify(x));
-export const NOT_CLAIM = Object.freeze(['連星の観測と一致したと書かない(写しの比較 —— 量ごとの差の表)', '近点移動を説明したと書かない', '法則を確かめたと書かない',
-  '収束したと書かない(h・h/2・h/4 は刻みの感度診断)', '周期だけの一致を系全体の合格に広げない', '解析の目安を観測と呼ばない(二体の 1PN の式と一次の予測)',
+export const NOT_CLAIM = Object.freeze(['写しの比較を連星の観測との照合と呼ばない(量ごとの差の表)', '近点の移動の原因を述べない', '法則の検証と呼ばない',
+  'h・h/2・h/4 を収束の判定に使わない(刻みの感度診断)', '周期だけの一致を系全体の合格に広げない', '解析の目安を観測と呼ばない(二体の 1PN の式と一次の予測)',
   'NS の経路の案を実装したと書かない(設計の案 —— エンジンは変えない)']);
 export const OUT_MAIN = 'tests/out/geo3bin-w321b.json';
-export const SCOPE_ALL_FILE = 'tests/data-w312c-scopeall.json';
 export const TPL_ID = 'alphaCenAB';                 // 玩具の物理の宣言の雛形(在位の恒星連星の型)
 export const SYSTEMS = Object.freeze([
   Object.freeze({ key: 'sirius', id: 'siriusAB', ja: 'シリウス AB(無自転の対照 —— S.spin = 0 は採用の宣言)', cols: L.MAIN_COLS }),
@@ -83,7 +83,7 @@ export function runBook(HP, book, o) {
   const r0 = rel(), v0 = relV(), W = L.unit(L.cross(r0, v0)), Pu = L.unit(r0), Qu = L.cross(W, Pu);
   const angOf = (d) => Math.atan2(L.dot(d, Qu), L.dot(d, Pu));
   const E0 = energy(), M0 = momentum(), h0 = L.nrm(L.cross(r0, v0)), spin0 = Array.from(S.spin);
-  const T = [], EP = [], EQ = [], TH = [], rev = [], peri = [], apo = [];
+  const TS = [], EP = [], EQ = [], TH = [], rev = [], peri = [], apo = [];
   let angPrev = angOf(r0), angAcc = 0, thAcc = angPrev, r1 = L.nrm(r0), r2 = r1, P1 = r0, P2 = r0, k = 0, nan = false, dEmax = 0, t = 0, spinDmax = 0;
   const maxSteps = Math.ceil(1.6 * N * (o.P0 / dt)) + 16;
   for (; k < maxSteps; k++) {
@@ -93,7 +93,7 @@ export function runBook(HP, book, o) {
     const th = angOf(d);
     let dd = th - angPrev; while (dd > Math.PI) dd -= 2 * Math.PI; while (dd < -Math.PI) dd += 2 * Math.PI;
     const prevAcc = angAcc; angAcc += dd; angPrev = th; thAcc += dd;
-    const e = AP.eccVector(d, relV(), mu); T.push(t); EP.push(L.dot(e, Pu)); EQ.push(L.dot(e, Qu)); TH.push(thAcc);
+    const e = AP.eccVector(d, relV(), mu); TS.push(t); EP.push(L.dot(e, Pu)); EQ.push(L.dot(e, Qu)); TH.push(thAcc);
     const nP = Math.floor(Math.abs(prevAcc) / (2 * Math.PI)), nN = Math.floor(Math.abs(angAcc) / (2 * Math.PI));
     if (nN > nP) { const tg = Math.sign(angAcc) * nN * 2 * Math.PI, fr = (tg - prevAcc) / (angAcc - prevAcc); rev.push((k + fr) * dt); }
     if (k >= 2 && ((r1 < r2 && r1 < rr) || (r1 > r2 && r1 > rr))) {
@@ -113,7 +113,7 @@ export function runBook(HP, book, o) {
     steps: k, dt, nan: nan || (typeof S.hasNaN === 'function' && S.hasNaN()), revN: rev.length, complete: rev.length >= N, wallSec: 0 };
   if (out.complete) {
     const t1 = rev[N - 1], pe = peri.filter((z) => z.t <= t1), ap = apo.filter((z) => z.t <= t1);
-    const P = (rev[N - 1] - rev[0]) / (N - 1), f = AP.apsisRate({ t: T, eP: EP, eQ: EQ, th: TH }, { t0: 0, t1, K: o.K || 3 });
+    const P = (rev[N - 1] - rev[0]) / (N - 1), f = AP.apsisRate({ t: TS, eP: EP, eQ: EQ, th: TH }, { t0: 0, t1, K: o.K || 3 });
     out.P = P; out.nPeri = pe.length;
     out.rate = f ? f.rate * P : null; out.e = f ? f.e : null; out.fitRms = f ? Math.max(f.rms[0], f.rms[1]) : null;
     if (pe.length >= 3) { const un = L.unwrap(pe.map((z) => z.ang)), fit = L.linfit(pe.map((z) => z.t), un); out.rateB = fit.slope * P; out.periRms = fit.rms; } else out.rateB = null;
@@ -155,10 +155,10 @@ function poolRun(specs, NW, self, target) {
     const pump = () => {
       while (!failed && active < NW && todo.length) {
         const c = todo.shift(); active++;
-        const ch = spawn(process.execPath, ['--max-old-space-size=6144', self, '--child', JSON.stringify({ target, specs: c })], { cwd: ROOT, env: process.env });
+        const proc = spawn(process.execPath, ['--max-old-space-size=6144', self, '--child', JSON.stringify({ target, specs: c })], { cwd: ROOT, env: process.env });
         let so = '', se = '';
-        ch.stdout.on('data', (d) => { so += d; }); ch.stderr.on('data', (d) => { se += d; });
-        ch.on('close', (code) => {
+        proc.stdout.on('data', (d) => { so += d; }); proc.stderr.on('data', (d) => { se += d; });
+        proc.on('close', (code) => {
           active--;
           if (code !== 0) { failed = new Error('子プロセス rc ' + code + ': ' + se.slice(-600)); return reject(failed); }
           try { const J = JSON.parse(so.slice(so.lastIndexOf('\n{') + 1)); res.push(...J.rows); } catch (e) { failed = new Error('子の出力が JSON でない: ' + so.slice(-300)); return reject(failed); }
@@ -248,28 +248,22 @@ export function partA(HP, I) {
   return { sib, jDecl: jv, ns, spinRange: [-20, 20] };
 }
 
-/* ───────── 段 X 既存の器の除外(AN492 —— 静的な読み) ───────── */
-/** 表 1 の 4 器の数え上げの述語の写し(器の本文の式 —— 器を走らせていない) */
+/* ───────── 段 X 既存の器の除外(AN492 —— 宣言の述語の写しと煙試験の対象の一覧) ───────── */
+// 器と QA の本文の名指しの除外(LATER_BOOKS_* と QA の世代定数の否定)の一覧は、器の正本に入れない(他の器・QA の本文に依る —— QA docs.geo3Bin321b が
+// その場で読み、PHYSICS〔第321便b〕の表と照合する)。ここは純関数の部分だけ: 第320便d の表 1 の 4 段の数え上げの述語の写しと、第320便d の宣言の条件
+// isRuleBookNoCopy を、写しの geo3 の連星の本(並進だけ)に当てる。
+/** 表 1 の 4 段の数え上げの述語の写し(器の本文の式の写し —— 器を走らせていない) */
 export const ENUM_PRED_COPIES = Object.freeze([
-  Object.freeze({ file: 'tests/exp-w301g-wbglaw.mjs', stage: 'wbglaw-301g', pred: 'law "inertial"', f: (p) => ((p.physics || {}).relativeDrag || {}).law === 'inertial' }),
-  Object.freeze({ file: 'tests/exp-w302c-wbgest.mjs', stage: 'wbgest-302c', pred: 'gLocBooks: 退役でない ∧ physics.gLoc / partE: 退役でない ∧ scaleExp ∧ law "inertial"', f: (p) => p.familyRole !== 'retired' && !!(p.physics && (p.physics.gLoc || (p.scaleExp && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial'))) }),
-  Object.freeze({ file: 'tests/exp-w302d-semic.mjs', stage: 'semic-302d', pred: '内蔵の全本 → law "inertial" で分類', f: (p) => !!(p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial') }),
-  Object.freeze({ file: 'tests/exp-w303a-refit.mjs', stage: 'refit-303a', pred: 'gLocBooks(G_loc の在位の本 = 惑星の表)', f: (p) => p.familyRole !== 'retired' && !!(p.physics && p.physics.gLoc) })]);
+  Object.freeze({ stage: 'wbglaw-301g', pred: 'law "inertial" の本を第302便c の前の宣言の写しで分類', f: (p) => ((p.physics || {}).relativeDrag || {}).law === 'inertial' }),
+  Object.freeze({ stage: 'wbgest-302c', pred: 'gLocBooks(退役でない ∧ physics.gLoc)・partE(退役でない ∧ scaleExp ∧ law "inertial")', f: (p) => p.familyRole !== 'retired' && !!(p.physics && (p.physics.gLoc || (p.scaleExp && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial'))) }),
+  Object.freeze({ stage: 'semic-302d', pred: '内蔵の全本 → law "inertial" で分類', f: (p) => !!(p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial') }),
+  Object.freeze({ stage: 'refit-303a', pred: 'gLocBooks(G_loc の在位の本が惑星の表と同じ集合の門)', f: (p) => p.familyRole !== 'retired' && !!(p.physics && p.physics.gLoc) })]);
 export function partX(hypo) {
-  const sets = [];
-  for (const f of fs.readdirSync(path.join(ROOT, 'tests')).filter((x) => /^(exp|lib)-.*\.mjs$/.test(x)).sort()) {
-    const t = fs.readFileSync(path.join(ROOT, 'tests', f), 'utf8'); if (t.indexOf('LATER_BOOKS_') < 0) continue;
-    for (const m of t.matchAll(/^const (LATER_BOOKS_[A-Za-z0-9_]+) = new Set\(\[([^\]]*)\]\);/gm)) sets.push({ file: 'tests/' + f, name: m[1], ids: (m[2].match(/'([^']+)'/g) || []).map((x) => x.slice(1, -1)), uses: (t.match(new RegExp('\\b' + m[1] + '\\.has\\(', 'g')) || []).length });
-  }
-  const QL = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8').split('\n'), reQ = /!\((W\d{3}[A-Z]_[A-Z0-9_]+) && [A-Za-z0-9_.]*id === '([A-Za-z0-9]+)'\)/, reAdd = /(?:^|[^.\w])add\('((?:behavior|preset|docs|lint|ui|ai|params)\.[A-Za-z0-9_.\-]+)'/, qa = [];
-  for (let i = 0; i < QL.length; i++) { const m = reQ.exec(QL[i]); if (!m) continue; let id = null; for (let j = i; j < QL.length && !id; j++) { const a = reAdd.exec(QL[j]); if (a) id = a[1]; } qa.push({ qa: id, book: m[2], gen: m[1] }); }
-  const qaU = [...new Map(qa.map((z) => [z.qa + '|' + z.book, z])).values()];
-  const hy = hypo.map((h) => ({ key: h.key, id: h.book.id, ruleBook: isRuleBookNoCopy(h.book), preds: ENUM_PRED_COPIES.map((e) => ({ stage: e.stage, hit: e.f(h.book) })) }));
-  let all = []; try { const D = JSON.parse(fs.readFileSync(path.join(ROOT, SCOPE_ALL_FILE), 'utf8')); all = (D.steps || []).map((s) => ({ key: s.key, harness: s.harness, prospect: s.prospect })); } catch (e) { all = []; }
-  return { laterSets: sets, qaNamed: qaU, hypo: hy, ruleBooksWhy: RULE_BOOKS_WHY, presetsAll: all, nPresetsAll: all.length };
+  const hy = hypo.map((h) => ({ key: h.key, id: h.book.id, ruleBook: isRuleBookNoCopy(h.book), preds: ENUM_PRED_COPIES.map((e) => ({ stage: e.stage, pred: e.pred, hit: e.f(h.book) })) }));
+  return { hypo: hy, ruleBooksWhy: RULE_BOOKS_WHY };
 }
 
-/* ───────── 段 T 量ごとの表・口座・ビット・回転の共変 ───────── */
+/* ───────── 段 TB 量ごとの表・口座・ビット・回転の共変 ───────── */
 export function partT(rows, plan, anaOf) {
   const R = {};
   for (const r of rows) { if (r.spec.rot) continue; ((R[r.spec.sys] = R[r.spec.sys] || {})[r.spec.col] = R[r.spec.sys][r.spec.col] || {})[r.spec.div] = r; }
@@ -295,10 +289,10 @@ export function partT(rows, plan, anaOf) {
   return { diffs, bits, rot, acct, law, finest, R };
 }
 /** 系ごとの量の表(最も細かい刻みの 4 量 × 列)と α Cen の J の列(別の表) */
-export function qtyTable(T, sysList, divs) {
+export function qtyTable(TB, sysList, divs) {
   const out = [];
   for (const sys of sysList) for (const col of Object.keys(L.COLS)) {
-    const v = divs.map((d) => L.rowOf(T.R, sys, col, d)); if (v.every((z) => !z)) continue;
+    const v = divs.map((d) => L.rowOf(TB.R, sys, col, d)); if (v.every((z) => !z)) continue;
     const f = v[v.length - 1];
     out.push({ sys, col, P: f && f.P, Pa: f && f.Pa, e: f && f.e, rate: f && f.rate, rateB: f && f.rateB, nPeri: f && f.nPeri, steps: f && f.steps, wallSec: v.reduce((s, z) => s + (z ? z.wallSec : 0), 0),
       bandRate: (v.length >= 2 && v[v.length - 1] && v[v.length - 2]) ? Math.abs(v[v.length - 1].rate - v[v.length - 2].rate) : null });
@@ -306,6 +300,16 @@ export function qtyTable(T, sysList, divs) {
   return out;
 }
 
+/** 段 T の全体(partT + 量の表 + α Cen の J の列 —— QA が正本の走行の行から作り直す) */
+export function tablesOf(rows, P, ana) {
+  const sysAll = P.toys.concat(SYSTEMS.map((s) => s.key));
+  const TB = partT(rows, P, ana);
+  TB.qty = qtyTable(TB, sysAll, P.divs);
+  TB.jTable = qtyTable(TB, ['acen'], P.jDivs).filter((q) => q.col === 'J' || q.col === 'on');
+  TB.jDiff = P.jDivs.map((d) => { const a = L.rowOf(TB.R, 'acen', 'J', d), b = L.rowOf(TB.R, 'acen', 'on', d); return { div: d, rate: (a && b) ? a.rate - b.rate : null, P: (a && b) ? a.P - b.P : null, same: (a && b) ? a.hashAll === b.hashAll : null }; });
+  delete TB.R;
+  return TB;
+}
 /* ───────── 段 N・F(設計の材料) ───────── */
 export function partN(I, A) {
   return { rows: A.ns.map((z) => ({ id: z.id, omegaObs: z.omegaObs, spinRange: A.spinRange, overRange: z.omegaObs.map((w) => w === null ? null : Math.abs(w) / A.spinRange[1]),
@@ -313,35 +317,34 @@ export function partN(I, A) {
     massBasis: z.massBasis ? z.massBasis.inferenceModel : null })),
     order: ['psrDoubleAB', 'psrJ1757DFM', 'psrJ1946DFM', 'psrB1534'], holdOut: 'psrB1534' };
 }
-export function partF(T, plan) {
-  const cost = (keys) => T.qty.filter((q) => keys.includes(q.sys)).reduce((s, q) => s + q.wallSec, 0);
+export function partF(TB, plan) {
   return [
-    { key: 'toy', ja: '玩具(等質量・1:3 × 円・離心)', books: plan.toys.length, wallSec: cost(plan.toys), gate: '面への退化(ビット)・回転の共変・1PN の抽出(解析の式との比)・有限質量比の一次の予測との比', needs: '内蔵にしない(器の中の写し —— 原理の比較の物差し)' },
-    { key: 'sirius', ja: 'シリウス無自転', books: 1, wallSec: cost(['sirius']), gate: 'on = tr のビット同一(無自転)・h/h2/h4 の帯・口座', needs: 'S.spin = 0 は採用の宣言(観測で零ではない)と明記' },
-    { key: 'acen', ja: 'α Cen(OFF → 並進 → 回転 → J)', books: 1, wallSec: cost(['acen']), gate: '回転の分の符号と大きさ・J の列は別の表(f は模型の宣言)', needs: '両星の spin の軸は軌道の法線(二次元の本の約束 —— 観測の軸ではない)' },
-    { key: 'ns', ja: 'NS(J0737 → J1757/J1946 → B1534 hold-out)', books: 4, wallSec: null, gate: '観測の自転の経路(段 N)が先 —— S.spin の値域の外・pulse/spinDipole/dragQ/core は三次元で拒否', needs: '経路の設計(AN 候補)・PSR の質量は GR を仮定したタイミング解・半径は EOS の代理' },
-    { key: 'principle', ja: '原理の本(周連星円盤・8 の字・箱宇宙の連星)', books: 3, wallSec: null, gate: '周連星円盤は多粒子(K1 の invSq は n ≤ 64)・8 の字は三体・箱宇宙は宇宙の箱(三次元で拒否)', needs: '各々の三次元の受理の門(段 I の deny3d と在位の宣言)' },
-    { key: 'gw', ja: 'GW150914(強場 —— 最後)', books: 1, wallSec: null, gate: 'geo0(強場の類推)・放射反作用と合体は別項目', needs: '弱場の K1 の規則を強場へ広げない' }];
+    { key: 'toy', ja: '玩具(等質量・1:3 × 円・離心)', books: plan.toys.length, sys: plan.toys.slice(), gate: '面への退化(ビット)・回転の共変・1PN の抽出(解析の式との比)・有限質量比の一次の予測との比', needs: '内蔵にしない(器の中の写し —— 原理の比較の物差し)' },
+    { key: 'sirius', ja: 'シリウス無自転', books: 1, sys: ['sirius'], gate: 'on = tr のビット同一(無自転)・h/h2/h4 の帯・口座', needs: 'S.spin = 0 は採用の宣言(観測で零ではない)と明記' },
+    { key: 'acen', ja: 'α Cen(OFF → 並進 → 回転 → J)', books: 1, sys: ['acen'], gate: '回転の分の符号と大きさ・J の列は別の表(f は模型の宣言)', needs: '両星の spin の軸は軌道の法線(二次元の本の約束 —— 観測の軸ではない)' },
+    { key: 'ns', ja: 'NS(J0737 → J1757/J1946 → B1534 hold-out)', books: 4, sys: null, gate: '観測の自転の経路(段 N)が先 —— S.spin の値域の外・pulse/spinDipole/dragQ/core は三次元で拒否', needs: '経路の設計(AN 候補)・PSR の質量は GR を仮定したタイミング解・半径は EOS の代理' },
+    { key: 'principle', ja: '原理の本(周連星円盤・8 の字・箱宇宙の連星)', books: 3, sys: null, gate: '周連星円盤は多粒子(K1 の invSq は n ≤ 64)・8 の字は三体・箱宇宙は宇宙の箱(三次元で拒否)', needs: '各々の三次元の受理の門(段 I の deny3d と在位の宣言)' },
+    { key: 'gw', ja: 'GW150914(強場 —— 最後)', books: 1, sys: null, gate: 'geo0(強場の類推)・放射反作用と合体は別項目', needs: '弱場の K1 の規則を強場へ広げない' }];
 }
 
 /* ───────── 門(器の自己整合 —— 物理の合否ではない) ───────── */
 export function gatesOf(J) {
   const G = {};
-  const I = J.I, A = J.A, T = J.T;
+  const I = J.I, A = J.A, TB = J.T;
   G.iCount = !!(I && I.n >= 20 && I.rows.every((r) => r.accepted));
   G.iLaw = !!(I && I.rows.every((r) => r.consistent === true));
   G.aSib = !!(A && A.sib.every((r) => r.ok && r.lawDecl === r.lawSim && r.lawSim === r.expectLaw && r.ge === r.expectGe));
   G.aJ = !!(A && A.jDecl.every((r) => r.ok === r.expect));
   G.aNs = !!(A && A.ns.length >= 4 && A.ns.every((z) => z.naiveOk === (z.deny3d.length === 0) && z.stripOk === true));
   G.eRun = !!(J.E && J.E.rows.every((r) => r.status === 'run' && r.complete && !r.nan));
-  G.eLaw = !!(T && T.law.every((z) => z.ok));
+  G.eLaw = !!(TB && TB.law.every((z) => z.ok));
   G.ePeri = !!(J.E && J.E.rows.filter((r) => r.status === 'run').every((r) => r.nPeri >= J.plan.N));
-  G.tPlane = !!(T && T.bits.every((b) => b.plane === true && b.keys2d !== false));
-  G.tSirius = !!(T && (T.bits.find((b) => b.sys === 'sirius') || {}).onEqTr === true);
+  G.tPlane = !!(TB && TB.bits.every((b) => b.plane === true && b.keys2d !== false));
+  G.tSirius = !!(TB && (TB.bits.find((b) => b.sys === 'sirius') || {}).onEqTr === true);
   G.tDrag = !!(J.E && J.E.rows.filter((r) => r.status === 'run' && ['tr', 'on', 'J'].includes(r.spec.col)).every((r) => r.drag && r.drag.enabled && r.drag.steps > 0 && r.drag.reject === 0 && r.drag.over === 0)
     && J.E.rows.filter((r) => r.status === 'run' && ['off', 'gl'].includes(r.spec.col)).every((r) => r.drag && !r.drag.enabled));
-  G.tPn1 = !!(T && T.diffs.filter((d) => d.diff === 'pn' && d.qty === 'rate' && J.plan.toys.includes(d.sys)).every((d) => d.ratio !== null && Math.abs(d.ratio - 1) <= 2e-3));
-  G.tRot = !!(T && T.rot.length && T.rot.every((z) => z.ok && z.dP <= 1e-9 && (z.dRate === null || z.dRate <= 1e-3)));
+  G.tPn1 = !!(TB && TB.diffs.filter((d) => d.diff === 'pn' && d.qty === 'rate' && J.plan.toys.includes(d.sys)).every((d) => d.ratio !== null && Math.abs(d.ratio - 1) <= 2e-3));
+  G.tRot = !!(TB && TB.rot.length && TB.rot.every((z) => z.ok && z.dP <= 1e-9 && (z.dRate === null || z.dRate <= 1e-3)));
   return G;
 }
 
@@ -363,12 +366,8 @@ export async function runAll(HP, o) {
   const rows = o.runner(specs);
   J.E = { n: specs.length, rows: (await rows).sort((a, b) => a.key < b.key ? -1 : a.key > b.key ? 1 : 0) }; tick('E');
   J.ana = Object.fromEntries(sysAll.map((s) => [s, L.analyticOf(baseOf(HP, s))]));
-  const T = partT(J.E.rows, P, J.ana);
-  T.qty = qtyTable(T, sysAll, P.divs);
-  T.jTable = qtyTable(T, ['acen'], P.jDivs).filter((q) => q.col === 'J' || q.col === 'on');
-  T.jDiff = (() => { const out = []; for (const d of P.jDivs) { const a = L.rowOf(T.R, 'acen', 'J', d), b = L.rowOf(T.R, 'acen', 'on', d); out.push({ div: d, rate: (a && b) ? a.rate - b.rate : null, P: (a && b) ? a.P - b.P : null, same: (a && b) ? a.hashAll === b.hashAll : null }); } return out; })();
-  delete T.R; J.T = T; tick('T');
-  const hypo = SYSTEMS.map((s) => ({ key: s.key, book: L.siblingOf(baseOf(HP, s.key), 'tr') })).concat([{ key: 'toy', book: L.siblingOf(baseOf(HP, 'eq-e'), 'tr') }]);
+  J.T = tablesOf(J.E.rows, P, J.ana); tick('T');
+  const hypo = SYSTEMS.map((s) => ({ key: s.key, book: L.siblingOf(baseOf(HP, s.key), 'tr') })).concat([{ key: 'eq-e', book: L.siblingOf(baseOf(HP, 'eq-e'), 'tr') }]);
   J.X = partX(hypo); tick('X');
   J.N = partN(J.I, J.A); J.F = partF(J.T, P); tick('NF');
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean); J.timing = tm;
@@ -394,10 +393,10 @@ export async function main() {
   const R = await runAll(HP, { quick, plan: quick ? QUICK : PLAN, runner: (specs) => poolRun(specs, NW, self, TARGET) });
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w321b-geo3bin.mjs', target: TARGET, targetSha256, reuseFrom: null,
     ruling: '原仮定者の予定(第123報)「geoPN=3の予定: 連星サンプル群のgeoPN=3版を用意する」・統括の検証項目 R267(策定の段 S1)。在位の本の宣言・エンジンの式・受理の判定は変えない(器・lib・正本・文書だけ —— 内蔵の本は足さない)',
-    invSqVersion: HP.REL_DRAG_INVSQ_VERSION || null, geoModeVersion: HP.GEO_MODE_VERSION || null, ...R };
+    invSqVersion: HP.REL_DRAG_INVSQ_VERSION || null, geoModeVersion: HP.geoModeOf({}).version || null, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w321b-geo3bin.mjs', 'tests/lib-w321b-geo3bin.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w320d-rulebooks.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第321便b', target: TARGET, code: CODE, inputs: [TARGET, SCOPE_ALL_FILE] }), {
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第321便b', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, stage: 'geo3bin',
     engine: 'Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・子プロセス ' + NW + ')',
     literature: [L.F_J.why], notClaim: NOT_CLAIM });

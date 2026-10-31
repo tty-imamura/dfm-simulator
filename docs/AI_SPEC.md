@@ -4437,3 +4437,10 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **AN481**: 変異試験(tools/an481-probe.mjs)—— 受理器だけを閉包の外へ出す型では、受理の段と步の段を一緒に足す変更(第319便a の型)の鎖は減らない。validatePreset を丸ごと止める型は既存の拒否の条件の変更を見落とす。推奨は実行した関数の閉包(器の走行の coverage を刻む版 7 —— 本便は実装しない)。
 - **段の副産物の md**: 再生成表の `BYPRODUCTS_320D` を段の書きに入れた(鎖の JSON の writes)。SAMPLE_STATUS は保存 QA の来歴(1 便遅れ)と「html を読まない」段の区分を書く。
 - **AN455・AN477**: drag3d-298c・semic-302d の領域の宣言に ACCEPT_REASONS・invsq-309a・invsq-310a の後に入った本の除外を宣言の条件(K1 の規則の宣言)へ —— 外した本は ruleBooks に数える(既存の値は不変)。
+
+## 160. 第321便b —— 連星の geoPN=3 版の S1(在位の連星の一覧・同じ入力の geo1 参照 ↔ geo3 慣性版の兄弟の写しの量ごとの表・J の列の宣言の可否・NS の観測の自転の経路の材料・既存の器の除外)(原仮定者の予定(第123報)「geoPN=3の予定: 連星サンプル群のgeoPN=3版を用意する」・統括の検証項目 R267・**器と lib と正本と QA と文書だけ** —— html・宣言の鍵・正準形・エンジンの式・受理の判定・`S._core` は不変・内蔵の本は足さない・**SYSTEM_PROMPT には載せない**)
+
+- **器と正本**: `tests/exp-w321b-geo3bin.mjs`(版 w321b-geo3bin-1・`W321B_OUT`・`W321B_QUICK`・`W321B_WORKERS` —— 既定 2)・lib `tests/lib-w321b-geo3bin.mjs`(版 w321b-geo3bin-lib-1 —— 写しの宣言の型 siblingOf・玩具 toyBook・解析の目安 analyticOf・量ごとの差の表)・文書の lib `tests/lib-w321b-geo3bindoc.mjs` → 正本 `tests/out/geo3bin-w321b.json`(段 geo3bin-321b)。
+- **中身**: 在位の連星 31 本の宣言から解決する法則と build した S の法則(31 本とも同じ・geoPN=3 の連星の本は無い)・S.spin と観測の自転のチャネル(pulse・spinDipole)・同じ入力の geo1 参照 ↔ geo3 慣性版(K1 + rdRule "kappaM" の R_d = Y_k m・kFrame 0・λ_PN 0・G_loc kappaC2)の兄弟の写し(玩具 4・シリウス・α Cen × OFF/G_loc/並進だけ/回転 ON × h・h/2・h/4 × 8 公転)の近点の率・周期・離心率・口座の量ごとの表 —— geo3 慣性版の近点の移動は geo1 より (4/3)η だけ大きい(有限質量比の一次の予測)・α Cen の回転 ON は並進だけと状態のビット同一(源の回転のモーメントの半径 R_d が倍精度の下)・J の列は宣言の可否と α Cen の 1 列。
+- **QA**: `docs.geo3Bin321b`(新設 —— 正本の門・純関数の作り直し・在位の連星の一覧をその場の html と照合〔新しい連星の本が入ったら器を走らせ直す〕・器と QA の名指しの除外・PHYSICS〔第321便b〕の表と数・必須の語・禁句)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(本の宣言の鍵は増えていない)。AI が連星の geo3 版の本を作るときも、geoPN の番号だけで法則が決まると書かない(宣言 → 実行の法則を確かめる)・周期だけの一致を系全体の合格に広げない・NS の観測の Ω を S.spin に写さない(値域の 83〜185 倍で飽和)。

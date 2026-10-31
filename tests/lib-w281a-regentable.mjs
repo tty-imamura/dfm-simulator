@@ -1517,6 +1517,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/nbcompose-w320c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第320便c: 太陽系近傍の銀河の軸の源の合成(中心 1 体と銀河の渦の中の半渦度 —— 重ならない成分のベクトル和・κ_v は宣言する対応)を第319便b の宣言の模型の写しで測る(源の半渦度の格子の感度と環の積分の連続の値・中心と残余の分割・6 天体の拮抗)—— エンジン・在位の本は変えない・半渦度を受け手の軸へ直結する項は足さない' }),
   // ==== 第320便c の塊(ここまで)====
+  // ==== 第321便b の塊(ここから)====
+  // ---- 第321便b(原仮定者の予定(第123報)「geoPN=3の予定: 連星サンプル群のgeoPN=3版を用意する」・統括の検証項目 R267 —— 策定の段 S1): **連星の geoPN=3 版の S1 の器**
+  //   (段 geo3bin-321b —— I 在位の連星の一覧〔受理した宣言から —— 宣言 → 実行の法則・S.spin と観測の自転のチャネル・三次元で拒否される鍵・較正母集団〕・A 受理の表
+  //   〔兄弟の写し・J の列の宣言の可否・NS の三次元の写し〕・E 走行〔玩具 4・シリウス・α Cen × geo1 参照 ↔ geo3 慣性版の列 × h・h/2・h/4 × 8 公転 + 回転の共変 + α Cen の J〕・
+  //   T 量ごとの差の表・口座・ビットの比較・X 既存の器の除外〔数え上げの述語の写し〕・N NS の観測の自転の経路の材料・F 第一陣の順の材料)。html・エンジン・在位の本は変えない
+  //   (写しは器の中だけ —— 内蔵の本は足さない)。html を読む(他の正本・データは読まない(html の生成領域の後)。
+  //   子プロセス 2 本(W321B_WORKERS)。所要は第321便b の枝の実測 77〜111 s(**並走の秒** —— 4 枝並走の容器・負荷平均 3〜6 —— 統括が混まない箱で測り直す)
+  S('geo3bin-321b', 'node tests/exp-w321b-geo3bin.mjs', ['tests/out/geo3bin-w321b.json'], 80, { secSource: 'w321b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/geo3bin-w321b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/T/qty/*/wallSec', '/T/jTable/*/wallSec']) },
+    note: '第321便b: 連星の geoPN=3 版の S1 —— 在位の連星の一覧(宣言と実行の法則・spin の経路)と、同じ入力の geo1 参照 ↔ geo3 慣性版(K1 + rdRule "kappaM"・kFrame 0・λ_PN 0・G_loc kappaC2)の兄弟の写しの量ごとの差の表(玩具 → シリウス無自転 → α Cen —— OFF/並進だけ/回転 ON・刻みの感度)・J の列の宣言の可否・NS の観測の自転の経路の材料(在位の本の宣言・エンジンは変えない・連星の観測と一致したとは書かない)' }),
+  // ==== 第321便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

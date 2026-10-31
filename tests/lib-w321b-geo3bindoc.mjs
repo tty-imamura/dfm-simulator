@@ -30,11 +30,11 @@ export function physicsTablesGeo3Bin(J) {
     '|---|---|---|---|---|---|---|---|---|---|');
   for (const r of I.rows) {
     const obs = r.obsSpin.map((z, i) => z ? 'b' + i + ' ' + (z.pulse !== null ? 'pulse Ω ' + fx(z.pulse, 1) : 'spinDipole Ω ' + fx(z.spinDipole, 3)) + '(' + z.source + ')' : null).filter(Boolean).join('・') || '—';
-    out.push(`| ${r.emoji} ${tick(r.id)} | ${r.principle ? '原理' : r.target} | ${r.familyRole} | ${r.coord} | ${r.geoPN}・${r.kFrame === null ? '—' : r.kFrame}・${r.lambdaPN === null ? '—' : r.lambdaPN} | ${r.lawDecl} ${r.consistent ? '=' : '≠'} ${r.lawSim}(${r.ge}) | ${(r.spinState || []).map((s) => fx(s, 4)).join('・')} | ${obs} | ${r.deny3d.join('・') || '—'} | ${r.inPopulation ? '内(' + r.calibration + ')' : '外'} |`);
+    out.push(`| ${r.emoji} ${tick(r.id)} | ${r.principle ? '原理' : r.target} | ${r.familyRole} | ${r.coord} | ${r.geoPN}・${r.kFrame === null ? '—' : r.kFrame}・${r.lambdaPN === null ? '—' : r.lambdaPN} | ${r.lawDecl} ${r.consistent ? '=' : '≠'} ${r.lawSim}(${r.ge}) | ${(r.spinState || []).slice(0, 3).map((s) => fx(s, 4)).join('・')}${(r.spinState || []).length > 3 ? '…(粒子 ' + r.spinState.length + ')' : ''} | ${obs} | ${r.deny3d.join('・') || '—'} | ${r.inPopulation ? '内(' + r.calibration + ')' : '外'} |`);
   }
   // 表 2 兄弟の写しの量(最も細かい刻み)
-  out.push('', `| 系 | 列 | 公転周期 P(同方向の周回) | 近点から近点の周期 | 離心率 e | 近点の率 [rad/公転](h/${fin(J)}) | 近点の率の刻みの帯 | 走行の秒(h・h/2・h/4 の和) |`, '|---|---|---|---|---|---|---|---|');
-  for (const q of T.qty.filter((z) => z.col !== 'g1_2dx' && z.col !== 'J')) out.push(`| ${sysJa(q.sys)} | ${COL_SHORT[q.col]} | ${fx(q.P, 6)} | ${q.Pa === null ? '—' : fx(q.Pa, 6)} | ${fx(q.e, 8)} | ${e3(q.rate)} | ${e2(q.bandRate)} | ${fx(q.wallSec, 1)} |`);
+  out.push('', `| 系 | 列 | 公転周期 P(同方向の周回) | 近点から近点の周期 | 離心率 e | 近点の率 [rad/公転](h/${fin(J)}) | 近点の率の刻みの帯 |`, '|---|---|---|---|---|---|---|');
+  for (const q of T.qty.filter((z) => z.col !== 'g1_2dx' && z.col !== 'J')) out.push(`| ${sysJa(q.sys)} | ${COL_SHORT[q.col]} | ${fx(q.P, 6)} | ${q.Pa === null ? '—' : fx(q.Pa, 6)} | ${fx(q.e, 8)} | ${e3(q.rate)} | ${e2(q.bandRate)} |`);
   // 表 3 量ごとの差(近点の率)
   out.push('', `| 系 | 差 | 近点の率の差 [rad/公転] h・h/2・h/4 | 刻みの帯 | 解析の目安 | 比(h/${fin(J)}) | 周期 P の差(h/${fin(J)}) | 近点から近点の周期の差 | 離心率の差 |`, '|---|---|---|---|---|---|---|---|---|');
   for (const sys of J.plan.toys.concat(['sirius', 'acen'])) for (const dd of DIFFS) {
@@ -58,15 +58,13 @@ export function physicsTablesGeo3Bin(J) {
   // 表 7 NS の観測の自転の経路の材料
   out.push('', `| 本 | 観測の Ω(pulse・spinDipole —— 本の単位) | S.spin の値域の上限 ${A.spinRange[1]} に対する倍率 | S.spin へ写した値(受理の後) | R_d/R(規則 Y_k m) | 素の三次元の写しで拒否される鍵 | 二次元の表示の軸 | 質量の推定 |`, '|---|---|---|---|---|---|---|---|');
   for (const z of N.rows) out.push(`| ${tick(z.id)} | ${z.omegaObs.map((w) => w === null ? '—' : fx(w, 1)).join('・')} | ${z.overRange.map((w) => w === null ? '—' : fx(w, 1)).join('・')} | ${(z.spinAfterCopy || []).map((s) => fx(s, 1)).join('・')}${z.spinClamped ? '(値域に修正)' : ''} | ${z.rdOverR.map((w) => fx(w, 3)).join('・')} | ${z.deny3d.join('・') || '—'} | ${z.spinAxis2d.map((w) => w === null ? '—' : fx(w, 1) + '°').join('・')} | ${z.massBasis || '—'} |`);
-  // 表 8 既存の器の除外
-  out.push('', '| 器・QA | 除外の型 | 外している本 | 新しい連星の geo3 の本(写しの述語・静的な読み) |', '|---|---|---|---|');
-  for (const s of X.laterSets) { const pr = J.X.hypo.map((h) => (h.preds.find((p) => p.stage === stageOf(s.file)) || {}).hit); out.push(`| ${tick(s.file)} | ${tick(s.name)}(名指し・使う所 ${s.uses}) | ${s.ids.map(tick).join('・')} | ${pr.some(Boolean) ? '数え上げに入る(名指しの外 —— 器を触る便)' : '入らない'} |`); }
-  for (const q of X.qaNamed) out.push(`| ${tick(q.qa)} | QA の名指し(${tick(q.gen)}) | ${tick(q.book)} | 同じ型の除外か宣言の条件が要る |`);
-  out.push(`| ${tick('tests/lib-w320d-rulebooks.mjs')} | 宣言の条件 isRuleBookNoCopy | K1 の短い形で生まれた本 | ${J.X.hypo.every((h) => h.ruleBook) ? '当たる(ruleBooks に数えられる —— 値が変わる)' : '当たらない'} |`);
+  // 表 8 既存の器の除外(第320便d の表 1 の 4 段の数え上げの述語の写しと宣言の条件 —— 写しの geo3 の連星の本〔並進だけ〕に当てる)
+  const hk = X.hypo.map((h) => h.key);
+  out.push('', `| 段(〔第320便d〕の表 1・宣言の条件) | 数え上げの述語(写し) | ${hk.map(sysJa).join(' | ')} |`, '|---|---|' + hk.map(() => '---|').join(''));
+  for (const p of X.hypo[0].preds) out.push(`| ${tick(p.stage)} | ${p.pred} | ${X.hypo.map((h) => (h.preds.find((z) => z.stage === p.stage) || {}).hit ? '数え上げに入る' : '入らない').join(' | ')} |`);
+  out.push(`| ${tick('isRuleBookNoCopy')}(第320便d) | ${X.ruleBooksWhy} | ${X.hypo.map((h) => h.ruleBook ? '当たる(ruleBooks に数える)' : '当たらない').join(' | ')} |`);
   // 表 9 第一陣の順の材料
-  out.push('', '| 段 | 本の数 | 走行の秒(本便の器 —— 並走の秒) | 門 | 要る宣言 |', '|---|---|---|---|---|');
-  for (const f of J.F) out.push(`| ${f.ja} | ${f.books} | ${f.wallSec === null ? '—' : fx(f.wallSec, 1)} | ${f.gate} | ${f.needs} |`);
+  out.push('', '| 段 | 本の数 | 門 | 要る宣言 |', '|---|---|---|---|');
+  for (const f of J.F) out.push(`| ${f.ja} | ${f.books} | ${f.gate} | ${f.needs} |`);
   return out.join('\n');
 }
-const STAGE_OF = Object.freeze({ 'tests/exp-w301g-wbglaw.mjs': 'wbglaw-301g', 'tests/exp-w302c-wbgest.mjs': 'wbgest-302c', 'tests/exp-w302d-semic.mjs': 'semic-302d', 'tests/exp-w303a-refit.mjs': 'refit-303a' });
-function stageOf(f) { return STAGE_OF[f] || null; }

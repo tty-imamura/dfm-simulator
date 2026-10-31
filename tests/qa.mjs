@@ -2509,6 +2509,9 @@ lastAddAt = Date.now();
       // ==== 第320便c の塊(ここから)==== 太陽系近傍の銀河の軸の源の合成の器(nbcompose-320c —— 1 プロセス・步は進めない)。領域 REGEN_SCOPE を刻む
       'tests/out/nbcompose-w320c.json',
       // ==== 第320便c の塊(ここまで)====
+      // ==== 第321便b の塊(ここから)==== 連星の geoPN=3 版の S1 の器(geo3bin-321b —— 在位の連星の一覧・兄弟の写し・子プロセス 2 本)。領域 REGEN_SCOPE を刻む
+      'tests/out/geo3bin-w321b.json',
+      // ==== 第321便b の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
@@ -91141,6 +91144,139 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第320便d の塊(ここまで)====
+// ==== 第321便b の塊(ここから —— docs.geo3Bin321b の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第321便b(原仮定者の予定(第123報)「geoPN=3の予定: 連星サンプル群のgeoPN=3版を用意する」・統括の検証項目 R267 —— 策定の段 S1):
+// ----   **連星の geoPN=3 版の S1**(新設 —— root は SKIP)。正本・純関数・文書と、その場の html の宣言(page —— 在位の連星の一覧の照合)を読む。
+// ----   世代切替 = beta 対象 ∧ 器 tests/exp-w321b-geo3bin.mjs ∧ lib tests/lib-w321b-geo3bin.mjs ∧ 文書の lib tests/lib-w321b-geo3bindoc.mjs(html・エンジン・在位の本は変えない)。
+// ----   docs.geo3Bin321b(正本 tests/out/geo3bin-w321b.json):
+// ----     ① 正本の門(器の gatesOf で作り直して同じ・全部真)・試走でない・計画が器の PLAN・版/来歴(w272e-1)・領域 hash(完全)・文献の値の出典の欄
+// ----     ② 純関数で作り直す: 段 T(正本の走行の行から tablesOf —— 量ごとの差・刻みの帯・解析の目安との比・口座・ビットの比較・回転の共変・実行の法則)・段 N・F・
+// ----        解析の目安(玩具は lib の玩具の宣言から・シリウスと α Cen はその場の html の本から analyticOf)・段 X(写しの geo3 の連星の本に数え上げの述語の写しと isRuleBookNoCopy)
+// ----     ③ 在位の連星の一覧をその場の html から引き直して正本の行と同じ(連星の 3 族〔calTargetOf の式の写し〕+ 原理の連星の名指し —— 宣言の geoPN・kFrame・λ_PN・座標・
+// ----        宣言から解決する法則と build した S の法則・S.spin の状態・観測の自転のチャネル・三次元で拒否される鍵・較正母集団)—— **新しい連星の本が入ったら器を走らせ直す**(AN492)
+// ----     ④ 器の名指しの除外(LATER_BOOKS_*)の段がすべて数え上げの述語の写し(ENUM_PRED_COPIES)にある・QA の名指しの除外が PHYSICS〔第321便b〕に書いてある(その場の本文 ⊆ 文書)
+// ----     ⑤ 表の行と数が PHYSICS〔第321便b〕に逐語・節が「## 7.」の前・必須の語・AI_SPEC §160・CHANGELOG・再生成の段・.gitignore・post-merge・CANON・煙試験の窓
+// ----     ⑥ 書かない語・禁句・新しい説明に裸の係数記号が無いこと・新しい文の r_d(節と器と lib と文書の lib・AI_SPEC §160)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const gHarn = path.join(ROOT, 'tests', 'exp-w321b-geo3bin.mjs'), gLib = path.join(ROOT, 'tests', 'lib-w321b-geo3bin.mjs'), gDoc = path.join(ROOT, 'tests', 'lib-w321b-geo3bindoc.mjs');
+  const gOut = path.join(ROOT, 'tests', 'out', 'geo3bin-w321b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(gHarn) && fs.existsSync(gLib) && fs.existsSync(gDoc))) {
+    console.log('SKIP docs.geo3Bin321b(第321便b の連星の geoPN=3 版の S1 の器の前の世代 — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+  const near321b = (a, b, tol = 1e-12) => (typeof a === 'number' && typeof b === 'number') ? (Object.is(a, b) || Math.abs(a - b) <= tol * Math.max(Math.abs(a), Math.abs(b)))
+    : (a && b && typeof a === 'object' && typeof b === 'object') ? (Array.isArray(a) === Array.isArray(b) && Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => Object.prototype.hasOwnProperty.call(b, k) && near321b(a[k], b[k], tol)))
+    : JSON.stringify(a) === JSON.stringify(b);
+  let X = null, L0 = null, D0 = null, err0 = null;
+  try { X = await import('file://' + gHarn); L0 = await import('file://' + gLib); D0 = await import('file://' + gDoc); } catch (e) { err0 = String(e).slice(0, 160); }
+  const bad = [], cases = [];
+  const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QA0 = rd('tests/qa.mjs'), CLx = rd('CHANGELOG.md'), SM = rd('tools/harness-smoke.mjs');
+  const i0 = PH.indexOf('〔第321便b — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+  const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+  const strip = (t) => t.replace(/「[^」]*」/g, '');
+  const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /一致した/, /確認した/, /法則を確かめた/, /シュヴァルツシルト半径そのもの/, /現実の核/, /検証が完了した/, /地平面を判定した/, /ダークマターを説明した/,
+    /暦表に一致した/, /内部熱を説明した/, /金星の逆転を説明した/, /近点移動を説明した/, /観測と一致した/, /合わせた/];
+  const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+  const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+  const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+  let J = null;
+  if (err0) bad.push('器/lib が読めない: ' + err0);
+  try { J = JSON.parse(fs.readFileSync(gOut, 'utf8')); } catch (e) { bad.push('正本 geo3bin が読めない'); }
+  if (J && X && L0 && D0) {
+    try {
+      // ①
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('① 正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('① 正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('① 門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length) bad.push('① 門の数が器と違う');
+      if (J.quick === true) bad.push('① 正本が試走(QUICK)');
+      if (!near321b(J.plan, clone(X.PLAN))) bad.push('① 計画が器の PLAN と違う');
+      if (J.version !== X.HARNESS_VERSION || J.libVersion !== L0.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.stage === 'geo3bin')) bad.push('① 正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('① 正本に領域 hash(完全)が無い');
+      if (!(J.meta && Array.isArray(J.meta.literature) && J.meta.literature.length === 1 && J.meta.literature[0].indexOf('一次資料に当たっていない') >= 0)) bad.push('① 文献の値の出典の欄(meta.literature)');
+      cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して同じ)・走行 ${J.E.n} 本・在位の連星 ${J.I.n} 本`);
+      // ② 純関数で作り直す
+      const RAW = await page.evaluate((ids) => ids.map((id) => { const p = HP.allPresets().find((q) => q.id === id); return p ? JSON.parse(JSON.stringify({ id: p.id, familyRole: p.familyRole, physics: p.physics, bodies: p.bodies, scaleExp: p.scaleExp || null })) : null; }), ['siriusAB', 'alphaCenAB']);
+      const baseOf = (k) => { const t = L0.TOYS.find((z) => z.key === k); if (t) return L0.toyBook(t, RAW[1].physics); return clone(RAW[k === 'sirius' ? 0 : 1]); };
+      for (const k of Object.keys(J.ana)) if (!near321b(L0.analyticOf(baseOf(k)), J.ana[k], 1e-12)) bad.push('② 解析の目安(' + k + ')を作り直すと違う');
+      const T2 = X.tablesOf(J.E.rows, J.plan, J.ana);
+      for (const k of ['diffs', 'bits', 'rot', 'acct', 'law', 'qty', 'jTable', 'jDiff', 'finest']) if (!near321b(clone(T2[k]), J.T[k], 1e-12)) bad.push('② 段 T の ' + k + ' を正本の走行の行から作り直すと違う');
+      if (!near321b(clone(X.partN(J.I, J.A)), J.N)) bad.push('② 段 N を作り直すと違う');
+      if (!near321b(clone(X.partF(J.T, J.plan)), J.F)) bad.push('② 段 F を作り直すと違う');
+      const hypo = [{ key: 'sirius', book: L0.siblingOf(baseOf('sirius'), 'tr') }, { key: 'acen', book: L0.siblingOf(baseOf('acen'), 'tr') }, { key: 'eq-e', book: L0.siblingOf(baseOf('eq-e'), 'tr') }];
+      if (!near321b(clone(X.partX(hypo)), J.X)) bad.push('② 段 X(写しの geo3 の連星の本 × 数え上げの述語の写し・isRuleBookNoCopy)を作り直すと違う');
+      cases.push(`② 段 T(差 ${J.T.diffs.length} 行・口座 ${J.T.acct.length} 行・回転の共変 ${J.T.rot.length} 行)・段 N・F・X・解析の目安 ${Object.keys(J.ana).length} 系を純関数で作り直して同じ`);
+      // ③ 在位の連星の一覧(その場の html)
+      const ALL = await page.evaluate(() => HP.allPresets().map((p) => ({ id: p.id, familyId: p.familyId || null })));
+      const ids = ALL.filter((p) => L0.BIN_TARGETS.includes(L0.calTargetOf(p)) || L0.PRINCIPLE_BINARIES.some((z) => z.id === p.id)).map((p) => p.id);
+      const LIVE = await page.evaluate((a) => a.ids.map((id) => {
+        const p = HP.allPresets().find((q) => q.id === id), v = HP.validatePreset(JSON.parse(JSON.stringify(p))), ph = (v.ok ? v.preset : p).physics || {};
+        let lawSim = null, ge = null, spinState = null;
+        if (v.ok) { const S = HP.coord3d.makeSim(); S.build(JSON.parse(JSON.stringify(v.preset))); lawSim = HP.geoLawOfSim(S); ge = HP.geoEffectiveMode(S); spinState = Array.from(S.spin); }
+        return { id, accepted: v.ok === true, coord: ph.coord === '3d' ? '3d' : '2d', geoPN: ph.geoPN === undefined ? 0 : ph.geoPN, kFrame: ph.kFrame === undefined ? null : ph.kFrame, lambdaPN: ph.lambdaPN === undefined ? null : ph.lambdaPN,
+          relDragLaw: ph.relativeDrag ? (ph.relativeDrag.law || null) : null, lawDecl: HP.geoModeOf(ph).law, lawSim, ge, spinState, familyRole: p.familyRole || 'primary',
+          obsSpin: (p.bodies || []).map((b) => (b.pulse || b.spinDipole) ? { pulse: b.pulse ? b.pulse.omega : null, spinDipole: b.spinDipole ? b.spinDipole.omega : null, source: (b.pulse || b.spinDipole).source } : null),
+          deny3d: [...new Set((p.bodies || []).flatMap((b) => a.deny.filter((k) => b[k] !== undefined)))], inPopulation: !!(p.status && a.pop.includes(p.status.calibration)) };
+      }), { ids, deny: L0.BODY_DENY3D.slice(), pop: L0.POP_VALUES.slice() });
+      const jIds = J.I.rows.map((r) => r.id);
+      if (JSON.stringify(ids) !== JSON.stringify(jIds)) bad.push('③ 在位の連星の本の並びがその場の html と違う(新しい連星の本 —— 器を走らせ直す): 正本に無い ' + ids.filter((x) => !jIds.includes(x)).join(',') + ' / html に無い ' + jIds.filter((x) => !ids.includes(x)).join(','));
+      let nRow = 0;
+      for (const z of LIVE) { const r = J.I.rows.find((w) => w.id === z.id); if (!r) continue; nRow++;
+        for (const k of Object.keys(z)) if (k !== 'id' && !near321b(z[k], r[k], 0)) bad.push('③ ' + z.id + ' の ' + k + ' がその場の html と違う'); }
+      cases.push(`③ 在位の連星 ${nRow} 本(連星の 3 族 + 原理の名指し)の宣言・宣言から解決する法則と build した S の法則・S.spin・観測の自転のチャネル・三次元で拒否される鍵・母集団がその場の html と同じ`);
+      // ④ 器と QA の名指しの除外
+      const stages = new Set(X.ENUM_PRED_COPIES.map((e) => e.stage)), seen = [];
+      for (const f of fs.readdirSync(path.join(ROOT, 'tests')).filter((x) => /^(exp|lib)-.*\.mjs$/.test(x)).sort()) {
+        const t = rd('tests/' + f); if (!/^const LATER_BOOKS_[A-Za-z0-9_]+ = new Set\(/m.test(t)) continue;
+        const m = new RegExp("S\\('([^']+)', 'node tests/" + f.replace(/[.]/g, '\\.') + "'").exec(RT), st = m ? m[1] : null; seen.push(st || f);
+        if (!st || !stages.has(st)) bad.push('④ 器 ' + f + ' の名指しの除外の段 ' + st + ' が数え上げの述語の写し(ENUM_PRED_COPIES)に無い');
+      }
+      const reQ = /!\((W\d{3}[A-Z]_[A-Z0-9_]+) && [A-Za-z0-9_.]*id === '([A-Za-z0-9]+)'\)/, reAdd = /(?:^|[^.\w])add\('((?:behavior|preset|docs|lint|ui|ai|params)\.[A-Za-z0-9_.\-]+)'/, QL = QA0.split('\n'), qn = new Set();
+      for (let i = 0; i < QL.length; i++) { if (!reQ.test(QL[i])) continue; let id = null; for (let j = i; j < QL.length && !id; j++) { const a = reAdd.exec(QL[j]); if (a) id = a[1]; } if (id) qn.add(id); }
+      for (const q of qn) if (sec.indexOf('`' + q + '`') < 0) bad.push('④ QA の名指しの除外 ' + q + ' が PHYSICS〔第321便b〕に無い');
+      cases.push(`④ 器の名指しの除外 ${seen.length} 段(${seen.join('・')})は数え上げの述語の写しにある・QA の名指しの除外 ${qn.size} 本は PHYSICS〔第321便b〕にある`);
+      // ⑤
+      if (!sec) bad.push('PHYSICS〔第321便b〕が無い');
+      else {
+        const rows = D0.physicsTablesGeo3Bin(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'));
+        let nMiss = 0; for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第321便b〕の表に行が無い: ' + r.slice(0, 70)); }
+        const nums = D0.docNumbersGeo3Bin(J), missN = nums.filter((x) => sec.indexOf(x) < 0); if (missN.length) bad.push('PHYSICS〔第321便b〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第321便b〕が「## 7. 論文」の後');
+        const ia = PH.indexOf('〔第321便a — '), i320 = PH.indexOf('〔第320便 — 統括');
+        if ((ia >= 0 && ia > i0) || !(i320 >= 0 && i320 < i0)) bad.push('PHYSICS〔第321便b〕の位置(〔第320便 — 統括〕と〔第321便a〕の後)');
+        for (const w of ['R267', '第123報', 'AN492', 'AN499', 'exp-w321b-geo3bin.mjs', 'lib-w321b-geo3bin.mjs', 'lib-w321b-geo3bindoc.mjs', 'geo3bin-w321b.json', 'docs.geo3Bin321b', 'W321B_OUT', 'W321B_QUICK', 'W321B_WORKERS',
+          'geoLawResolveInto', 'geoEffectiveMode', 'geoLawOfSim', 'R_d = Y_k m', 'G_loc', 'λ_PN', 'kFrame', '(4/3)η', 'q_1PN', 'pulse', 'spinDipole', 'S.spin', '値域', 'sourceMoment', 'f は天体ごと', 'hold-out',
+          '刻みの感度', '周期だけ', '量ごと', '決断事項の候補', '言わないこと', 'S2', '文献の値', '一次資料に当たっていない', 'LATER_BOOKS_318', 'isRuleBookNoCopy'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第321便b〕に「' + w + '」が無い');
+        cases.push(`⑤ PHYSICS〔第321便b〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
+      }
+      { const ai = AS.indexOf('## 160.'); if (ai < 0) bad.push('AI_SPEC に §160 が無い');
+        else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w321b-geo3bin.mjs', 'lib-w321b-geo3bin.mjs', 'geo3bin-w321b.json', 'docs.geo3Bin321b', 'R267', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §160 に「' + w + '」が無い'); } }
+      { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, ci + 60000) : ''; if (cs.indexOf('第321便b') < 0) bad.push('CHANGELOG の beta の節に第321便b が無い'); }
+      if (RT.indexOf("S('geo3bin-321b', 'node tests/exp-w321b-geo3bin.mjs', ['tests/out/geo3bin-w321b.json']") < 0 || !/secSource: 'w321b-branch'/.test(RT)) bad.push('再生成の段 geo3bin-321b');
+      if (GI.indexOf('!tests/out/geo3bin-w321b.json') < 0) bad.push('.gitignore の例外');
+      if (!(PM.indexOf('# ==== 第321便b の塊(ここから)====') >= 0 && PM.indexOf('docs.geo3Bin321b') >= 0)) bad.push('post-merge の ③′ に第321便b のブロックが無い');
+      if (QA0.indexOf("'tests/out/geo3bin-w321b.json',") < 0) bad.push('CANON(lint.canon304)に第321便b の正本が無い');
+      if (SM.indexOf("'geo3bin-321b': { env: { W321B_QUICK: '1'") < 0) bad.push('煙試験の窓の表(SMOKE_KNOBS)に geo3bin-321b の試走が無い');
+      // ⑥
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第321便b〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第321便b〕に禁句(' + w.length + ' 字)');
+      if (/κ(?!_D)/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第321便b〕に裸の κ(κ は κ_D だけ —— コードの書式の外)');
+      if (/(?<![\w`])r_d(?![\w`])/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第321便b〕の新しい文に r_d(引きずり半径は R_d)');
+      for (const f of ['tests/exp-w321b-geo3bin.mjs', 'tests/lib-w321b-geo3bin.mjs', 'tests/lib-w321b-geo3bindoc.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); if (tx.indexOf('κ') >= 0) bad.push(f + ' に κ の字'); for (const re of NOT) if (re.test(tx)) bad.push(f + ' に書かない語 ' + re.source); }
+      { const ai = AS.indexOf('## 160.'), as = ai >= 0 ? AS.slice(ai, ai + 8000) : ''; for (const w of NG.concat(NG2)) if (as.indexOf(w) >= 0) bad.push('AI_SPEC §160 に禁句(' + w.length + ' 字)'); }
+      cases.push('⑥ 書かない語・禁句・裸の κ・新しい文の r_d(節と器と lib と文書の lib・AI_SPEC §160)');
+    } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+  }
+  add('docs.geo3Bin321b', bad.length === 0,
+    `**連星の geoPN=3 版の S1 の正本と文書**(第321便b・原仮定者の予定(第123報)・R267 —— 正本 geo3bin-w321b.json・在位の本の宣言・エンジンの式・受理の判定は不変・内蔵の本は足さない・写しの比較で観測との照合ではない・周期だけの一致を系全体に広げない): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ==== 第321便b の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
