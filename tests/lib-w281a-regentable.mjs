@@ -1528,6 +1528,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/geo2v3-w321a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/parts/base/rows/h/wallSec', '/parts/base/rows/h2/wallSec', '/parts/degen/rows/*/wallSec']) },
     note: '第321便a: geoPN=2(v−u 則)の輸送の 3 成分の純関数の面への退化(html の 2D の步と同じビット)・回転共変・解析の場・初回の履歴・口座と galaxyGeo2 の 2D の基準の凍結(3D の本は新しい ID —— 第322便〜)—— エンジン・在位の本は変えない' }),
   // ==== 第321便a の塊(ここまで)====
+  // ==== 第321便b の塊(ここから)====
+  // ---- 第321便b(原仮定者の予定(第123報)「geoPN=3の予定: 連星サンプル群のgeoPN=3版を用意する」・統括の検証項目 R267 —— 策定の段 S1): **連星の geoPN=3 版の S1 の器**
+  //   (段 geo3bin-321b —— I 在位の連星の一覧〔受理した宣言から —— 宣言 → 実行の法則・S.spin と観測の自転のチャネル・三次元で拒否される鍵・較正母集団〕・A 受理の表
+  //   〔兄弟の写し・J の列の宣言の可否・NS の三次元の写し〕・E 走行〔玩具 4・シリウス・α Cen × geo1 参照 ↔ geo3 慣性版の列 × h・h/2・h/4 × 8 公転 + 回転の共変 + α Cen の J〕・
+  //   T 量ごとの差の表・口座・ビットの比較・X 既存の器の除外〔数え上げの述語の写し〕・N NS の観測の自転の経路の材料・F 第一陣の順の材料)。html・エンジン・在位の本は変えない
+  //   (写しは器の中だけ —— 内蔵の本は足さない)。html を読む(他の正本・データは読まない(html の生成領域の後)。
+  //   子プロセス 2 本(W321B_WORKERS)。所要は第321便b の枝の実測 77〜111 s(**並走の秒** —— 4 枝並走の容器・負荷平均 3〜6 —— 統括が混まない箱で測り直す)
+  S('geo3bin-321b', 'node tests/exp-w321b-geo3bin.mjs', ['tests/out/geo3bin-w321b.json'], 80, { secSource: 'w321b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/geo3bin-w321b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/T/qty/*/wallSec', '/T/jTable/*/wallSec']) },
+    note: '第321便b: 連星の geoPN=3 版の S1 —— 在位の連星の一覧(宣言と実行の法則・spin の経路)と、同じ入力の geo1 参照 ↔ geo3 慣性版(K1 + rdRule "kappaM"・kFrame 0・λ_PN 0・G_loc kappaC2)の兄弟の写しの量ごとの差の表(玩具 → シリウス無自転 → α Cen —— OFF/並進だけ/回転 ON・刻みの感度)・J の列の宣言の可否・NS の観測の自転の経路の材料(在位の本の宣言・エンジンは変えない・連星の観測と一致したとは書かない)' }),
+  // ==== 第321便b の塊(ここまで)====
   // ==== 第321便c の塊(ここから)====
   // ---- 第321便c(原仮定者の予定(第123報)「geoPN=4の予定: 処理を一新する。銀河の軸引きずりの知見から、銀河の回転引きずりを推定して、銀河のサンプルを作成する」・原仮定者の回答
   //   (2026-10-31 —— AN489)・決断事項 AN486・AN487・AN488・AN496・AN497・AN498・統括の検証項目 R268): **geoPN=4 の一新の S1 の器**(段 galfield-321c —— G0 比較の基準の凍結〔在位の

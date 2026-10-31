@@ -123,6 +123,9 @@ export const SMOKE_KNOBS = Object.freeze({
   // ==== 第321便a の塊(ここから)====
   'geo2v3-321a': { env: { W321A_QUICK: '1', W321A_WORKERS: '1', W321A_OUT: 'tests/out/_smoke-geo2v3-w321a.json' }, note: '試走(base を 600 步・h/2 なし・退化と共変の步を縮める —— 約 10 s〔並走の秒〕。正本は base の 12000 步と h/2 〔子プロセス 1 本〕)' },   // 第321便a
   // ==== 第321便a の塊(ここまで)====
+  // ==== 第321便b の塊(ここから)====
+  'geo3bin-321b': { env: { W321B_QUICK: '1', W321B_OUT: 'tests/out/_smoke-geo3bin-w321b.json' }, note: '試走(窓 3 公転・刻み h・h/2・玩具 2 つ —— 約 13 s。正本は子プロセス 2 本で約 80〜110 s〔並走の秒〕)' },   // 第321便b
+  // ==== 第321便b の塊(ここまで)====
   // ==== 第321便c の塊(ここから)====
   'galfield-321c': { env: { W321C_QUICK: '1', W321C_WORKERS: '1', W321C_OUT: 'tests/out/_smoke-galfield-w321c.json' }, note: '試走(G0 の窓を 200 步・40 步に・場の表 R 2 × z 3・分割 2 × 2・格子 2 段・復元の点 4 —— 1 プロセスで約 23 s。正本は子プロセス 2 本〔並走の秒〕)' },   // 第321便c
   // ==== 第321便c の塊(ここまで)====

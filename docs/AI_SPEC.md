@@ -4445,6 +4445,13 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器** tests/exp-w321a-geo2v3.mjs(段 geo2v3-321a —— 正本 tests/out/geo2v3-w321a.json): 面への退化(html の 2D の步と全状態が同じビット)・三次元の html の步(kFrame=0)と同じビット・回転共変・解析の場・初回の履歴・口座・galaxyGeo2 の 2D の基準の凍結(claim の手続き 12000 步と h/2)。QA behavior.geo2v3321a・docs.geo2v3321a。
 - **S2(第322便〜)**: dfmStep3 への接続(步・状態 S.uPz・反作用・口座)と、受理の門と実行時の門を同時に・対応した範囲だけ開ける。3D の本は新しい ID(平面 → 傾き → 有限厚)。慣性決定力・連鎖と重ねない。
 
+
+## 160. 第321便b —— 連星の geoPN=3 版の S1(在位の連星の一覧・同じ入力の geo1 参照 ↔ geo3 慣性版の兄弟の写しの量ごとの表・J の列の宣言の可否・NS の観測の自転の経路の材料・既存の器の除外)(原仮定者の予定(第123報)「geoPN=3の予定: 連星サンプル群のgeoPN=3版を用意する」・統括の検証項目 R267・**器と lib と正本と QA と文書だけ** —— html・宣言の鍵・正準形・エンジンの式・受理の判定・`S._core` は不変・内蔵の本は足さない・**SYSTEM_PROMPT には載せない**)
+
+- **器と正本**: `tests/exp-w321b-geo3bin.mjs`(版 w321b-geo3bin-1・`W321B_OUT`・`W321B_QUICK`・`W321B_WORKERS` —— 既定 2)・lib `tests/lib-w321b-geo3bin.mjs`(版 w321b-geo3bin-lib-1 —— 写しの宣言の型 siblingOf・玩具 toyBook・解析の目安 analyticOf・量ごとの差の表)・文書の lib `tests/lib-w321b-geo3bindoc.mjs` → 正本 `tests/out/geo3bin-w321b.json`(段 geo3bin-321b)。
+- **中身**: 在位の連星 31 本の宣言から解決する法則と build した S の法則(31 本とも同じ・geoPN=3 の連星の本は無い)・S.spin と観測の自転のチャネル(pulse・spinDipole)・同じ入力の geo1 参照 ↔ geo3 慣性版(K1 + rdRule "kappaM" の R_d = Y_k m・kFrame 0・λ_PN 0・G_loc kappaC2)の兄弟の写し(玩具 4・シリウス・α Cen × OFF/G_loc/並進だけ/回転 ON × h・h/2・h/4 × 8 公転)の近点の率・周期・離心率・口座の量ごとの表 —— geo3 慣性版の近点の移動は geo1 より (4/3)η だけ大きい(有限質量比の一次の予測)・α Cen の回転 ON は並進だけと状態のビット同一(源の回転のモーメントの半径 R_d が倍精度の下)・J の列は宣言の可否と α Cen の 1 列。
+- **QA**: `docs.geo3Bin321b`(新設 —— 正本の門・純関数の作り直し・在位の連星の一覧をその場の html と照合〔新しい連星の本が入ったら器を走らせ直す〕・器と QA の名指しの除外・PHYSICS〔第321便b〕の表と数・必須の語・禁句)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(本の宣言の鍵は増えていない)。AI が連星の geo3 版の本を作るときも、geoPN の番号だけで法則が決まると書かない(宣言 → 実行の法則を確かめる)・周期だけの一致を系全体の合格に広げない・NS の観測の Ω を S.spin に写さない(値域の 83〜185 倍で飽和)。
 ## 161. 第321便c —— geoPN=4 の一新の S1(比較の基準の凍結・銀河の中の任意の位置の源の流れの場の純関数・半渦度 ↔ u_φ の対照・6 天体の拮抗の符号つきの表と衛星の列・場の API の契約の案)(原仮定者の予定(第123報)・原仮定者の回答(2026-10-31 —— AN489)・決断事項 AN486・AN487・AN488・AN496・AN497・AN498・統括の検証項目 R268・**器と lib と正本と QA と文書だけ** —— html・宣言の鍵・正準形・エンジンの式・受理の判定・受け手の R_d = Y_k m・`S._core` は不変・在位の本は 1 本も宣言しない・新しい法則は足さない・**SYSTEM_PROMPT には載せない**)
 
 - **器と正本**: `tests/exp-w321c-galfield.mjs`(版 w321c-galfield-1・`W321C_OUT`・`W321C_QUICK`・`W321C_WORKERS`)・lib `tests/lib-w321c-galfield.mjs`(版 w321c-galfield-lib-1 —— 場の API の契約の版 w321c-galfield-1: `sample(positionKpc, time, sourceState, opts)` → u[3]・gradU[9]・dUdt[3]〔定常の宣言から導いた 0 だけ —— 定常でない宣言は null〕・halfCurl[3]・source・normalization・version・validDomain・error・parts)・文書の lib `tests/lib-w321c-galfielddoc.mjs` → `tests/out/galfield-w321c.json`(段 galfield-321c)。
