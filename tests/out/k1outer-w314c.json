@@ -10,7 +10,7 @@
  "emxVersion": "w303c-emx4-1",
  "generator": "tests/exp-w314c-k1outer.mjs",
  "target": "beta/index.html",
- "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+ "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
  "reuseFrom": null,
  "ruling": "原仮定者の裁定(第116報)の補足(太陽系の各天体の検証の後に 16 体の三次元サンプル)・決断事項 AN410(全系に一様の門 abs(r_1PN) ≤ min(ε_fit, 1e-2 q_1PN)・帯 ≤ min(ε_num, 1e-2 q_1PN) —— 第315便d)・AN405(有限質量比は既知の寄与)・AN401(比例定数は 1PN だけ・A1 は暦表ごとの列)・AN396′(ε_fit・ε_num)・AN336・統括の検証項目 R240。κ は一次の値 κ₀ = 10G/(C₁c²) に固定(合わせない)。確認の材料(在位へ入れない)",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -572,7 +572,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 2.913
+    "wallSec": 2.909
    },
    "outer:saturn|q10|-|div=1|N=16": {
     "key": "outer:saturn|q10|-|div=1|N=16",
@@ -622,57 +622,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 2.928
-   },
-   "outer:saturn|q11|kappa0E|kernel=k1|div=4|N=16": {
-    "key": "outer:saturn|q11|kappa0E|kernel=k1|div=4|N=16",
-    "spec": {
-     "via": "outer",
-     "planet": "saturn",
-     "kind": "q11",
-     "div": 4,
-     "N": 16,
-     "wins": [
-      4,
-      8,
-      16
-     ]
-    },
-    "status": "run",
-    "h": 0.1957,
-    "dt": 0.048925,
-    "warnings": 1,
-    "windows": {
-     "4": {
-      "apsNew": 0.0043432231001924145,
-      "detB": 0.004371131703085044,
-      "nPeri": 4,
-      "complete": true,
-      "periodDays": 10755.55278109032,
-      "ecc": 0.05387484762709613
-     },
-     "8": {
-      "apsNew": 0.0043432326522907004,
-      "detB": 0.00434969369216696,
-      "nPeri": 8,
-      "complete": true,
-      "periodDays": 10755.552781091565,
-      "ecc": 0.053874847627034796
-     },
-     "16": {
-      "apsNew": 0.0043432660138869395,
-      "detB": 0.00434120892429343,
-      "nPeri": 16,
-      "complete": true,
-      "periodDays": 10755.552781090995,
-      "ecc": 0.05387484762693114
-     }
-    },
-    "steps": 3039035,
-    "nan": false,
-    "betaMax": 1.093953258690001e-8,
-    "isqSteps": 3039035,
-    "wallSec": 724.185
+    "wallSec": 3.162
    },
    "outer:uranus|q11|kappa0E|kernel=k1|div=4|N=16": {
     "key": "outer:uranus|q11|kappa0E|kernel=k1|div=4|N=16",
@@ -722,7 +672,57 @@
     "nan": false,
     "betaMax": 5.398955780893419e-9,
     "isqSteps": 3041965,
-    "wallSec": 730.515
+    "wallSec": 729.326
+   },
+   "outer:saturn|q11|kappa0E|kernel=k1|div=4|N=16": {
+    "key": "outer:saturn|q11|kappa0E|kernel=k1|div=4|N=16",
+    "spec": {
+     "via": "outer",
+     "planet": "saturn",
+     "kind": "q11",
+     "div": 4,
+     "N": 16,
+     "wins": [
+      4,
+      8,
+      16
+     ]
+    },
+    "status": "run",
+    "h": 0.1957,
+    "dt": 0.048925,
+    "warnings": 1,
+    "windows": {
+     "4": {
+      "apsNew": 0.0043432231001924145,
+      "detB": 0.004371131703085044,
+      "nPeri": 4,
+      "complete": true,
+      "periodDays": 10755.55278109032,
+      "ecc": 0.05387484762709613
+     },
+     "8": {
+      "apsNew": 0.0043432326522907004,
+      "detB": 0.00434969369216696,
+      "nPeri": 8,
+      "complete": true,
+      "periodDays": 10755.552781091565,
+      "ecc": 0.053874847627034796
+     },
+     "16": {
+      "apsNew": 0.0043432660138869395,
+      "detB": 0.00434120892429343,
+      "nPeri": 16,
+      "complete": true,
+      "periodDays": 10755.552781090995,
+      "ecc": 0.05387484762693114
+     }
+    },
+    "steps": 3039035,
+    "nan": false,
+    "betaMax": 1.093953258690001e-8,
+    "isqSteps": 3039035,
+    "wallSec": 736.429
    },
    "outer:saturn|q11|kappa0E|kernel=k1|div=2|N=16": {
     "key": "outer:saturn|q11|kappa0E|kernel=k1|div=2|N=16",
@@ -772,7 +772,7 @@
     "nan": false,
     "betaMax": 1.0939668255003412e-8,
     "isqSteps": 1519521,
-    "wallSec": 353.492
+    "wallSec": 364.045
    },
    "outer:neptune|q11|kappa0E|kernel=k1|div=4|N=16": {
     "key": "outer:neptune|q11|kappa0E|kernel=k1|div=4|N=16",
@@ -822,7 +822,7 @@
     "nan": false,
     "betaMax": 3.3110563239753912e-9,
     "isqSteps": 3041343,
-    "wallSec": 702.91
+    "wallSec": 722.772
    },
    "outer:uranus|q11|kappa0E|kernel=k1|div=2|N=16": {
     "key": "outer:uranus|q11|kappa0E|kernel=k1|div=2|N=16",
@@ -872,7 +872,7 @@
     "nan": false,
     "betaMax": 5.398911021193703e-9,
     "isqSteps": 1520981,
-    "wallSec": 348.8
+    "wallSec": 365.251
    },
    "outer:saturn|q11|kappa0E|kernel=k1|div=1|N=16": {
     "key": "outer:saturn|q11|kappa0E|kernel=k1|div=1|N=16",
@@ -922,7 +922,7 @@
     "nan": false,
     "betaMax": 1.0939939669553132e-8,
     "isqSteps": 759764,
-    "wallSec": 173.641
+    "wallSec": 185.753
    },
    "outer:neptune|q11|kappa0E|kernel=k1|div=2|N=16": {
     "key": "outer:neptune|q11|kappa0E|kernel=k1|div=2|N=16",
@@ -972,7 +972,7 @@
     "nan": false,
     "betaMax": 3.311109406922595e-9,
     "isqSteps": 1520673,
-    "wallSec": 346.377
+    "wallSec": 373.765
    },
    "outer:uranus|q11|kappa0E|kernel=k1|div=1|N=16": {
     "key": "outer:uranus|q11|kappa0E|kernel=k1|div=1|N=16",
@@ -1022,7 +1022,7 @@
     "nan": false,
     "betaMax": 5.39882153795605e-9,
     "isqSteps": 760489,
-    "wallSec": 174.001
+    "wallSec": 189.59
    },
    "outer:saturn|q00|-|div=4|N=16": {
     "key": "outer:saturn|q00|-|div=4|N=16",
@@ -1072,7 +1072,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 9.708
+    "wallSec": 10.842
    },
    "outer:saturn|q10|-|div=4|N=16": {
     "key": "outer:saturn|q10|-|div=4|N=16",
@@ -1122,7 +1122,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 10.065
+    "wallSec": 11.036
    },
    "outer:uranus|q00|-|div=4|N=16": {
     "key": "outer:uranus|q00|-|div=4|N=16",
@@ -1172,7 +1172,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 9.057
+    "wallSec": 10.343
    },
    "outer:uranus|q10|-|div=4|N=16": {
     "key": "outer:uranus|q10|-|div=4|N=16",
@@ -1222,7 +1222,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 9.632
+    "wallSec": 11.22
    },
    "outer:neptune|q00|-|div=4|N=16": {
     "key": "outer:neptune|q00|-|div=4|N=16",
@@ -1272,7 +1272,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 9.527
+    "wallSec": 10.53
    },
    "outer:neptune|q10|-|div=4|N=16": {
     "key": "outer:neptune|q10|-|div=4|N=16",
@@ -1322,7 +1322,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 9.969
+    "wallSec": 10.986
    },
    "outer:saturn|q00|-|div=2|N=16": {
     "key": "outer:saturn|q00|-|div=2|N=16",
@@ -1372,7 +1372,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 4.764
+    "wallSec": 5.412
    },
    "outer:saturn|q10|-|div=2|N=16": {
     "key": "outer:saturn|q10|-|div=2|N=16",
@@ -1422,7 +1422,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 4.804
+    "wallSec": 5.848
    },
    "outer:uranus|q00|-|div=2|N=16": {
     "key": "outer:uranus|q00|-|div=2|N=16",
@@ -1472,7 +1472,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 4.861
+    "wallSec": 5.588
    },
    "outer:uranus|q10|-|div=2|N=16": {
     "key": "outer:uranus|q10|-|div=2|N=16",
@@ -1522,7 +1522,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 4.922
+    "wallSec": 6.148
    },
    "outer:neptune|q00|-|div=2|N=16": {
     "key": "outer:neptune|q00|-|div=2|N=16",
@@ -1572,7 +1572,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 4.545
+    "wallSec": 5.64
    },
    "outer:neptune|q10|-|div=2|N=16": {
     "key": "outer:neptune|q10|-|div=2|N=16",
@@ -1622,7 +1622,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 5.011
+    "wallSec": 6.406
    },
    "outer:uranus|q00|-|div=1|N=16": {
     "key": "outer:uranus|q00|-|div=1|N=16",
@@ -1672,7 +1672,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 2.748
+    "wallSec": 3.158
    },
    "outer:uranus|q10|-|div=1|N=16": {
     "key": "outer:uranus|q10|-|div=1|N=16",
@@ -1722,7 +1722,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 3.002
+    "wallSec": 3.254
    },
    "outer:neptune|q00|-|div=1|N=16": {
     "key": "outer:neptune|q00|-|div=1|N=16",
@@ -1772,7 +1772,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 2.423
+    "wallSec": 3.067
    },
    "outer:neptune|q10|-|div=1|N=16": {
     "key": "outer:neptune|q10|-|div=1|N=16",
@@ -1822,7 +1822,7 @@
     "nan": false,
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 2.781
+    "wallSec": 3.131
    },
    "outer:neptune|q11|kappa0E|kernel=k1|div=1|N=16": {
     "key": "outer:neptune|q11|kappa0E|kernel=k1|div=1|N=16",
@@ -1872,7 +1872,7 @@
     "nan": false,
     "betaMax": 3.311215577565629e-9,
     "isqSteps": 760337,
-    "wallSec": 175.057
+    "wallSec": 187.35
    }
   }
  },
@@ -2755,96 +2755,96 @@
    "saturn|nodrag|h/1": {
     "n": 2,
     "steps": 1519528,
-    "wallSec": 5.840999999999999
-   },
-   "saturn|drag|h/4": {
-    "n": 1,
-    "steps": 3039035,
-    "wallSec": 724.185
+    "wallSec": 6.071
    },
    "uranus|drag|h/4": {
     "n": 1,
     "steps": 3041965,
-    "wallSec": 730.515
+    "wallSec": 729.326
+   },
+   "saturn|drag|h/4": {
+    "n": 1,
+    "steps": 3039035,
+    "wallSec": 736.429
    },
    "saturn|drag|h/2": {
     "n": 1,
     "steps": 1519521,
-    "wallSec": 353.492
+    "wallSec": 364.045
    },
    "neptune|drag|h/4": {
     "n": 1,
     "steps": 3041343,
-    "wallSec": 702.91
+    "wallSec": 722.772
    },
    "uranus|drag|h/2": {
     "n": 1,
     "steps": 1520981,
-    "wallSec": 348.8
+    "wallSec": 365.251
    },
    "saturn|drag|h/1": {
     "n": 1,
     "steps": 759764,
-    "wallSec": 173.641
+    "wallSec": 185.753
    },
    "neptune|drag|h/2": {
     "n": 1,
     "steps": 1520673,
-    "wallSec": 346.377
+    "wallSec": 373.765
    },
    "uranus|drag|h/1": {
     "n": 1,
     "steps": 760489,
-    "wallSec": 174.001
+    "wallSec": 189.59
    },
    "saturn|nodrag|h/4": {
     "n": 2,
     "steps": 6078070,
-    "wallSec": 19.773
+    "wallSec": 21.878
    },
    "uranus|nodrag|h/4": {
     "n": 2,
     "steps": 6083930,
-    "wallSec": 18.689
+    "wallSec": 21.563000000000002
    },
    "neptune|nodrag|h/4": {
     "n": 2,
     "steps": 6082686,
-    "wallSec": 19.496
+    "wallSec": 21.516
    },
    "saturn|nodrag|h/2": {
     "n": 2,
     "steps": 3039042,
-    "wallSec": 9.568000000000001
+    "wallSec": 11.26
    },
    "uranus|nodrag|h/2": {
     "n": 2,
     "steps": 3041962,
-    "wallSec": 9.783
+    "wallSec": 11.736
    },
    "neptune|nodrag|h/2": {
     "n": 2,
     "steps": 3041346,
-    "wallSec": 9.556000000000001
+    "wallSec": 12.046
    },
    "uranus|nodrag|h/1": {
     "n": 2,
     "steps": 1520978,
-    "wallSec": 5.75
+    "wallSec": 6.412
    },
    "neptune|nodrag|h/1": {
     "n": 2,
     "steps": 1520674,
-    "wallSec": 5.204000000000001
+    "wallSec": 6.198
    },
    "neptune|drag|h/1": {
     "n": 1,
     "steps": 760337,
-    "wallSec": 175.057
+    "wallSec": 187.35
    }
   },
   "rate": {
-   "rateStepsPerSec": 4281.094712814074
+   "rateStepsPerSec": 4141.915963055107
   }
  },
  "gates": {
@@ -2858,44 +2858,44 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.078
+   "wallSec": 0.1
   },
   "T": {
    "wallSec": 0.01
   },
   "E": {
-   "wallSec": 1953.488
+   "wallSec": 2018.542
   },
   "K": {
    "wallSec": 0.002
   },
   "W": {
-   "wallSec": 0.001
-  },
-  "G": {
    "wallSec": 0
   },
-  "D": {
+  "G": {
    "wallSec": 0.001
+  },
+  "D": {
+   "wallSec": 0
   }
  },
  "stats": {
   "runs": 27,
   "steps": 47892324
  },
- "elapsedS": 1955.13,
+ "elapsedS": 2020.239,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便c",
   "target": "beta/index.html",
-  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-  "generatedAt": "2026-10-31T08:41:16.057Z",
+  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+  "generatedAt": "2026-10-31T22:39:53.674Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7401797,
-    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-    "mtime": "2026-10-31T03:14:16.264Z"
+    "bytes": 7403262,
+    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+    "mtime": "2026-10-31T17:17:55.600Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2911,9 +2911,9 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "bytes": 89934,
-    "sha256": "8c50c27dde09664c3940239131665244fb7fd53a290929865fc0e0d59e892cf6",
-    "mtime": "2026-10-31T07:12:41.245Z"
+    "bytes": 89936,
+    "sha256": "fcf37b341241e977048d5128f67b282dddb2455a693c223a4a1adef102a32cb6",
+    "mtime": "2026-10-31T21:37:11.905Z"
    },
    {
     "file": "paper/data/pn1-ephemeris-candidates.csv",
@@ -3105,9 +3105,9 @@
    "complete": true,
    "names": 1367,
    "segments": 1205,
-   "closureShare": 0.3079
+   "closureShare": 0.308
   },
-  "scopeSha256": "9a92163b65f8cfa665b4a1459d8bf51154a7fd17f10e3d3422936b958146fee0",
+  "scopeSha256": "ec6ad0799e05b4885f6b0c15251a0fef9280b4e8ce03b62725898b433bf3b531",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -3124,7 +3124,7 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "stableSha256": "635e6618e2648a08f962f8535489acc285dd8aae1d224904819c2b28c86b7f5f",
+    "stableSha256": "8d0d994f7c933f516cef32c51b096c2d1df33dae03833cfe806fd8eda9d54cf0",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
