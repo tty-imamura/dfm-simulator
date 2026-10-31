@@ -111,6 +111,9 @@ export const SMOKE_KNOBS = Object.freeze({
   // ==== 第319便b の塊(ここから)====
   'srcradius-319b': { env: { W319B_QUICK: '1', W319B_OUT: 'tests/out/_smoke-srcradius-w319b.json' }, note: '試走(分布した銀河の格子を 1 段・加法性の N を 2 つ —— 約 2 s。正本は 1 プロセスで約 5 s〔並走の秒〕)' },   // 第319便b
   // ==== 第319便b の塊(ここまで)====
+  // ==== 第320便b の塊(ここから)====
+  'jexplore-320b': { env: { W320B_QUICK: '1', W320B_OUT: 'tests/out/_smoke-jexplore-w320b.json' }, note: '試走(求積の格子を 2 段・分割の n を 3 つ —— 約 1.5 s。正本は 1 プロセスで約 2.5 s)' },   // 第320便b
+  // ==== 第320便b の塊(ここまで)====
   // ==== 第311便b の塊(ここまで)====
 });
 

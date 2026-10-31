@@ -66,7 +66,7 @@ export const DECL = Object.freeze({
 export const LIT320 = Object.freeze({
   sunRot: Object.freeze({ value: 'radiative 430 nHz (r < 0.713 R)・surface 14.713 − 2.396 sin²φ − 1.787 sin⁴φ deg/day', unit: '-', name: '太陽の回転の分布の型(日震学の放射層の剛体回転と表面の差動回転の係数 —— 文献の値の型)' }),
   sunJ: Object.freeze({ value: '1.9e41', unit: 'kg m^2/s', name: '日震学の太陽の角運動量の桁(文献の値の型 —— 比較の目安だけ)' }),
-  wind: Object.freeze({ value: 'Mdot 2e-14 Msun/yr・v 400 km/s・R_A 3〜20 R_sun', unit: '-', name: '太陽風の質量の流れ・速さ・アルヴェーン半径の幅(文献の値の型)' }),
+  wind: Object.freeze({ value: 'Mdot 2e-14 Msun/yr・v 4e5 m/s・R_A 3〜20 R_sun', unit: '-', name: '太陽風の質量の流れ・速さ・アルヴェーン半径の幅(文献の値の型)' }),
   lod: Object.freeze({ value: '1.8', unit: 'ms/century', name: '地球の 1 日の長さの増え方(潮汐の減速の今の率 —— 文献の値の型)' }) });
 
 /* ───────── J1 一様な剛体回転球の弱い K1 の移送の分子(解析)───────── */

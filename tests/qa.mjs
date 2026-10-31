@@ -2500,6 +2500,9 @@ lastAddAt = Date.now();
       // ==== 第319便b の塊(ここから)==== 引きずる側の半径 R_src の 3 案・分布した銀河の太陽系近傍・天体別の役割の表の器(srcradius-319b —— 1 プロセス・步は進めない)。領域 REGEN_SCOPE を刻む
       'tests/out/srcradius-w319b.json',
       // ==== 第319便b の塊(ここまで)====
+      // ==== 第320便b の塊(ここから)==== 源の角運動量 J の確かめ・案2b の混成の導き直し・候補を並べて数える探索の器(jexplore-320b —— 1 プロセス・步は進めない)。領域 REGEN_SCOPE を刻む
+      'tests/out/jexplore-w320b.json',
+      // ==== 第320便b の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
@@ -90476,6 +90479,125 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();
 }
 // ==== 第319便d の塊(ここまで)====
+// ==== 第320便b の塊(ここから —— docs.jExplore320b の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第320便b(原仮定者の裁定(第122報)「案3(J)を確かめる。案2bは次点。様々な可能性を探索する」・決断事項 AN471・統括の検証項目 R263):
+// ----   **源の角運動量 J の確かめ・案2b の混成の導き直し・候補を並べて数える 6 天体の表**(新設 —— root は SKIP)。html を読まない QA(正本と純関数と文書だけ)。
+// ----   世代切替 = beta 対象 ∧ 器 tests/exp-w320b-jexplore.mjs ∧ lib tests/lib-w320b-jexplore.mjs ∧ 文書の lib tests/lib-w320b-jexploredoc.mjs(html・エンジン・在位の本は変えない)。
+// ----   docs.jExplore320b(正本 tests/out/jexplore-w320b.json):
+// ----     ① 正本の門(器の gatesOf で作り直して同じ・全部真)・試走でない・計画が器の PLAN・版/来歴(w272e-1)・領域 hash(完全)・文献の値の出典の欄
+// ----     ② 純関数で作り直す(**解析の式と数値の積分の差の門**: 有限球の場の点 14 行〔解析は相対 1e-12・求積と有限差分の差は相対 1e-6 か両方が床 1e-11 の下 —— 丸めの桁の数を
+// ----        完全一致で比べない〕・光線の求積の差 ≤ 1e-12・刻みの二乗の感度・√(5/6) の二分法)・分割の行(剛体・差動)・粗視化の恒等式・連続の球の求積・太陽の J の体積積分・
+// ----        案2b の級数・有効な J・6 天体の表(sixTable)・q の掃引(bestQ)・候補の数の真偽(claimsOf)
+// ----     ③ 表の行と数が PHYSICS〔第320便b〕に逐語・節が「## 7.」の前・必須の語・AI_SPEC §156・CHANGELOG・再生成の段・.gitignore・post-merge・CANON・煙試験の窓
+// ----     ④ 書かない語・禁句・新しい説明に裸の係数記号が無いこと・新しい文の r_d(節と器と lib と文書の lib・AI_SPEC §156)
+{
+  await (async () => {   // 第310便c(heap)の型: 本文を関数で包む
+  const bHarn = path.join(ROOT, 'tests', 'exp-w320b-jexplore.mjs'), bLib = path.join(ROOT, 'tests', 'lib-w320b-jexplore.mjs'), bDoc = path.join(ROOT, 'tests', 'lib-w320b-jexploredoc.mjs');
+  const bOut = path.join(ROOT, 'tests', 'out', 'jexplore-w320b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(bHarn) && fs.existsSync(bLib) && fs.existsSync(bDoc))) {
+    console.log('SKIP docs.jExplore320b(第320便b の源の角運動量 J の探索の器の前の世代 — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+  const near320b = (a, b, tol = 1e-12) => (typeof a === 'number' && typeof b === 'number') ? (Object.is(a, b) || Math.abs(a - b) <= tol * Math.max(Math.abs(a), Math.abs(b)))
+    : (a && b && typeof a === 'object' && typeof b === 'object') ? (Array.isArray(a) === Array.isArray(b) && Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => Object.prototype.hasOwnProperty.call(b, k) && near320b(a[k], b[k], tol)))
+    : JSON.stringify(a) === JSON.stringify(b);
+  // 差(求積・有限差分)の照合: 相対 1e-6 か、両方が床 1e-11 の下(丸めの桁 —— 完全一致で比べない)
+  const nearErr = (a, b) => (a === null && b === null) || (typeof a === 'number' && typeof b === 'number' && ((a < 1e-11 && b < 1e-11) || Math.abs(a - b) <= 1e-6 * Math.max(a, b)));
+  let X = null, L0 = null, D0 = null, err0 = null;
+  try { X = await import('file://' + bHarn); L0 = await import('file://' + bLib); D0 = await import('file://' + bDoc); } catch (e) { err0 = String(e).slice(0, 160); }
+  const bad = [], cases = [];
+  const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QA0 = rd('tests/qa.mjs'), CLx = rd('CHANGELOG.md'), SM = rd('tools/harness-smoke.mjs');
+  const i0 = PH.indexOf('〔第320便b — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+  const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+  const strip = (t) => t.replace(/「[^」]*」/g, '');
+  const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /一致した/, /確認した/, /法則を確かめた/, /シュヴァルツシルト半径そのもの/, /現実の核/, /検証が完了した/, /地平面を判定した/, /ダークマターを説明した/,
+    /暦表に一致した/, /内部熱を説明した/, /金星の逆転を説明した/, /中心 1 体の銀河の引きずり/, /銀河の引きずりを測った/, /合わせた/];
+  const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+  const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+  const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+  let J = null;
+  if (err0) bad.push('器/lib が読めない: ' + err0);
+  try { J = JSON.parse(fs.readFileSync(bOut, 'utf8')); } catch (e) { bad.push('正本 jexplore が読めない'); }
+  if (J && X && L0 && D0) {
+    try {
+      // ①
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('① 正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('① 正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('① 門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length) bad.push('① 門の数が器と違う');
+      if (J.quick === true) bad.push('① 正本が試走(QUICK)');
+      if (!near320b(J.plan, clone(X.PLAN))) bad.push('① 計画が器の PLAN と違う');
+      if (J.version !== X.HARNESS_VERSION || J.libVersion !== L0.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.stage === 'jexplore')) bad.push('① 正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('① 正本に領域 hash(完全)が無い');
+      const nLit = Object.keys(L0.LIT320).length + Object.keys(L0.LIT318).length;
+      if (!(J.meta && Array.isArray(J.meta.literature) && J.meta.literature.length === nLit && J.meta.literature.every((t) => t.indexOf('一次資料に当たっていない') >= 0))) bad.push('① 文献の値の出典の欄(meta.literature)');
+      cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して同じ)・場の点 ${J.J.rows.length}・分割 ${J.P.rigid.length + J.P.diff.length} 行・候補 ${J.T.rows.length} 行・文献の値 ${J.meta.literature.length}(一次資料に当たっていない —— 出典の名)`);
+      // ② 解析の式と数値の積分の差の門
+      let nPt = 0;
+      for (const r of J.J.rows) {
+        const P = L0.JPOINTS.find((p) => p.key === r.key); if (!P) { bad.push('② 場の点 ' + r.key + ' が lib に無い'); continue; }
+        const z = L0.jPointRow(P, L0.QGRIDS, L0.FD_H); nPt++;
+        if (!near320b([z.uA, z.wA, z.wJ, z.d], [r.uA, r.wA, r.wJ, r.d])) bad.push('② 場の点 ' + r.key + ' の解析の値を作り直すと違う');
+        if (!(z.q1.every((v, k) => nearErr(v, r.q1[k])) && z.q2.every((v, k) => nearErr(v, r.q2[k])) && nearErr(z.fdH, r.fdH) && nearErr(z.fdH2, r.fdH2))) bad.push('② 場の点 ' + r.key + ' の求積と有限差分の差を作り直すと違う');
+        if (!(z.q2[z.q2.length - 1] <= 1e-12)) bad.push('② 場の点 ' + r.key + ' の光線の求積の差が 1e-12 を超える(解析の式と数値の積分の差の門)');
+        if (!(z.fdH2 <= 1e-5 && (z.fdH < 1e-10 || (z.fdH / z.fdH2 > 3 && z.fdH / z.fdH2 < 5)))) bad.push('② 場の点 ' + r.key + ' の有限差分の curl が刻みの二乗の感度でない');
+      }
+      const rt = L0.signRootFD(1, 1, L0.QGRIDS[L0.QGRIDS.length - 1], L0.FD_H / 2);
+      if (!(rt.ok && near320b(rt.x, J.J.root.x, 1e-9) && rt.rel <= 1e-5 && Math.abs(L0.SIGN_ROOT - Math.sqrt(5 / 6)) === 0)) bad.push('② 赤道面の半渦度の符号の変わる r/R(√(5/6))を作り直すと違う');
+      let nPart = 0;
+      for (const r of J.P.rigid.concat(J.P.diff)) { const z = L0.partitionRow(r.n, r.alpha, J.P.D); nPart++; for (const k of ['N', 'Jorb', 'Jint', 'Jtot', 'JtotOverCont', 'fracInt', 'farOverDip', 'spinOnlyOverDip', 'transOverDip', 'p2aOverJ', 'p2bOverJ', 'nowOverJ']) if (!near320b(z[k], r[k], 1e-10)) { bad.push('② 分割の行 n = ' + r.n + '・α = ' + r.alpha + ' の ' + k + ' を作り直すと違う'); break; } }
+      for (const k of J.P.konig) { const z = L0.konigCheck(k.n, k === J.P.konig[0] ? 0 : J.P.alpha); if (!(near320b(z.Jtot, k.Jtot, 1e-10) && near320b(z.spinOnlyFrac, k.spinOnlyFrac, 1e-10) && z.rel <= 1e-12)) bad.push('② 粗視化の恒等式を作り直すと違う'); }
+      for (const q of J.P.quad) { const z = L0.farQuadDiff(q.alpha, q.D, L0.QGRIDS[L0.QGRIDS.length - 1]); if (!(near320b(z.J, q.J, 1e-10) && near320b(z.farOverDip, q.farOverDip, 1e-9) && z.Jrel <= 1e-12)) bad.push('② 連続の球の求積を作り直すと違う'); }
+      const LE = L0.laneEmden(J.D.polyN, L0.DECL.sun.xiStep); if (!(near320b(LE.xi1, J.D.xi1, 1e-10) && near320b(LE.f, J.D.fPoly, 1e-10))) bad.push('② Lane–Emden を作り直すと違う');
+      for (const p of J.D.prof) { const z = L0.sunJProfile(LE, J.D.OmRef, p.k); if (!near320b(z.JOverRigid, p.JOverRigid, 1e-10)) bad.push('② 太陽の J の体積積分(k = ' + p.k + ')を作り直すと違う'); }
+      for (const s of J.B.series) { const z = L0.mixSeriesRow(s.x); if (!(near320b(z.rotCoef, s.rotCoef, 1e-9) && near320b(z.axCoef, s.axCoef, 1e-9))) bad.push('② 案2b の級数(x = ' + s.x + ')を作り直すと違う'); }
+      if (!(Math.abs(J.B.series[J.B.series.length - 1].rotCoef / (3 / 35) - 1) <= 1e-3 && Math.abs(J.B.series[J.B.series.length - 1].axCoef / (6 / 35) - 1) <= 1e-3)) bad.push('② 案2b の級数の係数が 3/35・6/35 から外れる');
+      for (const e of J.B.effJ) { const z = L0.effJOf(e.f, 1, 1); if (!(near320b(z.p2b, e.p2b) && near320b(z.p2a, e.p2a))) bad.push('② 有効な J(' + e.name + ')を作り直すと違う'); }
+      const T2 = L0.sixTable(J.T.base, J.T.aux); if (!near320b(clone(T2), J.T.rows)) bad.push('② 6 天体の表(sixTable)を作り直すと違う');
+      const q1 = L0.bestQ(J.T.base.p3, J.T.aux.R, false), q2 = L0.bestQ(J.T.base.p3, J.T.aux.R, true); if (!(near320b(q1, J.T.bestQ.axialOnly, 1e-10) && near320b(q2, J.T.bestQ.withPlane, 1e-10))) bad.push('② q の掃引(bestQ)を作り直すと違う');
+      const Q2 = L0.claimsOf(J.T.rows, J.T.aux, J.T.extra); if (!near320b(clone(Q2), J.T.claims)) bad.push('② 候補の数の真偽(claimsOf)を作り直すと違う');
+      const srcOnly = J.T.rows.filter((r) => ['now', 'p1', 'p2a', 'p2b', 'p3', 'c3b', 'c3c', 'c3cx2', 'c3fi', 'c3fii'].includes(r.key));
+      if (!srcOnly.every((r) => Math.abs(r.S3 - srcOnly[0].S3) <= 1e-4)) bad.push('② 源の側だけの候補の広がり S3 が同じでない');
+      cases.push(`② 純関数で作り直す —— 有限球の場の点 ${nPt} 行(解析は相対 1e-12・光線の求積の差 ≤ 1e-12・有限差分は刻みの二乗の感度)・√(5/6) の二分法・分割 ${nPart} 行・粗視化の恒等式・連続の球の求積・Lane–Emden と太陽の J ${J.D.prof.length} 行・案2b の級数 ${J.B.series.length} 行(3/35・6/35)・有効な J ${J.B.effJ.length} 行・6 天体の表 ${J.T.rows.length} 行・q の掃引・候補の数 ${J.T.claims.length} 行・源の側だけの候補の広がりが同じ`);
+      // ③
+      if (!sec) bad.push('PHYSICS〔第320便b〕が無い');
+      else {
+        const rows = D0.physicsTablesJExplore(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'));
+        let nMiss = 0; for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第320便b〕の表に行が無い: ' + r.slice(0, 70)); }
+        const nums = D0.docNumbersJExplore(J), missN = nums.filter((x) => sec.indexOf(x) < 0); if (missN.length) bad.push('PHYSICS〔第320便b〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第320便b〕が「## 7. 論文」の後');
+        for (const w of ['R263', '第122報', 'AN471', 'exp-w320b-jexplore.mjs', 'lib-w320b-jexplore.mjs', 'lib-w320b-jexploredoc.mjs', 'jexplore-w320b.json', 'docs.jExplore320b', 'W320B_OUT', 'W320B_QUICK',
+          'R_src', 'R_d = Y_k m', '案3', '案2b', '加法性', '√(5/6)', '公転の J', '混成', '分割の規則', '自由な係数', '新しい仮定', '6 天体', '広がり', '一つの候補ではそろわない', '金星の熱流の宣言', '受け手の f',
+          '主列', '代替の列', 'bevel の軸引きずりの導出でも置換でもない', '文献の値', '一次資料に当たっていない', '決断事項の候補', '言わないこと', '刻みの感度', '格子の感度', '核の冪'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第320便b〕に「' + w + '」が無い');
+        cases.push(`③ PHYSICS〔第320便b〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
+      }
+      { const ai = AS.indexOf('## 156.'); if (ai < 0) bad.push('AI_SPEC に §156 が無い');
+        else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w320b-jexplore.mjs', 'lib-w320b-jexplore.mjs', 'jexplore-w320b.json', 'docs.jExplore320b', 'AN471', 'R263', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §156 に「' + w + '」が無い'); } }
+      { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, ci + 60000) : ''; if (cs.indexOf('第320便b') < 0) bad.push('CHANGELOG の beta の節に第320便b が無い'); }
+      if (RT.indexOf("S('jexplore-320b', 'node tests/exp-w320b-jexplore.mjs', ['tests/out/jexplore-w320b.json']") < 0 || !/secSource: 'w320b-branch'/.test(RT)) bad.push('再生成の段 jexplore-320b');
+      if (GI.indexOf('!tests/out/jexplore-w320b.json') < 0) bad.push('.gitignore の例外');
+      if (!(PM.indexOf('# ==== 第320便b の塊(ここから)====') >= 0 && PM.indexOf('docs.jExplore320b') >= 0)) bad.push('post-merge の ③′ に第320便b のブロックが無い');
+      if (QA0.indexOf("'tests/out/jexplore-w320b.json',") < 0) bad.push('CANON(lint.canon304)に第320便b の正本が無い');
+      if (SM.indexOf("'jexplore-320b': { env: { W320B_QUICK: '1'") < 0) bad.push('煙試験の窓の表(SMOKE_KNOBS)に jexplore-320b の試走が無い');
+      // ④
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第320便b〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第320便b〕に禁句(' + w.length + ' 字)');
+      if (/κ(?!_D)/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第320便b〕に裸の κ(κ は κ_D だけ —— コードの書式の外)');
+      if (/(?<![\w`])r_d(?![\w`])/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第320便b〕の新しい文に r_d(引きずり半径は R_d)');
+      for (const f of ['tests/exp-w320b-jexplore.mjs', 'tests/lib-w320b-jexplore.mjs', 'tests/lib-w320b-jexploredoc.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); if (tx.indexOf('κ') >= 0) bad.push(f + ' に κ の字'); for (const re of NOT) if (re.test(tx)) bad.push(f + ' に書かない語 ' + re.source); }
+      { const ai = AS.indexOf('## 156.'), as = ai >= 0 ? AS.slice(ai, ai + 8000) : ''; for (const w of NG.concat(NG2)) if (as.indexOf(w) >= 0) bad.push('AI_SPEC §156 に禁句(' + w.length + ' 字)'); }
+      cases.push('④ 書かない語・禁句・裸の κ・新しい文の r_d(節と器と lib と文書の lib・AI_SPEC §156)');
+    } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+  }
+  add('docs.jExplore320b', bad.length === 0,
+    `**源の角運動量 J の確かめ・案2b の混成の導き直し・候補を並べて数える 6 天体の表の正本と文書**(第320便b・原仮定者の裁定(第122報)・AN471・R263 —— 正本 jexplore-w320b.json・受け手の R_d = Y_k m と並進・エンジン・在位の本は不変・候補を採った規則と書かない・一つの候補でそろうと書かない): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ==== 第320便b の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

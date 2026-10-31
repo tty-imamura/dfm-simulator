@@ -1483,6 +1483,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/srcradius-w319b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第319便b: 引きずる側の半径 R_src の 3 案(源の回転と軸のモーメントだけ —— 受け手の R_d = Y_k m は不変)・分布した銀河の太陽系近傍(宣言の密度の模型と平均の流れ —— 格子 3 段)・天体別の役割の表(120° の合成の一般形・拮抗・要る大きさとの比)—— エンジン・在位の本は変えない・新しい法則は足さない' }),
   // ==== 第319便b の塊(ここまで)====
+  // ==== 第320便b の塊(ここから)====
+  // ---- 第320便b(原仮定者の裁定(第122報)「案3(J)を確かめる。案2bは次点。様々な可能性を探索する」・決断事項 AN471・統括の検証項目 R263): **源の角運動量 J の確かめ・案2b の混成の
+  //   導き直し・候補を並べて数える探索の器**(段 jexplore-320b —— E エンジンとの照合〔源のモーメントだけを J の半径に替えた写し・1 つの源の写し〕・J 有限の一様球の内外〔格子 3 段・
+  //   有限差分 h と h/2〕・P 分割の加法性・D 太陽の J の体積積分・B 案2b の導き直し・S 源の表・T 6 天体の表〔候補 17 行〕・候補の数の真偽)。html・エンジン・在位の本・受け手の R_d は
+  //   変えない。html を読む(読み口 inertialDragIsqState と最上位の inertialDragIsqRule・inertialDragIsqRuleK1・inertialDragIsqK2・inertialDragIsqM2・inertialDrag3MaintCell —— 口と写しの本は
+  //   第319便b の器のもの)・入力は tests/data-w318c-solar16-input.json(他の正本は読まない —— html の生成領域の後)。1 プロセス(子プロセスなし・步は進めない)。所要は第320便b の枝の実測
+  //   2.5〜2.6 s(負荷平均 0.8 前後の箱 —— 4 枝の容器で他の枝が軽い時間に測った)
+  S('jexplore-320b', 'node tests/exp-w320b-jexplore.mjs', ['tests/out/jexplore-w320b.json'], 3, { secSource: 'w320b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/jexplore-w320b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第320便b: 源の角運動量 J の確かめ(有限の一様球の内外・分割の加法性・太陽の J の体積積分)・案2b の混成の導き直し・候補を並べて自由な係数と新しい仮定を数える 6 天体の表(源の回転と軸のモーメントだけ —— 受け手の R_d = Y_k m と並進は不変・エンジン・在位の本は変えない・新しい法則は足さない)' }),
+  // ==== 第320便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

@@ -275,7 +275,7 @@
    "name": "日震学の太陽の角運動量の桁(文献の値の型 —— 比較の目安だけ)"
   },
   "wind": {
-   "value": "Mdot 2e-14 Msun/yr・v 400 km/s・R_A 3〜20 R_sun",
+   "value": "Mdot 2e-14 Msun/yr・v 4e5 m/s・R_A 3〜20 R_sun",
    "unit": "-",
    "name": "太陽風の質量の流れ・速さ・アルヴェーン半径の幅(文献の値の型)"
   },
@@ -2501,34 +2501,34 @@
  "ok": true,
  "timing": {
   "E": {
-   "wallSec": 0.3
+   "wallSec": 0.31
   },
   "J": {
-   "wallSec": 0.174
+   "wallSec": 0.186
   },
   "P": {
-   "wallSec": 0.084
+   "wallSec": 0.091
   },
   "D": {
-   "wallSec": 0.038
+   "wallSec": 0.04
   },
   "B": {
-   "wallSec": 0.02
+   "wallSec": 0.016
   },
   "S": {
    "wallSec": 0.001
   },
   "T": {
-   "wallSec": 0.292
+   "wallSec": 0.301
   }
  },
- "elapsedS": 2.508,
+ "elapsedS": 2.538,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第320便b",
   "target": "beta/index.html",
   "targetSha256": "10063f253be03e07d62ad94679c3abf4a19277345a4cfbe07e122f66eb3191d8",
-  "generatedAt": "2026-10-31T01:50:49.105Z",
+  "generatedAt": "2026-10-31T01:58:28.019Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -2552,9 +2552,9 @@
    },
    {
     "file": "tests/lib-w320b-jexplore.mjs",
-    "bytes": 36118,
-    "sha256": "d7b6fa42fc2635220e08c784b4efa1a1cf2bb75aaf5517eed95ab1cb14dd7584",
-    "mtime": "2026-10-31T01:50:28.994Z"
+    "bytes": 36117,
+    "sha256": "98c43c214f410ede0959079ea0cf3b9b9827a5edda386f6a7ad5ef49572b242b",
+    "mtime": "2026-10-31T01:54:23.114Z"
    },
    {
     "file": "tests/exp-w319b-srcradius.mjs",
@@ -2611,14 +2611,14 @@
     "mtime": "2026-10-31T01:30:57.587Z"
    }
   ],
-  "codeSha256": "a2aa83bb43a5402b50ae30f357edbf90a884a1722a913cab1cfe7a4642782fb1",
+  "codeSha256": "3746f0d575e874e2f85bb301e5d46f5abd9f67c224b8cebf61f4622e9ac208e7",
   "harnessVersion": "w320b-jexplore-1",
   "stage": "jexplore",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス・步は進めない)",
   "literature": [
    "太陽の回転の分布の型(日震学の放射層の剛体回転と表面の差動回転の係数 —— 文献の値の型) = radiative 430 nHz (r < 0.713 R)・surface 14.713 − 2.396 sin²φ − 1.787 sin⁴φ deg/day -(本便は一次資料に当たっていない)",
    "日震学の太陽の角運動量の桁(文献の値の型 —— 比較の目安だけ) = 1.9e41 kg m^2/s(本便は一次資料に当たっていない)",
-   "太陽風の質量の流れ・速さ・アルヴェーン半径の幅(文献の値の型) = Mdot 2e-14 Msun/yr・v 400 km/s・R_A 3〜20 R_sun -(本便は一次資料に当たっていない)",
+   "太陽風の質量の流れ・速さ・アルヴェーン半径の幅(文献の値の型) = Mdot 2e-14 Msun/yr・v 4e5 m/s・R_A 3〜20 R_sun -(本便は一次資料に当たっていない)",
    "地球の 1 日の長さの増え方(潮汐の減速の今の率 —— 文献の値の型) = 1.8 ms/century(本便は一次資料に当たっていない)",
    "太陽系の年齢(隕石の最古の包有物の年代の型 —— 文献の値) = 4567000000 yr(本便は一次資料に当たっていない)",
    "木星の内部の熱流(Hanel et al. 1981 —— 文献の値) = 5.444 W/m^2(本便は一次資料に当たっていない)",
