@@ -91533,6 +91533,193 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)の型
 }
 // ==== 第321便c の塊(ここまで)====
+// ==== 第321便d の塊(ここから —— behavior.srcMomentIdx321・docs.w321d の 2 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第321便d(決断事項 AN502・AN493・統括の検証項目 R269): **sourceMoment.f の添字の直し(受理の拒否の型 —— 本便唯一のエンジンの変更)とゲートの後の samplestatus の段の道具**(新設 —— beta 対象だけ)
+// ----   世代切替 = beta 対象 ∧ html の表 ACCEPT_REASONS に "validatePreset/physics.relativeDrag.invSq.sourceMoment#3"(root は SKIP)。
+// ----   behavior.srcMomentIdx321(html を headless で読む):
+// ----     ① 群の前置の入力(jupiterSunInertial3d の前に n = 2 の円盤 + f = {1: 0.07, 2: 0.254})は拒否 —— 理由の文に「前方の群の展開で天体と粒子の添字が一致しない」と群の位置・type・n
+// ----     ② 群の 4 種(ring・disk・box・grid)× n ∈ {0, 1, 2, 3} × 前/後: 受理 ⇔ 後ろか n = 1 —— 受理したら粒子の数 = 2 + n・f は天体の粒子に(前の n = 1 は粒子 0 が f なし)・拒否は #3 の文
+// ----     ③ 群の無い正しい入力(K1 の規則の三次元の本 —— 宣言で数える)は受理・f と R_src = R_obs√(5f/2) が天体と同じ添字の粒子に(相対 1e-12 —— 実行の経路は不変)
+// ----     ④ f の天体そのものが群なら従来の理由(single の天体でない)で拒否・#3 の文は出ない ⑤ 内蔵の全本の受理で #3 の文が 0 件(宣言の無い本は不変)
+// ----     ⑥ 契約: 受理器が #3 を引く・実行 inertialDragIsqSrcMoment は粒子の添字 String(j) で読む(天体 → 粒子の対応を足したらこの試験を直す)
+// ----   docs.w321d: ① AN493 の lib(tests/lib-w321d-postgate.mjs)の分類 —— 今の正本と md への変異(許す欄 = 来歴と時間・それ以外は外)② 道具 tools/samplestatus-postgate.mjs が
+// ----     再生成表の段 samplestatus の cmd と書き(outs + touches から html を除く)を読む ③ PHYSICS〔第321便d〕・AI_SPEC §162・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rd321d = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const H0321d = rd321d(TARGET);
+  if (!(TARGET.startsWith('beta/') && H0321d.indexOf('"validatePreset/physics.relativeDrag.invSq.sourceMoment#3"') >= 0)) {
+    console.log('SKIP behavior.srcMomentIdx321 / docs.w321d(第321便d の sourceMoment.f の添字の守りの前の世代 — ' + TARGET + ')');
+    return;
+  }
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+  const MARK = '前方の群の展開で天体と粒子の添字が一致しない';
+  // ───── behavior.srcMomentIdx321 ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+      const all = H.HP.allPresets(), base = all.find((p) => p.id === 'jupiterSunInertial3d');
+      const tpl = (t) => { for (const p of all) for (const b of (p.bodies || [])) if (b && b.type === t) return clone(b); return null; };
+      const SPIN = { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' };
+      const errOf = (v) => (v.errors || []).join(' / ');
+      const fOf = (v) => { const S = H.HP.coord3d.makeSim(); S.build(v.preset); const m = H.HP.inertialDragIsqState(S).sourceMoment; return { n: S.n, f: (m.bodies || []).map((z) => z.f), b: m.bodies || [] }; };
+      const book = (t, n, pos, f) => {
+        const b = clone(base); b.id = 'w321d-' + t + '-' + n + '-' + pos;
+        if (t) { const g = Object.assign(tpl(t), { n, cx: 10000, cy: 0, mMin: 1e-6, mMax: 1e-6 }); if ('spinMin' in g) { g.spinMin = 0; g.spinMax = 0; } if (pos === 'pre') b.bodies.unshift(g); else b.bodies.push(g); }
+        b.physics.relativeDrag.spinDrag = clone(SPIN); b.physics.relativeDrag.invSq.sourceMoment = { kind: 'J', f }; return b;
+      };
+      // ①
+      { const v = H.HP.validatePreset(book('disk', 2, 'pre', { 1: 0.07, 2: 0.254 })), e = v.ok ? '' : errOf(v);
+        if (v.ok || e.indexOf(MARK) < 0 || e.indexOf('bodies[0](type:"disk"・n = 2)') < 0) bad.push('① 群の前置の入力が拒否されない/理由の文: ' + (v.ok ? '受理' : e.slice(0, 120)));
+        cases.push(`① 群の前置(n = 2 の円盤 + f = {1: 0.07, 2: 0.254}): ${v.ok ? '受理' : '拒否(#3 の文 —— 群の位置 bodies[0]・type・n)'}`); }
+      // ②
+      let n2 = 0, nAcc = 0, nRej = 0;
+      for (const t of ['ring', 'disk', 'box', 'grid']) {
+        if (!tpl(t)) { bad.push('② 型 ' + t + ' の写しの元が内蔵の本に無い'); continue; }
+        for (const n of [0, 1, 2, 3]) for (const pos of ['pre', 'post']) {
+          n2++;
+          const o = pos === 'pre' ? 1 : 0, v = H.HP.validatePreset(book(t, n, pos, { [o]: 0.07, [o + 1]: 0.254 })), want = (pos === 'post' || n === 1), at = t + '・n=' + n + '・' + pos;
+          if (v.ok !== want) { bad.push('② ' + at + ' の受理 ' + v.ok); continue; }
+          if (!v.ok) { nRej++; if (errOf(v).indexOf(MARK) < 0) bad.push('② ' + at + ' の拒否の文'); continue; }
+          nAcc++;
+          const r = fOf(v), exp = pos === 'pre' ? [null, 0.07, 0.254] : [0.07, 0.254].concat(new Array(n).fill(null));
+          if (r.n !== 2 + n || JSON.stringify(r.f) !== JSON.stringify(exp)) bad.push('② ' + at + ' の粒子の f ' + JSON.stringify(r.f) + '(粒子 ' + r.n + ')');
+        }
+      }
+      cases.push(`② 群の 4 種 × n ∈ {0,1,2,3} × 前/後 ${n2} 例: 受理 ${nAcc}(後ろか n = 1 —— 粒子の数 2 + n・f は天体の粒子)・拒否 ${nRej}(前の n ≠ 1 —— 0 個の群も添字をずらす)`);
+      // ③ 群の無い正しい入力(K1 の規則の三次元の本 —— 宣言で数える)
+      let n3 = 0, nB = 0, rmax = 0;
+      for (const p of all) {
+        const iv = p.physics && p.physics.relativeDrag && p.physics.relativeDrag.invSq;
+        if (!(p.physics.coord === '3d' && iv && iv.kernel === 'k1' && iv.rdRule === 'kappaM' && !iv.outerShell)) continue;
+        const b = clone(p), f = {};
+        b.bodies.forEach((q, i) => { if (q.type === 'single' && !q.dragCore && q.radius > 0) f[i] = Math.round((0.05 + 0.6 * ((i * 7 + 3) % 11) / 11) * 1e4) / 1e4; });
+        if (!Object.keys(f).length || b.bodies.some((q) => q.type !== 'single')) continue;
+        if (!b.physics.relativeDrag.spinDrag) b.physics.relativeDrag.spinDrag = clone(SPIN);
+        b.physics.relativeDrag.invSq.sourceMoment = { kind: 'J', f };
+        const v = H.HP.validatePreset(clone(b));
+        if (!v.ok) { bad.push('③ ' + p.id + ' の正しい入力が拒否: ' + errOf(v).slice(0, 80)); continue; }
+        n3++;
+        const r = fOf(v);
+        for (let j = 0; j < r.b.length; j++) {
+          const z = r.b[j], fj = f[j] === undefined ? null : f[j];
+          if (z.f !== fj) bad.push('③ ' + p.id + ' の粒子 ' + j + ' の f ' + z.f + ' ≠ ' + fj);
+          if (fj !== null) { nB++; const want = z.Robs * Math.sqrt(2.5 * fj), d = Math.abs(z.Rsrc - want) / Math.max(Math.abs(want), 1e-300); rmax = Math.max(rmax, d); if (!(d <= 1e-12) || !z.applied) bad.push('③ ' + p.id + ' の粒子 ' + j + ' の R_src'); }
+        }
+      }
+      if (n3 < 1) bad.push('③ K1 の規則の三次元の本が 0');
+      cases.push(`③ 群の無い正しい入力: K1 の規則の三次元の本 ${n3} 本(宣言 physics.coord === "3d" で数えた)・f を置いた天体 ${nB} —— f と R_src = R_obs√(5f/2) は天体と同じ添字の粒子(相対の差の最大 ${rmax.toExponential(1)})`);
+      // ④
+      { const v = H.HP.validatePreset(book('disk', 2, 'pre', { 0: 0.07 })), e = v.ok ? '' : errOf(v);
+        if (v.ok || e.indexOf('single の天体でない') < 0 || e.indexOf(MARK) >= 0) bad.push('④ f の天体が群のときの理由: ' + (v.ok ? '受理' : e.slice(0, 100)));
+        cases.push('④ f の天体そのものが群: 従来の理由(single の天体でない)で拒否・#3 の文なし'); }
+      // ⑤
+      let nOk = 0, nHit = 0;
+      for (const p of all) { const v = H.HP.validatePreset(clone(p)); if (v.ok) nOk++; if (errOf(v).indexOf(MARK) >= 0 || (v.warnings || []).join(' ').indexOf(MARK) >= 0) nHit++; }
+      if (nHit) bad.push('⑤ 内蔵の本の受理で #3 の文 ' + nHit + ' 件');
+      cases.push(`⑤ 内蔵 ${all.length} 本の受理(受理 ${nOk})で #3 の文 ${nHit} 件`);
+      // ⑥
+      const vp = String(H.evalExpr('validatePreset')), sm = String(H.evalExpr('inertialDragIsqSrcMoment')), AR = H.evalExpr('ACCEPT_REASONS');
+      if (vp.indexOf('reasonText("validatePreset/physics.relativeDrag.invSq.sourceMoment#3"') < 0) bad.push('⑥ 受理器が #3 を引かない');
+      if (sm.indexOf('F[String(j)]') < 0) bad.push('⑥ 実行が粒子の添字で読む契約が変わった(天体 → 粒子の対応を足したら試験を直す)');
+      if (typeof AR['validatePreset/physics.relativeDrag.invSq.sourceMoment#3'] !== 'function' || String(AR['validatePreset/physics.relativeDrag.invSq.sourceMoment#3'](1, 0, 'disk', 2)).indexOf(MARK) < 0) bad.push('⑥ 表 ACCEPT_REASONS の #3');
+      cases.push('⑥ 受理器 validatePreset が #3 を引く・実行 inertialDragIsqSrcMoment は粒子の添字で読む(天体 → 粒子の対応は作らない)');
+    } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('behavior.srcMomentIdx321', bad.length === 0,
+      `**sourceMoment.f の添字の守り**(第321便d・決断事項 AN502・R269 —— 受理の拒否の型・本便唯一のエンジンの変更・宣言の無い本と正しい入力の値は不変): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.w321d ─────
+  {
+    const bad = [], cases = [];
+    let PG = null, RT = null;
+    try { PG = await import('file://' + path.join(ROOT, 'tests', 'lib-w321d-postgate.mjs')); RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs')); } catch (e) { bad.push('① lib が読めない: ' + String(e).slice(0, 120)); }
+    if (PG && RT) {
+      if (PG.POSTGATE_VERSION !== 'w321d-postgate-1') bad.push('① 版 ' + PG.POSTGATE_VERSION);
+      // ① 分類(今の正本と md への変異)
+      let J0 = null; try { J0 = JSON.parse(rd321d(PG.OUT_JSON)); } catch (e) { J0 = null; }
+      const M0 = rd321d(PG.OUT_MD);
+      if (!J0 || !M0) bad.push('① 正本か md が読めない');
+      else {
+        const kMd = J0.meta.inputs.findIndex((z) => z.file === PG.OUT_MD), kSrc = J0.meta.inputs.findIndex((z) => z.file !== PG.OUT_MD);
+        const JM = [
+          ['provenance', (j) => { j.meta.generatedAt = 'x'; }], ['provenance', (j) => { j.meta.evidenceQa.commit = 'x'; }], ['provenance', (j) => { j.timingNote.qaProvenance.sameHtml = !j.timingNote.qaProvenance.sameHtml; }],
+          ['provenance', (j) => { j.meta.inputs[kMd].sha256 = '0'.repeat(64); }], ['provenance', (j) => { j.meta.code[0].mtime = 'x'; }],
+          ['time', (j) => { j.rows[0].timing.qa.ms += 1; }], ['time', (j) => { j.timingNote.qaTotal += 1; }], ['time', (j) => { j.timingNote.qaAttribution.unattributed += 1; }],
+          ['other', (j) => { j.rows[0].status.state += '※'; }], ['other', (j) => { j.tally.n += 1; }], ['other', (j) => { j.timingNote.stageList.rows[0].sec += 1; }],
+          ['other', (j) => { j.meta.targetSha256 = '0'.repeat(64); }], ['other', (j) => { j.meta.inputs[kSrc].sha256 = '0'.repeat(64); }], ['other', (j) => { j.rows[0].timing.regenSteps = []; }],
+          ['other', (j) => { j.rows.splice(1, 1); }], ['other', (j) => { j.meta.codeSha256 = '0'.repeat(64); }], ['other', (j) => { j.rows[0].ledgerSource = 'x'; }],
+        ];
+        let nJ = 0;
+        for (const [want, mu] of JM) {
+          const j1 = clone(J0); mu(j1); const c = PG.classifyJson(J0, j1);
+          const got = c.other.length ? 'other' : (c.provenance && !c.time ? 'provenance' : (c.time && !c.provenance ? 'time' : 'mixed'));
+          if (c.n < 1 || got !== want) bad.push('① 正本の変異 ' + nJ + '(' + want + ')が ' + got); nJ++;
+        }
+        if (PG.classifyJson(J0, clone(J0)).n !== 0) bad.push('① 同じ正本の差が 0 でない');
+        const L = M0.split('\n'), iP = L.findIndex((l) => l.startsWith('- **保存 QA の来歴**')), iT = L.findIndex((l) => l.startsWith('- **保存 QA**:')), iH = L.indexOf(PG.MD_TIME_TABLE_HEAD);
+        const iS = L.findIndex((l, i) => i < iH && /^\| .*`[^`]+` \|/.test(l));
+        const cell = (l, k, s) => { const c = l.split('|'); c[k] = c[k] + s; return c.join('|'); };
+        const MM = [['provenance', (a) => { a[iP] += ' ※'; }], ['time', (a) => { a[iT] += ' ※'; }], ['time', (a) => { a[iH + 2] = cell(a[iH + 2], 4, '※'); a[iH + 3] = cell(a[iH + 3], 5, '※'); }],
+          ['other', (a) => { a[iH + 2] = cell(a[iH + 2], 2, '※'); }], ['other', (a) => { a[iS] += '※'; }], ['other', (a) => { a.splice(3, 1); }], ['other', (a) => { a[0] += '※'; }]];
+        let nM = 0;
+        if (iP < 0 || iT < 0 || iH < 0 || iS < 0) bad.push('① md の行が引けない: ' + [iP, iT, iH, iS].join(','));
+        else for (const [want, mu] of MM) {
+          const a = L.slice(); mu(a); const c = PG.classifyMd(M0, a.join('\n'));
+          const got = c.other.length ? 'other' : (c.provenance && !c.time ? 'provenance' : (c.time && !c.provenance ? 'time' : 'mixed'));
+          if (c.n < 1 || got !== want) bad.push('① md の変異 ' + nM + '(' + want + ')が ' + got); nM++;
+        }
+        cases.push(`① 分類(版 ${PG.POSTGATE_VERSION}): 正本の変異 ${nJ}(来歴 5・時間 3・外 9)・md の変異 ${nM}(来歴 1・時間 2・外 4)がすべて期待の区分 —— 許す欄は来歴と時間だけ`);
+      }
+      // ② 段の宣言と道具
+      const st = RT.REGEN_STEPS.find((z) => z.key === PG.STAGE_KEY), W = st ? PG.stageWritesOf(st) : null;
+      if (!(W && JSON.stringify(W.allowed.slice().sort()) === JSON.stringify([PG.OUT_MD, PG.OUT_JSON].sort()) && JSON.stringify(W.mustStay) === JSON.stringify([PG.HTML]) && st.alwaysRun === true)) bad.push('② 段 samplestatus の書き: ' + (W ? W.writes.join(',') : '無い'));
+      const sn = PG.compareSnapshots({ [PG.HTML]: 'a', [PG.OUT_JSON]: 'b', 'x': 'c' }, { [PG.HTML]: 'z', [PG.OUT_JSON]: 'y', 'x': 'c' }, W ? W.allowed : []);
+      if (!(sn.changed.length === 2 && JSON.stringify(sn.disallowed) === JSON.stringify([PG.HTML]))) bad.push('② ファイルの差の分類');
+      const vd = PG.verdictOf({ snap: { disallowed: [] }, json: { other: [] }, md: { other: [] }, ev: { evidenceSame: true, sameHtml: true } });
+      const vf = PG.verdictOf({ snap: { disallowed: [] }, json: { other: [] }, md: { other: [] }, ev: { evidenceSame: true, sameHtml: false } });
+      if (!(vd.pass && !vf.pass)) bad.push('② 判定(sameHtml が偽なら FAIL)');
+      const TL = rd321d('tools/samplestatus-postgate.mjs');
+      for (const w of ['RT.REGEN_STEPS.find((z) => z.key === PG.STAGE_KEY)', "spawnSync('bash', ['-c', stage.cmd]", 'delete env.REGEN_HTML_STAGE', '--dry-run', '--keep', '--any-qa', 'restore()', 'PG.classifyJson', 'PG.classifyMd', 'PG.compareSnapshots', 'PG.verdictOf'])
+        if (TL.indexOf(w) < 0) bad.push('② 道具に「' + w + '」が無い');
+      cases.push(`② 道具 tools/samplestatus-postgate.mjs: 段 samplestatus(常時群)の cmd をそのまま走らせ、書いてよいのは ${W ? W.allowed.join('・') : '?'}(html ${PG.HTML} は 1 byte も変わらない)・前提は保存 QA の刻印 = 今の html・rc 0/1/2/3・--dry-run で戻す`);
+    }
+    // ③ 文書
+    const PH = rd321d('docs/PHYSICS.md'), a321 = PH.indexOf('〔第321便d — ');
+    const sec = a321 < 0 ? '' : PH.slice(a321, (() => { const e = [PH.indexOf('\n〔第', a321 + 10), PH.indexOf('\n## 7.', a321)].filter((k) => k > a321); return e.length ? Math.min(...e) : undefined; })());
+    const rv = (s) => [...s].reverse().join('');
+    const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);
+    const NOT = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'たため確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転逆の星金', 'たし明説をータマクーダ'].map(rv);
+    if (!sec) bad.push('③ PHYSICS〔第321便d〕が無い');
+    else {
+      const i7 = PH.indexOf('\n## 7.'), iG = PH.indexOf('〔第320便 — 統括');
+      if (!(a321 < i7 && iG >= 0 && iG < a321)) bad.push('③ 節の位置(〔第320便 — 統括〕の後・「## 7.」の前)');
+      for (const [b, k] of [['a', PH.indexOf('〔第321便a — ')], ['b', PH.indexOf('〔第321便b — ')], ['c', PH.indexOf('〔第321便c — ')]]) if (k >= 0 && k > a321) bad.push('③ 〔第321便' + b + '〕が〔第321便d〕の後');
+      for (const w of ['AN502', 'AN493', 'R269', 'validatePreset/physics.relativeDrag.invSq.sourceMoment#3', MARK, 'inertialDragIsqSrcMoment', 'N_CAP', 'behavior.srcMomentIdx321', 'docs.w321d',
+        'tools/samplestatus-postgate.mjs', 'tests/lib-w321d-postgate.mjs', 'w321d-postgate-1', '--dry-run', 'REGEN_HTML_STAGE', '**表 1', '**表 2']) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第321便d〕に「' + w + '」が無い');
+    }
+    const AI = rd321d('docs/AI_SPEC.md'), ai162 = (() => { const m = /\n## 162\. 第321便d[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+    if (!(ai162 && ai162.indexOf('AN502') >= 0 && ai162.indexOf('sourceMoment') >= 0 && ai162.indexOf('samplestatus-postgate') >= 0)) bad.push('③ AI_SPEC §162');
+    const CL = rd321d('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+    const cl321 = (clb.split('\n').find((l) => l.indexOf('**第321便d**') >= 0)) || '';
+    if (!cl321) bad.push('③ CHANGELOG の beta 節に第321便d の行が無い');
+    const TR = rd321d('tools/README.md'), PM = rd321d('tools/post-merge-qa.sh');
+    if (!(TR.indexOf('samplestatus-postgate.mjs') >= 0 && TR.indexOf('--dry-run') >= 0)) bad.push('③ tools/README に samplestatus-postgate の節が無い');
+    if (!(PM.indexOf('# ==== 第321便d の塊(ここから)====') >= 0 && /behavior\.srcMomentIdx321/.test(PM) && /docs\.w321d/.test(PM))) bad.push('③ post-merge の ③′ に第321便d の塊が無い');
+    for (const [nm, tx] of [['PHYSICS〔第321便d〕', sec], ['AI_SPEC §162', ai162], ['CHANGELOG の第321便d の行', cl321]]) {
+      for (const w of NG) if (tx.indexOf(w) >= 0) bad.push('③ ' + nm + ' に禁句(' + w.length + ' 字)');
+      for (const w of NOT) if (tx.indexOf(w) >= 0) bad.push('③ ' + nm + ' に書かない語(' + w.length + ' 字)');
+      if (tx.indexOf(String.fromCharCode(0x3ba)) >= 0) bad.push('③ ' + nm + ' に裸の係数記号');
+    }
+    cases.push('③ PHYSICS〔第321便d〕(〔第320便 — 統括〕の後・「## 7.」の前)・AI_SPEC §162・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号 なし');
+    add('docs.w321d', bad.length === 0,
+      `**ゲートの後の samplestatus の段の道具と文書**(第321便d・決断事項 AN493・AN502・R269 —— 道具は段の宣言を読む・許す欄は来歴と時間だけ): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第321便d の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

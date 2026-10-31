@@ -487,6 +487,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.geo3Bin321b lint.stableHashPaths lint.r
 #   煙試験の窓の表の lint.harnessSmoke303
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.galField321c docs.nbCompose320c docs.srcHeat320 lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.harnessSmoke303"
 # ==== 第321便c の塊(ここまで)====
+# ==== 第321便d の塊(ここから)====
+# 第321便d(決断事項 AN502・AN493・R269): 枝 d の新設 2 本(behavior.srcMomentIdx321 —— sourceMoment.f の添字の守り〔受理の拒否の型〕・docs.w321d —— ゲートの後の samplestatus の段の道具と文書)と、
+#   受理器を読む behavior.srcHeat320・docs.srcHeat320・受理器の理由の文の表 lint.textRegistry318・lint.presetText316c・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcMomentIdx321 docs.w321d behavior.srcHeat320 docs.srcHeat320 lint.textRegistry318 lint.presetText316c lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第321便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
