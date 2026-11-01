@@ -90519,7 +90519,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const o = { ja: I18N.ja.nc_solar_rule3d, en: I18N.en.nc_solar_rule3d, cal3: { ja: I18N.ja.nc_solar_cal3d, en: I18N.en.nc_solar_cal3d }, rule: [], cal: [], want: [], fn: typeof pNotClaims === 'function' ? String(pNotClaims) : '' };
       for (const p of HP.allPresets()) {
         const ph = p.physics || {};
-        if (p.familyRole !== 'retired' && ph.coord === '3d' && (ph.gLoc || {}).law === 'kappaC2') o.want.push(p.id);
+        if (p.familyRole !== 'retired' && ph.coord === '3d' && (ph.gLoc || {}).law === 'kappaC2' && [].concat(p.notClaim || []).includes('solar_cal')) o.want.push(p.id);   // 第322便b(R271): 較正の注 solar_cal を宣言した本だけ(本の単位の検証サンプル ♊⚖️ は solar_cal を持たない —— 基点の html では同じ 8 本)
         if (![].concat(p.notClaim || []).includes('solar_cal') || ph.coord !== '3d') continue;
         HP.setLang('ja'); const t = pNotClaims(p);
         if (t.includes(o.ja)) o.rule.push(p.id); else if (t.includes(o.cal3.ja)) o.cal.push(p.id);
