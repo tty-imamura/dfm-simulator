@@ -41,6 +41,7 @@ import * as W302A from './lib-w302a-wbg.mjs';   // 第302便m: gain ⇔ W_bg の
 import { pinDecl302, DECL302_DATA_FILE } from './lib-w303a-pre.mjs';   // 第303便a: 第302便の本の宣言の写し(この正本は第302便の宣言で測った歴史の記録 —— 器の中だけ・html と署名は変えない)
 import { pinDecl303, DECL303_DATA_FILE } from './lib-w304c-pre.mjs';   // 第304便c: 第303便の 🌦️🌔 の宣言の写し(pinDecl302 の前に —— 軟化・初期配置・引きずりの宣言を第303便へ戻してから第302便の欄を戻す・歴史の値を保つ)
 import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
+import { isRuleBookNoCopy } from './lib-w320d-rulebooks.mjs';   // 第322便b(AN492): 後に入った本の除外の宣言の条件
 // 第320便d(決断事項 AN455・R265 —— 本便は全段の鎖なので費用は増えない): consts に受理器の理由の文の表 ACCEPT_REASONS(前段に drag3d の器を走らせ、その正本(理由の文を含む)を読む —— 2 段まとめて)
 const REGEN_SCOPE = {"presets":"all","roots":["FIT_RECORD_VERSION","HP.FIT_COND_VERSION","HP.PROBE_VERSION","HP.REL_DRAG_AXIAL_LAW","HP.REL_DRAG_CHAIN_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SEMIC_VERSION","HP.REL_DRAG_SOLVER_TOL_DEFAULT","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.REL_DRAG_SPIN3_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.ckRestoreOne","HP.ckSnapOne","HP.cloneSimStateNow","HP.coord3d","HP.dfmGaussLegendre01","HP.dfmInertialDragStep","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.geoEffectiveMode","HP.geoLawOfSim","HP.geoModeOf","HP.inertialDrag3AxialOmega","HP.inertialDrag3RotTerm","HP.inertialDragComposeSolve","HP.inertialDragEpoch","HP.inertialDragLedgerOf","HP.inertialDragProbeAt","HP.inertialDragProbeBilinear","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.inertialSpinMoment","HP.loadPreset","HP.modeSettingIssues","HP.presetSig","HP.relDragStepOrderOf","HP.sim","HP.stepCarryFrame","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.validateRelativeDrag","ckRestoreOne","ckSnapOne","dfmSphereKernelQEff"],"core":true,"consts":["ACCEPT_REASONS"],"complete":true};
 
@@ -60,10 +61,10 @@ const fnvState = (S) => { let h = 0x811c9dc5; const f = new Float64Array(1), u8 
   return h.toString(16); };
 
 /* 宣言から導く本の集合(手書きの ID 一覧を持たない) */
-// 第318便(統括の統合 —— 煙試験で見つけた): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本(K1 の規則の宣言)—— 数え上げの外に置く(正本の欄と値は不変・QA の側も同じ本を外して比べる)
-const LATER_BOOKS_318 = new Set(['solarSystem16Inertial3d']);
+// 第322便b(決断事項 AN492・統括の検証項目 R271): 後に入った本の除外を**宣言の条件**へ移した(第318便の名指しの集合の代わり)—— K1 の規則の宣言で生まれた本(移行の前の写しの無い本 —— tests/lib-w320d-rulebooks.mjs の isRuleBookNoCopy)はこの器の数え上げの外に置く(基点の html では 🗺️ の 1 本・第322便b の html では 🗺️ と ♊⚖️🌠🔶 —— 正本の欄と値は不変)(旧: 第318便(統括の統合 —— 煙試験で見つけた): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本(K1 の規則の宣言)—— 数え上げの外に置く(正本の欄と値は不変・QA の側も同じ本を外して比べる))
+const isRuleBookW322 = isRuleBookNoCopy;   // 第322便b(AN492): 写しの無い K1 の規則の宣言の本(html を写しへ戻す前でも後でも同じ集合)
 export function idsOf(HP) {
-  const all = HP.allPresets().filter((p) => !LATER_BOOKS_318.has(p.id)), isInertial = (p) => !!(p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial');
+  const all = HP.allPresets().filter((p) => !isRuleBookW322(p)), isInertial = (p) => !!(p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial');
   const solve = (p) => isInertial(p) && p.physics.relativeDrag.compose !== 'sum';
   const coef = (p) => W302A.rdCoefOf(p.physics.relativeDrag);   // 第302便m: 引きずりが効くか(係数 c>0 —— Wbg の宣言は 1/W_bg・OFF と未推定は 0。前の世代は gain)
   const drag = all.filter((p) => solve(p) && coef(p) > 0 && p.physics.relativeDrag.stepOrder !== 'split').map((p) => p.id);

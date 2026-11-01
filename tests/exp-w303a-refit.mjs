@@ -44,6 +44,7 @@ import { pinDecl305 as pinDecl305a, DECL305_DATA_FILE as DECL305A_DATA_FILE } fr
 import { pinDecl303, DECL303_DATA_FILE } from './lib-w304c-pre.mjs';
 import { pinDecl307d, DECL307D_DATA_FILE } from './lib-w308d-pre.mjs';   // 第308便d(AN351・R217): 🟫🌡️ の fitRecord の標的の役割を宣言した世代では、この正本(第303便a の再フィットの記録)を第307便の宣言の写しで照合する(第307便の html では no-op)   // 第304便c: 第303便の 🌦️🌔 の宣言の写し(この正本は第303便a の再フィットの記録 —— 本の宣言は第304便c で基線を見直した)
 import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
+import { isRuleBookNoCopy } from './lib-w320d-rulebooks.mjs';   // 第322便b(AN492): 後に入った本の除外の宣言の条件
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.GLOC_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_NORM_VERSION","HP.REL_DRAG_SEMIC_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.coord3d","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondInputsOf","HP.fitCondSig","HP.fitCondStateOf","HP.gLocPeriAdvance","HP.gLocState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragLedgerOf","HP.inertialDragState","HP.inertialSpinMoment","HP.relDragBackgroundOf","HP.relDragStepOrderOf","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.wbgEstimateOf","LAWS","T","ab","ch","ckRestoreOne","ckSnapOne","ctx","cw","dfmSphereKernelQEff","fmt","pnSource","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -289,11 +290,11 @@ export function transferEmo(HP, R, log) {
 /* ── 段 G・D ── */
 const canon = (v) => { if (Array.isArray(v)) return v.map(canon); if (v && typeof v === 'object') { const o = {}; for (const k of Object.keys(v).sort()) o[k] = canon(v[k]); return o; } return v; };
 const same = (a, b) => JSON.stringify(canon(a)) === JSON.stringify(canon(b));
-// 第318便(統括の統合 —— 転記照合で見つけた同じ型): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本 —— 数え上げの外に置く(正本の行と値は不変)
-const LATER_BOOKS_318 = new Set(['solarSystem16Inertial3d']);
+// 第322便b(決断事項 AN492・統括の検証項目 R271): 後に入った本の除外を**宣言の条件**へ移した(第318便の名指しの集合の代わり)—— K1 の規則の宣言で生まれた本(移行の前の写しの無い本 —— tests/lib-w320d-rulebooks.mjs の isRuleBookNoCopy)はこの器の数え上げの外に置く(基点の html では 🗺️ の 1 本・第322便b の html では 🗺️ と ♊⚖️🌠🔶 —— 正本の欄と値は不変)(旧: 第318便(統括の統合 —— 転記照合で見つけた同じ型): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本 —— 数え上げの外に置く(正本の行と値は不変))
+const isRuleBookW322 = isRuleBookNoCopy;   // 第322便b(AN492): 写しの無い K1 の規則の宣言の本(html を写しへ戻す前でも後でも同じ集合)
 export function gatesOf(HP, J) {
   const P = HP.allPresets(), inSvc = P.filter((p) => p.familyRole !== 'retired');
-  const gLocBooks = inSvc.filter((p) => p.physics && p.physics.gLoc && !LATER_BOOKS_318.has(p.id)).map((p) => p.id);
+  const gLocBooks = inSvc.filter((p) => p.physics && p.physics.gLoc && !isRuleBookW322(p)).map((p) => p.id);
   const planets = P3.PLANETS.map((pl) => pl.id), off6 = planets.filter((id) => id !== IDS.mer3);
   const offOk = off6.every((id) => { const rd = find(HP, id).physics.relativeDrag; return rd && rd.Wbg === null && rd.enabled === false; });
   const books = {};

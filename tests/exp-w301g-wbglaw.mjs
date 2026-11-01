@@ -53,6 +53,7 @@ import { pre302c } from './lib-w302c-pre.mjs';   // 第302便c: G_loc の前の�
 import { pinDecl302, DECL302_DATA_FILE } from './lib-w303a-pre.mjs';   // 第303便a: 第302便の本の宣言の写し(この正本は第302便の宣言で測った歴史の記録 —— 器の中だけ・html と署名は変えない)
 import { pinDecl303, DECL303_DATA_FILE } from './lib-w304c-pre.mjs';   // 第304便c: 第303便の 🌦️🌔 の宣言の写し(pinDecl302 の前に —— 軟化・初期配置・引きずりの宣言を第303便へ戻してから第302便の欄を戻す・歴史の値を保つ)
 import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
+import { isRuleBookNoCopy } from './lib-w320d-rulebooks.mjs';   // 第322便b(AN492): 後に入った本の除外の宣言の条件
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_NORM_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondSig","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragState","HP.relDragBackgroundOf","HP.relDragStepOrderOf","HP.sim","HP.validateFitRecord","HP.validatePreset","LAWS","T","ab","ch","ctx","cw","fmt","pnSource","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -108,11 +109,11 @@ function windowOfTarget(t) {
   const m = s.match(/(\d+)\s*公転/) || s.match(/(\d+)\s*$/);
   return m ? Number(m[1]) : null;
 }
-// 第318便(統括の統合 —— 鎖で見つけた): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本(K1 の規則の宣言 —— gain を書き込む写しは受理されない)—— 分類の外に置く(正本の欄と値は不変)
-const LATER_BOOKS_318 = new Set(['solarSystem16Inertial3d']);
+// 第322便b(決断事項 AN492・統括の検証項目 R271): 後に入った本の除外を**宣言の条件**へ移した(第318便の名指しの集合の代わり)—— K1 の規則の宣言で生まれた本(移行の前の写しの無い本 —— tests/lib-w320d-rulebooks.mjs の isRuleBookNoCopy)はこの器の数え上げの外に置く(基点の html では 🗺️ の 1 本・第322便b の html では 🗺️ と ♊⚖️🌠🔶 —— 正本の欄と値は不変)(旧: 第318便(統括の統合 —— 鎖で見つけた): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本(K1 の規則の宣言 —— gain を書き込む写しは受理されない)—— 分類の外に置く(正本の欄と値は不変))
+const isRuleBookW322 = isRuleBookNoCopy;   // 第322便b(AN492): 写しの無い K1 の規則の宣言の本(html を写しへ戻す前でも後でも同じ集合)
 export function classify(HP) {
   const rows = [], excluded = [];
-  const inert = HP.allPresets().filter((p) => ((p.physics || {}).relativeDrag || {}).law === 'inertial' && !LATER_BOOKS_318.has(p.id)).map((p) => pre302c(p));   // 第318便(統括): 後に入った本は分類の外   // 第302便c
+  const inert = HP.allPresets().filter((p) => ((p.physics || {}).relativeDrag || {}).law === 'inertial' && !isRuleBookW322(p)).map((p) => pre302c(p));   // 第322便b(AN492 —— 旧 第318便の名指し): 後に入った本は分類の外   // 第302便c
   const recIds = new Set(RETIRED_FIT_RECORDS.map((r) => r.id));
   for (const p of inert) {
     const rd = p.physics.relativeDrag, retired = p.familyRole === 'retired', f = p.fitRecord || null;

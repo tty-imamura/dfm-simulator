@@ -1,0 +1,4029 @@
+{
+ "version": "w322b-binbooks-1",
+ "libVersion": "w322b-binbooks-lib-1",
+ "lib321bVersion": "w321b-geo3bin-lib-1",
+ "generator": "tests/exp-w322b-binbooks.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "b01fda2a7cf2ea1c3332cfbc4429b005f05720669e388171b91885a2ea106b41",
+ "reuseFrom": null,
+ "ruling": "原仮定者の回答(2026-11-01 —— AN499)「『連星サンプル群』は実在天体を指している。検証サンプルが必要であれば、先に用意する」・決断事項 AN505・統括の検証項目 R271(策定の段 S2)。エンジンの関数・在位の本の宣言・受理の判定は変えない(新しい ID の本 4 本 —— 連星の観測との照合ではない)",
+ "invSqVersion": "w310a-invsq-wbg0-1",
+ "geoModeVersion": "w285b-geomode-2",
+ "stage": "binbooks",
+ "quick": false,
+ "plan": {
+  "N": 8,
+  "divs": [
+   1,
+   2,
+   4
+  ],
+  "apsisK": 3,
+  "books": [
+   "binaryCheckEqualInertial3d",
+   "binaryCheckRatio3Inertial3d",
+   "siriusABInertial3d",
+   "alphaCenABInertial3d"
+  ],
+  "cols": [
+   "self",
+   "off",
+   "g1"
+  ]
+ },
+ "decl": {
+  "BOOKS": [
+   {
+    "id": "binaryCheckEqualInertial3d",
+    "emoji": "♊",
+    "base": "🧪",
+    "ja": "検証サンプル 等質量",
+    "src": "toy",
+    "toy": "eq-e",
+    "geo1": "w321bToy-eq-e"
+   },
+   {
+    "id": "binaryCheckRatio3Inertial3d",
+    "emoji": "⚖️",
+    "base": "🧪",
+    "ja": "検証サンプル 質量比 1:3",
+    "src": "toy",
+    "toy": "r3-e",
+    "geo1": "w321bToy-r3-e"
+   },
+   {
+    "id": "siriusABInertial3d",
+    "emoji": "🌠",
+    "base": "🌟",
+    "ja": "シリウス AB(無自転)",
+    "src": "book",
+    "book": "siriusAB",
+    "geo1": "siriusAB"
+   },
+   {
+    "id": "alphaCenABInertial3d",
+    "emoji": "🔶",
+    "base": "✨",
+    "ja": "α Cen AB(並進だけ)",
+    "src": "book",
+    "book": "alphaCenAB",
+    "geo1": "alphaCenAB"
+   }
+  ],
+  "DECL_EXPECT": {
+   "coord": "3d",
+   "geoPN": 3,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "relativeDrag": {
+    "law": "inertial",
+    "invSq": {
+     "kernel": "k1",
+     "rdRule": "kappaM"
+    },
+    "pairs": "all",
+    "history": "positions",
+    "initMotion": "observed"
+   },
+   "gLoc": {
+    "law": "kappaC2"
+   },
+   "sampleClass": "principle",
+   "notClaim": "binary_geo3"
+  },
+  "OFF_DRAG": {
+   "law": "inertial",
+   "invSq": {
+    "kernel": "k1",
+    "rdRule": "kappaM"
+   },
+   "enabled": false,
+   "pairs": "all",
+   "history": "positions"
+  },
+  "EFF_KEYS": [
+   "physics",
+   "bodies",
+   "timeRef",
+   "scaleExp",
+   "world",
+   "camera",
+   "overlays"
+  ]
+ },
+ "A": {
+  "rows": [
+   {
+    "id": "binaryCheckEqualInertial3d",
+    "emoji": "♊",
+    "present": true,
+    "accepted": true,
+    "warnings": 0,
+    "sibAccepted": true,
+    "sigSame": true,
+    "declSame": true,
+    "offPatchSame": true,
+    "offSigSame": true,
+    "declChecks": {
+     "coord": true,
+     "geoPN": true,
+     "kFrame": true,
+     "lambdaPN": true,
+     "relativeDrag": true,
+     "noSpinDrag": true,
+     "noSourceMoment": true,
+     "gLoc": true,
+     "sampleClass": true,
+     "notClaim": true,
+     "family": true
+    },
+    "declOk": true,
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "spin0": [
+     0.05000000074505806,
+     0.05000000074505806
+    ],
+    "eta": 0.25,
+    "f": 1.3333333333333333,
+    "etaTxt": "0.25",
+    "fTxt": "1.33333",
+    "pctTxt": "+33.33%",
+    "textHasF": true
+   },
+   {
+    "id": "binaryCheckRatio3Inertial3d",
+    "emoji": "⚖️",
+    "present": true,
+    "accepted": true,
+    "warnings": 0,
+    "sibAccepted": true,
+    "sigSame": true,
+    "declSame": true,
+    "offPatchSame": true,
+    "offSigSame": true,
+    "declChecks": {
+     "coord": true,
+     "geoPN": true,
+     "kFrame": true,
+     "lambdaPN": true,
+     "relativeDrag": true,
+     "noSpinDrag": true,
+     "noSourceMoment": true,
+     "gLoc": true,
+     "sampleClass": true,
+     "notClaim": true,
+     "family": true
+    },
+    "declOk": true,
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "spin0": [
+     0.05000000074505806,
+     0.05000000074505806
+    ],
+    "eta": 0.1875,
+    "f": 1.25,
+    "etaTxt": "0.1875",
+    "fTxt": "1.25000",
+    "pctTxt": "+25.00%",
+    "textHasF": true
+   },
+   {
+    "id": "siriusABInertial3d",
+    "emoji": "🌠",
+    "present": true,
+    "accepted": true,
+    "warnings": 0,
+    "sibAccepted": true,
+    "sigSame": true,
+    "declSame": true,
+    "offPatchSame": true,
+    "offSigSame": true,
+    "declChecks": {
+     "coord": true,
+     "geoPN": true,
+     "kFrame": true,
+     "lambdaPN": true,
+     "relativeDrag": true,
+     "noSpinDrag": true,
+     "noSourceMoment": true,
+     "gLoc": true,
+     "sampleClass": true,
+     "notClaim": true,
+     "family": true
+    },
+    "declOk": true,
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "spin0": [
+     0,
+     0
+    ],
+    "eta": 0.22123997939017723,
+    "f": 1.294986639186903,
+    "etaTxt": "0.22124",
+    "fTxt": "1.29499",
+    "pctTxt": "+29.50%",
+    "textHasF": true
+   },
+   {
+    "id": "alphaCenABInertial3d",
+    "emoji": "🔶",
+    "present": true,
+    "accepted": true,
+    "warnings": 0,
+    "sibAccepted": true,
+    "sigSame": true,
+    "declSame": true,
+    "offPatchSame": true,
+    "offSigSame": true,
+    "declChecks": {
+     "coord": true,
+     "geoPN": true,
+     "kFrame": true,
+     "lambdaPN": true,
+     "relativeDrag": true,
+     "noSpinDrag": true,
+     "noSourceMoment": true,
+     "gLoc": true,
+     "sampleClass": true,
+     "notClaim": true,
+     "family": true
+    },
+    "declOk": true,
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "spin0": [
+     4.573713779449463,
+     2.007232904434204
+    ],
+    "eta": 0.2481804711569214,
+    "f": 1.330907294875895,
+    "etaTxt": "0.24818",
+    "fTxt": "1.33091",
+    "pctTxt": "+33.09%",
+    "textHasF": true
+   }
+  ],
+  "n": 4
+ },
+ "E": {
+  "n": 40,
+  "rows": [
+   {
+    "key": "alphaCenABInertial3d|g1|div=1|N=8",
+    "spec": {
+     "id": "alphaCenABInertial3d",
+     "col": "g1",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 6.99194,
+    "status": "run",
+    "coord3d": false,
+    "lawDecl": "eih-kf0",
+    "lawSim0": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "geodesic": true,
+    "warnings": 0,
+    "steps": 2882,
+    "dt": 6.99194,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.033,
+    "P": 2518.5754072074883,
+    "nPeri": 8,
+    "rate": -0.0013114713575432296,
+    "e": 0.5193723369064324,
+    "fitRms": 0.00001686373860932222,
+    "rateB": -0.0013124166521045631,
+    "periRms": 1.2006258771216583e-8,
+    "eB": 0.5193161835007861,
+    "Pa": 2517.156345186804,
+    "acct": {
+     "E0": -3.7131718915312906,
+     "dE": -0.000057404549788828146,
+     "dEmax": 0.027972361092618362,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.000057404549788828146,
+     "ledger": null,
+     "dh": 3.220811094319191e-9,
+     "dLz": 3.2208110057749996e-9,
+     "lDrag": 0,
+     "dP": [
+      -3.469111853092795e-13,
+      -8.651945915472225e-11,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": null,
+    "gLoc": null,
+    "hashXY": "ebb3bf75fcfe97e2",
+    "hashAll": "a7e88990a5f45bb1"
+   },
+   {
+    "key": "alphaCenABInertial3d|g1|div=2|N=8",
+    "spec": {
+     "id": "alphaCenABInertial3d",
+     "col": "g1",
+     "div": 2,
+     "N": 8,
+     "K": 3
+    },
+    "h": 6.99194,
+    "status": "run",
+    "coord3d": false,
+    "lawDecl": "eih-kf0",
+    "lawSim0": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "geodesic": true,
+    "warnings": 0,
+    "steps": 5761,
+    "dt": 3.49597,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.071,
+    "P": 2517.510128909468,
+    "nPeri": 8,
+    "rate": -0.0003282801331167744,
+    "e": 0.5194459757508374,
+    "fitRms": 0.0000025813726516494824,
+    "rateB": -0.0003284588040907951,
+    "periRms": 8.309665177255925e-9,
+    "eB": 0.5194315013686271,
+    "Pa": 2517.154771374597,
+    "acct": {
+     "E0": -3.7131718915312906,
+     "dE": -0.000006455992982098437,
+     "dEmax": 0.013864121593417232,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.000006455992982098437,
+     "ledger": null,
+     "dh": 1.6118689684772261e-9,
+     "dLz": 1.6118689102723476e-9,
+     "lDrag": 0,
+     "dP": [
+      -2.145456027696402e-14,
+      -4.330767439410423e-11,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": null,
+    "gLoc": null,
+    "hashXY": "1bf5eca5050fc44d",
+    "hashAll": "4253f11691946440"
+   },
+   {
+    "key": "alphaCenABInertial3d|g1|div=4|N=8",
+    "spec": {
+     "id": "alphaCenABInertial3d",
+     "col": "g1",
+     "div": 4,
+     "N": 8,
+     "K": 3
+    },
+    "h": 6.99194,
+    "status": "run",
+    "coord3d": false,
+    "lawDecl": "eih-kf0",
+    "lawSim0": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "geodesic": true,
+    "warnings": 0,
+    "steps": 11521,
+    "dt": 1.747985,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.068,
+    "P": 2517.2435195829644,
+    "nPeri": 8,
+    "rate": -0.00008233634788478565,
+    "e": 0.519463979942521,
+    "fitRms": 4.956618582299441e-7,
+    "rateB": -0.00008237251199850215,
+    "periRms": 6.68362712370525e-9,
+    "eB": 0.519460349586837,
+    "Pa": 2517.15438478019,
+    "acct": {
+     "E0": -3.7131718915312906,
+     "dE": -0.0000013759843691686447,
+     "dEmax": 0.006900925955410704,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.0000013759843691686447,
+     "ledger": null,
+     "dh": 8.061091032415862e-10,
+     "dLz": 8.061092197144646e-10,
+     "lDrag": 0,
+     "dP": [
+      -1.2032878213855068e-14,
+      -2.165981147264628e-11,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": null,
+    "gLoc": null,
+    "hashXY": "9a68ae87d73a90ed",
+    "hashAll": "46816d5e69eeea68"
+   },
+   {
+    "key": "alphaCenABInertial3d|off|div=1|N=8",
+    "spec": {
+     "id": "alphaCenABInertial3d",
+     "col": "off",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 6.99194,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 2882,
+    "dt": 6.99194,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.019,
+    "P": 2518.5753899281153,
+    "nPeri": 8,
+    "rate": -0.0013114930990556258,
+    "e": 0.5193723372870777,
+    "fitRms": 0.00001686397497796813,
+    "rateB": -0.0013124380646031084,
+    "periRms": 1.2129989196127375e-8,
+    "eB": 0.5193161791015872,
+    "Pa": 2517.156308195974,
+    "acct": {
+     "E0": -3.7131718915312906,
+     "dE": -0.000057421445830580696,
+     "dEmax": 0.027972373514163144,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.000057421445830580696,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.000057421445830580696,
+      "W": 0,
+      "gLocWork": null,
+      "semicMiss": 0
+     },
+     "dh": 2.851817887752591e-15,
+     "dLz": 2.8620606475447845e-15,
+     "lDrag": 0,
+     "dP": [
+      5.961724595019298e-17,
+      0,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": false,
+     "steps": 2881,
+     "noHist": 1,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0,
+     "initObs": null
+    },
+    "gLoc": null,
+    "hashXY": "376fb1c251af06df",
+    "hashAll": "297e57d68e4b40ab"
+   },
+   {
+    "key": "alphaCenABInertial3d|off|div=2|N=8",
+    "spec": {
+     "id": "alphaCenABInertial3d",
+     "col": "off",
+     "div": 2,
+     "N": 8,
+     "K": 3
+    },
+    "h": 6.99194,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 5761,
+    "dt": 3.49597,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.091,
+    "P": 2517.5101283034746,
+    "nPeri": 8,
+    "rate": -0.00032830187473616753,
+    "e": 0.5194459778031212,
+    "fitRms": 0.0000025814666476306063,
+    "rateB": -0.0003284805025550969,
+    "periRms": 8.318025842975468e-9,
+    "eB": 0.5194314988081278,
+    "Pa": 2517.15474910455,
+    "acct": {
+     "E0": -3.7131718915312906,
+     "dE": -0.000006464198104837216,
+     "dEmax": 0.01386413596455902,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.000006464198104837216,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.000006464198104837216,
+      "W": 0,
+      "gLocWork": null,
+      "semicMiss": 0
+     },
+     "dh": 1.5355942472513952e-15,
+     "dLz": 1.7887879047154902e-15,
+     "lDrag": 0,
+     "dP": [
+      5.275341829145366e-17,
+      -1.0040799317927239e-16,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": false,
+     "steps": 5760,
+     "noHist": 1,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0,
+     "initObs": null
+    },
+    "gLoc": null,
+    "hashXY": "57a0329e56b2e4db",
+    "hashAll": "f1677f6191519b28"
+   },
+   {
+    "key": "alphaCenABInertial3d|off|div=4|N=8",
+    "spec": {
+     "id": "alphaCenABInertial3d",
+     "col": "off",
+     "div": 4,
+     "N": 8,
+     "K": 3
+    },
+    "h": 6.99194,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 11521,
+    "dt": 1.747985,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.149,
+    "P": 2517.2435273025862,
+    "nPeri": 8,
+    "rate": -0.00008235809060234785,
+    "e": 0.5194639828176629,
+    "fitRms": 4.956923456226863e-7,
+    "rateB": -0.00008239425078339847,
+    "periRms": 6.6804891052237544e-9,
+    "eB": 0.5194603479481263,
+    "Pa": 2517.154369893022,
+    "acct": {
+     "E0": -3.7131718915312906,
+     "dE": -0.000001380025310421359,
+     "dEmax": 0.006900940663597848,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.000001380025310421359,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.000001380025310421359,
+      "W": 0,
+      "gLocWork": null,
+      "semicMiss": 0
+     },
+     "dh": 1.316223640501196e-15,
+     "dLz": 1.4310303237723923e-15,
+     "lDrag": 0,
+     "dP": [
+      -1.7649842551043974e-17,
+      0,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": false,
+     "steps": 11520,
+     "noHist": 1,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0,
+     "initObs": null
+    },
+    "gLoc": null,
+    "hashXY": "d9f453384c1ee8e3",
+    "hashAll": "9f00b109f296c33e"
+   },
+   {
+    "key": "alphaCenABInertial3d|self|div=1|N=8",
+    "spec": {
+     "id": "alphaCenABInertial3d",
+     "col": "self",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 6.99194,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 2882,
+    "dt": 6.99194,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.651,
+    "P": 2518.5753752412033,
+    "nPeri": 8,
+    "rate": -0.0013114641404085347,
+    "e": 0.5193723389558303,
+    "fitRms": 0.000016863659272942463,
+    "rateB": -0.0013124092520689235,
+    "periRms": 1.2169773430977652e-8,
+    "eB": 0.5193161769729855,
+    "Pa": 2517.1563255888873,
+    "acct": {
+     "E0": -3.713171878513557,
+     "dE": -0.00005742404960461157,
+     "dEmax": 0.027972391133953552,
+     "wDrag": 3.115583025249532e-8,
+     "wGLoc": -1.8324520138423595e-13,
+     "closeE": -0.00005745520525161887,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00005745520525161887,
+      "W": 3.115583025249532e-8,
+      "gLocWork": -1.8324520138423595e-13,
+      "semicMiss": 0
+     },
+     "dh": 3.9486708996167565e-15,
+     "dLz": 1.9676666842805877e-15,
+     "lDrag": 3.428515667593905e-25,
+     "dP": [
+      -5.7959731170988175e-9,
+      6.643946667849564e-11,
+      0
+     ],
+     "pGLoc": [
+      -5.795973302462257e-9,
+      6.6439241032954e-11,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2882,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 1.9013652762993705e-8,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 9.50682608041278e-10,
+     "dGMax": 3.802730424934733e-9,
+     "evals": 2882
+    },
+    "hashXY": "e6b2ac93da726fcd",
+    "hashAll": "ff7e84e34d46885d"
+   },
+   {
+    "key": "alphaCenABInertial3d|self|div=2|N=8",
+    "spec": {
+     "id": "alphaCenABInertial3d",
+     "col": "self",
+     "div": 2,
+     "N": 8,
+     "K": 3
+    },
+    "h": 6.99194,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 5761,
+    "dt": 3.49597,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.975,
+    "P": 2517.5101170186504,
+    "nPeri": 8,
+    "rate": -0.00032827293145597605,
+    "e": 0.5194459799551653,
+    "fitRms": 0.000002581341395114869,
+    "rateB": -0.0003284515969672816,
+    "periRms": 8.329643376761575e-9,
+    "eB": 0.5194314972925002,
+    "Pa": 2517.154769520845,
+    "acct": {
+     "E0": -3.713171878513557,
+     "dE": -0.000006465450500368963,
+     "dEmax": 0.01386415381551444,
+     "wDrag": 1.5596271804987307e-8,
+     "wGLoc": -1.2953844639590545e-14,
+     "closeE": -0.000006481046759220107,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.000006481046759220107,
+      "W": 1.5596271804987307e-8,
+      "gLocWork": -1.2953844639590545e-14,
+      "semicMiss": 0
+     },
+     "dh": 2.413076660876907e-15,
+     "dLz": 1.7887878948005343e-16,
+     "lDrag": -3.8142740609050195e-25,
+     "dP": [
+      -5.8016806970687924e-9,
+      2.5653940891129e-11,
+      0
+     ],
+     "pGLoc": [
+      -5.801680707026022e-9,
+      2.5653898892648195e-11,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 5761,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 1.9019973251243037e-8,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 9.509986324186226e-10,
+     "dGMax": 3.803994522439303e-9,
+     "evals": 5761
+    },
+    "hashXY": "bda8d12283c03734",
+    "hashAll": "79a3a207874daaf1"
+   },
+   {
+    "key": "alphaCenABInertial3d|self|div=4|N=8",
+    "spec": {
+     "id": "alphaCenABInertial3d",
+     "col": "self",
+     "div": 4,
+     "N": 8,
+     "K": 3
+    },
+    "h": 6.99194,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 11521,
+    "dt": 1.747985,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 2.008,
+    "P": 2517.2435177182188,
+    "nPeri": 8,
+    "rate": -0.00008232915106432098,
+    "e": 0.5194639852310436,
+    "fitRms": 4.956517504013527e-7,
+    "rateB": -0.0000823653163080476,
+    "periRms": 6.688141485176012e-9,
+    "eB": 0.519460346739729,
+    "Pa": 2517.1543918211514,
+    "acct": {
+     "E0": -3.713171878513557,
+     "dE": -0.0000013806388968658536,
+     "dEmax": 0.006900958625598602,
+     "wDrag": 7.800473544338258e-9,
+     "wGLoc": -2.5621013912502287e-15,
+     "closeE": -0.0000013884393678480906,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.0000013884393678480906,
+      "W": 7.800473544338258e-9,
+      "gLocWork": -2.5621013912502287e-15,
+      "semicMiss": 0
+     },
+     "dh": -2.8518178719454354e-15,
+     "dLz": -4.8297273159614425e-15,
+     "lDrag": 6.686210892881443e-25,
+     "dP": [
+      -5.802896839067658e-9,
+      1.0930815708880602e-11,
+      0
+     ],
+     "pGLoc": [
+      -5.802896845939691e-9,
+      1.0930869031880814e-11,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 11521,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 1.9021555369660134e-8,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 9.510777383306848e-10,
+     "dGMax": 3.804310946086348e-9,
+     "evals": 11521
+    },
+    "hashXY": "0d3cefa395dff14b",
+    "hashAll": "481b0e2ae398e1cd"
+   },
+   {
+    "key": "alphaCenABInertial3d|sib|div=1|N=8",
+    "spec": {
+     "id": "alphaCenABInertial3d",
+     "col": "sib",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 6.99194,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 2882,
+    "dt": 6.99194,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.637,
+    "P": 2518.5753752412033,
+    "nPeri": 8,
+    "rate": -0.0013114641404085347,
+    "e": 0.5193723389558303,
+    "fitRms": 0.000016863659272942463,
+    "rateB": -0.0013124092520689235,
+    "periRms": 1.2169773430977652e-8,
+    "eB": 0.5193161769729855,
+    "Pa": 2517.1563255888873,
+    "acct": {
+     "E0": -3.713171878513557,
+     "dE": -0.00005742404960461157,
+     "dEmax": 0.027972391133953552,
+     "wDrag": 3.115583025249532e-8,
+     "wGLoc": -1.8324520138423595e-13,
+     "closeE": -0.00005745520525161887,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00005745520525161887,
+      "W": 3.115583025249532e-8,
+      "gLocWork": -1.8324520138423595e-13,
+      "semicMiss": 0
+     },
+     "dh": 3.9486708996167565e-15,
+     "dLz": 1.9676666842805877e-15,
+     "lDrag": 3.428515667593905e-25,
+     "dP": [
+      -5.7959731170988175e-9,
+      6.643946667849564e-11,
+      0
+     ],
+     "pGLoc": [
+      -5.795973302462257e-9,
+      6.6439241032954e-11,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2882,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 1.9013652762993705e-8,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 9.50682608041278e-10,
+     "dGMax": 3.802730424934733e-9,
+     "evals": 2882
+    },
+    "hashXY": "e6b2ac93da726fcd",
+    "hashAll": "ff7e84e34d46885d"
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|g1|div=1|N=8",
+    "spec": {
+     "id": "binaryCheckEqualInertial3d",
+     "col": "g1",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": false,
+    "lawDecl": "eih-kf0",
+    "lawSim0": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "geodesic": true,
+    "warnings": 0,
+    "steps": 2884,
+    "dt": 17.453292519943293,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.095,
+    "P": 6290.720039821683,
+    "nPeri": 8,
+    "rate": 0.00130340369186908,
+    "e": 0.49983770871093036,
+    "fitRms": 0.000015647392429252123,
+    "rateB": 0.0013018706090381085,
+    "periRms": 0.000009749405990818522,
+    "eB": 0.5002773539523713,
+    "Pa": 6293.151443350866,
+    "acct": {
+     "E0": -0.0012499999074074152,
+     "dE": 0.0016419555386663956,
+     "dEmax": 0.025433287434775236,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": 0.0016419555386663956,
+     "ledger": null,
+     "dh": 0.00035471472617022064,
+     "dLz": 0.00035471472617022064,
+     "lDrag": 0,
+     "dP": [
+      0,
+      0,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": null,
+    "gLoc": null,
+    "hashXY": "9914acd6783d74bd",
+    "hashAll": "de063f8d87efe62b"
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|g1|div=2|N=8",
+    "spec": {
+     "id": "binaryCheckEqualInertial3d",
+     "col": "g1",
+     "div": 2,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": false,
+    "lawDecl": "eih-kf0",
+    "lawSim0": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "geodesic": true,
+    "warnings": 0,
+    "steps": 5761,
+    "dt": 8.726646259971647,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.094,
+    "P": 6284.041380296911,
+    "nPeri": 8,
+    "rate": 0.0022067199954130695,
+    "e": 0.49972646943320403,
+    "fitRms": 0.000013522087965192695,
+    "rateB": 0.0022053372274918035,
+    "periRms": 0.0000014177804324044938,
+    "eB": 0.5002113943894165,
+    "Pa": 6289.305965691424,
+    "acct": {
+     "E0": -0.0012499999074074152,
+     "dE": 0.000848106639904412,
+     "dEmax": 0.013660301729212709,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": 0.000848106639904412,
+     "ledger": null,
+     "dh": 0.00017751571823038342,
+     "dLz": 0.00017751571823038342,
+     "lDrag": 0,
+     "dP": [
+      0,
+      0,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": null,
+    "gLoc": null,
+    "hashXY": "d5bbb33ee306f17b",
+    "hashAll": "38db4b49958c6ea0"
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|g1|div=4|N=8",
+    "spec": {
+     "id": "binaryCheckEqualInertial3d",
+     "col": "g1",
+     "div": 4,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": false,
+    "lawDecl": "eih-kf0",
+    "lawSim0": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "geodesic": true,
+    "warnings": 0,
+    "steps": 11517,
+    "dt": 4.363323129985823,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.114,
+    "P": 6281.295357469394,
+    "nPeri": 8,
+    "rate": 0.0024328464557484657,
+    "e": 0.49965532190300993,
+    "fitRms": 0.000009893661177343645,
+    "rateB": 0.002431485796713961,
+    "periRms": 5.737565489626278e-7,
+    "eB": 0.50015183532722,
+    "Pa": 6287.384254912627,
+    "acct": {
+     "E0": -0.0012499999074074152,
+     "dE": 0.0004269769552888827,
+     "dEmax": 0.007712863459213128,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": 0.0004269769552888827,
+     "ledger": null,
+     "dh": 0.00008876368571705305,
+     "dLz": 0.00008876368571705305,
+     "lDrag": 0,
+     "dP": [
+      0,
+      0,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": null,
+    "gLoc": null,
+    "hashXY": "509646a11aeec2f0",
+    "hashAll": "a545356e2ac2e449"
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|off|div=1|N=8",
+    "spec": {
+     "id": "binaryCheckEqualInertial3d",
+     "col": "off",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 2882,
+    "dt": 17.453292519943293,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.085,
+    "P": 6286.343615781459,
+    "nPeri": 8,
+    "rate": -0.001208440797507004,
+    "e": 0.4999115335351584,
+    "fitRms": 0.000014394566954392101,
+    "rateB": -0.0012088334335208031,
+    "periRms": 1.1948592960453368e-11,
+    "eB": 0.49985870743322536,
+    "Pa": 6283.20512858026,
+    "acct": {
+     "E0": -0.0012499999074074152,
+     "dE": -0.000059920646160448006,
+     "dEmax": 0.024745562429234993,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.000059920646160448006,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.000059920646160448006,
+      "W": 0,
+      "gLocWork": null,
+      "semicMiss": 0
+     },
+     "dh": 1.6409281590473076e-15,
+     "dLz": 1.6409281590473076e-15,
+     "lDrag": 0,
+     "dP": [
+      0,
+      0,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": false,
+     "steps": 2881,
+     "noHist": 1,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0,
+     "initObs": null
+    },
+    "gLoc": null,
+    "hashXY": "14931412f01f63b2",
+    "hashAll": "87b0b2ba4fa21c29"
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|off|div=2|N=8",
+    "spec": {
+     "id": "binaryCheckEqualInertial3d",
+     "col": "off",
+     "div": 2,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 5761,
+    "dt": 8.726646259971647,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.096,
+    "P": 6283.984174442393,
+    "nPeri": 8,
+    "rate": -0.00030538298385653957,
+    "e": 0.499977817195238,
+    "fitRms": 0.0000022015451885189094,
+    "rateB": -0.00030543285642914934,
+    "periRms": 2.5015604080478355e-13,
+    "eB": 0.49996438833058165,
+    "Pa": 6283.190762164023,
+    "acct": {
+     "E0": -0.0012499999074074152,
+     "dE": -0.0000074840272584647156,
+     "dEmax": 0.01226802891939945,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.0000074840272584647156,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.0000074840272584647156,
+      "W": 0,
+      "gLocWork": null,
+      "semicMiss": 0
+     },
+     "dh": -2.4613922385709614e-15,
+     "dLz": -2.4613922385709614e-15,
+     "lDrag": 0,
+     "dP": [
+      0,
+      0,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": false,
+     "steps": 5760,
+     "noHist": 1,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0,
+     "initObs": null
+    },
+    "gLoc": null,
+    "hashXY": "f80245d804791dbb",
+    "hashAll": "63ad1fd3d77a0dab"
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|off|div=4|N=8",
+    "spec": {
+     "id": "binaryCheckEqualInertial3d",
+     "col": "off",
+     "div": 4,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 11521,
+    "dt": 4.363323129985823,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.126,
+    "P": 6283.393744379407,
+    "nPeri": 8,
+    "rate": -0.00007949562763435194,
+    "e": 0.49999405963248866,
+    "fitRms": 4.2218491275636084e-7,
+    "rateB": -0.00007950499095272304,
+    "periRms": 1.4841299762884873e-14,
+    "eB": 0.49999082514251225,
+    "Pa": 6283.187193024626,
+    "acct": {
+     "E0": -0.0012499999074074152,
+     "dE": -0.0000018738663277582564,
+     "dEmax": 0.006107475712102433,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.0000018738663277582564,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.0000018738663277582564,
+      "W": 0,
+      "gLocWork": null,
+      "semicMiss": 0
+     },
+     "dh": -4.102320397618269e-16,
+     "dLz": -4.102320397618269e-16,
+     "lDrag": 0,
+     "dP": [
+      0,
+      0,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": false,
+     "steps": 11520,
+     "noHist": 1,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0,
+     "initObs": null
+    },
+    "gLoc": null,
+    "hashXY": "530f4da9b230f6be",
+    "hashAll": "9d3a60dd0ab1216d"
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|self|div=1|N=8",
+    "spec": {
+     "id": "binaryCheckEqualInertial3d",
+     "col": "self",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 2881,
+    "dt": 17.453292519943293,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.662,
+    "P": 6283.090645001773,
+    "nPeri": 8,
+    "rate": 0.00213727348570397,
+    "e": 0.5000541394586379,
+    "fitRms": 0.000024454569269971928,
+    "rateB": 0.0021359575808860623,
+    "periRms": 0.000009498466465206469,
+    "eB": 0.49960613683426347,
+    "Pa": 6288.830827343161,
+    "acct": {
+     "E0": -0.0012494441687847938,
+     "dE": -0.0002693869367836542,
+     "dEmax": 0.026676036715493654,
+     "wDrag": 0.0032930782610081943,
+     "wGLoc": 6.061109081773905e-9,
+     "closeE": -0.00356247125890093,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00356247125890093,
+      "W": 0.0032930782610081943,
+      "gLocWork": 6.061109081773905e-9,
+      "semicMiss": 0
+     },
+     "dh": -8.199174699596454e-16,
+     "dLz": -8.199174699596454e-16,
+     "lDrag": -2.4466002896267073e-20,
+     "dP": [
+      0,
+      0,
+      0
+     ],
+     "pGLoc": [
+      0,
+      0,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2881,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.001996403047383103,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.0000999209825215491,
+     "dGMax": 0.00039960406710454964,
+     "evals": 2881
+    },
+    "hashXY": "ac4836a40a2ea512",
+    "hashAll": "f9fa077bd3b42100"
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|self|div=2|N=8",
+    "spec": {
+     "id": "binaryCheckEqualInertial3d",
+     "col": "self",
+     "div": 2,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 5759,
+    "dt": 8.726646259971647,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 1.151,
+    "P": 6281.573080297049,
+    "nPeri": 8,
+    "rate": 0.0030386677006245663,
+    "e": 0.500171957168799,
+    "fitRms": 0.000020041038374514283,
+    "rateB": 0.0030381808954661736,
+    "periRms": 0.0000010235802248187188,
+    "eB": 0.49977112098809245,
+    "Pa": 6289.564601709074,
+    "acct": {
+     "E0": -0.0012494441687847938,
+     "dE": -0.00010708261658365806,
+     "dEmax": 0.014241196940025907,
+     "wDrag": 0.001648597980775685,
+     "wGLoc": -3.525817864526156e-8,
+     "closeE": -0.0017556453391806978,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.0017556453391806978,
+      "W": 0.001648597980775685,
+      "gLocWork": -3.525817864526156e-8,
+      "semicMiss": 0
+     },
+     "dh": 2.869711144858759e-15,
+     "dLz": 2.869711144858759e-15,
+     "lDrag": -4.142448967571393e-20,
+     "dP": [
+      0,
+      0,
+      0
+     ],
+     "pGLoc": [
+      0,
+      0,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 5759,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.0019970251884904693,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.00009995215244607324,
+     "dGMax": 0.0003997286969723624,
+     "evals": 5759
+    },
+    "hashXY": "388e72c4097c79dc",
+    "hashAll": "90ab15312acbf48a"
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|self|div=4|N=8",
+    "spec": {
+     "id": "binaryCheckEqualInertial3d",
+     "col": "self",
+     "div": 4,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 11517,
+    "dt": 4.363323129985823,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 2.034,
+    "P": 6281.403030770661,
+    "nPeri": 8,
+    "rate": 0.003264160506496624,
+    "e": 0.5002159668991755,
+    "fitRms": 0.00001587124470789336,
+    "rateB": 0.0032632376798387773,
+    "periRms": 2.0585365600048226e-7,
+    "eB": 0.4998273000808021,
+    "Pa": 6289.935534151665,
+    "acct": {
+     "E0": -0.0012494441687847938,
+     "dE": -0.000050269174105502824,
+     "dEmax": 0.008133154600387818,
+     "wDrag": 0.0008247232249773475,
+     "wGLoc": -5.297294581657526e-8,
+     "closeE": -0.0008749394261370337,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.0008749394261370337,
+      "W": 0.0008247232249773475,
+      "gLocWork": -5.297294581657526e-8,
+      "semicMiss": 0
+     },
+     "dh": -5.1244841872477835e-15,
+     "dLz": -5.1244841872477835e-15,
+     "lDrag": -3.645569996879058e-21,
+     "dP": [
+      0,
+      0,
+      0
+     ],
+     "pGLoc": [
+      0,
+      0,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 11517,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.0019972085471463906,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.00009996133891153148,
+     "dGMax": 0.000399765428145145,
+     "evals": 11517
+    },
+    "hashXY": "203425e223183fb6",
+    "hashAll": "795e34693e21b4d0"
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|sib|div=1|N=8",
+    "spec": {
+     "id": "binaryCheckEqualInertial3d",
+     "col": "sib",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 2881,
+    "dt": 17.453292519943293,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.651,
+    "P": 6283.090645001773,
+    "nPeri": 8,
+    "rate": 0.00213727348570397,
+    "e": 0.5000541394586379,
+    "fitRms": 0.000024454569269971928,
+    "rateB": 0.0021359575808860623,
+    "periRms": 0.000009498466465206469,
+    "eB": 0.49960613683426347,
+    "Pa": 6288.830827343161,
+    "acct": {
+     "E0": -0.0012494441687847938,
+     "dE": -0.0002693869367836542,
+     "dEmax": 0.026676036715493654,
+     "wDrag": 0.0032930782610081943,
+     "wGLoc": 6.061109081773905e-9,
+     "closeE": -0.00356247125890093,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00356247125890093,
+      "W": 0.0032930782610081943,
+      "gLocWork": 6.061109081773905e-9,
+      "semicMiss": 0
+     },
+     "dh": -8.199174699596454e-16,
+     "dLz": -8.199174699596454e-16,
+     "lDrag": -2.4466002896267073e-20,
+     "dP": [
+      0,
+      0,
+      0
+     ],
+     "pGLoc": [
+      0,
+      0,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2881,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.001996403047383103,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.0000999209825215491,
+     "dGMax": 0.00039960406710454964,
+     "evals": 2881
+    },
+    "hashXY": "ac4836a40a2ea512",
+    "hashAll": "f9fa077bd3b42100"
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|g1|div=1|N=8",
+    "spec": {
+     "id": "binaryCheckRatio3Inertial3d",
+     "col": "g1",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": false,
+    "lawDecl": "eih-kf0",
+    "lawSim0": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "geodesic": true,
+    "warnings": 0,
+    "steps": 2884,
+    "dt": 17.453292519943293,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.061,
+    "P": 6291.083094388908,
+    "nPeri": 8,
+    "rate": 0.0013035409049051891,
+    "e": 0.4998408697097168,
+    "fitRms": 0.000015664843413897805,
+    "rateB": 0.0013013147943520488,
+    "periRms": 0.000009849625041736002,
+    "eB": 0.5002951390284035,
+    "Pa": 6293.475173299688,
+    "acct": {
+     "E0": -0.0009374999305555615,
+     "dE": 0.0017135210720451368,
+     "dEmax": 0.02548420782759073,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": 0.0017135210720451368,
+     "ledger": null,
+     "dh": 0.0003673857745310194,
+     "dLz": 0.0003673860977998835,
+     "lDrag": 0,
+     "dP": [
+      -6.94687685084235e-7,
+      0.000023901381883914692,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": null,
+    "gLoc": null,
+    "hashXY": "b67845a0953725de",
+    "hashAll": "2cd72416e7141a54"
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|g1|div=2|N=8",
+    "spec": {
+     "id": "binaryCheckRatio3Inertial3d",
+     "col": "g1",
+     "div": 2,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": false,
+    "lawDecl": "eih-kf0",
+    "lawSim0": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "geodesic": true,
+    "warnings": 0,
+    "steps": 5761,
+    "dt": 8.726646259971647,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.072,
+    "P": 6284.22582620952,
+    "nPeri": 8,
+    "rate": 0.0022068171508028466,
+    "e": 0.49972181153227274,
+    "fitRms": 0.00001352552705315459,
+    "rateB": 0.002205283267238448,
+    "periRms": 0.000001557144763910654,
+    "eB": 0.5002213389092856,
+    "Pa": 6289.47113518119,
+    "acct": {
+     "E0": -0.0009374999305555615,
+     "dE": 0.0008828509318740639,
+     "dEmax": 0.013714989525890469,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": 0.0008828509318740639,
+     "ledger": null,
+     "dh": 0.000183857371997209,
+     "dLz": 0.0001838575514043288,
+     "lDrag": 0,
+     "dP": [
+      -6.960390734637846e-7,
+      0.000011961455923119392,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": null,
+    "gLoc": null,
+    "hashXY": "e6067c454dc55f43",
+    "hashAll": "f0e73afaa47bcce7"
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|g1|div=4|N=8",
+    "spec": {
+     "id": "binaryCheckRatio3Inertial3d",
+     "col": "g1",
+     "div": 4,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": false,
+    "lawDecl": "eih-kf0",
+    "lawSim0": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "geodesic": true,
+    "warnings": 0,
+    "steps": 11517,
+    "dt": 4.363323129985823,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.131,
+    "P": 6281.390699542892,
+    "nPeri": 8,
+    "rate": 0.002432939341140048,
+    "e": 0.4996467479529607,
+    "fitRms": 0.000009895536746077405,
+    "rateB": 0.0024315423754932776,
+    "periRms": 6.904864507875847e-7,
+    "eB": 0.5001578525891092,
+    "Pa": 6287.470106768292,
+    "acct": {
+     "E0": -0.0009374999305555615,
+     "dE": 0.00044408509791679033,
+     "dEmax": 0.007770545952664453,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": 0.00044408509791679033,
+     "ledger": null,
+     "dh": 0.00009193500296477085,
+     "dLz": 0.00009193511665647835,
+     "lDrag": 0,
+     "dP": [
+      -6.49186272072999e-7,
+      0.000005980283751931055,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": null,
+    "gLoc": null,
+    "hashXY": "c48e0cd730ba0cfb",
+    "hashAll": "b209d4f674ee14c8"
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|off|div=1|N=8",
+    "spec": {
+     "id": "binaryCheckRatio3Inertial3d",
+     "col": "off",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 2882,
+    "dt": 17.453292519943293,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.054,
+    "P": 6286.343615781456,
+    "nPeri": 8,
+    "rate": -0.001208440797507406,
+    "e": 0.49991153353515927,
+    "fitRms": 0.000014394566954370461,
+    "rateB": -0.0012088334335197573,
+    "periRms": 1.1946311761885892e-11,
+    "eB": 0.4998587074332255,
+    "Pa": 6283.205128580274,
+    "acct": {
+     "E0": -0.0009374999305555615,
+     "dE": -0.00005992064616663518,
+     "dEmax": 0.02474556242923742,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.00005992064616663518,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00005992064616663518,
+      "W": 0,
+      "gLocWork": null,
+      "semicMiss": 0
+     },
+     "dh": -1.2306961192854807e-15,
+     "dLz": -1.0939521060315386e-15,
+     "lDrag": 0,
+     "dP": [
+      3.3802078471586086e-17,
+      8.012344526598183e-17,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": false,
+     "steps": 2881,
+     "noHist": 1,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0,
+     "initObs": null
+    },
+    "gLoc": null,
+    "hashXY": "aa780e7f7ba8fa38",
+    "hashAll": "9eab844bc5179ce8"
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|off|div=2|N=8",
+    "spec": {
+     "id": "binaryCheckRatio3Inertial3d",
+     "col": "off",
+     "div": 2,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 5761,
+    "dt": 8.726646259971647,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.087,
+    "P": 6283.984174442485,
+    "nPeri": 8,
+    "rate": -0.0003053829838565907,
+    "e": 0.49997781719523665,
+    "fitRms": 0.0000022015451884899485,
+    "rateB": -0.0003054328564275056,
+    "periRms": 2.4789332706624185e-13,
+    "eB": 0.4999643883305811,
+    "Pa": 6283.190762164102,
+    "acct": {
+     "E0": -0.0009374999305555615,
+     "dE": -0.00000748402725320272,
+     "dEmax": 0.01226802891940419,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.00000748402725320272,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00000748402725320272,
+      "W": 0,
+      "gLocWork": null,
+      "semicMiss": 0
+     },
+     "dh": 1.2306961192854807e-15,
+     "dLz": 1.5041841457933655e-15,
+     "lDrag": 0,
+     "dP": [
+      -1.65880570277228e-17,
+      4.006172263299091e-17,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": false,
+     "steps": 5760,
+     "noHist": 1,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0,
+     "initObs": null
+    },
+    "gLoc": null,
+    "hashXY": "00eb1ee6f902a715",
+    "hashAll": "53500f6a1355238d"
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|off|div=4|N=8",
+    "spec": {
+     "id": "binaryCheckRatio3Inertial3d",
+     "col": "off",
+     "div": 4,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 11521,
+    "dt": 4.363323129985823,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.107,
+    "P": 6283.393744379563,
+    "nPeri": 8,
+    "rate": -0.00007949562763477026,
+    "e": 0.4999940596324899,
+    "fitRms": 4.2218491279767233e-7,
+    "rateB": -0.00007950499095354936,
+    "periRms": 1.3823081220296473e-14,
+    "eB": 0.49999082514251547,
+    "Pa": 6283.187193024658,
+    "acct": {
+     "E0": -0.0009374999305555615,
+     "dE": -0.0000018738663102953718,
+     "dEmax": 0.006107475712099772,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.0000018738663102953718,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.0000018738663102953718,
+      "W": 0,
+      "gLocWork": null,
+      "semicMiss": 0
+     },
+     "dh": 3.076740298213702e-15,
+     "dLz": 3.1451123048406733e-15,
+     "lDrag": 0,
+     "dP": [
+      -2.1439281252811543e-17,
+      0,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": false,
+     "steps": 11520,
+     "noHist": 1,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0,
+     "initObs": null
+    },
+    "gLoc": null,
+    "hashXY": "ea68fbf480c7825f",
+    "hashAll": "a48c86ca6ffd4109"
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|self|div=1|N=8",
+    "spec": {
+     "id": "binaryCheckRatio3Inertial3d",
+     "col": "self",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 2881,
+    "dt": 17.453292519943293,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.602,
+    "P": 6283.84417817901,
+    "nPeri": 8,
+    "rate": 0.0019282709469109068,
+    "e": 0.49999694563380054,
+    "fitRms": 0.000022084544110266653,
+    "rateB": 0.0019286696264581079,
+    "periRms": 0.000010342637502297256,
+    "eB": 0.4995728594749072,
+    "Pa": 6289.041185356718,
+    "acct": {
+     "E0": -0.0009370831269851394,
+     "dE": -0.0002635614378972695,
+     "dEmax": 0.026542618645441267,
+     "wDrag": 0.003291901388247551,
+     "wGLoc": 0.000002809923013548792,
+     "closeE": -0.0035582727491583694,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.0035582727491583694,
+      "W": 0.003291901388247551,
+      "gLocWork": 0.000002809923013548792,
+      "semicMiss": 0
+     },
+     "dh": -4.099587352395828e-15,
+     "dLz": 0.000005386862753710925,
+     "lDrag": -7.97102989129674e-11,
+     "dP": [
+      0.001672865760280077,
+      0.0000017143193987772735,
+      0
+     ],
+     "pGLoc": [
+      0.0016728657602801207,
+      0.0000017143193987112592,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2881,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.0029928238745807597,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.0001498679420030758,
+     "dGMax": 0.0005992921207116029,
+     "evals": 2881
+    },
+    "hashXY": "c7403984261e6b3c",
+    "hashAll": "1ccfabe23613297f"
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|self|div=2|N=8",
+    "spec": {
+     "id": "binaryCheckRatio3Inertial3d",
+     "col": "self",
+     "div": 2,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 5760,
+    "dt": 8.726646259971647,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 1.019,
+    "P": 6282.327426401441,
+    "nPeri": 8,
+    "rate": 0.0028293341372634456,
+    "e": 0.5001151998430675,
+    "fitRms": 0.00001825958427240273,
+    "rateB": 0.0028289532874442615,
+    "periRms": 0.0000010395777794630563,
+    "eB": 0.49973778569256966,
+    "Pa": 6289.774537568922,
+    "acct": {
+     "E0": -0.0009370831269851394,
+     "dE": -0.00011034080499370519,
+     "dEmax": 0.014109987025212918,
+     "wDrag": 0.0016479677354078871,
+     "wGLoc": 0.0000027768276165348798,
+     "closeE": -0.0017610853680181272,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.0017610853680181272,
+      "W": 0.0016479677354078871,
+      "gLocWork": 0.0000027768276165348798,
+      "semicMiss": 0
+     },
+     "dh": 1.024896838098957e-15,
+     "dLz": 0.000005488037721994678,
+     "lDrag": -7.982754848716491e-11,
+     "dP": [
+      0.0016744228338842462,
+      0.00001336494316977626,
+      0
+     ],
+     "pGLoc": [
+      0.0016744228338842183,
+      0.000013364943169786122,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 5760,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.0029937529675330456,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.00014991453753826345,
+     "dGMax": 0.0005994783911376463,
+     "evals": 5760
+    },
+    "hashXY": "eab3f7194c8d16d3",
+    "hashAll": "8e63bf8a21868298"
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|self|div=4|N=8",
+    "spec": {
+     "id": "binaryCheckRatio3Inertial3d",
+     "col": "self",
+     "div": 4,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 11519,
+    "dt": 4.363323129985823,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 2.038,
+    "P": 6282.157538163135,
+    "nPeri": 8,
+    "rate": 0.003054743213048556,
+    "e": 0.5001593244352429,
+    "fitRms": 0.000014202229125539887,
+    "rateB": 0.0030539118678015384,
+    "periRms": 1.819131291642606e-7,
+    "eB": 0.49979394522395326,
+    "Pa": 6290.145300102417,
+    "acct": {
+     "E0": -0.0009370831269851394,
+     "dE": -0.000050527204142673034,
+     "dEmax": 0.007998742979304784,
+     "wDrag": 0.0008243749831326965,
+     "wGLoc": 0.0000027585431335701523,
+     "closeE": -0.0008776607304089397,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.0008776607304089397,
+      "W": 0.0008243749831326965,
+      "gLocWork": 0.0000027585431335701523,
+      "semicMiss": 0
+     },
+     "dh": -3.074690514296871e-15,
+     "dLz": 0.000005513577000582588,
+     "lDrag": -7.986610163397018e-11,
+     "dP": [
+      0.0016748725739793458,
+      0.000017684253989206585,
+      0
+     ],
+     "pGLoc": [
+      0.001674872573979343,
+      0.00001768425398919363,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 11519,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.0029940357276818257,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.00014992871843212105,
+     "dGMax": 0.0005995350807069112,
+     "evals": 11519
+    },
+    "hashXY": "58880d99550edc33",
+    "hashAll": "a434dd062393950a"
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|sib|div=1|N=8",
+    "spec": {
+     "id": "binaryCheckRatio3Inertial3d",
+     "col": "sib",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 17.453292519943293,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 2881,
+    "dt": 17.453292519943293,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.532,
+    "P": 6283.84417817901,
+    "nPeri": 8,
+    "rate": 0.0019282709469109068,
+    "e": 0.49999694563380054,
+    "fitRms": 0.000022084544110266653,
+    "rateB": 0.0019286696264581079,
+    "periRms": 0.000010342637502297256,
+    "eB": 0.4995728594749072,
+    "Pa": 6289.041185356718,
+    "acct": {
+     "E0": -0.0009370831269851394,
+     "dE": -0.0002635614378972695,
+     "dEmax": 0.026542618645441267,
+     "wDrag": 0.003291901388247551,
+     "wGLoc": 0.000002809923013548792,
+     "closeE": -0.0035582727491583694,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.0035582727491583694,
+      "W": 0.003291901388247551,
+      "gLocWork": 0.000002809923013548792,
+      "semicMiss": 0
+     },
+     "dh": -4.099587352395828e-15,
+     "dLz": 0.000005386862753710925,
+     "lDrag": -7.97102989129674e-11,
+     "dP": [
+      0.001672865760280077,
+      0.0000017143193987772735,
+      0
+     ],
+     "pGLoc": [
+      0.0016728657602801207,
+      0.0000017143193987112592,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2881,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.0029928238745807597,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.0001498679420030758,
+     "dGMax": 0.0005992921207116029,
+     "evals": 2881
+    },
+    "hashXY": "c7403984261e6b3c",
+    "hashAll": "1ccfabe23613297f"
+   },
+   {
+    "key": "siriusABInertial3d|g1|div=1|N=8",
+    "spec": {
+     "id": "siriusABInertial3d",
+     "col": "g1",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 4.39426,
+    "status": "run",
+    "coord3d": false,
+    "lawDecl": "eih-kf0",
+    "lawSim0": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "geodesic": true,
+    "warnings": 0,
+    "steps": 2883,
+    "dt": 4.39426,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.034,
+    "P": 1583.4515635250261,
+    "nPeri": 8,
+    "rate": -0.0018913176995004782,
+    "e": 0.591269985344861,
+    "fitRms": 0.000032087752360984954,
+    "rateB": -0.0018928902572234747,
+    "periRms": 2.799169083096989e-8,
+    "eB": 0.5912033015264858,
+    "Pa": 1581.956990660478,
+    "acct": {
+     "E0": -9.363564588645243,
+     "dE": -0.00008306980550049102,
+     "dEmax": 0.04538974783950904,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.00008306980550049102,
+     "ledger": null,
+     "dh": 8.251326534405925e-9,
+     "dLz": 8.251326628595892e-9,
+     "lDrag": 0,
+     "dP": [
+      -1.915724314729779e-12,
+      -1.410943760112167e-9,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": null,
+    "gLoc": null,
+    "hashXY": "aaaecb27545d1263",
+    "hashAll": "8249934512f7aa5f"
+   },
+   {
+    "key": "siriusABInertial3d|g1|div=2|N=8",
+    "spec": {
+     "id": "siriusABInertial3d",
+     "col": "g1",
+     "div": 2,
+     "N": 8,
+     "K": 3
+    },
+    "h": 4.39426,
+    "status": "run",
+    "coord3d": false,
+    "lawDecl": "eih-kf0",
+    "lawSim0": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "geodesic": true,
+    "warnings": 0,
+    "steps": 5762,
+    "dt": 2.19713,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.062,
+    "P": 1582.3402895371735,
+    "nPeri": 8,
+    "rate": -0.00047359809370504783,
+    "e": 0.5913834504659051,
+    "fitRms": 0.000004934406510761647,
+    "rateB": -0.0004738848936867281,
+    "periRms": 3.3132191583167136e-8,
+    "eB": 0.5913657562095671,
+    "Pa": 1581.9657908256468,
+    "acct": {
+     "E0": -9.363564588645243,
+     "dE": -0.00001319583665288953,
+     "dEmax": 0.022469852316802284,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.00001319583665288953,
+     "ledger": null,
+     "dh": 4.131544903476873e-9,
+     "dLz": 4.131545078464553e-9,
+     "lDrag": 0,
+     "dP": [
+      5.004079325512725e-13,
+      -7.066649516338498e-10,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": null,
+    "gLoc": null,
+    "hashXY": "0fd60f4d98113baa",
+    "hashAll": "43278edc8f676dc6"
+   },
+   {
+    "key": "siriusABInertial3d|g1|div=4|N=8",
+    "spec": {
+     "id": "siriusABInertial3d",
+     "col": "g1",
+     "div": 4,
+     "N": 8,
+     "K": 3
+    },
+    "h": 4.39426,
+    "status": "run",
+    "coord3d": false,
+    "lawDecl": "eih-kf0",
+    "lawSim0": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "geodesic": true,
+    "warnings": 0,
+    "steps": 11521,
+    "dt": 1.098565,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.093,
+    "P": 1582.0619996490561,
+    "nPeri": 8,
+    "rate": -0.00011886374822411804,
+    "e": 0.5914108551246671,
+    "fitRms": 9.556338020561223e-7,
+    "rateB": -0.00011890847069125582,
+    "periRms": 2.4936102221583775e-8,
+    "eB": 0.5914064007580009,
+    "Pa": 1581.9679954361577,
+    "acct": {
+     "E0": -9.363564588645243,
+     "dE": -0.0000013030865613005317,
+     "dEmax": 0.0111798980725519,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.0000013030865613005317,
+     "ledger": null,
+     "dh": 2.0665018808236055e-9,
+     "dLz": 2.066501831821336e-9,
+     "lDrag": 0,
+     "dP": [
+      3.77298325307988e-13,
+      -3.534820241530079e-10,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": null,
+    "gLoc": null,
+    "hashXY": "52fee2efc9b33089",
+    "hashAll": "d354370c215bd90b"
+   },
+   {
+    "key": "siriusABInertial3d|off|div=1|N=8",
+    "spec": {
+     "id": "siriusABInertial3d",
+     "col": "off",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 4.39426,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 2883,
+    "dt": 4.39426,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.064,
+    "P": 1583.4515233333273,
+    "nPeri": 8,
+    "rate": -0.0018913622595560459,
+    "e": 0.5912699841569734,
+    "fitRms": 0.0000320883933462869,
+    "rateB": -0.0018929330886033012,
+    "periRms": 2.8696956360161445e-8,
+    "eB": 0.5912032891062738,
+    "Pa": 1581.9569230519428,
+    "acct": {
+     "E0": -9.363564588645243,
+     "dE": -0.00008312365729728428,
+     "dEmax": 0.045389732610600614,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.00008312365729728428,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00008312365729728428,
+      "W": 0,
+      "gLocWork": null,
+      "semicMiss": 0
+     },
+     "dh": 1.4185313505160505e-15,
+     "dLz": 1.3156569872332332e-15,
+     "lDrag": 0,
+     "dP": [
+      2.164030725340137e-16,
+      0,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": false,
+     "steps": 2882,
+     "noHist": 1,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0,
+     "initObs": null
+    },
+    "gLoc": null,
+    "hashXY": "ed45fe932edd0694",
+    "hashAll": "3f891ea7546519bc"
+   },
+   {
+    "key": "siriusABInertial3d|off|div=2|N=8",
+    "spec": {
+     "id": "siriusABInertial3d",
+     "col": "off",
+     "div": 2,
+     "N": 8,
+     "K": 3
+    },
+    "h": 4.39426,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 5762,
+    "dt": 2.19713,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.108,
+    "P": 1582.3402831547035,
+    "nPeri": 8,
+    "rate": -0.00047364265474766725,
+    "e": 0.5913834541203369,
+    "fitRms": 0.000004934656040113496,
+    "rateB": -0.0004739292970982037,
+    "periRms": 3.313649274157607e-8,
+    "eB": 0.5913657490476584,
+    "Pa": 1581.9657530014433,
+    "acct": {
+     "E0": -9.363564588645243,
+     "dE": -0.000013222037709547595,
+     "dEmax": 0.02246986628935939,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.000013222037709547595,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.000013222037709547595,
+      "W": 0,
+      "gLocWork": null,
+      "semicMiss": 0
+     },
+     "dh": 2.837062701032101e-15,
+     "dLz": 2.750919155124033e-15,
+     "lDrag": 0,
+     "dP": [
+      2.1985631305317349e-16,
+      4.4201478645245354e-16,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": false,
+     "steps": 5761,
+     "noHist": 1,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0,
+     "initObs": null
+    },
+    "gLoc": null,
+    "hashXY": "c7ffc538dbded291",
+    "hashAll": "dbae75529871ced3"
+   },
+   {
+    "key": "siriusABInertial3d|off|div=4|N=8",
+    "spec": {
+     "id": "siriusABInertial3d",
+     "col": "off",
+     "div": 4,
+     "N": 8,
+     "K": 3
+    },
+    "h": 4.39426,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 11521,
+    "dt": 1.098565,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.178,
+    "P": 1582.062010141852,
+    "nPeri": 8,
+    "rate": -0.00011890831315957276,
+    "e": 0.5914108611588342,
+    "fitRms": 9.55713751250302e-7,
+    "rateB": -0.00011895304292349525,
+    "periRms": 2.49022026905285e-8,
+    "eB": 0.5914063962409989,
+    "Pa": 1581.967972570046,
+    "acct": {
+     "E0": -9.363564588645243,
+     "dE": -0.0000013160011229414689,
+     "dEmax": 0.011179927216527875,
+     "wDrag": 0,
+     "wGLoc": 0,
+     "closeE": -0.0000013160011229414689,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.0000013160011229414689,
+      "W": 0,
+      "gLocWork": null,
+      "semicMiss": 0
+     },
+     "dh": 8.105893431520289e-16,
+     "dLz": 8.372362646029666e-16,
+     "lDrag": 0,
+     "dP": [
+      8.647489800062648e-17,
+      1.4733826215081783e-16,
+      0
+     ],
+     "pGLoc": null,
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": false,
+     "steps": 11520,
+     "noHist": 1,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0,
+     "initObs": null
+    },
+    "gLoc": null,
+    "hashXY": "510d6a0fc39c8327",
+    "hashAll": "520e55237a16377a"
+   },
+   {
+    "key": "siriusABInertial3d|self|div=1|N=8",
+    "spec": {
+     "id": "siriusABInertial3d",
+     "col": "self",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 4.39426,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 2883,
+    "dt": 4.39426,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.587,
+    "P": 1583.4514871458275,
+    "nPeri": 8,
+    "rate": -0.0018913044960857136,
+    "e": 0.5912699890813854,
+    "fitRms": 0.00003208755973274897,
+    "rateB": -0.0018928755660334768,
+    "periRms": 2.893489252068852e-8,
+    "eB": 0.5912032852269872,
+    "Pa": 1581.9569342331902,
+    "acct": {
+     "E0": -9.363564542201457,
+     "dE": -0.00008313463603082647,
+     "dEmax": 0.04538976803403626,
+     "wDrag": 9.252547821979944e-8,
+     "wGLoc": -6.522494486340592e-13,
+     "closeE": -0.00008322716085679682,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00008322716085679682,
+      "W": 9.252547821979944e-8,
+      "gLocWork": -6.522494486340592e-13,
+      "semicMiss": 0
+     },
+     "dh": 6.6873620164062585e-15,
+     "dLz": 3.707760564568674e-15,
+     "lDrag": 2.2459215520258364e-24,
+     "dP": [
+      -7.799429314561672e-8,
+      9.562628833784337e-10,
+      0
+     ],
+     "pGLoc": [
+      -7.799429344531931e-8,
+      9.562626380698282e-10,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2883,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 5.03499277555357e-8,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 2.5174962451015622e-9,
+     "dGMax": 1.0069984929703952e-8,
+     "evals": 2883
+    },
+    "hashXY": "927eb3da9475c192",
+    "hashAll": "a67003ce17171da1"
+   },
+   {
+    "key": "siriusABInertial3d|self|div=2|N=8",
+    "spec": {
+     "id": "siriusABInertial3d",
+     "col": "self",
+     "div": 2,
+     "N": 8,
+     "K": 3
+    },
+    "h": 4.39426,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 5762,
+    "dt": 2.19713,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 1.013,
+    "P": 1582.3402546926973,
+    "nPeri": 8,
+    "rate": -0.00047358492923701376,
+    "e": 0.5913834603763817,
+    "fitRms": 0.0000049343323228831365,
+    "rateB": -0.00047387163315418365,
+    "periRms": 3.320095046983572e-8,
+    "eB": 0.5913657469124075,
+    "Pa": 1581.9657710361664,
+    "acct": {
+     "E0": -9.363564542201457,
+     "dE": -0.000013227359091344186,
+     "dEmax": 0.022469907648343647,
+     "wDrag": 4.6349313538037344e-8,
+     "wGLoc": -7.251360880338254e-14,
+     "closeE": -0.000013273708332368615,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.000013273708332368615,
+      "W": 4.6349313538037344e-8,
+      "gLocWork": -7.251360880338254e-14,
+      "semicMiss": 0
+     },
+     "dh": 3.647652008948868e-15,
+     "dLz": 9.568414360177222e-16,
+     "lDrag": 5.35519358276055e-25,
+     "dP": [
+      -7.809720661051706e-8,
+      3.313976361762788e-10,
+      0
+     ],
+     "pGLoc": [
+      -7.809720692431125e-8,
+      3.313978724454673e-10,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 5762,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 5.0376891882603795e-8,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 2.518844451182533e-9,
+     "dGMax": 1.0075377753973514e-8,
+     "evals": 5762
+    },
+    "hashXY": "7f040ab06be7de60",
+    "hashAll": "66a16e7d10690ac7"
+   },
+   {
+    "key": "siriusABInertial3d|self|div=4|N=8",
+    "spec": {
+     "id": "siriusABInertial3d",
+     "col": "self",
+     "div": 4,
+     "N": 8,
+     "K": 3
+    },
+    "h": 4.39426,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 11521,
+    "dt": 1.098565,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 2.123,
+    "P": 1582.0619855419043,
+    "nPeri": 8,
+    "rate": -0.00011885059664695899,
+    "e": 0.5914108681455835,
+    "fitRms": 9.556101219548835e-7,
+    "rateB": -0.00011889531451175391,
+    "periRms": 2.4941952833729164e-8,
+    "eB": 0.5914063949791473,
+    "Pa": 1581.9679940370381,
+    "acct": {
+     "E0": -9.363564542201457,
+     "dE": -0.0000013186189317333003,
+     "dEmax": 0.011179970696356331,
+     "wDrag": 2.318547239703416e-8,
+     "wGLoc": -3.3024743816941535e-15,
+     "closeE": -0.00000134180440082786,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00000134180440082786,
+      "W": 2.318547239703416e-8,
+      "gLocWork": -3.3024743816941535e-15,
+      "semicMiss": 0
+     },
+     "dh": -2.0264733383049267e-16,
+     "dLz": -2.8705243080531666e-15,
+     "lDrag": -9.703425388427704e-26,
+     "dP": [
+      -7.812512867768882e-8,
+      1.2889990876534226e-10,
+      0
+     ],
+     "pGLoc": [
+      -7.812512866714738e-8,
+      1.2889993868166203e-10,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 11521,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 5.038365598977073e-8,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 2.5191826564724774e-9,
+     "dGMax": 1.007673057511966e-8,
+     "evals": 11521
+    },
+    "hashXY": "49084e3cb5fe1a81",
+    "hashAll": "8bd3f0df36d8c1fc"
+   },
+   {
+    "key": "siriusABInertial3d|sib|div=1|N=8",
+    "spec": {
+     "id": "siriusABInertial3d",
+     "col": "sib",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 4.39426,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 2883,
+    "dt": 4.39426,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.63,
+    "P": 1583.4514871458275,
+    "nPeri": 8,
+    "rate": -0.0018913044960857136,
+    "e": 0.5912699890813854,
+    "fitRms": 0.00003208755973274897,
+    "rateB": -0.0018928755660334768,
+    "periRms": 2.893489252068852e-8,
+    "eB": 0.5912032852269872,
+    "Pa": 1581.9569342331902,
+    "acct": {
+     "E0": -9.363564542201457,
+     "dE": -0.00008313463603082647,
+     "dEmax": 0.04538976803403626,
+     "wDrag": 9.252547821979944e-8,
+     "wGLoc": -6.522494486340592e-13,
+     "closeE": -0.00008322716085679682,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00008322716085679682,
+      "W": 9.252547821979944e-8,
+      "gLocWork": -6.522494486340592e-13,
+      "semicMiss": 0
+     },
+     "dh": 6.6873620164062585e-15,
+     "dLz": 3.707760564568674e-15,
+     "lDrag": 2.2459215520258364e-24,
+     "dP": [
+      -7.799429314561672e-8,
+      9.562628833784337e-10,
+      0
+     ],
+     "pGLoc": [
+      -7.799429344531931e-8,
+      9.562626380698282e-10,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2883,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 5.03499277555357e-8,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 2.5174962451015622e-9,
+     "dGMax": 1.0069984929703952e-8,
+     "evals": 2883
+    },
+    "hashXY": "927eb3da9475c192",
+    "hashAll": "a67003ce17171da1"
+   }
+  ]
+ },
+ "ana": {
+  "binaryCheckEqualInertial3d": {
+   "eta": 0.25,
+   "f": 1.3333333333333333,
+   "q1PN": 0.002513274122871834,
+   "pred43": 0.003351032163829112,
+   "a": 100,
+   "e": 0.4999999999999999,
+   "P": 6283.185307179586
+  },
+  "binaryCheckRatio3Inertial3d": {
+   "eta": 0.1875,
+   "f": 1.25,
+   "q1PN": 0.002513274122871834,
+   "pred43": 0.0031415926535897924,
+   "a": 100,
+   "e": 0.4999999999999999,
+   "P": 6283.185307179586
+  },
+  "siriusABInertial3d": {
+   "eta": 0.22123997939017723,
+   "f": 1.294986639186903,
+   "q1PN": 4.456440623091578e-8,
+   "pred43": 5.77103106523335e-8,
+   "a": 295.94647599999996,
+   "e": 0.5914199999999998,
+   "P": 1581.968675529372
+  },
+  "alphaCenABInertial3d": {
+   "eta": 0.2481804711569214,
+   "f": 1.330907294875895,
+   "q1PN": 2.174265445838787e-8,
+   "pred43": 2.8937457428634323e-8,
+   "a": 348.54807999999997,
+   "e": 0.5194699999999999,
+   "P": 2517.1542030279816
+  }
+ },
+ "T": {
+  "rows": [
+   {
+    "id": "binaryCheckEqualInertial3d",
+    "eta": 0.25,
+    "f": 1.3333333333333333,
+    "q1PN": 0.002513274122871834,
+    "pred43": 0.003351032163829112,
+    "P": 6283.185307179586,
+    "byQty": {
+     "rate": {
+      "shift": [
+       0.0033457142832109743,
+       0.003344050684481106,
+       0.003343656134130976
+      ],
+      "g1shift": [
+       0.002511844489376084,
+       0.002512102979269609,
+       0.0025123420833828175
+      ],
+      "ratio": [
+       1.3319750873757374,
+       1.3311757965644324,
+       1.3308920613345818
+      ],
+      "ratioOverF": 0.9981690460009364,
+      "band": 3.9455035012996714e-7,
+      "g1OverQ1": 0.9996291532704155,
+      "shiftOverPred": 0.9977988782746544
+     },
+     "rateB": {
+      "shift": [
+       0.003344791014406865,
+       0.003343613751895323,
+       0.0033427426707915
+      ],
+      "g1shift": [
+       0.0025107040425589116,
+       0.002510770083920953,
+       0.002510990787666684
+      ],
+      "ratio": [
+       1.3322123825466308,
+       1.3317084560262709,
+       1.3312444980722986
+      ],
+      "ratioOverF": 0.998433373554224,
+      "band": 8.710811038228211e-7,
+      "g1OverQ1": 0.9990914897884116,
+      "shiftOverPred": 0.9975262866387592
+     }
+    },
+    "dP": [
+     -7.629394819909976,
+     -2.4682999998613013,
+     0.10767330126691377
+    ],
+    "dPrel": [
+     -0.0012142558983883735,
+     -0.0003928421460116507,
+     0.000017136738135652166
+    ],
+    "de": [
+     0.0002164307477074967,
+     0.000445487735594996,
+     0.000560644996165538
+    ]
+   },
+   {
+    "id": "binaryCheckRatio3Inertial3d",
+    "eta": 0.1875,
+    "f": 1.25,
+    "q1PN": 0.002513274122871834,
+    "pred43": 0.0031415926535897924,
+    "P": 6283.185307179586,
+    "byQty": {
+     "rate": {
+      "shift": [
+       0.003136711744418313,
+       0.0031347171211200363,
+       0.0031342388406833265
+      ],
+      "g1shift": [
+       0.002511981702412595,
+       0.0025122001346594373,
+       0.002512434968774818
+      ],
+      "ratio": [
+       1.2487000766787852,
+       1.2477975292939747,
+       1.2474905339387667
+      ],
+      "ratioOverF": 0.9979924271510134,
+      "band": 4.782804367098152e-7,
+      "g1OverQ1": 0.9996661111936103,
+      "shiftOverPred": 0.9976592086507259
+     },
+     "rateB": {
+      "shift": [
+       0.0031375030599778654,
+       0.0031343861438717672,
+       0.003133416858755088
+      ],
+      "g1shift": [
+       0.002510148227871806,
+       0.002510716123665954,
+       0.002511047366446827
+      ],
+      "ratio": [
+       1.2499274047405373,
+       1.2484032401461533,
+       1.247852549746572
+      ],
+      "ratioOverF": 0.9982820397972576,
+      "band": 9.692851166793678e-7,
+      "g1OverQ1": 0.9991140017697463,
+      "shiftOverPred": 0.9973975636767032
+     }
+    },
+    "dP": [
+     -7.23891620989798,
+     -1.8983998080793754,
+     0.7668386202421971
+    ],
+    "dPrel": [
+     -0.0011521092974333118,
+     -0.000302139713420538,
+     0.00012204615696531442
+    ],
+    "de": [
+     0.00015607592408373172,
+     0.0003933883107947733,
+     0.000512576482282201
+    ]
+   },
+   {
+    "id": "siriusABInertial3d",
+    "eta": 0.22123997939017723,
+    "f": 1.294986639186903,
+    "q1PN": 4.456440623091578e-8,
+    "pred43": 5.77103106523335e-8,
+    "P": 1581.968675529372,
+    "byQty": {
+     "rate": {
+      "shift": [
+       5.77634703322321e-8,
+       5.7725510653483265e-8,
+       5.771651261377031e-8
+      ],
+      "g1shift": [
+       4.456005556771961e-8,
+       4.456104261941433e-8,
+       4.4564935454714317e-8
+      ],
+      "ratio": [
+       1.2963060659663397,
+       1.295425494113853,
+       1.2951104276235352
+      ],
+      "ratioOverF": 1.0000955905125863,
+      "band": 8.998039712957394e-12,
+      "g1OverQ1": 1.0000118754818768,
+      "shiftOverPred": 1.0001074671296464
+     },
+     "rateB": {
+      "shift": [
+       5.7522569824356926e-8,
+       5.766394402007295e-8,
+       5.772841174134116e-8
+      ],
+      "g1shift": [
+       4.2831379826538396e-8,
+       4.4403411475653614e-8,
+       4.4572232239432105e-8
+      ],
+      "ratio": [
+       1.3430006237790135,
+       1.2986376970537519,
+       1.295165371822461
+      ],
+      "ratioOverF": 1.0001380189031681,
+      "band": 6.446772126821477e-11,
+      "g1OverQ1": 1.0001756111923892,
+      "shiftOverPred": 1.0003136543332214
+     }
+    },
+    "dP": [
+     -0.00007637919861736009,
+     -0.000034844476203943486,
+     -0.0000141071518555691
+    ],
+    "dPrel": [
+     -4.8281106825203996e-8,
+     -2.2026021591283106e-8,
+     -8.917465986390941e-9
+    ],
+    "de": [
+     3.736524423203491e-9,
+     9.910476550523128e-9,
+     1.3020916456163434e-8
+    ]
+   },
+   {
+    "id": "alphaCenABInertial3d",
+    "eta": 0.2481804711569214,
+    "f": 1.330907294875895,
+    "q1PN": 2.174265445838787e-8,
+    "pred43": 2.8937457428634323e-8,
+    "P": 2517.1542030279816,
+    "byQty": {
+     "rate": {
+      "shift": [
+       2.8958647091186993e-8,
+       2.894328019148549e-8,
+       2.8939538026866943e-8
+      ],
+      "g1shift": [
+       2.1741512396195387e-8,
+       2.1741619393126233e-8,
+       2.1742717562194393e-8
+      ],
+      "ratio": [
+       1.3319518239335804,
+       1.3312384725415676,
+       1.330999123917526
+      ],
+      "ratioOverF": 1.0000689973238441,
+      "band": 3.742164618545513e-12,
+      "g1OverQ1": 1.0000029023046217,
+      "shiftOverPred": 1.0000718998287168
+     },
+     "rateB": {
+      "shift": [
+       2.88125341849077e-8,
+       2.8905587815301285e-8,
+       2.893447535086695e-8
+      ],
+      "g1shift": [
+       2.141249854530937e-8,
+       2.1698464301809356e-8,
+       2.1738784896315247e-8
+      ],
+      "ratio": [
+       1.3455942156371745,
+       1.3321490135544272,
+       1.3310070221896984
+      ],
+      "ratioOverF": 1.000074931825971,
+      "band": 2.8887535565664743e-11,
+      "g1OverQ1": 0.9998220289946644,
+      "shiftOverPred": 0.9998969474849431
+     }
+    },
+    "dP": [
+     -0.000031966284950613044,
+     -0.000011890817859239178,
+     -0.0000018647456272447016
+    ],
+    "dPrel": [
+     -1.2699374917976647e-8,
+     -4.723913157539278e-9,
+     -7.408150144323806e-10
+    ],
+    "de": [
+     2.049397984649204e-9,
+     4.204327885837245e-9,
+     5.288522619828484e-9
+    ]
+   }
+  ],
+  "sib": [
+   {
+    "id": "binaryCheckEqualInertial3d",
+    "sameState": true,
+    "hashSelf": "f9fa077bd3b42100",
+    "hashSib": "f9fa077bd3b42100"
+   },
+   {
+    "id": "binaryCheckRatio3Inertial3d",
+    "sameState": true,
+    "hashSelf": "1ccfabe23613297f",
+    "hashSib": "1ccfabe23613297f"
+   },
+   {
+    "id": "siriusABInertial3d",
+    "sameState": true,
+    "hashSelf": "a67003ce17171da1",
+    "hashSib": "a67003ce17171da1"
+   },
+   {
+    "id": "alphaCenABInertial3d",
+    "sameState": true,
+    "hashSelf": "ff7e84e34d46885d",
+    "hashSib": "ff7e84e34d46885d"
+   }
+  ],
+  "law": [
+   {
+    "key": "alphaCenABInertial3d|g1|div=1|N=8",
+    "col": "g1",
+    "lawDecl": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "ok": true
+   },
+   {
+    "key": "alphaCenABInertial3d|g1|div=2|N=8",
+    "col": "g1",
+    "lawDecl": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "ok": true
+   },
+   {
+    "key": "alphaCenABInertial3d|g1|div=4|N=8",
+    "col": "g1",
+    "lawDecl": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "ok": true
+   },
+   {
+    "key": "alphaCenABInertial3d|off|div=1|N=8",
+    "col": "off",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "alphaCenABInertial3d|off|div=2|N=8",
+    "col": "off",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "alphaCenABInertial3d|off|div=4|N=8",
+    "col": "off",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "alphaCenABInertial3d|self|div=1|N=8",
+    "col": "self",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "alphaCenABInertial3d|self|div=2|N=8",
+    "col": "self",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "alphaCenABInertial3d|self|div=4|N=8",
+    "col": "self",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "alphaCenABInertial3d|sib|div=1|N=8",
+    "col": "sib",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|g1|div=1|N=8",
+    "col": "g1",
+    "lawDecl": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|g1|div=2|N=8",
+    "col": "g1",
+    "lawDecl": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|g1|div=4|N=8",
+    "col": "g1",
+    "lawDecl": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|off|div=1|N=8",
+    "col": "off",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|off|div=2|N=8",
+    "col": "off",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|off|div=4|N=8",
+    "col": "off",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|self|div=1|N=8",
+    "col": "self",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|self|div=2|N=8",
+    "col": "self",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|self|div=4|N=8",
+    "col": "self",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|sib|div=1|N=8",
+    "col": "sib",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|g1|div=1|N=8",
+    "col": "g1",
+    "lawDecl": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|g1|div=2|N=8",
+    "col": "g1",
+    "lawDecl": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|g1|div=4|N=8",
+    "col": "g1",
+    "lawDecl": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|off|div=1|N=8",
+    "col": "off",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|off|div=2|N=8",
+    "col": "off",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|off|div=4|N=8",
+    "col": "off",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|self|div=1|N=8",
+    "col": "self",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|self|div=2|N=8",
+    "col": "self",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|self|div=4|N=8",
+    "col": "self",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|sib|div=1|N=8",
+    "col": "sib",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "siriusABInertial3d|g1|div=1|N=8",
+    "col": "g1",
+    "lawDecl": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "ok": true
+   },
+   {
+    "key": "siriusABInertial3d|g1|div=2|N=8",
+    "col": "g1",
+    "lawDecl": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "ok": true
+   },
+   {
+    "key": "siriusABInertial3d|g1|div=4|N=8",
+    "col": "g1",
+    "lawDecl": "eih-kf0",
+    "lawSim": "eih-kf0",
+    "ge": 1,
+    "ok": true
+   },
+   {
+    "key": "siriusABInertial3d|off|div=1|N=8",
+    "col": "off",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "siriusABInertial3d|off|div=2|N=8",
+    "col": "off",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "siriusABInertial3d|off|div=4|N=8",
+    "col": "off",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "siriusABInertial3d|self|div=1|N=8",
+    "col": "self",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "siriusABInertial3d|self|div=2|N=8",
+    "col": "self",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "siriusABInertial3d|self|div=4|N=8",
+    "col": "self",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "siriusABInertial3d|sib|div=1|N=8",
+    "col": "sib",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   }
+  ],
+  "spin": [
+   {
+    "key": "alphaCenABInertial3d|self|div=1|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "alphaCenABInertial3d|self|div=2|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "alphaCenABInertial3d|self|div=4|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "alphaCenABInertial3d|sib|div=1|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|self|div=1|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|self|div=2|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|self|div=4|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "binaryCheckEqualInertial3d|sib|div=1|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|self|div=1|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|self|div=2|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|self|div=4|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "binaryCheckRatio3Inertial3d|sib|div=1|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "siriusABInertial3d|self|div=1|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "siriusABInertial3d|self|div=2|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "siriusABInertial3d|self|div=4|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "siriusABInertial3d|sib|div=1|N=8",
+    "spinDmax": 0
+   }
+  ]
+ },
+ "gates": {
+  "aPresent": true,
+  "aAccept": true,
+  "aSibling": true,
+  "aDecl": true,
+  "aOff": true,
+  "aText": true,
+  "eRun": true,
+  "eLaw": true,
+  "eSibBits": true,
+  "eSpin": true,
+  "tRatio": true,
+  "tPn1": true
+ },
+ "ok": true,
+ "timing": {
+  "A": {
+   "wallSec": 0.052
+  },
+  "E": {
+   "wallSec": 11.119
+  },
+  "T": {
+   "wallSec": 0.001
+  }
+ },
+ "elapsedS": 12.766,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第322便b",
+  "target": "beta/index.html",
+  "targetSha256": "b01fda2a7cf2ea1c3332cfbc4429b005f05720669e388171b91885a2ea106b41",
+  "generatedAt": "2026-11-01T08:14:29.573Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7456037,
+    "sha256": "b01fda2a7cf2ea1c3332cfbc4429b005f05720669e388171b91885a2ea106b41",
+    "mtime": "2026-11-01T08:03:54.309Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w322b-binbooks.mjs",
+    "bytes": 18017,
+    "sha256": "1a05e01ad0e16c32a0dd17d9e119c07cb5f32d35e4460dc1f3a527c6c28549be",
+    "mtime": "2026-11-01T07:00:19.818Z"
+   },
+   {
+    "file": "tests/lib-w322b-binbooks.mjs",
+    "bytes": 9285,
+    "sha256": "0f39ee38867e9f2e41b65a3aff582cc83a17872ad9b07b33ed39299f5e2ac00d",
+    "mtime": "2026-11-01T06:58:04.064Z"
+   },
+   {
+    "file": "tests/exp-w321b-geo3bin.mjs",
+    "bytes": 39730,
+    "sha256": "b2832c81d3ca2dad481bc584fef2d0dae08876c8b3c5652e4f5d44ddb26e368c",
+    "mtime": "2026-11-01T06:37:42.373Z"
+   },
+   {
+    "file": "tests/lib-w321b-geo3bin.mjs",
+    "bytes": 18517,
+    "sha256": "ddc1e49f5929b4bb1115ee83e19705d7ac476ca494c3b33444a24b3442733278",
+    "mtime": "2026-11-01T06:37:42.421Z"
+   },
+   {
+    "file": "tests/lib-w304e-apsis.mjs",
+    "bytes": 13145,
+    "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
+    "mtime": "2026-11-01T06:37:42.413Z"
+   },
+   {
+    "file": "tests/lib-w320d-rulebooks.mjs",
+    "bytes": 1726,
+    "sha256": "c7cb484c8a577d4cf241b0a8e297bf6abe09a52747ec4bc95e78651698f8b201",
+    "mtime": "2026-11-01T06:37:42.421Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-11-01T06:37:42.417Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-11-01T06:37:42.401Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-11-01T06:37:42.401Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-01T06:37:42.397Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-11-01T06:37:42.409Z"
+   }
+  ],
+  "codeSha256": "97fd4442740c81cb5c19d6abe358e2377bd9787fce8e0ce5879e84e841e33039",
+  "harnessVersion": "w322b-binbooks-1",
+  "stage": "binbooks",
+  "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・子プロセス 2)",
+  "notClaim": [
+   "連星の観測との照合ではない(同じ初期状態・同じ窓の写しどうしの量ごとの比)",
+   "近点の移動の原因を述べない",
+   "h・h/2・h/4 を収束の判定に使わない(刻みの感度診断)",
+   "(1 + (4/3)η) を補正の係数に使わない(既知の寄与の表示だけ)",
+   "恒星連星で一律の値と書かない(系ごとの η)",
+   "周期だけの一致を系全体の合格に広げない(量ごとの表)",
+   "NS の観測の自転の欄を実装したと書かない(設計だけ —— エンジンは変えない)"
+  ],
+  "scope": {
+   "version": "w318a-scope-6",
+   "presets": [
+    "alphaCenAB",
+    "alphaCenABInertial3d",
+    "binary",
+    "binaryCheckEqualInertial3d",
+    "binaryCheckRatio3Inertial3d",
+    "boxBinaryToy",
+    "compactForceToy",
+    "coord3dKeplerTilt",
+    "coord3dSpinPrecess",
+    "fig8",
+    "gw150914",
+    "inertialDragPair",
+    "psrB1534",
+    "psrDoubleAB",
+    "psrJ1757DFM",
+    "psrJ1946DFM",
+    "siriusAB",
+    "siriusABInertial3d",
+    "spinDipoleBinary"
+   ],
+   "roots": [
+    "$",
+    "HP.MASS_BASIS",
+    "HP.REL_DRAG_INVSQ_VERSION",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.geoEffectiveMode",
+    "HP.geoLawOfSim",
+    "HP.geoModeOf",
+    "HP.inertialDragLedgerOf",
+    "HP.presetSig",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "calTargetOf",
+    "ctx",
+    "cw",
+    "pnSource"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1330,
+   "segments": 1168,
+   "closureShare": 0.2968
+  },
+  "scopeSha256": "251b971d1051e888b594be87af9edd229f64f71f52059e0c6b073d4f9b0fe0e4",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}
