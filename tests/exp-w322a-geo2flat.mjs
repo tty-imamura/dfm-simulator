@@ -17,7 +17,7 @@
 //          平面の本の P_z・L_x・L_y が 0 のまま
 //   table  受理と実行の門の表(範囲の内は受理・範囲の外の宣言は全部拒否 —— 理由の鍵)
 //   trial  傾き有り(円盤の incl・node と中心の自転軸を同じ直交回転で回した正規の宣言)と有限厚(build の後に器が z・v_z を置く試走)の対を同じ窓で
-//          (面内の比・面の外への広がり・脱落・エネルギーの台帳)/AN510 の 2 案(軸を有効化しない粒子の軸を力学で回す "vector" と回さない "parallel")の差を
+//          (面内の比・面の外への広がり・脱落・エネルギーの台帳 —— 平面の本の同じ測り方の行を対照に)/AN510 の 2 案(軸を有効化しない粒子の軸を力学で回す "vector" と回さない "parallel")の差を
 //          純関数の小さい系で(平面では差 0)
 //
 // ■ 試走: W322A_QUICK=1(W322A_OUT が要る —— 正本を書かない・gate と trial を縮める)。W322A_WORKERS(既定 2 —— gate・trial の重い行を子プロセスで並走)。
@@ -158,7 +158,7 @@ export function trialRow(HP, plan, kind) {
   return { kind, steps: plan.trialSteps, dt: plan.dt, incl: kind === 'tilt' ? plan.tiltIncl : 0, node: kind === 'tilt' ? plan.tiltNode : 0, thickH: kind === 'thick' ? plan.thickH : 0,
     ratio: a.v / b.v, vphiKF1: a.v, vphiKF0: b.v, nBand: [a.c, b.c], mid: midRow, z0, zA: z3Of(A, frame), zB: z3Of(B, frame),
     energy: { dE_KF1: dEA, workKF1: wA, residualKF1: dEA - wA, dE_KF0: dEB, E0: e0A.E, relResidualKF1: Math.abs(dEA - wA) / Math.abs(e0A.E), relKF0: Math.abs(dEB) / Math.abs(e0B.E) },
-    axisTurnN: g2.axisTurnN, clampVN: [A.clampVN, B.clampVN], clampRN: [A.clampRN || 0, B.clampRN || 0], halt: [A.coord3dHalt || null, B.coord3dHalt || null], nan: A.hasNaN() || B.hasNaN(),
+    axisTurnN: g2.axisTurnN, clampVN: [A.clampVN, B.clampVN], clampSN: [A.clampSN, B.clampSN], clampRN: [A.clampRN || 0, B.clampRN || 0], halt: [A.coord3dHalt || null, B.coord3dHalt || null], nan: A.hasNaN() || B.hasNaN(),
     wallSec: (Date.now() - t0) / 1000 };
 }
 function childRow(args) {
@@ -186,9 +186,9 @@ export async function partGate(HP, plan, quick, workers, pre) {
     textRound: h.ratio.toFixed(3) };
 }
 export async function partTrial(HP, plan, quick, workers, pre) {
-  const rows = pre || await runRows(HP, plan, quick, workers, [['trial', 'tilt'], ['trial', 'thick']]);
-  const tilt = rows.find((r) => r.kind === 'tilt'), thick = rows.find((r) => r.kind === 'thick');
-  return { tilt, thick, an510: partAN510(HP, plan), tiltDecl: TILT_DECL, thickDecl: THICK_DECL };
+  const rows = pre || await runRows(HP, plan, quick, workers, [['trial', 'flat'], ['trial', 'tilt'], ['trial', 'thick']]);
+  const flat = rows.find((r) => r.kind === 'flat'), tilt = rows.find((r) => r.kind === 'tilt'), thick = rows.find((r) => r.kind === 'thick');
+  return { flat, tilt, thick, an510: partAN510(HP, plan), tiltDecl: TILT_DECL, thickDecl: THICK_DECL };
 }
 
 /* ───────── AN510 の 2 案(純関数の小さい系 —— 平面・傾き有り・有限厚)───────── */
@@ -416,7 +416,7 @@ export function gatesOf(J) {
   return {
     gateFrozen: !!(g && (J.quick ? true : g.sameAsFrozen === true)), gateWindow: !!(g && (J.quick ? true : g.inWindow)), gateClampZero: !!(g && g.clampZero), gateFlat: !!(g && g.flat),
     degenSame: !!(dg && dg.allSame), pureSame: !!(pu && pu.allSame), histFirst: !!(hi && hi.pass), ckpt: !!(ck && ck.pass), ledger: !!(lg && lg.pass), table: !!(tb && tb.pass),
-    trialFinite: !!(tr && tr.tilt && tr.thick && !tr.tilt.nan && !tr.thick.nan && tr.tilt.halt.every((h) => h === null) && tr.thick.halt.every((h) => h === null)),
+    trialFinite: !!(tr && tr.flat && tr.tilt && tr.thick && [tr.flat, tr.tilt, tr.thick].every((t) => !t.nan && t.halt.every((h) => h === null)) && Object.is(tr.flat.ratio, FROZEN.ratio) === !J.quick),
     an510FlatSame: !!(tr && tr.an510.flatSame), an510Html: !!(tr && tr.an510.htmlSameAsVector) };
 }
 
@@ -436,7 +436,7 @@ async function main() {
   // 重い行(gate・trial の 2 本)は子プロセスで先に並走させ、その間に軽い段を主で回す
   const heavy = [];
   if (parts.includes('gate')) heavy.push(['gate']);
-  if (parts.includes('trial')) heavy.push(['trial', 'tilt'], ['trial', 'thick']);
+  if (parts.includes('trial')) heavy.push(['trial', 'tilt'], ['trial', 'thick'], ['trial', 'flat']);
   const th = Date.now();
   const heavyP = (workers >= 2 && heavy.length) ? runRows(HP, plan, quick, workers, heavy) : null;
   const RUN = { degen: () => partDegen(HP, plan), pure: () => partPure(HP, plan), hist: () => partHist(HP, plan), ckpt: () => partCkpt(H, plan), ledger: () => partLedger(HP, plan), table: () => partTable(HP) };

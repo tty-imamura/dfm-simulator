@@ -10,7 +10,7 @@ const f3 = (x) => fmtFloor(x, 1e-9, 1);
 /** 本文に書く数(QA が節の中にあることを照合する) */
 export function docNumbersGeo2flat(J) {
   const g = J.parts.gate.row, tr = J.parts.trial;
-  return [fx(g.ratio, 4), String(g.steps), String(g.mid.steps), fx(g.mid.ratio, 4), String(g.n), fx(tr.tilt.ratio, 4), fx(tr.thick.ratio, 4), String(J.parts.degen.nVal), String(J.parts.table.nCases)];
+  return [fx(g.ratio, 4), String(g.steps), String(g.mid.steps), fx(g.mid.ratio, 4), String(g.n), fx(tr.tilt.ratio, 4), fx(tr.thick.ratio, 4), String(J.parts.degen.nVal), String(J.parts.table.nCases)];   // 平面の行の比は gate と同じ
 }
 
 export function physicsTablesGeo2flat(J) {
@@ -43,10 +43,10 @@ export function physicsTablesGeo2flat(J) {
   for (const t of P.table.runtime) out.push(`| ${t.label} | ${yn(t.advanced)} | ${t.halt || '—'} |`);
   // trial
   const T = P.trial;
-  out.push('', `| 試走の対(${T.tilt.steps} 步 × A と B) | 比 kF1/kF0(面の座標) | 途中(${T.tilt.mid ? T.tilt.mid.steps : '—'} 步)の比 | z の二乗平均(始め → 終わり) | z の最大(終わり) | 2R の外 | 自転軸と面の法線の角の最大(rad) | ΔE − 引きずりの仕事(初期の E の絶対値で割る) | 軸が回った回数 | クランプ(速度・反作用 —— A・B) |`, '|---|---|---|---|---|---|---|---|---|---|');
-  for (const t of [T.tilt, T.thick]) {
-    const lab = t.kind === 'tilt' ? `傾き有り(incl ${t.incl}°・node ${t.node}° —— 正規の宣言)` : `有限厚(h ${t.thickH} —— 器が z・v_z を置く試走)`;
-    out.push(`| ${lab} | ${fx(t.ratio, 4)} | ${t.mid ? fx(t.mid.ratio, 4) : '—'} | ${fx(t.z0.zRms, 3)} → ${fx(t.zA.zRms, 3)} | ${fx(t.zA.zMax, 3)} | ${t.zA.beyond2R} | ${t.zA.axisDevRad === 0 ? '0' : fx(t.zA.axisDevRad, 3)} | ${f3(t.energy.relResidualKF1)} | ${t.axisTurnN} | ${t.clampVN.join('・')} / ${t.clampRN.join('・')} |`);
+  out.push('', `| 試走の対(${T.tilt.steps} 步 × A と B) | 比 kF1/kF0(面の座標) | 途中(${T.tilt.mid ? T.tilt.mid.steps : '—'} 步)の比 | z の二乗平均(始め → 終わり) | z の最大(終わり) | 2R の外 | 自転軸と面の法線の角の最大(rad) | ΔE − 引きずりの仕事(初期の E の絶対値で割る) | 軸が回った回数 | クランプ(速度・自転・反作用 —— A・B) |`, '|---|---|---|---|---|---|---|---|---|---|');
+  for (const t of [T.flat, T.tilt, T.thick]) {
+    const lab = t.kind === 'flat' ? '平面(対照 —— 内蔵の本と同じ宣言・器の build)' : t.kind === 'tilt' ? `傾き有り(incl ${t.incl}°・node ${t.node}° —— 正規の宣言)` : `有限厚(h ${t.thickH} —— 器が z・v_z を置く試走)`;
+    out.push(`| ${lab} | ${fx(t.ratio, 4)} | ${t.mid ? fx(t.mid.ratio, 4) : '—'} | ${fx(t.z0.zRms, 3)} → ${fx(t.zA.zRms, 3)} | ${fx(t.zA.zMax, 3)} | ${t.zA.beyond2R} | ${t.zA.axisDevRad === 0 ? '0' : fx(t.zA.axisDevRad, 3)} | ${f3(t.energy.relResidualKF1)} | ${t.axisTurnN} | ${t.clampVN.join('・')} / ${t.clampSN.join('・')} / ${t.clampRN.join('・')} |`);
   }
   out.push('', '| AN510 の 2 案(純関数の小さい系) | 体 | 步 | html の步と "vector" が同じビット | 位置の差(相対) | 速度の差(相対) | 自転のベクトルの差(相対) | 軸が回った回数("vector") | 垂直の口座の大きさ("parallel") |', '|---|---|---|---|---|---|---|---|---|');
   for (const a of T.an510.rows) out.push(`| ${a.kind === 'flat' ? '平面' : a.kind === 'tilt' ? '傾き有り' : '有限厚'} | ${a.n} | ${a.steps} | ${yn(a.html.same)} | ${a.posRel === 0 ? '0' : f3(a.posRel)} | ${a.velRel === 0 ? '0' : f3(a.velRel)} | ${a.spinVecRel === 0 ? '0' : f3(a.spinVecRel)} | ${a.axisTurnsVector} | ${a.spinPerpL === 0 ? '0' : f3(a.spinPerpL)} |`);
