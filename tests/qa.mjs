@@ -12629,6 +12629,14 @@ const W296C_CHAIN = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET
 const W298A_C3 = (() => { try { return (fs.readFileSync(path.join(ROOT, TARGET), 'utf8').match(/\n  physics:\{coord:"3d", /g) || []).length; } catch (e) { return 0; } })();
 // 第318便c(原仮定者の指示(第120報)・R256): 🗺️ solarSystem16Inertial3d(三次元 —— 入力の宣言のまま physics の最初の鍵が coord でないので W298A_C3 に数えない・core 宣言なし)
 const W318C_S16 = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('{ id:"solarSystem16Inertial3d"') >= 0 ? 1 : 0; } catch (e) { return 0; } })();
+// ==== 第322便b の塊(ここから —— 最上位の W322B_RULE_IDS)====
+// 第322便b(決断事項 AN492・統括の検証項目 R271): QA の側の後に入った本の除外を**宣言の条件**へ(第318便の名指し `W318C_S16 && … === 'solarSystem16Inertial3d'` の代わり)——
+//   K1 の規則の宣言で生まれた本(移行の前の写しの無い本 —— tests/lib-w320d-rulebooks.mjs の isRuleBookNoCopy を内蔵の各本の宣言に当てた id の集合)。
+//   基点の html では 🗺️ の 1 本(名指しと同じ集合)・第322便b の html では 🗺️ と ♊⚖️🌠🔶・root は空(K1 の規則の宣言の本が無い)。
+const W322B_RULE_IDS = await (async () => { try { const m = await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-rulebooks.mjs'));
+  const rows = await page.evaluate(() => HP.allPresets().map((p) => { const r = p && p.physics && p.physics.relativeDrag; return { id: p.id, physics: { relativeDrag: (r && r.invSq) ? { invSq: { rdRule: r.invSq.rdRule } } : null } }; }));
+  return new Set(rows.filter((q) => m.isRuleBookNoCopy(q)).map((q) => q.id)); } catch (e) { return new Set(); } })();
+// ==== 第322便b の塊(ここまで)====
 const W298A_IDS = (() => { try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'), out = []; let k = -1; while ((k = h.indexOf('\n  physics:{coord:"3d", ', k + 1)) >= 0) { const m = /^\{ id:"([^"]+)"/.exec(h.slice(h.lastIndexOf('{ id:"', k))); if (m) out.push(m[1]); } return out; } catch (e) { return []; } })();   // 第298便a: 三次元の内蔵の ID(宣言から —— 手書きの一覧を持たない)
 // 第298便c(R167): 三次元の慣性決定力の内蔵(三次元の本のうち relativeDrag.law:"inertial" を宣言する本 —— 🔩🪛🌦️)と、そのうち dragCore を宣言する本(🌦️)。
 //   宣言から列挙する(手書きの一覧を持たない)。世代切替は html の `REL_DRAG_SPIN3_VERSION = "w298c`(無い html では空)
@@ -60227,7 +60235,10 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     const fid298c = W298C_IDS.filter((id) => W298C_BLOCK(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'), id).indexOf('fidelity:"real"') >= 0);
     const want6 = fid298c.length ? want5.split(',').concat(fid298c).sort().join(',') : want5;
     // 第318便c(原仮定者の指示(第120報)・R256): 🗺️ solarSystem16Inertial3d(太陽系 16 体の三次元の診断の本 —— fidelity real・principle)を足した世代は +1(id の辞書順に差し込む)
-    const want = W318C_S16 ? want6.split(',').concat(['solarSystem16Inertial3d']).sort().join(',') : want6;
+    const want7 = W318C_S16 ? want6.split(',').concat(['solarSystem16Inertial3d']).sort().join(',') : want6;
+    // 第322便b(AN499・R271): 🌠🔶(実在の連星の geoPN=3 三次元 —— fidelity real・principle)を足した世代は +2(id の辞書順に差し込む —— 宣言の id から)
+    const fid322b = ['siriusABInertial3d', 'alphaCenABInertial3d'].filter((id) => fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('{ id:"' + id + '"') >= 0);
+    const want = fid322b.length ? want7.split(',').concat(fid322b).sort().join(',') : want7;
     add('ui.fidelity',
       r.reals.join(',') === want && r.chipOn && r.chipOff && r.chipOffLegacy,
       `fidelity:"real"=${r.reals.length}件[${r.reals.join(',')}](${gen120 ? '第120便: スケール換算込み較正のみ' : '第93便: 3件(root)'})/ ` +
@@ -78484,7 +78495,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const PRE302w = await import('file://' + path.join(ROOT, 'tests', 'lib-w303a-pre.mjs')).catch(() => null);
       const gen303aW = !!(PRE302w && PRE302w.isGen303a(all));
       // 第318便c(R256): 🗺️ solarSystem16Inertial3d は第302便a の移行表より後に入った本(K1 の law inertial —— 今の宣言は behavior.solar16Builtin318c ①)—— 移行表の照合から外す
-      const allW = (gen303aW ? all.map((p) => PRE302w.pin302(p)) : all).filter((p) => !(W318C_S16 && p.id === 'solarSystem16Inertial3d'));
+      const allW = (gen303aW ? all.map((p) => PRE302w.pin302(p)) : all).filter((p) => !W322B_RULE_IDS.has(p.id));   // 第322便b(AN492): 後に入った本の除外は宣言の条件(旧 第318便の 🗺️ の名指し)
       // ① 宣言から作る集合と表
       const decls = [];
       for (const p of allW) for (const [where, rd] of [['本', p.physics && p.physics.relativeDrag], ['A/B の B 側', p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.relativeDrag]])
@@ -78845,7 +78856,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           // ①
           // 第306便a(AN336・R204): 在位の惑星 7 本に G_loc n = 2 を宣言した世代(lib-w306a-pre の gate305 —— 宣言から)は、その 7 本を第302便の G_loc の数から外す(今の宣言は preset.planets306)
           const PRE306g = await import('file://' + path.join(ROOT, 'tests', 'lib-w306a-pre.mjs'));
-          const live = all.filter((p) => p.familyRole !== 'retired'), decl = live.filter((p) => p.physics && p.physics.gLoc && !PRE306g.gate305(p) && !(W318C_S16 && p.id === 'solarSystem16Inertial3d')).map((p) => p.id).sort();   // 第318便c(R256): 🗺️ solarSystem16Inertial3d は在位の惑星 7 本と同じ K1 の G_loc {law:"kappaC2"}(後に入った本 —— 今の宣言は behavior.solar16Builtin318c ①)
+          const live = all.filter((p) => p.familyRole !== 'retired'), decl = live.filter((p) => p.physics && p.physics.gLoc && !PRE306g.gate305(p) && !W322B_RULE_IDS.has(p.id)).map((p) => p.id).sort();   // 第322便b(AN492): 後に入った本の除外は宣言の条件 —— 旧 第318便c(R256): 🗺️ solarSystem16Inertial3d は在位の惑星 7 本と同じ K1 の G_loc {law:"kappaC2"}(後に入った本 —— 今の宣言は behavior.solar16Builtin318c ①)
           const decl302 = gen303a ? Object.keys(PRE303.DECL302).filter((id) => PRE303.DECL302[id].gLoc).sort() : decl;
           if (gen303a && decl.length) bad.push('① 第303便a の世代で G_loc を宣言した在位の本 ' + decl.join(','));
           if (JSON.stringify(decl302) !== JSON.stringify(P.ids.slice().sort())) bad.push('① G_loc を宣言した本 ' + decl302.join(',') + ' ≠ 正本 ' + P.ids.join(','));
@@ -79036,7 +79047,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         let moved306 = [];
         try { const P6a = await import('file://' + path.join(ROOT, 'tests', 'lib-w306a-pre.mjs')); moved306 = r.err ? [] : Object.keys(P6a.DECL305).filter((id) => r.ids.drag.includes(id) && (((P6a.DECL305[id].physics || {}).relativeDrag || {}).Wbg === null)); } catch (e) { moved306 = []; }
         // 第318便c(R256): 🗺️ solarSystem16Inertial3d は後に入った本 —— 正本の側と宣言の側の両方から外して比べる(鎖で作り直した正本に入っても入らなくても同じ照合)
-        const not318 = (id) => !(W318C_S16 && id === 'solarSystem16Inertial3d');
+        const not318 = (id) => !W322B_RULE_IDS.has(id);   // 第322便b(AN492): 後に入った本の除外は宣言の条件(旧 第318便の 🗺️ の名指し)
         if (!r.err && JSON.stringify(((SE.ids || {}).drag || []).filter((id) => !moved304.includes(id) && not318(id))) !== JSON.stringify(r.ids.drag.filter((id) => !moved306.includes(id) && not318(id)))) bad.push('正本の本の集合が宣言から導いた集合と違う' + (moved304.length ? '(第304便c・第306便e の引きずり OFF の ' + moved304.join('・') + ' を除いて)' : '') + (moved306.length ? '(第306便a の ' + moved306.join('・') + ' を除いて)' : ''));
         if (!SE.fit || !(SE.fit.rows || []).length) bad.push('正本に影響の表(fit)が無い');
         if (!SE.chain) bad.push('正本に連鎖の段(chain)が無い');
@@ -79396,7 +79407,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (!(J.version === X.HARNESS_VERSION && J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION && J.preVersion === PRE.LIB_VERSION)) bad.push('⑤ 正本の版・来歴');
         if (!(J.ok === true && J.gates && Object.keys(J.gates).length >= 10 && Object.values(J.gates).every(Boolean))) bad.push('⑤ 正本の門 ' + JSON.stringify(J.gates));
         // ①
-        const glocNow = live.filter((p) => p.physics && p.physics.gLoc && !(W318C_S16 && p.id === 'solarSystem16Inertial3d')).map((p) => p.id), glocWas = Object.keys(PRE.DECL302).filter((id) => PRE.DECL302[id].gLoc);
+        const glocNow = live.filter((p) => p.physics && p.physics.gLoc && !W322B_RULE_IDS.has(p.id)).map((p) => p.id),   /* 第322便b(AN492): 宣言の条件 */ glocWas = Object.keys(PRE.DECL302).filter((id) => PRE.DECL302[id].gLoc);
         if (glocNow.length) bad.push('① 在位の本に physics.gLoc が残る ' + glocNow.join(','));
         if (!(glocWas.length === 7 && glocWas.every((id) => find(id)))) bad.push('① 第302便の宣言の写しの G_loc の本 ' + glocWas.length);
         const off6 = glocWas.filter((id) => !PRE.DECL302[id].fitRecord);
@@ -81617,7 +81628,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       for (const [mut, re] of rej) { const v = HP.validatePreset(mk(mut)), msg = (v.errors || []).join(' '); if (v.ok || !re.test(msg)) bad.push('① 拒否されない/理由の文 ' + re.source.slice(0, 40) + ' → ' + msg.slice(0, 100)); else nRej++; }
       { const q = clone(jup); q.physics.relativeDrag.dragCoreDefault = 'cap6500km'; const v = HP.validatePreset(q); if (!(v.ok && v.preset.physics.relativeDrag.dragCoreDefault === 'cap6500km')) bad.push('① 旧則の本の dragCoreDefault の受理'); }
       const decl = HP.allPresets().filter((q) => { const r = (q.physics || {}).relativeDrag, r2 = q.abBody && q.abBody.physicsPatch && q.abBody.physicsPatch.relativeDrag;
-        return [r, r2].some((x) => x && (x.invSq !== undefined || x.dragCoreDefault !== undefined)) && !(W318C_S16 && q.id === 'solarSystem16Inertial3d'); }).map((q) => q.id);   // 第318便c(R256): 🗺️ solarSystem16Inertial3d は在位の 7 本と同じ K1 の短い形(後に入った本 —— 7 本は移行の前の写しで読む・🗺️ には写しが無い)
+        return [r, r2].some((x) => x && (x.invSq !== undefined || x.dragCoreDefault !== undefined)) && !W322B_RULE_IDS.has(q.id); }).map((q) => q.id);   // 第322便b(AN492): 後に入った本の除外は宣言の条件 —— 旧 第318便c(R256): 🗺️ solarSystem16Inertial3d は在位の 7 本と同じ K1 の短い形(後に入った本 —— 7 本は移行の前の写しで読む・🗺️ には写しが無い)
       if (decl.length) bad.push('① 在位/内蔵の本が invSq/dragCoreDefault を宣言 ' + decl.join(','));
       cases.push(`① 正準形・拒否 ${nRej}/${rej.length}・在位の宣言 0 本`);
       // ②
@@ -83876,7 +83887,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       { const A = X.partA(H), B = X.partB(H), G = X.gatesOf({ A, B, D: { rows: [], maintain: [], initSpin: { ok: [true] }, geometry: { omHatDotNgp: -1 }, zeroDeclaredSameAsUndeclared: true } });
         for (const k of ['acceptance', 'receiverRestriction', 'motionDenomSmall', 'fixedStateBitSame', 'twoStepsTranslationSame', 'isolatedOmegaIsG', 'twoBodySameG', 'wbg2StaysZero', 'explicitZeroSameRun', 'runtimeMass0', 'badRowZeroed', 'lowDenCounted'])
           if (G[k] !== true) bad.push('⑤ 器の門 ' + k + ' が真でない');
-        const nG = HP.allPresets().filter((p) => p.physics && p.physics.relativeDrag && (p.physics.relativeDrag.galaxyAxial !== undefined || p.physics.relativeDrag.invSq !== undefined) && !(W318C_S16 && p.id === 'solarSystem16Inertial3d')).length;   // 第318便c(R256): 🗺️ solarSystem16Inertial3d は在位の 7 本と同じ K1 の短い形(後に入った本)
+        const nG = HP.allPresets().filter((p) => p.physics && p.physics.relativeDrag && (p.physics.relativeDrag.galaxyAxial !== undefined || p.physics.relativeDrag.invSq !== undefined) && !W322B_RULE_IDS.has(p.id)).length;   // 第322便b(AN492): 後に入った本の除外は宣言の条件 —— 旧 第318便c(R256): 🗺️ solarSystem16Inertial3d は在位の 7 本と同じ K1 の短い形(後に入った本)
         if (nG) bad.push('⑤ 内蔵の本で galaxyAxial/invSq を宣言する本 ' + nG);
         cases.push(`⑤ 器の段 A(${A.nPass}/${A.nCases})・B の門(非有限の行 ${B.badRow.counted}・分母の小さい行 ${B.lowDen.lowDenRows})・内蔵の本の宣言 ${nG}`); }
     } catch (e) { bad.push('走らない: ' + String(e && e.stack || e).slice(0, 200)); }
@@ -90375,7 +90386,64 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   const cells319 = (l) => l.replace(/^\| /, '').replace(/ \|$/, '').split(' | ');
   const ticks319 = (s) => (String(s).match(/`([^`]+)`/g) || []).map((x) => x.slice(1, -1));
   // ---- lint.laterBooks319
-  {
+  // ==== 第322便b の塊(ここから —— lint.laterBooks319 の世代切替)====
+  // 第322便b(決断事項 AN492・統括の検証項目 R271): 器と QA の名指しの除外を**宣言の条件**(tests/lib-w320d-rulebooks.mjs の isRuleBookNoCopy —— 器は isRuleBookW322・
+  //   QA は最上位の W322B_RULE_IDS)へ移した世代(PHYSICS〔第322便b〕に表 1・表 2)は、その表を読む: 名指しの集合(LATER_BOOKS_ の宣言)が器と lib に 0 本・
+  //   器の宣言の条件の使う所(isRuleBookW322( の数・import・直前の注記)と QA の使う所(W322B_RULE_IDS の .has の後の最初の add の試験)が表と一致・外す本の欄 = W322B_RULE_IDS
+  const sec322bL = (() => { const a = PH319.indexOf('〔第322便b — '); if (a < 0) return ''; const e = [PH319.indexOf('\n〔第', a + 10), PH319.indexOf('\n## 7.', a)].filter((k) => k > a); return PH319.slice(a, e.length ? Math.min(...e) : undefined); })();
+  const gen322bL = !!sec322bL && sec322bL.indexOf('**表 1') >= 0 && sec322bL.indexOf('**表 2') >= 0;
+  if (gen322bL) {
+    const bad = [], cases = [];
+    const RT = rd319('tests/lib-w281a-regentable.mjs'), ruleIds = [...W322B_RULE_IDS].sort();
+    const nmRe = new RegExp('\\bLATER_' + 'BOOKS_[A-Za-z0-9_]+');
+    const useRe = new RegExp('\\bisRuleBookW322\\(', 'g');
+    const found = [];
+    for (const f of fs.readdirSync(path.join(ROOT, 'tests')).filter((x) => /^(exp|lib)-.*\.mjs$/.test(x)).sort()) {
+      const t = rd319('tests/' + f);
+      if (nmRe.test(t)) bad.push(f + ' に名指しの集合が残る');
+      if (t.indexOf('isRuleBookW322') < 0) continue;
+      const L = t.split('\n');
+      if (!/^import \{ isRuleBookNoCopy \} from '\.\/lib-w320d-rulebooks\.mjs';/m.test(t)) bad.push(f + ' に isRuleBookNoCopy の import が無い');
+      const di = L.findIndex((l) => /^const isRuleBookW322 = isRuleBookNoCopy;/.test(l));
+      if (di < 0) { bad.push(f + ' に const isRuleBookW322 = isRuleBookNoCopy; が無い'); continue; }
+      const note = L[di - 1] || '';
+      for (const w of ['第322便b', '後に入った本', 'の外に置く', '正本の欄と値は不変']) if (note.indexOf(w) < 0) bad.push(f + ' の宣言の条件の注記に「' + w + '」が無い');
+      found.push({ key: 'tests/' + f, uses: (t.match(useRe) || []).length });
+    }
+    const cellsL = (l) => l.replace(/^\| /, '').replace(/ \|$/, '').split(' | ');
+    const t1 = sec322bL.indexOf('**表 1'), t2 = sec322bL.indexOf('**表 2'), t3 = sec322bL.indexOf('\n\n', sec322bL.indexOf('\n|', t2));
+    const tab1 = [];
+    for (const c of sec322bL.slice(t1, t2).split('\n').filter((l) => /^\| `tests\//.test(l)).map(cellsL)) {
+      if (c.length !== 8) { bad.push('表 1 の行の欄の数 ' + c.length + ': ' + c[0]); continue; }
+      const file = ticks319(c[0])[0], cond = ticks319(c[1])[0], ids = ticks319(c[2]).sort(), stage = ticks319(c[4])[0];
+      if (cond !== 'isRuleBookW322') bad.push('表 1 の ' + file + ' の条件 ' + cond);
+      if (ids.join(',') !== ruleIds.join(',')) bad.push('表 1 の ' + file + ' の外す本 ' + ids.join(',') + ' ≠ 宣言の条件の本 ' + ruleIds.join(','));
+      for (const id of ids) { const q = live319.find((z) => z.id === id); if (!(q && c[2].indexOf(q.emoji) >= 0)) bad.push('表 1 の ' + file + ' の本 ' + id + ' の絵文字'); }
+      if (!/^\d+$/.test(c[3])) bad.push('表 1 の使う所の数 ' + c[3]);
+      for (const k of [5, 6, 7]) if (!(c[k] && c[k].length >= 8)) bad.push('表 1 の ' + file + ' の欄 ' + (k + 1) + ' が空');
+      if (!(stage && RT.indexOf("S('" + stage + "', 'node " + file + "'") >= 0)) bad.push('表 1 の段 ' + stage + ' が再生成の表に器 ' + file + ' の段として無い');
+      tab1.push({ key: file, uses: Number(c[3]) });
+    }
+    const k1 = (a) => a.map((z) => z.key + '|' + z.uses).sort().join('\n');
+    if (!found.length) bad.push('器に宣言の条件 isRuleBookW322 が無い');
+    if (k1(found) !== k1(tab1)) bad.push('器の宣言の条件 ⇔ 表 1: 器 ' + k1(found).replace(/\n/g, ' , ') + ' / 表 ' + k1(tab1).replace(/\n/g, ' , '));
+    cases.push(`器の名指しの集合 0 本・宣言の条件 isRuleBookW322 の器 ${found.length} 本・使う所 ${found.reduce((n, z) => n + z.uses, 0)} か所 = 表 1 の ${tab1.length} 行(外す本 = 宣言の条件の本 ${ruleIds.length} 本: ${ruleIds.map((id) => (live319.find((z) => z.id === id) || {}).emoji || id).join('')})`);
+    const qRe = new RegExp('W322B_RULE_IDS' + '\\.has\\(');
+    const reAddL = /(?:^|[^.\w])add\('((?:behavior|preset|docs|lint|ui|ai|params)\.[A-Za-z0-9_.\-]+)'/;
+    const QL = rd319('tests/qa.mjs').split('\n'), qfound = [];
+    for (let i = 0; i < QL.length; i++) { if (!qRe.test(QL[i])) continue; let id = null; for (let j = i; j < QL.length && !id; j++) { const a = reAddL.exec(QL[j]); if (a) id = a[1]; } qfound.push(id || '?'); }
+    const tab2 = sec322bL.slice(t2, t3).split('\n').filter((l) => /^\| `[a-z]+\./.test(l)).map(cellsL).map((c) => { if (c.length !== 4 || ticks319(c[1])[0] !== 'W322B_RULE_IDS' || !(c[2].length >= 6 && c[3].length >= 6)) bad.push('表 2 の行 ' + c[0]); return ticks319(c[0])[0]; });
+    const uq = [...new Set(qfound)].sort();
+    if (uq.join(',') !== tab2.slice().sort().join(',')) bad.push('QA の宣言の条件 ' + uq.join(',') + ' ⇔ 表 2 ' + tab2.join(','));
+    if (/\(W\d{3}[A-Z]_[A-Z0-9_]+ && [A-Za-z0-9_.]*id === '[A-Za-z0-9]+'\)/.test(rd319('tests/qa.mjs').split('\n').filter((l) => /^\s*(const|\.|&&|return)/.test(l)).join('\n'))) bad.push('QA に名指しの除外の形が残る');
+    if (TARGET.startsWith('beta/') && !W322B_RULE_IDS.has('solarSystem16Inertial3d')) bad.push('宣言の条件の本に 🗺️ が無い');
+    cases.push(`QA の宣言の条件 W322B_RULE_IDS ${qfound.length} か所(${uq.length} ブロック)= 表 2 の ${tab2.length} 行`);
+    add('lint.laterBooks319', bad.length === 0,
+      `**後に入った本の除外の理由の表**(第319便d・決断事項 AN462・R261 —— 第322便b〔AN492〕で器と QA の名指しを宣言の条件へ移した世代 —— PHYSICS〔第322便b〕の表 1・表 2): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+  // ==== 第322便b の塊(ここまで)====
+  if (!gen322bL) {
     const bad = [], cases = [];
     if (!sec319) bad.push('PHYSICS〔第319便d〕が無い');
     const RT = rd319('tests/lib-w281a-regentable.mjs');
@@ -91357,8 +91425,16 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           obsSpin: (p.bodies || []).map((b) => (b.pulse || b.spinDipole) ? { pulse: b.pulse ? b.pulse.omega : null, spinDipole: b.spinDipole ? b.spinDipole.omega : null, source: (b.pulse || b.spinDipole).source } : null),
           deny3d: [...new Set((p.bodies || []).flatMap((b) => a.deny.filter((k) => b[k] !== undefined)))], inPopulation: !!(p.status && a.pop.includes(p.status.calibration)) };
       }), { ids, deny: L0.BODY_DENY3D.slice(), pop: L0.POP_VALUES.slice() });
-      const jIds = J.I.rows.map((r) => r.id);
-      if (JSON.stringify(ids) !== JSON.stringify(jIds)) bad.push('③ 在位の連星の本の並びがその場の html と違う(新しい連星の本 —— 器を走らせ直す): 正本に無い ' + ids.filter((x) => !jIds.includes(x)).join(',') + ' / html に無い ' + jIds.filter((x) => !ids.includes(x)).join(','));
+      // ==== 第322便b の塊(ここから —— docs.geo3Bin321b の S2 の本の世代切替)====
+      // 第322便b(原仮定者の回答 AN499・統括の検証項目 R271): S2 で内蔵にした geoPN=3 の三次元の連星の本(受理した宣言 geoPN 3 ∧ coord 3d —— S1 の一覧の時点では 0 本)は
+      //   S1 の一覧の照合(③・⑤)の外に置く(宣言の条件 —— 鎖でこの器の正本を作り直すと行が入るが、S1 の表は〔第321便b〕のまま。S2 の本は〔第322便b〕と docs.binBooks322b が見る)
+      const s2of322b = (r) => !!(r && r.geoPN === 3 && r.coord === '3d'), s2Live322b = LIVE.filter(s2of322b).map((z) => z.id);
+      const idsS1 = ids.filter((x) => !s2Live322b.includes(x)), rowsS1 = J.I.rows.filter((r) => !s2of322b(r) && !s2Live322b.includes(r.id));
+      const JS1 = (rowsS1.length === J.I.rows.length) ? J : Object.assign({}, J, { I: Object.assign({}, J.I, { rows: rowsS1, n: rowsS1.length }) });
+      if (s2Live322b.length) cases.push(`③ S2 の geoPN=3 の三次元の連星の本 ${s2Live322b.length} 本(${s2Live322b.join('・')})は S1 の一覧の照合の外(宣言の条件 —— 第322便b)`);
+      // ==== 第322便b の塊(ここまで)====
+      const jIds = rowsS1.map((r) => r.id);
+      if (JSON.stringify(idsS1) !== JSON.stringify(jIds)) bad.push('③ 在位の連星の本の並びがその場の html と違う(新しい連星の本 —— 器を走らせ直す): 正本に無い ' + ids.filter((x) => !jIds.includes(x)).join(',') + ' / html に無い ' + jIds.filter((x) => !ids.includes(x)).join(','));
       let nRow = 0;
       for (const z of LIVE) { const r = J.I.rows.find((w) => w.id === z.id); if (!r) continue; nRow++;
         for (const k of Object.keys(z)) if (k !== 'id' && !near321b(z[k], r[k], 0)) bad.push('③ ' + z.id + ' の ' + k + ' がその場の html と違う'); }
@@ -91377,9 +91453,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       // ⑤
       if (!sec) bad.push('PHYSICS〔第321便b〕が無い');
       else {
-        const rows = D0.physicsTablesGeo3Bin(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'));
+        const rows = D0.physicsTablesGeo3Bin(JS1).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'));
         let nMiss = 0; for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第321便b〕の表に行が無い: ' + r.slice(0, 70)); }
-        const nums = D0.docNumbersGeo3Bin(J), missN = nums.filter((x) => sec.indexOf(x) < 0); if (missN.length) bad.push('PHYSICS〔第321便b〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        const nums = D0.docNumbersGeo3Bin(JS1), missN = nums.filter((x) => sec.indexOf(x) < 0); if (missN.length) bad.push('PHYSICS〔第321便b〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
         if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第321便b〕が「## 7. 論文」の後');
         const ia = PH.indexOf('〔第321便a — '), i320 = PH.indexOf('〔第320便 — 統括');
         if ((ia >= 0 && ia > i0) || !(i320 >= 0 && i320 < i0)) bad.push('PHYSICS〔第321便b〕の位置(〔第320便 — 統括〕と〔第321便a〕の後)');
