@@ -11,7 +11,7 @@
 //   (1 + (4/3)η) を補正の係数として使わない・恒星連星で一律の値と書かない・周期の一致を系全体の合格に広げない。
 import * as L from './lib-w321b-geo3bin.mjs';
 
-export const LIB_VERSION = 'w322b-binbooks-lib-1';
+export const LIB_VERSION = 'w322b-binbooks-lib-2';   // 第322便e: 検証サンプルの写しに c₀ = 30 の宣言(TOY_C0 —— 原仮定者の回答 AN519)
 const clone = (x) => JSON.parse(JSON.stringify(x));
 
 /* ───────── ① 内蔵にした 4 本 ───────── */
@@ -27,10 +27,32 @@ export const TPL_ID = 'alphaCenAB';
 /** 本の宣言の期待(受理した宣言で見る —— 在位の family の variant・K1 + rdRule "kappaM" + initMotion "observed"・並進だけ・G_loc kappaC2) */
 export const DECL_EXPECT = Object.freeze({ coord: '3d', geoPN: 3, kFrame: 0, lambdaPN: 0, relativeDrag: clone(L.K1_DRAG), gLoc: clone(L.GLOC), sampleClass: 'principle', notClaim: 'binary_geo3' });
 
-/** 元の本(geo1 の二次元 —— 玩具は toyBook・実在は在位の本の写し)。find は id → 本(器が HP.allPresets().find で引いて渡す) */
+/* ───────── ①′ 第322便e(原仮定者の回答(2026-11-01 —— AN519)「c₀=30 に直す」・統括の検証項目 R274): 検証サンプルの c₀ = 30 の宣言 ───────── */
+//   内蔵の本は c₀ = 30 か実 c の値(c₀ = 30 一律規約 —— QA light.canonical-builtins)。検証サンプル ♊⚖️ の写しの元は第321便b の玩具(lib-w321b の toyBook —— c = 10 のまま・
+//   第321便b の器・正本・QA は変えない)で、本の側は c₀ = 30 へ直した。照合の相手は「第321便b の玩具に c₀ = 30 の宣言を当てた写し」: 変える鍵は cLight と、同じ規則
+//   (toyBook と同じ演算 G/(c·c))で c から導く従属の宣言 kappaT = G/c₀² の 2 つだけ。G・質量・a・e・初期の位置と速度・stepDt・軟化・timeRef・步数は玩具のまま。
+//   c から導くが宣言に書かない量(G_loc の係数 G/c₀²〔kappa "lock"〕・K1 の規則の R_d = Y_k m〔Y_k = 10G/(C₁c²)〕・q_1PN)は受理器とエンジンが本の G・c から作る。
+export const TOY_C0 = Object.freeze({ cLight: 30, from: 10, keys: Object.freeze(['cLight', 'kappaT']),
+  why: '原仮定者の回答(2026-11-01 —— AN519)「c₀=30 に直す」—— 内蔵の本は c₀ = 30 か実 c の値(c₀ = 30 一律規約)。G = 1・質量・a = 100・e = 0.5・初期状態・刻み・步数は第321便b の玩具のまま(GM/(c₀²a) = 1/90000)' });
+/** 玩具の写しに c₀ = 30 の宣言を当てる(cLight と従属の kappaT = G/(c₀·c₀) —— toyBook と同じ演算の順) */
+export function applyToyC0(book) {
+  const c = clone(book), ph = c.physics;
+  ph.cLight = TOY_C0.cLight; ph.kappaT = ph.G / (TOY_C0.cLight * TOY_C0.cLight);
+  return c;
+}
+/** 第321便b の玩具そのもの(c = 10 —— c₀ = 30 の宣言を当てる前) */
+export function toy321bOf(spec, find) { return L.toyBook(L.TOYS.find((t) => t.key === spec.toy), find(TPL_ID).physics); }
+/** 元の本(geo1 の二次元 —— 玩具は toyBook に c₀ = 30 の宣言を当てた写し・実在は在位の本の写し)。find は id → 本(器が HP.allPresets().find で引いて渡す) */
 export function geo1Of(spec, find) {
-  if (spec.src === 'toy') return L.toyBook(L.TOYS.find((t) => t.key === spec.toy), find(TPL_ID).physics);
+  if (spec.src === 'toy') return applyToyC0(toy321bOf(spec, find));
   return clone(find(spec.book));
+}
+/** c₀ = 30 の宣言が変えた鍵(第321便b の写しの列 col と本便の写しの列 col の差 —— 玩具は TOY_C0.keys だけ・physics の外は同じ・実在の連星は差なし) */
+export function c0DiffOf(spec, find, col) {
+  const a = spec.src === 'toy' ? L.siblingOf(toy321bOf(spec, find), col) : L.siblingOf(clone(find(spec.book)), col), b = siblingCol(spec, find, col);
+  const keys = [...new Set(Object.keys(a.physics).concat(Object.keys(b.physics)))].filter((k) => JSON.stringify(a.physics[k]) !== JSON.stringify(b.physics[k])).sort();
+  const restSame = JSON.stringify(Object.assign({}, a, { physics: null })) === JSON.stringify(Object.assign({}, b, { physics: null }));
+  return { keys, restSame, from: a.physics.cLight, to: b.physics.cLight, kappaFrom: a.physics.kappaT, kappaTo: b.physics.kappaT };
 }
 /** 第321便b の兄弟の写し(列 col)—— 内蔵の本と受理後の宣言を照合する相手 */
 export function siblingCol(spec, find, col) { return L.siblingOf(geo1Of(spec, find), col); }
