@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-  "generatedAt": "2026-11-01T18:29:43.695Z",
+  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
+  "generatedAt": "2026-11-01T21:49:22.039Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7487036,
-    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-    "mtime": "2026-11-01T12:44:54.266Z"
+    "bytes": 7491601,
+    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
+    "mtime": "2026-11-01T20:25:22.344Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1719643,
-    "sha256": "f7afd162f931abe720c98ee777ce9cdf698dcff0db74c6f1e02ac57799267294",
-    "mtime": "2026-11-01T11:57:05.906Z"
+    "bytes": 1721737,
+    "sha256": "008d983071775b54d8af28e1ab18fa7c1bbe8f9bcd1ee8bc3ccd31dbe475ecc0",
+    "mtime": "2026-11-01T20:38:36.884Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -52,7 +52,7 @@
     "file": "docs/FAMILIES.md",
     "bytes": 56118,
     "sha256": "eefb96d0f4948406cef92c1b19111ed620b10d7db127c6e91c05953a397b0d63",
-    "mtime": "2026-11-01T18:29:43.664Z"
+    "mtime": "2026-11-01T21:49:22.016Z"
    }
   ],
   "code": [
@@ -118,14 +118,14 @@
    "complete": true,
    "names": 1319,
    "segments": 1157,
-   "closureShare": 0.3223
+   "closureShare": 0.3222
   },
-  "scopeSha256": "5c41eeeacf9ed632cd7d49a9b26093c4be6804a17de33c103e9914d2fe32da69",
+  "scopeSha256": "5d63fca2535c458dec9b6ee4403d988b6ed8f807b1429e90efbdf2d0e89e5ee7",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "b2cb6c5b609e040742063028a4dfb745f684dd078caa88ab31752c648873d662",
+    "stableSha256": "61d15fd13d55d8ebbe80d43848fe99e78f8f3b3f8da3a28e18d40345f6472310",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -153,7 +153,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "aa2caf1857e538bf79ce3ba34d7b702e9206fc87a51bb1375d0ab5ead6609378",
+    "stableSha256": "d59b260f914b1f9d05e58366b5ff5b617cb461170c1ba1eaff32c2eb6c331458",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -5683,5 +5683,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.956
+ "elapsedS": 0.776
 }
