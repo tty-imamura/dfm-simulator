@@ -155,6 +155,8 @@ const SITE_CLASS = {
   // 第288便g(第288便c の読み口の宣言): dfmGeoToySpinStep の 2 巡回の pair 融合(D0p を引数で受け、非順序対ごとに 1 回だけ作る —— ビット同一)
   'dfmSpinPairFuse :: dfmSpinPairFuse': { use: 'geoPN=3 トイの中心自転の 1 步の pair 巡回の融合(D0p を引数で受ける)', replaceable: 'candidate',
     why: 'χ の分母(dfmGeoToySpinStep と同じ式・同じ門)' },
+  // 第322便(統括の統合 —— 第322便a の geoPN=2 の 3D の核): 引きずりの力の背景持ち分 bgW=D₀ と χ の分母 D₀+ΣW を読む(makeSim :: F6 と同じ式の 3D の写し)
+  'dfmCore3G2 :: dfmCore3G2': { use: 'E6′(geoPN=2 の 3D の核 —— 引きずりの力・背景持ち分 bgW=D₀・χ の分母 D₀+ΣW)', replaceable: 'candidate', why: 'χ の分母(makeSim :: F6 と同じ)' },
   'dfmMeshBlend :: dfmMeshBlend': { use: '複素場と背景の混合', replaceable: 'candidate', why: '背景の重み' },
   'dfmMeshBlend :: rd4': { use: '複素場と背景の混合(内部)', replaceable: 'candidate', why: '背景の重み' },
   'dfmGalaxyMeshField :: dfmGalaxyMeshField': { use: '複素場(銀河メッシュ)', replaceable: 'candidate', why: 'χ の分母' },

@@ -4,7 +4,7 @@
   "wave": "第276便a",
   "target": "beta/index.html",
   "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-  "generatedAt": "2026-11-01T18:25:56.404Z",
+  "generatedAt": "2026-11-01T18:43:31.588Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -16,9 +16,9 @@
   "code": [
    {
     "file": "tests/exp-w276a-d0audit2.mjs",
-    "bytes": 31449,
-    "sha256": "34cc77f3b342e516d9ff637c438d1b402babc9363bbac3a5dadd0e8e63a375f7",
-    "mtime": "2026-10-20T16:19:56.628Z"
+    "bytes": 31872,
+    "sha256": "6570b55751c2a5969988ab7f39881f2f85896cef67a00ee1eb7773701f295991",
+    "mtime": "2026-11-01T18:43:23.846Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -27,7 +27,7 @@
     "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
-  "codeSha256": "a5f9ee401cc065e7357cd7e7272a99e96ec7f55fcf2fbec54c6e6d493483da52",
+  "codeSha256": "75d33c8449197a11aa71d8cd622f8972981234255948eb46d50c44b18ece6bbc",
   "harness": "tests/exp-w276a-d0audit2.mjs",
   "harnessVersion": "w276a-d0sites-2",
   "tokens": [
@@ -62,13 +62,10 @@
   "groups": 77,
   "byReplaceable": {
    "n/a": 16,
-   "candidate": 54,
-   "forbidden": 6,
-   "unclassified": 1
+   "candidate": 55,
+   "forbidden": 6
   },
-  "unclassified": [
-   "dfmCore3G2 :: dfmCore3G2"
-  ],
+  "unclassified": [],
   "forbidden": [
    "traceRay :: traceRay",
    "dfmFrameAt :: dfmFrameAt",
@@ -1419,10 +1416,10 @@
     "hasPullFallback": false,
     "readsD0Member": true,
     "objectKeyOnly": false,
-    "use": null,
-    "replaceable": null,
-    "why": null,
-    "classified": false
+    "use": "E6′(geoPN=2 の 3D の核 —— 引きずりの力・背景持ち分 bgW=D₀・χ の分母 D₀+ΣW)",
+    "replaceable": "candidate",
+    "why": "χ の分母(makeSim :: F6 と同じ)",
+    "classified": true
    },
    {
     "key": "dfmMeshV2Solve :: dfmMeshV2Solve",
