@@ -23199,7 +23199,7 @@ if (!FAST) {
         if (HP290.allPresets().some((q) => q.id === 'solarSystem16Inertial3d') && wantDecl290.indexOf('solarSystem16Inertial3d') < 0) {
           const set318 = new Set(wantDecl290.concat(['solarSystem16Inertial3d'])); wantDecl290.splice(0, wantDecl290.length, ...HP290.allPresets().map((q) => q.id).filter((id) => set318.has(id))); }
         // 第322便b(AN492・R271): K1 の規則の宣言で生まれた本(最上位の W322B_RULE_IDS —— 🗺️ と ♊⚖️🌠🔶)も inertial を宣言する —— 宣言の条件で足す(並びは内蔵の順・基点の html では 🗺️ だけで上と同じ集合)
-        { const rule322 = [...W322B_RULE_IDS]; if (rule322.some((id) => wantDecl290.indexOf(id) < 0)) { const set322 = new Set(wantDecl290.concat(rule322)); wantDecl290.splice(0, wantDecl290.length, ...HP290.allPresets().map((q) => q.id).filter((id) => set322.has(id))); } }
+        { const rule322 = Array.from(W322B_RULE_IDS); if (rule322.some((id) => wantDecl290.indexOf(id) < 0)) { const set322 = new Set(wantDecl290.concat(rule322)); wantDecl290.splice(0, wantDecl290.length, ...HP290.allPresets().map((q) => q.id).filter((id) => set322.has(id))); } }
         if (JSON.stringify(decl) !== JSON.stringify(wantDecl290)) bad.push('(a) inertial を宣言する内蔵が ' + wantDecl290.join('・') + ' でない: ' + decl.join(','));
         let nUndecl = 0, nLeak = 0;
         for (const q of HP290.allPresets()) {
