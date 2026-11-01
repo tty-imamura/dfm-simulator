@@ -91852,6 +91852,133 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第322便c の塊(ここまで)====
+// ==== 第322便d の塊(ここから —— docs.w322d の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第322便d(決断事項 AN509・統括の検証項目 R273): **道具 4 つ**(nslock の本ごとの行の再利用 --merge の影の運用・煙試験の --wide の全体の枠と未実行の段の終わりの行・
+// ----   版名 QA の鍵の抜き出し・qapart の --batch)—— html・本の宣言・エンジン・鎖の段の宣言は変えない(beta 対象だけ —— root は SKIP)。
+// ----   docs.w322d:
+// ----     ① AN509: lib tests/lib-w322d-nslockmerge.mjs の門の変異の自己試験(今の正本に新しい形の meta を合成した写し —— 26 例: 全走 17・merge 9)と差の関数・
+// ----        器 tests/exp-w272c-nslock.mjs の配線(--merge・--plan・--prev・--out・lib の import・code[] に lib・影の照合)・鎖の段の cmd は全走のまま・
+// ----        正本が新しい形なら meta の形(env の 5 欄・coreSha256・本の生と受理後の hash・行の入力の hash・meta.stages = 行の段の和・merge の版)—— 旧形式なら数えて通す(鎖の走行で新しい形になる)
+// ----     ② 煙試験 tools/harness-smoke.mjs の smokeWideSelfTest(--wide・--indirect の既定 90 min・--max-minutes が勝つ・未実行の段の終わりの行は「未完」)・道具の版は w304e-harness-smoke-2 のまま
+// ----     ③ 版名 QA の鍵の抜き出し tools/qa-keys.mjs の自己試験(缶詰 —— 文字列の中の add・コメントに当たる検索・w5cGetUnit の範囲・上流の名前・束 / 今の qa.mjs —— 束は 50 鍵以下)
+// ----     ④ qapart: 切り出しの lib tests/lib-w322d-qapart.mjs の batchKeys の缶詰・器が lib を読み --batch・--emit を持つ・--emit で 1 本と束の本文が同じ範囲を写す(子プロセス —— Chromium なし)
+// ----     ⑤ 文書: PHYSICS〔第322便d〕(〔第321便 — 統括〕の後・「## 7.」の前・a → b → c → d の順)・AI_SPEC §166・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rd322d = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.w322d(beta 対象でない: ' + TARGET + ' —— 道具と正本は beta 線)');
+    return;
+  }
+  const bad = [], cases = [];
+  const imp322d = async (f) => { try { return await import('file://' + path.join(ROOT, f)); } catch (e) { bad.push(f + ' が読めない: ' + String(e && e.message || e).slice(0, 80)); return null; } };
+  const NM = await imp322d('tests/lib-w322d-nslockmerge.mjs'), HS = await imp322d('tools/harness-smoke.mjs'), QK = await imp322d('tools/qa-keys.mjs'),
+    QP = await imp322d('tests/lib-w322d-qapart.mjs'), RT = await imp322d('tests/lib-w281a-regentable.mjs');
+  // ① AN509
+  if (NM) {
+    if (NM.MERGE_VERSION !== 'w322d-nslock-merge-1') bad.push('① 門の版 ' + NM.MERGE_VERSION);
+    let J = null; try { J = JSON.parse(rd322d('tests/out/nslock-w272c.json')); } catch (e) { bad.push('① nslock の正本が読めない'); }
+    if (J) {
+      const st = NM.gateSelfTest(J);
+      if (!st.ok) bad.push('① 門の変異: ' + st.rows.filter((r) => !r.pass).map((r) => r.name + ' → ' + r.mode).slice(0, 3).join(' / '));
+      if (st.rows.length !== 26 || st.rows.filter((r) => r.mode === 'full').length !== 17) bad.push('① 変異の表が 26 例(全走 17・merge 9)でない');
+      const M = J.meta || {};
+      let form = '旧形式(env・核と本の hash なし —— 鎖の走行で新しい形になる)';
+      if (M.merge) {
+        const HEX = /^[0-9a-f]{64}$/;
+        if (M.merge.version !== NM.MERGE_VERSION) bad.push('① 正本の merge の版 ' + M.merge.version);
+        if (!['full', 'merge'].includes(M.merge.mode)) bad.push('① 正本の merge.mode が ' + M.merge.mode + '(--only/--variants だけの写しを正本にしない)');
+        if (!(M.env && ['node', 'v8', 'chromium', 'platform', 'arch'].every((k) => typeof M.env[k] === 'string' && M.env[k]))) bad.push('① 正本の env の 5 欄');
+        if (!HEX.test(String(M.coreSha256 || ''))) bad.push('① 正本の coreSha256');
+        const ps = ((M.scope || {}).presets || []);
+        if (!(M.books && ps.length && ps.every((id) => M.books[id] && HEX.test(String(M.books[id].raw)) && HEX.test(String(M.books[id].accepted))))) bad.push('① 正本の本の hash(領域の本ごとの生と受理後)');
+        if (!(M.rowInputs && (J.systems || []).every((s) => HEX.test(String(M.rowInputs[s.id] || ''))))) bad.push('① 正本の行の入力の hash');
+        if (!(Array.isArray(M.pageLibs) && M.pageLibs.length === 2 && M.pageLibs.every((z) => HEX.test(String(z.sha256))))) bad.push('① 正本のページへ入れる lib の sha');
+        if (M.stages !== NM.stagesOfRows(J.systems)) bad.push('① 正本の meta.stages ≠ 行の段の和');
+        if (!(M.code || []).some((z) => z.file === 'tests/lib-w322d-nslockmerge.mjs')) bad.push('① 正本の code[] に門の lib が無い');
+        form = `新しい形(merge ${M.merge.mode}・env Chromium ${M.env && M.env.chromium}・本 ${ps.length}・行 ${(J.systems || []).length}・段 ${M.stages})`;
+      }
+      cases.push(`① AN509(${NM.MERGE_VERSION}): ${st.cases} / 今の正本 ${form}`);
+    }
+    const HX = rd322d('tests/exp-w272c-nslock.mjs');
+    for (const w of ["argv.includes('--merge')", "argv.includes('--plan')", "W322D_ARG('--prev')", "W322D_ARG('--out')", "from './lib-w322d-nslockmerge.mjs'", "'tests/lib-w322d-nslockmerge.mjs'",
+      'w281aScopeHash(path.join(ROOT, TARGET), REGEN_SCOPE)', 'browser.version()', '影の照合', 'out.meta.stages = w322dStages(out.systems)']) if (HX.indexOf(w) < 0) bad.push('① 器に「' + w + '」が無い');
+    const stN = RT && RT.REGEN_STEPS.find((z) => z.key === 'nslock');
+    if (!(stN && stN.cmd === 'node tests/exp-w272c-nslock.mjs')) bad.push('① 鎖の段 nslock の cmd が全走のままでない: ' + (stN && stN.cmd));
+  }
+  // ② 煙試験
+  if (HS) {
+    const s = typeof HS.smokeWideSelfTest === 'function' ? HS.smokeWideSelfTest() : { ok: false, bad: ['smokeWideSelfTest が無い'] };
+    if (!s.ok) bad.push('② ' + s.bad.slice(0, 3).join(' / '));
+    if (HS.HARNESS_SMOKE_VERSION !== 'w304e-harness-smoke-2' || HS.SMOKE_WIDE_VERSION !== 'w322d-smoke-wide-1' || HS.MAX_MINUTES_WIDE !== 90 || HS.MAX_MINUTES_DEFAULT !== 30) bad.push('② 道具の版と枠の既定');
+    const T = rd322d('tools/harness-smoke.mjs');
+    if (!(T.indexOf('const maxMinutes = maxMinutesOf(argv);') >= 0 && T.indexOf('smokeSummary(res, sel.length') >= 0)) bad.push('② main が maxMinutesOf・smokeSummary を使わない');
+    cases.push(`② 煙試験(${HS.SMOKE_WIDE_VERSION} —— 道具の版 ${HS.HARNESS_SMOKE_VERSION} のまま): ${s.cases || ''}`);
+  }
+  // ③ 版名 QA の鍵
+  if (QK) {
+    const r = await QK.selfTest({ root: ROOT });
+    if (!r.ok) bad.push('③ ' + r.bad.slice(0, 3).join(' / '));
+    if (QK.QA_KEYS_VERSION !== 'w322d-qa-keys-1' || QK.DEFAULT_CHUNK !== 50 || QK.DEFAULT_RES.join('|') !== 'CHANGELOG|BETA_BUILD|APP_VERSION|sw\\.js') bad.push('③ 道具の版・束の既定・正規表現の既定');
+    cases.push(`③ 版名 QA の鍵(${QK.QA_KEYS_VERSION}): ${r.cases.join(' / ')}`);
+  }
+  // ④ qapart の --batch
+  if (QP) {
+    const b = QP.batchKeys([{ id: 'a', span: [0, 5] }, { id: 'b', span: [3, 8] }, { id: 'c', span: [10, 12] }, { id: 'd', span: [12, 14] }, { id: 'e', span: [20, 30] }], 2);
+    if (JSON.stringify(b) !== JSON.stringify([['a', 'b'], ['c', 'd'], ['e']])) bad.push('④ batchKeys の缶詰: ' + JSON.stringify(b));
+    const QX = rd322d('tests/exp-w258c-qapart.mjs');
+    for (const w of ["'lib-w322d-qapart.mjs'", 'QP.qaSpanner(qaSrc, QO)', "optOf('--batch')", "optOf('--emit')", 'QP.batchKeys(keyed, BATCH)', 'spawn(process.execPath, [tmp]']) if (QX.indexOf(w) < 0) bad.push('④ qapart に「' + w + '」が無い');
+    const os = await import('node:os');
+    const { spawnSync } = await import('node:child_process');
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w322d-emit-'));
+    try {
+      const ids = ['version.sync', 'docs.nsLockBranch', 'lint.harnessSmoke303', 'docs.w321d'];
+      const r1 = spawnSync(process.execPath, [path.join(ROOT, 'tests', 'exp-w258c-qapart.mjs'), '--emit', path.join(tmp, 'one'), ...ids], { cwd: ROOT, encoding: 'utf8', timeout: 120000 });
+      const r2 = spawnSync(process.execPath, [path.join(ROOT, 'tests', 'exp-w258c-qapart.mjs'), '--batch', '2', '--emit', path.join(tmp, 'b2'), ...ids], { cwd: ROOT, encoding: 'utf8', timeout: 120000 });
+      const one = fs.existsSync(path.join(tmp, 'one', 'run.mjs')) ? fs.readFileSync(path.join(tmp, 'one', 'run.mjs'), 'utf8') : '';
+      const parts = fs.existsSync(path.join(tmp, 'b2')) ? fs.readdirSync(path.join(tmp, 'b2')).filter((f) => /^run-\d+\.mjs$/.test(f)).sort() : [];
+      const bodies = parts.map((f) => fs.readFileSync(path.join(tmp, 'b2', f), 'utf8'));
+      const has = (t, id) => t.indexOf("add('" + id + "'") >= 0;
+      if (r1.status !== 0 || r2.status !== 0) bad.push('④ --emit の rc ' + r1.status + '/' + r2.status);
+      if (!ids.every((id) => has(one, id))) bad.push('④ 1 本の本文に鍵が揃わない');
+      if (parts.length !== 2 || !ids.every((id) => bodies.filter((t) => has(t, id)).length === 1)) bad.push('④ --batch 2 の本文(束 ' + parts.length + '・各鍵はちょうど 1 束)');
+      cases.push(`④ qapart(${QP.QAPART_LIB_VERSION}): batchKeys の缶詰(範囲が重なる鍵は同じ束)・--emit で 1 本 ${one.length} 字・--batch 2 で ${parts.length} 束(各鍵はちょうど 1 束)`);
+    } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+  }
+  // ⑤ 文書
+  const PH = rd322d('docs/PHYSICS.md'), a322 = PH.indexOf('〔第322便d — ');
+  const sec = a322 < 0 ? '' : PH.slice(a322, (() => { const e = [PH.indexOf('\n〔第', a322 + 10), PH.indexOf('\n## 7.', a322)].filter((k) => k > a322); return e.length ? Math.min(...e) : undefined; })());
+  const rv = (s) => [...s].reverse().join('');
+  const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);
+  const NOT = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'たため確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転逆の星金', 'たし明説をータマクーダ'].map(rv);
+  if (!sec) bad.push('⑤ PHYSICS〔第322便d〕が無い');
+  else {
+    const i7 = PH.indexOf('\n## 7.'), iG = PH.indexOf('〔第321便 — 統括');
+    if (!(a322 < i7 && iG >= 0 && iG < a322)) bad.push('⑤ 節の位置(〔第321便 — 統括〕の後・「## 7.」の前)');
+    for (const [b, k] of [['a', PH.indexOf('〔第322便a — ')], ['b', PH.indexOf('〔第322便b — ')], ['c', PH.indexOf('〔第322便c — ')]]) if (k >= 0 && k > a322) bad.push('⑤ 〔第322便' + b + '〕が〔第322便d〕の後');
+    for (const w of ['AN509', 'R273', 'G1', 'G8', 'tests/lib-w322d-nslockmerge.mjs', 'w322d-nslock-merge-1', '--merge', '--plan', '影の照合', 'MAX_MINUTES_WIDE', '未完 —— 未実行',
+      'tools/qa-keys.mjs', 'w5cGetUnit', 'tests/lib-w322d-qapart.mjs', '--batch', 'docs.w322d', '**表 1', '**表 2']) if (sec.indexOf(w) < 0) bad.push('⑤ PHYSICS〔第322便d〕に「' + w + '」が無い');
+  }
+  const AI = rd322d('docs/AI_SPEC.md'), ai166 = (() => { const m = /\n## 166\. 第322便d[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+  if (!(ai166 && ai166.indexOf('AN509') >= 0 && ai166.indexOf('--merge') >= 0 && ai166.indexOf('qa-keys') >= 0)) bad.push('⑤ AI_SPEC §166');
+  const CL = rd322d('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+  const cl322 = (clb.split('\n').find((l) => l.indexOf('**第322便d**') >= 0)) || '';
+  if (!cl322) bad.push('⑤ CHANGELOG の beta 節に第322便d の行が無い');
+  const TR = rd322d('tools/README.md'), PM = rd322d('tools/post-merge-qa.sh');
+  if (!(TR.indexOf('## qa-keys.mjs') >= 0 && TR.indexOf('--batch') >= 0 && TR.indexOf('--merge') >= 0 && TR.indexOf('未完 —— 未実行') >= 0)) bad.push('⑤ tools/README に qa-keys・--batch・--merge・未完の行の節が無い');
+  if (!(PM.indexOf('# ==== 第322便d の塊(ここから)====') >= 0 && /docs\.w322d/.test(PM))) bad.push('⑤ post-merge の ③′ に第322便d の塊が無い');
+  for (const [nm, tx] of [['PHYSICS〔第322便d〕', sec], ['AI_SPEC §166', ai166], ['CHANGELOG の第322便d の行', cl322]]) {
+    for (const w of NG) if (tx.indexOf(w) >= 0) bad.push('⑤ ' + nm + ' に禁句(' + w.length + ' 字)');
+    for (const w of NOT) if (tx.indexOf(w) >= 0) bad.push('⑤ ' + nm + ' に書かない語(' + w.length + ' 字)');
+    if (tx.indexOf(String.fromCharCode(0x3ba)) >= 0) bad.push('⑤ ' + nm + ' に裸の係数記号');
+  }
+  cases.push('⑤ PHYSICS〔第322便d〕(〔第321便 — 統括〕の後・「## 7.」の前)・AI_SPEC §166・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号 なし');
+  add('docs.w322d', bad.length === 0,
+    `**道具 4 つ**(第322便d・決断事項 AN509・R273 —— html・本の宣言・エンジン・鎖の段の宣言は不変): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ==== 第322便d の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

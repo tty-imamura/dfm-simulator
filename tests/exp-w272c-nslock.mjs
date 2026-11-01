@@ -32,6 +32,14 @@
 // 実行: PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright \
 //         node tests/exp-w272c-nslock.mjs [--only id,...] [--variants a,b,...]
 // 出力: tests/out/nslock-w272c.json
+//
+// 第322便d(決断事項 AN509・統括の検証項目 R273)—— **本ごとの行の再利用 `--merge`(影の運用)**:
+//   node tests/exp-w272c-nslock.mjs --merge [--only id,...] [--prev <前の正本>] [--out <出力>] [--plan]
+//   前の正本(既定 = 出力のファイル —— 走行の前に読む)の行のうち、門 G1〜G8(`tests/lib-w322d-nslockmerge.mjs`)を通る行を写し、
+//   --only の系と門を通らない行だけを走らせて 1 本の正本に組む。正本全体の門(G1 器の版・コード・ページへ入れる lib・走行の窓 /
+//   G2 環境 / G3 核の hash / G5 行の集合と順 / G7 全体集計 / G8 --only の範囲)が 1 つでも外れたら**全走**。`--plan` は門の評価を印字して終わる(書かない)。
+//   正本の meta に env・coreSha256・books(本ごとの生と受理後の hash)・rowInputs(行の入力の hash)・pageLibs・merge(再利用の記録)を足した。
+//   **鎖の段の宣言は全走のまま**(影): 全走のときも前の正本で門を評価し、再利用できたはずの行と新しい行の一致を印字する(正本には書かない)。
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -46,13 +54,18 @@ import { lockDeclaration, sigmaTimes, signedSynchrony, SIGN_CONVENTION_JA } from
 //   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { provenanceMeta as w281aProv } from './lib-w272e-provenance.mjs';
+import { scopeHash as w281aScopeHash } from './lib-w281a-scope.mjs';
+import { MERGE_VERSION as W322D_MERGE_VERSION, mergeGate as w322dGate, coreShaOf as w322dCoreSha, bookShaOf as w322dBookSha,
+  rowInputSha as w322dRowSha, stagesOfRows as w322dStages, canonText as w322dCanon } from './lib-w322d-nslockmerge.mjs';
 const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","galaxy","psrB1534DFM","psrDoubleABDFM","psrJ1757DFM","psrJ1946DFM","siriusAB","siriusABDFM"],"roots":["$","HP.allPresets","HP.sim","HP.validatePreset","applyQLock","ch","clamp","ctx","isNum","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
 const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);   // 第281便a: 走行開始時の html の領域
 const INDEX = 'file://' + path.join(ROOT, TARGET);
-const OUT = path.join(ROOT, 'tests', 'out', 'nslock-w272c.json');
+const W322D_ARGV = process.argv.slice(2);
+const W322D_ARG = (k) => { const i = W322D_ARGV.indexOf(k); return (i >= 0 && W322D_ARGV[i + 1]) ? W322D_ARGV[i + 1] : null; };
+const OUT = W322D_ARG('--out') ? path.resolve(W322D_ARG('--out')) : path.join(ROOT, 'tests', 'out', 'nslock-w272c.json');   // 第322便d: --out(既定は正本)
 const SRC265 = path.join(ROOT, 'tests', 'out', 'kjoint2-w265a.json');
 const CSV = path.join(ROOT, 'paper', 'data', 'solar-observations.csv');
 const HARNESS_VERSION = 'w272c-nslock-1';
@@ -68,6 +81,21 @@ const ONLY = (() => { const s = arg('--only', null); return s ? s.split(',') : n
 const VARIANTS = (() => { const s = arg('--variants', null); return s ? s.split(',') : null; })();
 
 const sha = (p) => crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+
+// ---- 第322便d(決断事項 AN509): 再利用の門の入力。**前の正本は出力を書き始める前に読む**(既定の --prev は出力のファイル)
+const W322D_MERGE = argv.includes('--merge');
+const W322D_PLAN = argv.includes('--plan');
+const W322D_PREV_PATH = W322D_ARG('--prev') ? path.resolve(W322D_ARG('--prev')) : OUT;
+const W322D_PREV = (() => { try { return JSON.parse(fs.readFileSync(W322D_PREV_PATH, 'utf8')); } catch { return null; } })();
+const W322D_PREV_SHA = W322D_PREV ? sha(W322D_PREV_PATH) : null;
+// 器と lib(code[] —— 第322便d で本 lib を足した)・ページへ入れる lib(code[] の外 —— 門 G1 で sha を見る)
+const W322D_CODE = ['tests/exp-w272c-nslock.mjs', 'tests/lib-w265a-analogy.mjs', 'tests/lib-w272c-binlock.mjs', 'tests/lib-w322d-nslockmerge.mjs'];
+const W322D_PAGE_LIBS = ['tests/lib-precision-diagnostics.mjs', 'tests/lib-w262a-psrdiag.mjs'].map((f) => ({ file: f, sha256: sha(path.join(ROOT, f)) }));
+// 核の hash と本の hash(領域 hash の内訳 —— 走行開始時の html)
+const W322D_SCOPE = w281aScopeHash(path.join(ROOT, TARGET), REGEN_SCOPE);
+const W322D_CORE_SHA = w322dCoreSha(W322D_SCOPE.parts, W322D_SCOPE.scope.version);
+const W322D_BOOKS = w322dBookSha(W322D_SCOPE.parts, REGEN_SCOPE.presets);
+const W322D_CODE_SHA = w281aProv({ root: ROOT, target: TARGET, code: W322D_CODE }).codeSha256;
 
 // ---- 系の宣言(観測事実の注記は「測っていないこと」を含めて書く)
 const SYSTEMS = [
@@ -246,6 +274,33 @@ const BUILTIN = await pg.evaluate((ids) => window.__w272cBuiltin(ids),
   SYSTEMS.map((s) => s.id).concat(['alphaCenABDFM', 'siriusABDFM']));
 const builtinOf = (id) => BUILTIN.find((z) => z.id === id) || null;
 
+// ---- 第322便d(決断事項 AN509): 再利用の門の評価。--merge のときは門で写す行を決める。全走のときも前の正本で門を評価する(影 —— 正本には書かない)
+const W322D_ENV = { node: process.version, v8: process.versions.v8, chromium: browser.version(), platform: process.platform, arch: process.arch };
+const W322D_ROWIN = Object.fromEntries(SYSTEMS.map((s) => [s.id, w322dRowSha({
+  csvRows: OBS_ROWS.filter((r) => r.body === s.csvBody || (s.spinBodies || []).includes(r.body)), savedRoot: savedRoot(s.id) })]));
+const W322D_CUR = { harness: HARNESS_VERSION, codeSha256: W322D_CODE_SHA, pageLibs: W322D_PAGE_LIBS,
+  params: { target: TARGET, dt0: DT0, divs: DIVS, periWindow: PERI_WINDOW, maxSteps: MAX_STEPS, wallMs: WALL_MS },
+  env: W322D_ENV, coreSha256: W322D_CORE_SHA, books: W322D_BOOKS, rowInputs: W322D_ROWIN, systems: SYSTEMS.map((s) => s.id),
+  deps: Object.fromEntries(SYSTEMS.map((s) => [s.id, [...new Set([s.id, s.ledgerFrom].filter(Boolean))]])), builtin: BUILTIN };
+const W322D_G = w322dGate({ prev: W322D_PREV, cur: W322D_CUR, only: ONLY || [], variants: VARIANTS });   // --merge の門(--only の系は走らせる)
+const W322D_GA = w322dGate({ prev: W322D_PREV, cur: W322D_CUR, only: [], variants: VARIANTS });          // 影の門(--only なし —— 再利用できるはずの行)
+const W322D_REUSE = (W322D_MERGE && W322D_G.mode === 'merge') ? new Set(W322D_G.reuse) : null;
+const w322dLine = (g) => (g.mode === 'merge'
+  ? `門 merge —— 再利用 ${g.reuse.length} 行(${g.reuse.join(',') || 'なし'})・走らせる ${g.run.length} 行(${g.run.join(',') || 'なし'})`
+    + (g.rerun.length ? '・門で走らせ直す行 ' + g.rerun.map((z) => z.id + '〔' + z.why[0] + '〕').join(' ') : '')
+  : `門 full(全走)—— ${g.why.slice(0, 4).join(' / ')}${g.why.length > 4 ? ' 他 ' + (g.why.length - 4) : ''}`);
+console.error(`[w272c-nslock] 再利用の門(${W322D_MERGE_VERSION}・${W322D_MERGE ? '--merge' : '影 —— 全走'})・前の正本 ${W322D_PREV ? path.relative(ROOT, W322D_PREV_PATH) : 'なし'}: ${w322dLine(W322D_MERGE ? W322D_G : W322D_GA)}`);
+if (W322D_PLAN) {
+  console.log(JSON.stringify({ plan: W322D_MERGE_VERSION, merge: w322dLine(W322D_G), mode: W322D_G.mode, why: W322D_G.why, reuse: W322D_G.reuse, run: W322D_G.run, rerun: W322D_G.rerun,
+    shadow: { mode: W322D_GA.mode, reuse: W322D_GA.reuse } }));
+  await browser.close();
+  process.exit(0);
+}
+const W322D_MERGE_REC = { version: W322D_MERGE_VERSION, requested: W322D_MERGE,
+  mode: W322D_MERGE ? W322D_G.mode : ((ONLY || VARIANTS) ? 'partial' : 'full'),
+  only: ONLY || [], why: W322D_MERGE ? W322D_G.why : [], reused: W322D_REUSE ? [...W322D_REUSE] : [], rerun: W322D_MERGE ? W322D_G.rerun : [],
+  ...(W322D_REUSE ? { prev: path.relative(ROOT, W322D_PREV_PATH).startsWith('..') ? W322D_PREV_PATH : path.relative(ROOT, W322D_PREV_PATH), prevSha256: W322D_PREV_SHA, carriedFrom: W322D_PREV.meta.at } : {}) };
+
 const out = { meta: { wave: '第272便c', section: '潮汐ロック枝(kFrame=0・f=1・λPN=1)',
   harness: HARNESS_VERSION, target: TARGET, targetSha256: sha(path.join(ROOT, TARGET)),
   csvSha256: sha(CSV), libSha256: sha(path.join(ROOT, 'tests', 'lib-w272c-binlock.mjs')),
@@ -269,14 +324,22 @@ const out = { meta: { wave: '第272便c', section: '潮汐ロック枝(kFrame=0�
     + '「面内軸の自転が力学に効かない」ではない。',
   signConvention: SIGN_CONVENTION_JA,
   spinZeroNote: '**NS 4 系の内蔵 spin=0 は「観測同期の代用」ではない**(自転が転写できないので '
-    + '0 を宣言してある = エンジンに自転源を置かない)。' },
+    + '0 を宣言してある = エンジンに自転源を置かない)。',
+  // 第322便d(AN509): 再利用の門の入力(環境・核の hash・本の生と受理後の hash・行の入力の hash・ページへ入れる lib の sha)と再利用の記録
+  env: W322D_ENV, coreSha256: W322D_CORE_SHA, books: W322D_BOOKS, rowInputs: W322D_ROWIN, pageLibs: W322D_PAGE_LIBS, merge: W322D_MERGE_REC },
   builtinDeclared: BUILTIN, systems: [], pageErrors: [] };
 
 const tAll = Date.now();
 let nStage = 0;
 
 for (const sys of SYSTEMS) {
-  if (ONLY && !ONLY.includes(sys.id)) continue;
+  // 第322便d(AN509): 門を通った行は前の正本の行の写し(走らせない)。--merge で門が全走を選んだら --only に依らず全部を走らせる
+  if (W322D_REUSE && W322D_REUSE.has(sys.id)) {
+    out.systems.push(JSON.parse(JSON.stringify(W322D_PREV.systems.find((z) => z.id === sys.id))));
+    console.error(`  ${sys.emoji} ${sys.id}: 再利用(前の正本の行 —— 門 G1〜G8)`);
+    continue;
+  }
+  if (!W322D_MERGE && ONLY && !ONLY.includes(sys.id)) continue;
   const bi = builtinOf(sys.id);
   if (!bi || bi.missing) { out.systems.push({ id: sys.id, error: 'preset が無い' }); continue; }
   const unitSec = bi.unitT;
@@ -427,7 +490,7 @@ for (const sys of SYSTEMS) {
       + `  e=${ge.map((z) => z === null ? '—' : z.toFixed(6)).join('/')}`
       + `  [${((Date.now() - tAll) / 1000).toFixed(0)} s]`);
     fs.mkdirSync(path.dirname(OUT), { recursive: true });
-    Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, ['tests/out/kjoint2-w265a.json']), (({ code, codeSha256 }) => ({ code, codeSha256 }))(w281aProv({ root: ROOT, target: TARGET, code: ['tests/exp-w272c-nslock.mjs', 'tests/lib-w265a-analogy.mjs', 'tests/lib-w272c-binlock.mjs'] })));   // 第281便a: 領域 hash の 3 欄 + 入力の安定 hash + 器と lib の刻印
+    Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, ['tests/out/kjoint2-w265a.json']), (({ code, codeSha256 }) => ({ code, codeSha256 }))(w281aProv({ root: ROOT, target: TARGET, code: W322D_CODE })));   // 第281便a: 領域 hash の 3 欄 + 入力の安定 hash + 器と lib の刻印
     fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
   }
 }
@@ -435,10 +498,19 @@ for (const sys of SYSTEMS) {
 function toSecConv(r) { return toSec(r); }
 
 out.meta.spentSec = +((Date.now() - tAll) / 1000).toFixed(1);
-out.meta.stages = nStage;
+// 第322便d(AN509 の G7): 全体集計は行から作り直す(再利用した行を含む)。この走行で走らせた段は merge.stagesRun
+out.meta.stages = w322dStages(out.systems);
+out.meta.merge.stagesRun = nStage;
+// 第322便d(AN509): 影の照合 —— 門(--only なし)が再利用できるとした行のうち、この走行で走らせた行を前の正本の行と比べる(正本には書かない)
+if (W322D_PREV && W322D_GA.mode === 'merge') {
+  const ran = W322D_GA.reuse.filter((id) => !(W322D_REUSE && W322D_REUSE.has(id)) && out.systems.some((z) => z.id === id));
+  const diff = ran.filter((id) => w322dCanon(out.systems.find((z) => z.id === id)) !== w322dCanon(W322D_PREV.systems.find((z) => z.id === id)));
+  console.error(`[w272c-nslock] 影の照合(${W322D_MERGE_VERSION}): 門が再利用できるとした行のうち、この走行で走らせた ${ran.length} 行 —— 前の正本の行と一致 ${ran.length - diff.length}/${ran.length}`
+    + (diff.length ? `・**不一致 ${diff.join(',')}**(門が見落とした入力がある —— --merge を使わない)` : ''));
+} else console.error(`[w272c-nslock] 影の照合(${W322D_MERGE_VERSION}): 照合なし(${W322D_GA.why.slice(0, 2).join(' / ') || '前の正本なし'})`);
 out.pageErrors = pageErrors;
 await browser.close();
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
-Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, ['tests/out/kjoint2-w265a.json']), (({ code, codeSha256 }) => ({ code, codeSha256 }))(w281aProv({ root: ROOT, target: TARGET, code: ['tests/exp-w272c-nslock.mjs', 'tests/lib-w265a-analogy.mjs', 'tests/lib-w272c-binlock.mjs'] })));   // 第281便a: 領域 hash の 3 欄 + 入力の安定 hash + 器と lib の刻印
+Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, ['tests/out/kjoint2-w265a.json']), (({ code, codeSha256 }) => ({ code, codeSha256 }))(w281aProv({ root: ROOT, target: TARGET, code: W322D_CODE })));   // 第281便a: 領域 hash の 3 欄 + 入力の安定 hash + 器と lib の刻印
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 console.error('[w272c-nslock] wrote ' + OUT + '  (' + out.meta.spentSec + ' s / ' + nStage + ' 段)');

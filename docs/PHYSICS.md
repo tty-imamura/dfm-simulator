@@ -41982,6 +41982,77 @@ balance:"background" の受理の正準形は第319便a のまま(真)・版 w32
 
 **⑫ 器・正本・QA。** 器 `tests/exp-w322c-fieldcontract.mjs`(部 K・G —— 子プロセス 2 本)・lib `tests/lib-w322c-fieldcontract.mjs`・文書の lib `tests/lib-w322c-fieldcontractdoc.mjs`・正本 `tests/out/fieldcontract-w322c.json`(段 fieldcontract-322c —— 所要は第322便c の枝の実測 126〜134 s〔並走の秒 —— 負荷平均 7〜8〕・部 G 約 130 s・部 K 約 24 s)。QA `docs.fieldContract322c`(正本の門を作り直す・純関数で作り直す〔相対 1e-9/1e-12〕・この節の表の行と数を正本から作り直して逐語で照合)。第321便c の正本 galfield-w321c.json は lib 版 2・器 版 2 で作り直した(段 galfield-321c —— 128 s・並走の秒)。
 
+〔第322便d — 道具: nslock の本ごとの行の再利用 `--merge`(影の運用)・煙試験の `--wide` の全体の枠と未実行の段の終わりの行・版名 QA の鍵の抜き出し・qapart の `--batch`(決断事項 AN509・統括の検証項目 R273)(**html・本の宣言・エンジン・鎖の段の宣言は変えない** —— beta/index.html と root の index.html は 1 byte も変えていない・`S._core`・步の関数・受理器は不変・道具と QA と文書だけ)〕
+
+**① 第321便の運用の教訓(統括)と本節の答え。**
+- 名簿 A の nslock(650〜690 s)は系ごとに独立に步を進めるのに、本の 1 冊が変わっても全走だった —— **AN509: 系ごとの行の再利用 `--merge` を影の運用で**(②)。
+- 煙試験 `tools/harness-smoke.mjs --wide` は 158 段のうち 108 段で既定の全体の枠 30 min に達し(未実行 50 段・例外 0)、終わりの行は「OK」だった —— **`--wide` の既定の枠と「未完」の終わりの行**(③)。
+- 版名 QA の鍵を `add('…'` の正規表現で抜くと、文字列の中の `add('"'` を拾い、W5c の判定を前後の add の位置で行うと切り出しの範囲に `w5cGetUnit` が入る型(pwa.sw-fail-ui → behavior.saturnExp)を外せなかった —— **qapart と同じ関数で範囲を取る道具 `tools/qa-keys.mjs`**(④)。
+- qapart 1 本に鍵が多い走行でページが閉じた —— **`--batch N`(束ごとに子の Node と Chromium を作り直す)と調べ**(⑤)。
+
+**② AN509 —— nslock の本ごとの行の再利用 `--merge`(門の lib `tests/lib-w322d-nslockmerge.mjs` —— 版 w322d-nslock-merge-1・器 `tests/exp-w272c-nslock.mjs`)。**
+器は前の正本(既定は出力のファイル —— 走行の前に読む・`--prev` で別のファイル)の系ごとの行のうち、門をすべて通る行を写し、`--only` の系と門を通らない行だけを走らせて 1 本の正本に組む。`--plan` は門の評価を 1 行の JSON で印字して終わる(書かない)・`--out` は出力のファイル(既定は正本)。器の版の定数(w272c-nslock-1)・6 系・変種・3 刻み・窓・σ 倍の記録は変えていない。
+
+**表 1(再利用の門 —— 正本全体の門は外れたら全走・行ごとの門は外れた行を走らせる)**
+| 門 | 見るもの | 外れたとき |
+|---|---|---|
+| G1 | 器の版(meta.harness)・器と lib の sha(code[] の並びの hash —— 本便で門の lib を code[] に足した)・ページへ入れる lib 2 本の sha(meta.pageLibs —— `tests/lib-precision-diagnostics.mjs`・`tests/lib-w262a-psrdiag.mjs` は code[] の外なので別に刻む)・走行の窓(対象 html の名・dt0・刻み・近点の窓・步の上限・壁時計の上限)・門の lib の版(meta.merge.version) | 全走 |
+| G2 | 環境 meta.env(Node・V8・Chromium の版・platform・arch) | 全走 |
+| G3 | 核の hash meta.coreSha256(領域の宣言 REGEN_SCOPE の依存閉包の関数・HP の口・`S._core`・定数 —— 領域 hash の内訳から本を除いた全部。受理器・步の関数を変えた便は必ず全走) | 全走 |
+| G4 | 行ごと: 行が読む本(自分と台帳の元の本 —— ✨ は alphaCenABDFM・🌟 は siriusABDFM も)の生の定義と受理後の定義の hash(meta.books —— 説明文の欄を除いた正準形)・行の入力の hash(meta.rowInputs —— 観測 CSV のその系の本体と自転の天体の行〔ファイルの順〕と旧共同根)・内蔵の宣言の控え(builtinDeclared の行) | その行を走らせる |
+| G5 | 行の集合と順(削除・ID の変更・並べ替え) | 全走 |
+| G6 | 行ごと: error の行・変種の並びの欠け・段の欠け・ok でない段・壁時計で止めた段(resource-limit —— 再走で同じ値にならない)/ 全体: 前の走行のページの例外 | 行 → その行を走らせる / 全体 → 全走 |
+| G7 | 前の正本の meta.stages = 行の段の数の和(途中で止まった正本は meta.stages を持たない)—— 組んだ正本の meta.stages は行から作り直す | 全走 |
+| G8 | `--only` の系が器にある・`--variants` と併用しない | 全走 |
+**最初の走行は全走**: 第321便の鎖の正本は門の版・環境・核と本の hash を持たないので G1・G2・G3 が外れる。**影の運用**: 鎖の段 nslock の cmd は `node tests/exp-w272c-nslock.mjs`(全走)のまま。全走の走行も前の正本で門(`--only` なし)を評価し、門が再利用できるとした行と新しい行を比べて `[w272c-nslock] 影の照合(w322d-nslock-merge-1): … 一致 n/m` を印字する(**正本には書かない** —— 正本の中身は前の正本に依らない)。正本の meta に足した欄: `env`・`coreSha256`・`books`・`rowInputs`・`pageLibs`・`merge`(版・mode〔full / merge / partial —— --only・--variants だけの写し〕・only・why・reused・rerun・前の正本の名と sha・carriedFrom〔前の正本の実行時刻〕・stagesRun)。
+
+**表 2(試験 —— 枝の scratch の写しに書いた。正本は鎖が作り直す)**
+| 走行(本便の器) | 前の正本 | 門 | 結果 | 所要 |
+|---|---|---|---|---|
+| 全走 1 | 第321便の鎖の正本(旧形式) | full —— G1(門の版・器と lib の sha・pageLibs)・G2・G3 | 系の行・builtinDeclared・pageErrors は鎖の正本と差 0(meta の差は足した欄・code[]・codeSha256・targetSha256 だけ —— 領域 hash の scopeSha256 は同じ) | 681.6 s(並走の箱) |
+| `--merge --only psrJ1946DFM,siriusAB` | 全走 1 | merge —— 再利用 4 行・走らせる 2 行 | 影の照合 一致 2/2・全走 1 との差 0 | 100.3 s |
+| (器の 1 行を直した後の `--merge`) | 上の結果 | full —— G1 器と lib の sha | 実際に全走へ移った(止めた) | — |
+| 全走 2 | 全走 1 | full —— G1 器と lib の sha | 系の行は全走 1・鎖の正本と差 0(meta の差は code[0] と codeSha256 だけ) | 714 s(並走の箱) |
+| 全走 3(鎖と同じ走り方 —— 影の運用) | 全走 2 | 影の門 merge —— 再利用できる 6 行 | **影の照合 一致 6/6**・全走 2 との差 0 | 649.8 s(並走の箱) |
+| `--merge`(`--only` なし) | 全走 2 | merge —— 再利用 6 行・走らせる 0 行 | 全走 2 との差 0 | 0 s(Chromium の起動と宣言の控えだけ) |
+| `--merge --only psrDoubleABDFM,alphaCenAB` | 全走 2 | merge —— 再利用 4 行・走らせる 2 行 | 影の照合 一致 2/2・全走 2 との差 0 | 134.8 s |
+| 本物の器の `--merge --plan` × 変異 20 例 | 全走 2 の写しへの変異 | 期待どおり 20/20(全走 13・merge 7) | 行の削除・ID の変更・並べ替え・全体集計・器と lib・ページの lib・走行の窓・環境・核・旧形式・器に無い --only・前の正本なし・ページの例外 → 全走 / ok でない段・壁時計で止めた段・台帳の本の受理後・行の観測 CSV・内蔵の宣言の控え → その行だけ走らせる・変異なし → merge / `--plan` は出力を書かない | 約 2.7 s / 例 |
+| lib の変異の自己試験(QA docs.w322d ①) | 今の正本に新しい形の meta を合成した写し | 期待どおり 26/26(全走 17・merge 9) | 上の 20 例に error の行・変種の欠け・途中で止まった正本(meta.stages なし)・器の版・門の lib の版・`--variants` との併用を足した | 器を走らせない |
+全走と `--merge` の一致は「実行の時刻・所要・merge の欄の外で差 0」(lib の canonDiff —— 鍵の順に依らない正準形で比べる)。系の行は同じページで前の系を走らせた後でも、新しいページで 1 系だけ走らせても同じだった(🩺 🌟 ⚡ ✨ で 4 系)。
+
+**③ 煙試験の全体の枠(`tools/harness-smoke.mjs` —— SMOKE_WIDE_VERSION w322d-smoke-wide-1・道具の版 w304e-harness-smoke-2 はそのまま)。**
+- `--wide`(か `--indirect`)の既定の全体の枠は **MAX_MINUTES_WIDE = 90 min**(それ以外は 30 min のまま・`--max-minutes` を書けばそれが勝つ)。根拠(第321便の `--wide` の記録と段の表から): 第321便の `--wide` は 158 段(2 レーン・枠 90 s)のうち走った 108 段の秒の和が 3642.6 s(2 レーンで 30.4 min —— 記録の 30.6 min と合う)。選ぶ段の並びは優先度と段の表の秒の順なので、残りの 50 段は表の秒が長い段(枠 90 s で止める段 29・窓の試走の段 21 —— どちらも 1 段 90 s で打ち切る)で、上限は 50 × 90 s / 2 レーン = 37.5 min・合わせて **約 68 min**(本便の木で同じ差〔基点 a708bfe の beta・`--base-rev a708bfe`〕から選び直すと同じ 158 段)。90 min はその上に約 3 割の余裕(全段が枠の上限まで走る最悪は 122 min —— 完走の段の枠は表の秒 × 1.5 + 30 s)。
+- 終わりの行: 未実行の段があれば `… —— 未完 —— 未実行 n 段(全体の枠 --max-minutes M の外 —— 走らせた段は問題なし・未実行の段は見ていない)` と、続く行に未実行の段の key(続きは `--keys` で)。「OK」とは並べない。smoke.json に complete・notRun・notRunKeys・maxMinutes。終了コードは従来どおり(例外・門の偽・NaN のときだけ 1)。
+
+**④ 版名 QA の鍵の抜き出し(`tools/qa-keys.mjs` —— 版 w322d-qa-keys-1)。**
+- 鍵: `add('<id>'` のうち**コードの位置**(`scanJs` の写しでコメント・文字列・テンプレート・正規表現の外)の静的な id。範囲: qapart と**同じ関数**(`tests/lib-w322d-qapart.mjs` の qaSpanner —— 器から本文を移しただけ)。
+- 外す鍵: qapart の検索(`add('<id>'` を含む最初の行)がコメントか文字列の行に当たる・範囲が add の行を含まない・範囲が取れない・**範囲の中のコードが w5cGetUnit を読む**・範囲が qapart の前文に無い上流の最上位の名前を読む(範囲より前の const/let・関数宣言 —— 範囲の中の同名の宣言は除く・W5b の見出しは qapart と同じく `if (<ガード>) {` に戻して照合)。
+- 版名を読むブロック: 範囲のコメントを除いた本文(文字列は残す —— `rd('CHANGELOG.md')` 型の読みを拾う)が既定の正規表現 `CHANGELOG`・`BETA_BUILD`・`APP_VERSION`・`sw\.js` のどれかに合う(`--re`・`--re+`・`--comments`・`--ids+`)。束は 50 鍵ずつ(範囲が重なる鍵は同じ束)。
+- 今の qa.mjs(本便の docs.w322d を含む): コードの位置の鍵 1135・**版名を読む範囲で選んだ 233**(CHANGELOG 210・APP_VERSION 24・BETA_BUILD 22・sw.js 1 —— 重なりあり)・版名を読む範囲で外した 10(**w5cGetUnit 7** —— 43265〜43457 行の 1 つのブロックの zonal.trail-default・ice.e10-off・pwa.sw-offline・pwa.sw-fail-ui・behavior.saturnExp・behavior.saturn-kframe-control・behavior.saturn-muf-control / **範囲が add の行を含まない 3** —— version.sw-sync〔列 0 の `if (!TARGET.startsWith('beta/')) {` の中〕・behavior.collapse-cooling〔列 0 の `if (!FAST) {` の中〕・page.no-errors〔最上位の文〕)・束 5(49/49/48/46/41)。
+- qa.mjs 全体で外れる鍵は 94: 範囲が add の行を含まない 45(列 0 の `if (…) {` の中 44・最上位の文 1 —— qapart の検索はその前の列 0 の `{` の範囲を取るので、**その鍵は部分 QA で走らずに別のブロックが走る**)・w5cGetUnit 38・上流の名前 11(getBrowser 3・hasE6Acc 7・hasSat240 5・hasEchoFlipAt 1 —— qapart の前文に無い最上位の旗)・コメントか文字列に当たる 0。qapart は本便から、範囲が add の行を含まない鍵を走らせる前に `# 注意(第322便d): …` の 1 行で名指す(判定と本文は不変)。
+- 第321便の手の一覧(136 鍵)との差: 本道具だけ 104(版名を読む範囲の docs.*・behavior.* の多く)/ 手の一覧だけ 8 —— version.sw-sync・release.no-beta-identifiers(範囲が add の行を含まない —— 部分 QA では走らない)・version.promote-check・manifest.coverage・docs.noRetiredMention293(版名の語がコメントだけ —— 読みは別の器〔tests/release-promote.mjs など〕—— `--comments` か `--ids+` で足す)・behavior.pairSlipSign・ray.wavelength-color・ui.liveMeasure297(版名の語が無い —— 道具の規則では引けない)。
+- 所要: 抜き出し 9 s(qa.mjs 8.4 MB の `scanJs` と範囲の照合)。docs.w322d を足す前の木で選んだ 232 鍵を qapart 1 本で回すと 22.2 min・ALL PASS 232/232(⑤)。
+
+**⑤ qapart の鍵の多い走行(`--batch N` —— 既定は変えない)。**
+- 調べ(本便の木・同じ 232 鍵 —— 版名 QA の鍵の抜き出しの結果): **qapart 1 本**は 22.2 min・ALL PASS 232/232・ページが閉じる型は起きなかった。qapart の Node の RSS は走行とともに増え(89 鍵目の 0.9 GB → 終わりの 2.3 GB)、子の Chromium と合わせた木の RSS は最大 3.3 GB(5 s ごとの記録 —— 走行の後半だけ)。**`--batch 50`** は 5 束(49/49/48/46/40 鍵 —— 336/327/104/47/86 s)で 15.1 min・PASS 232/FAIL 0・**PASS/FAIL の集合は 1 本と同じ**・木の RSS は最大 2.2 GB(束の終わりで子の Node と Chromium を手放す)。2 つの走行の間も他の枝の QA_FAST と器が並走していた(所要は並走の秒)。
+- 第321便の「45 鍵目でページが閉じた(OOM の記録なし)」の読み: 切り出したブロックは共有のページ(`page`)を閉じない(`page.close`・`browser.close`・ページの別名の close は qa.mjs のブロックに無い —— 走査した)。容器の cgroup(v1)の `memory.oom_control` は oom_kill 0・上限なしで、箱の全体のメモリが尽きたときの OOM の強制終了はこの記録に出ない。Chromium は描画のプロセスに oom_score_adj 300・GPU のプロセスに 200 を付けるので、箱が逼迫すると先に強制終了されやすい。1 本の qapart は鍵が増えるほど Node と描画のプロセスのメモリが積み上がるので、4 枝の並走の箱でそれが起きた型と読む(本便の箱では起きなかった —— 確定はしていない)。`--batch` は束ごとに Node と Chromium を作り直すので、積み上がりを束の大きさで止める。
+- 使い方: `node tests/exp-w258c-qapart.mjs --batch 50 <鍵…>` —— 束ごとに `# 束 k/K: <鍵…>` と `# 束 k/K の終わり: PASS p・FAIL f・rc r(秒)`、最後に `# --batch 50: ALL PASS|FAILED —— 束 K・PASS P・FAIL F`。1 束でも FAIL か子が rc ≠ 0(強制終了を含む)なら終了コード 1・次の束は続けて走らせる(閉じた束の鍵だけを走らせ直せる)。`--emit <dir>` は走らせずに `run.mjs`(1 本)か `run-<k>.mjs`(束)を書く。切り出しの本文は lib へ移しただけで、生成する本文は移す前と 1 byte も違わない(枝の scratch で 4 組の鍵 —— W5b の範囲を含む —— を比べた)。
+
+**⑥ 統括の手順(各 1 行)。**
+- 便の開始(版名を変えた後): `node tools/qa-keys.mjs --out-dir <scratch>/qakeys` → `for f in <scratch>/qakeys/qa-keys-*.txt; do node tests/exp-w258c-qapart.mjs $(cat $f); done`(root は `QA_TARGET=index.html` を前に)。外した鍵の理由は印字と index.json。
+- 鍵の多い部分 QA: `node tests/exp-w258c-qapart.mjs --batch 50 <鍵…>`(終わりの行 `# --batch 50: ALL PASS|FAILED —— 束 k・PASS p・FAIL f`)。
+- 煙試験: `node tools/harness-smoke.mjs --base <基点> --base-rev <sha> --wide`(既定 90 min)—— 終わりの行が「未完」なら次の行の key を `--keys` で続ける。
+- nslock(鎖の外で本 1 冊だけ変わったとき): `node tests/exp-w272c-nslock.mjs --merge --plan` で門を見て、`--merge` で組む(門が全走を選べば全走)。鎖の中は従来どおり全走(影の照合の行をログで見る)。
+
+**⑦ 残したもの(決断事項の候補)。**
+- **鎖の段 nslock を `--merge` へ切り替える条件**(AN509 の次の段): 影の運用を続け、鎖の全走の走行の影の照合が 2 便続けて「一致 n/n」(不一致 0)なら、段の cmd を `--merge` に変える案(門が全走を選ぶ便 —— 受理器・步の関数・環境の変更 —— は全走のまま)。本便の鎖の走行は最初の走行(全走 —— 前の正本は旧形式)なので、鎖の影の照合が数を持つのは次の便の鎖から(枝の scratch の同じ走り方の全走 3 は一致 6/6 —— 表 2)。
+- **名簿 A の他の器へ**: 門の lib の行ごとの入力(deps・rowInputs)を器ごとに宣言する形へ広げる案 —— 1 器ずつ影の運用から(charon 系は ❄️ の写しの列が 1 冊なので対象の外 —— 第321便d ⑦)。
+- **qapart の切り出しを列 0 の `if (…) {` / `for (…) {` のブロックにも**: 今は 45 鍵が部分 QA で走らずに前のブロックが走る(本便は注意の行だけ)。W5b と同じく最上位の文の切り出しの範囲を使う案 —— 生成する本文が変わるのは今は走らない鍵だけ(直した後は本当に走るので、post-merge の一覧に入った鍵の FAIL が初めて見える)。
+- **qapart の前文に上流の旗を**: hasE6Acc・hasSat240・hasEchoFlipAt(qa.mjs の冒頭と同じ式)と getBrowser を前文に足せば 11 鍵が部分 QA で回る。
+- **煙試験の「未完」の終了コード**: 本便は 0 のまま(例外・門の偽・NaN の 1 と分ける)—— 終わりの行と smoke.json の complete で見る。脚本が終了コードだけを読むなら別の値(例 3)にする案。
+- **版名 QA の委譲型の鍵**: version.promote-check・manifest.coverage・docs.noRetiredMention293 は版名の語がコメントだけ(読みは別の器)—— 統括の手順で `--ids+` の常設の一覧にするか `--comments` を既定にする案(`--comments` は 4 鍵増える)。
+- 名簿 `tests/data-w320d-perbook.json` の nslock の行の merge 欄は器の `'--merge'` で真になる(統合の後の `node tools/regen-plan.mjs --roster --write` —— `--check` は段の集合と版だけを見る)。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
