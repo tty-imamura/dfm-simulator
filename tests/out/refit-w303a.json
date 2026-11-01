@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第303便a",
   "target": "beta/index.html",
-  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-  "generatedAt": "2026-11-01T00:55:22.802Z",
+  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+  "generatedAt": "2026-11-01T17:55:46.773Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7403262,
-    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-    "mtime": "2026-10-31T17:17:55.600Z"
+    "bytes": 7487036,
+    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+    "mtime": "2026-11-01T12:44:54.266Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -52,9 +52,9 @@
   "code": [
    {
     "file": "tests/exp-w303a-refit.mjs",
-    "bytes": 40962,
-    "sha256": "896405d4d57b3458227d365cecbc784246008db95e95399365c7dc5f69cd1c9a",
-    "mtime": "2026-10-29T09:49:15.846Z"
+    "bytes": 41677,
+    "sha256": "7437c485a8a05cfa340ee9d838d23a4cee93485f634c33d42528e4b3fa6294f7",
+    "mtime": "2026-11-01T08:54:18.018Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -94,9 +94,9 @@
    },
    {
     "file": "tests/exp-w302c-wbgest.mjs",
-    "bytes": 51556,
-    "sha256": "9376339c47bf4c6f17a173b4fd411bcafc30ef272772731870c6c7438dd80e70",
-    "mtime": "2026-10-29T07:22:25.997Z"
+    "bytes": 52329,
+    "sha256": "16670ec374fecd8c046535a154afc1ba83b20bd4421306a7a272510e52cb67db",
+    "mtime": "2026-11-01T08:54:18.018Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
@@ -159,7 +159,7 @@
     "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "2ef603a3ac9ac84846790a9bf1ad1b54f6c6246b5cdbee48bc0bbcaa63fd7a93",
+  "codeSha256": "75331b8df9d2c932cfc8e2a1335f389a1225ca8698be205aadac8d896bbde784",
   "harnessVersion": "w303a-refit-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第93報)①②(geoPN=3 のフィットの探索を優先・引きずりが主 —— G_loc は引きずりだけでは合わない量を埋めるため)",
@@ -230,11 +230,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1383,
-   "segments": 1221,
-   "closureShare": 0.309
+   "names": 1389,
+   "segments": 1227,
+   "closureShare": 0.3089
   },
-  "scopeSha256": "3ddbe6892d8c97a0017b0ae1a4b98eefc6f214f411c9e5b00e279310bd275898",
+  "scopeSha256": "6ed2a13193a7956740bec2e8f6e8bd5db0245c03ec47cd72da41a629f76a1f79",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -1236,19 +1236,19 @@
  "ok": true,
  "timing": {
   "mer3": {
-   "wallSec": 16.672
+   "wallSec": 18.903
   },
   "mer2": {
-   "wallSec": 21.72
+   "wallSec": 23.914
   },
   "plu": {
-   "wallSec": 384.365
+   "wallSec": 225.063
   },
   "ems3": {
-   "wallSec": 103.072
+   "wallSec": 72.669
   },
   "emo": {
-   "wallSec": 14.199
+   "wallSec": 14.424
   }
  },
  "notClaim": [
@@ -1257,5 +1257,5 @@
   "「現実を再現した」",
   "「W_bg の宇宙の値が決まった」"
  ],
- "elapsedS": 540.181
+ "elapsedS": 355.154
 }
