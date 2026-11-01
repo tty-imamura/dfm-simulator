@@ -41080,13 +41080,16 @@ balance:"background" の受理の正準形は第319便a のまま(真)・版 w32
 | semi | 4 | 20 | 900 | 0 | 真 | 真 |
 | leapfrog | 4 | 20 | 900 | 0 | 真 | 真 |
 
-| 今の門(基点) | 値 |
+| 今の門(S2 の世代 w322a-geo2v3-step-1 —— 第322便a で範囲の内を開けた) | 値 |
 |---|---|
-| coord3dDenyOf —— galaxyGeo2 を coord:"3d" に | kFrame・geoPN12・overlays |
-| coord3dDenyOf —— 小さい系の geoPN=2 の本を coord:"3d" に | kFrame・geoPN12 |
+| coord3dDenyOf —— galaxyGeo2 を coord:"3d" に | overlays |
+| coord3dDenyOf —— 小さい系の geoPN=2 の本を coord:"3d" に | 拒否なし |
 | coord3dRuntimeWhy —— kFrame を走行中に 1 へ | physics.kFrame≠0 |
-| coord3dRuntimeWhy —— geoPN を走行中に 2 へ | geoPN(測地線・1PN) |
+| coord3dRuntimeWhy —— geoPN を走行中に 2 へ | 止めない(null) |
+| 受理(小さい系の geoPN=2 の本を coord:"3d" に) | 真 |
 | 宣言 → 実行の法則(geoModeOf の law —— 小さい系の本) | vMinusU-q |
+
+(第322便a —— 器の版 w321a-geo2v3-2: 「今の門」を S2 の世代〔geoPN=2 の 3D の輸送を步へ接続した html〕で読む。範囲の内の小さい系の geoPN=2 の本は受理・走行中も通す —— 純関数・退化・回転共変・基準の値は不変)
 
 **⑦ 回転共変・解析の場・初回の履歴・口座。** 回転共変は倍精度の写し(Float32 の格納は軸ごとの丸め —— 回転で共変でない丸めなので単精度の行は記録だけ)。解析の場は静止(u = 0 で何もしない)・一様並進(u = V・∇u = 0・curl = 0)・剛体回転の演算子(∇u = [Ω]_× + H I → curl = 2Ω・k_F = 1 で Δu = Ω × (v − u) dt)・1 つの自転する源の殻(u = A(d) Ω × r・J = A [Ω]_× + (A′/d)(Ω × r) ⊗ r・curl = 2AΩ + (A′/d)(d²Ω − (r·Ω) r) の閉じた式)・非平面の 6 体の場の勾配の有限差分。初回の u の履歴は 2D と同じ規約(1 步目は蹴らない —— html の 1 步目は輸送なしの写しと同じビット)。
 

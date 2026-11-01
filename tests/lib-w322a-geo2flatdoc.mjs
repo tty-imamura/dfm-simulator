@@ -16,7 +16,7 @@ export function docNumbersGeo2flat(J) {
 export function physicsTablesGeo2flat(J) {
   const out = [], P = J.parts, g = P.gate, r = g.row;
   // gate
-  out.push('| 本 | 步 | 時刻 | 外縁の vφ(kFrame=1) | 外縁の vφ(kFrame=0 の写し) | 比 kF1/kF0 | 二次元の凍結と同じビット | 途中(6000 步)の比 | クランプ(速度・自転・反作用 —— A・B) | z・v_z・u の z・軸の向きの差(A) |', '|---|---|---|---|---|---|---|---|---|---|');
+  out.push(`| 本 | 步 | 時刻 | 外縁の vφ(kFrame=1) | 外縁の vφ(kFrame=0 の写し) | 比 kF1/kF0 | 二次元の凍結と同じビット | 途中(${r.mid ? r.mid.steps : '—'} 步)の比 | クランプ(速度・自転・反作用 —— A・B) | z・v_z・u の z・軸の向きの差(A) |`, '|---|---|---|---|---|---|---|---|---|---|');
   out.push(`| galaxyGeo2Flat3d(${r.n} 体・${r.stateType}・${r.integrator}) | ${r.steps} | ${fx(r.t, 2)} | ${fx(r.vphiKF1, 4)} | ${fx(r.vphiKF0, 4)} | ${fx(r.ratio, 4)} | ${yn(g.sameAsFrozen)} | ${r.mid ? fx(r.mid.ratio, 4) : '—'} | ${r.clampVN.join('・')} / ${r.clampSN.join('・')} / ${r.clampRN.join('・')} | ${[r.zA.zMax, r.zA.vzMax, r.zA.uPzMax, r.zA.axisDevRad].map((v) => (v === 0 ? '0' : f3(v))).join('・')} |`);
   // degen
   out.push('', '| 面への退化の場面 | 体 | 步 | 積分器 | 状態の型 | 照合した値 | 違う値 | z・v_z・u の z・軸の最大 | 三次元の口座の z の成分が 0 |', '|---|---|---|---|---|---|---|---|---|');
@@ -43,7 +43,7 @@ export function physicsTablesGeo2flat(J) {
   for (const t of P.table.runtime) out.push(`| ${t.label} | ${yn(t.advanced)} | ${t.halt || '—'} |`);
   // trial
   const T = P.trial;
-  out.push('', '| 試走の対(12000 步 × A と B) | 比 kF1/kF0(面の座標) | 途中(6000 步)の比 | z の二乗平均(始め → 終わり) | z の最大(終わり) | 2R の外 | 自転軸と面の法線の角の最大(rad) | ΔE − 引きずりの仕事(初期の E の絶対値で割る) | 軸が回った回数 | クランプ(速度・反作用 —— A・B) |', '|---|---|---|---|---|---|---|---|---|---|');
+  out.push('', `| 試走の対(${T.tilt.steps} 步 × A と B) | 比 kF1/kF0(面の座標) | 途中(${T.tilt.mid ? T.tilt.mid.steps : '—'} 步)の比 | z の二乗平均(始め → 終わり) | z の最大(終わり) | 2R の外 | 自転軸と面の法線の角の最大(rad) | ΔE − 引きずりの仕事(初期の E の絶対値で割る) | 軸が回った回数 | クランプ(速度・反作用 —— A・B) |`, '|---|---|---|---|---|---|---|---|---|---|');
   for (const t of [T.tilt, T.thick]) {
     const lab = t.kind === 'tilt' ? `傾き有り(incl ${t.incl}°・node ${t.node}° —— 正規の宣言)` : `有限厚(h ${t.thickH} —— 器が z・v_z を置く試走)`;
     out.push(`| ${lab} | ${fx(t.ratio, 4)} | ${t.mid ? fx(t.mid.ratio, 4) : '—'} | ${fx(t.z0.zRms, 3)} → ${fx(t.zA.zRms, 3)} | ${fx(t.zA.zMax, 3)} | ${t.zA.beyond2R} | ${t.zA.axisDevRad === 0 ? '0' : fx(t.zA.axisDevRad, 3)} | ${f3(t.energy.relResidualKF1)} | ${t.axisTurnN} | ${t.clampVN.join('・')} / ${t.clampRN.join('・')} |`);

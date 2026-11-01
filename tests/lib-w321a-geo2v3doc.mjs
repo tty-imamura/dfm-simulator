@@ -43,10 +43,10 @@ export function physicsTablesGeo2v3(J) {
   for (const r of P.d3.rows) out.push(`| ${r.integrator} | ${r.n} | ${r.steps} | ${r.nVal} | ${r.nDiff} | ${yn(r.nonPlanar)} | ${yn(r.axisTilted)} |`);
   const g = P.d3.gates;
   out.push('', g.s2 ? `| 今の門(S2 の世代 ${g.s2} —— 第322便a で範囲の内を開けた) | 値 |` : '| 今の門(基点) | 値 |', '|---|---|',
-    `| coord3dDenyOf —— galaxyGeo2 を coord:"3d" に | ${g.denyGalaxyGeo2.join('・')} |`,
-    `| coord3dDenyOf —— 小さい系の geoPN=2 の本を coord:"3d" に | ${g.denySmallGeo2.join('・')} |`,
+    `| coord3dDenyOf —— galaxyGeo2 を coord:"3d" に | ${g.denyGalaxyGeo2.join('・') || '拒否なし'} |`,
+    `| coord3dDenyOf —— 小さい系の geoPN=2 の本を coord:"3d" に | ${g.denySmallGeo2.join('・') || '拒否なし'} |`,
     `| coord3dRuntimeWhy —— kFrame を走行中に 1 へ | ${g.runtimeKFrame} |`,
-    `| coord3dRuntimeWhy —— geoPN を走行中に 2 へ | ${g.runtimeGeoPN2} |`,
+    `| coord3dRuntimeWhy —— geoPN を走行中に 2 へ | ${g.runtimeGeoPN2 === null ? '止めない(null)' : g.runtimeGeoPN2} |`,
     `| 受理(小さい系の geoPN=2 の本を coord:"3d" に) | ${yn(g.accepted3d)} |`,
     `| 宣言 → 実行の法則(geoModeOf の law —— 小さい系の本) | ${g.lawSmall} |`);
   // cov

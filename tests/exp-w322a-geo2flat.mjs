@@ -33,8 +33,9 @@ import { loadHtmlMain } from './lib-w280b-emgrid.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as G3 from './lib-w321a-geo2v3.mjs';
-// 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 読む本は galaxyGeo2Flat3d と galaxyGeo2〔.find で引く〕・ほかは器の中の小さい系の本を受理に通す)
-const REGEN_SCOPE = {"presets":["galaxyGeo2","galaxyGeo2Flat3d"],"roots":["HP.ab","HP.abStart","HP.abStop","HP.allPresets","HP.coord3d","HP.loadPreset","HP.sim","HP.validatePreset","ckRestoreOne","ckSnapOne","cloneSimState","sim"],"core":true,"consts":[],"complete":true};
+// 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 読む本は galaxyGeo2Flat3d と galaxyGeo2〔.find で引く〕・ほかは器の中の小さい系の本を受理に通す・
+//   短い名 T・ctx・cw は import した第321便a の lib の綴り・HP.dfmMeshVelocityFieldAt は lib の注記の文字列 —— この器の局所の変数には使わない)
+const REGEN_SCOPE = {"presets":["galaxyGeo2","galaxyGeo2Flat3d"],"roots":["CK_ARRS","CK_SC","HP.ab","HP.abStart","HP.abStop","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.loadPreset","HP.sim","HP.validatePreset","T","ckRestoreOne","ckSnapOne","cloneSimState","ctx","cw","sim"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w322a-geo2flat-1';
@@ -94,7 +95,7 @@ function z3Of(S, frame) { let zm = 0, z2 = 0, vzm = 0, uzm = 0, axm = 0, out3 = 
     const nz = frame ? frame.n : [0, 0, 1]; const dot = S.sax[i] * nz[0] + S.say[i] * nz[1] + S.saz[i] * nz[2]; if (S.spin[i] !== 0) axm = Math.max(axm, Math.acos(Math.min(1, Math.abs(dot))));
     if (Math.hypot(S.x[i], S.y[i], S.z[i]) > 520) out3++; }
   return { zMax: zm, zRms: n ? Math.sqrt(z2 / n) : 0, vzMax: vzm, uPzMax: uzm, axisDevRad: axm, beyond2R: out3 }; }
-function energyOf(HP, S) { const T = HP.coord3d.totals(S); return { E: T.E, K: T.K, Erot: T.Erot, U: T.U, P: T.P, L: T.L, geo2: T.geo2 }; }
+function energyOf(HP, S) { const tot = HP.coord3d.totals(S); return { E: tot.E, K: tot.K, Erot: tot.Erot, U: tot.U, P: tot.P, L: tot.L, geo2: tot.geo2 }; }
 export function gateRow(HP, plan) {
   const t0 = Date.now();
   HP.loadPreset(BOOK_ID, false); HP.abStart('kFrame', 0);
@@ -323,8 +324,8 @@ function scalesOf(st) {
   for (let i = 0; i < st.n; i++) { const m = Math.abs(st.m[i]), v = Math.hypot(st.vx[i], st.vy[i], st.vz[i]); P += m * v; L += m * Math.hypot(st.x[i], st.y[i], st.z[i]) * v + 0.5 * m * st.R[i] * st.R[i] * Math.abs(st.spin[i]); }
   return { P, L };
 }
-function ledgerTotals(HP, S) { const T = HP.coord3d.totals(S), g = T.geo2;
-  return { P: [0, 1, 2].map((k) => T.P[k] + g.resP[k] + g.conP[k]), L: [0, 1, 2].map((k) => T.L[k] + g.resL[k] + g.conL[k]), Pfree: T.P, Lfree: T.L }; }
+function ledgerTotals(HP, S) { const tot = HP.coord3d.totals(S), g = tot.geo2;
+  return { P: [0, 1, 2].map((k) => tot.P[k] + g.resP[k] + g.conP[k]), L: [0, 1, 2].map((k) => tot.L[k] + g.resL[k] + g.conL[k]), Pfree: tot.P, Lfree: tot.L }; }
 export function partLedger(HP, plan) {
   const rows = {};
   for (const [key, ph] of [['double', { stateCarry: 'double', massPrecision: 'double' }], ['single', {}]]) {
@@ -339,8 +340,8 @@ export function partLedger(HP, plan) {
   // 平面の本: z の成分(P_z・L_x・L_y・口座の z 成分)が 0 のまま
   const F = simOf(HP, bookCopy(HP, BOOK_ID));
   for (let k = 0; k < plan.flatLedgerSteps; k++) F.step(FROZEN.dt);
-  const T = HP.coord3d.totals(F), g = T.geo2;
-  const flat = { steps: plan.flatLedgerSteps, Pz: T.P[2], Lx: T.L[0], Ly: T.L[1], resPz: g.resP[2], resLx: g.resL[0], resLy: g.resL[1], conPz: g.conP[2], conLx: g.conL[0], conLy: g.conL[1],
+  const tot = HP.coord3d.totals(F), g = tot.geo2;
+  const flat = { steps: plan.flatLedgerSteps, Pz: tot.P[2], Lx: tot.L[0], Ly: tot.L[1], resPz: g.resP[2], resLx: g.resL[0], resLy: g.resL[1], conPz: g.conP[2], conLx: g.conL[0], conLy: g.conL[1],
     conPxy: Math.hypot(g.conP[0], g.conP[1]), resLz: g.resL[2], workN: g.work.N };
   flat.zero = [flat.Pz, flat.Lx, flat.Ly, flat.resPz, flat.resLx, flat.resLy, flat.conPz, flat.conLx, flat.conLy].every((v) => v === 0);
   return { rows, flat, pass: rows.double.dP < 1e-6 && rows.double.dL < 1e-6 && rows.double.dPwithoutLedger > 10 * rows.double.dP && flat.zero };
