@@ -12636,9 +12636,7 @@ const W318C_S16 = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET),
 // 第322便b(決断事項 AN492・統括の検証項目 R271): QA の側の後に入った本の除外を**宣言の条件**へ(第318便の名指し `W318C_S16 && … === 'solarSystem16Inertial3d'` の代わり)——
 //   K1 の規則の宣言で生まれた本(移行の前の写しの無い本 —— tests/lib-w320d-rulebooks.mjs の isRuleBookNoCopy を内蔵の各本の宣言に当てた id の集合)。
 //   基点の html では 🗺️ の 1 本(名指しと同じ集合)・第322便b の html では 🗺️ と ♊⚖️🌠🔶・root は空(K1 の規則の宣言の本が無い)。
-const W322B_RULE_IDS = await (async () => { try { const m = await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-rulebooks.mjs'));
-  const rows = await page.evaluate(() => HP.allPresets().map((p) => { const r = p && p.physics && p.physics.relativeDrag; return { id: p.id, physics: { relativeDrag: (r && r.invSq) ? { invSq: { rdRule: r.invSq.rdRule } } : null } }; }));
-  return new Set(rows.filter((q) => m.isRuleBookNoCopy(q)).map((q) => q.id)); } catch (e) { return new Set(); } })();
+const W322B_RULE_IDS = await (async () => { try { const m = await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-rulebooks.mjs')); const rows = await page.evaluate(() => HP.allPresets().map((p) => { const r = p && p.physics && p.physics.relativeDrag; return { id: p.id, physics: { relativeDrag: (r && r.invSq) ? { invSq: { rdRule: r.invSq.rdRule } } : null } }; })); return new Set(rows.filter((q) => m.isRuleBookNoCopy(q)).map((q) => q.id)); } catch (e) { return new Set(); } })();   // 1 行(qapart が最上位の世代定数として前文に写す)
 // ==== 第322便b の塊(ここまで)====
 const W298A_IDS = (() => { try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'), out = []; let k = -1; while ((k = h.indexOf('\n  physics:{coord:"3d", ', k + 1)) >= 0) { const m = /^\{ id:"([^"]+)"/.exec(h.slice(h.lastIndexOf('{ id:"', k))); if (m) out.push(m[1]); } return out; } catch (e) { return []; } })();   // 第298便a: 三次元の内蔵の ID(宣言から —— 手書きの一覧を持たない)
 // 第298便c(R167): 三次元の慣性決定力の内蔵(三次元の本のうち relativeDrag.law:"inertial" を宣言する本 —— 🔩🪛🌦️)と、そのうち dragCore を宣言する本(🌦️)。

@@ -41764,6 +41764,106 @@ balance:"background" の受理の正準形は第319便a のまま(真)・版 w32
 
 **⑥ 原仮定者の回答(2026-11-01 —— AN499・AN500)。** AN499「『連星サンプル群』は実在天体を指している。検証サンプルが必要であれば、先に用意する」—— geoPN=3 版の対象は在位の実在の連星(恒星連星と NS の連星)。等質量・質量比の二体(枝 b の器の物差し)は、要るなら実在の本より先に検証の本として内蔵する。順は検証サンプル → シリウス無自転 → α Cen(並進だけ → J は別の宣言)→ NS は観測の自転の入力の経路の後。AN500「3Dサンプルは、銀河面を傾けない。厚みを導入する」・訂正「3D銀河プリセットは、傾き無しと有りの両方を用意する」—— geoPN=2 の 3D の銀河のプリセットは新しい ID で、傾き無しと傾き有りの両方を用意し、厚みを導入する。段は「平面の写し(2D の基準と同じビットを門に)→ 有限厚」を傾き無しで作り、傾き有りは同じ入力を全体で回した対の本にする(回転共変は純関数の試験〔第321便a〕で担保し、本の対でも示す)。軸を有効化しない粒子の軸を力学で回すかの扱いは、傾き有りの本と厚みの段の前に決める(傾けると面内のトルクが軸の向きに効く)。
 
+〔第322便b — geoPN=3 の連星の内蔵の第一陣(検証サンプル ♊⚖️ → 🌠 シリウス無自転 → 🔶 α Cen 並進だけ)・系ごとの (1 + (4/3)η) の表示・後に入った本の除外を宣言の条件へ・NS の観測の自転の欄の設計(原仮定者の指示(第124報)・原仮定者の回答(2026-11-01 —— AN499・AN500)・決断事項 AN505・AN492・AN508・統括の検証項目 R271 —— 策定の段 S2)(**エンジンの関数・在位の本の宣言・受理の判定・`S._core` は 1 bit も変えていない** —— beta の html は新しい ID の本 4 本と本に付く文 nc_binary_geo3〔ja/en〕と SAMPLE_STATUS の生成領域の 4 行だけ・root の index.html は不変・連星の観測との照合ではない)〕
+
+**① 何をしたか。** 原仮定者の回答 AN499「『連星サンプル群』は実在天体を指している。検証サンプルが必要であれば、先に用意する」に沿って、geoPN=3 の連星の本を内蔵にした第一陣 4 本 —— 検証サンプル ♊ `binaryCheckEqualInertial3d`(等質量)・⚖️ `binaryCheckRatio3Inertial3d`(質量比 1:3)→ 実在の連星 🌠 `siriusABInertial3d`(無自転)→ 🔶 `alphaCenABInertial3d`(並進だけ)。宣言は第321便b の兄弟の写しの列 tr(並進だけ —— `tests/lib-w321b-geo3bin.mjs` の siblingOf)のまま —— physics.coord "3d"・geoPN 3・kFrame 0・λ_PN 0・relativeDrag の K1 + 規則の鍵 rdRule "kappaM"(全天体 R_d = Y_k m)+ initMotion "observed"・G_loc {law:"kappaC2"}(n = 2)・spinDrag と源のモーメント(J)は宣言しない。器 `tests/exp-w322b-binbooks.mjs`(段 binbooks-322b —— 正本 `tests/out/binbooks-w322b.json`・lib `tests/lib-w322b-binbooks.mjs`・文書の lib `tests/lib-w322b-binbooksdoc.mjs`)が html の validatePreset・presetSig・geoModeOf・coord3d.makeSim・build・step をそのまま呼び(1 本の走行は第321便b の器の runBook)、段 A(受理と兄弟の写しの同一)・E(本 × 列 self・off・g1 × 刻み h・h/2・h/4 × 8 公転 + 写しの列 tr)・T(量ごとの表)を作る。QA は新設 behavior.binBooks322b・docs.binBooks322b。
+
+**② 検証サンプルは要るか(AN499 —— 枝の判断: 要る)。** (a) 実在の連星では有限質量比の項 (4/3)η q_1PN が二体の 1PN の項 q_1PN と同じ桁(シリウス 29.5%・α Cen 33.1%)で、二つを分けて見るには η だけを変えて他の条件(a・e・c・窓・刻み)をそろえた対が要る —— 等質量 η = 1/4 と 1:3 の η = 3/16。(b) 実在の連星の近点の移動は 1 公転あたり 1e-8 rad の桁で画面では見えない —— 検証サンプル(GM/(c²a) = 1e-4)は 1 公転あたり約 3e-3 rad で、トレイルの近点が回るのが見える。(c) 第321便b の物差し(玩具 4)は器の中の写しだけで、内蔵の本にすると「本の宣言 → 受理 → 走行」の経路を QA で固定できる(受理後の宣言と presetSig が写しと同じ・60 步の状態がビット同一)。円の窓(eq-c・r3-c)は近点が定まらないので内蔵にしない(第321便b の器の物差しのまま)。原理の名指しの本(周連星円盤・8 の字・箱宇宙の連星)は本便の対象の外(AN499 —— BH と原理の名指しの本は連星サンプル群の外)。
+
+**③ 本の宣言と受理(段 A —— 兄弟の写しの同一)。** 4 本とも受理(警告 0)・presetSig と受理後の宣言(physics・bodies・timeRef・scaleExp・world・camera・overlays)が第321便b の兄弟の写しの列 tr と同じ・本の abBody の physicsPatch(引きずりと G_loc の両方 OFF)を重ねた OFF の対照が写しの列 off と同じ・内蔵の本の走行の状態(h・8 公転)が写しの走行とビット同一。
+
+| 本 | 元の本 | 受理(警告の数) | presetSig = 写し(列 tr) | 受理後の宣言 = 写し | 宣言の期待(coord・geoPN・kFrame・λ_PN・K1 の規則・並進だけ・G_loc・分類) | 宣言から解決する法則 = build した S の法則(実効番号) | OFF の対照 = 写し(列 off) | 走行の状態 = 写し(h・ビット) | S.spin(初期・走行で不変) |
+|---|---|---|---|---|---|---|---|---|---|
+| ♊ `binaryCheckEqualInertial3d` | 🧪 玩具 eq-e(第321便b の toyBook —— 雛形は ✨ の physics) | 受理(0) | 真 | 真 | 真 | inertial-drag = inertial-drag(0) | 真 | 真 | 0.0500・0.0500(不変) |
+| ⚖️ `binaryCheckRatio3Inertial3d` | 🧪 玩具 r3-e(同) | 受理(0) | 真 | 真 | 真 | inertial-drag = inertial-drag(0) | 真 | 真 | 0.0500・0.0500(不変) |
+| 🌠 `siriusABInertial3d` | 🌟 `siriusAB` | 受理(0) | 真 | 真 | 真 | inertial-drag = inertial-drag(0) | 真 | 真 | 0.0000・0.0000(不変) |
+| 🔶 `alphaCenABInertial3d` | ✨ `alphaCenAB` | 受理(0) | 真 | 真 | 真 | inertial-drag = inertial-drag(0) | 真 | 真 | 4.5737・2.0072(不変) |
+
+- 実在の連星の 2 本は在位の family の variant(🌠 は sirius・🔶 は alphaCen —— familyRole "variant")・ID は在位の ID + `Inertial3d`・群「現実較正」・fidelity real・notClaim ["solar_cal", "binary_geo3"](表示は三次元の規則の本の文 nc_solar_rule3d と本便の文 nc_binary_geo3)。検証サンプルの 2 本は群「運動と時空」・fidelity toy・notClaim ["cal", "binary_geo3"]・family なし。4 本とも sampleClass "principle"・referenceKind "theory-control"・**較正母集団の外**(G_loc は較正の本で拒否される —— 母集団へ自動で入れない)。
+- **S.spin**: シリウスは 0 —— **採用の宣言で、観測で零という意味ではない**(🌟 と同じ —— 出典に自転の確定値が無い)。α Cen は ✨ の観測の自転の転写(4.5737・2.0072 —— 本の単位)を状態に持つが、spinDrag を宣言しないので力に入らない(第321便b: 回転 ON は R_d ≈ 19 km では状態のビット同一 —— J は別の宣言で本便は足さない)。4 本とも走行で S.spin は変わらない。
+- 本の文(説明タブ)に系ごとの η と 1 + (4/3)η、OFF を差し引いた近点の移動の比(h/4 の回帰・検出器 B)と刻み h・h/2・h/4 の値を書いた(QA が正本の値と照合)。
+
+**④ (1 + (4/3)η) の系ごとの値(AN505 —— 段 T)。** 比べるのは同じ初期状態・同じ 8 公転の窓で **OFF を差し引いた近点の移動**(この本 − OFF と geo1 − OFF —— geo1 は同じ入力の二次元の geoPN=1〔測地線 1PN〕・第321便b の g1_2d)。q_1PN = 6πGM/(c²a(1−e²)) は二体の 1PN の式(観測ではない)。
+
+| 本 | η | 1 + (4/3)η | q_1PN [rad/公転](二体の 1PN の式) | geo1 − OFF(h/4・回帰) | この本 − OFF [rad/公転] h・h/2・h/4(回帰) | 同(検出器 B) | 比 (この本 − OFF)/(geo1 − OFF) h・h/2・h/4(回帰) | 同(検出器 B) | 比 / (1 + (4/3)η)(h/4・回帰・B) | 刻みの帯(回帰) | 公転周期の差 この本 − geo1(h/4・相対) |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| ♊ `binaryCheckEqualInertial3d` | 0.25000 | 1.33333(+33.33%) | 2.513e-3 | 2.512e-3 | 3.346e-3・3.344e-3・3.344e-3 | 3.345e-3・3.344e-3・3.343e-3 | 1.3320・1.3312・1.3309 | 1.3322・1.3317・1.3312 | 0.9982・0.9984 | 3.95e-7 | 1.71e-5 |
+| ⚖️ `binaryCheckRatio3Inertial3d` | 0.18750 | 1.25000(+25.00%) | 2.513e-3 | 2.512e-3 | 3.137e-3・3.135e-3・3.134e-3 | 3.138e-3・3.134e-3・3.133e-3 | 1.2487・1.2478・1.2475 | 1.2499・1.2484・1.2479 | 0.9980・0.9983 | 4.78e-7 | 1.22e-4 |
+| 🌠 `siriusABInertial3d` | 0.22124 | 1.29499(+29.50%) | 4.456e-8 | 4.456e-8 | 5.776e-8・5.773e-8・5.772e-8 | 5.752e-8・5.766e-8・5.773e-8 | 1.2963・1.2954・1.2951 | 1.3430・1.2986・1.2952 | 1.0001・1.0001 | 9.00e-12 | -8.92e-9 |
+| 🔶 `alphaCenABInertial3d` | 0.24818 | 1.33091(+33.09%) | 2.174e-8 | 2.174e-8 | 2.896e-8・2.894e-8・2.894e-8 | 2.881e-8・2.891e-8・2.893e-8 | 1.3320・1.3312・1.3310 | 1.3456・1.3321・1.3310 | 1.0001・1.0001 | 3.74e-12 | -7.41e-10 |
+
+- (この本 − OFF)/(geo1 − OFF) は系ごとの 1 + (4/3)η の近く —— 実在の連星で 1 + (4/3)η との比 1.0001(シリウス)・1.0001(α Cen)、検証サンプルで 0.9982(等質量)・0.9980(1:3)。**(1 + (4/3)η) は K1 と G_loc の規則の有限質量比の既知の寄与として本に表示するだけで、補正の係数は入れない**(試験粒子の極限で 0)。値は系ごとの η で決まり、恒星連星で一律の値ではない(シリウス +29.50%・α Cen +33.09%・等質量 +33.33%・1:3 で +25.00%)。
+- **抽出法の差**: 離心ベクトルの回帰(主)と検出器 B(近点の角の直線 —— 副)は h/4 で比の 4 桁目まで近いが、粗い刻み h では実在の連星で検出器 B の比が 1.34 台まで離れる(シリウス・α Cen —— 近点の検出の刻みの粗さ)。h・h/2・h/4 は**刻みの感度診断**で、収束の判定には使わない。
+- **周期の差は小さいが近点の移動は大きく違う**: この本と geo1 の公転周期の差は h/4 で相対 9e-9(シリウス)・7e-10(α Cen)で、同じ写しの近点の移動は 29.5%・33.1% 違う —— 周期の一致を系全体の合格にしない(量ごとに分けて見る)。
+
+**⑤ 既存の器の除外(AN492 —— 本を足すのと同じコミットで宣言の条件へ)。** 第321便b の枝の試しで、写しの geo3 の連星の本は〔第320便d〕の表 1 の 4 段(器の名指しの集合で 🗺️ だけを外していた)の数え上げに全部入り、煙試験で semic-302d の門 gain0Same が偽になった。本便は 4 本の器と QA 6 本の名指しの除外を、〔第320便d〕の宣言の条件 isRuleBookNoCopy(`tests/lib-w320d-rulebooks.mjs` —— K1 の規則の宣言 relativeDrag.invSq.rdRule を持ち、移行の前の宣言の写し〔LEGACY7_IDS〕が無い本)へ移した —— 器の中では `isRuleBookW322`・QA では最上位の `W322B_RULE_IDS`(同じ条件を内蔵の各本の宣言に当てた id の集合 —— 基点の html では 🗺️ の 1 本で名指しと同じ集合・本便の html では 🗺️ と ♊⚖️🌠🔶・root は空)。**器の正本の欄と値は不変**(基点の html でも本便の html でも、器が数え上げの外に置く本は「K1 の規則の宣言で生まれた本」—— 器の世代の分類〔第302便c の前の写し・惑星 1 体の W_bg の行の型・惑星の表〕に入らない本)。器のコードの刻印が変わるので 4 段は鎖で regen(値は同じ見込み —— 段は器を触る便の扱い)。器と lib に名指しの集合の宣言は残っていない。lint.laterBooks319 は本節の表 1・表 2 を読む(世代切替)。
+
+**表 1(器の後に入った本の除外 —— 宣言の条件へ移した後)**
+| 器 | 宣言の条件 | 外す本(今の html) | 使う所 | 段 | 外す数え上げ | なぜ外すか | 正本 |
+|---|---|---|---|---|---|---|---|
+| `tests/exp-w301g-wbglaw.mjs` | `isRuleBookW322` | 🗺️ `solarSystem16Inertial3d`・♊ `binaryCheckEqualInertial3d`・⚖️ `binaryCheckRatio3Inertial3d`・🌠 `siriusABInertial3d`・🔶 `alphaCenABInertial3d` | 1 | `wbglaw-301g` | classify —— law "inertial" の本を第302便c の前の宣言の写し(pre302c)で分類 | K1 の規則の宣言で生まれた本は前の宣言の写しが無い —— gain を書き込む写しは受理されない(本の単位の検証サンプルは scaleExp なしの除外の行も増やす) | 欄と値は不変(基点の html でも外すのは 🗺️ だけ —— 器のコードの刻印が変わるので鎖で regen) |
+| `tests/exp-w302c-wbgest.mjs` | `isRuleBookW322` | 🗺️ `solarSystem16Inertial3d`・♊ `binaryCheckEqualInertial3d`・⚖️ `binaryCheckRatio3Inertial3d`・🌠 `siriusABInertial3d`・🔶 `alphaCenABInertial3d` | 2 | `wbgest-302c` | gLocBooks(G_loc を宣言した在位の本 —— 段 P)・partE(scaleExp と law "inertial" の在位の本 —— W_bg の同定の幅) | 器の表は惑星 1 体の W_bg の行の型で、K1 の規則の本(連星の二体・16 体 —— W_bg の宣言なし)はその行の型に入らない | 欄と値は不変(基点の html でも外すのは 🗺️ だけ —— 器のコードの刻印が変わるので鎖で regen) |
+| `tests/exp-w302d-semic.mjs` | `isRuleBookW322` | 🗺️ `solarSystem16Inertial3d`・♊ `binaryCheckEqualInertial3d`・⚖️ `binaryCheckRatio3Inertial3d`・🌠 `siriusABInertial3d`・🔶 `alphaCenABInertial3d` | 1 | `semic-302d` | idsOf —— 内蔵の全本から引きずりの解の対象を選ぶ | 入れると分類の行が増えて正本の欄が変わり、門 gain0Same が偽になる(第321便b の枝の試し・第318便の煙試験) | 欄と値は不変(基点の html でも外すのは 🗺️ だけ —— 器のコードの刻印が変わるので鎖で regen) |
+| `tests/exp-w303a-refit.mjs` | `isRuleBookW322` | 🗺️ `solarSystem16Inertial3d`・♊ `binaryCheckEqualInertial3d`・⚖️ `binaryCheckRatio3Inertial3d`・🌠 `siriusABInertial3d`・🔶 `alphaCenABInertial3d` | 1 | `refit-303a` | gatesOf の gLocBooks —— G_loc の在位の本が惑星の表(P3.PLANETS)と同じ集合である門 | 門の型が惑星 7 本の写しで、K1 の規則の本は惑星の表に無い | 欄と値は不変(基点の html でも外すのは 🗺️ だけ —— 器のコードの刻印が変わるので鎖で regen) |
+
+**表 2(QA の側の除外 —— 宣言の条件へ移した後)**
+| QA | 宣言の条件 | 比べるもの | なぜ外すか |
+|---|---|---|---|
+| `behavior.wbgDirect302` | `W322B_RULE_IDS` | 第302便a の移行表(law "inertial" の本の宣言の写し) | 移行表より後に入った本(K1 の規則の宣言で生まれた本 —— 今の宣言は behavior.solar16Builtin318c ①・behavior.binBooks322b ②) |
+| `preset.gLocPlanets302` | `W322B_RULE_IDS` | 第302便の G_loc の宣言の本(在位の本) | 在位の惑星 7 本と同じ K1 の G_loc {law:"kappaC2"} の後に入った本 |
+| `docs.semic302` | `W322B_RULE_IDS` | 正本 semic-w302d.json の分類と今の宣言 | 器の除外(表 1 の semic-302d)と同じ本を両側から外す |
+| `preset.revertGLoc303` | `W322B_RULE_IDS` | 第302便の宣言の G_loc の本と今の G_loc の本 | 移行の前の宣言の表に無い本 |
+| `behavior.invSq309` | `W322B_RULE_IDS` | invSq・dragCoreDefault を宣言した本(移行の前の写しで読む 7 本) | K1 の短い形で生まれた本で写しが無い |
+| `behavior.galaxial311` | `W322B_RULE_IDS` | galaxyAxial・invSq を宣言した本の数 | 在位の 7 本と同じ K1 の短い形の後に入った本 |
+
+- **煙試験**(`node tools/harness-smoke.mjs --base beta/_w322_base.html --base-rev 41df193` —— 本を足した html・器 4 本の除外を移した木): 選んだ 46 段(presets "all" 42・名前とコード 4 —— 除外を移した器 4 本を含む)を 2 レーン・枠 90 s で回し、**例外 0・門の偽 0・NaN 0**・完走 30・枠で止めた 16(wbglaw-301g・wbgest-302c・refit-303a・tpsign・dragnorm-301a・pnsources291・timing294・d68・clusterAnalogy・contact285・clone-301f・pn1・compose293・timestd-297c・pnsource286・refit-297a —— 最初の 90 s に問題なし)・所要 17.1 min(並走)。第321便b の枝の試しで門の偽だった semic-302d は段 gates の窓で完走して門が真(4 本は宣言の条件で数え上げの外)。段 binbooks-322b の窓(試走)・geo3bin-321b・families も `--keys` で完走(例外 0・門の偽 0・NaN 0)。煙試験は器の最初の段だけを見る —— 正本の欄と値の変化は鎖の後の照合で見る
+- **ほかに本で値が変わる段**: presets "all" の段は本を足すと領域の hash が動いて鎖で regen になる(正本の欄と値の変わりは鎖の後の照合で見る)。値が変わるのが分かっている段は geo3bin-321b(在位の連星の一覧に 🌠🔶 の 2 行が入る —— S1 の表〔第321便b〕は QA docs.geo3Bin321b の世代切替で照合の外に置いた: 受理した宣言 geoPN 3 ∧ coord 3d の連星の本は S2 の本として本節が見る)と families(家族の表 —— 宣言 FAMILIES は変えていないので alphaCen・sirius の家族の行は在位の本の並びのまま)・samplestatus(4 行が増える —— 鎖の常時群)。
+- QA の側: ui.fidelity の fidelity real の本に 🌠🔶 の 2 本(宣言の id から —— 世代切替)。
+
+**⑥ NS の観測の自転の欄の設計(AN508 —— 実装しない)。** 第321便b: NS の本の観測の Ω は S.spin の値域(±20 —— 本の単位)の 83〜185 倍で、S.spin へ写すと 20 で飽和する。AN508 の閉じた規則(源のモーメントの**読み取り専用の別の欄**・S.spin へ注入しない・J ベクトル直接か観測 Ω + 明示の f_src + 観測半径を排他的に・軸・単位・出典・元期を必須・軸が不明なら欠測のまま)の鍵の案と受理・拒否の表・S.spin 不変の試験の案(`tests/lib-w322b-binbooks.mjs` の NS_OBS_SPIN_KEYS・NS_OBS_SPIN_CASES・NS_SPIN_INVARIANT_TESTS —— 宣言の表だけ・受理器は変えていない):
+
+| 鍵(案) | 中身と規則 |
+|---|---|
+| `obsSpin.kind` | "J"(角運動量ベクトルを直接)か "omega"(観測の Ω + 明示の f_src + 観測半径)—— 排他(両方の鍵は拒否) |
+| `obsSpin.J` | kind "J" のとき: 角運動量の大きさ(SI —— kg m²/s)。f_src・R_obs と一緒に置かない |
+| `obsSpin.omega` | kind "omega" のとき: 観測の自転の角速度(SI —— rad/s・パルスの周期 P から 2π/P) |
+| `obsSpin.fSrc` | kind "omega" のとき必須: 源の慣性係数 I/(m R²)(明示 —— 既定の値を置かない・0 < f ≤ 2/3) |
+| `obsSpin.rObs` | kind "omega" のとき必須: 観測半径(SI —— m・EOS の代理なら出典に書く) |
+| `obsSpin.axis` | 必須: 軸(黄道座標の傾き・方位〔度〕か単位ベクトル)。不明なら null —— **欠測のまま**(軌道の法線を代わりに置かない) |
+| `obsSpin.unit` | 必須: 単位の宣言("SI")—— 本の単位へは受理器が scaleExp で換算(換算の値は受理後の宣言に書く) |
+| `obsSpin.source` | 必須: 出典(観測の文献・表) |
+| `obsSpin.epoch` | 必須: 元期(MJD か年 —— 自転の変化〔スピンダウン〕は読まない —— 元期の値のまま) |
+
+| 受理・拒否の表(案) | 宣言 | 期待 |
+|---|---|---|
+| `J-direct` | kind "J"・J・axis・unit・source・epoch | 受理 |
+| `omega-full` | kind "omega"・omega・fSrc・rObs・axis・unit・source・epoch | 受理 |
+| `both` | J と omega を両方(排他の違反) | 拒否 |
+| `omega-noF` | kind "omega" で fSrc が無い(既定の f を置かない) | 拒否 |
+| `omega-noR` | kind "omega" で rObs が無い | 拒否 |
+| `f-big` | fSrc > 2/3(一様な球の 2/5 を超えた上限の外) | 拒否 |
+| `no-source` | source か epoch か unit が無い | 拒否 |
+| `axis-null` | axis が null(軸が不明 —— 欠測) | 受理(欄を欠測のまま) |
+| `spin-inject` | 欄の値を body.spin(S.spin)へ写す宣言(spinFromObs など) | 拒否 |
+| `2d-book` | 二次元の本(coord なし)に欄 | 拒否 |
+
+| S.spin 不変の試験の案(実装の便の QA) |
+|---|
+| 欄を足した本と足さない本(他は同じ宣言)の受理後の bodies[].spin が同じ・S.spin の初期値が同じ |
+| 源のモーメントを使わない宣言(spinDrag なし)で走行の状態が全步でビット同一(欄は読み取り専用) |
+| 源のモーメントを使う宣言(sourceMoment に obsSpin を引く鍵)では S.spin の時系列が欄の無い本と同じ(自転の力学 —— 潮汐・自転の変化 —— を通さない) |
+| 軸が欠測の本は源のモーメントの向きを置かない(軌道の法線で埋めない)—— 受理の警告に欠測の文 |
+
+- 欄は天体ごと(`bodies[i].obsSpin`)で、源のモーメント sourceMoment の側が引く(源の角運動量 J の大きさと向き —— S.spin の力学〔自転の変化・潮汐〕は通さない)。本の単位への換算は受理器が scaleExp で行い、受理後の宣言に換算の値を書く(観測の SI の値は欄のまま残す)。PSR の質量は GR を仮定したタイミング解の推定・半径は EOS の代理 —— 出典の欄に書く。順の門は 📻 J0737 → 🧮 J1757 / 🩺 J1946 → 📿 B1534(hold-out —— 他の系で選んだ後に固定)。
+
+**⑦ 鎖と QA。** 段 binbooks-322b(見積り 60 s —— **並走の秒**・子プロセス 2 本・after obscompare と samplestatus)・CANON(lint.canon304)・煙試験の窓(試走 W322B_QUICK —— 窓 3 公転・刻み h・h/2)・.gitignore の例外・post-merge の ③′。QA: behavior.binBooks322b(受理・写しとの同一・60 步のビット・S.spin 不変・本の文の η と 1 + (4/3)η・宣言の条件の本)・docs.binBooks322b(正本の門・段 T の作り直し・本の文の比・本節の表と数・必須の語・禁句・AI_SPEC §164・CHANGELOG)。書き換え: QA 6 本(表 2)・lint.laterBooks319(世代切替)・docs.geo3Bin321b(S2 の本の世代切替)・ui.fidelity。器 4 本(表 1)。
+
+**⑧ S3 の変更の一覧(次の段 —— 本便の後)。** (a) α Cen の J の列を本にする(源の角運動量 J —— 天体ごとの f は模型の宣言・別の ID か variant の宣言の鍵・spinDrag {rot:"surfaceFlip"} が要る)—— QA は J − 並進だけの差の符号と大きさ(第321便b: q_1PN の 1e-5)・状態のビット・口座。(b) NS の観測の自転の欄の実装(本節の ⑥ の鍵 —— 受理器の門・源のモーメントが欄を引く経路・S.spin 不変の試験)→ 📻 J0737 の geo3 版(pulse・spinDipole・dragQ・core は三次元で拒否 —— 二次元の経路だけの鍵を外す写し)。(c) 検証サンプルの円の窓と回転 ON の対(器の物差しのまま —— 内蔵にするかは決断事項の候補)。(d) 鎖: presets "all" の段・binbooks-322b・geo3bin-321b。(e) 器 4 本(表 1)の正本に外した本の数の欄(ruleBooks)を足すか(〔第320便d〕の invsq の型 —— 本便は欄を足さず値を不変にした)。
+
+**⑨ 言わないこと。** 連星の観測との照合ではない(同じ初期状態・同じ窓の写しどうしの量ごとの比)。近点の移動の原因を述べない。(1 + (4/3)η) を補正の係数に使っていない・恒星連星で一律の値と書いていない。h・h/2・h/4 は刻みの感度診断で、収束の判定に使っていない。周期の差の小ささを系全体の合格に広げていない。シリウスの自転 0 は採用の宣言で観測ではない。NS の欄は設計だけで実装していない。
+
+**⑩ 決断事項の候補(推奨つき)。** (i) **検証サンプルの円の窓・回転 ON を内蔵にするか** —— 推奨: 内蔵にしない(器の物差しのまま —— 近点が定まらない円と、並進だけと状態のビット同一の回転 ON は本の観察に足すものが少ない)。(ii) **α Cen の J の本の形** —— 推奨: 新しい ID(`alphaCenABInertial3dJ` —— 並進だけの本を残し、f は模型の宣言として本の文に書く)。(iii) **NS の欄の鍵の名と置き場所** —— 推奨: 本の天体ごとの `obsSpin`(⑥ の表 —— sourceMoment が引く・S.spin の値域とは無関係)。(iv) **器 4 本の ruleBooks の欄** —— 推奨: 器を触る便で足す(値は不変・数える欄だけ)。(v) **(1 + (4/3)η) の表示の位置** —— 推奨: 観測カードの 1 行と概要(本便の形)のまま、補正の係数の鍵は作らない。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
