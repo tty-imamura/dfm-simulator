@@ -16,7 +16,7 @@
 //
 // ■ 使い方(統括の手順の 1 行): 統合の直後・鎖の前に
 //     node tools/harness-smoke.mjs --base beta/_w30N_base.html --base-rev <基点 sha>   # 例外・門の偽・NaN が 1 つでもあれば rc 1 —— 鎖を起動しない
-//   --list(選ぶだけ・走らせない)/ --keys a,b(段を名指し)/ --wide(ハブの名前だけの段も)/ --indirect(閉包だけの段も)/ --lanes 2 / --budget 90 / --max-minutes 30 /
+//   --list(選ぶだけ・走らせない)/ --keys a,b(段を名指し)/ --wide(ハブの名前だけの段も)/ --indirect(閉包だけの段も)/ --lanes 2 / --budget 90 / --max-minutes 30(--wide・--indirect の既定は 90 —— 第322便d)/
 //   --json <file> / --out-dir <dir>(既定 $TMPDIR/harness-smoke-<時刻>)/ --root <dir>(別の木 —— 例: git archive で取り出した過去の状態)/
 //   --git-dir <dir>(写しの中の `git -C ROOT show` が読む git —— 既定は --root の git)/ --head-rev <rev>(--base-rev との版どうしの差 —— 取り出した木のとき)/
 //   --html <候補 html>(写しの beta/index.html を差し替える)/ --keep(写しを残す)/
@@ -580,6 +580,52 @@ export async function selfTest(opt) {
   return { version: HARNESS_SMOKE_VERSION, ok: bad.length === 0, bad, cases };
 }
 
+// ==== 第322便d の塊(ここから)====
+// 第322便d(統括の検証項目 R273 —— 第321便の運用の教訓: `--wide` の 158 段が既定の全体の枠 30 min で 108 段まで —— 未実行 50 段・例外 0 の終わりの行が「OK」)。
+//   ① 全体の枠の既定: `--wide`(か `--indirect`)のときは MAX_MINUTES_WIDE(90 min)・それ以外は 30 min のまま。`--max-minutes` を書けばそれが勝つ。
+//      90 の根拠(PHYSICS〔第322便d〕): 第321便の --wide の 158 段(2 レーン・枠 90 s)は、走った 108 段が 30.6 min・残りの 50 段は段の表の秒の順で後ろ
+//      (枠 90 s か窓の試走)—— 上限の見積り(段ごとに枠の秒・2 レーン)で残り 37.5 min・合わせて約 68 min。90 min はその上に 3 割の余裕。
+//   ② 終わりの行: 未実行の段があれば **「未完 —— 未実行 n 段」**(「OK」と並べない —— 例外・門の偽・NaN が 0 でも「走らせた段は問題なし・未実行の段は見ていない」)。
+//      未実行の段の key を別の行に並べる(続きは `--keys <未実行の段>` で)。smoke.json に complete・notRun・notRunKeys。終了コードは従来どおり(NG のときだけ 1)。
+export const SMOKE_WIDE_VERSION = 'w322d-smoke-wide-1';
+export const MAX_MINUTES_DEFAULT = 30;
+export const MAX_MINUTES_WIDE = 90;
+/** 全体の枠(分): --max-minutes を書けばそれ・--wide か --indirect なら MAX_MINUTES_WIDE・それ以外は MAX_MINUTES_DEFAULT。 */
+export function maxMinutesOf(argv) {
+  const i = argv.indexOf('--max-minutes');
+  if (i >= 0 && argv[i + 1] !== undefined && Number.isFinite(Number(argv[i + 1]))) return Number(argv[i + 1]);
+  return (argv.includes('--wide') || argv.includes('--indirect')) ? MAX_MINUTES_WIDE : MAX_MINUTES_DEFAULT;
+}
+/** 終わりの行(純関数 —— 自己試験が缶詰で照合する)。res = runPool の結果・nSel = 選んだ段の数・o = { elapsedMin, logDir, maxMinutes }。 */
+export function smokeSummary(res, nSel, o) {
+  const n = (v) => res.filter((x) => x.verdict === v).length;
+  const ng = n('exception') + n('gate') + n('nan');
+  const notRun = n('not-run');
+  const notRunKeys = res.filter((x) => x.verdict === 'not-run').map((x) => x.key);
+  const tail = ng ? 'NG' : (notRun ? `未完 —— 未実行 ${notRun} 段(全体の枠 --max-minutes ${o.maxMinutes} の外 —— 走らせた段は問題なし・未実行の段は見ていない)` : 'OK');
+  const line = `harness-smoke: 走らせた ${res.length - notRun}/${nSel} 段・例外 ${n('exception')}・門の偽 ${n('gate')}・NaN ${n('nan')}・既知(基点の正本でも ok:false)${n('known')}・`
+    + `枠で止めた(問題なし)${res.filter((x) => x.verdict === 'ok' && x.killed).length}・完走 ${res.filter((x) => x.verdict === 'ok' && !x.killed).length}・未実行 ${notRun} —— `
+    + `${tail}(所要 ${Number(o.elapsedMin).toFixed(1)} min・ログ ${o.logDir})`;
+  const rest = notRun ? `  未実行の段(続きは --keys で): ${notRunKeys.join(',')}` : null;
+  return { line, rest, ng, notRun, notRunKeys, complete: notRun === 0 };
+}
+/** 自己試験(器を走らせない)。 */
+export function smokeWideSelfTest() {
+  const bad = [];
+  const m = [[['--wide'], 90], [['--indirect'], 90], [[], 30], [['--wide', '--max-minutes', '45'], 45], [['--max-minutes', '10'], 10]];
+  for (const [a, w] of m) if (maxMinutesOf(a) !== w) bad.push('枠の既定 ' + a.join(' ') + ' → ' + maxMinutesOf(a));
+  const R = [{ key: 'a', verdict: 'ok', killed: false }, { key: 'b', verdict: 'ok', killed: true }, { key: 'c', verdict: 'not-run' }, { key: 'd', verdict: 'not-run' }];
+  const s1 = smokeSummary(R, 4, { elapsedMin: 90.2, logDir: '/x', maxMinutes: 90 });
+  if (/—— OK/.test(s1.line) || !/未完 —— 未実行 2 段/.test(s1.line) || s1.complete || s1.rest !== '  未実行の段(続きは --keys で): c,d') bad.push('未実行の段がある終わりの行: ' + s1.line);
+  const s2 = smokeSummary(R.slice(0, 2), 2, { elapsedMin: 3, logDir: '/x', maxMinutes: 30 });
+  if (!/—— OK/.test(s2.line) || !s2.complete || s2.rest !== null) bad.push('全部走った終わりの行: ' + s2.line);
+  const s3 = smokeSummary(R.concat([{ key: 'e', verdict: 'gate' }]), 5, { elapsedMin: 3, logDir: '/x', maxMinutes: 30 });
+  if (!/—— NG/.test(s3.line) || s3.ng !== 1) bad.push('NG の終わりの行: ' + s3.line);
+  return { version: SMOKE_WIDE_VERSION, ok: bad.length === 0, bad,
+    cases: `枠の既定(--wide・--indirect → ${MAX_MINUTES_WIDE}・なし → ${MAX_MINUTES_DEFAULT}・--max-minutes が勝つ)・終わりの行(未実行 → 「未完 —— 未実行 n 段」と未実行の段の行・全部 → OK・NG → NG)` };
+}
+// ==== 第322便d の塊(ここまで)====
+
 // ---------------------------------------------------------------------------------------------
 // main
 // ---------------------------------------------------------------------------------------------
@@ -598,7 +644,7 @@ async function main(argv) {
   const baseRev = getArg(argv, '--base-rev', null);
   const lanes = Number(getArg(argv, '--lanes', 2));
   const budget = Number(getArg(argv, '--budget', 90));
-  const maxMinutes = Number(getArg(argv, '--max-minutes', 30));
+  const maxMinutes = maxMinutesOf(argv);   // 第322便d: --wide の既定は 90 min(maxMinutesOf)
   const keysArg = getArg(argv, '--keys', null);
   const indirect = argv.includes('--indirect');
   const wide = argv.includes('--wide') || indirect;
@@ -653,13 +699,12 @@ async function main(argv) {
   const baseRel = baseHtmlForSandbox(root, sandbox, baseHtml);
   if (baseHtml) console.log(`  器に渡す基点 html(BASE_HTML —— 写しの根からの相対): ${baseRel}`);
   const res = await runPool(sel, { root, sandbox, logDir, tmpDir, gitDir, lanes, budget, maxMinutes, baseRel, baseRev }, console.log);
-  const n = (v) => res.filter((x) => x.verdict === v).length;
-  const ng = n('exception') + n('gate') + n('nan');
-  const summary = `harness-smoke: 走らせた ${res.length - n('not-run')}/${sel.length} 段・例外 ${n('exception')}・門の偽 ${n('gate')}・NaN ${n('nan')}・既知(基点の正本でも ok:false)${n('known')}・`
-    + `枠で止めた(問題なし)${res.filter((x) => x.verdict === 'ok' && x.killed).length}・完走 ${res.filter((x) => x.verdict === 'ok' && !x.killed).length}・未実行 ${n('not-run')} —— `
-    + `${ng ? 'NG' : 'OK'}(所要 ${((Date.now() - T0) / 60000).toFixed(1)} min・ログ ${logDir})`;
+  // 第322便d: 終わりの行(未実行の段があれば「未完」—— smokeSummary)
+  const sm = smokeSummary(res, sel.length, { elapsedMin: (Date.now() - T0) / 60000, logDir, maxMinutes });
+  const ng = sm.ng, summary = sm.line;
   console.log(summary);
-  Object.assign(plan, { results: res, summary, ok: ng === 0, elapsedMin: +((Date.now() - T0) / 60000).toFixed(2) });
+  if (sm.rest) console.log(sm.rest);
+  Object.assign(plan, { results: res, summary, ok: ng === 0, complete: sm.complete, notRun: sm.notRun, notRunKeys: sm.notRunKeys, maxMinutes, elapsedMin: +((Date.now() - T0) / 60000).toFixed(2) });
   fs.writeFileSync(path.join(outDir, 'smoke.json'), JSON.stringify(plan, null, 1));
   const js = getArg(argv, '--json', null); if (js) fs.writeFileSync(path.resolve(js), JSON.stringify(plan, null, 1));
   if (!argv.includes('--keep')) fs.rmSync(sandbox, { recursive: true, force: true });

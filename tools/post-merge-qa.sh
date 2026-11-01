@@ -492,6 +492,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.galField321c docs.nbCompose320c docs.sr
 #   受理器を読む behavior.srcHeat320・docs.srcHeat320・受理器の理由の文の表 lint.textRegistry318・lint.presetText316c・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcMomentIdx321 docs.w321d behavior.srcHeat320 docs.srcHeat320 lint.textRegistry318 lint.presetText316c lint.sectionLookup313 lint.qaHeapRelease310"
 # ==== 第321便d の塊(ここまで)====
+# ==== 第322便d の塊(ここから)====
+# 第322便d(決断事項 AN509・R273): 枝 d の新設 1 本(docs.w322d —— nslock の本ごとの行の再利用 --merge の門と配線・煙試験の --wide の全体の枠と未実行の段の終わりの行・
+#   版名 QA の鍵の抜き出し tools/qa-keys.mjs・qapart の --batch と切り出しの lib)と、器 nslock の正本を読む docs.nsLockBranch・docs.binlockAxisDef・煙試験の道具の
+#   lint.harnessSmoke303・lint.harnessSmoke304・名簿の docs.w320d(器の --merge の印)・器の領域と刻印の lint.regenScope・lint.provenanceMeta・lint.stableHashPaths・lint.scopeStop・
+#   この脚本の lint.postMergeQaScript・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.w322d docs.nsLockBranch docs.binlockAxisDef lint.harnessSmoke303 lint.harnessSmoke304 docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.postMergeQaScript lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第322便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

@@ -299,7 +299,7 @@ if (W322D_PLAN) {
 const W322D_MERGE_REC = { version: W322D_MERGE_VERSION, requested: W322D_MERGE,
   mode: W322D_MERGE ? W322D_G.mode : ((ONLY || VARIANTS) ? 'partial' : 'full'),
   only: ONLY || [], why: W322D_MERGE ? W322D_G.why : [], reused: W322D_REUSE ? [...W322D_REUSE] : [], rerun: W322D_MERGE ? W322D_G.rerun : [],
-  ...(W322D_REUSE ? { prev: path.relative(ROOT, W322D_PREV_PATH), prevSha256: W322D_PREV_SHA, carriedFrom: W322D_PREV.meta.at } : {}) };
+  ...(W322D_REUSE ? { prev: path.relative(ROOT, W322D_PREV_PATH).startsWith('..') ? W322D_PREV_PATH : path.relative(ROOT, W322D_PREV_PATH), prevSha256: W322D_PREV_SHA, carriedFrom: W322D_PREV.meta.at } : {}) };
 
 const out = { meta: { wave: '第272便c', section: '潮汐ロック枝(kFrame=0・f=1・λPN=1)',
   harness: HARNESS_VERSION, target: TARGET, targetSha256: sha(path.join(ROOT, TARGET)),
