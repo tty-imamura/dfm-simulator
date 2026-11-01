@@ -21784,8 +21784,9 @@ if (!FAST) {
         // 第289便e: 🪆 galaxyAnalogyBHTilt90Layers(🛸 の写し —— 🌚 の写しの写し)も同じ契約(none・中心 pinned)を持つ
         // 第290便e: 🍭 shapeToySpiral・🎢 shapeToySpiralCore(渦巻の参照模型)は 🥏 shapeToyDisk/📀 shapeToyDiskCore の円盤成分をそのまま持つ本なので
         //   写し元と同じ契約(contactMode "none"・🍭 は中心なし・🎢 は中心 pinned)を持つ —— 器の適用表は変えない(同じ扱い)
+        // 第322便a(R270): 🫓 galaxyGeo2Flat3d(💫 galaxyGeo2 の平面の 3D の写し —— 同じ bodies・物理に coord:"3d")も写し元と同じ契約(none・中心 pinned)を持つ
         const COPY288 = { galaxyAnalogyBHCompose: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90Layers: 'galaxyAnalogyBH',
-          shapeToySpiral: 'shapeToyDisk', shapeToySpiralCore: 'shapeToyDiskCore' };
+          shapeToySpiral: 'shapeToyDisk', shapeToySpiralCore: 'shapeToyDiskCore', galaxyGeo2Flat3d: 'galaxyGeo2' };
         const copies = r.nDeclNone.filter((id) => COPY288[id] && EC.APPLIED.some((a) => a.id === COPY288[id]));
         // 第296便c(原仮定者の裁定(第86報)・R159): 🔗 chainDiskToy(多粒子の連鎖引きずりの試作本 —— 中心 pinned 1 個・粒子どうしの接触なし)は契約どおり none を宣言する
         //   (器の適用表は変えない —— 表の外の新しい本として許す)
@@ -73963,7 +73964,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         // 第298便c(R167): 三次元の慣性決定力の本(relativeDrag を宣言した三次元の本 —— 🔩🪛🌦️)は第298便c の preset.geo4Std298・docs.moon3d298 が照合する(宣言から除く)
         const has298cP = html298a.indexOf('REL_DRAG_SPIN3_VERSION = "w298c') >= 0;
         // 第299便e(R174): 三次元の参照模型(W299E_IDS —— physics.shapeToy を宣言した三次元の本)は preset.ref3d299 が照合する(宣言から除く)
-        const b3 = all.filter((p) => (p.physics || {}).coord === '3d' && !(has298cP && (p.physics || {}).relativeDrag) && W299E_IDS.indexOf(p.id) < 0).map((p) => p.id);
+        // 第322便a(R270): 三次元の geoPN=2(v−u 則)の本(🫓 galaxyGeo2Flat3d —— behavior.geo2flat322a・docs.geo2flat322a が照合する)は宣言から除く
+        const b3 = all.filter((p) => (p.physics || {}).coord === '3d' && !(has298cP && (p.physics || {}).relativeDrag) && W299E_IDS.indexOf(p.id) < 0 && (p.physics || {}).geoPN !== 2).map((p) => p.id);
         const want = [J298.part8.kepler.id, J298.part8.spin.id];
         if (JSON.stringify(b3.slice().sort()) !== JSON.stringify(want.slice().sort())) bad.push('三次元の内蔵 ' + b3.join(',') + ' ≠ 正本 ' + want.join(','));
         const src = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8'));
@@ -74319,7 +74321,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       if (err299) bad.push('headless が読めない: ' + err299);
       else {
         const E = H299.evalExpr, HP = H299.HP;
-        const all = HP.allPresets(), b3 = all.filter((p) => W319D_D3.fresh.indexOf(p.id) >= 0 && p.familyRole !== 'retired');   // 第319便d(AN460): 受理した宣言で数える(W298A_IDS の html の文字列の型を外した —— 最小の本は同じ)
+        // 第322便a(R270): 三次元の geoPN=2 の本(範囲の内では kFrame=1 で止まらない —— 止める対照に使えない)は除く
+        const all = HP.allPresets(), b3 = all.filter((p) => W319D_D3.fresh.indexOf(p.id) >= 0 && p.familyRole !== 'retired' && (p.physics || {}).geoPN !== 2);   // 第319便d(AN460): 受理した宣言で数える(W298A_IDS の html の文字列の型を外した —— 最小の本は同じ)
         if (!b3.length) bad.push('三次元の本が無い');
         const p3 = b3.slice().sort((a, b) => (a.bodies || []).length - (b.bodies || []).length)[0];
         const mk = () => { const v = HP.validatePreset(JSON.parse(JSON.stringify(p3))); const S = HP.coord3d.makeSim(); S.build(v.preset); return S; };

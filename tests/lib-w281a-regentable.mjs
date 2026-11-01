@@ -1556,9 +1556,9 @@ export const REGEN_STEPS = [
   //   degen〔三次元の html の步と二次元の html の步の全状態〕・pure〔非平面の小さい系で html の三次元の步と第321便a の純関数の全状態と口座〕・hist〔初回の履歴〕・ckpt〔保存と復帰・A/B の複製〕・
   //   ledger〔P・L の閉じ —— リザーバと拘束の口座〕・table〔受理と実行の門の表〕・trial〔傾き有りと有限厚の試走 12000 步・AN510 の 2 案の差〕)。html を読む(本は galaxyGeo2Flat3d と
   //   galaxyGeo2 を .find で引く・ほかは器の中の小さい系の本を受理に通す)・他の正本は読まない(html の生成領域の後)。gate と trial の 4 行は子プロセス 2 本(W322A_WORKERS)。
-  //   所要は第322便a の枝の実測 542 s(**並走の秒** —— 他の枝の QA_FAST と並走・W322A_WORKERS=1 で重い 4 行〔gate・平面・傾き有り・有限厚 —— 各 125〜146 s〕を順に。
-  //   子プロセス 2 本〔既定〕なら約 300 s —— 統括が混まない箱で測り直す)
-  S('geo2flat-322a', 'node tests/exp-w322a-geo2flat.mjs', ['tests/out/geo2flat-w322a.json'], 545, { secSource: 'w322a-branch', node: true, after: ['obscompare', 'samplestatus'],
+  //   所要は第322便a の枝の実測 228 s(子プロセス 2 本〔既定〕・重い 4 行〔gate・平面・傾き有り・有限厚 —— 各約 114 s〕—— **並走の秒**: 他の枝の器と同じ容器。
+  //   W322A_WORKERS=1〔他の枝の QA_FAST と並走〕では 542 s —— 統括が混まない箱で測り直す)
+  S('geo2flat-322a', 'node tests/exp-w322a-geo2flat.mjs', ['tests/out/geo2flat-w322a.json'], 230, { secSource: 'w322a-branch', node: true, after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/geo2flat-w322a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/parts/gate/row/wallSec', '/parts/trial/tilt/wallSec', '/parts/trial/thick/wallSec']) },
     note: '第322便a: geoPN=2(v−u 則)の輸送の 3 成分を三次元の步 dfmStep3 へ接続(dfmCore3G2)—— 平面の 3D 銀河の本の外縁の比が二次元の 💫 と同じビット・非平面で純関数と同じビット・受理と実行の門・保存と復帰・傾き有りと有限厚の試走' }),
   // ==== 第322便a の塊(ここまで)====
