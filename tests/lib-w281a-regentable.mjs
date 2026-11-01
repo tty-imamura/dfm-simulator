@@ -1552,6 +1552,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/galfield-w321c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/G0/std/wallSec', '/G0/db/wallSec', '/G0/rest/*/wallSec']) },
     note: '第321便c(lib 版 2 —— 第322便c の代理 J の直し): geoPN=4 の一新の S1 —— 比較の基準の凍結(在位の geoPN=4 と銀河の本)・銀河の中の任意の位置の源の流れの場の純関数(u・∇u・半渦度・有効域・誤差 —— 中心と残余の重ならない分割・演算 B・環の積分を参照)・半渦度 ↔ u_φ の対照(境界つきの復元)・6 天体の拮抗の符号つきの表と衛星の列(エンジン・在位の本は変えない・半渦度を受け手の軸へ直結する項は足さない)' }),
   // ==== 第321便c の塊(ここまで)====
+  // ==== 第322便c の塊(ここから)====
+  // ---- 第322便c(決断事項 AN501・AN503・AN506・AN511・AN512・統括の検証項目 R272 —— 策定の段 S2 の geoPN=4 の場の契約): **外部場の輸送の力学の契約の導出と散逸のグループの集計の器**
+  //   (段 fieldcontract-322c —— 部 K〔零場・定常・一様流・剛体回転・せん断・非定常の 6 場面で、今の v−u 輸送〔第321便a の純関数 transportDelta3 を外部場で〕・その連続の極限・
+  //   正準の型 H = ½|p|² + p·u + Φ〔p0 = v0 − u(x0) と p0 = v0〕・位置に u を足すだけの型の軌道と台帳 —— html を読まない〕・部 G〔6 天体の散逸のグループの 2 列 —— (A) 銀河 1 グループ・
+  //   (B) 成分ごと —— と R_cut の不変のビット・html の 🗺️ の写しの初期の状態の読み口と純関数〕・AN503 の設計の宣言)。html・エンジン・在位の本は変えない。
+  //   子プロセス 2 本(W322C_WORKERS)。所要は第322便c の枝の実測(**並走の秒** —— 統括が混まない箱で測り直す)
+  S('fieldcontract-322c', 'node tests/exp-w322c-fieldcontract.mjs', ['tests/out/fieldcontract-w322c.json'], 90, { secSource: 'w322c-branch', node: true, after: ['obscompare', 'samplestatus', 'srcradius-319b'],   // import する第320便a の器が第319便b の正本の名を持つ(この器は読まない —— 鎖の監査の型に合わせて順序だけ)
+    volatilePaths: { 'tests/out/fieldcontract-w322c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第322便c: geoPN=4 の場の契約 —— 外部場の輸送の力学の契約の導出(今の v−u 輸送は正準の型 H = ½|p|² + p·u + Φ を状態の v = ẋ = p + u で書いたもの —— 6 場面 × 5 型の軌道と台帳・k_F ≠ 1 の余りの力)・散逸のグループの 2 列(銀河 1 グループ/成分ごと —— R_cut の不変のビット)・AN503 の診断の写しの設計(エンジン・在位の本は変えない・外部場の輸送はエンジンに入れていない)' }),
+  // ==== 第322便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

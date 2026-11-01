@@ -273,6 +273,6 @@ export const CONTRACT_DRAFT = Object.freeze({
     Object.freeze({ k: 'use', v: '"transport" —— 状態の v は ẋ のまま・輸送 Δv = Δu(k_F = 1 の固定)・ドリフトに u を足さない・初回は履歴だけ(p0 = v0 − u(x0))' }) ]),
   rejects: Object.freeze(['version の違い', 'stationary が偽で dUdt が null(0 で埋めない)', 'k_F ≠ 1(非ハミルトンの残り k_F(1 − k_F)(u·∇)u)', 'ドリフトに u を足す宣言(二度数える)',
     '有効域の外(步で止める)', '外部場を PCG の対称な粒子間の辺に足す宣言(AN501)', 'geoPN=2 の自己の場・慣性決定力・連鎖・軸保持・J と同時に ON(二重の引きずり)', '代理の項に normalization']),
-  ledger: Object.freeze(['fieldWorkE = Σ m(½|v + Δv_f|² − ½|v|²)', 'fieldTorqueL = Σ m x × Δv_f', 'fieldImpulseP = Σ m Δv_f', 'jacobiH = Σ m(½|v|² − ½|u|²) + Φ(定常の宣言だけ —— 保存の目安)',
+  ledger: Object.freeze(['fieldWorkE = Σ m(½‖v + Δv_f‖² − ½‖v‖²)', 'fieldTorqueL = Σ m x × Δv_f', 'fieldImpulseP = Σ m Δv_f', 'jacobiH = Σ m(½‖v‖² − ½‖u‖²) + Φ(定常の宣言だけ —— 保存の目安)',
     'pDudtW = Σ m (v − u)·∂_t u dt(非定常 —— dH/dt の台帳)', 'canonicalLz = Σ m (x × (v − u))_z(軸対称の場)']),
 });

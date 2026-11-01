@@ -129,6 +129,9 @@ export const SMOKE_KNOBS = Object.freeze({
   // ==== 第321便c の塊(ここから)====
   'galfield-321c': { env: { W321C_QUICK: '1', W321C_WORKERS: '1', W321C_OUT: 'tests/out/_smoke-galfield-w321c.json' }, note: '試走(G0 の窓を 200 步・40 步に・場の表 R 2 × z 3・分割 2 × 2・格子 2 段・復元の点 4 —— 1 プロセスで約 23 s。正本は子プロセス 2 本〔並走の秒〕)' },   // 第321便c
   // ==== 第321便c の塊(ここまで)====
+  // ==== 第322便c の塊(ここから)====
+  'fieldcontract-322c': { env: { W322C_QUICK: '1', W322C_WORKERS: '1', W322C_OUT: 'tests/out/_smoke-fieldcontract-w322c.json' }, note: '試走(走行 1 公転・刻み h と h/2・k_F の列 2 場面・グループの受け手 2 体 × R_cut 2 つ・J だけ —— 1 プロセスで約 20 s〔並走の秒〕。正本は子プロセス 2 本)' },   // 第322便c
+  // ==== 第322便c の塊(ここまで)====
   // ==== 第311便b の塊(ここまで)====
 });
 

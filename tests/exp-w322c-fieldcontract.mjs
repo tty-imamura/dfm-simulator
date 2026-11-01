@@ -75,9 +75,9 @@ export function partK(plan) {
   const kRows = P.kFields.map((key) => {
     const f = flds.find((q) => q.key === key), kF = D.kFHalf, circ = K.residualCircuitOf(f, kF), kc = K.runC('Kc', f, { kF, tEnd }), kk = P.hDiv.map((d) => K.nrm(K.sub(K.runK(f, { kF, h: D.h / d, tEnd }).x, kc.x)));
     const half = { key: key + 'Amp', stationary: true, at: (x, t) => { const q = f.at(x, t); return { u: K.scl(q.u, kF), G: q.G.map((g) => kF * g), dUdt: [0, 0, 0] }; } };
-    const ph = K.runC('P', half, { tEnd }), lg = K.ledgerOf(kc, kF), lgL = K.ledgerOf(K.runC('Kc', f, { kF, tEnd: tEnd * D.longMul }), kF), lg1 = K.ledgerOf(K.runC('Kc', f, { kF: 1, tEnd: tEnd * D.longMul }), 1);
+    const ph = K.runC('P', half, { tEnd }), lg = K.ledgerOf(kc, kF), lg1 = K.ledgerOf(K.runC('Kc', f, { kF: 1, tEnd: tEnd * D.longMul }), 1);   // k_F = 1 の対照(長い走行の H —— k_F ≠ 1 の不変量は余りの力が勾配のときだけ在る: 閉じた路の積分で見る)
     return { key, kF, loopLine: circ.line, loopArea: circ.area, loopScale: circ.scale, errK: kk, orderK: kk.slice(1).map((e, k) => Math.log2(kk[k] / e)), errVsAmpP: K.nrm(K.sub(kc.x, ph.x)),
-      dHk: lg.dHk, dHkLong: lgL.dHk, dHkLongKF1: lg1.dHk, dLcanZ: lg.dLcanZ };
+      dHLongKF1: lg1.dH, dLcanZ: lg.dLcanZ };
   });
   return { decl: clone(D), rows, bits, rigidAnalyticErr, nullRej, kRows, contractDraft: clone(K.CONTRACT_DRAFT) };
 }
@@ -123,7 +123,7 @@ export function partG(HP, plan) {
       const rcRows = Pg.rCut.map((rc) => {
         const gA = galG('A', rc, 'rc' + rc), allA = heat(bodyG.concat(gA)), gC = galG('C', rc), sumW = gC.reduce((s, g) => F.add3(s, g.omega), [0, 0, 0]), allS = heat(bodyG.concat([{ key: 'gal:sum', omega: sumW }])), allC = heat(bodyG.concat(gC)), galC = heat(gC);
         return { rCutKpc: rc, A: { source: allA.source, composite: allA.composite, diff: allA.diff }, sum: { source: allS.source, composite: allS.composite, diff: allS.diff, omegaRel: F.relDiff(F.nrm(sumW), F.nrm(gA[0].omega)) },
-          C: { source: allC.source, composite: allC.composite, diff: allC.diff, galDiff: galC.diff } };
+          C: { source: allC.source, composite: allC.composite, diff: allC.diff, galSource: galC.source, galDiff: galC.diff } };
       });
       const m = rcRows.find((q) => q.rCutKpc === Pg.rCutMain);
       rows.push({ i, name: L9.BODY16[i], xKpc, sats: sats.map((j) => L9.BODY16[j]), nBodies: bodyG.length, cols, bodies: { source: bodies.source, composite: bodies.composite, diff: bodies.diff }, sunHeat, satHeat, othersHeat,
