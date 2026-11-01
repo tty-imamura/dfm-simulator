@@ -21,7 +21,7 @@
   "shellPoints": 12
  },
  "target": "beta/index.html",
- "targetSha256": "fe75bf5581b35639ada5dd2d0a566b1a1a735d5260c92929b57e51826bd52005",
+ "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
  "ruling": "原仮定者の予定(第123報)・統括の検証項目 R266",
  "parts": {
   "base": {
@@ -167,7 +167,7 @@
       0
      ],
      "nan": false,
-     "wallSec": 243.609
+     "wallSec": 197.814
     },
     "h2": {
      "n": 381,
@@ -210,7 +210,7 @@
       0
      ],
      "nan": false,
-     "wallSec": 357.199
+     "wallSec": 372.429
     }
    },
    "frozen": {
@@ -263,7 +263,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.026
+     "wallSec": 0.044
     },
     {
      "key": "b3-D0zero",
@@ -290,7 +290,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.006
+     "wallSec": 0.013
     },
     {
      "key": "b5-semi",
@@ -317,7 +317,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.006
+     "wallSec": 0.015
     },
     {
      "key": "b5-leapfrog",
@@ -344,7 +344,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.01
+     "wallSec": 0.016
     },
     {
      "key": "b5-generic",
@@ -371,7 +371,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.011
+     "wallSec": 0.019
     },
     {
      "key": "b5-q15",
@@ -398,7 +398,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.006
+     "wallSec": 0.01
     },
     {
      "key": "b5-double",
@@ -425,7 +425,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.006
+     "wallSec": 0.01
     },
     {
      "key": "b5-work",
@@ -452,7 +452,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.007
+     "wallSec": 0.015
     },
     {
      "key": "gal4",
@@ -479,7 +479,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.012
+     "wallSec": 0.021
     }
    ],
    "allSame": true,
@@ -1200,28 +1200,28 @@
  ],
  "timing": {
   "base": {
-   "wallSec": 358.487
+   "wallSec": 373
   },
   "degen": {
-   "wallSec": 0.091
+   "wallSec": 0.163
   },
   "d3": {
-   "wallSec": 0.011
+   "wallSec": 0.024
   },
   "cov": {
-   "wallSec": 0.065
+   "wallSec": 0.081
   },
   "field": {
-   "wallSec": 0.008
+   "wallSec": 0.009
   },
   "hist": {
-   "wallSec": 0.001
+   "wallSec": 0.004
   },
   "ledger": {
-   "wallSec": 0.058
+   "wallSec": 0.062
   }
  },
- "elapsedS": 358.729,
+ "elapsedS": 373.351,
  "gates": {
   "baseInWindow": true,
   "baseClampZero": true,
@@ -1244,55 +1244,55 @@
   "provenanceVersion": "w272e-1",
   "wave": "第321便a",
   "target": "beta/index.html",
-  "targetSha256": "fe75bf5581b35639ada5dd2d0a566b1a1a735d5260c92929b57e51826bd52005",
-  "generatedAt": "2026-10-31T15:51:02.469Z",
+  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+  "generatedAt": "2026-11-01T00:53:43.508Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7401797,
-    "sha256": "fe75bf5581b35639ada5dd2d0a566b1a1a735d5260c92929b57e51826bd52005",
-    "mtime": "2026-10-31T15:00:55.247Z"
+    "bytes": 7403262,
+    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+    "mtime": "2026-10-31T17:17:55.600Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w321a-geo2v3.mjs",
-    "bytes": 42192,
-    "sha256": "878d38c5c3e22241eadd77667722e1af7af3b9eb58c2671cfff4860feb834ba4",
-    "mtime": "2026-10-31T15:33:08.950Z"
+    "bytes": 42186,
+    "sha256": "d218000620c55f653639a9cb4e058be92d0fddf606f4dd1d7cb0099e5dd0a8fb",
+    "mtime": "2026-10-31T16:16:59.894Z"
    },
    {
     "file": "tests/lib-w321a-geo2v3.mjs",
-    "bytes": 31222,
-    "sha256": "4eaf3cbda2433c482ec84c26c995610e85ace1c08a0ab6978736e5da2b3176fb",
-    "mtime": "2026-10-31T15:39:20.876Z"
+    "bytes": 31219,
+    "sha256": "d30b16a443af44c399b0714ab69eb22ae71ed9ada5c0f9f311c5631989a6617c",
+    "mtime": "2026-10-31T16:16:59.894Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-31T15:00:59.555Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-31T15:00:59.555Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-31T15:00:59.551Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 96951,
     "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-31T15:00:59.607Z"
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "f757d4b3a3463846a735419b51e306ddc050787cbe8acc2f4e86d7a66528a04c",
+  "codeSha256": "3ad499813a2076a6255023cb6d835c45563a3560c51ca292ebe9a74fb09bc1e5",
   "harnessVersion": "w321a-geo2v3-1",
   "stage": "geo2v3",
   "parts": [
@@ -1345,7 +1345,7 @@
    "segments": 1160,
    "closureShare": 0.2973
   },
-  "scopeSha256": "315e8a6fbfdfd075165fcfb7dc45cc124a08716b0a073a8673ad0041ddf101b1",
+  "scopeSha256": "c8bd510086b1f90e28e21f683f3bd5f810eb5939b4ffe0009fe69f7e186718a1",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
