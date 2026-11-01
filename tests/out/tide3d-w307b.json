@@ -3,7 +3,7 @@
  "libVersion": "w307b-tide3d-lib-1",
  "generator": "tests/exp-w307b-tide3d.mjs",
  "target": "beta/index.html",
- "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+ "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
  "ruling": "原仮定者の裁定(第100報)「潮汐のブレーキが効く相手は慣性軸回転そのもの・失われる回転のエネルギーは内部熱・増え続けるので放射も」・決断事項 AN345 ③⑤・統括の検証項目 R210",
  "tide3Version": "w307b-tide3-1",
  "heatVersion": "w307b-tideheat-1",
@@ -1589,49 +1589,49 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.002
+   "wallSec": 0.001
   },
   "E": {
-   "wallSec": 0.008
+   "wallSec": 0.006
   },
   "Z": {
-   "wallSec": 0.617
+   "wallSec": 0.699
   },
   "L": {
-   "wallSec": 0.105
+   "wallSec": 0.13
   },
   "C": {
    "wallSec": 0.031
   },
   "K": {
-   "wallSec": 0.053
+   "wallSec": 0.047
   },
   "H": {
-   "wallSec": 0.092
+   "wallSec": 0.095
   },
   "S": {
-   "wallSec": 0.429
+   "wallSec": 0.564
   },
   "R": {
-   "wallSec": 0.098
+   "wallSec": 0.103
   },
   "X": {
-   "wallSec": 0.102
+   "wallSec": 0.107
   }
  },
- "elapsedS": 3.21,
+ "elapsedS": 3.43,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便b",
   "target": "beta/index.html",
-  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-  "generatedAt": "2026-10-31T07:12:46.370Z",
+  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+  "generatedAt": "2026-10-31T21:01:58.053Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7401797,
-    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-    "mtime": "2026-10-31T03:14:16.264Z"
+    "bytes": 7403262,
+    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+    "mtime": "2026-10-31T17:17:55.600Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1725,7 +1725,7 @@
    "segments": 1166,
    "closureShare": 0.2987
   },
-  "scopeSha256": "524088cad86515c84c95b07d6a44f2f154ddfe04a3a8731965524b34f5031135",
+  "scopeSha256": "f714de1e106076db5ca87be680013b0ebe307296c476c8a6acb125b7df3c53b9",
   "scopeComplete": true,
   "inputsStable": [
    {

@@ -3,7 +3,7 @@
  "libVersion": "w307c-spindecomp-lib-1",
  "generator": "tests/exp-w307c-spindecomp.mjs",
  "target": "beta/index.html",
- "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+ "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
  "ruling": "原仮定者の裁定(第100報)(観測の自転 = 慣性軸回転 + 引きずり軸回転・軸引きずりは受け手の球面の近い側と遠い側の回転引きずりの差分・金星と太陽–木星を先に・木星–イオと太陽–木星–イオを対照・太陽の自転は分解しない・観測の自転が安定なら引きずり軸回転と潮汐のブレーキが釣り合う)・決断事項 AN345 ④(ω_obs = ω_I + ω_D・ω̇_obs = τ/I + ω̇_D)・統括の検証項目 R211",
  "quick": false,
  "ids": {
@@ -1575,34 +1575,34 @@
  "ok": true,
  "timing": {
   "checks": {
-   "wallSec": 0.104
+   "wallSec": 0.085
   },
   "decomp": {
-   "wallSec": 0.139
+   "wallSec": 0.124
   },
   "radius": {
-   "wallSec": 0.176
+   "wallSec": 0.173
   },
   "misc": {
-   "wallSec": 0.04
+   "wallSec": 0.042
   },
   "evolution": {
-   "wallSec": 4.67
+   "wallSec": 4.47
   }
  },
- "elapsedS": 6.738,
+ "elapsedS": 6.711,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便c",
   "target": "beta/index.html",
-  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-  "generatedAt": "2026-10-31T10:00:09.947Z",
+  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+  "generatedAt": "2026-10-31T21:37:08.105Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7401797,
-    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-    "mtime": "2026-10-31T03:14:16.264Z"
+    "bytes": 7403262,
+    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+    "mtime": "2026-10-31T17:17:55.600Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1688,9 +1688,9 @@
    "complete": true,
    "names": 1308,
    "segments": 1146,
-   "closureShare": 0.2945
+   "closureShare": 0.2946
   },
-  "scopeSha256": "5d18d424500c32026bbfefd9d6fadd20cbc869cd97fd5300f218ead5c90b7fa8",
+  "scopeSha256": "51dcb590a396febfce8dd440d18edf8907ce214c9557a8de21adb6ce7bf60355",
   "scopeComplete": true,
   "inputsStable": [
    {

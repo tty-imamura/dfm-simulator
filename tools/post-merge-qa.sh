@@ -467,6 +467,31 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.nbCompose320c lint.stableHashPaths lint
 #   表を世代で読む lint.laterBooks319・器を直した段の正本を読む docs.invSq309・docs.invSq310・behavior.invSq309・docs.semic302・docs.sampleStatus-sync・再生成表の lint.regenChain
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.violationKinds320 lint.byproducts320 docs.w320d lint.provenanceMeta lint.regenScope lint.stableHashPaths lint.scopeAll312 lint.canon304 lint.laterBooks319 docs.invSq309 docs.invSq310 behavior.invSq309 docs.semic302 docs.sampleStatus-sync lint.regenChain"
 # ==== 第320便d の塊(ここまで)====
+# ==== 第321便a の塊(ここから)====
+# 第321便a(原仮定者の予定(第123報)・R266): 枝 a の新設 2 本(behavior.geo2v3321a —— geoPN=2 の 3D の S1 の純関数の面への退化・回転共変・解析の場・初回の履歴・口座・今の門・
+#   docs.geo2v3321a —— 正本と文書)と、正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・CANON の lint.canon304・
+#   lint.qaHeapRelease310・lint.sectionLookup313・煙試験の窓の表の lint.harnessSmoke303
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.geo2v3321a docs.geo2v3321a lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.harnessSmoke303"
+# ==== 第321便a の塊(ここまで)====
+# ==== 第321便b の塊(ここから)====
+# 第321便b(原仮定者の予定(第123報)「geoPN=3の予定: 連星サンプル群のgeoPN=3版を用意する」・R267): 枝 b の新設 1 本(docs.geo3Bin321b —— 在位の連星の一覧〔その場の宣言と照合〕・
+#   同じ入力の geo1 参照 ↔ geo3 慣性版の兄弟の写しの量ごとの表・J の列の宣言の可否・NS の観測の自転の経路の材料・器と QA の名指しの除外〔その場の本文と照合〕の正本と文書)と、
+#   正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・CANON の lint.canon304・lint.qaHeapRelease310・
+#   lint.sectionLookup313・煙試験の窓の表の lint.harnessSmoke303・後に入った本の除外の表の lint.laterBooks319
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.geo3Bin321b lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.harnessSmoke303 lint.laterBooks319"
+# ==== 第321便b の塊(ここまで)====
+# ==== 第321便c の塊(ここから)====
+# 第321便c(原仮定者の予定(第123報)・原仮定者の回答(2026-10-31 —— AN489)・AN486・AN487・AN488・AN496・R268): 枝 c の新設 1 本(docs.galField321c —— geoPN=4 の一新の S1 の正本と文書・
+#   場の純関数の作り直し)と、第320便c の lib を import する docs.nbCompose320c・第320便a の器を import する docs.srcHeat320・正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・
+#   lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・CANON の lint.canon304・lint.qaHeapRelease310・lint.sectionLookup313・新しい記号のコードの書式の lint.kappaSymbol315・
+#   煙試験の窓の表の lint.harnessSmoke303
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.galField321c docs.nbCompose320c docs.srcHeat320 lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.harnessSmoke303"
+# ==== 第321便c の塊(ここまで)====
+# ==== 第321便d の塊(ここから)====
+# 第321便d(決断事項 AN502・AN493・R269): 枝 d の新設 2 本(behavior.srcMomentIdx321 —— sourceMoment.f の添字の守り〔受理の拒否の型〕・docs.w321d —— ゲートの後の samplestatus の段の道具と文書)と、
+#   受理器を読む behavior.srcHeat320・docs.srcHeat320・受理器の理由の文の表 lint.textRegistry318・lint.presetText316c・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcMomentIdx321 docs.w321d behavior.srcHeat320 docs.srcHeat320 lint.textRegistry318 lint.presetText316c lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第321便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

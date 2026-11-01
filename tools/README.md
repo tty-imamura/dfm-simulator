@@ -195,3 +195,16 @@ node tools/scope-probe319.mjs --base-rev 7c6bf88 --out tests/out/scopeprobe-w319
 - **本ごとに分けられる器の名簿(AN478)**: `node tools/regen-plan.mjs --roster [--write|--check]` —— `tests/data-w320d-perbook.json`(A = 器に --only・B = 器を読んで確かめる候補・C = 全体の再走)。統合で段が増えたら `--roster --write` で引き直す。
 - **受理の鍵を足すとほぼ全段の型の調べ(AN481)**: `node --max-old-space-size=4096 tools/an481-probe.mjs [--json] [--ids <本>] [--steps <N>] [--harness <器>]` —— 候補 P0/P1/P2 × 変異の表(動く宣言の数)と、P4(実行した関数の閉包 —— V8 の precise coverage)の静的/実行の閉包の大きさ。走らせない(1 冊の短い走行だけ)・書くのは標準出力だけ。
 - **段の副産物の md**: 再生成表の `BYPRODUCTS_320D`(samplestatus・families・kf0ledger-old・kf0ledger・issues の一覧の md)は段の書き(writesOf —— 鎖の JSON の writes)に入る。段階コミットの脚本は writes を拾えばよい。
+
+## samplestatus-postgate.mjs — ゲートの後の samplestatus の段(第321便d —— 決断事項 AN493・統括の検証項目 R269)
+
+鎖の常時群の段 samplestatus はゲートの QA の前に走るので、SAMPLE_STATUS の保存 QA の欄は前の便のゲートの保存物を写す(1 便遅れる)。フルゲートの後(保存 QA を書いた後)に 1 回:
+
+```
+PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright node tools/samplestatus-postgate.mjs
+```
+
+- 前提: 保存 QA `tests/out/qa-results-full-beta.json` がフルの QA で、刻印 targetSha256 が今の beta/index.html と同じ(違えば rc 3 —— `--any-qa` で外す)。
+- 再生成表の段 samplestatus の cmd をそのまま走らせ(`REGEN_HTML_STAGE` は外す)、木の全ファイルの sha の前後・正本 `tests/out/samplestatus-w279a.json` の差(JSON Pointer)・`docs/SAMPLE_STATUS.md` の差(行)を `tests/lib-w321d-postgate.mjs` で分類する。許す欄は**来歴**(実行の時刻・mtime・meta.evidenceQa・timingNote.qaProvenance・md の入力の sha)と**時間**(rows[].timing.qa・保存 QA の総数と総時間)だけ。html は 1 byte も変わらない。
+- 終了コード: 0 = PASS(2 つのファイルを書いたまま —— commit する)・1 = 許す欄の外の差(段の書きを戻す —— `--keep` で残す)・2 = 器が rc ≠ 0(戻す)・3 = 前提を満たさない。`--dry-run` は判定の後に必ず戻す(試走)。`--json` で報告の JSON・`--out <file>` で保存・`--root <dir>` で別の木。
+- 期待の出力: `PASS(rc 0 …)`・「段の書きの外 0 / html 不変 true」・「正本: 差 N(来歴 a・時間 b・外 0)」・「一覧 md: 違う行 M(来歴 1・時間 M−1・外 0)」・「evidenceQa <前のゲート> → <今のゲート>(保存 QA と同じ true)・sameHtml false → true」(第321便d の試走: 0d7d7f1 の写しで 3.5 s・正本の差 552・md 104 行)。

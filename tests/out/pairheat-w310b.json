@@ -3,7 +3,7 @@
  "libVersion": "w310b-pairheat-lib-1",
  "generator": "tests/exp-w310b-pairheat.mjs",
  "target": "beta/index.html",
- "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+ "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
  "ruling": "決断事項 AN370(対の熱 —— 相反の関係を測る・規則は裁定待ち)・AN373・AN365・AN371・原仮定者の裁定(第107報・第108報)・統括の検証項目 R223",
  "maintainVersion": "w309b-maintain-1",
  "ledgerVersion": "w310b-holdledger-1",
@@ -3829,34 +3829,34 @@
    "wallSec": 0.001
   },
   "R": {
-   "wallSec": 0.22
+   "wallSec": 0.222
   },
   "T": {
-   "wallSec": 0.084
+   "wallSec": 0.096
   },
   "F": {
-   "wallSec": 0.149
+   "wallSec": 0.175
   },
   "U": {
-   "wallSec": 0.349
+   "wallSec": 0.352
   },
   "H": {
-   "wallSec": 0.053
+   "wallSec": 0.036
   }
  },
- "elapsedS": 2.628,
+ "elapsedS": 2.672,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第310便b",
   "target": "beta/index.html",
-  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-  "generatedAt": "2026-10-31T10:00:36.934Z",
+  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+  "generatedAt": "2026-10-31T23:56:01.658Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7401797,
-    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-    "mtime": "2026-10-31T03:14:16.264Z"
+    "bytes": 7403262,
+    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+    "mtime": "2026-10-31T17:17:55.600Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -3866,9 +3866,9 @@
    },
    {
     "file": "tests/out/recheck-w309c.json",
-    "bytes": 96662,
-    "sha256": "84e37aa858cdcb6a896efd98be4eb02b7fe952b3050bb5e21fb3cd600d203929",
-    "mtime": "2026-10-31T09:40:28.665Z"
+    "bytes": 96659,
+    "sha256": "9614e72011468bf3ec413e60be4e77eba777dc320bfcca30340f91a830ca8727",
+    "mtime": "2026-10-31T21:36:59.461Z"
    }
   ],
   "code": [
@@ -3983,7 +3983,7 @@
    "segments": 1195,
    "closureShare": 0.3055
   },
-  "scopeSha256": "de42a72b8e9d44bbc1c6f2c8fb60e308c90bfcbd40be6626643a8145938f4a2b",
+  "scopeSha256": "b2257c19f6873f1b2434862cac0d696fed97b8f4270e6ec906d85584fb45d92c",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -3994,7 +3994,7 @@
    },
    {
     "file": "tests/out/recheck-w309c.json",
-    "stableSha256": "740bcb306f30ef2c7e7d3126d8d21cce70a885f2367343eb253bfc3f7cc1f3cc",
+    "stableSha256": "032d2cde18653bced757401e2cf002607564f24d02f866104e490ba9c92e011c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

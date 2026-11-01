@@ -3,7 +3,7 @@
  "libVersion": "w310a-shell-lib-1",
  "generator": "tests/exp-w310a-invsq.mjs",
  "target": "beta/index.html",
- "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
+ "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
  "ruling": "原仮定者の裁定(第107報)分母に背景宇宙を入れると二重計上 —— 自分が分母に入れば良い・(第109報)AN380 太陽の R_d は cap6500km で固定し m_d の適正値を探索・dragCore(R_d, m_d)と外殻(観測半径, 観測質量 − m_d)の引きずりをそれぞれ計算・決断事項 AN378・AN384・AN385・AN386・AN382・DECISIONS v69 §0b ②・§2・統括の検証項目 R222",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "invSqLaw": "invsq-ball-total-ratio",
@@ -1878,30 +1878,30 @@
     "order": 4,
     "nodes": 384,
     "table": {
-     "wallSec": 0.0006300977667
+     "wallSec": 0.00066441215
     },
     "direct": {
-     "wallSec": 0.0008795161833
+     "wallSec": 0.00078960065
     }
    },
    {
     "order": 8,
     "nodes": 3072,
     "table": {
-     "wallSec": 0.0051591883
+     "wallSec": 0.0056568942
     },
     "direct": {
-     "wallSec": 0.00638873055
+     "wallSec": 0.00648317595
     }
    },
    {
     "order": 16,
     "nodes": 24576,
     "table": {
-     "wallSec": 0.0560700755
+     "wallSec": 0.04059663117
     },
     "direct": {
-     "wallSec": 0.06976141733
+     "wallSec": 0.05567209167
     }
    }
   ]
@@ -2083,43 +2083,43 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.104
+   "wallSec": 0.11
   },
   "C": {
-   "wallSec": 0.002
+   "wallSec": 0.013
   },
   "N": {
-   "wallSec": 0.242
+   "wallSec": 0.376
   },
   "S": {
-   "wallSec": 0.217
+   "wallSec": 0.433
   },
   "E": {
-   "wallSec": 0.743
+   "wallSec": 0.706
   },
   "M": {
-   "wallSec": 0.033
+   "wallSec": 0.032
   },
   "P": {
-   "wallSec": 4.814
+   "wallSec": 4.27
   },
   "Z": {
-   "wallSec": 0.113
+   "wallSec": 0.177
   }
  },
- "elapsedS": 8.243,
+ "elapsedS": 8.11,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第310便a",
   "target": "beta/index.html",
-  "targetSha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-  "generatedAt": "2026-10-31T10:00:01.296Z",
+  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+  "generatedAt": "2026-11-01T01:07:20.078Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7401797,
-    "sha256": "91530b7f435a625de3852f39d5c527bd39b9ca59dbb335a7386fdb2479d5b6a2",
-    "mtime": "2026-10-31T03:14:16.264Z"
+    "bytes": 7403262,
+    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+    "mtime": "2026-10-31T17:17:55.600Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2244,7 +2244,7 @@
    "segments": 1173,
    "closureShare": 0.3014
   },
-  "scopeSha256": "e16c7fcd4c6f9fd67eb3922b58dbbb997d98a539b6637b218eefa0ac78179846",
+  "scopeSha256": "d647ca91b05d7ec2e5480eb49d081fdadaf0fa6d4d07c6b147bf4098ccc94927",
   "scopeComplete": true,
   "inputsStable": [
    {
