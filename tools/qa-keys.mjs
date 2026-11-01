@@ -16,7 +16,8 @@
 // ■ 使い方(統括の便の開始 —— 1 行)
 //   node tools/qa-keys.mjs --out-dir <scratch>/qakeys     # 版名 QA の鍵を 50 鍵ずつ → 各ファイルを qapart で:
 //   for f in <scratch>/qakeys/qa-keys-*.txt; do node tests/exp-w258c-qapart.mjs $(cat $f); done   (root は QA_TARGET=index.html を前に)
-//   --re <正規表現>(繰り返し可 —— 既定の 4 つを置き換える)/ --re+ <正規表現>(既定に足す)/ --chunk 50 / --json <file> / --list(鍵を印字するだけ)/ --self-test
+//   --re <正規表現>(繰り返し可 —— 既定の 4 つを置き換える)/ --re+ <正規表現>(既定に足す)/ --ids+ a,b(正規表現に依らず足す —— qapart で引けるものだけ)/
+//   --comments(コメントの中の語も数える —— 別の器に委ねて版名を読むブロック〔version.promote-check は tests/release-promote.mjs〕を拾う)/ --chunk 50 / --json <file> / --list(鍵を印字するだけ)/ --self-test
 //
 // ■ 言わないこと
 //   「選んだ鍵は全部 PASS する」(切り出しは行の範囲だけ —— ページの上流の状態〔__qaPreset の写しなど〕に依るブロックは qapart の前文に無い)。
@@ -92,8 +93,8 @@ export function extractKeys(o) {
       up.push(nm);
     }
     if (up.length) { excluded.push({ id, line: line + 1, why: `範囲 ${span[0] + 1}-${span[1]} が qapart の前文に無い上流の名前を読む: ${up.slice(0, 4).join(',')}` }); continue; }
-    const nocom = textOf(span[0], span[1], scan.nocom);
-    const hit = res.filter((r) => r.test(nocom)).map((r) => r.source);
+    const nocom = textOf(span[0], span[1], o.comments ? qaSrc : scan.nocom);   // --comments: コメントの中の語も数える
+    const hit = res.filter((r) => r.test(nocom)).map((r) => r.source).concat((o.extraIds || []).includes(id) ? ['--ids+'] : []);
     if (!hit.length) { unmatched++; continue; }
     selected.push({ id, span, line: line + 1, match: hit });
   }
@@ -102,7 +103,7 @@ export function extractKeys(o) {
     const s0 = Math.max(0, z.line - 1);
     let span = null;
     try { span = SP.spanOf(z.id); } catch { span = [s0, s0 + 1]; }
-    return res.some((r) => r.test(textOf(span[0], Math.max(span[1], span[0] + 1), scan.nocom)));
+    return (o.extraIds || []).includes(z.id) || res.some((r) => r.test(textOf(span[0], Math.max(span[1], span[0] + 1), o.comments ? qaSrc : scan.nocom)));
   });
   const chunk = Math.max(1, Number(o.chunk) || DEFAULT_CHUNK);
   const batches = QP.batchKeys(selected.map((z) => ({ id: z.id, span: z.span })), chunk);
@@ -181,7 +182,10 @@ async function main(argv) {
   const chunk = Number(get('--chunk', DEFAULT_CHUNK));
   const L = await libs(root);
   const qaSrc = fs.readFileSync(path.join(root, 'tests', 'qa.mjs'), 'utf8');
-  const R = extractKeys({ qaSrc, QO: L.QO, QP: L.QP, SC: L.SC, res, chunk });
+  const extraIds = all('--ids+').flatMap((x) => x.split(',')).filter(Boolean);
+  const R = extractKeys({ qaSrc, QO: L.QO, QP: L.QP, SC: L.SC, res, chunk, comments: argv.includes('--comments'), extraIds });
+  const missingExtra = extraIds.filter((id) => !R.selected.some((z) => z.id === id) && !R.excluded.some((z) => z.id === id));
+  if (missingExtra.length) console.log('  --ids+ の鍵が qa.mjs のコードの位置に無い: ' + missingExtra.join(','));
   console.log(`qa-keys(${QA_KEYS_VERSION}): tests/qa.mjs の鍵 ${R.keys}・正規表現 ${R.res.join(' | ')} に合う範囲で選んだ ${R.selected.length}・`
     + `外した(版名を読む範囲) ${R.excludedVersion.length}・束 ${R.batches.length}(${R.batches.map((b) => b.length).join('/')} —— ${chunk} 鍵ずつ)`);
   for (const z of R.excludedVersion) console.log(`  外す ${z.id.padEnd(34)} ${z.why}`);

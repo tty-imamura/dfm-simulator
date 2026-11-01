@@ -156,6 +156,11 @@ node tools/harness-smoke.mjs --self-test            # 器を走らせない自�
 - 確かめ(第303便の統合の後の状態 9d79aaa を `git archive` で取り出し、基点 7598e8e で 3 段を名指し): galaxyprof 完走(27 s)・spiral290 既知・sparc 枠で止めた(問題なし)
   —— 3 件が消えた。第302便の 19a4d5b の dragnorm-301a は 2.1 s で受理の例外のまま。QA lint.harnessSmoke304。
 
+**第322便d の直し(全体の枠と終わりの行 —— `SMOKE_WIDE_VERSION` w322d-smoke-wide-1・道具の版 w304e-harness-smoke-2 はそのまま)**:
+- `--wide`(か `--indirect`)のときの全体の枠の既定は **90 min**(`MAX_MINUTES_WIDE` —— それ以外は 30 min のまま・`--max-minutes` を書けばそれが勝つ)。第321便の `--wide` は 158 段のうち 108 段で 30 min に達した(未実行 50 段)。
+- 終わりの行: 未実行の段があれば `… —— 未完 —— 未実行 n 段(全体の枠 --max-minutes M の外 —— 走らせた段は問題なし・未実行の段は見ていない)` と、続く行に未実行の段の key(続きは `--keys` で)。
+  「OK」とは並べない。smoke.json に `complete`・`notRun`・`notRunKeys`・`maxMinutes`。終了コードは従来どおり(例外・門の偽・NaN のときだけ 1)。
+
 ## pregate-transcript.mjs — ゲートの前の転記照合(第303便e)
 
 ```
@@ -208,3 +213,28 @@ PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright node tools/samplesta
 - 再生成表の段 samplestatus の cmd をそのまま走らせ(`REGEN_HTML_STAGE` は外す)、木の全ファイルの sha の前後・正本 `tests/out/samplestatus-w279a.json` の差(JSON Pointer)・`docs/SAMPLE_STATUS.md` の差(行)を `tests/lib-w321d-postgate.mjs` で分類する。許す欄は**来歴**(実行の時刻・mtime・meta.evidenceQa・timingNote.qaProvenance・md の入力の sha)と**時間**(rows[].timing.qa・保存 QA の総数と総時間)だけ。html は 1 byte も変わらない。
 - 終了コード: 0 = PASS(2 つのファイルを書いたまま —— commit する)・1 = 許す欄の外の差(段の書きを戻す —— `--keep` で残す)・2 = 器が rc ≠ 0(戻す)・3 = 前提を満たさない。`--dry-run` は判定の後に必ず戻す(試走)。`--json` で報告の JSON・`--out <file>` で保存・`--root <dir>` で別の木。
 - 期待の出力: `PASS(rc 0 …)`・「段の書きの外 0 / html 不変 true」・「正本: 差 N(来歴 a・時間 b・外 0)」・「一覧 md: 違う行 M(来歴 1・時間 M−1・外 0)」・「evidenceQa <前のゲート> → <今のゲート>(保存 QA と同じ true)・sameHtml false → true」(第321便d の試走: 0d7d7f1 の写しで 3.5 s・正本の差 552・md 104 行)。
+
+## 第322便d —— 道具(決断事項 AN509・統括の検証項目 R273)
+
+- **nslock の本ごとの行の再利用(AN509 —— 影の運用)**: `node tests/exp-w272c-nslock.mjs --merge [--only id,...] [--prev <前の正本>] [--out <出力>] [--plan]` ——
+  前の正本(既定は出力のファイル —— 走行の前に読む)の行のうち、門 G1〜G8(`tests/lib-w322d-nslockmerge.mjs` —— 版 w322d-nslock-merge-1)を通る行を写し、`--only` の系と門を通らない行だけを走らせて 1 本に組む。
+  正本全体の門(器の版とコード・ページへ入れる lib・走行の窓・環境・核の hash・行の集合と順・全体集計・`--only` の範囲)が外れたら全走。`--plan` は門の評価を 1 行の JSON で印字して終わる(書かない)。
+  **鎖の段の cmd は全走のまま**(影): 全走のときも前の正本で門を評価し、`[w272c-nslock] 影の照合 … 一致 n/m` を印字する(正本には書かない)。正本の meta に env・coreSha256・books・rowInputs・pageLibs・merge。
+- **qapart の束**: `node tests/exp-w258c-qapart.mjs --batch N <鍵…>` —— 鍵を切り出しの範囲の順に並べて N 鍵ずつの束に分け(範囲が重なる鍵は同じ束)、束ごとに子の Node と Chromium を作り直す。
+  終わりに `# --batch N: ALL PASS|FAILED —— 束 k・PASS p・FAIL f`(1 束でも FAIL か rc ≠ 0 なら終了コード 1)。既定(`--batch` なし)は従来どおり 1 本。`--emit <dir>` は走らせずに本文を書くだけ。
+  切り出しの本文は `tests/lib-w322d-qapart.mjs`(qaSpanner —— 器から移しただけ・生成する本文は移す前と 1 byte も違わない)。
+
+## qa-keys.mjs — 版名 QA の鍵の抜き出し(第322便d)
+
+便の開始に beta の版名(BETA_BUILD)を変えた後、版名を読む QA のブロックの鍵を部分 QA で回す 1 行:
+
+```
+node tools/qa-keys.mjs --out-dir <scratch>/qakeys
+for f in <scratch>/qakeys/qa-keys-*.txt; do node tests/exp-w258c-qapart.mjs $(cat $f); done        # root は QA_TARGET=index.html を前に
+```
+
+- 鍵は `add('<id>'` のうち**コードの位置**にある静的な id(コメント・文字列・テンプレート・正規表現の中の `add('"'` などは拾わない)。範囲は qapart と同じ関数(qaSpanner)で取る。
+- 外す鍵: qapart の検索(`add('<id>'` を含む最初の行)がコメントか文字列の行に当たる・範囲が add の行を含まない(列 0 の `if (…) {` の中など)・範囲が取れない・
+  **範囲の中のコードが w5cGetUnit を読む**(前後の add の位置でなく範囲そのもので判定 —— 第321便の pwa.sw-fail-ui → behavior.saturnExp)・範囲が qapart の前文に無い上流の最上位の名前を読む。
+- 版名を読むブロック: 範囲のコメントを除いた本文(文字列は残す)が正規表現に合う(既定 `CHANGELOG`・`BETA_BUILD`・`APP_VERSION`・`sw\.js` —— `--re` で置き換え・`--re+` で足す・`--comments` でコメントも数える・`--ids+ a,b` で名指しを足す)。
+- 束: 50 鍵ずつ(`--chunk`)のファイル `qa-keys-<k>.txt`(1 行・空白区切り)と `index.json`(選んだ鍵・版名を読む範囲で外した鍵と理由)。`--list` は束を印字するだけ・`--self-test` は缶詰と今の qa.mjs で自己試験(QA docs.w322d)。

@@ -4463,3 +4463,12 @@ SYSTEM_PROMPT の規則 13(逐語):
 
 - **sourceMoment の f の添字**: `physics.relativeDrag.invSq.sourceMoment.f` の添字は本の天体の添字(§155)で、実行は展開後の粒子の添字で読む。f を置く天体より前に 1 粒子でない天体(ring・disk・box・grid の群で n ≠ 1 —— n = 0 も)があると受理で拒否される(理由の文 `validatePreset/physics.relativeDrag.invSq.sourceMoment#3`「前方の群の展開で天体と粒子の添字が一致しない」)。f を置く天体は群より前に並べる。天体 → 粒子の対応は作らない(自動で付け替えない)。AI が作る本の受理は、この宣言を書かない限り変わらない。
 - **ゲートの後の samplestatus の段**(AN493): `tools/samplestatus-postgate.mjs` がゲートの後に段 samplestatus を 1 回だけ走らせ、SAMPLE_STATUS の正本と md で来歴と時間の欄(保存 QA の記録・本ごとの QA の秒)だけが変わったことを `tests/lib-w321d-postgate.mjs`(版 w321d-postgate-1)で確かめる(html は 1 byte も変えない —— 許す欄の外の差があれば戻して rc 1)。状態・較正の語・概要は変わらない。
+
+## 166. 第322便d —— 道具: nslock の本ごとの行の再利用 `--merge`(影の運用)・煙試験の `--wide` の全体の枠・版名 QA の鍵の抜き出し・qapart の `--batch`(決断事項 AN509・統括の検証項目 R273・**html・本の宣言・エンジン・鎖の段の宣言は不変** —— 道具と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
+
+- **nslock の `--merge`**(AN509): 器 `tests/exp-w272c-nslock.mjs` は前の正本の系ごとの行のうち、門 G1〜G8(`tests/lib-w322d-nslockmerge.mjs` —— 版 w322d-nslock-merge-1: 器の版とコード・ページへ入れる lib・走行の窓・環境・核の hash・行が読む本の生と受理後の hash と行の入力・行の集合と順・失敗行・全体集計・`--only` の範囲)を通る行を写して 1 本の正本に組む。正本全体の門が外れたら全走・行ごとの門が外れた行は走らせる。正本の meta に `env`・`coreSha256`・`books`・`rowInputs`・`pageLibs`・`merge` が付く(物理の値・列・σ 倍の記録は変わらない)。鎖の段は全走のまま(影の運用 —— 全走の走行が門を評価し、再利用できたはずの行と新しい行の一致を印字する)。
+- **煙試験**: `tools/harness-smoke.mjs --wide` の全体の枠の既定は 90 min(それ以外は 30 min)。未実行の段がある終わりの行は「未完 —— 未実行 n 段」(OK と並べない)。
+- **版名 QA の鍵**: `tools/qa-keys.mjs` が版名を読む QA のブロックの鍵を、部分 QA で引けるもの(範囲が W5c のワーカープールや上流の名前を読まない・範囲が add の行を含む)だけ 50 鍵ずつのファイルに分ける。
+- **qapart の `--batch N`**: 鍵を N 鍵ずつの束に分け、束ごとに子の Node と Chromium を作り直す(既定は従来どおり 1 本)。
+- これらは開発の道具で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
+

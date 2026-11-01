@@ -47,6 +47,11 @@ const sourceOf = (ids) => {
   const merged = SP.mergeSpans(ids.map(SP.spanOf));
   return { merged, src: preludeOf(SP.constsOf(merged), SP.consts284Of(merged), SP.bodyOf(merged)) };
 };
+// 第322便d: 範囲が add の行を含まない鍵(列 0 の `if (…) {`・`for (…) {` の中 —— 検索は直前の列 0 の `{` の範囲を取るので、その鍵は走らない)を走らせる前に印字する(判定と本文は不変)
+{
+  const outside = IDS.filter((id) => { const i = SP.lines.findIndex((l) => l.includes("add('" + id + "'")); if (i < 0) return false; const sp = SP.spanOf(id); return !(sp[0] <= i && i < sp[1]); });
+  if (outside.length) console.log(`# 注意(第322便d): 範囲が add の行を含まない鍵 ${outside.length} 本 —— この部分 QA では走らない(列 0 の if/for の中・フル QA が見る): ${outside.join(' / ')}`);
+}
 
 function preludeOf(consts, consts284, body) {
   return `import fs from 'node:fs';
