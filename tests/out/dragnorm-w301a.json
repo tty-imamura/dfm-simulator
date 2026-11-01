@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第301便a",
   "target": "beta/index.html",
-  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-  "generatedAt": "2026-10-31T21:20:08.573Z",
+  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+  "generatedAt": "2026-11-01T14:07:04.818Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7403262,
-    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-    "mtime": "2026-10-31T17:17:55.600Z"
+    "bytes": 7487036,
+    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+    "mtime": "2026-11-01T12:44:54.266Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -118,11 +118,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1348,
-   "segments": 1186,
-   "closureShare": 0.3036
+   "names": 1352,
+   "segments": 1190,
+   "closureShare": 0.3033
   },
-  "scopeSha256": "4a704ec25844f86756546987613cecccf90d6120149c3dd699ce9fb348f9b407",
+  "scopeSha256": "9a7b7894e0c45fca22f322c96c4ff3038c08a5d4d6a1c40231d48eff325a2382",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -670,6 +670,52 @@
    "regime": "background"
   },
   {
+   "id": "siriusABInertial3d",
+   "emoji": "🌠",
+   "retired": false,
+   "gain": 0,
+   "eps": 0.05,
+   "n": 2,
+   "dt": 4.39426,
+   "steps": 2000,
+   "every": 20,
+   "samples": 202,
+   "sumWMed": 6.272398490581282e-7,
+   "sumWMax": 0.000023095203815889515,
+   "Wbg": null,
+   "WbgSI": null,
+   "Cd": null,
+   "xMed": 0,
+   "xMax": 0,
+   "Wcos": 4.2520809372073083e-23,
+   "xCosMed": 14751361940680468,
+   "nan": false,
+   "regime": "gain0"
+  },
+  {
+   "id": "alphaCenABInertial3d",
+   "emoji": "🔶",
+   "retired": false,
+   "gain": 0,
+   "eps": 0.05,
+   "n": 2,
+   "dt": 6.99194,
+   "steps": 2000,
+   "every": 20,
+   "samples": 202,
+   "sumWMed": 2.666970654845637e-7,
+   "sumWMax": 0.000004551568872759294,
+   "Wbg": null,
+   "WbgSI": null,
+   "Cd": null,
+   "xMed": 0,
+   "xMax": 0,
+   "Wcos": 4.2520809372073083e-23,
+   "xCosMed": 6272154021125610,
+   "nan": false,
+   "regime": "gain0"
+  },
+  {
    "id": "inertialDragPair",
    "emoji": "🐌",
    "retired": false,
@@ -806,6 +852,52 @@
    "xCosMed": null,
    "nan": false,
    "regime": "local"
+  },
+  {
+   "id": "binaryCheckEqualInertial3d",
+   "emoji": "♊",
+   "retired": false,
+   "gain": 0,
+   "eps": 0.05,
+   "n": 2,
+   "dt": 17.453292519943293,
+   "steps": 2000,
+   "every": 20,
+   "samples": 202,
+   "sumWMed": 3.2466799508634504e-7,
+   "sumWMax": 0.0000039903349542016964,
+   "Wbg": null,
+   "WbgSI": null,
+   "Cd": null,
+   "xMed": 0,
+   "xMax": 0,
+   "Wcos": null,
+   "xCosMed": null,
+   "nan": false,
+   "regime": "gain0"
+  },
+  {
+   "id": "binaryCheckRatio3Inertial3d",
+   "emoji": "⚖️",
+   "retired": false,
+   "gain": 0,
+   "eps": 0.05,
+   "n": 2,
+   "dt": 17.453292519943293,
+   "steps": 2000,
+   "every": 20,
+   "samples": 202,
+   "sumWMed": 2.8593606861128045e-7,
+   "sumWMax": 0.000005983926209877251,
+   "Wbg": null,
+   "WbgSI": null,
+   "Cd": null,
+   "xMed": 0,
+   "xMax": 0,
+   "Wcos": null,
+   "xCosMed": null,
+   "nan": false,
+   "regime": "gain0"
   }
  ],
  "part3": {
@@ -1011,5 +1103,5 @@
   "cosmicNoPrecession": true
  },
  "ok": true,
- "elapsedS": 105.082
+ "elapsedS": 111.713
 }
