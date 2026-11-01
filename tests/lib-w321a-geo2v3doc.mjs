@@ -42,11 +42,12 @@ export function physicsTablesGeo2v3(J) {
   out.push('', '| 三次元の html の步(kFrame=0)との照合 | 体 | 步 | 照合した値 | 違う値 | 非平面 | 傾いた軸 |', '|---|---|---|---|---|---|---|');
   for (const r of P.d3.rows) out.push(`| ${r.integrator} | ${r.n} | ${r.steps} | ${r.nVal} | ${r.nDiff} | ${yn(r.nonPlanar)} | ${yn(r.axisTilted)} |`);
   const g = P.d3.gates;
-  out.push('', '| 今の門(基点) | 値 |', '|---|---|',
+  out.push('', g.s2 ? `| 今の門(S2 の世代 ${g.s2} —— 第322便a で範囲の内を開けた) | 値 |` : '| 今の門(基点) | 値 |', '|---|---|',
     `| coord3dDenyOf —— galaxyGeo2 を coord:"3d" に | ${g.denyGalaxyGeo2.join('・')} |`,
     `| coord3dDenyOf —— 小さい系の geoPN=2 の本を coord:"3d" に | ${g.denySmallGeo2.join('・')} |`,
     `| coord3dRuntimeWhy —— kFrame を走行中に 1 へ | ${g.runtimeKFrame} |`,
     `| coord3dRuntimeWhy —— geoPN を走行中に 2 へ | ${g.runtimeGeoPN2} |`,
+    `| 受理(小さい系の geoPN=2 の本を coord:"3d" に) | ${yn(g.accepted3d)} |`,
     `| 宣言 → 実行の法則(geoModeOf の law —— 小さい系の本) | ${g.lawSmall} |`);
   // cov
   out.push('', '| 回転(軸・角) | 積分器 | 自転の入れ方 | 位置・速度・u の履歴・自転のベクトル・rotA・口座(P と L の尺度)・仕事(初期の運動エネルギーで割る)の差の最大(相対) | 軸が回った回数 | 蹴りの回数 |', '|---|---|---|---|---|---|');

@@ -492,6 +492,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.galField321c docs.nbCompose320c docs.sr
 #   受理器を読む behavior.srcHeat320・docs.srcHeat320・受理器の理由の文の表 lint.textRegistry318・lint.presetText316c・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcMomentIdx321 docs.w321d behavior.srcHeat320 docs.srcHeat320 lint.textRegistry318 lint.presetText316c lint.sectionLookup313 lint.qaHeapRelease310"
 # ==== 第321便d の塊(ここまで)====
+# ==== 第322便a の塊(ここから)====
+# 第322便a(原仮定者の予定(第123報)・AN504・R270): 枝 a の新設 2 本(behavior.geo2flat322a —— geoPN=2 の 3D の輸送を dfmStep3 へ接続した步の面への退化・純関数との照合・初回の履歴・
+#   保存と復帰・口座・門の表・平面の 3D 銀河の本・docs.geo2flat322a —— 正本と文書)と、世代切替を受けた第321便a の 2 本(behavior.geo2v3321a・docs.geo2v3321a —— 今の門を S2 の世代で読む)・
+#   三次元の受理の門を読む docs.w298a 系の lint は鎖の段で・正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・
+#   CANON の lint.canon304・lint.qaHeapRelease310・lint.sectionLookup313・煙試験の窓の表の lint.harnessSmoke303・家族の docs.families・SAMPLE_STATUS の docs.sampleStatus-sync
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.geo2flat322a docs.geo2flat322a behavior.geo2v3321a docs.geo2v3321a lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.harnessSmoke303"
+# ==== 第322便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

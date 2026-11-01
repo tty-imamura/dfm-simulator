@@ -11096,9 +11096,10 @@ function coord3dRuntimeWhy(S){
   const p=S.params||{};
   const nz=(k)=>(typeof p[k]==="number" && p[k]!==0);
   const g3why=(p.geoPN===2)? coord3dGeo2WhyNot(S) : "";   // 第322便a(R270): geoPN=2(v−u 則)の三次元の範囲の内は null(kFrame と geoPN を同時に通す)
+  if(p.geoPN===2 && g3why) return "geoPN=2(三次元の v−u 則の範囲の外 —— "+g3why+")";
   for(const k of ["kFrame","kRep","muF","kappaS","etaRad","gravityX","gravityY"]) if(nz(k) && !(k==="kFrame" && g3why===null)) return "physics."+k+"≠0";
   { const ge=geoEffectiveMode(S);   // 第314便d(R241): geoPN=1 の EIH(coord3dPN1Of —— kFrame=0・geodesic でない・approxMany でない)だけ通す
-    if((ge!==0 && !(ge===1 && coord3dPN1Of(S)) && !(ge===2 && g3why===null)) || p[GEODESIC_KEY]===true) return (ge===1 && S._amKind)? "geoPN=1 ∧ physics.approxMany(塵の対のマスクと EIH の源の和が合わない)" : ((p.geoPN===2 && g3why)? "geoPN=2(三次元の v−u 則の範囲の外 —— "+g3why+")" : "geoPN(測地線・1PN)"); }
+    if((ge!==0 && !(ge===1 && coord3dPN1Of(S)) && !(ge===2 && g3why===null)) || p[GEODESIC_KEY]===true) return (ge===1 && S._amKind)? "geoPN=1 ∧ physics.approxMany(塵の対のマスクと EIH の源の和が合わない)" : "geoPN(測地線・1PN)"; }
   if(p.halo) return "physics.halo";
   if(p.petersGW===true) return "physics.petersGW";
   if(S.hasRelativeDrag && !(S.relDrag && S.relDrag.law==="inertial")) return "physics.relativeDrag";
