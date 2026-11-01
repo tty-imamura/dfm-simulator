@@ -31143,6 +31143,12 @@ geoPN=3/4 の標準(慣性の宣言・旧メッシュ)は第294便a から測地
 |---|---|---|---|---|---|---|
 | solarSystem16Inertial3d | 🗺️ | 3 | 在位 | 新本(0 で宣言 —— 第318便c の太陽系 16 体・統合で追加) | 走っていない(新本) | `inertial-drag` |
 | galaxyGeo2Flat3d | 🫓 | 2 | 在位 | 新本(0 で宣言 —— 第322便a の平面の 3D 銀河・統合で追加) | 走っていない(新本) | `vMinusU-q` |
+| binaryCheckEqualInertial3d | ♊ | 3 | 在位 | 新本(0 で宣言 —— 第322便b の連星の三次元・統合で追加) | 走っていない(新本) | `inertial-drag` |
+| binaryCheckRatio3Inertial3d | ⚖️ | 3 | 在位 | 新本(0 で宣言 —— 第322便b の連星の三次元・統合で追加) | 走っていない(新本) | `inertial-drag` |
+| siriusABInertial3d | 🌠 | 3 | 在位 | 新本(0 で宣言 —— 第322便b の連星の三次元・統合で追加) | 走っていない(新本) | `inertial-drag` |
+| alphaCenABInertial3d | 🔶 | 3 | 在位 | 新本(0 で宣言 —— 第322便b の連星の三次元・統合で追加) | 走っていない(新本) | `inertial-drag` |
+
+**第322便の更新(統括の統合)。** 第322便a の 🫓 galaxyGeo2Flat3d(geoPN=2)と第322便b の ♊⚖️🌠🔶(geoPN=3 —— `relativeDrag.law:"inertial"`)も geoPN≥2 で、第322便の鎖 1 が正本 `tests/out/refit-w297a.json` の `declared` を作り直したときに列挙に入った(内蔵 60 本 —— 2/3/4 = 20/25/15)。5 本とも新設のときから `lambdaPN:0` を明示した本で、力学の 1PN は走っていない。器の `pn1Before`(第296便までの宣言 λ_PN=1 で読んだときの仮定の欄)は ♊⚖️🌠🔶 が false(geoPN=3 は測地線 OFF)・🫓 が true(geoPN=2 は測地線 ON —— 💫 と同じ読み)で、🫓 は λ_PN=1 で走ったことのない新本である。
 
 **③ 逸脱 `lambdaPnOnDrag`(値は書き換えない)。** 目的の組の判定 `modeIssuesOf`(公開の入口 `modeSettingIssues`)の mode≥2 の塊に、geoPN≥2 ∧ `physics.lambdaPN`≠0 の逸脱を足した
 (**未宣言は 1** として読む —— `_core` の `p.lambdaPN!==undefined? p.lambdaPN : 1` と同じ読み `lambdaPnDeclOf`)。kind:"preset"(標準を偽にする)・fields `["lambdaPN"]`・記録に読んだ値 `lambdaPN`。
