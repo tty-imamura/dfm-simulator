@@ -11,6 +11,8 @@
 //      宣言の署名(presetSig の sha256)・実行の法則・窓・QA と同じ測り方の値・状態の指紋(窓の終わりの位置と速度の sha256)・所要。💫 galaxyGeo2 は宣言の署名だけ(基準の記録は枝 a)
 //   T  銀河の中の任意の位置の源の流れの場(lib の sample —— R × z の表・部分積分の形と u_φ の中心差分の 2 経路・面への退化〔第320便c の面上の環の積分〕・鏡の対称・正規化の項)
 //   P  中心と残余の重ならない分割(R_cut × 任意の位置で和 = 全場・J 双極子の近似の誤差・源の宣言の受理と拒否・回転の共変)
+//      + 第322便c(統括の検証項目 R272 —— 版 2): 代理 J の項の恒久の例 P.proxy(4 位置〔面上・z 軸の回転・上下の面外〕で円筒の成分 = 直交の成分の射影・
+//      proxy の所有の逆検査・代理の normalization の拒否 —— 第321便c の表〔P.cases〕とは別の欄)
 //   N  点のセルの和(格子 48/96/192/384 × 軟化の幅 —— 同じ軟化の環の積分と並べる・第320便c の点の和の照合)
 //   V  半渦度 ↔ u_φ の対照(境界つきの復元 —— 正則な原点・環状の境界〔境界の値への感度 = 循環 C/R〕・u_φ = Rω½ の読みとの比・解析の場面)
 //   H  太陽系の天体ごとの位置の場(太陽の位置 + 各天体の太陽中心の位置)と 6 天体の拮抗の符号つきの表(読み (b) × 源のモーメント J × 源の組 —— 太陽だけ・銀河の場だけ・
@@ -37,7 +39,7 @@ import { portsOf as portsA, copyBook, stateOf } from './exp-w320a-srcheat.mjs';
 const REGEN_SCOPE = {"presets":["chainDiskToy3d","chainSpreadToy3d","galaxyDB","galaxyGeo2","galaxyStd","jupiterGalilean","jupiterSunInertial3d","marsSunInertial3d","mercury","mercurySunInertial3d","neptuneSunInertial3d","ngc3198DFM","saturn","saturnRingReal","saturnSunInertial3d","solarSystem16Inertial3d","uranusSunInertial3d","venusSunInertial3d"],"roots":["$","HP.REL_DRAG_AXIS_HOLD_BALANCE_VERSION","HP.REL_DRAG_AXIS_HOLD_BALANCE_VERSION_319","HP.REL_DRAG_AXIS_HOLD_MAINT_VERSION","HP.REL_DRAG_AXIS_HOLD_SRC_VERSION","HP.REL_DRAG_INVSQ_SRC_MOMENT_VERSION","HP.ab","HP.abStart","HP.abStop","HP.allPresets","HP.axisHoldSourceSum","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.geoLawOfSim","HP.inertialDrag3MaintCell","HP.inertialDrag3MaintStateOf","HP.inertialDragIsqM1","HP.inertialDragIsqM1Src","HP.inertialDragIsqSrcRadiusOf","HP.inertialDragIsqState","HP.inertialDragState","HP.loadPreset","HP.presetSig","HP.sim","HP.tideState","HP.validatePreset","T","ab","ch","ctx","cw","inertialDragGalaxyAxialState","inertialDragIsqM1","pnSource"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w321c-galfield-1';
+export const HARNESS_VERSION = 'w321c-galfield-2';   // 版 2(第322便c): P.proxy と門 pProxy を足した(lib 版 2 —— 代理の項の直し)
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const clone = (x) => JSON.parse(JSON.stringify(x));
 const NOT_CLAIM = ['半渦度を今の軸引きずり ω_G と同じ量と書かない(移送場の診断量)', '半渦度を受け手の軸へ直結する項・回転引きずりの利得の自由な係数をエンジンに足さない(器の列だけ —— AN484)',
@@ -61,14 +63,16 @@ export const PLAN = Object.freeze({
   rCut: Object.freeze([1, 2, 4, 6, 8, 10]), splitPos: Object.freeze([[8.2, 0, 0], [8.2, 0, 0.5], [4, 0, 0.1], [8.2 * Math.cos(1), 8.2 * Math.sin(1), -0.3], [12, 0, 1]]), rotPhi: Object.freeze([0, 1, 2.5]),
   cells: Object.freeze({ grids: Object.freeze([...L9.GRIDS.map((g) => ({ nr: g.nr, np: g.np, nz: g.nz })), G384]), eps: Object.freeze([0, 0.3]), pos: Object.freeze([[8.2, 0, 0], [4, 0, 0.5]]) }),
   recon: Object.freeze({ edges: Object.freeze([0, 1, 2, 3, 4, 5, 6, 7, 8, 8.2, 9, 10, 11, 12, 13, 14, 15]), n: Object.freeze([6, 12]), RinKpc: 4, perturb: Object.freeze([0.9, 1.1, 0]) }),
-  antag: Object.freeze({ rows: Object.freeze([1, 2, 3, 5, 6, 11]), rCut: Object.freeze([2, 4, 6]), rCutMain: 4, kind: 'J' }) });
+  antag: Object.freeze({ rows: Object.freeze([1, 2, 3, 5, 6, 11]), rCut: Object.freeze([2, 4, 6]), rCutMain: 4, kind: 'J' }),
+  proxyPos: Object.freeze([[8.2, 0, 0], [0, 8.2, 0], [6, 4, 0.5], [6, -4, -0.5]]) });
 export const QUICK = Object.freeze({
   g0: Object.freeze({ stdSteps: 200, dbSteps: 200, ngcSteps: 200, chainSteps: 40, dt: 0.016 }),
   R: Object.freeze([4, 8.2]), z: Object.freeze([0, 0.5, -0.5]), normZ: Object.freeze([0]), sunZ: Object.freeze([0.02]),
   rCut: Object.freeze([2, 4]), splitPos: Object.freeze([[8.2, 0, 0], [8.2, 0, 0.5]]), rotPhi: Object.freeze([0, 1]),
   cells: Object.freeze({ grids: Object.freeze([L9.GRIDS[0], L9.GRIDS[1]].map((g) => ({ nr: g.nr, np: g.np, nz: g.nz }))), eps: Object.freeze([0]), pos: Object.freeze([[8.2, 0, 0]]) }),
   recon: Object.freeze({ edges: Object.freeze([0, 2, 4, 8.2]), n: Object.freeze([4]), RinKpc: 4, perturb: Object.freeze([1.1]) }),
-  antag: Object.freeze({ rows: Object.freeze([2, 6]), rCut: Object.freeze([4]), rCutMain: 4, kind: 'J' }) });
+  antag: Object.freeze({ rows: Object.freeze([2, 6]), rCut: Object.freeze([4]), rCutMain: 4, kind: 'J' }),
+  proxyPos: Object.freeze([[8.2, 0, 0], [6, -4, -0.5]]) });
 const { nrm, dot, cross, add3, scl3, relDiff } = F;
 const sha = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
 const relV = (a, b) => { const d = Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]), s = Math.max(nrm(a), nrm(b)); return s > 0 ? d / s : 0; };
@@ -195,8 +199,31 @@ export function partP(plan) {
   const outside = [[0, 0, 0], [45, 0, 0], [8.2, 0, 6]].map((p) => { const s = F.sample(p, 0, null, {}); return { pos: p, ok: s.ok, reason: s.reason || null }; });
   // 定常でない宣言は dUdt を null に(0 で埋めない)
   const ns = F.sample([8.2, 0, 0], 0, Object.assign(F.fullState(), { stationary: false }), {});
-  return { rows, cases, rot, outside, nonStationary: { dUdt: ns.dUdt, complete: ns.timeDerivativeComplete }, splitRelMax: Math.max(...rows.map((r) => Math.max(r.uRel, r.wRel))), casesSame: cases.every((c) => c.same),
+  return { rows, cases, rot, outside, nonStationary: { dUdt: ns.dUdt, complete: ns.timeDerivativeComplete }, proxy: proxyCheckOf(plan), splitRelMax: Math.max(...rows.map((r) => Math.max(r.uRel, r.wRel))), casesSame: cases.every((c) => c.same),
     rotRelMax: Math.max(...rot.map((r) => Math.max(r.uRel, r.gRel))) };
+}
+
+/**
+ * 第322便c(R272 —— lib 版 2): 代理 J の項の恒久の例。J は宣言の模型の円盤の全成分の J(jOfDisks —— ĝ の向き)。
+ * rows: 円筒の成分(uPhi・halfCurlCyl)が直交の成分(u・halfCurl)の射影と同じビット・部(parts)の欄も同じ・0 でない・u_R・u_z・ω½_φ は丸めの内(純方位の双極子)。
+ * cases: 代理だけの受理・proxy を他の成分の所有宣言に置く拒否(逆向きの検査)・代理の normalization の拒否(J から β は決まらない)・代理でない項の normalization の受理(対照)
+ */
+export function proxyCheckOf(plan) {
+  const J0 = F.jOfDisks(0, Infinity), st = (owns, key = 'proxy') => ({ model: F.MODEL_ID, stationary: true, terms: [{ key, coef: 1, owns, proxy: { J: J0 } }] });
+  const rows = plan.proxyPos.map((x) => {
+    const s = F.sample(x, 0, st([{ comp: 'galaxy:proxy' }]), {}), ph = Math.atan2(x[1], x[0]), c = Math.cos(ph), sn = Math.sin(ph), pt = s.parts[0];
+    const pu = -sn * s.u[0] + c * s.u[1], pR = c * s.halfCurl[0] + sn * s.halfCurl[1], uR = c * s.u[0] + sn * s.u[1], wPhi = -sn * s.halfCurl[0] + c * s.halfCurl[1];
+    return { pos: x, uPhi: s.uPhi, wR: s.halfCurlCyl.R, wZ: s.halfCurlCyl.z, projSame: Object.is(s.uPhi, pu) && Object.is(s.halfCurlCyl.R, pR) && Object.is(s.halfCurlCyl.z, s.halfCurl[2]),
+      partSame: Object.is(pt.uPhi, s.uPhi) && Object.is(pt.halfCurlCyl.R, s.halfCurlCyl.R) && Object.is(pt.halfCurlCyl.z, s.halfCurlCyl.z), nonzero: s.uPhi !== 0 && s.halfCurlCyl.z !== 0,
+      uRRel: Math.abs(uR) / nrm(s.u), uZRel: Math.abs(s.u[2]) / nrm(s.u), wPhiRel: Math.abs(wPhi) / nrm(s.halfCurl) };
+  });
+  const cases = [], tryC = (key, ja, fn, expect) => { let ok = true, err = null; try { fn(); } catch (e) { ok = false; err = e instanceof RangeError ? String(e.message) : 'not RangeError: ' + String(e); } cases.push({ key, ja, accepted: ok, expect, err, same: ok === expect }); };
+  tryC('proxyAlone', '代理だけ(galaxy:proxy・proxy.J)', () => F.sample([8.2, 0, 0], 0, st([{ comp: 'galaxy:proxy' }]), {}), true);
+  tryC('proxyOnDisk', 'proxy を disk:thin の所有宣言に置く(逆向きの検査)', () => F.checkState(st([{ comp: 'disk:thin', lo: 0, hi: Infinity }], 'thin')), false);
+  tryC('proxyOnResidual', 'proxy を残余の項(R ≥ 4 kpc の円盤)に置く', () => { const s4 = F.splitState(4); s4.terms[1].proxy = { J: J0 }; F.checkState(s4); }, false);
+  tryC('proxyNorm', '代理に normalization を求める(J から β は決まらない)', () => F.sample([8.2, 0, 0], 0, st([{ comp: 'galaxy:proxy' }]), { normalization: true }), false);
+  tryC('modelNorm', '代理でない項(H2 の円盤だけ)に normalization を求める(対照)', () => { const s = F.sample([8.2, 0, 0], 0, { model: F.MODEL_ID, stationary: true, terms: [{ key: 'H2', owns: [{ comp: 'disk:H2' }] }] }, { normalization: true }); if (!(s.normalization && s.normalization.beta > 0)) throw new RangeError('β が正でない'); }, true);
+  return { J: J0, rows, cases, ok: rows.every((r) => r.projSame && r.partSame && r.nonzero && r.uRRel <= 1e-12 && r.uZRel === 0 && r.wPhiRel <= 1e-12) && cases.every((c) => c.same) };
 }
 
 /* ───────── N 点のセルの和(格子の感度)───────── */
@@ -314,6 +341,7 @@ export function gatesOf(J) {
   G.pSplit = !!(J.P && J.P.splitRelMax <= 1e-8);
   G.pCases = !!(J.P && J.P.casesSame && J.P.outside.every((o) => o.ok === false) && J.P.nonStationary.dUdt === null && J.P.nonStationary.complete === false);
   G.pRot = !!(J.P && J.P.rotRelMax <= 1e-12 && J.P.rot.every((r) => r.cylSame));
+  G.pProxy = !!(J.P && J.P.proxy && J.P.proxy.ok === true && J.P.proxy.rows.length >= 2);   // 第322便c(lib 版 2 —— 代理 J の項の直し)
   G.nRepro = !!(J.N && J.N.repro.rel <= 1e-12);
   G.vOrigin = !!(J.V && J.V.originRelMax <= (J.quick ? 1e-3 : 1e-6) && J.V.crRelMax <= 1e-9 && J.V.scenesOk);
   G.hEngine = !!(J.H && J.H.gateEngine.length > 0 && J.H.gateEngine.every((g) => g.same));
