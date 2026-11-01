@@ -3,7 +3,7 @@
  "libVersion": "w320c-nbcompose-lib-1",
  "generator": "tests/exp-w320c-nbcompose.mjs",
  "target": "beta/index.html",
- "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+ "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
  "reuseFrom": null,
  "ruling": "原仮定者の指示(第122報)・決断事項 AN472「中心１体の影響が大きいが、銀河の渦の中では半渦度は無視出来ない。太陽系近傍においては合成された影響になる」・AN473・統括の検証項目 R264。エンジン・在位の本・受け手の R_d = Y_k m・規則は変えない(器・lib・正本・文書だけ)。半渦度を受け手の軸へ直結する項はエンジンに足さない",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -9284,16 +9284,16 @@
  "ok": true,
  "timing": {
   "F": {
-   "wallSec": 3.201
+   "wallSec": 3.119
   },
   "N": {
-   "wallSec": 38.462
+   "wallSec": 42.335
   },
   "P": {
-   "wallSec": 3.195
+   "wallSec": 3.578
   },
   "Shape": {
-   "wallSec": 0.004
+   "wallSec": 0.006
   },
   "D": {
    "wallSec": 0.002
@@ -9302,25 +9302,25 @@
    "wallSec": 0
   },
   "Rload": {
-   "wallSec": 0.213
+   "wallSec": 0.262
   },
   "R": {
-   "wallSec": 0.01
+   "wallSec": 0.014
   }
  },
- "elapsedS": 46.754,
+ "elapsedS": 51.041,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第320便c",
   "target": "beta/index.html",
-  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-  "generatedAt": "2026-11-01T01:06:29.172Z",
+  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+  "generatedAt": "2026-11-01T18:28:59.212Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7403262,
-    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-    "mtime": "2026-10-31T17:17:55.600Z"
+    "bytes": 7487036,
+    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+    "mtime": "2026-11-01T12:44:54.266Z"
    },
    {
     "file": "tests/data-w318c-solar16-input.json",
@@ -9454,11 +9454,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1330,
-   "segments": 1168,
-   "closureShare": 0.3
+   "names": 1336,
+   "segments": 1174,
+   "closureShare": 0.3001
   },
-  "scopeSha256": "7b1a6487ecabde252275481674621f0366798ec685535e1123ba4323e099578d",
+  "scopeSha256": "a6693ea68b3059cab8860bf0d4dbee21a659d1ffe368fde8af0b76f672cc0464",
   "scopeComplete": true,
   "inputsStable": [
    {

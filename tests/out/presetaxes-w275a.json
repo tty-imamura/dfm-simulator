@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-  "generatedAt": "2026-10-31T23:56:03.597Z",
+  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+  "generatedAt": "2026-11-01T18:29:47.510Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7403262,
-    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-    "mtime": "2026-10-31T17:17:55.600Z"
+    "bytes": 7487036,
+    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+    "mtime": "2026-11-01T12:44:54.266Z"
    }
   ],
   "code": [
@@ -43,7 +43,7 @@
    "判定が増えた"
   ]
  },
- "nPresets": 177,
+ "nPresets": 182,
  "kFrameValues": [
   0,
   1
@@ -480,6 +480,27 @@
    "geoPN": 2,
    "nBodyDecl": 2,
    "presetSigHash": "7e1aa639",
+   "bodiesSha256": "14ddaa9b42c3d105b3d50626653744a48e23d4338c5c16418df7492050d99771"
+  },
+  {
+   "id": "galaxyGeo2Flat3d",
+   "emoji": "🫓",
+   "name": "v−u統一測地線の銀河(三次元・平面の写し)",
+   "sampleClass": "principle",
+   "kFrame": 1,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 1.5,
+   "D0pull": null,
+   "D0eff": 1.5,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 3,
+   "geoPN": 2,
+   "nBodyDecl": 2,
+   "presetSigHash": "caa16ef0",
    "bodiesSha256": "14ddaa9b42c3d105b3d50626653744a48e23d4338c5c16418df7492050d99771"
   },
   {
@@ -2541,6 +2562,48 @@
    "bodiesSha256": "6e9db3ba3fde6fe5fbcd2f1c7d66a5dc82b8f1ccddde7664f0b872b724fc61d1"
   },
   {
+   "id": "siriusABInertial3d",
+   "emoji": "🌠",
+   "name": "シリウスAB(慣性決定力版・三次元)— K1 の規則 R_d = Y_k m(合わせない)・無自転",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.006,
+   "D0pull": null,
+   "D0eff": 0.006,
+   "q": 4.6761,
+   "frameWeight": "pull",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "45f4ca74",
+   "bodiesSha256": "029634cb61544b6a5caae1fc2df359f30384bf9ab8b881773fe5e8ef0df508c6"
+  },
+  {
+   "id": "alphaCenABInertial3d",
+   "emoji": "🔶",
+   "name": "αケンタウリAB(慣性決定力版・三次元)— K1 の規則 R_d = Y_k m(合わせない)・並進だけ",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.006,
+   "D0pull": null,
+   "D0eff": 0.006,
+   "q": 4.6111,
+   "frameWeight": "pull",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "89c61b59",
+   "bodiesSha256": "1ae610914132ec8eda31e3e4e12f8e071c2f316d01d6bc426583473c57d830e0"
+  },
+  {
    "id": "psrDoubleAB",
    "emoji": "📻",
    "name": "二重パルサー J0737−3039A/B(実単位)— 2.45時間の中性子星連星",
@@ -3043,6 +3106,48 @@
    "nBodyDecl": 2,
    "presetSigHash": "3d6c3d65",
    "bodiesSha256": "1de29273dd5bdb362897113f9a236ed71ef88e5cc21f95adbfecbc1a4ca88445"
+  },
+  {
+   "id": "binaryCheckEqualInertial3d",
+   "emoji": "♊",
+   "name": "連星の検証サンプル(等質量・三次元)— K1 の規則と (1 + (4/3)η) の物差し",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.006,
+   "D0pull": null,
+   "D0eff": 0.006,
+   "q": 4.6111,
+   "frameWeight": "pull",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "4217c12f",
+   "bodiesSha256": "9a0114e1ab2f87790c3d2345901698cc82468f248395616ad062665834440491"
+  },
+  {
+   "id": "binaryCheckRatio3Inertial3d",
+   "emoji": "⚖️",
+   "name": "連星の検証サンプル(質量比 1:3・三次元)— K1 の規則と (1 + (4/3)η) の物差し",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.006,
+   "D0pull": null,
+   "D0eff": 0.006,
+   "q": 4.6111,
+   "frameWeight": "pull",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "1033dbe6",
+   "bodiesSha256": "1bb6008ad95a571d8ad7625a7332ac502d308093cc313f56bb7c2bd7d9b80cae"
   },
   {
    "id": "boxBinaryToy",
