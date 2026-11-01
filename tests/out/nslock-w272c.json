@@ -4,11 +4,11 @@
   "section": "潮汐ロック枝(kFrame=0・f=1・λPN=1)",
   "harness": "w272c-nslock-1",
   "target": "beta/index.html",
-  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
   "csvSha256": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
   "libSha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
   "src265Sha256": "e39a0bd29a955736c0f3718fad2361efcad83bfc6ec598e8b6642bd0156dc0f1",
-  "at": "2026-10-31T19:10:16.133Z",
+  "at": "2026-11-01T17:22:55.802Z",
   "dt0": 0.016,
   "divs": [
    1,
@@ -26,6 +26,80 @@
   "spinAxisCorrection": "運動学の宣言 ω_i = Ω_AB + σ_i·n の **n は相手へ向かう単位ベクトル**(天体間方向・面内)である。第272便c の「n は面直の単位ベクトル」は**撤回する**。(σ_i n)×n = 0 は「軸上の相対すべりをこの項が拾わない」という意味に限られ、「面内軸の自転が力学に効かない」ではない。",
   "signConvention": "面直(z)は画面手前向きが正・反時計回り(x→y)が正・視線は +z 側から見下ろす。Ω_AB=(r×v)_z/r² と spin を**同じ符号規約**で比べる。同期比は符号つきの ω_spin/Ω_orb で読み、**+1 が同期・−1 は逆行の同期**である(**絶対値では同期と逆行を区別できない**ので絶対値で判定しない)。",
   "spinZeroNote": "**NS 4 系の内蔵 spin=0 は「観測同期の代用」ではない**(自転が転写できないので 0 を宣言してある = エンジンに自転源を置かない)。",
+  "env": {
+   "node": "v22.22.0",
+   "v8": "12.4.254.21-node.33",
+   "chromium": "141.0.7390.37",
+   "platform": "linux",
+   "arch": "x64"
+  },
+  "coreSha256": "4ad571e462d9aabc3085b6f3d1b388fc03351e25781bd964076b9ef307fe4d5a",
+  "books": {
+   "alphaCenAB": {
+    "raw": "1ddd81d9d438d63e5467f8765487b2c5fe853a9501844799052f2f73d5e81598",
+    "accepted": "8fb1177842aeca201e2b277e79a76cc8cad91ef55937eef6fa162e52f7933d6e"
+   },
+   "alphaCenABDFM": {
+    "raw": "e9a2abd6760c50dca33b1dfb99b43c4546e8b04fc35425b9d145457145c0ef98",
+    "accepted": "6fbeac395115185d08377f1b77b47639a032e4f15be77a3defae78f5826b54bd"
+   },
+   "galaxy": {
+    "raw": "466acded9c70d09eec3e9a95e86465941e1ccd349678ed34365eb6d053736ae1",
+    "accepted": "7192987825ac96c36c1b3c1a4475d542b5c9ae68f5187587d7a6b386e2c288cd"
+   },
+   "psrB1534DFM": {
+    "raw": "919b22d87512f5923e0270afde96c3603e6f0ba4d0bbc5ce0e725ed18cb3707c",
+    "accepted": "e5ab67b1732a666322f85f0192e7c9b00b649d583d18a76799e1eebd49971a7d"
+   },
+   "psrDoubleABDFM": {
+    "raw": "a92602869d705d983fc0fe49d57cd2f7ff7595b53dd32f20235eca0688c6ac68",
+    "accepted": "451af9f4a6eeab8c40db791b463af738824534b029e2fc646a2bcc0a0cb0c9f7"
+   },
+   "psrJ1757DFM": {
+    "raw": "3938b6e1b04fb21a99a96ad72baa82b8ede9fcbea1eeea6606a79f6ddcfc1352",
+    "accepted": "2f64c4dc15d889924c194455213e3590533e5179e6aa5c2195edcaccf7f74592"
+   },
+   "psrJ1946DFM": {
+    "raw": "b1e6877167ad1e220751dd447ea050a21e9788da7c29c843497c4e238961c1d0",
+    "accepted": "4da6b61803d4d6acdfd1a9c0f6a835fea070223a4523693b84b9070f12771084"
+   },
+   "siriusAB": {
+    "raw": "022fa122926642226893519c5431590a9be835a860462d7334a65858d7deaba2",
+    "accepted": "ae4b4e38c193301c5af7c4f1c7f6f06d26acaeb70d0c0f433fc8258109294422"
+   },
+   "siriusABDFM": {
+    "raw": "491d0c7109ca71af1d6ff6cde553c62a07024c6f2d8591e4b1ba987409a19201",
+    "accepted": "f65c62d99c9530ec165365bd512274a31d75d45f9e6d4cc7fa3ec949c1bbd7d7"
+   }
+  },
+  "rowInputs": {
+   "psrDoubleABDFM": "710d9d00200d395d505abde241a746d65abf0f9c26594f9a537a55ff8a0d01db",
+   "psrJ1757DFM": "afd19819e47216f33b36abb3d69f5e77d38a0d5c7671d14d4f30936443516fe1",
+   "psrJ1946DFM": "43fd10c05d9ff12835d3cb50c760f2392d0a8d0fd78205e1f14fef277dee3fa5",
+   "psrB1534DFM": "352a4b3cbf4fb07975a8e88116ef664df0ae0c40e522cf4a0a7048a395648071",
+   "alphaCenAB": "a3c59041a21efb1e75f2e270431282c76679c8723bfda0a5c1f5936a9d02423f",
+   "siriusAB": "58b7722444abfd26b74072bf144768020c426d71cc17d2eb4befadf2744f6fe9"
+  },
+  "pageLibs": [
+   {
+    "file": "tests/lib-precision-diagnostics.mjs",
+    "sha256": "b7db9653265823f711172574166928191eff103537995fbe18641dbb194e3c71"
+   },
+   {
+    "file": "tests/lib-w262a-psrdiag.mjs",
+    "sha256": "25094e4f1c5ea011fb7786c7b18db25ac5aebabdcbf922bfa7fc65d81403422c"
+   }
+  ],
+  "merge": {
+   "version": "w322d-nslock-merge-1",
+   "requested": false,
+   "mode": "full",
+   "only": [],
+   "why": [],
+   "reused": [],
+   "rerun": [],
+   "stagesRun": 102
+  },
   "scope": {
    "version": "w318a-scope-6",
    "presets": [
@@ -54,11 +128,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1308,
-   "segments": 1146,
-   "closureShare": 0.2946
+   "names": 1312,
+   "segments": 1150,
+   "closureShare": 0.2944
   },
-  "scopeSha256": "5b06df0bff8bac71d08a7ae97584d7d7ba15918f6d6a6ad831016923ae5ad983",
+  "scopeSha256": "97e6244dbf1a36ca979e7c49599c15790f28dde95b0d52b180b2f34199c9a554",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -74,9 +148,9 @@
   "code": [
    {
     "file": "tests/exp-w272c-nslock.mjs",
-    "bytes": 28600,
-    "sha256": "0443a5568e2e7fe6ce599efc92aa6fb9cc47a4f37e94eb53b27d6a07ab07ffce",
-    "mtime": "2026-10-20T16:19:56.624Z"
+    "bytes": 36562,
+    "sha256": "f9c4df3e090aa48b271f5fefcb80d911192a03a51ef14a8750c49688ef38f7bf",
+    "mtime": "2026-11-01T08:10:11.141Z"
    },
    {
     "file": "tests/lib-w265a-analogy.mjs",
@@ -89,10 +163,16 @@
     "bytes": 23335,
     "sha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
     "mtime": "2026-10-20T16:19:56.668Z"
+   },
+   {
+    "file": "tests/lib-w322d-nslockmerge.mjs",
+    "bytes": 18389,
+    "sha256": "a58fdc98a842715231048382b91cfb0646f918ee554b3cbfb9f0a76f8bed9712",
+    "mtime": "2026-11-01T08:10:11.144Z"
    }
   ],
-  "codeSha256": "d9faf10f0abd529667e68b1b27965b8cbf92614d30a577756b6535a735b61ec7",
-  "spentSec": 729.9,
+  "codeSha256": "e5e8432cdb39714f7663bdbe162f9051de83f368104cbef162c1ee5301d6b73c",
+  "spentSec": 734.2,
   "stages": 102
  },
  "builtinDeclared": [
