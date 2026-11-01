@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第288便c",
   "target": "beta/index.html",
-  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-  "generatedAt": "2026-11-01T01:03:02.995Z",
+  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+  "generatedAt": "2026-11-01T14:41:47.601Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7403262,
-    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-    "mtime": "2026-10-31T17:17:55.600Z"
+    "bytes": 7487036,
+    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+    "mtime": "2026-11-01T12:44:54.266Z"
    }
   ],
   "code": [
@@ -127,11 +127,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1312,
-   "segments": 1150,
-   "closureShare": 0.296
+   "names": 1316,
+   "segments": 1154,
+   "closureShare": 0.2958
   },
-  "scopeSha256": "5c56ecacde6e17d5e987d10cbcf84e7a5946f8a36dc22e550b3d9881b47fff85",
+  "scopeSha256": "dafaf81b10513fd5e9567cacd62f042c908cf27be79eabfde077fcc2bc512590",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -152,10 +152,10 @@
     "stop": null,
     "nCap": null,
     "off": {
-     "wallSec": 5.803819198
+     "wallSec": 3.987415035
     },
     "on": {
-     "wallSec": 2.561375632
+     "wallSec": 1.80631777
     }
    },
    {
@@ -171,10 +171,10 @@
     "stop": null,
     "nCap": null,
     "off": {
-     "wallSec": 16.824604796
+     "wallSec": 12.039162486
     },
     "on": {
-     "wallSec": 6.672320548
+     "wallSec": 5.269783096
     }
    },
    {
@@ -190,10 +190,10 @@
     "stop": null,
     "nCap": 1,
     "off": {
-     "wallSec": 1.121774168
+     "wallSec": 0.712140646
     },
     "on": {
-     "wallSec": 0.510471335
+     "wallSec": 0.324857704
     }
    },
    {
@@ -209,10 +209,10 @@
     "stop": null,
     "nCap": null,
     "off": {
-     "wallSec": 4.39722034
+     "wallSec": 3.795357655
     },
     "on": {
-     "wallSec": 4.964197592
+     "wallSec": 3.705628715
     }
    }
   ],
@@ -239,10 +239,10 @@
     "resultSha": "4b822c211dff5b55500988f7960ec5d53af46c909f5c2e71f79f940527ea017c",
     "sameResult": true,
     "off": {
-     "wallSec": 9.074
+     "wallSec": 8.839
     },
     "on": {
-     "wallSec": 3.6
+     "wallSec": 4.117
     }
    },
    {
@@ -252,10 +252,10 @@
     "resultSha": "be446ff4e41dd77841891da1ea7aa8f479c3cc4b468a0c57c4d8999adb31c461",
     "sameResult": true,
     "off": {
-     "wallSec": 9.06
+     "wallSec": 9.153
     },
     "on": {
-     "wallSec": 3.742
+     "wallSec": 4.399
     }
    },
    {
@@ -265,19 +265,19 @@
     "resultSha": "5a44f54fc1e91a3629a4415b3ee4fbce643d1b882c34801dafabbdf8155af033",
     "sameResult": true,
     "off": {
-     "wallSec": 8.592
+     "wallSec": 9.607
     },
     "on": {
-     "wallSec": 3.57
+     "wallSec": 3.658
     }
    }
   ],
   "steps": 26588,
   "off": {
-   "wallSec": 26.726
+   "wallSec": 27.599
   },
   "on": {
-   "wallSec": 10.912
+   "wallSec": 12.174
   },
   "ok": true
  },
@@ -345,10 +345,10 @@
    "steps": 26588,
    "sameResult": true,
    "off": {
-    "wallSec": 26.726
+    "wallSec": 27.599
    },
    "on": {
-    "wallSec": 10.912
+    "wallSec": 12.174
    }
   },
   "jeans": {
@@ -363,6 +363,6 @@
   },
   "note": "壁時計は同じ機械・同じ時間帯の OFF/ON(機械の負荷で動く —— 鍵 wallSec は安定 hash の除外語彙)。改善率は同じ N・同じ門でだけ"
  },
- "elapsedS": 158.224,
+ "elapsedS": 152.921,
  "ok": true
 }
