@@ -3,7 +3,7 @@
  "libVersion": "w318c-solar16-lib-1",
  "generator": "tests/exp-w318c-solar16.mjs",
  "target": "beta/index.html",
- "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+ "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
  "quick": false,
  "ruling": "原仮定者の指示(第120報)「支障がなければ、太陽系の１６体サンプルを作成する」・統括の検証項目 R256 —— 内蔵の本 solarSystem16Inertial3d(診断の本 —— 較正の母集団に入れない・観測の 3σ を付けない)。入力は原仮定者から受け取った 16 体の本(第120報)の geoPN=3・K1 の側をそのまま(本便は一次資料に当たっていない —— 暦表との照合はしていない)",
  "input": {
@@ -5271,7 +5271,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.098
+   "wallSec": 0.1
   },
   {
    "key": "io-ctrl-2880",
@@ -5296,7 +5296,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.15
+   "wallSec": 0.117
   },
   {
    "key": "io-ctrl-360",
@@ -5321,7 +5321,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.083
+   "wallSec": 0.073
   },
   {
    "key": "io-ctrl-5760",
@@ -5346,7 +5346,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.179
+   "wallSec": 0.246
   },
   {
    "key": "io-ctrl-720",
@@ -5371,7 +5371,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.099
+   "wallSec": 0.066
   },
   {
    "key": "io-k1-1440",
@@ -5400,7 +5400,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 11.382
+   "wallSec": 11.491
   },
   {
    "key": "io-k1-2880",
@@ -5429,7 +5429,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 21.969
+   "wallSec": 23.162
   },
   {
    "key": "io-k1-360",
@@ -5458,7 +5458,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 2.774
+   "wallSec": 2.954
   },
   {
    "key": "io-k1-5760",
@@ -5487,7 +5487,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 43.98
+   "wallSec": 45.342
   },
   {
    "key": "io-k1-720",
@@ -5516,7 +5516,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 5.989
+   "wallSec": 5.724
   },
   {
    "key": "yr-ctrl-1440",
@@ -5541,7 +5541,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 6.437
+   "wallSec": 6.783
   },
   {
    "key": "yr-ctrl-360",
@@ -5566,7 +5566,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 1.903
+   "wallSec": 1.719
   },
   {
    "key": "yr-k1-1440",
@@ -5595,7 +5595,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 2233.895
+   "wallSec": 2414.456
   },
   {
    "key": "yr-k1-360",
@@ -5624,16 +5624,16 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 557.918
+   "wallSec": 603.908
   }
  ],
  "cost": {
   "rate": {
    "k1": {
-    "rateStepsPerSec": 129.6257578925361
+    "rateStepsPerSec": 125.85567196328081
    },
    "ctrl": {
-    "rateStepsPerSec": 18325.12315270936
+    "rateStepsPerSec": 18538.205980066443
    }
   }
  },
@@ -5660,25 +5660,25 @@
  ],
  "timing": {
   "check": {
-   "wallSec": 1.087
+   "wallSec": 1.148
   },
   "runs": {
-   "wallSec": 2234.326
+   "wallSec": 2414.954
   }
  },
- "elapsedS": 2237.119,
+ "elapsedS": 2417.809,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第318便c",
   "target": "beta/index.html",
-  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-  "generatedAt": "2026-10-31T23:17:12.833Z",
+  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+  "generatedAt": "2026-11-01T16:37:36.909Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7403262,
-    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-    "mtime": "2026-10-31T17:17:55.600Z"
+    "bytes": 7487036,
+    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+    "mtime": "2026-11-01T12:44:54.266Z"
    },
    {
     "file": "tests/data-w318c-solar16-input.json",
@@ -5800,11 +5800,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1329,
-   "segments": 1167,
+   "names": 1335,
+   "segments": 1173,
    "closureShare": 0.2995
   },
-  "scopeSha256": "650c75d33372fea460afd093a0e18e301088582463b102f667ba53093db63ed2",
+  "scopeSha256": "22452a7a9e6e1f48020980e78fb029a852a8c750e260ec4c498278ddc9d077af",
   "scopeComplete": true,
   "inputsStable": [
    {
