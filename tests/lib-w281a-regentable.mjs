@@ -1552,6 +1552,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/galfield-w321c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/G0/std/wallSec', '/G0/db/wallSec', '/G0/rest/*/wallSec']) },
     note: '第321便c(lib 版 2 —— 第322便c の代理 J の直し): geoPN=4 の一新の S1 —— 比較の基準の凍結(在位の geoPN=4 と銀河の本)・銀河の中の任意の位置の源の流れの場の純関数(u・∇u・半渦度・有効域・誤差 —— 中心と残余の重ならない分割・演算 B・環の積分を参照)・半渦度 ↔ u_φ の対照(境界つきの復元)・6 天体の拮抗の符号つきの表と衛星の列(エンジン・在位の本は変えない・半渦度を受け手の軸へ直結する項は足さない)' }),
   // ==== 第321便c の塊(ここまで)====
+  // ==== 第322便a の塊(ここから)====
+  // ---- 第322便a(原仮定者の予定(第123報)「geoPN=2の予定: 3D対応する …… 引きずり近似としての需要が有る」・原仮定者の回答(2026-11-01 —— AN499・AN500)・AN504・統括の検証項目 R270):
+  //   **geoPN=2(v−u 則)の 3D の S2 の器**(段 geo2flat-322a —— gate〔平面の 3D 銀河の本 galaxyGeo2Flat3d の外縁の増強が二次元の 💫 の凍結の基準と同じビット —— claim の手続き 12000 步〕・
+  //   degen〔三次元の html の步と二次元の html の步の全状態〕・pure〔非平面の小さい系で html の三次元の步と第321便a の純関数の全状態と口座〕・hist〔初回の履歴〕・ckpt〔保存と復帰・A/B の複製〕・
+  //   ledger〔P・L の閉じ —— リザーバと拘束の口座〕・table〔受理と実行の門の表〕・trial〔傾き有りと有限厚の試走 12000 步・AN510 の 2 案の差〕)。html を読む(本は galaxyGeo2Flat3d と
+  //   galaxyGeo2 を .find で引く・ほかは器の中の小さい系の本を受理に通す)・他の正本は読まない(html の生成領域の後)。gate と trial の 4 行は子プロセス 2 本(W322A_WORKERS)。
+  //   所要は第322便a の枝の実測 228 s(子プロセス 2 本〔既定〕・重い 4 行〔gate・平面・傾き有り・有限厚 —— 各約 114 s〕—— **並走の秒**: 他の枝の器と同じ容器。
+  //   W322A_WORKERS=1〔他の枝の QA_FAST と並走〕では 542 s —— 統括が混まない箱で測り直す)
+  S('geo2flat-322a', 'node tests/exp-w322a-geo2flat.mjs', ['tests/out/geo2flat-w322a.json'], 230, { secSource: 'w322a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/geo2flat-w322a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/parts/gate/row/wallSec', '/parts/trial/tilt/wallSec', '/parts/trial/thick/wallSec']) },
+    note: '第322便a: geoPN=2(v−u 則)の輸送の 3 成分を三次元の步 dfmStep3 へ接続(dfmCore3G2)—— 平面の 3D 銀河の本の外縁の比が二次元の 💫 と同じビット・非平面で純関数と同じビット・受理と実行の門・保存と復帰・傾き有りと有限厚の試走' }),
+  // ==== 第322便a の塊(ここまで)====
   // ==== 第322便b の塊(ここから)====
   // ---- 第322便b(原仮定者の回答(2026-11-01 —— AN499)「『連星サンプル群』は実在天体を指している。検証サンプルが必要であれば、先に用意する」・決断事項 AN505・
   //   統括の検証項目 R271 —— 策定の段 S2): **geoPN=3 の連星の内蔵の第一陣の器**(段 binbooks-322b —— A 受理の表〔内蔵の 4 本 ♊⚖️🌠🔶 と第321便b の兄弟の写しの

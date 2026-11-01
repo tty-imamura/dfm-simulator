@@ -497,6 +497,18 @@
     "state": "with λ_PN=0 the outer speed ratio 1.180 lies in its window with zero clamps"
    }
   },
+  "galaxyGeo2Flat3d": {
+   "purpose": "💫 の面内の写しを三次元の步で走らせ二次元と比べる",
+   "objective": "met",
+   "state": "外縁速度比が二次元の 💫 と同じビット・クランプ 0・z と軸は面内のまま",
+   "evidence": [
+    "tests/out/geo2flat-w322a.json"
+   ],
+   "en": {
+    "purpose": "Run the in-plane copy of 💫 on the 3D step against 2D",
+    "state": "the outer speed ratio is bit-identical to the 2D 💫 with zero clamps and z stays 0"
+   }
+  },
   "galaxyDB": {
    "purpose": "円盤の回転支持とバルジの分散支持を比べる",
    "objective": "met",
@@ -3369,6 +3381,12 @@
     "binaryCheckRatio3Inertial3d",
     "siriusABInertial3d",
     "alphaCenABInertial3d"
+   ],
+   "behavior.geo2flat322a": [
+    "galaxyGeo2Flat3d"
+   ],
+   "docs.geo2flat322a": [
+    "galaxyGeo2Flat3d"
    ]
   },
   "w311c": "第311便c(統括の検証項目 R228): 帰属なしだった 18 本(三次元の慣性決定力の本・三次元の玩具ほか)に、その本を実際に読み込み・受理・步で試験している QA の id を足した(tests/qa.mjs の本文で、その本を loadPreset・allPresets().find・代表の本の並び・本の id の定数で引く行を含む試験 —— 文書の語の照合・世代切替の門・存在だけの言及は根拠にしない。世代で本を切り替える試験は今の世代で読む本に帰属)",

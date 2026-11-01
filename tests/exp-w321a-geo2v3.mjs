@@ -32,7 +32,7 @@ import * as G3 from './lib-w321a-geo2v3.mjs';
 const REGEN_SCOPE = {"presets":["galaxyGeo2"],"roots":["HP.ab","HP.abStart","HP.abStop","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.geoModeOf","HP.loadPreset","HP.sim","HP.validatePreset","T","coord3dDenyOf","ctx","cv","cw","dfmCore3"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w321a-geo2v3-1';
+export const HARNESS_VERSION = 'w321a-geo2v3-2';   // 第322便a(R270): 今の門を S2 の世代(HP.coord3d.geo2 —— geoPN=2 の 3D の輸送を步へ接続した html)で読む(-1 は S2 の前の門だけ)
 export const OUT_GEO2V3 = 'tests/out/geo2v3-w321a.json';
 const TARGET = process.env.W321A_TARGET || 'beta/index.html';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
@@ -187,7 +187,9 @@ export function part3D(HP, plan) {
   const S0 = simOf(HP, bookOf(B3D, { coord: '3d', kFrame: 0, geoPN: 0 }));
   const why0 = HP.coord3d.runtimeWhy(S0); S0.params.kFrame = 1; const whyK = HP.coord3d.runtimeWhy(S0); S0.params.kFrame = 0; S0.params.geoPN = 2; const whyG = HP.coord3d.runtimeWhy(S0);
   const accepted3 = HP.validatePreset(small3).ok === true;
-  return { rows, allSame: rows.every((r) => r.same), gates: { denyGalaxyGeo2: denyGal, denySmallGeo2: denySmall, accepted3d: accepted3, runtimeNone: why0, runtimeKFrame: whyK, runtimeGeoPN2: whyG,
+  // 第322便a(R270): S2 の世代(geoPN=2 の 3D の輸送を步へ接続した html —— HP.coord3d.geo2)では、範囲の内の宣言(小さい系の本)の門が開く
+  const s2 = (HP.coord3d.geo2 && HP.coord3d.geo2.version) || null;
+  return { rows, allSame: rows.every((r) => r.same), gates: { s2, denyGalaxyGeo2: denyGal, denySmallGeo2: denySmall, accepted3d: accepted3, runtimeNone: why0, runtimeKFrame: whyK, runtimeGeoPN2: whyG,
     lawSmall: HP.geoModeOf(small3.physics).law, rejectedList: HP.coord3d.rejected.slice() } };
 }
 
@@ -365,6 +367,11 @@ export const S2_PLAN = Object.freeze([
   { area: '本', what: '平面の写し(galaxyGeo2 の 3D の新しい ID —— z = 0)→ 全体を傾けた円盤 → 有限厚(過渡の増速と定常の回転曲線を分けて測る)', where: '第322便〜(新しい ID)', gate: '平面の写しの外縁の比 = この正本の base(同じビットか差の出どころ)' }]);
 
 /* ───────── 門(正本から作り直せる)───────── */
+/** 今の門の期待(S2 の前: 小さい系の geoPN=2 の本は kFrame・geoPN12 で拒否 / S2 の世代〔第322便a〕: 範囲の内なので受理・走行中も通す —— geoPN=0 ∧ kFrame=1 は止める)。 */
+export function gatesNowOk(g) {
+  if (g.s2) return g.denySmallGeo2.length === 0 && g.accepted3d === true && g.runtimeNone === null && g.runtimeKFrame !== null && g.runtimeGeoPN2 === null && g.lawSmall === 'vMinusU-q';
+  return g.denySmallGeo2.includes('kFrame') && g.denySmallGeo2.includes('geoPN12') && g.runtimeNone === null && g.runtimeKFrame !== null && g.runtimeGeoPN2 !== null && g.accepted3d === false;
+}
 export function gatesOf(J) {
   const b = J.parts.base, dg = J.parts.degen, d3 = J.parts.d3, cv = J.parts.cov, fl = J.parts.field, hi = J.parts.hist, lg = J.parts.ledger;
   return {
@@ -372,7 +379,7 @@ export function gatesOf(J) {
     degenSame: !!(dg && dg.allSame && dg.rows.every((r) => r.zMax === 0 && r.LzRel === 0)),
     degenScope: !!(dg && dg.rows.every((r) => r.scopeOk && r.law === 'vMinusU-q')),
     d3Same: !!(d3 && d3.allSame && d3.rows.every((r) => r.coord3d && r.nonPlanar)),
-    d3GatesNow: !!(d3 && d3.gates.denySmallGeo2.includes('kFrame') && d3.gates.denySmallGeo2.includes('geoPN12') && d3.gates.runtimeNone === null && d3.gates.runtimeKFrame !== null && d3.gates.runtimeGeoPN2 !== null && d3.gates.accepted3d === false),
+    d3GatesNow: !!(d3 && gatesNowOk(d3.gates)),
     covariant: !!(cv && cv.maxRel <= 1e-12),
     fieldStatic: !!(fl && fl.static.pass), fieldUniform: !!(fl && fl.uniform.pass), fieldRigid: !!(fl && fl.rigid.pass), fieldShell: !!(fl && fl.shell.pass), fieldFd: !!(fl && fl.fd.pass),
     histFirst: !!(hi && hi.pass), ledger: !!(lg && lg.pass) };
