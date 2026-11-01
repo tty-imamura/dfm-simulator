@@ -87974,7 +87974,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         else {
           // 第318便c(原仮定者の指示(第120報)・R256): 世代切替 —— 内蔵の本 🗺️ solarSystem16Inertial3d を 💙 の後ろ(先頭 105 本の範囲)に足した世代は、
           //   並びの照合からその 1 本を除く(その本の表示の欄の照合は behavior.solar16Builtin318c ⑥ —— 同じ語の集合)
-          const arr = H.evalExpr('BUILTIN_PRESETS').filter((p) => p.id !== 'solarSystem16Inertial3d');
+          // 第322便a(R270): 世代切替 —— 内蔵の本 🫓 galaxyGeo2Flat3d を 💫 の後ろ(先頭 105 本の範囲)に足した世代も同じく除く(その本の表示の欄の照合は behavior.geo2flat322a ⑦)
+          const arr = H.evalExpr('BUILTIN_PRESETS').filter((p) => p.id !== 'solarSystem16Inertial3d' && p.id !== 'galaxyGeo2Flat3d');
           const head = arr.slice(0, B316.length).map((p) => p.id);
           if (JSON.stringify(head) !== JSON.stringify(B316)) bad.push('先頭 ' + B316.length + ' 本の並びが固定の一覧と違う(最初の差: ' + (head.find((x, i) => x !== B316[i]) || '—') + ')');
           if (!arr[B316.length] || arr[B316.length].id !== 'plutoCharonKF0Control') bad.push(B316.length + 1 + ' 本目が plutoCharonKF0Control でない(枝 c との境界)');
@@ -91786,6 +91787,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           const ph3 = Object.assign({}, b3.physics); delete ph3.coord;
           if (b3.seed !== g2.seed || JSON.stringify(b3.bodies) !== JSON.stringify(g2.bodies) || JSON.stringify(ph3) !== JSON.stringify(g2.physics)) bad.push('⑦ 💫 と seed・bodies・物理(coord を除く)が違う');
           if (b3.overlays && b3.overlays.mechSpectrum) bad.push('⑦ 三次元の本に mechSpectrum');
+          { const walk7 = (o, pre, out) => { if (typeof o === 'string') out.push([pre, o]); else if (o && typeof o === 'object') for (const k of Object.keys(o)) walk7(o[k], pre ? pre + '.' + k : k, out); return out; };   // 表示の欄に来歴の語・旧記号が無い(lint.presetText316b の並びの照合から除いた分)
+            const PROV7 = /第\s*\d+(?:\s*[〜~]\s*\d+)?\s*便|第\s*\d+\s*報|原仮定者|決断事項|統括|検証項目\s*R\d|\bAN\d{2,4}\b|\bR\d{3}\b|本便|DECISIONS/, SYM7 = /κ(?!_D)|K_s|\bkappa(?:0|_T)?\b/;
+            const hit7 = walk7({ name: b3.name, descStruct: b3.descStruct, en: b3.en }, '', []).filter(([k, v]) => !/brief$/.test(k) && (PROV7.test(v) || SYM7.test(v))).map(([k]) => k);
+            if (hit7.length) bad.push('⑦ 表示の欄に来歴の語・旧記号: ' + hit7.join(',')); }
           const v = HPx.validatePreset(clone(b3)); if (!(v.ok && HPx.coord3d.denyOf(v.preset).length === 0)) bad.push('⑦ 本が受理されない');
         }
         cases.push(`⑦ 内蔵の三次元の geoPN=2 の本 ${g3ids.join('・')}(💫 と同じ seed・bodies・物理 —— coord を除く)`);

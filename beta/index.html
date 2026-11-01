@@ -13679,6 +13679,39 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:true} },
 
+// ==== 第322便a の本(ここから)====
+// 第322便a(原仮定者の予定(第123報)「geoPN=2の予定: 3D対応する …… 引きずり近似としての需要が有る」・原仮定者の回答(2026-11-01 —— AN499・AN500)・AN504・
+//   統括の検証項目 R270): 💫 galaxyGeo2 の**面内の写し**を三次元の步で走らせる本(新しい ID・傾き無し・厚み 0)。宣言は 💫 と同じ seed・同じ初期配置・同じ物理に
+//   physics.coord:"3d" を足し、overlays.mechSpectrum を外しただけ(機構スペクトルは三次元では未対応)。状態の数の表現は 💫 と同じ単精度 —— 面内の結果が
+//   二次元の基準と同じビットであることが門(器 tests/exp-w322a-geo2flat.mjs の段 gate)なので、新しい三次元の本の倍精度の規約(AN286)の例外。
+//   傾き有りと有限厚の対は器の試走と設計まで(内蔵しない —— AN510 の裁定の後)。claims は持たない(比の照合は器の正本 tests/out/geo2flat-w322a.json)。
+//   並びは家族の近く(💫 の後 —— 先頭 105 本の固定の並びの照合 lint.presetText316b は第318便c の 🗺️ と同じくこの 1 本を除いて照合する)。
+{ id:"galaxyGeo2Flat3d", catalog:"extended", name:"v−u統一測地線の銀河(三次元・平面の写し)", emoji:"🫓", group:"銀河の力学",
+  scaleTier:"galactic",
+  sampleClass:"principle",
+  notClaim:["galaxy"],
+  familyId:"galaxyrot", familyRole:"variant",
+  descStruct:{
+    summary:"💫 v−u統一測地線の銀河と同じ seed・同じ配置・同じ物理を、三次元の步(physics.coord:\"3d\")で走らせる平面の写し。円盤は傾けず厚みも 0(z = v_z = 0・自転軸はすべて +z)なので、重力(E4)と空間の引きずり(E6′)を一本の式にした v−u 則(E12・geoPN=2)の輸送の 3 成分(源の自転 Ω = s â・勾配補正・渦度コリオリ (∇×u)×(v − k_F u))は面内の式へ退化し、面内の結果は二次元の 💫 と同じビットになる —— 三次元の步へ v−u 則をつないだことの門。λ_PN=0。",
+    observe:"外縁帯 [156,286] の回転の増強(kFrame=1 の本と kFrame=0 の写しの比)は二次元の 💫 の基準と同じビット(器 tests/exp-w322a-geo2flat.mjs の段 gate —— 12000 步)。z・v_z・u の履歴の z は 0 のまま、自転軸は +z のまま(残余トルクは ẑ に平行)。三次元の口座(リザーバ・固定中心の拘束 conP・conL・引きずりの仕事)は読み口 HP.coord3d.totals の geo2 に出る。",
+    control:"kFrame=0 にすると輸送が消え、λ_PN=0 なので三次元のニュートンの步へ退化する(おすすめA/B)。傾けた円盤と有限厚の円盤は設計の段(器の試走だけ —— 内蔵の本はまだ無い)。二次元の 💫 と並べると、同じ初期条件の同じ式であることが読める。"},
+  en:{name:"Unified v−u Geodesic Galaxy (3D, flat copy)", descStruct:{
+    summary:"A flat copy that runs 💫 Unified v−u Geodesic Galaxy (same seed, layout and physics) on the three-dimensional step (physics.coord 3d). The disc is not tilted and has zero thickness (z = v_z = 0, every spin axis +z), so the three-component transport of the v−u law that joins gravity (E4) and space dragging (E6′) in one formula (E12, geoPN=2: source spin Omega = s a-hat, gradient correction, vorticity Coriolis (curl u) x (v - k_F u)) reduces to the in-plane formula, and the in-plane result is bit-identical to the 2D 💫 - the gate for connecting the v−u law to the 3D step. lambda_PN=0.",
+    observe:"The outer-band [156,286] rotation boost (the kFrame=1 book over its kFrame=0 copy) is bit-identical to the 2D 💫 baseline (harness tests/exp-w322a-geo2flat.mjs, part gate - 12000 steps). z, v_z and the z part of the u history stay 0 and every spin axis stays +z (the residual torque is parallel to z-hat). The 3D ledgers (reservoir, fixed-centre constraint conP/conL, drag work) appear under geo2 in HP.coord3d.totals.",
+    control:"Set kFrame to 0 and the transport vanishes; with lambda_PN=0 this degenerates to the 3D Newtonian step (suggested A/B). A tilted disc and a disc of finite thickness are at the design stage (harness trials only - no built-in book yet). Put it next to the 2D 💫 to see the same formula from the same initial condition."}},
+  activeParams:["kFrame","D0"],
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
+  timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},
+  physics:{coord:"3d", contactMode:"none", G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:2, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3, frameWeight:"share"},
+  bodies:[
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
+    {type:"disk", rMul:1.2, n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
+  ],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false} },
+// ==== 第322便a の本(ここまで)====
+
 // 第74便: 🍳galaxyDB — ディスク/バルジ対比の基準実験(ChatGPT 分析 §4.1 galaxyDiskBulgeAB 採択)。
 // 🎡galaxyStd と同一の中心天体・同一物理で、恒星380体を「回転支持ディスク190体(半径260・
 // kepler 円運動)」と「分散支持バルジ190体(半径90・等方ランダム速度 vScale6)」に二分した。
@@ -23587,39 +23620,6 @@ const BUILTIN_PRESETS = [
     {type:"single", m:1, x:18.18181818181818, y:0, z:0, vx:0, vy:0.674199862463242, vz:0, spin:0.3, pinned:false, radius:0.5,
       spinAxis:{enable:true, tiltDeg:30, azimuthDeg:0, precessionRate:0.009270248108869578, source:"第298便a の表示確認用の宣言(観測値ではない)"}}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
-
-// ==== 第322便a の本(ここから)====
-// 第322便a(原仮定者の予定(第123報)「geoPN=2の予定: 3D対応する …… 引きずり近似としての需要が有る」・原仮定者の回答(2026-11-01 —— AN499・AN500)・AN504・
-//   統括の検証項目 R270): 💫 galaxyGeo2 の**面内の写し**を三次元の步で走らせる本(新しい ID・傾き無し・厚み 0)。宣言は 💫 と同じ seed・同じ初期配置・同じ物理に
-//   physics.coord:"3d" を足し、overlays.mechSpectrum を外しただけ(機構スペクトルは三次元では未対応)。状態の数の表現は 💫 と同じ単精度 —— 面内の結果が
-//   二次元の基準と同じビットであることが門(器 tests/exp-w322a-geo2flat.mjs の段 gate)なので、新しい三次元の本の倍精度の規約(AN286)の例外。
-//   傾き有りと有限厚の対は器の試走と設計まで(内蔵しない —— AN510 の裁定の後)。claims は持たない(比の照合は器の正本 tests/out/geo2flat-w322a.json)。
-//   並びは三次元の最初の検証本(🌐🎲)の後(先頭 105 本の並びは lint.presetText316b の固定の一覧 —— 家族の近くには置けない)。
-{ id:"galaxyGeo2Flat3d", catalog:"extended", name:"v−u統一測地線の銀河(三次元・平面の写し)", emoji:"🫓", group:"銀河の力学",
-  scaleTier:"galactic",
-  sampleClass:"principle",
-  notClaim:["galaxy"],
-  familyId:"galaxyrot", familyRole:"variant",
-  descStruct:{
-    summary:"💫 v−u統一測地線の銀河と同じ seed・同じ配置・同じ物理を、三次元の步(physics.coord:\"3d\")で走らせる平面の写し。円盤は傾けず厚みも 0(z = v_z = 0・自転軸はすべて +z)なので、重力(E4)と空間の引きずり(E6′)を一本の式にした v−u 則(E12・geoPN=2)の輸送の 3 成分(源の自転 Ω = s â・勾配補正・渦度コリオリ (∇×u)×(v − k_F u))は面内の式へ退化し、面内の結果は二次元の 💫 と同じビットになる —— 三次元の步へ v−u 則をつないだことの門。λ_PN=0。",
-    observe:"外縁帯 [156,286] の回転の増強(kFrame=1 の本と kFrame=0 の写しの比)は二次元の 💫 の基準と同じビット(器 tests/exp-w322a-geo2flat.mjs の段 gate —— 12000 步)。z・v_z・u の履歴の z は 0 のまま、自転軸は +z のまま(残余トルクは ẑ に平行)。三次元の口座(リザーバ・固定中心の拘束 conP・conL・引きずりの仕事)は読み口 HP.coord3d.totals の geo2 に出る。",
-    control:"kFrame=0 にすると輸送が消え、λ_PN=0 なので三次元のニュートンの步へ退化する(おすすめA/B)。傾けた円盤と有限厚の円盤は設計の段(器の試走だけ —— 内蔵の本はまだ無い)。二次元の 💫 と並べると、同じ初期条件の同じ式であることが読める。"},
-  en:{name:"Unified v−u Geodesic Galaxy (3D, flat copy)", descStruct:{
-    summary:"A flat copy that runs 💫 Unified v−u Geodesic Galaxy (same seed, layout and physics) on the three-dimensional step (physics.coord 3d). The disc is not tilted and has zero thickness (z = v_z = 0, every spin axis +z), so the three-component transport of the v−u law that joins gravity (E4) and space dragging (E6′) in one formula (E12, geoPN=2: source spin Omega = s a-hat, gradient correction, vorticity Coriolis (curl u) x (v - k_F u)) reduces to the in-plane formula, and the in-plane result is bit-identical to the 2D 💫 - the gate for connecting the v−u law to the 3D step. lambda_PN=0.",
-    observe:"The outer-band [156,286] rotation boost (the kFrame=1 book over its kFrame=0 copy) is bit-identical to the 2D 💫 baseline (harness tests/exp-w322a-geo2flat.mjs, part gate - 12000 steps). z, v_z and the z part of the u history stay 0 and every spin axis stays +z (the residual torque is parallel to z-hat). The 3D ledgers (reservoir, fixed-centre constraint conP/conL, drag work) appear under geo2 in HP.coord3d.totals.",
-    control:"Set kFrame to 0 and the transport vanishes; with lambda_PN=0 this degenerates to the 3D Newtonian step (suggested A/B). A tilted disc and a disc of finite thickness are at the design stage (harness trials only - no built-in book yet). Put it next to the 2D 💫 to see the same formula from the same initial condition."}},
-  activeParams:["kFrame","D0"],
-  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
-  timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},
-  physics:{coord:"3d", contactMode:"none", G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
-    cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:2, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3, frameWeight:"share"},
-  bodies:[
-    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
-    {type:"disk", rMul:1.2, n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
-  ],
-  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false} },
-// ==== 第322便a の本(ここまで)====
 
 // ===== 第252便a(第44報「箱宇宙と連星」): 🫂 boxBinaryToy — 等質量では何が消えて何が残るか =====
 // 原仮定者(第44報・全文は docs/PHYSICS.md 〔第252便a〕): 「もしも2つしかない天体が同じ質量だったら…
