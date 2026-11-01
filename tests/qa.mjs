@@ -91971,6 +91971,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----     ② 段 T を正本の走行の行から作り直して同じ・解析の目安(η・1 + (4/3)η・q_1PN)をその場の本から作り直して同じ ③ 本の文の比(h/4 の回帰・検出器 B)が正本と同じ
 // ----     ④ PHYSICS〔第322便b〕の表(受理と写しの同一・(1 + (4/3)η) の表・NS の観測の自転の欄の設計)の行と数が逐語・必須の語・節が「## 7.」の前
 // ----     ⑤ AI_SPEC §164・CHANGELOG・再生成の段・.gitignore・post-merge・CANON・煙試験の窓 ⑥ 書かない語・禁句・裸の κ・新しい文の r_d(節と器と lib と文書の lib・AI_SPEC §164)
+// ----   第322便e(原仮定者の回答(2026-11-01 —— AN519)「c₀=30 に直す」・統括の検証項目 R274): behavior ② に検証サンプルの c₀ = 30(従属の kappaT = G/c₀² のビット・第321便b の写しとの差の鍵が
+// ----     cLight と kappaT だけ)・docs ④ に節の段落「第322便e の更新」の語(写しの相手は第321便b の玩具に c₀ = 30 の宣言を当てた写し —— 器の門 aC0)
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const bHarn = path.join(ROOT, 'tests', 'exp-w322b-binbooks.mjs'), bLib = path.join(ROOT, 'tests', 'lib-w322b-binbooks.mjs'), bDoc = path.join(ROOT, 'tests', 'lib-w322b-binbooksdoc.mjs');
@@ -92024,6 +92026,13 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           spin: rdg.spinDrag === undefined && !(rdg.invSq && rdg.invSq.sourceMoment), gLoc: JSON.stringify(ph.gLoc || null) === JSON.stringify(E.gLoc), cls: p.sampleClass === E.sampleClass,
           nc: Array.isArray(p.notClaim) && p.notClaim.includes(E.notClaim), fam: b.src === 'book' ? (p.familyRole === 'variant' && p.familyId === (find(b.book) || {}).familyId) : !p.familyId };
         for (const [k, ok] of Object.entries(dc)) if (!ok) bad.push('② ' + r.id + ' の宣言 ' + k);
+        // 第322便e(原仮定者の回答(2026-11-01 —— AN519)「c₀=30 に直す」・R274): 検証サンプルは c₀ = 30・従属の kappaT = G/c₀²(ビット)・第321便b の写し(列 tr)との差の鍵は cLight と kappaT だけ(実在の連星は差なし)
+        if (typeof B.c0DiffOf === 'function' && B.TOY_C0) {
+          const dT = B.c0DiffOf(b, find, 'tr'), want = b.src === 'toy' ? B.TOY_C0.keys.slice().sort() : [];
+          if (b.src === 'toy' && ph.cLight !== B.TOY_C0.cLight) bad.push('② ' + r.id + ' の cLight が c₀ = ' + B.TOY_C0.cLight + ' でない(' + ph.cLight + ')');
+          if (ph.kappaT !== ph.G / (ph.cLight * ph.cLight)) bad.push('② ' + r.id + ' の kappaT が G/c₀² とビット同一でない');
+          if (JSON.stringify(dT.keys) !== JSON.stringify(want) || !dT.restSame) bad.push('② ' + r.id + ' の第321便b の写しとの差の鍵が ' + (dT.keys.join('・') || '無し') + '(期待 ' + (want.join('・') || '無し') + ')');
+        } else bad.push('② lib に c₀ = 30 の宣言(TOY_C0・c0DiffOf)が無い');
         if (!(r.lawDecl === 'inertial-drag' && r.law === 'inertial-drag' && r.ge === 0)) bad.push('② ' + r.id + ' の法則 ' + r.lawDecl + '/' + r.law + '(' + r.ge + ')');
         if (r.cal && ['pass', 'pass-limited', 'fail', 'hold'].includes(r.cal)) bad.push('② ' + r.id + ' が較正母集団に入る(' + r.cal + ')');
         if (!r.bitSame) bad.push('③ ' + r.id + ' の 60 步の状態が写しとビット同一でない');
@@ -92035,7 +92044,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (!(p.obsCard || []).some((z) => z.model.indexOf('η = ' + et.etaTxt + ' → ' + et.fTxt + '(' + et.pctTxt + ')') >= 0)) bad.push('④ ' + r.id + ' の観測カードに η = ' + et.etaTxt + ' → ' + et.fTxt + ' が無い');
         if (!((en.descStruct || {}).summary && en.descStruct.summary.indexOf(et.fTxt) >= 0)) bad.push('④ ' + r.id + ' の概要(en)に ' + et.fTxt + ' が無い');
         for (const s of strsOf({ name: p.name, descStruct: ds, obsCard: p.obsCard, en, parameterAudit: p.parameterAudit })) for (const re of NOTW) if (re.test(s)) bad.push('④ ' + r.id + ' に書かない語 ' + re.source);
-        cases.push(`${p.emoji} ${r.id}: η ${et.etaTxt} → ${et.fTxt}(${et.pctTxt})・spin ${(r.spin0 || []).map((s) => s.toFixed(4)).join('・')}`);
+        cases.push(`${p.emoji} ${r.id}: η ${et.etaTxt} → ${et.fTxt}(${et.pctTxt})・c₀ ${ph.cLight}・spin ${(r.spin0 || []).map((s) => s.toFixed(4)).join('・')}`);
       }
       if (R.length !== ids.length) bad.push('① 走れた本 ' + R.length + ' / ' + ids.length);
       if (!(i18n[0] && i18n[1] && i18n[0].indexOf('1 + (4/3)η') >= 0 && i18n[1].indexOf('1 + (4/3)eta') >= 0)) bad.push('④ 文 nc_binary_geo3(ja/en)が無い');
@@ -92094,7 +92103,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           let nMiss = 0; for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('④ PHYSICS〔第322便b〕の表に行が無い: ' + r.slice(0, 70)); }
           const nums = D.docNumbersBinBooks(J), missN = nums.filter((x) => sec.indexOf(x) < 0); if (missN.length) bad.push('④ PHYSICS〔第322便b〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
           for (const w of ['R271', 'AN499', 'AN505', 'AN492', 'AN508', '第124報', 'exp-w322b-binbooks.mjs', 'lib-w322b-binbooks.mjs', 'lib-w322b-binbooksdoc.mjs', 'binbooks-w322b.json', 'behavior.binBooks322b', 'docs.binBooks322b',
-            'isRuleBookNoCopy', 'isRuleBookW322', 'W322B_RULE_IDS', '**表 1', '**表 2', '刻みの感度診断', '量ごと', '言わないこと', '決断事項の候補', 'S3', '煙試験', 'siriusABInertial3d', 'alphaCenABInertial3d', 'binaryCheckEqualInertial3d', 'binaryCheckRatio3Inertial3d'])
+            'isRuleBookNoCopy', 'isRuleBookW322', 'W322B_RULE_IDS', '**表 1', '**表 2', '刻みの感度診断', '量ごと', '言わないこと', '決断事項の候補', 'S3', '煙試験', 'siriusABInertial3d', 'alphaCenABInertial3d', 'binaryCheckEqualInertial3d', 'binaryCheckRatio3Inertial3d',
+            '**第322便e の更新', 'AN519', 'R274', 'applyToyC0', 'aC0', 'light.canonical-builtins'])   // 第322便e: 検証サンプルを c₀ = 30 へ(原仮定者の回答 AN519)の段落
             if (sec.indexOf(w) < 0) bad.push('④ PHYSICS〔第322便b〕に「' + w + '」が無い');
           cases.push(`④ PHYSICS〔第322便b〕の表 ${rows.length} 行と数 ${nums.length} 個が逐語・必須の語`);
         }

@@ -8,6 +8,9 @@
 //   A 受理の表: 内蔵の 4 本(♊⚖️🌠🔶)の受理(警告 0)・presetSig と受理後の宣言(physics・bodies・timeRef・scaleExp・world・camera・overlays)が第321便b の兄弟の写し
 //     (列 tr —— 並進だけ)と同じ・宣言の期待(coord 3d・geoPN 3・kFrame 0・λ_PN 0・K1 + rdRule "kappaM" + initMotion "observed"・spinDrag と sourceMoment なし・G_loc kappaC2・
 //     sampleClass "principle"・notClaim binary_geo3)・OFF の対照(abBody の physicsPatch を重ねた写し)が写しの列 off と同じ。
+//     第322便e(原仮定者の回答(2026-11-01 —— AN519)「c₀=30 に直す」・統括の検証項目 R274): 検証サンプル ♊⚖️ の写しの相手は**第321便b の玩具に c₀ = 30 の宣言を当てた写し**
+//     (lib の applyToyC0 —— cLight 10 → 30 と従属の kappaT = G/c₀² だけ・第321便b の玩具・器・正本は c = 10 のまま)。門 aC0: 本の cLight = 30・kappaT が G/(c₀·c₀) とビット同一・
+//     第321便b の写し(列 tr・off)との差の鍵が cLight と kappaT だけ(physics の外は同じ)・実在の連星の 2 本は差なし。geo1 の参照(列 g1)も同じ c₀ = 30 の玩具。
 //   E 走行(子プロセス): 本 × 列(self = 内蔵の本・off = OFF の対照・g1 = geo1 の参照〔同じ入力の二次元の geo1 —— 第321便b の g1_2d〕)× 刻み h・h/2・h/4 × 窓 8 公転
 //     (遠点から)+ 写しの列 tr(h)—— 内蔵の本の走行の状態と写しのビットの照合。
 //   T 量ごとの表: 系ごとの η・1 + (4/3)η・q_1PN と、OFF を差し引いた近点の移動(self − off・g1 − off)・比 (self − off)/(g1 − off)(離心ベクトルの回帰 —— 主・
@@ -31,7 +34,7 @@ import { runBook } from './exp-w321b-geo3bin.mjs';
 const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABInertial3d","binary","binaryCheckEqualInertial3d","binaryCheckRatio3Inertial3d","boxBinaryToy","compactForceToy","coord3dKeplerTilt","coord3dSpinPrecess","fig8","gw150914","inertialDragPair","psrB1534","psrDoubleAB","psrJ1757DFM","psrJ1946DFM","siriusAB","siriusABInertial3d","spinDipoleBinary"],"roots":["$","HP.MASS_BASIS","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.geoEffectiveMode","HP.geoLawOfSim","HP.geoModeOf","HP.inertialDragLedgerOf","HP.presetSig","HP.sim","HP.validatePreset","T","calTargetOf","ctx","cw","pnSource"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w322b-binbooks-1';
+export const HARNESS_VERSION = 'w322b-binbooks-2';   // 第322便e: 検証サンプル ♊⚖️ を c₀ = 30 へ(原仮定者の回答 AN519 —— 写しの相手は第321便b の玩具に c₀ = 30 の宣言を当てた写し・門 aC0)
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const clone = (x) => JSON.parse(JSON.stringify(x));
 export const OUT_MAIN = 'tests/out/binbooks-w322b.json';
@@ -75,8 +78,10 @@ export function partA(HP) {
       family: sp.src === 'book' ? (p.familyRole === 'variant' && p.familyId === find(sp.book).familyId) : !p.familyId };
     let lawSim = null, ge = null, spin0 = null;
     if (v.ok) { const S = HP.coord3d.makeSim(); S.build(clone(v.preset)); lawSim = HP.geoLawOfSim(S); ge = HP.geoEffectiveMode(S); spin0 = Array.from(S.spin); }
-    const et = B.etaOf(p);
-    rows.push({ id: sp.id, emoji: p.emoji, present: true, accepted: v.ok === true, warnings: (v.warnings || []).length, sibAccepted: vs.ok === true,
+    const et = B.etaOf(p), dTr = B.c0DiffOf(sp, find, 'tr'), dOff = B.c0DiffOf(sp, find, 'off'), wantKeys = sp.src === 'toy' ? B.TOY_C0.keys.slice().sort() : [];
+    const c0 = { cLight: raw.cLight, kappaT: raw.kappaT, kappaBit: raw.kappaT === raw.G / (raw.cLight * raw.cLight), keysTr: dTr.keys, keysOff: dOff.keys, restSame: dTr.restSame && dOff.restSame, from: dTr.from, to: dTr.to,
+      ok: raw.cLight === (sp.src === 'toy' ? B.TOY_C0.cLight : raw.cLight) && raw.kappaT === raw.G / (raw.cLight * raw.cLight) && JSON.stringify(dTr.keys) === JSON.stringify(wantKeys) && JSON.stringify(dOff.keys) === JSON.stringify(wantKeys) && dTr.restSame && dOff.restSame };
+    rows.push({ id: sp.id, emoji: p.emoji, present: true, c0, accepted: v.ok === true, warnings: (v.warnings || []).length, sibAccepted: vs.ok === true,
       sigSame: HP.presetSig(clone(p)) === HP.presetSig(clone(sib)), declSame: v.ok && vs.ok ? effOf(v) === effOf(vs) : false,
       offPatchSame: JSON.stringify(((p.abBody || {}).physicsPatch || {}).relativeDrag || null) === JSON.stringify(L.OFF_DRAG) && ((p.abBody || {}).physicsPatch || {}).gLoc === null,
       offSigSame: vo.ok && vso.ok ? HP.presetSig(clone(off)) === HP.presetSig(clone(sibOff)) : false,
@@ -123,6 +128,7 @@ export function gatesOf(J) {
   G.aDecl = !!(A && A.rows.every((r) => r.declOk && r.lawDecl === 'inertial-drag' && r.lawSim === 'inertial-drag' && r.ge === 0));
   G.aOff = !!(A && A.rows.every((r) => r.offPatchSame && r.offSigSame));
   G.aText = !!(A && A.rows.every((r) => r.textHasF));
+  G.aC0 = !!(A && A.rows.every((r) => r.c0 && r.c0.ok));   // 第322便e: 検証サンプルは c₀ = 30(写しの差は cLight と kappaT だけ)・実在の連星は写しと差なし
   G.eRun = !!(J.E && J.E.rows.every((r) => r.status === 'run' && r.complete && !r.nan));
   G.eLaw = !!(T && T.law.length && T.law.every((z) => z.ok));
   G.eSibBits = !!(T && T.sib.length === B.BOOKS.length && T.sib.every((z) => z.sameState));
@@ -162,7 +168,7 @@ function poolRun(specs, NW, self, target) {
 export async function runAll(HP, o) {
   const P = o.plan, tm = {}; let t0 = Date.now();
   const tick = (k) => { tm[k] = { wallSec: (Date.now() - t0) / 1000 }; t0 = Date.now(); };
-  const J = { stage: 'binbooks', quick: !!o.quick, plan: clone(P), decl: { BOOKS: clone(B.BOOKS), DECL_EXPECT: clone(B.DECL_EXPECT), OFF_DRAG: clone(L.OFF_DRAG), EFF_KEYS: EFF_KEYS.slice() } };
+  const J = { stage: 'binbooks', quick: !!o.quick, plan: clone(P), decl: { BOOKS: clone(B.BOOKS), DECL_EXPECT: clone(B.DECL_EXPECT), OFF_DRAG: clone(L.OFF_DRAG), EFF_KEYS: EFF_KEYS.slice(), TOY_C0: clone(B.TOY_C0) } };
   J.A = partA(HP); tick('A');
   const specs = [];
   for (const id of P.books) {
@@ -196,7 +202,7 @@ export async function main() {
   const self = fileURLToPath(import.meta.url);
   const R = await runAll(HP, { quick, plan: quick ? QUICK : PLAN, runner: (specs) => poolRun(specs, NW, self, TARGET) });
   const out = { version: HARNESS_VERSION, libVersion: B.LIB_VERSION, lib321bVersion: L.LIB_VERSION, generator: 'tests/exp-w322b-binbooks.mjs', target: TARGET, targetSha256, reuseFrom: null,
-    ruling: '原仮定者の回答(2026-11-01 —— AN499)「『連星サンプル群』は実在天体を指している。検証サンプルが必要であれば、先に用意する」・決断事項 AN505・統括の検証項目 R271(策定の段 S2)。エンジンの関数・在位の本の宣言・受理の判定は変えない(新しい ID の本 4 本 —— 連星の観測との照合ではない)',
+    ruling: '原仮定者の回答(2026-11-01 —— AN499)「『連星サンプル群』は実在天体を指している。検証サンプルが必要であれば、先に用意する」・決断事項 AN505・統括の検証項目 R271(策定の段 S2)。第322便e: 原仮定者の回答(2026-11-01 —— AN519)「c₀=30 に直す」—— 検証サンプル 2 本は c₀ = 30(統括の検証項目 R274)。エンジンの関数・在位の本の宣言・受理の判定は変えない(新しい ID の本 4 本 —— 連星の観測との照合ではない)',
     invSqVersion: HP.REL_DRAG_INVSQ_VERSION || null, geoModeVersion: HP.geoModeOf({}).version || null, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w322b-binbooks.mjs', 'tests/lib-w322b-binbooks.mjs', 'tests/exp-w321b-geo3bin.mjs', 'tests/lib-w321b-geo3bin.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w320d-rulebooks.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
