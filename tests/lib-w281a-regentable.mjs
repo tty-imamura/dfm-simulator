@@ -1550,6 +1550,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/galfield-w321c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/G0/std/wallSec', '/G0/db/wallSec', '/G0/rest/*/wallSec']) },
     note: '第321便c: geoPN=4 の一新の S1 —— 比較の基準の凍結(在位の geoPN=4 と銀河の本)・銀河の中の任意の位置の源の流れの場の純関数(u・∇u・半渦度・有効域・誤差 —— 中心と残余の重ならない分割・演算 B・環の積分を参照)・半渦度 ↔ u_φ の対照(境界つきの復元)・6 天体の拮抗の符号つきの表と衛星の列(エンジン・在位の本は変えない・半渦度を受け手の軸へ直結する項は足さない)' }),
   // ==== 第321便c の塊(ここまで)====
+  // ==== 第322便b の塊(ここから)====
+  // ---- 第322便b(原仮定者の回答(2026-11-01 —— AN499)「『連星サンプル群』は実在天体を指している。検証サンプルが必要であれば、先に用意する」・決断事項 AN505・
+  //   統括の検証項目 R271 —— 策定の段 S2): **geoPN=3 の連星の内蔵の第一陣の器**(段 binbooks-322b —— A 受理の表〔内蔵の 4 本 ♊⚖️🌠🔶 と第321便b の兄弟の写しの
+  //   presetSig・受理後の宣言・OFF の対照〕・E 走行〔本 × self・off・g1 × h・h/2・h/4 × 8 公転 + 写しの列 tr〕・T 量ごとの表〔η・1 + (4/3)η・OFF を差し引いた近点の移動の比〕)。
+  //   html を読む(他の正本・データは読まない —— html の生成領域の後)。子プロセス 2 本(W322B_WORKERS)。所要は第322便b の枝の実測(**並走の秒** —— 4 枝並走の容器 —— 統括が混まない箱で測り直す)
+  S('binbooks-322b', 'node tests/exp-w322b-binbooks.mjs', ['tests/out/binbooks-w322b.json'], 60, { secSource: 'w322b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/binbooks-w322b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec']) },
+    note: '第322便b: geoPN=3 の連星の内蔵の第一陣(検証サンプル ♊ 等質量・⚖️ 質量比 1:3 → 🌠 シリウス無自転 → 🔶 α Cen 並進だけ)の受理後の宣言と第321便b の兄弟の写しの同一・OFF を差し引いた近点の移動の比と系ごとの 1 + (4/3)η(表示だけ —— 補正の係数は入れない)—— エンジン・在位の本は変えない' }),
+  // ==== 第322便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

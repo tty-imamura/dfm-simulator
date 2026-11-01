@@ -492,6 +492,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.galField321c docs.nbCompose320c docs.sr
 #   受理器を読む behavior.srcHeat320・docs.srcHeat320・受理器の理由の文の表 lint.textRegistry318・lint.presetText316c・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcMomentIdx321 docs.w321d behavior.srcHeat320 docs.srcHeat320 lint.textRegistry318 lint.presetText316c lint.sectionLookup313 lint.qaHeapRelease310"
 # ==== 第321便d の塊(ここまで)====
+# ==== 第322便b の塊(ここから)====
+# 第322便b(原仮定者の回答 AN499・AN505・AN492・AN508・R271): 枝 b の新設 2 本(behavior.binBooks322b —— 内蔵の 4 本の受理と兄弟の写しの同一・走行のビット・表示の 1 + (4/3)η・
+#   docs.binBooks322b —— 正本と文書・NS の観測の自転の欄の設計)と、後に入った本の除外を宣言の条件へ移した QA 6 本(behavior.wbgDirect302・preset.gLocPlanets302・docs.semic302・
+#   preset.revertGLoc303・behavior.invSq309・behavior.galaxial311)・lint.laterBooks319(世代切替)・docs.geo3Bin321b(S2 の本の世代切替)・ui.fidelity・正本の段の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.binBooks322b docs.binBooks322b behavior.wbgDirect302 preset.gLocPlanets302 docs.semic302 preset.revertGLoc303 behavior.invSq309 behavior.galaxial311 lint.laterBooks319 docs.geo3Bin321b ui.fidelity lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.harnessSmoke303"
+# ==== 第322便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
