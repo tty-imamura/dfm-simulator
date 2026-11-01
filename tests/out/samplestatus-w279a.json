@@ -13,62 +13,62 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "8cc7c189f4740737aefe42f06d7f733a91ca087671d8ee49c7922076b828aa38",
-  "generatedAt": "2026-11-01T07:10:27.256Z",
+  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+  "generatedAt": "2026-11-01T12:07:59.386Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 120602,
-    "sha256": "4ce251e543ea87c0a17dfa388aa8607baf73843248aca21136cce908aabb367b",
-    "mtime": "2026-11-01T07:10:23.751Z"
+    "bytes": 121225,
+    "sha256": "18ce53bd0af5779e836a18bf6ace0f91ecfc8090ae49db7ef2835db7652c1b30",
+    "mtime": "2026-11-01T10:23:04.518Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1719646,
-    "sha256": "c3ce7893f7a25d7c0651f665986d86a7f0a64d8e77bfab74da7c35cb322a2953",
-    "mtime": "2026-11-01T06:37:42.437Z"
+    "bytes": 1719643,
+    "sha256": "f7afd162f931abe720c98ee777ce9cdf698dcff0db74c6f1e02ac57799267294",
+    "mtime": "2026-11-01T11:57:05.906Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90744,
-    "sha256": "b776952510d8ab155af295d746bbcbec1ad3ba7ef1f2b01f43ea85100f010e4b",
-    "mtime": "2026-11-01T06:37:42.453Z"
+    "bytes": 90719,
+    "sha256": "822dca7e6d35e2dfc74d36f5f8063803968b1ca5a7cae256f2431d6d24f35bb8",
+    "mtime": "2026-11-01T12:06:49.686Z"
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 105155,
-    "sha256": "d3dcba90a3cd2072fdff3ddea4cd5feeec270806847257f5560fe5734024ed0c",
-    "mtime": "2026-11-01T07:10:27.205Z"
+    "bytes": 106061,
+    "sha256": "730cc20d56f9e0c7464ecd286322d48e4138c5fc29af4fc57069e3f4057b9104",
+    "mtime": "2026-11-01T12:07:59.362Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-11-01T06:37:42.381Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w284b.json",
     "bytes": 244564,
     "sha256": "1fffd3f45fe2e8625b16e6243f9888ad74a32637a8f40bc43564c452ff92fb29",
-    "mtime": "2026-11-01T06:37:42.381Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w285f.json",
     "bytes": 64583,
     "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
-    "mtime": "2026-11-01T06:37:42.385Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w286f.json",
     "bytes": 71553,
     "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
-    "mtime": "2026-11-01T06:37:42.385Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w287b.json",
     "bytes": 56177,
     "sha256": "ae12f0fdfa73e2d98ec7293e46113325c8de8fd2218bb03c2d91330c4b0c33f0",
-    "mtime": "2026-11-01T06:37:42.385Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    }
   ],
   "code": [
@@ -76,31 +76,31 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 39674,
     "sha256": "d5e1b6f5043e175e4f51649408d3df7954e52560ba44ee7315f33575bdd04e65",
-    "mtime": "2026-11-01T06:37:42.317Z"
+    "mtime": "2026-10-31T02:33:26.520Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 31458,
     "sha256": "16a147e300ca0dfcf28c055b791689f434a1e2fdf9a86d8dadef8eaf8c89891b",
-    "mtime": "2026-11-01T06:37:42.401Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-01T06:37:42.397Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
     "bytes": 39201,
     "sha256": "c6e9b7ef66592b357bc0931831642147d75072bbc73ef16e99cb8ef0b4376c79",
-    "mtime": "2026-11-01T06:37:42.409Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    },
    {
     "file": "tests/lib-w288f-htmlstage.mjs",
     "bytes": 10343,
     "sha256": "c6425fa01e5360716b3e98872f9d0ac3c56cc75f79875bb4abb12d74e16160e1",
-    "mtime": "2026-11-01T06:37:42.409Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
   "codeSha256": "50fd15c83d28f4645868738744501a232f73b9012b6cbcd14c4f001a3261ba03",
@@ -113,7 +113,7 @@
  },
  "tally": {
   "objective": {
-   "met": 87,
+   "met": 88,
    "partial": 35,
    "unmet": 3,
    "n/a": 0
@@ -124,7 +124,7 @@
    "fail": 1,
    "hold": 16,
    "hold-definition": 0,
-   "out-of-scope": 106
+   "out-of-scope": 107
   },
   "four": {
    "合": 0,
@@ -141,7 +141,7 @@
    {
     "group": "銀河の力学",
     "icon": "🌌",
-    "n": 6
+    "n": 7
    },
    {
     "group": "天体の機構",
@@ -204,13 +204,13 @@
     "n": 0
    }
   ],
-  "n": 125,
+  "n": 126,
   "scope": "listed",
   "predictionEligible": 0,
   "builtin": {
-   "n": 181,
+   "n": 182,
    "objective": {
-    "met": 113,
+    "met": 114,
     "partial": 60,
     "unmet": 8,
     "n/a": 0
@@ -221,7 +221,7 @@
     "fail": 1,
     "hold": 16,
     "hold-definition": 2,
-    "out-of-scope": 160
+    "out-of-scope": 161
    },
    "four": {
     "合": 0,
@@ -6418,6 +6418,12 @@
       "always": false
      },
      {
+      "key": "geo2flat-322a",
+      "sec": 230,
+      "share": 2,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 124,
       "share": "all",
@@ -6442,6 +6448,296 @@
        "via": "targetIds"
       }
      ]
+    }
+   }
+  },
+  {
+   "id": "galaxyGeo2Flat3d",
+   "emoji": "🫓",
+   "name": "v−u統一測地線の銀河(三次元・平面の写し)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "💫 の面内の写しを三次元の步で走らせ二次元と比べる",
+    "objective": "met",
+    "state": "外縁速度比が二次元の 💫 と同じビット・クランプ 0・z と軸は面内のまま",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/geo2flat-w322a.json"
+    ],
+    "en": {
+     "purpose": "Run the in-plane copy of 💫 on the 3D step against 2D",
+     "state": "the outer speed ratio is bit-identical to the 2D 💫 with zero clamps and z stays 0",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Run the in-plane copy of 💫 on the 3D step against 2D. Met: the outer speed ratio is bit-identical to the 2D 💫 with zero clamps and z stays 0. Out of calibration scope."
+    },
+    "brief": "💫 の面内の写しを三次元の步で走らせ二次元と比べる。達・外縁速度比が二次元の 💫 と同じビット・クランプ 0・z と軸は面内のまま。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "d0audit",
+      "sec": 19,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 67,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 139,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 350,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 453,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 44,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 123,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 23,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 359,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 146,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 405,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 13,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 1464,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 365,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 97,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 231,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "statecontract-302e",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 210,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "semic-302d",
+      "sec": 778,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbgest-302c",
+      "sec": 464,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-303a",
+      "sec": 542,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 4,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-310a",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1x3d-314d",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "symbols-315a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rsexcess-315b",
+      "sec": 11,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3bin-321b",
+      "sec": 55,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo2flat-322a",
+      "sec": 230,
+      "share": 2,
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 124,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
     }
    }
   },
@@ -21830,17 +22126,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 94.483,
+     "wallSec": 88.483,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 31.538,
+       "wallSec": 29.712,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 62.945,
+       "wallSec": 58.771,
        "reused": false,
        "reusedBy": null
       }
@@ -23868,17 +24164,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.774,
+     "wallSec": 2.74,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.035,
+       "wallSec": 1.073,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.739,
+       "wallSec": 1.667,
        "reused": false,
        "reusedBy": null
       }
@@ -27246,6 +27542,12 @@
       "always": false
      },
      {
+      "key": "fieldcontract-322c",
+      "sec": 90,
+      "share": 12,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 653,
       "share": 29,
@@ -27318,17 +27620,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.699999999999999,
+     "wallSec": 5.806,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.711,
+       "wallSec": 2.09,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.989,
+       "wallSec": 3.716,
        "reused": false,
        "reusedBy": null
       }
@@ -29013,6 +29315,12 @@
       "always": false
      },
      {
+      "key": "fieldcontract-322c",
+      "sec": 90,
+      "share": 12,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 653,
       "share": 29,
@@ -29576,6 +29884,12 @@
       "always": false
      },
      {
+      "key": "fieldcontract-322c",
+      "sec": 90,
+      "share": 12,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 653,
       "share": 29,
@@ -30076,6 +30390,12 @@
       "key": "galfield-321c",
       "sec": 259,
       "share": 18,
+      "always": false
+     },
+     {
+      "key": "fieldcontract-322c",
+      "sec": 90,
+      "share": 12,
       "always": false
      },
      {
@@ -30612,6 +30932,12 @@
       "always": false
      },
      {
+      "key": "fieldcontract-322c",
+      "sec": 90,
+      "share": 12,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 653,
       "share": 29,
@@ -31100,6 +31426,12 @@
       "key": "galfield-321c",
       "sec": 259,
       "share": 18,
+      "always": false
+     },
+     {
+      "key": "fieldcontract-322c",
+      "sec": 90,
+      "share": 12,
       "always": false
      },
      {
@@ -31928,6 +32260,12 @@
       "always": false
      },
      {
+      "key": "fieldcontract-322c",
+      "sec": 90,
+      "share": 12,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 653,
       "share": 29,
@@ -32407,6 +32745,12 @@
       "always": false
      },
      {
+      "key": "fieldcontract-322c",
+      "sec": 90,
+      "share": 12,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 653,
       "share": 29,
@@ -32719,6 +33063,12 @@
       "key": "galfield-321c",
       "sec": 259,
       "share": 18,
+      "always": false
+     },
+     {
+      "key": "fieldcontract-322c",
+      "sec": 90,
+      "share": 12,
       "always": false
      },
      {
@@ -34004,17 +34354,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 36.011,
+     "wallSec": 34.352000000000004,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 12.01,
+       "wallSec": 11.726,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 24.001,
+       "wallSec": 22.626,
        "reused": false,
        "reusedBy": null
       }
@@ -34487,6 +34837,12 @@
       "always": false
      },
      {
+      "key": "fieldcontract-322c",
+      "sec": 90,
+      "share": 12,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 653,
       "share": 29,
@@ -34558,17 +34914,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 17.117,
+     "wallSec": 16.839,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.637,
+       "wallSec": 5.663,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 11.48,
+       "wallSec": 11.176,
        "reused": false,
        "reusedBy": null
       }
@@ -35052,17 +35408,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 12.978000000000002,
+     "wallSec": 12.07,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.213,
+       "wallSec": 4.169,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 8.765,
+       "wallSec": 7.901,
        "reused": false,
        "reusedBy": null
       }
@@ -36562,17 +36918,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 175.81,
+     "wallSec": 160.572,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 59.23,
+       "wallSec": 53.237,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 116.58,
+       "wallSec": 107.335,
        "reused": false,
        "reusedBy": null
       }
@@ -38356,11 +38712,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 46.809,
+     "wallSec": 41.98,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 46.809,
+       "wallSec": 41.98,
        "reused": false,
        "reusedBy": null
       }
@@ -38796,17 +39152,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.968,
+     "wallSec": 4.473,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.596,
+       "wallSec": 1.545,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.372,
+       "wallSec": 2.928,
        "reused": false,
        "reusedBy": null
       }
@@ -39288,29 +39644,29 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 40.32899999999999,
+     "wallSec": 37.928,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 8.2,
+       "wallSec": 7.789,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 17.101,
+       "wallSec": 14.858,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 32.129,
+       "wallSec": 30.139,
        "reused": false,
        "reusedBy": null
       }
      ],
-     "reusedSec": 17.101,
-     "reusedH2Sec": 17.101,
+     "reusedSec": 14.858,
+     "reusedH2Sec": 14.858,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -39616,7 +39972,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -40012,29 +40368,29 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 23.994,
+     "wallSec": 22.713,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.609,
+       "wallSec": 4.754,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 9.536,
+       "wallSec": 8.886,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 19.385,
+       "wallSec": 17.959,
        "reused": false,
        "reusedBy": null
       }
      ],
-     "reusedSec": 9.536,
-     "reusedH2Sec": 9.536,
+     "reusedSec": 8.886,
+     "reusedH2Sec": 8.886,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -40340,7 +40696,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -40701,586 +41057,6 @@
    }
   },
   {
-   "id": "binaryCheckEqualInertial3d",
-   "emoji": "♊",
-   "name": "連星の検証サンプル(等質量・三次元)— K1 の規則と (1 + (4/3)η) の物差し",
-   "group": "運動と時空",
-   "sampleClass": "principle",
-   "status": {
-    "purpose": "連星の geoPN=3 三次元の検証サンプル(等質量)—— OFF を差し引いた近点の移動の比を 1 + (4/3)η と並べる",
-    "objective": "met",
-    "state": "比 1.3309(h/4)・1 + (4/3)η = 1.33333",
-    "calibration": "out-of-scope",
-    "mismatch": null,
-    "outlook": null,
-    "evidence": [
-     "tests/out/binbooks-w322b.json"
-    ],
-    "en": {
-     "purpose": "geoPN=3 3D binary check sample (equal masses): OFF-subtracted apsidal-shift ratio vs 1 + (4/3)eta",
-     "state": "ratio 1.3309 (h/4); 1 + (4/3)eta = 1.33333",
-     "mismatch": null,
-     "outlook": null,
-     "brief": "geoPN=3 3D binary check sample (equal masses): OFF-subtracted apsidal-shift ratio vs 1 + (4/3)eta. Met: ratio 1.3309 (h/4); 1 + (4/3)eta = 1.33333. Out of calibration scope."
-    },
-    "brief": "連星の geoPN=3 三次元の検証サンプル(等質量)—— OFF を差し引いた近点の移動の比を 1 + (4/3)η と並べる。達・比 1.3309(h/4)・1 + (4/3)η = 1.33333。較正対象外。"
-   },
-   "ledgerSource": null,
-   "timing": {
-    "calaudit": {
-     "wallSec": 0,
-     "stages": [],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
-     "reusedH4Sec": 0
-    },
-    "regenSteps": [
-     {
-      "key": "d0audit",
-      "sec": 19,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "shapecrit",
-      "sec": 67,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "d68",
-      "sec": 139,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "calcontract",
-      "sec": 3,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "clusterAnalogy",
-      "sec": 180,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pn1",
-      "sec": 350,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pnsource286",
-      "sec": 453,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "eihdiag287",
-      "sec": 10,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "families",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "tpsign",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgfield284",
-      "sec": 12,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contact285",
-      "sec": 217,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgdiff286",
-      "sec": 3,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgtime287",
-      "sec": 44,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgrange288",
-      "sec": 6,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pnsources291",
-      "sec": 123,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "weakfield289",
-      "sec": 3,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contractrange289",
-      "sec": 7,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "corecensus293",
-      "sec": 23,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "compose293",
-      "sec": 359,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geo4-295b",
-      "sec": 146,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "fit-297b",
-      "sec": 405,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "chain-296c",
-      "sec": 13,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "refit-297a",
-      "sec": 1464,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "timestd-297c",
-      "sec": 365,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "dragnorm-301a",
-      "sec": 97,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "approxmany-301b",
-      "sec": 5,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "clone-301f",
-      "sec": 231,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "statecontract-302e",
-      "sec": 15,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "wbglaw-301g",
-      "sec": 210,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "semic-302d",
-      "sec": 778,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "wbgest-302c",
-      "sec": 464,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "refit-303a",
-      "sec": 542,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "invsq-309a",
-      "sec": 4,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "invsq-310a",
-      "sec": 7,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pn1x3d-314d",
-      "sec": 7,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "symbols-315a",
-      "sec": 5,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "rsexcess-315b",
-      "sec": 11,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geo3bin-321b",
-      "sec": 55,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "binbooks-322b",
-      "sec": 60,
-      "share": 19,
-      "always": false
-     },
-     {
-      "key": "timing294",
-      "sec": 124,
-      "share": "all",
-      "always": false
-     }
-    ],
-    "qa": {
-     "attributed": true,
-     "n": 0,
-     "ms": 0,
-     "tests": []
-    }
-   }
-  },
-  {
-   "id": "binaryCheckRatio3Inertial3d",
-   "emoji": "⚖️",
-   "name": "連星の検証サンプル(質量比 1:3・三次元)— K1 の規則と (1 + (4/3)η) の物差し",
-   "group": "運動と時空",
-   "sampleClass": "principle",
-   "status": {
-    "purpose": "連星の geoPN=3 三次元の検証サンプル(質量比 1:3)—— 近点の移動の比が質量比で変わるのを 1 + (4/3)η と並べる",
-    "objective": "met",
-    "state": "比 1.2475(h/4)・1 + (4/3)η = 1.25000",
-    "calibration": "out-of-scope",
-    "mismatch": null,
-    "outlook": null,
-    "evidence": [
-     "tests/out/binbooks-w322b.json"
-    ],
-    "en": {
-     "purpose": "geoPN=3 3D binary check sample (mass ratio 1:3): the apsidal-shift ratio moves with the mass ratio",
-     "state": "ratio 1.2475 (h/4); 1 + (4/3)eta = 1.25000",
-     "mismatch": null,
-     "outlook": null,
-     "brief": "geoPN=3 3D binary check sample (mass ratio 1:3): the apsidal-shift ratio moves with the mass ratio. Met: ratio 1.2475 (h/4); 1 + (4/3)eta = 1.25000. Out of calibration scope."
-    },
-    "brief": "連星の geoPN=3 三次元の検証サンプル(質量比 1:3)—— 近点の移動の比が質量比で変わるのを 1 + (4/3)η と並べる。達・比 1.2475(h/4)・1 + (4/3)η = 1.25000。較正対象外。"
-   },
-   "ledgerSource": null,
-   "timing": {
-    "calaudit": {
-     "wallSec": 0,
-     "stages": [],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
-     "reusedH4Sec": 0
-    },
-    "regenSteps": [
-     {
-      "key": "d0audit",
-      "sec": 19,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "shapecrit",
-      "sec": 67,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "d68",
-      "sec": 139,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "calcontract",
-      "sec": 3,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "clusterAnalogy",
-      "sec": 180,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pn1",
-      "sec": 350,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pnsource286",
-      "sec": 453,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "eihdiag287",
-      "sec": 10,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "families",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "tpsign",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgfield284",
-      "sec": 12,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contact285",
-      "sec": 217,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgdiff286",
-      "sec": 3,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgtime287",
-      "sec": 44,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgrange288",
-      "sec": 6,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pnsources291",
-      "sec": 123,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "weakfield289",
-      "sec": 3,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contractrange289",
-      "sec": 7,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "corecensus293",
-      "sec": 23,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "compose293",
-      "sec": 359,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geo4-295b",
-      "sec": 146,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "fit-297b",
-      "sec": 405,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "chain-296c",
-      "sec": 13,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "refit-297a",
-      "sec": 1464,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "timestd-297c",
-      "sec": 365,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "dragnorm-301a",
-      "sec": 97,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "approxmany-301b",
-      "sec": 5,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "clone-301f",
-      "sec": 231,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "statecontract-302e",
-      "sec": 15,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "wbglaw-301g",
-      "sec": 210,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "semic-302d",
-      "sec": 778,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "wbgest-302c",
-      "sec": 464,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "refit-303a",
-      "sec": 542,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "invsq-309a",
-      "sec": 4,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "invsq-310a",
-      "sec": 7,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pn1x3d-314d",
-      "sec": 7,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "symbols-315a",
-      "sec": 5,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "rsexcess-315b",
-      "sec": 11,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geo3bin-321b",
-      "sec": 55,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "binbooks-322b",
-      "sec": 60,
-      "share": 19,
-      "always": false
-     },
-     {
-      "key": "timing294",
-      "sec": 124,
-      "share": "all",
-      "always": false
-     }
-    ],
-    "qa": {
-     "attributed": true,
-     "n": 0,
-     "ms": 0,
-     "tests": []
-    }
-   }
-  },
-  {
    "id": "siriusABInertial3d",
    "emoji": "🌠",
    "name": "シリウスAB(慣性決定力版・三次元)— K1 の規則 R_d = Y_k m(合わせない)・無自転",
@@ -41551,7 +41327,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -41841,7 +41617,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -41899,17 +41675,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.485,
+     "wallSec": 7.693,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.017,
+       "wallSec": 2.55,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.468,
+       "wallSec": 5.143,
        "reused": false,
        "reusedBy": null
       }
@@ -42203,7 +41979,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -43240,17 +43016,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.779,
+     "wallSec": 5.316,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.829,
+       "wallSec": 1.909,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.95,
+       "wallSec": 3.407,
        "reused": false,
        "reusedBy": null
       }
@@ -43568,7 +43344,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -43633,17 +43409,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.637,
+     "wallSec": 2.089,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.896,
+       "wallSec": 0.656,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.741,
+       "wallSec": 1.433,
        "reused": false,
        "reusedBy": null
       }
@@ -43961,7 +43737,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -45886,17 +45662,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 40.15,
+     "wallSec": 36.548,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 13.051,
+       "wallSec": 12.225,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 27.099,
+       "wallSec": 24.323,
        "reused": false,
        "reusedBy": null
       }
@@ -46166,7 +45942,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -47137,7 +46913,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -47464,7 +47240,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -49499,7 +49275,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -49814,7 +49590,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -49837,6 +49613,586 @@
        "via": "targetIds"
       }
      ]
+    }
+   }
+  },
+  {
+   "id": "binaryCheckEqualInertial3d",
+   "emoji": "♊",
+   "name": "連星の検証サンプル(等質量・三次元)— K1 の規則と (1 + (4/3)η) の物差し",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "連星の geoPN=3 三次元の検証サンプル(等質量)—— OFF を差し引いた近点の移動の比を 1 + (4/3)η と並べる",
+    "objective": "met",
+    "state": "比 1.3309(h/4)・1 + (4/3)η = 1.33333",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/binbooks-w322b.json"
+    ],
+    "en": {
+     "purpose": "geoPN=3 3D binary check sample (equal masses): OFF-subtracted apsidal-shift ratio vs 1 + (4/3)eta",
+     "state": "ratio 1.3309 (h/4); 1 + (4/3)eta = 1.33333",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "geoPN=3 3D binary check sample (equal masses): OFF-subtracted apsidal-shift ratio vs 1 + (4/3)eta. Met: ratio 1.3309 (h/4); 1 + (4/3)eta = 1.33333. Out of calibration scope."
+    },
+    "brief": "連星の geoPN=3 三次元の検証サンプル(等質量)—— OFF を差し引いた近点の移動の比を 1 + (4/3)η と並べる。達・比 1.3309(h/4)・1 + (4/3)η = 1.33333。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "d0audit",
+      "sec": 19,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 67,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 139,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 350,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 453,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 44,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 123,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 23,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 359,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 146,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 405,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 13,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 1464,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 365,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 97,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 231,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "statecontract-302e",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 210,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "semic-302d",
+      "sec": 778,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbgest-302c",
+      "sec": 464,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-303a",
+      "sec": 542,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 4,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-310a",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1x3d-314d",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "symbols-315a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rsexcess-315b",
+      "sec": 11,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3bin-321b",
+      "sec": 55,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "binbooks-322b",
+      "sec": 15,
+      "share": 19,
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 124,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "binaryCheckRatio3Inertial3d",
+   "emoji": "⚖️",
+   "name": "連星の検証サンプル(質量比 1:3・三次元)— K1 の規則と (1 + (4/3)η) の物差し",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "連星の geoPN=3 三次元の検証サンプル(質量比 1:3)—— 近点の移動の比が質量比で変わるのを 1 + (4/3)η と並べる",
+    "objective": "met",
+    "state": "比 1.2475(h/4)・1 + (4/3)η = 1.25000",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/binbooks-w322b.json"
+    ],
+    "en": {
+     "purpose": "geoPN=3 3D binary check sample (mass ratio 1:3): the apsidal-shift ratio moves with the mass ratio",
+     "state": "ratio 1.2475 (h/4); 1 + (4/3)eta = 1.25000",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "geoPN=3 3D binary check sample (mass ratio 1:3): the apsidal-shift ratio moves with the mass ratio. Met: ratio 1.2475 (h/4); 1 + (4/3)eta = 1.25000. Out of calibration scope."
+    },
+    "brief": "連星の geoPN=3 三次元の検証サンプル(質量比 1:3)—— 近点の移動の比が質量比で変わるのを 1 + (4/3)η と並べる。達・比 1.2475(h/4)・1 + (4/3)η = 1.25000。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "d0audit",
+      "sec": 19,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 67,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 139,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 350,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 453,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 44,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 123,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 23,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 359,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 146,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 405,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 13,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 1464,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 365,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 97,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 231,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "statecontract-302e",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 210,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "semic-302d",
+      "sec": 778,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbgest-302c",
+      "sec": 464,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-303a",
+      "sec": 542,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 4,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-310a",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1x3d-314d",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "symbols-315a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rsexcess-315b",
+      "sec": 11,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3bin-321b",
+      "sec": 55,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "binbooks-322b",
+      "sec": 15,
+      "share": 19,
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 124,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
     }
    }
   },
@@ -50117,7 +50473,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -50478,17 +50834,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.492,
+     "wallSec": 1.24,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.419,
+       "wallSec": 0.45,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.073,
+       "wallSec": 0.79,
        "reused": false,
        "reusedBy": null
       }
@@ -50746,7 +51102,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -51144,17 +51500,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.193,
+     "wallSec": 0.228,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.096,
+       "wallSec": 0.117,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.097,
+       "wallSec": 0.111,
        "reused": false,
        "reusedBy": null
       }
@@ -54300,6 +54656,12 @@
       "always": false
      },
      {
+      "key": "fieldcontract-322c",
+      "sec": 90,
+      "share": 12,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 653,
       "share": 29,
@@ -54696,29 +55058,29 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 28.646,
+     "wallSec": 25.845,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.868,
+       "wallSec": 5.228,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 11.694,
+       "wallSec": 9.714,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 22.778,
+       "wallSec": 20.617,
        "reused": false,
        "reusedBy": null
       }
      ],
-     "reusedSec": 11.694,
-     "reusedH2Sec": 11.694,
+     "reusedSec": 9.714,
+     "reusedH2Sec": 9.714,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -55648,11 +56010,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 114.933,
+     "wallSec": 99.92,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 114.933,
+       "wallSec": 99.92,
        "reused": false,
        "reusedBy": null
       }
@@ -56086,6 +56448,12 @@
       "key": "galfield-321c",
       "sec": 259,
       "share": 18,
+      "always": false
+     },
+     {
+      "key": "fieldcontract-322c",
+      "sec": 90,
+      "share": 12,
       "always": false
      },
      {
@@ -56699,7 +57067,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -57015,7 +57383,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -59967,7 +60335,7 @@
      },
      {
       "key": "binbooks-322b",
-      "sec": 60,
+      "sec": 15,
       "share": 19,
       "always": false
      },
@@ -60882,8 +61250,8 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 208,
-  "regenSecSum": 67679,
+  "regenSteps": 210,
+  "regenSecSum": 67954,
   "alwaysSec": 729,
   "undeclaredSteps": 40,
   "undeclaredSec": 1676,
@@ -60932,7 +61300,7 @@
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 38.331
+    "sec": 33.458
    },
    "h4": {
     "n": 0,
@@ -61926,6 +62294,15 @@
      "presets": "all"
     },
     {
+     "key": "geo2flat-322a",
+     "sec": 230,
+     "kind": "領域の宣言",
+     "presets": [
+      "galaxyGeo2",
+      "galaxyGeo2Flat3d"
+     ]
+    },
+    {
      "key": "galaxialrd-312b",
      "sec": 224,
      "kind": "領域の宣言",
@@ -62223,6 +62600,25 @@
      "presets": "all"
     },
     {
+     "key": "fieldcontract-322c",
+     "sec": 90,
+     "kind": "領域の宣言",
+     "presets": [
+      "jupiterGalilean",
+      "jupiterSunInertial3d",
+      "marsSunInertial3d",
+      "mercury",
+      "mercurySunInertial3d",
+      "neptuneSunInertial3d",
+      "saturn",
+      "saturnRingReal",
+      "saturnSunInertial3d",
+      "solarSystem16Inertial3d",
+      "uranusSunInertial3d",
+      "venusSunInertial3d"
+     ]
+    },
+    {
      "key": "tide292",
      "sec": 87,
      "kind": "領域の宣言",
@@ -62317,32 +62713,6 @@
       "galaxyMeshSpiralGeoToy",
       "galaxyMeshSpiralGeoToyLite",
       "ngc3198DFM"
-     ]
-    },
-    {
-     "key": "binbooks-322b",
-     "sec": 60,
-     "kind": "領域の宣言",
-     "presets": [
-      "alphaCenAB",
-      "alphaCenABInertial3d",
-      "binary",
-      "binaryCheckEqualInertial3d",
-      "binaryCheckRatio3Inertial3d",
-      "boxBinaryToy",
-      "compactForceToy",
-      "coord3dKeplerTilt",
-      "coord3dSpinPrecess",
-      "fig8",
-      "gw150914",
-      "inertialDragPair",
-      "psrB1534",
-      "psrDoubleAB",
-      "psrJ1757DFM",
-      "psrJ1946DFM",
-      "siriusAB",
-      "siriusABInertial3d",
-      "spinDipoleBinary"
      ]
     },
     {
@@ -62643,6 +63013,32 @@
       "mercurySunInertial3d",
       "mercurySunInertialFit",
       "venusSunInertial3d"
+     ]
+    },
+    {
+     "key": "binbooks-322b",
+     "sec": 15,
+     "kind": "領域の宣言",
+     "presets": [
+      "alphaCenAB",
+      "alphaCenABInertial3d",
+      "binary",
+      "binaryCheckEqualInertial3d",
+      "binaryCheckRatio3Inertial3d",
+      "boxBinaryToy",
+      "compactForceToy",
+      "coord3dKeplerTilt",
+      "coord3dSpinPrecess",
+      "fig8",
+      "gw150914",
+      "inertialDragPair",
+      "psrB1534",
+      "psrDoubleAB",
+      "psrJ1757DFM",
+      "psrJ1946DFM",
+      "siriusAB",
+      "siriusABInertial3d",
+      "spinDipoleBinary"
      ]
     },
     {
