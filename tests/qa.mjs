@@ -23191,6 +23191,8 @@ if (!FAST) {
         // 第318便c(原仮定者の指示(第120報)・R256): 🗺️ solarSystem16Inertial3d(太陽系 16 体 —— K1 の短い形)も inertial を宣言する(世代切替 = 内蔵にある —— 並びは内蔵の順)
         if (HP290.allPresets().some((q) => q.id === 'solarSystem16Inertial3d') && wantDecl290.indexOf('solarSystem16Inertial3d') < 0) {
           const set318 = new Set(wantDecl290.concat(['solarSystem16Inertial3d'])); wantDecl290.splice(0, wantDecl290.length, ...HP290.allPresets().map((q) => q.id).filter((id) => set318.has(id))); }
+        // 第322便b(AN492・R271): K1 の規則の宣言で生まれた本(最上位の W322B_RULE_IDS —— 🗺️ と ♊⚖️🌠🔶)も inertial を宣言する —— 宣言の条件で足す(並びは内蔵の順・基点の html では 🗺️ だけで上と同じ集合)
+        { const rule322 = [...W322B_RULE_IDS]; if (rule322.some((id) => wantDecl290.indexOf(id) < 0)) { const set322 = new Set(wantDecl290.concat(rule322)); wantDecl290.splice(0, wantDecl290.length, ...HP290.allPresets().map((q) => q.id).filter((id) => set322.has(id))); } }
         if (JSON.stringify(decl) !== JSON.stringify(wantDecl290)) bad.push('(a) inertial を宣言する内蔵が ' + wantDecl290.join('・') + ' でない: ' + decl.join(','));
         let nUndecl = 0, nLeak = 0;
         for (const q of HP290.allPresets()) {
@@ -42161,7 +42163,8 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
         'psrB1534', 'psrB1534DFM', 'psrB1534CF', 'compactForceToy', 'boxBinaryToy', 'spaceMeshBinaryToy',
         'axisBarStill', 'axisBarArms', 'axisBarReach',
         'psrDoubleABGeoToy',
-        'earthMoonDiagOne'];   // 第280便b(統合時に追加): 🌓 は 🌘 の初期状態の診断コピーで kFrame=0(frameWeight 未宣言 — 経路は表裏核の meshVelocity)   // 第251便b: 第248便c の 3 本(🍥🪁🍢)は廃止 / 第262便a: 🩻(📻 の geoPN=3 診断コピー — 📻 と同じ pull 宣言)   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言) / 第248便c: 🍥🪁🍢(銀河形態の原理サンプル — pull 既定)/ 第249便a: 🪶🪃🪀(NS 応答候補 λ_PN=1/f の variant — 複製元と同じ pull 宣言) / 第249便c: 🥢🎏🎚️(axisForce 玩具の原理サンプル — pull 既定)
+        'earthMoonDiagOne',
+        'binaryCheckEqualInertial3d', 'binaryCheckRatio3Inertial3d', 'siriusABInertial3d', 'alphaCenABInertial3d'];   // 第322便b(R271): ♊⚖️🌠🔶 は ✨🌟 の pull 世代の宣言の写し(第321便b の兄弟の写しと受理後の宣言が同じ —— frameWeight "pull"・kFrame 0 で走行に効かない)   // 第280便b(統合時に追加): 🌓 は 🌘 の初期状態の診断コピーで kFrame=0(frameWeight 未宣言 — 経路は表裏核の meshVelocity)   // 第251便b: 第248便c の 3 本(🍥🪁🍢)は廃止 / 第262便a: 🩻(📻 の geoPN=3 診断コピー — 📻 と同じ pull 宣言)   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言) / 第248便c: 🍥🪁🍢(銀河形態の原理サンプル — pull 既定)/ 第249便a: 🪶🪃🪀(NS 応答候補 λ_PN=1/f の variant — 複製元と同じ pull 宣言) / 第249便c: 🥢🎏🎚️(axisForce 玩具の原理サンプル — pull 既定)
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
       for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }
       // 🌘: 宣言どおり(pull・D0pull=3.36e-5)で generic・近点移動 2.995°/周。pull3/pull4 は再較正値で同窓
@@ -76299,7 +76302,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         }
         o.nc.ruleWords = has319dNC && !(/合わせたモデルではありません/.test(calR.ja) && /規則で置いた本・診断の本/.test(calR.ja) && /Not a fitted model/.test(calR.en) && /rule-placed or diagnostic book/.test(calR.en) && calR.ja.indexOf('合わせたモデルです') < 0 && calR.en.indexOf('A model fitted') < 0);
         o.nc.has319d = has319dNC;
-        o.nc.gLocK1 = B.filter((q) => q.familyRole !== 'retired' && (q.physics || {}).coord === '3d' && (q.physics.gLoc || {}).law === 'kappaC2').length;
+        o.nc.gLocK1 = B.filter((q) => q.familyRole !== 'retired' && (q.physics || {}).coord === '3d' && (q.physics.gLoc || {}).law === 'kappaC2' && [].concat(q.notClaim || []).includes('solar_cal')).length;   // 第322便b(R271): 較正の注 solar_cal を宣言した本だけ(検証サンプル ♊⚖️ は持たない —— 基点の html では同じ数)
         HP.setLang('ja');
         o.nc.words = [cal2.ja, cal3.ja].some((x) => /2次元モデル|再現するものではありません/.test(x)) || [cal2.en, cal3.en].some((x) => /does not reproduce/.test(x));
         // ⑥ obsCard の印(説明タブの描画)
@@ -88116,12 +88119,14 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     // ① 後半 71 本
     {
       const bad = [], cases = [];
-      const all = HP.allPresets(), ids = all.map((p) => p.id);
+      // 第322便b(R271): 後半に足した本 ♊⚖️🌠🔶 は並びの照合の外(表示の欄の検査は同じ規則で見る —— 下の走査に足す)
+      const NEW322B = ['binaryCheckEqualInertial3d', 'binaryCheckRatio3Inertial3d', 'siriusABInertial3d', 'alphaCenABInertial3d'];
+      const all = HP.allPresets(), ids = all.map((p) => p.id).filter((id) => !NEW322B.includes(id));
       const i0 = ids.indexOf('plutoCharonKF0Control');
       if (i0 < 0 || ids.slice(i0).join(',') !== C_IDS.join(',')) bad.push('後半の本の並びが固定の一覧と違う(' + (i0 < 0 ? '先頭が無い' : ids.length - i0 + ' 本') + ')');
       const keyNames = new Set([...(E('OBS_COMPARE_ROWS') || []).map((r) => r.n), ...Object.values(E('LIVE_COMPARE_SPEC') || {}).flatMap((s) => (s.q || []).map((q) => q.n))]);
       let nStr = 0, nKey = 0; const seenK = {}, hitP = [], hitS = [];
-      for (const id of C_IDS) {
+      for (const id of C_IDS.concat(NEW322B.filter((z) => all.some((q) => q.id === z)))) {
         const p = all.find((q) => q.id === id); if (!p) { bad.push('本が無い: ' + id); continue; }
         for (const [k, v] of walk(p, '', [])) {
           if (SKIP_PATH.test(k)) continue;
@@ -91185,7 +91190,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     { const RB = await imp320('tests/lib-w320d-rulebooks.mjs'); let hit = null;
       try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); const H = loadHtmlHeadless(path.join(ROOT, TARGET));
         hit = H.HP.allPresets().filter((p) => RB.isRuleBookNoCopy(p)).map((p) => p.id); } catch (e) { bad.push('⑤ 条件の集合が引けない: ' + String(e).slice(0, 80)); }
-      if (hit && JSON.stringify(hit) !== JSON.stringify(['solarSystem16Inertial3d'])) bad.push('⑤ 条件 isRuleBookNoCopy に当たる本が 🗺️ だけでない: ' + hit.join(','));
+      // 第322便b(AN492・R271): 世代切替 —— K1 の規則の宣言で生まれた本を足した世代は 🗺️ と ♊⚖️🌠🔶(内蔵の並び —— どれも移行の前の写しが無い)
+      const want320 = (() => { try { const ids = (hit || []).slice(), n322 = ['binaryCheckEqualInertial3d', 'binaryCheckRatio3Inertial3d', 'siriusABInertial3d', 'alphaCenABInertial3d']; return ids.some((id) => n322.includes(id)) ? ids.filter((id) => id === 'solarSystem16Inertial3d' || n322.includes(id)) : ['solarSystem16Inertial3d']; } catch (e) { return ['solarSystem16Inertial3d']; } })();
+      if (hit && (JSON.stringify(hit) !== JSON.stringify(want320) || hit.indexOf('solarSystem16Inertial3d') < 0)) bad.push('⑤ 条件 isRuleBookNoCopy に当たる本が 🗺️(と第322便b の 4 本)だけでない: ' + hit.join(','));
       cases.push(`⑤ AN477: invsq-309a・invsq-310a の名指しの除外を宣言の条件 isRuleBookNoCopy(K1 の規則の宣言 relativeDrag.invSq.rdRule の本のうち移行の前の写しが無い本 —— 今の html で ${hit ? hit.length : '?'} 本 = 🗺️)へ —— 外した本は ruleBooks に数える・既存の欄と値は不変`); }
     // ⑥ 文書
     const rv = (s) => [...s].reverse().join('');
@@ -91953,7 +91960,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第322便b〕に禁句(' + w.length + ' 字)');
         if (/κ(?!_D)/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第322便b〕に裸の κ(κ は κ_D だけ —— コードの書式の外)');
         if (/(?<![\w`])r_d(?![\w`])/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第322便b〕の新しい文に r_d(引きずり半径は R_d)');
-        const blk = (() => { const a = H322.indexOf('// ==== 第322便b の本(ここから)===='), b = H322.indexOf('// ==== 第322便b の本(ここまで)===='); return (a >= 0 && b > a) ? H322.slice(a, b) : ''; })();
+        const blk = [...H322.matchAll(/\/\/ ==== 第322便b の本\(ここから[^\n]*\n([\s\S]*?)\/\/ ==== 第322便b の本\(ここまで/g)].map((m) => m[1]).join('\n');   // 本の塊 2 つ(実在の連星・連星の検証サンプル)
+        if ((H322.match(/\/\/ ==== 第322便b の本\(ここから/g) || []).length !== 2) bad.push('⑥ html の第322便b の本の塊が 2 つでない');
         for (const [f, tx] of [['tests/exp-w322b-binbooks.mjs', rd('tests/exp-w322b-binbooks.mjs')], ['tests/lib-w322b-binbooks.mjs', rd('tests/lib-w322b-binbooks.mjs')], ['tests/lib-w322b-binbooksdoc.mjs', rd('tests/lib-w322b-binbooksdoc.mjs')], ['html の第322便b の本の塊', blk]]) {
           for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)');
           if (tx.indexOf('κ') >= 0) bad.push(f + ' に κ の字');

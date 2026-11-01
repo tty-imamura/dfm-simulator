@@ -1554,8 +1554,8 @@ export const REGEN_STEPS = [
   // ---- 第322便b(原仮定者の回答(2026-11-01 —— AN499)「『連星サンプル群』は実在天体を指している。検証サンプルが必要であれば、先に用意する」・決断事項 AN505・
   //   統括の検証項目 R271 —— 策定の段 S2): **geoPN=3 の連星の内蔵の第一陣の器**(段 binbooks-322b —— A 受理の表〔内蔵の 4 本 ♊⚖️🌠🔶 と第321便b の兄弟の写しの
   //   presetSig・受理後の宣言・OFF の対照〕・E 走行〔本 × self・off・g1 × h・h/2・h/4 × 8 公転 + 写しの列 tr〕・T 量ごとの表〔η・1 + (4/3)η・OFF を差し引いた近点の移動の比〕)。
-  //   html を読む(他の正本・データは読まない —— html の生成領域の後)。子プロセス 2 本(W322B_WORKERS)。所要は第322便b の枝の実測(**並走の秒** —— 4 枝並走の容器 —— 統括が混まない箱で測り直す)
-  S('binbooks-322b', 'node tests/exp-w322b-binbooks.mjs', ['tests/out/binbooks-w322b.json'], 60, { secSource: 'w322b-branch', node: true, after: ['obscompare', 'samplestatus'],
+  //   html を読む(他の正本・データは読まない —— html の生成領域の後)。子プロセス 2 本(W322B_WORKERS)。所要は第322便b の枝の実測 12.8 s(子プロセス 2 本 —— 他の枝が軽いときの 1 回・4 枝並走の負荷の高いときは 46 s〔**並走の秒**〕—— 統括が混まない箱で測り直す)
+  S('binbooks-322b', 'node tests/exp-w322b-binbooks.mjs', ['tests/out/binbooks-w322b.json'], 15, { secSource: 'w322b-branch', node: true, after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/binbooks-w322b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec']) },
     note: '第322便b: geoPN=3 の連星の内蔵の第一陣(検証サンプル ♊ 等質量・⚖️ 質量比 1:3 → 🌠 シリウス無自転 → 🔶 α Cen 並進だけ)の受理後の宣言と第321便b の兄弟の写しの同一・OFF を差し引いた近点の移動の比と系ごとの 1 + (4/3)η(表示だけ —— 補正の係数は入れない)—— エンジン・在位の本は変えない' }),
   // ==== 第322便b の塊(ここまで)====
