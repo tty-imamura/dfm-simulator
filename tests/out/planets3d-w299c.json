@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第299便c",
   "target": "beta/index.html",
-  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-  "generatedAt": "2026-10-31T18:31:13.050Z",
+  "targetSha256": "339c64a1de60becf6c0e4eeeb038efa160d4207891636db13b8eabf1dd068652",
+  "generatedAt": "2026-11-01T11:39:12.120Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7403262,
-    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-    "mtime": "2026-10-31T17:17:55.600Z"
+    "bytes": 7486093,
+    "sha256": "339c64a1de60becf6c0e4eeeb038efa160d4207891636db13b8eabf1dd068652",
+    "mtime": "2026-11-01T10:22:57.298Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -129,11 +129,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1360,
-   "segments": 1198,
+   "names": 1366,
+   "segments": 1204,
    "closureShare": 0.3058
   },
-  "scopeSha256": "ad9f208ace0c4777df26650938eaa34dfaf4faaeb8dbaf6e7b0c64bd769ec424",
+  "scopeSha256": "6b22bede890f2d5d3c13f96e7bfbe08f3c31f9e7255c9418715f6f094247c813",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -1365,172 +1365,172 @@
  "ok": true,
  "timing": {
   "mercury-g0-h": {
-   "wallSec": 7.892
+   "wallSec": 14.656
   },
   "mercury-g0-h2": {
-   "wallSec": 15.798
+   "wallSec": 27.496
   },
   "venus-g0-h": {
-   "wallSec": 8.025
+   "wallSec": 14.551
   },
   "mars-g0-h": {
-   "wallSec": 6.921
+   "wallSec": 15.137
   },
   "venus-g0-h2": {
-   "wallSec": 18.885
-  },
-  "mars-g0-h2": {
-   "wallSec": 17.464
+   "wallSec": 29.998
   },
   "jupiter-g0-h": {
-   "wallSec": 7.967
+   "wallSec": 11.889
+  },
+  "mars-g0-h2": {
+   "wallSec": 25.763
   },
   "saturn-g0-h": {
-   "wallSec": 7.693
+   "wallSec": 6.98
   },
   "jupiter-g0-h2": {
-   "wallSec": 15.831
-  },
-  "uranus-g0-h": {
-   "wallSec": 7.588
+   "wallSec": 15.856
   },
   "saturn-g0-h2": {
-   "wallSec": 15.731
+   "wallSec": 11.099
+  },
+  "uranus-g0-h": {
+   "wallSec": 8.327
   },
   "neptune-g0-h": {
-   "wallSec": 8.017
+   "wallSec": 7.152
   },
   "uranus-g0-h2": {
-   "wallSec": 17.12
+   "wallSec": 14.787
   },
   "neptune-g0-h2": {
-   "wallSec": 13.183
-  },
-  "mer-grid0": {
-   "wallSec": 1.487
+   "wallSec": 10.338
   },
   "mer-grid1": {
-   "wallSec": 1.508
+   "wallSec": 1.347
+  },
+  "mer-grid0": {
+   "wallSec": 1.494
   },
   "mer-grid2": {
-   "wallSec": 1.47
+   "wallSec": 1.436
   },
   "mer-grid3": {
-   "wallSec": 1.413
+   "wallSec": 1.227
   },
   "mer-grid5": {
-   "wallSec": 1.363
+   "wallSec": 1.161
   },
   "mer-grid4": {
-   "wallSec": 1.749
-  },
-  "mer-grid6": {
-   "wallSec": 1.524
+   "wallSec": 1.15
   },
   "mer-grid7": {
-   "wallSec": 1.58
+   "wallSec": 1.072
+  },
+  "mer-grid6": {
+   "wallSec": 1.556
   },
   "mer-grid8": {
-   "wallSec": 1.166
+   "wallSec": 1.09
   },
   "mer-grid9": {
-   "wallSec": 1.466
+   "wallSec": 1.307
   },
   "mer-grid10": {
-   "wallSec": 1.375
+   "wallSec": 1.139
   },
   "mer-grid11": {
-   "wallSec": 1.446
+   "wallSec": 1.548
   },
   "mer-grid12": {
-   "wallSec": 1.364
+   "wallSec": 0.908
   },
   "mer-it0": {
-   "wallSec": 1.074
+   "wallSec": 0.942
   },
   "mer-it1": {
-   "wallSec": 1.048
+   "wallSec": 0.908
   },
   "mer-it2": {
-   "wallSec": 0.95
+   "wallSec": 0.822
   },
   "mer-it3": {
-   "wallSec": 0.964
+   "wallSec": 0.816
   },
   "mer-it4": {
-   "wallSec": 0.948
+   "wallSec": 0.901
   },
   "mer-it5": {
-   "wallSec": 0.999
+   "wallSec": 0.9
   },
   "mer-it6": {
-   "wallSec": 0.975
+   "wallSec": 0.925
   },
   "mer-it7": {
-   "wallSec": 0.971
+   "wallSec": 0.827
   },
   "mer-it8": {
-   "wallSec": 0.967
+   "wallSec": 0.979
   },
   "mer-it9": {
-   "wallSec": 0.857
+   "wallSec": 0.861
   },
   "mer-it10": {
-   "wallSec": 1.003
+   "wallSec": 1.012
   },
   "mer-it11": {
-   "wallSec": 0.867
+   "wallSec": 0.875
   },
   "mer-it12": {
-   "wallSec": 0.879
+   "wallSec": 0.935
   },
   "mer-it13": {
-   "wallSec": 0.906
+   "wallSec": 0.752
   },
   "mer-it14": {
-   "wallSec": 0.913
+   "wallSec": 0.89
   },
   "mer-fit-h": {
-   "wallSec": 8.629
+   "wallSec": 8.4
   },
   "mer-fit-h2": {
-   "wallSec": 14.827
+   "wallSec": 13.974
   },
   "venus-tr-h": {
-   "wallSec": 1.292
+   "wallSec": 1.462
   },
   "venus-tr-h2": {
-   "wallSec": 2.87
+   "wallSec": 2.687
   },
   "mars-tr-h": {
-   "wallSec": 1.108
+   "wallSec": 1.623
   },
   "jupiter-tr-h": {
-   "wallSec": 1.467
+   "wallSec": 1.482
   },
   "mars-tr-h2": {
-   "wallSec": 2.26
+   "wallSec": 2.544
   },
   "saturn-tr-h": {
-   "wallSec": 1.239
+   "wallSec": 1.209
   },
   "jupiter-tr-h2": {
-   "wallSec": 3.413
+   "wallSec": 2.997
   },
   "saturn-tr-h2": {
-   "wallSec": 2.695
+   "wallSec": 2.772
   },
   "uranus-tr-h": {
-   "wallSec": 1.375
+   "wallSec": 1.234
   },
   "neptune-tr-h": {
-   "wallSec": 1.308
+   "wallSec": 1.254
   },
   "uranus-tr-h2": {
-   "wallSec": 2.727
+   "wallSec": 2.84
   },
   "neptune-tr-h2": {
-   "wallSec": 1.8
+   "wallSec": 2.104
   }
  },
  "notClaim": [
@@ -1539,5 +1539,5 @@
   "「gain は普遍定数」",
   "「二次元の値を写して fitted」"
  ],
- "elapsedS": 152.478
+ "elapsedS": 175.815
 }
