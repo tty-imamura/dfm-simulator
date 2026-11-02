@@ -264,3 +264,27 @@ qapart(`tests/exp-w258c-qapart.mjs`)の終わりの行は第323便a から **要
 - 範囲は列 0 の `if (…) {`・`for (…) {` の中・最上位の文の鍵も切り出す(add の行を含む列 0 の最上位の文)。範囲が読む上流の最上位の const・関数宣言は前文へ写す。範囲ごとに try/catch で包む(例外の範囲の鍵は未実行・後の範囲は走り続ける)。
   W5c のワーカープール(w5cGetUnit)は「呼べば例外」の代わりを置く —— その範囲の鍵は未実行(`tools/qa-keys.mjs` が外す)。
 - **部分 QA の通過数はフル QA の被覆ではない**(選んだ範囲だけ・ページの上流の状態はフル QA の順と違いうる)。
+
+## provenance-inventory.mjs — 来歴の語の一覧と行の id の表の被覆(第323便d —— 決断事項 AN428 ①・統括の検証項目 R278)
+
+html を Node で読み(物理は走らせない)、内蔵の全本の観測結果カードの行名(ja/en)・フィットの記録の文・退役の理由のうち、来歴の語(html 自身の判定 `PROV_TEXT_CLEAN.PROV_TEST`)を含む文字列を数え、行名ごとに読む側のファイル(器・lib・データ・凍結の写し・正本・QA・html の最上位の表)を数える。行の id の表(`tests/lib-w323d-rowids.mjs` の `LEGACY_ROW_IDS`)が一覧を覆わなければ rc 1。
+
+```
+node tools/provenance-inventory.mjs --md --json <scratch>/inventory.json      # 一覧と表の被覆
+node tools/provenance-inventory.mjs --calverdict <前の正本> <後の正本>         # 判定器の正本の判定の値の前後(差 0 で rc 0)
+node tools/provenance-inventory.mjs --calverdict-write <正本> tests/data-w323d-calverdict.json --rev <rev>   # 判定の値の記録(QA lint.provenanceIds323 ⑥)
+```
+
+## qa-recheck-record.mjs — 部分の再検査の補足の記録(第323便d —— 統括の検証項目 R278)
+
+保存のフル QA の FAIL を直した後、FAIL の ID だけを部分 QA(`tests/exp-w258c-qapart.mjs`)で再検査したときの来歴を `tests/out/qa-recheck-beta.json`(root は `qa-recheck.json` —— 1 本の追記型)に書く。保存のフルの結果は書き換えない。部分 QA の印字(`PASS`・`FAIL`・`SKIP` の行と `# 切り出し:`・`# 束 k/n:` の要求の鍵)を読み、要求したのに出ない鍵は未実行に数える。
+
+```
+TMPDIR=<scratch>/tmp node tests/exp-w258c-qapart.mjs lint.kappaSymbol315 > <scratch>/recheck.log
+node tools/qa-recheck-record.mjs --log <scratch>/recheck.log --fix docs/PHYSICS.md@<直した commit> --html beta/index.html   # 既定の出力 tests/out/qa-recheck-beta.json
+node tools/qa-recheck-record.mjs --check                       # 形の検査(QA lint.qaRecheck323 と同じ関数)
+```
+
+- `--fix <path>[@<rev>]`(直したファイル —— 文書・検査のコード): 直した後は `@rev` の版か作業木、直す前は保存のフルの commit の版。`--code`(既定 `tests/qa.mjs`)はフルの時点と再検査の時点の sha256 を並べる。
+- 結論の「閉じた」= フルの FAIL の全部が再検査で PASS・再検査に FAIL と未実行が無い・再検査がフルと同じ html の上。
+- samplestatus の器(`tests/exp-w279a-samplestatus.mjs`)は、記録が今の保存のフル(ファイルの sha256)を指すときだけ、SAMPLE_STATUS の「保存 QA の来歴」の行に 1 文を足す(試しは環境変数 `W323D_RECHECK=<記録>`)。根拠 ID の PASS の集合は保存のフルのまま(状況の判定は変えない)。

@@ -40,6 +40,7 @@ import { REGEN_STEPS, htmlReadOf } from './lib-w281a-regentable.mjs';   // 第32
 import { readDeclaredScope } from './lib-w281a-scope.mjs';
 import { calStagesOf } from './lib-w283c-calstages.mjs';   // 第283便c: 段別の壁時計(二重加算の修正)
 import * as HS from './lib-w288f-htmlstage.mjs';   // 第288便f(AN90): 鎖の中は一時出力の断片へ(集約段 htmlagg が 1 回だけ書く)
+import * as RC from './lib-w323d-recheck.mjs';   // 第323便d(R278): 部分の再検査の補足の記録(保存 QA の来歴の文に足す —— 無ければ今と同じ)
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const HTML = path.join(ROOT, 'beta', 'index.html');
@@ -60,7 +61,7 @@ const RETIRED_FX5 = 'tests/fixtures/retired-w287b.json';
 const RETIRED_FXS = [RETIRED_FX, RETIRED_FX2, RETIRED_FX3, RETIRED_FX4, RETIRED_FX5].filter((f) => fs.existsSync(path.join(ROOT, f)));
 const OUT = 'tests/out/samplestatus-w279a.json';
 const MD = 'docs/SAMPLE_STATUS.md';
-const CODE = ['tests/exp-w279a-samplestatus.mjs', 'tests/lib-w279a-samplestatus.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w283c-calstages.mjs', 'tests/lib-w288f-htmlstage.mjs'];
+const CODE = ['tests/exp-w279a-samplestatus.mjs', 'tests/lib-w279a-samplestatus.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w283c-calstages.mjs', 'tests/lib-w288f-htmlstage.mjs', 'tests/lib-w323d-recheck.mjs'];
 const CHECK = process.argv.includes('--check');
 
 const rd = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
@@ -283,7 +284,16 @@ const qaProvW320 = { file: QAF, commit: qa.commit || null, date: qa.date || null
   sameBuild: !!(qa.swCache && qa.swCache === BETA_BUILD_W300D), sameHtml: !!(qa.targetSha256 && qa.targetSha256 === htmlSha0W320),
   rule: '鎖の常時群の段 samplestatus はゲートの QA の前に走る —— 保存 QA の時間は前の便のゲートの保存物(1 便遅れる)。版名が同じでも html の sha が違えば同じ便の中の前の html の QA' };
 const qaLagW320 = qaProvW320.sameHtml ? 'この html の QA の保存物' : qaProvW320.sameBuild ? '同じ版名の前の html の QA の保存物(html の sha が違う)' : '**前の便のゲートの保存物**(1 便遅れる —— 鎖の常時群の段 samplestatus はゲートの QA の前に走る)';
-md.push(`- **保存 QA の来歴**(第320便d): 保存物は版名 \`${qaProvW320.betaBuild || '—'}\`・commit ${qaProvW320.commit ? String(qaProvW320.commit).slice(0, 7) : '—'}・${qaProvW320.date || '—'}・対象 html の sha ${qaProvW320.targetSha256 ? String(qaProvW320.targetSha256).slice(0, 12) : '—'} —— 今の html(版名 \`${BETA_BUILD_W300D}\`)に対して ${qaLagW320}。`);
+// 第323便d(統括の検証項目 R278): **部分の再検査の補足**(tests/out/qa-recheck-beta.json —— 試しは環境変数 W323D_RECHECK で別の記録)。保存のフルの FAIL を
+//   直した後に部分 QA で再検査した記録が**今の保存のフル(ファイルの sha256)を指すときだけ**、来歴の行の末尾に 1 文を足す(行は増やさない)。
+//   補足が無ければ文と正本は今と同じ(鍵 recheck を作らない)。補足は来歴の文だけ —— 根拠 ID の PASS の集合(qaIds)は保存のフルのまま(状況の判定を変えない)
+const recheckFileW323 = process.env.W323D_RECHECK || RC.RECHECK_FILE['beta/index.html'];
+const recheckW323 = (() => { const a = path.resolve(ROOT, recheckFileW323); if (!fs.existsSync(a)) return null;
+  let doc = null; try { doc = JSON.parse(fs.readFileSync(a, 'utf8')); } catch (e) { return { applied: false, why: '補足の記録が JSON でない', file: recheckFileW323 }; }
+  const rel = path.relative(ROOT, a).startsWith('..') ? recheckFileW323 : path.relative(ROOT, a).split(path.sep).join('/');
+  return RC.recheckProvenanceOf(doc, RC.sha256(fs.readFileSync(path.join(ROOT, QAF))), rel); })();
+if (recheckW323) qaProvW320.recheck = Object.assign({ since: '第323便d(R278)' }, recheckW323);
+md.push(`- **保存 QA の来歴**(第320便d): 保存物は版名 \`${qaProvW320.betaBuild || '—'}\`・commit ${qaProvW320.commit ? String(qaProvW320.commit).slice(0, 7) : '—'}・${qaProvW320.date || '—'}・対象 html の sha ${qaProvW320.targetSha256 ? String(qaProvW320.targetSha256).slice(0, 12) : '—'} —— 今の html(版名 \`${BETA_BUILD_W300D}\`)に対して ${qaLagW320}。${recheckW323 && recheckW323.applied ? recheckW323.text + '。' : ''}`);
 md.push(`- **保存 QA**: \`${QAF}\`(${qa.total || qaAll.length} 試験・全体 ${fmtS((qa.durationMs || 0) / 1000)} s${qa.commit ? '・commit ' + String(qa.commit).slice(0, 7) : ''})のうち、**その本の claims が挙げる testId と、原稿 \`${SRC}\` の \`qaTargets\` がその本を挙げた試験**(帰属 ${qaAttr.version} —— 試験の id の部分文字列では帰属させない)の所要の和と本数(1 つの試験が複数の本に数えられうる —— 本ごとの列は重なりを含む)。どちらにも無い本は「帰属なし」(${qaAttr.unattributed.length} 本)。内訳は所要の上位 3。`);
 md.push('');
 md.push('| 本 | 較正走行(s) | 段別(s) | 保存 QA(s・本数) | QA の内訳(上位 3) |');

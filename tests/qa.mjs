@@ -92584,6 +92584,285 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第323便a の塊(ここまで)====
+// ==== 第323便d の塊(ここから —— lint.provenanceIds323・lint.qaRecheck323・docs.w323d の 3 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第323便d(決断事項 AN428 ①・統括の検証項目 R278): **較正の行の安定した id(読込の互換)**と**部分の再検査の補足の記録** —— html・本の宣言・エンジン・
+// ----   検定器と QA の判定の鍵は変えない(② は次の便)。
+// ----   lint.provenanceIds323(beta 対象 —— root は SKIP):
+// ----     ① 来歴の語の一覧(html 自身の判定 PROV_TEXT_CLEAN.PROV_TEST —— obsCard の行名 ja/en・フィットの記録・退役の理由)と表 LEGACY_ROW_IDS の被覆(一覧の行名を全部覆う・
+// ----        表に一覧の外の名が無い〔改名の表の旧い名は可〕・id の形と重なり)
+// ----     ② 判定器の正本の行の id: 正本が rowId を持てば(鎖の後の世代)全行が行名から導いた id と同じ・要約 rowIds の数と出どころ・重なり 0。持たなければ(鎖の前)導いて重なり 0
+// ----        —— どちらでも、来歴の語を含む正本の行名は表の id(legacy)
+// ----     ③ 器の行の測定定義の id(ROW_DEF_ROW_IDS)と match が正本の同じ行を指す・④ h/4 の例外の照合の互換(名前と id)
+// ----     ⑤ 旧保存の読込(凍結の写しの obsCardRows・改名の表の前の名と後の名が同じ id)・⑥ 判定の値: 物理の入力の指紋が記録 tests/data-w323d-calverdict.json と同じ正本では
+// ----        判定の値(4 値の台帳・5 区分・門・行ごとの判定と差)が記録と同じ(指紋が違えば照合の対象外 —— 記録は基点の値)・⑦ 器の配線(宣言の object に id を足さない)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.provenanceIds323(beta 対象でない: ' + TARGET + ' —— 判定器と行の id は beta 線)');
+    return;
+  }
+  const rd323d = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const bad = [], cases = [];
+  let RID = null, INV = null, CS = null;
+  try {
+    RID = await import('file://' + path.join(ROOT, 'tests', 'lib-w323d-rowids.mjs'));
+    INV = await import('file://' + path.join(ROOT, 'tests', 'lib-w323d-provinv.mjs'));
+    CS = await import('file://' + path.join(ROOT, 'tests', 'lib-w283c-calstages.mjs'));
+  } catch (e) { bad.push('lib が読めない: ' + String(e && e.message || e).slice(0, 100)); }
+  let C = null; try { C = JSON.parse(rd323d('tests/out/calaudit-w249.json')); } catch (e) { bad.push('判定器の正本が読めない'); }
+  let COND = null; try { COND = JSON.parse(rd323d('tests/data-w289b-condrows.json')); } catch (e) { bad.push('改名の表 tests/data-w289b-condrows.json が読めない'); }
+  if (RID && INV && CS && C) {
+    const ren = RID.renameMapOf(COND);
+    // ① 一覧(判定は page の中の html の PROV_TEST —— 正規表現を写さない)
+    const canonNames = [...new Set((C.presets || []).flatMap((p) => (p.quantities || []).map((q) => String(q.name || ''))))];
+    const H = await page.evaluate((extra) => {
+      const PT = (typeof PROV_TEXT_CLEAN !== 'undefined') ? PROV_TEXT_CLEAN : null;
+      const RP = (typeof RETIRED_PRESETS !== 'undefined') ? RETIRED_PRESETS : {};
+      const presets = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => ({ id: p.id, sampleClass: p.sampleClass, familyRole: p.familyRole,
+        obsCard: (p.obsCard || []).map((r) => ({ q: r ? r.q : null })), en: { obsCard: ((p.en && p.en.obsCard) || []).map((r) => ({ q: r ? r.q : null })) }, fitRecord: p.fitRecord || null }));
+      const strs = new Set(extra);
+      const leaf = (o) => { if (typeof o === 'string') strs.add(o); else if (o && typeof o === 'object') for (const k of Object.keys(o)) leaf(o[k]); };
+      for (const p of presets) { p.obsCard.forEach((r) => strs.add(r.q)); p.en.obsCard.forEach((r) => strs.add(r.q)); leaf(p.fitRecord); }
+      const retired = {}; for (const id of Object.keys(RP)) { retired[id] = { ja: RP[id].ja, en: RP[id].en }; strs.add(RP[id].ja); strs.add(RP[id].en); }
+      const prov = PT ? [...strs].filter((s) => typeof s === 'string' && PT.PROV_TEST.test(s)) : null;
+      return { ok: !!PT, presets, retired, prov };
+    }, canonNames);
+    if (!H.ok) bad.push('① html に PROV_TEXT_CLEAN が無い');
+    const provSet = new Set(H.prov || []);
+    const test = (s) => provSet.has(s);
+    const items = INV.inventoryData({ presets: H.presets, retired: H.retired, test });
+    const sum = INV.summarizeInventory(items);
+    const qja = items.filter((z) => z.kind === 'obsCardQ'), qen = items.filter((z) => z.kind === 'obsCardQEn');
+    if (qja.some((z) => !z.calibration) || qen.some((z) => !z.calibration)) bad.push('① 較正の分類の外の本の行名に来歴の語(表の範囲の外): ' + qja.concat(qen).filter((z) => !z.calibration).map((z) => z.preset).slice(0, 4).join(','));
+    const unc = qja.filter((z) => !RID.legacyRowIdOf(z.preset, z.text));
+    if (unc.length) bad.push('① 表が覆わない行名 ' + unc.length + ': ' + unc.slice(0, 3).map((z) => z.preset + ' ' + z.text).join(' / '));
+    const uncEn = qen.filter((z) => !RID.LEGACY_ROW_IDS.some((e) => e.preset === z.preset && e.en.includes(z.text)));
+    if (uncEn.length) bad.push('① 表が覆わない英語の行名 ' + uncEn.length + ': ' + uncEn.slice(0, 3).map((z) => z.preset + ' ' + z.text).join(' / '));
+    const invKey = new Set(qja.map((z) => z.preset + '\u0000' + z.text)), enKey = new Set(qen.map((z) => z.preset + '\u0000' + z.text));
+    const before = new Set(((COND && COND.rows) || []).map((r) => r.id + '\u0000' + r.qBefore));
+    const extraAlias = [];
+    for (const e of RID.LEGACY_ROW_IDS) {
+      for (const n of e.ja) if (!invKey.has(e.preset + '\u0000' + n) && !before.has(e.preset + '\u0000' + n)) extraAlias.push(e.rowId + ' ' + n);
+      for (const n of e.en) if (!enKey.has(e.preset + '\u0000' + n)) extraAlias.push(e.rowId + ' (en) ' + n);
+      if (!H.presets.some((p) => p.id === e.preset)) bad.push('① 表の本 ' + e.preset + ' が内蔵に無い');
+      if (!/^[A-Za-z0-9]+\/[a-z0-9-]+$/.test(e.rowId) || !e.rowId.startsWith(e.preset + '/')) bad.push('① id の形: ' + e.rowId);
+    }
+    if (extraAlias.length) bad.push('① 表に一覧の外の名 ' + extraAlias.length + ': ' + extraAlias.slice(0, 3).join(' / '));
+    const ids = RID.LEGACY_ROW_IDS.map((e) => e.rowId);
+    if (new Set(ids).size !== ids.length) bad.push('① 表の id が重なる');
+    if (RID.ROW_ID_VERSION !== 'w323d-rowids-1' || INV.PROV_INV_VERSION !== 'w323d-provinv-1') bad.push('① lib の版');
+    cases.push(`① 一覧(${INV.PROV_INV_VERSION} —— html の PROV_TEST): 行名 ja ${sum.obsCardQ.n}(本 ${sum.obsCardQ.presets}・退役の本の行 ${sum.obsCardQ.retired})・en ${sum.obsCardQEn.n}・フィットの記録 ${sum.fitRecord.n}(本 ${sum.fitRecord.presets})・退役の理由 ${sum.retiredReason.n}(本 ${sum.retiredReason.presets})/ 表 ${RID.LEGACY_ROW_IDS.length} 行が ja ${qja.length - unc.length}/${qja.length}・en ${qen.length - uncEn.length}/${qen.length} を覆う・表の外の名 ${extraAlias.length}`);
+    // ② 判定器の正本の行の id
+    const copy = RID.withoutRowIds(C);
+    const S2 = RID.attachRowIds(copy, { renames: ren });
+    const gen = !!(C.rowIds && C.rowIds.version);
+    if (S2.duplicates.length) bad.push('② 導いた id が本の中で重なる: ' + S2.duplicates.slice(0, 3).map((z) => z.preset + ' ' + z.rowId).join(' / '));
+    let nRows = 0, mism = 0, provDerived = [];
+    (C.presets || []).forEach((p, i) => (p.quantities || []).forEach((q, k) => {
+      nRows++;
+      const want = copy.presets[i].quantities[k].rowId;
+      if (gen && q.rowId !== want) mism++;
+      if (test(String(q.name || '')) && !RID.legacyRowIdOf(p.id, q.name)) provDerived.push(p.id + ' ' + q.name);
+    }));
+    if (mism) bad.push('② 正本の rowId が行名から導いた id と違う行 ' + mism);
+    if (provDerived.length) bad.push('② 来歴の語を含む正本の行名が表に無い(導出の id になる)' + provDerived.length + ': ' + provDerived.slice(0, 3).join(' / '));
+    if (gen) {
+      const R = C.rowIds;
+      if (R.version !== RID.ROW_ID_VERSION || R.field !== 'rowId' || R.n !== nRows || JSON.stringify(R.bySource) !== JSON.stringify(S2.bySource)
+        || (R.duplicates || []).length !== 0 || (R.legacy || []).length !== S2.legacy.length) bad.push('② 正本の要約 rowIds が行から作った要約と違う: ' + JSON.stringify(R.bySource) + ' / ' + JSON.stringify(S2.bySource));
+    }
+    cases.push(`② 正本 ${gen ? '(鎖の後の世代 —— rowId あり)' : '(鎖の前の世代 —— rowId なし: 導いて照合)'}: 行 ${nRows}・表 ${S2.bySource.legacy}・導出 ${S2.bySource.derived}・鍵 ${S2.bySource.key}・重なり ${S2.duplicates.length}${gen ? '・rowId の食い違い ' + mism : ''}`);
+    // ③ 行の測定定義の id と match
+    let nDef = 0, outPop = 0;
+    for (const d of RID.ROW_DEF_ROW_IDS) {
+      const pre = (C.presets || []).find((p) => p.id === d.preset);
+      if (!pre) { outPop++; continue; }
+      const byMatch = (pre.quantities || []).filter((q) => String(q.name || '').indexOf(d.match) >= 0).map((q) => q.name).sort();
+      const byId = (pre.quantities || []).filter((q) => RID.rowIdOf(pre.id, Object.assign({}, q, { rowId: undefined }), { renames: ren }).id === d.rowId).map((q) => q.name).sort();
+      if (JSON.stringify(byMatch) !== JSON.stringify(byId) || !byId.length) bad.push('③ ' + d.preset + ' の宣言の id と match が同じ行を指さない(match ' + byMatch.length + '・id ' + byId.length + ')');
+      nDef++;
+      if (!RID.rowMatches(pre.id, byId[0] || '', { rowId: d.rowId, match: null })) bad.push('③ rowMatches が id で当たらない: ' + d.rowId);
+    }
+    cases.push(`③ 行の測定定義の id ${RID.ROW_DEF_ROW_IDS.length}(母集団の中 ${nDef} —— id と match が同じ行・母集団の外 ${outPop})`);
+    // ④ h/4 の例外
+    let nH4 = 0;
+    for (const z of CS.H4_EXCEPTIONS) {
+      if (!RID.h4ExceptionCompat(CS.H4_EXCEPTIONS, z.preset, z.path, z.gateKey, z.name)) bad.push('④ 名前で当たらない: ' + z.preset);
+      if (CS.isH4Exception(z.preset, z.path, z.gateKey, z.name) !== RID.h4ExceptionCompat(CS.H4_EXCEPTIONS, z.preset, z.path, z.gateKey, z.name)) bad.push('④ isH4Exception と互換の照合が違う: ' + z.preset);
+      const idOnly = { rowId: RID.rowIdOf(z.preset, z.name, { renames: ren }).id, name: '(③ の後の名 —— 仮)' };
+      if (!RID.h4ExceptionCompat(CS.H4_EXCEPTIONS, z.preset, z.path, z.gateKey, idOnly)) bad.push('④ id だけの行で当たらない: ' + z.preset);
+      if (RID.h4ExceptionCompat(CS.H4_EXCEPTIONS, z.preset, z.path, z.gateKey + '|x', z.name)) bad.push('④ 門の鍵が違っても当たる: ' + z.preset);
+      nH4++;
+    }
+    cases.push(`④ h/4 の例外 ${nH4}(名前・id だけの行・門の鍵の違いの否)`);
+    // ⑤ 旧保存の読込
+    let nFx = 0, nFxRows = 0, nFxLegacy = 0;
+    // 凍結の写しの本ごとの旧い行名(`obsCardRows` —— 本の id は欄 id か、親の表の鍵)
+    const walkFx = (o, d, key) => { if (!o || typeof o !== 'object' || d > 8) return;
+      const pid = typeof o.id === 'string' ? o.id : key;
+      if (pid && Array.isArray(o.obsCardRows)) { for (const n of o.obsCardRows) { const r = RID.rowIdOf(pid, String(n), { renames: ren }); nFxRows++; if (r.source === 'legacy') nFxLegacy++; if (!r.id.startsWith(pid + '/')) bad.push('⑤ 凍結の写しの行の id の形: ' + r.id); } }
+      for (const k of Object.keys(o)) walkFx(o[k], d + 1, Array.isArray(o) ? null : k); };
+    for (const f of fs.readdirSync(path.join(ROOT, 'tests', 'fixtures')).filter((x) => x.endsWith('.json'))) { let J = null; try { J = JSON.parse(rd323d('tests/fixtures/' + f)); } catch (e) { continue; } const b0 = nFxRows; walkFx(J, 0, null); if (nFxRows > b0) nFx++; }
+    let nRen = 0;
+    for (const r of ((COND && COND.quantities) || [])) { nRen++; if (RID.rowIdOf(r.id, r.nameBefore, { renames: ren }).id !== RID.rowIdOf(r.id, r.nameAfter, { renames: ren }).id) bad.push('⑤ 改名の前と後で id が違う: ' + r.id + ' ' + r.nameAfter); }
+    for (const r of ((COND && COND.rows) || [])) { nRen++; if (RID.rowIdOf(r.id, r.qBefore, { renames: ren }).id !== RID.rowIdOf(r.id, r.qAfter, { renames: ren }).id) bad.push('⑤ 改名の前と後で id が違う(行名): ' + r.id + ' ' + r.qAfter); }
+    if (!nFxRows) bad.push('⑤ 凍結の写しの obsCardRows が 1 つも読めない');
+    cases.push(`⑤ 旧保存の読込: 凍結の写し ${nFx} 本の行 ${nFxRows}(表 ${nFxLegacy})・改名の表の前後 ${nRen} 対で同じ id`);
+    // ⑥ 判定の値
+    let REC = null; try { REC = JSON.parse(rd323d('tests/data-w323d-calverdict.json')); } catch (e) { bad.push('⑥ 判定の値の記録 tests/data-w323d-calverdict.json が読めない'); }
+    if (REC) {
+      if (REC.version !== INV.CALVERDICT_VERSION) bad.push('⑥ 記録の版 ' + REC.version);
+      if (INV.projectionDigest(REC.projection) !== REC.digest) bad.push('⑥ 記録の digest が写しと合わない');
+      const key = INV.calPhysicsKeyOf(C), proj = INV.calJudgementProjection(C);
+      if (key.sha256 === (REC.physicsKey || {}).sha256) {
+        const d = INV.projectionDiff(REC.projection, proj);
+        if (d.length) bad.push('⑥ 物理の入力が同じなのに判定の値が記録と違う ' + d.length + ': ' + d.slice(0, 4).join(' '));
+        cases.push(`⑥ 判定の値: 物理の入力の指紋 ${key.sha256.slice(0, 12)} = 記録(${(REC.base || {}).rev || '—'})—— 4 値 ${JSON.stringify(proj.counts)}・5 区分 ${JSON.stringify(proj.tally)}・行 ${proj.rows.length}・差 ${d.length}`);
+      } else cases.push(`⑥ 判定の値: NOTE 物理の入力の指紋が記録と違う(${key.sha256.slice(0, 12)} ≠ ${String((REC.physicsKey || {}).sha256).slice(0, 12)} —— 物理の変更の後の正本は照合の対象外・記録は基点 ${(REC.base || {}).rev || '—'} の値)`);
+    }
+    // ⑦ 器の配線
+    const HX = rd323d('tests/exp-w249b-calaudit.mjs');
+    for (const w of ["from './lib-w323d-rowids.mjs'", "'tests/lib-w323d-rowids.mjs'", 'attachRowIds(out, { renames: renameMapOf(CONDROWS) })', 'h4ExceptionCompat(H4_EXCEPTIONS, b.id, path0, b.key, b.name)',
+      'rowDefRowIdOf(z.id, z.match)', 'out.rowIds = {']) if (HX.indexOf(w) < 0) bad.push('⑦ 器に「' + w + '」が無い');
+    const a7 = HX.indexOf('const ROW_MEASUREMENT_DEF = ['), b7 = a7 < 0 ? -1 : HX.indexOf('\n];', a7);
+    if (a7 < 0 || b7 < 0) bad.push('⑦ 器に ROW_MEASUREMENT_DEF の表が無い');
+    else if (/rowId/.test(HX.slice(a7, b7))) bad.push('⑦ ROW_MEASUREMENT_DEF の宣言の object に rowId(写像の指紋 mappingSigOf と正本の periodContract に入る —— 足さない)');
+    cases.push('⑦ 器の配線(lib の import と測定コードの一覧・正本の行へ書き足す 1 か所・照合 2 か所・宣言の object は不変)');
+  }
+  add('lint.provenanceIds323', bad.length === 0,
+    `**較正の行の安定した id(読込の互換)**(第323便d・決断事項 AN428 ①・R278 —— 判定・行名・html は不変): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ---- lint.qaRecheck323(beta と root —— 純 Node・html を読まない): 部分の再検査の補足の記録(tests/lib-w323d-recheck.mjs・tools/qa-recheck-record.mjs)
+// ----   ① 部分 QA の印字の読み(缶詰 6 型: 1 本・束・SKIP・印字の無い要求の鍵〔未実行〕・未実行の FAIL 行・「未実行: …」の行)
+// ----   ② 記録の作りと形の検査(閉じる / FAIL が残る / html が違う / 結論を書き換えた写しを検査が拾う / 追記型の records)
+// ----   ③ samplestatus の器の口(補足が無ければ null —— 今と同じ・別のフルを指す補足は当てない・当てた文の形)と、置かれた記録(あれば)の形と今の保存のフルとの対応
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rd323e = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const bad = [], cases = [];
+  let RC = null;
+  try { RC = await import('file://' + path.join(ROOT, 'tests', 'lib-w323d-recheck.mjs')); } catch (e) { bad.push('lib が読めない: ' + String(e && e.message || e).slice(0, 100)); }
+  if (RC) {
+    if (RC.RECHECK_VERSION !== 'w323d-recheck-1') bad.push('① 版 ' + RC.RECHECK_VERSION);
+    // ① 印字の読み
+    const L1 = '# 切り出し: lint.kappaSymbol315  (87100-87230 行)\nPASS lint.kappaSymbol315  ok  [3.1s]\n\nALL PASS (1/1)';
+    const L2 = '# --batch 2: 鍵 3 本を 2 束に\n# 束 1/2: a.x / b.y  (1-9 行)\nPASS a.x  [1s]\nFAIL b.y  ng  [1s]\n# 束 2/2: c.z  (20-29 行)\nSKIP c.z(beta 対象でない)\n';
+    const L3 = '# 切り出し: a.x / b.y / c.z  (1-9 行)\nPASS a.x\nPASS b.y\n\nALL PASS (2/2)';
+    const L4 = '# 切り出し: a.x / b.y  (1-9 行)\nPASS a.x\nFAIL b.y  Requested QA did not execute in qapart\n';
+    const L5 = '# 切り出し: a.x / b.y  (1-9 行)\nPASS a.x\n# 未実行: b.y\n';
+    const P1 = RC.parseQapartLog(L1), P2 = RC.parseQapartLog(L2), P3 = RC.parseQapartLog(L3), P4 = RC.parseQapartLog(L4), P5 = RC.parseQapartLog(L5), P6 = RC.parseQapartLog('PASS a.x\nPASS a.x\nFAIL a.x');
+    const S = (P) => [P.summary.pass, P.summary.fail, P.summary.skip, P.summary.notRun].join('/');
+    if (S(P1) !== '1/0/0/0' || P1.requested.join() !== 'lint.kappaSymbol315') bad.push('① 1 本: ' + S(P1));
+    if (S(P2) !== '1/1/1/0' || P2.requested.join() !== 'a.x,b.y,c.z') bad.push('① 束と SKIP: ' + S(P2));
+    if (S(P3) !== '2/0/0/1' || P3.notRun.join() !== 'c.z') bad.push('① 印字の無い要求の鍵が未実行にならない: ' + S(P3));
+    if (S(P4) !== '1/0/0/1' || P4.notRun.join() !== 'b.y') bad.push('① 未実行の FAIL 行: ' + S(P4));
+    if (S(P5) !== '1/0/0/1' || P5.notRun.join() !== 'b.y') bad.push('① 「未実行: …」の行: ' + S(P5));
+    if (S(P6) !== '0/1/0/0') bad.push('① 同じ ID の FAIL を優先しない: ' + S(P6));
+    cases.push('① 印字の読み 6 型(1 本 1/0/0/0・束と SKIP 1/1/1/0・印字の無い鍵 2/0/0/1・未実行の FAIL 行・「未実行」の行・同じ ID は FAIL を優先 —— PASS/FAIL/SKIP/未実行)');
+    // ② 記録
+    const h = (s) => RC.sha256(s);
+    const fullJ = { commit: 'c'.repeat(40), date: '2026-11-01T00:00:00.000Z', fast: false, tier: 'full', target: 'beta/index.html', targetSha256: h('html'), swCache: 'v-test', total: 3,
+      results: [{ id: 'a.x', pass: true }, { id: 'b.y', pass: false }, { id: 'c.z', pass: true }] };
+    const full = RC.fullRefOf(fullJ, 'tests/out/qa-results-full-beta.json', h('full'));
+    const mk = (log, htmlSha) => RC.buildRecheckEntry({ full, fixes: [{ path: 'docs/PHYSICS.md', commit: 'e'.repeat(7), sha256Before: h('d0'), sha256After: h('d1') }],
+      code: [{ path: 'tests/qa.mjs', sha256AtFull: h('q'), sha256AtRecheck: h('q') }], html: { path: 'beta/index.html', sha256: htmlSha }, parsed: RC.parseQapartLog(log), when: '2026-11-01T00:00:01.000Z' });
+    const okE = mk('# 切り出し: b.y  (1-2 行)\nPASS b.y\n', h('html'));
+    const docOk = RC.appendRecheck(null, full, okE, 'beta/index.html');
+    const v1 = RC.validateRecheck(docOk);
+    if (v1.length || !okE.conclusion.closed || !docOk.latest.closed || okE.conclusion.effective.passedWithRecheck !== 3) bad.push('② 閉じる例: ' + v1.slice(0, 2).join(' / '));
+    const ngE = mk('# 切り出し: b.y  (1-2 行)\nFAIL b.y\n', h('html'));
+    if (ngE.conclusion.closed || RC.validateRecheck(RC.appendRecheck(null, full, ngE)).length) bad.push('② FAIL が残る例');
+    const hdE = mk('# 切り出し: b.y  (1-2 行)\nPASS b.y\n', h('other-html'));
+    if (hdE.conclusion.closed || hdE.conclusion.sameHtml) bad.push('② html が違う例が閉じる');
+    const tam = JSON.parse(JSON.stringify(RC.appendRecheck(null, full, ngE))); tam.records[0].conclusion.closed = true;
+    if (!RC.validateRecheck(tam).some((x) => /closed/.test(x))) bad.push('② 結論を書き換えた写しを検査が拾わない');
+    const tam2 = JSON.parse(JSON.stringify(docOk)); tam2.full.sha256 = 'x';
+    if (!RC.validateRecheck(tam2).length) bad.push('② sha256 の形の誤りを拾わない');
+    const doc2 = RC.appendRecheck(docOk, full, mk('# 切り出し: b.y  (1-2 行)\nPASS b.y\n', h('html')), 'beta/index.html');
+    if (doc2.records.length !== 2 || RC.validateRecheck(doc2).length) bad.push('② 追記型(同じフルへの 2 件目)');
+    const doc3 = RC.appendRecheck(docOk, Object.assign({}, full, { sha256: h('full2') }), okE, 'beta/index.html');
+    if (doc3.records.length !== 1) bad.push('② 別のフルへの再検査が前の records に混ざる');
+    cases.push(`② 記録(${RC.RECHECK_VERSION}): 閉じる例(フル 2/3 + 再検査 1/1 → 3/3)・FAIL が残る・html が違う・結論の書き換えと sha の形を拾う・追記型(同じフル 2 件・別のフルは新しく)`);
+    // ③ samplestatus の口
+    if (RC.recheckProvenanceOf(null, h('full')) !== null) bad.push('③ 補足が無いのに文を作る');
+    const off = RC.recheckProvenanceOf(docOk, h('full2'), 'tests/out/qa-recheck-beta.json');
+    if (!off || off.applied !== false) bad.push('③ 別のフルを指す補足を当てる');
+    const on = RC.recheckProvenanceOf(docOk, h('full'), 'tests/out/qa-recheck-beta.json');
+    if (!(on && on.applied && on.text.indexOf('保存のフル 2/3 + 部分の再検査 1/1') === 0 && on.text.indexOf('`b.y`') > 0 && on.text.indexOf('同じ html') > 0)) bad.push('③ 当てた文の形: ' + (on && on.text));
+    const SS = rd323e('tests/exp-w279a-samplestatus.mjs');
+    for (const w of ["from './lib-w323d-recheck.mjs'", "'tests/lib-w323d-recheck.mjs'", 'process.env.W323D_RECHECK', 'RC.recheckProvenanceOf(doc, RC.sha256(fs.readFileSync(path.join(ROOT, QAF))), rel)',
+      'if (recheckW323) qaProvW320.recheck =', "recheckW323 && recheckW323.applied ? recheckW323.text + '。' : ''"]) if (SS.indexOf(w) < 0) bad.push('③ samplestatus の器に「' + w + '」が無い');
+    const TL = rd323e('tools/qa-recheck-record.mjs');
+    for (const w of ['RC.parseQapartLog(', 'RC.buildRecheckEntry(', 'RC.appendRecheck(', 'RC.validateRecheck(', "argv.includes('--check')"]) if (TL.indexOf(w) < 0) bad.push('③ 道具に「' + w + '」が無い');
+    const recF = RC.RECHECK_FILE[TARGET] || null, fullF = RC.FULL_FILE[TARGET] || null;
+    const recT = recF ? rd323e(recF) : '';
+    if (recT) {
+      let D = null; try { D = JSON.parse(recT); } catch (e) { bad.push('③ 置かれた記録 ' + recF + ' が JSON でない'); }
+      if (D) {
+        const vb = RC.validateRecheck(D);
+        if (vb.length) bad.push('③ 置かれた記録の形: ' + vb.slice(0, 2).join(' / '));
+        let fsha = null; try { fsha = RC.sha256(fs.readFileSync(path.join(ROOT, fullF))); } catch (e) { /* 無い */ }
+        cases.push(`③ 置かれた記録 ${recF}: records ${(D.records || []).length}・閉じた ${D.latest && D.latest.closed}・今の保存のフル ${fsha && D.full && D.full.sha256 === fsha ? 'を指す' : 'を指さない(前のフルの記録 —— samplestatus は当てない)'}`);
+      }
+    } else cases.push(`③ 置かれた記録なし(${recF || '—'} —— samplestatus の来歴の文は今と同じ)`);
+    let SJ = null; try { SJ = JSON.parse(rd323e('tests/out/samplestatus-w279a.json')); } catch (e) { /* 無い */ }
+    const qp = SJ && SJ.timingNote && SJ.timingNote.qaProvenance;
+    if (TARGET.startsWith('beta/') && qp && qp.recheck && !recT && !process.env.W323D_RECHECK) bad.push('③ 記録が無いのに samplestatus の正本に recheck の鍵');
+    cases.push('③ samplestatus の口(補足なし → null・別のフル → 当てない・当てた文「保存のフル n/N + 部分の再検査 k/K(ID —— 直したファイル・同じ html)」)・器と道具の配線');
+  }
+  add('lint.qaRecheck323', bad.length === 0,
+    `**部分の再検査の補足の記録**(第323便d・R278・原仮定者の指示(2026-11-01)—— 保存のフルの結果は書き換えない): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ---- docs.w323d(beta 対象 —— root は SKIP): PHYSICS〔第323便d〕(「## 7.」の前・a → b → c → d の順)・AI_SPEC §170・CHANGELOG・tools/README・post-merge の ③′・.gitignore の例外・
+// ----   書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.w323d(beta 対象でない: ' + TARGET + ' —— 道具と正本は beta 線)');
+    return;
+  }
+  const rd323f = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const bad = [];
+  const PH = rd323f('docs/PHYSICS.md'), a323 = PH.indexOf('〔第323便d — ');
+  const sec = a323 < 0 ? '' : PH.slice(a323, (() => { const e = [PH.indexOf('\n〔第', a323 + 10), PH.indexOf('\n## 7.', a323)].filter((k) => k > a323); return e.length ? Math.min(...e) : undefined; })());
+  const rv = (s) => [...s].reverse().join('');
+  const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);
+  const NOT = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'たため確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転逆の星金', 'たし明説をータマクーダ'].map(rv);
+  if (!sec) bad.push('PHYSICS〔第323便d〕が無い');
+  else {
+    const i7 = PH.indexOf('\n## 7.');
+    if (!(a323 < i7)) bad.push('節の位置(「## 7.」の前)');
+    for (const [b, k] of [['a', PH.indexOf('〔第323便a — ')], ['b', PH.indexOf('〔第323便b — ')], ['c', PH.indexOf('〔第323便c — ')]]) if (k >= 0 && k > a323) bad.push('〔第323便' + b + '〕が〔第323便d〕の後');
+    const i322 = PH.indexOf('〔第322便 — 統括');
+    if (i322 >= 0 && i322 > a323) bad.push('〔第322便 — 統括〕より前');
+    for (const w of ['AN428', 'R278', 'tests/lib-w323d-rowids.mjs', 'w323d-rowids-1', 'LEGACY_ROW_IDS', 'rowId', 'tools/provenance-inventory.mjs', 'tests/lib-w323d-provinv.mjs',
+      'tests/lib-w323d-recheck.mjs', 'tools/qa-recheck-record.mjs', 'w323d-recheck-1', 'tests/out/qa-recheck-beta.json', 'W323D_RECHECK', 'tests/data-w323d-calverdict.json',
+      'lint.provenanceIds323', 'lint.qaRecheck323', 'docs.w323d', '② で変える', 'lint.kappaSymbol315', 'e60502a', '**表 1', '**表 2', '**表 3']) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第323便d〕に「' + w + '」が無い');
+  }
+  const AI = rd323f('docs/AI_SPEC.md'), ai170 = (() => { const m = /\n## 170\. 第323便d[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+  if (!(ai170 && ai170.indexOf('AN428') >= 0 && ai170.indexOf('rowId') >= 0 && ai170.indexOf('qa-recheck-record') >= 0)) bad.push('AI_SPEC §170');
+  const CL = rd323f('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+  const cl323 = (clb.split('\n').find((l) => l.indexOf('**第323便d**') >= 0)) || '';
+  if (!cl323) bad.push('CHANGELOG の beta 節に第323便d の行が無い');
+  const TR = rd323f('tools/README.md'), PM = rd323f('tools/post-merge-qa.sh'), GI = rd323f('.gitignore');
+  if (!(TR.indexOf('## provenance-inventory.mjs') >= 0 && TR.indexOf('## qa-recheck-record.mjs') >= 0)) bad.push('tools/README に provenance-inventory・qa-recheck-record の節が無い');
+  if (!(PM.indexOf('# ==== 第323便d の塊(ここから)====') >= 0 && /lint\.provenanceIds323/.test(PM) && /lint\.qaRecheck323/.test(PM) && /docs\.w323d/.test(PM))) bad.push('post-merge の ③′ に第323便d の塊が無い');
+  if (!(GI.indexOf('!tests/out/qa-recheck-beta.json') >= 0 && GI.indexOf('!tests/out/qa-recheck.json') >= 0)) bad.push('.gitignore に補足の記録の例外が無い');
+  for (const [nm, tx] of [['PHYSICS〔第323便d〕', sec], ['AI_SPEC §170', ai170], ['CHANGELOG の第323便d の行', cl323]]) {
+    for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+    for (const w of NOT) if (tx.indexOf(w) >= 0) bad.push(nm + ' に書かない語(' + w.length + ' 字)');
+    if (tx.indexOf(String.fromCharCode(0x3ba)) >= 0) bad.push(nm + ' に裸の係数記号');
+  }
+  add('docs.w323d', bad.length === 0,
+    '**較正の行の安定した id と部分の再検査の補足の記録の文書**(第323便d・AN428 ①・R278): PHYSICS〔第323便d〕(「## 7.」の前・a → b → c → d)・AI_SPEC §170・CHANGELOG・tools/README・post-merge の ③′・.gitignore の例外・書かない語・禁句・裸の係数記号'
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ' なし'));
+  })();   // 第310便c(heap)
+}
+// ==== 第323便d の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
