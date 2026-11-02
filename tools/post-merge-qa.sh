@@ -623,9 +623,9 @@ if [ -z "${POST_MERGE_WAVE_IDS+x}" ]; then
   else
     [ -n "$PMWAVE" ] || PMWAVE=$(node tests/lib-w324c-postmerge.mjs --wave-of CHANGELOG.md 2>/dev/null || true)
     if [ -n "$PMWAVE" ]; then
-      NALLW=$(echo "$WAVE_IDS" | wc -w)
+      NALLW=$(echo "$WAVE_IDS" | tr -s ' ' '\n' | sort -u | grep -c .)   # 重複を除いた名の数
       WAVE_IDS="$(node tests/lib-w324c-postmerge.mjs --wave-ids "$ROOT/tools/post-merge-qa.sh" "$PMWAVE" 2>/dev/null) ${POST_MERGE_PHYS_SCAN_IDS-$PHYS_SCAN_IDS}"
-      S3W_SCOPE="第${PMWAVE}便の塊と PHYSICS の走査の一式(全部の便を積むと ${NALLW} 名)"
+      S3W_SCOPE="第${PMWAVE}便の塊と PHYSICS の走査の一式(全部の便を積むと重複を除いて ${NALLW} 名)"
     else S3W_SCOPE="全部の便の積み上げ(便の番号が引けない)"
     fi
   fi
