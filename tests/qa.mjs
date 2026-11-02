@@ -2528,6 +2528,9 @@ lastAddAt = Date.now();
       // ==== 第322便c の塊(ここから)==== geoPN=4 の場の契約の器(fieldcontract-322c —— 部 K は純関数・部 G は 🗺️ の写しの初期の状態・子プロセス 2 本)。領域 REGEN_SCOPE を刻む
       'tests/out/fieldcontract-w322c.json',
       // ==== 第322便c の塊(ここまで)====
+      // ==== 第324便a の塊(ここから)==== geoPN=2 の 3D の S3 の器(geo2thick-324a —— 平面の写しの門・有限厚の受理の表・AN510 の門・対の本 🥞🧇 の走行と h/2・子プロセス 2 本)。
+      'tests/out/geo2thick-w324a.json',
+      // ==== 第324便a の塊(ここまで)====
       // ==== 第324便b の塊(ここから)==== 天体ごとの観測の自転 obsSpin と源の角運動量 J の本の器(obsspin-324b —— 受理・拒否の 32 の場合・本の宣言・走行・J の口座・子プロセス 2 本)。領域 REGEN_SCOPE を刻む
       'tests/out/obsspin-w324b.json',
       // ==== 第324便b の塊(ここまで)====
@@ -21836,7 +21839,8 @@ if (!FAST) {
         //   写し元と同じ契約(contactMode "none"・🍭 は中心なし・🎢 は中心 pinned)を持つ —— 器の適用表は変えない(同じ扱い)
         // 第322便a(R270): 🫓 galaxyGeo2Flat3d(💫 galaxyGeo2 の平面の 3D の写し —— 同じ bodies・物理に coord:"3d")も写し元と同じ契約(none・中心 pinned)を持つ
         const COPY288 = { galaxyAnalogyBHCompose: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90Layers: 'galaxyAnalogyBH',
-          shapeToySpiral: 'shapeToyDisk', shapeToySpiralCore: 'shapeToyDiskCore', galaxyGeo2Flat3d: 'galaxyGeo2' };
+          shapeToySpiral: 'shapeToyDisk', shapeToySpiralCore: 'shapeToyDiskCore', galaxyGeo2Flat3d: 'galaxyGeo2',
+          galaxyGeo2Thick3d: 'galaxyGeo2', galaxyGeo2ThickTilt3d: 'galaxyGeo2' };   // 第324便a(R279): 🥞🧇(🫓 の有限厚の対 —— 同じ bodies の面内・物理)も写し元と同じ契約(none・中心 pinned)
         const copies = r.nDeclNone.filter((id) => COPY288[id] && EC.APPLIED.some((a) => a.id === COPY288[id]));
         // 第296便c(原仮定者の裁定(第86報)・R159): 🔗 chainDiskToy(多粒子の連鎖引きずりの試作本 —— 中心 pinned 1 個・粒子どうしの接触なし)は契約どおり none を宣言する
         //   (器の適用表は変えない —— 表の外の新しい本として許す)
@@ -88042,7 +88046,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           // 第318便c(原仮定者の指示(第120報)・R256): 世代切替 —— 内蔵の本 🗺️ solarSystem16Inertial3d を 💙 の後ろ(先頭 105 本の範囲)に足した世代は、
           //   並びの照合からその 1 本を除く(その本の表示の欄の照合は behavior.solar16Builtin318c ⑥ —— 同じ語の集合)
           // 第322便a(R270): 世代切替 —— 内蔵の本 🫓 galaxyGeo2Flat3d を 💫 の後ろ(先頭 105 本の範囲)に足した世代も同じく除く(その本の表示の欄の照合は behavior.geo2flat322a ⑦)
-          const arr = H.evalExpr('BUILTIN_PRESETS').filter((p) => p.id !== 'solarSystem16Inertial3d' && p.id !== 'galaxyGeo2Flat3d');
+          // 第324便a(R279): 世代切替 —— 有限厚の対の本 🥞 galaxyGeo2Thick3d・🧇 galaxyGeo2ThickTilt3d を 🫓 の後ろに足した世代も同じく除く(その 2 本の表示の欄の照合は behavior.geo2thick324a)
+          const arr = H.evalExpr('BUILTIN_PRESETS').filter((p) => p.id !== 'solarSystem16Inertial3d' && p.id !== 'galaxyGeo2Flat3d' && p.id !== 'galaxyGeo2Thick3d' && p.id !== 'galaxyGeo2ThickTilt3d');
           const head = arr.slice(0, B316.length).map((p) => p.id);
           if (JSON.stringify(head) !== JSON.stringify(B316)) bad.push('先頭 ' + B316.length + ' 本の並びが固定の一覧と違う(最初の差: ' + (head.find((x, i) => x !== B316[i]) || '—') + ')');
           if (!arr[B316.length] || arr[B316.length].id !== 'plutoCharonKF0Control') bad.push(B316.length + 1 + ' 本目が plutoCharonKF0Control でない(枝 c との境界)');
@@ -91931,7 +91936,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         // ⑦
         const ps = HPx.allPresets(), g2 = ps.find((p) => p.id === 'galaxyGeo2'), b3 = ps.find((p) => p.id === X.BOOK_ID);
         const g3ids = []; for (const p of ps) { if (p.physics && p.physics.coord === '3d' && p.physics.geoPN === 2) g3ids.push(p.id); }
-        if (JSON.stringify(g3ids) !== JSON.stringify([X.BOOK_ID])) bad.push('⑦ 三次元の geoPN=2 の本: ' + g3ids.join(','));
+        // 第324便a(R279): 世代切替 —— 有限厚の対の本 🥞🧇 を 🫓 の後に足した世代(html の THICK_VERSION)は 3 本(その 2 本の照合は behavior.geo2thick324a)
+        const want7 = (rd(TARGET).indexOf('THICK_VERSION="w324a-thick-1"') >= 0) ? [X.BOOK_ID, 'galaxyGeo2Thick3d', 'galaxyGeo2ThickTilt3d'] : [X.BOOK_ID];
+        if (JSON.stringify(g3ids) !== JSON.stringify(want7)) bad.push('⑦ 三次元の geoPN=2 の本: ' + g3ids.join(','));
         if (!b3 || !g2) bad.push('⑦ 本が無い');
         else {
           const ph3 = Object.assign({}, b3.physics); delete ph3.coord;
@@ -93410,6 +93417,158 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第323便b の塊(ここまで)====
+// ==== 第324便a の塊(ここから —— behavior.geo2thick324a・docs.geo2thick324a の 2 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第324便a(原仮定者の回答(2026-11-01 —— AN500「3D銀河プリセットは、傾き無しと有りの両方を用意する」)・決断事項 AN513・AN510・統括の検証項目 R279):
+// ----   **geoPN=2(v−u 則)の 3D の S3 —— disk の有限厚の宣言 thickness と有限厚の対の本 🥞 galaxyGeo2Thick3d・🧇 galaxyGeo2ThickTilt3d**(新設 —— root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ 器 tests/exp-w324a-geo2thick.mjs ∧ 文書の lib tests/lib-w324a-geo2thickdoc.mjs ∧ html の THICK_VERSION。
+// ----   behavior.geo2thick324a(html を headless で読む —— 正本は読まない・器の段を試走の計画 QUICK で作り直す):
+// ----     ① 受理の表(正準形・既定・未知の鍵の拒否・h = 0 の旧署名・中心の参照・二次元の本と disk 以外の型の警告・中心の軸の警告)・乱数の系列の分離(厚みを外した写しと
+// ----        面内の状態が同じビット)・h = 0 の build が鍵の無い本と同じビット・傾き有りの初期の状態が傾き無しの回した像・再抽選の上限(純関数と受理器の突き合わせを直に)
+// ----     ② AN510 の門(零自転からの立ち上がり・符号反転・上限への到達 —— html の步と第321便a の純関数 "vector" が全状態で同じビット・クランプが落とした角運動量を戻すと閉じる)
+// ----     ③ 保存と復帰・A/B の複製(🥞🧇 の build —— u の履歴の z が 0 でない)
+// ----     ④ 内蔵の三次元の geoPN=2 の本(宣言 physics.coord === "3d" で数える)は 🫓🥞🧇 の 3 本・🥞🧇 の宣言(thickness の正準形・stateCarry:"double"・claims なし・
+// ----        sampleClass "principle"・家族 galaxyrot)・表示の欄に来歴の語と旧記号が無い・SYSTEM_PROMPT に thickness と新しい ID が無い(AI 生成には開放しない)
+// ----     ⑤ 対の本の試走(QUICK の 300 步 —— 傾き有りと傾き無しの面の座標の比の差・初期の状態の回転共変)
+// ----     ⑥ 回転共変の差の出どころ(器の中で単精度の配列を倍精度に差し替えた写しで差が倍精度の丸めへ下がる —— エンジンは変えない)
+// ----   docs.geo2thick324a(正本 tests/out/geo2thick-w324a.json):
+// ----     ① 正本の門(器の gatesOf で作り直して同じ・全部真)・試走でない・計画が器の PLAN・版/来歴(w272e-1)・領域 hash(完全)・平面の写しの比が凍結と同じビット
+// ----     ② PHYSICS〔第324便a〕の表の行と数を正本から作り直して逐語で照合・節が〔第323便 — 統括〕の後で「## 7.」の前・必須の語・AI_SPEC §171・CHANGELOG・段(quickVerify 'long')・
+// ----        .gitignore・post-merge・CANON・煙試験・SAMPLE_STATUS の原稿・家族 ③ 書かない語・禁句・裸の κ
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const aHarn = path.join(ROOT, 'tests', 'exp-w324a-geo2thick.mjs'), aDoc = path.join(ROOT, 'tests', 'lib-w324a-geo2thickdoc.mjs');
+  const aOut = path.join(ROOT, 'tests', 'out', 'geo2thick-w324a.json');
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(aHarn) && fs.existsSync(aDoc) && rd(TARGET).indexOf('THICK_VERSION="w324a-thick-1"') >= 0)) {
+    console.log('SKIP behavior.geo2thick324a / docs.geo2thick324a(第324便a の disk の有限厚の宣言の前の世代 — ' + TARGET + ')');
+    return;
+  }
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+  let X = null, D0 = null, err0 = null;
+  try { X = await import('file://' + aHarn); D0 = await import('file://' + aDoc); } catch (e) { err0 = String(e).slice(0, 160); }
+  // ───── behavior.geo2thick324a ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        const Q = X.QUICK, HPx = H.HP;
+        // ①
+        const Ac = X.partAccept(H, Q);
+        if (!Ac.pass) bad.push('① 受理の表など: ' + Ac.rows.filter((r) => !r.pass).map((r) => r.key).join(',') + ' / 系列 ' + Ac.rng.nDiff + '・h=0 ' + Ac.h0.nDiff + '/' + Ac.h0.sigSame + '・傾き ' + Ac.tiltInit.posMaxRel + '・上限 ' + Ac.redraw.lowCutFail);
+        cases.push(`① 受理の表 ${Ac.nPass}/${Ac.nCases}・面内の状態の違う値 ${Ac.rng.nDiff}/${Ac.rng.nVal}(z・v_z は ${Ac.rng.zNonZero}・${Ac.rng.vzNonZero} 粒子で 0 でない)・h = 0 の build の違う値 ${Ac.h0.nDiff}・署名が同じ ${Ac.h0.sigSame}・再抽選の上限 ${Ac.redraw.max} 回(本の 380 粒子の抽選 ${Ac.redraw.book.draws} 回)`);
+        // ②
+        const An = X.partAN510(HPx, Q);
+        if (!(An.htmlSame && An.rise && An.flip && An.cap && An.capLedger && An.centerEnabled)) bad.push('② AN510 の門: ' + JSON.stringify({ html: An.htmlSame, rise: An.rise, flip: An.flip, cap: An.cap, ledger: An.capLedger, center: An.centerEnabled }));
+        cases.push(`② AN510 の門 ${An.rows.length} 場面: html の步と純関数 "vector" が同じビット ${An.htmlSame}・立ち上がり ${An.rise}・符号反転 ${An.rows.filter((r) => r.mode === 'flip').map((r) => r.flips).join('・')} 回・上限のクランプ ${An.rows.filter((r) => r.mode === 'cap').map((r) => r.clampSN).join('・')} 回(落とした角運動量を戻すと閉じる ${An.capLedger})`);
+        // ③
+        const Ck = X.partCkpt(H, Q);
+        if (!Ck.pass) bad.push('③ 保存と復帰・複製: ' + JSON.stringify(Ck.rows).slice(0, 200));
+        cases.push('③ 保存と復帰・複製の違う値 ' + X.NEW_IDS.map((id) => Ck.rows[id].restore.nDiff + '・' + Ck.rows[id].clone.nDiff).join(' / '));
+        // ④
+        const ps = HPx.allPresets(), g3ids = []; for (const p of ps) { if (p.physics && p.physics.coord === '3d' && p.physics.geoPN === 2) g3ids.push(p.id); }
+        if (JSON.stringify(g3ids) !== JSON.stringify([X.FLAT_ID, X.THICK_ID, X.TILT_ID])) bad.push('④ 三次元の geoPN=2 の本: ' + g3ids.join(','));
+        const PROV7 = /第\s*\d+(?:\s*[〜~]\s*\d+)?\s*便|第\s*\d+\s*報|原仮定者|決断事項|統括|検証項目\s*R\d|\bAN\d{2,4}\b|\bR\d{3}\b|本便|DECISIONS/, SYM7 = /κ(?!_D)|K_s|\bkappa(?:0|_T)?\b/;
+        const walk7 = (o, pre, out) => { if (typeof o === 'string') out.push([pre, o]); else if (o && typeof o === 'object') for (const k of Object.keys(o)) walk7(o[k], pre ? pre + '.' + k : k, out); return out; };
+        for (const id of X.NEW_IDS) {
+          const b = ps.find((p) => p.id === id);
+          if (!b) { bad.push('④ 本が無い ' + id); continue; }
+          const v = HPx.validatePreset(clone(b));
+          if (!(v.ok && (v.warnings || []).length === 0 && HPx.coord3d.denyOf(v.preset).length === 0)) bad.push('④ ' + id + ' が受理されない(警告 ' + (v.warnings || []).length + ')');
+          else if (JSON.stringify(v.preset.bodies[1].thickness) !== '{"z":{"kind":"gauss","h":8,"cut":3},"vz":{"kind":"local-nu","scale":1,"center":0}}') bad.push('④ ' + id + ' の thickness の正準形');
+          if (!(b.physics.stateCarry === 'double' && !b.claims && b.sampleClass === 'principle' && b.familyId === 'galaxyrot' && b.familyRole === 'variant')) bad.push('④ ' + id + ' の宣言(倍精度・claims・分類・家族)');
+          const hit = walk7({ name: b.name, descStruct: b.descStruct, en: b.en }, '', []).filter(([k, s]) => !/brief$/.test(k) && (PROV7.test(s) || SYM7.test(s))).map(([k]) => k);
+          if (hit.length) bad.push('④ ' + id + ' の表示の欄に来歴の語・旧記号: ' + hit.join(','));
+        }
+        const sp = String(HPx.SYSTEM_PROMPT || H.evalExpr('SYSTEM_PROMPT') || '');
+        if (!sp || /thickness|galaxyGeo2Thick3d|galaxyGeo2ThickTilt3d/.test(sp)) bad.push('④ SYSTEM_PROMPT に thickness か新しい ID がある(AI 生成には開放しない)');
+        cases.push(`④ 内蔵の三次元の geoPN=2 の本 ${g3ids.join('・')}・🥞🧇 の宣言(倍精度の状態・claims なし・家族 galaxyrot)・SYSTEM_PROMPT に載せない`);
+        // ⑤
+        const rT = X.pairRow(HPx, Q, 'thick'), rR = X.pairRow(HPx, Q, 'tilt'), F = X.frameOf(Q.incl, Q.node);
+        const c0 = X.covOf(rT.snaps[0], rR.snaps[0], F), cE = X.covOf(rT.snaps[Q.steps], rR.snaps[Q.steps], F), dR = Math.abs(rT.ratio - rR.ratio);
+        if (!(c0.posMaxRel < 1e-12 && c0.velMaxRel < 1e-12 && rT.nan === false && rR.nan === false && dR < 1e-6 && cE.posMaxRel < 1e-5)) bad.push('⑤ 対の本の試走: ' + JSON.stringify({ c0, cE, dR }).slice(0, 200));
+        cases.push(`⑤ 対の本の試走 ${Q.steps} 步: 初期の位置の差(相対)${c0.posMaxRel.toExponential(1)}・終わり ${cE.posMaxRel.toExponential(1)}・比の差 ${dR.toExponential(1)}`);
+        // ⑥ 回転共変の差の出どころ(器の中で単精度の配列を倍精度に差し替えた写し —— 差が倍精度の丸めへ下がる)
+        const Wd = X.partWide(HPx, Q);
+        if (!Wd.pass) bad.push('⑥ 差の出どころ: ' + JSON.stringify(Wd.rows.map((r) => [r.key, r.at[r.at.length - 1].spinVecMaxRel])));
+        cases.push('⑥ 単精度の配列を倍精度に差し替えた写しの自転のベクトルの差 ' + Wd.rows.map((r) => r.key + ' ' + r.at[r.at.length - 1].spinVecMaxRel.toExponential(1)).join('・'));
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.geo2thick324a', bad.length === 0,
+      `**geoPN=2(v−u 則)の 3D の S3 —— disk の有限厚の宣言 thickness と有限厚の対の本 🥞🧇**(第324便a・原仮定者の回答(2026-11-01 —— AN500)・AN513・AN510・R279 —— S._core と二次元の步は不変): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.geo2thick324a ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QA0 = rd('tests/qa.mjs'), CLx = rd('CHANGELOG.md'), HS = rd('tools/harness-smoke.mjs');
+    const SS = rd('tests/data-w279a-samplestatus-src.json'), FM = rd('tests/exp-w283b-families.mjs');
+    const i0 = PH.indexOf('〔第324便a — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10), iG = PH.indexOf('〔第323便 — 統括');
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /一致した/, /法則を確かめた/, /確認した/, /シュヴァルツシルト半径そのもの/, /検証が完了した/, /ダークマターを説明した/, /内部熱を説明した/, /金星の逆転を説明した/, /暦表に一致/, /地平面を判定した/,
+      /回転曲線を予言した/, /自己形成した/, /3D で銀河を再現/, /厳密な平衡/, /源の自転を計算した/];
+    const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+    const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+    const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+    let J = null;
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    try { J = JSON.parse(fs.readFileSync(aOut, 'utf8')); } catch (e) { bad.push('正本 geo2thick が読めない'); }
+    if (J && X && D0) {
+      try {
+        // ①
+        const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+        if (J.ok !== true) bad.push('① 正本の ok が真でない');
+        for (const k of GK) { if (G[k] !== true) bad.push('① 正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('① 門 ' + k + ' を作り直すと正本と違う'); }
+        if (Object.keys(G).length !== GK.length) bad.push('① 門の数が器と違う');
+        if (J.quick === true) bad.push('① 正本が試走(QUICK)');
+        if (JSON.stringify(J.plan) !== JSON.stringify(clone(X.PLAN))) bad.push('① 計画が器の PLAN と違う');
+        if (J.version !== X.HARNESS_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.stage === 'geo2thick')) bad.push('① 正本の版/来歴(w272e-1)');
+        if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('① 正本に領域 hash(完全)が無い');
+        if (!(J.parts.flat && J.parts.flat.sameAsFrozen === true)) bad.push('① 平面の写しの比が凍結と同じビットでない');
+        cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して同じ)・平面の写しの比 ${J.parts.flat.row.ratio.toFixed(4)}(凍結と同じビット ${J.parts.flat.sameAsFrozen})`);
+        // ②
+        if (!sec) bad.push('PHYSICS〔第324便a〕が無い');
+        else {
+          const rows = D0.physicsTablesGeo2thick(J).filter((l) => l.startsWith('|') && !l.startsWith('|---'));
+          let nMiss = 0; for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第324便a〕の表に行が無い: ' + r.slice(0, 70)); }
+          const nums = D0.docNumbersGeo2thick(J), missN = nums.filter((x) => sec.indexOf(x) < 0); if (missN.length) bad.push('PHYSICS〔第324便a〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+          if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第324便a〕が「## 7. 論文」の後');
+          if (iG >= 0 && i0 < iG) bad.push('PHYSICS〔第324便a〕が〔第323便 — 統括〕の前');
+          for (const w of ['R279', 'AN500', 'AN510', 'AN513', 'exp-w324a-geo2thick.mjs', 'lib-w324a-geo2thickdoc.mjs', 'geo2thick-w324a.json', 'behavior.geo2thick324a', 'docs.geo2thick324a',
+            'W324A_OUT', 'W324A_QUICK', 'W324A_WORKERS', 'w324a-geo2thick-1', 'w324a-thick-1', 'THICK_VERSION', 'thickValidate', 'thickCrossCheck', 'thickDraws', 'coord3dPlace', 'thickness',
+            'galaxyGeo2Thick3d', 'galaxyGeo2ThickTilt3d', 'galaxyGeo2Flat3d', 'S._core', '再抽選', '局所座標', '別の系列', 'center', 'local-nu', '初期の近似', '回転共変', '単精度', 'h/2', 'quickVerify',
+            '決断事項の候補', '言わないこと'])
+            if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第324便a〕に「' + w + '」が無い');
+          cases.push(`② PHYSICS〔第324便a〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
+        }
+        { const ai = AS.indexOf('## 171.'); if (ai < 0) bad.push('AI_SPEC に §171 が無い');
+          else { const as = AS.slice(ai, ai + 6000); for (const w of ['thickness', 'galaxyGeo2Thick3d', 'galaxyGeo2ThickTilt3d', 'exp-w324a-geo2thick.mjs', 'geo2thick-w324a.json', 'behavior.geo2thick324a', 'docs.geo2thick324a', 'R279', 'SYSTEM_PROMPT']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §171 に「' + w + '」が無い'); } }
+        { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, ci + 40000) : ''; if (cs.indexOf('第324便a') < 0) bad.push('CHANGELOG の beta の節に第324便a が無い'); }
+        if (RT.indexOf("S('geo2thick-324a', 'node tests/exp-w324a-geo2thick.mjs', ['tests/out/geo2thick-w324a.json']") < 0 || !/secSource: 'w324a-branch'/.test(RT) || !/geo2thick-324a[^\n]*quickVerify: 'long'/.test(RT)) bad.push('再生成の段 geo2thick-324a(quickVerify \'long\')');
+        if (GI.indexOf('!tests/out/geo2thick-w324a.json') < 0) bad.push('.gitignore の例外');
+        if (PM.indexOf('# ==== 第324便a の塊(ここから)====') < 0 || PM.indexOf('docs.geo2thick324a') < 0 || PM.indexOf('behavior.geo2thick324a') < 0) bad.push('post-merge の ③′ に第324便a の塊が無い');
+        if (QA0.indexOf("'tests/out/geo2thick-w324a.json',") < 0) bad.push('CANON(lint.canon304)に第324便a の正本が無い');
+        if (HS.indexOf("'geo2thick-324a': {") < 0) bad.push('煙試験の窓の表に geo2thick-324a が無い');
+        { let S0 = null; try { S0 = JSON.parse(SS); } catch (e) { S0 = null; }
+          for (const id of X.NEW_IDS) { const r = S0 && S0.rows && S0.rows[id];
+            if (!r || r.evidence.indexOf('tests/out/geo2thick-w324a.json') < 0 || !(r.en && r.en.purpose && r.en.state)) bad.push('SAMPLE_STATUS の原稿に ' + id + ' の行(根拠は正本)が無い'); } }
+        if (!/key: 'galaxyrot'[^\n]*'galaxyGeo2Thick3d', 'galaxyGeo2ThickTilt3d'/.test(FM)) bad.push('家族 galaxyrot に 🥞🧇 が無い');
+        // ③
+        for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第324便a〕に書かない語 ' + re.source);
+        for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第324便a〕に禁句(' + w.length + ' 字)');
+        if (/κ(?!_D)/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第324便a〕に裸の κ(κ は κ_D だけ —— コードの書式の外)');
+        cases.push('③ 書かない語・禁句・裸の κ(節)・AI_SPEC §171・CHANGELOG・段・.gitignore・post-merge・CANON・煙試験・SAMPLE_STATUS の原稿・家族');
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('docs.geo2thick324a', bad.length === 0,
+      `**geoPN=2 の 3D の S3 の正本と文書**(第324便a・原仮定者の回答(2026-11-01 —— AN500)・AN513・AN510・R279): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第324便a の塊(ここまで)====
 // ==== 第324便d の塊(ここから —— lint.resume324d・docs.satlong324d の 1 ブロック。統合で他の枝の塊と混ぜない)====
 // ---- 第324便d(決断事項 AN480・AN452・統括の検証項目 R282): **長い段の再開の型**と**イオ・エウロパの長い窓の口** —— html・本の宣言・エンジン・既定の段 satnext-318b の行は変えない
 // ----   (beta 対象だけ —— root は SKIP)。

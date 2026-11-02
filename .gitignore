@@ -1168,6 +1168,11 @@ tests/out/regen-plan-w281a.json
 !tests/out/qa-recheck-beta.json
 !tests/out/qa-recheck.json
 # ==== 第323便d の塊(ここまで)====
+# ==== 第324便a の塊(ここから)====
+# 第324便a(原仮定者の回答(2026-11-01 —— AN500)・決断事項 AN513・AN510・統括の検証項目 R279): geoPN=2(v−u 則)の 3D の S3 の器の正本(tests/exp-w324a-geo2thick.mjs —— 段 geo2thick-324a)。
+#   QA docs.geo2thick324a と SAMPLE_STATUS の原稿(galaxyGeo2Thick3d・galaxyGeo2ThickTilt3d の根拠)が読むのでコミットする(試走 W324A_QUICK の出力は W324A_OUT で別名 —— 例外にしない)
+!tests/out/geo2thick-w324a.json
+# ==== 第324便a の塊(ここまで)====
 # ==== 第324便b の塊(ここから)====
 # 第324便b(決断事項 AN514・AN515・統括の検証項目 R280): 天体ごとの観測の自転 obsSpin と源の角運動量 J の本の器の正本
 #   (tests/exp-w324b-obsspin.mjs —— 段 obsspin-324b)。QA behavior.obsSpin324b・docs.obsSpin324b と SAMPLE_STATUS の原稿が読むのでコミットする(試走 W324B_QUICK の出力は W324B_OUT で別名 —— 例外にしない)

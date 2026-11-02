@@ -550,6 +550,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickWindows323 docs.w323c lint.harness
 #   docs.sampleStatus-sync・preset.statusLedger-sync・docs.tallySync)・刻印の lint.provenanceMeta・lint.stableHashPaths・lint.regenChain・この脚本の lint.postMergeQaScript・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.provenanceIds323 lint.qaRecheck323 docs.w323d docs.calaudit-sync docs.calibration-verdict-sync behavior.calauditStages lint.calauditMergeKeyHash lint.calauditDiagSplit docs.periodContractRows docs.sampleStatus-sync preset.statusLedger-sync docs.tallySync lint.provenanceMeta lint.stableHashPaths lint.regenChain lint.postMergeQaScript lint.qaHeapRelease310"
 # ==== 第323便d の塊(ここまで)====
+# ==== 第324便a の塊(ここから)====
+# 第324便a(原仮定者の回答(2026-11-01 —— AN500)・決断事項 AN513・AN510・R279): 枝 a の新設 2 本(behavior.geo2thick324a —— disk の有限厚の宣言 thickness の受理・正準形・乱数の系列の分離・
+#   h = 0 の旧署名・再抽選の上限・対の本 🥞🧇 の回転共変・AN510 の門・保存と復帰 / docs.geo2thick324a —— 正本と文書)と、世代切替を受けた QA(behavior.geo2flat322a ⑦ の三次元の geoPN=2 の本・
+#   lint.presetText316b の並びの照合の除外・contactMode の写しの表 preset.multiParticleContract)・内蔵の数を読む QA・正本の段の lint 一式(家族の表と SAMPLE_STATUS の生成領域は鎖の段
+#   families・samplestatus が作り直す)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.geo2thick324a docs.geo2thick324a behavior.geo2flat322a docs.geo2flat322a lint.presetText316b preset.multiParticleContract ui.physLock315 lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.harnessSmoke303 lint.conventionsCheck323"
+# ==== 第324便a の塊(ここまで)====
 # ==== 第324便b の塊(ここから)====
 # 第324便b(決断事項 AN514・AN515・R280): 枝 b の新設 2 本(behavior.obsSpin324b —— 天体ごとの観測の自転 obsSpin の受理・拒否の 32 の場合・📟 と 🔸 の宣言・60 步のビット・
 #   源の J の読み口と状態の自転の不変・本の文の数 / docs.obsSpin324b —— 正本と文書)と、本を足した便で数え上げの変わる QA(fidelity・c₀ の一律規約・光速の真値の一覧・三次元の本の並び —— ui.fidelity・

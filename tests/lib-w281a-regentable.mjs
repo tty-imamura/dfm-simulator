@@ -1612,6 +1612,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/fieldcontract-w322c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第322便c: geoPN=4 の場の契約 —— 外部場の輸送の力学の契約の導出(今の v−u 輸送は正準の型 H = ½|p|² + p·u + Φ を状態の v = ẋ = p + u で書いたもの —— 6 場面 × 5 型の軌道と台帳・k_F ≠ 1 の余りの力)・散逸のグループの 2 列(銀河 1 グループ/成分ごと —— R_cut の不変のビット)・AN503 の診断の写しの設計(エンジン・在位の本は変えない・外部場の輸送はエンジンに入れていない)' }),
   // ==== 第322便c の塊(ここまで)====
+  // ==== 第324便a の塊(ここから)====
+  // ---- 第324便a(原仮定者の回答(2026-11-01 —— AN500「3D銀河プリセットは、傾き無しと有りの両方を用意する」)・決断事項 AN513・AN510・統括の検証項目 R279):
+  //   **geoPN=2(v−u 則)の 3D の S3 の器**(段 geo2thick-324a —— flat〔平面の写しの門: 🫓 の外縁の比が二次元の 💫 の凍結の基準と同じビット —— 第322便a の器の gateRow 12000 步〕・
+  //   accept〔disk の有限厚の宣言 thickness の受理の表・乱数の系列の分離・h = 0 の旧署名と同じ build・再抽選の上限〕・an510〔零自転からの立ち上がり・符号反転・上限への到達で
+  //   html の步と第321便a の純関数が同じビット・クランプが落とした角運動量〕・ckpt〔保存と復帰・A/B の複製〕・pair〔有限厚の対の本 🥞🧇 と厚み 0 の対の 12000 步 × A/B・h/2 の 24000 步・
+  //   回転共変の程度〕)。html を読む(本は 🫓🥞🧇 と 💫 を .find で引く)・他の正本は読まない(html の生成領域の後)。flat と pair の 7 行は子プロセス 2 本(W324A_WORKERS)。
+  //   長期の量(12000 步の外縁の比)を出す段なので quickVerify:'long'。所要は第324便a の枝の実測 1616 s(子プロセス 2 本〔既定〕—— **並走の秒**: 他の 3 枝の器・QA と同じ容器で負荷 8〜11・h/2 の 2 行が各約 760 s。混まない箱では短い見込み —— 統括が測り直す)
+  S('geo2thick-324a', 'node tests/exp-w324a-geo2thick.mjs', ['tests/out/geo2thick-w324a.json'], 1620, { secSource: 'w324a-branch', node: true, quickVerify: 'long', after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/geo2thick-w324a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/parts/flat/row/wallSec', '/parts/pair/rows/*/wallSec']) },
+    note: '第324便a: geoPN=2 の 3D の S3 —— disk の有限厚の宣言 thickness(受理・正準形・署名・厚み用の別の乱数の系列・局所座標から同じ回転)と有限厚の対の本 🥞🧇(倍精度の状態)・平面の写しの門・AN510 の門・回転共変の程度と h/2' }),
+  // ==== 第324便a の塊(ここまで)====
   // ==== 第324便b の塊(ここから)====
   // ---- 第324便b(決断事項 AN514・AN515・統括の検証項目 R280 —— geoPN=3 の S3): **天体ごとの観測の自転 obsSpin と源の角運動量 J の本の器**(段 obsspin-324b —— A 受理・拒否の
   //   32 の場合〔排他・必須の欄・単位・axis:null・二形式・0.4 を補わない・未知の鍵・二次元の本・S.spin へ写す宣言・源の経路 kind "obsSpin"〕・B 本の宣言〔📟 と第321便b の兄弟の写し・

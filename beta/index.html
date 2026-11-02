@@ -11325,6 +11325,7 @@ function coord2dZKeysOf(bodies){
     const at="bodies["+i+"]";
     for(const k of ["z","vz","incl","node"]) if(Object.prototype.hasOwnProperty.call(b,k) && b[k]!==undefined) out.push(at+"."+k);
     if(b.spinAxis && typeof b.spinAxis==="object" && b.spinAxis.enable!==undefined) out.push(at+".spinAxis.enable");
+    if(b.thickness!==undefined) out.push(at+".thickness");   // 第324便a(AN513・R279): disk の有限厚の宣言(二次元の本では z を積分しない —— 値は捨てない)
   });
   return out;
 }
@@ -11346,7 +11347,103 @@ function coord3dBodyKeys(raw, o, at, warnings, bad, CO, VEL){
   } else {
     for(const k of ["incl","node","z","vz"]) if(raw[k]!==undefined) warnings.push(at+"."+k+" は "+((k==="incl"||k==="node")? "ring/disk" : "single")+" 専用— 無視します");
   }
+  if(raw[THICK_KEY]!==undefined){ if(o.type==="disk") thickValidate(raw[THICK_KEY], o, at, warnings, bad); else warnings.push(at+".thickness は disk 専用— 無視します"); }   // 第324便a(AN513・R279): 有限厚(disk だけ —— 他の型は警告して落とす)
 }
+// ==== 第324便a の塊(ここから)====
+// ===== 第324便a(原仮定者の回答(2026-11-01 —— AN500「3D銀河プリセットは、傾き無しと有りの両方を用意する」)・決断事項 AN513・AN510・統括の検証項目 R279):
+//   **disk の群の有限厚の宣言 thickness**(三次元の本の初期の z・v_z —— 受理・正準形・署名に入る)=====
+// 宣言: thickness:{z:{kind:"gauss", h, cut}, vz:{kind:"local-nu", scale, center}}
+//   z ……… 円盤の局所座標の z を、切断前の尺度 h の正規分布から引く。|z| > cut·h は**再抽選**(端へ押し付けない —— 抽選の後の二乗平均は h より小さい)。
+//          cut は 1〜6(既定 3)。h は 0 以上で円盤の半径以下。
+//   vz …… v_z を N(0, (scale·ν·h)²) から引く(切断しない)・ν² = G M_c/(R² + ε²)^{3/2}(R は円盤の中心 (cx, cy) からの面内の距離・ε は physics.softening・
+//          M_c は center の行の single の宣言の質量)。center は bodies の行(**配列の先頭を黙って中心とみなさない** —— 明示の参照で、円盤の中心と同じ位置の
+//          正の質量の single に限る)。scale は 0〜10(既定 1)。**初期の近似**(中心の質点だけの鉛直の振動数 —— 円盤の自己重力を含む平衡ではない)。
+//   乱数 … **厚み用の別の系列**(本の seed〔無ければ build と同じ id/name の hash〕と行の番号から派生した mulberry32 —— 面内の位置・質量・速度・自転の乱数列は
+//          1 つも変えない)。粒子の順に z(再抽選込み)→ v_z。正規分布は Box–Muller の cos の枝(1 本に一様乱数 2 つ)。1 粒子の抽選は THICK_REDRAW_MAX 回まで
+//          (超える宣言は受理で拒否 —— 受理器が build と同じ列を引き直して確かめる。build で超えたら例外 —— 受理を通った本では起きない)。
+//   回転 … 円盤の局所座標で z・v_z を作ってから、群の incl/node の**同じ回転** R = R_z(node)·R_x(incl) を位置(群の中心のまわり)・速度(群の並進 bulkV を
+//          引いて回して戻す —— 厚みの速度は並進と別)・群の粒子の自転軸(R ẑ —— 有効化しない軸)へ(coord3dPlace)。中心の single の自転軸は本が宣言する
+//          (spinAxis —— 円盤の法線 R ẑ と違えば受理で警告)。
+//   正準形 … {z:{kind, h, cut}, vz:{kind, scale, center}}(既定を書き出す)・**h = 0 は鍵を外す**(旧の宣言と同じ署名・同じ数値 —— 警告で知らせる)・
+//          未知の鍵は拒否(黙って落とさない)・disk 以外の型の thickness は警告して落とす・二次元の本では値を捨てず警告(coord2dZ —— z を積分しない)。
+const THICK_VERSION="w324a-thick-1", THICK_KEY="thickness", THICK_REDRAW_MAX=64;
+const THICK_KEYS=["z","vz"], THICK_Z_KEYS=["kind","h","cut"], THICK_VZ_KEYS=["kind","scale","center"];
+const THICK_FORM='{z:{kind:"gauss", h, cut}, vz:{kind:"local-nu", scale, center}}';
+// 形の受理(coord3dBodyKeys から disk の行ごとに)。正規化した宣言を o.thickness へ(h = 0 は書かない)
+function thickValidate(t, o, at, warnings, bad){
+  const A=at+"."+THICK_KEY, isObj=(v)=>!!v && typeof v==="object" && !Array.isArray(v), isN=(v)=>typeof v==="number" && Number.isFinite(v);
+  if(!isObj(t)){ bad(A+" は "+THICK_FORM+"(有限厚の宣言)"); return; }
+  for(const k of Object.keys(t)) if(THICK_KEYS.indexOf(k)<0){ bad(A+" に未知の鍵 "+k+"(z・vz だけ)"); return; }
+  const z=t.z, v=t.vz;
+  if(!isObj(z)){ bad(A+'.z が無い({kind:"gauss", h, cut})'); return; }
+  for(const k of Object.keys(z)) if(THICK_Z_KEYS.indexOf(k)<0){ bad(A+".z に未知の鍵 "+k+"(kind・h・cut だけ)"); return; }
+  if(z.kind!=="gauss"){ bad(A+'.z.kind は "gauss"(切断前の正規分布の尺度 h)'); return; }
+  if(!isN(z.h) || z.h<0 || z.h>o.radius){ bad(A+".z.h は 0 以上で円盤の半径 "+o.radius+" 以下の数"); return; }
+  const cut=(z.cut===undefined)? 3 : z.cut;
+  if(!isN(cut) || cut<1 || cut>6){ bad(A+".z.cut は 1〜6 の数(既定 3 —— ±cut·h の外は再抽選)"); return; }
+  if(!isObj(v)){ bad(A+'.vz が無い({kind:"local-nu", scale, center} —— v_z を 0 にするなら scale:0)'); return; }
+  for(const k of Object.keys(v)) if(THICK_VZ_KEYS.indexOf(k)<0){ bad(A+".vz に未知の鍵 "+k+"(kind・scale・center だけ)"); return; }
+  if(v.kind!=="local-nu"){ bad(A+'.vz.kind は "local-nu"(中心の質点の鉛直の振動数 ν)'); return; }
+  const sc=(v.scale===undefined)? 1 : v.scale;
+  if(!isN(sc) || sc<0 || sc>10){ bad(A+".vz.scale は 0〜10 の数(既定 1)"); return; }
+  if(!Number.isInteger(v.center) || v.center<0){ bad(A+".vz.center は中心の single の bodies の行(0 以上の整数 —— 配列の先頭を黙って中心とみなさない)"); return; }
+  if(z.h===0){ warnings.push(A+".z.h = 0 は厚み 0 —— 鍵を正準形から外す(旧の宣言と同じ署名・同じ数値)"); return; }
+  o[THICK_KEY]={z:{kind:"gauss", h:z.h, cut}, vz:{kind:"local-nu", scale:sc, center:v.center}};
+}
+// 乱数の系列: 本の基の seed(build の面内の乱数と同じ規則)と行の番号から派生(面内の系列とは別)
+function thickSeed0Of(p){ return isNum(p.seed)? (p.seed>>>0) : (hashStr(p.id||p.name||"p")+7); }
+function thickSeedOf(seed0, row){ return ((seed0>>>0) ^ hashStr(THICK_KEY+"/bodies["+row+"]"))>>>0; }
+// 標準正規の列(純関数): 粒子ごとに z の分(|g| ≤ cut まで再抽選・THICK_REDRAW_MAX 回まで)→ v_z の分。fail は上限を超えた粒子の番号(無ければ −1)
+function thickDraws(seed, n, cut){
+  const r=mulberry32(seed), gz=new Float64Array(n), gv=new Float64Array(n);
+  const nrm=()=>{ const u1=1-r(), u2=r(); return Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2); };   // u1 ∈ (0, 1](log 0 を避ける)
+  let draws=0, maxTries=0, fail=-1;
+  for(let i=0;i<n;i++){
+    let g=nrm(), t=1;
+    while(!(Math.abs(g)<=cut)){ if(t>=THICK_REDRAW_MAX){ fail=i; break; } g=nrm(); t++; }
+    if(fail>=0) break;
+    gz[i]=g; gv[i]=nrm(); draws+=t; if(t>maxTries) maxTries=t;
+  }
+  return {gz, gv, draws, maxTries, fail};
+}
+// 天体との突き合わせ(validatePreset —— bodies の確定後)。null = 受理 / 文字列 = 拒否の理由。円盤の法線と中心の自転軸の違いは警告
+function thickCrossCheck(p, warnings){
+  const B=Array.isArray(p.bodies)? p.bodies : null;
+  if(!B) return null;
+  for(let r=0;r<B.length;r++){
+    const b=B[r], t=b && b.type==="disk" && b[THICK_KEY];
+    if(!t) continue;
+    const A="bodies["+r+"]."+THICK_KEY, ci=t.vz.center, c=B[ci];
+    if(!(ci<B.length) || !c) return A+".vz.center "+ci+" は bodies の行の外(行の数 "+B.length+")";
+    if(c.type!=="single" || !(c.m>0)) return A+".vz.center(bodies["+ci+"])は正の質量の single(中心の質点 M_c)";
+    if(c.x!==b.cx || c.y!==b.cy || (c.z||0)!==0) return A+".vz.center(bodies["+ci+"])の位置が円盤の中心 ("+b.cx+", "+b.cy+", 0) と違う(local-nu の R は円盤の中心からの距離)";
+    const d=thickDraws(thickSeedOf(thickSeed0Of(p), r), b.n, t.z.cut);
+    if(d.fail>=0) return A+".z の再抽選が粒子 "+d.fail+" で上限 "+THICK_REDRAW_MAX+" 回を超える(cut "+t.z.cut+" —— cut を上げる)";
+    if(c.spin!==0 && (b.incl || b.node)){
+      const i=(b.incl||0)*Math.PI/180, o=(b.node||0)*Math.PI/180, n=[Math.sin(i)*Math.sin(o), -Math.sin(i)*Math.cos(o), Math.cos(i)];
+      const sa=(c.spinAxis && c.spinAxis.enable===true)? spinAxis3Unit(c.spinAxis.tiltDeg, c.spinAxis.azimuthDeg) : [0,0,1];
+      const dot=n[0]*sa[0]+n[1]*sa[1]+n[2]*sa[2];
+      if(!(dot>1-1e-12)) warnings.push(A+": 中心 bodies["+ci+"] の自転軸が円盤の法線 R ẑ と "+(Math.acos(Math.max(-1,Math.min(1,dot)))*180/Math.PI).toFixed(3)+"° 違う(同じ入力を全体で回した本なら spinAxis を R ẑ に —— tiltDeg = incl・azimuthDeg = node − 90)");
+    }
+  }
+  return null;
+}
+// build の前段(coord3dPlace)の計画: thickness を宣言した disk の行 → {抽選の列・h・scale・G M_c・ε²・中心}(無い本は null)
+function thickPlanOf(preset, G, eps){
+  const B=preset.bodies; let M=null;
+  for(let r=0;r<B.length;r++){
+    const b=B[r], t=b && b.type==="disk" && b[THICK_KEY];
+    if(!t || !(t.z.h>0)) continue;
+    const c=B[t.vz.center];
+    if(!c || c.type!=="single") throw new Error("thickness の中心の行が single でない(bodies["+r+"] —— 受理を通っていない本)");
+    const d=thickDraws(thickSeedOf(thickSeed0Of(preset), r), b.n, t.z.cut);
+    if(d.fail>=0) throw new Error("thickness の再抽選が上限を超えた(bodies["+r+"] —— 受理を通っていない本)");
+    if(!M) M=new Map();
+    M.set(b, {k:0, d, h:t.z.h, scale:t.vz.scale, GM:G*c.m, e2:eps*eps, cx:b.cx||0, cy:b.cy||0});
+  }
+  return M;
+}
+// ==== 第324便a の塊(ここまで)====
 // ===== 第301便b(原仮定者の裁定(第91報)①③「環や銀河などの近似多粒子のサンプルでは、支配天体は固定する。近似多粒子同士は接触判定を切る。近似多粒子同士は、
 //   塵の場合は重力も引きずりも無しで、天体の場合は自転を設定して重力も引きずりも有り」・統括の検証項目 R180): **近似多粒子の契約** `physics.approxMany` =====
 // 宣言(三次元の本だけ —— presetSig に入る。説明の `approximation` とは別の、力学を変える鍵):
@@ -13893,11 +13990,11 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"💫 v−u統一測地線の銀河と同じ seed・同じ配置・同じ物理を、三次元の步(physics.coord:\"3d\")で走らせる平面の写し。円盤は傾けず厚みも 0(z = v_z = 0・自転軸はすべて +z)なので、重力(E4)と空間の引きずり(E6′)を一本の式にした v−u 則(E12・geoPN=2)の輸送の 3 成分(源の自転 Ω = s â・勾配補正・渦度コリオリ (∇×u)×(v − k_F u))は面内の式へ退化し、面内の結果は二次元の 💫 と同じビットになる —— 三次元の步へ v−u 則をつないだことの門。λ_PN=0。",
     observe:"外縁帯 [156,286] の回転の増強(kFrame=1 の本と kFrame=0 の写しの比)は二次元の 💫 の基準と同じビット(器 tests/exp-w322a-geo2flat.mjs の段 gate —— 12000 步)。z・v_z・u の履歴の z は 0 のまま、自転軸は +z のまま(残余トルクは ẑ に平行)。三次元の口座(リザーバ・固定中心の拘束 conP・conL・引きずりの仕事)は読み口 HP.coord3d.totals の geo2 に出る。",
-    control:"kFrame=0 にすると輸送が消え、λ_PN=0 なので三次元のニュートンの步へ退化する(おすすめA/B)。傾けた円盤と有限厚の円盤は設計の段(器の試走だけ —— 内蔵の本はまだ無い)。二次元の 💫 と並べると、同じ初期条件の同じ式であることが読める。"},
+    control:"kFrame=0 にすると輸送が消え、λ_PN=0 なので三次元のニュートンの步へ退化する(おすすめA/B)。有限厚の円盤は 🥞(傾き無し)と 🧇(同じ入力を全体で回した傾き有り)の対の本。二次元の 💫 と並べると、同じ初期条件の同じ式であることが読める。"},
   en:{name:"Unified v−u Geodesic Galaxy (3D, flat copy)", descStruct:{
     summary:"A flat copy that runs 💫 Unified v−u Geodesic Galaxy (same seed, layout and physics) on the three-dimensional step (physics.coord 3d). The disc is not tilted and has zero thickness (z = v_z = 0, every spin axis +z), so the three-component transport of the v−u law that joins gravity (E4) and space dragging (E6′) in one formula (E12, geoPN=2: source spin Omega = s a-hat, gradient correction, vorticity Coriolis (curl u) x (v - k_F u)) reduces to the in-plane formula, and the in-plane result is bit-identical to the 2D 💫 - the gate for connecting the v−u law to the 3D step. lambda_PN=0.",
     observe:"The outer-band [156,286] rotation boost (the kFrame=1 book over its kFrame=0 copy) is bit-identical to the 2D 💫 baseline (harness tests/exp-w322a-geo2flat.mjs, part gate - 12000 steps). z, v_z and the z part of the u history stay 0 and every spin axis stays +z (the residual torque is parallel to z-hat). The 3D ledgers (reservoir, fixed-centre constraint conP/conL, drag work) appear under geo2 in HP.coord3d.totals.",
-    control:"Set kFrame to 0 and the transport vanishes; with lambda_PN=0 this degenerates to the 3D Newtonian step (suggested A/B). A tilted disc and a disc of finite thickness are at the design stage (harness trials only - no built-in book yet). Put it next to the 2D 💫 to see the same formula from the same initial condition."}},
+    control:"Set kFrame to 0 and the transport vanishes; with lambda_PN=0 this degenerates to the 3D Newtonian step (suggested A/B). A disc of finite thickness is the pair 🥞 (untilted) and 🧇 (the same input turned as a whole - tilted). Put it next to the 2D 💫 to see the same formula from the same initial condition."}},
   activeParams:["kFrame","D0"],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},
@@ -13910,6 +14007,67 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false} },
 // ==== 第322便a の本(ここまで)====
+// ==== 第324便a の本(ここから)====
+// 第324便a(原仮定者の回答(2026-11-01 —— AN500「3D銀河プリセットは、傾き無しと有りの両方を用意する」)・決断事項 AN513・AN510・統括の検証項目 R279):
+//   有限厚の対の本(新しい ID 2 本)。🥞 は 🫓 と同じ seed・同じ面内の配置・同じ物理に disk の thickness(h 8・cut 3・local-nu の scale 1・中心は bodies の 0 行)と
+//   倍精度の状態(stateCarry:"double" —— 新しい三次元の本の規約 AN286)を足した本。🧇 は 🥞 と同じ入力を全体で同じ直交回転 R = R_z(node)·R_x(incl)(incl 30°・node 40°)で
+//   回した対(円盤の群の incl・node —— 受理器の coord3dPlace が局所座標の z・v_z を作ってから位置・速度・群の粒子の軸を回す・中心の自転軸は R ẑ を spinAxis で宣言 ——
+//   tiltDeg = incl・azimuthDeg = node − 90・固定中心は原点なので拘束の点は不変)。claims は持たない(比・広がり・回転共変の程度は器 tests/exp-w324a-geo2thick.mjs の
+//   正本 tests/out/geo2thick-w324a.json)。並びは家族の近く(🫓 の後 —— lint.presetText316b の先頭 105 本の並びの照合は 🫓 と同じくこの 2 本を除く)。
+{ id:"galaxyGeo2Thick3d", catalog:"extended", name:"v−u統一測地線の銀河(三次元・有限厚)", emoji:"🥞", group:"銀河の力学",
+  scaleTier:"galactic",
+  sampleClass:"principle",
+  notClaim:["galaxy"],
+  familyId:"galaxyrot", familyRole:"variant",
+  descStruct:{
+    summary:"🫓 v−u統一測地線の銀河(三次元・平面の写し)と同じ seed・同じ面内の配置・同じ物理に、円盤の有限厚の宣言 thickness を足した本(状態は倍精度)。円盤の粒子の z は切断前の尺度 h = 8 の正規分布から引き、±3h の外は引き直す(端へ押し付けない)。v_z は中心の質点(bodies の 0 行を明示の参照で指定)の鉛直の振動数 ν² = G M_c/(R² + ε²)^{3/2} から標準偏差 ν h の正規分布で引く。厚みの乱数は面内の乱数と別の系列なので、面内の初期配置・質量・速度は 🫓 と同じ乱数列から作られる。これは初期の近似で、円盤の自己重力を含む平衡ではない。v−u 則(E12・geoPN=2)の輸送の 3 成分(源の自転 Ω = s â・勾配補正・渦度コリオリ)は面の外へも働き、残余トルクは全粒子の自転をベクトルとして回す。λ_PN=0。",
+    observe:"外縁帯 [156,286] の回転の増強(kFrame=1 の本と kFrame=0 の写しの比 —— 円盤の面の座標)・z の広がりの始めと終わり・遠くへ出た粒子・自転軸と面の法線の角・エネルギーの台帳は、器 tests/exp-w324a-geo2thick.mjs の正本 tests/out/geo2thick-w324a.json に置く(説明には値を書かない)。傾き有りの対の本 🧇 と並べると、同じ入力を全体で回した像が読める。",
+    control:"kFrame=0 にすると輸送が消え、λ_PN=0 なので三次元のニュートンの步へ退化する(おすすめA/B)。厚み h を 0 にした宣言は thickness の鍵を外した本と同じ署名になる。🫓(厚み 0・単精度)と並べると、厚みの宣言だけの違いが読める。"},
+  en:{name:"Unified v−u Geodesic Galaxy (3D, finite thickness)", descStruct:{
+    summary:"The same seed, in-plane layout and physics as 🫓 Unified v−u Geodesic Galaxy (3D, flat copy), plus the disc thickness declaration thickness (double-precision state). Each disc particle draws z from a normal distribution whose pre-truncation scale is h = 8, redrawing anything outside ±3h (no pushing to the edge). v_z is drawn from a normal distribution with standard deviation nu h, where nu^2 = G M_c/(R^2 + epsilon^2)^{3/2} is the vertical frequency of the central point mass (bodies row 0, named by an explicit reference). The thickness draws use their own random stream, so the in-plane layout, masses and velocities come from the same random sequence as 🫓. This is an initial approximation, not an equilibrium that includes the disc's self-gravity. The three-component transport of the v−u law (E12, geoPN=2: source spin Omega = s a-hat, gradient correction, vorticity Coriolis) also acts out of the plane, and the residual torque turns every particle's spin as a vector. lambda_PN=0.",
+    observe:"The outer-band [156,286] rotation boost (the kFrame=1 book over its kFrame=0 copy, in disc-plane coordinates), the start and end spread in z, particles that leave the region, the angle between spin axes and the plane normal and the energy ledger are kept in the record tests/out/geo2thick-w324a.json of the harness tests/exp-w324a-geo2thick.mjs (no values in this text). Put it next to the tilted pair 🧇 to read the same input turned as a whole.",
+    control:"Set kFrame to 0 and the transport vanishes; with lambda_PN=0 this degenerates to the 3D Newtonian step (suggested A/B). A declaration with thickness h = 0 has the same signature as the book without the thickness key. Next to 🫓 (zero thickness, single precision) only the thickness declaration differs."}},
+  activeParams:["kFrame","D0"],
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
+  timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},
+  physics:{coord:"3d", contactMode:"none", G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:2, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3, frameWeight:"share",
+    stateCarry:"double"},
+  bodies:[
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
+    {type:"disk", rMul:1.2, n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0,
+     thickness:{z:{kind:"gauss", h:8, cut:3}, vz:{kind:"local-nu", scale:1, center:0}}}
+  ],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false} },
+{ id:"galaxyGeo2ThickTilt3d", catalog:"extended", name:"v−u統一測地線の銀河(三次元・有限厚・傾き有り)", emoji:"🧇", group:"銀河の力学",
+  scaleTier:"galactic",
+  sampleClass:"principle",
+  notClaim:["galaxy"],
+  familyId:"galaxyrot", familyRole:"variant",
+  descStruct:{
+    summary:"🥞 v−u統一測地線の銀河(三次元・有限厚)と同じ入力を、全体で同じ直交回転 R = R_z(node)·R_x(incl)(incl 30°・node 40°)で回した対の本。円盤の局所座標で z・v_z を作ってから、位置・速度・群の粒子の自転軸に同じ回転を掛け、中心の自転軸も円盤の法線 R ẑ に宣言する(固定中心は原点 —— 拘束の点は回転で変わらない)。物理は 🥞 と同じ(v−u 則 E12・geoPN=2・λ_PN=0・倍精度の状態)で、有限厚は初期の近似(円盤の自己重力を含む平衡ではない)。",
+    observe:"円盤の面の座標(R の逆で戻した座標)で測った外縁帯 [156,286] の増強・z の広がり・自転軸と面の法線の角を 🥞 と同じ窓で並べると、回転共変の程度(倍精度の丸めから育つ差)が読める。値は器 tests/exp-w324a-geo2thick.mjs の正本 tests/out/geo2thick-w324a.json に置く(説明には値を書かない)。",
+    control:"kFrame=0 にすると輸送が消え、三次元のニュートンの步へ退化する(おすすめA/B)。🥞 と並べると、同じ初期状態を回した像であることが読める。"},
+  en:{name:"Unified v−u Geodesic Galaxy (3D, finite thickness, tilted)", descStruct:{
+    summary:"The same input as 🥞 Unified v−u Geodesic Galaxy (3D, finite thickness), turned as a whole by one orthogonal rotation R = R_z(node) R_x(incl) (incl 30 deg, node 40 deg) - the tilted member of the pair. z and v_z are made in the disc's local frame first; then positions, velocities and the group particles' spin axes get the same rotation, and the central spin axis is declared as the disc normal R z-hat (the fixed centre sits at the origin, so the constraint point does not move). The physics is that of 🥞 (v−u law E12, geoPN=2, lambda_PN=0, double-precision state); the finite thickness is an initial approximation, not an equilibrium that includes the disc's self-gravity.",
+    observe:"Measured in disc-plane coordinates (turned back by the inverse of R), the outer-band [156,286] boost, the spread in z and the angle between spin axes and the plane normal, set next to 🥞 over the same window, show how closely the run follows rotational covariance (a difference that grows from double-precision rounding). The values are in the record tests/out/geo2thick-w324a.json of the harness tests/exp-w324a-geo2thick.mjs (no values in this text).",
+    control:"Set kFrame to 0 and the transport vanishes, leaving the 3D Newtonian step (suggested A/B). Next to 🥞 it reads as the same initial state turned as a whole."}},
+  activeParams:["kFrame","D0"],
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
+  timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},
+  physics:{coord:"3d", contactMode:"none", G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:2, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3, frameWeight:"share",
+    stateCarry:"double"},
+  bodies:[
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15,
+     spinAxis:{enable:true, tiltDeg:30, azimuthDeg:-50, source:"円盤の法線 R ẑ(同じ入力を全体で回した対の本 —— tiltDeg = incl・azimuthDeg = node − 90)"}},
+    {type:"disk", rMul:1.2, n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0, incl:30, node:40,
+     thickness:{z:{kind:"gauss", h:8, cut:3}, vz:{kind:"local-nu", scale:1, center:0}}}
+  ],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false} },
+// ==== 第324便a の本(ここまで)====
 
 // 第74便: 🍳galaxyDB — ディスク/バルジ対比の基準実験(ChatGPT 分析 §4.1 galaxyDiskBulgeAB 採択)。
 // 🎡galaxyStd と同一の中心天体・同一物理で、恒星380体を「回転支持ディスク190体(半径260・
@@ -28730,6 +28888,7 @@ function validatePreset(obj){
     if(qkx) bad(qkx);
     // 第301便b(R180): 近似多粒子の契約は**明示天体の行が確定した後**に突き合わせる(未宣言は null —— 受理・正準形は従来どおり)
     if(p.physics[APPROX_MANY_KEY]){ const amx=approxManyCrossCheck(p.physics[APPROX_MANY_KEY], p.bodies, p.physics); if(amx) bad(amx); }
+    { const thx=thickCrossCheck(p, warnings); if(thx) bad(thx); }   // 第324便a(AN513・R279): disk の有限厚の中心の参照・再抽選の上限・中心の軸(宣言の無い本は null —— 受理・正準形は従来どおり)
     // 第302便b(R187): 局所重力は三次元の本だけ・較正の本では拒否(未宣言は null —— 受理・正準形は従来どおり)
     if(p.physics[GLOC_KEY]){ const glx=gLocCrossCheck(p.physics[GLOC_KEY], p.physics, p.sampleClass); if(glx) bad(glx); }
     // 第303便b(R192): 源の慣性決定力 r⁻² の宣言の突き合わせ(lambdaRs は c₀・G が要る —— 未宣言は null)
@@ -30958,7 +31117,7 @@ function makeSim(){
         S.eqInit.jeans=jeansRowsVelocities(P,[...jRows.entries()],{G, eps2, phys, halo:hl});
       }
     }
-    if(c3) coord3dPlace(P,rows3);   // 第298便a: 三次元の本だけ z・vz と群 ring/disk の傾き(重心系へ移す前)
+    if(c3) coord3dPlace(P,rows3,{preset, G, eps:phys.softening||0});   // 第298便a: 三次元の本だけ z・vz と群 ring/disk の傾き(重心系へ移す前)   // 第324便a(AN513): disk の有限厚の計画(宣言の無い本は null)
     if(preset.balanceFrame==="barycentric"){
       if(P.some(o=>o.pinned)) S.balanceFrame="skipped-pinned";
       else{
@@ -59546,25 +59705,32 @@ function coord3dPrepare(S,P,c3){
       S.sapx[i]=pa[0]; S.sapy[i]=pa[1]; S.sapz[i]=pa[2];
       S.saOm[i]=(typeof sa.precessionRate==="number")? sa.precessionRate : 0;
       S.saOn[i]=1; if(S.saOm[i]!==0) S.hasSpinAx3=true;
-    }
+    } else if(o.axis3){ S.sax[i]=S.sa0x[i]=o.axis3[0]; S.say[i]=S.sa0y[i]=o.axis3[1]; S.saz[i]=S.sa0z[i]=o.axis3[2]; }   // 第324便a(AN513): thickness の傾いた群の粒子の軸(R ẑ —— 有効化しない・規定運動なし)
   }
   if(S.step!==S._step3) S.step=S._step3;
 }
 // build の前段(三次元の本だけ —— 粒子の写し P に z・vz を置き、群 ring/disk の傾きを回す)。rows[k] は P[k] を作った宣言の行
 //   回転 R = R_z(node)·R_x(incl)(群の中心 (cx,cy,0) のまわり・速度は群の並進 bulkV を引いて回して戻す)。二次元の本では呼ばない
-function coord3dPlace(P,rows){
+//   第324便a(AN513・R279): thickness を宣言した disk の行は、回す前に円盤の局所座標の z・v_z(厚み用の別の乱数の列 —— thickPlanOf)を置き、同じ回転で
+//   位置・速度・群の粒子の自転軸(o.axis3 = R ẑ —— coord3dPrepare が有効化しない軸として読む)を回す。ctx = {preset, G, eps}(無い・宣言の無い本は従来と同じ演算)
+function coord3dPlace(P,rows,ctx){
+  const TH=(ctx && ctx.preset)? thickPlanOf(ctx.preset, ctx.G, ctx.eps) : null;   // 第324便a: 宣言の無い本は null(下の厚みの行は 1 命令も走らない)
   for(let k=0;k<P.length;k++){
     const o=P[k], b=rows[k];
     if(!b) continue;
     if(b.type==="single"){ o.z=b.z||0; o.vz=b.vz||0; continue; }
     o.z=0; o.vz=0;
+    let zL=0, vzL=0;
+    const th=TH? TH.get(b) : undefined;
+    if(th){ const j=th.k++, Rx=o.x-th.cx, Ry=o.y-th.cy, nu=Math.sqrt(th.GM/Math.pow(Rx*Rx+Ry*Ry+th.e2,1.5)); zL=th.h*th.d.gz[j]; vzL=th.scale*nu*th.h*th.d.gv[j]; }   // 第324便a: 局所座標の z・v_z
     const inc=(b.incl||0)*Math.PI/180, nd=(b.node||0)*Math.PI/180;
-    if(inc===0 && nd===0) continue;
+    if(inc===0 && nd===0){ if(th){ o.z=zL; o.vz=vzL; } continue; }
     const ci=Math.cos(inc), si=Math.sin(inc), cn=Math.cos(nd), sn=Math.sin(nd);
     const rot=(X,Y,Z)=>{ const y1=Y*ci-Z*si, z1=Y*si+Z*ci; return [X*cn-y1*sn, X*sn+y1*cn, z1]; };
     const cx=b.cx||0, cy=b.cy||0, bvx=b.bulkVx||0, bvy=b.bulkVy||0;
-    const r=rot(o.x-cx, o.y-cy, 0), v=rot(o.vx-bvx, o.vy-bvy, 0);
+    const r=rot(o.x-cx, o.y-cy, zL), v=rot(o.vx-bvx, o.vy-bvy, vzL);
     o.x=cx+r[0]; o.y=cy+r[1]; o.z=r[2]; o.vx=bvx+v[0]; o.vy=bvy+v[1]; o.vz=v[2];
+    if(th) o.axis3=rot(0,0,1);   // 第324便a: 群の粒子の自転軸も同じ回転(R ẑ)
   }
 }
 // 保存量(三次元 —— 読むだけ): P=Σm v・L=Σ m r×v + Σ I s â(I=½mR²)・E=Σ½m v²+Σ¼mR²s² −Σ_{i<j} G m_i m_j/√(d²+ε²)。

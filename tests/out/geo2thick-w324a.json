@@ -1,0 +1,1424 @@
+{
+ "version": "w324a-geo2thick-1",
+ "libVersion": "w321a-geo2v3-1",
+ "flatHarness": "w322a-geo2flat-1",
+ "engineVersion": "w322a-geo2v3-step-1",
+ "thickVersion": "w324a-thick-1",
+ "generator": "tests/exp-w324a-geo2thick.mjs",
+ "quick": false,
+ "plan": {
+  "dt": 0.016,
+  "steps": 12000,
+  "mid": 6000,
+  "snaps": [
+   600,
+   6000,
+   12000
+  ],
+  "h2dt": 0.008,
+  "h2steps": 24000,
+  "h2mid": 12000,
+  "an510Disk": 40,
+  "an510Steps": 400,
+  "flipSpin": 0.0003,
+  "capSpin": 39.9999,
+  "ckN": 20,
+  "ckM": 20,
+  "thickH": 8,
+  "incl": 30,
+  "node": 40,
+  "wideSteps": 300,
+  "wideSnaps": [
+   30,
+   300
+  ]
+ },
+ "target": "beta/index.html",
+ "targetSha256": "0cc30eaf346f42599c1613814c8aac10835184af258e589a3c3b9cb1110da4e9",
+ "ruling": "原仮定者の回答(2026-11-01 —— AN500)・決断事項 AN513・AN510・統括の検証項目 R279",
+ "parts": {
+  "accept": {
+   "rows": [
+    {
+     "key": "book",
+     "label": "内蔵の本の宣言(h 8・cut 3・scale 1・center 0)",
+     "expect": "accept",
+     "ok": true,
+     "canon": {
+      "z": {
+       "kind": "gauss",
+       "h": 8,
+       "cut": 3
+      },
+      "vz": {
+       "kind": "local-nu",
+       "scale": 1,
+       "center": 0
+      }
+     },
+     "msg": "",
+     "pass": true
+    },
+    {
+     "key": "defaults",
+     "label": "cut・scale を省く(既定 3・1 を正準形に書き出す)",
+     "expect": "accept",
+     "ok": true,
+     "canon": {
+      "z": {
+       "kind": "gauss",
+       "h": 8,
+       "cut": 3
+      },
+      "vz": {
+       "kind": "local-nu",
+       "scale": 1,
+       "center": 0
+      }
+     },
+     "msg": "",
+     "pass": true
+    },
+    {
+     "key": "h0",
+     "label": "h = 0(鍵を正準形から外す —— 警告)",
+     "expect": "accept",
+     "ok": true,
+     "canon": null,
+     "msg": "bodies[1].thickness.z.h = 0 は厚み 0 —— 鍵を正準形から外す(旧の宣言と同じ署名・同じ数値)",
+     "pass": true
+    },
+    {
+     "key": "unknownTop",
+     "label": "未知の鍵 thickness.foo",
+     "expect": "reject",
+     "ok": false,
+     "canon": null,
+     "msg": "bodies[1].thickness に未知の鍵 foo(z・vz だけ)",
+     "pass": true
+    },
+    {
+     "key": "unknownZ",
+     "label": "未知の鍵 thickness.z.sigma",
+     "expect": "reject",
+     "ok": false,
+     "canon": null,
+     "msg": "bodies[1].thickness.z に未知の鍵 sigma(kind・h・cut だけ)",
+     "pass": true
+    },
+    {
+     "key": "unknownVz",
+     "label": "未知の鍵 thickness.vz.centerId",
+     "expect": "reject",
+     "ok": false,
+     "canon": null,
+     "msg": "bodies[1].thickness.vz に未知の鍵 centerId(kind・scale・center だけ)",
+     "pass": true
+    },
+    {
+     "key": "noVz",
+     "label": "vz を書かない",
+     "expect": "reject",
+     "ok": false,
+     "canon": null,
+     "msg": "bodies[1].thickness.vz が無い({kind:\"local-nu\", scale, center} —— v_z を 0 にするなら scale:0)",
+     "pass": true
+    },
+    {
+     "key": "noCenter",
+     "label": "center を書かない(配列の先頭を黙って中心とみなさない)",
+     "expect": "reject",
+     "ok": false,
+     "canon": null,
+     "msg": "bodies[1].thickness.vz.center は中心の single の bodies の行(0 以上の整数 —— 配列の先頭を黙って中心とみなさない)",
+     "pass": true
+    },
+    {
+     "key": "kindZ",
+     "label": "z.kind \"exp\"",
+     "expect": "reject",
+     "ok": false,
+     "canon": null,
+     "msg": "bodies[1].thickness.z.kind は \"gauss\"(切断前の正規分布の尺度 h)",
+     "pass": true
+    },
+    {
+     "key": "kindVz",
+     "label": "vz.kind \"isothermal\"",
+     "expect": "reject",
+     "ok": false,
+     "canon": null,
+     "msg": "bodies[1].thickness.vz.kind は \"local-nu\"(中心の質点の鉛直の振動数 ν)",
+     "pass": true
+    },
+    {
+     "key": "hNeg",
+     "label": "h = −1",
+     "expect": "reject",
+     "ok": false,
+     "canon": null,
+     "msg": "bodies[1].thickness.z.h は 0 以上で円盤の半径 260 以下の数",
+     "pass": true
+    },
+    {
+     "key": "hBig",
+     "label": "h が円盤の半径を超える",
+     "expect": "reject",
+     "ok": false,
+     "canon": null,
+     "msg": "bodies[1].thickness.z.h は 0 以上で円盤の半径 260 以下の数",
+     "pass": true
+    },
+    {
+     "key": "cutLow",
+     "label": "cut = 0.5",
+     "expect": "reject",
+     "ok": false,
+     "canon": null,
+     "msg": "bodies[1].thickness.z.cut は 1〜6 の数(既定 3 —— ±cut·h の外は再抽選)",
+     "pass": true
+    },
+    {
+     "key": "scaleNeg",
+     "label": "scale = −1",
+     "expect": "reject",
+     "ok": false,
+     "canon": null,
+     "msg": "bodies[1].thickness.vz.scale は 0〜10 の数(既定 1)",
+     "pass": true
+    },
+    {
+     "key": "centerOut",
+     "label": "center が bodies の行の外",
+     "expect": "reject",
+     "ok": false,
+     "canon": null,
+     "msg": "bodies[1].thickness.vz.center 5 は bodies の行の外(行の数 2)",
+     "pass": true
+    },
+    {
+     "key": "centerDisk",
+     "label": "center が disk の行",
+     "expect": "reject",
+     "ok": false,
+     "canon": null,
+     "msg": "bodies[1].thickness.vz.center(bodies[1])は正の質量の single(中心の質点 M_c)",
+     "pass": true
+    },
+    {
+     "key": "centerMoved",
+     "label": "中心の single が円盤の中心と違う位置",
+     "expect": "reject",
+     "ok": false,
+     "canon": null,
+     "msg": "bodies[1].thickness.vz.center(bodies[0])の位置が円盤の中心 (0, 0, 0) と違う(local-nu の R は円盤の中心からの距離)",
+     "pass": true
+    },
+    {
+     "key": "axisWarn",
+     "label": "円盤を傾けて中心の軸を +z のまま(警告 —— 受理)",
+     "expect": "accept",
+     "ok": true,
+     "canon": {
+      "z": {
+       "kind": "gauss",
+       "h": 8,
+       "cut": 3
+      },
+      "vz": {
+       "kind": "local-nu",
+       "scale": 1,
+       "center": 0
+      }
+     },
+     "msg": "bodies[1].thickness: 中心 bodies[0] の自転軸が円盤の法線 R ẑ と 30.000° 違う(同じ入力を全体で回した本なら spinAxis を R ẑ に —— tiltDeg = incl・azimuthDeg = node − 90)",
+     "pass": true
+    },
+    {
+     "key": "ringWarn",
+     "label": "ring の群の thickness(disk 専用 —— 警告して落とす)",
+     "expect": "accept",
+     "ok": true,
+     "canon": null,
+     "msg": "bodies[1].thickness は disk 専用— 無視します",
+     "pass": true
+    },
+    {
+     "key": "coord2d",
+     "label": "二次元の本の thickness(値は捨てない —— Z の宣言の警告)",
+     "expect": "accept",
+     "ok": true,
+     "canon": {
+      "z": {
+       "kind": "gauss",
+       "h": 8,
+       "cut": 3
+      },
+      "vz": {
+       "kind": "local-nu",
+       "scale": 1,
+       "center": 0
+      }
+     },
+     "msg": "二次元の本(physics.coord 未宣言・\"2d\")に Z の宣言 bodies[1].thickness —— 走行は二次元のまま(z は積分しない)。三次元で走らせるなら physics.coord:\"3d\" を宣言する。値は捨てていない。",
+     "pass": true
+    }
+   ],
+   "nPass": 20,
+   "nCases": 20,
+   "rng": {
+    "nVal": 2667,
+    "nDiff": 0,
+    "zNonZero": 380,
+    "vzNonZero": 380,
+    "nDisk": 380
+   },
+   "h0": {
+    "nVal": 4572,
+    "nDiff": 0,
+    "sigSame": true
+   },
+   "tiltInit": {
+    "posMaxRel": 2.2032994911073525e-16,
+    "posMedRel": 4.7824991830006746e-17,
+    "velMaxRel": 2.0458651838437894e-16,
+    "spinVecMaxRel": 4.625929085453579e-17,
+    "diskAxisDev": 0,
+    "centerAxisDev": 5.551115123125783e-17,
+    "saOn": 1
+   },
+   "redraw": {
+    "max": 64,
+    "lowCutFail": 0,
+    "crossMsg": "bodies[1].thickness.z の再抽選が粒子 0 で上限 64 回を超える(cut 0.001 —— cut を上げる)",
+    "book": {
+     "draws": 381,
+     "maxTries": 2,
+     "n": 380,
+     "fail": -1
+    },
+    "cut1": {
+     "draws": 565,
+     "maxTries": 6,
+     "fail": -1
+    }
+   },
+   "stats": {
+    "h": 8,
+    "zRms": 7.681950831221855,
+    "zRmsOverH": 0.9602438539027319
+   },
+   "census": {
+    "declDiff": {
+     "thickVsFlat": true,
+     "tiltVsThick": true
+    }
+   },
+   "pass": true
+  },
+  "an510": {
+   "rows": [
+    {
+     "id": "galaxyGeo2Thick3d",
+     "mode": "rise",
+     "n": 41,
+     "steps": 400,
+     "prec": "Float64Array",
+     "nVal": 246000,
+     "nDiff": 0,
+     "same": true,
+     "axisTurns": 15960,
+     "saOn": 0,
+     "rise": 40,
+     "firstRise": 2,
+     "flips": 0,
+     "clampSN": 0,
+     "clampVN": 0,
+     "clampRN": 0,
+     "capEvents": 0,
+     "dP": 5.658774250600047e-10,
+     "dL": 7.495263556876844e-13,
+     "dLwithDrop": 7.495263556876844e-13,
+     "dropL": 0,
+     "dropSpinE": 0,
+     "axisFromZMax": 1.5640518620130237
+    },
+    {
+     "id": "galaxyGeo2Thick3d",
+     "mode": "flip",
+     "n": 41,
+     "steps": 400,
+     "prec": "Float64Array",
+     "nVal": 246000,
+     "nDiff": 0,
+     "same": true,
+     "axisTurns": 15960,
+     "saOn": 0,
+     "rise": 0,
+     "firstRise": null,
+     "flips": 1,
+     "clampSN": 0,
+     "clampVN": 0,
+     "clampRN": 0,
+     "capEvents": 0,
+     "dP": 6.699453366883253e-10,
+     "dL": 6.875700464429973e-13,
+     "dLwithDrop": 6.875700464429973e-13,
+     "dropL": 0,
+     "dropSpinE": 0,
+     "axisFromZMax": 1.5561289203473836
+    },
+    {
+     "id": "galaxyGeo2Thick3d",
+     "mode": "cap",
+     "n": 41,
+     "steps": 400,
+     "prec": "Float64Array",
+     "nVal": 246000,
+     "nDiff": 0,
+     "same": true,
+     "axisTurns": 15960,
+     "saOn": 0,
+     "rise": 0,
+     "firstRise": null,
+     "flips": 0,
+     "clampSN": 8031,
+     "clampVN": 0,
+     "clampRN": 0,
+     "capEvents": 8031,
+     "dP": 8.155207157598496e-10,
+     "dL": 1.6550224285074148e-9,
+     "dLwithDrop": 6.181898106281244e-11,
+     "dropL": 1.7171764535046592e-9,
+     "dropSpinE": 3.795501403035354,
+     "axisFromZMax": 0.0037086611242674794
+    },
+    {
+     "id": "galaxyGeo2ThickTilt3d",
+     "mode": "rise",
+     "n": 41,
+     "steps": 400,
+     "prec": "Float64Array",
+     "nVal": 246000,
+     "nDiff": 0,
+     "same": true,
+     "axisTurns": 15960,
+     "saOn": 1,
+     "rise": 40,
+     "firstRise": 2,
+     "flips": 0,
+     "clampSN": 0,
+     "clampVN": 0,
+     "clampRN": 0,
+     "capEvents": 0,
+     "dP": 4.173557986206885e-10,
+     "dL": 6.749803850470656e-13,
+     "dLwithDrop": 6.749803850470656e-13,
+     "dropL": 0,
+     "dropSpinE": 0,
+     "axisFromZMax": 1.555490496516419
+    },
+    {
+     "id": "galaxyGeo2ThickTilt3d",
+     "mode": "flip",
+     "n": 41,
+     "steps": 400,
+     "prec": "Float64Array",
+     "nVal": 246000,
+     "nDiff": 0,
+     "same": true,
+     "axisTurns": 15960,
+     "saOn": 1,
+     "rise": 0,
+     "firstRise": null,
+     "flips": 1,
+     "clampSN": 0,
+     "clampVN": 0,
+     "clampRN": 0,
+     "capEvents": 0,
+     "dP": 5.053312367678781e-10,
+     "dL": 7.219091204831931e-13,
+     "dLwithDrop": 7.219091204831931e-13,
+     "dropL": 0,
+     "dropSpinE": 0,
+     "axisFromZMax": 1.5619300942379886
+    },
+    {
+     "id": "galaxyGeo2ThickTilt3d",
+     "mode": "cap",
+     "n": 41,
+     "steps": 400,
+     "prec": "Float64Array",
+     "nVal": 246000,
+     "nDiff": 0,
+     "same": true,
+     "axisTurns": 15960,
+     "saOn": 1,
+     "rise": 0,
+     "firstRise": null,
+     "flips": 0,
+     "clampSN": 8030,
+     "clampVN": 0,
+     "clampRN": 0,
+     "capEvents": 8030,
+     "dP": 6.407136401608214e-10,
+     "dL": 1.4481518819148322e-9,
+     "dLwithDrop": 5.1487215264214745e-11,
+     "dropL": 1.7130166062735707e-9,
+     "dropSpinE": 3.795252691616573,
+     "axisFromZMax": 0.5265379917350133
+    }
+   ],
+   "htmlSame": true,
+   "rise": true,
+   "flip": true,
+   "cap": true,
+   "capLedger": true,
+   "centerEnabled": true
+  },
+  "ckpt": {
+   "rows": {
+    "galaxyGeo2Thick3d": {
+     "restore": {
+      "nVal": 5736,
+      "nDiff": 0
+     },
+     "clone": {
+      "nVal": 5736,
+      "nDiff": 0
+     },
+     "zMax": 23.002853216037085,
+     "uPzMax": 0.002976633608341217,
+     "prec": "Float64Array"
+    },
+    "galaxyGeo2ThickTilt3d": {
+     "restore": {
+      "nVal": 5736,
+      "nDiff": 0
+     },
+     "clone": {
+      "nVal": 5736,
+      "nDiff": 0
+     },
+     "zMax": 130.24292107042842,
+     "uPzMax": 1.7347623109817505,
+     "prec": "Float64Array"
+    }
+   },
+   "pass": true
+  },
+  "wide": {
+   "rows": [
+    {
+     "key": "asIs",
+     "label": "本のまま(場の配列・自転・質量は単精度 —— stateCarry:\"double\" は位置・速度だけ)",
+     "nWidened": 0,
+     "at": [
+      {
+       "steps": 30,
+       "posMaxRel": 5.805859908881159e-9,
+       "posMedRel": 1.2367208254271109e-9,
+       "velMaxRel": 6.030579364164253e-7,
+       "spinVecMaxRel": 0.00002737204958602472
+      },
+      {
+       "steps": 300,
+       "posMaxRel": 1.2674335238624728e-7,
+       "posMedRel": 1.4822157342721373e-8,
+       "velMaxRel": 0.0000016877015182417351,
+       "spinVecMaxRel": 0.00004429766804920933
+      }
+     ],
+     "fieldType": "Float32Array",
+     "spinType": "Float32Array"
+    },
+    {
+     "key": "fields",
+     "label": "場の配列を倍精度に(u・u の履歴・重み和・Δp —— 器の差し替え)",
+     "nWidened": 8,
+     "at": [
+      {
+       "steps": 30,
+       "posMaxRel": 6.135248021250793e-16,
+       "posMedRel": 1.7498820819528237e-16,
+       "velMaxRel": 1.2549838896065659e-15,
+       "spinVecMaxRel": 3.614949314578252e-13
+      },
+      {
+       "steps": 300,
+       "posMaxRel": 2.9045522785479408e-15,
+       "posMedRel": 5.937284437060651e-16,
+       "velMaxRel": 6.113910358213721e-14,
+       "spinVecMaxRel": 1.2350962256956901e-8
+      }
+     ],
+     "fieldType": "Float64Array",
+     "spinType": "Float32Array"
+    },
+    {
+     "key": "all",
+     "label": "場の配列・自転・質量・対距離・半径を倍精度に(器の差し替え)",
+     "nWidened": 13,
+     "at": [
+      {
+       "steps": 30,
+       "posMaxRel": 7.084374193228528e-16,
+       "posMedRel": 1.9324214876108001e-16,
+       "velMaxRel": 1.4064317044385554e-15,
+       "spinVecMaxRel": 5.807295402511061e-14
+      },
+      {
+       "steps": 300,
+       "posMaxRel": 2.1226750659142516e-15,
+       "posMedRel": 6.207857034085833e-16,
+       "velMaxRel": 2.735491793633037e-15,
+       "spinVecMaxRel": 7.280409279005223e-14
+      }
+     ],
+     "fieldType": "Float64Array",
+     "spinType": "Float64Array"
+    }
+   ],
+   "steps": 300,
+   "pass": true
+  },
+  "flat": {
+   "row": {
+    "n": 381,
+    "coord3d": true,
+    "kFrameA": 1,
+    "kFrameB": 0,
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "integrator": "semi",
+    "stateType": "Float32Array",
+    "law": "w322a-geo2v3-step-1",
+    "dt": 0.016,
+    "steps": 12000,
+    "t": 191.99999999998062,
+    "vphiKF1": 3.538113848913677,
+    "vphiKF0": 2.9982166313607,
+    "ratio": 1.1800727845699235,
+    "nBandKF1": 194,
+    "nBandKF0": 263,
+    "mid": {
+     "steps": 6000,
+     "vphiKF1": 3.3775829159292643,
+     "vphiKF0": 3.1452845873617807,
+     "ratio": 1.0738560604343699
+    },
+    "haltA": null,
+    "haltB": null,
+    "clampVN": [
+     0,
+     0
+    ],
+    "clampSN": [
+     0,
+     0
+    ],
+    "clampRN": [
+     0,
+     0
+    ],
+    "nan": false,
+    "zA": {
+     "zMax": 0,
+     "zRms": 0,
+     "vzMax": 0,
+     "uPzMax": 0,
+     "axisDevRad": 0,
+     "beyond2R": 0
+    },
+    "zB": {
+     "zMax": 0,
+     "zRms": 0,
+     "vzMax": 0,
+     "uPzMax": 0,
+     "axisDevRad": 0,
+     "beyond2R": 0
+    },
+    "geo2A": {
+     "version": "w322a-geo2v3-step-1",
+     "on": true,
+     "transport": true,
+     "whyNot": null,
+     "resP": [
+      18.43098273168524,
+      -3.996106141864355,
+      0
+     ],
+     "resL": [
+      0,
+      0,
+      99.69358700287258
+     ],
+     "conP": [
+      65.95488656971199,
+      -16.087927109362,
+      0
+     ],
+     "conL": [
+      0,
+      0,
+      0
+     ],
+     "work": {
+      "E": 82.91491608326581,
+      "KE": 101.3553180551587,
+      "spinE": 36.00548988128335,
+      "N": 9119240
+     },
+     "axisTurnN": 0,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "R": 0
+     },
+     "spinPolicy": "vector"
+    },
+    "wallSec": 415.539
+   },
+   "frozen": {
+    "ratio": 1.1800727845699235,
+    "window": [
+     1.14,
+     1.23
+    ],
+    "steps": 12000,
+    "mid": 6000,
+    "dt": 0.016,
+    "band": [
+     156,
+     286
+    ]
+   },
+   "sameAsFrozen": true
+  },
+  "pair": {
+   "rows": [
+    {
+     "kind": "thick-h2",
+     "how": "HP.loadPreset → HP.abStart('kFrame', 0)",
+     "n": 381,
+     "dt": 0.008,
+     "steps": 24000,
+     "kFrameA": 1,
+     "kFrameB": 0,
+     "stateType": "Float64Array",
+     "integrator": "semi",
+     "t": 192.0000000000508,
+     "ratio": 1.1819117167770283,
+     "vphiKF1": 3.528151245059088,
+     "vphiKF0": 2.985122488403832,
+     "nBand": [
+      190,
+      267
+     ],
+     "mid": {
+      "steps": 12000,
+      "ratio": 1.0724051128158862
+     },
+     "z0": {
+      "zRms": 7.681950831221855,
+      "zMax": 22.934982288301033,
+      "vzRms": 0.3947151762596777,
+      "vzMax": 3.253556792072394,
+      "beyond2R": 0,
+      "nSpin": 0,
+      "axisDevRad": 0
+     },
+     "zA": {
+      "zRms": 8.18120665072695,
+      "zMax": 26.84373135981817,
+      "vzRms": 0.31773313851949786,
+      "vzMax": 2.716904820333288,
+      "beyond2R": 0,
+      "nSpin": 380,
+      "axisDevRad": 1.56918176129406
+     },
+     "zB": {
+      "zRms": 7.6873682347950405,
+      "zMax": 23.371767879403546,
+      "vzRms": 0.3315756301444151,
+      "vzMax": 3.836552322199893,
+      "beyond2R": 0,
+      "nSpin": 0,
+      "axisDevRad": 0
+     },
+     "energy": {
+      "E0": 201666.5165063391,
+      "dE_KF1": 253.7371577998565,
+      "workKF1": 266.02746188074224,
+      "relResidualKF1": 0.000060943701977910664,
+      "relKF0": 1.180801358626491e-8
+     },
+     "axisTurnN": 9119620,
+     "clampVN": [
+      0,
+      0
+     ],
+     "clampSN": [
+      0,
+      0
+     ],
+     "clampRN": [
+      0,
+      0
+     ],
+     "halt": [
+      null,
+      null
+     ],
+     "nan": false,
+     "wallSec": 765.432
+    },
+    {
+     "kind": "tilt-h2",
+     "how": "HP.loadPreset → HP.abStart('kFrame', 0)",
+     "n": 381,
+     "dt": 0.008,
+     "steps": 24000,
+     "kFrameA": 1,
+     "kFrameB": 0,
+     "stateType": "Float64Array",
+     "integrator": "semi",
+     "t": 192.0000000000508,
+     "ratio": 1.18191173777999,
+     "vphiKF1": 3.5281513077555027,
+     "vphiKF0": 2.9851224884038334,
+     "nBand": [
+      190,
+      267
+     ],
+     "mid": {
+      "steps": 12000,
+      "ratio": 1.072405071532348
+     },
+     "z0": {
+      "zRms": 7.6819508312218545,
+      "zMax": 22.93498228830103,
+      "vzRms": 0.3947151762596777,
+      "vzMax": 3.2535567920723936,
+      "beyond2R": 0,
+      "nSpin": 0,
+      "axisDevRad": 0
+     },
+     "zA": {
+      "zRms": 8.181175386021387,
+      "zMax": 26.84373220863271,
+      "vzRms": 0.3177526282791104,
+      "vzMax": 2.7172028091685205,
+      "beyond2R": 0,
+      "nSpin": 380,
+      "axisDevRad": 1.5691858511901795
+     },
+     "zB": {
+      "zRms": 7.687368234795056,
+      "zMax": 23.371767879397225,
+      "vzRms": 0.3315756301444285,
+      "vzMax": 3.836552322199446,
+      "beyond2R": 0,
+      "nSpin": 0,
+      "axisDevRad": 0
+     },
+     "energy": {
+      "E0": 201666.5165063391,
+      "dE_KF1": 253.73718024723348,
+      "workKF1": 266.0274451717501,
+      "relResidualKF1": 0.00006094350781395238,
+      "relKF0": 1.1808013441948288e-8
+     },
+     "axisTurnN": 9119620,
+     "clampVN": [
+      0,
+      0
+     ],
+     "clampSN": [
+      0,
+      0
+     ],
+     "clampRN": [
+      0,
+      0
+     ],
+     "halt": [
+      null,
+      null
+     ],
+     "nan": false,
+     "wallSec": 758.031
+    },
+    {
+     "kind": "thick",
+     "how": "HP.loadPreset → HP.abStart('kFrame', 0)",
+     "n": 381,
+     "dt": 0.016,
+     "steps": 12000,
+     "kFrameA": 1,
+     "kFrameB": 0,
+     "stateType": "Float64Array",
+     "integrator": "semi",
+     "t": 191.99999999998062,
+     "ratio": 1.1819487546924383,
+     "vphiKF1": 3.5282579429913485,
+     "vphiKF0": 2.985119218564985,
+     "nBand": [
+      190,
+      267
+     ],
+     "mid": {
+      "steps": 6000,
+      "ratio": 1.072339794122498
+     },
+     "z0": {
+      "zRms": 7.681950831221855,
+      "zMax": 22.934982288301033,
+      "vzRms": 0.3947151762596777,
+      "vzMax": 3.253556792072394,
+      "beyond2R": 0,
+      "nSpin": 0,
+      "axisDevRad": 0
+     },
+     "zA": {
+      "zRms": 8.024851996932261,
+      "zMax": 26.887959858849584,
+      "vzRms": 0.3820780925987499,
+      "vzMax": 3.230454961092575,
+      "beyond2R": 0,
+      "nSpin": 380,
+      "axisDevRad": 1.567762520997606
+     },
+     "zB": {
+      "zRms": 7.6878055019409475,
+      "zMax": 23.384552485424333,
+      "vzRms": 0.33112069111859205,
+      "vzMax": 3.834826620457725,
+      "beyond2R": 0,
+      "nSpin": 0,
+      "axisDevRad": 0
+     },
+     "energy": {
+      "E0": 201666.5165063391,
+      "dE_KF1": 262.6020478665305,
+      "workKF1": 283.38275576315726,
+      "relResidualKF1": 0.0001030449092721526,
+      "relKF0": 2.424554060771228e-8
+     },
+     "axisTurnN": 4559620,
+     "clampVN": [
+      0,
+      0
+     ],
+     "clampSN": [
+      0,
+      0
+     ],
+     "clampRN": [
+      0,
+      0
+     ],
+     "halt": [
+      null,
+      null
+     ],
+     "nan": false,
+     "wallSec": 374.331
+    },
+    {
+     "kind": "tilt",
+     "how": "HP.loadPreset → HP.abStart('kFrame', 0)",
+     "n": 381,
+     "dt": 0.016,
+     "steps": 12000,
+     "kFrameA": 1,
+     "kFrameB": 0,
+     "stateType": "Float64Array",
+     "integrator": "semi",
+     "t": 191.99999999998062,
+     "ratio": 1.1819488473920625,
+     "vphiKF1": 3.5282582197107764,
+     "vphiKF0": 2.985119218564983,
+     "nBand": [
+      190,
+      267
+     ],
+     "mid": {
+      "steps": 6000,
+      "ratio": 1.0723398370870687
+     },
+     "z0": {
+      "zRms": 7.6819508312218545,
+      "zMax": 22.93498228830103,
+      "vzRms": 0.3947151762596777,
+      "vzMax": 3.2535567920723936,
+      "beyond2R": 0,
+      "nSpin": 0,
+      "axisDevRad": 0
+     },
+     "zA": {
+      "zRms": 8.024858421233962,
+      "zMax": 26.888085202434443,
+      "vzRms": 0.382077958602183,
+      "vzMax": 3.2303625018721345,
+      "beyond2R": 0,
+      "nSpin": 380,
+      "axisDevRad": 1.5677371635902124
+     },
+     "zB": {
+      "zRms": 7.687805501940808,
+      "zMax": 23.384552485426422,
+      "vzRms": 0.33112069111857906,
+      "vzMax": 3.8348266204575245,
+      "beyond2R": 0,
+      "nSpin": 0,
+      "axisDevRad": 0
+     },
+     "energy": {
+      "E0": 201666.5165063391,
+      "dE_KF1": 262.59964732360095,
+      "workKF1": 283.3803178346963,
+      "relResidualKF1": 0.00010304472388921418,
+      "relKF0": 2.424554060771228e-8
+     },
+     "axisTurnN": 4559620,
+     "clampVN": [
+      0,
+      0
+     ],
+     "clampSN": [
+      0,
+      0
+     ],
+     "clampRN": [
+      0,
+      0
+     ],
+     "halt": [
+      null,
+      null
+     ],
+     "nan": false,
+     "wallSec": 324.098
+    },
+    {
+     "kind": "thin",
+     "how": "器の build(🫓 の写しに stateCarry:\"double\")",
+     "n": 381,
+     "dt": 0.016,
+     "steps": 12000,
+     "kFrameA": 1,
+     "kFrameB": 0,
+     "stateType": "Float64Array",
+     "integrator": "semi",
+     "t": 191.99999999998062,
+     "ratio": 1.1800562553798104,
+     "vphiKF1": 3.538076714583001,
+     "vphiKF0": 2.9982271594706673,
+     "nBand": [
+      194,
+      263
+     ],
+     "mid": {
+      "steps": 6000,
+      "ratio": 1.0738553481713602
+     },
+     "z0": {
+      "zRms": 0,
+      "zMax": 0,
+      "vzRms": 0,
+      "vzMax": 0,
+      "beyond2R": 0,
+      "nSpin": 0,
+      "axisDevRad": 0
+     },
+     "zA": {
+      "zRms": 0,
+      "zMax": 0,
+      "vzRms": 0,
+      "vzMax": 0,
+      "beyond2R": 0,
+      "nSpin": 380,
+      "axisDevRad": 0
+     },
+     "zB": {
+      "zRms": 0,
+      "zMax": 0,
+      "vzRms": 0,
+      "vzMax": 0,
+      "beyond2R": 0,
+      "nSpin": 0,
+      "axisDevRad": 0
+     },
+     "energy": {
+      "E0": 201649.1121159529,
+      "dE_KF1": 100.67487630137475,
+      "workKF1": 137.35385132692642,
+      "relResidualKF1": 0.00018189504848630528,
+      "relKF0": 1.5386872215236468e-8
+     },
+     "axisTurnN": 0,
+     "clampVN": [
+      0,
+      0
+     ],
+     "clampSN": [
+      0,
+      0
+     ],
+     "clampRN": [
+      0,
+      0
+     ],
+     "halt": [
+      null,
+      null
+     ],
+     "nan": false,
+     "wallSec": 319.239
+    },
+    {
+     "kind": "thinTilt",
+     "how": "器の build(🫓 の写しに stateCarry:\"double\")",
+     "n": 381,
+     "dt": 0.016,
+     "steps": 12000,
+     "kFrameA": 1,
+     "kFrameB": 0,
+     "stateType": "Float64Array",
+     "integrator": "semi",
+     "t": 191.99999999998062,
+     "ratio": 1.1800546028611085,
+     "vphiKF1": 3.538071759956571,
+     "vphiKF0": 2.998227159470687,
+     "nBand": [
+      194,
+      263
+     ],
+     "mid": {
+      "steps": 6000,
+      "ratio": 1.0738552892394724
+     },
+     "z0": {
+      "zRms": 1.0225117622050309e-14,
+      "zMax": 4.263256414560601e-14,
+      "vzRms": 2.0137245783201034e-16,
+      "vzMax": 8.881784197001252e-16,
+      "beyond2R": 0,
+      "nSpin": 0,
+      "axisDevRad": 0
+     },
+     "zA": {
+      "zRms": 0.000139231895323899,
+      "zMax": 0.0014866805111282133,
+      "vzRms": 0.00000812068029809253,
+      "vzMax": 0.000140420629551663,
+      "beyond2R": 0,
+      "nSpin": 380,
+      "axisDevRad": 0.008324033886936812
+     },
+     "zB": {
+      "zRms": 6.051796366484321e-13,
+      "zMax": 4.447997525858227e-12,
+      "vzRms": 2.4140002099454394e-14,
+      "vzMax": 1.9118040484045196e-13,
+      "beyond2R": 0,
+      "nSpin": 0,
+      "axisDevRad": 0
+     },
+     "energy": {
+      "E0": 201649.1121159529,
+      "dE_KF1": 100.65858396390104,
+      "workKF1": 137.33954217730144,
+      "relResidualKF1": 0.0001819048833317352,
+      "relKF0": 1.538687207090739e-8
+     },
+     "axisTurnN": 4559620,
+     "clampVN": [
+      0,
+      0
+     ],
+     "clampSN": [
+      0,
+      0
+     ],
+     "clampRN": [
+      0,
+      0
+     ],
+     "halt": [
+      null,
+      null
+     ],
+     "nan": false,
+     "wallSec": 148.598
+    }
+   ],
+   "cov": {
+    "thick": {
+     "at": [
+      {
+       "steps": 0,
+       "posMaxRel": 2.2032994911073525e-16,
+       "posMedRel": 4.7824991830006746e-17,
+       "velMaxRel": 2.0458651838437894e-16,
+       "spinVecMaxRel": 4.625929085453579e-17,
+       "outOfPlane": null
+      },
+      {
+       "steps": 600,
+       "posMaxRel": 7.573728536824879e-7,
+       "posMedRel": 3.2776768869534955e-8,
+       "velMaxRel": 0.0000069813792436576855,
+       "spinVecMaxRel": 0.000016060803579489533,
+       "outOfPlane": null
+      },
+      {
+       "steps": 6000,
+       "posMaxRel": 0.000041686927591638876,
+       "posMedRel": 8.781212685760421e-7,
+       "velMaxRel": 0.00018603434622033578,
+       "spinVecMaxRel": 0.00002954493781451127,
+       "outOfPlane": null
+      },
+      {
+       "steps": 12000,
+       "posMaxRel": 0.0003219141318322215,
+       "posMedRel": 0.000004465681903493481,
+       "velMaxRel": 0.0005500280050391946,
+       "spinVecMaxRel": 0.00025841557777646443,
+       "outOfPlane": null
+      }
+     ],
+     "ratioDiff": 9.269962419899969e-8,
+     "midRatioDiff": 4.296457079000504e-8
+    },
+    "thin": {
+     "at": [
+      {
+       "steps": 0,
+       "posMaxRel": 2.2535713469647936e-16,
+       "posMedRel": 0,
+       "velMaxRel": 1.168936960895544e-16,
+       "spinVecMaxRel": 4.625929085453579e-17,
+       "outOfPlane": 4.263256414560601e-14
+      },
+      {
+       "steps": 600,
+       "posMaxRel": 7.652860393996991e-7,
+       "posMedRel": 2.916498364720275e-8,
+       "velMaxRel": 0.000013247117789231294,
+       "spinVecMaxRel": 0.000030199225264926294,
+       "outOfPlane": 0.000015692878359452322
+      },
+      {
+       "steps": 6000,
+       "posMaxRel": 0.00005736057897588379,
+       "posMedRel": 8.946846371690647e-7,
+       "velMaxRel": 0.00033209950373832653,
+       "spinVecMaxRel": 0.00005738406387567061,
+       "outOfPlane": 0.000144489897778044
+      },
+      {
+       "steps": 12000,
+       "posMaxRel": 0.002373416446374411,
+       "posMedRel": 0.000007542562289588362,
+       "velMaxRel": 0.018786273746621347,
+       "spinVecMaxRel": 0.0015656672163393334,
+       "outOfPlane": 0.0014866805111282133
+      }
+     ],
+     "ratioDiff": 0.0000016525187018778809,
+     "midRatioDiff": 5.893188781413983e-8
+    }
+   },
+   "h2": {
+    "thick": {
+     "ratioH": 1.1819487546924383,
+     "ratioH2": 1.1819117167770283,
+     "diff": 0.000037037915409987576,
+     "midDiff": 0.00006531869338832763
+    },
+    "tilt": {
+     "ratioH": 1.1819488473920625,
+     "ratioH2": 1.18191173777999,
+     "diff": 0.000037109612072594444,
+     "midDiff": 0.00006523444527939404
+    }
+   }
+  }
+ },
+ "notClaim": [
+  "3D で銀河を表せたと書かない(v−u 則の三次元の步の本 —— 原理の本の機構の値)",
+  "有限厚は初期の近似(円盤の自己重力を含む平衡ではない)",
+  "抽選の後の z の二乗平均は h にならない(切断と再抽選)",
+  "外縁の比は実在の銀河の観測の較正ではない",
+  "h と h/2 は刻みの感度診断(収束の判定に使わない)"
+ ],
+ "timing": {
+  "accept": {
+   "wallSec": 0.321
+  },
+  "an510": {
+   "wallSec": 2.915
+  },
+  "ckpt": {
+   "wallSec": 4.053
+  },
+  "wide": {
+   "wallSec": 17.589
+  },
+  "heavy": {
+   "wallSec": 17.591
+  },
+  "flat": {
+   "wallSec": 415.539
+  },
+  "pair": {
+   "wallSec": 765.432
+  }
+ },
+ "elapsedS": 17.592,
+ "gates": {
+  "flatFrozen": true,
+  "flatClean": true,
+  "accept": true,
+  "an510Html": true,
+  "an510Rise": true,
+  "an510Flip": true,
+  "an510Cap": true,
+  "an510CapLedger": true,
+  "ckpt": true,
+  "wideCov": true,
+  "pairFinite": true,
+  "pairCovInit": true,
+  "pairRatioInH2": true
+ },
+ "ok": true,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第324便a",
+  "target": "beta/index.html",
+  "targetSha256": "0cc30eaf346f42599c1613814c8aac10835184af258e589a3c3b9cb1110da4e9",
+  "generatedAt": "2026-11-02T14:04:22.729Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7513135,
+    "sha256": "0cc30eaf346f42599c1613814c8aac10835184af258e589a3c3b9cb1110da4e9",
+    "mtime": "2026-11-02T13:15:03.552Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w324a-geo2thick.mjs",
+    "bytes": 40430,
+    "sha256": "eadbcfc78539de204040ebf6b469dfcb1b0c47ec74cb5d77da50070b243e2159",
+    "mtime": "2026-11-02T14:03:51.119Z"
+   },
+   {
+    "file": "tests/exp-w322a-geo2flat.mjs",
+    "bytes": 44485,
+    "sha256": "4d40c1146c60ab21f088a3575cdc7dd658466576d86271b658e84ac093ce1a1b",
+    "mtime": "2026-11-02T12:41:52.972Z"
+   },
+   {
+    "file": "tests/lib-w321a-geo2v3.mjs",
+    "bytes": 31219,
+    "sha256": "d30b16a443af44c399b0714ab69eb22ae71ed9ada5c0f9f311c5631989a6617c",
+    "mtime": "2026-11-02T12:41:53.808Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-11-02T12:41:53.024Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-11-02T12:41:53.024Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-02T12:41:53.020Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 96951,
+    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
+    "mtime": "2026-11-02T12:41:53.032Z"
+   }
+  ],
+  "codeSha256": "55640624ae7f8baafd6c0a4e44b6c96f7da51decef15c17f2689b229c8b3fe82",
+  "harnessVersion": "w324a-geo2thick-1",
+  "stage": "geo2thick",
+  "parts": [
+   "accept",
+   "an510",
+   "ckpt",
+   "wide",
+   "flat",
+   "pair"
+  ],
+  "ruling": "原仮定者の回答(2026-11-01 —— AN500「3D銀河プリセットは、傾き無しと有りの両方を用意する」)・決断事項 AN513・AN510",
+  "reading": "統括の検証項目 R279(geoPN=2 の 3D の S3 —— disk の有限厚の宣言 thickness・有限厚の対の本・AN510 の門)",
+  "engine": "Node の主の文脈(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・最上位の const は vm.runInThisContext で読む)・flat と pair の行は子プロセス(W324A_WORKERS ≥ 2)",
+  "notClaim": [
+   "3D で銀河を表せたと書かない(v−u 則の三次元の步の本 —— 原理の本の機構の値)",
+   "有限厚は初期の近似(円盤の自己重力を含む平衡ではない)",
+   "抽選の後の z の二乗平均は h にならない(切断と再抽選)",
+   "外縁の比は実在の銀河の観測の較正ではない",
+   "h と h/2 は刻みの感度診断(収束の判定に使わない)"
+  ],
+  "scope": {
+   "version": "w318a-scope-6",
+   "presets": [
+    "galaxyGeo2",
+    "galaxyGeo2Flat3d",
+    "galaxyGeo2Thick3d",
+    "galaxyGeo2ThickTilt3d"
+   ],
+   "roots": [
+    "CK_ARRS",
+    "CK_SC",
+    "HP.ab",
+    "HP.abStart",
+    "HP.abStop",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.loadPreset",
+    "HP.presetSig",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "THICK_REDRAW_MAX",
+    "THICK_VERSION",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "cloneSimState",
+    "ctx",
+    "cw",
+    "sim",
+    "thickCrossCheck",
+    "thickDraws",
+    "thickSeed0Of",
+    "thickSeedOf"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1344,
+   "segments": 1178,
+   "closureShare": 0.2986
+  },
+  "scopeSha256": "9371e17f27fe10b9838b196ba8a8ce32881fc9642f99e11f3f4604ae80fc9241",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

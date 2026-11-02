@@ -509,6 +509,30 @@
     "state": "the outer speed ratio is bit-identical to the 2D 💫 with zero clamps and z stays 0"
    }
   },
+  "galaxyGeo2Thick3d": {
+   "purpose": "💫 の面内の配置に有限厚(±3h の外は再抽選)を足し三次元の步で走らせる",
+   "objective": "met",
+   "state": "外縁速度比 1.1819・z の二乗平均 7.68 → 8.02・脱落 0(有限厚は初期の近似)",
+   "evidence": [
+    "tests/out/geo2thick-w324a.json"
+   ],
+   "en": {
+    "purpose": "Run the in-plane layout of 💫 with a finite thickness (redraw outside ±3h) on the 3D step",
+    "state": "outer speed ratio 1.1819; z rms 7.68 -> 8.02; 0 lost (initial approximation)"
+   }
+  },
+  "galaxyGeo2ThickTilt3d": {
+   "purpose": "🥞 と同じ入力を全体で回した対の本で回転共変の程度を測る",
+   "objective": "met",
+   "state": "面の座標の外縁速度比 1.1819(🥞 との差は刻みの感度の内・差は単精度の配列から)",
+   "evidence": [
+    "tests/out/geo2thick-w324a.json"
+   ],
+   "en": {
+    "purpose": "The 🥞 input turned as a whole, to measure rotational covariance",
+    "state": "plane-frame outer speed ratio 1.1819 (gap to 🥞 within step sensitivity; from single-precision arrays)"
+   }
+  },
   "galaxyDB": {
    "purpose": "円盤の回転支持とバルジの分散支持を比べる",
    "objective": "met",
@@ -3412,6 +3436,14 @@
    "docs.geo2flat322a": [
     "galaxyGeo2Flat3d"
    ],
+   "behavior.geo2thick324a": [
+    "galaxyGeo2Thick3d",
+    "galaxyGeo2ThickTilt3d"
+   ],
+   "docs.geo2thick324a": [
+    "galaxyGeo2Thick3d",
+    "galaxyGeo2ThickTilt3d"
+   ],
    "behavior.obsSpin324b": [
     "alphaCenABInertial3dJ",
     "psrDoubleABInertial3d"
@@ -3424,6 +3456,7 @@
   "w311c": "第311便c(統括の検証項目 R228): 帰属なしだった 18 本(三次元の慣性決定力の本・三次元の玩具ほか)に、その本を実際に読み込み・受理・步で試験している QA の id を足した(tests/qa.mjs の本文で、その本を loadPreset・allPresets().find・代表の本の並び・本の id の定数で引く行を含む試験 —— 文書の語の照合・世代切替の門・存在だけの言及は根拠にしない。世代で本を切り替える試験は今の世代で読む本に帰属)",
   "w319d": "第319便d(統括の検証項目 R261): 帰属なしだった 🗺️ solarSystem16Inertial3d(第318便c —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.solar16Builtin318c —— 宣言・入力・步の照合・docs.solar16Builtin318c —— allPresets().find で本の obsCard を読む・preset.solarSystem16Inertial3d —— 全本の步の試験)。docs.solar16Contract300 は予約 id の存在だけを見る(世代切替の門)ので足さない(第311便c と同じ規則)",
   "w322b": "第322便b(原仮定者の回答 AN499・統括の検証項目 R271): 内蔵の 4 本(♊⚖️🌠🔶 —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.binBooks322b —— allPresets().find で本を引き受理・presetSig・60 步のビットを照合・docs.binBooks322b —— 正本の表と本の文の 1 + (4/3)η)",
+  "w324a": "第324便a(決断事項 AN513・統括の検証項目 R279): 内蔵の 2 本(🥞🧇 —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.geo2thick324a —— allPresets().find で本を引き受理・正準形・回転共変・AN510 の門・保存と復帰・docs.geo2thick324a —— 正本の表と節)",
   "w324b": "第324便b(決断事項 AN514・AN515・統括の検証項目 R280): 内蔵の 2 本(🔸📟 —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.obsSpin324b —— allPresets().find で本を引き受理・60 步のビットと源の J の読み口を照合・docs.obsSpin324b —— 正本の表と本の文の数)"
  }
 }

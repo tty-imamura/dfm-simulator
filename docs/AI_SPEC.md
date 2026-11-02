@@ -4524,6 +4524,16 @@ SYSTEM_PROMPT の規則 13(逐語):
 - これらは開発の道具と来歴の欄で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
 
 
+
+## 171. 第324便a —— geoPN=2(v−u 則)の 3D の S3: disk の有限厚の宣言 `thickness`(受理・正準形・署名)と有限厚の対の本 🥞 galaxyGeo2Thick3d・🧇 galaxyGeo2ThickTilt3d・AN510 の門(原仮定者の回答(2026-11-01 —— AN500)・決断事項 AN513・AN510・統括の検証項目 R279・**`S._core` と二次元の步は不変**・在位の本の宣言・署名・数値は不変・**SYSTEM_PROMPT には載せない**)
+
+- **宣言**: 三次元の本(physics.coord:"3d")の disk の群に `thickness:{z:{kind:"gauss", h, cut}, vz:{kind:"local-nu", scale, center}}`。z は円盤の局所座標で切断前の尺度 h の正規分布から引き、±cut·h の外は**再抽選**(端へ押し付けない —— 抽選の後の二乗平均は h より小さい)。v_z は N(0, (scale·ν·h)²)・ν² = G M_c/(R² + ε²)^{3/2}(R は円盤の中心からの面内の距離・ε は physics.softening・M_c は `center` の行の single の宣言の質量)。**初期の近似**で、円盤の自己重力を含む平衡ではない。
+- **受理**(`thickValidate`・`thickCrossCheck` —— 版 THICK_VERSION = w324a-thick-1): 未知の鍵は拒否(黙って落とさない)・h は 0 以上で円盤の半径以下・cut は 1〜6(既定 3)・scale は 0〜10(既定 1)・`center` は必須(配列の先頭を黙って中心とみなさない —— 円盤の中心と同じ位置の正の質量の single)・**h = 0 は鍵を正準形から外す**(旧の宣言と同じ署名・同じ数値 —— 警告)・1 粒子の再抽選は 64 回まで(受理器が build と同じ列を引き直して確かめる)・disk 以外の型の thickness は警告して落とす・二次元の本では値を捨てず Z の宣言の警告・円盤を傾けて中心の自転軸が R ẑ と違えば警告。
+- **build**(`coord3dPlace`): 厚み用の**別の乱数の系列**(本の seed と行の番号から派生 —— 面内の位置・質量・速度・自転の乱数列は変えない)で局所座標の z・v_z を作ってから、群の incl/node の**同じ回転** R = R_z(node)·R_x(incl) を位置・速度(群の並進 bulkV と厚みの速度は別)・群の粒子の自転軸(R ẑ —— 有効化しない軸)へ。
+- **本**: 🥞 `galaxyGeo2Thick3d`(🫓 と同じ seed・同じ面内の配置・同じ物理に thickness〔h 8・cut 3・scale 1・center 0〕と stateCarry:"double")・🧇 `galaxyGeo2ThickTilt3d`(同じ入力を全体で回した対 —— incl 30°・node 40°・中心の spinAxis = R ẑ)。claims は持たない。状態の位置・速度は倍精度・場の配列(u・u の履歴・Δp・重み和)と自転・質量は単精度(三次元では framePrecision は未対応)。
+- **AN510**: geoPN=2 の三次元の步は、軸の表示・有効化の有無に依らず全粒子の向きを "vector" で力学として更新する(第322便a の步のまま —— 本便は門を足した: 零自転からの立ち上がり・符号反転・上限 |s| ≤ 40 への到達で html の步と純関数が同じビット・クランプが落とした角運動量を戻すと閉じる)。
+- **器** `tests/exp-w324a-geo2thick.mjs`(段 geo2thick-324a・`quickVerify:'long'` —— 正本 `tests/out/geo2thick-w324a.json`・`W324A_OUT`・`W324A_QUICK`・`W324A_WORKERS`)・文書の lib `tests/lib-w324a-geo2thickdoc.mjs`。QA `behavior.geo2thick324a`・`docs.geo2thick324a`(root は SKIP)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(AI 生成には thickness を開放しない)。AI が説明を書くときも、有限厚を平衡と書かない・抽選の後の z の二乗平均を h と書かない・3D で銀河を表せたと書かない・外縁の比を実在の銀河の観測の較正と書かない。
 ## 172. 第324便b —— 天体ごとの観測の自転 `obsSpin`(受理と源の角運動量 J の経路 `sourceMoment:{kind:"obsSpin"}`)・J0737 の geoPN=3 の本 📟 `psrDoubleABInertial3d`(軸は欠測)・α Cen の J の本 🔸 `alphaCenABInertial3dJ`(決断事項 AN514・AN515・統括の検証項目 R280・**未指定で旧署名と数値を 1 bit も変えない** —— 在位の本の宣言・式・受理の判定の意味・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
 
 - **宣言**(三次元の本の single の天体だけ・物理の単位の宣言 `scaleExp {L, T, M}` が要る): `bodies[i].obsSpin = {kind:"omega", omega, unit:"rad/s"|"Hz", fSrc, rObs, axis:[x,y,z]|null, frame:"book", source, epoch, note?}` か `{kind:"J", J, unit:"kg m^2/s", axis, frame, source, epoch, note?}` か `{kind:"J", Jvec:[Jx,Jy,Jz], unit, frame, source, epoch, note?}`。kind は排他・fSrc は明示必須(0 < f ≤ 2/3 —— 0.4 などの既定を補わない)・rObs は SI の m・Hz は ω = 2πν・axis は鍵が必須で null は欠測(J の源に使わない・軌道の法線で埋めない)・J + axis と Jvec を同時に置かない・未知の鍵は拒否。**状態の自転 `S.spin`・軸・慣性へは写さない**。読み口 `HP.obsSpin`(版 w324b-obsspin-1 —— validate・rowOf・crossCheck・state)。
