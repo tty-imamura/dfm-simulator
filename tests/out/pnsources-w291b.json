@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便b",
   "target": "beta/index.html",
-  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-  "generatedAt": "2026-11-01T20:52:33.646Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-02T21:51:32.539Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7491601,
-    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-    "mtime": "2026-11-01T20:25:22.344Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    }
   ],
   "code": [
@@ -119,11 +119,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1320,
-   "segments": 1158,
-   "closureShare": 0.2966
+   "names": 1363,
+   "segments": 1189,
+   "closureShare": 0.2975
   },
-  "scopeSha256": "8a0071c27e7a75b2a97350017f8c1e0015546fb1bbc2e501f8422c987ed96b52",
+  "scopeSha256": "3b1c0ad15d4dc52664d5dc7a7dc55db964fbc11cf92214e8c78975d3d68c4705",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -174,9 +174,9 @@
   "pn1Version": "w285b-eih-1",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
+ "nowSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
  "A": {
-  "n": 182,
+  "n": 186,
   "kf0Books": 28,
   "increased": [
    "earthMoonReal",
@@ -237,6 +237,8 @@
   "sigDiff": [],
   "newInNow": [
    "galaxyGeo2Flat3d",
+   "galaxyGeo2Thick3d",
+   "galaxyGeo2ThickTilt3d",
    "earthMoonTide",
    "earthMoonInertial",
    "earthMoonSunInertial",
@@ -259,6 +261,8 @@
    "plutoCharonInertialFit",
    "siriusABInertial3d",
    "alphaCenABInertial3d",
+   "alphaCenABInertial3dJ",
+   "psrDoubleABInertial3d",
    "chainDiskToy",
    "chainDiskToy3d",
    "chainDiskToy3dTilt",
@@ -1310,6 +1314,60 @@
   {
    "id": "galaxyGeo2Flat3d",
    "emoji": "🫓",
+   "role": "variant",
+   "cls": "principle",
+   "n": 381,
+   "geoPN": 2,
+   "kFrame": 1,
+   "lambdaPN": 0,
+   "G": 0.8,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 1,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": false,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
+   "id": "galaxyGeo2Thick3d",
+   "emoji": "🥞",
+   "role": "variant",
+   "cls": "principle",
+   "n": 381,
+   "geoPN": 2,
+   "kFrame": 1,
+   "lambdaPN": 0,
+   "G": 0.8,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 1,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": false,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
+   "id": "galaxyGeo2ThickTilt3d",
+   "emoji": "🧇",
    "role": "variant",
    "cls": "principle",
    "n": 381,
@@ -4110,6 +4168,60 @@
    "coord3d299": false
   },
   {
+   "id": "alphaCenABInertial3dJ",
+   "emoji": "🔸",
+   "role": "variant",
+   "cls": "principle",
+   "n": 2,
+   "geoPN": 3,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 6.674,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 2,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": true,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
+   "id": "psrDoubleABInertial3d",
+   "emoji": "📟",
+   "role": "variant",
+   "cls": "principle",
+   "n": 2,
+   "geoPN": 3,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 6.674,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 2,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": true,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
    "id": "psrDoubleAB",
    "emoji": "📻",
    "role": "primary",
@@ -5820,13 +5932,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.081,
+   "wallSec": 0.102,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.142,
+   "wallSec": 0.151,
    "errors": 0
   }
  },
- "elapsedS": 130.839
+ "elapsedS": 134.139
 }

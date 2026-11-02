@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便a",
   "target": "beta/index.html",
-  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-  "generatedAt": "2026-11-01T20:52:47.920Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-02T21:33:05.028Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7491601,
-    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-    "mtime": "2026-11-01T20:25:22.344Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    }
   ],
   "code": [
@@ -92,11 +92,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1315,
-   "segments": 1153,
-   "closureShare": 0.2947
+   "names": 1358,
+   "segments": 1184,
+   "closureShare": 0.2956
   },
-  "scopeSha256": "462da40160c13bf643254f3bd1594a32edee0bfb80a7c9a550109c7d72610766",
+  "scopeSha256": "85f7e6040a30602275bd615c3f9e9183c28735f66916b1433eefe89b220f540d",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -419,7 +419,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.00002945243112740431,
-    "wallSec": 0.043
+    "wallSec": 0.062
    },
    {
     "b": 20000,
@@ -431,7 +431,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.000014726215563702155,
-    "wallSec": 0.031
+    "wallSec": 0.055
    }
   ],
   "clocksOk": true,
@@ -487,11 +487,11 @@
   "frameDefault": "pull"
  },
  "census": {
-  "n": 182,
+  "n": 186,
   "tally": {
    "active:default(pull)": 4,
-   "active:pull": 16,
-   "active:share": 106,
+   "active:pull": 18,
+   "active:share": 108,
    "retired:default(pull)": 2,
    "retired:pull": 16,
    "retired:share": 38
@@ -589,5 +589,5 @@
   "shapiroMicros": 280.9977454260266
  },
  "recordNote": "HP.grSI() の式レベル出力の引用(🛰 grcal —— 再測ではない)",
- "elapsedS": 1.518
+ "elapsedS": 1.883
 }
