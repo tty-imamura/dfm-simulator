@@ -92559,7 +92559,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const i7 = PH.indexOf('\n## 7.'), iG = PH.indexOf('〔第322便 — 統括');
       if (!(a323 < i7 && iG >= 0 && iG < a323)) bad.push('節の位置(〔第322便 — 統括〕の後・「## 7.」の前)');
       const ia = PH.indexOf('〔第323便a — '); if (ia >= 0 && ia > a323) bad.push('〔第323便a〕が〔第323便b〕の後');
-      for (const b of ['c', 'd']) { const k = PH.indexOf('〔第323便' + b + ' — '); if (k >= 0 && k < a323) bad.push('〔第323便' + b + '〕が〔第323便b〕の前'); }
+      for (const [b, k] of [['c', PH.indexOf('〔第323便c — ')], ['d', PH.indexOf('〔第323便d — ')]]) if (k >= 0 && k < a323) bad.push('〔第323便' + b + '〕が〔第323便b〕の前');
       for (const w of ['AN517', 'AN518', 'R276', 'tests/lib-w323b-quick.mjs', 'w323b-quick-1', 'quickShadow', 'quickVerify', 'tests/data-w323b-quickfp.json', '--fingerprint', 'meta.verify',
         'afterDepKinds', 'afterOrderOnly', 'w323b-afterkind-1', 'hold', 'REGEN_FASTGATE', '--gate-full', 'lint.regenQuick323', 'lint.regenOrderOnly323', '**表 1', '**表 2', '**表 3'])
         if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第323便b〕に「' + w + '」が無い');
