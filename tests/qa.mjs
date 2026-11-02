@@ -2528,6 +2528,10 @@ lastAddAt = Date.now();
       // ==== 第322便c の塊(ここから)==== geoPN=4 の場の契約の器(fieldcontract-322c —— 部 K は純関数・部 G は 🗺️ の写しの初期の状態・子プロセス 2 本)。領域 REGEN_SCOPE を刻む
       'tests/out/fieldcontract-w322c.json',
       // ==== 第322便c の塊(ここまで)====
+      // ==== 第324便d の塊(ここから)==== 長い段の再開の型の門(resume-324d —— 履歴の段・形だけ〔lint.provenanceMeta ①⑤・lint.canon304 の「履歴」〕・子プロセス 2 本)。
+      //   イオ・エウロパの長い窓の正本 tests/out/satlong-w324d.json(段 satlong-324d —— 履歴)は鎖の外で完走した後に統括が足す(無いファイルを CANON に置かない)
+      'tests/out/resume-w324d.json',
+      // ==== 第324便d の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {

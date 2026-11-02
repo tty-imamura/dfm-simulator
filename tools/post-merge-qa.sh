@@ -548,6 +548,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickWindows323 docs.w323c lint.harness
 #   docs.sampleStatus-sync・preset.statusLedger-sync・docs.tallySync)・刻印の lint.provenanceMeta・lint.stableHashPaths・lint.regenChain・この脚本の lint.postMergeQaScript・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.provenanceIds323 lint.qaRecheck323 docs.w323d docs.calaudit-sync docs.calibration-verdict-sync behavior.calauditStages lint.calauditMergeKeyHash lint.calauditDiagSplit docs.periodContractRows docs.sampleStatus-sync preset.statusLedger-sync docs.tallySync lint.provenanceMeta lint.stableHashPaths lint.regenChain lint.postMergeQaScript lint.qaHeapRelease310"
 # ==== 第323便d の塊(ここまで)====
+# ==== 第324便d の塊(ここから)====
+# 第324便d(決断事項 AN480・AN452・統括の検証項目 R282): 枝 d の新設 2 本(lint.resume324d —— 再開の型の lib の自己試験・同じ process の復帰の同一と否定対照・器の口の配線・
+#   段が履歴で鎖に入らない / docs.satlong324d —— 門の正本・長い窓の正本〔あれば〕・文書)と、触った器と表の lint(lint.regenScope・lint.provenanceMeta・lint.stableHashPaths・
+#   lint.scopeStop・lint.scopeAll312・lint.regenChain・lint.canon304・lint.harnessSmoke303・lint.qaHeapRelease310・lint.sectionLookup313)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.resume324d docs.satlong324d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第324便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

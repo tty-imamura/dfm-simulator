@@ -314,3 +314,17 @@ node tools/qa-recheck-record.mjs --check                       # 形の検査(QA
   `--fp-record <記録>`(既定 `tests/data-w323b-quickfp.json`)・`--K 3`・`--wave <便>`(既定は html の BETA_BUILD)・`--promote`(root 昇格の便 —— 全段フル)。
 - **窓の指紋の記録**: `node tools/harness-smoke.mjs --fingerprint tests/data-w323b-quickfp.json`(`--base`・`--keys` が無ければ窓のある段を全部 —— 簡易一致を使わない段は除く)。
   鎖の後に 1 回。記録はコミットする作業記録(正本ではない —— lint は形だけ)。
+
+## 再開の型と衛星の長い窓(第324便d —— 決断事項 AN480・AN452・統括の検証項目 R282)
+
+長い段を止めても続きから走らせる型(lib `tests/lib-w324d-resume.mjs`)。**完了済みのジョブの再利用**(done —— 契約つきの結果の本文)と**途中の步からの再開**(checkpoint —— 安全な步の境界で sim の全状態・検出器の累積・步の番号を原子的に保存)を分けて持つ。契約(入力・器・環境・版の hash)が違う・書きかけ・壊れた checkpoint は拒否して最初から。最初の使い手は衛星の器の長い窓の口(lib `tests/lib-w324d-satlong.mjs` —— 器が動的 import で読む・既定の経路は読まない)。
+
+```
+W324D_RESUME_DIR=<置き場> nice -n 19 node tests/exp-w318b-satnext.mjs --long          # イオ・エウロパ × 1.5 P_母(正本 tests/out/satlong-w324d.json —— 段 satlong-324d・履歴)
+W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --long --status            # 済みのジョブと途中の checkpoint(步の番号 / 窓の終わり)を印字するだけ
+W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate              # 連続と再開の門(正本 tests/out/resume-w324d.json —— 段 resume-324d・履歴)
+```
+
+- 置き場の既定は `tests/out/.satlong-w324d/`(.gitignore のまま —— 数百 MiB になりうる)。`--resume-dir <dir>` でも指定できる。子プロセスは `W318B_WORKERS`(既定 2)・checkpoint の間隔は `W324D_CK_SEC`(既定 600 s)。
+- 止まったら**同じ命令をもう一度**(済みのジョブは done から再利用・途中のジョブは checkpoint から続ける・`--long` は走行の初めに門を回し、外れたら走らせない)。対象 html・器と lib・凍結の写し・環境が変わると契約が違うので続きは拒否される(最初から)。
+- 2 段とも履歴(計画は常に「履歴」—— 毎便の鎖に入れない)・簡易一致は使わない(quickVerify:false)。

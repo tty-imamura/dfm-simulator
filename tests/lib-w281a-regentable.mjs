@@ -1601,7 +1601,9 @@ export const REGEN_STEPS = [
     note: '第324便d: 長い段の再開の型の門(AN480 —— 既定の子の行 = 再開の型の連続 = 2 回止めて別の子プロセスで続けた行〔所要の欄の外の全欄が同じビット〕・sim の全欄の digest・否定対照 2・違う契約と書きかけの拒否・done の再利用・計画の門〔既定 = 再開の型 = 全ジョブ再利用の正本〕)。履歴(鎖に入れない)' }),
   S('satlong-324d', 'node tests/exp-w318b-satnext.mjs --long', ['tests/out/satlong-w324d.json'], 11300, { secSource: 'w324d-estimate(見積り —— 枝では完走しない・統括が完走の elapsedS で直す)', node: true, workers: 2, role: 'history',
     quickVerify: false, quickVerifyWhy: '長期の量(1.5 P_母 の近点の率の差 —— AN452・AN517/518 の簡易一致を使わない段)',
-    volatilePaths: { 'tests/out/satlong-w324d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/runs/*/wallSec', '/E/runs/*/runs/q10/wallSec', '/E/runs/*/runs/q11/wallSec', '/cost/wallSec', '/cost/byJob/*/wallSec', '/cost/rateStepsPerSec', '/resumeGate/wallSec']) },
+    // volatilePaths は置かない: 正本は鎖の外で完走した後にコミットする(lint.stableHashPaths ② はファイルの無い宣言を落とす)・読み手の段が無い(安定 hash の入力にならない)。
+    //   完走して読み手を足すときは satnext-318b と同じ所要の欄(/elapsedS・/timing/*/wallSec・/E/runs/*/wallSec・/E/runs/*/runs/q10/wallSec・/E/runs/*/runs/q11/wallSec・
+    //   /cost/wallSec・/cost/byJob/*/wallSec・/cost/rateStepsPerSec)と /resumeGate/wallSec
     note: '第324便d: イオ・エウロパの長い窓(AN452 —— 1.5 P_母 × h・h/2・h/4 × V1a・V0・satnext-318b と同じ契約・窓 W1/W2・模型 LS・判定 RULE)を再開の型で(門を先に回し、外れたら走らせない)。母惑星の公転周期の窓の外の量を引用しない・在位へ入れない。履歴(鎖の外で統括が走らせる)' }),
   // ==== 第324便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
