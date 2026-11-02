@@ -4301,6 +4301,34 @@ const ACCEPT_REASONS = {
   "validatePreset/physics.relativeDrag.invSq.sourceMoment#2": 'physics.relativeDrag.invSq.sourceMoment の kind:"capObs" は物理の単位の宣言 scaleExp {L, M} が要る(上限 6.5×10⁶ m を本の長さの単位へ換算する)',
   // 第321便d(決断事項 AN502・統括の検証項目 R269): f の添字の天体より前に 1 粒子でない天体(群)がある宣言の拒否の文
   "validatePreset/physics.relativeDrag.invSq.sourceMoment#3": (a0, a1, a2, a3)=>'physics.relativeDrag.invSq.sourceMoment.f の添字 '+a0+' の天体より前の bodies['+a1+'](type:"'+a2+'"・n = '+a3+')が 1 粒子でない —— 前方の群の展開で天体と粒子の添字が一致しない(f は天体の添字・実行は展開後の粒子の添字で読む —— f を置く天体は、1 粒子でない群より前に並べる)',
+  // ==== 第324便b の塊(ここから)====
+  // 第324便b(決断事項 AN515・統括の検証項目 R280): 天体ごとの観測の自転 obsSpin の受理の文
+  "validateObsSpinBody/obsSpin": 'obsSpin は {kind:"omega", omega, unit:"rad/s"|"Hz", fSrc, rObs, axis:[x,y,z]|null, frame:"book", source, epoch, note?} か {kind:"J", J, unit:"kg m^2/s", axis:[x,y,z]|null, frame, source, epoch, note?} か {kind:"J", Jvec:[Jx,Jy,Jz], unit, frame, source, epoch, note?}(観測の自転 —— 源の角運動量の読み取り専用の入力・S.spin へ写さない)',
+  "validateObsSpinBody/obsSpin#2": (a0)=>'obsSpin の未知の鍵 '+a0+'(黙って落とさない —— 欄の値を状態の自転 S.spin へ写す宣言も受けない)',
+  "validateObsSpinBody/obsSpin.kind": 'obsSpin.kind は "J"(角運動量)か "omega"(観測の自転の角速度 + 明示の fSrc と rObs)—— 排他',
+  "validateObsSpinBody/obsSpin.unit": (a0, a1)=>'obsSpin.unit は kind "'+a0+'" では "'+a1+'"(rad/s と Hz は別 —— Hz は自転の振動数 ν で ω = 2πν)',
+  "validateObsSpinBody/obsSpin.source": 'obsSpin.source(出典の文字列)が要る',
+  "validateObsSpinBody/obsSpin.epoch": 'obsSpin.epoch(元期 —— 文字列か数)が要る(自転の変化は読まない —— 元期の値のまま)',
+  "validateObsSpinBody/obsSpin.frame": 'obsSpin.frame(座標系)は "book"(本の右手系の xyz —— 連星の本は軌道が z = 0 の面・+z が初期の軌道角運動量の向き)',
+  "validateObsSpinBody/obsSpin.note": 'obsSpin.note は文字列',
+  "validateObsSpinBody/obsSpin.exclusive": (a0, a1)=>'obsSpin.kind "'+a0+'" の宣言に '+a1+' は置かない(kind "J" と "omega" は排他)',
+  "validateObsSpinBody/obsSpin.omega": 'obsSpin.omega は正の数(観測の自転 —— unit の単位)',
+  "validateObsSpinBody/obsSpin.fSrc": 'obsSpin.fSrc(源の慣性係数 I/(m R²))を明示する(既定の値を補わない —— 0.4 も置かない)',
+  "validateObsSpinBody/obsSpin.fSrc#2": 'obsSpin.fSrc は 0 < f ≤ 2/3(球対称・宣言半径の内の模型としての制約 —— 薄い球殻の上限 2/3)',
+  "validateObsSpinBody/obsSpin.rObs": 'obsSpin.rObs(観測半径 —— SI の m)は正の数',
+  "validateObsSpinBody/obsSpin.axis": 'obsSpin.axis の鍵が要る(向き [x,y,z] —— 観測で決まっていなければ null と書く〔欠測 —— J の源に使わない〕)',
+  "validateObsSpinBody/obsSpin.axis#2": 'obsSpin.axis は長さ 0 でない 3 成分の配列か null(欠測)',
+  "validateObsSpinBody/obsSpin.twoForms": 'obsSpin の kind "J" は大きさ J + 軸 axis か直接のベクトル Jvec の一方だけ(二つの形を同時に受けない)',
+  "validateObsSpinBody/obsSpin.Jvec": 'obsSpin.Jvec は長さ 0 でない 3 成分の配列(SI の kg m^2/s)',
+  "validateObsSpinBody/obsSpin.J": 'obsSpin.J は正の数(角運動量の大きさ —— SI の kg m^2/s)',
+  "validatePreset/obsSpin": (a0)=>'bodies['+a0+'].obsSpin は三次元の本(physics.coord:"3d")だけ',
+  "validatePreset/obsSpin#2": 'obsSpin を宣言した本は物理の単位の宣言 scaleExp {L, T, M} が要る(観測の SI の値を本の単位へ換算する)',
+  "validatePreset/obsSpin#3": (a0)=>'physics.relativeDrag.invSq.sourceMoment の kind:"obsSpin" の本に dragCore を宣言した天体 bodies['+a0+'] は置かない(源の宣言の一定のベクトルの入れ物を dragCore の自転と分けない)',
+  "validatePreset/obsSpin#4": 'physics.relativeDrag.invSq.sourceMoment の kind:"obsSpin" は obsSpin を宣言した天体が要る',
+  "validatePreset/obsSpin#5": (a0)=>'physics.relativeDrag.invSq.sourceMoment の kind:"obsSpin" の本では obsSpin の天体 bodies['+a0+'] に半径 radius > 0 が要る(規則の引きずりの半径 R_d = Y_k m の天体だけが源)',
+  "validatePreset/obsSpin#6": (a0)=>'bodies['+a0+'].obsSpin は single の天体だけ',
+  "validateInvSq/physics.relativeDrag.invSq.sourceMoment.obsSpin": 'physics.relativeDrag.invSq.sourceMoment の kind:"obsSpin" は f を持たない(源の慣性係数は天体ごとの obsSpin.fSrc —— 源の回転と軸のモーメントは天体の観測の自転の J ベクトルから)',
+  // ==== 第324便b の塊(ここまで)====
   "validateRelativeDragInvSq/msg": '{rot, axial, axialModel?, axialGain?, axialNorm?, axisHold?}',
   "validateRelativeDragInvSq/msg#2": (a0)=>'未知の鍵 '+a0,
   "validateRelativeDragInvSq/rot": 'rot は "surfaceFlip"(回転引きずり —— 源の球の M2)か "off"',
@@ -9269,6 +9297,9 @@ function validateInvSqSourceMoment(a, out){
   if(typeof a!=="object" || a===null || Array.isArray(a)) return bad('');
   for(const k of Object.keys(a)) if(REL_DRAG_INVSQ_SRC_MOMENT_KEYS.indexOf(k)<0) return bad(k);
   if(out.kernel!=="k1" || out.rdRule!=="kappaM" || out.outerShell) return {ok:false, err:reasonText("validateInvSq/physics.relativeDrag.invSq.sourceMoment#2")};
+  // ==== 第324便b の塊(ここから)====
+  if(a.kind===OBS_SPIN_SRC_KIND) return (a.f!==undefined)? {ok:false, err:reasonText("validateInvSq/physics.relativeDrag.invSq.sourceMoment.obsSpin")} : {ok:true, sourceMoment:{kind:a.kind}};   // 第324便b(AN515): 源のモーメントを天体の観測の自転 obsSpin から(f は持たない)
+  // ==== 第324便b の塊(ここまで)====
   if(REL_DRAG_INVSQ_SRC_MOMENT_KINDS.indexOf(a.kind)<0) return bad('kind');
   const o={kind:a.kind};
   if(a.kind===REL_DRAG_INVSQ_SRC_MOMENT_KINDS[0]){
@@ -9293,6 +9324,172 @@ function inertialDragIsqSrcRadiusOf(kind, Robs, f, capL){
   if(kind===REL_DRAG_INVSQ_SRC_MOMENT_KINDS[2]) return (capL>0)? Math.min(Robs, capL) : null;
   return null;
 }
+// ==== 第324便b の塊(ここから)====
+// ===== 第324便b(決断事項 AN515・AN514・統括の検証項目 R280 —— geoPN=3 の S3): **天体ごとの観測の自転 bodies[i].obsSpin** と、それを源の角運動量 J の経路
+//   (invSq.sourceMoment)へつなぐ種類 kind:"obsSpin"(opt-in —— 未宣言の本はキーが無い = 署名も挙動も 1 bit 不変・在位の本は 1 本も宣言しない)=====
+// 宣言(single の天体だけ・三次元の本〔physics.coord:"3d"〕だけ・物理の単位の宣言 scaleExp {L, T, M} が要る —— SI の観測の値を本の単位へ換算する):
+//   obsSpin:{kind:"omega", omega:<観測の自転>, unit:"rad/s"|"Hz", fSrc:<源の慣性係数 I/(m R²)>, rObs:<観測半径 [m]>, axis:[x,y,z]|null, frame:"book", source, epoch, note?}
+//   obsSpin:{kind:"J", J:<角運動量の大きさ>, unit:"kg m^2/s", axis:[x,y,z]|null, frame:"book", source, epoch, note?}
+//   obsSpin:{kind:"J", Jvec:[Jx,Jy,Jz], unit:"kg m^2/s", frame:"book", source, epoch, note?}(直接ベクトルの形 —— J・axis と同時に置かない〔二形式を同時に受理しない〕)
+//   ・kind "J" と "omega" は**排他**(omega の宣言に J・Jvec、J の宣言に omega・fSrc・rObs は拒否)。**fSrc は明示必須**(0.4 などの既定を補わない)・0 < fSrc ≤ 2/3 は
+//     球対称・宣言半径の内の模型としての制約(薄い球殻の上限 2/3)。rObs は観測半径(SI の m —— EOS の代理なら出典に書く)。
+//   ・unit・source・epoch・frame は必須。unit は kind ごとの列挙(OBS_SPIN_UNITS —— **rad/s と Hz を区別**: Hz は自転の振動数 ν で ω = 2πν)。
+//   ・**axis:null は欠測**(宣言のまま保持 —— J の源には使わない・軌道の法線で埋めない)。axis は frame の右手系の向き(長さ > 0 —— 受理で単位ベクトルへ正準化)。
+//     frame は "book"(本の右手系の xyz —— 連星の本は軌道が z = 0 の面・+z が初期の軌道角運動量の向き)。
+//   ・未知の鍵(spinFromObs など欄の値を S.spin へ写す宣言を含む)は拒否(黙って落とさない)。**S.spin へ入れない**(状態の自転・軸・慣性は観測の自転を読まない)。
+// 源の J の経路(physics.relativeDrag.invSq.sourceMoment:{kind:"obsSpin"} を宣言した本だけ —— K1 の規則の本・spinDrag が要る・outerShell と一緒にしないのは第320便a と同じ。
+//   dragCore を宣言した天体のある本は拒否 —— 下の作業が dragCore の自転と軸の作業と同じ入れ物を使う):
+//   源 j の回転と軸のモーメントを**固定の外部の貯蔵庫**の観測の J ベクトルで置く(宣言の一定のベクトル —— 步で進めない・源の自転の進化〔スピンダウン〕と歳差は計算しない)。
+//   omega: J = fSrc m rObs² ω・R_src = rObs√(5 fSrc/2)(第320便a の kind "J" と同じ一様な球の等価 (2/5) m R_src² Ω = J)・Ω_src = ω(本の単位)。
+//   J: R_src = R_d(規則の引きずりの半径)・Ω_src = |J|/((2/5) m_d R_d²)(遠方 r > R_src の回転と軸の場は J だけで決まる)。向きは axis(Jvec は J の向き)。
+//   **axis:null の天体は源にしない**(R_src = R_d・Ω は状態の S.spin のまま —— NS の本は 0)。実行は第311便a の dragCore の自転と軸の作業 S._rdIsqCs(源ごとの宣言の一定の
+//   ベクトル Ω_c・â_c —— 核の係数 RVC・軸の OPC)を同じ式で使う(inertialDragIsqNodeK1・inertialDragIsqBuild・inertialDragIsqEvalK1 は 1 字も変えない)。
+//   受け手の慣性 I・状態の自転 S.spin・軸 S.sax/say/saz は読まない・書かない(観測の J は源の側だけの入力)。式と測定は docs/PHYSICS.md〔第324便b〕・器 tests/exp-w324b-obsspin.mjs
+const OBS_SPIN_KEY="obsSpin", OBS_SPIN_VERSION="w324b-obsspin-1", OBS_SPIN_SRC_KIND="obsSpin";
+const OBS_SPIN_KEYS=["kind","J","Jvec","omega","fSrc","rObs","axis","unit","frame","source","epoch","note"], OBS_SPIN_KINDS=["J","omega"];
+const OBS_SPIN_UNITS={J:["kg m^2/s"], omega:["rad/s","Hz"]}, OBS_SPIN_FRAMES=["book"], OBS_SPIN_F_MAX=2/3;
+// 受理(天体の段 —— single の天体の宣言 raw.obsSpin)。戻り値 {ok, obsSpin}(正準形 —— 鍵の順は OBS_SPIN_KEYS・axis は単位ベクトル)か {ok:false, err}
+function validateObsSpinBody(a){
+  const bad=(k, ...x)=>({ok:false, err:reasonText("validateObsSpinBody/"+k, ...x)});
+  if(typeof a!=="object" || a===null || Array.isArray(a)) return bad("obsSpin");
+  for(const k of Object.keys(a)) if(OBS_SPIN_KEYS.indexOf(k)<0) return bad("obsSpin#2", k);
+  if(OBS_SPIN_KINDS.indexOf(a.kind)<0) return bad("obsSpin.kind");
+  const kind=a.kind, has=(k)=>Object.prototype.hasOwnProperty.call(a,k) && a[k]!==undefined;
+  if(OBS_SPIN_UNITS[kind].indexOf(a.unit)<0) return bad("obsSpin.unit", kind, OBS_SPIN_UNITS[kind].join('" | "'));
+  if(typeof a.source!=="string" || !a.source.trim()) return bad("obsSpin.source");
+  if(!((typeof a.epoch==="string" && a.epoch.trim()) || isNum(a.epoch))) return bad("obsSpin.epoch");
+  if(OBS_SPIN_FRAMES.indexOf(a.frame)<0) return bad("obsSpin.frame");
+  if(has("note") && typeof a.note!=="string") return bad("obsSpin.note");
+  const axisOf=()=>{   // null(欠測)か長さ > 0 の 3 成分 → 単位ベクトル。不正は undefined
+    if(a.axis===null) return null;
+    const v=a.axis;
+    if(!Array.isArray(v) || v.length!==3 || !v.every(isNum)) return undefined;
+    const n=Math.hypot(v[0],v[1],v[2]);
+    return (n>0 && Number.isFinite(n))? [v[0]/n, v[1]/n, v[2]/n] : undefined;
+  };
+  const o={kind};
+  if(kind==="omega"){
+    if(has("J") || has("Jvec")) return bad("obsSpin.exclusive", "omega", "J・Jvec");
+    if(!(isNum(a.omega) && a.omega>0)) return bad("obsSpin.omega");
+    if(!has("fSrc")) return bad("obsSpin.fSrc");
+    if(!(isNum(a.fSrc) && a.fSrc>0 && a.fSrc<=OBS_SPIN_F_MAX)) return bad("obsSpin.fSrc#2");
+    if(!(isNum(a.rObs) && a.rObs>0)) return bad("obsSpin.rObs");
+    if(!Object.prototype.hasOwnProperty.call(a,"axis")) return bad("obsSpin.axis");
+    const ax=axisOf(); if(ax===undefined) return bad("obsSpin.axis#2");
+    o.omega=a.omega; o.fSrc=a.fSrc; o.rObs=a.rObs; o.axis=ax;
+  } else {
+    if(has("omega") || has("fSrc") || has("rObs")) return bad("obsSpin.exclusive", "J", "omega・fSrc・rObs");
+    if(has("J") && has("Jvec")) return bad("obsSpin.twoForms");
+    if(has("Jvec")){
+      if(Object.prototype.hasOwnProperty.call(a,"axis")) return bad("obsSpin.twoForms");
+      const v=a.Jvec;
+      if(!Array.isArray(v) || v.length!==3 || !v.every(isNum) || !(Math.hypot(v[0],v[1],v[2])>0)) return bad("obsSpin.Jvec");
+      o.Jvec=[v[0], v[1], v[2]];
+    } else {
+      if(!(isNum(a.J) && a.J>0)) return bad("obsSpin.J");
+      if(!Object.prototype.hasOwnProperty.call(a,"axis")) return bad("obsSpin.axis");
+      const ax=axisOf(); if(ax===undefined) return bad("obsSpin.axis#2");
+      o.J=a.J; o.axis=ax;
+    }
+  }
+  o.unit=a.unit; o.frame=a.frame; o.source=a.source; o.epoch=a.epoch;
+  if(has("note")) o.note=a.note;
+  const out={}; for(const k of OBS_SPIN_KEYS) if(o[k]!==undefined) out[k]=o[k];   // 正準形の鍵の順(宣言の順に依らない署名)
+  return {ok:true, obsSpin:out};
+}
+// 観測の自転が源に使えるか(軸が欠測でない —— Jvec は向きを持つ)
+function obsSpinUsable(os){ return !!os && (Array.isArray(os.Jvec) || Array.isArray(os.axis)); }
+// SI の観測の値 → 本の単位(scaleExp {L, T, M} —— 1 単位 = 10^L m・10^T s・10^M kg)。m は本の質量(宣言の値)。戻り値は読み口と步の作業が使う 1 天体の行
+function obsSpinRowOf(os, m, sx){
+  const Ls=Math.pow(10,sx.L), Ts=Math.pow(10,sx.T), Ms=Math.pow(10,sx.M), mSI=m*Ms, usable=obsSpinUsable(os);
+  const row={kind:os.kind, unit:os.unit, missing:!usable, axis:os.Jvec? null : (os.axis? os.axis.slice() : null), JSI:null, JvecSI:null, Jbook:null, RsrcBook:null, omegaBook:null, omegaSI:null};
+  if(os.kind==="omega"){
+    const w=(os.unit==="Hz")? 2*Math.PI*os.omega : os.omega;
+    row.omegaSI=w; row.omegaBook=w*Ts; row.RsrcBook=(os.rObs/Ls)*Math.sqrt(2.5*os.fSrc); row.JSI=os.fSrc*mSI*os.rObs*os.rObs*w;
+  } else {
+    const v=os.Jvec, J=v? Math.hypot(v[0],v[1],v[2]) : os.J;
+    row.JSI=J; if(v) row.axis=[v[0]/J, v[1]/J, v[2]/J];
+  }
+  row.Jbook=row.JSI*Ts/(Ms*Ls*Ls);
+  if(usable) row.JvecSI=[row.JSI*row.axis[0], row.JSI*row.axis[1], row.JSI*row.axis[2]];
+  return row;
+}
+// 受理の突き合わせ(正規化の後の本 —— bodies と physics・scaleExp)。null = 受理 / 文字列 = 拒否の理由
+function obsSpinCrossCheck(p){
+  const bs=Array.isArray(p.bodies)? p.bodies : [], ph=p.physics||{}, idx=[];
+  bs.forEach((b,k)=>{ if(b && b.obsSpin) idx.push(k); });
+  const isq=(ph[REL_DRAG_KEY] && ph[REL_DRAG_KEY][REL_DRAG_INVSQ_KEY])||null, sm=isq? isq[REL_DRAG_INVSQ_SRC_MOMENT_KEY] : null, useObs=!!(sm && sm.kind===OBS_SPIN_SRC_KIND);
+  if(!idx.length) return useObs? reasonText("validatePreset/obsSpin#4") : null;
+  if(coordOf(ph)!=="3d") return reasonText("validatePreset/obsSpin", idx[0]);
+  if(!(p.scaleExp && isNum(p.scaleExp.L) && isNum(p.scaleExp.T) && isNum(p.scaleExp.M))) return reasonText("validatePreset/obsSpin#2");
+  if(useObs){
+    const dc=bs.findIndex((b)=>b && b.dragCore);
+    if(dc>=0) return reasonText("validatePreset/obsSpin#3", dc);
+    for(const k of idx){ const b=bs[k]; if(!(isNum(b.radius) && b.radius>0)) return reasonText("validatePreset/obsSpin#5", k); }
+  }
+  return null;
+}
+// build(三次元の本だけ —— rows3[k] は粒子 k を作った宣言の行): obsSpin を宣言した single の粒子の行を S._rdObsSpin へ(宣言の無い本は鍵を作らない —— build の頭の
+//   SIM_BUILD_RESET が前の本の残りを消す〔inertialDrag の群 /^_rd/〕)。宣言の一定の値で、步で書き換えない(状態ではない)
+function obsSpinPrepare(S, preset, rows3){
+  if(S.coord3d!==true || !rows3 || !preset || !preset.scaleExp) return;
+  let any=false;
+  for(let k=0;k<rows3.length;k++){ const b=rows3[k]; if(b && b.type==="single" && b.obsSpin){ any=true; break; } }
+  if(!any) return;
+  const A=new Array(rows3.length).fill(null);
+  for(let k=0;k<rows3.length;k++){ const b=rows3[k]; if(b && b.type==="single" && b.obsSpin) A[k]=Object.assign({decl:b.obsSpin}, obsSpinRowOf(b.obsSpin, b.m, preset.scaleExp)); }
+  S._rdObsSpin=A;
+}
+// 本が源の J の経路(sourceMoment kind "obsSpin")を宣言しているか
+function obsSpinSrcOn(S){
+  const isq=(S.relDrag && S.relDrag[REL_DRAG_INVSQ_KEY])||null, sm=isq? isq[REL_DRAG_INVSQ_SRC_MOMENT_KEY] : null;
+  return !!(sm && sm.kind===OBS_SPIN_SRC_KIND && S._rdObsSpin);
+}
+// 步の頭(inertialDragIsqSrcMoment から —— kind "obsSpin" の本だけ): 源の R_src(使える観測の自転の天体だけ —— omega は rObs√(5fSrc/2)・J は R_d・他の天体は R_d)
+function obsSpinSrcRadii(S,n,RS,RD,RA){
+  const A=S._rdObsSpin||null, D=S.dragCoreD||null;
+  for(let j=0;j<n;j++){
+    RS[j]=RD[j];
+    const O=A? A[j] : null;
+    if(!O || O.missing || !(RD[j]>0) || (D && D[j]) || !(RA[j]>0)) continue;
+    if(O.kind==="omega" && O.RsrcBook>0 && Number.isFinite(O.RsrcBook)) RS[j]=O.RsrcBook;
+  }
+}
+// 步の頭(inertialDragIsqCoreSpin の頭から): kind "obsSpin" の本は源ごとの宣言の一定のベクトル(Ω_src・â)を S._rdIsqCs に置いて true(今の dragCore の経路は通らない ——
+//   受理が dragCore の天体を拒否)。使える源が 0 の本は S._rdIsqCs = null(今の経路 —— 軸が欠測の天体は状態の S.spin のまま)。宣言の無い本は false(何もしない)
+function obsSpinCoreSpin(S,n){
+  if(!obsSpinSrcOn(S)) return false;
+  const A=S._rdObsSpin, MD=S._rdIsqMd, RD=S._rdIsqRd, RS=S._rdIsqRs||RD;
+  let cs=S._rdIsqCs, cnt=0;
+  for(let j=0;j<n;j++){ const O=A[j]; if(O && !O.missing && MD[j]>0) cnt++; }
+  if(!cnt){ if(S._rdIsqCs) S._rdIsqCs=null; return true; }
+  if(!cs || cs.on.length<n){ const N=Math.max(n, S.m.length), F=()=>new Float64Array(N); cs={cnt:0, on:new Uint8Array(N), s:F(), ax:F(), ay:F(), az:F(), dS:new Uint8Array(N), dA:new Uint8Array(N), RVC:null, RVS:null, OPC:null, OPS:null}; S._rdIsqCs=cs; }
+  cs.cnt=0; cs.obs=true;
+  for(let j=0;j<n;j++){
+    const O=A[j];
+    if(!O || O.missing || !(MD[j]>0)){ cs.on[j]=0; cs.dS[j]=0; cs.dA[j]=0; continue; }
+    const Om=(O.kind==="omega")? O.omegaBook : O.Jbook/(0.4*MD[j]*RS[j]*RS[j]);
+    cs.on[j]=1; cs.cnt++; cs.dS[j]=1; cs.dA[j]=1;
+    cs.s[j]=Om; cs.ax[j]=O.axis[0]; cs.ay[j]=O.axis[1]; cs.az[j]=O.axis[2];
+  }
+  return true;
+}
+// 読み口(状態を 1 bit も動かさない —— 宣言の無い本は null): 天体(粒子)ごとの観測の自転の行・源に使ったか・本の単位の J と R_src・Ω_src・状態の S.spin(観測の自転を読まないことの照合)
+function obsSpinState(S){
+  if(!S || !S._rdObsSpin) return null;
+  const A=S._rdObsSpin, on=obsSpinSrcOn(S), rows=[];
+  for(let i=0;i<A.length;i++){
+    const O=A[i]; if(!O) continue;
+    const md=(S._rdIsqMd && S._rdIsqMd[i]>0)? S._rdIsqMd[i] : null, rd=(S._rdIsqRd && S._rdIsqRd[i]>0)? S._rdIsqRd[i] : null;
+    const Rs=(O.kind==="omega")? O.RsrcBook : rd, Om=(O.kind==="omega")? O.omegaBook : ((md && rd)? O.Jbook/(0.4*md*rd*rd) : null);
+    rows.push({i, kind:O.kind, unit:O.unit, missing:O.missing, usedAsSource:on && !O.missing, axis:O.axis? O.axis.slice() : null, JSI:O.JSI, JvecSI:O.JvecSI? O.JvecSI.slice() : null,
+      Jbook:O.Jbook, RsrcBook:Rs, omegaSrcBook:Om, omegaSI:O.omegaSI, stateSpin:S.spin[i], decl:Object.assign({}, O.decl)});
+  }
+  return {version:OBS_SPIN_VERSION, srcKind:on? OBS_SPIN_SRC_KIND : null, reservoir:"fixed-external", rows,
+    rule:"観測の J は固定の外部の貯蔵庫(宣言の一定のベクトル —— 步で進めない)。軸が欠測(axis:null)の天体は源にしない。S.spin・軸・慣性には写さない",
+    ruleEn:"The observed J is a fixed external reservoir (a declared constant vector - never advanced). A body with a missing axis (axis:null) is not a source. Nothing is written into S.spin, the axes or the inertia."};
+}
+// ==== 第324便b の塊(ここまで)====
 function validateInvSq(a){
   const form='physics.relativeDrag.invSq は {Wbg2?:<0 だけ —— 省略は 0>, order?:<'+REL_DRAG_INVSQ_ORDER_RANGE[0]+'〜'+REL_DRAG_INVSQ_ORDER_RANGE[1]+' の整数 —— 受け手の体積の求積の次数・既定 '+REL_DRAG_INVSQ_ORDER_DEFAULT+'>, outerShell?:<"uniform"|"thin" —— 外殻の源>, kernel?:<"k2"(省略)|"k1" —— 源の重みの族>, rdRule?:<"kappaM" —— K1 の規則 R_d = Y_k m>, shellRecv?:<"mass"(省略)|"core" —— 外殻の受け手>}';
   if(typeof a!=="object" || a===null || Array.isArray(a)) return {ok:false, err:form};
@@ -21210,6 +21407,72 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 // ==== 第322便b の本(ここまで)====
+// ==== 第324便b の塊(ここから)====
+// 第324便b(決断事項 AN514・AN515・統括の検証項目 R280 —— geoPN=3 の S3): 🔸 α Cen の源の角運動量 J の本(新しい ID —— 🔶 と同じ初期状態に spinDrag {rot} と
+//   invSq.sourceMoment {kind:"J"} を足した。並進だけの 🔶 は残す・J を 🔶 へ黙って足さない・f は模型の明示の入力〔観測された構造係数と呼ばない〕・受け手の慣性 I は f で置き換えない)と、
+//   📟 J0737 の geoPN=3 三次元の本(📻 と同じレコード・元期・観測の質量・半径・初期の位置と速度 —— 第322便b の兄弟の写しの型〔第321便b の列 tr〕に、天体ごとの観測の自転 obsSpin を宣言・
+//   軸は観測で決まっていないので axis:null〔欠測 —— J の源に使わない〕)。式と測定は docs/PHYSICS.md〔第324便b〕・器 tests/exp-w324b-obsspin.mjs(正本 tests/out/obsspin-w324b.json)
+{ id:"alphaCenABInertial3dJ",
+  name:"αケンタウリAB(慣性決定力版・三次元)— 源の角運動量 J(f は模型の入力)",
+  emoji:"🔸",
+  group:"現実較正",
+  familyId:"alphaCen",
+  familyRole:"variant",
+  scaleTier:"stellar",
+  scaleExp:{L:10, T:6, M:29},
+  sampleClass:"principle",
+  referenceKind:"theory-control",
+  fidelity:"real",
+  notClaim:["solar_cal", "binary_geo3"],
+  abBody:{label:{ja:"源の J を切る(並進だけ —— 🔶 と同じ宣言)", en:"source J off (translation only - the same declaration as 🔶)"}, physicsPatch:{relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}}},
+  obsCard:[{q:"何を置いたか", model:"🔶 alphaCenABInertial3d と同じ入力・同じ初期状態(z = v_z = 0 の三次元・両星 free)に源の角運動量 J の回転引きずりを足した", obs:"—(原理サンプル —— 較正母集団の外)"}, {q:"宣言", model:"🔶 の宣言 + spinDrag {rot:\"surfaceFlip\"} + invSq.sourceMoment {kind:\"J\", f:{A 0.07・B 0.07}}", obs:"—"}, {q:"源の慣性係数 f(模型の入力)", model:"両星 f = 0.07(太陽の I/(m R²) の文献の値を両星へ当てた入力)", obs:"観測された構造係数ではない・一次資料に当たっていない"}, {q:"源の角運動量 J = f m R² Ω(軸 +z)", model:"A 4.93e41・B 9.08e40 kg m²/s(Ω は ✨ の自転の転写)", obs:"R_src = R√(5f/2): A 3.545e5 km・B 2.501e5 km"}, {q:"J − 並進だけ(近点の移動・rad/公転)", model:"TBD", obs:"同じ初期状態・同じ 8 公転の窓(🔶 との差)"}, {q:"受け手の慣性と自転", model:"受け手の I は f で置き換えない・両星の自転(状態)は走行で不変", obs:"J は源の側の量"}, {q:"自転軸", model:"+z(軌道の法線 —— 二次元の本の約束)", obs:"観測の軸ではない"}],
+  descStruct:{summary:"重力(E4)の二体。🔶 alphaCenABInertial3d と同じ入力・同じ初期状態(✨ alphaCenAB の写し —— 両星の実質量・半径・自転・遠点整列の位置と速度を z = v_z = 0 の三次元に置き、両星 free)に、源の角運動量 J の回転引きずりを足した本。宣言は 🔶(geoPN=3・kFrame=0・λ_PN=0・K1 + 規則の鍵 rdRule \"kappaM\"・initMotion \"observed\"・G_loc n = 2)に、回転引きずり spinDrag {rot:\"surfaceFlip\"} と源のモーメント invSq.sourceMoment {kind:\"J\", f} を加えたもの —— 引きずる側(源)の回転のモーメントの半径を R_src = R√(5f/2)(J = f m R² Ω の一様な球の等価)に置き、受け手の R_d = Y_k m・並進の β・分母は変えない。f は両星 0.07(太陽の I/(m R²) の文献の値を当てた模型の入力 —— 観測された構造係数ではない)。Ω は ✨ の自転の転写・軸は +z(軌道の法線 —— 二次元の本の約束で観測の軸ではない)。受け手の慣性 I は f で置き換えない(J は源の側の量)。並進だけの 🔶 は残した(J を 🔶 へ足さない)。🔶 との差は同じ初期状態・同じ窓で見る —— 数は正本 tests/out/obsspin-w324b.json。DFM は学習向きの仮定のモデルで、現実の宇宙とは主張しない。", observe:"トレイルで α Cen B の楕円が閉じるのを見る(z = 0 の面)。源の J の回転引きずりが近点の移動に足す分は TBD で画面では見えない —— 数は説明タブの観測カード。", control:"ワンタップの対照は源の J を切った並進だけ(spinDrag と sourceMoment を外す —— 🔶 と同じ宣言)。比べる相手は 🔶 alphaCenABInertial3d(並進だけ)と 📟 psrDoubleABInertial3d(天体ごとの観測の自転の欄)。"},
+  en:{name:"Alpha Centauri AB (inertial determinacy, 3D) — source angular momentum J (f is a model input)", obsCard:[{q:"What is placed", model:"🔶 alphaCenABInertial3d's input and initial state (3D at z = v_z = 0, both free) plus the source-J rotational drag", obs:"- (a principle sample, outside the calibration population)"}, {q:"Declaration", model:"🔶's declaration + spinDrag {rot \"surfaceFlip\"} + invSq.sourceMoment {kind \"J\", f: A 0.07, B 0.07}", obs:"-"}, {q:"Source inertia factor f (model input)", model:"f = 0.07 for both (the Sun's I/(m R^2) literature value applied to both stars)", obs:"not an observed structure coefficient; no primary source checked"}, {q:"Source angular momentum J = f m R^2 Omega (axis +z)", model:"A 4.93e41, B 9.08e40 kg m^2/s (Omega: ✨'s transcribed spins)", obs:"R_src = R sqrt(5f/2): A 3.545e5 km, B 2.501e5 km"}, {q:"J - translation only (apsidal shift, rad/orbit)", model:"TBD", obs:"same initial state, same 8-orbit window (the gap to 🔶)"}, {q:"Receiver inertia and spins", model:"the receiver's I is not replaced by f; both state spins unchanged over the run", obs:"J is a source-side quantity"}, {q:"Spin axis", model:"+z (the orbit normal - the 2D book convention)", obs:"not an observed axis"}], descStruct:{summary:"A two-body under gravity (E4). The same input and initial state as 🔶 alphaCenABInertial3d (a copy of ✨ alphaCenAB - both real masses, radii and spins, the aphelion-aligned positions and velocities at z = v_z = 0 in 3D, both free) with the rotational drag of the source angular momentum J added. The declaration is 🔶's (geoPN=3, kFrame=0, lambda_PN=0, K1 with the rule key rdRule \"kappaM\", initMotion \"observed\", G_loc n = 2) plus the rotational drag spinDrag {rot \"surfaceFlip\"} and the source moment invSq.sourceMoment {kind \"J\", f}: the dragging source's rotational-moment radius becomes R_src = R sqrt(5f/2) (the uniform-sphere equivalent of J = f m R^2 Omega) while the receiver's R_d = Y_k m, the translational beta and the denominator are unchanged. f = 0.07 for both stars is a MODEL INPUT (the Sun's I/(m R^2) literature value) - not an observed structure coefficient. Omega is ✨'s transcribed spin and the axis is +z (the orbit normal - the 2D book convention, not an observed axis). The receiver's inertia I is not replaced by f (J is a source-side quantity). The translation-only 🔶 is kept (J is not added to it). The gap to 🔶 is read in the same initial state and the same window - numbers in tests/out/obsspin-w324b.json. DFM is an assumed model for learning, not claimed to be the real universe.", observe:"Use the trail to watch Alpha Cen B's ellipse close (the z = 0 plane). What the source-J rotational drag adds to the apsidal shift is TBD, too small to see - the numbers are in the observation card.", control:"The one-tap control removes the source J (translation only - spinDrag and sourceMoment dropped, the same declaration as 🔶). Compare with 🔶 alphaCenABInertial3d (translation only) and 📟 psrDoubleABInertial3d (the per-body observed-spin field)."}, parameterAudit:{observedInputs:["G_0=6.674 (the real G value)", "c_0=29979.2458 (the real c value)", "both stars' real masses, radii and rotations and the relative orbit a, e (copied from ✨ alphaCenAB via 🔶)", "the initial positions and velocities (a bit copy of 🔶's placement, z = v_z = 0)"], fixedConventions:["per-sample scale exponents (1 unit = 10^10 m / 10^6 s / 10^29 kg - as ✨)", "physics.coord 3d (right-handed; the orbit in the z = 0 plane)", "geoPN=3, kFrame=0, lambda_PN=0", "inertial drag relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\", sourceMoment:{kind:\"J\", f:{0:0.07, 1:0.07}}}, pairs:\"all\", history:\"positions\", initMotion:\"observed\", spinDrag:{rot:\"surfaceFlip\"}}", "local gravity physics.gLoc:{law:\"kappaC2\"} (n = 2)", "spin axes +z (the orbit normal - the 2D book convention)", "q=4.6111 and D0=0.006 kept from ✨ (no effect at kFrame 0)"], fitted:["NOTHING - R_d by the rule, f a declared model input"], derived:["Y_k = 10G_0/(C_1c_0^2) = 8.807619e-27 m/kg; R_d: A 18.89 km, B 15.92 km (rule)", "R_src = R sqrt(5f/2): A 3.545e5 km, B 2.501e5 km", "J = f m R^2 Omega: A 4.93e41, B 9.08e40 kg m^2/s", "eta = 0.24818, 1 + (4/3)eta = 1.33091 (as 🔶)"], numerical:["softening eps=0.05", "time multiplier timeScale=1, screen step stepDt=6.99194 (as ✨ - about 360 steps per orbit)", "display magnification dispMag=300 (display only)"]}},
+  parameterAudit:{observedInputs:["G_0=6.674(実 G の値)", "c_0=29979.2458(実 c の値)", "両星の実質量・実半径・実自転と相対軌道の a・e(✨ alphaCenAB の写し —— 🔶 経由)", "初期の位置と速度(🔶 の配置のビット写し・z = v_z = 0)"], fixedConventions:["サンプル別スケール指数(1単位=10^10m/10^6s/10^29kg —— ✨ と同じ)", "physics.coord:\"3d\"(右手系・軌道は z = 0 の面)", "geoPN=3・kFrame=0・λ_PN=0", "慣性引きずり relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\", sourceMoment:{kind:\"J\", f:{0:0.07, 1:0.07}}}, pairs:\"all\", history:\"positions\", initMotion:\"observed\", spinDrag:{rot:\"surfaceFlip\"}}", "局所重力 physics.gLoc:{law:\"kappaC2\"}(n = 2)", "自転軸は +z(軌道の法線 —— 二次元の本の約束)", "q=4.6111・D0=0.006 は ✨ の値のまま(kFrame 0 では走行に効かない)"], fitted:["**無し** —— R_d は規則・f は宣言した模型の入力"], derived:["Y_k = 10G_0/(C_1c_0²) = 8.807619e-27 m/kg・R_d: A 18.89 km・B 15.92 km(規則)", "R_src = R√(5f/2): A 3.545e5 km・B 2.501e5 km", "J = f m R² Ω: A 4.93e41・B 9.08e40 kg m²/s", "η = 0.24818・1 + (4/3)η = 1.33091(🔶 と同じ)"], numerical:["ソフトニング ε=0.05", "時間倍率 timeScale=1・画面の刻み stepDt=6.99194(✨ と同じ —— 1 公転 ≈ 360 步)", "粒子表示倍率 dispMag=300(表示専用)"]},
+  activeParams:["geoPN","dispMag"],
+  camera:{scale:630}, world:{boundary:"none", size:0},
+  timeRef:{basis:"orbit", pRef:2517.09729, pair:[0, 1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(alphaCenAB の B の周期 2517097291.2 s ÷ 10^6 s)", stepsPerOrbit:360, legacyTimeScale:1000},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:4.6111, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9, cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:0.000001, geoPN:3, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:6.99194, dispMag:300, stateCarry:"double", frameWeight:"pull", coord:"3d", relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM", sourceMoment:{kind:"J", f:{"0":0.07, "1":0.07}}}, pairs:"all", history:"positions", initMotion:"observed", spinDrag:{rot:"surfaceFlip"}}, gLoc:{law:"kappaC2"}},
+  bodies:[   // 0 = α Cen A・1 = α Cen B(🔶 の配置のビット写し —— z = v_z = 0・自転は ✨ の転写のまま・軸は +z の既定)
+    {type:"single", m:21.451938, radius:0.084738, x:-242.21323583305934, y:0, vx:0, vy:-0.22376387624389305, spin:4.57371397, pinned:false, pnSource:true, z:0, vz:0},
+    {type:"single", m:18.079442, radius:0.05979336, x:287.3951152845407, y:0, vx:0, vy:0.26550425615036494, spin:2.00723302, pinned:false, pnSource:true, z:0, vz:0}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+{ id:"psrDoubleABInertial3d",
+  name:"二重パルサー J0737−3039A/B(慣性決定力版・三次元)— 天体ごとの観測の自転 obsSpin(軸は欠測)",
+  emoji:"📟",
+  group:"現実較正",
+  familyId:"psr",
+  familyRole:"variant",
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:1, M:27},
+  sampleClass:"principle",
+  referenceKind:"theory-control",
+  fidelity:"real",
+  notClaim:["solar_cal", "binary_geo3"],
+  abBody:{label:{ja:"引きずりと G_loc を切る(両方 OFF —— 重力だけの二体の基線)", en:"drag and G_loc off (both off - the gravity-only two-body baseline)"}, physicsPatch:{relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, enabled:false, pairs:"all", history:"positions"}, gLoc:null}},
+  obsCard:[{q:"何を置いたか", model:"📻 psrDoubleAB と同じ質量・半径・初期の位置と速度(遠点整列・重心系)を z = v_z = 0 の三次元に置いた二体", obs:"—(原理サンプル —— 較正母集団の外)"}, {q:"宣言", model:"geoPN=3・kFrame=0・λ_PN=0・K1 + rdRule \"kappaM\"・G_loc n = 2・spinDrag {rot} + sourceMoment {kind:\"obsSpin\"}", obs:"—"}, {q:"観測の自転 obsSpin(A)", model:"ν = 44.054068642001 Hz・fSrc 0.354・rObs 11.75 km → J = 3.60e40 kg m²/s", obs:"Hu et al. 2022(文献の値 —— 一次資料に当たっていない)"}, {q:"観測の自転 obsSpin(B)", model:"ν = 1/P = 0.36056 Hz(P = 2.77346074724 s)・fSrc 0.346 → J = 2.69e38 kg m²/s", obs:"Kramer et al. 2006(文献の値)"}, {q:"軸(両星)", model:"axis:null —— 観測で決まっていない(欠測)ので J の源に使わない・軌道の法線で埋めない", obs:"A: 軌道との角の 95% 上限 3.2°・B: 40.6°(方位の記録なし)"}, {q:"この本の走り", model:"軸が欠測なので源の J は入らない —— 並進だけの写しと状態のビット同一", obs:"A の軸を軌道の法線と仮定した列は器の中(TBD)"}, {q:"fSrc(模型の入力)", model:"Lattimer & Schutz 2005 の経験式を代理半径 11.75 km に当てた値(A 0.354・B 0.346)", obs:"観測された構造係数ではない・0.4 を補わない"}, {q:"引きずりの半径 R_d = Y_k m(規則)", model:"A 23.44 km・B 21.87 km(観測半径の 1.99 倍・1.86 倍 —— 受理の警告)", obs:"重力半径に比例する長さ(物質半径ではない)"}],
+  descStruct:{summary:"重力(E4)の二体。📻 psrDoubleAB と同じ入力(両星の観測の質量・EOS の代理半径 11.75 km・遠点整列の初期の位置と速度・重心系・両星 free)を z = v_z = 0 の三次元に置き、geoPN=3・kFrame=0・λ_PN=0 で慣性引きずりを K1 + 規則の鍵 rdRule \"kappaM\"(R_d = Y_k m —— 合わせない)・initMotion \"observed\"・G_loc n = 2 で宣言した。両星の観測の自転を**天体ごとの観測の自転の欄 obsSpin**(kind \"omega\"・単位 Hz・明示の fSrc と rObs・出典・元期・座標系)に置き、回転引きずり spinDrag {rot:\"surfaceFlip\"} と源のモーメント sourceMoment {kind:\"obsSpin\"} で源の角運動量 J の経路へつないだ。**観測の J は固定の外部の貯蔵庫**で、状態の自転へは写さない(両星の自転の状態は 0 のまま —— 源の自転の変化と歳差は扱わない)。**両星とも軸は観測で決まっていないので axis:null(欠測)** —— J の源には使わず、この本の走りは並進だけの写しと状態のビット同一。A の軸を軌道の法線と仮定した比較列は器の中に置いた(本の既定にしない)。fSrc は模型の入力(観測された構造係数ではない)。数は正本 tests/out/obsspin-w324b.json。DFM は学習向きの仮定のモデルで、現実の宇宙とは主張しない。", observe:"トレイルで二体の楕円を見る(z = 0 の面)。軸が欠測なので回転の引きずりは入らない —— 軸を仮定した比較列との差は観測カードと正本で見る。", control:"ワンタップの対照は両方 OFF(引きずりなし・G_loc を physicsPatch の gLoc:null で切る —— 重力だけの二体)。比べる相手は 📻 psrDoubleAB(二次元・geo1)と 🔸 alphaCenABInertial3dJ(源の J —— f は模型の入力)。"},
+  en:{name:"Double Pulsar J0737−3039A/B (inertial determinacy, 3D) — per-body observed spin obsSpin (axes missing)", obsCard:[{q:"What is placed", model:"📻 psrDoubleAB's masses, radii, positions and velocities (aphelion-aligned, barycentric) in 3D at z = v_z = 0", obs:"- (a principle sample, outside the calibration population)"}, {q:"Declaration", model:"geoPN=3, kFrame=0, lambda_PN=0; K1 + rdRule \"kappaM\"; G_loc n = 2; spinDrag {rot} + sourceMoment {kind \"obsSpin\"}", obs:"-"}, {q:"Observed spin obsSpin (A)", model:"nu = 44.054068642001 Hz, fSrc 0.354, rObs 11.75 km -> J = 3.60e40 kg m^2/s", obs:"Hu et al. 2022 (literature value - no primary source checked)"}, {q:"Observed spin obsSpin (B)", model:"nu = 1/P = 0.36056 Hz (P = 2.77346074724 s), fSrc 0.346 -> J = 2.69e38 kg m^2/s", obs:"Kramer et al. 2006 (literature value)"}, {q:"Axes (both)", model:"axis:null - not fixed by observation (missing), so not used as a J source and never filled with the orbit normal", obs:"A: 95% upper limit 3.2 deg to the orbit; B: 40.6 deg (no azimuth record)"}, {q:"This book's run", model:"with the axes missing no source J enters - state bit-identical to the translation-only copy", obs:"a column assuming A's axis on the orbit normal is in the harness (TBD)"}, {q:"fSrc (model input)", model:"the Lattimer & Schutz 2005 empirical relation at the 11.75 km proxy radius (A 0.354, B 0.346)", obs:"not an observed structure coefficient; 0.4 is not filled in"}, {q:"Drag radius R_d = Y_k m (rule)", model:"A 23.44 km, B 21.87 km (1.99x and 1.86x the observed radius - acceptance warnings)", obs:"a length proportional to the gravitational radius (not a matter radius)"}], descStruct:{summary:"A two-body under gravity (E4). The same input as 📻 psrDoubleAB (both observed masses, the EOS proxy radius 11.75 km, the aphelion-aligned initial positions and velocities, barycentric, both free) placed in 3D at z = v_z = 0 with geoPN=3, kFrame=0, lambda_PN=0 and the inertial drag declared as K1 with the rule key rdRule \"kappaM\" (R_d = Y_k m - not matched), initMotion \"observed\", G_loc n = 2. Both observed spins sit in the PER-BODY OBSERVED-SPIN FIELD obsSpin (kind \"omega\", unit Hz, explicit fSrc and rObs, source, epoch, frame) and are wired to the source angular momentum J path through the rotational drag spinDrag {rot \"surfaceFlip\"} and the source moment sourceMoment {kind \"obsSpin\"}. THE OBSERVED J IS A FIXED EXTERNAL RESERVOIR and is never written into the state spins (both stay 0 - the source spin's evolution and precession are not treated). NEITHER AXIS IS FIXED BY OBSERVATION, SO BOTH ARE axis:null (MISSING): they are not used as J sources, and this book's run is state bit-identical to the translation-only copy. A comparison column assuming A's axis on the orbit normal sits in the harness (not this book's default). fSrc is a model input (not an observed structure coefficient). Numbers in tests/out/obsspin-w324b.json. DFM is an assumed model for learning, not claimed to be the real universe.", observe:"Watch the two ellipses with the trail (the z = 0 plane). With the axes missing no rotational drag enters - the gap to the assumed-axis column is in the observation card and the canon.", control:"The one-tap control is both off (no drag, G_loc cut by physicsPatch gLoc:null - the gravity-only two-body). Compare with 📻 psrDoubleAB (2D, geo1) and 🔸 alphaCenABInertial3dJ (source J - f a model input)."}, parameterAudit:{observedInputs:["G_0=6.674 (the real G value)", "c_0=2997.92458 (the real c value - the L-T=5 relativistic-binary family)", "both observed masses and the relative orbit a, e (copied from 📻 psrDoubleAB - Hu et al. 2022)", "the initial positions and velocities (a bit copy of 📻's aphelion-aligned placement, z = v_z = 0)", "A's spin frequency nu = 44.054068642001 Hz (Hu et al. 2022) and B's spin period P = 2.77346074724 s (Kramer et al. 2006) - literature values, no primary source checked"], fixedConventions:["per-sample scale exponents (1 unit = 10^6 m / 10^1 s / 10^27 kg - the L-T=5 family, as 📻)", "physics.coord 3d (right-handed; the orbit in the z = 0 plane, +z the initial orbital angular momentum)", "geoPN=3, kFrame=0, lambda_PN=0", "inertial drag relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\", sourceMoment:{kind:\"obsSpin\"}}, pairs:\"all\", history:\"positions\", initMotion:\"observed\", spinDrag:{rot:\"surfaceFlip\"}}", "local gravity physics.gLoc:{law:\"kappaC2\"} (n = 2)", "per-body obsSpin (kind omega, unit Hz, frame book, axis null - missing); state spins 0", "rObs = the EOS proxy 11.75 km (no direct radius observation)", "q=3.1789 and D0=0.006 kept from 📻 (no effect at kFrame 0)"], fitted:["NOTHING - R_d by the rule, fSrc a declared model input"], derived:["Y_k = 10G_0/(C_1c_0^2); R_d: A 23.44 km, B 21.87 km (rule)", "eta = 0.24970, 1 + (4/3)eta = 1.33294", "J = fSrc m rObs^2 omega: A 3.60e40, B 2.69e38 kg m^2/s (axes missing - not used as sources)", "fSrc = 0.237 (1 + 4.2x + 90x^4), x = (M/Msun)(km/R) (the Lattimer & Schutz 2005 empirical relation - a literature value)"], numerical:["softening eps=0.05", "time multiplier timeScale=1, screen step stepDt=2.45404 (as 📻 - about 360 steps per orbit)", "display magnification dispMag=1000 (display only)"]}},
+  parameterAudit:{observedInputs:["G_0=6.674(実 G の値)", "c_0=2997.92458(実 c の値 —— L−T=5 の相対論的連星族)", "両星の観測の質量と相対軌道の a・e(📻 psrDoubleAB の写し —— Hu et al. 2022)", "初期の位置と速度(📻 の遠点整列の配置のビット写し・z = v_z = 0)", "A の自転の振動数 ν = 44.054068642001 Hz(Hu et al. 2022)・B の自転の周期 P = 2.77346074724 s(Kramer et al. 2006)—— 文献の値(一次資料に当たっていない)"], fixedConventions:["サンプル別スケール指数(1単位=10^6m/10^1s/10^27kg —— L−T=5 の族・📻 と同じ)", "physics.coord:\"3d\"(右手系・軌道は z = 0 の面・+z は初期の軌道角運動量の向き)", "geoPN=3・kFrame=0・λ_PN=0", "慣性引きずり relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\", sourceMoment:{kind:\"obsSpin\"}}, pairs:\"all\", history:\"positions\", initMotion:\"observed\", spinDrag:{rot:\"surfaceFlip\"}}", "局所重力 physics.gLoc:{law:\"kappaC2\"}(n = 2)", "天体ごとの obsSpin(kind omega・unit Hz・frame book・axis null —— 欠測)・状態の自転は 0", "rObs = EOS の代理 11.75 km(直接の半径の観測ではない)", "q=3.1789・D0=0.006 は 📻 の値のまま(kFrame 0 では走行に効かない)"], fitted:["**無し** —— R_d は規則・fSrc は宣言した模型の入力"], derived:["Y_k = 10G_0/(C_1c_0²)・R_d: A 23.44 km・B 21.87 km(規則)", "η = 0.24970・1 + (4/3)η = 1.33294", "J = fSrc m rObs² ω: A 3.60e40・B 2.69e38 kg m²/s(軸が欠測なので源に使わない)", "fSrc = 0.237(1 + 4.2x + 90x⁴)・x = (M/M☉)(km/R)(Lattimer & Schutz 2005 の経験式 —— 文献の値)"], numerical:["ソフトニング ε=0.05", "時間倍率 timeScale=1・画面の刻み stepDt=2.45404(📻 と同じ —— 1 公転 ≈ 360 步)", "粒子表示倍率 dispMag=1000(表示専用)"]},
+  activeParams:["geoPN","dispMag"],
+  camera:{scale:1100}, world:{boundary:"none", size:0},
+  timeRef:{basis:"orbit", pRef:883.453472, pair:[0, 1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(psrDoubleAB の B の周期 8834.53472328 s ÷ 10^1 s)", stepsPerOrbit:360, legacyTimeScale:300},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:3.1789, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.42582647410185e-7, cLight:2997.92458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:0.000001, geoPN:3, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:2.45404, dispMag:1000, stateCarry:"double", frameWeight:"pull", coord:"3d", relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM", sourceMoment:{kind:"obsSpin"}}, pairs:"all", history:"positions", initMotion:"observed", spinDrag:{rot:"surfaceFlip"}}, gLoc:{law:"kappaC2"}},
+  bodies:[   // 0 = A(パルサー 22.7 ms)・1 = B(パルサー 2.77 s)—— 📻 の配置のビット写し(z = v_z = 0・自転の状態は 0 のまま —— 観測の自転は obsSpin の欄だけ。📻 の B の二次元の表示の軸は写さない)
+    {type:"single", m:2660.982861, radius:0.01175, x:-461.48618600827865, y:0, vx:0, vy:-2.763093948239957, spin:0, pinned:false, pnSource:true, z:0, vz:0,
+     obsSpin:{kind:"omega", omega:44.054068642001, unit:"Hz", fSrc:0.354, rObs:11750, axis:null, frame:"book",
+       source:"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+       epoch:"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
+       note:"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)"}},
+    {type:"single", m:2483.370041, radius:0.01175, x:494.49208586803894, y:0, vx:0, vy:2.9607128692905675, spin:0, pinned:false, pnSource:true, z:0, vz:0,
+     obsSpin:{kind:"omega", omega:0.360560358027474, unit:"Hz", fSrc:0.346, rObs:11750, axis:null, frame:"book",   // omega = 1/P_B(P_B = 2.77346074724 s)
+       source:"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(SOL-649c64b4 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+       epoch:"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)",
+       note:"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・SOL-912f7aa2)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)"}}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+// ==== 第324便b の塊(ここまで)====
 
 // ===== 第220便(第19報 原仮定者指示): 二重パルサー PSR J0737−3039A/B — 観測値再現版 📻 と DFM 版 ⚡ =====
 // 観測レコード(2026-08-27 取得・paper/data/solar-observations.csv の PSR 行)からの手組み転写。
@@ -27981,6 +28244,9 @@ function validatePreset(obj){
       if(b.spinAxis!==undefined && b.type!=="single") warnings.push(reasonText("validatePreset/msg#87", at));
       if(b.dragCore!==undefined && b.type!=="single") warnings.push(reasonText("validatePreset/msg#88", at));
       if(b.j2!==undefined && b.type!=="single") warnings.push(reasonText("validatePreset/msg#89", at));
+      // ==== 第324便b の塊(ここから)====
+      if(b[OBS_SPIN_KEY]!==undefined && b.type!=="single"){ bad(reasonText("validatePreset/obsSpin#6", idx)); return; }   // 第324便b(AN515): obsSpin は single 専用(黙って落とさない)
+      // ==== 第324便b の塊(ここまで)====
       // 第64便 64B(A9″): microSpinRms — 内部スピン揺らぎの RMS √⟨δs²⟩ による初期温度指定。
       // T_int = σ_s²(A9″)の別表記なので、受理時に tInt = rms² へ正規化する(正本状態は従来どおり
       // tInt — 全 body 型に共通なので型分岐の前で1回だけ処理する)。値域 [0,100] は tInt の
@@ -28138,6 +28404,9 @@ function validatePreset(obj){
           const sa=spinAxisValidate(b.spinAxis, at, warnings);
           if(sa) o.spinAxis=sa;
         }
+        // ==== 第324便b の塊(ここから)====
+        if(b[OBS_SPIN_KEY]!==undefined){ const ov=validateObsSpinBody(b[OBS_SPIN_KEY]); if(!ov.ok){ bad(at+"."+ov.err); return; } o[OBS_SPIN_KEY]=ov.obsSpin; }   // 第324便b(AN515): 天体ごとの観測の自転(single 専用 —— 未宣言はキーが無い = 署名も挙動も 1 bit 不変)
+        // ==== 第324便b の塊(ここまで)====
         // 第259便b(第51報 W2): layers — 親子コア(同心層)。**single 専用**・不正は layers だけを落とす。
         // 受理されると (a) `_core` へ渡す根 1 粒子の質量は従来どおり body.m(= Σ層 m)のままで、
         // (b) 層の**差分**(有限半径の球殻内部の 0 化)だけが `S._core` の**外**の 1 パス
@@ -29394,6 +29663,9 @@ function validatePreset(obj){
     }
     if(!errors.length && sm.kind===REL_DRAG_INVSQ_SRC_MOMENT_KINDS[2] && !(p.scaleExp && isNum(p.scaleExp.L) && isNum(p.scaleExp.M))) bad(reasonText("validatePreset/physics.relativeDrag.invSq.sourceMoment#2"));
   }
+  // ==== 第324便b の塊(ここから)====
+  if(!errors.length && Array.isArray(p.bodies)){ const osx=obsSpinCrossCheck(p); if(osx) bad(osx); }   // 第324便b(AN515): 観測の自転の突き合わせ(三次元・scaleExp・源の経路 —— 宣言の無い本は null)
+  // ==== 第324便b の塊(ここまで)====
   if(!errors.length && p.physics && p.physics[REL_DRAG_KEY] && p.physics[REL_DRAG_KEY][DRAG_CORE_DEFAULT_KEY]!==undefined && !(p.scaleExp && isNum(p.scaleExp.L)))
     bad(reasonText("validatePreset/physics.relativeDrag.dragCoreDefault"));
   // 第312便b(R231): galaxyAxial.rdPow 1・2 で refRadius を省略した本は物理の単位の宣言が要る(R_ref の既定 6.5×10⁶ m を本の長さの単位へ換算する)
@@ -30908,6 +31180,9 @@ function makeSim(){
     inertialDragLenPrepare(S,preset);   // 第309便a(AN363): dragCore の既定を宣言した本だけ本の長さの SI の倍率 10^L を控える(宣言の無い本は鍵を作らない)   // 第301便b(R180): 近似多粒子の対のマスク(三次元で宣言した本だけ S._amKind —— それ以外は null。引きずりの辺は下の updateRadii → inertialDragInit が読む)
     gLocPrepare(S,preset);   // 第302便b(R187): 局所重力 G_loc(三次元で宣言した本だけ S._gLoc —— 宣言の無い本は null)
     j2Prepare(S,P);   // 第305便c(R201): 三次元の J₂(三次元で宣言した本だけ S._j2 —— 宣言の無い本は null)
+    // ==== 第324便b の塊(ここから)====
+    obsSpinPrepare(S,preset,rows3);   // 第324便b(AN515): 天体ごとの観測の自転(三次元で宣言した本だけ S._rdObsSpin —— 宣言の無い本は鍵を作らない)
+    // ==== 第324便b の塊(ここまで)====
     S.params = fastParams(phys);   // 第250便e
     // 第31便: UniverseBox(連続背景)— 未指定キーは既定値で正規化(builtin は明示値を持つ)
     const BU=preset.universeBox;
@@ -60089,6 +60364,9 @@ function inertialDragIsqSrcMoment(S,n,kap,RA){
   if(!sm || !(kap>0)){ if(S._rdIsqRs) S._rdIsqRs=null; return; }
   if(!S._rdIsqRs || S._rdIsqRs.length<n) S._rdIsqRs=new Float64Array(Math.max(n, S.m.length));
   const RS=S._rdIsqRs, RD=S._rdIsqRd, D=S.dragCoreD||null, F=sm.f||null, Q=S._rdRuleSI||null, capL=(Q && Q.lenSI>0)? DRAG_CORE_DEFAULT_CAP_M/Q.lenSI : 0;
+  // ==== 第324便b の塊(ここから)====
+  if(sm.kind===OBS_SPIN_SRC_KIND){ obsSpinSrcRadii(S,n,RS,RD,RA); return; }   // 第324便b(AN515): 源の R_src は天体の観測の自転から(使える天体だけ —— 他は R_d)
+  // ==== 第324便b の塊(ここまで)====
   for(let j=0;j<n;j++){
     RS[j]=RD[j];
     if(!(RD[j]>0) || (D && D[j]) || !(RA[j]>0)) continue;
@@ -60106,6 +60384,9 @@ function inertialDragIsqSrcMoment(S,n,kap,RA){
 //   σ(â_c)(ω_core·â_c) + σ(â_j)(ω_shell·â_j)(各部分を自分の軸へ射影 —— 第302便e の正準化をそれぞれに)。並進 β は変えない(核の自転は回転と軸だけ)。
 //   宣言の無い源・宣言の無い本は今の経路をそのまま通る(作業は宣言のある本だけ S._rdIsqCs —— 步の頭で宣言から作り直す・状態ではない)。cnt = 宣言した源の数
 function inertialDragIsqCoreSpin(S,n){
+  // ==== 第324便b の塊(ここから)====
+  if(obsSpinCoreSpin(S,n)) return;   // 第324便b(AN515): kind "obsSpin" の本は源の宣言の一定のベクトルを観測の自転から(宣言の無い本は false で下の今の経路)
+  // ==== 第324便b の塊(ここまで)====
   const D=S.dragCoreD||null;
   let any=false;
   if(D) for(let j=0;j<n && j<D.length;j++){ const d=D[j]; if(d && (d.spin!==undefined || d.spinAxis!==undefined)){ any=true; break; } }
@@ -60513,6 +60794,10 @@ function inertialDragIsqState(S,opt){
       shellSpin:S.spin[j], shellAxis:[S.sax[j],S.say[j],S.saz[j]]}); }
   { const rx=inertialDragIsqRdExcessRows(S,T,n); if(rx.length) res.radiusExcess={version:REL_DRAG_RD_EXCESS_VERSION, bodies:rx}; }   // 第314便a(AN404): 超過がある本だけ(無い本は欄を足さない)
   if(rd[REL_DRAG_INVSQ_KEY][REL_DRAG_INVSQ_SRC_MOMENT_KEY]) res.sourceMoment=inertialDragIsqSrcMomentState(S,T,n);   // 第320便a(R262): 源のモーメントの半径(宣言した本だけ —— 無い本は欄を足さない)
+  // ==== 第324便b の塊(ここから)====
+  if(res.coreSpin && T._rdIsqCs && T._rdIsqCs.obs){ res.coreSpin.model="obsSpin-fixed-external-reservoir"; res.coreSpin.from="bodies[].obsSpin"; }   // 第324便b: 源の一定のベクトルは観測の自転(dragCore の自転ではない)
+  if(S._rdObsSpin) res.obsSpin=obsSpinState(S);
+  // ==== 第324便b の塊(ここまで)====
   return res;
 }
 // 第320便a(AN471・R262): 源のモーメントの半径の読み口(状態を 1 bit も動かさない —— T は同じ步の頭で作り直した写し)。天体ごとの R_d・R_obs(宣言の半径)・f・R_src・
@@ -65873,6 +66158,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     defs:TIME_REF_DEFS, appStepDt, appStepFn, validateTimeRef, timeStdOf, revert:timeStdRevert, hudLine:()=>timeStdHudLine(), tickCap:HP_TICK_CAP } };
 // 第316便b(統括の検証項目 R247): サンプルの説明の前半の文の世代の印(QA の世代切替が読む —— 表示の文だけの版)
 window.HP.PRESET_TEXT_CLEAN_A_VERSION=PRESET_TEXT_CLEAN_A_VERSION;
+// ==== 第324便b の塊(ここから)====
+// 第324便b(決断事項 AN515・統括の検証項目 R280): 天体ごとの観測の自転 obsSpin の読み口(器 tests/exp-w324b-obsspin.mjs・QA behavior.obsSpin324b が読む —— 読むだけ)
+window.HP.obsSpin={ version:OBS_SPIN_VERSION, key:OBS_SPIN_KEY, srcKind:OBS_SPIN_SRC_KIND, keys:OBS_SPIN_KEYS, kinds:OBS_SPIN_KINDS, units:OBS_SPIN_UNITS, frames:OBS_SPIN_FRAMES, fMax:OBS_SPIN_F_MAX,
+  validate:validateObsSpinBody, usable:obsSpinUsable, rowOf:obsSpinRowOf, crossCheck:obsSpinCrossCheck, state:obsSpinState, srcOn:obsSpinSrcOn };
+// ==== 第324便b の塊(ここまで)====
 
 // ===== 起動 =====
 applyUiScale();   // v1.17: 文字サイズ設定の反映(hp_uiscale 永続)
