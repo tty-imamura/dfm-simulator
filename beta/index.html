@@ -4303,7 +4303,7 @@ const ACCEPT_REASONS = {
   "validatePreset/physics.relativeDrag.invSq.sourceMoment#3": (a0, a1, a2, a3)=>'physics.relativeDrag.invSq.sourceMoment.f の添字 '+a0+' の天体より前の bodies['+a1+'](type:"'+a2+'"・n = '+a3+')が 1 粒子でない —— 前方の群の展開で天体と粒子の添字が一致しない(f は天体の添字・実行は展開後の粒子の添字で読む —— f を置く天体は、1 粒子でない群より前に並べる)',
   // ==== 第324便b の塊(ここから)====
   // 第324便b(決断事項 AN515・統括の検証項目 R280): 天体ごとの観測の自転 obsSpin の受理の文
-  "validateObsSpinBody/obsSpin": 'obsSpin は {kind:"omega", omega, unit:"rad/s"|"Hz", fSrc, rObs, axis:[x,y,z]|null, frame:"book", source, epoch, note?} か {kind:"J", J, unit:"kg m^2/s", axis:[x,y,z]|null, frame, source, epoch, note?} か {kind:"J", Jvec:[Jx,Jy,Jz], unit, frame, source, epoch, note?}(観測の自転 —— 源の角運動量の読み取り専用の入力・S.spin へ写さない)',
+  "validateObsSpinBody/obsSpin": 'obsSpin は {kind:"omega", omega, unit:"rad/s"|"Hz", fSrc, rObs, axis:[x,y,z]|{ref:"orbitNormal", …}|null, frame:"book", source, epoch, note?} か {kind:"J", J, unit:"kg m^2/s", axis:[x,y,z]|{ref:"orbitNormal", …}|null, frame, source, epoch, note?} か {kind:"J", Jvec:[Jx,Jy,Jz], unit, frame, source, epoch, note?}(観測の自転 —— 源の角運動量の読み取り専用の入力・S.spin へ写さない)',
   "validateObsSpinBody/obsSpin#2": (a0)=>'obsSpin の未知の鍵 '+a0+'(黙って落とさない —— 欄の値を状態の自転 S.spin へ写す宣言も受けない)',
   "validateObsSpinBody/obsSpin.kind": 'obsSpin.kind は "J"(角運動量)か "omega"(観測の自転の角速度 + 明示の fSrc と rObs)—— 排他',
   "validateObsSpinBody/obsSpin.unit": (a0, a1)=>'obsSpin.unit は kind "'+a0+'" では "'+a1+'"(rad/s と Hz は別 —— Hz は自転の振動数 ν で ω = 2πν)',
@@ -4316,8 +4316,8 @@ const ACCEPT_REASONS = {
   "validateObsSpinBody/obsSpin.fSrc": 'obsSpin.fSrc(源の慣性係数 I/(m R²))を明示する(既定の値を補わない —— 0.4 も置かない)',
   "validateObsSpinBody/obsSpin.fSrc#2": 'obsSpin.fSrc は 0 < f ≤ 2/3(球対称・宣言半径の内の模型としての制約 —— 薄い球殻の上限 2/3)',
   "validateObsSpinBody/obsSpin.rObs": 'obsSpin.rObs(観測半径 —— SI の m)は正の数',
-  "validateObsSpinBody/obsSpin.axis": 'obsSpin.axis の鍵が要る(向き [x,y,z] —— 観測で決まっていなければ null と書く〔欠測 —— J の源に使わない〕)',
-  "validateObsSpinBody/obsSpin.axis#2": 'obsSpin.axis は長さ 0 でない 3 成分の配列か null(欠測)',
+  "validateObsSpinBody/obsSpin.axis": 'obsSpin.axis の鍵が要る(向き [x,y,z] か傾きの形 {ref:"orbitNormal", pair, tiltDeg, azimuthDeg, sense?, source} —— 傾きが観測か推定の天体はその値・不明な成分はノブ〔basis:"knob"〕・null は欠測〔J の源に使わない〕)',
+  "validateObsSpinBody/obsSpin.axis#2": 'obsSpin.axis は長さ 0 でない 3 成分の配列か傾きの形 {ref:"orbitNormal", …} か null(欠測)',
   "validateObsSpinBody/obsSpin.twoForms": 'obsSpin の kind "J" は大きさ J + 軸 axis か直接のベクトル Jvec の一方だけ(二つの形を同時に受けない)',
   "validateObsSpinBody/obsSpin.Jvec": 'obsSpin.Jvec は長さ 0 でない 3 成分の配列(SI の kg m^2/s)',
   "validateObsSpinBody/obsSpin.J": 'obsSpin.J は正の数(角運動量の大きさ —— SI の kg m^2/s)',
@@ -4329,6 +4329,27 @@ const ACCEPT_REASONS = {
   "validatePreset/obsSpin#6": (a0)=>'bodies['+a0+'].obsSpin は single の天体だけ',
   "validateInvSq/physics.relativeDrag.invSq.sourceMoment.obsSpin": 'physics.relativeDrag.invSq.sourceMoment の kind:"obsSpin" は f を持たない(源の慣性係数は天体ごとの obsSpin.fSrc —— 源の回転と軸のモーメントは天体の観測の自転の J ベクトルから)',
   // ==== 第324便b の塊(ここまで)====
+  // ==== 第324便e の塊(ここから)====
+  // 第324便e(原仮定者の回答(2026-11-02 —— AN521)・統括の検証項目 R283): obsSpin.axis の傾きの形(軌道の法線から測った傾き・方位・向き —— 観測/推定/ノブの区別)の受理の文
+  "validateObsSpinAxis/key": (a0)=>'obsSpin.axis の傾きの形の未知の鍵 '+a0+'(ref・pair・tiltDeg・azimuthDeg・sense・source・note だけ)',
+  "validateObsSpinAxis/ref": 'obsSpin.axis.ref は "orbitNormal"(軌道の法線 —— pair の二体の初期の相対の角運動量の向き)',
+  "validateObsSpinAxis/pair": 'obsSpin.axis.pair は異なる 2 つの天体の添字 [i, j](軌道の法線を決める二体 —— 配列の先頭を黙って使わない)',
+  "validateObsSpinAxis/source": 'obsSpin.axis.source(傾きの出典の文字列 —— ノブの成分は「模型の入力」と書く)が要る',
+  "validateObsSpinAxis/note": 'obsSpin.axis の note は文字列',
+  "validateObsSpinAxis/comp": (a0)=>'obsSpin.axis.'+a0+' が要る({deg か sign, basis:"observed"|"estimated"|"knob", …} —— 傾き tiltDeg と方位 azimuthDeg は必須・向き sense は任意)',
+  "validateObsSpinAxis/comp#2": (a0, a1)=>'obsSpin.axis.'+a0+' の未知の鍵 '+a1,
+  "validateObsSpinAxis/basis": (a0)=>'obsSpin.axis.'+a0+'.basis は "observed"(観測)・"estimated"(推定)・"knob"(ノブ —— 観測でない模型の入力)のどれか',
+  "validateObsSpinAxis/value": (a0, a1, a2)=>'obsSpin.axis.'+a0+' の値は '+a1+'〜'+a2+' の数(度)',
+  "validateObsSpinAxis/sign": (a0)=>'obsSpin.axis.'+a0+' の sign は +1 か −1(−1 は傾き 180° − tiltDeg の読み)',
+  "validateObsSpinAxis/knob": (a0)=>'obsSpin.axis.'+a0+' はノブ —— 既定 default と範囲 min・max が必須(min < max・既定と値は範囲の内)',
+  "validateObsSpinAxis/knob#2": (a0)=>'obsSpin.axis.'+a0+' はノブ —— 観測・推定の不確かさの鍵(sigmaDeg・upperDeg・level)を置かない(ノブの値を観測と呼ばない)',
+  "validateObsSpinAxis/est": (a0)=>'obsSpin.axis.'+a0+' は観測か推定 —— ノブの鍵(default・min・max)を置かない',
+  "validateObsSpinAxis/unc": (a0)=>'obsSpin.axis.'+a0+' の不確かさは sigmaDeg・upperDeg が 0 以上の数・level が 0 < level < 100(上限 upperDeg を置くなら値は上限の内・向き sense には置かない)',
+  "validatePreset/obsSpin.axis": (a0, a1)=>'bodies['+a0+'].obsSpin.axis.pair の天体 bodies['+a1+'] が無いか single でない(軌道の法線は single の二体の初期の位置と速度から)',
+  "validatePreset/obsSpin.axis#2": (a0)=>'bodies['+a0+'].obsSpin.axis.pair の二体の初期の相対の角運動量が 0 —— 軌道の法線が決まらない',
+  "obsSpinWithKnob/knob": (a0, a1)=>'bodies['+a0+'].obsSpin.axis.'+a1+' はノブでない(観測か推定の成分は変えない)か、宣言が無い',
+  "obsSpinWithKnob/range": (a0, a1, a2)=>'ノブ '+a0+' の値は範囲 '+a1+'〜'+a2+' の内',
+  // ==== 第324便e の塊(ここまで)====
   "validateRelativeDragInvSq/msg": '{rot, axial, axialModel?, axialGain?, axialNorm?, axisHold?}',
   "validateRelativeDragInvSq/msg#2": (a0)=>'未知の鍵 '+a0,
   "validateRelativeDragInvSq/rot": 'rot は "surfaceFlip"(回転引きずり —— 源の球の M2)か "off"',
@@ -9345,7 +9366,7 @@ function inertialDragIsqSrcRadiusOf(kind, Robs, f, capL){
 //   **axis:null の天体は源にしない**(R_src = R_d・Ω は状態の S.spin のまま —— NS の本は 0)。実行は第311便a の dragCore の自転と軸の作業 S._rdIsqCs(源ごとの宣言の一定の
 //   ベクトル Ω_c・â_c —— 核の係数 RVC・軸の OPC)を同じ式で使う(inertialDragIsqNodeK1・inertialDragIsqBuild・inertialDragIsqEvalK1 は 1 字も変えない)。
 //   受け手の慣性 I・状態の自転 S.spin・軸 S.sax/say/saz は読まない・書かない(観測の J は源の側だけの入力)。式と測定は docs/PHYSICS.md〔第324便b〕・器 tests/exp-w324b-obsspin.mjs
-const OBS_SPIN_KEY="obsSpin", OBS_SPIN_VERSION="w324b-obsspin-1", OBS_SPIN_SRC_KIND="obsSpin";
+const OBS_SPIN_KEY="obsSpin", OBS_SPIN_VERSION="w324e-obsspin-2", OBS_SPIN_SRC_KIND="obsSpin";   // 第324便e(AN521): 版 2 —— axis に傾きの形(観測/推定/ノブ)を足した
 const OBS_SPIN_KEYS=["kind","J","Jvec","omega","fSrc","rObs","axis","unit","frame","source","epoch","note"], OBS_SPIN_KINDS=["J","omega"];
 const OBS_SPIN_UNITS={J:["kg m^2/s"], omega:["rad/s","Hz"]}, OBS_SPIN_FRAMES=["book"], OBS_SPIN_F_MAX=2/3;
 // 受理(天体の段 —— single の天体の宣言 raw.obsSpin)。戻り値 {ok, obsSpin}(正準形 —— 鍵の順は OBS_SPIN_KEYS・axis は単位ベクトル)か {ok:false, err}
@@ -9363,6 +9384,7 @@ function validateObsSpinBody(a){
   const axisOf=()=>{   // null(欠測)か長さ > 0 の 3 成分 → 単位ベクトル。不正は undefined
     if(a.axis===null) return null;
     const v=a.axis;
+    if(v && typeof v==="object" && !Array.isArray(v)){ const r=obsSpinAxisTiltOf(v); return r.ok? r.axis : r; }   // 第324便e(AN521): 傾きの形(正準形の object —— 不正は {ok:false, err})
     if(!Array.isArray(v) || v.length!==3 || !v.every(isNum)) return undefined;
     const n=Math.hypot(v[0],v[1],v[2]);
     return (n>0 && Number.isFinite(n))? [v[0]/n, v[1]/n, v[2]/n] : undefined;
@@ -9376,6 +9398,7 @@ function validateObsSpinBody(a){
     if(!(isNum(a.rObs) && a.rObs>0)) return bad(reasonText("validateObsSpinBody/obsSpin.rObs"));
     if(!Object.prototype.hasOwnProperty.call(a,"axis")) return bad(reasonText("validateObsSpinBody/obsSpin.axis"));
     const ax=axisOf(); if(ax===undefined) return bad(reasonText("validateObsSpinBody/obsSpin.axis#2"));
+    if(ax && ax.ok===false) return bad(ax.err);   // 第324便e(AN521): 傾きの形の拒否の理由
     o.omega=a.omega; o.fSrc=a.fSrc; o.rObs=a.rObs; o.axis=ax;
   } else {
     if(has("omega") || has("fSrc") || has("rObs")) return bad(reasonText("validateObsSpinBody/obsSpin.exclusive", "J", "omega, fSrc, rObs"));
@@ -9389,6 +9412,7 @@ function validateObsSpinBody(a){
       if(!(isNum(a.J) && a.J>0)) return bad(reasonText("validateObsSpinBody/obsSpin.J"));
       if(!Object.prototype.hasOwnProperty.call(a,"axis")) return bad(reasonText("validateObsSpinBody/obsSpin.axis"));
       const ax=axisOf(); if(ax===undefined) return bad(reasonText("validateObsSpinBody/obsSpin.axis#2"));
+      if(ax && ax.ok===false) return bad(ax.err);   // 第324便e(AN521): 傾きの形の拒否の理由
       o.J=a.J; o.axis=ax;
     }
   }
@@ -9398,11 +9422,12 @@ function validateObsSpinBody(a){
   return {ok:true, obsSpin:out};
 }
 // 観測の自転が源に使えるか(軸が欠測でない —— Jvec は向きを持つ)
-function obsSpinUsable(os){ return !!os && (Array.isArray(os.Jvec) || Array.isArray(os.axis)); }
+function obsSpinUsable(os){ return !!os && (Array.isArray(os.Jvec) || Array.isArray(os.axis) || obsSpinAxisIsTilt(os.axis)); }   // 第324便e(AN521): 傾きの形も使える(向きは build で軌道の法線から)
 // SI の観測の値 → 本の単位(scaleExp {L, T, M} —— 1 単位 = 10^L m・10^T s・10^M kg)。m は本の質量(宣言の値)。戻り値は読み口と步の作業が使う 1 天体の行
 function obsSpinRowOf(os, m, sx){
-  const Ls=Math.pow(10,sx.L), Ts=Math.pow(10,sx.T), Ms=Math.pow(10,sx.M), mSI=m*Ms, usable=obsSpinUsable(os);
-  const row={kind:os.kind, unit:os.unit, missing:!usable, axis:os.Jvec? null : (os.axis? os.axis.slice() : null), JSI:null, JvecSI:null, Jbook:null, RsrcBook:null, omegaBook:null, omegaSI:null};
+  const Ls=Math.pow(10,sx.L), Ts=Math.pow(10,sx.T), Ms=Math.pow(10,sx.M), mSI=m*Ms;
+  let usable=obsSpinUsable(os);
+  const row={kind:os.kind, unit:os.unit, missing:!usable, axis:os.Jvec? null : (Array.isArray(os.axis)? os.axis.slice() : null), JSI:null, JvecSI:null, Jbook:null, RsrcBook:null, omegaBook:null, omegaSI:null};   // 第324便e: 傾きの形は呼び手(obsSpinPrepare)が向きへ解いてから渡す
   if(os.kind==="omega"){
     const w=(os.unit==="Hz")? 2*Math.PI*os.omega : os.omega;
     row.omegaSI=w; row.omegaBook=w*Ts; row.RsrcBook=(os.rObs/Ls)*Math.sqrt(2.5*os.fSrc); row.JSI=os.fSrc*mSI*os.rObs*os.rObs*w;
@@ -9411,6 +9436,7 @@ function obsSpinRowOf(os, m, sx){
     row.JSI=J; if(v) row.axis=[v[0]/J, v[1]/J, v[2]/J];
   }
   row.Jbook=row.JSI*Ts/(Ms*Ls*Ls);
+  if(usable && !row.axis){ row.missing=true; usable=false; }   // 第324便e: 向きへ解けていない傾きの形は欠測として扱う(源にしない)
   if(usable) row.JvecSI=[row.JSI*row.axis[0], row.JSI*row.axis[1], row.JSI*row.axis[2]];
   return row;
 }
@@ -9427,6 +9453,7 @@ function obsSpinCrossCheck(p){
     if(dc>=0) return reasonText("validatePreset/obsSpin#3", dc);
     for(const k of idx){ const b=bs[k]; if(!(isNum(b.radius) && b.radius>0)) return reasonText("validatePreset/obsSpin#5", k); }
   }
+  { const r=obsSpinAxisCrossCheck(bs, idx); if(r) return r; }   // 第324便e(AN521): 傾きの形の pair(single の二体・初期の相対の角運動量が 0 でない)
   return null;
 }
 // build(三次元の本だけ —— rows3[k] は粒子 k を作った宣言の行): obsSpin を宣言した single の粒子の行を S._rdObsSpin へ(宣言の無い本は鍵を作らない —— build の頭の
@@ -9437,7 +9464,7 @@ function obsSpinPrepare(S, preset, rows3){
   for(let k=0;k<rows3.length;k++){ const b=rows3[k]; if(b && b.type==="single" && b.obsSpin){ any=true; break; } }
   if(!any) return;
   const A=new Array(rows3.length).fill(null);
-  for(let k=0;k<rows3.length;k++){ const b=rows3[k]; if(b && b.type==="single" && b.obsSpin) A[k]=Object.assign({decl:b.obsSpin}, obsSpinRowOf(b.obsSpin, b.m, preset.scaleExp)); }
+  for(let k=0;k<rows3.length;k++){ const b=rows3[k]; if(b && b.type==="single" && b.obsSpin) A[k]=Object.assign({decl:b.obsSpin}, obsSpinRowOf(obsSpinAxisResolved(b.obsSpin, preset.bodies), b.m, preset.scaleExp), obsSpinAxisInfo(b.obsSpin)); }   // 第324便e(AN521): 傾きの形は軌道の法線から向きへ解く(宣言は decl のまま)
   S._rdObsSpin=A;
 }
 // 本が源の J の経路(sourceMoment kind "obsSpin")を宣言しているか
@@ -9483,13 +9510,143 @@ function obsSpinState(S){
     const md=(S._rdIsqMd && S._rdIsqMd[i]>0)? S._rdIsqMd[i] : null, rd=(S._rdIsqRd && S._rdIsqRd[i]>0)? S._rdIsqRd[i] : null;
     const Rs=(O.kind==="omega")? O.RsrcBook : rd, Om=(O.kind==="omega")? O.omegaBook : ((md && rd)? O.Jbook/(0.4*md*rd*rd) : null);
     rows.push({i, kind:O.kind, unit:O.unit, missing:O.missing, usedAsSource:on && !O.missing, axis:O.axis? O.axis.slice() : null, JSI:O.JSI, JvecSI:O.JvecSI? O.JvecSI.slice() : null,
-      Jbook:O.Jbook, RsrcBook:Rs, omegaSrcBook:Om, omegaSI:O.omegaSI, stateSpin:S.spin[i], decl:Object.assign({}, O.decl)});
+      Jbook:O.Jbook, RsrcBook:Rs, omegaSrcBook:Om, omegaSI:O.omegaSI, stateSpin:S.spin[i], decl:Object.assign({}, O.decl),
+      axisForm:O.axisForm, axisBasis:O.axisBasis? Object.assign({}, O.axisBasis) : null, normal:O.normal? O.normal.slice() : null});   // 第324便e(AN521): 軸の形(vector・Jvec・tilt・missing)と成分の basis
   }
   return {version:OBS_SPIN_VERSION, srcKind:on? OBS_SPIN_SRC_KIND : null, reservoir:"fixed-external", rows,
-    rule:"観測の J は固定の外部の貯蔵庫(宣言の一定のベクトル —— 步で進めない)。軸が欠測(axis:null)の天体は源にしない。S.spin・軸・慣性には写さない",
-    ruleEn:"The observed J is a fixed external reservoir (a declared constant vector - never advanced). A body with a missing axis (axis:null) is not a source. Nothing is written into S.spin, the axes or the inertia."};
+    rule:"観測の J は固定の外部の貯蔵庫(宣言の一定のベクトル —— 步で進めない)。軸が欠測(axis:null)の天体は源にしない。傾きの形の軸は軌道の法線から向きへ解く(観測・推定・ノブの成分を区別して持つ)。S.spin・軸・慣性には写さない",
+    ruleEn:"The observed J is a fixed external reservoir (a declared constant vector - never advanced). A body with a missing axis (axis:null) is not a source. A tilt-form axis is resolved from the orbit normal (observed, estimated and knob components are kept apart). Nothing is written into S.spin, the axes or the inertia."};
 }
 // ==== 第324便b の塊(ここまで)====
+// ==== 第324便e の塊(ここから)====
+// ===== 第324便e(原仮定者の回答(2026-11-02 —— AN521)「連星は、自転軸の傾きが観測または推定されている天体を優先する。自転軸の傾きが不明な場合は、ノブとする」・
+//   統括の検証項目 R283): **obsSpin.axis の傾きの形**(opt-in —— 今の 3 つの形〔[x,y,z]・null・Jvec〕と axis:null の意味は不変・在位の本は 1 本も宣言しない)=====
+//   axis:{ref:"orbitNormal", pair:[i, j], tiltDeg:<成分>, azimuthDeg:<成分>, sense?:<成分>, source, note?}
+//   ・軌道の法線 n̂ = pair の二体の初期の相対の角運動量 (r_j − r_i) × (v_j − v_i) の向き(宣言の位置と速度から —— 配列の先頭を黙って使わない・0 なら拒否)。
+//   ・傾き θ は n̂ から測った J の向きの角(0〜180°)・方位 φ は本の +x を n̂ に垂直な面へ射影した向き e₁ から n̂ の右手系で(−360〜360°・e₂ = n̂ × e₁ ——
+//     +x が n̂ に平行なら +y を射影)。向き sense(+1 / −1)は −1 のとき傾きを 180° − θ と読む(記録が角の二通りの読みを持つ天体の印)。
+//     J の向き û = cos θ' n̂ + sin θ' (cos φ e₁ + sin φ e₂)(θ' = θ か 180° − θ)—— build で解き(obsSpinPrepare)、受理の正準形は傾きの形のまま(署名は形を読む)。
+//   ・成分 {deg か sign, basis:"observed"|"estimated"|"knob", …}: **観測・推定**は sigmaDeg?・upperDeg?(値は上限の内)・level?(0〜100 の % —— 上限の水準)・note? を持てる
+//     (ノブの鍵は置かない)。**ノブ**は default・min・max が必須(min < max・既定と値は範囲の内 —— 観測でない模型の入力・利用者が範囲の内で変える値)で、
+//     不確かさの鍵を置かない(ノブの値を観測と呼ばない)。sense の sign は ±1(ノブなら min −1・max +1)。
+//   ・観測/推定/ノブの区別は受理の正準形・読み口(obsSpinState の axisBasis)・ノブの一覧(obsSpinKnobsOf)に残る。ノブの値を変えた写しは obsSpinWithKnob(範囲の内だけ —— 宣言は変えない)。
+//   式と測定は docs/PHYSICS.md〔第324便e〕・器 tests/exp-w324b-obsspin.mjs(版 w324e —— 正本 tests/out/obsspin-w324b.json)
+const OBS_SPIN_AXIS_REFS=["orbitNormal"], OBS_SPIN_AXIS_KEYS=["ref","pair","tiltDeg","azimuthDeg","sense","source","note"], OBS_SPIN_AXIS_BASES=["observed","estimated","knob"];
+const OBS_SPIN_AXIS_COMPS={tiltDeg:{val:"deg", range:[0,180]}, azimuthDeg:{val:"deg", range:[-360,360]}, sense:{val:"sign", range:[-1,1]}};
+const OBS_SPIN_AXIS_COMP_KEYS=["deg","sign","basis","sigmaDeg","upperDeg","level","default","min","max","note"], OBS_SPIN_AXIS_COMP_ORDER=["tiltDeg","azimuthDeg","sense"];
+function obsSpinAxisIsTilt(ax){ return !!ax && typeof ax==="object" && !Array.isArray(ax); }
+// 成分の受理(c = tiltDeg・azimuthDeg・sense)。戻り値 {ok, comp}(正準形 —— 鍵の順は OBS_SPIN_AXIS_COMP_KEYS)か {ok:false, err}
+function obsSpinAxisCompOf(c, x){
+  const bad=(err)=>({ok:false, err}), spec=OBS_SPIN_AXIS_COMPS[c], vk=spec.val, lo=spec.range[0], hi=spec.range[1];
+  if(typeof x!=="object" || x===null || Array.isArray(x)) return bad(reasonText("validateObsSpinAxis/comp", c));
+  for(const k of Object.keys(x)) if(OBS_SPIN_AXIS_COMP_KEYS.indexOf(k)<0 || ((k==="deg" || k==="sign") && k!==vk)) return bad(reasonText("validateObsSpinAxis/comp#2", c, k));
+  if(OBS_SPIN_AXIS_BASES.indexOf(x.basis)<0) return bad(reasonText("validateObsSpinAxis/basis", c));
+  const okVal=(z)=>(vk==="sign")? (z===1 || z===-1) : (isNum(z) && z>=lo && z<=hi);
+  const valBad=()=>(vk==="sign")? bad(reasonText("validateObsSpinAxis/sign", c)) : bad(reasonText("validateObsSpinAxis/value", c, lo, hi));
+  if(!okVal(x[vk])) return valBad();
+  const has=(k)=>x[k]!==undefined, o={};
+  o[vk]=x[vk]; o.basis=x.basis;
+  if(x.basis==="knob"){
+    if(has("sigmaDeg") || has("upperDeg") || has("level")) return bad(reasonText("validateObsSpinAxis/knob#2", c));
+    if(!(has("default") && has("min") && has("max"))) return bad(reasonText("validateObsSpinAxis/knob", c));
+    if(!okVal(x.default) || !okVal(x.min) || !okVal(x.max)) return valBad();
+    if(!(x.min<x.max) || x.default<x.min || x.default>x.max || x[vk]<x.min || x[vk]>x.max) return bad(reasonText("validateObsSpinAxis/knob", c));
+    o.default=x.default; o.min=x.min; o.max=x.max;
+  } else {
+    if(has("default") || has("min") || has("max")) return bad(reasonText("validateObsSpinAxis/est", c));
+    if(vk==="sign" && (has("sigmaDeg") || has("upperDeg") || has("level"))) return bad(reasonText("validateObsSpinAxis/unc", c));
+    for(const k of ["sigmaDeg","upperDeg"]) if(has(k) && !(isNum(x[k]) && x[k]>=0)) return bad(reasonText("validateObsSpinAxis/unc", c));
+    if(has("level") && !(isNum(x.level) && x.level>0 && x.level<100)) return bad(reasonText("validateObsSpinAxis/unc", c));
+    if(has("upperDeg") && x[vk]>x.upperDeg) return bad(reasonText("validateObsSpinAxis/unc", c));
+    for(const k of ["sigmaDeg","upperDeg","level"]) if(has(k)) o[k]=x[k];
+  }
+  if(has("note")){ if(typeof x.note!=="string") return bad(reasonText("validateObsSpinAxis/note")); o.note=x.note; }
+  return {ok:true, comp:o};
+}
+// 傾きの形の受理(validateObsSpinBody の axisOf から)。戻り値 {ok, axis}(正準形 —— 鍵の順は OBS_SPIN_AXIS_KEYS)か {ok:false, err}。pair の天体の突き合わせは obsSpinAxisCrossCheck
+function obsSpinAxisTiltOf(v){
+  const bad=(err)=>({ok:false, err});
+  for(const k of Object.keys(v)) if(OBS_SPIN_AXIS_KEYS.indexOf(k)<0) return bad(reasonText("validateObsSpinAxis/key", k));
+  if(OBS_SPIN_AXIS_REFS.indexOf(v.ref)<0) return bad(reasonText("validateObsSpinAxis/ref"));
+  const pr=v.pair;
+  if(!Array.isArray(pr) || pr.length!==2 || !pr.every((x)=>Number.isInteger(x) && x>=0) || pr[0]===pr[1]) return bad(reasonText("validateObsSpinAxis/pair"));
+  if(typeof v.source!=="string" || !v.source.trim()) return bad(reasonText("validateObsSpinAxis/source"));
+  if(v.note!==undefined && typeof v.note!=="string") return bad(reasonText("validateObsSpinAxis/note"));
+  const o={ref:v.ref, pair:[pr[0], pr[1]]};
+  for(const c of OBS_SPIN_AXIS_COMP_ORDER){
+    if(v[c]===undefined){ if(c==="sense") continue; return bad(reasonText("validateObsSpinAxis/comp", c)); }
+    const r=obsSpinAxisCompOf(c, v[c]); if(!r.ok) return r;
+    o[c]=r.comp;
+  }
+  o.source=v.source; if(v.note!==undefined) o.note=v.note;
+  return {ok:true, axis:o};
+}
+// 軌道の法線 n̂(pair の二体の初期の相対の角運動量の向き —— 宣言の位置と速度)。0 か非有限は null
+function obsSpinOrbitNormal(ax, bodies){
+  const p=bodies? bodies[ax.pair[0]] : null, q=bodies? bodies[ax.pair[1]] : null;
+  if(!p || !q) return null;
+  const g=(b,k)=>isNum(b[k])? b[k] : 0;
+  const rx=g(q,"x")-g(p,"x"), ry=g(q,"y")-g(p,"y"), rz=g(q,"z")-g(p,"z"), vx=g(q,"vx")-g(p,"vx"), vy=g(q,"vy")-g(p,"vy"), vz=g(q,"vz")-g(p,"vz");
+  const nx=ry*vz-rz*vy, ny=rz*vx-rx*vz, nz=rx*vy-ry*vx, nn=Math.hypot(nx,ny,nz);
+  return (nn>0 && Number.isFinite(nn))? [nx/nn, ny/nn, nz/nn] : null;
+}
+// 傾きの形 → J の単位の向き(本の xyz —— 長さで割って正準化〔配列の形の axis と同じ〕)。解けなければ null
+function obsSpinAxisResolve(ax, bodies){
+  const n=obsSpinOrbitNormal(ax, bodies);
+  if(!n) return null;
+  const nx=n[0], ny=n[1], nz=n[2];
+  let ex=1-nx*nx, ey=-nx*ny, ez=-nx*nz, en=Math.hypot(ex,ey,ez);
+  if(!(en>1e-9)){ ex=-ny*nx; ey=1-ny*ny; ez=-ny*nz; en=Math.hypot(ex,ey,ez); }   // +x が n̂ に平行なら +y を射影
+  ex/=en; ey/=en; ez/=en;
+  const fx=ny*ez-nz*ey, fy=nz*ex-nx*ez, fz=nx*ey-ny*ex;   // e₂ = n̂ × e₁
+  const sg=ax.sense? ax.sense.sign : 1, td=ax.tiltDeg.deg, th=((sg<0)? 180-td : td)*Math.PI/180, ph=ax.azimuthDeg.deg*Math.PI/180;
+  const ct=Math.cos(th), st=Math.sin(th), cp=Math.cos(ph), sp=Math.sin(ph);
+  const ux=ct*nx+st*(cp*ex+sp*fx), uy=ct*ny+st*(cp*ey+sp*fy), uz=ct*nz+st*(cp*ez+sp*fz), un=Math.hypot(ux,uy,uz);
+  return (un>0 && Number.isFinite(un))? [ux/un, uy/un, uz/un] : null;
+}
+// build の前に: 傾きの形の宣言を向きへ解いた写し(他の形はそのまま)。解けない傾きの形は axis を null に(欠測 —— 受理が pair を検めるので内蔵の本では起きない)
+function obsSpinAxisResolved(os, bodies){
+  if(!os || !obsSpinAxisIsTilt(os.axis)) return os;
+  return Object.assign({}, os, {axis:obsSpinAxisResolve(os.axis, bodies)});
+}
+// 読み口の軸の情報(形・成分の basis・法線)。宣言 os のまま読む
+function obsSpinAxisInfo(os){
+  const ax=os? os.axis : undefined;
+  if(os && Array.isArray(os.Jvec)) return {axisForm:"Jvec", axisBasis:null};
+  if(ax===null) return {axisForm:"missing", axisBasis:null};
+  if(!obsSpinAxisIsTilt(ax)) return {axisForm:"vector", axisBasis:null};
+  const b={}; for(const c of OBS_SPIN_AXIS_COMP_ORDER) if(ax[c]) b[c]=ax[c].basis;
+  return {axisForm:"tilt", axisBasis:b};
+}
+// 受理の突き合わせ(obsSpinCrossCheck から —— 正規化の後の天体): 傾きの形の pair の二体が single で、初期の相対の角運動量が 0 でないこと。null = 受理
+function obsSpinAxisCrossCheck(bs, idx){
+  for(const k of idx){
+    const ax=bs[k].obsSpin.axis;
+    if(!obsSpinAxisIsTilt(ax)) continue;
+    for(const j of ax.pair){ const q=bs[j]; if(!q || q.type!=="single") return reasonText("validatePreset/obsSpin.axis", k, j); }
+    if(!obsSpinOrbitNormal(ax, bs)) return reasonText("validatePreset/obsSpin.axis#2", k);
+  }
+  return null;
+}
+// ノブの一覧(宣言の本 —— 読むだけ): [{body, comp, key, value, default, min, max, unit}](unit は "deg" か "sign")
+function obsSpinKnobsOf(p){
+  const out=[], bs=(p && Array.isArray(p.bodies))? p.bodies : [];
+  bs.forEach((b,i)=>{ const ax=(b && b.obsSpin)? b.obsSpin.axis : null; if(!obsSpinAxisIsTilt(ax)) return;
+    for(const c of OBS_SPIN_AXIS_COMP_ORDER){ const x=ax[c]; if(!x || x.basis!=="knob") continue; const vk=OBS_SPIN_AXIS_COMPS[c].val;
+      out.push({body:i, comp:c, key:"bodies["+i+"].obsSpin.axis."+c+"."+vk, value:x[vk], default:x.default, min:x.min, max:x.max, unit:vk}); } });
+  return out;
+}
+// ノブの値を変えた写し(宣言 p は変えない —— 範囲の内のノブだけ)。戻り値 {ok, preset} か {ok:false, err}。受理(validatePreset)は呼び手が通す
+function obsSpinWithKnob(p, i, c, value){
+  const b=(p && Array.isArray(p.bodies))? p.bodies[i] : null, ax=(b && b.obsSpin)? b.obsSpin.axis : null, x=obsSpinAxisIsTilt(ax)? ax[c] : null;
+  if(!x || x.basis!=="knob" || !OBS_SPIN_AXIS_COMPS[c]) return {ok:false, err:reasonText("obsSpinWithKnob/knob", i, c)};
+  const vk=OBS_SPIN_AXIS_COMPS[c].val;
+  if(!(isNum(value) && value>=x.min && value<=x.max && (vk!=="sign" || value===1 || value===-1))) return {ok:false, err:reasonText("obsSpinWithKnob/range", "bodies["+i+"].obsSpin.axis."+c, x.min, x.max)};
+  const q=JSON.parse(JSON.stringify(p));
+  q.bodies[i].obsSpin.axis[c][vk]=value;
+  return {ok:true, preset:q};
+}
+// ==== 第324便e の塊(ここまで)====
 function validateInvSq(a){
   const form='physics.relativeDrag.invSq は {Wbg2?:<0 だけ —— 省略は 0>, order?:<'+REL_DRAG_INVSQ_ORDER_RANGE[0]+'〜'+REL_DRAG_INVSQ_ORDER_RANGE[1]+' の整数 —— 受け手の体積の求積の次数・既定 '+REL_DRAG_INVSQ_ORDER_DEFAULT+'>, outerShell?:<"uniform"|"thin" —— 外殻の源>, kernel?:<"k2"(省略)|"k1" —— 源の重みの族>, rdRule?:<"kappaM" —— K1 の規則 R_d = Y_k m>, shellRecv?:<"mass"(省略)|"core" —— 外殻の受け手>}';
   if(typeof a!=="object" || a===null || Array.isArray(a)) return {ok:false, err:form};
@@ -21570,8 +21727,16 @@ const BUILTIN_PRESETS = [
 //   invSq.sourceMoment {kind:"J"} を足した。並進だけの 🔶 は残す・J を 🔶 へ黙って足さない・f は模型の明示の入力〔観測された構造係数と呼ばない〕・受け手の慣性 I は f で置き換えない)と、
 //   📟 J0737 の geoPN=3 三次元の本(📻 と同じレコード・元期・観測の質量・半径・初期の位置と速度 —— 第322便b の兄弟の写しの型〔第321便b の列 tr〕に、天体ごとの観測の自転 obsSpin を宣言・
 //   軸は観測で決まっていないので axis:null〔欠測 —— J の源に使わない〕)。式と測定は docs/PHYSICS.md〔第324便b〕・器 tests/exp-w324b-obsspin.mjs(正本 tests/out/obsspin-w324b.json)
+// ==== 第324便e の塊(ここから)====
+// 第324便e(原仮定者の回答(2026-11-02 —— AN521)「連星は、自転軸の傾きが観測または推定されている天体を優先する。自転軸の傾きが不明な場合は、ノブとする」・
+//   統括の検証項目 R283): 🔸 と 📟 の自転軸を obsSpin.axis の傾きの形へ。📟 は A = 推定の傾き 0°(95% 上限 3.2° の内の整列 —— 上限を記録)・B = 推定の傾き 40.6°
+//   (±0.1°)・方位(両星)と B の角の二通りの読み(sense)はノブ(既定と範囲)—— 源の J が入る(並進だけの写しとビット同一でなくなる)。🔸 は自転軸の傾きの観測・推定が
+//   記録に無いので傾きと方位をノブ(既定 0° —— 前の版の +z と同じ向き)にし、源の J を宣言の一定のベクトルとして置ける obsSpin の経路(kind "omega"・ν = 1/P は ✨ の
+//   自転と同じ記録の周期・fSrc は前の版の f と同じ 0.07)へ移した —— 状態の自転の軸を有効にすると受け手の挙動が変わるので使わない。fSrc は変えない。
+//   式と測定は docs/PHYSICS.md〔第324便e〕・器 tests/exp-w324b-obsspin.mjs(版 w324e —— 正本 tests/out/obsspin-w324b.json)
+// ==== 第324便e の塊(ここまで)====
 { id:"alphaCenABInertial3dJ",
-  name:"αケンタウリAB(慣性決定力版・三次元)— 源の角運動量 J(f は模型の入力)",
+  name:"αケンタウリAB(慣性決定力版・三次元)— 源の角運動量 J(f は模型の入力・軸はノブ)",
   emoji:"🔸",
   group:"現実較正",
   familyId:"alphaCen",
@@ -21583,21 +21748,39 @@ const BUILTIN_PRESETS = [
   fidelity:"real",
   notClaim:["solar_cal", "binary_geo3"],
   abBody:{label:{ja:"源の J を切る(並進だけ —— 🔶 と同じ宣言)", en:"source J off (translation only - the same declaration as 🔶)"}, physicsPatch:{relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}}},
-  obsCard:[{q:"何を置いたか", model:"🔶 alphaCenABInertial3d と同じ入力・同じ初期状態(z = v_z = 0 の三次元・両星 free)に源の角運動量 J の回転引きずりを足した", obs:"—(原理サンプル —— 較正母集団の外)"}, {q:"宣言", model:"🔶 の宣言 + spinDrag {rot:\"surfaceFlip\"} + invSq.sourceMoment {kind:\"J\", f:{A 0.07・B 0.07}}", obs:"—"}, {q:"源の慣性係数 f(模型の入力)", model:"両星 f = 0.07(太陽の I/(m R²) の文献の値を両星へ当てた入力)", obs:"観測された構造係数ではない・一次資料に当たっていない"}, {q:"源の角運動量 J = f m R² Ω(軸 +z)", model:"A 4.93e41・B 9.08e40 kg m²/s(Ω は ✨ の自転の転写)", obs:"R_src = R√(5f/2): A 3.545e5 km・B 2.501e5 km"}, {q:"J − 並進だけ(近点の移動・rad/公転)", model:"-2.065e-13・-2.063e-13・-2.077e-13(h・h/2・h/4 —— 刻みの感度診断)", obs:"同じ初期状態・同じ 8 公転の窓(🔶 との差)"}, {q:"受け手の慣性と自転", model:"受け手の I は f で置き換えない・両星の自転(状態)は走行で不変", obs:"J は源の側の量"}, {q:"自転軸", model:"+z(軌道の法線 —— 二次元の本の約束)", obs:"観測の軸ではない"}],
-  descStruct:{summary:"重力(E4)の二体。🔶 alphaCenABInertial3d と同じ入力・同じ初期状態(✨ alphaCenAB の写し —— 両星の実質量・半径・自転・遠点整列の位置と速度を z = v_z = 0 の三次元に置き、両星 free)に、源の角運動量 J の回転引きずりを足した本。宣言は 🔶(geoPN=3・kFrame=0・λ_PN=0・K1 + 規則の鍵 rdRule \"kappaM\"・initMotion \"observed\"・G_loc n = 2)に、回転引きずり spinDrag {rot:\"surfaceFlip\"} と源のモーメント invSq.sourceMoment {kind:\"J\", f} を加えたもの —— 引きずる側(源)の回転のモーメントの半径を R_src = R√(5f/2)(J = f m R² Ω の一様な球の等価)に置き、受け手の R_d = Y_k m・並進の β・分母は変えない。f は両星 0.07(太陽の I/(m R²) の文献の値を当てた模型の入力 —— 観測された構造係数ではない)。Ω は ✨ の自転の転写・軸は +z(軌道の法線 —— 二次元の本の約束で観測の軸ではない)。受け手の慣性 I は f で置き換えない(J は源の側の量)。並進だけの 🔶 は残した(J を 🔶 へ足さない)。🔶 との差は同じ初期状態・同じ窓で見る —— 数は正本 tests/out/obsspin-w324b.json。DFM は学習向きの仮定のモデルで、現実の宇宙とは主張しない。", observe:"トレイルで α Cen B の楕円が閉じるのを見る(z = 0 の面)。源の J の回転引きずりが近点の移動に足す分は 1 公転あたり約 -2.1e-13 rad で画面では見えない —— 数は説明タブの観測カード。", control:"ワンタップの対照は源の J を切った並進だけ(spinDrag と sourceMoment を外す —— 🔶 と同じ宣言)。比べる相手は 🔶 alphaCenABInertial3d(並進だけ)と 📟 psrDoubleABInertial3d(天体ごとの観測の自転の欄)。"},
-  en:{name:"Alpha Centauri AB (inertial determinacy, 3D) — source angular momentum J (f is a model input)", obsCard:[{q:"What is placed", model:"🔶 alphaCenABInertial3d's input and initial state (3D at z = v_z = 0, both free) plus the source-J rotational drag", obs:"- (a principle sample, outside the calibration population)"}, {q:"Declaration", model:"🔶's declaration + spinDrag {rot \"surfaceFlip\"} + invSq.sourceMoment {kind \"J\", f: A 0.07, B 0.07}", obs:"-"}, {q:"Source inertia factor f (model input)", model:"f = 0.07 for both (the Sun's I/(m R^2) literature value applied to both stars)", obs:"not an observed structure coefficient; no primary source checked"}, {q:"Source angular momentum J = f m R^2 Omega (axis +z)", model:"A 4.93e41, B 9.08e40 kg m^2/s (Omega: ✨'s transcribed spins)", obs:"R_src = R sqrt(5f/2): A 3.545e5 km, B 2.501e5 km"}, {q:"J - translation only (apsidal shift, rad/orbit)", model:"-2.065e-13, -2.063e-13, -2.077e-13 (h, h/2, h/4 - step sensitivity)", obs:"same initial state, same 8-orbit window (the gap to 🔶)"}, {q:"Receiver inertia and spins", model:"the receiver's I is not replaced by f; both state spins unchanged over the run", obs:"J is a source-side quantity"}, {q:"Spin axis", model:"+z (the orbit normal - the 2D book convention)", obs:"not an observed axis"}], descStruct:{summary:"A two-body under gravity (E4). The same input and initial state as 🔶 alphaCenABInertial3d (a copy of ✨ alphaCenAB - both real masses, radii and spins, the aphelion-aligned positions and velocities at z = v_z = 0 in 3D, both free) with the rotational drag of the source angular momentum J added. The declaration is 🔶's (geoPN=3, kFrame=0, lambda_PN=0, K1 with the rule key rdRule \"kappaM\", initMotion \"observed\", G_loc n = 2) plus the rotational drag spinDrag {rot \"surfaceFlip\"} and the source moment invSq.sourceMoment {kind \"J\", f}: the dragging source's rotational-moment radius becomes R_src = R sqrt(5f/2) (the uniform-sphere equivalent of J = f m R^2 Omega) while the receiver's R_d = Y_k m, the translational beta and the denominator are unchanged. f = 0.07 for both stars is a MODEL INPUT (the Sun's I/(m R^2) literature value) - not an observed structure coefficient. Omega is ✨'s transcribed spin and the axis is +z (the orbit normal - the 2D book convention, not an observed axis). The receiver's inertia I is not replaced by f (J is a source-side quantity). The translation-only 🔶 is kept (J is not added to it). The gap to 🔶 is read in the same initial state and the same window - numbers in tests/out/obsspin-w324b.json. DFM is an assumed model for learning, not claimed to be the real universe.", observe:"Use the trail to watch Alpha Cen B's ellipse close (the z = 0 plane). What the source-J rotational drag adds to the apsidal shift is about -2.1e-13 rad per orbit, too small to see - the numbers are in the observation card.", control:"The one-tap control removes the source J (translation only - spinDrag and sourceMoment dropped, the same declaration as 🔶). Compare with 🔶 alphaCenABInertial3d (translation only) and 📟 psrDoubleABInertial3d (the per-body observed-spin field)."}, parameterAudit:{observedInputs:["G_0=6.674 (the real G value)", "c_0=29979.2458 (the real c value)", "both stars' real masses, radii and rotations and the relative orbit a, e (copied from ✨ alphaCenAB via 🔶)", "the initial positions and velocities (a bit copy of 🔶's placement, z = v_z = 0)"], fixedConventions:["per-sample scale exponents (1 unit = 10^10 m / 10^6 s / 10^29 kg - as ✨)", "physics.coord 3d (right-handed; the orbit in the z = 0 plane)", "geoPN=3, kFrame=0, lambda_PN=0", "inertial drag relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\", sourceMoment:{kind:\"J\", f:{0:0.07, 1:0.07}}}, pairs:\"all\", history:\"positions\", initMotion:\"observed\", spinDrag:{rot:\"surfaceFlip\"}}", "local gravity physics.gLoc:{law:\"kappaC2\"} (n = 2)", "spin axes +z (the orbit normal - the 2D book convention)", "q=4.6111 and D0=0.006 kept from ✨ (no effect at kFrame 0)"], fitted:["NOTHING - R_d by the rule, f a declared model input"], derived:["Y_k = 10G_0/(C_1c_0^2) = 8.807619e-27 m/kg; R_d: A 18.89 km, B 15.92 km (rule)", "R_src = R sqrt(5f/2): A 3.545e5 km, B 2.501e5 km", "J = f m R^2 Omega: A 4.93e41, B 9.08e40 kg m^2/s", "eta = 0.24818, 1 + (4/3)eta = 1.33091 (as 🔶)"], numerical:["softening eps=0.05", "time multiplier timeScale=1, screen step stepDt=6.99194 (as ✨ - about 360 steps per orbit)", "display magnification dispMag=300 (display only)"]}},
-  parameterAudit:{observedInputs:["G_0=6.674(実 G の値)", "c_0=29979.2458(実 c の値)", "両星の実質量・実半径・実自転と相対軌道の a・e(✨ alphaCenAB の写し —— 🔶 経由)", "初期の位置と速度(🔶 の配置のビット写し・z = v_z = 0)"], fixedConventions:["サンプル別スケール指数(1単位=10^10m/10^6s/10^29kg —— ✨ と同じ)", "physics.coord:\"3d\"(右手系・軌道は z = 0 の面)", "geoPN=3・kFrame=0・λ_PN=0", "慣性引きずり relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\", sourceMoment:{kind:\"J\", f:{0:0.07, 1:0.07}}}, pairs:\"all\", history:\"positions\", initMotion:\"observed\", spinDrag:{rot:\"surfaceFlip\"}}", "局所重力 physics.gLoc:{law:\"kappaC2\"}(n = 2)", "自転軸は +z(軌道の法線 —— 二次元の本の約束)", "q=4.6111・D0=0.006 は ✨ の値のまま(kFrame 0 では走行に効かない)"], fitted:["**無し** —— R_d は規則・f は宣言した模型の入力"], derived:["Y_k = 10G_0/(C_1c_0²) = 8.807619e-27 m/kg・R_d: A 18.89 km・B 15.92 km(規則)", "R_src = R√(5f/2): A 3.545e5 km・B 2.501e5 km", "J = f m R² Ω: A 4.93e41・B 9.08e40 kg m²/s", "η = 0.24818・1 + (4/3)η = 1.33091(🔶 と同じ)"], numerical:["ソフトニング ε=0.05", "時間倍率 timeScale=1・画面の刻み stepDt=6.99194(✨ と同じ —— 1 公転 ≈ 360 步)", "粒子表示倍率 dispMag=300(表示専用)"]},
+  obsCard:[{q:"何を置いたか", model:"🔶 alphaCenABInertial3d と同じ入力・同じ初期状態(z = v_z = 0 の三次元・両星 free)に源の角運動量 J の回転引きずりを足した", obs:"—(原理サンプル —— 較正母集団の外)"}, {q:"宣言", model:"🔶 の宣言 + spinDrag {rot:\"surfaceFlip\"} + sourceMoment {kind:\"obsSpin\"} + 両星の obsSpin(kind omega・Hz・fSrc 0.07)", obs:"—"}, {q:"源の慣性係数 fSrc(模型の入力)", model:"両星 0.07(太陽の I/(m R²) の文献の値を両星へ当てた入力)", obs:"観測された構造係数ではない・一次資料に当たっていない"}, {q:"源の角運動量 J = fSrc m rObs² ω", model:"A 4.93e41・B 9.08e40 kg m²/s(ω = 2π/P —— ✨ の自転と同じ記録の周期)", obs:"R_src = rObs√(5fSrc/2): A 3.545e5 km・B 2.501e5 km"}, {q:"J − 並進だけ(近点の移動・rad/公転)", model:"@ACJ@(h・h/2・h/4 —— 刻みの感度診断)", obs:"同じ初期状態・同じ 8 公転の窓(🔶 との差)・軸はノブの既定"}, {q:"自転軸(ノブ —— 模型の入力)", model:"両星とも傾き 0〜180°(既定 0° —— 軌道の法線)・方位 0〜360°(既定 0°)", obs:"傾きの観測・推定は記録に無い —— 観測の軸ではない"}, {q:"ノブを振った列(器の中・h)", model:"両星の傾き 180° で @ACT180@・90° で @ACT90@(rad/公転 —— 🔶 との差)", obs:"範囲の端と中ほど —— 正本 obsspin-w324b"}, {q:"受け手の慣性と自転", model:"受け手の I は fSrc で置き換えない・状態の自転(✨ の転写)は源に使わず走行で不変", obs:"J は源の側の量"}],
+  descStruct:{summary:"重力(E4)の二体。🔶 alphaCenABInertial3d と同じ入力・同じ初期状態(✨ alphaCenAB の写し —— 両星の実質量・半径・自転・遠点整列の位置と速度を z = v_z = 0 の三次元に置き、両星 free)に、源の角運動量 J の回転引きずりを足した本。宣言は 🔶(geoPN=3・kFrame=0・λ_PN=0・K1 + 規則の鍵 rdRule \"kappaM\"・initMotion \"observed\"・G_loc n = 2)に、回転引きずり spinDrag {rot:\"surfaceFlip\"} と源のモーメント invSq.sourceMoment {kind:\"obsSpin\"} を加え、両星に天体ごとの観測の自転 obsSpin(kind \"omega\"・ν = 1/P —— ✨ の自転と同じ記録の周期・fSrc 0.07・rObs は観測半径)を置いたもの —— 引きずる側(源)の回転のモーメントの半径を R_src = rObs√(5fSrc/2)(J = fSrc m rObs² ω の一様な球の等価)に置き、受け手の R_d = Y_k m・並進の β・分母は変えない。fSrc は両星 0.07(太陽の I/(m R²) の文献の値を当てた模型の入力 —— 観測された構造係数ではない)。**自転軸はノブ**: 両星の自転軸の傾きの観測・推定は記録に無いので、傾き(軌道の法線から 0〜180°・既定 0°)と方位(0〜360°・既定 0°)を模型の入力として宣言した(観測の軸ではない —— 既定は軌道の法線の向き)。観測の J は固定の外部の貯蔵庫で、状態の自転(✨ の転写)は源に使わない。受け手の慣性 I は fSrc で置き換えない。並進だけの 🔶 は残した(J を 🔶 へ足さない)。🔶 との差は同じ初期状態・同じ窓で見る —— 数は正本 tests/out/obsspin-w324b.json。DFM は学習向きの仮定のモデルで、現実の宇宙とは主張しない。", observe:"トレイルで α Cen B の楕円が閉じるのを見る(z = 0 の面)。源の J の回転引きずりが近点の移動に足す分は 1 公転あたり約 @ACJAPX@ rad で画面では見えない —— 数は説明タブの観測カード。", control:"ワンタップの対照は源の J を切った並進だけ(spinDrag と sourceMoment を外す —— 🔶 と同じ宣言)。比べる相手は 🔶 alphaCenABInertial3d(並進だけ)と 📟 psrDoubleABInertial3d(推定の傾きとノブの軸)。"},
+  en:{name:"Alpha Centauri AB (inertial determinacy, 3D) — source angular momentum J (f a model input, axes as knobs)", obsCard:[{q:"What is placed", model:"🔶 alphaCenABInertial3d's input and initial state (3D at z = v_z = 0, both free) plus the source-J rotational drag", obs:"- (a principle sample, outside the calibration population)"}, {q:"Declaration", model:"🔶's declaration + spinDrag {rot \"surfaceFlip\"} + sourceMoment {kind \"obsSpin\"} + obsSpin on both (kind omega, Hz, fSrc 0.07)", obs:"-"}, {q:"Source inertia factor fSrc (model input)", model:"0.07 for both (the Sun's I/(m R^2) literature value applied to both stars)", obs:"not an observed structure coefficient; no primary source checked"}, {q:"Source angular momentum J = fSrc m rObs^2 omega", model:"A 4.93e41, B 9.08e40 kg m^2/s (omega = 2 pi/P - the record behind ✨'s spins)", obs:"R_src = rObs sqrt(5fSrc/2): A 3.545e5 km, B 2.501e5 km"}, {q:"J - translation only (apsidal shift, rad/orbit)", model:"@ACJEN@ (h, h/2, h/4 - step sensitivity)", obs:"same initial state, same 8-orbit window (the gap to 🔶); axes at the knob defaults"}, {q:"Spin axes (knobs - model inputs)", model:"both: tilt 0-180 deg (default 0 - the orbit normal), azimuth 0-360 deg (default 0)", obs:"no observed or estimated tilt in the record - not an observed axis"}, {q:"Knob columns (in the harness, h)", model:"both tilts 180 deg: @ACT180@; 90 deg: @ACT90@ (rad/orbit - the gap to 🔶)", obs:"the range end and middle - canon obsspin-w324b"}, {q:"Receiver inertia and spins", model:"the receiver's I is not replaced by fSrc; the state spins (✨'s copy) are not a source and stay unchanged", obs:"J is a source-side quantity"}], descStruct:{summary:"A two-body under gravity (E4). The same input and initial state as 🔶 alphaCenABInertial3d (a copy of ✨ alphaCenAB - both real masses, radii and spins, the aphelion-aligned positions and velocities at z = v_z = 0 in 3D, both free) with the rotational drag of the source angular momentum J added. The declaration is 🔶's (geoPN=3, kFrame=0, lambda_PN=0, K1 with the rule key rdRule \"kappaM\", initMotion \"observed\", G_loc n = 2) plus the rotational drag spinDrag {rot \"surfaceFlip\"} and the source moment invSq.sourceMoment {kind \"obsSpin\"}, with a per-body observed spin obsSpin on both stars (kind \"omega\", nu = 1/P - the same recorded periods behind ✨'s spins, fSrc 0.07, rObs the observed radius): the dragging source's rotational-moment radius becomes R_src = rObs sqrt(5fSrc/2) (the uniform-sphere equivalent of J = fSrc m rObs^2 omega) while the receiver's R_d = Y_k m, the translational beta and the denominator are unchanged. fSrc = 0.07 for both stars is a MODEL INPUT (the Sun's I/(m R^2) literature value) - not an observed structure coefficient. THE SPIN AXES ARE KNOBS: the record has no observed or estimated tilt for either star, so the tilt (0-180 deg from the orbit normal, default 0) and the azimuth (0-360 deg, default 0) are declared as model inputs (not observed axes - the default is the orbit-normal direction). The observed J is a fixed external reservoir and the state spins (✨'s copy) are not used as the source. The receiver's inertia I is not replaced by fSrc. The translation-only 🔶 is kept (J is not added to it). The gap to 🔶 is read in the same initial state and the same window - numbers in tests/out/obsspin-w324b.json. DFM is an assumed model for learning, not claimed to be the real universe.", observe:"Use the trail to watch Alpha Cen B's ellipse close (the z = 0 plane). What the source-J rotational drag adds to the apsidal shift is about @ACJAPX@ rad per orbit, too small to see - the numbers are in the observation card.", control:"The one-tap control removes the source J (translation only - spinDrag and sourceMoment dropped, the same declaration as 🔶). Compare with 🔶 alphaCenABInertial3d (translation only) and 📟 psrDoubleABInertial3d (estimated tilts and knob axes)."}, parameterAudit:{observedInputs:["G_0=6.674 (the real G value)", "c_0=29979.2458 (the real c value)", "both stars' real masses, radii and rotations and the relative orbit a, e (copied from ✨ alphaCenAB via 🔶)", "the initial positions and velocities (a bit copy of 🔶's placement, z = v_z = 0)", "both stars' rotation periods (A 15.9 d - Bhattacharyya et al. 2026; B 36.23 d - DeWarf et al. 2010) in obsSpin as nu = 1/P - literature values, no primary source checked"], fixedConventions:["per-sample scale exponents (1 unit = 10^10 m / 10^6 s / 10^29 kg - as ✨)", "physics.coord 3d (right-handed; the orbit in the z = 0 plane)", "geoPN=3, kFrame=0, lambda_PN=0", "inertial drag relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\", sourceMoment:{kind:\"obsSpin\"}}, pairs:\"all\", history:\"positions\", initMotion:\"observed\", spinDrag:{rot:\"surfaceFlip\"}}", "local gravity physics.gLoc:{law:\"kappaC2\"} (n = 2)", "per-body obsSpin (kind omega, unit Hz, frame book, fSrc 0.07, rObs the observed radius; axis in the tilt form from the orbit normal of the pair A, B)", "knobs (model inputs): tilt 0-180 deg and azimuth 0-360 deg for both (defaults 0)", "q=4.6111 and D0=0.006 kept from ✨ (no effect at kFrame 0)"], fitted:["NOTHING - R_d by the rule, fSrc a declared model input, the axes knobs at their defaults"], derived:["Y_k = 10G_0/(C_1c_0^2) = 8.807619e-27 m/kg; R_d: A 18.89 km, B 15.92 km (rule)", "R_src = rObs sqrt(5fSrc/2): A 3.545e5 km, B 2.501e5 km", "J = fSrc m rObs^2 omega: A 4.93e41, B 9.08e40 kg m^2/s", "eta = 0.24818, 1 + (4/3)eta = 1.33091 (as 🔶)"], numerical:["softening eps=0.05", "time multiplier timeScale=1, screen step stepDt=6.99194 (as ✨ - about 360 steps per orbit)", "display magnification dispMag=300 (display only)"]}},
+  parameterAudit:{observedInputs:["G_0=6.674(実 G の値)", "c_0=29979.2458(実 c の値)", "両星の実質量・実半径・実自転と相対軌道の a・e(✨ alphaCenAB の写し —— 🔶 経由)", "初期の位置と速度(🔶 の配置のビット写し・z = v_z = 0)", "両星の自転の周期(A 15.9 d —— Bhattacharyya et al. 2026・B 36.23 d —— DeWarf et al. 2010)を obsSpin の ν = 1/P に —— 文献の値(一次資料に当たっていない)"], fixedConventions:["サンプル別スケール指数(1単位=10^10m/10^6s/10^29kg —— ✨ と同じ)", "physics.coord:\"3d\"(右手系・軌道は z = 0 の面)", "geoPN=3・kFrame=0・λ_PN=0", "慣性引きずり relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\", sourceMoment:{kind:\"obsSpin\"}}, pairs:\"all\", history:\"positions\", initMotion:\"observed\", spinDrag:{rot:\"surfaceFlip\"}}", "局所重力 physics.gLoc:{law:\"kappaC2\"}(n = 2)", "天体ごとの obsSpin(kind omega・unit Hz・frame book・fSrc 0.07・rObs は観測半径・軸は二体 A・B の軌道の法線からの傾きの形)", "ノブ(模型の入力): 両星の傾き 0〜180°・方位 0〜360°(既定 0°)", "q=4.6111・D0=0.006 は ✨ の値のまま(kFrame 0 では走行に効かない)"], fitted:["**無し** —— R_d は規則・fSrc は宣言した模型の入力・軸はノブの既定"], derived:["Y_k = 10G_0/(C_1c_0²) = 8.807619e-27 m/kg・R_d: A 18.89 km・B 15.92 km(規則)", "R_src = rObs√(5fSrc/2): A 3.545e5 km・B 2.501e5 km", "J = fSrc m rObs² ω: A 4.93e41・B 9.08e40 kg m²/s", "η = 0.24818・1 + (4/3)η = 1.33091(🔶 と同じ)"], numerical:["ソフトニング ε=0.05", "時間倍率 timeScale=1・画面の刻み stepDt=6.99194(✨ と同じ —— 1 公転 ≈ 360 步)", "粒子表示倍率 dispMag=300(表示専用)"]},
   activeParams:["geoPN","dispMag"],
   camera:{scale:630}, world:{boundary:"none", size:0},
   timeRef:{basis:"orbit", pRef:2517.09729, pair:[0, 1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(alphaCenAB の B の周期 2517097291.2 s ÷ 10^6 s)", stepsPerOrbit:360, legacyTimeScale:1000},
-  physics:{G:6.674, D0:0.006, kFrame:0, q:4.6111, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9, cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:0.000001, geoPN:3, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:6.99194, dispMag:300, stateCarry:"double", frameWeight:"pull", coord:"3d", relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM", sourceMoment:{kind:"J", f:{"0":0.07, "1":0.07}}}, pairs:"all", history:"positions", initMotion:"observed", spinDrag:{rot:"surfaceFlip"}}, gLoc:{law:"kappaC2"}},
-  bodies:[   // 0 = α Cen A・1 = α Cen B(🔶 の配置のビット写し —— z = v_z = 0・自転は ✨ の転写のまま・軸は +z の既定)
-    {type:"single", m:21.451938, radius:0.084738, x:-242.21323583305934, y:0, vx:0, vy:-0.22376387624389305, spin:4.57371397, pinned:false, pnSource:true, z:0, vz:0},
-    {type:"single", m:18.079442, radius:0.05979336, x:287.3951152845407, y:0, vx:0, vy:0.26550425615036494, spin:2.00723302, pinned:false, pnSource:true, z:0, vz:0}
+  physics:{G:6.674, D0:0.006, kFrame:0, q:4.6111, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9, cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:0.000001, geoPN:3, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:6.99194, dispMag:300, stateCarry:"double", frameWeight:"pull", coord:"3d", relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM", sourceMoment:{kind:"obsSpin"}}, pairs:"all", history:"positions", initMotion:"observed", spinDrag:{rot:"surfaceFlip"}}, gLoc:{law:"kappaC2"}},
+  bodies:[   // 0 = α Cen A・1 = α Cen B(🔶 の配置のビット写し —— z = v_z = 0・状態の自転は ✨ の転写のまま〔源に使わない〕)。源の J は天体ごとの obsSpin(軸はノブ)
+    {type:"single", m:21.451938, radius:0.084738, x:-242.21323583305934, y:0, vx:0, vy:-0.22376387624389305, spin:4.57371397, pinned:false, pnSource:true, z:0, vz:0,
+     obsSpin:{kind:"omega", omega:7.279291870486839e-7, unit:"Hz", fSrc:0.07, rObs:847380000,   // omega = 1/P_A(P_A = 1373760 s = 15.9 d)
+       axis:{ref:"orbitNormal", pair:[0, 1],
+         tiltDeg:{deg:0, basis:"knob", default:0, min:0, max:180, note:"傾きの観測・推定は本リポジトリの記録に無い —— 既定 0°(軌道の法線の向き)"},
+         azimuthDeg:{deg:0, basis:"knob", default:0, min:0, max:360, note:"方位も記録に無い(傾き 0° の既定では向きに効かない)"},
+         source:"傾きと方位はノブ(模型の入力 —— α Cen A の自転軸の傾きの観測・推定は記録に無い)"},
+       frame:"book",
+       source:"ν = 1/P: P = 15.9 d(Bhattacharyya et al. 2026 AJ 172 27 の CUTE 2024 の Mg II の自転の変調・paper/data/solar-observations.csv の Alpha Centauri A の rotation_period の行 —— ✨ の自転と同じ記録)・rObs: 観測半径(Akeson et al. 2021)・fSrc: 太陽の I/(m R²) の文献の値 0.07 を当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+       epoch:"CUTE 2024 の観測期(Bhattacharyya et al. 2026)",
+       note:"源の J = fSrc m rObs² ω(固定の外部の貯蔵庫 —— 源の自転の進化と歳差は扱わない)。軸はノブ(観測の軸ではない)"}},
+    {type:"single", m:18.079442, radius:0.05979336, x:287.3951152845407, y:0, vx:0, vy:0.26550425615036494, spin:2.00723302, pinned:false, pnSource:true, z:0, vz:0,
+     obsSpin:{kind:"omega", omega:3.1946105641937824e-7, unit:"Hz", fSrc:0.07, rObs:597933600,   // omega = 1/P_B(P_B = 3130272 s = 36.23 d)
+       axis:{ref:"orbitNormal", pair:[0, 1],
+         tiltDeg:{deg:0, basis:"knob", default:0, min:0, max:180, note:"傾きの観測・推定は本リポジトリの記録に無い —— 既定 0°(軌道の法線の向き)"},
+         azimuthDeg:{deg:0, basis:"knob", default:0, min:0, max:360, note:"方位も記録に無い(傾き 0° の既定では向きに効かない)"},
+         source:"傾きと方位はノブ(模型の入力 —— α Cen B の自転軸の傾きの観測・推定は記録に無い)"},
+       frame:"book",
+       source:"ν = 1/P: P = 36.23 d(DeWarf et al. 2010 ApJ 722 343 の X 線・紫外の自転の変調・同じ csv の Alpha Centauri B の rotation_period の行 —— ✨ の自転と同じ記録)・rObs: 観測半径(Akeson et al. 2021)・fSrc: 太陽の I/(m R²) の文献の値 0.07 を当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+       epoch:"1995〜2007 年の活動の監視(DeWarf et al. 2010)",
+       note:"源の J = fSrc m rObs² ω(固定の外部の貯蔵庫 —— 源の自転の進化と歳差は扱わない)。軸はノブ(観測の軸ではない)"}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 { id:"psrDoubleABInertial3d",
-  name:"二重パルサー J0737−3039A/B(慣性決定力版・三次元)— 天体ごとの観測の自転 obsSpin(軸は欠測)",
+  name:"二重パルサー J0737−3039A/B(慣性決定力版・三次元)— 天体ごとの観測の自転 obsSpin(軸は推定の傾きとノブ)",
   emoji:"📟",
   group:"現実較正",
   familyId:"psr",
@@ -21609,25 +21792,36 @@ const BUILTIN_PRESETS = [
   fidelity:"real",
   notClaim:["solar_cal", "binary_geo3"],
   abBody:{label:{ja:"引きずりと G_loc を切る(両方 OFF —— 重力だけの二体の基線)", en:"drag and G_loc off (both off - the gravity-only two-body baseline)"}, physicsPatch:{relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, enabled:false, pairs:"all", history:"positions"}, gLoc:null}},
-  obsCard:[{q:"何を置いたか", model:"📻 psrDoubleAB と同じ質量・半径・初期の位置と速度(遠点整列・重心系)を z = v_z = 0 の三次元に置いた二体", obs:"—(原理サンプル —— 較正母集団の外)"}, {q:"宣言", model:"geoPN=3・kFrame=0・λ_PN=0・K1 + rdRule \"kappaM\"・G_loc n = 2・spinDrag {rot} + sourceMoment {kind:\"obsSpin\"}", obs:"—"}, {q:"観測の自転 obsSpin(A)", model:"ν = 44.054068642001 Hz・fSrc 0.354・rObs 11.75 km → J = 3.60e40 kg m²/s", obs:"Hu et al. 2022(文献の値 —— 一次資料に当たっていない)"}, {q:"観測の自転 obsSpin(B)", model:"ν = 1/P = 0.36056 Hz(P = 2.77346074724 s)・fSrc 0.346 → J = 2.69e38 kg m²/s", obs:"Kramer et al. 2006(文献の値)"}, {q:"軸(両星)", model:"axis:null —— 観測で決まっていない(欠測)ので J の源に使わない・軌道の法線で埋めない", obs:"A: 軌道との角の 95% 上限 3.2°・B: 40.6°(方位の記録なし)"}, {q:"この本の走り", model:"軸が欠測なので源の J は入らない —— 並進だけの写しと状態のビット同一", obs:"A の軸を軌道の法線と仮定した列は器の中(近点の移動 -1.760e-9 rad/公転・h/4)"}, {q:"fSrc(模型の入力)", model:"Lattimer & Schutz 2005 の経験式を代理半径 11.75 km に当てた値(A 0.354・B 0.346)", obs:"観測された構造係数ではない・0.4 を補わない"}, {q:"引きずりの半径 R_d = Y_k m(規則)", model:"A 23.44 km・B 21.87 km(観測半径の 1.99 倍・1.86 倍 —— 受理の警告)", obs:"重力半径に比例する長さ(物質半径ではない)"}],
-  descStruct:{summary:"重力(E4)の二体。📻 psrDoubleAB と同じ入力(両星の観測の質量・EOS の代理半径 11.75 km・遠点整列の初期の位置と速度・重心系・両星 free)を z = v_z = 0 の三次元に置き、geoPN=3・kFrame=0・λ_PN=0 で慣性引きずりを K1 + 規則の鍵 rdRule \"kappaM\"(R_d = Y_k m —— 合わせない)・initMotion \"observed\"・G_loc n = 2 で宣言した。両星の観測の自転を**天体ごとの観測の自転の欄 obsSpin**(kind \"omega\"・単位 Hz・明示の fSrc と rObs・出典・元期・座標系)に置き、回転引きずり spinDrag {rot:\"surfaceFlip\"} と源のモーメント sourceMoment {kind:\"obsSpin\"} で源の角運動量 J の経路へつないだ。**観測の J は固定の外部の貯蔵庫**で、状態の自転へは写さない(両星の自転の状態は 0 のまま —— 源の自転の変化と歳差は扱わない)。**両星とも軸は観測で決まっていないので axis:null(欠測)** —— J の源には使わず、この本の走りは並進だけの写しと状態のビット同一。A の軸を軌道の法線と仮定した比較列は器の中に置いた(本の既定にしない)。fSrc は模型の入力(観測された構造係数ではない)。数は正本 tests/out/obsspin-w324b.json。DFM は学習向きの仮定のモデルで、現実の宇宙とは主張しない。", observe:"トレイルで二体の楕円を見る(z = 0 の面)。軸が欠測なので回転の引きずりは入らない —— 軸を仮定した比較列との差は観測カードと正本で見る。", control:"ワンタップの対照は両方 OFF(引きずりなし・G_loc を physicsPatch の gLoc:null で切る —— 重力だけの二体)。比べる相手は 📻 psrDoubleAB(二次元・geo1)と 🔸 alphaCenABInertial3dJ(源の J —— f は模型の入力)。"},
-  en:{name:"Double Pulsar J0737−3039A/B (inertial determinacy, 3D) — per-body observed spin obsSpin (axes missing)", obsCard:[{q:"What is placed", model:"📻 psrDoubleAB's masses, radii, positions and velocities (aphelion-aligned, barycentric) in 3D at z = v_z = 0", obs:"- (a principle sample, outside the calibration population)"}, {q:"Declaration", model:"geoPN=3, kFrame=0, lambda_PN=0; K1 + rdRule \"kappaM\"; G_loc n = 2; spinDrag {rot} + sourceMoment {kind \"obsSpin\"}", obs:"-"}, {q:"Observed spin obsSpin (A)", model:"nu = 44.054068642001 Hz, fSrc 0.354, rObs 11.75 km -> J = 3.60e40 kg m^2/s", obs:"Hu et al. 2022 (literature value - no primary source checked)"}, {q:"Observed spin obsSpin (B)", model:"nu = 1/P = 0.36056 Hz (P = 2.77346074724 s), fSrc 0.346 -> J = 2.69e38 kg m^2/s", obs:"Kramer et al. 2006 (literature value)"}, {q:"Axes (both)", model:"axis:null - not fixed by observation (missing), so not used as a J source and never filled with the orbit normal", obs:"A: 95% upper limit 3.2 deg to the orbit; B: 40.6 deg (no azimuth record)"}, {q:"This book's run", model:"with the axes missing no source J enters - state bit-identical to the translation-only copy", obs:"a column assuming A's axis on the orbit normal is in the harness (apsidal shift -1.760e-9 rad/orbit, h/4)"}, {q:"fSrc (model input)", model:"the Lattimer & Schutz 2005 empirical relation at the 11.75 km proxy radius (A 0.354, B 0.346)", obs:"not an observed structure coefficient; 0.4 is not filled in"}, {q:"Drag radius R_d = Y_k m (rule)", model:"A 23.44 km, B 21.87 km (1.99x and 1.86x the observed radius - acceptance warnings)", obs:"a length proportional to the gravitational radius (not a matter radius)"}], descStruct:{summary:"A two-body under gravity (E4). The same input as 📻 psrDoubleAB (both observed masses, the EOS proxy radius 11.75 km, the aphelion-aligned initial positions and velocities, barycentric, both free) placed in 3D at z = v_z = 0 with geoPN=3, kFrame=0, lambda_PN=0 and the inertial drag declared as K1 with the rule key rdRule \"kappaM\" (R_d = Y_k m - not matched), initMotion \"observed\", G_loc n = 2. Both observed spins sit in the PER-BODY OBSERVED-SPIN FIELD obsSpin (kind \"omega\", unit Hz, explicit fSrc and rObs, source, epoch, frame) and are wired to the source angular momentum J path through the rotational drag spinDrag {rot \"surfaceFlip\"} and the source moment sourceMoment {kind \"obsSpin\"}. THE OBSERVED J IS A FIXED EXTERNAL RESERVOIR and is never written into the state spins (both stay 0 - the source spin's evolution and precession are not treated). NEITHER AXIS IS FIXED BY OBSERVATION, SO BOTH ARE axis:null (MISSING): they are not used as J sources, and this book's run is state bit-identical to the translation-only copy. A comparison column assuming A's axis on the orbit normal sits in the harness (not this book's default). fSrc is a model input (not an observed structure coefficient). Numbers in tests/out/obsspin-w324b.json. DFM is an assumed model for learning, not claimed to be the real universe.", observe:"Watch the two ellipses with the trail (the z = 0 plane). With the axes missing no rotational drag enters - the gap to the assumed-axis column is in the observation card and the canon.", control:"The one-tap control is both off (no drag, G_loc cut by physicsPatch gLoc:null - the gravity-only two-body). Compare with 📻 psrDoubleAB (2D, geo1) and 🔸 alphaCenABInertial3dJ (source J - f a model input)."}, parameterAudit:{observedInputs:["G_0=6.674 (the real G value)", "c_0=2997.92458 (the real c value - the L-T=5 relativistic-binary family)", "both observed masses and the relative orbit a, e (copied from 📻 psrDoubleAB - Hu et al. 2022)", "the initial positions and velocities (a bit copy of 📻's aphelion-aligned placement, z = v_z = 0)", "A's spin frequency nu = 44.054068642001 Hz (Hu et al. 2022) and B's spin period P = 2.77346074724 s (Kramer et al. 2006) - literature values, no primary source checked"], fixedConventions:["per-sample scale exponents (1 unit = 10^6 m / 10^1 s / 10^27 kg - the L-T=5 family, as 📻)", "physics.coord 3d (right-handed; the orbit in the z = 0 plane, +z the initial orbital angular momentum)", "geoPN=3, kFrame=0, lambda_PN=0", "inertial drag relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\", sourceMoment:{kind:\"obsSpin\"}}, pairs:\"all\", history:\"positions\", initMotion:\"observed\", spinDrag:{rot:\"surfaceFlip\"}}", "local gravity physics.gLoc:{law:\"kappaC2\"} (n = 2)", "per-body obsSpin (kind omega, unit Hz, frame book, axis null - missing); state spins 0", "rObs = the EOS proxy 11.75 km (no direct radius observation)", "q=3.1789 and D0=0.006 kept from 📻 (no effect at kFrame 0)"], fitted:["NOTHING - R_d by the rule, fSrc a declared model input"], derived:["Y_k = 10G_0/(C_1c_0^2); R_d: A 23.44 km, B 21.87 km (rule)", "eta = 0.24970, 1 + (4/3)eta = 1.33294", "J = fSrc m rObs^2 omega: A 3.60e40, B 2.69e38 kg m^2/s (axes missing - not used as sources)", "fSrc = 0.237 (1 + 4.2x + 90x^4), x = (M/Msun)(km/R) (the Lattimer & Schutz 2005 empirical relation - a literature value)"], numerical:["softening eps=0.05", "time multiplier timeScale=1, screen step stepDt=2.45404 (as 📻 - about 360 steps per orbit)", "display magnification dispMag=1000 (display only)"]}},
-  parameterAudit:{observedInputs:["G_0=6.674(実 G の値)", "c_0=2997.92458(実 c の値 —— L−T=5 の相対論的連星族)", "両星の観測の質量と相対軌道の a・e(📻 psrDoubleAB の写し —— Hu et al. 2022)", "初期の位置と速度(📻 の遠点整列の配置のビット写し・z = v_z = 0)", "A の自転の振動数 ν = 44.054068642001 Hz(Hu et al. 2022)・B の自転の周期 P = 2.77346074724 s(Kramer et al. 2006)—— 文献の値(一次資料に当たっていない)"], fixedConventions:["サンプル別スケール指数(1単位=10^6m/10^1s/10^27kg —— L−T=5 の族・📻 と同じ)", "physics.coord:\"3d\"(右手系・軌道は z = 0 の面・+z は初期の軌道角運動量の向き)", "geoPN=3・kFrame=0・λ_PN=0", "慣性引きずり relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\", sourceMoment:{kind:\"obsSpin\"}}, pairs:\"all\", history:\"positions\", initMotion:\"observed\", spinDrag:{rot:\"surfaceFlip\"}}", "局所重力 physics.gLoc:{law:\"kappaC2\"}(n = 2)", "天体ごとの obsSpin(kind omega・unit Hz・frame book・axis null —— 欠測)・状態の自転は 0", "rObs = EOS の代理 11.75 km(直接の半径の観測ではない)", "q=3.1789・D0=0.006 は 📻 の値のまま(kFrame 0 では走行に効かない)"], fitted:["**無し** —— R_d は規則・fSrc は宣言した模型の入力"], derived:["Y_k = 10G_0/(C_1c_0²)・R_d: A 23.44 km・B 21.87 km(規則)", "η = 0.24970・1 + (4/3)η = 1.33294", "J = fSrc m rObs² ω: A 3.60e40・B 2.69e38 kg m²/s(軸が欠測なので源に使わない)", "fSrc = 0.237(1 + 4.2x + 90x⁴)・x = (M/M☉)(km/R)(Lattimer & Schutz 2005 の経験式 —— 文献の値)"], numerical:["ソフトニング ε=0.05", "時間倍率 timeScale=1・画面の刻み stepDt=2.45404(📻 と同じ —— 1 公転 ≈ 360 步)", "粒子表示倍率 dispMag=1000(表示専用)"]},
+  obsCard:[{q:"何を置いたか", model:"📻 psrDoubleAB と同じ質量・半径・初期の位置と速度(遠点整列・重心系)を z = v_z = 0 の三次元に置いた二体", obs:"—(原理サンプル —— 較正母集団の外)"}, {q:"宣言", model:"geoPN=3・kFrame=0・λ_PN=0・K1 + rdRule \"kappaM\"・G_loc n = 2・spinDrag {rot} + sourceMoment {kind:\"obsSpin\"}", obs:"—"}, {q:"観測の自転 obsSpin(A)", model:"ν = 44.054068642001 Hz・fSrc 0.354・rObs 11.75 km → J = 3.60e40 kg m²/s", obs:"Hu et al. 2022(文献の値 —— 一次資料に当たっていない)"}, {q:"観測の自転 obsSpin(B)", model:"ν = 1/P = 0.36056 Hz(P = 2.77346074724 s)・fSrc 0.346 → J = 2.69e38 kg m²/s", obs:"Kramer et al. 2006(文献の値)"}, {q:"軸(推定の傾きとノブ)", model:"軌道の法線から A は推定の傾き 0°(95% 上限 3.2° の内の整列)・B は推定の傾き 40.6°(±0.1°)", obs:"方位(両星)と B の角の読み(40.6° か 139.4°)はノブ —— 記録に無い"}, {q:"源の J − 並進だけ(近点の移動・rad/公転)", model:"@JPS@(h・h/2・h/4 —— 刻みの感度診断)", obs:"同じ初期状態・同じ 8 公転の窓 —— うち B の寄与 @JPB@(h)"}, {q:"fSrc(模型の入力)", model:"Lattimer & Schutz 2005 の経験式を代理半径 11.75 km に当てた値(A 0.354・B 0.346)", obs:"観測された構造係数ではない・0.4 を補わない"}, {q:"引きずりの半径 R_d = Y_k m(規則)", model:"A 23.44 km・B 21.87 km(観測半径の 1.99 倍・1.86 倍 —— 受理の警告)", obs:"重力半径に比例する長さ(物質半径ではない)"}],
+  descStruct:{summary:"重力(E4)の二体。📻 psrDoubleAB と同じ入力(両星の観測の質量・EOS の代理半径 11.75 km・遠点整列の初期の位置と速度・重心系・両星 free)を z = v_z = 0 の三次元に置き、geoPN=3・kFrame=0・λ_PN=0 で慣性引きずりを K1 + 規則の鍵 rdRule \"kappaM\"(R_d = Y_k m —— 合わせない)・initMotion \"observed\"・G_loc n = 2 で宣言した。両星の観測の自転を**天体ごとの観測の自転の欄 obsSpin**(kind \"omega\"・単位 Hz・明示の fSrc と rObs・出典・元期・座標系)に置き、回転引きずり spinDrag {rot:\"surfaceFlip\"} と源のモーメント sourceMoment {kind:\"obsSpin\"} で源の角運動量 J の経路へつないだ。**観測の J は固定の外部の貯蔵庫**で、状態の自転へは写さない(両星の自転の状態は 0 のまま —— 源の自転の変化と歳差は扱わない)。**自転軸は、傾きの観測か推定がある天体はその値を使い、不明な成分はノブにした**: A は軌道の法線との角の 95% 上限 3.2° の推定から傾き 0°(整列 —— 上限は不確かさとして記録)、B は一般相対論を仮定した幾何解の推定の傾き 40.6° を置き、記録に無い方位(両星 —— 既定 0°・範囲 0〜360°)と B の角の二通りの読み(40.6° か 139.4° —— 既定 40.6°)を模型の入力のノブにした(ノブの値を観測と呼ばない)。これで源の J が入り、並進だけの写しとの差は近点の移動で 1 公転あたり約 @JPSAPX@ rad(うち B の寄与は A の分の約 @JPBPCT@)。軸を欠測(axis:null)にした写しは並進だけとビット同一(器の中の列)。fSrc は模型の入力(観測された構造係数ではない)。数は正本 tests/out/obsspin-w324b.json。DFM は学習向きの仮定のモデルで、現実の宇宙とは主張しない。", observe:"トレイルで二体の楕円を見る(z = 0 の面)。源の J の回転引きずりが近点の移動に足す分は 1 公転あたり約 @JPSAPX@ rad で画面では見えない —— 数は説明タブの観測カード。", control:"ワンタップの対照は両方 OFF(引きずりなし・G_loc を physicsPatch の gLoc:null で切る —— 重力だけの二体)。比べる相手は 📻 psrDoubleAB(二次元・geo1)と 🔸 alphaCenABInertial3dJ(源の J —— 軸はノブ)。"},
+  en:{name:"Double Pulsar J0737−3039A/B (inertial determinacy, 3D) — per-body observed spin obsSpin (estimated tilts and knobs)", obsCard:[{q:"What is placed", model:"📻 psrDoubleAB's masses, radii, positions and velocities (aphelion-aligned, barycentric) in 3D at z = v_z = 0", obs:"- (a principle sample, outside the calibration population)"}, {q:"Declaration", model:"geoPN=3, kFrame=0, lambda_PN=0; K1 + rdRule \"kappaM\"; G_loc n = 2; spinDrag {rot} + sourceMoment {kind \"obsSpin\"}", obs:"-"}, {q:"Observed spin obsSpin (A)", model:"nu = 44.054068642001 Hz, fSrc 0.354, rObs 11.75 km -> J = 3.60e40 kg m^2/s", obs:"Hu et al. 2022 (literature value - no primary source checked)"}, {q:"Observed spin obsSpin (B)", model:"nu = 1/P = 0.36056 Hz (P = 2.77346074724 s), fSrc 0.346 -> J = 2.69e38 kg m^2/s", obs:"Kramer et al. 2006 (literature value)"}, {q:"Axes (estimated tilts and knobs)", model:"from the orbit normal: A estimated tilt 0 deg (aligned within the 95% limit 3.2 deg), B estimated 40.6 deg (+-0.1)", obs:"the azimuths (both) and B's angle reading (40.6 or 139.4 deg) are knobs - not in the record"}, {q:"Source J - translation only (apsidal shift, rad/orbit)", model:"@JPSEN@ (h, h/2, h/4 - step sensitivity)", obs:"same initial state, same 8-orbit window - B's share @JPB@ (h)"}, {q:"fSrc (model input)", model:"the Lattimer & Schutz 2005 empirical relation at the 11.75 km proxy radius (A 0.354, B 0.346)", obs:"not an observed structure coefficient; 0.4 is not filled in"}, {q:"Drag radius R_d = Y_k m (rule)", model:"A 23.44 km, B 21.87 km (1.99x and 1.86x the observed radius - acceptance warnings)", obs:"a length proportional to the gravitational radius (not a matter radius)"}], descStruct:{summary:"A two-body under gravity (E4). The same input as 📻 psrDoubleAB (both observed masses, the EOS proxy radius 11.75 km, the aphelion-aligned initial positions and velocities, barycentric, both free) placed in 3D at z = v_z = 0 with geoPN=3, kFrame=0, lambda_PN=0 and the inertial drag declared as K1 with the rule key rdRule \"kappaM\" (R_d = Y_k m - not matched), initMotion \"observed\", G_loc n = 2. Both observed spins sit in the PER-BODY OBSERVED-SPIN FIELD obsSpin (kind \"omega\", unit Hz, explicit fSrc and rObs, source, epoch, frame) and are wired to the source angular momentum J path through the rotational drag spinDrag {rot \"surfaceFlip\"} and the source moment sourceMoment {kind \"obsSpin\"}. THE OBSERVED J IS A FIXED EXTERNAL RESERVOIR and is never written into the state spins (both stay 0 - the source spin's evolution and precession are not treated). THE SPIN AXES USE THE OBSERVED OR ESTIMATED TILT WHERE ONE EXISTS AND KNOBS FOR WHAT IS UNKNOWN: A takes tilt 0 deg (aligned - the 95% upper limit of 3.2 deg on its angle to the orbit normal is kept as the uncertainty), B takes the estimated tilt 40.6 deg of a geometric solution assuming GR, and the azimuths (both - default 0, range 0-360 deg) and B's two readings of the angle (40.6 or 139.4 deg - default 40.6) are model-input knobs (a knob value is never called an observation). The source J now enters, and the gap to the translation-only copy is about @JPSAPX@ rad per orbit in the apsidal shift (B's share about @JPBPCT@ of A's). A copy with the axes missing (axis:null) is bit-identical to the translation-only copy (a harness column). fSrc is a model input (not an observed structure coefficient). Numbers in tests/out/obsspin-w324b.json. DFM is an assumed model for learning, not claimed to be the real universe.", observe:"Watch the two ellipses with the trail (the z = 0 plane). What the source-J rotational drag adds to the apsidal shift is about @JPSAPX@ rad per orbit, too small to see - the numbers are in the observation card.", control:"The one-tap control is both off (no drag, G_loc cut by physicsPatch gLoc:null - the gravity-only two-body). Compare with 📻 psrDoubleAB (2D, geo1) and 🔸 alphaCenABInertial3dJ (source J - axes as knobs)."}, parameterAudit:{observedInputs:["G_0=6.674 (the real G value)", "c_0=2997.92458 (the real c value - the L-T=5 relativistic-binary family)", "both observed masses and the relative orbit a, e (copied from 📻 psrDoubleAB - Hu et al. 2022)", "the initial positions and velocities (a bit copy of 📻's aphelion-aligned placement, z = v_z = 0)", "A's spin frequency nu = 44.054068642001 Hz (Hu et al. 2022) and B's spin period P = 2.77346074724 s (Kramer et al. 2006) - literature values, no primary source checked", "the axis tilts: A within the 95% upper limit 3.2 deg (Ferdman et al. 2013 - a model value assuming two-pole emission), B 40.6 +- 0.1 deg (Lower et al. 2024 - a geometric solution assuming GR) - estimates, literature values"], fixedConventions:["per-sample scale exponents (1 unit = 10^6 m / 10^1 s / 10^27 kg - the L-T=5 family, as 📻)", "physics.coord 3d (right-handed; the orbit in the z = 0 plane, +z the initial orbital angular momentum)", "geoPN=3, kFrame=0, lambda_PN=0", "inertial drag relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\", sourceMoment:{kind:\"obsSpin\"}}, pairs:\"all\", history:\"positions\", initMotion:\"observed\", spinDrag:{rot:\"surfaceFlip\"}}", "local gravity physics.gLoc:{law:\"kappaC2\"} (n = 2)", "per-body obsSpin (kind omega, unit Hz, frame book, axis in the tilt form from the orbit normal of the pair A, B - A estimated 0 deg, B estimated 40.6 deg); state spins 0", "knobs (model inputs): azimuth 0-360 deg for both (default 0) and B's angle reading +-1 (default +1 = 40.6 deg)", "rObs = the EOS proxy 11.75 km (no direct radius observation)", "q=3.1789 and D0=0.006 kept from 📻 (no effect at kFrame 0)"], fitted:["NOTHING - R_d by the rule, fSrc a declared model input, the knobs at their defaults"], derived:["Y_k = 10G_0/(C_1c_0^2); R_d: A 23.44 km, B 21.87 km (rule)", "eta = 0.24970, 1 + (4/3)eta = 1.33294", "J = fSrc m rObs^2 omega: A 3.60e40, B 2.69e38 kg m^2/s (both sources - the axes from the estimated tilts)", "fSrc = 0.237 (1 + 4.2x + 90x^4), x = (M/Msun)(km/R) (the Lattimer & Schutz 2005 empirical relation - a literature value)"], numerical:["softening eps=0.05", "time multiplier timeScale=1, screen step stepDt=2.45404 (as 📻 - about 360 steps per orbit)", "display magnification dispMag=1000 (display only)"]}},
+  parameterAudit:{observedInputs:["G_0=6.674(実 G の値)", "c_0=2997.92458(実 c の値 —— L−T=5 の相対論的連星族)", "両星の観測の質量と相対軌道の a・e(📻 psrDoubleAB の写し —— Hu et al. 2022)", "初期の位置と速度(📻 の遠点整列の配置のビット写し・z = v_z = 0)", "A の自転の振動数 ν = 44.054068642001 Hz(Hu et al. 2022)・B の自転の周期 P = 2.77346074724 s(Kramer et al. 2006)—— 文献の値(一次資料に当たっていない)", "軸の傾き: A は 95% 上限 3.2° の内(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値)・B は 40.6 ± 0.1°(Lower et al. 2024 —— 一般相対論を仮定した幾何解)—— 推定・文献の値"], fixedConventions:["サンプル別スケール指数(1単位=10^6m/10^1s/10^27kg —— L−T=5 の族・📻 と同じ)", "physics.coord:\"3d\"(右手系・軌道は z = 0 の面・+z は初期の軌道角運動量の向き)", "geoPN=3・kFrame=0・λ_PN=0", "慣性引きずり relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\", sourceMoment:{kind:\"obsSpin\"}}, pairs:\"all\", history:\"positions\", initMotion:\"observed\", spinDrag:{rot:\"surfaceFlip\"}}", "局所重力 physics.gLoc:{law:\"kappaC2\"}(n = 2)", "天体ごとの obsSpin(kind omega・unit Hz・frame book・軸は二体 A・B の軌道の法線からの傾きの形 —— A 推定 0°・B 推定 40.6°)・状態の自転は 0", "ノブ(模型の入力): 両星の方位 0〜360°(既定 0°)・B の角の読み ±1(既定 +1 = 40.6°)", "rObs = EOS の代理 11.75 km(直接の半径の観測ではない)", "q=3.1789・D0=0.006 は 📻 の値のまま(kFrame 0 では走行に効かない)"], fitted:["**無し** —— R_d は規則・fSrc は宣言した模型の入力・ノブは既定"], derived:["Y_k = 10G_0/(C_1c_0²)・R_d: A 23.44 km・B 21.87 km(規則)", "η = 0.24970・1 + (4/3)η = 1.33294", "J = fSrc m rObs² ω: A 3.60e40・B 2.69e38 kg m²/s(両星とも源 —— 軸は推定の傾き)", "fSrc = 0.237(1 + 4.2x + 90x⁴)・x = (M/M☉)(km/R)(Lattimer & Schutz 2005 の経験式 —— 文献の値)"], numerical:["ソフトニング ε=0.05", "時間倍率 timeScale=1・画面の刻み stepDt=2.45404(📻 と同じ —— 1 公転 ≈ 360 步)", "粒子表示倍率 dispMag=1000(表示専用)"]},
   activeParams:["geoPN","dispMag"],
   camera:{scale:1100}, world:{boundary:"none", size:0},
   timeRef:{basis:"orbit", pRef:883.453472, pair:[0, 1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(psrDoubleAB の B の周期 8834.53472328 s ÷ 10^1 s)", stepsPerOrbit:360, legacyTimeScale:300},
   physics:{G:6.674, D0:0.006, kFrame:0, q:3.1789, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.42582647410185e-7, cLight:2997.92458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:0.000001, geoPN:3, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:2.45404, dispMag:1000, stateCarry:"double", frameWeight:"pull", coord:"3d", relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM", sourceMoment:{kind:"obsSpin"}}, pairs:"all", history:"positions", initMotion:"observed", spinDrag:{rot:"surfaceFlip"}}, gLoc:{law:"kappaC2"}},
   bodies:[   // 0 = A(パルサー 22.7 ms)・1 = B(パルサー 2.77 s)—— 📻 の配置のビット写し(z = v_z = 0・自転の状態は 0 のまま —— 観測の自転は obsSpin の欄だけ。📻 の B の二次元の表示の軸は写さない)
     {type:"single", m:2660.982861, radius:0.01175, x:-461.48618600827865, y:0, vx:0, vy:-2.763093948239957, spin:0, pinned:false, pnSource:true, z:0, vz:0,
-     obsSpin:{kind:"omega", omega:44.054068642001, unit:"Hz", fSrc:0.354, rObs:11750, axis:null, frame:"book",
+     obsSpin:{kind:"omega", omega:44.054068642001, unit:"Hz", fSrc:0.354, rObs:11750,
+       axis:{ref:"orbitNormal", pair:[0, 1],
+         tiltDeg:{deg:0, basis:"estimated", upperDeg:3.2, level:95, note:"上限の内の整列(中心の値は記録に無い —— 68%・99% の上限は 0.85°・4.7°)"},
+         azimuthDeg:{deg:0, basis:"knob", default:0, min:0, max:360, note:"方位は記録に無い(模型の入力 —— 傾き 0° の既定では向きに効かない)"},
+         source:"傾き: Ferdman et al. 2013 ApJ 767 85 の軌道角運動量との角の 95% の上限 3.2°(二つの磁極の放射を仮定した模型の値・paper/data/solar-observations.csv の PSR J0737-3039 A の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位はノブ(模型の入力)"},
+       frame:"book",
        source:"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
        epoch:"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-       note:"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"}},
+       note:"軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)"}},
     {type:"single", m:2483.370041, radius:0.01175, x:494.49208586803894, y:0, vx:0, vy:2.9607128692905675, spin:0, pinned:false, pnSource:true, z:0, vz:0,
-     obsSpin:{kind:"omega", omega:0.360560358027474, unit:"Hz", fSrc:0.346, rObs:11750, axis:null, frame:"book",   // omega = 1/P_B(P_B = 2.77346074724 s)
+     obsSpin:{kind:"omega", omega:0.360560358027474, unit:"Hz", fSrc:0.346, rObs:11750,   // omega = 1/P_B(P_B = 2.77346074724 s)
+       axis:{ref:"orbitNormal", pair:[0, 1],
+         tiltDeg:{deg:40.6, basis:"estimated", sigmaDeg:0.1, note:"一般相対論を仮定した幾何解(δ_B = 180° − θ の書き方の値)"},
+         azimuthDeg:{deg:0, basis:"knob", default:0, min:0, max:360, note:"方位と元期は記録に無い(模型の入力 —— 歳差 5.16°/年で回る向き)"},
+         sense:{sign:1, basis:"knob", default:1, min:-1, max:1, note:"記録の角の二通りの読み —— +1 は 40.6°(記録の行の値・📻 の B の表示の宣言と同じ)・−1 は 139.4°(論文の角 θ)"},
+         source:"傾き: Lower et al. 2024 A&A 682 A26 §5.2 の 40.6 ± 0.1°(一般相対論を仮定した幾何解・同じ csv の PSR J0737-3039 B の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位と角の読みはノブ(模型の入力)"},
+       frame:"book",
        source:"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
        epoch:"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-       note:"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)"}}
+       note:"軸は推定の傾き 40.6° と、方位・角の読みのノブ。歳差 5.16°/年は扱わない(固定の外部の貯蔵庫 —— 8 公転の窓で約 0.01°)"}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 // ==== 第324便b の塊(ここまで)====
@@ -66329,6 +66523,11 @@ window.HP.PRESET_TEXT_CLEAN_A_VERSION=PRESET_TEXT_CLEAN_A_VERSION;
 window.HP.obsSpin={ version:OBS_SPIN_VERSION, key:OBS_SPIN_KEY, srcKind:OBS_SPIN_SRC_KIND, keys:OBS_SPIN_KEYS, kinds:OBS_SPIN_KINDS, units:OBS_SPIN_UNITS, frames:OBS_SPIN_FRAMES, fMax:OBS_SPIN_F_MAX,
   validate:validateObsSpinBody, usable:obsSpinUsable, rowOf:obsSpinRowOf, crossCheck:obsSpinCrossCheck, state:obsSpinState, srcOn:obsSpinSrcOn };
 // ==== 第324便b の塊(ここまで)====
+// ==== 第324便e の塊(ここから)====
+// 第324便e(原仮定者の回答(2026-11-02 —— AN521)・統括の検証項目 R283): 傾きの形(観測/推定/ノブ)の読み口(器 tests/exp-w324b-obsspin.mjs・QA behavior.obsSpinTilt324e が読む —— 読むだけ)
+Object.assign(window.HP.obsSpin, { axisRefs:OBS_SPIN_AXIS_REFS, axisKeys:OBS_SPIN_AXIS_KEYS, axisBases:OBS_SPIN_AXIS_BASES, axisComps:OBS_SPIN_AXIS_COMPS, axisCompKeys:OBS_SPIN_AXIS_COMP_KEYS,
+  axisTiltOf:obsSpinAxisTiltOf, axisResolve:obsSpinAxisResolve, orbitNormal:obsSpinOrbitNormal, axisInfo:obsSpinAxisInfo, knobsOf:obsSpinKnobsOf, withKnob:obsSpinWithKnob });
+// ==== 第324便e の塊(ここまで)====
 
 // ===== 起動 =====
 applyUiScale();   // v1.17: 文字サイズ設定の反映(hp_uiscale 永続)
