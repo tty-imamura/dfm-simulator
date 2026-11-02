@@ -548,6 +548,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickWindows323 docs.w323c lint.harness
 #   docs.sampleStatus-sync・preset.statusLedger-sync・docs.tallySync)・刻印の lint.provenanceMeta・lint.stableHashPaths・lint.regenChain・この脚本の lint.postMergeQaScript・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.provenanceIds323 lint.qaRecheck323 docs.w323d docs.calaudit-sync docs.calibration-verdict-sync behavior.calauditStages lint.calauditMergeKeyHash lint.calauditDiagSplit docs.periodContractRows docs.sampleStatus-sync preset.statusLedger-sync docs.tallySync lint.provenanceMeta lint.stableHashPaths lint.regenChain lint.postMergeQaScript lint.qaHeapRelease310"
 # ==== 第323便d の塊(ここまで)====
+# ==== 第324便b の塊(ここから)====
+# 第324便b(決断事項 AN514・AN515・R280): 枝 b の新設 2 本(behavior.obsSpin324b —— 天体ごとの観測の自転 obsSpin の受理・拒否の 32 の場合・📟 と 🔸 の宣言・60 步のビット・
+#   源の J の読み口と状態の自転の不変・本の文の数 / docs.obsSpin324b —— 正本と文書)と、本を足した便で数え上げの変わる QA(fidelity・c₀ の一律規約・光速の真値の一覧・三次元の本の並び —— ui.fidelity・
+#   light.canonical-builtins・lint.cLightTrue・preset.clocksGravity)・受理器を読む lint.presetText316c・正本の段の lint 一式(lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・
+#   lint.scopeAll312・lint.provenanceMeta・CANON の lint.canon304・lint.qaHeapRelease310・lint.sectionLookup313・煙試験の窓の表の lint.harnessSmoke303・規約の速い判定の lint.conventionsCheck323)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.obsSpin324b docs.obsSpin324b ui.fidelity light.canonical-builtins lint.cLightTrue preset.clocksGravity lint.presetText316c lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.harnessSmoke303 lint.conventionsCheck323"
+# ==== 第324便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
