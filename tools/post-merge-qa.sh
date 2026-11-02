@@ -550,6 +550,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickWindows323 docs.w323c lint.harness
 #   docs.sampleStatus-sync・preset.statusLedger-sync・docs.tallySync)・刻印の lint.provenanceMeta・lint.stableHashPaths・lint.regenChain・この脚本の lint.postMergeQaScript・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.provenanceIds323 lint.qaRecheck323 docs.w323d docs.calaudit-sync docs.calibration-verdict-sync behavior.calauditStages lint.calauditMergeKeyHash lint.calauditDiagSplit docs.periodContractRows docs.sampleStatus-sync preset.statusLedger-sync docs.tallySync lint.provenanceMeta lint.stableHashPaths lint.regenChain lint.postMergeQaScript lint.qaHeapRelease310"
 # ==== 第323便d の塊(ここまで)====
+# ==== 第324便b の塊(ここから)====
+# 第324便b(決断事項 AN514・AN515・R280): 枝 b の新設 2 本(behavior.obsSpin324b —— 天体ごとの観測の自転 obsSpin の受理・拒否の 32 の場合・📟 と 🔸 の宣言・60 步のビット・
+#   源の J の読み口と状態の自転の不変・本の文の数 / docs.obsSpin324b —— 正本と文書)と、本を足した便で数え上げの変わる QA(fidelity・c₀ の一律規約・光速の真値の一覧・三次元の本の並び —— ui.fidelity・
+#   light.canonical-builtins・lint.cLightTrue・preset.clocksGravity)・受理器を読む lint.presetText316c・正本の段の lint 一式(lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・
+#   lint.scopeAll312・lint.provenanceMeta・CANON の lint.canon304・lint.qaHeapRelease310・lint.sectionLookup313・煙試験の窓の表の lint.harnessSmoke303・規約の速い判定の lint.conventionsCheck323)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.obsSpin324b docs.obsSpin324b ui.fidelity light.canonical-builtins lint.cLightTrue preset.clocksGravity lint.presetText316c lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.harnessSmoke303 lint.conventionsCheck323"
+# ==== 第324便b の塊(ここまで)====
 # ==== 第324便c の塊(ここから)====
 # 第324便c(統括の検証項目 R281): 枝 c の新設 4 本(lint.quickBoundary324c —— 簡易一致の欠測の境界・照合の数・自己比較の拒否・長期の量の名簿・nslock の影の照合の記録・
 #   速い判定の実効値 / lint.calVolatile324c —— calaudit の揮発の欄〔h/2 の転記の来歴・置き場の html の sha〕/ lint.postMergeCounts324c —— post-merge の ③〜④ の 4 つの数・③′ の絞り・部分 QA で覆えない鍵の名簿 /

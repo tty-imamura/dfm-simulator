@@ -1612,6 +1612,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/fieldcontract-w322c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第322便c: geoPN=4 の場の契約 —— 外部場の輸送の力学の契約の導出(今の v−u 輸送は正準の型 H = ½|p|² + p·u + Φ を状態の v = ẋ = p + u で書いたもの —— 6 場面 × 5 型の軌道と台帳・k_F ≠ 1 の余りの力)・散逸のグループの 2 列(銀河 1 グループ/成分ごと —— R_cut の不変のビット)・AN503 の診断の写しの設計(エンジン・在位の本は変えない・外部場の輸送はエンジンに入れていない)' }),
   // ==== 第322便c の塊(ここまで)====
+  // ==== 第324便b の塊(ここから)====
+  // ---- 第324便b(決断事項 AN514・AN515・統括の検証項目 R280 —— geoPN=3 の S3): **天体ごとの観測の自転 obsSpin と源の角運動量 J の本の器**(段 obsspin-324b —— A 受理・拒否の
+  //   32 の場合〔排他・必須の欄・単位・axis:null・二形式・0.4 を補わない・未知の鍵・二次元の本・S.spin へ写す宣言・源の経路 kind "obsSpin"〕・B 本の宣言〔📟 と第321便b の兄弟の写し・
+  //   🔸 と 🔶〕・E 走行〔J0737 8 列・α Cen 5 列 × h・h/2・h/4 × 8 公転〕・L J の口座〔源の J が固定の貯蔵庫・状態の自転と軸が不変〕・T 列の差)。html を読む(他の正本・データは読まない)。
+  //   子プロセス 2 本(W324B_WORKERS)。所要は第324便b の枝の実測 28.9 s(子プロセス 2 本 —— 4 枝並走の負荷平均約 5 の箱〔**並走の秒**〕—— 統括が混まない箱で測り直す)。
+  //   長期の量(近点の率・周期 —— 8 公転の窓)を出すので quickVerify:'long'(步の関数か受理器が変わった便は簡易一致を使わない)
+  S('obsspin-324b', 'node tests/exp-w324b-obsspin.mjs', ['tests/out/obsspin-w324b.json'], 30, { secSource: 'w324b-branch', node: true, after: ['obscompare', 'samplestatus'], quickVerify: 'long',
+    volatilePaths: { 'tests/out/obsspin-w324b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec']) },
+    note: '第324便b: 天体ごとの観測の自転 obsSpin の受理(AN515 —— 排他・明示の fSrc と rObs・0.4 を補わない・axis:null は欠測で J の源に使わない・S.spin へ入れない)と源の J の経路・📟 J0737 の geoPN=3 の本(軸は欠測 —— 並進だけとビット同一)と A の軸を仮定した比較列・🔸 α Cen の J の本(AN514 —— 🔶 との差)・J の口座' }),
+  // ==== 第324便b の塊(ここまで)====
   // ==== 第324便d の塊(ここから)====
   // ---- 第324便d(決断事項 AN480・AN452・統括の検証項目 R282): **長い段の再開の型**の門(段 resume-324d —— 正本 tests/out/resume-w324d.json)と**イオ・エウロパの長い窓**
   //   (段 satlong-324d —— 正本 tests/out/satlong-w324d.json —— 1.5 P_母 × h・h/2・h/4 × V1a・V0 —— 契約・窓・模型・判定は satnext-318b と同じ)。どちらも器 tests/exp-w318b-satnext.mjs の

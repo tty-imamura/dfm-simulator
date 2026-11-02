@@ -180,6 +180,9 @@ export const SMOKE_KNOBS = Object.freeze({
   'an336-306a': { env: { W306A_PARTS: 'A,M', W306A_OUT: 'tests/out/_smoke-an336-w306a.json' }, out: 'tests/out/_smoke-an336-w306a.json', sec: 195, fullSec: 721,
     covers: '段 A(1PN + A1 の契約と標的)・M(水星の根 —— 正本の時刻で 87 s・フルの 12%)', note: '段 A・M だけ(移送 T・対ごとの行 R・門 G はフル —— エンジンを走らせる段はどれも M の根を読む)' },
   // ==== 第323便c の塊(ここまで)====
+  // ==== 第324便b の塊(ここから)====
+  'obsspin-324b': { env: { W324B_QUICK: '1', W324B_WORKERS: '1', W324B_OUT: 'tests/out/_smoke-obsspin-w324b.json' }, note: '試走(窓 3 公転・刻み h・h/2・列を減らす —— 1 プロセス・約 8〜15 s。正本は子プロセス 2 本・8 公転・h・h/2・h/4)' },
+  // ==== 第324便b の塊(ここまで)====
   // ==== 第311便b の塊(ここまで)====
 });
 
