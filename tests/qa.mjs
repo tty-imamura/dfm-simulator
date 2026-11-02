@@ -63077,7 +63077,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
           + (ps.some((q) => q.id === 'mercuryMeshMigrate3d') ? 1 : 0)   // 第299便d: 🔂(🔁 の移行の写し —— mercury の variant)(フィットの派生本)も mercury の variant   // 第295便c: 🟤 も mercury の variant   // 第280便c: 🔁 mercuryGeoToy3(geoPN=3 の診断コピー)が variant で加わる
         // 第280便b(R70): 地球–月は 🌙🌘 に ⭕🧲🔆(旧 emAudit)と診断コピー 🌓 を足した 6 本(世代判定 HP.validateQLockKernel)
         // 第292便d(R140): 🌜 earthMoonTide(明示潮汐の診断本 —— earthmoon の variant)を足した世代は +1
-        && o.fam.earthmoon === ((typeof HP.validateQLockKernel === 'function') ? 6 : 2) + (ps.some((q) => q.id === 'earthMoonTide') ? 1 : 0) + (ps.some((q) => q.id === 'earthMoonInertial' && q.familyId === 'earthmoon') ? 1 : 0) /* 第292便c: 🌛 */ + (ps.some((q) => q.id === 'earthMoonSunInertial' && q.familyId === 'earthmoon') ? 1 : 0) /* 第295便c: 🌤️ */ + ps.filter((q) => q.familyId === 'earthmoon' && q.referenceKind === 'observation-fit').length /* 第297便b: 🌥️(再現作業の派生本) */ + (ps.some((q) => q.id === 'earthMoonOnly3d' && q.familyId === 'earthmoon') ? 1 : 0) /* 第300便b: 🌔(地球と月だけの対照) */ && o.fam.saturn === (HP.allPresets().some((q) => q.id === 'saturnD68Consistent') ? 5 : 3) + ps.filter((q) => q.familyId === 'saturn' && (q.physics || {}).coord === '3d').length /* 第280便e: 🧷📎・第299便c: 🟡(土星の三次元 —— 宣言から数える) */ && o.fam.psr === 8 /* 第262便a: 🩻 psrDoubleABGeoToy */ && o.fam.grcal === 4;
+        && o.fam.earthmoon === ((typeof HP.validateQLockKernel === 'function') ? 6 : 2) + (ps.some((q) => q.id === 'earthMoonTide') ? 1 : 0) + (ps.some((q) => q.id === 'earthMoonInertial' && q.familyId === 'earthmoon') ? 1 : 0) /* 第292便c: 🌛 */ + (ps.some((q) => q.id === 'earthMoonSunInertial' && q.familyId === 'earthmoon') ? 1 : 0) /* 第295便c: 🌤️ */ + ps.filter((q) => q.familyId === 'earthmoon' && q.referenceKind === 'observation-fit').length /* 第297便b: 🌥️(再現作業の派生本) */ + (ps.some((q) => q.id === 'earthMoonOnly3d' && q.familyId === 'earthmoon') ? 1 : 0) /* 第300便b: 🌔(地球と月だけの対照) */ && o.fam.saturn === (HP.allPresets().some((q) => q.id === 'saturnD68Consistent') ? 5 : 3) + ps.filter((q) => q.familyId === 'saturn' && (q.physics || {}).coord === '3d').length /* 第280便e: 🧷📎・第299便c: 🟡(土星の三次元 —— 宣言から数える) */ && o.fam.psr === 8 /* 第262便a: 🩻 psrDoubleABGeoToy */ + ps.filter((q) => q.id === 'psrDoubleABInertial3d' && q.familyId === 'psr').length /* 第324便b(R280): 📟(psr の variant —— 宣言から数える) */ && o.fam.grcal === 4;
       // 単独ファミリーでは「この仲間」導線が出ない(他メンバーが無いので)
       hidePresetPicker(); HP.loadPreset('solarInner', false);
       { const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click(); }
@@ -90685,7 +90685,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         for (const p of all) {
           if (p.physics && p.physics.coord === '3d') n3++;
           const rdq = p.physics && p.physics.relativeDrag, iv = rdq && rdq.invSq, sd = rdq && rdq.spinDrag;
-          if (iv && iv.sourceMoment) nSm++;
+          if (iv && iv.sourceMoment && !(p.id === 'alphaCenABInertial3dJ' || p.id === 'psrDoubleABInertial3d')) nSm++;   // 第324便b(AN514・AN515・R280): 🔸(kind J)と 📟(kind obsSpin)は sourceMoment を宣言する新しい本(在位の本は今も 1 本も宣言しない —— behavior.obsSpin324b が 2 本を照合)
           if (sd && sd.axisHold && sd.axisHold.balance === 'background') nBal++;
         }
         if (nSm !== 0 || nBal !== 0) bad.push('① 内蔵の本に sourceMoment・balance:"background" を宣言した本がある: ' + nSm + '・' + nBal);

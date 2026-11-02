@@ -4,7 +4,7 @@
  "lib321bVersion": "w321b-geo3bin-lib-1",
  "generator": "tests/exp-w324b-obsspin.mjs",
  "target": "beta/index.html",
- "targetSha256": "c3dbb4ce66f488751dd30504d3d9ccbec53b4a1a26ec072d572349a720e61da1",
+ "targetSha256": "ca30d594a5c6a5e567d9fd29f545fe295ae51f3d029a3afaeccae43a12ada8e3",
  "reuseFrom": null,
  "ruling": "決断事項 AN514(α Cen の J の本 —— 新しい ID・f は模型の入力・並進だけの本は残す)・AN515(天体ごとの obsSpin —— 排他・明示の fSrc と rObs・0.4 を補わない・unit・source・epoch・座標系・axis:null は欠測で J の源に使わない・S.spin へ入れない・最初の本は J0737)・統括の検証項目 R280(geoPN=3 の S3)。観測の J は固定の外部の貯蔵庫(源の自転の進化と歳差は扱わない)・連星の観測との照合ではない",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -459,9 +459,9 @@
      "axis": null,
      "unit": "Hz",
      "frame": "book",
-     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
     },
     "JSI_A": 3.5998712222398215e+40,
     "spin0": [
@@ -472,7 +472,7 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(SOL-649c64b4 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・SOL-912f7aa2)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
     "got": "missing",
     "whyOk": true,
     "ok": true
@@ -497,9 +497,9 @@
      ],
      "unit": "Hz",
      "frame": "book",
-     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
     },
     "JSI_A": 3.5998712222398215e+40,
     "spin0": [
@@ -510,7 +510,7 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":[0,0,1],\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(SOL-649c64b4 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・SOL-912f7aa2)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":[0,0,1],\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
     "got": "accept",
     "whyOk": true,
     "ok": true
@@ -535,9 +535,9 @@
      ],
      "unit": "Hz",
      "frame": "book",
-     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
     },
     "JSI_A": 3.5998712222398215e+40,
     "spin0": [
@@ -548,7 +548,7 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":[0,0,1],\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(SOL-649c64b4 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・SOL-912f7aa2)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":[0,0,1],\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
     "got": "accept",
     "whyOk": true,
     "ok": true
@@ -573,9 +573,9 @@
      ],
      "unit": "rad/s",
      "frame": "book",
-     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
     },
     "JSI_A": 3.5998712222398215e+40,
     "spin0": [
@@ -586,7 +586,7 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":276.79987681290163,\"fSrc\":0.354,\"rObs\":11750,\"axis\":[0,0,1],\"unit\":\"rad/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(SOL-649c64b4 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・SOL-912f7aa2)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":276.79987681290163,\"fSrc\":0.354,\"rObs\":11750,\"axis\":[0,0,1],\"unit\":\"rad/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
     "got": "accept",
     "whyOk": true,
     "ok": true
@@ -609,9 +609,9 @@
      ],
      "unit": "kg m^2/s",
      "frame": "book",
-     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
     },
     "JSI_A": 3.5998712222398215e+40,
     "spin0": [
@@ -622,7 +622,7 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"J\",\"J\":3.5998712222398215e+40,\"axis\":[0,0,1],\"unit\":\"kg m^2/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(SOL-649c64b4 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・SOL-912f7aa2)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"J\",\"J\":3.5998712222398215e+40,\"axis\":[0,0,1],\"unit\":\"kg m^2/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
     "got": "accept",
     "whyOk": true,
     "ok": true
@@ -644,9 +644,9 @@
      ],
      "unit": "kg m^2/s",
      "frame": "book",
-     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
     },
     "JSI_A": 3.5998712222398215e+40,
     "spin0": [
@@ -657,7 +657,7 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"J\",\"Jvec\":[0,0,3.5998712222398215e+40],\"unit\":\"kg m^2/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(SOL-649c64b4 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・SOL-912f7aa2)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"J\",\"Jvec\":[0,0,3.5998712222398215e+40],\"unit\":\"kg m^2/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
     "got": "accept",
     "whyOk": true,
     "ok": true
@@ -676,9 +676,9 @@
      "axis": null,
      "unit": "kg m^2/s",
      "frame": "book",
-     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
     },
     "JSI_A": 3.5998712222398215e+40,
     "spin0": [
@@ -689,7 +689,7 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"J\",\"J\":3.5998712222398215e+40,\"axis\":null,\"unit\":\"kg m^2/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(SOL-649c64b4 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・SOL-912f7aa2)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"J\",\"J\":3.5998712222398215e+40,\"axis\":null,\"unit\":\"kg m^2/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
     "got": "missing",
     "whyOk": true,
     "ok": true
@@ -699,7 +699,7 @@
     "ja": "kind \"omega\" に J を足す(排他の違反)",
     "expect": "reject",
     "accepted": false,
-    "err": "bodies[0].obsSpin.kind \"omega\" の宣言に J・Jvec は置かない(kind \"J\" と \"omega\" は排他)",
+    "err": "bodies[0].obsSpin.kind \"omega\" の宣言に J, Jvec は置かない(kind \"J\" と \"omega\" は排他)",
     "got": "reject",
     "whyOk": true,
     "ok": true
@@ -709,7 +709,7 @@
     "ja": "kind \"J\" に omega を足す(排他の違反)",
     "expect": "reject",
     "accepted": false,
-    "err": "bodies[0].obsSpin.kind \"J\" の宣言に omega・fSrc・rObs は置かない(kind \"J\" と \"omega\" は排他)",
+    "err": "bodies[0].obsSpin.kind \"J\" の宣言に omega, fSrc, rObs は置かない(kind \"J\" と \"omega\" は排他)",
     "got": "reject",
     "whyOk": true,
     "ok": true
@@ -950,9 +950,9 @@
      "axis": null,
      "unit": "Hz",
      "frame": "book",
-     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
     },
     "JSI_A": 3.5998712222398215e+40,
     "spin0": [
@@ -963,7 +963,7 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\"},\"pairs\":\"all\",\"history\":\"positions\",\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(SOL-649c64b4 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・SOL-912f7aa2)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\"},\"pairs\":\"all\",\"history\":\"positions\",\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
     "got": "missing",
     "whyOk": true,
     "ok": true
@@ -1105,7 +1105,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 2.332,
+    "wallSec": 1.895,
     "P": 2518.575375240761,
     "nPeri": 8,
     "rate": -0.0013114641402025892,
@@ -1187,7 +1187,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.513,
+    "wallSec": 0.506,
     "P": 2518.5753899281153,
     "nPeri": 8,
     "rate": -0.0013114930990556258,
@@ -1258,7 +1258,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 1.811,
+    "wallSec": 0.965,
     "P": 2518.5753752412033,
     "nPeri": 8,
     "rate": -0.0013114641404085347,
@@ -1340,7 +1340,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 2.727,
+    "wallSec": 0.848,
     "P": 2518.5753752416576,
     "nPeri": 8,
     "rate": -0.0013114641406150554,
@@ -1422,7 +1422,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 5.219,
+    "wallSec": 3.164,
     "P": 2517.5101170189832,
     "nPeri": 8,
     "rate": -0.00032827293166226123,
@@ -1504,7 +1504,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 8.437,
+    "wallSec": 7.499,
     "P": 2517.2435177185093,
     "nPeri": 8,
     "rate": -0.00008232915127198515,
@@ -1586,7 +1586,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 2.357,
+    "wallSec": 1.16,
     "P": 2518.5753752412033,
     "nPeri": 8,
     "rate": -0.0013114641404085347,
@@ -1668,7 +1668,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 3.44,
+    "wallSec": 1.772,
     "P": 2517.5101170186504,
     "nPeri": 8,
     "rate": -0.00032827293145597605,
@@ -1750,7 +1750,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 7.081,
+    "wallSec": 2.13,
     "P": 2517.2435177182188,
     "nPeri": 8,
     "rate": -0.00008232915106432098,
@@ -1832,7 +1832,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 1.045,
+    "wallSec": 2.412,
     "P": 883.6855241543566,
     "nPeri": 8,
     "rate": -0.0003804617333776534,
@@ -1914,7 +1914,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 3.661,
+    "wallSec": 4.273,
     "P": 883.5637358750556,
     "nPeri": 8,
     "rate": -0.000012622435004653889,
@@ -1996,7 +1996,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 2.125,
+    "wallSec": 1.577,
     "P": 883.6855243205265,
     "nPeri": 8,
     "rate": -0.00038045820527467,
@@ -2078,7 +2078,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 2.133,
+    "wallSec": 0.809,
     "P": 883.6855241548268,
     "nPeri": 8,
     "rate": -0.0003804617234077858,
@@ -2160,7 +2160,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 4.631,
+    "wallSec": 1.553,
     "P": 883.6855241548275,
     "nPeri": 8,
     "rate": -0.0003804617234071131,
@@ -2242,7 +2242,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 2.647,
+    "wallSec": 3.241,
     "P": 883.5637358760695,
     "nPeri": 8,
     "rate": -0.000012622425031283776,
@@ -2324,7 +2324,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 4.807,
+    "wallSec": 3.942,
     "P": 883.533298674209,
     "nPeri": 8,
     "rate": 0.00007935712483209263,
@@ -2406,7 +2406,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.254,
+    "wallSec": 0.172,
     "P": 883.63961839067,
     "nPeri": 8,
     "rate": -0.0004080082485682221,
@@ -2463,7 +2463,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.414,
+    "wallSec": 0.398,
     "P": 883.5124977183799,
     "nPeri": 8,
     "rate": -0.00004012081432704774,
@@ -2520,7 +2520,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.413,
+    "wallSec": 0.415,
     "P": 883.479399402969,
     "nPeri": 8,
     "rate": 0.000051871898290400355,
@@ -2577,7 +2577,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.114,
+    "wallSec": 0.163,
     "P": 883.6157263897132,
     "nPeri": 8,
     "rate": -0.0004905856220603724,
@@ -2648,7 +2648,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.187,
+    "wallSec": 0.198,
     "P": 883.4938839438091,
     "nPeri": 8,
     "rate": -0.0001226907072445112,
@@ -2719,7 +2719,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.868,
+    "wallSec": 0.288,
     "P": 883.4634182787968,
     "nPeri": 8,
     "rate": -0.00003069723571186048,
@@ -2790,7 +2790,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 2.651,
+    "wallSec": 0.911,
     "P": 883.685524237669,
     "nPeri": 8,
     "rate": -0.0003804599643383962,
@@ -2872,7 +2872,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 2.641,
+    "wallSec": 1.615,
     "P": 883.5637360545762,
     "nPeri": 8,
     "rate": -0.00001262066536452275,
@@ -2954,7 +2954,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 6.655,
+    "wallSec": 6.178,
     "P": 883.5332989004976,
     "nPeri": 8,
     "rate": 0.00007935888462458968,
@@ -3036,7 +3036,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 2.912,
+    "wallSec": 0.906,
     "P": 883.685524237669,
     "nPeri": 8,
     "rate": -0.0003804599643383962,
@@ -3967,34 +3967,34 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.288
+   "wallSec": 0.142
   },
   "B": {
-   "wallSec": 0.013
+   "wallSec": 0.027
   },
   "E": {
-   "wallSec": 42.517
+   "wallSec": 28.204
   },
   "L": {
-   "wallSec": 1.001
+   "wallSec": 0.648
   },
   "T": {
-   "wallSec": 0.001
+   "wallSec": 0.002
   }
  },
- "elapsedS": 47.183,
+ "elapsedS": 31.235,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第324便b",
   "target": "beta/index.html",
-  "targetSha256": "c3dbb4ce66f488751dd30504d3d9ccbec53b4a1a26ec072d572349a720e61da1",
-  "generatedAt": "2026-11-02T13:22:32.061Z",
+  "targetSha256": "ca30d594a5c6a5e567d9fd29f545fe295ae51f3d029a3afaeccae43a12ada8e3",
+  "generatedAt": "2026-11-02T15:07:34.215Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7540591,
-    "sha256": "c3dbb4ce66f488751dd30504d3d9ccbec53b4a1a26ec072d572349a720e61da1",
-    "mtime": "2026-11-02T13:14:26.896Z"
+    "bytes": 7541522,
+    "sha256": "ca30d594a5c6a5e567d9fd29f545fe295ae51f3d029a3afaeccae43a12ada8e3",
+    "mtime": "2026-11-02T15:06:54.444Z"
    }
   ],
   "code": [
@@ -4136,9 +4136,9 @@
    "complete": true,
    "names": 1360,
    "segments": 1193,
-   "closureShare": 0.3014
+   "closureShare": 0.3015
   },
-  "scopeSha256": "c0bd71634d169b23b39a545a54936b57c28d0f9dc3c149257113e352d5c191c0",
+  "scopeSha256": "3a711582083bbd66cb34d6d51409e3287a0436cc1524e46020c34bddeb01989c",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

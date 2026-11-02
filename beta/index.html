@@ -9350,16 +9350,16 @@ const OBS_SPIN_KEYS=["kind","J","Jvec","omega","fSrc","rObs","axis","unit","fram
 const OBS_SPIN_UNITS={J:["kg m^2/s"], omega:["rad/s","Hz"]}, OBS_SPIN_FRAMES=["book"], OBS_SPIN_F_MAX=2/3;
 // 受理(天体の段 —— single の天体の宣言 raw.obsSpin)。戻り値 {ok, obsSpin}(正準形 —— 鍵の順は OBS_SPIN_KEYS・axis は単位ベクトル)か {ok:false, err}
 function validateObsSpinBody(a){
-  const bad=(k, ...x)=>({ok:false, err:reasonText("validateObsSpinBody/"+k, ...x)});
-  if(typeof a!=="object" || a===null || Array.isArray(a)) return bad("obsSpin");
-  for(const k of Object.keys(a)) if(OBS_SPIN_KEYS.indexOf(k)<0) return bad("obsSpin#2", k);
-  if(OBS_SPIN_KINDS.indexOf(a.kind)<0) return bad("obsSpin.kind");
+  const bad=(err)=>({ok:false, err});   // 理由の文は表 ACCEPT_REASONS の鍵を文字列のまま引く(lint.textRegistry318 が鍵を読む)
+  if(typeof a!=="object" || a===null || Array.isArray(a)) return bad(reasonText("validateObsSpinBody/obsSpin"));
+  for(const k of Object.keys(a)) if(OBS_SPIN_KEYS.indexOf(k)<0) return bad(reasonText("validateObsSpinBody/obsSpin#2", k));
+  if(OBS_SPIN_KINDS.indexOf(a.kind)<0) return bad(reasonText("validateObsSpinBody/obsSpin.kind"));
   const kind=a.kind, has=(k)=>Object.prototype.hasOwnProperty.call(a,k) && a[k]!==undefined;
-  if(OBS_SPIN_UNITS[kind].indexOf(a.unit)<0) return bad("obsSpin.unit", kind, OBS_SPIN_UNITS[kind].join('" | "'));
-  if(typeof a.source!=="string" || !a.source.trim()) return bad("obsSpin.source");
-  if(!((typeof a.epoch==="string" && a.epoch.trim()) || isNum(a.epoch))) return bad("obsSpin.epoch");
-  if(OBS_SPIN_FRAMES.indexOf(a.frame)<0) return bad("obsSpin.frame");
-  if(has("note") && typeof a.note!=="string") return bad("obsSpin.note");
+  if(OBS_SPIN_UNITS[kind].indexOf(a.unit)<0) return bad(reasonText("validateObsSpinBody/obsSpin.unit", kind, OBS_SPIN_UNITS[kind].join('" | "')));
+  if(typeof a.source!=="string" || !a.source.trim()) return bad(reasonText("validateObsSpinBody/obsSpin.source"));
+  if(!((typeof a.epoch==="string" && a.epoch.trim()) || isNum(a.epoch))) return bad(reasonText("validateObsSpinBody/obsSpin.epoch"));
+  if(OBS_SPIN_FRAMES.indexOf(a.frame)<0) return bad(reasonText("validateObsSpinBody/obsSpin.frame"));
+  if(has("note") && typeof a.note!=="string") return bad(reasonText("validateObsSpinBody/obsSpin.note"));
   const axisOf=()=>{   // null(欠測)か長さ > 0 の 3 成分 → 単位ベクトル。不正は undefined
     if(a.axis===null) return null;
     const v=a.axis;
@@ -9369,26 +9369,26 @@ function validateObsSpinBody(a){
   };
   const o={kind};
   if(kind==="omega"){
-    if(has("J") || has("Jvec")) return bad("obsSpin.exclusive", "omega", "J・Jvec");
-    if(!(isNum(a.omega) && a.omega>0)) return bad("obsSpin.omega");
-    if(!has("fSrc")) return bad("obsSpin.fSrc");
-    if(!(isNum(a.fSrc) && a.fSrc>0 && a.fSrc<=OBS_SPIN_F_MAX)) return bad("obsSpin.fSrc#2");
-    if(!(isNum(a.rObs) && a.rObs>0)) return bad("obsSpin.rObs");
-    if(!Object.prototype.hasOwnProperty.call(a,"axis")) return bad("obsSpin.axis");
-    const ax=axisOf(); if(ax===undefined) return bad("obsSpin.axis#2");
+    if(has("J") || has("Jvec")) return bad(reasonText("validateObsSpinBody/obsSpin.exclusive", "omega", "J, Jvec"));
+    if(!(isNum(a.omega) && a.omega>0)) return bad(reasonText("validateObsSpinBody/obsSpin.omega"));
+    if(!has("fSrc")) return bad(reasonText("validateObsSpinBody/obsSpin.fSrc"));
+    if(!(isNum(a.fSrc) && a.fSrc>0 && a.fSrc<=OBS_SPIN_F_MAX)) return bad(reasonText("validateObsSpinBody/obsSpin.fSrc#2"));
+    if(!(isNum(a.rObs) && a.rObs>0)) return bad(reasonText("validateObsSpinBody/obsSpin.rObs"));
+    if(!Object.prototype.hasOwnProperty.call(a,"axis")) return bad(reasonText("validateObsSpinBody/obsSpin.axis"));
+    const ax=axisOf(); if(ax===undefined) return bad(reasonText("validateObsSpinBody/obsSpin.axis#2"));
     o.omega=a.omega; o.fSrc=a.fSrc; o.rObs=a.rObs; o.axis=ax;
   } else {
-    if(has("omega") || has("fSrc") || has("rObs")) return bad("obsSpin.exclusive", "J", "omega・fSrc・rObs");
-    if(has("J") && has("Jvec")) return bad("obsSpin.twoForms");
+    if(has("omega") || has("fSrc") || has("rObs")) return bad(reasonText("validateObsSpinBody/obsSpin.exclusive", "J", "omega, fSrc, rObs"));
+    if(has("J") && has("Jvec")) return bad(reasonText("validateObsSpinBody/obsSpin.twoForms"));
     if(has("Jvec")){
-      if(Object.prototype.hasOwnProperty.call(a,"axis")) return bad("obsSpin.twoForms");
+      if(Object.prototype.hasOwnProperty.call(a,"axis")) return bad(reasonText("validateObsSpinBody/obsSpin.twoForms"));
       const v=a.Jvec;
-      if(!Array.isArray(v) || v.length!==3 || !v.every(isNum) || !(Math.hypot(v[0],v[1],v[2])>0)) return bad("obsSpin.Jvec");
+      if(!Array.isArray(v) || v.length!==3 || !v.every(isNum) || !(Math.hypot(v[0],v[1],v[2])>0)) return bad(reasonText("validateObsSpinBody/obsSpin.Jvec"));
       o.Jvec=[v[0], v[1], v[2]];
     } else {
-      if(!(isNum(a.J) && a.J>0)) return bad("obsSpin.J");
-      if(!Object.prototype.hasOwnProperty.call(a,"axis")) return bad("obsSpin.axis");
-      const ax=axisOf(); if(ax===undefined) return bad("obsSpin.axis#2");
+      if(!(isNum(a.J) && a.J>0)) return bad(reasonText("validateObsSpinBody/obsSpin.J"));
+      if(!Object.prototype.hasOwnProperty.call(a,"axis")) return bad(reasonText("validateObsSpinBody/obsSpin.axis"));
+      const ax=axisOf(); if(ax===undefined) return bad(reasonText("validateObsSpinBody/obsSpin.axis#2"));
       o.J=a.J; o.axis=ax;
     }
   }
@@ -21462,14 +21462,14 @@ const BUILTIN_PRESETS = [
   bodies:[   // 0 = A(パルサー 22.7 ms)・1 = B(パルサー 2.77 s)—— 📻 の配置のビット写し(z = v_z = 0・自転の状態は 0 のまま —— 観測の自転は obsSpin の欄だけ。📻 の B の二次元の表示の軸は写さない)
     {type:"single", m:2660.982861, radius:0.01175, x:-461.48618600827865, y:0, vx:0, vy:-2.763093948239957, spin:0, pinned:false, pnSource:true, z:0, vz:0,
      obsSpin:{kind:"omega", omega:44.054068642001, unit:"Hz", fSrc:0.354, rObs:11750, axis:null, frame:"book",
-       source:"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の SOL-91ac7b68)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+       source:"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
        epoch:"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-       note:"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値)だけなので欠測のまま(J の源に使わない)"}},
+       note:"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"}},
     {type:"single", m:2483.370041, radius:0.01175, x:494.49208586803894, y:0, vx:0, vy:2.9607128692905675, spin:0, pinned:false, pnSource:true, z:0, vz:0,
      obsSpin:{kind:"omega", omega:0.360560358027474, unit:"Hz", fSrc:0.346, rObs:11750, axis:null, frame:"book",   // omega = 1/P_B(P_B = 2.77346074724 s)
-       source:"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(SOL-649c64b4 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+       source:"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
        epoch:"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-       note:"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・SOL-912f7aa2)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)"}}
+       note:"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)"}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 // ==== 第324便b の塊(ここまで)====
