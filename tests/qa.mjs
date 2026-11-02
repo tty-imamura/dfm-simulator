@@ -2528,6 +2528,10 @@ lastAddAt = Date.now();
       // ==== 第322便c の塊(ここから)==== geoPN=4 の場の契約の器(fieldcontract-322c —— 部 K は純関数・部 G は 🗺️ の写しの初期の状態・子プロセス 2 本)。領域 REGEN_SCOPE を刻む
       'tests/out/fieldcontract-w322c.json',
       // ==== 第322便c の塊(ここまで)====
+      // ==== 第324便d の塊(ここから)==== 長い段の再開の型の門(resume-324d —— 履歴の段・形だけ〔lint.provenanceMeta ①⑤・lint.canon304 の「履歴」〕・子プロセス 2 本)。
+      //   イオ・エウロパの長い窓の正本 tests/out/satlong-w324d.json(段 satlong-324d —— 履歴)は鎖の外で完走した後に統括が足す(無いファイルを CANON に置かない)
+      'tests/out/resume-w324d.json',
+      // ==== 第324便d の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
@@ -93176,6 +93180,177 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第323便b の塊(ここまで)====
+// ==== 第324便d の塊(ここから —— lint.resume324d・docs.satlong324d の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第324便d(決断事項 AN480・AN452・統括の検証項目 R282): **長い段の再開の型**と**イオ・エウロパの長い窓の口** —— html・本の宣言・エンジン・既定の段 satnext-318b の行は変えない
+// ----   (beta 対象だけ —— root は SKIP)。
+// ----   lint.resume324d:
+// ----     ① lib tests/lib-w324d-resume.mjs の自己試験(符号化の往復〔-0・NaN・±Infinity・非正規数・型つき配列 5 種・数の配列・鍵の順〕・JSON の往復の対照・符号化できない型の例外・
+// ----        原型 null/クラスの実体 / checkpoint の読み・原子的な保存・違う契約 4 種・書きかけ 2 種・1 ビットの反転・magic・無い・頭の契約だけの書き換え / done の再利用と拒否 —— 17 例)
+// ----     ② 同じ process の復帰の同一(headless の html —— イオ V1a の q11 の写し・h/2 で 100 步 → checkpoint を書いて読む → 新しく組んだ sim に復帰 → 100 步)が sim の全欄
+// ----        (関数を除く自前の鍵)と検出器の全欄で同じビット・否定対照(復帰の state の衛星の速度を 1 ulp 塗ると差が出る)・状態を外に出せる検出器 = 第315便d の attachSatSampler
+// ----        (連続の 200 步の標本の 10 列が同じビット)
+// ----     ③ 器の配線: 口 --long・--resume-gate・--child-long は lib を動的 import(既定の経路は lib を static に読まない)・CODE_FILES(meta.code[] の 11 本)と REGEN_SCOPE は
+// ----        第318便b の宣言のまま・runSpec の後半は analyzeSpec(本文は同じ)
+// ----     ④ 段 resume-324d・satlong-324d: role:'history'・quickVerify:false(理由つき)・cmd・outs —— 計画が regen でも鎖に入らない(buildChain の skipped が「履歴」)
+// ----   docs.satlong324d:
+// ----     ⑤ 門の正本 tests/out/resume-w324d.json: ok・自己試験・ジョブの門 2 本 × 8 門(連続・2 回止めた続き・止めた時点と終わりの sim の全欄の digest・否定対照 2・違う契約と書きかけの拒否・done)・
+// ----        計画の門(既定 = 再開の型 = 全ジョブ再利用・prefixSame)・契約の欄・来歴(第324便d・beta/index.html)
+// ----     ⑥ 長い窓の正本 tests/out/satlong-w324d.json(鎖の外の履歴の段 —— 統括が完走させる): あれば形(stage satlong・計画 = LONG_PLAN・門 ok・行 12 本・窓 W1/W2・判定 A)/ 無ければ「未完」を数えて通す
+// ----     ⑦ 文書: PHYSICS〔第324便d〕(〔第323便 — 統括〕の後・「## 7.」の前・a → b → c → d)・AI_SPEC §174・CHANGELOG・tools/README・post-merge の ③′・.gitignore の例外・書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rd324d = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.resume324d・docs.satlong324d(beta 対象でない: ' + TARGET + ' —— 再開の型と長い窓は beta 線)');
+    return;
+  }
+  const imp324d = async (f, bad) => { try { return await import('file://' + path.join(ROOT, f)); } catch (e) { bad.push(f + ' が読めない: ' + String(e && e.message || e).slice(0, 80)); return null; } };
+  const os324d = await import('node:os');
+  // ---- lint.resume324d
+  {
+    const bad = [], cases = [];
+    const R = await imp324d('tests/lib-w324d-resume.mjs', bad), SL = await imp324d('tests/lib-w324d-satlong.mjs', bad), RT = await imp324d('tests/lib-w281a-regentable.mjs', bad);
+    const L5 = await imp324d('tests/lib-w315d-satk1.mjs', bad), NX = await imp324d('tests/lib-w318b-satnext.mjs', bad), AP = await imp324d('tests/lib-w304e-apsis.mjs', bad);
+    const tmp = fs.mkdtempSync(path.join(os324d.tmpdir(), 'w324d-'));
+    try {
+      // ①
+      if (R) {
+        if (R.RESUME_VERSION !== 'w324d-resume-1' || R.MAGIC !== 'DFM-W324D-RESUME-1' || R.DONE_VERSION !== 'w324d-done-1') bad.push('① 版の定数');
+        const st = R.resumeSelfTest(path.join(tmp, 'self'));
+        if (!st.ok || st.rows.length !== 17) bad.push('① 自己試験: ' + st.rows.filter((r) => !r.pass).map((r) => r.name.slice(0, 30)).slice(0, 3).join(' / ') + '(' + st.rows.length + ' 例)');
+        cases.push(`① ${R.RESUME_VERSION}: ${st.cases}`);
+      }
+      // ②
+      if (R && L5 && NX && AP) {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+        const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP;
+        const cl = (x) => JSON.parse(JSON.stringify(x)), sd = L5.seedOf(HP, 'io'), P = L5.parentOf(sd.parent);
+        const book = NX.variantBook(HP, 'io', 'q11', 'V1a', { seed: sd, stepsPerOrbit: 720 }), ip = book.timeRef.pair[0], is = book.timeRef.pair[1], dt = book.physics.stepDt / 2;
+        const mk = () => { const vr = HP.validatePreset(cl(book)); const S = HP.coord3d.makeSim(); S.build(cl(vr.preset)); return S; };
+        const opt = (S) => ({ ci: ip, oi: is, mu: S.params.G * (S.m[ip] + S.m[is]), every: 2, pole: P.orbitPole, eccVector: AP.eccVector });
+        const N = 100, A = mk(), sa = R.attachSatSamplerR(A, opt(A), null);
+        for (let k = 0; k < 2 * N; k++) A.step(dt);
+        const B = mk(), sb = R.attachSatSamplerR(B, opt(B), null);
+        for (let k = 0; k < N; k++) B.step(dt);
+        const ckf = path.join(tmp, 'ck.bin'), C0 = { qa: 'lint.resume324d', target: TARGET };
+        R.writeCheckpoint(ckf, C0, { sim: HP.ckSnapOne(B), sampler: sb.state() });
+        const go = (paint) => { const r = R.readCheckpoint(ckf, C0); if (!r.ok) return null; const st = r.state; if (paint) st.sim.arrs.vx[is] = R.nextUp(st.sim.arrs.vx[is]);
+          const S = mk(), sm = R.attachSatSamplerR(S, opt(S), st.sampler); HP.ckRestoreOne(S, st.sim); for (let k = 0; k < N; k++) S.step(dt); return { S, sm }; };
+        const C = go(false), D = go(true);
+        if (!C || !D) bad.push('② checkpoint が読めない');
+        else {
+          const dS = R.simStateDiff(A, C.S), dZ = R.bitDiff(sa.state(), C.sm.state()), nS = R.simStateDiff(A, D.S);
+          if (dS.diff.length || dZ.length) bad.push('② 復帰の差: ' + dS.diff.concat(dZ).slice(0, 4).join(','));
+          if (!(nS.diff.length > 0)) bad.push('② 否定対照(速度 1 ulp)で差が出ない');
+          const E = mk(), so = L5.attachSatSampler(E, opt(E)), sr = R.attachSatSamplerR(mk(), opt(E), null);
+          for (let k = 0; k < 2 * N; k++) E.step(dt);
+          const dO = R.bitDiff(so.samples(), sa.samples());
+          if (dO.length) bad.push('② 検出器が第315便d の attachSatSampler と違う: ' + dO.slice(0, 3).join(','));
+          void sr;
+          cases.push(`② 同じ process の復帰(イオ V1a の q11・h/2 で ${N} + ${N} 步): sim の全欄 ${dS.keys} 鍵と検出器が同じビット・否定対照(速度 1 ulp)で差 ${nS.diff.length} 欄・検出器 = 第315便d の標本(10 列 × ${sa.samples().t.length} 点)`);
+        }
+      }
+      // ③
+      const HX = rd324d('tests/exp-w318b-satnext.mjs');
+      for (const w of ["['--long', '--resume-gate', '--child-long'].some((a) => process.argv.includes(a))", "await import('./lib-w324d-satlong.mjs')", 'return analyzeSpec(sp, runs, smp, pp, t0);',
+        'export function analyzeSpec(sp, runs, smp, pp, t0)', "export const HARNESS_VERSION = 'w318b-satnext-1';", 'const CODE = CODE_FILES;']) if (HX.indexOf(w) < 0) bad.push('③ 器に「' + w.slice(0, 50) + '」が無い');
+      if (/from '\.\/lib-w324d-/.test(HX)) bad.push('③ 既定の経路が lib-w324d を static に読む');
+      const cf = /export const CODE_FILES = Object\.freeze\((\[[^\]]*\])\)/.exec(HX), codeFiles = cf ? JSON.parse(cf[1].replace(/'/g, '"')) : [];
+      if (codeFiles.length !== 11 || codeFiles.some((f) => /w324d/.test(f)) || codeFiles[0] !== 'tests/exp-w318b-satnext.mjs') bad.push('③ CODE_FILES が第318便b の 11 本でない');
+      const rs = /^const REGEN_SCOPE = (.*);$/m.exec(HX), sc = rs ? JSON.parse(rs[1]) : null;
+      if (!sc || sc.roots.some((r) => /ckSnapOne|ckRestoreOne/.test(r)) || sc.roots.length !== 15 || sc.presets.length !== 10) bad.push('③ REGEN_SCOPE が第318便b の宣言のままでない');
+      if (SL && sc && JSON.stringify(SL.scopeLongOf({ REGEN_SCOPE: sc }).roots) !== JSON.stringify([...new Set(sc.roots.concat(['HP.ckRestoreOne', 'HP.ckSnapOne']))].sort())) bad.push('③ 長い窓の刻印の領域');
+      if (SL && (SL.SATLONG_VERSION !== 'w324d-satlong-1' || SL.LONG_PLAN.sats.join() !== 'io,europa' || SL.LONG_PLAN.divs.join() !== '1,2,4' || SL.LONG_PLAN.span !== 1.5 || SL.LONG_PLAN.pScale !== 1
+        || SL.LONG_PLAN.variants.join() !== 'V1a,V0' || SL.GATE_JOBS.length !== 2 || SL.PAINT_TH !== 1e-9)) bad.push('③ 長い窓の計画・門の定数');
+      cases.push('③ 器の口(--long・--resume-gate・--child-long —— lib は動的 import)・既定の経路の CODE_FILES 11 本と REGEN_SCOPE(根 15・本 10)は第318便b のまま・analyzeSpec(runSpec の後半)');
+      // ④
+      if (RT) {
+        const st = ['resume-324d', 'satlong-324d'].map((k) => RT.REGEN_STEPS.find((z) => z.key === k));
+        const want = [['node tests/exp-w318b-satnext.mjs --resume-gate', 'tests/out/resume-w324d.json'], ['node tests/exp-w318b-satnext.mjs --long', 'tests/out/satlong-w324d.json']];
+        st.forEach((z, i) => { if (!z) { bad.push('④ 段 ' + ['resume-324d', 'satlong-324d'][i] + ' が無い'); return; }
+          if (z.role !== 'history' || z.quickVerify !== false || !z.quickVerifyWhy || z.cmd !== want[i][0] || (z.outs || []).join() !== want[i][1] || z.workers !== 2) bad.push('④ 段 ' + z.key + ' の宣言'); });
+        if (st.every(Boolean)) {
+          const sn = RT.REGEN_STEPS.find((z) => z.key === 'satnext-318b'), steps = st.concat(sn ? [sn] : []);
+          const ch = RT.buildChain({ steps: steps.map((z) => ({ key: z.key, status: 'regen' })) }, { steps, deps: new Map() });
+          const sk = new Map((ch.skipped || []).map((z) => [z.key, z.why]));
+          if (!(sk.get('resume-324d') === '履歴' && sk.get('satlong-324d') === '履歴' && ch.steps['satnext-318b'])) bad.push('④ 計画が regen でも鎖に入らない(履歴)が成り立たない');
+          cases.push(`④ 段 resume-324d(${st[0].sec} s)・satlong-324d(見積り ${st[1].sec} s): 履歴・quickVerify:false —— 計画が regen でも鎖の skipped「履歴」(satnext-318b は鎖に入る)`);
+        }
+      }
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+    add('lint.resume324d', bad.length === 0,
+      `**長い段の再開の型**(第324便d・決断事項 AN480・R282 —— html・本の宣言・エンジン・既定の段 satnext-318b の行は不変): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- docs.satlong324d
+  {
+    const bad = [], cases = [];
+    const SL = await imp324d('tests/lib-w324d-satlong.mjs', bad);
+    // ⑤ 門の正本
+    let G = null; try { G = JSON.parse(rd324d('tests/out/resume-w324d.json')); } catch (e) { bad.push('⑤ 門の正本 tests/out/resume-w324d.json が読めない'); }
+    if (G) {
+      const JG = ['contB', 'resumed2', 'digestStop', 'negVx', 'negThAcc', 'refuseContract', 'refuseTorn', 'doneReuse'];
+      if (!(G.ok === true && G.version === 'w324d-satlong-1' && G.resumeVersion === 'w324d-resume-1' && G.gates && G.gates.selfTest && G.gates.jobs && G.gates.plan)) bad.push('⑤ 門の正本の ok・版・gates');
+      if (!(G.selfTest && G.selfTest.ok && (G.selfTest.rows || []).length === 17)) bad.push('⑤ 自己試験の行');
+      if (!(Array.isArray(G.jobs) && G.jobs.length === 2 && G.jobs.every((j) => j.ok && JG.every((k) => j.gates && j.gates[k] === true) && j.digest && j.digest.q10.length === 0 && j.digest.q11.length === 0
+        && j.neg.vx.diffPaths > 0 && j.neg.thAcc.diffPaths > 0 && j.refused.contract.code === 'contract' && j.refused.torn.code === 'length'))) bad.push('⑤ ジョブの門 2 本 × 8 門');
+      const PG = G.plan || {};
+      if (!(PG.ok && PG.gates && ['defaultOk', 'sameDefaultLong', 'sameReuse', 'ranAll', 'reusedAll', 'prefixSame'].every((k) => PG.gates[k] === true) && (PG.diff01 || []).length === 0 && (PG.diff12 || []).length === 0)) bad.push('⑤ 計画の門');
+      if (!(G.contract && (G.contract.saved || []).length >= 5 && (G.contract.hash || []).length >= 7 && (G.contract.refuse || []).length >= 7 && /rename/.test(G.contract.atomic || ''))) bad.push('⑤ 契約の欄');
+      const M = G.meta || {};
+      if (!(M.wave === '第324便d' && M.target === 'beta/index.html' && /^[0-9a-f]{64}$/.test(String(M.targetSha256 || '')) && (M.code || []).some((z) => z.file === 'tests/lib-w324d-resume.mjs'))) bad.push('⑤ 門の正本の来歴');
+      cases.push(`⑤ 門の正本: 自己試験 ${(G.selfTest.rows || []).length} 例・ジョブの門 ${G.jobs.map((j) => j.label + '(digest ' + (j.digest.keys || '—') + ' 鍵・否定対照 ' + j.neg.vx.diffPaths + '/' + j.neg.thAcc.diffPaths + ' 欄)').join('・')}・計画の門(${PG.jobs} ジョブ —— 既定 = 再開の型 = 全再利用)`);
+    }
+    // ⑥ 長い窓の正本
+    const LT = rd324d('tests/out/satlong-w324d.json');
+    if (!LT) cases.push('⑥ 長い窓の正本 tests/out/satlong-w324d.json は未完(鎖の外の履歴の段 —— 統括が再開の型で完走させる)');
+    else {
+      let J = null; try { J = JSON.parse(LT); } catch (e) { bad.push('⑥ 長い窓の正本が読めない'); }
+      if (J) {
+        if (!(J.stage === 'satlong' && J.satlongVersion === 'w324d-satlong-1' && J.resumeGate && J.resumeGate.selfTest && J.resumeGate.jobs.every((z) => z.ok))) bad.push('⑥ 長い窓の正本の stage・版・門');
+        if (SL && JSON.stringify(J.plan) !== JSON.stringify(SL.LONG_PLAN)) bad.push('⑥ 長い窓の計画が LONG_PLAN と違う');
+        if (!(J.E && Object.keys(J.E.index || {}).length === 12 && J.A && J.A.answer && J.A.answer.io && J.A.answer.europa && J.gates && J.ok === true)) bad.push('⑥ 長い窓の行 12 本・判定・門');
+        if (!(J.meta && J.meta.wave === '第324便d' && J.meta.role === 'history')) bad.push('⑥ 長い窓の正本の来歴(履歴)');
+        cases.push(`⑥ 長い窓の正本: 行 ${Object.keys((J.E || {}).index || {}).length}・門 ${J.ok}・答え ${JSON.stringify((J.A || {}).answer || {})}`);
+      }
+    }
+    // ⑦ 文書
+    const PH = rd324d('docs/PHYSICS.md'), a324 = PH.indexOf('〔第324便d — ');
+    const sec = a324 < 0 ? '' : PH.slice(a324, (() => { const e = [PH.indexOf('\n〔第', a324 + 10), PH.indexOf('\n## 7.', a324)].filter((k) => k > a324); return e.length ? Math.min(...e) : undefined; })());
+    const rv = (s) => [...s].reverse().join('');
+    const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);
+    const NOT = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'たため確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転逆の星金', 'たし明説をータマクーダ'].map(rv);
+    if (!sec) bad.push('⑦ PHYSICS〔第324便d〕が無い');
+    else {
+      const i7 = PH.indexOf('\n## 7.'), iG = PH.indexOf('〔第323便 — 統括');
+      if (!(a324 < i7 && iG >= 0 && iG < a324)) bad.push('⑦ 節の位置(〔第323便 — 統括〕の後・「## 7.」の前)');
+      for (const [b, k] of [['a', PH.indexOf('〔第324便a — ')], ['b', PH.indexOf('〔第324便b — ')], ['c', PH.indexOf('〔第324便c — ')]]) if (k >= 0 && k > a324) bad.push('⑦ 〔第324便' + b + '〕が〔第324便d〕の後');
+      for (const w of ['AN480', 'AN452', 'R282', 'tests/lib-w324d-resume.mjs', 'tests/lib-w324d-satlong.mjs', 'w324d-resume-1', '--long', '--resume-gate', 'tests/out/resume-w324d.json', 'tests/out/satlong-w324d.json',
+        'HP.ckSnapOne', 'rename', '否定対照', 'resume-324d', 'satlong-324d', 'lint.resume324d', 'docs.satlong324d', '**表 1', '**表 2']) if (sec.indexOf(w) < 0) bad.push('⑦ PHYSICS〔第324便d〕に「' + w + '」が無い');
+    }
+    const AI = rd324d('docs/AI_SPEC.md'), ai174 = (() => { const m = /\n## 174\. 第324便d[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+    if (!(ai174 && ai174.indexOf('AN480') >= 0 && ai174.indexOf('--long') >= 0 && ai174.indexOf('checkpoint') >= 0)) bad.push('⑦ AI_SPEC §174');
+    const CL = rd324d('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+    const cl324 = (clb.split('\n').find((l) => l.indexOf('**第324便d**') >= 0)) || '';
+    if (!cl324) bad.push('⑦ CHANGELOG の beta 節に第324便d の行が無い');
+    const TR = rd324d('tools/README.md'), PM = rd324d('tools/post-merge-qa.sh'), GI = rd324d('.gitignore');
+    if (!(TR.indexOf('--resume-gate') >= 0 && TR.indexOf('W324D_RESUME_DIR') >= 0)) bad.push('⑦ tools/README に再開の型の節が無い');
+    if (!(PM.indexOf('# ==== 第324便d の塊(ここから)====') >= 0 && /lint\.resume324d/.test(PM) && /docs\.satlong324d/.test(PM))) bad.push('⑦ post-merge の ③′ に第324便d の塊が無い');
+    if (!(GI.indexOf('!tests/out/resume-w324d.json') >= 0 && GI.indexOf('!tests/out/satlong-w324d.json') >= 0)) bad.push('⑦ .gitignore の例外');
+    for (const [nm, tx] of [['PHYSICS〔第324便d〕', sec], ['AI_SPEC §174', ai174], ['CHANGELOG の第324便d の行', cl324]]) {
+      for (const w of NG) if (tx.indexOf(w) >= 0) bad.push('⑦ ' + nm + ' に禁句(' + w.length + ' 字)');
+      for (const w of NOT) if (tx.indexOf(w) >= 0) bad.push('⑦ ' + nm + ' に書かない語(' + w.length + ' 字)');
+      if (tx.indexOf(String.fromCharCode(0x3ba)) >= 0) bad.push('⑦ ' + nm + ' に裸の係数記号');
+    }
+    cases.push('⑦ PHYSICS〔第324便d〕(〔第323便 — 統括〕の後・「## 7.」の前)・AI_SPEC §174・CHANGELOG・tools/README・post-merge の ③′・.gitignore・書かない語・禁句・裸の係数記号 なし');
+    add('docs.satlong324d', bad.length === 0,
+      `**再開の型の門の正本とイオ・エウロパの長い窓の正本・文書**(第324便d・決断事項 AN480・AN452・R282 —— 長い窓は鎖の外の履歴の段): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第324便d の塊(ここまで)====
 
 // ==== 第324便c の塊(ここから)====
 // ---- 第324便c(統括の検証項目 R281 —— 道具の続き: 第323便の統括の手順で決めたこと・決断事項 AN516・AN517/AN518): lint.quickBoundary324c・lint.calVolatile324c・lint.postMergeCounts324c・docs.w324c ----

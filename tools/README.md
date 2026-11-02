@@ -332,3 +332,17 @@ node tools/qa-recheck-record.mjs --check                       # 形の検査(QA
   SKIP を印字するか、何も印字せず飛ばすか)。post-merge の ④ の後に数を出す(名簿は `$LOG/uncovered.json`)—— フルゲートが見る鍵。
 - **calaudit の揮発の欄**: h/2 の転記の来歴(`V_CALAUDIT_H2P` —— 宣言の版 w324c-vcal-3)と置き場の行の html の sha(`V_CALAUDIT_DIAG_STOREP` —— w324c-vdiag-3)。
   2 回の走行の記録は `tests/data-w324c-calvolatile.json`(作業記録 —— 宣言を変えたら走らせ直して取り直す・QA lint.calVolatile324c)。
+
+## 再開の型と衛星の長い窓(第324便d —— 決断事項 AN480・AN452・統括の検証項目 R282)
+
+長い段を止めても続きから走らせる型(lib `tests/lib-w324d-resume.mjs`)。**完了済みのジョブの再利用**(done —— 契約つきの結果の本文)と**途中の步からの再開**(checkpoint —— 安全な步の境界で sim の全状態・検出器の累積・步の番号を原子的に保存)を分けて持つ。契約(入力・器・環境・版の hash)が違う・書きかけ・壊れた checkpoint は拒否して最初から。最初の使い手は衛星の器の長い窓の口(lib `tests/lib-w324d-satlong.mjs` —— 器が動的 import で読む・既定の経路は読まない)。
+
+```
+W324D_RESUME_DIR=<置き場> nice -n 19 node tests/exp-w318b-satnext.mjs --long          # イオ・エウロパ × 1.5 P_母(正本 tests/out/satlong-w324d.json —— 段 satlong-324d・履歴)
+W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --long --status            # 済みのジョブと途中の checkpoint(步の番号 / 窓の終わり)を印字するだけ
+W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate              # 連続と再開の門(正本 tests/out/resume-w324d.json —— 段 resume-324d・履歴)
+```
+
+- 置き場の既定は `tests/out/.satlong-w324d/`(.gitignore のまま —— 数百 MiB になりうる)。`--resume-dir <dir>` でも指定できる。子プロセスは `W318B_WORKERS`(既定 2)・checkpoint の間隔は `W324D_CK_SEC`(既定 600 s)。
+- 止まったら**同じ命令をもう一度**(済みのジョブは done から再利用・途中のジョブは checkpoint から続ける・`--long` は走行の初めに門を回し、外れたら走らせない)。対象 html・器と lib・凍結の写し・環境が変わると契約が違うので続きは拒否される(最初から)。
+- 2 段とも履歴(計画は常に「履歴」—— 毎便の鎖に入れない)・簡易一致は使わない(quickVerify:false)。
