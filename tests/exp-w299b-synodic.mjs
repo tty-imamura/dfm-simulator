@@ -28,12 +28,17 @@
 //   W299B_OUT=<json> で出力先を変える(器の試走は正本を書かない)。W299B_PART=<part,...> で段を絞る(既存の正本の他の段を残して上書き)。
 //   W299B_TARGET=<html>(既定 beta/index.html)。並走: 段ごとに W299B_OUT=<写し> node tests/exp-w299b-synodic.mjs --part <段> を別の process で走らせ、
 //   node tests/exp-w299b-synodic.mjs --merge <写し,…> で正本にまとめる(写しの targetSha256 がいまの html と違えば止める)
+//   第323便c(決断事項 AN480・統括の検証項目 R277): **既定で段を子プロセス最大 3 本に分ける**(W299B_WORKERS —— 既定 3・1 なら従来どおり 1 プロセスで順に)。
+//   子は段 1 つを `--part <段>` で一時の写しへ走らせ、親は全部の子を待ってから正本の段の並びで組み立てる(正本に分け方を書かない ——
+//   3 プロセスと 1 プロセスの正本は時刻・所要の欄の外で同じ)。段が 1 つ(例 W299B_PART=sun3d)のときは子を作らない
 //
 // ■ 言わないこと: 「朔望月を再現した」「現実を再現した」「再現しない」「合わせられない」。届かない量は「この探索範囲では未達 —— 次の見直し」。
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import vm from 'node:vm';
 import crypto from 'node:crypto';
+import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { loadHtmlMain, runRow, EMGRID_LIB_VERSION } from './lib-w280b-emgrid.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
@@ -339,6 +344,61 @@ if (MERGE) for (const f of MERGE.split(',').filter(Boolean)) { const j = JSON.pa
   Object.assign(out.parts, j.parts || {}); }
 const RUN = { scan: partScan, long: partLong, longh2: partLongH2, sun3d: partSun3d, fit: partFit, aps: partAps };
 for (const k of Object.keys(out.parts)) if (!RUN[k]) delete out.parts[k];
+// ==== 第323便c の塊(ここから)====
+// 第323便c(決断事項 AN480・統括の検証項目 R277): **段を子プロセスに分ける**(W299B_WORKERS —— 既定 3・1 なら下の従来の経路で 1 プロセスで順に)。
+//   段(scan・long・longh2・sun3d・fit・aps)は互いの結果を読まない —— 子は html を読み直し(pinDecl303・pinDecl302 も同じ)、段 1 つを `--part <段>` で
+//   一時の写し(W299B_OUT —— TMPDIR の下)へ書く。親は全部の子を待ってから、従来の経路と同じ並び(既存の正本の段の鍵の順 → PARTS の順)で
+//   out.parts に入れる。段の wallSec は子が測る(従来の経路と同じ測り方)。**正本に分け方(子プロセスの数)を書かない**(時刻・所要の外の差 0)
+const W323C_WORKERS = Math.max(1, Math.min(3, Math.floor(Number(process.env.W299B_WORKERS || 3)) || 3));
+// 長い段から子に渡す(第322便の鎖 1 の段の所要: long 1577 s・longh2 1481 s・scan 425 s・fit 297 s・aps 226 s・sun3d 23 s —— 3 本で壁時計は long の 1 本ぶん)
+const W323C_LANE_ORDER = ['long', 'longh2', 'scan', 'fit', 'aps', 'sun3d'];
+function w323cSpawnPart(k, tmpDir, live) {
+  return new Promise((resolve, reject) => {
+    const outF = path.join(tmpDir, 'part-' + k + '.json');
+    const env = Object.assign({}, process.env, { W299B_OUT: outF, W299B_WORKERS: '1', W299B_TARGET: TARGET });
+    delete env.W299B_PART;
+    const child = spawn(process.execPath, [fileURLToPath(import.meta.url), '--part', k], { cwd: ROOT, env, stdio: ['ignore', 'pipe', 'pipe'] });
+    live.add(child);
+    const pre = (t) => t.split('\n').filter((l) => l.length).map((l) => '[' + k + '] ' + l).join('\n') + '\n';
+    let bo = '', errTail = '';
+    child.stdout.on('data', (d) => { bo += d; const i = bo.lastIndexOf('\n'); if (i >= 0) { process.stdout.write(pre(bo.slice(0, i))); bo = bo.slice(i + 1); } });
+    child.stderr.on('data', (d) => { errTail = (errTail + d).slice(-4000); process.stderr.write(d); });
+    child.on('close', (rc) => {
+      live.delete(child);
+      if (bo) process.stdout.write(pre(bo));
+      if (rc !== 0) return reject(new Error('子プロセスの段 ' + k + ' が rc ' + rc + ' で終わった: ' + errTail.trim().split('\n').slice(-3).join(' / ')));
+      let j = null;
+      try { j = JSON.parse(fs.readFileSync(outF, 'utf8')); } catch (e) { return reject(new Error('子プロセスの段 ' + k + ' の写しが読めない: ' + String(e && e.message || e))); }
+      if (j.targetSha256 !== targetSha256) return reject(new Error('子プロセスの段 ' + k + ' の targetSha256 がいまの html と違う(走行中に html が変わった)'));
+      if (!j.parts || !j.parts[k]) return reject(new Error('子プロセスの段 ' + k + ' の写しに段が無い'));
+      resolve(j.parts[k]);
+    });
+  });
+}
+async function w323cRunWorkers(parts) {
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'w323c-synodic-'));
+  const queue = W323C_LANE_ORDER.filter((k) => parts.includes(k)).concat(parts.filter((k) => !W323C_LANE_ORDER.includes(k)));
+  const live = new Set(), got = {};
+  log('第323便c: 段 ' + queue.join(',') + ' を子プロセス ' + Math.min(W323C_WORKERS, queue.length) + ' 本で(W299B_WORKERS=' + W323C_WORKERS + ')');
+  try {
+    await Promise.all(Array.from({ length: Math.min(W323C_WORKERS, queue.length) }, async () => {
+      while (queue.length) { const k = queue.shift(); got[k] = await w323cSpawnPart(k, tmpDir, live); log('part', k, 'done', got[k].wallSec + 's(子プロセス)'); }
+    }));
+  } catch (e) {
+    for (const c of live) { try { c.kill('SIGTERM'); } catch { /* 終わっている */ } }
+    throw e;
+  }
+  fs.rmSync(tmpDir, { recursive: true, force: true });
+  return got;
+}
+const W323C_RUN_PARTS = MERGE ? [] : PARTS.filter((k) => RUN[k]);
+if (W323C_WORKERS > 1 && W323C_RUN_PARTS.length > 1) {
+  const got = await w323cRunWorkers(W323C_RUN_PARTS);
+  for (const k of W323C_RUN_PARTS) out.parts[k] = got[k];
+  fs.mkdirSync(path.dirname(OUT), { recursive: true });
+  fs.writeFileSync(OUT, JSON.stringify(out, null, 1) + '\n');
+} else
+// ==== 第323便c の塊(ここまで)====
 for (const k of (MERGE ? [] : PARTS)) {
   if (!RUN[k]) continue;
   const t = Date.now();
@@ -355,7 +415,7 @@ out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第299便b', target
   harnessVersion: SYNODIC_W299B_VERSION, clockVersion: SYN.version, parts: Object.keys(out.parts),
   ruling: '原仮定者の裁定(第89報)①(geoPN=2 は近似 —— 近似として扱いやすい基準を探す・earthMoonRealKF1 の公転周期は恒星月の代わりに朔望月を検証する)',
   reading: '統括の検証項目 R170(仮想の太陽の時計・一様換算・太陽のある本の実際の方向の 3 通りで測り、窓・位相・始点の依存と床を並べて基準を選ぶ・ノブは D0pull だけ・h と h/2)',
-  engine: 'Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)',
+  engine: 'Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・段ごとに子プロセス〔W299B_WORKERS —— 既定 3・1 なら 1 プロセスで順に —— 値は分け方に依らない〕)',
   notClaim: ['朔望月を再現した', '現実を再現した', '月の近点回転を再現した', 'gain は普遍定数'] });
 out.elapsedS = out.timing.wallSec;
 Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));
