@@ -21,7 +21,8 @@
 //   --git-dir <dir>(写しの中の `git -C ROOT show` が読む git —— 既定は --root の git)/ --head-rev <rev>(--base-rev との版どうしの差 —— 取り出した木のとき)/
 //   --html <候補 html>(写しの beta/index.html を差し替える)/ --keep(写しを残す)/
 //   --self-test(器を走らせない自己試験 —— QA lint.harnessSmoke303 と同じ関数)/
-//   --fingerprint <記録>(第323便b —— 窓の出力の物理の値の指紋を記録へ。--base も --keys も無ければ**窓のある段を全部**〔簡易一致を使わない段は除く〕)
+//   --fingerprint <記録>(第323便b —— 窓の出力の物理の値の指紋を記録へ。--base も --keys も無ければ**窓のある段を全部**〔簡易一致を使わない段は除く〕・
+//     既定の枠は 1 段 900 s・全体 150 min〔--budget・--max-minutes で上書き〕—— 窓を最後まで走らせた段だけ指紋を取る)
 //
 // ■ 言わないこと
 //   ・「煙試験が通ったので鎖が通る」(器の窓は最初の数段だけ —— 値の転記のずれは鎖の後の tools/pregate-transcript.mjs が見る)。
@@ -724,7 +725,10 @@ async function main(argv) {
   const htmlOverride = rel(getArg(argv, '--html', null));
   const baseRev = getArg(argv, '--base-rev', null);
   const lanes = Number(getArg(argv, '--lanes', 2));
-  const budget = Number(getArg(argv, '--budget', 90));
+  // 第323便b: --fingerprint の既定の枠は 1 段 900 s・全体 150 min(窓を最後まで走らせないと指紋が取れない —— 第323便b の試走で 90 s の枠に当たった窓がある)
+  const fpMode = argv.includes('--fingerprint');
+  if (fpMode && !argv.includes('--max-minutes')) argv = argv.concat(['--max-minutes', '150']);
+  const budget = Number(getArg(argv, '--budget', fpMode ? 900 : 90));
   const maxMinutes = maxMinutesOf(argv);   // 第322便d: --wide の既定は 90 min(maxMinutesOf)
   const keysArg = getArg(argv, '--keys', null);
   const indirect = argv.includes('--indirect');

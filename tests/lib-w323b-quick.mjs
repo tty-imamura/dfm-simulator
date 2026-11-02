@@ -48,8 +48,11 @@ export const QUICK_DECL_FIELDS = Object.freeze({
   afterOrderOnly: 'string[](順序だけと宣言する after の上流)',
   afterData: 'string[](データの依存と宣言する after の上流)',
 });
-/** 指紋で除く欄名(どの階層でも)—— 実行時刻・壁時計の所要と速度(新方式の語彙と旧方式の欄名)。 */
-export const FP_RUNTIME_KEYS = Object.freeze([...new Set(STABLE_RUNTIME_KEYS.concat(LEGACY_VOLATILE_KEYS))].sort());
+/**
+ * 指紋で除く欄名(どの階層でも)—— 実行時刻・壁時計の所要と速度(新方式の語彙と旧方式の欄名)と `ms`(行ごとの壁時計のミリ秒 ——
+ * 第323便b の試走で bgbudget2 の窓の指紋が 2 回で違った欄。今の正本で `ms` はすべて壁時計〔bgbudget2・charonwin・samplestatus・timing・ledgernorm〕)。
+ */
+export const FP_RUNTIME_KEYS = Object.freeze([...new Set(STABLE_RUNTIME_KEYS.concat(LEGACY_VOLATILE_KEYS, ['ms']))].sort());
 /** 較正の判定の正本(書く段・読む段は簡易一致を使わない —— AN518)。 */
 export const CALIBRATION_FILES = Object.freeze(['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json']);
 export const CALIBRATION_HARNESS = 'tests/exp-w249b-calaudit.mjs';
