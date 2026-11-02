@@ -1708,6 +1708,169 @@ for (const st of REGEN_STEPS) {
   st.touches = [...new Set((st.touches || []).concat(b))];
 }
 // ==== 第320便d の塊(ここまで)====
+// ==== 第323便b の塊(ここから)====
+// ---- 第323便b(原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・決断事項 AN517/AN518・統括の検証項目 R276):
+//   **順序だけの依存**(after の辺のうち、上流が書くファイルを読まない辺)を機械で分ける。after には
+//     data  … 上流の書くファイル(outs・merges・byproducts・touches —— html を除く)を読む辺: 正本の meta の入力(inputs[]・inputsStable[]・target)に在る /
+//              器の本文(cmd の器と `from './x.mjs'` の閉包・注釈を除く)がファイルの名(相対パスか基本名)を名指す / 同じファイルを書く(書きの順)/
+//              上流の after の閉包の段が書くファイルを読む(推移の読みの運び手)/ meta も器の本文も引けない(保守側)
+//     html  … 上流が beta/index.html を書く段(生成領域の htmlRegions・集約段 htmlAggregate・touches の html)で、自分は html を読む(htmlReadOf ≠ none)が
+//              上流の他のファイルは読まない辺 —— 鎖の中で html が実際に変わったときだけ自分の判定を引き直す(冪等なら広がらない)
+//     order … どちらでもない(並べるだけ)
+//   が混ざっている。手で上書きする欄: 段の `afterOrderOnly`(順序だけと宣言する上流の key の並び)・`afterData`(データの依存と宣言する上流の key の並び)。
+//   使う所: planRegen の依存の伝播(順序だけの辺は recheck を広げない —— その段は reuse のまま `hold` に上流を記録)・chainInputSpecs(順序だけの辺の
+//   上流の書くファイルを済み印の契約の入力に入れない)・buildChain(gate の速い判定の上流 fastUps = データの辺の上流だけ)。正本の判定(ownStatus)は変えない。
+export const AFTER_KIND_VERSION = 'w323b-afterkind-1';
+/**
+ * 段ごとの after の辺の種類(Map key → Map 上流 → {kind:'data'|'html'|'order', why})。純関数(ファイルは読むだけ)。
+ * @param {{root?:string, steps?:Array, metaOf?:Function, readText?:Function}} o root も readText も無い(stub)ときは本文が引けない —— 全部 data(保守側)
+ */
+export function afterDepKinds(o) {
+  const opt = o || {};
+  const steps = opt.steps || REGEN_STEPS;
+  const root = opt.root ? String(opt.root).replace(/\/$/, '') : null;
+  const metaOf = opt.metaOf || (root ? (f) => readMetaAt(root, f) : null);
+  const by = new Map(steps.map((z) => [z.key, z]));
+  const C = afterClosure(steps);
+  const W = writersMap(steps);
+  const textMemo = new Map();
+  const textOf = (st) => {
+    if (!textMemo.has(st.key)) { const m = (root || opt.readText) ? harnessClosureTexts(st, root, opt.readText) : new Map(); textMemo.set(st.key, [...m.values()].join('\n')); }
+    return textMemo.get(st.key);
+  };
+  const filesOf = (s) => [...new Set(writesOf(s).concat(s.touches || []))].filter((f) => f !== HTML_TARGET);
+  const writesHtml = (s) => (s.htmlRegions || []).length > 0 || !!s.htmlAggregate || (s.touches || []).includes(HTML_TARGET);
+  const res = new Map();
+  for (const st of steps) {
+    if (st.role === 'history') continue;
+    const rows = new Map();
+    const metas = (st.outs || []).map((f) => (metaOf ? metaOf(f) : null));
+    const metaFiles = new Set();
+    for (const m of metas) if (m) { for (const z of [...(m.inputs || []), ...(m.inputsStable || [])]) if (z && z.file) metaFiles.add(z.file); if (m.target) metaFiles.add(m.target); }
+    const mine = new Set(writesOf(st).concat(st.touches || []));
+    const text = textOf(st);
+    const known = !!text || (metas.length > 0 && metas.every((m) => !!m));
+    // 器の本文が名指すファイルの基本名(.json・.md・.csv —— 相対パスで書いても基本名で拾う)
+    const names = new Set(text ? (text.match(/[A-Za-z0-9_.-]+\.(?:json|md|csv)\b/g) || []) : []);
+    const reads = (f) => metaFiles.has(f) || names.has(f.split('/').pop());
+    let hr = null;
+    const htmlKind = () => { if (!hr) hr = htmlReadOf(st, { root, metaOf, readText: opt.readText }); return hr.kind; };
+    for (const d of (st.after || [])) {
+      const ds = by.get(d);
+      if (!ds) continue;
+      if ((st.afterData || []).includes(d)) { rows.set(d, { kind: 'data', why: '宣言 afterData' }); continue; }
+      if ((st.afterOrderOnly || []).includes(d)) { rows.set(d, { kind: 'order', why: '宣言 afterOrderOnly' }); continue; }
+      if (!known) { rows.set(d, { kind: 'data', why: '正本の meta も器の本文も引けない(保守側)' }); continue; }
+      const own = filesOf(ds);
+      const same = own.filter((f) => mine.has(f));
+      if (same.length) { rows.set(d, { kind: 'data', why: '同じファイルを書く(書きの順): ' + same[0] }); continue; }
+      const direct = own.filter(reads);
+      if (direct.length) { rows.set(d, { kind: 'data', why: (metaFiles.has(direct[0]) ? '正本の meta の入力: ' : '器の本文が名指す: ') + direct[0] }); continue; }
+      // 推移: 上流の after の閉包の段が書くファイルを読み、その書き手が自分の直の依存(after ∪ 正本の meta の入力の書き手 —— planRegen の deps)に無い(この辺が運ぶ)
+      const directDeps = new Set(st.after || []);
+      for (const f of metaFiles) for (const w of (W.get(f) || [])) directDeps.add(w);
+      let carry = null;
+      for (const u of (C.get(d) || [])) {
+        if (directDeps.has(u) || u === st.key) continue;
+        const us = by.get(u); if (!us || us.role === 'history') continue;
+        const f = filesOf(us).find(reads);
+        if (f) { carry = u + ' の ' + f; break; }
+      }
+      if (carry) { rows.set(d, { kind: 'data', why: '上流の閉包の段の書くファイルを読む: ' + carry }); continue; }
+      if (writesHtml(ds) && htmlKind() !== 'none') { rows.set(d, { kind: 'html', why: '上流は html を書く・自分は html を読む(' + htmlKind() + ')—— 上流の他のファイルは読まない' }); continue; }
+      rows.set(d, { kind: 'order', why: '上流の書くファイルを読まない(並べるだけ)' });
+    }
+    res.set(st.key, rows);
+  }
+  return res;
+}
+/** 段 k の上流 d の辺が順序だけ(html か order)か。kinds は afterDepKinds の戻り。 */
+export function isOrderOnlyDep(kinds, k, d) { const r = kinds && kinds.get(k) && kinds.get(k).get(d); return !!r && r.kind !== 'data'; }
+/** 種類の数(段の辺の数え —— 報告と QA 用)。 */
+export function afterKindCounts(kinds) {
+  const c = { data: 0, html: 0, order: 0, steps: 0, orderOnlySteps: 0 };
+  for (const [, rows] of kinds) {
+    if (!rows.size) continue;
+    c.steps++;
+    let any = false;
+    for (const r of rows.values()) { c[r.kind]++; if (r.kind !== 'data') any = true; }
+    if (any) c.orderOnlySteps++;
+  }
+  return c;
+}
+/**
+ * 第323便b の自己試験(regen-chain --self-test の (t) と QA lint.regenOrderOnly323 が呼ぶ):
+ *   t1 … afterDepKinds の型(stub の表と器の本文 —— meta の入力・器の名指し・同じファイル・推移の運び手・html・order・宣言の上書き・本文が引けない)
+ *   t2 … gate の速い判定(stub の鎖を bash で 3 回: html 不変 → データの上流が走った段と fastOk の無い段だけ --gate・順序だけの上流の段とその下流は速い判定 /
+ *        上流が html を書き換える → 全部の gate が --gate / REGEN_FASTGATE=0 → 全部 --gate)
+ *   t3 … --gate の o.only(行だけ)の自分の判定が全段の計画の行と同じ(o.plan を渡したとき —— 状態ごとに 1〜2 段)
+ * @param {{root:string, tmpDir?:string, plan?:object, html?:string}} o
+ */
+export async function w323bChainProbe(o) {
+  const root = String(o.root).replace(/\/$/, '');
+  const res = { t1: null, t2: null, t3: null };
+  // t1
+  {
+    const mk = (k, x) => Object.assign({ key: k, cmd: 'node tests/exp-' + k + '.mjs', outs: ['tests/out/' + k + '.json'], role: 'current', sec: 1 }, x || {});
+    const st = [mk('w0'), mk('hw', { outs: [], htmlAggregate: true, touches: [HTML_TARGET] }), mk('rm', { after: ['w0'] }), mk('rn', { after: ['w0'] }),
+      mk('rh', { after: ['hw'] }), mk('rx', { after: ['hw'] }), mk('rs', { after: ['w0'], touches: ['tests/out/w0.json'] }), mk('wc', { after: ['w0'] }),
+      mk('rc', { after: ['wc'] }), mk('ro', { after: ['w0'], afterOrderOnly: ['w0'] }), mk('rd', { after: ['hw'], afterData: ['hw'] }), mk('ru', { after: ['w0'] })];
+    const txt = { 'tests/exp-rn.mjs': "const J = read('tests/out/w0.json');", 'tests/exp-rc.mjs': "fs.readFileSync(path.join('tests','out','w0.json'))", 'tests/exp-rh.mjs': "load('beta/index.html')",
+      'tests/exp-rx.mjs': 'compute()', 'tests/exp-rm.mjs': 'x()', 'tests/exp-rs.mjs': 'y()', 'tests/exp-wc.mjs': 'z()', 'tests/exp-ro.mjs': "read('w0.json')", 'tests/exp-rd.mjs': 'q()' };
+    const metas = { 'tests/out/rm.json': { inputs: [{ file: 'tests/out/w0.json' }] }, 'tests/out/rx.json': { target: 'tests/lib-x.mjs', inputs: [] }, 'tests/out/rh.json': null };
+    const K = afterDepKinds({ steps: st, readText: (rel) => (rel in txt ? txt[rel] : null), metaOf: (f) => (f in metas ? metas[f] : null) });
+    const kd = (k, d) => (K.get(k) && K.get(k).get(d) ? K.get(k).get(d).kind : null);
+    const want = { 'rm←w0': 'data', 'rn←w0': 'data', 'rh←hw': 'html', 'rx←hw': 'order', 'rs←w0': 'data', 'wc←w0': 'order', 'rc←wc': 'data', 'ro←w0': 'order', 'rd←hw': 'data', 'ru←w0': 'data' };
+    const got = Object.fromEntries(Object.keys(want).map((e) => [e, kd(e.split('←')[0], e.split('←')[1])]));
+    res.t1 = { got, ok: Object.keys(want).every((e) => got[e] === want[e]),
+      note: 'rm(meta の入力)・rn(器の名指し)・rs(同じファイル)・rc(推移 —— wc の閉包の w0 を読む)・rd(宣言 afterData)・ru(本文も meta も引けない)→ data / rh → html / rx・wc → order / ro(宣言 afterOrderOnly)→ order' };
+  }
+  // t2: stub の鎖(bash)
+  if (o.tmpDir) {
+    const cp = await import('node:child_process');
+    const tmp = String(o.tmpDir).replace(/\/$/, '');
+    fs.mkdirSync(tmp + '/tools', { recursive: true }); fs.mkdirSync(tmp + '/out', { recursive: true });
+    // 自分の判定の stub(--gate を呼ばれた段を記録して「再利用」10 を返す)
+    fs.writeFileSync(tmp + '/tools/regen-chain.mjs', "import fs from 'node:fs'; const a = process.argv; const k = a[a.indexOf('--gate') + 1]; fs.appendFileSync('gatecalls.txt', k + '\\n'); process.exit(10);\n");
+    const mk = (k, cmd, after) => ({ key: k, cmd, outs: ['out/' + k + '.json'], after: after || [], role: 'current', sec: 1 });
+    const steps = [mk('u1', 'echo "{\\"v\\":1}" > out/u1.json && if [ -n "${W323B_TOUCH:-}" ]; then echo "<!-- x -->" >> page.html; fi'),
+      mk('g1', 'echo g1 > out/g1.json', ['u1']), mk('g2', 'echo g2 > out/g2.json', ['u1']), mk('g3', 'echo g3 > out/g3.json', ['g2']), mk('g4', 'echo g4 > out/g4.json', ['u1'])];
+    const kinds = new Map([['u1', new Map()], ['g1', new Map([['u1', { kind: 'data' }]])], ['g2', new Map([['u1', { kind: 'html' }]])], ['g3', new Map([['g2', { kind: 'data' }]])], ['g4', new Map([['u1', { kind: 'order' }]])]]);
+    const plan = { htmlSha256: null, steps: [{ key: 'u1', status: 'regen', ownStatus: 'regen' }, { key: 'g1', status: 'recheck', ownStatus: 'reuse', prodDeps: ['u1'] },
+      { key: 'g2', status: 'reuse', ownStatus: 'reuse', hold: ['u1'] }, { key: 'g3', status: 'reuse', ownStatus: 'reuse' }, { key: 'g4', status: 'reuse', ownStatus: 'regen' }] };
+    const deps = tableDeps({ steps });
+    const run = (envX) => {
+      for (const f of ['gatecalls.txt']) { try { fs.rmSync(tmp + '/' + f); } catch { /* 無い */ } }
+      fs.rmSync(tmp + '/log', { recursive: true, force: true });
+      fs.writeFileSync(tmp + '/page.html', '<html>stub</html>\n');
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(tmp + '/page.html')).digest('hex');
+      const chn = buildChain(Object.assign({}, plan, { htmlSha256: sha }), { steps, deps, afterKinds: kinds });
+      const sh = chainShell(chn, { lanes: 2, htmlSha: sha });
+      fs.writeFileSync(tmp + '/chain.sh', sh);
+      const env = Object.assign({}, process.env, { REGEN_ROOT: tmp, REGEN_LOG: tmp + '/log', REGEN_TOOL: root + '/tools/regen-chain.mjs', REGEN_HTML: 'page.html', REGEN_ENV_BROWSER: '0' }, envX || {});
+      delete env.REGEN_PLAN_HTML_SHA;
+      const r = cp.spawnSync('bash', [tmp + '/chain.sh'], { encoding: 'utf8', env, cwd: tmp, timeout: 120000 });
+      let calls = []; try { calls = fs.readFileSync(tmp + '/gatecalls.txt', 'utf8').split('\n').filter(Boolean).sort(); } catch { calls = []; }
+      const fast = (r.stdout.match(/\[再利用・速い判定\] (\S+?)\(/g) || []).map((z) => z.replace(/^\[再利用・速い判定\] /, '').replace(/\($/, '')).sort();
+      const marks = {}; for (const k of ['g2', 'g3']) { try { marks[k] = fs.readFileSync(tmp + '/log/done/' + k + '.done', 'utf8').split('\n')[0]; } catch { marks[k] = null; } }
+      return { rc: r.status, calls, fast, marks, modes: Object.fromEntries(Object.entries(chn.steps).map(([k, x]) => [k, x.mode + (x.fastOk ? '+fast' : '') + ':' + (x.fastUps || []).join('|')])) };
+    };
+    const A = run(null), B = run({ W323B_TOUCH: '1' }), C = run({ REGEN_FASTGATE: '0' });
+    const j = (x) => JSON.stringify(x);
+    res.t2 = { A, B, C, ok: A.rc === 0 && j(A.calls) === j(['g1', 'g4']) && j(A.fast) === j(['g2', 'g3']) && /^reuse .* fast$/.test(A.marks.g2 || '')
+      && B.rc === 0 && j(B.calls) === j(['g1', 'g2', 'g3', 'g4']) && B.fast.length === 0 && C.rc === 0 && j(C.calls) === j(['g1', 'g2', 'g3', 'g4']) && C.fast.length === 0 };
+  }
+  // t3: --gate の行だけ = 全段の計画の行
+  if (o.plan) {
+    const pick = [];
+    for (const s of ['regen', 'reuse', 'recheck', 'always']) for (const r of (o.plan.steps || []).filter((z) => z.status === s).slice(0, s === 'reuse' || s === 'recheck' ? 2 : 1)) pick.push(r);
+    const rows = pick.map((r) => { const p = planRegen({ root, html: o.html, only: [r.key] }); const x = p.steps[0] || {}; return { key: r.key, full: r.ownStatus, only: x.ownStatus, n: p.steps.length }; });
+    res.t3 = { rows, ok: rows.length > 0 && rows.every((z) => z.full === z.only && z.n === 1) };
+  }
+  res.ok = Object.values(res).filter((z) => z && typeof z === 'object').every((z) => z.ok !== false);
+  return res;
+}
+// ==== 第323便b の塊(ここまで)====
 
 /**
  * 第285便f(原仮定者の裁定(第75報)AN53): **html 全体を刻む段**(正本の meta.target が beta/index.html・完全な領域の宣言なし —— 第285便f の
@@ -1935,6 +2098,8 @@ const readMeta = (abs) => { try { return (JSON.parse(fs.readFileSync(abs, 'utf8'
  * @param {string} o.root リポジトリ root
  * @param {string} [o.html] 候補の html(既定 root/beta/index.html)—— 正本の target が beta/index.html のとき、この html で照合する
  * @param {string} [o.baseHtml] 基点の html(情報: 基点で領域が一致していたか)
+ * @param {string[]} [o.only] 第323便b: この段だけの**自分の判定**(ownStatus)を引く(鎖の --gate —— 依存の伝播は引かない。全段の計画と同じ行の判定)
+ * @param {boolean} [o.orderOnly] 第323便b: 順序だけの依存(afterDepKinds)で recheck を広げない(既定 true —— false で第322便までの伝播)
  */
 export function planRegen(o) {
   const root = o.root.replace(/\/$/, '');
@@ -1977,21 +2142,41 @@ export function planRegen(o) {
   // 第283便e: 入力の依存は**書く段のすべて**(outs + merges —— dt3・kf0 は calaudit を書き戻す)
   const producer = writersMap(STEPS);
   const rows = new Map();
+  // 第323便b: o.only —— 指定した段の行だけ(鎖の --gate が引く自分の判定。行の判定は全段の計画と同じ関数・同じ入力)
+  const onlySet = Array.isArray(o.only) && o.only.length ? new Set(o.only) : null;
+  // 第323便b: 正本の meta の控え(同じ計画の中で 1 回だけ読む)と、領域 hash の**先引き**(今の html の分を全部 → 基点の html の分を全部)。
+  //   領域 hash の器(tests/lib-w281a-scope.mjs の loadCtx)は html を 1 本だけ控えるので、段ごとに今と基点を交互に引くと毎回 html を読み直す
+  //   (--base つきの計画が 490 s —— 第323便b の実測)。引く値と順の外の判定は変えない(scopeFull の控えから同じ値を返す)
+  const metaMemo = new Map();
+  const metaOfOut = (out) => { if (!metaMemo.has(out)) metaMemo.set(out, readMeta(abs(out))); return metaMemo.get(out); };
+  {
+    const pre = [];
+    for (const st of STEPS) {
+      if ((onlySet && !onlySet.has(st.key)) || st.role === 'history') continue;
+      for (const out of (st.outs || [])) { const m = metaOfOut(out); if (m && m.target === 'beta/index.html' && m.targetSha256 && m.targetSha256 !== htmlSha && m.scope && m.scopeComplete === true) pre.push(m); }
+    }
+    for (const m of pre) scopeFull(htmlAbs, m.scope);
+    if (o.baseHtml) for (const m of pre) scopeFull(o.baseHtml, m.scope);
+  }
   for (const st of STEPS) {
+    if (onlySet && !onlySet.has(st.key)) continue;
     const row = { key: st.key, cmd: st.cmd, env: st.env, outs: st.outs, sec: st.sec, secSource: st.secSource,
       alwaysRun: st.alwaysRun, role: st.role, status: null, reasons: [], deps: [], scopeUsed: false, baseScopeSame: null,
-      cause: [] };
-    const cause = (c) => { if (row.cause.indexOf(c) < 0) row.cause.push(c); };
+      cause: [], causeKinds: [] };
+    // 第323便b: 理由の種類(causeKinds —— 簡易一致の影の「理由が領域だけ」の判定に使う): scope(領域の宣言つきで領域 hash が違う)・html(領域の宣言なし —— html 全体)・
+    //   code(器・lib)・tool(道具の照合が不一致)・input(入力・対象)・decl(刻印の宣言 ≠ 今の宣言)・missing(正本・meta が無い)・stamp(刻印が無い)・dep(依存先)
+    const cause = (c, kind) => { if (row.cause.indexOf(c) < 0) row.cause.push(c); if (kind && row.causeKinds.indexOf(kind) < 0) row.causeKinds.push(kind); };
     const deps = new Set(st.after || []);
+    const prod = new Set();   // 第323便b: 正本の meta の入力の書き手(データの依存 —— 順序だけにならない)
     if (st.role === 'history') { row.status = 'history'; row.reasons.push(st.note || '履歴(再生成しない)'); rows.set(st.key, row); continue; }
     const why = [];
     for (const out of st.outs) {
-      const m = readMeta(abs(out));
-      if (!m) { why.push(out + ': 正本か meta が無い'); cause('正本が無い'); continue; }
-      for (const inp of (m.inputs || [])) for (const p of (producer.get(inp.file) || [])) if (p !== st.key) deps.add(p);
+      const m = metaOfOut(out);
+      if (!m) { why.push(out + ': 正本か meta が無い'); cause('正本が無い', 'missing'); continue; }
+      for (const inp of (m.inputs || [])) for (const p of (producer.get(inp.file) || [])) if (p !== st.key) { deps.add(p); prod.add(p); }
       // 対象
       const t = m.target || null;
-      if (!t || !m.targetSha256) { why.push(out + ': 対象の刻印が無い'); cause('刻印が無い'); }
+      if (!t || !m.targetSha256) { why.push(out + ': 対象の刻印が無い'); cause('刻印が無い', 'stamp'); }
       else if (/\.html$/.test(t)) {
         const hA = (t === 'beta/index.html') ? htmlAbs : abs(t);
         const hS = (t === 'beta/index.html') ? htmlSha : shaFile(hA);
@@ -2002,21 +2187,21 @@ export function planRegen(o) {
             if (o.baseHtml && t === 'beta/index.html') row.baseScopeSame = (scopeOn(o.baseHtml, m.scope) === sNow);
           } else {
             why.push(out + ': 対象 html の hash も領域 hash も一致しない' + (m.scope ? '' : '(領域の宣言なし)'));
-            cause(m.scope && m.scopeComplete === true ? scopeCause(hA, m.scope, m.targetSha256) : '対象 html(領域の宣言なし —— html 全体)');
+            if (m.scope && m.scopeComplete === true) cause(scopeCause(hA, m.scope, m.targetSha256), 'scope'); else cause('対象 html(領域の宣言なし —— html 全体)', 'html');
           }
         }
-      } else if (shaFile(abs(t)) !== m.targetSha256) { why.push(out + ': 対象 ' + t + ' の hash が違う'); cause('入力(対象): ' + t); }
+      } else if (shaFile(abs(t)) !== m.targetSha256) { why.push(out + ': 対象 ' + t + ' の hash が違う'); cause('入力(対象): ' + t, 'input'); }
       // コード
       // 第318便a(原仮定者の裁定(第120報)・決断事項 AN427 ⑤・統括の検証項目 R254): 刻印の道具(SCOPE_TOOLING)を刻印だけに使う器(toolStampOnly)は、
       //   道具の sha の違いを「式」にしない —— 刻印(領域 hash・入力の安定 hash)を今の道具で引き直して照合するだけ(一致 → 走らせ直さない・
       //   row.toolChecked に記録 / 不一致 → regen「道具(照合が不一致)」)。道具を計算に使う器と器・lib のコードの変更は従来どおり regen。
-      if (!Array.isArray(m.code) || !m.code.length) { why.push(out + ': 器・lib の刻印が無い'); cause('刻印が無い'); }
+      if (!Array.isArray(m.code) || !m.code.length) { why.push(out + ': 器・lib の刻印が無い'); cause('刻印が無い', 'stamp'); }
       else {
         const toolDrift = [];
         const codeFiles = m.code.map((z) => z.file);
         for (const c of m.code) if (c.sha256 && shaFile(abs(c.file)) !== c.sha256) {
           if (SCOPE_TOOLING.includes(c.file) && toolStampOnly(root, codeFiles, c.file)) { toolDrift.push(c.file); continue; }
-          why.push(out + ': コード ' + c.file + ' が変わった'); cause('式(器・lib): ' + c.file);
+          why.push(out + ': コード ' + c.file + ' が変わった'); cause('式(器・lib): ' + c.file, 'code');
         }
         if (toolDrift.length) {
           // 照合は計画の対象 html(--html の候補を含む)で引く —— 領域は刻印の版で・安定 hash は刻印の行の版で
@@ -2025,7 +2210,7 @@ export function planRegen(o) {
           for (const z of (m.inputsStable || [])) if (!stableMatches(root, z)) rc.why.push('安定 hash ' + z.file);
           rc.ok = rc.why.length === 0;
           if (rc.ok) { row.toolChecked = (row.toolChecked || []).concat(toolDrift.map((f) => out + ':' + f)); }
-          else { why.push(out + ': 道具 ' + toolDrift.join(',') + ' が変わり、刻印を今の道具で引き直すと一致しない(' + rc.why.slice(0, 2).join('・') + ')'); cause('道具(照合が不一致): ' + toolDrift.join(',')); }
+          else { why.push(out + ': 道具 ' + toolDrift.join(',') + ' が変わり、刻印を今の道具で引き直すと一致しない(' + rc.why.slice(0, 2).join('・') + ')'); cause('道具(照合が不一致): ' + toolDrift.join(','), 'tool'); }
         }
       }
       // 第284便f(原仮定者の裁定(第74報)AN43): **刻印の Pointer ≠ 今の宣言 → regen**(第283便は刻印の Pointer で照合して再利用し、
@@ -2033,34 +2218,35 @@ export function planRegen(o) {
       for (const z of (m.inputsStable || [])) {
         if (z.stableVersion !== STABLE_VERSION) continue;
         const got = JSON.stringify((z.volatilePaths || []).slice().sort()), cur = JSON.stringify(volOf(z.file));   // 統括(第284便 統合): 自己試験の差し替え宣言(volOf)を読む
-        if (got !== cur) { why.push(out + ': 入力 ' + z.file + ' の刻印の Pointer が今の宣言と違う'); cause('刻印の Pointer ≠ 今の宣言: ' + z.file); }
+        if (got !== cur) { why.push(out + ': 入力 ' + z.file + ' の刻印の Pointer が今の宣言と違う'); cause('刻印の Pointer ≠ 今の宣言: ' + z.file, 'decl'); }
       }
       // 入力
       for (const inp of (m.inputs || [])) {
         if (inp.missing || !inp.sha256 || inp.file === t) continue;
         // 第284便c(AN43): 刻印の安定 hash の宣言(Pointer・方式の版 —— 随伴の行も)が今の宣言と違えば、**バイト sha が同じでも** regen
         const drift = stampedDeclDrift(m.inputsStable, inp.file, volOf);
-        if (drift.length) { why.push(out + ': 入力 ' + inp.file + ' の安定 hash の刻印が今の宣言と違う(' + drift.join(' / ') + ')'); cause('安定 hash の宣言: ' + inp.file + '(' + drift[0] + ')'); continue; }
+        if (drift.length) { why.push(out + ': 入力 ' + inp.file + ' の安定 hash の刻印が今の宣言と違う(' + drift.join(' / ') + ')'); cause('安定 hash の宣言: ' + inp.file + '(' + drift[0] + ')', 'decl'); continue; }
         if (shaFile(abs(inp.file)) === inp.sha256) continue;
         const st2 = (m.inputsStable || []).find((z) => z.file === inp.file);
         if (st2 && stableInputOk(root, m.inputsStable, inp.file)) continue;   // 第282便e: 刻印の版で照合(第283便e: 随伴の行も)
         why.push(out + ': 入力 ' + inp.file + ' が変わった');
-        cause('入力: ' + inp.file + (st2 ? '(安定 hash も違う)' : ''));
+        cause('入力: ' + inp.file + (st2 ? '(安定 hash も違う)' : ''), 'input');
       }
       // inputs[] に載らない読み込み(❄️ 対照系列の calaudit・nslock の kjoint2 —— 安定 hash だけを刻んだ入力)
       const listed = new Set((m.inputs || []).map((z) => z.file));
       for (const st2 of (m.inputsStable || [])) {
         if (listed.has(st2.file)) continue;
-        for (const p of (producer.get(st2.file) || [])) if (p !== st.key) deps.add(p);
+        for (const p of (producer.get(st2.file) || [])) if (p !== st.key) { deps.add(p); prod.add(p); }
         // 第284便c(AN43): 刻印の宣言 ≠ 今の宣言 → regen(随伴の行は親の行の検査で見る)
         if (st2.companionOf === undefined) {
           const drift = stampedDeclDrift(m.inputsStable, st2.file, volOf);
-          if (drift.length) { why.push(out + ': 入力 ' + st2.file + ' の安定 hash の刻印が今の宣言と違う(' + drift.join(' / ') + ')'); cause('安定 hash の宣言: ' + st2.file + '(' + drift[0] + ')'); continue; }
+          if (drift.length) { why.push(out + ': 入力 ' + st2.file + ' の安定 hash の刻印が今の宣言と違う(' + drift.join(' / ') + ')'); cause('安定 hash の宣言: ' + st2.file + '(' + drift[0] + ')', 'decl'); continue; }
         }
-        if (!stableMatches(root, st2)) { why.push(out + ': 入力 ' + st2.file + ' の中身(安定 hash)が変わった'); cause('入力: ' + st2.file + '(安定 hash)'); }
+        if (!stableMatches(root, st2)) { why.push(out + ': 入力 ' + st2.file + ' の中身(安定 hash)が変わった'); cause('入力: ' + st2.file + '(安定 hash)', 'input'); }
       }
     }
     row.deps = [...deps].filter((d) => STEPS.some((z) => z.key === d));
+    row.prodDeps = [...prod].filter((d) => row.deps.includes(d));
     if (st.alwaysRun) { row.status = 'always'; row.reasons = ['常時群'].concat(why); }
     else if (why.length) { row.status = 'regen'; row.reasons = why; }
     else row.status = 'reuse';
@@ -2069,20 +2255,41 @@ export function planRegen(o) {
     row.ownStatus = row.status;
     rows.set(st.key, row);
   }
-  // 依存の伝播(regen/always に依存する reuse → recheck)
-  let changed = true;
-  while (changed) {
-    changed = false;
-    for (const row of rows.values()) {
-      if (row.status !== 'reuse') continue;
-      const hit = row.deps.filter((d) => rows.get(d) && ['regen', 'always', 'recheck'].includes(rows.get(d).status));
-      if (hit.length) { row.status = 'recheck'; row.reasons.push('依存先が走る: ' + hit.join(', ')); row.cause.push('依存先: ' + hit.join(',')); changed = true; }
+  // 第323便b(原仮定者の指示(2026-11-01)「サンプルの変更だけでは、全行程を再実行しない」・R276): **順序だけの依存は recheck を広げない**。
+  //   after の辺の種類(afterDepKinds —— data / html / order)で、データの辺(data と正本の meta の入力の書き手)だけを伝播に使う。順序だけの辺の上流が走る段は
+  //   reuse のまま `hold` に上流を記録する(鎖では gate のまま —— html が鎖の中で実際に変わったときだけ自分の判定を引き直す・冪等なら走らない)。
+  //   比べのため第322便までの伝播(全部の辺)も引き、`plan.orderOnly` に recheck の数の前後と `secUpperAllEdges` を出す。regen・always の集合は変わらない。
+  const useKinds = o.orderOnly !== false && !onlySet;
+  const kinds = useKinds ? (o.afterKinds || afterDepKinds({ root, steps: STEPS })) : null;
+  for (const row of rows.values()) row.dataDeps = kinds ? row.deps.filter((d) => (row.prodDeps || []).includes(d) || !isOrderOnlyDep(kinds, row.key, d)) : row.deps.slice();
+  const propagate = (depsOf, apply) => {
+    const stt = new Map([...rows].map(([k, r]) => [k, r.status]));
+    for (let changed = true; changed;) {
+      changed = false;
+      for (const row of rows.values()) {
+        if (stt.get(row.key) !== 'reuse') continue;
+        const hit = depsOf(row).filter((d) => stt.has(d) && ['regen', 'always', 'recheck'].includes(stt.get(d)));
+        if (hit.length) { stt.set(row.key, 'recheck'); if (apply) apply(row, hit); changed = true; }
+      }
     }
+    for (const st of STEPS) if (st.onlyIfScopeChanged && stt.get(st.key) === 'recheck') stt.set(st.key, 'reuse');
+    return stt;
+  };
+  const allEdges = kinds ? propagate((r) => r.deps, null) : null;
+  // 依存の伝播(regen/always に依存する reuse → recheck)
+  propagate((r) => r.dataDeps, (row, hit) => { row.status = 'recheck'; row.reasons.push('依存先が走る: ' + hit.join(', ')); row.cause.push('依存先: ' + hit.join(',')); });
+  // 第323便b: 順序だけの辺でだけ recheck になっていた段 → hold(reuse のまま)
+  if (allEdges) for (const row of rows.values()) {
+    if (row.status !== 'reuse' || allEdges.get(row.key) !== 'recheck') continue;
+    const via = row.deps.filter((d) => allEdges.has(d) && ['regen', 'always', 'recheck'].includes(allEdges.get(d)));
+    row.hold = via;
+    row.reasons.push('順序だけの依存の上流が走る: ' + via.join(', ') + '(上流の書くファイルを読まない —— 鎖の中で html が変われば gate が自分の判定を引き直す)');
   }
   // 領域が変わったときだけの段(ε 系列の h2/h4)
   for (const st of STEPS) {
     if (!st.onlyIfScopeChanged) continue;
     const row = rows.get(st.key);
+    if (!row) continue;   // 第323便b: o.only で引かない段
     const htmlWhy = row.reasons.some((r) => r.indexOf('hash も領域 hash も一致しない') >= 0);
     if (row.status === 'regen' && !htmlWhy) { row.status = 'reuse'; row.reasons.push('領域は同じ —— h 段だけ走らせ h2/h4 は器の併合規則で転記'); }
     if (row.status === 'recheck') { row.status = 'reuse'; row.reasons.push('領域は同じ —— h2/h4 は転記'); }
@@ -2099,7 +2306,7 @@ export function planRegen(o) {
     seen.add(k); order.push(k);
   };
   for (const st of STEPS) visit(st.key, new Set());
-  const list = order.map((k) => rows.get(k));
+  const list = order.map((k) => rows.get(k)).filter(Boolean);   // 第323便b: o.only のときは引いた段だけ
   // 第282便e: 「どの入力・式・受理規則で無効化されたか」の 1 列(文字列)
   for (const r of list) {
     if (r.ownStatus === undefined) r.ownStatus = r.status;
@@ -2120,6 +2327,13 @@ export function planRegen(o) {
     secLower: sum((r) => r.status === 'regen' || r.status === 'always'),
     secUpper: sum((r) => r.status === 'regen' || r.status === 'always' || r.status === 'recheck'),
     run: list.filter((r) => ['regen', 'always', 'recheck'].includes(r.status)).map((r) => r.key),
+    // 第323便b: 順序だけの依存(afterDepKinds)—— 第322便までの伝播(全部の辺)の recheck の数と、順序だけの辺でだけ recheck だった段(hold)
+    orderOnly: allEdges ? { version: AFTER_KIND_VERSION, recheckAllEdges: [...allEdges.values()].filter((z) => z === 'recheck').length,
+      recheck: list.filter((r) => r.status === 'recheck').length, hold: list.filter((r) => r.hold).map((r) => r.key),
+      secHold: list.filter((r) => r.hold).reduce((a, r) => a + (Number(r.sec) || 0), 0),
+      secUpperAllEdges: list.filter((r) => ['regen', 'always'].includes(r.status) || allEdges.get(r.key) === 'recheck').reduce((a, r) => a + (Number(r.sec) || 0), 0),
+      edges: afterKindCounts(kinds) } : null,
+    only: onlySet ? [...onlySet] : undefined,
     steps: list,
     note: 'secLower = regen+always の実測秒の和(recheck が全部「再利用」に戻った場合)/ secUpper = recheck も走らせた場合。'
       + '所要秒は第280便の chain(4 本並列)と正本の列ごとの wallSec の実測で、見積りである(並列度で変わる)',
@@ -2501,20 +2715,34 @@ export function buildChain(plan, o) {
       // 第283便 統合: 同じファイルを書く上流(鎖の中)—— gate_step は、これが実際に走った(済み印が run)なら再利用せず走る
       sameFileUps: [...(deps.get(k) || [])].filter((d) => mode.has(d) && writesOf(by.get(d)).some((f) => mine.includes(f))) };
   }
+  // 第323便b(R276): **gate の速い判定**。gate の段は計画で自分の判定(ownStatus)が reuse —— 鎖の中でそれが変わりうるのは
+  //   (i) 対象の html が変わった(html を書く段 —— 集約段 htmlagg —— が実際に書き換えた)か (ii) 正本の meta の入力を書く上流(データの辺)が実際に走った ときだけ。
+  //   どちらも無ければ `--gate`(計画を引き直す node)を呼ばずに再利用する(同じ答え —— 器・lib のコードは鎖の中で変わらない)。順序だけの辺(afterDepKinds の
+  //   html・order)の上流は fastUps に入れない(html の変化は (i) で見る)。fastOk = 計画の ownStatus が reuse(onlyIfScopeChanged で reuse にした段は外す)。
+  const kinds323 = opt.afterKinds || (opt.root ? afterDepKinds({ root: opt.root, steps }) : null);
+  const planRow323 = new Map((plan.steps || []).map((r) => [r.key, r]));
+  for (const k of Object.keys(rows)) {
+    const pr = planRow323.get(k) || null;
+    rows[k].fastOk = rows[k].mode === 'gate' && !!pr && pr.ownStatus === 'reuse';
+    rows[k].fastUps = rows[k].deps.filter((d) => !(kinds323 && isOrderOnlyDep(kinds323, k, d) && !((pr && pr.prodDeps) || []).includes(d)));
+  }
   const skipped = steps.filter((z) => !mode.has(z.key)).map((z) => ({ key: z.key,
     why: z.role === 'history' ? '履歴' : z.outside ? 'chain の外' : (status.get(z.key) || '計画に無い') }));
   // 第284便f: 済み印の契約(code/input/policy —— 鎖の生成時に決まる値)と ready queue の優先度(臨界路)
   const ct = chainContracts(rows, { by, root: opt.root || null, htmlSha: plan.htmlSha256 || null });
   for (const k of Object.keys(rows)) rows[k].contract = ct.get(k);
   // 第287便f(AN69): 入力の並び(段を入れる直前に --digest で hash を引く —— 契約の入力の部分)
-  const specs = chainInputSpecs(rows, { by, root: opt.root || null, steps, deps });
+  const specs = chainInputSpecs(rows, { by, root: opt.root || null, steps, deps, afterKinds: kinds323 });
   for (const k of Object.keys(rows)) rows[k].inputs = specs.get(k) || [];
   const priority = chainPriority({ steps: rows }, tableIdx);
   return { version: REGEN_TABLE_VERSION, contractVersion: CHAIN_CONTRACT_VERSION, waves, priority, steps: rows, skipped,
     count: { run: [...mode.values()].filter((m) => m === 'run').length, gate: [...mode.values()].filter((m) => m === 'gate').length,
       manual: [...mode.values()].filter((m) => m === 'manual').length },
     secRun: [...mode].filter(([, m]) => m === 'run').reduce((a, [k]) => a + (rows[k].sec || 0), 0),
-    secGate: [...mode].filter(([, m]) => m === 'gate').reduce((a, [k]) => a + (rows[k].sec || 0), 0) };
+    secGate: [...mode].filter(([, m]) => m === 'gate').reduce((a, [k]) => a + (rows[k].sec || 0), 0),
+    // 第323便b: gate のうち速い判定ができる段(計画の ownStatus が reuse)と、そのうちデータの上流が鎖に無い段(html が変わらなければ必ず速い判定で再利用)
+    fastGate: { eligible: Object.values(rows).filter((r) => r.fastOk).length,
+      noDataUps: Object.values(rows).filter((r) => r.fastOk && !r.fastUps.length).length, version: AFTER_KIND_VERSION } };
 }
 
 /** 鎖を波の順に平らにした列(checkOrder の自己試験用 —— 波の中は表の順)。 */
@@ -2711,6 +2939,7 @@ export function chainInputSpecs(rows, o) {
   const W = writersMap(steps);
   const cur = new Set(steps.filter((z) => z.role !== 'history').map((z) => z.key));
   const metaOf = opt.metaOf || (opt.root ? (f) => readMetaAt(opt.root, f) : null);
+  const kinds323 = opt.afterKinds !== undefined ? opt.afterKinds : (opt.root ? afterDepKinds({ root: opt.root, steps, metaOf }) : null);   // 第323便b
   const reads = new Map();
   if (opt.root) for (const r of harnessReads({ root: opt.root, steps })) { if (!reads.has(r.key)) reads.set(r.key, new Set()); reads.get(r.key).add(r.file); }
   const writers = steps.filter((z) => z.role !== 'history' && !z.outside && (z.htmlRegions || []).length);
@@ -2736,6 +2965,7 @@ export function chainInputSpecs(rows, o) {
     for (const d of (deps.get(k) || [])) {
       const ds = by.get(d);
       if (!ds || (ds.htmlRegions || []).length) continue;
+      if (kinds323 && isOrderOnlyDep(kinds323, k, d)) continue;   // 第323便b: 順序だけの辺の上流の書くファイルは入力に入れない(読まない —— html は html の読み方で見る)
       for (const f of writesOf(ds)) want.add(f);
     }
     const upK = up.get(k) || new Set();
@@ -3675,10 +3905,16 @@ export function chainShell(chain, o) {
   L.push('  if [ $rc -ne 0 ]; then echo "$rc" >"$REGEN_LOG/$2.rc"; echo "[止] $1 rc=$rc(ログ $REGEN_LOG/$2.log)"; return $rc; fi');
   L.push('  write_mark "$1" "run $(( $(date +%s) - t0 ))s $(date -u +%FT%TZ)" "$c" "$5" "$4"');
   L.push('}');
-  L.push('gate_step() {  # 上流の後で自分の判定を引き直す(終了コード 10 = 再利用)。$6=同じファイルを書く上流(実際に走っていれば再利用しない)');
+  L.push('gate_step() {  # 上流の後で自分の判定を引き直す(終了コード 10 = 再利用)。$6=同じファイルを書く上流(実際に走っていれば再利用しない)・$7=データの上流・$8=速い判定の可否');
   L.push('  local c; c=$(contract_of "$1" "$4") || { echo "[止] $1 の入力の hash が引けない"; return 4; }');
   L.push('  if mark_ok "$1" "$c"; then echo "[済] $1"; return 0; fi');
   L.push('  local u; for u in ${6:-}; do if [ -f "$DONE/$u.done" ] && grep -q "^run" "$DONE/$u.done"; then echo "[走・上流 $u が同じファイルを書き直した] $1"; run_step "$1" "$2" "$3" "$4" "$5"; return $?; fi; done');
+  // 第323便b(R276): 速い判定 —— 計画の ownStatus が reuse・html が計画の sha のまま・データの上流が 1 つも走っていない → --gate を呼ばずに再利用(同じ答え)。
+  //   REGEN_FASTGATE=0 で第322便までの動き(毎回 --gate)。PLAN_HTML_SHA が空(鎖を作るときに計画の html の sha を渡さない)なら使わない
+  L.push('  if [ "${8:-}" = 1 ] && [ "${REGEN_FASTGATE:-1}" != 0 ] && [ -n "$PLAN_HTML_SHA" ] && [ "$(sha256sum "$REGEN_HTML" 2>/dev/null | cut -c1-64)" = "$PLAN_HTML_SHA" ]; then');
+  L.push('    local ran=""; for u in ${7:-}; do if [ -f "$DONE/$u.done" ] && grep -qE "^(run|manual)" "$DONE/$u.done"; then ran="$ran $u"; fi; done');
+  L.push('    if [ -z "$ran" ]; then write_mark "$1" "reuse $(date -u +%FT%TZ) fast" "$c" "$5" "$4"; echo "[再利用・速い判定] $1(html は計画のまま・データの上流は走っていない)"; return 0; fi');
+  L.push('  fi');
   L.push('  node tools/regen-chain.mjs --gate "$1" --html "$REGEN_HTML" >"$REGEN_LOG/$2.gate" 2>&1; local g=$?');
   L.push('  if [ $g -eq 10 ]; then write_mark "$1" "reuse $(date -u +%FT%TZ)" "$c" "$5" "$4"; echo "[再利用] $1"; return 0; fi');
   L.push('  if [ $g -ne 0 ]; then echo "[止] $1 の再判定が rc=$g"; return $g; fi');
@@ -3703,6 +3939,10 @@ export function chainShell(chain, o) {
   assoc('CT', (r) => r.contract || '-');
   assoc('IN', (r) => (r.inputs || []).join(' '));
   assoc('UPS', (r) => (r.mode === 'gate' ? (r.sameFileUps || []).join(' ') : ''));
+  // 第323便b: gate の速い判定(データの上流・可否)と計画の html の sha
+  assoc('FUPS', (r) => (r.mode === 'gate' ? (r.fastUps || r.deps || []).join(' ') : ''));
+  assoc('FOK', (r) => (r.mode === 'gate' && r.fastOk ? '1' : ''));
+  L.push('PLAN_HTML_SHA=${REGEN_PLAN_HTML_SHA:-' + (opt.htmlSha && /^[0-9a-f]{64}$/.test(String(opt.htmlSha)) ? opt.htmlSha : '') + '}   # 第323便b: 計画の html の sha(gate の速い判定 —— 空なら使わない)');
   assoc('LOGN', (r) => String((r.wave || 0) + 1).padStart(2, '0') + '-' + r.key);
   // ==== 第311便c の塊(ここから)====
   // 第311便c(R228): 予約(EASY backfill —— `readyPick` と同じ手順)。EST = 段の見積り(ms —— 表の sec)・T0 = 入れた時刻(ms)。
@@ -3753,7 +3993,7 @@ export function chainShell(chain, o) {
   L.push('    fi');
   L.push('    free=$((free - need)); nrun=$((nrun + 1)); for w in ${WR[$k]}; do LOCK[$w]=$k; done; STATE[$k]=running; T0[$k]=$now');
   L.push('    echo "start $k $(date +%s.%N) $need" >>"$REGEN_LOG/timeline.txt"');
-  L.push('    ( "${FN[$k]}" "$k" "${LOGN[$k]}" "${CMD[$k]}" "${CT[$k]}" "${WF[$k]}" "${UPS[$k]}"; echo $? >"$ST/$k.rc" ) &');
+  L.push('    ( "${FN[$k]}" "$k" "${LOGN[$k]}" "${CMD[$k]}" "${CT[$k]}" "${WF[$k]}" "${UPS[$k]}" "${FUPS[$k]}" "${FOK[$k]}"; echo $? >"$ST/$k.rc" ) &');
   L.push('  done; fi');
   L.push('  [ $nrun -gt 0 ] || break');
   L.push('  wait -n 2>/dev/null || true');
@@ -4295,6 +4535,8 @@ export async function regenChainSelfTest(o) {
   res.s = touchOrderProbe();
   // (r) 第288便f(原仮定者の裁定(第78報)AN90): 一時出力の集約 —— 中断 → 再開で html が 1 回だけ書かれる(htmlAggregateProbe)
   res.r = await htmlAggregateProbe({ root, tmpDir: o.tmpDir + '/r' });
+  // (t) 第323便b(R276): 順序だけの依存の型・gate の速い判定(stub の鎖)・--gate の行だけの判定(o.html を渡したとき —— regen-chain --self-test)
+  res.t323 = await w323bChainProbe({ root, tmpDir: o.tmpDir ? o.tmpDir + '/t323' : null, plan: o.html ? o.plan : null, html: o.html });
   res.ok = Object.values(res).filter((z) => z && typeof z === 'object').every((z) => z.ok !== false);
   return res;
 }
@@ -4396,4 +4638,6 @@ export default { REGEN_TABLE_VERSION, REGEN_STEPS, STATIC_READ_DECL, harnessRead
   depClosures, chainInputSpecs, semanticSha, inputDigest, HTML_REGION_READ_DECL, htmlTailAudit, htmlAggregateProbe,
   // 第311便c(R228)
   READY_QUEUE_RULE, READY_QUEUE_RULE_HISTORY, RESERVE_BEFORE_ALPHA, reserveAlphaFixture313, reserveAlphaProbe313, readyPick, calibrateSec, laneReview311, REGEN_SEC_FILE, REGEN_SEC_VERSION, REGEN_SEC, readyQueueFixture311, readyQueueProbe311,
-  CALIBRATE_RULE, RESUME_CHECK_MAX_SEC, timelineRuns, calibrateProbe312, V_H4_SHADOW, SCOPE_ALL_VERSION, scopeAllReasons312 };
+  CALIBRATE_RULE, RESUME_CHECK_MAX_SEC, timelineRuns, calibrateProbe312, V_H4_SHADOW, SCOPE_ALL_VERSION, scopeAllReasons312,
+  // 第323便b(R276)
+  AFTER_KIND_VERSION, afterDepKinds, isOrderOnlyDep, afterKindCounts, w323bChainProbe };

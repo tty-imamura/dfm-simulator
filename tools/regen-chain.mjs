@@ -45,6 +45,12 @@
 //   node tools/regen-chain.mjs --env          鎖を回す環境の版(Node・Chromium)を 1 行の JSON で(第288便f —— chainShell が $REGEN_LOG/env.json に書く)。
 //   node tools/regen-chain.mjs --scope-all [--write] [--check]   第312便c: 領域の宣言が presets:"all" の段の理由の一覧(tests/data-w312c-scopeall.json)。
 //
+// 第323便b(原仮定者の指示(2026-11-01)「サンプルの変更だけでは、全行程を再実行しない」・AN517/AN518・R276):
+//   ・`--gate <段>` はその段の行だけを引く(planRegen の o.only —— 全段を引くより 1 桁速い。--gate-full で全段)。
+//   ・鎖の gate に**速い判定**: 計画の自分の判定が reuse・html が計画の sha のまま・データの上流(順序だけの辺を除く)が 1 つも走っていない → --gate を呼ばずに
+//     再利用(済み印の 1 行目 `reuse <時刻> fast`)。REGEN_FASTGATE=0 で毎回 --gate。順序だけの辺の上流の書くファイルは済み印の契約の入力に入れない。
+//   ・簡易一致の影(判定だけ —— 鎖の生成は変えない)を標準エラーと --json の quickShadow に。--fp-record・--K・--wave・--promote・--all-edges。
+//
 // 第287便f(原仮定者の裁定(第77報)AN69・統括の検証項目 R112):
 //   ・**済み印の契約 = 静的な部分(policy・code)+ 入力の安定 hash**(版 w287f-chaincontract-2 —— tests/lib-w281a-regentable.mjs の
 //     `chainInputSpecs`・`inputDigest`)。入力 = 読む正本の意味的出力(除外 Pointer と来歴・時刻の欄を除いた安定 hash)・表の外の入力のバイト sha・
@@ -274,7 +280,9 @@ if (argv.includes('--scope-all')) {
 
 if (argv.includes('--gate')) {
   const key = getArg('--gate', null);
-  const plan = T.planRegen({ root: ROOT, html: HTML });
+  // 第323便b(R276): その段の行だけを引く(o.only —— 行の判定は全段の計画と同じ関数・同じ入力。全段を引くと 1 回 8 min 前後〔第323便b の実測〕)。
+  //   --gate-full で第322便までの引き方(全段の計画)
+  const plan = T.planRegen(argv.includes('--gate-full') ? { root: ROOT, html: HTML } : { root: ROOT, html: HTML, only: [key] });
   const r = plan.steps.find((z) => z.key === key);
   if (!r) { console.error('表に無い段: ' + key); process.exit(2); }
   console.log(JSON.stringify({ key, ownStatus: r.ownStatus, status: r.status, cause: r.causeText, reasons: r.reasons.slice(0, 6) }));
@@ -358,20 +366,40 @@ if (argv.includes('--self-test')) {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w283e-chain-'));
   try {
     const plan = T.planRegen({ root: ROOT, html: HTML });
-    const r = await T.regenChainSelfTest({ root: ROOT, tmpDir: tmp, plan });
+    const r = await T.regenChainSelfTest({ root: ROOT, tmpDir: tmp, plan, html: HTML });   // 第323便b: html を渡すと (t) の --gate の行だけの判定も
     console.log(JSON.stringify(r, null, 1));
     process.exit(r.ok ? 0 : 1);
   } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
 }
 
-const plan = T.planRegen({ root: ROOT, html: HTML, baseHtml: BASE });
+const plan = T.planRegen({ root: ROOT, html: HTML, baseHtml: BASE, orderOnly: !argv.includes('--all-edges') });
 const chain = T.buildChain(plan, { root: ROOT, noGate: argv.includes('--no-gate') });
 const simLanes = Number(getArg('--lanes', '4')) || 4;
 const sim = T.simulateReadyQueue(chain, { lanes: simLanes });
 const sh = T.chainShell(chain, { lanes: Number(getArg('--lanes', '4')) || 4, htmlSha: plan.htmlSha256 });
 const out = resolve(getArg('--out', null));
 const js = resolve(getArg('--json', null));
-if (js) fs.writeFileSync(js, JSON.stringify(Object.assign({ html: plan.html, htmlSha256: plan.htmlSha256, planCount: plan.count }, chain), null, 1));
+// ==== 第323便b の塊(ここから)====
+// 第323便b(AN517/AN518・R276): 簡易一致の影(判定だけ —— **鎖の生成は変えない**)と順序だけの依存・gate の速い判定の要約(標準エラー・--json)
+//   --fp-record <記録>(既定 tests/data-w323b-quickfp.json)・--K 3・--wave <便の番号>・--promote(root 昇格の便)・--all-edges(第322便までの伝播)
+let quickShadow = null;
+{
+  const Q = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w323b-quick.mjs')).href);
+  const HS = await import(pathToFileURL(path.join(ROOT, 'tools', 'harness-smoke.mjs')).href);
+  let record = null; try { record = JSON.parse(fs.readFileSync(resolve(getArg('--fp-record', Q.QUICK_FP_FILE)), 'utf8')); } catch { record = null; }
+  const bb = (() => { try { return (fs.readFileSync(HTML, 'utf8').match(/BETA_BUILD\s*=\s*"v[\d.]+-b(\d+)"/) || [])[1] || null; } catch { return null; } })();
+  const waveArg = getArg('--wave', null);
+  const change = BASE ? await Q.htmlChangeKinds(BASE, HTML) : null;
+  quickShadow = Q.quickShadow(plan, { root: ROOT, knobs: HS.SMOKE_KNOBS, record, K: Number(getArg('--K', String(Q.QUICK_K_DEFAULT))), promote: argv.includes('--promote'),
+    wave: waveArg !== null ? Number(waveArg) : (bb !== null ? Number(bb) : null), change });
+  const qs = quickShadow, oo = plan.orderOnly, fg = chain.fastGate;
+  console.error(`regen-chain(第323便b): 順序だけの依存 ${oo ? `recheck ${oo.recheck}(第322便までの伝播なら ${oo.recheckAllEdges})・hold ${oo.hold.length}` : '--all-edges'}・`
+    + `gate の速い判定 ${fg.eligible}/${chain.count.gate}(データの上流が鎖に無い ${fg.noDataUps} —— html が鎖の中で変わらなければ --gate を呼ばない)・`
+    + `簡易一致の影(${qs.version}・K ${qs.K}${qs.promote ? '・root 昇格' : ''}): 領域だけ ${qs.count.regionOnly}・候補 ${qs.count.eligible} → quick ${qs.count.quick}・輪番のフル ${qs.count.rotationFull}`
+    + `・記録があれば quick ${qs.count.quickIfRecorded}(${Math.round(qs.sec.quickFullIfRecorded)} s → 窓 ${qs.sec.quickWindowIfRecorded} s)—— 鎖は全部フル(影)`);
+}
+// ==== 第323便b の塊(ここまで)====
+if (js) fs.writeFileSync(js, JSON.stringify(Object.assign({ html: plan.html, htmlSha256: plan.htmlSha256, planCount: plan.count, orderOnly: plan.orderOnly, quickShadow }, chain), null, 1));
 if (out) {
   fs.writeFileSync(out, sh, { mode: 0o755 });
   console.error(`regen-chain: 計画 ${Object.entries(plan.count).map(([k, v]) => k + ' ' + v).join(' / ')} → 鎖 run ${chain.count.run}・gate ${chain.count.gate}・manual ${chain.count.manual}`

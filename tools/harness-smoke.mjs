@@ -20,7 +20,8 @@
 //   --json <file> / --out-dir <dir>(既定 $TMPDIR/harness-smoke-<時刻>)/ --root <dir>(別の木 —— 例: git archive で取り出した過去の状態)/
 //   --git-dir <dir>(写しの中の `git -C ROOT show` が読む git —— 既定は --root の git)/ --head-rev <rev>(--base-rev との版どうしの差 —— 取り出した木のとき)/
 //   --html <候補 html>(写しの beta/index.html を差し替える)/ --keep(写しを残す)/
-//   --self-test(器を走らせない自己試験 —— QA lint.harnessSmoke303 と同じ関数)
+//   --self-test(器を走らせない自己試験 —— QA lint.harnessSmoke303 と同じ関数)/
+//   --fingerprint <記録>(第323便b —— 窓の出力の物理の値の指紋を記録へ。--base も --keys も無ければ**窓のある段を全部**〔簡易一致を使わない段は除く〕)
 //
 // ■ 言わないこと
 //   ・「煙試験が通ったので鎖が通る」(器の窓は最初の数段だけ —— 値の転記のずれは鎖の後の tools/pregate-transcript.mjs が見る)。
@@ -451,8 +452,11 @@ function runOne(row, o) {
       }
       const bc = (outOk === false || (!killed && rc !== 0)) ? baseCanonOf(row, o) : { ok: null, falseGates: [] };
       const j = judgeOutput({ stdout, stderr, rc: killed ? null : rc, killed, outOk, outFalse: [...outFalse].sort(), baseOk: bc.ok, baseFalse: bc.falseGates, cutOut, cutErr });
-      resolve({ key: row.key, harness: row.harness, prio: row.prio, mode: knob ? 'knob' : (full ? 'full' : 'cap'), knob: knob ? knob.note : null,
-        rc: killed ? null : rc, killed, sec: +sec.toFixed(1), limitSec: Math.round(limit), verdict: j.verdict, why: j.why });
+      const x = { key: row.key, harness: row.harness, prio: row.prio, mode: knob ? 'knob' : (full ? 'full' : 'cap'), knob: knob ? knob.note : null,
+        rc: killed ? null : rc, killed, sec: +sec.toFixed(1), limitSec: Math.round(limit), verdict: j.verdict, why: j.why };
+      // 第323便b: --fingerprint —— 窓の出力の物理の値の指紋(fpCapture323)
+      if (o.fp) { try { x.fp = fpCapture323(row, x, { o, t0, knob, stdout }); } catch (e) { x.fp = { key: row.key, fingerprint: null, why: '指紋が引けない: ' + String(e && e.message || e).slice(0, 120) }; } }
+      resolve(x);
     });
   });
 }
@@ -635,6 +639,74 @@ export function smokeWideSelfTest() {
 }
 // ==== 第322便d の塊(ここまで)====
 
+// ==== 第323便b の塊(ここから)====
+// 第323便b(原仮定者の指示(2026-11-01)・決断事項 AN517/AN518・統括の検証項目 R276): **窓の出力の指紋の記録**(`--fingerprint <記録>`)。
+//   簡易一致確認(β —— 理由が「領域」だけの段を簡易の窓で走らせ、前回のフルのときに同じ窓で取った指紋と同じなら物理の値はそのまま)の**材料**を、
+//   煙試験の写し(scratch —— 正本は書かない)で窓を走らせて取る。段ごとに: 窓の環境(SMOKE_KNOBS の行か段の宣言 quickWindow)・この走行で書いた出力
+//   (段の outs と、窓の環境が名指す tests/out/*.json —— 写しの中で走行の後に書かれたものだけ)の物理の値の hash(tests/lib-w323b-quick.mjs の physSha —— meta・
+//   除外 Pointer・来歴と時刻・実行時刻と壁時計の欄名を除く)と、それらの指紋・窓の秒・器と lib の sha・html の sha・**その時点の木の正本**の物理の値の hash。
+//   指紋は判定が ok(か既知)で枠で止めず出力を書いた走行だけ(それ以外は fingerprint:null と理由)。記録は既にある記録へ段の行を入れる(他の段は残す)。
+//   --base も --keys も無ければ、窓のある段(簡易一致を使わない段 —— 常時群・較正の判定・html を書く段・quickVerify:false —— を除く)を全部選ぶ。
+async function fpLib323(root) { return import(pathToFileURL(path.join(root, 'tests', 'lib-w323b-quick.mjs')).href); }
+/** 窓のある段(簡易一致を使わない段を除く)。 */
+async function fpSelect323(rows, root) {
+  const Q = await fpLib323(root);
+  const L = await libs(root);
+  const cal = Q.calibrationSteps({ steps: L.RT.REGEN_STEPS, root });
+  return rows.filter((r) => {
+    const st = L.RT.REGEN_STEPS.find((z) => z.key === r.key);
+    return st && r.harness && Q.stepWindow(st, SMOKE_KNOBS) && !Q.staticExclusion(st, cal);
+  });
+}
+/** 記録の文脈(lib・表・html の sha・便)。 */
+async function fpContext323(root, html) {
+  const Q = await fpLib323(root);
+  const L = await libs(root);
+  let rev = null; try { rev = execFileSync('git', ['-C', root, 'rev-parse', '--short', 'HEAD'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim(); } catch { rev = null; }
+  const text = fs.readFileSync(html, 'utf8');
+  const wave = Number((text.match(/BETA_BUILD\s*=\s*"v[\d.]+-b(\d+)"/) || [])[1]) || null;
+  return { Q, RT: L.RT, root, html, htmlSha: (await import('node:crypto')).createHash('sha256').update(text).digest('hex'), wave, rev };
+}
+/** 1 段の走行から記録の行を作る(runOne の後 —— 写しの中で走行の後に書かれた出力だけを読む)。 */
+function fpCapture323(row, x, c) {
+  const { Q, RT, root } = c.o.fp;
+  const st = RT.REGEN_STEPS.find((z) => z.key === row.key);
+  const win = st ? Q.stepWindow(st, SMOKE_KNOBS) : null;
+  const files = [];
+  const fresh = (rel) => { try { return fs.statSync(path.join(c.o.sandbox, rel)).mtimeMs >= c.t0 - 1000; } catch { return false; } };
+  const outs = row.outs || [];
+  for (const f of outs) if (/\.json$/.test(f) && fresh(f)) files.push({ file: f, as: f, sha: Q.physShaFile(path.join(c.o.sandbox, f), f) });
+  for (const v of Object.values((win && win.env) || {})) {
+    if (!/^tests\/out\/[\w.-]+\.json$/.test(String(v)) || outs.includes(v) || !fresh(v)) continue;
+    const as = outs.length === 1 ? outs[0] : v;   // 窓の出力の名を変える環境変数(*_OUT)—— 段の正本が 1 本ならその名で除外 Pointer を引く
+    files.push({ file: v, as, sha: Q.physShaFile(path.join(c.o.sandbox, v), as) });
+  }
+  const okRun = (x.verdict === 'ok' || x.verdict === 'known') && !x.killed && x.mode === 'knob';
+  const fp = okRun ? Q.windowFingerprint(files) : null;
+  const why = fp ? null : (x.mode !== 'knob' ? '窓の表 SMOKE_KNOBS に行が無い(' + x.mode + ' —— 段の宣言の窓は煙試験が使わない)'
+    : !okRun ? '判定 ' + x.verdict + (x.killed ? '(枠で止めた)' : '') : (files.length ? '出力が読めない' : '窓が出力のファイルを書かない(標準出力だけ)'));
+  const canon = {};
+  for (const f of outs) canon[f] = Q.physShaFile(path.join(root, f), f);
+  const cs = st ? Q.codeShaOf(st, root) : { sha: null, files: [] };
+  return { key: row.key, harness: row.harness, window: win ? { source: win.source, env: win.env, note: win.note } : { source: 'none', env: {}, note: '' }, mode: x.mode,
+    sec: x.sec, verdict: x.verdict, killed: !!x.killed, files: files.map((z) => ({ file: z.file, as: z.as, sha: z.sha })), fingerprint: fp, why,
+    stdoutNormSha: Q.stdoutNormSha(c.stdout), codeSha: cs.sha, codeFiles: cs.files.length, htmlSha: c.o.fp.htmlSha, canon, node: process.version,
+    at: new Date().toISOString(), wave: c.o.fp.wave, rev: c.o.fp.rev };
+}
+/** 記録を書く(既にある記録へ —— 段の行を置き換える)。 */
+function fpWrite323(file, res, ctx) {
+  const { Q } = ctx;
+  let prev = null; try { prev = JSON.parse(fs.readFileSync(file, 'utf8')); } catch { prev = null; }
+  const entries = res.map((r) => r.fp).filter(Boolean);
+  const doc = Q.mergeRecord(prev, entries, { wave: ctx.wave, rev: ctx.rev, html: path.relative(ctx.root, ctx.html), htmlSha: ctx.htmlSha, node: process.version, at: new Date().toISOString() });
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, JSON.stringify(doc, null, 1) + '\n');
+  const n = entries.length, nfp = entries.filter((e) => e.fingerprint).length;
+  const summary = { file, wrote: n, fingerprinted: nfp, noFingerprint: entries.filter((e) => !e.fingerprint).map((e) => e.key + ':' + e.why), total: Object.keys(doc.steps).length };
+  return { summary, line: `harness-smoke --fingerprint: ${n} 段を記録(指紋 ${nfp}・指紋なし ${n - nfp})→ ${file}(記録の段 ${summary.total})` };
+}
+// ==== 第323便b の塊(ここまで)====
+
 // ---------------------------------------------------------------------------------------------
 // main
 // ---------------------------------------------------------------------------------------------
@@ -658,7 +730,8 @@ async function main(argv) {
   const indirect = argv.includes('--indirect');
   const wide = argv.includes('--wide') || indirect;
   const listOnly = argv.includes('--list');
-  if (!baseHtml && !keysArg) { console.error('harness-smoke: --base <基点 html>(か --keys)が要る'); process.exit(2); }
+  const fpFile = getArg(argv, '--fingerprint', null);   // 第323便b
+  if (!baseHtml && !keysArg && !fpFile) { console.error('harness-smoke: --base <基点 html>(か --keys・--fingerprint)が要る'); process.exit(2); }
   const outDir = path.resolve(getArg(argv, '--out-dir', path.join(os.tmpdir(), 'harness-smoke-' + new Date().toISOString().replace(/[:.]/g, '').slice(0, 15))));
   const L = await libs(root);
   const nowHtml = htmlOverride || path.join(root, 'beta', 'index.html');
@@ -678,6 +751,7 @@ async function main(argv) {
   const rows = classifySteps({ root, now, cs, codeChanged, indirect, L });
   let sel;
   if (keysArg) { const want = keysArg.split(','); sel = rows.filter((r) => want.includes(r.key) && r.harness); for (const r of sel) if (!r.prio) r.prio = 1; }
+  else if (fpFile && !baseHtml) { sel = await fpSelect323(rows, root); for (const r of sel) if (!r.prio) r.prio = 1; }   // 第323便b: 窓のある段を全部
   else sel = rows.filter((r) => r.prio > 0 && (r.prio <= PRIO.all || (r.prio === PRIO.hub && wide) || (r.prio === PRIO.closure && indirect)));
   sel.sort((a, b) => a.prio - b.prio || (Number(a.sec) || 0) - (Number(b.sec) || 0));
   const cnt = (f) => sel.filter(f).length;
@@ -707,13 +781,16 @@ async function main(argv) {
   console.log(`  写し ${sandbox}(git ${gitDir || 'なし'})・レーン ${lanes}・枠 ${budget} s・全体の枠 ${maxMinutes} min`);
   const baseRel = baseHtmlForSandbox(root, sandbox, baseHtml);
   if (baseHtml) console.log(`  器に渡す基点 html(BASE_HTML —— 写しの根からの相対): ${baseRel}`);
-  const res = await runPool(sel, { root, sandbox, logDir, tmpDir, gitDir, lanes, budget, maxMinutes, baseRel, baseRev }, console.log);
+  const fpCtx = fpFile ? await fpContext323(root, nowHtml) : null;   // 第323便b
+  const res = await runPool(sel, { root, sandbox, logDir, tmpDir, gitDir, lanes, budget, maxMinutes, baseRel, baseRev, fp: fpCtx }, console.log);
   // 第322便d: 終わりの行(未実行の段があれば「未完」—— smokeSummary)
   const sm = smokeSummary(res, sel.length, { elapsedMin: (Date.now() - T0) / 60000, logDir, maxMinutes });
   const ng = sm.ng, summary = sm.line;
   console.log(summary);
   if (sm.rest) console.log(sm.rest);
   Object.assign(plan, { results: res, summary, ok: ng === 0, complete: sm.complete, notRun: sm.notRun, notRunKeys: sm.notRunKeys, maxMinutes, elapsedMin: +((Date.now() - T0) / 60000).toFixed(2) });
+  // 第323便b: 指紋の記録(既にある記録へ段の行を入れる —— 他の段は残す)
+  if (fpFile) { const w = fpWrite323(rel(fpFile), res, fpCtx); console.log(w.line); plan.fingerprint = w.summary; }
   fs.writeFileSync(path.join(outDir, 'smoke.json'), JSON.stringify(plan, null, 1));
   const js = getArg(argv, '--json', null); if (js) fs.writeFileSync(path.resolve(js), JSON.stringify(plan, null, 1));
   if (!argv.includes('--keep')) fs.rmSync(sandbox, { recursive: true, force: true });
