@@ -85,7 +85,7 @@ export function physicsTablesObsSpin(J) {
   // 表 5 ノブの面の外の向き(段 K —— 窓の終わりの相対の軌道角運動量の向き ĥ)
   if (J.K) {
     out.push('', '| 系・列 | 步(8 公転) | ĥ の傾き(+z から・rad) | ĥ の方位(度 —— +x から) | 相対の z の大きさ(本の単位) |', '|---|---|---|---|---|');
-    for (const r of J.K.rows) out.push(`| ${r.sys === 'j0737' ? '📟' : '🔸'} ${r.col} | ${r.steps} | ${e3(r.tiltRad)} | ${r.phaseDeg === null ? '—(面の外へ出ない)' : fx(r.phaseDeg, 2)} | ${e2(r.zMax)} |`);
+    for (const r of J.K.rows) out.push(`| ${r.sys === 'j0737' ? '📟' : '🔸'} ${r.col} | ${r.steps} | ${e3(r.tiltRad)} | ${r.phaseDeg === null ? '—(面の外へ出ない)' : (r.tiltRad < 1e-15 ? '—(傾きが床の下)' : fx(r.phaseDeg, 2))} | ${e2(r.zMax)} |`);
   }
   // 表 6 J の口座
   out.push('', '| 系・列 | 步(1 公転) | 源の J の行(読み口)が步で不変 | 源の Ω_src の最大の変化 | 状態の自転・軸が不変 | 源に使った天体 | 源の一定のベクトルの印 |', '|---|---|---|---|---|---|---|');
