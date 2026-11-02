@@ -42678,6 +42678,63 @@ synodic-299b の読み: **3 本と 1 本の正本は物理の欄(葉 784)で差 
 
 **⑥ 言わないこと。** 「再生成を半減した」(本便は影まで —— 鎖はフル)・「部分 QA がフル QA を覆う」(W5c の範囲の鍵はフル QA だけ)・「規約の判定が通ればゲートが通る」。
 
+〔第324便c — 道具の続き: 簡易一致の欠測の境界と照合の数・長期の量の名簿・速い判定の実効値の記録・post-merge の ③〜④ の 4 つの数と ③′ の絞り・部分 QA で覆えない鍵の名簿・calaudit の揮発の欄(h/2 の転記の来歴)・nslock の影の照合の記録(統括の検証項目 R281・決断事項 AN516・AN517・AN518)(**html・本の宣言・エンジン・`S._core`・受理の判定・器の本文は変えていない** —— beta/index.html と root の index.html は 1 byte も変えていない・lib と道具と QA と文書と除外の宣言だけ・**簡易一致は影のまま**〔本運用の受理の口は休眠〕)〕
+
+**① 簡易一致の欠測の境界(`tests/lib-w323b-quick.mjs` —— 版 w323b-quick-1 → w324c-quick-2・記録の版 w323b-quickfp-1 は不変)。** 統括の参考の試作(最小差分と検査の脚本)が示した 2 か所を、今のコードで書き直した:
+- `quickShadow`: 記録側か今の側の器・lib の hash が欠けると、比較を通り抜けて候補に残った(`if (e.codeSha && cs && e.codeSha !== cs)`)。本便から、器・lib の hash の**欠け・不正(64 桁でない)・違い**を候補から外す(理由の文つき)。記録の指紋が 64 桁でない段・正本(outs)の無い段・記録の正本の物理の値の hash が欠けるか不正な段・今の正本が読めない段も外す。
+- `shadowCompare`: 前の記録の canon が空だと、物理の値を 1 度も読まずに trueSame に数えた。本便から **na**(理由つき)。na の理由: 記録に無い・指紋が無いか不正・窓の環境が違う・器と lib の hash が無いか不正・器と lib が違う(フル —— 簡易一致の対象外)・前の正本の物理の値の hash が無い(空)・不正・前の記録の正本の hash が段の正本を覆わない(`regen-plan` は表の outs を渡す)・今の正本が読めない・前後の行が同じ(取り直していない)。**na は trueSame にも falseSame にも数えない**(未検証として分ける —— 欠測を一致の側へも誤判定の側へも読み替えない)。
+- 今のコミット済みの指紋の記録に欠損があるという話ではない —— 第325便からの本運用の判定の根拠になる処理を、欠測を一致の側へ数えない形にした。
+
+**表 1 —— 境界の直しの前後**(統括の参考の試作の 3 例と、実物の記録の自己比較 —— 一時の写しで第323便b の版の lib と本便の lib を同じ入力で比べた):
+
+| 例 | 第323便b の版(w323b-quick-1) | 本便(w324c-quick-2) |
+|---|---|---|
+| 記録の器・lib の hash の欠け → 候補の数 | 1 | 0 |
+| 今の器・lib の hash が引けない → 候補の数 | 1 | 0 |
+| 前の canon が空 → 分類 | trueSame(物理の値の読み 0 回) | na(前の正本の物理の値の hash が無い) |
+| 実物の記録 `tests/data-w323b-quickfp.json` を前後に与えた比較 | trueSame 56・na 1・ok | na 57(前後の行が同じ 56・指紋が無い 1)・**自己比較 —— 影の 1 便に数えない**(`regen-plan --shadow-compare` は終了コード 2) |
+| 正常な 4 分類(trueSame・falseSame・trueDiff・missed の対照) | 4/4 | 4/4(比べた数 1) |
+
+**② 照合の数(本運用の判定の材料 —— 数を出すだけ・門は第325便で統括が決める)。** `shadowCompare` の戻りに `tally`: 比べた数 `compared`(前後とも有効な指紋と正本の hash を持つ段)・html が違う比較 `comparedHtmlDiff`(同じ・分からないも)・falseSame・trueSame・trueDiff・missed・na と理由ごとの数 `naByReason`・html が違う比較と同じ比較の 4 分類。`ok` は従来どおり「falseSame を観測しなかった」だけで、比べた数が十分かを言わない。**自己比較の拒否** `selfCompare`: 同じオブジェクト・同じファイル(realpath)・同じ中身・取った時刻と rev が同じ記録 → `countsAsShadowWave: false`(`regen-plan --shadow-compare` は終了コード 2 —— `--allow-self` で印字だけ)。前後の便の番号が逆か同じ・比べた段 0 も「影の 1 便に数えない」と印字する。印字の行: `照合の数: 比べた n/m 段(html が違う a・同じ b・分からない c)・falseSame・trueSame・trueDiff・missed・na(理由ごと)—— html が違う比較で …`。
+
+**③ 長期の量の名簿(`QUICK_LONG_ROSTER` —— `tests/lib-w281a-regentable.mjs`・版 w324c-quicklong-1・37 段)。** 選び方: 煙試験の窓を持つ段のうち、**正本の物理の値の主な量が窓より長い積分でしか出ない**(近点の移動・周期・永年の歳差・三体の効果・長い走行で出る事象)段で、**窓がその量の段を走らせないか公転を縮める**もの(正本の欄の走査・器の頭の注記・窓の注記で選んだ —— 名簿の行に段ごとの理由)。名簿の段: timestd-297c・synodic-299b・satnext-318b・k1confirm-313d・solar16-318c・k1outer-314c・k1em-314c・inposk1-315c・planet3-311d・confirm-312d・sath-316d・satcut-317c・satk1-315d・mdsweep-310d・pairnorm-305a・refit-297a・refit-298b・refit-303a・fit-297b・earthmoon-303c・emresolve-306c・periodn-306b・shell-304b・inertialr2-303b・gfamily-305b・an336-306a・baseline-304c・geo3・gloc-302b・semic-302d・chainburst-301d・binbooks-322b・geo3bin-321b・galaxial-311b・galaxialrd-312b・galaxialrdm-313b・rdscale-314b。外した段の理由: 純関数の器(bgequiv・bgbudget・bgbudget2・corefield —— html の步を使わない)・短い時間の量だけの器(shapetoy・shapecrit・dyncenter・geo4-295b・chain-296c・clone-301f・axialsign-302e・spinavg-305d・rotframe-306d・dragest-318d・srcradius-319b・srcheat-320a・jexplore-320b・nbcompose-320c・geo2v3-321a・geo2flat-322a・galfield-321c・fieldcontract-322c)。
+- **形**(既定値で動く): 段の行に `quickVerify` を書いた段はその宣言が先(名簿は上書きしない)。名簿に在って行に宣言の無い段へ、読み込みの時に `quickVerify:'long'`・`quickVerifyWhy`・`quickVerifySource`(名簿の版)を入れる —— 段の行の本文は書き換えない。**新しい段は行に `quickVerify` を宣言する**(長期の量なら `'long'`・使わないなら `false` + `quickVerifyWhy`)か名簿に足す。
+- **計画の出力で確かめた**: 步の関数 `dfmStep3` の本文に何もしない文を 1 つ足した一時の写し(作業の置き場 —— リポジトリの外)を、今の beta を基点に計画した → 領域だけの regen 152 段のうち名簿の段 36 段がすべて「段の宣言 quickVerify:'long' —— 步の関数・受理器・S._core が変わった便」の理由で外れ(候補 0)・名簿の外の短い量の段 21 段は候補に残る。缶詰の影の表(QA lint.quickBoundary324c ③)では、步の関数が変わらない便に 'long' の理由は付かない。
+- JSON の pointer の入力(第323便b の引き継ぎ —— 依存の再判定の残り 14 段)は本便では足さない(受理器が動く便で効果を測れない —— 次の道具の便へ)。
+
+**④ 速い判定の実効値の記録。** 鎖の脚本(`chainShell`)の標準出力の 1 行目 `# regen-chain fastgate=<0|shadow|1>(REGEN_FASTGATE=<生の値か 未設定> —— …)<時刻>`・`$REGEN_LOG/fastgate.txt`(`fastgate=<値> raw=<生の値> at=<時刻>`)・timeline の見出し `# ready-queue <時刻> lanes=N fastgate=<値>`。**既定は 1 のまま**(`${REGEN_FASTGATE:-1}` —— コードの既定は変えていない・統括の包みでは指定しない・記録だけ)。0 と shadow 以外の値(例 `on`)は 1 と記録する。stub の鎖を 4 回(未設定・0・shadow・on)走らせ、1 行目・`fastgate.txt`・見出しがどれも 1・0・shadow・1。timeline の読み手(`parseTimeline` の `lanes=(\d+)`・`--calibrate` の見出し)は見出しの末尾の語を読まない。
+
+**⑤ post-merge の ③〜④ と ③′(`tools/post-merge-qa.sh`・`tests/lib-w324c-postmerge.mjs` 版 w324c-postmerge-1)。**
+- ③・③′・④(beta と root)は qapart の `# qapart-summary` の行で **PASS・FAIL・SKIP・未実行の 4 つの数**と未実行の鍵の名を出す(第323便までは `^PASS`・`^FAIL` の行を数えた —— 未実行は FAIL の行に混ざった)。未実行の鍵のうち、同じ対象の保存のフル QA にも行の無い鍵は「この対象では走らない鍵の型」と注記する(beta で root でだけ走る鍵 version.sw-sync・release.no-beta-identifiers の未実行は正常)。要約の行が無い(qapart が落ちた)ログは「要約の行なし」で要求した鍵を未実行に数える。判定(終了コード)は従来どおり qapart の rc。
+- **③′ の既定は便の塊だけ**: 便 = `--wave N`・`POST_MERGE_WAVE`・CHANGELOG の最初の `## v…-b<便>(`。この脚本の `# ==== 第<便><枝> の塊(ここから)====` の中の名だけを集め(過去の便の新設を積まない)、PHYSICS 全体を走査する一式(`PHYS_SCAN_IDS`)を足す。`--all-waves` で第323便までの積み上げ・`POST_MERGE_WAVE_IDS` はそのまま。第323便に絞ると 48 名(323a〜d の塊)+ 走査の一式 9 —— 第323便の ③′ は過去の便の新設を積んだ 412 鍵で 30 min 前後だった。③′ の所要の印字(`本便 n 鍵 … ・t s`)と範囲(〔第<便>便の塊と PHYSICS の走査の一式(全部の便を積むと N 名)〕)を足した。
+
+**⑥ 部分 QA で覆えない鍵の名簿(`node tools/qa-keys.mjs --uncovered [--target beta|root] [--json <file>]` —— 版 w324c-uncovered-1)。** 理由の種類: W5c のワーカープール(`w5cGetUnit`)を読む範囲・qapart の前文に写せない上流の名前・qapart の検索がコメントか文字列の行に当たる・範囲が取れない/add の行を含まない・保存のフル QA に行が無い(範囲が `SKIP` を印字する —— 対象で走らない型を名指す / **何も印字せず飛ばす** —— qapart では未実行)。今の qa.mjs(beta): 覆えない鍵 43 はすべて W5c の範囲(behavior.buoyancy・claim.galaxy-outerboost・behavior.saturn・behavior.convection ほか)・保存のフル QA に行の無い鍵 6 —— SKIP を印字 4(version.promote-check・behavior.phase・merger.bulk-velocity・behavior.starcore)・何も印字せず飛ばす 2(version.sw-sync・release.no-beta-identifiers —— root でだけ走る鍵)。post-merge は ④ の後にこの数を出し、名簿を `$LOG/uncovered.json` に置く(フルゲートが見る鍵 —— ゲートの後の部分 QA の報告にも同じ名簿)。保存のフル QA より新しい鍵は区別できない(注記)。
+
+**⑦ calaudit の揮発の欄 —— h/2 の転記の来歴(`V_CALAUDIT_H2P` —— 宣言の版 w285f-vcal-2 → w324c-vcal-3)と置き場の行の html の sha(`V_CALAUDIT_DIAG_STOREP` —— w285f-vdiag-2 → w324c-vdiag-3)。**
+- 鎖の dt3 は同じ鎖の ① が置いた h/2 を転記する(同一便 —— 第284便c の転記の規則)ので、転記した本の**来歴**(転記の元の走行の時刻 `generatedAt`・html の sha `targetSha256`・元の壁時計 `wallSec` —— `presets[].run` の `h2Reuse`・`dtHalf` と段の並び `timeBudget[]`・`stopRuleStages[]` の `reusedFrom`)と集計の転記の秒の和 `/h2Reuse/reusedSec` が**鎖を回すたびに変わる**。随伴の diag も、新しい便の ① が測った置き場の行がその便の html の sha(`/h2Store/entries/*/targetSha256`)を持つので便ごとに動く。物理の値が 1 bit も動かなくても判定器の安定 hash が動き、読み手(第323便d の見込み 12 段・3830 s)が regen になっていた。
+- **来歴だけを除く** —— h/2 の実測値・刻み・停止の判定・転記の可否(`reused`・`reason`・`diff`・`contractSha`・`hSig`・`stable`)・`skippedBy` は残す。段の並びの `*` は h/4 の段の同じ形の来歴(時刻・html の sha)にも当たる(来歴だけ —— 値は残す)。置き場の行の html の sha は h4Store にも同じ扱い。
+- 語彙の拡張は**この正本の宣言だけ**(`VOLATILE_DECL` の `runtimeKeys`〔reusedSec —— 壁時計の秒の和〕・`provenanceParents`〔reusedFrom —— 物理の欄の下でも転記の元の同一性 meta の写しなら非物理 meta の鍵を許す〕・`optional`〔転記の無い走行では当たらない Pointer〕)。`tests/lib-w281a-scope.mjs` の語彙(宣言の語彙の方式の版 w285f-decl-2)は変えていない(他の正本の宣言と簡易一致の指紋を動かさない)。QA lint.stableHashPaths ② ⑦ は正本ごとの拡張と新しい版を読む。
+- **器を 2 回走らせた**(calaudit → dt3 → kf0 —— 出力は作業の置き場・`W249_OUT`・`W249_DIAG_OUT`): run1 = 枝の html・run2 = 同じ script で sha の違う写し(次の便の新しい html を模す)。基準は第323便の鎖の正本(base)。
+
+**表 2 —— 判定器の正本の安定 hash(先頭 16 桁)**(記録 `tests/data-w324c-calvolatile.json` —— 作業記録・正本ではない):
+
+| | base(第323便の鎖・html 796980ba) | run1(枝・html 4698e890) | run2(写し・html a19a6dcd) |
+|---|---|---|---|
+| calaudit-w249.json 旧の宣言 w285f-vcal-2 | 98d81bc86ad5c2c9 | eb462c30b4137302 | bf1fb8fd19940d7f |
+| calaudit-w249.json 新の宣言 w324c-vcal-3 | 8112a070249b29b3 | 8112a070249b29b3 | 8112a070249b29b3(写しのファイル名 `/mergeKey/target` を戻した写し —— 戻す前は 03baefafeb115f75) |
+| calaudit-w249-diag.json 旧 w285f-vdiag-2 | 03fcb219e7819d78 | e993555d40c9ca4f | —— |
+| calaudit-w249-diag.json 新 w324c-vdiag-3 | 15e2d90a7ee44d98 | 15e2d90a7ee44d98 | 15e2d90a7ee44d98 |
+
+- 旧の宣言の差は、h2Reuse・dtHalf・timeBudget[1]・stopRuleStages[1] の reusedFrom の generatedAt・targetSha256・wallSec と `/h2Reuse/reusedSec` だけ(base → run1 37 葉・run1 → run2 38 葉)・diag は `/h2Store/entries/*/targetSha256` の 21 行だけ。新の宣言の差は base → run1 0 葉・run1 → run2 1 葉(写しのファイル名 —— 鎖の対象は常に beta/index.html なので本物の便では起きない)。
+- 転記した本は 3 回とも alphaCenAB・siriusAB・saturnZonalD68(dt3 が同じ鎖の ① の h/2 を転記)。**判定の値**(fourValues・verdictLedger・summary・rowIds —— 時刻と html の sha を除く)は base・run1・run2 で同じ。器のコードは 1 文字も変えていない。所要は並走の秒(calaudit 381 s・444 s・dt3 23 s・33 s・kf0 58 s・65 s —— 4 枝の並走・負荷平均 4〜5)。
+- **宣言を変えた便では**、calaudit を入力にする読み手の刻印の Pointer が今の宣言と違う(第284便c の規則 —— 刻印の Pointer ≠ 今の宣言 → regen)ので、本便の鎖で 1 回は regen(受理器が動く本便の鎖では、読み手はもともと領域の差で regen の見込み)。次の便から、物理が同じなら読み手は再利用。
+
+**⑧ nslock の影の照合の記録(決断事項 AN516 —— 鎖の段を `--merge` に切り替えるのは影の照合が 2 便続けて n/n の後・比較の実績が無い便は数えない)。** 器(第322便d)は全走の走行でも前の正本で門を評価し、標準エラーに「再利用の門(… 影 —— 全走)…: 門 merge … | 門 full(全走)—— <外れた門の理由> / … 他 N」と「影の照合(…): … 一致 n/m[・不一致 …]| 照合なし(<理由>)」を出す。本便から、鎖の脚本が鎖の終わりに `node tools/regen-chain.mjs --nslock-shadow "$REGEN_LOG" --json "$REGEN_LOG/nslock-shadow.json"` を呼び、鎖のログ(`<波>-nslock.log`)の 2 行から n/m・門の外れの理由(G1〜G8 —— 印字の 4 つと「ほか N 件」)・nslock が走らなかった鎖(済み印が reuse・ログに行が無い)を読む。**m = 0 の便は「比較の実績なし」と印字して数えない**。便ごとの作業記録(正本ではない)`tests/data-w324c-nslockshadow.json` へ `--append … --wave <便>`、数は `--streak`(比較の実績が有る便だけで、最後から続く n/n の便の数)。記録には第322便(門の記録の最初の走行 —— 前の正本に門の記録・環境・核の hash が無く全走・照合 0/0)と第323便(nslock は依存の判定で再利用 —— 走らせていない)を写した —— AN516 の数は 0/2。本便は受理器が動くので門 G3(核の hash)が外れ m = 0 の見込み(鎖の後に統括が `--append … --wave 324`)。器は変えていない(G1 の器と lib の sha を動かさない)。
+
+**⑨ QA 新設 4 本。** `lint.quickBoundary324c`(① 自己試験 ⑧ —— 欠測の境界の 3 例・正常な 4 分類・自己比較・na の理由 / ② 実物の記録の自己比較 / ③ 長期の量の名簿と、步の関数が変わった便の缶詰の影の表で名簿の段が候補に 0 / ④ nslock の影の照合の記録と作業記録の形・AN516 の数 / ⑤ 速い判定の実効値の stub の鎖 4 回)・`lint.calVolatile324c`(宣言の版・実物の正本で来歴だけを書き換えた写しの安定 hash は同じ・h/2 の実測の欄と転記の可否を変えると違う・diag の置き場の html の sha と h の署名・2 回の走行の記録)・`lint.postMergeCounts324c`(4 つの数の lib の自己試験・post-merge の配線・③′ を第323便に絞った数 < 積み上げ・覆えない鍵の種類の和 = 外す鍵)・`docs.w324c`。版を世代で受けた既存の QA: `lint.regenQuick323`(版 w324c-quick-2)・`lint.stableHashPaths`(宣言の版 w324c-vcal-3・w324c-vdiag-3 と正本ごとの語彙の拡張)。
+
+**言わないこと**: 「簡易の窓が一致したので物理が同じ」(窓は最初の数段だけ —— 輪番と root 昇格の便の全段フルで補う)・「比べた数で本運用に足る」(門は第325便で統括が決める —— 本便は数を出すだけ)・「③′ を絞っても見落としは無い」(過去の便の新設はフルゲートと CI が見る)・「来歴を除いても安定 hash の一致は結果の正しさを示す」(安定 hash の一致は実行時刻・所要・来歴以外が同じことだけを言う)。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
