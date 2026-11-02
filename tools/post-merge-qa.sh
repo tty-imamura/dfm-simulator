@@ -521,9 +521,9 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.w322d docs.nsLockBranch docs.binlockAxi
 # ==== 第323便d の塊(ここから)====
 # 第323便d(決断事項 AN428 ①・統括の検証項目 R278): 枝 d の新設 3 本(lint.provenanceIds323 —— 較正の行の安定した id の表の被覆・正本の rowId・判定の値の記録との照合 /
 #   lint.qaRecheck323 —— 部分の再検査の補足の記録と samplestatus の口 / docs.w323d —— 文書)と、器 calaudit・samplestatus の正本を読む QA(行に rowId と要約 rowIds が足された
-#   世代 —— docs.calaudit-sync・docs.calibration-verdict-sync・behavior.calauditStages・behavior.calauditBudgetTable・lint.calauditMergeKeyHash・lint.calauditDiagSplit・docs.periodContractRows・
+#   世代 —— docs.calaudit-sync・docs.calibration-verdict-sync・behavior.calauditStages・lint.calauditMergeKeyHash・lint.calauditDiagSplit・docs.periodContractRows・
 #   docs.sampleStatus-sync・preset.statusLedger-sync・docs.tallySync)・刻印の lint.provenanceMeta・lint.stableHashPaths・lint.regenChain・この脚本の lint.postMergeQaScript・lint.qaHeapRelease310
-DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.provenanceIds323 lint.qaRecheck323 docs.w323d docs.calaudit-sync docs.calibration-verdict-sync behavior.calauditStages behavior.calauditBudgetTable lint.calauditMergeKeyHash lint.calauditDiagSplit docs.periodContractRows docs.sampleStatus-sync preset.statusLedger-sync docs.tallySync lint.provenanceMeta lint.stableHashPaths lint.regenChain lint.postMergeQaScript lint.qaHeapRelease310"
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.provenanceIds323 lint.qaRecheck323 docs.w323d docs.calaudit-sync docs.calibration-verdict-sync behavior.calauditStages lint.calauditMergeKeyHash lint.calauditDiagSplit docs.periodContractRows docs.sampleStatus-sync preset.statusLedger-sync docs.tallySync lint.provenanceMeta lint.stableHashPaths lint.regenChain lint.postMergeQaScript lint.qaHeapRelease310"
 # ==== 第323便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
