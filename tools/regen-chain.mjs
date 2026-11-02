@@ -44,6 +44,10 @@
 //   node tools/regen-chain.mjs --self-test    dry-run の自己試験(QA `lint.regenChain` と同じ関数)。違反があれば 1。
 //   node tools/regen-chain.mjs --env          鎖を回す環境の版(Node・Chromium)を 1 行の JSON で(第288便f —— chainShell が $REGEN_LOG/env.json に書く)。
 //   node tools/regen-chain.mjs --scope-all [--write] [--check]   第312便c: 領域の宣言が presets:"all" の段の理由の一覧(tests/data-w312c-scopeall.json)。
+//   node tools/regen-chain.mjs --nslock-shadow <REGEN_LOG> [--append <記録> --wave N] / --streak   第324便c(AN516): nslock の影の照合の記録と数。
+//
+// 第324便c(R281): 鎖の脚本の 1 行目と timeline の見出しに **REGEN_FASTGATE の実効値**(0 / shadow / 1 —— 既定は 1 のまま・記録だけ)・
+//   鎖の終わりに nslock の影の照合の記録($REGEN_LOG/nslock-shadow.json)。
 //
 // 第323便b(原仮定者の指示(2026-11-01)「サンプルの変更だけでは、全行程を再実行しない」・AN517/AN518・R276):
 //   ・`--gate <段>` はその段の行だけを引く(planRegen の o.only —— 全段を引くより 1 桁速い。--gate-full で全段)。
@@ -278,6 +282,49 @@ if (argv.includes('--scope-all')) {
   process.exit(0);
 }
 // ==== 第312便c の塊(ここまで)====
+
+// ==== 第324便c の塊(ここから)====
+// 第324便c(決断事項 AN516・統括の検証項目 R281): **nslock の影の照合の記録**(鎖の終わりに鎖の脚本が呼ぶ —— 器は変えない)。
+//   node tools/regen-chain.mjs --nslock-shadow <REGEN_LOG> [--json <file>] [--append <記録>(既定 tests/data-w324c-nslockshadow.json)--wave N [--rev sha]] [--streak]
+//   $REGEN_LOG/<波>-nslock.log の 2 行(再利用の門・影の照合)から n/m・門の外れの理由(G1〜G8)を読む。nslock が走らなかった鎖(済み印が reuse・ログ無し)は
+//   「比較の実績なし」。--append で便ごとの作業記録(正本ではない)に 1 行を置き換え/足し、AN516 の数(比較の実績が有る便だけで、最後から続く n/n の便の数)を印字。
+//   --streak は記録を読んで数だけ。終了コード 0(記録の誤りは 2)
+if (argv.includes('--nslock-shadow') || argv.includes('--streak')) {
+  const recFile = resolve(getArg('--append', null)) || path.join(ROOT, T.NSLOCK_SHADOW_FILE);
+  const readRec = () => { try { return JSON.parse(fs.readFileSync(recFile, 'utf8')); } catch { return null; } };
+  if (argv.includes('--streak') && !argv.includes('--nslock-shadow')) {
+    const st = T.an516Streak(readRec());
+    console.log(`nslock の影の照合(AN516)の数: 比較の実績が有る便で続く n/n ${st.streak}/${st.need} 便(比べた便 ${st.compared.join(' ') || 'なし'}・数えない便 ${st.skipped.join(' ') || 'なし'})—— ${st.note}`);
+    process.exit(0);
+  }
+  const log = resolve(getArg('--nslock-shadow', null));
+  let text = '', file = null, reuse = null;
+  if (log && fs.existsSync(log)) {
+    const f = fs.readdirSync(log).filter((x) => /^\d+-nslock\.log$/.test(x)).sort().pop();
+    if (f) { file = path.join(log, f); text = fs.readFileSync(file, 'utf8'); }
+    const mk = path.join(log, 'done', 'nslock.done');
+    if (fs.existsSync(mk)) { const l1 = fs.readFileSync(mk, 'utf8').split('\n')[0]; if (/^reuse/.test(l1)) reuse = '済み印が再利用(' + l1.trim() + ')'; }
+  }
+  const r = T.nslockShadowOfLog(text);
+  if (!r.ran) r.reuse = reuse || (log && fs.existsSync(log) ? '鎖のログに nslock の行が無い' : 'REGEN_LOG が無い');
+  r.log = file ? path.relative(ROOT, file) : null;
+  console.log(T.nslockShadowText(r));
+  const js = getArg('--json', null); if (js) fs.writeFileSync(resolve(js), JSON.stringify(r, null, 1) + '\n');
+  if (getArg('--append', null) || argv.includes('--wave')) {
+    const wave = Number(getArg('--wave', NaN));
+    if (!Number.isInteger(wave)) { console.error('--append には --wave <便の番号> が要る'); process.exit(2); }
+    const doc = readRec() || { version: T.NSLOCK_SHADOW_VERSION, what: '', waves: [] };
+    if (doc.version !== T.NSLOCK_SHADOW_VERSION || !Array.isArray(doc.waves)) { console.error('記録の版か形が違う: ' + recFile); process.exit(2); }
+    const row = { wave, rev: getArg('--rev', null), verdict: r.verdict, gateMode: r.gateMode, gates: r.gates, gateMore: r.gateMore, compared: r.compared, same: r.same, mismatch: r.mismatch,
+      note: r.ran ? (r.compared ? '' : '照合 0/0 —— 比較の実績なし') : 'nslock は走らなかった(' + r.reuse + ')', at: new Date().toISOString() };
+    doc.waves = doc.waves.filter((z) => Number(z.wave) !== wave).concat([row]).sort((a, b) => Number(a.wave) - Number(b.wave));
+    fs.writeFileSync(recFile, JSON.stringify(doc, null, 1) + '\n');
+    const st = T.an516Streak(doc);
+    console.log(`  → ${path.relative(ROOT, recFile)}(便 ${wave} の行)・AN516 の数: 比較の実績が有る便で続く n/n ${st.streak}/${st.need} 便(数えない便 ${st.skipped.join(' ') || 'なし'})`);
+  }
+  process.exit(0);
+}
+// ==== 第324便c の塊(ここまで)====
 
 if (argv.includes('--gate')) {
   const key = getArg('--gate', null);

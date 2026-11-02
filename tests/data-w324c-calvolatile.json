@@ -1,0 +1,17 @@
+{
+ "version": "w324c-calvolatile-1",
+ "what": "第324便c(統括の検証項目 R281): calaudit の揮発の欄に h/2 の転記の来歴(V_CALAUDIT_H2P)と置き場の行の html の sha(V_CALAUDIT_DIAG_STOREP)を足した前後の、判定器の正本の安定 hash の記録(作業記録 —— 正本ではない)。器の 3 段(calaudit → dt3 → kf0)を枝で 2 回走らせた(出力は一時の置き場 —— W249_OUT・W249_DIAG_OUT): run1 = 枝の html・run2 = 同じ script で sha の違う写し(次の便の新しい html を模す)。base = 第323便の鎖の正本(tests/out の calaudit-w249.json・calaudit-w249-diag.json —— 3c19cbd)",
+ "decl": { "calaudit": { "old": "w285f-vcal-2", "new": "w324c-vcal-3", "fpNew": "53a87bd8d16a3e37" }, "diag": { "old": "w285f-vdiag-2", "new": "w324c-vdiag-3", "fpNew": "a1a6237c37d2e7ed" } },
+ "html": { "base": "796980ba5fc3", "run1": "4698e890956f", "run2": "a19a6dcd2bc5" },
+ "stableSha16": {
+  "calaudit": { "old": { "base": "98d81bc86ad5c2c9", "run1": "eb462c30b4137302", "run2": "bf1fb8fd19940d7f" },
+   "new": { "base": "8112a070249b29b3", "run1": "8112a070249b29b3", "run2": "03baefafeb115f75", "run2TargetNameRestored": "8112a070249b29b3" } },
+  "diag": { "old": { "base": "03fcb219e7819d78", "run1": "e993555d40c9ca4f" }, "new": { "base": "15e2d90a7ee44d98", "run1": "15e2d90a7ee44d98", "run2": "15e2d90a7ee44d98" } }
+ },
+ "diffUnderOld": "calaudit: presets[].run の h2Reuse・dtHalf・timeBudget[1]・stopRuleStages[1] の reusedFrom の generatedAt・targetSha256・wallSec と /h2Reuse/reusedSec だけ(base → run1 37 葉・run1 → run2 38 葉)/ diag: /h2Store/entries/*/targetSha256 の 21 行だけ",
+ "diffUnderNew": "base → run1 0 葉 / run1 → run2 1 葉(/mergeKey/target —— 写しのファイル名。鎖の対象は常に beta/index.html なので本物の便では起きない —— 名を戻した写しの hash は run1 と同じ)",
+ "transcribed": "alphaCenAB・siriusAB・saturnZonalD68(3 回とも dt3 が同じ鎖の ① の h/2 を転記)",
+ "verdictValues": "fourValues・verdictLedger・summary・rowIds(時刻と html の sha を除く)は base・run1・run2 で同じ —— 判定の値・式は不変(器のコードは 1 文字も変えていない)",
+ "secs": { "run1": { "calaudit": 381, "dt3": 23, "kf0": 58 }, "run2": { "calaudit": 444, "dt3": 33, "kf0": 65 }, "box": "並走の秒(4 枝の並走・負荷平均 4〜5)" },
+ "at": "2026-11-02T13:09:21Z"
+}

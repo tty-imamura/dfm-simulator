@@ -28,12 +28,27 @@
 //
 // ■ 言わないこと: 「簡易の窓で一致したので物理が同じ」(窓は最初の数段だけ —— 輪番〔K 便以内にフル〕と root 昇格の便の全段フルで補う)・
 //   「指紋の記録が無い段は簡易一致できない」以上のこと(記録が無ければ候補にしない —— 保守側)。
+//
+// 第324便c(統括の検証項目 R281 —— 第325便の本運用の判定の根拠になる処理を、欠測を一致の側へ数えない形に)—— 版 w324c-quick-2:
+//   ① **欠測の境界**: quickShadow は器・lib の hash(記録側・今の側)の**欠け・不正(64 桁でない)・違い**を候補から外す(理由の文つき)・記録の指紋が
+//      64 桁でない段・正本(outs)の無い段・正本の物理の値の hash が欠ける/不正な段も外す(第323便b は hash が欠けると比較を通り抜けて候補に残った)。
+//      shadowCompare は前後の記録の欠け・指紋の欠け・器と lib の hash の欠け・**前の正本の物理の値の hash の欠け・空・不正**・今の正本が読めない段・
+//      段の正本を覆わない記録を **na(理由つき)** に —— **trueSame に数えない**(第323便b は canon が空だと物理の値を 1 度も読まずに trueSame だった)。
+//      na を falseSame に読み替えない(未検証として分ける)。前後の行が同じ(時刻 at と窓の秒 sec まで同じ —— 取り直していない)段も na。
+//   ② **照合の数**(本運用の判定の材料 —— 数を出すだけ・門は第325便で統括が決める): 比べた数(前後とも有効な指紋と正本の hash を持つ段)・
+//      html が違う比較の数・falseSame・na(理由ごと)・missed・trueSame・trueDiff(html が違う/同じ/分からない比較に分けた数も)。
+//      `ok` は従来どおり「falseSame を観測しなかった」だけ(比べた数が十分かを言わない)。
+//   ③ **自己比較の拒否**: 同じファイル・同じ中身の記録を前後に与えた比較は selfCompare(影の 1 便に数えない —— regen-plan --shadow-compare は終了コード 2)。
+//      前後の便の番号が逆か同じなら「影の 1 便に数えない」。比べた段 0 も「比較の実績なし」。
+//   ④ **長期の量の名簿**(quickVerify:'long' —— 段の表の QUICK_LONG_ROSTER〔tests/lib-w281a-regentable.mjs〕が既定値で段の宣言に入れる)の確かめは自己試験 ⑦。
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { REGEN_STEPS, volatilePathsOf, SEMANTIC_RUN_META, codeFilesOf, writesOf, HTML_TARGET } from './lib-w281a-regentable.mjs';
 import { canonJson, parseTopLevel, closureOf, SCOPE_STOP, STABLE_RUNTIME_KEYS, LEGACY_VOLATILE_KEYS } from './lib-w281a-scope.mjs';
 
-export const QUICK_VERSION = 'w323b-quick-1';
+// 第324便c: w323b-quick-1 → w324c-quick-2(欠測の境界・照合の数・自己比較の拒否 —— 記録の版 QUICK_FP_VERSION は変えない)
+export const QUICK_VERSION = 'w324c-quick-2';
+export const QUICK_VERSION_HISTORY = Object.freeze(['w323b-quick-1', 'w324c-quick-2']);
 export const QUICK_K_DEFAULT = 3;
 export const QUICK_BIG_SEC = 600;
 export const QUICK_BIG_MAX = 2;
@@ -67,6 +82,9 @@ export const CALIBRATION_FILES = Object.freeze(['tests/out/calaudit-w249.json', 
 export const CALIBRATION_HARNESS = 'tests/exp-w249b-calaudit.mjs';
 
 const sha256 = (s) => crypto.createHash('sha256').update(s).digest('hex');
+const HEX64 = /^[0-9a-f]{64}$/;
+/** 第324便c: 64 桁の 16 進(hash の欠け・不正の判定 —— 欠測は一致の側へ数えない)。 */
+export const isHex64 = (x) => typeof x === 'string' && HEX64.test(x);
 const shaFileHex = (abs) => { try { return crypto.createHash('sha256').update(fs.readFileSync(abs)).digest('hex'); } catch { return null; } };
 const readJson = (abs) => { try { return JSON.parse(fs.readFileSync(abs, 'utf8')); } catch { return null; } };
 
@@ -240,11 +258,21 @@ export function quickShadow(plan, o) {
     const e = rec[r.key] || null;
     if (!e) q.why.push('指紋の記録が無い');
     else {
+      // 第324便c(R281): 欠測の境界 —— hash の欠け・不正・違いは候補から外す(欠測を一致の側へ数えない)
       if (!e.fingerprint) q.why.push('記録の指紋が無い(' + (e.why || e.verdict || '—') + ')');
+      else if (!isHex64(e.fingerprint)) q.why.push('記録の指紋が不正(64 桁でない —— 欠測)');
       if (q.window && !eqEnv(e.window && e.window.env, q.window.env)) q.why.push('窓の環境が記録と違う');
       const cs = codeOf(st);
-      if (e.codeSha && cs && e.codeSha !== cs) q.why.push('器・lib が記録の後に変わった');
-      for (const f of (st.outs || [])) { const now = physOf(f); if (!e.canon || e.canon[f] === undefined || e.canon[f] !== now) { q.why.push('正本の物理の値が記録と違う(' + f.replace('tests/out/', '') + ')'); break; } }
+      if (!isHex64(e.codeSha)) q.why.push('記録の器・lib の hash が無いか不正(欠測 —— 候補にしない)');
+      else if (!isHex64(cs)) q.why.push('今の器・lib の hash が引けない(欠測 —— 候補にしない)');
+      else if (e.codeSha !== cs) q.why.push('器・lib が記録の後に変わった');
+      if (!(st.outs || []).length) q.why.push('段に正本(outs)が無い(物理の値を照合できない —— 欠測)');
+      for (const f of (st.outs || [])) {
+        const now = physOf(f), was = e.canon && typeof e.canon === 'object' ? e.canon[f] : undefined;
+        if (!isHex64(was)) { q.why.push('記録の正本の物理の値の hash が無いか不正(欠測 —— ' + f.replace('tests/out/', '') + ')'); break; }
+        if (!isHex64(now)) { q.why.push('今の正本の物理の値が読めない(欠測 —— ' + f.replace('tests/out/', '') + ')'); break; }
+        if (was !== now) { q.why.push('正本の物理の値が記録と違う(' + f.replace('tests/out/', '') + ')'); break; }
+      }
       if (Number.isFinite(e.sec)) q.quickSec = e.sec;
     }
     q.eligible = q.why.length === 0;
@@ -312,7 +340,6 @@ export function mergeRecord(doc, entries, head) {
   d.steps = Object.fromEntries(Object.keys(d.steps).sort().map((k) => [k, d.steps[k]]));
   return d;
 }
-const HEX64 = /^[0-9a-f]{64}$/;
 /** 記録の形(lint は形だけ)。違反の文の並びを返す。 */
 export function recordShape(doc, o) {
   const bad = [];
@@ -343,34 +370,99 @@ export function recordShape(doc, o) {
  *   falseSame … 窓が同じ ∧ 物理が違う(**誤判定** —— 本運用の門: 0 段)
  *   trueDiff  … 窓が違う ∧ 物理が違う(フルへ回して正しい)
  *   missed    … 窓が違う ∧ 物理が同じ(取りこぼし —— 誤りではない・節約を逃しただけ)
- *   na        … 比べられない(どちらかの指紋が無い・窓の環境か器と lib の sha が違う・正本が読めない)
+ *   na        … 比べられない(**欠測は一致の側へ数えない** —— 第324便c): 記録に無い・指紋が無いか不正・窓の環境が違う・器と lib の hash が無いか不正か違う・
+ *               前の正本の物理の値の hash が無い/空/不正・段の正本を覆わない・今の正本が読めない・前後の行が同じ(取り直していない)
+ * 第324便c(R281): 照合の数(compared = 前後とも有効な指紋と正本の hash を持つ段・html が違う比較の数・na の理由ごと)と自己比較の拒否(selfCompare)。
  * @param {object} prev 前の記録(鎖の前 —— 前の便のフルの後に取った記録)
  * @param {object} cur 今の記録(今の便の鎖の後に取った記録)
- * @param {{physOf:(f:string)=>string|null, keys?:string[]}} o keys で比べる段を絞る(既定は両方の記録にある段)
+ * @param {{physOf:(f:string)=>string|null, keys?:string[], outsOf?:(k:string)=>string[]|null, prevPath?:string, curPath?:string}} o
+ *   keys で比べる段を絞る(既定は両方の記録にある段)・outsOf があれば前の記録の canon が段の正本を覆うかも見る・prevPath/curPath が同じファイルなら自己比較
  */
+export const SHADOW_NA_WHY = Object.freeze({
+  noRecord: '記録に無い', noFingerprint: '指紋が無いか不正', env: '窓の環境が違う', codeMissing: '器・lib の hash が無いか不正(欠測)',
+  codeDiff: '器・lib が違う(フル —— 簡易一致の対象外)', canonEmpty: '前の正本の物理の値の hash が無い(空)', canonBad: '前の正本の物理の値の hash が不正',
+  canonPartial: '前の記録の正本の hash が段の正本を覆わない', unreadable: '今の正本が読めない', notRetaken: '前後の行が同じ(取り直していない —— 自己比較の行)',
+});
+export function shadowSelfCompare(prev, cur, o) {
+  const opt = o || {};
+  if (prev && cur && prev === cur) return { kind: 'same-object', why: '前後に同じ記録(同じオブジェクト)' };
+  if (opt.prevPath && opt.curPath) {
+    let a = opt.prevPath, b = opt.curPath;
+    try { a = fs.realpathSync(a); } catch { /* 無い */ }
+    try { b = fs.realpathSync(b); } catch { /* 無い */ }
+    if (a === b) return { kind: 'same-file', why: '前後に同じファイル(' + String(opt.curPath) + ')' };
+  }
+  if (prev && cur && canonJson(prev) === canonJson(cur)) return { kind: 'same-content', why: '前後の記録の中身が同じ(取り直していない)' };
+  if (prev && cur && prev.at && cur.at && prev.at === cur.at && prev.rev === cur.rev) return { kind: 'same-take', why: '前後の記録の取った時刻と rev が同じ(' + String(cur.at) + ')' };
+  return null;
+}
 export function shadowCompare(prev, cur, o) {
+  const opt = o || {};
   const P = (prev && prev.steps) || {}, C = (cur && cur.steps) || {};
-  const keys = (o && o.keys) || Object.keys(P).filter((k) => k in C);
+  const keys = opt.keys || Object.keys(P).filter((k) => k in C);
+  const W = SHADOW_NA_WHY;
   const rows = [];
   for (const k of keys.slice().sort()) {
     const a = P[k] || null, b = C[k] || null;
-    let cat = 'na', why = null;
-    if (!a || !b) why = '記録に無い';
-    else if (!a.fingerprint || !b.fingerprint) why = '指紋が無い';
-    else if (!eqEnv(a.window && a.window.env, b.window && b.window.env)) why = '窓の環境が違う';
-    else if (a.codeSha !== b.codeSha) why = '器・lib が違う(フル —— 簡易一致の対象外)';
+    let cat = 'na', why = null, whyKey = null, detail = null;
+    const na = (wk, d) => { whyKey = wk; why = W[wk] + (d ? '(' + d + ')' : ''); detail = d || null; };
+    if (!a || !b) na('noRecord', !a && !b ? '前後とも' : !a ? '前' : '今');
+    else if (!isHex64(a.fingerprint) || !isHex64(b.fingerprint)) na('noFingerprint', !isHex64(a.fingerprint) && !isHex64(b.fingerprint) ? '前後とも' : !isHex64(a.fingerprint) ? '前' : '今');
+    else if (!eqEnv(a.window && a.window.env, b.window && b.window.env)) na('env');
+    else if (!isHex64(a.codeSha) || !isHex64(b.codeSha)) na('codeMissing', !isHex64(a.codeSha) ? '前' : '今');
+    else if (a.codeSha !== b.codeSha) na('codeDiff');
+    else if (!a.canon || typeof a.canon !== 'object' || Array.isArray(a.canon) || Object.keys(a.canon).length === 0) na('canonEmpty');
+    else if (canonJson(a) === canonJson(b)) na('notRetaken');
     else {
-      const win = a.fingerprint === b.fingerprint;
-      let phys = true;
-      for (const [f, h] of Object.entries(a.canon || {})) { const now = o.physOf(f); if (now === null) { why = '正本が読めない ' + f; break; } if (now !== h) phys = false; }
-      if (!why) cat = win ? (phys ? 'trueSame' : 'falseSame') : (phys ? 'missed' : 'trueDiff');
+      const outs = typeof opt.outsOf === 'function' ? opt.outsOf(k) : null;
+      const miss = Array.isArray(outs) ? outs.filter((f) => !(f in a.canon)) : [];
+      if (miss.length) na('canonPartial', miss.map((f) => f.replace('tests/out/', '')).join(','));
+      else {
+        const win = a.fingerprint === b.fingerprint;
+        let phys = true;
+        for (const [f, h] of Object.entries(a.canon)) {
+          if (!isHex64(h)) { na('canonBad', f.replace('tests/out/', '')); break; }
+          const now = opt.physOf ? opt.physOf(f) : null;
+          if (!isHex64(now)) { na('unreadable', f.replace('tests/out/', '')); break; }
+          if (now !== h) phys = false;
+        }
+        if (!whyKey) cat = win ? (phys ? 'trueSame' : 'falseSame') : (phys ? 'missed' : 'trueDiff');
+      }
     }
-    rows.push({ key: k, cat, why, htmlSame: !!(a && b && a.htmlSha === b.htmlSha) });
+    const htmlKnown = !!(a && b && isHex64(a.htmlSha) && isHex64(b.htmlSha));
+    rows.push({ key: k, cat, why, whyKey, detail, htmlSame: htmlKnown ? a.htmlSha === b.htmlSha : null });
   }
-  const n = (c) => rows.filter((r) => r.cat === c).length;
+  const CATS = ['trueSame', 'falseSame', 'trueDiff', 'missed'];
+  const n = (c, f) => rows.filter((r) => r.cat === c && (!f || f(r))).length;
+  const byHtml = (f) => Object.fromEntries(CATS.map((c) => [c, n(c, f)]));
+  const naByReason = {};
+  for (const r of rows) if (r.cat === 'na') naByReason[W[r.whyKey]] = (naByReason[W[r.whyKey]] || 0) + 1;
+  const compared = rows.filter((r) => r.cat !== 'na').length;
+  const self = shadowSelfCompare(prev, cur, opt);
+  const pw = prev && Number.isFinite(Number(prev.wave)) && prev.wave !== null ? Number(prev.wave) : null, cw = cur && Number.isFinite(Number(cur.wave)) && cur.wave !== null ? Number(cur.wave) : null;
+  const order = pw !== null && cw !== null ? (cw > pw ? 'ok' : 'not-later') : 'unknown';
+  const notCounted = [];
+  if (self) notCounted.push('自己比較(' + self.why + ')');
+  if (order === 'not-later') notCounted.push('今の記録の便 ' + cw + ' が前の記録の便 ' + pw + ' より後でない');
+  if (!compared) notCounted.push('比べた段 0(比較の実績なし)');
   return { version: QUICK_VERSION, count: { trueSame: n('trueSame'), falseSame: n('falseSame'), trueDiff: n('trueDiff'), missed: n('missed'), na: n('na') },
+    // 第324便c(R281): 照合の数 —— 数を出すだけ(本運用に足る数かの門は第325便で統括が決める)
+    tally: { keys: rows.length, compared, comparedHtmlDiff: rows.filter((r) => r.cat !== 'na' && r.htmlSame === false).length,
+      comparedHtmlSame: rows.filter((r) => r.cat !== 'na' && r.htmlSame === true).length, comparedHtmlUnknown: rows.filter((r) => r.cat !== 'na' && r.htmlSame === null).length,
+      falseSame: n('falseSame'), missed: n('missed'), trueSame: n('trueSame'), trueDiff: n('trueDiff'), na: n('na'), naByReason,
+      htmlDiff: byHtml((r) => r.htmlSame === false), htmlSame: byHtml((r) => r.htmlSame === true) },
+    selfCompare: self, waves: { prev: pw, cur: cw, order }, countsAsShadowWave: notCounted.length === 0, notCounted,
     falseSame: rows.filter((r) => r.cat === 'falseSame').map((r) => r.key), ok: n('falseSame') === 0, rows,
-    note: '誤判定(falseSame)= 簡易の窓が同じなのに物理の値が違った段 —— 本運用の門は 0 段。missed は節約を逃しただけ(誤りではない)。html が同じ段(htmlSame)は窓が同じで当然 —— 数は html が違う段で読む' };
+    note: '誤判定(falseSame)= 簡易の窓が同じなのに物理の値が違った段 —— 本運用の門は 0 段。missed は節約を逃しただけ(誤りではない)。na は未検証(欠測 —— 一致にも誤判定にも数えない)。'
+      + 'html が同じ段(htmlSame)は窓が同じで当然 —— 数は html が違う比較(tally.comparedHtmlDiff)で読む。ok は「falseSame を観測しなかった」だけで、比べた数が十分かを言わない' };
+}
+/** 第324便c: 照合の数の 1 行(regen-plan --shadow-compare の印字)。 */
+export function shadowTallyText(r) {
+  const t = r.tally;
+  return `比べた ${t.compared}/${t.keys} 段(html が違う ${t.comparedHtmlDiff}・同じ ${t.comparedHtmlSame}・分からない ${t.comparedHtmlUnknown})・falseSame ${t.falseSame}・trueSame ${t.trueSame}・trueDiff ${t.trueDiff}・missed ${t.missed}・na ${t.na}`
+    + (t.na ? '(' + Object.entries(t.naByReason).map(([k, v]) => k + ' ' + v).join('・') + ')' : '')
+    + ` —— html が違う比較で trueSame ${t.htmlDiff.trueSame}・falseSame ${t.htmlDiff.falseSame}・trueDiff ${t.htmlDiff.trueDiff}・missed ${t.htmlDiff.missed}`
+    + (r.countsAsShadowWave ? '' : ' —— **影の 1 便に数えない**: ' + r.notCounted.join(' / '));
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -414,9 +506,11 @@ export function quickSelfTest() {
   const row = (key, status, kinds, o) => Object.assign({ key, status, ownStatus: status, causeKinds: kinds, sec: (steps.find((z) => z.key === key) || {}).sec || 100 }, o || {});
   const plan = { steps: [row('a', 'regen', ['scope']), row('b', 'regen', ['scope', 'code']), row('c', 'always', ['scope']), row('d', 'regen', ['scope']), row('e', 'regen', ['scope']),
     row('f', 'regen', ['html']), row('g', 'regen', ['scope']), row('h', 'regen', ['scope']), row('i', 'regen', ['scope']), row('j', 'regen', ['scope']), row('w', 'regen', ['scope'])] };
-  const recOf = (keys) => ({ version: QUICK_FP_VERSION, steps: Object.fromEntries(keys.map((k) => [k, { key: k, window: { env: { X_QUICK: '1' } }, fingerprint: 'f'.repeat(64), codeSha: 'c'.repeat(64), htmlSha: 'h'.repeat(64), canon: { ['tests/out/' + k + '.json']: 'p' } }])) });
+  // 第324便c: 物理の値の hash は 64 桁(欠測の境界 —— 64 桁でない hash は候補にしない)
+  const PH = '1'.repeat(64), QH = '2'.repeat(64);
+  const recOf = (keys) => ({ version: QUICK_FP_VERSION, steps: Object.fromEntries(keys.map((k) => [k, { key: k, window: { env: { X_QUICK: '1' } }, fingerprint: 'f'.repeat(64), codeSha: 'c'.repeat(64), htmlSha: 'd'.repeat(64), canon: { ['tests/out/' + k + '.json']: PH } }])) });
   const base = { steps, knobs, record: recOf(steps.map((z) => z.key)), K: 3, wave: 323, change: { known: true, core: false, stepFns: ['dfmStep3'], acceptor: [] }, cal: new Map(),
-    codeOf: () => 'c'.repeat(64), physOf: () => 'p', verifyOf: (st) => (st.key === 'g' ? { mode: 'quick', wavesSinceFull: 2 } : null) };
+    codeOf: () => 'c'.repeat(64), physOf: () => PH, verifyOf: (st) => (st.key === 'g' ? { mode: 'quick', wavesSinceFull: 2 } : null) };
   const clone = (p) => JSON.parse(JSON.stringify(p));
   const s1 = quickShadow(clone(plan), base);
   const el = new Set(s1.rows.filter((z) => z.eligible).map((z) => z.key));
@@ -434,7 +528,7 @@ export function quickSelfTest() {
   if (s2.count.eligible !== 0) bad.push('② root 昇格の便に候補');
   const s3 = quickShadow(clone(plan), Object.assign({}, base, { record: null }));
   if (s3.count.eligible !== 0 || s3.count.ifRecorded !== 4) bad.push('② 記録なしの候補 ' + s3.count.eligible + '・ifRecorded ' + s3.count.ifRecorded);
-  const s4 = quickShadow(clone(plan), Object.assign({}, base, { physOf: (f) => (f.indexOf('/a.json') >= 0 ? 'q' : 'p'), codeOf: (st) => (st.key === 'h' ? 'x'.repeat(64) : 'c'.repeat(64)) }));
+  const s4 = quickShadow(clone(plan), Object.assign({}, base, { physOf: (f) => (f.indexOf('/a.json') >= 0 ? QH : PH), codeOf: (st) => (st.key === 'h' ? 'e'.repeat(64) : 'c'.repeat(64)) }));
   const el4 = s4.rows.filter((z) => z.eligible).map((z) => z.key).sort().join(',');
   if (el4 !== 'i,j') bad.push('② 正本の物理の値・器の sha が記録と違う段が外れない: ' + el4);
   const s5 = quickShadow(clone(plan), Object.assign({}, base, { change: { known: true, core: false, stepFns: [], acceptor: [] } }));
@@ -469,15 +563,62 @@ export function quickSelfTest() {
   if (sh.length || sh2.length < 3) bad.push('⑤ 記録の形: ' + sh.concat(sh2).slice(0, 3).join(' / '));
   cases.push(`⑤ 記録の形(${QUICK_FP_VERSION}): 正しい行 → 違反 ${sh.length}・表に無い段と壊れた行 → 違反 ${sh2.length}`);
   // ⑥ 影の照合の数え方
-  const e = (fp, canon, codeSha) => ({ window: { env: { X: '1' } }, fingerprint: fp, codeSha: codeSha || 'c', canon, htmlSha: 'h' });
-  const prevR = { steps: { a: e('1', { 'x/a': 'p' }), b: e('1', { 'x/b': 'p' }), c: e('1', { 'x/c': 'p' }), d: e('1', { 'x/d': 'p' }), z: e(null, {}) } };
-  const curR = { steps: { a: e('1', {}), b: e('1', {}), c: e('2', {}), d: e('2', {}), z: e('1', {}) } };
-  const sc = shadowCompare(prevR, curR, { physOf: (f) => ({ 'x/a': 'p', 'x/b': 'q', 'x/c': 'q', 'x/d': 'p' })[f] });
+  const F1 = '3'.repeat(64), F2 = '4'.repeat(64), CS = 'c'.repeat(64), HS = 'd'.repeat(64);
+  const e = (fp, canon, codeSha) => ({ window: { env: { X: '1' } }, fingerprint: fp, codeSha: codeSha || CS, canon, htmlSha: HS });
+  const prevR = { wave: 323, steps: { a: e(F1, { 'x/a': PH }), b: e(F1, { 'x/b': PH }), c: e(F1, { 'x/c': PH }), d: e(F1, { 'x/d': PH }), z: e(null, {}) } };
+  const curR = { wave: 324, steps: { a: e(F1, {}), b: e(F1, {}), c: e(F2, {}), d: e(F2, {}), z: e(F1, {}) } };
+  const sc = shadowCompare(prevR, curR, { physOf: (f) => ({ 'x/a': PH, 'x/b': QH, 'x/c': QH, 'x/d': PH })[f] });
   if (JSON.stringify(sc.count) !== JSON.stringify({ trueSame: 1, falseSame: 1, trueDiff: 1, missed: 1, na: 1 }) || sc.ok || sc.falseSame.join(',') !== 'b') bad.push('⑥ 影の照合の数え方: ' + JSON.stringify(sc.count));
   cases.push(`⑥ 影の照合: 窓が同じ ∧ 物理が同じ → trueSame・窓が同じ ∧ 物理が違う → **誤判定 falseSame**(門 0)・窓が違う ∧ 物理が違う → trueDiff・窓が違う ∧ 物理が同じ → missed・指紋なし → na`);
+  // ⑧ 第324便c(R281): 欠測の境界(統括の参考の試作の 3 例 —— 第323便b の版では 3 例とも一致の側へ数えた)・照合の数・自己比較の拒否
+  {
+    const H = 'a'.repeat(64), C2 = 'c'.repeat(64), FP = 'f'.repeat(64);
+    const st1 = { key: 'a', role: 'current', cmd: 'node x.mjs', outs: ['tests/out/a.json'], sec: 100 };
+    const rec1 = () => ({ version: QUICK_FP_VERSION, steps: { a: { key: 'a', window: { env: { Q: '1' } }, fingerprint: FP, codeSha: C2, htmlSha: HS, canon: { 'tests/out/a.json': H } } } });
+    const row1 = () => ({ steps: [{ key: 'a', status: 'regen', ownStatus: 'regen', causeKinds: ['scope'], sec: 100 }] });
+    const opt1 = (record, codeOf, physOf) => ({ steps: [st1], record, codeOf: codeOf || (() => C2), physOf: physOf || (() => H), knobs: { a: { env: { Q: '1' } } }, cal: new Map(), K: 3, wave: 324,
+      change: { known: true, core: false, stepFns: [], acceptor: [] } });
+    const miss = rec1(); delete miss.steps.a.codeSha;
+    const e1 = quickShadow(row1(), opt1(miss)).count.eligible;                       // 例 1: 記録の器・lib の hash の欠け
+    const e2 = quickShadow(row1(), opt1(rec1(), () => null)).count.eligible;           // 例 2: 今の器・lib の hash が引けない
+    const bad3 = rec1(); bad3.steps.a.codeSha = 'zz';
+    const e2b = quickShadow(row1(), opt1(bad3)).count.eligible;                        // 不正(64 桁でない)
+    const e2c = quickShadow(row1(), opt1(rec1(), null, () => null)).count.eligible;    // 今の正本が読めない
+    const e2d = quickShadow(row1(), opt1(rec1())).count.eligible;                      // 正常(対照)
+    const st0 = Object.assign({}, st1, { outs: [] });
+    const e2e = quickShadow(row1(), Object.assign(opt1(rec1()), { steps: [st0] })).count.eligible;   // 正本の無い段
+    if (e1 !== 0 || e2 !== 0 || e2b !== 0 || e2c !== 0 || e2e !== 0 || e2d !== 1) bad.push(`⑧ 候補の欠測の境界: 記録の hash の欠け ${e1}・今の hash が引けない ${e2}・不正 ${e2b}・今の正本が読めない ${e2c}・正本の無い段 ${e2e}(各 0)/ 正常 ${e2d}(1)`);
+    const empty = rec1(); empty.steps.a.canon = {};
+    let calls = 0;
+    const r3 = shadowCompare(empty, rec1(), { physOf: () => { calls++; return 'b'.repeat(64); } });   // 例 3: 前の canon が空
+    if (r3.count.trueSame !== 0 || r3.count.na !== 1 || r3.rows[0].whyKey !== 'canonEmpty' || calls !== 0) bad.push('⑧ canon が空の比較: ' + JSON.stringify(r3.count) + '・物理の読み ' + calls);
+    const four = [[true, true, 'trueSame'], [true, false, 'falseSame'], [false, false, 'trueDiff'], [false, true, 'missed']].map(([sw, sp, want]) => {
+      const a = rec1(), b = rec1(); a.wave = 323; b.wave = 324; b.steps.a.at = 'x'; if (!sw) b.steps.a.fingerprint = 'e'.repeat(64);
+      const r = shadowCompare(a, b, { physOf: () => (sp ? H : 'b'.repeat(64)) }); return r.count[want] === 1 && r.tally.compared === 1 ? null : want; }).filter(Boolean);
+    if (four.length) bad.push('⑧ 正常な 4 分類: ' + four.join(','));
+    const A = rec1(); A.wave = 323; A.at = 't1';
+    const s1x = shadowCompare(A, A, { physOf: () => H }), s2x = shadowCompare(A, JSON.parse(JSON.stringify(A)), { physOf: () => H });
+    const B = JSON.parse(JSON.stringify(A)); B.wave = 324; B.at = 't2';
+    const s3x = shadowCompare(A, B, { physOf: () => H });   // 行が同じ(取り直していない)
+    if (!s1x.selfCompare || s1x.countsAsShadowWave || !s2x.selfCompare || s2x.selfCompare.kind !== 'same-content' || s3x.rows[0].whyKey !== 'notRetaken' || s3x.count.trueSame !== 0 || s3x.countsAsShadowWave)
+      bad.push('⑧ 自己比較の拒否: 同じもの ' + JSON.stringify(s1x.selfCompare) + '・同じ中身 ' + JSON.stringify(s2x.selfCompare) + '・行が同じ ' + s3x.rows[0].whyKey);
+    const P2 = rec1(), C3 = rec1(); P2.wave = 324; C3.wave = 324; C3.steps.a.at = 'y';
+    const s4x = shadowCompare(P2, C3, { physOf: () => H, outsOf: () => ['tests/out/a.json', 'tests/out/b.json'] });
+    const P3 = rec1(); P3.steps.a.canon['tests/out/a.json'] = 'p'; const C4 = rec1(); C4.steps.a.at = 'z';
+    const s5x = shadowCompare(P3, C4, { physOf: () => H });
+    const s6x = shadowCompare(rec1(), Object.assign(rec1(), { at: 'w' }, { steps: { a: Object.assign(rec1().steps.a, { at: 'w' }) } }), { physOf: () => null });
+    const s7x = shadowCompare(Object.assign(rec1(), { steps: { a: Object.assign(rec1().steps.a, { codeSha: undefined }) } }), Object.assign(rec1(), { steps: { a: Object.assign(rec1().steps.a, { at: 'v' }) } }), { physOf: () => H });
+    if (s4x.rows[0].whyKey !== 'canonPartial' || s4x.waves.order !== 'not-later' || s4x.countsAsShadowWave || s5x.rows[0].whyKey !== 'canonBad' || s6x.rows[0].whyKey !== 'unreadable' || s7x.rows[0].whyKey !== 'codeMissing')
+      bad.push('⑧ na の理由: 覆わない ' + s4x.rows[0].whyKey + '・便の順 ' + s4x.waves.order + '・不正 ' + s5x.rows[0].whyKey + '・読めない ' + s6x.rows[0].whyKey + '・器の hash の欠け ' + s7x.rows[0].whyKey);
+    const t = sc.tally;
+    if (!(t && t.compared === 4 && t.na === 1 && t.naByReason[SHADOW_NA_WHY.noFingerprint] === 1 && t.comparedHtmlSame === 4 && t.comparedHtmlDiff === 0 && t.htmlSame.falseSame === 1)) bad.push('⑧ 照合の数の形: ' + JSON.stringify(t));
+    cases.push(`⑧ 欠測の境界(${QUICK_VERSION}): 記録の器・lib の hash の欠け → 候補 ${e1}・今の hash が引けない → ${e2}・不正 → ${e2b}・今の正本が読めない → ${e2c}・正本の無い段 → ${e2e}(正常は ${e2d})/ 前の canon が空 → na(trueSame ${r3.count.trueSame}・物理の読み ${calls} 回)/ `
+      + `正常な 4 分類 4/4・自己比較(同じもの・同じ中身・行が同じ)は影の 1 便に数えない・na の理由(覆わない・不正・読めない・器の hash の欠け・便の順)/ 照合の数: 比べた ${t.compared}・html が違う ${t.comparedHtmlDiff}・na ${t.na}`);
+  }
   return { version: QUICK_VERSION, ok: bad.length === 0, bad, cases };
 }
 
 export default { QUICK_VERSION, QUICK_K_DEFAULT, QUICK_BIG_SEC, QUICK_BIG_MAX, QUICK_FP_FILE, QUICK_FP_VERSION, VERIFY_VERSION, QUICK_DECL_FIELDS, FP_RUNTIME_KEYS,
   FP_STAMP_KEYS, FP_KEEP_SHA_KEYS, CALIBRATION_FILES, CALIBRATION_HARNESS, physValue, physSha, physShaFile, windowFingerprint, stdoutNormSha, codeShaOf, stepWindow, calibrationSteps, staticExclusion,
-  STEP_FN_RE, ACCEPTOR_ROOTS, htmlChangeKinds, quickShadow, emptyRecord, mergeRecord, recordShape, shadowCompare, quickVerifyMeta, verifyViolations, quickSelfTest };
+  STEP_FN_RE, ACCEPTOR_ROOTS, htmlChangeKinds, quickShadow, emptyRecord, mergeRecord, recordShape, shadowCompare, quickVerifyMeta, verifyViolations, quickSelfTest,
+  QUICK_VERSION_HISTORY, isHex64, SHADOW_NA_WHY, shadowSelfCompare, shadowTallyText };

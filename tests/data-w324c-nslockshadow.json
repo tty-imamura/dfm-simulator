@@ -1,0 +1,33 @@
+{
+ "version": "w324c-nslockshadow-1",
+ "what": "nslock の影の照合(決断事項 AN516 —— 鎖の段を --merge に切り替えるのは影の照合が 2 便続けて n/n の後・比較の実績が無い便は数えない)の便ごとの作業記録(正本ではない)。各行は鎖のログ $REGEN_LOG/<波>-nslock.log の 2 行(再利用の門・影の照合 —— tests/exp-w272c-nslock.mjs〔第322便d〕の印字)から node tools/regen-chain.mjs --nslock-shadow <REGEN_LOG> --append tests/data-w324c-nslockshadow.json --wave <便> で書く。verdict: n/n(門が再利用できるとした行を全部走らせて前の正本の行と一致)/ mismatch / no-comparison(門が全走を選んだ —— 照合 0/0)/ not-run(nslock が走らなかった)。数は node tools/regen-chain.mjs --streak",
+ "tool": "node tools/regen-chain.mjs --nslock-shadow <REGEN_LOG> --append tests/data-w324c-nslockshadow.json --wave <便>",
+ "waves": [
+  {
+   "wave": 322,
+   "rev": "750b724",
+   "verdict": "no-comparison",
+   "gateMode": "full",
+   "gates": ["G1", "G2", "G3"],
+   "gateMore": 0,
+   "compared": 0,
+   "same": 0,
+   "mismatch": [],
+   "note": "第322便の鎖は門の記録の最初の走行(前の正本に再利用の門の記録・環境・核の hash が無い —— tests/lib-w322d-nslockmerge.mjs の注記「最初の走行は全走(G1 本 lib の版・G2・G3 が外れる)」。tests/out/nslock-w272c.json〔750b724〕の meta.merge は mode full・version w322d-nslock-merge-1)—— 照合 0/0(第324便c が記録から写した —— 鎖のログは残っていない)",
+   "at": null
+  },
+  {
+   "wave": 323,
+   "rev": "3c19cbd",
+   "verdict": "not-run",
+   "gateMode": null,
+   "gates": [],
+   "gateMore": 0,
+   "compared": 0,
+   "same": 0,
+   "mismatch": [],
+   "note": "nslock は走らなかった(依存の判定で再利用 —— 第323便の鎖)—— 比較の実績なし(第324便c が記録から写した)",
+   "at": null
+  }
+ ]
+}
