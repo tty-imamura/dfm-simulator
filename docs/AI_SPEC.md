@@ -4522,3 +4522,13 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **読込の互換**(① —— 本便): 読み手は行名と id の両方を読む(判定器の行の測定定義・h/4 の例外の照合)。判定(4 値の台帳・量の 5 区分・門・差)は id を足す前と同じ。② は検定器と QA を id へ切り替える便、③ は行名から来歴の語を外す便(旧い名は表の別名に残る —— 過去の正本と凍結の写しは書き換えない)。
 - **部分の再検査の補足の記録**(`tools/qa-recheck-record.mjs` —— 版 w323d-recheck-1): 保存のフル QA の FAIL を直した後に、フルを繰り返さずに FAIL の ID だけを部分 QA で再検査したとき、元のフルの参照(ファイルの sha256・html の sha256・PASS/全体・FAIL の ID)・直したファイルの sha256・検査のコードの sha256・再検査の結果(PASS・FAIL・SKIP・未実行)・結論を `tests/out/qa-recheck-beta.json`(1 本の追記型)に書く。**保存のフルの結果は書き換えない**。SAMPLE_STATUS の「保存 QA の来歴」の行は、補足が今の保存のフルを指すときだけ「保存のフル n/N + 部分の再検査 k/K(ID)」を足す(無ければ今と同じ)。
 - これらは開発の道具と来歴の欄で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
+
+## 171. 第324便a —— geoPN=2(v−u 則)の 3D の S3: disk の有限厚の宣言 `thickness`(受理・正準形・署名)と有限厚の対の本 🥞 galaxyGeo2Thick3d・🧇 galaxyGeo2ThickTilt3d・AN510 の門(原仮定者の回答(2026-11-01 —— AN500)・決断事項 AN513・AN510・統括の検証項目 R279・**`S._core` と二次元の步は不変**・在位の本の宣言・署名・数値は不変・**SYSTEM_PROMPT には載せない**)
+
+- **宣言**: 三次元の本(physics.coord:"3d")の disk の群に `thickness:{z:{kind:"gauss", h, cut}, vz:{kind:"local-nu", scale, center}}`。z は円盤の局所座標で切断前の尺度 h の正規分布から引き、±cut·h の外は**再抽選**(端へ押し付けない —— 抽選の後の二乗平均は h より小さい)。v_z は N(0, (scale·ν·h)²)・ν² = G M_c/(R² + ε²)^{3/2}(R は円盤の中心からの面内の距離・ε は physics.softening・M_c は `center` の行の single の宣言の質量)。**初期の近似**で、円盤の自己重力を含む平衡ではない。
+- **受理**(`thickValidate`・`thickCrossCheck` —— 版 THICK_VERSION = w324a-thick-1): 未知の鍵は拒否(黙って落とさない)・h は 0 以上で円盤の半径以下・cut は 1〜6(既定 3)・scale は 0〜10(既定 1)・`center` は必須(配列の先頭を黙って中心とみなさない —— 円盤の中心と同じ位置の正の質量の single)・**h = 0 は鍵を正準形から外す**(旧の宣言と同じ署名・同じ数値 —— 警告)・1 粒子の再抽選は 64 回まで(受理器が build と同じ列を引き直して確かめる)・disk 以外の型の thickness は警告して落とす・二次元の本では値を捨てず Z の宣言の警告・円盤を傾けて中心の自転軸が R ẑ と違えば警告。
+- **build**(`coord3dPlace`): 厚み用の**別の乱数の系列**(本の seed と行の番号から派生 —— 面内の位置・質量・速度・自転の乱数列は変えない)で局所座標の z・v_z を作ってから、群の incl/node の**同じ回転** R = R_z(node)·R_x(incl) を位置・速度(群の並進 bulkV と厚みの速度は別)・群の粒子の自転軸(R ẑ —— 有効化しない軸)へ。
+- **本**: 🥞 `galaxyGeo2Thick3d`(🫓 と同じ seed・同じ面内の配置・同じ物理に thickness〔h 8・cut 3・scale 1・center 0〕と stateCarry:"double")・🧇 `galaxyGeo2ThickTilt3d`(同じ入力を全体で回した対 —— incl 30°・node 40°・中心の spinAxis = R ẑ)。claims は持たない。状態の位置・速度は倍精度・場の配列(u・u の履歴・Δp・重み和)と自転・質量は単精度(三次元では framePrecision は未対応)。
+- **AN510**: geoPN=2 の三次元の步は、軸の表示・有効化の有無に依らず全粒子の向きを "vector" で力学として更新する(第322便a の步のまま —— 本便は門を足した: 零自転からの立ち上がり・符号反転・上限 |s| ≤ 40 への到達で html の步と純関数が同じビット・クランプが落とした角運動量を戻すと閉じる)。
+- **器** `tests/exp-w324a-geo2thick.mjs`(段 geo2thick-324a・`quickVerify:'long'` —— 正本 `tests/out/geo2thick-w324a.json`・`W324A_OUT`・`W324A_QUICK`・`W324A_WORKERS`)・文書の lib `tests/lib-w324a-geo2thickdoc.mjs`。QA `behavior.geo2thick324a`・`docs.geo2thick324a`(root は SKIP)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(AI 生成には thickness を開放しない)。AI が説明を書くときも、有限厚を平衡と書かない・抽選の後の z の二乗平均を h と書かない・3D で銀河を表せたと書かない・外縁の比を実在の銀河の観測の較正と書かない。

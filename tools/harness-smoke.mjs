@@ -180,6 +180,10 @@ export const SMOKE_KNOBS = Object.freeze({
   'an336-306a': { env: { W306A_PARTS: 'A,M', W306A_OUT: 'tests/out/_smoke-an336-w306a.json' }, out: 'tests/out/_smoke-an336-w306a.json', sec: 195, fullSec: 721,
     covers: '段 A(1PN + A1 の契約と標的)・M(水星の根 —— 正本の時刻で 87 s・フルの 12%)', note: '段 A・M だけ(移送 T・対ごとの行 R・門 G はフル —— エンジンを走らせる段はどれも M の根を読む)' },
   // ==== 第323便c の塊(ここまで)====
+  // ==== 第324便a の塊(ここから)====
+  // 第324便a(決断事項 AN513・AN510・統括の検証項目 R279): 器に元から在る環境変数の試走(W324A_QUICK —— 器の本文の既定の経路は変えない)
+  'geo2thick-324a': { env: { W324A_QUICK: '1', W324A_WORKERS: '1', W324A_OUT: 'tests/out/_smoke-geo2thick-w324a.json' }, note: '試走(平面の写しの門 600 步・対の本 300 步・h/2 600 步・AN510 の小さい系 12 体 × 60 步・保存と復帰 6 步 —— 1 プロセスで約 40 s。正本は flat と pair の 7 行を子プロセス 2 本〔12000 步・h/2 は 24000 步〕)' },
+  // ==== 第324便a の塊(ここまで)====
   // ==== 第311便b の塊(ここまで)====
 });
 

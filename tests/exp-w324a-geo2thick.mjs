@@ -19,6 +19,8 @@
 //             零自転からの立ち上がり・符号反転(群の自転 −0.05 から)・上限への到達(群の自転 39.95 から —— |s| ≤ 40 のクランプ)で、html の步と第321便a の
 //             純関数(spinPolicy "vector")が全状態で同じビット・クランプが動いた場合は保存則の範囲(P の閉じ)と落とした角運動量・自転のエネルギーを分けて
 //   ckpt    保存と復帰(🥞 の build —— ckSnapOne → M 步 → ckRestoreOne → M 步 が保存しなかった走行と同じビット)・A/B の複製(cloneSimState)
+//   wide    回転共変の差の出どころの切り分け(器の中だけの診断 —— エンジンは変えない): 🥞🧇 の build の後に、単精度の配列(場 u・u の履歴・重み和・Δp —— 次に自転・質量・
+//           対距離・半径)を同じ値の Float64Array に差し替えた写しで、回転共変の差が倍精度の丸めへ下がるか(三次元では framePrecision の宣言が無いので器の差し替え)
 //
 // ■ 試走: W324A_QUICK=1(W324A_OUT が要る —— 正本を書かない)。W324A_WORKERS(既定 2 —— flat と pair の行を子プロセスで並走)。
 // ■ 言わないこと: 3D で銀河を表せたと書かない・有限厚は初期の近似(円盤の自己重力を含む平衡ではない)・抽選の後の z の二乗平均は h にならない(切断と再抽選)・
@@ -47,9 +49,9 @@ const clone = (x) => JSON.parse(JSON.stringify(x));
 export const THICK_ID = 'galaxyGeo2Thick3d', TILT_ID = 'galaxyGeo2ThickTilt3d', FLAT_ID = X2.BOOK_ID, GAL2D_ID = X2.GAL2D_ID;
 export const NEW_IDS = Object.freeze([THICK_ID, TILT_ID]);
 export const PLAN = Object.freeze({ dt: 0.016, steps: 12000, mid: 6000, snaps: Object.freeze([600, 6000, 12000]), h2dt: 0.008, h2steps: 24000, h2mid: 12000,
-  an510Disk: 40, an510Steps: 400, flipSpin: 3e-4, capSpin: 39.9999, ckN: 20, ckM: 20, thickH: 8, incl: 30, node: 40 });
+  an510Disk: 40, an510Steps: 400, flipSpin: 3e-4, capSpin: 39.9999, ckN: 20, ckM: 20, thickH: 8, incl: 30, node: 40, wideSteps: 300, wideSnaps: Object.freeze([30, 300]) });
 export const QUICK = Object.freeze({ dt: 0.016, steps: 300, mid: 150, snaps: Object.freeze([30, 150, 300]), h2dt: 0.008, h2steps: 600, h2mid: 300,
-  an510Disk: 12, an510Steps: 60, flipSpin: 3e-4, capSpin: 39.9999, ckN: 6, ckM: 6, thickH: 8, incl: 30, node: 40 });
+  an510Disk: 12, an510Steps: 60, flipSpin: 3e-4, capSpin: 39.9999, ckN: 6, ckM: 6, thickH: 8, incl: 30, node: 40, wideSteps: 30, wideSnaps: Object.freeze([10, 30]) });
 const NOT_CLAIM = ['3D で銀河を表せたと書かない(v−u 則の三次元の步の本 —— 原理の本の機構の値)', '有限厚は初期の近似(円盤の自己重力を含む平衡ではない)',
   '抽選の後の z の二乗平均は h にならない(切断と再抽選)', '外縁の比は実在の銀河の観測の較正ではない', 'h と h/2 は刻みの感度診断(収束の判定に使わない)'];
 const BAND = X2.FROZEN.band;
@@ -334,6 +336,25 @@ export function partCkpt(H, plan) {
   return { rows: out, pass: NEW_IDS.every((id) => out[id].restore.nDiff === 0 && out[id].clone.nDiff === 0 && out[id].zMax > 0 && out[id].uPzMax > 0) };
 }
 
+/* ───────── wide(回転共変の差の出どころ —— 器の中だけの配列の差し替え)───────── */
+export const WIDE_SETS = Object.freeze([
+  ['asIs', '本のまま(場の配列・自転・質量は単精度 —— stateCarry:"double" は位置・速度だけ)', []],
+  ['fields', '場の配列を倍精度に(u・u の履歴・重み和・Δp —— 器の差し替え)', ['uAx', 'uAy', 'uPx', 'uPy', 'uPz', 'sumW', 'dpx', 'dpy']],
+  ['all', '場の配列・自転・質量・対距離・半径を倍精度に(器の差し替え)', ['uAx', 'uAy', 'uPx', 'uPy', 'uPz', 'sumW', 'dpx', 'dpy', 'spin', 'm', 'mEff', 'pairD', 'R']]]);
+function widenOf(S, keys) { let n = 0; for (const k of keys) if (S[k] && S[k].constructor === Float32Array) { S[k] = Float64Array.from(S[k]); n++; } S._g3 = null; return n; }
+export function partWide(HP, plan) {
+  const F = frameOf(plan.incl, plan.node), rows = [];
+  for (const [key, label, keys] of WIDE_SETS) {
+    const A = simOf(HP, bookCopy(HP, THICK_ID)), B = simOf(HP, bookCopy(HP, TILT_ID));
+    const nA = widenOf(A, keys); widenOf(B, keys);
+    const at = [];
+    for (let k = 1; k <= plan.wideSteps; k++) { A.step(FROZEN_DT); B.step(FROZEN_DT); if (plan.wideSnaps.indexOf(k) >= 0) at.push(Object.assign({ steps: k }, covOf(snapOf(A), snapOf(B), F))); }
+    rows.push({ key, label, nWidened: nA, at, fieldType: Object.prototype.toString.call(A.uAx).slice(8, -1), spinType: Object.prototype.toString.call(A.spin).slice(8, -1) });
+  }
+  const end = (r) => r.at[r.at.length - 1], asIs = end(rows[0]), all = end(rows[2]);
+  return { rows, steps: plan.wideSteps, pass: all.posMaxRel < 1e-12 && all.velMaxRel < 1e-12 && all.spinVecMaxRel < 1e-12 && asIs.spinVecMaxRel > 1e3 * all.spinVecMaxRel };
+}
+
 /* ───────── 門 ───────── */
 export function gatesOf(J) {
   const P = J.parts, f = P.flat, a = P.accept, n = P.an510, c = P.ckpt, pr = P.pair;
@@ -341,7 +362,7 @@ export function gatesOf(J) {
   return {
     flatFrozen: !!(f && (J.quick ? true : Object.is(f.row.ratio, X2.FROZEN.ratio))), flatClean: !!(f && f.row.clampVN.concat(f.row.clampSN, f.row.clampRN).every((x) => x === 0) && !f.row.nan),
     accept: !!(a && a.pass), an510Html: !!(n && n.htmlSame), an510Rise: !!(n && n.rise), an510Flip: !!(n && n.flip), an510Cap: !!(n && n.cap), an510CapLedger: !!(n && n.capLedger),
-    ckpt: !!(c && c.pass), pairFinite: rowsOk,
+    ckpt: !!(c && c.pass), wideCov: !!(P.wide && P.wide.pass), pairFinite: rowsOk,
     pairCovInit: !!(pr && pr.cov.thick && pr.cov.thin && [pr.cov.thick.at[0], pr.cov.thin.at[0]].every((r) => r.steps === 0 && r.posMaxRel < 1e-12 && r.velMaxRel < 1e-12)),
     pairRatioInH2: !!(pr && pr.cov.thick && pr.h2.thick && pr.h2.tilt && pr.cov.thick.ratioDiff <= Math.max(pr.h2.thick.diff, pr.h2.tilt.diff)) };
 }
@@ -351,7 +372,7 @@ async function main() {
   const quick = process.env.W324A_QUICK === '1', outRel = process.env.W324A_OUT || OUT_GEO2THICK;
   if (quick && !process.env.W324A_OUT) throw new Error('W324A_QUICK=1 には W324A_OUT が要る(正本を書かない)');
   const plan = quick ? QUICK : PLAN, workers = Math.max(1, Number(process.env.W324A_WORKERS || 2));
-  const parts = String(process.env.W324A_PART || 'flat,accept,an510,ckpt,pair').split(',').filter(Boolean);
+  const parts = String(process.env.W324A_PART || 'flat,accept,an510,ckpt,wide,pair').split(',').filter(Boolean);
   const html = path.join(ROOT, TARGET), targetSha256 = crypto.createHash('sha256').update(fs.readFileSync(html)).digest('hex');
   const HP = loadHtmlMain(html).HP, H = { HP, evalExpr: (code) => vm.runInThisContext(code) };   // 主の文脈(最上位の const は runInThisContext で読む)
   const outAbs = path.isAbsolute(outRel) ? outRel : path.join(ROOT, outRel);
@@ -367,12 +388,12 @@ async function main() {
   if (parts.includes('pair')) for (const k of ['thick', 'tilt', 'thin', 'thinTilt']) heavy.push(['pair', k]);
   const th = Date.now();
   const heavyP = (workers >= 2 && heavy.length) ? runRows(HP, plan, quick, workers, heavy) : null;
-  const RUN = { accept: () => partAccept(H, plan), an510: () => partAN510(HP, plan), ckpt: () => partCkpt(H, plan) };
+  const RUN = { accept: () => partAccept(H, plan), an510: () => partAN510(HP, plan), ckpt: () => partCkpt(H, plan), wide: () => partWide(HP, plan) };
   for (const k of parts) { if (!RUN[k]) continue; const t = Date.now(); out.parts[k] = await RUN[k](); timing[k] = { wallSec: (Date.now() - t) / 1000 }; console.log(new Date().toISOString().slice(11, 19), 'part', k, timing[k].wallSec + ' s'); }
   const heavyRows = heavyP ? await heavyP : (heavy.length ? await runRows(HP, plan, quick, 1, heavy) : []);
   timing.heavy = { wallSec: (Date.now() - th) / 1000 };
   if (parts.includes('flat')) { const r = heavyRows.find((x) => x.kind === undefined); out.parts.flat = { row: r, frozen: clone(X2.FROZEN), sameAsFrozen: quick ? null : Object.is(r.ratio, X2.FROZEN.ratio) }; timing.flat = { wallSec: r.wallSec }; }
-  if (parts.includes('pair')) { const rs = heavyRows.filter((x) => x.kind); out.parts.pair = partPairOf(rs, plan); timing.pair = { wallSec: Math.max(...rs.map((r) => r.wallSec)), rows: Object.fromEntries(rs.map((r) => [r.kind, r.wallSec])) }; }
+  if (parts.includes('pair')) { const rs = heavyRows.filter((x) => x.kind); out.parts.pair = partPairOf(rs, plan); timing.pair = { wallSec: Math.max(...rs.map((r) => r.wallSec)) }; }
   out.timing = timing; out.elapsedS = (Date.now() - t0) / 1000;
   out.gates = gatesOf(out); out.ok = Object.values(out.gates).every(Boolean);
   const CODE = ['tests/exp-w324a-geo2thick.mjs', 'tests/exp-w322a-geo2flat.mjs', 'tests/lib-w321a-geo2v3.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
