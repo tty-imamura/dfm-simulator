@@ -42364,6 +42364,77 @@ balance:"background" の受理の正準形は第319便a のまま(真)・版 w32
 
 **⑦ ゲート 1 の停止・原仮定者の回答(2026-11-01 —— AN519)・原仮定者の指示(2026-11-01)。** ゲート 1 の beta フルは 1347/1350 で止まった —— (a) 鎖 1 の段 htmlagg が SAMPLE_STATUS の 🫓 の行を html に書いたので、鎖の最初の段(calaudit)の刻印が今の html と違った 2 件(lint.calauditMergeKeyHash・ui.assessedValuePanel —— 統括が鎖 1 の前に samplestatus の冪等を確かめなかった)、(b) 検証サンプル ♊⚖️ が c₀ = 30 一律規約(light.canonical-builtins —— 第99/100便の裁定)の外(第321便b の玩具の写しで c = 10)。原仮定者の回答(AN519)「c₀=30 に直す」→ 第322便e で 2 本を c₀ = 30 へ(従属の宣言は X_k = 1/900 だけ —— 〔第322便b〕の「第322便e の更新」)。原仮定者の指示「光速の規約に合わせて直す」「今後は、すぐに確認可能な規約を先に判定する」「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」を本便で次のように使った: 鎖 2 の前に**規約の速い判定**(c₀ の規約・段の分類・全内蔵の受理 —— html を Node で読んで数秒)と samplestatus の冪等を確かめてから起動・鎖 2 は計画のとおり(走った 98 段・依存の段は上流の後に自分の判定 —— 上流の安定 hash が同じで再利用 62 段・1 h 20 min —— 鎖 1 の 196 段・6 h 54 min の約 1/5)・ゲート 2 は beta フル 1349/1350(文書の書式の 1 か所〔lint.kappaSymbol315〕を直して部分 QA 1/1 —— beta フルは繰り返さない)・root フル 944/944・perf 21/21(再走)。light.canonical-builtins と preset.scale-tier は部分 QA(qapart)では走らない鍵(〔第322便d〕の 56 鍵 —— 列 0 の if の中)だった —— 枝 b の部分 QA に入らなかった理由。次便の候補: 規約の速い判定を統合の直後の手順に常設(qapart で走らない鍵の直しと一緒に)・サンプルだけの変更で鎖が広がらない道具(領域の宣言の無い段に宣言・常時群の出力を本ごとに安定化 —— ⑥ の簡易一致と合わせて)。検証サンプル ♊⚖️ の画面の刻み(c₀ = 30 では刻み P/360 の積分の誤差がこの本の寄与より大きく、トレイルの近点は逆向きに回る —— 本の文はそのとおり)は決断事項 AN520。
 
+〔第323便a — QA の道具: 規約の速い判定の常設(`tools/conventions-check.mjs`・post-merge の ⓪)・部分 QA(qapart)の「要求した鍵が走らなくても成功」の直し・部分 QA で走らなかった 56 鍵(統括の検証項目 R275 —— 原仮定者の指示(2026-11-01)「今後は、すぐに確認可能な規約を先に判定する」)(**html・本の宣言・エンジン・鎖の段の宣言は変えない** —— beta/index.html と root の index.html は 1 byte も変えない・器と正本も変えない)〕
+
+**① 原仮定者の指示(2026-11-01)と本節の答え。**
+- 「今後は、すぐに確認可能な規約を先に判定する」 —— 第322便は ♊⚖️(三次元の連星の検証サンプル 2 本)の c₀ = 10(c₀ = 30 一律規約の外)を、7 時間の鎖の後のゲートで初めて見つけた。その QA `light.canonical-builtins` は tests/qa.mjs の列 0 の `if (!FAST) {` の中にあり(〔第322便d〕の言う「列 0 の if の中」の鍵)、統合の直後の部分 QA では走らなかった。**答え**: 規約の速い判定 `tools/conventions-check.mjs` を常設し、統合の直後(`tools/post-merge-qa.sh` の ⓪ —— NG なら ① 以降を走らせない)と鎖の起動の前(`--samplestatus`)に数秒で回す(②)。第322便の c₀ = 10 の版 2fd84b4 の beta では 0.5 s で 2 本を落とす(**表 2**)。
+- 「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」 —— 本節の分は前段: 部分 QA が**要求した鍵を本当に走らせたか**を数える(③)。全段を回さずに部分 QA で見る範囲を広げるには、部分 QA の「成功」が走った鍵の成功でなければならない。再生成の段の半減(β の簡易一致と輪番)は枝 b・c の節。
+- 部分 QA の穴: qapart(`tests/exp-w258c-qapart.mjs`)の走行の本文の終わりは `results.every((r) => r.pass)` だけで、**要求した鍵が 1 本も走らなくても ALL PASS・rc 0**(空の配列で真)。第322便のゲートの後の root の部分 QA の束は「PASS 0・FAIL 0 → ALL PASS」だった(beta 線のブロックが root で SKIP —— SKIP は結果に入らない)。
+
+**② 規約の速い判定 `tools/conventions-check.mjs`(版 w323a-conventions-1)。** html を Node で読み(子プロセスごとに 1 本 —— 同じプロセスで 2 つ目の html を読まない)、対象ごとに:
+- ① **c₀ の規約**: 全内蔵が physics.cLight = 30 か、自分の scaleExp(無ければ段のアンカー SCALE_ANCHORS)の指数で実 c(3×10⁸ m/s)の ±1%(QA `light.canonical-builtins` と同じ式 —— 7 分類の世代だけ・physics を省いた本の既定値のマージも c₀ = 30)。
+- ② **段の分類**: 全内蔵の scaleTier が SCALE_TIERS のどれかで、全段が空でない(QA `preset.scale-tier` と同じ式)。③ **全内蔵の受理**: HP.validatePreset の拒否 0(警告のある本の数は情報)。
+- ④ **X_k = G_0/c_0²(鍵 kappaT)**: html の判定関数 physLockAutoOnOf で満たす本・満たさない本の数と理由の内訳を**情報**として出す(規約ではない —— 満たさない本は一般化トイの設定として正当・FAIL にしない)。今の beta は満たす 90・満たさない 92(理由 mismatch 61・gZeroXNonZero 31)—— 〔第315便a〕の器の数(読込で ON 90・OFF 92)と同じ。
+- ⑤ **`--samplestatus`**(beta だけ): samplestatus の器を `REGEN_HTML_STAGE` を一時の置き場にして走らせ(html を直に書かない)、器の印字 htmlChanged:false を確かめる。器が書く正本 `tests/out/samplestatus-w279a.json` と一覧 `docs/SAMPLE_STATUS.md` は**走る前の bytes に戻す**(前後の git status も照らす —— 作業ツリーを汚さない)。生成領域を 1 字だけ変えた写しでは htmlChanged:true で NG(戻した後の html は基点と同じ bytes)。
+- **式の共有**: qa.mjs の既存のブロックは変えないので、式は道具へ写した(`cRuleBad`・`tierOf`・`defaultCOf`)。走るたびに qa.mjs の該当ブロックから式の本文を引き(`qaFormulaOf`)、**文字(コメントと空白を除く)と値(全内蔵 182 + 合成の変異 240 の 422 例)**で照らす —— 食い違えば終了コード 2(片方だけ直る型を防ぐ)。
+- 終了コード 0(通る)/ 1(規約の外・冪等でない・器が落ちた・木が汚れた)/ 2(使い方・html が読めない・qa.mjs の式が引けないか食い違う)。post-merge の ⓪ は beta と root で回す(`--samplestatus` は付けない —— 統合の直後は生成領域の作り直しが鎖の段にある)。
+
+**表 2 —— 規約の判定の所要と結果(混まない時間帯の 1 回 —— 他の枝と並走の箱)**
+
+| 対象 | 内蔵 | ① c₀ の外 | ② 未分類 | ③ 拒否・警告 | ④ X_k = G_0/c_0²(情報) | 式の照合 | 所要(全体) | 結果 |
+|---|---|---|---|---|---|---|---|---|
+| 今の beta(bff6711) | 182 | 0 | 0 | 0・0 | 満たす 90・満たさない 92 | 422 例で一致 | 0.5 s(1 本)・1.0 s(beta と root) | rc 0 |
+| 今の root(v1.46.0) | 176 | 0 | 0 | 0・0 | 満たす 85・満たさない 91 | 416 例で一致 | 同上 | rc 0 |
+| 2fd84b4 の beta(第322便の c₀ = 10 の版) | 182 | **2**(♊ binaryCheckEqualInertial3d・⚖️ binaryCheckRatio3Inertial3d —— c₀ = 10・段 stellar) | 0 | 0・0 | 満たす 90・満たさない 92 | 422 例で一致 | 0.5 s | **rc 1** |
+| `--samplestatus`(今の beta) | —— | —— | —— | —— | —— | —— | 2.0 s(器 1.6 s) | rc 0(htmlChanged:false・戻した 2 ファイル・木は前後で同じ) |
+| `--samplestatus`(生成領域を 1 字変えた写し) | —— | —— | —— | —— | —— | —— | 2.1 s | **rc 1**(htmlChanged:true) |
+| `--self-test` | 182 | 変異で 2 本 | 変異で 1 本 | —— | —— | 文字 4/4・値 422 例 | 0.5 s | OK |
+
+**③ qapart の要求した鍵の照合(lib `tests/lib-w322d-qapart.mjs` 版 w323a-qapart-2・分類 w323a-qapart-summary-1 —— `classifyRequested`)。**
+- 走行の終わりに、要求した鍵 ID の集合と結果の ID の集合を照らす。結果に無い鍵は、走行中に出た `SKIP …`・`RETIRED …` の行が名指せば **SKIP**(PASS に数えない)、名指さなければ **未実行**(`FAIL <id>  未実行 —— Requested QA did not execute in qapart` を印字して FAIL として数える)。同じ対象の保存のフル QA(`tests/out/qa-results-full-beta.json`・`qa-results-full.json`)にもその鍵の行が無ければ「この対象では走らない鍵の型 —— 対象を変えて引く」と注記する(数え方は変えない)。
+- 終わりの行は「要求した鍵 N: PASS n・FAIL n・SKIP n・未実行 n(同じ範囲の他の鍵 PASS・FAIL)」。終了コードは FAIL・未実行・同じ範囲の他の鍵の FAIL・範囲の例外のどれかで 1。**SKIP だけなら 0**(root で beta 線のブロックが SKIP するのは正常 —— 見出しは「SKIP ONLY(走った鍵 0 —— PASS に数えない)」で ALL PASS と書かない)・`--strict-skip` で SKIP も 1・要求した鍵 0 は 1。`--batch` の要約も同じ 4 つの数(子の `# qapart-summary {…}` の行を足す —— 行が無い束〔子が落ちた〕は要求した鍵を全部未実行に数える)。
+- **SKIP の名指しの型の決め方**: tests/qa.mjs の SKIP・RETIRED の印字を数えた —— 印字 704(SKIP 702・RETIRED 2)。行の語(英数字と `_ $ . -` の続き)が鍵と同じ型で自分のブロックの鍵を名指すもの 691(うち 2 鍵以上を並べる 125 —— `第NN便系(<id> / …)` の 8 を含む)・`<接頭>.*`・`<接頭>-*`・`<接頭>.` の語の接頭の型だけで名指すもの 11(geo2.*・behavior.*・ui.54d-*・ice. ほか)・走行時の文字(`'SKIP ' + id`)1・動的な鍵の接頭(shot.regress-*)1。よって規則は「語の一致、または `*` か `.` で終わる語(`.` を含む)の接頭」(`*` 単独で全部を覆わない)。QA `lint.qapartRequested323` ④ がこの数え上げを毎回見る(名指せない印字が 2 を超えたら FAIL)。
+- 範囲ごとに try/catch で包む(範囲の例外は `# qapart(第323便a): 範囲 a-b が例外で止まった` と印字 —— その範囲の鍵は未実行・後の範囲は走り続ける)。旧の器は範囲の例外で走行ごと落ち、終わりの行も出なかった(**表 3** の s4 の旧の側)。走行の本文が包みの外で落ちたときも親が分類の行を出して終了コード 1。W5c のワーカープール `w5cGetUnit` は前文に「呼べば例外」の代わりを置く(ReferenceError でなく理由のある例外 —— その範囲の鍵は未実行)。
+
+**④ 部分 QA で走らなかった 56 鍵の直し(lib の qaSpanner)。**
+- **範囲の取り直し**: 従来の検索(add の行から列 0 の `{` まで遡る)の範囲が add の行を含まない鍵は、**その add の行を含む列 0 の最上位の文**(`tests/lib-w279b-qaorder.mjs` splitTopLevel の 1 単位 —— 列 0 のブロックは入れ子にならないので、これが最も内側の列 0 のブロック)を切り出す(上の列 0 のコメントの行を含む)。従来の範囲が add の行を含む鍵は範囲も本文も変えない(表 3)。今の qa.mjs で列 0 の最上位の文で切り出す鍵 45・範囲が add の行を含まない鍵 0。
+- **上流の宣言の閉包**: 範囲が読む最上位の名前のうち前文に無いもの(範囲より前の const・関数宣言)を、**qa.mjs の文をそのまま**前文へ写す(写した宣言が読む名前も同じ規則で辿る —— 例 hasSat240 → satTotN)。写さない宣言: let/var(フル QA の途中で書き換わる)・W5b の関数・add(…) を呼ぶ宣言・w5cGetUnit / w5bRun を読む宣言。〔第322便d〕の局所の同名の判定(`\(\s*名\s*[,)=]` を引数と見なす型)は `if (hasX) {` のガードの旗を見落とすので、写す側では使わない(局所に同名があれば局所の宣言が隠すだけ)。
+- **第322便d の数え上げの外の 11 鍵**: 上の見落としで「範囲が上流の名前を読まない」と数えられていた鍵のうち、範囲が上流の旗を読む 11 鍵(integrator.default-unchanged —— hasE6Acc・hasSat240・perf.convection-timescale・perf.rail-indices・perf.trail-cap・perf.draw-radius-uncapped —— hasEchoFlipAt・radius.default-one・rmul.schema・sweep.auto-monotonic・sweep.auto-physlock・sweep.numeric-unchanged —— hasE6Acc・behavior.starcore —— hasStarcore)。旧の器では ReferenceError で範囲が止まる型(表 3 の s6)—— 本節の閉包で前文に写る。
+- `tools/qa-keys.mjs` は範囲と上流の名前の判定を lib(qaSpanner・upstreamOf)に揃えた(判定の世代 `QA_KEYS_W323A` = w323a-qa-keys-2 —— 版の定数 QA_KEYS_VERSION は QA docs.w322d が固定するので据え置き)。今の qa.mjs(鍵 1140)で**外す鍵 94 → 43**(上流の名前 11・add の行を含まない 45・w5cGetUnit 38 → w5cGetUnit 43 だけ)・版名を読む範囲で外す鍵 10 → 7・選ぶ鍵 238 → 240(version.sw-sync・release.no-beta-identifiers —— 〔第322便d〕の「部分 QA で走らない 2」)。
+
+**表 1 —— 56 鍵の内訳(qapart --batch 12 で beta と root —— 他の枝と並走の箱・beta 1 分 27 秒・root 1 分 15 秒)**
+
+| 〔第322便d〕の型 | 鍵の数 | 本節の扱い | beta | root | 鍵 |
+|---|---|---|---|---|---|
+| 列 0 の if/for の中・最上位の文 | 37 | 直って走る | PASS | PASS | i18n.claim-sync・badge.classify・badge.no-hscroll・badge.tint・preset.scale-tier・**light.canonical-builtins**・scale.display-invariant・ai.scale-templates・`if (!FAST)` の 2 ブロックの 20 鍵(claim.nebularotor-contrast … dimming.dynamics-invariant)・geo2.kf0-bitequal・geo2.comoving・geo2.conservation・behavior.mercury-builtin・ui.aitab-no-hscroll・import.distinct-topkeys・save.dedup-box・ui.sweep-auto-checkbox・page.no-errors |
+| 同上 | 1 | 直って走る | PASS | SKIP(beta 線) | behavior.calauditBudgetTable |
+| 同上 | 2 | 直って走る(root だけの鍵) | 未実行(保存のフル QA の beta にも行が無い —— この対象では走らない) | PASS | version.sw-sync・release.no-beta-identifiers |
+| 同上 | 4 | **外す**(範囲が w5cGetUnit を読む) | 未実行 | 未実行 | claim.galaxy-outerboost・behavior.saturn・behavior.convection・behavior.collapse-cooling |
+| 同上 | 1 | **外す**(範囲が w5cGetUnit を読む —— 走れば退役の枝) | SKIP(RETIRED) | SKIP(RETIRED) | behavior.darkrotor-multiseed |
+| 上流の名前 | 8 | 直って走る(前文に hasE6Acc・hasEchoFlipAt・satTotN・hasSat240) | PASS | PASS | conservation.float32-range・conservation.float32-canary・draft.box-restore・tint.schema・tint.zero-cost・tint.migrated・tint.latent-heat・tint.microspin-alias |
+| 同上 | 3 | 直って走る(前文に getBrowser) | PASS | SKIP(beta 線) | lint.qaEnvVersions・lint.chainAggregate・lint.pn1RegionDecl |
+
+計: 直って走る 51(beta で PASS 49・root で PASS 47)・理由つきの SKIP(root で beta 線のブロック 4・🕶️ の退役 1)・外す 5(W5c の範囲 —— フル QA が見る)。FAIL 0。**部分 QA の通過数はフル QA の被覆ではない**(選んだ範囲だけ —— ページの上流の状態〔前のブロックが読んだ本・ページの言語〕はフル QA の順と違いうる)。
+
+**表 3 —— 切り出しの前後の照合(旧 = 基点 bff6711 の器と lib・新 = 本節。同じ qa.mjs・同じ箱 —— 旧と新を .git の無い同じ形の symlink の木から交互に走らせた)**
+
+| 組 | 対象 | 鍵 | 旧 → 新(結果の行の id と PASS/FAIL) | detail | 旧の終わりの行 → 新の終わりの行 |
+|---|---|---|---|---|---|
+| 静的(全鍵) | —— | 1156(add の静的な id) | 従来の範囲が add の行を含む 1111 鍵で**範囲・本文(包みの行を除く)・世代定数の前文がすべて同じ**(違い 0)・残り 45 鍵が新の範囲 | —— | —— |
+| s1 | beta | qapart の既定の 6 鍵 | 6 行 → 6 行(同じ・PASS 6) | behavior.spaceMeshGrid の ⑨ 1 フレームの ms(壁時計の実測)だけ違う・他は同じ | `ALL PASS (6/6)` → `ALL PASS (6/6) —— 要求した鍵 6: PASS 6・FAIL 0・SKIP 0・未実行 0` |
+| s2 | beta | post-merge の常設集合 9 鍵 | 17 行 → 17 行(同じ・PASS 16・FAIL 1 —— lint.provenanceMeta の刻印の型〔鎖で直る〕は旧と新で同じ) | 同じ | `FAILED (16/17)` → `… 要求した鍵 9: PASS 8・FAIL 1・SKIP 0・未実行 0(同じ範囲の他の鍵 PASS 8)` |
+| s3 | beta | post-merge の PHYS_SCAN_IDS 9 鍵 | 18 行 → 18 行(同じ・PASS 17・FAIL 1 —— 同じ範囲の behavior.ref3d299 が symlink の木では器の出力を読めない〔旧と新で同じ —— 木の都合〕) | 同じ | `FAILED (17/18)` → `… PASS 9・FAIL 0・SKIP 0・未実行 0(同じ範囲の他の鍵 PASS 8・FAIL 1)` |
+| s4 | beta | version.sync・docs.nsLockBranch・lint.harnessSmoke303・docs.w321d・docs.w322d・lint.postMergeQaScript | 6 行 → 7 行(旧で出た 6 行は同じ) | 同じ | 旧は docs.w322d の範囲の例外(旧の木に新の qa-keys と旧の lib —— 比較の木の都合)で**走行ごと落ち、終わりの行なし・rc 1** → 新は PASS 7・rc 0 |
+| s5 | root | post-merge の常設集合 9 鍵 | 14 行 → 14 行(同じ・PASS 13・FAIL 1 —— lint.provenanceMeta は旧と新で同じ)・SKIP の行 2 → 2 | 同じ | `FAILED (13/14)` → `… 要求した鍵 9: PASS 6・FAIL 1・SKIP 2・未実行 0(同じ範囲の他の鍵 PASS 7)` |
+| s6 | beta | 第322便d の数え上げの外の 4 鍵(behavior.starcore・integrator.default-unchanged・sweep.auto-monotonic・radius.default-one) | 0 行 → 6 行 | —— | 旧は `ReferenceError: hasSat240 is not defined` で**走行ごと落ちた(終わりの行なし・rc 1)** → 新は PASS 3・SKIP 1(behavior.starcore —— beta に ☀️starcore が無い SKIP の行)・rc 0 |
+
+**⑤ QA と文書。**
+- `lint.conventionsCheck323`(beta だけ): ① `--self-test`(子プロセス —— 式の文字と値の照合・♊⚖️ を c₀ = 10 にした変異で 2 本を落とす・実 c の窓 ±1%・段の未分類)② 今の対象で `--target --json` が rc 0(内蔵の数がページと同じ・c₀ の外 0・未分類 0・拒否 0・④ は情報)③ post-merge の ⓪ が ① の前・NG で exit 1・最後の行に ⓪ ④ tools/README の 1 行。
+- `lint.qapartRequested323`(beta だけ): ① 分類の缶詰(PASS / FAIL / SKIP / 未実行・名指しの型 9 例・`--strict-skip`・要求した鍵 0・範囲の例外・保存のフル QA の注記)② `--emit` の本文に要求した鍵の照合の行・範囲の包み・W5c の代わりがあり、旧の終わりの判定が無い・`node --check` が通る ③ 列 0 の if の中の鍵 4 本と上流の宣言(getBrowser・hasE6Acc・satTotN・hasSat240・hasBadgeClassify)が本文に入る・今の qa.mjs で範囲が add の行を含まない鍵 0・写せない上流の名前は w5cGetUnit だけ ④ SKIP の印字の数え上げ。
+- `docs.w323a`: 本節(〔第322便 — 統括〕の後・「## 7.」の前)・AI_SPEC §167・CHANGELOG の beta 節の 1 行・tools/README の節・書かない語・禁句・裸の係数記号。post-merge の ③′ に 3 本と docs.w322d・lint.postMergeQaScript・lint.sectionLookup313。
+
+**⑥ 言わないこと。** 「規約の判定が通ればゲートが通る」(規約の判定は数秒で見られる規約だけ —— ゲートのフル QA の代わりではない)。「X_k = G_0/c_0² を満たさない本は誤り」(④ は情報)。「部分 QA の通過数はフルの被覆」。「外した 5 鍵は部分 QA で見た」(W5c の範囲はフル QA が見る)。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

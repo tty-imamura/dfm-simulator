@@ -86,7 +86,8 @@ function runQapart(root, ids, env) {
   const r = spawnSync(process.execPath, [path.join(root, 'tests', 'exp-w258c-qapart.mjs'), ...ids], { cwd: root, env, encoding: 'utf8', maxBuffer: 1 << 28 });
   const text = (r.stdout || '') + '\n' + (r.stderr || '');
   const res = new Map();
-  for (const m of text.matchAll(/^(PASS|FAIL) (\S+)(.*)$/gm)) res.set(m[2], { pass: m[1] === 'PASS', detail: (m[3] || '').trim().slice(0, 600) });
+  // 第323便a: qapart は要求した鍵の未実行を `FAIL <id>  未実行 —— Requested QA did not execute in qapart` と印字する —— 従来どおり「結果の無い鍵」として扱う(1 本ずつ回し直し、それでも無ければ未実行)
+  for (const m of text.matchAll(/^(PASS|FAIL) (\S+)(.*)$/gm)) if (!/^\s*未実行 —— Requested QA did not execute in qapart/.test(m[3] || '')) res.set(m[2], { pass: m[1] === 'PASS', detail: (m[3] || '').trim().slice(0, 600) });
   const err = (r.stderr || '').split('\n').find((l) => /Error|Exception/.test(l)) || null;
   return { rc: r.status, res, err, text };
 }
