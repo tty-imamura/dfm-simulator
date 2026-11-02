@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第301便a",
   "target": "beta/index.html",
-  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-  "generatedAt": "2026-11-01T21:01:04.658Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-02T23:30:45.055Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7491601,
-    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-    "mtime": "2026-11-01T20:25:22.344Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -118,11 +118,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1352,
-   "segments": 1190,
-   "closureShare": 0.3031
+   "names": 1395,
+   "segments": 1221,
+   "closureShare": 0.304
   },
-  "scopeSha256": "36ff68317a0f5fbe7d8c08c0ae340815327abd88362ccc5ab0c40c8ed4bb80ac",
+  "scopeSha256": "785dcf77ed54b1c1504359632fa321c36182c1f848622dc987552c6c196456b4",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -716,6 +716,52 @@
    "regime": "gain0"
   },
   {
+   "id": "alphaCenABInertial3dJ",
+   "emoji": "🔸",
+   "retired": false,
+   "gain": 0,
+   "eps": 0.05,
+   "n": 2,
+   "dt": 6.99194,
+   "steps": 2000,
+   "every": 20,
+   "samples": 202,
+   "sumWMed": 2.6669706548454977e-7,
+   "sumWMax": 0.000004551568872760059,
+   "Wbg": null,
+   "WbgSI": null,
+   "Cd": null,
+   "xMed": 0,
+   "xMax": 0,
+   "Wcos": 4.2520809372073083e-23,
+   "xCosMed": 6272154021125282,
+   "nan": false,
+   "regime": "gain0"
+  },
+  {
+   "id": "psrDoubleABInertial3d",
+   "emoji": "📟",
+   "retired": false,
+   "gain": 0,
+   "eps": 0.05,
+   "n": 2,
+   "dt": 2.45404,
+   "steps": 2000,
+   "every": 20,
+   "samples": 202,
+   "sumWMed": 0.000003752566980374029,
+   "sumWMax": 0.0000051574480031469066,
+   "Wbg": null,
+   "WbgSI": null,
+   "Cd": null,
+   "xMed": 0,
+   "xMax": 0,
+   "Wcos": 5.239708334128227e-33,
+   "xCosMed": 7.161786002346968e+26,
+   "nan": false,
+   "regime": "gain0"
+  },
+  {
    "id": "inertialDragPair",
    "emoji": "🐌",
    "retired": false,
@@ -1103,5 +1149,5 @@
   "cosmicNoPrecession": true
  },
  "ok": true,
- "elapsedS": 105.765
+ "elapsedS": 99.334
 }
