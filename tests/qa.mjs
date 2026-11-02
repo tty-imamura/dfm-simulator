@@ -13935,6 +13935,11 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
       // 許容警告の正規値(ここに載っていない警告が1件でも出たら FAIL — 検査を緩めた副作用の
       // 検出器)。第83便D で W1/W2 とも根本解消したため**空**= 内蔵の警告は0件が正規値
       const OKW = [];
+      // ==== 第324便b の塊(ここから)====
+      // 第324便b(R280・AN404 の型): 📟 psrDoubleABInertial3d(中性子星の K1 の規則の本 —— 規則の R_d = Y_k m が観測半径の約 2 倍)の受理の警告「規則の引きずりの半径 … を超える」は
+      //   AN404 の設計どおりの 1 行(受理して警告)。種類を固定して許す(本と行の数は behavior.obsSpin324b ② が 📟 の 2 行だけと照合)
+      OKW.push(/^bodies\[\d+\] の規則の引きずりの半径.Y_k m. R_d = \S+ が観測半径 R = \S+ を超える/);
+      // ==== 第324便b の塊(ここまで)====
       const ng = [], unexpected = [], kinds = OKW.map(() => 0);
       let total = 0;
       for (const p of HP.allPresets()) {
