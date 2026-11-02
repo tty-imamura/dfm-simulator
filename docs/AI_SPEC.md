@@ -4501,6 +4501,15 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **部分 QA で走らなかった鍵**: 列 0 の `if (…) {`・`for (…) {` の中の鍵と最上位の文の鍵は、その add の行を含む列 0 の最上位の文を切り出す。範囲が読む上流の最上位の const・関数宣言(ガードの旗・getBrowser など)は前文へ写す。写せないのは W5c のワーカープール(w5cGetUnit)を読む範囲だけ(フル QA が見る)。
 - これらは開発の道具で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。部分 QA の通過数はフル QA の被覆ではない。
 
+## 168. 第323便b —— 再生成の計画: 順序だけの依存で再判定を広げない・gate の速い判定と行だけの `--gate`・簡易一致確認の影・窓の出力の指紋の記録・来歴 `meta.verify` の受理の口(原仮定者の指示(2026-11-01)・決断事項 AN517・AN518・統括の検証項目 R276・**html・本の宣言・エンジン・段の行・器の領域の宣言は不変** —— 道具と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
+
+- **順序だけの依存**: 再生成表の after の辺を data / html / order に機械で分ける(`tests/lib-w281a-regentable.mjs` の afterDepKinds —— 版 w323b-afterkind-1・段の `afterOrderOnly` / `afterData` で手で上書き)。計画(`tools/regen-plan.mjs`)は順序だけの辺で recheck を広げない(その段は reuse のまま hold —— 鎖では gate のまま)。第322便の鎖 2 の場面で recheck 75 → 14。
+- **gate の速い判定**: 鎖の gate は、計画の自分の判定が reuse・html が計画の sha のまま・データの上流が 1 つも走っていない なら `--gate` を呼ばずに再利用する(同じ答え —— `REGEN_FASTGATE=0` で毎回 `--gate`)。`--gate <段>` はその段の行だけを引く(`--gate-full` で全段)。
+- **簡易一致確認の影**(判定だけ —— 本便の鎖はフル): `tests/lib-w323b-quick.mjs` の quickShadow が、理由が「領域」だけの段のうち 簡易一致を使わない段(常時群・較正の判定・html を書く段・`quickVerify:false`・`quickVerify:'long'` と步の関数か受理器か `S._core` の変わった便)でなく・簡易の窓と指紋の記録があり・K 便以内(K = 3)・root 昇格の便でない段を候補にし、輪番で ceil(n/K) 段をフルへ回す影の表を出す。
+- **窓の指紋の記録**: `node tools/harness-smoke.mjs --fingerprint tests/data-w323b-quickfp.json`(鎖の後に 1 回・コミットする作業記録 —— 正本ではない)。次の便の影の照合は `node tools/regen-plan.mjs --shadow-compare <前の記録>`(誤判定 = 窓が同じなのに物理の値が違った段 —— 門 0)。
+- **来歴 `meta.verify`**(本運用の便から): β は形を照合して受理・root は quick を拒否(root 昇格の便は全段フル)。本便の正本は verify を持たない。
+- これらは開発の道具で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
+
 ## 170. 第323便d —— 較正の行の安定した id(読込の互換 —— 決断事項 AN428 ①)・部分の再検査の補足の記録(統括の検証項目 R278・原仮定者の指示(2026-11-01)「サンプルの変更だけでは、全行程を再実行しない様にする」・**html・本の宣言・エンジン・検定器と QA の判定の鍵は不変** —— 器と lib と道具と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
 
 - **行の安定した id**(`rowId`): 判定器の正本(`tests/out/calaudit-w249.json`)の量の行は、行名(観測結果カードの行名そのまま)に加えて `rowId` を持つ。来歴の語を含む行名(在位と退役の較正の本 16 本の 33 行)は表 `LEGACY_ROW_IDS`(`tests/lib-w323d-rowids.mjs` —— 版 w323d-rowids-1)の読める id(例 `mercuryReal/perihelion-advance`)、それ以外は本の id と行名の hash から導いた id(`<本>/q-<12 桁>`)。正本の要約 `rowIds` に数と出どころがある。

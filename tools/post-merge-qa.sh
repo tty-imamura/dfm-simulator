@@ -527,6 +527,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.w322d docs.nsLockBranch docs.binlockAxi
 #   PHYSICS の節の lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.conventionsCheck323 lint.qapartRequested323 docs.w323a docs.w322d lint.postMergeQaScript lint.sectionLookup313"
 # ==== 第323便a の塊(ここまで)====
+# ==== 第323便b の塊(ここから)====
+# 第323便b(原仮定者の指示(2026-11-01)・決断事項 AN517/AN518・R276): 枝 b の新設 3 本(lint.regenQuick323 —— 簡易一致確認の影の規則・窓の指紋・来歴 meta.verify の受理・記録の形 /
+#   lint.regenOrderOnly323 —— 順序だけの依存・gate の速い判定・行だけの --gate / docs.w323b —— 文書)と、受理の口を足した lint.provenanceMeta・lint.canon304・lint.regenScope・
+#   計画と鎖の関数を変えた lint.regenChain・lint.regenStableHash・lint.chainAggregate・lint.readyQueue311・lint.byproducts320・煙試験の道具の lint.harnessSmoke303・lint.harnessSmoke304・
+#   違反の種類の lint.violationKinds320(lint の本文の刻印の型の文)・lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.regenQuick323 lint.regenOrderOnly323 docs.w323b lint.provenanceMeta lint.canon304 lint.regenScope lint.regenChain lint.regenStableHash lint.chainAggregate lint.readyQueue311 lint.byproducts320 lint.harnessSmoke303 lint.harnessSmoke304 lint.violationKinds320 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第323便b の塊(ここまで)====
 # ==== 第323便d の塊(ここから)====
 # 第323便d(決断事項 AN428 ①・統括の検証項目 R278): 枝 d の新設 3 本(lint.provenanceIds323 —— 較正の行の安定した id の表の被覆・正本の rowId・判定の値の記録との照合 /
 #   lint.qaRecheck323 —— 部分の再検査の補足の記録と samplestatus の口 / docs.w323d —— 文書)と、器 calaudit・samplestatus の正本を読む QA(行に rowId と要約 rowIds が足された

@@ -2123,6 +2123,7 @@ lastAddAt = Date.now();
     const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
     const HIST = new Set(RT.historyOuts());
     PV = P.PROVENANCE_VERSION;
+    const QV323 = await import('file://' + path.join(ROOT, 'tests', 'lib-w323b-quick.mjs')).catch(() => null);   // 第323便b(AN517/AN518): 来歴 meta.verify の受理
     const CANON = ['tests/out/bh90-w269c.json', 'tests/out/sparc-w269c.json',
       'tests/out/cluster-w269d.json', 'tests/out/galaxydiag-w271d.json',
       'tests/out/qsplit-w271c.json', 'tests/out/j1946adopt-w270c.json',
@@ -2545,6 +2546,9 @@ lastAddAt = Date.now();
       r.target = m.target || null;
       // 第281便a: 履歴の正本は ①⑤ の形だけ(②③④ は生成当時の記録として固定)
       r.history = HIST.has(rel) || m.role === 'history';
+      // 第323便b(決断事項 AN517/AN518・R276): 来歴 meta.verify(簡易一致で済ませた正本 —— 本運用の便から)—— β は形を照合して受理・root は quick を拒否
+      //   (root 昇格の便は全段フル)。本便の正本は verify を持たない(判定は変わらない —— 受理と拒否は QA lint.regenQuick323 の自己試験)
+      if (QV323 && m.verify !== undefined) for (const v of QV323.verifyViolations(m, { target: TARGET.startsWith('beta/') ? 'beta' : 'root', file: rel })) bad.push('⑥' + v);
       if (r.history) {
         if (!HEX64.test(String(m.targetSha256 || ''))) bad.push(`②${rel}(履歴)の targetSha256(64 桁)が無い`);
         if (m.role === 'history' && m.frozen !== true) bad.push(`①${rel}(履歴)に frozen:true が無い`);
@@ -2719,6 +2723,24 @@ lastAddAt = Date.now();
       const HJ = readJ('tests/out/charon-history-w272b.json') || {};
       if (!HJ.meta || HJ.meta.role !== 'history' || HJ.meta.frozen !== true) bad.push('④ 履歴の正本に role:"history"・frozen:true が無い');
       cases.push(`履歴 ${HIST.size} 本は現行の入力に無い`);
+      // 第323便b(決断事項 AN517/AN518・R276): 簡易一致の来歴(meta.verify.mode quick)を持つ正本の段は、簡易一致を使わない段(常時群・較正の判定・html を書く段・
+      //   quickVerify:false・履歴・手動)でない(本便の正本は verify を持たない —— 0 本で通る。規則は QA lint.regenQuick323 の自己試験)
+      {
+        const QV = await import('file://' + path.join(ROOT, 'tests', 'lib-w323b-quick.mjs')).catch(() => null);
+        if (!QV) bad.push('⑧ tests/lib-w323b-quick.mjs が読めない');
+        else {
+          const cal = QV.calibrationSteps({ steps: RT.REGEN_STEPS, root: ROOT });
+          let nQ = 0;
+          for (const st of RT.REGEN_STEPS) for (const o of (st.outs || [])) {
+            const J = readJ(o); const v = J && J.meta && J.meta.verify;
+            if (!v || v.mode !== 'quick') continue;
+            nQ++;
+            const ex = QV.staticExclusion(st, cal);
+            if (ex) bad.push(`⑧ 簡易一致の来歴を持つ正本 ${o} の段 ${st.key} は簡易一致を使わない段(${ex})`);
+          }
+          cases.push(`簡易一致の来歴を持つ正本 ${nQ} 本(簡易一致を使わない段 0 —— ${QV.QUICK_VERSION})`);
+        }
+      }
       // ⑤ 切り出しの信用
       const src = htmlText.slice(htmlText.indexOf('<script>') + 8, htmlText.lastIndexOf('</script>'));
       const PT = SC.parseTopLevel(src);
@@ -80662,6 +80684,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const P = await import('file://' + path.join(ROOT, 'tests', 'lib-w272e-provenance.mjs'));
       const SC = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
       const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+      const QV323c = await import('file://' + path.join(ROOT, 'tests', 'lib-w323b-quick.mjs')).catch(() => null);   // 第323便b: 来歴 meta.verify の形
       const HIST = new Set(RT.historyOuts());
       const qaText = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
       const cm = qaText.match(/const CANON = \['tests\/out\/bh90-w269c\.json'[\s\S]*?\];/);
@@ -80686,6 +80709,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const m = J.meta || {};
         if (m.provenanceVersion !== P.PROVENANCE_VERSION || typeof m.wave !== 'string' || !m.wave || m.target !== 'beta/index.html' || !HEX64.test(String(m.targetSha256 || ''))
           || Number.isNaN(Date.parse(m.generatedAt || ''))) bad.push(`③ ${rel} の meta の形(版 ${m.provenanceVersion}・wave・target ${m.target}・targetSha256・generatedAt)`);
+        // 第323便b(AN517/AN518・R276): 来歴 meta.verify(簡易一致)の形 —— β は受理(lint.provenanceMeta と同じ関数。root の拒否は lint.provenanceMeta ⑥ —— 本器は beta 線だけ)
+        if (QV323c && m.verify !== undefined) for (const v of QV323c.verifyViolations(m, { target: 'beta', file: rel })) bad.push('③' + v);
         const history = HIST.has(rel) || m.role === 'history' || st.role === 'history';
         if (history) { nHist++; rowsTxt.push(`${key}(履歴 —— 形だけ)`); continue; }
         if (decl) {
@@ -92863,6 +92888,169 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第323便d の塊(ここまで)====
+
+// ==== 第323便b の塊(ここから)====
+// ---- 第323便b(原仮定者の指示(2026-11-01)「再生成の段で毎回長時間掛かるのを改善する。今より半減が目標」「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・
+// ----   決断事項 AN517/AN518「推奨を採用」・統括の検証項目 R276): **再生成の計画** —— 簡易一致確認の影(判定だけ —— 鎖はフル)・窓の指紋の記録・来歴 meta.verify の受理・
+// ----   順序だけの依存・gate の速い判定・行だけの --gate(html・本の宣言・エンジン・段の行・REGEN_SCOPE は不変 —— beta 対象だけ・root は SKIP)。
+// ----   lint.regenQuick323:
+// ----     ① tests/lib-w323b-quick.mjs の自己試験(影の規則の変異 —— 器のコード・html 全体・常時群・quickVerify:false・'long' と步の関数・K 便・窓なし・root 昇格・
+// ----        記録なし・正本の物理の値か器の sha が記録と違う は候補にならない/輪番は ceil(n/K) 段・600 s 以上は 1 便に 2 本まで/指紋は meta・時刻・壁時計を除き物理の値は効く/
+// ----        来歴 verify は β で受理・root で拒否・形の違反は拒否/記録の形)
+// ----     ② 段の宣言の欄(quickVerify・quickVerifyWhy・quickWindow・afterOrderOnly・afterData)の型 —— 今の表の値(無ければ既定の規則)
+// ----     ③ 記録 tests/data-w323b-quickfp.json(あれば形・無ければ「記録なし」)/ ④ 道具の配線(regen-plan・regen-chain の影の表・煙試験の --fingerprint)/
+// ----     ⑤ 今の正本で簡易一致の来歴を持つものは 0 本(本便は影 —— 受理の口は休眠)・較正の判定を出す段に calaudit・dt3・kf0
+// ----   lint.regenOrderOnly323:
+// ----     ① tests/lib-w281a-regentable.mjs の w323bChainProbe(after の辺の型の stub・gate の速い判定の stub の鎖を bash で 4 回 —— 既定・html の書き換え・REGEN_FASTGATE=0・shadow)
+// ----     ② 今の表の after の辺の種類(data・html・order)と宣言の上書き
+// ----     ③ 今の計画: recheck + hold = 第322便までの伝播の recheck・常時群 13 段・hold の段は自分の判定が reuse・行だけの判定(o.only)= 全段の計画の行(3 段)
+// ----     ④ 鎖: gate の速い判定(fastOk = 計画の ownStatus が reuse・fastUps ⊇ 鎖の中の正本の meta の入力の書き手)・chainShell の PLAN_HTML_SHA と REGEN_FASTGATE
+// ----   docs.w323b: PHYSICS〔第323便b〕(〔第322便 — 統括〕の後・「## 7.」の前・a → b → c → d)・AI_SPEC §168・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rd323b = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.regenQuick323・lint.regenOrderOnly323・docs.w323b(beta 対象でない: ' + TARGET + ' —— 再生成の計画は beta 線)');
+    return;
+  }
+  const imp323b = async (f, bad) => { try { return await import('file://' + path.join(ROOT, f)); } catch (e) { bad.push(f + ' が読めない: ' + String(e && e.message || e).slice(0, 80)); return null; } };
+  // ---- lint.regenQuick323
+  {
+    const bad = [], cases = [];
+    const Q = await imp323b('tests/lib-w323b-quick.mjs', bad), RT = await imp323b('tests/lib-w281a-regentable.mjs', bad);
+    if (Q && RT) {
+      const st = Q.quickSelfTest();
+      if (!st.ok) bad.push('① ' + st.bad.slice(0, 3).join(' / '));
+      if (Q.QUICK_VERSION !== 'w323b-quick-1' || Q.QUICK_K_DEFAULT !== 3 || Q.QUICK_FP_VERSION !== 'w323b-quickfp-1' || Q.VERIFY_VERSION !== 'w323b-verify-1' || Q.QUICK_FP_FILE !== 'tests/data-w323b-quickfp.json') bad.push('① 版と既定(K = 3・記録の名)');
+      cases.push(`① 自己試験(${Q.QUICK_VERSION}): ${st.cases.join(' / ')}`);
+      // ② 段の宣言の欄の型
+      const keys = new Set(RT.REGEN_STEPS.map((z) => z.key));
+      const nDecl = { quickVerify: 0, quickWindow: 0, afterOrderOnly: 0, afterData: 0 };
+      for (const z of RT.REGEN_STEPS) {
+        if (z.quickVerify !== undefined) { nDecl.quickVerify++; if (!(z.quickVerify === false || z.quickVerify === 'long')) bad.push('② ' + z.key + ' の quickVerify が false / \'long\' でない'); if (z.quickVerify === false && !(typeof z.quickVerifyWhy === 'string' && z.quickVerifyWhy)) bad.push('② ' + z.key + ' の quickVerify:false に理由 quickVerifyWhy が無い'); }
+        if (z.quickWindow !== undefined) { nDecl.quickWindow++; if (!(z.quickWindow && z.quickWindow.env && typeof z.quickWindow.env === 'object' && typeof z.quickWindow.note === 'string')) bad.push('② ' + z.key + ' の quickWindow の形({env, note})'); }
+        for (const f of ['afterOrderOnly', 'afterData']) if (z[f] !== undefined) {
+          nDecl[f]++;
+          if (!Array.isArray(z[f]) || z[f].some((k) => !keys.has(k) || !(z.after || []).includes(k))) bad.push('② ' + z.key + ' の ' + f + ' が after の上流の key の並びでない');
+        }
+        if ((z.afterOrderOnly || []).some((k) => (z.afterData || []).includes(k))) bad.push('② ' + z.key + ' の afterOrderOnly と afterData が重なる');
+      }
+      cases.push(`② 段の宣言の欄 ${Object.keys(Q.QUICK_DECL_FIELDS).join('・')}: 今の表で ${Object.entries(nDecl).map(([k, v]) => k + ' ' + v).join('・')} 段(無ければ既定の規則)`);
+      // ③ 記録
+      const recText = rd323b(Q.QUICK_FP_FILE);
+      if (recText) {
+        let doc = null; try { doc = JSON.parse(recText); } catch (e) { bad.push('③ 記録が JSON でない'); }
+        if (doc) { const sh = Q.recordShape(doc, { steps: RT.REGEN_STEPS }); for (const v of sh.slice(0, 4)) bad.push('③ ' + v); cases.push(`③ 記録 ${Q.QUICK_FP_FILE}: 段 ${Object.keys(doc.steps || {}).length}(指紋 ${Object.values(doc.steps || {}).filter((e) => e && e.fingerprint).length})・便 ${doc.wave}・形の違反 ${sh.length}(正本ではない —— 形だけ)`); }
+      } else cases.push(`③ 記録 ${Q.QUICK_FP_FILE} は無い(鎖の後に node tools/harness-smoke.mjs --fingerprint ${Q.QUICK_FP_FILE} で取る —— 次の便の影の照合の材料)`);
+      // ④ 道具の配線
+      const RP = rd323b('tools/regen-plan.mjs'), RC = rd323b('tools/regen-chain.mjs'), HSx = rd323b('tools/harness-smoke.mjs');
+      for (const [nm, tx, ws] of [['regen-plan', RP, ['Q.quickShadow(plan', "'--fp-record'", "'--promote'", "'--all-edges'", 'Q.htmlChangeKinds(BASE, HTML)']],
+        ['regen-chain', RC, ['Q.quickShadow(plan', "only: [key]", "'--gate-full'", 'orderOnly: plan.orderOnly, quickShadow']],
+        ['harness-smoke', HSx, ["getArg(argv, '--fingerprint', null)", 'fpCapture323(row, x', 'fpSelect323(rows, root)', 'fpWrite323(rel(fpFile)']]]) for (const w of ws) if (tx.indexOf(w) < 0) bad.push('④ ' + nm + ' に「' + w + '」が無い');
+      cases.push('④ 配線: regen-plan・regen-chain が影の表(quickShadow —— 判定だけ・鎖の生成は変えない)・--gate は行だけ(--gate-full で全段)・煙試験の --fingerprint(窓のある段を全部)');
+      // ⑤ 今の正本の来歴と較正の判定の段
+      let nV = 0, nQ = 0;
+      for (const z of RT.REGEN_STEPS) for (const o of (z.outs || [])) { let J = null; try { J = JSON.parse(rd323b(o) || 'null'); } catch { J = null; } const v = J && J.meta && J.meta.verify; if (v) { nV++; if (v.mode === 'quick') nQ++; } }
+      if (nQ) bad.push('⑤ 本便は影 —— 簡易一致の来歴を持つ正本が ' + nQ + ' 本');
+      const cal = Q.calibrationSteps({ steps: RT.REGEN_STEPS, root: ROOT });
+      for (const k of ['calaudit', 'dt3', 'kf0']) if (!cal.has(k)) bad.push('⑤ 較正の判定を出す段に ' + k + ' が無い');
+      cases.push(`⑤ 今の正本で meta.verify を持つもの ${nV} 本(quick ${nQ} —— 受理の口は休眠)・較正の判定を出す段(表と meta から導く)${cal.size} 段`);
+    }
+    add('lint.regenQuick323', bad.length === 0,
+      `**簡易一致確認の影・指紋・来歴の受理**(第323便b・原仮定者の指示(2026-11-01)・決断事項 AN517/AN518・R276 —— 判定だけ・鎖はフル・本便の正本はすべてフル): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- lint.regenOrderOnly323
+  {
+    const bad = [], cases = [];
+    const RT = await imp323b('tests/lib-w281a-regentable.mjs', bad);
+    if (RT) {
+      const os = await import('node:os');
+      const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w323b-'));
+      try {
+        const pr = await RT.w323bChainProbe({ root: ROOT, tmpDir: tmp });
+        if (!pr.t1 || !pr.t1.ok) bad.push('① 辺の型の stub: ' + JSON.stringify(pr.t1 && pr.t1.got).slice(0, 160));
+        if (!pr.t2 || !pr.t2.ok) bad.push('① 速い判定の stub の鎖: ' + JSON.stringify({ A: pr.t2 && pr.t2.A.calls, B: pr.t2 && pr.t2.B.calls, C: pr.t2 && pr.t2.C.calls, D: pr.t2 && pr.t2.D.shadow }));
+        if (pr.t2) cases.push(`① stub: 辺の型 ${Object.keys(pr.t1.got).length} 例(${pr.t1.ok})・速い判定の鎖 html 不変 → --gate ${pr.t2.A.calls.join(',')}・速い判定 ${pr.t2.A.fast.join(',')} / html を書き換える → --gate ${pr.t2.B.calls.join(',')} / REGEN_FASTGATE=0 → --gate ${pr.t2.C.calls.join(',')} / REGEN_FASTGATE=shadow → --gate ${pr.t2.D.calls.join(',')}・影の行 ${(pr.t2.D.shadow || []).join('・')}`);
+      } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+      if (RT.AFTER_KIND_VERSION !== 'w323b-afterkind-1') bad.push('② 版 ' + RT.AFTER_KIND_VERSION);
+      const K = RT.afterDepKinds({ root: ROOT });
+      const c = RT.afterKindCounts(K);
+      const ord = [];
+      for (const [k, rows] of K) for (const [d, r] of rows) if (r.kind === 'order') ord.push(k + '←' + d);
+      cases.push(`② 今の表の after の辺(${RT.AFTER_KIND_VERSION}): data ${c.data}・html ${c.html}・order ${c.order}(順序だけの辺を持つ段 ${c.orderOnlySteps}/${c.steps})—— order: ${ord.join('・')}`);
+      const HTML = path.join(ROOT, 'beta', 'index.html');
+      const plan = RT.planRegen({ root: ROOT, html: HTML, afterKinds: K });
+      const oo = plan.orderOnly;
+      if (!oo) bad.push('③ plan.orderOnly が無い');
+      else {
+        if ((plan.count.recheck || 0) + oo.hold.length !== oo.recheckAllEdges) bad.push(`③ recheck ${plan.count.recheck} + hold ${oo.hold.length} ≠ 全部の辺の recheck ${oo.recheckAllEdges}`);
+        const holdBad = plan.steps.filter((r) => r.hold && !(r.status === 'reuse' && r.ownStatus === 'reuse')).map((r) => r.key);
+        if (holdBad.length) bad.push('③ hold の段の判定が reuse でない: ' + holdBad.slice(0, 4).join(','));
+        const always = plan.steps.filter((r) => r.status === 'always').map((r) => r.key).sort(), tblAlways = RT.REGEN_STEPS.filter((z) => z.alwaysRun).map((z) => z.key).sort();
+        if (JSON.stringify(always) !== JSON.stringify(tblAlways)) bad.push('③ 常時群が表と違う');
+        const regenOwn = plan.steps.filter((r) => r.status === 'regen' && r.ownStatus !== 'regen').map((r) => r.key);
+        if (regenOwn.length) bad.push('③ regen の段の自分の判定が regen でない: ' + regenOwn.join(','));
+        const pick = ['regen', 'reuse', 'recheck'].map((s) => plan.steps.find((r) => r.status === s)).filter(Boolean);
+        const only = pick.map((r) => { const p = RT.planRegen({ root: ROOT, html: HTML, only: [r.key] }); return [r.key, r.ownStatus, (p.steps[0] || {}).ownStatus, p.steps.length]; });
+        if (only.some(([, a, b, n]) => a !== b || n !== 1)) bad.push('③ 行だけの判定が全段の計画と違う: ' + JSON.stringify(only));
+        cases.push(`③ 今の計画: ${Object.entries(plan.count).map(([k, v]) => k + ' ' + v).join('/')} —— recheck ${plan.count.recheck || 0}(全部の辺なら ${oo.recheckAllEdges})・hold ${oo.hold.length} 段(自分の判定は reuse)・常時群 ${always.length} 段・`
+          + `行だけの判定(o.only)= 全段の行 ${only.map(([k, a, b]) => k + ' ' + a + '=' + b).join('・')}`);
+        // ④ 鎖
+        const chn = RT.buildChain(plan, { root: ROOT, afterKinds: K });
+        const gates = Object.values(chn.steps).filter((r) => r.mode === 'gate');
+        const pr2 = new Map(plan.steps.map((r) => [r.key, r]));
+        const fastBad = gates.filter((r) => r.fastOk !== (pr2.get(r.key) && pr2.get(r.key).ownStatus === 'reuse')).map((r) => r.key);
+        const upsBad = gates.filter((r) => ((pr2.get(r.key) || {}).prodDeps || []).some((d) => chn.steps[d] && !r.fastUps.includes(d))).map((r) => r.key);
+        if (fastBad.length) bad.push('④ fastOk が計画の ownStatus と合わない: ' + fastBad.slice(0, 4).join(','));
+        if (upsBad.length) bad.push('④ fastUps が正本の meta の入力の書き手を覆わない: ' + upsBad.slice(0, 4).join(','));
+        const sh = RT.chainShell(chn, { lanes: 4, htmlSha: plan.htmlSha256 });
+        if (!(sh.indexOf('PLAN_HTML_SHA=${REGEN_PLAN_HTML_SHA:-' + plan.htmlSha256 + '}') >= 0 && sh.indexOf('REGEN_FASTGATE') >= 0 && sh.indexOf('"${FUPS[$k]}" "${FOK[$k]}"') >= 0)) bad.push('④ chainShell に速い判定の配線が無い');
+        cases.push(`④ 鎖: gate ${gates.length} 段のうち速い判定 ${chn.fastGate.eligible}(データの上流が鎖に無い ${chn.fastGate.noDataUps} —— html が鎖の中で変わらなければ --gate を呼ばない)・fastUps は正本の meta の入力の書き手を覆う・REGEN_FASTGATE=0 で毎回 --gate`);
+      }
+    }
+    add('lint.regenOrderOnly323', bad.length === 0,
+      `**順序だけの依存で再判定を広げない・gate の速い判定・行だけの --gate**(第323便b・原仮定者の指示(2026-11-01)「サンプルの変更だけでは、全行程を再実行しない」・R276 —— regen・always の集合と各段の自分の判定は不変): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- docs.w323b
+  {
+    const bad = [];
+    const PH = rd323b('docs/PHYSICS.md'), a323 = PH.indexOf('〔第323便b — ');
+    const sec = a323 < 0 ? '' : PH.slice(a323, (() => { const e = [PH.indexOf('\n〔第', a323 + 10), PH.indexOf('\n## 7.', a323)].filter((k) => k > a323); return e.length ? Math.min(...e) : undefined; })());
+    const rv = (s) => [...s].reverse().join('');
+    const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);
+    const NOT = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'たため確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転逆の星金', 'たし明説をータマクーダ'].map(rv);
+    if (!sec) bad.push('PHYSICS〔第323便b〕が無い');
+    else {
+      const i7 = PH.indexOf('\n## 7.'), iG = PH.indexOf('〔第322便 — 統括');
+      if (!(a323 < i7 && iG >= 0 && iG < a323)) bad.push('節の位置(〔第322便 — 統括〕の後・「## 7.」の前)');
+      const ia = PH.indexOf('〔第323便a — '); if (ia >= 0 && ia > a323) bad.push('〔第323便a〕が〔第323便b〕の後');
+      for (const [b, k] of [['c', PH.indexOf('〔第323便c — ')], ['d', PH.indexOf('〔第323便d — ')]]) if (k >= 0 && k < a323) bad.push('〔第323便' + b + '〕が〔第323便b〕の前');
+      for (const w of ['AN517', 'AN518', 'R276', 'tests/lib-w323b-quick.mjs', 'w323b-quick-1', 'quickShadow', 'quickVerify', 'tests/data-w323b-quickfp.json', '--fingerprint', 'meta.verify',
+        'afterDepKinds', 'afterOrderOnly', 'w323b-afterkind-1', 'hold', 'REGEN_FASTGATE', '--gate-full', 'lint.regenQuick323', 'lint.regenOrderOnly323', '**表 1', '**表 2', '**表 3'])
+        if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第323便b〕に「' + w + '」が無い');
+    }
+    const AI = rd323b('docs/AI_SPEC.md'), ai168 = (() => { const m = /\n## 168\. 第323便b[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+    if (!(ai168 && ai168.indexOf('AN517') >= 0 && ai168.indexOf('quickShadow') >= 0 && ai168.indexOf('afterDepKinds') >= 0 && ai168.indexOf('--fingerprint') >= 0)) bad.push('AI_SPEC §168');
+    const CL = rd323b('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+    const cl323 = (clb.split('\n').find((l) => l.indexOf('**第323便b**') >= 0)) || '';
+    if (!cl323) bad.push('CHANGELOG の beta 節に第323便b の行が無い');
+    const TR = rd323b('tools/README.md'), PM = rd323b('tools/post-merge-qa.sh');
+    if (!(TR.indexOf('第323便b') >= 0 && TR.indexOf('--fingerprint') >= 0 && TR.indexOf('REGEN_FASTGATE') >= 0 && TR.indexOf('--fp-record') >= 0)) bad.push('tools/README に第323便b の口(--fingerprint・REGEN_FASTGATE・--fp-record)が無い');
+    if (!(PM.indexOf('# ==== 第323便b の塊(ここから)====') >= 0 && /lint\.regenQuick323/.test(PM) && /lint\.regenOrderOnly323/.test(PM) && /docs\.w323b/.test(PM))) bad.push('post-merge の ③′ に第323便b の塊が無い');
+    for (const [nm, tx] of [['PHYSICS〔第323便b〕', sec], ['AI_SPEC §168', ai168], ['CHANGELOG の第323便b の行', cl323]]) {
+      for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+      for (const w of NOT) if (tx.indexOf(w) >= 0) bad.push(nm + ' に書かない語(' + w.length + ' 字)');
+      if (tx.indexOf(String.fromCharCode(0x3ba)) >= 0) bad.push(nm + ' に裸の係数記号');
+    }
+    add('docs.w323b', bad.length === 0,
+      `**再生成の計画の文書**(第323便b・決断事項 AN517/AN518・R276): PHYSICS〔第323便b〕(〔第322便 — 統括〕の後・「## 7.」の前・a → b → c → d)・AI_SPEC §168・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ' —— すべてあり'));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第323便b の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

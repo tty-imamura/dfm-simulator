@@ -288,3 +288,18 @@ node tools/qa-recheck-record.mjs --check                       # 形の検査(QA
 - `--fix <path>[@<rev>]`(直したファイル —— 文書・検査のコード): 直した後は `@rev` の版か作業木、直す前は保存のフルの commit の版。`--code`(既定 `tests/qa.mjs`)はフルの時点と再検査の時点の sha256 を並べる。
 - 結論の「閉じた」= フルの FAIL の全部が再検査で PASS・再検査に FAIL と未実行が無い・再検査がフルと同じ html の上。
 - samplestatus の器(`tests/exp-w279a-samplestatus.mjs`)は、記録が今の保存のフル(ファイルの sha256)を指すときだけ、SAMPLE_STATUS の「保存 QA の来歴」の行に 1 文を足す(試しは環境変数 `W323D_RECHECK=<記録>`)。根拠 ID の PASS の集合は保存のフルのまま(状況の判定は変えない)。
+
+## 第323便b —— 再生成の計画(原仮定者の指示(2026-11-01)・決断事項 AN517/AN518・統括の検証項目 R276)
+
+- **順序だけの依存**: 再生成表の after の辺を `data`(上流の書くファイルを正本の meta の入力か器の本文で読む・同じファイルを書く・上流の閉包の段の書くファイルを読む)・
+  `html`(上流は beta/index.html を書く段・自分は html を読む —— 他のファイルは読まない)・`order`(並べるだけ)に機械で分ける(`tests/lib-w281a-regentable.mjs` の afterDepKinds ——
+  版 w323b-afterkind-1・段の `afterOrderOnly` / `afterData` で手で上書き)。`regen-plan` は順序だけの辺で recheck を広げない(その段は reuse のまま `hold` —— 件数の行に
+  「recheck n(第322便までの伝播なら m)・hold k 段」)。`--all-edges` で第322便までの伝播。
+- **gate の速い判定**(鎖のシェル): 計画の自分の判定が reuse・html が計画の sha のまま(`PLAN_HTML_SHA` —— `REGEN_PLAN_HTML_SHA` で上書き)・データの上流が 1 つも走っていない →
+  `--gate` を呼ばずに再利用(済み印の 1 行目 `reuse <時刻> fast`)。html を書く段が html を実際に書き換えた鎖では従来どおり `--gate`。**`REGEN_FASTGATE=0` で毎回 `--gate`**・
+  `REGEN_FASTGATE=shadow` は影(判定は毎回 `--gate` —— `$REGEN_LOG/fastgate-shadow.txt` に「段 fast=reuse|no gate=<rc>」。fast=reuse で gate=0 の行が不一致)。
+- **`--gate <段>` は段の行だけ**を引く(全段の計画は `--gate-full`)。`regen-plan --base` は領域 hash を今の html → 基点の html の順に先に引く(計画の判定は同じ)。
+- **簡易一致確認の影**(判定だけ —— 鎖はフル): `regen-plan` と `regen-chain` が影の表(`plan.quickShadow` —— 領域だけの regen・候補・quick・輪番のフル・秒・外す理由)を出す。
+  `--fp-record <記録>`(既定 `tests/data-w323b-quickfp.json`)・`--K 3`・`--wave <便>`(既定は html の BETA_BUILD)・`--promote`(root 昇格の便 —— 全段フル)。
+- **窓の指紋の記録**: `node tools/harness-smoke.mjs --fingerprint tests/data-w323b-quickfp.json`(`--base`・`--keys` が無ければ窓のある段を全部 —— 簡易一致を使わない段は除く)。
+  鎖の後に 1 回。記録はコミットする作業記録(正本ではない —— lint は形だけ)。
