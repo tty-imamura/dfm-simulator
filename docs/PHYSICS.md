@@ -31164,6 +31164,13 @@ geoPN=3/4 の標準(慣性の宣言・旧メッシュ)は第294便a から測地
 
 **第322便の更新(統括の統合)。** 第322便a の 🫓 galaxyGeo2Flat3d(geoPN=2)と第322便b の ♊⚖️🌠🔶(geoPN=3 —— `relativeDrag.law:"inertial"`)も geoPN≥2 で、第322便の鎖 1 が正本 `tests/out/refit-w297a.json` の `declared` を作り直したときに列挙に入った(内蔵 60 本 —— 2/3/4 = 20/25/15)。5 本とも新設のときから `lambdaPN:0` を明示した本で、力学の 1PN は走っていない。器の `pn1Before`(第296便までの宣言 λ_PN=1 で読んだときの仮定の欄)は ♊⚖️🌠🔶 が false(geoPN=3 は測地線 OFF)・🫓 が true(geoPN=2 は測地線 ON —— 💫 と同じ読み)で、🫓 は λ_PN=1 で走ったことのない新本である。
 
+**第324便a の追補。** 第324便a の 🥞 galaxyGeo2Thick3d・🧇 galaxyGeo2ThickTilt3d(geoPN=2 —— 有限厚の対の本・〔第324便a〕)も geoPN≥2 で、新設のときから `lambdaPN:0` を明示した本(力学の 1PN は走っていない —— 🫓 と同じ物理の欄に disk の thickness と倍精度の状態を足しただけ)。正本 `tests/out/refit-w297a.json` の `declared` の列挙は鎖の段で作り直す(内蔵 62 本)。
+
+| ID | 絵文字 | geoPN | 在位/退役 | λ_PN(第296便まで → 現行) | 力学の 1PN が走っていたか(= 600 步の軌道が変わる) | 現行の法則 |
+|---|---|---|---|---|---|---|
+| galaxyGeo2Thick3d | 🥞 | 2 | 在位 | 新本(0 で宣言 —— 第324便a の有限厚の 3D 銀河) | 走っていない(新本) | `vMinusU-q` |
+| galaxyGeo2ThickTilt3d | 🧇 | 2 | 在位 | 新本(0 で宣言 —— 第324便a の有限厚・傾き有りの対) | 走っていない(新本) | `vMinusU-q` |
+
 **③ 逸脱 `lambdaPnOnDrag`(値は書き換えない)。** 目的の組の判定 `modeIssuesOf`(公開の入口 `modeSettingIssues`)の mode≥2 の塊に、geoPN≥2 ∧ `physics.lambdaPN`≠0 の逸脱を足した
 (**未宣言は 1** として読む —— `_core` の `p.lambdaPN!==undefined? p.lambdaPN : 1` と同じ読み `lambdaPnDeclOf`)。kind:"preset"(標準を偽にする)・fields `["lambdaPN"]`・記録に読んだ値 `lambdaPN`。
 `MODE_SAVE_WARN_CODES` の **20 本目**(末尾)。保存・セーブの読込・編集欄の赤文字(`MODE_DEV_KEYS` に lambdaPN を足した —— λ_PN 行にも出る)・JSON の受理の警告が同じ判定を読む。
