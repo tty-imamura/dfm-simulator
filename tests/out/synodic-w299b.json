@@ -3,7 +3,7 @@
  "generator": "tests/exp-w299b-synodic.mjs",
  "ruling": "原仮定者の裁定(第89報)①・統括の検証項目 R170",
  "target": "beta/index.html",
- "targetSha256": "339c64a1de60becf6c0e4eeeb038efa160d4207891636db13b8eabf1dd068652",
+ "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
  "clockVersion": "w299b-syn-1",
  "obs": {
   "synodicDays": 29.530588857710324,
@@ -53,7 +53,7 @@
      "phase0": 30.033496531254613,
      "phase180": 29.95011227314169,
      "virtualMinusUniform": -0.09143568926740997,
-     "wallSec": 99.55
+     "wallSec": 44.682
     },
     {
      "D0pull": 0.00002,
@@ -72,7 +72,7 @@
      "phase0": 29.794816611621126,
      "phase180": 29.66564372591744,
      "virtualMinusUniform": -0.0417053030248411,
-     "wallSec": 53.297
+     "wallSec": 44.784
     },
     {
      "D0pull": 0.0000306883,
@@ -91,7 +91,7 @@
      "phase0": 29.723673606858895,
      "phase180": 29.578098891870876,
      "virtualMinusUniform": -0.024525969749010557,
-     "wallSec": 48.009
+     "wallSec": 47.434
     },
     {
      "D0pull": 0.0001,
@@ -110,7 +110,7 @@
      "phase0": 29.64895482735711,
      "phase180": 29.485006508203853,
      "virtualMinusUniform": -0.002921388903306621,
-     "wallSec": 39.23
+     "wallSec": 41.422
     },
     {
      "D0pull": 0.00035,
@@ -129,7 +129,7 @@
      "phase0": 29.631156671878166,
      "phase180": 29.462866409880057,
      "virtualMinusUniform": 0.003627912422714985,
-     "wallSec": 41.385
+     "wallSec": 45.655
     },
     {
      "D0pull": 0.0006,
@@ -148,7 +148,7 @@
      "phase0": 29.62853135316256,
      "phase180": 29.459619836760087,
      "virtualMinusUniform": 0.004699897786238694,
-     "wallSec": 38.105
+     "wallSec": 42.653
     },
     {
      "D0pull": 0.001,
@@ -167,7 +167,7 @@
      "phase0": 29.6271033433941,
      "phase180": 29.457858612125932,
      "virtualMinusUniform": 0.005297474998005924,
-     "wallSec": 37.326
+     "wallSec": 42.328
     },
     {
      "D0pull": 0.01,
@@ -186,7 +186,7 @@
      "phase0": 29.625230473744825,
      "phase180": 29.45555254531674,
      "virtualMinusUniform": 0.006100797526841006,
-     "wallSec": 39.04
+     "wallSec": 41.37
     },
     {
      "D0pull": 0.001,
@@ -205,7 +205,7 @@
      "phase0": 29.625026147600778,
      "phase180": 29.455301309913835,
      "virtualMinusUniform": 0.006189809114218292,
-     "wallSec": 28.556
+     "wallSec": 30.98
     }
    ],
    "monotone": {
@@ -229,9 +229,9 @@
     "phase0": 29.625026147600778,
     "phase180": 29.455301309913835,
     "virtualMinusUniform": 0.006189809114218292,
-    "wallSec": 28.556
+    "wallSec": 30.98
    },
-   "wallSec": 424.524
+   "wallSec": 381.335
   },
   "sun3d": {
    "id": "earthMoonSunInertial3d",
@@ -373,7 +373,7 @@
    "yearN": 30,
    "yearNote": "地心から見た太陽の黄道経度の同方向 1 周の平均(模型の 1 年 —— 太陽 pinned・地球の公転)",
    "uniformWithModelYear": 29.570616240728935,
-   "wallSec": 23.337
+   "wallSec": 22.392
   },
   "fit": {
    "id": "earthMoonRealKF1",
@@ -596,7 +596,7 @@
    },
    "fitRecordAccepted": true,
    "fitRecordErr": null,
-   "wallSec": 297.261
+   "wallSec": 295.859
   },
   "aps": {
    "id": "earthMoonRealKF1",
@@ -654,7 +654,7 @@
     "minusUniform": -0.024525969749010557,
     "gated": false
    },
-   "wallSec": 226.349
+   "wallSec": 232.904
   },
   "long": {
    "adoptedH": {
@@ -664,7 +664,7 @@
     "nSyn": 370,
     "steps": 591679489,
     "err": null,
-    "wallSec": 1576.797,
+    "wallSec": 1528.269,
     "revN": 400,
     "conjN": 371,
     "windows": {
@@ -803,7 +803,7 @@
      "uniform": 29.53365483614985
     }
    ],
-   "wallSec": 1576.802
+   "wallSec": 1528.275
   },
   "longh2": {
    "adoptedH2": {
@@ -813,7 +813,7 @@
     "nSyn": 130,
     "steps": 417853441,
     "err": null,
-    "wallSec": 1073.916,
+    "wallSec": 1051.182,
     "revN": 141,
     "conjN": 131,
     "windows": {
@@ -908,7 +908,7 @@
     "nSyn": 130,
     "steps": 208916481,
     "err": null,
-    "wallSec": 407.561,
+    "wallSec": 390.428,
     "revN": 141,
     "conjN": 131,
     "windows": {
@@ -996,24 +996,24 @@
      }
     }
    },
-   "wallSec": 1481.485
+   "wallSec": 1441.617
   }
  },
  "timing": {
-  "wallSec": 4031.734
+  "wallSec": 1531.766
  },
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第299便b",
   "target": "beta/index.html",
-  "targetSha256": "339c64a1de60becf6c0e4eeeb038efa160d4207891636db13b8eabf1dd068652",
-  "generatedAt": "2026-11-01T12:43:12.549Z",
+  "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+  "generatedAt": "2026-11-02T05:46:56.498Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7486093,
-    "sha256": "339c64a1de60becf6c0e4eeeb038efa160d4207891636db13b8eabf1dd068652",
-    "mtime": "2026-11-01T10:22:57.298Z"
+    "bytes": 7491601,
+    "sha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+    "mtime": "2026-11-02T01:58:42.624Z"
    },
    {
     "file": "tests/data-w303a-decl302.json",
@@ -1031,9 +1031,9 @@
   "code": [
    {
     "file": "tests/exp-w299b-synodic.mjs",
-    "bytes": 31580,
-    "sha256": "8983f1566c1aa1026a2b105d6b69068dd09bc64b17edc46a8f3963b955ca7d13",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "bytes": 36511,
+    "sha256": "42bb46bb43655cbc2bd8f20e03a30a064a9fcce2a6a637503e5fed6158cf3e22",
+    "mtime": "2026-11-02T04:24:50.092Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -1072,7 +1072,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "349f949f36db47250f4a4cc7441284aca095483c4e7712cc5d90b36e9e5d8270",
+  "codeSha256": "4589b63b669acd8f56655affe8db253c13cca5cd197facde70d27a77628c3fa4",
   "harnessVersion": "w299b-synodic-1",
   "clockVersion": "w299b-syn-1",
   "parts": [
@@ -1085,7 +1085,7 @@
   ],
   "ruling": "原仮定者の裁定(第89報)①(geoPN=2 は近似 —— 近似として扱いやすい基準を探す・earthMoonRealKF1 の公転周期は恒星月の代わりに朔望月を検証する)",
   "reading": "統括の検証項目 R170(仮想の太陽の時計・一様換算・太陽のある本の実際の方向の 3 通りで測り、窓・位相・始点の依存と床を並べて基準を選ぶ・ノブは D0pull だけ・h と h/2)",
-  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・段ごとに子プロセス〔W299B_WORKERS —— 既定 3・1 なら 1 プロセスで順に —— 値は分け方に依らない〕)",
   "notClaim": [
    "朔望月を再現した",
    "現実を再現した",
@@ -1116,7 +1116,7 @@
    "complete": true,
    "names": 1323,
    "segments": 1161,
-   "closureShare": 0.2949
+   "closureShare": 0.2947
   },
   "scopeSha256": "b97e8ccf0426eceb2de4fee4838083c36ee357c0114ff20b52873bacbb4caea4",
   "scopeComplete": true,
@@ -1136,5 +1136,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 4031.734
+ "elapsedS": 1531.766
 }
