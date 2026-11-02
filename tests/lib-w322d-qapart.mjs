@@ -132,10 +132,19 @@ export function qaSpanner(qaSrc, QO) {
   }
   /**
    * 範囲(merged)が読む上流の宣言の閉包。
-   * @returns {{names:string[], units:Array<{l0,l1,names,kind}>, unsafe:Array<{name:string, why:string, via:string|null}>, reads:Object<string,string[]>}}
-   *   names = 前文に写す宣言の名前(写す順)・units = 写す宣言の文(行の順)・unsafe = 写せない名前(via = どの宣言から辿ったか —— 範囲が直に読むなら null)
+   * @returns {{names:string[], units:Array<{l0,l1,names,kind}>, unsafe:Array<{name:string, why:string, via:string|null}>, local:Array, reads:Object<string,string[]>}}
+   *   names = 前文に写す宣言の名前(写す順)・units = 写す宣言の文(行の順)・unsafe = 写せない名前(via = どの宣言から辿ったか —— 範囲が直に読むなら null)・
+   *   local = 写せない宣言だが範囲に局所の同名の型がある名前(写さず、写せないとも数えない)
    */
+  const upMemo = new Map();   // 範囲ごとのメモ(qa-keys は同じ範囲の鍵を何度も引く)
   function upstreamOf(merged) {
+    const mk = JSON.stringify(merged) + '|' + merged.map(([s0]) => headRewrite.has(s0) ? 'w' : '').join('');
+    if (upMemo.has(mk)) return upMemo.get(mk);
+    const r = upstreamOf0(merged);
+    upMemo.set(mk, r);
+    return r;
+  }
+  function upstreamOf0(merged) {
     const need = new Map(), unsafe = [], local = [], reads = {};
     const queue = [];
     for (const [s0, e0] of merged) {
@@ -251,10 +260,10 @@ export function classifyRequested(requested, results, skipLines, opt) {
   }
   for (const r of results) if (!reqSet.has(r.id)) extra[r.pass ? 'pass' : 'fail']++;
   const errors = (o.errors || []).length;
-  const bad = counts.fail + counts.notRun + extra.fail + errors > 0;
+  const bad = counts.fail + counts.notRun + extra.fail + errors > 0 || req.length === 0;   // 要求した鍵 0 は何も確かめていない —— 成功にしない
   const strictBad = !!o.strictSkip && counts.skip > 0;
   const rc = bad || strictBad ? 1 : 0;
-  const label = bad ? 'FAILED' : strictBad ? 'FAILED(--strict-skip: SKIP あり)'
+  const label = req.length === 0 ? 'FAILED(要求した鍵 0)' : bad ? 'FAILED' : strictBad ? 'FAILED(--strict-skip: SKIP あり)'
     : (counts.skip > 0 && counts.pass === 0 ? 'SKIP ONLY(走った鍵 0 —— PASS に数えない)' : counts.skip > 0 ? 'PASS(SKIP は PASS に数えない)' : 'ALL PASS');
   return { version: QAPART_SUMMARY_VERSION, rows, counts, extra, errors, ok: rc === 0, rc, label };
 }
