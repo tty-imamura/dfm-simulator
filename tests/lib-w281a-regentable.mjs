@@ -1587,6 +1587,23 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/fieldcontract-w322c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第322便c: geoPN=4 の場の契約 —— 外部場の輸送の力学の契約の導出(今の v−u 輸送は正準の型 H = ½|p|² + p·u + Φ を状態の v = ẋ = p + u で書いたもの —— 6 場面 × 5 型の軌道と台帳・k_F ≠ 1 の余りの力)・散逸のグループの 2 列(銀河 1 グループ/成分ごと —— R_cut の不変のビット)・AN503 の診断の写しの設計(エンジン・在位の本は変えない・外部場の輸送はエンジンに入れていない)' }),
   // ==== 第322便c の塊(ここまで)====
+  // ==== 第324便d の塊(ここから)====
+  // ---- 第324便d(決断事項 AN480・AN452・統括の検証項目 R282): **長い段の再開の型**の門(段 resume-324d —— 正本 tests/out/resume-w324d.json)と**イオ・エウロパの長い窓**
+  //   (段 satlong-324d —— 正本 tests/out/satlong-w324d.json —— 1.5 P_母 × h・h/2・h/4 × V1a・V0 —— 契約・窓・模型・判定は satnext-318b と同じ)。どちらも器 tests/exp-w318b-satnext.mjs の
+  //   口(--resume-gate・--long)が lib tests/lib-w324d-satlong.mjs・tests/lib-w324d-resume.mjs を**動的 import**で読む(既定の段 satnext-318b の行・code[]・REGEN_SCOPE は不変)。
+  //   **2 段とも履歴**(role:'history' —— 計画は常に「履歴」・毎便の鎖に入れない。長い窓は鎖の外で統括が走らせる —— 置き場 W324D_RESUME_DIR〔既定 tests/out/.satlong-w324d/〕に
+  //   済みのジョブと途中の checkpoint を持ち、走らせ直すと済みは再利用・途中は続きから)・簡易一致は使わない(quickVerify:false)。子プロセス 2 本(workers 2)。
+  //   所要: resume-324d は第324便d の枝の実測(**並走の秒** —— 4 枝並走の容器・nice 10)。satlong-324d は**見積り**(第322便の鎖 1 の satnext-318b の q11 の率 2553 步/秒 ×
+  //   イオ 3672 公転・エウロパ 1830 公転 × 720 × (1+2+4) × 2 変種 ÷ 2 worker —— 混まない箱。枝では完走しない —— 統括が完走の elapsedS で直す)
+  S('resume-324d', 'node tests/exp-w318b-satnext.mjs --resume-gate', ['tests/out/resume-w324d.json'], 140, { secSource: 'w324d-branch', node: true, workers: 2, role: 'history',
+    quickVerify: false, quickVerifyWhy: '再開の型の門(連続と再開の同一・拒否・否定対照)—— 正本の値は門の真偽と照合の結果',
+    volatilePaths: { 'tests/out/resume-w324d.json': META_RUN.concat(['/elapsedS', '/wallSec', '/jobs/*/wallSec']) },
+    note: '第324便d: 長い段の再開の型の門(AN480 —— 既定の子の行 = 再開の型の連続 = 2 回止めて別の子プロセスで続けた行〔所要の欄の外の全欄が同じビット〕・sim の全欄の digest・否定対照 2・違う契約と書きかけの拒否・done の再利用・計画の門〔既定 = 再開の型 = 全ジョブ再利用の正本〕)。履歴(鎖に入れない)' }),
+  S('satlong-324d', 'node tests/exp-w318b-satnext.mjs --long', ['tests/out/satlong-w324d.json'], 11300, { secSource: 'w324d-estimate(見積り —— 枝では完走しない・統括が完走の elapsedS で直す)', node: true, workers: 2, role: 'history',
+    quickVerify: false, quickVerifyWhy: '長期の量(1.5 P_母 の近点の率の差 —— AN452・AN517/518 の簡易一致を使わない段)',
+    volatilePaths: { 'tests/out/satlong-w324d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/runs/*/wallSec', '/E/runs/*/runs/q10/wallSec', '/E/runs/*/runs/q11/wallSec', '/cost/wallSec', '/cost/byJob/*/wallSec', '/cost/rateStepsPerSec', '/resumeGate/wallSec']) },
+    note: '第324便d: イオ・エウロパの長い窓(AN452 —— 1.5 P_母 × h・h/2・h/4 × V1a・V0・satnext-318b と同じ契約・窓 W1/W2・模型 LS・判定 RULE)を再開の型で(門を先に回し、外れたら走らせない)。母惑星の公転周期の窓の外の量を引用しない・在位へ入れない。履歴(鎖の外で統括が走らせる)' }),
+  // ==== 第324便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
