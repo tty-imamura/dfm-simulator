@@ -91500,6 +91500,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const JS1 = (rowsS1.length === J.I.rows.length) ? J : Object.assign({}, J, { I: Object.assign({}, J.I, { rows: rowsS1, n: rowsS1.length }) });
       if (s2Live322b.length) cases.push(`③ S2 の geoPN=3 の三次元の連星の本 ${s2Live322b.length} 本(${s2Live322b.join('・')})は S1 の一覧の照合の外(宣言の条件 —— 第322便b)`);
       // ==== 第322便b の塊(ここまで)====
+      // ==== 第324便b の塊(ここから)====
+      // 第324便b(R280): S2 の 📟 psrDoubleABInertial3d は NS の本(ns-binary の variant)なので器の段 N(と段 A の ns)の行にも入る —— 段 N の照合も S1 の外に置く(鎖で器の正本を作り直したとき —— 同じ宣言の条件)
+      if (JS1 !== J && J.N && Array.isArray(J.N.rows)) { JS1.N = Object.assign({}, J.N, { rows: J.N.rows.filter((r) => !s2Live322b.includes(r.id)) }); if (J.A && Array.isArray(J.A.ns)) JS1.A = Object.assign({}, J.A, { ns: J.A.ns.filter((r) => !s2Live322b.includes(r.id)) }); }
+      // ==== 第324便b の塊(ここまで)====
       const jIds = rowsS1.map((r) => r.id);
       if (JSON.stringify(idsS1) !== JSON.stringify(jIds)) bad.push('③ 在位の連星の本の並びがその場の html と違う(新しい連星の本 —— 器を走らせ直す): 正本に無い ' + ids.filter((x) => !jIds.includes(x)).join(',') + ' / html に無い ' + jIds.filter((x) => !ids.includes(x)).join(','));
       let nRow = 0;
