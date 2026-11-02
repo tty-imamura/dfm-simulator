@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.47-b323",
+  "betaBuild": "v1.47-b324",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,14 +13,14 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
-  "generatedAt": "2026-11-02T08:56:19.339Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-02T20:36:58.708Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 121267,
-    "sha256": "11b8dda0adb6861dd0aee0ae6a2c90a337a422bc7ab479bed5116cece551cbc1",
-    "mtime": "2026-11-01T20:25:22.412Z"
+    "bytes": 124604,
+    "sha256": "f196349c291b4b45b7d7d50e414c818eb0cc3266913725a433e46d63f0e20949",
+    "mtime": "2026-11-02T20:36:39.436Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
@@ -36,9 +36,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 106441,
-    "sha256": "68f259fbf64fbef0c4776f035d264e26dce03282ebaf2f5634e93918ec64e2e5",
-    "mtime": "2026-11-02T08:56:19.321Z"
+    "bytes": 109029,
+    "sha256": "9dd7672ed9bcb9e3c60755238ec3336f6c38a8998eb8b788618c1f142233e2ef",
+    "mtime": "2026-11-02T20:36:58.687Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -119,7 +119,7 @@
  },
  "tally": {
   "objective": {
-   "met": 88,
+   "met": 92,
    "partial": 35,
    "unmet": 3,
    "n/a": 0
@@ -130,7 +130,7 @@
    "fail": 1,
    "hold": 16,
    "hold-definition": 0,
-   "out-of-scope": 107
+   "out-of-scope": 111
   },
   "four": {
    "合": 0,
@@ -147,7 +147,7 @@
    {
     "group": "銀河の力学",
     "icon": "🌌",
-    "n": 7
+    "n": 9
    },
    {
     "group": "天体の機構",
@@ -187,7 +187,7 @@
    {
     "group": "現実較正",
     "icon": "🎯",
-    "n": 39
+    "n": 41
    },
    {
     "group": "実在天体のアナロジー",
@@ -210,13 +210,13 @@
     "n": 0
    }
   ],
-  "n": 126,
+  "n": 130,
   "scope": "listed",
   "predictionEligible": 0,
   "builtin": {
-   "n": 182,
+   "n": 186,
    "objective": {
-    "met": 114,
+    "met": 118,
     "partial": 60,
     "unmet": 8,
     "n/a": 0
@@ -227,7 +227,7 @@
     "fail": 1,
     "hold": 16,
     "hold-definition": 2,
-    "out-of-scope": 161
+    "out-of-scope": 165
    },
    "four": {
     "合": 0,
@@ -419,7 +419,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -449,7 +449,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -753,7 +753,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -783,7 +783,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -1092,7 +1092,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -1122,7 +1122,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -1419,7 +1419,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -1449,7 +1449,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -1746,7 +1746,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -1776,7 +1776,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -2074,7 +2074,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -2104,7 +2104,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -2402,7 +2402,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -2432,7 +2432,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -2747,7 +2747,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -2777,7 +2777,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -3068,7 +3068,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -3098,7 +3098,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -3389,7 +3389,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -3419,7 +3419,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -3710,7 +3710,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -3740,7 +3740,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -4037,7 +4037,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -4067,7 +4067,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -4364,7 +4364,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -4394,7 +4394,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -4685,7 +4685,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -4715,7 +4715,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -5018,7 +5018,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -5048,7 +5048,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -5345,7 +5345,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -5375,7 +5375,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -5690,7 +5690,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -5720,7 +5720,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -6005,7 +6005,7 @@
      },
      {
       "key": "bgbudget2",
-      "sec": 43,
+      "sec": 57,
       "share": 4,
       "always": false
      },
@@ -6041,7 +6041,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -6071,7 +6071,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -6410,7 +6410,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -6440,7 +6440,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -6779,7 +6779,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -6809,7 +6809,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -7030,6 +7030,12 @@
       "always": false
      },
      {
+      "key": "geo2thick-324a",
+      "sec": 1620,
+      "share": 4,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 162,
       "share": "all",
@@ -7160,7 +7166,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -7190,7 +7196,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -7363,6 +7369,12 @@
       "always": false
      },
      {
+      "key": "geo2thick-324a",
+      "sec": 1620,
+      "share": 4,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 162,
       "share": "all",
@@ -7387,6 +7399,646 @@
        "via": "targetIds"
       }
      ]
+    }
+   }
+  },
+  {
+   "id": "galaxyGeo2Thick3d",
+   "emoji": "🥞",
+   "name": "v−u統一測地線の銀河(三次元・有限厚)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "💫 の面内の配置に有限厚(±3h の外は再抽選)を足し三次元の步で走らせる",
+    "objective": "met",
+    "state": "外縁速度比 1.1819・z の二乗平均 7.68 → 8.02・脱落 0(有限厚は初期の近似)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/geo2thick-w324a.json"
+    ],
+    "en": {
+     "purpose": "Run the in-plane layout of 💫 with a finite thickness (redraw outside ±3h) on the 3D step",
+     "state": "outer speed ratio 1.1819; z rms 7.68 -> 8.02; 0 lost (initial approximation)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Run the in-plane layout of 💫 with a finite thickness (redraw outside ±3h) on the 3D step. Met: outer speed ratio 1.1819; z rms 7.68 -> 8.02; 0 lost (initial approximation). Out of calibration scope."
+    },
+    "brief": "💫 の面内の配置に有限厚(±3h の外は再抽選)を足し三次元の步で走らせる。達・外縁速度比 1.1819・z の二乗平均 7.68 → 8.02・脱落 0(有限厚は初期の近似)。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "d0audit",
+      "sec": 19,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "qsplit",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "nslockledger",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 67,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "presetaxes",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgpredict",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 139,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotorledger",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 210,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 281,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 486,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 205,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 44,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 9,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 123,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 23,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 359,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 170,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 435,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 13,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 1644,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 411,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 111,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 231,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "statecontract-302e",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 210,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "semic-302d",
+      "sec": 896,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbgest-302c",
+      "sec": 519,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-303a",
+      "sec": 357,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-310a",
+      "sec": 14,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1x3d-314d",
+      "sec": 13,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "symbols-315a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rsexcess-315b",
+      "sec": 11,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3bin-321b",
+      "sec": 55,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo2thick-324a",
+      "sec": 1620,
+      "share": 4,
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 162,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "galaxyGeo2ThickTilt3d",
+   "emoji": "🧇",
+   "name": "v−u統一測地線の銀河(三次元・有限厚・傾き有り)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "🥞 と同じ入力を全体で回した対の本で回転共変の程度を測る",
+    "objective": "met",
+    "state": "面の座標の外縁速度比 1.1819(🥞 との差は刻みの感度の内・差は単精度の配列から)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/geo2thick-w324a.json"
+    ],
+    "en": {
+     "purpose": "The 🥞 input turned as a whole, to measure rotational covariance",
+     "state": "plane-frame outer speed ratio 1.1819 (gap to 🥞 within step sensitivity; from single-precision arrays)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "The 🥞 input turned as a whole, to measure rotational covariance. Met: plane-frame outer speed ratio 1.1819 (gap to 🥞 within step sensitivity; from single-precision arrays). Out of calibration scope."
+    },
+    "brief": "🥞 と同じ入力を全体で回した対の本で回転共変の程度を測る。達・面の座標の外縁速度比 1.1819(🥞 との差は刻みの感度の内・差は単精度の配列から)。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "d0audit",
+      "sec": 19,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "qsplit",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "nslockledger",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 67,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "presetaxes",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgpredict",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 139,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotorledger",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 210,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 281,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 486,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 205,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 44,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 9,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 123,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 23,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 359,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 170,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 435,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 13,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 1644,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 411,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 111,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 231,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "statecontract-302e",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 210,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "semic-302d",
+      "sec": 896,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbgest-302c",
+      "sec": 519,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-303a",
+      "sec": 357,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-310a",
+      "sec": 14,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1x3d-314d",
+      "sec": 13,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "symbols-315a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rsexcess-315b",
+      "sec": 11,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3bin-321b",
+      "sec": 55,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo2thick-324a",
+      "sec": 1620,
+      "share": 4,
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 162,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
     }
    }
   },
@@ -7493,7 +8145,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -7523,7 +8175,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -7826,7 +8478,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -7856,7 +8508,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -8165,7 +8817,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -8195,7 +8847,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -8492,7 +9144,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -8522,7 +9174,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -8819,7 +9471,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -8849,7 +9501,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -9146,7 +9798,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -9176,7 +9828,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -9479,7 +10131,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -9509,7 +10161,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -9812,7 +10464,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -9842,7 +10494,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -10139,7 +10791,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -10169,7 +10821,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -10466,7 +11118,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -10496,7 +11148,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -10800,7 +11452,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -10830,7 +11482,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -11122,7 +11774,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -11152,7 +11804,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -11444,7 +12096,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -11474,7 +12126,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -11765,7 +12417,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -11795,7 +12447,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -12116,7 +12768,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -12146,7 +12798,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -12468,7 +13120,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -12498,7 +13150,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -12813,7 +13465,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -12843,7 +13495,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -13146,7 +13798,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -13176,7 +13828,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -13521,7 +14173,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -13551,7 +14203,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -13847,7 +14499,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -13877,7 +14529,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -14180,7 +14832,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -14210,7 +14862,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -14514,7 +15166,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -14544,7 +15196,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -14858,7 +15510,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -14888,7 +15540,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -15202,7 +15854,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -15232,7 +15884,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -15548,7 +16200,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -15578,7 +16230,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -15883,7 +16535,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -15913,7 +16565,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -16224,7 +16876,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -16254,7 +16906,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -16570,7 +17222,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -16600,7 +17252,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -16929,7 +17581,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -16959,7 +17611,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -17264,7 +17916,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -17294,7 +17946,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -17611,7 +18263,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -17641,7 +18293,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -17945,7 +18597,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -17975,7 +18627,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -18297,7 +18949,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -18327,7 +18979,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -18624,7 +19276,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -18654,7 +19306,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -18951,7 +19603,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -18981,7 +19633,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -19278,7 +19930,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -19308,7 +19960,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -19635,7 +20287,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -19665,7 +20317,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -20016,7 +20668,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -20046,7 +20698,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -20349,7 +21001,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -20379,7 +21031,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -20688,7 +21340,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -20718,7 +21370,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -21009,7 +21661,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -21039,7 +21691,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -21336,7 +21988,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -21366,7 +22018,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -21675,7 +22327,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -21705,7 +22357,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -22002,7 +22654,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -22032,7 +22684,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -22329,7 +22981,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -22359,7 +23011,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -22662,7 +23314,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -22692,7 +23344,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -22995,7 +23647,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -23025,7 +23677,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -23329,7 +23981,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -23359,7 +24011,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -23662,7 +24314,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -23692,7 +24344,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -24019,7 +24671,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -24049,7 +24701,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -24369,7 +25021,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -24387,7 +25039,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -24417,7 +25069,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -24525,7 +25177,7 @@
      },
      {
       "key": "synodic-299b",
-      "sec": 3223,
+      "sec": 1532,
       "share": 3,
       "always": false
      },
@@ -24744,7 +25396,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -24774,7 +25426,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -25056,19 +25708,19 @@
      },
      {
       "key": "bgequiv",
-      "sec": 45,
+      "sec": 60,
       "share": 3,
       "always": false
      },
      {
       "key": "bgbudget",
-      "sec": 17,
+      "sec": 22,
       "share": 3,
       "always": false
      },
      {
       "key": "bgbudget2",
-      "sec": 43,
+      "sec": 57,
       "share": 4,
       "always": false
      },
@@ -25110,7 +25762,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -25134,7 +25786,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -25164,7 +25816,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -25248,7 +25900,7 @@
      },
      {
       "key": "synodic-299b",
-      "sec": 3223,
+      "sec": 1532,
       "share": 3,
       "always": false
      },
@@ -25473,7 +26125,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -25503,7 +26155,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -25872,7 +26524,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -25890,7 +26542,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -25920,7 +26572,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -26225,7 +26877,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -26243,7 +26895,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -26273,7 +26925,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -26605,7 +27257,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -26635,7 +27287,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -26986,7 +27638,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -27016,7 +27668,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -27355,7 +28007,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -27385,7 +28037,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -27785,7 +28437,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -27815,7 +28467,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -27893,7 +28545,7 @@
      },
      {
       "key": "synodic-299b",
-      "sec": 3223,
+      "sec": 1532,
       "share": 3,
       "always": false
      },
@@ -28329,7 +28981,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -28359,7 +29011,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -28789,7 +29441,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -28819,7 +29471,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -29104,7 +29756,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -29122,7 +29774,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -29152,7 +29804,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -29443,7 +30095,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -29461,7 +30113,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -29491,7 +30143,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -29794,7 +30446,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -29824,7 +30476,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -30319,7 +30971,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -30343,7 +30995,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -30373,7 +31025,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -30790,7 +31442,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -30820,7 +31472,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -31160,7 +31812,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -31190,7 +31842,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -31615,7 +32267,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -31645,7 +32297,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -32208,7 +32860,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -32238,7 +32890,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -32783,7 +33435,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -32813,7 +33465,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -33322,7 +33974,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -33352,7 +34004,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -33903,7 +34555,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -33933,7 +34585,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -34417,7 +35069,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -34447,7 +35099,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -34794,7 +35446,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -34824,7 +35476,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -35309,7 +35961,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -35339,7 +35991,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -35822,7 +36474,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -35852,7 +36504,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -36186,7 +36838,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -36216,7 +36868,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -36513,7 +37165,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -36543,7 +37195,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -36829,7 +37481,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -36847,7 +37499,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -36877,7 +37529,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -37183,7 +37835,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -37213,7 +37865,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -37533,7 +38185,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -37557,7 +38209,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -37587,7 +38239,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -38063,7 +38715,7 @@
      },
      {
       "key": "charon-h",
-      "sec": 488,
+      "sec": 542,
       "share": 10,
       "always": false
      },
@@ -38093,7 +38745,7 @@
      },
      {
       "key": "charoneps-h4",
-      "sec": 721,
+      "sec": 839,
       "share": 10,
       "always": false
      },
@@ -38159,7 +38811,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -38183,7 +38835,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -38213,7 +38865,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -38647,7 +39299,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -38671,7 +39323,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -38701,7 +39353,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -39054,7 +39706,7 @@
      },
      {
       "key": "charon-h",
-      "sec": 488,
+      "sec": 542,
       "share": 10,
       "always": false
      },
@@ -39090,7 +39742,7 @@
      },
      {
       "key": "charoneps-h4",
-      "sec": 721,
+      "sec": 839,
       "share": 10,
       "always": false
      },
@@ -39132,19 +39784,19 @@
      },
      {
       "key": "bgequiv",
-      "sec": 45,
+      "sec": 60,
       "share": 3,
       "always": false
      },
      {
       "key": "bgbudget",
-      "sec": 17,
+      "sec": 22,
       "share": 3,
       "always": false
      },
      {
       "key": "bgbudget2",
-      "sec": 43,
+      "sec": 57,
       "share": 4,
       "always": false
      },
@@ -39156,7 +39808,7 @@
      },
      {
       "key": "charonInput",
-      "sec": 508,
+      "sec": 569,
       "share": 5,
       "always": false
      },
@@ -39186,7 +39838,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -39210,7 +39862,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -39240,7 +39892,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -39531,7 +40183,7 @@
      },
      {
       "key": "charonInput",
-      "sec": 508,
+      "sec": 569,
       "share": 5,
       "always": false
      },
@@ -39561,7 +40213,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -39591,7 +40243,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -39889,7 +40541,7 @@
      },
      {
       "key": "charonInput",
-      "sec": 508,
+      "sec": 569,
       "share": 5,
       "always": false
      },
@@ -39919,7 +40571,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -39949,7 +40601,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -40217,7 +40869,7 @@
      },
      {
       "key": "charon-h",
-      "sec": 488,
+      "sec": 542,
       "share": 10,
       "always": false
      },
@@ -40253,7 +40905,7 @@
      },
      {
       "key": "charoneps-h4",
-      "sec": 721,
+      "sec": 839,
       "share": 10,
       "always": false
      },
@@ -40301,7 +40953,7 @@
      },
      {
       "key": "charonInput",
-      "sec": 508,
+      "sec": 569,
       "share": 5,
       "always": false
      },
@@ -40331,7 +40983,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -40349,7 +41001,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -40379,7 +41031,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -40724,7 +41376,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -40754,7 +41406,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -41094,7 +41746,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -41124,7 +41776,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -41511,7 +42163,7 @@
      },
      {
       "key": "charonInput",
-      "sec": 508,
+      "sec": 569,
       "share": 5,
       "always": false
      },
@@ -41541,7 +42193,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -41571,7 +42223,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -41869,7 +42521,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -41899,7 +42551,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -42227,7 +42879,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -42257,7 +42909,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -42631,7 +43283,7 @@
      },
      {
       "key": "charon-h",
-      "sec": 488,
+      "sec": 542,
       "share": 10,
       "always": false
      },
@@ -42661,7 +43313,7 @@
      },
      {
       "key": "charoneps-h4",
-      "sec": 721,
+      "sec": 839,
       "share": 10,
       "always": false
      },
@@ -42727,7 +43379,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -42751,7 +43403,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -42781,7 +43433,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -43165,7 +43817,7 @@
      },
      {
       "key": "charon-h",
-      "sec": 488,
+      "sec": 542,
       "share": 10,
       "always": false
      },
@@ -43195,7 +43847,7 @@
      },
      {
       "key": "charoneps-h4",
-      "sec": 721,
+      "sec": 839,
       "share": 10,
       "always": false
      },
@@ -43261,7 +43913,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -43279,7 +43931,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -43309,7 +43961,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -43488,6 +44140,12 @@
       "always": false
      },
      {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 162,
       "share": "all",
@@ -43625,7 +44283,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -43649,7 +44307,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -43679,7 +44337,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -43949,7 +44607,7 @@
      },
      {
       "key": "charon-h",
-      "sec": 488,
+      "sec": 542,
       "share": 10,
       "always": false
      },
@@ -43979,7 +44637,7 @@
      },
      {
       "key": "charoneps-h4",
-      "sec": 721,
+      "sec": 839,
       "share": 10,
       "always": false
      },
@@ -44045,7 +44703,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -44063,7 +44721,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -44093,7 +44751,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -44272,6 +44930,12 @@
       "always": false
      },
      {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 162,
       "share": "all",
@@ -44409,7 +45073,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -44433,7 +45097,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -44463,7 +45127,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -44760,7 +45424,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -44790,7 +45454,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -45093,7 +45757,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -45123,7 +45787,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -45296,6 +45960,12 @@
       "always": false
      },
      {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 162,
       "share": "all",
@@ -45320,6 +45990,646 @@
        "via": "targetIds"
       }
      ]
+    }
+   }
+  },
+  {
+   "id": "alphaCenABInertial3dJ",
+   "emoji": "🔸",
+   "name": "αケンタウリAB(慣性決定力版・三次元)— 源の角運動量 J(f は模型の入力・軸はノブ)",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "α Cen AB の geoPN=3 三次元に源の J(fSrc は模型の入力・軸はノブ)—— 並進だけの 🔶 との差",
+    "objective": "met",
+    "state": "J − 並進だけ -2.1e-13 rad/公転(h/4・軸はノブの既定)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/obsspin-w324b.json"
+    ],
+    "en": {
+     "purpose": "Alpha Cen AB geoPN=3 in 3D with source J (fSrc a model input; knob axes) vs translation-only 🔶",
+     "state": "J - translation only -2.1e-13 rad/orbit (h/4, knob defaults)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Alpha Cen AB geoPN=3 in 3D with source J (fSrc a model input; knob axes) vs translation-only 🔶. Met: J - translation only -2.1e-13 rad/orbit (h/4, knob defaults). Out of calibration scope."
+    },
+    "brief": "α Cen AB の geoPN=3 三次元に源の J(fSrc は模型の入力・軸はノブ)—— 並進だけの 🔶 との差。達・J − 並進だけ -2.1e-13 rad/公転(h/4・軸はノブの既定)。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "d0audit",
+      "sec": 19,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "qsplit",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "nslockledger",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 67,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "presetaxes",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgpredict",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 139,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotorledger",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 210,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 281,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 486,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 205,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 44,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 9,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 123,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 23,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 359,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 170,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 435,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 13,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 1644,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 411,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 111,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 231,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "statecontract-302e",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 210,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "semic-302d",
+      "sec": 896,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbgest-302c",
+      "sec": 519,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-303a",
+      "sec": 357,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-310a",
+      "sec": 14,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1x3d-314d",
+      "sec": 13,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "symbols-315a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rsexcess-315b",
+      "sec": 11,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3bin-321b",
+      "sec": 55,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 162,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "psrDoubleABInertial3d",
+   "emoji": "📟",
+   "name": "二重パルサー J0737−3039A/B(慣性決定力版・三次元)— 天体ごとの観測の自転 obsSpin(軸は推定の傾きとノブ)",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "J0737 の geoPN=3 三次元 —— 天体ごとの観測の自転 obsSpin(推定の傾きとノブの軸)",
+    "objective": "met",
+    "state": "源の J − 並進だけ -1.770e-9 rad/公転(h/4)・B の寄与 0.57%",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/obsspin-w324b.json"
+    ],
+    "en": {
+     "purpose": "J0737 geoPN=3 in 3D: per-body observed spin obsSpin (estimated tilts, knob axes)",
+     "state": "source J - translation only -1.770e-9 rad/orbit (h/4); B share 0.57%",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "J0737 geoPN=3 in 3D: per-body observed spin obsSpin (estimated tilts, knob axes). Met: source J - translation only -1.770e-9 rad/orbit (h/4); B share 0.57%. Out of calibration scope."
+    },
+    "brief": "J0737 の geoPN=3 三次元 —— 天体ごとの観測の自転 obsSpin(推定の傾きとノブの軸)。達・源の J − 並進だけ -1.770e-9 rad/公転(h/4)・B の寄与 0.57%。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "d0audit",
+      "sec": 19,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "qsplit",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "nslockledger",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 67,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "presetaxes",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgpredict",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 139,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotorledger",
+      "sec": 1,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 210,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 281,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 486,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 205,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 44,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 9,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 123,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 23,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 359,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 170,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 435,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 13,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 1644,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 411,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 111,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 231,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "statecontract-302e",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 210,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "semic-302d",
+      "sec": 896,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbgest-302c",
+      "sec": 519,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-303a",
+      "sec": 357,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-310a",
+      "sec": 14,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1x3d-314d",
+      "sec": 13,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "symbols-315a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rsexcess-315b",
+      "sec": 11,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3bin-321b",
+      "sec": 55,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 162,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
     }
    }
   },
@@ -45420,19 +46730,19 @@
      },
      {
       "key": "bgequiv",
-      "sec": 45,
+      "sec": 60,
       "share": 3,
       "always": false
      },
      {
       "key": "bgbudget",
-      "sec": 17,
+      "sec": 22,
       "share": 3,
       "always": false
      },
      {
       "key": "bgbudget2",
-      "sec": 43,
+      "sec": 57,
       "share": 4,
       "always": false
      },
@@ -45468,7 +46778,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -45486,7 +46796,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -45516,7 +46826,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -45701,6 +47011,12 @@
       "always": false
      },
      {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 162,
       "share": "all",
@@ -45778,7 +47094,7 @@
      },
      {
       "key": "charon-h",
-      "sec": 488,
+      "sec": 542,
       "share": 10,
       "always": false
      },
@@ -45808,7 +47124,7 @@
      },
      {
       "key": "charoneps-h4",
-      "sec": 721,
+      "sec": 839,
       "share": 10,
       "always": false
      },
@@ -45874,7 +47190,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -45898,7 +47214,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -45928,7 +47244,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -46226,7 +47542,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -46256,7 +47572,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -46548,7 +47864,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -46566,7 +47882,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -46596,7 +47912,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -46857,7 +48173,7 @@
      },
      {
       "key": "charon-h",
-      "sec": 488,
+      "sec": 542,
       "share": 10,
       "always": false
      },
@@ -46887,7 +48203,7 @@
      },
      {
       "key": "charoneps-h4",
-      "sec": 721,
+      "sec": 839,
       "share": 10,
       "always": false
      },
@@ -46953,7 +48269,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -46977,7 +48293,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -47007,7 +48323,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -47183,6 +48499,12 @@
       "key": "binbooks-322b",
       "sec": 24,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
       "always": false
      },
      {
@@ -47280,7 +48602,7 @@
      },
      {
       "key": "charon-h",
-      "sec": 488,
+      "sec": 542,
       "share": 10,
       "always": false
      },
@@ -47310,7 +48632,7 @@
      },
      {
       "key": "charoneps-h4",
-      "sec": 721,
+      "sec": 839,
       "share": 10,
       "always": false
      },
@@ -47376,7 +48698,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -47400,7 +48722,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -47430,7 +48752,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -47606,6 +48928,12 @@
       "key": "binbooks-322b",
       "sec": 24,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
       "always": false
      },
      {
@@ -47734,7 +49062,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -47752,7 +49080,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -47782,7 +49110,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -48074,7 +49402,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -48092,7 +49420,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -48122,7 +49450,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -48414,7 +49742,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -48432,7 +49760,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -48462,7 +49790,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -48754,7 +50082,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -48772,7 +50100,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -48802,7 +50130,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -49094,7 +50422,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -49112,7 +50440,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -49142,7 +50470,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -49434,7 +50762,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -49452,7 +50780,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -49482,7 +50810,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -49797,7 +51125,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -49815,7 +51143,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -49845,7 +51173,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -50024,6 +51352,12 @@
       "always": false
      },
      {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 162,
       "share": "all",
@@ -50095,7 +51429,7 @@
      },
      {
       "key": "charon-h",
-      "sec": 488,
+      "sec": 542,
       "share": 10,
       "always": false
      },
@@ -50125,7 +51459,7 @@
      },
      {
       "key": "charoneps-h4",
-      "sec": 721,
+      "sec": 839,
       "share": 10,
       "always": false
      },
@@ -50191,7 +51525,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -50215,7 +51549,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -50245,7 +51579,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -50537,7 +51871,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -50555,7 +51889,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -50585,7 +51919,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -50876,7 +52210,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -50906,7 +52240,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -51085,6 +52419,12 @@
       "always": false
      },
      {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 162,
       "share": "all",
@@ -51209,7 +52549,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -51239,7 +52579,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -51442,6 +52782,12 @@
       "always": false
      },
      {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 162,
       "share": "all",
@@ -51578,7 +52924,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -51608,7 +52954,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -51923,7 +53269,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -51953,7 +53299,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -52358,7 +53704,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -52388,7 +53734,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -52746,7 +54092,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -52776,7 +54122,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -53115,7 +54461,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -53145,7 +54491,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -53448,7 +54794,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -53478,7 +54824,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -53654,6 +55000,12 @@
       "key": "binbooks-322b",
       "sec": 24,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
       "always": false
      },
      {
@@ -53793,7 +55145,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -53823,7 +55175,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -54002,6 +55354,12 @@
       "always": false
      },
      {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 162,
       "share": "all",
@@ -54126,7 +55484,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -54156,7 +55514,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -54459,7 +55817,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -54489,7 +55847,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -54792,7 +56150,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -54822,7 +56180,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -55001,6 +56359,12 @@
       "always": false
      },
      {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 162,
       "share": "all",
@@ -55131,7 +56495,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -55161,7 +56525,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -55493,7 +56857,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -55523,7 +56887,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -55702,6 +57066,12 @@
       "always": false
      },
      {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 162,
       "share": "all",
@@ -55845,7 +57215,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -55869,7 +57239,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -55899,7 +57269,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -56225,7 +57595,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -56255,7 +57625,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -56552,7 +57922,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -56582,7 +57952,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -56879,7 +58249,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -56909,7 +58279,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -57212,7 +58582,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -57242,7 +58612,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -57545,7 +58915,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -57575,7 +58945,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -57896,7 +59266,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -57926,7 +59296,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -58223,7 +59593,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -58253,7 +59623,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -58544,7 +59914,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -58574,7 +59944,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -58865,7 +60235,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -58895,7 +60265,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -59192,7 +60562,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -59222,7 +60592,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -59747,7 +61117,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -59777,7 +61147,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -60113,7 +61483,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -60137,7 +61507,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -60167,7 +61537,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -60482,7 +61852,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -60512,7 +61882,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -60803,7 +62173,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -60833,7 +62203,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -61137,7 +62507,7 @@
      },
      {
       "key": "mercury",
-      "sec": 231,
+      "sec": 257,
       "share": 35,
       "always": true
      },
@@ -61161,7 +62531,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -61191,7 +62561,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -61689,7 +63059,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -61719,7 +63089,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -62010,7 +63380,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -62040,7 +63410,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -62210,6 +63580,12 @@
       "key": "binbooks-322b",
       "sec": 24,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
       "always": false
      },
      {
@@ -62356,7 +63732,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -62386,7 +63762,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -62559,6 +63935,12 @@
       "always": false
      },
      {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 162,
       "share": "all",
@@ -62689,7 +64071,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -62719,7 +64101,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -63016,7 +64398,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -63046,7 +64428,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -63349,7 +64731,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -63379,7 +64761,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -63670,7 +65052,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -63700,7 +65082,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -63991,7 +65373,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -64021,7 +65403,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -64312,7 +65694,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -64342,7 +65724,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -64633,7 +66015,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -64663,7 +66045,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -64954,7 +66336,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -64984,7 +66366,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -65281,7 +66663,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -65311,7 +66693,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -65608,7 +66990,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -65638,7 +67020,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -65811,6 +67193,12 @@
       "always": false
      },
      {
+      "key": "obsspin-324b",
+      "sec": 32,
+      "share": 18,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 162,
       "share": "all",
@@ -65935,7 +67323,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -65965,7 +67353,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -66262,7 +67650,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -66292,7 +67680,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -66583,7 +67971,7 @@
      },
      {
       "key": "pnsource286",
-      "sec": 620,
+      "sec": 486,
       "share": "all",
       "always": false
      },
@@ -66613,7 +68001,7 @@
      },
      {
       "key": "contact285",
-      "sec": 182,
+      "sec": 205,
       "share": "all",
       "always": false
      },
@@ -66811,11 +68199,11 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 210,
-  "regenSecSum": 68999,
-  "alwaysSec": 660,
+  "regenSteps": 212,
+  "regenSecSum": 69151,
+  "alwaysSec": 686,
   "undeclaredSteps": 27,
-  "undeclaredSec": 1650,
+  "undeclaredSec": 1659,
   "qaTotal": 1361,
   "qaDurationMs": 3774416,
   "qaProvenance": {
@@ -66825,8 +68213,8 @@
    "date": "2026-11-02T08:12:31.940Z",
    "betaBuild": "v1.47-b323",
    "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
-   "sameBuild": true,
-   "sameHtml": true,
+   "sameBuild": false,
+   "sameHtml": false,
    "rule": "鎖の常時群の段 samplestatus はゲートの QA の前に走る —— 保存 QA の時間は前の便のゲートの保存物(1 便遅れる)。版名が同じでも html の sha が違えば同じ便の中の前の html の QA"
   },
   "noHtmlSteps": {
@@ -66958,16 +68346,6 @@
       "uranusSunInertial3d",
       "venusReal",
       "venusSunInertial3d"
-     ]
-    },
-    {
-     "key": "synodic-299b",
-     "sec": 3223,
-     "kind": "領域の宣言",
-     "presets": [
-      "earthMoonRealKF1",
-      "earthMoonReal",
-      "earthMoonSunInertial3d"
      ]
     },
     {
@@ -67116,6 +68494,27 @@
      "sec": 1644,
      "kind": "領域の宣言",
      "presets": "all"
+    },
+    {
+     "key": "geo2thick-324a",
+     "sec": 1620,
+     "kind": "領域の宣言",
+     "presets": [
+      "galaxyGeo2",
+      "galaxyGeo2Flat3d",
+      "galaxyGeo2Thick3d",
+      "galaxyGeo2ThickTilt3d"
+     ]
+    },
+    {
+     "key": "synodic-299b",
+     "sec": 1532,
+     "kind": "領域の宣言",
+     "presets": [
+      "earthMoonRealKF1",
+      "earthMoonReal",
+      "earthMoonSunInertial3d"
+     ]
     },
     {
      "key": "planet3-311d",
@@ -67416,6 +68815,23 @@
      ]
     },
     {
+     "key": "charoneps-h4",
+     "sec": 839,
+     "kind": "領域の宣言",
+     "presets": [
+      "alphaCenAB",
+      "neptuneReal",
+      "plutoCharonDiagInput",
+      "plutoCharonReal",
+      "psrB1534DFM",
+      "psrDoubleABDFM",
+      "psrJ1757DFM",
+      "psrJ1946DFM",
+      "siriusAB",
+      "venusReal"
+     ]
+    },
+    {
      "key": "inposk1-315c",
      "sec": 831,
      "kind": "領域の宣言",
@@ -67490,23 +68906,6 @@
      ]
     },
     {
-     "key": "charoneps-h4",
-     "sec": 721,
-     "kind": "領域の宣言",
-     "presets": [
-      "alphaCenAB",
-      "neptuneReal",
-      "plutoCharonDiagInput",
-      "plutoCharonReal",
-      "psrB1534DFM",
-      "psrDoubleABDFM",
-      "psrJ1757DFM",
-      "psrJ1946DFM",
-      "siriusAB",
-      "venusReal"
-     ]
-    },
-    {
      "key": "an336-306a",
      "sec": 721,
      "kind": "領域の宣言",
@@ -67555,12 +68954,6 @@
      ]
     },
     {
-     "key": "pnsource286",
-     "sec": 620,
-     "kind": "領域の宣言",
-     "presets": "all"
-    },
-    {
      "key": "spinavg-305d",
      "sec": 610,
      "kind": "領域の宣言",
@@ -67570,6 +68963,35 @@
       "chainDiskToy3dTilt",
       "chainSpreadToy3d",
       "saturnRingInertial3d"
+     ]
+    },
+    {
+     "key": "charonInput",
+     "sec": 569,
+     "kind": "領域の宣言",
+     "presets": [
+      "plutoCharonDFM",
+      "plutoCharonDiagInput",
+      "plutoCharonKF0Control",
+      "plutoCharonReal",
+      "plutoCharonSyncZero"
+     ]
+    },
+    {
+     "key": "charon-h",
+     "sec": 542,
+     "kind": "領域の宣言",
+     "presets": [
+      "alphaCenAB",
+      "neptuneReal",
+      "plutoCharonDiagInput",
+      "plutoCharonReal",
+      "psrB1534DFM",
+      "psrDoubleABDFM",
+      "psrJ1757DFM",
+      "psrJ1946DFM",
+      "siriusAB",
+      "venusReal"
      ]
     },
     {
@@ -67618,33 +69040,10 @@
      ]
     },
     {
-     "key": "charonInput",
-     "sec": 508,
+     "key": "pnsource286",
+     "sec": 486,
      "kind": "領域の宣言",
-     "presets": [
-      "plutoCharonDFM",
-      "plutoCharonDiagInput",
-      "plutoCharonKF0Control",
-      "plutoCharonReal",
-      "plutoCharonSyncZero"
-     ]
-    },
-    {
-     "key": "charon-h",
-     "sec": 488,
-     "kind": "領域の宣言",
-     "presets": [
-      "alphaCenAB",
-      "neptuneReal",
-      "plutoCharonDiagInput",
-      "plutoCharonReal",
-      "psrB1534DFM",
-      "psrDoubleABDFM",
-      "psrJ1757DFM",
-      "psrJ1946DFM",
-      "siriusAB",
-      "venusReal"
-     ]
+     "presets": "all"
     },
     {
      "key": "galaxyproto",
@@ -67783,7 +69182,7 @@
     },
     {
      "key": "mercury",
-     "sec": 231,
+     "sec": 257,
      "kind": "常時群",
      "presets": [
       "alphaCenAB",
@@ -67881,6 +69280,12 @@
      "presets": "all"
     },
     {
+     "key": "contact285",
+     "sec": 205,
+     "kind": "領域の宣言",
+     "presets": "all"
+    },
+    {
      "key": "charoneps-h",
      "sec": 193,
      "kind": "領域の宣言",
@@ -67966,12 +69371,6 @@
       "venusReal",
       "venusSunInertial3d"
      ]
-    },
-    {
-     "key": "contact285",
-     "sec": 182,
-     "kind": "領域の宣言",
-     "presets": "all"
     },
     {
      "key": "planets3d-299c",
@@ -68271,6 +69670,27 @@
      ]
     },
     {
+     "key": "bgequiv",
+     "sec": 60,
+     "kind": "領域の宣言",
+     "presets": [
+      "earthMoonRealKF1",
+      "plutoCharonReal",
+      "psrDoubleAB"
+     ]
+    },
+    {
+     "key": "bgbudget2",
+     "sec": 57,
+     "kind": "領域の宣言",
+     "presets": [
+      "earthMoonRealKF1",
+      "galaxy",
+      "plutoCharonReal",
+      "psrDoubleAB"
+     ]
+    },
+    {
      "key": "geo3bin-321b",
      "sec": 55,
      "kind": "領域の宣言",
@@ -68361,16 +69781,6 @@
      ]
     },
     {
-     "key": "bgequiv",
-     "sec": 45,
-     "kind": "領域の宣言",
-     "presets": [
-      "earthMoonRealKF1",
-      "plutoCharonReal",
-      "psrDoubleAB"
-     ]
-    },
-    {
      "key": "analogy",
      "sec": 45,
      "kind": "領域の宣言",
@@ -68401,17 +69811,6 @@
      "sec": 44,
      "kind": "領域の宣言",
      "presets": "all"
-    },
-    {
-     "key": "bgbudget2",
-     "sec": 43,
-     "kind": "領域の宣言",
-     "presets": [
-      "earthMoonRealKF1",
-      "galaxy",
-      "plutoCharonReal",
-      "psrDoubleAB"
-     ]
     },
     {
      "key": "kf0",
@@ -68471,12 +69870,43 @@
      ]
     },
     {
+     "key": "obsspin-324b",
+     "sec": 32,
+     "kind": "領域の宣言",
+     "presets": [
+      "alphaCenAB",
+      "alphaCenABInertial3d",
+      "alphaCenABInertial3dJ",
+      "binary",
+      "boxBinaryToy",
+      "compactForceToy",
+      "coord3dKeplerTilt",
+      "coord3dSpinPrecess",
+      "fig8",
+      "gw150914",
+      "inertialDragPair",
+      "psrB1534",
+      "psrDoubleAB",
+      "psrDoubleABInertial3d",
+      "psrJ1757DFM",
+      "psrJ1946DFM",
+      "siriusAB",
+      "spinDipoleBinary"
+     ]
+    },
+    {
      "key": "axialsign-302e",
      "sec": 31,
      "kind": "領域の宣言",
      "presets": [
       "chainDiskToy3dTilt"
      ]
+    },
+    {
+     "key": "galaxyprof",
+     "sec": 27,
+     "kind": "宣言なし(html 全体)",
+     "presets": null
     },
     {
      "key": "sync",
@@ -68511,7 +69941,7 @@
      ]
     },
     {
-     "key": "galaxyprof",
+     "key": "galaxyprof2",
      "sec": 23,
      "kind": "宣言なし(html 全体)",
      "presets": null
@@ -68521,6 +69951,16 @@
      "sec": 23,
      "kind": "領域の宣言",
      "presets": "all"
+    },
+    {
+     "key": "bgbudget",
+     "sec": 22,
+     "kind": "領域の宣言",
+     "presets": [
+      "earthMoonRealKF1",
+      "plutoCharonReal",
+      "psrDoubleAB"
+     ]
     },
     {
      "key": "dt3",
@@ -68545,22 +69985,6 @@
      "sec": 19,
      "kind": "領域の宣言",
      "presets": "all"
-    },
-    {
-     "key": "galaxyprof2",
-     "sec": 18,
-     "kind": "宣言なし(html 全体)",
-     "presets": null
-    },
-    {
-     "key": "bgbudget",
-     "sec": 17,
-     "kind": "領域の宣言",
-     "presets": [
-      "earthMoonRealKF1",
-      "plutoCharonReal",
-      "psrDoubleAB"
-     ]
     },
     {
      "key": "bevel-308a",

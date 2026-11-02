@@ -2087,27 +2087,27 @@
    }
   },
   "alphaCenABInertial3dJ": {
-   "purpose": "α Cen AB の geoPN=3 三次元に源の角運動量 J(fSrc は模型の入力・軸はノブ)—— 並進だけの 🔶 との差を同じ窓で見る",
+   "purpose": "α Cen AB の geoPN=3 三次元に源の J(fSrc は模型の入力・軸はノブ)—— 並進だけの 🔶 との差",
    "objective": "met",
-   "state": "J − 並進だけ -2.1e-13 rad/公転(h/4・軸はノブの既定 0°)・状態の自転は不変",
+   "state": "J − 並進だけ -2.1e-13 rad/公転(h/4・軸はノブの既定)",
    "evidence": [
     "tests/out/obsspin-w324b.json"
    ],
    "en": {
-    "purpose": "Alpha Cen AB geoPN=3 in 3D with the source angular momentum J (fSrc a model input, axes as knobs): the gap to the translation-only 🔶 in the same window",
-    "state": "J - translation only -2.1e-13 rad/orbit (h/4, axes at the knob default 0 deg); state spins unchanged"
+    "purpose": "Alpha Cen AB geoPN=3 in 3D with source J (fSrc a model input; knob axes) vs translation-only 🔶",
+    "state": "J - translation only -2.1e-13 rad/orbit (h/4, knob defaults)"
    }
   },
   "psrDoubleABInertial3d": {
-   "purpose": "J0737 の geoPN=3 三次元 —— 天体ごとの観測の自転 obsSpin(軸は推定の傾きとノブ —— 源の J が入る)",
+   "purpose": "J0737 の geoPN=3 三次元 —— 天体ごとの観測の自転 obsSpin(推定の傾きとノブの軸)",
    "objective": "met",
-   "state": "源の J − 並進だけ -1.770e-9 rad/公転(h/4)・うち B の寄与 0.57%・欠測の写しは並進だけとビット同一",
+   "state": "源の J − 並進だけ -1.770e-9 rad/公転(h/4)・B の寄与 0.57%",
    "evidence": [
     "tests/out/obsspin-w324b.json"
    ],
    "en": {
-    "purpose": "J0737 geoPN=3 in 3D: the per-body observed spin obsSpin (axes from estimated tilts and knobs - the source J enters)",
-    "state": "source J - translation only -1.770e-9 rad/orbit (h/4); B's share 0.57%; the axis-missing copy is bit-identical to translation only"
+    "purpose": "J0737 geoPN=3 in 3D: per-body observed spin obsSpin (estimated tilts, knob axes)",
+    "state": "source J - translation only -1.770e-9 rad/orbit (h/4); B share 0.57%"
    }
   },
   "psrDoubleAB": {
