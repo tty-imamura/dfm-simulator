@@ -390,6 +390,7 @@
     "galaxyAnalogyBH",
     "galaxyDB",
     "galaxyGeo2",
+    "galaxyGeo2Flat3d",
     "galaxyMeshSpiral",
     "galaxyMeshSpiralGeoToy",
     "galaxyMeshSpiralGeoToyLite",
@@ -463,7 +464,7 @@
     "whiteDwarfBareDFM",
     "whiteDwarfDFM"
    ],
-   "nNamed": 94,
+   "nNamed": 95,
    "prospect": "enumerates"
   },
   {
@@ -1189,11 +1190,11 @@
    "reasons": [
     {
      "file": "tests/exp-w301g-wbglaw.mjs",
-     "line": 115,
+     "line": 116,
      "use": "filter",
      "kind": "filter",
      "via": "harness",
-     "text": "const inert = HP.allPresets().filter((p) => ((p.physics || {}).relativeDrag || {}).law === 'inertial' && !LATER_BOOKS_318.has(p.id)).map((p)"
+     "text": "const inert = HP.allPresets().filter((p) => ((p.physics || {}).relativeDrag || {}).law === 'inertial' && !isRuleBookW322(p)).map((p) => pre3"
     }
    ],
    "namedIds": [
@@ -1224,13 +1225,12 @@
     "saturnRingInertial3d",
     "saturnRingReal",
     "saturnSunInertial3d",
-    "solarSystem16Inertial3d",
     "uranusReal",
     "uranusSunInertial3d",
     "venusReal",
     "venusSunInertial3d"
    ],
-   "nNamed": 32,
+   "nNamed": 31,
    "prospect": "enumerates"
   },
   {
@@ -1243,11 +1243,11 @@
    "reasons": [
     {
      "file": "tests/exp-w302d-semic.mjs",
-     "line": 66,
+     "line": 67,
      "use": "filter",
      "kind": "filter",
      "via": "harness",
-     "text": "const all = HP.allPresets().filter((p) => !LATER_BOOKS_318.has(p.id)), isInertial = (p) => !!(p.physics && p.physics.relativeDrag && p.physi"
+     "text": "const all = HP.allPresets().filter((p) => !isRuleBookW322(p)), isInertial = (p) => !!(p.physics && p.physics.relativeDrag && p.physics.relat"
     }
    ],
    "namedIds": [
@@ -1279,13 +1279,12 @@
     "saturn",
     "saturnRingReal",
     "saturnSunInertial3d",
-    "solarSystem16Inertial3d",
     "uranusReal",
     "uranusSunInertial3d",
     "venusReal",
     "venusSunInertial3d"
    ],
-   "nNamed": 33,
+   "nNamed": 32,
    "prospect": "enumerates"
   },
   {
@@ -1298,15 +1297,15 @@
    "reasons": [
     {
      "file": "tests/exp-w302c-wbgest.mjs",
-     "line": 189,
+     "line": 190,
      "use": "filter",
      "kind": "filter",
      "via": "harness",
-     "text": "export function gLocBooks(HP) { return HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.physics && p.physics.gLoc && !LATER_BOO"
+     "text": "export function gLocBooks(HP) { return HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.physics && p.physics.gLoc && !isRuleBoo"
     },
     {
      "file": "tests/exp-w302c-wbgest.mjs",
-     "line": 270,
+     "line": 271,
      "use": "filter",
      "kind": "filter",
      "via": "harness",
@@ -1344,13 +1343,12 @@
     "saturnRingInertial3d",
     "saturnRingReal",
     "saturnSunInertial3d",
-    "solarSystem16Inertial3d",
     "uranusReal",
     "uranusSunInertial3d",
     "venusReal",
     "venusSunInertial3d"
    ],
-   "nNamed": 35,
+   "nNamed": 34,
    "prospect": "enumerates"
   },
   {
@@ -1363,7 +1361,7 @@
    "reasons": [
     {
      "file": "tests/exp-w303a-refit.mjs",
-     "line": 295,
+     "line": 296,
      "use": "(値)",
      "kind": "value",
      "via": "harness",
@@ -1405,13 +1403,12 @@
     "saturnRingInertial3d",
     "saturnRingReal",
     "saturnSunInertial3d",
-    "solarSystem16Inertial3d",
     "uranusReal",
     "uranusSunInertial3d",
     "venusReal",
     "venusSunInertial3d"
    ],
-   "nNamed": 35,
+   "nNamed": 34,
    "prospect": "enumerates"
   },
   {

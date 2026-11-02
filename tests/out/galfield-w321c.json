@@ -1,9 +1,9 @@
 {
- "version": "w321c-galfield-1",
- "libVersion": "w321c-galfield-lib-1",
+ "version": "w321c-galfield-2",
+ "libVersion": "w321c-galfield-lib-2",
  "generator": "tests/exp-w321c-galfield.mjs",
  "target": "beta/index.html",
- "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+ "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
  "reuseFrom": null,
  "ruling": "原仮定者の予定(第123報)「geoPN=4の予定: 処理を一新する。銀河の軸引きずりの知見から、銀河の回転引きずりを推定して、銀河のサンプルを作成する」・原仮定者の回答(2026-10-31 —— AN489)・決断事項 AN486・AN487・AN488・AN496・AN497・AN498・統括の検証項目 R268。エンジン・在位の本・受け手の R_d = Y_k m・規則は変えない(器・lib・正本・文書だけ)。半渦度を受け手の軸へ直結する項はエンジンに足さない",
  "workers": 2,
@@ -171,9 +171,31 @@
    ],
    "rCutMain": 4,
    "kind": "J"
-  }
+  },
+  "proxyPos": [
+   [
+    8.2,
+    0,
+    0
+   ],
+   [
+    0,
+    8.2,
+    0
+   ],
+   [
+    6,
+    4,
+    0.5
+   ],
+   [
+    6,
+    -4,
+    -0.5
+   ]
+  ]
  },
- "fieldVersion": "w321c-galfield-1",
+ "fieldVersion": "w321c-galfield-2",
  "model": "mw319b-tanh",
  "decl": {
   "zTop": 40,
@@ -294,28 +316,28 @@
  },
  "timing": {
   "T": {
-   "wallSec": 193.684
+   "wallSec": 133.684
   },
   "G0std": {
-   "wallSec": 78.113
+   "wallSec": 56.892
   },
   "V": {
-   "wallSec": 87.649
+   "wallSec": 58.711
   },
   "G0db": {
-   "wallSec": 63.201
+   "wallSec": 49.825
   },
   "P": {
-   "wallSec": 32.94
+   "wallSec": 24.683
   },
   "G0rest": {
-   "wallSec": 15.493
+   "wallSec": 13.664
   },
   "H": {
-   "wallSec": 25.633
+   "wallSec": 18.864
   },
   "N": {
-   "wallSec": 11.413
+   "wallSec": 9.554
   }
  },
  "G0": {
@@ -376,7 +398,7 @@
     ],
     "sha256": "4723a04d422f50cec753a0b675afd391c4328d125e5bfdf4ed449c5c0eac1a9c"
    },
-   "wallSec": 78.113
+   "wallSec": 56.892
   },
   "db": {
    "id": "galaxyDB",
@@ -436,7 +458,7 @@
     ],
     "sha256": "3061b7f7aa42471451b680b00eeb9ed936a46da40871633323bf9b1969126804"
    },
-   "wallSec": 63.201
+   "wallSec": 49.824
   },
   "rest": [
    {
@@ -481,7 +503,7 @@
      ],
      "sha256": "147961b14523043cc9deb11a08e659ca227f5f65eee2d0e85610cd4abd50abda"
     },
-    "wallSec": 12.656
+    "wallSec": 10.354
    },
    {
     "id": "chainDiskToy3d",
@@ -525,7 +547,7 @@
      ],
      "sha256": "1cca31d0a9d1ec30df50f48c33a17409657d061d56b07322cf92eb532df72339"
     },
-    "wallSec": 0.667
+    "wallSec": 1.001
    },
    {
     "id": "chainSpreadToy3d",
@@ -569,7 +591,7 @@
      ],
      "sha256": "8cb149ac0895753cf5521a6b3e5dc86096a32aa299e32656177483f24b0b9468"
     },
-    "wallSec": 2.168
+    "wallSec": 2.307
    },
    {
     "id": "galaxyGeo2",
@@ -3132,6 +3154,118 @@
    "dUdt": null,
    "complete": false
   },
+  "proxy": {
+   "J": 5.72748184212107e+66,
+   "rows": [
+    {
+     "pos": [
+      8.2,
+      0,
+      0
+     ],
+     "uPhi": 0.33216183159009116,
+     "wR": 0,
+     "wZ": -6.563799905860211e-22,
+     "projSame": true,
+     "partSame": true,
+     "nonzero": true,
+     "uRRel": 0,
+     "uZRel": 0,
+     "wPhiRel": 0
+    },
+    {
+     "pos": [
+      0,
+      8.2,
+      0
+     ],
+     "uPhi": 0.33216183159009116,
+     "wR": 0,
+     "wZ": -6.563799905860211e-22,
+     "projSame": true,
+     "partSame": true,
+     "nonzero": true,
+     "uRRel": 6.123233995736766e-17,
+     "uZRel": 0,
+     "wPhiRel": 0
+    },
+    {
+     "pos": [
+      6,
+      4,
+      0.5
+     ],
+     "uPhi": 0.4264318760473782,
+     "wR": 1.9836912807462917e-22,
+     "wZ": -9.444704674672095e-22,
+     "projSame": true,
+     "partSame": true,
+     "nonzero": true,
+     "uRRel": 6.508794762928362e-17,
+     "uZRel": 0,
+     "wPhiRel": 1.2180309130311032e-17
+    },
+    {
+     "pos": [
+      6,
+      -4,
+      -0.5
+     ],
+     "uPhi": 0.4264318760473782,
+     "wR": -1.9836912807462917e-22,
+     "wZ": -9.444704674672095e-22,
+     "projSame": true,
+     "partSame": true,
+     "nonzero": true,
+     "uRRel": 6.508794762928362e-17,
+     "uZRel": 0,
+     "wPhiRel": 1.2180309130311032e-17
+    }
+   ],
+   "cases": [
+    {
+     "key": "proxyAlone",
+     "ja": "代理だけ(galaxy:proxy・proxy.J)",
+     "accepted": true,
+     "expect": true,
+     "err": null,
+     "same": true
+    },
+    {
+     "key": "proxyOnDisk",
+     "ja": "proxy を disk:thin の所有宣言に置く(逆向きの検査)",
+     "accepted": false,
+     "expect": false,
+     "err": "proxy は galaxy:proxy の所有宣言にだけ置ける(第322便c): thin",
+     "same": true
+    },
+    {
+     "key": "proxyOnResidual",
+     "ja": "proxy を残余の項(R ≥ 4 kpc の円盤)に置く",
+     "accepted": false,
+     "expect": false,
+     "err": "proxy は galaxy:proxy の所有宣言にだけ置ける(第322便c): residual",
+     "same": true
+    },
+    {
+     "key": "proxyNorm",
+     "ja": "代理に normalization を求める(J から β は決まらない)",
+     "accepted": false,
+     "expect": false,
+     "err": "代理の J だけでは β が決まらない —— 代理の項に normalization を求めない(第322便c)",
+     "same": true
+    },
+    {
+     "key": "modelNorm",
+     "ja": "代理でない項(H2 の円盤だけ)に normalization を求める(対照)",
+     "accepted": true,
+     "expect": true,
+     "err": null,
+     "same": true
+    }
+   ],
+   "ok": true
+  },
   "splitRelMax": 1.460733567805037e-14,
   "casesSame": true,
   "rotRelMax": 0
@@ -4835,6 +4969,7 @@
   "pSplit": true,
   "pCases": true,
   "pRot": true,
+  "pProxy": true,
   "nRepro": true,
   "vOrigin": true,
   "hEngine": true,
@@ -4842,33 +4977,33 @@
   "hBodies": true
  },
  "ok": true,
- "elapsedS": 258.437,
+ "elapsedS": 187.998,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第321便c",
   "target": "beta/index.html",
-  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-  "generatedAt": "2026-11-01T00:51:48.451Z",
+  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+  "generatedAt": "2026-11-01T18:11:51.793Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7403262,
-    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-    "mtime": "2026-10-31T17:17:55.600Z"
+    "bytes": 7487036,
+    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+    "mtime": "2026-11-01T12:44:54.266Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w321c-galfield.mjs",
-    "bytes": 44321,
-    "sha256": "6c39c973096263c53244291cae7b8bd3b629d25a0e47a3fab93c0919f739f487",
-    "mtime": "2026-10-31T16:24:41.700Z"
+    "bytes": 48242,
+    "sha256": "34f662f69ed147f6147d05c56c5a56d90c2ff8841a2d0af9633ef208e14c9e99",
+    "mtime": "2026-11-01T07:32:18.913Z"
    },
    {
     "file": "tests/lib-w321c-galfield.mjs",
-    "bytes": 27710,
-    "sha256": "3ac07773fca2447da87b36995b11da6fb993af7d149c8c71e24e5a9d989b381c",
-    "mtime": "2026-10-31T16:24:41.700Z"
+    "bytes": 29045,
+    "sha256": "88c79fb3873c9c46b1949017d3ab2531109f647458816de3dac04924afdb0108",
+    "mtime": "2026-11-01T07:32:18.917Z"
    },
    {
     "file": "tests/lib-w320c-nbcompose.mjs",
@@ -4943,8 +5078,8 @@
     "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
-  "codeSha256": "45afe1879824effcda9dcbac3dd4db8a3c7de62bb9b7b6ceeb1af58333f798d6",
-  "harnessVersion": "w321c-galfield-1",
+  "codeSha256": "d4a6ad613c95cd647c5f3f075fe24a847f274a16f9aa7a58bfb3933ddd979966",
+  "harnessVersion": "w321c-galfield-2",
   "stage": "galfield",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・子プロセス 2 本で部を分ける)",
   "literature": [
@@ -5024,11 +5159,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1373,
-   "segments": 1211,
-   "closureShare": 0.3098
+   "names": 1379,
+   "segments": 1217,
+   "closureShare": 0.3097
   },
-  "scopeSha256": "2335b1e621208c21c256fb52882f77caa66e253a639cb6fd581f5e95165335ce",
+  "scopeSha256": "95b3a189789916b37888672d690a0b548a2f5b7043579b06a4818fb86ad1976e",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

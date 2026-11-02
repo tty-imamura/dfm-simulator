@@ -25,9 +25,11 @@
 import { COEF, KDIP, integrate, ringP, ringQ, sigOf, hOf, vOf, gOf, rhoBulge, ALL_COMPS, combineDisjoint, diskJ } from './lib-w320c-nbcompose.mjs';
 import { MW, FLOW, KPC, MSUN, AU, gl01, zQuant, nrm, dot, cross, add3, scl3, relDiff } from './lib-w319b-srcradius.mjs';
 export { COEF, KDIP, MW, FLOW, KPC, MSUN, AU, nrm, dot, cross, add3, scl3, relDiff, ALL_COMPS };
-export const LIB_VERSION = 'w321c-galfield-lib-1';
-/** 場の API の契約の版(sample の戻り値の形・単位・座標・演算の宣言 —— 形を変えたら上げる) */
-export const FIELD_VERSION = 'w321c-galfield-1';
+// 第322便c(統括の検証項目 R272): 版 2 —— 代理 J の項の直し(①円筒の成分〔uPhi・halfCurlCyl〕も直交の総和と同じく累算 ②proxy は galaxy:proxy の所有宣言にだけ置ける
+//   〔逆向きの検査〕③J だけの代理に normalization を求めたら拒否〔J から β は決まらない〕)。代理でない項の値は版 1 と同じビット(版の名の欄だけが変わる)
+export const LIB_VERSION = 'w321c-galfield-lib-2';
+/** 場の API の契約の版(sample の戻り値の形・単位・座標・演算の宣言 —— 形を変えたら上げる)。版 2(第322便c): 代理の項の円筒の成分・受理の域(proxy の所有の逆検査・代理の normalization の拒否) */
+export const FIELD_VERSION = 'w321c-galfield-2';
 /** 宣言の模型の名(第319便b の MW・FLOW の写し —— 値は lib-w319b-srcradius.mjs の凍結の定数) */
 export const MODEL_ID = 'mw319b-tanh';
 
@@ -147,6 +149,7 @@ export function checkState(st) {
   for (const t of st.terms) {
     if (!(t.coef === undefined || Number.isFinite(t.coef))) throw new RangeError('項の係数 coef が有限でない: ' + t.key);
     const px = t.owns.some((o) => o.comp === 'galaxy:proxy');
+    if (!px && t.proxy != null) throw new RangeError('proxy は galaxy:proxy の所有宣言にだけ置ける(第322便c): ' + t.key);
     if (px && !(t.proxy && Number.isFinite(t.proxy.J))) throw new RangeError('代理の項は proxy.J(ĝ の向きの角運動量 [kg m²/s])を宣言する');
   }
   return st.terms.map((t) => ({ key: t.key, coef: t.coef === undefined ? 1 : t.coef, owns: t.owns.map((o) => ({ comp: o.comp, lo: o.lo === undefined ? 0 : o.lo, hi: o.hi === undefined ? Infinity : o.hi })), proxy: t.proxy || null }));
@@ -177,6 +180,7 @@ function termBetaOnly(t, R, z, o) { let b = 0; for (const ow of t.owns) b += ow.
 export function sample(positionKpc, time, sourceState, opts = {}) {
   const o = Object.assign({ rel: DECL.quadRel, epsKpc: 0, fdKpc: DECL.fdKpc }, opts), st = sourceState || fullState();
   const terms = checkState(st), [x, y, z] = positionKpc, R = Math.hypot(x, y), phi = Math.atan2(y, x), dom = DECL.domain;
+  if (o.normalization && terms.some((t) => t.proxy)) throw new RangeError('代理の J だけでは β が決まらない —— 代理の項に normalization を求めない(第322便c)');
   const inside = R >= dom.RminKpc && R <= dom.RmaxKpc && Math.abs(z) <= dom.zAbsMaxKpc;
   const base = { version: FIELD_VERSION, libVersion: LIB_VERSION, positionKpc: [x, y, z], cyl: { RKpc: R, phi, zKpc: z }, time: time === undefined ? null : time,
     contract: { frame: 'galactocentric', axes: '+z = ĝ・+x = 銀河の中心 → 太陽・+y = ĝ × x̂', velocityRef: 'source-flow-GC(源の流れの銀河中心系 —— 受け手の動きの項を数えない)', operator: 'B(中心・残余とも源の流れの場とその半渦度 —— 同じ演算の線形の和)',
@@ -189,8 +193,11 @@ export function sample(positionKpc, time, sourceState, opts = {}) {
   for (const t of terms) {
     if (t.proxy) {   // 代理(全体の有効中心質量の J 双極子 —— 他の成分と同時に持たない)
       const d = dipoleField([0, 0, t.proxy.J], xm), G = d.G.map((r) => r.map((v) => v * t.coef)), u = scl3(d.u, t.coef);
-      parts.push({ key: t.key, coef: t.coef, kind: 'proxy', u, gradU: flat9(G), halfCurl: halfCurlOfG(G) });
+      // 第322便c: 円筒の成分を直交の成分の射影で(J ∥ ĝ の双極子は純方位 —— u_R = u_z = 0・ω½_φ = 0)。版 1 はここを飛ばして uPhi・halfCurlCyl が 0 のままだった
+      const hc = halfCurlOfG(G), cph = Math.cos(phi), sph = Math.sin(phi), uP = -sph * u[0] + cph * u[1], wR = cph * hc[0] + sph * hc[1];
+      parts.push({ key: t.key, coef: t.coef, kind: 'proxy', uPhi: uP, halfCurlCyl: { R: wR, phi: 0, z: hc[2] }, u, gradU: flat9(G), halfCurl: hc });
       for (let i = 0; i < 3; i++) { tot.u[i] += u[i]; for (let j = 0; j < 3; j++) tot.G[i][j] += G[i][j]; }
+      uPhiAll += uP; wrAll += wR; wzAll += hc[2];
       continue;
     }
     const c = termCyl(t, R, z, o), dRu = 2 * c.wz - c.u / (R * KPC), dZu = -2 * c.wr, Gc = gradCartOf(phi, c.u, R * KPC, dRu, dZu), B = cylBasis(phi);

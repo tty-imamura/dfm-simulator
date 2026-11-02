@@ -2,7 +2,7 @@
  "version": "w315b-rsexcess-1",
  "generator": "tests/exp-w315b-rsexcess.mjs",
  "target": "beta/index.html",
- "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+ "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
  "ruling": "決断事項 AN415 観測半径を超えた R_d の表示を、観測半径を超えたシュヴァルツシルト半径 r_s の表示に変更(r_s は全質量と本の G_0・c_0 から・DFM による地平面の判定ではない・R_d の受理と警告と読み口は残す)・原仮定者の裁定(第117報)AN414 の記号・K1 の境界の 1 点・統括の検証項目 R243",
  "units": {
   "book": {
@@ -21,7 +21,7 @@
  },
  "quick": false,
  "rsVersion": "w315b-rs-excess-1",
- "nBuiltin": 177,
+ "nBuiltin": 182,
  "P": {
   "rows": [
    {
@@ -841,9 +841,9 @@
   "ok": true
  },
  "B": {
-  "nPresets": 177,
-  "judged": 1207,
-  "nSame": 177,
+  "nPresets": 182,
+  "judged": 1216,
+  "nSame": 182,
   "excess": [
    {
     "id": "massLadder",
@@ -1378,40 +1378,40 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.027
+   "wallSec": 0.053
   },
   "E": {
-   "wallSec": 0.006
+   "wallSec": 0.011
   },
   "F": {
-   "wallSec": 0.013
-  },
-  "V": {
    "wallSec": 0.015
   },
+  "V": {
+   "wallSec": 0.014
+  },
   "Z": {
-   "wallSec": 0.093
+   "wallSec": 0.126
   },
   "B": {
-   "wallSec": 9.962
+   "wallSec": 9.093
   },
   "K": {
-   "wallSec": 0.167
+   "wallSec": 0.128
   }
  },
- "elapsedS": 12.297,
+ "elapsedS": 11.384,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便b",
   "target": "beta/index.html",
-  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-  "generatedAt": "2026-10-31T23:55:56.917Z",
+  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
+  "generatedAt": "2026-11-01T21:00:41.355Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7403262,
-    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-    "mtime": "2026-10-31T17:17:55.600Z"
+    "bytes": 7491601,
+    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
+    "mtime": "2026-11-01T20:25:22.344Z"
    }
   ],
   "code": [
@@ -1479,11 +1479,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1330,
-   "segments": 1168,
-   "closureShare": 0.2998
+   "names": 1336,
+   "segments": 1174,
+   "closureShare": 0.2996
   },
-  "scopeSha256": "e4d4d17f8318ac08e3f63b6d0422daab1b2234066ba908e8c2b1d90ea48be7c9",
+  "scopeSha256": "825da7cf681f6b8f1dfe61a2296be8f1cca284b92a0c9e946dad2206694b2ddb",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

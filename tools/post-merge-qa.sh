@@ -492,6 +492,32 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.galField321c docs.nbCompose320c docs.sr
 #   受理器を読む behavior.srcHeat320・docs.srcHeat320・受理器の理由の文の表 lint.textRegistry318・lint.presetText316c・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcMomentIdx321 docs.w321d behavior.srcHeat320 docs.srcHeat320 lint.textRegistry318 lint.presetText316c lint.sectionLookup313 lint.qaHeapRelease310"
 # ==== 第321便d の塊(ここまで)====
+# ==== 第322便a の塊(ここから)====
+# 第322便a(原仮定者の予定(第123報)・AN504・R270): 枝 a の新設 2 本(behavior.geo2flat322a —— geoPN=2 の 3D の輸送を dfmStep3 へ接続した步の面への退化・純関数との照合・初回の履歴・
+#   保存と復帰・口座・門の表・平面の 3D 銀河の本・docs.geo2flat322a —— 正本と文書)と、世代切替を受けた第321便a の 2 本(behavior.geo2v3321a・docs.geo2v3321a —— 今の門を S2 の世代で読む)・
+#   正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・CANON の lint.canon304・lint.qaHeapRelease310・
+#   lint.sectionLookup313・煙試験の窓の表の lint.harnessSmoke303(家族の表と SAMPLE_STATUS の生成領域は鎖の段 families・samplestatus が作り直す)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.geo2flat322a docs.geo2flat322a behavior.geo2v3321a docs.geo2v3321a lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.harnessSmoke303"
+# ==== 第322便a の塊(ここまで)====
+# ==== 第322便b の塊(ここから)====
+# 第322便b(原仮定者の回答 AN499・AN505・AN492・AN508・R271): 枝 b の新設 2 本(behavior.binBooks322b —— 内蔵の 4 本の受理と兄弟の写しの同一・走行のビット・表示の 1 + (4/3)η・
+#   docs.binBooks322b —— 正本と文書・NS の観測の自転の欄の設計)と、後に入った本の除外を宣言の条件へ移した QA 6 本(behavior.wbgDirect302・preset.gLocPlanets302・docs.semic302・
+#   preset.revertGLoc303・behavior.invSq309・behavior.galaxial311)・lint.laterBooks319(世代切替)・docs.geo3Bin321b(S2 の本の世代切替)・ui.fidelity・正本の段の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.binBooks322b docs.binBooks322b behavior.wbgDirect302 preset.gLocPlanets302 docs.semic302 preset.revertGLoc303 behavior.invSq309 behavior.galaxial311 lint.laterBooks319 docs.geo3Bin321b ui.fidelity lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.harnessSmoke303"
+# ==== 第322便b の塊(ここまで)====
+# ==== 第322便c の塊(ここから)====
+# 第322便c(決断事項 AN501・AN503・AN506・AN511・AN512・R272): 枝 c の新設 1 本(docs.fieldContract322c —— 外部場の輸送の力学の契約の導出と散逸のグループの集計の正本と文書・純関数の作り直し)と、
+#   lib 版 2 にした第321便c の docs.galField321c(代理 J の直し —— 正本を作り直した)・正本の段の lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・
+#   lint.provenanceMeta・CANON の lint.canon304・lint.qaHeapRelease310・lint.sectionLookup313・lint.kappaSymbol315・煙試験の窓の表の lint.harnessSmoke303
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.fieldContract322c docs.galField321c lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.harnessSmoke303"
+# ==== 第322便c の塊(ここまで)====
+# ==== 第322便d の塊(ここから)====
+# 第322便d(決断事項 AN509・R273): 枝 d の新設 1 本(docs.w322d —— nslock の本ごとの行の再利用 --merge の門と配線・煙試験の --wide の全体の枠と未実行の段の終わりの行・
+#   版名 QA の鍵の抜き出し tools/qa-keys.mjs・qapart の --batch と切り出しの lib)と、器 nslock の正本を読む docs.nsLockBranch・docs.binlockAxisDef・煙試験の道具の
+#   lint.harnessSmoke303・lint.harnessSmoke304・名簿の docs.w320d(器の --merge の印)・器の領域と刻印の lint.regenScope・lint.provenanceMeta・lint.stableHashPaths・lint.scopeStop・
+#   この脚本の lint.postMergeQaScript・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.w322d docs.nsLockBranch docs.binlockAxisDef lint.harnessSmoke303 lint.harnessSmoke304 docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.postMergeQaScript lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第322便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

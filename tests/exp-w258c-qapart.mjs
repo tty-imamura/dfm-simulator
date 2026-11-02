@@ -14,59 +14,47 @@
 // 参照している場合、その行で ReferenceError になる(第279便b: fpRun は本体をそのまま走らせる代用を置いた)。**それまでに出た PASS/FAIL は有効**で、
 // 統括のフル QA が本来の裁定者である。よく使う共有フラグ(FAST / OUT_DIR / hasMerger /
 // pageErrors / page)はこの器が先に用意する。
+//
+// 第322便d(統括の検証項目 R273): 切り出しの純関数を `tests/lib-w322d-qapart.mjs` へ移した(本文は 1 字も変えていない —— `tools/qa-keys.mjs` が同じ関数で範囲を取る)。
+//   `--batch N`(既定なし = 従来どおり 1 本): 鍵を切り出しの範囲の順に並べて N 鍵ずつの束に分け(範囲が重なる鍵は同じ束)、**束ごとに子の Node と
+//   Chromium を作り直して**順に走らせる(前の束の heap とブラウザを持ち越さない)。束ごとの PASS/FAIL を数えて最後に 1 行・1 束でも FAIL か
+//   子が rc ≠ 0 で終われば終了コード 1。`--emit <dir>` は走らせずに走行の本文(run.mjs / run-<k>.mjs)を書くだけ(切り出しの照合用)。
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { spawn } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DEFAULT_IDS = ['behavior.spaceMeshGrid', 'ui.spaceMeshGain', 'ui.samplePicker',
   'params.scaleBase', 'ui.spaceMeshRow', 'ui.raysDesc'];
-const IDS = process.argv.slice(2).length ? process.argv.slice(2) : DEFAULT_IDS;
+// 第322便d: 選択肢(--batch N・--emit <dir>)を鍵の並びから外す(鍵は `--` で始まらない)
+const ARGV = process.argv.slice(2);
+const optOf = (k) => { const i = ARGV.indexOf(k); return i >= 0 ? ARGV[i + 1] : null; };
+const BATCH = optOf('--batch') ? Math.max(1, Math.floor(Number(optOf('--batch')))) : null;
+const EMIT = optOf('--emit') ? path.resolve(optOf('--emit')) : null;
+const POS = ARGV.filter((a, i) => !(a === '--batch' || a === '--emit' || ARGV[i - 1] === '--batch' || ARGV[i - 1] === '--emit'));
+const IDS = POS.length ? POS : DEFAULT_IDS;
 
 const qaSrc = fs.readFileSync(path.join(ROOT, 'tests/qa.mjs'), 'utf8');
-const lines = qaSrc.split('\n');
-// 第279便b: W5b で関数宣言へ持ち上げたブロック(`await w5bRun('<key>', <ガード>); async function W5B_<key>(…) {`)は
-// 最上位の文の切り出し(tests/lib-w279b-qaorder.mjs splitTopLevel)で範囲を取り、見出し行を
-// `if (<ガード>) {` に戻して走らせる(本文は 1 文字も変えない)。
+// 第279便b: W5b で関数宣言へ持ち上げたブロックは最上位の文の切り出しで範囲を取り、見出し行を `if (<ガード>) {` に戻して走らせる(本文は 1 文字も変えない)。
+// 第296便(統合)・第319便(統括の統合): 世代定数(1 行の型と第284〜287便の複数行の範囲)を切り出しの前文に写す。
+// 第322便d: 切り出しの本文は tests/lib-w322d-qapart.mjs(qaSpanner —— 移しただけ)
 const QO = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w279b-qaorder.mjs')).href);
-const W5B_UNITS = QO.splitTopLevel(qaSrc).filter((u) => QO.w5bHeadKey(lines[u.l0 - 1]));
-const headRewrite = new Map();
-function spanOf(id) {
-  const i = lines.findIndex((l) => l.includes("add('" + id + "'"));
-  if (i < 0) throw new Error('QA ブロックが見つからない: ' + id);
-  const wu = W5B_UNITS.find((u) => u.l0 - 1 <= i && i <= u.l1 - 1);
-  if (wu) {
-    const m = /^await w5bRun\('[\w$]+', ([^;]*)\); async function /.exec(lines[wu.l0 - 1]);
-    headRewrite.set(wu.l0 - 1, `if (${m[1]}) {`);
-    return [wu.l0 - 1, wu.l1];
-  }
-  let a = i;
-  while (a >= 0 && lines[a].trimEnd() !== '{') a--;
-  if (a < 0) throw new Error('列 0 の { が見つからない: ' + id);
-  let c = a - 1;
-  while (c >= 0 && lines[c].startsWith('//')) c--;
-  let b = a + 1;
-  while (b < lines.length && lines[b].trimEnd() !== '}') b++;
-  if (b >= lines.length) throw new Error('対応する } が見つからない: ' + id);
-  return [c + 1, b + 1];
+const QP = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w322d-qapart.mjs')).href);
+const SP = QP.qaSpanner(qaSrc, QO);
+const sourceOf = (ids) => {
+  const merged = SP.mergeSpans(ids.map(SP.spanOf));
+  return { merged, src: preludeOf(SP.constsOf(merged), SP.consts284Of(merged), SP.bodyOf(merged)) };
+};
+// 第322便d: 範囲が add の行を含まない鍵(列 0 の `if (…) {`・`for (…) {` の中 —— 検索は直前の列 0 の `{` の範囲を取るので、その鍵は走らない)を走らせる前に印字する(判定と本文は不変)
+{
+  const outside = IDS.filter((id) => { const i = SP.lines.findIndex((l) => l.includes("add('" + id + "'")); if (i < 0) return false; const sp = SP.spanOf(id); return !(sp[0] <= i && i < sp[1]); });
+  if (outside.length) console.log(`# 注意(第322便d): 範囲が add の行を含まない鍵 ${outside.length} 本 —— この部分 QA では走らない(列 0 の if/for の中・フル QA が見る): ${outside.join(' / ')}`);
 }
-const spans = IDS.map(spanOf).sort((p, q) => p[0] - q[0]);
-const merged = [];
-for (const [s0, e0] of spans) {
-  if (merged.length && s0 <= merged[merged.length - 1][1]) {
-    merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], e0);
-  } else merged.push([s0, e0]);
-}
-const body = merged.map(([s0, e0]) => lines.slice(s0, e0).map((l, k) => headRewrite.get(s0 + k) ?? l).join('\n')).join('\n');
-// 第296便(統合): tests/qa.mjs が最上位で作る世代定数(`const W29xX_… = …` の 1 行 —— fs/path/ROOT/TARGET だけを読む)を切り出しの前文に写す
-//   (枝 b・c の W296B_FITIDS / W296C_CHAIN などを参照するブロックが部分実行でも走るように —— 切り出した範囲に同じ宣言があれば二重になるので外す)
-const consts = lines.filter((l) => /^const W\d{3}[A-Z]_[A-Z0-9_]+ = /.test(l) && !merged.some(([s0, e0]) => lines.slice(s0, e0).includes(l))).join('\n');
-// 第319便(統括の統合 —— 枝 d の直し): 第284〜287便の世代定数は複数行(W284_PSR_F1 … W284_CORE —— 便の番号の後に文字が無い名)なので上の 1 行の型に入らない —— その範囲をまとめて写す
-const i284a = lines.findIndex((l) => l.startsWith('const W284_PSR_F1 = ')), i284b = lines.findIndex((l) => l.startsWith('const W284_CORE = '));
-const consts284 = (i284a >= 0 && i284b >= i284a && !merged.some(([s0, e0]) => s0 <= i284a && i284a < e0)) ? lines.slice(i284a, i284b + 1).join('\n') : '';
 
-const src = `import fs from 'node:fs';
+function preludeOf(consts, consts284, body) {
+  return `import fs from 'node:fs';
 import crypto from 'node:crypto';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
@@ -113,7 +101,43 @@ const pass = results.every((r) => r.pass);
 console.log(\`\\n\${pass ? 'ALL PASS' : 'FAILED'} (\${results.filter((r) => r.pass).length}/\${results.length})\`);
 process.exit(pass ? 0 : 1);
 `;
-const tmp = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'w258c-qapart-')), 'run.mjs');
-fs.writeFileSync(tmp, src);
-console.log(`# 切り出し: ${IDS.join(' / ')}  (${merged.map(([a, b]) => `${a}-${b}`).join(',')} 行)`);
-await import(pathToFileURL(tmp).href);
+}
+if (!BATCH) {
+  const { merged, src } = sourceOf(IDS);
+  const tmp = path.join(EMIT || fs.mkdtempSync(path.join(os.tmpdir(), 'w258c-qapart-')), 'run.mjs');
+  if (EMIT) fs.mkdirSync(EMIT, { recursive: true });
+  fs.writeFileSync(tmp, src);
+  console.log(`# 切り出し: ${IDS.join(' / ')}  (${merged.map(([a, b]) => `${a}-${b}`).join(',')} 行)`);
+  if (EMIT) { console.log('# --emit: ' + tmp + '(走らせない)'); process.exit(0); }
+  await import(pathToFileURL(tmp).href);
+} else {
+  // 第322便d: 束ごとに子の Node(と、その中の Chromium)を作り直す
+  const keyed = IDS.map((id) => ({ id, span: SP.spanOf(id) }));
+  const batches = QP.batchKeys(keyed, BATCH);
+  const dir = EMIT || fs.mkdtempSync(path.join(os.tmpdir(), 'w258c-qapart-'));
+  if (EMIT) fs.mkdirSync(EMIT, { recursive: true });
+  console.log(`# --batch ${BATCH}: 鍵 ${IDS.length} 本を ${batches.length} 束に(束ごとに子の Node と Chromium を作り直す)`);
+  const sum = { pass: 0, fail: 0, bad: [] };
+  for (let k = 0; k < batches.length; k++) {
+    const { merged, src } = sourceOf(batches[k]);
+    const tmp = path.join(dir, `run-${k + 1}.mjs`);
+    fs.writeFileSync(tmp, src);
+    console.log(`# 束 ${k + 1}/${batches.length}: ${batches[k].join(' / ')}  (${merged.map(([a, b]) => `${a}-${b}`).join(',')} 行)`);
+    if (EMIT) continue;
+    const t0 = Date.now();
+    const r = await new Promise((resolve) => {
+      const ch = spawn(process.execPath, [tmp], { cwd: ROOT, env: process.env, stdio: ['ignore', 'pipe', 'pipe'] });
+      let np = 0, nf = 0, buf = '';
+      const line = (l) => { if (/^PASS /.test(l)) np++; else if (/^FAIL /.test(l)) nf++; };
+      ch.stdout.on('data', (d) => { process.stdout.write(d); buf += d.toString(); const ls = buf.split('\n'); buf = ls.pop(); ls.forEach(line); });
+      ch.stderr.on('data', (d) => process.stderr.write(d));
+      ch.on('close', (rc, sig) => { if (buf) line(buf); resolve({ rc, sig, np, nf }); });
+    });
+    sum.pass += r.np; sum.fail += r.nf;
+    if (r.rc !== 0 || r.nf) sum.bad.push(`束 ${k + 1}(rc ${r.rc === null ? r.sig : r.rc}・FAIL ${r.nf})`);
+    console.log(`# 束 ${k + 1}/${batches.length} の終わり: PASS ${r.np}・FAIL ${r.nf}・rc ${r.rc === null ? r.sig : r.rc}(${((Date.now() - t0) / 1000).toFixed(1)} s)`);
+  }
+  if (EMIT) { console.log('# --emit: ' + dir + '(走らせない)'); process.exit(0); }
+  console.log(`\n# --batch ${BATCH}: ${sum.bad.length ? 'FAILED' : 'ALL PASS'} —— 束 ${batches.length}・PASS ${sum.pass}・FAIL ${sum.fail}${sum.bad.length ? '・' + sum.bad.join(' / ') : ''}`);
+  process.exit(sum.bad.length ? 1 : 0);
+}

@@ -2,7 +2,7 @@
  "version": "w315a-symbols-2",
  "generator": "tests/exp-w315a-symbols.mjs",
  "target": "beta/index.html",
- "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+ "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
  "ruling": "原仮定者の裁定(第117報)・決断事項 AN414(記号の体系: 時空係数 X_k・引きずり係数 Y_k・決定力定数 κ_D = 2G/c²・r_s = κ_D m・r_d = Y_k m・光速定数 c・重力定数 G・基準光速 c_0・基準重力 G_0・局所光速 c_loc・局所重力 G_loc・物理対応ロックの読込時の自動 ON)・統括の推奨 AN417・AN419・AN420・統括の検証項目 R242。保存形式の鍵とエンジンの式は変えない(表示の文とロックのフラグだけ)",
  "physLockAutoVersion": "w315a-physlock-auto-1",
  "quick": false,
@@ -470,21 +470,21 @@
   "version": "w315a-physlock-auto-1"
  },
  "P": {
-  "n": 177,
-  "on": 86,
-  "off": 91,
+  "n": 182,
+  "on": 90,
+  "off": 92,
   "byRole": {
    "none": {
-    "n": 42,
-    "on": 7
+    "n": 44,
+    "on": 9
    },
    "primary": {
     "n": 32,
     "on": 19
    },
    "variant": {
-    "n": 47,
-    "on": 24
+    "n": 50,
+    "on": 26
    },
    "retired": {
     "n": 56,
@@ -493,7 +493,7 @@
   },
   "flagEqJudge": true,
   "allBitSame": true,
-  "onDerivedBitSame": 86,
+  "onDerivedBitSame": 90,
   "onIds": [
    "grcalGps",
    "grcalLight",
@@ -545,6 +545,8 @@
    "alphaCenABDFM",
    "siriusAB",
    "siriusABDFM",
+   "siriusABInertial3d",
+   "alphaCenABInertial3d",
    "psrDoubleAB",
    "psrDoubleABDFM",
    "psrDoubleABGeoToy",
@@ -561,6 +563,8 @@
    "psrB1534DFM",
    "psrB1534CF",
    "compactForceToy",
+   "binaryCheckEqualInertial3d",
+   "binaryCheckRatio3Inertial3d",
    "boxBinaryToy",
    "spaceMeshBinaryToy",
    "gw150914",
@@ -833,6 +837,19 @@
    {
     "id": "galaxyGeo2",
     "emoji": "💫",
+    "role": "variant",
+    "on": false,
+    "judge": false,
+    "reason": "mismatch",
+    "kappaT": 0.02,
+    "G": 0.8,
+    "cLight": 30,
+    "bitSame": true,
+    "derivedBitSame": null
+   },
+   {
+    "id": "galaxyGeo2Flat3d",
+    "emoji": "🫓",
     "role": "variant",
     "on": false,
     "judge": false,
@@ -2118,6 +2135,32 @@
     "derivedBitSame": true
    },
    {
+    "id": "siriusABInertial3d",
+    "emoji": "🌠",
+    "role": "variant",
+    "on": true,
+    "judge": true,
+    "reason": "within",
+    "kappaT": 7.425826474101849e-9,
+    "G": 6.674,
+    "cLight": 29979.2458,
+    "bitSame": true,
+    "derivedBitSame": true
+   },
+   {
+    "id": "alphaCenABInertial3d",
+    "emoji": "🔶",
+    "role": "variant",
+    "on": true,
+    "judge": true,
+    "reason": "within",
+    "kappaT": 7.425826474101849e-9,
+    "G": 6.674,
+    "cLight": 29979.2458,
+    "bitSame": true,
+    "derivedBitSame": true
+   },
+   {
     "id": "psrDoubleAB",
     "emoji": "📻",
     "role": "primary",
@@ -2428,6 +2471,32 @@
     "cLight": 30,
     "bitSame": true,
     "derivedBitSame": null
+   },
+   {
+    "id": "binaryCheckEqualInertial3d",
+    "emoji": "♊",
+    "role": null,
+    "on": true,
+    "judge": true,
+    "reason": "within",
+    "kappaT": 0.0011111111111111111,
+    "G": 1,
+    "cLight": 30,
+    "bitSame": true,
+    "derivedBitSame": true
+   },
+   {
+    "id": "binaryCheckRatio3Inertial3d",
+    "emoji": "⚖️",
+    "role": null,
+    "on": true,
+    "judge": true,
+    "reason": "within",
+    "kappaT": 0.0011111111111111111,
+    "G": 1,
+    "cLight": 30,
+    "bitSame": true,
+    "derivedBitSame": true
    },
    {
     "id": "boxBinaryToy",
@@ -2899,7 +2968,7 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.04
+   "wallSec": 0.038
   },
   "F": {
    "wallSec": 0.001
@@ -2908,22 +2977,22 @@
    "wallSec": 0
   },
   "P": {
-   "wallSec": 2.911
+   "wallSec": 2.495
   }
  },
- "elapsedS": 5.045,
+ "elapsedS": 4.66,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便a",
   "target": "beta/index.html",
-  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-  "generatedAt": "2026-11-01T01:07:32.566Z",
+  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
+  "generatedAt": "2026-11-01T21:20:34.189Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7403262,
-    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-    "mtime": "2026-10-31T17:17:55.600Z"
+    "bytes": 7491601,
+    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
+    "mtime": "2026-11-01T20:25:22.344Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -3006,11 +3075,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1323,
-   "segments": 1161,
-   "closureShare": 0.2973
+   "names": 1329,
+   "segments": 1167,
+   "closureShare": 0.2972
   },
-  "scopeSha256": "022ed2906ce1efc6a057df020cbb9b7e10fd06513a48c5ec174105ade69c78f9",
+  "scopeSha256": "99f0608a0ca64e8207db9d4cb8725b31e5748dd6a3d75d7795b86ab78b1b4f58",
   "scopeComplete": true,
   "inputsStable": [
    {

@@ -1546,10 +1546,43 @@ export const REGEN_STEPS = [
   //   残余の重ならない分割〔R_cut × 任意の位置〕・N 点のセルの和〔格子の感度〕・V 半渦度 ↔ u_φ の対照〔境界つきの復元〕・H 太陽系の天体ごとの位置と 6 天体の拮抗の符号つきの表)。
   //   html・エンジン・在位の本は変えない。html を読む(G0 は在位の本を build して步を進める〔🎡🍳 は loadPreset と abStart の A/B —— QA と同じ〕・H は第320便a の器の 🗺️ の写し +
   //   源のモーメント J の初期の状態の読み口と純関数)。子プロセス 2 本(W321C_WORKERS)。所要は第321便c の枝の実測 199〜295 s(**並走の秒** —— 4 枝並走の容器・負荷平均 3〜6 —— 統括が混まない箱で測り直す。最長の部は T〔場の表 49 点 × 2 経路〕)
+  //   第322便c(R272): lib 版 2(w321c-galfield-lib-2・契約 w321c-galfield-2 —— 代理 J の項の円筒の成分・proxy の所有の逆検査・代理の normalization の拒否)・器 版 2(P.proxy・門 pProxy)。
+  //   代理でない値は版 1 の正本と同じビット(版の名・P.proxy・門・来歴だけが動いた)。第322便c の枝の実測 128 s(子プロセス 2 本・負荷平均 ~1.2 —— 並走の秒)
   S('galfield-321c', 'node tests/exp-w321c-galfield.mjs', ['tests/out/galfield-w321c.json'], 300, { secSource: 'w321c-branch', node: true, after: ['obscompare', 'samplestatus', 'srcradius-319b'],   // import する第320便a の器が第319便b の正本の名を持つ(この器は読まない —— 鎖の監査の型に合わせて順序だけ)
     volatilePaths: { 'tests/out/galfield-w321c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/G0/std/wallSec', '/G0/db/wallSec', '/G0/rest/*/wallSec']) },
-    note: '第321便c: geoPN=4 の一新の S1 —— 比較の基準の凍結(在位の geoPN=4 と銀河の本)・銀河の中の任意の位置の源の流れの場の純関数(u・∇u・半渦度・有効域・誤差 —— 中心と残余の重ならない分割・演算 B・環の積分を参照)・半渦度 ↔ u_φ の対照(境界つきの復元)・6 天体の拮抗の符号つきの表と衛星の列(エンジン・在位の本は変えない・半渦度を受け手の軸へ直結する項は足さない)' }),
+    note: '第321便c(lib 版 2 —— 第322便c の代理 J の直し): geoPN=4 の一新の S1 —— 比較の基準の凍結(在位の geoPN=4 と銀河の本)・銀河の中の任意の位置の源の流れの場の純関数(u・∇u・半渦度・有効域・誤差 —— 中心と残余の重ならない分割・演算 B・環の積分を参照)・半渦度 ↔ u_φ の対照(境界つきの復元)・6 天体の拮抗の符号つきの表と衛星の列(エンジン・在位の本は変えない・半渦度を受け手の軸へ直結する項は足さない)' }),
   // ==== 第321便c の塊(ここまで)====
+  // ==== 第322便a の塊(ここから)====
+  // ---- 第322便a(原仮定者の予定(第123報)「geoPN=2の予定: 3D対応する …… 引きずり近似としての需要が有る」・原仮定者の回答(2026-11-01 —— AN499・AN500)・AN504・統括の検証項目 R270):
+  //   **geoPN=2(v−u 則)の 3D の S2 の器**(段 geo2flat-322a —— gate〔平面の 3D 銀河の本 galaxyGeo2Flat3d の外縁の増強が二次元の 💫 の凍結の基準と同じビット —— claim の手続き 12000 步〕・
+  //   degen〔三次元の html の步と二次元の html の步の全状態〕・pure〔非平面の小さい系で html の三次元の步と第321便a の純関数の全状態と口座〕・hist〔初回の履歴〕・ckpt〔保存と復帰・A/B の複製〕・
+  //   ledger〔P・L の閉じ —— リザーバと拘束の口座〕・table〔受理と実行の門の表〕・trial〔傾き有りと有限厚の試走 12000 步・AN510 の 2 案の差〕)。html を読む(本は galaxyGeo2Flat3d と
+  //   galaxyGeo2 を .find で引く・ほかは器の中の小さい系の本を受理に通す)・他の正本は読まない(html の生成領域の後)。gate と trial の 4 行は子プロセス 2 本(W322A_WORKERS)。
+  //   所要は第322便a の枝の実測 228 s(子プロセス 2 本〔既定〕・重い 4 行〔gate・平面・傾き有り・有限厚 —— 各約 114 s〕—— **並走の秒**: 他の枝の器と同じ容器。
+  //   W322A_WORKERS=1〔他の枝の QA_FAST と並走〕では 542 s —— 統括が混まない箱で測り直す)
+  S('geo2flat-322a', 'node tests/exp-w322a-geo2flat.mjs', ['tests/out/geo2flat-w322a.json'], 230, { secSource: 'w322a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/geo2flat-w322a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/parts/gate/row/wallSec', '/parts/trial/tilt/wallSec', '/parts/trial/thick/wallSec']) },
+    note: '第322便a: geoPN=2(v−u 則)の輸送の 3 成分を三次元の步 dfmStep3 へ接続(dfmCore3G2)—— 平面の 3D 銀河の本の外縁の比が二次元の 💫 と同じビット・非平面で純関数と同じビット・受理と実行の門・保存と復帰・傾き有りと有限厚の試走' }),
+  // ==== 第322便a の塊(ここまで)====
+  // ==== 第322便b の塊(ここから)====
+  // ---- 第322便b(原仮定者の回答(2026-11-01 —— AN499)「『連星サンプル群』は実在天体を指している。検証サンプルが必要であれば、先に用意する」・決断事項 AN505・
+  //   統括の検証項目 R271 —— 策定の段 S2): **geoPN=3 の連星の内蔵の第一陣の器**(段 binbooks-322b —— A 受理の表〔内蔵の 4 本 ♊⚖️🌠🔶 と第321便b の兄弟の写しの
+  //   presetSig・受理後の宣言・OFF の対照〕・E 走行〔本 × self・off・g1 × h・h/2・h/4 × 8 公転 + 写しの列 tr〕・T 量ごとの表〔η・1 + (4/3)η・OFF を差し引いた近点の移動の比〕)。
+  //   html を読む(他の正本・データは読まない —— html の生成領域の後)。子プロセス 2 本(W322B_WORKERS)。所要は第322便b の枝の実測 12.8 s(子プロセス 2 本 —— 他の枝が軽いときの 1 回・4 枝並走の負荷の高いときは 46 s〔**並走の秒**〕—— 統括が混まない箱で測り直す)
+  S('binbooks-322b', 'node tests/exp-w322b-binbooks.mjs', ['tests/out/binbooks-w322b.json'], 15, { secSource: 'w322b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/binbooks-w322b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec']) },
+    note: '第322便b: geoPN=3 の連星の内蔵の第一陣(検証サンプル ♊ 等質量・⚖️ 質量比 1:3 → 🌠 シリウス無自転 → 🔶 α Cen 並進だけ)の受理後の宣言と第321便b の兄弟の写しの同一・OFF を差し引いた近点の移動の比と系ごとの 1 + (4/3)η(表示だけ —— 補正の係数は入れない)—— エンジン・在位の本は変えない' }),
+  // ==== 第322便b の塊(ここまで)====
+  // ==== 第322便c の塊(ここから)====
+  // ---- 第322便c(決断事項 AN501・AN503・AN506・AN511・AN512・統括の検証項目 R272 —— 策定の段 S2 の geoPN=4 の場の契約): **外部場の輸送の力学の契約の導出と散逸のグループの集計の器**
+  //   (段 fieldcontract-322c —— 部 K〔零場・定常・一様流・剛体回転・せん断・非定常の 6 場面で、今の v−u 輸送〔第321便a の純関数 transportDelta3 を外部場で〕・その連続の極限・
+  //   正準の型 H = ½|p|² + p·u + Φ〔p0 = v0 − u(x0) と p0 = v0〕・位置に u を足すだけの型の軌道と台帳 —— html を読まない〕・部 G〔6 天体の散逸のグループの 2 列 —— (A) 銀河 1 グループ・
+  //   (B) 成分ごと —— と R_cut の不変のビット・html の 🗺️ の写しの初期の状態の読み口と純関数〕・AN503 の設計の宣言)。html・エンジン・在位の本は変えない。
+  //   子プロセス 2 本(W322C_WORKERS)。所要は第322便c の枝の実測(**並走の秒** —— 統括が混まない箱で測り直す)
+  S('fieldcontract-322c', 'node tests/exp-w322c-fieldcontract.mjs', ['tests/out/fieldcontract-w322c.json'], 90, { secSource: 'w322c-branch', node: true, after: ['obscompare', 'samplestatus', 'srcradius-319b'],   // import する第320便a の器が第319便b の正本の名を持つ(この器は読まない —— 鎖の監査の型に合わせて順序だけ)
+    volatilePaths: { 'tests/out/fieldcontract-w322c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第322便c: geoPN=4 の場の契約 —— 外部場の輸送の力学の契約の導出(今の v−u 輸送は正準の型 H = ½|p|² + p·u + Φ を状態の v = ẋ = p + u で書いたもの —— 6 場面 × 5 型の軌道と台帳・k_F ≠ 1 の余りの力)・散逸のグループの 2 列(銀河 1 グループ/成分ごと —— R_cut の不変のビット)・AN503 の診断の写しの設計(エンジン・在位の本は変えない・外部場の輸送はエンジンに入れていない)' }),
+  // ==== 第322便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

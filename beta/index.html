@@ -2298,6 +2298,7 @@ ja: {
   nc_an336_ref_fit:"派生した参照値 q⋆(1PN の式 + A1)を DFM から導いたとは主張しない —— この本の k は参照値と宣言の許容(0.0009″/世紀)に対する数値フィットで、観測の較正の合格ではない(参照値は σ を持たない —— 原資料の幅は 68% の定義が未確認)。近点では n は決まらない(n = 2 は裁定による選択)。",
   nc_an336_k_transfer:"この惑星の近点率は合わせていない —— 水星の参照値に合わせた k をそのまま移送した(惑星ごとに合わせ直していない)。差が原資料の幅の内に入っても、移送の合格とは主張しない(幅の比は σ ではない)。",
   nc_inposk1_rule:"引きずりの半径は規則で置いた —— 太陽を含む全天体に R_d = Y_k m(Y_k = 10G_0/(C_1c_0²) —— サンプルの G_0・c_0 と閉じた式の C_1 で固定・惑星ごとにも系ごとにも合わせない)。近点率の差の 1PN の解析の値 q_1PN との差(規則で置いた残差 r_1PN = q11 − q00 − q_1PN)が数値の門の内でも、DFM が 1PN を導いた・R_d が天体の物質の半径だと主張しない。数値の門は観測の 3σ ではない。DFM は学習向きの仮定のモデルで、現実の宇宙とは主張しない。",
+  nc_binary_geo3:"(1 + (4/3)η) は K1 の規則と G_loc の有限質量比の既知の寄与として表示するだけで、補正の係数は入れない(系ごとの η で値が違う —— 恒星連星で一律の値ではない)。比べるのは同じ初期状態・同じ窓で OFF を差し引いた近点の移動(弱場・自転なしの並進の列の一次の目安)で、連星の観測との照合ではない。近点の移動の原因は述べない。周期の差が小さくても系全体の合格にしない(量ごとに見る)。",   // 第322便b(AN505): 連星の geoPN=3 の本(♊⚖️🌠🔶)の言わないこと
   nc_an336_k_shared:"k が普遍の定数だとは主張しない —— 在位の惑星 7 本に同じ k を宣言したのは裁定による一括の宣言で、他の系(地球–月・冥王星–カロン)へ移したものではない。",
   nc_solar16_diag:"16 体の初期状態は J2000.0 の暦表の状態から作られた入力の数のままで、アプリは暦表と照合していない —— 暦表への長期の一致・永年の率・観測の較正・衛星の三体の永年の効きは主張しない。引きずりの半径は規則 R_d = Y_k m(合わせない)・並進の K1 だけで、銀河や太陽の自転由来の追加の引きずりは入れていない。自転軸は一定の近似で、力には入らない。",   // 第318便c: 🗺️
   // 第88便 EXT-09: Failure First(失敗を先に見せる — 宣言専用メタ failureFirst の見出し)
@@ -3607,6 +3608,7 @@ en: {
   nc_an336_ref_fit:"The derived reference q* (1PN formula + A1) is not claimed to be derived from DFM - this sample's k is a numerical fit to the reference and the declared tolerance (0.0009\"/cy), not an observational calibration pass (the reference has no sigma - the 68% definition of the source width is unconfirmed). The apse does not determine n (n = 2 is a choice by ruling).",
   nc_an336_k_transfer:"This planet's apsidal rate is not matched - the k matched on Mercury's reference is carried over as it is (not re-matched per planet). Even inside the source width this is not claimed as a passed transfer (the width ratio is not a sigma).",
   nc_inposk1_rule:"The drag radius is placed by a rule - every body including the Sun has R_d = Y_k m (Y_k = 10G_0/(C_1c_0^2), fixed by the sample's G_0, c_0 and the closed-form C_1; not matched per planet or per system). Even when the difference from the 1PN analytic value q_1PN of the apsidal-rate difference (the rule residual r_1PN = q11 - q00 - q_1PN) is inside the numerical gate, it is not claimed that DFM derives 1PN or that R_d is a material radius of the body. The numerical gate is not an observational 3-sigma. DFM is an assumed model for learning, not claimed to be the real universe.",
+  nc_binary_geo3:"(1 + (4/3)eta) is shown only as a known finite-mass-ratio term of the K1 rule and G_loc - no correction coefficient is applied (the value differs with each system's eta; it is not one value for all stellar binaries). The comparison is the apsidal shift with OFF subtracted, same initial state and same window (a first-order guide for translation in the weak field without spin) - not a comparison with binary observations. No cause of the apsidal shift is stated. A small period difference is not a whole-system pass (read each quantity on its own).",
   nc_an336_k_shared:"k is not claimed as a universal constant - the same k on the 7 planet books is a batch declaration by ruling, not carried to other systems (Earth-Moon, Pluto-Charon).",
   nc_solar16_diag:"The 16-body initial state keeps the input numbers built from J2000.0 ephemeris states, and the app has not compared it with the ephemeris - no long-term agreement with the ephemeris, secular rates, observational calibration or three-body secular effects of the moons are claimed. The drag radius is the rule R_d = Y_k m (not matched) with translational K1 only; no extra drag from the rotation of the Galaxy or the Sun is included. Spin axes are held fixed and enter no force.",   // 第318便c: 🗺️
   // 第88便 EXT-09: Failure First heading
@@ -6846,7 +6848,7 @@ const APP_VERSION = "1.46";            // エクスポートの appVersion に�
 //   BETA_BUILD・beta/sw.js の CACHE 接尾辞・CHANGELOG の beta 節の見出しの 3 か所を同じ値へ書き換える
 //   (QA lint.betaBuild300 が形・beta 線・CHANGELOG の便・SW・見出し・生成文書の見出しの一致を見る)。
 //   第219便〜第299便は "v1.4x-b1" の固定だった(v1.43.0 昇格に伴う次期プレビュー線の 1 番)。
-const BETA_BUILD = "v1.47-b321";   // 第219便: v1.43.0 昇格に伴い次期プレビュー線へ —— 第300便d: 便名(上の注記)
+const BETA_BUILD = "v1.47-b322";   // 第219便: v1.43.0 昇格に伴い次期プレビュー線へ —— 第300便d: 便名(上の注記)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 // 第297便c(原仮定者の裁定(第87報)「時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す」・統括の検証項目 R163):
 // **画面の時間の標準**。物理の入力(G・c・質量・速度・scaleExp)は 1 つも動かさず、本ごとに**画面の積分刻み** `physics.stepDt` を宣言する
@@ -10943,7 +10945,7 @@ function spinAxisOf(S,i){
 //   再生ループは一時停止して通知する(HUD の ⛔ には止めた側と、設定を戻したかを出す)。
 const COORD_KEY="coord", COORD_VALUES=["2d","3d"], COORD3D_VERSION="w298a-coord3d-1";
 // A/B の複製(cloneSimState)が写す三次元の配列(チェックポイントは CK_ARRS)
-const COORD3D_ARRS=["z","vz","carVz","sax","say","saz","sa0x","sa0y","sa0z","sapx","sapy","sapz","saOm","saOn"];
+const COORD3D_ARRS=["z","vz","carVz","sax","say","saz","sa0x","sa0y","sa0z","sapx","sapy","sapz","saOm","saOn","uPz"];   // 第322便a(R270): uPz(geoPN=2 の u の履歴の z)
 function coordOf(ph){ return (ph && typeof ph==="object" && ph[COORD_KEY]==="3d")? "3d" : "2d"; }
 // 三次元で**対応する**物理(docs/PHYSICS.md〔第298便a〕・AI_SPEC §67 と同じ並び)
 const COORD3D_SUPPORTED=Object.freeze([
@@ -10963,6 +10965,8 @@ const COORD3D_SUPPORTED=Object.freeze([
   // 第307便b(原仮定者の裁定(第100報)・AN345 ③⑤・R210): 明示潮汐(旧 COORD3D_REJECTED の tide)—— CTL のベクトル化・慣性自転へのブレーキ・内部熱と放射
   {key:"tide", ja:"明示潮汐 physics.tide と天体の tide(定時間遅延 CTL のベクトル形 —— z の力・3 成分のトルク・慣性自転 S.spin とその軸へ・反作用・仕事と熱の帳簿・内部熱と放射 heat/coolTau)", en:"explicit tides physics.tide and body tide (the vector form of the constant-time-lag model - z force, three-component torque on the inertial spin S.spin and its axis, reaction, work/heat ledger, internal heat and radiation heat/coolTau)"},
   // 第314便d(原仮定者の裁定(第116報)の補足・R241): geoPN=1(旧 COORD3D_REJECTED の geoPN12 のうち 1 —— 2 は今のまま拒否)
+  // 第322便a(R270・AN504): geoPN=2(v−u 則)の輸送の 3 成分(旧 COORD3D_REJECTED の kFrame・geoPN12 のうち、範囲の内の宣言だけ —— 範囲の外は拒否のまま)
+  {key:"geo2", ja:"geoPN=2(v−u 則)の輸送の 3 成分 dfmCore3G2(λ_PN=0 ∧ contactMode:\"none\" ∧ frameWeight:\"share\" ∧ kFrame ≥ 0 —— 源 Ω = s â・残余トルクはベクトル・状態 S.uPz・拘束の口座 conP・conL)", en:"geoPN=2 (v−u law) three-component transport dfmCore3G2 (lambdaPN=0, contactMode none, frameWeight share, kFrame >= 0 - source Omega = s a-hat, residual torque as a vector, state S.uPz, constraint ledgers conP/conL)"},
   {key:"pn1", ja:"geoPN=1 の EIH の 1PN(二次元の kF0 と同じ式の 3 成分 —— Δ₃ dfmPN1Delta3 と試験粒子形₃ dfmPN1Test3 を dfmCore3 の前に・全質量源・pinned・λ_PN の係数・pnAlpha・補償和。approxMany とは一緒にしない)", en:"geoPN=1 EIH 1PN (the three-component form of the same 2D kF0 formula - delta3 dfmPN1Delta3 and the test-particle form dfmPN1Test3 before dfmCore3; all mass sources, pinned, the lambdaPN coefficient, pnAlpha, compensated sums; not together with approxMany)"}]);
 // 三次元で**拒否する**機能(受理の門 coord3dDenyOf の理由 —— 第 2 段以降で対応させる候補。並びは docs と同じ)
 const COORD3D_REJECTED=Object.freeze(["kFrame","kRep","muF","kappaS","etaRad","gravityXY","geoPN12","geodesic","geoLegacy","physicsOther",
@@ -10970,12 +10974,63 @@ const COORD3D_REJECTED=Object.freeze(["kFrame","kRep","muF","kappaS","etaRad","g
   "capture","qLock","boundary","overlays","core","layers","pulse","spinDipole","zonal","testParticle","rail","lightSweepAuto",   // 第307便b(R210): tide を開けた(COORD3D_SUPPORTED へ)
   "dragQ","densityClass","spinAxisDisplay","vModeEq"]);   // box/grid の incl・node は拒否ではなく警告して落とす(受理器 coord3dBodyKeys —— 面内に置く)
 const COORD3D_PHYS_EXTRA_ALLOW=["coord","contactK","contactCap","contactMode","massFloor","softeningFloor","radiusFloor","stateCarry","massPrecision","stepDt","frameWeight","relativeDrag","approxMany","gLoc","tide"];   // 第307便b: tide(三次元の明示潮汐)   // 第300便c: radiusFloor / 第301便b: approxMany(近似多粒子の契約 —— 三次元だけ)
+// ===== 第322便a(原仮定者の予定(第123報)「geoPN=2の予定: 3D対応する …… 引きずり近似としての需要が有る」・原仮定者の回答(2026-11-01 —— AN499・AN500)・
+//   DECISIONS v81 の AN504・統括の検証項目 R270): **geoPN=2(v−u 則)の三次元の範囲**(受理の門 coord3dDenyOf と走行中の門 coord3dRuntimeWhy が同じ条件で読む)=====
+// 範囲: geoPN:2 の宣言 ∧ λ_PN = 0 ∧ contactMode:"none" ∧ frameWeight:"share" ∧ kFrame ≥ 0(kFrame > 0 は輸送の 3 成分 dfmCore3G2・kFrame = 0 は輸送の消えた
+//   ニュートンの步 dfmCore3 —— λ_PN = 0 なので二次元の kF0 の役割〔EIH の 1PN〕も係数 0 で同じ。A/B の kFrame=0 の対照がこの退化)。
+// 範囲の外(拒否のまま —— 理由は鍵 geoPN12 の行): λ_PN ≠ 0(w = v − k_F u の 1PN の項)・接触・pull 族(分母 D0pull と重み m/(d²+ε²)^{p/2})・kFrame < 0・
+//   geodesic:true・geoPN = 1 ∧ kFrame > 0 と geoPN = 3/4(v−u 則に解決する宣言 —— 番号 2 の宣言だけ)・慣性決定力 relativeDrag(geoPN=3 の慣性・geoPN=4 の連鎖・
+//   軸保持・源の角運動量 J —— 別の引きずりと重ねない)・明示潮汐・近似多粒子・局所重力・J₂・参照模型・歳差の宣言(規定運動の軸と残余トルクの軸の回転を重ねない)。
+const GEO2_3D_TRANSPORT_VERSION="w322a-geo2v3-step-1";
+// 受理の門の範囲(純関数 —— 入力 p は validatePreset の正規化後の本。戻り値 理由の文の配列 —— 空なら範囲の内)
+function coord3dGeo2DenyOf(p){
+  const out=[], ph=(p && p.physics && typeof p.physics==="object")? p.physics : {};
+  if(ph.geoPN!==2) return ["geoPN が 2 でない(番号 2 の宣言だけ)"];
+  if(ph.lambdaPN!==0) out.push("λ_PN ≠ 0(w = v − k_F u の 1PN の項は三次元の範囲の外 —— lambdaPN:0 を宣言)");
+  if(ph[CONTACT_MODE_KEY]!=="none") out.push("contactMode が \"none\" でない(接触なしの契約だけ)");
+  if(ph[FRAME_WEIGHT_KEY]!=="share") out.push("frameWeight が \"share\" でない(pull 族は別の分母と重み —— 三次元の範囲の外)");
+  if(typeof ph.kFrame==="number" && ph.kFrame<0) out.push("kFrame < 0");
+  if(ph[REL_DRAG_KEY]!==undefined && ph[REL_DRAG_KEY]!==null) out.push("physics.relativeDrag(慣性決定力と v−u 則の輸送を重ねない)");
+  if(ph[TIDE_KEY]!==undefined && ph[TIDE_KEY]!==null) out.push("physics.tide(明示潮汐と重ねない)");
+  if(ph.approxMany!==undefined && ph.approxMany!==null) out.push("physics.approxMany(近似多粒子の対のマスクと重ねない)");
+  if(ph.gLoc!==undefined && ph.gLoc!==null) out.push("physics.gLoc(局所重力と重ねない)");
+  if(ph[SHAPE_TOY_KEY]!==undefined && ph[SHAPE_TOY_KEY]!==null) out.push("physics.shapeToy(参照模型と重ねない)");
+  const B=(p && Array.isArray(p.bodies))? p.bodies : [];
+  B.forEach((b,i)=>{
+    if(!b || typeof b!=="object") return;
+    if(b.tide) out.push("bodies["+i+"].tide(明示潮汐と重ねない)");
+    if(b.j2!==undefined && b.j2!==null) out.push("bodies["+i+"].j2(J₂ と重ねない)");
+    const sa=b.spinAxis;
+    if(sa && typeof sa==="object" && typeof sa.precessionRate==="number" && sa.precessionRate!==0) out.push("bodies["+i+"].spinAxis.precessionRate(規定運動の歳差と残余トルクの軸の回転を重ねない)");
+  });
+  return out;
+}
+// 走行中の範囲(状態を書かない)。範囲の内なら null・外なら理由の文
+function coord3dGeo2WhyNot(S){
+  const p=S.params||{};
+  if(p.geoPN!==2) return "geoPN が 2 でない";
+  if(p.lambdaPN!==0) return "λ_PN ≠ 0";
+  if(p[CONTACT_MODE_KEY]!=="none") return "contactMode が \"none\" でない";
+  if(p[FRAME_WEIGHT_KEY]!=="share") return "frameWeight が \"share\" でない";
+  if(typeof p.kFrame==="number" && p.kFrame<0) return "kFrame < 0";
+  if(p[GEODESIC_KEY]===true) return "physics.geodesic:true";
+  if(S.hasRelativeDrag) return "physics.relativeDrag(別の引きずりと重ねない)";
+  if(S.hasTide) return "明示潮汐(重ねない)";
+  if(S._amKind) return "physics.approxMany(重ねない)";
+  if(S._gLoc) return "physics.gLoc(重ねない)";
+  if(S._j2) return "bodies.j2(重ねない)";
+  if(S.hasShapeToy || S.hasCoreField || S.hasSpiral) return "参照模型(重ねない)";
+  if(S.hasSpinAx3) return "歳差の宣言(重ねない)";
+  if(geoEffectiveMode(S)!==2) return "実効の番号が 2 でない";
+  return null;
+}
 // 受理の門(純関数 —— 入力 p は validatePreset の正規化後の本。戻り値 [{key, why}] —— 空なら受理)
 function coord3dDenyOf(p){
   const out=[], add=(key,why)=>out.push({key, why});
   const ph=(p && p.physics && typeof p.physics==="object")? p.physics : {};
   const nz=(k)=>(typeof ph[k]==="number" && ph[k]!==0);
-  if(nz("kFrame")) add("kFrame","kFrame>0(E6′ の引きずり近似 q —— 三次元の引きずりは第 2 段の慣性決定力 3 成分で扱う)");
+  const g3deny=(ph.geoPN===2)? coord3dGeo2DenyOf(p) : null, g3ok=(g3deny!==null && g3deny.length===0);   // 第322便a(R270): geoPN=2(v−u 則)の三次元の範囲 —— kFrame と geoPN12 を同時に開ける
+  if(nz("kFrame") && !g3ok) add("kFrame","kFrame>0(E6′ の引きずり近似 q —— 三次元の引きずりは第 2 段の慣性決定力 3 成分で扱う・geoPN=2 の v−u 則は λ_PN=0 ∧ contactMode:\"none\" ∧ frameWeight:\"share\" の範囲だけ)");
   if(nz("kRep")) add("kRep","kRep≠0(E5′ スピン斥力 —— フレームの ω を使う二次元の式)");
   if(nz("muF")) add("muF","muF≠0(E9 接線摩擦 —— 速度と自転を結ぶので自転のベクトル化が要る)");
   if(nz("kappaS")) add("kappaS","kappaS≠0(E10′ スピン拡散)");
@@ -10983,7 +11038,7 @@ function coord3dDenyOf(p){
   if(nz("gravityX") || nz("gravityY")) add("gravityXY","gravityX/gravityY≠0(一様外場は二次元の成分しか宣言できない)");
   const g=(typeof ph.geoPN==="number")? ph.geoPN : 0, rd=ph[REL_DRAG_KEY], inert=!!(rd && typeof rd==="object" && rd.law==="inertial");
   // 第314便d(R241): geoPN=1(EIH の 1PN の 3 成分 —— dfmPN1EIHKick3)は受理。geoPN=2 は今のまま拒否。geoPN=1 ∧ approxMany は拒否(同じ鍵の行)
-  if(g===2) add("geoPN12","geoPN="+g+"(1PN の測地線・E12 —— 三次元では未対応)");
+  if(g===2 && !g3ok) add("geoPN12","geoPN="+g+"(三次元の v−u 則の範囲〔λ_PN=0 ∧ contactMode:\"none\" ∧ frameWeight:\"share\" ∧ 別の引きずり・潮汐・近似多粒子・局所重力・J₂・参照模型・歳差と重ねない〕の外: "+g3deny.join("・")+")");   // 第322便a(R270): 範囲の内は受理
   if(g===1 && ph.approxMany!==undefined && ph.approxMany!==null) add("geoPN12","geoPN=1 ∧ physics.approxMany(近似多粒子の対のマスク〔塵どうしの重力なし〕と EIH の 1PN の源の和が合わない —— 三次元の geoPN=1 は approxMany なしで)");
   if(g>=3 && !inert) add("geoPN12","geoPN="+g+" で慣性決定力の宣言(relativeDrag.law:\"inertial\")が無い(測地線 ON に解決する —— 三次元では未対応)");
   if(ph[GEODESIC_KEY]===true) add("geodesic","physics.geodesic:true(測地線 1PN)");
@@ -11042,9 +11097,11 @@ function coord3dDenyOf(p){
 function coord3dRuntimeWhy(S){
   const p=S.params||{};
   const nz=(k)=>(typeof p[k]==="number" && p[k]!==0);
-  for(const k of ["kFrame","kRep","muF","kappaS","etaRad","gravityX","gravityY"]) if(nz(k)) return "physics."+k+"≠0";
+  const g3why=(p.geoPN===2)? coord3dGeo2WhyNot(S) : "";   // 第322便a(R270): geoPN=2(v−u 則)の三次元の範囲の内は null(kFrame と geoPN を同時に通す)
+  if(p.geoPN===2 && g3why) return "geoPN=2(三次元の v−u 則の範囲の外 —— "+g3why+")";
+  for(const k of ["kFrame","kRep","muF","kappaS","etaRad","gravityX","gravityY"]) if(nz(k) && !(k==="kFrame" && g3why===null)) return "physics."+k+"≠0";
   { const ge=geoEffectiveMode(S);   // 第314便d(R241): geoPN=1 の EIH(coord3dPN1Of —— kFrame=0・geodesic でない・approxMany でない)だけ通す
-    if((ge!==0 && !(ge===1 && coord3dPN1Of(S))) || p[GEODESIC_KEY]===true) return (ge===1 && S._amKind)? "geoPN=1 ∧ physics.approxMany(塵の対のマスクと EIH の源の和が合わない)" : "geoPN(測地線・1PN)"; }
+    if((ge!==0 && !(ge===1 && coord3dPN1Of(S)) && !(ge===2 && g3why===null)) || p[GEODESIC_KEY]===true) return (ge===1 && S._amKind)? "geoPN=1 ∧ physics.approxMany(塵の対のマスクと EIH の源の和が合わない)" : "geoPN(測地線・1PN)"; }
   if(p.halo) return "physics.halo";
   if(p.petersGW===true) return "physics.petersGW";
   if(S.hasRelativeDrag && !(S.relDrag && S.relDrag.law==="inertial")) return "physics.relativeDrag";
@@ -13623,6 +13680,39 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:true} },
+
+// ==== 第322便a の本(ここから)====
+// 第322便a(原仮定者の予定(第123報)「geoPN=2の予定: 3D対応する …… 引きずり近似としての需要が有る」・原仮定者の回答(2026-11-01 —— AN499・AN500)・AN504・
+//   統括の検証項目 R270): 💫 galaxyGeo2 の**面内の写し**を三次元の步で走らせる本(新しい ID・傾き無し・厚み 0)。宣言は 💫 と同じ seed・同じ初期配置・同じ物理に
+//   physics.coord:"3d" を足し、overlays.mechSpectrum を外しただけ(機構スペクトルは三次元では未対応)。状態の数の表現は 💫 と同じ単精度 —— 面内の結果が
+//   二次元の基準と同じビットであることが門(器 tests/exp-w322a-geo2flat.mjs の段 gate)なので、新しい三次元の本の倍精度の規約(AN286)の例外。
+//   傾き有りと有限厚の対は器の試走と設計まで(内蔵しない —— AN510 の裁定の後)。claims は持たない(比の照合は器の正本 tests/out/geo2flat-w322a.json)。
+//   並びは家族の近く(💫 の後 —— 先頭 105 本の固定の並びの照合 lint.presetText316b は第318便c の 🗺️ と同じくこの 1 本を除いて照合する)。
+{ id:"galaxyGeo2Flat3d", catalog:"extended", name:"v−u統一測地線の銀河(三次元・平面の写し)", emoji:"🫓", group:"銀河の力学",
+  scaleTier:"galactic",
+  sampleClass:"principle",
+  notClaim:["galaxy"],
+  familyId:"galaxyrot", familyRole:"variant",
+  descStruct:{
+    summary:"💫 v−u統一測地線の銀河と同じ seed・同じ配置・同じ物理を、三次元の步(physics.coord:\"3d\")で走らせる平面の写し。円盤は傾けず厚みも 0(z = v_z = 0・自転軸はすべて +z)なので、重力(E4)と空間の引きずり(E6′)を一本の式にした v−u 則(E12・geoPN=2)の輸送の 3 成分(源の自転 Ω = s â・勾配補正・渦度コリオリ (∇×u)×(v − k_F u))は面内の式へ退化し、面内の結果は二次元の 💫 と同じビットになる —— 三次元の步へ v−u 則をつないだことの門。λ_PN=0。",
+    observe:"外縁帯 [156,286] の回転の増強(kFrame=1 の本と kFrame=0 の写しの比)は二次元の 💫 の基準と同じビット(器 tests/exp-w322a-geo2flat.mjs の段 gate —— 12000 步)。z・v_z・u の履歴の z は 0 のまま、自転軸は +z のまま(残余トルクは ẑ に平行)。三次元の口座(リザーバ・固定中心の拘束 conP・conL・引きずりの仕事)は読み口 HP.coord3d.totals の geo2 に出る。",
+    control:"kFrame=0 にすると輸送が消え、λ_PN=0 なので三次元のニュートンの步へ退化する(おすすめA/B)。傾けた円盤と有限厚の円盤は設計の段(器の試走だけ —— 内蔵の本はまだ無い)。二次元の 💫 と並べると、同じ初期条件の同じ式であることが読める。"},
+  en:{name:"Unified v−u Geodesic Galaxy (3D, flat copy)", descStruct:{
+    summary:"A flat copy that runs 💫 Unified v−u Geodesic Galaxy (same seed, layout and physics) on the three-dimensional step (physics.coord 3d). The disc is not tilted and has zero thickness (z = v_z = 0, every spin axis +z), so the three-component transport of the v−u law that joins gravity (E4) and space dragging (E6′) in one formula (E12, geoPN=2: source spin Omega = s a-hat, gradient correction, vorticity Coriolis (curl u) x (v - k_F u)) reduces to the in-plane formula, and the in-plane result is bit-identical to the 2D 💫 - the gate for connecting the v−u law to the 3D step. lambda_PN=0.",
+    observe:"The outer-band [156,286] rotation boost (the kFrame=1 book over its kFrame=0 copy) is bit-identical to the 2D 💫 baseline (harness tests/exp-w322a-geo2flat.mjs, part gate - 12000 steps). z, v_z and the z part of the u history stay 0 and every spin axis stays +z (the residual torque is parallel to z-hat). The 3D ledgers (reservoir, fixed-centre constraint conP/conL, drag work) appear under geo2 in HP.coord3d.totals.",
+    control:"Set kFrame to 0 and the transport vanishes; with lambda_PN=0 this degenerates to the 3D Newtonian step (suggested A/B). A tilted disc and a disc of finite thickness are at the design stage (harness trials only - no built-in book yet). Put it next to the 2D 💫 to see the same formula from the same initial condition."}},
+  activeParams:["kFrame","D0"],
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
+  timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},
+  physics:{coord:"3d", contactMode:"none", G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:2, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3, frameWeight:"share"},
+  bodies:[
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
+    {type:"disk", rMul:1.2, n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
+  ],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false} },
+// ==== 第322便a の本(ここまで)====
 
 // 第74便: 🍳galaxyDB — ディスク/バルジ対比の基準実験(ChatGPT 分析 §4.1 galaxyDiskBulgeAB 採択)。
 // 🎡galaxyStd と同一の中心天体・同一物理で、恒星380体を「回転支持ディスク190体(半径260・
@@ -21059,6 +21149,67 @@ const BUILTIN_PRESETS = [
     {type:"single", dragQ:4.100469287433549, m:20.24293, radius:0.01, x:315.3592066032142, y:0, vx:0, vy:0.39879420365099283, spin:0, pinned:false, pnSource:true}   // 第286便b(AN54): 伴星も 1PN 源(宣言だけ・質量は不変)
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+// ==== 第322便b の本(ここから)====
+//   (検証サンプル 2 本 ♊⚖️ は三次元の原理の本の並び —— 🎲 coord3dSpinPrecess の後ろ —— の「第322便b の本(連星の検証サンプル)」の塊。ここは実在の連星の 2 本)
+// 第322便b(原仮定者の回答(2026-11-01 —— AN499)「『連星サンプル群』は実在天体を指している。検証サンプルが必要であれば、先に用意する」・決断事項 AN505・統括の検証項目 R271 —— 策定の段 S2):
+//   geoPN=3 の連星の内蔵の第一陣 —— 検証サンプル 2 本(♊ 等質量・⚖️ 質量比 1:3 —— sampleClass "principle"・本の単位の二体 e = 0.5)→ 🌠 siriusABInertial3d(無自転)→ 🔶 alphaCenABInertial3d(並進だけ)。
+//   physics・bodies・timeRef・camera・world・overlays・scaleExp は第321便b の兄弟の写し(tests/lib-w321b-geo3bin.mjs の siblingOf の列 "tr" —— 並進だけ)と**受理後の JSON が同じ**
+//   (QA behavior.binBooks322b が presetSig と受理後の宣言で照合)。検証サンプルの元の本は lib の toyBook(玩具 eq-e・r3-e —— 雛形は ✨ alphaCenAB の physics)。
+//   (1 + (4/3)η) は有限質量比の既知の寄与として表示するだけ(補正の係数は入れない —— AN505)。数は器 tests/exp-w322b-binbooks.mjs の正本 tests/out/binbooks-w322b.json の実測。
+//   エンジンの関数・在位の本の宣言・受理の判定は変えていない(新しい ID の本を足しただけ)。較正母集団へは入れない(sampleClass "principle")。
+{ id:"siriusABInertial3d",
+  name:"シリウスAB(慣性決定力版・三次元)— K1 の規則 R_d = Y_k m(合わせない)・無自転",
+  emoji:"🌠",
+  group:"現実較正",
+  familyId:"sirius",
+  familyRole:"variant",
+  scaleTier:"stellar",
+  scaleExp:{L:10, T:6, M:29},
+  sampleClass:"principle",
+  referenceKind:"theory-control",
+  fidelity:"real",
+  notClaim:["solar_cal", "binary_geo3"],
+  abBody:{label:{ja:"引きずりと G_loc を切る(両方 OFF —— 重力だけの二体の基線)", en:"drag and G_loc off (both off - the gravity-only two-body baseline)"}, physicsPatch:{relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, enabled:false, pairs:"all", history:"positions"}, gLoc:null}},
+  obsCard:[{q:"何を置いたか", model:"🌟 siriusAB と同じ質量・半径・初期の位置と速度(遠点整列・重心系・両星 free)を z = v_z = 0 の三次元に置いた二体", obs:"—(原理サンプル —— 較正母集団の外)"}, {q:"宣言", model:"geoPN=3・kFrame=0・λ_PN=0・invSq の K1 + rdRule \"kappaM\"・initMotion \"observed\"・並進だけ(回転・軸の引きずりなし)・G_loc n = 2", obs:"—"}, {q:"自転(入力)", model:"S.spin = 0 は採用の宣言(🌟 と同じ)で、観測で零という意味ではない・回転の引きずりを宣言しないので力に入らない", obs:"A は v sin i だけ・B は直接の測定なし(🌟 の出典)"}, {q:"引きずりの半径 R_d = Y_k m(規則 —— 合わせない)", model:"Y_k = 8.807619e-27 m/kg・A の R_d = 36.13 km・B の R_d = 17.83 km", obs:"R_d/r_s = 5/C_1 = 5.930396(r_s —— 重力半径)"}, {q:"1 + (4/3)η(有限質量比の既知の寄与 —— 表示だけ)", model:"η = 0.22124 → 1.29499(+29.50%)・補正の係数は入れない", obs:"一次の目安 —— 系ごとの η の値で、恒星連星で一律の値ではない"}, {q:"(この本 − OFF)/(geo1 − OFF)(同じ初期状態・8 公転)", model:"1.2951(h/4・離心ベクトルの回帰)・1.2952(検出器 B)", obs:"q_1PN = 4.456e-8 rad/公転(二体の 1PN の式 —— 観測ではない)"}, {q:"近点の移動(OFF を差し引く・rad/公転)", model:"5.776e-8・5.773e-8・5.772e-8(h・h/2・h/4 —— 刻みの感度診断)・検出器 B 5.752e-8・5.766e-8・5.773e-8", obs:"q_1PN(1 + (4/3)η) = 5.771e-8・粗い刻みで抽出法の差が大きい"}, {q:"公転周期の差(この本 − geo1・h/4)", model:"−1.41e-5(本の単位・相対 9e-9)—— 近点の移動は 29.5% 違う(量ごとに見る・系全体の合格にしない)", obs:"連星の観測との照合ではない・近点の移動の原因を述べない"}],
+  descStruct:{summary:"重力(E4)の二体。🌟 siriusAB と同じ入力(両星の実質量・半径・遠点整列の初期の位置と速度・重心系・両星 free)を z = v_z = 0 の三次元に置き、geoPN=3・kFrame=0・λ_PN=0 で慣性引きずりを新則 invSq の K1 + 規則の鍵 rdRule:\"kappaM\" で宣言した(両星の引きずりの半径 R_d = Y_k m —— サンプルの G_0・c_0 と閉じた式の C_1 で固定・合わせない)・initMotion \"observed\"・並進だけ(回転・軸の引きずりは宣言しない)・G_loc n = 2。同じ入力の geo1 の参照(🌟 —— 測地線 1PN)と比べると、OFF を差し引いた近点の移動の比は 1.2951(h/4)で、有限質量比の一次の目安 1 + (4/3)η = 1.29499(η = 0.22124 → +29.50%)の近く。この比は K1 と G_loc の規則の既知の寄与として表示するだけで、補正の係数は入れない(試験粒子の極限で 0)。自転は 0 の採用の宣言のまま(観測で零という意味ではない)。数は正本 tests/out/binbooks-w322b.json。DFM は学習向きの仮定のモデルで、現実の宇宙とは主張しない。", observe:"トレイルでシリウス B の楕円が閉じるのを見る(z = 0 の面 —— 視点のスライダーで横から見ても面は傾かない)。近点の移動は 1 公転あたり約 5.8e-8 rad で画面では見えない —— 数は説明タブの観測カード。", control:"ワンタップの対照は両方 OFF(引きずりなし・G_loc を physicsPatch の gLoc:null で切る —— 重力だけの二体 = OFF の基線)。geo1 の参照は 🌟 siriusAB(二次元 —— 同じ入力の三次元の z = 0 の写しと状態のビット同一)。比べる相手は 🔶 alphaCenABInertial3d(η = 0.24818)と検証サンプルの ♊・⚖️。"},
+  en:{name:"Sirius AB (inertial determinacy, 3D) — K1 rule R_d = Y_k m (not matched), no spin", obsCard:[{q:"What is placed", model:"the same masses, radii, initial state as 🌟 siriusAB (aphelion start, both free) in 3D at z = 0", obs:"- (a principle sample, outside the calibration population)"}, {q:"Declaration", model:"geoPN=3, kFrame=0, lambda_PN=0; K1 + rdRule \"kappaM\", initMotion \"observed\", translation only, G_loc n = 2", obs:"-"}, {q:"Spin (input)", model:"S.spin = 0 is an adopted declaration (as in 🌟), not an observed zero; no rotational drag is declared, so no force", obs:"A: v sin i only; B: no direct measurement (🌟's sources)"}, {q:"Drag radius R_d = Y_k m (rule - not matched)", model:"Y_k = 8.807619e-27 m/kg; A R_d = 36.13 km; B R_d = 17.83 km", obs:"R_d/r_s = 5/C_1 = 5.930396 (r_s, gravitational radius)"}, {q:"1 + (4/3)eta (known finite-mass-ratio term - display only)", model:"eta = 0.22124 -> 1.29499 (+29.50%); no correction coefficient applied", obs:"a first-order guide - a per-system eta, not one value for all stellar binaries"}, {q:"(this book - OFF)/(geo1 - OFF) (same initial state, 8 orbits)", model:"1.2951 (h/4, eccentricity-vector regression), 1.2952 (detector B)", obs:"q_1PN = 4.456e-8 rad/orbit (two-body 1PN formula - not observed)"}, {q:"Apsidal shift (OFF subtracted, rad/orbit)", model:"5.776e-8, 5.773e-8, 5.772e-8 (h, h/2, h/4 - step sensitivity); detector B 5.752e-8, 5.766e-8, 5.773e-8", obs:"q_1PN (1 + (4/3)eta) = 5.771e-8; the extractors differ more at coarse steps"}, {q:"Period difference (this book - geo1, h/4)", model:"-1.41e-5 (book units, relative 9e-9) - yet the apsidal shift differs by 29.5% (no whole-system pass)", obs:"not a comparison with binary observations; no cause stated"}], descStruct:{summary:"A two-body under gravity (E4). The same input as 🌟 siriusAB (both real masses and radii, the aphelion-aligned initial positions and velocities, barycentric, both free) placed in 3D at z = v_z = 0, with geoPN=3, kFrame=0, lambda_PN=0 and the inertial drag declared as the new invSq law K1 with the rule key rdRule \"kappaM\" (both drag radii R_d = Y_k m, fixed by the sample's G_0, c_0 and the closed-form C_1; not matched), initMotion \"observed\", translation only (no rotational or axial drag), G_loc n = 2. Against the same input under the geo1 reference (🌟 - geodesic 1PN) the ratio of the apsidal shift with OFF subtracted is 1.2951 (h/4), near the first-order finite-mass-ratio guide 1 + (4/3)eta = 1.29499 (eta = 0.22124 -> +29.50%). The ratio is shown as a known term of the K1 and G_loc rules only; no correction coefficient is applied (zero in the test-particle limit). The spin stays at the adopted zero (not an observed zero). Numbers in tests/out/binbooks-w322b.json. DFM is an assumed model for learning, not claimed to be the real universe.", observe:"Use the trail to watch Sirius B's ellipse close (in the z = 0 plane - turned side-on with the view slider the plane does not tilt). The apsidal shift is about 5.8e-8 rad per orbit, too small to see - the numbers are in the observation card.", control:"The one-tap control is both off (no drag, G_loc cut by physicsPatch gLoc:null - the gravity-only two-body = the OFF baseline). The geo1 reference is 🌟 siriusAB (2D - its 3D z = 0 copy is state bit-identical). Compare with 🔶 alphaCenABInertial3d (eta = 0.24818) and the check samples ♊ and ⚖️."}, parameterAudit:{observedInputs:["G_0=6.674 (the real G value)", "c_0=29979.2458 (the real c value)", "both stars' real masses and radii and the relative orbit a, e (copied from 🌟 siriusAB - Bond et al. 2017)", "the initial positions and velocities (a bit copy of 🌟's aphelion-aligned placement, z = v_z = 0)"], fixedConventions:["per-sample scale exponents (1 unit = 10^10 m / 10^6 s / 10^29 kg - as 🌟)", "physics.coord 3d (right-handed; the orbit in the z = 0 plane)", "geoPN=3, kFrame=0, lambda_PN=0 (geoPN=3 with relativeDrag.law inertial runs with the geodesic term off)", "inertial drag relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\"}, pairs:\"all\", history:\"positions\", initMotion:\"observed\"} (translation only)", "local gravity physics.gLoc:{law:\"kappaC2\"} (n = 2)", "spin 0 is an adopted declaration (as in 🌟); no spin axis declared", "q=4.6761 and D0=0.006 kept from 🌟 (no effect at kFrame 0)"], fitted:["NOTHING - R_d by the rule R_d = Y_k m; (1 + (4/3)eta) is display only"], derived:["Y_k = 10G_0/(C_1c_0^2) = 8.807619e-27 m/kg; R_d/r_s = 5/C_1 = 5.930396", "R_d: A 36.13 km, B 17.83 km (rule)", "eta = 0.22124, 1 + (4/3)eta = 1.29499", "q_1PN = 6 pi GM/(c^2 a (1 - e^2)) = 4.456e-8 rad/orbit (two-body 1PN formula)"], numerical:["softening eps=0.05", "time multiplier timeScale=1, screen step stepDt=4.39426 (as 🌟 - about 360 steps per orbit)", "display magnification dispMag=300 (display only)"]}},
+  parameterAudit:{observedInputs:["G_0=6.674(実 G の値)", "c_0=29979.2458(実 c の値)", "両星の実質量・実半径と相対軌道の a・e(🌟 siriusAB の写し —— Bond et al. 2017)", "初期の位置と速度(🌟 の遠点整列の配置のビット写し・z = v_z = 0)"], fixedConventions:["サンプル別スケール指数(1単位=10^10m/10^6s/10^29kg —— 🌟 と同じ)", "physics.coord:\"3d\"(右手系・軌道は z = 0 の面)", "geoPN=3・kFrame=0・λ_PN=0(geoPN=3 + relativeDrag.law \"inertial\" は測地線の項を切って走る)", "慣性引きずり relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\"}, pairs:\"all\", history:\"positions\", initMotion:\"observed\"}(並進だけ)", "局所重力 physics.gLoc:{law:\"kappaC2\"}(n = 2)", "自転 0 は採用の宣言(🌟 と同じ)・自転軸は宣言しない", "q=4.6761・D0=0.006 は 🌟 の値のまま(kFrame 0 では走行に効かない)"], fitted:["**無し** —— R_d は規則 R_d = Y_k m・(1 + (4/3)η) は表示だけ"], derived:["Y_k = 10G_0/(C_1c_0²) = 8.807619e-27 m/kg・R_d/r_s = 5/C_1 = 5.930396", "R_d: A 36.13 km・B 17.83 km(規則)", "η = 0.22124・1 + (4/3)η = 1.29499", "q_1PN = 6πGM/(c²a(1−e²)) = 4.456e-8 rad/公転(二体の 1PN の式)"], numerical:["ソフトニング ε=0.05", "時間倍率 timeScale=1・画面の刻み stepDt=4.39426(🌟 と同じ —— 1 公転 ≈ 360 步)", "粒子表示倍率 dispMag=300(表示専用)"]},
+  activeParams:["geoPN","dispMag"],
+  camera:{scale:560}, world:{boundary:"none", size:0},
+  timeRef:{basis:"orbit", pRef:1581.932, pair:[0, 1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(siriusAB の B の周期 1581931995.84 s ÷ 10^6 s)", stepsPerOrbit:360, legacyTimeScale:300},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:4.6761, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9, cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:0.000001, geoPN:3, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:4.39426, dispMag:300, stateCarry:"double", frameWeight:"pull", coord:"3d", relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}, gLoc:{law:"kappaC2"}},
+  bodies:[   // 0 = シリウス A・1 = シリウス B(🌟 の配置のビット写し —— z = v_z = 0・B の半径は 🌟 と同じ宣言つき下限 0.01)
+    {type:"single", m:41.022755, radius:0.11932224, x:-155.61593423270583, y:0, vx:0, vy:-0.1967874451365539, spin:0, pinned:false, pnSource:true, z:0, vz:0},
+    {type:"single", m:20.24293, radius:0.01, x:315.3592066032142, y:0, vx:0, vy:0.39879420365099283, spin:0, pinned:false, pnSource:true, z:0, vz:0}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+{ id:"alphaCenABInertial3d",
+  name:"αケンタウリAB(慣性決定力版・三次元)— K1 の規則 R_d = Y_k m(合わせない)・並進だけ",
+  emoji:"🔶",
+  group:"現実較正",
+  familyId:"alphaCen",
+  familyRole:"variant",
+  scaleTier:"stellar",
+  scaleExp:{L:10, T:6, M:29},
+  sampleClass:"principle",
+  referenceKind:"theory-control",
+  fidelity:"real",
+  notClaim:["solar_cal", "binary_geo3"],
+  abBody:{label:{ja:"引きずりと G_loc を切る(両方 OFF —— 重力だけの二体の基線)", en:"drag and G_loc off (both off - the gravity-only two-body baseline)"}, physicsPatch:{relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, enabled:false, pairs:"all", history:"positions"}, gLoc:null}},
+  obsCard:[{q:"何を置いたか", model:"✨ alphaCenAB と同じ質量・半径・自転・初期の位置と速度(遠点整列・重心系・両星 free)を z = v_z = 0 の三次元に置いた二体", obs:"—(原理サンプル —— 較正母集団の外)"}, {q:"宣言", model:"geoPN=3・kFrame=0・λ_PN=0・invSq の K1 + rdRule \"kappaM\"・initMotion \"observed\"・並進だけ(回転・軸の引きずりなし)・G_loc n = 2", obs:"—"}, {q:"自転(入力)", model:"A 4.5737・B 2.0072 は状態に持つが spinDrag を宣言しないので力に入らない(宣言しても R_d ≈ 19 km では状態のビット同一)", obs:"✨ の観測の自転の転写 —— J は別の宣言(この本は持たない)"}, {q:"引きずりの半径 R_d = Y_k m(規則 —— 合わせない)", model:"Y_k = 8.807619e-27 m/kg・A の R_d = 18.89 km・B の R_d = 15.92 km", obs:"R_d/r_s = 5/C_1 = 5.930396(r_s —— 重力半径)"}, {q:"1 + (4/3)η(有限質量比の既知の寄与 —— 表示だけ)", model:"η = 0.24818 → 1.33091(+33.09%)・補正の係数は入れない", obs:"一次の目安 —— 系ごとの η の値で、恒星連星で一律の値ではない"}, {q:"(この本 − OFF)/(geo1 − OFF)(同じ初期状態・8 公転)", model:"1.3310(h/4・離心ベクトルの回帰)・1.3310(検出器 B)", obs:"q_1PN = 2.174e-8 rad/公転(二体の 1PN の式 —— 観測ではない)"}, {q:"近点の移動(OFF を差し引く・rad/公転)", model:"2.896e-8・2.894e-8・2.894e-8(h・h/2・h/4 —— 刻みの感度診断)・検出器 B 2.881e-8・2.891e-8・2.893e-8", obs:"q_1PN(1 + (4/3)η) = 2.894e-8・粗い刻みで抽出法の差が大きい"}, {q:"公転周期の差(この本 − geo1・h/4)", model:"−1.86e-6(本の単位・相対 7e-10)—— 近点の移動は 33.1% 違う(量ごとに見る・系全体の合格にしない)", obs:"連星の観測との照合ではない・近点の移動の原因を述べない"}],
+  descStruct:{summary:"重力(E4)の二体。✨ alphaCenAB と同じ入力(両星の実質量・半径・自転・遠点整列の初期の位置と速度・重心系・両星 free)を z = v_z = 0 の三次元に置き、geoPN=3・kFrame=0・λ_PN=0 で慣性引きずりを新則 invSq の K1 + 規則の鍵 rdRule:\"kappaM\" で宣言した(両星の引きずりの半径 R_d = Y_k m —— サンプルの G_0・c_0 と閉じた式の C_1 で固定・合わせない)・initMotion \"observed\"・**並進だけ**(回転の引きずり spinDrag と源の角運動量 J は宣言しない)・G_loc n = 2。同じ入力の geo1 の参照(✨ —— 測地線 1PN)と比べると、OFF を差し引いた近点の移動の比は 1.3310(h/4)で、有限質量比の一次の目安 1 + (4/3)η = 1.33091(η = 0.24818 → +33.09%)の近く。この比は K1 と G_loc の規則の既知の寄与として表示するだけで、補正の係数は入れない(試験粒子の極限で 0)。両星の自転は状態に持つが、回転の引きずりを宣言しないので力に入らない。数は正本 tests/out/binbooks-w322b.json。DFM は学習向きの仮定のモデルで、現実の宇宙とは主張しない。", observe:"トレイルで α Cen B の楕円が閉じるのを見る(z = 0 の面 —— 視点のスライダーで横から見ても面は傾かない)。近点の移動は 1 公転あたり約 2.9e-8 rad で画面では見えない —— 数は説明タブの観測カード。", control:"ワンタップの対照は両方 OFF(引きずりなし・G_loc を physicsPatch の gLoc:null で切る —— 重力だけの二体 = OFF の基線)。geo1 の参照は ✨ alphaCenAB(二次元 —— 同じ入力の三次元の z = 0 の写しと状態のビット同一)。比べる相手は 🌠 siriusABInertial3d(η = 0.22124)と検証サンプルの ♊・⚖️。"},
+  en:{name:"Alpha Centauri AB (inertial determinacy, 3D) — K1 rule R_d = Y_k m (not matched), translation only", obsCard:[{q:"What is placed", model:"the same masses, radii, spins, initial state as ✨ alphaCenAB (aphelion start, both free) in 3D at z = 0", obs:"- (a principle sample, outside the calibration population)"}, {q:"Declaration", model:"geoPN=3, kFrame=0, lambda_PN=0; K1 + rdRule \"kappaM\", initMotion \"observed\", translation only, G_loc n = 2", obs:"-"}, {q:"Spin (input)", model:"A 4.5737, B 2.0072 kept in the state; no spinDrag, so no force (declared: bit-identical at R_d of about 19 km)", obs:"✨'s transcribed rotations - J is a separate declaration (not in this book)"}, {q:"Drag radius R_d = Y_k m (rule - not matched)", model:"Y_k = 8.807619e-27 m/kg; A R_d = 18.89 km; B R_d = 15.92 km", obs:"R_d/r_s = 5/C_1 = 5.930396 (r_s, gravitational radius)"}, {q:"1 + (4/3)eta (known finite-mass-ratio term - display only)", model:"eta = 0.24818 -> 1.33091 (+33.09%); no correction coefficient applied", obs:"a first-order guide - a per-system eta, not one value for all stellar binaries"}, {q:"(this book - OFF)/(geo1 - OFF) (same initial state, 8 orbits)", model:"1.3310 (h/4, eccentricity-vector regression), 1.3310 (detector B)", obs:"q_1PN = 2.174e-8 rad/orbit (two-body 1PN formula - not observed)"}, {q:"Apsidal shift (OFF subtracted, rad/orbit)", model:"2.896e-8, 2.894e-8, 2.894e-8 (h, h/2, h/4 - step sensitivity); detector B 2.881e-8, 2.891e-8, 2.893e-8", obs:"q_1PN (1 + (4/3)eta) = 2.894e-8; the extractors differ more at coarse steps"}, {q:"Period difference (this book - geo1, h/4)", model:"-1.86e-6 (book units, relative 7e-10) - yet the apsidal shift differs by 33.1% (no whole-system pass)", obs:"not a comparison with binary observations; no cause stated"}], descStruct:{summary:"A two-body under gravity (E4). The same input as ✨ alphaCenAB (both real masses, radii and spins, the aphelion-aligned initial positions and velocities, barycentric, both free) placed in 3D at z = v_z = 0, with geoPN=3, kFrame=0, lambda_PN=0 and the inertial drag declared as the new invSq law K1 with the rule key rdRule \"kappaM\" (both drag radii R_d = Y_k m, fixed by the sample's G_0, c_0 and the closed-form C_1; not matched), initMotion \"observed\", TRANSLATION ONLY (neither spinDrag nor the source angular momentum J), G_loc n = 2. Against the same input under the geo1 reference (✨ - geodesic 1PN) the ratio of the apsidal shift with OFF subtracted is 1.3310 (h/4), near the first-order finite-mass-ratio guide 1 + (4/3)eta = 1.33091 (eta = 0.24818 -> +33.09%). The ratio is shown as a known term of the K1 and G_loc rules only; no correction coefficient is applied (zero in the test-particle limit). Both spins are kept in the state but enter no force, as no rotational drag is declared. Numbers in tests/out/binbooks-w322b.json. DFM is an assumed model for learning, not claimed to be the real universe.", observe:"Use the trail to watch Alpha Cen B's ellipse close (in the z = 0 plane - turned side-on with the view slider the plane does not tilt). The apsidal shift is about 2.9e-8 rad per orbit, too small to see - the numbers are in the observation card.", control:"The one-tap control is both off (no drag, G_loc cut by physicsPatch gLoc:null - the gravity-only two-body = the OFF baseline). The geo1 reference is ✨ alphaCenAB (2D - its 3D z = 0 copy is state bit-identical). Compare with 🌠 siriusABInertial3d (eta = 0.22124) and the check samples ♊ and ⚖️."}, parameterAudit:{observedInputs:["G_0=6.674 (the real G value)", "c_0=29979.2458 (the real c value)", "both stars' real masses, radii and rotations and the relative orbit a, e (copied from ✨ alphaCenAB - Akeson et al. 2021 and the rotation sources)", "the initial positions and velocities (a bit copy of ✨'s aphelion-aligned placement, z = v_z = 0)"], fixedConventions:["per-sample scale exponents (1 unit = 10^10 m / 10^6 s / 10^29 kg - as ✨)", "physics.coord 3d (right-handed; the orbit in the z = 0 plane)", "geoPN=3, kFrame=0, lambda_PN=0 (geoPN=3 with relativeDrag.law inertial runs with the geodesic term off)", "inertial drag relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\"}, pairs:\"all\", history:\"positions\", initMotion:\"observed\"} (translation only - no spinDrag, no sourceMoment)", "local gravity physics.gLoc:{law:\"kappaC2\"} (n = 2)", "no spin axis declared (the spins are kept in the state and enter no force)", "q=4.6111 and D0=0.006 kept from ✨ (no effect at kFrame 0)"], fitted:["NOTHING - R_d by the rule R_d = Y_k m; (1 + (4/3)eta) is display only"], derived:["Y_k = 10G_0/(C_1c_0^2) = 8.807619e-27 m/kg; R_d/r_s = 5/C_1 = 5.930396", "R_d: A 18.89 km, B 15.92 km (rule)", "eta = 0.24818, 1 + (4/3)eta = 1.33091", "q_1PN = 6 pi GM/(c^2 a (1 - e^2)) = 2.174e-8 rad/orbit (two-body 1PN formula)"], numerical:["softening eps=0.05", "time multiplier timeScale=1, screen step stepDt=6.99194 (as ✨ - about 360 steps per orbit)", "display magnification dispMag=300 (display only)"]}},
+  parameterAudit:{observedInputs:["G_0=6.674(実 G の値)", "c_0=29979.2458(実 c の値)", "両星の実質量・実半径・実自転と相対軌道の a・e(✨ alphaCenAB の写し —— Akeson et al. 2021 と自転の出典)", "初期の位置と速度(✨ の遠点整列の配置のビット写し・z = v_z = 0)"], fixedConventions:["サンプル別スケール指数(1単位=10^10m/10^6s/10^29kg —— ✨ と同じ)", "physics.coord:\"3d\"(右手系・軌道は z = 0 の面)", "geoPN=3・kFrame=0・λ_PN=0(geoPN=3 + relativeDrag.law \"inertial\" は測地線の項を切って走る)", "慣性引きずり relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\"}, pairs:\"all\", history:\"positions\", initMotion:\"observed\"}(並進だけ —— spinDrag・sourceMoment は宣言しない)", "局所重力 physics.gLoc:{law:\"kappaC2\"}(n = 2)", "自転軸は宣言しない(自転は状態に持ち力に入らない)", "q=4.6111・D0=0.006 は ✨ の値のまま(kFrame 0 では走行に効かない)"], fitted:["**無し** —— R_d は規則 R_d = Y_k m・(1 + (4/3)η) は表示だけ"], derived:["Y_k = 10G_0/(C_1c_0²) = 8.807619e-27 m/kg・R_d/r_s = 5/C_1 = 5.930396", "R_d: A 18.89 km・B 15.92 km(規則)", "η = 0.24818・1 + (4/3)η = 1.33091", "q_1PN = 6πGM/(c²a(1−e²)) = 2.174e-8 rad/公転(二体の 1PN の式)"], numerical:["ソフトニング ε=0.05", "時間倍率 timeScale=1・画面の刻み stepDt=6.99194(✨ と同じ —— 1 公転 ≈ 360 步)", "粒子表示倍率 dispMag=300(表示専用)"]},
+  activeParams:["geoPN","dispMag"],
+  camera:{scale:630}, world:{boundary:"none", size:0},
+  timeRef:{basis:"orbit", pRef:2517.09729, pair:[0, 1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(alphaCenAB の B の周期 2517097291.2 s ÷ 10^6 s)", stepsPerOrbit:360, legacyTimeScale:1000},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:4.6111, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9, cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:0.000001, geoPN:3, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:6.99194, dispMag:300, stateCarry:"double", frameWeight:"pull", coord:"3d", relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}, gLoc:{law:"kappaC2"}},
+  bodies:[   // 0 = α Cen A・1 = α Cen B(✨ の配置のビット写し —— z = v_z = 0・自転は ✨ の転写のまま)
+    {type:"single", m:21.451938, radius:0.084738, x:-242.21323583305934, y:0, vx:0, vy:-0.22376387624389305, spin:4.57371397, pinned:false, pnSource:true, z:0, vz:0},
+    {type:"single", m:18.079442, radius:0.05979336, x:287.3951152845407, y:0, vx:0, vy:0.26550425615036494, spin:2.00723302, pinned:false, pnSource:true, z:0, vz:0}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+// ==== 第322便b の本(ここまで)====
 
 // ===== 第220便(第19報 原仮定者指示): 二重パルサー PSR J0737−3039A/B — 観測値再現版 📻 と DFM 版 ⚡ =====
 // 観測レコード(2026-08-27 取得・paper/data/solar-observations.csv の PSR 行)からの手組み転写。
@@ -23532,6 +23683,58 @@ const BUILTIN_PRESETS = [
     {type:"single", m:1, x:18.18181818181818, y:0, z:0, vx:0, vy:0.674199862463242, vz:0, spin:0.3, pinned:false, radius:0.5,
       spinAxis:{enable:true, tiltDeg:30, azimuthDeg:0, precessionRate:0.009270248108869578, source:"第298便a の表示確認用の宣言(観測値ではない)"}}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+// ==== 第322便b の本(ここから —— 連星の検証サンプル)====
+// 第322便b(原仮定者の回答(2026-11-01 —— AN499)・決断事項 AN505・統括の検証項目 R271): 連星の検証サンプル 2 本(♊ 等質量・⚖️ 質量比 1:3)—— 三次元の原理の本の並び(群「運動と時空」)に置く。
+//   宣言は第321便b の玩具 eq-e・r3-e の兄弟の写し(列 tr)と受理後の宣言が同じ(実在の連星の 2 本は 🌟 の後ろの第322便b の本の塊 —— 説明はそちらの注記)。
+//   第322便e(原仮定者の回答(2026-11-01 —— AN519)「c₀=30 に直す」・統括の検証項目 R274): 2 本は c₀ = 30(cLight 10 → 30・従属の kappaT = G/c₀² = 1/900 —— 物理対応ロックの導出値と
+//   ビット同一)。G = 1・質量・a = 100・e = 0.5・初期状態・stepDt・timeRef は第321便b の玩具のまま。照合の相手は第321便b の玩具に c₀ = 30 の宣言を当てた写し(tests/lib-w322b-binbooks.mjs の applyToyC0)。
+{ id:"binaryCheckEqualInertial3d",
+  name:"連星の検証サンプル(等質量・三次元)— K1 の規則と (1 + (4/3)η) の物差し",
+  emoji:"♊",
+  group:"運動と時空",
+  scaleTier:"stellar",
+  sampleClass:"principle",
+  referenceKind:"theory-control",
+  fidelity:"toy",
+  notClaim:["cal", "binary_geo3"],
+  abBody:{label:{ja:"引きずりと G_loc を切る(両方 OFF —— 重力だけの二体の基線)", en:"drag and G_loc off (both off - the gravity-only two-body baseline)"}, physicsPatch:{relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, enabled:false, pairs:"all", history:"positions"}, gLoc:null}},
+  obsCard:[{q:"何を置いたか", model:"本の単位の等質量の二体(G = 1・m₁ = m₂ = 0.5・a = 100・e = 0.5・c₀ = 30)を z = v_z = 0 の三次元に置いた(遠点整列・重心系・両星 free)", obs:"—(原理サンプル —— 観測を転写しない)"}, {q:"宣言", model:"geoPN=3・kFrame=0・λ_PN=0・invSq の K1 + rdRule \"kappaM\"・initMotion \"observed\"・並進だけ・G_loc n = 2", obs:"GM/(c₀²a) = 1/90000 ≈ 1.1e-5(弱場の玩具 —— c₀ = 30 の規約)"}, {q:"1 + (4/3)η(有限質量比の既知の寄与 —— 表示だけ)", model:"η = 0.25 → 1.33333(+33.33%)・補正の係数は入れない", obs:"一次の目安(弱場・自転なしの並進)—— 観測ではない・試験粒子の極限で 0"}, {q:"(この本 − OFF)/(geo1 − OFF)(同じ初期状態・8 公転)", model:"1.3331(h/4・離心ベクトルの回帰)・1.3330(検出器 B)—— 一次の目安との比 0.9999", obs:"—"}, {q:"近点の移動(OFF を差し引く・rad/公転)", model:"3.725e-4・3.723e-4・3.723e-4(h・h/2・h/4 —— 刻みの感度診断)・検出器 B 3.711e-4・3.726e-4・3.723e-4", obs:"q_1PN = 2.793e-4(二体の 1PN の式)・geo1 − OFF 2.792e-4"}, {q:"画面の刻み h の近点の移動(OFF を差し引かない・rad/公転)", model:"この本 −8.36e-4・OFF の対照 −1.21e-3(積分の刻みの誤差 —— h/4 では OFF −7.95e-5)", obs:"画面では刻みの誤差が上の差より大きく、近点は逆向きに回る —— この本の寄与はワンタップの対照との差で見る"}, {q:"引きずりの半径 R_d = Y_k m(規則 —— 合わせない)", model:"両星 R_d = Y_k m(Y_k = 10G_0/(C_1c_0²) —— 本の単位で固定)・自転 0.05 は宣言のまま(力に入らない)", obs:"R_d/r_s = 5/C_1 = 5.930396(r_s —— 重力半径)"}, {q:"言わないこと", model:"連星の観測との照合ではない・近点の移動の原因を述べない・刻みの差を収束の判定に使わない", obs:"—"}],
+  descStruct:{summary:"**連星の geoPN=3 三次元の検証サンプル(等質量)**。重力(E4)の二体を本の単位(G = 1・m₁ = m₂ = 0.5・a = 100・e = 0.5・c₀ = 30 —— GM/(c₀²a) ≈ 1.1e-5)で z = v_z = 0 の三次元に置き、geoPN=3・kFrame=0・λ_PN=0 で慣性引きずりを新則 invSq の K1 + 規則の鍵 rdRule:\"kappaM\"(両星の引きずりの半径 R_d = Y_k m —— 合わせない)・initMotion \"observed\"・並進だけ・G_loc n = 2 で宣言した。実在の連星の geoPN=3 版(🌠 シリウス・🔶 α Cen)の前に置く物差しで、同じ入力の geo1(測地線 1PN)と比べた OFF を差し引いた近点の移動の比が有限質量比の一次の目安 1 + (4/3)η(η = 0.25 → 1.33333)の近くに来ることを見る(+33.33%・実測 1.3331 —— h/4)。(1 + (4/3)η) は K1 と G_loc の規則の既知の寄与として表示するだけで、補正の係数は入れない。数は正本 tests/out/binbooks-w322b.json。DFM は学習向きの仮定のモデルで、現実の宇宙とは主張しない。", observe:"画面の刻み(h = P/360)では、積分の刻みの誤差による近点の移動(OFF の対照で約 −1.2e-3 rad/公転 —— 逆向き)がこの本の寄与(OFF を差し引いて約 +3.7e-4 rad/公転)より大きく、トレイルの近点はゆっくり逆向きに回る(この本 約 −8.4e-4 rad/公転 —— 100 公転で約 −4.8°)。この本の寄与はワンタップの対照(OFF)との差で見る(数は説明タブの観測カード)。視点のスライダーで横から見ても軌道は z = 0 の面のまま。", control:"ワンタップの対照は両方 OFF(引きずりなし・G_loc を physicsPatch の gLoc:null で切る —— 重力だけの二体 = OFF の基線)。比べる相手は質量比 1:3 の ⚖️(η = 3/16 → 1 + (4/3)η = 1.25)と実在の連星の 🌠・🔶。"},
+  en:{name:"Binary check sample (equal masses, 3D) — the K1 rule and the (1 + (4/3)eta) yardstick", obsCard:[{q:"What is placed", model:"equal-mass two-body, book units: G = 1, m = 0.5 each, a = 100, e = 0.5, c0 = 30, 3D at z = 0, aphelion start, both free", obs:"- (a principle sample; nothing transcribed)"}, {q:"Declaration", model:"geoPN=3, kFrame=0, lambda_PN=0; invSq K1 + rdRule \"kappaM\", initMotion \"observed\", translation only, G_loc n = 2", obs:"GM/(c0^2 a) = 1/90000 = 1.1e-5 (a weak-field toy - the c0 = 30 convention)"}, {q:"1 + (4/3)eta (known finite-mass-ratio term - display only)", model:"eta = 0.25 -> 1.33333 (+33.33%); no correction coefficient applied", obs:"a first-order guide (weak field, translation, no spin) - not an observation"}, {q:"(this book - OFF)/(geo1 - OFF) (same initial state, 8 orbits)", model:"1.3331 (h/4, e-vector regression), 1.3330 (detector B) - 0.9999 of the first-order guide", obs:"-"}, {q:"Apsidal shift (OFF subtracted, rad/orbit)", model:"3.725e-4, 3.723e-4, 3.723e-4 (h, h/2, h/4 - step sensitivity); detector B 3.711e-4, 3.726e-4, 3.723e-4", obs:"q_1PN = 2.793e-4 (two-body 1PN formula); geo1 - OFF 2.792e-4"}, {q:"Apsidal shift at the screen step h (OFF not subtracted, rad/orbit)", model:"this book -8.36e-4; OFF control -1.21e-3 (integration-step error - OFF -7.95e-5 at h/4)", obs:"on screen the step error exceeds the difference above and the periapsis turns backwards - read this book's contribution against the one-tap control"}, {q:"Drag radius R_d = Y_k m (rule - not matched)", model:"both R_d = Y_k m (Y_k = 10G_0/(C_1c_0^2), book units); spins 0.05 as declared (enter no force)", obs:"R_d/r_s = 5/C_1 = 5.930396 (r_s, gravitational radius)"}, {q:"Not claimed", model:"not a comparison with binary observations; no cause stated; step differences are no convergence verdict", obs:"-"}], descStruct:{summary:"A geoPN=3 3D CHECK SAMPLE FOR BINARIES (EQUAL MASSES). A two-body under gravity (E4) in book units (G = 1, m1 = m2 = 0.5, a = 100, e = 0.5, c0 = 30 - GM/(c0^2 a) = 1.1e-5) placed in 3D at z = v_z = 0, with geoPN=3, kFrame=0, lambda_PN=0 and the inertial drag declared as the new invSq law K1 with the rule key rdRule \"kappaM\" (both drag radii R_d = Y_k m, not matched), initMotion \"observed\", translation only, G_loc n = 2. It is the yardstick placed before the geoPN=3 builds of real binaries (🌠 Sirius, 🔶 Alpha Cen): against the same input under geo1 (geodesic 1PN) the ratio of the apsidal shift with OFF subtracted comes near the first-order finite-mass-ratio guide 1 + (4/3)eta (eta = 0.25 -> 1.33333; measured 1.3331 at h/4). (1 + (4/3)eta) is shown as a known term of the K1 and G_loc rules only; no correction coefficient is applied. Numbers in tests/out/binbooks-w322b.json. DFM is an assumed model for learning, not claimed to be the real universe.", observe:"At the screen step (h = P/360) the integration-step error moves the periapsis backwards (about -1.2e-3 rad per orbit in the OFF control) by more than this book's contribution (about +3.7e-4 rad per orbit with OFF subtracted), so on the trail the periapsis drifts slowly backwards (about -8.4e-4 rad per orbit, about -4.8 deg in 100 orbits). Read this book's contribution as the difference from the one-tap control (OFF); the numbers are in the observation card. Turned side-on with the view slider, the orbit stays in the z = 0 plane.", control:"The one-tap control is both off (no drag, G_loc cut by physicsPatch gLoc:null - the gravity-only two-body = the OFF baseline). Compare with ⚖️ at mass ratio 1:3 (eta = 3/16 -> 1 + (4/3)eta = 1.25) and the real binaries 🌠 and 🔶."}, parameterAudit:{observedInputs:["NONE - this sample transcribes no observation"], fixedConventions:["book units G = 1, c0 = 30, M = m1 + m2 = 1, a = 100, e = 0.5 (GM/(c0^2 a) = 1/90000 = 1.1e-5 - the c0 = 30 convention); physics.coord 3d (right-handed)", "geoPN=3, kFrame=0, lambda_PN=0 (geoPN=3 with relativeDrag.law inertial runs with the geodesic term off)", "inertial drag relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\"}, pairs:\"all\", history:\"positions\", initMotion:\"observed\"} (translation only)", "local gravity physics.gLoc:{law:\"kappaC2\"} (n = 2)", "aphelion-aligned, barycentric, both free; the other physics keys copied from ✨'s template (q and D0 have no effect at kFrame 0)"], fitted:["NOTHING - R_d by the rule; (1 + (4/3)eta) is display only"], derived:["eta = 0.25, 1 + (4/3)eta = 1.33333", "q_1PN = 6 pi GM/(c0^2 a (1 - e^2)) = 2.793e-4 rad/orbit (two-body 1PN formula)", "spacetime coefficient X_k (key kappaT) = G_0/c_0^2 = 1/900 (bit-identical to the correspondence-lock value)", "Kepler period 2 pi sqrt(a^3/(GM)) = 6283.19"], numerical:["softening eps=0.05", "screen step stepDt = P/360 = 17.4533 (timeScale 1 - the integration-step error at this step moves the periapsis by -1.21e-3 rad/orbit in the OFF control, more than this book's contribution)", "radius 1 (display; larger than R_d)"]}},
+  parameterAudit:{observedInputs:["**無し** —— 本サンプルは観測を 1 つも転写していない"], fixedConventions:["本の単位 G = 1・c₀ = 30・M = m₁ + m₂ = 1・a = 100・e = 0.5(GM/(c₀²a) = 1/90000 ≈ 1.1e-5 —— c₀ = 30 の規約)・physics.coord:\"3d\"(右手系)", "geoPN=3・kFrame=0・λ_PN=0(geoPN=3 + relativeDrag.law \"inertial\" は測地線の項を切って走る)", "慣性引きずり relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\"}, pairs:\"all\", history:\"positions\", initMotion:\"observed\"}(並進だけ)", "局所重力 physics.gLoc:{law:\"kappaC2\"}(n = 2)", "遠点整列・重心系・両星 free・他の物理の鍵は ✨ の雛形の写し(q・D0 は kFrame 0 で走行に効かない)"], fitted:["**無し** —— R_d は規則・(1 + (4/3)η) は表示だけ"], derived:["η = 0.25・1 + (4/3)η = 1.33333", "q_1PN = 6πGM/(c₀²a(1−e²)) = 2.793e-4 rad/公転(二体の 1PN の式)", "時空係数 X_k(鍵 kappaT)= G_0/c_0² = 1/900(物理対応ロックの導出値とビット同一)", "ケプラー周期 2π√(a³/(GM)) = 6283.19"], numerical:["ソフトニング ε=0.05", "画面の刻み stepDt = P/360 = 17.4533(timeScale 1 —— この刻みの積分の誤差による近点の移動は OFF の対照で −1.21e-3 rad/公転で、この本の寄与より大きい)", "半径 1(表示 —— R_d より大きい)"]},
+  activeParams:["geoPN"],
+  timeRef:{basis:"orbit", pRef:6283.185307179586, pair:[0, 1], def:"revolution", source:"玩具のケプラー周期 2π√(a³/(GM))", stepsPerOrbit:360},
+  camera:{scale:300}, world:{boundary:"none", size:0},
+  physics:{G:1, D0:0.006, kFrame:0, q:4.6111, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0011111111111111111, cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:0.000001, geoPN:3, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:17.453292519943293, stateCarry:"double", frameWeight:"pull", coord:"3d", relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}, gLoc:{law:"kappaC2"}},
+  bodies:[   // 0・1 = 等質量(遠点整列・重心系・両星 free —— z = v_z = 0)
+    {type:"single", m:0.5, radius:1, x:-75, y:0, vx:0, vy:-0.02886751345948129, spin:0.05, pinned:false, pnSource:true, z:0, vz:0},
+    {type:"single", m:0.5, radius:1, x:75, y:0, vx:0, vy:0.02886751345948129, spin:0.05, pinned:false, pnSource:true, z:0, vz:0}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+{ id:"binaryCheckRatio3Inertial3d",
+  name:"連星の検証サンプル(質量比 1:3・三次元)— K1 の規則と (1 + (4/3)η) の物差し",
+  emoji:"⚖️",
+  group:"運動と時空",
+  scaleTier:"stellar",
+  sampleClass:"principle",
+  referenceKind:"theory-control",
+  fidelity:"toy",
+  notClaim:["cal", "binary_geo3"],
+  abBody:{label:{ja:"引きずりと G_loc を切る(両方 OFF —— 重力だけの二体の基線)", en:"drag and G_loc off (both off - the gravity-only two-body baseline)"}, physicsPatch:{relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, enabled:false, pairs:"all", history:"positions"}, gLoc:null}},
+  obsCard:[{q:"何を置いたか", model:"本の単位の質量比 1:3の二体(G = 1・m₁ = 0.25・m₂ = 0.75・a = 100・e = 0.5・c₀ = 30)を z = v_z = 0 の三次元に置いた(遠点整列・重心系・両星 free)", obs:"—(原理サンプル —— 観測を転写しない)"}, {q:"宣言", model:"geoPN=3・kFrame=0・λ_PN=0・invSq の K1 + rdRule \"kappaM\"・initMotion \"observed\"・並進だけ・G_loc n = 2", obs:"GM/(c₀²a) = 1/90000 ≈ 1.1e-5(弱場の玩具 —— c₀ = 30 の規約)"}, {q:"1 + (4/3)η(有限質量比の既知の寄与 —— 表示だけ)", model:"η = 0.1875 → 1.25000(+25.00%)・補正の係数は入れない", obs:"一次の目安(弱場・自転なしの並進)—— 観測ではない・試験粒子の極限で 0"}, {q:"(この本 − OFF)/(geo1 − OFF)(同じ初期状態・8 公転)", model:"1.2498(h/4・離心ベクトルの回帰)・1.2497(検出器 B)—— 一次の目安との比 0.9998", obs:"—"}, {q:"近点の移動(OFF を差し引く・rad/公転)", model:"3.493e-4・3.491e-4・3.490e-4(h・h/2・h/4 —— 刻みの感度診断)・検出器 B 3.478e-4・3.494e-4・3.490e-4", obs:"q_1PN = 2.793e-4(二体の 1PN の式 —— 質量比に依らない)・geo1 − OFF 2.792e-4"}, {q:"画面の刻み h の近点の移動(OFF を差し引かない・rad/公転)", model:"この本 −8.59e-4・OFF の対照 −1.21e-3(積分の刻みの誤差 —— h/4 では OFF −7.95e-5)", obs:"画面では刻みの誤差が上の差より大きく、近点は逆向きに回る —— この本の寄与はワンタップの対照との差で見る"}, {q:"引きずりの半径 R_d = Y_k m(規則 —— 合わせない)", model:"両星 R_d = Y_k m(Y_k = 10G_0/(C_1c_0²) —— 本の単位で固定)・自転 0.05 は宣言のまま(力に入らない)", obs:"R_d/r_s = 5/C_1 = 5.930396(r_s —— 重力半径)"}, {q:"言わないこと", model:"連星の観測との照合ではない・近点の移動の原因を述べない・刻みの差を収束の判定に使わない", obs:"—"}],
+  descStruct:{summary:"**連星の geoPN=3 三次元の検証サンプル(質量比 1:3)**。重力(E4)の二体を本の単位(G = 1・m₁ = 0.25・m₂ = 0.75・a = 100・e = 0.5・c₀ = 30 —— GM/(c₀²a) ≈ 1.1e-5)で z = v_z = 0 の三次元に置き、geoPN=3・kFrame=0・λ_PN=0 で慣性引きずりを新則 invSq の K1 + 規則の鍵 rdRule:\"kappaM\"(両星の引きずりの半径 R_d = Y_k m —— 合わせない)・initMotion \"observed\"・並進だけ・G_loc n = 2 で宣言した。♊ 等質量と対で、同じ入力の geo1(測地線 1PN)と比べた OFF を差し引いた近点の移動の比が質量比で変わる(η = 3/16 → 1 + (4/3)η = 1.25000 —— +25.00%・実測 1.2498 —— h/4)ことを見る物差し。二体の 1PN の近点の移動 q_1PN は質量比に依らないので、差は有限質量比の項に出る。(1 + (4/3)η) は表示するだけで補正の係数は入れない。数は正本 tests/out/binbooks-w322b.json。DFM は学習向きの仮定のモデルで、現実の宇宙とは主張しない。", observe:"画面の刻み(h = P/360)では、積分の刻みの誤差による近点の移動(OFF の対照で約 −1.2e-3 rad/公転 —— 逆向き)がこの本の寄与(OFF を差し引いて約 +3.5e-4 rad/公転)より大きく、トレイルの軽い方の近点はゆっくり逆向きに回る(この本 約 −8.6e-4 rad/公転)。この本の寄与はワンタップの対照(OFF)との差で見る(数は説明タブの観測カード)。重い方は重心の近くの小さな楕円。視点のスライダーで横から見ても軌道は z = 0 の面のまま。", control:"ワンタップの対照は両方 OFF(引きずりなし・G_loc を physicsPatch の gLoc:null で切る —— 重力だけの二体 = OFF の基線)。比べる相手は等質量の ♊(η = 1/4 → 1.33333)と実在の連星の 🌠・🔶。"},
+  en:{name:"Binary check sample (mass ratio 1:3, 3D) — the K1 rule and the (1 + (4/3)eta) yardstick", obsCard:[{q:"What is placed", model:"a 1:3 two-body, book units: G = 1, m = 0.25 and 0.75, a = 100, e = 0.5, c0 = 30, 3D at z = 0, aphelion start, both free", obs:"- (a principle sample; nothing transcribed)"}, {q:"Declaration", model:"geoPN=3, kFrame=0, lambda_PN=0; invSq K1 + rdRule \"kappaM\", initMotion \"observed\", translation only, G_loc n = 2", obs:"GM/(c0^2 a) = 1/90000 = 1.1e-5 (a weak-field toy - the c0 = 30 convention)"}, {q:"1 + (4/3)eta (known finite-mass-ratio term - display only)", model:"eta = 0.1875 -> 1.25000 (+25.00%); no correction coefficient applied", obs:"a first-order guide (weak field, translation, no spin) - not an observation"}, {q:"(this book - OFF)/(geo1 - OFF) (same initial state, 8 orbits)", model:"1.2498 (h/4, e-vector regression), 1.2497 (detector B) - 0.9998 of the first-order guide", obs:"-"}, {q:"Apsidal shift (OFF subtracted, rad/orbit)", model:"3.493e-4, 3.491e-4, 3.490e-4 (h, h/2, h/4 - step sensitivity); detector B 3.478e-4, 3.494e-4, 3.490e-4", obs:"q_1PN = 2.793e-4 (two-body 1PN formula - mass-ratio free); geo1 - OFF 2.792e-4"}, {q:"Apsidal shift at the screen step h (OFF not subtracted, rad/orbit)", model:"this book -8.59e-4; OFF control -1.21e-3 (integration-step error - OFF -7.95e-5 at h/4)", obs:"on screen the step error exceeds the difference above and the periapsis turns backwards - read this book's contribution against the one-tap control"}, {q:"Drag radius R_d = Y_k m (rule - not matched)", model:"both R_d = Y_k m (Y_k = 10G_0/(C_1c_0^2), book units); spins 0.05 as declared (enter no force)", obs:"R_d/r_s = 5/C_1 = 5.930396 (r_s, gravitational radius)"}, {q:"Not claimed", model:"not a comparison with binary observations; no cause stated; step differences are no convergence verdict", obs:"-"}], descStruct:{summary:"A geoPN=3 3D CHECK SAMPLE FOR BINARIES (MASS RATIO 1:3). A two-body under gravity (E4) in book units (G = 1, m1 = 0.25, m2 = 0.75, a = 100, e = 0.5, c0 = 30 - GM/(c0^2 a) = 1.1e-5) placed in 3D at z = v_z = 0, with geoPN=3, kFrame=0, lambda_PN=0 and the inertial drag declared as the new invSq law K1 with the rule key rdRule \"kappaM\" (both drag radii R_d = Y_k m, not matched), initMotion \"observed\", translation only, G_loc n = 2. Paired with the equal-mass ♊, it is the yardstick showing that the ratio of the apsidal shift with OFF subtracted, against the same input under geo1 (geodesic 1PN), moves with the mass ratio (eta = 3/16 -> 1 + (4/3)eta = 1.25000; measured 1.2498 at h/4). The two-body 1PN apsidal shift q_1PN does not depend on the mass ratio, so the difference sits in the finite-mass-ratio term. (1 + (4/3)eta) is display only; no correction coefficient is applied. Numbers in tests/out/binbooks-w322b.json. DFM is an assumed model for learning, not claimed to be the real universe.", observe:"At the screen step (h = P/360) the integration-step error moves the periapsis backwards (about -1.2e-3 rad per orbit in the OFF control) by more than this book's contribution (about +3.5e-4 rad per orbit with OFF subtracted), so on the trail the light body's periapsis drifts slowly backwards (about -8.6e-4 rad per orbit). Read this book's contribution as the difference from the one-tap control (OFF); the numbers are in the observation card. The heavy body moves on a small ellipse near the barycentre; turned side-on, the orbit stays in the z = 0 plane.", control:"The one-tap control is both off (no drag, G_loc cut by physicsPatch gLoc:null - the OFF baseline). Compare with the equal-mass ♊ (eta = 1/4 -> 1.33333) and the real binaries 🌠 and 🔶."}, parameterAudit:{observedInputs:["NONE - this sample transcribes no observation"], fixedConventions:["book units G = 1, c0 = 30, M = m1 + m2 = 1, a = 100, e = 0.5 (GM/(c0^2 a) = 1/90000 = 1.1e-5 - the c0 = 30 convention), mass ratio 1:3; physics.coord 3d (right-handed)", "geoPN=3, kFrame=0, lambda_PN=0 (geoPN=3 with relativeDrag.law inertial runs with the geodesic term off)", "inertial drag relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\"}, pairs:\"all\", history:\"positions\", initMotion:\"observed\"} (translation only)", "local gravity physics.gLoc:{law:\"kappaC2\"} (n = 2)", "aphelion-aligned, barycentric, both free; the other physics keys copied from ✨'s template (q and D0 have no effect at kFrame 0)"], fitted:["NOTHING - R_d by the rule; (1 + (4/3)eta) is display only"], derived:["eta = 3/16 = 0.1875, 1 + (4/3)eta = 1.25000", "q_1PN = 6 pi GM/(c0^2 a (1 - e^2)) = 2.793e-4 rad/orbit (two-body 1PN formula)", "spacetime coefficient X_k (key kappaT) = G_0/c_0^2 = 1/900 (bit-identical to the correspondence-lock value)", "Kepler period 2 pi sqrt(a^3/(GM)) = 6283.19"], numerical:["softening eps=0.05", "screen step stepDt = P/360 = 17.4533 (timeScale 1 - the integration-step error at this step moves the periapsis by -1.21e-3 rad/orbit in the OFF control, more than this book's contribution)", "radius 1 (display; larger than R_d)"]}},
+  parameterAudit:{observedInputs:["**無し** —— 本サンプルは観測を 1 つも転写していない"], fixedConventions:["本の単位 G = 1・c₀ = 30・M = m₁ + m₂ = 1・a = 100・e = 0.5(GM/(c₀²a) = 1/90000 ≈ 1.1e-5 —— c₀ = 30 の規約)・質量比 1:3・physics.coord:\"3d\"(右手系)", "geoPN=3・kFrame=0・λ_PN=0(geoPN=3 + relativeDrag.law \"inertial\" は測地線の項を切って走る)", "慣性引きずり relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\"}, pairs:\"all\", history:\"positions\", initMotion:\"observed\"}(並進だけ)", "局所重力 physics.gLoc:{law:\"kappaC2\"}(n = 2)", "遠点整列・重心系・両星 free・他の物理の鍵は ✨ の雛形の写し(q・D0 は kFrame 0 で走行に効かない)"], fitted:["**無し** —— R_d は規則・(1 + (4/3)η) は表示だけ"], derived:["η = 3/16 = 0.1875・1 + (4/3)η = 1.25000", "q_1PN = 6πGM/(c₀²a(1−e²)) = 2.793e-4 rad/公転(二体の 1PN の式)", "時空係数 X_k(鍵 kappaT)= G_0/c_0² = 1/900(物理対応ロックの導出値とビット同一)", "ケプラー周期 2π√(a³/(GM)) = 6283.19"], numerical:["ソフトニング ε=0.05", "画面の刻み stepDt = P/360 = 17.4533(timeScale 1 —— この刻みの積分の誤差による近点の移動は OFF の対照で −1.21e-3 rad/公転で、この本の寄与より大きい)", "半径 1(表示 —— R_d より大きい)"]},
+  activeParams:["geoPN"],
+  timeRef:{basis:"orbit", pRef:6283.185307179586, pair:[0, 1], def:"revolution", source:"玩具のケプラー周期 2π√(a³/(GM))", stepsPerOrbit:360},
+  camera:{scale:300}, world:{boundary:"none", size:0},
+  physics:{G:1, D0:0.006, kFrame:0, q:4.6111, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0011111111111111111, cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:0.000001, geoPN:3, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:17.453292519943293, stateCarry:"double", frameWeight:"pull", coord:"3d", relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}, gLoc:{law:"kappaC2"}},
+  bodies:[   // 0 = 軽い方(0.25)・1 = 重い方(0.75)(遠点整列・重心系・両星 free —— z = v_z = 0)
+    {type:"single", m:0.25, radius:1, x:-112.5, y:0, vx:0, vy:-0.04330127018922193, spin:0.05, pinned:false, pnSource:true, z:0, vz:0},
+    {type:"single", m:0.75, radius:1, x:37.5, y:0, vx:0, vy:0.014433756729740645, spin:0.05, pinned:false, pnSource:true, z:0, vz:0}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+// ==== 第322便b の本(ここまで —— 連星の検証サンプル)====
 
 // ===== 第252便a(第44報「箱宇宙と連星」): 🫂 boxBinaryToy — 等質量では何が消えて何が残るか =====
 // 原仮定者(第44報・全文は docs/PHYSICS.md 〔第252便a〕): 「もしも2つしかない天体が同じ質量だったら…
@@ -25893,6 +26096,7 @@ const SAMPLE_STATUS={
 "galaxy":{"purpose":"中心天体の引きずりで外縁の回転が速まるかを測る","objective":"met","state":"外縁速度比 1.521 が門 >1.04 を通過","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["claim.galaxy-outerboost"],"en":{"purpose":"Measure whether the central body's dragging speeds up the outer rotation","state":"outer speed ratio 1.521 passes the >1.04 gate","mismatch":null,"outlook":null,"brief":"Measure whether the central body's dragging speeds up the outer rotation. Met: outer speed ratio 1.521 passes the >1.04 gate. Out of calibration scope."},"brief":"中心天体の引きずりで外縁の回転が速まるかを測る。達・外縁速度比 1.521 が門 >1.04 を通過。較正対象外。"},
 "galaxyStd":{"purpose":"重力と引きずりだけで外縁の増速を測る基準","objective":"met","state":"外縁速度比 1.266 が窓 1.15〜1.4 内","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["claim.galaxystd-outerboost"],"en":{"purpose":"Baseline that measures the outer speed-up with gravity and dragging only","state":"outer speed ratio 1.266 lies in the 1.15–1.4 window","mismatch":null,"outlook":null,"brief":"Baseline that measures the outer speed-up with gravity and dragging only. Met: outer speed ratio 1.266 lies in the 1.15–1.4 window. Out of calibration scope."},"brief":"重力と引きずりだけで外縁の増速を測る基準。達・外縁速度比 1.266 が窓 1.15〜1.4 内。較正対象外。"},
 "galaxyGeo2":{"purpose":"v−u 測地線則で外縁の増速を比べる","objective":"met","state":"λ_PN=0 で外縁速度比 1.180 が窓内・クランプ 0","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["claim.galaxygeo2-outerboost"],"en":{"purpose":"Compare the outer speed-up under the v−u geodesic law","state":"with λ_PN=0 the outer speed ratio 1.180 lies in its window with zero clamps","mismatch":null,"outlook":null,"brief":"Compare the outer speed-up under the v−u geodesic law. Met: with λ_PN=0 the outer speed ratio 1.180 lies in its window with zero clamps. Out of calibration scope."},"brief":"v−u 測地線則で外縁の増速を比べる。達・λ_PN=0 で外縁速度比 1.180 が窓内・クランプ 0。較正対象外。"},
+"galaxyGeo2Flat3d":{"purpose":"💫 の面内の写しを三次元の步で走らせ二次元と比べる","objective":"met","state":"外縁速度比が二次元の 💫 と同じビット・クランプ 0・z と軸は面内のまま","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/geo2flat-w322a.json"],"en":{"purpose":"Run the in-plane copy of 💫 on the 3D step against 2D","state":"the outer speed ratio is bit-identical to the 2D 💫 with zero clamps and z stays 0","mismatch":null,"outlook":null,"brief":"Run the in-plane copy of 💫 on the 3D step against 2D. Met: the outer speed ratio is bit-identical to the 2D 💫 with zero clamps and z stays 0. Out of calibration scope."},"brief":"💫 の面内の写しを三次元の步で走らせ二次元と比べる。達・外縁速度比が二次元の 💫 と同じビット・クランプ 0・z と軸は面内のまま。較正対象外。"},
 "galaxyDB":{"purpose":"円盤の回転支持とバルジの分散支持を比べる","objective":"met","state":"速度分散の比 2.37 が窓 2.2〜3.0 内","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["claim.galaxydb-contrast"],"en":{"purpose":"Contrast rotation support in a disc with dispersion support in a bulge","state":"the dispersion ratio 2.37 lies in the 2.2–3.0 window","mismatch":null,"outlook":null,"brief":"Contrast rotation support in a disc with dispersion support in a bulge. Met: the dispersion ratio 2.37 lies in the 2.2–3.0 window. Out of calibration scope."},"brief":"円盤の回転支持とバルジの分散支持を比べる。達・速度分散の比 2.37 が窓 2.2〜3.0 内。較正対象外。"},
 "collapse":{"purpose":"自己重力の崩壊と放射冷却の役割を分ける","objective":"met","state":"冷却は温度を下げるが崩壊の速さは変えない","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.collapse-cooling"],"en":{"purpose":"Separate self-gravitating collapse from the role of radiative cooling","state":"cooling lowers the temperature but leaves the collapse rate unchanged","mismatch":null,"outlook":null,"brief":"Separate self-gravitating collapse from the role of radiative cooling. Met: cooling lowers the temperature but leaves the collapse rate unchanged. Out of calibration scope."},"brief":"自己重力の崩壊と放射冷却の役割を分ける。達・冷却は温度を下げるが崩壊の速さは変えない。較正対象外。"},
 "axisBarStill":{"purpose":"回転のない円盤で軸への力が棒を作るかを見る","objective":"partial","state":"力の純関数は検査済み・棒の形の門は無い","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.armBarPure","preset.axisBarStill"],"en":{"purpose":"See whether a pull toward an axis gathers a non-rotating disc into a bar","state":"the force's pure functions are checked; there is no gate on the bar shape","mismatch":null,"outlook":null,"brief":"See whether a pull toward an axis gathers a non-rotating disc into a bar. Partial: the force's pure functions are checked; there is no gate on the bar shape. Out of calibration scope."},"brief":"回転のない円盤で軸への力が棒を作るかを見る。部分・力の純関数は検査済み・棒の形の門は無い。較正対象外。"},
@@ -26010,6 +26214,10 @@ const SAMPLE_STATUS={
 "alphaCenABDFM":{"purpose":"観測質量のまま kF1 を α Cen へ当てる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Apply kF1 to α Cen with the observed masses","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Apply kF1 to α Cen with the observed masses. Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"観測質量のまま kF1 を α Cen へ当てる。部分・照合の走行は台帳に記帳。較正対象外。"},
 "siriusAB":{"purpose":"シリウス AB を kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"pass-limited","mismatch":null,"outlook":"写像未確定","evidence":["tests/out/calaudit-w249.json","behavior.siriusAB"],"en":{"purpose":"Compare Sirius AB with kF0","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"mapping unresolved","brief":"Compare Sirius AB with kF0. Partial: the comparison runs are in the ledger. Calibration: limited pass; mapping unresolved."},"brief":"シリウス AB を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は量限定合・写像未確定。"},
 "siriusABDFM":{"purpose":"観測質量のまま kF1 をシリウスへ当てる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Apply kF1 to Sirius with the observed masses","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Apply kF1 to Sirius with the observed masses. Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"観測質量のまま kF1 をシリウスへ当てる。部分・照合の走行は台帳に記帳。較正対象外。"},
+"binaryCheckEqualInertial3d":{"purpose":"連星の geoPN=3 三次元の検証サンプル(等質量)—— OFF を差し引いた近点の移動の比を 1 + (4/3)η と並べる","objective":"met","state":"比 1.3331(h/4・c₀ = 30)・1 + (4/3)η = 1.33333","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/binbooks-w322b.json"],"en":{"purpose":"geoPN=3 3D binary check sample (equal masses): OFF-subtracted apsidal-shift ratio vs 1 + (4/3)eta","state":"ratio 1.3331 (h/4, c0 = 30); 1 + (4/3)eta = 1.33333","mismatch":null,"outlook":null,"brief":"geoPN=3 3D binary check sample (equal masses): OFF-subtracted apsidal-shift ratio vs 1 + (4/3)eta. Met: ratio 1.3331 (h/4, c0 = 30); 1 + (4/3)eta = 1.33333. Out of calibration scope."},"brief":"連星の geoPN=3 三次元の検証サンプル(等質量)—— OFF を差し引いた近点の移動の比を 1 + (4/3)η と並べる。達・比 1.3331(h/4・c₀ = 30)・1 + (4/3)η = 1.33333。較正対象外。"},
+"binaryCheckRatio3Inertial3d":{"purpose":"連星の geoPN=3 三次元の検証サンプル(質量比 1:3)—— 近点の移動の比が質量比で変わるのを 1 + (4/3)η と並べる","objective":"met","state":"比 1.2498(h/4・c₀ = 30)・1 + (4/3)η = 1.25000","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/binbooks-w322b.json"],"en":{"purpose":"geoPN=3 3D binary check sample (mass ratio 1:3): the apsidal-shift ratio moves with the mass ratio","state":"ratio 1.2498 (h/4, c0 = 30); 1 + (4/3)eta = 1.25000","mismatch":null,"outlook":null,"brief":"geoPN=3 3D binary check sample (mass ratio 1:3): the apsidal-shift ratio moves with the mass ratio. Met: ratio 1.2498 (h/4, c0 = 30); 1 + (4/3)eta = 1.25000. Out of calibration scope."},"brief":"連星の geoPN=3 三次元の検証サンプル(質量比 1:3)—— 近点の移動の比が質量比で変わるのを 1 + (4/3)η と並べる。達・比 1.2498(h/4・c₀ = 30)・1 + (4/3)η = 1.25000。較正対象外。"},
+"siriusABInertial3d":{"purpose":"シリウス AB の geoPN=3 三次元(無自転)—— K1 の規則で同じ入力の geo1 との近点の移動の比を見る","objective":"met","state":"比 1.2951(h/4)・1 + (4/3)η = 1.29499(系ごとの値)","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/binbooks-w322b.json"],"en":{"purpose":"Sirius AB geoPN=3 in 3D (no spin): K1 rule; apsidal-shift ratio against the same input under geo1","state":"ratio 1.2951 (h/4); 1 + (4/3)eta = 1.29499 (per system)","mismatch":null,"outlook":null,"brief":"Sirius AB geoPN=3 in 3D (no spin): K1 rule; apsidal-shift ratio against the same input under geo1. Met: ratio 1.2951 (h/4); 1 + (4/3)eta = 1.29499 (per system). Out of calibration scope."},"brief":"シリウス AB の geoPN=3 三次元(無自転)—— K1 の規則で同じ入力の geo1 との近点の移動の比を見る。達・比 1.2951(h/4)・1 + (4/3)η = 1.29499(系ごとの値)。較正対象外。"},
+"alphaCenABInertial3d":{"purpose":"α Cen AB の geoPN=3 三次元(並進だけ)—— K1 の規則で同じ入力の geo1 との近点の移動の比を見る","objective":"met","state":"比 1.3310(h/4)・1 + (4/3)η = 1.33091(系ごとの値)","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/binbooks-w322b.json"],"en":{"purpose":"Alpha Cen AB geoPN=3 in 3D (translation only): K1 rule; apsidal-shift ratio against the same input under geo1","state":"ratio 1.3310 (h/4); 1 + (4/3)eta = 1.33091 (per system)","mismatch":null,"outlook":null,"brief":"Alpha Cen AB geoPN=3 in 3D (translation only): K1 rule; apsidal-shift ratio against the same input under geo1. Met: ratio 1.3310 (h/4); 1 + (4/3)eta = 1.33091 (per system). Out of calibration scope."},"brief":"α Cen AB の geoPN=3 三次元(並進だけ)—— K1 の規則で同じ入力の geo1 との近点の移動の比を見る。達・比 1.3310(h/4)・1 + (4/3)η = 1.33091(系ごとの値)。較正対象外。"},
 "psrDoubleAB":{"purpose":"二重パルサーを kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"周期 +0.00307%(1.1×10⁶σ)","outlook":"数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare the double pulsar with kF0","state":"the comparison runs are in the ledger","mismatch":"period +0.00307% (1.1×10⁶σ)","outlook":"numerics unresolved; mapping unresolved","holdRemedy":"the orbital period differs by 1e6 σ: align the input with the timing solution's Pb at the same solution and epoch (a 1PN-consistent initial state) first; this is not a fix of the EIH equation or its source set. Show convergence of the periastron advance over h/h2/h4, and declare the e_T ↔ eProxy mapping","brief":"Compare the double pulsar with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — period +0.00307% (1.1×10⁶σ); numerics unresolved; mapping unresolved."},"holdRemedy":"公転周期は σ の 10⁶ 倍の差で、タイミング解の Pb と同一解・同一元期の入力(1PN で一貫した初期状態)を揃えるのが先 —— EIH の式・源集合の是正ではない。近点は h/h2/h4 の収束を示す。離心率は e_T↔eProxy の写像を宣言する","brief":"二重パルサーを kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00307%(1.1×10⁶σ)・数値未解決・写像未確定。"},
 "psrDoubleABDFM":{"purpose":"二重パルサーを観測質量(f=1)と kF1 で照合","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare the double pulsar with the observed masses (f=1) under kF1","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Compare the double pulsar with the observed masses (f=1) under kF1. Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"二重パルサーを観測質量(f=1)と kF1 で照合。部分・照合の走行は台帳に記帳。較正対象外。"},
 "psrDoubleABGeoToy":{"purpose":"観測質量のまま geoPN=4 則を当てる診断","objective":"unmet","state":"周期 +0.0897%・掃引で観測をまたがない","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/geotoy-w262a.json","behavior.geoToyOverlay"],"en":{"purpose":"Diagnostic that applies the geoPN=4 law with the observed masses","state":"period +0.0897%; no swept setting straddles the observation","mismatch":null,"outlook":null,"brief":"Diagnostic that applies the geoPN=4 law with the observed masses. Unmet: period +0.0897%; no swept setting straddles the observation. Out of calibration scope."},"brief":"観測質量のまま geoPN=4 則を当てる診断。未達・周期 +0.0897%・掃引で観測をまたがない。較正対象外。"},
@@ -43190,7 +43398,8 @@ const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU",
   "rdPrevX","rdPrevY","rdPrevT",   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
   "tideJh","tideJl","tideOmW","tideDJ",
   "tideDJx","tideDJy","tideDJz","tideEi","tideRad","tideHin",   // 第307便b(R210): 三次元の潮汐のトルクの力積(ベクトル)・内部熱 E_i・放射・入力の積算(宣言した本だけ配列がある)
-  "z","vz","carVz","sax","say","saz","rdPrevZ"];   // 第298便a(R165): 三次元の状態(三次元の本だけ配列がある —— 二次元の本は素通り)   // 第292便d: 明示潮汐の J の補償和(高位・低位)・最後に書いた自転・自転への ΔJ(宣言した本だけ配列がある)   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
+  "z","vz","carVz","sax","say","saz","rdPrevZ",
+  "uPz"];   // 第322便a(R270): geoPN=2(v−u 則)の三次元の u の履歴の z(三次元の本だけ配列がある —— 二次元の本は素通り)   // 第298便a(R165): 三次元の状態(三次元の本だけ配列がある —— 二次元の本は素通り)   // 第292便d: 明示潮汐の J の補償和(高位・低位)・最後に書いた自転・自転への ΔJ(宣言した本だけ配列がある)   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
 const INERTIAL_DRAG_SOLVE_SC=["inertialDragSolveN","inertialDragSolveResMax","inertialDragSolveTooLarge"];
 const INERTIAL_DRAG3_HOLD_SC=["inertialDrag3HoldN","inertialDrag3HoldPairN","inertialDrag3HoldSkip","inertialDrag3HoldOffN","inertialDrag3HoldAxN",
   "inertialDrag3HoldLx","inertialDrag3HoldLy","inertialDrag3HoldLz","inertialDrag3HoldW","inertialDrag3HoldTqMax",
@@ -43229,7 +43438,8 @@ const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wall
   "_psRmin","periSubHits","periSubSteps",
   "gLocN","gLocWork","gLocPx","gLocPy","gLocPz","gLocPsiMax","gLocDGMax",
   "j2N","j2A2Max","j2R2Max","j2FigLx","j2FigLy","j2FigLz",   // 第305便c(R201): 三次元の J₂ の帳簿(宣言した本だけ鍵がある —— 無い本は undefined で素通り)
-  "inertialDragE0","inertialDragSemicMiss"];   // 第302便d: semic の帳簿の起点 E₀(最初の步の核の前)と写しの無い步の数(semic の本だけ —— 他の本は undefined で素通り)   // 第302便b(R187): 局所重力 G_loc の帳簿(宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第301便f: 近点サブステップの近点半径(auto は走行中の最小値 —— 次の步が読む)と計数   // 第293便e: 合成則 solve の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第292便d: 明示潮汐の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第290便c: 慣性引きずりの指紋と帳簿(宣言の無い本では undefined —— 復元で素通り)
+  "inertialDragE0","inertialDragSemicMiss",
+  "resPz","resLx","resLy","g3ConPx","g3ConPy","g3ConPz","g3ConLx","g3ConLy","g3ConLz","g3WorkE","g3WorkKE","g3SpinE","g3WorkN","g3AxisTurnN"];   // 第322便a(R270): geoPN=2 の三次元のリザーバの残りの成分・拘束の口座・仕事の口座・軸が回った回数(三次元の本だけ鍵がある —— 二次元の本は undefined で素通り)   // 第302便d: semic の帳簿の起点 E₀(最初の步の核の前)と写しの無い步の数(semic の本だけ —— 他の本は undefined で素通り)   // 第302便b(R187): 局所重力 G_loc の帳簿(宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第301便f: 近点サブステップの近点半径(auto は走行中の最小値 —— 次の步が読む)と計数   // 第293便e: 合成則 solve の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第292便d: 明示潮汐の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第290便c: 慣性引きずりの指紋と帳簿(宣言の無い本では undefined —— 復元で素通り)
 // 第299便a(統括の検証項目 R169・AN277 ⑥): 慣性決定力の**直近の步の値・累計・核の標本**(CK_SC・CK_ARRS の外 —— 宣言した本だけ鍵・配列がある)。
 // チェックポイントと A/B・アプリ内実測の複製(cloneSimState)が**同じ 1 組の写し**で運ぶ(旧: 三次元の帳簿 dL3・軸引きずりの帳簿・累計と
 // 受動プローブ/核が読む標本 _rd* が復帰しなかった —— 保存した瞬間に戻らず、復帰の後の走行で帳簿が「後の步のまま」から積み上がった)。
@@ -43348,6 +43558,7 @@ const SIM_STATE_DERIVED=Object.freeze([
   {key:"accS", kind:"work", ja:"同上(自転)"},
   {key:"sumWu", kind:"work", ja:"フレーム重みの別集計 W′(sumW と同じく步の頭で 0 から積む)"},
   {key:"_g2", kind:"work", ja:"geoPN=2 の ∇u 勾配の集積(遅延確保・步ごとに積み直す)"},
+  {key:"_g3", kind:"work", ja:"geoPN=2 の三次元の作業(u の z の分子・Δp の z・∇u の 9 成分・∂W の 3 成分・反作用の集積 —— 第322便a・遅延確保・步ごとに積み直す)"},
   {key:"_pr", kind:"work", ja:"E6′-R(pairReduced)の要求の入れ物(遅延確保・步ごとに積み直す)"},
   {key:"_dragCoreEp", kind:"latch", ja:"構造核の表を作った宣言の世代の印(最初の步で今の世代を置く —— 世代が変わったら表を捨てる照合だけ)"},
   {key:"zonal", kind:"cache", ja:"帯状重力の宣言の写し(係数 _A は遅延のキャッシュ)"},
@@ -43382,6 +43593,7 @@ const SIM_BUILD_RESET=Object.freeze([
   {feature:"tide", ja:"明示潮汐の受け手・J の補償和・帳簿・作業(第292便d)と三次元のトルクの力積・軸の帳簿・内部熱と放射(第307便b —— 宣言した本だけ。宣言 tide と旗 hasTide は tidePrepare が張り直す)", keys:[], re:/^(tide[A-Z]|_td[A-Z])/},
   {feature:"dragShell", ja:"引きずり核の殻の宣言・半径の表・世代の印・捨てた記録(第304便a —— 殻を宣言した本だけ。帳簿 inertialDragShell* は inertialDrag の正規表現が覆う)", keys:["dragShellD","_dragShellRd","_dragShell","_dragShellEp"]},
   {feature:"coord3d", ja:"三次元の軸の宣言値・歳差・規定運動の帳簿(二次元の本へ持ち越さない)", keys:["sa0x","sa0y","sa0z","sapx","sapy","sapz","saOm","spin3PrescL","spin3PrescN"]},
+  {feature:"geo2v3", ja:"geoPN=2 の三次元の u の履歴の z・リザーバの残りの成分・拘束と仕事の口座・作業(第322便a —— 三次元の本は coord3dPrepare が張り直す)", keys:["uPz","resPz","resLx","resLy","_g3"], re:/^g3[A-Z]/},
   {feature:"shapeToy3", ja:"三次元の参照模型の帳簿と作業(SHAPE_TOY3_SC・控え)", keys:["_st3P","_st3C","_st3V","cfVzS"], list:"SHAPE_TOY3_SC"},
   {feature:"shapeToy", ja:"参照模型の潜在・Core 力学・渦巻の状態と乱数(updateRadii の遅延初期化を新しく組んだ sim と同じ順・同じ乱数にする)", keys:["_stRng","_spRng","_stG","_spG","_stSeed"], list:"SHAPE_TOY_CK_ARRS"}]);
 const SIM_BUILD_INIT=Object.freeze({_pkC:null, _kKind:0});   // makeSim の初期形にある鍵(初期値へ戻す)
@@ -58724,6 +58936,238 @@ function dfmCore3(S,dt,mode,pn){
   if(!doPost) return;
   S.t+=dt;
 }
+// ===== 第322便a(原仮定者の予定(第123報)・AN504・統括の検証項目 R270): **geoPN=2(v−u 則)の三次元の步の核**(dfmStep3 が範囲の内 ∧ kFrame > 0 の本だけ呼ぶ)=====
+// 式は第321便a の純関数 tests/lib-w321a-geo2v3.mjs(版 w321a-geo2v3-1)の 1 步と**同じ式・同じ演算の順**(器と QA が非平面の本で同じビットを照合)で、
+// 平面の写し(z = v_z = 0・軸 +z)では二次元の核 `S._core` の geoPN=2 と**同じ浮動小数の演算列**(+0 を足すだけ)に退化する:
+//   ① 全対(i<j): 重力(dfmCore3 と同じ)・決定力 w_j = m_j/√(d²+ε²)・殻の速度 c_j = v_j + ω_j × (r_i − r_j)・ω_j = s_j â_j (R_j/(R_j+d))^q・
+//      勾配 ∂P_a/∂x_b = (∂w_j/∂x_b) c_a + w_j([ω_j]_×,ab + (ω′_j × r)_a n_b)・∂W/∂x_b(kFrame > 0 の本だけ集積)。
+//   ② キック(semi は dt・leapfrog は dt/2)・固定中心の拘束の口座 conP・conL(pinned に当たらなかった重力の力積とそのモーメント)・
+//      輸送(B のパス〔doPost〕だけ): u = P/W・J = (∂P − u ⊗ ∂W)/W・Δu = (u − u_prev) − ((v−u)·∇)u dt + (∇×u) × (v − k_F u) dt・|Δu| ≤ 0.8・Δv = k_F Δu・
+//      初回(u の履歴が無い天体)は蹴らず履歴だけ置く・pinned の受け手は受けない。
+//   ③ 反作用: Δp_i を源 j へ φ_ij = w_j(r_i)/W(r_i) で配る(pinned の源と背景 D₀ はリザーバ resP・resL)・残余トルク (r_i − r_j) × φ_ij Δp_i を (I_i + I_j) の
+//      等角加速度で 2 つの自転へ**ベクトルのまま**(AN504 の "vector": Ω' = s â + ΔΩ —— 軸が回る・s の符号は軸の向きを保つ側)・粒子あたり |Δv| ≤ 16。
+//   ④ rotA・|v| ≤ 100・|s| ≤ 40・ドリフト(KDK の A だけ)・t の前進(B だけ)。
+// 状態: S.uPz(u の履歴の z —— uPx と同じ型)・口座 S.resPz・S.resLx・S.resLy(resPx・resPy・resL〔= L_z〕は二次元と同じ欄)・S.g3ConP*・S.g3ConL*・
+//   仕事の口座 S.g3WorkE(Σ m v·Δv)・S.g3WorkKE(ΔK)・S.g3SpinE(自転のエネルギーの変化)・S.g3WorkN・軸が回った回数 S.g3AxisTurnN。作業 S._g3(遅延確保)。
+// 軸を有効化しない粒子の軸も力学で回す(AN510 は未裁定 —— 平面の写しでは残余トルクが ẑ に平行なので軸は回らず、どちらの案でも同じ演算列)。
+function geo2v3Work(S,n){
+  const CU=S.uAx.constructor, CD=S.dpx.constructor;
+  return {nAl:n, uAz:new CU(n), dpz:new CD(n), dP:new Float64Array(9*n), dW:new Float64Array(3*n), accVz:new Float64Array(n), accSx:new Float64Array(n), accSy:new Float64Array(n),
+    Warr:new Float64Array(n), hasD:new Uint8Array(n)};
+}
+function dfmCore3G2(S,dt,mode){
+  const n=S.n, p=S.params;
+  const kickDt=(mode!==0)? dt*0.5 : dt;
+  const doPost=(mode!==1), doDrift=(mode!==2);
+  if(!n){ if(doPost) S.t+=dt; return; }
+  const m=S.mEff, x=S.x, y=S.y, z=S.z, vx=S.vx, vy=S.vy, vz=S.vz, spin=S.spin, R=S.R, pinned=S.pinned, ax=S.ax, ay=S.ay, az=S.az3;
+  const sax=S.sax, say=S.say, saz=S.saz;
+  const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kFrame=p.kFrame, D0=p.D0;
+  const g2on=kFrame>0;
+  const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy, carVz=S.carVz;
+  if(S._rsUsed!==p.radiusScale ||
+     (S.radOv[0]>0 ? Math.abs(R[0]-p.radiusScale*S.radOv[0])>1e-6
+                   : Math.abs(R[0]-p.radiusScale*S.rMulv[0]*Math.sqrt(Math.abs(m[0])))>1e-6)) S.updateRadii();
+  let W3=S._g3; if(!W3 || W3.nAl!==n) W3=S._g3=geo2v3Work(S,n);
+  const sumW=S.sumW, uAx=S.uAx, uAy=S.uAy, uAz=W3.uAz, dpx=S.dpx, dpy=S.dpy, dpz=W3.dpz, pairD=S.pairD, dP=W3.dP, dW=W3.dW;
+  const uPx=S.uPx, uPy=S.uPy, uPz=S.uPz, hasU=S.hasU;
+  let Imom=S._Imom; if(!Imom||Imom.length<n) Imom=S._Imom=new Float64Array(n);
+  for(let i0=0;i0<n;i0++) Imom[i0]=0.5*m[i0]*R[i0]*R[i0];
+  ax.fill(0); ay.fill(0); az.fill(0); sumW.fill(0); uAx.fill(0); uAy.fill(0); uAz.fill(0); dpx.fill(0); dpy.fill(0); dpz.fill(0);
+  if(g2on){ dP.fill(0); dW.fill(0); }
+  // ① 全対(i<j の走査順 —— 二次元と同じ。受け手の和は源の添字の昇順)
+  let pk=0;
+  for(let i=0;i<n;i++){
+    const mi=m[i], Ri=R[i], si=spin[i], xi=x[i], yi=y[i], zi=z[i];
+    for(let j=i+1;j<n;j++,pk++){
+      const dx=xi-x[j], dy=yi-y[j], dz=zi-z[j];
+      const d2=dx*dx+dy*dy+dz*dz, d=Math.sqrt(d2);
+      pairD[pk]=d;
+      const mj=m[j], Rj=R[j], sj=spin[j];
+      const invW=1/Math.sqrt(d2+eps2), invd3=invW*invW*invW, fg=G*invd3;
+      ax[i]-=fg*mj*dx; ay[i]-=fg*mj*dy; az[i]-=fg*mj*dz;
+      ax[j]+=fg*mi*dx; ay[j]+=fg*mi*dy; az[j]+=fg*mi*dz;
+      const idd=(d>1e-9)? 1/d : 0, ex=-dx, ey=-dy, ez=-dz;
+      { // 源 j → 受け手 i(r = r_i − r_j = (dx, dy, dz))
+        const wj=mj*invW;
+        let ox=0, oy=0, oz=0;
+        if(sj!==0){ const tt=Rj/(Rj+d); if(q===2){ ox=(sj*sax[j])*tt*tt; oy=(sj*say[j])*tt*tt; oz=(sj*saz[j])*tt*tt; } else { const gq=Math.pow(tt,q); ox=(sj*sax[j])*gq; oy=(sj*say[j])*gq; oz=(sj*saz[j])*gq; } }
+        const cx=vx[j]+(oy*dz-oz*dy), cy=vy[j]+(oz*dx-ox*dz), cz=vz[j]+(ox*dy-oy*dx);
+        sumW[i]+=wj; uAx[i]+=wj*cx; uAy[i]+=wj*cy; uAz[i]+=wj*cz;
+        if(g2on){
+          let qx=0, qy=0, qz=0;   // ∂ω/∂d(ベクトル)
+          if(sj!==0){ qx-=q*ox/(Rj+d); qy-=q*oy/(Rj+d); qz-=q*oz/(Rj+d); }
+          const gwx=-mj*dx*invd3, gwy=-mj*dy*invd3, gwz=-mj*dz*invd3;
+          const nx=dx*idd, ny=dy*idd, nz=dz*idd;
+          const Qx=qy*dz-qz*dy, Qy=qz*dx-qx*dz, Qz=qx*dy-qy*dx;
+          const b9=9*i, b3=3*i;
+          dP[b9]+=gwx*cx+wj*(0+Qx*nx); dP[b9+1]+=gwy*cx+wj*(-oz+Qx*ny); dP[b9+2]+=gwz*cx+wj*(oy+Qx*nz);
+          dP[b9+3]+=gwx*cy+wj*(oz+Qy*nx); dP[b9+4]+=gwy*cy+wj*(0+Qy*ny); dP[b9+5]+=gwz*cy+wj*(-ox+Qy*nz);
+          dP[b9+6]+=gwx*cz+wj*(-oy+Qz*nx); dP[b9+7]+=gwy*cz+wj*(ox+Qz*ny); dP[b9+8]+=gwz*cz+wj*(0+Qz*nz);
+          dW[b3]+=gwx; dW[b3+1]+=gwy; dW[b3+2]+=gwz;
+        }
+      }
+      { // 源 i → 受け手 j(r = r_j − r_i = (ex, ey, ez))
+        const wi=mi*invW;
+        let ox=0, oy=0, oz=0;
+        if(si!==0){ const tt=Ri/(Ri+d); if(q===2){ ox=(si*sax[i])*tt*tt; oy=(si*say[i])*tt*tt; oz=(si*saz[i])*tt*tt; } else { const gq=Math.pow(tt,q); ox=(si*sax[i])*gq; oy=(si*say[i])*gq; oz=(si*saz[i])*gq; } }
+        const cx=vx[i]+(oy*ez-oz*ey), cy=vy[i]+(oz*ex-ox*ez), cz=vz[i]+(ox*ey-oy*ex);
+        sumW[j]+=wi; uAx[j]+=wi*cx; uAy[j]+=wi*cy; uAz[j]+=wi*cz;
+        if(g2on){
+          let qx=0, qy=0, qz=0;   // ∂ω/∂d(ベクトル)
+          if(si!==0){ qx-=q*ox/(Ri+d); qy-=q*oy/(Ri+d); qz-=q*oz/(Ri+d); }
+          const gwx=-mi*ex*invd3, gwy=-mi*ey*invd3, gwz=-mi*ez*invd3;
+          const nx=ex*idd, ny=ey*idd, nz=ez*idd;
+          const Qx=qy*ez-qz*ey, Qy=qz*ex-qx*ez, Qz=qx*ey-qy*ex;
+          const b9=9*j, b3=3*j;
+          dP[b9]+=gwx*cx+wi*(0+Qx*nx); dP[b9+1]+=gwy*cx+wi*(-oz+Qx*ny); dP[b9+2]+=gwz*cx+wi*(oy+Qx*nz);
+          dP[b9+3]+=gwx*cy+wi*(oz+Qy*nx); dP[b9+4]+=gwy*cy+wi*(0+Qy*ny); dP[b9+5]+=gwz*cy+wi*(-ox+Qy*nz);
+          dP[b9+6]+=gwx*cz+wi*(-oy+Qz*nx); dP[b9+7]+=gwy*cz+wi*(ox+Qz*ny); dP[b9+8]+=gwz*cz+wi*(0+Qz*nz);
+          dW[b3]+=gwx; dW[b3+1]+=gwy; dW[b3+2]+=gwz;
+        }
+      }
+    }
+  }
+  // ② 速度のキック・輸送 3 項(受け手の昇順)
+  let anyDp=false, dwW=0, dwK=0, dwS=0, dwN=0;
+  for(let i=0;i<n;i++){
+    if(pinned[i]){   // 拘束の口座(pinned の天体に当たらなかった重力の力積 —— 二次元は記帳しない)
+      const Jx=m[i]*ax[i]*kickDt, Jy=m[i]*ay[i]*kickDt, Jz=m[i]*az[i]*kickDt;
+      S.g3ConPx+=Jx; S.g3ConPy+=Jy; S.g3ConPz+=Jz; S.g3ConLx+=y[i]*Jz-z[i]*Jy; S.g3ConLy+=z[i]*Jx-x[i]*Jz; S.g3ConLz+=x[i]*Jy-y[i]*Jx;
+      continue;
+    }
+    if(carV){
+      const addX=ax[i]*kickDt+carVx[i], v0x=vx[i]; vx[i]=v0x+addX; carVx[i]=addX-(vx[i]-v0x);
+      const addY=ay[i]*kickDt+carVy[i], v0y=vy[i]; vy[i]=v0y+addY; carVy[i]=addY-(vy[i]-v0y);
+      const addZ=az[i]*kickDt+carVz[i], v0z=vz[i]; vz[i]=v0z+addZ; carVz[i]=addZ-(vz[i]-v0z);
+    } else { vx[i]+=ax[i]*kickDt; vy[i]+=ay[i]*kickDt; vz[i]+=az[i]*kickDt; }
+    if(!doPost) continue;
+    const denom=D0+sumW[i];
+    if(denom>0 && g2on){
+      const ux=uAx[i]/denom, uy=uAy[i]/denom, uz=uAz[i]/denom;
+      if(hasU[i]){
+        const b9=9*i, b3=3*i, gWx=dW[b3], gWy=dW[b3+1], gWz=dW[b3+2];
+        const J0=(dP[b9]-ux*gWx)/denom, J1=(dP[b9+1]-ux*gWy)/denom, J2=(dP[b9+2]-ux*gWz)/denom,
+              J3=(dP[b9+3]-uy*gWx)/denom, J4=(dP[b9+4]-uy*gWy)/denom, J5=(dP[b9+5]-uy*gWz)/denom,
+              J6=(dP[b9+6]-uz*gWx)/denom, J7=(dP[b9+7]-uz*gWy)/denom, J8=(dP[b9+8]-uz*gWz)/denom;
+        const cu0=J7-J5, cu1=J2-J6, cu2=J3-J1;                       // ∇×u
+        const vxi=vx[i], vyi=vy[i], vzi=vz[i];
+        const rux=vxi-ux, ruy=vyi-uy, ruz=vzi-uz;                    // v−u(勾配補正)
+        const wx2=vxi-kFrame*ux, wy2=vyi-kFrame*uy, wz2=vzi-kFrame*uz;   // w = v − k_F u(渦度コリオリの偏向対象)
+        const ad0=rux*J0+ruy*J1+ruz*J2, ad1=rux*J3+ruy*J4+ruz*J5, ad2=rux*J6+ruy*J7+ruz*J8;
+        const co0=cu1*wz2-cu2*wy2, co1=cu2*wx2-cu0*wz2, co2=cu0*wy2-cu1*wx2;
+        let dux=(ux-uPx[i])+(-ad0+co0)*dt, duy=(uy-uPy[i])+(-ad1+co1)*dt, duz=(uz-uPz[i])+(-ad2+co2)*dt;
+        const dl2=dux*dux+duy*duy+duz*duz;
+        if(dl2>0.64){ const sc=0.8/Math.sqrt(dl2); dux*=sc; duy*=sc; duz*=sc; }   // 二次元と同じ 1 サブステップの上限
+        const dvx=kFrame*dux, dvy=kFrame*duy, dvz=kFrame*duz;
+        { const w=m[i]*(vx[i]*dvx+vy[i]*dvy+vz[i]*dvz); dwW+=w; dwK+=w+0.5*m[i]*(dvx*dvx+dvy*dvy+dvz*dvz); dwN++; }
+        vx[i]+=kFrame*dux; vy[i]+=kFrame*duy; vz[i]+=kFrame*duz;
+        dpx[i]=m[i]*kFrame*dux; dpy[i]=m[i]*kFrame*duy; dpz[i]=m[i]*kFrame*duz;
+        if(dpx[i]!==0 || dpy[i]!==0 || dpz[i]!==0) anyDp=true;
+      }
+      uPx[i]=ux; uPy[i]=uy; uPz[i]=uz; hasU[i]=1;
+    }
+  }
+  // ③ 反作用(i<j の対 —— 二次元と同じ走査・倍精度へ集積して一括適用)
+  if(doPost && g2on && anyDp){
+    const accVx=S.accVx, accVy=S.accVy, accVz=W3.accVz, accSx=W3.accSx, accSy=W3.accSy, accSz=S.accS, Warr=W3.Warr, hasD=W3.hasD, bgW=D0;
+    accVx.fill(0,0,n); accVy.fill(0,0,n); accVz.fill(0,0,n); accSx.fill(0,0,n); accSy.fill(0,0,n); accSz.fill(0,0,n);
+    for(let i0=0;i0<n;i0++){ const W0=bgW+sumW[i0]; Warr[i0]=W0; hasD[i0]=((dpx[i0]!==0 || dpy[i0]!==0 || dpz[i0]!==0) && W0>0)? 1 : 0; }
+    let pk2=0;
+    for(let i=0;i<n;i++){
+      const mi=m[i], xi=x[i], yi=y[i], zi=z[i], Ii=Imom[i], Wi=Warr[i], dpxi=dpx[i], dpyi=dpy[i], dpzi=dpz[i], hasI=hasD[i]===1;
+      for(let j=i+1;j<n;j++,pk2++){
+        const hasJ=hasD[j]===1;
+        if(!hasI && !hasJ) continue;
+        const dpxj=dpx[j], dpyj=dpy[j], dpzj=dpz[j], Wj=Warr[j];
+        const d=pairD[pk2], dx=xi-x[j], dy=yi-y[j], dz=zi-z[j], Ij=Imom[j];
+        if(hasI){   // i が受けた Δp_i の反作用を源 j へ(φ_ij = w_j(r_i)/W(r_i))
+          const phi=(m[j]/Math.sqrt(d*d+eps2))/Wi;
+          const rpx=phi*dpxi, rpy=phi*dpyi, rpz=phi*dpzi;
+          if(pinned[j]){ S.resPx-=rpx; S.resPy-=rpy; S.resPz-=rpz; S.resLx-=yi*rpz-zi*rpy; S.resLy-=zi*rpx-xi*rpz; S.resL-=xi*rpy-yi*rpx; }
+          else {
+            accVx[j]-=rpx/m[j]; accVy[j]-=rpy/m[j]; accVz[j]-=rpz/m[j];
+            const IJ=Ii+Ij;
+            if(Math.abs(IJ)>1e-9){
+              const tx=(dy*rpz-dz*rpy)/IJ, ty=(dz*rpx-dx*rpz)/IJ, tz=(dx*rpy-dy*rpx)/IJ;
+              accSx[i]-=tx; accSy[i]-=ty; accSz[i]-=tz; accSx[j]-=tx; accSy[j]-=ty; accSz[j]-=tz;
+            }
+          }
+        }
+        if(hasJ){   // j が受けた Δp_j の反作用を源 i へ(φ_ji = w_i(r_j)/W(r_j))
+          const phi=(mi/Math.sqrt(d*d+eps2))/Wj;
+          const rpx=phi*dpxj, rpy=phi*dpyj, rpz=phi*dpzj;
+          if(pinned[i]){ S.resPx-=rpx; S.resPy-=rpy; S.resPz-=rpz; S.resLx-=y[j]*rpz-z[j]*rpy; S.resLy-=z[j]*rpx-x[j]*rpz; S.resL-=x[j]*rpy-y[j]*rpx; }
+          else {
+            accVx[i]-=rpx/mi; accVy[i]-=rpy/mi; accVz[i]-=rpz/mi;
+            const IJ=Ii+Ij;
+            if(Math.abs(IJ)>1e-9){
+              const fx=x[j]-xi, fy=y[j]-yi, fz=z[j]-zi;
+              const tx=(fy*rpz-fz*rpy)/IJ, ty=(fz*rpx-fx*rpz)/IJ, tz=(fx*rpy-fy*rpx)/IJ;
+              accSx[j]-=tx; accSy[j]-=ty; accSz[j]-=tz; accSx[i]-=tx; accSy[i]-=ty; accSz[i]-=tz;
+            }
+          }
+        }
+      }
+    }
+    for(let i=0;i<n;i++){   // 粒子あたり |Δv| ≤ 16(残りはリザーバ —— 二次元の REACTION_DV_CAP と同じ)
+      const dv2=accVx[i]*accVx[i]+accVy[i]*accVy[i]+accVz[i]*accVz[i];
+      if(dv2>REACTION_DV_CAP2){
+        const sc=REACTION_DV_CAP/Math.sqrt(dv2), rx=accVx[i]*(1-sc), ry=accVy[i]*(1-sc), rz=accVz[i]*(1-sc);
+        S.resPx+=m[i]*rx; S.resPy+=m[i]*ry; S.resPz+=m[i]*rz;
+        S.resLx+=m[i]*(y[i]*rz-z[i]*ry); S.resLy+=m[i]*(z[i]*rx-x[i]*rz); S.resL+=m[i]*(x[i]*ry-y[i]*rx);
+        accVx[i]*=sc; accVy[i]*=sc; accVz[i]*=sc; S.clampRN++;
+      }
+    }
+    for(let i=0;i<n;i++){   // 仕事の口座(適用の前の v と s で)
+      const dvx=accVx[i], dvy=accVy[i], dvz=accVz[i], dsx=accSx[i], dsy=accSy[i], dsz=accSz[i];
+      if(dvx===0 && dvy===0 && dvz===0 && dsx===0 && dsy===0 && dsz===0) continue;
+      const mi=m[i], w=mi*(vx[i]*dvx+vy[i]*dvy+vz[i]*dvz);
+      dwW+=w; dwK+=w+0.5*mi*(dvx*dvx+dvy*dvy+dvz*dvz); dwN++;
+      if(dsx!==0 || dsy!==0 || dsz!==0){ const Ii=Imom[i], s=spin[i]; dwS+=Ii*((s*sax[i])*dsx+(s*say[i])*dsy+(s*saz[i])*dsz+0.5*(dsx*dsx+dsy*dsy+dsz*dsz)); }
+    }
+    for(let i=0;i<n;i++){
+      vx[i]+=accVx[i]; vy[i]+=accVy[i]; vz[i]+=accVz[i];
+      const dsx=accSx[i], dsy=accSy[i], dsz=accSz[i];
+      if(dsx===0 && dsy===0 && dsz===0) continue;
+      const ux=sax[i], uy=say[i], uz=saz[i];   // 残余トルクの角速度の増分 ΔΩ を自転へ(軸に平行な分は s へ —— 二次元の spin += accS と同じ演算)
+      const dpar=dsx*ux+dsy*uy+dsz*uz;
+      const qx=dsx-dpar*ux, qy=dsy-dpar*uy, qz=dsz-dpar*uz;
+      if(qx===0 && qy===0 && qz===0){ spin[i]+=dpar; continue; }
+      const s=spin[i], Ox=s*ux+dsx, Oy=s*uy+dsy, Oz=s*uz+dsz, mag=Math.sqrt(Ox*Ox+Oy*Oy+Oz*Oz);   // AN504 "vector": Ω' = s â + ΔΩ(軸が回る)
+      if(!(mag>0)){ spin[i]=0; continue; }
+      const sg=(Ox*ux+Oy*uy+Oz*uz)<0? -1 : 1;
+      spin[i]=sg*mag; sax[i]=sg*Ox/mag; say[i]=sg*Oy/mag; saz[i]=sg*Oz/mag; S.g3AxisTurnN++;
+    }
+    if(bgW>0){
+      for(let i=0;i<n;i++){
+        if(dpx[i]===0 && dpy[i]===0 && dpz[i]===0) continue;
+        const Wi=bgW+sumW[i]; if(Wi<=1e-9) continue;
+        const phiBg=bgW/Wi, rpx=phiBg*dpx[i], rpy=phiBg*dpy[i], rpz=phiBg*dpz[i];
+        S.resPx-=rpx; S.resPy-=rpy; S.resPz-=rpz; S.resLx-=y[i]*rpz-z[i]*rpy; S.resLy-=z[i]*rpx-x[i]*rpz; S.resL-=x[i]*rpy-y[i]*rpx;
+      }
+    }
+  }
+  if(dwN){ S.g3WorkE+=dwW; S.g3WorkKE+=dwK; S.g3SpinE+=dwS; S.g3WorkN+=dwN; }
+  // ④ 安全上限・位置更新(dfmCore3 と同じ)
+  for(let i=0;i<n;i++){
+    if(doPost) S.rotA[i]+=spin[i]*dt;
+    if(pinned[i]) continue;
+    const vv2=vx[i]*vx[i]+vy[i]*vy[i]+vz[i]*vz[i];
+    if(vv2>10000){ const sc=100/Math.sqrt(vv2); vx[i]*=sc; vy[i]*=sc; vz[i]*=sc; S.clampVN++; }
+    if(spin[i]>40){ spin[i]=40; S.clampSN++; } else if(spin[i]<-40){ spin[i]=-40; S.clampSN++; }
+    if(doDrift){ x[i]+=vx[i]*dt; y[i]+=vy[i]*dt; z[i]+=vz[i]*dt; }
+  }
+  if(!doPost) return;
+  S.t+=dt;
+}
+// 走行中の読み口(状態を 1 bit も動かさない)。範囲の外の本は null
+function coord3dGeo2State(S){
+  if(!S || S.coord3d!==true || S.g3ConPx===undefined) return null;
+  return {version:GEO2_3D_TRANSPORT_VERSION, on:coord3dGeo2WhyNot(S)===null, transport:(coord3dGeo2WhyNot(S)===null && S.params.kFrame>0), whyNot:coord3dGeo2WhyNot(S),
+    resP:[S.resPx, S.resPy, S.resPz], resL:[S.resLx, S.resLy, S.resL], conP:[S.g3ConPx, S.g3ConPy, S.g3ConPz], conL:[S.g3ConLx, S.g3ConLy, S.g3ConLz],
+    work:{E:S.g3WorkE, KE:S.g3WorkKE, spinE:S.g3SpinE, N:S.g3WorkN}, axisTurnN:S.g3AxisTurnN, clamp:{V:S.clampVN, S:S.clampSN, R:S.clampRN||0}, spinPolicy:"vector"};
+}
 // 三次元の 1 步(S.step の差し替え先 —— 三次元の本だけ)。走行中の編集で未対応の機能が立ったら**時刻を進めない**(S.coord3dHalt に理由)
 function dfmStep3(S,dt){
   const why=coord3dRuntimeWhy(S);
@@ -58735,8 +59179,11 @@ function dfmStep3(S,dt){
   //   試験粒子形₃ は核の中(dfmCore3 の第 4 引数 —— `_core` の core=1 と同じ相)。源の同期も同じ(kF0 を離れたら宣言だけに戻す)。宣言の無い三次元の本は数の比較 1 つと旗 1 つ
   const pn1=(S.params.geoPN===1 && coord3dPN1Of(S));
   if(pn1 || S._pnOrb===1) pnOrbitalSync(S);
-  if(S.integrator==="leapfrog"){ if(pn1) dfmPN1EIHKick3(S,dt*0.5); dfmCore3(S,dt,1,pn1); if(pn1) dfmPN1EIHKick3(S,dt*0.5); dfmCore3(S,dt,2,pn1); }
-  else { if(pn1) dfmPN1EIHKick3(S,dt); dfmCore3(S,dt,0,pn1); }
+  // 第322便a(R270): geoPN=2 ∧ kFrame>0(範囲は上の coord3dRuntimeWhy が確かめた)は v−u 則の輸送の 3 成分の核 —— dfmCore3 と重ねて呼ばない(重力も同じ核の中)。
+  //   kFrame=0 は輸送が消え λ_PN=0 なのでニュートンの核 dfmCore3(A/B の kFrame=0 の対照)。宣言の無い三次元の本は数の比較 2 つ
+  const g3=(S.params.geoPN===2 && S.params.kFrame>0);
+  if(S.integrator==="leapfrog"){ if(g3){ dfmCore3G2(S,dt,1); dfmCore3G2(S,dt,2); } else { if(pn1) dfmPN1EIHKick3(S,dt*0.5); dfmCore3(S,dt,1,pn1); if(pn1) dfmPN1EIHKick3(S,dt*0.5); dfmCore3(S,dt,2,pn1); } }
+  else { if(g3) dfmCore3G2(S,dt,0); else { if(pn1) dfmPN1EIHKick3(S,dt); dfmCore3(S,dt,0,pn1); } }
   // 第299便e(R174): 参照模型(二次元と同じ位置 —— 核の後・引きずりの前。潜在 z を座標へ・Core 力学の cfZ/cfVz を S.z/S.vz と同期)
   if(S.hasShapeToy) dfmShapeToyStep3(S,dt);
   if(S.hasCoreField) dfmCoreFieldStep3(S,dt);
@@ -58799,6 +59246,7 @@ function coord3dPrepare(S,P,c3){
   if(S.rotAIn!==undefined){ S.rotAIn=null; S.rotADr=null; }   // 第301便c: 前の本の軸回転の分解を持ち越さない(張るのは inertialDrag3LedgerInit —— 軸引きずりを宣言した本だけ)
   if(!c3){
     S.z=null; S.vz=null; S.az3=null; S.carVz=null; S.sax=null; S.say=null; S.saz=null; S.saOn=null; S.hasSpinAx3=false; S.coord3dHalt=null;
+    S.uPz=null;   // 第322便a(R270): geoPN=2 の三次元の u の履歴の z(二次元の本には作らない)
     if(S.step!==S._step2) S.step=S._step2;
     return;
   }
@@ -58809,6 +59257,9 @@ function coord3dPrepare(S,P,c3){
   S.sapx=new Float64Array(n); S.sapy=new Float64Array(n); S.sapz=new Float64Array(n).fill(1);
   S.saOm=new Float64Array(n); S.saOn=new Uint8Array(n);
   S.hasSpinAx3=false; S.spin3PrescL=[0,0,0]; S.spin3PrescN=0; S.coord3dHalt=null;
+  // 第322便a(R270): geoPN=2(v−u 則)の三次元の状態と口座(三次元の本は全部 —— 走行中に geoPN を 2 へ編集しても核が読める。宣言の無い本は 0 のまま)
+  S.uPz=new (S.uPx.constructor)(n); S.resPz=0; S.resLx=0; S.resLy=0;
+  S.g3ConPx=0; S.g3ConPy=0; S.g3ConPz=0; S.g3ConLx=0; S.g3ConLy=0; S.g3ConLz=0; S.g3WorkE=0; S.g3WorkKE=0; S.g3SpinE=0; S.g3WorkN=0; S.g3AxisTurnN=0; S._g3=null;
   for(let i=0;i<n;i++){
     const o=P[i];
     S.z[i]=o.z||0; S.vz[i]=o.vz||0;
@@ -58856,7 +59307,8 @@ function coord3dTotals(S){
     for(let j=i+1;j<n;j++){ if(AMK!==null && AMK[i]===AM_DUST && AMK[j]===AM_DUST) continue;   // 第301便b: 塵どうしの対はポテンシャルにも入らない(力と同じマスク)
       const dx=x[i]-x[j], dy=y[i]-y[j], dz=z[i]-z[j]; U-=G*m[i]*m[j]/Math.sqrt(dx*dx+dy*dy+dz*dz+e2); }
   }
-  return {P:[px,py,pz], L:[Lx,Ly,Lz], E:K+Er+U, K, Erot:Er, U, prescL:S.spin3PrescL? S.spin3PrescL.slice() : [0,0,0], radE:S.radE};
+  return {P:[px,py,pz], L:[Lx,Ly,Lz], E:K+Er+U, K, Erot:Er, U, prescL:S.spin3PrescL? S.spin3PrescL.slice() : [0,0,0], radE:S.radE,
+    ...((S.params && S.params.geoPN===2)? {geo2:coord3dGeo2State(S)} : null)};   // 第322便a(R270): geoPN=2 の三次元の本だけ(リザーバ resP・resL・拘束 conP・conL・仕事の口座 —— 他の本の読み口は 1 鍵も変わらない)
 }
 // 読み口(表示・器・QA —— 状態を 1 bit も動かさない)。二次元の本は {coord:"2d"} だけ
 function coord3dState(S){
@@ -64666,7 +65118,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     ref3d:{ version:SHAPE_TOY3_VERSION, sc:SHAPE_TOY3_SC, ckArrs:SHAPE_TOY_CK_ARRS, write:shapeToy3Write, state:(S)=>shapeToy3State(S||sim),
       ckSnap:shapeToyCkSnap, ckRestore:shapeToyCkRestore, rng:mulberry32S },
     // 第314便d(R241): 三次元の geoPN=1(EIH の 1PN の 3 成分)の読み口(器・QA —— delta/test は状態を書かない・kick は速度を書く)
-    pn1:{ version:COORD3D_PN1_VERSION, on:coord3dPN1Of, delta:dfmPN1Delta3, test:dfmPN1Test3, kick:dfmPN1EIHKick3, state:(S)=>coord3dPN1State(S||sim) } }, frameWeightPow, frameWeightIsPull, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
+    pn1:{ version:COORD3D_PN1_VERSION, on:coord3dPN1Of, delta:dfmPN1Delta3, test:dfmPN1Test3, kick:dfmPN1EIHKick3, state:(S)=>coord3dPN1State(S||sim) },
+    // 第322便a(R270): geoPN=2(v−u 則)の三次元の読み口(器・QA —— denyOf/whyNot/state は状態を書かない・core は步の核)
+    geo2:{ version:GEO2_3D_TRANSPORT_VERSION, denyOf:coord3dGeo2DenyOf, whyNot:(S)=>coord3dGeo2WhyNot(S||sim), state:(S)=>coord3dGeo2State(S||sim), core:dfmCore3G2 } }, frameWeightPow, frameWeightIsPull, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
   // 第281便c: 条件付き質量台帳 massLedger の検証器(表示専用の宣言 —— QA preset.massLedger が読む)
   validateMassLedger, MASS_LEDGER_VERSION, MASS_LEDGER_KEYS, MASS_LEDGER_DR_KEYS,
   // 第247便d(裁定 A5′(2)): MM 2 腕干渉計の位相玩具(純関数の解析器)と、光が感じる u の 1 点評価。

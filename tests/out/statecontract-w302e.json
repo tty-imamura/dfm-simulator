@@ -2,20 +2,21 @@
  "version": "w302e-statecontract-1",
  "generator": "tests/exp-w302e-statecontract.mjs",
  "target": "beta/index.html",
- "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
+ "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
  "ruling": "DECISIONS v60 AN305 ②⑧(新しい状態の鍵の登録の lint・前の本の持ち越しの検出)・統括の検証項目 R189",
- "books": 121,
+ "books": 126,
  "steps": 3,
  "registry": {
-  "names": 632,
+  "names": 648,
   "regex": [
    "/^(inertialDrag|_rd|rdPrev)|^rdEpoch$/",
    "/^gLoc[A-Z]/",
    "/^j2[A-Z]/",
    "/^(tide[A-Z]|_td[A-Z])/",
+   "/^g3[A-Z]/",
    "/^(shapeToy|coreField|spiral)[A-Z0-9]/"
   ],
-  "derived": 13,
+  "derived": 14,
   "copyFns": [
    "ckSnapOne",
    "inertialDragCkSnap",
@@ -23,7 +24,7 @@
   ]
  },
  "static": {
-  "assigned": 1006,
+  "assigned": 1022,
   "outside": 248,
   "outsideSeen": 218,
   "outsideStepChanged": 0,
@@ -61,7 +62,7 @@
   ]
  },
  "dynamic": {
-  "stepChangedKeys": 361,
+  "stepChangedKeys": 368,
   "leaks": [],
   "carried": []
  },
@@ -81,19 +82,19 @@
   {
    "key": "accVx",
    "kind": "work",
-   "changed": 28,
+   "changed": 29,
    "seen": true
   },
   {
    "key": "accVy",
    "kind": "work",
-   "changed": 27,
+   "changed": 28,
    "seen": true
   },
   {
    "key": "accS",
    "kind": "work",
-   "changed": 27,
+   "changed": 28,
    "seen": true
   },
   {
@@ -106,6 +107,12 @@
    "key": "_g2",
    "kind": "work",
    "changed": 4,
+   "seen": true
+  },
+  {
+   "key": "_g3",
+   "kind": "work",
+   "changed": 1,
    "seen": true
   },
   {
@@ -129,7 +136,7 @@
   {
    "key": "_rdRadArr",
    "kind": "cache",
-   "changed": 8,
+   "changed": 12,
    "seen": true
   },
   {
@@ -152,19 +159,19 @@
   "carried0": true
  },
  "ok": true,
- "elapsedS": 14.144,
+ "elapsedS": 14.282,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第302便e",
   "target": "beta/index.html",
-  "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-  "generatedAt": "2026-11-01T01:07:25.344Z",
+  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
+  "generatedAt": "2026-11-01T21:20:08.015Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7403262,
-    "sha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-    "mtime": "2026-10-31T17:17:55.600Z"
+    "bytes": 7491601,
+    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
+    "mtime": "2026-11-01T20:25:22.344Z"
    }
   ],
   "code": [
@@ -234,11 +241,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1312,
-   "segments": 1150,
-   "closureShare": 0.2957
+   "names": 1316,
+   "segments": 1154,
+   "closureShare": 0.2954
   },
-  "scopeSha256": "ee52c2393702617dd2fd1badf86ba44ae470e555b8868c1011e5dfb9c806cdbc",
+  "scopeSha256": "535b4589b6ef07dff35ee8b37d431824d324bee59e007ea42ea60d391c839f77",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

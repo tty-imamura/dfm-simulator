@@ -40,6 +40,7 @@ import { cosmicBackground } from './exp-w301a-dragnorm.mjs';
 import { pinDecl302, DECL302_DATA_FILE } from './lib-w303a-pre.mjs';   // 第303便a: 第302便の本の宣言の写し(この正本は第302便の宣言で測った歴史の記録 —— 器の中だけ・html と署名は変えない)
 import { pinDecl303, DECL303_DATA_FILE } from './lib-w304c-pre.mjs';   // 第304便c: 第303便の 🌦️🌔 の宣言の写し(pinDecl302 の前に —— 軟化・初期配置・引きずりの宣言を第303便へ戻してから第302便の欄を戻す・歴史の値を保つ)
 import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
+import { isRuleBookNoCopy } from './lib-w320d-rulebooks.mjs';   // 第322便b(AN492): 後に入った本の除外の宣言の条件
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.GLOC_LEDGER_SEAM_VERSION","HP.GLOC_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_NORM_VERSION","HP.REL_DRAG_SEMIC_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.REL_DRAG_SPIN_NODES","HP.WBG_EST_VERSION","HP.allPresets","HP.coord3d","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondSig","HP.gLocPeriAdvance","HP.gLocState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragLedgerOf","HP.inertialDragState","HP.inertialSpinMoment","HP.relDragBackgroundOf","HP.relDragCoefficientOf","HP.relDragStepOrderOf","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.wbgEstimateApply","HP.wbgEstimateOf","LAWS","T","ab","ch","ckRestoreOne","ckSnapOne","ctx","cw","dfmSphereKernelQEff","fmt","pnSource","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -186,7 +187,7 @@ export function partN(HP, log = console.log) {
 
 /* ── 段 P: 惑星の本の記録(G_loc を宣言した本 —— 宣言から選ぶ) ── */
 /** G_loc を宣言した在位の本(宣言から —— 手書きの一覧を持たない)。 */
-export function gLocBooks(HP) { return HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.physics && p.physics.gLoc && !LATER_BOOKS_318.has(p.id)).map((p) => p.id); }   // 第318便(統括): 後に入った本は数え上げの外
+export function gLocBooks(HP) { return HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.physics && p.physics.gLoc && !isRuleBookW322(p)).map((p) => p.id); }   // 第322便b(AN492 —— 旧 第318便の名指し): 後に入った本は数え上げの外
 /** 🌡️ の W_bg の同定の幅: 照合許容 ±tol が写る W_bg の範囲(引きずりの近点 ∝ 1/W_bg と置いた一次)。 */
 export function wbgBand(fit) { const d = fit.dragPart; return d > TOL_APS ? [fit.Wbg * d / (d + TOL_APS), fit.Wbg * d / (d - TOL_APS)] : [fit.Wbg * d / (d + TOL_APS), null]; }
 /** fitRecord(w298b-1 —— 近点率の差〔引きずり OFF ∧ G_loc なしの対照との差〕・恒星周期)。fit は fitMercury の戻り値。 */
@@ -264,10 +265,10 @@ export const MSUN = 1.98847e30, PC = 3.0857e16, KPC = 3.0857e19, AU = 1.49597870
 export const GAL_TRIAL = Object.freeze({ rhoSI: 0.097 * 1.98847e30 / Math.pow(3.0857e16, 3), RSI: 8.2 * 3.0857e19,
   source: '太陽近傍の局所の全密度 0.097 M☉/pc³(McKee, Parravano & Hollenbach 2015, ApJ 814, 13 —— 恒星・ガス・暗黒物質の和)と銀河中心距離 R₀ = 8.2 kpc(Bland-Hawthorn & Gerhard 2016, ARA&A 54, 529)の転記 —— 本便のコンテナはネットワークに出られず原表は未取得(公表値の転記・照合は次の見直し)' });
 const kEps = (d, eps) => { const q = d * d + eps * eps; return d / (q * q); };
-// 第318便(統括の統合 —— 鎖で見つけた同じ型): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本 —— 数え上げの外に置く(正本の行と値は不変)
-const LATER_BOOKS_318 = new Set(['solarSystem16Inertial3d']);
+// 第322便b(決断事項 AN492・統括の検証項目 R271): 後に入った本の除外を**宣言の条件**へ移した(第318便の名指しの集合の代わり)—— K1 の規則の宣言で生まれた本(移行の前の写しの無い本 —— tests/lib-w320d-rulebooks.mjs の isRuleBookNoCopy)はこの器の数え上げの外に置く(基点の html では 🗺️ の 1 本・第322便b の html では 🗺️ と ♊⚖️🌠🔶 —— 正本の欄と値は不変)(旧: 第318便(統括の統合 —— 鎖で見つけた同じ型): 🗺️ solarSystem16Inertial3d(第318便c)はこの器の世代より後に入った本 —— 数え上げの外に置く(正本の行と値は不変))
+const isRuleBookW322 = isRuleBookNoCopy;   // 第322便b(AN492): 写しの無い K1 の規則の宣言の本(html を写しへ戻す前でも後でも同じ集合)
 export function partE(HP, log = console.log) {
-  const books = HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.scaleExp && p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial' && !LATER_BOOKS_318.has(p.id));   // 第318便(統括): 後に入った本は数え上げの外
+  const books = HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.scaleExp && p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial' && !isRuleBookW322(p));   // 第322便b(AN492 —— 旧 第318便の名指し): 後に入った本は数え上げの外
   const rows = [];
   for (const p of books) {
     const e = HP.wbgEstimateOf(p); if (!e.ok) continue;
