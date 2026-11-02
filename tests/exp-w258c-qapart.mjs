@@ -129,8 +129,11 @@ ${body}
 await browser.close();
 // 第323便a(R275): 要求した鍵の照合 —— 結果に無い鍵は SKIP(SKIP/RETIRED の行が名指す)か未実行(FAIL として数える)。空の結果で ALL PASS にしない
 const QAPART_REQUESTED = ${JSON.stringify(o.ids)};
-const __qc = __qapartLib.classifyRequested(QAPART_REQUESTED, results, __qapartSkips, { errors: __qapartErrors, strictSkip: ${o.strictSkip ? 'true' : 'false'} });
-for (const r of __qc.rows) if (r.state === 'NOTRUN') console.log('FAIL ' + r.id + '  未実行 —— Requested QA did not execute in qapart(結果の行も SKIP の行も無い)');
+// 同じ対象の保存のフル QA(あれば)—— 未実行の鍵が「この対象ではフル QA でも走らない型」かの注記だけ(数え方は変えない)
+let __qapartFull = null;
+try { const f = TARGET.startsWith('beta/') ? 'qa-results-full-beta.json' : 'qa-results-full.json'; const j = JSON.parse(fs.readFileSync(path.join(OUT_DIR, f), 'utf8')); if (j && j.target === TARGET && Array.isArray(j.results)) __qapartFull = { file: 'tests/out/' + f, ids: j.results.map((r) => r.id) }; } catch {}
+const __qc = __qapartLib.classifyRequested(QAPART_REQUESTED, results, __qapartSkips, { errors: __qapartErrors, strictSkip: ${o.strictSkip ? 'true' : 'false'}, savedFull: __qapartFull });
+for (const r of __qc.rows) if (r.state === 'NOTRUN') console.log('FAIL ' + r.id + '  未実行 —— Requested QA did not execute in qapart(結果の行も SKIP の行も無い' + (r.inSavedFull === false ? ' —— 保存のフル QA ' + __qapartFull.file + ' にもこの対象の行が無い: この対象では走らない鍵の型 —— 対象を変えて引く' : '') + ')');
 console.log('# qapart-summary ' + JSON.stringify({ version: __qc.version, counts: __qc.counts, extra: __qc.extra, errors: __qc.errors, rc: __qc.rc, skip: __qc.rows.filter((r) => r.state === 'SKIP').map((r) => r.id), notRun: __qc.rows.filter((r) => r.state === 'NOTRUN').map((r) => r.id), fail: __qc.rows.filter((r) => r.state === 'FAIL').map((r) => r.id) }));
 console.log(\`\\n\${__qc.label} (\${results.filter((r) => r.pass).length}/\${results.length}) —— \${__qapartLib.summaryText(__qc)}\`);
 process.exit(__qc.rc);

@@ -236,7 +236,8 @@ export function skipCovers(line, id) {
  * @param {string[]} requested 要求した鍵
  * @param {Array<{id:string, pass:boolean}>} results 走行の add の行
  * @param {string[]} skipLines 走行中に出た `SKIP …`・`RETIRED …` の行
- * @param {{errors?:Array<{span:string, message:string}>, strictSkip?:boolean}} [opt]
+ * @param {{errors?:Array<{span:string, message:string}>, strictSkip?:boolean, savedFull?:{file:string, ids:string[]}}} [opt]
+ *   savedFull = 同じ対象の保存のフル QA の結果の id(未実行の鍵がフル QA でもこの対象で走らない型かの**注記**だけ —— 数え方は変えない)
  * @returns {{version:string, rows:Array<{id,state,n,line?}>, counts:{pass,fail,skip,notRun}, extra:{pass,fail}, errors:number, ok:boolean, rc:number, label:string}}
  */
 export function classifyRequested(requested, results, skipLines, opt) {
@@ -246,6 +247,7 @@ export function classifyRequested(requested, results, skipLines, opt) {
   const by = new Map();
   for (const r of results) { if (!by.has(r.id)) by.set(r.id, []); by.get(r.id).push(r); }
   const rows = [], counts = { pass: 0, fail: 0, skip: 0, notRun: 0 }, extra = { pass: 0, fail: 0 };
+  const fullIds = o.savedFull && Array.isArray(o.savedFull.ids) ? new Set(o.savedFull.ids) : null;
   for (const id of req) {
     const rs = by.get(id);
     if (rs && rs.length) {
@@ -256,8 +258,9 @@ export function classifyRequested(requested, results, skipLines, opt) {
     }
     const line = (skipLines || []).find((l) => skipCovers(l, id));
     if (line) { rows.push({ id, state: 'SKIP', n: 0, line: String(line).slice(0, 160) }); counts.skip++; }
-    else { rows.push({ id, state: 'NOTRUN', n: 0 }); counts.notRun++; }
+    else { rows.push({ id, state: 'NOTRUN', n: 0, inSavedFull: fullIds ? fullIds.has(id) : null }); counts.notRun++; }
   }
+  counts.notRunAbsentInFull = fullIds ? rows.filter((r) => r.state === 'NOTRUN' && r.inSavedFull === false).length : null;
   for (const r of results) if (!reqSet.has(r.id)) extra[r.pass ? 'pass' : 'fail']++;
   const errors = (o.errors || []).length;
   const bad = counts.fail + counts.notRun + extra.fail + errors > 0 || req.length === 0;   // 要求した鍵 0 は何も確かめていない —— 成功にしない
@@ -265,11 +268,12 @@ export function classifyRequested(requested, results, skipLines, opt) {
   const rc = bad || strictBad ? 1 : 0;
   const label = req.length === 0 ? 'FAILED(要求した鍵 0)' : bad ? 'FAILED' : strictBad ? 'FAILED(--strict-skip: SKIP あり)'
     : (counts.skip > 0 && counts.pass === 0 ? 'SKIP ONLY(走った鍵 0 —— PASS に数えない)' : counts.skip > 0 ? 'PASS(SKIP は PASS に数えない)' : 'ALL PASS');
-  return { version: QAPART_SUMMARY_VERSION, rows, counts, extra, errors, ok: rc === 0, rc, label };
+  return { version: QAPART_SUMMARY_VERSION, rows, counts, extra, errors, ok: rc === 0, rc, label, savedFull: o.savedFull ? o.savedFull.file : null };
 }
 /** 分類の 1 行(qapart の終わりの行・--batch の要約と同じ型) */
 export function summaryText(c) {
   return `要求した鍵 ${c.rows.length}: PASS ${c.counts.pass}・FAIL ${c.counts.fail}・SKIP ${c.counts.skip}・未実行 ${c.counts.notRun}`
+    + (c.counts.notRun && c.counts.notRunAbsentInFull ? `(うち保存のフル QA ${c.savedFull} にもこの対象の行が無い ${c.counts.notRunAbsentInFull})` : '')
     + (c.extra.pass + c.extra.fail ? `(同じ範囲の他の鍵 PASS ${c.extra.pass}・FAIL ${c.extra.fail})` : '')
     + (c.errors ? `・範囲の例外 ${c.errors}` : '');
 }
