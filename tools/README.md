@@ -161,6 +161,17 @@ node tools/harness-smoke.mjs --self-test            # 器を走らせない自�
 - 終わりの行: 未実行の段があれば `… —— 未完 —— 未実行 n 段(全体の枠 --max-minutes M の外 —— 走らせた段は問題なし・未実行の段は見ていない)` と、続く行に未実行の段の key(続きは `--keys` で)。
   「OK」とは並べない。smoke.json に `complete`・`notRun`・`notRunKeys`・`maxMinutes`。終了コードは従来どおり(例外・門の偽・NaN のときだけ 1)。
 
+**第323便c の窓(決断事項 AN517・AN518・統括の検証項目 R277 —— 窓の無い大きい 16 段の簡易の窓・道具の版はそのまま)**:
+- `SMOKE_KNOBS` の第323便c の塊に 16 段(shell-304b・emgrid・inertialr2-303b・periodn-306b・charon-h2・chainburst-301d・gfamily-305b・dragcore292・geo3・charonk・nslock・emresolve-306c・
+  earthmoon-303c・charoneps-h4・an336-306a・baseline-304c)。**器の本文は変えない** —— 器に元から在る環境変数(`*_PARTS`・`*_QUICK`・`*_LONG`・`*_PLANETS`・`*_ONLY`・`*_OUT`)と引数
+  (`--steps`・`--only`・`--iters`・`--variants`・`--out`・`--quick`・`--smoke`)で窓を開ける(器を変えるとその段と器を import する段が鎖で走らせ直しになる・nslock は AN516 の影の照合の門 G1 を保つ)。
+- 行の欄: `env`・`args`(段の cmd の器の後に足す引数)・`cmd`(cmd が器 1 本でない手動の段 emgrid と、窓を別の器に置いた dragcore292 の窓の cmd)・`out`(窓の出力 —— **走らせる前に消す**:
+  器が既存の出力の他の段を残す型のため)・`sec`(窓の秒の実測 —— 枠を `sec × 2 + 30` まで延ばす `w323cKnobLimit`)・`fullSec`・`covers`(窓が走らせる部分)。
+- dragcore292 の窓は別の器 `tests/exp-w323c-dragcorequick.mjs`(器 `tests/exp-w292c-dragcore.mjs` の書き出した関数 gates・childTask を同じ順に —— 純関数の自己試験・門・8 公転 1 本 ——
+  `W323C_DRAGCORE_OUT` が要る)。器の窓 `W292C_ONLY` は出力のファイルを書かないので指紋が取れない。
+- charon-h2 と charoneps-h4 の窓は同じ probe(`tests/out/charon-w272b-probe.json` —— 規定步数に満たない走行の落とし先)に書く —— **同時に走らせない**。
+- 表と記録は `tests/lib-w323c-quickwin.mjs`(PHYSICS〔第323便c〕の表 1〜3)・QA lint.quickWindows323・docs.w323c。
+
 ## pregate-transcript.mjs — ゲートの前の転記照合(第303便e)
 
 ```

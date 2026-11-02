@@ -138,12 +138,73 @@ export const SMOKE_KNOBS = Object.freeze({
   // ==== 第322便c の塊(ここから)====
   'fieldcontract-322c': { env: { W322C_QUICK: '1', W322C_WORKERS: '1', W322C_OUT: 'tests/out/_smoke-fieldcontract-w322c.json' }, note: '試走(走行 1 公転・刻み h と h/2・k_F の列 2 場面・グループの受け手 2 体 × R_cut 2 つ・J だけ —— 1 プロセスで約 20 s〔並走の秒〕。正本は子プロセス 2 本)' },   // 第322便c
   // ==== 第322便c の塊(ここまで)====
+  // ==== 第323便c の塊(ここから)====
+  // 第323便c(決断事項 AN517・AN518・統括の検証項目 R277): **窓の無い大きい 16 段の簡易の窓**。器の本文は変えない —— 器に元から在る環境変数・引数で窓を開ける
+  //   (器のコードを変えると、その段と器を import する段が鎖で走らせ直しになる・nslock は AN516 の影の照合〔門 G1 の器の sha〕を保つ)。欄(lint.quickWindows323):
+  //   env(環境変数)・args(cmd の器の後に足す引数 —— 窓を引数でしか開けない器)・cmd(cmd が器 1 本でない段の窓の cmd —— emgrid・dragcore292)・
+  //   out(窓の出力 —— **走らせる前に消す**〔器が既存の出力の他の段を残す型のため〕・指紋を取るファイル)・sec(窓の秒の実測 —— 枠を sec × 2 + 30 まで延ばす)・
+  //   fullSec(フルの秒 —— tests/data-w311c-regensec.json の見積り)・covers(窓が走らせる部分)。既定の経路(環境変数・引数なし)は器の本文のまま
+  'shell-304b': { env: { W304B_PARTS: 'Z,K,P,A', W304B_OUT: 'tests/out/_smoke-shell-w304b.json' }, out: 'tests/out/_smoke-shell-w304b.json', sec: 0, fullSec: 4121,
+    covers: '段 Z(殻の核の閉形式・自己項の 1 步の u・包みの素通り)・K(多体の読み口と直接法)・P(対ごとの正規化の対照)・A(解析の表)', note: '段 Z・K・P・A だけ(水星の根 M・移送 T・地球–月 E はフル)' },
+  'emgrid': { cmd: 'node tests/exp-w280b-emgrid.mjs --rows E0,E1,E2,E3,E4,E5,E6,E7,E8,S0 --dt 0.016 --smoke --part tests/out/_smoke-emgrid-w280b.json', out: 'tests/out/_smoke-emgrid-w280b.json', sec: 0, fullSec: 2246,
+    covers: '10 行(E0〜E8・S0)を dt 0.016 で 3 公転(器の --smoke —— 窓 2・3 公転)', note: '器の --smoke(10 行 × 3 公転・dt 0.016 —— 手動の段の 4 分割と dt/2 の 3 行はフル)' },
+  'inertialr2-303b': { env: { W303B_QUICK: '1', W303B_PARTS: 'Z,M,K', W303B_OUT: 'tests/out/_smoke-inertialr2-w303b.json' }, out: 'tests/out/_smoke-inertialr2-w303b.json', sec: 0, fullSec: 1237,
+    covers: '段 Z(零試験と閉形式)・M(水星で変種ごとの λ —— 器の QUICK で刻み h・h/2)・K(多体)', note: 'QUICK(h・h/2)・段 Z・M・K だけ(移送 T・G_loc の表 N・地球–月 E はフル)' },
+  'chainburst-301d': { env: { W301D_ONLY: '^(?:B\\.validate|B\\.validate3d|C\\.split\\.1|C\\.semic\\.1|D\\.engine\\.gain0|D\\.engine\\.n40|F\\.engine\\.1|F\\.rk4\\.1|G\\.rk4\\.gain0)$', W301D_PAR: '1',
+    W301D_OUT: 'tests/out/_smoke-chainburst-w301d.json' }, out: 'tests/out/_smoke-chainburst-w301d.json', sec: 0, fullSec: 1059,
+    covers: '仕事 9 本(受理の確かめ 2・分割と semic の h・エンジンの gain 0 と n 40・二体の h・RK4 の h・殻の RK4 の gain 0)', note: '仕事 9 本だけ(器の W301D_ONLY —— 門と判断は出さない・h/2 より細かい刻みと長い仕事はフル)' },
+  'gfamily-305b': { env: { W305B_PARTS: 'Z,D', W305B_OUT: 'tests/out/_smoke-gfamily-w305b.json' }, out: 'tests/out/_smoke-gfamily-w305b.json', sec: 0, fullSec: 1017,
+    covers: '段 Z(写しの記録・抽出器の自己試験・G_loc だけの近点)・D(🟫 の二次元と三次元の写し)', note: '段 Z・D だけ(水星の k の根 M・移送 T・周期 P・太陽 S はフル)' },
+  'periodn-306b': { env: { W306B_PARTS: 'Z,P', W306B_PLANETS: 'mercurySunInertial3d', W306B_OUT: 'tests/out/_smoke-periodn-w306b.json' }, out: 'tests/out/_smoke-periodn-w306b.json', sec: 0, fullSec: 1135,
+    covers: '段 Z(零試験)・P(周期の表 —— 水星の 1 本だけ)', note: '段 Z・P だけ・水星の 1 本(器の W306B_PLANETS —— 6 本の移送・再フィット R・共通の GM G・月 E・時系 T はフル)' },
+  'charon-h2': { args: ['--steps', '4140000', '--only', 'C0,C1,C6'], out: 'tests/out/charon-w272b-probe.json', sec: 0, fullSec: 1062,
+    covers: '列 C0・C1・C6 を h/2 で 4140000 步(段の規定步数の 1/10 —— 約 6 公転)', note: '列 C0・C1・C6・步数 1/10(器の --only・--steps —— 規定步数に満たない走行は正本を書かず probe へ)' },
+  'dragcore292': { cmd: 'W323C_DRAGCORE_OUT=tests/out/_smoke-dragcore-w292c.json node tests/exp-w323c-dragcorequick.mjs', out: 'tests/out/_smoke-dragcore-w292c.json', sec: 0, fullSec: 925,
+    covers: '純関数の自己試験・器の門 (b)〜(e)・宣言の gain と dragCore で 8 公転 1 本(器の childTask)', note: '窓の器 tests/exp-w323c-dragcorequick.mjs(器の関数をそのまま —— 27 公転のフィット・118 公転・感度・h/2 はフル)' },
+  'geo3': { args: ['--quick'], env: { W280_SP: 'tests/out/_smoke-geo3' }, out: 'tests/out/_smoke-geo3/geo3-w280c.quick.json', sec: 0, fullSec: 894,
+    covers: '全項 (a)〜(h) を窓 1/20 で(器の --quick)', note: '器の --quick(窓 1/20 —— 出力は W280_SP の下)' },
+  'earthmoon-303c': { env: { W303C_LONG: '118', W303C_PARTS: 'audit', W303C_OUT: 'tests/out/_smoke-earthmoon-w303c.json' }, out: 'tests/out/_smoke-earthmoon-w303c.json', sec: 0, fullSec: 726,
+    covers: '段 audit(エンジンの引きずり OFF と宣言・参照積分・平均の要素)を長窓 118 公転で', note: '長窓 118 公転(既定 1062)・段 audit だけ(radius・sunbg・ident はフル)' },
+  'charonk': { args: ['--steps', '2070000', '--iters', '3'], out: 'tests/out/charonk-w273b-probe.json', sec: 0, fullSec: 744,
+    covers: 'C3 の二分探索 3 回・C2 の 6 点・ε 系列・宣言鍵の同値性を步数 1/10(約 6 公転)で', note: '步数 1/10・二分探索 3 回(器の --steps・--iters —— 規定步数に満たない走行は正本を書かず probe へ・3 段は走らない)' },
+  'nslock': { args: ['--only', 'psrDoubleABDFM', '--variants', 'builtin,lock', '--out', 'tests/out/_smoke-nslock-w272c.json'], out: 'tests/out/_smoke-nslock-w272c.json', sec: 0, fullSec: 733,
+    covers: '⚡ psrDoubleABDFM の変種 builtin・lock(h・h/2・h/4 —— 20 近点の窓)', note: '⚡ の 2 変種だけ(器の --only・--variants・--out —— 器の本文は変えない〔AN516 の影の照合の門 G1〕)' },
+  'emresolve-306c': { env: { W306C_LONG: '118', W306C_OUT: 'tests/out/_smoke-emresolve-w306c.json' }, out: 'tests/out/_smoke-emresolve-w306c.json', sec: 0, fullSec: 729,
+    covers: '全段(solve・measure・phase・attrib・ledger・emo・record)を長窓 118 公転で', note: '長窓 118 公転(既定 1062 —— 全段)' },
+  'charoneps-h4': { args: ['--steps', '4140000', '--only', 'E_base_e0.05,E_diag_e0.5'], out: 'tests/out/charon-w272b-probe.json', sec: 0, fullSec: 721,
+    covers: 'ε 列 E_base_e0.05・E_diag_e0.5 を h/4 で 4140000 步(段の規定步数の 1/20 —— 約 3 公転)', note: 'ε 列 2 本・步数 1/20(器の --only・--steps —— 正本を書かず probe へ・charon-h2 の窓と同じ probe —— 同時に走らせない)' },
+  'baseline-304c': { env: { W304C_PARTS: 'emo', W304C_OUT: 'tests/out/_smoke-baseline-w304c.json' }, out: 'tests/out/_smoke-baseline-w304c.json', sec: 0, fullSec: 685,
+    covers: '段 emo(🌔 の写し・h と h/2・引きずり ON の対照・🌦️ との差)', note: '段 emo だけ(solve・measure・record はフル)' },
+  'an336-306a': { env: { W306A_PARTS: 'A,M', W306A_OUT: 'tests/out/_smoke-an336-w306a.json' }, out: 'tests/out/_smoke-an336-w306a.json', sec: 0, fullSec: 721,
+    covers: '段 A(1PN + A1 の契約と標的)・M(水星の根)', note: '段 A・M だけ(移送 T・対ごとの行 R・門 G はフル)' },
+  // ==== 第323便c の塊(ここまで)====
   // ==== 第311便b の塊(ここまで)====
 });
 
 /** 煙試験の全段に渡す既定(子プロセスの並列数を 1 に —— 器の注記どおり結果は並列数に依らない・箱を 2 レーンより多く占めない)。 */
 export const SMOKE_ENV_DEFAULTS = Object.freeze(Object.fromEntries(['W284A', 'W285A', 'W286A', 'W287A', 'W288A', 'W292C', 'W293D', 'W293E', 'W295C', 'W296B', 'W297B',
   'W298C', 'W299C', 'W300C'].map((k) => [k + '_WORKERS', '1'])));
+
+// ==== 第323便c の塊(ここから)====
+/** 第323便c(R277): 窓の cmd を持つ段の器(窓の cmd の `node tests/exp-*.mjs`)。窓の cmd が無ければ null。 */
+export function w323cKnobHarness(key) {
+  const k = SMOKE_KNOBS[key];
+  if (!k || typeof k.cmd !== 'string') return null;
+  const m = /^(?:[A-Z0-9_]+=\S+\s+)*node (tests\/exp-[\w.-]+\.mjs)(?:\s|$)/.exec(k.cmd);
+  return m ? m[1] : null;
+}
+/** 第323便c(R277): 窓の走行の cmd —— 窓の cmd があればそれ・無ければ段の cmd(最初の器)に窓の引数 args を足す(引数は空白を含まない語だけ)。 */
+export function w323cKnobCmd(baseCmd, knob) {
+  if (knob && typeof knob.cmd === 'string') return knob.cmd;
+  const a = (knob && Array.isArray(knob.args)) ? knob.args : [];
+  for (const x of a) if (!/^[\w.,:=\/+-]+$/.test(String(x))) throw new Error('窓の引数に空白か記号がある: ' + x);
+  return a.length ? baseCmd + ' ' + a.join(' ') : baseCmd;
+}
+/** 第323便c(R277): 窓の枠(秒)—— 窓の秒 sec を持つ行は max(--budget, sec × 2 + 30)(窓が終わるまで —— 指紋は完走した窓で取る)・無い行は --budget のまま。 */
+export function w323cKnobLimit(knob, budget) {
+  return (knob && Number.isFinite(knob.sec) && knob.sec > 0) ? Math.max(budget, knob.sec * 2 + 30) : budget;
+}
+// ==== 第323便c の塊(ここまで)====
 
 const argv0 = process.argv.slice(2);
 const getArg = (argv, k, d) => { const i = argv.indexOf(k); return (i >= 0 && argv[i + 1] !== undefined) ? argv[i + 1] : d; };
@@ -220,7 +281,10 @@ function harnessOf(st) {
   if (st.alwaysRun) return { skip: '常時群(鎖の先頭で必ず走る)' };
   if ((st.htmlRegions || []).length && st.htmlWriteMode !== 'check') return { skip: 'html の生成領域を書く段' };
   const m = /^(?:[A-Z0-9_]+=\S+\s+)*node (tests\/exp-[\w.-]+\.mjs)(?:\s|$)/.exec(st.cmd);
-  if (!m || /[(（]/.test(st.cmd.split(' && ')[0].replace(/\$BASE_HTML/g, ''))) return { skip: '鎖の脚本の段(cmd が器 1 本でない)' };
+  if (!m || /[(（]/.test(st.cmd.split(' && ')[0].replace(/\$BASE_HTML/g, ''))) {
+    const w323cKc = w323cKnobHarness(st.key);   // 第323便c: cmd が器 1 本でない段(手動の段 emgrid)は窓の cmd の器で選び・走らせる
+    return w323cKc ? { harness: w323cKc } : { skip: '鎖の脚本の段(cmd が器 1 本でない)' };
+  }
   return { harness: m[1] };
 }
 /**
@@ -423,7 +487,7 @@ function runOne(row, o) {
     const env = Object.assign({}, process.env, SMOKE_ENV_DEFAULTS, { TMPDIR: o.tmpDir, GIT_OPTIONAL_LOCKS: '0', QA_TARGET: 'beta/index.html' }, o.gitDir ? { GIT_DIR: o.gitDir } : {},
       knob ? knob.env : {}, o.baseRel ? { BASE_HTML: o.baseRel } : {});
     if (!env.PLAYWRIGHT_CORE_DIR && fs.existsSync('/opt/node22/lib/node_modules/playwright')) env.PLAYWRIGHT_CORE_DIR = '/opt/node22/lib/node_modules/playwright';
-    const cmd = row.cmd.split(' && ')[0].replace(/\$BASE_HTML/g, '"$BASE_HTML"');
+    const cmd = w323cKnobCmd(row.cmd.split(' && ')[0].replace(/\$BASE_HTML/g, '"$BASE_HTML"'), knob);   // 第323便c: 窓の cmd・引数
     const t0 = Date.now();
     const ch = spawn('bash', ['-c', cmd], { cwd: o.sandbox, env, detached: true, stdio: ['ignore', 'pipe', 'pipe'] });
     let stdout = '', stderr = '', killed = false, cutOut = null, cutErr = null;
@@ -432,7 +496,7 @@ function runOne(row, o) {
     ch.stderr.on('data', (d) => { stderr = cap(stderr, d.toString()); });
     const kill = () => { killed = true; cutOut = stdout.length; cutErr = stderr.length; try { process.kill(-ch.pid, 'SIGTERM'); } catch { /* 終わっている */ }
       setTimeout(() => { try { process.kill(-ch.pid, 'SIGKILL'); } catch { /* 終わっている */ } }, 3000).unref(); };
-    const limit = full ? Math.max(o.budget, Number(row.sec) * 1.5 + 30) : o.budget;
+    const limit = full ? Math.max(o.budget, Number(row.sec) * 1.5 + 30) : w323cKnobLimit(knob, o.budget);   // 第323便c: 窓の秒(sec)を持つ行は窓が終わるまで
     const tm = setTimeout(kill, limit * 1000);
     ch.on('close', (rc) => {
       clearTimeout(tm);
