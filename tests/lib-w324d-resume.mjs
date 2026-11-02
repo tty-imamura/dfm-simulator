@@ -34,7 +34,8 @@ export const TYPED = Object.freeze(['Float64Array', 'Float32Array', 'Int8Array',
 const CTOR = Object.fromEntries(TYPED.map((n) => [n, globalThis[n]]));
 /** 数だけの配列をバイト列にする長さの下限(短い配列は要素ごとの印 —— どちらもビットは同じ) */
 export const PACK_MIN = 8;
-const isPlain = (v) => { const p = Object.getPrototypeOf(v); return p === Object.prototype || p === null; };
+/** 素のオブジェクトか(別の realm —— vm の文脈で動く html —— の Object も受ける: 原型が null か、原型の原型が null で原型の constructor の名が Object) */
+const isPlain = (v) => { const p = Object.getPrototypeOf(v); return p === null || (Object.getPrototypeOf(p) === null && !!p.constructor && p.constructor.name === 'Object'); };
 const bytesOf = (ta) => new Uint8Array(ta.buffer.slice(ta.byteOffset, ta.byteOffset + ta.byteLength));
 
 /**
@@ -291,6 +292,10 @@ export function resumeSelfTest(dir) {
   let threw = ''; try { encodeTree({ f: () => 1 }, []); } catch (e) { threw = e.message; }
   let threw2 = ''; try { encodeTree({ m: new Map() }, []); } catch (e) { threw2 = e.message; }
   add('r3 符号化できない型(関数・Map)は例外(黙って落とさない)', /符号化できない/.test(threw) && /符号化できない/.test(threw2), threw + ' / ' + threw2);
+  class K { constructor() { this.a = 1; } }
+  let threw3 = ''; try { encodeTree({ k: new K() }, []); } catch (e) { threw3 = e.message; }
+  const nullProto = Object.assign(Object.create(null), { q: 0.5 }), bn = [], bk = decodeTree(JSON.parse(JSON.stringify(encodeTree({ z: nullProto }, bn))), bn);
+  add('r4 原型 null のオブジェクトは素のオブジェクトとして往復・クラスの実体は例外', bitDiff({ z: { q: 0.5 } }, bk).length === 0 && /符号化できない/.test(threw3), threw3);
   // 2 checkpoint の拒否
   fs.mkdirSync(dir, { recursive: true });
   const C = { resumeVersion: RESUME_VERSION, harness: 'h-1', codeSha256: sha256Of('code'), targetSha256: sha256Of('html'), env: { node: 'v0', v8: '0', platform: 'linux', arch: 'x64' }, runKey: 'k1', spec: { a: 1 } };
@@ -325,7 +330,7 @@ export function resumeSelfTest(dir) {
   add('d1 done: 無い → 走らせる・同じ契約 → 再利用(本文が同じ文字列)・違う契約 → 走らせる・本文を書き換えた写し → 走らせる', !m0.hit && m1.hit && m1.text === text && !m2.hit && /違う契約/.test(m2.why) && !m3.hit && /sha256/.test(m3.why),
     [m0.why, m1.why, m2.why, m3.why].join(' / '));
   const ok = rows.every((r) => r.pass);
-  return { ok, rows, cases: `再開の型の自己試験 ${rows.filter((r) => r.pass).length}/${rows.length}(符号化 3・checkpoint 12・done 1)` };
+  return { ok, rows, cases: `再開の型の自己試験 ${rows.filter((r) => r.pass).length}/${rows.length}(符号化 4・checkpoint 12・done 1)` };
 }
 
 export default { RESUME_VERSION, MAGIC, DONE_VERSION, PACK_MIN, TYPED, SAMPLER_KEYS, f64Hex, hexF64, encodeTree, decodeTree, bitDiff, simStateDiff, envOf, codeShaOf, contractShaOf, contractDiff,
