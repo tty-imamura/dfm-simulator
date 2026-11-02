@@ -92434,7 +92434,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----     ③ 記録 tests/data-w323b-quickfp.json(あれば形・無ければ「記録なし」)/ ④ 道具の配線(regen-plan・regen-chain の影の表・煙試験の --fingerprint)/
 // ----     ⑤ 今の正本で簡易一致の来歴を持つものは 0 本(本便は影 —— 受理の口は休眠)・較正の判定を出す段に calaudit・dt3・kf0
 // ----   lint.regenOrderOnly323:
-// ----     ① tests/lib-w281a-regentable.mjs の w323bChainProbe(after の辺の型の stub・gate の速い判定の stub の鎖を bash で 3 回)
+// ----     ① tests/lib-w281a-regentable.mjs の w323bChainProbe(after の辺の型の stub・gate の速い判定の stub の鎖を bash で 4 回 —— 既定・html の書き換え・REGEN_FASTGATE=0・shadow)
 // ----     ② 今の表の after の辺の種類(data・html・order)と宣言の上書き
 // ----     ③ 今の計画: recheck + hold = 第322便までの伝播の recheck・常時群 13 段・hold の段は自分の判定が reuse・行だけの判定(o.only)= 全段の計画の行(3 段)
 // ----     ④ 鎖: gate の速い判定(fastOk = 計画の ownStatus が reuse・fastUps ⊇ 鎖の中の正本の meta の入力の書き手)・chainShell の PLAN_HTML_SHA と REGEN_FASTGATE
@@ -92503,8 +92503,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       try {
         const pr = await RT.w323bChainProbe({ root: ROOT, tmpDir: tmp });
         if (!pr.t1 || !pr.t1.ok) bad.push('① 辺の型の stub: ' + JSON.stringify(pr.t1 && pr.t1.got).slice(0, 160));
-        if (!pr.t2 || !pr.t2.ok) bad.push('① 速い判定の stub の鎖: ' + JSON.stringify({ A: pr.t2 && pr.t2.A.calls, B: pr.t2 && pr.t2.B.calls, C: pr.t2 && pr.t2.C.calls }));
-        if (pr.t2) cases.push(`① stub: 辺の型 ${Object.keys(pr.t1.got).length} 例(${pr.t1.ok})・速い判定の鎖 html 不変 → --gate ${pr.t2.A.calls.join(',')}・速い判定 ${pr.t2.A.fast.join(',')} / html を書き換える → --gate ${pr.t2.B.calls.join(',')} / REGEN_FASTGATE=0 → --gate ${pr.t2.C.calls.join(',')}`);
+        if (!pr.t2 || !pr.t2.ok) bad.push('① 速い判定の stub の鎖: ' + JSON.stringify({ A: pr.t2 && pr.t2.A.calls, B: pr.t2 && pr.t2.B.calls, C: pr.t2 && pr.t2.C.calls, D: pr.t2 && pr.t2.D.shadow }));
+        if (pr.t2) cases.push(`① stub: 辺の型 ${Object.keys(pr.t1.got).length} 例(${pr.t1.ok})・速い判定の鎖 html 不変 → --gate ${pr.t2.A.calls.join(',')}・速い判定 ${pr.t2.A.fast.join(',')} / html を書き換える → --gate ${pr.t2.B.calls.join(',')} / REGEN_FASTGATE=0 → --gate ${pr.t2.C.calls.join(',')} / REGEN_FASTGATE=shadow → --gate ${pr.t2.D.calls.join(',')}・影の行 ${(pr.t2.D.shadow || []).join('・')}`);
       } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
       if (RT.AFTER_KIND_VERSION !== 'w323b-afterkind-1') bad.push('② 版 ' + RT.AFTER_KIND_VERSION);
       const K = RT.afterDepKinds({ root: ROOT });

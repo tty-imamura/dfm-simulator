@@ -323,6 +323,45 @@ export function recordShape(doc, o) {
 }
 
 // ---------------------------------------------------------------------------------------------
+// 影の照合(次の便 —— 鎖のフルの走行の後に、前の記録と今の記録・今の正本を比べる)
+// ---------------------------------------------------------------------------------------------
+/**
+ * 段ごとに 窓が同じか(前の記録の指紋 = 今の記録の指紋)と 物理の値が同じか(前の記録の正本の hash = 今の正本の physSha)を比べる。
+ *   trueSame  … 窓が同じ ∧ 物理が同じ(簡易一致で済ませてよかった)
+ *   falseSame … 窓が同じ ∧ 物理が違う(**誤判定** —— 本運用の門: 0 段)
+ *   trueDiff  … 窓が違う ∧ 物理が違う(フルへ回して正しい)
+ *   missed    … 窓が違う ∧ 物理が同じ(取りこぼし —— 誤りではない・節約を逃しただけ)
+ *   na        … 比べられない(どちらかの指紋が無い・窓の環境か器と lib の sha が違う・正本が読めない)
+ * @param {object} prev 前の記録(鎖の前 —— 前の便のフルの後に取った記録)
+ * @param {object} cur 今の記録(今の便の鎖の後に取った記録)
+ * @param {{physOf:(f:string)=>string|null, keys?:string[]}} o keys で比べる段を絞る(既定は両方の記録にある段)
+ */
+export function shadowCompare(prev, cur, o) {
+  const P = (prev && prev.steps) || {}, C = (cur && cur.steps) || {};
+  const keys = (o && o.keys) || Object.keys(P).filter((k) => k in C);
+  const rows = [];
+  for (const k of keys.slice().sort()) {
+    const a = P[k] || null, b = C[k] || null;
+    let cat = 'na', why = null;
+    if (!a || !b) why = '記録に無い';
+    else if (!a.fingerprint || !b.fingerprint) why = '指紋が無い';
+    else if (!eqEnv(a.window && a.window.env, b.window && b.window.env)) why = '窓の環境が違う';
+    else if (a.codeSha !== b.codeSha) why = '器・lib が違う(フル —— 簡易一致の対象外)';
+    else {
+      const win = a.fingerprint === b.fingerprint;
+      let phys = true;
+      for (const [f, h] of Object.entries(a.canon || {})) { const now = o.physOf(f); if (now === null) { why = '正本が読めない ' + f; break; } if (now !== h) phys = false; }
+      if (!why) cat = win ? (phys ? 'trueSame' : 'falseSame') : (phys ? 'missed' : 'trueDiff');
+    }
+    rows.push({ key: k, cat, why, htmlSame: !!(a && b && a.htmlSha === b.htmlSha) });
+  }
+  const n = (c) => rows.filter((r) => r.cat === c).length;
+  return { version: QUICK_VERSION, count: { trueSame: n('trueSame'), falseSame: n('falseSame'), trueDiff: n('trueDiff'), missed: n('missed'), na: n('na') },
+    falseSame: rows.filter((r) => r.cat === 'falseSame').map((r) => r.key), ok: n('falseSame') === 0, rows,
+    note: '誤判定(falseSame)= 簡易の窓が同じなのに物理の値が違った段 —— 本運用の門は 0 段。missed は節約を逃しただけ(誤りではない)。html が同じ段(htmlSame)は窓が同じで当然 —— 数は html が違う段で読む' };
+}
+
+// ---------------------------------------------------------------------------------------------
 // 来歴 meta.verify の受理(β で quick を受理・root で拒否 —— 本運用の便で効く。本便の正本は verify を持たない)
 // ---------------------------------------------------------------------------------------------
 /** 簡易一致の来歴(本運用の便で刻印を更新する道具が書く形)。 */
@@ -414,9 +453,16 @@ export function quickSelfTest() {
   const sh2 = recordShape(mergeRecord(doc, [{ key: 'zz', window: {}, fingerprint: 'x' }]), { steps: [{ key: 'a' }] });
   if (sh.length || sh2.length < 3) bad.push('⑤ 記録の形: ' + sh.concat(sh2).slice(0, 3).join(' / '));
   cases.push(`⑤ 記録の形(${QUICK_FP_VERSION}): 正しい行 → 違反 ${sh.length}・表に無い段と壊れた行 → 違反 ${sh2.length}`);
+  // ⑥ 影の照合の数え方
+  const e = (fp, canon, codeSha) => ({ window: { env: { X: '1' } }, fingerprint: fp, codeSha: codeSha || 'c', canon, htmlSha: 'h' });
+  const prevR = { steps: { a: e('1', { 'x/a': 'p' }), b: e('1', { 'x/b': 'p' }), c: e('1', { 'x/c': 'p' }), d: e('1', { 'x/d': 'p' }), z: e(null, {}) } };
+  const curR = { steps: { a: e('1', {}), b: e('1', {}), c: e('2', {}), d: e('2', {}), z: e('1', {}) } };
+  const sc = shadowCompare(prevR, curR, { physOf: (f) => ({ 'x/a': 'p', 'x/b': 'q', 'x/c': 'q', 'x/d': 'p' })[f] });
+  if (JSON.stringify(sc.count) !== JSON.stringify({ trueSame: 1, falseSame: 1, trueDiff: 1, missed: 1, na: 1 }) || sc.ok || sc.falseSame.join(',') !== 'b') bad.push('⑥ 影の照合の数え方: ' + JSON.stringify(sc.count));
+  cases.push(`⑥ 影の照合: 窓が同じ ∧ 物理が同じ → trueSame・窓が同じ ∧ 物理が違う → **誤判定 falseSame**(門 0)・窓が違う ∧ 物理が違う → trueDiff・窓が違う ∧ 物理が同じ → missed・指紋なし → na`);
   return { version: QUICK_VERSION, ok: bad.length === 0, bad, cases };
 }
 
 export default { QUICK_VERSION, QUICK_K_DEFAULT, QUICK_BIG_SEC, QUICK_BIG_MAX, QUICK_FP_FILE, QUICK_FP_VERSION, VERIFY_VERSION, QUICK_DECL_FIELDS, FP_RUNTIME_KEYS,
   CALIBRATION_FILES, CALIBRATION_HARNESS, physValue, physSha, physShaFile, windowFingerprint, stdoutNormSha, codeShaOf, stepWindow, calibrationSteps, staticExclusion,
-  STEP_FN_RE, ACCEPTOR_ROOTS, htmlChangeKinds, quickShadow, emptyRecord, mergeRecord, recordShape, quickVerifyMeta, verifyViolations, quickSelfTest };
+  STEP_FN_RE, ACCEPTOR_ROOTS, htmlChangeKinds, quickShadow, emptyRecord, mergeRecord, recordShape, shadowCompare, quickVerifyMeta, verifyViolations, quickSelfTest };

@@ -25,6 +25,7 @@
 //     ・**簡易一致の影**(tests/lib-w323b-quick.mjs の quickShadow —— 判定だけ・鎖はフル): 各段に quick(候補・理由・外す理由)と plan.quickShadow(影の表)。
 //       --fp-record <記録>(既定 tests/data-w323b-quickfp.json —— 無ければ記録なし)・--K 3・--wave <便の番号>(既定は html の BETA_BUILD)・--promote(root 昇格の便 —— 全段フル)。
 //       --base があれば步の関数・受理器・S._core の差を引く(quickVerify:'long' の段の判定)。
+//     ・**影の照合**(次の便): --shadow-compare <前の記録> [--fp-record <今の記録>] [--keys …] [--json …] —— trueSame / falseSame(誤判定)/ trueDiff / missed / na(誤判定があれば 1)。
 // 終了コード: 0(計画を出した)/ 2(表に無い正本が lint の CANON にある等、表が壊れている)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -56,6 +57,21 @@ if (argv.includes('--roster')) {
     process.exit(ok ? 0 : 1);
   }
   process.exit(0);
+}
+// 第323便b(AN517/AN518 —— 第324便の影の照合): `--shadow-compare <前の記録> [--fp-record <今の記録>] [--keys a,b]` —— 計画は引かない。
+//   前の記録(前の便のフルの後に取った指紋)と今の記録(今の便の鎖の後に取った指紋)・今の正本の物理の値で、段ごとに trueSame / falseSame(誤判定)/ trueDiff / missed / na。
+//   誤判定が 1 段でもあれば終了コード 1(本運用の門は 0 段)
+if (argv.includes('--shadow-compare')) {
+  const Q = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w323b-quick.mjs')).href);
+  const rd = (f) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch { return null; } };
+  const prev = rd(resolve(getArg('--shadow-compare', null))), cur = rd(resolve(getArg('--fp-record', Q.QUICK_FP_FILE)));
+  if (!prev || !cur) { console.error('regen-plan --shadow-compare: 前の記録か今の記録が読めない'); process.exit(2); }
+  const keys = getArg('--keys', null);
+  const r = Q.shadowCompare(prev, cur, { physOf: (f) => Q.physShaFile(path.join(ROOT, f), f), keys: keys ? keys.split(',') : undefined });
+  console.log(`regen-plan --shadow-compare(${r.version}): ` + Object.entries(r.count).map(([k, v]) => k + ' ' + v).join(' / ') + (r.ok ? ' —— 誤判定 0' : ' —— **誤判定 ' + r.falseSame.join(',') + '**'));
+  for (const z of r.rows) if (z.cat !== 'trueSame') console.log(`  ${z.cat.padEnd(9)} ${z.key.padEnd(20)} ${z.why || ''}${z.htmlSame ? '(html が同じ)' : ''}`);
+  const js = getArg('--json', null); if (js) fs.writeFileSync(resolve(js), JSON.stringify(r, null, 1));
+  process.exit(r.ok ? 0 : 1);
 }
 const t0 = Date.now();
 const plan = T.planRegen({ root: ROOT, html: HTML, baseHtml: BASE, orderOnly: !argv.includes('--all-edges') });

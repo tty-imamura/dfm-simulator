@@ -1801,8 +1801,8 @@ export function afterKindCounts(kinds) {
 /**
  * 第323便b の自己試験(regen-chain --self-test の (t) と QA lint.regenOrderOnly323 が呼ぶ):
  *   t1 … afterDepKinds の型(stub の表と器の本文 —— meta の入力・器の名指し・同じファイル・推移の運び手・html・order・宣言の上書き・本文が引けない)
- *   t2 … gate の速い判定(stub の鎖を bash で 3 回: html 不変 → データの上流が走った段と fastOk の無い段だけ --gate・順序だけの上流の段とその下流は速い判定 /
- *        上流が html を書き換える → 全部の gate が --gate / REGEN_FASTGATE=0 → 全部 --gate)
+ *   t2 … gate の速い判定(stub の鎖を bash で 4 回: html 不変 → データの上流が走った段と fastOk の無い段だけ --gate・順序だけの上流の段とその下流は速い判定 /
+ *        上流が html を書き換える → 全部の gate が --gate / REGEN_FASTGATE=0 → 全部 --gate / REGEN_FASTGATE=shadow → 全部 --gate で影の行〔段 fast=… gate=…〕)
  *   t3 … --gate の o.only(行だけ)の自分の判定が全段の計画の行と同じ(o.plan を渡したとき —— 状態ごとに 1〜2 段)
  * @param {{root:string, tmpDir?:string, plan?:object, html?:string}} o
  */
@@ -1855,10 +1855,13 @@ export async function w323bChainProbe(o) {
       const marks = {}; for (const k of ['g2', 'g3']) { try { marks[k] = fs.readFileSync(tmp + '/log/done/' + k + '.done', 'utf8').split('\n')[0]; } catch { marks[k] = null; } }
       return { rc: r.status, calls, fast, marks, modes: Object.fromEntries(Object.entries(chn.steps).map(([k, x]) => [k, x.mode + (x.fastOk ? '+fast' : '') + ':' + (x.fastUps || []).join('|')])) };
     };
-    const A = run(null), B = run({ W323B_TOUCH: '1' }), C = run({ REGEN_FASTGATE: '0' });
+    const A = run(null), B = run({ W323B_TOUCH: '1' }), C = run({ REGEN_FASTGATE: '0' }), D = run({ REGEN_FASTGATE: 'shadow' });
+    let shadowLines = []; try { shadowLines = fs.readFileSync(tmp + '/log/fastgate-shadow.txt', 'utf8').split('\n').filter(Boolean).sort(); } catch { shadowLines = []; }
+    D.shadow = shadowLines;
     const j = (x) => JSON.stringify(x);
-    res.t2 = { A, B, C, ok: A.rc === 0 && j(A.calls) === j(['g1', 'g4']) && j(A.fast) === j(['g2', 'g3']) && /^reuse .* fast$/.test(A.marks.g2 || '')
-      && B.rc === 0 && j(B.calls) === j(['g1', 'g2', 'g3', 'g4']) && B.fast.length === 0 && C.rc === 0 && j(C.calls) === j(['g1', 'g2', 'g3', 'g4']) && C.fast.length === 0 };
+    res.t2 = { A, B, C, D, ok: A.rc === 0 && j(A.calls) === j(['g1', 'g4']) && j(A.fast) === j(['g2', 'g3']) && /^reuse .* fast$/.test(A.marks.g2 || '')
+      && B.rc === 0 && j(B.calls) === j(['g1', 'g2', 'g3', 'g4']) && B.fast.length === 0 && C.rc === 0 && j(C.calls) === j(['g1', 'g2', 'g3', 'g4']) && C.fast.length === 0
+      && D.rc === 0 && j(D.calls) === j(['g1', 'g2', 'g3', 'g4']) && D.fast.length === 0 && j(shadowLines) === j(['g1 fast=no gate=10', 'g2 fast=reuse gate=10', 'g3 fast=reuse gate=10', 'g4 fast=no gate=10']) };
   }
   // t3: --gate の行だけ = 全段の計画の行
   if (o.plan) {
@@ -3910,12 +3913,15 @@ export function chainShell(chain, o) {
   L.push('  if mark_ok "$1" "$c"; then echo "[済] $1"; return 0; fi');
   L.push('  local u; for u in ${6:-}; do if [ -f "$DONE/$u.done" ] && grep -q "^run" "$DONE/$u.done"; then echo "[走・上流 $u が同じファイルを書き直した] $1"; run_step "$1" "$2" "$3" "$4" "$5"; return $?; fi; done');
   // 第323便b(R276): 速い判定 —— 計画の ownStatus が reuse・html が計画の sha のまま・データの上流が 1 つも走っていない → --gate を呼ばずに再利用(同じ答え)。
-  //   REGEN_FASTGATE=0 で第322便までの動き(毎回 --gate)。PLAN_HTML_SHA が空(鎖を作るときに計画の html の sha を渡さない)なら使わない
+  //   REGEN_FASTGATE=0 で第322便までの動き(毎回 --gate)。REGEN_FASTGATE=shadow は影(速い判定を引いて $REGEN_LOG/fastgate-shadow.txt に「段 fast=reuse|no gate=<rc>」を
+  //   書き、判定は毎回 --gate —— 速い判定が reuse で --gate が 0〔走る〕の行が不一致)。PLAN_HTML_SHA が空(鎖を作るときに計画の html の sha を渡さない)なら使わない
+  L.push('  local fz=no');
   L.push('  if [ "${8:-}" = 1 ] && [ "${REGEN_FASTGATE:-1}" != 0 ] && [ -n "$PLAN_HTML_SHA" ] && [ "$(sha256sum "$REGEN_HTML" 2>/dev/null | cut -c1-64)" = "$PLAN_HTML_SHA" ]; then');
   L.push('    local ran=""; for u in ${7:-}; do if [ -f "$DONE/$u.done" ] && grep -qE "^(run|manual)" "$DONE/$u.done"; then ran="$ran $u"; fi; done');
-  L.push('    if [ -z "$ran" ]; then write_mark "$1" "reuse $(date -u +%FT%TZ) fast" "$c" "$5" "$4"; echo "[再利用・速い判定] $1(html は計画のまま・データの上流は走っていない)"; return 0; fi');
+  L.push('    if [ -z "$ran" ]; then fz=reuse; if [ "${REGEN_FASTGATE:-1}" != shadow ]; then write_mark "$1" "reuse $(date -u +%FT%TZ) fast" "$c" "$5" "$4"; echo "[再利用・速い判定] $1(html は計画のまま・データの上流は走っていない)"; return 0; fi; fi');
   L.push('  fi');
   L.push('  node tools/regen-chain.mjs --gate "$1" --html "$REGEN_HTML" >"$REGEN_LOG/$2.gate" 2>&1; local g=$?');
+  L.push('  if [ "${REGEN_FASTGATE:-1}" = shadow ]; then echo "$1 fast=$fz gate=$g" >>"$REGEN_LOG/fastgate-shadow.txt"; fi');
   L.push('  if [ $g -eq 10 ]; then write_mark "$1" "reuse $(date -u +%FT%TZ)" "$c" "$5" "$4"; echo "[再利用] $1"; return 0; fi');
   L.push('  if [ $g -ne 0 ]; then echo "[止] $1 の再判定が rc=$g"; return $g; fi');
   L.push('  run_step "$1" "$2" "$3" "$4" "$5"');

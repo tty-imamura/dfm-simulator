@@ -48,7 +48,8 @@
 // 第323便b(原仮定者の指示(2026-11-01)「サンプルの変更だけでは、全行程を再実行しない」・AN517/AN518・R276):
 //   ・`--gate <段>` はその段の行だけを引く(planRegen の o.only —— 全段を引くより 1 桁速い。--gate-full で全段)。
 //   ・鎖の gate に**速い判定**: 計画の自分の判定が reuse・html が計画の sha のまま・データの上流(順序だけの辺を除く)が 1 つも走っていない → --gate を呼ばずに
-//     再利用(済み印の 1 行目 `reuse <時刻> fast`)。REGEN_FASTGATE=0 で毎回 --gate。順序だけの辺の上流の書くファイルは済み印の契約の入力に入れない。
+//     再利用(済み印の 1 行目 `reuse <時刻> fast`)。REGEN_FASTGATE=0 で毎回 --gate・REGEN_FASTGATE=shadow は影(毎回 --gate —— $REGEN_LOG/fastgate-shadow.txt に
+//     「段 fast=reuse|no gate=<rc>」)。順序だけの辺の上流の書くファイルは済み印の契約の入力に入れない。
 //   ・簡易一致の影(判定だけ —— 鎖の生成は変えない)を標準エラーと --json の quickShadow に。--fp-record・--K・--wave・--promote・--all-edges。
 //
 // 第287便f(原仮定者の裁定(第77報)AN69・統括の検証項目 R112):
