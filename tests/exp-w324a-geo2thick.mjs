@@ -342,7 +342,10 @@ export const WIDE_SETS = Object.freeze([
   ['asIs', '本のまま(場の配列・自転・質量は単精度 —— stateCarry:"double" は位置・速度だけ)', []],
   ['fields', '場の配列を倍精度に(u・u の履歴・重み和・Δp —— 器の差し替え)', ['uAx', 'uAy', 'uPx', 'uPy', 'uPz', 'sumW', 'dpx', 'dpy']],
   ['all', '場の配列・自転・質量・対距離・半径を倍精度に(器の差し替え)', ['uAx', 'uAy', 'uPx', 'uPy', 'uPz', 'sumW', 'dpx', 'dpy', 'spin', 'm', 'mEff', 'pairD', 'R']]]);
-function widenOf(S, keys) { let n = 0; for (const k of keys) if (S[k] && S[k].constructor === Float32Array) { S[k] = Float64Array.from(S[k]); n++; } S._g3 = null; return n; }
+function widenOf(S, keys) {   // sim の realm の Float64Array で(QA の headless は別の realm —— 型は toString で見る・S.accS は常に倍精度の配列)
+  const F64 = S.accS.constructor; let n = 0;
+  for (const k of keys) if (S[k] && Object.prototype.toString.call(S[k]) === '[object Float32Array]') { S[k] = F64.from(S[k]); n++; }
+  S._g3 = null; return n; }
 export function partWide(HP, plan) {
   const F = frameOf(plan.incl, plan.node), rows = [];
   for (const [key, label, keys] of WIDE_SETS) {
