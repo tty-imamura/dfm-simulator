@@ -93177,6 +93177,203 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第323便b の塊(ここまで)====
 
+// ==== 第324便c の塊(ここから)====
+// ---- 第324便c(統括の検証項目 R281 —— 道具の続き: 第323便の統括の手順で決めたこと・決断事項 AN516・AN517/AN518): lint.quickBoundary324c・lint.calVolatile324c・lint.postMergeCounts324c・docs.w324c ----
+// ----   lint.quickBoundary324c:
+// ----     ① tests/lib-w323b-quick.mjs(w324c-quick-2)の自己試験 ⑧ —— 欠測の境界の 3 例(記録の器・lib の hash の欠け・今の hash が引けない・前の canon が空 —— 第323便b の版は 3 例とも
+// ----        一致の側へ数えた)・正常な 4 分類・自己比較の拒否・na の理由ごとの数 / ② 実物の記録 tests/data-w323b-quickfp.json を前後に与えた比較は自己比較(影の 1 便に数えない・trueSame 0)・
+// ----        regen-plan --shadow-compare の配線(照合の数の行・自己比較で終了コード 2・段の正本の被覆)/ ③ 長期の量の名簿(QUICK_LONG_ROSTER —— 鍵は表の現行の段・名簿の段は quickVerify:'long'・
+// ----        行の宣言が先)と、步の関数が変わった便の缶詰の影の表で名簿の段が候補に 0 / ④ nslock の影の照合の記録(nslockShadowProbe・作業記録 tests/data-w324c-nslockshadow.json の形・
+// ----        AN516 の数)/ ⑤ 速い判定の実効値の記録(stub の鎖 4 回 —— 未設定・0・shadow・on → 1 行目・fastgate.txt・timeline の見出し —— 既定は 1 のまま)
+// ----   lint.calVolatile324c: calaudit の揮発の欄(V_CALAUDIT_H2P・V_CALAUDIT_DIAG_STOREP —— 宣言の版 w324c-vcal-3・w324c-vdiag-3)—— 実物の正本で来歴だけを書き換えた写しの安定 hash は同じ・
+// ----     h/2 の実測値と転記の可否の欄を変えると違う・2 回の走行の記録 tests/data-w324c-calvolatile.json(新しい宣言で走行の間の hash が同じ・判定の値が同じ)
+// ----   lint.postMergeCounts324c: ① tests/lib-w324c-postmerge.mjs の自己試験 / ② post-merge-qa.sh の ③・③′・④ が 4 つの数・③′ の既定が便の塊(--wave・--all-waves)・覆えない鍵の名簿 /
+// ----     ③ 実物の脚本で ③′ を第323便に絞った数 < 積み上げの数 / ④ tools/qa-keys.mjs の uncoveredKeys(種類の和 = 外す鍵・W5c の範囲の名簿)
+// ----   docs.w324c: PHYSICS〔第324便c — 〕(〔第323便 — 統括〕の後・「## 7.」の前・a → b → c → d)・AI_SPEC §173・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rd324c = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.quickBoundary324c・lint.calVolatile324c・lint.postMergeCounts324c・docs.w324c(beta 対象でない: ' + TARGET + ' —— 再生成の道具は beta 線)');
+    return;
+  }
+  const imp324c = async (f, bad) => { try { return await import('file://' + path.join(ROOT, f)); } catch (e) { bad.push(f + ' が読めない: ' + String(e && e.message || e).slice(0, 80)); return null; } };
+  // ---- lint.quickBoundary324c
+  {
+    const bad = [], cases = [];
+    const Q = await imp324c('tests/lib-w323b-quick.mjs', bad), RT = await imp324c('tests/lib-w281a-regentable.mjs', bad);
+    if (Q && RT) {
+      // ①
+      const st = Q.quickSelfTest();
+      if (!st.ok) bad.push('① ' + st.bad.slice(0, 3).join(' / '));
+      if (Q.QUICK_VERSION !== 'w324c-quick-2' || !(Q.QUICK_VERSION_HISTORY || []).includes('w323b-quick-1') || Q.QUICK_FP_VERSION !== 'w323b-quickfp-1') bad.push('① 版(w324c-quick-2・記録の版 w323b-quickfp-1 は不変)');
+      const c8 = st.cases.find((z) => z.startsWith('⑧')) || '';
+      if (!c8) bad.push('① 自己試験に ⑧(欠測の境界)が無い');
+      cases.push('① ' + c8.slice(2, 260));
+      // ②
+      let rec = null; try { rec = JSON.parse(rd324c(Q.QUICK_FP_FILE) || 'null'); } catch { rec = null; }
+      if (rec) {
+        const sc = Q.shadowCompare(rec, rec, { physOf: () => 'b'.repeat(64) });
+        if (!sc.selfCompare || sc.countsAsShadowWave || sc.count.trueSame !== 0 || sc.tally.compared !== 0) bad.push('② 実物の記録の自己比較: ' + JSON.stringify({ self: sc.selfCompare, trueSame: sc.count.trueSame, compared: sc.tally.compared }));
+        cases.push(`② 実物の記録(${Object.keys(rec.steps || {}).length} 段)の自己比較 → ${sc.selfCompare ? sc.selfCompare.kind : '—'}・trueSame ${sc.count.trueSame}・na ${sc.count.na}(${Object.entries(sc.tally.naByReason).map(([k, v]) => k.slice(0, 14) + ' ' + v).join('・')})—— 影の 1 便に数えない`);
+      } else cases.push('② 記録が無い(自己比較の実物の照合は飛ばす)');
+      const RP = rd324c('tools/regen-plan.mjs');
+      for (const w of ['Q.shadowTallyText(r)', "argv.includes('--allow-self')", 'outsOf, prevPath, curPath', 'process.exit(2); }']) if (RP.indexOf(w) < 0) bad.push('② regen-plan に「' + w + '」が無い');
+      // ③
+      const lr = RT.quickLongRows();
+      if (RT.QUICK_LONG_VERSION !== 'w324c-quicklong-1' || lr.missing.length || lr.rows.length < 30) bad.push('③ 長期の量の名簿: 版 ' + RT.QUICK_LONG_VERSION + '・行 ' + lr.rows.length + '・表に無い鍵 ' + lr.missing.join(','));
+      for (const k of ['timestd-297c', 'synodic-299b', 'satnext-318b', 'k1confirm-313d', 'solar16-318c']) if (!lr.rows.some((z) => z.key === k)) bad.push('③ 名簿に ' + k + ' が無い');
+      for (const z of lr.rows) if (!z.why) bad.push('③ ' + z.key + ' に理由が無い');
+      const longKeys = lr.rows.map((z) => z.key);
+      const stepsL = RT.REGEN_STEPS.filter((z) => longKeys.includes(z.key));
+      const H = 'a'.repeat(64);
+      const recL = { version: Q.QUICK_FP_VERSION, steps: Object.fromEntries(stepsL.map((z) => [z.key, { key: z.key, window: { env: { Q: '1' } }, fingerprint: H, codeSha: H, htmlSha: H, canon: Object.fromEntries((z.outs || []).map((f) => [f, H])) }])) };
+      const planL = () => ({ steps: stepsL.map((z) => ({ key: z.key, status: 'regen', ownStatus: 'regen', causeKinds: ['scope'], sec: z.sec })) });
+      const optL = (change) => ({ steps: RT.REGEN_STEPS, record: recL, knobs: Object.fromEntries(stepsL.map((z) => [z.key, { env: { Q: '1' } }])), cal: new Map(), K: 3, wave: 324, codeOf: () => H, physOf: () => H, verifyOf: () => null, change });
+      const yes = Q.quickShadow(planL(), optL({ known: true, core: false, stepFns: ['dfmStep3'], acceptor: [] })), no = Q.quickShadow(planL(), optL({ known: true, core: false, stepFns: [], acceptor: [] }));
+      const nLongWhy = yes.rows.filter((z) => z.why.some((w) => /quickVerify:'long'/.test(w))).length;
+      if (yes.count.eligible !== 0 || nLongWhy !== yes.rows.length) bad.push(`③ 步の関数が変わった便で名簿の段が候補に ${yes.count.eligible}('long' の理由 ${nLongWhy}/${yes.rows.length})`);
+      if (no.rows.some((z) => z.why.some((w) => /quickVerify:'long'/.test(w)))) bad.push("③ 步の関数が変わらない便で 'long' の理由が付く");
+      cases.push(`③ 長期の量の名簿(${RT.QUICK_LONG_VERSION}): ${lr.rows.length} 段(名簿 ${lr.rows.filter((z) => z.from === 'roster').length}・行の宣言 ${lr.rows.filter((z) => z.from === 'row').length})—— 步の関数が変わった便の缶詰の影の表で候補 ${yes.count.eligible}('long' の理由 ${nLongWhy}/${yes.rows.length})・変わらない便では 'long' の理由 0`);
+      // ④
+      const np = RT.nslockShadowProbe();
+      if (!np.ok) bad.push('④ ' + np.bad.slice(0, 3).join(' / '));
+      let nrec = null; try { nrec = JSON.parse(rd324c(RT.NSLOCK_SHADOW_FILE) || 'null'); } catch { nrec = null; }
+      if (!nrec || nrec.version !== RT.NSLOCK_SHADOW_VERSION || !Array.isArray(nrec.waves) || nrec.waves.some((z) => !Number.isInteger(z.wave) || !['n/n', 'mismatch', 'no-comparison', 'not-run'].includes(z.verdict))) bad.push('④ 作業記録 ' + RT.NSLOCK_SHADOW_FILE + ' の形');
+      const stk = RT.an516Streak(nrec);
+      const RCt = rd324c('tools/regen-chain.mjs'), RTt = rd324c('tests/lib-w281a-regentable.mjs');
+      if (RCt.indexOf("argv.includes('--nslock-shadow')") < 0 || RTt.indexOf('--nslock-shadow "$REGEN_LOG" --json "$REGEN_LOG/nslock-shadow.json"') < 0) bad.push('④ 鎖の終わりの呼び出し(regen-chain --nslock-shadow)が無い');
+      cases.push(`④ nslock の影の照合(${RT.NSLOCK_SHADOW_VERSION}): ${np.cases.join(' / ')} / 作業記録 ${nrec ? nrec.waves.map((z) => z.wave + ':' + z.verdict).join(' ') : '—'} → AN516 の数 ${stk.streak}/${stk.need}`);
+      // ⑤
+      const os = await import('node:os');
+      const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w324c-fg-'));
+      try {
+        const fg = await RT.fastgateRecordProbe324c({ root: ROOT, tmpDir: tmp });
+        if (!fg.ok) bad.push('⑤ 速い判定の実効値の記録: ' + JSON.stringify(fg.rows).slice(0, 200));
+        cases.push('⑤ 速い判定の実効値(stub の鎖 4 回): ' + Object.entries(fg.rows).map(([k, v]) => k + ' → ' + v.file.replace('fastgate=', '')).join('・') + '(1 行目・fastgate.txt・timeline の見出しが同じ —— 既定は 1 のまま)');
+      } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+    }
+    add('lint.quickBoundary324c', bad.length === 0,
+      `**簡易一致の欠測の境界と照合の数・長期の量の名簿・nslock の影の照合の記録・速い判定の実効値**(第324便c・統括の検証項目 R281・決断事項 AN516/AN517/AN518 —— 影のまま・受理の口は休眠): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- lint.calVolatile324c
+  {
+    const bad = [], cases = [];
+    const RT = await imp324c('tests/lib-w281a-regentable.mjs', bad), SC = await imp324c('tests/lib-w281a-scope.mjs', bad);
+    if (RT && SC) {
+      const f = 'tests/out/calaudit-w249.json', fd = 'tests/out/calaudit-w249-diag.json';
+      const VD = RT.VOLATILE_DECL || {};
+      if (!(VD[f] && VD[f].version === 'w324c-vcal-3' && VD[fd] && VD[fd].version === 'w324c-vdiag-3')) bad.push('宣言の版(w324c-vcal-3・w324c-vdiag-3)');
+      const vp = RT.volatilePathsOf(f), vd = RT.volatilePathsOf(fd);
+      for (const p of RT.V_CALAUDIT_H2P || []) if (!vp.includes(p)) bad.push('calaudit の除外に ' + p + ' が無い');
+      for (const p of RT.V_CALAUDIT_DIAG_STOREP || []) if (!vd.includes(p)) bad.push('diag の除外に ' + p + ' が無い');
+      if (vp.some((p) => /\/(reused|reason|diff|contractSha|hSig|stable|skippedBy|dtHalf|h2Reuse)$/.test(p))) bad.push('転記の可否・実測の欄を除外に入れた');
+      let J = null, D = null; try { J = JSON.parse(rd324c(f)); D = JSON.parse(rd324c(fd)); } catch { J = null; }
+      if (J && D) {
+        const clone = (x) => JSON.parse(JSON.stringify(x));
+        const set = (X, ptr, fn) => { const toks = SC.parsePointer(ptr); let n = 0; const walk = (x, i) => { if (!x || typeof x !== 'object') return; const ks = toks[i] === '*' ? Object.keys(x) : (Object.prototype.hasOwnProperty.call(x, toks[i]) ? [toks[i]] : []); for (const k of ks) { if (i === toks.length - 1) { x[k] = fn(x[k]); n++; } else walk(x[k], i + 1); } }; walk(X, 0); return n; };
+        const h0 = SC.stableValueSha(J, vp), K = clone(J);
+        let nSet = 0;
+        for (const p of RT.V_CALAUDIT_H2P) nSet += set(K, p, (v) => (typeof v === 'number' ? v * 1.5 + 1 : /^[0-9a-f]{64}$/.test(String(v)) ? 'e'.repeat(64) : '2099-01-01T00:00:00.000Z'));
+        if (SC.stableValueSha(K, vp) !== h0) bad.push('来歴だけを書き換えた写しの安定 hash が変わった');
+        const K2 = clone(J); const pr = (K2.presets || []).find((z) => z.run && z.run.dtHalf && typeof z.run.dtHalf === 'object');
+        let phys = null;
+        if (pr) { const k = Object.keys(pr.run.dtHalf).find((q) => typeof pr.run.dtHalf[q] === 'number'); if (k) { pr.run.dtHalf[k] = pr.run.dtHalf[k] * (1 + 1e-12) + 1e-300; phys = '/presets/' + pr.id + '/run/dtHalf/' + k; } }
+        if (!phys || SC.stableValueSha(K2, vp) === h0) bad.push('h/2 の実測の欄(' + phys + ')を変えても安定 hash が変わらない');
+        const K3 = clone(J); const pr3 = (K3.presets || []).find((z) => z.run && z.run.h2Reuse && z.run.h2Reuse.reusedFrom);
+        if (pr3) { pr3.run.h2Reuse.reused = !pr3.run.h2Reuse.reused; if (SC.stableValueSha(K3, vp) === h0) bad.push('転記の可否(h2Reuse.reused)を変えても安定 hash が変わらない'); }
+        const d0 = SC.stableValueSha(D, vd), DK = clone(D), nD = set(DK, '/h2Store/entries/*/targetSha256', () => 'e'.repeat(64));
+        const DK2 = clone(D); const e2 = Object.values((DK2.h2Store || {}).entries || {})[0]; if (e2) e2.hSig = 'x';
+        if (SC.stableValueSha(DK, vd) !== d0) bad.push('diag の置き場の html の sha だけを書き換えた写しの安定 hash が変わった');
+        if (!e2 || SC.stableValueSha(DK2, vd) === d0) bad.push('diag の置き場の h の署名(hSig)を変えても安定 hash が変わらない');
+        cases.push(`実物: 来歴 ${nSet} 葉を書き換え → 同じ・h/2 の実測の欄(${phys})→ 違う・転記の可否 → 違う / diag: 置き場の html の sha ${nD} 行 → 同じ・h の署名 → 違う`);
+      } else cases.push('正本が無い(実物の照合は飛ばす)');
+      let R = null; try { R = JSON.parse(rd324c('tests/data-w324c-calvolatile.json') || 'null'); } catch { R = null; }
+      if (!R || R.version !== 'w324c-calvolatile-1') bad.push('2 回の走行の記録 tests/data-w324c-calvolatile.json が無い');
+      else {
+        const n = R.stableSha16.calaudit.new, o = R.stableSha16.calaudit.old, dn = R.stableSha16.diag.new;
+        if (!(n.base === n.run1 && n.run1 === n.run2TargetNameRestored && dn.run1 === dn.run2 && dn.base === dn.run1)) bad.push('記録: 新しい宣言で走行の間の hash が同じでない');
+        if (!(o.base !== o.run1 && o.run1 !== o.run2)) bad.push('記録: 旧の宣言で走行の間の hash が動いていない(動く理由の記録と合わない)');
+        if (R.decl.calaudit.fpNew !== (VD[f] || {}).fp || R.decl.diag.fpNew !== (VD[fd] || {}).fp) bad.push('記録の宣言の指紋が今の宣言と違う(宣言を変えたら走らせ直して記録を取り直す)');
+        cases.push(`2 回の走行の記録: calaudit 旧 ${o.base}/${o.run1}/${o.run2} → 新 ${n.base}/${n.run1}/${n.run2TargetNameRestored}・diag 新 ${dn.base}/${dn.run1}/${dn.run2}(判定の値は同じ —— 器のコードは不変)`);
+      }
+    }
+    add('lint.calVolatile324c', bad.length === 0,
+      `**calaudit の揮発の欄 —— h/2 の転記の来歴と置き場の html の sha**(第324便c・統括の検証項目 R281 —— 来歴だけを除く・h/2 の実測値・刻み・判定の入力は残す): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- lint.postMergeCounts324c
+  {
+    const bad = [], cases = [];
+    const PMl = await imp324c('tests/lib-w324c-postmerge.mjs', bad), QK = await imp324c('tools/qa-keys.mjs', bad);
+    const PM = rd324c('tools/post-merge-qa.sh');
+    if (PMl) {
+      const st = PMl.postMergeSelfTest();
+      if (!st.ok) bad.push('① ' + st.bad.slice(0, 3).join(' / '));
+      cases.push('① ' + st.cases.slice(0, 2).join(' / ').slice(0, 220));
+      const body = PM.split('\n').filter((l) => !/^\s*#/.test(l)).join('\n');
+      for (const w of ['S3="前回失敗 $(qsum324c', 'S3W="本便 $(echo $WGOT | wc -w) 鍵 $(qsum324c', 'S4="beta $(qsum324c', 'S4="$S4・root $(qsum324c', '--wave) PMWAVE=', '--all-waves) ALLW=1', 'tests/lib-w324c-postmerge.mjs --wave-ids', 'tools/qa-keys.mjs --uncovered'])
+        if (body.indexOf(w) < 0) bad.push('② post-merge に「' + w + '」が無い');
+      const w323 = PMl.waveIdsFromScript(PM, 323), all = PMl.allWaveIdsFromScript(PM), w324 = PMl.waveIdsFromScript(PM, 324);
+      if (!(w323.ids.length > 0 && w323.ids.length < new Set(all).size)) bad.push('③ 第323便に絞った ③′ の数 ' + w323.ids.length + ' が積み上げ ' + new Set(all).size + ' より少なくない');
+      if (!w324.ids.includes('lint.postMergeCounts324c')) bad.push('③ 第324便の塊に lint.postMergeCounts324c が無い');
+      const wv = PMl.waveOfChangelog(rd324c('CHANGELOG.md'));
+      cases.push(`② ③〜④ は qapart の要約の 4 つの数・③′ の既定は便の塊(CHANGELOG の最新の便 ${wv})/ ③ 第323便に絞ると ${w323.ids.length} 名(${w323.blocks.join('・')})・積み上げ ${new Set(all).size} 名(重複を除く)・第324便の塊 ${w324.ids.length} 名`);
+    }
+    if (QK) {
+      const QO = await imp324c('tests/lib-w279b-qaorder.mjs', bad), QP = await imp324c('tests/lib-w322d-qapart.mjs', bad), SCx = await imp324c('tests/lib-w281a-scope.mjs', bad);
+      if (QO && QP && SCx) {
+        let full = null; try { const j = JSON.parse(rd324c('tests/out/qa-results-full-beta.json') || 'null'); full = j ? { file: 'tests/out/qa-results-full-beta.json', ids: new Set((j.results || []).map((r) => r.id)) } : null; } catch { full = null; }
+        const u = QK.uncoveredKeys({ qaSrc: rd324c('tests/qa.mjs'), QO, QP, SC: SCx, full });
+        const sum4 = u.counts.w5c + u.counts.upstream + u.counts.comment + u.counts.span;
+        if (QK.QA_UNCOVERED_VERSION !== 'w324c-uncovered-1' || sum4 !== u.excluded || u.rows.some((r) => !QK.UNCOVERED_KINDS[r.kind])) bad.push('④ 覆えない鍵の種類の和 ' + sum4 + ' ≠ 外す鍵 ' + u.excluded);
+        cases.push('④ ' + QK.uncoveredText(u) + '(W5c の範囲 ' + u.rows.filter((r) => r.kind === 'w5c').slice(0, 4).map((r) => r.id).join('・') + ' …)');
+      }
+    }
+    add('lint.postMergeCounts324c', bad.length === 0,
+      `**post-merge の ③〜④ の 4 つの数・③′ を便の新設に・部分 QA で覆えない鍵の名簿**(第324便c・統括の検証項目 R281): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- docs.w324c
+  {
+    const bad = [];
+    const PH = rd324c('docs/PHYSICS.md'), a324 = PH.indexOf('〔第324便c — ');
+    const sec = a324 < 0 ? '' : PH.slice(a324, (() => { const e = [PH.indexOf('\n〔第', a324 + 10), PH.indexOf('\n## 7.', a324)].filter((k) => k > a324); return e.length ? Math.min(...e) : undefined; })());
+    const rv = (s) => [...s].reverse().join('');
+    const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);
+    const NOT = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'たため確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転逆の星金', 'たし明説をータマクーダ'].map(rv);
+    if (!sec) bad.push('PHYSICS〔第324便c〕が無い');
+    else {
+      const i7 = PH.indexOf('\n## 7.'), iG = PH.indexOf('〔第323便 — 統括');
+      if (!(a324 < i7 && iG >= 0 && iG < a324)) bad.push('節の位置(〔第323便 — 統括〕の後・「## 7.」の前)');
+      for (const [b, k] of [['a', PH.indexOf('〔第324便a — ')], ['b', PH.indexOf('〔第324便b — ')]]) if (k >= 0 && k > a324) bad.push('〔第324便' + b + '〕が〔第324便c〕の後');
+      { const k = PH.indexOf('〔第324便d — '); if (k >= 0 && k < a324) bad.push('〔第324便d〕が〔第324便c〕の前'); }
+      for (const w of ['R281', 'AN516', 'AN517', 'w324c-quick-2', 'na', 'selfCompare', 'quickVerify', "'long'", 'QUICK_LONG_ROSTER', 'REGEN_FASTGATE', 'fastgate.txt', '--nslock-shadow', 'tests/data-w324c-nslockshadow.json',
+        'qapart-summary', '--all-waves', '--uncovered', 'V_CALAUDIT_H2P', 'w324c-vcal-3', 'w324c-vdiag-3', 'tests/data-w324c-calvolatile.json', 'lint.quickBoundary324c', 'lint.calVolatile324c', 'lint.postMergeCounts324c', '**表 1', '**表 2'])
+        if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第324便c〕に「' + w + '」が無い');
+    }
+    const AI = rd324c('docs/AI_SPEC.md'), ai173 = (() => { const m = /\n## 173\. 第324便c[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+    if (!(ai173 && ai173.indexOf('R281') >= 0 && ai173.indexOf('shadowCompare') >= 0 && ai173.indexOf('QUICK_LONG_ROSTER') >= 0 && ai173.indexOf('--nslock-shadow') >= 0)) bad.push('AI_SPEC §173');
+    const CL = rd324c('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+    const cl324 = (clb.split('\n').find((l) => l.indexOf('**第324便c**') >= 0)) || '';
+    if (!cl324) bad.push('CHANGELOG の beta 節に第324便c の行が無い');
+    const TR = rd324c('tools/README.md'), PM = rd324c('tools/post-merge-qa.sh');
+    if (!(TR.indexOf('第324便c') >= 0 && TR.indexOf('--uncovered') >= 0 && TR.indexOf('--nslock-shadow') >= 0 && TR.indexOf('--all-waves') >= 0)) bad.push('tools/README に第324便c の口(--uncovered・--nslock-shadow・--all-waves)が無い');
+    if (!(PM.indexOf('# ==== 第324便c の塊(ここから)====') >= 0 && /lint\.quickBoundary324c/.test(PM) && /lint\.postMergeCounts324c/.test(PM) && /lint\.calVolatile324c/.test(PM) && /docs\.w324c/.test(PM))) bad.push('post-merge の ③′ に第324便c の塊が無い');
+    for (const [nm, tx] of [['PHYSICS〔第324便c〕', sec], ['AI_SPEC §173', ai173], ['CHANGELOG の第324便c の行', cl324]]) {
+      for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+      for (const w of NOT) if (tx.indexOf(w) >= 0) bad.push(nm + ' に書かない語(' + w.length + ' 字)');
+      if (tx.indexOf(String.fromCharCode(0x3ba)) >= 0) bad.push(nm + ' に裸の係数記号');
+    }
+    add('docs.w324c', bad.length === 0,
+      `**道具の続きの文書**(第324便c・統括の検証項目 R281): PHYSICS〔第324便c〕(〔第323便 — 統括〕の後・「## 7.」の前・a → b → c → d)・AI_SPEC §173・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ' —— すべてあり'));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第324便c の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

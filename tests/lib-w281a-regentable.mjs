@@ -2071,6 +2071,36 @@ export function nslockShadowProbe() {
     cases: [`門 full(G2・G3)+ 照合なし → ${a.verdict}(比較の実績なし)・門 merge 3/3 → ${b.verdict}・2/3 → ${c.verdict}(${c.mismatch.join(',')})・印字なし → ${d.verdict}・理由の列 ${e.gates.join('・')} ほか ${e.gateMore}`,
       `AN516 の数: [322 比較なし・323 走らず・324 n/n・325 比較なし・326 n/n] → ${st.streak}(比較の無い便は数えない)・[n/n・不一致・n/n] → ${st2.streak}`] };
 }
+/**
+ * 第324便c: **速い判定の実効値の記録**の stub の鎖(bash —— 1 段・REGEN_FASTGATE を 未設定 / 0 / shadow / on で 4 回)。鎖の標準出力の 1 行目・$REGEN_LOG/fastgate.txt・
+ * timeline の見出しの fastgate=・鎖の終わりの nslock の影の照合の記録($REGEN_LOG/nslock-shadow.json —— nslock の無い鎖は not-run)を読む。
+ * @param {{root:string, tmpDir:string}} o
+ */
+export async function fastgateRecordProbe324c(o) {
+  const root = String(o.root).replace(/\/$/, ''), tmp = String(o.tmpDir).replace(/\/$/, '');
+  const cp = await import('node:child_process');
+  fs.mkdirSync(tmp + '/out', { recursive: true });
+  const steps = [{ key: 'u1', cmd: 'echo "{\\"v\\":1}" > out/u1.json', outs: ['out/u1.json'], after: [], role: 'current', sec: 1 }];
+  const plan = { htmlSha256: null, steps: [{ key: 'u1', status: 'regen', ownStatus: 'regen' }] };
+  const want = { unset: '1', '0': '0', shadow: 'shadow', on: '1' };
+  const rows = {};
+  for (const [lab, val] of Object.entries(want).map(([k, v]) => [k, v])) {
+    fs.rmSync(tmp + '/log', { recursive: true, force: true });
+    fs.writeFileSync(tmp + '/page.html', '<html>stub</html>\n');
+    const chn = buildChain(plan, { steps, deps: tableDeps({ steps }), afterKinds: new Map([['u1', new Map()]]) });
+    fs.writeFileSync(tmp + '/chain.sh', chainShell(chn, { lanes: 1 }));
+    const env = Object.assign({}, process.env, { REGEN_ROOT: tmp, REGEN_LOG: tmp + '/log', REGEN_TOOL: root + '/tools/regen-chain.mjs', REGEN_HTML: 'page.html', REGEN_ENV_BROWSER: '0' });
+    delete env.REGEN_FASTGATE; if (lab !== 'unset') env.REGEN_FASTGATE = lab;
+    const r = cp.spawnSync('bash', [tmp + '/chain.sh'], { encoding: 'utf8', env, cwd: tmp, timeout: 120000 });
+    const first = String(r.stdout || '').split('\n')[0];
+    let ft = ''; try { ft = fs.readFileSync(tmp + '/log/fastgate.txt', 'utf8'); } catch { ft = ''; }
+    let tl = ''; try { tl = (fs.readFileSync(tmp + '/log/timeline.txt', 'utf8').match(/^# ready-queue [^\n]*/m) || [''])[0]; } catch { tl = ''; }
+    let ns = null; try { ns = JSON.parse(fs.readFileSync(tmp + '/log/nslock-shadow.json', 'utf8')); } catch { ns = null; }
+    rows[lab] = { rc: r.status, first: first.slice(0, 120), file: ft.trim().split(' ')[0], header: tl, nslock: ns ? ns.verdict : null,
+      ok: r.status === 0 && first.startsWith('# regen-chain fastgate=' + val + '(') && ft.startsWith('fastgate=' + val + ' ') && / lanes=1 fastgate=/.test(tl) && tl.endsWith('fastgate=' + val) && !!ns && ns.verdict === 'not-run' };
+  }
+  return { ok: Object.values(rows).every((z) => z.ok), rows };
+}
 // ==== 第324便c の塊(ここまで)====
 
 /**
@@ -4810,7 +4840,7 @@ export async function htmlAggregateProbe(o) {
   }
 }
 
-export default { QUICK_LONG_VERSION, QUICK_LONG_ROSTER, quickLongRows, NSLOCK_SHADOW_VERSION, NSLOCK_SHADOW_FILE, nslockShadowOfLog, nslockShadowText, an516Streak, nslockShadowProbe,
+export default { QUICK_LONG_VERSION, QUICK_LONG_ROSTER, quickLongRows, NSLOCK_SHADOW_VERSION, NSLOCK_SHADOW_FILE, nslockShadowOfLog, nslockShadowText, an516Streak, nslockShadowProbe, fastgateRecordProbe324c,
   REGEN_TABLE_VERSION, REGEN_STEPS, STATIC_READ_DECL, harnessReads, staticAfterAudit, stampedDeclDrift, VOLATILE_DECL, volatileDeclFp, W285F_AFTER_SAMPLESTATUS, htmlWholeSteps, samplestatusUpstream, an43Probe, EXTERNAL_VOLATILE, V_CALAUDIT_META, STABLE_COMPANIONS, companionsOf,
   volatilePathsOf, volatileDeclared, stepsByOut, alwaysRunOuts, historyOuts, planRegen,
   writesOf, writersMap, afterClosure, tableDeps, tableDepsAudit, checkOrder, buildChain, chainSequence, laneSplit, chainShell, an29Probe,

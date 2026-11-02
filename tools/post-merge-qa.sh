@@ -551,11 +551,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickWindows323 docs.w323c lint.harness
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.provenanceIds323 lint.qaRecheck323 docs.w323d docs.calaudit-sync docs.calibration-verdict-sync behavior.calauditStages lint.calauditMergeKeyHash lint.calauditDiagSplit docs.periodContractRows docs.sampleStatus-sync preset.statusLedger-sync docs.tallySync lint.provenanceMeta lint.stableHashPaths lint.regenChain lint.postMergeQaScript lint.qaHeapRelease310"
 # ==== 第323便d の塊(ここまで)====
 # ==== 第324便c の塊(ここから)====
-# 第324便c(統括の検証項目 R281): 枝 c の新設 3 本(lint.quickBoundary324c —— 簡易一致の欠測の境界・照合の数・自己比較の拒否・長期の量の名簿・nslock の影の照合の記録・
-#   速い判定の実効値 / lint.postMergeCounts324c —— post-merge の ③〜④ の 4 つの数・③′ の絞り・部分 QA で覆えない鍵の名簿・calaudit の揮発の欄〔h/2 の転記の来歴〕/
+# 第324便c(統括の検証項目 R281): 枝 c の新設 4 本(lint.quickBoundary324c —— 簡易一致の欠測の境界・照合の数・自己比較の拒否・長期の量の名簿・nslock の影の照合の記録・
+#   速い判定の実効値 / lint.calVolatile324c —— calaudit の揮発の欄〔h/2 の転記の来歴・置き場の html の sha〕/ lint.postMergeCounts324c —— post-merge の ③〜④ の 4 つの数・③′ の絞り・部分 QA で覆えない鍵の名簿 /
 #   docs.w324c —— 文書)と、版を世代で受けた lint.regenQuick323・宣言の版と語彙の拡張を受けた lint.stableHashPaths・鎖の脚本の lint.regenChain・lint.regenOrderOnly323・
 #   この脚本の lint.postMergeQaScript・qa-keys の docs.w322d・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
-DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickBoundary324c lint.postMergeCounts324c docs.w324c lint.regenQuick323 lint.stableHashPaths lint.regenChain lint.regenOrderOnly323 lint.postMergeQaScript docs.w322d lint.sectionLookup313 lint.qaHeapRelease310"
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickBoundary324c lint.calVolatile324c lint.postMergeCounts324c docs.w324c lint.regenQuick323 lint.stableHashPaths lint.regenChain lint.regenOrderOnly323 lint.postMergeQaScript docs.w322d lint.sectionLookup313 lint.qaHeapRelease310"
 # ==== 第324便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
