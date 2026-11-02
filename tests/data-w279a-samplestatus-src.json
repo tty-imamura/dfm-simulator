@@ -2062,6 +2062,30 @@
     "state": "ratio 1.3310 (h/4); 1 + (4/3)eta = 1.33091 (per system)"
    }
   },
+  "alphaCenABInertial3dJ": {
+   "purpose": "α Cen AB の geoPN=3 三次元に源の角運動量 J(f は模型の入力)—— 並進だけの 🔶 との差を同じ窓で見る",
+   "objective": "met",
+   "state": "J − 並進だけ -2.1e-13 rad/公転(h/4)・状態の自転は不変",
+   "evidence": [
+    "tests/out/obsspin-w324b.json"
+   ],
+   "en": {
+    "purpose": "Alpha Cen AB geoPN=3 in 3D with the source angular momentum J (f a model input): the gap to the translation-only 🔶 in the same window",
+    "state": "J - translation only -2.1e-13 rad/orbit (h/4); state spins unchanged"
+   }
+  },
+  "psrDoubleABInertial3d": {
+   "purpose": "J0737 の geoPN=3 三次元 —— 天体ごとの観測の自転 obsSpin(軸は欠測なので J の源に使わない)",
+   "objective": "met",
+   "state": "並進だけの写しと状態のビット同一・A の軸を仮定した列 -1.760e-9 rad/公転(器の中)",
+   "evidence": [
+    "tests/out/obsspin-w324b.json"
+   ],
+   "en": {
+    "purpose": "J0737 geoPN=3 in 3D: the per-body observed spin obsSpin (axes missing, so no J source)",
+    "state": "state bit-identical to the translation-only copy; the assumed-axis column -1.760e-9 rad/orbit (harness only)"
+   }
+  },
   "psrDoubleAB": {
    "purpose": "二重パルサーを kF0 で照合する",
    "objective": "partial",
@@ -3387,10 +3411,19 @@
    ],
    "docs.geo2flat322a": [
     "galaxyGeo2Flat3d"
+   ],
+   "behavior.obsSpin324b": [
+    "alphaCenABInertial3dJ",
+    "psrDoubleABInertial3d"
+   ],
+   "docs.obsSpin324b": [
+    "alphaCenABInertial3dJ",
+    "psrDoubleABInertial3d"
    ]
   },
   "w311c": "第311便c(統括の検証項目 R228): 帰属なしだった 18 本(三次元の慣性決定力の本・三次元の玩具ほか)に、その本を実際に読み込み・受理・步で試験している QA の id を足した(tests/qa.mjs の本文で、その本を loadPreset・allPresets().find・代表の本の並び・本の id の定数で引く行を含む試験 —— 文書の語の照合・世代切替の門・存在だけの言及は根拠にしない。世代で本を切り替える試験は今の世代で読む本に帰属)",
   "w319d": "第319便d(統括の検証項目 R261): 帰属なしだった 🗺️ solarSystem16Inertial3d(第318便c —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.solar16Builtin318c —— 宣言・入力・步の照合・docs.solar16Builtin318c —— allPresets().find で本の obsCard を読む・preset.solarSystem16Inertial3d —— 全本の步の試験)。docs.solar16Contract300 は予約 id の存在だけを見る(世代切替の門)ので足さない(第311便c と同じ規則)",
-  "w322b": "第322便b(原仮定者の回答 AN499・統括の検証項目 R271): 内蔵の 4 本(♊⚖️🌠🔶 —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.binBooks322b —— allPresets().find で本を引き受理・presetSig・60 步のビットを照合・docs.binBooks322b —— 正本の表と本の文の 1 + (4/3)η)"
+  "w322b": "第322便b(原仮定者の回答 AN499・統括の検証項目 R271): 内蔵の 4 本(♊⚖️🌠🔶 —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.binBooks322b —— allPresets().find で本を引き受理・presetSig・60 步のビットを照合・docs.binBooks322b —— 正本の表と本の文の 1 + (4/3)η)",
+  "w324b": "第324便b(決断事項 AN514・AN515・統括の検証項目 R280): 内蔵の 2 本(🔸📟 —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.obsSpin324b —— allPresets().find で本を引き受理・60 步のビットと源の J の読み口を照合・docs.obsSpin324b —— 正本の表と本の文の数)"
  }
 }
