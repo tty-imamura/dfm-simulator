@@ -93041,7 +93041,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (Q && RT) {
       const st = Q.quickSelfTest();
       if (!st.ok) bad.push('① ' + st.bad.slice(0, 3).join(' / '));
-      if (Q.QUICK_VERSION !== 'w323b-quick-1' || Q.QUICK_K_DEFAULT !== 3 || Q.QUICK_FP_VERSION !== 'w323b-quickfp-1' || Q.VERIFY_VERSION !== 'w323b-verify-1' || Q.QUICK_FP_FILE !== 'tests/data-w323b-quickfp.json') bad.push('① 版と既定(K = 3・記録の名)');
+      // 第324便c(R281): 版は欠測の境界の世代 w324c-quick-2 も受ける(記録の版 QUICK_FP_VERSION は不変)
+      if (!['w323b-quick-1', 'w324c-quick-2'].includes(Q.QUICK_VERSION) || Q.QUICK_K_DEFAULT !== 3 || Q.QUICK_FP_VERSION !== 'w323b-quickfp-1' || Q.VERIFY_VERSION !== 'w323b-verify-1' || Q.QUICK_FP_FILE !== 'tests/data-w323b-quickfp.json') bad.push('① 版と既定(K = 3・記録の名)');
       cases.push(`① 自己試験(${Q.QUICK_VERSION}): ${st.cases.join(' / ')}`);
       // ② 段の宣言の欄の型
       const keys = new Set(RT.REGEN_STEPS.map((z) => z.key));
