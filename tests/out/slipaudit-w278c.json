@@ -7,7 +7,7 @@
   "wave": "第278便c",
   "target": "beta/index.html",
   "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
-  "generatedAt": "2026-11-02T02:26:35.153Z",
+  "generatedAt": "2026-11-02T04:03:38.643Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -31,9 +31,9 @@
   "code": [
    {
     "file": "tests/exp-w278c-slipaudit.mjs",
-    "bytes": 14220,
-    "sha256": "f3019723761210ec6488648ecb4fc8b0dc5cdd5bac904f4ea0e0ff55bf380bf2",
-    "mtime": "2026-11-02T02:25:36.515Z"
+    "bytes": 14414,
+    "sha256": "0b3843c8f67c50fcc766136ac6e39db9143f61f1743a127d82ba5877ecdeb29c",
+    "mtime": "2026-11-02T04:03:36.621Z"
    },
    {
     "file": "tests/lib-w277c-nsgrid.mjs",
@@ -54,12 +54,14 @@
     "mtime": "2026-11-02T02:03:28.920Z"
    }
   ],
-  "codeSha256": "21d596d004df4f33f911d010c02adde48035b38283adb6bac43a85a257239ee0",
+  "codeSha256": "d867a4a548594b38d733923bad9e60781362edf4864fda7f2a2b917e8619673f",
   "scope": {
    "version": "w318a-scope-6",
    "presets": [],
    "roots": [
     "$",
+    "HP.sim",
+    "HP.validatePreset",
     "REL_DRAG_STEP_VERSION",
     "T",
     "dfmRelativeDragStep",
@@ -69,11 +71,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 110,
-   "segments": 100,
-   "closureShare": 0.0146
+   "names": 1314,
+   "segments": 1152,
+   "closureShare": 0.2952
   },
-  "scopeSha256": "6226e8cb203548a6f3219ce2b60535f925c5358e8683401490c58d4644835a05",
+  "scopeSha256": "a3c9b166cccbae2d42c0bf7641ec76e65af16c991203a824ea1246438fcee0ba",
   "scopeComplete": true
  },
  "libVersion": "w277c-2",

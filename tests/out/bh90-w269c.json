@@ -3,56 +3,56 @@
   "provenanceVersion": "w272e-1",
   "wave": "第269便c(来歴は第272便e で共通化)",
   "target": "beta/index.html",
-  "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
-  "generatedAt": "2026-11-02T02:26:38.190Z",
+  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
+  "generatedAt": "2026-11-01T21:19:37.745Z",
   "code": [
    {
     "file": "tests/exp-w269c-bh90.mjs",
-    "bytes": 36815,
-    "sha256": "ab437d4bf0b42e5b29cb7c269ac742f9bf620ca0ea3fb10069b5f7f82d2641f4",
-    "mtime": "2026-11-02T02:25:36.517Z"
+    "bytes": 35680,
+    "sha256": "7dc200452d5a7a42ae768bb96fd6c16f207e9e61a9ec5b30d5b38b97c3627b45",
+    "mtime": "2026-10-20T16:19:56.620Z"
    },
    {
     "file": "tests/lib-w269c-compare.mjs",
     "bytes": 23302,
     "sha256": "4ad9ab853706f86d499f8283be599df247040009ced2e1ee08754785a4fc79ef",
-    "mtime": "2026-11-02T02:03:28.916Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
     "bytes": 14614,
     "sha256": "a096a132d0eea0841d194dd174b1ebc96caea453e9c0bbebab0a5d9391058b77",
-    "mtime": "2026-11-02T02:03:28.916Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-02T02:03:28.920Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
-  "codeSha256": "4e190fe43bcc0b7dbf6fbcfdb57825ebe2e0e88a0cec006d6a7b5399866dca3c",
-  "measuredAt": "2026-11-02T02:26:38.190Z",
+  "codeSha256": "51ef943e085aa1ee37842f6be0cc239a4644eeb72101df018afd8add8026994c",
+  "measuredAt": "2026-11-01T21:19:37.746Z",
   "codeVersion": "tests/exp-w269c-bh90.mjs 第269便c",
   "declarationVersion": "compare-v1 / 第59報「完成=比較サンプル v1」",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7491601,
-    "sha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
-    "mtime": "2026-11-02T02:03:28.584Z"
+    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
+    "mtime": "2026-11-01T20:25:22.344Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
     "bytes": 600819,
     "sha256": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
-    "mtime": "2026-11-02T02:03:28.752Z"
+    "mtime": "2026-10-20T16:19:56.572Z"
    },
    {
     "file": "tests/lib-w269c-compare.mjs",
     "bytes": 23302,
     "sha256": "4ad9ab853706f86d499f8283be599df247040009ced2e1ee08754785a4fc79ef",
-    "mtime": "2026-11-02T02:03:28.916Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
   "vocabulary": [
@@ -71,34 +71,7 @@
    "**観測量が得られないときは `not-measurable`(値 null)** —— 0 や最後の値で補わない。",
    "**「完成」は比較サンプル v1 である。観測一致は別段階で、現時点で未達である。**"
   ],
-  "scope": {
-   "version": "w318a-scope-6",
-   "presets": [
-    "galaxy",
-    "gw150914",
-    "gw150914DFM",
-    "gw150914Merge4s"
-   ],
-   "roots": [
-    "$",
-    "HP.allPresets",
-    "HP.sim",
-    "HP.validatePreset",
-    "T",
-    "ch",
-    "clamp",
-    "sim"
-   ],
-   "core": true,
-   "consts": [],
-   "complete": true,
-   "names": 1312,
-   "segments": 1150,
-   "closureShare": 0.2942
-  },
-  "scopeSha256": "8cdfdfa9bfd09f466935e50688fa18784db4cf510c94fbae5b10e60e4d3af940",
-  "scopeComplete": true,
-  "spentSec": 18.9
+  "spentSec": 13.9
  },
  "declaration": {
   "systemKind": "bh-binary",

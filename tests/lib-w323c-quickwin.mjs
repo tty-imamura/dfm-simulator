@@ -16,19 +16,20 @@ export const QUICK_RATIO_MAX_323C = 0.3;
 /** 目安(表の読みの基準) */
 export const QUICK_RATIO_GUIDE_323C = 0.15;
 
-/** REGEN_SCOPE を足した 14 段(器と lib から機械で引いた下限 deriveScope —— 正本の meta に scopeStamp で刻む) */
+/** REGEN_SCOPE を足した 13 段(器と lib から機械で引いた下限 deriveScope —— bhcore・slipaudit は下限 + HP.sim・HP.validatePreset〔lint.scopeStop ③〕—— 正本の meta に scopeStamp で刻む) */
 export const SCOPE_323C = Object.freeze([
   ['twobody', 'tests/exp-w272c-twobody.mjs'], ['meshnod0', 'tests/exp-w275b-meshnod0.mjs'], ['bgcompose', 'tests/exp-w279c-bgcompose.mjs'], ['sphereKernel', 'tests/exp-w280b-sphereKernel.mjs'],
   ['qsplit', 'tests/exp-w271c-qsplit.mjs'], ['rpar', 'tests/exp-w272c-rpar.mjs'], ['nslockledger', 'tests/exp-w273c-nslockledger.mjs'], ['bhcore', 'tests/exp-w274e-bhcore.mjs'],
   ['presetaxes', 'tests/exp-w275a-presetaxes.mjs'], ['bgfield', 'tests/exp-w276a-bgfield.mjs'], ['bgpredict', 'tests/exp-w276a-bgpredict.mjs'], ['rotorledger', 'tests/exp-w281c-rotorledger.mjs'],
-  ['slipaudit', 'tests/exp-w278c-slipaudit.mjs'], ['bh90', 'tests/exp-w269c-bh90.mjs']].map(([key, harness]) => Object.freeze({ key, harness })));
-/** 足さない段(第322便の計画で「対象 html(領域の宣言なし —— html 全体)」の 23 段のうち 9 段)と理由 */
+  ['slipaudit', 'tests/exp-w278c-slipaudit.mjs']].map(([key, harness]) => Object.freeze({ key, harness })));
+/** 足さない段(第322便の計画で「対象 html(領域の宣言なし —— html 全体)」の 23 段のうち 10 段)と理由 */
 export const SCOPE_SKIP_323C = Object.freeze([
   ['d0audit2', 'D₀ の読み口の機械監査 —— html 全体の走査が仕事(領域で絞ると監査の意味が無くなる)'],
   ['selfinertia', 'html の行を文字列で探して行番号を記録する機械監査(どこか 1 行の挿入で正本の行番号が動く —— html 全体の読み)'],
   ['galaxyprof2', '器が停止関数 render を名で読む(描画の時間の測定 —— lint.scopeStop ② に当たる)'],
   ['galaxyprof', '基点 html($BASE_HTML —— 便ごとに変わる)と今の html の 2 つを比べる器(領域は今の html の 1 つだけを刻む)'],
   ['needmesh', '基点 html($BASE_HTML)と今の html の 2 つを比べる器'],
+  ['bh90', '再生成表の自己試験 lint.regenChain (q8) の見本(html 全体を読む下流の段 —— 集約段 htmlagg の after の欠落を検出する型)。宣言すると見本が無くなる(見本を他の段へ移すのは鎖の関数の側 —— 次便)'],
   ['calaudit', '常時群(鎖の先頭で毎回走る —— 宣言しても秒は変わらない・下流は安定 hash で読む)・分割の道具 tools/calaudit-split.mjs が正本を組む'],
   ['samplestatus', '常時群・html の生成領域を書く段(html 全体の読み手 —— 宣言しても秒は変わらない)'],
   ['kf0ledger-old', '常時群(見積り 0 s —— 宣言しても秒は変わらない・下流は安定 hash で読む)'],

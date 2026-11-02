@@ -12,7 +12,7 @@
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
   "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
-  "generatedAt": "2026-11-02T02:26:22.054Z",
+  "generatedAt": "2026-11-02T04:03:36.801Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -24,9 +24,9 @@
   "code": [
    {
     "file": "tests/exp-w274e-bhcore.mjs",
-    "bytes": 15720,
-    "sha256": "46559455a663b9f476772dd3915e7ac75c543ed471e775fe93ca7b864af8e394",
-    "mtime": "2026-11-02T02:25:36.508Z"
+    "bytes": 15914,
+    "sha256": "e38dcdafcebe681e367ab234c6c35909948cd9eadb9891ccf7c45fbaa0bcedae",
+    "mtime": "2026-11-02T04:03:36.620Z"
    },
    {
     "file": "tests/lib-w274e-bhcore.mjs",
@@ -41,7 +41,7 @@
     "mtime": "2026-11-02T02:03:28.920Z"
    }
   ],
-  "codeSha256": "c930180c546573519504db826937652992feaccb33786289f59022a42528b6d1",
+  "codeSha256": "f1ce0e15d4687ddcf5135d8559f3bdda16ae5a312de74565bbe017d8f6304282",
   "scope": {
    "version": "w318a-scope-6",
    "presets": [
@@ -49,16 +49,18 @@
     "gw150914DFM"
    ],
    "roots": [
-    "$"
+    "$",
+    "HP.sim",
+    "HP.validatePreset"
    ],
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1,
-   "segments": 1,
-   "closureShare": 0
+   "names": 1312,
+   "segments": 1150,
+   "closureShare": 0.2942
   },
-  "scopeSha256": "79e27f9520063b49e424785e1f15453a113f5384b25a613e22a1566711e67d68",
+  "scopeSha256": "fe66bbd44317353994576f958b717ca2a1bd6ae6061b9d0029784c2ea2f5f0ad",
   "scopeComplete": true
  },
  "declared": {
