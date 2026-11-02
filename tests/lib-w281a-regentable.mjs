@@ -1629,9 +1629,12 @@ export const REGEN_STEPS = [
   //   🔸 と 🔶〕・E 走行〔J0737 8 列・α Cen 5 列 × h・h/2・h/4 × 8 公転〕・L J の口座〔源の J が固定の貯蔵庫・状態の自転と軸が不変〕・T 列の差)。html を読む(他の正本・データは読まない)。
   //   子プロセス 2 本(W324B_WORKERS)。所要は第324便b の枝の実測 28.9 s(子プロセス 2 本 —— 4 枝並走の負荷平均約 5 の箱〔**並走の秒**〕—— 統括が混まない箱で測り直す)。
   //   長期の量(近点の率・周期 —— 8 公転の窓)を出すので quickVerify:'long'(步の関数か受理器が変わった便は簡易一致を使わない)
-  S('obsspin-324b', 'node tests/exp-w324b-obsspin.mjs', ['tests/out/obsspin-w324b.json'], 30, { secSource: 'w324b-branch', node: true, after: ['obscompare', 'samplestatus'], quickVerify: 'long',
+  //   第324便e(原仮定者の回答(2026-11-02 —— AN521)・統括の検証項目 R283): 器の版 w324e-obsspin-2(A に傾きの形の 26 の場合〔計 58〕・B に軸の宣言とノブ・E は J0737 15 列・
+  //   α Cen 8 列〔欠測の写し・ノブを振った列・推定の上限の列・前の版の 🔸〕・K 軌道の面の向き)。所要は枝 e の実測 30.2〜31.9 s(子プロセス 2 本 —— 統括の post-merge と枝 d の長い窓と
+  //   並走の箱〔**並走の秒**〕)。行の路・after・quickVerify は枝 b のまま
+  S('obsspin-324b', 'node tests/exp-w324b-obsspin.mjs', ['tests/out/obsspin-w324b.json'], 32, { secSource: 'w324e-branch', node: true, after: ['obscompare', 'samplestatus'], quickVerify: 'long',
     volatilePaths: { 'tests/out/obsspin-w324b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec']) },
-    note: '第324便b: 天体ごとの観測の自転 obsSpin の受理(AN515 —— 排他・明示の fSrc と rObs・0.4 を補わない・axis:null は欠測で J の源に使わない・S.spin へ入れない)と源の J の経路・📟 J0737 の geoPN=3 の本(軸は欠測 —— 並進だけとビット同一)と A の軸を仮定した比較列・🔸 α Cen の J の本(AN514 —— 🔶 との差)・J の口座' }),
+    note: '第324便b・e: 天体ごとの観測の自転 obsSpin の受理(AN515 —— 排他・明示の fSrc と rObs・0.4 を補わない・axis:null は欠測で J の源に使わない・S.spin へ入れない・AN521 の傾きの形〔観測/推定/ノブ —— ノブは既定と範囲〕)と源の J の経路・📟 J0737 の geoPN=3 の本(推定の傾きとノブの軸 —— 源の J が入る)と欠測の写し・ノブを振った列・🔸 α Cen の J の本(AN514 —— 🔶 との差・軸はノブ)・J の口座・軌道の面の向き' }),
   // ==== 第324便b の塊(ここまで)====
   // ==== 第324便d の塊(ここから)====
   // ---- 第324便d(決断事項 AN480・AN452・統括の検証項目 R282): **長い段の再開の型**の門(段 resume-324d —— 正本 tests/out/resume-w324d.json)と**イオ・エウロパの長い窓**
