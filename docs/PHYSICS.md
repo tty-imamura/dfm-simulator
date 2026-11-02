@@ -42678,6 +42678,129 @@ synodic-299b の読み: **3 本と 1 本の正本は物理の欄(葉 784)で差 
 
 **⑥ 言わないこと。** 「再生成を半減した」(本便は影まで —— 鎖はフル)・「部分 QA がフル QA を覆う」(W5c の範囲の鍵はフル QA だけ)・「規約の判定が通ればゲートが通る」。
 
+〔第324便b — geoPN=3 の S3: 天体ごとの観測の自転 obsSpin(受理と源の角運動量 J の経路への接続)・J0737 の最初の本 📟 psrDoubleABInertial3d(軸は欠測)・α Cen の J の本 🔸 alphaCenABInertial3dJ(決断事項 AN514・AN515・統括の検証項目 R280 —— 策定の段 S3)(**在位の本の宣言・式・受理の判定の意味・`S._core` は 1 bit も変えていない** —— 新しい鍵は未指定で旧署名と数値を維持〔在位 182 本の bitsame 182/182・sigsame 182/182〕・root の index.html は不変・連星の観測との照合ではない)〕
+
+**① 何をしたか。** AN515 の細目どおりに**天体ごとの観測の自転 `bodies[i].obsSpin`** を受理器に足し(三次元の本の single の天体だけ・物理の単位の宣言 scaleExp {L, T, M} が要る)、源のモーメントの種類 `physics.relativeDrag.invSq.sourceMoment:{kind:"obsSpin"}`(K1 の規則の本・spinDrag が要る —— 第320便a の kind "J"・"obs"・"capObs" と同じ受理の道)で源の角運動量 J の経路へつないだ。最初の本は J0737 の geoPN=3 の三次元の本 📟 `psrDoubleABInertial3d`(📻 psrDoubleAB と同じレコード・元期・観測の質量・EOS の代理半径・初期の位置と速度 —— 第322便b の兄弟の写しの型〔第321便b の列 tr〕)で、**両星とも軸は観測で決まっていないので axis:null(欠測)** —— J の源に使わず、本の走りは並進だけの写しと状態のビット同一。A の軸を軌道の法線と仮定した比較列は器の中に置いた(本の既定にしない —— ⑩ の候補)。AN514 の α Cen の J の本は新しい ID 🔸 `alphaCenABInertial3dJ`(🔶 と同じ初期状態に spinDrag {rot:"surfaceFlip"} と sourceMoment {kind:"J", f} —— f は模型の明示の入力・🔶 は並進だけのまま)。器 `tests/exp-w324b-obsspin.mjs`(段 obsspin-324b —— 正本 `tests/out/obsspin-w324b.json`・lib `tests/lib-w324b-obsspin.mjs`・文書の lib `tests/lib-w324b-obsspindoc.mjs`)が html の validatePreset・presetSig・coord3d.makeSim・build・step と読み口 HP.obsSpin.state・inertialDragIsqState をそのまま呼び(1 本の走行は第321便b の器の runBook)、段 A(受理・拒否の 32 の場合)・B(本の宣言)・E(走行 26 本 —— J0737 8 列・α Cen 5 列 × h・h/2・h/4 × 8 公転)・L(J の口座)・T(列の差)を作る。QA は新設 behavior.obsSpin324b・docs.obsSpin324b。正本の門 13/13。
+
+**② 受理の形と既存の pulse・spinDipole との関係。** 欄は天体ごと(`bodies[i].obsSpin`)で、**状態の自転 S.spin・軸・慣性へは写さない**(状態の自転は宣言の spin のまま —— NS の本は 0)。在位の本の pulse(パルス時計 —— 表示と診断だけ・力学に入らない)と spinDipole(spinSpin の Q の上書き)の意味は変えない(二つとも三次元の受理の門で拒否のまま —— 📟 は持たない)。
+
+| 鍵 | 中身と規則 |
+|---|---|
+| `obsSpin.kind` | "omega"(観測の自転の角速度 + 明示の fSrc と rObs)か "J"(角運動量)—— **排他**(omega の宣言に J・Jvec、J の宣言に omega・fSrc・rObs は拒否) |
+| `obsSpin.omega`・`obsSpin.unit` | kind "omega": 正の数・unit は "rad/s" か "Hz"(**rad/s と Hz を区別** —— Hz は自転の振動数 ν で ω = 2πν) |
+| `obsSpin.fSrc` | kind "omega" で**明示必須**(源の慣性係数 I/(m R²) —— 既定の値を補わない・0.4 も置かない)・0 < f ≤ 2/3(球対称・宣言半径の内の模型としての制約 —— 薄い球殻の上限) |
+| `obsSpin.rObs` | kind "omega" で必須: 観測半径(SI の m —— EOS の代理なら出典に書く) |
+| `obsSpin.J`・`obsSpin.Jvec` | kind "J": 大きさ J(unit "kg m^2/s")+ axis か、直接のベクトル Jvec —— **二形式を同時に受けない**(J と Jvec・Jvec と axis は拒否) |
+| `obsSpin.axis` | 鍵は必須: 向き [x,y,z](長さ > 0 —— 受理で単位ベクトルへ正準化)か **null(欠測 —— 宣言のまま保持し J の源に使わない・軌道の法線で埋めない)** |
+| `obsSpin.frame`・`source`・`epoch` | 必須: frame は "book"(本の右手系の xyz —— 連星の本は軌道が z = 0 の面・+z が初期の軌道角運動量の向き)・出典の文字列・元期(文字列か数 —— 自転の変化は読まない) |
+| 未知の鍵 | 拒否(黙って落とさない —— 欄の値を S.spin へ写す宣言 spinFromObs も)。二次元の本・single でない天体・scaleExp の無い本の obsSpin は拒否 |
+
+| 観測の自転の欄 | 力学への入り方 | 三次元 | 在位の本 |
+|---|---|---|---|
+| `pulse`(第226便) | 入らない(表示と診断の位相だけ) | 拒否(受理の門) | NS の退役の本・🧮🩺📿(意味は不変) |
+| `spinDipole`(第246便) | spinSpin の Q の上書き(玩具の力) | 拒否(受理の門) | NS の本(意味は不変) |
+| `obsSpin`(本節) | sourceMoment {kind:"obsSpin"} を宣言した本だけ、源の回転と軸のモーメント(固定の外部の貯蔵庫の J ベクトル)—— 軸が欠測の天体は入らない | 受理(三次元だけ) | 📟 の 1 本 |
+
+**③ 源の J の経路(式)。** 源 j の回転と軸のモーメントを**固定の外部の貯蔵庫**の観測の J ベクトルで置く(宣言の一定のベクトル —— 步で進めない・源の自転の進化〔スピンダウン〕と歳差は扱わない)。omega: J = fSrc m rObs² ω・R_src = rObs√(5 fSrc/2)(第320便a の kind "J" と同じ一様な球の等価 (2/5) m R_src² Ω = J)・Ω_src = ω(本の単位へ scaleExp で換算)。J: R_src = R_d(規則の引きずりの半径)・Ω_src = |J|/((2/5) m_d R_d²)(遠方 r > R_src の回転と軸の場は J だけで決まる —— 下の表 3 の JAvec − JA が丸めの程度)。向きは axis(Jvec は J の向き)。**axis:null の天体は源にしない**(R_src = R_d・Ω は状態の S.spin —— NS の本は 0)。実行は第311便a の dragCore の自転と軸の作業(源ごとの宣言の一定のベクトル Ω_c・â_c —— 核の係数と軸の ω)を同じ式で使い、K1 の核の関数(inertialDragIsqNodeK1・inertialDragIsqEvalK1・inertialDragIsqBuild)は 1 字も変えていない。受け手の R_d = Y_k m・並進の β・分母は変えない。読み口 inertialDragIsqState の coreSpin の印は obsSpin-fixed-external-reservoir(dragCore の自転と区別 —— obsSpin の本は dragCore の天体を拒否)・HP.obsSpin.state が天体ごとの J ベクトル(SI と本の単位)・欠測の印・源に使ったか・状態の自転を返す。
+
+**④ 受理・拒否の表(段 A —— J0737 の本の A の欄から組んだ 32 の場合)。** 受理した場合は正準形(axis [0,0,2] → [0,0,1] と署名が同じ・鍵の順に依らない署名)・Hz と rad/s の同じ J・J + axis と Jvec の同じ J・状態の自転が 0 のまま(欄を S.spin へ写さない)を照合した。
+
+**表 1**
+| 場合 | 宣言(J0737 の本 📟 の A の欄から組んだ写し) | 期待 | 結果 | 理由の文の頭(拒否のとき) |
+|---|---|---|---|---|
+| `book` | 内蔵の本そのもの(A・B とも axis:null) | 受理(軸は欠測 —— J の源に使わない) | 受理(軸は欠測 —— J の源に使わない) | — |
+| `axisA` | A の axis [0,0,1](軸を仮定した写し) | 受理 | 受理 | — |
+| `axisNorm` | A の axis [0,0,2](長さ 2 —— 受理で単位ベクトル [0,0,1] へ正準化) | 受理 | 受理 | — |
+| `radps` | A を unit "rad/s"・omega = 2πν(Hz の宣言と同じ ω —— J も同じ) | 受理 | 受理 | — |
+| `Jaxis` | A を kind "J"・J + axis | 受理 | 受理 | — |
+| `Jvec` | A を kind "J"・Jvec(直接のベクトル) | 受理 | 受理 | — |
+| `Jnull` | A を kind "J"・J + axis:null(欠測) | 受理(軸は欠測 —— J の源に使わない) | 受理(軸は欠測 —— J の源に使わない) | — |
+| `both` | kind "omega" に J を足す(排他の違反) | 拒否 | 拒否 | obsSpin.kind "omega" の宣言に |
+| `Jomega` | kind "J" に omega を足す(排他の違反) | 拒否 | 拒否 | obsSpin.kind "J" の宣言に |
+| `twoForms` | kind "J" に J と Jvec を両方(二形式) | 拒否 | 拒否 | obsSpin の kind "J" は大きさ |
+| `JvecAxis` | kind "J" に Jvec と axis を両方(二形式) | 拒否 | 拒否 | obsSpin の kind "J" は大きさ |
+| `noF` | kind "omega" で fSrc が無い(0.4 を補わない) | 拒否 | 拒否 | obsSpin.fSrc(源の慣性係数 |
+| `fBig` | fSrc = 0.7(> 2/3) | 拒否 | 拒否 | obsSpin.fSrc は 0 < f ≤ 2/3 |
+| `fZero` | fSrc = 0 | 拒否 | 拒否 | obsSpin.fSrc は 0 < f ≤ 2/3 |
+| `noR` | kind "omega" で rObs が無い | 拒否 | 拒否 | obsSpin.rObs |
+| `noUnit` | unit が無い | 拒否 | 拒否 | obsSpin.unit |
+| `unitS` | unit "s"(周期 —— 列挙の外) | 拒否 | 拒否 | obsSpin.unit |
+| `unitJ` | kind "J" に unit "Hz" | 拒否 | 拒否 | obsSpin.unit |
+| `noSource` | source が無い | 拒否 | 拒否 | obsSpin.source |
+| `noEpoch` | epoch が無い | 拒否 | 拒否 | obsSpin.epoch |
+| `noFrame` | frame が無い(座標系) | 拒否 | 拒否 | obsSpin.frame |
+| `noAxisKey` | axis の鍵が無い(欠測は null と書く) | 拒否 | 拒否 | obsSpin.axis の鍵が要る |
+| `axisZero` | axis [0,0,0] | 拒否 | 拒否 | obsSpin.axis は長さ 0 でない |
+| `unknown` | 未知の鍵 foo | 拒否 | 拒否 | obsSpin の未知の鍵 foo |
+| `spinInject` | 欄の値を S.spin へ写す宣言 spinFromObs | 拒否 | 拒否 | obsSpin の未知の鍵 spinFromObs |
+| `twoD` | 二次元の本(📻 psrDoubleAB の写し)の A に obsSpin | 拒否 | 拒否 | bodies[0].obsSpin は三次元の本 |
+| `noScale` | scaleExp が無い本に obsSpin | 拒否 | 拒否 | obsSpin を宣言した本は物理の単位の宣言 |
+| `srcNoObs` | sourceMoment kind "obsSpin" で obsSpin の天体が無い | 拒否 | 拒否 | physics.relativeDrag.invSq.sourceMoment の kind:"obsSpin" は obsSpin を宣言した天体が要る |
+| `srcF` | sourceMoment kind "obsSpin" に f | 拒否 | 拒否 | physics.relativeDrag.invSq.sourceMoment の kind:"obsSpin" は f を持たない |
+| `srcNoSpinDrag` | sourceMoment kind "obsSpin" で spinDrag が無い | 拒否 | 拒否 | physics.relativeDrag.invSq.sourceMoment は spinDrag |
+| `srcDragCore` | sourceMoment kind "obsSpin" の本に dragCore の天体 | 拒否 | 拒否 | physics.relativeDrag.invSq.sourceMoment の kind:"obsSpin" の本に dragCore |
+| `metaOnly` | obsSpin だけ(spinDrag と sourceMoment を外す —— 読み取り専用の欄) | 受理(軸は欠測 —— J の源に使わない) | 受理(軸は欠測 —— J の源に使わない) | — |
+
+**⑤ 本の宣言(段 B)。** 📟 は第321便b の兄弟の写し(列 tr)との差が relativeDrag の spinDrag・sourceMoment と天体の obsSpin だけ(physics の他の鍵・天体の質量と位置と速度・時間の基準・単位・視点は同じ)・受理の警告は規則の R_d > R の 2 行だけ(AN404 —— 重力半径に比例する長さとして受理)・sampleClass "principle"・psr の家族の variant・較正母集団の外。🔸 は 🔶 との差が relativeDrag の spinDrag・sourceMoment だけで、🔶 は並進だけのまま(J を 🔶 へ足さない)。
+
+**表 2**
+| 本 | 照合の相手 | 受理(警告の数) | 相手との差が宣言の鍵だけ(physics の外・天体・時間の基準・単位) | 源の経路 | 源の天体の行 | 状態の自転 |
+|---|---|---|---|---|---|---|
+| 📟 `psrDoubleABInertial3d` | 📻 の第321便b の兄弟の写し(列 tr) | 受理(2 —— R_d > R の行だけ 真) | 真(差は spinDrag・sourceMoment・obsSpin) | sourceMoment obsSpin・spinDrag rot | A: J = 3.600e+40 kg m²/s・欠測 真・源 偽 / B: J = 2.688e+38 kg m²/s・欠測 真・源 偽 | 0.0000・0.0000 |
+| 🔸 `alphaCenABInertial3dJ` | 🔶 `alphaCenABInertial3d`(並進だけ —— 🔶 は spinDrag・sourceMoment なしのまま 真) | 受理(0) | 真(差は spinDrag・sourceMoment) | sourceMoment J・f 0.07・0.07 | A: R_src = 3.545e-2(本の単位)・J = 4.932e+41 kg m²/s / B: R_src = 2.501e-2(本の単位)・J = 9.082e+40 kg m²/s | 4.5737・2.0072(✨ の転写) |
+
+- **J0737 の obsSpin の値(文献の値 —— 本便は一次資料に当たっていない)**: A は ν = 44.054068642001 Hz(Hu et al. 2022 —— paper/data/solar-observations.csv の SOL-91ac7b68)・B は P = 2.77346074724 s(Kramer et al. 2006 —— SOL-649c64b4)を unit "Hz" の ν = 1/P = 0.360560358027474 に。rObs は Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない —— 📻 の半径と同じ)。**fSrc は模型の入力**(観測された構造係数ではない): Lattimer & Schutz 2005 の経験式 I ≈ 0.237 M R² (1 + 4.2x + 90x⁴)・x = (M/M☉)(km/R) を代理半径 11.75 km に当てた値(A 0.35395・B 0.34552 → 3 桁で 0.354・0.346 —— 0.4 は補わない)。元期は「Hu et al. 2022 の時刻解の元期」の文字列(MJD は本リポジトリの記録に無い)。
+- **軸(AN515 のとおり —— 両星 axis:null)**: A は軌道角運動量との角の 95% の上限 3.2°(Ferdman et al. 2013・SOL-5600e70a —— 二つの磁極の放射を仮定した模型の値で中心の値ではない)、B は 40.6°(Lower et al. 2024・SOL-912f7aa2 —— 一般相対論を仮定した幾何解・方位と元期は記録に無く、軌道との角の向きの取り方が二通りある〔記録の候補の行の 180° − θ〕・歳差 5.16°/年で向きが変わる)。どちらも向きが決まらないので欠測のまま(📻 の B の二次元の表示の軸 40.6° は写さない)。**未観測の伴星は補わない**(J0737 は両星がパルサーで両方の自転が観測されている —— 軸だけが欠測)。
+- 🔸 の f は両星 0.07(太陽の I/(m R²) の文献の値を両星へ当てた模型の入力 —— 第321便b の J の列と同じ値)・Ω は ✨ の自転の転写(状態の自転 —— kind "J" は第320便a の経路のまま S.spin を読む)・軸は +z(軌道の法線 —— 二次元の本の約束で観測の軸ではない)。**受け手の慣性 I は f で置き換えない**(f は源の回転のモーメントの半径 R_src だけに入る)。
+
+**⑥ 列の差(段 T —— 同じ初期状態・同じ 8 公転の窓・刻み h・h/2・h/4 は刻みの感度診断)。** 列は J0737: self(本 —— 軸は欠測)・tr(並進だけの写し)・off(OFF)・g1(📻 —— geo1)・JA(A の軸を +z と仮定)・JAm(−z)・JAvec(kind "J" の Jvec —— JA と同じ J のベクトル)・JAB(B も軌道の法線から 40.6° —— 方位 0° を仮定)/ α Cen: self(🔸)・tr(🔶)・on(🔶 + spinDrag —— 源の J なし)・off・Jm(🔸 の両星の自転の符号を反転)。
+
+**表 3**
+| 系 | 差(列 a − 列 b) | 刻み | 近点の率 [rad/公転](回帰) | 同(検出器 B) | 公転周期の差(本の単位) | 離心率の差 | 状態のビット同一 |
+|---|---|---|---|---|---|---|---|
+| 📟 J0737 | JA − self | h・h/2・h/4 | -1.759e-9・-1.760e-9・-1.760e-9 | -1.759e-9・-1.760e-9・-1.760e-9 | -8.28e-8・-1.79e-7・-2.26e-7 | 2.07e-10・1.98e-10・1.93e-10 | 偽・偽・偽 |
+| 📟 J0737 | JAm − self | h | 1.759e-9 | 1.759e-9 | 8.29e-8 | -2.07e-10 | 偽 |
+| 📟 J0737 | JAvec − JA | h | < 1e-14 | < 1e-14 | < 1e-11 | < 1e-13 | 偽 |
+| 📟 J0737 | JAB − JA | h・h/2 | -9.971e-12・-9.973e-12 | -9.982e-12・-9.954e-12 | -4.71e-10・-1.01e-9 | 1.17e-12・1.12e-12 | 偽・偽 |
+| 📟 J0737 | self − tr | h | 0 | 0 | 0 | 0 | 真 |
+| 📟 J0737 | self − off | h・h/2・h/4 | 1.101e-4・1.101e-4・1.101e-4 | 1.101e-4・1.101e-4・1.101e-4 | 6.98e-2・6.99e-2・6.99e-2 | -3.89e-5・-3.88e-5・-3.87e-5 | 偽・偽・偽 |
+| 📟 J0737 | g1 − off | h・h/2・h/4 | 8.258e-5・8.257e-5・8.257e-5 | 8.260e-5・8.258e-5・8.257e-5 | 2.39e-2・1.86e-2・1.60e-2 | -1.02e-5・-1.08e-5・-1.12e-5 | 偽・偽・偽 |
+| 🔸 α Cen | self − tr | h・h/2・h/4 | -2.065e-13・-2.063e-13・-2.077e-13 | -2.091e-13・-2.052e-13・-2.109e-13 | 4.54e-10・3.33e-10・2.91e-10 | < 1e-13・< 1e-13・< 1e-13 | 偽・偽・偽 |
+| 🔸 α Cen | Jm − tr | h | 2.059e-13 | 2.078e-13 | -4.42e-10 | < 1e-13 | 偽 |
+| 🔸 α Cen | on − tr | h | 0 | 0 | 0 | 0 | 真 |
+| 🔸 α Cen | tr − off | h | 2.896e-8 | 2.881e-8 | -1.47e-5 | 1.67e-9 | 偽 |
+
+- **軸が欠測の本 = 並進だけ**: 📟(self)と並進だけの写し(tr)は状態のビット同一(axis:null の天体を J の源に使わない契約が走行で成り立つ)。
+- **A の軸を仮定した列**(JA − self): 近点の率 -1.760e-9 rad/公転(h/4 —— h・h/2・h/4 で 4 桁目まで同じ)・符号を反転した軸(JAm)で +1.759e-9(和は JA の 3e-6 倍の内)。周期の差は本の単位で 1e-7 の桁(相対 3e-10)・離心率の差 2e-10。J の大きさ 3.60e40 kg m²/s は A の観測の ν・fSrc・rObs から(fSrc を変えると比例して変わる —— 模型の入力)。
+- **二形式は同じ J**: JAvec − JA の近点の率は丸めの程度(< 1e-15)—— omega(R_src = rObs√(5fSrc/2))と Jvec(R_src = R_d)は遠方の場が同じ。
+- **B の寄与**(JAB − JA): -9.971e-12 rad/公転(h)—— A の分の 0.57%(B の J は A の 1/134)。B の軸の向きの仮定(方位 0°)は記録に無い。
+- **(1 + (4/3)η)**: J0737 の (self − off)/(g1 − off) は 1.3336・1.3331・1.3329(h・h/2・h/4)で 1 + (4/3)η = 1.33294(η = 0.24970)との比 1.0000(第322便b の恒星連星と同じ型の有限質量比の既知の寄与 —— 表示だけ・補正の係数は入れない)。
+- **α Cen の J − 並進だけ**(🔸 − 🔶): 近点の率 -2.065e-13・-2.063e-13・-2.077e-13 rad/公転(1 公転あたり約 -2.1e-13 rad —— q_1PN の 1e-5 の桁・第321便b の J の列 -2.07e-13 の側)・符号を反転した自転(Jm)で +2.059e-13(和は J の 0.3% の内)。回転 ON で源の J なし(on − tr)は状態のビット同一(R_src = R_d の回転のモーメントは倍精度の下 —— 第321便b と同じ)。J は R_src = R√(5f/2) で回転のモーメントを 2.5e8〜3.5e8 倍にする(読み口の momentFactor)。
+
+**⑦ J の口座(段 L —— 1 公転)。** 源の J は固定の外部の貯蔵庫: 読み口の J ベクトル・R_src・Ω_src・欠測の印・源に使ったかが步で変わらず、源の一定のベクトル Ω_src の最大の変化は 0・両星の状態の自転と軸は不変。引きずりが軌道へ移した角運動量は移送の帳簿(inertialDragDL)に積む(JA の 8 公転で軌道の ΔL_z/L_0 = 1.34e-10・移送の帳簿 1.25e-10)—— 源の J は減らさない(貯蔵庫の外の入力 —— 系の角運動量の保存の範囲は帳簿で分けて示す)。
+
+**表 4**
+| 系・列 | 步(1 公転) | 源の J の行(読み口)が步で不変 | 源の Ω_src の最大の変化 | 状態の自転・軸が不変 | 源に使った天体 | 源の一定のベクトルの印 |
+|---|---|---|---|---|---|---|
+| 📟 JA | 360 | 真 | 0 | 真 | A | obsSpin-fixed-external-reservoir |
+| 📟 JAB | 360 | 真 | 0 | 真 | A・B | obsSpin-fixed-external-reservoir |
+| 📟 self | 360 | 真 | —(状態の自転の経路) | 真 | なし | — |
+| 🔸 self | 360 | 真 | —(状態の自転の経路) | 真 | 両星(状態の自転 —— kind J) | — |
+
+**⑧ 鎖と QA。** 段 obsspin-324b(見積り 30 s —— 枝の実測 28.9 s〔子プロセス 2 本・4 枝並走の負荷平均約 5 の箱 —— **並走の秒**〕・after obscompare と samplestatus)・長期の量(8 公転の近点の率と周期)を出すので `quickVerify:'long'`(步の関数か受理器が変わった便は簡易一致を使わない)・CANON(lint.canon304)・煙試験の窓(試走 W324B_QUICK —— 窓 3 公転・刻み h・h/2・列を減らす)・.gitignore の例外・post-merge の ③′。**本便は受理器に新しい鍵を足した**ので鎖は狭くならない(受理器を変えた便は門が全走を選ぶ —— AN516)。presets "all" の段は本を 2 本足したので領域の hash が動き、正本の本の数え上げが 182 → 184(+ 枝 a の本)になる(鎖で作り直す)。nslock は受理器が動くので鎖で全走(器は触っていない)。在位の 182 本は bitsame 182/182(600 步の指紋)・sigsame 182/182(署名の文字列)—— 未指定で旧署名と数値を 1 bit も変えない。
+- **後に入った本の除外**(AN492 の宣言の条件): 器 4 本(wbglaw-301g・wbgest-302c・semic-302d・refit-303a)と QA 6 本は宣言の条件 isRuleBookNoCopy(K1 の規則の鍵 rdRule を持ち移行の前の宣言の写しが無い本)で 🔸📟 も外す —— 名指しを足さない・器の正本の欄と値は不変(器のコードは変えていない —— presets "all" の段なので鎖で作り直す)。〔第322便b〕の表 1・表 2 はその便の本の列のまま(履歴)で、lint.laterBooks319 は 🔸📟 を除いた集合で照合する。
+- **本を足した便の世代切替**(既存の QA の数え上げに 2 本を足した): ui.fidelity(fidelity real の本 —— 宣言の id から)・lint.cLightTrue(一覧 `tests/data-w286b-clight.json` の exact に 🔸 29979.2458・📟 2997.92458)・lint.presetText316c(後半の並びの照合の外 —— 表示の欄の検査は同じ規則で見る)・behavior.framePull(pull 世代の宣言の写し)・lint.laterBooks319・docs.w320d ⑤(条件の本に 🔸📟)。名簿 `tests/data-w320d-perbook.json` は統合の後に `node tools/regen-plan.mjs --roster --write` で引き直す(docs.w320d ① —— 枝では基点のまま)。
+- QA: behavior.obsSpin324b(受理・拒否の表と理由の文の頭・正準形・本の宣言・60 步のビット〔📟 = 並進だけ・軸を仮定した写しと 🔸 は動く〕・状態の自転と源の J の読み口の不変・obsSpin を宣言する内蔵は 📟 の 1 本・本の文の数)・docs.obsSpin324b(正本の門・段 T の作り直し・本節の表と数・AI_SPEC §172・CHANGELOG・段の行・CANON・煙試験の窓)。
+
+**⑨ 言わないこと。** 観測の J は源の自転の進化と歳差を扱わない(固定の外部の貯蔵庫 ——「源の自転を計算した」とは書かない)。fSrc と f は模型の入力で、観測された構造係数と呼ばない。軸を仮定した比較列(JA・JAB)を本の既定と呼ばない(本は欠測のまま)。連星の観測との照合ではない(同じ初期状態・同じ窓の写しどうしの差)・近点の移動の原因を述べない・h・h/2・h/4 は刻みの感度診断で収束の判定に使っていない。J0737 の自転・軸・半径・fSrc の経験式は文献の値で、本便は一次資料に当たっていない。
+
+**⑩ 決断事項の候補(推奨つき)。**
+- (i) **J0737 A の軸を軌道の法線と仮定した列を本の既定にするか**(原仮定者に決めてもらう)—— 案 A: 本は欠測のまま(axis:null)・仮定の列は器の中(本節の形)/ 案 B: 本の A の axis を [0,0,1] にする(観測は 95% の上限 3.2° —— 中心の値ではない・模型の仮定)/ 案 C: 本を 2 本(欠測の本と仮定の本)。**推奨: 案 A**(AN515「axis:null は欠測として保持し J 源には使わない」の字義どおり。上限の制約は軸の値ではない —— 仮定の列は器で -1.760e-9 rad/公転と測れている)。
+- (ii) **fSrc の値**(原仮定者に決めてもらう)—— 案 A: 経験式(Lattimer & Schutz 2005)を代理半径 11.75 km に当てた 0.354・0.346(本節の形)/ 案 B: 両星に共通の丸めた値 0.35 / 案 C: 一様な球の 0.4 を明示で置く(AN515 の「0.4 を補わない」は既定にしない意味で、明示は受理される)。**推奨: 案 A**(質量に依る式で天体ごと —— J は fSrc に比例するので、案を変えると軸を仮定した列の値が比例して動くだけ)。
+- (iii) **B の軸**(原仮定者に決めてもらう)—— 案 A: 欠測のまま(本節の形)/ 案 B: 軌道との角 40.6° と方位を仮定した比較列を器に常設する。**推奨: 案 A**(方位と元期が記録に無く、角の向きも二通り —— B の寄与は A の 0.57% で比較列は本節の JAB で足りる)。
+- (iv) **次の本**(手順の範囲 —— 統括が決められる): J1757 / J1946 の geo3 の本は伴星の自転が未観測(obsSpin を置かない —— 補わない)なので、パルサーだけ obsSpin(軸は欠測)で同じ型に足せる。B1534 は hold-out(他の系で選んだ後)。
+- (v) **obsSpin の kind "J" の R_src**(手順の範囲): 今は R_d(遠方の場は J だけ —— JAvec − JA が丸めの程度)。近い対(受け手が源の R_src の内に入る)を扱う本が出たら半径の宣言を足す。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
