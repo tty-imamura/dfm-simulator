@@ -1593,8 +1593,8 @@ export const REGEN_STEPS = [
   //   accept〔disk の有限厚の宣言 thickness の受理の表・乱数の系列の分離・h = 0 の旧署名と同じ build・再抽選の上限〕・an510〔零自転からの立ち上がり・符号反転・上限への到達で
   //   html の步と第321便a の純関数が同じビット・クランプが落とした角運動量〕・ckpt〔保存と復帰・A/B の複製〕・pair〔有限厚の対の本 🥞🧇 と厚み 0 の対の 12000 步 × A/B・h/2 の 24000 步・
   //   回転共変の程度〕)。html を読む(本は 🫓🥞🧇 と 💫 を .find で引く)・他の正本は読まない(html の生成領域の後)。flat と pair の 7 行は子プロセス 2 本(W324A_WORKERS)。
-  //   長期の量(12000 步の外縁の比)を出す段なので quickVerify:'long'。所要は第324便a の枝の実測 (仮) s(子プロセス 2 本〔既定〕—— **並走の秒**: 他の 3 枝の器・QA と同じ容器)
-  S('geo2thick-324a', 'node tests/exp-w324a-geo2thick.mjs', ['tests/out/geo2thick-w324a.json'], 900, { secSource: 'w324a-branch', node: true, quickVerify: 'long', after: ['obscompare', 'samplestatus'],
+  //   長期の量(12000 步の外縁の比)を出す段なので quickVerify:'long'。所要は第324便a の枝の実測 1616 s(子プロセス 2 本〔既定〕—— **並走の秒**: 他の 3 枝の器・QA と同じ容器で負荷 8〜11・h/2 の 2 行が各約 760 s。混まない箱では短い見込み —— 統括が測り直す)
+  S('geo2thick-324a', 'node tests/exp-w324a-geo2thick.mjs', ['tests/out/geo2thick-w324a.json'], 1620, { secSource: 'w324a-branch', node: true, quickVerify: 'long', after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/geo2thick-w324a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/parts/flat/row/wallSec', '/parts/pair/rows/*/wallSec']) },
     note: '第324便a: geoPN=2 の 3D の S3 —— disk の有限厚の宣言 thickness(受理・正準形・署名・厚み用の別の乱数の系列・局所座標から同じ回転)と有限厚の対の本 🥞🧇(倍精度の状態)・平面の写しの門・AN510 の門・回転共変の程度と h/2' }),
   // ==== 第324便a の塊(ここまで)====

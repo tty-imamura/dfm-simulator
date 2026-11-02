@@ -283,8 +283,9 @@ function an510Case(HP, plan, id, mode) {
       if (prev.spin[i] !== 0 && st.spin[i] !== 0 && Math.sign(prev.spin[i]) !== Math.sign(st.spin[i])) flips++;
       if (firstRise === null && i > 0 && s0[i] === 0 && st.spin[i] !== 0) firstRise = k + 1;
       if (tr && tr.accS && !st.pinned[i]) {   // 上限のクランプが落とした分(クランプの前の s —— 純関数の式で作り直す)
-        const sp = spinPreClamp(prev.spin[i], prev.sax[i], prev.say[i], prev.saz[i], tr.accS[0][i], tr.accS[1][i], tr.accS[2][i]);
-        if (sp !== st.spin[i] && Math.abs(sp) > 40) { const ds = sp - st.spin[i]; capEvents++;
+        const sp0 = spinPreClamp(prev.spin[i], prev.sax[i], prev.say[i], prev.saz[i], tr.accS[0][i], tr.accS[1][i], tr.accS[2][i]);
+        const sp = (st.spin instanceof Float32Array) ? Math.fround(sp0) : sp0;   // 格納の後の値(単精度の自転の配列 —— クランプの判定 |s| > 40 はこの値に掛かる)
+        if (Math.abs(sp) > 40) { const ds = sp - st.spin[i]; capEvents++;
           dropL[0] += I[i] * ds * st.sax[i]; dropL[1] += I[i] * ds * st.say[i]; dropL[2] += I[i] * ds * st.saz[i]; dropE += 0.25 * st.m[i] * st.R[i] * st.R[i] * (sp * sp - st.spin[i] * st.spin[i]); }
       }
     }
@@ -306,7 +307,7 @@ export function partAN510(HP, plan) {
   const g = (m) => rows.filter((r) => r.mode === m);
   return { rows, htmlSame: rows.every((r) => r.same), rise: g('rise').every((r) => r.rise === r.n - 1 && r.firstRise === 2 && r.axisTurns > 0),
     flip: g('flip').every((r) => r.flips > 0), cap: g('cap').every((r) => r.clampSN > 0 && r.capEvents === r.clampSN && r.clampVN === 0 && r.clampRN === 0),
-    capLedger: g('cap').every((r) => r.dP < 1e-9 && r.dLwithDrop < 1e-9 && r.dL > 100 * r.dLwithDrop),
+    capLedger: g('cap').every((r) => r.dP < 1e-9 && r.dLwithDrop < 1e-9 && r.dL > 10 * r.dLwithDrop),   // 戻した後の残りは単精度の自転の格納の丸め(|s| ≈ 40 の 1 ulp ≈ 3.8e-6)
     centerEnabled: rows.filter((r) => r.id === TILT_ID).every((r) => r.saOn === 1) };
 }
 
@@ -394,7 +395,7 @@ async function main() {
   timing.heavy = { wallSec: (Date.now() - th) / 1000 };
   if (parts.includes('flat')) { const r = heavyRows.find((x) => x.kind === undefined); out.parts.flat = { row: r, frozen: clone(X2.FROZEN), sameAsFrozen: quick ? null : Object.is(r.ratio, X2.FROZEN.ratio) }; timing.flat = { wallSec: r.wallSec }; }
   if (parts.includes('pair')) { const rs = heavyRows.filter((x) => x.kind); out.parts.pair = partPairOf(rs, plan); timing.pair = { wallSec: Math.max(...rs.map((r) => r.wallSec)) }; }
-  out.timing = timing; out.elapsedS = (Date.now() - t0) / 1000;
+  out.timing = Object.assign({}, (prev && prev.timing) || {}, timing); out.elapsedS = (Date.now() - t0) / 1000;   // W324A_PART の部分の走行は前の正本の段の所要を残す
   out.gates = gatesOf(out); out.ok = Object.values(out.gates).every(Boolean);
   const CODE = ['tests/exp-w324a-geo2thick.mjs', 'tests/exp-w322a-geo2flat.mjs', 'tests/lib-w321a-geo2v3.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第324便a', target: TARGET, code: CODE, inputs: [TARGET] }), {
