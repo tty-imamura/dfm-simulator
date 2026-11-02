@@ -510,27 +510,27 @@
    }
   },
   "galaxyGeo2Thick3d": {
-   "purpose": "💫 の面内の配置に有限厚(±3h の外は再抽選・中心の質点の鉛直の振動数の v_z)を足し三次元の步で走らせる",
+   "purpose": "💫 の面内の配置に有限厚(±3h の外は再抽選)を足し三次元の步で走らせる",
    "objective": "met",
-   "state": "外縁速度比 1.1819・z の二乗平均 7.68 → 8.02・脱落 0・クランプ 0(有限厚は初期の近似)",
+   "state": "外縁速度比 1.1819・z の二乗平均 7.68 → 8.02・脱落 0(有限厚は初期の近似)",
    "evidence": [
     "tests/out/geo2thick-w324a.json"
    ],
    "en": {
-    "purpose": "Run the in-plane layout of 💫 with a finite thickness (redraw outside ±3h, v_z from the central vertical frequency) on the 3D step",
-    "state": "outer speed ratio 1.1819; z rms 7.68 -> 8.02; 0 lost; zero clamps (the thickness is an initial approximation)"
+    "purpose": "Run the in-plane layout of 💫 with a finite thickness (redraw outside ±3h) on the 3D step",
+    "state": "outer speed ratio 1.1819; z rms 7.68 -> 8.02; 0 lost (initial approximation)"
    }
   },
   "galaxyGeo2ThickTilt3d": {
    "purpose": "🥞 と同じ入力を全体で回した対の本で回転共変の程度を測る",
    "objective": "met",
-   "state": "面の座標の外縁速度比 1.1819(🥞 との差は刻みの感度の内)・差の出どころは単精度の配列",
+   "state": "面の座標の外縁速度比 1.1819(🥞 との差は刻みの感度の内・差は単精度の配列から)",
    "evidence": [
     "tests/out/geo2thick-w324a.json"
    ],
    "en": {
-    "purpose": "Measure rotational covariance with the same input as 🥞 turned as a whole",
-    "state": "outer speed ratio in disc-plane coordinates 1.1819 (the gap to 🥞 is inside the step sensitivity); the gap comes from single-precision arrays"
+    "purpose": "The 🥞 input turned as a whole, to measure rotational covariance",
+    "state": "plane-frame outer speed ratio 1.1819 (gap to 🥞 within step sensitivity; from single-precision arrays)"
    }
   },
   "galaxyDB": {
