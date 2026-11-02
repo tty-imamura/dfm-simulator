@@ -16,7 +16,7 @@
 //      写せない名前を読む鍵は `upstreamOf` の unsafe に名指す(qa-keys が外す・qapart は走らせる前に印字する)。
 //   ③ 走った鍵の分類(`classifyRequested`): 要求した鍵ごとに PASS / FAIL / SKIP / 未実行(NOTRUN)。add の行が無い鍵は、
 //      走行中に出た `SKIP …`・`RETIRED …` の行が鍵を名指せば SKIP(PASS に数えない)、名指さなければ未実行(FAIL として数える)。
-//      名指しの型(`skipCovers`): 行の語(英数字と `_ $ . -` の続き)が鍵と同じ・または `<接頭>.*`/`<接頭>.` の語が鍵の接頭(qa.mjs の SKIP の印字の数え上げで決めた ——
+//      名指しの型(`skipCovers`): 行の語(英数字と `_ $ . -` の続き)が鍵と同じ・または `<接頭>*`(`geo2.*`・`ui.54d-*`)/`<接頭>.`(`ice.`)の語が鍵の接頭(qa.mjs の SKIP の印字の数え上げで決めた ——
 //      PHYSICS〔第323便a〕)。
 //
 // ■ 言わないこと
@@ -221,13 +221,13 @@ export function skipTokens(line) {
   const body = String(line).replace(/^\s*(SKIP|RETIRED)\s+/, '');
   return body.match(/[A-Za-z0-9_$.\-]+\*?/g) || [];
 }
-/** SKIP/RETIRED の行が鍵を名指すか: 語が鍵と同じ・または `<接頭>.*`・`<接頭>.` の語が鍵の接頭 */
+/** SKIP/RETIRED の行が鍵を名指すか: 語が鍵と同じ・または `<接頭>*`(`geo2.*`・`ui.54d-*`)・`<接頭>.`(`ice.`)の語が鍵の接頭(接頭は `.` を含む語だけ —— `*` 単独で全部を覆わない) */
 export function skipCovers(line, id) {
   if (!/^\s*(SKIP|RETIRED)\s/.test(String(line))) return false;
   for (const t of skipTokens(line)) {
     if (t === id) return true;
-    const p = t.endsWith('.*') ? t.slice(0, -1) : (t.endsWith('.') && t.length > 1 ? t : null);
-    if (p && id.startsWith(p) && id.length > p.length) return true;
+    const p = t.endsWith('*') ? t.slice(0, -1) : (t.endsWith('.') ? t : null);
+    if (p && p.includes('.') && id.startsWith(p) && id.length > p.length) return true;
   }
   return false;
 }
