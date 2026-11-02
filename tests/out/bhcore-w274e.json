@@ -11,37 +11,55 @@
   "caveat": "捕捉境界は E8R の伝播則の中で ṙ=u_r+c_eff=0 になる面であって、GR の事象の地平面との同等性は示していない(導出も比較もしていない)。(B)(C) の u_r は**設計候補の入力**で、🎐 が走らせている場ではない(🎐 は kFrame=0)。",
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-  "generatedAt": "2026-11-01T21:49:25.276Z",
+  "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+  "generatedAt": "2026-11-02T02:26:22.054Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7491601,
-    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-    "mtime": "2026-11-01T20:25:22.344Z"
+    "sha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+    "mtime": "2026-11-02T02:03:28.584Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w274e-bhcore.mjs",
-    "bytes": 15039,
-    "sha256": "8ba37bd45a103aba43865d91d989cfdddaff3e5c106460981f4a2c3fa9220693",
-    "mtime": "2026-10-20T16:19:56.624Z"
+    "bytes": 15720,
+    "sha256": "46559455a663b9f476772dd3915e7ac75c543ed471e775fe93ca7b864af8e394",
+    "mtime": "2026-11-02T02:25:36.508Z"
    },
    {
     "file": "tests/lib-w274e-bhcore.mjs",
     "bytes": 20761,
     "sha256": "4e4743584e50d48ebaae6079192359cb5662bab239a7cdd42fbebc86cc4a028c",
-    "mtime": "2026-10-28T18:04:20.429Z"
+    "mtime": "2026-11-02T02:03:28.920Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-02T02:03:28.920Z"
    }
   ],
-  "codeSha256": "6ee4ca0e85ba72b641d3ba793c64d12dc3ae4d89d0445a828851e021e848e370"
+  "codeSha256": "c930180c546573519504db826937652992feaccb33786289f59022a42528b6d1",
+  "scope": {
+   "version": "w318a-scope-6",
+   "presets": [
+    "gw150914",
+    "gw150914DFM"
+   ],
+   "roots": [
+    "$"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1,
+   "segments": 1,
+   "closureShare": 0
+  },
+  "scopeSha256": "79e27f9520063b49e424785e1f15453a113f5384b25a613e22a1566711e67d68",
+  "scopeComplete": true
  },
  "declared": {
   "preset": "gw150914",

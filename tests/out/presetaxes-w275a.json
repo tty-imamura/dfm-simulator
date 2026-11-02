@@ -3,31 +3,31 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-  "generatedAt": "2026-11-01T21:49:26.711Z",
+  "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+  "generatedAt": "2026-11-02T02:26:24.785Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7491601,
-    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-    "mtime": "2026-11-01T20:25:22.344Z"
+    "sha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+    "mtime": "2026-11-02T02:03:28.584Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w275a-presetaxes.mjs",
-    "bytes": 6278,
-    "sha256": "663d7b481c38f3e3b78c67d273e5a35c8da6484ed0c40b20732c096ddedac71d",
-    "mtime": "2026-10-20T16:19:56.624Z"
+    "bytes": 6994,
+    "sha256": "0874d5e6db5ecca50b564fce2ba28693b3caed2a329716c0d7b0c189ffce7549",
+    "mtime": "2026-11-02T02:25:36.509Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-02T02:03:28.920Z"
    }
   ],
-  "codeSha256": "05ee87040a77aa72146ec46d8c220cad3ed01d59813e78054346064ff81efb92",
+  "codeSha256": "7ddb53b2cddc69baedb63409504edc2c12a8054ab248b9340b1777011979bbe2",
   "axesVersion": "w275a-1",
   "axisKeys": [
    "massFactor",
@@ -41,7 +41,26 @@
    "対照が取れたので合った",
    "較正した",
    "判定が増えた"
-  ]
+  ],
+  "scope": {
+   "version": "w318a-scope-6",
+   "presets": "all",
+   "roots": [
+    "HP.allPresets",
+    "HP.currentPreset",
+    "HP.presetSigHash",
+    "HP.sim",
+    "presetSigHash"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1314,
+   "segments": 1152,
+   "closureShare": 0.2946
+  },
+  "scopeSha256": "28d990c70a6302934448945be5b5599fc985514f39a11d9aabe413551d2c770a",
+  "scopeComplete": true
  },
  "nPresets": 182,
  "kFrameValues": [

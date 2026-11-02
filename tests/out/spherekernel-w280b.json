@@ -3,49 +3,49 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便b",
   "target": "beta/index.html",
-  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-  "generatedAt": "2026-11-01T21:49:19.593Z",
+  "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+  "generatedAt": "2026-11-02T02:26:11.702Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7491601,
-    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-    "mtime": "2026-11-01T20:25:22.344Z"
+    "sha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+    "mtime": "2026-11-02T02:03:28.584Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w280b-sphereKernel.mjs",
-    "bytes": 10528,
-    "sha256": "d45f7b18a2902770bacf7af1b8211e72cab3401afebbb124117482169c4a6905",
-    "mtime": "2026-10-20T16:19:56.632Z"
+    "bytes": 11613,
+    "sha256": "090e7334827c4325b6c87be72bc37b8eb36e35cb7b8131e6d2e0de7c245696ab",
+    "mtime": "2026-11-02T02:25:36.503Z"
    },
    {
     "file": "tests/lib-w280b-sphereKernel.mjs",
     "bytes": 14578,
     "sha256": "a166210aebc8b8d1fbbced6059c8eea3e9a01b84641fa0f89f357537c9678614",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-02T02:03:28.924Z"
    },
    {
     "file": "tests/lib-w279c-bgcompose.mjs",
     "bytes": 21462,
     "sha256": "86bbcc73e9f00a5b156019d5905fc227cae2d1986fc2435f68af7f438f7c97a8",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-02T02:03:28.924Z"
    },
    {
     "file": "tests/lib-w278d-readaudit.mjs",
     "bytes": 4816,
     "sha256": "41f86f7bcd16c23be9d0952957b4b59a28add8a930bb1ba92386b0cc8d1c885b",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-02T02:03:28.924Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-02T02:03:28.920Z"
    }
   ],
-  "codeSha256": "98b72c95c5a30b39554f605acc4cc92425df3e9b2116cb0a9ab09ef1fbb6c5b2",
+  "codeSha256": "232f539d29295203537562a7a16b33b8ab3740c755fd2284365040a06b57b973",
   "harnessVersion": "w280b-sphereKernel-1",
   "libVersion": "w280b-sphereKernel-1",
   "kernelVersion": "w280b-frontBack-1",
@@ -60,7 +60,47 @@
    "観測一致を達成した",
    "慣性を導出した",
    "新発見"
-  ]
+  ],
+  "scope": {
+   "version": "w318a-scope-6",
+   "presets": [
+    "gas"
+   ],
+   "roots": [
+    "$",
+    "HP.SPHERE_KERNEL_VERSION",
+    "HP.dfmSphereKernelMomentsOf",
+    "HP.dfmSphereKernelRadial",
+    "HP.dfmSphereProfile",
+    "HP.sim",
+    "T",
+    "ch",
+    "dfmAddMoments",
+    "dfmBlendComplexMoments",
+    "dfmComplexMomentsOf",
+    "dfmField",
+    "dfmGaussLegendre01",
+    "dfmGeoToyStep",
+    "dfmLaneEmden",
+    "dfmLocalMeshField",
+    "dfmMeshVelocityRHS",
+    "dfmSphereKernelMomentsOf",
+    "dfmSphereKernelQEff",
+    "dfmSphereKernelRadial",
+    "dfmSphereOmega",
+    "dfmSphereProfile",
+    "dfmSphereRho",
+    "isNum"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1313,
+   "segments": 1151,
+   "closureShare": 0.2944
+  },
+  "scopeSha256": "eb29e15e516f6694d539727e840f7ad1c514f7b853f1e5d0a35efa20d0f2aaf1",
+  "scopeComplete": true
  },
  "table": {
   "a": {
@@ -2428,5 +2468,5 @@
   }
  ],
  "pageErrors": [],
- "elapsedS": 2.486
+ "elapsedS": 2.206
 }

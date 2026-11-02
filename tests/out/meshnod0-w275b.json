@@ -3,37 +3,37 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便b",
   "target": "beta/index.html",
-  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-  "generatedAt": "2026-11-01T21:49:16.888Z",
+  "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+  "generatedAt": "2026-11-02T02:26:04.169Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7491601,
-    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-    "mtime": "2026-11-01T20:25:22.344Z"
+    "sha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+    "mtime": "2026-11-02T02:03:28.584Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w275b-meshnod0.mjs",
-    "bytes": 11874,
-    "sha256": "65c68aad67dcf6acbf43347cee23d441e199eccc212e5106482bb29cf6770125",
-    "mtime": "2026-10-20T16:19:56.624Z"
+    "bytes": 12686,
+    "sha256": "5d1cb1029869161288501649e2eb0724e16c8688d4ab196d6daccbcdc2187885",
+    "mtime": "2026-11-02T02:25:36.500Z"
    },
    {
     "file": "tests/lib-w275b-meshfield.mjs",
     "bytes": 22488,
     "sha256": "1fc47d3dfd8ed8eaac7656a8c95a7ecd48486a8e1ac9ef8466cc9fd3bb9e6534",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-02T02:03:28.920Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-02T02:03:28.920Z"
    }
   ],
-  "codeSha256": "7b3ab7e3a73bb6de1a1fd8cb9fcac6e2125b6f5b9c10518262fe5dddbd44ea59",
+  "codeSha256": "3af3773e072c3192307684e0632852c4015d50ae9f3cd2dbe8a9a95a199ba205",
   "harness": "tests/exp-w275b-meshnod0.mjs",
   "harnessVersion": "w275b-meshnod0-1",
   "meshfieldVersion": "w276a-meshfield-2",
@@ -66,7 +66,31 @@
    "エンジンへ接続した",
    "新しい法則を見つけた",
    "規格化の案を採用した"
-  ]
+  ],
+  "scope": {
+   "version": "w318a-scope-6",
+   "presets": [
+    "galaxyMeshSpiralGeoToy"
+   ],
+   "roots": [
+    "HP.allPresets",
+    "HP.dfmLocalMeshField",
+    "HP.frameWeightPow",
+    "HP.sim",
+    "HP.validatePreset",
+    "dfmField",
+    "dfmGeoToyStep",
+    "dfmLocalMeshField"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1312,
+   "segments": 1150,
+   "closureShare": 0.2942
+  },
+  "scopeSha256": "b0d8317ce1dc5b3721d6ea951a217ec10dbab5b1c52463e0ca9a9bbbb17ecf11",
+  "scopeComplete": true
  },
  "points": [
   {

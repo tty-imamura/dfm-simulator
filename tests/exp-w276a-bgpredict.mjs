@@ -37,6 +37,11 @@ import { createRequire } from 'node:module';
 import { ASSUMPTIONS, assumptionRows, DSPLIT_VERSION } from './lib-w275b-dsplit.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 
+// 第323便c(統括の検証項目 R277 —— 領域の宣言の無い段に REGEN_SCOPE): **この器が読む html の領域**(器と lib から機械で引いた下限 deriveScope —— 1 行の JSON・
+//   lint.regenScope が照合)。正本の meta に scopeStamp で刻む(書く直前 —— 領域の 3 欄)。器の計算と出力の物理の欄は変えない
+import { scopeStamp as w323cScopeStamp } from './lib-w281a-scope.mjs';
+const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.frameWeightPow","HP.sim","HP.validatePreset","T","dfmGeoToyStep"],"core":true,"consts":[],"complete":true};
+
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
 const OUT = path.join(ROOT, 'tests', 'out', 'bgpredict-w276a.json');
@@ -304,6 +309,7 @@ const out = {
   situations, rows, summary, uBgVsEngineZero, pageErrors,
 };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
+Object.assign(out.meta, w323cScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE));   // 第323便c: 領域の 3 欄(刻印)
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 console.log('wrote ' + OUT + ' (' + rows.length + ' rows / ' + withPrediction.length + ' predicted)');
 console.log('byRule=' + JSON.stringify(summary.byRule));
