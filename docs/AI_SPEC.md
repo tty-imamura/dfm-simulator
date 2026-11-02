@@ -4494,3 +4494,9 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **qapart の `--batch N`**: 鍵を N 鍵ずつの束に分け、束ごとに子の Node と Chromium を作り直す(既定は従来どおり 1 本)。
 - これらは開発の道具で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
 
+## 167. 第323便a —— QA の道具: 規約の速い判定 `tools/conventions-check.mjs`・部分 QA(qapart)の要求した鍵の照合・部分 QA で走らなかった鍵の直し(統括の検証項目 R275・原仮定者の指示(2026-11-01)「今後は、すぐに確認可能な規約を先に判定する」・**html・本の宣言・エンジン・鎖の段の宣言は不変** —— 道具と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
+
+- **規約の速い判定**: `node tools/conventions-check.mjs [--target <html>]… [--samplestatus] [--json <file>] [--self-test]` が html を Node で読み、① c₀ の規約(全内蔵が c₀ = 30 か、自分の scaleExp〔無ければ段のアンカー〕の指数で実 c の ±1% —— QA light.canonical-builtins と同じ式)② 段の分類(QA preset.scale-tier と同じ式)③ 全内蔵の受理(拒否 0)④ X_k = G_0/c_0²(鍵 kappaT)を満たす本の数(情報 —— 満たさない本は一般化トイの設定として正当)を数秒で判定する。`--samplestatus` は samplestatus の器を一時の置き場へ書かせて html の生成領域が冪等か(htmlChanged:false)を見て、器が書く正本と一覧 md を走る前の bytes に戻す。終了コード 0 / 1(規約の外・冪等でない)/ 2(使い方・道具の誤り —— 道具の式と qa.mjs の式が文字か値で食い違うときも)。統合の直後の tools/post-merge-qa.sh の ⓪(NG なら ① 以降を走らせない)。
+- **qapart の要求した鍵の照合**: `tests/exp-w258c-qapart.mjs` は走行の終わりに要求した鍵と結果の鍵を照らし、結果に無い鍵を SKIP(走行中の `SKIP …`・`RETIRED …` の行が名指す —— PASS に数えない)か**未実行**(`FAIL <id>  未実行 —— Requested QA did not execute in qapart` —— FAIL として数える)に分ける。終わりの行は「PASS n・FAIL n・SKIP n・未実行 n」・終了コードは FAIL か未実行で 1(SKIP だけなら 0 —— `--strict-skip` で 1)。`--batch` の要約も同じ 4 つの数。
+- **部分 QA で走らなかった鍵**: 列 0 の `if (…) {`・`for (…) {` の中の鍵と最上位の文の鍵は、その add の行を含む列 0 の最上位の文を切り出す。範囲が読む上流の最上位の const・関数宣言(ガードの旗・getBrowser など)は前文へ写す。写せないのは W5c のワーカープール(w5cGetUnit)を読む範囲だけ(フル QA が見る)。
+- これらは開発の道具で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。部分 QA の通過数はフル QA の被覆ではない。

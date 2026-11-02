@@ -10,6 +10,7 @@ tools/post-merge-qa.sh [--base beta/_wNNN_base.html] [--failed "id id …"] [--n
 
 統合(枝の取り込み)の直後に、壊れやすい所を短く一周する。順序は
 
+0. ⓪ 規約の速い判定(第323便a)— `node tools/conventions-check.mjs --target beta/index.html --target index.html`(`--no-root` なら beta だけ・数秒)。**NG なら ① 以降を走らせずに終了コード 1**(下の「conventions-check.mjs」)
 1. 静的受理 — `tests/qa-preflight.mjs`(beta・Chromium なし・**heap の上限 `--max-old-space-size=6144`** —— 第305便e)
 2. 接続契約 — `node tools/regen-chain.mjs --audit` と `--self-test`
 3. 前回失敗項 — `--failed` の id(無ければ `tests/out/qa-results-full-beta.json` の FAIL)を qapart で
@@ -21,7 +22,7 @@ tools/post-merge-qa.sh [--base beta/_wNNN_base.html] [--failed "id id …"] [--n
    `docs.families`・`ui.samplePicker`・`lint.provenanceMeta`・`ui.pickerSeparators` を qapart で beta と root(root では beta 線の新設ブロックは SKIP)
 5. 影響サンプルの短走 — `--base` があるとき `tests/exp-w258c-bitsame.mjs` の差分 ID(情報 —— 物理を変える枝では差が出て正しい)
 
-最後に 1 行(`post-merge-qa: ① … ② … ③ … ③′ … ④ beta p/n・root p/n(SKIP s)⑤ … 所要 N s → OK|FAIL`)を出す。ログは
+最後に 1 行(`post-merge-qa: ⓪ … ① … ② … ③ … ③′ … ④ beta p/n・root p/n(SKIP s)⑤ … 所要 N s → OK|FAIL`)を出す。ログは
 `$POST_MERGE_LOG`(既定 `${TMPDIR:-/tmp}/post-merge-qa-<時刻>`)。常設集合は `POST_MERGE_IDS` で差し替えられる。
 Playwright は `PLAYWRIGHT_CORE_DIR`(未設定なら `/opt/node22/lib/node_modules/playwright` があればそれ)。
 **フル QA・CI の代わりではない**。
@@ -221,7 +222,7 @@ PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright node tools/samplesta
   正本全体の門(器の版とコード・ページへ入れる lib・走行の窓・環境・核の hash・行の集合と順・全体集計・`--only` の範囲)が外れたら全走。`--plan` は門の評価を 1 行の JSON で印字して終わる(書かない)。
   **鎖の段の cmd は全走のまま**(影): 全走のときも前の正本で門を評価し、`[w272c-nslock] 影の照合 … 一致 n/m` を印字する(正本には書かない)。正本の meta に env・coreSha256・books・rowInputs・pageLibs・merge。
 - **qapart の束**: `node tests/exp-w258c-qapart.mjs --batch N <鍵…>` —— 鍵を切り出しの範囲の順に並べて N 鍵ずつの束に分け(範囲が重なる鍵は同じ束)、束ごとに子の Node と Chromium を作り直す。
-  終わりに `# --batch N: ALL PASS|FAILED —— 束 k・PASS p・FAIL f`(1 束でも FAIL か rc ≠ 0 なら終了コード 1)。既定(`--batch` なし)は従来どおり 1 本。`--emit <dir>` は走らせずに本文を書くだけ。
+  終わりに `# --batch N: ALL PASS|FAILED —— 束 k・PASS p・FAIL f`(1 束でも FAIL か rc ≠ 0 なら終了コード 1 —— **第323便a から要求した鍵の PASS・FAIL・SKIP・未実行の 4 つの数**: 下の「conventions-check.mjs」の節)。既定(`--batch` なし)は従来どおり 1 本。`--emit <dir>` は走らせずに本文を書くだけ。
   切り出しの本文は `tests/lib-w322d-qapart.mjs`(qaSpanner —— 器から移しただけ・生成する本文は移す前と 1 byte も違わない)。
 
 ## qa-keys.mjs — 版名 QA の鍵の抜き出し(第322便d)
@@ -236,5 +237,30 @@ for f in <scratch>/qakeys/qa-keys-*.txt; do node tests/exp-w258c-qapart.mjs $(ca
 - 鍵は `add('<id>'` のうち**コードの位置**にある静的な id(コメント・文字列・テンプレート・正規表現の中の `add('"'` などは拾わない)。範囲は qapart と同じ関数(qaSpanner)で取る。
 - 外す鍵: qapart の検索(`add('<id>'` を含む最初の行)がコメントか文字列の行に当たる・範囲が add の行を含まない(列 0 の `if (…) {` の中など)・範囲が取れない・
   **範囲の中のコードが w5cGetUnit を読む**(前後の add の位置でなく範囲そのもので判定 —— 第321便の pwa.sw-fail-ui → behavior.saturnExp)・範囲が qapart の前文に無い上流の最上位の名前を読む。
+  **第323便a から**(判定の世代 `QA_KEYS_W323A` = w323a-qa-keys-2 —— 範囲と上流の名前は lib の qaSpanner・upstreamOf): 列 0 の if/for の中と最上位の文の鍵は外さない(lib が切り出す)・上流の名前は**前文に写せない名前**(let/var・W5b の関数・add を呼ぶ宣言・w5cGetUnit を読む宣言)だけで外す。今の qa.mjs で外す鍵は 94 → 43(残りは全部 w5cGetUnit の範囲)。
 - 版名を読むブロック: 範囲のコメントを除いた本文(文字列は残す)が正規表現に合う(既定 `CHANGELOG`・`BETA_BUILD`・`APP_VERSION`・`sw\.js` —— `--re` で置き換え・`--re+` で足す・`--comments` でコメントも数える・`--ids+ a,b` で名指しを足す)。
 - 束: 50 鍵ずつ(`--chunk`)のファイル `qa-keys-<k>.txt`(1 行・空白区切り)と `index.json`(選んだ鍵・版名を読む範囲で外した鍵と理由)。`--list` は束を印字するだけ・`--self-test` は缶詰と今の qa.mjs で自己試験(QA docs.w322d)。
+
+## conventions-check.mjs — 規約の速い判定・qapart の要求した鍵の照合(第323便a —— 統括の検証項目 R275)
+
+原仮定者の指示(2026-11-01)「今後は、すぐに確認可能な規約を先に判定する」。**統括の 1 行(鎖の起動の前)**:
+
+```
+PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright node tools/conventions-check.mjs --samplestatus
+```
+
+- 判定(html を Node で読む・既定 `beta/index.html`・`--target` は繰り返し可 —— 相対か絶対のパス): ① c₀ の規約(QA `light.canonical-builtins` と同じ式 —— c₀ = 30 か、自分の scaleExp〔無ければ段のアンカー〕の指数で実 c の ±1%・既定値のマージも c₀ = 30)
+  ② 段の分類(QA `preset.scale-tier` と同じ式)③ 全内蔵の受理(拒否 0・警告のある本の数)④ X_k = G_0/c_0²(鍵 kappaT)を満たす本・満たさない本の数(**情報** —— FAIL にしない)。
+- 式は道具に写した —— 走るたびに qa.mjs の該当ブロックから式の本文を引き、文字(コメントと空白を除く)と値(全内蔵 + 合成の変異の本)で照らす(食い違えば終了コード 2)。
+- `--samplestatus`(beta だけ): samplestatus の器を `REGEN_HTML_STAGE` を一時の置き場にして走らせ(html を直に書かない)、htmlChanged:false を確かめる。器が書く `tests/out/samplestatus-w279a.json` と `docs/SAMPLE_STATUS.md` は走る前の bytes に戻す(前後の git status も照らす)。
+- 終了コード: 0 = 通る / 1 = 規約の外・冪等でない・器が落ちた / 2 = 使い方・html が読めない・qa.mjs の式が引けないか食い違う。`--json <file>` で結果・`--self-test` で式の照合と変異(♊⚖️ を c₀ = 10 に —— 2fd84b4 の型)の缶詰(QA `lint.conventionsCheck323`)。
+- post-merge の ⓪ はこの道具を beta と root で回す(`--samplestatus` は付けない —— 統合の直後は生成領域の作り直しが鎖の段にある)。
+
+qapart(`tests/exp-w258c-qapart.mjs`)の終わりの行は第323便a から **要求した鍵の PASS・FAIL・SKIP・未実行**の 4 つの数:
+
+- 結果に無い鍵は、走行中の `SKIP …`・`RETIRED …` の行が名指せば **SKIP**(PASS に数えない —— root で beta 線のブロックが SKIP するのは正常)、名指さなければ **未実行**(`FAIL <id>  未実行 —— Requested QA did not execute in qapart` —— FAIL として数える。
+  同じ対象の保存のフル QA にもその鍵の行が無ければ「この対象では走らない鍵の型」と注記)。名指しの型: 行の語が鍵と同じ・または `<接頭>*`・`<接頭>.` の語が鍵の接頭。
+- 終了コード: FAIL・未実行・同じ範囲の他の鍵の FAIL・範囲の例外のどれかで 1。SKIP だけなら 0(`--strict-skip` で 1)。要求した鍵 0 は 1。`--batch N` の終わりの行も同じ 4 つの数(子の `# qapart-summary {…}` の行を足す —— 行の無い束は要求した鍵を全部未実行に数える)。
+- 範囲は列 0 の `if (…) {`・`for (…) {` の中・最上位の文の鍵も切り出す(add の行を含む列 0 の最上位の文)。範囲が読む上流の最上位の const・関数宣言は前文へ写す。範囲ごとに try/catch で包む(例外の範囲の鍵は未実行・後の範囲は走り続ける)。
+  W5c のワーカープール(w5cGetUnit)は「呼べば例外」の代わりを置く —— その範囲の鍵は未実行(`tools/qa-keys.mjs` が外す)。
+- **部分 QA の通過数はフル QA の被覆ではない**(選んだ範囲だけ・ページの上流の状態はフル QA の順と違いうる)。

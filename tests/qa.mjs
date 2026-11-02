@@ -92396,6 +92396,194 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第322便d の塊(ここまで)====
+// ==== 第323便a の塊(ここから —— lint.conventionsCheck323・lint.qapartRequested323・docs.w323a の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第323便a(統括の検証項目 R275 —— 原仮定者の指示(2026-11-01)「今後は、すぐに確認可能な規約を先に判定する」): **QA の道具** —— 規約の速い判定の常設と、
+// ----   部分 QA(qapart)が走らなかった鍵を成功と数えない直し(html・本の宣言・エンジン・鎖の段の宣言は変えない —— beta 対象だけ・root は SKIP)。
+// ----   lint.conventionsCheck323:
+// ----     ① tools/conventions-check.mjs --self-test(子プロセス —— html を Node で読む): 道具の式(cRuleBad・tierOf・defaultCOf)が qa.mjs の light.canonical-builtins・
+// ----        preset.scale-tier の式と文字(コメントと空白を除く)と値(全内蔵 + 合成の変異の本)で同じ・♊⚖️ を c₀ = 10 にした変異(2fd84b4 の型)で 2 本を落とす・実 c の窓 ±1%・段の未分類
+// ----     ② 今の対象で --target <TARGET> --json が rc 0・内蔵の数が HP と同じ・c₀ の外 0・未分類 0・拒否 0・④ X_k = G_0/c_0² は情報(満たす + 満たさない = 内蔵)
+// ----     ③ post-merge の ⓪: tools/post-merge-qa.sh のコメントでない本文で conventions-check が qa-preflight より前・NG で exit 1・最後の行に ⓪
+// ----     ④ tools/README に統括の 1 行(node tools/conventions-check.mjs --samplestatus)と ⓪ の説明
+// ----   lint.qapartRequested323:
+// ----     ① lib tests/lib-w322d-qapart.mjs の分類 classifyRequested の缶詰(PASS / FAIL / SKIP / 未実行・SKIP の名指しの型〔語の一致・<接頭>*・<接頭>.・RETIRED〕・
+// ----        --strict-skip・要求した鍵 0・同じ範囲の他の鍵の FAIL・範囲の例外・保存のフル QA の注記)
+// ----     ② qapart --emit の本文: 要求した鍵の照合の行(QAPART_REQUESTED・classifyRequested・process.exit(__qc.rc))がある・旧の終わりの判定(results.every だけ)が無い・範囲の包み・node --check が通る
+// ----     ③ 走らなかった鍵の直し: 第322便d の 45 鍵の型(light.canonical-builtins・preset.scale-tier・badge.tint・page.no-errors)と上流の名前の 11 鍵の型(lint.qaEnvVersions → getBrowser・
+// ----        tint.schema → hasE6Acc・hasSat240)の --emit の本文が鍵の add の行と前文の宣言を含む。今の qa.mjs で範囲が add の行を含まない鍵 0・写せない上流の名前は w5cGetUnit だけ
+// ----     ④ qa.mjs の SKIP・RETIRED の印字の静的な数え上げ: 印字の文字が自分のブロックの鍵を名指せないものは走行時の文字(`'SKIP ' + id`)と動的な鍵の接頭(shot.regress-*)だけ
+// ----   docs.w323a: PHYSICS〔第323便a〕(〔第322便 — 統括〕の後・「## 7.」の前・a が b〜d より前)・AI_SPEC §167・CHANGELOG の beta 節の 1 行・tools/README の節・書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rd323a = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.conventionsCheck323 / lint.qapartRequested323 / docs.w323a(beta 対象でない: ' + TARGET + ' —— 道具は beta 線の運用)');
+    return;
+  }
+  const os = await import('node:os');
+  const { spawnSync } = await import('node:child_process');
+  const imp323a = async (f, bad) => { try { return await import('file://' + path.join(ROOT, f)); } catch (e) { bad.push(f + ' が読めない: ' + String(e && e.message || e).slice(0, 80)); return null; } };
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w323a-'));
+  try {
+    // ---- lint.conventionsCheck323
+    {
+      const bad = [], cases = [];
+      const CC = await imp323a('tools/conventions-check.mjs', bad);
+      if (CC) {
+        if (CC.CONVENTIONS_VERSION !== 'w323a-conventions-1') bad.push('道具の版 ' + CC.CONVENTIONS_VERSION);
+        for (const k of ['cRuleBad', 'tierOf', 'defaultCOf', 'qaFormulaOf', 'compareFormulas', 'checkHp', 'samplestatusIdempotent', 'selfTest']) if (typeof CC[k] !== 'function') bad.push('道具に ' + k + ' が無い');
+        // ① 自己試験(子プロセス)
+        const st = spawnSync(process.execPath, [path.join(ROOT, 'tools', 'conventions-check.mjs'), '--self-test'], { cwd: ROOT, encoding: 'utf8', timeout: 120000 });
+        if (st.status !== 0 || !/--self-test\(w323a-conventions-1\): OK/.test(st.stdout)) bad.push('① --self-test の rc ' + st.status + ': ' + String(st.stdout || st.stderr).trim().split('\n').slice(-1)[0].slice(0, 200));
+        for (const w of ['文字 c=true・missing=true・allTiers=true・defc=true', 'を c₀ = 10 に → 落ちる 2 本', '1.005 倍 → 0 本']) if (String(st.stdout).indexOf(w) < 0) bad.push('① 自己試験の印字に「' + w + '」が無い');
+        // qa.mjs の式が引ける(この照合が qa.mjs の式の変更を道具へ伝える)
+        const F = CC.qaFormulaOf(rd323a('tests/qa.mjs'));
+        if (!F.ok || !F.guard7) bad.push('① qa.mjs の式が引けない: ' + (F.why || 'r.tierN >= 7'));
+        cases.push('① 自己試験(子プロセス): ' + String(st.stdout || '').split('\n').filter((l) => /^  /.test(l)).map((l) => l.trim()).join(' / ').slice(0, 900));
+        // ② 今の対象
+        const jf = path.join(tmp, 'conv.json');
+        const r2 = spawnSync(process.execPath, [path.join(ROOT, 'tools', 'conventions-check.mjs'), '--target', TARGET, '--json', jf], { cwd: ROOT, encoding: 'utf8', timeout: 120000, env: Object.assign({}, process.env, { TMPDIR: tmp }) });
+        let J = null; try { J = JSON.parse(fs.readFileSync(jf, 'utf8')); } catch (e) { J = null; }
+        const T0 = J && J.targets && J.targets[0];
+        const nHp = await page.evaluate(() => HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).length);
+        if (r2.status !== 0 || !T0) bad.push('② --target の rc ' + r2.status + ': ' + String(r2.stdout || r2.stderr).trim().split('\n').slice(-2).join(' | ').slice(0, 200));
+        else {
+          if (T0.n !== nHp) bad.push(`② 内蔵の数 ${T0.n} ≠ ページの ${nHp}`);
+          if (T0.c.bad.length || T0.tier.missing.length || T0.accept.rejected.length || !T0.formulaOk) bad.push('② 規約の外: ' + T0.ngs.join(' / ').slice(0, 200));
+          if (T0.xk.via === 'physLockAutoOnOf' && T0.xk.on + T0.xk.off !== T0.n) bad.push('② ④ 満たす + 満たさない ≠ 内蔵');
+          cases.push(`② ${TARGET}: 内蔵 ${T0.n}・c₀ の外 ${T0.c.bad.length}(既定値のマージ c₀=${T0.c.defC})・未分類 ${T0.tier.missing.length}・拒否 ${T0.accept.rejected.length}・警告のある本 ${T0.accept.warned}・`
+            + `X_k = G_0/c_0² を満たす ${T0.xk.on}・満たさない ${T0.xk.off}(情報)・式の照合 ${T0.formula.n} 例・${T0.sec.toFixed(1)} s`);
+        }
+      }
+      // ③ post-merge の ⓪
+      const PM = rd323a('tools/post-merge-qa.sh');
+      const body = PM.split('\n').filter((l) => !/^\s*#/.test(l)).join('\n');
+      const iC = body.indexOf('node tools/conventions-check.mjs'), iP = body.indexOf('tests/qa-preflight.mjs');
+      if (!(iC >= 0 && iP > iC)) bad.push('③ post-merge の ⓪(conventions-check)が ① qa-preflight の前に無い');
+      const blk = iC < 0 ? '' : body.slice(iC, iP);
+      if (!/if \[ \$rc0 -ne 0 \]; then[\s\S]*exit 1/.test(blk)) bad.push('③ ⓪ の NG で exit 1 しない');
+      if (!/^echo "post-merge-qa: ⓪ \$S0 ① \$S1/m.test(PM)) bad.push('③ 最後の行に ⓪ が無い');
+      if (PM.indexOf('# ==== 第323便a の塊(ここから)====') < 0) bad.push('③ post-merge に第323便a の塊が無い');
+      cases.push('③ post-merge の ⓪ が ① の前・NG で exit 1・最後の行に ⓪');
+      // ④ tools/README
+      const TR = rd323a('tools/README.md');
+      if (!(TR.indexOf('node tools/conventions-check.mjs --samplestatus') >= 0 && TR.indexOf('⓪') >= 0 && TR.indexOf('## conventions-check.mjs') >= 0)) bad.push('④ tools/README に conventions-check の節・統括の 1 行・⓪ が無い');
+      add('lint.conventionsCheck323', bad.length === 0,
+        `**規約の速い判定**(第323便a・統括の検証項目 R275 —— 原仮定者の指示(2026-11-01)「今後は、すぐに確認可能な規約を先に判定する」): ${cases.join(' / ')} —— `
+        + '統合の直後・鎖の起動の前に数秒(**ゲートのフル QA の代わりではない**・④ は規約でなく情報)'
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- lint.qapartRequested323
+    {
+      const bad = [], cases = [];
+      const QP = await imp323a('tests/lib-w322d-qapart.mjs', bad), QO = await imp323a('tests/lib-w279b-qaorder.mjs', bad);
+      if (QP && QO) {
+        if (QP.QAPART_LIB_VERSION !== 'w323a-qapart-2' || QP.QAPART_SUMMARY_VERSION !== 'w323a-qapart-summary-1') bad.push('lib の版 ' + QP.QAPART_LIB_VERSION + ' / ' + QP.QAPART_SUMMARY_VERSION);
+        // ① 分類の缶詰
+        const C = QP.classifyRequested(['a.x', 'b.x', 'c.x', 'd.x', 'grp.e', 'f.x'],
+          [{ id: 'a.x', pass: true }, { id: 'b.x', pass: false }, { id: 'z.extra', pass: true }],
+          ['SKIP c.x(理由)', 'SKIP grp.*(対象に … なし)', 'RETIRED f.x / g.x(退役)', 'SKIP behavior.saturnExp(…)']);
+        if (JSON.stringify(C.counts) !== JSON.stringify({ pass: 1, fail: 1, skip: 3, notRun: 1, notRunAbsentInFull: null }) || C.extra.pass !== 1 || C.rc !== 1 || C.label !== 'FAILED') bad.push('① 分類の缶詰: ' + JSON.stringify([C.counts, C.extra, C.rc, C.label]));
+        const S1 = QP.classifyRequested(['c.x'], [], ['SKIP c.x(…)']), S2 = QP.classifyRequested(['c.x'], [], ['SKIP c.x(…)'], { strictSkip: true });
+        if (!(S1.rc === 0 && /^SKIP ONLY/.test(S1.label) && S2.rc === 1)) bad.push('① SKIP だけ(rc 0・SKIP ONLY)と --strict-skip(rc 1): ' + [S1.rc, S1.label, S2.rc].join(' / '));
+        const E0 = QP.classifyRequested([], [], []), E1 = QP.classifyRequested(['a.x'], [{ id: 'a.x', pass: true }], [], { errors: [{ span: '1-2', message: 'x' }] }), E2 = QP.classifyRequested(['a.x'], [{ id: 'a.x', pass: true }, { id: 'q.y', pass: false }], []);
+        const P1 = QP.classifyRequested(['a.x'], [{ id: 'a.x', pass: true }], []);
+        if (!(E0.rc === 1 && E1.rc === 1 && E2.rc === 1 && P1.rc === 0 && P1.label === 'ALL PASS')) bad.push('① 要求した鍵 0・範囲の例外・同じ範囲の他の鍵の FAIL・ALL PASS: ' + [E0.rc, E1.rc, E2.rc, P1.rc, P1.label].join(' / '));
+        const N1 = QP.classifyRequested(['d.x'], [], [], { savedFull: { file: 'f.json', ids: ['e.x'] } });
+        if (!(N1.rows[0].inSavedFull === false && N1.counts.notRunAbsentInFull === 1 && N1.rc === 1)) bad.push('① 保存のフル QA の注記(数え方は変えない)');
+        const cv = [['SKIP behavior.saturnExp(x)', 'behavior.saturn', false], ['SKIP geo2.*(x)', 'geo2.kf0-bitequal', true], ['SKIP geo2.*(x)', 'geo2', false], ['SKIP ui.54d-*(x)', 'ui.54d-params', true],
+          ['SKIP 第33便系(box.photon-abc / box.flrw-badge — x)', 'box.flrw-badge', true], ['PASS a.x', 'a.x', false], ['SKIP ice./saturnExp(x)', 'ice.e10-off', true], ['SKIP *(x)', 'a.x', false], ['RETIRED f.x / g.x', 'g.x', true]];
+        const cvBad = cv.filter(([l, id, w]) => QP.skipCovers(l, id) !== w);
+        if (cvBad.length) bad.push('① SKIP の名指しの型: ' + cvBad.map((z) => z.slice(0, 2).join(' → ')).join(' , '));
+        cases.push(`① 分類の缶詰(${QP.QAPART_SUMMARY_VERSION}): 6 鍵 → PASS 1・FAIL 1・SKIP 3(語の一致・<接頭>.*・RETIRED)・未実行 1(同じ範囲の他の鍵 PASS 1)rc 1・SKIP だけ rc 0(SKIP ONLY)・--strict-skip rc 1・要求した鍵 0 rc 1・範囲の例外 rc 1・名指しの型 ${cv.length} 例`);
+        // ② と ③ --emit の本文
+        const ids = ['light.canonical-builtins', 'preset.scale-tier', 'badge.tint', 'page.no-errors', 'lint.qaEnvVersions', 'tint.schema'];
+        const ed = path.join(tmp, 'emit');
+        const r = spawnSync(process.execPath, [path.join(ROOT, 'tests', 'exp-w258c-qapart.mjs'), '--emit', ed, ...ids], { cwd: ROOT, encoding: 'utf8', timeout: 120000, env: Object.assign({}, process.env, { TMPDIR: tmp }) });
+        const run = fs.existsSync(path.join(ed, 'run.mjs')) ? fs.readFileSync(path.join(ed, 'run.mjs'), 'utf8') : '';
+        if (r.status !== 0 || !run) bad.push('② --emit の rc ' + r.status);
+        else {
+          for (const w of ['const QAPART_REQUESTED = ' + JSON.stringify(ids) + ';', '__qapartLib.classifyRequested(QAPART_REQUESTED, results, __qapartSkips', 'process.exit(__qc.rc);', 'Requested QA did not execute in qapart',
+            'try {   // 第323便a(qapart の包み)', "const w5cGetUnit = async (key) => { throw"]) if (run.indexOf(w) < 0) bad.push('② 走行の本文に「' + w.slice(0, 60) + '」が無い');
+          if (run.indexOf('const pass = results.every((r) => r.pass);') >= 0) bad.push('② 旧の終わりの判定(results.every だけ —— 空の結果で ALL PASS)が残る');
+          for (const id of ids) if (run.indexOf("add('" + id + "'") < 0) bad.push('③ 走行の本文に鍵 ' + id + ' の add の行が無い');
+          for (const w of ['async function getBrowser() {', 'const hasE6Acc = await page.evaluate(', 'const hasSat240 = satTotN === 241;', 'const hasBadgeClassify = await page.evaluate(']) if (run.indexOf(w) < 0) bad.push('③ 前文に上流の宣言「' + w + '」が無い');
+          const ck = spawnSync(process.execPath, ['--check', path.join(ed, 'run.mjs')], { encoding: 'utf8' });
+          if (ck.status !== 0) bad.push('② 走行の本文が node --check を通らない: ' + String(ck.stderr).slice(0, 160));
+          if (!/# 第323便a: 列 0 の最上位の文で切り出した鍵 4 本/.test(r.stdout)) bad.push('③ 列 0 の最上位の文で切り出した鍵の印字(4 本)が無い');
+          cases.push(`②③ --emit(${ids.length} 鍵): 要求した鍵の照合の行・範囲の包み・W5c の代わり・旧の判定なし・node --check 通る・列 0 の if の中の鍵 4 本の add の行と前文の上流の宣言(getBrowser・hasE6Acc・satTotN・hasSat240・hasBadgeClassify)`);
+        }
+        // ③ 今の qa.mjs の数え上げ(範囲が add の行を含まない鍵 0・写せない上流の名前は w5cGetUnit だけ)
+        const qaSrc = rd323a('tests/qa.mjs'), qlines = qaSrc.split('\n');
+        const SP = QP.qaSpanner(qaSrc, QO);
+        const allIds = [...new Set([...qaSrc.matchAll(/add\('([^'\\\n]+)'\s*[,)]/g)].map((m) => m[1]))];
+        let outside = 0, unit = 0; const unsafeWhy = {};
+        for (const id of allIds) {
+          const i = qlines.findIndex((l) => l.includes("add('" + id + "'"));
+          let sp; try { sp = SP.spanOf(id); } catch (e) { outside++; continue; }
+          if (!(sp[0] <= i && i < sp[1])) outside++;
+          if (SP.spanKindOf(id) === 'unit') unit++;
+          for (const z of SP.upstreamOf([sp]).unsafe) unsafeWhy[z.name] = (unsafeWhy[z.name] || 0) + 1;
+        }
+        if (outside) bad.push('③ 範囲が add の行を含まない鍵 ' + outside);
+        if (Object.keys(unsafeWhy).some((k) => k !== 'w5cGetUnit')) bad.push('③ w5cGetUnit 以外の写せない上流の名前: ' + JSON.stringify(unsafeWhy));
+        cases.push(`③ 今の qa.mjs の鍵 ${allIds.length}: 範囲が add の行を含まない ${outside}・列 0 の最上位の文で切り出す ${unit}・写せない上流の名前 ${JSON.stringify(unsafeWhy)}(W5c のワーカープール —— フル QA が見る)`);
+        // ④ SKIP・RETIRED の印字の静的な数え上げ
+        const units = QO.splitTopLevel(qaSrc);
+        let nP = 0, nCov = 0; const other = [];
+        qlines.forEach((l, k) => {
+          const m = /console\.log\((['"`])\s*(SKIP|RETIRED)\s([^'"`]*)/.exec(l);
+          if (!m) return;
+          nP++;
+          const u = units.find((z) => z.l0 <= k + 1 && k + 1 <= z.l1);
+          const uid = u ? QO.unitIds(u.text).ids : [];
+          if (uid.some((id) => QP.skipCovers(m[2] + ' ' + m[3], id))) nCov++; else other.push((k + 1) + ':' + (m[2] + ' ' + m[3]).slice(0, 40));
+        });
+        if (other.length > 2) bad.push('④ 自分のブロックの鍵を名指せない SKIP の印字が 2 を超える: ' + other.slice(0, 5).join(' , '));
+        cases.push(`④ SKIP・RETIRED の印字 ${nP}: 自分のブロックの鍵を名指せる ${nCov}・名指せない ${other.length}(走行時の文字と動的な鍵の接頭: ${other.map((z) => z.split(':')[1].trim()).join(' / ')})`);
+      }
+      add('lint.qapartRequested323', bad.length === 0,
+        `**qapart の要求した鍵の照合**(第323便a・統括の検証項目 R275 —— 要求した鍵が 1 本も走らなくても ALL PASS・rc 0 だった穴): ${cases.join(' / ')} —— `
+        + '結果に無い鍵は SKIP(SKIP・RETIRED の行が名指す —— PASS に数えない)か未実行(FAIL)。**部分 QA の通過数はフルの被覆ではない**'
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- docs.w323a
+    {
+      const bad = [];
+      const PH = rd323a('docs/PHYSICS.md'), a323 = PH.indexOf('〔第323便a — ');
+      const sec = a323 < 0 ? '' : PH.slice(a323, (() => { const e = [PH.indexOf('\n〔第', a323 + 10), PH.indexOf('\n## 7.', a323)].filter((k) => k > a323); return e.length ? Math.min(...e) : undefined; })());
+      const rv = (s) => [...s].reverse().join('');
+      const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);
+      const NOT = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'たため確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転逆の星金', 'たし明説をータマクーダ'].map(rv);
+      if (!sec) bad.push('PHYSICS〔第323便a〕が無い');
+      else {
+        const i7 = PH.indexOf('\n## 7.'), iG = PH.indexOf('〔第322便 — 統括');
+        if (!(a323 < i7 && iG >= 0 && iG < a323)) bad.push('節の位置(〔第322便 — 統括〕の後・「## 7.」の前)');
+        for (const [b, k] of [['b', PH.indexOf('〔第323便b — ')], ['c', PH.indexOf('〔第323便c — ')], ['d', PH.indexOf('〔第323便d — ')]]) if (k >= 0 && k < a323) bad.push('〔第323便' + b + '〕が〔第323便a〕の前');
+        for (const w of ['R275', 'tools/conventions-check.mjs', 'light.canonical-builtins', 'preset.scale-tier', '2fd84b4', '--samplestatus', 'htmlChanged', 'X_k = G_0/c_0²',
+          'classifyRequested', '未実行', 'SKIP', '--strict-skip', 'qa-keys', 'w5cGetUnit', 'getBrowser', 'lint.conventionsCheck323', 'lint.qapartRequested323', '**表 1', '**表 2', '**表 3']) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第323便a〕に「' + w + '」が無い');
+      }
+      const AI = rd323a('docs/AI_SPEC.md'), ai167 = (() => { const m = /\n## 167\. 第323便a[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+      if (!(ai167 && ai167.indexOf('conventions-check') >= 0 && ai167.indexOf('未実行') >= 0 && ai167.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('AI_SPEC §167');
+      const CL = rd323a('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+      const cl323 = (clb.split('\n').find((l) => l.indexOf('**第323便a**') >= 0)) || '';
+      if (!cl323) bad.push('CHANGELOG の beta 節に第323便a の行が無い');
+      const TR = rd323a('tools/README.md');
+      const tr = (() => { const i = TR.indexOf('## conventions-check.mjs'); if (i < 0) return ''; const e = TR.indexOf('\n## ', i + 5); return TR.slice(i, e < 0 ? undefined : e); })();
+      if (!(tr && tr.indexOf('--samplestatus') >= 0 && tr.indexOf('未実行') >= 0 && tr.indexOf('--strict-skip') >= 0)) bad.push('tools/README の conventions-check の節(--samplestatus・qapart の未実行・--strict-skip)');
+      for (const [nm, tx] of [['PHYSICS〔第323便a〕', sec], ['AI_SPEC §167', ai167], ['CHANGELOG の第323便a の行', cl323], ['tools/README の節', tr]]) {
+        for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+        for (const w of NOT) if (tx.indexOf(w) >= 0) bad.push(nm + ' に書かない語(' + w.length + ' 字)');
+        if (tx.indexOf(String.fromCharCode(0x3ba)) >= 0) bad.push(nm + ' に裸の係数記号');
+      }
+      add('docs.w323a', bad.length === 0,
+        '**文書**(第323便a・R275): PHYSICS〔第323便a〕(〔第322便 — 統括〕の後・「## 7.」の前)・AI_SPEC §167・CHANGELOG の beta 節の 1 行・tools/README の conventions-check の節・書かない語・禁句・裸の係数記号 なし'
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+  } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+  })();   // 第310便c(heap)
+}
+// ==== 第323便a の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
