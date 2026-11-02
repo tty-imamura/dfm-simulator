@@ -92609,6 +92609,126 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第323便a の塊(ここまで)====
+// ==== 第323便c の塊(ここから —— lint.quickWindows323・docs.w323c の 2 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第323便c(決断事項 AN517・AN518・AN480・統括の検証項目 R277): **器 —— 窓の無い大きい 16 段の簡易の窓・synodic-299b の子プロセス 3 本・領域の宣言の無い段の REGEN_SCOPE**
+// ----   (html・本の宣言・エンジン・受理の判定・`S._core` は変えない —— beta 対象だけ・root は SKIP)。記録は tests/lib-w323c-quickwin.mjs(表の行の関数)。
+// ----   lint.quickWindows323:
+// ----     ① 窓の表 tools/harness-smoke.mjs の SMOKE_KNOBS に 16 段の行(env・args・cmd のどれか・out は tests/out の下・窓の秒 sec とフルの秒 fullSec・比 ≤ 30%〔目安 15% の 2 倍 —— 窓の秒は混む箱の実測〕・covers)・
+// ----        段は再生成表の現行の段・窓の環境変数と引数が器の本文にある(cmd の行は窓の器が在る)・窓の cmd が作れて枠が窓の秒の 2 倍 + 30 s 以上
+// ----     ② synodic-299b: 器が W299B_WORKERS(既定 3)で段を子プロセスに分ける・再生成表の段の行に workers 3 と secSource 'w323c-branch'・記録の 3/1 プロセスの物理の欄の差 0
+// ----     ③ REGEN_SCOPE: 記録の 13 段の器が complete の宣言を持ち、正本(全部)の meta.scope が宣言と同じ・scopeComplete / 足さない 10 段は再生成表に在り理由つき
+// ----   docs.w323c: PHYSICS〔第323便c〕(〔第322便 — 統括〕の後・「## 7.」の前・枝の順 a → b → c → d)の表 1〜3 を記録と窓の表から作り直して逐語・語・
+// ----     AI_SPEC §169・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rd323c = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(path.join(ROOT, 'tests', 'lib-w323c-quickwin.mjs')))) {
+    console.log('SKIP lint.quickWindows323・docs.w323c(第323便c の器の記録の前の世代か beta 対象でない —— ' + TARGET + ')');
+    return;
+  }
+  const imp323c = async (f, bad) => { try { return await import('file://' + path.join(ROOT, f)); } catch (e) { bad.push(f + ' が読めない: ' + String(e && e.message || e).slice(0, 80)); return null; } };
+  // ---- lint.quickWindows323
+  {
+    const bad = [], cases = [];
+    const QW = await imp323c('tests/lib-w323c-quickwin.mjs', bad), HS = await imp323c('tools/harness-smoke.mjs', bad), RT = await imp323c('tests/lib-w281a-regentable.mjs', bad), SC = await imp323c('tests/lib-w281a-scope.mjs', bad);
+    if (QW && HS && RT && SC) {
+      const K = HS.SMOKE_KNOBS, stepOf = (k) => RT.REGEN_STEPS.find((z) => z.key === k) || null;
+      const harnessOf = (st) => (st && (/(tests\/exp-[\w.-]+\.mjs)/.exec(st.cmd) || [])[1]) || null;
+      // ①
+      let n1 = 0; const ratios = [];
+      if (QW.QUICK_WINDOW_KEYS_323C.length !== 16 || new Set(QW.QUICK_WINDOW_KEYS_323C).size !== 16) bad.push('① 窓の段が 16 段でない');
+      for (const key of QW.QUICK_WINDOW_KEYS_323C) {
+        const k = K[key], st = stepOf(key);
+        if (!st || st.role === 'history') { bad.push('① ' + key + ' が再生成表の現行の段でない'); continue; }
+        if (!k) { bad.push('① ' + key + ' の窓の行が無い'); continue; }
+        if (!(k.env || k.args || k.cmd)) bad.push('① ' + key + ' の窓に env・args・cmd が無い');
+        if (!(typeof k.out === 'string' && k.out.startsWith('tests/out/'))) bad.push('① ' + key + ' の窓の出力 out が tests/out の下でない');
+        if (!(Number.isFinite(k.sec) && k.sec > 0 && Number.isFinite(k.fullSec) && k.fullSec > 0)) { bad.push('① ' + key + ' の窓の秒・フルの秒'); continue; }
+        const r = k.sec / k.fullSec; ratios.push(r);
+        if (r > QW.QUICK_RATIO_MAX_323C) bad.push('① ' + key + ' の窓の比 ' + r.toFixed(3) + ' > ' + QW.QUICK_RATIO_MAX_323C);
+        if (!(typeof k.covers === 'string' && k.covers.length > 4 && typeof k.note === 'string')) bad.push('① ' + key + ' の covers・note');
+        const hk = k.cmd ? HS.w323cKnobHarness(key) : harnessOf(st), ht = hk ? rd323c(hk) : '';
+        if (!ht) { bad.push('① ' + key + ' の窓の器が読めない(' + hk + ')'); continue; }
+        for (const nm of Object.keys(k.env || {})) if (ht.indexOf('process.env.' + nm) < 0) bad.push('① ' + key + ' の器の本文に環境変数 ' + nm + ' が無い');
+        for (const a of (k.args || []).filter((x) => /^--/.test(x))) if (ht.indexOf("'" + a + "'") < 0) bad.push('① ' + key + ' の器の本文に引数 ' + a + ' が無い');
+        if (k.cmd && key === 'dragcore292' && ht.indexOf("from './exp-w292c-dragcore.mjs'") < 0) bad.push('① dragcore292 の窓の器が段の器の関数を読まない');
+        let cmd = null; try { cmd = HS.w323cKnobCmd(st.cmd.split(' && ')[0], k); } catch (e) { bad.push('① ' + key + ' の窓の cmd が作れない: ' + String(e.message || e).slice(0, 60)); }
+        if (cmd && !/node tests\/exp-[\w.-]+\.mjs/.test(cmd)) bad.push('① ' + key + ' の窓の cmd に器が無い');
+        if (!(HS.w323cKnobLimit(k, 90) >= k.sec * 2 + 30)) bad.push('① ' + key + ' の窓の枠');
+        n1++;
+      }
+      cases.push(`① 窓 ${n1}/16 段(SMOKE_KNOBS の第323便c の塊 —— 器の環境変数・引数が本文に在る・出力は tests/out の下・比 ${ratios.length ? (Math.min(...ratios) * 100).toFixed(1) + '〜' + (Math.max(...ratios) * 100).toFixed(1) + '%' : '—'} ≤ ${QW.QUICK_RATIO_MAX_323C * 100}%)`);
+      // ②
+      const sy = stepOf('synodic-299b'), syT = rd323c('tests/exp-w299b-synodic.mjs'), S3 = QW.SYNODIC_323C;
+      if (!(sy && sy.workers === 3 && (sy.secTableSource || sy.secSource) === 'w323c-branch')) bad.push('② synodic-299b の段の行の workers 3・secSource');
+      for (const w of ['process.env.W299B_WORKERS || 3', 'w323cRunWorkers(W323C_RUN_PARTS)', "'--part', k", 'W299B_WORKERS: \'1\'']) if (syT.indexOf(w) < 0) bad.push('② synodic の器に「' + w + '」が無い');
+      if (!(S3.workers === 3 && S3.diffW3W1 === 0 && S3.diffW3Canon === 0 && S3.diffW1Canon === 0 && Number.isFinite(S3.leaves) && S3.leaves > 100 && Number.isFinite(S3.w3.sec) && Number.isFinite(S3.w1.sec)))
+        bad.push('② synodic の 3/1 プロセスの記録(差 0・秒)');
+      const wsum = RT.REGEN_STEPS.filter((z) => z.role !== 'history' && (z.workers || 1) > 1).reduce((s, z) => s + z.workers, 0);
+      cases.push(`② synodic-299b: 子プロセス ${S3.workers} 本(${S3.w3.sec} s)と 1 本(${S3.w1.sec} s)の正本の物理の欄の差 ${S3.diffW3W1}(葉 ${S3.leaves})・段の行 workers ${sy && sy.workers}・workers > 1 の段の workers の和 ${wsum}`);
+      // ③
+      let n3 = 0;
+      for (const z of QW.SCOPE_323C) {
+        const st = stepOf(z.key), d = SC.readDeclaredScope(rd323c(z.harness));
+        if (!st || harnessOf(st) !== z.harness) { bad.push('③ ' + z.key + ' の段の器が ' + z.harness + ' でない'); continue; }
+        if (!d || d.complete !== true) { bad.push('③ ' + z.key + ' の器に REGEN_SCOPE(complete)が無い'); continue; }
+        for (const o of st.outs) {
+          let m = null; try { m = (JSON.parse(rd323c(o)) || {}).meta || null; } catch (e) { m = null; }
+          const a = SC.normalizeScope((m && m.scope) || {}), b = SC.normalizeScope(d); delete a.note; delete b.note;
+          if (!(m && m.scope && m.scopeComplete === true && JSON.stringify(a) === JSON.stringify(b))) bad.push('③ ' + o + ' の領域の刻印が宣言と違う');
+        }
+        n3++;
+      }
+      for (const z of QW.SCOPE_SKIP_323C) if (!stepOf(z.key) || !(typeof z.why === 'string' && z.why.length > 8)) bad.push('③ 足さない段 ' + z.key + '(段・理由)');
+      cases.push(`③ REGEN_SCOPE を足した ${n3}/${QW.SCOPE_323C.length} 段(器の宣言と正本の刻印が同じ)・足さない ${QW.SCOPE_SKIP_323C.length} 段は理由つき`);
+    }
+    add('lint.quickWindows323', bad.length === 0,
+      `**器の便の窓と宣言**(第323便c・AN517・AN518・AN480・R277 —— 器の本文は窓のために変えていない・synodic の子プロセス 3 本は値が同じ): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- docs.w323c
+  {
+    const bad = [], cases = [];
+    const QW = await imp323c('tests/lib-w323c-quickwin.mjs', bad), HS = await imp323c('tools/harness-smoke.mjs', bad), SC = await imp323c('tests/lib-w281a-scope.mjs', bad);
+    const PH = rd323c('docs/PHYSICS.md'), a323 = PH.indexOf('〔第323便c — ');
+    const sec = a323 < 0 ? '' : PH.slice(a323, (() => { const e = [PH.indexOf('\n〔第', a323 + 10), PH.indexOf('\n## 7.', a323)].filter((k) => k > a323); return e.length ? Math.min(...e) : undefined; })());
+    const rv = (s) => [...s].reverse().join('');
+    const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);
+    const NOT = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'たため確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転逆の星金', 'たし明説をータマクーダ'].map(rv);
+    if (!sec) bad.push('PHYSICS〔第323便c〕が無い');
+    else if (QW && HS && SC) {
+      const i7 = PH.indexOf('\n## 7.'), iG = PH.indexOf('〔第322便 — 統括');
+      if (!(a323 < i7 && iG >= 0 && iG < a323)) bad.push('節の位置(〔第322便 — 統括〕の後・「## 7.」の前)');
+      for (const [b, k] of [['a', PH.indexOf('〔第323便a — ')], ['b', PH.indexOf('〔第323便b — ')]]) if (k >= 0 && k > a323) bad.push('〔第323便' + b + '〕が〔第323便c〕の後');
+      { const k = PH.indexOf('〔第323便d — '); if (k >= 0 && k < a323) bad.push('〔第323便d〕が〔第323便c〕の前'); }
+      const declOf = (h) => SC.readDeclaredScope(rd323c(h));
+      for (const [nm, tb] of [['表 1', QW.windowRows(HS.SMOKE_KNOBS)], ['表 2', QW.scopeRows(declOf)], ['表 3', QW.synodicRows()]]) {
+        let nMiss = 0; for (const r of tb.split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'))) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 2) bad.push('PHYSICS〔第323便c〕の' + nm + 'に行が無い: ' + r.slice(0, 60)); }
+      }
+      for (const w of ['AN517', 'AN518', 'AN480', 'R277', 'SMOKE_KNOBS', 'W299B_WORKERS', 'tests/exp-w323c-dragcorequick.mjs', 'tests/lib-w323c-quickwin.mjs', 'AN516', 'lint.quickWindows323', 'docs.w323c',
+        '**表 1', '**表 2', '**表 3', '原仮定者の指示(第125報)', '原仮定者の指示(2026-11-01)', '決断事項候補', '言わないこと']) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第323便c〕に「' + w + '」が無い');
+    }
+    const AI = rd323c('docs/AI_SPEC.md'), ai169 = (() => { const m = /\n## 169\. 第323便c[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+    if (!(ai169 && ai169.indexOf('AN517') >= 0 && ai169.indexOf('W299B_WORKERS') >= 0 && ai169.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('AI_SPEC §169');
+    const CL = rd323c('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+    const cl323 = (clb.split('\n').find((l) => l.indexOf('**第323便c**') >= 0)) || '';
+    if (!cl323) bad.push('CHANGELOG の beta 節に第323便c の行が無い');
+    const TR = rd323c('tools/README.md'), PM = rd323c('tools/post-merge-qa.sh');
+    if (!(TR.indexOf('第323便c') >= 0 && TR.indexOf('exp-w323c-dragcorequick.mjs') >= 0)) bad.push('tools/README に第323便c の窓の欄が無い');
+    if (!(PM.indexOf('# ==== 第323便c の塊(ここから)====') >= 0 && /lint\.quickWindows323/.test(PM) && /docs\.w323c/.test(PM))) bad.push('post-merge の ③′ に第323便c の塊が無い');
+    for (const [nm, tx] of [['PHYSICS〔第323便c〕', sec], ['AI_SPEC §169', ai169], ['CHANGELOG の第323便c の行', cl323]]) {
+      for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+      for (const w of NOT) if (tx.indexOf(w) >= 0) bad.push(nm + ' に書かない語(' + w.length + ' 字)');
+      if (/κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push(nm + ' に裸の係数記号');
+    }
+    cases.push('PHYSICS〔第323便c〕(〔第322便 — 統括〕の後・「## 7.」の前)の表 1〜3 を記録と窓の表から作り直して逐語・語・AI_SPEC §169・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号 なし');
+    add('docs.w323c', bad.length === 0,
+      `**器の便の文書**(第323便c・AN517・AN518・AN480・R277): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第323便c の塊(ここまで)====
 // ==== 第323便d の塊(ここから —— lint.provenanceIds323・lint.qaRecheck323・docs.w323d の 3 ブロック。統合で他の枝の塊と混ぜない)====
 // ---- 第323便d(決断事項 AN428 ①・統括の検証項目 R278): **較正の行の安定した id(読込の互換)**と**部分の再検査の補足の記録** —— html・本の宣言・エンジン・
 // ----   検定器と QA の判定の鍵は変えない(② は次の便)。

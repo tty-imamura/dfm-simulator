@@ -3,37 +3,37 @@
   "provenanceVersion": "w272e-1",
   "wave": "第276便a",
   "target": "beta/index.html",
-  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-  "generatedAt": "2026-11-01T21:49:27.891Z",
+  "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+  "generatedAt": "2026-11-02T02:26:27.750Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7491601,
-    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-    "mtime": "2026-11-01T20:25:22.344Z"
+    "sha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+    "mtime": "2026-11-02T02:03:28.584Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w276a-bgfield.mjs",
-    "bytes": 17405,
-    "sha256": "00f0810f74a083702d840bc3c977458f0e4c5f5f1887e12a0e9c7012e6290d5b",
-    "mtime": "2026-10-20T16:19:56.624Z"
+    "bytes": 18137,
+    "sha256": "0ad55132d7cf0721daa1ca77339164ea19c85f2f9bdb9f39c16536c7c980c7de",
+    "mtime": "2026-11-02T02:25:36.510Z"
    },
    {
     "file": "tests/lib-w275b-meshfield.mjs",
     "bytes": 22488,
     "sha256": "1fc47d3dfd8ed8eaac7656a8c95a7ecd48486a8e1ac9ef8466cc9fd3bb9e6534",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-02T02:03:28.920Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-02T02:03:28.920Z"
    }
   ],
-  "codeSha256": "e660a6ab81f834d40c5a98d2171e3d5f6c6ab75124fd8eea24094245aa12a64b",
+  "codeSha256": "9b12dbd2a0a0fb31184e181f00fcc6adb90287e83618cddf10b20c5115c2f7d4",
   "harness": "tests/exp-w276a-bgfield.mjs",
   "harnessVersion": "w276a-bgfield-1",
   "meshfieldVersion": "w276a-meshfield-2",
@@ -144,7 +144,26 @@
    "背景の定義を解決した",
    "エンジンへ接続した",
    "観測と一致した"
-  ]
+  ],
+  "scope": {
+   "version": "w318a-scope-6",
+   "presets": [],
+   "roots": [
+    "HP.dfmLocalMeshField",
+    "HP.sim",
+    "dfmField",
+    "dfmGeoToyStep",
+    "dfmLocalMeshField"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1312,
+   "segments": 1150,
+   "closureShare": 0.2942
+  },
+  "scopeSha256": "e493e5b2b26ad64b2562fd5975bbd63fc659408ee077576491a8e5412571a4e9",
+  "scopeComplete": true
  },
  "splitEquivalence": {
   "rows": [

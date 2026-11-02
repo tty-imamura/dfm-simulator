@@ -830,10 +830,14 @@ export const REGEN_STEPS = [
   //   統括の検証項目 R170): **🌘 の朔望月**の器 —— html の朔望月の時計(HP.synodic・版 w299b-syn-1)で、段 scan(D0pull の格子と kFrame=0 の床 —— 仮想の太陽 36 位相の 8 間隔と一様換算)・
   //   long(採用値の長い走行 —— 窓 8・118・354 と位相・始点の格子)・longh2(h/2 と床)・sun3d(🌦️ の実際の太陽の方向)・fit(一様換算の朔望月へ D0pull —— 根を挟めなければ範囲の端・h と h/2・
   //   fitRecord w298b-1 の標的 1 件)・aps(近点回転優先の D0pull が門に入るか)。Node の headless・html だけを読む(🌘・🌙・🌦️ —— 他の正本は読まない・after なし)。所要は第299便b の枝の実測(段の和)
-  S('synodic-299b', 'node tests/exp-w299b-synodic.mjs', ['tests/out/synodic-w299b.json'], 13055, { secSource: 'w299b-branch', node: true,
+  // ==== 第323便c の塊(ここから —— 段の行 synodic-299b の workers と見積りの秒)====
+  // 第323便c(決断事項 AN480・統括の検証項目 R277): 器は既定で段を子プロセス最大 3 本に分ける(W299B_WORKERS —— 3 本と 1 本の正本は時刻・所要の外で同じ)。workers 3(鎖の 4 レーンのうち 3)・
+  //   見積りの秒は枝の実測 3223 s(子プロセス 3 本の親の壁時計 —— **並走の秒**: 4 枝の並走・負荷平均 6〜9 の箱。段 long 3217 s が床)。'w323c-branch' … 第323便c の枝で器を 1 回走らせた実測
+  S('synodic-299b', 'node tests/exp-w299b-synodic.mjs', ['tests/out/synodic-w299b.json'], 3223, { secSource: 'w323c-branch', node: true, workers: 3,
     volatilePaths: { 'tests/out/synodic-w299b.json': META_RUN.concat(['/elapsedS', '/timing/wallSec', '/parts/*/wallSec', '/parts/scan/rows/*/wallSec', '/parts/long/*/wallSec', '/parts/longh2/*/wallSec']) },
     note: '第299便b: 🌘 の朔望月 —— 標的は恒星月の 8 公転窓を恒星年で一様換算した朔望月(許容 0.005 日の宣言・ノブは D0pull だけ・探索範囲 [1e-5, 1e-3] —— 根を挟めなければ範囲の端・h と h/2・fitRecord w298b-1 の標的 1 件)・'
       + '仮想の太陽の時計の合(36 位相・窓 8/118/354 —— 照合)・床(kFrame=0)・🌦️ の実際の太陽の方向・近点回転優先の D0pull(値だけ)' }),
+  // ==== 第323便c の塊(ここまで)====
   // ---- 第300便b(原仮定者の裁定(第90報)③「🌦️ earthMoonSunInertial3d を地球の三次元版として採用。🌦️ の値で地球と月だけの対照を用意」・統括の検証項目 R176):
   //   **地球と月だけの三次元の対照 🌔 earthMoonOnly3d** の器 —— 段 decl(写しの規則 emOnlyBodies と本の照合・重心 0・全運動量 0)・run(🌔 の h と h/2・gain 0・🌦️ の h を
   //   同じ抽出器〔第298便c の runEmx3 と同じ式〕で 118/354 公転窓 —— 恒星月・朔望月の一様換算・近点周期・離心率・傾斜・重心の移動)。Node の headless 1 プロセス。

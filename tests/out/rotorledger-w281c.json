@@ -3,49 +3,71 @@
   "provenanceVersion": "w272e-1",
   "wave": "第281便c",
   "target": "beta/index.html",
-  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-  "generatedAt": "2026-11-01T21:49:29.074Z",
+  "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+  "generatedAt": "2026-11-02T02:26:32.903Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7491601,
-    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-    "mtime": "2026-11-01T20:25:22.344Z"
+    "sha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+    "mtime": "2026-11-02T02:03:28.584Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-10-20T16:19:56.660Z"
+    "mtime": "2026-11-02T02:03:28.904Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w281c-rotorledger.mjs",
-    "bytes": 10230,
-    "sha256": "2b8da4792aef7bc38a65454c21a20d8d1021c91e10d36d1ada59445911f019f3",
-    "mtime": "2026-10-20T16:19:56.632Z"
+    "bytes": 10985,
+    "sha256": "3be962df89995d38222e5a0e55306b47e12afe318258c2f0069898ecd064c630",
+    "mtime": "2026-11-02T02:25:36.513Z"
    },
    {
     "file": "tests/lib-w281c-rotorledger.mjs",
     "bytes": 12812,
     "sha256": "b9e66190d5afb7a69dbf576a1bfde5b19fc369147873da4640e70c2e71fec968",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "mtime": "2026-11-02T02:03:28.932Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-02T02:03:28.924Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-02T02:03:28.920Z"
    }
   ],
-  "codeSha256": "1fac8dc8d27b4bd36426084b8d6c023365a0b9b7cee9e8f87cbcfad189df91b3"
+  "codeSha256": "4b2b471d201ab712a42cfd694d307c29c37ae56c02a1d186d81fafc3167d63e1",
+  "scope": {
+   "version": "w318a-scope-6",
+   "presets": "all",
+   "roots": [
+    "HP.allPresets",
+    "HP.sim",
+    "HP.validatePreset",
+    "ctx",
+    "presetSig",
+    "presetSigHash",
+    "rayHeavy",
+    "traceRay"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1314,
+   "segments": 1152,
+   "closureShare": 0.2946
+  },
+  "scopeSha256": "15be32ef5bcabe9a8ed7c914fdaabc164b9d4c9ce953d9335db5ebb5bb4e134e",
+  "scopeComplete": true
  },
  "note": "条件付き台帳(仮定の 3 シナリオ)と η 対照(仮説)。観測との一致や検出を主張しない。較正母集団に入れない。🛞 の既定は追加 0(現状)。",
  "sources": {
@@ -291,6 +313,6 @@
   "ratio2x": 2.0067164757942177,
   "ratio4x": 4.040636351480498
  },
- "headlessMs": 224,
+ "headlessMs": 220,
  "headlessErrors": 0
 }

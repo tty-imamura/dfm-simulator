@@ -35,6 +35,12 @@ import { createRequire } from 'node:module';
 import { restTwoBodyAnalytic, rParallel, canonicalMomentumCheck,
   CANONICAL_ACCEPTANCE_CANDIDATES } from './lib-w272c-binlock.mjs';
 
+// 第323便c(統括の検証項目 R277 —— 領域の宣言の無い段に REGEN_SCOPE): **この器が読む html の領域**(器と lib から機械で引いた下限 deriveScope —— 1 行の JSON・
+//   lint.regenScope が照合)。正本の meta に scopeStamp で刻む(書く直前 —— 領域の 3 欄)。器の計算と出力の物理の欄は変えない
+import { scopeStamp as w323cScopeStamp } from './lib-w281a-scope.mjs';
+import { provenanceMeta as w323cProv } from './lib-w272e-provenance.mjs';
+const REGEN_SCOPE = {"presets":[],"roots":["$","HP.dfmMeshV2Solve","HP.sim"],"core":true,"consts":[],"complete":true};
+
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
 const INDEX = 'file://' + path.join(ROOT, TARGET);
@@ -278,6 +284,7 @@ console.error('⑦ 正準運動量(非静止・AH26)');
 out.pageErrors = pageErrors;
 await browser.close();
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
+Object.assign(out.meta, (({ code, codeSha256 }) => ({ code, codeSha256 }))(w323cProv({ root: ROOT, target: TARGET, code: ["tests/exp-w272c-rpar.mjs", "tests/lib-w272c-binlock.mjs", "tests/lib-w272e-provenance.mjs"].map(String) })), w323cScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE));   // 第323便c: 器・lib の刻印と領域の 3 欄
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 console.error('[w272c-rpar] wrote ' + OUT + '  (R∥ ' + out.cases.length + ' 行 / 正準 静止 '
   + out.canonicalRest.length + ' 行・非静止 ' + out.canonicalMoving.length + ' 行)');

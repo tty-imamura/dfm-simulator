@@ -27,6 +27,11 @@ import {
   tinyWeightCases, uniformCases, rng,
 } from './lib-w279c-bgcompose.mjs';
 
+// 第323便c(統括の検証項目 R277 —— 領域の宣言の無い段に REGEN_SCOPE): **この器が読む html の領域**(器と lib から機械で引いた下限 deriveScope —— 1 行の JSON・
+//   lint.regenScope が照合)。正本の meta に scopeStamp で刻む(書く直前 —— 領域の 3 欄)。器の計算と出力の物理の欄は変えない
+import { scopeStamp as w323cScopeStamp } from './lib-w281a-scope.mjs';
+const REGEN_SCOPE = {"presets":[],"roots":["$","HP.MESH_VEL_STEP_VERSION","HP.dfmBlendComplexMoments","HP.dfmComplexMomentsOf","HP.dfmMeshVelocityRHS","HP.sim","T","ch","dfmBlendComplexMoments","dfmComplexMomentsOf","dfmField","dfmGeoToyStep","dfmLocalMeshField","dfmMeshVelocityRHS","isNum"],"core":true,"consts":[],"complete":true};
+
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
 const OUT = path.join(ROOT, 'tests', 'out', 'bgcompose-w279c.json');
@@ -125,6 +130,7 @@ const out = {
   pageErrors, elapsedS: (Date.now() - t0) / 1000,
 };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
+Object.assign(out.meta, w323cScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE));   // 第323便c: 領域の 3 欄(刻印)
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 const e = (x) => (x === null || x === undefined ? '—' : Number(x).toExponential(3));
 console.log(`(a) ${table.a.ok}/${table.a.n} 条件: u ${e(table.a.uRelMax)} / ∇u(項比)${e(table.a.gradUTermRelMax)} / ∂ₜu(項比)${e(table.a.dUdtTermRelMax)}`

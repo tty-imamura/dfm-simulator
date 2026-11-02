@@ -3,31 +3,48 @@
   "provenanceVersion": "w272e-1",
   "wave": "第273便c(第63報・AH24)",
   "target": "beta/index.html",
-  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-  "generatedAt": "2026-11-01T21:49:24.920Z",
+  "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+  "generatedAt": "2026-11-02T02:26:20.037Z",
   "inputs": [
    {
     "file": "tests/out/nslock-w272c.json",
     "bytes": 232635,
     "sha256": "c870413320758dff99ec195963652edc060e7997156cef752466f6520a86ccdd",
-    "mtime": "2026-11-01T17:35:10.128Z"
+    "mtime": "2026-11-02T02:03:29.232Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w273c-nslockledger.mjs",
-    "bytes": 8660,
-    "sha256": "18550fa26fd5e9f640996b786b86bdae657d9c0492c7413dc67679e571482c05",
-    "mtime": "2026-10-20T16:19:56.624Z"
+    "bytes": 9374,
+    "sha256": "8dfe89ec747521fe4abcfca8a02bc3deea374ced9a87fe1c29f423de012ffa5c",
+    "mtime": "2026-11-02T02:25:36.507Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-02T02:03:28.920Z"
    }
   ],
-  "codeSha256": "0f51ef98c04d5cad70de5658432865206d52faa932b76f5440ad407f14156b3b"
+  "codeSha256": "4b81d7d9f015ab8b609345454ff3e828dd94761f98de378cdd9aaabe9ec00872",
+  "scope": {
+   "version": "w318a-scope-6",
+   "presets": "all",
+   "roots": [
+    "HP.allPresets",
+    "HP.currentPreset",
+    "HP.sim"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1312,
+   "segments": 1150,
+   "closureShare": 0.2942
+  },
+  "scopeSha256": "1639a1f3527eaacf6bea3a032cbe48695f6a1388f7bbc186d32b0fb996dd312e",
+  "scopeComplete": true
  },
  "section": "NS 連星 4 系の lock 枝(kFrame=0・f=1・λ_PN=1)の記録",
  "sourceHarness": "w272c-nslock-1",
