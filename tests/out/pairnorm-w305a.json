@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第305便a",
   "target": "beta/index.html",
-  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-  "generatedAt": "2026-11-01T13:46:49.548Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-02T23:12:58.983Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7487036,
-    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-    "mtime": "2026-11-01T12:44:54.266Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -26,9 +26,9 @@
    },
    {
     "file": "tests/out/baseline-w304c.json",
-    "bytes": 80483,
-    "sha256": "a5db2bd3505108b673c8e29431b26f7be5856aa147ea8eab25f74f11cfb57f01",
-    "mtime": "2026-11-01T13:08:43.867Z"
+    "bytes": 80482,
+    "sha256": "8fea4dd7f56ca8e29d04d57fd9fcf6e749a5d598a429b0648dc48c1f80dea024",
+    "mtime": "2026-11-02T22:23:08.111Z"
    }
   ],
   "code": [
@@ -191,11 +191,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1384,
-   "segments": 1222,
-   "closureShare": 0.3078
+   "names": 1427,
+   "segments": 1253,
+   "closureShare": 0.3084
   },
-  "scopeSha256": "06e8ee86a9af323f98ddde20725f31967a2eedce03ebd4dd2b21f2d02eaff8aa",
+  "scopeSha256": "77bbb0ba571a61113de5c9b9148aa52ed0566109066906b45f809a5e324d5266",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -212,7 +212,7 @@
    },
    {
     "file": "tests/out/baseline-w304c.json",
-    "stableSha256": "e4a35494feba2703b52ac4f28616e5713e656f53292d2a77a1b98eac580b14e6",
+    "stableSha256": "8c4b37b3f642ea262599dfcefe7e044b4c639f3901f88e72578d5392e3f9c2fc",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1140,7 +1140,7 @@
    "badDenomRejected": true,
    "badDenomMsg": "physics.relativeDrag.inertialR2.denom は \"row\"(既定 —— 今の式: 受け手の行の分母に Σ_k I_ik)か \"pair\"(対ごとの正規化 β_ij = D_ij/(W_bg + 自己 + I_ij))"
   },
-  "wallSec": 0.691
+  "wallSec": 0.663
  },
  "manyBody": {
   "rows": [
@@ -1311,7 +1311,7 @@
     "uPairOverNoMoon": 1891.7578127643972
    }
   ],
-  "wallSec": 0.082,
+  "wallSec": 0.096,
   "quantity": "2 步(本の stepDt の 1e-4 —— 1 步目は履歴)の後の惑星の行 —— 太陽からの β(行 D/(W_bg + Σ_k I_k)・対 D/(W_bg + I_☉))の衛星なしの写しとの比と、1 步の u の比(衛星の配置は衛星の本を惑星の位置へ平行移動 —— 面は惑星の本の xy)"
  },
  "threeBody": {
@@ -1391,7 +1391,7 @@
       "noHistory": 1,
       "uMax": 0
      },
-     "wallSec": 61.473
+     "wallSec": 61.427
     },
     "h2": {
      "dt": 0.008,
@@ -1457,7 +1457,7 @@
       "noHistory": 1,
       "uMax": 0
      },
-     "wallSec": 129.273
+     "wallSec": 125.47
     },
     "diff": {
      "apsB1": -0.0005565121041044563,
@@ -1559,7 +1559,7 @@
       "noHistory": 1,
       "uMax": 1.2129047496592417e-11
      },
-     "wallSec": 89.287
+     "wallSec": 83.452
     },
     "h2": {
      "dt": 0.008,
@@ -1625,7 +1625,7 @@
       "noHistory": 1,
       "uMax": 1.2128907661062754e-11
      },
-     "wallSec": 172.233
+     "wallSec": 158.03
     },
     "diff": {
      "apsB1": -0.0005557070878516868,
@@ -1727,7 +1727,7 @@
       "noHistory": 1,
       "uMax": 2.852404227230509e-7
      },
-     "wallSec": 107.522
+     "wallSec": 97.569
     },
     "h2": {
      "dt": 0.008,
@@ -1793,7 +1793,7 @@
       "noHistory": 1,
       "uMax": 2.852389490565123e-7
      },
-     "wallSec": 215.521
+     "wallSec": 188.483
     },
     "diff": {
      "apsB1": -0.0005585661755915794,
@@ -1895,7 +1895,7 @@
       "noHistory": 1,
       "uMax": 9.703894973170945e-12
      },
-     "wallSec": 89.338
+     "wallSec": 80.273
     },
     "h2": {
      "dt": 0.008,
@@ -1961,7 +1961,7 @@
       "noHistory": 1,
       "uMax": 9.703771512441666e-12
      },
-     "wallSec": 210.39
+     "wallSec": 167.125
     },
     "diff": {
      "apsB1": -0.0005560241897342166,
@@ -2063,7 +2063,7 @@
       "noHistory": 1,
       "uMax": 2.2820760564307273e-7
      },
-     "wallSec": 106.352
+     "wallSec": 97.674
     },
     "h2": {
      "dt": 0.008,
@@ -2129,7 +2129,7 @@
       "noHistory": 1,
       "uMax": 2.2820647881685116e-7
      },
-     "wallSec": 224.88
+     "wallSec": 188.921
     },
     "diff": {
      "apsB1": -0.000558402551972037,
@@ -2231,7 +2231,7 @@
       "noHistory": 1,
       "uMax": 7.278738838253215e-12
      },
-     "wallSec": 88.825
+     "wallSec": 76.292
     },
     "h2": {
      "dt": 0.008,
@@ -2297,7 +2297,7 @@
       "noHistory": 1,
       "uMax": 7.278655118421429e-12
      },
-     "wallSec": 170.256
+     "wallSec": 147.989
     },
     "diff": {
      "apsB1": -0.0005566502022311681,
@@ -2399,7 +2399,7 @@
       "noHistory": 1,
       "uMax": 1.7117520224734467e-7
      },
-     "wallSec": 100.614
+     "wallSec": 93.814
     },
     "h2": {
      "dt": 0.008,
@@ -2465,7 +2465,7 @@
       "noHistory": 1,
       "uMax": 1.7117435704671918e-7
      },
-     "wallSec": 200.918
+     "wallSec": 175.212
     },
     "diff": {
      "apsB1": -0.0005583373172637351,
@@ -2567,7 +2567,7 @@
       "noHistory": 1,
       "uMax": 2.852404626715048e-7
      },
-     "wallSec": 127.115
+     "wallSec": 108.219
     },
     "diff": {
      "apsB1": -0.0005585675481789565,
@@ -2666,7 +2666,7 @@
       "noHistory": 1,
       "uMax": 8.453437896489078e-7
      },
-     "wallSec": 88.261
+     "wallSec": 76.955
     },
     "diff": {
      "apsB1": -0.010227414821287084,
@@ -2765,7 +2765,7 @@
       "noHistory": 1,
       "uMax": 0.0000028592921595841824
      },
-     "wallSec": 98.026
+     "wallSec": 82.65
     },
     "diff": {
      "apsB1": -0.024976888156823307,
@@ -2783,7 +2783,7 @@
    "sidH": 0,
    "node": 0
   },
-  "wallSec": 2280.487,
+  "wallSec": 2009.738,
   "quantity": "長窓 [0,1062] の M4(調和の回帰 —— 第304便c の抽出器)の近地点の周期・恒星月(調和)・交点の周期・平均離心率。差は同じ刻みの OFF との差(機械の差分)と B1 との差"
  },
  "gates": {
@@ -2803,5 +2803,5 @@
   "「λ ∝ m + 対が唯一」",
   "「n が決まった」"
  ],
- "elapsedS": 2281.376
+ "elapsedS": 2010.601
 }
