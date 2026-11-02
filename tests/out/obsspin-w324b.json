@@ -1,14 +1,14 @@
 {
- "version": "w324b-obsspin-1",
- "libVersion": "w324b-obsspin-lib-1",
+ "version": "w324e-obsspin-2",
+ "libVersion": "w324e-obsspin-lib-2",
  "lib321bVersion": "w321b-geo3bin-lib-1",
  "generator": "tests/exp-w324b-obsspin.mjs",
  "target": "beta/index.html",
- "targetSha256": "ca30d594a5c6a5e567d9fd29f545fe295ae51f3d029a3afaeccae43a12ada8e3",
+ "targetSha256": "a33002fbce36d94750ade1ccc0d8a1f6f5e0a5e2dd4a6bfd888871a1630b68b1",
  "reuseFrom": null,
- "ruling": "決断事項 AN514(α Cen の J の本 —— 新しい ID・f は模型の入力・並進だけの本は残す)・AN515(天体ごとの obsSpin —— 排他・明示の fSrc と rObs・0.4 を補わない・unit・source・epoch・座標系・axis:null は欠測で J の源に使わない・S.spin へ入れない・最初の本は J0737)・統括の検証項目 R280(geoPN=3 の S3)。観測の J は固定の外部の貯蔵庫(源の自転の進化と歳差は扱わない)・連星の観測との照合ではない",
+ "ruling": "決断事項 AN514(α Cen の J の本 —— 新しい ID・f は模型の入力・並進だけの本は残す)・AN515(天体ごとの obsSpin —— 排他・明示の fSrc と rObs・0.4 を補わない・unit・source・epoch・座標系・axis:null は欠測で J の源に使わない・S.spin へ入れない・最初の本は J0737)・統括の検証項目 R280(geoPN=3 の S3)・原仮定者の回答(2026-11-02 —— AN521: 連星は自転軸の傾きが観測または推定されている天体を優先・不明ならノブ)・統括の検証項目 R283。観測の J は固定の外部の貯蔵庫(源の自転の進化と歳差は扱わない)・連星の観測との照合ではない",
  "invSqVersion": "w310a-invsq-wbg0-1",
- "obsSpinVersion": "w324b-obsspin-1",
+ "obsSpinVersion": "w324e-obsspin-2",
  "stage": "obsspin",
  "quick": false,
  "plan": {
@@ -27,7 +27,9 @@
     [
      "tr",
      [
-      1
+      1,
+      2,
+      4
      ]
     ],
     [
@@ -47,11 +49,15 @@
      ]
     ],
     [
+     "miss",
+     [
+      1
+     ]
+    ],
+    [
      "JA",
      [
-      1,
-      2,
-      4
+      1
      ]
     ],
     [
@@ -69,8 +75,43 @@
     [
      "JAB",
      [
-      1,
-      2
+      1
+     ]
+    ],
+    [
+     "Bm",
+     [
+      1
+     ]
+    ],
+    [
+     "Baz90",
+     [
+      1
+     ]
+    ],
+    [
+     "Baz180",
+     [
+      1
+     ]
+    ],
+    [
+     "Baz270",
+     [
+      1
+     ]
+    ],
+    [
+     "A32",
+     [
+      1
+     ]
+    ],
+    [
+     "Aaz90",
+     [
+      1
      ]
     ]
    ],
@@ -104,7 +145,25 @@
      ]
     ],
     [
-     "Jm",
+     "kJ",
+     [
+      1
+     ]
+    ],
+    [
+     "t180",
+     [
+      1
+     ]
+    ],
+    [
+     "t90",
+     [
+      1
+     ]
+    ],
+    [
+     "t90az90",
      [
       1
      ]
@@ -119,7 +178,7 @@
     "id": "psrDoubleABInertial3d",
     "emoji": "📟",
     "base": "psrDoubleAB",
-    "ja": "J0737 の geoPN=3 三次元(obsSpin —— 軸は欠測)",
+    "ja": "J0737 の geoPN=3 三次元(obsSpin —— 軸は推定の傾きとノブ)",
     "sys": "j0737"
    },
    {
@@ -127,15 +186,15 @@
     "emoji": "🔸",
     "base": "alphaCenABInertial3d",
     "twin": "alphaCenAB",
-    "ja": "α Cen の源の J の本(f は模型の入力)",
+    "ja": "α Cen の源の J の本(fSrc は模型の入力・軸はノブ)",
     "sys": "acen"
    }
   ],
   "CASES": [
    {
     "key": "book",
-    "ja": "内蔵の本そのもの(A・B とも axis:null)",
-    "expect": "missing"
+    "ja": "内蔵の本そのもの(A・B とも傾きの形 —— 推定の傾きとノブ)",
+    "expect": "accept"
    },
    {
     "key": "axisA",
@@ -313,27 +372,189 @@
    },
    {
     "key": "metaOnly",
-    "ja": "obsSpin だけ(spinDrag と sourceMoment を外す —— 読み取り専用の欄)",
-    "expect": "missing"
+    "ja": "obsSpin だけ(spinDrag と sourceMoment を外す —— 読み取り専用の欄・源にしない)",
+    "expect": "accept"
+   },
+   {
+    "key": "tiltAz90",
+    "ja": "A の方位のノブを 90°(範囲の内 —— 傾き 0° では向きは同じ)",
+    "expect": "accept"
+   },
+   {
+    "key": "senseEst",
+    "ja": "A に向き sense −1 を推定として(傾き 0° → 180° の読み —— 向き −n̂)",
+    "expect": "accept"
+   },
+   {
+    "key": "tiltJ",
+    "ja": "A を kind \"J\"・J + 傾きの形",
+    "expect": "accept"
+   },
+   {
+    "key": "tiltObs",
+    "ja": "A の傾きを観測 observed(sigmaDeg 0.5)",
+    "expect": "accept"
+   },
+   {
+    "key": "knobNoRange",
+    "ja": "方位のノブに min・max が無い",
+    "expect": "reject",
+    "why": "obsSpin.axis.azimuthDeg はノブ —— 既定 default と範囲"
+   },
+   {
+    "key": "knobNoDefault",
+    "ja": "方位のノブに default が無い",
+    "expect": "reject",
+    "why": "obsSpin.axis.azimuthDeg はノブ —— 既定 default と範囲"
+   },
+   {
+    "key": "knobOut",
+    "ja": "方位のノブの値 −10°(範囲 0〜360 の外)",
+    "expect": "reject",
+    "why": "obsSpin.axis.azimuthDeg はノブ —— 既定 default と範囲"
+   },
+   {
+    "key": "knobMinMax",
+    "ja": "方位のノブの min 360・max 0(min < max でない)",
+    "expect": "reject",
+    "why": "obsSpin.axis.azimuthDeg はノブ —— 既定 default と範囲"
+   },
+   {
+    "key": "knobSigma",
+    "ja": "方位のノブに sigmaDeg(ノブの値を観測と呼ばない)",
+    "expect": "reject",
+    "why": "obsSpin.axis.azimuthDeg はノブ —— 観測・推定の不確かさの鍵"
+   },
+   {
+    "key": "estRange",
+    "ja": "推定の傾きに min・max・default(ノブの鍵)",
+    "expect": "reject",
+    "why": "obsSpin.axis.tiltDeg は観測か推定 —— ノブの鍵"
+   },
+   {
+    "key": "basisBad",
+    "ja": "傾きの basis \"assumed\"(列挙の外)",
+    "expect": "reject",
+    "why": "obsSpin.axis.tiltDeg.basis は"
+   },
+   {
+    "key": "tiltRange",
+    "ja": "傾き 190°(0〜180 の外)",
+    "expect": "reject",
+    "why": "obsSpin.axis.tiltDeg の値は 0〜180"
+   },
+   {
+    "key": "tiltUpper",
+    "ja": "推定の傾き 5° が上限 upperDeg 3.2° の外",
+    "expect": "reject",
+    "why": "obsSpin.axis.tiltDeg の不確かさは"
+   },
+   {
+    "key": "tiltLevel",
+    "ja": "上限の水準 level 120(0〜100 の外)",
+    "expect": "reject",
+    "why": "obsSpin.axis.tiltDeg の不確かさは"
+   },
+   {
+    "key": "noAz",
+    "ja": "方位 azimuthDeg が無い",
+    "expect": "reject",
+    "why": "obsSpin.axis.azimuthDeg が要る"
+   },
+   {
+    "key": "noTilt",
+    "ja": "傾き tiltDeg が無い",
+    "expect": "reject",
+    "why": "obsSpin.axis.tiltDeg が要る"
+   },
+   {
+    "key": "axisKey",
+    "ja": "傾きの形に未知の鍵 foo",
+    "expect": "reject",
+    "why": "obsSpin.axis の傾きの形の未知の鍵 foo"
+   },
+   {
+    "key": "compKey",
+    "ja": "傾きの成分に未知の鍵 bar",
+    "expect": "reject",
+    "why": "obsSpin.axis.tiltDeg の未知の鍵 bar"
+   },
+   {
+    "key": "compSign",
+    "ja": "傾きの成分に sign(角の成分は deg)",
+    "expect": "reject",
+    "why": "obsSpin.axis.tiltDeg の未知の鍵 sign"
+   },
+   {
+    "key": "refBad",
+    "ja": "ref \"spin\"(軌道の法線だけ)",
+    "expect": "reject",
+    "why": "obsSpin.axis.ref は"
+   },
+   {
+    "key": "pairSame",
+    "ja": "pair [0, 0](異なる二体でない)",
+    "expect": "reject",
+    "why": "obsSpin.axis.pair は"
+   },
+   {
+    "key": "pairOut",
+    "ja": "pair [0, 5](天体の範囲の外)",
+    "expect": "reject",
+    "why": "bodies[0].obsSpin.axis.pair の天体 bodies[5]"
+   },
+   {
+    "key": "axisNoSource",
+    "ja": "傾きの形に source が無い",
+    "expect": "reject",
+    "why": "obsSpin.axis.source"
+   },
+   {
+    "key": "pairZeroL",
+    "ja": "pair の二体の相対の速度を 0 に(初期の相対の角運動量 0)",
+    "expect": "reject",
+    "why": "bodies[0].obsSpin.axis.pair の二体の初期の相対の角運動量が 0"
+   },
+   {
+    "key": "senseBad",
+    "ja": "向き sense の sign 0(±1 の外)",
+    "expect": "reject",
+    "why": "obsSpin.axis.sense の sign は"
+   },
+   {
+    "key": "senseSigma",
+    "ja": "推定の向き sense に sigmaDeg",
+    "expect": "reject",
+    "why": "obsSpin.axis.sense の不確かさは"
    }
   ],
   "COLS": {
    "j0737": {
-    "self": "内蔵の本(A・B とも axis:null —— 源の J は入らない)",
+    "self": "内蔵の本(A = 推定の傾き 0°・B = 推定の傾き 40.6° —— 方位と B の角の読みはノブの既定)",
     "tr": "第321便b の兄弟の写しの列 tr(並進だけ —— 📻 から)",
     "off": "OFF(本の abBody の physicsPatch —— 引きずりと G_loc を切る)",
     "g1": "geo1 の参照(📻 psrDoubleAB そのもの —— 二次元)",
-    "JA": "A の軸を軌道の法線 +z と仮定した比較列(B は欠測のまま)",
-    "JAm": "A の軸を −z(符号を反転した対照)",
-    "JAvec": "A を kind \"J\"・Jvec(JA と同じ J のベクトル —— R_src = R_d の形)",
-    "JAB": "A +z・B を軌道の法線から 40.6°(方位 0° を仮定 —— 記録に無い)"
+    "miss": "欠測の写し(両星 axis:null —— 版 1 の本の形・源の J は入らない)",
+    "JA": "A だけ(A の傾き 0° —— B は欠測 axis:null)",
+    "JAm": "A だけの向きを反転(A の axis −z —— 符号の対照・B は欠測)",
+    "JAvec": "A だけを kind \"J\"・Jvec(JA と同じ J のベクトル —— R_src = R_d の形)",
+    "JAB": "本の軸を配列の形で(A [0,0,1]・B [sin 40.6°, 0, cos 40.6°] —— 傾きの形と同じ向き)",
+    "Bm": "B の角の読みのノブ −1(139.4°)",
+    "Baz90": "B の方位のノブ 90°",
+    "Baz180": "B の方位のノブ 180°",
+    "Baz270": "B の方位のノブ 270°",
+    "A32": "A の推定の傾きを上限 3.2°(95% —— 方位 0°)に置いた列(推定の幅の感度 —— ノブではない)",
+    "Aaz90": "A の方位のノブ 90°(傾き 0° では向きは同じ —— ビット同一の対照)"
    },
    "acen": {
-    "self": "内蔵の本 🔸(源の J —— f = 0.07)",
+    "self": "内蔵の本 🔸(obsSpin —— fSrc 0.07・軸はノブの既定 0°)",
     "tr": "🔶 alphaCenABInertial3d(並進だけ —— 同じ初期状態)",
     "on": "🔶 + spinDrag {rot}(源の J なし —— R_src = R_d)",
     "off": "OFF(🔶 の abBody の physicsPatch)",
-    "Jm": "🔸 の両星の自転の符号を反転(状態の自転 −Ω —— J の符号の対照)"
+    "kJ": "前の版の 🔸 の宣言(🔶 + spinDrag + sourceMoment {kind \"J\", f 0.07} —— 状態の自転の経路・軸 +z)",
+    "t180": "両星の傾きのノブ 180°(範囲の端 —— 向きの反転)",
+    "t90": "両星の傾きのノブ 90°(方位 0°)",
+    "t90az90": "両星の傾き 90°・方位 90°"
    }
   },
   "F_SRC": {
@@ -361,13 +582,18 @@
    },
    "axisA": {
     "upper95Deg": 3.2,
+    "upper68Deg": 0.85,
+    "upper99Deg": 4.7,
     "row": "SOL-5600e70a",
     "src": "Ferdman et al. 2013 ApJ 767 85(二つの磁極の放射を仮定した模型の値 —— 上限だけ)"
    },
    "axisB": {
     "deg": 40.6,
+    "sigmaDeg": 0.1,
+    "altDeg": 139.4,
+    "thetaBreton08Deg": 130.02,
     "row": "SOL-912f7aa2",
-    "src": "Lower et al. 2024 A&A 682 A26(一般相対論を仮定した幾何解 —— 方位と元期は記録に無い・歳差 5.16°/年)"
+    "src": "Lower et al. 2024 A&A 682 A26(一般相対論を仮定した幾何解 —— 方位と元期は記録に無い・歳差 5.16°/年・δ_B = 180° − θ の書き方)"
    },
    "rObsM": 11750,
    "mSun": 1.9885e+30
@@ -382,7 +608,7 @@
     "spinDrag": {
      "rot": "surfaceFlip"
     },
-    "axisNull": true,
+    "axisForm": "tilt",
     "spins": [
      0,
      0
@@ -394,19 +620,20 @@
     "geoPN": 3,
     "kFrame": 0,
     "lambdaPN": 0,
-    "srcKind": "J",
+    "srcKind": "obsSpin",
     "spinDrag": {
      "rot": "surfaceFlip"
     },
-    "f": {
-     "0": 0.07,
-     "1": 0.07
-    },
+    "fSrc": [
+     0.07,
+     0.07
+    ],
+    "axisForm": "tilt",
     "warnings": 0
    }
   },
   "obsSpin": {
-   "version": "w324b-obsspin-1",
+   "version": "w324e-obsspin-2",
    "keys": [
     "kind",
     "J",
@@ -438,32 +665,199 @@
     "book"
    ],
    "fMax": 0.6666666666666666,
-   "srcKind": "obsSpin"
+   "srcKind": "obsSpin",
+   "axisKeys": [
+    "ref",
+    "pair",
+    "tiltDeg",
+    "azimuthDeg",
+    "sense",
+    "source",
+    "note"
+   ],
+   "axisBases": [
+    "observed",
+    "estimated",
+    "knob"
+   ],
+   "axisComps": {
+    "tiltDeg": {
+     "val": "deg",
+     "range": [
+      0,
+      180
+     ]
+    },
+    "azimuthDeg": {
+     "val": "deg",
+     "range": [
+      -360,
+      360
+     ]
+    },
+    "sense": {
+     "val": "sign",
+     "range": [
+      -1,
+      1
+     ]
+    }
+   },
+   "axisCompKeys": [
+    "deg",
+    "sign",
+    "basis",
+    "sigmaDeg",
+    "upperDeg",
+    "level",
+    "default",
+    "min",
+    "max",
+    "note"
+   ]
+  },
+  "AXIS_EXPECT": {
+   "j0737": [
+    {
+     "tiltDeg": {
+      "basis": "estimated",
+      "deg": 0,
+      "upperDeg": 3.2,
+      "level": 95
+     },
+     "azimuthDeg": {
+      "basis": "knob",
+      "deg": 0,
+      "default": 0,
+      "min": 0,
+      "max": 360
+     }
+    },
+    {
+     "tiltDeg": {
+      "basis": "estimated",
+      "deg": 40.6,
+      "sigmaDeg": 0.1
+     },
+     "azimuthDeg": {
+      "basis": "knob",
+      "deg": 0,
+      "default": 0,
+      "min": 0,
+      "max": 360
+     },
+     "sense": {
+      "basis": "knob",
+      "sign": 1,
+      "default": 1,
+      "min": -1,
+      "max": 1
+     }
+    }
+   ],
+   "acen": [
+    {
+     "tiltDeg": {
+      "basis": "knob",
+      "deg": 0,
+      "default": 0,
+      "min": 0,
+      "max": 180
+     },
+     "azimuthDeg": {
+      "basis": "knob",
+      "deg": 0,
+      "default": 0,
+      "min": 0,
+      "max": 360
+     }
+    },
+    {
+     "tiltDeg": {
+      "basis": "knob",
+      "deg": 0,
+      "default": 0,
+      "min": 0,
+      "max": 180
+     },
+     "azimuthDeg": {
+      "basis": "knob",
+      "deg": 0,
+      "default": 0,
+      "min": 0,
+      "max": 360
+     }
+    }
+   ]
+  },
+  "ACEN_SPIN": {
+   "A": {
+    "PSec": 1373760,
+    "rObsM": 847380000,
+    "src": "Bhattacharyya et al. 2026 AJ 172 27(CUTE 2024 の Mg II の自転の変調 15.9 d)"
+   },
+   "B": {
+    "PSec": 3130272,
+    "rObsM": 597933600,
+    "src": "DeWarf et al. 2010 ApJ 722 343(36.23 d)"
+   }
   }
  },
  "A": {
   "rows": [
    {
     "key": "book",
-    "ja": "内蔵の本そのもの(A・B とも axis:null)",
-    "expect": "missing",
+    "ja": "内蔵の本そのもの(A・B とも傾きの形 —— 推定の傾きとノブ)",
+    "expect": "accept",
     "accepted": true,
     "err": null,
-    "missingA": true,
-    "usedA": false,
+    "missingA": false,
+    "usedA": true,
     "canonA": {
      "kind": "omega",
      "omega": 44.054068642001,
      "fSrc": 0.354,
      "rObs": 11750,
-     "axis": null,
+     "axis": {
+      "ref": "orbitNormal",
+      "pair": [
+       0,
+       1
+      ],
+      "tiltDeg": {
+       "deg": 0,
+       "basis": "estimated",
+       "upperDeg": 3.2,
+       "level": 95,
+       "note": "上限の内の整列(中心の値は記録に無い —— 68%・99% の上限は 0.85°・4.7°)"
+      },
+      "azimuthDeg": {
+       "deg": 0,
+       "basis": "knob",
+       "default": 0,
+       "min": 0,
+       "max": 360,
+       "note": "方位は記録に無い(模型の入力 —— 傾き 0° の既定では向きに効かない)"
+      },
+      "source": "傾き: Ferdman et al. 2013 ApJ 767 85 の軌道角運動量との角の 95% の上限 3.2°(二つの磁極の放射を仮定した模型の値・paper/data/solar-observations.csv の PSR J0737-3039 A の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位はノブ(模型の入力)"
+     },
      "unit": "Hz",
      "frame": "book",
      "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)"
     },
     "JSI_A": 3.5998712222398215e+40,
+    "axisResolvedA": [
+     0,
+     0,
+     1
+    ],
+    "axisBasisA": {
+     "tiltDeg": "estimated",
+     "azimuthDeg": "knob"
+    },
+    "axisFormA": "tilt",
     "spin0": [
      0,
      0
@@ -472,8 +866,8 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
-    "got": "missing",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":0,\"basis\":\"estimated\",\"upperDeg\":3.2,\"level\":95,\"note\":\"上限の内の整列(中心の値は記録に無い —— 68%・99% の上限は 0.85°・4.7°)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位は記録に無い(模型の入力 —— 傾き 0° の既定では向きに効かない)\"},\"source\":\"傾き: Ferdman et al. 2013 ApJ 767 85 の軌道角運動量との角の 95% の上限 3.2°(二つの磁極の放射を仮定した模型の値・paper/data/solar-observations.csv の PSR J0737-3039 A の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位はノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":40.6,\"basis\":\"estimated\",\"sigmaDeg\":0.1,\"note\":\"一般相対論を仮定した幾何解(δ_B = 180° − θ の書き方の値)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位と元期は記録に無い(模型の入力 —— 歳差 5.16°/年で回る向き)\"},\"sense\":{\"sign\":1,\"basis\":\"knob\",\"default\":1,\"min\":-1,\"max\":1,\"note\":\"記録の角の二通りの読み —— +1 は 40.6°(記録の行の値・📻 の B の表示の宣言と同じ)・−1 は 139.4°(論文の角 θ)\"},\"source\":\"傾き: Lower et al. 2024 A&A 682 A26 §5.2 の 40.6 ± 0.1°(一般相対論を仮定した幾何解・同じ csv の PSR J0737-3039 B の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位と角の読みはノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は推定の傾き 40.6° と、方位・角の読みのノブ。歳差 5.16°/年は扱わない(固定の外部の貯蔵庫 —— 8 公転の窓で約 0.01°)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "got": "accept",
     "whyOk": true,
     "ok": true
    },
@@ -499,9 +893,16 @@
      "frame": "book",
      "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)"
     },
     "JSI_A": 3.5998712222398215e+40,
+    "axisResolvedA": [
+     0,
+     0,
+     1
+    ],
+    "axisBasisA": null,
+    "axisFormA": "vector",
     "spin0": [
      0,
      0
@@ -510,7 +911,7 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":[0,0,1],\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":[0,0,1],\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":40.6,\"basis\":\"estimated\",\"sigmaDeg\":0.1,\"note\":\"一般相対論を仮定した幾何解(δ_B = 180° − θ の書き方の値)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位と元期は記録に無い(模型の入力 —— 歳差 5.16°/年で回る向き)\"},\"sense\":{\"sign\":1,\"basis\":\"knob\",\"default\":1,\"min\":-1,\"max\":1,\"note\":\"記録の角の二通りの読み —— +1 は 40.6°(記録の行の値・📻 の B の表示の宣言と同じ)・−1 は 139.4°(論文の角 θ)\"},\"source\":\"傾き: Lower et al. 2024 A&A 682 A26 §5.2 の 40.6 ± 0.1°(一般相対論を仮定した幾何解・同じ csv の PSR J0737-3039 B の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位と角の読みはノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は推定の傾き 40.6° と、方位・角の読みのノブ。歳差 5.16°/年は扱わない(固定の外部の貯蔵庫 —— 8 公転の窓で約 0.01°)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
     "got": "accept",
     "whyOk": true,
     "ok": true
@@ -537,9 +938,16 @@
      "frame": "book",
      "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)"
     },
     "JSI_A": 3.5998712222398215e+40,
+    "axisResolvedA": [
+     0,
+     0,
+     1
+    ],
+    "axisBasisA": null,
+    "axisFormA": "vector",
     "spin0": [
      0,
      0
@@ -548,7 +956,7 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":[0,0,1],\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":[0,0,1],\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":40.6,\"basis\":\"estimated\",\"sigmaDeg\":0.1,\"note\":\"一般相対論を仮定した幾何解(δ_B = 180° − θ の書き方の値)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位と元期は記録に無い(模型の入力 —— 歳差 5.16°/年で回る向き)\"},\"sense\":{\"sign\":1,\"basis\":\"knob\",\"default\":1,\"min\":-1,\"max\":1,\"note\":\"記録の角の二通りの読み —— +1 は 40.6°(記録の行の値・📻 の B の表示の宣言と同じ)・−1 は 139.4°(論文の角 θ)\"},\"source\":\"傾き: Lower et al. 2024 A&A 682 A26 §5.2 の 40.6 ± 0.1°(一般相対論を仮定した幾何解・同じ csv の PSR J0737-3039 B の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位と角の読みはノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は推定の傾き 40.6° と、方位・角の読みのノブ。歳差 5.16°/年は扱わない(固定の外部の貯蔵庫 —— 8 公転の窓で約 0.01°)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
     "got": "accept",
     "whyOk": true,
     "ok": true
@@ -575,9 +983,16 @@
      "frame": "book",
      "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)"
     },
     "JSI_A": 3.5998712222398215e+40,
+    "axisResolvedA": [
+     0,
+     0,
+     1
+    ],
+    "axisBasisA": null,
+    "axisFormA": "vector",
     "spin0": [
      0,
      0
@@ -586,7 +1001,7 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":276.79987681290163,\"fSrc\":0.354,\"rObs\":11750,\"axis\":[0,0,1],\"unit\":\"rad/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":276.79987681290163,\"fSrc\":0.354,\"rObs\":11750,\"axis\":[0,0,1],\"unit\":\"rad/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":40.6,\"basis\":\"estimated\",\"sigmaDeg\":0.1,\"note\":\"一般相対論を仮定した幾何解(δ_B = 180° − θ の書き方の値)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位と元期は記録に無い(模型の入力 —— 歳差 5.16°/年で回る向き)\"},\"sense\":{\"sign\":1,\"basis\":\"knob\",\"default\":1,\"min\":-1,\"max\":1,\"note\":\"記録の角の二通りの読み —— +1 は 40.6°(記録の行の値・📻 の B の表示の宣言と同じ)・−1 は 139.4°(論文の角 θ)\"},\"source\":\"傾き: Lower et al. 2024 A&A 682 A26 §5.2 の 40.6 ± 0.1°(一般相対論を仮定した幾何解・同じ csv の PSR J0737-3039 B の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位と角の読みはノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は推定の傾き 40.6° と、方位・角の読みのノブ。歳差 5.16°/年は扱わない(固定の外部の貯蔵庫 —— 8 公転の窓で約 0.01°)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
     "got": "accept",
     "whyOk": true,
     "ok": true
@@ -611,9 +1026,16 @@
      "frame": "book",
      "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)"
     },
     "JSI_A": 3.5998712222398215e+40,
+    "axisResolvedA": [
+     0,
+     0,
+     1
+    ],
+    "axisBasisA": null,
+    "axisFormA": "vector",
     "spin0": [
      0,
      0
@@ -622,7 +1044,7 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"J\",\"J\":3.5998712222398215e+40,\"axis\":[0,0,1],\"unit\":\"kg m^2/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"J\",\"J\":3.5998712222398215e+40,\"axis\":[0,0,1],\"unit\":\"kg m^2/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":40.6,\"basis\":\"estimated\",\"sigmaDeg\":0.1,\"note\":\"一般相対論を仮定した幾何解(δ_B = 180° − θ の書き方の値)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位と元期は記録に無い(模型の入力 —— 歳差 5.16°/年で回る向き)\"},\"sense\":{\"sign\":1,\"basis\":\"knob\",\"default\":1,\"min\":-1,\"max\":1,\"note\":\"記録の角の二通りの読み —— +1 は 40.6°(記録の行の値・📻 の B の表示の宣言と同じ)・−1 は 139.4°(論文の角 θ)\"},\"source\":\"傾き: Lower et al. 2024 A&A 682 A26 §5.2 の 40.6 ± 0.1°(一般相対論を仮定した幾何解・同じ csv の PSR J0737-3039 B の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位と角の読みはノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は推定の傾き 40.6° と、方位・角の読みのノブ。歳差 5.16°/年は扱わない(固定の外部の貯蔵庫 —— 8 公転の窓で約 0.01°)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
     "got": "accept",
     "whyOk": true,
     "ok": true
@@ -646,9 +1068,16 @@
      "frame": "book",
      "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)"
     },
     "JSI_A": 3.5998712222398215e+40,
+    "axisResolvedA": [
+     0,
+     0,
+     1
+    ],
+    "axisBasisA": null,
+    "axisFormA": "Jvec",
     "spin0": [
      0,
      0
@@ -657,7 +1086,7 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"J\",\"Jvec\":[0,0,3.5998712222398215e+40],\"unit\":\"kg m^2/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"J\",\"Jvec\":[0,0,3.5998712222398215e+40],\"unit\":\"kg m^2/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":40.6,\"basis\":\"estimated\",\"sigmaDeg\":0.1,\"note\":\"一般相対論を仮定した幾何解(δ_B = 180° − θ の書き方の値)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位と元期は記録に無い(模型の入力 —— 歳差 5.16°/年で回る向き)\"},\"sense\":{\"sign\":1,\"basis\":\"knob\",\"default\":1,\"min\":-1,\"max\":1,\"note\":\"記録の角の二通りの読み —— +1 は 40.6°(記録の行の値・📻 の B の表示の宣言と同じ)・−1 は 139.4°(論文の角 θ)\"},\"source\":\"傾き: Lower et al. 2024 A&A 682 A26 §5.2 の 40.6 ± 0.1°(一般相対論を仮定した幾何解・同じ csv の PSR J0737-3039 B の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位と角の読みはノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は推定の傾き 40.6° と、方位・角の読みのノブ。歳差 5.16°/年は扱わない(固定の外部の貯蔵庫 —— 8 公転の窓で約 0.01°)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
     "got": "accept",
     "whyOk": true,
     "ok": true
@@ -678,9 +1107,12 @@
      "frame": "book",
      "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)"
     },
     "JSI_A": 3.5998712222398215e+40,
+    "axisResolvedA": null,
+    "axisBasisA": null,
+    "axisFormA": "missing",
     "spin0": [
      0,
      0
@@ -689,7 +1121,7 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"J\",\"J\":3.5998712222398215e+40,\"axis\":null,\"unit\":\"kg m^2/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"J\",\"J\":3.5998712222398215e+40,\"axis\":null,\"unit\":\"kg m^2/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":40.6,\"basis\":\"estimated\",\"sigmaDeg\":0.1,\"note\":\"一般相対論を仮定した幾何解(δ_B = 180° − θ の書き方の値)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位と元期は記録に無い(模型の入力 —— 歳差 5.16°/年で回る向き)\"},\"sense\":{\"sign\":1,\"basis\":\"knob\",\"default\":1,\"min\":-1,\"max\":1,\"note\":\"記録の角の二通りの読み —— +1 は 40.6°(記録の行の値・📻 の B の表示の宣言と同じ)・−1 は 139.4°(論文の角 θ)\"},\"source\":\"傾き: Lower et al. 2024 A&A 682 A26 §5.2 の 40.6 ± 0.1°(一般相対論を仮定した幾何解・同じ csv の PSR J0737-3039 B の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位と角の読みはノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は推定の傾き 40.6° と、方位・角の読みのノブ。歳差 5.16°/年は扱わない(固定の外部の貯蔵庫 —— 8 公転の窓で約 0.01°)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
     "got": "missing",
     "whyOk": true,
     "ok": true
@@ -839,7 +1271,7 @@
     "ja": "axis の鍵が無い(欠測は null と書く)",
     "expect": "reject",
     "accepted": false,
-    "err": "bodies[0].obsSpin.axis の鍵が要る(向き [x,y,z] —— 観測で決まっていなければ null と書く〔欠測 —— J の源に使わない〕)",
+    "err": "bodies[0].obsSpin.axis の鍵が要る(向き [x,y,z] か傾きの形 {ref:\"orbitNormal\", pair, tiltDeg, azimuthDeg, sense?, source} —— 傾きが観測か推定の天体はその値・不明な成分はノブ〔basis:\"knob\"〕・null は欠測〔J の源に使わない〕)",
     "got": "reject",
     "whyOk": true,
     "ok": true
@@ -849,7 +1281,7 @@
     "ja": "axis [0,0,0]",
     "expect": "reject",
     "accepted": false,
-    "err": "bodies[0].obsSpin.axis は長さ 0 でない 3 成分の配列か null(欠測)",
+    "err": "bodies[0].obsSpin.axis は長さ 0 でない 3 成分の配列か傾きの形 {ref:\"orbitNormal\", …} か null(欠測)",
     "got": "reject",
     "whyOk": true,
     "ok": true
@@ -936,25 +1368,57 @@
    },
    {
     "key": "metaOnly",
-    "ja": "obsSpin だけ(spinDrag と sourceMoment を外す —— 読み取り専用の欄)",
-    "expect": "missing",
+    "ja": "obsSpin だけ(spinDrag と sourceMoment を外す —— 読み取り専用の欄・源にしない)",
+    "expect": "accept",
     "accepted": true,
     "err": null,
-    "missingA": true,
+    "missingA": false,
     "usedA": false,
     "canonA": {
      "kind": "omega",
      "omega": 44.054068642001,
      "fSrc": 0.354,
      "rObs": 11750,
-     "axis": null,
+     "axis": {
+      "ref": "orbitNormal",
+      "pair": [
+       0,
+       1
+      ],
+      "tiltDeg": {
+       "deg": 0,
+       "basis": "estimated",
+       "upperDeg": 3.2,
+       "level": 95,
+       "note": "上限の内の整列(中心の値は記録に無い —— 68%・99% の上限は 0.85°・4.7°)"
+      },
+      "azimuthDeg": {
+       "deg": 0,
+       "basis": "knob",
+       "default": 0,
+       "min": 0,
+       "max": 360,
+       "note": "方位は記録に無い(模型の入力 —— 傾き 0° の既定では向きに効かない)"
+      },
+      "source": "傾き: Ferdman et al. 2013 ApJ 767 85 の軌道角運動量との角の 95% の上限 3.2°(二つの磁極の放射を仮定した模型の値・paper/data/solar-observations.csv の PSR J0737-3039 A の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位はノブ(模型の入力)"
+     },
      "unit": "Hz",
      "frame": "book",
      "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
      "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
-     "note": "軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)"
+     "note": "軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)"
     },
     "JSI_A": 3.5998712222398215e+40,
+    "axisResolvedA": [
+     0,
+     0,
+     1
+    ],
+    "axisBasisA": {
+     "tiltDeg": "estimated",
+     "azimuthDeg": "knob"
+    },
+    "axisFormA": "tilt",
     "spin0": [
      0,
      0
@@ -963,14 +1427,499 @@
      0,
      0
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\"},\"pairs\":\"all\",\"history\":\"positions\",\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角は 95% の上限 3.2°(Ferdman et al. 2013 —— 二つの磁極の放射を仮定した模型の値・同じ csv の spin_orbit_misalignment の行)だけなので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":null,\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は観測で決まっていない —— 軌道角運動量との角 40.6°(Lower et al. 2024 —— 一般相対論を仮定した幾何解・同じ csv の spin_orbit_misalignment の行)は方位と元期が記録に無く、歳差 5.16°/年で向きが変わるので欠測のまま(J の源に使わない)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
-    "got": "missing",
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\"},\"pairs\":\"all\",\"history\":\"positions\",\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":0,\"basis\":\"estimated\",\"upperDeg\":3.2,\"level\":95,\"note\":\"上限の内の整列(中心の値は記録に無い —— 68%・99% の上限は 0.85°・4.7°)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位は記録に無い(模型の入力 —— 傾き 0° の既定では向きに効かない)\"},\"source\":\"傾き: Ferdman et al. 2013 ApJ 767 85 の軌道角運動量との角の 95% の上限 3.2°(二つの磁極の放射を仮定した模型の値・paper/data/solar-observations.csv の PSR J0737-3039 A の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位はノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":40.6,\"basis\":\"estimated\",\"sigmaDeg\":0.1,\"note\":\"一般相対論を仮定した幾何解(δ_B = 180° − θ の書き方の値)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位と元期は記録に無い(模型の入力 —— 歳差 5.16°/年で回る向き)\"},\"sense\":{\"sign\":1,\"basis\":\"knob\",\"default\":1,\"min\":-1,\"max\":1,\"note\":\"記録の角の二通りの読み —— +1 は 40.6°(記録の行の値・📻 の B の表示の宣言と同じ)・−1 は 139.4°(論文の角 θ)\"},\"source\":\"傾き: Lower et al. 2024 A&A 682 A26 §5.2 の 40.6 ± 0.1°(一般相対論を仮定した幾何解・同じ csv の PSR J0737-3039 B の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位と角の読みはノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は推定の傾き 40.6° と、方位・角の読みのノブ。歳差 5.16°/年は扱わない(固定の外部の貯蔵庫 —— 8 公転の窓で約 0.01°)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "got": "accept",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "tiltAz90",
+    "ja": "A の方位のノブを 90°(範囲の内 —— 傾き 0° では向きは同じ)",
+    "expect": "accept",
+    "accepted": true,
+    "err": null,
+    "missingA": false,
+    "usedA": true,
+    "canonA": {
+     "kind": "omega",
+     "omega": 44.054068642001,
+     "fSrc": 0.354,
+     "rObs": 11750,
+     "axis": {
+      "ref": "orbitNormal",
+      "pair": [
+       0,
+       1
+      ],
+      "tiltDeg": {
+       "deg": 0,
+       "basis": "estimated",
+       "upperDeg": 3.2,
+       "level": 95,
+       "note": "上限の内の整列(中心の値は記録に無い —— 68%・99% の上限は 0.85°・4.7°)"
+      },
+      "azimuthDeg": {
+       "deg": 90,
+       "basis": "knob",
+       "default": 0,
+       "min": 0,
+       "max": 360,
+       "note": "方位は記録に無い(模型の入力 —— 傾き 0° の既定では向きに効かない)"
+      },
+      "source": "傾き: Ferdman et al. 2013 ApJ 767 85 の軌道角運動量との角の 95% の上限 3.2°(二つの磁極の放射を仮定した模型の値・paper/data/solar-observations.csv の PSR J0737-3039 A の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位はノブ(模型の入力)"
+     },
+     "unit": "Hz",
+     "frame": "book",
+     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+     "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
+     "note": "軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)"
+    },
+    "JSI_A": 3.5998712222398215e+40,
+    "axisResolvedA": [
+     0,
+     0,
+     1
+    ],
+    "axisBasisA": {
+     "tiltDeg": "estimated",
+     "azimuthDeg": "knob"
+    },
+    "axisFormA": "tilt",
+    "spin0": [
+     0,
+     0
+    ],
+    "bodiesSpin": [
+     0,
+     0
+    ],
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":0,\"basis\":\"estimated\",\"upperDeg\":3.2,\"level\":95,\"note\":\"上限の内の整列(中心の値は記録に無い —— 68%・99% の上限は 0.85°・4.7°)\"},\"azimuthDeg\":{\"deg\":90,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位は記録に無い(模型の入力 —— 傾き 0° の既定では向きに効かない)\"},\"source\":\"傾き: Ferdman et al. 2013 ApJ 767 85 の軌道角運動量との角の 95% の上限 3.2°(二つの磁極の放射を仮定した模型の値・paper/data/solar-observations.csv の PSR J0737-3039 A の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位はノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":40.6,\"basis\":\"estimated\",\"sigmaDeg\":0.1,\"note\":\"一般相対論を仮定した幾何解(δ_B = 180° − θ の書き方の値)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位と元期は記録に無い(模型の入力 —— 歳差 5.16°/年で回る向き)\"},\"sense\":{\"sign\":1,\"basis\":\"knob\",\"default\":1,\"min\":-1,\"max\":1,\"note\":\"記録の角の二通りの読み —— +1 は 40.6°(記録の行の値・📻 の B の表示の宣言と同じ)・−1 は 139.4°(論文の角 θ)\"},\"source\":\"傾き: Lower et al. 2024 A&A 682 A26 §5.2 の 40.6 ± 0.1°(一般相対論を仮定した幾何解・同じ csv の PSR J0737-3039 B の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位と角の読みはノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は推定の傾き 40.6° と、方位・角の読みのノブ。歳差 5.16°/年は扱わない(固定の外部の貯蔵庫 —— 8 公転の窓で約 0.01°)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "got": "accept",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "senseEst",
+    "ja": "A に向き sense −1 を推定として(傾き 0° → 180° の読み —— 向き −n̂)",
+    "expect": "accept",
+    "accepted": true,
+    "err": null,
+    "missingA": false,
+    "usedA": true,
+    "canonA": {
+     "kind": "omega",
+     "omega": 44.054068642001,
+     "fSrc": 0.354,
+     "rObs": 11750,
+     "axis": {
+      "ref": "orbitNormal",
+      "pair": [
+       0,
+       1
+      ],
+      "tiltDeg": {
+       "deg": 0,
+       "basis": "estimated",
+       "upperDeg": 3.2,
+       "level": 95,
+       "note": "上限の内の整列(中心の値は記録に無い —— 68%・99% の上限は 0.85°・4.7°)"
+      },
+      "azimuthDeg": {
+       "deg": 0,
+       "basis": "knob",
+       "default": 0,
+       "min": 0,
+       "max": 360,
+       "note": "方位は記録に無い(模型の入力 —— 傾き 0° の既定では向きに効かない)"
+      },
+      "sense": {
+       "sign": -1,
+       "basis": "estimated"
+      },
+      "source": "傾き: Ferdman et al. 2013 ApJ 767 85 の軌道角運動量との角の 95% の上限 3.2°(二つの磁極の放射を仮定した模型の値・paper/data/solar-observations.csv の PSR J0737-3039 A の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位はノブ(模型の入力)"
+     },
+     "unit": "Hz",
+     "frame": "book",
+     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+     "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
+     "note": "軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)"
+    },
+    "JSI_A": 3.5998712222398215e+40,
+    "axisResolvedA": [
+     1.2246467991473532e-16,
+     0,
+     -1
+    ],
+    "axisBasisA": {
+     "tiltDeg": "estimated",
+     "azimuthDeg": "knob",
+     "sense": "estimated"
+    },
+    "axisFormA": "tilt",
+    "spin0": [
+     0,
+     0
+    ],
+    "bodiesSpin": [
+     0,
+     0
+    ],
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":0,\"basis\":\"estimated\",\"upperDeg\":3.2,\"level\":95,\"note\":\"上限の内の整列(中心の値は記録に無い —— 68%・99% の上限は 0.85°・4.7°)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位は記録に無い(模型の入力 —— 傾き 0° の既定では向きに効かない)\"},\"sense\":{\"sign\":-1,\"basis\":\"estimated\"},\"source\":\"傾き: Ferdman et al. 2013 ApJ 767 85 の軌道角運動量との角の 95% の上限 3.2°(二つの磁極の放射を仮定した模型の値・paper/data/solar-observations.csv の PSR J0737-3039 A の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位はノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":40.6,\"basis\":\"estimated\",\"sigmaDeg\":0.1,\"note\":\"一般相対論を仮定した幾何解(δ_B = 180° − θ の書き方の値)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位と元期は記録に無い(模型の入力 —— 歳差 5.16°/年で回る向き)\"},\"sense\":{\"sign\":1,\"basis\":\"knob\",\"default\":1,\"min\":-1,\"max\":1,\"note\":\"記録の角の二通りの読み —— +1 は 40.6°(記録の行の値・📻 の B の表示の宣言と同じ)・−1 は 139.4°(論文の角 θ)\"},\"source\":\"傾き: Lower et al. 2024 A&A 682 A26 §5.2 の 40.6 ± 0.1°(一般相対論を仮定した幾何解・同じ csv の PSR J0737-3039 B の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位と角の読みはノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は推定の傾き 40.6° と、方位・角の読みのノブ。歳差 5.16°/年は扱わない(固定の外部の貯蔵庫 —— 8 公転の窓で約 0.01°)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "got": "accept",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "tiltJ",
+    "ja": "A を kind \"J\"・J + 傾きの形",
+    "expect": "accept",
+    "accepted": true,
+    "err": null,
+    "missingA": false,
+    "usedA": true,
+    "canonA": {
+     "kind": "J",
+     "J": 3.5998712222398215e+40,
+     "axis": {
+      "ref": "orbitNormal",
+      "pair": [
+       0,
+       1
+      ],
+      "tiltDeg": {
+       "deg": 0,
+       "basis": "estimated",
+       "upperDeg": 3.2,
+       "level": 95,
+       "note": "上限の内の整列(中心の値は記録に無い —— 68%・99% の上限は 0.85°・4.7°)"
+      },
+      "azimuthDeg": {
+       "deg": 0,
+       "basis": "knob",
+       "default": 0,
+       "min": 0,
+       "max": 360,
+       "note": "方位は記録に無い(模型の入力 —— 傾き 0° の既定では向きに効かない)"
+      },
+      "source": "傾き: Ferdman et al. 2013 ApJ 767 85 の軌道角運動量との角の 95% の上限 3.2°(二つの磁極の放射を仮定した模型の値・paper/data/solar-observations.csv の PSR J0737-3039 A の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位はノブ(模型の入力)"
+     },
+     "unit": "kg m^2/s",
+     "frame": "book",
+     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+     "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
+     "note": "軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)"
+    },
+    "JSI_A": 3.5998712222398215e+40,
+    "axisResolvedA": [
+     0,
+     0,
+     1
+    ],
+    "axisBasisA": {
+     "tiltDeg": "estimated",
+     "azimuthDeg": "knob"
+    },
+    "axisFormA": "tilt",
+    "spin0": [
+     0,
+     0
+    ],
+    "bodiesSpin": [
+     0,
+     0
+    ],
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"J\",\"J\":3.5998712222398215e+40,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":0,\"basis\":\"estimated\",\"upperDeg\":3.2,\"level\":95,\"note\":\"上限の内の整列(中心の値は記録に無い —— 68%・99% の上限は 0.85°・4.7°)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位は記録に無い(模型の入力 —— 傾き 0° の既定では向きに効かない)\"},\"source\":\"傾き: Ferdman et al. 2013 ApJ 767 85 の軌道角運動量との角の 95% の上限 3.2°(二つの磁極の放射を仮定した模型の値・paper/data/solar-observations.csv の PSR J0737-3039 A の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位はノブ(模型の入力)\"},\"unit\":\"kg m^2/s\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":40.6,\"basis\":\"estimated\",\"sigmaDeg\":0.1,\"note\":\"一般相対論を仮定した幾何解(δ_B = 180° − θ の書き方の値)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位と元期は記録に無い(模型の入力 —— 歳差 5.16°/年で回る向き)\"},\"sense\":{\"sign\":1,\"basis\":\"knob\",\"default\":1,\"min\":-1,\"max\":1,\"note\":\"記録の角の二通りの読み —— +1 は 40.6°(記録の行の値・📻 の B の表示の宣言と同じ)・−1 は 139.4°(論文の角 θ)\"},\"source\":\"傾き: Lower et al. 2024 A&A 682 A26 §5.2 の 40.6 ± 0.1°(一般相対論を仮定した幾何解・同じ csv の PSR J0737-3039 B の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位と角の読みはノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は推定の傾き 40.6° と、方位・角の読みのノブ。歳差 5.16°/年は扱わない(固定の外部の貯蔵庫 —— 8 公転の窓で約 0.01°)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "got": "accept",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "tiltObs",
+    "ja": "A の傾きを観測 observed(sigmaDeg 0.5)",
+    "expect": "accept",
+    "accepted": true,
+    "err": null,
+    "missingA": false,
+    "usedA": true,
+    "canonA": {
+     "kind": "omega",
+     "omega": 44.054068642001,
+     "fSrc": 0.354,
+     "rObs": 11750,
+     "axis": {
+      "ref": "orbitNormal",
+      "pair": [
+       0,
+       1
+      ],
+      "tiltDeg": {
+       "deg": 0,
+       "basis": "observed",
+       "sigmaDeg": 0.5
+      },
+      "azimuthDeg": {
+       "deg": 0,
+       "basis": "knob",
+       "default": 0,
+       "min": 0,
+       "max": 360,
+       "note": "方位は記録に無い(模型の入力 —— 傾き 0° の既定では向きに効かない)"
+      },
+      "source": "傾き: Ferdman et al. 2013 ApJ 767 85 の軌道角運動量との角の 95% の上限 3.2°(二つの磁極の放射を仮定した模型の値・paper/data/solar-observations.csv の PSR J0737-3039 A の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位はノブ(模型の入力)"
+     },
+     "unit": "Hz",
+     "frame": "book",
+     "source": "ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)",
+     "epoch": "Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)",
+     "note": "軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)"
+    },
+    "JSI_A": 3.5998712222398215e+40,
+    "axisResolvedA": [
+     0,
+     0,
+     1
+    ],
+    "axisBasisA": {
+     "tiltDeg": "observed",
+     "azimuthDeg": "knob"
+    },
+    "axisFormA": "tilt",
+    "spin0": [
+     0,
+     0
+    ],
+    "bodiesSpin": [
+     0,
+     0
+    ],
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.42582647410185e-7,\"cLight\":2997.92458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":3,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":1000,\"massFloor\":0.000001,\"stepDt\":2.45404,\"stateCarry\":\"double\",\"coord\":\"3d\",\"relativeDrag\":{\"law\":\"inertial\",\"invSq\":{\"Wbg2\":0,\"order\":8,\"kernel\":\"k1\",\"rdRule\":\"kappaM\",\"sourceMoment\":{\"kind\":\"obsSpin\"}},\"pairs\":\"all\",\"history\":\"positions\",\"spinDrag\":{\"rot\":\"surfaceFlip\",\"axial\":\"off\"},\"initMotion\":\"observed\"},\"gLoc\":{\"law\":\"kappaC2\",\"n\":2,\"pair\":\"receiver\",\"kappa\":\"lock\",\"ref\":\"background\"}},\"bodies\":[{\"type\":\"single\",\"m\":2660.982861,\"x\":-461.48618600827865,\"y\":0,\"vx\":0,\"vy\":-2.763093948239957,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":44.054068642001,\"fSrc\":0.354,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":0,\"basis\":\"observed\",\"sigmaDeg\":0.5},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位は記録に無い(模型の入力 —— 傾き 0° の既定では向きに効かない)\"},\"source\":\"傾き: Ferdman et al. 2013 ApJ 767 85 の軌道角運動量との角の 95% の上限 3.2°(二つの磁極の放射を仮定した模型の値・paper/data/solar-observations.csv の PSR J0737-3039 A の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位はノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"ν: Hu et al. 2022 A&A 667 A149(paper/data/solar-observations.csv の PSR J0737-3039 A の rotation_period の行)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km(直接の半径の観測ではない)・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Hu et al. 2022 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は軌道の法線から推定の傾き(95% 上限 3.2° の内 —— 既定 0° の整列)と方位のノブ。源の自転の進化と歳差は扱わない(固定の外部の貯蔵庫)\"},\"z\":0,\"vz\":0},{\"type\":\"single\",\"m\":2483.370041,\"x\":494.49208586803894,\"y\":0,\"vx\":0,\"vy\":2.9607128692905675,\"spin\":0,\"pinned\":false,\"radius\":0.01175,\"pnSource\":true,\"obsSpin\":{\"kind\":\"omega\",\"omega\":0.360560358027474,\"fSrc\":0.346,\"rObs\":11750,\"axis\":{\"ref\":\"orbitNormal\",\"pair\":[0,1],\"tiltDeg\":{\"deg\":40.6,\"basis\":\"estimated\",\"sigmaDeg\":0.1,\"note\":\"一般相対論を仮定した幾何解(δ_B = 180° − θ の書き方の値)\"},\"azimuthDeg\":{\"deg\":0,\"basis\":\"knob\",\"default\":0,\"min\":0,\"max\":360,\"note\":\"方位と元期は記録に無い(模型の入力 —— 歳差 5.16°/年で回る向き)\"},\"sense\":{\"sign\":1,\"basis\":\"knob\",\"default\":1,\"min\":-1,\"max\":1,\"note\":\"記録の角の二通りの読み —— +1 は 40.6°(記録の行の値・📻 の B の表示の宣言と同じ)・−1 は 139.4°(論文の角 θ)\"},\"source\":\"傾き: Lower et al. 2024 A&A 682 A26 §5.2 の 40.6 ± 0.1°(一般相対論を仮定した幾何解・同じ csv の PSR J0737-3039 B の spin_orbit_misalignment の行)—— 文献の値(一次資料に当たっていない)・方位と角の読みはノブ(模型の入力)\"},\"unit\":\"Hz\",\"frame\":\"book\",\"source\":\"P: Kramer et al. 2006 MNRAS 368 283 の時刻の表(paper/data/solar-observations.csv の PSR J0737-3039 B の rotation_period の行 —— ν = 1/P)・rObs: Dietrich et al. 2020 の EOS の代理 11.75 km・fSrc: Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力 —— いずれも文献の値(一次資料に当たっていない)\",\"epoch\":\"Kramer et al. 2006 の時刻解の元期(MJD は本リポジトリの記録に無い)\",\"note\":\"軸は推定の傾き 40.6° と、方位・角の読みのノブ。歳差 5.16°/年は扱わない(固定の外部の貯蔵庫 —— 8 公転の窓で約 0.01°)\"},\"z\":0,\"vz\":0}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":1100},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+    "got": "accept",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "knobNoRange",
+    "ja": "方位のノブに min・max が無い",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.azimuthDeg はノブ —— 既定 default と範囲 min・max が必須(min < max・既定と値は範囲の内)",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "knobNoDefault",
+    "ja": "方位のノブに default が無い",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.azimuthDeg はノブ —— 既定 default と範囲 min・max が必須(min < max・既定と値は範囲の内)",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "knobOut",
+    "ja": "方位のノブの値 −10°(範囲 0〜360 の外)",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.azimuthDeg はノブ —— 既定 default と範囲 min・max が必須(min < max・既定と値は範囲の内)",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "knobMinMax",
+    "ja": "方位のノブの min 360・max 0(min < max でない)",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.azimuthDeg はノブ —— 既定 default と範囲 min・max が必須(min < max・既定と値は範囲の内)",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "knobSigma",
+    "ja": "方位のノブに sigmaDeg(ノブの値を観測と呼ばない)",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.azimuthDeg はノブ —— 観測・推定の不確かさの鍵(sigmaDeg・upperDeg・level)を置かない(ノブの値を観測と呼ばない)",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "estRange",
+    "ja": "推定の傾きに min・max・default(ノブの鍵)",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.tiltDeg は観測か推定 —— ノブの鍵(default・min・max)を置かない",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "basisBad",
+    "ja": "傾きの basis \"assumed\"(列挙の外)",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.tiltDeg.basis は \"observed\"(観測)・\"estimated\"(推定)・\"knob\"(ノブ —— 観測でない模型の入力)のどれか",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "tiltRange",
+    "ja": "傾き 190°(0〜180 の外)",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.tiltDeg の値は 0〜180 の数(度)",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "tiltUpper",
+    "ja": "推定の傾き 5° が上限 upperDeg 3.2° の外",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.tiltDeg の不確かさは sigmaDeg・upperDeg が 0 以上の数・level が 0 < level < 100(上限 upperDeg を置くなら値は上限の内・向き sense には置かない)",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "tiltLevel",
+    "ja": "上限の水準 level 120(0〜100 の外)",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.tiltDeg の不確かさは sigmaDeg・upperDeg が 0 以上の数・level が 0 < level < 100(上限 upperDeg を置くなら値は上限の内・向き sense には置かない)",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "noAz",
+    "ja": "方位 azimuthDeg が無い",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.azimuthDeg が要る({deg か sign, basis:\"observed\"|\"estimated\"|\"knob\", …} —— 傾き tiltDeg と方位 azimuthDeg は必須・向き sense は任意)",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "noTilt",
+    "ja": "傾き tiltDeg が無い",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.tiltDeg が要る({deg か sign, basis:\"observed\"|\"estimated\"|\"knob\", …} —— 傾き tiltDeg と方位 azimuthDeg は必須・向き sense は任意)",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "axisKey",
+    "ja": "傾きの形に未知の鍵 foo",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis の傾きの形の未知の鍵 foo(ref・pair・tiltDeg・azimuthDeg・sense・source・note だけ)",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "compKey",
+    "ja": "傾きの成分に未知の鍵 bar",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.tiltDeg の未知の鍵 bar",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "compSign",
+    "ja": "傾きの成分に sign(角の成分は deg)",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.tiltDeg の未知の鍵 sign",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "refBad",
+    "ja": "ref \"spin\"(軌道の法線だけ)",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.ref は \"orbitNormal\"(軌道の法線 —— pair の二体の初期の相対の角運動量の向き)",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "pairSame",
+    "ja": "pair [0, 0](異なる二体でない)",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.pair は異なる 2 つの天体の添字 [i, j](軌道の法線を決める二体 —— 配列の先頭を黙って使わない)",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "pairOut",
+    "ja": "pair [0, 5](天体の範囲の外)",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.pair の天体 bodies[5] が無いか single でない(軌道の法線は single の二体の初期の位置と速度から)",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "axisNoSource",
+    "ja": "傾きの形に source が無い",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.source(傾きの出典の文字列 —— ノブの成分は「模型の入力」と書く)が要る",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "pairZeroL",
+    "ja": "pair の二体の相対の速度を 0 に(初期の相対の角運動量 0)",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.pair の二体の初期の相対の角運動量が 0 —— 軌道の法線が決まらない",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "senseBad",
+    "ja": "向き sense の sign 0(±1 の外)",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.sense の sign は +1 か −1(−1 は傾き 180° − tiltDeg の読み)",
+    "got": "reject",
+    "whyOk": true,
+    "ok": true
+   },
+   {
+    "key": "senseSigma",
+    "ja": "推定の向き sense に sigmaDeg",
+    "expect": "reject",
+    "accepted": false,
+    "err": "bodies[0].obsSpin.axis.sense の不確かさは sigmaDeg・upperDeg が 0 以上の数・level が 0 < level < 100(上限 upperDeg を置くなら値は上限の内・向き sense には置かない)",
+    "got": "reject",
     "whyOk": true,
     "ok": true
    }
   ],
-  "n": 32,
-  "nOk": 32,
+  "n": 58,
+  "nOk": 58,
   "checks": {
    "axisNormUnit": true,
    "axisNormSig": true,
@@ -978,7 +1927,13 @@
    "hzRadps": true,
    "jForms": true,
    "spinUntouched": true,
-   "usedOnlyWithAxis": true
+   "usedOnlyWithAxis": true,
+   "tiltZeroIsN": true,
+   "senseEstMinusN": true,
+   "azNoEffectAtZeroTilt": true,
+   "tiltJSame": true,
+   "basisKept": true,
+   "canonTiltOrder": true
   }
  },
  "B": {
@@ -996,7 +1951,10 @@
    "spinDrag": {
     "rot": "surfaceFlip"
    },
-   "axisNull": true,
+   "axisForms": [
+    "tilt",
+    "tilt"
+   ],
    "fSrc": [
     0.354,
     0.346
@@ -1008,21 +1966,50 @@
    "obsState": [
     {
      "i": 0,
-     "missing": true,
-     "used": false,
+     "missing": false,
+     "used": true,
      "JSI": 3.5998712222398215e+40,
      "omegaSI": 276.79987681290163,
      "RsrcBook": 0.011053746536808233,
-     "Jbook": 359.98712222398217
+     "Jbook": 359.98712222398217,
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "axisBasis": {
+      "tiltDeg": "estimated",
+      "azimuthDeg": "knob"
+     },
+     "normal": [
+      0,
+      0,
+      1
+     ]
     },
     {
      "i": 1,
-     "missing": true,
-     "used": false,
+     "missing": false,
+     "used": true,
      "JSI": 2.68751634495208e+38,
      "omegaSI": 2.2654675439096357,
      "RsrcBook": 0.010928131702171235,
-     "Jbook": 2.6875163449520802
+     "Jbook": 2.6875163449520802,
+     "axis": [
+      0.6507742172658512,
+      0,
+      0.7592713073348808
+     ],
+     "axisBasis": {
+      "tiltDeg": "estimated",
+      "azimuthDeg": "knob",
+      "sense": "knob"
+     },
+     "normal": [
+      0,
+      0,
+      1
+     ]
     }
    ],
    "fLS05": {
@@ -1032,6 +2019,56 @@
    "sibling": "psrDoubleAB → 第321便b の列 tr",
    "familyOk": true,
    "sampleClass": "principle",
+   "axOk": true,
+   "knobs": [
+    {
+     "body": 0,
+     "comp": "azimuthDeg",
+     "key": "bodies[0].obsSpin.axis.azimuthDeg.deg",
+     "value": 0,
+     "default": 0,
+     "min": 0,
+     "max": 360,
+     "unit": "deg"
+    },
+    {
+     "body": 1,
+     "comp": "azimuthDeg",
+     "key": "bodies[1].obsSpin.axis.azimuthDeg.deg",
+     "value": 0,
+     "default": 0,
+     "min": 0,
+     "max": 360,
+     "unit": "deg"
+    },
+    {
+     "body": 1,
+     "comp": "sense",
+     "key": "bodies[1].obsSpin.axis.sense.sign",
+     "value": 1,
+     "default": 1,
+     "min": -1,
+     "max": 1,
+     "unit": "sign"
+    }
+   ],
+   "knobsOk": true,
+   "wkOk": true,
+   "wkDeny": true,
+   "axRes": [
+    [
+     0,
+     0,
+     1
+    ],
+    [
+     0.6507742172658512,
+     0,
+     0.7592713073348808
+    ]
+   ],
+   "axResOk": true,
+   "usedBoth": true,
    "declOk": true
   },
   "acen": {
@@ -1043,50 +2080,123 @@
    "rdSame": true,
    "bodiesSame": true,
    "restSame": true,
-   "srcKind": "J",
-   "f": {
-    "0": 0.07,
-    "1": 0.07
-   },
+   "srcKind": "obsSpin",
+   "fSrc": [
+    0.07,
+    0.07
+   ],
    "trNoJ": true,
    "spinDrag": {
     "rot": "surfaceFlip"
    },
-   "srcMoment": [
+   "recOk": true,
+   "axOk": true,
+   "knobs": [
+    {
+     "body": 0,
+     "comp": "tiltDeg",
+     "key": "bodies[0].obsSpin.axis.tiltDeg.deg",
+     "value": 0,
+     "default": 0,
+     "min": 0,
+     "max": 180,
+     "unit": "deg"
+    },
+    {
+     "body": 0,
+     "comp": "azimuthDeg",
+     "key": "bodies[0].obsSpin.axis.azimuthDeg.deg",
+     "value": 0,
+     "default": 0,
+     "min": 0,
+     "max": 360,
+     "unit": "deg"
+    },
+    {
+     "body": 1,
+     "comp": "tiltDeg",
+     "key": "bodies[1].obsSpin.axis.tiltDeg.deg",
+     "value": 0,
+     "default": 0,
+     "min": 0,
+     "max": 180,
+     "unit": "deg"
+    },
+    {
+     "body": 1,
+     "comp": "azimuthDeg",
+     "key": "bodies[1].obsSpin.axis.azimuthDeg.deg",
+     "value": 0,
+     "default": 0,
+     "min": 0,
+     "max": 360,
+     "unit": "deg"
+    }
+   ],
+   "knobsOk": true,
+   "obsState": [
     {
      "i": 0,
-     "Rd": 0.0000018894049924833737,
-     "Robs": 0.08473800122737885,
-     "f": 0.07,
-     "Rsrc": 0.035448449177671655,
-     "applied": true,
-     "momentFactor": 352001377.5597449
+     "missing": false,
+     "used": true,
+     "JSI": 4.931624411515535e+41,
+     "omegaSI": 0.000004573713972731472,
+     "RsrcBook": 0.03544844866422225,
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "axisBasis": {
+      "tiltDeg": "knob",
+      "azimuthDeg": "knob"
+     }
     },
     {
      "i": 1,
-     "Rd": 0.0000015923682614680106,
-     "Robs": 0.05979336053133011,
-     "f": 0.07,
-     "Rsrc": 0.0250133573043521,
-     "applied": true,
-     "momentFactor": 246749878.85210174
+     "missing": false,
+     "used": true,
+     "JSI": 9.082110290154608e+40,
+     "omegaSI": 0.0000020072330159103063,
+     "RsrcBook": 0.025013357082080766,
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "axisBasis": {
+      "tiltDeg": "knob",
+      "azimuthDeg": "knob"
+     }
     }
    ],
    "JSI": [
+    4.931624411515535e+41,
+    9.082110290154608e+40
+   ],
+   "Jold": [
     4.9316244085703135e+41,
     9.082110308659208e+40
+   ],
+   "JoverOld": [
+    1.0000000005972114,
+    0.999999997962522
+   ],
+   "spins": [
+    4.57371397,
+    2.00723302
    ],
    "declOk": true
   }
  },
  "E": {
-  "n": 26,
+  "n": 35,
   "rows": [
    {
-    "key": "acen|Jm|div=1|N=8",
+    "key": "acen|kJ|div=1|N=8",
     "spec": {
      "sys": "acen",
-     "col": "Jm",
+     "col": "kJ",
      "div": 1,
      "N": 8,
      "K": 3
@@ -1105,41 +2215,41 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 1.895,
-    "P": 2518.575375240761,
+    "wallSec": 0.809,
+    "P": 2518.5753752416576,
     "nPeri": 8,
-    "rate": -0.0013114641402025892,
-    "e": 0.5193723389558167,
-    "fitRms": 0.000016863659270626576,
-    "rateB": -0.001312409251861153,
-    "periRms": 1.2169771157843078e-8,
-    "eB": 0.5193161769729815,
-    "Pa": 2517.156325588688,
+    "rate": -0.0013114641406150554,
+    "e": 0.5193723389558447,
+    "fitRms": 0.000016863659275258156,
+    "rateB": -0.0013124092522779965,
+    "periRms": 1.2169769734513967e-8,
+    "eB": 0.5193161769729936,
+    "Pa": 2517.156325589077,
     "acct": {
-     "E0": -3.71317187851352,
-     "dE": -0.000057424049730788394,
-     "dEmax": 0.027972391133945337,
-     "wDrag": 3.115583025250491e-8,
-     "wGLoc": -1.832452012608765e-13,
-     "closeE": -0.000057455205377795694,
+     "E0": -3.7131718785135948,
+     "dE": -0.00005742404948369706,
+     "dEmax": 0.02797239113396535,
+     "wDrag": 3.115583025248659e-8,
+     "wGLoc": -1.832452014889436e-13,
+     "closeE": -0.000057455205130704345,
      "ledger": {
       "stepOrder": "semic",
-      "RE": -0.000057455205377795694,
-      "W": 3.115583025250491e-8,
-      "gLocWork": -1.832452012608765e-13,
+      "RE": -0.000057455205130704345,
+      "W": 3.115583025248659e-8,
+      "gLocWork": -1.832452014889436e-13,
       "semicMiss": 0
      },
-     "dh": -2.5008249030905732e-14,
-     "dLz": -2.7010697211487642e-14,
-     "lDrag": -2.620825674011262e-14,
+     "dh": 2.522761963644079e-14,
+     "dLz": 2.3254242632407316e-14,
+     "lDrag": 2.6208256740053315e-14,
      "dP": [
-      -5.79597346538895e-9,
-      6.643936627050197e-11,
+      -5.795973264573148e-9,
+      6.643916545451884e-11,
       0
      ],
      "pGLoc": [
-      -5.795973302462579e-9,
-      6.643924102810562e-11,
+      -5.7959733024620485e-9,
+      6.643924103778911e-11,
       0
      ],
      "spinDmax": 0
@@ -1150,19 +2260,19 @@
      "noHist": 0,
      "reject": 0,
      "over": 0,
-     "boundMax": 1.9013652762994844e-8,
+     "boundMax": 1.9013652762992564e-8,
      "initObs": {
       "ok": true,
       "why": null
      }
     },
     "gLoc": {
-     "psiMax": 9.506826080413344e-10,
-     "dGMax": 3.802730424934959e-9,
+     "psiMax": 9.506826080412193e-10,
+     "dGMax": 3.802730424934498e-9,
      "evals": 2882
     },
-    "hashXY": "0a49dbe1434394da",
-    "hashAll": "59757a568c6e8d2a"
+    "hashXY": "2409b7f0a5a1ad80",
+    "hashAll": "70c81d9b4431e85a"
    },
    {
     "key": "acen|off|div=1|N=8",
@@ -1187,7 +2297,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.506,
+    "wallSec": 0.043,
     "P": 2518.5753899281153,
     "nPeri": 8,
     "rate": -0.0013114930990556258,
@@ -1258,7 +2368,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.965,
+    "wallSec": 0.802,
     "P": 2518.5753752412033,
     "nPeri": 8,
     "rate": -0.0013114641404085347,
@@ -1340,7 +2450,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.848,
+    "wallSec": 0.981,
     "P": 2518.5753752416576,
     "nPeri": 8,
     "rate": -0.0013114641406150554,
@@ -1354,19 +2464,19 @@
      "E0": -3.7131718785135948,
      "dE": -0.00005742404948369706,
      "dEmax": 0.02797239113396535,
-     "wDrag": 3.115583025248659e-8,
+     "wDrag": 3.115583025248662e-8,
      "wGLoc": -1.832452014889436e-13,
      "closeE": -0.000057455205130704345,
      "ledger": {
       "stepOrder": "semic",
       "RE": -0.000057455205130704345,
-      "W": 3.115583025248659e-8,
+      "W": 3.115583025248662e-8,
       "gLocWork": -1.832452014889436e-13,
       "semicMiss": 0
      },
      "dh": 2.522761963644079e-14,
      "dLz": 2.3254242632407316e-14,
-     "lDrag": 2.6208256740053315e-14,
+     "lDrag": 2.6208257188689187e-14,
      "dP": [
       -5.795973264573148e-9,
       6.643916545451884e-11,
@@ -1422,7 +2532,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 3.164,
+    "wallSec": 1.705,
     "P": 2517.5101170189832,
     "nPeri": 8,
     "rate": -0.00032827293166226123,
@@ -1448,7 +2558,7 @@
      },
      "dh": 8.994194826904977e-15,
      "dLz": 7.15515157920225e-15,
-     "lDrag": 1.3114318138519146e-14,
+     "lDrag": 1.3114318362162215e-14,
      "dP": [
       -5.801680597053111e-9,
       2.565374007514416e-11,
@@ -1504,7 +2614,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 7.499,
+    "wallSec": 2.944,
     "P": 2517.2435177185093,
     "nPeri": 8,
     "rate": -0.00008232915127198515,
@@ -1518,19 +2628,19 @@
      "E0": -3.7131718785135948,
      "dE": -0.0000013806388698366136,
      "dEmax": 0.006900958625604392,
-     "wDrag": 7.80047354433655e-9,
+     "wDrag": 7.800473544336566e-9,
      "wGLoc": -2.562101449012553e-15,
-     "closeE": -0.0000013884393408188487,
+     "closeE": -0.0000013884393408188489,
      "ledger": {
       "stepOrder": "semic",
-      "RE": -0.0000013884393408188487,
-      "W": 7.80047354433655e-9,
+      "RE": -0.0000013884393408188489,
+      "W": 7.800473544336566e-9,
       "gLocWork": -2.562101449012553e-15,
       "semicMiss": 0
      },
      "dh": 1.3162236332056064e-15,
      "dLz": -3.577575789601125e-16,
-     "lDrag": 6.5585198937262964e-15,
+     "lDrag": 6.5585200059351464e-15,
      "dP": [
       -5.802896776508864e-9,
       1.0930815708880776e-11,
@@ -1564,6 +2674,252 @@
     "hashAll": "5e21a6da0825f3fe"
    },
    {
+    "key": "acen|t180|div=1|N=8",
+    "spec": {
+     "sys": "acen",
+     "col": "t180",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 6.99194,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 2882,
+    "dt": 6.99194,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.812,
+    "P": 2518.575375240761,
+    "nPeri": 8,
+    "rate": -0.0013114641402025892,
+    "e": 0.5193723389558167,
+    "fitRms": 0.000016863659270626576,
+    "rateB": -0.001312409251861153,
+    "periRms": 1.2169771157843078e-8,
+    "eB": 0.5193161769729815,
+    "Pa": 2517.156325588688,
+    "acct": {
+     "E0": -3.71317187851352,
+     "dE": -0.000057424049730788394,
+     "dEmax": 0.027972391133945337,
+     "wDrag": 3.1155830252504906e-8,
+     "wGLoc": -1.832452012608765e-13,
+     "closeE": -0.000057455205377795694,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.000057455205377795694,
+      "W": 3.1155830252504906e-8,
+      "gLocWork": -1.832452012608765e-13,
+      "semicMiss": 0
+     },
+     "dh": -2.5008249030905732e-14,
+     "dLz": -2.7010697211487642e-14,
+     "lDrag": -2.620825718822713e-14,
+     "dP": [
+      -5.79597346538895e-9,
+      6.643936627050197e-11,
+      4.594800636194625e-39
+     ],
+     "pGLoc": [
+      -5.795973302462579e-9,
+      6.643924102810562e-11,
+      4.594794002693896e-39
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2882,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 1.9013652762994844e-8,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 9.506826080413344e-10,
+     "dGMax": 3.802730424934959e-9,
+     "evals": 2882
+    },
+    "hashXY": "0a49dbe1434394da",
+    "hashAll": "f7fbffea9d7fd0b8"
+   },
+   {
+    "key": "acen|t90az90|div=1|N=8",
+    "spec": {
+     "sys": "acen",
+     "col": "t90az90",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 6.99194,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 2882,
+    "dt": 6.99194,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.932,
+    "P": 2518.5753752412033,
+    "nPeri": 8,
+    "rate": -0.0013114641404085344,
+    "e": 0.5193723389558303,
+    "fitRms": 0.00001686365927294108,
+    "rateB": -0.0013124092520689235,
+    "periRms": 1.2169773430977652e-8,
+    "eB": 0.5193161769729855,
+    "Pa": 2517.1563255888873,
+    "acct": {
+     "E0": -3.713171878513557,
+     "dE": -0.00005742404960461157,
+     "dEmax": 0.027972391133953552,
+     "wDrag": 3.115583025249532e-8,
+     "wGLoc": -1.8324520138423595e-13,
+     "closeE": -0.00005745520525161887,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00005745520525161887,
+      "W": 3.115583025249532e-8,
+      "gLocWork": -1.8324520138423595e-13,
+      "semicMiss": 0
+     },
+     "dh": 3.9486708996167565e-15,
+     "dLz": 1.9676666842805877e-15,
+     "lDrag": 3.3204445620790427e-25,
+     "dP": [
+      -5.7959731170988175e-9,
+      6.643946667849564e-11,
+      2.390697047804595e-21
+     ],
+     "pGLoc": [
+      -5.795973302462257e-9,
+      6.6439241032954e-11,
+      2.390697089075513e-21
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2882,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 1.9013652762993705e-8,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 9.50682608041278e-10,
+     "dGMax": 3.802730424934733e-9,
+     "evals": 2882
+    },
+    "hashXY": "e6b2ac93da726fcd",
+    "hashAll": "8ca4df0b452767f9"
+   },
+   {
+    "key": "acen|t90|div=1|N=8",
+    "spec": {
+     "sys": "acen",
+     "col": "t90",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 6.99194,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 0,
+    "steps": 2882,
+    "dt": 6.99194,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.72,
+    "P": 2518.5753752412033,
+    "nPeri": 8,
+    "rate": -0.0013114641404085344,
+    "e": 0.5193723389558303,
+    "fitRms": 0.00001686365927294108,
+    "rateB": -0.0013124092520689235,
+    "periRms": 1.2169773430977652e-8,
+    "eB": 0.5193161769729855,
+    "Pa": 2517.1563255888873,
+    "acct": {
+     "E0": -3.713171878513557,
+     "dE": -0.00005742404960461157,
+     "dEmax": 0.027972391133953552,
+     "wDrag": 3.115583025249532e-8,
+     "wGLoc": -1.8324520138423595e-13,
+     "closeE": -0.00005745520525161887,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00005745520525161887,
+      "W": 3.115583025249532e-8,
+      "gLocWork": -1.8324520138423595e-13,
+      "semicMiss": 0
+     },
+     "dh": 3.9486708996167565e-15,
+     "dLz": 1.9676666842805877e-15,
+     "lDrag": 3.353715529341074e-25,
+     "dP": [
+      -5.7959731170988175e-9,
+      6.643946667849564e-11,
+      3.751940803432996e-23
+     ],
+     "pGLoc": [
+      -5.795973302462257e-9,
+      6.6439241032954e-11,
+      3.7519340321623044e-23
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2882,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 1.9013652762993705e-8,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 9.50682608041278e-10,
+     "dGMax": 3.802730424934733e-9,
+     "evals": 2882
+    },
+    "hashXY": "e6b2ac93da726fcd",
+    "hashAll": "bc2cc499089646aa"
+   },
+   {
     "key": "acen|tr|div=1|N=8",
     "spec": {
      "sys": "acen",
@@ -1586,7 +2942,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 1.16,
+    "wallSec": 0.766,
     "P": 2518.5753752412033,
     "nPeri": 8,
     "rate": -0.0013114641404085347,
@@ -1668,7 +3024,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 1.772,
+    "wallSec": 1.299,
     "P": 2517.5101170186504,
     "nPeri": 8,
     "rate": -0.00032827293145597605,
@@ -1750,7 +3106,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 2.13,
+    "wallSec": 2.393,
     "P": 2517.2435177182188,
     "nPeri": 8,
     "rate": -0.00008232915106432098,
@@ -1810,10 +3166,10 @@
     "hashAll": "481b0e2ae398e1cd"
    },
    {
-    "key": "j0737|JAB|div=1|N=8",
+    "key": "j0737|A32|div=1|N=8",
     "spec": {
      "sys": "j0737",
-     "col": "JAB",
+     "col": "A32",
      "div": 1,
      "N": 8,
      "K": 3
@@ -1832,7 +3188,89 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 2.412,
+    "wallSec": 0.875,
+    "P": 883.6855241544885,
+    "nPeri": 8,
+    "rate": -0.00038046173063037387,
+    "e": 0.08797941719731697,
+    "fitRms": 4.818316729028427e-7,
+    "rateB": -0.0003803921645689237,
+    "periRms": 9.404808715587599e-8,
+    "eB": 0.08797033335526859,
+    "Pa": 883.6220142513412,
+    "acct": {
+     "E0": -25090.106611518502,
+     "dE": -0.00000880482416279537,
+     "dEmax": 0.0017208972548873808,
+     "wDrag": 0.00003962468498876587,
+     "wGLoc": -7.638074404101227e-10,
+     "closeE": -0.000048428745344120825,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.000048428745344120825,
+      "W": 0.00003962468498876587,
+      "gLocWork": -7.638074404101227e-10,
+      "semicMiss": 0
+     },
+     "dh": 1.2526654304639286e-10,
+     "dLz": 1.3445197999969603e-10,
+     "lDrag": 1.252657214848967e-10,
+     "dP": [
+      -7.543162078669582e-7,
+      6.445003590236181e-8,
+      -1.1402292999814454e-16
+     ],
+     "pGLoc": [
+      -7.54316207787188e-7,
+      6.445003572637515e-8,
+      -1.1402293000759943e-16
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2881,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.000049296907085428685,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.0000024649068076688694,
+     "dGMax": 0.000009859578624710659,
+     "evals": 2881
+    },
+    "hashXY": "bf3e884174f907e4",
+    "hashAll": "62376f86c313373c"
+   },
+   {
+    "key": "j0737|Aaz90|div=1|N=8",
+    "spec": {
+     "sys": "j0737",
+     "col": "Aaz90",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 2.45404,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 2,
+    "steps": 2881,
+    "dt": 2.45404,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.758,
     "P": 883.6855241543566,
     "nPeri": 8,
     "rate": -0.0003804617333776534,
@@ -1892,11 +3330,11 @@
     "hashAll": "264329cd68c7dc43"
    },
    {
-    "key": "j0737|JAB|div=2|N=8",
+    "key": "j0737|Baz180|div=1|N=8",
     "spec": {
      "sys": "j0737",
-     "col": "JAB",
-     "div": 2,
+     "col": "Baz180",
+     "div": 1,
      "N": 8,
      "K": 3
     },
@@ -1909,69 +3347,397 @@
     "ge": 0,
     "geodesic": false,
     "warnings": 2,
-    "steps": 5761,
-    "dt": 1.22702,
+    "steps": 2881,
+    "dt": 2.45404,
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 4.273,
-    "P": 883.5637358750556,
+    "wallSec": 0.905,
+    "P": 883.6855241543566,
     "nPeri": 8,
-    "rate": -0.000012622435004653889,
-    "e": 0.08779862702252034,
-    "fitRms": 8.93514584245178e-9,
-    "rateB": -0.00001261727833234203,
-    "periRms": 1.6768512677394194e-8,
-    "eB": 0.08779461560685912,
-    "Pa": 883.5616357960859,
+    "rate": -0.0003804617333776534,
+    "e": 0.08797941719763937,
+    "fitRms": 4.818316763373389e-7,
+    "rateB": -0.0003803921673063751,
+    "periRms": 9.404810824255641e-8,
+    "eB": 0.08797033335556736,
+    "Pa": 883.6220142507185,
     "acct": {
      "E0": -25090.10661153527,
-     "dE": -0.0000015104733272371662,
-     "dEmax": 0.0008310852803646715,
-     "wDrag": 0.00001981434787805821,
-     "wGLoc": -1.2867994315193355e-10,
-     "closeE": -0.000021324692525352223,
+     "dE": -0.000008804823800443117,
+     "dEmax": 0.0017208972549303096,
+     "wDrag": 0.0000396246849887476,
+     "wGLoc": -7.63807440759354e-10,
+     "closeE": -0.00004842874498174996,
      "ledger": {
       "stepOrder": "semic",
-      "RE": -0.000021324692525352223,
-      "W": 0.00001981434787805821,
-      "gLocWork": -1.2867994315193355e-10,
+      "RE": -0.00004842874498174996,
+      "W": 0.0000396246849887476,
+      "gLocWork": -7.63807440759354e-10,
       "semicMiss": 0
      },
-     "dh": 6.273158308137158e-11,
-     "dLz": 7.193642539936307e-11,
-     "lDrag": 6.273377223659579e-11,
+     "dh": 1.2546150409075416e-10,
+     "dLz": 1.346474090111764e-10,
+     "lDrag": 1.2546024105598366e-10,
      "dP": [
-      -7.554973251248579e-7,
-      3.1700801115734075e-8,
-      -9.753894664826934e-18
+      -7.543162077495422e-7,
+      6.44500357104421e-8,
+      9.12938886759236e-18
      ],
      "pGLoc": [
-      -7.554973250938568e-7,
-      3.170080122414264e-8,
-      -9.753894663541514e-18
+      -7.543162077862219e-7,
+      6.445003573485906e-8,
+      9.129388867792087e-18
      ],
      "spinDmax": 0
     },
     "drag": {
      "enabled": true,
-     "steps": 5761,
+     "steps": 2881,
      "noHist": 0,
      "reject": 0,
      "over": 0,
-     "boundMax": 0.00004929192053012373,
+     "boundMax": 0.000049296907085438084,
      "initObs": {
       "ok": true,
       "why": null
      }
     },
     "gLoc": {
-     "psiMax": 0.0000024646574674729373,
-     "dGMax": 0.000009858581273759989,
-     "evals": 5761
+     "psiMax": 0.000002464906807669339,
+     "dGMax": 0.000009859578624712538,
+     "evals": 2881
     },
-    "hashXY": "7445f1eed332c8f0",
-    "hashAll": "57e03881eb176230"
+    "hashXY": "b422098da8138eca",
+    "hashAll": "db8ccb1079d9e888"
+   },
+   {
+    "key": "j0737|Baz270|div=1|N=8",
+    "spec": {
+     "sys": "j0737",
+     "col": "Baz270",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 2.45404,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 2,
+    "steps": 2881,
+    "dt": 2.45404,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.856,
+    "P": 883.6855241543566,
+    "nPeri": 8,
+    "rate": -0.0003804617333776534,
+    "e": 0.08797941719763937,
+    "fitRms": 4.818316763373389e-7,
+    "rateB": -0.0003803921673063751,
+    "periRms": 9.404810824255641e-8,
+    "eB": 0.08797033335556736,
+    "Pa": 883.6220142507185,
+    "acct": {
+     "E0": -25090.10661153527,
+     "dE": -0.000008804823800443117,
+     "dEmax": 0.0017208972549303096,
+     "wDrag": 0.000039624684988747593,
+     "wGLoc": -7.63807440759354e-10,
+     "closeE": -0.00004842874498174996,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00004842874498174996,
+      "W": 0.000039624684988747593,
+      "gLocWork": -7.63807440759354e-10,
+      "semicMiss": 0
+     },
+     "dh": 1.2546150409075416e-10,
+     "dLz": 1.346474090111764e-10,
+     "lDrag": 1.2546024105500715e-10,
+     "dP": [
+      -7.543162077495422e-7,
+      6.44500357104421e-8,
+      -1.3006926944003721e-17
+     ],
+     "pGLoc": [
+      -7.543162077862219e-7,
+      6.445003573485906e-8,
+      -1.3006926942343554e-17
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2881,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.000049296907085438104,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.000002464906807669339,
+     "dGMax": 0.000009859578624712538,
+     "evals": 2881
+    },
+    "hashXY": "b422098da8138eca",
+    "hashAll": "18cf4bbf1dd940ae"
+   },
+   {
+    "key": "j0737|Baz90|div=1|N=8",
+    "spec": {
+     "sys": "j0737",
+     "col": "Baz90",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 2.45404,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 2,
+    "steps": 2881,
+    "dt": 2.45404,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.924,
+    "P": 883.6855241543566,
+    "nPeri": 8,
+    "rate": -0.0003804617333776534,
+    "e": 0.08797941719763937,
+    "fitRms": 4.818316763373389e-7,
+    "rateB": -0.0003803921673063751,
+    "periRms": 9.404810824255641e-8,
+    "eB": 0.08797033335556736,
+    "Pa": 883.6220142507185,
+    "acct": {
+     "E0": -25090.10661153527,
+     "dE": -0.000008804823800443117,
+     "dEmax": 0.0017208972549303096,
+     "wDrag": 0.00003962468498874762,
+     "wGLoc": -7.63807440759354e-10,
+     "closeE": -0.00004842874498174998,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00004842874498174998,
+      "W": 0.00003962468498874762,
+      "gLocWork": -7.63807440759354e-10,
+      "semicMiss": 0
+     },
+     "dh": 1.2546150409075416e-10,
+     "dLz": 1.346474090111764e-10,
+     "lDrag": 1.2546024105605413e-10,
+     "dP": [
+      -7.543162077495422e-7,
+      6.44500357104421e-8,
+      1.3006926944236486e-17
+     ],
+     "pGLoc": [
+      -7.543162077862219e-7,
+      6.445003573485906e-8,
+      1.3006926942343556e-17
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2881,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.000049296907085438084,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.000002464906807669339,
+     "dGMax": 0.000009859578624712538,
+     "evals": 2881
+    },
+    "hashXY": "b422098da8138eca",
+    "hashAll": "f843d514d1d5c302"
+   },
+   {
+    "key": "j0737|Bm|div=1|N=8",
+    "spec": {
+     "sys": "j0737",
+     "col": "Bm",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 2.45404,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 2,
+    "steps": 2881,
+    "dt": 2.45404,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.913,
+    "P": 883.6855241552973,
+    "nPeri": 8,
+    "rate": -0.000380461713435315,
+    "e": 0.08797941719529899,
+    "fitRms": 4.818316510080634e-7,
+    "rateB": -0.00038039214737685054,
+    "periRms": 9.404812493178365e-8,
+    "eB": 0.08797033335339836,
+    "Pa": 883.6220142552362,
+    "acct": {
+     "E0": -25090.106611413357,
+     "dE": -0.000008804826426808344,
+     "dEmax": 0.0017208972546095293,
+     "wDrag": 0.00003962468498888113,
+     "wGLoc": -7.638074384383955e-10,
+     "closeE": -0.00004842874760825104,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00004842874760825104,
+      "W": 0.00003962468498888113,
+      "gLocWork": -7.638074384383955e-10,
+      "semicMiss": 0
+     },
+     "dh": 1.2404608358455015e-10,
+     "dLz": 1.3323144301410023e-10,
+     "lDrag": 1.240459375596767e-10,
+     "dP": [
+      -7.543162077785982e-7,
+      6.445003558229183e-8,
+      -9.12938887112725e-18
+     ],
+     "pGLoc": [
+      -7.543162077931191e-7,
+      6.445003567327591e-8,
+      -9.129388869527399e-18
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2881,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.00004929690708537053,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.0000024649068076659544,
+     "dGMax": 0.000009859578624699,
+     "evals": 2881
+    },
+    "hashXY": "aad468f469712744",
+    "hashAll": "fd891d373d585d9e"
+   },
+   {
+    "key": "j0737|JAB|div=1|N=8",
+    "spec": {
+     "sys": "j0737",
+     "col": "JAB",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 2.45404,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 2,
+    "steps": 2881,
+    "dt": 2.45404,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 1.134,
+    "P": 883.6855241543566,
+    "nPeri": 8,
+    "rate": -0.0003804617333776534,
+    "e": 0.08797941719763937,
+    "fitRms": 4.818316763373389e-7,
+    "rateB": -0.0003803921673063751,
+    "periRms": 9.404810824255641e-8,
+    "eB": 0.08797033335556736,
+    "Pa": 883.6220142507185,
+    "acct": {
+     "E0": -25090.10661153527,
+     "dE": -0.000008804823800443117,
+     "dEmax": 0.0017208972549303096,
+     "wDrag": 0.00003962468498874762,
+     "wGLoc": -7.63807440759354e-10,
+     "closeE": -0.00004842874498174998,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00004842874498174998,
+      "W": 0.00003962468498874762,
+      "gLocWork": -7.63807440759354e-10,
+      "semicMiss": 0
+     },
+     "dh": 1.2546150409075416e-10,
+     "dLz": 1.346474090111764e-10,
+     "lDrag": 1.2546024105695364e-10,
+     "dP": [
+      -7.543162077495422e-7,
+      6.44500357104421e-8,
+      -9.129388867429465e-18
+     ],
+     "pGLoc": [
+      -7.543162077862219e-7,
+      6.445003573485906e-8,
+      -9.129388867792095e-18
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2881,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.000049296907085438084,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.000002464906807669339,
+     "dGMax": 0.000009859578624712538,
+     "evals": 2881
+    },
+    "hashXY": "b422098da8138eca",
+    "hashAll": "264329cd68c7dc43"
    },
    {
     "key": "j0737|JAm|div=1|N=8",
@@ -1996,7 +3762,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 1.577,
+    "wallSec": 0.851,
     "P": 883.6855243205265,
     "nPeri": 8,
     "rate": -0.00038045820527467,
@@ -2078,7 +3844,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.809,
+    "wallSec": 0.98,
     "P": 883.6855241548268,
     "nPeri": 8,
     "rate": -0.0003804617234077858,
@@ -2160,7 +3926,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 1.553,
+    "wallSec": 1.1,
     "P": 883.6855241548275,
     "nPeri": 8,
     "rate": -0.0003804617234071131,
@@ -2220,170 +3986,6 @@
     "hashAll": "b8c50afdb2869b63"
    },
    {
-    "key": "j0737|JA|div=2|N=8",
-    "spec": {
-     "sys": "j0737",
-     "col": "JA",
-     "div": 2,
-     "N": 8,
-     "K": 3
-    },
-    "h": 2.45404,
-    "status": "run",
-    "coord3d": true,
-    "lawDecl": "inertial-drag",
-    "lawSim0": "inertial-drag",
-    "lawSim": "inertial-drag",
-    "ge": 0,
-    "geodesic": false,
-    "warnings": 2,
-    "steps": 5761,
-    "dt": 1.22702,
-    "nan": false,
-    "revN": 8,
-    "complete": true,
-    "wallSec": 3.241,
-    "P": 883.5637358760695,
-    "nPeri": 8,
-    "rate": -0.000012622425031283776,
-    "e": 0.08779862702140315,
-    "fitRms": 8.935140178096423e-9,
-    "rateB": -0.000012617268378647334,
-    "periRms": 1.676851679726431e-8,
-    "eB": 0.08779461560585441,
-    "Pa": 883.5616357988266,
-    "acct": {
-     "E0": -25090.106611474315,
-     "dE": -0.0000015104739740704293,
-     "dEmax": 0.0008310852802862175,
-     "wDrag": 0.000019814347878054742,
-     "wGLoc": -1.2867994137583176e-10,
-     "closeE": -0.000021324693172183794,
-     "ledger": {
-      "stepOrder": "semic",
-      "RE": -0.000021324693172183794,
-      "W": 0.000019814347878054742,
-      "gLocWork": -1.2867994137583176e-10,
-      "semicMiss": 0
-     },
-     "dh": 6.237473622523984e-11,
-     "dLz": 7.157922091464473e-11,
-     "lDrag": 6.238017577668526e-11,
-     "dP": [
-      -7.554973251432581e-7,
-      3.1700801115688163e-8,
-      0
-     ],
-     "pGLoc": [
-      -7.554973251033313e-7,
-      3.1700801193678325e-8,
-      0
-     ],
-     "spinDmax": 0
-    },
-    "drag": {
-     "enabled": true,
-     "steps": 5761,
-     "noHist": 0,
-     "reject": 0,
-     "over": 0,
-     "boundMax": 0.000049291920530060414,
-     "initObs": {
-      "ok": true,
-      "why": null
-     }
-    },
-    "gLoc": {
-     "psiMax": 0.000002464657467469765,
-     "dGMax": 0.000009858581273747302,
-     "evals": 5761
-    },
-    "hashXY": "6ae1f5f107f6b372",
-    "hashAll": "a1693ebdf0ba8cee"
-   },
-   {
-    "key": "j0737|JA|div=4|N=8",
-    "spec": {
-     "sys": "j0737",
-     "col": "JA",
-     "div": 4,
-     "N": 8,
-     "K": 3
-    },
-    "h": 2.45404,
-    "status": "run",
-    "coord3d": true,
-    "lawDecl": "inertial-drag",
-    "lawSim0": "inertial-drag",
-    "lawSim": "inertial-drag",
-    "ge": 0,
-    "geodesic": false,
-    "warnings": 2,
-    "steps": 11522,
-    "dt": 0.61351,
-    "nan": false,
-    "revN": 8,
-    "complete": true,
-    "wallSec": 3.942,
-    "P": 883.533298674209,
-    "nPeri": 8,
-    "rate": 0.00007935712483209263,
-    "e": 0.08775341374058514,
-    "fitRms": 2.5103647139873622e-8,
-    "rateB": 0.00007935648476633916,
-    "periRms": 2.523882212442504e-9,
-    "eB": 0.08775068025150669,
-    "Pa": 883.54655612968,
-    "acct": {
-     "E0": -25090.106611474315,
-     "dE": -9.897332225275322e-7,
-     "dEmax": 0.00041105179468517276,
-     "wDrag": 0.000009907973628910376,
-     "wGLoc": -8.799265010370437e-11,
-     "closeE": -0.000010897618858787804,
-     "ledger": {
-      "stepOrder": "semic",
-      "RE": -0.000010897618858787804,
-      "W": 0.000009907973628910376,
-      "gLocWork": -8.799265010370437e-11,
-      "semicMiss": 0
-     },
-     "dh": 3.119825468414795e-11,
-     "dLz": 4.040014519604747e-11,
-     "lDrag": 3.1192450696413106e-11,
-     "dP": [
-      -7.55201161507642e-7,
-      1.5593424343602792e-8,
-      0
-     ],
-     "pGLoc": [
-      -7.552011614921742e-7,
-      1.5593424397533e-8,
-      0
-     ],
-     "spinDmax": 0
-    },
-    "drag": {
-     "enabled": true,
-     "steps": 11522,
-     "noHist": 0,
-     "reject": 0,
-     "over": 0,
-     "boundMax": 0.00004929067258829055,
-     "initObs": {
-      "ok": true,
-      "why": null
-     }
-    },
-    "gLoc": {
-     "psiMax": 0.000002464595067270555,
-     "dGMax": 0.000009858331675411141,
-     "evals": 11522
-    },
-    "hashXY": "ded21134058b51fd",
-    "hashAll": "d5cbe6210e0511de"
-   },
-   {
     "key": "j0737|g1|div=1|N=8",
     "spec": {
      "sys": "j0737",
@@ -2406,7 +4008,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.172,
+    "wallSec": 0.121,
     "P": 883.63961839067,
     "nPeri": 8,
     "rate": -0.0004080082485682221,
@@ -2463,7 +4065,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.398,
+    "wallSec": 0.156,
     "P": 883.5124977183799,
     "nPeri": 8,
     "rate": -0.00004012081432704774,
@@ -2520,7 +4122,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.415,
+    "wallSec": 0.167,
     "P": 883.479399402969,
     "nPeri": 8,
     "rate": 0.000051871898290400355,
@@ -2555,6 +4157,88 @@
     "hashAll": "a42eff220ff9aaa7"
    },
    {
+    "key": "j0737|miss|div=1|N=8",
+    "spec": {
+     "sys": "j0737",
+     "col": "miss",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 2.45404,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 2,
+    "steps": 2881,
+    "dt": 2.45404,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.964,
+    "P": 883.685524237669,
+    "nPeri": 8,
+    "rate": -0.0003804599643383962,
+    "e": 0.08797941698996453,
+    "fitRms": 4.818294242214034e-7,
+    "rateB": -0.00038039039841261126,
+    "periRms": 9.404856648875459e-8,
+    "eB": 0.0879703331631042,
+    "Pa": 883.622014651575,
+    "acct": {
+     "E0": -25090.106600720545,
+     "dE": -0.000008805056583723926,
+     "dEmax": 0.0017208972264577383,
+     "wDrag": 0.00003962468500057393,
+     "wGLoc": -7.638071792891095e-10,
+     "closeE": -0.00004842897777711857,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00004842897777711857,
+      "W": 0.00003962468500057393,
+      "gLocWork": -7.638071792891095e-10,
+      "semicMiss": 0
+     },
+     "dh": -8.310359942936751e-16,
+     "dLz": 9.188475890823905e-12,
+     "lDrag": -5.676504277032795e-19,
+     "dP": [
+      -7.543162084327168e-7,
+      6.445003019144718e-8,
+      0
+     ],
+     "pGLoc": [
+      -7.543162083978021e-7,
+      6.445003027369812e-8,
+      0
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2881,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.00004929690707942475,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.0000024649068073686598,
+     "dGMax": 0.000009859578623509832,
+     "evals": 2881
+    },
+    "hashXY": "cd9f71bcc454df74",
+    "hashAll": "4d1376d4c153217a"
+   },
+   {
     "key": "j0737|off|div=1|N=8",
     "spec": {
      "sys": "j0737",
@@ -2577,7 +4261,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.163,
+    "wallSec": 0.102,
     "P": 883.6157263897132,
     "nPeri": 8,
     "rate": -0.0004905856220603724,
@@ -2648,7 +4332,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.198,
+    "wallSec": 0.174,
     "P": 883.4938839438091,
     "nPeri": 8,
     "rate": -0.0001226907072445112,
@@ -2719,7 +4403,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.288,
+    "wallSec": 0.165,
     "P": 883.4634182787968,
     "nPeri": 8,
     "rate": -0.00003069723571186048,
@@ -2790,7 +4474,253 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 0.911,
+    "wallSec": 0.923,
+    "P": 883.6855241543566,
+    "nPeri": 8,
+    "rate": -0.0003804617333776534,
+    "e": 0.08797941719763937,
+    "fitRms": 4.818316763373389e-7,
+    "rateB": -0.0003803921673063751,
+    "periRms": 9.404810824255641e-8,
+    "eB": 0.08797033335556736,
+    "Pa": 883.6220142507185,
+    "acct": {
+     "E0": -25090.10661153527,
+     "dE": -0.000008804823800443117,
+     "dEmax": 0.0017208972549303096,
+     "wDrag": 0.00003962468498874762,
+     "wGLoc": -7.63807440759354e-10,
+     "closeE": -0.00004842874498174998,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.00004842874498174998,
+      "W": 0.00003962468498874762,
+      "gLocWork": -7.63807440759354e-10,
+      "semicMiss": 0
+     },
+     "dh": 1.2546150409075416e-10,
+     "dLz": 1.346474090111764e-10,
+     "lDrag": 1.2546024105695364e-10,
+     "dP": [
+      -7.543162077495422e-7,
+      6.44500357104421e-8,
+      -9.129388867429465e-18
+     ],
+     "pGLoc": [
+      -7.543162077862219e-7,
+      6.445003573485906e-8,
+      -9.129388867792095e-18
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 2881,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.000049296907085438084,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.000002464906807669339,
+     "dGMax": 0.000009859578624712538,
+     "evals": 2881
+    },
+    "hashXY": "b422098da8138eca",
+    "hashAll": "264329cd68c7dc43"
+   },
+   {
+    "key": "j0737|self|div=2|N=8",
+    "spec": {
+     "sys": "j0737",
+     "col": "self",
+     "div": 2,
+     "N": 8,
+     "K": 3
+    },
+    "h": 2.45404,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 2,
+    "steps": 5761,
+    "dt": 1.22702,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 1.481,
+    "P": 883.5637358750556,
+    "nPeri": 8,
+    "rate": -0.000012622435004653889,
+    "e": 0.08779862702252034,
+    "fitRms": 8.93514584245178e-9,
+    "rateB": -0.00001261727833234203,
+    "periRms": 1.6768512677394194e-8,
+    "eB": 0.08779461560685912,
+    "Pa": 883.5616357960859,
+    "acct": {
+     "E0": -25090.10661153527,
+     "dE": -0.0000015104733272371662,
+     "dEmax": 0.0008310852803646715,
+     "wDrag": 0.00001981434787805821,
+     "wGLoc": -1.2867994315193355e-10,
+     "closeE": -0.000021324692525352223,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.000021324692525352223,
+      "W": 0.00001981434787805821,
+      "gLocWork": -1.2867994315193355e-10,
+      "semicMiss": 0
+     },
+     "dh": 6.273158308137158e-11,
+     "dLz": 7.193642539936307e-11,
+     "lDrag": 6.273377223659579e-11,
+     "dP": [
+      -7.554973251248579e-7,
+      3.1700801115734075e-8,
+      -9.753894664826934e-18
+     ],
+     "pGLoc": [
+      -7.554973250938568e-7,
+      3.170080122414264e-8,
+      -9.753894663541514e-18
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 5761,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.00004929192053012373,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.0000024646574674729373,
+     "dGMax": 0.000009858581273759989,
+     "evals": 5761
+    },
+    "hashXY": "7445f1eed332c8f0",
+    "hashAll": "57e03881eb176230"
+   },
+   {
+    "key": "j0737|self|div=4|N=8",
+    "spec": {
+     "sys": "j0737",
+     "col": "self",
+     "div": 4,
+     "N": 8,
+     "K": 3
+    },
+    "h": 2.45404,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 2,
+    "steps": 11522,
+    "dt": 0.61351,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 2.862,
+    "P": 883.533298672931,
+    "nPeri": 8,
+    "rate": 0.00007935711486113053,
+    "e": 0.08775341374168032,
+    "fitRms": 2.5103643954495627e-8,
+    "rateB": 0.00007935647489971653,
+    "periRms": 2.5239492731418954e-9,
+    "eB": 0.0877506802524764,
+    "Pa": 883.5465561267159,
+    "acct": {
+     "E0": -25090.10661153527,
+     "dE": -9.897329020827604e-7,
+     "dEmax": 0.00041105179472506316,
+     "wDrag": 0.000009907973628923183,
+     "wGLoc": -8.799265167208116e-11,
+     "closeE": -0.000010897618538354271,
+     "ledger": {
+      "stepOrder": "semic",
+      "RE": -0.000010897618538354271,
+      "W": 0.000009907973628923183,
+      "gLocWork": -8.799265167208116e-11,
+      "semicMiss": 0
+     },
+     "dh": 3.137709363021109e-11,
+     "dLz": 4.0579012426903386e-11,
+     "lDrag": 3.136926231514756e-11,
+     "dP": [
+      -7.552011615029875e-7,
+      1.559342440760717e-8,
+      -1.0059858092427498e-17
+     ],
+     "pGLoc": [
+      -7.552011614798168e-7,
+      1.5593424427905688e-8,
+      -1.0059858089797843e-17
+     ],
+     "spinDmax": 0
+    },
+    "drag": {
+     "enabled": true,
+     "steps": 11522,
+     "noHist": 0,
+     "reject": 0,
+     "over": 0,
+     "boundMax": 0.0000492906725883744,
+     "initObs": {
+      "ok": true,
+      "why": null
+     }
+    },
+    "gLoc": {
+     "psiMax": 0.0000024645950672747467,
+     "dGMax": 0.000009858331675427906,
+     "evals": 11522
+    },
+    "hashXY": "b2bd0336818df242",
+    "hashAll": "82e394f2a439468f"
+   },
+   {
+    "key": "j0737|tr|div=1|N=8",
+    "spec": {
+     "sys": "j0737",
+     "col": "tr",
+     "div": 1,
+     "N": 8,
+     "K": 3
+    },
+    "h": 2.45404,
+    "status": "run",
+    "coord3d": true,
+    "lawDecl": "inertial-drag",
+    "lawSim0": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "geodesic": false,
+    "warnings": 2,
+    "steps": 2881,
+    "dt": 2.45404,
+    "nan": false,
+    "revN": 8,
+    "complete": true,
+    "wallSec": 0.83,
     "P": 883.685524237669,
     "nPeri": 8,
     "rate": -0.0003804599643383962,
@@ -2850,10 +4780,10 @@
     "hashAll": "4d1376d4c153217a"
    },
    {
-    "key": "j0737|self|div=2|N=8",
+    "key": "j0737|tr|div=2|N=8",
     "spec": {
      "sys": "j0737",
-     "col": "self",
+     "col": "tr",
      "div": 2,
      "N": 8,
      "K": 3
@@ -2872,7 +4802,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 1.615,
+    "wallSec": 1.553,
     "P": 883.5637360545762,
     "nPeri": 8,
     "rate": -0.00001262066536452275,
@@ -2932,10 +4862,10 @@
     "hashAll": "1b1278e477153c80"
    },
    {
-    "key": "j0737|self|div=4|N=8",
+    "key": "j0737|tr|div=4|N=8",
     "spec": {
      "sys": "j0737",
-     "col": "self",
+     "col": "tr",
      "div": 4,
      "N": 8,
      "K": 3
@@ -2954,7 +4884,7 @@
     "nan": false,
     "revN": 8,
     "complete": true,
-    "wallSec": 6.178,
+    "wallSec": 2.33,
     "P": 883.5332989004976,
     "nPeri": 8,
     "rate": 0.00007935888462458968,
@@ -3012,88 +4942,6 @@
     },
     "hashXY": "789091abec04800a",
     "hashAll": "a4a8ce526b6f1c1b"
-   },
-   {
-    "key": "j0737|tr|div=1|N=8",
-    "spec": {
-     "sys": "j0737",
-     "col": "tr",
-     "div": 1,
-     "N": 8,
-     "K": 3
-    },
-    "h": 2.45404,
-    "status": "run",
-    "coord3d": true,
-    "lawDecl": "inertial-drag",
-    "lawSim0": "inertial-drag",
-    "lawSim": "inertial-drag",
-    "ge": 0,
-    "geodesic": false,
-    "warnings": 2,
-    "steps": 2881,
-    "dt": 2.45404,
-    "nan": false,
-    "revN": 8,
-    "complete": true,
-    "wallSec": 0.906,
-    "P": 883.685524237669,
-    "nPeri": 8,
-    "rate": -0.0003804599643383962,
-    "e": 0.08797941698996453,
-    "fitRms": 4.818294242214034e-7,
-    "rateB": -0.00038039039841261126,
-    "periRms": 9.404856648875459e-8,
-    "eB": 0.0879703331631042,
-    "Pa": 883.622014651575,
-    "acct": {
-     "E0": -25090.106600720545,
-     "dE": -0.000008805056583723926,
-     "dEmax": 0.0017208972264577383,
-     "wDrag": 0.00003962468500057393,
-     "wGLoc": -7.638071792891095e-10,
-     "closeE": -0.00004842897777711857,
-     "ledger": {
-      "stepOrder": "semic",
-      "RE": -0.00004842897777711857,
-      "W": 0.00003962468500057393,
-      "gLocWork": -7.638071792891095e-10,
-      "semicMiss": 0
-     },
-     "dh": -8.310359942936751e-16,
-     "dLz": 9.188475890823905e-12,
-     "lDrag": -5.676504277032795e-19,
-     "dP": [
-      -7.543162084327168e-7,
-      6.445003019144718e-8,
-      0
-     ],
-     "pGLoc": [
-      -7.543162083978021e-7,
-      6.445003027369812e-8,
-      0
-     ],
-     "spinDmax": 0
-    },
-    "drag": {
-     "enabled": true,
-     "steps": 2881,
-     "noHist": 0,
-     "reject": 0,
-     "over": 0,
-     "boundMax": 0.00004929690707942475,
-     "initObs": {
-      "ok": true,
-      "why": null
-     }
-    },
-    "gLoc": {
-     "psiMax": 0.0000024649068073686598,
-     "dGMax": 0.000009859578623509832,
-     "evals": 2881
-    },
-    "hashXY": "cd9f71bcc454df74",
-    "hashAll": "4d1376d4c153217a"
    }
   ]
  },
@@ -3164,6 +5012,38 @@
     "steps": 360,
     "obsSpinRows": 2,
     "reservoirFixed": true,
+    "srcOmega": [
+     2767.9987681290163,
+     22.65467543909636
+    ],
+    "srcOmegaMaxDrift": 0,
+    "spinUnchanged": true,
+    "axisUnchanged": true,
+    "coreSpinModel": "obsSpin-fixed-external-reservoir",
+    "usedAsSource": [
+     0,
+     1
+    ],
+    "JvecSI": [
+     [
+      0,
+      0,
+      3.5998712222398215e+40
+     ],
+     [
+      1.748966345775371e+38,
+      0,
+      2.0405540487156264e+38
+     ]
+    ],
+    "lDrag": 0.00011018344793962727
+   },
+   {
+    "sys": "j0737",
+    "col": "miss",
+    "steps": 360,
+    "obsSpinRows": 2,
+    "reservoirFixed": true,
     "srcOmega": null,
     "srcOmegaMaxDrift": 0,
     "spinUnchanged": true,
@@ -3180,6 +5060,38 @@
     "sys": "acen",
     "col": "self",
     "steps": 360,
+    "obsSpinRows": 2,
+    "reservoirFixed": true,
+    "srcOmega": [
+     4.573713972731472,
+     2.0072330159103062
+    ],
+    "srcOmegaMaxDrift": 0,
+    "spinUnchanged": true,
+    "axisUnchanged": true,
+    "coreSpinModel": "obsSpin-fixed-external-reservoir",
+    "usedAsSource": [
+     0,
+     1
+    ],
+    "JvecSI": [
+     [
+      0,
+      0,
+      4.931624411515535e+41
+     ],
+     [
+      0,
+      0,
+      9.082110290154608e+40
+     ]
+    ],
+    "lDrag": 8.32729104703371e-12
+   },
+   {
+    "sys": "acen",
+    "col": "kJ",
+    "steps": 360,
     "obsSpinRows": 0,
     "reservoirFixed": true,
     "srcOmega": null,
@@ -3190,6 +5102,106 @@
     "usedAsSource": [],
     "JvecSI": null,
     "lDrag": 8.327290904214035e-12
+   }
+  ]
+ },
+ "K": {
+  "rows": [
+   {
+    "sys": "j0737",
+    "col": "miss",
+    "steps": 2880,
+    "tiltRad": 0,
+    "phaseDeg": null,
+    "zMax": 0
+   },
+   {
+    "sys": "j0737",
+    "col": "self",
+    "steps": 2880,
+    "tiltRad": 3.419566795113369e-11,
+    "phaseDeg": -89.49352135948523,
+    "zMax": 6.508993151906025e-10
+   },
+   {
+    "sys": "j0737",
+    "col": "Baz90",
+    "steps": 2880,
+    "tiltRad": 3.41939726532507e-11,
+    "phaseDeg": -1.5716072429076469,
+    "zMax": 3.268630246631699e-8
+   },
+   {
+    "sys": "j0737",
+    "col": "Baz180",
+    "steps": 2880,
+    "tiltRad": 3.419566795113369e-11,
+    "phaseDeg": 90.50647864051479,
+    "zMax": 6.508993151906025e-10
+   },
+   {
+    "sys": "j0737",
+    "col": "Baz270",
+    "steps": 2880,
+    "tiltRad": 3.4193972653250714e-11,
+    "phaseDeg": 178.42839275709238,
+    "zMax": 3.2686302466317005e-8
+   },
+   {
+    "sys": "j0737",
+    "col": "Bm",
+    "steps": 2880,
+    "tiltRad": 3.419566795111415e-11,
+    "phaseDeg": -89.49352136177089,
+    "zMax": 6.508993157325533e-10
+   },
+   {
+    "sys": "j0737",
+    "col": "Aaz90",
+    "steps": 2880,
+    "tiltRad": 3.419566795113369e-11,
+    "phaseDeg": -89.49352135948523,
+    "zMax": 6.508993151906025e-10
+   },
+   {
+    "sys": "acen",
+    "col": "tr",
+    "steps": 2880,
+    "tiltRad": 0,
+    "phaseDeg": null,
+    "zMax": 0
+   },
+   {
+    "sys": "acen",
+    "col": "self",
+    "steps": 2880,
+    "tiltRad": 0,
+    "phaseDeg": null,
+    "zMax": 0
+   },
+   {
+    "sys": "acen",
+    "col": "t90",
+    "steps": 2880,
+    "tiltRad": 8.258706306463413e-13,
+    "phaseDeg": -89.14493048638562,
+    "zMax": 1.1301377612611232e-11
+   },
+   {
+    "sys": "acen",
+    "col": "t90az90",
+    "steps": 2880,
+    "tiltRad": 8.257301786539658e-13,
+    "phaseDeg": -0.1332127171205554,
+    "zMax": 4.372986688415403e-10
+   },
+   {
+    "sys": "acen",
+    "col": "t180",
+    "steps": 2880,
+    "tiltRad": 1.011399824331002e-28,
+    "phaseDeg": -89.14493048640914,
+    "zMax": 1.3840195917368163e-27
    }
   ]
  },
@@ -3215,8 +5227,8 @@
   "rows": [
    {
     "sys": "j0737",
-    "a": "JA",
-    "b": "self",
+    "a": "self",
+    "b": "tr",
     "divs": [
      1,
      2,
@@ -3224,24 +5236,24 @@
     ],
     "byQty": {
      "rate": [
-      -1.7590687169150195e-9,
-      -1.7596667610257941e-9,
-      -1.7597924970545742e-9
+      -1.7690392572046812e-9,
+      -1.7696401311390302e-9,
+      -1.7697634591530911e-9
      ],
      "rateB": [
-      -1.7589121207705477e-9,
-      -1.7596321174273794e-9,
-      -1.7599195233195149e-9
+      -1.7688937638325568e-9,
+      -1.7695858121239918e-9,
+      -1.7697861459480251e-9
      ],
      "P": [
-      -8.284155228466261e-8,
-      -1.7850675249064807e-7,
-      -2.2628853457717923e-7
+      -8.331244316650555e-8,
+      -1.7952061170944944e-7,
+      -2.2756660200684564e-7
      ],
      "e": [
-      2.0650504917174572e-10,
-      1.976687979965419e-10,
-      1.930778453784754e-10
+      2.0767483566164202e-10,
+      1.987859876706466e-10,
+      1.9417302488111687e-10
      ]
     },
     "bits": [
@@ -3252,8 +5264,58 @@
    },
    {
     "sys": "j0737",
+    "a": "miss",
+    "b": "tr",
+    "divs": [
+     1
+    ],
+    "byQty": {
+     "rate": [
+      0
+     ],
+     "rateB": [
+      0
+     ],
+     "P": [
+      0
+     ],
+     "e": [
+      0
+     ]
+    },
+    "bits": [
+     true
+    ]
+   },
+   {
+    "sys": "j0737",
+    "a": "JA",
+    "b": "tr",
+    "divs": [
+     1
+    ],
+    "byQty": {
+     "rate": [
+      -1.7590687169150195e-9
+     ],
+     "rateB": [
+      -1.7589121207705477e-9
+     ],
+     "P": [
+      -8.284155228466261e-8
+     ],
+     "e": [
+      2.0650504917174572e-10
+     ]
+    },
+    "bits": [
+     false
+    ]
+   },
+   {
+    "sys": "j0737",
     "a": "JAm",
-    "b": "self",
+    "b": "tr",
     "divs": [
      1
     ],
@@ -3269,6 +5331,31 @@
      ],
      "e": [
       -2.06505174071836e-10
+     ]
+    },
+    "bits": [
+     false
+    ]
+   },
+   {
+    "sys": "j0737",
+    "a": "self",
+    "b": "JA",
+    "divs": [
+     1
+    ],
+    "byQty": {
+     "rate": [
+      -9.970540289661739e-12
+     ],
+     "rateB": [
+      -9.981643062009077e-12
+     ],
+     "P": [
+      -4.708908818429336e-10
+     ],
+     "e": [
+      1.1697864898962962e-12
      ]
     },
     "bits": [
@@ -3303,38 +5390,157 @@
    {
     "sys": "j0737",
     "a": "JAB",
-    "b": "JA",
+    "b": "self",
     "divs": [
-     1,
-     2
+     1
     ],
     "byQty": {
      "rate": [
-      -9.970540289661739e-12,
-      -9.9733701132361e-12
+      0
      ],
      "rateB": [
-      -9.981643062009077e-12,
-      -9.953694696612455e-12
+      0
      ],
      "P": [
-      -4.708908818429336e-10,
-      -1.0138592188013718e-9
+      0
      ],
      "e": [
-      1.1697864898962962e-12,
-      1.1171896741046794e-12
+      0
      ]
     },
     "bits": [
-     false,
+     true
+    ]
+   },
+   {
+    "sys": "j0737",
+    "a": "Bm",
+    "b": "self",
+    "divs": [
+     1
+    ],
+    "byQty": {
+     "rate": [
+      1.994233836226378e-11
+     ],
+     "rateB": [
+      1.9929524556257933e-11
+     ],
+     "P": [
+      9.407585821463726e-10
+     ],
+     "e": [
+      -2.3403778914854456e-12
+     ]
+    },
+    "bits": [
      false
     ]
    },
    {
     "sys": "j0737",
-    "a": "self",
-    "b": "tr",
+    "a": "Baz90",
+    "b": "self",
+    "divs": [
+     1
+    ],
+    "byQty": {
+     "rate": [
+      0
+     ],
+     "rateB": [
+      0
+     ],
+     "P": [
+      0
+     ],
+     "e": [
+      0
+     ]
+    },
+    "bits": [
+     false
+    ]
+   },
+   {
+    "sys": "j0737",
+    "a": "Baz180",
+    "b": "self",
+    "divs": [
+     1
+    ],
+    "byQty": {
+     "rate": [
+      0
+     ],
+     "rateB": [
+      0
+     ],
+     "P": [
+      0
+     ],
+     "e": [
+      0
+     ]
+    },
+    "bits": [
+     false
+    ]
+   },
+   {
+    "sys": "j0737",
+    "a": "Baz270",
+    "b": "self",
+    "divs": [
+     1
+    ],
+    "byQty": {
+     "rate": [
+      0
+     ],
+     "rateB": [
+      0
+     ],
+     "P": [
+      0
+     ],
+     "e": [
+      0
+     ]
+    },
+    "bits": [
+     false
+    ]
+   },
+   {
+    "sys": "j0737",
+    "a": "A32",
+    "b": "self",
+    "divs": [
+     1
+    ],
+    "byQty": {
+     "rate": [
+      2.7472795089203417e-12
+     ],
+     "rateB": [
+      2.7374513788570864e-12
+     ],
+     "P": [
+      1.318767317570746e-10
+     ],
+     "e": [
+      -3.2239488856333764e-13
+     ]
+    },
+    "bits": [
+     false
+    ]
+   },
+   {
+    "sys": "j0737",
+    "a": "Aaz90",
+    "b": "self",
     "divs": [
      1
     ],
@@ -3367,24 +5573,24 @@
     ],
     "byQty": {
      "rate": [
-      0.0001101256577219762,
-      0.00011007004187998844,
-      0.00011005612033645016
+      0.000110123888682719,
+      0.00011006827223985732,
+      0.000110054350572991
      ],
      "rateB": [
-      0.0001101408968266442,
-      0.0001100751246470363,
-      0.00011005561336169213
+      0.00011013912793288036,
+      0.00011007335506122417,
+      0.00011005384357554618
      ],
      "P": [
-      0.06979784795578325,
-      0.0698521107671013,
-      0.06988062170080411
+      0.06979776464334009,
+      0.06985193124648958,
+      0.0698803941342021
      ],
      "e": [
-      -0.00003888887345557257,
-      -0.00003881326466281809,
-      -0.000038741200763303674
+      -0.00003888866578073691,
+      -0.00003881306587683042,
+      -0.00003874100659027879
      ]
     },
     "bits": [
@@ -3469,7 +5675,57 @@
    },
    {
     "sys": "acen",
-    "a": "Jm",
+    "a": "kJ",
+    "b": "tr",
+    "divs": [
+     1
+    ],
+    "byQty": {
+     "rate": [
+      -2.0652078137894936e-13
+     ],
+     "rateB": [
+      -2.0907299329298024e-13
+     ],
+     "P": [
+      4.5429260353557765e-10
+     ],
+     "e": [
+      1.432187701766452e-14
+     ]
+    },
+    "bits": [
+     false
+    ]
+   },
+   {
+    "sys": "acen",
+    "a": "self",
+    "b": "kJ",
+    "divs": [
+     1
+    ],
+    "byQty": {
+     "rate": [
+      0
+     ],
+     "rateB": [
+      0
+     ],
+     "P": [
+      0
+     ],
+     "e": [
+      0
+     ]
+    },
+    "bits": [
+     true
+    ]
+   },
+   {
+    "sys": "acen",
+    "a": "t180",
     "b": "tr",
     "divs": [
      1
@@ -3486,6 +5742,56 @@
      ],
      "e": [
       -1.3655743202889425e-14
+     ]
+    },
+    "bits": [
+     false
+    ]
+   },
+   {
+    "sys": "acen",
+    "a": "t90",
+    "b": "tr",
+    "divs": [
+     1
+    ],
+    "byQty": {
+     "rate": [
+      2.168404344971009e-19
+     ],
+     "rateB": [
+      0
+     ],
+     "P": [
+      0
+     ],
+     "e": [
+      0
+     ]
+    },
+    "bits": [
+     false
+    ]
+   },
+   {
+    "sys": "acen",
+    "a": "t90az90",
+    "b": "t90",
+    "divs": [
+     1
+    ],
+    "byQty": {
+     "rate": [
+      0
+     ],
+     "rateB": [
+      0
+     ],
+     "P": [
+      0
+     ],
+     "e": [
+      0
      ]
     },
     "bits": [
@@ -3558,16 +5864,16 @@
    "f43": 1.3329359900668167,
    "q1PN": 0.00008257102024379262,
    "ratio": [
-    1.3336057210931354,
-    1.3330529808245484,
-    1.3328966285808046
+    1.333584298284654,
+    1.3330315487980724,
+    1.3328751948637076
    ],
-   "ratioOverF": 0.9999704700853563,
+   "ratioOverF": 0.9999543900055501,
    "g1OverQ1": 0.9999771561314585
   },
   "law": [
    {
-    "key": "acen|Jm|div=1|N=8",
+    "key": "acen|kJ|div=1|N=8",
     "lawDecl": "inertial-drag",
     "lawSim": "inertial-drag",
     "ge": 0,
@@ -3609,6 +5915,27 @@
     "ok": true
    },
    {
+    "key": "acen|t180|div=1|N=8",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "acen|t90az90|div=1|N=8",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "acen|t90|div=1|N=8",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
     "key": "acen|tr|div=1|N=8",
     "lawDecl": "inertial-drag",
     "lawSim": "inertial-drag",
@@ -3630,14 +5957,49 @@
     "ok": true
    },
    {
-    "key": "j0737|JAB|div=1|N=8",
+    "key": "j0737|A32|div=1|N=8",
     "lawDecl": "inertial-drag",
     "lawSim": "inertial-drag",
     "ge": 0,
     "ok": true
    },
    {
-    "key": "j0737|JAB|div=2|N=8",
+    "key": "j0737|Aaz90|div=1|N=8",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "j0737|Baz180|div=1|N=8",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "j0737|Baz270|div=1|N=8",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "j0737|Baz90|div=1|N=8",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "j0737|Bm|div=1|N=8",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "j0737|JAB|div=1|N=8",
     "lawDecl": "inertial-drag",
     "lawSim": "inertial-drag",
     "ge": 0,
@@ -3665,20 +6027,6 @@
     "ok": true
    },
    {
-    "key": "j0737|JA|div=2|N=8",
-    "lawDecl": "inertial-drag",
-    "lawSim": "inertial-drag",
-    "ge": 0,
-    "ok": true
-   },
-   {
-    "key": "j0737|JA|div=4|N=8",
-    "lawDecl": "inertial-drag",
-    "lawSim": "inertial-drag",
-    "ge": 0,
-    "ok": true
-   },
-   {
     "key": "j0737|g1|div=1|N=8",
     "lawDecl": "eih-kf0",
     "lawSim": "eih-kf0",
@@ -3697,6 +6045,13 @@
     "lawDecl": "eih-kf0",
     "lawSim": "eih-kf0",
     "ge": 1,
+    "ok": true
+   },
+   {
+    "key": "j0737|miss|div=1|N=8",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
     "ok": true
    },
    {
@@ -3743,6 +6098,20 @@
    },
    {
     "key": "j0737|tr|div=1|N=8",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "j0737|tr|div=2|N=8",
+    "lawDecl": "inertial-drag",
+    "lawSim": "inertial-drag",
+    "ge": 0,
+    "ok": true
+   },
+   {
+    "key": "j0737|tr|div=4|N=8",
     "lawDecl": "inertial-drag",
     "lawSim": "inertial-drag",
     "ge": 0,
@@ -3751,7 +6120,7 @@
   ],
   "spin": [
    {
-    "key": "acen|Jm|div=1|N=8",
+    "key": "acen|kJ|div=1|N=8",
     "spinDmax": 0
    },
    {
@@ -3775,6 +6144,18 @@
     "spinDmax": 0
    },
    {
+    "key": "acen|t180|div=1|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "acen|t90az90|div=1|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "acen|t90|div=1|N=8",
+    "spinDmax": 0
+   },
+   {
     "key": "acen|tr|div=1|N=8",
     "spinDmax": 0
    },
@@ -3787,11 +6168,31 @@
     "spinDmax": 0
    },
    {
-    "key": "j0737|JAB|div=1|N=8",
+    "key": "j0737|A32|div=1|N=8",
     "spinDmax": 0
    },
    {
-    "key": "j0737|JAB|div=2|N=8",
+    "key": "j0737|Aaz90|div=1|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "j0737|Baz180|div=1|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "j0737|Baz270|div=1|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "j0737|Baz90|div=1|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "j0737|Bm|div=1|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "j0737|JAB|div=1|N=8",
     "spinDmax": 0
    },
    {
@@ -3807,14 +6208,6 @@
     "spinDmax": 0
    },
    {
-    "key": "j0737|JA|div=2|N=8",
-    "spinDmax": 0
-   },
-   {
-    "key": "j0737|JA|div=4|N=8",
-    "spinDmax": 0
-   },
-   {
     "key": "j0737|g1|div=1|N=8",
     "spinDmax": 0
    },
@@ -3824,6 +6217,10 @@
    },
    {
     "key": "j0737|g1|div=4|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "j0737|miss|div=1|N=8",
     "spinDmax": 0
    },
    {
@@ -3853,15 +6250,23 @@
    {
     "key": "j0737|tr|div=1|N=8",
     "spinDmax": 0
+   },
+   {
+    "key": "j0737|tr|div=2|N=8",
+    "spinDmax": 0
+   },
+   {
+    "key": "j0737|tr|div=4|N=8",
+    "spinDmax": 0
    }
   ],
   "acct": [
    {
-    "key": "acen|Jm|div=1|N=8",
-    "dLz": -2.7010697211487642e-14,
-    "lDrag": -2.620825674011262e-14,
-    "dE": -0.000057424049730788394,
-    "RE": -0.000057455205377795694
+    "key": "acen|kJ|div=1|N=8",
+    "dLz": 2.3254242632407316e-14,
+    "lDrag": 2.6208256740053315e-14,
+    "dE": -0.00005742404948369706,
+    "RE": -0.000057455205130704345
    },
    {
     "key": "acen|off|div=1|N=8",
@@ -3880,9 +6285,30 @@
    {
     "key": "acen|self|div=1|N=8",
     "dLz": 2.3254242632407316e-14,
-    "lDrag": 2.6208256740053315e-14,
+    "lDrag": 2.6208257188689187e-14,
     "dE": -0.00005742404948369706,
     "RE": -0.000057455205130704345
+   },
+   {
+    "key": "acen|t180|div=1|N=8",
+    "dLz": -2.7010697211487642e-14,
+    "lDrag": -2.620825718822713e-14,
+    "dE": -0.000057424049730788394,
+    "RE": -0.000057455205377795694
+   },
+   {
+    "key": "acen|t90az90|div=1|N=8",
+    "dLz": 1.9676666842805877e-15,
+    "lDrag": 3.3204445620790427e-25,
+    "dE": -0.00005742404960461157,
+    "RE": -0.00005745520525161887
+   },
+   {
+    "key": "acen|t90|div=1|N=8",
+    "dLz": 1.9676666842805877e-15,
+    "lDrag": 3.353715529341074e-25,
+    "dE": -0.00005742404960461157,
+    "RE": -0.00005745520525161887
    },
    {
     "key": "acen|tr|div=1|N=8",
@@ -3890,6 +6316,48 @@
     "lDrag": 3.428515667593905e-25,
     "dE": -0.00005742404960461157,
     "RE": -0.00005745520525161887
+   },
+   {
+    "key": "j0737|A32|div=1|N=8",
+    "dLz": 1.3445197999969603e-10,
+    "lDrag": 1.252657214848967e-10,
+    "dE": -0.00000880482416279537,
+    "RE": -0.000048428745344120825
+   },
+   {
+    "key": "j0737|Aaz90|div=1|N=8",
+    "dLz": 1.346474090111764e-10,
+    "lDrag": 1.2546024105695364e-10,
+    "dE": -0.000008804823800443117,
+    "RE": -0.00004842874498174998
+   },
+   {
+    "key": "j0737|Baz180|div=1|N=8",
+    "dLz": 1.346474090111764e-10,
+    "lDrag": 1.2546024105598366e-10,
+    "dE": -0.000008804823800443117,
+    "RE": -0.00004842874498174996
+   },
+   {
+    "key": "j0737|Baz270|div=1|N=8",
+    "dLz": 1.346474090111764e-10,
+    "lDrag": 1.2546024105500715e-10,
+    "dE": -0.000008804823800443117,
+    "RE": -0.00004842874498174996
+   },
+   {
+    "key": "j0737|Baz90|div=1|N=8",
+    "dLz": 1.346474090111764e-10,
+    "lDrag": 1.2546024105605413e-10,
+    "dE": -0.000008804823800443117,
+    "RE": -0.00004842874498174998
+   },
+   {
+    "key": "j0737|Bm|div=1|N=8",
+    "dLz": 1.3323144301410023e-10,
+    "lDrag": 1.240459375596767e-10,
+    "dE": -0.000008804826426808344,
+    "RE": -0.00004842874760825104
    },
    {
     "key": "j0737|JAB|div=1|N=8",
@@ -3927,6 +6395,13 @@
     "RE": null
    },
    {
+    "key": "j0737|miss|div=1|N=8",
+    "dLz": 9.188475890823905e-12,
+    "lDrag": -5.676504277032795e-19,
+    "dE": -0.000008805056583723926,
+    "RE": -0.00004842897777711857
+   },
+   {
     "key": "j0737|off|div=1|N=8",
     "dLz": 1.0599963159598125e-15,
     "lDrag": 0,
@@ -3935,10 +6410,10 @@
    },
    {
     "key": "j0737|self|div=1|N=8",
-    "dLz": 9.188475890823905e-12,
-    "lDrag": -5.676504277032795e-19,
-    "dE": -0.000008805056583723926,
-    "RE": -0.00004842897777711857
+    "dLz": 1.346474090111764e-10,
+    "lDrag": 1.2546024105695364e-10,
+    "dE": -0.000008804823800443117,
+    "RE": -0.00004842874498174998
    },
    {
     "key": "j0737|tr|div=1|N=8",
@@ -3957,110 +6432,119 @@
   "eRun": true,
   "eLaw": true,
   "eSpin": true,
-  "eAxisNullBits": true,
+  "eSelfMoves": true,
+  "eMissBits": true,
   "eJAMoves": true,
+  "eTiltVecBits": true,
+  "eAzZeroTiltBits": true,
+  "eKnobMoves": true,
+  "kPlane": true,
   "eAcenMoves": true,
   "eSign": true,
+  "eAcenPath": true,
   "lReservoir": true,
   "lUsed": true
  },
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.142
+   "wallSec": 0.119
   },
   "B": {
-   "wallSec": 0.027
+   "wallSec": 0.01
   },
   "E": {
-   "wallSec": 28.204
+   "wallSec": 19.593
   },
   "L": {
-   "wallSec": 0.648
+   "wallSec": 0.75
+  },
+  "K": {
+   "wallSec": 8.075
   },
   "T": {
    "wallSec": 0.002
   }
  },
- "elapsedS": 31.235,
+ "elapsedS": 30.237,
  "meta": {
   "provenanceVersion": "w272e-1",
-  "wave": "第324便b",
+  "wave": "第324便e",
   "target": "beta/index.html",
-  "targetSha256": "ca30d594a5c6a5e567d9fd29f545fe295ae51f3d029a3afaeccae43a12ada8e3",
-  "generatedAt": "2026-11-02T15:07:34.215Z",
+  "targetSha256": "a33002fbce36d94750ade1ccc0d8a1f6f5e0a5e2dd4a6bfd888871a1630b68b1",
+  "generatedAt": "2026-11-02T17:15:37.411Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7541522,
-    "sha256": "ca30d594a5c6a5e567d9fd29f545fe295ae51f3d029a3afaeccae43a12ada8e3",
-    "mtime": "2026-11-02T15:06:54.444Z"
+    "bytes": 7589824,
+    "sha256": "a33002fbce36d94750ade1ccc0d8a1f6f5e0a5e2dd4a6bfd888871a1630b68b1",
+    "mtime": "2026-11-02T17:12:14.187Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w324b-obsspin.mjs",
-    "bytes": 26762,
-    "sha256": "9d06706327c12f6db795a23fea6fb26311cc4c68b2357493e5b05d696e1752ae",
-    "mtime": "2026-11-02T13:12:15.474Z"
+    "bytes": 38252,
+    "sha256": "8f83c9420fea2c0a5a14c4655207df815293cc81fbb646deb3acc6780def98b5",
+    "mtime": "2026-11-02T17:15:07.082Z"
    },
    {
     "file": "tests/lib-w324b-obsspin.mjs",
-    "bytes": 15810,
-    "sha256": "42ecdc43e93ca0bb5944539492537cf21b67e8721063a41564d9b8bbe53d0165",
-    "mtime": "2026-11-02T13:08:50.373Z"
+    "bytes": 26824,
+    "sha256": "31a1ae702ba9fbc935425fcdb26b0cad9b39f45d24ed561516f95498f8d0b074",
+    "mtime": "2026-11-02T17:04:14.041Z"
    },
    {
     "file": "tests/exp-w321b-geo3bin.mjs",
     "bytes": 39730,
     "sha256": "b2832c81d3ca2dad481bc584fef2d0dae08876c8b3c5652e4f5d44ddb26e368c",
-    "mtime": "2026-11-02T12:41:57.460Z"
+    "mtime": "2026-11-02T16:40:16.819Z"
    },
    {
     "file": "tests/lib-w321b-geo3bin.mjs",
     "bytes": 18517,
     "sha256": "ddc1e49f5929b4bb1115ee83e19705d7ac476ca494c3b33444a24b3442733278",
-    "mtime": "2026-11-02T12:41:57.492Z"
+    "mtime": "2026-11-02T16:40:19.251Z"
    },
    {
     "file": "tests/lib-w304e-apsis.mjs",
     "bytes": 13145,
     "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
-    "mtime": "2026-11-02T12:41:57.484Z"
+    "mtime": "2026-11-02T16:40:17.719Z"
    },
    {
     "file": "tests/lib-w320d-rulebooks.mjs",
     "bytes": 1726,
     "sha256": "c7cb484c8a577d4cf241b0a8e297bf6abe09a52747ec4bc95e78651698f8b201",
-    "mtime": "2026-11-02T12:41:57.492Z"
+    "mtime": "2026-11-02T16:40:18.991Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-02T12:41:57.476Z"
+    "mtime": "2026-11-02T16:40:17.691Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-02T12:41:57.476Z"
+    "mtime": "2026-11-02T16:40:17.691Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-02T12:41:57.472Z"
+    "mtime": "2026-11-02T16:40:17.683Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 96951,
     "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-11-02T12:41:57.480Z"
+    "mtime": "2026-11-02T16:40:17.703Z"
    }
   ],
-  "codeSha256": "518b928dde728e26eb5a2c8c82e0dc1109412da3e330492be48348fe3b834eb7",
-  "harnessVersion": "w324b-obsspin-1",
+  "codeSha256": "01613013fe47efcebd1e1c8f50c30a9cdd3c4601601f3096c1f9d0008a853b3d",
+  "harnessVersion": "w324e-obsspin-2",
   "stage": "obsspin",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・子プロセス 2)",
   "notClaim": [
@@ -4069,7 +6553,8 @@
    "連星の観測との照合ではない(同じ初期状態・同じ窓の写しどうしの差)",
    "近点の移動の原因を述べない",
    "h・h/2・h/4 を収束の判定に使わない(刻みの感度診断)",
-   "軸を仮定した比較列を本の既定と呼ばない(器の中の列)",
+   "ノブの値を観測と呼ばない・推定の傾きを観測の軸と呼ばない(推定・ノブ・観測を文で混ぜない)",
+   "器の中の列(ノブを振った列・推定の上限の列・欠測の写し)を本の既定と呼ばない",
    "文献の値は一次資料に当たっていない"
   ],
   "scope": {
@@ -4109,6 +6594,10 @@
     "HP.presetSig",
     "HP.sim",
     "HP.validatePreset",
+    "OBS_SPIN_AXIS_BASES",
+    "OBS_SPIN_AXIS_COMPS",
+    "OBS_SPIN_AXIS_COMP_KEYS",
+    "OBS_SPIN_AXIS_KEYS",
     "OBS_SPIN_FRAMES",
     "OBS_SPIN_F_MAX",
     "OBS_SPIN_KEYS",
@@ -4120,25 +6609,31 @@
     "calTargetOf",
     "ctx",
     "cw",
+    "obsSpinAxisInfo",
+    "obsSpinAxisResolve",
+    "obsSpinAxisTiltOf",
     "obsSpinCoreSpin",
     "obsSpinCrossCheck",
+    "obsSpinKnobsOf",
+    "obsSpinOrbitNormal",
     "obsSpinPrepare",
     "obsSpinRowOf",
     "obsSpinSrcOn",
     "obsSpinSrcRadii",
     "obsSpinState",
     "obsSpinUsable",
+    "obsSpinWithKnob",
     "pnSource",
     "validateObsSpinBody"
    ],
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1360,
-   "segments": 1193,
-   "closureShare": 0.3015
+   "names": 1389,
+   "segments": 1215,
+   "closureShare": 0.3029
   },
-  "scopeSha256": "3a711582083bbd66cb34d6d51409e3287a0436cc1524e46020c34bddeb01989c",
+  "scopeSha256": "d987c7d9be4a066435481393251091d41cbc13dafc462ffe03950559729ffd3a",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
