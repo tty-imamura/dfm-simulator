@@ -93284,7 +93284,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         { const ai = AS.indexOf('## 175.'); if (ai < 0) bad.push('AI_SPEC に §175 が無い');   // 第324便e(AN521)
           else { const as = AS.slice(ai, ai + 8000); for (const w of ['AN521', 'R283', 'orbitNormal', 'tiltDeg', 'azimuthDeg', 'sense', 'basis', '"knob"', 'obsSpin', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §175 に「' + w + '」が無い');
             for (const w of NG.concat(NG2)) if (as.indexOf(w) >= 0) bad.push('AI_SPEC §175 に禁句(' + w.length + ' 字)'); } }
-        if (RT.indexOf("S('obsspin-324b', 'node tests/exp-w324b-obsspin.mjs', ['tests/out/obsspin-w324b.json']") < 0 || !/secSource: 'w324b-branch'/.test(RT) || !/'obsspin-324b'[^\n]*quickVerify: 'long'/.test(RT)) bad.push('再生成の段 obsspin-324b(quickVerify long)');
+        if (RT.indexOf("S('obsspin-324b', 'node tests/exp-w324b-obsspin.mjs', ['tests/out/obsspin-w324b.json']") < 0 || !/secSource: 'w324[be]-branch'/.test(RT) || !/'obsspin-324b'[^\n]*quickVerify: 'long'/.test(RT)) bad.push('再生成の段 obsspin-324b(quickVerify long)');
         if (GI.indexOf('!tests/out/obsspin-w324b.json') < 0) bad.push('.gitignore の例外');
         if (!(PM.indexOf('# ==== 第324便b の塊(ここから)====') >= 0 && PM.indexOf('docs.obsSpin324b') >= 0 && PM.indexOf('behavior.obsSpin324b') >= 0)) bad.push('post-merge の ③′ に第324便b のブロックが無い');
         if (QA0.indexOf("'tests/out/obsspin-w324b.json',") < 0) bad.push('CANON(lint.canon304)に第324便b の正本が無い');
