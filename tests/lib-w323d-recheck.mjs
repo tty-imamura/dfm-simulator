@@ -22,7 +22,7 @@ const HEX64 = /^[0-9a-f]{64}$/;
 export const sha256 = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
 
 /**
- * 部分 QA(tests/exp-w258c-qapart.mjs)の印字を読む。行の型: `PASS <id>…`・`FAIL <id>…`・`SKIP <id>…`、
+ * 部分 QA(tests/exp-w258c-qapart.mjs)の印字を読む。行の型: `PASS <id>…`・`FAIL <id>…`・`SKIP <id>(…`(QA の SKIP の印字の型)、
  * 要求した鍵: `# 切り出し: a / b  (…行)`・`# 束 k/n: a / b  (…行)`、未実行: 「未実行」を含む行の `:` の後の ID の並び
  * (` / `・`,`・空白で区切る)か、`FAIL <id>  …(did not execute|未実行)`。要求した鍵が印字に無ければ `requested` を引数で渡す。
  * 要求したのに PASS/FAIL/SKIP のどれにも出ない鍵は**未実行**に数える(走らない鍵を成功に数えない)。
@@ -36,7 +36,7 @@ export function parseQapartLog(text, requested) {
   for (const l of lines) {
     let m = l.match(/^# 切り出し: (.+?)\s{2}\(/) || l.match(/^# 束 \d+\/\d+: (.+?)\s{2}\(/);
     if (m) { addReq(m[1]); continue; }
-    m = l.match(/^(PASS|FAIL|SKIP) (\S+)/);
+    m = l.match(/^(PASS|FAIL|SKIP) ([A-Za-z][\w.\-]*)/);   // ID は英数字・`.`・`-`・`_`(SKIP の行は ID の直後に「(」が続く)
     if (m) {
       const id = m[2];
       if (m[1] === 'FAIL' && /did not execute|未実行/.test(l)) { notRunSaid.add(id); continue; }

@@ -2,6 +2,8 @@
 // 第323便d(決断事項 AN428 ①・統括の検証項目 R278): **来歴の語が量の名と世代の印に残る箇所の一覧**を機械で作る道具(読むだけ —— 何も書き換えない)。
 //
 //   node tools/provenance-inventory.mjs [--html beta/index.html] [--json <出力>] [--md]
+//   node tools/provenance-inventory.mjs --calverdict <前の正本> <後の正本>          … 判定の値の前後(差 0 で rc 0)
+//   node tools/provenance-inventory.mjs --calverdict-write <正本> <出力> [--rev <rev>]  … 判定の値の記録(tests/data-w323d-calverdict.json)
 //
 // ① html を Node の主コンテキストで読み(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— 物理は走らせない)、
 //    内蔵の全本の obsCard の行名(ja/en)・フィットの記録の文・退役の理由から、来歴の語(html 自身の判定 PROV_TEXT_CLEAN.PROV_TEST)を含む文字列を数える。
@@ -20,8 +22,33 @@ const HTML = opt('--html') || 'beta/index.html';
 const JSON_OUT = opt('--json');
 const MD = argv.includes('--md');
 
-const { loadHtmlMain } = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs')).href);
 const INV = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w323d-provinv.mjs')).href);
+// ---- 判定の値の前後(--calverdict <前の正本> <後の正本>)・判定の値の記録(--calverdict-write <正本> <出力> [--rev <rev>])—— html を読まない
+{
+  const i1 = argv.indexOf('--calverdict'), i2 = argv.indexOf('--calverdict-write');
+  const rdJ = (f) => JSON.parse(fs.readFileSync(path.resolve(f), 'utf8'));
+  if (i1 >= 0) {
+    const A = rdJ(argv[i1 + 1]), B = rdJ(argv[i1 + 2]);
+    const pa = INV.calJudgementProjection(A), pb = INV.calJudgementProjection(B), ka = INV.calPhysicsKeyOf(A), kb = INV.calPhysicsKeyOf(B);
+    const d = INV.projectionDiff(pa, pb);
+    console.log(`判定の値の前後(${INV.CALVERDICT_VERSION}): 物理の入力の指紋 ${ka.sha256.slice(0, 12)} → ${kb.sha256.slice(0, 12)}(${ka.sha256 === kb.sha256 ? '同じ' : '違う'})・`
+      + `4 値 ${JSON.stringify(pa.counts)} → ${JSON.stringify(pb.counts)}・5 区分 ${JSON.stringify(pa.tally)} → ${JSON.stringify(pb.tally)}・行 ${pa.rows.length} → ${pb.rows.length}・差 ${d.length}`
+      + (d.length ? ': ' + d.slice(0, 8).join(' ') : '') + `・写しの digest ${INV.projectionDigest(pa).slice(0, 12)} → ${INV.projectionDigest(pb).slice(0, 12)}`);
+    process.exit(d.length ? 1 : 0);
+  }
+  if (i2 >= 0) {
+    const A = rdJ(argv[i2 + 1]), proj = INV.calJudgementProjection(A), key = INV.calPhysicsKeyOf(A);
+    const rev = opt('--rev');
+    const rec = { version: INV.CALVERDICT_VERSION, since: '第323便d(決断事項 AN428 ①)', base: { rev: rev || null, file: 'tests/out/calaudit-w249.json',
+      generatedAt: (A.meta || {}).when || null, targetSha256: (A.meta || {}).targetSha256 || null }, physicsKey: key, digest: INV.projectionDigest(proj),
+      rule: '判定器の正本の判定の値(4 値の台帳・5 区分・門の状態・行ごとの判定と差)の写し。**物理の入力の指紋が同じ正本**ではこの写しと同じでなければならない(行の id・来歴の語の扱いの変更 —— AN428 ①②③ —— は判定を動かさない)。指紋が違えば照合の対象外(物理の変更の便 —— 記録を作り直す)',
+      projection: proj };
+    fs.writeFileSync(path.resolve(argv[i2 + 2]), JSON.stringify(rec, null, 1) + '\n');
+    console.log(`判定の値の記録を書いた: ${argv[i2 + 2]}(行 ${proj.rows.length}・指紋 ${key.sha256.slice(0, 12)}・digest ${rec.digest.slice(0, 12)})`);
+    process.exit(0);
+  }
+}
+const { loadHtmlMain } = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs')).href);
 const RID = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w323d-rowids.mjs')).href);
 const cwd0 = process.cwd();
 process.chdir(ROOT);

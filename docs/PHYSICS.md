@@ -42364,6 +42364,57 @@ balance:"background" の受理の正準形は第319便a のまま(真)・版 w32
 
 **⑦ ゲート 1 の停止・原仮定者の回答(2026-11-01 —— AN519)・原仮定者の指示(2026-11-01)。** ゲート 1 の beta フルは 1347/1350 で止まった —— (a) 鎖 1 の段 htmlagg が SAMPLE_STATUS の 🫓 の行を html に書いたので、鎖の最初の段(calaudit)の刻印が今の html と違った 2 件(lint.calauditMergeKeyHash・ui.assessedValuePanel —— 統括が鎖 1 の前に samplestatus の冪等を確かめなかった)、(b) 検証サンプル ♊⚖️ が c₀ = 30 一律規約(light.canonical-builtins —— 第99/100便の裁定)の外(第321便b の玩具の写しで c = 10)。原仮定者の回答(AN519)「c₀=30 に直す」→ 第322便e で 2 本を c₀ = 30 へ(従属の宣言は X_k = 1/900 だけ —— 〔第322便b〕の「第322便e の更新」)。原仮定者の指示「光速の規約に合わせて直す」「今後は、すぐに確認可能な規約を先に判定する」「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」を本便で次のように使った: 鎖 2 の前に**規約の速い判定**(c₀ の規約・段の分類・全内蔵の受理 —— html を Node で読んで数秒)と samplestatus の冪等を確かめてから起動・鎖 2 は計画のとおり(走った 98 段・依存の段は上流の後に自分の判定 —— 上流の安定 hash が同じで再利用 62 段・1 h 20 min —— 鎖 1 の 196 段・6 h 54 min の約 1/5)・ゲート 2 は beta フル 1349/1350(文書の書式の 1 か所〔lint.kappaSymbol315〕を直して部分 QA 1/1 —— beta フルは繰り返さない)・root フル 944/944・perf 21/21(再走)。light.canonical-builtins と preset.scale-tier は部分 QA(qapart)では走らない鍵(〔第322便d〕の 56 鍵 —— 列 0 の if の中)だった —— 枝 b の部分 QA に入らなかった理由。次便の候補: 規約の速い判定を統合の直後の手順に常設(qapart で走らない鍵の直しと一緒に)・サンプルだけの変更で鎖が広がらない道具(領域の宣言の無い段に宣言・常時群の出力を本ごとに安定化 —— ⑥ の簡易一致と合わせて)。検証サンプル ♊⚖️ の画面の刻み(c₀ = 30 では刻み P/360 の積分の誤差がこの本の寄与より大きく、トレイルの近点は逆向きに回る —— 本の文はそのとおり)は決断事項 AN520。
 
+〔第323便d — 来歴: 較正の行の安定した id(読込の互換 —— 決断事項 AN428 ①)・来歴の語の一覧・部分の再検査の補足の記録と SAMPLE_STATUS の来歴の口(原仮定者の指示(第125報)・原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・決断事項 AN428・統括の検証項目 R278)(**html・本の宣言・エンジン・検定器と QA の判定の鍵は変えない** —— beta/index.html と root の index.html は 1 byte も変えていない・`S._core`・受理器は不変・器と lib と道具と QA と文書だけ)〕
+
+**① 何をしたか。** 判定器(`tests/exp-w249b-calaudit.mjs`)は本の観測結果カードの行名 `q` を**量の名**としてそのまま使い、器・lib・QA・html の表がその文字列で行を引いている。行名の一部には開発の回の語(「第250便d」「AN51」「2026-08-25 裁定」など —— 以下「来歴の語」)が入り、画面では出す側(`provTextClean`)で外している。AN428 は 3 段で移す: **①** 読込の互換(旧い名と新しい鍵の両方を読む)→ **②** 検定器と QA を新しい鍵へ → **③** データから来歴の語を外す。**本節は ① だけ**(判定の値が前後で同じことを先に測る —— ②③ はその後の便)。もう一つ、保存のフル QA の FAIL を直した後に**フルを繰り返さず部分 QA で閉じた**便の来歴を機械で読める形にした(第322便のゲート 2 の保存 beta フル 1349/1350 —— `lint.kappaSymbol315` を e60502a で直して部分 QA 1/1 —— の実例)。
+
+**② 来歴の語の一覧(道具 `tools/provenance-inventory.mjs` —— lib `tests/lib-w323d-provinv.mjs` 版 w323d-provinv-1)。** html を Node で読み(物理は走らせない)、来歴の語の判定は **html 自身の判定**(`PROV_TEXT_CLEAN.PROV_TEST` —— 画面で出す側が外す語の集合と同じ・lib は正規表現を写して持たない)で数えた。読む側は、行名の完全一致と、来歴の語を含む引用の文字列で行名の一部であるもの(部分一致の鍵 —— 例 `'近点間(第250便d)'`)をファイルごとに数えた(正規表現の鍵は数えていない —— ② で QA を切り替えるときに QA の側で照合する)。
+
+**表 1(来歴の語の一覧 —— 基点 bff6711 の beta/index.html)**
+| 種類 | 文字列 | 本 | 読む側(出現) | ① の扱い(本便) | ② / ③ |
+|---|---|---|---|---|---|
+| 較正の本の obsCard の行名 `q`(ja) —— 判定器の量の名 | 33(異なり 30 —— 退役の本の行 6) | 16(在位 12・退役 4) | 器 `tests/exp-w249b-calaudit.mjs`(量の名として読む・行の測定定義 ROW_MEASUREMENT_DEF の部分一致 3・D68 の周期定義の measuredRow 1)/ lib `tests/lib-w283c-calstages.mjs`(h/4 の例外の登録簿 H4_EXCEPTIONS の名前 1)/ データ `tests/data-w289b-condrows.json`(改名の表 —— 2)/ html の表(OBS_COMPARE_ROWS 27・ASSESSED_VALUES 2・LIVE_COMPARE_SPEC 1)/ QA(完全一致 7 —— 「否の要因」の行)/ 凍結の写し 4 ファイル(33)/ 正本 8 ファイル(calaudit 25 名・その診断 25・issues 21・solarsigma 9・calcause 3・assessed 2・heavy 2・tpsign 2 —— 判定器の量の名の写し) | 表 `LEGACY_ROW_IDS` の読める id(33 行 —— 改名の前の名 1 を別名に)・判定器の正本の量の行に `rowId`・行の測定定義と h/4 の例外の照合を**名前と id の両方**で | **② で変える**: html の表と受理器・QA の名前の照合・名の写しで結合する器と lib(lib-w285d-obscompare・exp-w273c-assessedtable・lib-w292a-calcause・exp-w262d-solarsigma —— 名を写す正本に id を足す)/ ③: 行名から来歴の語を外す(旧い名は表の別名に残す) |
+| 同じ行の英語の行名(`en.obsCard[].q`) | 7 | 5(在位 2 —— ☄️🟠・退役 3) | 表示だけ(判定器は読まない) | 表の `en` に別名 | ③ で外す |
+| フィットの記録の文(law・procedure・fixed・notFitted・targets) | 28 | 5(退役 1 —— 行 2) | QA が便の語を世代の目印に読む(`/第303便a/` の型 —— `tests/lib-w303a-pre.mjs` の GEN303A_MARK と qa.mjs)・フィットの器が文を生成する | 読み口 `waveOf`(専用の欄 `wave` → 無ければ procedure の先頭の便の語)を lib に置いた(使う器はまだ無い) | **② で変える**(QA の世代の門を欄で)/ ③: 器の生成する文と本の欄 |
+| 退役の理由(RETIRED_PRESETS の ja/en) | 80(ja 40・en 40) | 40(退役の表 56 行のうち) | QA が先頭の「第90報」を世代の目印に読む(qa.mjs の 10 行 —— 🌞🌛🌜 の 3 本)・表示は出す側で外す | 読み口 `rulingOf`(専用の欄 `ruling` → 無ければ先頭の「第N報」) | **② で変える**(QA の世代の門を欄で)/ ③: 表の文 |
+(数は `node tools/provenance-inventory.mjs --md` の出力 —— 一覧の外の本〔較正の分類の外〕の行名に来歴の語は 0。)
+
+**③ 行の安定した id(lib `tests/lib-w323d-rowids.mjs` —— 版 w323d-rowids-1)。** `rowIdOf(本, 行)` は (a) 行が鍵 `rowId` を持てばそれ(② / ③ の後のデータ)、(b) 来歴の語を含む行名は表 `LEGACY_ROW_IDS` の読める id(「本の id/英小文字の語」—— 例 `mercuryReal/perihelion-advance`・`saturnZonalD68/periapsis-precession`)、(c) それ以外は本の id と行名(改名の表 `tests/data-w289b-condrows.json` で今の名へ寄せた後)の SHA-256 の先頭 12 桁(`<本>/q-<12 桁>`)。来歴の語の無い名は ③ で変わらないので (c) も変わらない・後から入る本と行でも落ちない。判定器は**判定と行名が確定した後**に全行へ `rowId` を書き足し、要約 `rowIds`(版・規則・行の数・出どころの数・表の行・重なり)を正本に置く(門・5 区分・4 値の台帳・残差は読まない・変えない)。`--merge` で持ち越した行も同じ規則で数える(鎖の 3 段 —— 通常・dt3・kf0 —— で同じ要約)。
+- **読み手の互換**: 行の測定定義(ROW_MEASUREMENT_DEF —— 本 + 行名の部分一致)は `match` か表 `ROW_DEF_ROW_IDS` の id のどちらかで同定する。**id を宣言の object に足さない** —— 宣言は写像の指紋(`mappingSigOf`)と正本の `periodContract` に入る(1 回目の走行で足したら 📡 の写像の指紋が動き、h/4 の転記が `mapping-moved(否)` で拒まれて dt/4 を走らせ直した —— 値は差 0 だったが転記の契約を動かさない形へ直した)。h/4 の例外の照合は `h4ExceptionCompat`(`isH4Exception` と同じ 4 つの一致 + id —— 登録簿の lib は再生成表が import するので変えない)。🌘 earthMoonRealKF1 の宣言の `match` は第316便b で今の行名に当たらなくなっている(原理の本で母集団の外)—— id を与えず挙動を変えない。
+- **旧保存の読込**: 過去の正本の形(ae29b8a の 179 行・2a4af53 の 314 行・161428d の 170 行 —— 枝の scratch で git から読んだ)は全行に id が付き、本の中の重なり 0。凍結の写し 8 本の旧い行名 95(表の id 13)・改名の表の前と後の 29 対は同じ id(QA lint.provenanceIds323 ⑤)。
+
+**表 2(判定器の前後 —— 基点 bff6711 の正本と、枝で器を走らせた正本〔鎖と同じ 3 段: calaudit → dt3 → kf0・分割 2・前の正本 = 基点〕)**
+| 量 | 基点 | 枝の走行 | 差 |
+|---|---|---|---|
+| 4 値の台帳(合/量限定合/否/保留) | 0/2/1/16 | 0/2/1/16 | 0 |
+| 量の 5 区分(合/窓/否/従/転/条) | 48/0/3/2/117/0 | 48/0/3/2/117/0 | 0 |
+| 門の状態(合(3σ)/否(3σ)/数値未解決/mapping-unresolved/未判定) | 2/1/10/6/151 | 2/1/10/6/151 | 0 |
+| 行ごとの判定・門・σ 倍・差 %・実測値(170 行)と台帳の行(19 本) | 写しの digest 82ede8862138 | 82ede8862138 | 0(相対 1e-12) |
+| 物理の入力の指紋(法則の指紋・観測 CSV・判定の出典・本ごとの h/2 の安定 hash) | d5072674ef5f | d5072674ef5f | 同じ |
+| 揮発の欄の外の全欄(再生成表の volatilePaths と実行時刻・所要・同一性の hash を除く) | — | — | 差 2(`mergeKey.measurementCodeFiles` に lib 1 本・`h2Reuse.reusedSec` の所要)+ 足した欄(行の `rowId` 170・要約 `rowIds`) |
+| 診断の分割 `calaudit-w249-diag.json`・kF0 の正本 `kf0-w259d.json` | — | — | 差 0(kF0 はバイトも同じ) |
+| `tools/regen-valdiff.mjs --base bff6711`(calaudit・dt3・kf0) | — | — | 数 0・文 0・構成 172(足した id の欄) |
+行の id: 170 行(表 27・導出 143・鍵 0・重なり 0)。所要(並走の秒 —— 他の 3 枝と同じ箱): calaudit 355.7 s・dt3 28.9 s・kf0 48.3 s(段の見積りの秒は変えていない)。判定の値の記録 `tests/data-w323d-calverdict.json`(版 w323d-calverdict-1 —— 基点の写し)を置き、QA lint.provenanceIds323 ⑥ が**物理の入力の指紋が同じ正本**で判定の値の一致を見る(指紋が違う正本 —— 物理の変更の後 —— は照合の対象外と書いて通す)。**正本はコミットしていない**(器のコードが変わったので鎖の calaudit の段〔常時群〕が作り直す —— 枝の走行の正本は scratch)。
+
+**④ 部分の再検査の補足の記録(lib `tests/lib-w323d-recheck.mjs`・道具 `tools/qa-recheck-record.mjs` —— 版 w323d-recheck-1)。** 「同じ html」と「全検査が成功」は別のことなので、フルの結果を書き換えずに補足を置く。1 本の追記型 `tests/out/qa-recheck-beta.json`(root は `tests/out/qa-recheck.json`): `full`(保存のフルのファイルの sha256・commit・日付・対象 html と sha256・版名・PASS/全体・FAIL の ID)/ `records[]`(直したファイルの直す前と後の sha256 と commit・検査のコード〔既定 `tests/qa.mjs`〕のフルの時点と再検査の時点の sha256・再検査した html の sha256・部分 QA の印字から読んだ要求の鍵と結果〔PASS・FAIL・SKIP・未実行〕・結論)/ `latest`(要約)。**閉じた** = フルの FAIL の全部が再検査で PASS・再検査に FAIL と未実行が無い・再検査がフルと同じ html の上。部分 QA の印字は `PASS`・`FAIL`・`SKIP` の行と `# 切り出し:`・`# 束 k/n:` の要求の鍵から読み、**要求したのに出ない鍵は未実行**(走らない鍵を成功に数えない —— 枝 a の要約〔PASS・FAIL・SKIP・未実行〕の「未実行」の行と、未実行の FAIL の行も読む)。
+
+**表 3(第322便のゲート 2 の実例 —— 記録は枝の scratch に置いた。本便の正本としてはコミットしない)**
+| 欄 | 値 |
+|---|---|
+| 保存のフル | `tests/out/qa-results-full-beta.json`(sha256 d8696314ec46…)・commit 13cf5bb・2026-11-01T22:58:32Z・版名 v1.47-b322・対象 html 02da1683856a… —— 1349/1350・FAIL `lint.kappaSymbol315` |
+| 直したファイル | `docs/PHYSICS.md` 6a344d42bf36… → a158836a362a…(e60502a —— 〔第322便b〕の第322便e の段落の鍵の値をコードの書式に) |
+| 検査のコード | `tests/qa.mjs` ee1b1d443ffd…(フルの時点と再検査の時点で同じ) |
+| 再検査 | e60502a の木の写し(scratch)で `tests/exp-w258c-qapart.mjs lint.kappaSymbol315` —— PASS 1/1(FAIL 0・SKIP 0・未実行 0)・html 02da1683856a…(フルと同じ)。対照: 直す前の文書(13cf5bb)の上では同じ鍵が FAIL 0/1(閉じない記録になる) |
+| 結論 | 閉じた(フルの FAIL 1 件を再検査で閉じた —— フルの結果 1349/1350 はそのまま) |
+
+**⑤ SAMPLE_STATUS の来歴の口(器 `tests/exp-w279a-samplestatus.mjs`)。** 器は補足の記録(既定 `tests/out/qa-recheck-beta.json` —— 試しは環境変数 `W323D_RECHECK`)が**今の保存のフル(ファイルの sha256)を指すときだけ**、「保存 QA の来歴」の行の末尾に 1 文を足し、正本の `timingNote.qaProvenance.recheck` に要約を置く。記録が無ければ文と正本は今と同じ(鍵を作らない —— 同じ入力で基点の器と枝の器を走らせ、一覧 md は同じ・正本は来歴 meta の code の 2 欄の外で同じ)。別のフルを指す記録は当てない(正本に「当てない」と理由だけ)。根拠 ID の PASS の集合は保存のフルのまま(状況の判定は変えない)。足した文は同じ行の中なので、`tools/samplestatus-postgate.mjs` の分類では来歴の差(md 1 行・正本 6 欄 —— 外 0)。実例の記録を当てたときの行(前 → 後):
+- 前: 「保存物は版名 `v1.47-b322`・commit 13cf5bb・2026-11-01T22:58:32.917Z・対象 html の sha 02da1683856a —— 今の html(版名 `v1.47-b323`)に対して **前の便のゲートの保存物**(1 便遅れる …)。」
+- 後: 同じ文の後に「保存のフル 1349/1350 + 部分の再検査 1/1(`lint.kappaSymbol315` —— 直したファイル `docs/PHYSICS.md`・同じ html)—— フルの FAIL の全部を再検査で閉じた(補足の記録 `tests/out/qa-recheck-beta.json`・w323d-recheck-1)。」
+
+**⑥ QA(新設 3 —— `lint.provenanceIds323`・`docs.w323d` は beta だけ・`lint.qaRecheck323` は beta と root)。** `lint.provenanceIds323`: ① 一覧(page の中の html の PROV_TEST)を表が全部覆う・表に一覧の外の名が無い(改名の表の旧い名は可)・id の形と重なり / ② 正本が `rowId` を持てば(鎖の後の世代)全行が行名から導いた id と同じ・要約の数と出どころ、持たなければ(鎖の前)導いて重なり 0 —— どちらでも来歴の語を含む正本の行名は表の id / ③ 行の測定定義の id と `match` が正本の同じ行を指す / ④ h/4 の例外の照合(名前・id だけの行・門の鍵の違いの否)/ ⑤ 旧保存の読込 / ⑥ 判定の値の記録との照合 / ⑦ 器の配線(宣言の object に id を足さない)。`lint.qaRecheck323`: 印字の読みの缶詰 6 型・記録の作りと形の検査(閉じる・FAIL が残る・html が違う・結論の書き換えを拾う・追記型)・samplestatus の口と置かれた記録の形。`docs.w323d`: 本節・AI_SPEC §170・CHANGELOG・tools/README・post-merge の ③′・.gitignore の例外(`tests/out/qa-recheck-beta.json`・`tests/out/qa-recheck.json` —— 作った便がコミットできるように)。
+
+**⑦ ②③ の段取り(推奨)。** ②(次に calaudit を触る便): html の表(OBS_COMPARE_ROWS・ASSESSED_VALUES の生成器が行の id を写す・LIVE_COMPARE_SPEC を id で引く)・QA の名前の照合(「否の要因」ほか)と世代の印(退役の理由の「第90報」・フィットの記録の便の語)を id と専用の欄(`ruling`・`wave`)へ。名を写して結合する器(obscompare・assessed・calcause・solarsigma)は id で結合する。② の後も `tests/data-w323d-calverdict.json` の照合で判定の値が同じことを見る。③(② の後の便): obsCard の行名から来歴の語を外し、旧い名を `LEGACY_ROW_IDS` の別名に残す(行名の変更は html の生成領域と鎖の多くの段の閉包を動かす —— 文だけの変更を許す照合〔文字列を除いた hash〕の決断と一緒に)。過去の正本・凍結の写し・観測値・量の意味は書き換えない。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

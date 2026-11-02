@@ -293,7 +293,7 @@ const recheckW323 = (() => { const a = path.resolve(ROOT, recheckFileW323); if (
   const rel = path.relative(ROOT, a).startsWith('..') ? recheckFileW323 : path.relative(ROOT, a).split(path.sep).join('/');
   return RC.recheckProvenanceOf(doc, RC.sha256(fs.readFileSync(path.join(ROOT, QAF))), rel); })();
 if (recheckW323) qaProvW320.recheck = Object.assign({ since: '第323便d(R278)' }, recheckW323);
-md.push(`- **保存 QA の来歴**(第320便d): 保存物は版名 \`${qaProvW320.betaBuild || '—'}\`・commit ${qaProvW320.commit ? String(qaProvW320.commit).slice(0, 7) : '—'}・${qaProvW320.date || '—'}・対象 html の sha ${qaProvW320.targetSha256 ? String(qaProvW320.targetSha256).slice(0, 12) : '—'} —— 今の html(版名 \`${BETA_BUILD_W300D}\`)に対して ${qaLagW320}。${recheckW323 && recheckW323.applied ? ' ' + recheckW323.text + '。' : ''}`);
+md.push(`- **保存 QA の来歴**(第320便d): 保存物は版名 \`${qaProvW320.betaBuild || '—'}\`・commit ${qaProvW320.commit ? String(qaProvW320.commit).slice(0, 7) : '—'}・${qaProvW320.date || '—'}・対象 html の sha ${qaProvW320.targetSha256 ? String(qaProvW320.targetSha256).slice(0, 12) : '—'} —— 今の html(版名 \`${BETA_BUILD_W300D}\`)に対して ${qaLagW320}。${recheckW323 && recheckW323.applied ? recheckW323.text + '。' : ''}`);
 md.push(`- **保存 QA**: \`${QAF}\`(${qa.total || qaAll.length} 試験・全体 ${fmtS((qa.durationMs || 0) / 1000)} s${qa.commit ? '・commit ' + String(qa.commit).slice(0, 7) : ''})のうち、**その本の claims が挙げる testId と、原稿 \`${SRC}\` の \`qaTargets\` がその本を挙げた試験**(帰属 ${qaAttr.version} —— 試験の id の部分文字列では帰属させない)の所要の和と本数(1 つの試験が複数の本に数えられうる —— 本ごとの列は重なりを含む)。どちらにも無い本は「帰属なし」(${qaAttr.unattributed.length} 本)。内訳は所要の上位 3。`);
 md.push('');
 md.push('| 本 | 較正走行(s) | 段別(s) | 保存 QA(s・本数) | QA の内訳(上位 3) |');

@@ -15,6 +15,7 @@
 //   凍結の写しと過去の正本は書き換えない(読込は `rowIdOf` が通す)。
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 
 export const PROV_INV_VERSION = 'w323d-provinv-1';
 export const INV_KINDS = Object.freeze(['obsCardQ', 'obsCardQEn', 'fitRecord', 'retiredReason']);
@@ -167,4 +168,53 @@ export function summarizeInventory(items, readers) {
     out.readerFiles = Object.fromEntries(Object.entries(files).map(([k, v]) => [k, [...v].sort()]));
   }
   return out;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// 判定の値の前後(AN428 ① の照合 —— 行の id を足す前と後で判定が同じか)
+// ---------------------------------------------------------------------------------------------------------------------
+export const CALVERDICT_VERSION = 'w323d-calverdict-1';
+const numOrNull = (v) => (typeof v === 'number' && Number.isFinite(v)) ? v : (v === undefined ? null : v);
+/**
+ * 判定器の正本の**判定の値**の写し: 4 値の台帳(本ごとの 4 値・門の内訳・代表量・最悪の差・欠け)と数・量の 5 区分の数・門の状態の数・
+ * 行ごとの 5 区分・門の状態と σ 倍・差 %・実測値(行名で引く —— 行の id は使わない〔id を足した前後で比べるため〕)。
+ */
+export function calJudgementProjection(canon) {
+  const C = canon || {};
+  const L = (C.verdictLedger || {});
+  return {
+    counts: L.counts || null,
+    tally: (C.summary || {}).tally || null,
+    gate: ((C.summary || {}).gate || {}).byStatus || null,
+    ledger: (L.rows || []).map((r) => ({ id: r.id, verdict4: r.verdict4, gateCounts: r.gateCounts || null, representative: r.representative || null,
+      residualWorst: r.residualWorst || null, missing: r.missing || null, residualPeriodPct: numOrNull(r.residualPeriodPct) })),
+    rows: (C.presets || []).flatMap((p) => (p.quantities || []).map((q) => ({ preset: p.id, name: q.name, kind: q.kind || null, target: q.target || null,
+      verdict: q.verdict || null, gateStatus: (q.gate || {}).status || null, nSigma: numOrNull((q.gate || {}).nSigma),
+      residualPct: numOrNull(q.residualPct), meas: numOrNull(q.meas) }))),
+  };
+}
+/** 物理の入力の指紋(法則の指紋〔停止集合つき依存閉包〕・観測 CSV と判定の出典の sha・本ごとの h/2 の安定 hash)。同じなら判定は同じであるべき。 */
+export function calPhysicsKeyOf(canon) {
+  const C = canon || {};
+  const parts = { engine: (((C.h2Reuse || {}).engineFingerprint) || {}).sha256 || null, csvSha: (C.mergeKey || {}).csvSha || null,
+    judgementSourcesSha: (C.mergeKey || {}).judgementSourcesSha || null,
+    stable: Object.fromEntries((C.presets || []).map((p) => [p.id, ((((p.run || {}).h2Reuse) || {}).stable || {}).sha || null])) };
+  return { sha256: crypto.createHash('sha256').update(JSON.stringify(parts)).digest('hex'), parts };
+}
+/** 2 つの写しの差(数は相対 1e-12 の内を同じとする)。返す: 差の JSON Pointer の配列。 */
+export function projectionDiff(a, b, tol) {
+  const T = Number.isFinite(tol) ? tol : 1e-12;
+  const out = [];
+  const walk = (x, y, ptr) => {
+    if (x === y) return;
+    if (typeof x === 'number' && typeof y === 'number') { if (Math.abs(x - y) <= T * Math.max(Math.abs(x), Math.abs(y))) return; out.push(ptr); return; }
+    if (!x || !y || typeof x !== 'object' || typeof y !== 'object' || Array.isArray(x) !== Array.isArray(y)) { out.push(ptr); return; }
+    if (Array.isArray(x) && x.length !== y.length) { out.push(ptr + '(長さ)'); return; }
+    for (const k of new Set([...Object.keys(x), ...Object.keys(y)])) walk(x[k], y[k], ptr + '/' + k);
+  };
+  walk(a, b, '');
+  return out;
+}
+export function projectionDigest(proj) {
+  return crypto.createHash('sha256').update(JSON.stringify(proj, (k, v) => (typeof v === 'number' && Number.isFinite(v)) ? Number(v.toPrecision(12)) : v)).digest('hex');
 }

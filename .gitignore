@@ -1162,3 +1162,9 @@ tests/out/regen-plan-w281a.json
 #   (tests/exp-w322c-fieldcontract.mjs —— 段 fieldcontract-322c)。QA docs.fieldContract322c が読むのでコミットする(試走 W322C_QUICK の出力は W322C_OUT で別名 —— 例外にしない)
 !tests/out/fieldcontract-w322c.json
 # ==== 第322便c の塊(ここまで)====
+# ==== 第323便d の塊(ここから)====
+# 第323便d(統括の検証項目 R278): 部分の再検査の補足の記録(tools/qa-recheck-record.mjs —— 保存のフル QA の後に FAIL の ID だけを部分 QA で再検査した来歴・1 本の追記型)。
+#   samplestatus の器が保存 QA の来歴の文に読むので、作った便(ゲートの後)にコミットできるように例外にする(本便は作らない —— 試しは scratch と W323D_RECHECK)
+!tests/out/qa-recheck-beta.json
+!tests/out/qa-recheck.json
+# ==== 第323便d の塊(ここまで)====
