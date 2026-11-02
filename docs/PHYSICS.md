@@ -42364,6 +42364,93 @@ balance:"background" の受理の正準形は第319便a のまま(真)・版 w32
 
 **⑦ ゲート 1 の停止・原仮定者の回答(2026-11-01 —— AN519)・原仮定者の指示(2026-11-01)。** ゲート 1 の beta フルは 1347/1350 で止まった —— (a) 鎖 1 の段 htmlagg が SAMPLE_STATUS の 🫓 の行を html に書いたので、鎖の最初の段(calaudit)の刻印が今の html と違った 2 件(lint.calauditMergeKeyHash・ui.assessedValuePanel —— 統括が鎖 1 の前に samplestatus の冪等を確かめなかった)、(b) 検証サンプル ♊⚖️ が c₀ = 30 一律規約(light.canonical-builtins —— 第99/100便の裁定)の外(第321便b の玩具の写しで c = 10)。原仮定者の回答(AN519)「c₀=30 に直す」→ 第322便e で 2 本を c₀ = 30 へ(従属の宣言は X_k = 1/900 だけ —— 〔第322便b〕の「第322便e の更新」)。原仮定者の指示「光速の規約に合わせて直す」「今後は、すぐに確認可能な規約を先に判定する」「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」を本便で次のように使った: 鎖 2 の前に**規約の速い判定**(c₀ の規約・段の分類・全内蔵の受理 —— html を Node で読んで数秒)と samplestatus の冪等を確かめてから起動・鎖 2 は計画のとおり(走った 98 段・依存の段は上流の後に自分の判定 —— 上流の安定 hash が同じで再利用 62 段・1 h 20 min —— 鎖 1 の 196 段・6 h 54 min の約 1/5)・ゲート 2 は beta フル 1349/1350(文書の書式の 1 か所〔lint.kappaSymbol315〕を直して部分 QA 1/1 —— beta フルは繰り返さない)・root フル 944/944・perf 21/21(再走)。light.canonical-builtins と preset.scale-tier は部分 QA(qapart)では走らない鍵(〔第322便d〕の 56 鍵 —— 列 0 の if の中)だった —— 枝 b の部分 QA に入らなかった理由。次便の候補: 規約の速い判定を統合の直後の手順に常設(qapart で走らない鍵の直しと一緒に)・サンプルだけの変更で鎖が広がらない道具(領域の宣言の無い段に宣言・常時群の出力を本ごとに安定化 —— ⑥ の簡易一致と合わせて)。検証サンプル ♊⚖️ の画面の刻み(c₀ = 30 では刻み P/360 の積分の誤差がこの本の寄与より大きく、トレイルの近点は逆向きに回る —— 本の文はそのとおり)は決断事項 AN520。
 
+〔第323便b — 再生成の計画: 順序だけの依存で再判定を広げない・gate の速い判定と行だけの `--gate`・簡易一致確認の影(判定だけ —— 鎖はフル)・窓の出力の指紋の記録・来歴 `meta.verify` の受理の口(原仮定者の指示(2026-11-01)「再生成の段で毎回長時間掛かるのを改善する。今より半減が目標」「β版は、歩数を減らした簡易チェックでの一致確認で済ませたり、複数便に再生成を分散する方式を検討する」「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・決断事項 AN517・AN518・統括の検証項目 R276)(**html・本の宣言・エンジン・`S._core`・段の行〔REGEN_STEPS の各段〕・器の領域の宣言〔REGEN_SCOPE〕は変えていない** —— beta/index.html と root の index.html は 1 byte も変えていない・計画と鎖の関数・新しい lib・道具・QA・文書だけ・**本便の鎖はフルのまま**)〕
+
+**① 何が鎖を広げていたか(本枝の実測)。**
+- 第322便の鎖 2 の計画(♊⚖️ の宣言 2 本だけの変更)は recheck 76 段 —— 依存先 obscompare・samplestatus・htmlagg(html を書く段と集約段)の後に自分の判定を引き直す段だった。本枝の写し(2fd84b4 の木に、♊⚖️ の `cLight` 10 → 30・`kappaT` 0.01 → 0.0011111111111111111 を当てた html)で第322便までの計画の関数を引くと regen 66・recheck 75(計画の記録の 65/76 との差 1 段は、写しに第322便の基点 html が無いことによる入力の欠け)。
+- recheck 75 段のうち 61 段は、after の辺が「html を読む段を html を書く段の後に置く」ための**順序だけの依存**(上流の正本を読まない)だけで recheck になっていた。
+- 鎖の gate は上流の後に `node tools/regen-chain.mjs --gate <段>` で**全段の計画**を引き直していた(1 回 25.4 s —— 4 枝が並走する箱)。`regen-plan --base` は 490 s(領域 hash の器が html を 1 本だけ控えるので、段ごとに今の html と基点の html を交互に引くと毎回 html を読み直していた)。
+
+**② 順序だけの依存(`tests/lib-w281a-regentable.mjs` の afterDepKinds —— 版 w323b-afterkind-1)。** after の辺を機械で 3 つに分ける:
+- `data` —— 上流の書くファイル(outs・merges・byproducts・touches —— html を除く)を、正本の meta の入力(inputs[]・inputsStable[]・target)に持つ・器の本文(cmd の器と `from './x.mjs'` の閉包・注釈を除く)がファイルの基本名で名指す・同じファイルを書く(書きの順)・上流の after の閉包の段が書くファイルを読む(推移の運び手 —— 自分の直の依存に書き手が無いとき)・meta も器の本文も引けない(保守側)。
+- `html` —— 上流は beta/index.html を書く段(生成領域 htmlRegions・集約段 htmlAggregate・touches の html)で、自分は html を読む(htmlReadOf が none でない)が上流の他のファイルは読まない。
+- `order` —— どちらでもない(並べるだけ)。
+- 手の上書き: 段の `afterOrderOnly`(順序だけと宣言する上流の key の並び)・`afterData`(データの依存と宣言する上流の key の並び)。**段の行に値を書くのは枝 c と統括**(本便は読み口だけ —— 今の表は宣言 0 段で既定の規則だけ)。
+- 使う所: planRegen の依存の伝播(順序だけの辺は recheck を広げない —— その段は reuse のまま `hold` に上流を記録し、計画の `orderOnly` に第322便までの伝播の recheck の数と上限の秒 `secUpperAllEdges` を並べる)・chainInputSpecs(順序だけの辺の上流の書くファイルを済み印の契約の入力に入れない)・buildChain(gate の速い判定の上流 fastUps はデータの辺の上流だけ)。**regen と always の集合・各段の自分の判定(ownStatus)は変えない。**
+
+**表 1(今の表の after の辺 —— 156 段・481 辺)**
+| 種類 | 辺 | 内訳 |
+|---|---|---|
+| data | 195 | 正本の meta の入力 101・器の本文の名指し 85・同じファイルを書く 7・推移の運び手 2(assessed ← obscompare —— dt3 の calaudit を読む ほか) |
+| html | 272 | 上流 samplestatus 100・htmlagg 99・obscompare 72・assessed 1 |
+| order | 14 | d68three←kf0・obscompare←d68three・obscompare←confirm4・clusterAnalogy←galaxychain・clusterAnalogy←analogy・ckfixcap290←ejectstate289・tilt90layers289←tilt90288・inertial290←reldrag289・spiral290←shapetoy・spiral290←corefield・bgaudit291←inertial290・dragcore292←inertial290・tide292←inertial290・semic-302d←chainburst-301d |
+samplestatus・obscompare・assessed の正本 JSON を名指す器は書く器自身だけ(ほかは道具 —— tools/beta-build.mjs・tests/lib-w321d-postgate.mjs —— 器の本文の走査)。order の 14 辺は器の本文が上流の正本を名指さない(semic-302d は chainburst の器を子として走らせる —— 正本は読まない)。
+
+**③ gate の速い判定と行だけの `--gate`。**
+- gate の段は計画で自分の判定が reuse。鎖の中でそれが変わりうるのは (i) 対象の html が変わった(集約段 htmlagg が実際に html を書き換えた)か (ii) 正本の meta の入力を書く上流(データの辺)が実際に走った ときだけ(器と lib のコードは鎖の中で変わらない)。鎖のシェルの gate_step は、計画の自分の判定が reuse(`fastOk`)・html の sha が計画の sha(`PLAN_HTML_SHA` —— 鎖を作るときに埋める・`REGEN_PLAN_HTML_SHA` で上書き)のまま・`fastUps` の上流の済み印が 1 つも `run`/`manual` でない、なら `--gate` を呼ばずに再利用する(済み印の 1 行目 `reuse <時刻> fast`)。どれかが外れたら従来どおり `--gate`。**`REGEN_FASTGATE=0` で毎回 `--gate`**・**`REGEN_FASTGATE=shadow` は影**(速い判定を引いて `$REGEN_LOG/fastgate-shadow.txt` に「段 fast=reuse|no gate=<rc>」を書き、判定は毎回 `--gate` —— fast=reuse で gate=0〔走る〕の行が不一致)。html を書く段が実際に html を変えた鎖では、順序だけの依存の段も `--gate` で自分の領域を判定し直す(冪等なら広がらない)。
+- `--gate <段>` は planRegen の `o.only`(その段の行だけ —— 行の判定は全段の計画と同じ関数・同じ入力)で引く。全段は `--gate-full`。`regen-plan --base` は領域 hash を今の html の分 → 基点の html の分の順に先に引く(値は同じ —— 引く順だけ)。
+- 測った値: `--gate` は 25.4 s → 1.9〜2.8 s(4 段)。全 247 段(履歴 37 段を含む)で行だけの判定(ownStatus と理由の種類 causeKinds)が全段の計画の行と同じ(247/247・1 本の Node で 33.2 s)。`regen-plan --base` は 490 s → 37 s(本便の基点)。今の木で鎖を作ると、gate 101 段のうち速い判定の対象 101・データの上流が鎖に無い 47(html が鎖の中で変わらなければ必ず速い判定で再利用)。
+- stub の鎖(bash —— QA lint.regenOrderOnly323 ①): html 不変 → `--gate` を呼ぶのはデータの上流が走った段と計画の自分の判定が reuse でない段だけ・順序だけの上流の段とその下流は速い判定/上流が html を書き換える → 全部の gate が `--gate`/`REGEN_FASTGATE=0` → 全部 `--gate`/`REGEN_FASTGATE=shadow` → 全部 `--gate` で影の行 4 行(速い判定 reuse の 2 段も `--gate` は 10 —— 不一致 0)。
+
+**表 2(♊⚖️ の写しでの計画 —— 第322便の鎖 2 の場面。同じ木・同じ html の計画を、第322便までの関数と本便の関数で)**
+| 計画の関数 | regen | always | recheck | hold | reuse | 秒(regen+always 〜 +recheck) | 鎖 |
+|---|---|---|---|---|---|---|---|
+| 第322便まで(全部の辺で伝播) | 66 | 13 | 75 | — | 56 | 2.17 h 〜 14.69 h | 第322便の鎖 2 の実際: run 78・gate 78(走った 98・判定で再利用 62・1 h 20 min) |
+| 本便(順序だけの辺は広げない) | 66 | 13 | **14** | 61 | 117 | 2.17 h 〜 **3.62 h** | run 79・gate 77(速い判定の対象 77・データの上流が鎖に無い 35) |
+regen と always の集合は同じ(段の差 0)。残る recheck 14 段はデータの依存(charon 系・charonInput・geo3・obscompare —— calaudit・kf0 を読む / bgequiv 系 —— bgpredict を読む / clusterStable —— clusterAnalogy を読む / calcause292)。本便の基点(bff6711)では recheck 100(第322便までの関数)→ 21(本便の関数 —— hold 78・上限 14.44 h → 1.94 h。regen は 26 → 27: families は器が再生成表の lib で計算するので、本枝の lib の変更で regen になる)。
+
+**④ 簡易一致確認の影(`tests/lib-w323b-quick.mjs` の quickShadow —— 版 w323b-quick-1・判定だけ・鎖の生成は変えない)。** 計画の各段に `quick`(候補か・外す理由・窓・秒)を足し、`plan.quickShadow` に影の表を出す。候補 = 次をすべて満たす regen の段:
+- 理由が「領域」だけ(planRegen の `causeKinds` が scope だけ —— 器・lib のコードと入力は同じ。領域の宣言の無い html 全体の段は外す)。
+- 簡易一致を使わない段でない(AN518): 常時群・較正の判定を出す段(表と meta から導く —— calaudit の 2 ファイルを書く段・較正の器の段・calaudit を正本の meta の入力に読む段)・html の生成領域を書く段・履歴・手動・段の宣言 `quickVerify:false`(理由 `quickVerifyWhy`)・段の宣言 `quickVerify:'long'`(長期の量 —— 近点・周期・永年の窓)で、步の関数(名前が Step で終わる関数の閉包)・受理器(validatePreset の閉包)・`S._core` のどれかが変わった便(`--base` の html と比べる —— 比べられなければ使わない)。
+- 簡易の窓がある(煙試験の窓の表 SMOKE_KNOBS の行・無ければ段の宣言 `quickWindow`)。
+- 指紋の記録がある(窓の環境・器と lib の sha・正本の物理の値の hash が記録と同じ —— ⑤)。
+- この便を入れた `wavesSinceFull` < K(既定 K = 3 —— 前の正本の `meta.verify.wavesSinceFull` に 1 を足した数。フルの正本は 0)・root 昇格の便でない(`--promote`)。
+- 輪番: 候補のうち ceil(n/K) 段をフルへ(前の wavesSinceFull の大きい順 → 便の番号の剰余と段の札〔key の hash の剰余〕が合う段 → 秒の大きい順)。600 s 以上の段は 1 便に 2 本まで(壁時計の床を散らす —— 前の wavesSinceFull が K − 2 以上の段は数を問わずフルへ)。
+- 段の宣言の欄の名前と型(**段の行に値を書くのは枝 c と統括** —— 既定値で今の表が動く): `quickVerify?: false | 'long'`・`quickVerifyWhy?: string`・`quickWindow?: {env, note}`・`afterOrderOnly?: string[]`・`afterData?: string[]`(QA lint.regenQuick323 ② が型を照合)。
+- 道具: `regen-plan` と `regen-chain` が影の表を印字し JSON に出す(`--fp-record <記録>`・`--K`・`--wave`〔既定は html の BETA_BUILD〕・`--promote`)。`ifRecorded` は記録の条件を除いた候補(記録を取った後の見込み)。
+
+**表 3(影の表 —— 第322便の鎖 1 の計画〔23eaed1 の木・基点 41df193 の html〕と鎖 2 の場面〔表 2 の写し〕に当てた。記録はまだ無いので「記録があれば」の列。窓の秒は ⑤ の試走の実測〔並走の秒〕)**
+| 計画 | regen(秒) | 領域だけ(秒) | 記録があれば候補 | quick(フルの秒 → 窓の秒) | 輪番のフル(秒) | 外す理由(領域だけの段) | regen + always の秒の和 → 記録があれば |
+|---|---|---|---|---|---|---|---|
+| 鎖 1 | 180(18.06 h) | 147(17.12 h) | 44 | 29(6.43 h → 0.32 h) | 15(3.38 h —— k1confirm-313d 3601 s・satnext-318b 5151 s ほか) | 窓なし 103・較正の判定 16・html を書く段 1・手動 1 | 18.27 h → 12.16 h(−33%) |
+| 鎖 2 | 66(1.97 h) | 39(1.91 h) | 10 | 6(0.42 h → 0.10 h) | 4(0.56 h) | 窓なし 29・較正の判定 6 | 2.17 h → 1.85 h(−15%) |
+鎖 1 は窓のある 48 段だけで段の秒が −33%。鎖 1 の領域だけの段のうち 600 s 以上の 30 段(13.6 h)で窓があるのは 15 段(8.6 h)—— **半減には窓の無い大きい段に窓が要る**(枝 c)。鎖 1 の計画は第322便の記録(always 13・regen 180・recheck 3)と同じ数で、順序だけの依存では recheck 3 → 1(hold 2)。
+
+**⑤ 窓の出力の指紋の記録(`node tools/harness-smoke.mjs --fingerprint <記録>` —— 記録の版 w323b-quickfp-1・既定の名 `tests/data-w323b-quickfp.json`)。**
+- 煙試験の写し(scratch —— 正本は書かない)で窓を走らせ、段ごとに: 窓の環境・この走行で書いた出力(段の outs と、窓の環境が名指す tests/out/*.json —— 写しの中で走行の後に書かれたものだけ)の**物理の値の hash**(physSha —— meta の全体・段の除外 Pointer・来歴と時刻の欄・どの階層でも実行時刻と壁時計の欄名〔STABLE_RUNTIME_KEYS・旧方式の欄名・`ms`〕と刻印と来歴の欄〔名が `sha256`・名が `Sha256` で終わる欄 —— 結果と宣言の hash の bodiesSha256・resultsSha256・rowsSha256・declSha256・rulesSha256・coreSha256 は残す・`baseFrom`〕を除いた正準 JSON の sha256)と、それらの指紋・窓の秒・器と lib の sha・html の sha・**その時点の木の正本**の物理の値の hash・Node の版・便。`--base` も `--keys` も無ければ窓のある段を全部(簡易一致を使わない段は除く —— 今の表で 48 段)。指紋は判定が ok(か既知)で枠で止めず出力を書いた窓の走行だけ(それ以外は fingerprint:null と理由)。既にある記録へ段の行を入れる(他の段は残す)。
+- 決め: **記録はコミットする作業記録**(正本ではない —— CANON に入れない・鎖の段にしない・QA は形だけ —— lint.regenQuick323 ③)。取るのは**鎖の後に 1 回**(鎖を長くしない —— 煙試験の写しで回す)。
+
+**表 4(窓の指紋の試走 —— 本便の木〔bff6711 + 本枝〕・2 レーン・4 枝が並走する箱 —— 秒は並走の秒)**
+| 走行 | 段 | 指紋 | 指紋なし | 所要 |
+|---|---|---|---|---|
+| 1 回目(枠 90 s —— 試走の初め) | 48 | 38 | 10(枠 90 s に当たった窓 9・窓が出力のファイルを書かない 1 —— fit-297b の段 mer は標準出力だけ) | 15.2 min |
+| 2 回目(枠 900 s —— `--fingerprint` の既定にした) | 48 | **47** | 1(fit-297b) | 17.1 min(窓の秒の和 2041 s —— 最長 solar16-318c 199 s・refit-297a 164 s・timestd-297c 142 s) |
+| 1 回目と 2 回目の照合(同じ木・同じ html) | 38 | 同じ 37・違う 1(bgbudget2 —— 行ごとの壁時計 `ms`) | — | `ms` を除く欄名に足して、新しい 2 回の走行で同じ(bgbudget2 の 20 か所の `ms` と elapsedS だけが違った) |
+| 1 回目で枠に当たった 9 段の 3 回目(枠 900 s) | 9 | 2 回目と同じ 9/9 | — | 8.2 min |
+| 感度(♊ を c₀ = 10・kappaT 0.01 に戻した html) | 2 | binbooks-322b は違う(♊ を走らせる)・geo3bin-321b は同じ(窓の出力が ♊ の c₀ に依らない) | — | — |
+指紋は 47 段で 2 回の走行が同じ(決定的)。窓の出力の書き方: 段の正本の名で写しに書く 23 段・窓の環境の `*_OUT` で別の名に書く 15 段(その名は段の正本の名で除外 Pointer を引く)。
+
+**表 5(振り返りの影の照合 —— 第322便の鎖 2 の場面〔表 2 の写し〕で、記録があれば候補になる窓のある段 10 段のうち比べられる 8 段。前 = 2fd84b4 の html で窓・2fd84b4 の正本 / 今 = ♊⚖️ を直した html で窓・鎖 2 の後の正本〔bff6711〕)**
+| 段 | 窓(前 → 今) | 正本の物理の値(前 → 今) | 判定 |
+|---|---|---|---|
+| shapecrit・geo4-295b・chain-296c・refit-297a・clone-301f・semic-302d・geo3bin-321b | 同じ | 同じ | trueSame 7 |
+| timestd-297c | 違う(♊⚖️ の行) | 違う(行 145・146 —— ♊⚖️) | trueDiff 1 |
+| binbooks-322b | — | — | 比べない(器が第322便e で変わった —— 簡易一致の対象外) |
+| fit-297b | — | — | 比べない(窓が出力を書かない) |
+**誤判定(falseSame)0・取りこぼし(missed)0**(8 段)。同じ場面の領域だけの 39 段では、鎖 2 の前後で正本の物理の値が同じだったのが 32 段(82%)—— 違った 7 段は timestd-297c・dragnorm-301a・symbols-315a・clusterAnalogy(♊⚖️ の行)・binbooks-322b(器)・calcontract(html の行番号)・contact285(走り方の来歴の欄 —— 較正の判定の段)。**照合で見つけた指紋の欄の型**: 初めの規則では semic-302d の正本の差が来歴の `baseFrom`(「carried(carried(…))」—— 鎖のたびに伸びる)だけ・clone-301f・pnsource286・pn1 の差が meta の外の `targetSha256`・`nowSha256` だけで、物理の値は同じなのに「違う」と数えていた(誤判定に見える 1 段)—— 刻印と来歴の欄を除く規則にして直した(上の physSha)。
+
+**⑥ 来歴 `meta.verify` の受理(休眠 —— 本便の正本は verify を持たない・判定は変わらない)。** 本運用の便で簡易一致で済ませた正本は `meta.verify = {mode:"quick", version:"w323b-verify-1", quickFingerprint:<64 桁>, fullRunAt:{wave, sha}, wavesSinceFull:n}` を持つ(刻印〔targetSha256・領域 hash・コードの sha〕は今の html で更新し、物理の値は前のフルの正本のまま)。verifyViolations: verify が無い・mode:"full" は受理/quick は形(指紋 64 桁・fullRunAt の便と sha・1 ≤ wavesSinceFull < K)を照合して β で受理・**root では拒否**(root 昇格の便は全段フル —— 鎖で作り直す)。口: lint.provenanceMeta ⑥(全 CANON —— β と root)・lint.canon304 ③(形 —— β 線)・lint.regenScope ⑧(quick の正本の段は簡易一致を使わない段でない)。
+
+**⑦ 第324便の影の照合の手順(誤判定 0 の数え方)。**
+1. 本便の鎖の後に `node tools/harness-smoke.mjs --fingerprint tests/data-w323b-quickfp.json`(48 段・約 17 min —— 表 4)を回してコミットする(本便の記録 = 次の便の「前の記録」)。
+2. 第324便: 統合の後・鎖の前に `regen-plan --base <第324便の基点>` で影の表(quick・輪番のフル —— 記録の条件が入る)。前の記録を scratch に写す。
+3. 鎖はフルで走らせる(影の 2 便目まで)。鎖の後に `--fingerprint tests/data-w323b-quickfp.json` で今の記録を取り、`node tools/regen-plan.mjs --shadow-compare <前の記録の写し> --keys <影の表の候補>` で段ごとに数える: trueSame(窓が同じ ∧ 物理の値が同じ)・**falseSame(窓が同じ ∧ 物理の値が違う —— 誤判定)**・trueDiff(窓が違う ∧ 物理が違う)・missed(窓が違う ∧ 物理が同じ —— 節約を逃しただけ)・na(指紋なし・窓の環境か器と lib の sha が違う)。誤判定が 1 段でもあれば終了コード 1。
+4. 門: **誤判定 0**(html が前の記録と違う段で数える —— html が同じ段は窓が同じで当然)。0 なら AN517 の本運用(簡易一致で刻印だけを更新する道具と verify の書き込み)へ。1 段でもあれば、その段の窓を広げるか `quickVerify:false`。
+
+**⑧ QA(beta 対象だけ —— root は SKIP)。** lint.regenQuick323(影の規則の変異・指紋・verify の受理と拒否・記録の形・影の照合の数え方・段の宣言の欄の型・記録の形・道具の配線・今の正本の verify 0 本・較正の判定の段)・lint.regenOrderOnly323(辺の型の stub・速い判定の stub の鎖を bash で 3 回・今の表の辺の種類・計画の recheck + hold = 全部の辺の recheck・hold の段の自分の判定は reuse・常時群 13 段・行だけの判定 = 全段の行・fastUps は正本の meta の入力の書き手を覆う)・docs.w323b(本節・AI_SPEC §168・CHANGELOG・tools/README・post-merge の ③′)。`regen-chain --self-test` に (t)(上の stub と、行だけの判定 6 段)。post-merge の ③′ に第323便b の塊。
+
+**⑨ 言わないこと。** 「簡易の窓で一致したので物理の値が同じ」(窓は最初の数段だけ —— 輪番〔K 便以内にフル〕と root 昇格の便の全段フルで補う・本便は判定だけ)/「順序だけの依存の段は走らせなくてよい」(html が鎖の中で変われば gate が自分の判定を引き直す)/「半減した」(本便の鎖はフル —— 表 3 は計画の模擬の段の秒で、窓の秒は並走の箱の試走の実測)/「影の照合で誤判定 0 が示された」(表 5 は第322便の 1 つの場面の 8 段の振り返り —— 本運用の門は第324便の鎖の影の照合)。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
