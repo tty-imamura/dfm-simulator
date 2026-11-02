@@ -518,6 +518,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.fieldContract322c docs.galField321c lin
 #   この脚本の lint.postMergeQaScript・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.w322d docs.nsLockBranch docs.binlockAxisDef lint.harnessSmoke303 lint.harnessSmoke304 docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.postMergeQaScript lint.sectionLookup313 lint.qaHeapRelease310"
 # ==== 第322便d の塊(ここまで)====
+# ==== 第323便b の塊(ここから)====
+# 第323便b(原仮定者の指示(2026-11-01)・決断事項 AN517/AN518・R276): 枝 b の新設 3 本(lint.regenQuick323 —— 簡易一致確認の影の規則・窓の指紋・来歴 meta.verify の受理・記録の形 /
+#   lint.regenOrderOnly323 —— 順序だけの依存・gate の速い判定・行だけの --gate / docs.w323b —— 文書)と、受理の口を足した lint.provenanceMeta・lint.canon304・lint.regenScope・
+#   計画と鎖の関数を変えた lint.regenChain・lint.regenStableHash・lint.chainAggregate・lint.readyQueue311・lint.byproducts320・煙試験の道具の lint.harnessSmoke303・lint.harnessSmoke304・
+#   違反の種類の lint.violationKinds320(lint の本文の刻印の型の文)・lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.regenQuick323 lint.regenOrderOnly323 docs.w323b lint.provenanceMeta lint.canon304 lint.regenScope lint.regenChain lint.regenStableHash lint.chainAggregate lint.readyQueue311 lint.byproducts320 lint.harnessSmoke303 lint.harnessSmoke304 lint.violationKinds320 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第323便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
