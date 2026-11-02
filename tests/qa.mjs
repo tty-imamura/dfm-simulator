@@ -3010,15 +3010,18 @@ lastAddAt = Date.now();
           if (!toks) { bad.push('② Pointer が不正: ' + f + ' ' + ptr); continue; }
           const last = toks[toks.length - 1];
           const isMeta = SC.STABLE_META_KEYS.includes(last);   // 第283便e(AN29): 非物理の同一性 meta
-          if (!SC.STABLE_RUNTIME_KEYS.includes(last) && !isMeta) bad.push(`② ${f} ${ptr} の最後の鍵 ${last} は実行時刻・所要・非物理 meta の欄でない`);
-          if (isMeta && toks[0] === 'presets') bad.push(`② ${f} ${ptr} は物理の欄(/presets)の下の非物理 meta —— 置かない`);
+          // 第324便c(R281): 正本ごとの語彙の拡張(VOLATILE_DECL の runtimeKeys —— 壁時計の数・provenanceParents —— 物理の欄の下でも転記の元の同一性 meta の写しの親の鍵)
+          const dcl324c = ((RT.VOLATILE_DECL || {})[f]) || {};
+          const isRt324c = (dcl324c.runtimeKeys || []).includes(last);
+          if (!SC.STABLE_RUNTIME_KEYS.includes(last) && !isMeta && !isRt324c) bad.push(`② ${f} ${ptr} の最後の鍵 ${last} は実行時刻・所要・非物理 meta の欄でない`);
+          if (isMeta && toks[0] === 'presets' && !(dcl324c.provenanceParents || []).includes(toks[toks.length - 2])) bad.push(`② ${f} ${ptr} は物理の欄(/presets)の下の非物理 meta —— 置かない`);
           let vals = valuesAt(J, ptr);
           // 第285便f(AN52): 改名した欄(VOLATILE_DECL の renamed —— 新 → 旧)は、改名前の世代の正本(鎖で再生成する前)では旧名の位置に当たる。
           //   旧名の値で型を照合する(正本の中身で世代を判る —— 旧名にも当たらなければ落とす)
           const ren = ((RT.VOLATILE_DECL || {})[f] || {}).renamed || {};
           let viaOld = false;
           if (!vals.length && ren[last]) { const vo = valuesAt(J, '/' + toks.slice(0, -1).join('/') + '/' + ren[last]); if (vo.length) { vals = vo; viaOld = true; nRenamedOld++; } }
-          if (!vals.length) bad.push(`② ${f} ${ptr} が今のファイルのどこにも合わない`);
+          if (!vals.length && !(dcl324c.optional || []).includes(ptr)) bad.push(`② ${f} ${ptr} が今のファイルのどこにも合わない`);   // 第324便c: optional(転記の無い走行では当たらない)は通す
           nHit += vals.length;
           if (isMeta) nMeta++;
           const isTime = SC.STABLE_TIME_KEYS.includes(last);
@@ -3036,7 +3039,8 @@ lastAddAt = Date.now();
         if (SC.STABLE_DECL_VERSION !== 'w285f-decl-2') bad.push('⑦ 宣言の語彙の方式の版が契約と違う: ' + SC.STABLE_DECL_VERSION);
         if (!((SC.STABLE_DECL_HISTORY || []).map((z) => z.version).join(',') === 'w282e-decl-1,w285f-decl-2')) bad.push('⑦ 語彙の方式の版の履歴が無い');
         const VD = RT.VOLATILE_DECL || {};
-        const want = { 'tests/out/calaudit-w249.json': 'w285f-vcal-2', 'tests/out/calaudit-w249-diag.json': 'w285f-vdiag-2' };
+        // 第324便c(R281): 宣言の版の世代 —— h/2 の転記の来歴(calaudit w324c-vcal-3)・置き場の行の html の sha(diag w324c-vdiag-3)
+        const want = { 'tests/out/calaudit-w249.json': 'w324c-vcal-3', 'tests/out/calaudit-w249-diag.json': 'w324c-vdiag-3' };
         for (const [f, v] of Object.entries(want)) {
           const d = VD[f];
           if (!d || d.version !== v) { bad.push(`⑦ ${f} の宣言の版が ${v} でない`); continue; }
