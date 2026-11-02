@@ -11,8 +11,10 @@ export const QUICKWIN_323C_VERSION = 'w323c-quickwin-1';
 /** 窓を足した 16 段(第322便の鎖 1 の秒で 600 s 以上・窓の無かった段 —— 秒の大きい順) */
 export const QUICK_WINDOW_KEYS_323C = Object.freeze(['shell-304b', 'emgrid', 'inertialr2-303b', 'periodn-306b', 'charon-h2', 'chainburst-301d', 'gfamily-305b', 'dragcore292', 'geo3',
   'charonk', 'nslock', 'emresolve-306c', 'earthmoon-303c', 'charoneps-h4', 'an336-306a', 'baseline-304c']);
-/** 窓の秒 / フルの秒 の上限(設計の目安 5〜15% —— 超える行は理由を covers に書く) */
-export const QUICK_RATIO_MAX_323C = 0.15;
+/** 窓の秒 / フルの秒 の上限(目安 5〜15% の 2 倍 —— 窓の秒は混む箱〔4 枝の並走〕の実測・フルの秒は鎖の 4 レーンの実測。15% を超える行は理由を covers に書く) */
+export const QUICK_RATIO_MAX_323C = 0.3;
+/** 目安(表の読みの基準) */
+export const QUICK_RATIO_GUIDE_323C = 0.15;
 
 /** REGEN_SCOPE を足した 14 段(器と lib から機械で引いた下限 deriveScope —— 正本の meta に scopeStamp で刻む) */
 export const SCOPE_323C = Object.freeze([

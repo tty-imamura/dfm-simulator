@@ -92400,7 +92400,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ---- 第323便c(決断事項 AN517・AN518・AN480・統括の検証項目 R277): **器 —— 窓の無い大きい 16 段の簡易の窓・synodic-299b の子プロセス 3 本・領域の宣言の無い段の REGEN_SCOPE**
 // ----   (html・本の宣言・エンジン・受理の判定・`S._core` は変えない —— beta 対象だけ・root は SKIP)。記録は tests/lib-w323c-quickwin.mjs(表の行の関数)。
 // ----   lint.quickWindows323:
-// ----     ① 窓の表 tools/harness-smoke.mjs の SMOKE_KNOBS に 16 段の行(env・args・cmd のどれか・out は tests/out の下・窓の秒 sec とフルの秒 fullSec・比 ≤ 15%・covers)・
+// ----     ① 窓の表 tools/harness-smoke.mjs の SMOKE_KNOBS に 16 段の行(env・args・cmd のどれか・out は tests/out の下・窓の秒 sec とフルの秒 fullSec・比 ≤ 30%〔目安 15% の 2 倍 —— 窓の秒は混む箱の実測〕・covers)・
 // ----        段は再生成表の現行の段・窓の環境変数と引数が器の本文にある(cmd の行は窓の器が在る)・窓の cmd が作れて枠が窓の秒の 2 倍 + 30 s 以上
 // ----     ② synodic-299b: 器が W299B_WORKERS(既定 3)で段を子プロセスに分ける・再生成表の段の行に workers 3 と secSource 'w323c-branch'・記録の 3/1 プロセスの物理の欄の差 0
 // ----     ③ REGEN_SCOPE: 記録の 14 段の器が complete の宣言を持ち、正本(全部)の meta.scope が宣言と同じ・scopeComplete / 足さない 9 段は再生成表に在り理由つき
