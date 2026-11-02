@@ -3,33 +3,65 @@
   "provenanceVersion": "w272e-1",
   "wave": "第271便c(来歴は第272便e で共通化)",
   "target": "beta/index.html",
-  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-  "generatedAt": "2026-11-01T21:20:35.566Z",
+  "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+  "generatedAt": "2026-11-02T02:26:14.338Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7491601,
-    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-    "mtime": "2026-11-01T20:25:22.344Z"
+    "sha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
+    "mtime": "2026-11-02T02:03:28.584Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w271c-qsplit.mjs",
-    "bytes": 21889,
-    "sha256": "7801c0f9154aa60420ee964f74502302248280f9a2a27a922a37baab5476aeb4",
-    "mtime": "2026-10-20T16:19:56.620Z"
+    "bytes": 22857,
+    "sha256": "8dcd6866662d4ff0c7be37956846f54f43d619928093588be6ce92826db1d1b2",
+    "mtime": "2026-11-02T02:25:36.505Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-02T02:03:28.920Z"
    }
   ],
-  "codeSha256": "23d0fc196801e13e1cfdf437d4df6fea6437fd16cfa82cf9a921de0792c02ce9"
+  "codeSha256": "aee04cb121593a2a565c07307883f1b4305f7a9340ea76df3cb0056ce04ff015",
+  "scope": {
+   "version": "w318a-scope-6",
+   "presets": "all",
+   "roots": [
+    "$",
+    "HP.BODY_LAYER_JCAP",
+    "HP.LAYER_ZETA_CLASSES",
+    "HP.allPresets",
+    "HP.currentPreset",
+    "HP.dfmCoreQ",
+    "HP.dfmLayerDipoleMoment",
+    "HP.dfmLayerMerge",
+    "HP.dfmLayerQ",
+    "HP.dfmLayerQUpdate",
+    "HP.dfmLayerZetaEff",
+    "HP.sim",
+    "HP.validatePreset",
+    "LAYER_ZETA_CLASSES",
+    "dfmCoreQ",
+    "dfmLayerMerge",
+    "dfmLayerQUpdate",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1314,
+   "segments": 1152,
+   "closureShare": 0.2946
+  },
+  "scopeSha256": "fab531460c43f1707a9ed9449d8c3b7fc849b236d685cab03e9e72a4a4706aff",
+  "scopeComplete": true
  },
- "when": "2026-11-01T21:20:35.566Z",
+ "when": "2026-11-02T02:26:14.338Z",
  "wave": "第271便c(第61報・統括の検証項目 R2/R4/R5・AF17)",
  "target": "beta/index.html",
  "clamp": {

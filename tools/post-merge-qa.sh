@@ -3,6 +3,9 @@
 #
 # 統合(worktree の取り込み)の直後、フル QA・再生成の鎖の前に、壊れやすい所を短く一周する。**フル QA の代わりではない**
 # (CI が最終裁定者 —— 手元のゲートは CI の代わりにしない)。順序(先に落ちるものを先に):
+#   ⓪ 規約の速い判定 tools/conventions-check.mjs(第323便a・原仮定者の指示(2026-11-01)「今後は、すぐに確認可能な規約を先に判定する」・R275 ——
+#                c₀ の規約・段の分類・全内蔵の受理・X_k = G_0/c_0² の情報を beta と root〔--no-root で beta だけ〕で数秒)。**NG なら ① 以降を走らせずに終了コード 1**
+#                (samplestatus の冪等 --samplestatus は鎖の起動の前に統括が回す —— 統合の直後は生成領域の作り直しが鎖の段にあるので、ここでは見ない)
 #   ① 静的受理   tests/qa-preflight.mjs(QA_TARGET=beta/index.html —— tier lint の文と全内蔵の受理・構築・1 歩。Chromium なし・heap の上限 6144 MiB —— 第305便e)
 #   ② 接続契約   node tools/regen-chain.mjs --audit と --self-test(再生成表の依存・html を書く段・済み印の契約 —— 枝ごとに足した段の接続)
 #                第313便c: と --scope-all --check(presets:"all" の段の理由の一覧が今の器と同じか —— 落ちたら統合で段が増えた・--write で引き直す)
@@ -18,7 +21,7 @@
 #                予測した差分 ID と照らすのは統括)
 #   ⑥ (この器の外)フルゲート: 統合後のフル QA は **QA_CHANGED=0** で回す(第294便d・原仮定者の裁定(第84報)・統括の検証項目 R151 ——
 #                変更依存の先行実行はフルの前に同じ試験を一度ずつ走らせるだけ・フルの試験は減らない)。例: QA_CHANGED=0 QA_TARGET=beta/index.html npm test
-# 最後に 1 行で出す: `post-merge-qa: ① … ② … ③ … ③′ … ④ beta p/n・root p/n(SKIP s)⑤ … 所要 N s → OK|FAIL`。
+# 最後に 1 行で出す: `post-merge-qa: ⓪ … ① … ② … ③ … ③′ … ④ beta p/n・root p/n(SKIP s)⑤ … 所要 N s → OK|FAIL`。
 #
 # 使い方:
 #   tools/post-merge-qa.sh [--base beta/_wNNN_base.html] [--failed "id id …"] [--no-root] [--no-preflight]
@@ -26,7 +29,7 @@
 #             既定 ${TMPDIR:-/tmp}/post-merge-qa-<時刻>)・POST_MERGE_IDS(常設集合を差し替える —— 既定は下の 9 本)・
 #             POST_MERGE_WAVE_IDS(③′ の本便の新設ブロック —— 既定は下の 11 本・空文字で飛ばす)
 #             POST_MERGE_PHYS_SCAN_IDS(③′ に必ず足す PHYSICS の全文を否定の照合で読む QA の一式 —— 第309便d・既定は下の PHYS_SCAN_IDS・空文字で外す)
-# 終了コード: 0 = ①〜④ がすべて通った / 1 = どれかが FAIL(⑤ は情報 —— 器が落ちたときだけ FAIL)/ 2 = 使い方の誤り
+# 終了コード: 0 = ⓪〜④ がすべて通った / 1 = どれかが FAIL(⓪ が NG ならそこで止まる・⑤ は情報 —— 器が落ちたときだけ FAIL)/ 2 = 使い方の誤り
 # **書くもの**: ログだけ(tests/out/qa-preflight-beta.json は preflight の既定の保存物 —— .gitignore の対象)。正本・html は書かない。
 set -u
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -518,6 +521,33 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.fieldContract322c docs.galField321c lin
 #   この脚本の lint.postMergeQaScript・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.w322d docs.nsLockBranch docs.binlockAxisDef lint.harnessSmoke303 lint.harnessSmoke304 docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.postMergeQaScript lint.sectionLookup313 lint.qaHeapRelease310"
 # ==== 第322便d の塊(ここまで)====
+# ==== 第323便a の塊(ここから)====
+# 第323便a(R275): 枝 a の新設 3 本(lint.conventionsCheck323 —— 規約の速い判定の道具と qa.mjs の式の照合・post-merge の ⓪・lint.qapartRequested323 —— qapart の要求した鍵の照合・
+#   SKIP の数え方・列 0 の最上位の文の切り出し・上流の宣言の閉包・docs.w323a —— 文書)と、qa-keys の自己試験と qapart の --emit を読む docs.w322d・この脚本の lint.postMergeQaScript・
+#   PHYSICS の節の lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.conventionsCheck323 lint.qapartRequested323 docs.w323a docs.w322d lint.postMergeQaScript lint.sectionLookup313"
+# ==== 第323便a の塊(ここまで)====
+# ==== 第323便b の塊(ここから)====
+# 第323便b(原仮定者の指示(2026-11-01)・決断事項 AN517/AN518・R276): 枝 b の新設 3 本(lint.regenQuick323 —— 簡易一致確認の影の規則・窓の指紋・来歴 meta.verify の受理・記録の形 /
+#   lint.regenOrderOnly323 —— 順序だけの依存・gate の速い判定・行だけの --gate / docs.w323b —— 文書)と、受理の口を足した lint.provenanceMeta・lint.canon304・lint.regenScope・
+#   計画と鎖の関数を変えた lint.regenChain・lint.regenStableHash・lint.chainAggregate・lint.readyQueue311・lint.byproducts320・煙試験の道具の lint.harnessSmoke303・lint.harnessSmoke304・
+#   違反の種類の lint.violationKinds320(lint の本文の刻印の型の文)・lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.regenQuick323 lint.regenOrderOnly323 docs.w323b lint.provenanceMeta lint.canon304 lint.regenScope lint.regenChain lint.regenStableHash lint.chainAggregate lint.readyQueue311 lint.byproducts320 lint.harnessSmoke303 lint.harnessSmoke304 lint.violationKinds320 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第323便b の塊(ここまで)====
+# ==== 第323便c の塊(ここから)====
+# 第323便c(決断事項 AN517・AN518・AN480・R277): 枝 c の新設 2 本(lint.quickWindows323 —— 窓の無い大きい 16 段の簡易の窓・synodic-299b の子プロセス 3 本・領域の宣言の無い段の REGEN_SCOPE・
+#   docs.w323c —— 文書)と、煙試験の窓の表の lint.harnessSmoke303・lint.harnessSmoke304・docs.w322d・器の宣言と刻印の lint.regenScope・lint.provenanceMeta・lint.stableHashPaths・lint.scopeStop・
+#   lint.scopeAll312・lint.regenChain・CANON の lint.canon304・宣言を足した 13 段の正本を読む QA(docs.twoBodyMesh・docs.rparCanonical・docs.meshV2Rpar・docs.nsLockLedgerRow・docs.rotorLedger・
+#   docs.sphereKernel・docs.bgCompose・docs.bgpredict-sync・behavior.pairSlipSign)・朔望月の正本の docs.synodic299・lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickWindows323 docs.w323c lint.harnessSmoke303 lint.harnessSmoke304 docs.w322d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 docs.twoBodyMesh docs.rparCanonical docs.meshV2Rpar docs.nsLockLedgerRow docs.rotorLedger docs.sphereKernel docs.bgCompose docs.bgpredict-sync behavior.pairSlipSign docs.synodic299 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第323便c の塊(ここまで)====
+# ==== 第323便d の塊(ここから)====
+# 第323便d(決断事項 AN428 ①・統括の検証項目 R278): 枝 d の新設 3 本(lint.provenanceIds323 —— 較正の行の安定した id の表の被覆・正本の rowId・判定の値の記録との照合 /
+#   lint.qaRecheck323 —— 部分の再検査の補足の記録と samplestatus の口 / docs.w323d —— 文書)と、器 calaudit・samplestatus の正本を読む QA(行に rowId と要約 rowIds が足された
+#   世代 —— docs.calaudit-sync・docs.calibration-verdict-sync・behavior.calauditStages・lint.calauditMergeKeyHash・lint.calauditDiagSplit・docs.periodContractRows・
+#   docs.sampleStatus-sync・preset.statusLedger-sync・docs.tallySync)・刻印の lint.provenanceMeta・lint.stableHashPaths・lint.regenChain・この脚本の lint.postMergeQaScript・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.provenanceIds323 lint.qaRecheck323 docs.w323d docs.calaudit-sync docs.calibration-verdict-sync behavior.calauditStages lint.calauditMergeKeyHash lint.calauditDiagSplit docs.periodContractRows docs.sampleStatus-sync preset.statusLedger-sync docs.tallySync lint.provenanceMeta lint.stableHashPaths lint.regenChain lint.postMergeQaScript lint.qaHeapRelease310"
+# ==== 第323便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
@@ -574,6 +604,23 @@ mkdir -p "$LOG" || exit 2
 T0=$(date +%s); fail=0
 count() { grep -c "^$1 " "$2" 2>/dev/null || true; }
 say() { echo "[post-merge-qa] $*"; }
+
+# ==== 第323便a の塊(ここから)====
+# 第323便a(統括の検証項目 R275 —— 原仮定者の指示(2026-11-01)「今後は、すぐに確認可能な規約を先に判定する」): ⓪ 規約の速い判定。
+#   第322便は c₀ = 30 の規約の外(♊⚖️ の c₀ = 10)を鎖の後のゲートで初めて見つけた —— 統合の直後・① の前に数秒で見る。NG(rc ≠ 0)なら ① 以降を走らせない。
+#   qapart(③〜④)は第323便a から要求した鍵の未実行を FAIL に数え、SKIP は PASS に数えない(終わりの行「PASS n・FAIL n・SKIP n・未実行 n」)。
+S0="skip"
+say "⓪ 規約の速い判定(conventions-check)→ $LOG/0-conventions.log"
+CT="--target beta/index.html"; [ $NOROOT -eq 0 ] && CT="$CT --target index.html"
+# shellcheck disable=SC2086
+node tools/conventions-check.mjs $CT --json "$LOG/0-conventions.json" >"$LOG/0-conventions.log" 2>&1; rc0=$?
+S0="conventions $([ $rc0 -eq 0 ] && echo ok || echo "NG(rc $rc0)")"
+if [ $rc0 -ne 0 ]; then
+  cat "$LOG/0-conventions.log"
+  echo "post-merge-qa: ⓪ $S0 —— 規約の外か道具の誤り(① 以降を走らせない)所要 $(( $(date +%s) - T0 )) s → FAIL(ログ $LOG)"
+  exit 1
+fi
+# ==== 第323便a の塊(ここまで)====
 
 # ① 静的受理
 S1="skip"
@@ -684,5 +731,5 @@ if [ -n "$BASE" ]; then
 fi
 
 T1=$(date +%s)
-echo "post-merge-qa: ① $S1 ② $S2 ③ $S3 ③′ $S3W ④ $S4 ⑤ $S5 所要 $((T1 - T0)) s → $([ $fail -eq 0 ] && echo OK || echo FAIL)(ログ $LOG)"
+echo "post-merge-qa: ⓪ $S0 ① $S1 ② $S2 ③ $S3 ③′ $S3W ④ $S4 ⑤ $S5 所要 $((T1 - T0)) s → $([ $fail -eq 0 ] && echo OK || echo FAIL)(ログ $LOG)"
 exit $fail

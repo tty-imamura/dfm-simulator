@@ -1,0 +1,2394 @@
+{
+ "version": "w323d-calverdict-1",
+ "since": "第323便d(決断事項 AN428 ①)",
+ "base": {
+  "rev": "bff6711",
+  "file": "tests/out/calaudit-w249.json",
+  "generatedAt": "2026-11-01T20:38:36.673Z",
+  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a"
+ },
+ "physicsKey": {
+  "sha256": "d5072674ef5fefc8af6f75fc26367ad168cd3ad4447819fbabf99f9f5e9c322f",
+  "parts": {
+   "engine": "a8f84454a672cd7d618ff7f28f6c0347ac4cd1c984ab5f455279639a416afd8c",
+   "csvSha": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
+   "judgementSourcesSha": "4e792ca7636a46f7b049e9807f0a105a717fd5bac333aa97123c23765615eb68",
+   "stable": {
+    "earthMoonReal": "d9133f3602c2577cd75d3c4eb23c02b0ba5c9e8bc261bfc088fdb5c2279f9f84",
+    "emAuditSolar": "48769bde38e4700dd3ee030d0d46e85c516016a6d9b97e28666929dc0e92d5d5",
+    "mercuryReal": "99eb0095921e62d452e569279e27c5d2563d8e64f9634fc0ee0aa3b6a81768c0",
+    "jupiterGalilean": "de98a05f36f5d5d4ed628a3741d104fa1594bbe8624e7f47de86b28da6227017",
+    "venusReal": "e77f06a489fa1a7730ce4acffe056b7b7bef376a6c9ace9220257b402f34142f",
+    "marsMoonsReal": "002d8017c3c0cc19a852df3b0326ba2516197476c953ce143a38ea9bb2206d07",
+    "plutoCharonDiagInput": "8be604599a3ae985a4e1bc1e16b0f6ac3e8d54d1c4d27a13e95e48e8f1ab2d55",
+    "uranusReal": null,
+    "neptuneReal": "1d8a04b7494ddcf12f95e6f5ecade85b216eca8b0530b347bd82d33cf5a80254",
+    "alphaCenAB": "c3a0cbc62df1c5e221e0675a2e5e0146b5045bdfb8ba1724f798d338e6e18906",
+    "siriusAB": "b93bfabebe218cded329ac04db49f9951c12c0fa6999061cffa285f35e04db5d",
+    "psrDoubleAB": "d5a8e48d23d24c5c9ab7c6312d2182a7931936e5e2cdbf1ec9dc5513ad2f1a14",
+    "psrJ1757DFM": "c960441b8fc5842324a98008020500425b61202044a22d0cd6dc06e511279837",
+    "psrJ1946DFM": "cd6e471edc0d15e6a3432bf621a2878135dd8ba96161b0b1a8c0048f06df00c9",
+    "psrB1534": "ae41b2c4310e4125dc82e4ec37cab6e10b5914dc3332d12138d3a23e0a416e84",
+    "gw150914": "7f9519b27ec444e18a26f349d23c1be024bde63d31053c72019f3c6d24e93594",
+    "gw150914Merge4s": "219a89a356f938c6fe91901139668f850f006ccf2e7235a07d8e80080a28a7c6",
+    "saturnZonalD68": "1ecc5a9fe45f2f944bd87d73f420dbd13130e7194e6ab069a05c543a9ab6831c",
+    "saturnRingReal": null
+   }
+  }
+ },
+ "digest": "82ede886213883a8e6d840c1dc72446f5178fd56b8e66e9ccb2345d416c8342b",
+ "rule": "判定器の正本の判定の値(4 値の台帳・5 区分・門の状態・行ごとの判定と差)の写し。**物理の入力の指紋が同じ正本**ではこの写しと同じでなければならない(行の id・来歴の語の扱いの変更 —— AN428 ①②③ —— は判定を動かさない)。指紋が違えば照合の対象外(物理の変更の便 —— 記録を作り直す)",
+ "projection": {
+  "counts": {
+   "合": 0,
+   "量限定合": 2,
+   "否": 1,
+   "保留": 16
+  },
+  "tally": {
+   "合": 48,
+   "窓": 0,
+   "否": 3,
+   "従": 2,
+   "転": 117,
+   "条": 0
+  },
+  "gate": {
+   "合(3σ)": 2,
+   "否(3σ)": 1,
+   "数値未解決": 10,
+   "mapping-unresolved": 6,
+   "condition-mismatch": 0,
+   "未判定": 151
+  },
+  "ledger": [
+   {
+    "id": "earthMoonReal",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 0,
+     "map": 0,
+     "cond": 0,
+     "withSigma": 0,
+     "nQ": 5
+    },
+    "representative": null,
+    "residualWorst": {
+     "kind": "period",
+     "pct": 0.00024230044196598929
+    },
+    "missing": [
+     "σ 未接続"
+    ],
+    "residualPeriodPct": 0.00024230044196598929
+   },
+   {
+    "id": "emAuditSolar",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 0,
+     "map": 0,
+     "cond": 0,
+     "withSigma": 0,
+     "nQ": 5
+    },
+    "representative": null,
+    "residualWorst": {
+     "kind": "period",
+     "pct": 0.13842319839794298
+    },
+    "missing": [
+     "σ 未接続"
+    ],
+    "residualPeriodPct": 0.13842319839794298
+   },
+   {
+    "id": "mercuryReal",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 1,
+     "map": 0,
+     "cond": 0,
+     "withSigma": 1,
+     "nQ": 4
+    },
+    "representative": {
+     "kind": "precession",
+     "nSigma": 1979.3738534462077,
+     "residualPct": -6.908558178296243
+    },
+    "residualWorst": {
+     "kind": "precession",
+     "pct": -6.908558178296243
+    },
+    "missing": [
+     "数値精度"
+    ],
+    "residualPeriodPct": 0.00019662142181916514
+   },
+   {
+    "id": "jupiterGalilean",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 0,
+     "map": 0,
+     "cond": 0,
+     "withSigma": 0,
+     "nQ": 21
+    },
+    "representative": null,
+    "residualWorst": {
+     "kind": "period",
+     "pct": 0.04938377760282566
+    },
+    "missing": [
+     "σ 未接続"
+    ],
+    "residualPeriodPct": 0.04938377760282566
+   },
+   {
+    "id": "venusReal",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 0,
+     "map": 0,
+     "cond": 0,
+     "withSigma": 0,
+     "nQ": 6
+    },
+    "representative": null,
+    "residualWorst": {
+     "kind": "ecc",
+     "pct": 3.296213292684156
+    },
+    "missing": [
+     "σ 未接続"
+    ],
+    "residualPeriodPct": -0.001430864545037849
+   },
+   {
+    "id": "marsMoonsReal",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 0,
+     "map": 0,
+     "cond": 0,
+     "withSigma": 0,
+     "nQ": 9
+    },
+    "representative": null,
+    "residualWorst": {
+     "kind": "period",
+     "pct": 0.04710941973181059
+    },
+    "missing": [
+     "σ 未接続"
+    ],
+    "residualPeriodPct": 0.04710941973181059
+   },
+   {
+    "id": "plutoCharonDiagInput",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 1,
+     "map": 0,
+     "cond": 0,
+     "withSigma": 1,
+     "nQ": 11
+    },
+    "representative": {
+     "kind": "period",
+     "nSigma": 278.5921424264764,
+     "residualPct": 0.001308512110222583
+    },
+    "residualWorst": {
+     "kind": "period",
+     "pct": 0.001308512110222583
+    },
+    "missing": [
+     "数値精度"
+    ],
+    "residualPeriodPct": 0.001308512110222583
+   },
+   {
+    "id": "uranusReal",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 0,
+     "map": 0,
+     "cond": 0,
+     "withSigma": 0,
+     "nQ": 18
+    },
+    "representative": null,
+    "residualWorst": {
+     "kind": "period",
+     "pct": 0.06841858267138382
+    },
+    "missing": [
+     "σ 未接続"
+    ],
+    "residualPeriodPct": 0.06841858267138382
+   },
+   {
+    "id": "neptuneReal",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 0,
+     "map": 0,
+     "cond": 0,
+     "withSigma": 0,
+     "nQ": 7
+    },
+    "representative": null,
+    "residualWorst": {
+     "kind": "period",
+     "pct": 0.004194254967103669
+    },
+    "missing": [
+     "σ 未接続"
+    ],
+    "residualPeriodPct": 0.004194254967103669
+   },
+   {
+    "id": "alphaCenAB",
+    "verdict4": "量限定合",
+    "gateCounts": {
+     "ok": 1,
+     "ng": 0,
+     "num": 0,
+     "map": 1,
+     "cond": 0,
+     "withSigma": 2,
+     "nQ": 7
+    },
+    "representative": {
+     "kind": "period",
+     "nSigma": 0.09561602617161595,
+     "residualPct": 0.002277934830645248
+    },
+    "residualWorst": {
+     "kind": "period",
+     "pct": 0.002277934830645248
+    },
+    "missing": [
+     "写像未確定"
+    ],
+    "residualPeriodPct": 0.002277934830645248
+   },
+   {
+    "id": "siriusAB",
+    "verdict4": "量限定合",
+    "gateCounts": {
+     "ok": 1,
+     "ng": 0,
+     "num": 0,
+     "map": 1,
+     "cond": 0,
+     "withSigma": 2,
+     "nQ": 9
+    },
+    "representative": {
+     "kind": "period",
+     "nSigma": 0.2740909116196267,
+     "residualPct": 0.0023523146363466215
+    },
+    "residualWorst": {
+     "kind": "period",
+     "pct": 0.0023523146363466215
+    },
+    "missing": [
+     "写像未確定"
+    ],
+    "residualPeriodPct": 0.0023523146363466215
+   },
+   {
+    "id": "psrDoubleAB",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 2,
+     "map": 1,
+     "cond": 0,
+     "withSigma": 3,
+     "nQ": 8
+    },
+    "representative": {
+     "kind": "period",
+     "nSigma": 1080926.8801924684,
+     "residualPct": 0.0030656627381564286
+    },
+    "residualWorst": {
+     "kind": "precession",
+     "pct": -0.06634628292264534
+    },
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ],
+    "residualPeriodPct": 0.0030656627381564286
+   },
+   {
+    "id": "psrJ1757DFM",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 2,
+     "map": 1,
+     "cond": 0,
+     "withSigma": 3,
+     "nQ": 8
+    },
+    "representative": {
+     "kind": "period",
+     "nSigma": 4200.334309121832,
+     "residualPct": 0.0001144269324417918
+    },
+    "residualWorst": {
+     "kind": "ecc",
+     "pct": 0.0006430682456288779
+    },
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ],
+    "residualPeriodPct": 0.0001144269324417918
+   },
+   {
+    "id": "psrJ1946DFM",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 2,
+     "map": 1,
+     "cond": 0,
+     "withSigma": 3,
+     "nQ": 9
+    },
+    "representative": {
+     "kind": "period",
+     "nSigma": 194333.10939647257,
+     "residualPct": 0.004951915499994372
+    },
+    "residualWorst": {
+     "kind": "ecc",
+     "pct": -0.01729421572202774
+    },
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ],
+    "residualPeriodPct": 0.004951915499994372
+   },
+   {
+    "id": "psrB1534",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 2,
+     "map": 1,
+     "cond": 0,
+     "withSigma": 3,
+     "nQ": 8
+    },
+    "representative": {
+     "kind": "period",
+     "nSigma": 368520.8352079725,
+     "residualPct": 0.0008758929526296669
+    },
+    "residualWorst": {
+     "kind": "precession",
+     "pct": -0.018923769484723973
+    },
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ],
+    "residualPeriodPct": 0.0008758929526296669
+   },
+   {
+    "id": "gw150914",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 0,
+     "map": 0,
+     "cond": 0,
+     "withSigma": 0,
+     "nQ": 8
+    },
+    "representative": null,
+    "residualWorst": {
+     "kind": "period",
+     "pct": -0.07503461805150527
+    },
+    "missing": [
+     "σ 未接続"
+    ],
+    "residualPeriodPct": -0.07503461805150527
+   },
+   {
+    "id": "gw150914Merge4s",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 0,
+     "map": 0,
+     "cond": 0,
+     "withSigma": 0,
+     "nQ": 11
+    },
+    "representative": null,
+    "residualWorst": null,
+    "missing": [
+     "σ 未接続"
+    ],
+    "residualPeriodPct": null
+   },
+   {
+    "id": "saturnZonalD68",
+    "verdict4": "否",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 1,
+     "num": 0,
+     "map": 0,
+     "cond": 0,
+     "withSigma": 1,
+     "nQ": 6
+    },
+    "representative": {
+     "kind": "precession",
+     "nSigma": 14.603406073544262,
+     "residualPct": -0.3058994957736397
+    },
+    "residualWorst": {
+     "kind": "period",
+     "pct": 1.6558357057554058
+    },
+    "missing": [
+     "(門に入った量 1: 合 0・否 1 — 残り 5 量は σ が無い)"
+    ],
+    "residualPeriodPct": -0.3461075871504771
+   },
+   {
+    "id": "saturnRingReal",
+    "verdict4": "保留",
+    "gateCounts": {
+     "ok": 0,
+     "ng": 0,
+     "num": 0,
+     "map": 0,
+     "cond": 0,
+     "withSigma": 0,
+     "nQ": 10
+    },
+    "representative": null,
+    "residualWorst": {
+     "kind": "period",
+     "pct": -0.26925128090875533
+    },
+    "missing": [
+     "σ 未接続"
+    ],
+    "residualPeriodPct": -0.26925128090875533
+   }
+  ],
+  "rows": [
+   {
+    "preset": "earthMoonReal",
+    "name": "恒星月",
+    "kind": "period",
+    "target": "月",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.00024230044196598929,
+    "meas": 2360600.599731827
+   },
+   {
+    "preset": "earthMoonReal",
+    "name": "軌道長半径",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "earthMoonReal",
+    "name": "近地点相対速度",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "earthMoonReal",
+    "name": "実測(標準検出器): 離心率(月)",
+    "kind": "ecc",
+    "target": "月",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.054900335564627055
+   },
+   {
+    "preset": "earthMoonReal",
+    "name": "実測(標準検出器): 近点移動(月)",
+    "kind": "precession",
+    "target": "月",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": -0.00003668871521616085
+   },
+   {
+    "preset": "emAuditSolar",
+    "name": "近点回転の周期(118公転窓・較正ゼロ)",
+    "kind": "precession",
+    "target": "月",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 282521254.5368885
+   },
+   {
+    "preset": "emAuditSolar",
+    "name": "窓・dt 依存",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "emAuditSolar",
+    "name": "恒星月",
+    "kind": "period",
+    "target": "月",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.13842319839794298,
+    "meas": 2363862.490934114
+   },
+   {
+    "preset": "emAuditSolar",
+    "name": "離心率(236公転=17.7年)",
+    "kind": "ecc",
+    "target": "月",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.04326966898232005
+   },
+   {
+    "preset": "emAuditSolar",
+    "name": "一次永年論との比較",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "mercuryReal",
+    "name": "公転周期",
+    "kind": "period",
+    "target": "水星",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.00019662142181916514,
+    "meas": 7600536.544253635
+   },
+   {
+    "preset": "mercuryReal",
+    "name": "近日点前進(推定器つき宣言 — 第250便d)",
+    "kind": "precession",
+    "target": "水星",
+    "verdict": "否",
+    "gateStatus": "数値未解決",
+    "nSigma": 1979.3738534462077,
+    "residualPct": -6.908558178296243,
+    "meas": 0.000026767879778500166
+   },
+   {
+    "preset": "mercuryReal",
+    "name": "近日点速度",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "mercuryReal",
+    "name": "実測(標準検出器): 離心率(水星)",
+    "kind": "ecc",
+    "target": "水星",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.2056309499455642
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(イオ)",
+    "kind": "period",
+    "target": "イオ",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.04938377760282566,
+    "meas": 152929.00804395517
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(エウロパ)",
+    "kind": "period",
+    "target": "エウロパ",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.0011958080885858269,
+    "meas": 306825.70740275277
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(ガニメデ)",
+    "kind": "period",
+    "target": "ガニメデ",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": -0.010638495070399356,
+    "meas": 618087.6169832263
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(カリスト)",
+    "kind": "period",
+    "target": "カリスト",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": -0.026838523005110523,
+    "meas": 1441544.0757983823
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "周期(旧宣言 D₀=0.006・q_exact=12.0586 の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(イオ)",
+    "kind": "period",
+    "target": "イオ",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.04938377760282566,
+    "meas": 152929.00804395517
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "周期(旧宣言 D₀=0.006・q_exact=12.0586 の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(エウロパ)",
+    "kind": "period",
+    "target": "エウロパ",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.0011958080885858269,
+    "meas": 306825.70740275277
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "周期(旧宣言 D₀=0.006・q_exact=12.0586 の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(ガニメデ)",
+    "kind": "period",
+    "target": "ガニメデ",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": -0.010638495070399356,
+    "meas": 618087.6169832263
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "周期(旧宣言 D₀=0.006・q_exact=12.0586 の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(カリスト)",
+    "kind": "period",
+    "target": "カリスト",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": -0.026838523005110523,
+    "meas": 1441544.0757983823
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "20イオ公転窓の軌道保持〔一本化後の宣言で再測・model 欄は旧宣言の記録〕",
+    "kind": "period",
+    "target": "イオ",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 152929.00804395517
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "フレーム回転の内訳",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "払った較正",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "ラプラス共鳴",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "スピン双極子モーメント Q(第246便d)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "実測(標準検出器): 離心率(イオ)",
+    "kind": "ecc",
+    "target": "イオ",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.004178070906381617
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "実測(標準検出器): 近点移動(イオ)",
+    "kind": "precession",
+    "target": "イオ",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.4552481041225701
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "実測(標準検出器): 離心率(エウロパ)",
+    "kind": "ecc",
+    "target": "エウロパ",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.008924070378096541
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "実測(標準検出器): 近点移動(エウロパ)",
+    "kind": "precession",
+    "target": "エウロパ",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.3570165052436338
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "実測(標準検出器): 離心率(ガニメデ)",
+    "kind": "ecc",
+    "target": "ガニメデ",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.001230581645217301
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "実測(標準検出器): 近点移動(ガニメデ)",
+    "kind": "precession",
+    "target": "ガニメデ",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": -0.9627095392488666
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "実測(標準検出器): 離心率(カリスト)",
+    "kind": "ecc",
+    "target": "カリスト",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.00706210429028517
+   },
+   {
+    "preset": "jupiterGalilean",
+    "name": "実測(標準検出器): 近点移動(カリスト)",
+    "kind": "precession",
+    "target": "カリスト",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.009661471025418212
+   },
+   {
+    "preset": "venusReal",
+    "name": "公転周期(旧 E6′-R の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕",
+    "kind": "period",
+    "target": "金星",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": -0.001430864545037849,
+    "meas": 19413888.609576266
+   },
+   {
+    "preset": "venusReal",
+    "name": "公転周期(kFrame=0 対照)",
+    "kind": "period",
+    "target": "金星",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": -0.001430864545037849,
+    "meas": 19413888.609576266
+   },
+   {
+    "preset": "venusReal",
+    "name": "半径振れ幅(1公転窓)",
+    "kind": "period",
+    "target": "金星",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 19413888.609576266
+   },
+   {
+    "preset": "venusReal",
+    "name": "legacy 反作用の対照",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "venusReal",
+    "name": "実測(標準検出器): 離心率(金星)",
+    "kind": "ecc",
+    "target": "金星",
+    "verdict": "否",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 3.296213292684156,
+    "meas": 0.007000095145447986
+   },
+   {
+    "preset": "venusReal",
+    "name": "実測(標準検出器): 近点移動(金星)",
+    "kind": "precession",
+    "target": "金星",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.00001334421639512648
+   },
+   {
+    "preset": "marsMoonsReal",
+    "name": "公転周期(フォボス/ダイモス)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(フォボス)",
+    "kind": "period",
+    "target": "フォボス",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.04710941973181059,
+    "meas": 27566.82202242575
+   },
+   {
+    "preset": "marsMoonsReal",
+    "name": "公転周期(フォボス/ダイモス)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(ダイモス)",
+    "kind": "period",
+    "target": "ダイモス",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.037597328278672223,
+    "meas": 109115.89451680018
+   },
+   {
+    "preset": "marsMoonsReal",
+    "name": "半径振れ幅(2ダイモス公転窓)",
+    "kind": "period",
+    "target": "ダイモス",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.037597328278672223,
+    "meas": 109115.89451680018
+   },
+   {
+    "preset": "marsMoonsReal",
+    "name": "kFrame=0 対照との周期差",
+    "kind": "period",
+    "target": "フォボス",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.04710941973181059,
+    "meas": 27566.82202242575
+   },
+   {
+    "preset": "marsMoonsReal",
+    "name": "テスト粒子降格",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "marsMoonsReal",
+    "name": "実測(標準検出器): 離心率(フォボス)",
+    "kind": "ecc",
+    "target": "フォボス",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.01517140741705715
+   },
+   {
+    "preset": "marsMoonsReal",
+    "name": "実測(標準検出器): 近点移動(フォボス)",
+    "kind": "precession",
+    "target": "フォボス",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": -0.015067755204754705
+   },
+   {
+    "preset": "marsMoonsReal",
+    "name": "実測(標準検出器): 離心率(ダイモス)",
+    "kind": "ecc",
+    "target": "ダイモス",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.00032136819358322935
+   },
+   {
+    "preset": "marsMoonsReal",
+    "name": "実測(標準検出器): 近点移動(ダイモス)",
+    "kind": "precession",
+    "target": "ダイモス",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": -0.0020985006572870816
+   },
+   {
+    "preset": "plutoCharonDiagInput",
+    "name": "同方向1周(第2周)— 3 刻み",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "plutoCharonDiagInput",
+    "name": "Buie 2012 二体 P との差(比較値)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "plutoCharonDiagInput",
+    "name": "閉じた式の差と走行の残差",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "plutoCharonDiagInput",
+    "name": "PLU060 400年平均 P との差(σ なし)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "plutoCharonDiagInput",
+    "name": "旧入力の二体の否の要因の鎖(第2周・dt 0.004)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "plutoCharonDiagInput",
+    "name": "残る差の由来(閉じた式)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "plutoCharonDiagInput",
+    "name": "元期 A の状態の二体との差(同じ定義・第5周)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "plutoCharonDiagInput",
+    "name": "1PN の源集合の是正(第291便b)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "plutoCharonDiagInput",
+    "name": "実測(標準検出器): 公転周期(カロン)",
+    "kind": "period",
+    "target": "カロン",
+    "verdict": "合",
+    "gateStatus": "数値未解決",
+    "nSigma": 278.5921424264764,
+    "residualPct": 0.001308512110222583,
+    "meas": 551863.6598283317
+   },
+   {
+    "preset": "plutoCharonDiagInput",
+    "name": "実測(標準検出器): 離心率(カロン)",
+    "kind": "ecc",
+    "target": "カロン",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 3.908700659098399e-9
+   },
+   {
+    "preset": "plutoCharonDiagInput",
+    "name": "実測(標準検出器): 近点移動(カロン)",
+    "kind": "precession",
+    "target": "カロン",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.000008570193561749913
+   },
+   {
+    "preset": "uranusReal",
+    "name": "公転周期(ミランダ/アリエル・周回実測)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(ミランダ)",
+    "kind": "period",
+    "target": "ミランダ",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.06841858267138382,
+    "meas": 122208.17695441279
+   },
+   {
+    "preset": "uranusReal",
+    "name": "公転周期(ミランダ/アリエル・周回実測)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(アリエル)",
+    "kind": "period",
+    "target": "アリエル",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": -0.019025278428716184,
+    "meas": 217719.33160080086
+   },
+   {
+    "preset": "uranusReal",
+    "name": "公転周期(ウンブリエル/チタニア/オベロン・転写診断)(ウンブリエル)",
+    "kind": "period",
+    "target": "ウンブリエル",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.0014316792750814187,
+    "meas": 358062.0239654665
+   },
+   {
+    "preset": "uranusReal",
+    "name": "公転周期(ウンブリエル/チタニア/オベロン・転写診断)(チタニア)",
+    "kind": "period",
+    "target": "チタニア",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": -0.003256831963787003,
+    "meas": 752162.5127455659
+   },
+   {
+    "preset": "uranusReal",
+    "name": "公転周期(ウンブリエル/チタニア/オベロン・転写診断)(オベロン)",
+    "kind": "period",
+    "target": "オベロン",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": -0.035924944976338524,
+    "meas": 1162805.7776476708
+   },
+   {
+    "preset": "uranusReal",
+    "name": "環11帯(88粒)の半径保持(2ミランダ公転窓)",
+    "kind": "period",
+    "target": "ミランダ",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.06841858267138382,
+    "meas": 122208.17695441279
+   },
+   {
+    "preset": "uranusReal",
+    "name": "天王星の自転(第196便: 面内符号+)",
+    "kind": "spin",
+    "target": "ミランダ",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 9.66735775445339e-7,
+    "meas": 62064.000599994884
+   },
+   {
+    "preset": "uranusReal",
+    "name": "環の質量(第192便)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "uranusReal",
+    "name": "実測(標準検出器): 離心率(ミランダ)",
+    "kind": "ecc",
+    "target": "ミランダ",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.0014568196923319125
+   },
+   {
+    "preset": "uranusReal",
+    "name": "実測(標準検出器): 近点移動(ミランダ)",
+    "kind": "precession",
+    "target": "ミランダ",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.018062598507416528
+   },
+   {
+    "preset": "uranusReal",
+    "name": "実測(標準検出器): 離心率(アリエル)",
+    "kind": "ecc",
+    "target": "アリエル",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.0013792162355305282
+   },
+   {
+    "preset": "uranusReal",
+    "name": "実測(標準検出器): 近点移動(アリエル)",
+    "kind": "precession",
+    "target": "アリエル",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": -0.44791582324130236
+   },
+   {
+    "preset": "uranusReal",
+    "name": "実測(標準検出器): 離心率(ウンブリエル)",
+    "kind": "ecc",
+    "target": "ウンブリエル",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.003916922351022737
+   },
+   {
+    "preset": "uranusReal",
+    "name": "実測(標準検出器): 近点移動(ウンブリエル)",
+    "kind": "precession",
+    "target": "ウンブリエル",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": -1.0922120694813053
+   },
+   {
+    "preset": "uranusReal",
+    "name": "実測(標準検出器): 離心率(チタニア)",
+    "kind": "ecc",
+    "target": "チタニア",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.0013625133956255166
+   },
+   {
+    "preset": "uranusReal",
+    "name": "実測(標準検出器): 近点移動(チタニア)",
+    "kind": "precession",
+    "target": "チタニア",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 1.9995639333617654
+   },
+   {
+    "preset": "uranusReal",
+    "name": "実測(標準検出器): 離心率(オベロン)",
+    "kind": "ecc",
+    "target": "オベロン",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.0008792818580481742
+   },
+   {
+    "preset": "uranusReal",
+    "name": "実測(標準検出器): 近点移動(オベロン)",
+    "kind": "precession",
+    "target": "オベロン",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "neptuneReal",
+    "name": "公転周期(kFrame=0 対照)",
+    "kind": "period",
+    "target": "トリトン",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.004194254967103669,
+    "meas": 507781.48235680547
+   },
+   {
+    "preset": "neptuneReal",
+    "name": "公転周期(旧 E6′-R の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕",
+    "kind": "period",
+    "target": "トリトン",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.004194254967103669,
+    "meas": 507781.48235680547
+   },
+   {
+    "preset": "neptuneReal",
+    "name": "トリトンの自転",
+    "kind": "spin",
+    "target": "トリトン",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "neptuneReal",
+    "name": "公転の向き(第188便)",
+    "kind": "period",
+    "target": "トリトン",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 507781.48235680547
+   },
+   {
+    "preset": "neptuneReal",
+    "name": "半径振れ幅",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "neptuneReal",
+    "name": "実測(標準検出器): 離心率(トリトン)",
+    "kind": "ecc",
+    "target": "トリトン",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.00010078933821461558
+   },
+   {
+    "preset": "neptuneReal",
+    "name": "実測(標準検出器): 近点移動(トリトン)",
+    "kind": "precession",
+    "target": "トリトン",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.001075949318080919
+   },
+   {
+    "preset": "alphaCenAB",
+    "name": "公転周期(kFrame=0 採用側)",
+    "kind": "period",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "合(3σ)",
+    "nSigma": 0.09561602617161595,
+    "residualPct": 0.002277934830645248,
+    "meas": 2517154629.0359173
+   },
+   {
+    "preset": "alphaCenAB",
+    "name": "実測離心率(1公転の半径比振れ幅)",
+    "kind": "ecc",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "mapping-unresolved",
+    "nSigma": 0.00022212357878951633,
+    "residualPct": -0.000006560668615685126,
+    "meas": 0.5194699659192947
+   },
+   {
+    "preset": "alphaCenAB",
+    "name": "観測安定則(2026-08-25 裁定・適用第1号)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "alphaCenAB",
+    "name": "A/B 測定側(kFrame=1・第242便 pull 重み)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "alphaCenAB",
+    "name": "初期位相(第211便 — 遠点整列)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "alphaCenAB",
+    "name": "自転(両星)",
+    "kind": "spin",
+    "target": "B",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "alphaCenAB",
+    "name": "実測(標準検出器): 近点移動(B)",
+    "kind": "precession",
+    "target": "B",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": -0.000019992004368430074
+   },
+   {
+    "preset": "siriusAB",
+    "name": "公転周期(kFrame=0 採用側)",
+    "kind": "period",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "合(3σ)",
+    "nSigma": 0.2740909116196267,
+    "residualPct": 0.0023523146363466215,
+    "meas": 1581969207.857875
+   },
+   {
+    "preset": "siriusAB",
+    "name": "実測離心率(1公転の半径比振れ幅)",
+    "kind": "ecc",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "mapping-unresolved",
+    "nSigma": 0.0001360791368476555,
+    "residualPct": -0.000009065149894739198,
+    "meas": 0.5914199463868904
+   },
+   {
+    "preset": "siriusAB",
+    "name": "観測安定則(適用第2号)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "siriusAB",
+    "name": "二体クロージャ確認(第214便 新設)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "siriusAB",
+    "name": "A/B 測定側(kFrame=1・第242便 pull 重み)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "siriusAB",
+    "name": "自転(両星 — 転写なし)",
+    "kind": "spin",
+    "target": "B",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "siriusAB",
+    "name": "Sirius B の半径(白色矮星)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "siriusAB",
+    "name": "初期位相(第211便 — 遠点整列)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "siriusAB",
+    "name": "実測(標準検出器): 近点移動(B)",
+    "kind": "precession",
+    "target": "B",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": -0.000035341550287101354
+   },
+   {
+    "preset": "psrDoubleAB",
+    "name": "公転周期(kFrame=0 採用側)",
+    "kind": "period",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "数値未解決",
+    "nSigma": 1080926.8801924684,
+    "residualPct": 0.0030656627381564286,
+    "meas": 8834.805560317101
+   },
+   {
+    "preset": "psrDoubleAB",
+    "name": "実測離心率(1公転の半径比振れ幅)",
+    "kind": "ecc",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "mapping-unresolved",
+    "nSigma": 176.18130748279597,
+    "residualPct": -0.009634299749166976,
+    "meas": 0.08776857929724083
+   },
+   {
+    "preset": "psrDoubleAB",
+    "name": "観測安定則(適用第3号)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrDoubleAB",
+    "name": "単位族(第220便 新設 → 第222便 経路拡張)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrDoubleAB",
+    "name": "近点前進(1PN — 合わせない照合)",
+    "kind": "precession",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "数値未解決",
+    "nSigma": 862.4671268916674,
+    "residualPct": -0.06634628292264534,
+    "meas": 16.888110927350407
+   },
+   {
+    "preset": "psrDoubleAB",
+    "name": "自転(両星 — 測定はあるが転写不能)",
+    "kind": "spin",
+    "target": "B",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrDoubleAB",
+    "name": "半径(EOS proxy — 直接観測なし)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrDoubleAB",
+    "name": "スピンと 1PN 偶力(第223便 — 記帳化)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrJ1757DFM",
+    "name": "公転周期(観測質量 f=1 — 同方向1周)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕",
+    "kind": "period",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "数値未解決",
+    "nSigma": 4200.334309121832,
+    "residualPct": 0.0001144269324417918,
+    "meas": 15857.687164612216
+   },
+   {
+    "preset": "psrJ1757DFM",
+    "name": "離心率(hold-out — 合わせていない)",
+    "kind": "ecc",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "mapping-unresolved",
+    "nSigma": 3.8957987477106215,
+    "residualPct": 0.0006430682456288779,
+    "meas": 0.6058180957987477
+   },
+   {
+    "preset": "psrJ1757DFM",
+    "name": "DFM 質量(第285便f — f=1: 観測質量そのもの)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrJ1757DFM",
+    "name": "偶力の受け皿(第285便f — 補正コアを外した)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrJ1757DFM",
+    "name": "**引きずり非依存**(AN51)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrJ1757DFM",
+    "name": "**伴星の自転は未観測**(だから感度帯で出す)",
+    "kind": "spin",
+    "target": "B",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrJ1757DFM",
+    "name": "近点移動(**hold-out** — 較正に使っていない)",
+    "kind": "precession",
+    "target": "B",
+    "verdict": "従",
+    "gateStatus": "数値未解決",
+    "nSigma": 33.25678181684388,
+    "residualPct": null,
+    "meas": 10.358448643636631
+   },
+   {
+    "preset": "psrJ1757DFM",
+    "name": "旧台帳の記録(第248〜284便 — **履歴**)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrJ1946DFM",
+    "name": "公転周期(観測質量 f=1 — 同方向1周)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕",
+    "kind": "period",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "数値未解決",
+    "nSigma": 194333.10939647257,
+    "residualPct": 0.004951915499994372,
+    "meas": 6781.703806269037
+   },
+   {
+    "preset": "psrJ1946DFM",
+    "name": "軌道の形(合わせていない)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrJ1946DFM",
+    "name": "DFM 質量(第286便f — f=1: 観測質量そのもの)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrJ1946DFM",
+    "name": "偶力の受け皿(第286便f — 補正コアを外した)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrJ1946DFM",
+    "name": "**引きずり非依存**(AN51・AN57)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrJ1946DFM",
+    "name": "**伴星の自転は未観測**(だから感度帯で出す)",
+    "kind": "spin",
+    "target": "B",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrJ1946DFM",
+    "name": "近点移動(**hold-out** — 較正に使っていない)",
+    "kind": "precession",
+    "target": "B",
+    "verdict": "従",
+    "gateStatus": "数値未解決",
+    "nSigma": 58.31872695118534,
+    "residualPct": null,
+    "meas": 25.768722509219526
+   },
+   {
+    "preset": "psrJ1946DFM",
+    "name": "旧台帳の記録(第248〜285便 — **履歴**)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrJ1946DFM",
+    "name": "実測(標準検出器): 離心率(B)",
+    "kind": "ecc",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "mapping-unresolved",
+    "nSigma": 13.799984288700996,
+    "residualPct": -0.01729421572202774,
+    "meas": 0.06382526001256904
+   },
+   {
+    "preset": "psrB1534",
+    "name": "公転周期(**入力確認** — 転写が閉じているかだけを見る・2 定義)",
+    "kind": "period",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "数値未解決",
+    "nSigma": 368520.8352079725,
+    "residualPct": 0.0008758929526296669,
+    "meas": 36352.02104600162
+   },
+   {
+    "preset": "psrB1534",
+    "name": "離心率(入力確認)",
+    "kind": "ecc",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "mapping-unresolved",
+    "nSigma": 3.26554290978424,
+    "residualPct": -0.0003579625189996517,
+    "meas": 0.2736765203371271
+   },
+   {
+    "preset": "psrB1534",
+    "name": "計算式(観測安定則)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrB1534",
+    "name": "半長径は**派生値**",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrB1534",
+    "name": "近点移動は**この版では基準にしない**",
+    "kind": "precession",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "数値未解決",
+    "nSigma": 36.91794033312669,
+    "residualPct": -0.018923769484723973,
+    "meas": 1.755456738537002
+   },
+   {
+    "preset": "psrB1534",
+    "name": "自転は転写できない",
+    "kind": "spin",
+    "target": "B",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrB1534",
+    "name": "伴星は未観測",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "psrB1534",
+    "name": "健全性",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "gw150914",
+    "name": "公転周期(kFrame=0・geoPN=0 採用側)",
+    "kind": "period",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": -0.07503461805150527,
+    "meas": 0.18168157355815112
+   },
+   {
+    "preset": "gw150914",
+    "name": "実測離心率(1公転の半径比振れ幅)",
+    "kind": "ecc",
+    "target": "B",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.08000019264117786
+   },
+   {
+    "preset": "gw150914",
+    "name": "基準状態(スナップショット宣言)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "gw150914",
+    "name": "単位族(第223便 新設 — 3例目)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "gw150914",
+    "name": "換算整合則(geoPN=0 採用 — 第223便)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "gw150914",
+    "name": "質量・半径・自転(転写と代理値)",
+    "kind": "spin",
+    "target": "B",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "gw150914",
+    "name": "帳簿・決定性(10公転)",
+    "kind": "period",
+    "target": "B",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.18168157355815112
+   },
+   {
+    "preset": "gw150914",
+    "name": "実測(標準検出器): 近点移動(B)",
+    "kind": "precession",
+    "target": "B",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": -0.00006491988235610366
+   },
+   {
+    "preset": "gw150914Merge4s",
+    "name": "融合時刻(接線放射・用量 a=0.1313)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "gw150914Merge4s",
+    "name": "接触後の遅れ(放射の方向が決める)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "gw150914Merge4s",
+    "name": "用量 a=0.1313(**合わせ込みの1ノブ**)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "gw150914Merge4s",
+    "name": "刻み収束(接線・a=0.1313)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "gw150914Merge4s",
+    "name": "スピン–スピン(λ=1・χ=0.7 宣言)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "gw150914Merge4s",
+    "name": "帳簿・安全(dt=0.002)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "gw150914Merge4s",
+    "name": "再現しないもの",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "gw150914Merge4s",
+    "name": "何を仮定したか(まとめ)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "gw150914Merge4s",
+    "name": "実測(標準検出器): 公転周期(B)",
+    "kind": "period",
+    "target": "B",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.18139989448824248
+   },
+   {
+    "preset": "gw150914Merge4s",
+    "name": "実測(標準検出器): 離心率(B)",
+    "kind": "ecc",
+    "target": "B",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.07949177493129167
+   },
+   {
+    "preset": "gw150914Merge4s",
+    "name": "実測(標準検出器): 近点移動(B)",
+    "kind": "precession",
+    "target": "B",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": -0.3270457469940797
+   },
+   {
+    "preset": "saturnZonalD68",
+    "name": "D68 リングレットの近点移動(推定器つき宣言 — 第250便d)",
+    "kind": "precession",
+    "target": "D68",
+    "verdict": "合",
+    "gateStatus": "否(3σ)",
+    "nSigma": 14.603406073544262,
+    "residualPct": -0.3058994957736397,
+    "meas": 13925.526926092378
+   },
+   {
+    "preset": "saturnZonalD68",
+    "name": "D68 の公転周期・同方向1周(履歴)",
+    "kind": "period",
+    "target": "D68",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": -0.3461075871504771,
+    "meas": 17865.949831775662
+   },
+   {
+    "preset": "saturnZonalD68",
+    "name": "D68 の公転周期・近点間(第250便d)",
+    "kind": "period",
+    "target": "D68",
+    "verdict": "否",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 1.6558357057554058,
+    "meas": 18224.85822532783
+   },
+   {
+    "preset": "saturnZonalD68",
+    "name": "解析式(J一次永年理論)への fit",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "saturnZonalD68",
+    "name": "否の要因(第280便e の診断・履歴)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "saturnZonalD68",
+    "name": "実測(標準検出器): 離心率(D68)",
+    "kind": "ecc",
+    "target": "D68",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.05243330968212262
+   },
+   {
+    "preset": "saturnRingReal",
+    "name": "C環内縁の公転",
+    "kind": "period",
+    "target": "C環内縁",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": -0.26925128090875533,
+    "meas": 20823.780332546252
+   },
+   {
+    "preset": "saturnRingReal",
+    "name": "タイタンの公転",
+    "kind": "period",
+    "target": "タイタン",
+    "verdict": "合",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": 0.02669043874351087,
+    "meas": 1378015.7002955412
+   },
+   {
+    "preset": "saturnRingReal",
+    "name": "軌道速度(C環内縁)",
+    "kind": "other",
+    "target": null,
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": null
+   },
+   {
+    "preset": "saturnRingReal",
+    "name": "実測(標準検出器): 離心率(C環内縁)",
+    "kind": "ecc",
+    "target": "C環内縁",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.00023818254535527662
+   },
+   {
+    "preset": "saturnRingReal",
+    "name": "実測(標準検出器): 近点移動(C環内縁)",
+    "kind": "precession",
+    "target": "C環内縁",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.22848124274733334
+   },
+   {
+    "preset": "saturnRingReal",
+    "name": "実測(標準検出器): 公転周期(ミマス)",
+    "kind": "period",
+    "target": "ミマス",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 81511.71770736402
+   },
+   {
+    "preset": "saturnRingReal",
+    "name": "実測(標準検出器): 離心率(ミマス)",
+    "kind": "ecc",
+    "target": "ミマス",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.00007132830740083434
+   },
+   {
+    "preset": "saturnRingReal",
+    "name": "実測(標準検出器): 近点移動(ミマス)",
+    "kind": "precession",
+    "target": "ミマス",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 21.919882979585363
+   },
+   {
+    "preset": "saturnRingReal",
+    "name": "実測(標準検出器): 離心率(タイタン)",
+    "kind": "ecc",
+    "target": "タイタン",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": 0.000018452524143960533
+   },
+   {
+    "preset": "saturnRingReal",
+    "name": "実測(標準検出器): 近点移動(タイタン)",
+    "kind": "precession",
+    "target": "タイタン",
+    "verdict": "転",
+    "gateStatus": "未判定",
+    "nSigma": null,
+    "residualPct": null,
+    "meas": -0.17451562674617316
+   }
+  ]
+ }
+}

@@ -20,7 +20,9 @@
 //   --json <file> / --out-dir <dir>(既定 $TMPDIR/harness-smoke-<時刻>)/ --root <dir>(別の木 —— 例: git archive で取り出した過去の状態)/
 //   --git-dir <dir>(写しの中の `git -C ROOT show` が読む git —— 既定は --root の git)/ --head-rev <rev>(--base-rev との版どうしの差 —— 取り出した木のとき)/
 //   --html <候補 html>(写しの beta/index.html を差し替える)/ --keep(写しを残す)/
-//   --self-test(器を走らせない自己試験 —— QA lint.harnessSmoke303 と同じ関数)
+//   --self-test(器を走らせない自己試験 —— QA lint.harnessSmoke303 と同じ関数)/
+//   --fingerprint <記録>(第323便b —— 窓の出力の物理の値の指紋を記録へ。--base も --keys も無ければ**窓のある段を全部**〔簡易一致を使わない段は除く〕・
+//     既定の枠は 1 段 900 s・全体 150 min〔--budget・--max-minutes で上書き〕—— 窓を最後まで走らせた段だけ指紋を取る)
 //
 // ■ 言わないこと
 //   ・「煙試験が通ったので鎖が通る」(器の窓は最初の数段だけ —— 値の転記のずれは鎖の後の tools/pregate-transcript.mjs が見る)。
@@ -138,12 +140,73 @@ export const SMOKE_KNOBS = Object.freeze({
   // ==== 第322便c の塊(ここから)====
   'fieldcontract-322c': { env: { W322C_QUICK: '1', W322C_WORKERS: '1', W322C_OUT: 'tests/out/_smoke-fieldcontract-w322c.json' }, note: '試走(走行 1 公転・刻み h と h/2・k_F の列 2 場面・グループの受け手 2 体 × R_cut 2 つ・J だけ —— 1 プロセスで約 20 s〔並走の秒〕。正本は子プロセス 2 本)' },   // 第322便c
   // ==== 第322便c の塊(ここまで)====
+  // ==== 第323便c の塊(ここから)====
+  // 第323便c(決断事項 AN517・AN518・統括の検証項目 R277): **窓の無い大きい 16 段の簡易の窓**。器の本文は変えない —— 器に元から在る環境変数・引数で窓を開ける
+  //   (器のコードを変えると、その段と器を import する段が鎖で走らせ直しになる・nslock は AN516 の影の照合〔門 G1 の器の sha〕を保つ)。欄(lint.quickWindows323):
+  //   env(環境変数)・args(cmd の器の後に足す引数 —— 窓を引数でしか開けない器)・cmd(cmd が器 1 本でない段の窓の cmd —— emgrid・dragcore292)・
+  //   out(窓の出力 —— **走らせる前に消す**〔器が既存の出力の他の段を残す型のため〕・指紋を取るファイル)・sec(窓の秒の実測 —— 煙試験 --lanes 1 の 2 回〔混む箱〕の大きい方・枠を sec × 2 + 30 まで延ばす)・
+  //   fullSec(フルの秒 —— tests/data-w311c-regensec.json の見積り)・covers(窓が走らせる部分)。既定の経路(環境変数・引数なし)は器の本文のまま
+  'shell-304b': { env: { W304B_PARTS: 'Z,A', W304B_OUT: 'tests/out/_smoke-shell-w304b.json' }, out: 'tests/out/_smoke-shell-w304b.json', sec: 9, fullSec: 4121,
+    covers: '段 Z(殻の核の閉形式・自己項の 1 步の u・包みの素通り —— 水星の本の 2000 步)・A(解析の表)', note: '段 Z・A だけ(水星の根 M・移送 T・地球–月 E・多体 K〔M の根を読む —— M なしでは門 manyBodyReadout が偽〕・P はフル)' },
+  'emgrid': { cmd: 'node tests/exp-w280b-emgrid.mjs --rows E0,E1,E2,E3,E4,E5,E6,E7,E8,S0 --dt 0.016 --smoke --part tests/out/_smoke-emgrid-w280b.json', out: 'tests/out/_smoke-emgrid-w280b.json', sec: 155, fullSec: 2246,
+    covers: '10 行(E0〜E8・S0)を dt 0.016 で 3 公転(器の --smoke —— 窓 2・3 公転)', note: '器の --smoke(10 行 × 3 公転・dt 0.016 —— 手動の段の 4 分割と dt/2 の 3 行はフル)' },
+  'inertialr2-303b': { env: { W303B_QUICK: '1', W303B_PARTS: 'Z,M,K', W303B_OUT: 'tests/out/_smoke-inertialr2-w303b.json' }, out: 'tests/out/_smoke-inertialr2-w303b.json', sec: 70, fullSec: 1237,
+    covers: '段 Z(零試験と閉形式)・M(水星で変種ごとの λ —— 器の QUICK で刻み h・h/2)・K(多体)', note: 'QUICK(h・h/2)・段 Z・M・K だけ(移送 T・G_loc の表 N・地球–月 E はフル)' },
+  'chainburst-301d': { env: { W301D_ONLY: '^(?:B\\.validate|B\\.validate3d|C\\.split\\.1|C\\.semic\\.1|D\\.engine\\.gain0|D\\.engine\\.n40|F\\.engine\\.1|F\\.rk4\\.1|G\\.rk4\\.gain0)$', W301D_PAR: '1',
+    W301D_OUT: 'tests/out/_smoke-chainburst-w301d.json' }, out: 'tests/out/_smoke-chainburst-w301d.json', sec: 54, fullSec: 1059,
+    covers: '仕事 9 本(受理の確かめ 2・分割と semic の h・エンジンの gain 0 と n 40・二体の h・RK4 の h・殻の RK4 の gain 0)', note: '仕事 9 本だけ(器の W301D_ONLY —— 門と判断は出さない・h/2 より細かい刻みと長い仕事はフル)' },
+  'gfamily-305b': { env: { W305B_PARTS: 'Z,D', W305B_OUT: 'tests/out/_smoke-gfamily-w305b.json' }, out: 'tests/out/_smoke-gfamily-w305b.json', sec: 137, fullSec: 1017,
+    covers: '段 Z(写しの記録・抽出器の自己試験・G_loc だけの近点)・D(🟫 の二次元と三次元の写し)', note: '段 Z・D だけ(水星の k の根 M・移送 T・周期 P・太陽 S はフル)' },
+  'periodn-306b': { env: { W306B_PARTS: 'Z,P', W306B_PLANETS: 'mercurySunInertial3d', W306B_OUT: 'tests/out/_smoke-periodn-w306b.json' }, out: 'tests/out/_smoke-periodn-w306b.json', sec: 74, fullSec: 1135,
+    covers: '段 Z(零試験)・P(周期の表 —— 水星の 1 本だけ)', note: '段 Z・P だけ・水星の 1 本(器の W306B_PLANETS —— 6 本の移送・再フィット R・共通の GM G・月 E・時系 T はフル)' },
+  'charon-h2': { args: ['--steps', '4140000', '--only', 'C0,C1,C6'], out: 'tests/out/charon-w272b-probe.json', sec: 32, fullSec: 1062,
+    covers: '列 C0・C1・C6 を h/2 で 4140000 步(段の規定步数の 1/10 —— 約 6 公転)', note: '列 C0・C1・C6・步数 1/10(器の --only・--steps —— 規定步数に満たない走行は正本を書かず probe へ)' },
+  'dragcore292': { cmd: 'W323C_DRAGCORE_OUT=tests/out/_smoke-dragcore-w292c.json node tests/exp-w323c-dragcorequick.mjs', out: 'tests/out/_smoke-dragcore-w292c.json', sec: 49, fullSec: 925,
+    covers: '純関数の自己試験・器の門 (b)〜(e)・宣言の gain と dragCore で 8 公転 1 本(器の childTask)', note: '窓の器 tests/exp-w323c-dragcorequick.mjs(器の関数をそのまま —— 27 公転のフィット・118 公転・感度・h/2 はフル)' },
+  'geo3': { args: ['--quick'], env: { W280_SP: 'tests/out/_smoke-geo3' }, out: 'tests/out/_smoke-geo3/geo3-w280c.quick.json', sec: 61, fullSec: 894,
+    covers: '全項 (a)〜(h) を窓 1/20 で(器の --quick)', note: '器の --quick(窓 1/20 —— 出力は W280_SP の下)' },
+  'earthmoon-303c': { env: { W303C_LONG: '118', W303C_PARTS: 'audit', W303C_OUT: 'tests/out/_smoke-earthmoon-w303c.json' }, out: 'tests/out/_smoke-earthmoon-w303c.json', sec: 99, fullSec: 726,
+    covers: '段 audit(エンジンの引きずり OFF と宣言・参照積分・平均の要素)を長窓 118 公転で', note: '長窓 118 公転(既定 1062)・段 audit だけ(radius・sunbg・ident はフル)' },
+  'charonk': { args: ['--steps', '2070000', '--iters', '3'], out: 'tests/out/charonk-w273b-probe.json', sec: 53, fullSec: 744,
+    covers: 'C3 の二分探索 3 回・C2 の 6 点・ε 系列・宣言鍵の同値性を步数 1/10(約 6 公転)で', note: '步数 1/10・二分探索 3 回(器の --steps・--iters —— 規定步数に満たない走行は正本を書かず probe へ・3 段は走らない)' },
+  'nslock': { args: ['--only', 'psrDoubleABDFM', '--variants', 'builtin,lock', '--out', 'tests/out/_smoke-nslock-w272c.json'], out: 'tests/out/_smoke-nslock-w272c.json', sec: 17, fullSec: 733,
+    covers: '⚡ psrDoubleABDFM の変種 builtin・lock(h・h/2・h/4 —— 20 近点の窓)', note: '⚡ の 2 変種だけ(器の --only・--variants・--out —— 器の本文は変えない〔AN516 の影の照合の門 G1〕)' },
+  'emresolve-306c': { env: { W306C_LONG: '118', W306C_PARTS: 'solve,measure,phase,attrib', W306C_OUT: 'tests/out/_smoke-emresolve-w306c.json' }, out: 'tests/out/_smoke-emresolve-w306c.json', sec: 64, fullSec: 729,
+    covers: '段 solve・measure・phase・attrib を長窓 118 公転で(初期配置の解き直し・J₂ あり/なしの測定・起点の位相・寄与の分け)', note: '長窓 118 公転(既定 1062)・段 solve・measure・phase・attrib だけ(ledger・emo・record はフル)' },
+  'charoneps-h4': { args: ['--steps', '4140000', '--only', 'E_base_e0.05,E_diag_e0.5'], out: 'tests/out/charon-w272b-probe.json', sec: 34, fullSec: 721,
+    covers: 'ε 列 E_base_e0.05・E_diag_e0.5 を h/4 で 4140000 步(段の規定步数の 1/20 —— 約 3 公転)', note: 'ε 列 2 本・步数 1/20(器の --only・--steps —— 正本を書かず probe へ・charon-h2 の窓と同じ probe —— 同時に走らせない)' },
+  'baseline-304c': { env: { W304C_PARTS: 'emo', W304C_OUT: 'tests/out/_smoke-baseline-w304c.json' }, out: 'tests/out/_smoke-baseline-w304c.json', sec: 47, fullSec: 685,
+    covers: '段 emo(🌔 の写し・h と h/2・引きずり ON の対照・🌦️ との差)', note: '段 emo だけ(solve・measure・record はフル)' },
+  'an336-306a': { env: { W306A_PARTS: 'A,M', W306A_OUT: 'tests/out/_smoke-an336-w306a.json' }, out: 'tests/out/_smoke-an336-w306a.json', sec: 195, fullSec: 721,
+    covers: '段 A(1PN + A1 の契約と標的)・M(水星の根 —— 正本の時刻で 87 s・フルの 12%)', note: '段 A・M だけ(移送 T・対ごとの行 R・門 G はフル —— エンジンを走らせる段はどれも M の根を読む)' },
+  // ==== 第323便c の塊(ここまで)====
   // ==== 第311便b の塊(ここまで)====
 });
 
 /** 煙試験の全段に渡す既定(子プロセスの並列数を 1 に —— 器の注記どおり結果は並列数に依らない・箱を 2 レーンより多く占めない)。 */
 export const SMOKE_ENV_DEFAULTS = Object.freeze(Object.fromEntries(['W284A', 'W285A', 'W286A', 'W287A', 'W288A', 'W292C', 'W293D', 'W293E', 'W295C', 'W296B', 'W297B',
   'W298C', 'W299C', 'W300C'].map((k) => [k + '_WORKERS', '1'])));
+
+// ==== 第323便c の塊(ここから)====
+/** 第323便c(R277): 窓の cmd を持つ段の器(窓の cmd の `node tests/exp-*.mjs`)。窓の cmd が無ければ null。 */
+export function w323cKnobHarness(key) {
+  const k = SMOKE_KNOBS[key];
+  if (!k || typeof k.cmd !== 'string') return null;
+  const m = /^(?:[A-Z0-9_]+=\S+\s+)*node (tests\/exp-[\w.-]+\.mjs)(?:\s|$)/.exec(k.cmd);
+  return m ? m[1] : null;
+}
+/** 第323便c(R277): 窓の走行の cmd —— 窓の cmd があればそれ・無ければ段の cmd(最初の器)に窓の引数 args を足す(引数は空白を含まない語だけ)。 */
+export function w323cKnobCmd(baseCmd, knob) {
+  if (knob && typeof knob.cmd === 'string') return knob.cmd;
+  const a = (knob && Array.isArray(knob.args)) ? knob.args : [];
+  for (const x of a) if (!/^[\w.,:=\/+-]+$/.test(String(x))) throw new Error('窓の引数に空白か記号がある: ' + x);
+  return a.length ? baseCmd + ' ' + a.join(' ') : baseCmd;
+}
+/** 第323便c(R277): 窓の枠(秒)—— 窓の秒 sec を持つ行は max(--budget, sec × 2 + 30)(窓が終わるまで —— 指紋は完走した窓で取る)・無い行は --budget のまま。 */
+export function w323cKnobLimit(knob, budget) {
+  return (knob && Number.isFinite(knob.sec) && knob.sec > 0) ? Math.max(budget, knob.sec * 2 + 30) : budget;
+}
+// ==== 第323便c の塊(ここまで)====
 
 const argv0 = process.argv.slice(2);
 const getArg = (argv, k, d) => { const i = argv.indexOf(k); return (i >= 0 && argv[i + 1] !== undefined) ? argv[i + 1] : d; };
@@ -220,7 +283,10 @@ function harnessOf(st) {
   if (st.alwaysRun) return { skip: '常時群(鎖の先頭で必ず走る)' };
   if ((st.htmlRegions || []).length && st.htmlWriteMode !== 'check') return { skip: 'html の生成領域を書く段' };
   const m = /^(?:[A-Z0-9_]+=\S+\s+)*node (tests\/exp-[\w.-]+\.mjs)(?:\s|$)/.exec(st.cmd);
-  if (!m || /[(（]/.test(st.cmd.split(' && ')[0].replace(/\$BASE_HTML/g, ''))) return { skip: '鎖の脚本の段(cmd が器 1 本でない)' };
+  if (!m || /[(（]/.test(st.cmd.split(' && ')[0].replace(/\$BASE_HTML/g, ''))) {
+    const w323cKc = w323cKnobHarness(st.key);   // 第323便c: cmd が器 1 本でない段(手動の段 emgrid)は窓の cmd の器で選び・走らせる
+    return w323cKc ? { harness: w323cKc } : { skip: '鎖の脚本の段(cmd が器 1 本でない)' };
+  }
   return { harness: m[1] };
 }
 /**
@@ -423,7 +489,7 @@ function runOne(row, o) {
     const env = Object.assign({}, process.env, SMOKE_ENV_DEFAULTS, { TMPDIR: o.tmpDir, GIT_OPTIONAL_LOCKS: '0', QA_TARGET: 'beta/index.html' }, o.gitDir ? { GIT_DIR: o.gitDir } : {},
       knob ? knob.env : {}, o.baseRel ? { BASE_HTML: o.baseRel } : {});
     if (!env.PLAYWRIGHT_CORE_DIR && fs.existsSync('/opt/node22/lib/node_modules/playwright')) env.PLAYWRIGHT_CORE_DIR = '/opt/node22/lib/node_modules/playwright';
-    const cmd = row.cmd.split(' && ')[0].replace(/\$BASE_HTML/g, '"$BASE_HTML"');
+    const cmd = w323cKnobCmd(row.cmd.split(' && ')[0].replace(/\$BASE_HTML/g, '"$BASE_HTML"'), knob);   // 第323便c: 窓の cmd・引数
     const t0 = Date.now();
     const ch = spawn('bash', ['-c', cmd], { cwd: o.sandbox, env, detached: true, stdio: ['ignore', 'pipe', 'pipe'] });
     let stdout = '', stderr = '', killed = false, cutOut = null, cutErr = null;
@@ -432,7 +498,7 @@ function runOne(row, o) {
     ch.stderr.on('data', (d) => { stderr = cap(stderr, d.toString()); });
     const kill = () => { killed = true; cutOut = stdout.length; cutErr = stderr.length; try { process.kill(-ch.pid, 'SIGTERM'); } catch { /* 終わっている */ }
       setTimeout(() => { try { process.kill(-ch.pid, 'SIGKILL'); } catch { /* 終わっている */ } }, 3000).unref(); };
-    const limit = full ? Math.max(o.budget, Number(row.sec) * 1.5 + 30) : o.budget;
+    const limit = full ? Math.max(o.budget, Number(row.sec) * 1.5 + 30) : w323cKnobLimit(knob, o.budget);   // 第323便c: 窓の秒(sec)を持つ行は窓が終わるまで
     const tm = setTimeout(kill, limit * 1000);
     ch.on('close', (rc) => {
       clearTimeout(tm);
@@ -451,8 +517,11 @@ function runOne(row, o) {
       }
       const bc = (outOk === false || (!killed && rc !== 0)) ? baseCanonOf(row, o) : { ok: null, falseGates: [] };
       const j = judgeOutput({ stdout, stderr, rc: killed ? null : rc, killed, outOk, outFalse: [...outFalse].sort(), baseOk: bc.ok, baseFalse: bc.falseGates, cutOut, cutErr });
-      resolve({ key: row.key, harness: row.harness, prio: row.prio, mode: knob ? 'knob' : (full ? 'full' : 'cap'), knob: knob ? knob.note : null,
-        rc: killed ? null : rc, killed, sec: +sec.toFixed(1), limitSec: Math.round(limit), verdict: j.verdict, why: j.why });
+      const x = { key: row.key, harness: row.harness, prio: row.prio, mode: knob ? 'knob' : (full ? 'full' : 'cap'), knob: knob ? knob.note : null,
+        rc: killed ? null : rc, killed, sec: +sec.toFixed(1), limitSec: Math.round(limit), verdict: j.verdict, why: j.why };
+      // 第323便b: --fingerprint —— 窓の出力の物理の値の指紋(fpCapture323)
+      if (o.fp) { try { x.fp = fpCapture323(row, x, { o, t0, knob, stdout }); } catch (e) { x.fp = { key: row.key, fingerprint: null, why: '指紋が引けない: ' + String(e && e.message || e).slice(0, 120) }; } }
+      resolve(x);
     });
   });
 }
@@ -635,6 +704,74 @@ export function smokeWideSelfTest() {
 }
 // ==== 第322便d の塊(ここまで)====
 
+// ==== 第323便b の塊(ここから)====
+// 第323便b(原仮定者の指示(2026-11-01)・決断事項 AN517/AN518・統括の検証項目 R276): **窓の出力の指紋の記録**(`--fingerprint <記録>`)。
+//   簡易一致確認(β —— 理由が「領域」だけの段を簡易の窓で走らせ、前回のフルのときに同じ窓で取った指紋と同じなら物理の値はそのまま)の**材料**を、
+//   煙試験の写し(scratch —— 正本は書かない)で窓を走らせて取る。段ごとに: 窓の環境(SMOKE_KNOBS の行か段の宣言 quickWindow)・この走行で書いた出力
+//   (段の outs と、窓の環境が名指す tests/out/*.json —— 写しの中で走行の後に書かれたものだけ)の物理の値の hash(tests/lib-w323b-quick.mjs の physSha —— meta・
+//   除外 Pointer・来歴と時刻・実行時刻と壁時計の欄名を除く)と、それらの指紋・窓の秒・器と lib の sha・html の sha・**その時点の木の正本**の物理の値の hash。
+//   指紋は判定が ok(か既知)で枠で止めず出力を書いた走行だけ(それ以外は fingerprint:null と理由)。記録は既にある記録へ段の行を入れる(他の段は残す)。
+//   --base も --keys も無ければ、窓のある段(簡易一致を使わない段 —— 常時群・較正の判定・html を書く段・quickVerify:false —— を除く)を全部選ぶ。
+async function fpLib323(root) { return import(pathToFileURL(path.join(root, 'tests', 'lib-w323b-quick.mjs')).href); }
+/** 窓のある段(簡易一致を使わない段を除く)。 */
+async function fpSelect323(rows, root) {
+  const Q = await fpLib323(root);
+  const L = await libs(root);
+  const cal = Q.calibrationSteps({ steps: L.RT.REGEN_STEPS, root });
+  return rows.filter((r) => {
+    const st = L.RT.REGEN_STEPS.find((z) => z.key === r.key);
+    return st && r.harness && Q.stepWindow(st, SMOKE_KNOBS) && !Q.staticExclusion(st, cal);
+  });
+}
+/** 記録の文脈(lib・表・html の sha・便)。 */
+async function fpContext323(root, html) {
+  const Q = await fpLib323(root);
+  const L = await libs(root);
+  let rev = null; try { rev = execFileSync('git', ['-C', root, 'rev-parse', '--short', 'HEAD'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim(); } catch { rev = null; }
+  const text = fs.readFileSync(html, 'utf8');
+  const wave = Number((text.match(/BETA_BUILD\s*=\s*"v[\d.]+-b(\d+)"/) || [])[1]) || null;
+  return { Q, RT: L.RT, root, html, htmlSha: (await import('node:crypto')).createHash('sha256').update(text).digest('hex'), wave, rev };
+}
+/** 1 段の走行から記録の行を作る(runOne の後 —— 写しの中で走行の後に書かれた出力だけを読む)。 */
+function fpCapture323(row, x, c) {
+  const { Q, RT, root } = c.o.fp;
+  const st = RT.REGEN_STEPS.find((z) => z.key === row.key);
+  const win = st ? Q.stepWindow(st, SMOKE_KNOBS) : null;
+  const files = [];
+  const fresh = (rel) => { try { return fs.statSync(path.join(c.o.sandbox, rel)).mtimeMs >= c.t0 - 1000; } catch { return false; } };
+  const outs = row.outs || [];
+  for (const f of outs) if (/\.json$/.test(f) && fresh(f)) files.push({ file: f, as: f, sha: Q.physShaFile(path.join(c.o.sandbox, f), f) });
+  for (const v of Object.values((win && win.env) || {})) {
+    if (!/^tests\/out\/[\w.-]+\.json$/.test(String(v)) || outs.includes(v) || !fresh(v)) continue;
+    const as = outs.length === 1 ? outs[0] : v;   // 窓の出力の名を変える環境変数(*_OUT)—— 段の正本が 1 本ならその名で除外 Pointer を引く
+    files.push({ file: v, as, sha: Q.physShaFile(path.join(c.o.sandbox, v), as) });
+  }
+  const okRun = (x.verdict === 'ok' || x.verdict === 'known') && !x.killed && x.mode === 'knob';
+  const fp = okRun ? Q.windowFingerprint(files) : null;
+  const why = fp ? null : (x.mode !== 'knob' ? '窓の表 SMOKE_KNOBS に行が無い(' + x.mode + ' —— 段の宣言の窓は煙試験が使わない)'
+    : !okRun ? '判定 ' + x.verdict + (x.killed ? '(枠で止めた)' : '') : (files.length ? '出力が読めない' : '窓が出力のファイルを書かない(標準出力だけ)'));
+  const canon = {};
+  for (const f of outs) canon[f] = Q.physShaFile(path.join(root, f), f);
+  const cs = st ? Q.codeShaOf(st, root) : { sha: null, files: [] };
+  return { key: row.key, harness: row.harness, window: win ? { source: win.source, env: win.env, note: win.note } : { source: 'none', env: {}, note: '' }, mode: x.mode,
+    sec: x.sec, verdict: x.verdict, killed: !!x.killed, files: files.map((z) => ({ file: z.file, as: z.as, sha: z.sha })), fingerprint: fp, why,
+    stdoutNormSha: Q.stdoutNormSha(c.stdout), codeSha: cs.sha, codeFiles: cs.files.length, htmlSha: c.o.fp.htmlSha, canon, node: process.version,
+    at: new Date().toISOString(), wave: c.o.fp.wave, rev: c.o.fp.rev };
+}
+/** 記録を書く(既にある記録へ —— 段の行を置き換える)。 */
+function fpWrite323(file, res, ctx) {
+  const { Q } = ctx;
+  let prev = null; try { prev = JSON.parse(fs.readFileSync(file, 'utf8')); } catch { prev = null; }
+  const entries = res.map((r) => r.fp).filter(Boolean);
+  const doc = Q.mergeRecord(prev, entries, { wave: ctx.wave, rev: ctx.rev, html: path.relative(ctx.root, ctx.html), htmlSha: ctx.htmlSha, node: process.version, at: new Date().toISOString() });
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, JSON.stringify(doc, null, 1) + '\n');
+  const n = entries.length, nfp = entries.filter((e) => e.fingerprint).length;
+  const summary = { file, wrote: n, fingerprinted: nfp, noFingerprint: entries.filter((e) => !e.fingerprint).map((e) => e.key + ':' + e.why), total: Object.keys(doc.steps).length };
+  return { summary, line: `harness-smoke --fingerprint: ${n} 段を記録(指紋 ${nfp}・指紋なし ${n - nfp})→ ${file}(記録の段 ${summary.total})` };
+}
+// ==== 第323便b の塊(ここまで)====
+
 // ---------------------------------------------------------------------------------------------
 // main
 // ---------------------------------------------------------------------------------------------
@@ -652,13 +789,17 @@ async function main(argv) {
   const htmlOverride = rel(getArg(argv, '--html', null));
   const baseRev = getArg(argv, '--base-rev', null);
   const lanes = Number(getArg(argv, '--lanes', 2));
-  const budget = Number(getArg(argv, '--budget', 90));
+  // 第323便b: --fingerprint の既定の枠は 1 段 900 s・全体 150 min(窓を最後まで走らせないと指紋が取れない —— 第323便b の試走で 90 s の枠に当たった窓がある)
+  const fpMode = argv.includes('--fingerprint');
+  if (fpMode && !argv.includes('--max-minutes')) argv = argv.concat(['--max-minutes', '150']);
+  const budget = Number(getArg(argv, '--budget', fpMode ? 900 : 90));
   const maxMinutes = maxMinutesOf(argv);   // 第322便d: --wide の既定は 90 min(maxMinutesOf)
   const keysArg = getArg(argv, '--keys', null);
   const indirect = argv.includes('--indirect');
   const wide = argv.includes('--wide') || indirect;
   const listOnly = argv.includes('--list');
-  if (!baseHtml && !keysArg) { console.error('harness-smoke: --base <基点 html>(か --keys)が要る'); process.exit(2); }
+  const fpFile = getArg(argv, '--fingerprint', null);   // 第323便b
+  if (!baseHtml && !keysArg && !fpFile) { console.error('harness-smoke: --base <基点 html>(か --keys・--fingerprint)が要る'); process.exit(2); }
   const outDir = path.resolve(getArg(argv, '--out-dir', path.join(os.tmpdir(), 'harness-smoke-' + new Date().toISOString().replace(/[:.]/g, '').slice(0, 15))));
   const L = await libs(root);
   const nowHtml = htmlOverride || path.join(root, 'beta', 'index.html');
@@ -678,6 +819,7 @@ async function main(argv) {
   const rows = classifySteps({ root, now, cs, codeChanged, indirect, L });
   let sel;
   if (keysArg) { const want = keysArg.split(','); sel = rows.filter((r) => want.includes(r.key) && r.harness); for (const r of sel) if (!r.prio) r.prio = 1; }
+  else if (fpFile && !baseHtml) { sel = await fpSelect323(rows, root); for (const r of sel) if (!r.prio) r.prio = 1; }   // 第323便b: 窓のある段を全部
   else sel = rows.filter((r) => r.prio > 0 && (r.prio <= PRIO.all || (r.prio === PRIO.hub && wide) || (r.prio === PRIO.closure && indirect)));
   sel.sort((a, b) => a.prio - b.prio || (Number(a.sec) || 0) - (Number(b.sec) || 0));
   const cnt = (f) => sel.filter(f).length;
@@ -707,13 +849,16 @@ async function main(argv) {
   console.log(`  写し ${sandbox}(git ${gitDir || 'なし'})・レーン ${lanes}・枠 ${budget} s・全体の枠 ${maxMinutes} min`);
   const baseRel = baseHtmlForSandbox(root, sandbox, baseHtml);
   if (baseHtml) console.log(`  器に渡す基点 html(BASE_HTML —— 写しの根からの相対): ${baseRel}`);
-  const res = await runPool(sel, { root, sandbox, logDir, tmpDir, gitDir, lanes, budget, maxMinutes, baseRel, baseRev }, console.log);
+  const fpCtx = fpFile ? await fpContext323(root, nowHtml) : null;   // 第323便b
+  const res = await runPool(sel, { root, sandbox, logDir, tmpDir, gitDir, lanes, budget, maxMinutes, baseRel, baseRev, fp: fpCtx }, console.log);
   // 第322便d: 終わりの行(未実行の段があれば「未完」—— smokeSummary)
   const sm = smokeSummary(res, sel.length, { elapsedMin: (Date.now() - T0) / 60000, logDir, maxMinutes });
   const ng = sm.ng, summary = sm.line;
   console.log(summary);
   if (sm.rest) console.log(sm.rest);
   Object.assign(plan, { results: res, summary, ok: ng === 0, complete: sm.complete, notRun: sm.notRun, notRunKeys: sm.notRunKeys, maxMinutes, elapsedMin: +((Date.now() - T0) / 60000).toFixed(2) });
+  // 第323便b: 指紋の記録(既にある記録へ段の行を入れる —— 他の段は残す)
+  if (fpFile) { const w = fpWrite323(rel(fpFile), res, fpCtx); console.log(w.line); plan.fingerprint = w.summary; }
   fs.writeFileSync(path.join(outDir, 'smoke.json'), JSON.stringify(plan, null, 1));
   const js = getArg(argv, '--json', null); if (js) fs.writeFileSync(path.resolve(js), JSON.stringify(plan, null, 1));
   if (!argv.includes('--keep')) fs.rmSync(sandbox, { recursive: true, force: true });

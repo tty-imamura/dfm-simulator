@@ -4494,3 +4494,31 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **qapart の `--batch N`**: 鍵を N 鍵ずつの束に分け、束ごとに子の Node と Chromium を作り直す(既定は従来どおり 1 本)。
 - これらは開発の道具で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
 
+## 167. 第323便a —— QA の道具: 規約の速い判定 `tools/conventions-check.mjs`・部分 QA(qapart)の要求した鍵の照合・部分 QA で走らなかった鍵の直し(統括の検証項目 R275・原仮定者の指示(2026-11-01)「今後は、すぐに確認可能な規約を先に判定する」・**html・本の宣言・エンジン・鎖の段の宣言は不変** —— 道具と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
+
+- **規約の速い判定**: `node tools/conventions-check.mjs [--target <html>]… [--samplestatus] [--json <file>] [--self-test]` が html を Node で読み、① c₀ の規約(全内蔵が c₀ = 30 か、自分の scaleExp〔無ければ段のアンカー〕の指数で実 c の ±1% —— QA light.canonical-builtins と同じ式)② 段の分類(QA preset.scale-tier と同じ式)③ 全内蔵の受理(拒否 0)④ X_k = G_0/c_0²(鍵 kappaT)を満たす本の数(情報 —— 満たさない本は一般化トイの設定として正当)を数秒で判定する。`--samplestatus` は samplestatus の器を一時の置き場へ書かせて html の生成領域が冪等か(htmlChanged:false)を見て、器が書く正本と一覧 md を走る前の bytes に戻す。終了コード 0 / 1(規約の外・冪等でない)/ 2(使い方・道具の誤り —— 道具の式と qa.mjs の式が文字か値で食い違うときも)。統合の直後の tools/post-merge-qa.sh の ⓪(NG なら ① 以降を走らせない)。
+- **qapart の要求した鍵の照合**: `tests/exp-w258c-qapart.mjs` は走行の終わりに要求した鍵と結果の鍵を照らし、結果に無い鍵を SKIP(走行中の `SKIP …`・`RETIRED …` の行が名指す —— PASS に数えない)か**未実行**(`FAIL <id>  未実行 —— Requested QA did not execute in qapart` —— FAIL として数える)に分ける。終わりの行は「PASS n・FAIL n・SKIP n・未実行 n」・終了コードは FAIL か未実行で 1(SKIP だけなら 0 —— `--strict-skip` で 1)。`--batch` の要約も同じ 4 つの数。
+- **部分 QA で走らなかった鍵**: 列 0 の `if (…) {`・`for (…) {` の中の鍵と最上位の文の鍵は、その add の行を含む列 0 の最上位の文を切り出す。範囲が読む上流の最上位の const・関数宣言(ガードの旗・getBrowser など)は前文へ写す。写せないのは W5c のワーカープール(w5cGetUnit)を読む範囲だけ(フル QA が見る)。
+- これらは開発の道具で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。部分 QA の通過数はフル QA の被覆ではない。
+
+## 168. 第323便b —— 再生成の計画: 順序だけの依存で再判定を広げない・gate の速い判定と行だけの `--gate`・簡易一致確認の影・窓の出力の指紋の記録・来歴 `meta.verify` の受理の口(原仮定者の指示(2026-11-01)・決断事項 AN517・AN518・統括の検証項目 R276・**html・本の宣言・エンジン・段の行・器の領域の宣言は不変** —— 道具と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
+
+- **順序だけの依存**: 再生成表の after の辺を data / html / order に機械で分ける(`tests/lib-w281a-regentable.mjs` の afterDepKinds —— 版 w323b-afterkind-1・段の `afterOrderOnly` / `afterData` で手で上書き)。計画(`tools/regen-plan.mjs`)は順序だけの辺で recheck を広げない(その段は reuse のまま hold —— 鎖では gate のまま)。第322便の鎖 2 の場面で recheck 75 → 14。
+- **gate の速い判定**: 鎖の gate は、計画の自分の判定が reuse・html が計画の sha のまま・データの上流が 1 つも走っていない なら `--gate` を呼ばずに再利用する(同じ答え —— `REGEN_FASTGATE=0` で毎回 `--gate`)。`--gate <段>` はその段の行だけを引く(`--gate-full` で全段)。
+- **簡易一致確認の影**(判定だけ —— 本便の鎖はフル): `tests/lib-w323b-quick.mjs` の quickShadow が、理由が「領域」だけの段のうち 簡易一致を使わない段(常時群・較正の判定・html を書く段・`quickVerify:false`・`quickVerify:'long'` と步の関数か受理器か `S._core` の変わった便)でなく・簡易の窓と指紋の記録があり・K 便以内(K = 3)・root 昇格の便でない段を候補にし、輪番で ceil(n/K) 段をフルへ回す影の表を出す。
+- **窓の指紋の記録**: `node tools/harness-smoke.mjs --fingerprint tests/data-w323b-quickfp.json`(鎖の後に 1 回・コミットする作業記録 —— 正本ではない)。次の便の影の照合は `node tools/regen-plan.mjs --shadow-compare <前の記録>`(誤判定 = 窓が同じなのに物理の値が違った段 —— 門 0)。
+- **来歴 `meta.verify`**(本運用の便から): β は形を照合して受理・root は quick を拒否(root 昇格の便は全段フル)。本便の正本は verify を持たない。
+- これらは開発の道具で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
+
+## 169. 第323便c —— 器: 窓の無い大きい 16 段の簡易の窓・synodic-299b の子プロセス 3 本・領域の宣言の無い段の REGEN_SCOPE(決断事項 AN517・AN518・AN480・統括の検証項目 R277・**html・本の宣言・エンジン・受理の判定・`S._core` は不変** —— 器と道具と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
+
+- **簡易の窓**(AN517・AN518): 再生成の鎖で秒の大きい 16 段に、短い走行の窓を煙試験の窓の表 `tools/harness-smoke.mjs` の `SMOKE_KNOBS` に置いた(器に元から在る環境変数と引数 —— 器の本文は変えていない。dragcore292 だけは窓の器 `tests/exp-w323c-dragcorequick.mjs`)。窓は「前回のフル走行の同じ窓の指紋」と照らす簡易一致の材料で、正本の値そのものではない。
+- **synodic-299b**(AN480): 器 `tests/exp-w299b-synodic.mjs` は既定で段(scan・long・longh2・sun3d・fit・aps)を子プロセス最大 3 本に分けて走らせ、親で同じ並びに組み立てる(`W299B_WORKERS` —— 既定 3・1 なら 1 プロセス)。3 本と 1 本の正本は時刻・所要の欄の外で同じ。
+- **領域の宣言**: 領域の宣言の無かった小さい段のうち 13 段の器に REGEN_SCOPE(器と lib から機械で引いた下限)を足し、正本の meta に刻んだ(本の宣言だけの変更で html 全体の段として毎回走らせ直さないため)。
+- これらは開発の道具で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
+## 170. 第323便d —— 較正の行の安定した id(読込の互換 —— 決断事項 AN428 ①)・部分の再検査の補足の記録(統括の検証項目 R278・原仮定者の指示(2026-11-01)「サンプルの変更だけでは、全行程を再実行しない様にする」・**html・本の宣言・エンジン・検定器と QA の判定の鍵は不変** —— 器と lib と道具と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
+
+- **行の安定した id**(`rowId`): 判定器の正本(`tests/out/calaudit-w249.json`)の量の行は、行名(観測結果カードの行名そのまま)に加えて `rowId` を持つ。来歴の語を含む行名(在位と退役の較正の本 16 本の 33 行)は表 `LEGACY_ROW_IDS`(`tests/lib-w323d-rowids.mjs` —— 版 w323d-rowids-1)の読める id(例 `mercuryReal/perihelion-advance`)、それ以外は本の id と行名の hash から導いた id(`<本>/q-<12 桁>`)。正本の要約 `rowIds` に数と出どころがある。
+- **読込の互換**(① —— 本便): 読み手は行名と id の両方を読む(判定器の行の測定定義・h/4 の例外の照合)。判定(4 値の台帳・量の 5 区分・門・差)は id を足す前と同じ。② は検定器と QA を id へ切り替える便、③ は行名から来歴の語を外す便(旧い名は表の別名に残る —— 過去の正本と凍結の写しは書き換えない)。
+- **部分の再検査の補足の記録**(`tools/qa-recheck-record.mjs` —— 版 w323d-recheck-1): 保存のフル QA の FAIL を直した後に、フルを繰り返さずに FAIL の ID だけを部分 QA で再検査したとき、元のフルの参照(ファイルの sha256・html の sha256・PASS/全体・FAIL の ID)・直したファイルの sha256・検査のコードの sha256・再検査の結果(PASS・FAIL・SKIP・未実行)・結論を `tests/out/qa-recheck-beta.json`(1 本の追記型)に書く。**保存のフルの結果は書き換えない**。SAMPLE_STATUS の「保存 QA の来歴」の行は、補足が今の保存のフルを指すときだけ「保存のフル n/N + 部分の再検査 k/K(ID)」を足す(無ければ今と同じ)。
+- これらは開発の道具と来歴の欄で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。

@@ -128,6 +128,9 @@ import { scopeHash as w284cScopeHash } from './lib-w281a-scope.mjs';
 import { SHARD_VERSION, jobKey, parseShardArgs, makeDump, writeDump, readDump, collectDumps, sameClone } from './lib-w284f-calshard.mjs';
 // 第286便f(原仮定者の裁定(第76報)AN44): 量ごとの窓と誤差予算の**宣言表**(tests/data-w286f-budget.json)を読むだけ —— 行の `budget` 欄へ写す(門の規則は変えない)
 import { loadBudgetTable, resolveBudget, compactBudget, auditBudgetTable, BUDGET_TABLE_FILE, BUDGET_LIB_VERSION } from './lib-w286f-budget.mjs';
+// 第323便d(決断事項 AN428 ①・統括の検証項目 R278): **行の安定した id**(読込の互換 —— 旧い行名と新しい鍵 rowId の両方を読む)。
+//   量の行へ `rowId` を書き足すだけで、門・5 区分・4 値の台帳・残差は読まない・変えない(tests/lib-w323d-rowids.mjs)
+import { ROW_ID_VERSION, ROW_ID_FIELD, ROW_ID_RULE, attachRowIds, renameMapOf, rowMatches, rowDefRowIdOf, h4ExceptionCompat } from './lib-w323d-rowids.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -166,6 +169,7 @@ const MEASUREMENT_CODE_FILES = [
   'tests/lib-w279b-headless.mjs',
   'tests/lib-w284f-calshard.mjs',
   'tests/lib-w289b-contractrange.mjs',   // 第289便b(AN100): 契約範囲外の評価器
+  'tests/lib-w323d-rowids.mjs',   // 第323便d(AN428 ①): 行の安定した id(読込の互換)
 ].sort();
 // 第289便b(原仮定者の裁定(第79報)で閉じた AN104・統括の検証項目 R120): **宣言し直した行の表**(旧行名 → 新行名・条件欄)。判定には使わない ——
 //   行の要求条件は obsCard の条件欄 cond(declaredCondition)が決める。この表は正本の行へ**旧行名の履歴**(redeclaredFrom)を写すためだけに読む
@@ -663,9 +667,14 @@ const D68_PERIOD_DEF_NOTE = '**観測側(Cassini の解析)が「D68 の周期�
   + '**「D68 が合/否」とは書かない**(📡 の門の否(3σ)は**近点移動の行**であり、'
   + 'この 3 つの周期定義とは別の量である)。';
 // 行名から契約を引く(**宣言列挙の部分一致**であって、閾値でも自動判定でもない)。
+// 第323便d(AN428 ①): **読込の互換** —— 宣言の行の安定した id(下の表 —— 本の id と `match` から引く)か、従来の `match`(行名の部分一致)の
+//   どちらかで同定する(今は id を旧い行名から導くので、両方が同じ行を指す)。id は宣言の object に足さない(宣言は写像の指紋 mappingSigOf と
+//   正本の periodContract に入る —— 足すと h/4 の転記の契約が動く)。🌘 earthMoonRealKF1 の行名は第316便b で来歴の語が外れて `match` が当たらない
+//   —— 原理の本で母集団の外なので id を宣言しない(挙動を変えない)。
+//   表は tests/lib-w323d-rowids.mjs の ROW_DEF_ROW_IDS(QA lint.provenanceIds323 が正本の行で「id と match が同じ行を指す」を確かめる)。
 function rowMeasurementDef(id, name) {
   const s = String(name || '');
-  for (const z of ROW_MEASUREMENT_DEF) if (z.id === id && s.indexOf(z.match) >= 0) return z;
+  for (const z of ROW_MEASUREMENT_DEF) if (z.id === id && rowMatches(id, s, { rowId: rowDefRowIdOf(z.id, z.match), match: z.match })) return z;
   return null;
 }
 
@@ -3980,7 +3989,7 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
     const moves = before ? before.rows.map((b) => {
       const a = now.find((z) => z.id === b.id && z.i === b.i && z.key === b.key && z.name === b.name) || null;
       const path0 = (b.kf0 || (a && a.kf0)) ? 'kf0' : 'main';   // kFrame=0 の対照走行を配った行は kf0 の経路
-      return { id: b.id, i: b.i, key: b.key, name: b.name, path: path0, exception: isH4Exception(b.id, path0, b.key, b.name),
+      return { id: b.id, i: b.i, key: b.key, name: b.name, path: path0, exception: h4ExceptionCompat(H4_EXCEPTIONS, b.id, path0, b.key, b.name),   // 第323便d(AN428 ①): 名前か行の id で(isH4Exception と同じ 4 つの一致 + id)
         stageBefore: b.stage, stageAfter: a ? a.stage : null, statusBefore: b.status, statusAfter: a ? a.status : null,
         verdictBefore: b.verdict, verdictAfter: a ? a.verdict : null, missingAfter: !a };
     }) : [];
@@ -4519,6 +4528,18 @@ if (!TP_COPY) {
         : '0.3σ は提案値(合意済みの閾値ではない)。')
       + '窓不足・量の不一致を幅で救わない' };
   console.error(`[w286f] 窓と誤差予算の宣言表 ${BT.table.version}: ${nRows} 行へ写した(鍵の行 ${nEntry})・表の検査 ${au.ok ? 'ok' : au.bad.join(' / ')}`);
+}
+
+// ---------------------------------------------------------------- 第323便d(決断事項 AN428 ①・統括の検証項目 R278)
+// **量の行の安定した id**(`rowId`)。来歴の語を含む行名は表(tests/lib-w323d-rowids.mjs の LEGACY_ROW_IDS)の読める id、それ以外は
+// 本の id と行名(改名の表 tests/data-w289b-condrows.json で今の名へ寄せた後)の hash から導く。**行の他の欄は読まない・変えない**
+// (門・5 区分・4 値の台帳・残差・行名はこの前に確定している)。--merge で持ち越した行・過去の正本の形の行にも同じ規則で付ける。
+{
+  const RI = attachRowIds(out, { renames: renameMapOf(CONDROWS) });
+  out.rowIds = { since: '第323便d(決断事項 AN428 ①)', version: ROW_ID_VERSION, lib: 'tests/lib-w323d-rowids.mjs', field: ROW_ID_FIELD,
+    rule: ROW_ID_RULE, n: RI.n, bySource: RI.bySource, legacy: RI.legacy, duplicates: RI.duplicates,
+    says: '行の id を書き足しただけ —— 判定(門・5 区分・4 値)と行名は変えていない。読み手は行名と id の両方を読む(① —— 検定器と QA の鍵の切り替えは ②・行名から来歴の語を外すのは ③)' };
+  console.error(`[w323d] 行の id ${RI.n} 行(表 ${RI.bySource.legacy}・導出 ${RI.bySource.derived}・鍵 ${RI.bySource.key}・重なり ${RI.duplicates.length})`);
 }
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });

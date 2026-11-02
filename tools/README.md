@@ -10,6 +10,7 @@ tools/post-merge-qa.sh [--base beta/_wNNN_base.html] [--failed "id id …"] [--n
 
 統合(枝の取り込み)の直後に、壊れやすい所を短く一周する。順序は
 
+0. ⓪ 規約の速い判定(第323便a)— `node tools/conventions-check.mjs --target beta/index.html --target index.html`(`--no-root` なら beta だけ・数秒)。**NG なら ① 以降を走らせずに終了コード 1**(下の「conventions-check.mjs」)
 1. 静的受理 — `tests/qa-preflight.mjs`(beta・Chromium なし・**heap の上限 `--max-old-space-size=6144`** —— 第305便e)
 2. 接続契約 — `node tools/regen-chain.mjs --audit` と `--self-test`
 3. 前回失敗項 — `--failed` の id(無ければ `tests/out/qa-results-full-beta.json` の FAIL)を qapart で
@@ -21,7 +22,7 @@ tools/post-merge-qa.sh [--base beta/_wNNN_base.html] [--failed "id id …"] [--n
    `docs.families`・`ui.samplePicker`・`lint.provenanceMeta`・`ui.pickerSeparators` を qapart で beta と root(root では beta 線の新設ブロックは SKIP)
 5. 影響サンプルの短走 — `--base` があるとき `tests/exp-w258c-bitsame.mjs` の差分 ID(情報 —— 物理を変える枝では差が出て正しい)
 
-最後に 1 行(`post-merge-qa: ① … ② … ③ … ③′ … ④ beta p/n・root p/n(SKIP s)⑤ … 所要 N s → OK|FAIL`)を出す。ログは
+最後に 1 行(`post-merge-qa: ⓪ … ① … ② … ③ … ③′ … ④ beta p/n・root p/n(SKIP s)⑤ … 所要 N s → OK|FAIL`)を出す。ログは
 `$POST_MERGE_LOG`(既定 `${TMPDIR:-/tmp}/post-merge-qa-<時刻>`)。常設集合は `POST_MERGE_IDS` で差し替えられる。
 Playwright は `PLAYWRIGHT_CORE_DIR`(未設定なら `/opt/node22/lib/node_modules/playwright` があればそれ)。
 **フル QA・CI の代わりではない**。
@@ -161,6 +162,17 @@ node tools/harness-smoke.mjs --self-test            # 器を走らせない自�
 - 終わりの行: 未実行の段があれば `… —— 未完 —— 未実行 n 段(全体の枠 --max-minutes M の外 —— 走らせた段は問題なし・未実行の段は見ていない)` と、続く行に未実行の段の key(続きは `--keys` で)。
   「OK」とは並べない。smoke.json に `complete`・`notRun`・`notRunKeys`・`maxMinutes`。終了コードは従来どおり(例外・門の偽・NaN のときだけ 1)。
 
+**第323便c の窓(決断事項 AN517・AN518・統括の検証項目 R277 —— 窓の無い大きい 16 段の簡易の窓・道具の版はそのまま)**:
+- `SMOKE_KNOBS` の第323便c の塊に 16 段(shell-304b・emgrid・inertialr2-303b・periodn-306b・charon-h2・chainburst-301d・gfamily-305b・dragcore292・geo3・charonk・nslock・emresolve-306c・
+  earthmoon-303c・charoneps-h4・an336-306a・baseline-304c)。**器の本文は変えない** —— 器に元から在る環境変数(`*_PARTS`・`*_QUICK`・`*_LONG`・`*_PLANETS`・`*_ONLY`・`*_OUT`)と引数
+  (`--steps`・`--only`・`--iters`・`--variants`・`--out`・`--quick`・`--smoke`)で窓を開ける(器を変えるとその段と器を import する段が鎖で走らせ直しになる・nslock は AN516 の影の照合の門 G1 を保つ)。
+- 行の欄: `env`・`args`(段の cmd の器の後に足す引数)・`cmd`(cmd が器 1 本でない手動の段 emgrid と、窓を別の器に置いた dragcore292 の窓の cmd)・`out`(窓の出力 —— **走らせる前に消す**:
+  器が既存の出力の他の段を残す型のため)・`sec`(窓の秒の実測 —— 枠を `sec × 2 + 30` まで延ばす `w323cKnobLimit`)・`fullSec`・`covers`(窓が走らせる部分)。
+- dragcore292 の窓は別の器 `tests/exp-w323c-dragcorequick.mjs`(器 `tests/exp-w292c-dragcore.mjs` の書き出した関数 gates・childTask を同じ順に —— 純関数の自己試験・門・8 公転 1 本 ——
+  `W323C_DRAGCORE_OUT` が要る)。器の窓 `W292C_ONLY` は出力のファイルを書かないので指紋が取れない。
+- charon-h2 と charoneps-h4 の窓は同じ probe(`tests/out/charon-w272b-probe.json` —— 規定步数に満たない走行の落とし先)に書く —— **同時に走らせない**。
+- 表と記録は `tests/lib-w323c-quickwin.mjs`(PHYSICS〔第323便c〕の表 1〜3)・QA lint.quickWindows323・docs.w323c。
+
 ## pregate-transcript.mjs — ゲートの前の転記照合(第303便e)
 
 ```
@@ -221,7 +233,7 @@ PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright node tools/samplesta
   正本全体の門(器の版とコード・ページへ入れる lib・走行の窓・環境・核の hash・行の集合と順・全体集計・`--only` の範囲)が外れたら全走。`--plan` は門の評価を 1 行の JSON で印字して終わる(書かない)。
   **鎖の段の cmd は全走のまま**(影): 全走のときも前の正本で門を評価し、`[w272c-nslock] 影の照合 … 一致 n/m` を印字する(正本には書かない)。正本の meta に env・coreSha256・books・rowInputs・pageLibs・merge。
 - **qapart の束**: `node tests/exp-w258c-qapart.mjs --batch N <鍵…>` —— 鍵を切り出しの範囲の順に並べて N 鍵ずつの束に分け(範囲が重なる鍵は同じ束)、束ごとに子の Node と Chromium を作り直す。
-  終わりに `# --batch N: ALL PASS|FAILED —— 束 k・PASS p・FAIL f`(1 束でも FAIL か rc ≠ 0 なら終了コード 1)。既定(`--batch` なし)は従来どおり 1 本。`--emit <dir>` は走らせずに本文を書くだけ。
+  終わりに `# --batch N: ALL PASS|FAILED —— 束 k・PASS p・FAIL f`(1 束でも FAIL か rc ≠ 0 なら終了コード 1 —— **第323便a から要求した鍵の PASS・FAIL・SKIP・未実行の 4 つの数**: 下の「conventions-check.mjs」の節)。既定(`--batch` なし)は従来どおり 1 本。`--emit <dir>` は走らせずに本文を書くだけ。
   切り出しの本文は `tests/lib-w322d-qapart.mjs`(qaSpanner —— 器から移しただけ・生成する本文は移す前と 1 byte も違わない)。
 
 ## qa-keys.mjs — 版名 QA の鍵の抜き出し(第322便d)
@@ -236,5 +248,69 @@ for f in <scratch>/qakeys/qa-keys-*.txt; do node tests/exp-w258c-qapart.mjs $(ca
 - 鍵は `add('<id>'` のうち**コードの位置**にある静的な id(コメント・文字列・テンプレート・正規表現の中の `add('"'` などは拾わない)。範囲は qapart と同じ関数(qaSpanner)で取る。
 - 外す鍵: qapart の検索(`add('<id>'` を含む最初の行)がコメントか文字列の行に当たる・範囲が add の行を含まない(列 0 の `if (…) {` の中など)・範囲が取れない・
   **範囲の中のコードが w5cGetUnit を読む**(前後の add の位置でなく範囲そのもので判定 —— 第321便の pwa.sw-fail-ui → behavior.saturnExp)・範囲が qapart の前文に無い上流の最上位の名前を読む。
+  **第323便a から**(判定の世代 `QA_KEYS_W323A` = w323a-qa-keys-2 —— 範囲と上流の名前は lib の qaSpanner・upstreamOf): 列 0 の if/for の中と最上位の文の鍵は外さない(lib が切り出す)・上流の名前は**前文に写せない名前**(let/var・W5b の関数・add を呼ぶ宣言・w5cGetUnit を読む宣言)だけで外す。今の qa.mjs で外す鍵は 94 → 43(残りは全部 w5cGetUnit の範囲)。
 - 版名を読むブロック: 範囲のコメントを除いた本文(文字列は残す)が正規表現に合う(既定 `CHANGELOG`・`BETA_BUILD`・`APP_VERSION`・`sw\.js` —— `--re` で置き換え・`--re+` で足す・`--comments` でコメントも数える・`--ids+ a,b` で名指しを足す)。
 - 束: 50 鍵ずつ(`--chunk`)のファイル `qa-keys-<k>.txt`(1 行・空白区切り)と `index.json`(選んだ鍵・版名を読む範囲で外した鍵と理由)。`--list` は束を印字するだけ・`--self-test` は缶詰と今の qa.mjs で自己試験(QA docs.w322d)。
+
+## conventions-check.mjs — 規約の速い判定・qapart の要求した鍵の照合(第323便a —— 統括の検証項目 R275)
+
+原仮定者の指示(2026-11-01)「今後は、すぐに確認可能な規約を先に判定する」。**統括の 1 行(鎖の起動の前)**:
+
+```
+PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright node tools/conventions-check.mjs --samplestatus
+```
+
+- 判定(html を Node で読む・既定 `beta/index.html`・`--target` は繰り返し可 —— 相対か絶対のパス): ① c₀ の規約(QA `light.canonical-builtins` と同じ式 —— c₀ = 30 か、自分の scaleExp〔無ければ段のアンカー〕の指数で実 c の ±1%・既定値のマージも c₀ = 30)
+  ② 段の分類(QA `preset.scale-tier` と同じ式)③ 全内蔵の受理(拒否 0・警告のある本の数)④ X_k = G_0/c_0²(鍵 kappaT)を満たす本・満たさない本の数(**情報** —— FAIL にしない)。
+- 式は道具に写した —— 走るたびに qa.mjs の該当ブロックから式の本文を引き、文字(コメントと空白を除く)と値(全内蔵 + 合成の変異の本)で照らす(食い違えば終了コード 2)。
+- `--samplestatus`(beta だけ): samplestatus の器を `REGEN_HTML_STAGE` を一時の置き場にして走らせ(html を直に書かない)、htmlChanged:false を確かめる。器が書く `tests/out/samplestatus-w279a.json` と `docs/SAMPLE_STATUS.md` は走る前の bytes に戻す(前後の git status も照らす)。
+- 終了コード: 0 = 通る / 1 = 規約の外・冪等でない・器が落ちた / 2 = 使い方・html が読めない・qa.mjs の式が引けないか食い違う。`--json <file>` で結果・`--self-test` で式の照合と変異(♊⚖️ を c₀ = 10 に —— 2fd84b4 の型)の缶詰(QA `lint.conventionsCheck323`)。
+- post-merge の ⓪ はこの道具を beta と root で回す(`--samplestatus` は付けない —— 統合の直後は生成領域の作り直しが鎖の段にある)。
+
+qapart(`tests/exp-w258c-qapart.mjs`)の終わりの行は第323便a から **要求した鍵の PASS・FAIL・SKIP・未実行**の 4 つの数:
+
+- 結果に無い鍵は、走行中の `SKIP …`・`RETIRED …` の行が名指せば **SKIP**(PASS に数えない —— root で beta 線のブロックが SKIP するのは正常)、名指さなければ **未実行**(`FAIL <id>  未実行 —— Requested QA did not execute in qapart` —— FAIL として数える。
+  同じ対象の保存のフル QA にもその鍵の行が無ければ「この対象では走らない鍵の型」と注記)。名指しの型: 行の語が鍵と同じ・または `<接頭>*`・`<接頭>.` の語が鍵の接頭。
+- 終了コード: FAIL・未実行・同じ範囲の他の鍵の FAIL・範囲の例外のどれかで 1。SKIP だけなら 0(`--strict-skip` で 1)。要求した鍵 0 は 1。`--batch N` の終わりの行も同じ 4 つの数(子の `# qapart-summary {…}` の行を足す —— 行の無い束は要求した鍵を全部未実行に数える)。
+- 範囲は列 0 の `if (…) {`・`for (…) {` の中・最上位の文の鍵も切り出す(add の行を含む列 0 の最上位の文)。範囲が読む上流の最上位の const・関数宣言は前文へ写す。範囲ごとに try/catch で包む(例外の範囲の鍵は未実行・後の範囲は走り続ける)。
+  W5c のワーカープール(w5cGetUnit)は「呼べば例外」の代わりを置く —— その範囲の鍵は未実行(`tools/qa-keys.mjs` が外す)。
+- **部分 QA の通過数はフル QA の被覆ではない**(選んだ範囲だけ・ページの上流の状態はフル QA の順と違いうる)。
+
+## provenance-inventory.mjs — 来歴の語の一覧と行の id の表の被覆(第323便d —— 決断事項 AN428 ①・統括の検証項目 R278)
+
+html を Node で読み(物理は走らせない)、内蔵の全本の観測結果カードの行名(ja/en)・フィットの記録の文・退役の理由のうち、来歴の語(html 自身の判定 `PROV_TEXT_CLEAN.PROV_TEST`)を含む文字列を数え、行名ごとに読む側のファイル(器・lib・データ・凍結の写し・正本・QA・html の最上位の表)を数える。行の id の表(`tests/lib-w323d-rowids.mjs` の `LEGACY_ROW_IDS`)が一覧を覆わなければ rc 1。
+
+```
+node tools/provenance-inventory.mjs --md --json <scratch>/inventory.json      # 一覧と表の被覆
+node tools/provenance-inventory.mjs --calverdict <前の正本> <後の正本>         # 判定器の正本の判定の値の前後(差 0 で rc 0)
+node tools/provenance-inventory.mjs --calverdict-write <正本> tests/data-w323d-calverdict.json --rev <rev>   # 判定の値の記録(QA lint.provenanceIds323 ⑥)
+```
+
+## qa-recheck-record.mjs — 部分の再検査の補足の記録(第323便d —— 統括の検証項目 R278)
+
+保存のフル QA の FAIL を直した後、FAIL の ID だけを部分 QA(`tests/exp-w258c-qapart.mjs`)で再検査したときの来歴を `tests/out/qa-recheck-beta.json`(root は `qa-recheck.json` —— 1 本の追記型)に書く。保存のフルの結果は書き換えない。部分 QA の印字(`PASS`・`FAIL`・`SKIP` の行と `# 切り出し:`・`# 束 k/n:` の要求の鍵)を読み、要求したのに出ない鍵は未実行に数える。
+
+```
+TMPDIR=<scratch>/tmp node tests/exp-w258c-qapart.mjs lint.kappaSymbol315 > <scratch>/recheck.log
+node tools/qa-recheck-record.mjs --log <scratch>/recheck.log --fix docs/PHYSICS.md@<直した commit> --html beta/index.html   # 既定の出力 tests/out/qa-recheck-beta.json
+node tools/qa-recheck-record.mjs --check                       # 形の検査(QA lint.qaRecheck323 と同じ関数)
+```
+
+- `--fix <path>[@<rev>]`(直したファイル —— 文書・検査のコード): 直した後は `@rev` の版か作業木、直す前は保存のフルの commit の版。`--code`(既定 `tests/qa.mjs`)はフルの時点と再検査の時点の sha256 を並べる。
+- 結論の「閉じた」= フルの FAIL の全部が再検査で PASS・再検査に FAIL と未実行が無い・再検査がフルと同じ html の上。
+- samplestatus の器(`tests/exp-w279a-samplestatus.mjs`)は、記録が今の保存のフル(ファイルの sha256)を指すときだけ、SAMPLE_STATUS の「保存 QA の来歴」の行に 1 文を足す(試しは環境変数 `W323D_RECHECK=<記録>`)。根拠 ID の PASS の集合は保存のフルのまま(状況の判定は変えない)。
+
+## 第323便b —— 再生成の計画(原仮定者の指示(2026-11-01)・決断事項 AN517/AN518・統括の検証項目 R276)
+
+- **順序だけの依存**: 再生成表の after の辺を `data`(上流の書くファイルを正本の meta の入力か器の本文で読む・同じファイルを書く・上流の閉包の段の書くファイルを読む)・
+  `html`(上流は beta/index.html を書く段・自分は html を読む —— 他のファイルは読まない)・`order`(並べるだけ)に機械で分ける(`tests/lib-w281a-regentable.mjs` の afterDepKinds ——
+  版 w323b-afterkind-1・段の `afterOrderOnly` / `afterData` で手で上書き)。`regen-plan` は順序だけの辺で recheck を広げない(その段は reuse のまま `hold` —— 件数の行に
+  「recheck n(第322便までの伝播なら m)・hold k 段」)。`--all-edges` で第322便までの伝播。
+- **gate の速い判定**(鎖のシェル): 計画の自分の判定が reuse・html が計画の sha のまま(`PLAN_HTML_SHA` —— `REGEN_PLAN_HTML_SHA` で上書き)・データの上流が 1 つも走っていない →
+  `--gate` を呼ばずに再利用(済み印の 1 行目 `reuse <時刻> fast`)。html を書く段が html を実際に書き換えた鎖では従来どおり `--gate`。**`REGEN_FASTGATE=0` で毎回 `--gate`**・
+  `REGEN_FASTGATE=shadow` は影(判定は毎回 `--gate` —— `$REGEN_LOG/fastgate-shadow.txt` に「段 fast=reuse|no gate=<rc>」。fast=reuse で gate=0 の行が不一致)。
+- **`--gate <段>` は段の行だけ**を引く(全段の計画は `--gate-full`)。`regen-plan --base` は領域 hash を今の html → 基点の html の順に先に引く(計画の判定は同じ)。
+- **簡易一致確認の影**(判定だけ —— 鎖はフル): `regen-plan` と `regen-chain` が影の表(`plan.quickShadow` —— 領域だけの regen・候補・quick・輪番のフル・秒・外す理由)を出す。
+  `--fp-record <記録>`(既定 `tests/data-w323b-quickfp.json`)・`--K 3`・`--wave <便>`(既定は html の BETA_BUILD)・`--promote`(root 昇格の便 —— 全段フル)。
+- **窓の指紋の記録**: `node tools/harness-smoke.mjs --fingerprint tests/data-w323b-quickfp.json`(`--base`・`--keys` が無ければ窓のある段を全部 —— 簡易一致を使わない段は除く)。
+  鎖の後に 1 回。記録はコミットする作業記録(正本ではない —— lint は形だけ)。

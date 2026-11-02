@@ -3,18 +3,18 @@
  "what": "再生成表の現行の段のうち、器の領域の宣言(REGEN_SCOPE)が presets:\"all\" の段の理由の一覧(決断事項 AN394 —— 絞らない・記録だけ)。理由は器と lib の本文の allPresets() / BUILTIN_PRESETS の使い方(行は書いた時点の行 —— 照合は段・種類・見込みだけ)。namedIds は本文が文字列で名指す内蔵の本の ID(絞るときの候補)",
  "tool": "node tools/regen-chain.mjs --scope-all --write",
  "counts": {
-  "steps": 40,
-  "harnesses": 40,
+  "steps": 45,
+  "harnesses": 45,
   "byProspect": {
-   "enumerates": 34,
+   "enumerates": 39,
    "narrow-now": 6
   },
   "byKind": {
-   "filter": 16,
+   "filter": 17,
+   "count": 3,
+   "iterate": 10,
    "map": 2,
    "declared-wide": 6,
-   "count": 2,
-   "iterate": 6,
    "value": 12,
    "find-via-var": 1
   }
@@ -66,6 +66,57 @@
    "prospect": "enumerates"
   },
   {
+   "key": "qsplit",
+   "harness": "tests/exp-w271c-qsplit.mjs",
+   "derivedAll": true,
+   "kinds": [
+    "count",
+    "iterate"
+   ],
+   "reasons": [
+    {
+     "file": "tests/exp-w271c-qsplit.mjs",
+     "line": 234,
+     "use": "(値)",
+     "kind": "iterate",
+     "via": "harness",
+     "text": "for (const p of HP.allPresets()) {"
+    },
+    {
+     "file": "tests/exp-w271c-qsplit.mjs",
+     "line": 243,
+     "use": "length",
+     "kind": "count",
+     "via": "harness",
+     "text": "O.builtins = rows; O.builtinCount = HP.allPresets().length;"
+    }
+   ],
+   "namedIds": [],
+   "nNamed": 0,
+   "prospect": "enumerates"
+  },
+  {
+   "key": "nslockledger",
+   "harness": "tests/exp-w273c-nslockledger.mjs",
+   "derivedAll": true,
+   "kinds": [
+    "iterate"
+   ],
+   "reasons": [
+    {
+     "file": "tests/exp-w273c-nslockledger.mjs",
+     "line": 51,
+     "use": "(値)",
+     "kind": "iterate",
+     "via": "harness",
+     "text": "for (const p of HP.allPresets()) {"
+    }
+   ],
+   "namedIds": [],
+   "nNamed": 0,
+   "prospect": "enumerates"
+  },
+  {
    "key": "shapecrit",
    "harness": "tests/exp-w275d-shapecrit.mjs",
    "derivedAll": true,
@@ -91,6 +142,53 @@
    "prospect": "enumerates"
   },
   {
+   "key": "presetaxes",
+   "harness": "tests/exp-w275a-presetaxes.mjs",
+   "derivedAll": true,
+   "kinds": [
+    "iterate"
+   ],
+   "reasons": [
+    {
+     "file": "tests/exp-w275a-presetaxes.mjs",
+     "line": 54,
+     "use": "(値)",
+     "kind": "iterate",
+     "via": "harness",
+     "text": "for (const p of HP.allPresets()) {"
+    }
+   ],
+   "namedIds": [],
+   "nNamed": 0,
+   "prospect": "enumerates"
+  },
+  {
+   "key": "bgpredict",
+   "harness": "tests/exp-w276a-bgpredict.mjs",
+   "derivedAll": true,
+   "kinds": [
+    "iterate"
+   ],
+   "reasons": [
+    {
+     "file": "tests/exp-w276a-bgpredict.mjs",
+     "line": 140,
+     "use": "(値)",
+     "kind": "iterate",
+     "via": "harness",
+     "text": "for (const src of HP.allPresets()) {"
+    }
+   ],
+   "namedIds": [
+    "galaxyMeshSpiralGeoToy",
+    "galaxyMeshSpiralGeoToyLite",
+    "plutoCharonReal",
+    "saturn"
+   ],
+   "nNamed": 4,
+   "prospect": "enumerates"
+  },
+  {
    "key": "d68",
    "harness": "tests/exp-w280e-d68.mjs",
    "derivedAll": true,
@@ -111,6 +209,31 @@
     "saturnD68Consistent",
     "saturnD68ObsOrbit",
     "saturnZonalD68"
+   ],
+   "nNamed": 3,
+   "prospect": "enumerates"
+  },
+  {
+   "key": "rotorledger",
+   "harness": "tests/exp-w281c-rotorledger.mjs",
+   "derivedAll": true,
+   "kinds": [
+    "filter"
+   ],
+   "reasons": [
+    {
+     "file": "tests/exp-w281c-rotorledger.mjs",
+     "line": 86,
+     "use": "filter",
+     "kind": "filter",
+     "via": "harness",
+     "text": "const nDeclared = HP.allPresets().filter((q) => q.massLedger !== undefined).map((q) => q.id);"
+    }
+   ],
+   "namedIds": [
+    "darkrotor",
+    "gas",
+    "ngc3198DFM"
    ],
    "nNamed": 3,
    "prospect": "enumerates"

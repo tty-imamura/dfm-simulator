@@ -19,6 +19,12 @@
 //   --re <正規表現>(繰り返し可 —— 既定の 4 つを置き換える)/ --re+ <正規表現>(既定に足す)/ --ids+ a,b(正規表現に依らず足す —— qapart で引けるものだけ)/
 //   --comments(コメントの中の語も数える —— 別の器に委ねて版名を読むブロック〔version.promote-check は tests/release-promote.mjs〕を拾う)/ --chunk 50 / --json <file> / --list(鍵を印字するだけ)/ --self-test
 //
+// 第323便a(統括の検証項目 R275): 範囲と上流の名前の判定を lib(tests/lib-w322d-qapart.mjs 版 w323a-qapart-2)へ揃えた ——
+//   ・範囲が add の行を含まない鍵(列 0 の `if (…) {`・`for (…) {` の中・最上位の文)は lib が add の行を含む列 0 の最上位の文を切り出す(外す理由から消える)。
+//   ・上流の名前は lib の `upstreamOf`(qapart が前文へ写す宣言の閉包)で判定し、**写せない名前**(let/var・W5b の関数・add を呼ぶ宣言・w5cGetUnit/w5bRun を読む宣言)を
+//     読む鍵だけを外す。第322便d の判定は局所の同名の型 `\(\s*名\s*[,)=]` が `if (hasX) {` を引数と見なしてガードの旗を見落とした(integrator.default-unchanged・
+//     behavior.starcore・perf.* など —— qapart では ReferenceError だった)—— lib は写す側でその型を使わない。版の定数 QA_KEYS_VERSION は QA docs.w322d が固定するので据え置き、
+//     判定の世代は QA_KEYS_W323A。
 // ■ 言わないこと
 //   「選んだ鍵は全部 PASS する」(切り出しは行の範囲だけ —— ページの上流の状態〔__qaPreset の写しなど〕に依るブロックは qapart の前文に無い)。
 //   「外した鍵は版名を読まない」(外した鍵はフル QA が見る —— 外した理由を index.json と印字に出す)。
@@ -27,6 +33,8 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 export const QA_KEYS_VERSION = 'w322d-qa-keys-1';
+/** 第323便a: 範囲と上流の名前の判定の世代(lib の qaSpanner・upstreamOf に揃えた —— QA_KEYS_VERSION は docs.w322d が固定するので据え置き)。 */
+export const QA_KEYS_W323A = 'w323a-qa-keys-2';
 /** 版名を読むブロックの既定の正規表現(CHANGELOG の beta 節・BETA_BUILD・APP_VERSION・sw.js のキャッシュ名)。 */
 export const DEFAULT_RES = ['CHANGELOG', 'BETA_BUILD', 'APP_VERSION', 'sw\\.js'];
 export const DEFAULT_CHUNK = 50;
@@ -61,14 +69,7 @@ export function extractKeys(o) {
     if (pos > 0 && /[\w$.]/.test(qaSrc[pos - 1])) continue;              // 別の関数(seen.add など)
     if (!firstCode.has(m[1])) firstCode.set(m[1], lineOf(pos));
   }
-  // 上流の最上位の名前(qapart の前文に無いもの)
-  const units = QO.splitTopLevel(qaSrc);
-  const provided = new Set(QP.QAPART_PRELUDE_NAMES);
-  for (const l of lines) { const mc = /^const (W\d{3}[A-Z]_[A-Z0-9_]+) = /.exec(l); if (mc) provided.add(mc[1]); }
-  const i284a = lines.findIndex((l) => l.startsWith('const W284_PSR_F1 = ')), i284b = lines.findIndex((l) => l.startsWith('const W284_CORE = '));
-  if (i284a >= 0 && i284b >= i284a) for (const l of lines.slice(i284a, i284b + 1)) { const mc = /^const ([A-Za-z_$][\w$]*) = /.exec(l); if (mc) provided.add(mc[1]); }
-  const topDecl = new Map();   // name -> { l0 (0 始まり), hoisted }
-  for (const u of units) for (const nm of u.names) if (!topDecl.has(nm)) topDecl.set(nm, { l0: u.l0 - 1, hoisted: u.kind === 'fn' || /^await w5bRun\(/.test(u.head) });
+  // 上流の最上位の名前: 第323便a から lib の qaSpanner の upstreamOf(qapart が前文へ写す宣言の閉包と同じ関数)
   const SP = QP.qaSpanner(qaSrc, QO);
   const selected = [], excluded = [];
   let unmatched = 0;
@@ -82,21 +83,13 @@ export function extractKeys(o) {
     const head = SP.headRewrite.get(span[0]);
     const code = head === undefined ? textOf(span[0], span[1], scan.code) : SC.scanJs(head).code + '\n' + textOf(span[0] + 1, span[1], scan.code);
     if (/(^|[^\w$.])w5cGetUnit\s*\(/.test(code)) { excluded.push({ id, line: line + 1, why: `範囲 ${span[0] + 1}-${span[1]} が w5cGetUnit(W5c のワーカープール)を読む` }); continue; }
-    const idents = new Set(code.match(/(?<![\w$.])[A-Za-z_$][\w$]*(?![\w$])/g) || []);
-    const up = [];
-    for (const nm of idents) {
-      const d = topDecl.get(nm);
-      if (!d || provided.has(nm)) continue;
-      if (!(d.hoisted || d.l0 < span[0])) continue;                       // 範囲より後の宣言は局所の同名(TDZ)
-      if (d.l0 >= span[0] && d.l0 < span[1]) continue;                    // 範囲の中の最上位の宣言
-      if (new RegExp('(?:const|let|var|function\\*?|class)\\s+' + nm.replace(/\$/g, '\\$') + '(?![\\w$])|[{,]\\s*' + nm.replace(/\$/g, '\\$') + '\\s*[,}=]|\\(\\s*' + nm.replace(/\$/g, '\\$') + '\\s*[,)=]').test(code)) continue;   // 範囲の中の局所の宣言・分割代入・引数
-      up.push(nm);
-    }
-    if (up.length) { excluded.push({ id, line: line + 1, why: `範囲 ${span[0] + 1}-${span[1]} が qapart の前文に無い上流の名前を読む: ${up.slice(0, 4).join(',')}` }); continue; }
+    // 第323便a: 上流の名前は lib の閉包(qapart が前文へ写す宣言)で判定 —— 写せない名前を読む鍵だけを外す
+    const upw = SP.upstreamOf([span]);
+    if (upw.unsafe.length) { excluded.push({ id, line: line + 1, why: `範囲 ${span[0] + 1}-${span[1]} が qapart の前文に写せない上流の名前を読む: ${upw.unsafe.slice(0, 4).map((z) => z.name + '(' + z.why + (z.via ? ' —— ' + z.via + ' から' : '') + ')').join(',')}` }); continue; }
     const nocom = textOf(span[0], span[1], o.comments ? qaSrc : scan.nocom);   // --comments: コメントの中の語も数える
     const hit = res.filter((r) => r.test(nocom)).map((r) => r.source).concat((o.extraIds || []).includes(id) ? ['--ids+'] : []);
     if (!hit.length) { unmatched++; continue; }
-    selected.push({ id, span, line: line + 1, match: hit });
+    selected.push({ id, span, line: line + 1, match: hit, upstream: upw.names, unit: SP.spanKindOf(id) === 'unit' });
   }
   // 版名を読む範囲で外した鍵だけを報告に残す(版名を読まない範囲の外した鍵は数だけ)
   const exVersion = excluded.filter((z) => {
@@ -118,7 +111,8 @@ export async function selfTest(opt) {
   const Q = [
     "const W999A_X = 1;",
     "async function w5cGetUnit(key) { return key; }",
-    "const upstreamThing = 3;",
+    "let upstreamThing = 3;",   // 第323便a: let は前文に写せない(フル QA の途中で書き換わる)—— docs.d を外す
+    "const upstreamSafe = 5;",  // 第323便a: const は前文に写す —— docs.h を選ぶ
     "// ---- a",
     "{",
     "  const CL = rd('CHANGELOG.md');",
@@ -144,20 +138,27 @@ export async function selfTest(opt) {
     "{",
     "  add('docs.g', true, 'nothing');",
     "}",
+    "if (upstreamSafe) {",       // 第323便a ①②: 列 0 の if の中(旧は範囲が add の行を含まない)・ガードの旗は上流の const
+    "  add('docs.h', true, 'CHANGELOG');",
+    "}",
+    "add('docs.i', true, 'BETA_BUILD');",   // 第323便a ①: 最上位の文
   ].join('\n');
   const r = extractKeys({ qaSrc: Q, QO: L.QO, QP: L.QP, SC: L.SC, chunk: 1 });
   const sel = r.selected.map((z) => z.id).join(','), ex = Object.fromEntries(r.excluded.map((z) => [z.id, z.why]));
-  if (r.keys !== 7) bad.push('① コードの位置の鍵が 7 でない: ' + r.keys + '(文字列の中の add を拾った?)');
+  if (r.keys !== 9) bad.push('① コードの位置の鍵が 9 でない: ' + r.keys + '(文字列の中の add を拾った?)');
   if ('docs.ghost' in ex || r.selected.some((z) => z.id === 'docs.ghost')) bad.push('① 文字列の中の add を鍵にした');
   if (!/コメントか文字列/.test(ex['docs.b'] || '')) bad.push('② qapart の検索がコメントに当たる鍵を外さない: ' + ex['docs.b']);
   if (!/w5cGetUnit/.test(ex['docs.c'] || '')) bad.push('② 範囲が w5cGetUnit を読む鍵を外さない: ' + ex['docs.c']);
   if (!/上流の名前を読む: upstreamThing/.test(ex['docs.d'] || '')) bad.push('② 上流の名前を読む鍵を外さない: ' + ex['docs.d']);
-  if (sel !== 'docs.a,docs.e,docs.f') bad.push('③ 選んだ鍵が docs.a,docs.e,docs.f でない: ' + sel);
+  if (sel !== 'docs.a,docs.e,docs.f,docs.h,docs.i') bad.push('③ 選んだ鍵が docs.a,docs.e,docs.f,docs.h,docs.i でない: ' + sel);
+  const zh = r.selected.find((z) => z.id === 'docs.h');
+  if (!(zh && zh.unit && zh.upstream.join(',') === 'upstreamSafe')) bad.push('② 列 0 の if の中の鍵の範囲・前文に写す上流の const(docs.h): ' + JSON.stringify(zh || null));
+  if (Object.keys(ex).some((k) => /add の行を含まない/.test(ex[k]))) bad.push('② 範囲が add の行を含まない鍵が残る(第323便a の取り直し)');
   if (r.unmatched !== 1) bad.push('③ 版名を読まない範囲が 1 でない: ' + r.unmatched);
-  if (JSON.stringify(r.batches) !== JSON.stringify([['docs.a'], ['docs.e', 'docs.f']])) bad.push('④ 束(範囲が重なる鍵は同じ束): ' + JSON.stringify(r.batches));
+  if (JSON.stringify(r.batches) !== JSON.stringify([['docs.a'], ['docs.e', 'docs.f'], ['docs.h', 'docs.i']])) bad.push('④ 束(範囲が重なる鍵は同じ束): ' + JSON.stringify(r.batches));
   const r2 = extractKeys({ qaSrc: Q, QO: L.QO, QP: L.QP, SC: L.SC, res: ['nothing'] });
   if (r2.selected.map((z) => z.id).join(',') !== 'docs.g') bad.push('③ --re の差し替え: ' + r2.selected.map((z) => z.id).join(','));
-  cases.push(`缶詰: 鍵 ${r.keys}(文字列の中の add を数えない)・選ぶ ${sel}・外す ${Object.keys(ex).sort().join(',')}(コメントに当たる・w5cGetUnit・上流の名前)・版名を読まない ${r.unmatched}・束 ${JSON.stringify(r.batches)}・--re で差し替え → ${r2.selected.map((z) => z.id).join(',')}`);
+  cases.push(`缶詰(${QA_KEYS_W323A}): 鍵 ${r.keys}(文字列の中の add を数えない)・選ぶ ${sel}(docs.h は列 0 の if の中 —— 前文に上流の const・docs.i は最上位の文)・外す ${Object.keys(ex).sort().join(',')}(コメントに当たる・w5cGetUnit・写せない上流の名前 let)・版名を読まない ${r.unmatched}・束 ${JSON.stringify(r.batches)}・--re で差し替え → ${r2.selected.map((z) => z.id).join(',')}`);
   // 実物(今の qa.mjs): 選んだ鍵は qapart の範囲に w5cGetUnit を含まない・束は 50 鍵以下
   const qaSrc = fs.readFileSync(path.join(root, 'tests', 'qa.mjs'), 'utf8');
   const R = extractKeys({ qaSrc, QO: L.QO, QP: L.QP, SC: L.SC });
