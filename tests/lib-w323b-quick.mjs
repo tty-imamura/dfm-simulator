@@ -12,7 +12,7 @@
 //      輪番: 候補のうち ceil(n/K) 段をフルへ(前の wavesSinceFull の大きい順 → 便の番号の剰余と段の札〔key の hash の剰余〕が合う段 → 秒の大きい順。
 //      600 s 以上の段は 1 便に QUICK_BIG_MAX 本まで —— 壁時計の床を散らす)。
 //   ② 指紋 —— 窓の出力(と正本)から**物理の値の hash**(`physSha`): meta の全体・段の除外 Pointer(volatilePathsOf)・来歴と時刻の欄(SEMANTIC_RUN_META)・
-//      どの階層でも実行時刻と壁時計の欄名(STABLE_RUNTIME_KEYS と旧方式の欄名 LEGACY_VOLATILE_KEYS)を除いた正準 JSON の sha256。
+//      どの階層でも実行時刻と壁時計の欄名(STABLE_RUNTIME_KEYS と旧方式の欄名 LEGACY_VOLATILE_KEYS と ms)と刻印・来歴の欄名(FP_STAMP_KEYS)を除いた正準 JSON の sha256。
 //      記録(QUICK_FP_FILE —— コミットする作業記録・正本ではない)は段ごとに 窓の環境・指紋・窓の秒・器と lib の sha・html の sha・正本の物理の値の hash・便。
 //      取り方は `node tools/harness-smoke.mjs --fingerprint <記録>`(煙試験の写しで窓を走らせる —— 鎖の後に 1 回)。
 //   ③ 来歴 `meta.verify`(本運用の便で簡易一致で済ませた正本が持つ): `{mode:"quick", quickFingerprint:<64 桁>, fullRunAt:{wave, sha}, wavesSinceFull:n}`。
@@ -53,6 +53,15 @@ export const QUICK_DECL_FIELDS = Object.freeze({
  * 第323便b の試走で bgbudget2 の窓の指紋が 2 回で違った欄。今の正本で `ms` はすべて壁時計〔bgbudget2・charonwin・samplestatus・timing・ledgernorm〕)。
  */
 export const FP_RUNTIME_KEYS = Object.freeze([...new Set(STABLE_RUNTIME_KEYS.concat(LEGACY_VOLATILE_KEYS, ['ms']))].sort());
+/**
+ * 指紋で除く**刻印と来歴**の欄(どの階層でも —— meta の外に写した刻印): 名が `sha256`・名が `Sha256` で終わる欄(対象・html・領域・コード・lib・入力のファイルの
+ * sha —— targetSha256・nowSha256・measureSha256・obsSha256 ほか)と、前の世代から写した来歴の文字列 `baseFrom`(semic-302d の「carried(carried(…))」—— 鎖のたびに伸びる)。
+ * **除かない** sha: 結果と宣言の hash(FP_KEEP_SHA_KEYS —— bodiesSha256・resultsSha256・rowsSha256・declSha256・rulesSha256・coreSha256)。
+ * 第323便b の第322便の鎖 2 の振り返りの照合で、semic-302d の正本の差が baseFrom だけ・clone-301f と pnsource286 と pn1 の差が meta の外の targetSha256 / nowSha256 だけだった(物理の値は同じ)。
+ */
+export const FP_STAMP_KEYS = Object.freeze(['baseFrom', 'sha256']);
+export const FP_KEEP_SHA_KEYS = Object.freeze(['bodiesSha256', 'coreSha256', 'declSha256', 'resultsSha256', 'rowsSha256', 'rulesSha256']);
+const dropKeyFp = (() => { const rt = new Set(FP_RUNTIME_KEYS.concat(FP_STAMP_KEYS)), keep = new Set(FP_KEEP_SHA_KEYS); return (k) => rt.has(k) || (/Sha256$/.test(k) && !keep.has(k)); })();
 /** 較正の判定の正本(書く段・読む段は簡易一致を使わない —— AN518)。 */
 export const CALIBRATION_FILES = Object.freeze(['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json']);
 export const CALIBRATION_HARNESS = 'tests/exp-w249b-calaudit.mjs';
@@ -74,10 +83,10 @@ function dropPtr(J, toks) {
   };
   walk(J, 0);
 }
-function dropKeysDeep(x, names) {
-  if (Array.isArray(x)) { for (const v of x) dropKeysDeep(v, names); return; }
+function dropKeysDeep(x, drop) {
+  if (Array.isArray(x)) { for (const v of x) dropKeysDeep(v, drop); return; }
   if (!x || typeof x !== 'object') return;
-  for (const k of Object.keys(x)) { if (names.has(k)) delete x[k]; else dropKeysDeep(x[k], names); }
+  for (const k of Object.keys(x)) { if (drop(k)) delete x[k]; else dropKeysDeep(x[k], drop); }
 }
 /** 物理の値(meta・除外 Pointer・来歴と時刻・どの階層でも実行時刻と壁時計の欄名を除いた写し)。rel は除外 Pointer の宣言を引く名(正本の相対パス)。 */
 export function physValue(J, rel) {
@@ -86,7 +95,7 @@ export function physValue(J, rel) {
   if (!Array.isArray(out)) delete out.meta;
   const ptrs = [...new Set((rel ? volatilePathsOf(rel) : []).concat(SEMANTIC_RUN_META))].filter((p) => !/^\/meta(\/|$)/.test(p));
   for (const p of ptrs) { const toks = p.slice(1).split('/').map((t) => t.replace(/~1/g, '/').replace(/~0/g, '~')); if (toks.length) dropPtr(out, toks); }
-  dropKeysDeep(out, new Set(FP_RUNTIME_KEYS));
+  dropKeysDeep(out, dropKeyFp);
   return out;
 }
 /** 物理の値の hash(版つき)。 */
@@ -437,11 +446,14 @@ export function quickSelfTest() {
   const J = { meta: { generatedAt: '2026-11-02T00:00:00Z', target: 'x' }, rows: [{ v: 1.5, wallSec: 3, generatedAt: 't' }, { v: 2 }], elapsedS: 9 };
   const J2 = JSON.parse(JSON.stringify(J)); J2.meta.generatedAt = 'z'; J2.rows[0].wallSec = 7; J2.elapsedS = 1;
   const J3 = JSON.parse(JSON.stringify(J)); J3.rows[1].v = 2.0000000001;
+  J2.targetSha256 = 'a'.repeat(64); J2.rows[1].baseFrom = 'carried(x)'; J2.rows[0].ms = 12.5; J2.rows[1].nowSha256 = 'b'.repeat(64);
+  const J4 = JSON.parse(JSON.stringify(J)); J4.rows[0].resultsSha256 = 'c'.repeat(64);
   if (physSha(J, null) !== physSha(J2, null)) bad.push('③ 時刻・壁時計だけ違う写しの指紋が違う');
   if (physSha(J, null) === physSha(J3, null)) bad.push('③ 物理の値が違う写しの指紋が同じ');
+  if (physSha(J, null) === physSha(J4, null)) bad.push('③ 結果の hash(resultsSha256)を除いた');
   const fp1 = windowFingerprint([{ as: 'b', sha: '1' }, { as: 'a', sha: '2' }]), fp2 = windowFingerprint([{ as: 'a', sha: '2' }, { as: 'b', sha: '1' }]);
   if (fp1 !== fp2 || windowFingerprint([]) !== null) bad.push('③ 窓の指紋の並び');
-  cases.push(`③ 指紋(${QUICK_FP_VERSION}): meta・時刻・壁時計の欄だけ違う → 同じ・物理の値が 1e-10 違う → 違う・出力の並びに依らない`);
+  cases.push(`③ 指紋(${QUICK_FP_VERSION}): meta・時刻・壁時計(ms を含む)・刻印と来歴(…Sha256・baseFrom)の欄だけ違う → 同じ・物理の値が 1e-10 違う → 違う・結果の hash(resultsSha256)は残す・出力の並びに依らない`);
   // ④ 来歴 verify の受理
   const qm = quickVerifyMeta({ quickFingerprint: 'a'.repeat(64), fullWave: '第323便', fullSha: 'bff6711', wavesSinceFull: 1 });
   const vb = verifyViolations({ verify: qm }, { target: 'beta' }), vr = verifyViolations({ verify: qm }, { target: 'root' });
@@ -467,5 +479,5 @@ export function quickSelfTest() {
 }
 
 export default { QUICK_VERSION, QUICK_K_DEFAULT, QUICK_BIG_SEC, QUICK_BIG_MAX, QUICK_FP_FILE, QUICK_FP_VERSION, VERIFY_VERSION, QUICK_DECL_FIELDS, FP_RUNTIME_KEYS,
-  CALIBRATION_FILES, CALIBRATION_HARNESS, physValue, physSha, physShaFile, windowFingerprint, stdoutNormSha, codeShaOf, stepWindow, calibrationSteps, staticExclusion,
+  FP_STAMP_KEYS, FP_KEEP_SHA_KEYS, CALIBRATION_FILES, CALIBRATION_HARNESS, physValue, physSha, physShaFile, windowFingerprint, stdoutNormSha, codeShaOf, stepWindow, calibrationSteps, staticExclusion,
   STEP_FN_RE, ACCEPTOR_ROOTS, htmlChangeKinds, quickShadow, emptyRecord, mergeRecord, recordShape, shadowCompare, quickVerifyMeta, verifyViolations, quickSelfTest };
