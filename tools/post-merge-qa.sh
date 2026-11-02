@@ -521,9 +521,9 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.w322d docs.nsLockBranch docs.binlockAxi
 # ==== 第323便c の塊(ここから)====
 # 第323便c(決断事項 AN517・AN518・AN480・R277): 枝 c の新設 2 本(lint.quickWindows323 —— 窓の無い大きい 16 段の簡易の窓・synodic-299b の子プロセス 3 本・領域の宣言の無い段の REGEN_SCOPE・
 #   docs.w323c —— 文書)と、煙試験の窓の表の lint.harnessSmoke303・lint.harnessSmoke304・docs.w322d・器の宣言と刻印の lint.regenScope・lint.provenanceMeta・lint.stableHashPaths・lint.scopeStop・
-#   lint.scopeAll312・lint.regenChain・CANON の lint.canon304・宣言を足した 14 段の正本を読む QA(docs.twoBodyMesh・docs.rparCanonical・docs.meshV2Rpar・docs.nsLockLedgerRow・docs.rotorLedger・
-#   docs.sphereKernel・docs.bgCompose・docs.bgpredict-sync・behavior.bh90Intervals・behavior.pairSlipSign)・朔望月の正本の docs.synodic299・lint.qaHeapRelease310・lint.sectionLookup313
-DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickWindows323 docs.w323c lint.harnessSmoke303 lint.harnessSmoke304 docs.w322d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 docs.twoBodyMesh docs.rparCanonical docs.meshV2Rpar docs.nsLockLedgerRow docs.rotorLedger docs.sphereKernel docs.bgCompose docs.bgpredict-sync behavior.bh90Intervals behavior.pairSlipSign docs.synodic299 lint.qaHeapRelease310 lint.sectionLookup313"
+#   lint.scopeAll312・lint.regenChain・CANON の lint.canon304・宣言を足した 13 段の正本を読む QA(docs.twoBodyMesh・docs.rparCanonical・docs.meshV2Rpar・docs.nsLockLedgerRow・docs.rotorLedger・
+#   docs.sphereKernel・docs.bgCompose・docs.bgpredict-sync・behavior.pairSlipSign)・朔望月の正本の docs.synodic299・lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickWindows323 docs.w323c lint.harnessSmoke303 lint.harnessSmoke304 docs.w322d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 docs.twoBodyMesh docs.rparCanonical docs.meshV2Rpar docs.nsLockLedgerRow docs.rotorLedger docs.sphereKernel docs.bgCompose docs.bgpredict-sync behavior.pairSlipSign docs.synodic299 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第323便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====

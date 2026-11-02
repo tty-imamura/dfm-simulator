@@ -2,7 +2,7 @@
 //
 // ■ 何を持つか(QA lint.quickWindows323・docs.w323c と PHYSICS〔第323便c〕の表が読む —— 器・鎖の段の判定は読まない)
 //   ・QUICK_WINDOW_KEYS_323C: 窓を足した 16 段(窓そのものは tools/harness-smoke.mjs の SMOKE_KNOBS の第323便c の塊 —— env・args・cmd・out・sec・fullSec・covers)。
-//   ・SCOPE_323C / SCOPE_SKIP_323C: REGEN_SCOPE を足した 14 段の器 / 足さない段と理由。
+//   ・SCOPE_323C / SCOPE_SKIP_323C: REGEN_SCOPE を足した 13 段の器 / 足さない段と理由。
 //   ・SYNODIC_323C: synodic-299b の 3 プロセスと 1 プロセスの枝の実測(段ごとの所要・正本の物理の欄の差)。
 //   ・表の行の関数(windowRows・scopeRows・synodicRows)—— PHYSICS〔第323便c〕に逐語で載せる(QA が作り直して照合する)。
 // ■ しないこと: 走らせない・判定しない(記録と表の純関数だけ)。
@@ -41,8 +41,10 @@ export const SCOPE_SKIP_323C = Object.freeze([
  */
 export const SYNODIC_323C = Object.freeze({
   workers: 3, laneOrder: Object.freeze(['long', 'longh2', 'scan', 'fit', 'aps', 'sun3d']),
-  w3: Object.freeze({ sec: null, parts: null }), w1: Object.freeze({ sec: null, parts: null }),
-  leaves: null, diffW3W1: null, diffW3Canon: null, diffW1Canon: null, canonSec: 4259 });
+  w3: Object.freeze({ sec: 3223, load: '6〜9', parts: Object.freeze({ long: 3217, longh2: 2885, scan: 491, fit: 396, aps: 549, sun3d: 44 }) }),
+  w1: Object.freeze({ sec: 4035, load: '4〜5', parts: Object.freeze({ long: 1623, longh2: 1407, scan: 472, fit: 292, aps: 215, sun3d: 24 }) }),
+  leaves: 784, diffW3W1: 0, diffW3Canon: 0, diffW1Canon: 0, metaDiffW3W1: Object.freeze(['generatedAt']), canonSec: 4032, canonParts: Object.freeze({ long: 1577, longh2: 1481, scan: 425, fit: 297, aps: 226, sun3d: 23 }),
+  note: '正本との差は対象 html の sha(targetSha256 —— 便の開始で beta の版名を変えた)だけ。3 本と 1 本の meta の差は generatedAt だけ' });
 
 const pct = (a, b) => (Number.isFinite(a) && Number.isFinite(b) && b > 0) ? (Math.round(a / b * 1000) / 10).toFixed(1) + '%' : '—';
 const envText = (k) => {
@@ -63,7 +65,7 @@ export function windowRows(knobs) {
   }
   return out.join('\n');
 }
-/** 表 2: 領域の宣言(足した 14 段と足さない 9 段)。declOf(harness) = 器の REGEN_SCOPE(読めなければ null) */
+/** 表 2: 領域の宣言(足した 13 段と足さない 10 段)。declOf(harness) = 器の REGEN_SCOPE(読めなければ null) */
 export function scopeRows(declOf) {
   const out = ['| 段 | 器 | 宣言 | presets | roots の数 |', '|---|---|---|---|---|'];
   for (const z of SCOPE_323C) {
@@ -77,8 +79,9 @@ export function scopeRows(declOf) {
 export function synodicRows(S = SYNODIC_323C) {
   const out = ['| 走行 | 壁時計(秒) | 段の所要(秒: long・longh2・scan・fit・aps・sun3d) | 正本(第322便の鎖 1)との物理の欄の差 |', '|---|---|---|---|'];
   const parts = (p) => p ? S.laneOrder.map((k) => (p[k] === undefined ? '—' : p[k])).join('・') : '—';
-  out.push(`| 子プロセス 3 本(W299B_WORKERS 既定 3) | ${S.w3.sec ?? '—'} | ${parts(S.w3.parts)} | ${S.diffW3Canon ?? '—'}(葉 ${S.leaves ?? '—'}) |`);
-  out.push(`| 1 プロセス(W299B_WORKERS=1) | ${S.w1.sec ?? '—'} | ${parts(S.w1.parts)} | ${S.diffW1Canon ?? '—'}(葉 ${S.leaves ?? '—'}) |`);
+  out.push(`| 子プロセス 3 本(W299B_WORKERS 既定 3 —— 負荷平均 ${S.w3.load || '—'}) | ${S.w3.sec ?? '—'} | ${parts(S.w3.parts)} | ${S.diffW3Canon ?? '—'}(葉 ${S.leaves ?? '—'}) |`);
+  out.push(`| 1 プロセス(W299B_WORKERS=1 —— 負荷平均 ${S.w1.load || '—'}) | ${S.w1.sec ?? '—'} | ${parts(S.w1.parts)} | ${S.diffW1Canon ?? '—'}(葉 ${S.leaves ?? '—'}) |`);
+  out.push(`| 正本(第322便の鎖 1 —— 1 プロセス・同じ既定の経路) | ${S.canonSec ?? '—'} | ${parts(S.canonParts)} | —(比べる元) |`);
   out.push(`| 3 本 − 1 本 | — | — | ${S.diffW3W1 ?? '—'} |`);
   return out.join('\n');
 }

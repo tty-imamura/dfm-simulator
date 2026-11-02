@@ -92403,7 +92403,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----     ① 窓の表 tools/harness-smoke.mjs の SMOKE_KNOBS に 16 段の行(env・args・cmd のどれか・out は tests/out の下・窓の秒 sec とフルの秒 fullSec・比 ≤ 30%〔目安 15% の 2 倍 —— 窓の秒は混む箱の実測〕・covers)・
 // ----        段は再生成表の現行の段・窓の環境変数と引数が器の本文にある(cmd の行は窓の器が在る)・窓の cmd が作れて枠が窓の秒の 2 倍 + 30 s 以上
 // ----     ② synodic-299b: 器が W299B_WORKERS(既定 3)で段を子プロセスに分ける・再生成表の段の行に workers 3 と secSource 'w323c-branch'・記録の 3/1 プロセスの物理の欄の差 0
-// ----     ③ REGEN_SCOPE: 記録の 14 段の器が complete の宣言を持ち、正本(全部)の meta.scope が宣言と同じ・scopeComplete / 足さない 9 段は再生成表に在り理由つき
+// ----     ③ REGEN_SCOPE: 記録の 13 段の器が complete の宣言を持ち、正本(全部)の meta.scope が宣言と同じ・scopeComplete / 足さない 10 段は再生成表に在り理由つき
 // ----   docs.w323c: PHYSICS〔第323便c〕(〔第322便 — 統括〕の後・「## 7.」の前・枝の順 a → b → c → d)の表 1〜3 を記録と窓の表から作り直して逐語・語・
 // ----     AI_SPEC §169・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号
 {
