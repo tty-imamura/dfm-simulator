@@ -3,7 +3,7 @@
  "libVersion": "w311a-corespin-lib-1",
  "generator": "tests/exp-w311a-corespin.mjs",
  "target": "beta/index.html",
- "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+ "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
  "ruling": "原仮定者の裁定(第110報)AN387 ④ 選択肢として dragCore の自転も軸方向を含めてノブ・(第113報)・DECISIONS v70 §0c ①・§1 AN397(推奨の型 —— 宣言の一定のベクトル)・決断事項 AN384(数値的に解像できない薄さの厚い殻は受理で拒否)・統括の検証項目 R226",
  "coreSpinVersion": "w311a-corespin-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -1248,13 +1248,13 @@
    {
     "decl": "未宣言",
     "evalSec": {
-     "wallSec": 0.0031347091
+     "wallSec": 0.0043131874
     }
    },
    {
     "decl": "宣言",
     "evalSec": {
-     "wallSec": 0.005868049633
+     "wallSec": 0.0041333207
     }
    }
   ]
@@ -1282,40 +1282,40 @@
  "ok": true,
  "timing": {
   "T": {
-   "wallSec": 0.435
+   "wallSec": 0.29
   },
   "K": {
-   "wallSec": 0.031
+   "wallSec": 0.022
   },
   "B": {
-   "wallSec": 1.57
+   "wallSec": 1.391
   },
   "R": {
-   "wallSec": 0.329
+   "wallSec": 0.247
   },
   "M": {
-   "wallSec": 0.667
+   "wallSec": 0.613
   },
   "C": {
-   "wallSec": 0.281
+   "wallSec": 0.22
   },
   "P": {
-   "wallSec": 1.141
+   "wallSec": 1.155
   }
  },
- "elapsedS": 6.367,
+ "elapsedS": 5.581,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第311便a",
   "target": "beta/index.html",
-  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-  "generatedAt": "2026-11-01T17:33:19.527Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-03T02:21:31.080Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7487036,
-    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-    "mtime": "2026-11-01T12:44:54.266Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1419,11 +1419,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1340,
-   "segments": 1178,
-   "closureShare": 0.3014
+   "names": 1384,
+   "segments": 1210,
+   "closureShare": 0.3026
   },
-  "scopeSha256": "2ab7e2ba63a92d3d0dfe940f59e74edcf45b276e519bcdd99acf7bec029d075f",
+  "scopeSha256": "5a80f50bb70257c74defad576f42e0551a2620ebb363cce1ff8c005cdf2b58ef",
   "scopeComplete": true,
   "inputsStable": [
    {

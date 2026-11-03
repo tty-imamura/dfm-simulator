@@ -3235,19 +3235,19 @@
  "ok": true,
  "timing": {
   "R": {
-   "wallSec": 0.007
+   "wallSec": 0.008
   },
   "Y": {
-   "wallSec": 0.002
+   "wallSec": 0.004
   },
   "M": {
    "wallSec": 0
   },
   "B": {
-   "wallSec": 0.001
+   "wallSec": 0
   },
   "V": {
-   "wallSec": 0.001
+   "wallSec": 0.002
   }
  },
  "conclusion": {
@@ -3289,25 +3289,25 @@
   "mSumInBand": "6/6",
   "mRef315InBand": "2/6"
  },
- "elapsedS": 0.038,
+ "elapsedS": 0.043,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第317便d",
   "target": "tests/lib-w317d-satan.mjs",
   "targetSha256": "48b55f2cdb4e05b2bf1f3856bd2b93da840f8d5d7f2dedb6e24a111375c9baeb",
-  "generatedAt": "2026-11-01T18:29:55.664Z",
+  "generatedAt": "2026-11-03T02:22:14.609Z",
   "inputs": [
    {
     "file": "tests/out/sath-w316d.json",
-    "bytes": 2245317,
-    "sha256": "c9da58564a665e07e56670f55d75bcdbc2853e3913cdee46c2c035f194cf76bf",
-    "mtime": "2026-11-01T13:06:48.467Z"
+    "bytes": 2245289,
+    "sha256": "72dd2abd6cf6cbdec9468316bf1480b5be4603807e457da2446cfe217017c1f0",
+    "mtime": "2026-11-02T22:26:09.447Z"
    },
    {
     "file": "tests/out/satk1-w315d.json",
-    "bytes": 495451,
-    "sha256": "b4c62c1bc052cac28f1745966c149db11384ba86a51e60f386d7f8fc0596d99e",
-    "mtime": "2026-11-01T12:51:51.278Z"
+    "bytes": 495437,
+    "sha256": "b38b554ea0d5c3611a276b9d16bbb406769630d08c6065aee4f924437ea58bd8",
+    "mtime": "2026-11-02T22:00:20.732Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -3396,7 +3396,7 @@
   "inputsStable": [
    {
     "file": "tests/out/sath-w316d.json",
-    "stableSha256": "fd0ca34c015dd55b40b0742a4b5adafbb9bfb0dad1b2823d13cb2c12982561f4",
+    "stableSha256": "e0d5643a560c1673d02f35935ee63f6c2f15e1f5a3ac2889085d060d137ec926",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/E/rows/*/wallSec",
@@ -3411,7 +3411,7 @@
    },
    {
     "file": "tests/out/satk1-w315d.json",
-    "stableSha256": "8d6171d551fc0a16eb2012857ba3e3ec1ad3d5603f09c01559b44bad44e69c8c",
+    "stableSha256": "d1972879cf09944c1f705191c43d032a212164d1b7b29a562b309bd8fefd900c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/E/rows/*/wallSec",

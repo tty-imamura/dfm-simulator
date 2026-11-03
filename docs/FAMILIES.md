@@ -269,8 +269,8 @@
 | 💫 | `galaxyGeo2` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 2 | 1 | 1.5 | — | 2 | — | — | — | v−u 測地線則で外縁の増速を比べる | `claim.galaxygeo2-outerboost` |
 | 🍳 | `galaxyDB` | variant | 比較(上のどれでもない) | 違う入力(本数・質量・位置・速度) | principle | — | 0 | 1 | 1.5 | — | 2 | — | — | — | 円盤の回転支持とバルジの分散支持を比べる | `claim.galaxydb-contrast` |
 | 🫓 | `galaxyGeo2Flat3d` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 2 | 1 | 1.5 | — | 2 | — | — | — | 💫 の面内の写しを三次元の步で走らせ二次元と比べる | — |
-| 🥞 | `galaxyGeo2Thick3d` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 2 | 1 | 1.5 | — | 2 | — | — | — | — | — |
-| 🧇 | `galaxyGeo2ThickTilt3d` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 2 | 1 | 1.5 | — | 2 | — | — | — | — | — |
+| 🥞 | `galaxyGeo2Thick3d` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 2 | 1 | 1.5 | — | 2 | — | — | — | 💫 の面内の配置に有限厚(±3h の外は再抽選)を足し三次元の步で走らせる | — |
+| 🧇 | `galaxyGeo2ThickTilt3d` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 2 | 1 | 1.5 | — | 2 | — | — | — | 🥞 と同じ入力を全体で回した対の本で回転共変の程度を測る | — |
 
 **鍵ごとの差**(physics の同じ鍵 18):
 
@@ -513,10 +513,12 @@
 - **第285便f の写し** `tests/fixtures/retired-w285f.json`(原仮定者の裁定(第75報)AN51・AN24′): 退役 1 本(`psrJ1757CF`)と、f=1 へ移した本の旧則(`psrJ1757DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`・`behavior.w249a-pnResponse`・`behavior.jointCalProtocol`。
 - **第286便f の写し** `tests/fixtures/retired-w286f.json`(原仮定者の裁定(第76報)AN57): 退役 1 本(`psrJ1946CF`)と、f=1 へ移した本の旧則(`psrJ1946DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `behavior.w249a-pnResponse`・`docs.j1946adoptPublished`・`docs.j1946Adopted`。
 - **第287便b の写し** `tests/fixtures/retired-w287b.json`(原仮定者の裁定(第77報)AN62): 退役 1 本(`psrB1534CF`)と、f=1 へ移した本の旧則(`psrB1534DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`。
-- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 64 本): 凍結の写しを読む 2・再生成表の履歴 25・再生成表の現行 15・道具 4・表の外 18。QA 本体の出現数: darkrotor 146・bhCore 47・nebulaRotor 19・nebulaShell 15・nebulaBipolar 22・starSeed 21・bhCoreTilt 21・galaxyMeshSpiralGeoToyLite 26・psrDoubleABPN 21・psrJ1757PN 13・psrJ1946PN 15・emAuditNewton 35・psrDoubleABCF 15・psrJ1757CF 21・psrJ1946CF 22・psrB1534CF 21。
+- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 66 本): 凍結の写しを読む 4・再生成表の履歴 25・再生成表の現行 15・道具 4・表の外 18。QA 本体の出現数: darkrotor 146・bhCore 47・nebulaRotor 19・nebulaShell 15・nebulaBipolar 22・starSeed 21・bhCoreTilt 21・galaxyMeshSpiralGeoToyLite 26・psrDoubleABPN 21・psrJ1757PN 13・psrJ1946PN 15・emAuditNewton 35・psrDoubleABCF 15・psrJ1757CF 21・psrJ1946CF 22・psrB1534CF 21。
 
 | 器 | 名指しする ID | 再生成表の段 | 扱い |
 |---|---|---|---|
+| `tests/.qa-preflight-12731.mjs` | darkrotor bhCore nebulaRotor nebulaShell nebulaBipolar starSeed bhCoreTilt galaxyMeshSpiralGeoToyLite psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | — | 凍結の写しを読む |
+| `tests/.qa-preflight-30013.mjs` | darkrotor bhCore nebulaRotor nebulaShell nebulaBipolar starSeed bhCoreTilt galaxyMeshSpiralGeoToyLite psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | — | 凍結の写しを読む |
 | `tests/exp-4-48.mjs` | darkrotor | — | 表の外(正本ではない) |
 | `tests/exp-4-67.mjs` | darkrotor | h283b-exp-4-67(history) | 履歴(再生成しない) |
 | `tests/exp-4-72.mjs` | darkrotor | h283b-exp-4-72(history) | 履歴(再生成しない) |
