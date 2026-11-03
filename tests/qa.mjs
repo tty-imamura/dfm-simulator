@@ -44441,6 +44441,10 @@ if (!FAST) {
       const nSS = ssGen286 ? IDS.length
         // 第325便c: 正本が第325便c の退役の前の世代(56 本)—— 鎖の samplestatus の段で 61 本の世代へ
         : (has325c && nRetSS === IDS.length - IDS325C.length) ? nRetSS
+        // 第325便(統括 —— ゲート 2 の root で拾った): 対象が第325便c の退役の前の世代の html(root —— 在位の連鎖の玩具 5 本)で、正本(beta 線の鎖が作る)が
+        //   第325便c の退役の後の世代(+5 本)—— root の昇格の前は正本だけが先に進む(root の html は変えない便)
+        : (!has325c && nRetSS === IDS.length + 5 && SSJ.tally.retired && Array.isArray(SSJ.tally.retired.ids)
+          && ['chainDiskToy', 'chainDiskToy3d', 'chainDiskToy3dTilt', 'chainSpreadToy3d', 'chainBurstShell3d'].every((id) => SSJ.tally.retired.ids.includes(id))) ? nRetSS
         // 第300便a・b・m(統合): 正本が第300便の退役の前の世代(41 本)か、枝 a(52)・枝 b(44)・統合(55)など一部だけを載せた世代 —— 鎖の samplestatus の段で全部を載せた世代へ
         : ((has300a || has300b || has300m) && [[IDS300], [IDS300B], [IDS300M], [IDS300, IDS300B], [IDS300, IDS300M], [IDS300B, IDS300M], [IDS300, IDS300B, IDS300M]]
           .map((gs) => gs.reduce((n, g) => n + g.length, 0)).some((k) => k > 0 && nRetSS === IDS.length - k)) ? nRetSS
