@@ -72377,8 +72377,22 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (!rW || rW.inBase !== true || rW.inertialLaw !== true) bad.push('② W_bg の移行の記録の本 ' + id + ' の行が「基点にある慣性決定力の本」でない');
         if (!/relativeDrag:\{[^}]*law:"inertial"[^}]*(Wbg:|enabled:false)/.test(segW)) bad.push('② W_bg の移行の記録の本 ' + id + ' の宣言が Wbg で書かれていない');
       }
+      // 第325便(統括 —— 原仮定者の回答(2026-11-03 —— AN528)「実在天体なら、f=1に質量を修正」)の世代(器の版 w291b-pnsources-8 以降): 質量の倍率を観測の値へ戻した
+      //   実在天体の本の軌道の差・署名の差は記録だけ(changedByRealMass325・sigChangedByRealMass325)—— 記録された本は凍結の写し tests/fixtures/realmass-w325e.json の ids の内で、
+      //   行が「基点にある・源が増えていない」こと(手書きの一覧を持たない —— 写しの ids から)
+      const rm325 = [...new Set((JP.B.changedByRealMass325 || []).concat(JP.B.sigChangedByRealMass325 || []))];
+      if (rm325.length) {
+        let rmIds = [];
+        try { rmIds = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'realmass-w325e.json'), 'utf8')).ids || []; } catch { rmIds = []; }
+        for (const id of rm325) {
+          if (!rmIds.includes(id)) bad.push('② 質量 f=1 の記録に凍結の写しの外の本 ' + id);
+          const rR = (JP.rows || []).find((z) => z.id === id);
+          if (!rR || rR.inBase !== true || rR.srcIncreased !== false || rR.realMass325 !== true) bad.push('② 質量 f=1 の記録の本 ' + id + ' の行が「基点にある・源が増えていない・写しの本」でない');
+        }
+      }
       cases.push(`前後 ${JP.B.bitSame}/${JP.A.n}(差 ${JP.B.changed.length} 本 —— すべて源が増えた本・署名 ${JP.B.sigSame}/${JP.A.n})・照合 ${Number(JP.C.summary.maxRel).toExponential(2)}`
-        + (c3.length ? `・三次元へ移した参照模型 ${c3.length} 本は記録だけ(宣言した差)` : '') + (w302s.length ? `・強さの鍵を W_bg へ同値移行した慣性決定力の本 ${w302s.length} 本の署名の差は記録だけ` : ''));
+        + (c3.length ? `・三次元へ移した参照模型 ${c3.length} 本は記録だけ(宣言した差)` : '') + (w302s.length ? `・強さの鍵を W_bg へ同値移行した慣性決定力の本 ${w302s.length} 本の署名の差は記録だけ` : '')
+        + (rm325.length ? `・質量を観測の値(倍率 1)へ戻した実在天体の本 ${rm325.length} 本の差は記録だけ(AN528)` : ''));
       const au = CI.definitionMixAudit();
       if (!(Math.abs(JP.E.closedFormPeriod - au.closedFormPeriod) <= 1e-12 * au.closedFormPeriod && Math.abs(JP.E.closedFormResidual.sec - au.closedFormResidual.sec) <= 1e-12))
         bad.push('③ 正本の閉じた式が lib と違う');
