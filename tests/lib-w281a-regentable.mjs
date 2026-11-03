@@ -92,6 +92,9 @@ import crypto from 'node:crypto';
 import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha, stableValueSha, canonJson, parseTopLevel, closureOf, SCOPE_STOP, normalizeScope, stopSetOf,
   SCOPE_TOOLING, toolStampOnly, DATA_REGISTRIES, textRegistriesOf } from './lib-w281a-scope.mjs';   // 第318便a(AN427 ⑤): 道具の照合・刻印の版の登録簿
 import { HTML_STAGE_ORDER, HTML_STAGE_VERSION } from './lib-w288f-htmlstage.mjs';   // 第288便f(AN90): 集約段の断片の順序
+// ==== 第325便a の塊(ここから)====
+import { htmlPhysCheck as w325aHtmlPhysCheck, readLedger as w325aReadLedger } from './lib-w325a-htmlphys.mjs';   // 第325便a(R284): html の物理の部分(最上位では呼ばない —— 循環 import)
+// ==== 第325便a の塊(ここまで)====
 
 // ■ 第284便c(原仮定者の裁定(第74報)⑥・AN33・AN43・統括の検証項目 R93)
 //   ・常時の dt3 段を `--h4-exceptions --merge`(h/4 は例外の登録簿の本だけ)・kf0 段を `--kf0-h4-exceptions`(h/4 は登録簿の kf0 の本だけ)へ。
@@ -2145,6 +2148,45 @@ export async function fastgateRecordProbe324c(o) {
   return { ok: Object.values(rows).every((z) => z.ok), rows };
 }
 // ==== 第324便c の塊(ここまで)====
+// ==== 第325便a の塊(ここから)====
+// ---- 第325便a(原仮定者の指示(2026-11-03)「次便以降で、再生成の段の対象が宣言なしの場合、html全体にしない。html全体だと、版名が変わっただけや、説明文だけの修正でも
+//   走ってしまう」・原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・統括の検証項目 R284): **html の物理の部分**の宣言。
+//   領域の宣言(器の REGEN_SCOPE)の無い段のうち正本が beta/index.html の sha を刻む段(html 全体の段 —— htmlWholeSteps)に、器が html から**読む部分**を宣言する
+//   (tests/lib-w325a-htmlphys.mjs の部分の名: code・presets・markup・comments・build・text:<名>・regions:<名>・presetFull:<id>〔* は全部〕)。
+//   planRegen は刻印の html(台帳 tests/data-w325a-htmlphys.json・基点 html・git の履歴から sha で引く)と今の html の部分を reads で比べ、同じなら
+//   reuse(段の htmlPhysUsed —— 正本のファイルは書き換えない)・違えば regen(理由の種類 htmlphys)・刻印の html が引けなければ従来どおり html 全体(理由の種類 html)。
+//   **器の本文・REGEN_SCOPE の行は変えない**(器を変えると meta.code[] の sha が動いて全部 regen になる —— 宣言は表の側)。宣言の無い html 全体の段は従来どおり
+//   html 全体のまま(既定を当てない —— QA lint.htmlPhys325a が名指しで落とす)。whole:true は「html 全体のまま」の宣言(常時群 —— 計画は always で毎回走る)。
+//   **自動の下限(deriveScope)を領域の宣言にしない理由**(段ごと —— why): 器が html の文字列を直に走査する(d0audit2・selfinertia)・表示の欄を出力に写す(bh90)・
+//   停止関数 render を名で読む(galaxyprof2)・基点 html と今の html の 2 つを比べる(galaxyprof・needmesh)—— 領域 hash は閉包の外の文字列・表示の欄を見ないので
+//   下限が「器が読むもの」を覆わない。物理の部分は**外すものだけを数えて**残りを全部見る(取りこぼしの側に倒れない)。
+export const HTMLPHYS_DECL_VERSION_325A = 'w325a-htmlphysdecl-1';
+const PHYS_READS_325A = Object.freeze(['code', 'presets', 'markup']);   // tests/lib-w325a-htmlphys.mjs の HTMLPHYS_DEFAULT_READS と同じ(QA lint.htmlPhys325a が照合)
+const D325A = (reads, why) => Object.freeze({ reads: Object.freeze(reads.slice()), why });
+const W325A = (why) => Object.freeze({ whole: true, why });
+export const HTMLPHYS_DECL_325A = Object.freeze({
+  bh90: D325A(PHYS_READS_325A.concat(['presetFull:gw150914', 'presetFull:gw150914DFM', 'presetFull:gw150914Merge4s']),
+    '器が 3 本(🎐 gw150914・🎻 gw150914DFM・⏰ gw150914Merge4s)を走らせ、本の emoji・notClaim(表示の欄)を出力の facts に写す —— 3 本は表示の欄を含む全体を読む'),
+  galaxyprof2: D325A(PHYS_READS_325A, '銀河トイの準備済み経路の回数の会計と ms/步(page の HP 関数・本の id の並び)—— 表示の欄・文の表を出力に写さない(停止関数 render を名で読むので領域 hash は当たらない)'),
+  d0audit2: D325A(PHYS_READS_325A.concat(['comments']), 'inline script の D₀ の読み口を機械抽出し、証拠の行(生の行 —— 注釈を含む)を出力に写す(注釈も読む)。行番号は刻印の html の行'),
+  selfinertia: D325A(PHYS_READS_325A.concat(['comments']), 'html の行を名指しの文字列で探す(注釈の文 E6′ 輸送項・自己場除外を含む —— 注釈も読む)。行番号は刻印の html の行'),
+  galaxyprof: D325A(PHYS_READS_325A, '基点 html と今の html の ms/步の比(page)—— 表示の欄・文の表を出力に写さない(基点 html は表の外の入力 —— 従来どおり刻まない)'),
+  needmesh: D325A(PHYS_READS_325A, '基点 html と今の html の要求の並び・メッシュの契約(page)—— 表示の欄・文の表を出力に写さない(基点 html は表の外の入力 —— 従来どおり刻まない)'),
+  // 常時群(計画は always —— 毎回走る。宣言は QA の対象一致の受け入れにだけ効く)
+  samplestatus: D325A(PHYS_READS_325A.concat(['build', 'presetFull:*', 'text:*']), '本の説明の欄・文の表・版名(一覧 md の見出し)を読む —— 説明だけの変更で走るのが正しい段(常時群)'),
+  calaudit: W325A('常時群(計画は always —— 毎回走る)'),
+  kf0: W325A('常時群(計画は always —— 正本の meta に targetSha256 が無い旧形式)'),
+  'kf0ledger-old': W325A('常時群(計画は always —— 毎回走る)'),
+  kf0ledger: W325A('常時群(計画は always —— 毎回走る)'),
+});
+/** 段の宣言(無ければ null)。 */
+export function htmlPhysDeclOf(key, decl) { const D = decl || HTMLPHYS_DECL_325A; return Object.prototype.hasOwnProperty.call(D, key) ? D[key] : null; }
+/** 正本のファイル → 段の宣言(QA の対象一致 —— 表の outs から段を引く)。 */
+export function htmlPhysDeclOfOut(out, steps, decl) {
+  const st = (steps || REGEN_STEPS).find((z) => z.role !== 'history' && (z.outs || []).includes(out));
+  return st ? htmlPhysDeclOf(st.key, decl) : null;
+}
+// ==== 第325便a の塊(ここまで)====
 
 /**
  * 第285便f(AN53): html 全体を刻む現行の段(正本の meta から —— target が beta/index.html で scopeComplete の領域が無い)。
@@ -2352,6 +2394,19 @@ export function planRegen(o) {
   const htmlAbs = o.html || abs('beta/index.html');
   const htmlSha = shaFile(htmlAbs);
   const baseSha = o.baseHtml ? shaFile(o.baseHtml) : null;
+  // ==== 第325便a の塊(ここから)====
+  // 第325便a(R284): html の物理の部分(o.htmlPhys === false で切る —— 前後の比べ・自己試験)。台帳は 1 回だけ読む。刻印の html は台帳 → 基点・計画の html → git の履歴
+  const phDecl = o.htmlPhysDecl || HTMLPHYS_DECL_325A;
+  let phLedger = null;
+  const physCheck325 = (key, m) => {
+    if (o.htmlPhys === false) return null;
+    const d = htmlPhysDeclOf(key, phDecl);
+    if (!d) return null;
+    if (phLedger === null) phLedger = o.htmlPhysLedger || w325aReadLedger(root);
+    return w325aHtmlPhysCheck({ root, meta: m, decl: d, html: htmlAbs, files: [o.baseHtml, htmlAbs].filter(Boolean), ledger: phLedger,
+      gitDepth: o.htmlPhysGitDepth, ledgerOnly: o.htmlPhysLedgerOnly === true });
+  };
+  // ==== 第325便a の塊(ここまで)====
   const scopeCache = new Map();
   const scopeFull = (hAbs, sc) => {
     const k = hAbs + '|' + JSON.stringify(sc);
@@ -2428,8 +2483,20 @@ export function planRegen(o) {
             row.scopeUsed = true;
             if (o.baseHtml && t === 'beta/index.html') row.baseScopeSame = (scopeOn(o.baseHtml, m.scope) === sNow);
           } else {
-            why.push(out + ': 対象 html の hash も領域 hash も一致しない' + (m.scope ? '' : '(領域の宣言なし)'));
-            if (m.scope && m.scopeComplete === true) cause(scopeCause(hA, m.scope, m.targetSha256), 'scope'); else cause('対象 html(領域の宣言なし —— html 全体)', 'html');
+            // ==== 第325便a の塊(ここから)====
+            // 第325便a(R284): 領域の宣言の無い正本は、段の宣言(HTMLPHYS_DECL_325A)があれば**刻印の html の物理の部分**と今の html の物理の部分を比べる
+            //   (同じ → 走らせない・htmlPhysUsed / 違う → 理由の種類 htmlphys / 刻印の html が引けない → 従来どおり html 全体)。正本のファイルは書き換えない
+            const ph = (t === 'beta/index.html' && !(m.scope && m.scopeComplete === true)) ? physCheck325(st.key, m) : null;
+            if (ph && ph.ok) {
+              row.htmlPhysUsed = true;
+              row.htmlPhys = (row.htmlPhys || []).concat([{ out, from: ph.from, rev: ph.rev, stamp: String(m.targetSha256).slice(0, 12) }]);
+            } else {
+            // ==== 第325便a の塊(ここまで)====
+            why.push(out + ': 対象 html の hash も領域 hash も一致しない' + (m.scope ? '' : '(領域の宣言なし' + (ph && ph.applicable ? ' —— ' + ph.why : '') + ')'));
+            if (m.scope && m.scopeComplete === true) cause(scopeCause(hA, m.scope, m.targetSha256), 'scope');
+            else if (ph && ph.applicable && ph.from) cause('対象 html の物理の部分: ' + ph.diff.concat(ph.missing).join(','), 'htmlphys');   // 第325便a
+            else cause('対象 html(領域の宣言なし —— html 全体' + (ph && ph.applicable ? '・刻印の html が台帳・基点・git の履歴に無い' : '') + ')', 'html');
+            }   // 第325便a
           }
         }
       } else if (shaFile(abs(t)) !== m.targetSha256) { why.push(out + ': 対象 ' + t + ' の hash が違う'); cause('入力(対象): ' + t, 'input'); }
@@ -2492,6 +2559,7 @@ export function planRegen(o) {
     if (st.alwaysRun) { row.status = 'always'; row.reasons = ['常時群'].concat(why); }
     else if (why.length) { row.status = 'regen'; row.reasons = why; }
     else row.status = 'reuse';
+    if (row.htmlPhysUsed && row.status !== 'regen') row.reasons.push('html の物理の部分が同じ(刻印の html を ' + row.htmlPhys.map((z) => z.from === 'ledger' ? '台帳' : String(z.from || '').startsWith('git:') ? 'git の履歴 ' + String(z.from).slice(4, 11) : '基点の html').join('・') + ' から引いた —— 差は版名・説明の欄・文の表など段が読まない部分だけ)');   // 第325便a
     if (row.toolChecked && row.status === 'reuse') row.reasons.push('道具の変更は刻印を今の道具で引き直して一致(走らせ直さない —— 第318便a の「道具」の照合): ' + row.toolChecked.slice(0, 3).join(', '));
     // 第283便e: 依存の伝播の前の**自分の判定**(鎖の --gate が上流の走行後に引き直す値)
     row.ownStatus = row.status;
@@ -2563,6 +2631,11 @@ export function planRegen(o) {
     version: REGEN_TABLE_VERSION,
     // 第318便a(AN427 ⑤): 道具の変更を刻印の照合で通した段の数(status の数とは別の欄 —— 走らせない)
     toolChecked: list.filter((r) => r.toolChecked && r.toolChecked.length).length,
+    // 第325便a(R284): html の物理の部分が同じで走らせない段(版名・説明だけの差 —— 段の htmlPhysUsed)
+    htmlPhys: o.htmlPhys === false ? null : { version: HTMLPHYS_DECL_VERSION_325A, used: list.filter((r) => r.htmlPhysUsed).map((r) => r.key),
+      sec: list.filter((r) => r.htmlPhysUsed).reduce((a, r) => a + (Number(r.sec) || 0), 0),
+      regen: list.filter((r) => (r.causeKinds || []).includes('htmlphys')).map((r) => r.key),
+      whole: list.filter((r) => (r.causeKinds || []).includes('html')).map((r) => r.key) },
     html: htmlAbs.replace(root + '/', ''), htmlSha256: htmlSha,
     baseHtml: o.baseHtml ? o.baseHtml.replace(root + '/', '') : null, baseSha256: baseSha,
     count,

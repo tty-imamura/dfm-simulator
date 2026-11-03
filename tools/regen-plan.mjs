@@ -81,8 +81,29 @@ if (argv.includes('--shadow-compare')) {
   if (r.selfCompare && !argv.includes('--allow-self')) { console.error('regen-plan --shadow-compare: **自己比較を拒否** —— ' + r.selfCompare.why + '(影の 1 便に数えない・--allow-self で印字だけ)'); process.exit(2); }
   process.exit(r.ok ? 0 : 1);
 }
+// ==== 第325便a の塊(ここから)====
+// 第325便a(原仮定者の指示(2026-11-03)・R284): `--htmlphys-record [--stamp-git N]` —— 台帳 tests/data-w325a-htmlphys.json(html の sha → 物理の部分の hash)を作り直す(計画は引かない)。
+//   入れる sha = 正本の刻印の html の sha(beta/index.html を刻む正本の meta.targetSha256 —— 今の html と違う分)+ 今の html。刻印の html は --base・--html・git の履歴
+//   (beta/index.html の直近 N 版 —— 既定 200)から sha で引く。どの刻印にも今の html にも当たらない行は外す。引けなかった sha は名指す(終了コード 1)。
+//   `--no-htmlphys` は計画で物理の部分を見ない(第324便までの判定 —— 前後の比べ)
+if (argv.includes('--htmlphys-record')) {
+  const HP = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w325a-htmlphys.mjs')).href);
+  // 刻印の sha = 物理の部分の宣言(whole でない)を持つ段の正本で、完全な領域の宣言の無いもの(領域の宣言つきの正本は領域 hash で見る —— 台帳は要らない)
+  const shas = new Set();
+  for (const st of T.REGEN_STEPS) { if (st.role === 'history') continue; const d = T.htmlPhysDeclOf(st.key); if (!d || d.whole) continue; for (const f of (st.outs || [])) {
+    try { const m = JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8')).meta || {}; if (m.target === 'beta/index.html' && !(m.scope && m.scopeComplete === true) && /^[0-9a-f]{64}$/.test(String(m.targetSha256 || ''))) shas.add(m.targetSha256); } catch { /* 無い */ }
+  } }
+  const t1 = Date.now();
+  const r = HP.recordLedger({ root: ROOT, shas: [...shas], html: HTML, files: [BASE, HTML].filter(Boolean), gitDepth: Number(getArg('--stamp-git', '200')) });
+  const file = path.join(ROOT, HP.HTMLPHYS_LEDGER_FILE);
+  fs.writeFileSync(file, JSON.stringify(r.doc, null, 1) + '\n');
+  console.log(`htmlphys-record(${HP.HTMLPHYS_VERSION}): 刻印の sha ${shas.size}・行 ${Object.keys(r.doc.entries).length}(新しく ${r.added.length}・そのまま ${r.kept.length})・引けない ${r.missing.length}`
+    + (r.missing.length ? '(' + r.missing.map((z) => z.slice(0, 12)).join(',') + ')' : '') + ` —— ${((Date.now() - t1) / 1000).toFixed(1)} s → ${HP.HTMLPHYS_LEDGER_FILE}`);
+  process.exit(r.missing.length ? 1 : 0);
+}
+// ==== 第325便a の塊(ここまで)====
 const t0 = Date.now();
-const plan = T.planRegen({ root: ROOT, html: HTML, baseHtml: BASE, orderOnly: !argv.includes('--all-edges') });
+const plan = T.planRegen({ root: ROOT, html: HTML, baseHtml: BASE, orderOnly: !argv.includes('--all-edges'), htmlPhys: argv.includes('--no-htmlphys') ? false : undefined });
 plan.generatedAt = new Date().toISOString();
 plan.planMs = Date.now() - t0;
 // ==== 第323便b の塊(ここから)====
@@ -125,7 +146,11 @@ if (!QUIET) {
   console.log(`regen-plan: html ${plan.html}(${String(plan.htmlSha256).slice(0, 12)}…)`
     + (plan.baseHtml ? ` / base ${plan.baseHtml}` : ''));
   console.log('  件数: ' + Object.entries(plan.count).map(([k, v]) => k + ' ' + v).join(' / ')
-    + (plan.toolChecked ? ` / 道具の照合 ${plan.toolChecked}(刻印の道具の変更を照合で通した段 —— 第318便a)` : ''));
+    + (plan.toolChecked ? ` / 道具の照合 ${plan.toolChecked}(刻印の道具の変更を照合で通した段 —— 第318便a)` : '')
+    // 第325便a(R284): 版名・説明だけの差で reuse にした段(html の物理の部分 —— 段の htmlPhysUsed)
+    + (plan.htmlPhys ? ` / 版名・説明だけの差で reuse にした ${plan.htmlPhys.used.length} 段(${plan.htmlPhys.sec} s —— html の物理の部分が同じ・第325便a)`
+      + (plan.htmlPhys.regen.length ? `・物理の部分が違う ${plan.htmlPhys.regen.length} 段` : '') + (plan.htmlPhys.whole.length ? `・html 全体のまま ${plan.htmlPhys.whole.length} 段` : '')
+      : ' / html の物理の部分: --no-htmlphys(第324便までの判定)'));
   console.log(`  所要(実測秒の和): 下限 ${fmt(plan.secLower)}(regen+always)〜 上限 ${fmt(plan.secUpper)}(+recheck)`);
   // 第323便b: 順序だけの依存(recheck を広げない段)と簡易一致の影
   if (plan.orderOnly) {
