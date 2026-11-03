@@ -69800,7 +69800,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       // 第316便(統括 —— 原仮定者の裁定(第118報)「アプリ内の説明文から第〜便・決断事項〜を無くす」): 説明の文から来歴の語を外した世代では、
       // model/obs の文は来歴の語の分だけ凍結の写しと違う —— 来歴の語を除いた数の並び(値・σ・窓)が凍結の写しと同じなら同値とみなす(値は 1 字も変えない)
       const META316 = /第\d+(?:〜\d+)?[便報][a-z]?|AN\d{3}|\bR\d{3}\b|[Ww]aves?[- ]?\d+(?:[–-]\d+)?[a-z]?|reports? ?\d+(?:[–-]\d+)?/g;
-      const nums316 = (x) => String(x == null ? '' : x).replace(META316, '').match(/\d+(?:[.,]\d+)*/g) || [];
+      // 第325便b(原仮定者の指示(第127報)「観測質量補正の『f』も、今は使っていない」): 観測質量の印 f=1 を外した世代 —— 印の「1」を数の並びから外して照合する(値・σ・窓は同じ並び)
+      const F1_325B = /(?<![A-Za-z_.])f\s*=\s*1(?![0-9.])/g;
+      const nums316 = (x) => String(x == null ? '' : x).replace(META316, '').replace(F1_325B, '').match(/\d+(?:[.,]\d+)*/g) || [];
       let nText316 = 0;
       const same316 = (a, b) => { if (a === b) return true; if (cur.gen316 && JSON.stringify(nums316(a)) === JSON.stringify(nums316(b))) { nText316++; return true; } return false; };
       if (TB.rows.length !== 12 || TB.quantities.length !== 17) bad.push(`表の行数 ${TB.rows.length}/${TB.quantities.length}(12/17 でない)`);
@@ -69811,7 +69813,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const j = c.ja[r.row], e = c.en[r.row];
         const fr = FX.superseded[r.id].raw.obsCard[r.row], fe = FX.superseded[r.id].raw.en.obsCard[r.row];
         if (!j || j.q !== r.qAfter) bad.push(`① ${r.id}[${r.row}] の行名が表の qAfter でない`);
-        if (!e || e.q !== r.enAfter) bad.push(`① ${r.id}[${r.row}] の en 行名が表の enAfter でない`);
+        if (!e || (e.q !== r.enAfter && e.q !== String(r.enAfter).replace(/observed masses f=1 —/, 'observed masses —'))) bad.push(`① ${r.id}[${r.row}] の en 行名が表の enAfter でない`);   // 第325便b: en の行名(判定器は読まない)から f=1 を外した世代も受ける
         if (j && KF1.test(j.q)) bad.push(`① ${r.id}[${r.row}] の行名が kFrame=1 を名乗る`);
         if (e && KF1.test(e.q)) bad.push(`① ${r.id}[${r.row}] の en 行名が kFrame=1 を名乗る`);
         if (!(fr && fe && fr.q === r.qBefore && fe.q === r.enBefore)) bad.push(`① ${r.id}[${r.row}] の旧行名が凍結の写しと違う`);
