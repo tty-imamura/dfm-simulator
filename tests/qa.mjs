@@ -93997,7 +93997,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     else {
       const i7 = PH.indexOf('\n## 7.'), iG = PH.indexOf('〔第324便 — 統括');
       if (!(a325 < i7 && iG >= 0 && iG < a325)) bad.push('節の位置(〔第324便 — 統括〕の後・「## 7.」の前)');
-      for (const b of ['b', 'c', 'd']) { const k = PH.indexOf('〔第325便' + b + ' — '); if (k >= 0 && k < a325) bad.push('〔第325便' + b + '〕が〔第325便a〕の前'); }
+      for (const [b, k] of [['b', PH.indexOf('〔第325便b — ')], ['c', PH.indexOf('〔第325便c — ')], ['d', PH.indexOf('〔第325便d — ')]]) if (k >= 0 && k < a325) bad.push('〔第325便' + b + '〕が〔第325便a〕の前');
       for (const w of ['R284', 'w325a-htmlphys-1', 'w325a-htmlphysdecl-1', 'HTMLPHYS_DECL_325A', 'tests/data-w325a-htmlphys.json', '--htmlphys-record', '--no-htmlphys', 'htmlPhysUsed', 'htmlphys',
         'lint.htmlPhys325a', 'targetOk325', 'BETA_BUILD', 'sample-status', 'presetFull', 'comments', '**表 1', '**表 2'])
         if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第325便a〕に「' + w + '」が無い');
