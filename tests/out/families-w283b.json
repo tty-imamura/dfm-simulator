@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "e5a042b16cd0a5652c8d767a5e318e40aece0126ba3cfeb774a2d78a7ff987d6",
-  "generatedAt": "2026-11-03T09:44:23.583Z",
+  "targetSha256": "11b770471cf3e396a51eef6f05b1eeec89b7ec2e46982c9e26adfa9ef9db05a3",
+  "generatedAt": "2026-11-03T10:25:43.341Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594866,
-    "sha256": "e5a042b16cd0a5652c8d767a5e318e40aece0126ba3cfeb774a2d78a7ff987d6",
-    "mtime": "2026-11-03T09:43:59.823Z"
+    "bytes": 7602077,
+    "sha256": "11b770471cf3e396a51eef6f05b1eeec89b7ec2e46982c9e26adfa9ef9db05a3",
+    "mtime": "2026-11-03T10:25:32.011Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
@@ -51,8 +51,8 @@
    {
     "file": "docs/FAMILIES.md",
     "bytes": 57712,
-    "sha256": "287cccda842cf6710e4357e9596a148afe83ff5daeb3b978647445b38f277a94",
-    "mtime": "2026-11-03T09:44:23.563Z"
+    "sha256": "8d6b2f055bec8ce7c082add0cd8aaba983e2931c9763565ee8da610bd5816e59",
+    "mtime": "2026-11-03T10:25:43.319Z"
    }
   ],
   "code": [
@@ -118,9 +118,9 @@
    "complete": true,
    "names": 1362,
    "segments": 1188,
-   "closureShare": 0.3232
+   "closureShare": 0.3233
   },
-  "scopeSha256": "e9fcd63fe67a201a8dfb784f752df2635b014fe4e0f0bedde54e9cdc254f35cb",
+  "scopeSha256": "85cfc3d00460c04853c2001f39e57ff3b62165438ad5eb7bfb3b350c36affc92",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -4603,6 +4603,11 @@
    "psrJ1946CF",
    "psrB1534DFM",
    "psrB1534CF",
+   "chainDiskToy",
+   "chainDiskToy3d",
+   "chainDiskToy3dTilt",
+   "chainSpreadToy3d",
+   "chainBurstShell3d",
    "spaceMeshBinaryToy",
    "gw150914DFM",
    "tuc47DFM",
@@ -5796,6 +5801,11 @@
    "alphaCenABDFM",
    "bhCore",
    "bhCoreTilt",
+   "chainBurstShell3d",
+   "chainDiskToy",
+   "chainDiskToy3d",
+   "chainDiskToy3dTilt",
+   "chainSpreadToy3d",
    "charonGeoToy3",
    "clusterAnalogyBH",
    "clusterGrowthCopy",
@@ -5852,5 +5862,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.712
+ "elapsedS": 0.861
 }

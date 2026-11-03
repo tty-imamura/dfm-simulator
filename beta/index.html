@@ -3588,7 +3588,7 @@ en: {
   nc_apsidal_8p85_effort:"It is not claimed that this sample produces the Moon's 8.85-year apsidal cycle - it is a reproduction-effort sample with the initial configuration corrected to the mean elements and the gain at the point of the search range nearest the target (gain 0); the 118-orbit apsidal period is not yet reached in this search range (next revision: the two-dimensional projection - the Moon's orbital inclination).",   // wave 297b (R162 —— 第297便b): 🌥️(第300便b で退役 —— 鍵は履歴)
   nc_perihelion_43:"Mercury's 43″/century perihelion advance (a 1PN quantity) is not the aim of this sample — it has no 1PN, and the gain is not tuned to that value.",
   nc_period_fit:"Not a sample whose period gap to observation is filled with the gain — the gain is a transferred declaration and the change of the period is a recorded measurement.",
-  /* wave 296c (originator's ruling, report 86; R159): notes for the chain-dragging sample (🔗) */
+  /* wave 296c (originator's ruling, report 86; R159): notes for the chain-dragging samples (retired in wave 325c) */
   nc_galaxy_disk:"Not a sample that forms a disc (including a galactic disc) or its structure — it only shows the chain principle: particles placed at rest are dragged round by a spinning centre and by their neighbours.",
   nc_supernova_analogy:"Not a sample that derives a supernova mechanism or explosion — an exploratory analogy: a shell falling onto a spinning centre builds inertial velocity through chained drag, and the clump unbinds and ejects (the centre is pinned; no pressure, radiation or nuclear burning).",
   nc_flat_rotation:"No claim to produce or explain a flat rotation curve — the band values of the angular displacement record the degree of chaining; nothing is fitted to a rotation curve.",
@@ -14980,7 +14980,7 @@ const BUILTIN_PRESETS = [
     {q:"言わないこと", model:"**実宇宙の渦状腕理論・密度波理論・ダークマターの主張ではない**(T4)。腕の寿命・共鳴の再現でもない", obs:"—"}],
   descStruct:{
     summary:"**同じ円盤に回転支持を与えると、内側は棒のまま、外へ行くほど巻き込む 2 本の腕になる**ことを見せる原理サンプル。恒星の初期位置と質量は 🥢 と **1 体ずつビット同一**で、違うのは(a)速度が回転支持 v_t=√(G·2500/r) であること、(b)軸ポテンシャル(案A)の強さと軸の回転だけである。式は 🥢 と同じ **Φ_A=−A·exp(−|d|²/R_b²)·(u²−v²)/(|d|²+r_c²)** で、本サンプルは **A=15(🥢 の 1/20)・R_b=110・r_c=6・軸の回転 Ω_axis=0.04**(φ(t)=Ω_b·t)。中心天体(m=2500・R=15・スピン 1.2)は **pinned ではない**ので反作用(並進 −ΣF_i と軸トルク)を実際に受ける。**引きずり(A8/E6′)は外縁まで到達している**(kFrame=1)ので、円盤を回しているのは既存の DFM の機構で、案A が足したのは棒と腕の角度をそろえる力だけである。**軸の回転は外部駆動である**: Ω_axis を宣言した瞬間にポテンシャルは時間に依存し、保存力ではなくなる — 場へ入れた仕事は S.axisWorkE に記帳して「閉じた系ではない」ことを宣言する(案A は軸自身の運動方程式 I_b Ω̇_b=−Σm_i(r_i×a_i)_z を持つが、**ここでは未実装**であり、その分がこの仕事に現れる)。**案A は DFM の公理からの帰結ではない**(外部オーバーレイの玩具)。",
-    observe:"実測(tests/exp-w249c.mjs・6000 步=t96・dt=0.016 固定・321 体): ①**軸対称から後行の 2 本腕が生える** — A₂ 帯平均(環帯[60,100][100,140][140,180][180,220])は 0.154(t=0・雑音床 0.130)→ 1500 步 0.339 → **3000 步 0.560(峰)** → 5250 步 0.385。ピッチ角は 2250 步 23.4°・**3000 步 42.6°**・3750 步 34.2°・4500 步 48.8° で、**いずれも後行**(trailing — 配置則サンプル〔🍥 の i=20°・🍢 の i=25°。廃止〕と同じ向き)。②**内側は棒・外側は巻き込み** — 3000 步の位相 ψ(r) は r=50 で −47.6°、70 で −42.2°、90 で −59.7°、110 で −66.3°、130 で −74.9°、150 で −90°、170 で −99.3° と**単調に減る**(= 巻き込み)。A₂ は r=90〜170 で 0.53〜0.92。③**棒の外は流される** — **r>190 では A₂ が 0.06〜0.29 = 雑音床まで落ちる**。軸力の到達 R_b=110 より外には構造が立たず、差動回転が形を消す。④**強さは回転の有無で桁が違う(負の発見)** — 同じ 3000 步窓で、この回転円盤に 🥢 の **A=300** を入れると A₂ 帯平均は 0.672 まで上がる代わりに**恒星の保持が 100%→87.5% に落ちる**。逆に回転ゼロの円盤へ **A=15** を入れると A₂ 帯平均 0.223・**棒の長さ 0**(A=300 なら 0.753・棒長 200)で棒が育たない。**「回転がゼロなら棒」は成り立つが、同じ強さの力で「回転すると腕」は成り立たない** — 案A の単一の到達長では棒と腕の役割を分けられず、**案D(棒の力と腕の力の到達長を分ける)が要る**、というのが結論である(docs/PHYSICS.md)。⑤健全性: 保持 3000 步 100%・6000 步 91.6%・NaN 0・クランプ 0・|ΔP|/P=2.9×10⁻⁶・|ΔL|/L=2.0×10⁻⁶・**外部駆動の仕事 axisWorkE=−220(3000 步)/ −240(6000 步)**。⑥**追記**: E6′ 反作用の速度上限 clampRN は本サンプルでは **0 回**(dt=0.016/0.008/0.004 のいずれでも)だが、🥢 と 🎚️ では発動する —— **反作用上限が発動する構成では、NaN が無いことは形の生成を保証しない**(①〜⑤の長時間の数値は帳簿修正前の測定である)。※**実宇宙の渦状腕理論・密度波理論・ダークマターの主張ではない**(T4)。**claim 窓は 1 つも張っていない。**",
+    observe:"実測(tests/exp-w249c.mjs・6000 步=t96・dt=0.016 固定・321 体): ①**軸対称から後行の 2 本腕が生える** — A₂ 帯平均(環帯[60,100][100,140][140,180][180,220])は 0.154(t=0・雑音床 0.130)→ 1500 步 0.339 → **3000 步 0.560(峰)** → 5250 步 0.385。ピッチ角は 2250 步 23.4°・**3000 步 42.6°**・3750 步 34.2°・4500 步 48.8° で、**いずれも後行**(trailing — 配置則サンプル〔i=20° と i=25° の本。廃止〕と同じ向き)。②**内側は棒・外側は巻き込み** — 3000 步の位相 ψ(r) は r=50 で −47.6°、70 で −42.2°、90 で −59.7°、110 で −66.3°、130 で −74.9°、150 で −90°、170 で −99.3° と**単調に減る**(= 巻き込み)。A₂ は r=90〜170 で 0.53〜0.92。③**棒の外は流される** — **r>190 では A₂ が 0.06〜0.29 = 雑音床まで落ちる**。軸力の到達 R_b=110 より外には構造が立たず、差動回転が形を消す。④**強さは回転の有無で桁が違う(負の発見)** — 同じ 3000 步窓で、この回転円盤に 🥢 の **A=300** を入れると A₂ 帯平均は 0.672 まで上がる代わりに**恒星の保持が 100%→87.5% に落ちる**。逆に回転ゼロの円盤へ **A=15** を入れると A₂ 帯平均 0.223・**棒の長さ 0**(A=300 なら 0.753・棒長 200)で棒が育たない。**「回転がゼロなら棒」は成り立つが、同じ強さの力で「回転すると腕」は成り立たない** — 案A の単一の到達長では棒と腕の役割を分けられず、**案D(棒の力と腕の力の到達長を分ける)が要る**、というのが結論である(docs/PHYSICS.md)。⑤健全性: 保持 3000 步 100%・6000 步 91.6%・NaN 0・クランプ 0・|ΔP|/P=2.9×10⁻⁶・|ΔL|/L=2.0×10⁻⁶・**外部駆動の仕事 axisWorkE=−220(3000 步)/ −240(6000 步)**。⑥**追記**: E6′ 反作用の速度上限 clampRN は本サンプルでは **0 回**(dt=0.016/0.008/0.004 のいずれでも)だが、🥢 と 🎚️ では発動する —— **反作用上限が発動する構成では、NaN が無いことは形の生成を保証しない**(①〜⑤の長時間の数値は帳簿修正前の測定である)。※**実宇宙の渦状腕理論・密度波理論・ダークマターの主張ではない**(T4)。**claim 窓は 1 つも張っていない。**",
     control:"おすすめA/B: **physics.axisForce.A を 0** にすると軸の力が消えて、ただの回転円盤(未宣言とビット同一)に戻る — 腕は軸力だけが作っている、の否定対照。**omegaAxis を 0** にすると軸が空間に固定され、腕の巻き込みが弱くなる(位相がそろわない)。**R_b** を伸ばすと構造の届く半径が伸び、**A** を上げると濃くなる代わりに円盤が散る。回転を止めた版が 🥢、R_b を半分にした版が 🎚️ である。"},
   en:{name:"An Inner Bar and Two Outer Arms — the Rotating Disk", obsCard:[
     {q:"What differs from the still disk", model:"THE DISK IS ROTATION-SUPPORTED (star positions and masses are identical body by body). The axis force is weak: A=15, Rb=110, axis pattern speed Omega_b=0.04", obs:"— (a principle sample; no observation is transcribed)"},
@@ -23758,6 +23758,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"stellar",
   sampleClass:"principle",
   fidelity:"toy",
+  familyRole:"retired",   // 第325便c(原仮定者の回答(2026-11-03 —— AN525)・原仮定者の指示(第127報)「旧方式のgeoPN=4サンプルは、新方式で刷新するか、廃止する」・統括の検証項目 R286): **退役(履歴)** —— 旧方式の geoPN=4(旧 W_bg 則の連鎖)。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   notClaim:["galaxy_disk","flat_rotation","gain_universal"],
   obsCard:[
     {q:"何を置いたか", model:"トイ単位。中心 1 個(m=100・半径 6 の一様球・spin 0.5・pinned)+ 静止した粒子 80 個(m=5・半径 6〜24 の円盤・乱数種 20261008)。G=0.005(2000 步の落下は帯の幅より小さい)", obs:"—(原理サンプル —— 観測転写はしない)"},
@@ -23827,6 +23828,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"stellar",
   sampleClass:"principle",
   fidelity:"toy",
+  familyRole:"retired",   // 第325便c(原仮定者の回答(2026-11-03 —— AN525)・原仮定者の指示(第127報)「旧方式のgeoPN=4サンプルは、新方式で刷新するか、廃止する」・統括の検証項目 R286): **退役(履歴)** —— 旧方式の geoPN=4(旧 W_bg 則の連鎖)。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   notClaim:["galaxy_disk","flat_rotation","gain_universal"],
   obsCard:[
     {q:"何を置いたか", model:"🔗 の写しを physics.coord:\"3d\" で走らせた(粒子は z=0 の面)。中心だけ自転軸を有効化(傾き 0 = +z)・spinDrag:{rot:\"surfaceFlip\", axial:\"off\"}", obs:"—(原理サンプル —— 観測転写はしない)"},
@@ -23884,6 +23886,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"stellar",
   sampleClass:"principle",
   fidelity:"toy",
+  familyRole:"retired",   // 第325便c(原仮定者の回答(2026-11-03 —— AN525)・原仮定者の指示(第127報)「旧方式のgeoPN=4サンプルは、新方式で刷新するか、廃止する」・統括の検証項目 R286): **退役(履歴)** —— 旧方式の geoPN=4(旧 W_bg 則の連鎖)。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   notClaim:["galaxy_disk","flat_rotation","gain_universal","axial_drag_unfitted"],
   obsCard:[
     {q:"何を置いたか", model:"🔩 の写しで中心の自転軸を +z から 30°(方位 0)傾け、軸引きずりを宣言(axial:\"on\"・axialCoupling 4 —— 宣言値・未較正)", obs:"—(原理サンプル —— 観測転写はしない)"},
@@ -23948,6 +23951,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"stellar",
   sampleClass:"principle",
   fidelity:"toy",
+  familyRole:"retired",   // 第325便c(原仮定者の回答(2026-11-03 —— AN525)・原仮定者の指示(第127報)「旧方式のgeoPN=4サンプルは、新方式で刷新するか、廃止する」・統括の検証項目 R286): **退役(履歴)** —— 旧方式の geoPN=4(旧 W_bg 則の連鎖)。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   notClaim:["galaxy_disk","flat_rotation","gain_universal"],
   obsCard:[
     {q:"何を置いたか", model:"🔩 の写し(粒子 80・m 5・中心 m 100 半径 6・W_bg 0.125・ε 1・PCG・double)の円盤だけを環 r=18〜72 に黄金角で置き直し・中心の軸 30°", obs:"—(原理サンプル —— 観測転写はしない)"},
@@ -24097,6 +24101,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"stellar",
   sampleClass:"principle",
   fidelity:"toy",
+  familyRole:"retired",   // 第325便c(原仮定者の回答(2026-11-03 —— AN525)・原仮定者の指示(第127報)「旧方式のgeoPN=4サンプルは、新方式で刷新するか、廃止する」・統括の検証項目 R286): **退役(履歴)** —— 旧方式の geoPN=4(旧 W_bg 則の連鎖)。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   notClaim:["supernova_analogy","gain_universal"],
   obsCard:[
     {q:"何を置いたか", model:"🔩 の写し(G 0.005・W_bg 0.125・ε 1・double)。中心 m 100・半径 6・spin 0.5・軸 +z・pinned + 静止した 40 個(m 10・半径 6〜12 の球殻・最短 3.65)", obs:"—(原理サンプル —— 観測転写はしない)"},
@@ -42013,9 +42018,9 @@ const RETIRED_PRESETS={
   //   改善の見込みが立たないので physics.spaceMesh とサンプルは全面廃止」・統括の検証項目 R175): **退役 11 本**(physics.spaceMesh を宣言した在位 10 本+🔂)。
   //   内蔵に残す・ID・物理・claims・保存 JSON は不変(変えたのは familyRole と下の表だけ)。physics.spaceMesh は外から入る宣言を受理しない(spaceMeshRetiredDenyOf)。
   //   凍結の写しは tests/fixtures/retired-w300a.json(🔁 の重心の移動・🔂 の軌道の実測と撤去の範囲の一覧を含む)。QA preset.spaceMeshRetired300
-  galaxyMeshSpiralGeoToy:{ja:"第90報: physics.spaceMesh(旧空間メッシュの法則)の全面廃止 —— 円盤の原理は 🎠(同じ初期条件の geoPN=0)、多粒子の慣性決定力の連鎖は 🍥", en:"ruling 90: physics.spaceMesh (the legacy space-mesh law) is retired entirely — the disc principle is 🎠 (same initial conditions at geoPN=0) and the many-body inertial-determinacy chain is 🍥", see:["galaxyMeshSpiral","chainSpreadToy3d"]},
+  galaxyMeshSpiralGeoToy:{ja:"第90報: physics.spaceMesh(旧空間メッシュの法則)の全面廃止 —— 円盤の原理は 🎠(同じ初期条件の geoPN=0)、多粒子の慣性決定力の連鎖は 🍥", en:"ruling 90: physics.spaceMesh (the legacy space-mesh law) is retired entirely — the disc principle is 🎠 (same initial conditions at geoPN=0) and the many-body inertial-determinacy chain is 🍥", see:["galaxyMeshSpiral"]},
   galaxyAnalogyBH:{ja:"第90報: physics.spaceMesh の全面廃止 —— 中心天体つきの円盤と腕の形は参照模型 🎢、実在の銀河のアナロジーは 🛞", en:"ruling 90: physics.spaceMesh is retired entirely — the disc and arm shape with a central body is the reference model 🎢 and the real-galaxy analogy is 🛞", see:["shapeToySpiralCore","ngc3198DFM"]},
-  galaxyAnalogyBHCompose:{ja:"第90報: physics.spaceMesh の全面廃止(🌚 の写しの合成の診断)—— 中心天体つきの参照模型は 🎢、多粒子の慣性決定力の連鎖は 🍥", en:"ruling 90: physics.spaceMesh is retired entirely (a composition diagnostic copied from 🌚) — the reference model with a central body is 🎢 and the many-body inertial-determinacy chain is 🍥", see:["shapeToySpiralCore","chainSpreadToy3d"]},
+  galaxyAnalogyBHCompose:{ja:"第90報: physics.spaceMesh の全面廃止(🌚 の写しの合成の診断)—— 中心天体つきの参照模型は 🎢、多粒子の慣性決定力の連鎖は 🍥", en:"ruling 90: physics.spaceMesh is retired entirely (a composition diagnostic copied from 🌚) — the reference model with a central body is 🎢 and the many-body inertial-determinacy chain is 🍥", see:["shapeToySpiralCore"]},
   galaxyAnalogyBHTilt90:{ja:"第90報: physics.spaceMesh の全面廃止(中心の軸 90° の写し)—— 自転軸の歳差は三次元の 🎲、中心天体つきの参照模型は 🎢", en:"ruling 90: physics.spaceMesh is retired entirely (the 90-degree central-axis copy) — spin-axis precession is the 3D 🎲 and the reference model with a central body is 🎢", see:["coord3dSpinPrecess","shapeToySpiralCore"]},
   galaxyAnalogyBHTilt90Layers:{ja:"第90報: physics.spaceMesh の全面廃止(親子コアの層の写し)—— 層の構造は 🧅、自転軸の歳差は三次元の 🎲", en:"ruling 90: physics.spaceMesh is retired entirely (the parent–child core-layer copy) — the layered structure is 🧅 and spin-axis precession is the 3D 🎲", see:["layeredCoreDFM","coord3dSpinPrecess"]},
   clusterAnalogyBH:{ja:"第90報: physics.spaceMesh の全面廃止 —— 球状星団の転写は 🍇、中心天体つきの星団の参照模型は 🎱", en:"ruling 90: physics.spaceMesh is retired entirely — the globular-cluster transcription is 🍇 and the cluster reference model with a central body is 🎱", see:["tuc47","shapeToyClusterCore"]},
@@ -42034,6 +42039,14 @@ const RETIRED_PRESETS={
   //   保存 JSON は不変 —— 変えたのは familyRole と下の行だけ)。🌞 は較正の分類(sampleClass が calibration)の在位の本だった —— 較正母集団(calibration ∧ 退役でない)は宣言から数えて 1 本減る
   //   (判定器の正本は鎖で作り直す)。AI 生成のカタログの系 solarInner は 🌞 の宣言のビット写しのまま(出典の参照)。凍結の写しは tests/fixtures/retired-w300m.json
   solarInner:{ja:"第90報: 特定の日時で開始していない(内惑星 4 つを離心率 0 の円軌道に理想化して置いた)—— 惑星ごとの三次元は 🌡️🌋🌦️🔴 など、太陽系をまとめた三次元は特定の日時の観測値で開始する本として観測レコードを待つ", en:"ruling 90: it does not start from a specific date (the four inner planets are placed on circular orbits idealised to zero eccentricity) — the per-planet 3D books are 🌡️🌋🌦️🔴 and others; a combined 3D solar system that starts from observed values at a specific date awaits its observation record", see:["mercurySunInertial3d","venusSunInertial3d","earthMoonSunInertial3d","marsSunInertial3d"]},
+  // 第325便c(原仮定者の回答(2026-11-03 —— AN525)・原仮定者の指示(第127報)「旧方式のgeoPN=4サンプルは、新方式で刷新するか、廃止する」・統括の検証項目 R286): **退役 5 本**
+  //   (在位の旧方式の geoPN=4 —— 旧 W_bg 則の連鎖の玩具 🔗🔩🪛🍥🧨。内蔵に残す・ID・物理・claims・保存 JSON は不変 —— 変えたのは familyRole と下の行だけ)。新しい geoPN=4(場の API の opt-in)の本は
+  //   新しい ID で作る。凍結の写しは tests/fixtures/retired-w325c.json。第90報の 2 行(🪁・🧩)の see から 🍥 を外した(理由の文は履歴のまま)。QA docs.geo4old325c
+  chainDiskToy:{ja:"第127報: 旧方式の geoPN=4(旧 W_bg 則の連鎖の原理の玩具)の退役 —— 新しい geoPN=4(場の API の opt-in)の本は新しい ID で作る。二体の並進の慣性引きずりは 🐌", en:"ruling 127: the old-style geoPN=4 (a chain toy of the older W_bg law) is retired — a new geoPN=4 sample (the opt-in field API) will get a new ID; two-body translational inertial drag is 🐌", see:["inertialDragPair"]},
+  chainDiskToy3d:{ja:"第127報: 旧方式の geoPN=4(旧 W_bg 則の連鎖の原理の玩具)の退役 —— 新しい geoPN=4(場の API の opt-in)の本は新しい ID で作る。二体の並進の慣性引きずりは 🐌", en:"ruling 127: the old-style geoPN=4 (a chain toy of the older W_bg law) is retired — a new geoPN=4 sample (the opt-in field API) will get a new ID; two-body translational inertial drag is 🐌", see:["inertialDragPair"]},
+  chainDiskToy3dTilt:{ja:"第127報: 旧方式の geoPN=4(旧 W_bg 則の連鎖の原理の玩具)の退役 —— 新しい geoPN=4(場の API の opt-in)の本は新しい ID で作る。二体の並進の慣性引きずりは 🐌", en:"ruling 127: the old-style geoPN=4 (a chain toy of the older W_bg law) is retired — a new geoPN=4 sample (the opt-in field API) will get a new ID; two-body translational inertial drag is 🐌", see:["inertialDragPair"]},
+  chainSpreadToy3d:{ja:"第127報: 旧方式の geoPN=4(旧 W_bg 則の連鎖の原理の玩具)の退役 —— 新しい geoPN=4(場の API の opt-in)の本は新しい ID で作る。二体の並進の慣性引きずりは 🐌", en:"ruling 127: the old-style geoPN=4 (a chain toy of the older W_bg law) is retired — a new geoPN=4 sample (the opt-in field API) will get a new ID; two-body translational inertial drag is 🐌", see:["inertialDragPair"]},
+  chainBurstShell3d:{ja:"第127報: 旧方式の geoPN=4(旧 W_bg 則の連鎖の原理の玩具)の退役 —— 新しい geoPN=4(場の API の opt-in)の本は新しい ID で作る(超新星のアナロジーの探索の写し)。超新星の多層の殻は 🎇(別の機構の本)", en:"ruling 127: the old-style geoPN=4 (a chain toy of the older W_bg law) is retired — a new geoPN=4 sample (the opt-in field API) will get a new ID (an exploratory supernova-analogy copy); the layered supernova shells are 🎇 (a different mechanism)", see:["supernovaCore"]},
 };
 // 第316便c(原仮定者の裁定(第118報)「アプリ内の説明文: 第〜便・決断事項〜などの記述は無くす」・統括の検証項目 R248): **表示の時の来歴の語の除去**。
 // 器と QA が来歴の語を世代の目印として読む欄(RETIRED_PRESETS の ja/en・fitRecord の記録の文・観測の比較の行の名〔OBS_COMPARE_ROWS・

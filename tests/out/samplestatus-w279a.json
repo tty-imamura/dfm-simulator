@@ -13,14 +13,14 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "e5a042b16cd0a5652c8d767a5e318e40aece0126ba3cfeb774a2d78a7ff987d6",
-  "generatedAt": "2026-11-03T09:44:00.808Z",
+  "targetSha256": "11b770471cf3e396a51eef6f05b1eeec89b7ec2e46982c9e26adfa9ef9db05a3",
+  "generatedAt": "2026-11-03T10:25:42.348Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 124617,
-    "sha256": "66f65b4c8b8c6d09936b4bd2b5b51d4b00bc7f08c695719d75c5ebd4affe9e5e",
-    "mtime": "2026-11-03T09:43:44.360Z"
+    "bytes": 125157,
+    "sha256": "226fd213ef9023a716f28f32109ee4887129cd643cc8f46b891599490fbb4739",
+    "mtime": "2026-11-03T10:25:32.084Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
@@ -36,9 +36,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 109201,
-    "sha256": "620d5417ca0e16e3ff45fa5424c296a2c5fe79449c811ddb131c271b6844a1f2",
-    "mtime": "2026-11-03T09:44:00.791Z"
+    "bytes": 105738,
+    "sha256": "f31f5c33d9b2ab311596a29b17f79f83aa84ccff21662ee2b43303a22fcf0a80",
+    "mtime": "2026-11-03T10:25:42.331Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -119,7 +119,7 @@
  },
  "tally": {
   "objective": {
-   "met": 92,
+   "met": 87,
    "partial": 35,
    "unmet": 3,
    "n/a": 0
@@ -130,7 +130,7 @@
    "fail": 1,
    "hold": 16,
    "hold-definition": 0,
-   "out-of-scope": 111
+   "out-of-scope": 106
   },
   "four": {
    "合": 0,
@@ -142,7 +142,7 @@
    {
     "group": "運動と時空",
     "icon": "🧭",
-    "n": 14
+    "n": 9
    },
    {
     "group": "銀河の力学",
@@ -210,7 +210,7 @@
     "n": 0
    }
   ],
-  "n": 130,
+  "n": 125,
   "scope": "listed",
   "predictionEligible": 0,
   "builtin": {
@@ -237,7 +237,7 @@
    }
   },
   "retired": {
-   "n": 56,
+   "n": 61,
    "ids": [
     "darkrotor",
     "nebulaRotor",
@@ -287,6 +287,11 @@
     "psrJ1946CF",
     "psrB1534DFM",
     "psrB1534CF",
+    "chainDiskToy",
+    "chainDiskToy3d",
+    "chainDiskToy3dTilt",
+    "chainSpreadToy3d",
+    "chainBurstShell3d",
     "spaceMeshBinaryToy",
     "gw150914DFM",
     "tuc47DFM",

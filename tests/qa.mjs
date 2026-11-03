@@ -44182,8 +44182,17 @@ if (!FAST) {
       try { FX14 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w300m.json'), 'utf8')); }
       catch (e) { bad.push('第300便m の凍結の写しが読めない'); }
     }
-    const IDS = IDS283.concat(IDS284).concat(IDS285).concat(IDS286).concat(IDS287).concat(IDS288).concat(IDS290).concat(IDS291).concat(IDS298).concat(IDS300).concat(IDS300B).concat(IDS300M).filter((id) => !REV292.includes(id));
-    const FXP = { presets: Object.assign({}, (FX || {}).presets || {}, (FX4 || {}).presets || {}, (FX5 || {}).presets || {}, (FX6 || {}).presets || {}, (FX7 || {}).presets || {}, (FX8 || {}).presets || {}, (FX9 || {}).presets || {}, (FX10 || {}).presets || {}, (FX11 || {}).presets || {}, (FX12 || {}).presets || {}, (FX13 || {}).presets || {}, (FX14 || {}).presets || {}) };
+    // 第325便c(原仮定者の回答(2026-11-03 —— AN525)・R286): 在位の旧方式の geoPN=4(連鎖の玩具 5 本)を退役(**61 本** —— 世代切替 has325c = RETIRED_PRESETS に 🔗 の行(第127報)・typeof で守る)。
+    //   写しは tests/fixtures/retired-w325c.json(5 本の定義・署名 = 基点 82aa277・過去の正本の sha256・名指しする段)。検査の本体は docs.geo4old325c
+    const has325c = await page.evaluate(() => typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.chainDiskToy && /^第127報/.test(RETIRED_PRESETS.chainDiskToy.ja));
+    const IDS325C = has325c ? ['chainDiskToy', 'chainDiskToy3d', 'chainDiskToy3dTilt', 'chainSpreadToy3d', 'chainBurstShell3d'] : [];
+    let FX15 = null;
+    if (has325c) {
+      try { FX15 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w325c.json'), 'utf8')); }
+      catch (e) { bad.push('第325便c の凍結の写しが読めない'); }
+    }
+    const IDS = IDS283.concat(IDS284).concat(IDS285).concat(IDS286).concat(IDS287).concat(IDS288).concat(IDS290).concat(IDS291).concat(IDS298).concat(IDS300).concat(IDS300B).concat(IDS300M).concat(IDS325C).filter((id) => !REV292.includes(id));
+    const FXP = { presets: Object.assign({}, (FX || {}).presets || {}, (FX4 || {}).presets || {}, (FX5 || {}).presets || {}, (FX6 || {}).presets || {}, (FX7 || {}).presets || {}, (FX8 || {}).presets || {}, (FX9 || {}).presets || {}, (FX10 || {}).presets || {}, (FX11 || {}).presets || {}, (FX12 || {}).presets || {}, (FX13 || {}).presets || {}, (FX14 || {}).presets || {}, (FX15 || {}).presets || {}) };
     const r = await page.evaluate(async (a) => {
       const { IDS, FX, BASE } = a;
       const o = {};
@@ -44370,6 +44379,8 @@ if (!FAST) {
       // 第287便b: 同じ流儀で 🪤 の世代を判る(正本の tally.retired が 16 なら第287便の世代・15 なら第286便の世代〔鎖の samplestatus の段で 16 本へ〕)
       const nRetSS = SSJ.tally && SSJ.tally.retired ? SSJ.tally.retired.n : null;
       const nSS = ssGen286 ? IDS.length
+        // 第325便c: 正本が第325便c の退役の前の世代(56 本)—— 鎖の samplestatus の段で 61 本の世代へ
+        : (has325c && nRetSS === IDS.length - IDS325C.length) ? nRetSS
         // 第300便a・b・m(統合): 正本が第300便の退役の前の世代(41 本)か、枝 a(52)・枝 b(44)・統合(55)など一部だけを載せた世代 —— 鎖の samplestatus の段で全部を載せた世代へ
         : ((has300a || has300b || has300m) && [[IDS300], [IDS300B], [IDS300M], [IDS300, IDS300B], [IDS300, IDS300M], [IDS300B, IDS300M], [IDS300, IDS300B, IDS300M]]
           .map((gs) => gs.reduce((n, g) => n + g.length, 0)).some((k) => k > 0 && nRetSS === IDS.length - k)) ? nRetSS
@@ -46968,7 +46979,9 @@ if (!FAST) {
     // 第300便a(原仮定者の裁定(第90報)⑤・R175): 🧩💮 は退役(読み込み中の退役の本は一覧に残るので「除く」の数が合わない)—— 世代切替 = html の受理の拒否 spaceMeshRetiredDenyOf。
     //   代表を在位の本(🔗 chainDiskToy 達・🛞 ngc3198DFM 未達)へ
     const has300aP = html.indexOf('\nfunction spaceMeshRetiredDenyOf(') >= 0;
-    const REP = [['stObj_met', has300aP ? 'chainDiskToy' : 'galaxyAnalogyBHCompose'], ['stObj_unmet', has300aP ? 'ngc3198DFM' : 'clusterAnalogyBH'], ['stCal_hold', 'mercuryReal'], ['stCal_fail', 'saturnZonalD68']];
+    // 第325便c(AN525): 🔗 chainDiskToy の退役の世代(RETIRED_PRESETS に 🔗 の行 —— 第127報)は「達」の代表を 🐌 inertialDragPair(在位・達)へ
+    const has325cP = /\n  chainDiskToy:\{ja:"第127報/.test(html);
+    const REP = [['stObj_met', has325cP ? 'inertialDragPair' : (has300aP ? 'chainDiskToy' : 'galaxyAnalogyBHCompose')], ['stObj_unmet', has300aP ? 'ngc3198DFM' : 'clusterAnalogyBH'], ['stCal_hold', 'mercuryReal'], ['stCal_fail', 'saturnZonalD68']];
     const VPS = [{ name: 'Mobile-360x640', width: 360, height: 640, mobile: true }, { name: 'PC-1280x800', width: 1280, height: 800, mobile: false }];
     const sa = [];
     for (const vp of VPS) {
@@ -68836,7 +68849,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           + ((typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.earthMoonTide && /^第90報/.test(RETIRED_PRESETS.earthMoonTide.ja)) ? 3 : 0)
           // 第300便m(R176): 🌞 solarInner を退役した世代(RETIRED_PRESETS の 🌞 の行が「第90報」)は +1
           + ((typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.solarInner && /^第90報/.test(RETIRED_PRESETS.solarInner.ja)) ? 1 : 0));
-        if (r.retired !== r.rpRows || r.retired !== cb.retired - 1 + add298 + add300) bad.push(`③退役 ${r.retired}(RETIRED_PRESETS ${r.rpRows}・基点 ${cb.retired} −1${add298 ? ' +8(第298便b)' : ''}${add300 ? ` +${add300}(第300便a・b・m)` : ''})`);
+        // 第325便c(原仮定者の回答(2026-11-03 —— AN525)・R286): 旧方式の geoPN=4 の 5 本を退役した世代(RETIRED_PRESETS の 🔗 の行が「第127報」)は +5
+        const add325c = await page.evaluate(() => (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.chainDiskToy && /^第127報/.test(RETIRED_PRESETS.chainDiskToy.ja)) ? 5 : 0);
+        if (r.retired !== r.rpRows || r.retired !== cb.retired - 1 + add298 + add300 + add325c) bad.push(`③退役 ${r.retired}(RETIRED_PRESETS ${r.rpRows}・基点 ${cb.retired} −1${add298 ? ' +8(第298便b)' : ''}${add300 ? ` +${add300}(第300便a・b・m)` : ''}${add325c ? ' +5(第325便c)' : ''})`);
         // 統合(第292便): 同便の c(🌛 earthMoonInertial)と d(🌜 earthMoonTide)が内蔵を足す —— 復活は本数を変えないので基点 + その 2 本の有無で見る
         // 第295便c(R155): 🌤️🟤🟣(慣性決定力版サンプル 3 本)も内蔵を足す(復活の本数は不変)
         const add292 = await page.evaluate(() => HP.allPresets().filter((p) => ['earthMoonInertial', 'earthMoonTide', 'earthMoonSunInertial', 'mercurySunInertial', 'plutoCharonInertial', 'chainDiskToy'].includes(p.id) || p.referenceKind === 'observation-fit' || ((p.physics || {}).coord === '3d' && !(p.physics || {}).shapeToy)).length);   // 第296便b: フィットの派生本(🟫🟪)も内蔵を足す / 第298便a: 三次元の本(🌐🎲 —— 宣言 physics.coord:"3d" から数える)も
@@ -72540,7 +72555,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
   } else {
     const bad = [], cases = [];
     const SYM = [/⏳\s*(収束確認|Convergence)/g,   // (h) 絵文字を記号として使う文
-      /🔁\s*(較正要再確認|Calibration must be re-declared)/g];   // 第300便a: 🔁 mercuryGeoToy3 の退役 —— 較正の状態の印(bdgCF_calibration-recheck)の記号は本への言及ではない
+      /🔁\s*(較正要再確認|Calibration must be re-declared)/g,   // 第300便a: 🔁 mercuryGeoToy3 の退役 —— 較正の状態の印(bdgCF_calibration-recheck)の記号は本への言及ではない
+      /🔗\s*(主張の連鎖|Chain of the claim)/g];   // 第325便c(AN525): 🔗 chainDiskToy の退役 —— 説明の「主張の連鎖」の見出し(I18N chHead)の記号は本への言及ではない
     let FAMKEY = [];   // (i) 退役の本の ID が在位の家族の鍵(familyId)と同じとき(saturn)の、家族の鍵・天体の id としての出現(下で page から作る)
     const unsym = (s) => FAMKEY.reduce((a, re) => a.replace(re, ''), SYM.reduce((a, re) => a.replace(re, ''), String(s)));
     let SRC = null;
@@ -73519,6 +73535,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           if (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.earthMoonTide && /^第90報/.test(RETIRED_PRESETS.earthMoonTide.ja)) RET298T.push('earthMoonSunInertialFit', 'earthMoonInertial', 'earthMoonTide');
           // 第300便m(原仮定者の裁定(第90報)④・R176): 🌞 solarInner も第297便c の在位の時間の宣言のまま凍結(世代切替 = RETIRED_PRESETS の 🌞 の行が「第90報」)
           if (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.solarInner && /^第90報/.test(RETIRED_PRESETS.solarInner.ja)) RET298T.push('solarInner');
+          // 第325便c(原仮定者の回答(2026-11-03 —— AN525)・R286): 旧方式の geoPN=4 の 5 本(🔗🔩🪛🍥🧨)も第297便c の在位の時間の宣言のまま凍結(世代切替 = RETIRED_PRESETS の 🔗 の行が「第127報」)
+          if (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.chainDiskToy && /^第127報/.test(RETIRED_PRESETS.chainDiskToy.ja)) RET298T.push('chainDiskToy', 'chainDiskToy3d', 'chainDiskToy3dTilt', 'chainSpreadToy3d', 'chainBurstShell3d');
           if (p.familyRole === 'retired' && RET298T.includes(p.id)) rows.ret298 = (rows.ret298 || 0) + 1;
           if (p.familyRole === 'retired' && !RET298T.includes(p.id)) {
             rows.retired++;
@@ -77648,7 +77666,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       { const xOf = (m1) => { const T = run([B(-10, 0, 1, 0, 300, true), B(0, 3, 0, 2, m1, true), B(0, 0, 0, 0, 1)], { law: 'inertial', gain: 0.02 / 50, background: 50, eps: 0.05, pairs: [[0, 2]], history: 'positions' }, 1e-3, 2);
           return [T._rdDeg[2], T._rdUX[2], T._rdUY[2]].join(','); };
         o.mask = xOf(100) === xOf(1000); }
-      { const tilt = ps.find((q) => q.physics && q.physics.relativeDrag && q.physics.relativeDrag.spinDrag && q.physics.relativeDrag.spinDrag.axial === 'on' && q.familyRole !== 'retired');
+      { const tilt = ps.find((q) => q.physics && q.physics.relativeDrag && q.physics.relativeDrag.spinDrag && q.physics.relativeDrag.spinDrag.axial === 'on' && q.familyRole !== 'retired')
+          // 第325便c(AN525): 🪛 の退役の世代(在位に軸引きずりの本が 0)は退役の 🪛 を ID で引く(宣言と步は不変)
+          || ((typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.chainDiskToy3dTilt && /^第127報/.test(RETIRED_PRESETS.chainDiskToy3dTilt.ja)) ? ps.find((q) => q.id === 'chainDiskToy3dTilt') : null);
         o.tiltId = tilt ? tilt.id : null;
         if (tilt) { const go = (patch) => { const q = clone(tilt); Object.assign(q.physics.relativeDrag, patch);
             { const z = q.physics.relativeDrag; if (z.norm === 'none' && z.gain === undefined) { const c = (z.enabled === false || z.Wbg === null || z.Wbg === undefined) ? 0 : Number((1 / z.Wbg).toPrecision(15)); delete z.Wbg; delete z.enabled; z.gain = c; } }   // 第302便a: 凍結比較(norm:"none")は gain で書く
@@ -77811,8 +77831,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       else {
         const HP = H31.HP, all = HP.allPresets(), J = J31;
         const decl = all.filter((p) => p.familyRole !== 'retired' && p.physics && p.physics.approxMany).map((p) => p.id).sort();
-        if (JSON.stringify(decl) !== JSON.stringify((J.accept.books || []).slice().sort())) bad.push('宣言した本 ' + decl.join(',') + ' ≠ 正本の受理の行');
-        if (JSON.stringify(decl) !== JSON.stringify((J.audit.moved || []).slice().sort())) bad.push('監査の「移した」が宣言した本と違う');
+        // 第325便c(AN525): 正本の受理の行は退役の本も含む(器は宣言した全部の本を受理する)—— 照合は今の在位の本だけ(🍥 chainSpreadToy3d の退役の後も鎖の前後で同じ)
+        const liveId325 = (id) => (all.find((q) => q.id === id) || {}).familyRole !== 'retired';
+        if (JSON.stringify(decl) !== JSON.stringify((J.accept.books || []).filter(liveId325).sort())) bad.push('宣言した本 ' + decl.join(',') + ' ≠ 正本の受理の行');
+        if (JSON.stringify(decl) !== JSON.stringify((J.audit.moved || []).filter(liveId325).sort())) bad.push('監査の「移した」が宣言した本と違う');
         for (const id of decl) {
           const p = all.find((q) => q.id === id), am = p.physics.approxMany, v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
           if (!v.ok || (v.warnings || []).length) bad.push(id + ' の受理 ' + JSON.stringify(v.errors || v.warnings).slice(0, 100));
@@ -78372,7 +78394,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       }
       // (6) 在位の本(宣言から列挙): チェックポイントと A/B の複製
       {
-        const books = HP.allPresets().filter((p) => p.familyRole !== 'retired' && (p.physics || {}).coord === '3d' && ((((p.physics || {}).relativeDrag || {}).spinDrag) || {}).axial === 'on');
+        let books = HP.allPresets().filter((p) => p.familyRole !== 'retired' && (p.physics || {}).coord === '3d' && ((((p.physics || {}).relativeDrag || {}).spinDrag) || {}).axial === 'on');
+        // 第325便c(原仮定者の回答(2026-11-03 —— AN525)): 軸引きずりを宣言した唯一の本 🪛 chainDiskToy3dTilt の退役の世代(RETIRED_PRESETS の 🪛 の行が「第127報」)は、
+        //   退役の本を ID で開いて同じ試験を当てる(退役は familyRole だけ —— 宣言と步は不変)
+        const ret325A = (() => { try { const R = E('RETIRED_PRESETS'); return !!(R && R.chainDiskToy3dTilt && /^第127報/.test(R.chainDiskToy3dTilt.ja)); } catch (e) { return false; } })();   // headless の写しの宣言から
+        if (!books.length && ret325A) books = HP.allPresets().filter((p) => p.id === 'chainDiskToy3dTilt');
         if (!books.length) bad.push('(6) 軸引きずりを宣言した在位の本が無い');
         const ck = E('ckSnapOne'), rs = E('ckRestoreOne'), clo = E('cloneSimState'), N = 40;
         const fp = (S) => { const o = {}; for (const k of ['x', 'y', 'z', 'spin', 'rotA', 'rotAIn', 'rotADr', '_rdWS']) o[k] = S[k] ? Array.from(S[k].subarray(0, S.n)).map(String).join(',') : 'none';
@@ -78558,7 +78584,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const PRE302w = await import('file://' + path.join(ROOT, 'tests', 'lib-w303a-pre.mjs')).catch(() => null);
       const gen303aW = !!(PRE302w && PRE302w.isGen303a(all));
       // 第318便c(R256): 🗺️ solarSystem16Inertial3d は第302便a の移行表より後に入った本(K1 の law inertial —— 今の宣言は behavior.solar16Builtin318c ①)—— 移行表の照合から外す
-      const allW = (gen303aW ? all.map((p) => PRE302w.pin302(p)) : all).filter((p) => !W322B_RULE_IDS.has(p.id));   // 第322便b(AN492): 後に入った本の除外は宣言の条件(旧 第318便の 🗺️ の名指し)
+      const allW = (gen303aW ? all.map((p) => PRE302w.pin302(p)) : all).filter((p) => !W322B_RULE_IDS.has(p.id));
+      const RP325W = (() => { try { return E('RETIRED_PRESETS') || {}; } catch (e) { return {}; } })();
+      const RET325W = (RP325W.chainDiskToy && /^第127報/.test(RP325W.chainDiskToy.ja)) ? ['chainDiskToy', 'chainDiskToy3d', 'chainDiskToy3dTilt', 'chainSpreadToy3d', 'chainBurstShell3d'] : [];   // 第325便c(AN525)   // 第322便b(AN492): 後に入った本の除外は宣言の条件(旧 第318便の 🗺️ の名指し)
       // ① 宣言から作る集合と表
       const decls = [];
       for (const p of allW) for (const [where, rd] of [['本', p.physics && p.physics.relativeDrag], ['A/B の B 側', p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.relativeDrag]])
@@ -78579,7 +78607,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
             if (!(v.ok && kn && v.relativeDrag.Wbg === kn.final)) bad.push(`①${key(d)} は第302便c の再フィット —— Wbg ${d.rd.Wbg} が記録の final と違う`); else n302c++; continue; } }
         if (!v.ok || v.legacyGain || v.relativeDrag.gain !== undefined) { bad.push(`①${key(d)} が Wbg の正準形でない(${v.err || 'gain/legacy'})`); continue; }
         const rd = v.relativeDrag;
-        if (r.retired !== d.retired) bad.push(`①${key(d)} の在位/退役が表と違う`);
+        // 第325便c(AN525): 表(〔第302便a〕の時点 —— 履歴)の後に退役した旧方式の geoPN=4 の 5 本は、表の「在位」と今の「退役」の差を受ける
+        if (r.retired !== d.retired && !(d.retired && !r.retired && RET325W.includes(d.id))) bad.push(`①${key(d)} の在位/退役が表と違う`);
         if (r.gain === 0) { if (!(rd.Wbg === null && rd.enabled === false && coef(rd) === 0 && /^null/.test(r.W))) bad.push(`①${key(d)} gain 0 ↔ {Wbg:null, enabled:false}`); else nOff++; }
         else if (String(rd.Wbg) !== r.W) bad.push(`①${key(d)} の Wbg ${rd.Wbg} ≠ 表 ${r.W}`);
         else if (r.same ? coef(rd) !== r.gain : coef(rd) === r.gain || Math.abs(coef(rd) / r.gain - 1) > 4 * Number.EPSILON) bad.push(`①${key(d)} の 1/Wbg ${coef(rd)} と旧 gain ${r.gain}(表 ${r.same ? '同一' : '1 ulp'})`);
@@ -78588,7 +78617,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       }
       const inPos = decls.filter((d) => !d.retired && d.where === '本');
       cases.push(`①宣言 ${decls.length} か所(在位の本 ${inPos.length}・退役の本 ${decls.filter((d) => d.retired && d.where === '本').length}・B 側 ${decls.filter((d) => d.where !== '本').length})= 表の行・1/Wbg === 旧 gain ${nSame}・OFF(旧 gain 0)${nOff}・1 ulp(表で宣言)${nUlp}・第302便c の再フィット ${n302c}${gen303aW ? '(第303便a の世代 —— 第302便の宣言の写しで照合)' : ''}`);
-      if (inPos.length !== 18) bad.push(`①在位の慣性の本 ${inPos.length}(第302便a の時点の 18 —— 増減は宣言から数え直す)`);
+      if (inPos.length !== 18 - RET325W.length) bad.push(`①在位の慣性の本 ${inPos.length}(第302便a の時点の 18${RET325W.length ? ' − 第325便c の退役 ' + RET325W.length : ''} —— 増減は宣言から数え直す)`);
       if (rows.filter((r) => !r.same).some((r) => !r.retired)) bad.push('①在位の本に 1 ulp の行がある(在位はビット同一)');
       // ② 旧 gain の JSON の互換読込
       const old = { law: 'inertial', gain: 0.259335, eps: 0.01, history: 'positions', pairs: [[2, 1]] };
@@ -79332,7 +79361,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (r.dynamic.carried.length) bad.push('①持ち越し ' + r.dynamic.carried.slice(0, 4).map((c) => c.emoji + c.id + ':' + c.carried.concat(c.val).slice(0, 4).join('|')).join(','));
         cases.push(`①在位 ${r.books} 本 × 3 步: 步で変わる鍵 ${r.dynamic.stepChangedKeys}・登録 ${r.registry.names} 名+正規表現 ${r.registry.regex.length}・派生の表 ${r.registry.derived} 鍵 —— 登録漏れ ${r.dynamic.leaks.length}・持ち越し ${r.dynamic.carried.length}`
           + `(静的な代入 ${r.static.assigned} 鍵のうち登録の外 ${r.static.outside} —— 在位で現れて步で変わらない ${r.static.outsideSeen - r.static.outsideStepChanged}・在位で走らない ${r.static.outsideUnseen.length})`);
-        const n = X.measure(H, htmlSc, { steps: 3, ids: ['chainDiskToy3dTilt'], drop: ['rotAIn', 'rotADr'] });
+        // 第325便c(AN525): 🪛 の退役の世代は、器の在位の絞り込みを通すために headless の写しの中だけ 🪛 の familyRole を外して測り、直後に戻す(写しは QA の中で捨てる —— html は不変)
+        const tiltB = H.evalExpr('BUILTIN_PRESETS').find((p) => p.id === 'chainDiskToy3dTilt'), tiltRole = tiltB ? tiltB.familyRole : undefined;
+        if (tiltB && tiltRole === 'retired') delete tiltB.familyRole;
+        let n; try { n = X.measure(H, htmlSc, { steps: 3, ids: ['chainDiskToy3dTilt'], drop: ['rotAIn', 'rotADr'] }); } finally { if (tiltB && tiltRole !== undefined) tiltB.familyRole = tiltRole; }
         const ks = n.dynamic.leaks.map((l) => l.key).sort().join(',');
         if (ks !== 'rotADr,rotAIn') bad.push('②否定の対照で見つかった鍵 ' + ks);
         cases.push(`②否定の対照(🪛 で rotAIn・rotADr の登録を外す)→ 漏れ ${ks}`);
@@ -79372,7 +79404,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const all = HP.allPresets(), ret = all.filter((p) => p.familyRole === 'retired'), live = all.filter((p) => p.familyRole !== 'retired');
       const liveEm = new Set(live.map((p) => p.emoji)), retEm = [...new Set(ret.map((p) => p.emoji).filter((e) => e && !liveEm.has(e)))];
       // バッジの記号(I18N の bdg* —— 本の絵文字と同じ字を使う状態の印)は本の名ではない
-      const badgeKey = (k) => /^bdg/.test(k);
+      const badgeKey = (k) => /^bdg/.test(k) || k === 'chHead';   // 第325便c(AN525): 🔗 chainDiskToy の退役 —— 説明の「主張の連鎖」の見出し(chHead)の記号 🔗 は本の名ではない
       nRet = ret.length; nEm = retEm.length;
       const hits = [];
       const scan = (where, t) => {
@@ -88174,8 +88206,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const QA_ID_OK = /\bwave\d+\.\w+/g;   // QA のブロック名(wave121.ui など)は ID —— 来歴の語として数えない
     const C_IDS = ['plutoCharonKF0Control', 'plutoCharonDiagInput', 'plutoCharonInertial', 'plutoCharonInertialFit', 'plutoCharonSyncZero', 'charonGeoToy3', 'uranusReal', 'neptuneReal', 'alphaCenAB', 'alphaCenABDFM', 'siriusAB', 'siriusABDFM', 'psrDoubleAB', 'psrDoubleABDFM', 'psrDoubleABGeoToy', 'psrDoubleABSpinCal', 'psrJ1757DFM', 'psrJ1946DFM', 'psrDoubleABPN', 'psrJ1757PN', 'psrJ1946PN', 'psrDoubleABCF', 'psrJ1757CF', 'psrJ1946CF', 'psrB1534', 'psrB1534DFM', 'psrB1534CF', 'compactForceToy', 'inertialDragPair', 'chainDiskToy', 'chainDiskToy3d', 'chainDiskToy3dTilt', 'chainSpreadToy3d', 'chainBurstShell3d', 'coord3dKeplerTilt', 'coord3dSpinPrecess', 'boxBinaryToy', 'spaceMeshBinaryToy', 'gw150914', 'gw150914DFM', 'gw150914Merge4s', 'gw150914SpinDipole', 'tuc47', 'tuc47DFM', 'ngc3198', 'ngc3198DFM', 'supernovaProg', 'supernovaProgDFM', 'crabRemnant', 'saturn', 'saturnLayered', 'saturnZonalD68', 'saturnD68Consistent', 'saturnD68ObsOrbit', 'saturnRingReal', 'saturnRingRealKF1', 'binary', 'fig8', 'counterring', 'spinup', 'pulsarSolo', 'supernovaCore', 'whiteDwarfDFM', 'whiteDwarfBareDFM', 'envelopeShedDFM', 'lfbotTrap', 'layeredCoreDFM', 'spinDipoleBinary', 'gasCohSurface', 'mmPhaseToy', 'starSeed'];
     const K_CF = 'コンパクト力の係数(鍵 compactForce.kappa —— 時空係数ではない)';
+    // 第325便c(原仮定者の指示(第127報)「古い表現が有れば修正する」・R286): 🪛 chainDiskToy3dTilt の軸引きずりの係数は A_k と書いた(裸のカッパを使わない)—— 許可の表から外した
     const KAPPA_ALLOW = { psrDoubleABCF: K_CF, psrJ1757CF: K_CF, psrJ1946CF: K_CF, psrB1534CF: K_CF, compactForceToy: K_CF,
-      chainDiskToy3dTilt: '軸引きずりの係数(鍵 spinDrag.axialCoupling —— 宣言の値)',
       plutoCharonKF0Control: '相対すべり則の係数(鍵 relativeDrag.kappa —— pairSlip)', plutoCharonSyncZero: '相対すべり則の係数(同上)',
       saturnZonalD68: '近点の周転円の振動数(ϖ̇ = C(Ω − κ))' };
     const SKIP_PATH = /^(?:physics|bodies|id|fitRecord|massCalibration|massLedger|timeRef|status|en\.status|descStruct\.brief|en\.descStruct\.brief|_[A-Za-z]\w*)(?:\.|$)|^claims\.\d+\.testId$/;
@@ -94165,6 +94197,94 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   cases.push('⑤ PHYSICS〔第325便c〕の ④(AN526・版 w325c-obsspin-3・表 3 の 📟 A の行)');
   add('behavior.j0737AxisKnob325c', bad.length === 0,
     `**J0737 A の自転軸の傾きのノブ**(第325便c・原仮定者の回答(2026-11-03 —— AN526)・R286 —— 受理器の規則は不変・力学の値は既定で同じ・変わるのは分類と署名): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ---- 第325便c(原仮定者の回答(2026-11-03 —— AN525)・原仮定者の指示(第127報)「旧方式のgeoPN=4サンプルは、新方式で刷新するか、廃止する」・統括の検証項目 R286):
+// ----   docs.geo4old325c(beta だけ —— 世代切替は凍結の写し tests/fixtures/retired-w325c.json の有無)。固定値は宣言(内蔵・RETIRED_PRESETS・原稿・凍結の写し)から数える。
+// ----   ① 在位の本で physics.geoPN = 4 は 0(内蔵の geoPN = 4 は全部退役)・退役の 5 本(写しの ids)は familyRole "retired"・RETIRED_PRESETS に理由(ja「第127報: 旧方式の geoPN=4」/
+// ----      en「ruling 127:」—— 新しい ID で作る)と在位の see・原稿の retired.ids に入る・物理の宣言と署名は写し(= 基点 82aa277 —— sigSame)と同じ・受理が通る
+// ----   ② 退役の集合 = RETIRED_PRESETS = familyRole = 原稿の retired.ids(数は宣言から)・掲載 = 内蔵 − 退役・🍥 を see に挙げる退役の行が 0
+// ----   ③ 退役の本は ID で履歴として開ける(🔗 と 🧨 を開いて 20 步・NaN なし・退役の行に理由)
+// ----   ④ 凍結の写し(版 w325c-retired-1・frozen・基点 82aa277・5 本・在位の geoPN=4 0・過去の正本の sha256 と段)
+// ----   ⑤ 文書: PHYSICS〔第325便c〕の ⑤(AN525・凍結の写し・新しい geoPN=4 の本の引き継ぎ)・AI_SPEC §178・CHANGELOG
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const fxPath325 = path.join(ROOT, 'tests', 'fixtures', 'retired-w325c.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(fxPath325))) {
+    console.log('SKIP docs.geo4old325c(第325便c の旧方式の geoPN=4 の退役の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const bad = [], cases = [];
+  let FX = null, SRC = null;
+  try { FX = JSON.parse(fs.readFileSync(fxPath325, 'utf8')); } catch (e) { bad.push('④ 凍結の写しが読めない'); }
+  try { SRC = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8')); } catch (e) { bad.push('② 原稿が読めない'); }
+  const IDS = FX ? FX.ids.slice() : [];
+  let R = null;
+  try {
+    R = await page.evaluate(async (IDS) => {
+      const C = (x) => JSON.parse(JSON.stringify(x)), wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      const ps = HP.allPresets(), byId = new Map(ps.map((p) => [p.id, p])), saved = HP.currentPreset() ? HP.currentPreset().id : null;
+      const o = { builtin: ps.length, live4: ps.filter((p) => p.familyRole !== 'retired' && (p.physics || {}).geoPN === 4).map((p) => p.id), all4: ps.filter((p) => (p.physics || {}).geoPN === 4).length,
+        retired: ps.filter((p) => p.familyRole === 'retired').map((p) => p.id).sort(), rp: Object.keys(RETIRED_PRESETS).sort(), live: ps.filter((p) => p.familyRole !== 'retired').length,
+        seeChain: Object.entries(RETIRED_PRESETS).filter(([, e]) => (e.see || []).some((s) => IDS.includes(s))).map(([k]) => k), ret: [] };
+      for (const id of IDS) { const p = byId.get(id), e = RETIRED_PRESETS[id] || null;
+        o.ret.push({ id, role: p ? p.familyRole : null, sig: p ? presetSigHash(p) : null, phys: p ? JSON.stringify(p.physics) : null, ja: e ? e.ja : null, en: e ? e.en : null,
+          see: e ? e.see.map((s) => s + ':' + ((byId.get(s) || {}).familyRole === 'retired' ? 'retired' : (byId.get(s) ? 'ok' : 'missing'))) : [], vok: p ? HP.validatePreset(C(p)).ok : false }); }
+      o.open = [];
+      for (const id of ['chainDiskToy', 'chainBurstShell3d']) { HP.loadPreset(id, false); await wait(10);
+        for (let k = 0; k < 20; k++) HP.sim.step(HP.sim.params.stepDt || 0.016);
+        o.open.push({ id, cur: HP.currentPreset().id, nan: HP.sim.hasNaN(), notice: retiredNoticeText(HP.currentPreset()) }); }
+      if (saved) { try { HP.loadPreset(saved, false); } catch (e) {} }
+      return o;
+    }, IDS);
+  } catch (e) { R = { err: String(e).slice(0, 160) }; }
+  if (R.err) bad.push('ページ: ' + R.err);
+  else {
+    // ①
+    if (R.live4.length) bad.push('① 在位の本に geoPN=4: ' + R.live4.join(','));
+    let nSig = 0;
+    for (const z of R.ret) {
+      if (z.role !== 'retired') bad.push(`① ${z.id}: familyRole ${z.role}`);
+      if (!(typeof z.ja === 'string' && /^第127報: 旧方式の geoPN=4/.test(z.ja) && /新しい ID/.test(z.ja) && typeof z.en === 'string' && /^ruling 127: the old-style geoPN=4/.test(z.en) && /new ID/.test(z.en))) bad.push(`① ${z.id}: 理由(第127報 / ruling 127 —— 新しい ID)`);
+      if (!z.see.length || z.see.some((t) => !/:ok$/.test(t))) bad.push(`① ${z.id}: see が在位でない ${z.see.join(',')}`);
+      if (!z.vok) bad.push(`① ${z.id}: validatePreset が通らない(受理器は変えない)`);
+      const f = FX && FX.presets[z.id];
+      if (f && f.presetSigHash === z.sig && f.base && f.base.sigSame === true && f.base.physicsSame === true && JSON.stringify(f.raw.physics) === z.phys) nSig++; else bad.push('① 写しの署名と物理の宣言 ' + z.id);
+    }
+    if (SRC && !IDS.every((id) => SRC.retired.ids.includes(id))) bad.push('① 原稿の retired.ids に 5 本が無い');
+    cases.push(`① 在位の geoPN=4 ${R.live4.length}(内蔵の geoPN=4 ${R.all4} 本は全部退役)・退役 ${IDS.length} 本(理由 第127報・see が在位・受理は通る)・写しの署名と物理 ${nSig}/${IDS.length}(= 基点 82aa277)`);
+    // ②
+    const want = SRC ? SRC.retired.ids.slice().sort() : [];
+    if (!(JSON.stringify(R.retired) === JSON.stringify(R.rp) && JSON.stringify(R.retired) === JSON.stringify(want))) bad.push(`② 退役の集合が揃わない(familyRole ${R.retired.length}・RETIRED_PRESETS ${R.rp.length}・原稿 ${want.length})`);
+    if (R.live !== R.builtin - R.retired.length) bad.push('② 掲載 ≠ 内蔵 − 退役');
+    if (R.seeChain.length) bad.push('② 退役の 5 本を see に挙げる行: ' + R.seeChain.join(','));
+    cases.push(`② 退役 ${R.retired.length} 本(= RETIRED_PRESETS = 原稿)・掲載 ${R.live} 本(= 内蔵 ${R.builtin} − 退役)・5 本を see に挙げる行 0`);
+    // ③
+    for (const z of R.open) if (!(z.cur === z.id && !z.nan && /旧方式の geoPN=4/.test(z.notice))) bad.push('③ 退役の ' + z.id + ' を履歴として開けない ' + JSON.stringify({ c: z.cur, n: z.nan }));
+    cases.push('③ 退役の 🔗・🧨 は ID で履歴として開く(20 步・NaN なし・退役の行に理由)');
+  }
+  // ④
+  if (FX) {
+    if (!(FX.fixtureVersion === 'w325c-retired-1' && FX.frozen === true && FX.base && FX.base.rev === '82aa277' && IDS.length === 5 && FX.geoPN4 && FX.geoPN4.live.length === 0 && FX.geoPN4.builtin === 15)) bad.push('④ 写しの版・凍結・基点・本数・geoPN=4 の数');
+    const ev = IDS.flatMap((id) => (FX.presets[id] || {}).evidence || []);
+    if (!(ev.length >= 5 && ev.every((z) => /^[0-9a-f]{64}$/.test(z.sha256 || '')))) bad.push('④ 過去の正本の sha256');
+    const st = IDS.map((id) => ((FX.presets[id] || {}).stages || []).length);
+    cases.push(`④ 凍結の写し(w325c-retired-1・基点 82aa277・過去の正本 ${ev.length} 本の sha256・段 ${st.join('/')})`);
+  }
+  // ⑤
+  const PH = (() => { try { return fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'); } catch (e) { return ''; } })();
+  const i7 = PH.indexOf('\n## 7. 論文'), c0 = PH.indexOf('〔第325便c — '), c1 = PH.indexOf('\n〔第', c0 + 10);
+  const sec = c0 >= 0 ? PH.slice(c0, (c1 > c0 && (i7 < 0 || c1 < i7)) ? c1 : (i7 > c0 ? i7 : undefined)) : '';
+  for (const w of ['AN525', '原仮定者の回答(2026-11-03 —— AN525)', 'retired-w325c.json', 'exp-w325c-retiredfx.mjs', '130 → 125', '新しい ID', 'docs.geo4old325c', '場の API の opt-in', '引き継ぎ'])
+    if (sec.indexOf(w) < 0) bad.push('⑤ PHYSICS〔第325便c〕に「' + w + '」が無い');
+  const AI = (() => { try { return fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'); } catch (e) { return ''; } })(), a0 = AI.indexOf('\n## 178. 第325便c'), ai = a0 >= 0 ? AI.slice(a0, a0 + 12000) : '';
+  if (!(ai.indexOf('AN525') >= 0 && ai.indexOf('retired-w325c.json') >= 0)) bad.push('⑤ AI_SPEC §178 に退役の項');
+  const CL = (() => { try { return fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'); } catch (e) { return ''; } })(), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), cl = cb >= 0 ? CL.slice(cb, cb + 60000) : '';
+  if (!((cl.split('\n').find((l) => l.indexOf('**第325便c**') >= 0) || '').indexOf('AN525') >= 0)) bad.push('⑤ CHANGELOG の第325便c の行に AN525');
+  cases.push('⑤ PHYSICS〔第325便c〕の ⑤・AI_SPEC §178・CHANGELOG');
+  add('docs.geo4old325c', bad.length === 0,
+    `**旧方式の geoPN=4(連鎖の玩具 5 本)の退役**(第325便c・原仮定者の回答(2026-11-03 —— AN525)・R286 —— 退役は familyRole と RETIRED_PRESETS の行だけ・ID・物理・過去の正本は残す): ${cases.join(' / ')}`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   })();   // 第310便c(heap)
 }
