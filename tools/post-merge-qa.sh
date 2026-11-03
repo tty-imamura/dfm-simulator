@@ -580,8 +580,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.resume324d docs.satlong324d lint.regenS
 # ==== 第325便b の塊(ここから)====
 # 第325便b(原仮定者の指示(第127報)・統括の検証項目 R285): 枝 b の新設 2 本(preset.sampleWords325b —— 在位の本の表示の欄の旧 gain 語・観測質量の f=1 の残り 0・照合の鍵の行名が残る・
 #   金星と木星の内部熱は未解決・較正母集団の焦点 / docs.sampleWords325b —— 文書)と、古い文を世代で直した QA(docs.calPolicyText・preset.inertialDragPair・behavior.psrF1-1757・behavior.psrF1-1946・
-#   behavior.psrF1-1534・ui.liveComparePeriodDef)・生成表の docs.sampleStatus-sync・preset.statusLedger-sync・docs.families・規約の速い判定の lint.conventionsCheck323・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
-DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.sampleWords325b docs.sampleWords325b docs.calPolicyText preset.inertialDragPair behavior.psrF1-1757 behavior.psrF1-1946 behavior.psrF1-1534 ui.liveComparePeriodDef docs.sampleStatus-sync preset.statusLedger-sync docs.families lint.conventionsCheck323 lint.sectionLookup313 lint.qaHeapRelease310"
+#   behavior.psrF1-1534・ui.liveComparePeriodDef・preset.condRowsRenamed)・生成表の docs.sampleStatus-sync・preset.statusLedger-sync・docs.families・規約の速い判定の lint.conventionsCheck323・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.sampleWords325b docs.sampleWords325b docs.calPolicyText preset.inertialDragPair behavior.psrF1-1757 behavior.psrF1-1946 behavior.psrF1-1534 ui.liveComparePeriodDef preset.condRowsRenamed docs.sampleStatus-sync preset.statusLedger-sync docs.families lint.conventionsCheck323 lint.sectionLookup313 lint.qaHeapRelease310"
 # ==== 第325便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
