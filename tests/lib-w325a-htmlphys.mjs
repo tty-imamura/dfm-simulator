@@ -12,7 +12,9 @@
 //                  (w318a-scope-6)と同じ集合を**本 lib に凍結した写し**(PROSE_325A —— 版 6 の集合と同じことを QA lint.htmlPhys325a が照合)
 //     markup     … script の外(マークアップ・CSS —— HTML の注釈を除く)
 //     comments   … 注釈(JS の注釈と HTML の注釈)の文 —— 注釈を名指しで読む器だけが宣言する
-//     build      … 版名の値 / text:<名> … 文の登録簿の文ごと / regions:<名> … 生成領域の中身 / presetFull:<id> … 本の表示の欄を含む全体
+//                  code の中の**表示の文の対**(`{ja:"…", en:"…"}` —— 2 つの鍵が ja と en だけで値がどちらも素の文字列の object)も外して textPairs で見る
+//     build      … 版名の値 / text:<名> … 文の登録簿の文ごと / regions:<名> … 生成領域の中身 / textPairs … code の中の表示の文の対(出た順)
+//     presetFull:<id> … 本の表示の欄を含む全体 / presetPhys:<id> … 本ごとの表示の欄を外した写し / presetIds … 本の id の並び
 //   刻印の html は **台帳**(tests/data-w325a-htmlphys.json —— html の sha → 部分の hash)・基点の html・git の履歴(beta/index.html の各版の blob)から sha で引く。
 //   **正本のファイルは書き換えない**(移行は計画と QA の側 —— 正本を刻み直すとそれを入力に読む下流の安定 hash が動いて鎖が広がる)。
 //
@@ -58,10 +60,16 @@ export const PROSE_325A = Object.freeze({
   massCalibration: Object.freeze(['note', 'noteEn']),
   abBody: Object.freeze(['label']),
 });
-/** 部分の名(reads に書ける名 —— text:・regions:・presetFull: は後ろに名か id)。 */
-export const HTMLPHYS_PARTS = Object.freeze(['code', 'presets', 'markup', 'comments', 'build', 'text:', 'regions:', 'presetFull:']);
-/** 既定の reads(物理の部分 —— 段の宣言はこれに足す)。 */
+/** 部分の名(reads に書ける名 —— text:・regions:・presetFull:・presetPhys: は後ろに名か id か *)。 */
+export const HTMLPHYS_PARTS = Object.freeze(['code', 'presets', 'markup', 'comments', 'build', 'textPairs', 'presetIds', 'text:', 'regions:', 'presetFull:', 'presetPhys:']);
+/** 既定の reads(物理の部分 —— 段の宣言はこれに足すか、本を名指しに絞る)。code と markup はどの宣言にも要る(QA lint.htmlPhys325a)。 */
 export const HTMLPHYS_DEFAULT_READS = Object.freeze(['code', 'presets', 'markup']);
+export const HTMLPHYS_REQUIRED_READS = Object.freeze(['code', 'markup']);
+/** 生の行を読む器(html の文字列を直に走査して行・証拠の行を出す)の reads —— 版名の外を全部。 */
+export const HTMLPHYS_RAW_READS = Object.freeze(['code', 'presets', 'markup', 'comments', 'textPairs', 'presetIds', 'presetFull:*', 'text:*', 'regions:*']);
+/** code の中の表示の文の対(`{ja:"…", en:"…"}` —— 鍵は ja と en の 2 つだけ・値はどちらも素の文字列〔テンプレートは除く〕)。 */
+const STR_325A = String.raw`"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'`;
+export const TEXT_PAIR_RE_325A = new RegExp(String.raw`\{\s*(ja|en)\s*:\s*(` + STR_325A + String.raw`)\s*,\s*(ja|en)\s*:\s*(` + STR_325A + String.raw`)\s*\}`, 'g');
 
 const sha256 = (s) => crypto.createHash('sha256').update(typeof s === 'string' ? Buffer.from(s, 'utf8') : s).digest('hex');
 
@@ -146,6 +154,12 @@ export function htmlPhysPartsOfText(htmlText, o) {
     }
     lines.push(seg.text);
   }
+  // 表示の文の対を外す(textPairs —— 出た順)
+  const pairs = [];
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].indexOf('ja') < 0 || lines[i].indexOf('en') < 0) continue;
+    lines[i] = lines[i].replace(TEXT_PAIR_RE_325A, (m0, k1, v1, k2, v2) => { if (k1 === k2) return m0; pairs.push(m0); return '{' + k1 + ':"<w325a:pair>",' + k2 + ':"<w325a:pair>"}'; });
+  }
   if (build === null) why.push('版名の行が無い: ' + BUILD_NAME_325A);
   if (nPresets !== 1) why.push('内蔵の本の配列の宣言が ' + nPresets + ' 個');
   for (const r of STRIP_REGIONS_325A) if (regions[r] === undefined) regions[r] = '';
@@ -191,12 +205,15 @@ export function htmlPhysPartsOfText(htmlText, o) {
   const parts = {
     code: sha256(code), presets: presetsSha, markup: sha256(markup), comments: sha256(comments),
     build: build === null ? null : sha256(build),
+    textPairs: sha256(pairs.join('\n')),
+    presetIds: order.length ? sha256(order.join('\n')) : null,
+    presetPhys,
     text: Object.fromEntries(Object.keys(text).sort().map((k) => [k, sha256(text[k])])),
     regions: Object.fromEntries(Object.keys(regions).sort().map((k) => [k, sha256(regions[k])])),
     presetFull,
   };
   return { version: HTMLPHYS_VERSION, sha256: sha256(buf), complete: why.length === 0, parts,
-    detail: { why, segments: P.segments.length, textCut: cutNames, regionsCut: STRIP_REGIONS_325A.slice(), presets: order.length,
+    detail: { why, segments: P.segments.length, textCut: cutNames, regionsCut: STRIP_REGIONS_325A.slice(), presets: order.length, textPairs: pairs.length,
       codeBytes: code.length, scriptBytes: src.length, markupBytes: markup.length } };
 }
 
@@ -215,7 +232,7 @@ export function partValue(parts, item) {
   const i = item.indexOf(':');
   if (i < 0) return parts[item];
   const k = item.slice(0, i + 1), n = item.slice(i + 1);
-  const m = k === 'text:' ? parts.text : k === 'regions:' ? parts.regions : k === 'presetFull:' ? parts.presetFull : null;
+  const m = k === 'text:' ? parts.text : k === 'regions:' ? parts.regions : k === 'presetFull:' ? parts.presetFull : k === 'presetPhys:' ? parts.presetPhys : null;
   if (!m) return undefined;
   if (n === '*') return sha256(canonJson(m));   // 全部(名と値の並び)
   return m[n];

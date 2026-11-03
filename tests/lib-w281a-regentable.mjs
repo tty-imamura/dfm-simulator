@@ -2152,7 +2152,8 @@ export async function fastgateRecordProbe324c(o) {
 // ---- 第325便a(原仮定者の指示(2026-11-03)「次便以降で、再生成の段の対象が宣言なしの場合、html全体にしない。html全体だと、版名が変わっただけや、説明文だけの修正でも
 //   走ってしまう」・原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・統括の検証項目 R284): **html の物理の部分**の宣言。
 //   領域の宣言(器の REGEN_SCOPE)の無い段のうち正本が beta/index.html の sha を刻む段(html 全体の段 —— htmlWholeSteps)に、器が html から**読む部分**を宣言する
-//   (tests/lib-w325a-htmlphys.mjs の部分の名: code・presets・markup・comments・build・text:<名>・regions:<名>・presetFull:<id>〔* は全部〕)。
+//   (tests/lib-w325a-htmlphys.mjs の部分の名: code・presets・markup・comments・build・textPairs〔code の中の表示の文の対〕・presetIds・text:<名>・regions:<名>・
+//   presetFull:<id>・presetPhys:<id>〔* は全部〕)。本は器と lib の下限(deriveScope)の本に絞る(器が .find で引く段)か presets(全部)。生の行を読む器は版名の外を全部読む(RAW_READS_325A)。
 //   planRegen は刻印の html(台帳 tests/data-w325a-htmlphys.json・基点 html・git の履歴から sha で引く)と今の html の部分を reads で比べ、同じなら
 //   reuse(段の htmlPhysUsed —— 正本のファイルは書き換えない)・違えば regen(理由の種類 htmlphys)・刻印の html が引けなければ従来どおり html 全体(理由の種類 html)。
 //   **器の本文・REGEN_SCOPE の行は変えない**(器を変えると meta.code[] の sha が動いて全部 regen になる —— 宣言は表の側)。宣言の無い html 全体の段は従来どおり
@@ -2162,16 +2163,21 @@ export async function fastgateRecordProbe324c(o) {
 //   下限が「器が読むもの」を覆わない。物理の部分は**外すものだけを数えて**残りを全部見る(取りこぼしの側に倒れない)。
 export const HTMLPHYS_DECL_VERSION_325A = 'w325a-htmlphysdecl-1';
 const PHYS_READS_325A = Object.freeze(['code', 'presets', 'markup']);   // tests/lib-w325a-htmlphys.mjs の HTMLPHYS_DEFAULT_READS と同じ(QA lint.htmlPhys325a が照合)
+// 生の行を読む器(html の文字列を直に走査して行番号・証拠の行を出す)—— 版名の外を全部読む(HTMLPHYS_RAW_READS と同じ —— QA が照合)
+const RAW_READS_325A = Object.freeze(['code', 'presets', 'markup', 'comments', 'textPairs', 'presetIds', 'presetFull:*', 'text:*', 'regions:*']);
 const D325A = (reads, why) => Object.freeze({ reads: Object.freeze(reads.slice()), why });
 const W325A = (why) => Object.freeze({ whole: true, why });
 export const HTMLPHYS_DECL_325A = Object.freeze({
-  bh90: D325A(PHYS_READS_325A.concat(['presetFull:gw150914', 'presetFull:gw150914DFM', 'presetFull:gw150914Merge4s']),
-    '器が 3 本(🎐 gw150914・🎻 gw150914DFM・⏰ gw150914Merge4s)を走らせ、本の emoji・notClaim(表示の欄)を出力の facts に写す —— 3 本は表示の欄を含む全体を読む'),
-  galaxyprof2: D325A(PHYS_READS_325A, '銀河トイの準備済み経路の回数の会計と ms/步(page の HP 関数・本の id の並び)—— 表示の欄・文の表を出力に写さない(停止関数 render を名で読むので領域 hash は当たらない)'),
-  d0audit2: D325A(PHYS_READS_325A.concat(['comments']), 'inline script の D₀ の読み口を機械抽出し、証拠の行(生の行 —— 注釈を含む)を出力に写す(注釈も読む)。行番号は刻印の html の行'),
-  selfinertia: D325A(PHYS_READS_325A.concat(['comments']), 'html の行を名指しの文字列で探す(注釈の文 E6′ 輸送項・自己場除外を含む —— 注釈も読む)。行番号は刻印の html の行'),
-  galaxyprof: D325A(PHYS_READS_325A, '基点 html と今の html の ms/步の比(page)—— 表示の欄・文の表を出力に写さない(基点 html は表の外の入力 —— 従来どおり刻まない)'),
-  needmesh: D325A(PHYS_READS_325A, '基点 html と今の html の要求の並び・メッシュの契約(page)—— 表示の欄・文の表を出力に写さない(基点 html は表の外の入力 —— 従来どおり刻まない)'),
+  // 本を名指しに絞った段(器と lib の下限 deriveScope の本 —— 器は .find で本を引く・他の本を読まない)
+  bh90: D325A(['code', 'markup', 'presetFull:galaxy', 'presetFull:gw150914', 'presetFull:gw150914DFM', 'presetFull:gw150914Merge4s'],
+    '器が 3 本(🎐 gw150914・🎻 gw150914DFM・⏰ gw150914Merge4s)を .find で引いて走らせ、本の emoji・notClaim(表示の欄)を出力の facts に写す —— 本は表示の欄を含む全体を読む(下限の本 galaxy も含める)'),
+  galaxyprof: D325A(['code', 'markup', 'presetPhys:galaxyMeshSpiralGeoToy'], '本 1 本(既定 galaxyMeshSpiralGeoToy —— .find)の ms/步の比を基点 html と今の html で測る(page)—— 表示の欄・文の表を出力に写さない(基点 html は表の外の入力 —— 従来どおり刻まない)'),
+  needmesh: D325A(['code', 'markup'], 'HP.dfmField を合成の源と選択肢で呼ぶ(page —— 内蔵の本を読まない)・基点 html と今の html の要求の並び・メッシュの契約 —— 表示の欄・文の表を出力に写さない'),
+  // 本の全部を読む段
+  galaxyprof2: D325A(PHYS_READS_325A, '銀河トイの準備済み経路の回数の会計と ms/步(page の HP 関数・内蔵の本の id の並び〔allPresets().map〕)—— 表示の欄・文の表を出力に写さない(停止関数 render を名で読むので領域 hash は当たらない)'),
+  // 生の行を読む段(説明の欄・注釈・文の表の変更で走るのが正しい —— 版名だけの差では走らない)
+  d0audit2: D325A(RAW_READS_325A, 'inline script の文字列を直に走査して D₀ の読み口を機械抽出し、行番号と証拠の行(生の行 —— 注釈・同じ行の文を含む)を出力に写す'),
+  selfinertia: D325A(RAW_READS_325A, 'html の行を名指しの文字列で探し(注釈の文 E6′ 輸送項・自己場除外を含む —— 本の説明の行も当たりうる)、行番号と生の行を出力に写す'),
   // 常時群(計画は always —— 毎回走る。宣言は QA の対象一致の受け入れにだけ効く)
   samplestatus: D325A(PHYS_READS_325A.concat(['build', 'presetFull:*', 'text:*']), '本の説明の欄・文の表・版名(一覧 md の見出し)を読む —— 説明だけの変更で走るのが正しい段(常時群)'),
   calaudit: W325A('常時群(計画は always —— 毎回走る)'),

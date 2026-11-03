@@ -353,7 +353,8 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
 
 - **html の物理の部分**(`tests/lib-w325a-htmlphys.mjs` —— 版 w325a-htmlphys-1): 部分 `code`(注釈を除いた最上位の文 —— 版名 `BETA_BUILD` の値・文の登録簿・内蔵の本の配列・生成領域 sample-status を外す)・
   `presets`(評価した内蔵の本の表示の欄を外した写し)・`markup`・`comments`・`build`・`text:<名>`・`regions:<名>`・`presetFull:<id>`(`*` は全部)。
-- **段の宣言** `HTMLPHYS_DECL_325A`(`tests/lib-w281a-regentable.mjs`): 領域の宣言の無い html 全体の段が読む部分(reads —— 既定 code・presets・markup)か `whole`(常時群)。
+- **段の宣言** `HTMLPHYS_DECL_325A`(`tests/lib-w281a-regentable.mjs`): 領域の宣言の無い html 全体の段が読む部分(reads —— 既定 code・presets・markup・本を `.find` で引く段は下限の本に絞る `presetFull:<id>`/`presetPhys:<id>`・
+  html の文字列を直に走査して行を出す器は版名の外を全部 `HTMLPHYS_RAW_READS`)か `whole`(常時群)。部分に `textPairs`(code の中の表示の文の対 `{ja,en}`)・`presetIds` もある。
   **html 全体を刻む段を足したら宣言を足す**(無ければ QA lint.htmlPhys325a が名指しで落とす —— 器の本文・REGEN_SCOPE の行は変えずに表の側で)。
 - **計画**: 刻印の html を台帳 → 基点・計画の html → git の履歴から sha で引いて宣言した部分を比べる(同じ → reuse・段の `htmlPhysUsed` / 違う → 理由の種類 `htmlphys` / 引けない → html 全体)。
   件数の行に「版名・説明だけの差で reuse にした n 段」。`node tools/regen-plan.mjs --no-htmlphys` は第324便までの判定(前後の比べ)。

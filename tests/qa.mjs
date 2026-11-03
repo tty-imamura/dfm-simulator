@@ -93882,9 +93882,14 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           { const sp = span(D, pick); D = ins(D, D.indexOf('obsCard:[', sp[0]), sp[1], 'model:"', '※') || D; }
           D = ins(D, D.indexOf('const I18N'), D.length, 'betaShared:(b)=>`', '※') || D;
           D = D.replace('\nfunction makeSim(', '\n// 第325便a の QA の写し(注釈だけ)\nfunction makeSim(');
+          // code の中の表示の文の対(最初の makeSim より後の {ja:"…", en:"…"} —— 本の配列・文の登録簿の外)
+          let pairAt = -1;
+          { const re = new RegExp(HPX.TEXT_PAIR_RE_325A.source, 'g'); re.lastIndex = D.indexOf('\nfunction makeSim('); let m;
+            while ((m = re.exec(D))) { if (m[1] !== m[3]) { pairAt = m.index; break; } } }
+          if (pairAt < 0) bad.push('② code の中に表示の文の対が無い'); else D = D.slice(0, pairAt) + D.slice(pairAt).replace(/(\{\s*(?:ja|en)\s*:\s*["'])/, '$1※');
           const pd = HPX.htmlPhysPartsOfText(D, { tmpDir: tmp });
-          const cD = HPX.physCompare(now.parts, pd.parts, ['code', 'presets', 'markup', 'build', 'presetFull:' + pick, 'text:I18N', 'comments']);
-          if (!(pd.complete && JSON.stringify(cD.diff.slice().sort()) === JSON.stringify(['build', 'comments', 'presetFull:' + pick, 'text:I18N'].sort()) && !cD.missing.length)) bad.push('② 表示だけの写しの差が build・presetFull・text:I18N・comments でない: ' + cD.diff.join(',') + (cD.missing.length ? ' / 欠け ' + cD.missing.join(',') : ''));
+          const cD = HPX.physCompare(now.parts, pd.parts, ['code', 'presets', 'markup', 'build', 'presetFull:' + pick, 'presetPhys:' + pick, 'presetIds', 'text:I18N', 'comments', 'textPairs']);
+          if (!(pd.complete && JSON.stringify(cD.diff.slice().sort()) === JSON.stringify(['build', 'comments', 'presetFull:' + pick, 'text:I18N', 'textPairs'].sort()) && !cD.missing.length)) bad.push('② 表示だけの写しの差が build・presetFull・text:I18N・comments・textPairs でない: ' + cD.diff.join(',') + (cD.missing.length ? ' / 欠け ' + cD.missing.join(',') : ''));
           if (!HPX.physCompare(now.parts, pd.parts, HPX.HTMLPHYS_DEFAULT_READS).same) bad.push('② 表示だけの写しで既定の reads が違う');
           const pa = SC.touchFunction(H, 'makeSim');
           const sp = span(H, pick), re = /(\bm:\s*)(\d+\.\d*[1-9])/g; re.lastIndex = sp[0]; const mm = re.exec(H);
@@ -93900,8 +93905,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
             const c = HPX.physCompare(now.parts, pp.parts, HPX.HTMLPHYS_DEFAULT_READS);
             rows.push(nm + ' → ' + (c.diff.join(',') || '同じ'));
             if (c.same || c.diff.indexOf(want) < 0) bad.push('② 物理の写し「' + nm + '」で既定の reads の ' + want + ' が違わない(取りこぼし)');
+            if (want === 'presets' && HPX.partValue(now.parts, 'presetPhys:' + pick) === HPX.partValue(pp.parts, 'presetPhys:' + pick)) bad.push('② 物理の写し「' + nm + '」で presetPhys:' + pick + ' が違わない(取りこぼし)');
           }
-          cases.push(`② 写し(本 ${pick}): 表示だけ(版名・name・summary・en.name・obsCard の model・I18N・注釈)→ 既定の reads は同じ・差は ${cD.diff.join('・')} / 物理の 1 文字: ${rows.join(' / ')}`);
+          cases.push(`② 写し(本 ${pick}): 表示だけ(版名・name・summary・en.name・obsCard の model・I18N・注釈・code の中の表示の文の対)→ 既定の reads は同じ・差は ${cD.diff.join('・')} / 物理の 1 文字: ${rows.join(' / ')}`);
           // ③ 移行の口
           const f0 = path.join(tmp, 'stamp.html'); fs.writeFileSync(f0, D);
           const shaD = crypto.createHash('sha256').update(Buffer.from(D, 'utf8')).digest('hex');
@@ -93928,10 +93934,12 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (d.whole) { if (!(st && st.alwaysRun)) bad.push('④ whole は常時群だけ: ' + k); continue; }
         const pr = HPX.readsProblems(d.reads);
         if (pr.length) bad.push('④ ' + k + ' の reads: ' + pr.join(','));
-        if (!HPX.HTMLPHYS_DEFAULT_READS.every((z) => d.reads.indexOf(z) >= 0)) bad.push('④ ' + k + ' の reads が既定を含まない');
+        if (!HPX.HTMLPHYS_REQUIRED_READS.every((z) => d.reads.indexOf(z) >= 0)) bad.push('④ ' + k + ' の reads が code・markup を含まない');
+        if (d.reads.indexOf('presets') < 0 && !d.reads.some((z) => /^preset(Full|Phys):/.test(z)) && !/内蔵の本を読まない/.test(d.why)) bad.push('④ ' + k + ' の reads に本が無い(本を読まないなら why に「内蔵の本を読まない」)');
         if (!(typeof d.why === 'string' && d.why.length > 10)) bad.push('④ ' + k + ' の why');
       }
-      cases.push(`④ html 全体を刻む段 ${whole.length}(宣言 ${Object.keys(D325).length} —— 物理の部分 ${Object.values(D325).filter((d) => !d.whole).length}・html 全体のまま〔常時群〕 ${Object.values(D325).filter((d) => d.whole).length})`);
+      for (const k of ['d0audit2', 'selfinertia']) if (D325[k] && JSON.stringify(D325[k].reads) !== JSON.stringify(HPX.HTMLPHYS_RAW_READS)) bad.push('④ 生の行を読む段 ' + k + ' の reads が HTMLPHYS_RAW_READS(版名の外を全部)と違う');
+      cases.push(`④ html 全体を刻む段 ${whole.length}(宣言 ${Object.keys(D325).length} —— 物理の部分 ${Object.values(D325).filter((d) => !d.whole).length}〔本を名指し ${Object.values(D325).filter((d) => !d.whole && d.reads.indexOf('presets') < 0).length}・生の行 ${Object.values(D325).filter((d) => !d.whole && d.reads.indexOf('comments') >= 0).length}〕・html 全体のまま〔常時群〕 ${Object.values(D325).filter((d) => d.whole).length})`);
       // ⑤ 台帳
       const L = HPX.readLedger(ROOT);
       if (!(L.version === HPX.HTMLPHYS_LEDGER_VERSION && L.entries && typeof L.entries === 'object')) bad.push('⑤ 台帳の版');
