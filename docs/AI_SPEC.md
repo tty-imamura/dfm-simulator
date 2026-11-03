@@ -4574,6 +4574,14 @@ SYSTEM_PROMPT の規則 13(逐語):
 - これらは開発の道具で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
 
 
+
+## 177. 第325便b —— サンプルの説明の語: 旧 gain 語を W_bg へ・用量 0 の対照は引きずり OFF(W_bg を掛けない)・観測質量の f=1 を書かない・金星と木星の内部熱は未解決・較正母集団の焦点(原仮定者の指示(第127報)・統括の検証項目 R285)
+
+- **語**: 内蔵の本の説明は背景慣性決定力 W_bg [M/L³] で書く(旧宣言の係数は W_bg = 1/gain として読む —— gain の欄は廃止)。用量 0 の否定対照は「引きずり OFF(W_bg を掛けない)」—— W_bg = 0 や 1/W_bg = 0 と書かない(引きずりの項そのものを外す —— 宣言は {Wbg:null, enabled:false})。観測質量の本は「観測質量のまま(質量の補正なし)」と書き、f=1・f★=1 を書かない(fSrc〔源の慣性係数〕と sourceMoment.f は別の変数として残す)。照合の鍵の行名(較正母集団の obsCard の ja の q)は変えない。
+- **内部熱**: 🌋 venusSunInertial3d・🏀 jupiterSunInertial3d は並進だけの宣言 —— 内部熱(🌋 は自転の逆回転も)は未解決と書く。熱の数は正本 tests/out/srcheat-w320a.json の診断の記録(観測の熱流に合わせていない)。「達」は近点の残差の門。
+- **較正の焦点**: 較正母集団の状況の文は焦点の量から始める(判定の 4 値は正本 calaudit が決める —— 原稿は状況の文だけ)。
+- **AI 生成の規則**: SYSTEM_PROMPT は変えない(本枝は説明の欄だけ)。AI が本を作るときも gain の欄を書かない(Wbg を書く)・用量 0 の対照は enabled:false で書く・観測質量に倍率を掛けた値を書かない・内部熱や逆回転を説明したと書かない。
+- **QA**: preset.sampleWords325b・docs.sampleWords325b(beta 線だけ —— root は SKIP)。
 ## 178. 第325便c —— 旧方式の geoPN=4(在位の連鎖の玩具 5 本)の説明の古い語・📟 の B の 139.4° の列の書き方・AN516 の数の訂正(原仮定者の指示(第127報)「タイトルや説明に「gain」が使われているサンプルが有が、「W_bg=1/gain」に置き換わったので修正する。他にも、古い表現が有れば修正する」・統括の検証項目 R286・**物理の欄・式・受理器・`S._core` は不変** —— 説明の欄だけ・**SYSTEM_PROMPT には載せない**)
 
 - **語の対応**(🔗 `chainDiskToy`・🔩 `chainDiskToy3d`・🪛 `chainDiskToy3dTilt`・🍥 `chainSpreadToy3d`・🧨 `chainBurstShell3d` の ja・en の説明の欄 53 か所): 「gain C_d=8」→「W_bg = 0.125 [M/L³](係数 1/W_bg = 8)」・「gain 8」→「W_bg 0.125」・対照の「gain 0」→「引きずり OFF(W_bg を掛けない)」(宣言は `{Wbg:null, enabled:false}` —— W_bg = 0 と書かない)・式の係数 C_d・C → 1/W_bg(s_i = Σ_j m_j K_ε(r_ij)(v_j − v_i)/W_bg)・軸引きずりの係数 → A_k(鍵 `axialCoupling`)。宣言 `relativeDrag:{law:"inertial", Wbg:0.125, …}` は変えていない。

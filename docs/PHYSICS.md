@@ -43337,6 +43337,76 @@ synodic-299b の読み: **3 本と 1 本の正本は物理の欄(葉 784)で差 
 
 **言わないこと。** 「物理の部分が同じだから結果が同じ」とは言わない —— 一致は段が読むと宣言した部分が同じ html を読んだことだけを意味する(器・lib・入力は従来どおり meta.code[]・inputs[] の完全 sha と安定 hash で縛る)。台帳は計画と QA が刻印の html を引くための記録で、正本ではない(手で直さない)。常時群は本便でも毎回走る(版名・説明だけの便で常時群を走らせない形は決断事項の候補 —— 本便は変えていない)。QA: `lint.htmlPhys325a`・`docs.w325a`。
 
+〔第325便b — サンプルの説明の語: 旧 gain 語を背景慣性決定力 W_bg へ・用量 0 の対照は引きずり OFF(W_bg を掛けない)・観測質量の f=1 を書かない・金星と木星の内部熱は未解決・較正母集団 19 本の焦点(原仮定者の指示(第127報)・統括の検証項目 R285)(**説明の欄だけ —— 物理の欄・宣言・式・受理・判定の 4 値・`S._core` は 1 文字も変えていない・presetSig 186/186 と 600 步の指紋 186/186 が基点の html と同じ・root の index.html は不変**)〕
+
+**① 指示と読み。** 原仮定者の指示(第127報)「金星と木星で、内部熱が解決したのかを確認し、サンプルの説明にも記載する。他にも、較正の焦点になった要素を確認し、記載する」「タイトルや説明に『gain』が使われているサンプルが有が、『W_bg=1/gain』に置き換わったので修正する。他にも、古い表現が有れば修正する。観測質量補正の『f』も、今は使っていない」。直したのは**在位の本の表示の欄**(name・en.name・descStruct・obsCard の model と obs・failureFirst・parameterAudit・en の同じ欄・状況の原稿 `tests/data-w279a-samplestatus-src.json`)と、在位の本が引く言わないことの文(I18N の nc_*)・ライブ比較の表示名の条件の句だけ。**退役の本の文と履歴の行**(〔履歴〕・旧台帳の記録・凍結の写し)は直さない。旧方式の geoPN=4 の本 5 本(🔗🔩🪛🍥🧨 —— 決断事項 AN525)と、J0737 の 📟・連星の 📻 の軸の文は第325便c の範囲(本枝は触らない)。
+
+**② 走査(先に —— 規約の速い判定と同じ扱い)。** 在位の本のうち geoPN=4 の 5 本を除く 125 本の表示の欄と nc_* の文を、QA `preset.sampleWords325b` と同じ規則で数えた(**表 1**)。
+
+**表 1 —— 走査の前後(在位 125 本の表示の欄の文の数)**
+
+| 語 | 基点(82aa277) | 本枝 | 残したもの(理由) |
+|---|---|---|---|
+| 旧 gain 語(gain・ゲイン —— 換算の注「W_bg = 1/gain」は数えない) | 83 文(🌀📈🌦️🌔🟫🍩🟪🐌) | 0(換算の注 15 文) | —— |
+| 観測質量の f=1・f★=1 | 63 文(🌙☄️🧮🩺⏰🛞💍) | 0 | 較正母集団の obsCard の ja の行名 q 4 文(🧮🩺 —— 判定器 calaudit が量の名として読む照合の鍵・lib の `LEGACY_ROW_IDS` の行)・🌘 の初速の係数 f 12 文(観測質量の f とは別の変数 —— fitRecord の宣言の語と対応) |
+| 旧メッシュの名 | 13 文 | 13 文 | 表示の空間メッシュ(overlays.spaceMesh —— 現行の表示)の語だけ。旧の法則の名は在位の本に無い |
+
+**③ 語の対応(表 2)。** fSrc(源の慣性係数)と sourceMoment.f は別の変数として残した(置き換えの対象に入れない)。
+
+**表 2 —— 語の対応**
+
+| 旧い語 | 新しい語 | 注 |
+|---|---|---|
+| gain(慣性引きずりの係数 [L³/M]) | 背景慣性決定力 W_bg [M/L³](W_bg = 1/gain) | 旧宣言の gain は受理器が W_bg = 1/gain として読む(gain の欄は廃止)。数は逆数へ直した —— 0.259335 → 3.8560163・0.004522415 → 221.12079・45.22419 → 0.02211206・51.4182 → 0.0194484・0.8 → 1.25・格子 0.226756/0.559953 → 4.41003/1.78586・SI 10⁻⁶〜0.0514182 m³/kg → 19.4484〜10⁶ kg/m³ |
+| gain 0(用量 0 の否定対照) | 引きずり OFF(W_bg を掛けない) | W_bg = 0 や 1/W_bg = 0 に置き換えない(引きずりの項そのものを外す —— 宣言は {Wbg:null, enabled:false}・宣言なしとビット同一) |
+| gain の探索 | W_bg の探索 | 近点周期は W_bg を小さくする(引きずりを強める)ほど短い(逆数なので向きが逆) |
+| 🐌 の式の係数 C_d(= 旧 gain) | 1/W_bg | 🐌 の式は u_i = (1/W_bg) Σ …・s_i = (1/W_bg) Σ … |
+| 箱宇宙の英語の frame gain・gain g(0) | response ratio | ja は元から応答の語 |
+| 観測質量(f=1)・f_A=f_B=1 | 観測質量のまま(質量の補正なし) | 質量の補正 f は使わない。massCalibration の law "f-fixed-1" は宣言の名として残す |
+| 恒星質量(f★=1) | 恒星質量(倍率を掛けない) | 🛞 の massLedger の fStar は宣言の鍵として残す |
+| 「kF0 と f=1 の本」(較正の方針の文) | 「kF0 と観測質量のままの本」 | ☄️🌙💍🌘 |
+| ライブ比較の表示名の条件の句「kFrame=0・観測質量 f=1」 | 「kFrame=0・観測質量」 | 行名 n は照合の鍵のまま(LIVE_COMPARE_SPEC) |
+
+**④ 直した本と欄。** 🟫 mercurySunInertialFit(名・観測カード 3 行・要約・観察・対照・parameterAudit)・🍩 saturnRingInertial3d(名・観測カード 3 行・要約・観察・対照・parameterAudit 2 行 —— 宣言の写しの行は今の宣言 {Wbg:null, enabled:false} へ)・🌦️ earthMoonSunInertial3d・🌔 earthMoonOnly3d・🟪 plutoCharonInertialFit(要約の履歴の段の数を W_bg へ)・🐌 inertialDragPair(観測カード 5 行・要約・観察・対照・状況 —— 要約の禁句に当たる語も外した)・🌀 boxrot・📈 boxexpand(英語の応答比)・🧮 psrJ1757DFM・🩺 psrJ1946DFM(名・観測カードの model と obs・en の行名・failureFirst・要約・対照・parameterAudit・状況の目的)・🛞 ngc3198DFM(名・要約・観測カード 1 行)・☄️ mercuryReal・🌙 earthMoonReal・💍 saturnRingReal・🌘 earthMoonRealKF1(較正の方針の文)・⏰ gw150914Merge4s(要約・parameterAudit)。nc_* は nc_gain_universal_fit・nc_apsidal_8p85_3d・nc_emonly_control・nc_perihelion_43_fit・nc_single_quantity_fit と、共有の注記 nc_gain_universal(在位の本と退役の本が引く文 —— 移送の SI の値は W_bg 19.4484 kg/m³〔旧の係数 0.0514182 m³/kg の逆数〕)の文だけ。notClaim の鍵の名(gain_universal など)は照合の鍵なので変えない。
+
+**⑤ 金星・木星の内部熱は未解決(🌋🏀 と注の 3 本)。** 在位の 🌋 venusSunInertial3d・🏀 jupiterSunInertial3d は**並進だけの宣言**(源の角運動量 J・軸保持の熱の経路を宣言していない)。熱の量は第320便a の節の器が 🌋・🏀・🗺️ の写しで測った**診断の記録**(正本 `tests/out/srcheat-w320a.json`)で、観測の熱流には合わせていない。数は正本の値(要約には概数):
+- 木星(16 体の 🗺️ の写し・受け手 I = ½ m R²・太陽の J だけ): 保持の時間 τ_hold = h₀(106.28 s)の電力は内部熱の主列(文献の値 —— 本枝は一次資料に当たっていない)の 7.990e-2 倍(`F.rows` の sunRatioBAtH0)。銀河の項を宣言の尺度(+ĝ)で足すと 1.063e+4 倍(同じ受け手)。熱の大きさは τ_hold の宣言で動く —— 🏀 の写しは h₀ が違い、同じ太陽の J の比は 8.589e-6。τ_hold を逆算して合わせることは解決ではない。第320便b の節の表のとおり、公転面・金星・木星を一つの候補でそろえる規則は無い。
+- 金星(🗺️ の写し・太陽の J だけ): 軸の角速度は軸を 1 Gyr で π 回す大きさの 1.149e-2 倍(`R.compare` の ratioEngine)。金星の自転の逆回転も未解決。高い表面温度を内部熱の流束に置き換えない。
+- 🌋🏀 の「達」は**近点の残差の門**(r_1PN が門の内)であって、内部熱の門ではない。状況の文(原稿)を「近点の残差 r_1PN …が門の内・内部熱は未解決」(🌋 は自転の逆回転も)へ・要約の末尾に内部熱の段落を足した。🗺️ solarSystem16Inertial3d・🌇 venusReal・🟠 jupiterGalilean には「熱の本ではない」の注を足した。
+
+**⑥ 較正の焦点(表 3 —— 較正母集団 19 本の状況の文)。** 判定の 4 値(合 0・量限定合 2・否 1・保留 16)は正本 `tests/out/calaudit-w249.json` が決める(原稿は状況の文だけ —— 4 値と合わない量と見込みは器が正本から作る)。焦点の量は正本の台帳(代表量・比べた量)から読んだ。SAMPLE_STATUS の概要の上限(ja 120 字・en 200 文字)の内。
+
+**表 3 —— 較正の焦点(状況の文の頭)**
+
+| 本 | 4 値 | 焦点 |
+|---|---|---|
+| ✨ alphaCenAB・🌟 siriusAB | 量限定合 | 実単位・kF0 の連星の公転周期(限定した量だけ・系全体ではない) |
+| 📡 saturnZonalD68 | 否 | 帯状重力の D68 の近点移動(代表量が門の外 —— 刻みでは縮まない) |
+| ☄️ mercuryReal | 保留 | 近日点 43″/世紀(不足を軟化・刻み・入力に分解) |
+| 🥶 plutoCharonDiagInput | 保留 | 1 つの観測解の周期(平均の a を使った差 —— 定義の差) |
+| 📻 psrDoubleAB・🧮 psrJ1757DFM・🩺 psrJ1946DFM・📿 psrB1534 | 保留 | タイミングの公転周期(同一解・同一元期の入力が先) |
+| 🌙 earthMoonReal | 保留 | 恒星月(kF0)の照合 —— 月の近点の機構の同定ではない |
+| 🔆 emAuditSolar | 保留 | 太陽摂動だけの月の近点(向きは前進・年数は記録のみ) |
+| 🟠 jupiterGalilean | 保留 | 規則を動かさない 4 衛星の周期(hold-out)—— 木星の内部熱は扱わない |
+| 🌇 venusReal | 保留 | 自由中心の太陽–金星の周期と離心率 —— 内部熱の本ではない |
+| 🥔 marsMoonsReal・💠 uranusReal・🌊 neptuneReal・💍 saturnRingReal | 保留 | 実単位の衛星の周期・逆行のトリトンの向き・環の帯の周期(試験粒子の群は質量のある粒の較正と読まない) |
+| 🎐 gw150914・⏰ gw150914Merge4s | 保留 | 合体前の基準状態の転写・約 4 秒の放射の宣言(波形の照合ではない) |
+
+**⑦ 直さなかったものと理由。**
+- **照合の鍵**: 🧮🩺 の obsCard の ja の行名 q「公転周期(観測質量 f=1 — 同方向1周)…」「DFM 質量(… — f=1: 観測質量そのもの)」は判定器が量の名として読む(正本と生成領域の観測の比較の行と lib の `LEGACY_ROW_IDS` が同じ文字列で引く)ので変えない。en の行名(判定器は読まない)は直した。鍵から f=1 を外すのは、AN428 の段階 ③(データの行名から語を外し、旧い名を別名として残す)の型で calaudit 以下の再生成と一緒に —— 次の便の候補。
+- **領域 hash に入る欄**: fitRecord・calibrationForecast・massLedger.note(説明の文の欄 PROSE_KEYS の外 —— 変えるとその本を宣言した段が regen に入る・どれも記録の欄)。
+- **宣言の現状を書いた文**: 🎇⚪🔘🎆🐮 の「台帳 f=2」(massCalibration の factorUniform 2 の宣言)・🛞 の bodies の f≈2(massLedger の fDynamics の宣言 —— 「f=2 でも未達」は今の本の結果)。変えるには宣言の変更が要る(本枝の外)。
+- **履歴の f≈2**: 〔旧則の記録 —— 履歴〕・旧台帳・⚛️ の「f≈2 の較正質量ではない」・⏰ の観測カードの当時の η の注。
+- 🌘 earthMoonRealKF1 の**初速の係数 f**(観測質量の f とは別の変数)・🔸 alphaCenABInertial3dJ の名の f(源の慣性係数 —— 連星の軸の文と同じ本で第325便c の範囲)。
+- 退役の本の名前と文(🌤️🟤🟣 の「移送した gain」など —— 履歴)・nc_axial_drag_unfitted(在位で引くのは geoPN=4 の 5 本だけ —— 第325便c。鍵の別名 axialGain は別の量の鍵)。
+- 🐌 の「回転引きずり(手前/反対)と連鎖は未実装」(この本の宣言の範囲の文 —— QA の要件のまま)。
+
+**⑧ 確かめ。** 規約の速い判定 `node tools/conventions-check.mjs --samplestatus` を html を変えるたびに先に回した(全部 OK —— 内蔵 186・① 0・② 0・③ 0・⑤ 冪等)。presetSig は 186/186 が基点の html と同じ(`tests/exp-w272d-sigsame.mjs`)・600 步の指紋も 186/186 が同じ(`tests/exp-w258c-bitsame.mjs`)。生成表(SAMPLE_STATUS・FAMILIES)は生成し直した。古い文を逐語で照合していた QA は世代で直した(root の旧い文も通る —— docs.calPolicyText・preset.inertialDragPair・behavior.psrF1-1757・behavior.psrF1-1946・behavior.psrF1-1534・ui.liveComparePeriodDef・preset.condRowsRenamed〔凍結の写しとの数の並びから観測質量の印 f=1 を外して照合・en の行名の表の f=1 を外した名も受ける〕)。新設は `preset.sampleWords325b`・`docs.sampleWords325b`(beta 線だけ)。QA_FAST(beta)は 1291/1303 —— FAIL 12 のうち 11 本は刻印の型(正本の targetSha256 が今の html と違う —— 基点の html でも同じ 11 本が落ちる〔版名の変更〕・鎖で器を走らせ直せば直る)、1 本(preset.condRowsRenamed)は世代で直して部分 QA で PASS。
+
+**⑧′ 鎖の計画(サンプルだけの変更で全行程を再実行しない —— 原仮定者の指示(2026-11-01))。** `node tools/regen-plan.mjs --base beta/_w325_base.html` を本枝の html と基点の html(`--html beta/_w325_base.html`)の両方で引いた。**本枝の変更で新しく regen に入る段は 0** —— always 13・regen 13・recheck 19 は基点の html でも同じで、違いは families が regen → recheck の 1 段だけ(本枝で生成表を作り直したので自分の理由が消えた)。宣言のある段は全部が自分の理由で reuse(説明の欄・I18N の文・ライブ比較の表示名は領域に入らない —— obscompare も領域は同じ)。html 全体を刻む 11 段(bh90・calaudit・kf0・galaxyprof2・d0audit2・selfinertia・galaxyprof・needmesh・kf0ledger-old・kf0ledger・samplestatus)は版名の変更だけで基点でも regen/always —— このうち説明を読む段は samplestatus(状況と概要と本の名)だけで、名を写す正本は families(本の名 —— 生成し直した)・presetaxes(名の写しを持つが領域は物理だけ —— reuse のまま・名の写しは古い記録)。calaudit の正本は 🧮🩺 の観測カードの model の文を写す(常時群なので鎖で新しい文になる)。
+
+**⑨ 言わないこと。** 金星・木星の内部熱・金星の逆回転を引きずりで説明したとは書かない(未解決 —— 要る大きさと 1 回の量を並べた診断の記録だけ)。τ_hold を逆算した値を解決と呼ばない。近点の残差の「達」を内部熱の門と読まない。較正の焦点は判定の 4 値を動かさない(焦点を書いただけ)。W_bg を全系に共通の値と呼ばない。
+
 〔第325便c — 旧方式の geoPN=4(在位の連鎖の玩具 5 本)の説明の古い語・J0737 の B の 139.4° の列の書き方・AN516 の数の訂正・J0737 A の自転軸の傾きのノブ・旧方式の geoPN=4 の退役(原仮定者の指示(第127報)「タイトルや説明に「gain」が使われているサンプルが有が、「W_bg=1/gain」に置き換わったので修正する。他にも、古い表現が有れば修正する」「旧方式のgeoPN=4サンプルは、新方式で刷新するか、廃止する」・原仮定者の回答(2026-11-03 —— AN526・AN525)・統括の検証項目 R286)(**式・受理器・步・`S._core` は 1 bit も変えていない** —— ①〜③ は説明の欄だけ〔在位 186 本の bitsame 186/186(600 步)・sigsame 186/186〕・④ は 📟 の A の傾きの分類だけ〔力学の値は既定で同じ・署名は 📟 だけ変わる〕・⑤ は 5 本の familyRole だけ〔ID・物理・署名は不変・掲載 130 → 125〕・root の index.html は不変)〕
 
 **① 連鎖の玩具 5 本の古い語(説明の欄だけ —— 物理の欄は 1 文字も変えていない)。** 在位の旧方式の geoPN=4 の本は 🔗 `chainDiskToy`・🔩 `chainDiskToy3d`・🪛 `chainDiskToy3dTilt`・🍥 `chainSpreadToy3d`・🧨 `chainBurstShell3d` の 5 本(内蔵の physics.geoPN = 4 は 15 本 —— 残りの 10 本は既に退役)。5 本の宣言は `relativeDrag:{law:"inertial", Wbg:0.125, …}`(旧 W_bg 則の連鎖・`solver:"network-pcg-v1"`)のままで、説明の文だけが旧い係数の名(gain・C_d)で書かれていた。今の法則は C_d = 1 に固定・行の係数は派生値 1/W_bg(力学の入口は relDragCoefficientOf の 1 か所)なので、W_bg = 0.125 は旧 gain 8 の読み(W_bg = 1/gain)と同じ値である。直した文は ja・en の obsCard・descStruct・parameterAudit の 53 か所と、SAMPLE_STATUS の原稿の 🧨 の状況(ja・en)。

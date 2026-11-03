@@ -585,6 +585,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.resume324d docs.satlong324d lint.regenS
 #   台帳: 鎖の後に node tools/regen-plan.mjs --htmlphys-record(物理の部分の宣言のある段の正本の刻印の html と今の html の行 —— 台帳 tests/data-w325a-htmlphys.json をコミット)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.htmlPhys325a docs.w325a lint.provenanceMeta docs.d0audit-sync docs.d0sites-sync docs.bgpredict-sync docs.selfInertia-sync docs.bgbudget-sync docs.bgCompose docs.sphereKernel lint.regenChain lint.regenScope lint.regenOrderOnly323 lint.regenQuick323 lint.violationKinds320 lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第325便a の塊(ここまで)====
+# ==== 第325便b の塊(ここから)====
+# 第325便b(原仮定者の指示(第127報)・統括の検証項目 R285): 枝 b の新設 2 本(preset.sampleWords325b —— 在位の本の表示の欄の旧 gain 語・観測質量の f=1 の残り 0・照合の鍵の行名が残る・
+#   金星と木星の内部熱は未解決・較正母集団の焦点 / docs.sampleWords325b —— 文書)と、古い文を世代で直した QA(docs.calPolicyText・preset.inertialDragPair・behavior.psrF1-1757・behavior.psrF1-1946・
+#   behavior.psrF1-1534・ui.liveComparePeriodDef・preset.condRowsRenamed)・生成表の docs.sampleStatus-sync・preset.statusLedger-sync・docs.families・規約の速い判定の lint.conventionsCheck323・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.sampleWords325b docs.sampleWords325b docs.calPolicyText preset.inertialDragPair behavior.psrF1-1757 behavior.psrF1-1946 behavior.psrF1-1534 ui.liveComparePeriodDef preset.condRowsRenamed docs.sampleStatus-sync preset.statusLedger-sync docs.families lint.conventionsCheck323 lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第325便b の塊(ここまで)====
 # ==== 第325便c の塊(ここから)====
 # 第325便c(原仮定者の指示(第127報)・統括の検証項目 R286): 枝 c の新設(docs.words325c —— 連鎖の玩具 5 本の説明の古い語・📟 の B の 139.4° の列・AN516 の数の訂正・文書)と、
 #   説明を読む生成表の QA(docs.sampleStatus-sync・preset.statusLedger-sync・docs.families)・本の文を読む behavior.obsSpin324b・docs.obsSpin324b・lint.qaHeapRelease310・lint.sectionLookup313・規約の速い判定の lint.conventionsCheck323
