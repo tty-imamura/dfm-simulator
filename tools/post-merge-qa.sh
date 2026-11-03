@@ -577,6 +577,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickBoundary324c lint.calVolatile324c 
 #   lint.scopeStop・lint.scopeAll312・lint.regenChain・lint.canon304・lint.harnessSmoke303・lint.qaHeapRelease310・lint.sectionLookup313)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.resume324d docs.satlong324d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第324便d の塊(ここまで)====
+# ==== 第325便d の塊(ここから)====
+# 第325便d(統括の検証項目 R287・決断事項 AN517/AN518 —— 簡易一致の本運用の前の試験): 枝 d の新設 5 本(lint.quickMutation325d —— 短窓の後だけ効く変異の影の試験 /
+#   lint.quickEnvWin325d —— args/cmd の窓 6 段の環境変数の窓 / lint.quickEnv325d —— 環境の整合・枝 a との継ぎ目・暦の債務 / lint.quickGate325d —— 本運用の門の関数〔休眠〕/
+#   docs.w325d —— 文書)と、版と窓の表を世代で受けた lint.regenQuick323・lint.quickBoundary324c・lint.quickWindows323・docs.w323c・煙試験の lint.harnessSmoke303・
+#   PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickMutation325d lint.quickEnvWin325d lint.quickEnv325d lint.quickGate325d docs.w325d lint.regenQuick323 lint.quickBoundary324c lint.quickWindows323 docs.w323c lint.harnessSmoke303 lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第325便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

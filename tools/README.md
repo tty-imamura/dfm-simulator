@@ -346,3 +346,16 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
 - 置き場の既定は `tests/out/.satlong-w324d/`(.gitignore のまま —— 数百 MiB になりうる)。`--resume-dir <dir>` でも指定できる。子プロセスは `W318B_WORKERS`(既定 2)・checkpoint の間隔は `W324D_CK_SEC`(既定 600 s)。
 - 止まったら**同じ命令をもう一度**(済みのジョブは done から再利用・途中のジョブは checkpoint から続ける・`--long` は走行の初めに門を回し、外れたら走らせない)。対象 html・器と lib・凍結の写し・環境が変わると契約が違うので続きは拒否される(最初から)。
 - 2 段とも履歴(計画は常に「履歴」—— 毎便の鎖に入れない)・簡易一致は使わない(quickVerify:false)。
+
+## 第325便d —— 簡易一致の本運用の前の試験(統括の検証項目 R287・決断事項 AN517/AN518)
+
+- **環境変数の窓**(`tools/harness-smoke.mjs` の `SMOKE_ARG_ENV` —— 版 w325d-smoke-argenv-1): 窓の表の行の env に `HS_ARG_*` を書くと、煙試験が走らせる前に器の引数へ写す
+  (`HS_ARG_STEPS` → `--steps` ほか 9 種・env の並びの順・`HS_ARG_*` は器に渡さない)。emgrid・charon-h2・charonk・nslock・charoneps-h4 はこの形・dragcore292 は窓の器の
+  `W323C_DRAGCORE_OUT`。窓の出力 `out` は走らせる前に写しから消す・同じ `out` の段は同時に走らせない・`--fingerprint` は `out` も読み、記録の頭に取った箱の `env`
+  (Node・Chromium・platform・heap)を書く。第323便c の世代の行は `W325D_KNOBS_323C`(`knobs323cView()`)。
+- **環境の整合**: `node tools/regen-plan.mjs [--chain-env <env.json>] [--no-env-check]` —— 影の表は記録の env と鎖の環境(無ければ今の箱の `node tools/regen-chain.mjs --env`)を照合し、
+  違えば全段の候補 0(`--env` の出力に `heapMb`・`nodeOptionsHeap` を足した —— heap は印字だけ)。
+- **本運用の門(休眠)**: `node tools/regen-plan.mjs --quick-gate [--shadow <影の照合の JSON>]… [--shadow-prev <前の記録 | git:<rev>>] [--fp-record <今の記録>] [--plan-json <計画>] [--chain-env <env.json>] [--promote] [--json <file>]`
+  —— `tests/lib-w325d-quickgate.mjs` の `quickProductionGate` の判定(enter/hold)と門ごとの表を印字するだけ(鎖も計画も変えない・終了コード 0)。
+  前の便の影の照合は git の記録からも引ける(`--shadow-prev git:<前の便の記録を含むコミット>`)。
+- **変異の影の試験・暦の債務**: `tests/lib-w325d-quickgate.mjs` の `mutationSelfTest`(合成の段の便の模擬)・`calendarDebt`(提案 —— 鎖は呼ばない)。

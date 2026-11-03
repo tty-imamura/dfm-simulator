@@ -49,6 +49,7 @@
 //   ② **領域の理由の種類**: 「理由が領域だけ」は QUICK_REGION_KINDS(今は scope だけ)の種類だけから成る行。**知らない種類**(枝 a が足す html の物理の部分の種類など
 //      —— 今後の版で増える種類)は領域に数えない(候補から外す側 —— 安全側の既定)。
 //   ③ 記録の頭に env(取った箱の node・Chromium・platform・heap —— harness-smoke --fingerprint が書く)を写す(mergeRecord の head.env)。
+//   ④ 指紋で除く欄名に runWallSec(dragcore292 の窓の器の壁時計 —— 正本と記録の 59 段の出力には無い欄名)。
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { REGEN_STEPS, volatilePathsOf, SEMANTIC_RUN_META, codeFilesOf, writesOf, HTML_TARGET } from './lib-w281a-regentable.mjs';
@@ -83,7 +84,9 @@ export const QUICK_DECL_FIELDS = Object.freeze({
  * 指紋で除く欄名(どの階層でも)—— 実行時刻・壁時計の所要と速度(新方式の語彙と旧方式の欄名)と `ms`(行ごとの壁時計のミリ秒 ——
  * 第323便b の試走で bgbudget2 の窓の指紋が 2 回で違った欄。今の正本で `ms` はすべて壁時計〔bgbudget2・charonwin・samplestatus・timing・ledgernorm〕)。
  */
-export const FP_RUNTIME_KEYS = Object.freeze([...new Set(STABLE_RUNTIME_KEYS.concat(LEGACY_VOLATILE_KEYS, ['ms']))].sort());
+// 第325便d: `runWallSec`(段 dragcore292 の窓の器 tests/exp-w323c-dragcorequick.mjs の走行の壁時計 —— 第325便d の試走の 2 回で窓の指紋が違った欄)を足した。
+//   この欄名は正本(tests/out)にも、記録の 59 段の窓の出力にも無い(lint.quickEnvWin325d が器の本文と正本を照合)—— 記録の指紋と正本の hash は変わらない(記録の版はそのまま)
+export const FP_RUNTIME_KEYS = Object.freeze([...new Set(STABLE_RUNTIME_KEYS.concat(LEGACY_VOLATILE_KEYS, ['ms', 'runWallSec']))].sort());
 /**
  * 指紋で除く**刻印と来歴**の欄(どの階層でも —— meta の外に写した刻印): 名が `sha256`・名が `Sha256` で終わる欄(対象・html・領域・コード・lib・入力のファイルの
  * sha —— targetSha256・nowSha256・measureSha256・obsSha256 ほか)と、前の世代から写した来歴の文字列 `baseFrom`(semic-302d の「carried(carried(…))」—— 鎖のたびに伸びる)。

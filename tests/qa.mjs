@@ -93855,6 +93855,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const ex = HS.W325D_ENV_KEYS.map((k) => [k, Q.staticExclusion(RT.REGEN_STEPS.find((z) => z.key === k), cal)]);
       const can = ex.filter(([, w]) => !w).map(([k]) => k);
       for (const [k, w] of ex) if (w && !/^手動の段$|^較正の判定を出す段/.test(w)) bad.push('6 段の静的な除外の理由が想定の外: ' + k + ' —— ' + w);
+      // 指紋で除く欄名 runWallSec(dragcore292 の窓の器の壁時計)は窓の器の外の器と正本に無い —— 記録の指紋と正本の hash は変わらない
+      const rwExp = fs.readdirSync(path.join(ROOT, 'tests')).filter((f) => /^exp-.*\.mjs$/.test(f) && rd325d('tests/' + f).indexOf('runWallSec') >= 0);
+      const rwOut = fs.readdirSync(path.join(ROOT, 'tests', 'out')).filter((f) => /\.json$/.test(f) && rd325d('tests/out/' + f).indexOf('"runWallSec"') >= 0);
+      if (!Q.FP_RUNTIME_KEYS.includes('runWallSec') || rwExp.join(',') !== 'exp-w323c-dragcorequick.mjs' || rwOut.length) bad.push('runWallSec: 指紋の除外 ' + Q.FP_RUNTIME_KEYS.includes('runWallSec') + '・器 ' + rwExp.join(',') + '・正本 ' + rwOut.join(','));
+      cases.push(`指紋で除く欄名に runWallSec(器 ${rwExp.join(',')} だけ・正本 ${rwOut.length} 本 —— 記録の 59 段の指紋と正本の hash は変わらない)`);
       const HT = rd325d('tools/harness-smoke.mjs');
       for (const w of ['w325dKnobCmd(row.cmd.split', 'w325dClearOut(o.sandbox, knob)', 'w325dKnobEnv(knob)', 'w325dPick(queue, busy)', 'w325dFpOut(c.knob, outs, files)', 'env: w325dProbeEnv(root)', 'env: ctx.env || undefined'])
         if (HT.indexOf(w) < 0) bad.push('harness-smoke の配線に「' + w + '」が無い');
@@ -93925,7 +93930,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     else if (QG && HS && Q && RT && MU) {
       const i7 = PH.indexOf('\n## 7.'), iG = PH.indexOf('〔第324便 — 統括');
       if (!(a325 < i7 && iG >= 0 && iG < a325)) bad.push('節の位置(〔第324便 — 統括〕の後・「## 7.」の前)');
-      for (const b of ['a', 'b', 'c']) { const k = PH.indexOf('〔第325便' + b + ' — '); if (k >= 0 && k > a325) bad.push('〔第325便' + b + '〕が〔第325便d〕の後'); }
+      for (const [b, k] of [['a', PH.indexOf('〔第325便a — ')], ['b', PH.indexOf('〔第325便b — ')], ['c', PH.indexOf('〔第325便c — ')]]) if (k >= 0 && k > a325) bad.push('〔第325便' + b + '〕が〔第325便d〕の後');
       const cal = Q.calibrationSteps({ steps: RT.REGEN_STEPS, root: ROOT });
       const tabs = [['表 1', [MU.sample.every, MU.sample.once, MU.sample.onceDebt, MU.sample.long].map((s) => QG.mutationWaveRows(s)).join('\n')], ['表 2', HS.w325dWindowRows({ steps: RT.REGEN_STEPS, Q, cal })]];
       for (const [nm, tb] of tabs) {

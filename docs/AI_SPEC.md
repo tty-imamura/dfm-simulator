@@ -4565,3 +4565,11 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w324b-obsspin.mjs`(版 w324e-obsspin-2 —— 段 A に傾きの形の場合・段 B に軸の宣言とノブ・段 E に欠測の写しとノブを振った列・段 K に軌道の面の向き)→ 正本 `tests/out/obsspin-w324b.json`(段 obsspin-324b のまま)。式と測定は docs/PHYSICS.md〔第324便e〕。
 - **QA**: `behavior.obsSpin324b`・`docs.obsSpin324b` を世代で切り替えた(傾きの形の受理・ノブの一覧と withKnob・60 步〔📟 は並進だけと違う・欠測の写しは並進だけとビット同一・🔸 は前の版の宣言とビット同一〕・内蔵の obsSpin の軸は全部傾きの形)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない(観測の自転の欄は観測の記録から人が書く欄)。AI が連星の本を作るときも、傾きの観測・推定の記録があればその値(basis "observed" か "estimated"・出典)を使い、記録が無い成分は basis "knob"(既定と範囲・source に「模型の入力」)にする —— 推定の値を作らない・ノブの値を観測と呼ばない。axis:null(欠測)は受理するが連星の本の既定にしない。
+
+## 179. 第325便d —— 簡易一致の本運用の前の試験: 短窓の後だけ効く変異の影の試験・args/cmd の窓 6 段の環境変数の窓・環境の整合・暦の債務(提案)・本運用の門の関数(休眠)(統括の検証項目 R287・決断事項 AN517/AN518・**html・本の宣言・器の本文・正本・`S._core` は不変** —— lib と道具と QA と文書だけ・簡易一致は影のまま・**SYSTEM_PROMPT には載せない**)
+
+- **変異の影の試験**(`tests/lib-w325d-quickgate.mjs` 版 w325d-quickgate-1 の `mutationSelfTest`): 合成の段(純関数の器)に煙試験の窓の步数の後でだけ効く変異を入れ、便の番号を進めて簡易一致の影の判定・輪番(K = 3)・影の照合をそのまま回す。窓の指紋は変異の前後で同じ(簡易一致は「同じ」と判定する)・影の照合は鎖のフルの便で falseSame・本運用の模擬では輪番のフルが K 便以内に正本の差として落とす。段の領域がその後の便で変わらない(reuse)と今の規則では落ちない —— **暦の債務**(`calendarDebt` —— 最初の quick の便から K − 1 便の後に reuse でもフル)を提案として置いた(休眠)。
+- **環境の窓**: `tools/harness-smoke.mjs` の窓の表の 6 段(emgrid・charon-h2・dragcore292・charonk・nslock・charoneps-h4)を環境変数の形へ(器が引数しか読まない段は `HS_ARG_*` を煙試験が引数に写す —— `SMOKE_ARG_ENV`)。窓の走行は第323便c の行と同じ。簡易一致の候補になれるのは静的な除外(AN518 —— 手動の段・較正の正本を読む段)の無い dragcore292・nslock の 2 段。
+- **環境の整合**(`quickEnvCheck`): 指紋の記録の頭の env(`--fingerprint` が書く —— Node・Chromium・platform・heap)と鎖の env.json(`node tools/regen-chain.mjs --env` —— heap の欄を足した)を照合し、Node・Chromium・platform のどれかが違うか欠ければ影の表の候補を 0 にする(heap は印字だけ)。
+- **本運用の門の関数**(`quickProductionGate` —— 休眠): 影の照合の列・今の便の計画・環境・root 昇格・変異の試験・暦の債務から「本運用に入れる/入れない」と理由の列を返す。`node tools/regen-plan.mjs --quick-gate` が印字するだけで、鎖は呼ばない(本運用に入れるかは第326便で統括が決める)。
+- これらは開発の道具と来歴の欄で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
