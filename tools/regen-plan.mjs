@@ -27,6 +27,10 @@
 //       --base があれば步の関数・受理器・S._core の差を引く(quickVerify:'long' の段の判定)。
 //     ・**影の照合**(次の便): --shadow-compare <前の記録> [--fp-record <今の記録>] [--keys …] [--json …] —— trueSame / falseSame(誤判定)/ trueDiff / missed / na(誤判定があれば 1)。
 //   第324便c(R281): 影の照合の欠測は na(trueSame に数えない)・照合の数の行・自己比較の拒否(終了コード 2 —— --allow-self で印字だけ)。
+//   第325便a(原仮定者の指示(2026-11-03)「再生成の段の対象が宣言なしの場合、html全体にしない」・R284): 領域の宣言の無い段は、再生成表の HTMLPHYS_DECL_325A の宣言(読む部分)で
+//     刻印の html と今の html の**物理の部分**(tests/lib-w325a-htmlphys.mjs —— 版名・文の登録簿・本の表示の欄・生成領域 sample-status・注釈を外す)を比べる。同じ → reuse(段の htmlPhysUsed)・
+//     違う → 理由の種類 htmlphys・刻印の html が台帳・基点・git の履歴に無い → html 全体。`--no-htmlphys` で第324便までの判定。
+//     `--htmlphys-record [--stamp-git N]` で台帳 tests/data-w325a-htmlphys.json(html の sha → 部分の hash)を作り直す(計画は引かない —— 引けない sha は終了コード 1)。
 // 終了コード: 0(計画を出した)/ 2(表に無い正本が lint の CANON にある等、表が壊れている)
 import fs from 'node:fs';
 import path from 'node:path';

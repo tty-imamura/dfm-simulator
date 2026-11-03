@@ -352,15 +352,16 @@ export function htmlPhysCheck(o) {
  * @param {object} meta 正本の meta
  * @param {string} nowSha 今の対象の sha
  * @param {object|null} decl 段の宣言(HTMLPHYS_DECL_325A の行 —— 無ければ物理の部分では見ない)
+ * @param {{ledger?:object, html?:string}} [o] 台帳と今の html の差し替え(自己試験)
  * @returns {{ok:boolean, how:'exact'|'scope'|'htmlphys'|null, why:string}}
  */
-export function targetOk325(root, meta, nowSha, decl) {
+export function targetOk325(root, meta, nowSha, decl, o) {
   if (!meta) return { ok: false, how: null, why: 'meta が無い' };
   if (meta.targetSha256 && meta.targetSha256 === nowSha) return { ok: true, how: 'exact', why: '' };
   if (scopeOkNow(root, meta)) return { ok: true, how: 'scope', why: '' };
   if (!decl) return { ok: false, how: null, why: '段の宣言が無い(html 全体)' };
   const abs = String(root).replace(/\/$/, '') + '/' + String(meta.target || HTMLPHYS_TARGET);
-  const r = htmlPhysCheck({ root, meta, decl, html: abs, ledgerOnly: true });
+  const r = htmlPhysCheck({ root, meta, decl, html: (o && o.html) || abs, ledgerOnly: true, ledger: o && o.ledger });
   return { ok: r.ok, how: r.ok ? 'htmlphys' : null, why: r.why };
 }
 

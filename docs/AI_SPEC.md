@@ -4565,3 +4565,10 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w324b-obsspin.mjs`(版 w324e-obsspin-2 —— 段 A に傾きの形の場合・段 B に軸の宣言とノブ・段 E に欠測の写しとノブを振った列・段 K に軌道の面の向き)→ 正本 `tests/out/obsspin-w324b.json`(段 obsspin-324b のまま)。式と測定は docs/PHYSICS.md〔第324便e〕。
 - **QA**: `behavior.obsSpin324b`・`docs.obsSpin324b` を世代で切り替えた(傾きの形の受理・ノブの一覧と withKnob・60 步〔📟 は並進だけと違う・欠測の写しは並進だけとビット同一・🔸 は前の版の宣言とビット同一〕・内蔵の obsSpin の軸は全部傾きの形)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない(観測の自転の欄は観測の記録から人が書く欄)。AI が連星の本を作るときも、傾きの観測・推定の記録があればその値(basis "observed" か "estimated"・出典)を使い、記録が無い成分は basis "knob"(既定と範囲・source に「模型の入力」)にする —— 推定の値を作らない・ノブの値を観測と呼ばない。axis:null(欠測)は受理するが連星の本の既定にしない。
+
+## 176. 第325便a —— 再生成の段の対象を html 全体にしない: html の物理の部分の hash・段が読む部分の宣言・台帳による移行(原仮定者の指示(2026-11-03)「次便以降で、再生成の段の対象が宣言なしの場合、html全体にしない」・原仮定者の指示(2026-11-01)・統括の検証項目 R284・**html・本の宣言・エンジン・`S._core`・器の本文・正本は不変** —— lib と再生成表の宣言と計画の関数と道具と QA と文書と台帳だけ・**SYSTEM_PROMPT には載せない**)
+
+- **html の物理の部分**(`tests/lib-w325a-htmlphys.mjs` —— 版 w325a-htmlphys-1): html を部分(`code` —— 注釈を除いた最上位の文から版名の値・文の登録簿・内蔵の本の配列・生成領域 sample-status を外した本文 / `presets` —— 評価した内蔵の本の表示の欄を外した写し / `markup` / `comments` / `build` / `text:<名>` / `regions:<名>` / `presetFull:<id>`)に分けて hash を引く。
+- **段の宣言** `HTMLPHYS_DECL_325A`(`tests/lib-w281a-regentable.mjs` —— 版 w325a-htmlphysdecl-1): 領域の宣言の無い html 全体の 11 段に、器が html から読む部分(既定 code・presets・markup —— bh90 は 3 本の presetFull・d0audit2 と selfinertia は comments・samplestatus は build・presetFull:*・text:*)か `whole`(常時群)。宣言の無い html 全体の段は従来どおり html 全体(QA が名指しで落とす)。
+- **計画と移行**: 刻印の html を台帳(`tests/data-w325a-htmlphys.json`)・基点の html・git の履歴から sha で引き、宣言した部分が同じなら走らせない(`htmlPhysUsed`)・違えば理由の種類 `htmlphys`・引けなければ html 全体。正本は書き換えない。台帳は `node tools/regen-plan.mjs --htmlphys-record`・前の判定は `--no-htmlphys`。QA の対象一致 `targetOk325`(一致 / 領域一致 / 物理の部分の一致 —— 台帳だけ)を lint.provenanceMeta と docs の 7 本が通す。
+- これらは開発の道具で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。

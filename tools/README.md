@@ -346,3 +346,16 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
 - 置き場の既定は `tests/out/.satlong-w324d/`(.gitignore のまま —— 数百 MiB になりうる)。`--resume-dir <dir>` でも指定できる。子プロセスは `W318B_WORKERS`(既定 2)・checkpoint の間隔は `W324D_CK_SEC`(既定 600 s)。
 - 止まったら**同じ命令をもう一度**(済みのジョブは done から再利用・途中のジョブは checkpoint から続ける・`--long` は走行の初めに門を回し、外れたら走らせない)。対象 html・器と lib・凍結の写し・環境が変わると契約が違うので続きは拒否される(最初から)。
 - 2 段とも履歴(計画は常に「履歴」—— 毎便の鎖に入れない)・簡易一致は使わない(quickVerify:false)。
+
+## 第325便a —— 再生成の段の対象を html 全体にしない(html の物理の部分 —— 統括の検証項目 R284)
+
+原仮定者の指示(2026-11-03)「次便以降で、再生成の段の対象が宣言なしの場合、html全体にしない。html全体だと、版名が変わっただけや、説明文だけの修正でも走ってしまう」。
+
+- **html の物理の部分**(`tests/lib-w325a-htmlphys.mjs` —— 版 w325a-htmlphys-1): 部分 `code`(注釈を除いた最上位の文 —— 版名 `BETA_BUILD` の値・文の登録簿・内蔵の本の配列・生成領域 sample-status を外す)・
+  `presets`(評価した内蔵の本の表示の欄を外した写し)・`markup`・`comments`・`build`・`text:<名>`・`regions:<名>`・`presetFull:<id>`(`*` は全部)。
+- **段の宣言** `HTMLPHYS_DECL_325A`(`tests/lib-w281a-regentable.mjs`): 領域の宣言の無い html 全体の段が読む部分(reads —— 既定 code・presets・markup)か `whole`(常時群)。
+  **html 全体を刻む段を足したら宣言を足す**(無ければ QA lint.htmlPhys325a が名指しで落とす —— 器の本文・REGEN_SCOPE の行は変えずに表の側で)。
+- **計画**: 刻印の html を台帳 → 基点・計画の html → git の履歴から sha で引いて宣言した部分を比べる(同じ → reuse・段の `htmlPhysUsed` / 違う → 理由の種類 `htmlphys` / 引けない → html 全体)。
+  件数の行に「版名・説明だけの差で reuse にした n 段」。`node tools/regen-plan.mjs --no-htmlphys` は第324便までの判定(前後の比べ)。
+- **台帳**: `node tools/regen-plan.mjs --htmlphys-record [--base <刻印の html>] [--stamp-git <N>]` → `tests/data-w325a-htmlphys.json`(物理の部分の宣言のある段の正本の刻印の html と今の html の行 ——
+  **鎖の後と、html が動いたコミットの前に 1 回**。CI は浅い checkout なので QA の対象一致は台帳だけで引く)。引けない sha は名指して終了コード 1(その段は器を走らせ直す)。

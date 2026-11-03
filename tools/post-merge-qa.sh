@@ -577,6 +577,14 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickBoundary324c lint.calVolatile324c 
 #   lint.scopeStop・lint.scopeAll312・lint.regenChain・lint.canon304・lint.harnessSmoke303・lint.qaHeapRelease310・lint.sectionLookup313)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.resume324d docs.satlong324d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第324便d の塊(ここまで)====
+# ==== 第325便a の塊(ここから)====
+# 第325便a(原仮定者の指示(2026-11-03)「再生成の段の対象が宣言なしの場合、html全体にしない」・統括の検証項目 R284): 枝 a の新設 2 本(lint.htmlPhys325a —— html の物理の部分の hash の
+#   定義・門の小さな写し・移行の口・html 全体の段の棚卸しの表・台帳・計画 / docs.w325a —— 文書)と、対象一致の受け入れを足した lint.provenanceMeta・docs の 7 本(docs.d0audit-sync・
+#   docs.d0sites-sync・docs.bgpredict-sync・docs.selfInertia-sync・docs.bgbudget-sync・docs.bgCompose・docs.sphereKernel)・計画の関数を変えた lint.regenChain・lint.regenScope・
+#   lint.regenOrderOnly323・lint.regenQuick323・lint.violationKinds320(lint の本文の刻印の型の文)・正本の段の lint 一式・lint.qaHeapRelease310・lint.sectionLookup313
+#   台帳: 鎖の後に node tools/regen-plan.mjs --htmlphys-record(物理の部分の宣言のある段の正本の刻印の html と今の html の行 —— 台帳 tests/data-w325a-htmlphys.json をコミット)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.htmlPhys325a docs.w325a lint.provenanceMeta docs.d0audit-sync docs.d0sites-sync docs.bgpredict-sync docs.selfInertia-sync docs.bgbudget-sync docs.bgCompose docs.sphereKernel lint.regenChain lint.regenScope lint.regenOrderOnly323 lint.regenQuick323 lint.violationKinds320 lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第325便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
