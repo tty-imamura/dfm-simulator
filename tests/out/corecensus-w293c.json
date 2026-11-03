@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第293便c",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-02T21:26:09.371Z",
+  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+  "generatedAt": "2026-11-03T15:32:24.532Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7612995,
+    "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+    "mtime": "2026-11-03T15:04:48.828Z"
    }
   ],
   "code": [
@@ -83,9 +83,9 @@
    "complete": true,
    "names": 1359,
    "segments": 1185,
-   "closureShare": 0.2963
+   "closureShare": 0.2957
   },
-  "scopeSha256": "7f07b20bb53e1c66d350f8455391e38e2c77ffa4d21ec87c50afef173084e1c9",
+  "scopeSha256": "318ee69d4e48426dd0ad672a976f7b29bae3c50dd54b1a4169a29c89545bb8f4",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -142,7 +142,7 @@
  },
  "census": {
   "nPresets": 186,
-  "nRetired": 56,
+  "nRetired": 61,
   "rows": [
    {
     "id": "gclock",
@@ -7188,7 +7188,7 @@
    {
     "id": "chainDiskToy",
     "emoji": "🔗",
-    "retired": false,
+    "retired": true,
     "group": "運動と時空",
     "sampleClass": "principle",
     "nBodies": 2,
@@ -7236,7 +7236,7 @@
    {
     "id": "chainDiskToy3d",
     "emoji": "🔩",
-    "retired": false,
+    "retired": true,
     "group": "運動と時空",
     "sampleClass": "principle",
     "nBodies": 2,
@@ -7284,7 +7284,7 @@
    {
     "id": "chainDiskToy3dTilt",
     "emoji": "🪛",
-    "retired": false,
+    "retired": true,
     "group": "運動と時空",
     "sampleClass": "principle",
     "nBodies": 2,
@@ -7332,7 +7332,7 @@
    {
     "id": "chainSpreadToy3d",
     "emoji": "🍥",
-    "retired": false,
+    "retired": true,
     "group": "運動と時空",
     "sampleClass": "principle",
     "nBodies": 81,
@@ -7380,7 +7380,7 @@
    {
     "id": "chainBurstShell3d",
     "emoji": "🧨",
-    "retired": false,
+    "retired": true,
     "group": "運動と時空",
     "sampleClass": "principle",
     "nBodies": 41,
@@ -9401,10 +9401,10 @@
   "totals": {
    "spinAxis:enable3d": {
     "books": 16,
-    "active": 15,
-    "retired": 1,
+    "active": 11,
+    "retired": 5,
     "decl": 119,
-    "declActive": 118
+    "declActive": 34
    },
    "coreTextOnly": {
     "books": 7,
@@ -9485,10 +9485,10 @@
    },
    "relDrag:inertial": {
     "books": 31,
-    "active": 25,
-    "retired": 6,
+    "active": 20,
+    "retired": 11,
     "decl": 31,
-    "declActive": 25
+    "declActive": 20
    },
    "relDrag:pairSlip": {
     "books": 2,
@@ -9578,7 +9578,7 @@
      "desc": 16,
      "physics": []
     },
-    "wallSec": 6.901,
+    "wallSec": 6.204,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
     "removable": false,
@@ -9649,7 +9649,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.14800000000000002,
+    "wallSec": 0.144,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -9700,18 +9700,18 @@
      "firstDiffStep": 1,
      "firstNDiffStep": null,
      "maxDiff": {
-      "x": 402.22581481933594,
-      "y": 300.36936950683594,
-      "vx": 67.03740310668945,
-      "vy": 67.58708000183105,
+      "x": 188.0701904296875,
+      "y": 242.1768035888672,
+      "vx": 61.709096908569336,
+      "vy": 62.730878829956055,
       "spin": 80,
       "m": 0,
       "mEff": 0,
       "R": 0
      },
      "auxDiff": {
-      "Tobs": 264.50002264957794,
-      "Q": 3468.911466463589,
+      "Tobs": 264.500021741492,
+      "Q": 3036.6199523283954,
       "lSw": 0
      }
     },
@@ -9720,7 +9720,7 @@
      "desc": 2,
      "physics": []
     },
-    "wallSec": 12.312999999999999,
+    "wallSec": 13.661999999999999,
     "cls": "B",
     "why": "8 量が動いた",
     "removable": false,
@@ -9790,7 +9790,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.027,
+    "wallSec": 0.02,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -9860,7 +9860,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.636,
+    "wallSec": 0.514,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -9932,7 +9932,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.057999999999999996,
+    "wallSec": 0.09,
     "cls": "C",
     "why": "差 0・軸の鍵(tilt)",
     "removable": false,
@@ -10006,7 +10006,7 @@
      "desc": 90,
      "physics": []
     },
-    "wallSec": 1.741,
+    "wallSec": 1.213,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -10078,7 +10078,7 @@
      "desc": 80,
      "physics": []
     },
-    "wallSec": 0.22899999999999998,
+    "wallSec": 0.193,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -10152,7 +10152,7 @@
      "desc": 89,
      "physics": []
     },
-    "wallSec": 0.173,
+    "wallSec": 0.18300000000000002,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -10224,7 +10224,7 @@
      "desc": 38,
      "physics": []
     },
-    "wallSec": 0.096,
+    "wallSec": 0.08600000000000001,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -10298,7 +10298,7 @@
      "desc": 29,
      "physics": []
     },
-    "wallSec": 0.629,
+    "wallSec": 0.361,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
     "removable": false,
@@ -10364,7 +10364,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.186
+    "wallSec": 0.159
    }
   ]
  },
@@ -10405,7 +10405,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.187
+    "wallSec": 0.179
    },
    {
     "id": "earthMoonOnly3d",
@@ -10442,7 +10442,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.098
+    "wallSec": 0.101
    },
    {
     "id": "plutoCharonInertialFit",
@@ -10479,7 +10479,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.179
+    "wallSec": 0.155
    }
   ]
  },
@@ -10607,5 +10607,5 @@
   "rule": "A ∧ 在位 ∧ 較正の在位でない ∧ 主張・説明・本の宣言がコアを読まない ∧ 観測層(T_obs・Q・lSw)の差 0(QA・samplestatus の参照は器の外で文書に書く)"
  },
  "ok": true,
- "elapsedS": 24.669
+ "elapsedS": 24.197
 }

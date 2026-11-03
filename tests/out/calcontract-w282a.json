@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便a(原仮定者の裁定(第72報)②③⑤⑥・R77/R78 —— 較正契約の 3 系統と f=1 の棚卸し)",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-02T21:32:52.579Z",
+  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+  "generatedAt": "2026-11-03T15:32:36.549Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7612995,
+    "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+    "mtime": "2026-11-03T15:04:48.828Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1732174,
-    "sha256": "86979630a48c7dffb667fac00e962d12c2171e586a74e9bf9d5a31234052ce0b",
-    "mtime": "2026-11-02T21:29:02.035Z"
+    "bytes": 1732313,
+    "sha256": "f4bf0cb70732e4235969805b06790cd2277926f4d274bd962f1c827d039f8183",
+    "mtime": "2026-11-03T15:17:19.184Z"
    }
   ],
   "code": [
@@ -62,9 +62,9 @@
    "complete": true,
    "names": 1358,
    "segments": 1184,
-   "closureShare": 0.2971
+   "closureShare": 0.2965
   },
-  "scopeSha256": "7230bfd1dae5806c85ec050d88d204801b9942f3dc9f357cab6503d916553819",
+  "scopeSha256": "f3038fc2b003e7efd9ac5c2774e5683d444fd346f794f14be8fc124896d49db5",
   "scopeComplete": true,
   "tableVersion": "w282a-1",
   "contractVersion": "w288b-1",
@@ -4018,15 +4018,15 @@
    "geoPN": 0,
    "frameWeight": "share",
    "lambdaPN": 1,
-   "fDeclared": 1.9997320796514568,
-   "law": "chi-law-v1-meanfield",
-   "fEffective": 1.9997320796514568,
+   "fDeclared": 1,
+   "law": "f-fixed-1",
+   "fEffective": 1,
    "fRatios": [
-    1.9997320796514568
+    1
    ],
    "fSource": "twin-total:ngc3198(最初の円盤の総質量の比 —— 粒の質量は観測されていない)",
    "fSourceKind": "twin-total",
-   "lawVersion": "kF1・geoPN0・share・f=1.9997321",
+   "lawVersion": "kF1・geoPN0・share・f=1",
    "observables": [],
    "oldVerdict4": null,
    "oldRepresentative": null
@@ -4705,27 +4705,27 @@
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 27890,
+    "line": 27901,
     "text": "// **sampleClass:\"calibration\" では拒否**(現実較正の受理契約は内蔵のまま 0.01)",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 28073,
+    "line": 28084,
     "text": "//   `modeSaveWarnings` の \"kFrameFraction\" と同じ文)を出す。較正クラス(sampleClass:\"calibration\")でも同じ(受理して警告)。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 28082,
+    "line": 28093,
     "text": "//   (a) `sampleClass:\"calibration\"` では**拒否**(検証エラー)—— トイを現実較正に混ぜない",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 28093,
+    "line": 28104,
     "text": "//   **(a) は迂回しない** —— `sampleClass:\"calibration\"` では geoPN=3 も toyAllowDrag も拒否する。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 42542,
+    "line": 42561,
     "text": "//   calTarget … sampleClass:\"calibration\" の宣言(分類の「現実較正」DFM 版・kF0 版の両方)。**較正の対象であって合格ではない**",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    }
@@ -4972,7 +4972,7 @@
     "kF0・geoPN0・share・f=出典不明": 12,
     "kF0・geoPN0・pull・f=1": 1,
     "kF1・geoPN0・share・f=1.9934014": 1,
-    "kF1・geoPN0・share・f=1.9997321": 1,
+    "kF1・geoPN0・share・f=1": 1,
     "kF1・geoPN0・share・f=2": 1
    },
    "observablesGated": 0,
@@ -5479,34 +5479,6 @@
    "migrated": false
   },
   {
-   "id": "ngc3198DFM",
-   "emoji": "🛞",
-   "system": "analogy",
-   "target": null,
-   "law": "chi-law-v1-meanfield",
-   "fDeclared": 1.9997320796514568,
-   "fEffective": 1.9997320796514568,
-   "fRatios": [
-    1.9997320796514568
-   ],
-   "fSource": "twin-total:ngc3198(最初の円盤の総質量の比 —— 粒の質量は観測されていない)",
-   "fSourceKind": "twin-total",
-   "ledgerMissingButEffective": false,
-   "hiddenCore": {
-    "kind": "physical",
-    "text": "物理コアの宣言(massFrac=0.5)"
-   },
-   "lambdaPN": 1,
-   "lambdaIsInvF": false,
-   "cfDependsOnF": null,
-   "dimmingCancel": "(1−l)·f=1 の測光相殺(lightSweep=0.49993301093899795/1)",
-   "stage": {
-    "key": "analogy",
-    "text": "アナロジーの系統(🛞 の f=1 台帳は別の枝・🫐 は後続)"
-   },
-   "migrated": false
-  },
-  {
    "id": "supernovaProgDFM",
    "emoji": "🌹",
    "system": "analogy",
@@ -5666,9 +5638,9 @@
   }
  ],
  "fSummary": {
-  "n": 19,
-  "declaredOff": 17,
-  "effectiveOff": 12,
+  "n": 18,
+  "declaredOff": 16,
+  "effectiveOff": 11,
   "ledgerMissingButEffective": [],
   "unknownBase": [
    "supernovaCore",
@@ -5685,7 +5657,7 @@
    "w282a": 2,
    "next-ns": 8,
    "next-bh": 1,
-   "analogy": 2,
+   "analogy": 1,
    "toy": 6
   }
  },

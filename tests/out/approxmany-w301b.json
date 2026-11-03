@@ -56,7 +56,7 @@
    {
     "id": "chainSpreadToy3d",
     "emoji": "🍥",
-    "retired": false,
+    "retired": true,
     "ok": true,
     "warnings": 0,
     "decl": {
@@ -357,7 +357,7 @@
     ],
     "resMax": 6.07834e-16,
     "fail": 0,
-    "wallSec": 0.779
+    "wallSec": 0.836
    },
    "B": {
     "bands": [
@@ -575,21 +575,20 @@
    "minParticles": 16,
    "massRatio": 0.9
   },
-  "n": 33,
+  "n": 28,
   "moved": [
-   "saturnRingInertial3d",
-   "chainSpreadToy3d"
+   "saturnRingInertial3d"
   ],
-  "notMoved": 31,
+  "notMoved": 27,
   "byReason": {
    "calibration": 2,
-   "core2d": 20,
+   "core2d": 19,
    "testParticle": 2,
    "governorFree": 8,
    "referenceModel": 4,
    "contactPurpose": 1,
-   "chainZeroTest": 2,
-   "purposeOther": 4
+   "chainZeroTest": 0,
+   "purposeOther": 3
   },
   "rows": [
    {
@@ -1079,104 +1078,6 @@
     ]
    },
    {
-    "id": "chainDiskToy",
-    "emoji": "🔗",
-    "group": "運動と時空",
-    "coord": "2d",
-    "n": 81,
-    "groups": 1,
-    "governorRow": 0,
-    "governorMass": 100,
-    "governorPinned": true,
-    "ratio": 0.25,
-    "relativeDrag": "inertial",
-    "contactMode": "none",
-    "testParticle": false,
-    "sampleClass": "principle",
-    "cls": "notMoved",
-    "reasons": [
-     "core2d"
-    ]
-   },
-   {
-    "id": "chainDiskToy3d",
-    "emoji": "🔩",
-    "group": "運動と時空",
-    "coord": "3d",
-    "n": 81,
-    "groups": 1,
-    "governorRow": 0,
-    "governorMass": 100,
-    "governorPinned": true,
-    "ratio": 0.25,
-    "relativeDrag": "inertial",
-    "contactMode": "none",
-    "testParticle": false,
-    "sampleClass": "principle",
-    "cls": "notMoved",
-    "reasons": [
-     "chainZeroTest"
-    ]
-   },
-   {
-    "id": "chainDiskToy3dTilt",
-    "emoji": "🪛",
-    "group": "運動と時空",
-    "coord": "3d",
-    "n": 81,
-    "groups": 1,
-    "governorRow": 0,
-    "governorMass": 100,
-    "governorPinned": true,
-    "ratio": 0.25,
-    "relativeDrag": "inertial",
-    "contactMode": "none",
-    "testParticle": false,
-    "sampleClass": "principle",
-    "cls": "notMoved",
-    "reasons": [
-     "chainZeroTest"
-    ]
-   },
-   {
-    "id": "chainSpreadToy3d",
-    "emoji": "🍥",
-    "group": "運動と時空",
-    "coord": "3d",
-    "n": 81,
-    "groups": 0,
-    "governorRow": 0,
-    "governorMass": 100,
-    "governorPinned": true,
-    "ratio": 0.25,
-    "relativeDrag": "inertial",
-    "contactMode": "none",
-    "testParticle": false,
-    "sampleClass": "principle",
-    "cls": "moved",
-    "reasons": []
-   },
-   {
-    "id": "chainBurstShell3d",
-    "emoji": "🧨",
-    "group": "運動と時空",
-    "coord": "3d",
-    "n": 41,
-    "groups": 0,
-    "governorRow": 0,
-    "governorMass": 100,
-    "governorPinned": true,
-    "ratio": 0.25,
-    "relativeDrag": "inertial",
-    "contactMode": "none",
-    "testParticle": false,
-    "sampleClass": "principle",
-    "cls": "notMoved",
-    "reasons": [
-     "purposeOther"
-    ]
-   },
-   {
     "id": "saturnRingReal",
     "emoji": "💍",
     "group": "現実較正",
@@ -1273,13 +1174,13 @@
  "ok": true,
  "timing": {
   "accept": {
-   "wallSec": 0.019
+   "wallSec": 0.03
   },
   "zero": {
-   "wallSec": 2.105
+   "wallSec": 2.094
   },
   "effect": {
-   "wallSec": 2.086
+   "wallSec": 2.289
   },
   "remeasure": {
    "wallSec": 0.002
@@ -1288,19 +1189,19 @@
    "wallSec": 0.001
   }
  },
- "elapsedS": 4.214,
+ "elapsedS": 4.416,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第301便b",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-02T21:51:29.132Z",
+  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+  "generatedAt": "2026-11-03T15:16:06.580Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7612995,
+    "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+    "mtime": "2026-11-03T15:04:48.828Z"
    },
    {
     "file": "tests/out/geo4stable-w299d.json",
@@ -1408,9 +1309,9 @@
    "complete": true,
    "names": 1427,
    "segments": 1251,
-   "closureShare": 0.3096
+   "closureShare": 0.309
   },
-  "scopeSha256": "1040774eb77572b87771418514cdb3b30987cae12deab0ce95c0089da340c3e3",
+  "scopeSha256": "22a508c66def7df4ff92095a1021ddeea6bf7aaa736f09720bdd04e32e39ed79",
   "scopeComplete": true,
   "inputsStable": [
    {
