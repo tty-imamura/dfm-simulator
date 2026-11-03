@@ -19678,7 +19678,10 @@ if (!FAST) {
         const e75 = LR.lensEtaTable({ mLensEarth: 0.75 }), e37 = LR.lensEtaTable({ mLensEarth: 0.37 });
         let worst = 0;
         const cmp = (a, b, what) => { const r = rel(a, b); if (!(r <= 1e-12)) bad.push('引き直しの差 ' + what + ' ' + r.toExponential(2)); worst = Math.max(worst, Number.isFinite(r) ? r : 1); };
-        for (const k of ['starBase', 'fStar', 'gas', 'core', 'unitKg', 'totalUnit']) cmp(g[k], JR.groups[k], 'groups.' + k);
+        // 第325便e(AN528): 正本は beta の 🛞(恒星の倍率 1 —— fDynamics 1)で作る。対象の 🛞 が前の世代(root —— 恒星に旧則の倍率 f≈2)なら、力学の総質量
+        //   groups.totalUnit(bodies の質量の和)だけが世代で違う —— 台帳の値(starBase・f★・気体・核・3 シナリオ・観測の行)は両世代で同じなので照合を続ける
+        const gen325eSkew = (typeof JR.groups.fDynamics === 'number' && g.fDynamics !== JR.groups.fDynamics);
+        for (const k of ['starBase', 'fStar', 'gas', 'core', 'unitKg', 'totalUnit']) { if (k === 'totalUnit' && gen325eSkew) continue; cmp(g[k], JR.groups[k], 'groups.' + k); }
         cmp(led.current.totalUnit, JR.ledger.current.totalUnit, 'current.totalUnit');
         cmp(led.current.totalSun, JR.ledger.current.totalSun, 'current.totalSun');
         cmp(led.nRotor, JR.ledger.nRotor, 'nRotor');
@@ -19711,7 +19714,8 @@ if (!FAST) {
           + led.rows.map((r) => `${r.totalUnit.toFixed(3)}(${LR.fmtSci(r.totalSun)})`).join(' / ')
           + ` / 観測の行 +${ffp.addUnit.toFixed(4)} 単位(恒星質量の ${(ffp.fracOfStarMass * 100).toFixed(4)}%)`
           + ` / η ${e75.rows.map((r) => LR.fmtSci(r.eta)).join('・')}(η=1 の t_E ${e75.rows.map((r) => r.tEDaysEta1.toFixed(2)).join('/')} 日)`
-          + ` / 偏向の質量比 ${lm.ratio2x ? lm.ratio2x.toFixed(3) : '—'}・${lm.ratio4x ? lm.ratio4x.toFixed(3) : '—'} / 引き直しの最大相対差 ${worst.toExponential(1)}`;
+          + ` / 偏向の質量比 ${lm.ratio2x ? lm.ratio2x.toFixed(3) : '—'}・${lm.ratio4x ? lm.ratio4x.toFixed(3) : '—'} / 引き直しの最大相対差 ${worst.toExponential(1)}`
+          + (gen325eSkew ? ` / 力学の総質量は世代で違う(対象の fDynamics ${g.fDynamics} ・正本 ${JR.groups.fDynamics} —— 第325便e の前の世代の 🛞 —— 台帳の値は同じ)` : '');
       }
       add('docs.rotorLedger', bad.length === 0,
         '**条件付き質量台帳**(第281便c・R74 —— 仮定の 3 シナリオ・既定は追加 0・較正母集団の外): ' + sum
