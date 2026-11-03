@@ -3,7 +3,7 @@
  "libVersion": "w310a-shell-lib-1",
  "generator": "tests/exp-w310a-invsq.mjs",
  "target": "beta/index.html",
- "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
+ "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
  "ruling": "原仮定者の裁定(第107報)分母に背景宇宙を入れると二重計上 —— 自分が分母に入れば良い・(第109報)AN380 太陽の R_d は cap6500km で固定し m_d の適正値を探索・dragCore(R_d, m_d)と外殻(観測半径, 観測質量 − m_d)の引きずりをそれぞれ計算・決断事項 AN378・AN384・AN385・AN386・AN382・DECISIONS v69 §0b ②・§2・統括の検証項目 R222",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "invSqLaw": "invsq-ball-total-ratio",
@@ -284,13 +284,15 @@
    "solarSystem16Inertial3d",
    "siriusABInertial3d",
    "alphaCenABInertial3d",
+   "alphaCenABInertial3dJ",
+   "psrDoubleABInertial3d",
    "binaryCheckEqualInertial3d",
    "binaryCheckRatio3Inertial3d"
   ],
   "ruleBooksWhy": "K1 の規則の宣言(relativeDrag.invSq.rdRule)の本のうち移行の前の宣言の写しが無い本(K1 の短い形で生まれた本 —— 第320便d・AN477)",
   "tMin": 0.00480698929,
   "tMax": 0.000005790712839,
-  "builtins": 177,
+  "builtins": 179,
   "declaringInvSq": [],
   "live3d": 10,
   "runs": [
@@ -1882,30 +1884,30 @@
     "order": 4,
     "nodes": 384,
     "table": {
-     "wallSec": 0.001547084717
+     "wallSec": 0.0006710641167
     },
     "direct": {
-     "wallSec": 0.001265476467
+     "wallSec": 0.0008993879667
     }
    },
    {
     "order": 8,
     "nodes": 3072,
     "table": {
-     "wallSec": 0.01333600455
+     "wallSec": 0.00463591255
     },
     "direct": {
-     "wallSec": 0.0140514342
+     "wallSec": 0.0062693826
     }
    },
    {
     "order": 16,
     "nodes": 24576,
     "table": {
-     "wallSec": 0.06828159983
+     "wallSec": 0.03564122683
     },
     "direct": {
-     "wallSec": 0.08664993417
+     "wallSec": 0.04915685333
     }
    }
   ]
@@ -2087,43 +2089,43 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.214
+   "wallSec": 0.096
   },
   "C": {
-   "wallSec": 0.009
+   "wallSec": 0.001
   },
   "N": {
-   "wallSec": 0.354
+   "wallSec": 0.216
   },
   "S": {
-   "wallSec": 0.438
+   "wallSec": 0.175
   },
   "E": {
-   "wallSec": 0.957
+   "wallSec": 0.583
   },
   "M": {
-   "wallSec": 0.036
+   "wallSec": 0.035
   },
   "P": {
-   "wallSec": 7.466
+   "wallSec": 3.84
   },
   "Z": {
-   "wallSec": 0.215
+   "wallSec": 0.099
   }
  },
- "elapsedS": 13.436,
+ "elapsedS": 6.887,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第310便a",
   "target": "beta/index.html",
-  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-  "generatedAt": "2026-11-01T21:34:02.189Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-03T02:01:22.758Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7491601,
-    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-    "mtime": "2026-11-01T20:25:22.344Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2244,11 +2246,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1341,
-   "segments": 1179,
-   "closureShare": 0.3013
+   "names": 1385,
+   "segments": 1211,
+   "closureShare": 0.3026
   },
-  "scopeSha256": "af993d2fa417490b0076c9120dec2690e3c98ecdeb7249c02b1f47c0603d8afa",
+  "scopeSha256": "a52c95836ba3ae52d5460a138df553e7f993994c9138f9533b0c9832e7b95957",
   "scopeComplete": true,
   "inputsStable": [
    {
