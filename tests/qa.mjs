@@ -23309,7 +23309,7 @@ if (!FAST) {
           const ab = vp && vp.preset && vp.preset.abBody;
           if (!(ab && ab.physicsPatch && JSON.stringify(ab.physicsPatch.relativeDrag) === JSON.stringify(c0))) bad.push('B 側(gain:0)の physicsPatch');
           const sum = (p.descStruct && p.descStruct.summary) || '';
-          if (!(sum.length <= 3000 && /宣言した本だけ/.test(sum) && /gain=0 で既定経路とビット同一|引きずり OFF(W_bg を掛けない)で既定経路とビット同一/.test(sum) && /較正ではない/.test(sum) && sum.indexOf('回転引きずり(手前/反対)と連鎖は未実装') >= 0)) bad.push('説明文の要件(宣言した本だけ・gain=0 でビット同一・未実装・較正ではない)');
+          if (!(sum.length <= 3000 && /宣言した本だけ/.test(sum) && /gain=0 で既定経路とビット同一|引きずり OFF\(W_bg を掛けない\)で既定経路とビット同一/.test(sum) && /較正ではない/.test(sum) && sum.indexOf('回転引きずり(手前/反対)と連鎖は未実装') >= 0)) bad.push('説明文の要件(宣言した本だけ・gain=0 でビット同一・未実装・較正ではない)');
           const NG = [/1PN と同等が証明/, /回転引きずりが創発した/, /連鎖で円盤ができた/, /慣性決定力場を接続した/, /観測一致を達成/, /較正を完了/, /新発見/, /安定化した/, /普遍定数である/];
           const txt = JSON.stringify([p.name, p.descStruct, p.en]);
           const hit = NG.filter((re) => re.test(txt));
@@ -93897,7 +93897,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const vRatio = (cmpR.find((r) => r && r.kind === 'Jsun' && /金星/.test(r.name || '')) || {}).ratioEngine;
       const num = (s, re) => { const m = re.exec(s); return m ? Number(m[1]) : NaN; };
       const near = (a, b, tol) => Number.isFinite(a) && Number.isFinite(b) && Math.abs(a / b - 1) <= tol;
-      const jT = num(sm(jup, 'ja'), /内部熱の主列(?:(文献の値))?の約 ([0-9.e+-]+) 倍/), gT = num(sm(jup, 'ja'), /宣言の尺度で足すと約 ([0-9.e+-]+) 倍/), vT = num(sm(ven, 'ja'), /π 回す大きさの約 ([0-9.e+-]+) 倍/);
+      const jT = num(sm(jup, 'ja'), /内部熱の主列[((]文献の値[))]の約 ([0-9.e+-]+) 倍/), gT = num(sm(jup, 'ja'), /宣言の尺度で足すと約 ([0-9.e+-]+) 倍/), vT = num(sm(ven, 'ja'), /π 回す大きさの約 ([0-9.e+-]+) 倍/);
       if (!near(jT, jRatio, 0.05)) bad.push(`②′ 🏀 の太陽の J の比 ${jT} と正本 ${jRatio}`);
       if (!near(gT, gRatio, 0.05)) bad.push(`②′ 🏀 の銀河の項の比 ${gT} と正本 ${gRatio}`);
       if (!near(vT, vRatio, 0.05)) bad.push(`②′ 🌋 の軸の比 ${vT} と正本 ${vRatio}`);
