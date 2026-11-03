@@ -1,0 +1,4240 @@
+{
+ "fixtureVersion": "w325c-retired-1",
+ "note": "退役 5 本(在位の旧方式の geoPN=4 —— 旧 W_bg 則の連鎖の玩具 🔗🔩🪛🍥🧨。原仮定者の回答(2026-11-03 —— AN525))の凍結資産(書き換えない)。退役の本は BUILTIN_PRESETS から消していない(旧セーブ・旧 URL・過去の正本と結果の参照が残る)。presetSig は基点と同じ(familyRole は署名の外)。5 本は原理の本(較正母集団の外)。新しい geoPN=4(場の API の opt-in)の本は新しい ID で作る。declChanges は基点と現行の宣言(sampleClass・familyId・familyRole・obsCard の行数)の差と新本(同じ便の他の枝の宣言を含む —— 宣言から列挙)。",
+ "ids": [
+  "chainDiskToy",
+  "chainDiskToy3d",
+  "chainDiskToy3dTilt",
+  "chainSpreadToy3d",
+  "chainBurstShell3d"
+ ],
+ "presets": {
+  "chainDiskToy": {
+   "emoji": "🔗",
+   "name": "連鎖引きずりの小円盤 — 自転する中心と多粒子(原理)",
+   "familyId": null,
+   "familyRole": "retired",
+   "familyRoleAtBase": null,
+   "group": "運動と時空",
+   "groupAtBase": "運動と時空",
+   "sampleClass": "principle",
+   "geoPN": 4,
+   "coord": "2d",
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": 0.125,
+    "eps": 1,
+    "pairs": "all",
+    "solver": "network-pcg-v1",
+    "spinSource": "surfaceFlip"
+   },
+   "presetSigHash": "ce34f33f",
+   "presetSigSha256": "3d43c7fa4b3cd5babd458d19075e5da18337e7404b633f2ce5f1d0a8f321488a",
+   "base": {
+    "rev": "82aa277",
+    "presetSigHash": "ce34f33f",
+    "name": "連鎖引きずりの小円盤 — 自転する中心と多粒子(原理)",
+    "sigSame": true,
+    "physicsSame": true,
+    "bodiesSame": true
+   },
+   "successor": "inertialDragPair",
+   "reason": "旧方式の geoPN=4(旧 W_bg 則の連鎖 —— 二次元の円盤)—— 新しい geoPN=4(場の API の opt-in)の本は新しい ID で作る",
+   "retiredNotice": {
+    "ja": "第127報: 旧方式の geoPN=4(旧 W_bg 則の連鎖の原理の玩具)の退役 —— 新しい geoPN=4(場の API の opt-in)の本は新しい ID で作る。二体の並進の慣性引きずりは 🐌",
+    "en": "ruling 127: the old-style geoPN=4 (a chain toy of the older W_bg law) is retired — a new geoPN=4 sample (the opt-in field API) will get a new ID; two-body translational inertial drag is 🐌",
+    "see": [
+     "inertialDragPair"
+    ]
+   },
+   "pairDiff": {
+    "successor": "inertialDragPair",
+    "successorEmoji": "🐌",
+    "n": 28,
+    "keys": [
+     "physics.G",
+     "physics.contactMode",
+     "physics.geoPN",
+     "physics.lambdaPN",
+     "physics.massPrecision",
+     "physics.relativeDrag",
+     "physics.softening",
+     "physics.stepDt",
+     "physics.timeScale",
+     "bodies[0].m",
+     "bodies[0].radius",
+     "bodies[0].x",
+     "bodies[0].vx",
+     "bodies[0].vy",
+     "bodies[0].spin",
+     "bodies[0].pinned",
+     "bodies[1].type",
+     "bodies[1].m",
+     "bodies[1].radius",
+     "bodies[1].x",
+     "bodies[1].y",
+     "bodies[1].vx",
+     "bodies[1].vy",
+     "bodies[1].spin",
+     "bodies[1].pinned",
+     "bodies[1].n",
+     "bodies[1].mMin",
+     "bodies[1].mMax"
+    ]
+   },
+   "statusAtBase": {
+    "purpose": "自転する中心と多粒子で引きずりが隣の粒子を通じて外へ連鎖するかを測る",
+    "objective": "met",
+    "state": "共役勾配法の反復 最大 40・残差は許容 1e-10 の内側・外帯の角変位は連鎖を切った対照の 2.22 倍・円盤の形成や回転曲線ではない",
+    "evidence": [
+     "tests/out/chain-w296c.json"
+    ],
+    "en": {
+     "purpose": "Test whether drag chains outward through neighbours of a spinning centre",
+     "state": "CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc claim"
+    }
+   },
+   "evidence": [
+    {
+     "file": "tests/out/chain-w296c.json",
+     "rev": "82aa277",
+     "sha256": "67b464af9e4c6da725ffdbdefd2e5e784694228e4dba3391a2b3d878cb74ee00"
+    }
+   ],
+   "stages": [
+    "chainburst-301d",
+    "coord3d-298a",
+    "drag3d-298c"
+   ],
+   "raw": {
+    "id": "chainDiskToy",
+    "name": "連鎖引きずりの小円盤 — 自転する中心と多粒子(原理)",
+    "emoji": "🔗",
+    "group": "運動と時空",
+    "scaleTier": "stellar",
+    "sampleClass": "principle",
+    "fidelity": "toy",
+    "familyRole": "retired",
+    "notClaim": [
+     "galaxy_disk",
+     "flat_rotation",
+     "gain_universal"
+    ],
+    "obsCard": [
+     {
+      "q": "何を置いたか",
+      "model": "トイ単位。中心 1 個(m=100・半径 6 の一様球・spin 0.5・pinned)+ 静止した粒子 80 個(m=5・半径 6〜24 の円盤・乱数種 20261008)。G=0.005(2000 步の落下は帯の幅より小さい)",
+      "obs": "—(原理サンプル —— 観測転写はしない)"
+     },
+     {
+      "q": "則(1 步)",
+      "model": "geoPN=4 の慣性の連鎖: (I+L)u=s を全体で解く(直接つながらない粒へも中間の粒を通じて伝わる)。s に自転する中心の表裏核 m Ω ⟨K_ε(ρ·ê)⟩(ẑ×ê)/W_bg を足す。x+=u·dt(v は触らない)",
+      "obs": "—"
+     },
+     {
+      "q": "解法(実測)",
+      "model": "n=81>64 で共役勾配法(network-pcg-v1・対角前処理)。2000 步で反復 最大 40 回・元の式の残差 最大 1.0e-10(許容 1e-10)・未収束 0・NaN 0",
+      "obs": "—"
+     },
+     {
+      "q": "連鎖の診断(実測 t=0)",
+      "model": "自転源だけの系で帯 r=6–12/12–18/18–24 の接線 u: 連鎖の解 0.523/0.180/0.0965・直接の項 s/(1+deg) 0.214/0.0275/0.00998(外ほど連鎖の分が大きい)",
+      "obs": "—"
+     },
+     {
+      "q": "角変位(実測 2000 步)",
+      "model": "帯ごとの平均 Δθ: 連鎖 2.169/0.577/0.196 rad・連鎖を切った対照(中心と各粒子の対だけ)3.058/0.506/0.0880 rad —— 外側の帯は 2.22 倍",
+      "obs": "—"
+     },
+     {
+      "q": "零試験(実測)",
+      "model": "共通の並進で u 不変・スピン 0 は自転源なしと 200 步ビット同一・反復上限 1 は u を採用せず(引きずりなしと全状態同一)・点の受け手の接線 u は表裏核の式と相対 2e-15",
+      "obs": "—"
+     },
+     {
+      "q": "刻み(実測)",
+      "model": "dt 0.016 と 0.008 の Δθ 2.169/2.176 rad(内帯)・位置の差 最大 0.17。共通の剛体回転は並進と違い s から消えない —— 引かずに残す(器が残差を記録)",
+      "obs": "—"
+     },
+     {
+      "q": "言わないこと",
+      "model": "円盤や銀河の形成・平坦な回転曲線とは書かない。W_bg = 0.125 [M/L³](係数 1/W_bg = 8)は宣言値(フィットしない)。連鎖が外へ伝わる原理だけ",
+      "obs": "—"
+     }
+    ],
+    "descStruct": {
+     "summary": "**磁石に付いたパチンコ玉のように連鎖する引きずり**の原理サンプル(法則は A8 のスピン引きずりと E6′ の輸送則・「geoPN=4 のサンプルは、多粒子での、磁石に付いたパチンコ玉のように連鎖する引きずりを実装する」)。自転する中心(一様球)に引きずられた内側の粒が、隣の粒の源になって外へ連鎖する。連鎖そのものは既存の**共通の移動速度を全体で解く** solve((I+L)u=s・s_i=Σ_j m_j K_ε(r_ij)(v_j−v_i)/W_bg—— 直接つながらない粒へも中間の粒を通じて伝わる)が持ち、この本はその上に (1) **自転する源の表裏核**(宣言 spinSource:\"surfaceFlip\" —— 源の点の速度 Ω×ρ を一様球で体積平均した接線成分。表側と裏側の Ω×ρ は逆向きで、近い側の核が大きいぶんだけ残る —— 表裏核と同じ形で、核だけが慣性決定力の K_ε)と (2) **多粒子で収束を確かめる解法**(宣言 solver:\"network-pcg-v1\" —— 辺 c_ij=m_i a_ij が対称なので質量で対称化した系を対角前処理の共役勾配法で解く。収束は元の式の残差で判定し、収まらなければ u を採用せず停止して知らせる)を足した。隣の u を別に足す項は無い(同じ引きずりを二度数えない)。",
+     "observe": "トレイルで、静止して置いた 80 個の粒子が自転する中心に引かれて回り出すのを見る(2000 步で内帯 r=6–12 は平均 2.17 rad・外帯 r=18–24 は 0.196 rad)。中心から直接受ける項は遠方で r⁻⁴ で弱まるが、外帯の u の大半は**隣の粒子を通じて届く**(t=0 の診断: 外帯の接線 u は連鎖の解 0.0965・直接の項だけなら 0.00998)。共役勾配法の反復は 2000 步で最大 40 回・残差は許容 1e-10 の内側・未収束 0。dt を半分にしても Δθ は 0.3% 以内。重力は G=0.005 のニュートン(落下は小さい)で、**円盤の形成・回転曲線の再現ではない**。 **長い走行**: 既定の步(semic —— 引きずりの u をドリフトの前の位置で解く)の dt 0.016・t=288 で半径 100 を越えた粒子は 1/80・中央半径 10.6(旧の分割では 80/80・673)—— **既定の刻みの大半の飛びは分割で早まった分**。収束した結合積分 rk4 でも少数の粒子の放出が残る(2/80・中央半径 11.1)。",
+     "control": "ワンタップ対照A/B: B 側は**連鎖を切った対照**(同じ宣言で pairs を中心と各粒子の 80 対だけにする —— 粒子どうしの辺なし)。B では外帯の粒子は中心から直接の項しか受けず(2000 步で Δθ 0.0880 rad)、A の 0.196 rad の 0.45 倍に留まる。内帯は逆に B の方が速い(A では外の粒子の分まで引きずるので内帯の u が分け合われる)。比べる相手は 🐌(2 体の並進引きずり —— 連鎖も自転源も無い)。",
+     "brief": "自転する中心と多粒子で引きずりが隣の粒子を通じて外へ連鎖するかを測る。達・共役勾配法の反復 最大 40・残差は許容 1e-10 の内側・外帯の角変位は連鎖を切った対照の 2.22 倍・円盤の形成や回転曲線ではない。較正対象外。"
+    },
+    "en": {
+     "name": "Chain-dragging mini disc — a spinning centre and many particles (principle)",
+     "obsCard": [
+      {
+       "q": "What is placed",
+       "model": "toy units; one centre (m=100, uniform sphere of radius 6, spin 0.5, pinned) + 80 particles at rest (m=5, disc radius 6 to 24, seed 20261008); G=0.005 (the fall in 2000 steps is smaller than a band)",
+       "obs": "- (a principle sample; nothing transcribed)"
+      },
+      {
+       "q": "The law (one step)",
+       "model": "inertial chain of geoPN=4: solve (I+L)u=s over the whole system (it reaches particles not directly linked through the ones between); s gets the spinning centre's front/back term m Omega <K_eps (rho.e)> (z x e)/W_bg; x+=u dt (v untouched)",
+       "obs": "-"
+      },
+      {
+       "q": "Solver (measured)",
+       "model": "n=81>64 runs the conjugate-gradient solver (network-pcg-v1, diagonal preconditioner); 2000 steps: at most 40 iterations, original-equation residual at most 1.0e-10 (tolerance 1e-10), no failure, no NaN",
+       "obs": "-"
+      },
+      {
+       "q": "Chain diagnostic (measured, t=0)",
+       "model": "spin source only, bands r=6-12/12-18/18-24, tangential u: chain solution 0.523/0.180/0.0965; direct term s/(1+deg) 0.214/0.0275/0.00998 (the chain share grows outward)",
+       "obs": "-"
+      },
+      {
+       "q": "Angular displacement (measured, 2000 steps)",
+       "model": "band means: chain 2.169/0.577/0.196 rad; chain-cut control (centre-particle pairs only) 3.058/0.506/0.0880 rad - outer band 2.22 times",
+       "obs": "-"
+      },
+      {
+       "q": "Null tests (measured)",
+       "model": "u unchanged by a common translation; spin 0 is bit-identical to no spin source over 200 steps; max 1 iteration leaves u unadopted (state identical to no drag); point receiver's tangential u matches the front/back formula to 2e-15",
+       "obs": "-"
+      },
+      {
+       "q": "Step size (measured)",
+       "model": "dt 0.016 vs 0.008: inner-band dTheta 2.169/2.176 rad; largest position difference 0.17. A common rigid rotation does not cancel from s (unlike a translation) - kept, not subtracted (the residual is recorded)",
+       "obs": "-"
+      },
+      {
+       "q": "Not claimed",
+       "model": "no disc formation, no flat rotation curve, no galaxy; W_bg = 0.125 [M/L^3] (coefficient 1/W_bg = 8) is a declared value (not fitted); only the principle that the chain carries the drag outward",
+       "obs": "-"
+      }
+     ],
+     "descStruct": {
+      "summary": "A PRINCIPLE SAMPLE OF DRAGGING THAT CHAINS LIKE PACHINKO BALLS STUCK TO A MAGNET (laws: the spin dragging A8 and the transport law E6′, that the geoPN=4 sample implements many-particle dragging chaining like pachinko balls on a magnet). Inner particles dragged by a spinning centre (a uniform sphere) become sources for their neighbours, and the drag chains outward. The chain itself belongs to the existing solve for a COMMON MOVING VELOCITY OVER THE WHOLE SYSTEM ((I+L)u=s, s_i=sum_j m_j K_eps(r_ij)(v_j-v_i)/W_bg - it reaches particles that are not directly linked through the ones between). This wave adds (1) THE FRONT/BACK KERNEL OF A SPINNING SOURCE (spinSource:\"surfaceFlip\" - the tangential part of the source points' velocity Omega x rho averaged over a uniform sphere; the near and far sides move in opposite directions and the nearer side's larger kernel leaves a remainder - the same form as the earlier front/back kernel, with the inertial-determinacy kernel K_eps) and (2) A SOLVER THAT CHECKS CONVERGENCE WITH MANY PARTICLES (solver:\"network-pcg-v1\" - the edges c_ij=m_i a_ij are symmetric, so the mass-symmetrised system is solved by conjugate gradients with a diagonal preconditioner; convergence is judged on the original equation, and a step that does not converge is not adopted - the run stops with a notice). There is no extra term adding the neighbours' u again (the same drag is not counted twice).",
+      "observe": "Use the trail to watch 80 particles placed at rest start to turn, pulled by the spinning centre (in 2000 steps the inner band r=6-12 turns 2.17 rad on average, the outer band r=18-24 0.196 rad). The term received directly from the centre falls off as r^-4, yet most of the outer band's u ARRIVES THROUGH THE NEIGHBOURS (diagnostic at t=0: chain solution 0.0965 against 0.00998 from the direct term alone). The conjugate-gradient solver needs at most 40 iterations in 2000 steps, the residual stays inside the 1e-10 tolerance, and no step fails. Halving dt changes dTheta by under 0.3%. Gravity is Newtonian with G=0.005 (the fall is small); THIS IS NOT DISC FORMATION OR A ROTATION CURVE. LONG RUN: with the default step (semic - the drag u solved at the pre-drift position), dt 0.016, t=288: 1/80 particles beyond radius 100, median radius 10.6 (the old split gave 80/80, 673) - MOST OF THE EARLY BLOW-UP AT THE DEFAULT STEP WAS THE SPLIT'S. The converged coupled rk4 still ejects a few (2/80, median 11.1).",
+      "control": "One-tap A/B: side B is THE CHAIN-CUT CONTROL (same declaration with pairs restricted to the 80 centre-particle pairs - no particle-particle edges). On side B the outer band receives only the direct term (dTheta 0.0880 rad in 2000 steps), 0.45 of side A's 0.196 rad. The inner band turns faster on side B (on side A it shares its u with the outer particles it drags). Compare with 🐌 (translational dragging of two bodies - no chain, no spinning source).",
+      "brief": "Test whether drag chains outward through neighbours of a spinning centre. Met: CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc claim. Out of calibration scope."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "NONE - this sample transcribes no observation"
+      ],
+      "fixedConventions": [
+       "toy units, G=0.005, cLight=30, geoPN=4, kFrame=0 (inertial chain: geodesic off, no 1PN)",
+       "centre m=100, radius 6 (uniform sphere), spin 0.5, pinned; 80 particles m=5 at rest on a disc of radius 24 (seed 20261008)"
+      ],
+      "fitted": [
+       "NOTHING - the background inertial determinacy W_bg = 0.125 [M/L^3] (coefficient 1/W_bg = 8) is a declared value, not fitted to any observation or rotation curve"
+      ],
+      "derived": [
+       "coupling to the centre at t=0, band means 0.960/0.233/0.0872; degree 13.4/9.85/6.82 (bands r=6-12/12-18/18-24)"
+      ],
+      "numerical": [
+       "drag kernel softening eps=1 (relativeDrag.eps), gravity softening 0.5",
+       "stateCarry:\"double\" (masses 100 and 5 are exact in single precision)",
+       "solver tolerance 1e-10 on the original equation, max 1000 iterations; spin moment: 16-point Gauss-Legendre panels"
+      ]
+     },
+     "description": "A PRINCIPLE SAMPLE OF DRAGGING THAT CHAINS LIKE PACHINKO BALLS STUCK TO A MAGNET (laws: the spin dragging A8 and the transport law E6′, that the geoPN=4 sample implements many-particle dragging chaining like pachinko balls on a magnet). Inner particles dragged by a spinning centre (a uniform sphere) become sources for their neighbours, and the drag chains outward. The chain itself belongs to the existing solve for a COMMON MOVING VELOCITY OVER THE WHOLE SYSTEM ((I+L)u=s, s_i=sum_j m_j K_eps(r_ij)(v_j-v_i)/W_bg - it reaches particles that are not directly linked through the ones between). This wave adds (1) THE FRONT/BACK KERNEL OF A SPINNING SOURCE (spinSource:\"surfaceFlip\" - the tangential part of the source points' velocity Omega x rho averaged over a uniform sphere; the near and far sides move in opposite directions and the nearer side's larger kernel leaves a remainder - the same form as the earlier front/back kernel, with the inertial-determinacy kernel K_eps) and (2) A SOLVER THAT CHECKS CONVERGENCE WITH MANY PARTICLES (solver:\"network-pcg-v1\" - the edges c_ij=m_i a_ij are symmetric, so the mass-symmetrised system is solved by conjugate gradients with a diagonal preconditioner; convergence is judged on the original equation, and a step that does not converge is not adopted - the run stops with a notice). There is no extra term adding the neighbours' u again (the same drag is not counted twice).Use the trail to watch 80 particles placed at rest start to turn, pulled by the spinning centre (in 2000 steps the inner band r=6-12 turns 2.17 rad on average, the outer band r=18-24 0.196 rad). The term received directly from the centre falls off as r^-4, yet most of the outer band's u ARRIVES THROUGH THE NEIGHBOURS (diagnostic at t=0: chain solution 0.0965 against 0.00998 from the direct term alone). The conjugate-gradient solver needs at most 40 iterations in 2000 steps, the residual stays inside the 1e-10 tolerance, and no step fails. Halving dt changes dTheta by under 0.3%. Gravity is Newtonian with G=0.005 (the fall is small); THIS IS NOT DISC FORMATION OR A ROTATION CURVE. LONG RUN: with the default step (semic - the drag u solved at the pre-drift position), dt 0.016, t=288: 1/80 particles beyond radius 100, median radius 10.6 (the old split gave 80/80, 673) - MOST OF THE EARLY BLOW-UP AT THE DEFAULT STEP WAS THE SPLIT'S. The converged coupled rk4 still ejects a few (2/80, median 11.1).One-tap A/B: side B is THE CHAIN-CUT CONTROL (same declaration with pairs restricted to the 80 centre-particle pairs - no particle-particle edges). On side B the outer band receives only the direct term (dTheta 0.0880 rad in 2000 steps), 0.45 of side A's 0.196 rad. The inner band turns faster on side B (on side A it shares its u with the outer particles it drags). Compare with 🐌 (translational dragging of two bodies - no chain, no spinning source).",
+     "status": {
+      "purpose": "Test whether drag chains outward through neighbours of a spinning centre",
+      "state": "CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc claim",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "**無し** —— 本サンプルは観測を 1 つも転写していない"
+     ],
+     "fixedConventions": [
+      "トイ単位 G=0.005・cLight=30・geoPN=4・kFrame=0(慣性の連鎖 —— 測地線 OFF・1PN なし)",
+      "中心 m=100・半径 6(一様球)・spin 0.5・pinned/粒子 80 個 m=5・半径 24 の円盤に静止で置く(乱数種 20261008)"
+     ],
+     "fitted": [
+      "**無し** —— 背景慣性決定力 W_bg = 0.125 [M/L³](係数 1/W_bg = 8)は宣言値で、観測にも回転曲線にも合わせていない"
+     ],
+     "derived": [
+      "t=0 の中心との結合 帯平均 0.960/0.233/0.0872・次数 13.4/9.85/6.82(帯 r=6–12/12–18/18–24)"
+     ],
+     "numerical": [
+      "引きずりの核の軟化 ε=1(relativeDrag.eps)・重力の軟化 0.5",
+      "stateCarry:\"double\"(質量 100・5 は単精度で厳密)",
+      "解法の門 元の式の相対残差 1e-10・反復上限 1000・自転源の半径積分 区間あたり 16 点の Gauss–Legendre"
+     ]
+    },
+    "abBody": {
+     "label": {
+      "ja": "連鎖を切った対照(中心と各粒子の対だけ —— 粒子どうしの辺なし)",
+      "en": "chain cut (centre-particle pairs only - no particle-particle edges)"
+     },
+     "physicsPatch": {
+      "relativeDrag": {
+       "law": "inertial",
+       "Wbg": 0.125,
+       "eps": 1,
+       "pairs": [
+        [
+         0,
+         1
+        ],
+        [
+         0,
+         2
+        ],
+        [
+         0,
+         3
+        ],
+        [
+         0,
+         4
+        ],
+        [
+         0,
+         5
+        ],
+        [
+         0,
+         6
+        ],
+        [
+         0,
+         7
+        ],
+        [
+         0,
+         8
+        ],
+        [
+         0,
+         9
+        ],
+        [
+         0,
+         10
+        ],
+        [
+         0,
+         11
+        ],
+        [
+         0,
+         12
+        ],
+        [
+         0,
+         13
+        ],
+        [
+         0,
+         14
+        ],
+        [
+         0,
+         15
+        ],
+        [
+         0,
+         16
+        ],
+        [
+         0,
+         17
+        ],
+        [
+         0,
+         18
+        ],
+        [
+         0,
+         19
+        ],
+        [
+         0,
+         20
+        ],
+        [
+         0,
+         21
+        ],
+        [
+         0,
+         22
+        ],
+        [
+         0,
+         23
+        ],
+        [
+         0,
+         24
+        ],
+        [
+         0,
+         25
+        ],
+        [
+         0,
+         26
+        ],
+        [
+         0,
+         27
+        ],
+        [
+         0,
+         28
+        ],
+        [
+         0,
+         29
+        ],
+        [
+         0,
+         30
+        ],
+        [
+         0,
+         31
+        ],
+        [
+         0,
+         32
+        ],
+        [
+         0,
+         33
+        ],
+        [
+         0,
+         34
+        ],
+        [
+         0,
+         35
+        ],
+        [
+         0,
+         36
+        ],
+        [
+         0,
+         37
+        ],
+        [
+         0,
+         38
+        ],
+        [
+         0,
+         39
+        ],
+        [
+         0,
+         40
+        ],
+        [
+         0,
+         41
+        ],
+        [
+         0,
+         42
+        ],
+        [
+         0,
+         43
+        ],
+        [
+         0,
+         44
+        ],
+        [
+         0,
+         45
+        ],
+        [
+         0,
+         46
+        ],
+        [
+         0,
+         47
+        ],
+        [
+         0,
+         48
+        ],
+        [
+         0,
+         49
+        ],
+        [
+         0,
+         50
+        ],
+        [
+         0,
+         51
+        ],
+        [
+         0,
+         52
+        ],
+        [
+         0,
+         53
+        ],
+        [
+         0,
+         54
+        ],
+        [
+         0,
+         55
+        ],
+        [
+         0,
+         56
+        ],
+        [
+         0,
+         57
+        ],
+        [
+         0,
+         58
+        ],
+        [
+         0,
+         59
+        ],
+        [
+         0,
+         60
+        ],
+        [
+         0,
+         61
+        ],
+        [
+         0,
+         62
+        ],
+        [
+         0,
+         63
+        ],
+        [
+         0,
+         64
+        ],
+        [
+         0,
+         65
+        ],
+        [
+         0,
+         66
+        ],
+        [
+         0,
+         67
+        ],
+        [
+         0,
+         68
+        ],
+        [
+         0,
+         69
+        ],
+        [
+         0,
+         70
+        ],
+        [
+         0,
+         71
+        ],
+        [
+         0,
+         72
+        ],
+        [
+         0,
+         73
+        ],
+        [
+         0,
+         74
+        ],
+        [
+         0,
+         75
+        ],
+        [
+         0,
+         76
+        ],
+        [
+         0,
+         77
+        ],
+        [
+         0,
+         78
+        ],
+        [
+         0,
+         79
+        ],
+        [
+         0,
+         80
+        ]
+       ],
+       "solver": "network-pcg-v1",
+       "spinSource": "surfaceFlip"
+      }
+     }
+    },
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "camera": {
+     "scale": 7
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "seed": 20261008,
+    "timeRef": {
+     "basis": "observe",
+     "tObs": 9.6,
+     "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+    },
+    "physics": {
+     "contactMode": "none",
+     "G": 0.005,
+     "D0": 2,
+     "kFrame": 0,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 0.0001,
+     "cLight": 30,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 4,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.5,
+     "timeScale": 3,
+     "dispMag": 1,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 0.125,
+      "eps": 1,
+      "pairs": "all",
+      "solver": "network-pcg-v1",
+      "spinSource": "surfaceFlip"
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 100,
+      "radius": 6,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0.5,
+      "pinned": true
+     },
+     {
+      "type": "disk",
+      "n": 80,
+      "cx": 0,
+      "cy": 0,
+      "radius": 24,
+      "mMin": 5,
+      "mMax": 5,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "hubble",
+      "vScale": 0,
+      "direction": 1,
+      "bulkVx": 0,
+      "bulkVy": 0
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**磁石に付いたパチンコ玉のように連鎖する引きずり**の原理サンプル(法則は A8 のスピン引きずりと E6′ の輸送則・「geoPN=4 のサンプルは、多粒子での、磁石に付いたパチンコ玉のように連鎖する引きずりを実装する」)。自転する中心(一様球)に引きずられた内側の粒が、隣の粒の源になって外へ連鎖する。連鎖そのものは既存の**共通の移動速度を全体で解く** solve((I+L)u=s・s_i=Σ_j m_j K_ε(r_ij)(v_j−v_i)/W_bg—— 直接つながらない粒へも中間の粒を通じて伝わる)が持ち、この本はその上に (1) **自転する源の表裏核**(宣言 spinSource:\"surfaceFlip\" —— 源の点の速度 Ω×ρ を一様球で体積平均した接線成分。表側と裏側の Ω×ρ は逆向きで、近い側の核が大きいぶんだけ残る —— 表裏核と同じ形で、核だけが慣性決定力の K_ε)と (2) **多粒子で収束を確かめる解法**(宣言 solver:\"network-pcg-v1\" —— 辺 c_ij=m_i a_ij が対称なので質量で対称化した系を対角前処理の共役勾配法で解く。収束は元の式の残差で判定し、収まらなければ u を採用せず停止して知らせる)を足した。隣の u を別に足す項は無い(同じ引きずりを二度数えない)。トレイルで、静止して置いた 80 個の粒子が自転する中心に引かれて回り出すのを見る(2000 步で内帯 r=6–12 は平均 2.17 rad・外帯 r=18–24 は 0.196 rad)。中心から直接受ける項は遠方で r⁻⁴ で弱まるが、外帯の u の大半は**隣の粒子を通じて届く**(t=0 の診断: 外帯の接線 u は連鎖の解 0.0965・直接の項だけなら 0.00998)。共役勾配法の反復は 2000 步で最大 40 回・残差は許容 1e-10 の内側・未収束 0。dt を半分にしても Δθ は 0.3% 以内。重力は G=0.005 のニュートン(落下は小さい)で、**円盤の形成・回転曲線の再現ではない**。 **長い走行**: 既定の步(semic —— 引きずりの u をドリフトの前の位置で解く)の dt 0.016・t=288 で半径 100 を越えた粒子は 1/80・中央半径 10.6(旧の分割では 80/80・673)—— **既定の刻みの大半の飛びは分割で早まった分**。収束した結合積分 rk4 でも少数の粒子の放出が残る(2/80・中央半径 11.1)。ワンタップ対照A/B: B 側は**連鎖を切った対照**(同じ宣言で pairs を中心と各粒子の 80 対だけにする —— 粒子どうしの辺なし)。B では外帯の粒子は中心から直接の項しか受けず(2000 步で Δθ 0.0880 rad)、A の 0.196 rad の 0.45 倍に留まる。内帯は逆に B の方が速い(A では外の粒子の分まで引きずるので内帯の u が分け合われる)。比べる相手は 🐌(2 体の並進引きずり —— 連鎖も自転源も無い)。",
+    "status": {
+     "purpose": "自転する中心と多粒子で引きずりが隣の粒子を通じて外へ連鎖するかを測る",
+     "objective": "met",
+     "state": "共役勾配法の反復 最大 40・残差は許容 1e-10 の内側・外帯の角変位は連鎖を切った対照の 2.22 倍・円盤の形成や回転曲線ではない",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "tests/out/chain-w296c.json"
+     ]
+    }
+   }
+  },
+  "chainDiskToy3d": {
+   "emoji": "🔩",
+   "name": "連鎖引きずりの小円盤(三次元)— 自転軸を有効化した中心と多粒子(原理)",
+   "familyId": null,
+   "familyRole": "retired",
+   "familyRoleAtBase": null,
+   "group": "運動と時空",
+   "groupAtBase": "運動と時空",
+   "sampleClass": "principle",
+   "geoPN": 4,
+   "coord": "3d",
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": 0.125,
+    "eps": 1,
+    "pairs": "all",
+    "solver": "network-pcg-v1",
+    "spinDrag": {
+     "rot": "surfaceFlip",
+     "axial": "off"
+    }
+   },
+   "presetSigHash": "f0b8eba4",
+   "presetSigSha256": "7d235408924d1d40cdfe46edb90ca206afe6fd9ef58ba85dcf4a2935c2dc1c05",
+   "base": {
+    "rev": "82aa277",
+    "presetSigHash": "f0b8eba4",
+    "name": "連鎖引きずりの小円盤(三次元)— 自転軸を有効化した中心と多粒子(原理)",
+    "sigSame": true,
+    "physicsSame": true,
+    "bodiesSame": true
+   },
+   "successor": "inertialDragPair",
+   "reason": "旧方式の geoPN=4(旧 W_bg 則の連鎖 —— 🔗 の三次元の写し・回転引きずり)—— 同上",
+   "retiredNotice": {
+    "ja": "第127報: 旧方式の geoPN=4(旧 W_bg 則の連鎖の原理の玩具)の退役 —— 新しい geoPN=4(場の API の opt-in)の本は新しい ID で作る。二体の並進の慣性引きずりは 🐌",
+    "en": "ruling 127: the old-style geoPN=4 (a chain toy of the older W_bg law) is retired — a new geoPN=4 sample (the opt-in field API) will get a new ID; two-body translational inertial drag is 🐌",
+    "see": [
+     "inertialDragPair"
+    ]
+   },
+   "pairDiff": {
+    "successor": "inertialDragPair",
+    "successorEmoji": "🐌",
+    "n": 29,
+    "keys": [
+     "physics.G",
+     "physics.contactMode",
+     "physics.coord",
+     "physics.geoPN",
+     "physics.lambdaPN",
+     "physics.massPrecision",
+     "physics.relativeDrag",
+     "physics.softening",
+     "physics.stepDt",
+     "physics.timeScale",
+     "bodies[0].m",
+     "bodies[0].radius",
+     "bodies[0].x",
+     "bodies[0].vx",
+     "bodies[0].vy",
+     "bodies[0].spin",
+     "bodies[0].pinned",
+     "bodies[1].type",
+     "bodies[1].m",
+     "bodies[1].radius",
+     "bodies[1].x",
+     "bodies[1].y",
+     "bodies[1].vx",
+     "bodies[1].vy",
+     "bodies[1].spin",
+     "bodies[1].pinned",
+     "bodies[1].n",
+     "bodies[1].mMin",
+     "bodies[1].mMax"
+    ]
+   },
+   "statusAtBase": {
+    "purpose": "🔗 を三次元で走らせ回転引きずりの連鎖と空間メッシュの渦を測る",
+    "objective": "met",
+    "state": "零試験で二次元の 🔗 とビット同一・帯の Δθ 2.169/0.577/0.196 rad・プローブの門 3.4e-11・循環 36.6",
+    "evidence": [
+     "tests/out/drag3d-w298c.json"
+    ],
+    "en": {
+     "purpose": "Run 🔗 in 3D; measure the rotational-drag chain and the mesh vortex",
+     "state": "bit-identical to 2D 🔗; band dTheta 2.169/0.577/0.196 rad; probe gate 3.4e-11; circulation 36.6"
+    }
+   },
+   "evidence": [
+    {
+     "file": "tests/out/drag3d-w298c.json",
+     "rev": "82aa277",
+     "sha256": "de29bdc2f69bd621fea09429da90f146dcd577061bcfd7e02d1d04c936a366e5"
+    }
+   ],
+   "stages": [
+    "an336-306a",
+    "bevel-308a",
+    "chainburst-301d",
+    "drag3d-298c",
+    "galfield-321c",
+    "geo4stable-299d",
+    "gfamily-305b",
+    "gloc-302b",
+    "inertialr2-303b",
+    "pairnorm-305a",
+    "periodn-306b",
+    "rotframe-306d",
+    "shell-304b",
+    "sphereaxial-307a",
+    "spinavg-305d"
+   ],
+   "raw": {
+    "id": "chainDiskToy3d",
+    "name": "連鎖引きずりの小円盤(三次元)— 自転軸を有効化した中心と多粒子(原理)",
+    "emoji": "🔩",
+    "group": "運動と時空",
+    "scaleTier": "stellar",
+    "sampleClass": "principle",
+    "fidelity": "toy",
+    "familyRole": "retired",
+    "notClaim": [
+     "galaxy_disk",
+     "flat_rotation",
+     "gain_universal"
+    ],
+    "obsCard": [
+     {
+      "q": "何を置いたか",
+      "model": "🔗 の写しを physics.coord:\"3d\" で走らせた(粒子は z=0 の面)。中心だけ自転軸を有効化(傾き 0 = +z)・spinDrag:{rot:\"surfaceFlip\", axial:\"off\"}",
+      "obs": "—(原理サンプル —— 観測転写はしない)"
+     },
+     {
+      "q": "則(1 步)",
+      "model": "(I+L)u=s を x・y・z の 3 右辺で解く(係数は同じ N×N)。s に回転引きずり m Ω M1(r)(â×ê)/W_bg—— 大きさは sin∠(â,ê) に比例(赤道面で最大・軸上で 0)。x+=u·dt(v は触らない)",
+      "obs": "—"
+     },
+     {
+      "q": "零試験(実測)",
+      "model": "軸 +z・z=0 では二次元の 🔗 と 200 步の全状態 488 値がビット同一(spinSource の別名でも同じ)",
+      "obs": "—"
+     },
+     {
+      "q": "角変位(実測 2000 步)",
+      "model": "帯 r=6–12/12–18/18–24 の平均 Δθ 2.169/0.577/0.196 rad(🔗 と同じ)・反復 最大 40・残差 最大 1.0e-10・面外の変位 0",
+      "obs": "—"
+     },
+     {
+      "q": "空間メッシュ(実測)",
+      "model": "受動プローブの門 相対 3.4e-11・r=8 の円の循環 36.6(自転 0 の対照 6.4e-5)・格子幅 5/2/1 の補間の誤差 rms 0.063/0.030/0.0072",
+      "obs": "—"
+     },
+     {
+      "q": "言わないこと",
+      "model": "円盤や銀河の形成・平坦な回転曲線とは書かない。W_bg は宣言値(フィットしない)",
+      "obs": "—"
+     }
+    ],
+    "descStruct": {
+     "summary": "**geoPN=4(慣性決定力の多粒子版)の三次元の標準の本**(法則は A8 のスピン引きずりと E6′ の輸送則の三次元・「geoPN=4 は慣性決定力の多粒子版・三次元が既定」)。🔗 chainDiskToy を書き換えずに写し、physics.coord:\"3d\" で走らせる。中心の一様球だけが自転軸を有効化し(傾き 0 —— +z)、三次元の慣性決定力の宣言 relativeDrag.spinDrag で**回転引きずり**(rot:\"surfaceFlip\" —— 源の点の速度 Ω â×ρ を一様球で体積平均した ⟨K_ε ρ⟩ = M1(r) ê から m Ω M1 (â×ê)/W_bg。外積が sin を持つので赤道面で最大・軸上で 0)を足す。**並進引きずり**は既存の連立 (I+L)u=s を x・y・z の 3 右辺で解く(係数は同じ)。軸引きずりはこの本では宣言しない(axial:\"off\")。粒子が z=0 の面にあり軸が +z のとき、三次元の走行は二次元の 🔗 と全状態がビット同一になる(器の零試験)。空間メッシュの表示は旧 physics.spaceMesh ではなく**この本の慣性決定力の場**(表示点を質量ゼロ・反作用なしの受け手として、同じ步の解 u_j と同じ核で u を求める受動プローブ —— Z=0 の面・矢印と凍結場の流線)で、自転する中心のまわりの渦が見える。",
+     "observe": "表示の「空間メッシュ」を ON にすると、Z=0 の面の矢印と流線が自転する中心のまわりを回る。表示を ON/OFF しても状態は 1 bit も変わらない(器)。トレイルで粒子が回り出すのは 🔗 と同じ(帯ごとの Δθ も同じ値)。 **長い走行(x・y は 🔗 とビット同一)**: 既定の步(semic —— 引きずりの u をドリフトの前の位置で解く)の dt 0.016・t=288 で半径 100 を越えた粒子は 1/80・中央半径 10.6(旧の分割では 80/80・673)—— **既定の刻みの大半の飛びは分割で早まった分**。収束した結合積分 rk4 でも少数の粒子の放出が残る(2/80・中央半径 11.1)。",
+     "control": "ワンタップ対照A/B: B 側は回転引きずりを外す(spinDrag を宣言しない —— 並進の連鎖だけ)。比べる相手は 🔗(二次元・同じ値)と 🪛(軸を 30° 傾けた写し)。",
+     "brief": "🔗 を三次元で走らせ回転引きずりの連鎖と空間メッシュの渦を測る。達・零試験で二次元の 🔗 とビット同一・帯の Δθ 2.169/0.577/0.196 rad・プローブの門 3.4e-11・循環 36.6。較正対象外。"
+    },
+    "en": {
+     "name": "Chain-dragging mini disc (3D) — a centre with an enabled spin axis and many particles (principle)",
+     "obsCard": [
+      {
+       "q": "What is placed",
+       "model": "🔗 run with physics.coord 3d (particles on z=0); only the centre enables its axis (tilt 0 = +z); spinDrag rot surfaceFlip, axial off",
+       "obs": "- (a principle sample; nothing transcribed)"
+      },
+      {
+       "q": "The law (one step)",
+       "model": "(I+L)u=s solved for the x, y and z right-hand sides (same N x N); s gets the rotational drag m Omega M1(r)(a x e)/W_bg, proportional to sin(a,e) (largest on the equator, zero on the axis); x+=u dt (v untouched)",
+       "obs": "-"
+      },
+      {
+       "q": "Null test (measured)",
+       "model": "axis +z, z=0: all 488 state values bit-identical to 2D 🔗 over 200 steps (also with the spinSource alias)",
+       "obs": "-"
+      },
+      {
+       "q": "Angular displacement (measured, 2000 steps)",
+       "model": "band means r=6-12/12-18/18-24: 2.169/0.577/0.196 rad (as 🔗); at most 40 iterations; residual at most 1.0e-10; no out-of-plane motion",
+       "obs": "-"
+      },
+      {
+       "q": "Space mesh (measured)",
+       "model": "passive-probe gate 3.4e-11 relative; circulation on r=8 36.6 (spin-0 control 6.4e-5); interpolation error rms 0.063/0.030/0.0072 for cells 5/2/1",
+       "obs": "-"
+      },
+      {
+       "q": "Not claimed",
+       "model": "no disc or galaxy formation, no flat rotation curve; W_bg is declared (not fitted)",
+       "obs": "-"
+      }
+     ],
+     "descStruct": {
+      "summary": "THE 3D STANDARD SAMPLE OF geoPN=4 (THE MANY-BODY INERTIAL-DETERMINACY MODE) (laws: the spin dragging A8 and the transport law E6′ in 3D; geoPN=4 is the many-body version of the inertial determinacy and 3D is its default). 🔗 chainDiskToy is copied untouched and run with physics.coord 3d. Only the central uniform sphere enables its spin axis (tilt 0 - +z), and the 3D inertial-determinacy declaration relativeDrag.spinDrag adds the ROTATIONAL DRAG (rot surfaceFlip - the source points' velocity Omega a x rho averaged over the uniform sphere gives <K_eps rho> = M1(r) e, hence m Omega M1 (a x e)/W_bg; the cross product carries the sine, so it is largest on the equator and zero on the axis). The TRANSLATIONAL DRAG solves the existing system (I+L)u=s for the x, y and z right-hand sides (same coefficients). No axial drag is declared here (axial off). With the particles on z=0 and the axis along +z the 3D run is bit-identical to the 2D 🔗 (the harness's null test). The space-mesh display is not the legacy physics.spaceMesh but THIS SAMPLE'S INERTIAL-DETERMINACY FIELD (a passive probe: a massless receiver with no reaction at each display point, using the same step's solution u_j and the same kernel - plane Z=0, arrows and frozen-field streamlines), and it shows the vortex round the spinning centre.",
+      "observe": "Turn on the space mesh in the display settings and the arrows and streamlines on the plane Z=0 circle the spinning centre. Switching the display on or off changes the state by not a single bit (harness). The particles start to turn as in 🔗 (the same band values). LONG RUN (x, y bit-identical to 🔗): with the default step (semic - the drag u solved at the pre-drift position), dt 0.016, t=288: 1/80 particles beyond radius 100, median radius 10.6 (the old split gave 80/80, 673) - MOST OF THE EARLY BLOW-UP AT THE DEFAULT STEP WAS THE SPLIT'S. The converged coupled rk4 still ejects a few (2/80, median 11.1).",
+      "control": "One-tap A/B: side B drops the rotational drag (no spinDrag - translational chain only). Compare with 🔗 (2D, the same values) and 🪛 (the copy with the axis tilted 30 degrees).",
+      "brief": "Run 🔗 in 3D; measure the rotational-drag chain and the mesh vortex. Met: bit-identical to 2D 🔗; band dTheta 2.169/0.577/0.196 rad; probe gate 3.4e-11; circulation 36.6. Out of calibration scope."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "NONE - this sample transcribes no observation"
+      ],
+      "fixedConventions": [
+       "a copy of 🔗 chainDiskToy (toy units G=0.005, cLight=30, geoPN=4, kFrame=0, 80 particles, seed 20261008) with physics.coord 3d (right-handed, +z into the screen in the default view)",
+       "centre m=100, radius 6 (uniform sphere), spin 0.5, pinned; the spin axis is enabled for that one body only (tilt 0 = +z)"
+      ],
+      "fitted": [
+       "NOTHING - W_bg = 0.125 [M/L^3] (coefficient 1/W_bg = 8) is 🔗's declared value"
+      ],
+      "derived": [
+       "the rotational drag m Omega M1(r)(a x e)/W_bg uses the same uniform-sphere front/back moment M1 as 2D (a function of r only)"
+      ],
+      "numerical": [
+       "drag-kernel softening eps=1, gravity softening 0.5",
+       "stateCarry double",
+       "solver gate: original-equation relative residual 1e-10 (network-pcg-v1); 16 Gauss-Legendre points per interval for the spin source"
+      ]
+     },
+     "description": "THE 3D STANDARD SAMPLE OF geoPN=4 (THE MANY-BODY INERTIAL-DETERMINACY MODE) (laws: the spin dragging A8 and the transport law E6′ in 3D; geoPN=4 is the many-body version of the inertial determinacy and 3D is its default). 🔗 chainDiskToy is copied untouched and run with physics.coord 3d. Only the central uniform sphere enables its spin axis (tilt 0 - +z), and the 3D inertial-determinacy declaration relativeDrag.spinDrag adds the ROTATIONAL DRAG (rot surfaceFlip - the source points' velocity Omega a x rho averaged over the uniform sphere gives <K_eps rho> = M1(r) e, hence m Omega M1 (a x e)/W_bg; the cross product carries the sine, so it is largest on the equator and zero on the axis). The TRANSLATIONAL DRAG solves the existing system (I+L)u=s for the x, y and z right-hand sides (same coefficients). No axial drag is declared here (axial off). With the particles on z=0 and the axis along +z the 3D run is bit-identical to the 2D 🔗 (the harness's null test). The space-mesh display is not the legacy physics.spaceMesh but THIS SAMPLE'S INERTIAL-DETERMINACY FIELD (a passive probe: a massless receiver with no reaction at each display point, using the same step's solution u_j and the same kernel - plane Z=0, arrows and frozen-field streamlines), and it shows the vortex round the spinning centre.Turn on the space mesh in the display settings and the arrows and streamlines on the plane Z=0 circle the spinning centre. Switching the display on or off changes the state by not a single bit (harness). The particles start to turn as in 🔗 (the same band values). LONG RUN (x, y bit-identical to 🔗): with the default step (semic - the drag u solved at the pre-drift position), dt 0.016, t=288: 1/80 particles beyond radius 100, median radius 10.6 (the old split gave 80/80, 673) - MOST OF THE EARLY BLOW-UP AT THE DEFAULT STEP WAS THE SPLIT'S. The converged coupled rk4 still ejects a few (2/80, median 11.1).One-tap A/B: side B drops the rotational drag (no spinDrag - translational chain only). Compare with 🔗 (2D, the same values) and 🪛 (the copy with the axis tilted 30 degrees).",
+     "status": {
+      "purpose": "Run 🔗 in 3D; measure the rotational-drag chain and the mesh vortex",
+      "state": "bit-identical to 2D 🔗; band dTheta 2.169/0.577/0.196 rad; probe gate 3.4e-11; circulation 36.6",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "**無し** —— 本サンプルは観測を 1 つも転写していない"
+     ],
+     "fixedConventions": [
+      "🔗 chainDiskToy の写し(トイ単位 G=0.005・cLight=30・geoPN=4・kFrame=0・粒子 80 個・乱数種 20261008)に physics.coord:\"3d\"(右手系・既定の視点で +z は画面の奥)",
+      "中心 m=100・半径 6(一様球)・spin 0.5・pinned・自転軸を 1 粒子だけ有効化(傾き 0 = +z)"
+     ],
+     "fitted": [
+      "**無し** —— W_bg = 0.125 [M/L³](係数 1/W_bg = 8)は 🔗 の宣言値"
+     ],
+     "derived": [
+      "回転引きずり m Ω M1(r)(â×ê)/W_bg の M1 は二次元と同じ一様球の表裏核(r だけの関数)"
+     ],
+     "numerical": [
+      "引きずりの核の軟化 ε=1・重力の軟化 0.5",
+      "stateCarry:\"double\"",
+      "解法の門 元の式の相対残差 1e-10(network-pcg-v1)・自転源の半径積分 区間あたり 16 点"
+     ]
+    },
+    "abBody": {
+     "label": {
+      "ja": "回転引きずりを外す(並進の連鎖だけ)",
+      "en": "drop the rotational drag (translational chain only)"
+     },
+     "physicsPatch": {
+      "relativeDrag": {
+       "law": "inertial",
+       "Wbg": 0.125,
+       "eps": 1,
+       "pairs": "all",
+       "solver": "network-pcg-v1"
+      }
+     }
+    },
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "camera": {
+     "scale": 7
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "seed": 20261008,
+    "timeRef": {
+     "basis": "observe",
+     "tObs": 9.6,
+     "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+    },
+    "physics": {
+     "coord": "3d",
+     "contactMode": "none",
+     "G": 0.005,
+     "D0": 2,
+     "kFrame": 0,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 0.0001,
+     "cLight": 30,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 4,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.5,
+     "timeScale": 3,
+     "dispMag": 1,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 0.125,
+      "eps": 1,
+      "pairs": "all",
+      "solver": "network-pcg-v1",
+      "spinDrag": {
+       "rot": "surfaceFlip",
+       "axial": "off"
+      }
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 100,
+      "radius": 6,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0.5,
+      "pinned": true,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "source": "宣言(第298便c の原理の本 —— 観測ではない)"
+      }
+     },
+     {
+      "type": "disk",
+      "n": 80,
+      "cx": 0,
+      "cy": 0,
+      "radius": 24,
+      "mMin": 5,
+      "mMax": 5,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "hubble",
+      "vScale": 0,
+      "direction": 1,
+      "bulkVx": 0,
+      "bulkVy": 0
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**geoPN=4(慣性決定力の多粒子版)の三次元の標準の本**(法則は A8 のスピン引きずりと E6′ の輸送則の三次元・「geoPN=4 は慣性決定力の多粒子版・三次元が既定」)。🔗 chainDiskToy を書き換えずに写し、physics.coord:\"3d\" で走らせる。中心の一様球だけが自転軸を有効化し(傾き 0 —— +z)、三次元の慣性決定力の宣言 relativeDrag.spinDrag で**回転引きずり**(rot:\"surfaceFlip\" —— 源の点の速度 Ω â×ρ を一様球で体積平均した ⟨K_ε ρ⟩ = M1(r) ê から m Ω M1 (â×ê)/W_bg。外積が sin を持つので赤道面で最大・軸上で 0)を足す。**並進引きずり**は既存の連立 (I+L)u=s を x・y・z の 3 右辺で解く(係数は同じ)。軸引きずりはこの本では宣言しない(axial:\"off\")。粒子が z=0 の面にあり軸が +z のとき、三次元の走行は二次元の 🔗 と全状態がビット同一になる(器の零試験)。空間メッシュの表示は旧 physics.spaceMesh ではなく**この本の慣性決定力の場**(表示点を質量ゼロ・反作用なしの受け手として、同じ步の解 u_j と同じ核で u を求める受動プローブ —— Z=0 の面・矢印と凍結場の流線)で、自転する中心のまわりの渦が見える。表示の「空間メッシュ」を ON にすると、Z=0 の面の矢印と流線が自転する中心のまわりを回る。表示を ON/OFF しても状態は 1 bit も変わらない(器)。トレイルで粒子が回り出すのは 🔗 と同じ(帯ごとの Δθ も同じ値)。 **長い走行(x・y は 🔗 とビット同一)**: 既定の步(semic —— 引きずりの u をドリフトの前の位置で解く)の dt 0.016・t=288 で半径 100 を越えた粒子は 1/80・中央半径 10.6(旧の分割では 80/80・673)—— **既定の刻みの大半の飛びは分割で早まった分**。収束した結合積分 rk4 でも少数の粒子の放出が残る(2/80・中央半径 11.1)。ワンタップ対照A/B: B 側は回転引きずりを外す(spinDrag を宣言しない —— 並進の連鎖だけ)。比べる相手は 🔗(二次元・同じ値)と 🪛(軸を 30° 傾けた写し)。",
+    "status": {
+     "purpose": "🔗 を三次元で走らせ回転引きずりの連鎖と空間メッシュの渦を測る",
+     "objective": "met",
+     "state": "零試験で二次元の 🔗 とビット同一・帯の Δθ 2.169/0.577/0.196 rad・プローブの門 3.4e-11・循環 36.6",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "tests/out/drag3d-w298c.json"
+     ]
+    }
+   }
+  },
+  "chainDiskToy3dTilt": {
+   "emoji": "🪛",
+   "name": "連鎖引きずりの小円盤(三次元・軸 30°)— 傾いた自転軸の回転引きずりと軸引きずり(原理)",
+   "familyId": null,
+   "familyRole": "retired",
+   "familyRoleAtBase": null,
+   "group": "運動と時空",
+   "groupAtBase": "運動と時空",
+   "sampleClass": "principle",
+   "geoPN": 4,
+   "coord": "3d",
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": 0.125,
+    "eps": 1,
+    "pairs": "all",
+    "solver": "network-pcg-v1",
+    "spinDrag": {
+     "rot": "surfaceFlip",
+     "axial": "on",
+     "axialCoupling": 4
+    }
+   },
+   "presetSigHash": "fb7f4b17",
+   "presetSigSha256": "9bd6c94b5b1641ee5371aa347074f6f014523b6fe3d1c77bf7ddfd831b11b5dc",
+   "base": {
+    "rev": "82aa277",
+    "presetSigHash": "fb7f4b17",
+    "name": "連鎖引きずりの小円盤(三次元・軸 30°)— 傾いた自転軸の回転引きずりと軸引きずり(原理)",
+    "sigSame": true,
+    "physicsSame": true,
+    "bodiesSame": true
+   },
+   "successor": "inertialDragPair",
+   "reason": "旧方式の geoPN=4(旧 W_bg 則の連鎖 —— 軸 30°・軸引きずり)—— 同上",
+   "retiredNotice": {
+    "ja": "第127報: 旧方式の geoPN=4(旧 W_bg 則の連鎖の原理の玩具)の退役 —— 新しい geoPN=4(場の API の opt-in)の本は新しい ID で作る。二体の並進の慣性引きずりは 🐌",
+    "en": "ruling 127: the old-style geoPN=4 (a chain toy of the older W_bg law) is retired — a new geoPN=4 sample (the opt-in field API) will get a new ID; two-body translational inertial drag is 🐌",
+    "see": [
+     "inertialDragPair"
+    ]
+   },
+   "pairDiff": {
+    "successor": "inertialDragPair",
+    "successorEmoji": "🐌",
+    "n": 29,
+    "keys": [
+     "physics.G",
+     "physics.contactMode",
+     "physics.coord",
+     "physics.geoPN",
+     "physics.lambdaPN",
+     "physics.massPrecision",
+     "physics.relativeDrag",
+     "physics.softening",
+     "physics.stepDt",
+     "physics.timeScale",
+     "bodies[0].m",
+     "bodies[0].radius",
+     "bodies[0].x",
+     "bodies[0].vx",
+     "bodies[0].vy",
+     "bodies[0].spin",
+     "bodies[0].pinned",
+     "bodies[1].type",
+     "bodies[1].m",
+     "bodies[1].radius",
+     "bodies[1].x",
+     "bodies[1].y",
+     "bodies[1].vx",
+     "bodies[1].vy",
+     "bodies[1].spin",
+     "bodies[1].pinned",
+     "bodies[1].n",
+     "bodies[1].mMin",
+     "bodies[1].mMax"
+    ]
+   },
+   "statusAtBase": {
+    "purpose": "中心の自転軸を 30° 傾け回転引きずりの面外成分と軸引きずりを測る",
+    "objective": "met",
+    "state": "面外の変位 最大 6.86・帯の Δθ 2.223/0.470/0.157 rad・軸引きずりの |ω| 最大 0.0214(総和正規化後・姿勢のみ)",
+    "evidence": [
+     "tests/out/drag3d-w298c.json"
+    ],
+    "en": {
+     "purpose": "Tilt the centre's axis 30 deg; measure out-of-plane and axial drag",
+     "state": "z offset up to 6.86; band dTheta 2.223/0.470/0.157 rad; axial |omega| up to 0.0214 (normalised)"
+    }
+   },
+   "evidence": [
+    {
+     "file": "tests/out/drag3d-w298c.json",
+     "rev": "82aa277",
+     "sha256": "de29bdc2f69bd621fea09429da90f146dcd577061bcfd7e02d1d04c936a366e5"
+    }
+   ],
+   "stages": [
+    "axialsign-302e",
+    "bevel-308a",
+    "drag3d-298c",
+    "maintain-309b",
+    "rotframe-306d",
+    "sphereaxial-307a",
+    "spinavg-305d"
+   ],
+   "raw": {
+    "id": "chainDiskToy3dTilt",
+    "name": "連鎖引きずりの小円盤(三次元・軸 30°)— 傾いた自転軸の回転引きずりと軸引きずり(原理)",
+    "emoji": "🪛",
+    "group": "運動と時空",
+    "scaleTier": "stellar",
+    "sampleClass": "principle",
+    "fidelity": "toy",
+    "familyRole": "retired",
+    "notClaim": [
+     "galaxy_disk",
+     "flat_rotation",
+     "gain_universal",
+     "axial_drag_unfitted"
+    ],
+    "obsCard": [
+     {
+      "q": "何を置いたか",
+      "model": "🔩 の写しで中心の自転軸を +z から 30°(方位 0)傾け、軸引きずりを宣言(axial:\"on\"・axialCoupling 4 —— 宣言値・未較正)",
+      "obs": "—(原理サンプル —— 観測転写はしない)"
+     },
+     {
+      "q": "則(1 步)",
+      "model": "回転引きずり m Ω M1(r)(â×ê)/W_bg は軸が傾くと面外の成分を持つ。軸引きずり ω = A_k m Ω K_ε(r) μ² â(μ=ê·â —— 軸上で最大・赤道で 0)は受け手の姿勢を回すだけ(線速度に足さない)",
+      "obs": "—"
+     },
+     {
+      "q": "角変位(実測 2000 步)",
+      "model": "帯 r=6–12/12–18/18–24 の平均 Δθ 2.223/0.470/0.157 rad・面外の変位 最大 6.86・vz 最大 0.406・反復 最大 40・残差 最大 1.0e-10",
+      "obs": "—"
+     },
+     {
+      "q": "軸引きずり(実測 2000 步)",
+      "model": "引きずり軸回転 |ω_drag| 最大 0.0214(総和正規化の後)・傾きの無い粒子は符号つきの Σw を回転角へ(合計 3.98 rad。正規化の前 29.8・旧 +z 投影 25.8)",
+      "obs": "—"
+     },
+     {
+      "q": "空間メッシュ(実測 50 步)",
+      "model": "Z=0 の面の |u|max 1.60・面に垂直な u_z 最大 0.921(矢印は XY へ投影)・軸引きずりの ω_z 最大 0.0348(正規化の後)・点の色は正準化した符号つきの Σw(最大 0.0401)",
+      "obs": "—"
+     },
+     {
+      "q": "言わないこと",
+      "model": "円盤・銀河・歳差の再現とは書かない。W_bg と A_k は宣言値(フィットしない)",
+      "obs": "—"
+     }
+    ],
+    "descStruct": {
+     "summary": "**傾いた自転軸の回転引きずりと軸引きずり**の原理サンプル(法則は A8 のスピン引きずりと E6′ の輸送則の三次元・「三次元の慣性決定力: 『回転引きずり』は赤道面で最大・自転軸方向でゼロ。『並進引きずり』『回転引きずり』と別に『軸引きずり』—— 自転軸方向で最大・同じ軸の向きに回転させる・赤道面でゼロ」)。🔩 の写しで、中心の自転軸を +z から 30° 傾ける。回転引きずり m Ω M1(r)(â×ê)/W_bg は粒子の面(z=0)に対して面外の成分を持つので、粒子は回りながら面から浮く。**軸引きずり**(spinDrag の axial:\"on\")は源の軸の向き â の角速度 ω = A_k m Ω K_ε(r) μ² â を受け手に与え、受け手の**姿勢**(自転軸まわりの角 rotA と、軸を有効化した粒子の軸)を回す —— 線速度 u には足さない。角度則 μ²(両極対称・赤道 0)・距離の核 K_ε(並進と同じ点源)・係数 A_k=4(鍵 axialCoupling)はどれも宣言で、未較正(注記 axial_drag_unfitted)。この本の粒子は傾きを持たない(軸を有効化していない)ので、**傾きを考慮せず**源の寄与 w = A_k m Ω K_ε μ² を符号つきのスカラーのまま引きずり軸回転として回転角に足す(「軸回転 = 慣性軸回転 + 引きずり軸回転」—— 慣性軸回転 s は変えず、引きずり軸回転は毎步作り直す。受け手に傾きは作らない)。軸引きずりの強さも並進・回転と同じ分母で割る —— ν = W_bg/(W_bg + Σw)(受け手の Σw は並進の行和)。",
+     "observe": "トレイルで粒子が回りながら面から浮くのを見る(視点のスライダーを 0 に近づけると横から見える)。表示の「空間メッシュ」を ON にすると Z=0 の面の u の XY への投影と流線、軸引きずりの ω_z を点の色(暖色 +・寒色 −)で出す。",
+     "control": "ワンタップ対照A/B: B 側は軸引きずりを外す(axial:\"off\" —— 回転引きずりはそのまま)。B では姿勢の角だけが変わらず、位置と速度は A と同じ(軸引きずりは線速度に足さない)。比べる相手は 🔩(軸 +z)。",
+     "brief": "中心の自転軸を 30° 傾け回転引きずりの面外成分と軸引きずりを測る。達・面外の変位 最大 6.86・帯の Δθ 2.223/0.470/0.157 rad・軸引きずりの |ω| 最大 0.0214(総和正規化後・姿勢のみ)。較正対象外。"
+    },
+    "en": {
+     "name": "Chain-dragging mini disc (3D, axis 30 deg) — rotational and axial drag of a tilted spin axis (principle)",
+     "obsCard": [
+      {
+       "q": "What is placed",
+       "model": "a copy of 🔩 with the centre's axis tilted 30 deg from +z (azimuth 0) and axial drag declared (axial on, axialCoupling 4 - declared, uncalibrated)",
+       "obs": "- (a principle sample; nothing transcribed)"
+      },
+      {
+       "q": "The law (one step)",
+       "model": "the rotational drag m Omega M1(r)(a x e)/W_bg gets an out-of-plane part once the axis tilts; the axial drag omega = A_k m Omega K_eps(r) mu^2 a (mu = e.a - largest on the axis, zero on the equator) only turns the receiver's attitude (never added to the linear velocity)",
+       "obs": "-"
+      },
+      {
+       "q": "Angular displacement (measured, 2000 steps)",
+       "model": "band means r=6-12/12-18/18-24: 2.223/0.470/0.157 rad; largest out-of-plane offset 6.86, vz 0.406; at most 40 iterations; residual at most 1.0e-10",
+       "obs": "-"
+      },
+      {
+       "q": "Axial drag (measured, 2000 steps)",
+       "model": "axial |omega| up to 0.0214 (normalised, 301a); tiltless particles add the signed sum (3.98 rad, 301c; unnormalised 29.8, old +z 25.8)",
+       "obs": "-"
+      },
+      {
+       "q": "Space mesh (measured, 50 steps)",
+       "model": "plane Z=0: |u|max 1.60, normal u_z up to 0.921 (arrows on XY), axial omega_z up to 0.0348 (normalised); the dot colour is the canonicalised signed sum w (up to 0.0401, 302e)",
+       "obs": "-"
+      },
+      {
+       "q": "Not claimed",
+       "model": "no disc, galaxy or precession reproduced; W_bg and A_k are declared (not fitted)",
+       "obs": "-"
+      }
+     ],
+     "descStruct": {
+      "summary": "A PRINCIPLE SAMPLE OF THE ROTATIONAL AND AXIAL DRAG OF A TILTED SPIN AXIS (laws: the spin dragging A8 and the transport law E6′ in 3D; in 3D the rotational drag is largest on the equator and zero along the spin axis; besides the translational and rotational drag there is an axial drag - largest along the axis, turning bodies about the same axis, zero on the equator). A copy of 🔩 with the centre's axis tilted 30 degrees from +z. The rotational drag m Omega M1(r)(a x e)/W_bg now has a component normal to the particles' plane (z=0), so the particles rise out of the plane while they turn. The AXIAL DRAG (spinDrag axial on) gives each receiver the angular velocity omega = A_k m Omega K_eps(r) mu^2 a along the source axis and turns the receiver's ATTITUDE (the angle rotA about its own axis, and the axis of a body with an enabled axis) - it is never added to the linear velocity u. The angular law mu^2 (symmetric at both poles, zero on the equator), the distance kernel K_eps (the same point kernel as the translation) and A_k=4 (key axialCoupling) are all declarations, uncalibrated (note axial_drag_unfitted). The particles here carry no tilt (no enabled axis), so the source term w = A_k m Omega K_eps mu^2 is added to the rotation angle as a signed scalar, the dragged axial rotation, WITHOUT REGARD TO TILT ((2): axial rotation = inertial axial rotation + dragged axial rotation - the inertial rotation s is unchanged and the dragged rotation is rebuilt every step; no tilt is created on the receiver). The axial drag strength is divided by the same denominator as the translation and rotation - nu = W_bg/(W_bg + sum w) ((5); the receiver's sum w is the translational row sum).",
+      "observe": "Use the trail to watch the particles rise out of the plane while turning (move the view slider towards 0 to see it side-on). With the space mesh turned on, the display shows the projection of u on XY on the plane Z=0 with streamlines, and the axial omega_z as the dot colour (warm +, cool -).",
+      "control": "One-tap A/B: side B drops the axial drag (axial off - the rotational drag stays). On side B only the attitude angle differs; positions and velocities match side A (the axial drag is never added to the linear velocity). Compare with 🔩 (axis +z).",
+      "brief": "Tilt the centre's axis 30 deg; measure out-of-plane and axial drag. Met: z offset up to 6.86; band dTheta 2.223/0.470/0.157 rad; axial |omega| up to 0.0214 (normalised). Out of calibration scope."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "NONE - this sample transcribes no observation"
+      ],
+      "fixedConventions": [
+       "a copy of 🔗 chainDiskToy (toy units G=0.005, cLight=30, geoPN=4, kFrame=0, 80 particles, seed 20261008) with physics.coord 3d (right-handed, +z into the screen in the default view)",
+       "centre m=100, radius 6 (uniform sphere), spin 0.5, pinned; the spin axis is enabled for that one body only (tilt 30 deg, azimuth 0)"
+      ],
+      "fitted": [
+       "NOTHING - W_bg = 0.125 [M/L^3] (coefficient 1/W_bg = 8) is 🔗's declared value; the axial coupling A_k=4 is declared, uncalibrated"
+      ],
+      "derived": [
+       "the rotational drag m Omega M1(r)(a x e)/W_bg uses the same uniform-sphere front/back moment M1 as 2D (a function of r only)"
+      ],
+      "numerical": [
+       "drag-kernel softening eps=1, gravity softening 0.5",
+       "stateCarry double",
+       "solver gate: original-equation relative residual 1e-10 (network-pcg-v1); 16 Gauss-Legendre points per interval for the spin source"
+      ]
+     },
+     "description": "A PRINCIPLE SAMPLE OF THE ROTATIONAL AND AXIAL DRAG OF A TILTED SPIN AXIS (laws: the spin dragging A8 and the transport law E6′ in 3D; in 3D the rotational drag is largest on the equator and zero along the spin axis; besides the translational and rotational drag there is an axial drag - largest along the axis, turning bodies about the same axis, zero on the equator). A copy of 🔩 with the centre's axis tilted 30 degrees from +z. The rotational drag m Omega M1(r)(a x e)/W_bg now has a component normal to the particles' plane (z=0), so the particles rise out of the plane while they turn. The AXIAL DRAG (spinDrag axial on) gives each receiver the angular velocity omega = A_k m Omega K_eps(r) mu^2 a along the source axis and turns the receiver's ATTITUDE (the angle rotA about its own axis, and the axis of a body with an enabled axis) - it is never added to the linear velocity u. The angular law mu^2 (symmetric at both poles, zero on the equator), the distance kernel K_eps (the same point kernel as the translation) and A_k=4 (key axialCoupling) are all declarations, uncalibrated (note axial_drag_unfitted). The particles here carry no tilt (no enabled axis), so the source term w = A_k m Omega K_eps mu^2 is added to the rotation angle as a signed scalar, the dragged axial rotation, WITHOUT REGARD TO TILT ((2): axial rotation = inertial axial rotation + dragged axial rotation - the inertial rotation s is unchanged and the dragged rotation is rebuilt every step; no tilt is created on the receiver). The axial drag strength is divided by the same denominator as the translation and rotation - nu = W_bg/(W_bg + sum w) ((5); the receiver's sum w is the translational row sum).Use the trail to watch the particles rise out of the plane while turning (move the view slider towards 0 to see it side-on). With the space mesh turned on, the display shows the projection of u on XY on the plane Z=0 with streamlines, and the axial omega_z as the dot colour (warm +, cool -).One-tap A/B: side B drops the axial drag (axial off - the rotational drag stays). On side B only the attitude angle differs; positions and velocities match side A (the axial drag is never added to the linear velocity). Compare with 🔩 (axis +z).",
+     "status": {
+      "purpose": "Tilt the centre's axis 30 deg; measure out-of-plane and axial drag",
+      "state": "z offset up to 6.86; band dTheta 2.223/0.470/0.157 rad; axial |omega| up to 0.0214 (normalised)",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "**無し** —— 本サンプルは観測を 1 つも転写していない"
+     ],
+     "fixedConventions": [
+      "🔗 chainDiskToy の写し(トイ単位 G=0.005・cLight=30・geoPN=4・kFrame=0・粒子 80 個・乱数種 20261008)に physics.coord:\"3d\"(右手系・既定の視点で +z は画面の奥)",
+      "中心 m=100・半径 6(一様球)・spin 0.5・pinned・自転軸を 1 粒子だけ有効化(傾き 30°・方位 0)"
+     ],
+     "fitted": [
+      "**無し** —— W_bg = 0.125 [M/L³](係数 1/W_bg = 8)は 🔗 の宣言値・軸引きずりの係数 A_k=4 は宣言値(未較正)"
+     ],
+     "derived": [
+      "回転引きずり m Ω M1(r)(â×ê)/W_bg の M1 は二次元と同じ一様球の表裏核(r だけの関数)"
+     ],
+     "numerical": [
+      "引きずりの核の軟化 ε=1・重力の軟化 0.5",
+      "stateCarry:\"double\"",
+      "解法の門 元の式の相対残差 1e-10(network-pcg-v1)・自転源の半径積分 区間あたり 16 点"
+     ]
+    },
+    "abBody": {
+     "label": {
+      "ja": "軸引きずりを外す(axial off —— 回転引きずりはそのまま)",
+      "en": "drop the axial drag (axial off - the rotational drag stays)"
+     },
+     "physicsPatch": {
+      "relativeDrag": {
+       "law": "inertial",
+       "Wbg": 0.125,
+       "eps": 1,
+       "pairs": "all",
+       "solver": "network-pcg-v1",
+       "spinDrag": {
+        "rot": "surfaceFlip",
+        "axial": "off"
+       }
+      }
+     }
+    },
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "camera": {
+     "scale": 7
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "seed": 20261008,
+    "timeRef": {
+     "basis": "observe",
+     "tObs": 9.6,
+     "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+    },
+    "physics": {
+     "coord": "3d",
+     "contactMode": "none",
+     "G": 0.005,
+     "D0": 2,
+     "kFrame": 0,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 0.0001,
+     "cLight": 30,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 4,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.5,
+     "timeScale": 3,
+     "dispMag": 1,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 0.125,
+      "eps": 1,
+      "pairs": "all",
+      "solver": "network-pcg-v1",
+      "spinDrag": {
+       "rot": "surfaceFlip",
+       "axial": "on",
+       "axialCoupling": 4
+      }
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 100,
+      "radius": 6,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0.5,
+      "pinned": true,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 30,
+       "azimuthDeg": 0,
+       "source": "宣言(第298便c の原理の本 —— 観測ではない)"
+      }
+     },
+     {
+      "type": "disk",
+      "n": 80,
+      "cx": 0,
+      "cy": 0,
+      "radius": 24,
+      "mMin": 5,
+      "mMax": 5,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "hubble",
+      "vScale": 0,
+      "direction": 1,
+      "bulkVx": 0,
+      "bulkVy": 0
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**傾いた自転軸の回転引きずりと軸引きずり**の原理サンプル(法則は A8 のスピン引きずりと E6′ の輸送則の三次元・「三次元の慣性決定力: 『回転引きずり』は赤道面で最大・自転軸方向でゼロ。『並進引きずり』『回転引きずり』と別に『軸引きずり』—— 自転軸方向で最大・同じ軸の向きに回転させる・赤道面でゼロ」)。🔩 の写しで、中心の自転軸を +z から 30° 傾ける。回転引きずり m Ω M1(r)(â×ê)/W_bg は粒子の面(z=0)に対して面外の成分を持つので、粒子は回りながら面から浮く。**軸引きずり**(spinDrag の axial:\"on\")は源の軸の向き â の角速度 ω = A_k m Ω K_ε(r) μ² â を受け手に与え、受け手の**姿勢**(自転軸まわりの角 rotA と、軸を有効化した粒子の軸)を回す —— 線速度 u には足さない。角度則 μ²(両極対称・赤道 0)・距離の核 K_ε(並進と同じ点源)・係数 A_k=4(鍵 axialCoupling)はどれも宣言で、未較正(注記 axial_drag_unfitted)。この本の粒子は傾きを持たない(軸を有効化していない)ので、**傾きを考慮せず**源の寄与 w = A_k m Ω K_ε μ² を符号つきのスカラーのまま引きずり軸回転として回転角に足す(「軸回転 = 慣性軸回転 + 引きずり軸回転」—— 慣性軸回転 s は変えず、引きずり軸回転は毎步作り直す。受け手に傾きは作らない)。軸引きずりの強さも並進・回転と同じ分母で割る —— ν = W_bg/(W_bg + Σw)(受け手の Σw は並進の行和)。トレイルで粒子が回りながら面から浮くのを見る(視点のスライダーを 0 に近づけると横から見える)。表示の「空間メッシュ」を ON にすると Z=0 の面の u の XY への投影と流線、軸引きずりの ω_z を点の色(暖色 +・寒色 −)で出す。ワンタップ対照A/B: B 側は軸引きずりを外す(axial:\"off\" —— 回転引きずりはそのまま)。B では姿勢の角だけが変わらず、位置と速度は A と同じ(軸引きずりは線速度に足さない)。比べる相手は 🔩(軸 +z)。",
+    "status": {
+     "purpose": "中心の自転軸を 30° 傾け回転引きずりの面外成分と軸引きずりを測る",
+     "objective": "met",
+     "state": "面外の変位 最大 6.86・帯の Δθ 2.223/0.470/0.157 rad・軸引きずりの |ω| 最大 0.0214(総和正規化後・姿勢のみ)",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "tests/out/drag3d-w298c.json"
+     ]
+    }
+   }
+  },
+  "chainSpreadToy3d": {
+   "emoji": "🍥",
+   "name": "広げた連鎖の円盤(三次元)— 半径 18〜72 の環に黄金角で置いた多粒子と傾いた自転軸(原理)",
+   "familyId": null,
+   "familyRole": "retired",
+   "familyRoleAtBase": null,
+   "group": "運動と時空",
+   "groupAtBase": "運動と時空",
+   "sampleClass": "principle",
+   "geoPN": 4,
+   "coord": "3d",
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": 0.125,
+    "eps": 1,
+    "pairs": "all",
+    "solver": "network-pcg-v1",
+    "spinDrag": {
+     "rot": "surfaceFlip",
+     "axial": "off"
+    }
+   },
+   "presetSigHash": "49badcc8",
+   "presetSigSha256": "1bd082d81635c164cc5df753c9baf9ba4cef3e8c27d6d03b5c41c35cd6911a6d",
+   "base": {
+    "rev": "82aa277",
+    "presetSigHash": "49badcc8",
+    "name": "広げた連鎖の円盤(三次元)— 半径 18〜72 の環に黄金角で置いた多粒子と傾いた自転軸(原理)",
+    "sigSame": true,
+    "physicsSame": true,
+    "bodiesSame": true
+   },
+   "successor": "inertialDragPair",
+   "reason": "旧方式の geoPN=4(旧 W_bg 則の連鎖 —— 広げた円盤・安定の条件 8 項目・近似多粒子の天体型)—— 同上",
+   "retiredNotice": {
+    "ja": "第127報: 旧方式の geoPN=4(旧 W_bg 則の連鎖の原理の玩具)の退役 —— 新しい geoPN=4(場の API の opt-in)の本は新しい ID で作る。二体の並進の慣性引きずりは 🐌",
+    "en": "ruling 127: the old-style geoPN=4 (a chain toy of the older W_bg law) is retired — a new geoPN=4 sample (the opt-in field API) will get a new ID; two-body translational inertial drag is 🐌",
+    "see": [
+     "inertialDragPair"
+    ]
+   },
+   "pairDiff": {
+    "successor": "inertialDragPair",
+    "successorEmoji": "🐌",
+    "n": 25,
+    "keys": [
+     "physics.G",
+     "physics.approxMany",
+     "physics.contactMode",
+     "physics.coord",
+     "physics.geoPN",
+     "physics.lambdaPN",
+     "physics.massPrecision",
+     "physics.relativeDrag",
+     "physics.softening",
+     "physics.stepDt",
+     "physics.timeScale",
+     "bodies.length",
+     "bodies[0].m",
+     "bodies[0].radius",
+     "bodies[0].x",
+     "bodies[0].vx",
+     "bodies[0].vy",
+     "bodies[0].spin",
+     "bodies[0].pinned",
+     "bodies[1].m",
+     "bodies[1].radius",
+     "bodies[1].x",
+     "bodies[1].vx",
+     "bodies[1].vy",
+     "bodies[1].spin"
+    ]
+   },
+   "statusAtBase": {
+    "purpose": "円盤を広げた三次元の geoPN=4 で安定の条件 8 項目を測る",
+    "objective": "met",
+    "state": "天体型・重なり 0・最短 12.9・残差 ≤5.2e-12・h/2 の差 0.02%・種の幅 6.9%・8 条件を満たす",
+    "evidence": [
+     "tests/out/geo4stable-w299d.json",
+     "tests/out/approxmany-w301b.json"
+    ],
+    "en": {
+     "purpose": "Spread the geoPN=4 disc in 3D; measure 8 declared stability conditions",
+     "state": "body type; no overlap; closest 12.9; residual <=5.2e-12; h/2 0.02%; seed spread 6.9%; all 8 met"
+    }
+   },
+   "evidence": [
+    {
+     "file": "tests/out/geo4stable-w299d.json",
+     "rev": "82aa277",
+     "sha256": "03c60df68196de3010de3614506534a73a4eb08b5143ab6d999a3ae9c1c16e22"
+    },
+    {
+     "file": "tests/out/approxmany-w301b.json",
+     "rev": "82aa277",
+     "sha256": "40acd13d48ae0056350afb3fc9d5f2bd6cd2c8d2f9d7d2022c321d9599d927d1"
+    }
+   ],
+   "stages": [
+    "bevel-308a",
+    "galfield-321c",
+    "geo4stable-299d",
+    "rotframe-306d",
+    "sphereaxial-307a",
+    "spinavg-305d"
+   ],
+   "raw": {
+    "id": "chainSpreadToy3d",
+    "name": "広げた連鎖の円盤(三次元)— 半径 18〜72 の環に黄金角で置いた多粒子と傾いた自転軸(原理)",
+    "emoji": "🍥",
+    "group": "運動と時空",
+    "scaleTier": "stellar",
+    "sampleClass": "principle",
+    "fidelity": "toy",
+    "familyRole": "retired",
+    "notClaim": [
+     "galaxy_disk",
+     "flat_rotation",
+     "gain_universal"
+    ],
+    "obsCard": [
+     {
+      "q": "何を置いたか",
+      "model": "🔩 の写し(粒子 80・m 5・中心 m 100 半径 6・W_bg 0.125・ε 1・PCG・double)の円盤だけを環 r=18〜72 に黄金角で置き直し・中心の軸 30°",
+      "obs": "—(原理サンプル —— 観測転写はしない)"
+     },
+     {
+      "q": "配置(実測)",
+      "model": "中心距離 18.8〜71.8・最短の粒子間距離 12.9・重なり 0(🔗🔩🪛 は 7.55〜23.8・0.234・重なり 108 組)",
+      "obs": "—"
+     },
+     {
+      "q": "初速の種",
+      "model": "t=0 の重力(中心+自己重力)の動径の釣り合い v=√(r a_r)・接線の力の残り ≤12.6% —— 平衡とは呼ばない。B は零初速",
+      "obs": "—"
+     },
+     {
+      "q": "安定の条件(実測 2000 步)",
+      "model": "残差 ≤5.2e-12・反復 ≤7・未収束 0・再開と複製と A/B はビット同一・L の残り 1.2e-15・h/2 の差 0.02%・n 80→160 で 4.5%",
+      "obs": "—"
+     },
+     {
+      "q": "配置の依存(実測)",
+      "model": "散布の種 0〜3(最短距離 ≥ 4 R_p の配置)で Δθ_u の幅 A 6.2%・B 6.9%(条件 20%)—— 8 条件を全部満たした",
+      "obs": "—"
+     },
+     {
+      "q": "帯の接線 u(t=0 直後・零初速)",
+      "model": "内/中/外 0.0154/0.00235/0.00280(直接の項の 1.04/1.18/1.07 倍 —— 🔗 は 2.4/6.5/9.7 倍)",
+      "obs": "—"
+     },
+     {
+      "q": "近似多粒子の型",
+      "model": "天体型 —— 粒子 80 に自転 0.5(トイの宣言値・軸 +z)と明示半径 √5・中心 = 支配天体(固定)・粒子どうしの重力と引きずり有り・接触なし",
+      "obs": "—"
+     },
+     {
+      "q": "言わないこと",
+      "model": "円盤・銀河の形成・平坦な回転曲線とは書かない。近似初速の種を平衡と呼ばない。W_bg は 🔩 の宣言値のまま(配置の違いを W_bg で補償しない)",
+      "obs": "—"
+     }
+    ],
+    "descStruct": {
+     "summary": "**円盤を広げた geoPN=4(慣性決定力の多粒子版)の三次元の原理の本**(法則は A8 のスピン引きずりと E6′ の輸送則の三次元 —— 🔩 と同じ・「現状の chainDiskToy 系は、初期配置が集まりすぎている」)。🔩 chainDiskToy3d の宣言(粒子数・質量・半径・G・W_bg・ε・解法・double)を写し、**円盤の配置だけ**を面積一様の環 r=18〜72 に黄金角で置き直した(🔗🔩🪛 の円盤は中心距離 7.55 から始まり、最短の粒子間距離 0.234・宣言半径の重なり 108 組 —— 接触力の無い本なので力ではないが、核 K_ε が最も近い対で決まる配置だった)。中心の自転軸は 30° 傾け(回転引きずりが面外の成分を持つ —— 2000 步で |z| 最大 0.54)、軸引きずりは宣言しない。初速は t=0 の重力の動径成分の釣り合いの**近似の種**(中心と円盤の自己重力を全部足す —— 円盤の総質量 400 は中心の 4 倍。接線の力の残りは打ち消していないので**平衡とは呼ばない**)。**安定の条件は器が先に宣言して測った** 8 項目(配置・連鎖解・停止と再開・三次元の収支・刻み・粒子数・散布の種・表示)で、近似初速の種(A)と零初速(B)の両方で全部を満たした(散布の種の依存は A 5.2%・B 3.7% —— 種の配置も最短距離 ≥ 4 R_p を守る。床を見ない揺らぎでは最短 1.5〜2.5 の対ができ、A の幅は 114% だった —— 速度差の引きずりは最も近い対の 1/r³ で決まる)。(physics.spaceMesh は全面廃止 —— 移行の写しも退役した。)**(「chainSpreadToy3d を、近似多粒子サンプルのフォーマットに合わせる」): 近似多粒子の契約 physics.approxMany の天体型** —— 中心が支配天体(固定)・粒子 80 は天体(自転のトイの宣言値 0.5〔中心の宣言値の写し・軸は円盤の法線 +z を明示〕と明示半径 √5〔見た目の半径の写し —— 回転引きずりの源になる〕)・粒子どうしの重力と引きずりは残し、接触は切る(本は元から接触なし)。粒子の自転が回転引きずりの源に加わったので帯の数は測り直した(8 条件はすべて満たす —— 散布の種の幅 A 6.2%・B 6.9%・n 160 の差 4.5%)。粒子どうしの重力と引きずりを切った塵型の写しは診断として器で測った(本にしない)。",
+     "observe": "トレイルで、A 側(近似初速の種)の円盤が中心のまわりを回りながら、内帯の粒子が少しずつ先へ引きずられるのを見る(2000 步の Δθ は内/中/外 0.171/0.106/0.103 rad・そのうち移送の分は 0.0110/0.00018/−0.00025)。表示の「空間メッシュ」を ON にすると Z=0 の面の矢印と流線(受動プローブ —— 表示を ON/OFF しても状態は 1 bit も変わらない)。🔗 に比べて連鎖の増幅は小さい(零初速の t=0 直後の接線 u は直接の項の 1.04/1.18/1.07 倍 —— 🔗 は 2.4/6.5/9.7 倍)。",
+     "control": "ワンタップ対照A/B: B 側は零初速(円盤の初速を 0 —— 中心の自転の回転引きずりだけで回り始め、重力で内へ落ちる: 2000 步で Δr ≈ −0.3)。比べる相手は 🔩(同じ宣言の集まった円盤)と 🔗(二次元)。",
+     "brief": "円盤を広げた三次元の geoPN=4 で安定の条件 8 項目を測る。達・天体型・重なり 0・最短 12.9・残差 ≤5.2e-12・h/2 の差 0.02%・種の幅 6.9%・8 条件を満たす。較正対象外。"
+    },
+    "en": {
+     "name": "Spread chain disc (3D) — many particles on a golden-angle ring of radius 18-72 and a tilted spin axis (principle)",
+     "obsCard": [
+      {
+       "q": "What is placed",
+       "model": "copy of 🔩 (80 particles m 5; centre m 100 R 6; W_bg 0.125, eps 1, PCG, double); disc moved to ring 18-72; axis 30 deg",
+       "obs": "- (a principle sample; nothing transcribed)"
+      },
+      {
+       "q": "Placement (measured)",
+       "model": "centre distance 18.8-71.8; closest pair 12.9; no overlap (🔗🔩🪛: 7.55-23.8, 0.234, 108 overlapping pairs)",
+       "obs": "-"
+      },
+      {
+       "q": "Velocity seed",
+       "model": "radial balance of t=0 gravity (centre+self-gravity) v=sqrt(r a_r); tangential rest <=12.6%; no equilibrium. B at rest",
+       "obs": "-"
+      },
+      {
+       "q": "Stability (measured, 2000 steps)",
+       "model": "residual <=5.2e-12, <=7 iterations, no failure; resume/clone/A-B bit-same; L rest 1.2e-15; h/2 0.02%; n 80->160 4.5%",
+       "obs": "-"
+      },
+      {
+       "q": "Placement dependence (measured)",
+       "model": "seeds 0-3 (layouts with closest pair >= 4 R_p): dTheta_u spread A 6.2%, B 6.9% (limit 20%) - all 8 conditions met",
+       "obs": "-"
+      },
+      {
+       "q": "Band tangential u (just after t=0, at rest)",
+       "model": "inner/middle/outer 0.0154/0.00235/0.00280 (1.04/1.18/1.07x the direct term; 🔗: 2.4/6.5/9.7x)",
+       "obs": "-"
+      },
+      {
+       "q": "Approximate many-body type",
+       "model": "bodies - 80 particles with spin 0.5 (toy value, axis +z) and explicit radius sqrt5; centre = governor (fixed); mutual gravity and drag kept; no contact",
+       "obs": "-"
+      },
+      {
+       "q": "Not claimed",
+       "model": "no disc/galaxy formation, no flat rotation curve; the seed is not an equilibrium; W_bg kept at 🔩's value (no compensation for the layout)",
+       "obs": "-"
+      }
+     ],
+     "descStruct": {
+      "summary": "A 3D PRINCIPLE SAMPLE OF geoPN=4 (THE MANY-BODY INERTIAL-DETERMINACY MODE) WITH THE DISC SPREAD OUT (laws: the spin dragging A8 and the transport law E6′ in 3D, as 🔩, item 3: the current chainDiskToy samples are placed too densely). 🔩 chainDiskToy3d's declaration (particle number, masses, radii, G, W_bg, eps, solver, double) is copied and ONLY THE DISC PLACEMENT is redone on an area-uniform ring r=18-72 at the golden angle (the 🔗🔩🪛 disc starts at centre distance 7.55, its closest pair is 0.234 apart and 108 pairs overlap in declared radius - no contact force in these samples, but the kernel K_eps was set by the closest pairs). The centre's spin axis is tilted 30 deg (the rotational drag acquires an out-of-plane part - |z| up to 0.54 in 2000 steps); no axial drag is declared. The initial velocities are an APPROXIMATE SEED balancing the radial t=0 gravity (centre plus the disc's self-gravity - the disc mass 400 is 4x the centre; the residual tangential force is not cancelled, so IT IS NOT CALLED AN EQUILIBRIUM). THE HARNESS DECLARED 8 STABILITY CONDITIONS BEFORE MEASURING (placement, chain solver, stop and resume, 3D budget, step, particle number, scatter seed, display), and both the approximate-velocity side (A) and the at-rest side (B) meet all of them (scatter-seed spread A 5.2%, B 3.7% - the seeded layouts also keep the closest pair >= 4 R_p; jitter without that floor makes pairs 1.5-2.5 apart and the A spread reached 114%, since velocity-difference drag is set by the closest pairs through 1/r^3). (physics.spaceMesh is retired entirely - the migration copy is retired too.) AN EARLIER UPDATE (item 3: fit chainSpreadToy3d to the approximate many-body format): THE BODY TYPE OF THE APPROXIMATE MANY-BODY CONTRACT physics.approxMany - the centre is the governor (fixed) and the 80 particles are bodies (a toy spin 0.5 copied from the centre with the axis declared along the disc normal +z, and an explicit radius sqrt5 copied from the display radius - so they act as rotational-drag sources); mutual gravity and drag are kept and contact is cut (the sample had no contact anyway). The particle spins add rotational-drag sources, so the band numbers were remeasured (all 8 conditions met - seed spread A 6.2%, B 6.9%; n 160 differs by 4.5%). A dust-type copy (mutual gravity and drag cut) was measured by the harness as a diagnostic (not a sample).",
+      "observe": "Use the trail to watch side A (approximate-velocity seed) turn round the centre while the inner band is slowly dragged ahead (dTheta over 2000 steps inner/middle/outer 0.171/0.106/0.103 rad, of which the transport part is 0.0110/0.00018/-0.00025). Turn on the space mesh for arrows and streamlines on the plane Z=0 (a passive probe - switching it changes the state by not a single bit). The chain amplification is smaller than in 🔗 (right after t=0 at rest the tangential u is 1.04/1.18/1.07x the direct term - 🔗: 2.4/6.5/9.7x).",
+      "control": "One-tap A/B: side B starts at rest (disc velocities 0 - it starts turning only by the centre's rotational drag and falls inward under gravity: dr about -0.3 in 2000 steps). Compare with 🔩 (the same declaration with the dense disc) and 🔗 (2D).",
+      "brief": "Spread the geoPN=4 disc in 3D; measure 8 declared stability conditions. Met: body type; no overlap; closest 12.9; residual <=5.2e-12; h/2 0.02%; seed spread 6.9%; all 8 met. Out of calibration scope."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "NONE - this sample transcribes no observation"
+      ],
+      "fixedConventions": [
+       "a copy of 🔩 chainDiskToy3d (toy units G=0.005, cLight=30, geoPN=4, kFrame=0, physics.coord 3d) with the disc as 80 single bodies from the generator tests/lib-w299d-spread.mjs (w299d-spread-2: area-uniform ring 18-72, golden angle, seed 0 = no jitter, plane z=0)",
+       "centre m=100, radius 6 (uniform sphere), spin 0.5, pinned; spin axis enabled for that one body (tilt 30 deg, azimuth 0); spinDrag rot surfaceFlip, axial off",
+       "approximate many-body contract physics.approxMany (governor = centre; the 80 particles are bodies: toy spin 0.5, axis +z declared, explicit radius sqrt5; no contact between them)"
+      ],
+      "fitted": [
+       "NOTHING - W_bg = 0.125 [M/L^3] (coefficient 1/W_bg = 8) is 🔩's declared value"
+      ],
+      "derived": [
+       "initial velocity v=sqrt(r a_r) from the t=0 radial gravity of the centre and all other disc particles (softening 0.5) - an approximate seed, not an equilibrium"
+      ],
+      "numerical": [
+       "drag-kernel softening eps=1, gravity softening 0.5",
+       "stateCarry double",
+       "solver gate: original-equation relative residual 1e-10 (network-pcg-v1)"
+      ]
+     },
+     "description": "A 3D PRINCIPLE SAMPLE OF geoPN=4 (THE MANY-BODY INERTIAL-DETERMINACY MODE) WITH THE DISC SPREAD OUT (laws: the spin dragging A8 and the transport law E6′ in 3D, as 🔩, item 3: the current chainDiskToy samples are placed too densely). 🔩 chainDiskToy3d's declaration (particle number, masses, radii, G, W_bg, eps, solver, double) is copied and ONLY THE DISC PLACEMENT is redone on an area-uniform ring r=18-72 at the golden angle (the 🔗🔩🪛 disc starts at centre distance 7.55, its closest pair is 0.234 apart and 108 pairs overlap in declared radius - no contact force in these samples, but the kernel K_eps was set by the closest pairs). The centre's spin axis is tilted 30 deg (the rotational drag acquires an out-of-plane part - |z| up to 0.54 in 2000 steps); no axial drag is declared. The initial velocities are an APPROXIMATE SEED balancing the radial t=0 gravity (centre plus the disc's self-gravity - the disc mass 400 is 4x the centre; the residual tangential force is not cancelled, so IT IS NOT CALLED AN EQUILIBRIUM). THE HARNESS DECLARED 8 STABILITY CONDITIONS BEFORE MEASURING (placement, chain solver, stop and resume, 3D budget, step, particle number, scatter seed, display), and both the approximate-velocity side (A) and the at-rest side (B) meet all of them (scatter-seed spread A 5.2%, B 3.7% - the seeded layouts also keep the closest pair >= 4 R_p; jitter without that floor makes pairs 1.5-2.5 apart and the A spread reached 114%, since velocity-difference drag is set by the closest pairs through 1/r^3). (physics.spaceMesh is retired entirely - the migration copy is retired too.) AN EARLIER UPDATE (item 3: fit chainSpreadToy3d to the approximate many-body format): THE BODY TYPE OF THE APPROXIMATE MANY-BODY CONTRACT physics.approxMany - the centre is the governor (fixed) and the 80 particles are bodies (a toy spin 0.5 copied from the centre with the axis declared along the disc normal +z, and an explicit radius sqrt5 copied from the display radius - so they act as rotational-drag sources); mutual gravity and drag are kept and contact is cut (the sample had no contact anyway). The particle spins add rotational-drag sources, so the band numbers were remeasured (all 8 conditions met - seed spread A 6.2%, B 6.9%; n 160 differs by 4.5%). A dust-type copy (mutual gravity and drag cut) was measured by the harness as a diagnostic (not a sample).Use the trail to watch side A (approximate-velocity seed) turn round the centre while the inner band is slowly dragged ahead (dTheta over 2000 steps inner/middle/outer 0.171/0.106/0.103 rad, of which the transport part is 0.0110/0.00018/-0.00025). Turn on the space mesh for arrows and streamlines on the plane Z=0 (a passive probe - switching it changes the state by not a single bit). The chain amplification is smaller than in 🔗 (right after t=0 at rest the tangential u is 1.04/1.18/1.07x the direct term - 🔗: 2.4/6.5/9.7x).One-tap A/B: side B starts at rest (disc velocities 0 - it starts turning only by the centre's rotational drag and falls inward under gravity: dr about -0.3 in 2000 steps). Compare with 🔩 (the same declaration with the dense disc) and 🔗 (2D).",
+     "status": {
+      "purpose": "Spread the geoPN=4 disc in 3D; measure 8 declared stability conditions",
+      "state": "body type; no overlap; closest 12.9; residual <=5.2e-12; h/2 0.02%; seed spread 6.9%; all 8 met",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "**無し** —— 本サンプルは観測を 1 つも転写していない"
+     ],
+     "fixedConventions": [
+      "🔩 chainDiskToy3d の写し(トイ単位 G=0.005・cLight=30・geoPN=4・kFrame=0・physics.coord:\"3d\")で、円盤を生成器 tests/lib-w299d-spread.mjs(w299d-spread-2: 面積一様の環 18〜72・黄金角・種 0 = 揺らぎなし・面 z=0)の single 80 個に置き換えた",
+      "中心 m=100・半径 6(一様球)・spin 0.5・pinned・自転軸を 1 粒子だけ有効化(傾き 30°・方位 0)・spinDrag:{rot:\"surfaceFlip\", axial:\"off\"}",
+      "近似多粒子の契約 physics.approxMany(支配天体 = 中心・粒子 80 は天体 —— 自転のトイの宣言値 0.5・軸 +z の明示・明示半径 √5・粒子どうしの接触なし)"
+     ],
+     "fitted": [
+      "**無し** —— W_bg = 0.125 [M/L³](係数 1/W_bg = 8)は 🔩 の宣言値"
+     ],
+     "derived": [
+      "初速 v=√(r a_r) —— 中心と他の全粒子の t=0 の重力(軟化 0.5)の動径成分から(近似の種・平衡ではない)"
+     ],
+     "numerical": [
+      "引きずりの核の軟化 ε=1・重力の軟化 0.5",
+      "stateCarry:\"double\"",
+      "解法の門 元の式の相対残差 1e-10(network-pcg-v1)"
+     ]
+    },
+    "abBody": {
+     "label": {
+      "ja": "零初速の対照(円盤の初速を 0 —— 近似初速の種を外す)",
+      "en": "zero-velocity control (disc velocities set to 0 - the approximate-velocity seed removed)"
+     },
+     "targets": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80
+     ],
+     "patch": {
+      "vx": 0,
+      "vy": 0
+     }
+    },
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "camera": {
+     "scale": 2.3
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "seed": 20261008,
+    "timeRef": {
+     "basis": "observe",
+     "tObs": 9.6,
+     "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+    },
+    "physics": {
+     "coord": "3d",
+     "contactMode": "none",
+     "G": 0.005,
+     "D0": 2,
+     "kFrame": 0,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 0.0001,
+     "cLight": 30,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 4,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.5,
+     "timeScale": 3,
+     "dispMag": 1,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 0.125,
+      "eps": 1,
+      "pairs": "all",
+      "solver": "network-pcg-v1",
+      "spinDrag": {
+       "rot": "surfaceFlip",
+       "axial": "off"
+      }
+     },
+     "approxMany": {
+      "version": "v1",
+      "governor": 0,
+      "groups": [
+       {
+        "kind": "body",
+        "rows": [
+         1,
+         80
+        ]
+       }
+      ]
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 100,
+      "radius": 6,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0.5,
+      "pinned": true,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 30,
+       "azimuthDeg": 0,
+       "source": "宣言(第299便d の原理の本 —— 観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 18.8248505970167,
+      "y": 0,
+      "vx": 0,
+      "vy": 0.151258410595298,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -15.0236081547198,
+      "y": 13.7628557361267,
+      "vx": -0.0972273664059648,
+      "vy": -0.106133921825854,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 1.90715366128694,
+      "y": -21.7310323020385,
+      "vx": 0.137684335450536,
+      "vy": 0.0120834197292927,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 14.094588321094,
+      "y": 18.3838945835446,
+      "vx": -0.106962704285645,
+      "vy": 0.0820063058872483,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -24.067634484839,
+      "y": -4.25722565812408,
+      "vx": 0.0227307523447855,
+      "vy": -0.128505154044561,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 21.6456536687034,
+      "y": -13.7691930502316,
+      "vx": 0.0714345549823428,
+      "vy": 0.112297622052712,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -6.96047022796042,
+      "y": 25.89260230656,
+      "vx": -0.124401434918306,
+      "vy": -0.0334416940333976,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -12.8693379551345,
+      "y": -24.7791271153068,
+      "vx": 0.111215151419447,
+      "vy": -0.0577609276827261,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 27.2301937153996,
+      "y": 9.94442307134073,
+      "vx": -0.046094057990952,
+      "vy": 0.126216485282063,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -27.7476927506069,
+      "y": 11.4538442026211,
+      "vx": -0.0503059921513372,
+      "vy": -0.121869582738895,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 13.1452061830168,
+      "y": -28.0905420810275,
+      "vx": 0.118145234097167,
+      "vy": 0.0552870591556503,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 9.57065157552664,
+      "y": 30.5127453438702,
+      "vx": -0.122641549442473,
+      "vy": 0.0384678443440171,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -28.4781348618157,
+      "y": -16.5036612541653,
+      "vx": 0.063956995693054,
+      "vy": -0.110361932461724,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 33.0359768336903,
+      "y": -7.26286683368754,
+      "vx": 0.0291286336671223,
+      "vy": 0.132494907184678,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -19.96349555774,
+      "y": 28.3960181207876,
+      "vx": -0.109919938001485,
+      "vy": -0.0772779544183088,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -4.57184793874708,
+      "y": -35.2806350059771,
+      "vx": 0.132446358877561,
+      "vy": -0.017163087136225,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 27.8480818083115,
+      "y": 23.4703928300655,
+      "vx": -0.0873350056049516,
+      "vy": 0.103624698505281,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -37.2123225807555,
+      "y": 1.5388463684821,
+      "vx": -0.00560826529497989,
+      "vy": -0.13561885159537,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 26.9716345031963,
+      "y": -26.8403787645776,
+      "vx": 0.0966659333635392,
+      "vy": 0.0971386524184449,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -1.79412297392501,
+      "y": 38.7995634351011,
+      "vx": -0.135967127414064,
+      "vy": -0.00628722916947755,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -25.3819092981732,
+      "y": -30.4160102639927,
+      "vx": 0.104477274381176,
+      "vy": -0.0871854223827207,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 40.0142357682447,
+      "y": 5.38385882832464,
+      "vx": -0.0188083372128933,
+      "vy": 0.139788442387439,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -33.7539004292454,
+      "y": 23.4850847520844,
+      "vx": -0.0803068571095209,
+      "vy": -0.115420901703147,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 9.18582629092597,
+      "y": -40.8319188301619,
+      "vx": 0.137304323138772,
+      "vy": 0.030888914787278,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 21.1659831345924,
+      "y": 36.9374627978987,
+      "vx": -0.122660834486902,
+      "vy": 0.0702873710690407,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -41.2321757898569,
+      "y": -13.1541886725992,
+      "vx": 0.044151647113687,
+      "vy": -0.138394584456235,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 39.9208827664162,
+      "y": -18.4444603919458,
+      "vx": 0.0621681994899411,
+      "vy": 0.134555815182365,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -17.2419607761148,
+      "y": 41.1987838242213,
+      "vx": -0.136597088821385,
+      "vy": -0.0571667760300522,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -15.3441550498689,
+      "y": -42.6606599316699,
+      "vx": 0.139476583383023,
+      "vy": -0.0501668357846077,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 40.7199168058265,
+      "y": 21.4012470507345,
+      "vx": -0.0701375426167814,
+      "vy": 0.133449929041515,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -45.1159128080171,
+      "y": 11.8924098272553,
+      "vx": -0.0385674233404834,
+      "vy": -0.146312188524764,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 25.5835401814219,
+      "y": -39.7882830967305,
+      "vx": 0.128060028884759,
+      "vy": 0.0823415498136056,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 8.12012583030869,
+      "y": 47.2486884103671,
+      "vx": -0.150316969062375,
+      "vy": 0.0258333668993294,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -38.4012195359252,
+      "y": -29.7400628471709,
+      "vx": 0.0952559980417865,
+      "vy": -0.122997268422527,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 49.0242667260674,
+      "y": -4.0615602877963,
+      "vx": 0.0130872664474508,
+      "vy": 0.157967282416742,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -33.822139786618,
+      "y": 36.560742063783,
+      "vx": -0.116375516558208,
+      "vy": -0.107658345169932,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 0.245923962670222,
+      "y": -50.4114522842239,
+      "vx": 0.158872583070327,
+      "vy": 0.000775033715910934,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 34.2735532107071,
+      "y": 37.7815900977292,
+      "vx": -0.118618674638516,
+      "vy": 0.107604879691156,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -51.382846563731,
+      "y": -4.76215067045102,
+      "vx": 0.0151573072063707,
+      "vy": -0.163544928415824,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 41.5711315215824,
+      "y": -31.5510067036743,
+      "vx": 0.100244123178102,
+      "vy": 0.132080147807686,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -9.44445846391556,
+      "y": 51.9150961120499,
+      "vx": -0.163339747583759,
+      "vy": -0.0297149688066011,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -28.4090296106449,
+      "y": -45.1447896947311,
+      "vx": 0.140930081267179,
+      "vy": -0.0886854691055774,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 51.9891121258029,
+      "y": 14.2480602318594,
+      "vx": -0.0445797789292942,
+      "vy": 0.162665168983226,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -48.4583062253397,
+      "y": 24.8680026896252,
+      "vx": -0.0770852996112344,
+      "vy": -0.150210014879548,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 19.1264289208536,
+      "y": -51.5902579634521,
+      "vx": 0.158917592283307,
+      "vy": 0.0589166666937999,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 20.9525999010905,
+      "y": 51.4695400929989,
+      "vx": -0.157616828247415,
+      "vy": 0.0641638206593613,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -50.7085016769377,
+      "y": -24.031705259511,
+      "vx": 0.078522682981668,
+      "vy": -0.165688100725923,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 54.1388573771926,
+      "y": -16.6915883573733,
+      "vx": 0.0546131067482345,
+      "vy": 0.177136599217772,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -28.9151230172998,
+      "y": 49.3385311991999,
+      "vx": -0.160280044551133,
+      "vy": -0.0939330193414729,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -12.1175903060124,
+      "y": -56.4295047397692,
+      "vx": 0.182125654187952,
+      "vy": -0.0391093998049704,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 47.4798303307957,
+      "y": 33.7274474539485,
+      "vx": -0.108778797727718,
+      "vy": 0.153133404677363,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -58.3079624579432,
+      "y": 7.26680906609557,
+      "vx": -0.0233645588057047,
+      "vy": -0.187474282769537,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 38.4194226418625,
+      "y": -45.1367141456481,
+      "vx": 0.14475558310634,
+      "vy": 0.123212910651538,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 2.17872115009444,
+      "y": 59.7442731494001,
+      "vx": -0.190584148799419,
+      "vy": 0.00695011745851676,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -42.3183228920695,
+      "y": -42.9422233658499,
+      "vx": 0.136753048076628,
+      "vy": -0.134766185618226,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 60.7123426649577,
+      "y": 3.10426289684876,
+      "vx": -0.00989835060744878,
+      "vy": 0.193589291199328,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -47.2479073336381,
+      "y": 39.0385739057147,
+      "vx": -0.123671775733127,
+      "vy": -0.149678433790582,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 8.53716612699638,
+      "y": -61.190209956496,
+      "vx": 0.192928169474556,
+      "vy": 0.026917048242727,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 35.3160714786022,
+      "y": 51.2898634753327,
+      "vx": -0.161290986964487,
+      "vy": 0.111058280106977,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -61.1602830644367,
+      "y": -14.0728382168624,
+      "vx": 0.0474480601151816,
+      "vy": -0.206208352770357,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 55.0232521755239,
+      "y": -31.1739750437557,
+      "vx": 0.104961322893678,
+      "vy": 0.185260728865961,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -19.6623705835525,
+      "y": 60.6095387132673,
+      "vx": -0.202963250466878,
+      "vy": -0.0658434089789331,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -26.639826438172,
+      "y": -58.4054333717683,
+      "vx": 0.194421975814566,
+      "vy": -0.0886795524398951,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 59.5296833570545,
+      "y": 25.2555300757839,
+      "vx": -0.0839985627972923,
+      "vy": 0.197992591355866,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -61.396378569974,
+      "y": 21.7453373966108,
+      "vx": -0.0718802336899201,
+      "vy": -0.202948611871727,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 30.8012075466206,
+      "y": -57.9172738798193,
+      "vx": 0.190791046534629,
+      "vy": 0.101465318180276,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 16.5261388037903,
+      "y": 63.9590629718561,
+      "vx": -0.209872254457289,
+      "vy": 0.0542280928936021,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -55.7737965274443,
+      "y": -36.2478774677255,
+      "vx": 0.120430818179156,
+      "vy": -0.185304200355965,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 66.0598340826339,
+      "y": -11.0214935909284,
+      "vx": 0.0365825307042753,
+      "vy": 0.219265736418555,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -41.5440646302569,
+      "y": 53.1057030270482,
+      "vx": -0.17528410085692,
+      "vy": -0.137123013152606,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -5.27397550226763,
+      "y": -67.6687533681645,
+      "vx": 0.222214731475179,
+      "vy": -0.0173189986767871,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 49.9244032346746,
+      "y": 46.6388138963847,
+      "vx": -0.15279304778484,
+      "vy": 0.163556940920759,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -68.7599077590203,
+      "y": -0.670883723922074,
+      "vx": 0.0021860014434934,
+      "vy": -0.22404666003367,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 51.4821589186647,
+      "y": -46.246214040431,
+      "vx": 0.150323428607193,
+      "vy": 0.167342879873111,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -6.76497591951434,
+      "y": 69.3116880533752,
+      "vx": -0.224289880994809,
+      "vy": -0.0218911944945299,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -42.0922646494304,
+      "y": -56.0255857326125,
+      "vx": 0.180124861761103,
+      "vy": -0.135328586966955,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 69.3070315493811,
+      "y": 12.9580236846944,
+      "vx": -0.0416203023941287,
+      "vy": 0.222609533777271,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": -60.2224871511058,
+      "y": 37.4883587442142,
+      "vx": -0.11973007762988,
+      "vy": -0.192338189859517,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 19.1980098653111,
+      "y": -68.7336265390632,
+      "vx": 0.218694956486479,
+      "vy": 0.0610837539575345,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 5,
+      "radius": 2.23606797749979,
+      "x": 32.4647944171111,
+      "y": 64.0286039474133,
+      "vx": -0.203110900604449,
+      "vy": 0.10298449795053,
+      "spin": 0.5,
+      "pinned": false,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "azimuthDeg": 0,
+       "source": "宣言(第301便b の近似多粒子の天体型 —— 円盤の法線 +z・トイ・観測ではない)"
+      }
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**円盤を広げた geoPN=4(慣性決定力の多粒子版)の三次元の原理の本**(法則は A8 のスピン引きずりと E6′ の輸送則の三次元 —— 🔩 と同じ・「現状の chainDiskToy 系は、初期配置が集まりすぎている」)。🔩 chainDiskToy3d の宣言(粒子数・質量・半径・G・W_bg・ε・解法・double)を写し、**円盤の配置だけ**を面積一様の環 r=18〜72 に黄金角で置き直した(🔗🔩🪛 の円盤は中心距離 7.55 から始まり、最短の粒子間距離 0.234・宣言半径の重なり 108 組 —— 接触力の無い本なので力ではないが、核 K_ε が最も近い対で決まる配置だった)。中心の自転軸は 30° 傾け(回転引きずりが面外の成分を持つ —— 2000 步で |z| 最大 0.54)、軸引きずりは宣言しない。初速は t=0 の重力の動径成分の釣り合いの**近似の種**(中心と円盤の自己重力を全部足す —— 円盤の総質量 400 は中心の 4 倍。接線の力の残りは打ち消していないので**平衡とは呼ばない**)。**安定の条件は器が先に宣言して測った** 8 項目(配置・連鎖解・停止と再開・三次元の収支・刻み・粒子数・散布の種・表示)で、近似初速の種(A)と零初速(B)の両方で全部を満たした(散布の種の依存は A 5.2%・B 3.7% —— 種の配置も最短距離 ≥ 4 R_p を守る。床を見ない揺らぎでは最短 1.5〜2.5 の対ができ、A の幅は 114% だった —— 速度差の引きずりは最も近い対の 1/r³ で決まる)。(physics.spaceMesh は全面廃止 —— 移行の写しも退役した。)**(「chainSpreadToy3d を、近似多粒子サンプルのフォーマットに合わせる」): 近似多粒子の契約 physics.approxMany の天体型** —— 中心が支配天体(固定)・粒子 80 は天体(自転のトイの宣言値 0.5〔中心の宣言値の写し・軸は円盤の法線 +z を明示〕と明示半径 √5〔見た目の半径の写し —— 回転引きずりの源になる〕)・粒子どうしの重力と引きずりは残し、接触は切る(本は元から接触なし)。粒子の自転が回転引きずりの源に加わったので帯の数は測り直した(8 条件はすべて満たす —— 散布の種の幅 A 6.2%・B 6.9%・n 160 の差 4.5%)。粒子どうしの重力と引きずりを切った塵型の写しは診断として器で測った(本にしない)。トレイルで、A 側(近似初速の種)の円盤が中心のまわりを回りながら、内帯の粒子が少しずつ先へ引きずられるのを見る(2000 步の Δθ は内/中/外 0.171/0.106/0.103 rad・そのうち移送の分は 0.0110/0.00018/−0.00025)。表示の「空間メッシュ」を ON にすると Z=0 の面の矢印と流線(受動プローブ —— 表示を ON/OFF しても状態は 1 bit も変わらない)。🔗 に比べて連鎖の増幅は小さい(零初速の t=0 直後の接線 u は直接の項の 1.04/1.18/1.07 倍 —— 🔗 は 2.4/6.5/9.7 倍)。ワンタップ対照A/B: B 側は零初速(円盤の初速を 0 —— 中心の自転の回転引きずりだけで回り始め、重力で内へ落ちる: 2000 步で Δr ≈ −0.3)。比べる相手は 🔩(同じ宣言の集まった円盤)と 🔗(二次元)。",
+    "status": {
+     "purpose": "円盤を広げた三次元の geoPN=4 で安定の条件 8 項目を測る",
+     "objective": "met",
+     "state": "天体型・重なり 0・最短 12.9・残差 ≤5.2e-12・h/2 の差 0.02%・種の幅 6.9%・8 条件を満たす",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "tests/out/geo4stable-w299d.json",
+      "tests/out/approxmany-w301b.json"
+     ]
+    }
+   }
+  },
+  "chainBurstShell3d": {
+   "emoji": "🧨",
+   "name": "連鎖引きずりの殻の放出(三次元)— 自転する中心へ落ちる殻の多粒子・超新星のアナロジーの探索(原理)",
+   "familyId": null,
+   "familyRole": "retired",
+   "familyRoleAtBase": null,
+   "group": "運動と時空",
+   "groupAtBase": "運動と時空",
+   "sampleClass": "principle",
+   "geoPN": 4,
+   "coord": "3d",
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": 0.125,
+    "eps": 1,
+    "pairs": "all",
+    "solver": "network-pcg-v1",
+    "spinDrag": {
+     "rot": "surfaceFlip",
+     "axial": "off"
+    }
+   },
+   "presetSigHash": "ec620e03",
+   "presetSigSha256": "59d017e28e9a4dd7603342b2bf8ab2df74390e7fc465b7044fbb64af5e045403",
+   "base": {
+    "rev": "82aa277",
+    "presetSigHash": "ec620e03",
+    "name": "連鎖引きずりの殻の放出(三次元)— 自転する中心へ落ちる殻の多粒子・超新星のアナロジーの探索(原理)",
+    "sigSame": true,
+    "physicsSame": true,
+    "bodiesSame": true
+   },
+   "successor": "supernovaCore",
+   "reason": "旧方式の geoPN=4(旧 W_bg 則の連鎖 —— 殻の放出・超新星のアナロジーの探索の写し)—— 同上",
+   "retiredNotice": {
+    "ja": "第127報: 旧方式の geoPN=4(旧 W_bg 則の連鎖の原理の玩具)の退役 —— 新しい geoPN=4(場の API の opt-in)の本は新しい ID で作る(超新星のアナロジーの探索の写し)。超新星の多層の殻は 🎇(別の機構の本)",
+    "en": "ruling 127: the old-style geoPN=4 (a chain toy of the older W_bg law) is retired — a new geoPN=4 sample (the opt-in field API) will get a new ID (an exploratory supernova-analogy copy); the layered supernova shells are 🎇 (a different mechanism)",
+    "see": [
+     "supernovaCore"
+    ]
+   },
+   "pairDiff": {
+    "successor": "supernovaCore",
+    "successorEmoji": "🎇",
+    "n": 25,
+    "keys": [
+     "physics.G",
+     "physics.cHeat",
+     "physics.contactMode",
+     "physics.coord",
+     "physics.coupleSink",
+     "physics.dispMag",
+     "physics.etaRad",
+     "physics.frameReaction",
+     "physics.geoPN",
+     "physics.kFrame",
+     "physics.kappaT",
+     "physics.lambdaPN",
+     "physics.pRad",
+     "physics.relativeDrag",
+     "physics.softening",
+     "physics.stateCarry",
+     "physics.stepDt",
+     "physics.timeScale",
+     "bodies.length",
+     "bodies[0].m",
+     "bodies[0].radius",
+     "bodies[0].z",
+     "bodies[0].vz",
+     "bodies[0].spin",
+     "bodies[0].pinned"
+    ]
+   },
+   "statusAtBase": {
+    "purpose": "自転する中心へ落ちる殻の放出が刻みで収束した解に残るかを測る",
+    "objective": "met",
+    "state": "rk4 の h と h/2 で同じ放出(t≈272・37/40 個)・本体の步は刻みで近づく・gain 0 は放出しない・超新星のアナロジー",
+    "evidence": [
+     "tests/out/chainburst-w301d.json"
+    ],
+    "en": {
+     "purpose": "Test if a shell falling on a spinning centre ejects in the converged solution",
+     "state": "rk4 h and h/2 agree (t~272, 37/40 out); app step converges; gain 0 none; analogy only"
+    }
+   },
+   "evidence": [
+    {
+     "file": "tests/out/chainburst-w301d.json",
+     "rev": "82aa277",
+     "sha256": "db96ec3311725b1fa57a495743903110951ffa0697b28eb88cf66cc0d1c12f6c"
+    }
+   ],
+   "stages": [
+    "chainburst-301d",
+    "spinavg-305d"
+   ],
+   "raw": {
+    "id": "chainBurstShell3d",
+    "name": "連鎖引きずりの殻の放出(三次元)— 自転する中心へ落ちる殻の多粒子・超新星のアナロジーの探索(原理)",
+    "emoji": "🧨",
+    "group": "運動と時空",
+    "scaleTier": "stellar",
+    "sampleClass": "principle",
+    "fidelity": "toy",
+    "familyRole": "retired",
+    "notClaim": [
+     "supernova_analogy",
+     "gain_universal"
+    ],
+    "obsCard": [
+     {
+      "q": "何を置いたか",
+      "model": "🔩 の写し(G 0.005・W_bg 0.125・ε 1・double)。中心 m 100・半径 6・spin 0.5・軸 +z・pinned + 静止した 40 個(m 10・半径 6〜12 の球殻・最短 3.65)",
+      "obs": "—(原理サンプル —— 観測転写はしない)"
+     },
+     {
+      "q": "何が起きるか(実測)",
+      "model": "殻が落ちて塊になり、引きずりの支える仕事で慣性速度が積み上がる(K 最大 1.7e5・初期の K+U −56.6)→ t≈272 で 37/40 個が半径 100 の外へ速さ ≈35",
+      "obs": "—"
+     },
+     {
+      "q": "刻みと結合積分(実測)",
+      "model": "rk4(dt 0.016・0.008)で同じ放出(標本 4 桁一致)。旧の分割の放出の時刻 dt 0.016〜0.001 = 200/224/240/256/248・既定 semic(dt 0.002)は 256",
+      "obs": "—"
+     },
+     {
+      "q": "帳簿(実測)",
+      "model": "W は放出の予算(外部支持の仕事 —— 閉じた系の保存ではない)。rk4: W 6.5e4・|ΔE−W| ≤ 1e-8。dt 0.002 の旧の分割の残差 3.6e4・既定 semic は R_E −58・W 5.8e4",
+      "obs": "—"
+     },
+     {
+      "q": "対照(実測 t=320)",
+      "model": "引きずり OFF(W_bg を掛けない): 放出なし(3 個・速さ ≤0.8 —— 近接散乱)・中心の spin 0: 殻が中心に潰れ 13 個・配置を回した 2 種: 37 個と 40 個・粒子 80 個(m 5): 75/80 個",
+      "obs": "—"
+     },
+     {
+      "q": "アナロジー",
+      "model": "超新星の崩壊と放出の**アナロジー**(落下 → 慣性速度の蓄積 → 放出)。中心は pinned・圧力・放射・核反応なし —— 再現の努力の第一歩",
+      "obs": "—"
+     },
+     {
+      "q": "言わないこと",
+      "model": "超新星の機構を導いた・爆発の観測量に合わせたとは書かない。W_bg は 🔩 の宣言値。放出のエネルギーは引きずりの仕事で、束縛エネルギーではない",
+      "obs": "—"
+     }
+    ],
+    "descStruct": {
+     "summary": "**連鎖引きずりの放出の探索の写し**(三次元の原理の本・法則は A8 のスピン引きずりと E6′ の輸送則の三次元 —— 🔩 と同じ・「chainDiskToy 系が 14000 歩付近で爆発するのが興味深い。超新星爆発サンプルへの応用の可能性を探る」)。🔗 chainDiskToy の円盤は既定の刻み(0.016)で t≈250 に大半が飛ぶが、その時刻は本体の分割(重力のキックとドリフトの後に座標だけ u·dt で動かす)で早まっていた —— 引きずりを各段で解き直す結合積分 rk4 では t=480 まで大半は飛ばない。一方で**機構は刻みで収束した解に残る**: 静止して置いた粒子は自転する中心と互いの連鎖の引きずりで座標の動きを抑えられたまま、重力が慣性速度 v を積み上げる(その分は引きずりの支える仕事 W として記帳される)。塊がほどけると積み上がった v が解放され、粒子が脱出速度の数十倍で出ていく。本はこの機構を、🔩 の宣言を写した中心と**半径 6〜12 の球殻**の 40 個で見せる(粒子数・質量・半径は 🔗 の比 —— 総質量は中心の 4 倍)。画面の刻みは stepDt 0.002(rk4 に近い刻みの宣言)。超新星の**アナロジー**であって機構の本ではない。",
+     "observe": "トレイルで、殻が中心のまわりで塊のまま揺れ(t≈0〜210 —— 塊の中で慣性速度だけが積み上がる)、t≈256 で大半が四方へ飛び出すのを見る(既定の步 semic・刻み 0.002 —— t=320 で半径 100 を越えた粒子 37/40 個・速さ ≈31。結合積分 rk4 の記録は t≈272・37/40 個・速さ ≈35)。器の帳簿では引きずりの仕事 W が積み上がり、それが放出の予算になる(初期の K+U は −56.6 —— 放出の運動エネルギーは W から来る)。",
+     "control": "ワンタップ対照A/B: B 側は引きずり OFF(W_bg を掛けない —— 重力だけ)。B では殻は中心のまわりで潰れて振動し、半径 100 を越えるのは重力の近接散乱の 3 個だけ(速さ ≤0.8)。比べる相手は 🔗(二次元の円盤 —— 旧の分割では既定の刻みで放出が早まった)と 🎇(超新星の多層の殻 —— 別の機構の本)。",
+     "brief": "自転する中心へ落ちる殻の放出が刻みで収束した解に残るかを測る。達・rk4 の h と h/2 で同じ放出(t≈272・37/40 個)・本体の步は刻みで近づく・引きずり OFF は放出しない・超新星のアナロジー。較正対象外。"
+    },
+    "en": {
+     "name": "Chain-drag shell ejection (3D) — a shell of particles falling onto a spinning centre; an exploratory supernova analogy (principle)",
+     "obsCard": [
+      {
+       "q": "What is placed",
+       "model": "🔩 copy (W_bg 0.125, eps 1); centre m 100, R 6, spin 0.5, axis +z, pinned; 40 at rest (m 10, shell r 6-12, closest 3.65)",
+       "obs": "- (a principle sample; nothing transcribed)"
+      },
+      {
+       "q": "What happens (measured)",
+       "model": "shell falls into a clump; drag work builds inertial velocity (K max 1.7e5; K+U at t=0 -56.6); t~272: 37/40 out at ~35",
+       "obs": "-"
+      },
+      {
+       "q": "Step and coupled rk4 (measured)",
+       "model": "independent rk4 (dt 0.016, 0.008) ejects alike (4 digits); old split ejection time, dt 0.016..0.001: 200/224/240/256/248; default semic (dt 0.002) 256",
+       "obs": "-"
+      },
+      {
+       "q": "Ledger (measured)",
+       "model": "budget = drag work W (external support); rk4 W 6.5e4, |dE-W| <= 1e-8; dt 0.002 old split residual 3.6e4; default semic R_E -58, W 5.8e4",
+       "obs": "-"
+      },
+      {
+       "q": "Controls (measured, t=320)",
+       "model": "drag off (W_bg not applied): 3 out at <= 0.8 (encounters); centre spin 0: collapse, 13 out; rotated layouts: 37 and 40; 80 particles: 75/80",
+       "obs": "-"
+      },
+      {
+       "q": "Analogy",
+       "model": "ANALOGY of collapse and ejection (infall, stored inertial velocity, ejection); pinned centre; no pressure or burning",
+       "obs": "-"
+      },
+      {
+       "q": "Not claimed",
+       "model": "no supernova mechanism derived, no fit to explosions; W_bg is 🔩's declared value; ejection energy is drag work",
+       "obs": "-"
+      }
+     ],
+     "descStruct": {
+      "summary": "AN EXPLORATORY COPY OF CHAIN-DRAG EJECTION (a 3D principle sample; laws: the spin dragging A8 and the transport law E6′ in 3D, as 🔩, item 4: the chainDiskToy samples blowing up near step 14000 is interesting - explore an application to a supernova-explosion sample). The 🔗 chainDiskToy disc mostly flies apart near t=250 at the default step (0.016), but that time is brought forward by the app's splitting (gravity kick and drift, then a coordinate-only move u dt) - a coupled rk4 that re-solves the drag at every stage keeps most of the disc bound up to t=480. THE MECHANISM, HOWEVER, SURVIVES IN THE STEP-CONVERGED SOLUTION: particles placed at rest are held in coordinates by the spinning centre and by each other's chained drag, while gravity keeps building their inertial velocity v (booked as the drag's supporting work W). When the clump unbinds, the stored v is released and particles leave at tens of times the escape speed. This sample shows the mechanism with 🔩's centre and a SPHERICAL SHELL r 6-12 of 40 particles (the 🔗 ratios - total mass 4x the centre). The screen step is stepDt 0.002 (a step close to rk4). An ANALOGY of a supernova, not a mechanism sample.",
+      "observe": "Use the trail: the shell stays a clump round the centre (t about 0-210 - only the inertial velocity builds up inside it) and near t=256 most of it flies out in all directions (default step semic, dt 0.002 - 37/40 past radius 100 by t=320 at about 31; the coupled rk4 record is t~272, 37/40 at about 35). In the harness ledger the drag work W builds up and is the ejection budget (initial K+U -56.6 - the ejection kinetic energy comes from W).",
+      "control": "One-tap A/B: side B has the drag off (W_bg not applied - gravity only). On side B the shell collapses and oscillates round the centre; only 3 particles pass radius 100 by close encounters (speed <= 0.8). Compare with 🔗 (the 2D disc - the old split brought the ejection forward at the default step) and 🎇 (a supernova with layered shells - a different mechanism).",
+      "brief": "Test if a shell falling on a spinning centre ejects in the converged solution. Met: rk4 h and h/2 agree (t~272, 37/40 out); app step converges; drag off: none; analogy only. Out of calibration scope."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "NONE - this sample transcribes no observation"
+      ],
+      "fixedConventions": [
+       "a copy of 🔩 chainDiskToy3d (toy units G=0.005, cLight=30, geoPN=4, kFrame=0, physics.coord 3d) with the disc replaced by 40 single bodies from the generator tests/lib-w301d-shell.mjs (w301d-shell-1: spherical shell r 6-12, golden-angle spiral, volume-uniform radii, rot 0, at rest)",
+       "centre m=100, radius 6 (uniform sphere), spin 0.5, axis +z, pinned; spinDrag rot surfaceFlip, axial off; contactMode none"
+      ],
+      "fitted": [
+       "NOTHING - W_bg = 0.125 [M/L^3] (coefficient 1/W_bg = 8) is 🔩's declared value"
+      ],
+      "derived": [
+       "shell particle mass 10 = 400/40 (total 4x the centre, the 🔗 ratio)"
+      ],
+      "numerical": [
+       "drag-kernel softening eps=1, gravity softening 0.5",
+       "stateCarry double",
+       "screen step stepDt 0.002 (1/8 of the default 0.016 - closer to the coupled rk4)",
+       "solver gate: original-equation relative residual 1e-10 (network-pcg-v1)"
+      ]
+     },
+     "description": "AN EXPLORATORY COPY OF CHAIN-DRAG EJECTION (a 3D principle sample; laws: the spin dragging A8 and the transport law E6′ in 3D, as 🔩, item 4: the chainDiskToy samples blowing up near step 14000 is interesting - explore an application to a supernova-explosion sample). The 🔗 chainDiskToy disc mostly flies apart near t=250 at the default step (0.016), but that time is brought forward by the app's splitting (gravity kick and drift, then a coordinate-only move u dt) - a coupled rk4 that re-solves the drag at every stage keeps most of the disc bound up to t=480. THE MECHANISM, HOWEVER, SURVIVES IN THE STEP-CONVERGED SOLUTION: particles placed at rest are held in coordinates by the spinning centre and by each other's chained drag, while gravity keeps building their inertial velocity v (booked as the drag's supporting work W). When the clump unbinds, the stored v is released and particles leave at tens of times the escape speed. This sample shows the mechanism with 🔩's centre and a SPHERICAL SHELL r 6-12 of 40 particles (the 🔗 ratios - total mass 4x the centre). The screen step is stepDt 0.002 (a step close to rk4). An ANALOGY of a supernova, not a mechanism sample.Use the trail: the shell stays a clump round the centre (t about 0-210 - only the inertial velocity builds up inside it) and near t=256 most of it flies out in all directions (default step semic, dt 0.002 - 37/40 past radius 100 by t=320 at about 31; the coupled rk4 record is t~272, 37/40 at about 35). In the harness ledger the drag work W builds up and is the ejection budget (initial K+U -56.6 - the ejection kinetic energy comes from W).One-tap A/B: side B has the drag off (W_bg not applied - gravity only). On side B the shell collapses and oscillates round the centre; only 3 particles pass radius 100 by close encounters (speed <= 0.8). Compare with 🔗 (the 2D disc - the old split brought the ejection forward at the default step) and 🎇 (a supernova with layered shells - a different mechanism).",
+     "status": {
+      "purpose": "Test if a shell falling on a spinning centre ejects in the converged solution",
+      "state": "rk4 h and h/2 agree (t~272, 37/40 out); app step converges; drag off: none; analogy only",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "**無し** —— 本サンプルは観測を 1 つも転写していない"
+     ],
+     "fixedConventions": [
+      "🔩 chainDiskToy3d の写し(トイ単位 G=0.005・cLight=30・geoPN=4・kFrame=0・physics.coord:\"3d\")で、円盤を生成器 tests/lib-w301d-shell.mjs(w301d-shell-1: 半径 6〜12 の球殻・黄金角の螺旋・体積一様の半径・rot 0・静止)の single 40 個に置き換えた",
+      "中心 m=100・半径 6(一様球)・spin 0.5・軸 +z・pinned・spinDrag:{rot:\"surfaceFlip\", axial:\"off\"}・contactMode:\"none\""
+     ],
+     "fitted": [
+      "**無し** —— W_bg = 0.125 [M/L³](係数 1/W_bg = 8)は 🔩 の宣言値"
+     ],
+     "derived": [
+      "殻の粒子の質量 10 = 400/40(総質量は中心の 4 倍 —— 🔗 の比)"
+     ],
+     "numerical": [
+      "引きずりの核の軟化 ε=1・重力の軟化 0.5",
+      "stateCarry:\"double\"",
+      "画面の刻み stepDt 0.002(既定 0.016 の 1/8 —— 結合積分 rk4 に近い刻み)",
+      "解法の門 元の式の相対残差 1e-10(network-pcg-v1)"
+     ]
+    },
+    "abBody": {
+     "label": {
+      "ja": "引きずりを外す(引きずり無し —— 重力だけ)",
+      "en": "drop the drag (drag off - gravity only)"
+     },
+     "physicsPatch": {
+      "relativeDrag": {
+       "law": "inertial",
+       "Wbg": null,
+       "enabled": false,
+       "eps": 1,
+       "pairs": "all",
+       "solver": "network-pcg-v1"
+      }
+     }
+    },
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "camera": {
+     "scale": 12
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "seed": 20261013,
+    "timeRef": {
+     "basis": "observe",
+     "tObs": 1.2,
+     "note": "観察の基準 600 步(時間の標準 —— 放出は t≈272〔約 136000 步〕なので速さの倍率で早送りして見る)"
+    },
+    "physics": {
+     "coord": "3d",
+     "contactMode": "none",
+     "G": 0.005,
+     "D0": 2,
+     "kFrame": 0,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 0.0001,
+     "cLight": 30,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 4,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.5,
+     "timeScale": 4,
+     "stepDt": 0.002,
+     "dispMag": 1,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 0.125,
+      "eps": 1,
+      "pairs": "all",
+      "solver": "network-pcg-v1",
+      "spinDrag": {
+       "rot": "surfaceFlip",
+       "axial": "off"
+      }
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 100,
+      "radius": 6,
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0.5,
+      "pinned": true,
+      "spinAxis": {
+       "enable": true,
+       "tiltDeg": 0,
+       "source": "宣言(第301便d の原理の本 —— 観測ではない)"
+      }
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 1.333229162597339,
+      "y": 0,
+      "z": 5.85,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -2.9357714313994294,
+      "y": 2.689407116352342,
+      "z": 9.692441100917558,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 0.3515307168255501,
+      "y": -4.005511206338725,
+      "z": 7.267356234467813,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 3.94254914569099,
+      "y": 5.14235721070009,
+      "z": 9.459401534583316,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -6.073993658607174,
+      "y": -1.0744039538656978,
+      "z": 7.5644213800613915,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 4.104530369286453,
+      "y": -2.6109662429348592,
+      "z": 5.120637968806058,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -2.0833639696597355,
+      "y": 7.750010122810686,
+      "z": 7.341891224497494,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -3.2086808963603994,
+      "y": -6.178119813199054,
+      "z": 5.573793851410348,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 9.06970602667311,
+      "y": 3.3122420943674395,
+      "z": 6.785973236226656,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -8.03704738428557,
+      "y": 3.3175763266542986,
+      "z": 5.363394569258076,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 2.9378083664678676,
+      "y": -6.277925838156828,
+      "z": 3.7413929817224862,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 3.0472447089909585,
+      "y": 9.715096310021138,
+      "z": 4.780481085575518,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -7.584669153730166,
+      "y": -4.395470807532313,
+      "z": 3.54612805009718,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 5.955655893307793,
+      "y": -1.309334241215748,
+      "z": 2.095572628783396,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -5.880170899077228,
+      "y": 8.363938014792618,
+      "z": 2.9243742809557056,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -1.0705838129833036,
+      "y": -8.261621395816219,
+      "z": 1.9237340871235442,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 8.730406612206494,
+      "y": 7.357995935415964,
+      "z": 2.0293852051540116,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -9.85307408646172,
+      "y": 0.4074555476464113,
+      "z": 1.2424316210408057,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 5.227072763920511,
+      "y": -5.201635547782905,
+      "z": 0.5546295180014603,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -0.5089475900358008,
+      "y": 11.00646086791663,
+      "z": 0.2755416616567403,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -5.848612742874253,
+      "y": -7.008592739324966,
+      "z": -0.2282799198950386,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 11.785246755187996,
+      "y": 1.5856882824001661,
+      "z": -0.8943773087391513,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -8.453418252132687,
+      "y": 5.881668238973117,
+      "z": -1.297459675605674,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 1.7605258621618163,
+      "y": -7.825713966875565,
+      "z": -1.4257286914304415,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 5.514658840673074,
+      "y": 9.623814990079737,
+      "z": -2.561343696239794,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -8.835916194684563,
+      "y": -2.818898263155629,
+      "z": -2.6528171322831926,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 5.873061882690573,
+      "y": -2.713503554231589,
+      "z": -2.2233210286700147,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -3.8599771385563786,
+      "y": 9.223218041309933,
+      "z": -4.044535192823895,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -2.690214723469736,
+      "y": -7.479482258105444,
+      "z": -3.7319608346465993,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 9.13258106989061,
+      "y": 4.799828659267398,
+      "z": -5.56897490494537,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -8.322196217891038,
+      "y": 2.1937042148996917,
+      "z": -5.308875310840406,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 3.4070502790203108,
+      "y": -5.298745993132538,
+      "z": -4.427358146879945,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 1.4759301860944418,
+      "y": 8.588015375074583,
+      "z": -6.97671851804005,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -5.445330823950235,
+      "y": -4.217170258783429,
+      "z": -6.300999079941329,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 4.241109713503335,
+      "y": -0.35136727051529937,
+      "z": -4.479628275680343,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -4.522556006867557,
+      "y": 4.888750524930358,
+      "z": -8.167228316758399,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 0.02315933205101613,
+      "y": -4.747384313215058,
+      "z": -6.930475743975332,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 3.745917376126708,
+      "y": 4.129327180485251,
+      "z": -10.076635541888807,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": -3.7190058163963005,
+      "y": -0.3446766231605388,
+      "z": -9.0924269754919,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 10,
+      "x": 1.2732338817905395,
+      "y": -0.9663391221107995,
+      "z": -7.0136010515751375,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "spin": 0,
+      "pinned": false
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**連鎖引きずりの放出の探索の写し**(三次元の原理の本・法則は A8 のスピン引きずりと E6′ の輸送則の三次元 —— 🔩 と同じ・「chainDiskToy 系が 14000 歩付近で爆発するのが興味深い。超新星爆発サンプルへの応用の可能性を探る」)。🔗 chainDiskToy の円盤は既定の刻み(0.016)で t≈250 に大半が飛ぶが、その時刻は本体の分割(重力のキックとドリフトの後に座標だけ u·dt で動かす)で早まっていた —— 引きずりを各段で解き直す結合積分 rk4 では t=480 まで大半は飛ばない。一方で**機構は刻みで収束した解に残る**: 静止して置いた粒子は自転する中心と互いの連鎖の引きずりで座標の動きを抑えられたまま、重力が慣性速度 v を積み上げる(その分は引きずりの支える仕事 W として記帳される)。塊がほどけると積み上がった v が解放され、粒子が脱出速度の数十倍で出ていく。本はこの機構を、🔩 の宣言を写した中心と**半径 6〜12 の球殻**の 40 個で見せる(粒子数・質量・半径は 🔗 の比 —— 総質量は中心の 4 倍)。画面の刻みは stepDt 0.002(rk4 に近い刻みの宣言)。超新星の**アナロジー**であって機構の本ではない。トレイルで、殻が中心のまわりで塊のまま揺れ(t≈0〜210 —— 塊の中で慣性速度だけが積み上がる)、t≈256 で大半が四方へ飛び出すのを見る(既定の步 semic・刻み 0.002 —— t=320 で半径 100 を越えた粒子 37/40 個・速さ ≈31。結合積分 rk4 の記録は t≈272・37/40 個・速さ ≈35)。器の帳簿では引きずりの仕事 W が積み上がり、それが放出の予算になる(初期の K+U は −56.6 —— 放出の運動エネルギーは W から来る)。ワンタップ対照A/B: B 側は引きずり OFF(W_bg を掛けない —— 重力だけ)。B では殻は中心のまわりで潰れて振動し、半径 100 を越えるのは重力の近接散乱の 3 個だけ(速さ ≤0.8)。比べる相手は 🔗(二次元の円盤 —— 旧の分割では既定の刻みで放出が早まった)と 🎇(超新星の多層の殻 —— 別の機構の本)。",
+    "status": {
+     "purpose": "自転する中心へ落ちる殻の放出が刻みで収束した解に残るかを測る",
+     "objective": "met",
+     "state": "rk4 の h と h/2 で同じ放出(t≈272・37/40 個)・本体の步は刻みで近づく・引きずり OFF は放出しない・超新星のアナロジー",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "tests/out/chainburst-w301d.json"
+     ]
+    }
+   }
+  }
+ },
+ "declChanges": [
+  {
+   "id": "chainDiskToy",
+   "emoji": "🔗",
+   "change": {
+    "familyRole": [
+     null,
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "ce34f33f",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "chainDiskToy3d",
+   "emoji": "🔩",
+   "change": {
+    "familyRole": [
+     null,
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "f0b8eba4",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "chainDiskToy3dTilt",
+   "emoji": "🪛",
+   "change": {
+    "familyRole": [
+     null,
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "fb7f4b17",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "chainSpreadToy3d",
+   "emoji": "🍥",
+   "change": {
+    "familyRole": [
+     null,
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "49badcc8",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "chainBurstShell3d",
+   "emoji": "🧨",
+   "change": {
+    "familyRole": [
+     null,
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "ec620e03",
+   "physicsSame": true,
+   "bodiesSame": true
+  }
+ ],
+ "geoPN4": {
+  "builtin": 15,
+  "live": [],
+  "retired": [
+   "galaxyMeshSpiralGeoToy",
+   "galaxyAnalogyBH",
+   "galaxyAnalogyBHCompose",
+   "galaxyAnalogyBHTilt90",
+   "galaxyAnalogyBHTilt90Layers",
+   "clusterAnalogyBH",
+   "mercuryGeoToy3",
+   "mercuryMeshMigrate3d",
+   "charonGeoToy3",
+   "psrDoubleABGeoToy",
+   "chainDiskToy",
+   "chainDiskToy3d",
+   "chainDiskToy3dTilt",
+   "chainSpreadToy3d",
+   "chainBurstShell3d"
+  ]
+ },
+ "wave": "第325便c",
+ "ruling": "原仮定者の回答(2026-11-03 —— AN525)・原仮定者の指示(第127報)・統括の検証項目 R286",
+ "frozen": true,
+ "source": {
+  "file": "beta/index.html",
+  "sha256": "11b770471cf3e396a51eef6f05b1eeec89b7ec2e46982c9e26adfa9ef9db05a3",
+  "note": "第325便c の枝の html(5 本の退役の宣言を入れた後)"
+ },
+ "base": {
+  "rev": "82aa277",
+  "commit": "82aa27795cff135a35c63b42d3cda2fa96fc3807",
+  "file": "beta/index.html",
+  "sha256": "687a8dea1d26658c33cc519bd6c1b45ff355c606e1d47d30003abc4bf614bae0"
+ }
+}

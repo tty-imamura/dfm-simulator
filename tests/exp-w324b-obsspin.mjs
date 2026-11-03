@@ -24,6 +24,8 @@
 //   段 A に傾きの形の場合(観測/推定/ノブの区別・ノブの範囲と既定・未知の鍵・pair)・段 B に軸の宣言とノブの一覧(HP.obsSpin.knobsOf・withKnob ≡ lib の knobOf)・
 //   段 E の列を J0737: self・tr・off・g1・miss(欠測の写し —— 版 1 の本の形)・JA・JAm・JAvec・JAB(配列の形の同じ向き)・Bm・Baz90/180/270(ノブ)・A32(推定の上限)・Aaz90 /
 //   α Cen: self・tr・on・off・kJ(前の版の 🔸 の宣言)・t180・t90・t90az90(ノブ)へ。試走の環境変数と正本の路は版 1 のまま(段 obsspin-324b)。
+// ■ 第325便c(原仮定者の回答(2026-11-03 —— AN526)・統括の検証項目 R286)で版 w325c へ: 本 📟 の A の傾きはノブ(既定 0°・範囲 0〜3.2°)—— 段 A の本の basis の門と
+//   正準形の鍵の順の門を A のノブの形へ・列 A32 はノブの範囲の上端(lib の knobOf —— 走りの値は版 2 と同じ 3.2°)。試走の環境変数と正本の路は版 1 のまま。
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -41,7 +43,7 @@ import { runBook } from './exp-w321b-geo3bin.mjs';
 const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABInertial3d","alphaCenABInertial3dJ","binary","boxBinaryToy","compactForceToy","coord3dKeplerTilt","coord3dSpinPrecess","fig8","gw150914","inertialDragPair","psrB1534","psrDoubleAB","psrDoubleABInertial3d","psrJ1757DFM","psrJ1946DFM","siriusAB","spinDipoleBinary"],"roots":["$","HP.MASS_BASIS","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.geoEffectiveMode","HP.geoLawOfSim","HP.geoModeOf","HP.inertialDragIsqState","HP.inertialDragLedgerOf","HP.presetSig","HP.sim","HP.validatePreset","OBS_SPIN_AXIS_BASES","OBS_SPIN_AXIS_COMPS","OBS_SPIN_AXIS_COMP_KEYS","OBS_SPIN_AXIS_KEYS","OBS_SPIN_FRAMES","OBS_SPIN_F_MAX","OBS_SPIN_KEYS","OBS_SPIN_KINDS","OBS_SPIN_SRC_KIND","OBS_SPIN_UNITS","OBS_SPIN_VERSION","T","calTargetOf","ctx","cw","obsSpinAxisInfo","obsSpinAxisResolve","obsSpinAxisTiltOf","obsSpinCoreSpin","obsSpinCrossCheck","obsSpinKnobsOf","obsSpinOrbitNormal","obsSpinPrepare","obsSpinRowOf","obsSpinSrcOn","obsSpinSrcRadii","obsSpinState","obsSpinUsable","obsSpinWithKnob","pnSource","validateObsSpinBody"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w324e-obsspin-2';
+export const HARNESS_VERSION = 'w325c-obsspin-3';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const clone = (x) => JSON.parse(JSON.stringify(x));
 export const OUT_MAIN = 'tests/out/obsspin-w324b.json';
@@ -101,8 +103,8 @@ export function partA(HP) {
     senseEstMinusN: !!(acc.senseEst && Array.isArray(acc.senseEst.axisResolvedA) && Math.hypot(acc.senseEst.axisResolvedA[0], acc.senseEst.axisResolvedA[1], acc.senseEst.axisResolvedA[2] + 1) < 1e-15),   // 傾き 180° の読み(sin π の丸め 1.2e-16 の内で −n̂)
     azNoEffectAtZeroTilt: !!(acc.tiltAz90 && acc.book && JSON.stringify(acc.tiltAz90.axisResolvedA) === JSON.stringify(acc.book.axisResolvedA) && acc.tiltAz90.sig !== acc.book.sig),
     tiltJSame: !!(acc.tiltJ && acc.book && rel(acc.tiltJ.JSI_A, acc.book.JSI_A) < 1e-12 && JSON.stringify(acc.tiltJ.axisResolvedA) === JSON.stringify(acc.book.axisResolvedA)),
-    basisKept: !!(acc.book && JSON.stringify(acc.book.axisBasisA) === '{"tiltDeg":"estimated","azimuthDeg":"knob"}' && acc.tiltObs && JSON.stringify(acc.tiltObs.axisBasisA) === '{"tiltDeg":"observed","azimuthDeg":"knob"}'),
-    canonTiltOrder: !!(acc.book && JSON.stringify(Object.keys(acc.book.canonA.axis)) === '["ref","pair","tiltDeg","azimuthDeg","source"]' && JSON.stringify(Object.keys(acc.book.canonA.axis.tiltDeg)) === '["deg","basis","upperDeg","level","note"]') };
+    basisKept: !!(acc.book && JSON.stringify(acc.book.axisBasisA) === '{"tiltDeg":"knob","azimuthDeg":"knob"}' && acc.tiltObs && JSON.stringify(acc.tiltObs.axisBasisA) === '{"tiltDeg":"observed","azimuthDeg":"knob"}'),
+    canonTiltOrder: !!(acc.book && JSON.stringify(Object.keys(acc.book.canonA.axis)) === '["ref","pair","tiltDeg","azimuthDeg","source"]' && JSON.stringify(Object.keys(acc.book.canonA.axis.tiltDeg)) === '["deg","basis","default","min","max","note"]') };
   return { rows, n: rows.length, nOk: rows.filter((r) => r.ok).length, checks: X };
 }
 

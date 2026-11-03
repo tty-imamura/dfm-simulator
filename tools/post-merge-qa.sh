@@ -585,6 +585,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.resume324d docs.satlong324d lint.regenS
 #   台帳: 鎖の後に node tools/regen-plan.mjs --htmlphys-record(物理の部分の宣言のある段の正本の刻印の html と今の html の行 —— 台帳 tests/data-w325a-htmlphys.json をコミット)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.htmlPhys325a docs.w325a lint.provenanceMeta docs.d0audit-sync docs.d0sites-sync docs.bgpredict-sync docs.selfInertia-sync docs.bgbudget-sync docs.bgCompose docs.sphereKernel lint.regenChain lint.regenScope lint.regenOrderOnly323 lint.regenQuick323 lint.violationKinds320 lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第325便a の塊(ここまで)====
+# ==== 第325便c の塊(ここから)====
+# 第325便c(原仮定者の指示(第127報)・統括の検証項目 R286): 枝 c の新設(docs.words325c —— 連鎖の玩具 5 本の説明の古い語・📟 の B の 139.4° の列・AN516 の数の訂正・文書)と、
+#   説明を読む生成表の QA(docs.sampleStatus-sync・preset.statusLedger-sync・docs.families)・本の文を読む behavior.obsSpin324b・docs.obsSpin324b・lint.qaHeapRelease310・lint.sectionLookup313・規約の速い判定の lint.conventionsCheck323
+#   AN526(📟 の A の傾きのノブ): behavior.j0737AxisKnob325c と、器と lib の版を上げた段 obsspin-324b の lint 一式(lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・lint.canon304・lint.harnessSmoke303)
+#   AN525(旧方式の geoPN=4 の退役): docs.geo4old325c と、退役の集合と掲載の数を読む docs.noRetiredMention294・preset.spaceMeshRetired300・preset.retire298・preset.retired290b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.words325c behavior.j0737AxisKnob325c docs.geo4old325c docs.noRetiredMention294 preset.spaceMeshRetired300 preset.retire298 preset.retired290b docs.sampleStatus-sync preset.statusLedger-sync docs.families behavior.obsSpin324b docs.obsSpin324b lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.harnessSmoke303 lint.qaHeapRelease310 lint.sectionLookup313 lint.conventionsCheck323"
+# ==== 第325便c の塊(ここまで)====
 # ==== 第325便d の塊(ここから)====
 # 第325便d(統括の検証項目 R287・決断事項 AN517/AN518 —— 簡易一致の本運用の前の試験): 枝 d の新設 5 本(lint.quickMutation325d —— 短窓の後だけ効く変異の影の試験 /
 #   lint.quickEnvWin325d —— args/cmd の窓 6 段の環境変数の窓 / lint.quickEnv325d —— 環境の整合・枝 a との継ぎ目・暦の債務 / lint.quickGate325d —— 本運用の門の関数〔休眠〕/
