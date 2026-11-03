@@ -43295,6 +43295,48 @@ synodic-299b の読み: **3 本と 1 本の正本は物理の欄(葉 784)で差 
 
 **⑥ 言わないこと。** 「三次元で銀河を表せた」「有限厚の円盤が平衡にある」「観測の J から源の自転を計算した」「傾き有りと傾き無しがビットで同じ」(差は単精度の配列の程度 —— 〔第324便a〕)・「簡易一致を本運用にした」(本便も影)。
 
+〔第325便a — 再生成の段の対象を html 全体にしない: html の物理の部分の hash(版名の行・文の登録簿・本の表示の欄・生成領域 sample-status・注釈を外す)・段が読む部分の宣言・台帳による移行(原仮定者の指示(2026-11-03)「次便以降で、再生成の段の対象が宣言なしの場合、html全体にしない。html全体だと、版名が変わっただけや、説明文だけの修正でも走ってしまう」・原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・統括の検証項目 R284)(**html・本の宣言・エンジン・`S._core`・受理の判定・器の本文・正本は変えていない** —— beta/index.html と root の index.html は 1 byte も変えていない・器の REGEN_SCOPE の行も不変・lib と再生成表の宣言と計画の関数と道具と QA と文書と台帳だけ)〕
+
+**何が問題だったか。** 領域の宣言(器の REGEN_SCOPE)を持たない段は、正本の meta に html 全体の sha(targetSha256)だけを刻む。計画(planRegen)は刻印の sha が今の html と違えば「対象 html(領域の宣言なし —— html 全体)」で regen にしていたので、版名の行 `BETA_BUILD` が 1 字変わるだけで走った。本便の開始のコミット(版名だけの差)の計画では、html 全体を刻む正本は 11 個(段 11)・そのうち常時群でない 6 段(bh90・galaxyprof2・d0audit2・selfinertia・galaxyprof・needmesh —— 所要の見積り 64 s)が html 全体の理由で regen だった(残りの 5 段 calaudit・kf0・kf0ledger-old・kf0ledger・samplestatus は常時群で、計画はもともと always)。6 段はどれも下流にデータの依存を持たない(表 1)。あわせて、正本の対象一致を直に sha で比べる docs の 7 本(docs.d0audit-sync・docs.d0sites-sync・docs.bgpredict-sync・docs.selfInertia-sync・docs.bgbudget-sync・docs.bgCompose・docs.sphereKernel)は、領域の宣言のある正本でも版名だけの差で FAIL になっていた(計画は走らせないのに QA が落ちる —— 本便の基点で 3 本を部分 QA で実測)。
+
+**何をしたか。**
+- **html の物理の部分**(`tests/lib-w325a-htmlphys.mjs` —— 部分の作り方の版 `w325a-htmlphys-1`): html を部分に分けて部分ごとの sha256 を引く。`code` は inline script の最上位の文の注釈を除いた本文で、版名の行 `BETA_BUILD` の値・文の登録簿(生成領域 i18n の最上位の文と ACCEPT_REASONS・LAWS・SYSTEM_PROMPT)・内蔵の本の配列 BUILTIN_PRESETS・生成領域 `sample-status` の最上位の文を**置き換えの印**にする。`code` の中の**表示の文の対**(`{ja:"…", en:"…"}` —— 鍵が ja と en の 2 つだけで値がどちらも素の文字列の object)も外す。`presets` は headless で評価した内蔵の本の**表示の欄を外した**写し(本ごとの hash と並び —— 外す欄は領域 hash の版 6 と同じ集合を lib に凍結した写し)。`markup` は script の外(HTML の注釈を除く)。外したものは別の部分で見る: `build`(版名)・`text:<名>`(文の登録簿)・`regions:<名>`(生成領域)・`comments`(注釈)・`textPairs`(code の中の表示の文の対)・`presetFull:<id>`(本の表示の欄を含む全体)・`presetPhys:<id>`(本ごとの表示の欄を外した写し)・`presetIds`(本の id の並び)—— `*` は全部。行番号は部分に入れない(表示の欄の行数が変わると全部の行が動く)—— 行番号と生の行を出力に写す器(d0audit2・selfinertia)は版名の外を全部読むと宣言するので、行を動かす変更(空白だけの行を除く)では走る。
+- **段が読む部分の宣言**(`tests/lib-w281a-regentable.mjs` の `HTMLPHYS_DECL_325A` —— 版 `w325a-htmlphysdecl-1`): html 全体を刻む 11 段に、器が html から読む部分(reads)を表の側で宣言した(器の本文と REGEN_SCOPE の行は変えない —— 器を変えると meta.code[] の sha が動いて全部 regen になる)。既定の reads は `code`・`presets`・`markup`(物理の部分 —— 外すものだけを数えて残りを全部見る)。器が `.find` で本を引くだけの段は本を器と lib の下限(deriveScope)の本に絞る —— bh90 は 4 本(🎐🎻⏰ と下限の galaxy)の**表示の欄を含む全体**(`presetFull:` —— 本の emoji・notClaim を出力に写す)・galaxyprof は 1 本の物理(`presetPhys:galaxyMeshSpiralGeoToy`)・needmesh は本を読まない(`code`・`markup` —— HP.dfmField を合成の源で呼ぶ)。galaxyprof2 は本の id の並びを読むので `presets`(全部)。d0audit2・selfinertia は **html の文字列を直に走査して行番号と生の行を出力に写す器**なので、版名の外を全部読む(`code`・`presets`・`markup`・`comments`・`textPairs`・`presetIds`・`presetFull:*`・`text:*`・`regions:*` —— 説明の欄・注釈の変更で走るのが正しい・版名だけの差では走らない)。samplestatus は説明の欄・文の表・版名を読む段として `build`・`presetFull:*`・`text:*` を宣言した(常時群)。calaudit・kf0・kf0ledger-old・kf0ledger は `whole`(html 全体のまま —— 常時群)。**宣言の無い html 全体の段には既定を当てない**(従来どおり html 全体 —— QA lint.htmlPhys325a が名指しで落とす)。
+- **自動の下限を領域の宣言にしなかった理由**: 器と lib から引いた下限(deriveScope)は 6 段とも引ける(表 1)が、領域 hash は閉包の外の文字列・表示の欄を見ない。d0audit2・selfinertia は html の文字列を直に走査し(注釈の文を名指しで探す)、bh90 は表示の欄 emoji・notClaim を出力に写し、galaxyprof2 は停止関数 render を名で読み、galaxyprof・needmesh は基点の html と今の html の 2 つを比べる —— 下限が「器が読むもの」を覆わない。物理の部分は外すものを数え、残りを全部見る(取りこぼしの側に倒れない)。
+- **計画**(planRegen): 領域の宣言の無い正本で刻印の sha が今の html と違うとき、段の宣言があれば刻印の html の部分と今の html の部分を reads で比べる。同じ → 走らせない(段の `htmlPhysUsed`・理由の文「html の物理の部分が同じ(刻印の html を台帳/git の履歴/基点の html から引いた)」)・違う → regen(理由の種類 `htmlphys` —— 違った部分の名)・刻印の html が引けない → 従来どおり html 全体(理由の種類 `html`・「刻印の html が台帳・基点・git の履歴に無い」)。計画の出力に `plan.htmlPhys`(走らせない段・秒・htmlphys の段・html 全体のままの段)・件数の行に「版名・説明だけの差で reuse にした n 段」。`--no-htmlphys` で第324便までの判定。鎖の済み印の契約は変えていない(版も不変 —— 既存の済み印は有効)。
+- **移行で全段が走らない**: 既存の正本の刻印は物理の部分の hash を持たない。**正本を書き換えて刻み直すと、そのファイルを入力に読む下流の安定 hash が動いて鎖が広がる**ので、正本は書き換えない。刻印の html は sha で引く —— **台帳** `tests/data-w325a-htmlphys.json`(html の sha → 部分の hash・版・git の版)→ 基点の html と計画の html → git の履歴(`git log -- beta/index.html` の各版の blob —— 一度引いた sha は走行の中で控える)。台帳は `node tools/regen-plan.mjs --htmlphys-record [--base <刻印の html>]` が作る(物理の部分の宣言のある段の正本の刻印の html と今の html の行 —— 刻印にも今の html にも当たらない行は外す・引けない sha は名指して終了コード 1)。CI の checkout は浅い(git の履歴が無い)ので、**QA の対象一致は台帳だけで引く**(手元と CI で同じ判定)。
+- **QA の対象一致**(`targetOk325` —— 一致 / 領域一致 / 物理の部分の一致〔段の宣言と台帳〕): lint.provenanceMeta ② と docs の 7 本の ① がこれを通す(既存の QA の世代の直し —— 名指し: docs.d0audit-sync・docs.d0sites-sync・docs.bgpredict-sync・docs.selfInertia-sync・docs.bgbudget-sync・docs.bgCompose・docs.sphereKernel)。lint.provenanceMeta の詳細に「html の物理の部分の一致 n 本」。
+
+**表 1 —— html 全体を刻む 11 段の棚卸し**(本便の基点 —— 正本の meta から。下流 = 計画のデータの依存〔dataDeps〕でこの段を上流に持つ段の数。下限 = deriveScope〔presets の数か all・roots の数〕)
+| 段 | 所要の見積り(s) | 常時群 | 器が html から読むもの | 正本に表示の欄が出るか | 下限 | 下流 | 宣言(reads) |
+|---|---|---|---|---|---|---|---|
+| bh90 | 16 | — | page の HP(本 3 本の走行)・本の emoji・notClaim | 出る(3 本の emoji・notClaim) | 本 4・roots 8 | 0 | code・markup・presetFull:4 本 |
+| galaxyprof2 | 19 | — | page の HP(準備済み経路の回数・ms/步)・本の id の並び・停止関数 render | 出ない | all・roots 15 | 0 | code・presets・markup |
+| d0audit2 | 2 | — | inline script の文字列(D₀ の読み口の機械抽出・行番号・証拠の行)・page の qLockCalc | 証拠の行(注釈を含む生の行) | 本 3・roots 18 | 0 | 版名の外を全部 |
+| selfinertia | 1 | — | html の行(名指しの文字列 —— 注釈の文を含む)・行番号 | 証拠の行(生の行) | 本 0・roots 8 | 0 | 版名の外を全部 |
+| galaxyprof | 24 | — | page(本 1 本 —— 基点の html と今の html の ms/步) | 出ない | 本 1・roots 16 | 0 | code・markup・presetPhys:1 本 |
+| needmesh | 2 | — | page(HP.dfmField を合成の源で —— 基点の html と今の html の要求の並び) | 出ない | 本 0・roots 4 | 0 | code・markup |
+| samplestatus | 5 | 常時群 | 本の説明の欄・文の表・版名・生成領域を書く | 出る(説明の欄) | all・roots 17 | 0 | code・presets・markup・build・presetFull:*・text:* |
+| calaudit | 320 | 常時群 | 較正の走行(全本) | — | all・roots 24 | 26 | whole |
+| kf0 | 52 | 常時群 | 較正の走行(5 本 —— meta に targetSha256 が無い旧形式) | — | all・roots 24 | 31 | whole |
+| kf0ledger-old | 0 | 常時群 | 台帳の md | — | 本 16・roots 1 | 1 | whole |
+| kf0ledger | 0 | 常時群 | 台帳の md | — | 本 17・roots 1 | 0 | whole |
+
+**表 2 —— 門(写しで試す・実物の beta/index.html は変えない)**: 計画は `node tools/regen-plan.mjs --html <写し> --base beta/_w325_base.html`(前 = 基点のコード・後 = 本便のコード)。regen の段の数(見積りの秒の和)。どの写しでも regen の「正本が無い」6 段(obsintake・recordid・confirm2・confirm3・confirm4・intakeB —— 正本が作業物でリポジトリに無い段)と timing294(入力 tests/data-w311c-regensec.json —— 本便の開始のコミット)は前後とも入る。後の families・timing294 の「式」は本便が再生成表(計画の関数)を変えたため(器が表を計算に使う 2 段 —— 本便の鎖で 1 回)。
+| 写し | 前 regen | 後 regen | 前だけ | 後の htmlphys / html 全体 |
+|---|---|---|---|---|
+| ① 版名だけ(刻印 b324 ↔ 今 b325) | 13(228 s) | 8(166 s) | bh90・galaxyprof2・d0audit2・selfinertia・galaxyprof・needmesh(64 s) | 走らせない 6 段・samplestatus(常時群)は build で違う |
+| ② 説明だけ(本 3 本の name・descStruct.summary・en.name・obsCard の model・SAMPLE_STATUS の文・I18N の文 1 つ) | 14(230 s) | 11(185 s) | galaxyprof2・galaxyprof・needmesh(45 s) | 説明を読むと宣言した段だけ: bh90(presetFull:gw150914)・d0audit2・selfinertia(生の行)・families は領域(本の名を consts で読む)・presets:'all' の段は 0 |
+| ③(a) 步の関数 dfmGeoToyStep に `void 0;` | 184 | 184(同じ集合) | — | 6 段とも htmlphys(code) |
+| ③(b) 本 gw150914 の m の最下位桁 | 62(7520 s) | 60(7494 s) | galaxyprof・needmesh(その本を読まない段) | その本を読む段は全部 htmlphys(bh90 presetFull・galaxyprof2・d0audit2・selfinertia presets) |
+| ③(c) 定数 SPACE_MESH_CHICUT_DEFAULT | 184 | 184(同じ集合) | — | 6 段とも htmlphys(code) |
+| ④ 移行(正本は旧の型のまま —— ① の html) | — | 台帳: 6 段とも走らせない / git の履歴だけ: 6 段とも走らせない(刻印の html を 295af60 の blob から)/ どちらも無い: 6 段とも html 全体(理由つき) | — | git の履歴で引けない刻印 0 |
+物理の 1 文字の写しで、変えた関数・本・定数を読む段は前と後で同じく regen に入る(取りこぼし 0 —— 領域の宣言のある段は従来の領域 hash のまま・物理の部分の段は code の差で 6 段とも走り、本の差ではその本を読む 4 段が走る)。説明だけの写しで受理後の定義と受理器の warnings が説明の欄を写して presets:'all' の段が動くことは無かった(領域 hash の版 6 のまま —— 版を上げていない)。
+
+**簡易一致の影との関係**: 理由の種類 `htmlphys` は「領域だけ」の判定(`tests/lib-w323b-quick.mjs` の regionOnly = 理由がすべて scope)に入らない —— 物理の部分の段は簡易一致の候補にならない(保守側・lib は変えていない)。
+
+**言わないこと。** 「物理の部分が同じだから結果が同じ」とは言わない —— 一致は段が読むと宣言した部分が同じ html を読んだことだけを意味する(器・lib・入力は従来どおり meta.code[]・inputs[] の完全 sha と安定 hash で縛る)。台帳は計画と QA が刻印の html を引くための記録で、正本ではない(手で直さない)。常時群は本便でも毎回走る(版名・説明だけの便で常時群を走らせない形は決断事項の候補 —— 本便は変えていない)。QA: `lint.htmlPhys325a`・`docs.w325a`。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

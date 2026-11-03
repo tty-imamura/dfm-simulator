@@ -2122,6 +2122,11 @@ lastAddAt = Date.now();
     const SC = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
     const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
     const HIST = new Set(RT.historyOuts());
+    // ==== 第325便a の塊(ここから)====
+    // 第325便a(原仮定者の指示(2026-11-03)・R284): 領域の宣言の無い正本は、段の宣言(HTMLPHYS_DECL_325A)と台帳(tests/data-w325a-htmlphys.json)で
+    //   **刻印の html の物理の部分 = 今の html の物理の部分**なら ② を通す(版名・説明の欄・文の表だけの差 —— 計画が走らせない段と同じ判定。台帳だけで引く —— CI の浅い checkout と同じ)
+    const HP325 = await import('file://' + path.join(ROOT, 'tests', 'lib-w325a-htmlphys.mjs')).catch(() => null);
+    // ==== 第325便a の塊(ここまで)====
     PV = P.PROVENANCE_VERSION;
     const QV323 = await import('file://' + path.join(ROOT, 'tests', 'lib-w323b-quick.mjs')).catch(() => null);   // 第323便b(AN517/AN518): 来歴 meta.verify の受理
     const CANON = ['tests/out/bh90-w269c.json', 'tests/out/sparc-w269c.json',
@@ -2575,9 +2580,15 @@ lastAddAt = Date.now();
         r.targetOk = (now === m.targetSha256);
         if (!r.targetOk) {
           r.scopeOk = SC.scopeOkNow(ROOT, m);
-          if (!r.scopeOk) bad.push(`②${rel} の targetSha256 が現行 ${m.target} と一致しない`
+          // ==== 第325便a の塊(ここから)====
+          if (!r.scopeOk && HP325 && typeof RT.htmlPhysDeclOfOut === 'function') {
+            const t325 = HP325.targetOk325(ROOT, m, now, RT.htmlPhysDeclOfOut(rel));
+            if (t325.ok && t325.how === 'htmlphys') r.physOk = true; else r.physWhy = t325.why;
+          }
+          // ==== 第325便a の塊(ここまで)====
+          if (!r.scopeOk && !r.physOk) bad.push(`②${rel} の targetSha256 が現行 ${m.target} と一致しない`
             + `(刻印 ${String(m.targetSha256).slice(0, 12)} ≠ 現行 ${String(now).slice(0, 12)})`
-            + (m.scope ? '・領域 hash も一致しない' : '・領域の宣言なし') + ' —— **器を走らせ直すこと**');
+            + (m.scope ? '・領域 hash も一致しない' : '・領域の宣言なし') + (r.physWhy ? '・物理の部分: ' + r.physWhy : '') + ' —— **器を走らせ直すこと**');
         }
       }
       for (const key of ['inputs', 'code']) {
@@ -2597,7 +2608,7 @@ lastAddAt = Date.now();
           if (key === 'code' && typeof SC.toolStampOnly === 'function' && SC.SCOPE_TOOLING.includes(s.file)
             && SC.toolStampOnly(ROOT, arr.map((z) => z.file), s.file) && SC.toolStampRecheck(ROOT, m).ok) { r.codeOk++; r.toolOk = (r.toolOk || 0) + 1; continue; }
           // 第281便a: 入力に載った対象 html は ② と同じ規則(領域一致)/ JSON の入力は安定 hash でも通す
-          if (key === 'inputs' && s.file === m.target && r.scopeOk === true) { r.inputsOk++; continue; }
+          if (key === 'inputs' && s.file === m.target && (r.scopeOk === true || r.physOk === true)) { r.inputsOk++; continue; }   // 第325便a: 物理の部分の一致も同じ規則
           if (key === 'inputs') {
             const st = (m.inputsStable || []).find((z) => z.file === s.file);
             // 第282便e: 安定 hash は**刻印の版で**照合する(版なし = 第281便a の旧方式・版 w282e-stable-1 = 宣言した JSON Pointer だけを除く)
@@ -2621,9 +2632,10 @@ lastAddAt = Date.now();
     + `**${rows.length} 本**に同じ形で持たせた(\`provenanceVersion\`・\`wave\`・\`target\`・`
     + `**完全 64 桁の \`targetSha256\`**・\`generatedAt\`・\`inputs[]\`・\`code[]\`・\`codeSha256\`)/ `
     + rows.map((r) => `${r.file.replace('tests/out/', '')}(` + (r.history ? '**履歴**(②③④ は照合しない)）'
-      : `target ${r.targetOk === null ? '—' : (r.targetOk ? '一致' : (r.scopeOk ? '**領域一致**' : '**不一致**'))}`
+      : `target ${r.targetOk === null ? '—' : (r.targetOk ? '一致' : (r.scopeOk ? '**領域一致**' : (r.physOk ? '**物理の部分の一致**' : '**不一致**')))}`
       + `・入力 ${r.inputsOk}/${r.inputs}` + (r.stableOk ? `(安定 hash ${r.stableOk})` : '') + `・コード ${r.codeOk}/${r.code}` + (r.toolOk ? `(道具の照合 ${r.toolOk})` : '') + '）')).join(' / ')
     + ` / **第281便a**: 領域一致 ${rows.filter((r) => r.scopeOk === true).length} 本・履歴 ${rows.filter((r) => r.history).length} 本`
+    + ` / **第325便a**: html の物理の部分の一致 ${rows.filter((r) => r.physOk === true).length} 本(段の宣言と台帳 —— 版名・説明の欄・文の表だけの差)`
     + ` / **不一致は FAIL のまま**(AG10 —— 走らせ直せば直る種類の FAIL で、html や器を変えた枝の`
     + `統合後は統括が再走する)。短縮 hash は表示用で、**判定は完全値**で行う`
     // 第320便d(R265): 違反は種類で数え、刻印の型以外を先に(判定は不変 —— tests/lib-w320d-lintkinds.mjs)
@@ -9962,8 +9974,10 @@ if (!TARGET.startsWith('beta/')) {
       const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'd0audit-w275b.json'), 'utf8');
       const J = JSON.parse(text);
       const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
-      else cases.push('html の SHA-256 一致');
+      // 第325便a(R284): 領域一致・html の物理の部分の一致(段の宣言と台帳)も通す —— 計画が走らせない段と同じ判定(版名・説明の欄だけの差で FAIL にしない)
+      const t325 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w325a-htmlphys.mjs'))).targetOk325(ROOT, J.meta, sha, (await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'))).htmlPhysDeclOfOut('tests/out/d0audit-w275b.json'));
+      if (!t325.ok) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
+      else cases.push(t325.how === 'exact' ? 'html の SHA-256 一致' : (t325.how === 'scope' ? '領域 hash の一致(刻印の html と版名・説明だけの差)' : 'html の物理の部分の一致(刻印の html と版名・説明だけの差)'));
       const rows = J.audit || [], S = J.auditSummary || {};
       // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit の母集団に 🥶 plutoCharonDiagInput があり ❄️ plutoCharonReal が無い(鎖の再生成の後)。
       //   🥶 が sampleClass:"calibration" へ入ったので監査の行(sampleClass:"calibration" の全本 —— 退役の ❄️ も宣言は残るので行は残る)は 39(較正 37 + 🪁🎋)→ 40(較正 38 + 🪁🎋)
@@ -10066,8 +10080,10 @@ if (!TARGET.startsWith('beta/')) {
       const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'd0sites-w276a.json'), 'utf8');
       const J = JSON.parse(text);
       const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
-      else cases.push('html の SHA-256 一致');
+      // 第325便a(R284): 領域一致・html の物理の部分の一致(段の宣言と台帳)も通す —— 計画が走らせない段と同じ判定(版名・説明の欄だけの差で FAIL にしない)
+      const t325 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w325a-htmlphys.mjs'))).targetOk325(ROOT, J.meta, sha, (await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'))).htmlPhysDeclOfOut('tests/out/d0sites-w276a.json'));
+      if (!t325.ok) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
+      else cases.push(t325.how === 'exact' ? 'html の SHA-256 一致' : (t325.how === 'scope' ? '領域 hash の一致(刻印の html と版名・説明だけの差)' : 'html の物理の部分の一致(刻印の html と版名・説明だけの差)'));
       if (!(J.selfCheck && J.selfCheck.ok === true))
         bad.push('② 抽出の自己検査が通っていない(' + JSON.stringify(J.selfCheck) + ')');
       else cases.push('潰しの収支 0(波括弧/丸括弧/角括弧)');
@@ -10155,8 +10171,10 @@ if (!TARGET.startsWith('beta/')) {
       const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgpredict-w276a.json'), 'utf8');
       const J = JSON.parse(text);
       const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
-      else cases.push('html の SHA-256 一致');
+      // 第325便a(R284): 領域一致・html の物理の部分の一致(段の宣言と台帳)も通す —— 計画が走らせない段と同じ判定(版名・説明の欄だけの差で FAIL にしない)
+      const t325 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w325a-htmlphys.mjs'))).targetOk325(ROOT, J.meta, sha, (await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'))).htmlPhysDeclOfOut('tests/out/bgpredict-w276a.json'));
+      if (!t325.ok) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
+      else cases.push(t325.how === 'exact' ? 'html の SHA-256 一致' : (t325.how === 'scope' ? '領域 hash の一致(刻印の html と版名・説明だけの差)' : 'html の物理の部分の一致(刻印の html と版名・説明だけの差)'));
       const rows = J.rows || [], S = J.summary || {};
       // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit の母集団に 🥶 plutoCharonDiagInput があり ❄️ plutoCharonReal が無い(鎖の再生成の後)。
       //   🥶 が sampleClass:"calibration" へ入ったので監査の行(sampleClass:"calibration" の全本 —— 退役の ❄️ も宣言は残るので行は残る)は 39(較正 37 + 🪁🎋)→ 40(較正 38 + 🪁🎋)
@@ -10234,8 +10252,10 @@ if (!TARGET.startsWith('beta/')) {
       const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'selfinertia-w277d.json'), 'utf8');
       const J = JSON.parse(text);
       const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
-      else cases.push('html の SHA-256 一致');
+      // 第325便a(R284): 領域一致・html の物理の部分の一致(段の宣言と台帳)も通す —— 計画が走らせない段と同じ判定(版名・説明の欄だけの差で FAIL にしない)
+      const t325 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w325a-htmlphys.mjs'))).targetOk325(ROOT, J.meta, sha, (await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'))).htmlPhysDeclOfOut('tests/out/selfinertia-w277d.json'));
+      if (!t325.ok) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
+      else cases.push(t325.how === 'exact' ? 'html の SHA-256 一致' : (t325.how === 'scope' ? '領域 hash の一致(刻印の html と版名・説明だけの差)' : 'html の物理の部分の一致(刻印の html と版名・説明だけの差)'));
       const H = J.hypothesis || {};
       if (H.engineConnected !== false) bad.push('② 仮説が「エンジン未接続」と宣言されていない');
       if (!H.notDerived || H.notDerived.indexOf('導出していない') < 0)
@@ -10317,8 +10337,10 @@ if (!TARGET.startsWith('beta/')) {
       const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgbudget-w277d.json'), 'utf8');
       const J = JSON.parse(text);
       const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
-      else cases.push('html の SHA-256 一致');
+      // 第325便a(R284): 領域一致・html の物理の部分の一致(段の宣言と台帳)も通す —— 計画が走らせない段と同じ判定(版名・説明の欄だけの差で FAIL にしない)
+      const t325 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w325a-htmlphys.mjs'))).targetOk325(ROOT, J.meta, sha, (await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'))).htmlPhysDeclOfOut('tests/out/bgbudget-w277d.json'));
+      if (!t325.ok) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
+      else cases.push(t325.how === 'exact' ? 'html の SHA-256 一致' : (t325.how === 'scope' ? '領域 hash の一致(刻印の html と版名・説明だけの差)' : 'html の物理の部分の一致(刻印の html と版名・説明だけの差)'));
       if (!J.gate || J.gate.declaredBeforeMeasuring !== true) bad.push('① 門が「測る前に宣言」になっていない');
       cases.push(`門「${J.gate.rule}」(σ_Buie=${J.gate.sigmaBuieS} s)`);
       // 第292便b(原仮定者の裁定(第82報)⑤・R138): 世代切替 has292b = 🌘 earthMoonRealKF1 が較正から principle へ(html に phenomenological-reference の宣言)—— 較正の行は 1 本減る(鎖の再生成の後)
@@ -10622,8 +10644,10 @@ if (!TARGET.startsWith('beta/')) {
       const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgcompose-w279c.json'), 'utf8');
       const J = JSON.parse(text);
       const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
-      else cases.push('html の SHA-256 一致');
+      // 第325便a(R284): 領域一致・html の物理の部分の一致(段の宣言と台帳)も通す —— 計画が走らせない段と同じ判定(版名・説明の欄だけの差で FAIL にしない)
+      const t325 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w325a-htmlphys.mjs'))).targetOk325(ROOT, J.meta, sha, (await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'))).htmlPhysDeclOfOut('tests/out/bgcompose-w279c.json'));
+      if (!t325.ok) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
+      else cases.push(t325.how === 'exact' ? 'html の SHA-256 一致' : (t325.how === 'scope' ? '領域 hash の一致(刻印の html と版名・説明だけの差)' : 'html の物理の部分の一致(刻印の html と版名・説明だけの差)'));
       const T = J.table;
       if (!(T.a.n >= 24 && T.a.ok === T.a.n && T.a.uRelMax <= 1e-14 && T.a.gradUTermRelMax <= 1e-14 && T.a.dUdtTermRelMax <= 1e-14))
         bad.push('② 分解→合成が直接計算と合わない: ' + JSON.stringify(T.a).slice(0, 140));
@@ -10966,8 +10990,10 @@ if (!TARGET.startsWith('beta/')) {
     try {
       const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'spherekernel-w280b.json'), 'utf8'));
       const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
-      else cases.push('html の SHA-256 一致');
+      // 第325便a(R284): 領域一致・html の物理の部分の一致(段の宣言と台帳)も通す —— 計画が走らせない段と同じ判定(版名・説明の欄だけの差で FAIL にしない)
+      const t325 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w325a-htmlphys.mjs'))).targetOk325(ROOT, J.meta, sha, (await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'))).htmlPhysDeclOfOut('tests/out/spherekernel-w280b.json'));
+      if (!t325.ok) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
+      else cases.push(t325.how === 'exact' ? 'html の SHA-256 一致' : (t325.how === 'scope' ? '領域 hash の一致(刻印の html と版名・説明だけの差)' : 'html の物理の部分の一致(刻印の html と版名・説明だけの差)'));
       const T = J.table;
       if (!(T.a.WRelAt100Max <= 5e-5 && T.a.ARelAt100Max <= 5e-5 && T.a.WRelAt10000Max <= 5e-9 && T.a.ARelAt10000Max <= 5e-9
         && T.a.shrinkWMin >= 90 && T.a.shrinkAMin >= 90)) bad.push('② 遠方の極限が崩れた: ' + JSON.stringify(T.a));
@@ -93800,6 +93826,202 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第324便d の塊(ここまで)====
+// ==== 第325便a の塊(ここから —— lint.htmlPhys325a・docs.w325a の 2 ブロック。root は SKIP)====
+// ---- 第325便a(原仮定者の指示(2026-11-03)「次便以降で、再生成の段の対象が宣言なしの場合、html全体にしない。html全体だと、版名が変わっただけや、説明文だけの修正でも
+// ----   走ってしまう」・原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・統括の検証項目 R284): lint.htmlPhys325a・docs.w325a
+// ----   lint.htmlPhys325a(**html の物理の部分の hash** —— tests/lib-w325a-htmlphys.mjs・再生成表の HTMLPHYS_DECL_325A・台帳 tests/data-w325a-htmlphys.json):
+// ----     ① 定義: 部分の版 w325a-htmlphys-1・外す本の表示の欄 = 領域 hash の版 6 の集合(PROSE_KEYS + name・claims/chain/massCalibration の note・abBody.label)・
+// ----        文の登録簿 = 版 6 の TEXT_REGISTRIES・既定の reads(code・presets・markup)= 再生成表の宣言の既定
+// ----     ② 門の小さな写し(今の html から QA の中で作る): 表示だけの写し(版名・本 1 本の name・descStruct.summary・en.name・obsCard の model・I18N の文 1 つ・注釈 1 行)は
+// ----        既定の reads が同じで build・presetFull:<id>・text:I18N・comments だけが違う / 物理の 1 文字(makeSim に void 0;・本の m の最下位桁・最初の数の定数の最下位桁)は
+// ----        既定の reads が違う(取りこぼし 0)
+// ----     ③ 移行の口: 刻印の html を候補のファイルから sha で引く(findHtmlBySha)・台帳だけの照合(台帳に無ければ「台帳に無い」)・targetOk325 の 3 つの道(exact・htmlphys・不一致)
+// ----     ④ 棚卸しの表: html 全体を刻む現行の段(htmlWholeSteps)= 段の宣言の鍵(**新しく html 全体を刻む段が入れば名指しで落ちる**・宣言だけ残った段も落ちる)・whole は常時群だけ・reads の名
+// ----     ⑤ 台帳: 版・物理の部分の宣言のある段の正本の刻印(今の html と違う分)が台帳にある(無ければ node tools/regen-plan.mjs --htmlphys-record)・今の html の行があれば今の部分と同じ・
+// ----        行の版(rev)が手元の git にあれば blob から引き直して同じ(浅い checkout では数えるだけ)
+// ----     ⑥ 計画: planRegen(only = 宣言のある段)で、刻印が台帳にある段の理由に html(全体)が無い・htmlPhys:false で第324便までの判定(html)に戻る
+// ----   docs.w325a: PHYSICS〔第325便a — 〕(〔第324便 — 統括〕の後・「## 7.」の前)・AI_SPEC §176・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const os325a = (await import('node:os')).default, { execFileSync: xfs325a } = await import('node:child_process');
+  const rd325a = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.htmlPhys325a・docs.w325a(beta 対象でない: ' + TARGET + ' —— 再生成の道具は beta 線)');
+    return;
+  }
+  const imp325a = async (f, bad) => { try { return await import('file://' + path.join(ROOT, f)); } catch (e) { bad.push(f + ' が読めない: ' + String(e && e.message || e).slice(0, 80)); return null; } };
+  // ---- lint.htmlPhys325a
+  {
+    const bad = [], cases = [];
+    const RT = await imp325a('tests/lib-w281a-regentable.mjs', bad), HPX = await imp325a('tests/lib-w325a-htmlphys.mjs', bad), SC = await imp325a('tests/lib-w281a-scope.mjs', bad);
+    if (RT && HPX && SC) {
+      const t0 = Date.now();
+      // ① 定義
+      const same = (a, b) => JSON.stringify([...a].sort()) === JSON.stringify([...b].sort());
+      if (HPX.HTMLPHYS_VERSION !== 'w325a-htmlphys-1' || RT.HTMLPHYS_DECL_VERSION_325A !== 'w325a-htmlphysdecl-1' || HPX.HTMLPHYS_LEDGER_VERSION !== 'w325a-htmlphys-ledger-1') bad.push('① 版');
+      if (!same(HPX.PROSE_325A.top, SC.PROSE_KEYS.concat(SC.PROSE_KEYS_ADDED_318))) bad.push('① 本の表示の欄が領域 hash の版 6 の集合と違う');
+      if (!(same(HPX.PROSE_325A.claim, SC.CLAIM_PROSE_KEYS) && same(HPX.PROSE_325A.chain, SC.CHAIN_PROSE_KEYS) && same(HPX.PROSE_325A.massCalibration, SC.MASSCAL_PROSE_KEYS) && same(HPX.PROSE_325A.abBody, SC.AB_BODY_PROSE_KEYS))) bad.push('① claims・chain・massCalibration・abBody の表示の欄が版 6 と違う');
+      if (!same(HPX.TEXT_REGISTRIES_325A, SC.TEXT_REGISTRIES)) bad.push('① 文の登録簿が版 6 の TEXT_REGISTRIES と違う');
+      if (JSON.stringify(HPX.HTMLPHYS_DEFAULT_READS) !== JSON.stringify(['code', 'presets', 'markup'])) bad.push('① 既定の reads');
+      cases.push(`① 版 ${HPX.HTMLPHYS_VERSION}・外す欄 = 領域 hash 版 6(表示の欄 ${HPX.PROSE_325A.top.length}・文の登録簿 ${HPX.TEXT_REGISTRIES_325A.length}・生成領域 ${HPX.STRIP_REGIONS_325A.join(',')}・${HPX.TEXT_REGIONS_325A.join(',')})・既定の reads ${HPX.HTMLPHYS_DEFAULT_READS.join('・')}`);
+      // ② 門の小さな写し
+      const tmp = fs.mkdtempSync(path.join(os325a.tmpdir(), 'w325a-qa-'));
+      try {
+        const H = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+        const now = HPX.htmlPhysParts(path.join(ROOT, TARGET));
+        if (!now.complete) bad.push('② 今の html の部分が引けない: ' + now.detail.why.slice(0, 2).join(' / '));
+        const span = (h, id) => { const a = h.indexOf('{ id:"' + id + '"'); const b = h.indexOf('\n{ id:"', a + 10); return a < 0 ? null : [a, b < 0 ? h.length : b]; };
+        const ins = (h, a, b, nd, mk) => { const i = h.indexOf(nd, a); return (i < 0 || i >= b) ? null : h.slice(0, i + nd.length) + mk + h.slice(i + nd.length); };
+        // 表示の欄(name・descStruct.summary・en.name・obsCard の model)と m の数を持つ最初の本
+        const pick = (() => { for (const id of ['gw150914'].concat(Object.keys(now.parts.presetFull))) { const sp = span(H, id); if (!sp) continue; const t = H.slice(sp[0], sp[1]);
+          if (['name:"', 'summary:"', 'en:{name:"', 'obsCard:[', 'model:"'].every((z) => t.indexOf(z) >= 0) && /\bm:\s*\d+\.\d*[1-9]/.test(t)) return id; } return null; })();
+        if (!pick) bad.push('② 表示の欄と m の数を持つ本が無い');
+        else {
+          let D = H.replace(/(const BETA_BUILD = ")([^"]*)(")/, '$1$2-w325a$3');
+          for (const nd of ['name:"', 'summary:"', 'en:{name:"']) { const sp = span(D, pick); D = ins(D, sp[0], sp[1], nd, '※') || D; }
+          { const sp = span(D, pick); D = ins(D, D.indexOf('obsCard:[', sp[0]), sp[1], 'model:"', '※') || D; }
+          D = ins(D, D.indexOf('const I18N'), D.length, 'betaShared:(b)=>`', '※') || D;
+          D = D.replace('\nfunction makeSim(', '\n// 第325便a の QA の写し(注釈だけ)\nfunction makeSim(');
+          // code の中の表示の文の対(最初の makeSim より後の {ja:"…", en:"…"} —— 本の配列・文の登録簿の外)
+          let pairAt = -1;
+          { const re = new RegExp(HPX.TEXT_PAIR_RE_325A.source, 'g'); re.lastIndex = D.indexOf('\nfunction makeSim('); let m;
+            while ((m = re.exec(D))) { if (m[1] !== m[3]) { pairAt = m.index; break; } } }
+          if (pairAt < 0) bad.push('② code の中に表示の文の対が無い'); else D = D.slice(0, pairAt) + D.slice(pairAt).replace(/(\{\s*(?:ja|en)\s*:\s*["'])/, '$1※');
+          const pd = HPX.htmlPhysPartsOfText(D, { tmpDir: tmp });
+          const cD = HPX.physCompare(now.parts, pd.parts, ['code', 'presets', 'markup', 'build', 'presetFull:' + pick, 'presetPhys:' + pick, 'presetIds', 'text:I18N', 'comments', 'textPairs']);
+          if (!(pd.complete && JSON.stringify(cD.diff.slice().sort()) === JSON.stringify(['build', 'comments', 'presetFull:' + pick, 'text:I18N', 'textPairs'].sort()) && !cD.missing.length)) bad.push('② 表示だけの写しの差が build・presetFull・text:I18N・comments・textPairs でない: ' + cD.diff.join(',') + (cD.missing.length ? ' / 欠け ' + cD.missing.join(',') : ''));
+          if (!HPX.physCompare(now.parts, pd.parts, HPX.HTMLPHYS_DEFAULT_READS).same) bad.push('② 表示だけの写しで既定の reads が違う');
+          const pa = SC.touchFunction(H, 'makeSim');
+          const sp = span(H, pick), re = /(\bm:\s*)(\d+\.\d*[1-9])/g; re.lastIndex = sp[0]; const mm = re.exec(H);
+          const v = mm[2], v2 = v.slice(0, -1) + String(Number(v[v.length - 1]) === 9 ? 8 : Number(v[v.length - 1]) + 1);
+          const PB = H.slice(0, mm.index) + mm[1] + v2 + H.slice(mm.index + mm[0].length);
+          const mc = /\nconst ([A-Z][A-Z0-9_]*) ?= ?(\d+\.\d*[1-9]);/.exec(H.slice(H.indexOf('<script>')));
+          const PC = mc ? H.replace(mc[0], mc[0].replace(/(\d)(;)$/, (z, d, e) => String(Number(d) === 9 ? 8 : Number(d) + 1) + e)) : null;
+          if (!pa.ok || !PC) bad.push('② 物理の写しが作れない');
+          const rows = [];
+          for (const [nm, txt, want] of [['步の関数 makeSim に void 0;', pa.html, 'code'], ['本 ' + pick + ' の m ' + v + '→' + v2, PB, 'presets'], ['定数 ' + (mc ? mc[1] : '?'), PC, 'code']]) {
+            if (!txt) continue;
+            const pp = HPX.htmlPhysPartsOfText(txt, { tmpDir: tmp });
+            const c = HPX.physCompare(now.parts, pp.parts, HPX.HTMLPHYS_DEFAULT_READS);
+            rows.push(nm + ' → ' + (c.diff.join(',') || '同じ'));
+            if (c.same || c.diff.indexOf(want) < 0) bad.push('② 物理の写し「' + nm + '」で既定の reads の ' + want + ' が違わない(取りこぼし)');
+            if (want === 'presets' && HPX.partValue(now.parts, 'presetPhys:' + pick) === HPX.partValue(pp.parts, 'presetPhys:' + pick)) bad.push('② 物理の写し「' + nm + '」で presetPhys:' + pick + ' が違わない(取りこぼし)');
+          }
+          cases.push(`② 写し(本 ${pick}): 表示だけ(版名・name・summary・en.name・obsCard の model・I18N・注釈・code の中の表示の文の対)→ 既定の reads は同じ・差は ${cD.diff.join('・')} / 物理の 1 文字: ${rows.join(' / ')}`);
+          // ③ 移行の口
+          const f0 = path.join(tmp, 'stamp.html'); fs.writeFileSync(f0, D);
+          const shaD = crypto.createHash('sha256').update(Buffer.from(D, 'utf8')).digest('hex');
+          const fh = HPX.findHtmlBySha({ root: ROOT, sha: shaD, files: [f0], gitDepth: 0 }), fn = HPX.findHtmlBySha({ root: ROOT, sha: '0'.repeat(64), files: [f0], gitDepth: 0 });
+          if (!(fh && fh.from === 'file:' + f0 && fn === null)) bad.push('③ findHtmlBySha(候補のファイルから sha で引く)');
+          const metaD = { target: 'beta/index.html', targetSha256: shaD };
+          const L1 = { version: HPX.HTMLPHYS_LEDGER_VERSION, entries: { [shaD]: HPX.ledgerEntry(pd, null, 'qa') } };
+          const decl0 = { reads: HPX.HTMLPHYS_DEFAULT_READS.slice() };
+          const k1 = HPX.targetOk325(ROOT, metaD, now.sha256, decl0, { ledger: L1 }), k2 = HPX.targetOk325(ROOT, metaD, now.sha256, decl0, { ledger: { entries: {} } });
+          const k3 = HPX.targetOk325(ROOT, Object.assign({}, metaD, { targetSha256: now.sha256 }), now.sha256, decl0), k4 = HPX.targetOk325(ROOT, metaD, now.sha256, { reads: ['code', 'presets', 'markup', 'build'] }, { ledger: L1 });
+          const k5 = HPX.targetOk325(ROOT, metaD, now.sha256, null, { ledger: L1 });
+          if (!(k1.ok && k1.how === 'htmlphys' && !k2.ok && /台帳/.test(k2.why) && k3.ok && k3.how === 'exact' && !k4.ok && /build/.test(k4.why) && !k5.ok)) bad.push('③ targetOk325 の道(' + [k1, k2, k3, k4, k5].map((z) => (z.ok ? z.how : 'NG')).join(',') + ')');
+          cases.push('③ 移行の口: 刻印の html を候補のファイルから sha で引く・台帳だけの照合(台帳に無ければ「' + k2.why.slice(0, 30) + '…」)・targetOk325 = exact / htmlphys / build を読む段は不一致 / 宣言なしは不一致');
+        }
+      } catch (e) { bad.push('② ③ 写しの照合が回らない: ' + String(e && e.message || e).slice(0, 100)); }
+      finally { try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) { /* 残っても害は無い */ } }
+      // ④ 棚卸しの表
+      const D325 = RT.HTMLPHYS_DECL_325A, whole = RT.htmlWholeSteps({ root: ROOT });
+      const noDecl = whole.filter((k) => !Object.prototype.hasOwnProperty.call(D325, k)), stale = Object.keys(D325).filter((k) => whole.indexOf(k) < 0);
+      if (noDecl.length) bad.push('④ html 全体を刻む段に物理の部分の宣言が無い(HTMLPHYS_DECL_325A に足す): ' + noDecl.join(','));
+      if (stale.length) bad.push('④ 宣言だけ残った段(今は html 全体を刻まない —— 宣言を外す): ' + stale.join(','));
+      for (const [k, d] of Object.entries(D325)) {
+        const st = RT.REGEN_STEPS.find((z) => z.key === k);
+        if (d.whole) { if (!(st && st.alwaysRun)) bad.push('④ whole は常時群だけ: ' + k); continue; }
+        const pr = HPX.readsProblems(d.reads);
+        if (pr.length) bad.push('④ ' + k + ' の reads: ' + pr.join(','));
+        if (!HPX.HTMLPHYS_REQUIRED_READS.every((z) => d.reads.indexOf(z) >= 0)) bad.push('④ ' + k + ' の reads が code・markup を含まない');
+        if (d.reads.indexOf('presets') < 0 && !d.reads.some((z) => /^preset(Full|Phys):/.test(z)) && !/内蔵の本を読まない/.test(d.why)) bad.push('④ ' + k + ' の reads に本が無い(本を読まないなら why に「内蔵の本を読まない」)');
+        if (!(typeof d.why === 'string' && d.why.length > 10)) bad.push('④ ' + k + ' の why');
+      }
+      for (const k of ['d0audit2', 'selfinertia']) if (D325[k] && JSON.stringify(D325[k].reads) !== JSON.stringify(HPX.HTMLPHYS_RAW_READS)) bad.push('④ 生の行を読む段 ' + k + ' の reads が HTMLPHYS_RAW_READS(版名の外を全部)と違う');
+      cases.push(`④ html 全体を刻む段 ${whole.length}(宣言 ${Object.keys(D325).length} —— 物理の部分 ${Object.values(D325).filter((d) => !d.whole).length}〔本を名指し ${Object.values(D325).filter((d) => !d.whole && d.reads.indexOf('presets') < 0).length}・生の行 ${Object.values(D325).filter((d) => !d.whole && d.reads.indexOf('comments') >= 0).length}〕・html 全体のまま〔常時群〕 ${Object.values(D325).filter((d) => d.whole).length})`);
+      // ⑤ 台帳
+      const L = HPX.readLedger(ROOT);
+      if (!(L.version === HPX.HTMLPHYS_LEDGER_VERSION && L.entries && typeof L.entries === 'object')) bad.push('⑤ 台帳の版');
+      const nowSha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      const need = new Set();
+      for (const [k, d] of Object.entries(D325)) {
+        if (d.whole) continue;
+        const st = RT.REGEN_STEPS.find((z) => z.key === k);
+        for (const f of ((st && st.outs) || [])) { let m = null; try { m = JSON.parse(rd325a(f)).meta; } catch (e) { m = null; }
+          if (m && m.target === 'beta/index.html' && !(m.scope && m.scopeComplete === true) && m.targetSha256 && m.targetSha256 !== nowSha) need.add(m.targetSha256); }
+      }
+      const lack = [...need].filter((s) => !HPX.ledgerParts(L, s));
+      if (lack.length) bad.push('⑤ 台帳に刻印の html の行が無い(node tools/regen-plan.mjs --htmlphys-record で入れる —— 入れなければ器を走らせ直すこと): ' + lack.map((z) => z.slice(0, 12)).join(','));
+      for (const [s, e] of Object.entries(L.entries || {})) if (!(HPX.HTMLPHYS_VERSIONS.indexOf(e.version) >= 0 && e.parts && e.complete === true)) bad.push('⑤ 台帳の行 ' + s.slice(0, 12) + ' の版・部分');
+      let nGit = 0, nNoGit = 0;
+      if (L.entries && L.entries[nowSha] && HPX.ledgerParts(L, nowSha) && JSON.stringify(HPX.ledgerParts(L, nowSha)) !== JSON.stringify(HPX.htmlPhysParts(path.join(ROOT, TARGET)).parts)) bad.push('⑤ 台帳の今の html の行が今の部分と違う');
+      for (const s of need) {
+        const e = L.entries && L.entries[s];
+        if (!e || !e.rev) { nNoGit++; continue; }
+        let buf = null;
+        try { buf = xfs325a('git', ['-C', ROOT, 'show', e.rev + ':beta/index.html'], { maxBuffer: 1 << 30, stdio: ['ignore', 'pipe', 'ignore'] }); } catch (er) { buf = null; }
+        if (!buf || crypto.createHash('sha256').update(buf).digest('hex') !== s) { nNoGit++; continue; }
+        nGit++;
+        if (JSON.stringify(HPX.htmlPhysPartsOfText(buf).parts) !== JSON.stringify(e.parts)) bad.push('⑤ 台帳の行 ' + s.slice(0, 12) + ' が git の blob(' + e.rev.slice(0, 7) + ')から引き直した部分と違う');
+      }
+      cases.push(`⑤ 台帳 ${Object.keys(L.entries || {}).length} 行・要る刻印 ${need.size}(台帳に無い ${lack.length})・git の blob から引き直して同じ ${nGit}・手元の git に無い ${nNoGit}`);
+      // ⑥ 計画
+      const keys = Object.keys(D325).filter((k) => !D325[k].whole);
+      const p1 = RT.planRegen({ root: ROOT, only: keys }), p0 = RT.planRegen({ root: ROOT, only: keys, htmlPhys: false });
+      const stampOf = (k) => { const st = RT.REGEN_STEPS.find((z) => z.key === k); try { return JSON.parse(rd325a(st.outs[0])).meta.targetSha256; } catch (e) { return null; } };
+      let nUsed = 0, nPhys = 0;
+      for (const r of p1.steps) {
+        const s = stampOf(r.key);
+        if (!s || s === nowSha || !HPX.ledgerParts(L, s)) continue;
+        if ((r.causeKinds || []).includes('html')) bad.push('⑥ ' + r.key + ' の理由が html 全体のまま(台帳に刻印がある)');
+        if (r.htmlPhysUsed) nUsed++; else if ((r.causeKinds || []).includes('htmlphys')) nPhys++;
+        const r0 = p0.steps.find((z) => z.key === r.key);
+        if (!(r0 && (r0.causeKinds || []).includes('html'))) bad.push('⑥ ' + r.key + ' は htmlPhys:false で html(第324便までの判定)にならない');
+      }
+      cases.push(`⑥ 計画(宣言のある段 ${keys.length}): 物理の部分が同じで走らせない ${nUsed}・物理の部分が違う ${nPhys}・htmlPhys:false で全部 html(第324便までの判定)/ ${((Date.now() - t0) / 1000).toFixed(1)} s`);
+    }
+    add('lint.htmlPhys325a', bad.length === 0,
+      `**html の物理の部分の hash**(第325便a・原仮定者の指示(2026-11-03)「再生成の段の対象が宣言なしの場合、html全体にしない」・統括の検証項目 R284): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- docs.w325a
+  {
+    const bad = [];
+    const PH = rd325a('docs/PHYSICS.md'), a325 = PH.indexOf('〔第325便a — ');
+    const sec = a325 < 0 ? '' : PH.slice(a325, (() => { const e = [PH.indexOf('\n〔第', a325 + 10), PH.indexOf('\n## 7.', a325)].filter((k) => k > a325); return e.length ? Math.min(...e) : undefined; })());
+    const rv = (s) => [...s].reverse().join('');
+    const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);
+    const NOT = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'たため確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転逆の星金', 'たし明説をータマクーダ'].map(rv);
+    if (!sec) bad.push('PHYSICS〔第325便a〕が無い');
+    else {
+      const i7 = PH.indexOf('\n## 7.'), iG = PH.indexOf('〔第324便 — 統括');
+      if (!(a325 < i7 && iG >= 0 && iG < a325)) bad.push('節の位置(〔第324便 — 統括〕の後・「## 7.」の前)');
+      for (const [b, k] of [['b', PH.indexOf('〔第325便b — ')], ['c', PH.indexOf('〔第325便c — ')], ['d', PH.indexOf('〔第325便d — ')]]) if (k >= 0 && k < a325) bad.push('〔第325便' + b + '〕が〔第325便a〕の前');
+      for (const w of ['R284', 'w325a-htmlphys-1', 'w325a-htmlphysdecl-1', 'HTMLPHYS_DECL_325A', 'tests/data-w325a-htmlphys.json', '--htmlphys-record', '--no-htmlphys', 'htmlPhysUsed', 'htmlphys',
+        'lint.htmlPhys325a', 'targetOk325', 'BETA_BUILD', 'sample-status', 'presetFull', 'comments', '**表 1', '**表 2'])
+        if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第325便a〕に「' + w + '」が無い');
+    }
+    const AI = rd325a('docs/AI_SPEC.md'), ai176 = (() => { const m = /\n## 176\. 第325便a[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+    if (!(ai176 && ai176.indexOf('R284') >= 0 && ai176.indexOf('HTMLPHYS_DECL_325A') >= 0 && ai176.indexOf('--htmlphys-record') >= 0)) bad.push('AI_SPEC §176');
+    const CL = rd325a('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+    const cl325 = (clb.split('\n').find((l) => l.indexOf('**第325便a**') >= 0)) || '';
+    if (!cl325) bad.push('CHANGELOG の beta 節に第325便a の行が無い');
+    const TR = rd325a('tools/README.md'), PM = rd325a('tools/post-merge-qa.sh');
+    if (!(TR.indexOf('第325便a') >= 0 && TR.indexOf('--htmlphys-record') >= 0 && TR.indexOf('--no-htmlphys') >= 0)) bad.push('tools/README に第325便a の口(--htmlphys-record・--no-htmlphys)が無い');
+    if (!(PM.indexOf('# ==== 第325便a の塊(ここから)====') >= 0 && /lint\.htmlPhys325a/.test(PM) && /docs\.w325a/.test(PM))) bad.push('post-merge の ③′ に第325便a の塊(lint.htmlPhys325a・docs.w325a)が無い');
+    for (const [nm, tx] of [['PHYSICS〔第325便a〕', sec], ['AI_SPEC §176', ai176], ['CHANGELOG の第325便a の行', cl325]]) {
+      for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+      for (const w of NOT) if (tx.indexOf(w) >= 0) bad.push(nm + ' に書かない語(' + w.length + ' 字)');
+      if (tx.indexOf(String.fromCharCode(0x3ba)) >= 0) bad.push(nm + ' に裸の係数記号');
+    }
+    add('docs.w325a', bad.length === 0,
+      `**html の物理の部分の文書**(第325便a・統括の検証項目 R284): PHYSICS〔第325便a〕(〔第324便 — 統括〕の後・「## 7.」の前)・AI_SPEC §176・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ' —— すべてあり'));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第325便a の塊(ここまで)====
 
 // ==== 第324便c の塊(ここから)====
 // ---- 第324便c(統括の検証項目 R281 —— 道具の続き: 第323便の統括の手順で決めたこと・決断事項 AN516・AN517/AN518): lint.quickBoundary324c・lint.calVolatile324c・lint.postMergeCounts324c・docs.w324c ----
