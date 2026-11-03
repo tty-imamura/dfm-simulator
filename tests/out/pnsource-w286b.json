@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便b",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-02T23:46:49.678Z",
+  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+  "generatedAt": "2026-11-03T16:23:39.887Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7612995,
+    "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+    "mtime": "2026-11-03T15:04:48.828Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
@@ -20,15 +20,15 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1732174,
-    "sha256": "86979630a48c7dffb667fac00e962d12c2171e586a74e9bf9d5a31234052ce0b",
-    "mtime": "2026-11-02T21:29:02.035Z"
+    "bytes": 1732313,
+    "sha256": "f4bf0cb70732e4235969805b06790cd2277926f4d274bd962f1c827d039f8183",
+    "mtime": "2026-11-03T15:17:19.184Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "bytes": 52251,
-    "sha256": "0bf28d402b1e0890f5797e3d2b4ac139201388beefccf1914e632f0a00a83abd",
-    "mtime": "2026-11-02T21:34:04.431Z"
+    "bytes": 52249,
+    "sha256": "7b3c0c07664bc5b86863b5217d425b1fae93505123c0ced110b543e54f783e28",
+    "mtime": "2026-11-03T15:23:12.884Z"
    },
    {
     "file": "tests/data-w286b-clight.json",
@@ -107,14 +107,14 @@
    "complete": true,
    "names": 1357,
    "segments": 1183,
-   "closureShare": 0.2964
+   "closureShare": 0.2957
   },
-  "scopeSha256": "cbc06f8f5b7f94e3c401b37707fb064e77c50277de7c8dd605273e014b63a076",
+  "scopeSha256": "b918bf194848458df68709f077d7637cc8f51af791860e0ced431618a27a76dd",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "67eff07e78c8850cdeaa7aeef4640326199262aa290c94cf662fd78157e1a9c4",
+    "stableSha256": "ecb56335e0987afa4c37383777985d8e19982a8f44e78197064126bece67e464",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -155,7 +155,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "a7a15b09870c04daece9dddcc0b0a0e20ed3400628d196133a3b89ce64b916e3",
+    "stableSha256": "c780f9e55070197c42f53778f7f7b2a4ff8f3f9edb68c0795520b6f80c21d25f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -185,7 +185,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "0c0f5c64d403d74ae777013c9c8a24f2b6b5997861451c0c607e3c8204349ee2",
+    "stableSha256": "b67a2b6cf54e538b92e8530db3baa724f6c9510c46b8a29f67c3268c0a079c48",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -211,7 +211,7 @@
   "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+ "nowSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
  "note": "判定はしない(正式判定は鎖の calaudit の 3σ 門)。比は λ_PN=1 と 0 の近点増分を GR の主次数(同じ走行の c・接触要素)で割った量 —— λ 増分の一致と λ=1 の実軌道の観測一致は別。Δϖ は deg/周(ω̇ deg/年ではない)。S._core は 1 命令も変えていない。",
  "P": {
   "cond": {
@@ -2016,9 +2016,9 @@
    {
     "id": "ngc3198DFM",
     "declared": true,
-    "bitSame1": true,
-    "bitSameMany": true,
-    "maxPosMany": 0,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 4.335281207908254,
     "sigSame": false,
     "nan": false
    },
@@ -2300,6 +2300,7 @@
    "psrB1534CF",
    "gw150914Merge4s",
    "gw150914SpinDipole",
+   "ngc3198DFM",
    "saturnZonalD68",
    "saturnD68Consistent",
    "saturnD68ObsOrbit",
@@ -2359,6 +2360,7 @@
    "psrB1534CF",
    "gw150914Merge4s",
    "gw150914SpinDipole",
+   "ngc3198DFM",
    "saturnZonalD68",
    "saturnD68Consistent",
    "saturnD68ObsOrbit",
@@ -2450,7 +2452,7 @@
   ],
   "n": 142,
   "declaredN": 52,
-  "bitSameMany": 85,
+  "bitSameMany": 84,
   "sigSame": 62,
   "changedUndeclared": [
    "galaxyGeo2",
@@ -2506,7 +2508,6 @@
    "tuc47",
    "tuc47DFM",
    "ngc3198",
-   "ngc3198DFM",
    "supernovaProg",
    "supernovaProgDFM",
    "crabRemnant"
@@ -2524,13 +2525,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.08,
+   "wallSec": 0.106,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.115,
+   "wallSec": 0.172,
    "errors": 0
   }
  },
- "elapsedS": 471.782
+ "elapsedS": 507.91
 }

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-03T02:22:11.180Z",
+  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+  "generatedAt": "2026-11-03T16:11:57.411Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7612995,
+    "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+    "mtime": "2026-11-03T15:04:48.828Z"
    }
   ],
   "code": [
@@ -57,9 +57,9 @@
    "complete": true,
    "names": 1357,
    "segments": 1183,
-   "closureShare": 0.2955
+   "closureShare": 0.2949
   },
-  "scopeSha256": "3828e1660992ba984226d6a9acc92827a92936252c6342cf4a681c934f6f5f5b",
+  "scopeSha256": "d87ea9493c92a78a962d2300bb7ac4881211c6cc85898ca7ffaf5c9559179b95",
   "scopeComplete": true
  },
  "nPresets": 186,
@@ -1974,7 +1974,7 @@
   {
    "id": "mercurySunInertialFit",
    "emoji": "🟫",
-   "name": "水星と太陽(慣性決定力版・フィット)— 近点率に合わせた gain",
+   "name": "水星と太陽(慣性決定力版・フィット)— 近点率に合わせた W_bg",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -2100,7 +2100,7 @@
   {
    "id": "saturnRingInertial3d",
    "emoji": "🍩",
-   "name": "土星の輪(慣性決定力版・三次元)— gain 0 の基準",
+   "name": "土星の輪(慣性決定力版・三次元)— 引きずり OFF の基準",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -2703,8 +2703,8 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "2ba67776",
-   "bodiesSha256": "308a1b473fb031d1d2c9f8b698e7992d8c87df41e94f2b9000a869d92548f4df"
+   "presetSigHash": "a3c03e88",
+   "bodiesSha256": "3b373c214938bccd64153ab63232526dc2fd8dd520fef0ca27960e48053f7f75"
   },
   {
    "id": "psrDoubleAB",
@@ -2793,7 +2793,7 @@
   {
    "id": "psrJ1757DFM",
    "emoji": "🧮",
-   "name": "PSR J1757−1854(実単位)— 観測質量(f=1)の中性子星連星2例目",
+   "name": "PSR J1757−1854(実単位)— 観測質量の中性子星連星2例目",
    "sampleClass": "calibration",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -2814,7 +2814,7 @@
   {
    "id": "psrJ1946DFM",
    "emoji": "🩺",
-   "name": "PSR J1946+2052(実単位)— 観測質量(f=1)の銀河系で最短周期の中性子星連星",
+   "name": "PSR J1946+2052(実単位)— 観測質量の銀河系で最短周期の中性子星連星",
    "sampleClass": "calibration",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -3444,7 +3444,7 @@
   {
    "id": "ngc3198DFM",
    "emoji": "🛞",
-   "name": "NGC 3198(DFM版)— 恒星質量(f★=1)+自由中心核のアナロジー",
+   "name": "NGC 3198(DFM版)— 恒星質量+自由中心核のアナロジー",
    "sampleClass": "principle",
    "kFrame": 1,
    "kFrameApprox": null,
@@ -3459,8 +3459,8 @@
    "softening": 1,
    "geoPN": 0,
    "nBodyDecl": 3,
-   "presetSigHash": "7fa984c",
-   "bodiesSha256": "f32bc99af5ce7ae9b9a24eff0965972d8ccd1cbc9d9e24a2e2d20a779ffbc35f"
+   "presetSigHash": "761fbca5",
+   "bodiesSha256": "28f99a517b0488b3e1dd3d47009278f573bf8d6d083d538cc5bb16d7b9bb2b66"
   },
   {
    "id": "supernovaProg",

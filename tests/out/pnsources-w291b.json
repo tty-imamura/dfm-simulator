@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便b",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-02T21:51:32.539Z",
+  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+  "generatedAt": "2026-11-03T16:38:53.947Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7612995,
+    "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+    "mtime": "2026-11-03T15:04:48.828Z"
    }
   ],
   "code": [
@@ -121,9 +121,9 @@
    "complete": true,
    "names": 1363,
    "segments": 1189,
-   "closureShare": 0.2975
+   "closureShare": 0.2968
   },
-  "scopeSha256": "3b1c0ad15d4dc52664d5dc7a7dc55db964fbc11cf92214e8c78975d3d68c4705",
+  "scopeSha256": "984b7858d85cf8d7de6736dea4d87594556292f2678338b0a89c53dfc19cdc49",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -174,7 +174,7 @@
   "pn1Version": "w285b-eih-1",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+ "nowSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
  "A": {
   "n": 186,
   "kf0Books": 28,
@@ -206,7 +206,7 @@
  "B": {
   "steps": 24,
   "dt": 0.016,
-  "bitSame": 100,
+  "bitSame": 99,
   "changed": [
    "earthMoonReal",
    "emAuditNewton",
@@ -224,17 +224,22 @@
    "plutoCharonDiagInput",
    "uranusReal",
    "neptuneReal",
+   "ngc3198DFM",
    "saturnZonalD68",
    "saturnD68Consistent",
    "saturnRingReal",
    "binary"
   ],
-  "changedNotIncreased": [],
+  "changedNotIncreased": [
+   "ngc3198DFM"
+  ],
   "increasedUnchanged": [
    "saturnD68ObsOrbit"
   ],
   "sigSame": 69,
-  "sigDiff": [],
+  "sigDiff": [
+   "ngc3198DFM"
+  ],
   "newInNow": [
    "galaxyGeo2Flat3d",
    "galaxyGeo2Thick3d",
@@ -373,7 +378,6 @@
    "gw150914SpinDipole",
    "tuc47",
    "ngc3198",
-   "ngc3198DFM",
    "supernovaProg",
    "crabRemnant",
    "saturnZonalD68",
@@ -4695,7 +4699,7 @@
   {
    "id": "chainDiskToy",
    "emoji": "🔗",
-   "role": null,
+   "role": "retired",
    "cls": "principle",
    "n": 81,
    "geoPN": 4,
@@ -4722,7 +4726,7 @@
   {
    "id": "chainDiskToy3d",
    "emoji": "🔩",
-   "role": null,
+   "role": "retired",
    "cls": "principle",
    "n": 81,
    "geoPN": 4,
@@ -4749,7 +4753,7 @@
   {
    "id": "chainDiskToy3dTilt",
    "emoji": "🪛",
-   "role": null,
+   "role": "retired",
    "cls": "principle",
    "n": 81,
    "geoPN": 4,
@@ -4776,7 +4780,7 @@
   {
    "id": "chainSpreadToy3d",
    "emoji": "🍥",
-   "role": null,
+   "role": "retired",
    "cls": "principle",
    "n": 81,
    "geoPN": 4,
@@ -4803,7 +4807,7 @@
   {
    "id": "chainBurstShell3d",
    "emoji": "🧨",
-   "role": null,
+   "role": "retired",
    "cls": "principle",
    "n": 41,
    "geoPN": 4,
@@ -5195,14 +5199,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
+   "bitSame": false,
    "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true,
+   "timeStdOnly": false,
    "coord3d299": false
   },
   {
@@ -5910,11 +5914,11 @@
   }
  ],
  "verdict": {
-  "changedOnlyWhereSourcesIncreased": true,
+  "changedOnlyWhereSourcesIncreased": false,
   "increasedButBitSame": [
    "saturnD68ObsOrbit"
   ],
-  "sigAllSame": true,
+  "sigAllSame": false,
   "oracle1e12": true,
   "mercuryDeltaZero": true,
   "radiusIndependent": true,
@@ -5932,13 +5936,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.102,
+   "wallSec": 0.097,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.151,
+   "wallSec": 0.132,
    "errors": 0
   }
  },
- "elapsedS": 134.139
+ "elapsedS": 138.387
 }
