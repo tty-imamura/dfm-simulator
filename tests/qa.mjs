@@ -94513,7 +94513,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (miss.length) bad.push('PHYSICS〔第325便e〕に写しの数が無い: ' + miss.join(' '));
         cases.push('PHYSICS の前後の数 ' + (want.length - miss.length) + '/' + want.length);
       } else bad.push('写しが読めない');
-      for (const w of ['AN528', 'R288', 'ngc3198DFM', 'f-fixed-1', 'tests/fixtures/realmass-w325e.json', 'preset.realMassF1325e', 'supernovaCore', 'whiteDwarfDFM', 'whiteDwarfBareDFM', 'envelopeShedDFM', 'lfbotTrap', '**言わないこと。**'])
+      for (const w of ['AN528', 'R288', 'ngc3198DFM', 'f-fixed-1', 'tests/fixtures/realmass-w325e.json', 'preset.realMassF1325e', 'supernovaCore', 'whiteDwarfDFM', 'whiteDwarfBareDFM', 'envelopeShedDFM', 'lfbotTrap', '言わないこと。**'])
         if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第325便e〕に「' + w + '」が無い');
     }
     const AI = rd325e('docs/AI_SPEC.md'), ai180 = (() => { const m = /\n## 180\. 第325便e[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
@@ -94524,7 +94524,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const FR = rd325e('tests/fixtures/README.md'), PM = rd325e('tools/post-merge-qa.sh');
     if (FR.indexOf('realmass-w325e.json') < 0) bad.push('tests/fixtures/README に realmass-w325e.json の項が無い');
     if (!(PM.indexOf('# ==== 第325便e の塊(ここから)====') >= 0 && /preset\.realMassF1325e/.test(PM) && /docs\.realMassF1325e/.test(PM))) bad.push('post-merge の ③′ に第325便e の塊が無い');
-    for (const [nm, tx] of [['PHYSICS〔第325便e〕', sec.split('**言わないこと。**')[0]], ['AI_SPEC §180', ai180], ['CHANGELOG の第325便e の行', cl325e]]) {
+    for (const [nm, tx] of [['PHYSICS〔第325便e〕', sec.split('言わないこと。**')[0]], ['AI_SPEC §180', ai180], ['CHANGELOG の第325便e の行', cl325e]]) {
       const tq = tx.replace(/「[^」]*」/g, '');
       for (const w of NG) if (tq.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
       for (const w of NOT) if (tq.indexOf(w) >= 0) bad.push(nm + ' に書かない語(' + w.length + ' 字)');

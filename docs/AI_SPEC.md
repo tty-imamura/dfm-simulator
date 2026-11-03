@@ -4598,3 +4598,11 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **環境の整合**(`quickEnvCheck`): 指紋の記録の頭の env(`--fingerprint` が書く —— Node・Chromium・platform・heap)と鎖の env.json(`node tools/regen-chain.mjs --env` —— heap の欄を足した)を照合し、Node・Chromium・platform のどれかが違うか欠ければ影の表の候補を 0 にする(heap は印字だけ)。
 - **本運用の門の関数**(`quickProductionGate` —— 休眠): 影の照合の列・今の便の計画・環境・root 昇格・変異の試験・暦の債務から「本運用に入れる/入れない」と理由の列を返す。`node tools/regen-plan.mjs --quick-gate` が印字するだけで、鎖は呼ばない(本運用に入れるかは第326便で統括が決める)。
 - これらは開発の道具と来歴の欄で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
+
+## 180. 第325便e —— 実在天体の本の質量を観測の値(倍率 1)へ: 🛞 ngc3198DFM の恒星の円盤・実在天体でない本はそのまま(原仮定者の回答(2026-11-03 —— AN528)・原仮定者の指示(第127報)・統括の検証項目 R288・**受理器・步・式・`S._core`・在位の他の 185 本の宣言は不変** —— 実在天体でない 5 本は説明の欄に 1 文だけ・**SYSTEM_PROMPT には載せない**)
+
+- **走査**: 在位の本で質量の倍率(massCalibration の f・factor・factorUniform と massLedger.fDynamics)が 1 でない本は 6 本 —— 実在天体の本は 🛞 だけ(NGC 3198 —— SPARC の観測を入力)・残る 5 本(🎇⚪🔘🎆🐮 —— 台帳 f=2)は特定の実在天体ではない原理の本(observedInputs「なし」)。
+- **🛞 の宣言**: 恒星の円盤の 1 粒 3.7994909513377677 → 1.9(観測の転写 —— 🌃 と同じ)・lightSweep を外した・massCalibration を f 固定形(law `f-fixed-1`・f 1・baseMass [1.9, 2.875] —— bodies[0]・bodies[1] の 1 粒の基準質量・history に前の平均場台帳)・massLedger.fDynamics 1・**ID は不変**・署名 761fbca5(前 7fa984c)。前の宣言は凍結の写し `tests/fixtures/realmass-w325e.json`。
+- **測った値**(QA behavior.ngc3198 と同じ手続き): t = 40 の外縁帯の vt 5.53 → 5.13 単位(観測 V_flat 15.01 単位の 34%)・最遠 514 → 422・kFrame = 0 の対照 5.12/568 → 3.96/267 —— **目的は未達のまま**(判定の 4 値は変えていない)。
+- **段**: 🛞 を読む段(sparc・galaxydiag・galaxychain・analogy・rotorledger・galfield-321c)の正本を作り直し、古い節の 🛞 の表の行を作り直した正本の値へ。QA `preset.realMassF1325e`・`docs.realMassF1325e`(新設)・behavior.ngc3198・preset.massLedger・docs.analogyLedger(世代の直し)。
+- これらは本の宣言の質量と来歴の欄で、アプリの受理・步・式は変わらない。
