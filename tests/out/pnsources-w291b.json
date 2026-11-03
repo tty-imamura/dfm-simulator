@@ -4,27 +4,21 @@
   "wave": "第291便b",
   "target": "beta/index.html",
   "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-  "generatedAt": "2026-11-03T17:09:21.201Z",
+  "generatedAt": "2026-11-03T18:20:38.997Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7612995,
     "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
     "mtime": "2026-11-03T15:04:48.828Z"
-   },
-   {
-    "file": "tests/fixtures/realmass-w325e.json",
-    "bytes": 78486,
-    "sha256": "a0efee17b0b5444c138bf2766c3790de7da183b0ba59e05f540763ea7b59dd22",
-    "mtime": "2026-11-03T15:04:48.913Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w291b-pnsources.mjs",
-    "bytes": 32359,
-    "sha256": "d2f955a6b3287d5a8df9088f39a424d6c626517a1e7fc89f930c27ccde4247b2",
-    "mtime": "2026-11-03T17:06:51.722Z"
+    "bytes": 32629,
+    "sha256": "3f58961fd3327397539a19c31e2ffabd5ba094263ea0666607473662279a3ab9",
+    "mtime": "2026-11-03T18:18:26.737Z"
    },
    {
     "file": "tests/lib-w285b-gr1pn.mjs",
@@ -75,7 +69,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "509ecd21bba3e60db78721576279ecab8b193486a038974f7156f251e4f5ca9f",
+  "codeSha256": "c772c63eb459792b483ac4bdebfd96696310619ae74f1cb6b3d34c6bf3ad8762",
   "harnessVersion": "w291b-pnsources-8",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第81報)⑤「geoPN=1: 軌道計算を精査し、測地線化を GR の 1PN に揃える。観測値をそのまま使えるようにする」",
@@ -131,14 +125,7 @@
   },
   "scopeSha256": "984b7858d85cf8d7de6736dea4d87594556292f2678338b0a89c53dfc19cdc49",
   "scopeComplete": true,
-  "inputsStable": [
-   {
-    "file": "tests/fixtures/realmass-w325e.json",
-    "stableSha256": "cdc081920c11ac0b177fdf81f90f4eefaed35b80d38017d203d603a375ead1b0",
-    "stableVersion": "w282e-stable-1",
-    "volatilePaths": []
-   }
-  ],
+  "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
  "spec": {
@@ -6136,13 +6123,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.094,
+   "wallSec": 0.098,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.128,
+   "wallSec": 0.144,
    "errors": 0
   }
  },
- "elapsedS": 131.806
+ "elapsedS": 132.166
 }

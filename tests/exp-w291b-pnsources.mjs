@@ -43,7 +43,8 @@ import * as W302A from './lib-w302a-wbg.mjs';   // 第302便h: gain ⇔ W_bg の
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","GEO4_MIGRATED","GEO_MODE_VERSION","HP.allPresets","HP.dfmRelativeDragStep","HP.loadPreset","HP.relativeDragProbe","HP.sim","HP.validatePreset","LAWS","PN1_CONTRACT","PN1_EIH_VERSION","T","ch","clamp","ctx","dfmPN1Delta","dfmRelativeDragStep","pairCorePN","pn1GRConformance","pnOrbitalKF0","pnOrbitalSource","pnSource","presetSig","timeStdRevert"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-// 第325便(AN528): 質量の倍率を観測の値へ戻した実在天体の本(凍結の写しの ids —— 写しが無ければ空)
+// 第325便(AN528): 質量の倍率を観測の値へ戻した実在天体の本(凍結の写しの ids —— 写しが無ければ空)。写しは正本の入力(meta.inputs —— 安定 hash を刻む)に入れない:
+//   器が読むのは ids だけで、写しの中身の照合は QA(docs.pn1Contract ② —— 記録の本が写しの ids の内か)が持つ(lint.stableHashPaths の除外の宣言を足さない)
 const REALMASS_FILE_325 = 'tests/fixtures/realmass-w325e.json';
 const REALMASS_IDS_325 = (() => { try { const j = JSON.parse(fs.readFileSync(path.join(ROOT, REALMASS_FILE_325), 'utf8')); return Array.isArray(j.ids) ? j.ids.slice() : []; } catch { return []; } })();
 export const HARNESS_VERSION = 'w291b-pnsources-8';   // 第325便(統括 —— 原仮定者の回答(2026-11-03 —— AN528)「実在天体なら、f=1に質量を修正」): 質量の倍率を観測の値(倍率 1)へ戻した実在天体の本(凍結の写し tests/fixtures/realmass-w325e.json の ids —— 宣言から)の軌道の差・署名の差は 1PN の源集合の契約の外 —— 源が増えていない本だけ changedByRealMass325・sigChangedByRealMass325 に記録(差に数えない)
@@ -306,7 +307,7 @@ if (IS_MAIN) {
   const CODE = ['tests/exp-w291b-pnsources.mjs', 'tests/lib-w285b-gr1pn.mjs', 'tests/lib-w282b-geo1.mjs', 'tests/lib-w280d-charoninput.mjs', 'tests/lib-w277b-charondfm.mjs',
     'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w302a-wbg.mjs'];
   const out = {
-    meta: Object.assign(provenanceMeta({ root: ROOT, wave: '第291便b', target: TARGET, code: CODE, inputs: [TARGET, REALMASS_FILE_325] }), {
+    meta: Object.assign(provenanceMeta({ root: ROOT, wave: '第291便b', target: TARGET, code: CODE, inputs: [TARGET] }), {
       harnessVersion: HARNESS_VERSION, loadErrors: HN.errors.length,
       ruling: '原仮定者の裁定(第81報)⑤「geoPN=1: 軌道計算を精査し、測地線化を GR の 1PN に揃える。観測値をそのまま使えるようにする」',
       reading: '統括の検証項目 R133(GR 1PN の源集合 —— 軌道の EIH は全質量源・描画の光線門は不変 —— と 🥶 の残差の分解)',
