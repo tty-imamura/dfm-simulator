@@ -605,6 +605,14 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.words325c behavior.j0737AxisKnob325c do
 #   PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickMutation325d lint.quickEnvWin325d lint.quickEnv325d lint.quickGate325d docs.w325d lint.regenQuick323 lint.quickBoundary324c lint.quickWindows323 docs.w323c lint.harnessSmoke303 lint.sectionLookup313 lint.qaHeapRelease310"
 # ==== 第325便d の塊(ここまで)====
+# ==== 第325便e の塊(ここから)====
+# 第325便e(原仮定者の回答(2026-11-03 —— AN528)「実在天体なら、f=1に質量を修正。実在天体で無いならそのまま採用」・統括の検証項目 R288): 枝 e の新設 1 ブロック
+#   (preset.realMassF1325e —— 在位の本の質量の倍率の宣言・🛞 の恒星の円盤の倍率 1・凍結の写し tests/fixtures/realmass-w325e.json / docs.realMassF1325e —— 文書)と、
+#   世代で直した QA(behavior.ngc3198 —— W5b・preset.massLedger・docs.rotorLedger・docs.analogyLedger)・🛞 を読む段の正本の QA(behavior.sparc10・behavior.galaxyStateBranch・docs.galaxyChain・
+#   docs.galaxyFieldContract・behavior.chainLedger・preset.fieldContract・docs.galField321c)・器を直した段(galfield-321c・analogy)の lint 一式・説明の語の preset.sampleWords325b・behavior.claimEffort297・生成表の docs.sampleStatus-sync・
+#   preset.statusLedger-sync・docs.families・規約の速い判定の lint.conventionsCheck323・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.realMassF1325e docs.realMassF1325e behavior.ngc3198 preset.massLedger docs.rotorLedger behavior.sparc10 behavior.galaxyStateBranch docs.galaxyChain docs.galaxyFieldContract behavior.chainLedger preset.fieldContract docs.analogyLedger docs.galField321c preset.sampleWords325b behavior.claimEffort297 docs.sampleStatus-sync preset.statusLedger-sync docs.families lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.harnessSmoke303 lint.conventionsCheck323 lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第325便e の塊(ここまで)====
 # ==== 第325便f の塊(ここから)====
 # 第325便f(原仮定者の指示(2026-11-03)「「物理対応ロック Xₖ = G₀/c₀²」を常に有効にした場合の影響を調べる。…分類する」・統括の検証項目 R289): 枝 f の新設 2 本
 #   (lint.xkLock325f —— 調べのデータ tests/data-w325f-xklock.json と今の html の照合〔新しい本・値の違う本は名指しで落ちる〕・在位の本の 3 分類・写像の影響の行・数 /

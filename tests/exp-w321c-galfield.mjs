@@ -52,7 +52,10 @@ export const G0_IDS = Object.freeze(['chainDiskToy3d', 'chainSpreadToy3d', 'gala
 export const BASE_RECORD = Object.freeze({
   galaxyStd: Object.freeze({ qa: 'claim.galaxystd-outerboost', verdict: '達・外縁速度比 1.266 が窓 1.15〜1.4 内', gA: 3.982, gB: 3.145, ratio: 1.2659, window: [1.15, 1.4], drag: 0.379 }),
   galaxyDB: Object.freeze({ qa: 'claim.galaxydb-contrast', verdict: '達・速度分散の比 2.37 が窓 2.2〜3.0 内', sigB: 4.246, sigD: 1.788, sigRatio: 2.37, spinRatio: 1.80, window: [2.2, 3.0] }),
-  ngc3198DFM: Object.freeze({ qa: 'behavior.ngc3198', verdict: '未達・外縁の速さ 5.5 × 10⁴ m/s で未達 —— 次の見直しへ', vt: 5.53, rmax: 514, cDisp: 75.7, window: [4.6, 6.3] }),
+  // 第325便e(原仮定者の回答(2026-11-03 —— AN528)「実在天体なら、f=1に質量を修正」): 🛞 の恒星の円盤を観測の転写(倍率 1)へ —— 記録は第325便e の
+  //   behavior.ngc3198 と同じ測り(凍結の写し tests/fixtures/realmass-w325e.json の measured.after —— 器の値と比べる門 g0Ngc の基準)。
+  //   前の記録(恒星に旧則の倍率 f≈2 —— 基点 a708bfe): vt 5.53・最遠 514・変位 75.7・「未達・外縁の速さ 5.5 × 10⁴ m/s で未達 —— 次の見直しへ」(写しの measured.before)
+  ngc3198DFM: Object.freeze({ qa: 'behavior.ngc3198', verdict: '未達・恒星質量を観測の値(倍率 1)へ戻した後も外縁の速さ 5.1 × 10⁴ m/s で未達 —— 次の見直しへ', vt: 5.131, rmax: 421.9, cDisp: 28.51, window: [4.6, 6.3] }),
   chainDiskToy3d: Object.freeze({ qa: 'behavior.drag3d298・behavior.meshField298', verdict: '達・零試験で二次元の 🔗 とビット同一・帯の Δθ 2.169/0.577/0.196 rad・循環 36.6' }),
   chainSpreadToy3d: Object.freeze({ qa: 'behavior.geo4Stable299', verdict: '達・8 条件を満たす(残差 ≤ 5.2e-12・反復 7)' }),
   galaxyGeo2: Object.freeze({ qa: 'claim.galaxygeo2-outerboost', verdict: '達・λ_PN=0 で外縁速度比 1.180 が窓 1.14〜1.23 内・クランプ 0(基準の記録は第321便a)' }) });
