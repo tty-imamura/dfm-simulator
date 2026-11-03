@@ -1168,3 +1168,19 @@ tests/out/regen-plan-w281a.json
 !tests/out/qa-recheck-beta.json
 !tests/out/qa-recheck.json
 # ==== 第323便d の塊(ここまで)====
+# ==== 第324便a の塊(ここから)====
+# 第324便a(原仮定者の回答(2026-11-01 —— AN500)・決断事項 AN513・AN510・統括の検証項目 R279): geoPN=2(v−u 則)の 3D の S3 の器の正本(tests/exp-w324a-geo2thick.mjs —— 段 geo2thick-324a)。
+#   QA docs.geo2thick324a と SAMPLE_STATUS の原稿(galaxyGeo2Thick3d・galaxyGeo2ThickTilt3d の根拠)が読むのでコミットする(試走 W324A_QUICK の出力は W324A_OUT で別名 —— 例外にしない)
+!tests/out/geo2thick-w324a.json
+# ==== 第324便a の塊(ここまで)====
+# ==== 第324便b の塊(ここから)====
+# 第324便b(決断事項 AN514・AN515・統括の検証項目 R280): 天体ごとの観測の自転 obsSpin と源の角運動量 J の本の器の正本
+#   (tests/exp-w324b-obsspin.mjs —— 段 obsspin-324b)。QA behavior.obsSpin324b・docs.obsSpin324b と SAMPLE_STATUS の原稿が読むのでコミットする(試走 W324B_QUICK の出力は W324B_OUT で別名 —— 例外にしない)
+!tests/out/obsspin-w324b.json
+# ==== 第324便b の塊(ここまで)====
+# ==== 第324便d の塊(ここから)====
+# 第324便d(決断事項 AN480・AN452・統括の検証項目 R282): 再開の型の門の正本(段 resume-324d)とイオ・エウロパの長い窓の正本(段 satlong-324d —— 鎖の外で走らせる履歴の段)。
+#   QA lint.resume324d・docs.satlong324d が読むのでコミットする。長い窓の置き場 tests/out/.satlong-w324d/(済みのジョブと途中の checkpoint —— 数百 MiB)は tests/out/* のまま無視
+!tests/out/resume-w324d.json
+!tests/out/satlong-w324d.json
+# ==== 第324便d の塊(ここまで)====

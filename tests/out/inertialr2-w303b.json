@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第303便b",
   "target": "beta/index.html",
-  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-  "generatedAt": "2026-11-01T13:05:04.714Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-02T22:34:03.948Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7487036,
-    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-    "mtime": "2026-11-01T12:44:54.266Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -241,11 +241,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1384,
-   "segments": 1222,
-   "closureShare": 0.3078
+   "names": 1427,
+   "segments": 1253,
+   "closureShare": 0.3084
   },
-  "scopeSha256": "8985bffca6c8dc32330f887579835b49ab129d2a0a7e11b54e6b0d2f173d9363",
+  "scopeSha256": "6d7cc54e3dd812ab7561e66149403e251c7dbbba89470b3803a7bff73d04538e",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -4135,22 +4135,22 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 5.289
+   "wallSec": 6.622
   },
   "M": {
-   "wallSec": 108.495
+   "wallSec": 117.655
   },
   "T": {
-   "wallSec": 347.836
+   "wallSec": 378.811
   },
   "N": {
-   "wallSec": 361.023
+   "wallSec": 432.172
   },
   "E": {
-   "wallSec": 364.747
+   "wallSec": 398.871
   },
   "K": {
-   "wallSec": 0.027
+   "wallSec": 0.023
   }
  },
  "h4Carry": {
@@ -4378,11 +4378,11 @@
    }
   },
   "prev": {
-   "generatedAt": "2026-10-31T20:01:01.708Z",
-   "targetSha256": "c5e0611c0897c19fb759af010d5a578a8eb725c279c83196ac1915611bd0bff8",
-   "fileSha256": "84b15900a9ba4838b24258787ca0a756d0e75df6d2dd8e06e977ee1250649cc8"
+   "generatedAt": "2026-11-01T13:05:04.714Z",
+   "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+   "fileSha256": "00f91a3f06a389ee13b2552d545f4d84e6d189a724a38498b9b5f7ff7b7d8840"
   },
   "env": "H4_CARRY=1 は比較の実験だけ(既定は全部測る)"
  },
- "elapsedS": 1189.233
+ "elapsedS": 1335.904
 }

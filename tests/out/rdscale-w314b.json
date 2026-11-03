@@ -2,7 +2,7 @@
  "version": "w314b-rdscale-1",
  "generator": "tests/exp-w314b-rdscale.mjs",
  "target": "beta/index.html",
- "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+ "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
  "ruling": "原仮定者の裁定(第116報)の補足(現状の R_d = κm を重力半径 2κm へ置き換えて引きずりの式を合わせた場合を検討する —— κ の認識が違い複雑化する場合は採用せず解説を行う)・統括の検証項目 R239。検討と解説の材料(html・本の宣言・エンジンの式・κ₀ は変えない —— 写しは器の中で組む)",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "quick": false,
@@ -3696,7 +3696,7 @@
     "nan": false,
     "betaMax": 0,
     "overlap": 0,
-    "wallSec": 0.498
+    "wallSec": 0.364
    },
    {
     "kind": "q10",
@@ -3725,7 +3725,7 @@
     "nan": false,
     "betaMax": 0,
     "overlap": 0,
-    "wallSec": 0.794
+    "wallSec": 0.486
    },
    {
     "kind": "q11",
@@ -3757,7 +3757,7 @@
     "nan": false,
     "betaMax": 3.209975441893601e-7,
     "overlap": 0,
-    "wallSec": 32.792
+    "wallSec": 22.011
    },
    {
     "kind": "q11",
@@ -3789,7 +3789,7 @@
     "nan": false,
     "betaMax": 2.7063765768290744e-8,
     "overlap": 0,
-    "wallSec": 30.137
+    "wallSec": 22.212
    },
    {
     "kind": "q11",
@@ -3821,7 +3821,7 @@
     "nan": false,
     "betaMax": 5.4127528868324274e-8,
     "overlap": 0,
-    "wallSec": 25.913
+    "wallSec": 22.611
    },
    {
     "kind": "q11",
@@ -3853,7 +3853,7 @@
     "nan": false,
     "betaMax": 6.419947130069395e-7,
     "overlap": 0,
-    "wallSec": 24.737
+    "wallSec": 22.659
    }
   ],
   "rows": [
@@ -3989,31 +3989,31 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.09
+   "wallSec": 0.057
   },
   "S": {
-   "wallSec": 0.143
+   "wallSec": 0.123
   },
   "R": {
-   "wallSec": 0.018
+   "wallSec": 0.015
   },
   "P": {
-   "wallSec": 114.933
+   "wallSec": 90.386
   }
  },
- "elapsedS": 117.25,
+ "elapsedS": 92.16,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便b",
   "target": "beta/index.html",
-  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-  "generatedAt": "2026-11-01T18:28:39.419Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-02T23:52:41.449Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7487036,
-    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-    "mtime": "2026-11-01T12:44:54.266Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -4127,11 +4127,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1335,
-   "segments": 1173,
-   "closureShare": 0.2995
+   "names": 1379,
+   "segments": 1205,
+   "closureShare": 0.3008
   },
-  "scopeSha256": "5a93438939ac7d693787c10d16f8c9aafa8c909da20cfd6be6c3f8d348aa8864",
+  "scopeSha256": "2141369ab8337078f71bd2c478cbfb7ad6a9e1e8371226006c4f5a0bd216fc5b",
   "scopeComplete": true,
   "inputsStable": [
    {

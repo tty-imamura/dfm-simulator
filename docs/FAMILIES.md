@@ -1,4 +1,4 @@
-# 同一天体の家族の差分表と統廃合の候補(v1.47-b323・第283便b)
+# 同一天体の家族の差分表と統廃合の候補(v1.47-b324・第283便b)
 
 > **この文書は生成物である —— 手で直さない。** 器 `tests/exp-w283b-families.mjs` が、対象 html の内蔵プリセットを受理した後の実効 JSON(`validatePreset` の後)と、正本 `tests/out/calaudit-w249.json`(較正母集団)・凍結の写し `tests/fixtures/retired-w283b.json` から作る。QA `docs.families` が正本からこの文書を作り直して 1 字ずつ照合する。
 > 原仮定者の裁定(第73報)④「同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)」への対応(統括の検証項目 R85)。**ここに並ぶのは候補であって実行ではない** —— どの本を畳むかは原仮定者の裁定で決める。観測版と DFM 版は 1 ID にしない。
@@ -20,7 +20,7 @@
 
 ## 集計
 
-- 家族 **22**・本 **51**(在位の本)・推定の列: 主系列 26・比較 20・診断 5。
+- 家族 **22**・本 **53**(在位の本)・推定の列: 主系列 26・比較 22・診断 5。
 - 候補: 規則 A 1・規則 B 0・規則 C(要裁定)1・畳まない組 0。
 
 | 家族 | 本数 | 基準 | 主系列 | 比較 | 診断 | 候補 A/B/C | 畳まない組 |
@@ -37,7 +37,7 @@
 | ケンタウルス座 α 星 AB(`alphaCen`) | 1 | `alphaCenAB` | 1 | 0 | 0 | 0/0/0 | 0 |
 | シリウス AB(`sirius`) | 1 | `siriusAB` | 1 | 0 | 0 | 0/0/0 | 0 |
 | 銀河回転(空間メッシュ・アナロジー)(`galaxyMesh`) | 1 | `galaxyMeshSpiral` | 1 | 0 | 0 | 0/0/0 | 0 |
-| 銀河の回転曲線 5 本(`galaxyrot`) | 5 | `galaxy` | 1 | 4 | 0 | 0/0/0 | 0 |
+| 銀河の回転曲線 7 本(`galaxyrot`) | 7 | `galaxy` | 1 | 6 | 0 | 0/0/0 | 0 |
 | 球状星団 47 Tuc(`tuc47`) | 1 | `tuc47` | 1 | 0 | 0 | 0/0/0 | 0 |
 | 渦巻銀河 NGC 3198(`ngc3198`) | 2 | `ngc3198DFM` | 1 | 0 | 1 | 0/0/0 | 0 |
 | 形の玩具(中心なし)(`shapeToy`) | 4 | `shapeToyCluster` | 1 | 3 | 0 | 0/0/0 | 0 |
@@ -260,7 +260,7 @@
 
 **統廃合の候補**: 規則に当たる組は無い。
 
-## 銀河の回転曲線 5 本(`galaxyrot`・5 本)
+## 銀河の回転曲線 7 本(`galaxyrot`・7 本)
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -269,26 +269,29 @@
 | 💫 | `galaxyGeo2` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 2 | 1 | 1.5 | — | 2 | — | — | — | v−u 測地線則で外縁の増速を比べる | `claim.galaxygeo2-outerboost` |
 | 🍳 | `galaxyDB` | variant | 比較(上のどれでもない) | 違う入力(本数・質量・位置・速度) | principle | — | 0 | 1 | 1.5 | — | 2 | — | — | — | 円盤の回転支持とバルジの分散支持を比べる | `claim.galaxydb-contrast` |
 | 🫓 | `galaxyGeo2Flat3d` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 2 | 1 | 1.5 | — | 2 | — | — | — | 💫 の面内の写しを三次元の步で走らせ二次元と比べる | — |
+| 🥞 | `galaxyGeo2Thick3d` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 2 | 1 | 1.5 | — | 2 | — | — | — | 💫 の面内の配置に有限厚(±3h の外は再抽選)を足し三次元の步で走らせる | — |
+| 🧇 | `galaxyGeo2ThickTilt3d` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 2 | 1 | 1.5 | — | 2 | — | — | — | 🥞 と同じ入力を全体で回した対の本で回転共変の程度を測る | — |
 
 **鍵ごとの差**(physics の同じ鍵 18):
 
-- `physics.contactCap`: galaxy=2 / galaxyStd=— / galaxyGeo2=2 / galaxyDB=— / galaxyGeo2Flat3d=2
-- `physics.contactK`: galaxy=10 / galaxyStd=— / galaxyGeo2=10 / galaxyDB=— / galaxyGeo2Flat3d=10
-- `physics.contactMode`: galaxy=none / galaxyStd=none / galaxyGeo2=none / galaxyDB=normal / galaxyGeo2Flat3d=none
-- `physics.coord`: galaxy=— / galaxyStd=— / galaxyGeo2=— / galaxyDB=— / galaxyGeo2Flat3d=3d
-- `physics.gammaN`: galaxy=0.4 / galaxyStd=0 / galaxyGeo2=0 / galaxyDB=0 / galaxyGeo2Flat3d=0
-- `physics.geoPN`: galaxy=0 / galaxyStd=0 / galaxyGeo2=2 / galaxyDB=0 / galaxyGeo2Flat3d=2
-- `physics.kRep`: galaxy=0.8 / galaxyStd=0 / galaxyGeo2=0 / galaxyDB=0 / galaxyGeo2Flat3d=0
-- `physics.kappaS`: galaxy=0.05 / galaxyStd=0 / galaxyGeo2=0 / galaxyDB=0 / galaxyGeo2Flat3d=0
-- `physics.lambdaPN`: galaxy=1 / galaxyStd=1 / galaxyGeo2=0 / galaxyDB=1 / galaxyGeo2Flat3d=0
-- `physics.muF`: galaxy=0.5 / galaxyStd=0 / galaxyGeo2=0 / galaxyDB=0 / galaxyGeo2Flat3d=0
-- `rays`: galaxy=(宣言あり) / galaxyStd=— / galaxyGeo2=— / galaxyDB=— / galaxyGeo2Flat3d=—
-- `seed`: galaxy=20260727 / galaxyStd=20260727 / galaxyGeo2=20260727 / galaxyDB=20260804 / galaxyGeo2Flat3d=20260727
-- `timeRef`: galaxy=(宣言あり) / galaxyStd=(宣言あり) / galaxyGeo2=(宣言あり) / galaxyDB=(宣言あり) / galaxyGeo2Flat3d=(宣言あり)
-- `sampleClass`: galaxy=composite / galaxyStd=principle / galaxyGeo2=principle / galaxyDB=principle / galaxyGeo2Flat3d=principle
-- `familyRole`: galaxy=primary / galaxyStd=variant / galaxyGeo2=variant / galaxyDB=variant / galaxyGeo2Flat3d=variant
-- `gates(testId)`: galaxy=claim.galaxy-outerboost / galaxyStd=claim.galaxystd-outerboost / galaxyGeo2=claim.galaxygeo2-outerboost / galaxyDB=claim.galaxydb-contrast / galaxyGeo2Flat3d=—
-- `bodies(vs 基準)`: galaxy=基準 / galaxyStd=同じ入力 / galaxyGeo2=同じ入力 / galaxyDB=違う入力(本数・質量・位置・速度) / galaxyGeo2Flat3d=同じ入力
+- `physics.contactCap`: galaxy=2 / galaxyStd=— / galaxyGeo2=2 / galaxyDB=— / galaxyGeo2Flat3d=2 / galaxyGeo2Thick3d=2 / galaxyGeo2ThickTilt3d=2
+- `physics.contactK`: galaxy=10 / galaxyStd=— / galaxyGeo2=10 / galaxyDB=— / galaxyGeo2Flat3d=10 / galaxyGeo2Thick3d=10 / galaxyGeo2ThickTilt3d=10
+- `physics.contactMode`: galaxy=none / galaxyStd=none / galaxyGeo2=none / galaxyDB=normal / galaxyGeo2Flat3d=none / galaxyGeo2Thick3d=none / galaxyGeo2ThickTilt3d=none
+- `physics.coord`: galaxy=— / galaxyStd=— / galaxyGeo2=— / galaxyDB=— / galaxyGeo2Flat3d=3d / galaxyGeo2Thick3d=3d / galaxyGeo2ThickTilt3d=3d
+- `physics.gammaN`: galaxy=0.4 / galaxyStd=0 / galaxyGeo2=0 / galaxyDB=0 / galaxyGeo2Flat3d=0 / galaxyGeo2Thick3d=0 / galaxyGeo2ThickTilt3d=0
+- `physics.geoPN`: galaxy=0 / galaxyStd=0 / galaxyGeo2=2 / galaxyDB=0 / galaxyGeo2Flat3d=2 / galaxyGeo2Thick3d=2 / galaxyGeo2ThickTilt3d=2
+- `physics.kRep`: galaxy=0.8 / galaxyStd=0 / galaxyGeo2=0 / galaxyDB=0 / galaxyGeo2Flat3d=0 / galaxyGeo2Thick3d=0 / galaxyGeo2ThickTilt3d=0
+- `physics.kappaS`: galaxy=0.05 / galaxyStd=0 / galaxyGeo2=0 / galaxyDB=0 / galaxyGeo2Flat3d=0 / galaxyGeo2Thick3d=0 / galaxyGeo2ThickTilt3d=0
+- `physics.lambdaPN`: galaxy=1 / galaxyStd=1 / galaxyGeo2=0 / galaxyDB=1 / galaxyGeo2Flat3d=0 / galaxyGeo2Thick3d=0 / galaxyGeo2ThickTilt3d=0
+- `physics.muF`: galaxy=0.5 / galaxyStd=0 / galaxyGeo2=0 / galaxyDB=0 / galaxyGeo2Flat3d=0 / galaxyGeo2Thick3d=0 / galaxyGeo2ThickTilt3d=0
+- `physics.stateCarry`: galaxy=— / galaxyStd=— / galaxyGeo2=— / galaxyDB=— / galaxyGeo2Flat3d=— / galaxyGeo2Thick3d=double / galaxyGeo2ThickTilt3d=double
+- `rays`: galaxy=(宣言あり) / galaxyStd=— / galaxyGeo2=— / galaxyDB=— / galaxyGeo2Flat3d=— / galaxyGeo2Thick3d=— / galaxyGeo2ThickTilt3d=—
+- `seed`: galaxy=20260727 / galaxyStd=20260727 / galaxyGeo2=20260727 / galaxyDB=20260804 / galaxyGeo2Flat3d=20260727 / galaxyGeo2Thick3d=20260727 / galaxyGeo2ThickTilt3d=20260727
+- `timeRef`: galaxy=(宣言あり) / galaxyStd=(宣言あり) / galaxyGeo2=(宣言あり) / galaxyDB=(宣言あり) / galaxyGeo2Flat3d=(宣言あり) / galaxyGeo2Thick3d=(宣言あり) / galaxyGeo2ThickTilt3d=(宣言あり)
+- `sampleClass`: galaxy=composite / galaxyStd=principle / galaxyGeo2=principle / galaxyDB=principle / galaxyGeo2Flat3d=principle / galaxyGeo2Thick3d=principle / galaxyGeo2ThickTilt3d=principle
+- `familyRole`: galaxy=primary / galaxyStd=variant / galaxyGeo2=variant / galaxyDB=variant / galaxyGeo2Flat3d=variant / galaxyGeo2Thick3d=variant / galaxyGeo2ThickTilt3d=variant
+- `gates(testId)`: galaxy=claim.galaxy-outerboost / galaxyStd=claim.galaxystd-outerboost / galaxyGeo2=claim.galaxygeo2-outerboost / galaxyDB=claim.galaxydb-contrast / galaxyGeo2Flat3d=— / galaxyGeo2Thick3d=— / galaxyGeo2ThickTilt3d=—
+- `bodies(vs 基準)`: galaxy=基準 / galaxyStd=同じ入力 / galaxyGeo2=同じ入力 / galaxyDB=違う入力(本数・質量・位置・速度) / galaxyGeo2Flat3d=同じ入力 / galaxyGeo2Thick3d=同じ入力 / galaxyGeo2ThickTilt3d=同じ入力
 
 **統廃合の候補**: 規則に当たる組は無い。
 
@@ -510,10 +513,12 @@
 - **第285便f の写し** `tests/fixtures/retired-w285f.json`(原仮定者の裁定(第75報)AN51・AN24′): 退役 1 本(`psrJ1757CF`)と、f=1 へ移した本の旧則(`psrJ1757DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`・`behavior.w249a-pnResponse`・`behavior.jointCalProtocol`。
 - **第286便f の写し** `tests/fixtures/retired-w286f.json`(原仮定者の裁定(第76報)AN57): 退役 1 本(`psrJ1946CF`)と、f=1 へ移した本の旧則(`psrJ1946DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `behavior.w249a-pnResponse`・`docs.j1946adoptPublished`・`docs.j1946Adopted`。
 - **第287便b の写し** `tests/fixtures/retired-w287b.json`(原仮定者の裁定(第77報)AN62): 退役 1 本(`psrB1534CF`)と、f=1 へ移した本の旧則(`psrB1534DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`。
-- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 64 本): 凍結の写しを読む 2・再生成表の履歴 25・再生成表の現行 15・道具 4・表の外 18。QA 本体の出現数: darkrotor 146・bhCore 47・nebulaRotor 19・nebulaShell 15・nebulaBipolar 22・starSeed 21・bhCoreTilt 21・galaxyMeshSpiralGeoToyLite 26・psrDoubleABPN 21・psrJ1757PN 13・psrJ1946PN 15・emAuditNewton 35・psrDoubleABCF 15・psrJ1757CF 21・psrJ1946CF 22・psrB1534CF 21。
+- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 66 本): 凍結の写しを読む 4・再生成表の履歴 25・再生成表の現行 15・道具 4・表の外 18。QA 本体の出現数: darkrotor 146・bhCore 47・nebulaRotor 19・nebulaShell 15・nebulaBipolar 22・starSeed 21・bhCoreTilt 21・galaxyMeshSpiralGeoToyLite 26・psrDoubleABPN 21・psrJ1757PN 13・psrJ1946PN 15・emAuditNewton 35・psrDoubleABCF 15・psrJ1757CF 21・psrJ1946CF 22・psrB1534CF 21。
 
 | 器 | 名指しする ID | 再生成表の段 | 扱い |
 |---|---|---|---|
+| `tests/.qa-preflight-12731.mjs` | darkrotor bhCore nebulaRotor nebulaShell nebulaBipolar starSeed bhCoreTilt galaxyMeshSpiralGeoToyLite psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | — | 凍結の写しを読む |
+| `tests/.qa-preflight-30013.mjs` | darkrotor bhCore nebulaRotor nebulaShell nebulaBipolar starSeed bhCoreTilt galaxyMeshSpiralGeoToyLite psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | — | 凍結の写しを読む |
 | `tests/exp-4-48.mjs` | darkrotor | — | 表の外(正本ではない) |
 | `tests/exp-4-67.mjs` | darkrotor | h283b-exp-4-67(history) | 履歴(再生成しない) |
 | `tests/exp-4-72.mjs` | darkrotor | h283b-exp-4-72(history) | 履歴(再生成しない) |

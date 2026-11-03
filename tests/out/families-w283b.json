@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
-  "generatedAt": "2026-11-02T06:19:03.162Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-03T02:22:02.096Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7491601,
-    "sha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
-    "mtime": "2026-11-02T01:58:42.624Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734285,
-    "sha256": "39c94e923efb89b2935b7362f231410590b7977eff1450ebf014a06432418422",
-    "mtime": "2026-11-02T05:53:28.773Z"
+    "bytes": 1732174,
+    "sha256": "86979630a48c7dffb667fac00e962d12c2171e586a74e9bf9d5a31234052ce0b",
+    "mtime": "2026-11-02T21:29:02.035Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -50,17 +50,17 @@
    },
    {
     "file": "docs/FAMILIES.md",
-    "bytes": 56118,
-    "sha256": "a39826f58ccdb6e6e9a63a418ccb93a3b2d26b1b37648ad82b341c3f02367031",
-    "mtime": "2026-11-02T06:19:03.133Z"
+    "bytes": 58252,
+    "sha256": "0cfe37ea8cbd138595abd525df5fdc4863f12ccb0d9f8c5704b191c35ccc0617",
+    "mtime": "2026-11-03T02:22:02.072Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w283b-families.mjs",
-    "bytes": 44198,
-    "sha256": "606f83e00f4e0b9b51dbf7fc972e62d4525003a7364e64d7b7908f5f06c851a5",
-    "mtime": "2026-11-01T10:22:57.350Z"
+    "bytes": 44310,
+    "sha256": "4a5416f1db7549f47db3c76e61c439654fda253386e76c895bfda4c24a0151cf",
+    "mtime": "2026-11-02T15:48:28.161Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -88,12 +88,12 @@
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 519792,
-    "sha256": "12470e474c7bbe0101005eb0d0f5742c415a40d19578701e58aeacfd9b98df2d",
-    "mtime": "2026-11-02T04:24:50.096Z"
+    "bytes": 551143,
+    "sha256": "4e5d039c8dd1f5a620f26d108350eb67bae30dbba415f0a69cb19f9040ebda26",
+    "mtime": "2026-11-02T19:20:33.040Z"
    }
   ],
-  "codeSha256": "35615887cff49aca29cd8848917cd6dd585956e4e1e7e574851c846b75ce8613",
+  "codeSha256": "bdeedb05caf877185a7d7061255d7578b674faf77a2111ffde4db5d51f9bc670",
   "harnessVersion": "w294b-families-2",
   "scope": {
    "version": "w318a-scope-6",
@@ -116,16 +116,16 @@
     "BUILTIN_PRESETS.map((p)=>[p.id,p.emoji||null,p.name||null,p.familyRole||null])"
    ],
    "complete": true,
-   "names": 1319,
-   "segments": 1157,
-   "closureShare": 0.3222
+   "names": 1362,
+   "segments": 1188,
+   "closureShare": 0.3233
   },
-  "scopeSha256": "5d63fca2535c458dec9b6ee4403d988b6ed8f807b1429e90efbdf2d0e89e5ee7",
+  "scopeSha256": "ab13c230b280c7a3cfb6ed6ee0db1d8bfbd27248e94023c229e5fe955527d1dc",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "98d81bc86ad5c2c9e8cda6caae4918c336987abac25b92e3f48ecfa7cfda95a6",
+    "stableSha256": "67eff07e78c8850cdeaa7aeef4640326199262aa290c94cf662fd78157e1a9c4",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -135,17 +135,30 @@
      "/diagnosticsSplit/sha256",
      "/fourValues/current/targetSha256",
      "/fourValues/current/when",
+     "/h2Reuse/reusedSec",
      "/kf0Runs/charonCitation/citedTargetSha256",
      "/kf0Runs/charonCitation/fileSha256",
      "/mergeKey/targetSha256",
      "/meta/target",
      "/meta/targetSha256",
      "/meta/when",
+     "/presets/*/run/dtHalf/reusedFrom/generatedAt",
+     "/presets/*/run/dtHalf/reusedFrom/targetSha256",
+     "/presets/*/run/dtHalf/reusedFrom/wallSec",
+     "/presets/*/run/h2Reuse/reusedFrom/generatedAt",
+     "/presets/*/run/h2Reuse/reusedFrom/targetSha256",
+     "/presets/*/run/h2Reuse/reusedFrom/wallSec",
      "/presets/*/run/stopRule/rateStepsPerSec",
      "/presets/*/run/stopRule/wallSec",
      "/presets/*/run/stopRuleStages/*/rateStepsPerSec",
+     "/presets/*/run/stopRuleStages/*/reusedFrom/generatedAt",
+     "/presets/*/run/stopRuleStages/*/reusedFrom/targetSha256",
+     "/presets/*/run/stopRuleStages/*/reusedFrom/wallSec",
      "/presets/*/run/stopRuleStages/*/wallSec",
      "/presets/*/run/timeBudget/*/rateStepsPerSec",
+     "/presets/*/run/timeBudget/*/reusedFrom/generatedAt",
+     "/presets/*/run/timeBudget/*/reusedFrom/targetSha256",
+     "/presets/*/run/timeBudget/*/reusedFrom/wallSec",
      "/presets/*/run/timeBudget/*/wallNearBudget",
      "/presets/*/run/timeBudget/*/wallSec",
      "/presets/*/run/wallSec"
@@ -153,7 +166,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "03fcb219e7819d781afe0e7fa387603362bd4d7864283efc6f04ce0259b59fd3",
+    "stableSha256": "a7a15b09870c04daece9dddcc0b0a0e20ed3400628d196133a3b89ce64b916e3",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -166,6 +179,7 @@
      "/h2Store/entries/*/run/timeBudget/wallNearBudget",
      "/h2Store/entries/*/run/timeBudget/wallSec",
      "/h2Store/entries/*/run/wallSec",
+     "/h2Store/entries/*/targetSha256",
      "/h4Store/carriedFrom",
      "/h4Store/entries/*/generatedAt",
      "/h4Store/entries/*/run/rateStepsPerSec",
@@ -175,6 +189,7 @@
      "/h4Store/entries/*/run/timeBudget/wallNearBudget",
      "/h4Store/entries/*/run/timeBudget/wallSec",
      "/h4Store/entries/*/run/wallSec",
+     "/h4Store/entries/*/targetSha256",
      "/when"
     ],
     "companionOf": "tests/out/calaudit-w249.json"
@@ -227,7 +242,7 @@
    "畳まない組: 較正の派生値が kF0 版と DFM 版で違う組(観測版と DFM 版を 1 ID にしない)"
   ]
  },
- "betaBuild": "v1.47-b323",
+ "betaBuild": "v1.47-b324",
  "ruling": "原仮定者の裁定(第73報)④: 同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)・ダークローター〔現 光学迷彩矮星〕関連の一部は廃止の方向",
  "reading": "統括の検証項目 R84(退役はフラグ・BUILTIN_PRESETS から消さない)・R85(鍵ごとの差・同じ入力/違う入力・主系列/比較/診断/履歴・候補を出すだけで畳まない)",
  "notClaim": [
@@ -244,12 +259,12 @@
  "badRole": [],
  "counts": {
   "families": 22,
-  "members": 51,
+  "members": 53,
   "retiredMembers": 0,
   "role": {
    "主系列": 26,
    "診断": 5,
-   "比較": 20
+   "比較": 22
   },
   "cand": {
    "A": 1,
@@ -1872,14 +1887,16 @@
   },
   {
    "key": "galaxyrot",
-   "ja": "銀河の回転曲線 5 本",
+   "ja": "銀河の回転曲線 7 本",
    "ref": "galaxy",
    "ids": [
     "galaxy",
     "galaxyStd",
     "galaxyGeo2",
     "galaxyDB",
-    "galaxyGeo2Flat3d"
+    "galaxyGeo2Flat3d",
+    "galaxyGeo2Thick3d",
+    "galaxyGeo2ThickTilt3d"
    ],
    "retiredIds": [],
    "rows": [
@@ -2128,6 +2145,112 @@
       ]
      },
      "input": "同じ入力"
+    },
+    {
+     "id": "galaxyGeo2Thick3d",
+     "emoji": "🥞",
+     "name": "v−u統一測地線の銀河(三次元・有限厚)",
+     "familyId": "galaxyrot",
+     "familyRole": "variant",
+     "retired": false,
+     "sampleClass": "principle",
+     "catalog": "extended",
+     "group": "銀河の力学",
+     "calVariant": null,
+     "inPopulation": false,
+     "variantLabel": null,
+     "geoPN": 2,
+     "kFrame": 1,
+     "D0": 1.5,
+     "D0pull": null,
+     "q": 2,
+     "qLock": false,
+     "massCalibration": null,
+     "relativeDrag": null,
+     "spaceMesh": null,
+     "purpose": "💫 の面内の配置に有限厚(±3h の外は再抽選)を足し三次元の步で走らせる",
+     "gates": [],
+     "presetSigHash": "55b01696",
+     "accepted": true,
+     "roleEst": "比較",
+     "roleWhy": "上のどれでもない",
+     "vsRef": {
+      "bodies": {
+       "count": true,
+       "m": true,
+       "x": true,
+       "v": true,
+       "other": false
+      },
+      "physicsDiff": [
+       "coord",
+       "gammaN",
+       "geoPN",
+       "kRep",
+       "kappaS",
+       "lambdaPN",
+       "muF",
+       "stateCarry"
+      ],
+      "topDiff": [
+       "rays",
+       "timeRef"
+      ]
+     },
+     "input": "同じ入力"
+    },
+    {
+     "id": "galaxyGeo2ThickTilt3d",
+     "emoji": "🧇",
+     "name": "v−u統一測地線の銀河(三次元・有限厚・傾き有り)",
+     "familyId": "galaxyrot",
+     "familyRole": "variant",
+     "retired": false,
+     "sampleClass": "principle",
+     "catalog": "extended",
+     "group": "銀河の力学",
+     "calVariant": null,
+     "inPopulation": false,
+     "variantLabel": null,
+     "geoPN": 2,
+     "kFrame": 1,
+     "D0": 1.5,
+     "D0pull": null,
+     "q": 2,
+     "qLock": false,
+     "massCalibration": null,
+     "relativeDrag": null,
+     "spaceMesh": null,
+     "purpose": "🥞 と同じ入力を全体で回した対の本で回転共変の程度を測る",
+     "gates": [],
+     "presetSigHash": "9f35612a",
+     "accepted": true,
+     "roleEst": "比較",
+     "roleWhy": "上のどれでもない",
+     "vsRef": {
+      "bodies": {
+       "count": true,
+       "m": true,
+       "x": true,
+       "v": true,
+       "other": false
+      },
+      "physicsDiff": [
+       "coord",
+       "gammaN",
+       "geoPN",
+       "kRep",
+       "kappaS",
+       "lambdaPN",
+       "muF",
+       "stateCarry"
+      ],
+      "topDiff": [
+       "rays",
+       "timeRef"
+      ]
+     },
+     "input": "同じ入力"
     }
    ],
    "keyDiff": [
@@ -2138,7 +2261,9 @@
       "galaxyStd": null,
       "galaxyGeo2": 2,
       "galaxyDB": null,
-      "galaxyGeo2Flat3d": 2
+      "galaxyGeo2Flat3d": 2,
+      "galaxyGeo2Thick3d": 2,
+      "galaxyGeo2ThickTilt3d": 2
      }
     },
     {
@@ -2148,7 +2273,9 @@
       "galaxyStd": null,
       "galaxyGeo2": 10,
       "galaxyDB": null,
-      "galaxyGeo2Flat3d": 10
+      "galaxyGeo2Flat3d": 10,
+      "galaxyGeo2Thick3d": 10,
+      "galaxyGeo2ThickTilt3d": 10
      }
     },
     {
@@ -2158,7 +2285,9 @@
       "galaxyStd": "none",
       "galaxyGeo2": "none",
       "galaxyDB": "normal",
-      "galaxyGeo2Flat3d": "none"
+      "galaxyGeo2Flat3d": "none",
+      "galaxyGeo2Thick3d": "none",
+      "galaxyGeo2ThickTilt3d": "none"
      }
     },
     {
@@ -2168,7 +2297,9 @@
       "galaxyStd": null,
       "galaxyGeo2": null,
       "galaxyDB": null,
-      "galaxyGeo2Flat3d": "3d"
+      "galaxyGeo2Flat3d": "3d",
+      "galaxyGeo2Thick3d": "3d",
+      "galaxyGeo2ThickTilt3d": "3d"
      }
     },
     {
@@ -2178,7 +2309,9 @@
       "galaxyStd": 0,
       "galaxyGeo2": 0,
       "galaxyDB": 0,
-      "galaxyGeo2Flat3d": 0
+      "galaxyGeo2Flat3d": 0,
+      "galaxyGeo2Thick3d": 0,
+      "galaxyGeo2ThickTilt3d": 0
      }
     },
     {
@@ -2188,7 +2321,9 @@
       "galaxyStd": 0,
       "galaxyGeo2": 2,
       "galaxyDB": 0,
-      "galaxyGeo2Flat3d": 2
+      "galaxyGeo2Flat3d": 2,
+      "galaxyGeo2Thick3d": 2,
+      "galaxyGeo2ThickTilt3d": 2
      }
     },
     {
@@ -2198,7 +2333,9 @@
       "galaxyStd": 0,
       "galaxyGeo2": 0,
       "galaxyDB": 0,
-      "galaxyGeo2Flat3d": 0
+      "galaxyGeo2Flat3d": 0,
+      "galaxyGeo2Thick3d": 0,
+      "galaxyGeo2ThickTilt3d": 0
      }
     },
     {
@@ -2208,7 +2345,9 @@
       "galaxyStd": 0,
       "galaxyGeo2": 0,
       "galaxyDB": 0,
-      "galaxyGeo2Flat3d": 0
+      "galaxyGeo2Flat3d": 0,
+      "galaxyGeo2Thick3d": 0,
+      "galaxyGeo2ThickTilt3d": 0
      }
     },
     {
@@ -2218,7 +2357,9 @@
       "galaxyStd": 1,
       "galaxyGeo2": 0,
       "galaxyDB": 1,
-      "galaxyGeo2Flat3d": 0
+      "galaxyGeo2Flat3d": 0,
+      "galaxyGeo2Thick3d": 0,
+      "galaxyGeo2ThickTilt3d": 0
      }
     },
     {
@@ -2228,7 +2369,21 @@
       "galaxyStd": 0,
       "galaxyGeo2": 0,
       "galaxyDB": 0,
-      "galaxyGeo2Flat3d": 0
+      "galaxyGeo2Flat3d": 0,
+      "galaxyGeo2Thick3d": 0,
+      "galaxyGeo2ThickTilt3d": 0
+     }
+    },
+    {
+     "key": "physics.stateCarry",
+     "values": {
+      "galaxy": null,
+      "galaxyStd": null,
+      "galaxyGeo2": null,
+      "galaxyDB": null,
+      "galaxyGeo2Flat3d": null,
+      "galaxyGeo2Thick3d": "double",
+      "galaxyGeo2ThickTilt3d": "double"
      }
     },
     {
@@ -2238,7 +2393,9 @@
       "galaxyStd": null,
       "galaxyGeo2": null,
       "galaxyDB": null,
-      "galaxyGeo2Flat3d": null
+      "galaxyGeo2Flat3d": null,
+      "galaxyGeo2Thick3d": null,
+      "galaxyGeo2ThickTilt3d": null
      }
     },
     {
@@ -2248,7 +2405,9 @@
       "galaxyStd": 20260727,
       "galaxyGeo2": 20260727,
       "galaxyDB": 20260804,
-      "galaxyGeo2Flat3d": 20260727
+      "galaxyGeo2Flat3d": 20260727,
+      "galaxyGeo2Thick3d": 20260727,
+      "galaxyGeo2ThickTilt3d": 20260727
      }
     },
     {
@@ -2258,7 +2417,9 @@
       "galaxyStd": "(宣言あり)",
       "galaxyGeo2": "(宣言あり)",
       "galaxyDB": "(宣言あり)",
-      "galaxyGeo2Flat3d": "(宣言あり)"
+      "galaxyGeo2Flat3d": "(宣言あり)",
+      "galaxyGeo2Thick3d": "(宣言あり)",
+      "galaxyGeo2ThickTilt3d": "(宣言あり)"
      }
     },
     {
@@ -2268,7 +2429,9 @@
       "galaxyStd": "principle",
       "galaxyGeo2": "principle",
       "galaxyDB": "principle",
-      "galaxyGeo2Flat3d": "principle"
+      "galaxyGeo2Flat3d": "principle",
+      "galaxyGeo2Thick3d": "principle",
+      "galaxyGeo2ThickTilt3d": "principle"
      }
     },
     {
@@ -2278,7 +2441,9 @@
       "galaxyStd": "variant",
       "galaxyGeo2": "variant",
       "galaxyDB": "variant",
-      "galaxyGeo2Flat3d": "variant"
+      "galaxyGeo2Flat3d": "variant",
+      "galaxyGeo2Thick3d": "variant",
+      "galaxyGeo2ThickTilt3d": "variant"
      }
     },
     {
@@ -2288,7 +2453,9 @@
       "galaxyStd": "claim.galaxystd-outerboost",
       "galaxyGeo2": "claim.galaxygeo2-outerboost",
       "galaxyDB": "claim.galaxydb-contrast",
-      "galaxyGeo2Flat3d": null
+      "galaxyGeo2Flat3d": null,
+      "galaxyGeo2Thick3d": null,
+      "galaxyGeo2ThickTilt3d": null
      }
     },
     {
@@ -2298,7 +2465,9 @@
       "galaxyStd": "同じ入力",
       "galaxyGeo2": "同じ入力",
       "galaxyDB": "違う入力(本数・質量・位置・速度)",
-      "galaxyGeo2Flat3d": "同じ入力"
+      "galaxyGeo2Flat3d": "同じ入力",
+      "galaxyGeo2Thick3d": "同じ入力",
+      "galaxyGeo2ThickTilt3d": "同じ入力"
      }
     }
    ],
@@ -4762,6 +4931,52 @@
   ],
   "harnesses": [
    {
+    "file": "tests/.qa-preflight-12731.mjs",
+    "ids": [
+     "darkrotor",
+     "bhCore",
+     "nebulaRotor",
+     "nebulaShell",
+     "nebulaBipolar",
+     "starSeed",
+     "bhCoreTilt",
+     "galaxyMeshSpiralGeoToyLite",
+     "psrDoubleABPN",
+     "psrJ1757PN",
+     "psrJ1946PN",
+     "emAuditNewton",
+     "psrDoubleABCF",
+     "psrJ1757CF",
+     "psrJ1946CF",
+     "psrB1534CF"
+    ],
+    "steps": [],
+    "kind": "fixture"
+   },
+   {
+    "file": "tests/.qa-preflight-30013.mjs",
+    "ids": [
+     "darkrotor",
+     "bhCore",
+     "nebulaRotor",
+     "nebulaShell",
+     "nebulaBipolar",
+     "starSeed",
+     "bhCoreTilt",
+     "galaxyMeshSpiralGeoToyLite",
+     "psrDoubleABPN",
+     "psrJ1757PN",
+     "psrJ1946PN",
+     "emAuditNewton",
+     "psrDoubleABCF",
+     "psrJ1757CF",
+     "psrJ1946CF",
+     "psrB1534CF"
+    ],
+    "steps": [],
+    "kind": "fixture"
+   },
+   {
     "file": "tests/exp-4-48.mjs",
     "ids": [
      "darkrotor"
@@ -5617,11 +5832,11 @@
    "psrB1534CF": 21
   },
   "kindCounts": {
+   "fixture": 4,
    "not-in-table": 18,
    "history": 25,
    "current": 15,
-   "tool": 4,
-   "fixture": 2
+   "tool": 4
   },
   "sideTable": [
    "alphaCenABDFM",
@@ -5683,5 +5898,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.837
+ "elapsedS": 1.977
 }

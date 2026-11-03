@@ -77,7 +77,7 @@ export const FAMILIES = [
   { key: 'sirius', ja: 'シリウス AB', ref: 'siriusAB', ids: ['siriusABDFM', 'siriusAB'] },
   { key: 'galaxyMesh', ja: '銀河回転(空間メッシュ・アナロジー)', ref: 'galaxyMeshSpiral',
     ids: ['galaxyMeshSpiral', 'galaxyMeshSpiralGeoToy', 'galaxyMeshSpiralGeoToyLite', 'galaxyAnalogyBH'] },
-  { key: 'galaxyrot', ja: '銀河の回転曲線 5 本', ref: 'galaxy', ids: ['galaxy', 'galaxyStd', 'galaxyGeo2', 'galaxyDB', 'galaxyGeo2Flat3d'] },   // 第322便a(R270): 🫓 平面の 3D 銀河の本を末尾へ
+  { key: 'galaxyrot', ja: '銀河の回転曲線 7 本', ref: 'galaxy', ids: ['galaxy', 'galaxyStd', 'galaxyGeo2', 'galaxyDB', 'galaxyGeo2Flat3d', 'galaxyGeo2Thick3d', 'galaxyGeo2ThickTilt3d'] },   // 第324便a(R279): 🥞🧇 有限厚の対の本を末尾へ   // 第322便a(R270): 🫓 平面の 3D 銀河の本を末尾へ
   { key: 'tuc47', ja: '球状星団 47 Tuc', ref: 'tuc47', ids: ['tuc47', 'tuc47DFM'] },   // 第290便b: 基準を 🫐 → 🍇(🫐 は退役)
   { key: 'ngc3198', ja: '渦巻銀河 NGC 3198', ref: 'ngc3198DFM', ids: ['ngc3198DFM', 'ngc3198'] },
   // 第290便b: 形の玩具を 2 家族に分割(中心なし / 中心天体つき)・棒と腕を新しい家族に・超新星は基準を 🌹 → 🥀(🌹 は退役・🎇 を機構の枝として追加 —— 家族は群をまたいでよい)

@@ -2,7 +2,7 @@
  "version": "w315a-symbols-2",
  "generator": "tests/exp-w315a-symbols.mjs",
  "target": "beta/index.html",
- "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
+ "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
  "ruling": "原仮定者の裁定(第117報)・決断事項 AN414(記号の体系: 時空係数 X_k・引きずり係数 Y_k・決定力定数 κ_D = 2G/c²・r_s = κ_D m・r_d = Y_k m・光速定数 c・重力定数 G・基準光速 c_0・基準重力 G_0・局所光速 c_loc・局所重力 G_loc・物理対応ロックの読込時の自動 ON)・統括の推奨 AN417・AN419・AN420・統括の検証項目 R242。保存形式の鍵とエンジンの式は変えない(表示の文とロックのフラグだけ)",
  "physLockAutoVersion": "w315a-physlock-auto-1",
  "quick": false,
@@ -470,9 +470,9 @@
   "version": "w315a-physlock-auto-1"
  },
  "P": {
-  "n": 182,
-  "on": 90,
-  "off": 92,
+  "n": 186,
+  "on": 92,
+  "off": 94,
   "byRole": {
    "none": {
     "n": 44,
@@ -483,8 +483,8 @@
     "on": 19
    },
    "variant": {
-    "n": 50,
-    "on": 26
+    "n": 54,
+    "on": 28
    },
    "retired": {
     "n": 56,
@@ -493,7 +493,7 @@
   },
   "flagEqJudge": true,
   "allBitSame": true,
-  "onDerivedBitSame": 90,
+  "onDerivedBitSame": 92,
   "onIds": [
    "grcalGps",
    "grcalLight",
@@ -547,6 +547,8 @@
    "siriusABDFM",
    "siriusABInertial3d",
    "alphaCenABInertial3d",
+   "alphaCenABInertial3dJ",
+   "psrDoubleABInertial3d",
    "psrDoubleAB",
    "psrDoubleABDFM",
    "psrDoubleABGeoToy",
@@ -850,6 +852,32 @@
    {
     "id": "galaxyGeo2Flat3d",
     "emoji": "🫓",
+    "role": "variant",
+    "on": false,
+    "judge": false,
+    "reason": "mismatch",
+    "kappaT": 0.02,
+    "G": 0.8,
+    "cLight": 30,
+    "bitSame": true,
+    "derivedBitSame": null
+   },
+   {
+    "id": "galaxyGeo2Thick3d",
+    "emoji": "🥞",
+    "role": "variant",
+    "on": false,
+    "judge": false,
+    "reason": "mismatch",
+    "kappaT": 0.02,
+    "G": 0.8,
+    "cLight": 30,
+    "bitSame": true,
+    "derivedBitSame": null
+   },
+   {
+    "id": "galaxyGeo2ThickTilt3d",
+    "emoji": "🧇",
     "role": "variant",
     "on": false,
     "judge": false,
@@ -2161,6 +2189,32 @@
     "derivedBitSame": true
    },
    {
+    "id": "alphaCenABInertial3dJ",
+    "emoji": "🔸",
+    "role": "variant",
+    "on": true,
+    "judge": true,
+    "reason": "within",
+    "kappaT": 7.425826474101849e-9,
+    "G": 6.674,
+    "cLight": 29979.2458,
+    "bitSame": true,
+    "derivedBitSame": true
+   },
+   {
+    "id": "psrDoubleABInertial3d",
+    "emoji": "📟",
+    "role": "variant",
+    "on": true,
+    "judge": true,
+    "reason": "within",
+    "kappaT": 7.42582647410185e-7,
+    "G": 6.674,
+    "cLight": 2997.92458,
+    "bitSame": true,
+    "derivedBitSame": true
+   },
+   {
     "id": "psrDoubleAB",
     "emoji": "📻",
     "role": "primary",
@@ -2968,31 +3022,31 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.038
+   "wallSec": 0.041
   },
   "F": {
-   "wallSec": 0.001
-  },
-  "L": {
    "wallSec": 0
   },
+  "L": {
+   "wallSec": 0.001
+  },
   "P": {
-   "wallSec": 2.495
+   "wallSec": 2.241
   }
  },
- "elapsedS": 4.66,
+ "elapsedS": 4.034,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便a",
   "target": "beta/index.html",
-  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-  "generatedAt": "2026-11-01T21:20:34.189Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-03T02:01:39.379Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7491601,
-    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-    "mtime": "2026-11-01T20:25:22.344Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -3075,11 +3129,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1329,
-   "segments": 1167,
-   "closureShare": 0.2972
+   "names": 1372,
+   "segments": 1198,
+   "closureShare": 0.2981
   },
-  "scopeSha256": "99f0608a0ca64e8207db9d4cb8725b31e5748dd6a3d75d7795b86ab78b1b4f58",
+  "scopeSha256": "6532bf259b8848ed45c3e2c05534cb616b86ecb570af445708b8bce67eafa0c0",
   "scopeComplete": true,
   "inputsStable": [
    {

@@ -2,9 +2,9 @@
  "version": "w302e-statecontract-1",
  "generator": "tests/exp-w302e-statecontract.mjs",
  "target": "beta/index.html",
- "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
+ "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
  "ruling": "DECISIONS v60 AN305 ②⑧(新しい状態の鍵の登録の lint・前の本の持ち越しの検出)・統括の検証項目 R189",
- "books": 126,
+ "books": 130,
  "steps": 3,
  "registry": {
   "names": 648,
@@ -24,7 +24,7 @@
   ]
  },
  "static": {
-  "assigned": 1022,
+  "assigned": 1023,
   "outside": 248,
   "outsideSeen": 218,
   "outsideStepChanged": 0,
@@ -62,7 +62,7 @@
   ]
  },
  "dynamic": {
-  "stepChangedKeys": 368,
+  "stepChangedKeys": 377,
   "leaks": [],
   "carried": []
  },
@@ -82,19 +82,19 @@
   {
    "key": "accVx",
    "kind": "work",
-   "changed": 29,
+   "changed": 31,
    "seen": true
   },
   {
    "key": "accVy",
    "kind": "work",
-   "changed": 28,
+   "changed": 30,
    "seen": true
   },
   {
    "key": "accS",
    "kind": "work",
-   "changed": 28,
+   "changed": 30,
    "seen": true
   },
   {
@@ -112,7 +112,7 @@
   {
    "key": "_g3",
    "kind": "work",
-   "changed": 1,
+   "changed": 3,
    "seen": true
   },
   {
@@ -136,7 +136,7 @@
   {
    "key": "_rdRadArr",
    "kind": "cache",
-   "changed": 12,
+   "changed": 14,
    "seen": true
   },
   {
@@ -159,19 +159,19 @@
   "carried0": true
  },
  "ok": true,
- "elapsedS": 14.282,
+ "elapsedS": 14.903,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第302便e",
   "target": "beta/index.html",
-  "targetSha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-  "generatedAt": "2026-11-01T21:20:08.015Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-03T02:21:09.651Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7491601,
-    "sha256": "02da1683856a12e6a2e3fcf0c9cfdc00d432274fa1387dcd24cba8165762e27a",
-    "mtime": "2026-11-01T20:25:22.344Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    }
   ],
   "code": [
@@ -241,11 +241,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1316,
-   "segments": 1154,
-   "closureShare": 0.2954
+   "names": 1359,
+   "segments": 1185,
+   "closureShare": 0.2963
   },
-  "scopeSha256": "535b4589b6ef07dff35ee8b37d431824d324bee59e007ea42ea60d391c839f77",
+  "scopeSha256": "6e9c07c5d65b6a880d559c95a568bbeda44392f4f99494fa4728cded970a37f8",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

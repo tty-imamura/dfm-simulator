@@ -4522,3 +4522,46 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **読込の互換**(① —— 本便): 読み手は行名と id の両方を読む(判定器の行の測定定義・h/4 の例外の照合)。判定(4 値の台帳・量の 5 区分・門・差)は id を足す前と同じ。② は検定器と QA を id へ切り替える便、③ は行名から来歴の語を外す便(旧い名は表の別名に残る —— 過去の正本と凍結の写しは書き換えない)。
 - **部分の再検査の補足の記録**(`tools/qa-recheck-record.mjs` —— 版 w323d-recheck-1): 保存のフル QA の FAIL を直した後に、フルを繰り返さずに FAIL の ID だけを部分 QA で再検査したとき、元のフルの参照(ファイルの sha256・html の sha256・PASS/全体・FAIL の ID)・直したファイルの sha256・検査のコードの sha256・再検査の結果(PASS・FAIL・SKIP・未実行)・結論を `tests/out/qa-recheck-beta.json`(1 本の追記型)に書く。**保存のフルの結果は書き換えない**。SAMPLE_STATUS の「保存 QA の来歴」の行は、補足が今の保存のフルを指すときだけ「保存のフル n/N + 部分の再検査 k/K(ID)」を足す(無ければ今と同じ)。
 - これらは開発の道具と来歴の欄で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
+
+
+
+## 171. 第324便a —— geoPN=2(v−u 則)の 3D の S3: disk の有限厚の宣言 `thickness`(受理・正準形・署名)と有限厚の対の本 🥞 galaxyGeo2Thick3d・🧇 galaxyGeo2ThickTilt3d・AN510 の門(原仮定者の回答(2026-11-01 —— AN500)・決断事項 AN513・AN510・統括の検証項目 R279・**`S._core` と二次元の步は不変**・在位の本の宣言・署名・数値は不変・**SYSTEM_PROMPT には載せない**)
+
+- **宣言**: 三次元の本(physics.coord:"3d")の disk の群に `thickness:{z:{kind:"gauss", h, cut}, vz:{kind:"local-nu", scale, center}}`。z は円盤の局所座標で切断前の尺度 h の正規分布から引き、±cut·h の外は**再抽選**(端へ押し付けない —— 抽選の後の二乗平均は h より小さい)。v_z は N(0, (scale·ν·h)²)・ν² = G M_c/(R² + ε²)^{3/2}(R は円盤の中心からの面内の距離・ε は physics.softening・M_c は `center` の行の single の宣言の質量)。**初期の近似**で、円盤の自己重力を含む平衡ではない。
+- **受理**(`thickValidate`・`thickCrossCheck` —— 版 THICK_VERSION = w324a-thick-1): 未知の鍵は拒否(黙って落とさない)・h は 0 以上で円盤の半径以下・cut は 1〜6(既定 3)・scale は 0〜10(既定 1)・`center` は必須(配列の先頭を黙って中心とみなさない —— 円盤の中心と同じ位置の正の質量の single)・**h = 0 は鍵を正準形から外す**(旧の宣言と同じ署名・同じ数値 —— 警告)・1 粒子の再抽選は 64 回まで(受理器が build と同じ列を引き直して確かめる)・disk 以外の型の thickness は警告して落とす・二次元の本では値を捨てず Z の宣言の警告・円盤を傾けて中心の自転軸が R ẑ と違えば警告。
+- **build**(`coord3dPlace`): 厚み用の**別の乱数の系列**(本の seed と行の番号から派生 —— 面内の位置・質量・速度・自転の乱数列は変えない)で局所座標の z・v_z を作ってから、群の incl/node の**同じ回転** R = R_z(node)·R_x(incl) を位置・速度(群の並進 bulkV と厚みの速度は別)・群の粒子の自転軸(R ẑ —— 有効化しない軸)へ。
+- **本**: 🥞 `galaxyGeo2Thick3d`(🫓 と同じ seed・同じ面内の配置・同じ物理に thickness〔h 8・cut 3・scale 1・center 0〕と stateCarry:"double")・🧇 `galaxyGeo2ThickTilt3d`(同じ入力を全体で回した対 —— incl 30°・node 40°・中心の spinAxis = R ẑ)。claims は持たない。状態の位置・速度は倍精度・場の配列(u・u の履歴・Δp・重み和)と自転・質量は単精度(三次元では framePrecision は未対応)。
+- **AN510**: geoPN=2 の三次元の步は、軸の表示・有効化の有無に依らず全粒子の向きを "vector" で力学として更新する(第322便a の步のまま —— 本便は門を足した: 零自転からの立ち上がり・符号反転・上限 |s| ≤ 40 への到達で html の步と純関数が同じビット・クランプが落とした角運動量を戻すと閉じる)。
+- **器** `tests/exp-w324a-geo2thick.mjs`(段 geo2thick-324a・`quickVerify:'long'` —— 正本 `tests/out/geo2thick-w324a.json`・`W324A_OUT`・`W324A_QUICK`・`W324A_WORKERS`)・文書の lib `tests/lib-w324a-geo2thickdoc.mjs`。QA `behavior.geo2thick324a`・`docs.geo2thick324a`(root は SKIP)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(AI 生成には thickness を開放しない)。AI が説明を書くときも、有限厚を平衡と書かない・抽選の後の z の二乗平均を h と書かない・3D で銀河を表せたと書かない・外縁の比を実在の銀河の観測の較正と書かない。
+## 172. 第324便b —— 天体ごとの観測の自転 `obsSpin`(受理と源の角運動量 J の経路 `sourceMoment:{kind:"obsSpin"}`)・J0737 の geoPN=3 の本 📟 `psrDoubleABInertial3d`(軸は欠測)・α Cen の J の本 🔸 `alphaCenABInertial3dJ`(決断事項 AN514・AN515・統括の検証項目 R280・**未指定で旧署名と数値を 1 bit も変えない** —— 在位の本の宣言・式・受理の判定の意味・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **宣言**(三次元の本の single の天体だけ・物理の単位の宣言 `scaleExp {L, T, M}` が要る): `bodies[i].obsSpin = {kind:"omega", omega, unit:"rad/s"|"Hz", fSrc, rObs, axis:[x,y,z]|null, frame:"book", source, epoch, note?}` か `{kind:"J", J, unit:"kg m^2/s", axis, frame, source, epoch, note?}` か `{kind:"J", Jvec:[Jx,Jy,Jz], unit, frame, source, epoch, note?}`。kind は排他・fSrc は明示必須(0 < f ≤ 2/3 —— 0.4 などの既定を補わない)・rObs は SI の m・Hz は ω = 2πν・axis は鍵が必須で null は欠測(J の源に使わない・軌道の法線で埋めない)・J + axis と Jvec を同時に置かない・未知の鍵は拒否。**状態の自転 `S.spin`・軸・慣性へは写さない**。読み口 `HP.obsSpin`(版 w324b-obsspin-1 —— validate・rowOf・crossCheck・state)。
+- **源の J の経路**: `physics.relativeDrag.invSq.sourceMoment:{kind:"obsSpin"}`(K1 の規則の本・spinDrag が要る・f を持たない・dragCore の天体のある本は拒否)。源の回転と軸のモーメントを固定の外部の貯蔵庫の観測の J ベクトルで置く(omega: R_src = rObs√(5fSrc/2)・Ω_src = ω / J: R_src = R_d・Ω_src = |J|/((2/5) m_d R_d²))。源の自転の進化と歳差は扱わない。
+- **本**: 📟 `psrDoubleABInertial3d`(psr の家族の variant —— 📻 と同じ入力の三次元・両星 obsSpin〔A ν = 44.054068642001 Hz・B ν = 1/P・fSrc 0.354・0.346 —— Lattimer & Schutz 2005 の経験式を代理半径に当てた模型の入力・rObs 11.75 km〕・軸は観測で決まっていないので axis:null —— 本の走りは並進だけの写しと状態のビット同一)・🔸 `alphaCenABInertial3dJ`(alphaCen の家族の variant —— 🔶 と同じ初期状態に spinDrag {rot:"surfaceFlip"} と sourceMoment {kind:"J", f:{0:0.07, 1:0.07}} —— f は模型の入力・🔶 は並進だけのまま)。両方 sampleClass "principle"・較正母集団の外。
+- **器と正本**: `tests/exp-w324b-obsspin.mjs`(版 w324b-obsspin-1・`W324B_OUT`・`W324B_QUICK`・`W324B_WORKERS` —— 既定 2)・lib `tests/lib-w324b-obsspin.mjs`(版 w324b-obsspin-lib-1 —— 本の表・受理・拒否の 32 の場合・列・文献の値)・文書の lib `tests/lib-w324b-obsspindoc.mjs` → 正本 `tests/out/obsspin-w324b.json`(段 obsspin-324b・`quickVerify:'long'`)。
+- **QA**: `behavior.obsSpin324b`(受理・拒否の表・正準形・本の宣言・60 步のビット・状態の自転と源の J の読み口の不変・本の文の数)・`docs.obsSpin324b`(正本の門・段 T の作り直し・PHYSICS〔第324便b〕の表と数・必須の語・禁句)—— root は SKIP。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(観測の自転の欄は観測の記録から人が書く欄 —— AI が値を作らない)。AI が NS の本を作るときも、観測の自転を `S.spin` に写さない・fSrc を補わない(0.4 を置かない)・軸が分からなければ axis:null(軌道の法線で埋めない)〔第324便e(AN521): 連星の本は傾きの形 —— 不明な成分はノブ・§175〕・観測の J を源の自転の進化や歳差の計算と書かない・f を観測された構造係数と呼ばない。
+## 173. 第324便c —— 道具の続き: 簡易一致の欠測の境界と照合の数・長期の量の名簿・速い判定の実効値・post-merge の 4 つの数と ③′ の絞り・calaudit の揮発の欄・nslock の影の照合の記録(統括の検証項目 R281・決断事項 AN516・AN517/AN518・**html・本の宣言・エンジン・`S._core`・器の本文は不変** —— lib と道具と QA と文書と除外の宣言だけ・**SYSTEM_PROMPT には載せない**)
+
+- **簡易一致の欠測の境界**(`tests/lib-w323b-quick.mjs` 版 w324c-quick-2): `quickShadow` は器・lib の hash の欠け・不正・違いと正本の物理の値の hash の欠けを候補にしない。`shadowCompare` は欠測を na(理由つき)にして trueSame にも falseSame にも数えない・照合の数 `tally`(比べた数・html が違う比較・na の理由ごと)・自己比較 `selfCompare`(影の 1 便に数えない)。数を出すだけで、本運用に足る数かの門は第325便で統括が決める。
+- **長期の量の名簿** `QUICK_LONG_ROSTER`(`tests/lib-w281a-regentable.mjs` 版 w324c-quicklong-1 —— 37 段): 近点・周期・永年の歳差・三体の効果を正本に持ち、簡易の窓がその量の段を走らせない段。步の関数・受理器・`S._core` が変わった便では簡易一致の候補にしない。
+- **速い判定の実効値**(鎖の脚本の 1 行目・`fastgate.txt`・timeline の見出し —— 既定は 1 のまま)・**nslock の影の照合の記録**(`node tools/regen-chain.mjs --nslock-shadow <REGEN_LOG>` —— n/m と外れた門 G1〜G8・比較の実績なしの便は数えない)。
+- **post-merge**: ③〜④ は PASS・FAIL・SKIP・未実行の 4 つの数・③′ は便の塊だけ・部分 QA で覆えない鍵の名簿(`tools/qa-keys.mjs --uncovered`)。
+- **calaudit の揮発の欄**: h/2 の転記の来歴(転記の元の走行の時刻・html の sha・壁時計)と置き場の行の html の sha を安定 hash から除く(宣言の版 w324c-vcal-3・w324c-vdiag-3)—— h/2 の実測値・刻み・転記の可否は残す。判定の値と式は変えていない。
+- これらは開発の道具と来歴の欄で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
+
+## 174. 第324便d —— 長い段の再開の型(完了済みのジョブの再利用と途中の步からの再開)・衛星の長い窓の口(決断事項 AN480・AN452・統括の検証項目 R282・**html・本の宣言・エンジン・受理の判定・`S._core` は不変** —— lib と器の口と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
+
+- **再開の型**(`tests/lib-w324d-resume.mjs` —— 版 w324d-resume-1): (a) 完了済みのジョブの結果を契約(入力・器・環境・版の hash)つきで保存し、同じ契約なら再利用する。(b) 安全な步の境界で sim の全状態(html の保存と復帰の口 `HP.ckSnapOne`・`HP.ckRestoreOne`)と検出器の累積と步の番号を checkpoint に原子的に保存し(一時ファイル → fsync → rename)、同じ契約なら新しく組んだ sim に復帰して続ける。値は丸めの無い形(数は Float64 のビット・型つき配列はバイト列)。形・書きかけ・壊れた・違う契約の checkpoint は拒否して最初から走らせる。
+- **門**: 連続の走行と、止めて別の子プロセスで続けた走行の行が、所要の欄の外の全欄で同じビット(イオとエウロパの短い窓 —— q10 の途中と q11 の途中で 2 回止める・sim の全欄の digest も同じ)・否定対照(復帰の状態の 1 欄を塗ると行が変わる)・違う契約と書きかけの拒否・既定の経路で組んだ正本 = 再開の型で組んだ正本 = 全ジョブ再利用で組んだ正本(正本 `tests/out/resume-w324d.json`)。
+- **長い窓の口**: `node tests/exp-w318b-satnext.mjs --long`(イオ・エウロパ × 1.5 P_母 × h・h/2・h/4 × V1a・V0 —— 正本 `tests/out/satlong-w324d.json`・置き場 `W324D_RESUME_DIR`)・`--resume-gate`(門)・`--long --status`(済みと途中の印字)。既定の経路(試走・探索・正本 satnext-318b)はこの lib を読まない。段 resume-324d・satlong-324d は履歴(毎便の鎖に入れない)。
+- これらは開発の道具で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。長い窓の量は母惑星の公転周期の窓の中だけで引用し、在位へ入れない。
+
+## 175. 第324便e —— 連星の自転軸: obsSpin.axis の傾きの形(観測/推定/ノブの区別)・📟 の軸を推定の傾きとノブへ・🔸 を obsSpin の経路(軸はノブ)へ(原仮定者の回答(2026-11-02 —— AN521「連星は、自転軸の傾きが観測または推定されている天体を優先する。自転軸の傾きが不明な場合は、ノブとする」)・決断事項 AN515・統括の検証項目 R283・**在位の本の宣言・式・受理の判定の意味・`S._core` は不変** —— axis:null〔欠測〕の受理と意味も不変・**SYSTEM_PROMPT には載せない**)
+
+- **傾きの形**(`HP.obsSpin` 版 w324e-obsspin-2): `bodies[i].obsSpin.axis = {ref:"orbitNormal", pair:[i, j], tiltDeg:{deg, basis, …}, azimuthDeg:{deg, basis, …}, sense?:{sign, basis, …}, source, note?}`。軌道の法線は pair の二体の初期の相対の角運動量の向き・傾き tiltDeg(0〜180°)は法線から・方位 azimuthDeg(−360〜360°)は本の +x を法線に垂直な面へ射影した向きから・sense −1 は傾きを 180° − θ と読む。成分の basis は `"observed"`・`"estimated"`(不確かさ sigmaDeg・upperDeg・level を持てる —— ノブの鍵は拒否)か `"knob"`(**default・min・max が必須**・不確かさの鍵は拒否 —— ノブの値を観測と呼ばない)。build で J の向きへ解く(配列の形の axis と同じ正準化)。読み口の行に軸の形・成分の basis・法線。口 `HP.obsSpin.knobsOf`(ノブの一覧)・`HP.obsSpin.withKnob`(範囲の内のノブだけを変えた写し)。
+- **本**: 📟 `psrDoubleABInertial3d` —— A は推定の傾き 0°(95% 上限 3.2° の内の整列)・B は推定の傾き 40.6°(±0.1°)・方位(両星)と B の角の二通りの読み(40.6° か 139.4°)はノブ(既定 0°・+1)—— 源の J が入る(並進だけとの差 約 -1.8e-9 rad/公転・B の寄与 0.57%)。🔸 `alphaCenABInertial3dJ` —— 自転軸の傾きの記録が無いので傾きと方位をノブ(既定 0°)にし、源の J を obsSpin(kind "omega"・ν = 1/P・fSrc 0.07)の経路へ(既定は前の版の kind "J" と状態のビット同一)。**fSrc は変えていない**。
+- **器と正本**: `tests/exp-w324b-obsspin.mjs`(版 w324e-obsspin-2 —— 段 A に傾きの形の場合・段 B に軸の宣言とノブ・段 E に欠測の写しとノブを振った列・段 K に軌道の面の向き)→ 正本 `tests/out/obsspin-w324b.json`(段 obsspin-324b のまま)。式と測定は docs/PHYSICS.md〔第324便e〕。
+- **QA**: `behavior.obsSpin324b`・`docs.obsSpin324b` を世代で切り替えた(傾きの形の受理・ノブの一覧と withKnob・60 步〔📟 は並進だけと違う・欠測の写しは並進だけとビット同一・🔸 は前の版の宣言とビット同一〕・内蔵の obsSpin の軸は全部傾きの形)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(観測の自転の欄は観測の記録から人が書く欄)。AI が連星の本を作るときも、傾きの観測・推定の記録があればその値(basis "observed" か "estimated"・出典)を使い、記録が無い成分は basis "knob"(既定と範囲・source に「模型の入力」)にする —— 推定の値を作らない・ノブの値を観測と呼ばない。axis:null(欠測)は受理するが連星の本の既定にしない。

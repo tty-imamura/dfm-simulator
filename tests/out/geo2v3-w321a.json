@@ -21,7 +21,7 @@
   "shellPoints": 12
  },
  "target": "beta/index.html",
- "targetSha256": "1b3f2aeffd2b41793a7013ff3978c7a1e620bbeed644eb72e5c63bea90e4bb2b",
+ "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
  "ruling": "原仮定者の予定(第123報)・統括の検証項目 R266",
  "parts": {
   "base": {
@@ -167,7 +167,7 @@
       0
      ],
      "nan": false,
-     "wallSec": 197.814
+     "wallSec": 180.02
     },
     "h2": {
      "n": 381,
@@ -210,7 +210,7 @@
       0
      ],
      "nan": false,
-     "wallSec": 372.429
+     "wallSec": 267.383
     }
    },
    "frozen": {
@@ -263,7 +263,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.044
+     "wallSec": 0.019
     },
     {
      "key": "b3-D0zero",
@@ -290,7 +290,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.013
+     "wallSec": 0.005
     },
     {
      "key": "b5-semi",
@@ -317,7 +317,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.015
+     "wallSec": 0.006
     },
     {
      "key": "b5-leapfrog",
@@ -344,7 +344,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.016
+     "wallSec": 0.006
     },
     {
      "key": "b5-generic",
@@ -371,7 +371,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.019
+     "wallSec": 0.006
     },
     {
      "key": "b5-q15",
@@ -398,7 +398,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.01
+     "wallSec": 0.006
     },
     {
      "key": "b5-double",
@@ -425,7 +425,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.01
+     "wallSec": 0.005
     },
     {
      "key": "b5-work",
@@ -452,7 +452,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.015
+     "wallSec": 0.007
     },
     {
      "key": "gal4",
@@ -479,7 +479,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.021
+     "wallSec": 0.006
     }
    ],
    "allSame": true,
@@ -813,17 +813,17 @@
     "integrator": "semi",
     "policy": "vector",
     "prec": "single",
-    "pos": 1.5060240963855423e-07,
-    "vel": 3.4922557685243215e-07,
-    "uHist": 1.9770330052809517e-07,
-    "spinVec": 4.100053938645417e-08,
-    "rotA": 2.690487329157058e-08,
-    "resP": 1.5961818991981784e-08,
+    "pos": 1.5060240963855423e-7,
+    "vel": 3.4922557685243215e-7,
+    "uHist": 1.9770330052809517e-7,
+    "spinVec": 4.100053938645417e-8,
+    "rotA": 2.690487329157058e-8,
+    "resP": 1.5961818991981784e-8,
     "resL": 3.5214806666112924e-11,
     "conP": 1.0975927100764046e-10,
     "conL": 0,
-    "work": 2.610768806857376e-08,
-    "max": 3.4922557685243215e-07,
+    "work": 2.610768806857376e-8,
+    "max": 3.4922557685243215e-7,
     "axisTurns": 55,
     "kicks": 110
    },
@@ -1021,7 +1021,7 @@
      "steps": 40,
      "kicks": 390,
      "clamps": 0,
-     "dP": 2.6343519793460274e-07,
+     "dP": 2.6343519793460274e-7,
      "dL": 2.1709194049668955e-10,
      "Psc": 6.660546257355893,
      "Lsc": 338611.7085821977,
@@ -1037,8 +1037,8 @@
      "dK": 0.0024480152977850002,
      "dragWorkKE": 0.002448015297788368,
      "kRel": 1.3757943553913742e-12,
-     "dKs": 6.188509247066092e-05,
-     "dragSpinE": 6.188509247066036e-05,
+     "dKs": 0.00006188509247066092,
+     "dragSpinE": 0.00006188509247066036,
      "ksRel": 9.197790902950407e-15,
      "axisTurns": 195,
      "perpL": 0
@@ -1047,8 +1047,8 @@
      "dK": 0.0024480164779386634,
      "dragWorkKE": 0.002448016477938766,
      "kRel": 4.198597798580537e-14,
-     "dKs": 6.142911749036479e-05,
-     "dragSpinE": 6.14408093538075e-05,
+     "dKs": 0.00006142911749036479,
+     "dragSpinE": 0.0000614408093538075,
      "ksRel": 0.0001902947497873274,
      "axisTurns": 0,
      "perpL": 0.0004976994087316823
@@ -1102,9 +1102,9 @@
   "spinMax": 40,
   "reactDvCap": 16,
   "reactDvCap2": 256,
-  "iMin": 1e-09,
-  "wMin": 1e-09,
-  "dMin": 1e-09
+  "iMin": 1e-9,
+  "wMin": 1e-9,
+  "dMin": 1e-9
  },
  "s2Plan": [
   {
@@ -1196,28 +1196,28 @@
  ],
  "timing": {
   "base": {
-   "wallSec": 373
+   "wallSec": 267.912
   },
   "degen": {
-   "wallSec": 0.163
+   "wallSec": 0.066
   },
   "d3": {
-   "wallSec": 0.025
+   "wallSec": 0.011
   },
   "cov": {
-   "wallSec": 0.081
+   "wallSec": 0.036
   },
   "field": {
-   "wallSec": 0.009
-  },
-  "hist": {
    "wallSec": 0.004
   },
+  "hist": {
+   "wallSec": 0.001
+  },
   "ledger": {
-   "wallSec": 0.062
+   "wallSec": 0.033
   }
  },
- "elapsedS": 373.351,
+ "elapsedS": 268.065,
  "gates": {
   "baseInWindow": true,
   "baseClampZero": true,
@@ -1240,14 +1240,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第321便a",
   "target": "beta/index.html",
-  "targetSha256": "1b3f2aeffd2b41793a7013ff3978c7a1e620bbeed644eb72e5c63bea90e4bb2b",
-  "generatedAt": "2026-11-01T10:15:48.006Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-03T03:05:11.988Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7433318,
-    "sha256": "1b3f2aeffd2b41793a7013ff3978c7a1e620bbeed644eb72e5c63bea90e4bb2b",
-    "mtime": "2026-11-01T10:15:35.982Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    }
   ],
   "code": [
@@ -1255,37 +1255,37 @@
     "file": "tests/exp-w321a-geo2v3.mjs",
     "bytes": 43029,
     "sha256": "64d11b5bb3d8344cba9fa6c3c1baa16cbde5ea61f69f56be971cf6be5fd62531",
-    "mtime": "2026-11-01T07:08:20.521Z"
+    "mtime": "2026-11-01T10:22:57.350Z"
    },
    {
     "file": "tests/lib-w321a-geo2v3.mjs",
     "bytes": 31219,
     "sha256": "d30b16a443af44c399b0714ab69eb22ae71ed9ada5c0f9f311c5631989a6617c",
-    "mtime": "2026-11-01T06:37:37.637Z"
+    "mtime": "2026-10-31T16:16:59.894Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-01T06:37:36.281Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-01T06:37:36.281Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-01T06:37:36.273Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 96951,
     "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-11-01T06:37:36.289Z"
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
   "codeSha256": "386bd1526f0cdb23830500f784008429482c964bd39317ee08095da4560794e2",
@@ -1337,11 +1337,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1328,
-   "segments": 1166,
-   "closureShare": 0.2997
+   "names": 1371,
+   "segments": 1197,
+   "closureShare": 0.2981
   },
-  "scopeSha256": "7af08e1ee2fdb57f902e3c234468fbe4eba63bcee2f319cdeb696a80d2c7c7ce",
+  "scopeSha256": "ddf3bc0fd19c711f0ce3e35ff08142196eb4092f0ae3b03ce4d4a3721e4eafd8",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

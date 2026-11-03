@@ -2,7 +2,7 @@
  "version": "w313a-kappam-1",
  "generator": "tests/exp-w313a-kappam.mjs",
  "target": "beta/index.html",
- "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+ "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
  "ruling": "原仮定者の裁定(第115報)AN399 K1 を採用・AN402 太陽を含む全天体に R_d = κm(重力半径に比例する長さ)・補足(外殻は近距離の計算に要る・厚みは考えない・6.5e6 m は K2 の未宣言の上限 —— K1 では無視)・決断事項 AN403・AN404・統括の検証項目 R234",
  "rdRuleVersion": "w313a-invsq-k1-kappam-1",
  "shellRecvVersion": "w313a-shellrecv-1",
@@ -2338,31 +2338,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.029
+   "wallSec": 0.031
   },
   "R": {
-   "wallSec": 1.231
+   "wallSec": 1.058
   },
   "B": {
-   "wallSec": 1.552
+   "wallSec": 1.172
   },
   "E": {
-   "wallSec": 0.896
+   "wallSec": 0.783
   }
  },
- "elapsedS": 5.53,
+ "elapsedS": 4.788,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第313便a",
   "target": "beta/index.html",
-  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-  "generatedAt": "2026-11-01T14:32:44.918Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-03T00:05:07.082Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7487036,
-    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-    "mtime": "2026-11-01T12:44:54.266Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2462,11 +2462,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1336,
-   "segments": 1174,
-   "closureShare": 0.2999
+   "names": 1380,
+   "segments": 1206,
+   "closureShare": 0.3011
   },
-  "scopeSha256": "1ed9ccfbb56a833128e1f5e0b3fcb29b88fc2128caad819b8bf18026c5c92bc0",
+  "scopeSha256": "15c40847ccb0d68ee8f9a8e2ff20b631cc3cc88c471446dca14489b7f3bd228a",
   "scopeComplete": true,
   "inputsStable": [
    {

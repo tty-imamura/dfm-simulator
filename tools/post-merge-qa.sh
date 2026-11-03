@@ -24,7 +24,9 @@
 # 最後に 1 行で出す: `post-merge-qa: ⓪ … ① … ② … ③ … ③′ … ④ beta p/n・root p/n(SKIP s)⑤ … 所要 N s → OK|FAIL`。
 #
 # 使い方:
-#   tools/post-merge-qa.sh [--base beta/_wNNN_base.html] [--failed "id id …"] [--no-root] [--no-preflight]
+#   tools/post-merge-qa.sh [--base beta/_wNNN_base.html] [--failed "id id …"] [--no-root] [--no-preflight] [--wave N] [--all-waves]
+#   第324便c(R281): ③′ の既定は**便の塊だけ**(--wave N か CHANGELOG の最新の便 —— 過去の便の新設を積まない・--all-waves で積み上げ)・
+#             ③〜④ は qapart の `# qapart-summary` の行で PASS・FAIL・SKIP・未実行の 4 つの数(未実行の鍵の名)・④ の後に部分 QA で覆えない鍵の数
 #   環境変数: PLAYWRIGHT_CORE_DIR(既定: /opt/node22/lib/node_modules/playwright があればそれ)・POST_MERGE_LOG(ログの置き場 ——
 #             既定 ${TMPDIR:-/tmp}/post-merge-qa-<時刻>)・POST_MERGE_IDS(常設集合を差し替える —— 既定は下の 9 本)・
 #             POST_MERGE_WAVE_IDS(③′ の本便の新設ブロック —— 既定は下の 11 本・空文字で飛ばす)
@@ -548,6 +550,33 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickWindows323 docs.w323c lint.harness
 #   docs.sampleStatus-sync・preset.statusLedger-sync・docs.tallySync)・刻印の lint.provenanceMeta・lint.stableHashPaths・lint.regenChain・この脚本の lint.postMergeQaScript・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.provenanceIds323 lint.qaRecheck323 docs.w323d docs.calaudit-sync docs.calibration-verdict-sync behavior.calauditStages lint.calauditMergeKeyHash lint.calauditDiagSplit docs.periodContractRows docs.sampleStatus-sync preset.statusLedger-sync docs.tallySync lint.provenanceMeta lint.stableHashPaths lint.regenChain lint.postMergeQaScript lint.qaHeapRelease310"
 # ==== 第323便d の塊(ここまで)====
+# ==== 第324便a の塊(ここから)====
+# 第324便a(原仮定者の回答(2026-11-01 —— AN500)・決断事項 AN513・AN510・R279): 枝 a の新設 2 本(behavior.geo2thick324a —— disk の有限厚の宣言 thickness の受理・正準形・乱数の系列の分離・
+#   h = 0 の旧署名・再抽選の上限・対の本 🥞🧇 の回転共変・AN510 の門・保存と復帰 / docs.geo2thick324a —— 正本と文書)と、世代切替を受けた QA(behavior.geo2flat322a ⑦ の三次元の geoPN=2 の本・
+#   lint.presetText316b の並びの照合の除外・contactMode の写しの表 preset.multiParticleContract)・内蔵の数を読む QA・正本の段の lint 一式(家族の表と SAMPLE_STATUS の生成領域は鎖の段
+#   families・samplestatus が作り直す)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.geo2thick324a docs.geo2thick324a behavior.geo2flat322a docs.geo2flat322a lint.presetText316b preset.multiParticleContract ui.physLock315 lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.harnessSmoke303 lint.conventionsCheck323"
+# ==== 第324便a の塊(ここまで)====
+# ==== 第324便b の塊(ここから)====
+# 第324便b(決断事項 AN514・AN515・R280): 枝 b の新設 2 本(behavior.obsSpin324b —— 天体ごとの観測の自転 obsSpin の受理・拒否の 32 の場合・📟 と 🔸 の宣言・60 步のビット・
+#   源の J の読み口と状態の自転の不変・本の文の数 / docs.obsSpin324b —— 正本と文書)と、本を足した便で数え上げの変わる QA(fidelity・c₀ の一律規約・光速の真値の一覧・三次元の本の並び —— ui.fidelity・
+#   light.canonical-builtins・lint.cLightTrue・preset.clocksGravity)・受理器を読む lint.presetText316c・正本の段の lint 一式(lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・
+#   lint.scopeAll312・lint.provenanceMeta・CANON の lint.canon304・lint.qaHeapRelease310・lint.sectionLookup313・煙試験の窓の表の lint.harnessSmoke303・規約の速い判定の lint.conventionsCheck323)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.obsSpin324b docs.obsSpin324b ui.fidelity light.canonical-builtins lint.cLightTrue preset.clocksGravity lint.presetText316c lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313 lint.harnessSmoke303 lint.conventionsCheck323"
+# ==== 第324便b の塊(ここまで)====
+# ==== 第324便c の塊(ここから)====
+# 第324便c(統括の検証項目 R281): 枝 c の新設 4 本(lint.quickBoundary324c —— 簡易一致の欠測の境界・照合の数・自己比較の拒否・長期の量の名簿・nslock の影の照合の記録・
+#   速い判定の実効値 / lint.calVolatile324c —— calaudit の揮発の欄〔h/2 の転記の来歴・置き場の html の sha〕/ lint.postMergeCounts324c —— post-merge の ③〜④ の 4 つの数・③′ の絞り・部分 QA で覆えない鍵の名簿 /
+#   docs.w324c —— 文書)と、版を世代で受けた lint.regenQuick323・宣言の版と語彙の拡張を受けた lint.stableHashPaths・鎖の脚本の lint.regenChain・lint.regenOrderOnly323・
+#   この脚本の lint.postMergeQaScript・qa-keys の docs.w322d・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickBoundary324c lint.calVolatile324c lint.postMergeCounts324c docs.w324c lint.regenQuick323 lint.stableHashPaths lint.regenChain lint.regenOrderOnly323 lint.postMergeQaScript docs.w322d lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第324便c の塊(ここまで)====
+# ==== 第324便d の塊(ここから)====
+# 第324便d(決断事項 AN480・AN452・統括の検証項目 R282): 枝 d の新設 2 本(lint.resume324d —— 再開の型の lib の自己試験・同じ process の復帰の同一と否定対照・器の口の配線・
+#   段が履歴で鎖に入らない / docs.satlong324d —— 門の正本・長い窓の正本〔あれば〕・文書)と、触った器と表の lint(lint.regenScope・lint.provenanceMeta・lint.stableHashPaths・
+#   lint.scopeStop・lint.scopeAll312・lint.regenChain・lint.canon304・lint.harnessSmoke303・lint.qaHeapRelease310・lint.sectionLookup313)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.resume324d docs.satlong324d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第324便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
@@ -588,17 +617,42 @@ WAVE_IDS="$WAVE_IDS ${POST_MERGE_PHYS_SCAN_IDS-$PHYS_SCAN_IDS}"
 [ -n "${POST_MERGE_WAVE_IDS+x}" ] || WAVE_IDS="$WAVE_IDS lint.valdiffDecl313 lint.readyQueue313 lint.sectionLookup313 docs.w313c lint.readyQueue311 lint.regenTools312 lint.scopeAll312"
 # ==== 第313便c の塊(ここまで)====
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
+PMWAVE="${POST_MERGE_WAVE:-}"; ALLW=0   # 第324便c(R281): ③′ の便(--wave N・既定は CHANGELOG の最新の便)・--all-waves で第323便までの積み上げ
 while [ $# -gt 0 ]; do
   case "$1" in
     --base) BASE="${2:-}"; shift 2 ;;
     --failed) FAILED="${2:-}"; shift 2 ;;
     --no-root) NOROOT=1; shift ;;
     --no-preflight) NOPRE=1; shift ;;
+    --wave) PMWAVE="${2:-}"; shift 2 ;;
+    --all-waves) ALLW=1; shift ;;
     -h|--help) sed -n '2,30p' "$0"; exit 0 ;;
     *) echo "post-merge-qa: 知らない引数 $1" >&2; exit 2 ;;
   esac
 done
 if [ -z "${PLAYWRIGHT_CORE_DIR:-}" ] && [ -d /opt/node22/lib/node_modules/playwright ]; then export PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright; fi
+# ==== 第324便c の塊(ここから)====
+# 第324便c(統括の検証項目 R281 —— 第323便の統括の手順で決めたこと「③′ は便の新設に絞る」): ③′ の既定を**便の塊だけ**に。
+#   便 = --wave N か POST_MERGE_WAVE か CHANGELOG.md の最初の `## v…-b<便>(`。この脚本の `# ==== 第<便><枝> の塊(ここから)====` の中の
+#   DEFAULT_WAVE_IDS / WAVE_IDS の名だけを集め(tests/lib-w324c-postmerge.mjs の waveIdsFromScript)、PHYSICS 全体を走査する一式(PHYS_SCAN_IDS)を足す。
+#   過去の便の新設は積まない(第323便は過去の便の新設を積んだ 412 鍵で 30 min 前後)—— 過去の便の分はフルゲートと CI が見る。
+#   POST_MERGE_WAVE_IDS を渡したときはそのまま(絞らない)・--all-waves で第323便までの積み上げ(全部の便の塊)。
+S3W_SCOPE="指定の一覧(POST_MERGE_WAVE_IDS)"
+if [ -z "${POST_MERGE_WAVE_IDS+x}" ]; then
+  if [ $ALLW -eq 1 ]; then S3W_SCOPE="全部の便の積み上げ(--all-waves)"
+  else
+    [ -n "$PMWAVE" ] || PMWAVE=$(node tests/lib-w324c-postmerge.mjs --wave-of CHANGELOG.md 2>/dev/null || true)
+    if [ -n "$PMWAVE" ]; then
+      NALLW=$(echo "$WAVE_IDS" | tr -s ' ' '\n' | sort -u | grep -c .)   # 重複を除いた名の数
+      WAVE_IDS="$(node tests/lib-w324c-postmerge.mjs --wave-ids "$ROOT/tools/post-merge-qa.sh" "$PMWAVE" 2>/dev/null) ${POST_MERGE_PHYS_SCAN_IDS-$PHYS_SCAN_IDS}"
+      S3W_SCOPE="第${PMWAVE}便の塊と PHYSICS の走査の一式(全部の便を積むと重複を除いて ${NALLW} 名)"
+    else S3W_SCOPE="全部の便の積み上げ(便の番号が引けない)"
+    fi
+  fi
+fi
+# ③〜④ の数: qapart の `# qapart-summary` の行を読んで PASS・FAIL・SKIP・未実行の 4 つの数(未実行の鍵の名つき —— beta で root でだけ走る鍵の未実行は正常と注記)
+qsum324c() { node tests/lib-w324c-postmerge.mjs --sum "$1" --target "${2:-beta}" ${3:+--requested "$3"} 2>/dev/null || echo "要約が読めない"; }
+# ==== 第324便c の塊(ここまで)====
 LOG="${POST_MERGE_LOG:-${TMPDIR:-/tmp}/post-merge-qa-$(date -u +%Y%m%dT%H%M%SZ)}"
 mkdir -p "$LOG" || exit 2
 T0=$(date +%s); fail=0
@@ -677,8 +731,7 @@ if [ -n "$FAILED" ]; then
   say "③ 前回失敗項 $FAILED → $LOG/3-failed.log"
   # shellcheck disable=SC2086
   node tests/exp-w258c-qapart.mjs $FAILED >"$LOG/3-failed.log" 2>&1; rc=$?
-  p=$(count PASS "$LOG/3-failed.log"); f=$(count FAIL "$LOG/3-failed.log")
-  S3="前回失敗 ${p}/$((p + f))"; [ $rc -eq 0 ] || { S3="$S3 FAIL"; fail=1; }
+  S3="前回失敗 $(qsum324c "$LOG/3-failed.log" beta "$(echo $FAILED | wc -w)")"; [ $rc -eq 0 ] || { S3="$S3 FAIL"; fail=1; }   # 第324便c: 4 つの数
 fi
 
 # ③′ 本便の新設ブロック(名前 → qa.mjs の id: 完全一致か末尾一致。無い名は未統合として数える)
@@ -690,19 +743,19 @@ if [ -n "$WAVE_IDS" ]; then
   if [ -n "$WGOT" ]; then
     say "③′ 本便の新設ブロック $WGOT → $LOG/3w-wave.log"
     # shellcheck disable=SC2086
+    t3w=$(date +%s)
     node tests/exp-w258c-qapart.mjs $WGOT >"$LOG/3w-wave.log" 2>&1; rc=$?
-    p=$(count PASS "$LOG/3w-wave.log"); f=$(count FAIL "$LOG/3w-wave.log"); s=$(count SKIP "$LOG/3w-wave.log")
-    S3W="本便 ${p}/$((p + f))$([ "$s" -gt 0 ] && echo "(SKIP $s)")・未統合 ${nmiss}"; [ $rc -eq 0 ] || { S3W="$S3W FAIL"; fail=1; }
+    S3W="本便 $(echo $WGOT | wc -w) 鍵 $(qsum324c "$LOG/3w-wave.log" beta "$(echo $WGOT | wc -w)")・未統合 ${nmiss}・$(( $(date +%s) - t3w )) s"; [ $rc -eq 0 ] || { S3W="$S3W FAIL"; fail=1; }   # 第324便c: 4 つの数と所要
   else S3W="本便 0/0・未統合 ${nmiss}"
   fi
 fi
+S3W="$S3W〔${S3W_SCOPE:-全部の便の積み上げ}〕"   # 第324便c: ③′ の範囲
 
 # ④ 常設集合(beta と root)
 say "④ 常設集合 beta → $LOG/4-beta.log"
 # shellcheck disable=SC2086
 node tests/exp-w258c-qapart.mjs $IDS >"$LOG/4-beta.log" 2>&1; rb=$?
-pb=$(count PASS "$LOG/4-beta.log"); fb=$(count FAIL "$LOG/4-beta.log"); sb=$(count SKIP "$LOG/4-beta.log")
-S4="beta ${pb}/$((pb + fb))$([ "$sb" -gt 0 ] && echo "(SKIP $sb)")"
+S4="beta $(qsum324c "$LOG/4-beta.log" beta "$(echo $IDS | wc -w)")"   # 第324便c: 4 つの数
 [ $rb -eq 0 ] || { S4="$S4 FAIL"; fail=1; }
 # ==== 第320便d の塊(ここから)====
 S4="$S4$(kinds320 "$LOG/4-beta.log")"   # 第320便d(R265): 常設集合の lint.regenScope・lint.provenanceMeta の違反の種類
@@ -711,8 +764,7 @@ if [ $NOROOT -eq 0 ]; then
   say "④ 常設集合 root → $LOG/4-root.log"
   # shellcheck disable=SC2086
   QA_TARGET=index.html node tests/exp-w258c-qapart.mjs $IDS >"$LOG/4-root.log" 2>&1; rr=$?
-  pr=$(count PASS "$LOG/4-root.log"); fr=$(count FAIL "$LOG/4-root.log"); sr=$(count SKIP "$LOG/4-root.log")
-  S4="$S4・root ${pr}/$((pr + fr))(SKIP $sr)"
+  S4="$S4・root $(qsum324c "$LOG/4-root.log" root "$(echo $IDS | wc -w)")"   # 第324便c: 4 つの数
   [ $rr -eq 0 ] || { S4="$S4 FAIL"; fail=1; }
 fi
 
@@ -730,6 +782,11 @@ if [ -n "$BASE" ]; then
   fi
 fi
 
+# ==== 第324便c の塊(ここから)====
+# 第324便c(R281): **部分 QA で覆えない鍵の名簿**(tools/qa-keys.mjs --uncovered —— W5c の範囲・前文に写せない上流の名前・qapart の検索がコメントに当たる・
+#   保存のフル QA に行の無い鍵〔何も印字せず飛ばすか対象で走らない〕)。数を ④ の後に出し、名簿は $LOG/uncovered.json(フルゲートが見る鍵)
+node tools/qa-keys.mjs --uncovered --json "$LOG/uncovered.json" >"$LOG/uncovered.log" 2>&1 && S4="$S4・$(head -1 "$LOG/uncovered.log" | sed 's/^qa-keys --uncovered[^:]*: //')" || S4="$S4・覆えない鍵の名簿が引けない"
+# ==== 第324便c の塊(ここまで)====
 T1=$(date +%s)
 echo "post-merge-qa: ⓪ $S0 ① $S1 ② $S2 ③ $S3 ③′ $S3W ④ $S4 ⑤ $S5 所要 $((T1 - T0)) s → $([ $fail -eq 0 ] && echo OK || echo FAIL)(ログ $LOG)"
 exit $fail

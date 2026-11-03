@@ -3,7 +3,7 @@
  "libVersion": "w307b-tide3d-lib-1",
  "generator": "tests/exp-w307b-tide3d.mjs",
  "target": "beta/index.html",
- "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+ "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
  "ruling": "原仮定者の裁定(第100報)「潮汐のブレーキが効く相手は慣性軸回転そのもの・失われる回転のエネルギーは内部熱・増え続けるので放射も」・決断事項 AN345 ③⑤・統括の検証項目 R210",
  "tide3Version": "w307b-tide3-1",
  "heatVersion": "w307b-tideheat-1",
@@ -1592,46 +1592,46 @@
    "wallSec": 0.002
   },
   "E": {
-   "wallSec": 0.007
+   "wallSec": 0.005
   },
   "Z": {
-   "wallSec": 0.717
+   "wallSec": 0.559
   },
   "L": {
-   "wallSec": 0.163
+   "wallSec": 0.1
   },
   "C": {
-   "wallSec": 0.052
+   "wallSec": 0.03
   },
   "K": {
-   "wallSec": 0.073
+   "wallSec": 0.05
   },
   "H": {
-   "wallSec": 0.091
+   "wallSec": 0.092
   },
   "S": {
-   "wallSec": 0.519
+   "wallSec": 0.525
   },
   "R": {
-   "wallSec": 0.097
+   "wallSec": 0.117
   },
   "X": {
-   "wallSec": 0.107
+   "wallSec": 0.097
   }
  },
- "elapsedS": 3.861,
+ "elapsedS": 3.278,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便b",
   "target": "beta/index.html",
-  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-  "generatedAt": "2026-11-01T18:29:32.302Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-03T02:21:37.948Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7487036,
-    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-    "mtime": "2026-11-01T12:44:54.266Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1721,11 +1721,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1334,
-   "segments": 1172,
-   "closureShare": 0.2988
+   "names": 1377,
+   "segments": 1203,
+   "closureShare": 0.2995
   },
-  "scopeSha256": "240250fa35a3537784c4cc9ee54033618b10cb08a9536de764d32a40dd0c888e",
+  "scopeSha256": "949e8bed6742d3b97cb55987895ad29d4dc6771078a61c2db61cb47e636665f3",
   "scopeComplete": true,
   "inputsStable": [
    {

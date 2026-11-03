@@ -18,6 +18,7 @@
 //   for f in <scratch>/qakeys/qa-keys-*.txt; do node tests/exp-w258c-qapart.mjs $(cat $f); done   (root は QA_TARGET=index.html を前に)
 //   --re <正規表現>(繰り返し可 —— 既定の 4 つを置き換える)/ --re+ <正規表現>(既定に足す)/ --ids+ a,b(正規表現に依らず足す —— qapart で引けるものだけ)/
 //   --comments(コメントの中の語も数える —— 別の器に委ねて版名を読むブロック〔version.promote-check は tests/release-promote.mjs〕を拾う)/ --chunk 50 / --json <file> / --list(鍵を印字するだけ)/ --self-test
+//   第324便c: --uncovered [--target beta|root] [--json <file>] —— 部分 QA で覆えない鍵の名簿(W5c の範囲・写せない上流・コメント・範囲・保存のフル QA に行の無い鍵)
 //
 // 第323便a(統括の検証項目 R275): 範囲と上流の名前の判定を lib(tests/lib-w322d-qapart.mjs 版 w323a-qapart-2)へ揃えた ——
 //   ・範囲が add の行を含まない鍵(列 0 の `if (…) {`・`for (…) {` の中・最上位の文)は lib が add の行を含む列 0 の最上位の文を切り出す(外す理由から消える)。
@@ -103,6 +104,43 @@ export function extractKeys(o) {
   return { keys: firstCode.size, selected, excluded, excludedVersion: exVersion, unmatched, batches, res: res.map((r) => r.source), chunk };
 }
 
+// ==== 第324便c の塊(ここから)====
+// 第324便c(統括の検証項目 R281 —— 第323便の統括の手順で決めたこと「W5c の 43 鍵と何も印字せず飛ばすブロックは次の便」): **部分 QA で覆えない鍵の名簿**。
+//   ① qapart で回せない鍵(extractKeys の外す鍵 —— 理由の種類: w5c〔範囲が W5c のワーカープール w5cGetUnit を読む〕・upstream〔前文に写せない上流の名前〕・
+//      comment〔qapart の検索がコメントか文字列の行に当たる〕・span〔範囲が取れない・add の行を含まない〕)
+//   ② 対象の保存のフル QA(beta: tests/out/qa-results-full-beta.json・root: tests/out/qa-results-full.json)に行の無い鍵 —— 範囲が `SKIP …` を印字する(skip-print —— 対象で
+//      走らない型を名指す)/ 印字しない(silent —— **何も印字せず飛ばすブロック**: qapart では「未実行」= FAIL になる。後の便で else に SKIP の印字を足す候補)/
+//      保存のフル QA より新しい鍵は区別できない(注記)。名簿は post-merge の ④ の後とゲートの後の部分 QA の報告に出す(フルゲートが見る鍵)。
+export const QA_UNCOVERED_VERSION = 'w324c-uncovered-1';
+export const UNCOVERED_KINDS = Object.freeze({ w5c: 'W5c のワーカープール(w5cGetUnit)を読む範囲', upstream: 'qapart の前文に写せない上流の名前を読む範囲',
+  comment: 'qapart の検索がコメントか文字列の行に当たる', span: '範囲が取れないか add の行を含まない', 'skip-print': '保存のフル QA に行が無い —— 範囲が SKIP を印字する(対象で走らない型)',
+  silent: '保存のフル QA に行が無い —— 範囲が何も印字しない(何も印字せず飛ばすブロック —— qapart では未実行)' });
+const kindOfWhy = (why) => (/w5cGetUnit/.test(why) ? 'w5c' : /写せない上流/.test(why) ? 'upstream' : /コメントか文字列/.test(why) ? 'comment' : 'span');
+/**
+ * 部分 QA で覆えない鍵(純関数 —— full は保存のフル QA の id の集合か null)。
+ * @param {{qaSrc:string, QO:object, QP:object, SC:object, full?:{file:string, ids:Set<string>}|null}} o
+ */
+export function uncoveredKeys(o) {
+  const R = extractKeys(Object.assign({}, o, { res: ['[\\s\\S]'], chunk: 1000 }));
+  const rows = R.excluded.map((z) => ({ id: z.id, line: z.line, kind: kindOfWhy(z.why), why: z.why }));
+  const lines = o.qaSrc.split('\n');
+  if (o.full) for (const z of R.selected) {
+    if (o.full.ids.has(z.id)) continue;
+    const text = lines.slice(z.span[0], z.span[1]).join('\n');
+    const skipPrint = /console\.log\(\s*['"`](?:SKIP|RETIRED)\b/.test(text);
+    rows.push({ id: z.id, line: z.line, kind: skipPrint ? 'skip-print' : 'silent', why: '保存のフル QA(' + o.full.file + ')に行が無い' });
+  }
+  const counts = Object.fromEntries(Object.keys(UNCOVERED_KINDS).map((k) => [k, rows.filter((r) => r.kind === k).length]));
+  return { version: QA_UNCOVERED_VERSION, keys: R.keys, excluded: R.excluded.length, counts, rows, savedFull: o.full ? o.full.file : null };
+}
+/** 1 行の文(post-merge の ④ の後)。 */
+export function uncoveredText(u) {
+  const c = u.counts;
+  return `部分 QA で覆えない鍵 ${u.excluded}(W5c の範囲 ${c.w5c}・写せない上流 ${c.upstream}・コメントに当たる ${c.comment}・範囲 ${c.span})`
+    + (u.savedFull ? `・保存のフル QA に行の無い鍵 ${c['skip-print'] + c.silent}(SKIP を印字 ${c['skip-print']}・何も印字せず飛ばす ${c.silent})` : '・保存のフル QA なし');
+}
+// ==== 第324便c の塊(ここまで)====
+
 /** 自己試験(缶詰の qa.mjs —— QA が呼ぶ)。 */
 export async function selfTest(opt) {
   const root = (opt && opt.root) || TOOL_ROOT;
@@ -171,6 +209,19 @@ export async function selfTest(opt) {
 
 async function main(argv) {
   const root = TOOL_ROOT;
+  // 第324便c(R281): --uncovered [--target beta|root] [--json <file>] —— 部分 QA で覆えない鍵の名簿(1 行目が要約 —— post-merge が読む)
+  if (argv.includes('--uncovered')) {
+    const L0 = await libs(root);
+    const qaSrc0 = fs.readFileSync(path.join(root, 'tests', 'qa.mjs'), 'utf8');
+    const tg = (() => { const i = argv.indexOf('--target'); return i >= 0 && argv[i + 1] === 'root' ? 'root' : 'beta'; })();
+    const ff = tg === 'root' ? 'tests/out/qa-results-full.json' : 'tests/out/qa-results-full-beta.json';
+    let full = null; try { const j = JSON.parse(fs.readFileSync(path.join(root, ff), 'utf8')); full = { file: ff + (j.commit ? '@' + String(j.commit).slice(0, 7) : ''), ids: new Set((j.results || []).map((r) => r.id)) }; } catch { full = null; }
+    const u = uncoveredKeys({ qaSrc: qaSrc0, QO: L0.QO, QP: L0.QP, SC: L0.SC, full });
+    console.log(`qa-keys --uncovered(${QA_UNCOVERED_VERSION}・${tg}): ${uncoveredText(u)}`);
+    for (const k of Object.keys(UNCOVERED_KINDS)) { const ids = u.rows.filter((r) => r.kind === k).map((r) => r.id); if (ids.length) console.log(`  ${k.padEnd(10)} ${String(ids.length).padStart(3)}  ${ids.join(' ')}`); }
+    const ji = argv.indexOf('--json'); if (ji >= 0 && argv[ji + 1]) fs.writeFileSync(path.resolve(argv[ji + 1]), JSON.stringify(Object.assign({ target: tg, kinds: UNCOVERED_KINDS, note: '保存のフル QA より新しい鍵は silent / skip-print と区別できない(保存のフル QA の commit を見る)' }, u), null, 1) + '\n');
+    process.exit(0);
+  }
   if (argv.includes('--self-test')) {
     const r = await selfTest({ root });
     for (const c of r.cases) console.log('  ' + c);

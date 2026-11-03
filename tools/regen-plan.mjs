@@ -26,6 +26,7 @@
 //       --fp-record <記録>(既定 tests/data-w323b-quickfp.json —— 無ければ記録なし)・--K 3・--wave <便の番号>(既定は html の BETA_BUILD)・--promote(root 昇格の便 —— 全段フル)。
 //       --base があれば步の関数・受理器・S._core の差を引く(quickVerify:'long' の段の判定)。
 //     ・**影の照合**(次の便): --shadow-compare <前の記録> [--fp-record <今の記録>] [--keys …] [--json …] —— trueSame / falseSame(誤判定)/ trueDiff / missed / na(誤判定があれば 1)。
+//   第324便c(R281): 影の照合の欠測は na(trueSame に数えない)・照合の数の行・自己比較の拒否(終了コード 2 —— --allow-self で印字だけ)。
 // 終了コード: 0(計画を出した)/ 2(表に無い正本が lint の CANON にある等、表が壊れている)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -61,16 +62,23 @@ if (argv.includes('--roster')) {
 // 第323便b(AN517/AN518 —— 第324便の影の照合): `--shadow-compare <前の記録> [--fp-record <今の記録>] [--keys a,b]` —— 計画は引かない。
 //   前の記録(前の便のフルの後に取った指紋)と今の記録(今の便の鎖の後に取った指紋)・今の正本の物理の値で、段ごとに trueSame / falseSame(誤判定)/ trueDiff / missed / na。
 //   誤判定が 1 段でもあれば終了コード 1(本運用の門は 0 段)
+// 第324便c(R281): 欠測は na(trueSame に数えない)・照合の数の行(比べた数・html が違う比較・na の理由ごと —— 数を出すだけ・門は第325便で統括が決める)・
+//   段の正本(表の outs)を覆わない記録は na・**自己比較(同じファイル・同じ中身・取った時刻と rev が同じ)は拒否**(終了コード 2 —— 影の 1 便に数えない。
+//   --allow-self で数えずに印字だけ)。終了コード: 0(誤判定 0)/ 1(誤判定あり)/ 2(読めない・自己比較)
 if (argv.includes('--shadow-compare')) {
   const Q = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w323b-quick.mjs')).href);
   const rd = (f) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch { return null; } };
-  const prev = rd(resolve(getArg('--shadow-compare', null))), cur = rd(resolve(getArg('--fp-record', Q.QUICK_FP_FILE)));
+  const prevPath = resolve(getArg('--shadow-compare', null)), curPath = resolve(getArg('--fp-record', Q.QUICK_FP_FILE));
+  const prev = rd(prevPath), cur = rd(curPath);
   if (!prev || !cur) { console.error('regen-plan --shadow-compare: 前の記録か今の記録が読めない'); process.exit(2); }
   const keys = getArg('--keys', null);
-  const r = Q.shadowCompare(prev, cur, { physOf: (f) => Q.physShaFile(path.join(ROOT, f), f), keys: keys ? keys.split(',') : undefined });
+  const outsOf = (k) => { const st = T.REGEN_STEPS.find((z) => z.key === k); return st ? (st.outs || []).slice() : null; };
+  const r = Q.shadowCompare(prev, cur, { physOf: (f) => Q.physShaFile(path.join(ROOT, f), f), keys: keys ? keys.split(',') : undefined, outsOf, prevPath, curPath });
   console.log(`regen-plan --shadow-compare(${r.version}): ` + Object.entries(r.count).map(([k, v]) => k + ' ' + v).join(' / ') + (r.ok ? ' —— 誤判定 0' : ' —— **誤判定 ' + r.falseSame.join(',') + '**'));
-  for (const z of r.rows) if (z.cat !== 'trueSame') console.log(`  ${z.cat.padEnd(9)} ${z.key.padEnd(20)} ${z.why || ''}${z.htmlSame ? '(html が同じ)' : ''}`);
+  console.log('  照合の数: ' + Q.shadowTallyText(r));
+  for (const z of r.rows) if (z.cat !== 'trueSame') console.log(`  ${z.cat.padEnd(9)} ${z.key.padEnd(20)} ${z.why || ''}${z.htmlSame === true ? '(html が同じ)' : z.htmlSame === null ? '(html の sha が分からない)' : ''}`);
   const js = getArg('--json', null); if (js) fs.writeFileSync(resolve(js), JSON.stringify(r, null, 1));
+  if (r.selfCompare && !argv.includes('--allow-self')) { console.error('regen-plan --shadow-compare: **自己比較を拒否** —— ' + r.selfCompare.why + '(影の 1 便に数えない・--allow-self で印字だけ)'); process.exit(2); }
   process.exit(r.ok ? 0 : 1);
 }
 const t0 = Date.now();

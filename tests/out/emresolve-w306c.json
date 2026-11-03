@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便c",
   "target": "beta/index.html",
-  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-  "generatedAt": "2026-11-01T17:47:38.874Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-03T02:46:34.192Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7487036,
-    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-    "mtime": "2026-11-01T12:44:54.266Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -217,11 +217,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1383,
-   "segments": 1221,
-   "closureShare": 0.3069
+   "names": 1426,
+   "segments": 1252,
+   "closureShare": 0.3075
   },
-  "scopeSha256": "7303b82d315cfd6ba51fc653685d2076a5645f39f3c3ef9db3a8ab9de1cede9d",
+  "scopeSha256": "8ea2cf67c7b78bc46a8f5705e5cc161740eca5f02b547f6ef73b83c5dc8d5a4b",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -462,7 +462,7 @@
    "e0": 0.07628360000003576,
    "inc": 5.288439999999994
   },
-  "wallSec": 102.507
+  "wallSec": 97.041
  },
  "measure": {
   "note": "解き直しの前(第305便の宣言 —— 初期配置は J₂ なしで解いたまま)と後(J₂ ありの参照積分 → エンジンで解き直した丸め)の長窓 [0,1062] の 4 量(M4・交点・恒星月〔調和〕・平均傾斜)",
@@ -532,7 +532,7 @@
     ],
     "slide": null,
     "steps": 15668338,
-    "wallSec": 38.383
+    "wallSec": 36.915
    },
    "beforeOff": {
     "fromZero": [
@@ -599,7 +599,7 @@
     ],
     "slide": null,
     "steps": 15668354,
-    "wallSec": 51.371
+    "wallSec": 51.115
    },
    "afterOn": {
     "fromZero": [
@@ -690,7 +690,7 @@
      }
     },
     "steps": 15668353,
-    "wallSec": 51.9
+    "wallSec": 51.447
    },
    "afterOn2": {
     "fromZero": [
@@ -757,7 +757,7 @@
     ],
     "slide": null,
     "steps": 31336702,
-    "wallSec": 109.319
+    "wallSec": 105.691
    },
    "afterOff": {
     "fromZero": [
@@ -824,7 +824,7 @@
     ],
     "slide": null,
     "steps": 15668368,
-    "wallSec": 52.164
+    "wallSec": 51.44
    },
    "afterAz0": {
     "fromZero": [
@@ -891,7 +891,7 @@
     ],
     "slide": null,
     "steps": 15668359,
-    "wallSec": 53.985
+    "wallSec": 51.875
    },
    "ref": {
     "fromZero": [
@@ -1206,7 +1206,7 @@
    ],
    "pass": true
   },
-  "wallSec": 391.304
+  "wallSec": 376.892
  },
  "phase": {
   "note": "起点の位相(重心の公転の t=0 —— 近日点 0°/遠日点 180°)× J₂ あり/なし —— 参照積分で長窓の平均の要素を解き直した(元期の宣言が無い分の幅)",
@@ -1322,7 +1322,7 @@
    "ph0": -0.0015232674593477213,
    "ph180": -0.0015232923034815826
   },
-  "wallSec": 57.051
+  "wallSec": 49.652
  },
  "attrib": {
   "note": "交点の残り(後の宣言の長窓 − B1)の目録 —— 同じ初期配置の差(参照積分 —— アプリの物理ではない)。correction は本と現実の差の向きに符号をそろえた寄与(本の値 − 直した値)・range は元期・窓の不定の幅",
@@ -1405,7 +1405,7 @@
    "地球の J₄ と高次(別の鍵 —— 未対応)",
    "月の図形(J₂・C₂₂)と潮汐の散逸"
   ],
-  "wallSec": 29.969
+  "wallSec": 27.932
  },
  "ledger": {
   "note": "J₂ × 引きずり ON の仕事の帳簿(診断 —— 定義と数だけ・補正値を力やエネルギーへ足さない)。本の対照(abBody の W_bg)の写し・後の宣言の初期配置",
@@ -1704,7 +1704,7 @@
    "figOpenRel": 0.00009423452395507589
   },
   "ok": true,
-  "wallSec": 146.927
+  "wallSec": 141.9
  },
  "emo": {
   "note": "🌔 = 後の 🌦️ の宣言の写しの規則(emOnlyBodies・emOnlyPhysics)—— 引きずり OFF の地球と月の二体(重力と地球の J₂)。数の正本は tests/out/emonly-w300b.json(鎖で作り直す)",
@@ -1781,7 +1781,7 @@
   "h2Diff": {
    "sid": 0.000003283532173270487
   },
-  "wallSec": 17.29
+  "wallSec": 18.311
  },
  "record": {
   "record": {
@@ -1983,5 +1983,5 @@
   "「交点を再現した」",
   "「現実を再現した」"
  ],
- "elapsedS": 745.164
+ "elapsedS": 711.846
 }

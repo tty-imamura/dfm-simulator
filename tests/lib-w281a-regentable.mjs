@@ -164,7 +164,22 @@ const V_CALAUDIT = ['/meta/when', '/fourValues/current/when', '/diagnosticsSplit
   // 第285便f(AN52): 旧 budgetHit の改名(wallSec ≥ 0.9×budgetSec —— 壁時計近接の診断。停止状態は stopRule.stoppedBy・complete に残す)
   '/presets/*/run/timeBudget/*/wallNearBudget',
   // 第283便c で dt/8 を常時から外した(明示診断だけ)ので、常時の正本に dtEighth は無い —— Pointer は宣言から外す(統合時)
+  // 第324便c(R281・第323便d の見つけたこと): **h/2 の転記の来歴**(V_CALAUDIT_H2P —— 下の宣言)
   ];
+// ==== 第324便c の塊(ここから)====
+// 第324便c(統括の検証項目 R281 —— 第323便の統括の手順で決めたこと「h/2 の転記の来歴を calaudit の揮発の欄へ(読み手 12 段・3830 s を転記に)」):
+//   鎖の dt3 は同じ鎖の ① が置いた h/2 を転記する(H2_REUSE_RULE —— 同一便)ので、転記した本の **来歴**(転記の元の走行の時刻 generatedAt・
+//   html の sha targetSha256・元の壁時計 wallSec —— presets[].run の h2Reuse・dtHalf と段の並び timeBudget[]・stopRuleStages[] の reusedFrom)と
+//   集計の **転記の秒の和** /h2Reuse/reusedSec が**鎖を回すたびに変わる**(物理の値は 1 bit も動かなくても判定器の安定 hash が動き、読み手 12 段が regen)。
+//   **来歴だけを除く** —— h/2 の実測値・刻み・停止の判定・転記の可否(reused・reason・diff・contractSha・hSig・stable)・skippedBy は残す。
+//   段の並び(timeBudget・stopRuleStages)の `*` は h/4 の段の同じ形の来歴(時刻・html の sha)にも当たる(来歴だけ —— 値は残す)。
+//   語彙の拡張は**この正本の宣言だけ**(VOLATILE_DECL の runtimeKeys〔reusedSec —— 壁時計の秒の和〕・provenanceParents〔reusedFrom —— 物理の欄の下でも
+//   転記の元の同一性 meta の写しなら非物理 meta の鍵を許す〕・optional〔転記の無い走行〔--no-h2-reuse の明示診断〕では当たらない Pointer〕)——
+//   tests/lib-w281a-scope.mjs の語彙(STABLE_DECL_VERSION)は変えない(他の正本の宣言と指紋〔tests/lib-w323b-quick.mjs の physSha〕を動かさない)。
+export const V_CALAUDIT_H2P = ['/presets/*/run/h2Reuse/reusedFrom', '/presets/*/run/dtHalf/reusedFrom', '/presets/*/run/timeBudget/*/reusedFrom', '/presets/*/run/stopRuleStages/*/reusedFrom']
+  .flatMap((b) => ['generatedAt', 'targetSha256', 'wallSec'].map((k) => b + '/' + k)).concat(['/h2Reuse/reusedSec']);
+V_CALAUDIT.push(...V_CALAUDIT_H2P);
+// ==== 第324便c の塊(ここまで)====
 /**
  * 第283便e(AN29): calaudit の**非物理の同一性 meta**(`STABLE_META_KEYS` の鍵だけ —— 値の型は QA が照合)。
  * html を 1 字変えて calaudit を走らせ直すと、物理が 1 bit も動かなくても次が変わる(53aaa64 → 8b05232 の実測):
@@ -182,19 +197,29 @@ const V_STORE_WALL = ['h2Store', 'h4Store'].flatMap((k) => ['/' + k + '/carriedF
   '/' + k + '/entries/*/run/wallSec', '/' + k + '/entries/*/run/rateStepsPerSec',
   '/' + k + '/entries/*/run/timeBudget/wallSec', '/' + k + '/entries/*/run/timeBudget/rateStepsPerSec', '/' + k + '/entries/*/run/timeBudget/wallNearBudget',
   '/' + k + '/entries/*/run/stopRule/wallSec', '/' + k + '/entries/*/run/stopRule/rateStepsPerSec']);
-const V_CALAUDIT_DIAG = ['/when', '/carriedOverFrom'].concat(V_STORE_WALL);
+// 第324便c(R281): 置き場の行の **html の sha**(h2Store・h4Store の entries[].targetSha256 —— その行を測った走行の html の写し・来歴)。新しい便の鎖の ① が測った行は
+//   その便の html の sha を持つので、物理が同じでも随伴 diag の安定 hash が便ごとに動いた(第323便の正本と枝の 1 回目の走行の差は 21 行のこの欄だけ)。
+//   転記の可否の判定(同一便 —— H2_REUSE_RULE)は器が生のファイルで読む(安定 hash の除外は読み手の照合だけに効く)
+export const V_CALAUDIT_DIAG_STOREP = ['/h2Store/entries/*/targetSha256', '/h4Store/entries/*/targetSha256'];
+const V_CALAUDIT_DIAG = ['/when', '/carriedOverFrom'].concat(V_STORE_WALL, V_CALAUDIT_DIAG_STOREP);
 /**
  * 第285便f(原仮定者の裁定(第75報)AN52): **除外 Pointer の宣言の版**(正本ごと)。`fp` は宣言した Pointer の並び(sort)の sha256 の先頭 16 桁 ——
  * Pointer を足し引きしたら版と fp を上げる(`lint.stableHashPaths` ⑦ が照合)。`renamed` は改名した欄(新 → 旧)で、改名前の世代の正本
  * (鎖で再生成する前)では旧名の位置に当たることを ② が許す。履歴は `history`。
  */
 export const VOLATILE_DECL = {
-  'tests/out/calaudit-w249.json': { version: 'w285f-vcal-2', since: '第285便f(AN52)', fp: 'afc6f3285acdc4bf',
-    added: ['/presets/*/run/timeBudget/*/wallNearBudget'], renamed: { wallNearBudget: 'budgetHit' },
-    history: [{ version: 'w283e-vcal-1', since: '第282便e・第283便e(AN29)', note: '実行時刻・壁時計・非物理の同一性 meta(budgetHit は未宣言 —— 第284便f の分割照合で見つかった)' }] },
-  'tests/out/calaudit-w249-diag.json': { version: 'w285f-vdiag-2', since: '第285便f(AN52)', fp: '2461f5b121a2fc1c',
-    added: V_STORE_WALL.slice(), renamed: { wallNearBudget: 'budgetHit' },
-    history: [{ version: 'w283e-vdiag-1', since: '第283便e', note: '/when・/carriedOverFrom だけ(h2Store/h4Store の壁時計と時刻は未宣言)' }] },
+  // 第324便c(R281): w285f-vcal-2 → w324c-vcal-3(h/2 の転記の来歴 V_CALAUDIT_H2P —— 語彙の拡張はこの正本だけ: runtimeKeys・provenanceParents・optional)
+  'tests/out/calaudit-w249.json': { version: 'w324c-vcal-3', since: '第324便c(R281)', fp: '53a87bd8d16a3e37',
+    added: V_CALAUDIT_H2P.slice(), renamed: { wallNearBudget: 'budgetHit' },
+    runtimeKeys: ['reusedSec'], provenanceParents: ['reusedFrom'],
+    optional: V_CALAUDIT_H2P.slice(),
+    history: [{ version: 'w283e-vcal-1', since: '第282便e・第283便e(AN29)', note: '実行時刻・壁時計・非物理の同一性 meta(budgetHit は未宣言 —— 第284便f の分割照合で見つかった)' },
+      { version: 'w285f-vcal-2', since: '第285便f(AN52)', fp: 'afc6f3285acdc4bf', note: '壁時計近接の診断 wallNearBudget(旧 budgetHit)を足した' }] },
+  // 第324便c(R281): w285f-vdiag-2 → w324c-vdiag-3(置き場の行の html の sha V_CALAUDIT_DIAG_STOREP)
+  'tests/out/calaudit-w249-diag.json': { version: 'w324c-vdiag-3', since: '第324便c(R281)', fp: 'a1a6237c37d2e7ed',
+    added: V_CALAUDIT_DIAG_STOREP.slice(), renamed: { wallNearBudget: 'budgetHit' },
+    history: [{ version: 'w283e-vdiag-1', since: '第283便e', note: '/when・/carriedOverFrom だけ(h2Store/h4Store の壁時計と時刻は未宣言)' },
+      { version: 'w285f-vdiag-2', since: '第285便f(AN52)', fp: '2461f5b121a2fc1c', note: 'h2Store/h4Store の壁時計と時刻(V_STORE_WALL)を足した' }] },
 };
 /** 宣言した Pointer の並びの指紋(sort して改行で連ねた sha256 の先頭 16 桁)。 */
 export function volatileDeclFp(file) {
@@ -1587,6 +1612,49 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/fieldcontract-w322c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第322便c: geoPN=4 の場の契約 —— 外部場の輸送の力学の契約の導出(今の v−u 輸送は正準の型 H = ½|p|² + p·u + Φ を状態の v = ẋ = p + u で書いたもの —— 6 場面 × 5 型の軌道と台帳・k_F ≠ 1 の余りの力)・散逸のグループの 2 列(銀河 1 グループ/成分ごと —— R_cut の不変のビット)・AN503 の診断の写しの設計(エンジン・在位の本は変えない・外部場の輸送はエンジンに入れていない)' }),
   // ==== 第322便c の塊(ここまで)====
+  // ==== 第324便a の塊(ここから)====
+  // ---- 第324便a(原仮定者の回答(2026-11-01 —— AN500「3D銀河プリセットは、傾き無しと有りの両方を用意する」)・決断事項 AN513・AN510・統括の検証項目 R279):
+  //   **geoPN=2(v−u 則)の 3D の S3 の器**(段 geo2thick-324a —— flat〔平面の写しの門: 🫓 の外縁の比が二次元の 💫 の凍結の基準と同じビット —— 第322便a の器の gateRow 12000 步〕・
+  //   accept〔disk の有限厚の宣言 thickness の受理の表・乱数の系列の分離・h = 0 の旧署名と同じ build・再抽選の上限〕・an510〔零自転からの立ち上がり・符号反転・上限への到達で
+  //   html の步と第321便a の純関数が同じビット・クランプが落とした角運動量〕・ckpt〔保存と復帰・A/B の複製〕・pair〔有限厚の対の本 🥞🧇 と厚み 0 の対の 12000 步 × A/B・h/2 の 24000 步・
+  //   回転共変の程度〕)。html を読む(本は 🫓🥞🧇 と 💫 を .find で引く)・他の正本は読まない(html の生成領域の後)。flat と pair の 7 行は子プロセス 2 本(W324A_WORKERS)。
+  //   長期の量(12000 步の外縁の比)を出す段なので quickVerify:'long'。所要は第324便a の枝の実測 1616 s(子プロセス 2 本〔既定〕—— **並走の秒**: 他の 3 枝の器・QA と同じ容器で負荷 8〜11・h/2 の 2 行が各約 760 s。混まない箱では短い見込み —— 統括が測り直す)
+  S('geo2thick-324a', 'node tests/exp-w324a-geo2thick.mjs', ['tests/out/geo2thick-w324a.json'], 1620, { secSource: 'w324a-branch', node: true, quickVerify: 'long', quickVerifyWhy: '長期の量(12000 步の外縁の比・h/2 の刻みの感度・対の本の回転共変 —— 短い窓の完走では決まらない)', after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/geo2thick-w324a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/parts/flat/row/wallSec', '/parts/pair/rows/*/wallSec']) },
+    note: '第324便a: geoPN=2 の 3D の S3 —— disk の有限厚の宣言 thickness(受理・正準形・署名・厚み用の別の乱数の系列・局所座標から同じ回転)と有限厚の対の本 🥞🧇(倍精度の状態)・平面の写しの門・AN510 の門・回転共変の程度と h/2' }),
+  // ==== 第324便a の塊(ここまで)====
+  // ==== 第324便b の塊(ここから)====
+  // ---- 第324便b(決断事項 AN514・AN515・統括の検証項目 R280 —— geoPN=3 の S3): **天体ごとの観測の自転 obsSpin と源の角運動量 J の本の器**(段 obsspin-324b —— A 受理・拒否の
+  //   32 の場合〔排他・必須の欄・単位・axis:null・二形式・0.4 を補わない・未知の鍵・二次元の本・S.spin へ写す宣言・源の経路 kind "obsSpin"〕・B 本の宣言〔📟 と第321便b の兄弟の写し・
+  //   🔸 と 🔶〕・E 走行〔J0737 8 列・α Cen 5 列 × h・h/2・h/4 × 8 公転〕・L J の口座〔源の J が固定の貯蔵庫・状態の自転と軸が不変〕・T 列の差)。html を読む(他の正本・データは読まない)。
+  //   子プロセス 2 本(W324B_WORKERS)。所要は第324便b の枝の実測 28.9 s(子プロセス 2 本 —— 4 枝並走の負荷平均約 5 の箱〔**並走の秒**〕—— 統括が混まない箱で測り直す)。
+  //   長期の量(近点の率・周期 —— 8 公転の窓)を出すので quickVerify:'long'(步の関数か受理器が変わった便は簡易一致を使わない)
+  //   第324便e(原仮定者の回答(2026-11-02 —— AN521)・統括の検証項目 R283): 器の版 w324e-obsspin-2(A に傾きの形の 26 の場合〔計 58〕・B に軸の宣言とノブ・E は J0737 15 列・
+  //   α Cen 8 列〔欠測の写し・ノブを振った列・推定の上限の列・前の版の 🔸〕・K 軌道の面の向き)。所要は枝 e の実測 30.2〜31.9 s(子プロセス 2 本 —— 統括の post-merge と枝 d の長い窓と
+  //   並走の箱〔**並走の秒**〕)。行の路・after・quickVerify は枝 b のまま
+  S('obsspin-324b', 'node tests/exp-w324b-obsspin.mjs', ['tests/out/obsspin-w324b.json'], 32, { secSource: 'w324e-branch', node: true, after: ['obscompare', 'samplestatus'], quickVerify: 'long', quickVerifyWhy: '長期の量(連星の近点の率・軌道の面の向き —— 8 公転の窓・h〜h/4)',
+    volatilePaths: { 'tests/out/obsspin-w324b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec']) },
+    note: '第324便b・e: 天体ごとの観測の自転 obsSpin の受理(AN515 —— 排他・明示の fSrc と rObs・0.4 を補わない・axis:null は欠測で J の源に使わない・S.spin へ入れない・AN521 の傾きの形〔観測/推定/ノブ —— ノブは既定と範囲〕)と源の J の経路・📟 J0737 の geoPN=3 の本(推定の傾きとノブの軸 —— 源の J が入る)と欠測の写し・ノブを振った列・🔸 α Cen の J の本(AN514 —— 🔶 との差・軸はノブ)・J の口座・軌道の面の向き' }),
+  // ==== 第324便b の塊(ここまで)====
+  // ==== 第324便d の塊(ここから)====
+  // ---- 第324便d(決断事項 AN480・AN452・統括の検証項目 R282): **長い段の再開の型**の門(段 resume-324d —— 正本 tests/out/resume-w324d.json)と**イオ・エウロパの長い窓**
+  //   (段 satlong-324d —— 正本 tests/out/satlong-w324d.json —— 1.5 P_母 × h・h/2・h/4 × V1a・V0 —— 契約・窓・模型・判定は satnext-318b と同じ)。どちらも器 tests/exp-w318b-satnext.mjs の
+  //   口(--resume-gate・--long)が lib tests/lib-w324d-satlong.mjs・tests/lib-w324d-resume.mjs を**動的 import**で読む(既定の段 satnext-318b の行・code[]・REGEN_SCOPE は不変)。
+  //   **2 段とも履歴**(role:'history' —— 計画は常に「履歴」・毎便の鎖に入れない。長い窓は鎖の外で統括が走らせる —— 置き場 W324D_RESUME_DIR〔既定 tests/out/.satlong-w324d/〕に
+  //   済みのジョブと途中の checkpoint を持ち、走らせ直すと済みは再利用・途中は続きから)・簡易一致は使わない(quickVerify:false)。子プロセス 2 本(workers 2)。
+  //   所要: resume-324d は第324便d の枝の実測(**並走の秒** —— 4 枝並走の容器・nice 10)。satlong-324d は**見積り**(第322便の鎖 1 の satnext-318b の q11 の率 2553 步/秒 ×
+  //   イオ 3672 公転・エウロパ 1830 公転 × 720 × (1+2+4) × 2 変種 ÷ 2 worker —— 混まない箱。枝では完走しない —— 統括が完走の elapsedS で直す)
+  S('resume-324d', 'node tests/exp-w318b-satnext.mjs --resume-gate', ['tests/out/resume-w324d.json'], 140, { secSource: 'w324d-branch', node: true, workers: 2, role: 'history',
+    quickVerify: false, quickVerifyWhy: '再開の型の門(連続と再開の同一・拒否・否定対照)—— 正本の値は門の真偽と照合の結果',
+    volatilePaths: { 'tests/out/resume-w324d.json': META_RUN.concat(['/elapsedS', '/wallSec', '/jobs/*/wallSec']) },
+    note: '第324便d: 長い段の再開の型の門(AN480 —— 既定の子の行 = 再開の型の連続 = 2 回止めて別の子プロセスで続けた行〔所要の欄の外の全欄が同じビット〕・sim の全欄の digest・否定対照 2・違う契約と書きかけの拒否・done の再利用・計画の門〔既定 = 再開の型 = 全ジョブ再利用の正本〕)。履歴(鎖に入れない)' }),
+  S('satlong-324d', 'node tests/exp-w318b-satnext.mjs --long', ['tests/out/satlong-w324d.json'], 11300, { secSource: 'w324d-estimate(見積り —— 枝では完走しない・統括が完走の elapsedS で直す)', node: true, workers: 2, role: 'history',
+    quickVerify: false, quickVerifyWhy: '長期の量(1.5 P_母 の近点の率の差 —— AN452・AN517/518 の簡易一致を使わない段)',
+    // volatilePaths は置かない: 正本は鎖の外で完走した後にコミットする(lint.stableHashPaths ② はファイルの無い宣言を落とす)・読み手の段が無い(安定 hash の入力にならない)。
+    //   完走して読み手を足すときは satnext-318b と同じ所要の欄(/elapsedS・/timing/*/wallSec・/E/runs/*/wallSec・/E/runs/*/runs/q10/wallSec・/E/runs/*/runs/q11/wallSec・
+    //   /cost/wallSec・/cost/byJob/*/wallSec・/cost/rateStepsPerSec)と /resumeGate/wallSec
+    note: '第324便d: イオ・エウロパの長い窓(AN452 —— 1.5 P_母 × h・h/2・h/4 × V1a・V0・satnext-318b と同じ契約・窓 W1/W2・模型 LS・判定 RULE)を再開の型で(門を先に回し、外れたら走らせない)。母惑星の公転周期の窓の外の量を引用しない・在位へ入れない。履歴(鎖の外で統括が走らせる)' }),
+  // ==== 第324便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -1910,6 +1978,173 @@ for (const st of REGEN_STEPS) {
   st.sec = m.sec; st.secSource = m.source || REGEN_SEC.source || REGEN_SEC_FILE;
 }
 // ==== 第311便c の塊(ここまで)====
+// ==== 第324便c の塊(ここから)====
+// 第324便c(統括の検証項目 R281 —— 第323便の統括の手順で決めたこと「quickVerify:'long' の名簿は次の便」・決断事項 AN517/AN518 の「簡易一致を使わない段: 步か受理器を
+//   変えた便の長期の量の段」): **長期の量の名簿**(段の宣言 quickVerify:'long' —— tests/lib-w323b-quick.mjs の quickShadow が、步の関数・受理器・S._core が
+//   変わった便〔か変わったか分からない便〕では候補から外す)。選び方: 煙試験の窓(SMOKE_KNOBS の env か段の宣言 quickWindow)を持つ段のうち、**正本の物理の値の
+//   主な量が窓より長い積分でしか出ない**(近点の移動・周期・永年の歳差・三体の効果・長い走行で出る事象)段で、**窓がその量の段を走らせない・公転を縮める**もの
+//   (正本の欄の走査と器の頭の注記と窓の注記で選んだ —— 枝の探索 scan-long の表)。外した段の理由: 純関数の器(bgequiv・bgbudget・bgbudget2・corefield は
+//   html の步を使わない)・短い時間の量だけの器(shapetoy・shapecrit・dyncenter・geo4-295b・chain-296c・clone-301f・axialsign-302e・spinavg-305d・rotframe-306d・
+//   dragest-318d・srcradius-319b・srcheat-320a・jexplore-320b・nbcompose-320c・geo2v3-321a・geo2flat-322a・galfield-321c・fieldcontract-322c)。
+//   **形**(枝 c が決める —— 既定値で動く): 段の行に quickVerify を書いた段はその宣言が先(名簿は上書きしない)。名簿に在って行に宣言の無い段へ
+//   `quickVerify:'long'`・`quickVerifyWhy`・`quickVerifySource`(名簿の版)を読み込みの時に入れる(段の行の本文は書き換えない —— 他の枝の行と衝突しない)。
+//   **新しい段は行に `quickVerify`(長期の量なら 'long'・使わないなら false + quickVerifyWhy)を宣言する**か、この名簿に足す。名簿の鍵は表の現行の段(QA lint.quickBoundary324c)。
+export const QUICK_LONG_VERSION = 'w324c-quicklong-1';
+export const QUICK_LONG_ROSTER = Object.freeze({
+  'timestd-297c': '全本を 8 公転(dt と dt/2)—— 周期 pMeas・終端の a・e のずれ(窓は 2 公転/60 步)',
+  'synodic-299b': '朔望月と近点の回転の周期・1 近点あたりの傾き(窓は段 sun3d だけ)',
+  'satnext-318b': '衛星の母天体の公転の窓の三体の効果(窓は P_母 の 1/32)',
+  'k1confirm-313d': '段 E のエンジンの走行の近点・周期・三体の効果(窓は段 P・T だけ —— エンジンを走らせない)',
+  'solar16-318c': '16 体の地球 1 年の窓(窓は 1/32)',
+  'k1outer-314c': '外惑星 3 本の段 E のエンジンの近点・周期(窓は段 P・T だけ)',
+  'k1em-314c': '🌦️ の段 E(h/4 と月の 354 公転)(窓は段 T だけ)',
+  'inposk1-315c': '在位の 7 本の段 E のエンジンの近点・周期・三体の効果(窓は段 P・B・T)',
+  'planet3-311d': '段 T・E のエンジンの走行の近点・周期・三体の効果(窓は段 S だけ)',
+  'confirm-312d': '段 E のエンジンの走行の近点・周期・三体の効果(窓は段 T・C だけ)',
+  'sath-316d': '64 公転 × h/4 の近点の移動・周期・三体の効果(窓は 8 公転・2 衛星)',
+  'satcut-317c': '64 公転 × h/4 の三体の効果(窓は 8 公転・2 衛星)',
+  'satk1-315d': '6 衛星の二体と三体の q11 の段 E(窓は段 P・T)',
+  'mdsweep-310d': '段 R のエンジンの近点・交点の移動(窓は段 K・P・E・S・Z)',
+  'pairnorm-305a': '三体の長窓 M(窓は段 Z・K)',
+  'refit-297a': '近点の回転の周期・1 近点あたりの傾き(窓は段 geotoy)',
+  'refit-298b': '近点の回転の周期・1 近点あたりの傾き(窓は段 qprobe)',
+  'refit-303a': '近点の回転の再フィット(窓を持たない —— 名簿は宣言だけ)',
+  'fit-297b': '水星の近点のフィットの周期の表(窓 mer は正本を書かない)',
+  'earthmoon-303c': '地球–月の長い窓の近点(窓は W303C_LONG 118・段 audit)',
+  'emresolve-306c': '月の交点・歳差の率(窓は W306C_LONG 118)',
+  'periodn-306b': '周期による n の識別(周期・近点の移動)(窓は段 Z・P・水星だけ)',
+  'shell-304b': '水星の根 M・地球–月 E の近点と周期のずれ(窓は段 Z・A)',
+  'inertialr2-303b': '近点の移動・周期のずれ(窓は段 Z・M・K の QUICK)',
+  'gfamily-305b': '周期のずれ(窓は段 Z・D)',
+  'an336-306a': '移送 T・対の行 R の周期と近点(窓は段 A・M)',
+  'baseline-304c': '🌦️🌔 の基線の近点(窓は段 emo)',
+  'geo3': '歳差と近点の時刻(窓は --quick)',
+  'gloc-302b': '1 公転あたりの近点の移動(窓は QUICK)',
+  'semic-302d': '周期の分割とフィット(窓は段 gates)',
+  'chainburst-301d': '14000 步付近の飛び(長い走行で出る事象 —— 窓は行を絞る)',
+  'binbooks-322b': '8 公転 × h・h/2・h/4 の近点の散らばり(窓は 3 公転)',
+  'geo3bin-321b': '近点の数と散らばり(窓は 3 公転)',
+  'galaxial-311b': '水星の公転の窓の軸の引きずりの積み上げ(窓は 1/4 公転)',
+  'galaxialrd-312b': '水星の公転の窓の軸の引きずりの積み上げ(窓は 1/4 公転)',
+  'galaxialrdm-313b': '水星の公転の窓の軸の引きずりの積み上げ(窓は 1/4 公転)',
+  'rdscale-314b': '段 P の近点の走行(窓は水星の 1 公転・C₁/5)',
+});
+for (const st of REGEN_STEPS) {
+  const why = QUICK_LONG_ROSTER[st.key];
+  if (!why || st.role === 'history' || st.quickVerify !== undefined) continue;
+  st.quickVerify = 'long'; st.quickVerifyWhy = why; st.quickVerifySource = QUICK_LONG_VERSION;
+}
+/** 第324便c: 長期の量の名簿の行(段・理由・宣言の出どころ —— 'row' は段の行の宣言・'roster' は名簿)。表に無い名簿の鍵は missing。 */
+export function quickLongRows(steps) {
+  const S0 = steps || REGEN_STEPS;
+  const by = new Map(S0.map((z) => [z.key, z]));
+  const rows = S0.filter((z) => z.role !== 'history' && z.quickVerify === 'long').map((z) => ({ key: z.key, why: z.quickVerifyWhy || '', from: z.quickVerifySource === QUICK_LONG_VERSION ? 'roster' : 'row' }));
+  return { version: QUICK_LONG_VERSION, rows, missing: Object.keys(QUICK_LONG_ROSTER).filter((k) => !by.has(k) || by.get(k).role === 'history') };
+}
+
+// 第324便c(決断事項 AN516 —— nslock の鎖の段を --merge に切り替えるのは影の照合が 2 便続けて n/n の後・比較の実績が無い便は数えない):
+//   **nslock の影の照合の記録**。器(tests/exp-w272c-nslock.mjs —— 第322便d)は全走の走行でも前の正本で門を評価し、標準エラーに
+//     「再利用の門(…・影 —— 全走)…: 門 merge —— 再利用 n 行 … | 門 full(全走)—— <外れた門の理由> / … 他 N」
+//     「影の照合(…): 門が再利用できるとした行のうち、この走行で走らせた m 行 —— 前の正本の行と一致 n/m[・**不一致 …**]」 か 「影の照合(…): 照合なし(<理由>)」
+//   を印字する。鎖のログ($REGEN_LOG/<波>-nslock.log)からこの 2 行を読み、n/m・門の外れの理由(G1〜G8)・m = 0 の便は「比較の実績なし」を小さな記録に残す
+//   (`node tools/regen-chain.mjs --nslock-shadow <REGEN_LOG>` —— 鎖の終わりに鎖の脚本が呼ぶ・`--append <記録> --wave N` で便ごとの作業記録〔正本ではない〕へ)。器は変えない。
+export const NSLOCK_SHADOW_VERSION = 'w324c-nslockshadow-1';
+export const NSLOCK_SHADOW_FILE = 'tests/data-w324c-nslockshadow.json';
+/** nslock のログの文字列 → 影の照合の記録(器の印字の 2 行を読む —— 無ければ ran:false)。 */
+export function nslockShadowOfLog(text) {
+  const T0 = String(text || '');
+  const gl = (T0.match(/^\[w272c-nslock\] 再利用の門[^\n]*$/m) || [null])[0];
+  const sl = (T0.match(/^\[w272c-nslock\] 影の照合[^\n]*$/m) || [null])[0];
+  const out = { version: NSLOCK_SHADOW_VERSION, ran: !!(gl || sl), gateMode: null, gateWhy: [], gates: [], gateMore: 0, compared: 0, same: 0, mismatch: [], verdict: null, gateLine: gl, shadowLine: sl };
+  if (gl) {
+    const fm = gl.match(/門 full[((]全走[))]—— /);   // 器の印字は ASCII の括弧(全角も受ける)
+    if (/門 merge —— /.test(gl)) out.gateMode = 'merge';
+    else if (fm) {
+      out.gateMode = 'full';
+      const body = gl.slice(fm.index + fm[0].length);
+      const mm = body.match(/ 他 (\d+)$/);
+      out.gateMore = mm ? Number(mm[1]) : 0;
+      out.gateWhy = (mm ? body.slice(0, mm.index) : body).split(' / ').map((z) => z.trim()).filter(Boolean);
+      out.gates = [...new Set(out.gateWhy.map((z) => (z.match(/^(G[1-8])\b/) || [null, null])[1]).filter(Boolean))].sort();
+    }
+  }
+  if (sl) {
+    const m = sl.match(/この走行で走らせた (\d+) 行 —— 前の正本の行と一致 (\d+)\/(\d+)/);
+    if (m) { out.compared = Number(m[3]); out.same = Number(m[2]); const d = sl.match(/\*\*不一致 ([^*]+)\*\*/); out.mismatch = d ? d[1].split(',').map((z) => z.trim()).filter(Boolean) : []; }
+    else if (/照合なし/.test(sl)) { const w = sl.match(/照合なし[((](.*)[))]\s*$/); if (w && !out.gateWhy.length) { out.gateWhy = w[1].split(' / ').filter(Boolean); out.gates = [...new Set(out.gateWhy.map((z) => (z.match(/^(G[1-8])\b/) || [null, null])[1]).filter(Boolean))].sort(); } }
+  }
+  out.verdict = !out.ran ? 'not-run' : out.compared === 0 ? 'no-comparison' : out.mismatch.length || out.same !== out.compared ? 'mismatch' : 'n/n';
+  return out;
+}
+/** 記録の 1 行の文(m = 0 の便は「比較の実績なし」)。 */
+export function nslockShadowText(r) {
+  if (!r.ran) return 'nslock の影の照合(AN516): nslock は走らなかった' + (r.reuse ? '(' + r.reuse + ')' : '') + ' —— 比較の実績なし(数えない)';
+  const g = r.gateMode === 'full' ? `門 full(全走)—— 外れた門 ${r.gates.join('・') || '—'}${r.gateMore ? '(ほか ' + r.gateMore + ' 件)' : ''}` : r.gateMode === 'merge' ? '門 merge' : '門 —';
+  if (r.compared === 0) return `nslock の影の照合(AN516): ${g} —— 照合 0/0 —— **比較の実績なし**(数えない)`;
+  return `nslock の影の照合(AN516): ${g} —— 一致 ${r.same}/${r.compared}${r.mismatch.length ? '・**不一致 ' + r.mismatch.join(',') + '**(門が見落とした入力がある —— --merge を使わない)' : ''}`;
+}
+/** 便ごとの作業記録(正本ではない)から AN516 の数(比較の実績が有る便だけを数えた、最後から続く n/n の便の数)。 */
+export function an516Streak(doc) {
+  const rows = ((doc && doc.waves) || []).slice().sort((a, b) => Number(a.wave) - Number(b.wave));
+  const cmp = rows.filter((z) => z.verdict === 'n/n' || z.verdict === 'mismatch');
+  let streak = 0;
+  for (let i = cmp.length - 1; i >= 0 && cmp[i].verdict === 'n/n'; i--) streak++;
+  return { streak, need: 2, compared: cmp.map((z) => z.wave + ':' + z.verdict), skipped: rows.filter((z) => !(z.verdict === 'n/n' || z.verdict === 'mismatch')).map((z) => z.wave + ':' + z.verdict),
+    note: 'AN516: --merge へ切り替えるのは影の照合が 2 便続けて n/n の後(比較の実績が無い便〔not-run・no-comparison〕は数えない —— 切り替えの判断は統括)' };
+}
+/** 自己試験(器を走らせない —— 缶詰のログ)。 */
+export function nslockShadowProbe() {
+  const bad = [];
+  const gFull = '[w272c-nslock] 再利用の門(w322d-nslock-merge-1・影 —— 全走)・前の正本 tests/out/nslock-w272c.json: 門 full(全走)—— G2 環境(chromium) / G3 核(依存閉包の関数・HP の口・S._core・定数)が違う';   // 器の印字の型(ASCII の括弧)
+  const a = nslockShadowOfLog(gFull + '\n[w272c-nslock] 影の照合(w322d-nslock-merge-1): 照合なし(G2 環境(chromium) / G3 核(依存閉包の関数・HP の口・S._core・定数)が違う)\n');
+  if (!(a.ran && a.gateMode === 'full' && a.gates.join(',') === 'G2,G3' && a.verdict === 'no-comparison' && /比較の実績なし/.test(nslockShadowText(a)))) bad.push('門 full: ' + JSON.stringify(a).slice(0, 160));
+  const b = nslockShadowOfLog('[w272c-nslock] 再利用の門(w322d-nslock-merge-1・影 —— 全走)・前の正本 x: 門 merge —— 再利用 3 行(a,b,c)・走らせる 0 行(なし)\n[w272c-nslock] 影の照合(w322d-nslock-merge-1): 門が再利用できるとした行のうち、この走行で走らせた 3 行 —— 前の正本の行と一致 3/3\n');
+  if (!(b.verdict === 'n/n' && b.compared === 3 && b.same === 3)) bad.push('n/n: ' + JSON.stringify(b).slice(0, 160));
+  const c = nslockShadowOfLog('[w272c-nslock] 影の照合(v): 門が再利用できるとした行のうち、この走行で走らせた 3 行 —— 前の正本の行と一致 2/3・**不一致 psrB**(門が見落とした入力がある —— --merge を使わない)\n');
+  if (!(c.verdict === 'mismatch' && c.mismatch.join(',') === 'psrB')) bad.push('不一致: ' + JSON.stringify(c).slice(0, 160));
+  const d = nslockShadowOfLog('[走] other\n');
+  if (d.ran || d.verdict !== 'not-run') bad.push('走らない: ' + d.verdict);
+  const g = gFull.replace('が違う', 'が違う / G1 器の版(a → b) / G5 行の集合と順 / G7 全体集計 他 2');
+  const e = nslockShadowOfLog(g);
+  if (!(e.gates.join(',') === 'G1,G2,G3,G5,G7' && e.gateMore === 2)) bad.push('理由の列と他 N: ' + JSON.stringify(e.gates) + ' ' + e.gateMore);
+  const st = an516Streak({ waves: [{ wave: 322, verdict: 'no-comparison' }, { wave: 323, verdict: 'not-run' }, { wave: 324, verdict: 'n/n' }, { wave: 325, verdict: 'no-comparison' }, { wave: 326, verdict: 'n/n' }] });
+  const st2 = an516Streak({ waves: [{ wave: 1, verdict: 'n/n' }, { wave: 2, verdict: 'mismatch' }, { wave: 3, verdict: 'n/n' }] });
+  if (st.streak !== 2 || st2.streak !== 1) bad.push('AN516 の数: ' + st.streak + '・' + st2.streak);
+  return { version: NSLOCK_SHADOW_VERSION, ok: bad.length === 0, bad,
+    cases: [`門 full(G2・G3)+ 照合なし → ${a.verdict}(比較の実績なし)・門 merge 3/3 → ${b.verdict}・2/3 → ${c.verdict}(${c.mismatch.join(',')})・印字なし → ${d.verdict}・理由の列 ${e.gates.join('・')} ほか ${e.gateMore}`,
+      `AN516 の数: [322 比較なし・323 走らず・324 n/n・325 比較なし・326 n/n] → ${st.streak}(比較の無い便は数えない)・[n/n・不一致・n/n] → ${st2.streak}`] };
+}
+/**
+ * 第324便c: **速い判定の実効値の記録**の stub の鎖(bash —— 1 段・REGEN_FASTGATE を 未設定 / 0 / shadow / on で 4 回)。鎖の標準出力の 1 行目・$REGEN_LOG/fastgate.txt・
+ * timeline の見出しの fastgate=・鎖の終わりの nslock の影の照合の記録($REGEN_LOG/nslock-shadow.json —— nslock の無い鎖は not-run)を読む。
+ * @param {{root:string, tmpDir:string}} o
+ */
+export async function fastgateRecordProbe324c(o) {
+  const root = String(o.root).replace(/\/$/, ''), tmp = String(o.tmpDir).replace(/\/$/, '');
+  const cp = await import('node:child_process');
+  fs.mkdirSync(tmp + '/out', { recursive: true });
+  const steps = [{ key: 'u1', cmd: 'echo "{\\"v\\":1}" > out/u1.json', outs: ['out/u1.json'], after: [], role: 'current', sec: 1 }];
+  const plan = { htmlSha256: null, steps: [{ key: 'u1', status: 'regen', ownStatus: 'regen' }] };
+  const want = { unset: '1', '0': '0', shadow: 'shadow', on: '1' };
+  const rows = {};
+  for (const [lab, val] of Object.entries(want).map(([k, v]) => [k, v])) {
+    fs.rmSync(tmp + '/log', { recursive: true, force: true });
+    fs.writeFileSync(tmp + '/page.html', '<html>stub</html>\n');
+    const chn = buildChain(plan, { steps, deps: tableDeps({ steps }), afterKinds: new Map([['u1', new Map()]]) });
+    fs.writeFileSync(tmp + '/chain.sh', chainShell(chn, { lanes: 1 }));
+    const env = Object.assign({}, process.env, { REGEN_ROOT: tmp, REGEN_LOG: tmp + '/log', REGEN_TOOL: root + '/tools/regen-chain.mjs', REGEN_HTML: 'page.html', REGEN_ENV_BROWSER: '0' });
+    delete env.REGEN_FASTGATE; if (lab !== 'unset') env.REGEN_FASTGATE = lab;
+    const r = cp.spawnSync('bash', [tmp + '/chain.sh'], { encoding: 'utf8', env, cwd: tmp, timeout: 120000 });
+    const first = String(r.stdout || '').split('\n')[0];
+    let ft = ''; try { ft = fs.readFileSync(tmp + '/log/fastgate.txt', 'utf8'); } catch { ft = ''; }
+    let tl = ''; try { tl = (fs.readFileSync(tmp + '/log/timeline.txt', 'utf8').match(/^# ready-queue [^\n]*/m) || [''])[0]; } catch { tl = ''; }
+    let ns = null; try { ns = JSON.parse(fs.readFileSync(tmp + '/log/nslock-shadow.json', 'utf8')); } catch { ns = null; }
+    rows[lab] = { rc: r.status, first: first.slice(0, 120), file: ft.trim().split(' ')[0], header: tl, nslock: ns ? ns.verdict : null,
+      ok: r.status === 0 && first.startsWith('# regen-chain fastgate=' + val + '(') && ft.startsWith('fastgate=' + val + ' ') && / lanes=1 fastgate=/.test(tl) && tl.endsWith('fastgate=' + val) && !!ns && ns.verdict === 'not-run' };
+  }
+  return { ok: Object.values(rows).every((z) => z.ok), rows };
+}
+// ==== 第324便c の塊(ここまで)====
 
 /**
  * 第285便f(AN53): html 全体を刻む現行の段(正本の meta から —— target が beta/index.html で scopeComplete の領域が無い)。
@@ -3883,6 +4118,13 @@ export function chainShell(chain, o) {
   L.push('REGEN_TOOL=${REGEN_TOOL:-tools/regen-chain.mjs}   # 第287便f: 入力の安定 hash を引く器(--digest)');
   L.push('DONE="$REGEN_LOG/done"; ST="$REGEN_LOG/.st"; mkdir -p "$DONE" "$ST" || exit 2; rm -f "$ST"/*.rc');
   L.push('cd "$ROOT" || exit 2');
+  // ==== 第324便c の塊(ここから)====
+  // 第324便c(R281): **速い判定の実効値の記録**(既定は 1 のまま —— コードの既定は変えない・記録だけ)。ログの 1 行目と $REGEN_LOG/fastgate.txt と timeline の見出し。
+  //   0 = 毎回 --gate・shadow = 影(毎回 --gate + fastgate-shadow.txt)・それ以外(未設定を含む)= 1(速い判定)
+  L.push('case "${REGEN_FASTGATE:-1}" in 0) FG_EFF=0 ;; shadow) FG_EFF=shadow ;; *) FG_EFF=1 ;; esac');
+  L.push('echo "# regen-chain fastgate=$FG_EFF(REGEN_FASTGATE=${REGEN_FASTGATE-未設定} —— 0 = 毎回 --gate・shadow = 影・1 = 速い判定〔既定〕)$(date -u +%FT%TZ)"');
+  L.push('echo "fastgate=$FG_EFF raw=${REGEN_FASTGATE-unset} at=$(date -u +%FT%TZ)" >"$REGEN_LOG/fastgate.txt"');
+  // ==== 第324便c の塊(ここまで)====
   // 第288便f(原仮定者の裁定(第78報)AN90): html を書く段は一時出力の断片を $REGEN_HTML_STAGE へ(集約段 htmlagg が 1 回だけ html を書く)・
   //   鎖を回した Node と Chromium の版を $REGEN_LOG/env.json に記録(1 ulp の切り分け用 —— 版は固定しない。REGEN_ENV_BROWSER=0 で Chromium を起こさない)
   L.push('export REGEN_HTML_STAGE="${REGEN_HTML_STAGE:-$REGEN_LOG/html}"; mkdir -p "$REGEN_HTML_STAGE" || exit 2');
@@ -3976,7 +4218,7 @@ export function chainShell(chain, o) {
   L.push('declare -A STATE=() LOCK=()');
   L.push('for k in "${K[@]}"; do STATE[$k]=pending; done');
   L.push('free=$REGEN_LANES; nrun=0; stop=0');
-  L.push('echo "# ready-queue $(date -u +%FT%TZ) lanes=$REGEN_LANES" >>"$REGEN_LOG/timeline.txt"');
+  L.push('echo "# ready-queue $(date -u +%FT%TZ) lanes=$REGEN_LANES fastgate=$FG_EFF" >>"$REGEN_LOG/timeline.txt"');   // 第324便c: 見出しに速い判定の実効値
   L.push('while :; do');
   L.push('  for k in "${K[@]}"; do   # 終わった段を回収(rc はファイルで受ける)');
   L.push('    [ "${STATE[$k]}" = running ] && [ -f "$ST/$k.rc" ] || continue');
@@ -4008,6 +4250,8 @@ export function chainShell(chain, o) {
   L.push('  [ $nrun -gt 0 ] || break');
   L.push('  wait -n 2>/dev/null || true');
   L.push('done');
+  // 第324便c(AN516): nslock の影の照合の記録(nslock が走った鎖ではログの 2 行から n/m・門の外れの理由 —— 走らなければ「比較の実績なし」)
+  L.push('node "$REGEN_TOOL" --nslock-shadow "$REGEN_LOG" --json "$REGEN_LOG/nslock-shadow.json" 2>/dev/null || true');
   L.push('left=""; for k in "${K[@]}"; do [ "${STATE[$k]}" = ok ] || left="$left $k"; done');
   L.push('if [ -n "$left" ]; then echo "[止] 済んでいない段:$left($REGEN_LOG)"; exit 1; fi');
   L.push('echo "[完] 鎖の全段($REGEN_LOG)"');
@@ -4639,7 +4883,8 @@ export async function htmlAggregateProbe(o) {
   }
 }
 
-export default { REGEN_TABLE_VERSION, REGEN_STEPS, STATIC_READ_DECL, harnessReads, staticAfterAudit, stampedDeclDrift, VOLATILE_DECL, volatileDeclFp, W285F_AFTER_SAMPLESTATUS, htmlWholeSteps, samplestatusUpstream, an43Probe, EXTERNAL_VOLATILE, V_CALAUDIT_META, STABLE_COMPANIONS, companionsOf,
+export default { QUICK_LONG_VERSION, QUICK_LONG_ROSTER, quickLongRows, NSLOCK_SHADOW_VERSION, NSLOCK_SHADOW_FILE, nslockShadowOfLog, nslockShadowText, an516Streak, nslockShadowProbe, fastgateRecordProbe324c,
+  REGEN_TABLE_VERSION, REGEN_STEPS, STATIC_READ_DECL, harnessReads, staticAfterAudit, stampedDeclDrift, VOLATILE_DECL, volatileDeclFp, W285F_AFTER_SAMPLESTATUS, htmlWholeSteps, samplestatusUpstream, an43Probe, EXTERNAL_VOLATILE, V_CALAUDIT_META, STABLE_COMPANIONS, companionsOf,
   volatilePathsOf, volatileDeclared, stepsByOut, alwaysRunOuts, historyOuts, planRegen,
   writesOf, writersMap, afterClosure, tableDeps, tableDepsAudit, checkOrder, buildChain, chainSequence, laneSplit, chainShell, an29Probe,
   codeFilesOf, chainContracts, CHAIN_CONTRACT_VERSION, chainPriority, simulateReadyQueue, waveMakespan, checkTimeline, parseTimeline,

@@ -314,3 +314,35 @@ node tools/qa-recheck-record.mjs --check                       # 形の検査(QA
   `--fp-record <記録>`(既定 `tests/data-w323b-quickfp.json`)・`--K 3`・`--wave <便>`(既定は html の BETA_BUILD)・`--promote`(root 昇格の便 —— 全段フル)。
 - **窓の指紋の記録**: `node tools/harness-smoke.mjs --fingerprint tests/data-w323b-quickfp.json`(`--base`・`--keys` が無ければ窓のある段を全部 —— 簡易一致を使わない段は除く)。
   鎖の後に 1 回。記録はコミットする作業記録(正本ではない —— lint は形だけ)。
+
+## 第324便c —— 道具の続き(統括の検証項目 R281・決断事項 AN516・AN517/AN518)
+
+- **簡易一致の欠測の境界**(`tests/lib-w323b-quick.mjs` —— 版 w324c-quick-2): `quickShadow` は器・lib の hash(記録側・今の側)の欠け・不正・違い・正本の物理の値の hash の欠けを
+  候補から外す。`shadowCompare` は欠測を **na**(理由つき —— trueSame に数えない)・照合の数 `tally`(比べた数・html が違う比較・na の理由ごと)・自己比較 `selfCompare`。
+  `node tools/regen-plan.mjs --shadow-compare <前の記録> [--fp-record <今の記録>]` は「照合の数」の行を出し、**自己比較(同じファイル・同じ中身)は終了コード 2**(`--allow-self` で印字だけ)。
+- **長期の量の名簿**: `tests/lib-w281a-regentable.mjs` の `QUICK_LONG_ROSTER`(版 w324c-quicklong-1 —— 段の行に宣言の無い段へ `quickVerify:'long'` を入れる)。
+  新しい段は行に `quickVerify`(長期の量なら `'long'`・使わないなら `false` + `quickVerifyWhy`)を宣言するか名簿に足す。
+- **速い判定の実効値**: 鎖の脚本の 1 行目 `# regen-chain fastgate=<0|shadow|1>(REGEN_FASTGATE=…)`・`$REGEN_LOG/fastgate.txt`・timeline の見出し `… lanes=N fastgate=<値>`(既定は 1 のまま)。
+- **nslock の影の照合の記録**(AN516): 鎖の終わりに `node tools/regen-chain.mjs --nslock-shadow "$REGEN_LOG" --json "$REGEN_LOG/nslock-shadow.json"`(鎖の脚本が呼ぶ)。
+  便ごとの作業記録へ: `node tools/regen-chain.mjs --nslock-shadow <REGEN_LOG> --append tests/data-w324c-nslockshadow.json --wave <便> [--rev <sha>]`・数だけ: `node tools/regen-chain.mjs --streak`
+  (比較の実績が有る便だけで最後から続く n/n の便の数 —— m = 0 の便は「比較の実績なし」で数えない)。
+- **post-merge**: ③・③′・④ は qapart の `# qapart-summary` の行で **PASS・FAIL・SKIP・未実行**(未実行の鍵の名・保存のフル QA にも行の無い鍵は「この対象では走らない鍵の型」)。
+  ③′ の既定は**便の塊だけ**(`--wave N`・既定は CHANGELOG の最新の便 —— `tests/lib-w324c-postmerge.mjs` の waveIdsFromScript)+ PHYSICS の走査の一式。`--all-waves` で積み上げ。
+- **部分 QA で覆えない鍵の名簿**: `node tools/qa-keys.mjs --uncovered [--target beta|root] [--json <file>]`(W5c の範囲・写せない上流・コメント・範囲・保存のフル QA に行の無い鍵 ——
+  SKIP を印字するか、何も印字せず飛ばすか)。post-merge の ④ の後に数を出す(名簿は `$LOG/uncovered.json`)—— フルゲートが見る鍵。
+- **calaudit の揮発の欄**: h/2 の転記の来歴(`V_CALAUDIT_H2P` —— 宣言の版 w324c-vcal-3)と置き場の行の html の sha(`V_CALAUDIT_DIAG_STOREP` —— w324c-vdiag-3)。
+  2 回の走行の記録は `tests/data-w324c-calvolatile.json`(作業記録 —— 宣言を変えたら走らせ直して取り直す・QA lint.calVolatile324c)。
+
+## 再開の型と衛星の長い窓(第324便d —— 決断事項 AN480・AN452・統括の検証項目 R282)
+
+長い段を止めても続きから走らせる型(lib `tests/lib-w324d-resume.mjs`)。**完了済みのジョブの再利用**(done —— 契約つきの結果の本文)と**途中の步からの再開**(checkpoint —— 安全な步の境界で sim の全状態・検出器の累積・步の番号を原子的に保存)を分けて持つ。契約(入力・器・環境・版の hash)が違う・書きかけ・壊れた checkpoint は拒否して最初から。最初の使い手は衛星の器の長い窓の口(lib `tests/lib-w324d-satlong.mjs` —— 器が動的 import で読む・既定の経路は読まない)。
+
+```
+W324D_RESUME_DIR=<置き場> nice -n 19 node tests/exp-w318b-satnext.mjs --long          # イオ・エウロパ × 1.5 P_母(正本 tests/out/satlong-w324d.json —— 段 satlong-324d・履歴)
+W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --long --status            # 済みのジョブと途中の checkpoint(步の番号 / 窓の終わり)を印字するだけ
+W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate              # 連続と再開の門(正本 tests/out/resume-w324d.json —— 段 resume-324d・履歴)
+```
+
+- 置き場の既定は `tests/out/.satlong-w324d/`(.gitignore のまま —— 数百 MiB になりうる)。`--resume-dir <dir>` でも指定できる。子プロセスは `W318B_WORKERS`(既定 2)・checkpoint の間隔は `W324D_CK_SEC`(既定 600 s)。
+- 止まったら**同じ命令をもう一度**(済みのジョブは done から再利用・途中のジョブは checkpoint から続ける・`--long` は走行の初めに門を回し、外れたら走らせない)。対象 html・器と lib・凍結の写し・環境が変わると契約が違うので続きは拒否される(最初から)。
+- 2 段とも履歴(計画は常に「履歴」—— 毎便の鎖に入れない)・簡易一致は使わない(quickVerify:false)。

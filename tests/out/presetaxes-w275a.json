@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
-  "generatedAt": "2026-11-02T02:26:24.785Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-03T02:22:11.180Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7491601,
-    "sha256": "796980ba5fc364cf598e84eebca1706c68b0057f86723f1849d221e461a7aeab",
-    "mtime": "2026-11-02T02:03:28.584Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    }
   ],
   "code": [
@@ -18,13 +18,13 @@
     "file": "tests/exp-w275a-presetaxes.mjs",
     "bytes": 6994,
     "sha256": "0874d5e6db5ecca50b564fce2ba28693b3caed2a329716c0d7b0c189ffce7549",
-    "mtime": "2026-11-02T02:25:36.509Z"
+    "mtime": "2026-11-02T04:24:50.088Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-02T02:03:28.920Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
   "codeSha256": "7ddb53b2cddc69baedb63409504edc2c12a8054ab248b9340b1777011979bbe2",
@@ -55,14 +55,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1314,
-   "segments": 1152,
-   "closureShare": 0.2946
+   "names": 1357,
+   "segments": 1183,
+   "closureShare": 0.2955
   },
-  "scopeSha256": "28d990c70a6302934448945be5b5599fc985514f39a11d9aabe413551d2c770a",
+  "scopeSha256": "3828e1660992ba984226d6a9acc92827a92936252c6342cf4a681c934f6f5f5b",
   "scopeComplete": true
  },
- "nPresets": 182,
+ "nPresets": 186,
  "kFrameValues": [
   0,
   1
@@ -521,6 +521,48 @@
    "nBodyDecl": 2,
    "presetSigHash": "caa16ef0",
    "bodiesSha256": "14ddaa9b42c3d105b3d50626653744a48e23d4338c5c16418df7492050d99771"
+  },
+  {
+   "id": "galaxyGeo2Thick3d",
+   "emoji": "🥞",
+   "name": "v−u統一測地線の銀河(三次元・有限厚)",
+   "sampleClass": "principle",
+   "kFrame": 1,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 1.5,
+   "D0pull": null,
+   "D0eff": 1.5,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 3,
+   "geoPN": 2,
+   "nBodyDecl": 2,
+   "presetSigHash": "55b01696",
+   "bodiesSha256": "129c57fc219d6fb542b4da93ae5054a8dc281478da61577ce6e1baea938f0a4d"
+  },
+  {
+   "id": "galaxyGeo2ThickTilt3d",
+   "emoji": "🧇",
+   "name": "v−u統一測地線の銀河(三次元・有限厚・傾き有り)",
+   "sampleClass": "principle",
+   "kFrame": 1,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 1.5,
+   "D0pull": null,
+   "D0eff": 1.5,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 3,
+   "geoPN": 2,
+   "nBodyDecl": 2,
+   "presetSigHash": "9f35612a",
+   "bodiesSha256": "2790ff02b0bfdd147a5701d73cab7194d3e602906aff6cb6acdfe7d745ccd59c"
   },
   {
    "id": "galaxyDB",
@@ -2621,6 +2663,48 @@
    "nBodyDecl": 2,
    "presetSigHash": "89c61b59",
    "bodiesSha256": "1ae610914132ec8eda31e3e4e12f8e071c2f316d01d6bc426583473c57d830e0"
+  },
+  {
+   "id": "alphaCenABInertial3dJ",
+   "emoji": "🔸",
+   "name": "αケンタウリAB(慣性決定力版・三次元)— 源の角運動量 J(f は模型の入力・軸はノブ)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.006,
+   "D0pull": null,
+   "D0eff": 0.006,
+   "q": 4.6111,
+   "frameWeight": "pull",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "826d5fd8",
+   "bodiesSha256": "f442fe7e8371ea397954b7a2e4dd59cae9e49068e66426118f9f3dd4d725a472"
+  },
+  {
+   "id": "psrDoubleABInertial3d",
+   "emoji": "📟",
+   "name": "二重パルサー J0737−3039A/B(慣性決定力版・三次元)— 天体ごとの観測の自転 obsSpin(軸は推定の傾きとノブ)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.006,
+   "D0pull": null,
+   "D0eff": 0.006,
+   "q": 3.1789,
+   "frameWeight": "pull",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "2ba67776",
+   "bodiesSha256": "308a1b473fb031d1d2c9f8b698e7992d8c87df41e94f2b9000a869d92548f4df"
   },
   {
    "id": "psrDoubleAB",

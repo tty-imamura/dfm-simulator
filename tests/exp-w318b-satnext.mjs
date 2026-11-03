@@ -19,6 +19,8 @@
 //
 // ■ 試走: W318B_QUICK=1(W318B_OUT が要る —— 正本を書かない)。探索: W318B_EXPLORE=1(イオ・エウロパ × h・h/2 —— W318B_OUT が要る)。
 //   再開: W318B_CACHE=<dir>(走行 1 本ごとの結果を逐次書き、同じ html・同じ器の版・同じ本・同じ刻みがあれば読む)。
+//   第324便d(AN480・AN452・R282): 長い窓の口 --long(イオ・エウロパ × 1.5 P_母 —— 再開の型 —— 正本 tests/out/satlong-w324d.json)・--resume-gate(連続と再開の門 ——
+//     正本 tests/out/resume-w324d.json)。lib tests/lib-w324d-satlong.mjs・tests/lib-w324d-resume.mjs は**この口だけが動的 import で読む**(既定の経路は読まない —— 値・code[]・REGEN_SCOPE は不変)。
 //
 // ■ 言わないこと: 「フィットした」「較正した」「収束した」「完全に一致」「法則を確かめた」「検証が完了した」。近似要素の種を観測レコードと呼ばない。
 //   数値の帯は観測の 3σ ではない。h・h/2・h/4 は刻みの感度診断・窓は抽出の感度診断。決まらない列は「この予算では永年項として決まらない」(法則の否定・効きが無いとは書かない)。
@@ -135,6 +137,13 @@ export function runSpec(HP, sp) {
     runs[kind] = { steps: k, kEnd, stop, complete: stop === 'done', nan: S.hasNaN(), unbound: smp[kind].unbound, nSamp: smp[kind].s.t.length, tEnd, h, dt, pRef: book.timeRef.pRef,
       warnings: (vr.warnings || []).length, betaMax: st ? st.betaMax : null, isqSteps: st ? st.steps : null, wallSec: (Date.now() - tk) / 1000 };
   }
+  return analyzeSpec(sp, runs, smp, pp, t0);
+}
+/**
+ * 第324便d(AN480・R282): runSpec の**積分の後の部分**(q10 と q11 の標本 → 行)を関数に切り出した(本文は runSpec の後半のまま —— 既定の経路の値は不変)。
+ * 長い窓の口(tests/lib-w324d-satlong.mjs の runSpecLong —— 再開の型で積分する)が同じ関数で行を作る(連続の走行と同じ行になることを門で確かめる)。
+ */
+export function analyzeSpec(sp, runs, smp, pp, t0) {
   const s10 = smp.q10.s, s11 = smp.q11.s, b10 = smp.q10.book, b11 = smp.q11.book, Tsec = Math.pow(10, b10.scaleExp.T), SO = b10.timeRef.stepsPerOrbit;
   let sameTimes = s10.t.length === s11.t.length; if (sameTimes) for (let i = 0; i < s10.t.length; i++) if (!Object.is(s10.t[i], s11.t[i])) { sameTimes = false; break; }
   const out = { spec: sp, status: 'run', runs, sameTimes, complete: runs.q10.complete && runs.q11.complete && !runs.q10.unbound && !runs.q11.unbound,
@@ -396,9 +405,19 @@ export async function runSatnext(HP, o) {
 }
 
 /* ───────── 実行 ───────── */
+/** 正本の meta.code[](第324便d: main の局所の一覧を名前つきの定数へ —— 中身と順は同じ。長い窓の口が自分の lib を足して使う) */
+export const CODE_FILES = Object.freeze(['tests/exp-w318b-satnext.mjs', 'tests/lib-w318b-satnext.mjs', 'tests/lib-w317a-satmeas.mjs', 'tests/lib-w317c-satcut.mjs', 'tests/exp-w316d-sath.mjs', 'tests/exp-w315d-satk1.mjs', 'tests/lib-w315d-satk1.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs']);
 const argOf = (k) => { const i = process.argv.indexOf(k); return i >= 0 ? process.argv[i + 1] : null; };
 export async function main() {
   const TARGET = process.env.W318B_TARGET || 'beta/index.html';
+  // 第324便d(決断事項 AN480・AN452・統括の検証項目 R282): **長い窓の口**(再開の型 —— tests/lib-w324d-satlong.mjs を**動的 import**で読む。既定の経路〔--child・試走・探索・
+  //   正本〕はこの lib を読まない —— 既定の段 satnext-318b の行・code[]・REGEN_SCOPE は不変)。--long(イオ・エウロパ × 1.5 P_母 —— 正本 tests/out/satlong-w324d.json)・
+  //   --resume-gate(連続と再開の門 —— 正本 tests/out/resume-w324d.json)・--child-long(長い窓の子 —— 親が呼ぶ)
+  if (['--long', '--resume-gate', '--child-long'].some((a) => process.argv.includes(a))) {
+    const X = await import('./lib-w324d-satlong.mjs');
+    return X.mainLong({ ROOT, TARGET, self: fileURLToPath(import.meta.url), HARNESS_VERSION, REGEN_SCOPE, CODE: CODE_FILES, KINDS, PLAN, specsOf, specBooks, runKeyOf, rowKey, runSpec, analyzeSpec,
+      runSatnext, packJson, gatesOf, NX, L, C, M, AP, provenanceMeta, w281aScopeStamp, w281aStableInputs, loadHtmlMain, NOT_CLAIM, SATCUT_OUT });
+  }
   if (process.argv.includes('--child')) {
     const spec = JSON.parse(argOf('--child'));
     const { HP } = loadHtmlMain(path.isAbsolute(TARGET) ? TARGET : path.join(ROOT, TARGET));
@@ -429,7 +448,7 @@ export async function main() {
   if (cstat.resumed > 0) out.resumed = cstat.resumed;
   out.shared = cstat.shared;
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w318b-satnext.mjs', 'tests/lib-w318b-satnext.mjs', 'tests/lib-w317a-satmeas.mjs', 'tests/lib-w317c-satcut.mjs', 'tests/exp-w316d-sath.mjs', 'tests/exp-w315d-satk1.mjs', 'tests/lib-w315d-satk1.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  const CODE = CODE_FILES;
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第318便b', target: TARGET, code: CODE, inputs: [TARGET, L.DECL_FILE, SATCUT_OUT] }), {
     harnessVersion: HARNESS_VERSION, stage: 'satnext',
     engine: 'Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W318B_WORKERS)',

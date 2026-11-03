@@ -2,7 +2,7 @@
  "version": "w322c-fieldcontract-1",
  "generator": "tests/exp-w322c-fieldcontract.mjs",
  "target": "beta/index.html",
- "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+ "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
  "reuseFrom": null,
  "ruling": "決断事項 AN501・AN503・AN506・AN511・AN512・統括の検証項目 R272(策定の段 S2 の geoPN=4 の場の契約)。エンジン・在位の本・`S._core` は変えない(器・lib・正本・文書だけ)。外部場の輸送はエンジンに入れていない",
  "workers": 2,
@@ -59,10 +59,10 @@
  "model": "mw319b-tanh",
  "timing": {
   "G": {
-   "wallSec": 132.61
+   "wallSec": 80.719
   },
   "K": {
-   "wallSec": 8.633
+   "wallSec": 6.204
   }
  },
  "K": {
@@ -4748,19 +4748,19 @@
   "gKinds": true
  },
  "ok": true,
- "elapsedS": 134.95,
+ "elapsedS": 82.441,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第322便c",
   "target": "beta/index.html",
-  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-  "generatedAt": "2026-11-01T18:04:57.088Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-03T03:18:17.878Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7487036,
-    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-    "mtime": "2026-11-01T12:44:54.266Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    }
   ],
   "code": [
@@ -4928,11 +4928,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1351,
-   "segments": 1189,
-   "closureShare": 0.3032
+   "names": 1395,
+   "segments": 1221,
+   "closureShare": 0.3044
   },
-  "scopeSha256": "caae4a74ef782ef9a70678cd9ef937ee623fc458710309193bb7c56911844518",
+  "scopeSha256": "b205e93904954a8fc3d759893a73822f8b0c892fce69c6ed8bf212cc4fb41332",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

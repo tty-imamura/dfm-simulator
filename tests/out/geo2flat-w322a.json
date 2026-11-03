@@ -27,7 +27,7 @@
   "thickSeed": 20261101
  },
  "target": "beta/index.html",
- "targetSha256": "1b3f2aeffd2b41793a7013ff3978c7a1e620bbeed644eb72e5c63bea90e4bb2b",
+ "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
  "ruling": "原仮定者の予定(第123報)・原仮定者の回答(2026-11-01 —— AN499・AN500)・AN504・統括の検証項目 R270",
  "parts": {
   "degen": {
@@ -687,7 +687,7 @@
      },
      "spinPolicy": "vector"
     },
-    "wallSec": 119.897
+    "wallSec": 155.256
    },
    "frozen": {
     "ratio": 1.1800727845699235,
@@ -788,7 +788,7 @@
      null
     ],
     "nan": false,
-    "wallSec": 114.894
+    "wallSec": 143.145
    },
    "tilt": {
     "kind": "tilt",
@@ -867,7 +867,7 @@
      null
     ],
     "nan": false,
-    "wallSec": 118.155
+    "wallSec": 153.712
    },
    "thick": {
     "kind": "thick",
@@ -946,7 +946,7 @@
      null
     ],
     "nan": false,
-    "wallSec": 114.129
+    "wallSec": 151.741
    },
    "an510": {
     "rows": [
@@ -1085,34 +1085,34 @@
  ],
  "timing": {
   "degen": {
-   "wallSec": 4.108
+   "wallSec": 6.514
   },
   "pure": {
-   "wallSec": 0.064
-  },
-  "hist": {
    "wallSec": 0.114
   },
+  "hist": {
+   "wallSec": 0.288
+  },
   "ckpt": {
-   "wallSec": 0.81
+   "wallSec": 1.178
   },
   "ledger": {
-   "wallSec": 3.17
+   "wallSec": 4.507
   },
   "table": {
-   "wallSec": 0.039
+   "wallSec": 0.051
   },
   "gate": {
-   "wallSec": 119.897
+   "wallSec": 155.256
   },
   "trial": {
-   "wallSec": 119.415
+   "wallSec": 154.94899999999998
   },
   "heavy": {
-   "wallSec": 235.388
+   "wallSec": 306.273
   }
  },
- "elapsedS": 236.649,
+ "elapsedS": 307.51,
  "gates": {
   "gateFrozen": true,
   "gateWindow": true,
@@ -1133,14 +1133,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第322便a",
   "target": "beta/index.html",
-  "targetSha256": "1b3f2aeffd2b41793a7013ff3978c7a1e620bbeed644eb72e5c63bea90e4bb2b",
-  "generatedAt": "2026-11-01T10:19:46.733Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-03T03:16:48.765Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7433318,
-    "sha256": "1b3f2aeffd2b41793a7013ff3978c7a1e620bbeed644eb72e5c63bea90e4bb2b",
-    "mtime": "2026-11-01T10:15:35.982Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    }
   ],
   "code": [
@@ -1148,37 +1148,37 @@
     "file": "tests/exp-w322a-geo2flat.mjs",
     "bytes": 44485,
     "sha256": "4d40c1146c60ab21f088a3575cdc7dd658466576d86271b658e84ac093ce1a1b",
-    "mtime": "2026-11-01T07:23:37.878Z"
+    "mtime": "2026-11-01T10:22:57.356Z"
    },
    {
     "file": "tests/lib-w321a-geo2v3.mjs",
     "bytes": 31219,
     "sha256": "d30b16a443af44c399b0714ab69eb22ae71ed9ada5c0f9f311c5631989a6617c",
-    "mtime": "2026-11-01T06:37:37.637Z"
+    "mtime": "2026-10-31T16:16:59.894Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-01T06:37:36.281Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-01T06:37:36.281Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-01T06:37:36.273Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 96951,
     "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-11-01T06:37:36.289Z"
+    "mtime": "2026-10-28T18:04:20.437Z"
    }
   ],
   "codeSha256": "9fa18bd664a02523d96ba17924c20307d2e991a6f04e0f112cd2e7f397597734",
@@ -1233,11 +1233,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1330,
-   "segments": 1168,
-   "closureShare": 0.3002
+   "names": 1373,
+   "segments": 1199,
+   "closureShare": 0.2986
   },
-  "scopeSha256": "b6d794eed544dd88aea69fbfaaba861279fb40f1d2155341bb1780a835c046a7",
+  "scopeSha256": "bc4b4e8f5d907d27560f2b596a2dde072f340b056513adc16e1c6cb7db486311",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

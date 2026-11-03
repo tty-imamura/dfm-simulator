@@ -3,7 +3,7 @@
  "libVersion": "w307c-spindecomp-lib-1",
  "generator": "tests/exp-w307c-spindecomp.mjs",
  "target": "beta/index.html",
- "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+ "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
  "ruling": "原仮定者の裁定(第100報)(観測の自転 = 慣性軸回転 + 引きずり軸回転・軸引きずりは受け手の球面の近い側と遠い側の回転引きずりの差分・金星と太陽–木星を先に・木星–イオと太陽–木星–イオを対照・太陽の自転は分解しない・観測の自転が安定なら引きずり軸回転と潮汐のブレーキが釣り合う)・決断事項 AN345 ④(ω_obs = ω_I + ω_D・ω̇_obs = τ/I + ω̇_D)・統括の検証項目 R211",
  "quick": false,
  "ids": {
@@ -1575,34 +1575,34 @@
  "ok": true,
  "timing": {
   "checks": {
-   "wallSec": 0.12
+   "wallSec": 0.092
   },
   "decomp": {
-   "wallSec": 0.233
+   "wallSec": 0.195
   },
   "radius": {
-   "wallSec": 0.217
+   "wallSec": 0.178
   },
   "misc": {
-   "wallSec": 0.057
+   "wallSec": 0.051
   },
   "evolution": {
-   "wallSec": 5.682
+   "wallSec": 3.281
   }
  },
- "elapsedS": 8.948,
+ "elapsedS": 5.32,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便c",
   "target": "beta/index.html",
-  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-  "generatedAt": "2026-11-01T18:29:25.164Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-03T00:05:00.555Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7487036,
-    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-    "mtime": "2026-11-01T12:44:54.266Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1686,11 +1686,11 @@
    "core": false,
    "consts": [],
    "complete": true,
-   "names": 1312,
-   "segments": 1150,
-   "closureShare": 0.2944
+   "names": 1355,
+   "segments": 1181,
+   "closureShare": 0.2951
   },
-  "scopeSha256": "a82e8f46cd9a9b7b1acfaeeb9d162c8ed11acfe42e471baab918a254b0955495",
+  "scopeSha256": "0361f5fd4fd456bda94cc88db5cb9b8b394416853448871d91195f492c0e97d0",
   "scopeComplete": true,
   "inputsStable": [
    {
