@@ -3,7 +3,7 @@
  "libVersion": "w321c-galfield-lib-2",
  "generator": "tests/exp-w321c-galfield.mjs",
  "target": "beta/index.html",
- "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
+ "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
  "reuseFrom": null,
  "ruling": "原仮定者の予定(第123報)「geoPN=4の予定: 処理を一新する。銀河の軸引きずりの知見から、銀河の回転引きずりを推定して、銀河のサンプルを作成する」・原仮定者の回答(2026-10-31 —— AN489)・決断事項 AN486・AN487・AN488・AN496・AN497・AN498・統括の検証項目 R268。エンジン・在位の本・受け手の R_d = Y_k m・規則は変えない(器・lib・正本・文書だけ)。半渦度を受け手の軸へ直結する項はエンジンに足さない",
  "workers": 2,
@@ -316,28 +316,28 @@
  },
  "timing": {
   "T": {
-   "wallSec": 133.684
+   "wallSec": 150.741
   },
   "G0std": {
-   "wallSec": 56.892
+   "wallSec": 66.608
   },
   "V": {
-   "wallSec": 58.711
+   "wallSec": 63.59
   },
   "G0db": {
-   "wallSec": 49.825
+   "wallSec": 52.603
   },
   "P": {
-   "wallSec": 24.683
+   "wallSec": 24.631
   },
   "G0rest": {
-   "wallSec": 13.664
+   "wallSec": 10.444
   },
   "H": {
-   "wallSec": 18.864
+   "wallSec": 18.208
   },
   "N": {
-   "wallSec": 9.554
+   "wallSec": 9.464
   }
  },
  "G0": {
@@ -398,7 +398,7 @@
     ],
     "sha256": "4723a04d422f50cec753a0b675afd391c4328d125e5bfdf4ed449c5c0eac1a9c"
    },
-   "wallSec": 56.892
+   "wallSec": 66.604
   },
   "db": {
    "id": "galaxyDB",
@@ -458,7 +458,7 @@
     ],
     "sha256": "3061b7f7aa42471451b680b00eeb9ed936a46da40871633323bf9b1969126804"
    },
-   "wallSec": 49.824
+   "wallSec": 52.603
   },
   "rest": [
    {
@@ -503,7 +503,7 @@
      ],
      "sha256": "147961b14523043cc9deb11a08e659ca227f5f65eee2d0e85610cd4abd50abda"
     },
-    "wallSec": 10.354
+    "wallSec": 8.083
    },
    {
     "id": "chainDiskToy3d",
@@ -547,7 +547,7 @@
      ],
      "sha256": "1cca31d0a9d1ec30df50f48c33a17409657d061d56b07322cf92eb532df72339"
     },
-    "wallSec": 1.001
+    "wallSec": 0.756
    },
    {
     "id": "chainSpreadToy3d",
@@ -591,7 +591,7 @@
      ],
      "sha256": "8cb149ac0895753cf5521a6b3e5dc86096a32aa299e32656177483f24b0b9468"
     },
-    "wallSec": 2.307
+    "wallSec": 1.604
    },
    {
     "id": "galaxyGeo2",
@@ -4977,19 +4977,19 @@
   "hBodies": true
  },
  "ok": true,
- "elapsedS": 187.998,
+ "elapsedS": 204.829,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第321便c",
   "target": "beta/index.html",
-  "targetSha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-  "generatedAt": "2026-11-01T18:11:51.793Z",
+  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+  "generatedAt": "2026-11-03T03:04:07.979Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7487036,
-    "sha256": "be4641472a59db9128af696dd36beb18d17b97094338549cf25f35e5d88b7e01",
-    "mtime": "2026-11-01T12:44:54.266Z"
+    "bytes": 7594118,
+    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "mtime": "2026-11-02T20:36:57.567Z"
    }
   ],
   "code": [
@@ -5159,11 +5159,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1379,
-   "segments": 1217,
-   "closureShare": 0.3097
+   "names": 1423,
+   "segments": 1249,
+   "closureShare": 0.3108
   },
-  "scopeSha256": "95b3a189789916b37888672d690a0b548a2f5b7043579b06a4818fb86ad1976e",
+  "scopeSha256": "dc22e5d00b8d526788a0c8dd78acd3aa12db3cde49d471dfe9179dc110418e5f",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
