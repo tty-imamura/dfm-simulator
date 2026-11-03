@@ -4572,3 +4572,11 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **段の宣言** `HTMLPHYS_DECL_325A`(`tests/lib-w281a-regentable.mjs` —— 版 w325a-htmlphysdecl-1): 領域の宣言の無い html 全体の 11 段に、器が html から読む部分(既定 code・presets・markup —— .find で本を引く段は下限の本に絞る〔bh90 は 4 本の presetFull・galaxyprof は 1 本の presetPhys・needmesh は本なし〕・行番号と生の行を写す d0audit2 と selfinertia は版名の外を全部・samplestatus は build・presetFull:*・text:*)か `whole`(常時群)。宣言の無い html 全体の段は従来どおり html 全体(QA が名指しで落とす)。
 - **計画と移行**: 刻印の html を台帳(`tests/data-w325a-htmlphys.json`)・基点の html・git の履歴から sha で引き、宣言した部分が同じなら走らせない(`htmlPhysUsed`)・違えば理由の種類 `htmlphys`・引けなければ html 全体。正本は書き換えない。台帳は `node tools/regen-plan.mjs --htmlphys-record`・前の判定は `--no-htmlphys`。QA の対象一致 `targetOk325`(一致 / 領域一致 / 物理の部分の一致 —— 台帳だけ)を lint.provenanceMeta と docs の 7 本が通す。
 - これらは開発の道具で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
+
+## 179. 第325便d —— 簡易一致の本運用の前の試験: 短窓の後だけ効く変異の影の試験・args/cmd の窓 6 段の環境変数の窓・環境の整合・暦の債務(提案)・本運用の門の関数(休眠)(統括の検証項目 R287・決断事項 AN517/AN518・**html・本の宣言・器の本文・正本・`S._core` は不変** —— lib と道具と QA と文書だけ・簡易一致は影のまま・**SYSTEM_PROMPT には載せない**)
+
+- **変異の影の試験**(`tests/lib-w325d-quickgate.mjs` 版 w325d-quickgate-1 の `mutationSelfTest`): 合成の段(純関数の器)に煙試験の窓の步数の後でだけ効く変異を入れ、便の番号を進めて簡易一致の影の判定・輪番(K = 3)・影の照合をそのまま回す。窓の指紋は変異の前後で同じ(簡易一致は「同じ」と判定する)・影の照合は鎖のフルの便で falseSame・本運用の模擬では輪番のフルが K 便以内に正本の差として落とす。段の領域がその後の便で変わらない(reuse)と今の規則では落ちない —— **暦の債務**(`calendarDebt` —— 最初の quick の便から K − 1 便の後に reuse でもフル)を提案として置いた(休眠)。
+- **環境の窓**: `tools/harness-smoke.mjs` の窓の表の 6 段(emgrid・charon-h2・dragcore292・charonk・nslock・charoneps-h4)を環境変数の形へ(器が引数しか読まない段は `HS_ARG_*` を煙試験が引数に写す —— `SMOKE_ARG_ENV`)。窓の走行は第323便c の行と同じ。簡易一致の候補になれるのは静的な除外(AN518 —— 手動の段・較正の正本を読む段)の無い dragcore292・nslock の 2 段。
+- **環境の整合**(`quickEnvCheck`): 指紋の記録の頭の env(`--fingerprint` が書く —— Node・Chromium・platform・heap)と鎖の env.json(`node tools/regen-chain.mjs --env` —— heap の欄を足した)を照合し、Node・Chromium・platform のどれかが違うか欠ければ影の表の候補を 0 にする(heap は印字だけ)。
+- **本運用の門の関数**(`quickProductionGate` —— 休眠): 影の照合の列・今の便の計画・環境・root 昇格・変異の試験・暦の債務から「本運用に入れる/入れない」と理由の列を返す。`node tools/regen-plan.mjs --quick-gate` が印字するだけで、鎖は呼ばない(本運用に入れるかは第326便で統括が決める)。
+- これらは開発の道具と来歴の欄で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。

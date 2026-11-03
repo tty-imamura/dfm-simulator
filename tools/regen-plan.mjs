@@ -31,6 +31,11 @@
 //     刻印の html と今の html の**物理の部分**(tests/lib-w325a-htmlphys.mjs —— 版名・文の登録簿・本の表示の欄・生成領域 sample-status・注釈を外す)を比べる。同じ → reuse(段の htmlPhysUsed)・
 //     違う → 理由の種類 htmlphys・刻印の html が台帳・基点・git の履歴に無い → html 全体。`--no-htmlphys` で第324便までの判定。
 //     `--htmlphys-record [--stamp-git N]` で台帳 tests/data-w325a-htmlphys.json(html の sha → 部分の hash)を作り直す(計画は引かない —— 引けない sha は終了コード 1)。
+//   第325便d(R287 —— 簡易一致の本運用の前の試験):
+//     ・**環境の整合**(tests/lib-w325d-quickgate.mjs の quickEnvCheck): 影の表は指紋の記録の環境(記録の頭の env —— node・Chromium・platform)と鎖の環境
+//       (--chain-env <env.json> —— 無ければ node tools/regen-chain.mjs --env で今の箱を引く)を照合し、違えば(か欠ければ)全段の候補 0(--no-env-check で照合しない)。
+//     ・**本運用の門(休眠)**: --quick-gate [--shadow <影の照合の JSON>]… [--shadow-prev <前の記録 | git:<rev>>] [--fp-record <今の記録>] [--plan-json <計画>]
+//       [--chain-env <env.json>] [--promote] [--json <file>] —— 門の関数 quickProductionGate の判定(enter/hold)と理由を印字するだけ(鎖も計画も変えない・終了コード 0)。
 // 終了コード: 0(計画を出した)/ 2(表に無い正本が lint の CANON にある等、表が壊れている)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -106,6 +111,57 @@ if (argv.includes('--htmlphys-record')) {
   process.exit(r.missing.length ? 1 : 0);
 }
 // ==== 第325便a の塊(ここまで)====
+// ==== 第325便d の塊(ここから)====
+// 第325便d(R287): 環境の照合の入力(鎖の env.json —— --chain-env か今の箱の regen-chain --env)と本運用の門(休眠 —— --quick-gate は印字だけ)
+const W325D_QG = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w325d-quickgate.mjs')).href);
+const w325dChainEnv = () => {
+  const f = resolve(getArg('--chain-env', null));
+  if (f) { try { return { env: JSON.parse(fs.readFileSync(f, 'utf8')), src: path.relative(ROOT, f) || f }; } catch { return { env: null, src: f + '(読めない)' }; } }
+  try {
+    const { execFileSync } = require325d('node:child_process');
+    const t = execFileSync(process.execPath, [path.join(ROOT, 'tools', 'regen-chain.mjs'), '--env'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], timeout: 120000 });
+    return { env: JSON.parse(String(t).trim().split('\n').pop()), src: '今の箱(regen-chain --env)' };
+  } catch (e) { return { env: null, src: '今の箱(regen-chain --env が失敗: ' + String(e && e.message || e).slice(0, 60) + ')' }; }
+};
+const { createRequire: createRequire325d } = await import('node:module');
+const require325d = createRequire325d(import.meta.url);
+if (argv.includes('--quick-gate')) {
+  const Q = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w323b-quick.mjs')).href);
+  const rd = (f) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch { return null; } };
+  const recPath = resolve(getArg('--fp-record', Q.QUICK_FP_FILE)), record = rd(recPath);
+  const shadows = [];
+  for (let i = 0; i < argv.length; i++) if (argv[i] === '--shadow' && argv[i + 1]) { const J = rd(resolve(argv[i + 1])); shadows.push(J); if (!J) console.error('regen-plan --quick-gate: 影の照合が読めない ' + argv[i + 1]); }
+  const sp = getArg('--shadow-prev', null);
+  if (sp) {
+    let prev = null, prevPath;
+    if (/^git:/.test(sp)) { try { const { execFileSync } = require325d('node:child_process'); prev = JSON.parse(execFileSync('git', ['-C', ROOT, 'show', sp.slice(4) + ':' + Q.QUICK_FP_FILE], { encoding: 'utf8', maxBuffer: 64 << 20 })); } catch { prev = null; } }
+    else { prevPath = resolve(sp); prev = rd(prevPath); }
+    if (!prev || !record) console.error('regen-plan --quick-gate: --shadow-prev か今の記録が読めない');
+    else {
+      const outsOf = (k) => { const st = T.REGEN_STEPS.find((z) => z.key === k); return st ? (st.outs || []).slice() : null; };
+      shadows.push(Q.shadowCompare(prev, record, { physOf: (f) => Q.physShaFile(path.join(ROOT, f), f), outsOf, prevPath, curPath: recPath }));
+    }
+  }
+  const plan = getArg('--plan-json', null) ? rd(resolve(getArg('--plan-json', null))) : null;
+  const ce = w325dChainEnv();
+  const env = W325D_QG.quickEnvCheck(record, ce.env);
+  const metaOf = (f) => { const J = rd(path.join(ROOT, f)); return J ? J.meta || null : null; };
+  const verifyOf = (st) => { const s0 = T.REGEN_STEPS.find((z) => z.key === st.key); for (const f of ((s0 && s0.outs) || [])) { const m = metaOf(f); if (m && m.verify) return m.verify; } return null; };
+  const wave = plan && plan.quickShadow && Number.isFinite(plan.quickShadow.wave) ? plan.quickShadow.wave : null;
+  const debtRows = W325D_QG.calendarDebt({ rows: T.REGEN_STEPS.filter((z) => z.role !== 'history'), verifyOf, wave, K: Q.QUICK_K_DEFAULT });
+  const mutation = W325D_QG.mutationSelfTest();
+  const g = W325D_QG.quickProductionGate({ shadows, plan, env, promote: argv.includes('--promote'), mutation, debt: { rows: debtRows, supported: false }, longRoster: Object.keys(T.QUICK_LONG_ROSTER || {}) });
+  console.log(`regen-plan --quick-gate(${g.version} —— **休眠**: 印字だけ・鎖は変えない): **${g.decision === 'enter' ? '本運用に入れる(enter)' : '本運用に入れない(hold)'}**`
+    + `(影の照合 ${shadows.filter(Boolean).length} 便・計画 ${plan ? (plan.quickShadow ? plan.quickShadow.version : '影の表なし') : 'なし'}・鎖の環境 ${ce.src})`);
+  for (const r of g.reasons) console.log('  理由: ' + r);
+  for (const c of g.conditions) console.log(`  ${c.ok ? 'ok ' : 'NG '} ${c.id.padEnd(4)} ${c.text}`);
+  for (const r of env.rows) console.log(`  環境 ${r.field.padEnd(9)} 記録 ${r.record === null ? '(無い)' : r.record} / 鎖 ${r.chain === null ? '(無い)' : r.chain} —— ${r.same ? '同じ' : '違うか無い'}${r.gating ? '' : '(印字だけ)'}`);
+  const js = getArg('--json', null);
+  if (js) fs.writeFileSync(resolve(js), JSON.stringify({ gate: g, env, shadows: shadows.filter(Boolean).map((z) => ({ count: z.count, tally: z.tally, waves: z.waves, countsAsShadowWave: z.countsAsShadowWave, notCounted: z.notCounted })), chainEnv: ce, debt: debtRows,
+    mutation: { ok: mutation.ok, bad: mutation.bad, table: mutation.table } }, null, 1));
+  process.exit(0);
+}
+// ==== 第325便d の塊(ここまで)====
 const t0 = Date.now();
 const plan = T.planRegen({ root: ROOT, html: HTML, baseHtml: BASE, orderOnly: !argv.includes('--all-edges'), htmlPhys: argv.includes('--no-htmlphys') ? false : undefined });
 plan.generatedAt = new Date().toISOString();
@@ -121,9 +177,13 @@ plan.planMs = Date.now() - t0;
   const bb = (() => { try { return (fs.readFileSync(HTML, 'utf8').match(/BETA_BUILD\s*=\s*"v[\d.]+-b(\d+)"/) || [])[1] || null; } catch { return null; } })();
   const t1 = Date.now();
   const change = BASE ? await Q.htmlChangeKinds(BASE, HTML) : null;
+  // 第325便d(R287): 環境の整合 —— 記録の環境と鎖の環境が違えば全段の候補 0(--no-env-check で照合しない)
+  const w325dCe = argv.includes('--no-env-check') ? null : w325dChainEnv();
+  const w325dEnv = w325dCe ? W325D_QG.quickEnvCheck(record, w325dCe.env) : null;
   plan.quickShadow = Q.quickShadow(plan, { root: ROOT, knobs: HS.SMOKE_KNOBS, record, K: Number(getArg('--K', String(Q.QUICK_K_DEFAULT))), promote: argv.includes('--promote'),
-    wave: waveArg !== null ? Number(waveArg) : (bb !== null ? Number(bb) : null), change });
+    wave: waveArg !== null ? Number(waveArg) : (bb !== null ? Number(bb) : null), change, envCheck: w325dEnv || undefined });
   plan.quickShadow.recordFile = record ? path.relative(ROOT, recFile) : null;
+  if (w325dEnv) plan.quickShadow.envDetail = { src: w325dCe.src, rows: w325dEnv.rows, why: w325dEnv.why };   // 第325便d
   plan.quickShadow.ms = Date.now() - t1;
 }
 // ==== 第323便b の塊(ここまで)====
@@ -168,6 +228,10 @@ if (!QUIET) {
       + `regen ${qs.count.regen}(${fmt(qs.sec.regen)})のうち領域だけ ${qs.count.regionOnly}(${fmt(qs.sec.regionOnly)})・候補 ${qs.count.eligible} → quick ${qs.count.quick}・輪番のフル ${qs.count.rotationFull}`
       + `(秒 ${fmt(qs.sec.quickFull)} → 窓 ${fmt(qs.sec.quickWindow)})・記録があれば 候補 ${qs.count.ifRecorded} → quick ${qs.count.quickIfRecorded}(${fmt(qs.sec.quickFullIfRecorded)} → 窓 ${fmt(qs.sec.quickWindowIfRecorded)})`);
     console.log('    外す理由: ' + Object.entries(qs.notEligible).map(([k, v]) => k + ' ' + v).join(' / '));
+    // 第325便d: 環境の整合の行
+    if (qs.env) console.log(`    環境の整合(第325便d —— 記録 ${qs.envDetail ? '/ 鎖 ' + qs.envDetail.src : ''}): ${qs.env.ok ? '同じ' : '**違う —— 全段の候補 0**(' + qs.env.why.join('・') + ')'}`
+      + (qs.envDetail ? ' / ' + qs.envDetail.rows.map((r) => r.field + ' ' + (r.record === null ? '—' : r.record) + '|' + (r.chain === null ? '—' : r.chain)).join('・') : ''));
+    else console.log('    環境の整合: 照合していない(--no-env-check)');
     for (const r of qs.rows) if (r.ifRecorded || r.eligible) console.log(`    ${String(r.decision || r.decisionIfRecorded || '').padEnd(13)} ${r.key.padEnd(20)} ${String(r.sec).padStart(6)} s  窓 ${r.window}${r.quickSec !== null ? '(' + r.quickSec + ' s)' : ''}${r.eligible ? '' : '  —— ' + r.why.join('・').slice(0, 60)}`);
   }
   for (const r of plan.steps) if (r.status !== 'reuse' && r.status !== 'history')

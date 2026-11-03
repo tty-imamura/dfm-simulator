@@ -92703,7 +92703,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const bad = [], cases = [];
     const QW = await imp323c('tests/lib-w323c-quickwin.mjs', bad), HS = await imp323c('tools/harness-smoke.mjs', bad), RT = await imp323c('tests/lib-w281a-regentable.mjs', bad), SC = await imp323c('tests/lib-w281a-scope.mjs', bad);
     if (QW && HS && RT && SC) {
-      const K = HS.SMOKE_KNOBS, stepOf = (k) => RT.REGEN_STEPS.find((z) => z.key === k) || null;
+      const K = HS.knobs323cView ? HS.knobs323cView() : HS.SMOKE_KNOBS, stepOf = (k) => RT.REGEN_STEPS.find((z) => z.key === k) || null;   // 第325便d: 6 段は env の形へ —— 第323便c の世代の欄で読む
       const harnessOf = (st) => (st && (/(tests\/exp-[\w.-]+\.mjs)/.exec(st.cmd) || [])[1]) || null;
       // ①
       let n1 = 0; const ratios = [];
@@ -92773,7 +92773,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       for (const [b, k] of [['a', PH.indexOf('〔第323便a — ')], ['b', PH.indexOf('〔第323便b — ')]]) if (k >= 0 && k > a323) bad.push('〔第323便' + b + '〕が〔第323便c〕の後');
       { const k = PH.indexOf('〔第323便d — '); if (k >= 0 && k < a323) bad.push('〔第323便d〕が〔第323便c〕の前'); }
       const declOf = (h) => SC.readDeclaredScope(rd323c(h));
-      for (const [nm, tb] of [['表 1', QW.windowRows(HS.SMOKE_KNOBS)], ['表 2', QW.scopeRows(declOf)], ['表 3', QW.synodicRows()]]) {
+      for (const [nm, tb] of [['表 1', QW.windowRows(HS.knobs323cView ? HS.knobs323cView() : HS.SMOKE_KNOBS)], ['表 2', QW.scopeRows(declOf)], ['表 3', QW.synodicRows()]]) {   // 第325便d: 第323便c の世代の窓の表
         let nMiss = 0; for (const r of tb.split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'))) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 2) bad.push('PHYSICS〔第323便c〕の' + nm + 'に行が無い: ' + r.slice(0, 60)); }
       }
       for (const w of ['AN517', 'AN518', 'AN480', 'R277', 'SMOKE_KNOBS', 'W299B_WORKERS', 'tests/exp-w323c-dragcorequick.mjs', 'tests/lib-w323c-quickwin.mjs', 'AN516', 'lint.quickWindows323', 'docs.w323c',
@@ -93372,8 +93372,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (Q && RT) {
       const st = Q.quickSelfTest();
       if (!st.ok) bad.push('① ' + st.bad.slice(0, 3).join(' / '));
-      // 第324便c(R281): 版は欠測の境界の世代 w324c-quick-2 も受ける(記録の版 QUICK_FP_VERSION は不変)
-      if (!['w323b-quick-1', 'w324c-quick-2'].includes(Q.QUICK_VERSION) || Q.QUICK_K_DEFAULT !== 3 || Q.QUICK_FP_VERSION !== 'w323b-quickfp-1' || Q.VERIFY_VERSION !== 'w323b-verify-1' || Q.QUICK_FP_FILE !== 'tests/data-w323b-quickfp.json') bad.push('① 版と既定(K = 3・記録の名)');
+      // 第324便c(R281): 版は欠測の境界の世代 w324c-quick-2 も受ける(記録の版 QUICK_FP_VERSION は不変)/ 第325便d: 環境の整合の世代 w325d-quick-3 も
+      if (!['w323b-quick-1', 'w324c-quick-2', 'w325d-quick-3'].includes(Q.QUICK_VERSION) || Q.QUICK_K_DEFAULT !== 3 || Q.QUICK_FP_VERSION !== 'w323b-quickfp-1' || Q.VERIFY_VERSION !== 'w323b-verify-1' || Q.QUICK_FP_FILE !== 'tests/data-w323b-quickfp.json') bad.push('① 版と既定(K = 3・記録の名)');
       cases.push(`① 自己試験(${Q.QUICK_VERSION}): ${st.cases.join(' / ')}`);
       // ② 段の宣言の欄の型
       const keys = new Set(RT.REGEN_STEPS.map((z) => z.key));
@@ -94022,6 +94022,168 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第325便a の塊(ここまで)====
+// ==== 第325便d の塊(ここから —— lint.quickMutation325d・lint.quickEnvWin325d・lint.quickEnv325d・lint.quickGate325d・docs.w325d の 5 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第325便d(統括の検証項目 R287 —— 簡易一致〔決断事項 AN517/AN518〕の本運用の前の試験): **html・本の宣言・器の本文・正本・`S._core` は変えない**(beta 対象だけ・root は SKIP)。
+// ----   lint.quickMutation325d: tests/lib-w325d-quickgate.mjs の mutationSelfTest —— 合成の段(純関数の器)に**煙試験の窓の步数の後でだけ効く変異**を入れ、便の番号を進めて
+// ----     (a) 変異の便で簡易一致は窓の指紋が記録と同じと判定する(影では候補に残る)・影(鎖は全段フル)の影の照合は同じ便で falseSame /
+// ----     (b) 本運用の模擬で輪番(K = 3)のフルが K 便以内に正本の差(影の照合の falseSame)として落とす / (b′) 変異の後に段の領域が変わらない(reuse)と今の規則では落ちない —— 暦の債務で K 便以内 /
+// ----     (c) 長期の名簿(quickVerify:'long')の段は步の関数・受理器・S._core の変わった便で候補から外れる(1 便目で落ちる)。lib の版・鎖の道具が模擬を呼ばない
+// ----   lint.quickEnvWin325d: tools/harness-smoke.mjs の w325dSelfTest —— args/cmd の窓 6 段(emgrid・charon-h2・dragcore292・charonk・nslock・charoneps-h4)は env の形・
+// ----     窓の走行(cmd と器に渡す環境)は第323便c の行と同じ・env の名と引数の旗は器の本文に在る・窓の同一性(stepWindow)が引ける・記録の段の指紋の取り方は変わらない・同じ out の排他 /
+// ----     6 段の簡易一致の静的な除外(AN518 —— 手動の段・較正の正本を読む段)の現況と、--fingerprint(--keys なし)の選び方
+// ----   lint.quickEnv325d: quickGateSelfTest ①②③⑤ —— 環境の整合(node・Chromium・platform が門・heap は印字だけ)と quickShadow の o.envCheck(候補 0・ifRecorded は残る)・
+// ----     枝 a との継ぎ目(知らない理由の種類は領域に数えない)・暦の債務・実物の長期の名簿 / 実物の記録の環境の形 / regen-chain --env の heap の欄 / regen-plan と harness-smoke の配線
+// ----   lint.quickGate325d: quickGateSelfTest ④(門の関数の入力と出力の形 —— enter/hold と理由の列)と**休眠**(鎖の脚本・regen-chain・再生成表・regen-plan の計画の経路が門を呼ばない)
+// ----   docs.w325d: PHYSICS〔第325便d — 〕(〔第324便 — 統括〕の後・「## 7.」の前・a → b → c → d)の表 1・表 2 を lib と窓の表から作り直して逐語・語・AI_SPEC §179・CHANGELOG・
+// ----     tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rd325d = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(path.join(ROOT, 'tests', 'lib-w325d-quickgate.mjs')))) {
+    console.log('SKIP lint.quickMutation325d・lint.quickEnvWin325d・lint.quickEnv325d・lint.quickGate325d・docs.w325d(第325便d の lib の前の世代か beta 対象でない —— ' + TARGET + ')');
+    return;
+  }
+  const imp325d = async (f, bad) => { try { return await import('file://' + path.join(ROOT, f)); } catch (e) { bad.push(f + ' が読めない: ' + String(e && e.message || e).slice(0, 80)); return null; } };
+  const b0 = [];
+  const QG = await imp325d('tests/lib-w325d-quickgate.mjs', b0), Q = await imp325d('tests/lib-w323b-quick.mjs', b0), RT = await imp325d('tests/lib-w281a-regentable.mjs', b0), HS = await imp325d('tools/harness-smoke.mjs', b0);
+  let MU = null;
+  // ---- lint.quickMutation325d
+  {
+    const bad = b0.slice(), cases = [];
+    if (QG && Q) {
+      MU = QG.mutationSelfTest();
+      if (!MU.ok) bad.push(MU.bad.slice(0, 3).join(' / '));
+      if (QG.QUICKGATE_325D_VERSION !== 'w325d-quickgate-1' || MU.K !== 3 || !(QG.MUT_PLAN_325D.mutAfter > QG.MUT_PLAN_325D.window && QG.MUT_PLAN_325D.full > QG.MUT_PLAN_325D.mutAfter)) bad.push('版・K・窓と変異の步数の並び');
+      if (!(MU.table.quickAtIntro > 0 && MU.table.maxLag <= 3 && MU.table.onceQuick > 0 && MU.table.onceDebtMaxLag <= 3)) bad.push('模擬の表: ' + JSON.stringify(MU.table));
+      // 合成の段は実物の表に無い(実物の器・正本を使わない)
+      const syn = QG.SYN_STAGES_325D.map((z) => z.key), real = new Set(RT ? RT.REGEN_STEPS.map((z) => z.key) : []);
+      if (syn.some((k) => real.has(k)) || fs.existsSync(path.join(ROOT, 'tests', 'out', '_x325d-m1.json'))) bad.push('合成の段が実物の表か正本の置き場に在る');
+      for (const f of ['tools/regen-chain.mjs', 'tests/lib-w281a-regentable.mjs']) if (/mutationSelfTest|simulateQuickWaves|lib-w325d-quickgate/.test(rd325d(f))) bad.push(f + ' が変異の模擬を呼ぶ');
+      cases.push(...MU.cases);
+    }
+    add('lint.quickMutation325d', bad.length === 0,
+      `**短窓の後だけ効く変異の影の試験**(第325便d・R287・AN517/AN518 —— 合成の段の模擬・実物の html・器・正本は使わない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- lint.quickEnvWin325d
+  {
+    const bad = b0.slice(), cases = [];
+    if (HS && Q && RT) {
+      const st = await HS.w325dSelfTest({ root: ROOT });
+      if (!st.ok) bad.push(st.bad.slice(0, 4).join(' / '));
+      if (HS.SMOKE_ARGENV_VERSION !== 'w325d-smoke-argenv-1' || HS.W325D_ENV_KEYS.length !== 6) bad.push('版・6 段');
+      cases.push(...st.cases);
+      const cal = Q.calibrationSteps({ steps: RT.REGEN_STEPS, root: ROOT });
+      const ex = HS.W325D_ENV_KEYS.map((k) => [k, Q.staticExclusion(RT.REGEN_STEPS.find((z) => z.key === k), cal)]);
+      const can = ex.filter(([, w]) => !w).map(([k]) => k);
+      for (const [k, w] of ex) if (w && !/^手動の段$|^較正の判定を出す段/.test(w)) bad.push('6 段の静的な除外の理由が想定の外: ' + k + ' —— ' + w);
+      // 指紋で除く欄名 runWallSec(dragcore292 の窓の器の壁時計)は窓の器の外の器と正本に無い —— 記録の指紋と正本の hash は変わらない
+      const rwExp = fs.readdirSync(path.join(ROOT, 'tests')).filter((f) => /^exp-.*\.mjs$/.test(f) && rd325d('tests/' + f).indexOf('runWallSec') >= 0);
+      const rwOut = fs.readdirSync(path.join(ROOT, 'tests', 'out')).filter((f) => /\.json$/.test(f) && rd325d('tests/out/' + f).indexOf('"runWallSec"') >= 0);
+      if (!Q.FP_RUNTIME_KEYS.includes('runWallSec') || rwExp.join(',') !== 'exp-w323c-dragcorequick.mjs' || rwOut.length) bad.push('runWallSec: 指紋の除外 ' + Q.FP_RUNTIME_KEYS.includes('runWallSec') + '・器 ' + rwExp.join(',') + '・正本 ' + rwOut.join(','));
+      cases.push(`指紋で除く欄名に runWallSec(器 ${rwExp.join(',')} だけ・正本 ${rwOut.length} 本 —— 記録の 59 段の指紋と正本の hash は変わらない)`);
+      const HT = rd325d('tools/harness-smoke.mjs');
+      for (const w of ['w325dKnobCmd(row.cmd.split', 'w325dClearOut(o.sandbox, knob)', 'w325dKnobEnv(knob)', 'w325dPick(queue, busy)', 'w325dFpOut(c.knob, outs, files)', 'env: w325dProbeEnv(root)', 'env: ctx.env || undefined'])
+        if (HT.indexOf(w) < 0) bad.push('harness-smoke の配線に「' + w + '」が無い');
+      cases.push(`6 段の簡易一致の静的な除外(AN518): 候補になれる ${can.length} 段(${can.join('・')})・外れる ${ex.length - can.length} 段(${ex.filter(([, w]) => w).map(([k, w]) => k + ' —— ' + w.replace(/[((].*$/, '')).join('・')})`
+        + ' —— --fingerprint(--keys なし)は窓のある段のうち静的な除外の無い段を選ぶ(外れる段は --keys のときだけ指紋)');
+    }
+    add('lint.quickEnvWin325d', bad.length === 0,
+      `**args/cmd の窓 6 段を環境変数の窓へ**(第325便d・R287 —— 器の本文・段の行の cmd は変えない・窓の走行は第323便c の行と同じ): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- lint.quickEnv325d
+  let GT = null;
+  {
+    const bad = b0.slice(), cases = [];
+    if (QG && Q && RT && HS) {
+      GT = QG.quickGateSelfTest({ steps: RT.REGEN_STEPS, knobs: HS.SMOKE_KNOBS, roster: RT.QUICK_LONG_ROSTER });
+      for (const c of GT.cases) if (!/^④/.test(c)) cases.push(c);
+      for (const b of GT.bad) if (!/^④/.test(b)) bad.push(b);
+      if (!GT.cases.some((c) => /^⑤/.test(c))) bad.push('⑤ 実物の長期の名簿の確かめが走らない');
+      if (Q.QUICK_VERSION !== 'w325d-quick-3' || !(Q.QUICK_VERSION_HISTORY || []).includes('w324c-quick-2') || Q.QUICK_FP_VERSION !== 'w323b-quickfp-1' || Q.VERIFY_VERSION !== 'w323b-verify-1') bad.push('簡易一致の lib の版(w325d-quick-3・記録と来歴の版は不変)');
+      // 実物の記録の環境の形(頭の env があれば node・Chromium・platform を持つ —— 無い古い記録は「次の --fingerprint で入る」)
+      let rec = null; try { rec = JSON.parse(rd325d(Q.QUICK_FP_FILE) || 'null'); } catch { rec = null; }
+      const re = QG.recordEnvOf(rec);
+      if (rec && rec.env && !(re.node && re.chromium && re.platform)) bad.push('記録の頭の env の欄(node・chromium・platform)');
+      cases.push(`実物の記録 ${rec ? Object.keys(rec.steps || {}).length + ' 段(第' + rec.wave + '便)' : '—'}: 頭の env ${rec && rec.env ? 'あり' : 'なし(第325便d より前の記録 —— 環境の照合は「記録に Chromium の版が無い」で候補 0・次の --fingerprint で入る)'}・段の Node ${re.stepNodes.join(',') || '—'}`);
+      // regen-chain --env の heap の欄(Chromium は起こさない)
+      let ej = null;
+      try { const { execFileSync: xf325d } = await import('node:child_process'); ej = JSON.parse(xf325d(process.execPath, [path.join(ROOT, 'tools', 'regen-chain.mjs'), '--env'], { encoding: 'utf8', env: Object.assign({}, process.env, { REGEN_ENV_BROWSER: '0' }), timeout: 60000 }).trim().split('\n').pop()); } catch (e) { ej = null; }
+      if (!(ej && ej.node === process.version && /^skipped/.test(String(ej.chromium)) && Number.isFinite(ej.heapMb) && 'nodeOptionsHeap' in ej)) bad.push('regen-chain --env の欄(node・chromium・heapMb・nodeOptionsHeap): ' + JSON.stringify(ej).slice(0, 120));
+      const ec = QG.quickEnvCheck(rec, ej);
+      if (ec.ok) bad.push('Chromium を起こさない env.json で環境の照合が通った');
+      const RP = rd325d('tools/regen-plan.mjs');
+      for (const w of ["envCheck: w325dEnv || undefined", "argv.includes('--no-env-check')", "getArg('--chain-env', null)", "'regen-chain.mjs'), '--env'"]) if (RP.indexOf(w) < 0) bad.push('regen-plan の配線に「' + w + '」が無い');
+      cases.push(`regen-chain --env(REGEN_ENV_BROWSER=0): heap ${ej ? ej.heapMb + ' MB・--max-old-space-size ' + ej.nodeOptionsHeap : '—'}・Chromium ${ej ? ej.chromium : '—'} → 照合 ${ec.ok}(${ec.why.slice(0, 2).join('・')})`);
+    }
+    add('lint.quickEnv325d', bad.length === 0,
+      `**環境の整合・枝 a との継ぎ目・暦の債務**(第325便d・R287 —— 環境が記録と違えば簡易一致の候補 0): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- lint.quickGate325d
+  {
+    const bad = b0.slice(), cases = [];
+    if (QG && GT) {
+      for (const c of GT.cases) if (/^④/.test(c)) cases.push(c);
+      for (const b of GT.bad) if (/^④/.test(b)) bad.push(b);
+      const D = QG.GATE_DEFAULTS_325D;
+      if (!(D.minHtmlDiff === 10 && D.maxProcNaShare === 0.1 && D.K === 3 && D.bigSec === 600 && D.bigMax === 2 && D.minShadowWaves === 1)) bad.push('門の既定の数(第324便c の推奨): ' + JSON.stringify(D));
+      // 休眠: 鎖の脚本・鎖の道具・再生成表・regen-plan の計画の経路は門を呼ばない(--quick-gate の印字の口だけ)
+      for (const f of ['tools/regen-chain.mjs', 'tests/lib-w281a-regentable.mjs', 'tools/harness-smoke.mjs']) if (/quickProductionGate|--quick-gate/.test(rd325d(f))) bad.push(f + ' が門を呼ぶ');
+      const RP = rd325d('tools/regen-plan.mjs'), ig = RP.indexOf("if (argv.includes('--quick-gate')) {"), iq = RP.indexOf('quickProductionGate(');
+      const blk = ig >= 0 ? RP.slice(ig, RP.indexOf('\n}\n', ig)) : '';
+      if (!(ig >= 0 && iq > ig && blk.indexOf('quickProductionGate(') >= 0 && blk.indexOf('process.exit(0);') >= 0 && RP.split('quickProductionGate(').length === 2)) bad.push('regen-plan の門は --quick-gate の口の中だけ(終了コード 0)');
+      cases.push(`休眠: 鎖の脚本を作る再生成表・regen-chain・煙試験は門を呼ばない・regen-plan は --quick-gate の口でだけ呼んで印字する(終了コード 0)/ 門の既定の数 K ${D.K}・html が違う比較 ≥ ${D.minHtmlDiff}・手順の欠測 ≤ ${D.maxProcNaShare * 100}%・${D.bigSec} s 以上は 1 便 ${D.bigMax} 本`);
+    } else bad.push('門の自己試験が走らない');
+    add('lint.quickGate325d', bad.length === 0,
+      `**本運用の門の関数(休眠)**(第325便d・R287 —— 出力は本運用に入れる/入れないと理由の列だけ・鎖は呼ばない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- docs.w325d
+  {
+    const bad = b0.slice(), cases = [];
+    const PH = rd325d('docs/PHYSICS.md'), a325 = PH.indexOf('〔第325便d — ');
+    const sec = a325 < 0 ? '' : PH.slice(a325, (() => { const e = [PH.indexOf('\n〔第', a325 + 10), PH.indexOf('\n## 7.', a325)].filter((k) => k > a325); return e.length ? Math.min(...e) : undefined; })());
+    const rv = (s) => [...s].reverse().join('');
+    const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);
+    const NOT = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'たため確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転逆の星金', 'たし明説をータマクーダ', 'たし定判を面平地'].map(rv);
+    if (!sec) bad.push('PHYSICS〔第325便d〕が無い');
+    else if (QG && HS && Q && RT && MU) {
+      const i7 = PH.indexOf('\n## 7.'), iG = PH.indexOf('〔第324便 — 統括');
+      if (!(a325 < i7 && iG >= 0 && iG < a325)) bad.push('節の位置(〔第324便 — 統括〕の後・「## 7.」の前)');
+      for (const [b, k] of [['a', PH.indexOf('〔第325便a — ')], ['b', PH.indexOf('〔第325便b — ')], ['c', PH.indexOf('〔第325便c — ')]]) if (k >= 0 && k > a325) bad.push('〔第325便' + b + '〕が〔第325便d〕の後');
+      const cal = Q.calibrationSteps({ steps: RT.REGEN_STEPS, root: ROOT });
+      const tabs = [['表 1', [MU.sample.every, MU.sample.once, MU.sample.onceDebt, MU.sample.long].map((s) => QG.mutationWaveRows(s)).join('\n')], ['表 2', HS.w325dWindowRows({ steps: RT.REGEN_STEPS, Q, cal })]];
+      for (const [nm, tb] of tabs) {
+        let nMiss = 0; for (const r of tb.split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'))) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 2) bad.push('PHYSICS〔第325便d〕の' + nm + 'に行が無い: ' + r.slice(0, 70)); }
+      }
+      for (const w of ['R287', 'AN517', 'AN518', 'tests/lib-w325d-quickgate.mjs', 'mutationSelfTest', 'quickEnvCheck', 'calendarDebt', 'quickProductionGate', 'QUICK_REGION_KINDS', 'HS_ARG_', 'SMOKE_ARG_ENV',
+        'W325D_KNOBS_323C', 'w325d-quick-3', '--quick-gate', '--chain-env', '暦の債務', '休眠', '**表 1', '**表 2', '**表 3', '**表 4', '**表 5', 'lint.quickMutation325d', 'lint.quickEnvWin325d', 'lint.quickEnv325d',
+        'lint.quickGate325d', 'docs.w325d', '原仮定者の指示(第127報)', '原仮定者の指示(2026-11-01)', '原仮定者の指示(2026-11-03)', '決断事項候補', '言わないこと', '第326便']) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第325便d〕に「' + w + '」が無い');
+    }
+    const AI = rd325d('docs/AI_SPEC.md'), ai179 = (() => { const m = /\n## 179\. 第325便d[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+    if (!(ai179 && ai179.indexOf('AN517') >= 0 && ai179.indexOf('休眠') >= 0 && ai179.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('AI_SPEC §179');
+    const CL = rd325d('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+    const cl325 = (clb.split('\n').find((l) => l.indexOf('**第325便d**') >= 0)) || '';
+    if (!cl325) bad.push('CHANGELOG の beta 節に第325便d の行が無い');
+    const TR = rd325d('tools/README.md'), PM = rd325d('tools/post-merge-qa.sh');
+    if (!(TR.indexOf('第325便d') >= 0 && TR.indexOf('--quick-gate') >= 0 && TR.indexOf('HS_ARG_') >= 0)) bad.push('tools/README に第325便d の欄が無い');
+    if (!(PM.indexOf('# ==== 第325便d の塊(ここから)====') >= 0 && /lint\.quickMutation325d/.test(PM) && /docs\.w325d/.test(PM))) bad.push('post-merge の ③′ に第325便d の塊が無い');
+    for (const [nm, tx] of [['PHYSICS〔第325便d〕', sec], ['AI_SPEC §179', ai179], ['CHANGELOG の第325便d の行', cl325]]) {
+      for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+      for (const w of NOT) if (tx.indexOf(w) >= 0) bad.push(nm + ' に書かない語(' + w.length + ' 字)');
+      if (/κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push(nm + ' に裸の係数記号');
+      if (/\d\s*km\/s/.test(tx)) bad.push(nm + ' に km/s の数の文字列');
+    }
+    cases.push('PHYSICS〔第325便d〕(〔第324便 — 統括〕の後・「## 7.」の前)の表 1(変異の模擬の便ごとの判定 4 通り)・表 2(6 段の窓)を lib と窓の表から作り直して逐語・語・AI_SPEC §179・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号 なし');
+    add('docs.w325d', bad.length === 0,
+      `**簡易一致の本運用の前の試験の文書**(第325便d・R287): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第325便d の塊(ここまで)====
 
 // ==== 第324便c の塊(ここから)====
 // ---- 第324便c(統括の検証項目 R281 —— 道具の続き: 第323便の統括の手順で決めたこと・決断事項 AN516・AN517/AN518): lint.quickBoundary324c・lint.calVolatile324c・lint.postMergeCounts324c・docs.w324c ----
@@ -94052,7 +94214,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       // ①
       const st = Q.quickSelfTest();
       if (!st.ok) bad.push('① ' + st.bad.slice(0, 3).join(' / '));
-      if (Q.QUICK_VERSION !== 'w324c-quick-2' || !(Q.QUICK_VERSION_HISTORY || []).includes('w323b-quick-1') || Q.QUICK_FP_VERSION !== 'w323b-quickfp-1') bad.push('① 版(w324c-quick-2・記録の版 w323b-quickfp-1 は不変)');
+      // 第325便d: 環境の整合の世代 w325d-quick-3 も受ける(欠測の境界の自己試験 ⑧ は同じ)
+      if (!['w324c-quick-2', 'w325d-quick-3'].includes(Q.QUICK_VERSION) || !(Q.QUICK_VERSION_HISTORY || []).includes('w323b-quick-1') || Q.QUICK_FP_VERSION !== 'w323b-quickfp-1') bad.push('① 版(w324c-quick-2・記録の版 w323b-quickfp-1 は不変)');
       const c8 = st.cases.find((z) => z.startsWith('⑧')) || '';
       if (!c8) bad.push('① 自己試験に ⑧(欠測の境界)が無い');
       cases.push('① ' + c8.slice(2, 260));
