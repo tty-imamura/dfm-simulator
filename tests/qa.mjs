@@ -20911,7 +20911,9 @@ if (!FAST) {
       if (left.length) bad.push('html に旧語: ' + left.join(','));
       const NEW_JA = '観測との合(3σ)を目指すのは kF0(λ_PN=1 ∧ kFrame=0)と f=1 の本で、DFM 版は観測との大差を減らす段階にある';
       const NEW_EN = 'agreement with observation (3 sigma) is aimed at by the kF0 books (lambda_PN=1 and kFrame=0) and the f=1 books; the DFM build is at the stage of reducing the large gaps';
-      const nJa = html286c.split(NEW_JA).length - 1, nEn = html286c.split(NEW_EN).length - 1;
+      // 第325便b(原仮定者の指示(第127報)「観測質量補正の『f』も、今は使っていない」): 在位の本の文は「観測質量のままの本」の世代(退役の本は旧の文のまま)—— 両方を数える
+      const NEW_JA_325 = NEW_JA.replace('と f=1 の本で', 'と観測質量のままの本で'), NEW_EN_325 = NEW_EN.replace('and the f=1 books;', 'and the books at the observed masses;');
+      const nJa = html286c.split(NEW_JA).length - 1 + html286c.split(NEW_JA_325).length - 1, nEn = html286c.split(NEW_EN).length - 1 + html286c.split(NEW_EN_325).length - 1;
       if (nJa < 5 || nEn < 6) bad.push(`現行方針の文が足りない(ja ${nJa}・en ${nEn})`);
       if (html286c.indexOf('v−u 則の式を u=0 に還元した結果ではなく kF0 の契約による') < 0) bad.push('geoPN の説明に法則の相違の文が無い');
       cases.push(`html の旧語 0(${OLD.length} 語)・現行方針の文 ja ${nJa}・en ${nEn}・geoPN=2 の説明は「同一と断言しない」文`);
@@ -23307,7 +23309,7 @@ if (!FAST) {
           const ab = vp && vp.preset && vp.preset.abBody;
           if (!(ab && ab.physicsPatch && JSON.stringify(ab.physicsPatch.relativeDrag) === JSON.stringify(c0))) bad.push('B 側(gain:0)の physicsPatch');
           const sum = (p.descStruct && p.descStruct.summary) || '';
-          if (!(sum.length <= 3000 && /宣言した本だけ/.test(sum) && /gain=0 で既定経路とビット同一/.test(sum) && /較正ではない/.test(sum) && sum.indexOf('回転引きずり(手前/反対)と連鎖は未実装') >= 0)) bad.push('説明文の要件(宣言した本だけ・gain=0 でビット同一・未実装・較正ではない)');
+          if (!(sum.length <= 3000 && /宣言した本だけ/.test(sum) && /gain=0 で既定経路とビット同一|引きずり OFF(W_bg を掛けない)で既定経路とビット同一/.test(sum) && /較正ではない/.test(sum) && sum.indexOf('回転引きずり(手前/反対)と連鎖は未実装') >= 0)) bad.push('説明文の要件(宣言した本だけ・gain=0 でビット同一・未実装・較正ではない)');
           const NG = [/1PN と同等が証明/, /回転引きずりが創発した/, /連鎖で円盤ができた/, /慣性決定力場を接続した/, /観測一致を達成/, /較正を完了/, /新発見/, /安定化した/, /普遍定数である/];
           const txt = JSON.stringify([p.name, p.descStruct, p.en]);
           const hit = NG.filter((re) => re.test(txt));
@@ -29038,7 +29040,8 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
         mode: (typeof UNIFY_MIGRATED !== 'undefined' ? (pd.physics.geoPN === 1 && pd.physics.kFrame === 0) : (pd.physics.geoPN === 2 && pd.physics.kFrame === 1)) && pd.physics.coupleSink === 'reservoir' && pd.physics.cmGauge === 'barycentric',
         fixedState: !!SUP && pd.bodies.every((b, i) => ['x', 'y', 'vx', 'vy', 'dragQ', 'radius', 'spin'].every((k) => Object.is(b[k], SUP.bodies[i][k]))),
         supOld: !!SUP && SUP.massCalibration.law === 'inertia-law-lin-v1' && SUP.bodies.every((b) => !!b.core),
-        name: pd.name.indexOf('観測質量(f=1)') >= 0 && pd.name.indexOf('f=1 へ移行予定') < 0 && (pd.en || {}).name.indexOf('observed masses (f=1)') >= 0,
+        name: (pd.name.indexOf('観測質量(f=1)') >= 0 || (pd.name.indexOf('観測質量') >= 0 && !/f=1/.test(pd.name))) && pd.name.indexOf('f=1 へ移行予定') < 0
+          && (((pd.en || {}).name || '').indexOf('observed masses (f=1)') >= 0 || (/observed masses/.test((pd.en || {}).name || '') && !/f=1/.test((pd.en || {}).name || ''))),   // 第325便b: f=1 を書かない世代も受ける
         cfRetired: !!cf && cf.familyRole === 'retired' && typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.psrJ1757CF
           && (RETIRED_PRESETS.psrJ1757CF.see || []).includes('psrJ1757DFM') && presetSigHash(((typeof MODE_SAVE_WARN_CODES !== 'undefined' && MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0) && cf.physics.lambdaPN === 0) ? Object.assign({}, cf, { physics: Object.assign({}, cf.physics, { lambdaPN: 1 }) }) : cf) === CFSIG,
       };
@@ -29168,7 +29171,8 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
         mode: (typeof UNIFY_MIGRATED !== 'undefined' ? (pd.physics.geoPN === 1 && pd.physics.kFrame === 0) : (pd.physics.geoPN === 2 && pd.physics.kFrame === 1)) && pd.physics.coupleSink === 'reservoir' && pd.physics.cmGauge === 'barycentric',
         fixedState: !!SUP && pd.bodies.every((b, i) => ['x', 'y', 'vx', 'vy', 'dragQ', 'radius', 'spin'].every((k) => Object.is(b[k], SUP.bodies[i][k]))),
         supOld: !!SUP && SUP.massCalibration.law === 'inertia-law-lin-v1' && SUP.bodies.every((b) => !!b.core),
-        name: pd.name.indexOf('観測質量(f=1)') >= 0 && pd.name.indexOf('f=1 へ移行予定') < 0 && (pd.en || {}).name.indexOf('observed masses (f=1)') >= 0,
+        name: (pd.name.indexOf('観測質量(f=1)') >= 0 || (pd.name.indexOf('観測質量') >= 0 && !/f=1/.test(pd.name))) && pd.name.indexOf('f=1 へ移行予定') < 0
+          && (((pd.en || {}).name || '').indexOf('observed masses (f=1)') >= 0 || (/observed masses/.test((pd.en || {}).name || '') && !/f=1/.test((pd.en || {}).name || ''))),   // 第325便b: f=1 を書かない世代も受ける
         cfRetired: !!cf && cf.familyRole === 'retired' && typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.psrJ1946CF
           && (RETIRED_PRESETS.psrJ1946CF.see || []).includes('psrJ1946DFM') && presetSigHash(((typeof MODE_SAVE_WARN_CODES !== 'undefined' && MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0) && cf.physics.lambdaPN === 0) ? Object.assign({}, cf, { physics: Object.assign({}, cf.physics, { lambdaPN: 1 }) }) : cf) === CFSIG,
         dragIndependent: (pd.obsCard || []).some((z) => /引きずり非依存/.test(z.q)),
@@ -29307,7 +29311,8 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
         mode: pd.physics.geoPN === 2 && pd.physics.kFrame === 1 && pd.physics.coupleSink === 'reservoir' && pd.physics.cmGauge === 'barycentric',
         fixedState: !!SUP && pd.bodies.every((b, i) => ['x', 'y', 'vx', 'vy', 'dragQ', 'radius', 'spin'].every((k) => Object.is(b[k], SUP.bodies[i][k]))),
         supOld: !!SUP && SUP.massCalibration.law === 'inertia-law-lin-v1' && SUP.bodies.every((b) => !!b.core),
-        name: pd.name.indexOf('観測質量(f=1)') >= 0 && pd.name.indexOf('f=1 へ移行予定') < 0 && (pd.en || {}).name.indexOf('observed masses (f=1)') >= 0,
+        name: (pd.name.indexOf('観測質量(f=1)') >= 0 || (pd.name.indexOf('観測質量') >= 0 && !/f=1/.test(pd.name))) && pd.name.indexOf('f=1 へ移行予定') < 0
+          && (((pd.en || {}).name || '').indexOf('observed masses (f=1)') >= 0 || (/observed masses/.test((pd.en || {}).name || '') && !/f=1/.test((pd.en || {}).name || ''))),   // 第325便b: f=1 を書かない世代も受ける
         cfRetired: !!cf && cf.familyRole === 'retired' && typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.psrB1534CF
           && (RETIRED_PRESETS.psrB1534CF.see || []).includes(typeof UNIFY_MIGRATED !== 'undefined' ? 'psrB1534' : 'psrB1534DFM') && presetSigHash(((typeof MODE_SAVE_WARN_CODES !== 'undefined' && MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0) && cf.physics.lambdaPN === 0) ? Object.assign({}, cf, { physics: Object.assign({}, cf.physics, { lambdaPN: 1 }) }) : cf) === CFSIG,   // 第288便b: 🧶 も退役 —— 🪤 の後継は 📿
         dragIndependent: (pd.obsCard || []).some((z) => /引きずり非依存/.test(z.q)),
@@ -64649,8 +64654,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       const W288 = !!r.w288;
       if (nCond !== (W288 ? 1 : 2)) bad.push(`①表示名を分けた行 ${nCond}(${W288 ? '🧮 の 1 行 —— ⚡ は退役' : '⚡🧮 の 2 行'})`);
       const want = W288 ? '近点間周期(kFrame=0・観測質量 f=1)' : '近点間周期(kFrame=1・観測質量 f=1)';
+      const want325 = '近点間周期(kFrame=0・観測質量)';   // 第325便b: 表示名の条件の句から f=1 を外した世代(行名 n は照合の鍵のまま)
       if (!W288 && r.psr.label !== want) bad.push(`①⚡ の表示名 ${r.psr.label}`);
-      if (r.j1757.label !== want) bad.push(`①🧮 の表示名 ${r.j1757.label}`);
+      if (r.j1757.label !== want && !(W288 && r.j1757.label === want325)) bad.push(`①🧮 の表示名 ${r.j1757.label}`);
       if (W288) { const n0 = r.rows.find((x) => x.id === 'psrDoubleAB' && x.i === 0);
         if (!n0 || r.psr.label !== n0.n) bad.push('①📻 の表示名が正本の行名と違う: ' + r.psr.label); }
       if (!W288 && !r.psr.texts.some((t) => t.startsWith('近点間周期(kFrame=1'))) bad.push('①⚡ のグラフの名前の行');
@@ -64667,7 +64673,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         if (!z.texts.includes(g)) bad.push(`②${tag} のグラフの定義の行「${g}」が無い(切り詰め含む)`);
         if (!z.card.some((t) => t.includes(c) && (rel === 'differ' || !t.includes(c + '(別量)')))) bad.push(`②${tag} のカードの定義「${c}」`);
       }
-      if (!((W288 ? r.enJ.label === 'Periastron-to-periastron period (kFrame=0, observed masses f=1)' : r.enPsr.label === 'Periastron-to-periastron period (kFrame=1, observed masses f=1)')
+      if (!((W288 ? (r.enJ.label === 'Periastron-to-periastron period (kFrame=0, observed masses f=1)' || r.enJ.label === 'Periastron-to-periastron period (kFrame=0, observed masses)') : r.enPsr.label === 'Periastron-to-periastron period (kFrame=1, observed masses f=1)')
         && r.enPsr.texts.includes('Def: now & obs both peri-to-peri')
         && r.enPsr.card.some((t) => t.includes('Definition: now=periastron-to-periastron period, obs=periastron-to-periastron period')))) bad.push('①en の表示名/定義: ' + r.enPsr.label);
       // ③ A/B は未対応・最低近点数は「計測中」・帯は σ のある量だけ
@@ -93800,6 +93806,150 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第324便d の塊(ここまで)====
+// ==== 第325便b の塊(ここから —— preset.sampleWords325b・docs.sampleWords325b の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第325便b(原仮定者の指示(第127報)「金星と木星で、内部熱が解決したのかを確認し、サンプルの説明にも記載する。他にも、較正の焦点になった要素を確認し、記載する」
+// ----   「タイトルや説明に『gain』が使われているサンプルが有が、『W_bg=1/gain』に置き換わったので修正する。他にも、古い表現が有れば修正する。観測質量補正の『f』も、今は使っていない」・
+// ----   統括の検証項目 R285): **サンプルの説明の語**(説明の欄だけ —— 物理の欄・宣言・式・判定の 4 値・presetSig は不変)。beta 線だけ(root は SKIP)。
+// ----   ① preset.sampleWords325b …… 在位の本(退役の本と旧方式の geoPN=4 の本〔決断事項 AN525 —— 本枝の範囲の外〕を除く —— 宣言から数える)の表示の欄
+// ----      (name・descStruct・status・obsCard・failureFirst・parameterAudit・abBody.label・claims の文・en の同じ欄)と、在位の本が引く言わないことの文(I18N の nc_*)に
+// ----      旧 gain 語が無い(換算の注「W_bg = 1/gain」だけを残す)・観測質量の f=1・f★=1 が無い(除外: 較正母集団の本の obsCard の ja の行名 q —— 判定器が量の名として読む
+// ----      照合の鍵・fitRecord に初速の係数 f を宣言した本 —— 観測質量の f とは別の変数)/ 照合の鍵(lib の LEGACY_ROW_IDS の在位の行名)が全部残る / ライブ比較の表示名の
+// ----      条件の句に f=1 が無い(行名 n は鍵のまま)/ 🌋🏀 の状況と要約に「内部熱は未解決」(🌋 は自転の逆回転も)・🗺️🌇🟠 に熱の本ではない注・要約の概数は正本
+// ----      tests/out/srcheat-w320a.json の値と丸めの程度で合う(逐語の照合ではない)/ 較正母集団(正本 calaudit の台帳の在位の本)の状況の文が「焦点」から始まる / 書かない語 0
+// ----   ② docs.sampleWords325b …… PHYSICS〔第325便b〕(語の対応の表・直した本・内部熱・較正の焦点・直さなかったもの)・AI_SPEC §177・CHANGELOG の第325便b の行・post-merge の ③′・書かない語
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rd325b = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP preset.sampleWords325b・docs.sampleWords325b(beta 対象でない: ' + TARGET + ' —— サンプルの説明の語は beta 線)');
+    return;
+  }
+  const rv325b = (s) => [...s].reverse().join('');
+  const NG325b = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv325b);
+  const NOT325b = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'たため確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転逆の星金', 'たし明説をータマクーダ'].map(rv325b);
+  // ---- preset.sampleWords325b
+  {
+    const bad = [], cases = [];
+    try {
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const RID = await import('file://' + path.join(ROOT, 'tests', 'lib-w323d-rowids.mjs'));
+      const H = loadHtmlHeadless(path.join(ROOT, TARGET));
+      const P = JSON.parse(H.evalExpr('JSON.stringify(BUILTIN_PRESETS)'));
+      const RET = new Set(JSON.parse(H.evalExpr('JSON.stringify(Object.keys(RETIRED_PRESETS))')));
+      const NC = JSON.parse(H.evalExpr('JSON.stringify(Object.fromEntries(["ja","en"].map((L)=>[L, Object.fromEntries(Object.entries(I18N[L]).filter(([k,v])=>/^nc_/.test(k) && typeof v==="string"))])))'));
+      const SS = JSON.parse(H.evalExpr('JSON.stringify(SAMPLE_STATUS)'));
+      const LC = JSON.parse(H.evalExpr('JSON.stringify(LIVE_COMPARE_SPEC)'));
+      const byId = new Map(P.map((p) => [p.id, p]));
+      const live = P.filter((p) => !RET.has(p.id)), scope = live.filter((p) => ((p.physics || {}).geoPN) !== 4);
+      // ① 旧 gain 語と観測質量の f=1・f★=1
+      const GAIN = /(?<![A-Za-z])gains?(?![A-Za-z])|ゲイン/i, CONV = /W_bg = 1\/gain/g, F1 = /(?<![A-Za-z_.])f\s*=\s*1(?![0-9.])|f\s*★\s*=\s*1(?![0-9.])/;
+      const DISP = ['name', 'descStruct', 'status', 'obsCard', 'failureFirst', 'parameterAudit', 'abBody', 'claims'];
+      const hits = [], ex = { key: 0, speedF: 0, conv: 0, nStr: 0 };
+      for (const p of scope) {
+        const f = [];
+        const walk = (v, pa) => { if (typeof v === 'string') f.push([pa, v]); else if (Array.isArray(v)) v.forEach((x, i) => walk(x, pa + '[' + i + ']'));
+          else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) if (k !== 'physicsPatch') walk(x, pa + '.' + k); };
+        for (const k of DISP) walk(p[k], k);
+        for (const k of ['name', 'descStruct', 'status', 'obsCard', 'failureFirst', 'parameterAudit']) walk((p.en || {})[k], 'en.' + k);
+        for (const k of p.notClaim || []) for (const L of ['ja', 'en']) if (typeof NC[L]['nc_' + k] === 'string') f.push(['nc_' + k + '.' + L, NC[L]['nc_' + k]]);
+        const speedF = !!(p.fitRecord && JSON.stringify(p.fitRecord.fixed || []).indexOf('初速の係数 f=1') >= 0);
+        for (const [pa, s] of f) {
+          if (/^claims\[\d+\]\.(testId|expected|descPattern|control)/.test(pa)) continue;
+          ex.nStr++;
+          const sc = s.replace(CONV, ''); if (sc !== s) ex.conv++;
+          if (GAIN.test(sc)) hits.push(p.id + '.' + pa + '(gain)');
+          if (F1.test(s)) {
+            if (p.sampleClass === 'calibration' && /^obsCard\[\d+\]\.q$/.test(pa)) { ex.key++; continue; }
+            if (speedF) { ex.speedF++; continue; }
+            hits.push(p.id + '.' + pa + '(f=1)');
+          }
+        }
+      }
+      if (hits.length) bad.push('① 旧 gain 語・観測質量の f=1 が残る ' + hits.length + ' 箇所: ' + hits.slice(0, 4).join(' , '));
+      cases.push(`① 在位 ${live.length} 本のうち geoPN=4 を除く ${scope.length} 本の表示の欄 ${ex.nStr} 文: 旧 gain 語 0・観測質量の f=1/f★=1 0(換算の注 W_bg = 1/gain ${ex.conv} 文・除外 —— 較正母集団の ja の行名 q ${ex.key}・初速の係数 f ${ex.speedF})`);
+      // ①′ 照合の鍵(在位の本の来歴の語を含む行名)が残る
+      const keyRows = RID.LEGACY_ROW_IDS.filter((z) => !z.retired && byId.has(z.preset) && !RET.has(z.preset));
+      const keyMiss = keyRows.filter((z) => { const qs = (byId.get(z.preset).obsCard || []).map((r) => r && r.q); return !z.ja.some((n) => qs.includes(n)); });
+      if (keyMiss.length) bad.push('①′ 照合の鍵の行名が無い: ' + keyMiss.map((z) => z.rowId).slice(0, 4).join(','));
+      // ①″ ライブ比較の表示名の条件の句(行名 n は鍵 —— 本の obsCard の q と同じ)
+      let nCond = 0;
+      for (const [id, spec] of Object.entries(LC)) for (const q of spec.q || []) {
+        if (q.cond) { nCond++; if (F1.test(q.cond.ja || '') || F1.test(q.cond.en || '')) bad.push('①″ ' + id + ' の条件の句に f=1'); }
+        const p = byId.get(id); if (p && q.n && /観測質量 f=1/.test(q.n) && !(p.obsCard || []).some((r) => r && r.q === q.n)) bad.push('①″ ' + id + ' の行名 n が本の行名 q と違う');
+      }
+      cases.push(`①′ 照合の鍵 ${keyRows.length} 行(在位)が残る・①″ ライブ比較の条件の句 ${nCond} 行に f=1 なし`);
+      // ② 金星・木星の内部熱は未解決(状況・要約)と熱の本ではない注
+      const st = (id) => SS[id] || {}, sm = (id, L) => { const p = byId.get(id); return p ? ((L === 'en' ? ((p.en || {}).descStruct || {}) : (p.descStruct || {})).summary || '') : ''; };
+      const ven = 'venusSunInertial3d', jup = 'jupiterSunInertial3d';
+      for (const id of [ven, jup]) {
+        if (!(/内部熱/.test(st(id).state || '') && /未解決/.test(st(id).state || '') && /heat/.test((st(id).en || {}).state || '') && /unresolved/.test((st(id).en || {}).state || ''))) bad.push('② ' + id + ' の状況の文に「内部熱は未解決」が無い');
+        if (!(sm(id, 'ja').indexOf('**内部熱は未解決**') >= 0 && sm(id, 'en').indexOf('INTERNAL HEAT IS UNRESOLVED') >= 0)) bad.push('② ' + id + ' の要約に内部熱の文が無い');
+        if (!/srcheat-w320a\.json/.test(sm(id, 'ja'))) bad.push('② ' + id + ' の要約に正本の名が無い');
+      }
+      if (!(/逆回転/.test(st(ven).state || '') && sm(ven, 'ja').indexOf('**金星の自転の逆回転も未解決**') >= 0 && /RETROGRADE SPIN IS ALSO UNRESOLVED/.test(sm(ven, 'en')))) bad.push('② 🌋 の自転の逆回転の文');
+      for (const id of ['solarSystem16Inertial3d', 'venusReal', 'jupiterGalilean']) if (!(/内部熱/.test(sm(id, 'ja')) && /(未解決|扱わない)/.test(sm(id, 'ja')) && /internal heat/i.test(sm(id, 'en')))) bad.push('② ' + id + ' に熱の本ではない注が無い');
+      // ②′ 要約の概数と正本(丸めの程度 —— 逐語ではない)
+      const SH = JSON.parse(rd325b('tests/out/srcheat-w320a.json') || '{}');
+      const rowsF = ((SH.F || {}).rows || []), cmpR = ((SH.R || {}).compare || []);
+      // 16 体の 🗺️ の写しの木星(受け手 I = ½ m R² —— recvF "engine")・太陽の J だけ(kind "Jsun")—— 銀河の項なし/宣言の尺度 +ĝ。金星は役割の表(R.compare)の太陽の J の軸の比
+      const fRow = (g) => rowsF.find((r) => r && r.book === 'solarSystem16Inertial3d' && r.kind === 'Jsun' && r.galaxy === g && r.recvF === 'engine' && /木星/.test(r.ja || '')) || {};
+      const jRatio = fRow('none').sunRatioBAtH0, gRatio = fRow('declPlus').ratioBAtH0;
+      const vRatio = (cmpR.find((r) => r && r.kind === 'Jsun' && /金星/.test(r.name || '')) || {}).ratioEngine;
+      const num = (s, re) => { const m = re.exec(s); return m ? Number(m[1]) : NaN; };
+      const near = (a, b, tol) => Number.isFinite(a) && Number.isFinite(b) && Math.abs(a / b - 1) <= tol;
+      const jT = num(sm(jup, 'ja'), /内部熱の主列(?:(文献の値))?の約 ([0-9.e+-]+) 倍/), gT = num(sm(jup, 'ja'), /宣言の尺度で足すと約 ([0-9.e+-]+) 倍/), vT = num(sm(ven, 'ja'), /π 回す大きさの約 ([0-9.e+-]+) 倍/);
+      if (!near(jT, jRatio, 0.05)) bad.push(`②′ 🏀 の太陽の J の比 ${jT} と正本 ${jRatio}`);
+      if (!near(gT, gRatio, 0.05)) bad.push(`②′ 🏀 の銀河の項の比 ${gT} と正本 ${gRatio}`);
+      if (!near(vT, vRatio, 0.05)) bad.push(`②′ 🌋 の軸の比 ${vT} と正本 ${vRatio}`);
+      cases.push(`② 🌋🏀 の状況・要約に内部熱は未解決(🌋 は逆回転も)・🗺️🌇🟠 に熱の本ではない注・概数と正本(🏀 ${jT}/${Number(jRatio).toPrecision(4)}・${gT}/${Number(gRatio).toPrecision(4)}・🌋 ${vT}/${Number(vRatio).toPrecision(4)} —— 相対 5% の内)`);
+      // ③ 較正母集団の焦点(判定の 4 値は正本が決める —— 状況の文だけ)
+      const CA = JSON.parse(rd325b('tests/out/calaudit-w249.json') || '{}');
+      const calIds = (((CA.verdictLedger || {}).rows) || []).map((r) => r.id).filter((id) => byId.has(id) && !RET.has(id));
+      const noFocus = calIds.filter((id) => !(/^焦点/.test(st(id).state || '') && /^focus/.test((st(id).en || {}).state || '')));
+      if (!calIds.length || noFocus.length) bad.push('③ 焦点の文が無い較正の本: ' + (calIds.length ? noFocus.join(',') : '台帳が読めない'));
+      cases.push(`③ 較正母集団 ${calIds.length} 本(正本の台帳の在位の本)の状況の文が「焦点」から始まる`);
+      // ④ 書かない語(内部熱・逆回転・較正の言い回し —— 熱の注と焦点の文)
+      const tx = [ven, jup, 'solarSystem16Inertial3d', 'venusReal', 'jupiterGalilean'].flatMap((id) => [sm(id, 'ja'), sm(id, 'en'), st(id).state || '']).concat(calIds.map((id) => st(id).state || ''));
+      const ng = NOT325b.concat(NG325b).filter((w) => tx.some((t) => t.indexOf(w) >= 0));
+      if (ng.length) bad.push('④ 熱の注・焦点の文に書かない語 ' + ng.length + ' 語');
+      if (tx.some((t) => t.indexOf(String.fromCharCode(0x3ba)) >= 0)) bad.push('④ 裸の係数記号');
+      cases.push('④ 熱の注と焦点の文に書かない語 0');
+    } catch (e) { bad.push('実行に失敗: ' + String(e && e.message || e).slice(0, 160)); }
+    add('preset.sampleWords325b', bad.length === 0,
+      `**サンプルの説明の語**(第325便b・原仮定者の指示(第127報)・R285 —— 旧 gain 語は W_bg・引きずり OFF(W_bg を掛けない)へ・観測質量の f=1 を書かない・金星と木星の内部熱は未解決・較正の焦点 —— 説明の欄だけ): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- docs.sampleWords325b
+  {
+    const bad = [], cases = [];
+    const PH = rd325b('docs/PHYSICS.md'), a325 = PH.indexOf('〔第325便b — ');
+    const sec = a325 < 0 ? '' : PH.slice(a325, (() => { const e = [PH.indexOf('\n〔第', a325 + 10), PH.indexOf('\n## 7.', a325)].filter((k) => k > a325); return e.length ? Math.min(...e) : undefined; })());
+    if (!sec) bad.push('PHYSICS〔第325便b〕が無い');
+    else {
+      const i7 = PH.indexOf('\n## 7.'), iG = PH.indexOf('〔第324便 — 統括');
+      if (!(a325 < i7 && iG >= 0 && iG < a325)) bad.push('節の位置(第324便の統括の節の後・「## 7.」の前)');
+      for (const w of ['R285', 'W_bg = 1/gain', '引きずり OFF(W_bg を掛けない)', '観測質量のまま', 'tests/out/srcheat-w320a.json', 'tests/data-w279a-samplestatus-src.json',
+        'preset.sampleWords325b', 'docs.sampleWords325b', 'LEGACY_ROW_IDS', 'fSrc', 'sourceMoment.f', '**表 1', '**表 2', '**表 3']) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第325便b〕に「' + w + '」が無い');
+    }
+    const AI = rd325b('docs/AI_SPEC.md'), ai177 = (() => { const m = /\n## 177\. 第325便b[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+    if (!(ai177 && ai177.indexOf('W_bg = 1/gain') >= 0 && ai177.indexOf('SYSTEM_PROMPT') >= 0)) bad.push('AI_SPEC §177');
+    const CL = rd325b('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+    const cl325 = (clb.split('\n').find((l) => l.indexOf('**第325便b**') >= 0)) || '';
+    if (!cl325) bad.push('CHANGELOG の beta 節に第325便b の行が無い');
+    const PM = rd325b('tools/post-merge-qa.sh');
+    if (!(PM.indexOf('# ==== 第325便b の塊(ここから)====') >= 0 && /preset\.sampleWords325b/.test(PM) && /docs\.sampleWords325b/.test(PM))) bad.push('post-merge の ③′ に第325便b の塊が無い');
+    for (const [nm, tx] of [['PHYSICS〔第325便b〕', sec], ['AI_SPEC §177', ai177], ['CHANGELOG の第325便b の行', cl325]]) {
+      for (const w of NG325b) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+      for (const w of NOT325b) if (tx.indexOf(w) >= 0) bad.push(nm + ' に書かない語(' + w.length + ' 字)');
+      if (tx.indexOf(String.fromCharCode(0x3ba)) >= 0) bad.push(nm + ' に裸の係数記号');
+    }
+    cases.push('PHYSICS〔第325便b〕(第324便の統括の節の後・「## 7.」の前 —— 語の対応の表・直した本・内部熱・較正の焦点)・AI_SPEC §177・CHANGELOG・post-merge の ③′・書かない語 0');
+    add('docs.sampleWords325b', bad.length === 0,
+      `**サンプルの説明の語の文書**(第325便b・R285): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第325便b の塊(ここまで)====
 
 // ==== 第324便c の塊(ここから)====
 // ---- 第324便c(統括の検証項目 R281 —— 道具の続き: 第323便の統括の手順で決めたこと・決断事項 AN516・AN517/AN518): lint.quickBoundary324c・lint.calVolatile324c・lint.postMergeCounts324c・docs.w324c ----

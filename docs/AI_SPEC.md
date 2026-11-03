@@ -4565,3 +4565,11 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w324b-obsspin.mjs`(版 w324e-obsspin-2 —— 段 A に傾きの形の場合・段 B に軸の宣言とノブ・段 E に欠測の写しとノブを振った列・段 K に軌道の面の向き)→ 正本 `tests/out/obsspin-w324b.json`(段 obsspin-324b のまま)。式と測定は docs/PHYSICS.md〔第324便e〕。
 - **QA**: `behavior.obsSpin324b`・`docs.obsSpin324b` を世代で切り替えた(傾きの形の受理・ノブの一覧と withKnob・60 步〔📟 は並進だけと違う・欠測の写しは並進だけとビット同一・🔸 は前の版の宣言とビット同一〕・内蔵の obsSpin の軸は全部傾きの形)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない(観測の自転の欄は観測の記録から人が書く欄)。AI が連星の本を作るときも、傾きの観測・推定の記録があればその値(basis "observed" か "estimated"・出典)を使い、記録が無い成分は basis "knob"(既定と範囲・source に「模型の入力」)にする —— 推定の値を作らない・ノブの値を観測と呼ばない。axis:null(欠測)は受理するが連星の本の既定にしない。
+
+## 177. 第325便b —— サンプルの説明の語: 旧 gain 語を W_bg へ・用量 0 の対照は引きずり OFF(W_bg を掛けない)・観測質量の f=1 を書かない・金星と木星の内部熱は未解決・較正母集団の焦点(原仮定者の指示(第127報)・統括の検証項目 R285)
+
+- **語**: 内蔵の本の説明は背景慣性決定力 W_bg [M/L³] で書く(旧宣言の係数は W_bg = 1/gain として読む —— gain の欄は廃止)。用量 0 の否定対照は「引きずり OFF(W_bg を掛けない)」—— W_bg = 0 や 1/W_bg = 0 と書かない(引きずりの項そのものを外す —— 宣言は {Wbg:null, enabled:false})。観測質量の本は「観測質量のまま(質量の補正なし)」と書き、f=1・f★=1 を書かない(fSrc〔源の慣性係数〕と sourceMoment.f は別の変数として残す)。照合の鍵の行名(較正母集団の obsCard の ja の q)は変えない。
+- **内部熱**: 🌋 venusSunInertial3d・🏀 jupiterSunInertial3d は並進だけの宣言 —— 内部熱(🌋 は自転の逆回転も)は未解決と書く。熱の数は正本 tests/out/srcheat-w320a.json の診断の記録(観測の熱流に合わせていない)。「達」は近点の残差の門。
+- **較正の焦点**: 較正母集団の状況の文は焦点の量から始める(判定の 4 値は正本 calaudit が決める —— 原稿は状況の文だけ)。
+- **AI 生成の規則**: SYSTEM_PROMPT は変えない(本枝は説明の欄だけ)。AI が本を作るときも gain の欄を書かない(Wbg を書く)・用量 0 の対照は enabled:false で書く・観測質量に倍率を掛けた値を書かない・内部熱や逆回転を説明したと書かない。
+- **QA**: preset.sampleWords325b・docs.sampleWords325b(beta 線だけ —— root は SKIP)。
