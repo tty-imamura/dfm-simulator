@@ -43354,6 +43354,8 @@ synodic-299b の読み: **3 本と 1 本の正本は物理の欄(葉 784)で差 
 | 第406便 | あり | regen | full-rotation | 記録と同じ | フル(輪番) | 今のまま | — |
 | 第407便 | あり | regen | quick | 記録と同じ | 窓だけ —— 窓が同じなので正本を残す | 今のまま | — |
 
+**②′ 実物の器の写しでの同じ型**(scratch —— 実物の html・器・正本は変えていない)。beta/index.html の写しの `S.step` の頭に「`S.t > 3.3` のときだけ dt を 10⁻⁶ だけ伸ばす」1 文を足した写し(煙試験の窓 chain-296c は 200 步 × 0.016 = 3.2 まで)で、段 chain-296c の窓(`W296C_STEPS=200`)とフル(2000 步)を煙試験の写しの中で走らせた: 窓の指紋は変異の無い写し・変異の写しとも**記録の指紋と同じ**・フルの出力は変異の無い写しが今の正本と同じ物理の値の hash・変異の写しは違う(葉 642 のうち 45 —— part5 の走行の時刻と合成の残差など)→ 影の照合の分類は **falseSame**(窓が同じ ∧ 物理が違う)。合成の段の模擬と同じ型が実物の器の窓でも起きる —— 窓の指紋は窓の步数の後の式の差を見ない。
+
 **③ 暦の債務(提案 —— 休眠)。** 第326便で本運用に入れるなら、鎖は meta.verify.mode quick の正本のうち最初の quick の便(提案の欄 `quickSince` —— 来歴の版の更新が要る)から K − 1 便の後の段を、regen でも reuse でもフルで走らせる(本運用の 1 便目は quick の正本が無いので債務は 0 —— 門 G11 は「債務の段 0 か、鎖が債務の段を走らせる」)。
 
 **④ args/cmd の窓 6 段を環境変数の窓へ**(`tools/harness-smoke.mjs` の第325便d の塊 —— 版 w325d-smoke-argenv-1)。器の本文と段の行の cmd は変えていない。器が引数しか読まない段(charon-h2・charoneps-h4・charonk・nslock・emgrid)は窓の行の env に `HS_ARG_*`(`SMOKE_ARG_ENV` —— 9 種)を書き、煙試験が走らせる前に引数へ写す(`HS_ARG_*` は器に渡さない)。dragcore292 は窓の器 tests/exp-w323c-dragcorequick.mjs に元から在る `W323C_DRAGCORE_OUT`(cmd の前置きから env の欄へ)。窓の走行(cmd と器に渡す環境)は第323便c の行と同じ(自己試験 —— 第323便c の世代の行は `W325D_KNOBS_323C`・PHYSICS〔第323便c〕の表 1 と lint.quickWindows323 は `knobs323cView()` で読む)。あわせて、窓の出力 `out` は走らせる前に写しから消す(第323便c の欄の約束)・同じ `out` の段は同時に走らせない(charon-h2 と charoneps-h4 は同じ probe を書く)・`--fingerprint` は `out` も読む(env の名と同じ `out` は重ねない —— 記録の 59 段の指紋の取り方は変わらない)。**6 段のうち簡易一致の候補になれるのは dragcore292・nslock の 2 段**(残り 4 段は AN518 の静的な除外 —— 手動の段 emgrid・較正の正本を読む段 charon-h2・charonk・charoneps-h4)。
