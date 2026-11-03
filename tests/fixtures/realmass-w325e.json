@@ -1,11 +1,11 @@
 {
  "fixtureVersion": "w325e-realmass-1",
- "note": "在位の実在天体の本 🛞 ngc3198DFM の前の宣言(基点 4b9c712 —— 恒星の円盤に旧則の平均場 χ-law の倍率 f=1.9997320796514568 を掛けた質量)の凍結資産(書き換えない)。原仮定者の回答(2026-11-03 —— AN528)「実在天体なら、f=1に質量を修正。実在天体で無いならそのまま採用」で、ID を変えずに恒星の円盤の 1 粒を観測の転写 1.9 単位(🌃 と同じ)へ戻した。実在天体でない 5 本(🎇⚪🔘🎆🐮 —— 台帳 f=2 の原理の本)の宣言は不変(declSame —— 説明の欄を外して比べた・説明の欄には「旧則の宣言のまま」の 1 文だけを足した)。過去の正本の sha は基点の版。",
+ "note": "在位の実在天体の本 🛞 ngc3198DFM の前の宣言(基点 4b9c712 —— 恒星の円盤に旧則の平均場 χ-law の倍率 f=1.9997320796514568 を掛けた質量)の凍結資産(書き換えない)。原仮定者の回答(2026-11-03 —— AN528)「実在天体なら、f=1に質量を修正。実在天体で無いならそのまま採用」で、ID を変えずに恒星の円盤の 1 粒を観測の転写 1.9 単位(🌃 と同じ)へ戻した。実在天体でない 5 本(🎇⚪🔘🎆🐮 —— 台帳 f=2 の原理の本)の宣言(質量の値)は不変(declSame —— 説明の欄を外して比べた)。説明の欄の質量の倍率 f の記述は消した(原仮定者の回答(2026-11-03 —— AN528)の追加「実在天体で無い場合は、「f」の記述は消す」)。過去の正本の sha は基点の版。",
  "ids": [
   "ngc3198DFM"
  ],
  "wave": "第325便e",
- "ruling": "原仮定者の回答(2026-11-03 —— AN528)・原仮定者の指示(第127報)「観測質量補正の「f」も、今は使っていない」",
+ "ruling": "原仮定者の回答(2026-11-03 —— AN528 と追加「実在天体で無い場合は、「f」の記述は消す」)・原仮定者の指示(第127報)「観測質量補正の「f」も、今は使っていない」",
  "frozen": true,
  "presets": {
   "ngc3198DFM": {
@@ -431,7 +431,29 @@
    ],
    "presetSigHash": "d7ce45a3",
    "declSame": true,
-   "sigSame": true
+   "sigSame": true,
+   "textRemoved": [
+    {
+     "path": "descStruct.summary",
+     "before": "**1つの赤色巨星が多層に割れた外殻を吹き飛ばし、時計つきの核が残る**(保存的な爆発 spinBurst → 分割放出 core.shed を併載 → **🔵 nsRemnantDFM を統合し「1体で始まる超新星」へ改訂**)。置くのは**赤色巨星 1 体だけ**(m=600・台帳 f=2 は**総質量の由来**〔観測相当 300 の 2 倍〕であって内訳の主張ではない)。以前の「事前に置いたガス 200 粒の円盤」は**撤去した** — 外殻は shed が割って生む。**質量集中の宣言**(「白色矮星・中性子星の質量は元の赤色巨星とあまり変わらない=質量はコアに集中していて、育つとコア半径が縮む」): **massFrac=0.8**(コア 480+殻 120)は**宣言された構造仮定**であって観測事実の断定ではない。コアは小さく速い(Rc=4 — 殻半径 24.5 の 16%・Ω=40・Kcs=0)。**contract=0.02** でコアが自走し(J 保存のまま Ω が上がる)、**Ω_c が omegaCrit=60 に達したステップ末に1回だけ** core.shed が発火して、殻質量 120 の **frac=0.6** を **n=128 粒**のガスへ割る。**新機構=多層配置**: layers=4・rInner=0.25 で、粒は「元の半径の円周」だけでなく**コアとの間**にも置かれる(半径 6.12/16.33/26.54/36.74=0.25〜1.5 R₀ の等間隔 4 層・各層 32 粒の対称対。接線 J は**同じ角速度**で層へ配り、動径速度は**全粒同一**)。放出直後に残るのは**コアだった小さな中性子星の見立て**(Rc は contract で 4→0.59 まで縮む)と**多層の外殻**。burst の会計はまま: core.burst{rate:1, frac:2.7e-3} が各步コア J_z を目標 (1−frac)J₀ へ時定数 1/rate で減らし、ΔJ をガス重心まわりの剛体回転モードへ、残りの回転 E を動径モードへ厳密に注入する(**用量 2.7×10⁻³ は現象論としての宣言** — フィットではない)。中心は**自由**(pairReduced+重心系)・境界なし・coupleSink:\"reservoir\"。働くのは重力(E4)+引きずり+接触ばね(E9)+放射(E11)。**時計の帰属**(🔵 から継承): pulse:{omega:22.654675, source:\"observed\"} は**親に載っているので残骸が引き継ぎ**、放出片は時計を持たない — **爆発を挟んでも φ=ω·t が割れない**。ただしこの ω は J0737−3039B の観測自転=**別天体の fiducial を比較マーカーとして置く宣言**(🥀 の 1.4 M☉ マーカーと同じ規約)であって、この残骸の周期の予測ではない。**正直な限界**: ①engine の保存契約(残骸質量 > コア質量)により、**1 回の放出では裸のコアに至らない**(残骸 528=コア 480+残った殻 48 — 「裸の中性子星」という終端状態は今後の課題)。②残骸の器の半径は質量から引き直すだけで、コアの実半径には縮まない(縮むのは contract が動かす Rc)。③点粒子の自己重力エネルギーを持たないので、殻を半径 r_L へ出す操作は**脱出速度ちょうど**を解放する(規約の帰結であって予測ではない)。④**実在の超新星機構(重力崩壊・ニュートリノ加熱・衝撃波・⁵⁶Ni・光度曲線・磁場)はモデル化しない** — 回転駆動の外殻放出という遠い類推(磁気回転駆動超新星の方向)の principle トイ。分割の機構そのもの(4帳簿の閉性)は 🎆 が、徐々に剥がれる道は ⚪ が担う。",
+     "after": "**1つの赤色巨星が多層に割れた外殻を吹き飛ばし、時計つきの核が残る**(保存的な爆発 spinBurst → 分割放出 core.shed を併載 → **🔵 nsRemnantDFM を統合し「1体で始まる超新星」へ改訂**)。置くのは**赤色巨星 1 体だけ**(m=600 —— 総質量の宣言であって内訳の主張ではない)。以前の「事前に置いたガス 200 粒の円盤」は**撤去した** — 外殻は shed が割って生む。**質量集中の宣言**(「白色矮星・中性子星の質量は元の赤色巨星とあまり変わらない=質量はコアに集中していて、育つとコア半径が縮む」): **massFrac=0.8**(コア 480+殻 120)は**宣言された構造仮定**であって観測事実の断定ではない。コアは小さく速い(Rc=4 — 殻半径 24.5 の 16%・Ω=40・Kcs=0)。**contract=0.02** でコアが自走し(J 保存のまま Ω が上がる)、**Ω_c が omegaCrit=60 に達したステップ末に1回だけ** core.shed が発火して、殻質量 120 の **frac=0.6** を **n=128 粒**のガスへ割る。**新機構=多層配置**: layers=4・rInner=0.25 で、粒は「元の半径の円周」だけでなく**コアとの間**にも置かれる(半径 6.12/16.33/26.54/36.74=0.25〜1.5 R₀ の等間隔 4 層・各層 32 粒の対称対。接線 J は**同じ角速度**で層へ配り、動径速度は**全粒同一**)。放出直後に残るのは**コアだった小さな中性子星の見立て**(Rc は contract で 4→0.59 まで縮む)と**多層の外殻**。burst の会計はまま: core.burst{rate:1, frac:2.7e-3} が各步コア J_z を目標 (1−frac)J₀ へ時定数 1/rate で減らし、ΔJ をガス重心まわりの剛体回転モードへ、残りの回転 E を動径モードへ厳密に注入する(**用量 2.7×10⁻³ は現象論としての宣言** — フィットではない)。中心は**自由**(pairReduced+重心系)・境界なし・coupleSink:\"reservoir\"。働くのは重力(E4)+引きずり+接触ばね(E9)+放射(E11)。**時計の帰属**(🔵 から継承): pulse:{omega:22.654675, source:\"observed\"} は**親に載っているので残骸が引き継ぎ**、放出片は時計を持たない — **爆発を挟んでも φ=ω·t が割れない**。ただしこの ω は J0737−3039B の観測自転=**別天体の fiducial を比較マーカーとして置く宣言**(🥀 の 1.4 M☉ マーカーと同じ規約)であって、この残骸の周期の予測ではない。**正直な限界**: ①engine の保存契約(残骸質量 > コア質量)により、**1 回の放出では裸のコアに至らない**(残骸 528=コア 480+残った殻 48 — 「裸の中性子星」という終端状態は今後の課題)。②残骸の器の半径は質量から引き直すだけで、コアの実半径には縮まない(縮むのは contract が動かす Rc)。③点粒子の自己重力エネルギーを持たないので、殻を半径 r_L へ出す操作は**脱出速度ちょうど**を解放する(規約の帰結であって予測ではない)。④**実在の超新星機構(重力崩壊・ニュートリノ加熱・衝撃波・⁵⁶Ni・光度曲線・磁場)はモデル化しない** — 回転駆動の外殻放出という遠い類推(磁気回転駆動超新星の方向)の principle トイ。分割の機構そのもの(4帳簿の閉性)は 🎆 が、徐々に剥がれる道は ⚪ が担う。"
+    },
+    {
+     "path": "parameterAudit.observedInputs.0",
+     "before": "なし(原理トイ — 台帳 f=2 は総質量の由来の読み替え)",
+     "after": "なし(原理トイ)"
+    },
+    {
+     "path": "en.descStruct.summary",
+     "before": "ONE RED GIANT BLOWS OFF AN ENVELOPE THAT BREAKS INTO LAYERS, AND A CLOCK-CARRYING CORE REMAINS (AN EARLIER UPDATE MERGES 🔵 nsRemnantDFM IN AND STARTS FROM A SINGLE BODY). What is placed is ONE RED GIANT (m=600; the ledger f=2 says where the TOTAL mass comes from — twice the transcribed 300 — and claims nothing about the split). The 200-grain gas disc placed by hand previously IS GONE: the envelope is created by the split itself. THE DECLARED MASS CONCENTRATION (thought experiment 5 — 'the mass sits in the core, whose radius shrinks as it grows'): massFrac=0.8 (core 480 + shell 120) IS A DECLARED STRUCTURAL ASSUMPTION, not an assertion of observed fact. The core is small and fast (Rc=4, i.e. 16% of the 24.5 shell radius, Ω=40, Kcs=0); contract=0.02 spins it up (J conserved while Ω rises) and IN THE SINGLE STEP WHERE Ω_c REACHES omegaCrit=60 core.shed FIRES ONCE: frac=0.6 of the 120 shell mass becomes n=128 gas grains. THE NEW MECHANISM OF AN EARLIER UPDATE IS THE LAYERED PLACEMENT: with layers=4 and rInner=0.25 the grains sit not only on the circle of the original radius but ALSO BETWEEN IT AND THE CORE (radii 6.12/16.33/26.54/36.74 = 0.25…1.5 R₀, four evenly spaced layers of 32 grains in symmetric pairs; the tangential J is shared AT ONE ANGULAR VELOCITY and the radial speed is THE SAME FOR EVERY GRAIN). What is left right after the ejection is the core standing for a SMALL NEUTRON STAR (contract takes Rc from 4 to 0.59) plus the layered envelope. The burst accounting is unchanged — core.burst{rate:1, frac:2.7e-3} lowers the core J_z toward (1−frac)J₀, hands ΔJ to the gas as a rigid-rotation mode and injects the rest of the rotational energy into a radial mode — and THE DOSE 2.7e-3 IS A PHENOMENOLOGICAL DECLARATION, not a fit. The centre is free (pairReduced, barycentric), no boundary, coupleSink reservoir; gravity (E4), dragging, contact springs (E9) and radiation (E11) act. WHERE THE CLOCK GOES (inherited from 🔵): pulse:{omega:22.654675, source:\"observed\"} sits on the PARENT, so THE REMNANT INHERITS IT while the shed grains carry no clock — φ=ω·t SURVIVES THE EXPLOSION. That ω is J0737−3039B's observed spin — A DIFFERENT OBJECT'S FIDUCIAL, placed as a comparison marker, not a prediction. HONEST LIMITS: (1) the conservation contract (remnant mass > core mass) means ONE EVENT NEVER LEAVES A BARE CORE (remnant 528 = core 480 plus the 48 of shell that stayed; the terminal state is left for later); (2) the remnant's vessel radius is only re-derived from its mass, so it never shrinks to the core's; (3) with no self-gravitational energy for a point particle, moving the shell out to r_L always releases EXACTLY THE ESCAPE SPEED; (4) REAL SUPERNOVA MECHANISMS (core collapse, neutrinos, shocks, 56Ni, light curves, magnetic fields) ARE NOT MODELLED — a principle-class toy. The mechanism belongs to 🎆, the gradual road to ⚪.",
+     "after": "ONE RED GIANT BLOWS OFF AN ENVELOPE THAT BREAKS INTO LAYERS, AND A CLOCK-CARRYING CORE REMAINS (AN EARLIER UPDATE MERGES 🔵 nsRemnantDFM IN AND STARTS FROM A SINGLE BODY). What is placed is ONE RED GIANT (m=600 — a declared TOTAL mass that claims nothing about the split). The 200-grain gas disc placed by hand previously IS GONE: the envelope is created by the split itself. THE DECLARED MASS CONCENTRATION (thought experiment 5 — 'the mass sits in the core, whose radius shrinks as it grows'): massFrac=0.8 (core 480 + shell 120) IS A DECLARED STRUCTURAL ASSUMPTION, not an assertion of observed fact. The core is small and fast (Rc=4, i.e. 16% of the 24.5 shell radius, Ω=40, Kcs=0); contract=0.02 spins it up (J conserved while Ω rises) and IN THE SINGLE STEP WHERE Ω_c REACHES omegaCrit=60 core.shed FIRES ONCE: frac=0.6 of the 120 shell mass becomes n=128 gas grains. THE NEW MECHANISM OF AN EARLIER UPDATE IS THE LAYERED PLACEMENT: with layers=4 and rInner=0.25 the grains sit not only on the circle of the original radius but ALSO BETWEEN IT AND THE CORE (radii 6.12/16.33/26.54/36.74 = 0.25…1.5 R₀, four evenly spaced layers of 32 grains in symmetric pairs; the tangential J is shared AT ONE ANGULAR VELOCITY and the radial speed is THE SAME FOR EVERY GRAIN). What is left right after the ejection is the core standing for a SMALL NEUTRON STAR (contract takes Rc from 4 to 0.59) plus the layered envelope. The burst accounting is unchanged — core.burst{rate:1, frac:2.7e-3} lowers the core J_z toward (1−frac)J₀, hands ΔJ to the gas as a rigid-rotation mode and injects the rest of the rotational energy into a radial mode — and THE DOSE 2.7e-3 IS A PHENOMENOLOGICAL DECLARATION, not a fit. The centre is free (pairReduced, barycentric), no boundary, coupleSink reservoir; gravity (E4), dragging, contact springs (E9) and radiation (E11) act. WHERE THE CLOCK GOES (inherited from 🔵): pulse:{omega:22.654675, source:\"observed\"} sits on the PARENT, so THE REMNANT INHERITS IT while the shed grains carry no clock — φ=ω·t SURVIVES THE EXPLOSION. That ω is J0737−3039B's observed spin — A DIFFERENT OBJECT'S FIDUCIAL, placed as a comparison marker, not a prediction. HONEST LIMITS: (1) the conservation contract (remnant mass > core mass) means ONE EVENT NEVER LEAVES A BARE CORE (remnant 528 = core 480 plus the 48 of shell that stayed; the terminal state is left for later); (2) the remnant's vessel radius is only re-derived from its mass, so it never shrinks to the core's; (3) with no self-gravitational energy for a point particle, moving the shell out to r_L always releases EXACTLY THE ESCAPE SPEED; (4) REAL SUPERNOVA MECHANISMS (core collapse, neutrinos, shocks, 56Ni, light curves, magnetic fields) ARE NOT MODELLED — a principle-class toy. The mechanism belongs to 🎆, the gradual road to ⚪."
+    },
+    {
+     "path": "en.description",
+     "before": "ONE RED GIANT BLOWS OFF AN ENVELOPE THAT BREAKS INTO LAYERS, AND A CLOCK-CARRYING CORE REMAINS (AN EARLIER UPDATE MERGES 🔵 nsRemnantDFM IN AND STARTS FROM A SINGLE BODY). What is placed is ONE RED GIANT (m=600; the ledger f=2 says where the TOTAL mass comes from — twice the transcribed 300 — and claims nothing about the split). The 200-grain gas disc placed by hand previously IS GONE: the envelope is created by the split itself. THE DECLARED MASS CONCENTRATION (thought experiment 5 — 'the mass sits in the core, whose radius shrinks as it grows'): massFrac=0.8 (core 480 + shell 120) IS A DECLARED STRUCTURAL ASSUMPTION, not an assertion of observed fact. The core is small and fast (Rc=4, i.e. 16% of the 24.5 shell radius, Ω=40, Kcs=0); contract=0.02 spins it up (J conserved while Ω rises) and IN THE SINGLE STEP WHERE Ω_c REACHES omegaCrit=60 core.shed FIRES ONCE: frac=0.6 of the 120 shell mass becomes n=128 gas grains. THE NEW MECHANISM OF AN EARLIER UPDATE IS THE LAYERED PLACEMENT: with layers=4 and rInner=0.25 the grains sit not only on the circle of the original radius but ALSO BETWEEN IT AND THE CORE (radii 6.12/16.33/26.54/36.74 = 0.25…1.5 R₀, four evenly spaced layers of 32 grains in symmetric pairs; the tangential J is shared AT ONE ANGULAR VELOCITY and the radial speed is THE SAME FOR EVERY GRAIN). What is left right after the ejection is the core standing for a SMALL NEUTRON STAR (contract takes Rc from 4 to 0.59) plus the layered envelope. The burst accounting is unchanged — core.burst{rate:1, frac:2.7e-3} lowers the core J_z toward (1−frac)J₀, hands ΔJ to the gas as a rigid-rotation mode and injects the rest of the rotational energy into a radial mode — and THE DOSE 2.7e-3 IS A PHENOMENOLOGICAL DECLARATION, not a fit. The centre is free (pairReduced, barycentric), no boundary, coupleSink reservoir; gravity (E4), dragging, contact springs (E9) and radiation (E11) act. WHERE THE CLOCK GOES (inherited from 🔵): pulse:{omega:22.654675, source:\"observed\"} sits on the PARENT, so THE REMNANT INHERITS IT while the shed grains carry no clock — φ=ω·t SURVIVES THE EXPLOSION. That ω is J0737−3039B's observed spin — A DIFFERENT OBJECT'S FIDUCIAL, placed as a comparison marker, not a prediction. HONEST LIMITS: (1) the conservation contract (remnant mass > core mass) means ONE EVENT NEVER LEAVES A BARE CORE (remnant 528 = core 480 plus the 48 of shell that stayed; the terminal state is left for later); (2) the remnant's vessel radius is only re-derived from its mass, so it never shrinks to the core's; (3) with no self-gravitational energy for a point particle, moving the shell out to r_L always releases EXACTLY THE ESCAPE SPEED; (4) REAL SUPERNOVA MECHANISMS (core collapse, neutrinos, shocks, 56Ni, light curves, magnetic fields) ARE NOT MODELLED — a principle-class toy. The mechanism belongs to 🎆, the gradual road to ⚪.Measured (6000 steps = t96, dt=0.016): THE SPLIT FIRES ONCE, AT STEP 633 (t=10.144, Ω_c=60.0176); at dt/2 it fires at step 1267 with the same t — the firing Ω does not depend on the step size; zero skipped attempts. Split ledgers across the firing step: THE RELATIVE ERRORS OF ΔM, ΔP AND ΔL ARE ALL EXACTLY 0; RELEASED ROTATIONAL ENERGY 0.0687 = ΔKE 7202.96 + ΔU −7202.89 + residual −6.3e-5 (jFrac=0, so the release is the potential term alone = exactly the escape speed). The ejection is 72 = 128 × 0.5625; the remnant is 528 (core 480 unchanged, massFrac 0.8 → 0.909091); THE FOUR LAYERS SIT AT 6.124/16.330/26.536/36.742. Burst ledger: TRANSFERRED L 414.72 = J₀−J₁ to the bit (J₀=153600); RELEASED ROTATIONAL ENERGY 25900.21 = INJECTED KE 25900.07 (residual 0.136 = 5.3e-6 relative). Totals: 128/128 GRAINS ESCAPE (100%); mean relative speed 33.38 (33.37 at dt/2); |ΔP|/Σm|v| 8.2e-8; |ΔL|/L 4.7e-5; ALL SAFETY CLAMPS 0; zero NaN; zero warnings; bit-identical reruns; 129 particles; REMNANT KICK 7.1e-8 (symmetric pairs — no random kick is added). THE CLOCK: the remnant keeps pulse ω=22.654675 and φ=ω·t continues to hold (phase ratio 1.000000000000; the grains have ω=0). Controls, read on the mean relative speed: half the dose (1.35e-3) gives 27.56, kFrame=0 gives 26.48, no burst (the split alone) gives 19.83, and A SINGLE LAYER (drop layers/rInner) gives 27.31 — the layered placement digs a deeper ΔU and therefore throws faster for the same declaration. REMOVE shed AND THE EXPLOSION ITSELF DISAPPEARS: with no gas to receive it, burst does not draw a single bit of J (the body stays at one particle). A quiet star (core.omega=0) likewise never fires. QA behavior.supernova machine-fixes all of it.Suggested A/B: core.burst.frac=1.35e-3 (half the dose — mean speed 27.6), kFrame=0 (26.5 without dragging), drop core.shed.layers/rInner (a single circle — 27.3), core.omega=0 (a quiet star — nothing fires). Remove core.shed and the explosion goes with it, because no gas is ever created to receive it (the consequence). Read 🎆 (the mechanism) → ⚪ (the gradual road) → 🎇 (the one-shot road), alongside 🏮 (the lighthouse principle and the true-scale vessel).",
+     "after": "ONE RED GIANT BLOWS OFF AN ENVELOPE THAT BREAKS INTO LAYERS, AND A CLOCK-CARRYING CORE REMAINS (AN EARLIER UPDATE MERGES 🔵 nsRemnantDFM IN AND STARTS FROM A SINGLE BODY). What is placed is ONE RED GIANT (m=600 — a declared TOTAL mass that claims nothing about the split). The 200-grain gas disc placed by hand previously IS GONE: the envelope is created by the split itself. THE DECLARED MASS CONCENTRATION (thought experiment 5 — 'the mass sits in the core, whose radius shrinks as it grows'): massFrac=0.8 (core 480 + shell 120) IS A DECLARED STRUCTURAL ASSUMPTION, not an assertion of observed fact. The core is small and fast (Rc=4, i.e. 16% of the 24.5 shell radius, Ω=40, Kcs=0); contract=0.02 spins it up (J conserved while Ω rises) and IN THE SINGLE STEP WHERE Ω_c REACHES omegaCrit=60 core.shed FIRES ONCE: frac=0.6 of the 120 shell mass becomes n=128 gas grains. THE NEW MECHANISM OF AN EARLIER UPDATE IS THE LAYERED PLACEMENT: with layers=4 and rInner=0.25 the grains sit not only on the circle of the original radius but ALSO BETWEEN IT AND THE CORE (radii 6.12/16.33/26.54/36.74 = 0.25…1.5 R₀, four evenly spaced layers of 32 grains in symmetric pairs; the tangential J is shared AT ONE ANGULAR VELOCITY and the radial speed is THE SAME FOR EVERY GRAIN). What is left right after the ejection is the core standing for a SMALL NEUTRON STAR (contract takes Rc from 4 to 0.59) plus the layered envelope. The burst accounting is unchanged — core.burst{rate:1, frac:2.7e-3} lowers the core J_z toward (1−frac)J₀, hands ΔJ to the gas as a rigid-rotation mode and injects the rest of the rotational energy into a radial mode — and THE DOSE 2.7e-3 IS A PHENOMENOLOGICAL DECLARATION, not a fit. The centre is free (pairReduced, barycentric), no boundary, coupleSink reservoir; gravity (E4), dragging, contact springs (E9) and radiation (E11) act. WHERE THE CLOCK GOES (inherited from 🔵): pulse:{omega:22.654675, source:\"observed\"} sits on the PARENT, so THE REMNANT INHERITS IT while the shed grains carry no clock — φ=ω·t SURVIVES THE EXPLOSION. That ω is J0737−3039B's observed spin — A DIFFERENT OBJECT'S FIDUCIAL, placed as a comparison marker, not a prediction. HONEST LIMITS: (1) the conservation contract (remnant mass > core mass) means ONE EVENT NEVER LEAVES A BARE CORE (remnant 528 = core 480 plus the 48 of shell that stayed; the terminal state is left for later); (2) the remnant's vessel radius is only re-derived from its mass, so it never shrinks to the core's; (3) with no self-gravitational energy for a point particle, moving the shell out to r_L always releases EXACTLY THE ESCAPE SPEED; (4) REAL SUPERNOVA MECHANISMS (core collapse, neutrinos, shocks, 56Ni, light curves, magnetic fields) ARE NOT MODELLED — a principle-class toy. The mechanism belongs to 🎆, the gradual road to ⚪.Measured (6000 steps = t96, dt=0.016): THE SPLIT FIRES ONCE, AT STEP 633 (t=10.144, Ω_c=60.0176); at dt/2 it fires at step 1267 with the same t — the firing Ω does not depend on the step size; zero skipped attempts. Split ledgers across the firing step: THE RELATIVE ERRORS OF ΔM, ΔP AND ΔL ARE ALL EXACTLY 0; RELEASED ROTATIONAL ENERGY 0.0687 = ΔKE 7202.96 + ΔU −7202.89 + residual −6.3e-5 (jFrac=0, so the release is the potential term alone = exactly the escape speed). The ejection is 72 = 128 × 0.5625; the remnant is 528 (core 480 unchanged, massFrac 0.8 → 0.909091); THE FOUR LAYERS SIT AT 6.124/16.330/26.536/36.742. Burst ledger: TRANSFERRED L 414.72 = J₀−J₁ to the bit (J₀=153600); RELEASED ROTATIONAL ENERGY 25900.21 = INJECTED KE 25900.07 (residual 0.136 = 5.3e-6 relative). Totals: 128/128 GRAINS ESCAPE (100%); mean relative speed 33.38 (33.37 at dt/2); |ΔP|/Σm|v| 8.2e-8; |ΔL|/L 4.7e-5; ALL SAFETY CLAMPS 0; zero NaN; zero warnings; bit-identical reruns; 129 particles; REMNANT KICK 7.1e-8 (symmetric pairs — no random kick is added). THE CLOCK: the remnant keeps pulse ω=22.654675 and φ=ω·t continues to hold (phase ratio 1.000000000000; the grains have ω=0). Controls, read on the mean relative speed: half the dose (1.35e-3) gives 27.56, kFrame=0 gives 26.48, no burst (the split alone) gives 19.83, and A SINGLE LAYER (drop layers/rInner) gives 27.31 — the layered placement digs a deeper ΔU and therefore throws faster for the same declaration. REMOVE shed AND THE EXPLOSION ITSELF DISAPPEARS: with no gas to receive it, burst does not draw a single bit of J (the body stays at one particle). A quiet star (core.omega=0) likewise never fires. QA behavior.supernova machine-fixes all of it.Suggested A/B: core.burst.frac=1.35e-3 (half the dose — mean speed 27.6), kFrame=0 (26.5 without dragging), drop core.shed.layers/rInner (a single circle — 27.3), core.omega=0 (a quiet star — nothing fires). Remove core.shed and the explosion goes with it, because no gas is ever created to receive it (the consequence). Read 🎆 (the mechanism) → ⚪ (the gradual road) → 🎇 (the one-shot road), alongside 🏮 (the lighthouse principle and the true-scale vessel)."
+    }
+   ]
   },
   {
    "id": "whiteDwarfDFM",
@@ -453,7 +475,14 @@
    ],
    "presetSigHash": "a32a26b6",
    "declSame": true,
-   "sigSame": true
+   "sigSame": true,
+   "textRemoved": [
+    {
+     "path": "parameterAudit.observedInputs.0",
+     "before": "なし(トイ前駆星 — 台帳 f=2 は総質量の由来の読み替え)",
+     "after": "なし(トイ前駆星)"
+    }
+   ]
   },
   {
    "id": "whiteDwarfBareDFM",
@@ -475,7 +504,14 @@
    ],
    "presetSigHash": "e0ccef32",
    "declSame": true,
-   "sigSame": true
+   "sigSame": true,
+   "textRemoved": [
+    {
+     "path": "parameterAudit.observedInputs.0",
+     "before": "なし(⚪ と同じトイ前駆星 — 台帳 f=2 は総質量の由来の読み替え)",
+     "after": "なし(⚪ と同じトイ前駆星)"
+    }
+   ]
   },
   {
    "id": "envelopeShedDFM",
@@ -497,7 +533,19 @@
    ],
    "presetSigHash": "4508b431",
    "declSame": true,
-   "sigSame": true
+   "sigSame": true,
+   "textRemoved": [
+    {
+     "path": "parameterAudit.observedInputs.0",
+     "before": "なし(原理トイ — 台帳 f=2 の読み替え)",
+     "after": "なし(原理トイ)"
+    },
+    {
+     "path": "parameterAudit.fixedConventions.1",
+     "before": "台帳 f=2(殻 300+コア 300・massFrac 0.5・Rc=1.5・Kcs=0)・shed の面内・対称・傾き 0 規約",
+     "after": "殻 300+コア 300(massFrac 0.5・Rc=1.5・Kcs=0)・shed の面内・対称・傾き 0 規約"
+    }
+   ]
   },
   {
    "id": "lfbotTrap",
@@ -521,7 +569,14 @@
    ],
    "presetSigHash": "2a39745",
    "declSame": true,
-   "sigSame": true
+   "sigSame": true,
+   "textRemoved": [
+    {
+     "path": "parameterAudit.fixedConventions.0",
+     "before": "台帳 f=2 の恒星(殻 300+コア 300・massFrac 0.5・Rc=1.5)・kFrame=1・pairReduced+重心系・境界なし・融合なし",
+     "after": "恒星(殻 300+コア 300・massFrac 0.5・Rc=1.5)・kFrame=1・pairReduced+重心系・境界なし・融合なし"
+    }
+   ]
   }
  ],
  "scan": {
@@ -570,7 +625,7 @@
     "fBefore": 2,
     "fAfter": 2,
     "basis": "一般の赤色巨星の原理の玩具(observedInputs「なし」・obsCard「観測転写はしない」・notClaim toy)",
-    "action": "そのまま"
+    "action": "宣言はそのまま・説明の f の記述を消した"
    },
    {
     "id": "whiteDwarfDFM",
@@ -579,7 +634,7 @@
     "fBefore": 2,
     "fAfter": 2,
     "basis": "一般の白色矮星の原理の玩具(observedInputs「なし」・notClaim cal)",
-    "action": "そのまま"
+    "action": "宣言はそのまま・説明の f の記述を消した"
    },
    {
     "id": "whiteDwarfBareDFM",
@@ -588,7 +643,7 @@
     "fBefore": 2,
     "fAfter": 2,
     "basis": "⚪ の終端の原理の玩具(observedInputs「なし」・notClaim cal)",
-    "action": "そのまま"
+    "action": "宣言はそのまま・説明の f の記述を消した"
    },
    {
     "id": "envelopeShedDFM",
@@ -597,7 +652,7 @@
     "fBefore": 2,
     "fAfter": 2,
     "basis": "分割放出の機構の原理の玩具(observedInputs「なし」・notClaim cal)",
-    "action": "そのまま"
+    "action": "宣言はそのまま・説明の f の記述を消した"
    },
    {
     "id": "lfbotTrap",
@@ -606,7 +661,7 @@
     "fBefore": 2,
     "fAfter": 2,
     "basis": "LFBOT の型の原理の玩具(observedInputs「なし」・notClaim lfbot —— AT2018cow 等へ σ を出さない)",
-    "action": "そのまま"
+    "action": "宣言はそのまま・説明の f の記述を消した"
    }
   ],
   "otherReal": "在位の他の実在天体の本(現実較正・実在天体のアナロジーの群 —— 太陽系・連星・パルサー・GW150914・47 Tuc・NGC 3198・ベテルギウス・かに星雲)は massCalibration の倍率を持たず、bodies の質量は観測の値の転写(物理単位に直して照らした —— 倍率 ≠ 1 は 0 本)",
@@ -862,7 +917,7 @@
  ],
  "source": {
   "file": "beta/index.html",
-  "sha256": "9dab9c8c5cddb8ce9d6f8f18a0468e49f798711f769585a23ef09df918597005",
+  "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
   "note": "第325便e の枝の html(🛞 の宣言を入れた後)"
  },
  "base": {

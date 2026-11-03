@@ -94410,7 +94410,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----      実在天体でない 5 本と同じ(名指し —— 新しい本が倍率を宣言したら落ちる)・5 本の宣言(説明の欄を外して)と署名が写しと同じ /
 // ----      🛞: f 固定形(law f-fixed-1・f=1)・baseMass = 🌃 の 2 円盤の 1 粒・恒星の 1 粒 = 🌃 の 1 粒(ビット)・lightSweep なし・台帳の fStar = fDynamics = 1・
 // ----      恒星の総質量 = 台帳の starBase・history = 写しの前の台帳 / 凍結の写し tests/fixtures/realmass-w325e.json の形(版・frozen・前の定義 raw の署名を今の html で
-// ----      引き直すと写しの署名・今の 🛞 の署名 = 写しの後の署名・raw は今の受理器で受理される・基点 4b9c712・過去の正本の sha・走査の表)
+// ----      引き直すと写しの署名・今の 🛞 の署名 = 写しの後の署名・raw は今の受理器で受理される・基点 4b9c712・過去の正本の sha・走査の表)/
+// ----      原仮定者の回答(2026-11-03 —— AN528 の追加「実在天体で無い場合は、「f」の記述は消す」): 5 本の説明の欄に質量の倍率 f の記述が 0(写しの textRemoved)
 // ----   ② docs.realMassF1325e …… PHYSICS〔第325便e〕(〔第325便d〕の後・〔第325便 — 統括〕の前・「## 7.」の前)に走査の表と前後の測った値(写しの数を丸めて)・
 // ----      AI_SPEC §180・CHANGELOG の第325便e の行(AN528)・tests/fixtures/README の項・post-merge の ③′・書かない語・禁句・裸の係数記号
 {
@@ -94488,7 +94489,20 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const SS = JSON.parse(H.evalExpr('JSON.stringify(SAMPLE_STATUS)'));
       const s1 = SS.ngc3198DFM || {};
       if (!(s1.objective === 'unmet' && /倍率 1/.test(s1.state || '') && /51 km\/s/.test(s1.state || ''))) bad.push('④ 🛞 の状況(未達・倍率 1・51 km/s)');
-      cases.push(`③ 凍結の写し(${F.fixtureVersion}・前の署名 ${fp ? fp.presetSigHash : '—'} → ${fp ? fp.presetSigHashNow : '—'}・過去の正本 ${(F.pastCanons || []).length}・走査 ${rows.length} 行)/ ④ 状況 ${s1.objective}`);
+      // ⑤ 原仮定者の回答(2026-11-03 —— AN528 の追加「実在天体で無い場合は、「f」の記述は消す」): 実在天体でない 5 本の説明の欄に質量の倍率 f の記述が無い
+      //   (宣言 massCalibration は残す・写しの textRemoved に消した文の前後)
+      const FT = /台帳\s*f|ledger f\b|(?<![A-Za-z_])f\s*[=≈]\s*2(?![0-9.])|f★|(f−1)\/f|質量補正|較正質量|mass correction/;
+      let nFt = 0;
+      for (const z of FX325e.nonReal || []) {
+        const p = byId.get(z.id); if (!p) continue;
+        const strs = []; const walk = (v, pa) => { if (typeof v === 'string') strs.push([pa, v]); else if (Array.isArray(v)) v.forEach((x, i) => walk(x, pa + '[' + i + ']')); else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) walk(x, pa + '.' + k); };
+        for (const k of ['name', 'descStruct', 'status', 'obsCard', 'failureFirst', 'parameterAudit']) { walk(p[k], k); walk((p.en || {})[k], 'en.' + k); }
+        const hit = strs.filter(([, v]) => FT.test(v)).map(([pa]) => pa);
+        if (hit.length) bad.push('⑤ ' + z.id + ' の説明の欄に質量の倍率 f の記述: ' + hit.slice(0, 3).join(','));
+        if (!(Array.isArray(z.textRemoved) && z.textRemoved.length >= 1 && z.textRemoved.every((t) => typeof t.before === 'string' && FT.test(t.before) && !FT.test(t.after || '')))) bad.push('⑤ 写しの ' + z.id + ' の textRemoved');
+        else nFt += z.textRemoved.length;
+      }
+      cases.push(`③ 凍結の写し(${F.fixtureVersion}・前の署名 ${fp ? fp.presetSigHash : '—'} → ${fp ? fp.presetSigHashNow : '—'}・過去の正本 ${(F.pastCanons || []).length}・走査 ${rows.length} 行)/ ④ 状況 ${s1.objective} / ⑤ 実在天体でない 5 本の説明の欄の f の記述 0(消した文 ${nFt} —— 宣言は不変)`);
     } catch (e) { bad.push('例外: ' + String(e && e.message || e).slice(0, 160)); }
     add('preset.realMassF1325e', bad.length === 0,
       `**在位の実在天体の本の質量を観測の値(倍率 1)へ**(第325便e・原仮定者の回答(2026-11-03 —— AN528)・R288 —— 🛞 の恒星の円盤だけ・ID は不変・実在天体でない本はそのまま): ${cases.join(' / ')}`

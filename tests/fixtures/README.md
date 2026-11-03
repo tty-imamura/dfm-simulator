@@ -112,6 +112,6 @@ lightSweep (f−1)/f・massCalibration の平均場台帳・massLedger.fDynamics
 
 - `presets.ngc3198DFM.raw` … 基点の `BUILTIN_PRESETS` の要素(JSON 写し)・`rawSrc` … html の文字の切り出し・`presetSigHash`(前)と `presetSigHashNow`(後)。
 - `measured` … 前後の測った値(QA `behavior.ngc3198` と同じ手続き —— t=40 の外縁帯の接線速度・最遠・kFrame=0 の対照・seed 7・t=0 の帯)。目的の判定は前後とも未達。
-- `nonReal` … 実在天体でない 5 本(🎇⚪🔘🎆🐮 —— 台帳 f=2 の原理の本)の宣言と署名(不変 —— 説明の欄に「旧則の宣言のまま」の 1 文を足しただけ)。
+- `nonReal` … 実在天体でない 5 本(🎇⚪🔘🎆🐮 —— 台帳 f=2 の原理の本)の宣言と署名(不変)と、説明の欄から消した質量の倍率 f の記述の前後 `textRemoved`(原仮定者の回答(2026-11-03 —— AN528)の追加「実在天体で無い場合は、「f」の記述は消す」)。
 - `scan` … 在位の本で質量の倍率を宣言する本の走査の表(実在天体か否かの根拠)。`pastCanons` … 🛞 を読む段の過去の正本の sha(基点の版)。
 - QA `preset.realMassF1325e` が、在位の本の倍率 ≠ 1 の集合 = `nonReal`・raw の署名の引き直し・今の 🛞 の宣言を照合する。
