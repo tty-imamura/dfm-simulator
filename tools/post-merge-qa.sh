@@ -580,7 +580,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.resume324d docs.satlong324d lint.regenS
 # ==== 第325便c の塊(ここから)====
 # 第325便c(原仮定者の指示(第127報)・統括の検証項目 R286): 枝 c の新設(docs.words325c —— 連鎖の玩具 5 本の説明の古い語・📟 の B の 139.4° の列・AN516 の数の訂正・文書)と、
 #   説明を読む生成表の QA(docs.sampleStatus-sync・preset.statusLedger-sync・docs.families)・本の文を読む behavior.obsSpin324b・docs.obsSpin324b・lint.qaHeapRelease310・lint.sectionLookup313・規約の速い判定の lint.conventionsCheck323
-DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.words325c docs.sampleStatus-sync preset.statusLedger-sync docs.families behavior.obsSpin324b docs.obsSpin324b lint.qaHeapRelease310 lint.sectionLookup313 lint.conventionsCheck323"
+#   AN526(📟 の A の傾きのノブ): behavior.j0737AxisKnob325c と、器と lib の版を上げた段 obsspin-324b の lint 一式(lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・lint.canon304・lint.harnessSmoke303)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.words325c behavior.j0737AxisKnob325c docs.sampleStatus-sync preset.statusLedger-sync docs.families behavior.obsSpin324b docs.obsSpin324b lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.harnessSmoke303 lint.qaHeapRelease310 lint.sectionLookup313 lint.conventionsCheck323"
 # ==== 第325便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====

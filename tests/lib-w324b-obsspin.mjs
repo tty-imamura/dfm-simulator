@@ -14,9 +14,12 @@
 // ■ 第324便e(原仮定者の回答(2026-11-02 —— AN521)「連星は、自転軸の傾きが観測または推定されている天体を優先する。自転軸の傾きが不明な場合は、ノブとする」・
 //   統括の検証項目 R283)で版 2 へ: 📟 の軸を obsSpin.axis の傾きの形(A = 推定の傾き 0°・B = 推定の傾き 40.6°・方位と B の角の読みはノブ)・🔸 を obsSpin の経路
 //   (軸はノブ —— 既定 0°)へ。受理・拒否の表に傾きの形の場合を足し、列に欠測の写し(miss —— 版 1 の本の形)・ノブを振った列・推定の上限の列・前の版の 🔸 の宣言(kJ)を足した。
+// ■ 第325便c(原仮定者の回答(2026-11-03 —— AN526)・統括の検証項目 R286)で版 3 へ: 📟 の A の傾きをノブに(既定 0°・範囲 0〜3.2° —— 3.2° は二つの磁極の放射を仮定した
+//   模型の 95% の上限で、0° の中央推定ではない・範囲は探索の範囲)。A の欄から組む推定の場合(tiltUpper・tiltLevel・estRange)は推定の傾きの形を明示して組む
+//   (本の A がノブになっても同じ規則〔推定の不確かさ・ノブの鍵との同居〕を試す)・列 A32 はノブの範囲の上端の列(knobOf)・B の sense −1 は角を反転した模型の感度の列。
 import * as L from './lib-w321b-geo3bin.mjs';
 
-export const LIB_VERSION = 'w324e-obsspin-lib-2';
+export const LIB_VERSION = 'w325c-obsspin-lib-3';
 const clone = (x) => JSON.parse(JSON.stringify(x));
 
 /* ───────── ① 内蔵にした 2 本 ───────── */
@@ -40,7 +43,7 @@ export const J0737_SPIN = Object.freeze({
 /** 第324便e(AN521): 本の軸の宣言の期待(傾きの形の成分の basis —— 観測/推定/ノブ)と、ノブの既定と範囲 */
 export const AXIS_EXPECT = Object.freeze({
   j0737: Object.freeze([
-    Object.freeze({ tiltDeg: Object.freeze({ basis: 'estimated', deg: 0, upperDeg: 3.2, level: 95 }), azimuthDeg: Object.freeze({ basis: 'knob', deg: 0, default: 0, min: 0, max: 360 }) }),
+    Object.freeze({ tiltDeg: Object.freeze({ basis: 'knob', deg: 0, default: 0, min: 0, max: 3.2 }), azimuthDeg: Object.freeze({ basis: 'knob', deg: 0, default: 0, min: 0, max: 360 }) }),   // 第325便c(AN526): A の傾きはノブ
     Object.freeze({ tiltDeg: Object.freeze({ basis: 'estimated', deg: 40.6, sigmaDeg: 0.1 }), azimuthDeg: Object.freeze({ basis: 'knob', deg: 0, default: 0, min: 0, max: 360 }), sense: Object.freeze({ basis: 'knob', sign: 1, default: 1, min: -1, max: 1 }) })]),
   acen: Object.freeze([
     Object.freeze({ tiltDeg: Object.freeze({ basis: 'knob', deg: 0, default: 0, min: 0, max: 180 }), azimuthDeg: Object.freeze({ basis: 'knob', deg: 0, default: 0, min: 0, max: 360 }) }),
@@ -165,11 +168,11 @@ export function caseOf(book, key, find) {
     case 'knobOut': a.axis.azimuthDeg.deg = -10; break;
     case 'knobMinMax': a.axis.azimuthDeg.min = 360; a.axis.azimuthDeg.max = 0; break;
     case 'knobSigma': a.axis.azimuthDeg.sigmaDeg = 1; break;
-    case 'estRange': Object.assign(a.axis.tiltDeg, { default: 0, min: 0, max: 3.2 }); break;
+    case 'estRange': a.axis.tiltDeg = { deg: 0, basis: 'estimated', upperDeg: 3.2, level: 95, default: 0, min: 0, max: 3.2 }; break;   // 第325便c: 推定の形を明示(本の A はノブ)
     case 'basisBad': a.axis.tiltDeg.basis = 'assumed'; break;
     case 'tiltRange': a.axis.tiltDeg = { deg: 190, basis: 'estimated' }; break;
-    case 'tiltUpper': a.axis.tiltDeg.deg = 5; break;
-    case 'tiltLevel': a.axis.tiltDeg.level = 120; break;
+    case 'tiltUpper': a.axis.tiltDeg = { deg: 5, basis: 'estimated', upperDeg: 3.2, level: 95 }; break;   // 第325便c: 推定の形を明示(本の A はノブ)
+    case 'tiltLevel': a.axis.tiltDeg = { deg: 0, basis: 'estimated', upperDeg: 3.2, level: 120 }; break;
     case 'noAz': delete a.axis.azimuthDeg; break;
     case 'noTilt': delete a.axis.tiltDeg; break;
     case 'axisKey': a.axis.foo = 1; break;
@@ -192,7 +195,7 @@ export function caseOf(book, key, find) {
 /** 列の表。sys: j0737 | acen。make(find) は id → 本(器が HP.allPresets().find で引いて渡す)から写しを組む */
 export const COLS = Object.freeze({
   j0737: Object.freeze({
-    self: '内蔵の本(A = 推定の傾き 0°・B = 推定の傾き 40.6° —— 方位と B の角の読みはノブの既定)',
+    self: '内蔵の本(A = 傾きのノブの既定 0°・B = 推定の傾き 40.6° —— 方位と B の角の向きはノブの既定)',
     tr: '第321便b の兄弟の写しの列 tr(並進だけ —— 📻 から)',
     off: 'OFF(本の abBody の physicsPatch —— 引きずりと G_loc を切る)',
     g1: 'geo1 の参照(📻 psrDoubleAB そのもの —— 二次元)',
@@ -201,9 +204,9 @@ export const COLS = Object.freeze({
     JAm: 'A だけの向きを反転(A の axis −z —— 符号の対照・B は欠測)',
     JAvec: 'A だけを kind "J"・Jvec(JA と同じ J のベクトル —— R_src = R_d の形)',
     JAB: '本の軸を配列の形で(A [0,0,1]・B [sin 40.6°, 0, cos 40.6°] —— 傾きの形と同じ向き)',
-    Bm: 'B の角の読みのノブ −1(139.4°)',
+    Bm: 'B の角の向きのノブ −1(139.4° —— 角を反転した模型の感度の列)',
     Baz90: 'B の方位のノブ 90°', Baz180: 'B の方位のノブ 180°', Baz270: 'B の方位のノブ 270°',
-    A32: 'A の推定の傾きを上限 3.2°(95% —— 方位 0°)に置いた列(推定の幅の感度 —— ノブではない)',
+    A32: 'A の傾きのノブを範囲の上端 3.2°(95% の上限 —— 方位 0°)に置いた列(ノブの範囲の端の感度)',
     Aaz90: 'A の方位のノブ 90°(傾き 0° では向きは同じ —— ビット同一の対照)' }),
   acen: Object.freeze({
     self: '内蔵の本 🔸(obsSpin —— fSrc 0.07・軸はノブの既定 0°)',
@@ -238,7 +241,7 @@ export function colBook(sys, col, find) {
     if (col === 'Baz90') return tag(knobOf(book, 1, 'azimuthDeg', 90));
     if (col === 'Baz180') return tag(knobOf(book, 1, 'azimuthDeg', 180));
     if (col === 'Baz270') return tag(knobOf(book, 1, 'azimuthDeg', 270));
-    if (col === 'A32') { book.bodies[0].obsSpin.axis.tiltDeg.deg = J0737_SPIN.axisA.upper95Deg; return tag(book); }
+    if (col === 'A32') return tag(knobOf(book, 0, 'tiltDeg', J0737_SPIN.axisA.upper95Deg));   // 第325便c(AN526): ノブの範囲の上端(値は版 2 の列と同じ 3.2°)
     if (col === 'Aaz90') return tag(knobOf(book, 0, 'azimuthDeg', 90));
   } else {
     const book = clone(find('alphaCenABInertial3dJ')), tr = clone(find('alphaCenABInertial3d')), tag = (b) => { b.id = book.id + '__w324e-' + col; return b; };
@@ -266,4 +269,4 @@ export const BASE_OF = Object.freeze({ j0737: 'psrDoubleABInertial3d', acen: 'al
 /* ───────── ④ 言わないこと ───────── */
 export const NOT_CLAIM = Object.freeze(['観測の J を源の自転を計算したと書かない(固定の外部の貯蔵庫 —— 源の自転の進化と歳差は扱わない)', 'f・fSrc を観測された構造係数と呼ばない(模型の入力)',
   '連星の観測との照合ではない(同じ初期状態・同じ窓の写しどうしの差)', '近点の移動の原因を述べない', 'h・h/2・h/4 を収束の判定に使わない(刻みの感度診断)',
-  'ノブの値を観測と呼ばない・推定の傾きを観測の軸と呼ばない(推定・ノブ・観測を文で混ぜない)', '器の中の列(ノブを振った列・推定の上限の列・欠測の写し)を本の既定と呼ばない', '文献の値は一次資料に当たっていない']);
+  'ノブの値を観測と呼ばない・推定の傾きを観測の軸と呼ばない(推定・ノブ・観測を文で混ぜない)', '器の中の列(ノブを振った列・ノブの範囲の端の列・欠測の写し)を本の既定と呼ばない', '文献の値は一次資料に当たっていない']);

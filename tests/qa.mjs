@@ -93148,7 +93148,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (!(cz('book').used === true && cz('axisA').used === true && cz('metaOnly').used === false && cz('Jnull').used === false)) bad.push('① 源に使うのは軸があり源の経路を宣言した場合だけ(本は傾きの形で源 —— 第324便e)');
       // 第324便e(AN521): 傾きの形 —— A の推定の傾き 0° は +z・方位のノブは傾き 0° で向きに効かず署名は変わる・推定の sense −1 は −z(sin π の丸めの内)・成分の basis が読み口に残る
       { const b0 = cz('book'), az = cz('tiltAz90'), se = cz('senseEst'), ob = cz('tiltObs');
-        if (JSON.stringify(b0.axisRes) !== '[0,0,1]' || JSON.stringify(b0.basis) !== '{"tiltDeg":"estimated","azimuthDeg":"knob"}') bad.push('① 本の A の向き・basis: ' + JSON.stringify([b0.axisRes, b0.basis]));
+        const bA325c = JSON.stringify({ tiltDeg: O.AXIS_EXPECT.j0737[0].tiltDeg.basis, azimuthDeg: O.AXIS_EXPECT.j0737[0].azimuthDeg.basis });   // 第325便c(AN526): A の basis は lib の AXIS_EXPECT から(版 3 は傾きもノブ)
+        if (JSON.stringify(b0.axisRes) !== '[0,0,1]' || JSON.stringify(b0.basis) !== bA325c) bad.push('① 本の A の向き・basis: ' + JSON.stringify([b0.axisRes, b0.basis]));
         if (!(JSON.stringify(az.axisRes) === JSON.stringify(b0.axisRes) && az.sig !== b0.sig)) bad.push('① 方位のノブ 90° の写し(傾き 0° で同じ向き・署名は別)');
         if (!(Array.isArray(se.axisRes) && Math.hypot(se.axisRes[0], se.axisRes[1], se.axisRes[2] + 1) < 1e-15)) bad.push('① sense −1 の向き ' + JSON.stringify(se.axisRes));
         if (JSON.stringify(ob.basis) !== '{"tiltDeg":"observed","azimuthDeg":"knob"}') bad.push('① 観測の傾きの basis'); }
@@ -93269,12 +93270,16 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         else {
           if (!(i7 > e0 && eD >= 0 && eD < e0 && (eT < 0 || e0 < eT))) bad.push('③ PHYSICS〔第324便e〕が〔第324便d〕の後・〔第324便 — 統括〕の前・「## 7.」の前に無い');
           const rows = D.physicsTablesObsSpin(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'));
-          let nMiss = 0; for (const r of rows) if (secE.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('③ PHYSICS〔第324便e〕の表に行が無い: ' + r.slice(0, 70)); }
-          const nums = D.docNumbersObsSpin(J), missN = nums.filter((x) => secE.indexOf(x) < 0); if (missN.length) bad.push('③ PHYSICS〔第324便e〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+          // 第325便c(原仮定者の回答(2026-11-03 —— AN526)): 版 3 の正本(📟 の A の傾きはノブ)の表は〔第324便e〕の表に〔第325便c〕の表(変わった行)を足した所で照合する(〔第324便e〕の本文は書き換えない)
+          const c325 = PH.indexOf('〔第325便c — '), c325e = PH.indexOf('\n〔第', c325 + 10), secC325 = (c325 >= 0 && J.libVersion === 'w325c-obsspin-lib-3') ? PH.slice(c325, (c325e > c325 && (i7 < 0 || c325e < i7)) ? c325e : (i7 > c325 ? i7 : undefined)) : '';
+          const secTab = secE + (secC325 ? '\n' + secC325 : '');
+          if (J.libVersion === 'w325c-obsspin-lib-3' && !secC325) bad.push('③ 版 3 の正本の表の置き場 PHYSICS〔第325便c〕が無い');
+          let nMiss = 0; for (const r of rows) if (secTab.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('③ PHYSICS〔第324便e〕の表に行が無い: ' + r.slice(0, 70)); }
+          const nums = D.docNumbersObsSpin(J), missN = nums.filter((x) => secTab.indexOf(x) < 0); if (missN.length) bad.push('③ PHYSICS〔第324便e〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
           for (const w of ['R283', 'AN521', 'AN515', 'orbitNormal', 'tiltDeg', 'azimuthDeg', 'sense', 'basis', '"knob"', '"estimated"', '"observed"', 'knobsOf', 'withKnob', '推定', 'ノブ', '欠測',
             'exp-w324b-obsspin.mjs', 'obsspin-w324b.json', 'behavior.obsSpin324b', 'docs.obsSpin324b', 'psrDoubleABInertial3d', 'alphaCenABInertial3dJ', '固定の外部の貯蔵庫', '刻みの感度診断', '言わないこと', '決断事項の候補', '文献の値', 'fSrc は変えない'])
             if (secE.indexOf(w) < 0) bad.push('③ PHYSICS〔第324便e〕に「' + w + '」が無い');
-          cases.push(`③ PHYSICS〔第324便e〕の表 ${rows.length} 行と数 ${nums.length} 個が逐語・必須の語(〔第324便b〕は語と位置 —— 表は版 1 の履歴)`);
+          cases.push(`③ PHYSICS〔第324便e〕${secC325 ? '+〔第325便c〕(版 3 の変わった行)' : ''}の表 ${rows.length} 行と数 ${nums.length} 個が逐語・必須の語(〔第324便b〕は語と位置 —— 表は版 1 の履歴)`);
         }
         // ④
         { const ai = AS.indexOf('## 172.'); if (ai < 0) bad.push('AI_SPEC に §172 が無い');
@@ -94094,6 +94099,72 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   cases.push(`③ PHYSICS〔第325便c〕${sec.length} 字(① の表・② ・AN516 の数の訂正 3 か所・作業記録の数 0/2 便)・第324便e の節の追記・AI_SPEC §178・CHANGELOG・post-merge の ③′・書かない語・禁句・裸の係数記号なし`);
   add('docs.words325c', bad.length === 0,
     `**連鎖の玩具 5 本の説明の古い語と 📟 の B の 139.4° の列と AN516 の数の訂正**(第325便c・原仮定者の指示(第127報)・R286 —— 説明の欄だけ・物理の欄は不変): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ---- 第325便c(原仮定者の回答(2026-11-03 —— AN526)・原仮定者の回答(2026-11-02 —— AN521)「自転軸の傾きが不明な場合は、ノブとする」・統括の検証項目 R286):
+// ----   behavior.j0737AxisKnob325c(beta だけ —— html の HP.obsSpin の傾きの形〔w324e-obsspin-2〕の世代)
+// ----   ① 📟 の A の傾きはノブ(既定 0°・範囲 0〜3.2° —— 受理器の規則は第324便e のまま)・ノブの一覧に A の傾き・B は推定 40.6°(±0.1°)と角の向きのノブ(既定 +1)・B の sense の注は
+// ----      反転した模型の感度の列 ② 10 步: 本(ノブの既定 0°)の状態は A を版 2 の推定の形(0°・上限 3.2°・95%)に戻した写しとビット同一・署名は違う ③ withKnob(A の傾き 3.2°)は受理・
+// ----      向きは軌道の法線から 3.2° ・10 步の状態は既定と違う / 範囲の外 3.3° は withKnob が拒否・宣言の値 3.3°(範囲 0〜3.2)は受理器が拒否(ノブの理由)・範囲を 0〜5° に広げた宣言の
+// ----      4° は受理(範囲は宣言の探索の範囲 —— 物理として禁じない)④ 本の文: A は傾きのノブ・中央推定ではない(ja・en)・推定の傾き 0° と書かない ⑤ 文書: PHYSICS〔第325便c〕の ④ と表の行
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const H325 = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
+  if (!(TARGET.startsWith('beta/') && H325.indexOf('const OBS_SPIN_KEY="obsSpin", OBS_SPIN_VERSION="w324e-obsspin-2"') >= 0)) {
+    console.log('SKIP behavior.j0737AxisKnob325c(第324便e の傾きの形の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const bad = [], cases = [];
+  let R = null;
+  try {
+    R = await page.evaluate(() => {
+      const C = (x) => JSON.parse(JSON.stringify(x)), p = HP.allPresets().find((q) => q.id === 'psrDoubleABInertial3d');
+      if (!p) return { err: '📟 が内蔵に無い' };
+      const o = { axA: C(p.bodies[0].obsSpin.axis), axB: C(p.bodies[1].obsSpin.axis), knobs: HP.obsSpin.knobsOf(C(p)).map((k) => [k.body, k.comp, k.value, k.default, k.min, k.max, k.unit]) };
+      const run = (pre, n) => { const v = HP.validatePreset(C(pre)); if (!v.ok) return { ok: false, err: String((v.errors || [])[0] || '').slice(0, 160) };
+        const S = HP.coord3d.makeSim(); S.build(C(v.preset)); const st = HP.obsSpin.state(S), ax0 = st ? st.rows.find((z) => z.i === 0).axis : null;
+        for (let i = 0; i < n; i++) S.step(pre.physics.stepDt);
+        return { ok: true, sig: HP.presetSig(C(pre)), ax0, st: JSON.stringify([Array.from(S.x), Array.from(S.y), Array.from(S.z), Array.from(S.vx), Array.from(S.vy), Array.from(S.vz)]), nan: !S.x.every(Number.isFinite) }; };
+      const old = C(p); old.bodies[0].obsSpin.axis.tiltDeg = { deg: 0, basis: 'estimated', upperDeg: 3.2, level: 95, note: '版 2 の推定の形(上限の内の整列)' };
+      o.book = run(p, 10); o.old = run(old, 10);
+      const w32 = HP.obsSpin.withKnob(C(p), 0, 'tiltDeg', 3.2); o.w32ok = w32.ok === true; o.w32 = w32.ok ? run(w32.preset, 10) : null;
+      o.w33 = HP.obsSpin.withKnob(C(p), 0, 'tiltDeg', 3.3).ok;
+      const d33 = C(p); d33.bodies[0].obsSpin.axis.tiltDeg.deg = 3.3; o.d33 = run(d33, 0);
+      const wide = C(p); Object.assign(wide.bodies[0].obsSpin.axis.tiltDeg, { max: 5, deg: 4 }); o.wide = run(wide, 0);
+      o.txt = { ja: [p.descStruct.summary].concat((p.obsCard || []).map((z) => z.model + ' ' + z.obs)).join('\n'), en: [p.en.descStruct.summary].concat((p.en.obsCard || []).map((z) => z.model + ' ' + z.obs)).join('\n') };
+      return o;
+    });
+  } catch (e) { R = { err: String(e).slice(0, 160) }; }
+  if (R.err) bad.push('ページ: ' + R.err);
+  else {
+    const tA = R.axA.tiltDeg || {}, sB = R.axB.sense || {}, tB = R.axB.tiltDeg || {};
+    if (!(tA.basis === 'knob' && tA.deg === 0 && tA.default === 0 && tA.min === 0 && tA.max === 3.2 && tA.upperDeg === undefined && tA.level === undefined && /中央推定ではない/.test(tA.note || ''))) bad.push('① A の傾きがノブ(既定 0°・範囲 0〜3.2°)でない: ' + JSON.stringify(tA).slice(0, 120));
+    if (!(tB.basis === 'estimated' && tB.deg === 40.6 && tB.sigmaDeg === 0.1 && sB.basis === 'knob' && sB.sign === 1 && sB.default === 1 && /反転した模型の感度の列/.test(sB.note || '') && !/二通り/.test(sB.note || ''))) bad.push('① B の宣言(推定 40.6°・角の向きのノブの既定 +1・注)');
+    const KX = JSON.stringify([[0, 'tiltDeg', 0, 0, 0, 3.2, 'deg'], [0, 'azimuthDeg', 0, 0, 0, 360, 'deg'], [1, 'azimuthDeg', 0, 0, 0, 360, 'deg'], [1, 'sense', 1, 1, -1, 1, 'sign']]);
+    if (JSON.stringify(R.knobs) !== KX) bad.push('① ノブの一覧: ' + JSON.stringify(R.knobs));
+    cases.push('① A の傾きはノブ(既定 0°・範囲 0〜3.2° —— 不確かさの鍵なし)・ノブの一覧 4(A の傾き・方位・B の方位・角の向き)・B は推定 40.6°(±0.1°)と角の向きの既定 +1(注は反転した模型の感度の列)');
+    if (!(R.book.ok && R.old.ok && R.book.st === R.old.st && R.book.sig !== R.old.sig && !R.book.nan && JSON.stringify(R.book.ax0) === '[0,0,1]')) bad.push('② 10 步: 本が版 2 の推定の形とビット同一でないか署名が同じ');
+    cases.push('② 10 步: ノブの既定 0° の本 = 版 2 の推定の形の写し(状態のビット同一 —— 力学の値は既定で同じ)・署名は違う(分類が変わった)・A の向き +z');
+    const c32 = R.w32 && R.w32.ax0 ? R.w32.ax0[2] : NaN;
+    if (!(R.w32ok && R.w32 && R.w32.ok && Math.abs(c32 - Math.cos(3.2 * Math.PI / 180)) < 1e-12 && R.w32.st !== R.book.st)) bad.push('③ withKnob(A の傾き 3.2°)の受理・向き・状態');
+    if (R.w33 !== false) bad.push('③ withKnob(A の傾き 3.3° —— 範囲の外)を受けた');
+    if (!(R.d33.ok === false && /obsSpin\.axis\.tiltDeg はノブ/.test(R.d33.err))) bad.push('③ 宣言の値 3.3°(範囲 0〜3.2)を受理器が拒否しない: ' + JSON.stringify(R.d33).slice(0, 120));
+    if (R.wide.ok !== true) bad.push('③ 範囲を 0〜5° に広げた宣言の 4° を受理しない(範囲は宣言の探索の範囲)');
+    cases.push(`③ withKnob 3.2° は受理(向きの z = cos 3.2° —— ${Number.isFinite(c32) ? c32.toFixed(6) : '?'}・状態は既定と違う)・3.3° は withKnob が拒否・宣言の 3.3° は受理器がノブの理由で拒否・範囲を広げた宣言の 4° は受理`);
+    const ja = R.txt.ja, en = R.txt.en;
+    if (!(/傾きをノブ\(既定 0°・範囲 0〜3\.2°/.test(ja) && /中央推定ではない/.test(ja) && /not a central estimate/.test(en) && /range 0-3\.2 deg/.test(en))) bad.push('④ 📟 の文に A の傾きのノブ・中央推定ではない(ja・en)が無い');
+    if (/A は推定の傾き 0°|推定から傾き 0°|A estimated tilt 0 deg|A takes tilt 0 deg/.test(ja + '\n' + en)) bad.push('④ 📟 の文に A を推定の傾き 0° と書いた文が残る');
+    cases.push('④ 📟 の文: A は傾きのノブ(既定 0°・範囲 0〜3.2°)・3.2° は 95% の上限で中央推定ではない(ja・en)');
+  }
+  const PH = (() => { try { return fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'); } catch (e) { return ''; } })();
+  const i7 = PH.indexOf('\n## 7. 論文'), c0 = PH.indexOf('〔第325便c — '), c1 = PH.indexOf('\n〔第', c0 + 10);
+  const sec = c0 >= 0 ? PH.slice(c0, (c1 > c0 && (i7 < 0 || c1 < i7)) ? c1 : (i7 > c0 ? i7 : undefined)) : '';
+  for (const w of ['AN526', '原仮定者の回答(2026-11-03 —— AN526)', 'AN521', '既定 0°・範囲 0〜3.2°', '中央推定ではない', 'w325c-obsspin-3', 'w325c-obsspin-lib-3', 'behavior.j0737AxisKnob325c', '| 📟 A | 0°(ノブ —— 既定 0°・範囲 0〜3.2°) |'])
+    if (sec.indexOf(w) < 0) bad.push('⑤ PHYSICS〔第325便c〕に「' + w + '」が無い');
+  cases.push('⑤ PHYSICS〔第325便c〕の ④(AN526・版 w325c-obsspin-3・表 3 の 📟 A の行)');
+  add('behavior.j0737AxisKnob325c', bad.length === 0,
+    `**J0737 A の自転軸の傾きのノブ**(第325便c・原仮定者の回答(2026-11-03 —— AN526)・R286 —— 受理器の規則は不変・力学の値は既定で同じ・変わるのは分類と署名): ${cases.join(' / ')}`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   })();   // 第310便c(heap)
 }
