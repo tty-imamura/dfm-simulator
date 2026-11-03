@@ -104,3 +104,14 @@ vMode virial・既定の接触ばね —— は第284便a で 1 bit も変えて
   QA `docs.retired` ④ が内蔵と 200 步の状態のビット一致を、`preset.unifyTable` ④ が署名と対の差を照合する。
 - `dfmcal-w288b.json` の `superseded.<id>.raw` … 基点 940dba52 の在位移行 10 本の定義(旧宣言 —— **現行の根拠ではない**)。`diffToNow` は移行後との差の鍵(9 本は physics.geoPN・physics.kFrame だけ)。
   QA `preset.unifyTable` ④ が「旧宣言に移行後の 2 値だけを当てると内蔵と署名・200 步がビット一致」(9 本)と ⏰ の f=1 を照合する。
+
+## realmass-w325e.json(第325便e —— 原仮定者の回答(2026-11-03 —— AN528)「実在天体なら、f=1に質量を修正。実在天体で無いならそのまま採用」・統括の検証項目 R288)
+
+在位の実在天体の本 🛞 `ngc3198DFM`(NGC 3198)の**前の宣言**(基点 4b9c712 —— 恒星の円盤の 1 粒に旧則の平均場 χ-law の倍率 f = 1.9997320796514568 を掛けた 3.7994909513377677 単位・
+lightSweep (f−1)/f・massCalibration の平均場台帳・massLedger.fDynamics)の凍結資産。**書き換えない**。ID は変えずに、恒星の円盤の 1 粒を観測の転写 1.9 単位(🌃 と同じ)へ戻した。
+
+- `presets.ngc3198DFM.raw` … 基点の `BUILTIN_PRESETS` の要素(JSON 写し)・`rawSrc` … html の文字の切り出し・`presetSigHash`(前)と `presetSigHashNow`(後)。
+- `measured` … 前後の測った値(QA `behavior.ngc3198` と同じ手続き —— t=40 の外縁帯の接線速度・最遠・kFrame=0 の対照・seed 7・t=0 の帯)。目的の判定は前後とも未達。
+- `nonReal` … 実在天体でない 5 本(🎇⚪🔘🎆🐮 —— 台帳 f=2 の原理の本)の宣言と署名(不変 —— 説明の欄に「旧則の宣言のまま」の 1 文を足しただけ)。
+- `scan` … 在位の本で質量の倍率を宣言する本の走査の表(実在天体か否かの根拠)。`pastCanons` … 🛞 を読む段の過去の正本の sha(基点の版)。
+- QA `preset.realMassF1325e` が、在位の本の倍率 ≠ 1 の集合 = `nonReal`・raw の署名の引き直し・今の 🛞 の宣言を照合する。

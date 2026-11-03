@@ -362,7 +362,10 @@ export function analogyRays(HP, H) {
 /** (D) 🛞 の f=1 台帳と旧 f★≈2 の台帳(履歴 —— 持ち越さない)・署名。 */
 export function ngcLedger(HP) {
   const pd = byId(HP, 'ngc3198DFM');
-  const g1 = LR.massGroupsFromPreset(pd), gOld = LR.massGroupsFromPreset(pd, { fLedger: pd.massCalibration.factorUniform });
+  // 第325便e(原仮定者の回答(2026-11-03 —— AN528)): 🛞 の massCalibration が f 固定形(law f-fixed-1 —— 恒星の倍率 1)の世代は、旧 f★≈2 の台帳(履歴)の f を
+  //   history.factorUniform(旧の平均場台帳 —— 凍結の写し tests/fixtures/realmass-w325e.json と同じ値)から読む(恒星の基準質量 starBase 380 は両世代で同じ)
+  const fOld = (pd.massCalibration.law === 'f-fixed-1') ? (pd.massCalibration.history || {}).factorUniform : pd.massCalibration.factorUniform;
+  const g1 = LR.massGroupsFromPreset(pd), gOld = LR.massGroupsFromPreset(pd, { fLedger: fOld });
   const l1 = LR.rotorLedger(g1), lOld = LR.rotorLedger(gOld);
   const noML = clone(pd); delete noML.massLedger;
   const ml = HP.validatePreset(clone(pd)).preset.massLedger;

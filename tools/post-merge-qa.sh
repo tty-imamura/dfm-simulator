@@ -605,6 +605,14 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.words325c behavior.j0737AxisKnob325c do
 #   PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickMutation325d lint.quickEnvWin325d lint.quickEnv325d lint.quickGate325d docs.w325d lint.regenQuick323 lint.quickBoundary324c lint.quickWindows323 docs.w323c lint.harnessSmoke303 lint.sectionLookup313 lint.qaHeapRelease310"
 # ==== 第325便d の塊(ここまで)====
+# ==== 第325便e の塊(ここから)====
+# 第325便e(原仮定者の回答(2026-11-03 —— AN528)「実在天体なら、f=1に質量を修正。実在天体で無いならそのまま採用」・統括の検証項目 R288): 枝 e の新設 1 ブロック
+#   (preset.realMassF1325e —— 在位の本の質量の倍率の宣言・🛞 の恒星の円盤の倍率 1・凍結の写し tests/fixtures/realmass-w325e.json / docs.realMassF1325e —— 文書)と、
+#   世代で直した QA(behavior.ngc3198 —— W5b・preset.massLedger・docs.rotorLedger)・🛞 を読む段の正本の QA(behavior.sparc10・behavior.galaxyStateBranch・docs.galaxyChain・
+#   behavior.chainLedger・preset.fieldContract・docs.analogyLedger・docs.galField321c)・説明の語の preset.sampleWords325b・behavior.claimEffort297・生成表の docs.sampleStatus-sync・
+#   preset.statusLedger-sync・docs.families・規約の速い判定の lint.conventionsCheck323・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.realMassF1325e docs.realMassF1325e behavior.ngc3198 preset.massLedger docs.rotorLedger behavior.sparc10 behavior.galaxyStateBranch docs.galaxyChain behavior.chainLedger preset.fieldContract docs.analogyLedger docs.galField321c preset.sampleWords325b behavior.claimEffort297 docs.sampleStatus-sync preset.statusLedger-sync docs.families lint.conventionsCheck323 lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第325便e の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

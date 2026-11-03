@@ -19738,13 +19738,16 @@ if (!FAST) {
         };
         return {
           ok: v.ok, warn: (v.warnings || []).filter((s) => /massLedger/.test(s)), ml, declared,
-          b: p.bodies, f: p.massCalibration.factorUniform,
+          // 第325便e(AN528): 🛞 が f 固定形(law "f-fixed-1")の世代は bodies の f = massCalibration.f(= 1)
+          b: p.bodies, f: (p.massCalibration.law === 'f-fixed-1') ? p.massCalibration.f : p.massCalibration.factorUniform, gen325e: p.massCalibration.law === 'f-fixed-1',
           sig: HP.presetSigHash(p), sigNo: HP.presetSigHash(noML),
           rej: {
             notObj: tryML('x'),
             inF: tryML((m) => { m.rotorInFStar = true; return m; }),
             // 第282便d: f★=1 では f★ を M_DR に掛けても値が変わらないので、二重加算の試験は**力学の f**(fDynamics)で作る
-            dbl: tryML((m) => { const f = (m.fDynamics !== undefined) ? m.fDynamics : m.fStar; m.rotorScenarios[0].totalUnit = f * (m.starBase + m.rotorScenarios[0].mRotorUnit) + m.gas + m.core; return m; }),
+            //   第325便e(AN528): fDynamics も 1 の世代は f を掛けても値が変わらないので、別集団を 2 回足した合計(M_DR の二重加算)で作る
+            dbl: tryML((m) => { const f = (m.fDynamics !== undefined) ? m.fDynamics : m.fStar;
+              m.rotorScenarios[0].totalUnit = (f === 1) ? (m.starBase + m.gas + m.core + 2 * m.rotorScenarios[0].mRotorUnit) : f * (m.starBase + m.rotorScenarios[0].mRotorUnit) + m.gas + m.core; return m; }),
             unk: tryML((m) => { m.foo = 1; return m; }),
             ds: tryML((m) => { m.defaultScenario = 5; return m; }),
             ds1: tryML((m) => { m.defaultScenario = 1; return m; }),
@@ -19796,13 +19799,14 @@ if (!FAST) {
       if (!r.hp) bad.push('HP.validateMassLedger / MASS_LEDGER_VERSION');
       // ⑤ 物理は不変: 署名は基点 53aaa64 の値のまま・台帳の有無・不正な台帳でも署名は同じ
       // 第286便b(AN59): 🛞 は cLight の真値化の本(一覧 tests/data-w286b-clight.json)—— 署名は世代で分ける(root/旧則 1a98b3d3・beta 67ef3d3d)
-      const SIG0 = C_TRUE_286B ? '67ef3d3d' : '1a98b3d3';   // 第297便c: 署名は時間の宣言を戻した写しで照合する(上の evaluate)
+      // 第325便e(AN528): 🛞 の恒星の倍率 1 の世代は bodies が変わった —— 署名は c36c550e(時間の宣言を戻した写し —— 凍結の写し tests/fixtures/realmass-w325e.json の後の署名)
+      const SIG0 = r.gen325e ? 'c36c550e' : (C_TRUE_286B ? '67ef3d3d' : '1a98b3d3');   // 第297便c: 署名は時間の宣言を戻した写しで照合する(上の evaluate)
       if (r.sig !== SIG0) bad.push(`⑤ presetSigHash ${r.sig} ≠ 基点 ${SIG0}`);
       if (r.sigNo !== r.sig || Object.values(j).some((x) => x.sig !== r.sig)) bad.push('⑤ massLedger が署名に入っている');
       add('preset.massLedger', bad.length === 0,
         `**🛞 の条件付き質量台帳の宣言**(第281便c・表示専用): 3 シナリオ ${ml ? ml.rotorScenarios.map((x) => x.mRotorSun + ' M☉→' + x.totalUnit.toFixed(1)).join(' / ') : '—'} 単位・`
         + `既定 ${ml ? ml.defaultScenario : '—'}(追加 0)・rotorInFStar ${ml ? ml.rotorInFStar : '—'}(f★ を掛けない別集団)・宣言は ${r.declared.length} 本・`
-        + `拒否 3 種と未知の鍵・既定の修正を確認・presetSigHash ${r.sig}(基点と同じ・台帳の有無で不変)`
+        + `拒否 3 種と未知の鍵・既定の修正を確認・presetSigHash ${r.sig}(${r.gen325e ? '第325便e の恒星の倍率 1 の署名' : '基点と同じ'}・台帳の有無で不変)`
         + (bad.length ? ` / **食い違い ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
     }
   }
@@ -19971,7 +19975,7 @@ if (!FAST) {
         } else if (!(A.rays.heavy.darkRotor === A.rays.heavy.nDR && A.rays.raysDiffering > 0)) bad.push('光線: 代表粒子が重い天体に入ること/質量 0 の写しとの差の記録');
         const N = J.ngc;
         if (!(N.fLedger === 1 && N.currentTotalUnit === 767.5 && N.declared.currentTotalUnit === 767.5 && N.declared.fStar === 1
-          && ['1a98b3d3', '67ef3d3d', '7fa984c'].includes(N.presetSigHash) && N.presetSigHashNoLedger === N.presetSigHash && /* 第286便b: 正本の世代で 1a98b3d3(c 丸め)か 67ef3d3d(c 真値)/ 第297便c: 時間の標準(timeScale 4・stepDt 0.032)の 7fa984c */ N.historyW281c.currentTotalUnit > 1147 && N.historyW281c.currentTotalUnit < 1148)) bad.push('🛞 の f=1 台帳・署名 ' + JSON.stringify({ f: N.fLedger, t: N.currentTotalUnit, s: N.presetSigHash }));
+          && ['1a98b3d3', '67ef3d3d', '7fa984c', '761fbca5'].includes(N.presetSigHash) && N.presetSigHashNoLedger === N.presetSigHash && /* 第286便b: 正本の世代で 1a98b3d3(c 丸め)か 67ef3d3d(c 真値)/ 第297便c: 時間の標準(timeScale 4・stepDt 0.032)の 7fa984c / 第325便e(AN528): 恒星の倍率 1 の 761fbca5 —— 旧 f★≈2 の台帳は history.factorUniform から */ N.historyW281c.currentTotalUnit > 1147 && N.historyW281c.currentTotalUnit < 1148)) bad.push('🛞 の f=1 台帳・署名 ' + JSON.stringify({ f: N.fLedger, t: N.currentTotalUnit, s: N.presetSigHash }));
         if (!(Array.isArray(J.references) && J.references.map((z) => z.key).join(',') === 'MOA-9y-5919,M31-2014-DS1,VASCO')) bad.push('参考 3 件の行');
         for (const k of ['ledger', 'curves', 'refs', 'ngc']) { const m = missRows(k); if (m.length) bad.push(`PHYSICS の表(${k})に無い行 ` + m.slice(0, 2).join(' ')); }
         const body = psec.split('**言わないこと。**')[0];
@@ -30273,6 +30277,9 @@ await w5bRun('tuc47', true); async function W5B_tuc47(page, add, fpRun, console)
 // ---- 第228便→第230便: behavior.ngc3198 — NGC 3198(🌃)+恒星 f≈2 hold-out(🛞)----
 // 🌃: NFW(自前 fit 宣言)で保持/ハロー除去で空(不変)。🛞(第230便): 恒星 f=1.99973 適用後も
 // 届かない(外縁 49 vs 150 km/s — 中心核相対で機械固定)・HI 非適用+gas 宣言・自由中心核・台帳一致
+// 第325便e(原仮定者の回答(2026-11-03 —— AN528)「実在天体なら、f=1に質量を修正」): 世代切替 = 🛞 の massCalibration が f 固定形(law "f-fixed-1")。
+//   その世代は宣言を「恒星の 1 粒 = 🌃 の 1 粒(ビット)・lightSweep なし・baseMass = 🌃 の 2 円盤の 1 粒・旧の平均場台帳は history(f = 2χ̄・mMin = 1.9f・
+//   lightSweep = (f−1)/f の三者一致)・台帳の fDynamics = 1」で照合する(窓は同じ —— 測った値は detail に出す: 外縁 vt 5.13・最遠 422)。root(旧世代)は前の照合のまま
 await w5bRun('ngc3198', true); async function W5B_ngc3198(page, add, fpRun, console) {
   const hasNgc = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'ngc3198'));
   if (hasNgc) {
@@ -30307,6 +30314,22 @@ await w5bRun('ngc3198', true); async function W5B_ngc3198(page, add, fpRun, cons
           && /自前2ノブ|rms 8\.2/.test(pd.parameterAudit.fitted[0]); })();
       const decl = (() => { const pd = HP.allPresets().find((q) => q.id === 'ngc3198DFM');
         const mc = pd.massCalibration || {}; const f = mc.factorUniform || 0;
+        const po = HP.allPresets().find((q) => q.id === 'ngc3198');
+        if (mc.law === 'f-fixed-1') {   // 第325便e(AN528): 恒星の倍率 1 の世代
+          const h = mc.history || {}, hf = h.factorUniform;
+          return { f1: mc.f === 1, gen325e: true,
+            base: Array.isArray(mc.baseMass) && mc.baseMass.length === 2 && mc.baseMass[0] === po.bodies[0].mMin && mc.baseMass[1] === po.bodies[1].mMin,
+            starObs: pd.bodies[0].mMin === po.bodies[0].mMin && pd.bodies[0].mMax === po.bodies[0].mMax && pd.bodies[0].n === po.bodies[0].n,
+            lswGone: pd.bodies[0].lightSweep === undefined,
+            hist: h.law === 'chi-law-v1-meanfield' && h.C === 1 && typeof hf === 'number' && Math.abs(2 * h.meanChi - hf) < 1e-12
+              && Math.abs(h.mMin / 1.9 - hf) < 1e-12 && Math.abs(h.lightSweep - (hf - 1) / hf) < 1e-12,
+            ledgerF1: !!pd.massLedger && pd.massLedger.fStar === 1 && pd.massLedger.fDynamics === 1,
+            hiUnscaled: pd.bodies[1].mMin === 2.875 && pd.bodies[1].lightSweep === undefined,
+            hiGas: pd.bodies[1].shell === 'gas',
+            freeCenter: pd.bodies[2].pinned === false && pd.balanceFrame === 'barycentric',
+            enclosed: pd.bodies[0].vMode === 'enclosed' && pd.bodies[1].vMode === 'enclosed' && pd.bodies[0].vScale === 1,
+            seedShared: pd.seed === po.seed };
+        }
         return { law: mc.law === 'chi-law-v1-meanfield', C: mc.C === 1,
           fOK: Math.abs(pd.bodies[0].mMin / 1.9 - f) < 1e-12,
           lswOK: Math.abs(pd.bodies[0].lightSweep - (f - 1) / f) < 1e-12,
@@ -30332,7 +30355,9 @@ await w5bRun('ngc3198', true); async function W5B_ngc3198(page, add, fpRun, cons
       && !ng.noH.nan,
       `🌃(NFW=自前 fit 宣言=${ng.fitDecl}): vt ${ng.obs.vt === null ? '—' : ng.obs.vt.toFixed(2)}(128 km/s)・最遠 ${ng.obs.rmax.toFixed(0)} / `
       + `ハロー除去: 外縁 ${ng.noH.nOuter} 粒・最遠 ${ng.noH.rmax.toFixed(0)}(飛散) / `
-      + `🛞(恒星 f=1.99973・C=1・HI 非適用・台帳一致=${dOK}): enclosed 初期化・中心核相対 vt ${ng.dfm.vt === null ? '—' : ng.dfm.vt.toFixed(2)}(55 km/s — **f=2・平衡初期化でも届かない hold-out の機械固定**)・最遠 ${ng.dfm.rmax.toFixed(0)}・中心核反跳 ${ng.dfm.cDisp.toFixed(1)}・gas 粒 ${ng.dfm.gasN}・決定性=${ng.det}`);
+      + (ng.decl.gen325e
+        ? `🛞(第325便e —— 恒星の倍率 1〔観測の転写・f 固定形・旧の平均場台帳は history〕・宣言の照合=${dOK}): enclosed 初期化・中心核相対 vt ${ng.dfm.vt === null ? '—' : ng.dfm.vt.toFixed(2)}(記録 5.13 —— 観測 150 km/s に未達の hold-out の機械固定)・最遠 ${ng.dfm.rmax.toFixed(0)}(記録 422)・中心核反跳 ${ng.dfm.cDisp.toFixed(1)}・gas 粒 ${ng.dfm.gasN}・決定性=${ng.det}`
+        : `🛞(恒星 f=1.99973・C=1・HI 非適用・台帳一致=${dOK}): enclosed 初期化・中心核相対 vt ${ng.dfm.vt === null ? '—' : ng.dfm.vt.toFixed(2)}(55 km/s — **f=2・平衡初期化でも届かない hold-out の機械固定**)・最遠 ${ng.dfm.rmax.toFixed(0)}・中心核反跳 ${ng.dfm.cDisp.toFixed(1)}・gas 粒 ${ng.dfm.gasN}・決定性=${ng.det}`));
   } else {
     console.log('SKIP behavior.ngc3198(対象に第228便の 🌃 なし — root 等)');
   }
@@ -94373,6 +94398,146 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第325便d の塊(ここまで)====
+// ==== 第325便e の塊(ここから —— preset.realMassF1325e・docs.realMassF1325e の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第325便e(原仮定者の回答(2026-11-03 —— AN528)「実在天体なら、f=1に質量を修正。実在天体で無いならそのまま採用」・原仮定者の指示(第127報)
+// ----   「観測質量補正の「f」も、今は使っていない」・統括の検証項目 R288): **在位の実在天体の本の質量を観測の値(倍率 1)へ** —— 🛞 ngc3198DFM の恒星の円盤
+// ----   (ID は不変)・実在天体でない本(🎇⚪🔘🎆🐮 —— 台帳 f=2 の原理の本)の宣言はそのまま。beta 線だけ(root は SKIP —— root の 🛞 は前の宣言)。
+// ----   ① preset.realMassF1325e …… 在位の本で質量の倍率の宣言(massCalibration の f・factor・factorUniform と massLedger.fDynamics)が 1 でない本の集合が凍結の写しの
+// ----      実在天体でない 5 本と同じ(名指し —— 新しい本が倍率を宣言したら落ちる)・5 本の宣言(説明の欄を外して)と署名が写しと同じ /
+// ----      🛞: f 固定形(law f-fixed-1・f=1)・baseMass = 🌃 の 2 円盤の 1 粒・恒星の 1 粒 = 🌃 の 1 粒(ビット)・lightSweep なし・台帳の fStar = fDynamics = 1・
+// ----      恒星の総質量 = 台帳の starBase・history = 写しの前の台帳 / 凍結の写し tests/fixtures/realmass-w325e.json の形(版・frozen・前の定義 raw の署名を今の html で
+// ----      引き直すと写しの署名・今の 🛞 の署名 = 写しの後の署名・raw は今の受理器で受理される・基点 4b9c712・過去の正本の sha・走査の表)
+// ----   ② docs.realMassF1325e …… PHYSICS〔第325便e〕(〔第325便d〕の後・〔第325便 — 統括〕の前・「## 7.」の前)に走査の表と前後の測った値(写しの数を丸めて)・
+// ----      AI_SPEC §180・CHANGELOG の第325便e の行(AN528)・tests/fixtures/README の項・post-merge の ③′・書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rd325e = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP preset.realMassF1325e・docs.realMassF1325e(beta 対象でない: ' + TARGET + ' —— 実在天体の本の質量の倍率 1 は beta 線)');
+    return;
+  }
+  let FX325e = null;
+  try { FX325e = JSON.parse(rd325e('tests/fixtures/realmass-w325e.json')); } catch (e) { FX325e = null; }
+  // ---- preset.realMassF1325e
+  {
+    const bad = [], cases = [];
+    try {
+      if (!FX325e) throw new Error('凍結の写し tests/fixtures/realmass-w325e.json が読めない');
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const H = loadHtmlHeadless(path.join(ROOT, TARGET));
+      const P = JSON.parse(H.evalExpr('JSON.stringify(BUILTIN_PRESETS)'));
+      const byId = new Map(P.map((p) => [p.id, p]));
+      const live = P.filter((p) => p.familyRole !== 'retired');
+      const sigOf = (p) => H.HP.presetSigHash(JSON.parse(JSON.stringify(p)));
+      const fOf = (p) => { const mc = p.massCalibration; return mc ? (mc.f ?? mc.factor ?? mc.factorUniform ?? null) : null; };
+      const noText = (p) => { const c = JSON.parse(JSON.stringify(p)); delete c.descStruct; delete c.en; delete c.description; delete c.status; return JSON.stringify(c); };
+      // ① 倍率 ≠ 1 の在位の本 = 実在天体でない 5 本(写しの nonReal)
+      const off = live.filter((p) => { const f = fOf(p); const fd = p.massLedger ? p.massLedger.fDynamics : undefined;
+        return (f !== null && f !== 1) || (fd !== undefined && fd !== 1); }).map((p) => p.id).sort();
+      const NR = (FX325e.nonReal || []).map((z) => z.id).sort();
+      if (off.join(',') !== NR.join(',')) bad.push('① 倍率 ≠ 1 の在位の本が写しの実在天体でない本と違う: ' + off.join(',') + ' / 写し ' + NR.join(','));
+      if (NR.length !== 5) bad.push('① 写しの実在天体でない本が 5 本でない');
+      for (const z of FX325e.nonReal || []) {
+        const p = byId.get(z.id);
+        if (!p) { bad.push('① ' + z.id + ' が内蔵に無い'); continue; }
+        if (sigOf(p) !== z.presetSigHash) bad.push('① ' + z.id + ' の署名が写しと違う');
+        if (JSON.stringify(p.massCalibration) !== JSON.stringify(z.massCalibration) || JSON.stringify(p.bodies.map((b) => (b.m ?? null))) !== JSON.stringify(z.mass)) bad.push('① ' + z.id + ' の質量の宣言が動いた');
+        if (!(p.sampleClass === 'principle' && fOf(p) === 2 && (p.massCalibration || {}).law === 'chi-law-v1-transfer')) bad.push('① ' + z.id + ' が原理の本の台帳 f=2 でない');
+        if (!(z.declSame === true && z.sigSame === true)) bad.push('① 写しの ' + z.id + ' の declSame・sigSame');
+      }
+      cases.push(`① 在位 ${live.length} 本のうち質量の倍率 ≠ 1 の宣言は ${off.length} 本(実在天体でない原理の本 ${NR.length} 本 —— 宣言と署名は写しと同じ)・実在天体の本は 0`);
+      // ② 🛞 の宣言
+      const pd = byId.get('ngc3198DFM'), po = byId.get('ngc3198');
+      if (!pd || !po) throw new Error('🛞/🌃 が無い');
+      const mc = pd.massCalibration || {}, h = mc.history || {}, ml = pd.massLedger || {};
+      const st = pd.bodies[0], gs = pd.bodies[1];
+      if (!(mc.law === 'f-fixed-1' && mc.f === 1)) bad.push('② 🛞 の massCalibration が f 固定形(f=1)でない');
+      if (!(Array.isArray(mc.baseMass) && mc.baseMass.length === 2 && mc.baseMass[0] === po.bodies[0].mMin && mc.baseMass[1] === po.bodies[1].mMin)) bad.push('② baseMass が 🌃 の 2 円盤の 1 粒でない');
+      if (!(st.mMin === po.bodies[0].mMin && st.mMax === po.bodies[0].mMax && st.n === po.bodies[0].n && st.lightSweep === undefined)) bad.push('② 恒星の円盤が 🌃 の転写(倍率 1・lightSweep なし)でない');
+      if (!(gs.mMin === po.bodies[1].mMin && gs.shell === 'gas')) bad.push('② HI の円盤');
+      if (!(ml.fStar === 1 && ml.fDynamics === 1 && Math.abs(st.n * st.mMin - ml.starBase) <= 1e-12 * ml.starBase)) bad.push('② 台帳の fStar・fDynamics・starBase');
+      const bm = FX325e.presets.ngc3198DFM.declBefore.massCalibration;
+      if (!(h.law === bm.law && h.meanChi === bm.meanChi && h.factorUniform === bm.factorUniform && h.C === bm.C
+        && h.mMin === FX325e.presets.ngc3198DFM.declBefore.starMEach && h.lightSweep === FX325e.presets.ngc3198DFM.declBefore.lightSweep)) bad.push('② history が写しの前の台帳と違う');
+      if (!(typeof mc.note === 'string' && /AN528/.test(mc.note) && /realmass-w325e\.json/.test(mc.note))) bad.push('② note に AN528 と凍結の写しの名');
+      cases.push(`② 🛞: 恒星の 1 粒 ${st.mMin}(= 🌃・倍率 1)・lightSweep なし・law ${mc.law}・baseMass [${(mc.baseMass || []).join(', ')}]・台帳 fDynamics ${ml.fDynamics}・history ${h.law} f=${h.factorUniform}`);
+      // ③ 凍結の写しの形
+      const F = FX325e, fp = F.presets && F.presets.ngc3198DFM;
+      if (!(F.fixtureVersion === 'w325e-realmass-1' && F.frozen === true && JSON.stringify(F.ids) === '["ngc3198DFM"]' && F.wave === '第325便e' && /AN528/.test(F.ruling || ''))) bad.push('③ 写しの版・frozen・ids・wave・ruling');
+      if (!(F.base && F.base.rev === '4b9c712' && /^[0-9a-f]{64}$/.test(F.base.sha256 || '') && /^[0-9a-f]{40}$/.test(F.base.commit || ''))) bad.push('③ 基点 4b9c712');
+      if (!fp || !fp.raw) bad.push('③ 前の定義 raw が無い');
+      else {
+        if (!(fp.raw.id === 'ngc3198DFM' && fp.raw.bodies[0].mMin === 3.7994909513377677 && fp.raw.massCalibration.law === 'chi-law-v1-meanfield')) bad.push('③ raw が前の宣言(恒星の 1 粒 1.9 × f)でない');
+        if (sigOf(fp.raw) !== fp.presetSigHash) bad.push('③ raw の署名を今の html で引き直すと写しの署名と違う');
+        if (sigOf(pd) !== fp.presetSigHashNow) bad.push('③ 今の 🛞 の署名が写しの後の署名と違う');
+        const v = H.HP.validatePreset(JSON.parse(JSON.stringify(fp.raw)));
+        if (!(v && v.ok)) bad.push('③ raw が今の受理器で受理されない');
+        if (!(typeof fp.rawSrc === 'string' && fp.rawSrc.indexOf('{ id:"ngc3198DFM"') === 0 && fp.rawSrc.indexOf('factorUniform:1.9997320796514568') >= 0)) bad.push('③ rawSrc(html の文字の切り出し)');
+        const ms = fp.measured || {};
+        if (!(ms.before && ms.after && ms.before.t40 && ms.after.t40 && ms.before.deterministic === true && ms.after.deterministic === true)) bad.push('③ 前後の測った値');
+        if (!(fp.status && fp.status.objectiveBefore === 'unmet' && fp.status.objectiveAfter === 'unmet')) bad.push('③ 目的の判定(前後とも未達)');
+      }
+      if (!(Array.isArray(F.pastCanons) && F.pastCanons.length >= 10 && F.pastCanons.every((z) => /^tests\/out\/.+\.json$/.test(z.file) && /^[0-9a-f]{64}$/.test(z.sha256)))) bad.push('③ 過去の正本の sha の表');
+      const rows = (F.scan && F.scan.rows) || [];
+      if (!(rows.length === 9 && rows.filter((z) => z.real === false).map((z) => z.id).sort().join(',') === NR.join(',') && rows.filter((z) => z.real && z.fAfter !== 1).length === 0)) bad.push('③ 走査の表(9 行・実在天体の fAfter = 1)');
+      // ④ 状況の判定(目的は未達のまま —— SAMPLE_STATUS の原稿)
+      const SS = JSON.parse(H.evalExpr('JSON.stringify(SAMPLE_STATUS)'));
+      const s1 = SS.ngc3198DFM || {};
+      if (!(s1.objective === 'unmet' && /倍率 1/.test(s1.state || '') && /51 km\/s/.test(s1.state || ''))) bad.push('④ 🛞 の状況(未達・倍率 1・51 km/s)');
+      cases.push(`③ 凍結の写し(${F.fixtureVersion}・前の署名 ${fp ? fp.presetSigHash : '—'} → ${fp ? fp.presetSigHashNow : '—'}・過去の正本 ${(F.pastCanons || []).length}・走査 ${rows.length} 行)/ ④ 状況 ${s1.objective}`);
+    } catch (e) { bad.push('例外: ' + String(e && e.message || e).slice(0, 160)); }
+    add('preset.realMassF1325e', bad.length === 0,
+      `**在位の実在天体の本の質量を観測の値(倍率 1)へ**(第325便e・原仮定者の回答(2026-11-03 —— AN528)・R288 —— 🛞 の恒星の円盤だけ・ID は不変・実在天体でない本はそのまま): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- docs.realMassF1325e
+  {
+    const bad = [], cases = [];
+    const rv = (s) => [...s].reverse().join('');
+    const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);
+    const NOT = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'たため確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転逆の星金', 'たし明説をータマクーダ', 'たっ合'].map(rv);
+    const PH = rd325e('docs/PHYSICS.md');
+    const a = PH.indexOf('〔第325便e — '), d = PH.indexOf('〔第325便d — '), z = PH.indexOf('〔第325便 — 統括'), e7 = PH.indexOf('\n## 7. ', a < 0 ? 0 : a);
+    const nx = (() => { if (a < 0) return -1; const m = /\n〔第3\d\d便/.exec(PH.slice(a + 5)); return m ? a + 5 + m.index : -1; })();
+    const sec = a < 0 ? '' : PH.slice(a, [nx, e7].filter((x) => x > a).sort((x, y) => x - y)[0]);
+    if (!sec) bad.push('PHYSICS〔第325便e〕が無い');
+    else {
+      if (!(d >= 0 && d < a)) bad.push('〔第325便e〕が〔第325便d〕の後でない');
+      if (!(z < 0 || a < z)) bad.push('〔第325便e〕が〔第325便 — 統括〕の前でない');
+      if (!(e7 > a)) bad.push('〔第325便e〕が「## 7.」の前でない');
+      const fp = FX325e && FX325e.presets && FX325e.presets.ngc3198DFM, ms = fp ? fp.measured : null;
+      if (ms) {
+        const want = [ms.after.t40.vt.toFixed(2), ms.after.t40.rmax.toFixed(0), ms.after.kF0.vt.toFixed(2), ms.after.kF0.rmax.toFixed(0),
+          ms.before.t40.vt.toFixed(2), ms.before.t40.rmax.toFixed(0), ms.after.t0OuterVc.toFixed(2), ms.before.t0OuterVc.toFixed(2)];
+        const miss = want.filter((w) => sec.indexOf(w) < 0);
+        if (miss.length) bad.push('PHYSICS〔第325便e〕に写しの数が無い: ' + miss.join(' '));
+        cases.push('PHYSICS の前後の数 ' + (want.length - miss.length) + '/' + want.length);
+      } else bad.push('写しが読めない');
+      for (const w of ['AN528', 'R288', 'ngc3198DFM', 'f-fixed-1', 'tests/fixtures/realmass-w325e.json', 'preset.realMassF1325e', 'supernovaCore', 'whiteDwarfDFM', 'whiteDwarfBareDFM', 'envelopeShedDFM', 'lfbotTrap', '**言わないこと。**'])
+        if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第325便e〕に「' + w + '」が無い');
+    }
+    const AI = rd325e('docs/AI_SPEC.md'), ai180 = (() => { const m = /\n## 180\. 第325便e[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+    if (!(ai180 && ai180.indexOf('AN528') >= 0 && ai180.indexOf('f-fixed-1') >= 0)) bad.push('AI_SPEC §180');
+    const CL = rd325e('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+    const cl325e = (clb.split('\n').find((l) => l.indexOf('**第325便e**') >= 0)) || '';
+    if (!(cl325e && cl325e.indexOf('AN528') >= 0)) bad.push('CHANGELOG の beta 節に第325便e の行(AN528)が無い');
+    const FR = rd325e('tests/fixtures/README.md'), PM = rd325e('tools/post-merge-qa.sh');
+    if (FR.indexOf('realmass-w325e.json') < 0) bad.push('tests/fixtures/README に realmass-w325e.json の項が無い');
+    if (!(PM.indexOf('# ==== 第325便e の塊(ここから)====') >= 0 && /preset\.realMassF1325e/.test(PM) && /docs\.realMassF1325e/.test(PM))) bad.push('post-merge の ③′ に第325便e の塊が無い');
+    for (const [nm, tx] of [['PHYSICS〔第325便e〕', sec.split('**言わないこと。**')[0]], ['AI_SPEC §180', ai180], ['CHANGELOG の第325便e の行', cl325e]]) {
+      const tq = tx.replace(/「[^」]*」/g, '');
+      for (const w of NG) if (tq.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+      for (const w of NOT) if (tq.indexOf(w) >= 0) bad.push(nm + ' に書かない語(' + w.length + ' 字)');
+      if (tq.indexOf(String.fromCharCode(0x3ba)) >= 0) bad.push(nm + ' に裸の係数記号');
+    }
+    cases.push('AI_SPEC §180・CHANGELOG・tests/fixtures/README・post-merge の ③′・書かない語');
+    add('docs.realMassF1325e', bad.length === 0,
+      `**実在天体の本の質量の倍率 1 の文書**(第325便e・原仮定者の回答(2026-11-03 —— AN528)・R288): PHYSICS〔第325便e〕(〔第325便d〕の後・〔第325便 — 統括〕の前・「## 7.」の前)・${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ' —— すべてあり'));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第325便e の塊(ここまで)====
 
 // ==== 第324便c の塊(ここから)====
 // ---- 第324便c(統括の検証項目 R281 —— 道具の続き: 第323便の統括の手順で決めたこと・決断事項 AN516・AN517/AN518): lint.quickBoundary324c・lint.calVolatile324c・lint.postMergeCounts324c・docs.w324c ----
