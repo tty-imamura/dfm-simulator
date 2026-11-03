@@ -8,7 +8,11 @@
    "rev": "750b724",
    "verdict": "no-comparison",
    "gateMode": "full",
-   "gates": ["G1", "G2", "G3"],
+   "gates": [
+    "G1",
+    "G2",
+    "G3"
+   ],
    "gateMore": 0,
    "compared": 0,
    "same": 0,
@@ -28,6 +32,21 @@
    "mismatch": [],
    "note": "nslock は走らなかった(依存の判定で再利用 —— 第323便の鎖)—— 比較の実績なし(第324便c が記録から写した)",
    "at": null
+  },
+  {
+   "wave": 324,
+   "rev": "9a41db5",
+   "verdict": "no-comparison",
+   "gateMode": "full",
+   "gates": [
+    "G3"
+   ],
+   "gateMore": 0,
+   "compared": 0,
+   "same": 0,
+   "mismatch": [],
+   "note": "照合 0/0 —— 比較の実績なし",
+   "at": "2026-11-03T03:19:44.140Z"
   }
  ]
 }
