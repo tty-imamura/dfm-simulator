@@ -885,6 +885,26 @@ export function w325dProbeEnv(root) {
   return { node: out.node || null, platform: out.platform || null, chromium: out.chromium || null, chromiumError: out.chromiumError || undefined, heapMb: out.heapMb, nodeOptionsHeap: out.nodeOptionsHeap === undefined ? null : out.nodeOptionsHeap,
     tool: 'tools/regen-chain.mjs --env', when: out.when || new Date().toISOString() };
 }
+/**
+ * 表(PHYSICS〔第325便d〕の表 2 —— QA docs.w325d が作り直して逐語): 6 段の窓(今の env・窓の走行・第323便c の欄・簡易一致の静的な除外〔AN518〕・影の表と記録)。
+ * o = { steps(REGEN_STEPS), Q(tests/lib-w323b-quick.mjs), cal(calibrationSteps の戻り) }
+ */
+export function w325dWindowRows(o) {
+  const out = ['| 段 | 窓の環境変数(今) | 窓の走行(cmd・器に渡す環境) | 第323便c の欄 | 簡易一致の静的な除外(AN518) | 影の表と指紋の記録 |', '|---|---|---|---|---|---|'];
+  const esc = (t) => String(t).replace(/\|/g, '\\|');
+  for (const key of W325D_ENV_KEYS) {
+    const k = SMOKE_KNOBS[key], old = W325D_KNOBS_323C[key], st = o.steps.find((z) => z.key === key);
+    if (!k || !st) { out.push(`| ${key} | (行なし) | — | — | — | — |`); continue; }
+    const ev = Object.entries(k.env || {}).map(([n, v]) => '`' + n + '=' + v + '`').join('・');
+    const e = w325dEffective(st.cmd.split(' && ')[0], k, true);
+    const run = '`' + e.cmd + '`' + (Object.keys(e.env).length ? '(' + Object.entries(e.env).map(([n, v]) => '`' + n + '=' + v + '`').join('・') + ')' : '');
+    const was = old.cmd ? '窓の cmd' + (/^[A-Z0-9_]+=/.test(old.cmd) ? '(環境変数の前置き)' : '') : '引数 ' + (old.args || []).filter((x) => /^--/.test(x)).join(' ');
+    const ex = o.Q.staticExclusion(st, o.cal);
+    const fate = ex ? '窓は引ける・**候補にならない**(静的な除外)・指紋は --keys のときだけ' : '窓が引ける・**候補になれる**(指紋の記録の後)・--fingerprint(--keys なし)が取る';
+    out.push(`| ${key} | ${esc(ev)} | ${esc(run)} | ${esc(was)} | ${esc(ex || 'なし')} | ${fate} |`);
+  }
+  return out.join('\n');
+}
 /** 器と窓の器の本文(env の名と引数の旗が本文に在るか)。 */
 function w325dHarnessOfKey(key, steps) {
   const k = SMOKE_KNOBS[key];
