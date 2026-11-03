@@ -577,6 +577,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickBoundary324c lint.calVolatile324c 
 #   lint.scopeStop・lint.scopeAll312・lint.regenChain・lint.canon304・lint.harnessSmoke303・lint.qaHeapRelease310・lint.sectionLookup313)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.resume324d docs.satlong324d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第324便d の塊(ここまで)====
+# ==== 第325便c の塊(ここから)====
+# 第325便c(原仮定者の指示(第127報)・統括の検証項目 R286): 枝 c の新設(docs.words325c —— 連鎖の玩具 5 本の説明の古い語・📟 の B の 139.4° の列・AN516 の数の訂正・文書)と、
+#   説明を読む生成表の QA(docs.sampleStatus-sync・preset.statusLedger-sync・docs.families)・本の文を読む behavior.obsSpin324b・docs.obsSpin324b・lint.qaHeapRelease310・lint.sectionLookup313・規約の速い判定の lint.conventionsCheck323
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.words325c docs.sampleStatus-sync preset.statusLedger-sync docs.families behavior.obsSpin324b docs.obsSpin324b lint.qaHeapRelease310 lint.sectionLookup313 lint.conventionsCheck323"
+# ==== 第325便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

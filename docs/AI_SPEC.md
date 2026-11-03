@@ -4565,3 +4565,11 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w324b-obsspin.mjs`(版 w324e-obsspin-2 —— 段 A に傾きの形の場合・段 B に軸の宣言とノブ・段 E に欠測の写しとノブを振った列・段 K に軌道の面の向き)→ 正本 `tests/out/obsspin-w324b.json`(段 obsspin-324b のまま)。式と測定は docs/PHYSICS.md〔第324便e〕。
 - **QA**: `behavior.obsSpin324b`・`docs.obsSpin324b` を世代で切り替えた(傾きの形の受理・ノブの一覧と withKnob・60 步〔📟 は並進だけと違う・欠測の写しは並進だけとビット同一・🔸 は前の版の宣言とビット同一〕・内蔵の obsSpin の軸は全部傾きの形)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない(観測の自転の欄は観測の記録から人が書く欄)。AI が連星の本を作るときも、傾きの観測・推定の記録があればその値(basis "observed" か "estimated"・出典)を使い、記録が無い成分は basis "knob"(既定と範囲・source に「模型の入力」)にする —— 推定の値を作らない・ノブの値を観測と呼ばない。axis:null(欠測)は受理するが連星の本の既定にしない。
+
+## 178. 第325便c —— 旧方式の geoPN=4(在位の連鎖の玩具 5 本)の説明の古い語・📟 の B の 139.4° の列の書き方・AN516 の数の訂正(原仮定者の指示(第127報)「タイトルや説明に「gain」が使われているサンプルが有が、「W_bg=1/gain」に置き換わったので修正する。他にも、古い表現が有れば修正する」・統括の検証項目 R286・**物理の欄・式・受理器・`S._core` は不変** —— 説明の欄だけ・**SYSTEM_PROMPT には載せない**)
+
+- **語の対応**(🔗 `chainDiskToy`・🔩 `chainDiskToy3d`・🪛 `chainDiskToy3dTilt`・🍥 `chainSpreadToy3d`・🧨 `chainBurstShell3d` の ja・en の説明の欄 53 か所): 「gain C_d=8」→「W_bg = 0.125 [M/L³](係数 1/W_bg = 8)」・「gain 8」→「W_bg 0.125」・対照の「gain 0」→「引きずり OFF(W_bg を掛けない)」(宣言は `{Wbg:null, enabled:false}` —— W_bg = 0 と書かない)・式の係数 C_d・C → 1/W_bg(s_i = Σ_j m_j K_ε(r_ij)(v_j − v_i)/W_bg)・軸引きずりの係数 → A_k(鍵 `axialCoupling`)。宣言 `relativeDrag:{law:"inertial", Wbg:0.125, …}` は変えていない。
+- **📟 の B**: 元論文の角の定義は δ_B = 180° − θ = 40.6°(B は順行 —— 文献の値)。角の向きのノブ `sense` の −1(139.4°)は観測が残す二通りの読みではなく、角を反転した模型の感度の列。既定 +1 = 40.6° のまま。
+- **AN516 の数**: nslock の影の照合の作業記録 `tests/data-w324c-nslockshadow.json` は第322便・第324便が照合 0/0・第323便が not-run —— 比較の実績の有る便は 0(`node tools/regen-chain.mjs --streak` は 0/2 便)。PHYSICS の 3 か所の「1 便」の読みを PHYSICS〔第325便c〕で訂正した。
+- **QA**: `docs.words325c`(5 本の表示の欄に旧い係数の語が無い・W_bg の宣言値の文・🧨 の対照の文・5 本の physics は旧 W_bg 則の連鎖のまま・📟 の B の文と宣言・文書)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。AI が慣性決定力の引きずりの本の説明を書くときは背景慣性決定力 W_bg [M/L³] で書き、gain・C_d の語を使わない(旧宣言の gain は W_bg = 1/gain として読まれる)。引きずり OFF は `enabled:false` と書き、W_bg = 0 と書かない。
