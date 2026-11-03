@@ -41,14 +41,31 @@
 //   ③ **自己比較の拒否**: 同じファイル・同じ中身の記録を前後に与えた比較は selfCompare(影の 1 便に数えない —— regen-plan --shadow-compare は終了コード 2)。
 //      前後の便の番号が逆か同じなら「影の 1 便に数えない」。比べた段 0 も「比較の実績なし」。
 //   ④ **長期の量の名簿**(quickVerify:'long' —— 段の表の QUICK_LONG_ROSTER〔tests/lib-w281a-regentable.mjs〕が既定値で段の宣言に入れる)の確かめは自己試験 ⑦。
+//
+// 第325便d(統括の検証項目 R287 —— 簡易一致の本運用の前の試験)—— 版 w325d-quick-3(記録の版 QUICK_FP_VERSION・来歴の版 VERIFY_VERSION は変えない):
+//   ① **環境の整合**: quickShadow の o.envCheck(tests/lib-w325d-quickgate.mjs の quickEnvCheck の戻り —— 指紋の記録の環境〔node・Chromium・platform〕と
+//      鎖の環境〔regen-chain --env の env.json〕の照合)が ok でなければ、**全段の候補を 0** に(理由「環境が記録と違う(…)」—— 記録の条件なので ifRecorded は残る)。
+//      o.envCheck が無ければ従来どおり(照合しない —— 呼ぶ側〔regen-plan・regen-chain〕が渡す)。
+//   ② **領域の理由の種類**: 「理由が領域だけ」は QUICK_REGION_KINDS(今は scope だけ)の種類だけから成る行。**知らない種類**(枝 a が足す html の物理の部分の種類など
+//      —— 今後の版で増える種類)は領域に数えない(候補から外す側 —— 安全側の既定)。
+//   ③ 記録の頭に env(取った箱の node・Chromium・platform・heap —— harness-smoke --fingerprint が書く)を写す(mergeRecord の head.env)。
+//   ④ 指紋で除く欄名に runWallSec(dragcore292 の窓の器の壁時計 —— 正本と記録の 59 段の出力には無い欄名)。
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { REGEN_STEPS, volatilePathsOf, SEMANTIC_RUN_META, codeFilesOf, writesOf, HTML_TARGET } from './lib-w281a-regentable.mjs';
 import { canonJson, parseTopLevel, closureOf, SCOPE_STOP, STABLE_RUNTIME_KEYS, LEGACY_VOLATILE_KEYS } from './lib-w281a-scope.mjs';
 
 // 第324便c: w323b-quick-1 → w324c-quick-2(欠測の境界・照合の数・自己比較の拒否 —— 記録の版 QUICK_FP_VERSION は変えない)
-export const QUICK_VERSION = 'w324c-quick-2';
-export const QUICK_VERSION_HISTORY = Object.freeze(['w323b-quick-1', 'w324c-quick-2']);
+// 第325便d: w324c-quick-2 → w325d-quick-3(環境の整合 o.envCheck・領域の理由の種類 QUICK_REGION_KINDS・記録の頭の env —— 記録の版・来歴の版は変えない)
+export const QUICK_VERSION = 'w325d-quick-3';
+export const QUICK_VERSION_HISTORY = Object.freeze(['w323b-quick-1', 'w324c-quick-2', 'w325d-quick-3']);
+/**
+ * 第325便d: 「理由が領域だけ」に数える planRegen の理由の種類(causeKinds)。**これ以外の種類(知らない種類を含む)が 1 つでもあれば領域だけでない** ——
+ * 枝 a(第325便)が足す html の物理の部分の種類や今後の種類は、この表に足すまで簡易一致の候補にしない(安全側の既定)。
+ */
+export const QUICK_REGION_KINDS = Object.freeze(['scope']);
+/** 第325便d: 理由の種類の並びが「領域だけ」か(空は false —— 理由の無い regen は領域だけでない)。 */
+export const regionOnlyKinds = (kinds) => Array.isArray(kinds) && kinds.length > 0 && kinds.every((k) => QUICK_REGION_KINDS.includes(k));
 export const QUICK_K_DEFAULT = 3;
 export const QUICK_BIG_SEC = 600;
 export const QUICK_BIG_MAX = 2;
@@ -67,7 +84,9 @@ export const QUICK_DECL_FIELDS = Object.freeze({
  * 指紋で除く欄名(どの階層でも)—— 実行時刻・壁時計の所要と速度(新方式の語彙と旧方式の欄名)と `ms`(行ごとの壁時計のミリ秒 ——
  * 第323便b の試走で bgbudget2 の窓の指紋が 2 回で違った欄。今の正本で `ms` はすべて壁時計〔bgbudget2・charonwin・samplestatus・timing・ledgernorm〕)。
  */
-export const FP_RUNTIME_KEYS = Object.freeze([...new Set(STABLE_RUNTIME_KEYS.concat(LEGACY_VOLATILE_KEYS, ['ms']))].sort());
+// 第325便d: `runWallSec`(段 dragcore292 の窓の器 tests/exp-w323c-dragcorequick.mjs の走行の壁時計 —— 第325便d の試走の 2 回で窓の指紋が違った欄)を足した。
+//   この欄名は正本(tests/out)にも、記録の 59 段の窓の出力にも無い(lint.quickEnvWin325d が器の本文と正本を照合)—— 記録の指紋と正本の hash は変わらない(記録の版はそのまま)
+export const FP_RUNTIME_KEYS = Object.freeze([...new Set(STABLE_RUNTIME_KEYS.concat(LEGACY_VOLATILE_KEYS, ['ms', 'runWallSec']))].sort());
 /**
  * 指紋で除く**刻印と来歴**の欄(どの階層でも —— meta の外に写した刻印): 名が `sha256`・名が `Sha256` で終わる欄(対象・html・領域・コード・lib・入力のファイルの
  * sha —— targetSha256・nowSha256・measureSha256・obsSha256 ほか)と、前の世代から写した来歴の文字列 `baseFrom`(semic-302d の「carried(carried(…))」—— 鎖のたびに伸びる)。
@@ -240,7 +259,7 @@ export function quickShadow(plan, o) {
     const q = { regionOnly: false, eligible: false, ifRecorded: false, why: [], window: null, sec: Number(r.sec) || 0, quickSec: null, wavesSinceFull: 0, next: 1, decision: null };
     r.quick = q;
     const kinds = r.causeKinds || [];
-    q.regionOnly = r.status === 'regen' && r.ownStatus === 'regen' && kinds.length > 0 && kinds.every((k) => k === 'scope');
+    q.regionOnly = r.status === 'regen' && r.ownStatus === 'regen' && regionOnlyKinds(kinds);   // 第325便d: 知らない種類は領域に数えない
     if (r.status !== 'regen') continue;
     if (!q.regionOnly) { q.why.push('理由が領域だけでない(' + (kinds.join(',') || '—') + ')'); continue; }
     const ex = staticExclusion(st, cal);
@@ -256,6 +275,8 @@ export function quickShadow(plan, o) {
     q.ifRecorded = q.why.length === 0;
     // 指紋の記録
     const e = rec[r.key] || null;
+    // 第325便d(R287): 環境の整合 —— 記録を取った箱と鎖の箱が違えば(か分からなければ)全段の候補を 0(記録の条件 —— ifRecorded は残る)
+    if (opt.envCheck && opt.envCheck.ok !== true) q.why.push('環境が記録と違う(' + ((opt.envCheck.why || []).join('・') || '照合できない') + ')');
     if (!e) q.why.push('指紋の記録が無い');
     else {
       // 第324便c(R281): 欠測の境界 —— hash の欠け・不正・違いは候補から外す(欠測を一致の側へ数えない)
@@ -309,6 +330,7 @@ export function quickShadow(plan, o) {
   return {
     version: QUICK_VERSION, K, promote: !!opt.promote, wave, stepChange, change: chg ? { known: chg.known, changed: chg.changed, stepFns: (chg.stepFns || []).slice(0, 8), acceptor: (chg.acceptor || []).slice(0, 8), core: chg.core } : null,
     record: opt.record ? { version: opt.record.version || null, wave: opt.record.wave || null, steps: Object.keys(rec).length } : null,
+    env: opt.envCheck ? { ok: opt.envCheck.ok === true, why: (opt.envCheck.why || []).slice(), version: opt.envCheck.version || null } : null,   // 第325便d
     count: { regen: (plan.steps || []).filter((r) => r.status === 'regen').length, regionOnly: rows.filter((r) => r.quick.regionOnly).length,
       eligible: elig.length, quick: qk.length, rotationFull: elig.length - qk.length, ifRecorded: ifRec.length, quickIfRecorded: qkIf.length },
     sec: { regen: sum((plan.steps || []).filter((r) => r.status === 'regen'), (r) => r.sec), regionOnly: sum(rows.filter((r) => r.quick.regionOnly), (r) => r.sec),
@@ -335,7 +357,7 @@ export function mergeRecord(doc, entries, head) {
     + '器と lib の sha・html の sha・その時点のフルの正本の物理の値の hash(meta・除外 Pointer・来歴と時刻・実行時刻と壁時計の欄名を除く —— tests/lib-w323b-quick.mjs の physSha)。'
     + '正本ではない(lint は形だけ)。書くのは node tools/harness-smoke.mjs --fingerprint ' + QUICK_FP_FILE + '(鎖の後に 1 回)';
   d.tool = 'node tools/harness-smoke.mjs --fingerprint ' + QUICK_FP_FILE;
-  if (head) for (const k of ['wave', 'rev', 'html', 'htmlSha', 'node', 'at']) if (head[k] !== undefined) d[k] = head[k];
+  if (head) for (const k of ['wave', 'rev', 'html', 'htmlSha', 'node', 'at', 'env']) if (head[k] !== undefined) d[k] = head[k];   // 第325便d: env(取った箱)
   for (const e of (entries || [])) if (e && e.key) d.steps[e.key] = e;
   d.steps = Object.fromEntries(Object.keys(d.steps).sort().map((k) => [k, d.steps[k]]));
   return d;
@@ -621,4 +643,4 @@ export function quickSelfTest() {
 export default { QUICK_VERSION, QUICK_K_DEFAULT, QUICK_BIG_SEC, QUICK_BIG_MAX, QUICK_FP_FILE, QUICK_FP_VERSION, VERIFY_VERSION, QUICK_DECL_FIELDS, FP_RUNTIME_KEYS,
   FP_STAMP_KEYS, FP_KEEP_SHA_KEYS, CALIBRATION_FILES, CALIBRATION_HARNESS, physValue, physSha, physShaFile, windowFingerprint, stdoutNormSha, codeShaOf, stepWindow, calibrationSteps, staticExclusion,
   STEP_FN_RE, ACCEPTOR_ROOTS, htmlChangeKinds, quickShadow, emptyRecord, mergeRecord, recordShape, shadowCompare, quickVerifyMeta, verifyViolations, quickSelfTest,
-  QUICK_VERSION_HISTORY, isHex64, SHADOW_NA_WHY, shadowSelfCompare, shadowTallyText };
+  QUICK_VERSION_HISTORY, isHex64, SHADOW_NA_WHY, shadowSelfCompare, shadowTallyText, QUICK_REGION_KINDS, regionOnlyKinds };

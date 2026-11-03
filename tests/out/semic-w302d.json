@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第302便d",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-03T01:48:30.491Z",
+  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+  "generatedAt": "2026-11-03T15:54:51.878Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7612995,
+    "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+    "mtime": "2026-11-03T15:04:48.828Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -210,9 +210,9 @@
    "complete": true,
    "names": 1438,
    "segments": 1262,
-   "closureShare": 0.31
+   "closureShare": 0.3093
   },
-  "scopeSha256": "5cdda8388a1766a26386d0c7e804953e1128c51fae829fc9f66917a0432eb364",
+  "scopeSha256": "ce298409dee47b9d9eb334a030a9d8c6691114eb02d0bf4e423dc4493aa575b2",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -287,19 +287,19 @@
    "mercurySunInertialFit",
    "mercurySunInertial3d",
    "plutoCharonInertialFit",
-   "inertialDragPair",
-   "chainDiskToy",
-   "chainDiskToy3d",
-   "chainDiskToy3dTilt",
-   "chainSpreadToy3d",
-   "chainBurstShell3d"
+   "inertialDragPair"
   ],
   "dragRetired": [
    "earthMoonInertial",
    "earthMoonSunInertial",
    "mercurySunInertial",
    "mercuryMeshMigrate3d",
-   "plutoCharonInertial"
+   "plutoCharonInertial",
+   "chainDiskToy",
+   "chainDiskToy3d",
+   "chainDiskToy3dTilt",
+   "chainSpreadToy3d",
+   "chainBurstShell3d"
   ],
   "gain0": [
    "earthMoonSunInertialFit",
@@ -379,7 +379,7 @@
   "split": {
    "steps": 600,
    "dt": 0.016,
-   "baseFrom": "carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(beta/_w302_base.html))))))))))))))",
+   "baseFrom": "carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(beta/_w302_base.html)))))))))))))))",
    "fpSplit": {
     "earthMoonInertial": "232cfc51",
     "earthMoonSunInertial": "bf61fc85",
@@ -517,7 +517,7 @@
    "gain0Same": true,
    "ledger": true
   },
-  "wallSec": 49.163
+  "wallSec": 49.158
  },
  "fit": {
   "rows": [
@@ -667,7 +667,7 @@
     "boundMaxSemic": 0.002065939296275486
    }
   ],
-  "wallSec": 91.314
+  "wallSec": 93.637
  },
  "chain": {
   "w296c": {
@@ -679,7 +679,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 12.884,
+    "wallSec": 14.256,
     "bools": {
      "part5.accept.ok": true,
      "part5.gates.noNaN": true,
@@ -706,7 +706,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 13.834,
+    "wallSec": 12.471,
     "bools": {
      "part5.accept.ok": true,
      "part5.gates.noNaN": true,
@@ -2607,7 +2607,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 21.293,
+    "wallSec": 21.201,
     "bools": {
      "part5.spinSource3d.ok": true,
      "part5.dragCore3d.ok": true,
@@ -2640,7 +2640,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 21.978,
+    "wallSec": 21.57,
     "bools": {
      "part5.spinSource3d.ok": true,
      "part5.dragCore3d.ok": true,
@@ -4558,7 +4558,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 5.922,
+    "wallSec": 5.382,
     "bools": {
      "selfTest.ok": true,
      "gateB.rows.0.allSame": true,
@@ -4607,7 +4607,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 5.071,
+    "wallSec": 5.425,
     "bools": {
      "selfTest.ok": true,
      "gateB.rows.0.allSame": true,
@@ -6004,7 +6004,7 @@
    "env": null,
    "split": {
     "code": 0,
-    "wallSec": 339.572,
+    "wallSec": 304.563,
     "bools": {
      "gate.stableAll": true,
      "gate.migrateAll": true,
@@ -6015,7 +6015,7 @@
    },
    "semic": {
     "code": 0,
-    "wallSec": 252.285,
+    "wallSec": 301.255,
     "bools": {
      "gate.stableAll": true,
      "gate.migrateAll": true,
@@ -9178,7 +9178,7 @@
    },
    "split": {
     "code": 0,
-    "wallSec": 40.121,
+    "wallSec": 47.597,
     "bools": {},
     "numbers": {
      "A.base": {
@@ -9205,7 +9205,7 @@
    },
    "semic": {
     "code": 0,
-    "wallSec": 39.839,
+    "wallSec": 48.469,
     "bools": {},
     "numbers": {
      "A.base": {
@@ -9235,8 +9235,8 @@
    "rawSplit": null,
    "rawSemic": null
   },
-  "wallSec": 752.83
+  "wallSec": 782.223
  },
  "ok": true,
- "elapsedS": 895.235
+ "elapsedS": 927.335
 }

@@ -1,0 +1,929 @@
+{
+ "fixtureVersion": "w325e-realmass-1",
+ "note": "在位の実在天体の本 🛞 ngc3198DFM の前の宣言(基点 4b9c712 —— 恒星の円盤に旧則の平均場 χ-law の倍率 f=1.9997320796514568 を掛けた質量)の凍結資産(書き換えない)。原仮定者の回答(2026-11-03 —— AN528)「実在天体なら、f=1に質量を修正。実在天体で無いならそのまま採用」で、ID を変えずに恒星の円盤の 1 粒を観測の転写 1.9 単位(🌃 と同じ)へ戻した。実在天体でない 5 本(🎇⚪🔘🎆🐮 —— 台帳 f=2 の原理の本)の宣言(質量の値)は不変(declSame —— 説明の欄を外して比べた)。説明の欄の質量の倍率 f の記述は消した(原仮定者の回答(2026-11-03 —— AN528)の追加「実在天体で無い場合は、「f」の記述は消す」)。過去の正本の sha は基点の版。",
+ "ids": [
+  "ngc3198DFM"
+ ],
+ "wave": "第325便e",
+ "ruling": "原仮定者の回答(2026-11-03 —— AN528 と追加「実在天体で無い場合は、「f」の記述は消す」)・原仮定者の指示(第127報)「観測質量補正の「f」も、今は使っていない」",
+ "frozen": true,
+ "presets": {
+  "ngc3198DFM": {
+   "emoji": "🛞",
+   "name": "NGC 3198(DFM版)— 恒星質量+自由中心核のアナロジー",
+   "rawSrc": "{ id:\"ngc3198DFM\", name:\"NGC 3198(DFM版)— 恒星質量+自由中心核のアナロジー\", emoji:\"🛞\", group:\"実在天体のアナロジー\",\n  familyId:\"ngc3198\", familyRole:\"primary\",\n  scaleTier:\"galactic\",\n  scaleExp:{L:19, T:15, M:38},\n  sampleClass:\"principle\",\n  notClaim:[\"dm\",\"cal\"],\n  obsCard:[\n    {q:\"質量較正(連星契約の銀河側)\", model:\"平均場 χ̄=0.99987(飽和)→恒星円盤に f=C·2χ̄=1.99973(C=1)を一様適用・lightSweep=(f−1)/f\", obs:\"—(f は法則の出力・fit ノブは C=1)\"},\n    {q:\"HI は f 非適用(宣言)\", model:\"HI は 21cm 転写の質量 — 恒星の補正則を外挿しない。shell:\\\"gas\\\" 宣言\", obs:\"M_HI=1.09×10¹⁰ M☉(CSV — He 込み ×1.33)\"},\n    {q:\"外縁 hold-out(正直な結果)\", model:\"**f=2 でも未達(この探索範囲)—— 次の見直しへ** — 円運動解の t=0 で外帯 v_c 10.2(102 km/s)・t=40 の中心核相対 vt 5.53(55 km/s)・最遠 514(kF0 5.13/568)\", obs:\"V_flat=150.1 km/s(SPARC)\"},\n    {q:\"中心核(縮小した暗い回転核 — 自由化)\", model:\"m=100 単位(宣言値・fit しない)Ω=20・Kcs=0.02。pinned を外し重心系・測定は中心核相対(反跳 43 単位)\", obs:\"—(SPARC はバルジ無し — 中心核は DFM 仮説)\"},\n    {q:\"配置と初期場の宣言\", model:\"seed は 🌃 と共有(排他帯・重心系変換で完全同一ではない)。初期速度=実ポテンシャルの円運動解(vMode enclosed)。N=300 の自己重力円盤は滑らかな支配場なしに t=40 で散逸(平衡ではない — 記録)\", obs:\"—(🌃 は観測回転曲線の flat 転写のまま)\"},\n    {q:\"条件付き質量台帳(表示専用・既定は追加 0)\", model:\"仮定: 光学迷彩矮星数=恒星数×20・⟨m_DR⟩ 0.1/1/10 M☉ → +1520/+15200/+152000 単位(恒星質量の倍率を掛けない別集団 — massLedger)\", obs:\"浮遊惑星の推定は地球質量級(総質量 80 M⊕/恒星=恒星質量の 0.048%)。約 20 倍は個数の比で質量の測定ではない\"}],\n  descStruct:{\n    summary:\"**名前: 質量台帳 massLedger の恒星質量(倍率を掛けない —— 恒星 380+気体 287.5+核 100=767.5 単位)に合わせて「恒星質量+自由中心核のアナロジー」とした。bodies の力学にはまだ旧契約の fDynamics≈2 が焼き込まれている(移行は今後 —— 以下の f≈2 の記述は旧契約の記録)。🌃 の対になる DFM 版 — 連星の質量補正(χ-law f≈2)を先に適用してから「ハロー無しの引きずりが外縁を支えるか」を測り直す hold-out**(質量の補正なしの版を置換)。**平均場 χ̄=0.99987(飽和)→ 恒星円盤に f=1.99973(C=1・ゼロフィット)を一様適用**し lightSweep=(f−1)/f で見掛けを観測側へ。**HI(21cm 転写)には掛けない**(恒星の補正則を外挿しない — 宣言)・HI は shell:\\\"gas\\\" 宣言。中心は暗い回転核 m=100 単位(5×10⁹ M☉ の宣言値)を **pinned を外して重心系に置き**、測定は中心核相対。fit ノブはゼロ(C=1)。働くのは重力(E4)+空間引きずり(A8/E6′)。**初期速度は観測 V_flat の先置きではなく、配置の実ポテンシャルの円運動解(vMode=enclosed)**: t=0 の v_c は内/中/外帯で 142/139/**102** km/s — f=2 のバリオンだけでは外帯が観測 150 に t=0 でも未達。**結果(正直な記録): f=2 でも未達 —— 次の見直し(実装・初期条件・調整範囲)へ** — t=40 の外縁帯 vt 55 km/s(観測 150)・最遠 514 単位へ散逸(kF0 対照 51 km/s・568 — 引きずりの寄与は +8%)。N=300 の 2D 自己重力円盤は 🌃 の NFW のような滑らかな支配場が無いと平衡を保てない(平衡初期化でも散逸する — 記録)。中心質量は太らせない(NFW の再発明はしない)。\",\n    observe:\"実測(t=40・dt=0.016・kF1・halo 無し・enclosed 初期化・中心核相対): t=0 の円運動解 v_c 14.2/13.9/10.2(内/中/外帯)→ t=40 の外縁帯(60〜130 単位)vt **5.53**(55 km/s — 観測 150 の 1/3・hold-out 不成立の機械固定)・最遠 **514** 単位(kF0 同構成対照 5.13/568)・中心核は残存し反跳で 76 単位歩く(自由中心の記録 — seed 依存 25〜76)・HI 100 粒は gas 宣言のまま残存・NaN 0・決定性ビット同一。旧 flat 15.01 初期化(観測値の先置き)では vt 4.92・最遠 604 だった。massCalibration 台帳・mMin=1.9×f・lightSweep=(f−1)/f・HI 非適用の整合を QA 照合。\",\n    control:\"🌃(NFW あり・重力 E4+外力)と対で見る。kFrame=0 で引きずりを切る対照(最遠 568)。回転曲線オーバーレイで外縁の空洞化が見える。\"},\n  en:{ name:\"NGC 3198 (DFM build) — stellar mass + free central rotor, an analogy\", descStruct:{\n    summary:\"NAME: renamed \\\"stellar mass + free central rotor, an analogy\\\" to match the mass ledger's stellar mass without a multiplier (stars 380 + gas 287.5 + core 100 = 767.5 units). The bodies' dynamics still carry the old contract's fDynamics≈2 (migration is left for later — the f≈2 text below is the old contract's record). THE DFM COUNTERPART of 🌃 — the binaries' mass correction (χ-law f≈2) applied FIRST, then re-asking whether dragging holds the outer disk without a halo (replaces the build without the mass correction). Mean-field χ̄=0.99987 (saturated) → f=1.99973 (C=1, zero fit) applied uniformly to the STELLAR disk, with lightSweep=(f−1)/f returning the appearance to the observed side. THE HI IS NOT SCALED (a 21 cm transcription — the stellar correction law is not extrapolated; declared), and carries shell:\\\"gas\\\". The dark central rotor m=100 units (a declared 5×10⁹ M☉) is now FREE (pinned removed, barycentric frame), and all measurements are rotor-relative. Zero fit knobs (C=1). Gravity (E4) + frame dragging (A8/E6′) act. THE INITIAL VELOCITIES ARE NOT THE OBSERVED V_flat PLACED IN ADVANCE but the circular-orbit solution of the placed potential (vMode=enclosed): at t=0 v_c reads 142/139/102 km/s (inner/mid/outer) — with f=2 baryons alone the outer band does not reach the observed 150 even at t=0. RESULT (honest record): EVEN AT f=2 IT DOES NOT REACH — outer-band vt 55 km/s at t=40 (observed 150); farthest 514 units (kF0 control 51 km/s, 568 — dragging contributes +8%). An N=300 2D self-gravitating disk cannot hold equilibrium without a smooth dominant field like 🌃's NFW (it disperses even from the equilibrium start — recorded). The central mass is NOT inflated (no NFW reinvention).\",\n    observe:\"Measured (t=40, dt=0.016, kF1, no halo, enclosed start, rotor-relative): the t=0 circular solution v_c 14.2/13.9/10.2 (inner/mid/outer) → outer-band (60–130) vt 5.53 at t=40 (55 km/s — a third of the observed 150; the failed hold-out machine-fixed); farthest 514 (kF0 control 5.13/568); the rotor survives and recoils 76 units (free-center record — seed-dependent 25–76); the 100 HI grains keep their gas declaration; zero NaN; bit-identical reruns. The old flat 15.01 start (the observed value placed in advance) gave vt 4.92 and farthest 604 (the record). The massCalibration ledger, mMin=1.9×f, lightSweep=(f−1)/f and the unscaled HI are QA-checked.\",\n    control:\"Pair with 🌃 (NFW). kFrame=0 removes dragging (farthest 568). The rotation-curve overlay shows the outer band emptying.\"}},\n  parameterAudit:{\n    observedInputs:[\"🌃 と同一(バリオン転写)\"],\n    fixedConventions:[\"seed 1573711561 を 🌃 と共有(中心核の排他帯・重心系変換で完全同一にはならない — 宣言)+kFrame=1・halo 無し・中心核 m=100 単位(宣言値・fit しない)Ω=20・Kcs=0.02・pinned なし+balanceFrame・HI は f 非適用+shell:\\\"gas\\\"\",\"初期速度=配置の実ポテンシャルの円運動解(vMode enclosed・vScale 1。観測 V_flat を先置きしない)\"],\n    fitted:[\"なし(C=1 のゼロフィット — 外縁 55 vs 150 km/s 不成立は正直な記録)\"],\n    derived:[\"平均場 chiMean=0.9998660398257284(自己無撞着・全対 W)\",\"恒星 f=C·2χ̄=1.9997320796514568(C=1)— mMin=1.9×f=3.7994909513377677\",\"lightSweep=(f−1)/f=0.49993301093899795(測光相殺)\",\"enclosed 初期化: t=0 の v_c 14.2/13.9/10.2(内/中/外帯 — 外帯 102 km/s は t=0 でも観測 150 に未達)\",\"外縁 hold-out: t=40 vt 5.53(55 km/s)vs 観測 15.01(150 km/s)— 不成立・最遠 514(kF0 5.13/568)〔旧 flat 初期化 4.92/604〕\",\"中心核の反跳 76 単位(自由中心の記録・seed 7 では 44)\"],\n    numerical:[\"🌃 と同一(dt=0.016・t=40=2500步)\"]},\n  massCalibration:{law:\"chi-law-v1-meanfield\", C:1, meanChi:0.9998660398257284, factorUniform:1.9997320796514568},   // 第230便: 平均場台帳(恒星のみ — QA 照合)\n  // 第281便c(原仮定者の裁定(第71報)・統括の検証項目 R74): **条件付き質量台帳**(表示専用 —— bodies・physics・presetSig は不変)。\n  // 値は純関数 tests/lib-w281c-rotorledger.mjs の出力(器 tests/exp-w281c-rotorledger.mjs・正本 tests/out/rotorledger-w281c.json)。\n  // N_DR=nRatio·M★/⟨m★⟩(M★=starBase=恒星の基準質量 380 単位 = 200 粒 × 1.9)・M_DR=N_DR·⟨m_DR⟩・\n  // M_gal=f★M★+M_gas+M_core+M_DR。**f★ は光学迷彩矮星に掛けない**(rotorInFStar:false)。**既定は追加 0**(defaultScenario:\"none\")\n  // 第282便d(原仮定者の裁定(第72報)③「f≈2・f≈1+kFrame は廃止・f≈1 も f=1 に」): **台帳を f★=1 で再宣言**(値だけ ——\n  // bodies・physics・presetSig は不変)。**旧 1147.4 単位(f★≈2)は持ち越さない**: 恒星 380+気体 287.5+核 100=767.5 単位。\n  // bodies には旧契約の f(massCalibration.factorUniform)が焼き込まれたまま —— `fDynamics` として並べる(移行は後便・第284便b で名前を「恒星質量(f★=1)+自由中心核のアナロジー」へ —— name は presetSig の外)。\n  massLedger:{version:\"w282d-1\", starBase:380, fStar:1, fDynamics:1.9997320796514568, gas:287.5, core:100, unitKg:1e38, mSunKg:1.9885e30,\n    mStarSun:0.5, nRatio:20, rotorInFStar:false, defaultScenario:\"none\",\n    currentTotalUnit:767.5, currentTotalSun:38596932361.07619,\n    rotorScenarios:[\n      {mRotorSun:0.1, nRotor:764395272818.7075, mRotorUnit:1520, totalUnit:2287.5, totalSun:115036459642.94695},\n      {mRotorSun:1, nRotor:764395272818.7075, mRotorUnit:15199.999999999998, totalUnit:15967.499999999998, totalSun:802992205179.7837},\n      {mRotorSun:10, nRotor:764395272818.7075, mRotorUnit:152000, totalUnit:152767.5, totalSun:7682549660548.151}],\n    note:\"条件付き台帳(第281便c・原仮定者の裁定〔第71報〕/第282便d で f★=1 に再宣言 —— 第72報③)。浮遊惑星の個数比(恒星の約 20 倍 —— 個数の推定)を恒星質量程度の光学迷彩矮星へ当てはめた仮定の 3 シナリオ。観測で推定されている浮遊惑星の質量は地球質量級で、恒星質量の暗い天体が恒星の 20 倍あることを観測は示していない。台帳は f★=1(恒星 380+気体 287.5+核 100=767.5 単位)で、bodies には旧契約の f≈2 が焼き込まれたまま(fDynamics —— 移行は後便)。光学迷彩矮星は別集団として 1 回だけ足す。🛞 の力学(bodies・physics)には入れていない(既定は追加 0)。較正母集団に入れない。\",\n    noteEn:\"A conditional ledger (wave 281c, the adjudicator's ruling in the 71st report; re-declared with f_star = 1 in wave 282d after report 72, item 3). Three hypothetical scenarios that apply the free-floating-planet NUMBER ratio (about 20 per star - a count estimate) to optical-camouflage dwarfs of roughly stellar mass. The masses inferred for free-floating planets are Earth-mass class; observations do not show 20 stellar-mass dark bodies per star. The ledger uses f_star = 1 (stars 380 + gas 287.5 + core 100 = 767.5 units); the bodies still carry the old-contract f of about 2 (fDynamics - migration is a later wave). The optical-camouflage dwarfs are a separate population added once. Not put into the dynamics of this sample (bodies and physics unchanged; the default adds 0). Not in the calibration population.\"},\n  activeParams:[\"kFrame\",\"G\",\"softening\"],\n  seed:1573711561,   // 第230便: 🌃 と実効 seed 共有(配置の完全同一は中心核の排他帯で不成立 — 宣言)\n  balanceFrame:\"barycentric\",   // 第230便: 自由中心核の重心系\n  camera:{scale:25, follow:300}, world:{boundary:\"none\",size:0},\n  timeRef:{basis:\"observe\", tObs:19.2, note:\"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)・旧 timeScale=20 → 4(刻み ×2)\", legacyTimeScale:20},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4\n  physics:{G:6.674, D0:0.006, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,\n    cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,\n    radiusScale:1, softening:1, timeScale:4, stepDt:0.032, dispMag:1, frameReaction:\"pairReduced\", frameWeight:\"share\"},\n  bodies:[\n    {type:\"disk\", n:200, cx:0, cy:0, radius:60, profile:\"exponential\", sersicRe:16.26,\n      mMin:3.7994909513377677, mMax:3.7994909513377677,   // 1.9×f(恒星 f=1.9997320796514568 — 平均場 χ-law・C=1)\n      lightSweep:0.49993301093899795,                      // (f−1)/f — 測光相殺\n      // 第235便: 初期速度=配置の実ポテンシャル(全粒・ε=softening)の円運動解 — 観測 V_flat 15.01 の先置きをやめる\n      spinMin:0, spinMax:0, vMode:\"enclosed\", vScale:1, direction:1, rMul:0.2},\n    {type:\"disk\", n:100, cx:0, cy:0, radius:130, profile:\"exponential\", sersicRe:31,\n      mMin:2.875, mMax:2.875,   // HI は f 非適用(21cm 転写 — 恒星補正則を外挿しない宣言)\n      shell:\"gas\",              // 第229便宣言 — 気体の殻(コヒーレント回転なし)\n      spinMin:0, spinMax:0, vMode:\"enclosed\", vScale:1, direction:1, rMul:0.2},   // 第235便: 同上\n    {type:\"single\", m:100, x:0, y:0, vx:0, vy:0, spin:0, pinned:false, radius:2, lightSweep:1,\n      core:{mode:\"differential\", massFrac:0.5, radius:1, omega:20, Kcs:0.02, inertiaScale:100}}],\n  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false} }",
+   "raw": {
+    "id": "ngc3198DFM",
+    "name": "NGC 3198(DFM版)— 恒星質量+自由中心核のアナロジー",
+    "emoji": "🛞",
+    "group": "実在天体のアナロジー",
+    "familyId": "ngc3198",
+    "familyRole": "primary",
+    "scaleTier": "galactic",
+    "scaleExp": {
+     "L": 19,
+     "T": 15,
+     "M": 38
+    },
+    "sampleClass": "principle",
+    "notClaim": [
+     "dm",
+     "cal"
+    ],
+    "obsCard": [
+     {
+      "q": "質量較正(連星契約の銀河側)",
+      "model": "平均場 χ̄=0.99987(飽和)→恒星円盤に f=C·2χ̄=1.99973(C=1)を一様適用・lightSweep=(f−1)/f",
+      "obs": "—(f は法則の出力・fit ノブは C=1)"
+     },
+     {
+      "q": "HI は f 非適用(宣言)",
+      "model": "HI は 21cm 転写の質量 — 恒星の補正則を外挿しない。shell:\"gas\" 宣言",
+      "obs": "M_HI=1.09×10¹⁰ M☉(CSV — He 込み ×1.33)"
+     },
+     {
+      "q": "外縁 hold-out(正直な結果)",
+      "model": "**f=2 でも未達(この探索範囲)—— 次の見直しへ** — 円運動解の t=0 で外帯 v_c 10.2(102 km/s)・t=40 の中心核相対 vt 5.53(55 km/s)・最遠 514(kF0 5.13/568)",
+      "obs": "V_flat=150.1 km/s(SPARC)"
+     },
+     {
+      "q": "中心核(縮小した暗い回転核 — 自由化)",
+      "model": "m=100 単位(宣言値・fit しない)Ω=20・Kcs=0.02。pinned を外し重心系・測定は中心核相対(反跳 43 単位)",
+      "obs": "—(SPARC はバルジ無し — 中心核は DFM 仮説)"
+     },
+     {
+      "q": "配置と初期場の宣言",
+      "model": "seed は 🌃 と共有(排他帯・重心系変換で完全同一ではない)。初期速度=実ポテンシャルの円運動解(vMode enclosed)。N=300 の自己重力円盤は滑らかな支配場なしに t=40 で散逸(平衡ではない — 記録)",
+      "obs": "—(🌃 は観測回転曲線の flat 転写のまま)"
+     },
+     {
+      "q": "条件付き質量台帳(表示専用・既定は追加 0)",
+      "model": "仮定: 光学迷彩矮星数=恒星数×20・⟨m_DR⟩ 0.1/1/10 M☉ → +1520/+15200/+152000 単位(恒星質量の倍率を掛けない別集団 — massLedger)",
+      "obs": "浮遊惑星の推定は地球質量級(総質量 80 M⊕/恒星=恒星質量の 0.048%)。約 20 倍は個数の比で質量の測定ではない"
+     }
+    ],
+    "descStruct": {
+     "summary": "**名前: 質量台帳 massLedger の恒星質量(倍率を掛けない —— 恒星 380+気体 287.5+核 100=767.5 単位)に合わせて「恒星質量+自由中心核のアナロジー」とした。bodies の力学にはまだ旧契約の fDynamics≈2 が焼き込まれている(移行は今後 —— 以下の f≈2 の記述は旧契約の記録)。🌃 の対になる DFM 版 — 連星の質量補正(χ-law f≈2)を先に適用してから「ハロー無しの引きずりが外縁を支えるか」を測り直す hold-out**(質量の補正なしの版を置換)。**平均場 χ̄=0.99987(飽和)→ 恒星円盤に f=1.99973(C=1・ゼロフィット)を一様適用**し lightSweep=(f−1)/f で見掛けを観測側へ。**HI(21cm 転写)には掛けない**(恒星の補正則を外挿しない — 宣言)・HI は shell:\"gas\" 宣言。中心は暗い回転核 m=100 単位(5×10⁹ M☉ の宣言値)を **pinned を外して重心系に置き**、測定は中心核相対。fit ノブはゼロ(C=1)。働くのは重力(E4)+空間引きずり(A8/E6′)。**初期速度は観測 V_flat の先置きではなく、配置の実ポテンシャルの円運動解(vMode=enclosed)**: t=0 の v_c は内/中/外帯で 142/139/**102** km/s — f=2 のバリオンだけでは外帯が観測 150 に t=0 でも未達。**結果(正直な記録): f=2 でも未達 —— 次の見直し(実装・初期条件・調整範囲)へ** — t=40 の外縁帯 vt 55 km/s(観測 150)・最遠 514 単位へ散逸(kF0 対照 51 km/s・568 — 引きずりの寄与は +8%)。N=300 の 2D 自己重力円盤は 🌃 の NFW のような滑らかな支配場が無いと平衡を保てない(平衡初期化でも散逸する — 記録)。中心質量は太らせない(NFW の再発明はしない)。",
+     "observe": "実測(t=40・dt=0.016・kF1・halo 無し・enclosed 初期化・中心核相対): t=0 の円運動解 v_c 14.2/13.9/10.2(内/中/外帯)→ t=40 の外縁帯(60〜130 単位)vt **5.53**(55 km/s — 観測 150 の 1/3・hold-out 不成立の機械固定)・最遠 **514** 単位(kF0 同構成対照 5.13/568)・中心核は残存し反跳で 76 単位歩く(自由中心の記録 — seed 依存 25〜76)・HI 100 粒は gas 宣言のまま残存・NaN 0・決定性ビット同一。旧 flat 15.01 初期化(観測値の先置き)では vt 4.92・最遠 604 だった。massCalibration 台帳・mMin=1.9×f・lightSweep=(f−1)/f・HI 非適用の整合を QA 照合。",
+     "control": "🌃(NFW あり・重力 E4+外力)と対で見る。kFrame=0 で引きずりを切る対照(最遠 568)。回転曲線オーバーレイで外縁の空洞化が見える。",
+     "brief": "ハローなしの DFM で外縁速度を支える。未達・外縁 55 km/s で未達 —— 次の見直しへ。較正対象外。"
+    },
+    "en": {
+     "name": "NGC 3198 (DFM build) — stellar mass + free central rotor, an analogy",
+     "descStruct": {
+      "summary": "NAME: renamed \"stellar mass + free central rotor, an analogy\" to match the mass ledger's stellar mass without a multiplier (stars 380 + gas 287.5 + core 100 = 767.5 units). The bodies' dynamics still carry the old contract's fDynamics≈2 (migration is left for later — the f≈2 text below is the old contract's record). THE DFM COUNTERPART of 🌃 — the binaries' mass correction (χ-law f≈2) applied FIRST, then re-asking whether dragging holds the outer disk without a halo (replaces the build without the mass correction). Mean-field χ̄=0.99987 (saturated) → f=1.99973 (C=1, zero fit) applied uniformly to the STELLAR disk, with lightSweep=(f−1)/f returning the appearance to the observed side. THE HI IS NOT SCALED (a 21 cm transcription — the stellar correction law is not extrapolated; declared), and carries shell:\"gas\". The dark central rotor m=100 units (a declared 5×10⁹ M☉) is now FREE (pinned removed, barycentric frame), and all measurements are rotor-relative. Zero fit knobs (C=1). Gravity (E4) + frame dragging (A8/E6′) act. THE INITIAL VELOCITIES ARE NOT THE OBSERVED V_flat PLACED IN ADVANCE but the circular-orbit solution of the placed potential (vMode=enclosed): at t=0 v_c reads 142/139/102 km/s (inner/mid/outer) — with f=2 baryons alone the outer band does not reach the observed 150 even at t=0. RESULT (honest record): EVEN AT f=2 IT DOES NOT REACH — outer-band vt 55 km/s at t=40 (observed 150); farthest 514 units (kF0 control 51 km/s, 568 — dragging contributes +8%). An N=300 2D self-gravitating disk cannot hold equilibrium without a smooth dominant field like 🌃's NFW (it disperses even from the equilibrium start — recorded). The central mass is NOT inflated (no NFW reinvention).",
+      "observe": "Measured (t=40, dt=0.016, kF1, no halo, enclosed start, rotor-relative): the t=0 circular solution v_c 14.2/13.9/10.2 (inner/mid/outer) → outer-band (60–130) vt 5.53 at t=40 (55 km/s — a third of the observed 150; the failed hold-out machine-fixed); farthest 514 (kF0 control 5.13/568); the rotor survives and recoils 76 units (free-center record — seed-dependent 25–76); the 100 HI grains keep their gas declaration; zero NaN; bit-identical reruns. The old flat 15.01 start (the observed value placed in advance) gave vt 4.92 and farthest 604 (the record). The massCalibration ledger, mMin=1.9×f, lightSweep=(f−1)/f and the unscaled HI are QA-checked.",
+      "control": "Pair with 🌃 (NFW). kFrame=0 removes dragging (farthest 568). The rotation-curve overlay shows the outer band emptying.",
+      "brief": "Support the outer speed with halo-free DFM. Unmet: not yet reached at 55 km/s in the outskirts (next revision). Out of calibration scope."
+     },
+     "description": "NAME: renamed \"stellar mass + free central rotor, an analogy\" to match the mass ledger's stellar mass without a multiplier (stars 380 + gas 287.5 + core 100 = 767.5 units). The bodies' dynamics still carry the old contract's fDynamics≈2 (migration is left for later — the f≈2 text below is the old contract's record). THE DFM COUNTERPART of 🌃 — the binaries' mass correction (χ-law f≈2) applied FIRST, then re-asking whether dragging holds the outer disk without a halo (replaces the build without the mass correction). Mean-field χ̄=0.99987 (saturated) → f=1.99973 (C=1, zero fit) applied uniformly to the STELLAR disk, with lightSweep=(f−1)/f returning the appearance to the observed side. THE HI IS NOT SCALED (a 21 cm transcription — the stellar correction law is not extrapolated; declared), and carries shell:\"gas\". The dark central rotor m=100 units (a declared 5×10⁹ M☉) is now FREE (pinned removed, barycentric frame), and all measurements are rotor-relative. Zero fit knobs (C=1). Gravity (E4) + frame dragging (A8/E6′) act. THE INITIAL VELOCITIES ARE NOT THE OBSERVED V_flat PLACED IN ADVANCE but the circular-orbit solution of the placed potential (vMode=enclosed): at t=0 v_c reads 142/139/102 km/s (inner/mid/outer) — with f=2 baryons alone the outer band does not reach the observed 150 even at t=0. RESULT (honest record): EVEN AT f=2 IT DOES NOT REACH — outer-band vt 55 km/s at t=40 (observed 150); farthest 514 units (kF0 control 51 km/s, 568 — dragging contributes +8%). An N=300 2D self-gravitating disk cannot hold equilibrium without a smooth dominant field like 🌃's NFW (it disperses even from the equilibrium start — recorded). The central mass is NOT inflated (no NFW reinvention).Measured (t=40, dt=0.016, kF1, no halo, enclosed start, rotor-relative): the t=0 circular solution v_c 14.2/13.9/10.2 (inner/mid/outer) → outer-band (60–130) vt 5.53 at t=40 (55 km/s — a third of the observed 150; the failed hold-out machine-fixed); farthest 514 (kF0 control 5.13/568); the rotor survives and recoils 76 units (free-center record — seed-dependent 25–76); the 100 HI grains keep their gas declaration; zero NaN; bit-identical reruns. The old flat 15.01 start (the observed value placed in advance) gave vt 4.92 and farthest 604 (the record). The massCalibration ledger, mMin=1.9×f, lightSweep=(f−1)/f and the unscaled HI are QA-checked.Pair with 🌃 (NFW). kFrame=0 removes dragging (farthest 568). The rotation-curve overlay shows the outer band emptying.",
+     "status": {
+      "purpose": "Support the outer speed with halo-free DFM",
+      "state": "not yet reached at 55 km/s in the outskirts (next revision)",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "🌃 と同一(バリオン転写)"
+     ],
+     "fixedConventions": [
+      "seed 1573711561 を 🌃 と共有(中心核の排他帯・重心系変換で完全同一にはならない — 宣言)+kFrame=1・halo 無し・中心核 m=100 単位(宣言値・fit しない)Ω=20・Kcs=0.02・pinned なし+balanceFrame・HI は f 非適用+shell:\"gas\"",
+      "初期速度=配置の実ポテンシャルの円運動解(vMode enclosed・vScale 1。観測 V_flat を先置きしない)"
+     ],
+     "fitted": [
+      "なし(C=1 のゼロフィット — 外縁 55 vs 150 km/s 不成立は正直な記録)"
+     ],
+     "derived": [
+      "平均場 chiMean=0.9998660398257284(自己無撞着・全対 W)",
+      "恒星 f=C·2χ̄=1.9997320796514568(C=1)— mMin=1.9×f=3.7994909513377677",
+      "lightSweep=(f−1)/f=0.49993301093899795(測光相殺)",
+      "enclosed 初期化: t=0 の v_c 14.2/13.9/10.2(内/中/外帯 — 外帯 102 km/s は t=0 でも観測 150 に未達)",
+      "外縁 hold-out: t=40 vt 5.53(55 km/s)vs 観測 15.01(150 km/s)— 不成立・最遠 514(kF0 5.13/568)〔旧 flat 初期化 4.92/604〕",
+      "中心核の反跳 76 単位(自由中心の記録・seed 7 では 44)"
+     ],
+     "numerical": [
+      "🌃 と同一(dt=0.016・t=40=2500步)"
+     ]
+    },
+    "massCalibration": {
+     "law": "chi-law-v1-meanfield",
+     "C": 1,
+     "meanChi": 0.9998660398257284,
+     "factorUniform": 1.9997320796514568
+    },
+    "massLedger": {
+     "version": "w282d-1",
+     "starBase": 380,
+     "fStar": 1,
+     "fDynamics": 1.9997320796514568,
+     "gas": 287.5,
+     "core": 100,
+     "unitKg": 1e+38,
+     "mSunKg": 1.9885e+30,
+     "mStarSun": 0.5,
+     "nRatio": 20,
+     "rotorInFStar": false,
+     "defaultScenario": "none",
+     "currentTotalUnit": 767.5,
+     "currentTotalSun": 38596932361.07619,
+     "rotorScenarios": [
+      {
+       "mRotorSun": 0.1,
+       "nRotor": 764395272818.7075,
+       "mRotorUnit": 1520,
+       "totalUnit": 2287.5,
+       "totalSun": 115036459642.94695
+      },
+      {
+       "mRotorSun": 1,
+       "nRotor": 764395272818.7075,
+       "mRotorUnit": 15199.999999999998,
+       "totalUnit": 15967.499999999998,
+       "totalSun": 802992205179.7837
+      },
+      {
+       "mRotorSun": 10,
+       "nRotor": 764395272818.7075,
+       "mRotorUnit": 152000,
+       "totalUnit": 152767.5,
+       "totalSun": 7682549660548.151
+      }
+     ],
+     "note": "条件付き台帳(第281便c・原仮定者の裁定〔第71報〕/第282便d で f★=1 に再宣言 —— 第72報③)。浮遊惑星の個数比(恒星の約 20 倍 —— 個数の推定)を恒星質量程度の光学迷彩矮星へ当てはめた仮定の 3 シナリオ。観測で推定されている浮遊惑星の質量は地球質量級で、恒星質量の暗い天体が恒星の 20 倍あることを観測は示していない。台帳は f★=1(恒星 380+気体 287.5+核 100=767.5 単位)で、bodies には旧契約の f≈2 が焼き込まれたまま(fDynamics —— 移行は後便)。光学迷彩矮星は別集団として 1 回だけ足す。🛞 の力学(bodies・physics)には入れていない(既定は追加 0)。較正母集団に入れない。",
+     "noteEn": "A conditional ledger (wave 281c, the adjudicator's ruling in the 71st report; re-declared with f_star = 1 in wave 282d after report 72, item 3). Three hypothetical scenarios that apply the free-floating-planet NUMBER ratio (about 20 per star - a count estimate) to optical-camouflage dwarfs of roughly stellar mass. The masses inferred for free-floating planets are Earth-mass class; observations do not show 20 stellar-mass dark bodies per star. The ledger uses f_star = 1 (stars 380 + gas 287.5 + core 100 = 767.5 units); the bodies still carry the old-contract f of about 2 (fDynamics - migration is a later wave). The optical-camouflage dwarfs are a separate population added once. Not put into the dynamics of this sample (bodies and physics unchanged; the default adds 0). Not in the calibration population."
+    },
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "seed": 1573711561,
+    "balanceFrame": "barycentric",
+    "camera": {
+     "scale": 25,
+     "follow": 300
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "timeRef": {
+     "basis": "observe",
+     "tObs": 19.2,
+     "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)・旧 timeScale=20 → 4(刻み ×2)",
+     "legacyTimeScale": 20
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.006,
+     "kFrame": 1,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 0,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 1,
+     "timeScale": 4,
+     "stepDt": 0.032,
+     "dispMag": 1,
+     "frameReaction": "pairReduced",
+     "frameWeight": "share"
+    },
+    "bodies": [
+     {
+      "type": "disk",
+      "n": 200,
+      "cx": 0,
+      "cy": 0,
+      "radius": 60,
+      "profile": "exponential",
+      "sersicRe": 16.26,
+      "mMin": 3.7994909513377677,
+      "mMax": 3.7994909513377677,
+      "lightSweep": 0.49993301093899795,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "enclosed",
+      "vScale": 1,
+      "direction": 1,
+      "rMul": 0.2
+     },
+     {
+      "type": "disk",
+      "n": 100,
+      "cx": 0,
+      "cy": 0,
+      "radius": 130,
+      "profile": "exponential",
+      "sersicRe": 31,
+      "mMin": 2.875,
+      "mMax": 2.875,
+      "shell": "gas",
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "enclosed",
+      "vScale": 1,
+      "direction": 1,
+      "rMul": 0.2
+     },
+     {
+      "type": "single",
+      "m": 100,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0,
+      "pinned": false,
+      "radius": 2,
+      "lightSweep": 1,
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.5,
+       "radius": 1,
+       "omega": 20,
+       "Kcs": 0.02,
+       "inertiaScale": 100
+      }
+     }
+    ],
+    "overlays": {
+     "rotationCurve": true,
+     "tempHistogram": false,
+     "field": false,
+     "trail": false
+    },
+    "description": "**名前: 質量台帳 massLedger の恒星質量(倍率を掛けない —— 恒星 380+気体 287.5+核 100=767.5 単位)に合わせて「恒星質量+自由中心核のアナロジー」とした。bodies の力学にはまだ旧契約の fDynamics≈2 が焼き込まれている(移行は今後 —— 以下の f≈2 の記述は旧契約の記録)。🌃 の対になる DFM 版 — 連星の質量補正(χ-law f≈2)を先に適用してから「ハロー無しの引きずりが外縁を支えるか」を測り直す hold-out**(質量の補正なしの版を置換)。**平均場 χ̄=0.99987(飽和)→ 恒星円盤に f=1.99973(C=1・ゼロフィット)を一様適用**し lightSweep=(f−1)/f で見掛けを観測側へ。**HI(21cm 転写)には掛けない**(恒星の補正則を外挿しない — 宣言)・HI は shell:\"gas\" 宣言。中心は暗い回転核 m=100 単位(5×10⁹ M☉ の宣言値)を **pinned を外して重心系に置き**、測定は中心核相対。fit ノブはゼロ(C=1)。働くのは重力(E4)+空間引きずり(A8/E6′)。**初期速度は観測 V_flat の先置きではなく、配置の実ポテンシャルの円運動解(vMode=enclosed)**: t=0 の v_c は内/中/外帯で 142/139/**102** km/s — f=2 のバリオンだけでは外帯が観測 150 に t=0 でも未達。**結果(正直な記録): f=2 でも未達 —— 次の見直し(実装・初期条件・調整範囲)へ** — t=40 の外縁帯 vt 55 km/s(観測 150)・最遠 514 単位へ散逸(kF0 対照 51 km/s・568 — 引きずりの寄与は +8%)。N=300 の 2D 自己重力円盤は 🌃 の NFW のような滑らかな支配場が無いと平衡を保てない(平衡初期化でも散逸する — 記録)。中心質量は太らせない(NFW の再発明はしない)。実測(t=40・dt=0.016・kF1・halo 無し・enclosed 初期化・中心核相対): t=0 の円運動解 v_c 14.2/13.9/10.2(内/中/外帯)→ t=40 の外縁帯(60〜130 単位)vt **5.53**(55 km/s — 観測 150 の 1/3・hold-out 不成立の機械固定)・最遠 **514** 単位(kF0 同構成対照 5.13/568)・中心核は残存し反跳で 76 単位歩く(自由中心の記録 — seed 依存 25〜76)・HI 100 粒は gas 宣言のまま残存・NaN 0・決定性ビット同一。旧 flat 15.01 初期化(観測値の先置き)では vt 4.92・最遠 604 だった。massCalibration 台帳・mMin=1.9×f・lightSweep=(f−1)/f・HI 非適用の整合を QA 照合。🌃(NFW あり・重力 E4+外力)と対で見る。kFrame=0 で引きずりを切る対照(最遠 568)。回転曲線オーバーレイで外縁の空洞化が見える。",
+    "status": {
+     "purpose": "ハローなしの DFM で外縁速度を支える",
+     "objective": "unmet",
+     "state": "外縁 55 km/s で未達 —— 次の見直しへ",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "behavior.ngc3198"
+     ]
+    }
+   },
+   "presetSigHash": "7fa984c",
+   "presetSigHashRevert": "67ef3d3d",
+   "presetSigHashNow": "761fbca5",
+   "presetSigHashRevertNow": "c36c550e",
+   "declBefore": {
+    "starMEach": 3.7994909513377677,
+    "lightSweep": 0.49993301093899795,
+    "massCalibration": {
+     "law": "chi-law-v1-meanfield",
+     "C": 1,
+     "meanChi": 0.9998660398257284,
+     "factorUniform": 1.9997320796514568
+    },
+    "fDynamics": 1.9997320796514568
+   },
+   "declAfter": {
+    "starMEach": 1.9,
+    "lightSweep": null,
+    "massCalibration": {
+     "law": "f-fixed-1",
+     "f": 1,
+     "baseMass": [
+      1.9,
+      2.875
+     ]
+    },
+    "fDynamics": 1
+   },
+   "observedSource": {
+    "book": "ngc3198",
+    "starMEach": 1.9,
+    "gasMEach": 2.875,
+    "text": "M★=1.91×10¹⁰ M☉(Υ_disk=0.5 規約)→ 380 単位(🌃 の parameterAudit.observedInputs)"
+   },
+   "measured": {
+    "procedure": "QA behavior.ngc3198 と同じ手続き(t=40 = 2500 步 × 0.016・中心核相対・外縁帯 60〜130 単位)+ t=0 の帯(内 0〜30・中 30〜60・外 60〜130)",
+    "before": {
+     "t0OuterVc": 10.233200901923569,
+     "t40": {
+      "vt": 5.527425809791234,
+      "nOuter": 42,
+      "rmax": 514.09675924413,
+      "cDisp": 75.68701031957184,
+      "gasN": 100,
+      "nan": false
+     },
+     "kF0": {
+      "vt": 5.124599008408081,
+      "rmax": 568.4717267798312,
+      "cDisp": 25.288584648763493
+     },
+     "seed7": {
+      "vt": 4.083873207601999,
+      "rmax": 552.9572428639609,
+      "cDisp": 44.06876645138177
+     },
+     "deterministic": true,
+     "mTotUnit": 1147.3981857299805,
+     "t0Bands": [
+      {
+       "lo": 0,
+       "hi": 30,
+       "n": 208,
+       "vt": 14.146851423910594
+      },
+      {
+       "lo": 30,
+       "hi": 60,
+       "n": 72,
+       "vt": 13.894784485421566
+      },
+      {
+       "lo": 60,
+       "hi": 130,
+       "n": 20,
+       "vt": 10.233200901923569
+      }
+     ]
+    },
+    "after": {
+     "t0OuterVc": 8.375930527283774,
+     "t40": {
+      "vt": 5.131387391245568,
+      "nOuter": 37,
+      "rmax": 421.8637848007693,
+      "cDisp": 28.51013688664741,
+      "gasN": 100,
+      "nan": false
+     },
+     "kF0": {
+      "vt": 3.9612029918047162,
+      "rmax": 266.84703847427977,
+      "cDisp": 25.66067474056823
+     },
+     "seed7": {
+      "vt": 4.112023062783142,
+      "rmax": 469.03943468297166,
+      "cDisp": 51.192830890447226
+     },
+     "deterministic": true,
+     "mTotUnit": 767.4999952316284,
+     "t0Bands": [
+      {
+       "lo": 0,
+       "hi": 30,
+       "n": 208,
+       "vt": 11.636102315524521
+      },
+      {
+       "lo": 30,
+       "hi": 60,
+       "n": 72,
+       "vt": 11.149979628178583
+      },
+      {
+       "lo": 60,
+       "hi": 130,
+       "n": 20,
+       "vt": 8.375930527283774
+      }
+     ]
+    }
+   },
+   "status": {
+    "objectiveBefore": "unmet",
+    "objectiveAfter": "unmet",
+    "calibration": "out-of-scope"
+   }
+  }
+ },
+ "nonReal": [
+  {
+   "id": "supernovaCore",
+   "emoji": "🎇",
+   "massCalibration": {
+    "law": "chi-law-v1-transfer",
+    "C": 1,
+    "factorUniform": 2
+   },
+   "mass": [
+    600
+   ],
+   "notClaim": [
+    "toy"
+   ],
+   "sampleClass": "principle",
+   "observedInputs": [
+    "なし(原理トイ — 台帳 f=2 は総質量の由来の読み替え)",
+    "J0737−3039B の観測自転 22.654675(**別天体** — 比較マーカーとしてのみ)"
+   ],
+   "presetSigHash": "d7ce45a3",
+   "declSame": true,
+   "sigSame": true,
+   "textRemoved": [
+    {
+     "path": "descStruct.summary",
+     "before": "**1つの赤色巨星が多層に割れた外殻を吹き飛ばし、時計つきの核が残る**(保存的な爆発 spinBurst → 分割放出 core.shed を併載 → **🔵 nsRemnantDFM を統合し「1体で始まる超新星」へ改訂**)。置くのは**赤色巨星 1 体だけ**(m=600・台帳 f=2 は**総質量の由来**〔観測相当 300 の 2 倍〕であって内訳の主張ではない)。以前の「事前に置いたガス 200 粒の円盤」は**撤去した** — 外殻は shed が割って生む。**質量集中の宣言**(「白色矮星・中性子星の質量は元の赤色巨星とあまり変わらない=質量はコアに集中していて、育つとコア半径が縮む」): **massFrac=0.8**(コア 480+殻 120)は**宣言された構造仮定**であって観測事実の断定ではない。コアは小さく速い(Rc=4 — 殻半径 24.5 の 16%・Ω=40・Kcs=0)。**contract=0.02** でコアが自走し(J 保存のまま Ω が上がる)、**Ω_c が omegaCrit=60 に達したステップ末に1回だけ** core.shed が発火して、殻質量 120 の **frac=0.6** を **n=128 粒**のガスへ割る。**新機構=多層配置**: layers=4・rInner=0.25 で、粒は「元の半径の円周」だけでなく**コアとの間**にも置かれる(半径 6.12/16.33/26.54/36.74=0.25〜1.5 R₀ の等間隔 4 層・各層 32 粒の対称対。接線 J は**同じ角速度**で層へ配り、動径速度は**全粒同一**)。放出直後に残るのは**コアだった小さな中性子星の見立て**(Rc は contract で 4→0.59 まで縮む)と**多層の外殻**。burst の会計はまま: core.burst{rate:1, frac:2.7e-3} が各步コア J_z を目標 (1−frac)J₀ へ時定数 1/rate で減らし、ΔJ をガス重心まわりの剛体回転モードへ、残りの回転 E を動径モードへ厳密に注入する(**用量 2.7×10⁻³ は現象論としての宣言** — フィットではない)。中心は**自由**(pairReduced+重心系)・境界なし・coupleSink:\"reservoir\"。働くのは重力(E4)+引きずり+接触ばね(E9)+放射(E11)。**時計の帰属**(🔵 から継承): pulse:{omega:22.654675, source:\"observed\"} は**親に載っているので残骸が引き継ぎ**、放出片は時計を持たない — **爆発を挟んでも φ=ω·t が割れない**。ただしこの ω は J0737−3039B の観測自転=**別天体の fiducial を比較マーカーとして置く宣言**(🥀 の 1.4 M☉ マーカーと同じ規約)であって、この残骸の周期の予測ではない。**正直な限界**: ①engine の保存契約(残骸質量 > コア質量)により、**1 回の放出では裸のコアに至らない**(残骸 528=コア 480+残った殻 48 — 「裸の中性子星」という終端状態は今後の課題)。②残骸の器の半径は質量から引き直すだけで、コアの実半径には縮まない(縮むのは contract が動かす Rc)。③点粒子の自己重力エネルギーを持たないので、殻を半径 r_L へ出す操作は**脱出速度ちょうど**を解放する(規約の帰結であって予測ではない)。④**実在の超新星機構(重力崩壊・ニュートリノ加熱・衝撃波・⁵⁶Ni・光度曲線・磁場)はモデル化しない** — 回転駆動の外殻放出という遠い類推(磁気回転駆動超新星の方向)の principle トイ。分割の機構そのもの(4帳簿の閉性)は 🎆 が、徐々に剥がれる道は ⚪ が担う。",
+     "after": "**1つの赤色巨星が多層に割れた外殻を吹き飛ばし、時計つきの核が残る**(保存的な爆発 spinBurst → 分割放出 core.shed を併載 → **🔵 nsRemnantDFM を統合し「1体で始まる超新星」へ改訂**)。置くのは**赤色巨星 1 体だけ**(m=600 —— 総質量の宣言であって内訳の主張ではない)。以前の「事前に置いたガス 200 粒の円盤」は**撤去した** — 外殻は shed が割って生む。**質量集中の宣言**(「白色矮星・中性子星の質量は元の赤色巨星とあまり変わらない=質量はコアに集中していて、育つとコア半径が縮む」): **massFrac=0.8**(コア 480+殻 120)は**宣言された構造仮定**であって観測事実の断定ではない。コアは小さく速い(Rc=4 — 殻半径 24.5 の 16%・Ω=40・Kcs=0)。**contract=0.02** でコアが自走し(J 保存のまま Ω が上がる)、**Ω_c が omegaCrit=60 に達したステップ末に1回だけ** core.shed が発火して、殻質量 120 の **frac=0.6** を **n=128 粒**のガスへ割る。**新機構=多層配置**: layers=4・rInner=0.25 で、粒は「元の半径の円周」だけでなく**コアとの間**にも置かれる(半径 6.12/16.33/26.54/36.74=0.25〜1.5 R₀ の等間隔 4 層・各層 32 粒の対称対。接線 J は**同じ角速度**で層へ配り、動径速度は**全粒同一**)。放出直後に残るのは**コアだった小さな中性子星の見立て**(Rc は contract で 4→0.59 まで縮む)と**多層の外殻**。burst の会計はまま: core.burst{rate:1, frac:2.7e-3} が各步コア J_z を目標 (1−frac)J₀ へ時定数 1/rate で減らし、ΔJ をガス重心まわりの剛体回転モードへ、残りの回転 E を動径モードへ厳密に注入する(**用量 2.7×10⁻³ は現象論としての宣言** — フィットではない)。中心は**自由**(pairReduced+重心系)・境界なし・coupleSink:\"reservoir\"。働くのは重力(E4)+引きずり+接触ばね(E9)+放射(E11)。**時計の帰属**(🔵 から継承): pulse:{omega:22.654675, source:\"observed\"} は**親に載っているので残骸が引き継ぎ**、放出片は時計を持たない — **爆発を挟んでも φ=ω·t が割れない**。ただしこの ω は J0737−3039B の観測自転=**別天体の fiducial を比較マーカーとして置く宣言**(🥀 の 1.4 M☉ マーカーと同じ規約)であって、この残骸の周期の予測ではない。**正直な限界**: ①engine の保存契約(残骸質量 > コア質量)により、**1 回の放出では裸のコアに至らない**(残骸 528=コア 480+残った殻 48 — 「裸の中性子星」という終端状態は今後の課題)。②残骸の器の半径は質量から引き直すだけで、コアの実半径には縮まない(縮むのは contract が動かす Rc)。③点粒子の自己重力エネルギーを持たないので、殻を半径 r_L へ出す操作は**脱出速度ちょうど**を解放する(規約の帰結であって予測ではない)。④**実在の超新星機構(重力崩壊・ニュートリノ加熱・衝撃波・⁵⁶Ni・光度曲線・磁場)はモデル化しない** — 回転駆動の外殻放出という遠い類推(磁気回転駆動超新星の方向)の principle トイ。分割の機構そのもの(4帳簿の閉性)は 🎆 が、徐々に剥がれる道は ⚪ が担う。"
+    },
+    {
+     "path": "parameterAudit.observedInputs.0",
+     "before": "なし(原理トイ — 台帳 f=2 は総質量の由来の読み替え)",
+     "after": "なし(原理トイ)"
+    },
+    {
+     "path": "en.descStruct.summary",
+     "before": "ONE RED GIANT BLOWS OFF AN ENVELOPE THAT BREAKS INTO LAYERS, AND A CLOCK-CARRYING CORE REMAINS (AN EARLIER UPDATE MERGES 🔵 nsRemnantDFM IN AND STARTS FROM A SINGLE BODY). What is placed is ONE RED GIANT (m=600; the ledger f=2 says where the TOTAL mass comes from — twice the transcribed 300 — and claims nothing about the split). The 200-grain gas disc placed by hand previously IS GONE: the envelope is created by the split itself. THE DECLARED MASS CONCENTRATION (thought experiment 5 — 'the mass sits in the core, whose radius shrinks as it grows'): massFrac=0.8 (core 480 + shell 120) IS A DECLARED STRUCTURAL ASSUMPTION, not an assertion of observed fact. The core is small and fast (Rc=4, i.e. 16% of the 24.5 shell radius, Ω=40, Kcs=0); contract=0.02 spins it up (J conserved while Ω rises) and IN THE SINGLE STEP WHERE Ω_c REACHES omegaCrit=60 core.shed FIRES ONCE: frac=0.6 of the 120 shell mass becomes n=128 gas grains. THE NEW MECHANISM OF AN EARLIER UPDATE IS THE LAYERED PLACEMENT: with layers=4 and rInner=0.25 the grains sit not only on the circle of the original radius but ALSO BETWEEN IT AND THE CORE (radii 6.12/16.33/26.54/36.74 = 0.25…1.5 R₀, four evenly spaced layers of 32 grains in symmetric pairs; the tangential J is shared AT ONE ANGULAR VELOCITY and the radial speed is THE SAME FOR EVERY GRAIN). What is left right after the ejection is the core standing for a SMALL NEUTRON STAR (contract takes Rc from 4 to 0.59) plus the layered envelope. The burst accounting is unchanged — core.burst{rate:1, frac:2.7e-3} lowers the core J_z toward (1−frac)J₀, hands ΔJ to the gas as a rigid-rotation mode and injects the rest of the rotational energy into a radial mode — and THE DOSE 2.7e-3 IS A PHENOMENOLOGICAL DECLARATION, not a fit. The centre is free (pairReduced, barycentric), no boundary, coupleSink reservoir; gravity (E4), dragging, contact springs (E9) and radiation (E11) act. WHERE THE CLOCK GOES (inherited from 🔵): pulse:{omega:22.654675, source:\"observed\"} sits on the PARENT, so THE REMNANT INHERITS IT while the shed grains carry no clock — φ=ω·t SURVIVES THE EXPLOSION. That ω is J0737−3039B's observed spin — A DIFFERENT OBJECT'S FIDUCIAL, placed as a comparison marker, not a prediction. HONEST LIMITS: (1) the conservation contract (remnant mass > core mass) means ONE EVENT NEVER LEAVES A BARE CORE (remnant 528 = core 480 plus the 48 of shell that stayed; the terminal state is left for later); (2) the remnant's vessel radius is only re-derived from its mass, so it never shrinks to the core's; (3) with no self-gravitational energy for a point particle, moving the shell out to r_L always releases EXACTLY THE ESCAPE SPEED; (4) REAL SUPERNOVA MECHANISMS (core collapse, neutrinos, shocks, 56Ni, light curves, magnetic fields) ARE NOT MODELLED — a principle-class toy. The mechanism belongs to 🎆, the gradual road to ⚪.",
+     "after": "ONE RED GIANT BLOWS OFF AN ENVELOPE THAT BREAKS INTO LAYERS, AND A CLOCK-CARRYING CORE REMAINS (AN EARLIER UPDATE MERGES 🔵 nsRemnantDFM IN AND STARTS FROM A SINGLE BODY). What is placed is ONE RED GIANT (m=600 — a declared TOTAL mass that claims nothing about the split). The 200-grain gas disc placed by hand previously IS GONE: the envelope is created by the split itself. THE DECLARED MASS CONCENTRATION (thought experiment 5 — 'the mass sits in the core, whose radius shrinks as it grows'): massFrac=0.8 (core 480 + shell 120) IS A DECLARED STRUCTURAL ASSUMPTION, not an assertion of observed fact. The core is small and fast (Rc=4, i.e. 16% of the 24.5 shell radius, Ω=40, Kcs=0); contract=0.02 spins it up (J conserved while Ω rises) and IN THE SINGLE STEP WHERE Ω_c REACHES omegaCrit=60 core.shed FIRES ONCE: frac=0.6 of the 120 shell mass becomes n=128 gas grains. THE NEW MECHANISM OF AN EARLIER UPDATE IS THE LAYERED PLACEMENT: with layers=4 and rInner=0.25 the grains sit not only on the circle of the original radius but ALSO BETWEEN IT AND THE CORE (radii 6.12/16.33/26.54/36.74 = 0.25…1.5 R₀, four evenly spaced layers of 32 grains in symmetric pairs; the tangential J is shared AT ONE ANGULAR VELOCITY and the radial speed is THE SAME FOR EVERY GRAIN). What is left right after the ejection is the core standing for a SMALL NEUTRON STAR (contract takes Rc from 4 to 0.59) plus the layered envelope. The burst accounting is unchanged — core.burst{rate:1, frac:2.7e-3} lowers the core J_z toward (1−frac)J₀, hands ΔJ to the gas as a rigid-rotation mode and injects the rest of the rotational energy into a radial mode — and THE DOSE 2.7e-3 IS A PHENOMENOLOGICAL DECLARATION, not a fit. The centre is free (pairReduced, barycentric), no boundary, coupleSink reservoir; gravity (E4), dragging, contact springs (E9) and radiation (E11) act. WHERE THE CLOCK GOES (inherited from 🔵): pulse:{omega:22.654675, source:\"observed\"} sits on the PARENT, so THE REMNANT INHERITS IT while the shed grains carry no clock — φ=ω·t SURVIVES THE EXPLOSION. That ω is J0737−3039B's observed spin — A DIFFERENT OBJECT'S FIDUCIAL, placed as a comparison marker, not a prediction. HONEST LIMITS: (1) the conservation contract (remnant mass > core mass) means ONE EVENT NEVER LEAVES A BARE CORE (remnant 528 = core 480 plus the 48 of shell that stayed; the terminal state is left for later); (2) the remnant's vessel radius is only re-derived from its mass, so it never shrinks to the core's; (3) with no self-gravitational energy for a point particle, moving the shell out to r_L always releases EXACTLY THE ESCAPE SPEED; (4) REAL SUPERNOVA MECHANISMS (core collapse, neutrinos, shocks, 56Ni, light curves, magnetic fields) ARE NOT MODELLED — a principle-class toy. The mechanism belongs to 🎆, the gradual road to ⚪."
+    },
+    {
+     "path": "en.description",
+     "before": "ONE RED GIANT BLOWS OFF AN ENVELOPE THAT BREAKS INTO LAYERS, AND A CLOCK-CARRYING CORE REMAINS (AN EARLIER UPDATE MERGES 🔵 nsRemnantDFM IN AND STARTS FROM A SINGLE BODY). What is placed is ONE RED GIANT (m=600; the ledger f=2 says where the TOTAL mass comes from — twice the transcribed 300 — and claims nothing about the split). The 200-grain gas disc placed by hand previously IS GONE: the envelope is created by the split itself. THE DECLARED MASS CONCENTRATION (thought experiment 5 — 'the mass sits in the core, whose radius shrinks as it grows'): massFrac=0.8 (core 480 + shell 120) IS A DECLARED STRUCTURAL ASSUMPTION, not an assertion of observed fact. The core is small and fast (Rc=4, i.e. 16% of the 24.5 shell radius, Ω=40, Kcs=0); contract=0.02 spins it up (J conserved while Ω rises) and IN THE SINGLE STEP WHERE Ω_c REACHES omegaCrit=60 core.shed FIRES ONCE: frac=0.6 of the 120 shell mass becomes n=128 gas grains. THE NEW MECHANISM OF AN EARLIER UPDATE IS THE LAYERED PLACEMENT: with layers=4 and rInner=0.25 the grains sit not only on the circle of the original radius but ALSO BETWEEN IT AND THE CORE (radii 6.12/16.33/26.54/36.74 = 0.25…1.5 R₀, four evenly spaced layers of 32 grains in symmetric pairs; the tangential J is shared AT ONE ANGULAR VELOCITY and the radial speed is THE SAME FOR EVERY GRAIN). What is left right after the ejection is the core standing for a SMALL NEUTRON STAR (contract takes Rc from 4 to 0.59) plus the layered envelope. The burst accounting is unchanged — core.burst{rate:1, frac:2.7e-3} lowers the core J_z toward (1−frac)J₀, hands ΔJ to the gas as a rigid-rotation mode and injects the rest of the rotational energy into a radial mode — and THE DOSE 2.7e-3 IS A PHENOMENOLOGICAL DECLARATION, not a fit. The centre is free (pairReduced, barycentric), no boundary, coupleSink reservoir; gravity (E4), dragging, contact springs (E9) and radiation (E11) act. WHERE THE CLOCK GOES (inherited from 🔵): pulse:{omega:22.654675, source:\"observed\"} sits on the PARENT, so THE REMNANT INHERITS IT while the shed grains carry no clock — φ=ω·t SURVIVES THE EXPLOSION. That ω is J0737−3039B's observed spin — A DIFFERENT OBJECT'S FIDUCIAL, placed as a comparison marker, not a prediction. HONEST LIMITS: (1) the conservation contract (remnant mass > core mass) means ONE EVENT NEVER LEAVES A BARE CORE (remnant 528 = core 480 plus the 48 of shell that stayed; the terminal state is left for later); (2) the remnant's vessel radius is only re-derived from its mass, so it never shrinks to the core's; (3) with no self-gravitational energy for a point particle, moving the shell out to r_L always releases EXACTLY THE ESCAPE SPEED; (4) REAL SUPERNOVA MECHANISMS (core collapse, neutrinos, shocks, 56Ni, light curves, magnetic fields) ARE NOT MODELLED — a principle-class toy. The mechanism belongs to 🎆, the gradual road to ⚪.Measured (6000 steps = t96, dt=0.016): THE SPLIT FIRES ONCE, AT STEP 633 (t=10.144, Ω_c=60.0176); at dt/2 it fires at step 1267 with the same t — the firing Ω does not depend on the step size; zero skipped attempts. Split ledgers across the firing step: THE RELATIVE ERRORS OF ΔM, ΔP AND ΔL ARE ALL EXACTLY 0; RELEASED ROTATIONAL ENERGY 0.0687 = ΔKE 7202.96 + ΔU −7202.89 + residual −6.3e-5 (jFrac=0, so the release is the potential term alone = exactly the escape speed). The ejection is 72 = 128 × 0.5625; the remnant is 528 (core 480 unchanged, massFrac 0.8 → 0.909091); THE FOUR LAYERS SIT AT 6.124/16.330/26.536/36.742. Burst ledger: TRANSFERRED L 414.72 = J₀−J₁ to the bit (J₀=153600); RELEASED ROTATIONAL ENERGY 25900.21 = INJECTED KE 25900.07 (residual 0.136 = 5.3e-6 relative). Totals: 128/128 GRAINS ESCAPE (100%); mean relative speed 33.38 (33.37 at dt/2); |ΔP|/Σm|v| 8.2e-8; |ΔL|/L 4.7e-5; ALL SAFETY CLAMPS 0; zero NaN; zero warnings; bit-identical reruns; 129 particles; REMNANT KICK 7.1e-8 (symmetric pairs — no random kick is added). THE CLOCK: the remnant keeps pulse ω=22.654675 and φ=ω·t continues to hold (phase ratio 1.000000000000; the grains have ω=0). Controls, read on the mean relative speed: half the dose (1.35e-3) gives 27.56, kFrame=0 gives 26.48, no burst (the split alone) gives 19.83, and A SINGLE LAYER (drop layers/rInner) gives 27.31 — the layered placement digs a deeper ΔU and therefore throws faster for the same declaration. REMOVE shed AND THE EXPLOSION ITSELF DISAPPEARS: with no gas to receive it, burst does not draw a single bit of J (the body stays at one particle). A quiet star (core.omega=0) likewise never fires. QA behavior.supernova machine-fixes all of it.Suggested A/B: core.burst.frac=1.35e-3 (half the dose — mean speed 27.6), kFrame=0 (26.5 without dragging), drop core.shed.layers/rInner (a single circle — 27.3), core.omega=0 (a quiet star — nothing fires). Remove core.shed and the explosion goes with it, because no gas is ever created to receive it (the consequence). Read 🎆 (the mechanism) → ⚪ (the gradual road) → 🎇 (the one-shot road), alongside 🏮 (the lighthouse principle and the true-scale vessel).",
+     "after": "ONE RED GIANT BLOWS OFF AN ENVELOPE THAT BREAKS INTO LAYERS, AND A CLOCK-CARRYING CORE REMAINS (AN EARLIER UPDATE MERGES 🔵 nsRemnantDFM IN AND STARTS FROM A SINGLE BODY). What is placed is ONE RED GIANT (m=600 — a declared TOTAL mass that claims nothing about the split). The 200-grain gas disc placed by hand previously IS GONE: the envelope is created by the split itself. THE DECLARED MASS CONCENTRATION (thought experiment 5 — 'the mass sits in the core, whose radius shrinks as it grows'): massFrac=0.8 (core 480 + shell 120) IS A DECLARED STRUCTURAL ASSUMPTION, not an assertion of observed fact. The core is small and fast (Rc=4, i.e. 16% of the 24.5 shell radius, Ω=40, Kcs=0); contract=0.02 spins it up (J conserved while Ω rises) and IN THE SINGLE STEP WHERE Ω_c REACHES omegaCrit=60 core.shed FIRES ONCE: frac=0.6 of the 120 shell mass becomes n=128 gas grains. THE NEW MECHANISM OF AN EARLIER UPDATE IS THE LAYERED PLACEMENT: with layers=4 and rInner=0.25 the grains sit not only on the circle of the original radius but ALSO BETWEEN IT AND THE CORE (radii 6.12/16.33/26.54/36.74 = 0.25…1.5 R₀, four evenly spaced layers of 32 grains in symmetric pairs; the tangential J is shared AT ONE ANGULAR VELOCITY and the radial speed is THE SAME FOR EVERY GRAIN). What is left right after the ejection is the core standing for a SMALL NEUTRON STAR (contract takes Rc from 4 to 0.59) plus the layered envelope. The burst accounting is unchanged — core.burst{rate:1, frac:2.7e-3} lowers the core J_z toward (1−frac)J₀, hands ΔJ to the gas as a rigid-rotation mode and injects the rest of the rotational energy into a radial mode — and THE DOSE 2.7e-3 IS A PHENOMENOLOGICAL DECLARATION, not a fit. The centre is free (pairReduced, barycentric), no boundary, coupleSink reservoir; gravity (E4), dragging, contact springs (E9) and radiation (E11) act. WHERE THE CLOCK GOES (inherited from 🔵): pulse:{omega:22.654675, source:\"observed\"} sits on the PARENT, so THE REMNANT INHERITS IT while the shed grains carry no clock — φ=ω·t SURVIVES THE EXPLOSION. That ω is J0737−3039B's observed spin — A DIFFERENT OBJECT'S FIDUCIAL, placed as a comparison marker, not a prediction. HONEST LIMITS: (1) the conservation contract (remnant mass > core mass) means ONE EVENT NEVER LEAVES A BARE CORE (remnant 528 = core 480 plus the 48 of shell that stayed; the terminal state is left for later); (2) the remnant's vessel radius is only re-derived from its mass, so it never shrinks to the core's; (3) with no self-gravitational energy for a point particle, moving the shell out to r_L always releases EXACTLY THE ESCAPE SPEED; (4) REAL SUPERNOVA MECHANISMS (core collapse, neutrinos, shocks, 56Ni, light curves, magnetic fields) ARE NOT MODELLED — a principle-class toy. The mechanism belongs to 🎆, the gradual road to ⚪.Measured (6000 steps = t96, dt=0.016): THE SPLIT FIRES ONCE, AT STEP 633 (t=10.144, Ω_c=60.0176); at dt/2 it fires at step 1267 with the same t — the firing Ω does not depend on the step size; zero skipped attempts. Split ledgers across the firing step: THE RELATIVE ERRORS OF ΔM, ΔP AND ΔL ARE ALL EXACTLY 0; RELEASED ROTATIONAL ENERGY 0.0687 = ΔKE 7202.96 + ΔU −7202.89 + residual −6.3e-5 (jFrac=0, so the release is the potential term alone = exactly the escape speed). The ejection is 72 = 128 × 0.5625; the remnant is 528 (core 480 unchanged, massFrac 0.8 → 0.909091); THE FOUR LAYERS SIT AT 6.124/16.330/26.536/36.742. Burst ledger: TRANSFERRED L 414.72 = J₀−J₁ to the bit (J₀=153600); RELEASED ROTATIONAL ENERGY 25900.21 = INJECTED KE 25900.07 (residual 0.136 = 5.3e-6 relative). Totals: 128/128 GRAINS ESCAPE (100%); mean relative speed 33.38 (33.37 at dt/2); |ΔP|/Σm|v| 8.2e-8; |ΔL|/L 4.7e-5; ALL SAFETY CLAMPS 0; zero NaN; zero warnings; bit-identical reruns; 129 particles; REMNANT KICK 7.1e-8 (symmetric pairs — no random kick is added). THE CLOCK: the remnant keeps pulse ω=22.654675 and φ=ω·t continues to hold (phase ratio 1.000000000000; the grains have ω=0). Controls, read on the mean relative speed: half the dose (1.35e-3) gives 27.56, kFrame=0 gives 26.48, no burst (the split alone) gives 19.83, and A SINGLE LAYER (drop layers/rInner) gives 27.31 — the layered placement digs a deeper ΔU and therefore throws faster for the same declaration. REMOVE shed AND THE EXPLOSION ITSELF DISAPPEARS: with no gas to receive it, burst does not draw a single bit of J (the body stays at one particle). A quiet star (core.omega=0) likewise never fires. QA behavior.supernova machine-fixes all of it.Suggested A/B: core.burst.frac=1.35e-3 (half the dose — mean speed 27.6), kFrame=0 (26.5 without dragging), drop core.shed.layers/rInner (a single circle — 27.3), core.omega=0 (a quiet star — nothing fires). Remove core.shed and the explosion goes with it, because no gas is ever created to receive it (the consequence). Read 🎆 (the mechanism) → ⚪ (the gradual road) → 🎇 (the one-shot road), alongside 🏮 (the lighthouse principle and the true-scale vessel)."
+    }
+   ]
+  },
+  {
+   "id": "whiteDwarfDFM",
+   "emoji": "⚪",
+   "massCalibration": {
+    "law": "chi-law-v1-transfer",
+    "C": 1,
+    "factorUniform": 2
+   },
+   "mass": [
+    600
+   ],
+   "notClaim": [
+    "cal"
+   ],
+   "sampleClass": "principle",
+   "observedInputs": [
+    "なし(トイ前駆星 — 台帳 f=2 は総質量の由来の読み替え)"
+   ],
+   "presetSigHash": "a32a26b6",
+   "declSame": true,
+   "sigSame": true,
+   "textRemoved": [
+    {
+     "path": "parameterAudit.observedInputs.0",
+     "before": "なし(トイ前駆星 — 台帳 f=2 は総質量の由来の読み替え)",
+     "after": "なし(トイ前駆星)"
+    }
+   ]
+  },
+  {
+   "id": "whiteDwarfBareDFM",
+   "emoji": "🔘",
+   "massCalibration": {
+    "law": "chi-law-v1-transfer",
+    "C": 1,
+    "factorUniform": 2
+   },
+   "mass": [
+    600
+   ],
+   "notClaim": [
+    "cal"
+   ],
+   "sampleClass": "principle",
+   "observedInputs": [
+    "なし(⚪ と同じトイ前駆星 — 台帳 f=2 は総質量の由来の読み替え)"
+   ],
+   "presetSigHash": "e0ccef32",
+   "declSame": true,
+   "sigSame": true,
+   "textRemoved": [
+    {
+     "path": "parameterAudit.observedInputs.0",
+     "before": "なし(⚪ と同じトイ前駆星 — 台帳 f=2 は総質量の由来の読み替え)",
+     "after": "なし(⚪ と同じトイ前駆星)"
+    }
+   ]
+  },
+  {
+   "id": "envelopeShedDFM",
+   "emoji": "🎆",
+   "massCalibration": {
+    "law": "chi-law-v1-transfer",
+    "C": 1,
+    "factorUniform": 2
+   },
+   "mass": [
+    600
+   ],
+   "notClaim": [
+    "cal"
+   ],
+   "sampleClass": "principle",
+   "observedInputs": [
+    "なし(原理トイ — 台帳 f=2 の読み替え)"
+   ],
+   "presetSigHash": "4508b431",
+   "declSame": true,
+   "sigSame": true,
+   "textRemoved": [
+    {
+     "path": "parameterAudit.observedInputs.0",
+     "before": "なし(原理トイ — 台帳 f=2 の読み替え)",
+     "after": "なし(原理トイ)"
+    },
+    {
+     "path": "parameterAudit.fixedConventions.1",
+     "before": "台帳 f=2(殻 300+コア 300・massFrac 0.5・Rc=1.5・Kcs=0)・shed の面内・対称・傾き 0 規約",
+     "after": "殻 300+コア 300(massFrac 0.5・Rc=1.5・Kcs=0)・shed の面内・対称・傾き 0 規約"
+    }
+   ]
+  },
+  {
+   "id": "lfbotTrap",
+   "emoji": "🐮",
+   "massCalibration": {
+    "law": "chi-law-v1-transfer",
+    "C": 1,
+    "factorUniform": 2
+   },
+   "mass": [
+    600,
+    null
+   ],
+   "notClaim": [
+    "cal",
+    "lfbot"
+   ],
+   "sampleClass": "principle",
+   "observedInputs": [
+    "なし(原理トイ — 観測値の転写はしない)"
+   ],
+   "presetSigHash": "2a39745",
+   "declSame": true,
+   "sigSame": true,
+   "textRemoved": [
+    {
+     "path": "parameterAudit.fixedConventions.0",
+     "before": "台帳 f=2 の恒星(殻 300+コア 300・massFrac 0.5・Rc=1.5)・kFrame=1・pairReduced+重心系・境界なし・融合なし",
+     "after": "恒星(殻 300+コア 300・massFrac 0.5・Rc=1.5)・kFrame=1・pairReduced+重心系・境界なし・融合なし"
+    }
+   ]
+  }
+ ],
+ "scan": {
+  "rule": "在位の本の massCalibration の宣言の倍率(f・factor・factorUniform)と massLedger.fDynamics を読み、bodies の質量を宣言の基準質量(baseMass)・観測版の本(🌃)・観測の値と比べた",
+  "rows": [
+   {
+    "id": "psrJ1757DFM",
+    "emoji": "🧮",
+    "real": true,
+    "fBefore": 1,
+    "fAfter": 1,
+    "basis": "PSR J1757−1854(観測基準質量 —— 第285便f で f=1 済み)",
+    "action": "不変"
+   },
+   {
+    "id": "psrJ1946DFM",
+    "emoji": "🩺",
+    "real": true,
+    "fBefore": 1,
+    "fAfter": 1,
+    "basis": "PSR J1946+2052(観測基準質量 —— 第286便f で f=1 済み)",
+    "action": "不変"
+   },
+   {
+    "id": "gw150914Merge4s",
+    "emoji": "⏰",
+    "real": true,
+    "fBefore": 1,
+    "fAfter": 1,
+    "basis": "GW150914(GWOSC の観測質量 —— 第288便b で f=1 済み)",
+    "action": "不変"
+   },
+   {
+    "id": "ngc3198DFM",
+    "emoji": "🛞",
+    "real": true,
+    "fBefore": 1.9997320796514568,
+    "fAfter": 1,
+    "basis": "NGC 3198(SPARC の L[3.6]・HI・V_flat を入力 —— 🌃 と同じ転写)",
+    "action": "f=1 へ(恒星の 1 粒 3.7994909513377677 → 1.9)"
+   },
+   {
+    "id": "supernovaCore",
+    "emoji": "🎇",
+    "real": false,
+    "fBefore": 2,
+    "fAfter": 2,
+    "basis": "一般の赤色巨星の原理の玩具(observedInputs「なし」・obsCard「観測転写はしない」・notClaim toy)",
+    "action": "宣言はそのまま・説明の f の記述を消した"
+   },
+   {
+    "id": "whiteDwarfDFM",
+    "emoji": "⚪",
+    "real": false,
+    "fBefore": 2,
+    "fAfter": 2,
+    "basis": "一般の白色矮星の原理の玩具(observedInputs「なし」・notClaim cal)",
+    "action": "宣言はそのまま・説明の f の記述を消した"
+   },
+   {
+    "id": "whiteDwarfBareDFM",
+    "emoji": "🔘",
+    "real": false,
+    "fBefore": 2,
+    "fAfter": 2,
+    "basis": "⚪ の終端の原理の玩具(observedInputs「なし」・notClaim cal)",
+    "action": "宣言はそのまま・説明の f の記述を消した"
+   },
+   {
+    "id": "envelopeShedDFM",
+    "emoji": "🎆",
+    "real": false,
+    "fBefore": 2,
+    "fAfter": 2,
+    "basis": "分割放出の機構の原理の玩具(observedInputs「なし」・notClaim cal)",
+    "action": "宣言はそのまま・説明の f の記述を消した"
+   },
+   {
+    "id": "lfbotTrap",
+    "emoji": "🐮",
+    "real": false,
+    "fBefore": 2,
+    "fAfter": 2,
+    "basis": "LFBOT の型の原理の玩具(observedInputs「なし」・notClaim lfbot —— AT2018cow 等へ σ を出さない)",
+    "action": "宣言はそのまま・説明の f の記述を消した"
+   }
+  ],
+  "otherReal": "在位の他の実在天体の本(現実較正・実在天体のアナロジーの群 —— 太陽系・連星・パルサー・GW150914・47 Tuc・NGC 3198・ベテルギウス・かに星雲)は massCalibration の倍率を持たず、bodies の質量は観測の値の転写(物理単位に直して照らした —— 倍率 ≠ 1 は 0 本)",
+  "retiredNote": "退役の本(🧿🪶🪃🪀🪝🪄🩹🪤🎻🫐🌹 —— 倍率 ≈ 2 の宣言)は触らない(退役の本の宣言は不変)"
+ },
+ "pastCanons": [
+  {
+   "file": "tests/out/analogy-w282d.json",
+   "sha256": "6c92abb8d434686d7ab39feb4a2a13837472d9d204bfe3dbd264af98f928d35d",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": "w282d-analogy-1",
+    "generatedAt": "2026-11-02T23:33:05.536Z"
+   }
+  },
+  {
+   "file": "tests/out/calcontract-w282a.json",
+   "sha256": "8b95f56edc15e78bebd774a53b43acec02afa650cc4c9402139b1f1d6fee6981",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": null,
+    "generatedAt": "2026-11-02T21:32:52.579Z"
+   }
+  },
+  {
+   "file": "tests/out/chainledger-w281b.json",
+   "sha256": "7be11ea27a49c592e78e4531e4f89f6d67f109df0ff5a9e99b07443ece10902c",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "86ad1a2efcb6f2a4f74aa9405d44717a44d2e92c985d9d8d0885627d6021b422",
+    "harnessVersion": "w281b-galaxychain-1",
+    "generatedAt": "2026-11-02T23:31:27.764Z"
+   }
+  },
+  {
+   "file": "tests/out/clone-w301f.json",
+   "sha256": "380775aad1d0cd53bc01aea67bf06bc4313650133a46eef7298b08abd09caa01",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": "w301f-clone-1",
+    "generatedAt": "2026-11-02T23:50:56.586Z"
+   }
+  },
+  {
+   "file": "tests/out/cluster-w283f.json",
+   "sha256": "0b256583d36cef75d01b15152fa63377aaa35e7da410c0dbd5f191b917f57872",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": "w283f-cluster-1",
+    "generatedAt": "2026-11-02T23:36:07.680Z"
+   }
+  },
+  {
+   "file": "tests/out/corecensus-w293c.json",
+   "sha256": "713b3ccb0db2c6aa7f8eec9d08c46f36689bc4cef9aba4de8d08afc68f6ea977",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": "w293c-corecensus-2",
+    "generatedAt": "2026-11-02T21:26:09.371Z"
+   }
+  },
+  {
+   "file": "tests/out/families-w283b.json",
+   "sha256": "07bd42a8a042003417bef7b45ab492a4b64a88bcbdc91662aede6e9d4d92f0d7",
+   "lastCommit": "577b298",
+   "meta": {
+    "targetSha256": "eaf01f0ccf424bceccf142cdb48bbb9fac726b941782128299a543f810b7d04b",
+    "harnessVersion": "w294b-families-2",
+    "generatedAt": "2026-11-03T11:52:32.419Z"
+   }
+  },
+  {
+   "file": "tests/out/fieldcontract-w322c.json",
+   "sha256": "513df2451382ae0ad9f2a7dcdad585f3dfba20e449da38b590e23e79d5ea9918",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": "w322c-fieldcontract-1",
+    "generatedAt": "2026-11-03T03:18:17.878Z"
+   }
+  },
+  {
+   "file": "tests/out/galaxychain-w281b.json",
+   "sha256": "b324429bc5064d0276b63dc6815471b08609a56c11df1e0fe59af328a9202dba",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": "w281b-galaxychain-1",
+    "generatedAt": "2026-11-02T23:32:23.905Z"
+   }
+  },
+  {
+   "file": "tests/out/galaxydiag-w271d.json",
+   "sha256": "45e785aa7a35a3cd4244d7dc1b09156663e4f258763926265ffe19c04fd1fd37",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": null,
+    "generatedAt": "2026-11-02T21:41:23.277Z"
+   }
+  },
+  {
+   "file": "tests/out/galfield-w321c.json",
+   "sha256": "99dde0d5a4c571b912091ee65bc31f2dd29562899225042931036910daff9775",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": "w321c-galfield-2",
+    "generatedAt": "2026-11-03T03:04:07.979Z"
+   }
+  },
+  {
+   "file": "tests/out/geomode-w283a.json",
+   "sha256": "16460026b6a2ce0d24b10909aef9065ba68ad16c26778c8b09363db4b7c620da",
+   "lastCommit": "2713f92",
+   "meta": {
+    "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+    "harnessVersion": null,
+    "generatedAt": "2026-09-27T11:12:25.440Z"
+   }
+  },
+  {
+   "file": "tests/out/kf0ledger-w274a.json",
+   "sha256": "f8d56e9f271a06e12223f3a4a663f73559c8f670b7ccbe63ab0aae2cf46286f4",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": null,
+    "generatedAt": "2026-11-03T03:04:08.644Z"
+   }
+  },
+  {
+   "file": "tests/out/kf0ledger-w275a.json",
+   "sha256": "4dd40036aca33cc97e1d2d7517c12654d7d995df17ad6af3c1e4d44136a2fec0",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": null,
+    "generatedAt": "2026-11-03T03:04:08.996Z"
+   }
+  },
+  {
+   "file": "tests/out/kfgate-w275a.json",
+   "sha256": "e15972035fba803a01c448fad05b0a9a2c60f4b49c67f7502d70a449a43e4911",
+   "lastCommit": "11ccdb8",
+   "meta": {
+    "targetSha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be",
+    "harnessVersion": null,
+    "generatedAt": "2026-10-04T18:59:26.771Z"
+   }
+  },
+  {
+   "file": "tests/out/pnsource-w286b.json",
+   "sha256": "5f853607cc0ad3fe11fa228beeb300064117c0077473d762bb0c36690f8ff4c9",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": null,
+    "generatedAt": "2026-11-02T23:46:49.678Z"
+   }
+  },
+  {
+   "file": "tests/out/pnsources-w291b.json",
+   "sha256": "3b49b24119f792d7e82fae0aad7b53abe9553ff18fd62a3ae5d1c3f1b75caafd",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": "w291b-pnsources-7",
+    "generatedAt": "2026-11-02T21:51:32.539Z"
+   }
+  },
+  {
+   "file": "tests/out/presetaxes-w275a.json",
+   "sha256": "362f1ee96b944e354d17e153acc88975fd4a5957f5ea3d89077188760e982cc1",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": null,
+    "generatedAt": "2026-11-03T02:22:11.180Z"
+   }
+  },
+  {
+   "file": "tests/out/qaorder-w279b.json",
+   "sha256": "d46ade38e740b8cb3026fd61a044e88a55c8169a02c007e75c18a5e16fda7faa",
+   "lastCommit": "d0286cf",
+   "meta": {
+    "targetSha256": "92a6d07cb2259b5f4ceb940087a48bae7bc99da86ab7e6e33161ecc2a6327ed6",
+    "harnessVersion": null,
+    "generatedAt": "2026-09-23T22:37:37.217Z"
+   }
+  },
+  {
+   "file": "tests/out/rotorledger-w281c.json",
+   "sha256": "6182ef6f9a78ccf4d9c16a2e65845a59f2158297855180e3483051280a365b32",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": null,
+    "generatedAt": "2026-11-03T02:22:16.029Z"
+   }
+  },
+  {
+   "file": "tests/out/samplestatus-w279a.json",
+   "sha256": "dfd5e2debd2cae86bdd85c37770cb7c38ca0bed4e92483cfe95a9602879bc93f",
+   "lastCommit": "577b298",
+   "meta": {
+    "targetSha256": "eaf01f0ccf424bceccf142cdb48bbb9fac726b941782128299a543f810b7d04b",
+    "harnessVersion": null,
+    "generatedAt": "2026-11-03T11:52:30.103Z"
+   }
+  },
+  {
+   "file": "tests/out/sparc-w269c.json",
+   "sha256": "b703ec5ab4ac9a60fb57a19a8ed67b3a2bb97592a052e2f6ee89a3ec8e2a9265",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": null,
+    "generatedAt": "2026-11-02T21:38:01.831Z"
+   }
+  },
+  {
+   "file": "tests/out/symbols-w315a.json",
+   "sha256": "72a70097c5bc39d2769f05848213d5d9c2d317c55865d75965783e9e7210073e",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": "w315a-symbols-2",
+    "generatedAt": "2026-11-03T02:01:39.379Z"
+   }
+  },
+  {
+   "file": "tests/out/timestd-w297c.json",
+   "sha256": "679fa236940daa58397f3b0e24f5f6b81c16484d01ba16776a280da89e5023d5",
+   "lastCommit": "295af60",
+   "meta": {
+    "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+    "harnessVersion": null,
+    "generatedAt": "2026-11-03T03:08:08.596Z"
+   }
+  },
+  {
+   "file": "tests/out/w262b-migrate.json",
+   "sha256": "4a8ccb8a29d0cbb7e42576182e3d8512606d0181833ba42711289a0170181b84",
+   "lastCommit": "d09f2ea",
+   "meta": null
+  }
+ ],
+ "source": {
+  "file": "beta/index.html",
+  "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+  "note": "第325便e の枝の html(🛞 の宣言を入れた後)"
+ },
+ "base": {
+  "rev": "4b9c712",
+  "commit": "4b9c712534bc4292d24ce8af2b3252c1150a3972",
+  "file": "beta/index.html",
+  "sha256": "eaf01f0ccf424bceccf142cdb48bbb9fac726b941782128299a543f810b7d04b"
+ }
+}

@@ -3,7 +3,7 @@
  "libVersion": "w309a-invsq-lib-1",
  "generator": "tests/exp-w309a-invsq.mjs",
  "target": "beta/index.html",
- "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+ "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
  "ruling": "原仮定者の裁定(第103報)正確な引きずり(修正版)①球体による引きずり ②各引きずりは慣性決定力(質量に比例・距離の二乗に反比例)に比例しトータルの慣性決定力(背景・自分自身の体積平均を含む)で割る ③球の半径は dragCore の半径 ⑤回転は引きずる側の球の近い側と遠い側の移動の差分 ⑥軸は引きずられる側の球の近い側と遠い側の回転引きずりの差分 ⑦鏡映の向き ⑧軸方向で弱い・第104報 AN363(dragCore の既定)・決断事項 AN359・AN363・統括の検証項目 R218",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "invSqLaw": "invsq-ball-total-ratio",
@@ -2405,43 +2405,43 @@
  "ok": true,
  "timing": {
   "Q": {
-   "wallSec": 0.849
+   "wallSec": 1.179
   },
   "P": {
-   "wallSec": 0.009
+   "wallSec": 0.012
   },
   "A": {
-   "wallSec": 0.372
+   "wallSec": 0.441
   },
   "E": {
-   "wallSec": 0.375
+   "wallSec": 0.431
   },
   "T": {
-   "wallSec": 0.019
+   "wallSec": 0.05
   },
   "B": {
-   "wallSec": 0.154
+   "wallSec": 0.164
   },
   "D": {
-   "wallSec": 0.179
+   "wallSec": 0.218
   },
   "G": {
-   "wallSec": 0.074
+   "wallSec": 0.117
   }
  },
- "elapsedS": 3.782,
+ "elapsedS": 4.639,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第309便a",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-03T02:01:28.517Z",
+  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+  "generatedAt": "2026-11-03T16:11:38.427Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7612995,
+    "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+    "mtime": "2026-11-03T15:04:48.828Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2567,9 +2567,9 @@
    "complete": true,
    "names": 1386,
    "segments": 1212,
-   "closureShare": 0.3025
+   "closureShare": 0.3018
   },
-  "scopeSha256": "82f8329d1cab583215f1df01609340a5d47c449ae85d38e4812e0fa9e0c1b324",
+  "scopeSha256": "28c8671881ba3bd7009f40b99f96a76d1737e4f360759f152e8b0c92ddb980e6",
   "scopeComplete": true,
   "inputsStable": [
    {

@@ -4565,3 +4565,51 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w324b-obsspin.mjs`(版 w324e-obsspin-2 —— 段 A に傾きの形の場合・段 B に軸の宣言とノブ・段 E に欠測の写しとノブを振った列・段 K に軌道の面の向き)→ 正本 `tests/out/obsspin-w324b.json`(段 obsspin-324b のまま)。式と測定は docs/PHYSICS.md〔第324便e〕。
 - **QA**: `behavior.obsSpin324b`・`docs.obsSpin324b` を世代で切り替えた(傾きの形の受理・ノブの一覧と withKnob・60 步〔📟 は並進だけと違う・欠測の写しは並進だけとビット同一・🔸 は前の版の宣言とビット同一〕・内蔵の obsSpin の軸は全部傾きの形)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない(観測の自転の欄は観測の記録から人が書く欄)。AI が連星の本を作るときも、傾きの観測・推定の記録があればその値(basis "observed" か "estimated"・出典)を使い、記録が無い成分は basis "knob"(既定と範囲・source に「模型の入力」)にする —— 推定の値を作らない・ノブの値を観測と呼ばない。axis:null(欠測)は受理するが連星の本の既定にしない。
+
+## 176. 第325便a —— 再生成の段の対象を html 全体にしない: html の物理の部分の hash・段が読む部分の宣言・台帳による移行(原仮定者の指示(2026-11-03)「次便以降で、再生成の段の対象が宣言なしの場合、html全体にしない」・原仮定者の指示(2026-11-01)・統括の検証項目 R284・**html・本の宣言・エンジン・`S._core`・器の本文・正本は不変** —— lib と再生成表の宣言と計画の関数と道具と QA と文書と台帳だけ・**SYSTEM_PROMPT には載せない**)
+
+- **html の物理の部分**(`tests/lib-w325a-htmlphys.mjs` —— 版 w325a-htmlphys-1): html を部分(`code` —— 注釈を除いた最上位の文から版名の値・文の登録簿・内蔵の本の配列・生成領域 sample-status・表示の文の対 `{ja,en}` を外した本文 / `presets` —— 評価した内蔵の本の表示の欄を外した写し / `markup` / `comments` / `build` / `textPairs` / `presetIds` / `text:<名>` / `regions:<名>` / `presetFull:<id>` / `presetPhys:<id>`)に分けて hash を引く。
+- **段の宣言** `HTMLPHYS_DECL_325A`(`tests/lib-w281a-regentable.mjs` —— 版 w325a-htmlphysdecl-1): 領域の宣言の無い html 全体の 11 段に、器が html から読む部分(既定 code・presets・markup —— .find で本を引く段は下限の本に絞る〔bh90 は 4 本の presetFull・galaxyprof は 1 本の presetPhys・needmesh は本なし〕・行番号と生の行を写す d0audit2 と selfinertia は版名の外を全部・samplestatus は build・presetFull:*・text:*)か `whole`(常時群)。宣言の無い html 全体の段は従来どおり html 全体(QA が名指しで落とす)。
+- **計画と移行**: 刻印の html を台帳(`tests/data-w325a-htmlphys.json`)・基点の html・git の履歴から sha で引き、宣言した部分が同じなら走らせない(`htmlPhysUsed`)・違えば理由の種類 `htmlphys`・引けなければ html 全体。正本は書き換えない。台帳は `node tools/regen-plan.mjs --htmlphys-record`・前の判定は `--no-htmlphys`。QA の対象一致 `targetOk325`(一致 / 領域一致 / 物理の部分の一致 —— 台帳だけ)を lint.provenanceMeta と docs の 7 本が通す。
+- これらは開発の道具で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
+
+
+
+## 177. 第325便b —— サンプルの説明の語: 旧 gain 語を W_bg へ・用量 0 の対照は引きずり OFF(W_bg を掛けない)・観測質量の f=1 を書かない・金星と木星の内部熱は未解決・較正母集団の焦点(原仮定者の指示(第127報)・統括の検証項目 R285)
+
+- **語**: 内蔵の本の説明は背景慣性決定力 W_bg [M/L³] で書く(旧宣言の係数は W_bg = 1/gain として読む —— gain の欄は廃止)。用量 0 の否定対照は「引きずり OFF(W_bg を掛けない)」—— W_bg = 0 や 1/W_bg = 0 と書かない(引きずりの項そのものを外す —— 宣言は {Wbg:null, enabled:false})。観測質量の本は「観測質量のまま(質量の補正なし)」と書き、f=1・f★=1 を書かない(fSrc〔源の慣性係数〕と sourceMoment.f は別の変数として残す)。照合の鍵の行名(較正母集団の obsCard の ja の q)は変えない。
+- **内部熱**: 🌋 venusSunInertial3d・🏀 jupiterSunInertial3d は並進だけの宣言 —— 内部熱(🌋 は自転の逆回転も)は未解決と書く。熱の数は正本 tests/out/srcheat-w320a.json の診断の記録(観測の熱流に合わせていない)。「達」は近点の残差の門。
+- **較正の焦点**: 較正母集団の状況の文は焦点の量から始める(判定の 4 値は正本 calaudit が決める —— 原稿は状況の文だけ)。
+- **AI 生成の規則**: SYSTEM_PROMPT は変えない(本枝は説明の欄だけ)。AI が本を作るときも gain の欄を書かない(Wbg を書く)・用量 0 の対照は enabled:false で書く・観測質量に倍率を掛けた値を書かない・内部熱や逆回転を説明したと書かない。
+- **QA**: preset.sampleWords325b・docs.sampleWords325b(beta 線だけ —— root は SKIP)。
+## 178. 第325便c —— 旧方式の geoPN=4(在位の連鎖の玩具 5 本)の説明の古い語・📟 の B の 139.4° の列の書き方・AN516 の数の訂正(原仮定者の指示(第127報)「タイトルや説明に「gain」が使われているサンプルが有が、「W_bg=1/gain」に置き換わったので修正する。他にも、古い表現が有れば修正する」・統括の検証項目 R286・**物理の欄・式・受理器・`S._core` は不変** —— 説明の欄だけ・**SYSTEM_PROMPT には載せない**)
+
+- **語の対応**(🔗 `chainDiskToy`・🔩 `chainDiskToy3d`・🪛 `chainDiskToy3dTilt`・🍥 `chainSpreadToy3d`・🧨 `chainBurstShell3d` の ja・en の説明の欄 53 か所): 「gain C_d=8」→「W_bg = 0.125 [M/L³](係数 1/W_bg = 8)」・「gain 8」→「W_bg 0.125」・対照の「gain 0」→「引きずり OFF(W_bg を掛けない)」(宣言は `{Wbg:null, enabled:false}` —— W_bg = 0 と書かない)・式の係数 C_d・C → 1/W_bg(s_i = Σ_j m_j K_ε(r_ij)(v_j − v_i)/W_bg)・軸引きずりの係数 → A_k(鍵 `axialCoupling`)。宣言 `relativeDrag:{law:"inertial", Wbg:0.125, …}` は変えていない。
+- **📟 の B**: 元論文の角の定義は δ_B = 180° − θ = 40.6°(B は順行 —— 文献の値)。角の向きのノブ `sense` の −1(139.4°)は観測が残す二通りの読みではなく、角を反転した模型の感度の列。既定 +1 = 40.6° のまま。
+- **AN516 の数**: nslock の影の照合の作業記録 `tests/data-w324c-nslockshadow.json` は第322便・第324便が照合 0/0・第323便が not-run —— 比較の実績の有る便は 0(`node tools/regen-chain.mjs --streak` は 0/2 便)。PHYSICS の 3 か所の「1 便」の読みを PHYSICS〔第325便c〕で訂正した。
+- **J0737 A の傾きのノブ**(原仮定者の回答(2026-11-03 —— AN526)・AN521): 📟 の A の `tiltDeg` は `{deg:0, basis:"knob", default:0, min:0, max:3.2}`(3.2° は二つの磁極の放射を仮定した模型の 95% の上限で中央推定ではない・範囲は探索の範囲 —— 受理器の規則は第324便e のまま)。力学の値は既定で同じ(J の向き +z)・変わるのは分類と署名。lib `tests/lib-w324b-obsspin.mjs` 版 w325c-obsspin-lib-3・器 `tests/exp-w324b-obsspin.mjs` 版 w325c-obsspin-3・正本 `tests/out/obsspin-w324b.json`(段 obsspin-324b のまま)。
+- **旧方式の geoPN=4 の退役**(原仮定者の回答(2026-11-03 —— AN525)): 在位の連鎖の玩具 5 本(🔗🔩🪛🍥🧨 —— 旧 W_bg 則の連鎖)を `familyRole:"retired"` に(ID・物理・署名・過去の正本は不変・RETIRED_PRESETS に理由「新しい geoPN=4〔場の API の opt-in〕の本は新しい ID で作る」)。掲載 130 → 125・退役 56 → 61・在位の geoPN=4 は 0。凍結の写し `tests/fixtures/retired-w325c.json`(器 `tests/exp-w325c-retiredfx.mjs`)。AI が新しい本を作るときに geoPN=4 を旧方式の連鎖の宣言(`relativeDrag:{law:"inertial", Wbg, solver:"network-pcg-v1"}` を geoPN 4 で)で作らない(新しい geoPN=4 は場の API の opt-in の後)。
+- **QA**: `docs.words325c`(5 本の表示の欄に旧い係数の語が無い・W_bg の宣言値の文・🧨 の対照の文・5 本の physics は旧 W_bg 則の連鎖のまま・📟 の B の文と宣言・文書)・`behavior.j0737AxisKnob325c`(A の傾きのノブ・10 步のビット同一と署名の違い・範囲の内外・本の文)・`docs.geo4old325c`(在位の geoPN=4 が 0・退役の 5 本の宣言と理由と写し)・`behavior.obsSpin324b`・`docs.obsSpin324b` の世代の直し。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。連星の傾きの記録が上限だけ(中心の値が無い)のときは、上限を推定の値にせず basis "knob"(既定と範囲 —— 範囲の上端に上限)にする。AI が慣性決定力の引きずりの本の説明を書くときは背景慣性決定力 W_bg [M/L³] で書き、gain・C_d の語を使わない(旧宣言の gain は W_bg = 1/gain として読まれる)。引きずり OFF は `enabled:false` と書き、W_bg = 0 と書かない。
+## 179. 第325便d —— 簡易一致の本運用の前の試験: 短窓の後だけ効く変異の影の試験・args/cmd の窓 6 段の環境変数の窓・環境の整合・暦の債務(提案)・本運用の門の関数(休眠)(統括の検証項目 R287・決断事項 AN517/AN518・**html・本の宣言・器の本文・正本・`S._core` は不変** —— lib と道具と QA と文書だけ・簡易一致は影のまま・**SYSTEM_PROMPT には載せない**)
+
+- **変異の影の試験**(`tests/lib-w325d-quickgate.mjs` 版 w325d-quickgate-1 の `mutationSelfTest`): 合成の段(純関数の器)に煙試験の窓の步数の後でだけ効く変異を入れ、便の番号を進めて簡易一致の影の判定・輪番(K = 3)・影の照合をそのまま回す。窓の指紋は変異の前後で同じ(簡易一致は「同じ」と判定する)・影の照合は鎖のフルの便で falseSame・本運用の模擬では輪番のフルが K 便以内に正本の差として落とす。段の領域がその後の便で変わらない(reuse)と今の規則では落ちない —— **暦の債務**(`calendarDebt` —— 最初の quick の便から K − 1 便の後に reuse でもフル)を提案として置いた(休眠)。
+- **環境の窓**: `tools/harness-smoke.mjs` の窓の表の 6 段(emgrid・charon-h2・dragcore292・charonk・nslock・charoneps-h4)を環境変数の形へ(器が引数しか読まない段は `HS_ARG_*` を煙試験が引数に写す —— `SMOKE_ARG_ENV`)。窓の走行は第323便c の行と同じ。簡易一致の候補になれるのは静的な除外(AN518 —— 手動の段・較正の正本を読む段)の無い dragcore292・nslock の 2 段。
+- **環境の整合**(`quickEnvCheck`): 指紋の記録の頭の env(`--fingerprint` が書く —— Node・Chromium・platform・heap)と鎖の env.json(`node tools/regen-chain.mjs --env` —— heap の欄を足した)を照合し、Node・Chromium・platform のどれかが違うか欠ければ影の表の候補を 0 にする(heap は印字だけ)。
+- **本運用の門の関数**(`quickProductionGate` —— 休眠): 影の照合の列・今の便の計画・環境・root 昇格・変異の試験・暦の債務から「本運用に入れる/入れない」と理由の列を返す。`node tools/regen-plan.mjs --quick-gate` が印字するだけで、鎖は呼ばない(本運用に入れるかは第326便で統括が決める)。
+- これらは開発の道具と来歴の欄で、アプリの画面・本の宣言・シミュレーションの結果は変わらない(説明に使わない)。
+
+
+## 180. 第325便e —— 実在天体の本の質量を観測の値(倍率 1)へ: 🛞 ngc3198DFM の恒星の円盤・実在天体でない本はそのまま(原仮定者の回答(2026-11-03 —— AN528)・原仮定者の指示(第127報)・統括の検証項目 R288・**受理器・步・式・`S._core`・在位の他の 185 本の宣言は不変** —— 実在天体でない 5 本は説明の欄から質量の倍率 f の記述を消しただけ・**SYSTEM_PROMPT には載せない**)
+
+- **走査**: 在位の本で質量の倍率(massCalibration の f・factor・factorUniform と massLedger.fDynamics)が 1 でない本は 6 本 —— 実在天体の本は 🛞 だけ(NGC 3198 —— SPARC の観測を入力)・残る 5 本(🎇⚪🔘🎆🐮 —— 台帳 f=2)は特定の実在天体ではない原理の本(observedInputs「なし」)。
+- **🛞 の宣言**: 恒星の円盤の 1 粒 3.7994909513377677 → 1.9(観測の転写 —— 🌃 と同じ)・lightSweep を外した・massCalibration を f 固定形(law `f-fixed-1`・f 1・baseMass [1.9, 2.875] —— bodies[0]・bodies[1] の 1 粒の基準質量・history に前の平均場台帳)・massLedger.fDynamics 1・**ID は不変**・署名 761fbca5(前 7fa984c)。前の宣言は凍結の写し `tests/fixtures/realmass-w325e.json`。
+- **測った値**(QA behavior.ngc3198 と同じ手続き): t = 40 の外縁帯の vt 5.53 → 5.13 単位(観測 V_flat 15.01 単位の 34%)・最遠 514 → 422・kFrame = 0 の対照 5.12/568 → 3.96/267 —— **目的は未達のまま**(判定の 4 値は変えていない)。
+- **実在天体でない 5 本**: 宣言(質量の値・massCalibration)はそのまま・説明の欄から質量の倍率 f の記述を消した(原仮定者の回答(2026-11-03 —— AN528)の追加 —— fSrc など別の変数の f は対象の外)。
+- **段**: 🛞 を読む段(sparc・galaxydiag・galaxychain・analogy・rotorledger・galfield-321c)の正本を作り直し、古い節の 🛞 の表の行を作り直した正本の値へ。QA `preset.realMassF1325e`・`docs.realMassF1325e`(新設)・behavior.ngc3198・preset.massLedger・docs.analogyLedger(世代の直し)。
+- これらは本の宣言の質量と来歴の欄で、アプリの受理・步・式は変わらない。
+## 181. 第325便f —— 物理対応ロック X_k = G_0/c_0² を常に有効にした場合の影響の調べと、本の用途による 3 分類(原仮定者の指示(2026-11-03)・統括の検証項目 R289・**html・本の宣言・受理器・步・`S._core`・器の本文・正本は不変** —— 調べの器〔作業物〕とデータと QA と文書だけ・ロックの挙動〔読み込みで満たす本だけ自動 ON・値は書き換えない〕は不変・**SYSTEM_PROMPT には載せない**)
+
+- **データ** `tests/data-w325f-xklock.json`(版 w325f-xklock-1 —— 器 `tests/exp-w325f-xklock.mjs`): 内蔵の全部の本の受理の後の G_0・c_0・X_k(鍵 G・cLight・kappaT)・判定 `physLockAutoOnOf` の結果(満たすか・理由)・用途の材料と、在位の本の 3 分類(「X_k = G_0/c_0²」「X_k を維持して G_0 を合わせる」「X_k を維持して c_0 を合わせる」・理由の 1 文・決まらない本は未決と別の候補)。在位で満たさない本には 3 つの写像((i) X_k := G_0/c_0²・(ii) G_0 := X_k c_0²・(iii) c_0 := √(G_0/X_k) —— G_0 = 0 か X_k = 0 の本の (iii) は未定義)の短い窓の影響(受理・読み込みのロック・力学の指紋・位置と速度の差・時計の遅れ・光線・減光・光を運ぶ u・NaN・クランプ・c_0 の規約)を載せる。
+- AI が本を作るときの意味: 物理対応の本は今までどおり X_k = G_0/c_0² を満たすように書く(読み込みでロックが自動 ON)。満たさない本は「一般化トイ設定」で、分類はその本を常に有効のロックへ写すならどの量を導出にすれば用途が保たれるかの参照である。**既定値のマージの物理(X_k = 1/60・G = 1・c₀ = 30)は条件を満たさない** —— 物理対応の本を作るときは kappaT を書く。
+- QA `lint.xkLock325f`(新しい本・値の変わった本はデータに無いので名指しで落ちる —— 分類を足す)・`docs.xkLock325f`。

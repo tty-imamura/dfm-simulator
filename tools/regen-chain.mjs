@@ -116,6 +116,9 @@ if (argv.includes('--env')) {
       out.chromium = b.version(); await b.close();
     } catch (e) { out.chromiumError = String(e && e.message || e).slice(0, 160); }
   } else out.chromium = 'skipped(REGEN_ENV_BROWSER=0)';
+  // 第325便d(R287): heap の上限(NODE_OPTIONS の --max-old-space-size と V8 の heap_size_limit —— 簡易一致の環境の照合で印字する。浮動小数の値には効かない)
+  try { const v8m = await import('node:v8'); out.heapMb = Math.round(v8m.default.getHeapStatistics().heap_size_limit / 1048576); } catch { out.heapMb = null; }
+  { const m = /--max-old-space-size[= ](\d+)/.exec(String(process.env.NODE_OPTIONS || '')); out.nodeOptionsHeap = m ? Number(m[1]) : null; }
   console.log(JSON.stringify(out));
   process.exit(0);
 }

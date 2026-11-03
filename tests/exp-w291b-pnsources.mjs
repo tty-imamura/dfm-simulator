@@ -43,7 +43,12 @@ import * as W302A from './lib-w302a-wbg.mjs';   // 第302便h: gain ⇔ W_bg の
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","GEO4_MIGRATED","GEO_MODE_VERSION","HP.allPresets","HP.dfmRelativeDragStep","HP.loadPreset","HP.relativeDragProbe","HP.sim","HP.validatePreset","LAWS","PN1_CONTRACT","PN1_EIH_VERSION","T","ch","clamp","ctx","dfmPN1Delta","dfmRelativeDragStep","pairCorePN","pn1GRConformance","pnOrbitalKF0","pnOrbitalSource","pnSource","presetSig","timeStdRevert"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w291b-pnsources-7';   // 第302便h(原仮定者の裁定(第92報)AN304 ②・R186 —— 第302便a): 慣性決定力の本の強さの鍵を gain から Wbg へ同値移行した本(宣言から —— 基点の relativeDrag.gain が今の Wbg の移行〔1/Wbg が同じ double・gain 0 は OFF〕で、署名の差が relativeDrag の強さの鍵だけ)の署名の差は記録だけ(sigChangedByWbg302 —— 差に数えない)
+// 第325便(AN528): 質量の倍率を観測の値へ戻した実在天体の本(凍結の写しの ids —— 写しが無ければ空)。写しは正本の入力(meta.inputs —— 安定 hash を刻む)に入れない:
+//   器が読むのは ids だけで、写しの中身の照合は QA(docs.pn1Contract ② —— 記録の本が写しの ids の内か)が持つ(lint.stableHashPaths の除外の宣言を足さない)
+const REALMASS_FILE_325 = 'tests/fixtures/realmass-w325e.json';
+const REALMASS_IDS_325 = (() => { try { const j = JSON.parse(fs.readFileSync(path.join(ROOT, REALMASS_FILE_325), 'utf8')); return Array.isArray(j.ids) ? j.ids.slice() : []; } catch { return []; } })();
+export const HARNESS_VERSION = 'w291b-pnsources-8';   // 第325便(統括 —— 原仮定者の回答(2026-11-03 —— AN528)「実在天体なら、f=1に質量を修正」): 質量の倍率を観測の値(倍率 1)へ戻した実在天体の本(凍結の写し tests/fixtures/realmass-w325e.json の ids —— 宣言から)の軌道の差・署名の差は 1PN の源集合の契約の外 —— 源が増えていない本だけ changedByRealMass325・sigChangedByRealMass325 に記録(差に数えない)
+// 以前の版: w291b-pnsources-7 —— 下の注   // 第302便h(原仮定者の裁定(第92報)AN304 ②・R186 —— 第302便a): 慣性決定力の本の強さの鍵を gain から Wbg へ同値移行した本(宣言から —— 基点の relativeDrag.gain が今の Wbg の移行〔1/Wbg が同じ double・gain 0 は OFF〕で、署名の差が relativeDrag の強さの鍵だけ)の署名の差は記録だけ(sigChangedByWbg302 —— 差に数えない)
 // 以前の版の記録:   // w291b-pnsources-6 —— 第299便e(原仮定者の裁定(第89報)④・R174): 次元の宣言を基点の二次元から三次元(physics.coord:"3d")へ変えた本(参照模型 8 本 —— 宣言から導く)のうち 1PN の源が増えていない本の差・署名の差は、1PN の源集合の契約の外(別の步 dfmStep3・倍精度の状態)—— 記録だけ(changedByCoord3d299・sigChangedByCoord3d299)
 // 以前の版の記録:   // w291b-pnsources-5 —— // 第297便(原仮定者の裁定(第87報)・R161/R163): λ_PN の宣言が基点から変わった geoPN≥2 の本(第297便a —— λ_PN=0)の差・署名の差と、時間の宣言を移しただけの本(第297便c —— timeStdRevert の署名が基点と同じ)の署名の差は、記録だけ(changedByLambdaPn297・sigChangedByLambdaPn297・sigChangedByTimeStd297)   // 第295便b(原仮定者の裁定(第85報)・R154): geoPN 3→4(空間メッシュ)へ移住した本(GEO4_MIGRATED)の署名の差は、力学がビット同一なら sigDiff に数えず sigChangedByGeo4Migration に記録だけ   // 第293便(統合): 慣性決定力の本(relativeDrag.law:"inertial")は 1PN の源集合の契約の外(合成則の既定が変わると動く)— changedByInertialLaw に記録だけ   // 第292便(統合): 基点に無い本(newInNow)は差・署名の判定から外す(記録だけ)
 /** 本器の宣言(前後の步数・半径回帰の系・🥶 の ID)。 */
@@ -203,7 +208,9 @@ if (IS_MAIN) {
       // 第297便c(R163): 時間の宣言(timeScale・stepDt)を移行前へ戻した写しの署名が基点と同じ本
       timeStdOnly: bm.has(r.id) && r.sigTimeRevert !== null && r.sigTimeRevert !== r.sig && r.sigTimeRevert === b.sig,
       // 第299便e(R174): 次元の宣言を基点の二次元から三次元へ変えた本(宣言から —— 基点の physics.coord が "3d" でなく、いまは "3d")
-      coord3d299: bm.has(r.id) && r.coord3d === true && b.coord3d !== true };
+      coord3d299: bm.has(r.id) && r.coord3d === true && b.coord3d !== true,
+      // 第325便(AN528): 質量の倍率を観測の値へ戻した実在天体の本(凍結の写しの ids —— 宣言から)
+      realMass325: bm.has(r.id) && REALMASS_IDS_325.includes(r.id) };
   });
   // 第292便(統合): 基点の html に無い本(新設の本)は「前後」の判定の外(newInNow に記録だけ・差にも署名の不一致にも数えない)
   const newInNow = rows.filter((r) => !r.inBase).map((r) => r.id);
@@ -230,7 +237,11 @@ if (IS_MAIN) {
   const sigChangedByWbg302 = rows.filter((r) => { if (!(r.inBase && r.sigSame === false && r.inertialLaw)) return false;
     const t = tnById.get(r.id) || {}, bs = (bm.get(r.id) || {}).sig;
     return sigOnlyWbg302(t.sig, bs) || (typeof t.sigTimeRevert === 'string' && sigOnlyWbg302(t.sigTimeRevert, bs)); }).map((r) => r.id);
-  const changed = rows.filter((r) => r.inBase && !r.bitSame && !r.inertialLaw && changedByLambdaPn297.indexOf(r.id) < 0 && changedByCoord3d299.indexOf(r.id) < 0).map((r) => r.id);
+  // 第325便(統括 —— 原仮定者の回答(2026-11-03 —— AN528)): 質量の倍率を観測の値(倍率 1)へ戻した実在天体の本は、質量の宣言が変わったので軌道も署名も動く ——
+  //   1PN の源集合の契約(源の数)の外。源が増えていない本だけ、軌道の差を changedByRealMass325 に・署名の差を sigChangedByRealMass325 に記録(差に数えない)
+  const changedByRealMass325 = rows.filter((r) => r.inBase && !r.bitSame && !r.inertialLaw && r.realMass325 && !r.srcIncreased && changedByLambdaPn297.indexOf(r.id) < 0 && changedByCoord3d299.indexOf(r.id) < 0).map((r) => r.id);
+  const sigChangedByRealMass325 = rows.filter((r) => r.inBase && r.sigSame === false && r.realMass325 && !r.srcIncreased).map((r) => r.id);
+  const changed = rows.filter((r) => r.inBase && !r.bitSame && !r.inertialLaw && changedByLambdaPn297.indexOf(r.id) < 0 && changedByCoord3d299.indexOf(r.id) < 0 && changedByRealMass325.indexOf(r.id) < 0).map((r) => r.id);
   const increased = rows.filter((r) => r.srcIncreased).map((r) => r.id);
   const changedNotIncreased = changed.filter((id) => !increased.includes(id));
   const increasedUnchanged = increased.filter((id) => !changed.includes(id));
@@ -241,8 +252,8 @@ if (IS_MAIN) {
   const A = { n: rows.length, kf0Books: rows.filter((r) => r.kf0).length, increased, increasedN: increased.length };
   const B = { steps: SPEC.bitSteps, dt: HN.evalExpr('DT'), bitSame: rows.filter((r) => r.bitSame).length, changed, changedNotIncreased, increasedUnchanged,
     sigSame: rows.filter((r) => r.sigSame === true).length,
-    sigDiff: rows.filter((r) => r.inBase && !r.sigSame && sigChangedByGeo4Migration.indexOf(r.id) < 0 && sigChangedByLambdaPn297.indexOf(r.id) < 0 && sigChangedByTimeStd297.indexOf(r.id) < 0 && sigChangedByCoord3d299.indexOf(r.id) < 0 && sigChangedByWbg302.indexOf(r.id) < 0).map((r) => r.id),
-    newInNow, changedByInertialLaw, sigChangedByGeo4Migration, changedByLambdaPn297, sigChangedByLambdaPn297, sigChangedByTimeStd297, changedByCoord3d299, sigChangedByCoord3d299, sigChangedByWbg302, nullPhysicsKF0: nullPhysics,
+    sigDiff: rows.filter((r) => r.inBase && !r.sigSame && sigChangedByGeo4Migration.indexOf(r.id) < 0 && sigChangedByLambdaPn297.indexOf(r.id) < 0 && sigChangedByTimeStd297.indexOf(r.id) < 0 && sigChangedByCoord3d299.indexOf(r.id) < 0 && sigChangedByWbg302.indexOf(r.id) < 0 && sigChangedByRealMass325.indexOf(r.id) < 0).map((r) => r.id),
+    newInNow, changedByInertialLaw, sigChangedByGeo4Migration, changedByLambdaPn297, sigChangedByLambdaPn297, sigChangedByTimeStd297, changedByCoord3d299, sigChangedByCoord3d299, sigChangedByWbg302, changedByRealMass325, sigChangedByRealMass325, nullPhysicsKF0: nullPhysics,
     errors: rows.filter((r) => r.err && r.inBase).map((r) => r.id + ': ' + r.err), nanNow: rows.filter((r) => r.nan).map((r) => r.id) };
   const F = { conformant: confRows.filter((r) => r.conf.ok).map((r) => r.id), outside: confRows.filter((r) => !r.conf.ok).map((r) => ({ id: r.id, reasons: r.conf.reasons })),
     reasonTally, note: '表示だけ(実行は禁止しない)—— 条件内でも観測一致の主張ではない' };

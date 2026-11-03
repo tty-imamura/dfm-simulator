@@ -577,6 +577,48 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickBoundary324c lint.calVolatile324c 
 #   lint.scopeStop・lint.scopeAll312・lint.regenChain・lint.canon304・lint.harnessSmoke303・lint.qaHeapRelease310・lint.sectionLookup313)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.resume324d docs.satlong324d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第324便d の塊(ここまで)====
+# ==== 第325便a の塊(ここから)====
+# 第325便a(原仮定者の指示(2026-11-03)「再生成の段の対象が宣言なしの場合、html全体にしない」・統括の検証項目 R284): 枝 a の新設 2 本(lint.htmlPhys325a —— html の物理の部分の hash の
+#   定義・門の小さな写し・移行の口・html 全体の段の棚卸しの表・台帳・計画 / docs.w325a —— 文書)と、対象一致の受け入れを足した lint.provenanceMeta・docs の 7 本(docs.d0audit-sync・
+#   docs.d0sites-sync・docs.bgpredict-sync・docs.selfInertia-sync・docs.bgbudget-sync・docs.bgCompose・docs.sphereKernel)・計画の関数を変えた lint.regenChain・lint.regenScope・
+#   lint.regenOrderOnly323・lint.regenQuick323・lint.violationKinds320(lint の本文の刻印の型の文)・正本の段の lint 一式・lint.qaHeapRelease310・lint.sectionLookup313
+#   台帳: 鎖の後に node tools/regen-plan.mjs --htmlphys-record(物理の部分の宣言のある段の正本の刻印の html と今の html の行 —— 台帳 tests/data-w325a-htmlphys.json をコミット)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.htmlPhys325a docs.w325a lint.provenanceMeta docs.d0audit-sync docs.d0sites-sync docs.bgpredict-sync docs.selfInertia-sync docs.bgbudget-sync docs.bgCompose docs.sphereKernel lint.regenChain lint.regenScope lint.regenOrderOnly323 lint.regenQuick323 lint.violationKinds320 lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.canon304 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第325便a の塊(ここまで)====
+# ==== 第325便b の塊(ここから)====
+# 第325便b(原仮定者の指示(第127報)・統括の検証項目 R285): 枝 b の新設 2 本(preset.sampleWords325b —— 在位の本の表示の欄の旧 gain 語・観測質量の f=1 の残り 0・照合の鍵の行名が残る・
+#   金星と木星の内部熱は未解決・較正母集団の焦点 / docs.sampleWords325b —— 文書)と、古い文を世代で直した QA(docs.calPolicyText・preset.inertialDragPair・behavior.psrF1-1757・behavior.psrF1-1946・
+#   behavior.psrF1-1534・ui.liveComparePeriodDef・preset.condRowsRenamed)・生成表の docs.sampleStatus-sync・preset.statusLedger-sync・docs.families・規約の速い判定の lint.conventionsCheck323・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.sampleWords325b docs.sampleWords325b docs.calPolicyText preset.inertialDragPair behavior.psrF1-1757 behavior.psrF1-1946 behavior.psrF1-1534 ui.liveComparePeriodDef preset.condRowsRenamed docs.sampleStatus-sync preset.statusLedger-sync docs.families lint.conventionsCheck323 lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第325便b の塊(ここまで)====
+# ==== 第325便c の塊(ここから)====
+# 第325便c(原仮定者の指示(第127報)・統括の検証項目 R286): 枝 c の新設(docs.words325c —— 連鎖の玩具 5 本の説明の古い語・📟 の B の 139.4° の列・AN516 の数の訂正・文書)と、
+#   説明を読む生成表の QA(docs.sampleStatus-sync・preset.statusLedger-sync・docs.families)・本の文を読む behavior.obsSpin324b・docs.obsSpin324b・lint.qaHeapRelease310・lint.sectionLookup313・規約の速い判定の lint.conventionsCheck323
+#   AN526(📟 の A の傾きのノブ): behavior.j0737AxisKnob325c と、器と lib の版を上げた段 obsspin-324b の lint 一式(lint.stableHashPaths・lint.regenScope・lint.regenChain・lint.scopeStop・lint.scopeAll312・lint.provenanceMeta・lint.canon304・lint.harnessSmoke303)
+#   AN525(旧方式の geoPN=4 の退役): docs.geo4old325c と、退役の集合と掲載の数を読む docs.noRetiredMention294・preset.spaceMeshRetired300・preset.retire298・preset.retired290b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.words325c behavior.j0737AxisKnob325c docs.geo4old325c docs.noRetiredMention294 preset.spaceMeshRetired300 preset.retire298 preset.retired290b docs.sampleStatus-sync preset.statusLedger-sync docs.families behavior.obsSpin324b docs.obsSpin324b lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.harnessSmoke303 lint.qaHeapRelease310 lint.sectionLookup313 lint.conventionsCheck323"
+# ==== 第325便c の塊(ここまで)====
+# ==== 第325便d の塊(ここから)====
+# 第325便d(統括の検証項目 R287・決断事項 AN517/AN518 —— 簡易一致の本運用の前の試験): 枝 d の新設 5 本(lint.quickMutation325d —— 短窓の後だけ効く変異の影の試験 /
+#   lint.quickEnvWin325d —— args/cmd の窓 6 段の環境変数の窓 / lint.quickEnv325d —— 環境の整合・枝 a との継ぎ目・暦の債務 / lint.quickGate325d —— 本運用の門の関数〔休眠〕/
+#   docs.w325d —— 文書)と、版と窓の表を世代で受けた lint.regenQuick323・lint.quickBoundary324c・lint.quickWindows323・docs.w323c・煙試験の lint.harnessSmoke303・
+#   PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickMutation325d lint.quickEnvWin325d lint.quickEnv325d lint.quickGate325d docs.w325d lint.regenQuick323 lint.quickBoundary324c lint.quickWindows323 docs.w323c lint.harnessSmoke303 lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第325便d の塊(ここまで)====
+# ==== 第325便e の塊(ここから)====
+# 第325便e(原仮定者の回答(2026-11-03 —— AN528)「実在天体なら、f=1に質量を修正。実在天体で無いならそのまま採用」・統括の検証項目 R288): 枝 e の新設 1 ブロック
+#   (preset.realMassF1325e —— 在位の本の質量の倍率の宣言・🛞 の恒星の円盤の倍率 1・凍結の写し tests/fixtures/realmass-w325e.json / docs.realMassF1325e —— 文書)と、
+#   世代で直した QA(behavior.ngc3198 —— W5b・preset.massLedger・docs.rotorLedger・docs.analogyLedger)・🛞 を読む段の正本の QA(behavior.sparc10・behavior.galaxyStateBranch・docs.galaxyChain・
+#   docs.galaxyFieldContract・behavior.chainLedger・preset.fieldContract・docs.galField321c)・器を直した段(galfield-321c・analogy)の lint 一式・説明の語の preset.sampleWords325b・behavior.claimEffort297・生成表の docs.sampleStatus-sync・
+#   preset.statusLedger-sync・docs.families・規約の速い判定の lint.conventionsCheck323・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.realMassF1325e docs.realMassF1325e behavior.ngc3198 preset.massLedger docs.rotorLedger behavior.sparc10 behavior.galaxyStateBranch docs.galaxyChain docs.galaxyFieldContract behavior.chainLedger preset.fieldContract docs.analogyLedger docs.galField321c preset.sampleWords325b behavior.claimEffort297 docs.sampleStatus-sync preset.statusLedger-sync docs.families lint.stableHashPaths lint.regenScope lint.regenChain lint.scopeStop lint.scopeAll312 lint.provenanceMeta lint.canon304 lint.harnessSmoke303 lint.conventionsCheck323 lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第325便e の塊(ここまで)====
+# ==== 第325便f の塊(ここから)====
+# 第325便f(原仮定者の指示(2026-11-03)「「物理対応ロック Xₖ = G₀/c₀²」を常に有効にした場合の影響を調べる。…分類する」・統括の検証項目 R289): 枝 f の新設 2 本
+#   (lint.xkLock325f —— 調べのデータ tests/data-w325f-xklock.json と今の html の照合〔新しい本・値の違う本は名指しで落ちる〕・在位の本の 3 分類・写像の影響の行・数 /
+#   docs.xkLock325f —— 文書)と、qa.mjs の包みの lint.qaHeapRelease310・PHYSICS の節の lint.sectionLookup313(html・本の宣言・器の本文・正本は不変 —— 鎖の段は足さない)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.xkLock325f docs.xkLock325f lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第325便f の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
