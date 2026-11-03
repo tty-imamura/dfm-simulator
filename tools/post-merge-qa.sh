@@ -605,6 +605,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.words325c behavior.j0737AxisKnob325c do
 #   PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.quickMutation325d lint.quickEnvWin325d lint.quickEnv325d lint.quickGate325d docs.w325d lint.regenQuick323 lint.quickBoundary324c lint.quickWindows323 docs.w323c lint.harnessSmoke303 lint.sectionLookup313 lint.qaHeapRelease310"
 # ==== 第325便d の塊(ここまで)====
+# ==== 第325便f の塊(ここから)====
+# 第325便f(原仮定者の指示(2026-11-03)「「物理対応ロック Xₖ = G₀/c₀²」を常に有効にした場合の影響を調べる。…分類する」・統括の検証項目 R289): 枝 f の新設 2 本
+#   (lint.xkLock325f —— 調べのデータ tests/data-w325f-xklock.json と今の html の照合〔新しい本・値の違う本は名指しで落ちる〕・在位の本の 3 分類・写像の影響の行・数 /
+#   docs.xkLock325f —— 文書)と、qa.mjs の包みの lint.qaHeapRelease310・PHYSICS の節の lint.sectionLookup313(html・本の宣言・器の本文・正本は不変 —— 鎖の段は足さない)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.xkLock325f docs.xkLock325f lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第325便f の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

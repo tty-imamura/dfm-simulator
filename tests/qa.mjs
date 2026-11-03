@@ -94826,6 +94826,134 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第325便c の塊(ここまで)====
+// ==== 第325便f の塊(ここから —— lint.xkLock325f・docs.xkLock325f の 2 ブロック。root は SKIP)====
+// ---- 第325便f(原仮定者の指示(2026-11-03)「「物理対応ロック Xₖ = G₀/c₀²」を常に有効にした場合の影響を調べる。サンプルの用途を調べ、「Xₖ = G₀/c₀²」「Xₖ を維持してG₀を合わせる」
+// ----   「Xₖ を維持してc₀を合わせる」に分類する」・統括の検証項目 R289): lint.xkLock325f・docs.xkLock325f(**html・本の宣言は変えない —— 調べと分類のデータだけ**)
+// ----   lint.xkLock325f(データ tests/data-w325f-xklock.json と今の html の照合 —— headless の写しで受理だけ〔読み込みと步はしない〕):
+// ----     ① 版 w325f-xklock-1・分類の 3 つの名・写像の関数 mapPhysics325f の小さな表((i) X_k := G_0/c_0²・(ii) G_0 := X_k c_0²・(iii) c_0 := √(G_0/X_k)〔G_0 = 0・X_k = 0 は未定義〕)
+// ----     ② 内蔵の全部の本がデータにある(**新しい本は名指しで落ちる** —— node tests/exp-w325f-xklock.mjs で分類を足す)・データの本が html にある・在位/退役の別・受理の後の G_0・c_0・X_k・
+// ----        判定(physLockAutoOnOf の ok と理由)が今の html と同じ(**値が変わった本も名指しで落ちる**)
+// ----     ③ 在位の本は全部 3 分類のどれか(理由の 1 文)・満たす本は「X_k = G_0/c_0²」(basis satisfied)・満たさない本は (i)(ii)(iii) の影響の行(受理・ロック・比べ)がある・
+// ----        「X_k を維持して c_0 を合わせる」の本は (iii) が定義される・未決の本は tally.undecided に入り別の候補(alt)を持つ・退役の本は分類しない
+// ----     ④ 数(tally)が本の行から数え直した数と同じ
+// ----   docs.xkLock325f: PHYSICS〔第325便f — 〕(〔第325便 — 統括〕の節の前・「## 7.」の前)にデータの数・AI_SPEC §181・CHANGELOG の第325便f の行・post-merge の ③′・書かない語
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.xkLock325f・docs.xkLock325f(beta 対象でない: ' + TARGET + ' —— 調べのデータは beta の内蔵の本)');
+    return;
+  }
+  let DX = null, XK = null;
+  const badL = [], casesL = [];
+  try { DX = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w325f-xklock.json'), 'utf8')); } catch (e) { badL.push('データ tests/data-w325f-xklock.json が読めない'); }
+  try { XK = await import('file://' + path.join(ROOT, 'tests', 'exp-w325f-xklock.mjs')); } catch (e) { badL.push('tests/exp-w325f-xklock.mjs が読めない: ' + String(e && e.message || e).slice(0, 80)); }
+  // ---- lint.xkLock325f
+  if (DX && XK) {
+    const CL3 = ['X_k = G_0/c_0²', 'X_k を維持して G_0 を合わせる', 'X_k を維持して c_0 を合わせる'];
+    // ①
+    if (!(DX.version === 'w325f-xklock-1' && XK.XKLOCK_VERSION_325F === DX.version && JSON.stringify(DX.classes) === JSON.stringify(CL3) && JSON.stringify(XK.XKLOCK_CLASSES_325F) === JSON.stringify(CL3))) badL.push('① 版・分類の 3 つの名');
+    if (!(DX.measure && DX.measure.steps === 600 && /^[0-9a-f]{64}$/.test(DX.measure.htmlSha256 || '') && DX.rel === 1e-6 && DX.lockFn === 'physLockAutoOnOf')) badL.push('① 測りの窓(600 步)・刻印・許容');
+    const mp = XK.mapPhysics325f, cl = (a, b) => Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b));
+    const m1 = mp({ G: 1, cLight: 30, kappaT: 1 / 60 }, 'i'), m2 = mp({ G: 1, cLight: 30, kappaT: 1 / 60 }, 'ii'), m3 = mp({ G: 1, cLight: 30, kappaT: 1 / 60 }, 'iii');
+    const z3 = mp({ G: 0, cLight: 30, kappaT: 0.02 }, 'iii'), x3 = mp({ G: 1, cLight: 30, kappaT: 0 }, 'iii'), z1 = mp({ G: 0, cLight: 30, kappaT: 0.02 }, 'i');
+    if (!(cl(m1.set.kappaT, 1 / 900) && cl(m2.set.G, 15) && cl(m3.set.cLight, Math.sqrt(60)) && !z3.defined && !x3.defined && z1.set.kappaT === 0)) badL.push('① 写像の関数の表');
+    casesL.push(`① 版 ${DX.version}・3 分類・写像の表((i) X_k 1/60 → 1/900・(ii) G_0 1 → 15・(iii) c_0 30 → √60・G_0 = 0 と X_k = 0 の (iii) は未定義)・窓 ${DX.measure && DX.measure.steps} 步`);
+    // ②
+    let H = null;
+    try { H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { badL.push('② headless の写しが作れない: ' + String(e && e.message || e).slice(0, 80)); }
+    if (H) {
+      const HPx = H.HP, ctxL = H.ctx;
+      const ps = HPx.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+      const byD = new Map((DX.books || []).map((b) => [b.id, b]));
+      const newIds = [], diffIds = [];
+      for (const p of ps) {
+        const b = byD.get(p.id);
+        if (!b) { newIds.push(p.id); continue; }
+        const v = HPx.validatePreset(JSON.parse(JSON.stringify(p)));
+        const ph = v && v.ok ? v.preset.physics : {};
+        const r = ctxL.physLockAutoOnOf({ params: ph });
+        const ret = !!ctxL.retiredOf(p);
+        if (!(b.retired === ret && b.G === ph.G && b.c === ph.cLight && b.X === ph.kappaT && b.lock && b.lock.ok === !!r.ok && b.lock.reason === r.reason)) diffIds.push(p.id);
+      }
+      const goneIds = (DX.books || []).filter((b) => !ps.some((p) => p.id === b.id)).map((b) => b.id);
+      if (newIds.length) badL.push(`② データに無い本 ${newIds.length}(分類の追記が要る —— node tests/exp-w325f-xklock.mjs): ${newIds.slice(0, 8).join(',')}`);
+      if (goneIds.length) badL.push(`② html に無い本 ${goneIds.length}: ${goneIds.slice(0, 8).join(',')}`);
+      if (diffIds.length) badL.push(`② G_0・c_0・X_k・判定・在位の別が今の html と違う本 ${diffIds.length}(測りと分類のやり直し): ${diffIds.slice(0, 8).join(',')}`);
+      casesL.push(`② 内蔵 ${ps.length} 本 = データ ${(DX.books || []).length} 本(新しい本 ${newIds.length}・消えた本 ${goneIds.length}・値か判定の違う本 ${diffIds.length})`);
+    }
+    // ③
+    const live = (DX.books || []).filter((b) => !b.retired);
+    const noCls = [], badSat = [], noImp = [], badC = [], badU = [], badRet = [];
+    for (const b of live) {
+      if (!(CL3.includes(b.class) && typeof b.reason === 'string' && b.reason.length >= 8)) noCls.push(b.id);
+      if (b.lock.ok && !(b.class === CL3[0] && b.basis === 'satisfied')) badSat.push(b.id);
+      if (!b.lock.ok) {
+        const im = b.impact, ok3 = im && ['i', 'ii', 'iii'].every((m) => im.maps && im.maps[m] && (im.maps[m].defined === false ? typeof im.maps[m].why === 'string' : (typeof im.maps[m].accept === 'boolean' && typeof im.maps[m].lock === 'string' && im.maps[m].cmp)));
+        if (!ok3 || b.basis === 'satisfied') noImp.push(b.id);
+        if (b.class === CL3[2] && !(im && im.maps && im.maps.iii && im.maps.iii.defined)) badC.push(b.id);
+      }
+      if (b.undecided && !((DX.tally.undecided || []).includes(b.id) && CL3.includes(b.alt))) badU.push(b.id);
+    }
+    for (const b of (DX.books || []).filter((z) => z.retired)) if (b.class !== null) badRet.push(b.id);
+    if (noCls.length) badL.push('③ 分類か理由の無い在位の本: ' + noCls.slice(0, 8).join(','));
+    if (badSat.length) badL.push('③ 満たす本が「X_k = G_0/c_0²」(satisfied)でない: ' + badSat.slice(0, 8).join(','));
+    if (noImp.length) badL.push('③ 満たさない本に (i)(ii)(iii) の影響の行が無い: ' + noImp.slice(0, 8).join(','));
+    if (badC.length) badL.push('③ c_0 を合わせる分類なのに (iii) が未定義: ' + badC.join(','));
+    if (badU.length) badL.push('③ 未決の本の名簿か別の候補: ' + badU.join(','));
+    if (badRet.length) badL.push('③ 退役の本に分類: ' + badRet.slice(0, 8).join(','));
+    // ④
+    const cnt = {}; for (const b of live) cnt[b.class] = (cnt[b.class] || 0) + 1;
+    const sat = {}; for (const b of (DX.books || [])) { const k = (b.retired ? 'retired' : 'live') + ':' + (b.lock.ok ? 'ok' : 'ng') + ':' + b.lock.reason; sat[k] = (sat[k] || 0) + 1; }
+    const und = live.filter((b) => b.undecided).map((b) => b.id), chg = live.filter((b) => !b.lock.ok).map((b) => b.id);
+    const T = DX.tally || {};
+    if (!(T.builtin === (DX.books || []).length && T.live === live.length && T.retired === (DX.books || []).length - live.length
+      && JSON.stringify(Object.entries(T.byClass || {}).sort()) === JSON.stringify(Object.entries(cnt).sort())
+      && JSON.stringify(Object.entries(T.bySat || {}).sort()) === JSON.stringify(Object.entries(sat).sort())
+      && JSON.stringify((T.undecided || []).slice().sort()) === JSON.stringify(und.slice().sort())
+      && JSON.stringify((T.changedIfAlwaysOn || []).slice().sort()) === JSON.stringify(chg.slice().sort()))) badL.push('④ 数(tally)が本の行と合わない');
+    casesL.push(`③ 在位 ${live.length} 本の分類(${CL3.map((c) => c + ' ' + (cnt[c] || 0)).join('・')}・未決 ${und.length})・満たす本 ${live.filter((b) => b.lock.ok).length} は「${CL3[0]}」・満たさない本 ${chg.length} に (i)(ii)(iii) の影響 / ④ 数の照合`);
+  }
+  add('lint.xkLock325f', badL.length === 0,
+    `**物理対応ロック X_k = G_0/c_0² を常に有効にした場合の影響と用途の 3 分類のデータ**(第325便f・原仮定者の指示(2026-11-03)・R289 —— html と本の宣言は変えない・調べのデータだけ): ${casesL.join(' / ')}`
+    + (badL.length ? ` / **違反 ${badL.length} 件**: ${badL.slice(0, 6).join(' , ')}` : ''));
+  // ---- docs.xkLock325f
+  {
+    const bad = [], cases = [];
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md');
+    const i7 = PH.indexOf('\n## 7. 論文'), f0 = PH.indexOf('〔第325便f — '), f1 = PH.indexOf('\n〔第', f0 + 10), g0 = PH.indexOf('〔第325便 — 統括');
+    const sec = f0 >= 0 ? PH.slice(f0, (f1 > f0 && (i7 < 0 || f1 < i7)) ? f1 : (i7 > f0 ? i7 : undefined)) : '';
+    if (!(f0 >= 0 && (g0 < 0 || f0 < g0) && (i7 < 0 || f0 < i7))) bad.push('PHYSICS〔第325便f〕が無いか、〔第325便 — 統括〕・「## 7.」の後ろ');
+    if (DX && DX.tally) {
+      const T = DX.tally, n = (k) => T.bySat[k] || 0;
+      const liveOk = n('live:ok:within') + n('live:ok:zeroExact'), liveNg = T.live - liveOk;
+      const want = [`内蔵 ${T.builtin}`, `在位 ${T.live}`, `退役 ${T.retired}`, `満たす ${liveOk}`, `満たさない ${liveNg}`,
+        `「X_k = G_0/c_0²」${T.byClass['X_k = G_0/c_0²'] || 0}`, `「X_k を維持して G_0 を合わせる」${T.byClass['X_k を維持して G_0 を合わせる'] || 0}`,
+        `「X_k を維持して c_0 を合わせる」${T.byClass['X_k を維持して c_0 を合わせる'] || 0}`, `未決 ${(T.undecided || []).length}`,
+        'tests/data-w325f-xklock.json', 'tests/exp-w325f-xklock.mjs', 'lint.xkLock325f', '原仮定者の指示(2026-11-03)', 'R289', '決断事項候補'];
+      for (const w of want) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第325便f〕に「' + w + '」が無い');
+      for (const id of (T.undecided || [])) if (sec.indexOf(id) < 0) bad.push('PHYSICS〔第325便f〕に未決の本 ' + id + ' が無い');
+      cases.push(`PHYSICS〔第325便f〕の数がデータと同じ(在位 ${T.live}・満たさない ${liveNg}・未決 ${(T.undecided || []).length})`);
+    }
+    const cpF = (a) => String.fromCodePoint(...a), rvF = (t) => t.split('').reverse().join('');
+    const NGF = [cpF([0x518d, 0x73fe, 0x3057, 0x305f]), cpF([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpF([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpF([0x666e, 0x904d, 0x5b9a, 0x6570]), cpF([0x79c1, 0x4fe1]), cpF([0x6dfb, 0x4ed8]), cpF([0x5be9, 0x67fb])].concat(['TPGtahC', 'inimeG', 'edualC', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvF));   // 禁句(文字で持たない)
+    for (const w of ['較正した', 'フィットした', 'GR に一致', '常に有効にすべき', '確認した']) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第325便f〕に書かない語「' + w + '」');
+    if (/(^|[^_A-Za-z])κ(?!_)/.test(sec)) bad.push('PHYSICS〔第325便f〕に裸の係数記号');
+    const AI = rd('docs/AI_SPEC.md'), a0 = AI.indexOf('\n## 181. 第325便f'), ai = a0 >= 0 ? AI.slice(a0, a0 + 8000) : '';
+    if (!(ai.indexOf('tests/data-w325f-xklock.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('AI_SPEC §181(データの名・SYSTEM_PROMPT には載せない)');
+    const CLg = rd('CHANGELOG.md'), cb = CLg.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLg.slice(cb, cb + 80000) : '';
+    if (!((clg.split('\n').find((l) => l.indexOf('**第325便f**') >= 0) || '').indexOf('tests/data-w325f-xklock.json') >= 0)) bad.push('CHANGELOG の第325便f の行');
+    const PM = rd('tools/post-merge-qa.sh');
+    if (!(PM.indexOf('# ==== 第325便f の塊(ここから)====') >= 0 && PM.indexOf('lint.xkLock325f') >= 0 && PM.indexOf('docs.xkLock325f') >= 0)) bad.push('post-merge の ③′ に第325便f の塊');
+    const cl325f = (clg.split('\n').find((l) => l.indexOf('**第325便f**') >= 0) || '');
+    for (const [nm, tx] of [['PHYSICS〔第325便f〕', sec], ['AI_SPEC §181', ai], ['CHANGELOG の第325便f の行', cl325f]]) for (const w of NGF) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+    cases.push('AI_SPEC §181・CHANGELOG・post-merge の ③′・書かない語・禁句');
+    add('docs.xkLock325f', bad.length === 0,
+      `**物理対応ロックを常に有効にした場合の影響と 3 分類の文書**(第325便f・R289): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第325便f の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
