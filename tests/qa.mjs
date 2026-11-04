@@ -68937,7 +68937,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           + ((typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.solarInner && /^第90報/.test(RETIRED_PRESETS.solarInner.ja)) ? 1 : 0));
         // 第325便c(原仮定者の回答(2026-11-03 —— AN525)・R286): 旧方式の geoPN=4 の 5 本を退役した世代(RETIRED_PRESETS の 🔗 の行が「第127報」)は +5
         const add325c = await page.evaluate(() => (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.chainDiskToy && /^第127報/.test(RETIRED_PRESETS.chainDiskToy.ja)) ? 5 : 0);
-        if (r.retired !== r.rpRows || r.retired !== cb.retired - 1 + add298 + add300 + add325c) bad.push(`③退役 ${r.retired}(RETIRED_PRESETS ${r.rpRows}・基点 ${cb.retired} −1${add298 ? ' +8(第298便b)' : ''}${add300 ? ` +${add300}(第300便a・b・m)` : ''}${add325c ? ' +5(第325便c)' : ''})`);
+        // 第326便b(原仮定者の回答(2026-11-03 —— AN531)・R291): 🛞 ngc3198DFM を退役した世代(RETIRED_PRESETS の 🛞 の行が「AN531」)は +1
+        const add326b = await page.evaluate(() => (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.ngc3198DFM && /^AN531/.test(RETIRED_PRESETS.ngc3198DFM.ja)) ? 1 : 0);
+        if (r.retired !== r.rpRows || r.retired !== cb.retired - 1 + add298 + add300 + add325c + add326b) bad.push(`③退役 ${r.retired}(RETIRED_PRESETS ${r.rpRows}・基点 ${cb.retired} −1${add298 ? ' +8(第298便b)' : ''}${add300 ? ` +${add300}(第300便a・b・m)` : ''}${add325c ? ' +5(第325便c)' : ''}${add326b ? ' +1(第326便b)' : ''})`);
         // 統合(第292便): 同便の c(🌛 earthMoonInertial)と d(🌜 earthMoonTide)が内蔵を足す —— 復活は本数を変えないので基点 + その 2 本の有無で見る
         // 第295便c(R155): 🌤️🟤🟣(慣性決定力版サンプル 3 本)も内蔵を足す(復活の本数は不変)
         const add292 = await page.evaluate(() => HP.allPresets().filter((p) => ['earthMoonInertial', 'earthMoonTide', 'earthMoonSunInertial', 'mercurySunInertial', 'plutoCharonInertial', 'chainDiskToy'].includes(p.id) || p.referenceKind === 'observation-fit' || ((p.physics || {}).coord === '3d' && !(p.physics || {}).shapeToy)).length);   // 第296便b: フィットの派生本(🟫🟪)も内蔵を足す / 第298便a: 三次元の本(🌐🎲 —— 宣言 physics.coord:"3d" から数える)も
@@ -73639,6 +73641,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           if (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.solarInner && /^第90報/.test(RETIRED_PRESETS.solarInner.ja)) RET298T.push('solarInner');
           // 第325便c(原仮定者の回答(2026-11-03 —— AN525)・R286): 旧方式の geoPN=4 の 5 本(🔗🔩🪛🍥🧨)も第297便c の在位の時間の宣言のまま凍結(世代切替 = RETIRED_PRESETS の 🔗 の行が「第127報」)
           if (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.chainDiskToy && /^第127報/.test(RETIRED_PRESETS.chainDiskToy.ja)) RET298T.push('chainDiskToy', 'chainDiskToy3d', 'chainDiskToy3dTilt', 'chainSpreadToy3d', 'chainBurstShell3d');
+          // 第326便b(原仮定者の回答(2026-11-03 —— AN531)・R291): 🛞 ngc3198DFM も第297便c の在位の時間の宣言のまま凍結(世代切替 = RETIRED_PRESETS の 🛞 の行が「AN531」)
+          if (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.ngc3198DFM && /^AN531/.test(RETIRED_PRESETS.ngc3198DFM.ja)) RET298T.push('ngc3198DFM');
           if (p.familyRole === 'retired' && RET298T.includes(p.id)) rows.ret298 = (rows.ret298 || 0) + 1;
           if (p.familyRole === 'retired' && !RET298T.includes(p.id)) {
             rows.retired++;
@@ -95197,7 +95201,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const rd326b = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
   if (!TARGET.startsWith('beta/')) {
-    console.log('SKIP preset.ngc3198Halo326b・docs.ngc3198Halo326b(beta 対象でない: ' + TARGET + ' —— 🛞 の退役と 🌃 の家族の入口は beta 線)');
+    console.log('SKIP preset.ngc3198Halo326b・behavior.ngc3198AbHalo326b・docs.ngc3198Halo326b(beta 対象でない: ' + TARGET + ' —— 🛞 の退役と 🌃 の家族の入口・ワンタップ対照は beta 線)');
     return;
   }
   let FX326b = null;
