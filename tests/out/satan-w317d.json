@@ -3235,19 +3235,19 @@
  "ok": true,
  "timing": {
   "R": {
-   "wallSec": 0.008
+   "wallSec": 0.016
   },
   "Y": {
-   "wallSec": 0.004
+   "wallSec": 0.01
   },
   "M": {
-   "wallSec": 0
+   "wallSec": 0.001
   },
   "B": {
    "wallSec": 0
   },
   "V": {
-   "wallSec": 0.002
+   "wallSec": 0.006
   }
  },
  "conclusion": {
@@ -3289,25 +3289,25 @@
   "mSumInBand": "6/6",
   "mRef315InBand": "2/6"
  },
- "elapsedS": 0.043,
+ "elapsedS": 0.078,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第317便d",
   "target": "tests/lib-w317d-satan.mjs",
   "targetSha256": "48b55f2cdb4e05b2bf1f3856bd2b93da840f8d5d7f2dedb6e24a111375c9baeb",
-  "generatedAt": "2026-11-03T02:22:14.609Z",
+  "generatedAt": "2026-11-04T10:43:39.614Z",
   "inputs": [
    {
     "file": "tests/out/sath-w316d.json",
-    "bytes": 2245289,
-    "sha256": "72dd2abd6cf6cbdec9468316bf1480b5be4603807e457da2446cfe217017c1f0",
-    "mtime": "2026-11-02T22:26:09.447Z"
+    "bytes": 2245246,
+    "sha256": "ea4b42c4d55acfc79c247f2fc960be3cf78e4f638fc30f2ac3eb2cb1c46b7f89",
+    "mtime": "2026-11-04T04:57:58.675Z"
    },
    {
     "file": "tests/out/satk1-w315d.json",
-    "bytes": 495437,
-    "sha256": "b38b554ea0d5c3611a276b9d16bbb406769630d08c6065aee4f924437ea58bd8",
-    "mtime": "2026-11-02T22:00:20.732Z"
+    "bytes": 495431,
+    "sha256": "5a5149cfa89ce602499e12ad97264c475caed25ea26eacb383859455521de0e1",
+    "mtime": "2026-11-04T04:43:46.683Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -3373,12 +3373,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "337199882ced7147ed4f04cf0b3c76f26ff8499c16b1eb856a9bdfb2b3b9091b",
+  "codeSha256": "880e6a2a124f1e7a7284c116daca19f937bf52c868355c7232a8157ce6e1da5e",
   "harnessVersion": "w317d-satan-1",
   "stage": "satan",
   "engine": "Node の純関数だけ(html を読まない・走行しない)",
@@ -3396,7 +3396,7 @@
   "inputsStable": [
    {
     "file": "tests/out/sath-w316d.json",
-    "stableSha256": "e0d5643a560c1673d02f35935ee63f6c2f15e1f5a3ac2889085d060d137ec926",
+    "stableSha256": "eb3a824f93ba6e858657dc6be365eaf6c28b20aed563a34f67eb3fcb04285a41",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/E/rows/*/wallSec",
@@ -3411,7 +3411,7 @@
    },
    {
     "file": "tests/out/satk1-w315d.json",
-    "stableSha256": "d1972879cf09944c1f705191c43d032a212164d1b7b29a562b309bd8fefd900c",
+    "stableSha256": "09a25c0fc29bbf890c62e0fd74ed351fa469dfc0299100966d8f0b92ba55862d",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/E/rows/*/wallSec",
