@@ -79,7 +79,10 @@ function partBit(HP, FX) {
   for (const id of IDS) {
     const B = find(HP, id), F = FX.books[id];
     const ph = clone(B.physics); const dc = ph.coord, ds = ph.stateCarry; delete ph.coord; delete ph.stateCarry;
-    const declSame = JSON.stringify(ph) === JSON.stringify(F.physics) && JSON.stringify(B.bodies) === JSON.stringify(F.bodies) && B.seed === F.seed;
+    // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 物理対応ロックを常に(HP.XK_LOCK_VERSION)の世代では 8 本(G_0 = 0)の X_k は 1/60 → 0 ——
+    //   凍結の写しは移行の前のまま。写しの X_k を導出値(G_0/c_0²)に読み替えて宣言を比べる(力学の比べ〔xy の bit〕は写しの宣言のまま走らせる —— X_k は xy に効かない)
+    const Fph = HP.XK_LOCK_VERSION ? Object.assign({}, F.physics, { kappaT: (F.physics.G > 0 ? F.physics.G / (F.physics.cLight * F.physics.cLight) : 0) }) : F.physics;
+    const declSame = JSON.stringify(ph) === JSON.stringify(Fph) && JSON.stringify(B.bodies) === JSON.stringify(F.bodies) && B.seed === F.seed;
     const S3 = simOfBuiltin(HP, id), S2d = simOf(HP, fixtureBook(FX, id, true)).S, S2f = simOf(HP, fixtureBook(FX, id, false)).S;
     for (let k = 0; k < NSTEP; k++) { S3.step(DT); S2d.step(DT); S2f.step(DT); }
     const c = cmp(S3, S2d, KEYS2), f = cmp(S3, S2f, ['x', 'y', 'vx', 'vy']);
