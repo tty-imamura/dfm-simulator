@@ -40104,18 +40104,21 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
         let n = 0; const ids = [];
         for (const p of HP.allPresets()) if (/"nuMax"/.test(JSON.stringify(p))) { n++; ids.push(p.id); }
         O.builtin = { n, ids, total: HP.allPresets().length }; }
+      // 第326便a(AN530・R290): 物理対応ロックを常にの世代(HP.XK_LOCK_VERSION)で 🐮 の X_k は 1/60 → 1/225(減光が弱まり、上限なしのピーク ν̄ は 3.07)——
+      //   上限が効く試験の ν_max を 5 → 2 にする(ピークより下 —— 試験の型は同じ)
+      O.cap = (window.HP && HP.XK_LOCK_VERSION) ? 2 : 5;
       O.plain = run({}, 900);
-      O.cap5 = run({ lightTrap: { nuMax: 5 } }, 900);
+      O.cap5 = run({ lightTrap: { nuMax: O.cap } }, 900);
       O.cap100 = run({ lightTrap: { nuMax: 100 } }, 900);
-      O.nZero = run({ etaRad: 0, lightTrap: { nuMax: 5 } }, 400);
+      O.nZero = run({ etaRad: 0, lightTrap: { nuMax: O.cap } }, 400);
       return O;
     });
     const n1 = nu.decl.omit.has === false && nu.decl.zero.has === true && nu.decl.zero.val === 0
       && nu.decl.ten.val === 10 && nu.decl.neg.has === false && nu.decl.str.has === false
       && nu.decl.neg.warn >= 1 && nu.builtin.n === 0;
     const n2 = Math.abs(nu.cap5.rel) < 1e-12 && Math.abs(nu.cap100.rel) < 1e-12 && !nu.cap5.nan;
-    const n3 = nu.cap5.peakNu <= 5 + 1e-12 && nu.cap5.rejected > 0 && nu.cap5.Es > nu.plain.Es
-      && nu.cap5.nCapped === 1 && nu.cap5.nuMax0 === 5;
+    const n3 = nu.cap5.peakNu <= nu.cap + 1e-12 && nu.cap5.rejected > 0 && nu.cap5.Es > nu.plain.Es
+      && nu.cap5.nCapped === 1 && nu.cap5.nuMax0 === nu.cap;
     const n4 = nu.cap100.peakNu === nu.plain.peakNu && nu.cap100.Eesc === nu.plain.Eesc
       && nu.cap100.rejected === 0 && nu.plain.nuMax0 === null && nu.plain.nCapped === 0;
     const n5 = nu.nZero.Ng === 0 && nu.nZero.nuBar === null && nu.nZero.Es === nu.nZero.Es0
@@ -40126,14 +40129,14 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
       + `① **省略時=上限なし**: 省略で鍵なし(${nu.decl.omit.has})・\`nuMax:0\` の明示は残る`
       + `(${nu.decl.zero.val})・負は警告 ${nu.decl.neg.warn} 件で落ちる・**内蔵 ${nu.builtin.total} 本の宣言 `
       + `${nu.builtin.n} 件**=${n1} / `
-      + `② **恒等式**: E_s+E_γ+E_esc+Q−E_in=E_s(0) の相対残差は ν_max=5 で ${nu.cap5.rel}・`
+      + `② **恒等式**: E_s+E_γ+E_esc+Q−E_in=E_s(0) の相対残差は ν_max=${nu.cap} で ${nu.cap5.rel}・`
       + `ν_max=100 で ${nu.cap100.rel}=${n2} / `
-      + `③ **上限が効く**: ν_max=5 でピーク ν̄=${nu.cap5.peakNu}(上限なしは ${nu.plain.peakNu})・`
+      + `③ **上限が効く**: ν_max=${nu.cap} でピーク ν̄=${nu.cap5.peakNu}(上限なしは ${nu.plain.peakNu})・`
       + `**断られた仕事 ${nu.cap5.rejected} は E_s に残る**(E_s=${nu.cap5.Es} > 上限なしの ${nu.plain.Es})=${n3} / `
       + `④ **効かない上限は基点と同じ**: ν_max=100 でピーク ${nu.cap100.peakNu}・E_esc ${nu.cap100.Eesc}`
       + `(上限なし ${nu.plain.Eesc})・断られた仕事 ${nu.cap100.rejected}=${n4} / `
       + `⑤ **N_γ=0 は未定義**: N_γ=${nu.nZero.Ng}・ν̄=${nu.nZero.nuBar}・E_s は E_s(0) のまま`
-      + `(${nu.nZero.Es})・上限超過中の粒子は ν_max=5 の走行で ${nu.cap5.over} 体=${n5} —— `
+      + `(${nu.nZero.Es})・上限超過中の粒子は ν_max=${nu.cap} の走行で ${nu.cap5.over} 体=${n5} —— `
       + `**「全経路の上限制御が完成した」とは書かない**(止めているのは仕事の受理だけで、`
       + `初期超過・N_γ の減少・融合での和・refill 停止では ν̄>ν_max のまま滞在しうる。外来光の捕獲は無い)`);
   } else {
@@ -44312,7 +44315,9 @@ if (!FAST) {
       o.curListed = lst.filter((t) => t.indexOf('〔' + HP.T('retiredTag') + '〕') >= 0).length;
       o.otherRetiredListed = hits(lst.filter((t) => t.indexOf('〔' + HP.T('retiredTag') + '〕') < 0));
       hidePresetPicker();
-      HP.loadPreset('rotorSolo', false); await wait(5);
+      // 第326便a(AN530・R290): 🕳️ rotorSolo も退役した世代(RETIRED_PRESETS の 🕳️ の行が「第128報」)は、退役の本を家族に持つ在位の本 ☄️ mercuryReal で「この仲間」を見る
+      const w326aF = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.rotorSolo && /^第128報/.test(RETIRED_PRESETS.rotorSolo.ja);
+      HP.loadPreset(w326aF ? 'mercuryReal' : 'rotorSolo', false); await wait(5);
       o.famLinks = [...document.querySelectorAll('#familyRow .familyLink')].map((b) => b.textContent);
       o.famRetiredLinks = o.famLinks.filter((t) => names.some((n) => t.indexOf(n) >= 0)).length;
       o.enNotice = (() => { HP.setLang('en'); HP.loadPreset('bhCore', false); const n = document.querySelector('#retiredNotice');
@@ -48237,7 +48242,11 @@ if (!FAST) {
       const wantW295 = (hasBox2 && w290 && w294c && w295d)
         ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', '箱宇宙の実験',
            'スピンと熱', '自転と減光', '腕と軸力', '実在天体との照合', '実在天体のアナロジー'] : null;
-      const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272, wantW273, wantW288, (w294c ? null : wantW290), (w295d ? null : wantW294), wantW295].filter(Boolean);
+      // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 群「自転と減光」の在位の本が 0 になった世代(RETIRED_PRESETS の 🕳️ の行が「第128報」)は、その群の見出しが一覧に出ない
+      //   (宣言の群・GROUP_ORDER は不変 —— 退役の本は一覧に出さない)。候補を追加して厳密一致(弱体化なし)
+      const w326aG = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.rotorSolo && /^第128報/.test(RETIRED_PRESETS.rotorSolo.ja);
+      const wantW326 = (wantW295 && w326aG) ? wantW295.filter((g) => g !== '自転と減光') : null;
+      const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272, wantW273, wantW288, (w294c ? null : wantW290), (w295d ? null : wantW294), (w326aG ? null : wantW295), wantW326].filter(Boolean);
       const hit = cands.find((c) => JSON.stringify(labels.slice(0, c.length)) === JSON.stringify(c));
       res.groups = labels.slice(0, (hit || want).length);
       res.groupsOk = !!hit;
