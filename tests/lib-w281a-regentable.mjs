@@ -1658,6 +1658,18 @@ export const REGEN_STEPS = [
     //   /cost/wallSec・/cost/byJob/*/wallSec・/cost/rateStepsPerSec)と /resumeGate/wallSec
     note: '第324便d: イオ・エウロパの長い窓(AN452 —— 1.5 P_母 × h・h/2・h/4 × V1a・V0・satnext-318b と同じ契約・窓 W1/W2・模型 LS・判定 RULE)を再開の型で(門を先に回し、外れたら走らせない)。母惑星の公転周期の窓の外の量を引用しない・在位へ入れない。履歴(鎖の外で統括が走らせる)' }),
   // ==== 第324便d の塊(ここまで)====
+  // ==== 第326便d の塊(ここから)====
+  // ---- 第326便d(原仮定者の指示(第128報)「軸引きずりについて」「引きずり計算の補足」・統括の検証項目 R293): **軸引きずりの定常の釣り合いと由来ごとの熱の帳簿の器**
+  //   (段 axialheat-326d —— 正本 tests/out/axialheat-w326d.json・lib tests/lib-w326d-axialheat.mjs —— 太陽–金星・太陽–木星–イオの軸の向きの釣り合い〔固定軸・歳差なし〕・
+  //   銀河の局所の軸場〔向きは ĝ —— 大きさは太陽の式〕・今の K1 の核の源ごとの軸の ω〔読み口 inertialDragIsqState の perSource〕・潮汐の応答・Γ ≥ 0 の採否・凸包の判定・
+  //   口ごとの熱と帳簿〔銀河の供給 + 軌道の仕事 = 熱 = 放射〕・否定対照・地球と土星の検査・引きずりの半径 R_d と R_src の独立の宣言)。**診断だけ**(エンジン・在位の本・受理器は変えない)。
+  //   html を読む(本は 🗺️ を .find で引く 1 本・他の正本は読まない —— html の生成領域の後)。1 プロセス。t = 0 の読み口と純関数だけ(步を進めない)。
+  //   所要は第326便d の枝の実測 2.7 s(nice 19 —— 4 枝並走の箱〔**並走の秒**〕)
+  S('axialheat-326d', 'node tests/exp-w326d-axialheat.mjs', ['tests/out/axialheat-w326d.json'], 3, { secSource: 'w326d-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ(步を進めない —— 窓が無く、全部を走らせても数秒)',
+    volatilePaths: { 'tests/out/axialheat-w326d.json': META_RUN.concat(['/elapsedS', '/timing']) },
+    note: '第326便d: 軸引きずりの定常の釣り合いと由来ごとの熱の帳簿(診断 —— 銀河場を同定したと数えない・内部熱を観測の熱流に合わせていない・負の散逸の解は不採用)・R_d と R_src の独立の宣言の確かめ' }),
+  // ==== 第326便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
