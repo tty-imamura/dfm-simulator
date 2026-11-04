@@ -2893,7 +2893,20 @@ lastAddAt = Date.now();
       //   (第286便d の SCOPE_STOP と同じ並び)で引き直す(stopSetOf)。旧い世代(版 4 が現行)は従来どおり
       // 第318便a(原仮定者の裁定(第120報)・決断事項 AN427・統括の検証項目 R254): 世代切替 = 器の版の定数 TEXT_REGISTRIES_ADDED_318 の有無。新しい世代: 現行版 w318a-scope-6
       //   (停止集合は版 5 と同じ SCOPE_STOP —— 変えたのは文の登録簿・説明文の欄・受理後の warnings)・版 5 の刻印は版 5 の規則(stopSetOf・textRegistriesOf・proseKeysOf)
-      if (Array.isArray(SC.SCOPE_STOP_ADDED_316) && Array.isArray(SC.TEXT_REGISTRIES_ADDED_318)) {
+      // 第326便e(統括の検証項目 R294 —— 世代の直し): 世代切替 = 器の版の定数 OBSSPIN_PROSE_KEYS_326E の有無。新しい世代: 現行版 w326e-scope-7(obsSpin の成分の
+      //   説明の文 note・noteEn・source・sourceEn を外す —— 停止集合・文の登録簿・本の名は版 6 と同じ)・版 6 の刻印は版 6 の規則(SCOPE_VERSION_6 = w318a-scope-6)
+      if (Array.isArray(SC.SCOPE_STOP_ADDED_316) && Array.isArray(SC.TEXT_REGISTRIES_ADDED_318) && Array.isArray(SC.OBSSPIN_PROSE_KEYS_326E)) {
+        if (SC.SCOPE_VERSION !== 'w326e-scope-7' || SC.SCOPE_VERSION_6 !== 'w318a-scope-6' || SC.SCOPE_VERSION_5 !== 'w316d-scope-5' || SC.SCOPE_VERSION_4 !== 'w286d-scope-4' || SC.SCOPE_VERSION_LEGACY !== 'w281a-scope-1' || SC.SCOPE_VERSION_2 !== 'w282e-scope-2' || SC.SCOPE_VERSION_3 !== 'w283e-scope-3'
+          || JSON.stringify(SC.SCOPE_VERSIONS) !== JSON.stringify(['w281a-scope-1', 'w282e-scope-2', 'w283e-scope-3', 'w286d-scope-4', 'w316d-scope-5', 'w318a-scope-6', 'w326e-scope-7'])) bad.push('① 版が契約と違う: ' + SC.SCOPE_VERSION);
+        const S4 = SC.SCOPE_STOP_4 || [], S3 = SC.SCOPE_STOP_3 || [], AD = SC.SCOPE_STOP_ADDED_316;
+        if (!(JSON.stringify(SC.SCOPE_STOP) === JSON.stringify(S4.concat(AD)) && S4.length === S3.length + 2)) bad.push('① 版 5・6・7 の停止集合が版 4 + SCOPE_STOP_ADDED_316 でない');
+        if (!(typeof SC.stopSetOf === 'function' && SC.stopSetOf('w326e-scope-7') === SC.SCOPE_STOP && SC.stopSetOf('w318a-scope-6') === SC.SCOPE_STOP && SC.stopSetOf('w316d-scope-5') === SC.SCOPE_STOP && SC.stopSetOf('w286d-scope-4') === S4 && SC.stopSetOf('w283e-scope-3') === S3 && SC.stopSetOf('w282e-scope-2') === S3))
+          bad.push('① 刻印の版 → 停止集合(stopSetOf)が契約と違う');
+        if (!(SC.textRegistriesOf('w326e-scope-7') === SC.TEXT_REGISTRIES && SC.textRegistriesOf('w318a-scope-6') === SC.TEXT_REGISTRIES && SC.textRegistriesOf('w316d-scope-5') === SC.TEXT_REGISTRIES_5
+          && JSON.stringify(SC.proseKeysOf('w326e-scope-7')) === JSON.stringify(SC.PROSE_KEYS.concat(['name'])) && JSON.stringify(SC.proseKeysOf('w318a-scope-6')) === JSON.stringify(SC.PROSE_KEYS.concat(['name'])) && SC.proseKeysOf('w316d-scope-5') === SC.PROSE_KEYS))
+          bad.push('① 刻印の版 → 文の登録簿・説明文の欄(textRegistriesOf・proseKeysOf)が契約と違う');
+        if (JSON.stringify(SC.OBSSPIN_PROSE_KEYS_326E) !== JSON.stringify(['note', 'noteEn', 'source', 'sourceEn'])) bad.push('① 版 7 の obsSpin の説明の文の欄名');
+      } else if (Array.isArray(SC.SCOPE_STOP_ADDED_316) && Array.isArray(SC.TEXT_REGISTRIES_ADDED_318)) {
         if (SC.SCOPE_VERSION !== 'w318a-scope-6' || SC.SCOPE_VERSION_5 !== 'w316d-scope-5' || SC.SCOPE_VERSION_4 !== 'w286d-scope-4' || SC.SCOPE_VERSION_LEGACY !== 'w281a-scope-1' || SC.SCOPE_VERSION_2 !== 'w282e-scope-2' || SC.SCOPE_VERSION_3 !== 'w283e-scope-3'
           || JSON.stringify(SC.SCOPE_VERSIONS) !== JSON.stringify(['w281a-scope-1', 'w282e-scope-2', 'w283e-scope-3', 'w286d-scope-4', 'w316d-scope-5', 'w318a-scope-6'])) bad.push('① 版が契約と違う: ' + SC.SCOPE_VERSION);
         const S4 = SC.SCOPE_STOP_4 || [], S3 = SC.SCOPE_STOP_3 || [], AD = SC.SCOPE_STOP_ADDED_316;
@@ -90507,7 +90520,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     cases.push(`③ AN454 ${n454} 段(${(RTm.AN454_319C || []).map((z) => z.key).join('・')})の器が宣言し正本が同じ宣言を刻む・付けない ${(RTm.AN454_SKIP_319C || []).length} 行は理由つき`);
     // ④
-    if (!J || J.version !== D.PROBE_VERSION || J.scopeVersion !== SC.SCOPE_VERSION) bad.push('④ 記録の版');
+    // 第326便e(R294 —— 世代の直し): 記録は第319便c の版 6 の領域で取った(現行版 w326e-scope-7 の世代でも版 6 の記録として読む)
+    if (!J || J.version !== D.PROBE_VERSION || ![SC.SCOPE_VERSION, SC.SCOPE_VERSION_6].filter(Boolean).includes(J.scopeVersion)) bad.push('④ 記録の版');
     else {
       if (JSON.stringify(J.cases.map((c) => c.key)) !== JSON.stringify(D.CASE_KEYS) || !J.cases.every((c) => c.made)) bad.push('④ 変更の種類 6 種が作れていない');
       const C = Object.fromEntries(J.cases.map((c) => [c.key, c]));
