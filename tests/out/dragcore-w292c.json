@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第292便c",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-02T21:21:32.478Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T05:56:45.475Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    }
   ],
   "code": [
@@ -52,9 +52,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    },
    {
     "file": "tests/lib-w302h-splitrec.mjs",
@@ -63,7 +63,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "1e6239fee18510a976c5d3e478e37cdba951d1170b74cac80fcc9e87ae02dd6e",
+  "codeSha256": "d556ed9add25e3c5dd2e568ae61a37dce06f29ea94e79c433b8f48713f8b3060",
   "harnessVersion": "w292c-dragcore-1",
   "libVersion": "w292c-dragcore-lib-1",
   "engineVersion": "w292c-dragcore-1",
@@ -87,7 +87,7 @@
    "観測一致を達成した"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "earthMoonInertial",
     "earthMoonReal"
@@ -118,11 +118,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1393,
-   "segments": 1219,
-   "closureShare": 0.3035
+   "names": 1399,
+   "segments": 1225,
+   "closureShare": 0.3017
   },
-  "scopeSha256": "e57f2b1827c4144e808021b3e2c0cd2c0c92d1f30527a5b7e68070a923ee72c2",
+  "scopeSha256": "6e3db6527be3d04d3a6167eb44bf98c3126bb796e40f7ab0c6e635247ba726a7",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -682,7 +682,7 @@
     "summary": {
      "dt": 0.016,
      "steps": 39596879,
-     "wallSec": 130.855,
+     "wallSec": 144.463,
      "nan": false,
      "osc0": {
       "r": 363.62532000000004,
@@ -813,7 +813,7 @@
     "summary": {
      "dt": 0.016,
      "steps": 39596916,
-     "wallSec": 125.636,
+     "wallSec": 137.938,
      "nan": false,
      "osc0": {
       "r": 363.62532000000004,
@@ -1332,7 +1332,7 @@
    "dL": 4.2670135686037976e-19,
    "sumMuMax": 8.047216424703663e-10
   },
-  "wallSec": 615.752,
+  "wallSec": 686.388,
   "stationary": {
    "chunks": [
     {
@@ -1408,5 +1408,5 @@
   "refKf1Dw8": 0.05308
  },
  "ok": true,
- "elapsedS": 947.832
+ "elapsedS": 1002.58
 }

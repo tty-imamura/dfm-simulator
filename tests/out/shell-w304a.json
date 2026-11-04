@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第304便a",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-03T02:19:51.785Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T09:57:02.808Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -64,9 +64,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    },
    {
     "file": "tests/lib-w306a-pre.mjs",
@@ -75,7 +75,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "2056ca38253b5140a4346990e2bd358ef6d92fd61baa9f63dcfe3e6f0e82ff8c",
+  "codeSha256": "90ce0c6605c4de441a833cc78656289db98c42527a7d877893b104263d01eb94",
   "harnessVersion": "w304a-shell-1",
   "shellVersion": "w304a-shell-1",
   "loadErrors": 0,
@@ -91,7 +91,7 @@
    "現実を再現した"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "earthMoonInertial",
     "earthMoonSunInertial3d",
@@ -152,11 +152,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1413,
-   "segments": 1239,
-   "closureShare": 0.3076
+   "names": 1419,
+   "segments": 1245,
+   "closureShare": 0.3058
   },
-  "scopeSha256": "5f9132a3f1a4db6719319a5eea4f39bef6b445510c8fd123aebefe3a7188a5f1",
+  "scopeSha256": "95e5ba41cae82db53c763de959daf7db5583f1de9838d330eb4e69ab8b4ffe75",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -845,11 +845,11 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 0.271
+   "wallSec": 0.311
   },
   "M": {
-   "wallSec": 33.678
+   "wallSec": 42.58
   }
  },
- "elapsedS": 35.73
+ "elapsedS": 45.025
 }

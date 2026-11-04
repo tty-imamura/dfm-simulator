@@ -40,7 +40,19 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // 第294便b(原仮定者の裁定(第84報)・統括の検証項目 R149): 退役の本は**家族の表に出さない**(末尾の「退役」節の棚卸しだけ)。
 //   家族の行・集計・鍵ごとの差・候補は在位の本だけで作る(宣言 FAMILIES の ids は記録として退役を含んだまま —— build が退役を外す)。
 //   基準(ref)が退役の本だった家族は在位の入口(primary)へ移した(mercury・saturn・psrDoubleAB・gw150914・alphaCen・sirius)。
-export const HARNESS_VERSION = 'w294b-families-2';
+// 第326便e(統括の検証項目 R294 —— 第三者の指摘 P2 を統括が確かめて取り込み): 名指しする器の走査からドット始まりのファイル(QA の静的受理が作る一時の
+//   tests/.qa-preflight-*.mjs など)を外した(harnessFileOk326e)—— 一時ファイルが正本と一覧に「名指しする器」として入り、別の環境で同じ表を作れなかった。
+//   器の版を上げた(w294b-families-2 → w326e-families-3 —— 家族の行の規則〔在位の本だけ〕は版 2 のまま)
+export const HARNESS_VERSION = 'w326e-families-3';
+/** 第326便e: 家族の表が版 2 の規則(家族の行は在位の本だけ)を持つ器の版(QA docs.families が読む)。 */
+export const HARNESS_VERSIONS_IN_ONLY = Object.freeze(['w294b-families-2', 'w326e-families-3']);
+/** 第326便e: 名指しする器の走査に入れるファイル名か(ドット始まりの一時ファイルを外す)。 */
+export const harnessFileOk326e = (f) => typeof f === 'string' && !f.startsWith('.') && /\.mjs$/.test(f);
+/** 第326便e: 名指しする器の走査の対象(tests/*.mjs・tools/*.mjs —— ドット始まりを外す・並びは名前順)。 */
+export function harnessFiles326e(root) {
+  return fs.readdirSync(path.join(root, 'tests')).filter(harnessFileOk326e).map((f) => 'tests/' + f)
+    .concat(fs.readdirSync(path.join(root, 'tools')).filter(harnessFileOk326e).map((f) => 'tools/' + f)).sort();
+}
 export const OUT = 'tests/out/families-w283b.json';
 export const MD = 'docs/FAMILIES.md';
 export const CAL = 'tests/out/calaudit-w249.json';
@@ -79,7 +91,7 @@ export const FAMILIES = [
     ids: ['galaxyMeshSpiral', 'galaxyMeshSpiralGeoToy', 'galaxyMeshSpiralGeoToyLite', 'galaxyAnalogyBH'] },
   { key: 'galaxyrot', ja: '銀河の回転曲線 7 本', ref: 'galaxy', ids: ['galaxy', 'galaxyStd', 'galaxyGeo2', 'galaxyDB', 'galaxyGeo2Flat3d', 'galaxyGeo2Thick3d', 'galaxyGeo2ThickTilt3d'] },   // 第324便a(R279): 🥞🧇 有限厚の対の本を末尾へ   // 第322便a(R270): 🫓 平面の 3D 銀河の本を末尾へ
   { key: 'tuc47', ja: '球状星団 47 Tuc', ref: 'tuc47', ids: ['tuc47', 'tuc47DFM'] },   // 第290便b: 基準を 🫐 → 🍇(🫐 は退役)
-  { key: 'ngc3198', ja: '渦巻銀河 NGC 3198', ref: 'ngc3198DFM', ids: ['ngc3198DFM', 'ngc3198'] },
+  { key: 'ngc3198', ja: '渦巻銀河 NGC 3198', ref: 'ngc3198', ids: ['ngc3198', 'ngc3198DFM'] },   // 第326便b(AN531): 基準を 🛞 → 🌃(🛞 は退役)
   // 第290便b: 形の玩具を 2 家族に分割(中心なし / 中心天体つき)・棒と腕を新しい家族に・超新星は基準を 🌹 → 🥀(🌹 は退役・🎇 を機構の枝として追加 —— 家族は群をまたいでよい)
   // 第290便e(原仮定者の裁定(第80報)⑤): 渦巻の参照模型 🍭 shapeToySpiral・🎢 shapeToySpiralCore をそれぞれの家族の末尾へ(統合で第290便b の 2 家族と合わせた)
   { key: 'shapeToy', ja: '形の玩具(中心なし)', ref: 'shapeToyCluster',
@@ -92,8 +104,10 @@ export const FAMILIES = [
   // 第298便b(原仮定者の裁定(第88報)・統括の検証項目 R166): 家族 saturnToy(🪐🎯)は 2 本とも退役して在位 0 —— 空の家族の表を出さない(宣言から外した。
   //   2 本は末尾の「退役」節の本数に数える)。earthmoon・mercury・pluto の退役(🌓🌤️🟤🟣)は宣言の ids に記録として残す(build が退役を外す)
   { key: 'grcal', ja: '時計と重力(GR の較正)', ref: 'grcal', ids: ['grcal', 'grcalGps', 'grcalLight', 'grcalShapiro'] },
-  { key: 'rotor', ja: '光学迷彩矮星', ref: 'rotorSolo',
-    ids: ['rotorSolo', 'massLadder', 'selfRotor', 'darkrotor', 'bhCore', 'bhCoreTilt', 'nebulaRotor', 'nebulaShell', 'nebulaBipolar', 'starSeed'] },
+  // ==== 第326便a の塊(ここから)====
+  // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 家族「光学迷彩矮星」(rotor —— 🕳️🪜🥚 と退役の 7 本)は在位の本が 0 になったので家族の表から外した
+  //   (10 本は末尾の「退役」節に数える —— 宣言は git の履歴)。旧: { key: 'rotor', ja: '光学迷彩矮星', ref: 'rotorSolo', ids: [rotorSolo・massLadder・selfRotor・darkrotor・bhCore・bhCoreTilt・nebulaRotor・nebulaShell・nebulaBipolar・starSeed] }
+  // ==== 第326便a の塊(ここまで)====
 ];
 
 /** 推定の列と候補の規則(文言は md にそのまま出す —— 推定であって裁定ではない)。 */
@@ -296,8 +310,7 @@ export function retiredInventory(ctx) {
     }
     return row;
   });
-  const files = fs.readdirSync(path.join(root, 'tests')).filter((f) => /\.mjs$/.test(f)).map((f) => 'tests/' + f)
-    .concat(fs.readdirSync(path.join(root, 'tools')).filter((f) => /\.mjs$/.test(f)).map((f) => 'tools/' + f)).sort();
+  const files = harnessFiles326e(root);   // 第326便e: ドット始まりの一時ファイルを外す
   const harnesses = [];
   for (const f of files) {
     if (f === 'tests/qa.mjs' || f === 'tests/exp-w283b-families.mjs' || f === 'tests/exp-w283b-retiredfx.mjs' || f === 'tests/exp-w284b-retiredfx.mjs' || f === 'tests/exp-w285f-retiredfx.mjs' || f === 'tests/exp-w286f-retiredfx.mjs' || f === 'tests/exp-w287b-retiredfx.mjs' || f === 'tests/lib-w281a-regentable.mjs') continue;   // 表そのもの・写しを作る器は数えない

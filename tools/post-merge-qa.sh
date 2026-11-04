@@ -619,6 +619,44 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.realMassF1325e docs.realMassF1325e be
 #   docs.xkLock325f —— 文書)と、qa.mjs の包みの lint.qaHeapRelease310・PHYSICS の節の lint.sectionLookup313(html・本の宣言・器の本文・正本は不変 —— 鎖の段は足さない)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.xkLock325f docs.xkLock325f lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第325便f の塊(ここまで)====
+# ==== 第326便a の塊(ここから)====
+# 第326便a(原仮定者の回答(2026-11-03 —— AN530)「ロックした方がDFMを理解し易いのでロックする。…」・決断事項 AN532(推奨 A —— 別のコミット)・統括の検証項目 R290): 枝 a の新設 3 本
+#   (lint.physLockAlways326a —— 宣言の X_k が導出値・第325便f のデータとの照合〔分類 1・分類 2・満たした 56 本・退役 3 本〕・X_k のノブ 0・凍結の写し /
+#   behavior.xkDerive326a —— 受理・既定値のマージ・読み込み・編集・セーブ・チェックポイント・⏮・A/B・退役の本はロックの外 / docs.xkLock326a —— 文書)と、
+#   世代を直した既存の QA(lint.xkLock325f・ui.physLock315・physlock.ui-110・docs.retired・docs.noRetiredMention294 ほか —— PHYSICS〔第326便a〕の名指し)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.physLockAlways326a behavior.xkDerive326a docs.xkLock326a lint.xkLock325f ui.physLock315 physlock.ui-110 docs.retired docs.noRetiredMention294"
+# ==== 第326便a の塊(ここまで)====
+# ==== 第326便b の塊(ここから)====
+# 第326便b(原仮定者の回答(2026-11-03 —— AN531)「gc3198DFM〔ngc3198DFM〕は、意図した挙動では無いので廃止し、将来的にgeoPN=4で作り直す。ngc3198は、対照無しのダークマターハローサンプルとする」・
+#   統括の検証項目 R291): 枝 b の新設 1 ブロック(preset.ngc3198Halo326b —— 🛞 の退役・🌃 の家族の入口と説明・退役の see・原稿と生成物・凍結の写し tests/fixtures/retired-w326b.json /
+#   docs.ngc3198Halo326b —— 文書 / behavior.ngc3198AbHalo326b —— 原仮定者の回答(2026-11-04 —— AN533)の 🌃 のワンタップ対照〔NFW ハローの有無〕)と、世代で直した QA(docs.retired —— 第326便b の世代と root の正本の世代・ui.pickerStatusAxes —— 未達の代表 🥏)・退役の集合と掲載の数を読む
+#   docs.noRetiredMention294・lint.retiredRef302・preset.spaceMeshRetired300・preset.retire298・preset.retired290b・docs.geo4old325c・🛞 を ID で引く behavior.ngc3198(W5b —— 窓は広げない)・
+#   preset.realMassF1325e・docs.realMassF1325e・生成表の docs.sampleStatus-sync・preset.statusLedger-sync・docs.families・退役の数と時間の宣言の世代を直した preset.revived292b・preset.timeStd297・
+#   在位の別を直した lint.xkLock325f・機械鍵の出現数の docs.terminologyOpticalCamouflage・RETIRED_PRESETS の表で html の物理の部分の code が動く lint.htmlPhys325a・lint.provenanceMeta・規約の速い判定の lint.conventionsCheck323・
+#   PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310(root の部分 QA でも docs.retired を回す —— 正本の退役の数は root の世代の分岐で読む)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.ngc3198Halo326b docs.ngc3198Halo326b behavior.ngc3198AbHalo326b docs.retired ui.pickerStatusAxes docs.noRetiredMention294 lint.retiredRef302 preset.spaceMeshRetired300 preset.retire298 preset.retired290b docs.geo4old325c behavior.ngc3198 preset.realMassF1325e docs.realMassF1325e docs.sampleStatus-sync preset.statusLedger-sync docs.families preset.revived292b preset.timeStd297 lint.xkLock325f docs.terminologyOpticalCamouflage lint.htmlPhys325a lint.provenanceMeta lint.conventionsCheck323 lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第326便b の塊(ここまで)====
+# ==== 第326便c の塊(ここから)====
+# 第326便c(原仮定者の指示(第128報)「「選択粒子の編集」から、「減光」と「自動」を外す。「X」と「Y」を編集対象に加える」「「パラメータ」の「時空」から、「物理対応ロック」を外す。計算済みの「κ_D」「Xₖ」「Yₖ」を表示する」・
+#   原仮定者の回答(2026-11-03 —— AN530)・統括の検証項目 R292 —— UI だけ): 枝 c の新設 3 本(ui.selEditXY326c —— 選択粒子の編集の x・y と外した欄 / ui.spacetimeDerived326c —— 時空の群の計算済みの 3 行 /
+#   ui.pickerProc326c —— サンプルの選択の固有の処理のチップと絞り込み〔原仮定者の指示(2026-11-04)〕/ docs.w326c —— 文書)と、世代を直した QA(ui.sweep-auto-checkbox・ui.selEdit299・physlock.kt-derive・physlock.ui-110・wave124.ui・ui.symDisp316・ui.physLock315)・群と行を読む params.roles・
+#   記号の lint.kappaSymbol315・docs.symbols315・i18n.toggle・budget.consistency・ui.wave96a・規約の速い判定の lint.conventionsCheck323・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.selEditXY326c ui.spacetimeDerived326c ui.pickerProc326c docs.w326c ui.sweep-auto-checkbox ui.selEdit299 physlock.kt-derive physlock.ui-110 wave124.ui ui.symDisp316 ui.physLock315 params.roles lint.kappaSymbol315 docs.symbols315 i18n.toggle budget.consistency ui.wave96a lint.conventionsCheck323 lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第326便c の塊(ここまで)====
+# ==== 第326便d の塊(ここから)====
+# 第326便d(原仮定者の指示(第128報)「軸引きずりについて」「引きずり計算の補足」・統括の検証項目 R293): 枝 d の新設 3 本(lint.axialHeat326d —— 純関数の場面〔逆向きの 2 源の熱・
+#   固定軸の支え・帳簿の閉じ・尺度の不定・負の Γ・凸包・厳密な 1 步〕/ behavior.axialRadius326d —— 今の html の 🗺️ の写しで R_d と R_src の独立の宣言・K1 の源ごとの軸の ω が正本と同じ /
+#   docs.axialHeat326d —— 正本の門と表が PHYSICS〔第326便d〕に逐語・文書)と、新しい段 axialheat-326d の lint 一式(lint.regenScope・lint.provenanceMeta・lint.stableHashPaths・lint.scopeStop・
+#   lint.scopeAll312・lint.regenChain・lint.canon304・lint.harnessSmoke303・lint.quickBoundary324c)・qa.mjs の包みの lint.qaHeapRelease310・PHYSICS の節の lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.axialHeat326d behavior.axialRadius326d docs.axialHeat326d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第326便d の塊(ここまで)====
+# ==== 第326便e の塊(ここから)====
+# 第326便e(原仮定者の回答(2026-11-03 —— AN527)「推奨で進める」・統括の検証項目 R294 —— 道具だけ・html は変えない): 枝 e の新設 5 本(lint.alwaysShadow326e —— 常時群 13 段の
+#   html の物理の部分の門の影と鎖の後の照合の口 / lint.familiesTemp326e —— 家族の表の走査からドット始まりの一時ファイルを外す / lint.scopeObsSpin326e —— 領域 hash の版 7 /
+#   lint.narrow326e —— 全部の本を領域に持つ段の絞りの探索 / docs.w326e —— 文書)と、世代を直した既存の 5 本(docs.families・lint.quickMutation325d・lint.quickGate325d・
+#   lint.regenScope・docs.regenShort319c)と、正本の入力の宣言の lint.stableHashPaths
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.alwaysShadow326e lint.familiesTemp326e lint.scopeObsSpin326e lint.narrow326e docs.w326e docs.families lint.quickMutation325d lint.quickGate325d lint.regenScope docs.regenShort319c lint.stableHashPaths"
+# ==== 第326便e の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

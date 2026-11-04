@@ -115,3 +115,14 @@ lightSweep (f−1)/f・massCalibration の平均場台帳・massLedger.fDynamics
 - `nonReal` … 実在天体でない 5 本(🎇⚪🔘🎆🐮 —— 台帳 f=2 の原理の本)の宣言と署名(不変)と、説明の欄から消した質量の倍率 f の記述の前後 `textRemoved`(原仮定者の回答(2026-11-03 —— AN528)の追加「実在天体で無い場合は、「f」の記述は消す」)。
 - `scan` … 在位の本で質量の倍率を宣言する本の走査の表(実在天体か否かの根拠)。`pastCanons` … 🛞 を読む段の過去の正本の sha(基点の版)。
 - QA `preset.realMassF1325e` が、在位の本の倍率 ≠ 1 の集合 = `nonReal`・raw の署名の引き直し・今の 🛞 の宣言を照合する。
+
+## retired-w326b.json(第326便b —— 原仮定者の回答(2026-11-03 —— AN531)「gc3198DFM〔ngc3198DFM〕は、意図した挙動では無いので廃止し、将来的にgeoPN=4で作り直す。ngc3198は、対照無しのダークマターハローサンプルとする」・統括の検証項目 R291)
+
+**退役 1 本**(🛞 `ngc3198DFM` —— ハロー無しの引きずりで外縁の回転を支える hold-out。恒星質量を観測の値〔倍率 1〕へ戻した後も外縁は観測の約 1/3 で未達)の凍結資産。
+**書き換えない**(器 `tests/exp-w326b-retiredfx.mjs` が 1 度だけ作る —— 既存があれば `--force` なしでは止まる)。前の宣言(倍率 ≈ 2)の写しは上の `realmass-w325e.json`。将来の geoPN=4 の銀河の本は新しい ID で作る。
+
+- `presets.ngc3198DFM.raw` … 第326便b の html の `BUILTIN_PRESETS` の要素(JSON 写し)・`presetSigHash`・基点 1b1fa70 の署名(`base` —— 退役は familyRole だけ・署名は基点と同じ)。
+  `pairDiff` … 家族の入口を引き継ぐ 🌃 `ngc3198` との宣言の差(physics の鍵・bodies の欄)。`stages` … REGEN_SCOPE の presets で 🛞 を名指しする段(5 段 —— 退役の後も宣言は残る)。
+- `presets.ngc3198DFM.successorChange` … 🌃 の前後(familyRole variant → primary・名・説明の欄・abBody〔無い〕・署名)—— 説明の欄だけが動き、署名・physics・bodies は基点と同じ。
+- `pastCanons` … 🛞 を名指しする段の過去の正本の基点の sha256(履歴)。`seeRepoint` … 退役の行の see の 🛞 → 🌃 の付け替え(🕶️ darkrotor・🌚 galaxyAnalogyBH)。`declChanges` … 基点と現行の宣言の差。
+- QA `docs.retired` ④ が内蔵と 200 步の状態のビット一致を、`docs.ngc3198Halo326b` が 🛞 の退役・🌃 の家族の入口と説明・写しの形を照合する。

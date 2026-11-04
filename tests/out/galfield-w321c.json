@@ -3,7 +3,7 @@
  "libVersion": "w321c-galfield-lib-2",
  "generator": "tests/exp-w321c-galfield.mjs",
  "target": "beta/index.html",
- "targetSha256": "9dab9c8c5cddb8ce9d6f8f18a0468e49f798711f769585a23ef09df918597005",
+ "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
  "reuseFrom": null,
  "ruling": "原仮定者の予定(第123報)「geoPN=4の予定: 処理を一新する。銀河の軸引きずりの知見から、銀河の回転引きずりを推定して、銀河のサンプルを作成する」・原仮定者の回答(2026-10-31 —— AN489)・決断事項 AN486・AN487・AN488・AN496・AN497・AN498・統括の検証項目 R268。エンジン・在位の本・受け手の R_d = Y_k m・規則は変えない(器・lib・正本・文書だけ)。半渦度を受け手の軸へ直結する項はエンジンに足さない",
  "workers": 2,
@@ -316,28 +316,28 @@
  },
  "timing": {
   "T": {
-   "wallSec": 113.636
+   "wallSec": 160.811
   },
   "G0std": {
-   "wallSec": 50.35
+   "wallSec": 81.314
   },
   "V": {
-   "wallSec": 49.019
+   "wallSec": 64.389
   },
   "G0db": {
-   "wallSec": 41.749
+   "wallSec": 49.522
   },
   "P": {
-   "wallSec": 21.742
+   "wallSec": 27.723
   },
   "G0rest": {
-   "wallSec": 10.924
+   "wallSec": 14.326
   },
   "H": {
-   "wallSec": 17.056
+   "wallSec": 22.575
   },
   "N": {
-   "wallSec": 8.356
+   "wallSec": 11.245
   }
  },
  "G0": {
@@ -347,7 +347,7 @@
     "id": "galaxyStd",
     "found": true,
     "accepted": true,
-    "sig": "c72e8acb02bdcdb1639ef8ec62035e8a1c92fd5a233d9b76ab4ffd8ccc983e67",
+    "sig": "8cade191df9b80852a91f65bc88a4cb25ce9de889b3e26f40ab830121a201a3c",
     "coord3d": false,
     "geoPN": 0,
     "kFrame": 1,
@@ -398,7 +398,7 @@
     ],
     "sha256": "4723a04d422f50cec753a0b675afd391c4328d125e5bfdf4ed449c5c0eac1a9c"
    },
-   "wallSec": 50.35
+   "wallSec": 81.314
   },
   "db": {
    "id": "galaxyDB",
@@ -406,7 +406,7 @@
     "id": "galaxyDB",
     "found": true,
     "accepted": true,
-    "sig": "04d8df6646915167e615dcf9d214b86014d7e17b513c2d3aefb7e6aaec9435c3",
+    "sig": "b21851e78467943644b8cd2e665000d9e5de030a1fd1cc5e8e47e47d64d37dc6",
     "coord3d": false,
     "geoPN": 0,
     "kFrame": 1,
@@ -458,7 +458,7 @@
     ],
     "sha256": "3061b7f7aa42471451b680b00eeb9ed936a46da40871633323bf9b1969126804"
    },
-   "wallSec": 41.749
+   "wallSec": 49.521
   },
   "rest": [
    {
@@ -503,7 +503,7 @@
      ],
      "sha256": "e872d29411c8f66825ac52256cb789beb64ebc514640cd4a92db21472d5aedbf"
     },
-    "wallSec": 8.317
+    "wallSec": 10.715
    },
    {
     "id": "chainDiskToy3d",
@@ -547,7 +547,7 @@
      ],
      "sha256": "1cca31d0a9d1ec30df50f48c33a17409657d061d56b07322cf92eb532df72339"
     },
-    "wallSec": 0.715
+    "wallSec": 1.001
    },
    {
     "id": "chainSpreadToy3d",
@@ -591,7 +591,7 @@
      ],
      "sha256": "8cb149ac0895753cf5521a6b3e5dc86096a32aa299e32656177483f24b0b9468"
     },
-    "wallSec": 1.89
+    "wallSec": 2.608
    },
    {
     "id": "galaxyGeo2",
@@ -599,7 +599,7 @@
      "id": "galaxyGeo2",
      "found": true,
      "accepted": true,
-     "sig": "59f611faf7b6ffa24ccaa38ccdb7aa59175c0ddb13bc2e632a347e761021e099",
+     "sig": "81659f4fc8df81b475b57e937e3007aa58e4029bb71271b8bda1b007e57053df",
      "coord3d": false,
      "geoPN": 2,
      "kFrame": 1,
@@ -4977,19 +4977,19 @@
   "hBodies": true
  },
  "ok": true,
- "elapsedS": 161.322,
+ "elapsedS": 221.991,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第321便c",
   "target": "beta/index.html",
-  "targetSha256": "9dab9c8c5cddb8ce9d6f8f18a0468e49f798711f769585a23ef09df918597005",
-  "generatedAt": "2026-11-03T12:54:45.272Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T10:36:04.821Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7616275,
-    "sha256": "9dab9c8c5cddb8ce9d6f8f18a0468e49f798711f769585a23ef09df918597005",
-    "mtime": "2026-11-03T12:47:41.315Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    }
   ],
   "code": [
@@ -4997,88 +4997,88 @@
     "file": "tests/exp-w321c-galfield.mjs",
     "bytes": 48885,
     "sha256": "432601a4d07d9ceb1e5d0bfda07ec6a6dae94bed96d59b2f4d7e5c509e2aeef1",
-    "mtime": "2026-11-03T12:51:50.126Z"
+    "mtime": "2026-11-03T15:04:48.912Z"
    },
    {
     "file": "tests/lib-w321c-galfield.mjs",
     "bytes": 29045,
     "sha256": "88c79fb3873c9c46b1949017d3ab2531109f647458816de3dac04924afdb0108",
-    "mtime": "2026-11-03T12:20:06.931Z"
+    "mtime": "2026-11-01T07:32:18.917Z"
    },
    {
     "file": "tests/lib-w320c-nbcompose.mjs",
     "bytes": 25953,
     "sha256": "21f1ceba1d96e85fcbd92dbb6b1f6ffa47f130d1d02880ed23c221971dddd1f4",
-    "mtime": "2026-11-03T12:20:06.927Z"
+    "mtime": "2026-10-31T02:21:19.139Z"
    },
    {
     "file": "tests/lib-w319b-srcradius.mjs",
     "bytes": 30288,
     "sha256": "6bf633cc248c1c2ac02e1d29fa964058436b8d609577116cad38c271406842be",
-    "mtime": "2026-11-03T12:20:06.927Z"
+    "mtime": "2026-10-30T10:16:05.897Z"
    },
    {
     "file": "tests/lib-w320a-srcheat.mjs",
     "bytes": 15641,
     "sha256": "ed3c9b532f6211cd9ead787fcb18ce9ad5fa532310f31900cabff0c3a2e4af5b",
-    "mtime": "2026-11-03T12:20:06.927Z"
+    "mtime": "2026-10-31T03:14:16.316Z"
    },
    {
     "file": "tests/exp-w320a-srcheat.mjs",
     "bytes": 37042,
     "sha256": "f1ce7d9c54fe3dc5383f7d491f742c63bf142543938dc53c0cebcc49d7841119",
-    "mtime": "2026-11-03T12:20:06.891Z"
+    "mtime": "2026-10-31T03:14:16.312Z"
    },
    {
     "file": "tests/lib-w319a-axisheat.mjs",
     "bytes": 14679,
     "sha256": "8e9e99edcfe249d94ff151b0cd8d4cd6d7df50050aaeb618781e33aef5f9f70b",
-    "mtime": "2026-11-03T12:20:06.927Z"
+    "mtime": "2026-10-30T11:12:10.075Z"
    },
    {
     "file": "tests/lib-w318d-dragest.mjs",
     "bytes": 30422,
     "sha256": "5494fcbfc3028f95bce97196106af3ad96491b98164705cf3a2e8990c28ee86c",
-    "mtime": "2026-11-03T12:20:06.927Z"
+    "mtime": "2026-10-28T16:33:38.628Z"
    },
    {
     "file": "tests/lib-w317c-satcut.mjs",
     "bytes": 16461,
     "sha256": "025e4d3d8a7dbe5402e1a0eece2472a67a1e43b09f7be39af9e1dd5aab412376",
-    "mtime": "2026-11-03T12:20:06.927Z"
+    "mtime": "2026-10-27T13:03:25.120Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
     "bytes": 23994,
     "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
-    "mtime": "2026-11-03T12:20:06.923Z"
+    "mtime": "2026-10-22T15:03:06.002Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-03T12:20:06.911Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-03T12:20:06.911Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-03T12:20:06.907Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-11-03T12:20:06.915Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "f046df5a7e45d111fa4c9fa6fea483d6421f6ec32fc272388597dd2129632c8a",
+  "codeSha256": "2687798eb28bd8423853c3f163c90ef2b9c1b9df54b0b0e3f98870b1bf7e3981",
   "harnessVersion": "w321c-galfield-2",
   "stage": "galfield",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・子プロセス 2 本で部を分ける)",
@@ -5099,7 +5099,7 @@
    "capObs の全熱を太陽の効果と呼ばない(衛星の源は独立の寄与の列 —— AN498)"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "chainDiskToy3d",
     "chainSpreadToy3d",
@@ -5159,11 +5159,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1423,
-   "segments": 1249,
-   "closureShare": 0.31
+   "names": 1429,
+   "segments": 1255,
+   "closureShare": 0.309
   },
-  "scopeSha256": "4f52cc3db6d57d3f5aaf702a267005ef0f3af8c75904ae0656e30fb3040e655f",
+  "scopeSha256": "e0af09bf3beab995c0f281392e0218aa345c8319dc7e8e5cce8958996515f142",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

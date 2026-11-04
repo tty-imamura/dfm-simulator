@@ -1,0 +1,671 @@
+{
+ "fixtureVersion": "w326b-retired-1",
+ "note": "退役 1 本(🛞 ngc3198DFM —— ハロー無しの引きずりの hold-out。原仮定者の回答(2026-11-03 —— AN531))の凍結資産(書き換えない)。退役の本は BUILTIN_PRESETS から消していない(旧セーブ・旧 URL・過去の正本と結果の参照が残る)。presetSig は基点と同じ(familyRole は署名の外)。🛞 は原理の本(較正母集団の外)。家族 ngc3198 の入口は 🌃(対照無しのダークマターハローの本 —— NFW ハローの転写は不変・説明の欄だけを直した)。将来の geoPN=4 の銀河の本は新しい ID で作る。前の宣言(倍率 ≈ 2)の写しは tests/fixtures/realmass-w325e.json。declChanges は基点と現行の宣言(sampleClass・familyId・familyRole・obsCard の行数)の差と新本(宣言から列挙)。",
+ "ids": [
+  "ngc3198DFM"
+ ],
+ "presets": {
+  "ngc3198DFM": {
+   "emoji": "🛞",
+   "name": "NGC 3198(DFM版)— 恒星質量+自由中心核のアナロジー",
+   "familyId": "ngc3198",
+   "familyRole": "retired",
+   "familyRoleAtBase": "primary",
+   "group": "実在天体のアナロジー",
+   "groupAtBase": "実在天体のアナロジー",
+   "sampleClass": "principle",
+   "geoPN": 0,
+   "kFrame": 1,
+   "coord": "2d",
+   "massCalibration": {
+    "law": "f-fixed-1",
+    "f": 1,
+    "baseMass": [
+     1.9,
+     2.875
+    ],
+    "note": "第325便e(原仮定者の回答(2026-11-03 —— AN528)「実在天体なら、f=1に質量を修正」): 質量補正 f を廃し、恒星の円盤の 1 粒を観測の恒星質量の転写 1.9 単位(200 粒で 380 単位 = 1.91×10¹⁰ M☉ —— 🌃 と同じ)へ・測光相殺 lightSweep を外した。baseMass は bodies[0](恒星の円盤)と bodies[1](HI の円盤)の 1 粒の基準質量(円盤の総質量の転写を粒数で割った値 —— 1 粒の質量は観測されていない)。中心核 m=100 単位は DFM 仮説の宣言値で不変。ID は不変・旧台帳は history と凍結の写し tests/fixtures/realmass-w325e.json",
+    "history": {
+     "law": "chi-law-v1-meanfield",
+     "wave": "第230便〜第325便d",
+     "C": 1,
+     "meanChi": 0.9998660398257284,
+     "factorUniform": 1.9997320796514568,
+     "mMin": 3.7994909513377677,
+     "lightSweep": 0.49993301093899795,
+     "fDynamics": 1.9997320796514568
+    }
+   },
+   "presetSigHash": "761fbca5",
+   "presetSigSha256": "ca4932cbc1e7cf86871af6d9fb89d09323c7678753ee80260351bca0b9ae2d8c",
+   "base": {
+    "rev": "1b1fa70",
+    "presetSigHash": "761fbca5",
+    "name": "NGC 3198(DFM版)— 恒星質量+自由中心核のアナロジー",
+    "sigSame": true,
+    "physicsSame": true,
+    "bodiesSame": true
+   },
+   "successor": "ngc3198",
+   "reason": "意図した挙動ではない(ハロー無しの引きずりで外縁の回転を支える hold-out —— 恒星質量を観測の値〔倍率 1〕へ戻した後も外縁は観測の約 1/3 で未達)—— 将来の geoPN=4 の銀河の本は新しい ID で作る",
+   "retiredNotice": {
+    "ja": "AN531: 意図した挙動ではない(ハロー無しの引きずりで外縁の回転を支える試み —— 恒星質量を観測の値〔倍率 1〕へ戻した後も外縁は観測の約 1/3 で未達)ので廃止した —— 将来は新しい geoPN=4 で別の ID として作り直す。NGC 3198 の入口は対照無しのダークマターハローの本 🌃",
+    "en": "AN531: not the intended behaviour (an attempt to hold the outer rotation with halo-free dragging - with the stellar mass back at the observed value, multiplier 1, the outskirts still reach only about a third of the observed speed), so it is retired - a future geoPN=4 build gets a new ID. The NGC 3198 entry point is 🌃, the standalone dark-matter-halo sample",
+    "see": [
+     "ngc3198"
+    ]
+   },
+   "pairDiff": {
+    "successor": "ngc3198",
+    "successorEmoji": "🌃",
+    "n": 9,
+    "keys": [
+     "physics.halo",
+     "physics.kFrame",
+     "physics.stepDt",
+     "bodies.length",
+     "bodies[0].vMode",
+     "bodies[0].vScale",
+     "bodies[1].vMode",
+     "bodies[1].vScale",
+     "bodies[1].shell"
+    ],
+    "diff": {
+     "physics.halo": [
+      null,
+      {
+       "model": "nfw",
+       "rho0": 0.002685,
+       "rs": 61.31,
+       "cx": 0,
+       "cy": 0
+      }
+     ],
+     "physics.kFrame": [
+      1,
+      0
+     ],
+     "physics.stepDt": [
+      0.032,
+      0.048
+     ],
+     "bodies.length": [
+      3,
+      2
+     ],
+     "bodies[0].vMode": [
+      "enclosed",
+      "flat"
+     ],
+     "bodies[0].vScale": [
+      1,
+      15.01
+     ],
+     "bodies[1].vMode": [
+      "enclosed",
+      "flat"
+     ],
+     "bodies[1].vScale": [
+      1,
+      15.01
+     ],
+     "bodies[1].shell": [
+      "gas",
+      null
+     ]
+    }
+   },
+   "statusAtBase": {
+    "purpose": "ハローなしの DFM で外縁速度を支える",
+    "objective": "unmet",
+    "state": "恒星質量を観測の値(倍率 1)へ戻した後も外縁 51 km/s で未達 —— 次の見直しへ",
+    "evidence": [
+     "behavior.ngc3198"
+    ],
+    "en": {
+     "purpose": "Support the outer speed with halo-free DFM",
+     "state": "not yet reached at 51 km/s in the outskirts with the observed stellar mass (multiplier 1; next revision)"
+    }
+   },
+   "stages": [
+    "analogy",
+    "galaxychain",
+    "galaxydiag",
+    "galfield-321c",
+    "sparc"
+   ],
+   "raw": {
+    "id": "ngc3198DFM",
+    "name": "NGC 3198(DFM版)— 恒星質量+自由中心核のアナロジー",
+    "emoji": "🛞",
+    "group": "実在天体のアナロジー",
+    "familyId": "ngc3198",
+    "familyRole": "retired",
+    "scaleTier": "galactic",
+    "scaleExp": {
+     "L": 19,
+     "T": 15,
+     "M": 38
+    },
+    "sampleClass": "principle",
+    "notClaim": [
+     "dm",
+     "cal"
+    ],
+    "obsCard": [
+     {
+      "q": "恒星質量(観測の転写 —— 倍率 1)",
+      "model": "恒星円盤 200 粒 × 1.9 = 380 単位(🌃 と同じ転写)。旧則の平均場 χ-law の倍率 1.99973 と lightSweep=(f−1)/f は外した(実在天体の本は観測の質量)",
+      "obs": "M★=1.91×10¹⁰ M☉(L[3.6]=3.83×10¹⁰ L☉ × Υ=0.5 の規約 —— SPARC)"
+     },
+     {
+      "q": "HI(21cm 転写)",
+      "model": "HI は 21cm 転写の質量 — 恒星と同じく倍率を掛けない。shell:\"gas\" 宣言",
+      "obs": "M_HI=1.09×10¹⁰ M☉(CSV — He 込み ×1.33)"
+     },
+     {
+      "q": "外縁 hold-out(正直な結果)",
+      "model": "**未達(この探索範囲)—— 次の見直しへ** — t=0 の外帯 v_c 8.4(84 km/s)・t=40 の中心核相対 vt 5.13(51 km/s)・最遠 422(kF0 3.96/267)。旧契約 f≈2 は 5.53・514",
+      "obs": "V_flat=150.1 km/s(SPARC)"
+     },
+     {
+      "q": "中心核(縮小した暗い回転核 — 自由化)",
+      "model": "m=100 単位(宣言値・fit しない)Ω=20・Kcs=0.02。pinned を外し重心系・測定は中心核相対(反跳 29 単位)",
+      "obs": "—(SPARC はバルジ無し — 中心核は DFM 仮説)"
+     },
+     {
+      "q": "配置と初期場の宣言",
+      "model": "seed は 🌃 と共有(排他帯・重心系変換で完全同一ではない)。初期速度=実ポテンシャルの円運動解(vMode enclosed)。N=300 の自己重力円盤は滑らかな支配場なしに t=40 で散逸(平衡ではない — 記録)",
+      "obs": "—(🌃 は観測回転曲線の flat 転写のまま)"
+     },
+     {
+      "q": "条件付き質量台帳(表示専用・既定は追加 0)",
+      "model": "仮定: 光学迷彩矮星数=恒星数×20・⟨m_DR⟩ 0.1/1/10 M☉ → +1520/+15200/+152000 単位(恒星質量の倍率を掛けない別集団 — massLedger)",
+      "obs": "浮遊惑星の推定は地球質量級(総質量 80 M⊕/恒星=恒星質量の 0.048%)。約 20 倍は個数の比で質量の測定ではない"
+     }
+    ],
+    "descStruct": {
+     "summary": "**質量: 恒星の円盤は観測の恒星質量の転写(倍率 1 —— 恒星 380+気体 287.5+核 100=767.5 単位・🌃 と同じ恒星と HI の質量)**。bodies に残っていた旧契約の倍率(平均場 χ-law の f=1.99973)と測光相殺 lightSweep=(f−1)/f を外した(実在天体の本は質量を観測の値〔倍率 1〕へ —— ID は不変・前の宣言は凍結の写し)。**🌃 の対になる DFM 版 — 「ハロー無しの引きずりが外縁を支えるか」を測る hold-out**。HI(21cm 転写)は shell:\"gas\" 宣言。中心は暗い回転核 m=100 単位(5×10⁹ M☉ の宣言値 —— 観測の質量ではない DFM 仮説)を **pinned を外して重心系に置き**、測定は中心核相対。fit ノブはゼロ。働くのは重力(E4)+空間引きずり(A8/E6′)。**初期速度は観測 V_flat の先置きではなく、配置の実ポテンシャルの円運動解(vMode=enclosed)**: t=0 の v_c は内/中/外帯で 116/112/**84** km/s — バリオンだけでは外帯が観測 150 に t=0 でも未達。**結果(正直な記録): 未達 —— 次の見直し(実装・初期条件・調整範囲)へ** — t=40 の外縁帯 vt 51 km/s(観測 150)・最遠 422 単位へ散逸(kF0 対照 40 km/s・267 — 引きずりの寄与は +30%)。N=300 の 2D 自己重力円盤は 🌃 の NFW のような滑らかな支配場が無いと平衡を保てない(平衡初期化でも散逸する — 記録)。中心質量は太らせない(NFW の再発明はしない)。旧契約(恒星に f≈2)の記録: t=0 の外帯 102 km/s・t=40 の外縁帯 55 km/s・最遠 514(kF0 51 km/s・568 —— 引きずりの寄与 +8%)。",
+     "observe": "実測(t=40・dt=0.016・kF1・halo 無し・enclosed 初期化・中心核相対・恒星の倍率 1): t=0 の円運動解 v_c 11.6/11.2/8.4(内 0〜30/中 30〜60/外 60〜130 単位)→ t=40 の外縁帯(60〜130 単位)vt **5.13**(51 km/s — 観測 150 の約 1/3・hold-out 不成立の機械固定)・最遠 **422** 単位(kF0 同構成対照 3.96/267)・中心核は残存し反跳で 29 単位歩く(自由中心の記録 — seed 7 では 51)・HI 100 粒は gas 宣言のまま残存・NaN 0・決定性ビット同一。旧契約(恒星に f≈2)の記録: t=0 の v_c 14.2/13.9/10.2 → vt 5.53・最遠 514(kF0 5.13/568)・反跳 76。旧 flat 15.01 初期化(観測値の先置き —— 旧契約)では vt 4.92・最遠 604 だった。massCalibration 台帳(f 固定形 law f-fixed-1・baseMass)・mMin=1.9・HI の倍率 1 の整合を QA 照合。",
+     "control": "🌃(NFW あり・重力 E4+外力)と対で見る。kFrame=0 で引きずりを切る対照(最遠 267)。回転曲線オーバーレイで外縁の空洞化が見える。",
+     "brief": "ハローなしの DFM で外縁速度を支える。未達・恒星質量を観測の値(倍率 1)へ戻した後も外縁 51 km/s で未達 —— 次の見直しへ。較正対象外。"
+    },
+    "en": {
+     "name": "NGC 3198 (DFM build) — stellar mass + free central rotor, an analogy",
+     "descStruct": {
+      "summary": "MASS: the stellar disk is the transcribed observed stellar mass (multiplier 1 — stars 380 + gas 287.5 + core 100 = 767.5 units; the same stellar and HI masses as 🌃). The old contract's multiplier still carried by the bodies (the mean-field chi-law f=1.99973) and the photometric cancellation lightSweep=(f−1)/f were removed (a sample of a real astronomical object takes the observed mass, multiplier 1 — the ID is unchanged and the previous declaration is kept in a frozen copy). THE DFM COUNTERPART of 🌃 — a hold-out asking whether dragging holds the outer disk without a halo. The HI (a 21 cm transcription) carries shell:\"gas\". The dark central rotor m=100 units (a declared 5×10⁹ M☉ — a DFM hypothesis, not an observed mass) is FREE (pinned removed, barycentric frame), and all measurements are rotor-relative. Zero fit knobs. Gravity (E4) + frame dragging (A8/E6′) act. THE INITIAL VELOCITIES ARE NOT THE OBSERVED V_flat PLACED IN ADVANCE but the circular-orbit solution of the placed potential (vMode=enclosed): at t=0 v_c reads 116/112/84 km/s (inner/mid/outer) — with the baryons alone the outer band does not reach the observed 150 even at t=0. RESULT (honest record): NOT REACHED — the next revision (implementation, initial conditions, search range) — outer-band vt 51 km/s at t=40 (observed 150); farthest 422 units (kF0 control 40 km/s, 267 — dragging contributes +30%). An N=300 2D self-gravitating disk cannot hold equilibrium without a smooth dominant field like 🌃's NFW (it disperses even from the equilibrium start — recorded). The central mass is NOT inflated (no NFW reinvention). The old contract's record (stars at f≈2): outer band 102 km/s at t=0, 55 km/s at t=40, farthest 514 (kF0 51 km/s, 568 — dragging +8%).",
+      "observe": "Measured (t=40, dt=0.016, kF1, no halo, enclosed start, rotor-relative, stellar multiplier 1): the t=0 circular solution v_c 11.6/11.2/8.4 (inner 0–30 / mid 30–60 / outer 60–130 units) → outer-band (60–130) vt 5.13 at t=40 (51 km/s — about a third of the observed 150; the failed hold-out machine-fixed); farthest 422 (kF0 control 3.96/267); the rotor survives and recoils 29 units (free-center record — 51 with seed 7); the 100 HI grains keep their gas declaration; zero NaN; bit-identical reruns. The old contract's record (stars at f≈2): t=0 v_c 14.2/13.9/10.2 → vt 5.53, farthest 514 (kF0 5.13/568), recoil 76. The old flat 15.01 start (the observed value placed in advance — old contract) gave vt 4.92 and farthest 604. The massCalibration ledger (the fixed form, law f-fixed-1, with baseMass), mMin=1.9 and the HI at multiplier 1 are QA-checked.",
+      "control": "Pair with 🌃 (NFW). kFrame=0 removes dragging (farthest 267). The rotation-curve overlay shows the outer band emptying.",
+      "brief": "Support the outer speed with halo-free DFM. Unmet: not yet reached at 51 km/s in the outskirts with the observed stellar mass (multiplier 1; next revision). Out of calibration scope."
+     },
+     "description": "MASS: the stellar disk is the transcribed observed stellar mass (multiplier 1 — stars 380 + gas 287.5 + core 100 = 767.5 units; the same stellar and HI masses as 🌃). The old contract's multiplier still carried by the bodies (the mean-field chi-law f=1.99973) and the photometric cancellation lightSweep=(f−1)/f were removed (a sample of a real astronomical object takes the observed mass, multiplier 1 — the ID is unchanged and the previous declaration is kept in a frozen copy). THE DFM COUNTERPART of 🌃 — a hold-out asking whether dragging holds the outer disk without a halo. The HI (a 21 cm transcription) carries shell:\"gas\". The dark central rotor m=100 units (a declared 5×10⁹ M☉ — a DFM hypothesis, not an observed mass) is FREE (pinned removed, barycentric frame), and all measurements are rotor-relative. Zero fit knobs. Gravity (E4) + frame dragging (A8/E6′) act. THE INITIAL VELOCITIES ARE NOT THE OBSERVED V_flat PLACED IN ADVANCE but the circular-orbit solution of the placed potential (vMode=enclosed): at t=0 v_c reads 116/112/84 km/s (inner/mid/outer) — with the baryons alone the outer band does not reach the observed 150 even at t=0. RESULT (honest record): NOT REACHED — the next revision (implementation, initial conditions, search range) — outer-band vt 51 km/s at t=40 (observed 150); farthest 422 units (kF0 control 40 km/s, 267 — dragging contributes +30%). An N=300 2D self-gravitating disk cannot hold equilibrium without a smooth dominant field like 🌃's NFW (it disperses even from the equilibrium start — recorded). The central mass is NOT inflated (no NFW reinvention). The old contract's record (stars at f≈2): outer band 102 km/s at t=0, 55 km/s at t=40, farthest 514 (kF0 51 km/s, 568 — dragging +8%).Measured (t=40, dt=0.016, kF1, no halo, enclosed start, rotor-relative, stellar multiplier 1): the t=0 circular solution v_c 11.6/11.2/8.4 (inner 0–30 / mid 30–60 / outer 60–130 units) → outer-band (60–130) vt 5.13 at t=40 (51 km/s — about a third of the observed 150; the failed hold-out machine-fixed); farthest 422 (kF0 control 3.96/267); the rotor survives and recoils 29 units (free-center record — 51 with seed 7); the 100 HI grains keep their gas declaration; zero NaN; bit-identical reruns. The old contract's record (stars at f≈2): t=0 v_c 14.2/13.9/10.2 → vt 5.53, farthest 514 (kF0 5.13/568), recoil 76. The old flat 15.01 start (the observed value placed in advance — old contract) gave vt 4.92 and farthest 604. The massCalibration ledger (the fixed form, law f-fixed-1, with baseMass), mMin=1.9 and the HI at multiplier 1 are QA-checked.Pair with 🌃 (NFW). kFrame=0 removes dragging (farthest 267). The rotation-curve overlay shows the outer band emptying.",
+     "status": {
+      "purpose": "Support the outer speed with halo-free DFM",
+      "state": "not yet reached at 51 km/s in the outskirts with the observed stellar mass (multiplier 1; next revision)",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "🌃 と同一(バリオン転写 —— 恒星 M★=1.91×10¹⁰ M☉ → 380 単位・HI 287.5 単位)"
+     ],
+     "fixedConventions": [
+      "seed 1573711561 を 🌃 と共有(中心核の排他帯・重心系変換で完全同一にはならない — 宣言)+kFrame=1・halo 無し・中心核 m=100 単位(宣言値・fit しない)Ω=20・Kcs=0.02・pinned なし+balanceFrame・恒星と HI は倍率 1(観測の転写のまま)+HI は shell:\"gas\"",
+      "初期速度=配置の実ポテンシャルの円運動解(vMode enclosed・vScale 1。観測 V_flat を先置きしない)"
+     ],
+     "fitted": [
+      "なし(ゼロフィット — 外縁 51 vs 150 km/s 不成立は正直な記録)"
+     ],
+     "derived": [
+      "恒星の円盤の 1 粒 mMin=mMax=1.9(380 単位 / 200 粒 —— 倍率 1)",
+      "enclosed 初期化: t=0 の v_c 11.6/11.2/8.4(内/中/外帯 — 外帯 84 km/s は t=0 でも観測 150 に未達)",
+      "外縁 hold-out: t=40 vt 5.13(51 km/s)vs 観測 15.01(150 km/s)— 不成立・最遠 422(kF0 3.96/267)",
+      "中心核の反跳 29 単位(自由中心の記録・seed 7 では 51)",
+      "〔旧契約の記録〕平均場 chiMean=0.9998660398257284・恒星 f=C·2χ̄=1.9997320796514568(C=1)— mMin=1.9×f=3.7994909513377677・lightSweep=(f−1)/f=0.49993301093899795・t=0 の v_c 14.2/13.9/10.2・t=40 vt 5.53・最遠 514(kF0 5.13/568)・反跳 76(seed 7 では 44)〔旧 flat 初期化 4.92/604〕"
+     ],
+     "numerical": [
+      "🌃 と同一(dt=0.016・t=40=2500步)"
+     ]
+    },
+    "massCalibration": {
+     "law": "f-fixed-1",
+     "f": 1,
+     "baseMass": [
+      1.9,
+      2.875
+     ],
+     "note": "第325便e(原仮定者の回答(2026-11-03 —— AN528)「実在天体なら、f=1に質量を修正」): 質量補正 f を廃し、恒星の円盤の 1 粒を観測の恒星質量の転写 1.9 単位(200 粒で 380 単位 = 1.91×10¹⁰ M☉ —— 🌃 と同じ)へ・測光相殺 lightSweep を外した。baseMass は bodies[0](恒星の円盤)と bodies[1](HI の円盤)の 1 粒の基準質量(円盤の総質量の転写を粒数で割った値 —— 1 粒の質量は観測されていない)。中心核 m=100 単位は DFM 仮説の宣言値で不変。ID は不変・旧台帳は history と凍結の写し tests/fixtures/realmass-w325e.json",
+     "history": {
+      "law": "chi-law-v1-meanfield",
+      "wave": "第230便〜第325便d",
+      "C": 1,
+      "meanChi": 0.9998660398257284,
+      "factorUniform": 1.9997320796514568,
+      "mMin": 3.7994909513377677,
+      "lightSweep": 0.49993301093899795,
+      "fDynamics": 1.9997320796514568
+     }
+    },
+    "massLedger": {
+     "version": "w282d-1",
+     "starBase": 380,
+     "fStar": 1,
+     "fDynamics": 1,
+     "gas": 287.5,
+     "core": 100,
+     "unitKg": 1e+38,
+     "mSunKg": 1.9885e+30,
+     "mStarSun": 0.5,
+     "nRatio": 20,
+     "rotorInFStar": false,
+     "defaultScenario": "none",
+     "currentTotalUnit": 767.5,
+     "currentTotalSun": 38596932361.07619,
+     "rotorScenarios": [
+      {
+       "mRotorSun": 0.1,
+       "nRotor": 764395272818.7075,
+       "mRotorUnit": 1520,
+       "totalUnit": 2287.5,
+       "totalSun": 115036459642.94695
+      },
+      {
+       "mRotorSun": 1,
+       "nRotor": 764395272818.7075,
+       "mRotorUnit": 15199.999999999998,
+       "totalUnit": 15967.499999999998,
+       "totalSun": 802992205179.7837
+      },
+      {
+       "mRotorSun": 10,
+       "nRotor": 764395272818.7075,
+       "mRotorUnit": 152000,
+       "totalUnit": 152767.5,
+       "totalSun": 7682549660548.151
+      }
+     ],
+     "note": "条件付き台帳(第281便c・原仮定者の裁定〔第71報〕/第282便d で f★=1 に再宣言 —— 第72報③)。浮遊惑星の個数比(恒星の約 20 倍 —— 個数の推定)を恒星質量程度の光学迷彩矮星へ当てはめた仮定の 3 シナリオ。観測で推定されている浮遊惑星の質量は地球質量級で、恒星質量の暗い天体が恒星の 20 倍あることを観測は示していない。台帳は f★=1(恒星 380+気体 287.5+核 100=767.5 単位)で、第325便e から bodies も倍率 1(fDynamics=1 —— 旧契約の f≈2 を外した・原仮定者の回答 AN528)。光学迷彩矮星は別集団として 1 回だけ足す。🛞 の力学(bodies・physics)には入れていない(既定は追加 0)。較正母集団に入れない。",
+     "noteEn": "A conditional ledger (wave 281c, the adjudicator's ruling in the 71st report; re-declared with f_star = 1 in wave 282d after report 72, item 3). Three hypothetical scenarios that apply the free-floating-planet NUMBER ratio (about 20 per star - a count estimate) to optical-camouflage dwarfs of roughly stellar mass. The masses inferred for free-floating planets are Earth-mass class; observations do not show 20 stellar-mass dark bodies per star. The ledger uses f_star = 1 (stars 380 + gas 287.5 + core 100 = 767.5 units); since wave 325e the bodies also carry multiplier 1 (fDynamics = 1 - the old-contract f of about 2 was removed, the adjudicator's answer AN528). The optical-camouflage dwarfs are a separate population added once. Not put into the dynamics of this sample (bodies and physics unchanged; the default adds 0). Not in the calibration population."
+    },
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "seed": 1573711561,
+    "balanceFrame": "barycentric",
+    "camera": {
+     "scale": 25,
+     "follow": 300
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "timeRef": {
+     "basis": "observe",
+     "tObs": 19.2,
+     "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)・旧 timeScale=20 → 4(刻み ×2)",
+     "legacyTimeScale": 20
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.006,
+     "kFrame": 1,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 0,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 1,
+     "timeScale": 4,
+     "stepDt": 0.032,
+     "dispMag": 1,
+     "frameReaction": "pairReduced",
+     "frameWeight": "share"
+    },
+    "bodies": [
+     {
+      "type": "disk",
+      "n": 200,
+      "cx": 0,
+      "cy": 0,
+      "radius": 60,
+      "profile": "exponential",
+      "sersicRe": 16.26,
+      "mMin": 1.9,
+      "mMax": 1.9,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "enclosed",
+      "vScale": 1,
+      "direction": 1,
+      "rMul": 0.2
+     },
+     {
+      "type": "disk",
+      "n": 100,
+      "cx": 0,
+      "cy": 0,
+      "radius": 130,
+      "profile": "exponential",
+      "sersicRe": 31,
+      "mMin": 2.875,
+      "mMax": 2.875,
+      "shell": "gas",
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "enclosed",
+      "vScale": 1,
+      "direction": 1,
+      "rMul": 0.2
+     },
+     {
+      "type": "single",
+      "m": 100,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0,
+      "pinned": false,
+      "radius": 2,
+      "lightSweep": 1,
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.5,
+       "radius": 1,
+       "omega": 20,
+       "Kcs": 0.02,
+       "inertiaScale": 100
+      }
+     }
+    ],
+    "overlays": {
+     "rotationCurve": true,
+     "tempHistogram": false,
+     "field": false,
+     "trail": false
+    },
+    "description": "**質量: 恒星の円盤は観測の恒星質量の転写(倍率 1 —— 恒星 380+気体 287.5+核 100=767.5 単位・🌃 と同じ恒星と HI の質量)**。bodies に残っていた旧契約の倍率(平均場 χ-law の f=1.99973)と測光相殺 lightSweep=(f−1)/f を外した(実在天体の本は質量を観測の値〔倍率 1〕へ —— ID は不変・前の宣言は凍結の写し)。**🌃 の対になる DFM 版 — 「ハロー無しの引きずりが外縁を支えるか」を測る hold-out**。HI(21cm 転写)は shell:\"gas\" 宣言。中心は暗い回転核 m=100 単位(5×10⁹ M☉ の宣言値 —— 観測の質量ではない DFM 仮説)を **pinned を外して重心系に置き**、測定は中心核相対。fit ノブはゼロ。働くのは重力(E4)+空間引きずり(A8/E6′)。**初期速度は観測 V_flat の先置きではなく、配置の実ポテンシャルの円運動解(vMode=enclosed)**: t=0 の v_c は内/中/外帯で 116/112/**84** km/s — バリオンだけでは外帯が観測 150 に t=0 でも未達。**結果(正直な記録): 未達 —— 次の見直し(実装・初期条件・調整範囲)へ** — t=40 の外縁帯 vt 51 km/s(観測 150)・最遠 422 単位へ散逸(kF0 対照 40 km/s・267 — 引きずりの寄与は +30%)。N=300 の 2D 自己重力円盤は 🌃 の NFW のような滑らかな支配場が無いと平衡を保てない(平衡初期化でも散逸する — 記録)。中心質量は太らせない(NFW の再発明はしない)。旧契約(恒星に f≈2)の記録: t=0 の外帯 102 km/s・t=40 の外縁帯 55 km/s・最遠 514(kF0 51 km/s・568 —— 引きずりの寄与 +8%)。実測(t=40・dt=0.016・kF1・halo 無し・enclosed 初期化・中心核相対・恒星の倍率 1): t=0 の円運動解 v_c 11.6/11.2/8.4(内 0〜30/中 30〜60/外 60〜130 単位)→ t=40 の外縁帯(60〜130 単位)vt **5.13**(51 km/s — 観測 150 の約 1/3・hold-out 不成立の機械固定)・最遠 **422** 単位(kF0 同構成対照 3.96/267)・中心核は残存し反跳で 29 単位歩く(自由中心の記録 — seed 7 では 51)・HI 100 粒は gas 宣言のまま残存・NaN 0・決定性ビット同一。旧契約(恒星に f≈2)の記録: t=0 の v_c 14.2/13.9/10.2 → vt 5.53・最遠 514(kF0 5.13/568)・反跳 76。旧 flat 15.01 初期化(観測値の先置き —— 旧契約)では vt 4.92・最遠 604 だった。massCalibration 台帳(f 固定形 law f-fixed-1・baseMass)・mMin=1.9・HI の倍率 1 の整合を QA 照合。🌃(NFW あり・重力 E4+外力)と対で見る。kFrame=0 で引きずりを切る対照(最遠 267)。回転曲線オーバーレイで外縁の空洞化が見える。",
+    "status": {
+     "purpose": "ハローなしの DFM で外縁速度を支える",
+     "objective": "unmet",
+     "state": "恒星質量を観測の値(倍率 1)へ戻した後も外縁 51 km/s で未達 —— 次の見直しへ",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "behavior.ngc3198"
+     ]
+    }
+   },
+   "successorChange": {
+    "id": "ngc3198",
+    "emoji": "🌃",
+    "before": {
+     "name": "渦巻銀河 NGC 3198(観測転写)— 指数円盤+NFW 対照",
+     "familyRole": "variant",
+     "enName": "Spiral Galaxy NGC 3198 (transcription) — exponential disks + NFW control",
+     "descStruct": {
+      "summary": "**渦巻銀河の現実転写・第一号**。CSV(SPARC 系)の NGC 3198 を銀河族 L19/T15/M38(1単位=0.324 kpc・標準規約 L−T=4)で置く。**星円盤=指数 R_d=3.14 kpc の逆関数サンプリング**(SPARC が「Sérsic fit ではなく指数円盤」と宣言する n=1)・**HI=指数近似**(He 込み ×1.33)・バルジ無し(L_bul=0)。速度は vMode=flat(V_flat=150.1 km/s)— 内側 6 kpc の立ち上がりは転写しない(宣言)。**外部ポテンシャルは NFW**(解析ハロー)— ただし CSV は既存 halo fit 値を意図的に転写しないので、**ρ₀・r_s は SPARC 43点への自前2ノブ fit**(rms 8.2 km/s)と宣言する。実測(約1回転): 外縁帯の平均接線速度 128 km/s で保持(最遠 98 単位)・**ハローを外すと外縁は空になる**(最遠 586 単位へ飛散 — バリオン+ニュートンでは平坦回転を保てない、の機械固定)。DFM 版 🛞 が「ハロー無しで DFM の引きずりが支えるか」の対になる。",
+      "observe": "実測(t=40≈外縁1回転・dt=0.016): NFW あり — 外縁帯(60〜130 単位)の平均接線速度 12.8(初期 15.01 から −15% の緩和)・最遠 98 単位・NaN 0。ハロー無し対照 — 外縁帯は空(0粒)・最遠 586 単位へ飛散。同構成ビット同一(QA behavior.ngc3198)。",
+      "control": "働いているのは重力(E4)+解析 NFW(外力)。回転曲線オーバーレイ(橙破線=ハロー寄与)で NFW の受け持ちを見る。DFM 版 🛞(E4+空間引きずり A8/E6′)と対。",
+      "brief": "指数円盤と NFW ハローで回転を比べる。部分・外縁 128 km/s・ハローは自前 fit。較正対象外。"
+     },
+     "enDescStruct": {
+      "summary": "FIRST REAL-GALAXY TRANSCRIPTION. NGC 3198 from the CSV (SPARC line), in the galaxy family L19/T15/M38 (1 unit=0.324 kpc, standard L−T=4). STELLAR DISK = inverse-CDF exponential R_d=3.14 kpc (the n=1 SPARC declares as an exponential disk, not a Sérsic fit); HI = an exponential approximation (×1.33 He); no bulge (L_bul=0). Velocities: vMode=flat at V_flat=150.1 km/s — the inner 6-kpc rise is NOT transcribed (declared). The external potential is an analytic NFW — but since the CSV deliberately never transcribes published halo fits, ρ₀ and r_s are OUR OWN 2-knob least-squares fit to the 43 SPARC points (rms 8.2 km/s), declared as such. Measured (~1 outer rotation): the outer-band mean tangential speed holds at 128 km/s (farthest 98 units); REMOVING THE HALO EMPTIES THE OUTER BAND (farthest 586 units — baryons+Newton cannot hold a flat curve, machine-fixed). The DFM build 🛞 asks the counterpart question: can DFM dragging hold it WITHOUT a halo?",
+      "observe": "Measured (t=40, dt=0.016): with NFW — outer-band (60–130 units) mean tangential speed 12.8 (−15% relaxation from 15.01); farthest 98 units; zero NaN. No-halo control — the outer band empties (farthest 586). Bit-identical rebuilds (QA behavior.ngc3198).",
+      "control": "The rotation-curve overlay (orange dashed = halo share) shows what the NFW carries. Pair with 🛞.",
+      "brief": "Compare rotation with an exponential disc and an NFW halo. Partial: outer 128 km/s; the halo is our own fit. Out of calibration scope."
+     },
+     "obsCard": [
+      {
+       "q": "外縁の回転(NFW あり・約1回転)",
+       "model": "外縁帯(19〜42 kpc)の平均接線速度 12.8 単位(128 km/s)— 初期転写 150 km/s から −15% の緩和で保持(最遠 98 単位)",
+       "obs": "V_flat=150.1 km/s(SPARC — 43点の回転曲線は hold-out)"
+      },
+      {
+       "q": "NFW は自前 fit(転写ではない — 宣言)",
+       "model": "ρ₀=3.97×10⁶ M☉/kpc³・r_s=19.9 kpc(SPARC 43点への2ノブ最小二乗 — rms 8.2 km/s)。CSV は既存 halo fit 値を意図的に転写しない",
+       "obs": "—(観測レコードと halo 仮定を混ぜない規約の維持)"
+      },
+      {
+       "q": "否定対照: ハローを外す",
+       "model": "外縁帯は空(0粒)・最遠 586 単位へ飛散。バリオン+ニュートンだけでは平坦回転を保てない(教科書どおりの機械固定)",
+       "obs": "—"
+      },
+      {
+       "q": "星円盤・HI(転写)",
+       "model": "星: 指数 R_d=3.14 kpc(n=1 — SPARC が宣言する指数円盤の言い換え)m計380単位・HI: 指数近似 計287単位(×1.33 He込み)",
+       "obs": "L[3.6]=3.83×10¹⁰ L☉(Υ=0.5)・M_HI=1.09×10¹⁰ M☉・バルジ無し(SPARC L_bul=0)"
+      },
+      {
+       "q": "内側の立ち上がり(v1 で転写しないもの)",
+       "model": "vMode=flat は全域 V_flat の近似 — 内側 6 kpc の立ち上がり(24→146 km/s)は転写しない(宣言)",
+       "obs": "SPARC 内側は Hα 優勢の hybrid(CSV)"
+      }
+     ],
+     "abBody": null,
+     "presetSigHash": "3a1f9c0d"
+    },
+    "after": {
+     "name": "渦巻銀河 NGC 3198(観測転写)— 指数円盤+NFW ハロー",
+     "familyRole": "primary",
+     "enName": "Spiral Galaxy NGC 3198 (transcription) — exponential disks + NFW halo",
+     "descStruct": {
+      "summary": "**渦巻銀河の現実転写・第一号**。CSV(SPARC 系)の NGC 3198 を銀河族 L19/T15/M38(1単位=0.324 kpc・標準規約 L−T=4)で置く。**星円盤=指数 R_d=3.14 kpc の逆関数サンプリング**(SPARC が「Sérsic fit ではなく指数円盤」と宣言する n=1)・**HI=指数近似**(He 込み ×1.33)・バルジ無し(L_bul=0)。速度は vMode=flat(V_flat=150.1 km/s)— 内側 6 kpc の立ち上がりは転写しない(宣言)。**外部ポテンシャルは NFW**(解析ハロー)— ただし CSV は既存 halo fit 値を意図的に転写しないので、**ρ₀・r_s は SPARC 43点への自前2ノブ fit**(rms 8.2 km/s)と宣言する。実測(約1回転): 外縁帯の平均接線速度 128 km/s で保持(最遠 98 単位)・**ハローを外すと外縁は空になる**(最遠 586 単位へ飛散 — バリオン+ニュートンでは平坦回転を保てない、の機械固定)。**対照無しのダークマターハローの本**: 外縁の回転を受け持つのは解析 NFW ハロー(外力 —— 自前 fit の宣言つきの転写)で、DFM の引きずり(kFrame=0 —— 使わない)で回転を説明する本ではない。",
+      "observe": "実測(t=40≈外縁1回転・dt=0.016): NFW あり — 外縁帯(60〜130 単位)の平均接線速度 12.8(初期 15.01 から −15% の緩和)・最遠 98 単位・NaN 0。ハロー無し対照 — 外縁帯は空(0粒)・最遠 586 単位へ飛散。同構成ビット同一(QA behavior.ngc3198)。",
+      "control": "働いているのは重力(E4)+解析 NFW(外力)。回転曲線オーバーレイ(橙破線=ハロー寄与)で NFW の受け持ちを見る。引きずり(kFrame)は 0 —— 他の本と組にした対照の役割は持たない。",
+      "brief": "指数円盤と NFW ハローの転写で外縁の回転を保つ(対照無しのダークマターハローの本)。部分・外縁 128 km/s・ハローは自前 fit。較正対象外。"
+     },
+     "enDescStruct": {
+      "summary": "FIRST REAL-GALAXY TRANSCRIPTION. NGC 3198 from the CSV (SPARC line), in the galaxy family L19/T15/M38 (1 unit=0.324 kpc, standard L−T=4). STELLAR DISK = inverse-CDF exponential R_d=3.14 kpc (the n=1 SPARC declares as an exponential disk, not a Sérsic fit); HI = an exponential approximation (×1.33 He); no bulge (L_bul=0). Velocities: vMode=flat at V_flat=150.1 km/s — the inner 6-kpc rise is NOT transcribed (declared). The external potential is an analytic NFW — but since the CSV deliberately never transcribes published halo fits, ρ₀ and r_s are OUR OWN 2-knob least-squares fit to the 43 SPARC points (rms 8.2 km/s), declared as such. Measured (~1 outer rotation): the outer-band mean tangential speed holds at 128 km/s (farthest 98 units); REMOVING THE HALO EMPTIES THE OUTER BAND (farthest 586 units — baryons+Newton cannot hold a flat curve, machine-fixed). A STANDALONE DARK-MATTER-HALO SAMPLE WITH NO COMPARISON ROLE: the analytic NFW halo (an external force — our own declared fit) carries the outer rotation; this sample does not explain the rotation with DFM dragging (kFrame=0, not used).",
+      "observe": "Measured (t=40, dt=0.016): with NFW — outer-band (60–130 units) mean tangential speed 12.8 (−15% relaxation from 15.01); farthest 98 units; zero NaN. No-halo control — the outer band empties (farthest 586). Bit-identical rebuilds (QA behavior.ngc3198).",
+      "control": "Gravity (E4) + the analytic NFW (external) act. The rotation-curve overlay (orange dashed = halo share) shows what the NFW carries. Dragging (kFrame) is 0 — no paired-control role with another sample.",
+      "brief": "Hold the outer rotation with transcribed exponential discs and an NFW halo (a standalone dark-matter-halo sample). Partial: outer 128 km/s; the halo is our own fit. Out of calibration scope."
+     },
+     "obsCard": [
+      {
+       "q": "外縁の回転(NFW あり・約1回転)",
+       "model": "外縁帯(19〜42 kpc)の平均接線速度 12.8 単位(128 km/s)— 初期転写 150 km/s から −15% の緩和で保持(最遠 98 単位)",
+       "obs": "V_flat=150.1 km/s(SPARC — 43点の回転曲線は hold-out)"
+      },
+      {
+       "q": "NFW は自前 fit(転写ではない — 宣言)",
+       "model": "ρ₀=3.97×10⁶ M☉/kpc³・r_s=19.9 kpc(SPARC 43点への2ノブ最小二乗 — rms 8.2 km/s)。CSV は既存 halo fit 値を意図的に転写しない",
+       "obs": "—(観測レコードと halo 仮定を混ぜない規約の維持)"
+      },
+      {
+       "q": "否定対照: ハローを外す",
+       "model": "外縁帯は空(0粒)・最遠 586 単位へ飛散。バリオン+ニュートンだけでは平坦回転を保てない(教科書どおりの機械固定)",
+       "obs": "—"
+      },
+      {
+       "q": "星円盤・HI(転写)",
+       "model": "星: 指数 R_d=3.14 kpc(n=1 — SPARC が宣言する指数円盤の言い換え)m計380単位・HI: 指数近似 計287単位(×1.33 He込み)",
+       "obs": "L[3.6]=3.83×10¹⁰ L☉(Υ=0.5)・M_HI=1.09×10¹⁰ M☉・バルジ無し(SPARC L_bul=0)"
+      },
+      {
+       "q": "内側の立ち上がり(v1 で転写しないもの)",
+       "model": "vMode=flat は全域 V_flat の近似 — 内側 6 kpc の立ち上がり(24→146 km/s)は転写しない(宣言)",
+       "obs": "SPARC 内側は Hα 優勢の hybrid(CSV)"
+      }
+     ],
+     "abBody": null,
+     "presetSigHash": "3a1f9c0d"
+    },
+    "sigSame": true,
+    "physicsSame": true,
+    "bodiesSame": true,
+    "statusAtBase": {
+     "purpose": "指数円盤と NFW ハローで回転を比べる",
+     "objective": "partial",
+     "state": "外縁 128 km/s・ハローは自前 fit",
+     "evidence": [
+      "behavior.ngc3198"
+     ],
+     "en": {
+      "purpose": "Compare rotation with an exponential disc and an NFW halo",
+      "state": "outer 128 km/s; the halo is our own fit"
+     }
+    }
+   }
+  }
+ },
+ "declChanges": [
+  {
+   "id": "ngc3198",
+   "emoji": "🌃",
+   "change": {
+    "familyRole": [
+     "variant",
+     "primary"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "3a1f9c0d",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "ngc3198DFM",
+   "emoji": "🛞",
+   "change": {
+    "familyRole": [
+     "primary",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "761fbca5",
+   "physicsSame": true,
+   "bodiesSame": true
+  }
+ ],
+ "seeRepoint": {
+  "base": {
+   "darkrotor": [
+    "rotorSolo",
+    "ngc3198DFM"
+   ],
+   "galaxyAnalogyBH": [
+    "shapeToySpiralCore",
+    "ngc3198DFM"
+   ]
+  },
+  "now": {},
+  "changed": [
+   {
+    "id": "darkrotor",
+    "before": [
+     "rotorSolo",
+     "ngc3198DFM"
+    ],
+    "after": [
+     "rotorSolo",
+     "ngc3198"
+    ]
+   },
+   {
+    "id": "galaxyAnalogyBH",
+    "before": [
+     "shapeToySpiralCore",
+     "ngc3198DFM"
+    ],
+    "after": [
+     "shapeToySpiralCore",
+     "ngc3198"
+    ]
+   }
+  ]
+ },
+ "pastCanons": [
+  {
+   "file": "tests/out/analogy-w282d.json",
+   "rev": "1b1fa70",
+   "sha256": "cc9ee21d55844de5b45cdbaf33ab5b48351549bb71d9678be208af1ce738cd59",
+   "meta": {
+    "targetSha256": "9dab9c8c5cddb8ce9d6f8f18a0468e49f798711f769585a23ef09df918597005",
+    "harnessVersion": "w282d-analogy-1",
+    "generatedAt": "2026-11-03T12:54:33.049Z"
+   }
+  },
+  {
+   "file": "tests/out/chainledger-w281b.json",
+   "rev": "1b1fa70",
+   "sha256": "53987928ca80587f1c9a048ed55fac3f70ff976df5fa90d4657f89d921e5adc7",
+   "meta": {
+    "targetSha256": "86ad1a2efcb6f2a4f74aa9405d44717a44d2e92c985d9d8d0885627d6021b422",
+    "harnessVersion": "w281b-galaxychain-1",
+    "generatedAt": "2026-11-03T12:42:36.790Z"
+   }
+  },
+  {
+   "file": "tests/out/galaxychain-w281b.json",
+   "rev": "1b1fa70",
+   "sha256": "74214e9da27a5625ebfe02cb3972f9105cc025ab74c29c2e3c4fdbd7a0199f1e",
+   "meta": {
+    "targetSha256": "d27516853682ba01d9a57e8871cfa5708a71d4425e8764349d2efac8ef3b29c4",
+    "harnessVersion": "w281b-galaxychain-1",
+    "generatedAt": "2026-11-03T12:43:46.821Z"
+   }
+  },
+  {
+   "file": "tests/out/galaxydiag-w271d.json",
+   "rev": "1b1fa70",
+   "sha256": "b856907d79a326113cf3836f7d4888386836a65cbbaf8075d0bb80378bd76589",
+   "meta": {
+    "targetSha256": "d27516853682ba01d9a57e8871cfa5708a71d4425e8764349d2efac8ef3b29c4",
+    "harnessVersion": null,
+    "generatedAt": "2026-11-03T12:45:51.780Z"
+   }
+  },
+  {
+   "file": "tests/out/galfield-w321c.json",
+   "rev": "1b1fa70",
+   "sha256": "ef5633289bec8c56f34e6be80f2e3f603701cd4c805a39a8e5b3561f55581bb3",
+   "meta": {
+    "targetSha256": "9dab9c8c5cddb8ce9d6f8f18a0468e49f798711f769585a23ef09df918597005",
+    "harnessVersion": "w321c-galfield-2",
+    "generatedAt": "2026-11-03T12:54:45.272Z"
+   }
+  },
+  {
+   "file": "tests/out/sparc-w269c.json",
+   "rev": "1b1fa70",
+   "sha256": "8f1c0d49d2ce8a2e090e32c920dac2a6559f5098938f694af06461249850738b",
+   "meta": {
+    "targetSha256": "4a4a06e3c05d656e651b17935d58378f3a3f6be34c45dd3990993d20a3e9a95a",
+    "harnessVersion": null,
+    "generatedAt": "2026-11-03T12:42:38.722Z"
+   }
+  }
+ ],
+ "wave": "第326便b",
+ "ruling": "原仮定者の回答(2026-11-03 —— AN531)・統括の検証項目 R291",
+ "frozen": true,
+ "source": {
+  "file": "beta/index.html",
+  "sha256": "638a29df9d2eff5d6574f438dc972ae8189a835f59accbbb948d93c59b1867af",
+  "note": "第326便b の枝の html(🛞 の退役と 🌃 の家族の入口の宣言を入れた後)"
+ },
+ "base": {
+  "rev": "1b1fa70",
+  "commit": "1b1fa70636c0f480c2b1f0f4ecf2888c4a1a6784",
+  "file": "beta/index.html",
+  "sha256": "53f5173bf482d60de733e4538044c684dd7427612cf1f30dc043507c1844c8c5"
+ }
+}

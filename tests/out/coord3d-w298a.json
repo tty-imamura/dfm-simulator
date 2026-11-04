@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便a",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-02T21:33:10.501Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T04:02:31.784Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    }
   ],
   "code": [
@@ -34,12 +34,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "a885c959b8416ddce9e885e111e8f7eb5cde2a8c528012967ae83f51ad4fcd30",
+  "codeSha256": "9a0c28083a5e9865a959b191546fedff088e31cdd5c928bd8471b1f65d9bd22a",
   "harnessVersion": "w298a-coord3d-1",
   "coord3dVersion": "w298a-coord3d-1",
   "loadErrors": 0,
@@ -52,7 +52,7 @@
    "トルクから求めた歳差"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "chainDiskToy",
     "coord3dKeplerTilt",
@@ -142,11 +142,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1388,
-   "segments": 1214,
-   "closureShare": 0.3004
+   "names": 1394,
+   "segments": 1220,
+   "closureShare": 0.2987
   },
-  "scopeSha256": "64dbd376bb1e906ae555eb34704a93c4ec5280f4dee470e0447d71b4eeaa8d87",
+  "scopeSha256": "1c851cd72dbca8fe2028efc81d62a11827dfe17e07b71fe8392a4454aed2da29",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -632,8 +632,8 @@
  },
  "part7": {
   "roundTripSame": true,
-  "sig3d": "3d6c3d65",
-  "sig2dTwin": "dc9fac19",
+  "sig3d": "d4249f6b",
+  "sig2dTwin": "46a0618b",
   "differsFrom2d": true,
   "axisInSig": true,
   "fitCondHasCoord": true,
@@ -697,5 +697,5 @@
   "covariantDouble": true
  },
  "ok": true,
- "elapsedS": 3.406
+ "elapsedS": 3.345
 }

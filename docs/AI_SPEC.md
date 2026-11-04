@@ -382,7 +382,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 {"name":"高温ガスと低温ガスの混合","emoji":"🔥","scaleTier":"molecular","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"kappaT":0.016666666666666666,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":2},"bodies":[{"type":"box","rMul":1.2,"n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","rMul":1.2,"n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
 
 例3 要望「ブラックホールが見たい。光が吸い込まれるところも。星も1000個ちりばめて」
-{"name":"ブラックホール — 光子捕捉","emoji":"🕳️","scaleTier":"stellar","description":"中央の超大質量天体(ブラックホールの光学類似)。左からの光線が強く曲がり、近くを通る光は捕まって光子球のような円軌道に巻き付く(光子捕捉)。周囲の星は数を400に抑えて軽快に動かす。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"kappaT":0.025,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":1},"bodies":[{"type":"single","rMul":1.2,"m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":0.5,"pinned":true},{"type":"disk","rMul":1.2,"n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.7},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
+{"name":"ブラックホール — 光子捕捉","emoji":"💡","scaleTier":"stellar","description":"中央の超大質量天体(ブラックホールの光学類似)。左からの光線が強く曲がり、近くを通る光は捕まって光子球のような円軌道に巻き付く(光子捕捉)。周囲の星は数を400に抑えて軽快に動かす。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":90,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"kappaT":0.025,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":1},"bodies":[{"type":"single","rMul":1.2,"m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":0.5,"pinned":true},{"type":"disk","rMul":1.2,"n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.7},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
 (質量2000+X_k=0.025(=1/40)+スピン0.5で光子捕捉が起きる=機械検証済み。要望の1000個は上限・性能の推奨に合わせて400に調整し、descriptionでその旨に触れている)
 
 例4 要望「回る空間に引きずられるのを見たい」
@@ -4613,3 +4613,38 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **データ** `tests/data-w325f-xklock.json`(版 w325f-xklock-1 —— 器 `tests/exp-w325f-xklock.mjs`): 内蔵の全部の本の受理の後の G_0・c_0・X_k(鍵 G・cLight・kappaT)・判定 `physLockAutoOnOf` の結果(満たすか・理由)・用途の材料と、在位の本の 3 分類(「X_k = G_0/c_0²」「X_k を維持して G_0 を合わせる」「X_k を維持して c_0 を合わせる」・理由の 1 文・決まらない本は未決と別の候補)。在位で満たさない本には 3 つの写像((i) X_k := G_0/c_0²・(ii) G_0 := X_k c_0²・(iii) c_0 := √(G_0/X_k) —— G_0 = 0 か X_k = 0 の本の (iii) は未定義)の短い窓の影響(受理・読み込みのロック・力学の指紋・位置と速度の差・時計の遅れ・光線・減光・光を運ぶ u・NaN・クランプ・c_0 の規約)を載せる。
 - AI が本を作るときの意味: 物理対応の本は今までどおり X_k = G_0/c_0² を満たすように書く(読み込みでロックが自動 ON)。満たさない本は「一般化トイ設定」で、分類はその本を常に有効のロックへ写すならどの量を導出にすれば用途が保たれるかの参照である。**既定値のマージの物理(X_k = 1/60・G = 1・c₀ = 30)は条件を満たさない** —— 物理対応の本を作るときは kappaT を書く。
 - QA `lint.xkLock325f`(新しい本・値の変わった本はデータに無いので名指しで落ちる —— 分類を足す)・`docs.xkLock325f`。
+
+
+
+
+## 182. 第326便a —— 物理対応ロック X_k = G_0/c_0² を常に(全部の経路)・在位の満たさない本の宣言の移行・X_k のノブの行き先を G_0 へ・「自転と減光」の群の 3 本の退役(原仮定者の回答(2026-11-03 —— AN530)・決断事項 AN532〔既定値のマージ —— 回答待ち・推奨 A で別のコミット〕・統括の検証項目 R290・**步・式・`S._core`・満たしていた在位の 56 本の宣言は不変**)
+
+- **X_k は導出の量**: 本の X_k(鍵 kappaT・旧 Kt)は受理と読み込みと編集の全部の経路で X_k = G_0/c_0²(G_0 = 0 なら 0・値域 [0, 1])に置かれる。AI が本を作るときは、時計と光の強さを G_0(と c_0)で決める —— 宣言した X_k が導出値と違えば受理で置き換わり、告知が 1 行残る(相対 1e-6 の外のとき —— `validatePreset` の返り値 `xkLock.notices`。警告〔warnings〕には入れない)。`abBody.physicsPatch` に X_k を書いても読まない(X_k の対照は G_0 の対照 —— 例 `{G:0}`)。
+- **既定値のマージ(AN532 —— 推奨 A)**: X_k を書かない本も G_0/c_0² になる(既定の G = 1・c_0 = 30 なら 1/900)。表の既定値そのもの(kappaT = 0.016666666666666666)を書いた本は告知なしで導出値へ。**SYSTEM_PROMPT の既定値の一覧(kappaT = 1/60)は本便では変えていない**(AI 生成のまとめた改良 —— 決断事項 AN523 の候補)。
+- 例外は内蔵の退役の本(履歴)だけ —— 開いている間は宣言の X_k のまま。退役 3 本(🕳️ rotorSolo・🪜 massLadder・🥚 selfRotor)を AI の例・注記に挙げない。
+- 凍結の写し `tests/fixtures/xklock-w326a.json`(移行の前後)・`tests/fixtures/retired-w326a.json`。QA `lint.physLockAlways326a`・`behavior.xkDerive326a`・`docs.xkLock326a`。
+## 183. 第326便b —— NGC 3198 の家族の整理: 🛞 ngc3198DFM の退役・🌃 ngc3198 を家族の入口(対照無しのダークマターハローの本)へ(原仮定者の回答(2026-11-03 —— AN531)・統括の検証項目 R291・**受理器・步・式・`S._core`・在位の本の物理の宣言は不変** —— familyRole・名・説明の欄・退役の表だけ・**SYSTEM_PROMPT には載せない**)
+
+- **退役**: 🛞 `ngc3198DFM`(ハロー無しの引きずりで外縁の回転を支える hold-out —— 恒星質量を観測の値〔倍率 1〕へ戻した後も外縁は観測の約 1/3 で未達)は意図した挙動ではないので退役(`familyRole:"retired"`・`RETIRED_PRESETS` の行 —— see は 🌃)。内蔵に残り ID で履歴として開く(ID・物理・保存 JSON・署名は不変)。凍結の写し `tests/fixtures/retired-w326b.json`。将来の geoPN=4 の銀河の本は**新しい ID** で作る(🛞 の ID を使い回さない)。
+- **🌃 `ngc3198`**: 家族 ngc3198 の入口(`familyRole:"primary"`)。**対照無しのダークマターハローの本** —— 外縁の回転は外力 `physics.halo`(NFW —— SPARC の 43 点への自前の 2 ノブの最小二乗・ρ₀ 2.685×10⁻³ 単位・r_s 61.31 単位)が受け持ち、引きずり(kFrame)は 0。名は「指数円盤+NFW ハロー」(説明の欄から DFM 版との対の役割を外した —— 署名・physics・bodies は不変)。**ワンタップ対照**(原仮定者の回答(2026-11-04 —— AN533)): `abBody:{label, physicsPatch:{halo:null}}` —— A/B の B 側だけ NFW ハローを外し、同じ初期配置でハローの有無を並べる(B 側の外縁帯は空になる)。AI がハローを持つ本を作るときも、ハローの有無の対照は `physicsPatch:{halo:null}` の abBody で書ける。
+- AI が NGC 3198 の本を作るときの意味: 観測の転写の基準は 🌃(恒星円盤・HI の円盤・NFW の外力)。NFW を外した本を「DFM の引きずりで外縁を支えた」と書かない(🛞 は未達のまま退役した)。
+- QA `preset.ngc3198Halo326b`・`docs.ngc3198Halo326b`(新設)・docs.retired・ui.pickerStatusAxes(世代の直し)。
+## 184. 第326便c —— UI: 選択粒子の編集の位置 x・y(減光と自動の欄を外す)・「時空」の群の計算済みの決定力定数 κ_D・時空係数 X_k・引きずり係数 Y_k(物理対応ロックの切替を外す)(原仮定者の指示(第128報)・原仮定者の回答(2026-11-03 —— AN530)・統括の検証項目 R292・**UI だけ —— 受理器・步・式・`S._core`・本の宣言の鍵と受理は不変**・**SYSTEM_PROMPT には載せない**)
+
+- **選択粒子の編集**: 減光の欄(`#beSw` —— 数値と "auto")と「自動」のチェック(`#beSwAuto`)を外し、位置の欄 `#beX`・`#beY` を vx・vy の行の直前に加えた(値域 ±5000 —— 受理器の座標と同じ・書き込みは vx・vy と同じ)。AI が書く本の `lightSweep`(数値 0〜1・"auto")は今のまま受理され、今のまま動く(画面から編集できなくなるだけ)。
+- **「時空」の群**: 「物理対応ロック」の切替とバッジと X_k のスライダーの行を外し、計算済みの 3 行(読むだけ)を筆頭に置いた。読み口 `stDerivedOf(S)`(版 `ST_DERIVED_VERSION = "w326c-st-derived-1"` —— `HP.stDerivedOf`・`HP.stDerivedFmt`): κ_D = 2G_0/c_0²・X_k = 本の値 `physics.kappaT`(判定 `physLockAutoOnOf` を満たせば出所「= G_0/c_0²」・クランプ・違う本はその旨)・Y_k = 10G_0/(C_1c_0²)(`invSqKappa0`)。単位 [L/M](換算の表示は m/kg)。
+- AI が本を作るときの意味: 鍵と受理は変わらない(physics.G = 基準重力 G_0・physics.cLight = 基準光速 c_0・physics.kappaT = 時空係数 X_k)。画面の X_k は G_0・c_0 から決まる値を読むだけなので、物理対応の本は X_k = G_0/c_0² を満たすように書く(X_k の導出の経路は本便の枝 a)。SYSTEM_PROMPT の文は変えていない(画面の欄の説明を含まない)。
+- **サンプルの選択の固有の処理**(原仮定者の指示(2026-11-04)): 規則表 `PROC_TAGS`(版 `PROC_TAG_VERSION = "w326c-proc-1"`・`HP.procsOf(p)`)の 18 鍵 —— halo・gLoc・invSq・spinDrag・dragCore・core・layers・thickness・obsSpin・zonal・pulse・spinDipole・lightSweep・spinSpin・petersGW・axisForce・universeBox・phaseChange(宣言の鍵だけを読む)。一覧の行の下のチップと「その他」の 6 段目「固有の処理」(軸 `proc:<鍵>`)。AI が書く本にこれらの鍵があれば、一覧に自動でチップが付く(新しい鍵・受理は無い)。
+- QA `ui.selEditXY326c`・`ui.spacetimeDerived326c`・`ui.pickerProc326c`・`docs.w326c`。既存の QA の世代の直し: `ui.sweep-auto-checkbox`・`ui.selEdit299`・`physlock.kt-derive`・`physlock.ui-110`・`wave124.ui`・`ui.symDisp316`・`ui.physLock315`。
+## 185. 第326便d —— 軸引きずりの方程式と由来ごとの熱の帳簿(診断だけ)・引きずる側の半径 R_src と引きずられる側の半径 R_d の独立の宣言(原仮定者の指示(第128報)「軸引きずりについて」「引きずり計算の補足」・統括の検証項目 R293)
+
+- **正本** `tests/out/axialheat-w326d.json`(器 `tests/exp-w326d-axialheat.mjs` —— 版 w326d-axialheat-1・lib `tests/lib-w326d-axialheat.mjs`・文書の lib `tests/lib-w326d-axialheatdoc.mjs`・段 axialheat-326d): 🗺️ solarSystem16Inertial3d の J2000 の転記(自転・軸・R_d)と今の K1 の核の源ごとの軸の ω(読み口 `inertialDragIsqState(S, {perSource:true})`)から、固定軸の軸の向きの定常の釣り合い・口ごとの熱 Γ abs(ν − Ω)²(逆向きも打ち消さない)・帳簿(銀河の中心の供給 + 軌道の仕事 = 熱 = 背景への放射)を解いた**診断**。エンジン・内蔵の本・受理器は変えていない。
+- AI が本や説明を作るときの意味: 銀河の局所の軸場は**同定していない**(太陽の式の条件つきの A・受け手の応答のべき p は 1 つの族・応答の絶対の尺度 Γ は宣言のノブ)。金星の観測の逆回転は、今の K1 の太陽の項(固定)ではどの Γ ≥ 0 でも定常の加重平均に入らない(負の散逸を要求する解は不採用)—— 本の説明に「内部熱・金星の逆回転を引きずりで説明した」と書かない・内部熱を観測の熱流に合わせない。
+- **引きずりの半径**: 受け手の R_d(規則 `invSq.rdRule:"kappaM"` = Y_k m か天体ごとの `dragCore.radius`)と源の R_src(`invSq.sourceMoment` の kind "J" の天体ごとの f・"obsSpin" の天体ごとの fSrc と rObs・"obs"/"capObs")は**天体ごとに別々に宣言できる**。同じ天体に明示の R_d と R_src を両方置く組と、画面の R_src の欄は今は無い(受理器は f を dragCore の天体に置く宣言を拒否する)。
+- QA `lint.axialHeat326d`(純関数の場面 —— 逆向きの 2 源の熱が足される・固定軸の支えの仕事 0・帳簿の閉じ・尺度の不定・負の Γ の拒否・凸包の外の解の不採用・厳密な 1 步)・`behavior.axialRadius326d`(今の html の 🗺️ の写しで R_d と R_src を別々に宣言・K1 の源ごとの軸の ω が正本と同じ)・`docs.axialHeat326d`(正本の門と表が PHYSICS〔第326便d〕に逐語・書かない語と禁句)。
+## 186. 第326便e —— 常時群の物理の部分の門(影)・家族の表の一時ファイル・簡易一致の門の強化・領域 hash の版 7(原仮定者の回答(2026-11-03 —— AN527)・統括の検証項目 R294・**html・本の宣言・受理器・步・`S._core`・器の物理の値は不変** —— 道具と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
+
+- **常時群の影**(`tests/lib-w326e-alwaysshadow.mjs`): 再生成の計画が常時群 13 段ごとに「常時群でなかったら html の物理の部分の門で reuse にできたか」を出す(判定だけ —— 鎖は毎便のまま)。鎖の後に `node tools/regen-plan.mjs --always-shadow-check` が常時群の正本の物理の値と突き合わせる。
+- **領域 hash の版 7**: 本の `bodies[].obsSpin` の中の説明の文(`note`・`noteEn`・`source`・`sourceEn` —— 値が文字列のとき)は領域 hash に入らない。AI が本を作るときの意味: obsSpin の注と出典だけの直しは、本を宣言した再生成の段を走らせ直さない(数・単位・軸・basis・範囲・epoch は今までどおり物理の欄)。
+- 家族の表の走査はドット始まりの一時ファイルを数えない・簡易一致の本運用の門は影 2 便と暦の債務の対応を要る(休眠)・全部の本を領域に持つ段の絞りは探索だけ(`--narrow-explore`)。
+- QA `lint.alwaysShadow326e`・`lint.familiesTemp326e`・`lint.scopeObsSpin326e`・`lint.narrow326e`・`docs.w326e`。

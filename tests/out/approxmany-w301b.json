@@ -357,7 +357,7 @@
     ],
     "resMax": 6.07834e-16,
     "fail": 0,
-    "wallSec": 0.836
+    "wallSec": 0.889
    },
    "B": {
     "bands": [
@@ -575,16 +575,16 @@
    "minParticles": 16,
    "massRatio": 0.9
   },
-  "n": 28,
+  "n": 26,
   "moved": [
    "saturnRingInertial3d"
   ],
-  "notMoved": 27,
+  "notMoved": 25,
   "byReason": {
    "calibration": 2,
-   "core2d": 19,
+   "core2d": 17,
    "testParticle": 2,
-   "governorFree": 8,
+   "governorFree": 7,
    "referenceModel": 4,
    "contactPurpose": 1,
    "chainZeroTest": 0,
@@ -791,47 +791,6 @@
     "reasons": [
      "core2d",
      "contactPurpose"
-    ]
-   },
-   {
-    "id": "rotorSolo",
-    "emoji": "🕳️",
-    "group": "自転と減光",
-    "coord": "2d",
-    "n": 25,
-    "groups": 1,
-    "governorRow": 0,
-    "governorMass": 2000,
-    "governorPinned": false,
-    "ratio": 1666.67,
-    "relativeDrag": null,
-    "contactMode": null,
-    "testParticle": false,
-    "sampleClass": "principle",
-    "cls": "notMoved",
-    "reasons": [
-     "core2d",
-     "governorFree"
-    ]
-   },
-   {
-    "id": "massLadder",
-    "emoji": "🪜",
-    "group": "自転と減光",
-    "coord": "2d",
-    "n": 147,
-    "groups": 3,
-    "governorRow": 2,
-    "governorMass": 10000,
-    "governorPinned": true,
-    "ratio": 1.33205,
-    "relativeDrag": null,
-    "contactMode": null,
-    "testParticle": false,
-    "sampleClass": "composite",
-    "cls": "notMoved",
-    "reasons": [
-     "core2d"
     ]
    },
    {
@@ -1174,13 +1133,13 @@
  "ok": true,
  "timing": {
   "accept": {
-   "wallSec": 0.03
+   "wallSec": 0.034
   },
   "zero": {
-   "wallSec": 2.094
+   "wallSec": 1.661
   },
   "effect": {
-   "wallSec": 2.289
+   "wallSec": 2.352
   },
   "remeasure": {
    "wallSec": 0.002
@@ -1189,31 +1148,31 @@
    "wallSec": 0.001
   }
  },
- "elapsedS": 4.416,
+ "elapsedS": 4.05,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第301便b",
   "target": "beta/index.html",
-  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-  "generatedAt": "2026-11-03T15:16:06.580Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T07:14:36.112Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7612995,
-    "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-    "mtime": "2026-11-03T15:04:48.828Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    },
    {
     "file": "tests/out/geo4stable-w299d.json",
     "bytes": 36192,
-    "sha256": "03c60df68196de3010de3614506534a73a4eb08b5143ab6d999a3ae9c1c16e22",
-    "mtime": "2026-11-02T21:45:54.336Z"
+    "sha256": "f54c38261b494f5b5ee61a34a5b3b417f5e9d74f984211decaff68a730726dcf",
+    "mtime": "2026-11-04T06:57:46.280Z"
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
-    "bytes": 41372,
-    "sha256": "8075fd0f9e89359f34f9be03b47b6d0eae6a787d591c10da671d39ec0a416322",
-    "mtime": "2026-11-02T21:49:44.372Z"
+    "bytes": 41370,
+    "sha256": "3758f58ce4c917e48c4771606adfbd8644a7374743dc535460f6927a606be641",
+    "mtime": "2026-11-04T04:26:11.079Z"
    }
   ],
   "code": [
@@ -1255,18 +1214,18 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "91099d82ce64be2a155e420d1eef322e8fa227a5b03856b6ce456bf00ab68988",
+  "codeSha256": "5aeecbb58e7e98094d4049901fc91b5d959f4d419aaac9975a646a51d5c95e2b",
   "harnessVersion": "w301b-approxmany-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第91報)①③「近似多粒子のサンプルでは支配天体は固定する。近似多粒子同士は接触判定を切る。塵は重力も引きずりも無し・天体は自転を設定して重力も引きずりも有り」「chainSpreadToy3d を近似多粒子のフォーマットに合わせる」",
   "reading": "統括の検証項目 R180(対のマスクを辺を作る段で・宣言は physics の 1 つの鍵・🍥 は天体型・🍩 の帯は塵・銀河などの本の監査)",
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": "all",
    "roots": [
     "DT",
@@ -1307,16 +1266,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1427,
-   "segments": 1251,
-   "closureShare": 0.309
+   "names": 1433,
+   "segments": 1257,
+   "closureShare": 0.3078
   },
-  "scopeSha256": "22a508c66def7df4ff92095a1021ddeea6bf7aaa736f09720bdd04e32e39ed79",
+  "scopeSha256": "f897ddb1a703a4cc834ee976877793f470944642d95d47d97df7dc45e038145d",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/geo4stable-w299d.json",
-    "stableSha256": "65517f5c706a5372d80d091e00b9caf4b68520a659fe3231a19b2fb0575c96e5",
+    "stableSha256": "dab1d4bba6168284e6af8437f4b495bb0076a34e9d4ed3bc62016eaafe9caa57",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1330,7 +1289,7 @@
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
-    "stableSha256": "f2caa04876b07678f85a85393979bdacf8e819e93a7b10d8fd180c5a75bc001a",
+    "stableSha256": "1c5655c757bf583fa584fcee9855c16c1fd448df387df0fb65b0b3251b3660fa",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

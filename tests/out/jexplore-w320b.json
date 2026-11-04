@@ -3,7 +3,7 @@
  "libVersion": "w320b-jexplore-lib-1",
  "generator": "tests/exp-w320b-jexplore.mjs",
  "target": "beta/index.html",
- "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+ "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
  "reuseFrom": null,
  "ruling": "原仮定者の裁定(第122報)「案3(J)を確かめる。案2bは次点。様々な可能性を探索する」(決断事項 AN471)・統括の検証項目 R263。受け手の R_d = Y_k m・並進・規則・在位の本・エンジンの式は変えない(器・lib・正本・文書だけ)",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -2501,40 +2501,40 @@
  "ok": true,
  "timing": {
   "E": {
-   "wallSec": 0.417
+   "wallSec": 0.542
   },
   "J": {
-   "wallSec": 0.216
+   "wallSec": 0.271
   },
   "P": {
-   "wallSec": 0.114
+   "wallSec": 0.134
   },
   "D": {
-   "wallSec": 0.038
+   "wallSec": 0.055
   },
   "B": {
-   "wallSec": 0.021
+   "wallSec": 0.026
   },
   "S": {
    "wallSec": 0.001
   },
   "T": {
-   "wallSec": 0.427
+   "wallSec": 0.494
   }
  },
- "elapsedS": 2.728,
+ "elapsedS": 3.581,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第320便b",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-03T02:21:53.482Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T04:36:36.537Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    },
    {
     "file": "tests/data-w318c-solar16-input.json",
@@ -2606,12 +2606,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "3746f0d575e874e2f85bb301e5d46f5abd9f67c224b8cebf61f4622e9ac208e7",
+  "codeSha256": "3cfeff1c9a0c5022943f600459b1d47ec640436a34af9675f01930accead1d44",
   "harnessVersion": "w320b-jexplore-1",
   "stage": "jexplore",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス・步は進めない)",
@@ -2637,7 +2637,7 @@
    "有限球の J の場は今の bevel の軸引きずりの導出でも置換でもない(正規化の分母と solve の前の弱い場の対照)"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "jupiterGalilean",
     "jupiterSunInertial3d",
@@ -2676,11 +2676,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1380,
-   "segments": 1206,
-   "closureShare": 0.3013
+   "names": 1386,
+   "segments": 1212,
+   "closureShare": 0.2995
   },
-  "scopeSha256": "3edd8c41c6e3f20073ef7dfe8565f8f1326c50b4142de034d6412cb38d116392",
+  "scopeSha256": "9bf80fe3b031f8c58108827a25ef5e990b042c2309351764fb737d516fa6e19d",
   "scopeComplete": true,
   "inputsStable": [
    {

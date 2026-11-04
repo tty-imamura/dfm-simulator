@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便b",
   "target": "beta/index.html",
-  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-  "generatedAt": "2026-11-03T18:20:38.997Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T14:50:43.672Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7612995,
-    "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-    "mtime": "2026-11-03T15:04:48.828Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w291b-pnsources.mjs",
-    "bytes": 32629,
-    "sha256": "3f58961fd3327397539a19c31e2ffabd5ba094263ea0666607473662279a3ab9",
-    "mtime": "2026-11-03T18:18:26.737Z"
+    "bytes": 34697,
+    "sha256": "f7e346d577f2e21f43bfea18c5ff33bfb2962762a4b3cf4d14991339218f5d17",
+    "mtime": "2026-11-04T14:47:22.137Z"
    },
    {
     "file": "tests/lib-w285b-gr1pn.mjs",
@@ -58,9 +58,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    },
    {
     "file": "tests/lib-w302a-wbg.mjs",
@@ -69,8 +69,8 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "c772c63eb459792b483ac4bdebfd96696310619ae74f1cb6b3d34c6bf3ad8762",
-  "harnessVersion": "w291b-pnsources-8",
+  "codeSha256": "d945b079f8a977c514615aaea65f401c3e25d583dbad73b689707eb12f4a901e",
+  "harnessVersion": "w291b-pnsources-9",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第81報)⑤「geoPN=1: 軌道計算を精査し、測地線化を GR の 1PN に揃える。観測値をそのまま使えるようにする」",
   "reading": "統括の検証項目 R133(GR 1PN の源集合 —— 軌道の EIH は全質量源・描画の光線門は不変 —— と 🥶 の残差の分解)",
@@ -86,7 +86,7 @@
    "RC を切った"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": "all",
    "roots": [
     "$",
@@ -119,11 +119,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1363,
-   "segments": 1189,
-   "closureShare": 0.2968
+   "names": 1369,
+   "segments": 1195,
+   "closureShare": 0.2957
   },
-  "scopeSha256": "984b7858d85cf8d7de6736dea4d87594556292f2678338b0a89c53dfc19cdc49",
+  "scopeSha256": "1eb42ca4ba8f1c82ad66dbf95ebec74eae176dc653766c4662dfb9d6d7c50ae8",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -174,11 +174,13 @@
   "pn1Version": "w285b-eih-1",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+ "nowSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
  "A": {
   "n": 186,
   "kf0Books": 28,
   "increased": [
+   "gclock",
+   "blens",
    "earthMoonReal",
    "emAuditNewton",
    "emAuditSolar",
@@ -199,14 +201,15 @@
    "saturnD68Consistent",
    "saturnD68ObsOrbit",
    "saturnRingReal",
-   "binary"
+   "binary",
+   "mmPhaseToy"
   ],
-  "increasedN": 21
+  "increasedN": 24
  },
  "B": {
   "steps": 24,
   "dt": 0.016,
-  "bitSame": 99,
+  "bitSame": 97,
   "changed": [
    "earthMoonReal",
    "emAuditNewton",
@@ -231,9 +234,12 @@
   ],
   "changedNotIncreased": [],
   "increasedUnchanged": [
-   "saturnD68ObsOrbit"
+   "gclock",
+   "blens",
+   "saturnD68ObsOrbit",
+   "mmPhaseToy"
   ],
-  "sigSame": 69,
+  "sigSame": 24,
   "sigDiff": [],
   "newInNow": [
    "galaxyGeo2Flat3d",
@@ -342,15 +348,11 @@
    "saturnRingRealKF1"
   ],
   "sigChangedByTimeStd297": [
-   "projectile",
-   "boxtrans",
-   "boxredshift",
    "earthMoon",
    "earthMoonFree",
    "earthMoonReal",
    "emAuditSolar",
    "earthMoonDiagOne",
-   "mercury",
    "mercuryReal",
    "solarInner",
    "jupiterGalilean",
@@ -379,9 +381,7 @@
    "saturnD68Consistent",
    "saturnD68ObsOrbit",
    "saturnRingReal",
-   "fig8",
-   "pulsarSolo",
-   "spinDipoleBinary"
+   "pulsarSolo"
   ],
   "changedByCoord3d299": [
    "shapeToyCluster",
@@ -403,14 +403,79 @@
    "shapeToyArmCore",
    "shapeToySpiralCore"
   ],
-  "sigChangedByWbg302": [
-   "inertialDragPair"
-  ],
+  "sigChangedByWbg302": [],
   "changedByRealMass325": [
    "ngc3198DFM"
   ],
   "sigChangedByRealMass325": [
    "ngc3198DFM"
+  ],
+  "changedByXkLock326": [
+   "boxredshift",
+   "probeH"
+  ],
+  "sigChangedByXkLock326": [
+   "gclock",
+   "grcal",
+   "projectile",
+   "echo",
+   "boxtrans",
+   "boxrot",
+   "boxexpand",
+   "boxcomoving",
+   "boxbound",
+   "boxbreath",
+   "boxredshift",
+   "probeH",
+   "freebox",
+   "cosmicweb",
+   "galaxy",
+   "galaxyStd",
+   "galaxyGeo2",
+   "galaxyDB",
+   "collapse",
+   "axisBarStill",
+   "axisBarArms",
+   "axisBarReach",
+   "galaxyMeshSpiral",
+   "shapeToyCluster",
+   "shapeToyDisk",
+   "shapeToyArm",
+   "shapeToySpiral",
+   "shapeToyClusterCore",
+   "shapeToyDiskCore",
+   "shapeToyArmCore",
+   "shapeToySpiralCore",
+   "lensing",
+   "spinlens",
+   "blens",
+   "reddening",
+   "gas",
+   "pressure",
+   "conduction",
+   "frictionHeat",
+   "coolrace",
+   "convection",
+   "buoyancy",
+   "cooling",
+   "emergent",
+   "emergent2",
+   "chain2",
+   "chaincycle",
+   "mercury",
+   "inertialDragPair",
+   "binary",
+   "fig8",
+   "counterring",
+   "spinup",
+   "supernovaCore",
+   "whiteDwarfDFM",
+   "whiteDwarfBareDFM",
+   "envelopeShedDFM",
+   "lfbotTrap",
+   "layeredCoreDFM",
+   "spinDipoleBinary",
+   "mmPhaseToy"
   ],
   "nullPhysicsKF0": [],
   "errors": [],
@@ -785,16 +850,16 @@
    "geoPN": 0,
    "kFrame": 0,
    "lambdaPN": 1,
-   "G": 0,
+   "G": 3,
    "kf0": false,
    "srcBase": 0,
-   "srcNow": 0,
-   "srcIncreased": false,
+   "srcNow": 1,
+   "srcIncreased": true,
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -802,7 +867,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "grcal",
@@ -822,7 +888,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -830,7 +896,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "grcalGps",
@@ -858,7 +925,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "grcalLight",
@@ -886,7 +954,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "grcalShapiro",
@@ -914,7 +983,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "projectile",
@@ -940,9 +1010,10 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true,
+   "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "echo",
@@ -962,7 +1033,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -970,7 +1041,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "boxtrans",
@@ -996,9 +1068,10 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true,
+   "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "boxrot",
@@ -1018,7 +1091,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1026,7 +1099,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "boxexpand",
@@ -1046,7 +1120,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1054,7 +1128,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "boxcomoving",
@@ -1074,7 +1149,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1082,7 +1157,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "boxbound",
@@ -1102,7 +1178,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1110,7 +1186,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "boxbreath",
@@ -1130,7 +1207,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1138,7 +1215,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "boxredshift",
@@ -1149,7 +1227,7 @@
    "geoPN": 0,
    "kFrame": 1,
    "lambdaPN": 1,
-   "G": 0,
+   "G": 0.09,
    "kf0": false,
    "srcBase": 0,
    "srcNow": 0,
@@ -1157,16 +1235,17 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
+   "bitSame": false,
    "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true,
+   "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "probeH",
@@ -1177,7 +1256,7 @@
    "geoPN": 0,
    "kFrame": 1,
    "lambdaPN": 1,
-   "G": 0,
+   "G": 3,
    "kf0": false,
    "srcBase": 0,
    "srcNow": 0,
@@ -1185,8 +1264,8 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1194,7 +1273,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "freebox",
@@ -1214,7 +1294,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1222,7 +1302,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "cosmicweb",
@@ -1242,7 +1323,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1250,7 +1331,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "galaxy",
@@ -1270,7 +1352,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1278,7 +1360,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "galaxyStd",
@@ -1298,7 +1381,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1306,7 +1389,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "galaxyGeo2",
@@ -1334,7 +1418,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "galaxyGeo2Flat3d",
@@ -1362,7 +1447,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "galaxyGeo2Thick3d",
@@ -1390,7 +1476,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "galaxyGeo2ThickTilt3d",
@@ -1418,7 +1505,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "galaxyDB",
@@ -1438,7 +1526,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1446,7 +1534,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "darkrotor",
@@ -1474,12 +1563,13 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "rotorSolo",
    "emoji": "🕳️",
-   "role": "primary",
+   "role": "retired",
    "cls": "principle",
    "n": 25,
    "geoPN": 0,
@@ -1502,7 +1592,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "nebulaRotor",
@@ -1530,7 +1621,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "nebulaShell",
@@ -1558,7 +1650,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "nebulaBipolar",
@@ -1586,7 +1679,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "bhCore",
@@ -1614,7 +1708,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "bhCoreTilt",
@@ -1642,12 +1737,13 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "massLadder",
    "emoji": "🪜",
-   "role": "variant",
+   "role": "retired",
    "cls": "composite",
    "n": 147,
    "geoPN": 0,
@@ -1670,7 +1766,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "collapse",
@@ -1690,7 +1787,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1698,7 +1795,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "axisBarStill",
@@ -1718,7 +1816,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1726,7 +1824,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "axisBarArms",
@@ -1746,7 +1845,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1754,7 +1853,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "axisBarReach",
@@ -1774,7 +1874,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1782,12 +1882,13 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "selfRotor",
    "emoji": "🥚",
-   "role": "primary",
+   "role": "retired",
    "cls": "composite",
    "n": 180,
    "geoPN": 0,
@@ -1810,7 +1911,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "galaxyMeshSpiral",
@@ -1830,7 +1932,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -1838,7 +1940,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "galaxyMeshSpiralGeoToy",
@@ -1866,7 +1969,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "galaxyMeshSpiralGeoToyLite",
@@ -1894,7 +1998,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "galaxyAnalogyBH",
@@ -1922,7 +2027,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "galaxyAnalogyBHCompose",
@@ -1950,7 +2056,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "galaxyAnalogyBHTilt90",
@@ -1978,7 +2085,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "galaxyAnalogyBHTilt90Layers",
@@ -2006,7 +2114,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "clusterAnalogyBH",
@@ -2034,7 +2143,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "clusterGrowthCopy",
@@ -2062,7 +2172,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "fixedCaptureCopy",
@@ -2090,7 +2201,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "shapeToyCluster",
@@ -2118,7 +2230,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": true,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "shapeToyDisk",
@@ -2146,7 +2259,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": true,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "shapeToyArm",
@@ -2174,7 +2288,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": true,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "shapeToySpiral",
@@ -2202,7 +2317,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": true,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "shapeToyClusterCore",
@@ -2230,7 +2346,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": true,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "shapeToyDiskCore",
@@ -2258,7 +2375,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": true,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "shapeToyArmCore",
@@ -2286,7 +2404,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": true,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "shapeToySpiralCore",
@@ -2314,7 +2433,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": true,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "lensing",
@@ -2325,7 +2445,7 @@
    "geoPN": 0,
    "kFrame": 1,
    "lambdaPN": 1,
-   "G": 0.25,
+   "G": 6,
    "kf0": false,
    "srcBase": 2,
    "srcNow": 2,
@@ -2334,7 +2454,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2342,7 +2462,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "spinlens",
@@ -2353,7 +2474,7 @@
    "geoPN": 0,
    "kFrame": 1,
    "lambdaPN": 1,
-   "G": 0.5625,
+   "G": 4.5,
    "kf0": false,
    "srcBase": 1,
    "srcNow": 1,
@@ -2362,7 +2483,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2370,7 +2491,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "blens",
@@ -2381,16 +2503,16 @@
    "geoPN": 0,
    "kFrame": 0,
    "lambdaPN": 1,
-   "G": 0,
+   "G": 8.181818181818182,
    "kf0": false,
    "srcBase": 0,
-   "srcNow": 0,
-   "srcIncreased": false,
+   "srcNow": 2,
+   "srcIncreased": true,
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2398,7 +2520,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "reddening",
@@ -2418,7 +2541,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2426,7 +2549,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "gas",
@@ -2446,7 +2570,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2454,7 +2578,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "pressure",
@@ -2474,7 +2599,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2482,7 +2607,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "conduction",
@@ -2502,7 +2628,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2510,7 +2636,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "frictionHeat",
@@ -2530,7 +2657,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2538,7 +2665,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "coolrace",
@@ -2558,7 +2686,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2566,7 +2694,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "convection",
@@ -2586,7 +2715,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2594,7 +2723,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "buoyancy",
@@ -2614,7 +2744,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2622,7 +2752,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "cooling",
@@ -2642,7 +2773,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2650,7 +2781,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "emergent",
@@ -2670,7 +2802,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2678,7 +2810,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "emergent2",
@@ -2698,7 +2831,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2706,7 +2839,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "chain2",
@@ -2726,7 +2860,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2734,7 +2868,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "chaincycle",
@@ -2754,7 +2889,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -2762,7 +2897,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "earthMoon",
@@ -2790,7 +2926,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "earthMoonFree",
@@ -2818,7 +2955,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "earthMoonReal",
@@ -2849,7 +2987,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "earthMoonTide",
@@ -2880,7 +3019,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "earthMoonRealKF1",
@@ -2908,7 +3048,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "earthMoonInertial",
@@ -2936,7 +3077,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "emAuditNewton",
@@ -2967,7 +3109,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "emAuditDFM",
@@ -2995,7 +3138,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "emAuditSolar",
@@ -3028,7 +3172,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "earthMoonSunInertial",
@@ -3056,7 +3201,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "earthMoonSunInertialFit",
@@ -3084,7 +3230,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "earthMoonSunInertial3d",
@@ -3112,7 +3259,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "earthMoonOnly3d",
@@ -3140,7 +3288,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "earthMoonDiagOne",
@@ -3173,7 +3322,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "qLockRadialAudit",
@@ -3201,7 +3351,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "qLockRadialAuditQ3",
@@ -3229,7 +3380,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "mercury",
@@ -3260,9 +3412,10 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true,
+   "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "mercuryReal",
@@ -3295,7 +3448,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "mercurySunInertial",
@@ -3323,7 +3477,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "mercurySunInertialFit",
@@ -3351,7 +3506,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "mercurySunInertial3d",
@@ -3379,7 +3535,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "venusSunInertial3d",
@@ -3407,7 +3564,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "marsSunInertial3d",
@@ -3435,7 +3593,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "jupiterSunInertial3d",
@@ -3463,7 +3622,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "saturnSunInertial3d",
@@ -3491,7 +3651,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "saturnRingInertial3d",
@@ -3519,7 +3680,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "uranusSunInertial3d",
@@ -3547,7 +3709,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "neptuneSunInertial3d",
@@ -3575,7 +3738,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "solarSystem16Inertial3d",
@@ -3603,7 +3767,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "mercuryGeoToy3",
@@ -3631,7 +3796,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "mercuryMeshMigrate3d",
@@ -3659,7 +3825,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "mercuryRealKF1",
@@ -3687,7 +3854,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "solarInner",
@@ -3720,7 +3888,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "jupiterGalilean",
@@ -3753,7 +3922,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "venusReal",
@@ -3784,7 +3954,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "marsMoonsReal",
@@ -3817,7 +3988,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "plutoCharonReal",
@@ -3848,7 +4020,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "plutoCharonDFM",
@@ -3881,7 +4054,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "plutoCharonKF0Control",
@@ -3912,7 +4086,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "plutoCharonDiagInput",
@@ -3943,7 +4118,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "plutoCharonInertial",
@@ -3971,7 +4147,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "plutoCharonInertialFit",
@@ -3999,7 +4176,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "plutoCharonSyncZero",
@@ -4027,7 +4205,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "charonGeoToy3",
@@ -4055,7 +4234,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "uranusReal",
@@ -4088,7 +4268,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "neptuneReal",
@@ -4119,7 +4300,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "alphaCenAB",
@@ -4150,7 +4332,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "alphaCenABDFM",
@@ -4178,7 +4361,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "siriusAB",
@@ -4209,7 +4393,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "siriusABDFM",
@@ -4237,7 +4422,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "siriusABInertial3d",
@@ -4265,7 +4451,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "alphaCenABInertial3d",
@@ -4293,7 +4480,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "alphaCenABInertial3dJ",
@@ -4321,7 +4509,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrDoubleABInertial3d",
@@ -4349,7 +4538,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrDoubleAB",
@@ -4380,7 +4570,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrDoubleABDFM",
@@ -4408,7 +4599,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrDoubleABGeoToy",
@@ -4436,7 +4628,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrDoubleABSpinCal",
@@ -4464,7 +4657,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrJ1757DFM",
@@ -4495,7 +4689,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrJ1946DFM",
@@ -4526,7 +4721,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrDoubleABPN",
@@ -4554,7 +4750,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrJ1757PN",
@@ -4582,7 +4779,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrJ1946PN",
@@ -4610,7 +4808,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrDoubleABCF",
@@ -4638,7 +4837,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrJ1757CF",
@@ -4666,7 +4866,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrJ1946CF",
@@ -4694,7 +4895,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrB1534",
@@ -4725,7 +4927,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrB1534DFM",
@@ -4753,7 +4956,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "psrB1534CF",
@@ -4781,7 +4985,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "compactForceToy",
@@ -4809,7 +5014,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "inertialDragPair",
@@ -4837,7 +5043,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "chainDiskToy",
@@ -4865,7 +5072,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "chainDiskToy3d",
@@ -4893,7 +5101,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "chainDiskToy3dTilt",
@@ -4921,7 +5130,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "chainSpreadToy3d",
@@ -4949,7 +5159,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "chainBurstShell3d",
@@ -4977,7 +5188,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "coord3dKeplerTilt",
@@ -5005,7 +5217,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "coord3dSpinPrecess",
@@ -5033,7 +5246,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "binaryCheckEqualInertial3d",
@@ -5061,7 +5275,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "binaryCheckRatio3Inertial3d",
@@ -5089,7 +5304,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "boxBinaryToy",
@@ -5117,7 +5333,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "spaceMeshBinaryToy",
@@ -5145,7 +5362,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "gw150914",
@@ -5173,7 +5391,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "gw150914DFM",
@@ -5201,7 +5420,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "gw150914Merge4s",
@@ -5229,7 +5449,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "gw150914SpinDipole",
@@ -5257,7 +5478,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "tuc47",
@@ -5285,7 +5507,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "tuc47DFM",
@@ -5313,12 +5536,13 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "ngc3198",
    "emoji": "🌃",
-   "role": "variant",
+   "role": "primary",
    "cls": "principle",
    "n": 300,
    "geoPN": 0,
@@ -5341,12 +5565,13 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "ngc3198DFM",
    "emoji": "🛞",
-   "role": "primary",
+   "role": "retired",
    "cls": "principle",
    "n": 301,
    "geoPN": 0,
@@ -5369,7 +5594,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": true
+   "realMass325": true,
+   "xkLock326": false
   },
   {
    "id": "supernovaProg",
@@ -5397,7 +5623,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "supernovaProgDFM",
@@ -5425,7 +5652,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "crabRemnant",
@@ -5453,7 +5681,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "saturn",
@@ -5481,7 +5710,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "saturnLayered",
@@ -5509,7 +5739,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "saturnZonalD68",
@@ -5543,7 +5774,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "saturnD68Consistent",
@@ -5577,7 +5809,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "saturnD68ObsOrbit",
@@ -5611,7 +5844,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "saturnRingReal",
@@ -5644,7 +5878,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "saturnRingRealKF1",
@@ -5672,7 +5907,8 @@
    "lam297": true,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "binary",
@@ -5692,7 +5928,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": false,
@@ -5705,7 +5941,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "fig8",
@@ -5731,9 +5968,10 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true,
+   "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "counterring",
@@ -5753,7 +5991,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -5761,7 +5999,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "spinup",
@@ -5781,7 +6020,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -5789,7 +6028,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "pulsarSolo",
@@ -5817,7 +6057,8 @@
    "lam297": false,
    "timeStdOnly": true,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "supernovaCore",
@@ -5837,7 +6078,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -5845,7 +6086,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "whiteDwarfDFM",
@@ -5865,7 +6107,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -5873,7 +6115,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "whiteDwarfBareDFM",
@@ -5893,7 +6136,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -5901,7 +6144,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "envelopeShedDFM",
@@ -5921,7 +6165,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -5929,7 +6173,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "lfbotTrap",
@@ -5949,7 +6194,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -5957,7 +6202,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "layeredCoreDFM",
@@ -5977,7 +6223,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -5985,7 +6231,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "spinDipoleBinary",
@@ -6011,9 +6258,10 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true,
+   "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "gasCohSurface",
@@ -6041,7 +6289,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   },
   {
    "id": "mmPhaseToy",
@@ -6052,16 +6301,16 @@
    "geoPN": 0,
    "kFrame": 1,
    "lambdaPN": 1,
-   "G": 0,
+   "G": 18,
    "kf0": false,
    "srcBase": 0,
-   "srcNow": 0,
-   "srcIncreased": false,
+   "srcNow": 1,
+   "srcIncreased": true,
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
@@ -6069,7 +6318,8 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": true
   },
   {
    "id": "starSeed",
@@ -6097,13 +6347,17 @@
    "lam297": false,
    "timeStdOnly": false,
    "coord3d299": false,
-   "realMass325": false
+   "realMass325": false,
+   "xkLock326": false
   }
  ],
  "verdict": {
   "changedOnlyWhereSourcesIncreased": true,
   "increasedButBitSame": [
-   "saturnD68ObsOrbit"
+   "gclock",
+   "blens",
+   "saturnD68ObsOrbit",
+   "mmPhaseToy"
   ],
   "sigAllSame": true,
   "oracle1e12": true,
@@ -6123,13 +6377,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.098,
+   "wallSec": 0.123,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.144,
+   "wallSec": 0.161,
    "errors": 0
   }
  },
- "elapsedS": 132.166
+ "elapsedS": 170.836
 }

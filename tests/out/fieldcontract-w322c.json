@@ -2,7 +2,7 @@
  "version": "w322c-fieldcontract-1",
  "generator": "tests/exp-w322c-fieldcontract.mjs",
  "target": "beta/index.html",
- "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+ "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
  "reuseFrom": null,
  "ruling": "決断事項 AN501・AN503・AN506・AN511・AN512・統括の検証項目 R272(策定の段 S2 の geoPN=4 の場の契約)。エンジン・在位の本・`S._core` は変えない(器・lib・正本・文書だけ)。外部場の輸送はエンジンに入れていない",
  "workers": 2,
@@ -59,10 +59,10 @@
  "model": "mw319b-tanh",
  "timing": {
   "G": {
-   "wallSec": 80.719
+   "wallSec": 126.731
   },
   "K": {
-   "wallSec": 6.204
+   "wallSec": 9.645
   }
  },
  "K": {
@@ -4748,19 +4748,19 @@
   "gKinds": true
  },
  "ok": true,
- "elapsedS": 82.441,
+ "elapsedS": 129.067,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第322便c",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-03T03:18:17.878Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T10:38:35.699Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    }
   ],
   "code": [
@@ -4856,12 +4856,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "c8d4053f96825b840261fb5b9cb0d859a8796737ea8cff0f7b90fce9782bb61b",
+  "codeSha256": "0c9c6cb8854a2f5809e46d5f42bd13be10efc792dc71a10cb14e2969a402edec",
   "harnessVersion": "w322c-fieldcontract-1",
   "stage": "fieldcontract",
   "engine": "Node(部 K は純関数 —— html を読まない・部 G は tests/lib-w280b-emgrid.mjs の loadHtmlMain で html の本文をそのまま実行・子プロセス 2 本で部を分ける)",
@@ -4881,7 +4881,7 @@
    "観測の流れを入力して同じ回転曲線を得ることを予言と呼ばない"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "jupiterGalilean",
     "jupiterSunInertial3d",
@@ -4928,11 +4928,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1395,
-   "segments": 1221,
-   "closureShare": 0.3044
+   "names": 1401,
+   "segments": 1227,
+   "closureShare": 0.3026
   },
-  "scopeSha256": "b205e93904954a8fc3d759893a73822f8b0c892fce69c6ed8bf212cc4fb41332",
+  "scopeSha256": "0af74a42893563326836ce2d063edd32ebe4305ddfbc4e8a17d55dc71e01a7ea",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

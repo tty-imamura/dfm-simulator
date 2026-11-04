@@ -3,7 +3,7 @@
  "libVersion": "w310a-shell-lib-1",
  "generator": "tests/exp-w310a-invsq.mjs",
  "target": "beta/index.html",
- "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+ "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
  "ruling": "原仮定者の裁定(第107報)分母に背景宇宙を入れると二重計上 —— 自分が分母に入れば良い・(第109報)AN380 太陽の R_d は cap6500km で固定し m_d の適正値を探索・dragCore(R_d, m_d)と外殻(観測半径, 観測質量 − m_d)の引きずりをそれぞれ計算・決断事項 AN378・AN384・AN385・AN386・AN382・DECISIONS v69 §0b ②・§2・統括の検証項目 R222",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "invSqLaw": "invsq-ball-total-ratio",
@@ -1884,30 +1884,30 @@
     "order": 4,
     "nodes": 384,
     "table": {
-     "wallSec": 0.00062217185
+     "wallSec": 0.0006741066333
     },
     "direct": {
-     "wallSec": 0.0008428592833
+     "wallSec": 0.0009155569667
     }
    },
    {
     "order": 8,
     "nodes": 3072,
     "table": {
-     "wallSec": 0.00506435585
+     "wallSec": 0.005209099
     },
     "direct": {
-     "wallSec": 0.0074521254
+     "wallSec": 0.00799416195
     }
    },
    {
     "order": 16,
     "nodes": 24576,
     "table": {
-     "wallSec": 0.04109733817
+     "wallSec": 0.04178482283
     },
     "direct": {
-     "wallSec": 0.05343555883
+     "wallSec": 0.05576006117
     }
    }
   ]
@@ -2089,43 +2089,43 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.101
+   "wallSec": 0.116
   },
   "C": {
    "wallSec": 0.002
   },
   "N": {
-   "wallSec": 0.261
+   "wallSec": 0.258
   },
   "S": {
-   "wallSec": 0.199
+   "wallSec": 0.197
   },
   "E": {
-   "wallSec": 0.641
+   "wallSec": 0.71
   },
   "M": {
-   "wallSec": 0.032
+   "wallSec": 0.034
   },
   "P": {
-   "wallSec": 4.188
+   "wallSec": 4.458
   },
   "Z": {
-   "wallSec": 0.107
+   "wallSec": 0.116
   }
  },
- "elapsedS": 7.6,
+ "elapsedS": 8.082,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第310便a",
   "target": "beta/index.html",
-  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-  "generatedAt": "2026-11-03T15:57:10.524Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T07:14:27.475Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7612995,
-    "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-    "mtime": "2026-11-03T15:04:48.828Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2197,12 +2197,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "40207cef7fc9b707a3c476715c931dbb6e646a1d1d5785821cc78434fd24b3ef",
+  "codeSha256": "de49ba5e64f48ed1298853c79f47bb995836850a611b40adeea7c8eea2cd3004",
   "harnessVersion": "w310a-invsq-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2214,7 +2214,7 @@
    "m_d を同定した"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": "all",
    "roots": [
     "$",
@@ -2246,11 +2246,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1385,
-   "segments": 1211,
-   "closureShare": 0.302
+   "names": 1390,
+   "segments": 1216,
+   "closureShare": 0.3009
   },
-  "scopeSha256": "5d317e560202c1dc80c14e223925c67de28bfaabad76cf3a81c0b3c88424a6d4",
+  "scopeSha256": "5abce047f44bd59699d477b7f064814853e9a4007cf0c7cb0049abcc5f79ae98",
   "scopeComplete": true,
   "inputsStable": [
    {

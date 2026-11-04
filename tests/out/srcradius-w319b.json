@@ -3,7 +3,7 @@
  "libVersion": "w319b-srcradius-lib-1",
  "generator": "tests/exp-w319b-srcradius.mjs",
  "target": "beta/index.html",
- "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+ "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
  "reuseFrom": null,
  "ruling": "原仮定者の指示(第121報)「引きずり半径について」(今の R_d は K1 の引きずられる側で合わせた値 —— 引きずる側の半径を別の値に分ける案を検討する: 案1 上限 6.5e6 m の観測半径・案2 K2・上限なし・案3 計算式を探索する/銀河の引きずりは中心天体だけの影響ではない —— 手掛かりとして太陽系近傍の影響を算出する)・「検証時の天体別の役割の参考」(水星〜土星)・決断事項 AN445・AN446・AN449・統括の検証項目 R259。受け手の R_d = Y_k m・規則・在位の本・エンジンの式は変えない(器・lib・正本・文書だけ)",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -5037,40 +5037,40 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.24
+   "wallSec": 0.297
   },
   "S": {
-   "wallSec": 0.507
+   "wallSec": 0.677
   },
   "G": {
-   "wallSec": 1.133
+   "wallSec": 1.384
   },
   "A": {
-   "wallSec": 0.067
+   "wallSec": 0.082
   },
   "R": {
-   "wallSec": 0.065
+   "wallSec": 0.07
   },
   "C": {
-   "wallSec": 0
+   "wallSec": 0.001
   },
   "F": {
-   "wallSec": 0
+   "wallSec": 0.004
   }
  },
- "elapsedS": 3.671,
+ "elapsedS": 4.566,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第319便b",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-02T23:51:02.284Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T09:52:12.008Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    },
    {
     "file": "tests/data-w318c-solar16-input.json",
@@ -5130,12 +5130,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "390ebc382f556858d6b8eac08626ee10f540d6a6f66898ae14ca933bebfa2c21",
+  "codeSha256": "945a373f12c804a7a027d39df33fefcc7719f4e2588d87927c9a795a7786f0cf",
   "harnessVersion": "w319b-srcradius-1",
   "stage": "srcradius",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス・步は進めない)",
@@ -5154,7 +5154,7 @@
    "格子の差を収束の判定に使わない(感度診断)"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "jupiterGalilean",
     "jupiterSunInertial3d",
@@ -5193,11 +5193,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1380,
-   "segments": 1206,
-   "closureShare": 0.3013
+   "names": 1386,
+   "segments": 1212,
+   "closureShare": 0.2995
   },
-  "scopeSha256": "3edd8c41c6e3f20073ef7dfe8565f8f1326c50b4142de034d6412cb38d116392",
+  "scopeSha256": "9bf80fe3b031f8c58108827a25ef5e990b042c2309351764fb737d516fa6e19d",
   "scopeComplete": true,
   "inputsStable": [
    {

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第273便c(第63報・AH24)",
   "target": "beta/index.html",
-  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-  "generatedAt": "2026-11-03T16:03:32.286Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T09:50:17.871Z",
   "inputs": [
    {
     "file": "tests/out/nslock-w272c.json",
-    "bytes": 232633,
-    "sha256": "c1acc340b97a9eac5d8fc7878fa067fb67bc602bda531e5f9fe83bc76ef51ae7",
-    "mtime": "2026-11-03T02:48:46.240Z"
+    "bytes": 232635,
+    "sha256": "27b11b0742d0f94855448499f0efb0c89e6e58af9f66bc78c9b409333c323cbd",
+    "mtime": "2026-11-04T06:52:54.816Z"
    }
   ],
   "code": [
@@ -29,7 +29,7 @@
   ],
   "codeSha256": "4b81d7d9f015ab8b609345454ff3e828dd94761f98de378cdd9aaabe9ec00872",
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": "all",
    "roots": [
     "HP.allPresets",
@@ -39,16 +39,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1355,
-   "segments": 1181,
-   "closureShare": 0.2945
+   "names": 1361,
+   "segments": 1187,
+   "closureShare": 0.2934
   },
-  "scopeSha256": "59cf8275bc6abeda89cd78f1d2290045e23ff4835cd3aec85d49c4c13c881cd2",
+  "scopeSha256": "29b7c88dac302966df1ed93520f297d4380b7e30781041b36614ed1cdc7ef93c",
   "scopeComplete": true
  },
  "section": "NS 連星 4 系の lock 枝(kFrame=0・f=1・λ_PN=1)の記録",
  "sourceHarness": "w272c-nslock-1",
- "sourceAt": "2026-11-03T02:34:43.170Z",
+ "sourceAt": "2026-11-04T06:36:49.919Z",
  "metric": "近点間 P = 位相制限(1.5π)の最初の 20 近点(19 区間)の平均間隔。ω̇ = 採用近点の方位を実時刻に回帰した傾き(°/年)。e = 窓内の (r_max−r_min)/(r_max+r_min)(eProxy)。",
  "assessedStageRule": "**ω̇ は 3 段(h, h/2, h/4)の Richardson 外挿**(`omegaDotExt`)と**h/4 段の値**(`omegaDotH4`)を両方置く。外挿は観測次数 p が正で単調な列だけに作る(第273便c・AH30 —— 非正の次数から外挿は作らない)。",
  "declarationNote": "`pnAlpha`・`lambdaPN`・`geoPN`・`frameWeight` は**内蔵プリセットの宣言**であって実測ではない。**速度は E12 の主張域どおり u=0 の絶対値(座標速度)**で、正本は docs/PHYSICS.md の E12 節である(この器は宣言を読んだだけで、規約を作っていない)。",

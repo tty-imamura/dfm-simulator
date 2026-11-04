@@ -27,7 +27,7 @@
   "thickSeed": 20261101
  },
  "target": "beta/index.html",
- "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+ "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
  "ruling": "原仮定者の予定(第123報)・原仮定者の回答(2026-11-01 —— AN499・AN500)・AN504・統括の検証項目 R270",
  "parts": {
   "degen": {
@@ -687,7 +687,7 @@
      },
      "spinPolicy": "vector"
     },
-    "wallSec": 155.256
+    "wallSec": 200.964
    },
    "frozen": {
     "ratio": 1.1800727845699235,
@@ -788,7 +788,7 @@
      null
     ],
     "nan": false,
-    "wallSec": 143.145
+    "wallSec": 180.483
    },
    "tilt": {
     "kind": "tilt",
@@ -867,7 +867,7 @@
      null
     ],
     "nan": false,
-    "wallSec": 153.712
+    "wallSec": 193.602
    },
    "thick": {
     "kind": "thick",
@@ -946,7 +946,7 @@
      null
     ],
     "nan": false,
-    "wallSec": 151.741
+    "wallSec": 183.362
    },
    "an510": {
     "rows": [
@@ -1085,34 +1085,34 @@
  ],
  "timing": {
   "degen": {
-   "wallSec": 6.514
+   "wallSec": 9.424
   },
   "pure": {
-   "wallSec": 0.114
+   "wallSec": 0.124
   },
   "hist": {
-   "wallSec": 0.288
+   "wallSec": 0.289
   },
   "ckpt": {
-   "wallSec": 1.178
+   "wallSec": 2.009
   },
   "ledger": {
-   "wallSec": 4.507
+   "wallSec": 7.108
   },
   "table": {
-   "wallSec": 0.051
+   "wallSec": 0.053
   },
   "gate": {
-   "wallSec": 155.256
+   "wallSec": 200.964
   },
   "trial": {
-   "wallSec": 154.94899999999998
+   "wallSec": 195.44400000000002
   },
   "heavy": {
-   "wallSec": 306.273
+   "wallSec": 382.265
   }
  },
- "elapsedS": 307.51,
+ "elapsedS": 384.109,
  "gates": {
   "gateFrozen": true,
   "gateWindow": true,
@@ -1133,14 +1133,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第322便a",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-03T03:16:48.765Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T10:08:52.249Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    }
   ],
   "code": [
@@ -1176,12 +1176,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "9fa18bd664a02523d96ba17924c20307d2e991a6f04e0f112cd2e7f397597734",
+  "codeSha256": "10f22f185f9d21415406a070be7682e2b3e62abfa9cba0f78678007f06caf7b9",
   "harnessVersion": "w322a-geo2flat-1",
   "stage": "geo2flat",
   "parts": [
@@ -1205,7 +1205,7 @@
    "q 近似を導いた法則と呼ばない"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "galaxyGeo2",
     "galaxyGeo2Flat3d"
@@ -1233,11 +1233,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1373,
-   "segments": 1199,
-   "closureShare": 0.2986
+   "names": 1379,
+   "segments": 1205,
+   "closureShare": 0.2969
   },
-  "scopeSha256": "bc4b4e8f5d907d27560f2b596a2dde072f340b056513adc16e1c6cb7db486311",
+  "scopeSha256": "52c5f800829f1e0518a79747a379db942d2328bab3ef7478fed624ed37d81715",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

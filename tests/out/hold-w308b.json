@@ -3,7 +3,7 @@
  "libVersion": "w308b-hold-lib-1",
  "generator": "tests/exp-w308b-hold.mjs",
  "target": "beta/index.html",
- "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+ "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
  "ruling": "原仮定者の裁定(第101報)AN348 → (C)・(第102報)①「引きずりの計算は相互 —— 反作用を返すと二重計上にならないかを確認する」・決断事項 AN348・AN349・AN355・統括の検証項目 R215",
  "holdVersion": "w308b-axishold-1",
  "quick": false,
@@ -3940,34 +3940,34 @@
    "wallSec": 0.005
   },
   "E": {
-   "wallSec": 0.029
+   "wallSec": 0.02
   },
   "L": {
-   "wallSec": 0.287
+   "wallSec": 0.335
   },
   "K": {
-   "wallSec": 0.024
+   "wallSec": 0.029
   },
   "D": {
-   "wallSec": 0.296
+   "wallSec": 0.417
   },
   "V": {
-   "wallSec": 8.074
+   "wallSec": 10.375
   }
  },
- "elapsedS": 10.375,
+ "elapsedS": 13.189,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便b",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-03T02:21:20.375Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T10:22:23.775Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -4015,12 +4015,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "011fbbe759d59c216f89b662a7b25db64742cf96aa2c56fe9f1b93d6b427b8cc",
+  "codeSha256": "abf07c1b25151263b6da1b538f08e16b6f874b2785188bc730ee49d246b056aa",
   "harnessVersion": "w308b-hold-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -4032,7 +4032,7 @@
    "τ_C の応答則の導出"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "jupiterSunInertial3d",
     "venusSunInertial3d"
@@ -4061,11 +4061,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1399,
-   "segments": 1225,
-   "closureShare": 0.3036
+   "names": 1405,
+   "segments": 1231,
+   "closureShare": 0.3019
   },
-  "scopeSha256": "882a7fad72a547358b6178453ad248d8f31050d969b2f003f2a65fd7acd9558e",
+  "scopeSha256": "4d70fd780e27d3e1942e2d68f4cfa575ca687f3a8b21e09c68f9b6b6a724afde",
   "scopeComplete": true,
   "inputsStable": [
    {

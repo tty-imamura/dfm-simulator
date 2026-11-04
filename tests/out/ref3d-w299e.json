@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第299便e",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-02T21:25:40.790Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T07:12:48.894Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    },
    {
     "file": "tests/data-w299e-ref2d.json",
@@ -22,9 +22,9 @@
   "code": [
    {
     "file": "tests/exp-w299e-ref3d.mjs",
-    "bytes": 24578,
-    "sha256": "56a261d2a60576545798c6618eb0fc1ccae24da29c46a8068ee92051e402205e",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "bytes": 25412,
+    "sha256": "b1fb68848e6421e267de90621321c7ffc01adf2c00edbd6af678c899603a1bc0",
+    "mtime": "2026-11-04T02:41:20.219Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -40,12 +40,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "9476e84e65b83c29c9f93ee94e06cd68a792c44c53b1a807254b045c059b456e",
+  "codeSha256": "b4bb2db5b3d093cfeab42173bd5fc09873b4ec1969c50b26ff977e7aa80b2e86",
   "harnessVersion": "w299e-ref3d-1",
   "ref3dVersion": "w299e-ref3d-1",
   "loadErrors": 0,
@@ -58,7 +58,7 @@
    "模型の固有基底を世界座標に対して傾ける宣言(未実装)"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "shapeToyArm",
     "shapeToyArmCore",
@@ -87,11 +87,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1375,
-   "segments": 1201,
-   "closureShare": 0.299
+   "names": 1381,
+   "segments": 1207,
+   "closureShare": 0.2973
   },
-  "scopeSha256": "93245be0f994d5df01e17b540ef62704e95cd3647d526dee18472fcea5464388",
+  "scopeSha256": "24d606c72c11ae801b71bea39b55a976c89b77bfd8cb6204e678047133870fcc",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -1125,5 +1125,5 @@
   "accepted": true
  },
  "ok": true,
- "elapsedS": 48.571
+ "elapsedS": 58.393
 }

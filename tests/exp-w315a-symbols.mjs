@@ -165,8 +165,13 @@ function partP(HP, quick) {
   const on = rows.filter((r) => r.on);
   const byRole = {};
   for (const r of rows) { const k = r.role || 'none'; byRole[k] = byRole[k] || { n: 0, on: 0 }; byRole[k].n++; if (r.on) byRole[k].on++; }
-  return { n: rows.length, on: on.length, off: rows.length - on.length, byRole,
-    flagEqJudge: rows.every((r) => r.on === r.judge), allBitSame: rows.every((r) => r.bitSame), onDerivedBitSame: on.filter((r) => r.derivedBitSame).length,
+  // 第326便(統括 —— 原仮定者の回答(2026-11-03 —— AN530)「ロックする」): 物理対応ロックを常にした世代では、在位の本は全部 ON で、内蔵の退役の本(履歴)は
+  //   ロックの外(宣言の X_k のまま —— 条件を満たしても OFF)。世代は振る舞いから判る(在位の本が全部 ON)—— その世代の退役の本は「OFF」を正しい旗とする
+  const alwaysOn = rows.some((r) => r.role !== 'retired') && rows.filter((r) => r.role !== 'retired').every((r) => r.on);
+  const flagOk = (r) => r.on === r.judge || (alwaysOn && r.role === 'retired' && r.on === false);
+  return { n: rows.length, on: on.length, off: rows.length - on.length, byRole, alwaysOnInPosition: alwaysOn,
+    retiredOutsideLock: alwaysOn ? rows.filter((r) => r.role === 'retired' && r.on === false && r.judge === true).length : 0,
+    flagEqJudge: rows.every(flagOk), allBitSame: rows.every((r) => r.bitSame), onDerivedBitSame: on.filter((r) => r.derivedBitSame).length,
     onIds: on.map((r) => r.id), rows };
 }
 

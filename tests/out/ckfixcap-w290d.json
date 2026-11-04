@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便d",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-03T02:49:35.916Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T08:08:28.560Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    }
   ],
   "code": [
@@ -34,12 +34,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "cc8fb7c91ac69dd1854fada0070cbcc60f19f6d47c4ed2b71cebefd9296749d2",
+  "codeSha256": "5451204c60206883cdd15099b93da3a878adc0d7b6cecfc8ad8b1c9470708c54",
   "harnessVersion": "w290d-ckfixcap-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第80報)②「指摘を参考に改善」で採る不具合修正(チェックポイントが固定中心の状態を運ばない)",
@@ -53,7 +53,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "clusterGrowthCopy",
     "earthMoon",
@@ -102,11 +102,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1357,
-   "segments": 1183,
-   "closureShare": 0.2957
+   "names": 1363,
+   "segments": 1189,
+   "closureShare": 0.294
   },
-  "scopeSha256": "19f43204bc97733a441f0f7bbcc576898fefe2d3f0a947c5d4d86f4d5e801013",
+  "scopeSha256": "599d58d8f37ea5c101d361c2b4a2eb87937bc75a31e004c059b915d2225fe03f",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -2722,5 +2722,5 @@
   },
   "ok": true
  },
- "elapsedS": 0.365
+ "elapsedS": 0.396
 }

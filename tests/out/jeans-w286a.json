@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便a",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-02T21:32:42.573Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T03:57:21.135Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "6695d5a7176bcf9d98af087bfb4fd5b2bc16fb0be441a3ddbc6a6ea50a52868d",
+  "codeSha256": "e5d7f1c1922fda26bba6bab80b4f56e1538cf7a8dc6efb7016b9059937883fd7",
   "harnessVersion": "w286a-jeans-1",
   "libVersion": "w286a-jeans-1",
   "ruling": "原仮定者の裁定(第76報)⑤: 球状星団はわずかに回転している —— これをヒントにバランスの取れる状態を計算で割り出す",
@@ -63,7 +63,7 @@
    "3D の球状星団の平衡"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "clusterAnalogyBH",
     "galaxyAnalogyBH",
@@ -93,11 +93,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1359,
-   "segments": 1185,
-   "closureShare": 0.2966
+   "names": 1365,
+   "segments": 1191,
+   "closureShare": 0.2948
   },
-  "scopeSha256": "2b057af0622faad2115c5b2ed46a20146262ee21c693097df62637eb8ba81ece",
+  "scopeSha256": "b0fdf4a03300524f2fc1f0b2303f47d91fd7a376eeff4d4b8dfbf60612885780",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -435,5 +435,5 @@
    "err": ""
   }
  },
- "elapsedS": 7.271
+ "elapsedS": 9.347
 }
