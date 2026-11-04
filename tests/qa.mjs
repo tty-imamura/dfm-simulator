@@ -44251,8 +44251,17 @@ if (!FAST) {
       try { FX15 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w325c.json'), 'utf8')); }
       catch (e) { bad.push('第325便c の凍結の写しが読めない'); }
     }
-    const IDS = IDS283.concat(IDS284).concat(IDS285).concat(IDS286).concat(IDS287).concat(IDS288).concat(IDS290).concat(IDS291).concat(IDS298).concat(IDS300).concat(IDS300B).concat(IDS300M).concat(IDS325C).filter((id) => !REV292.includes(id));
-    const FXP = { presets: Object.assign({}, (FX || {}).presets || {}, (FX4 || {}).presets || {}, (FX5 || {}).presets || {}, (FX6 || {}).presets || {}, (FX7 || {}).presets || {}, (FX8 || {}).presets || {}, (FX9 || {}).presets || {}, (FX10 || {}).presets || {}, (FX11 || {}).presets || {}, (FX12 || {}).presets || {}, (FX13 || {}).presets || {}, (FX14 || {}).presets || {}, (FX15 || {}).presets || {}) };
+    // 第326便b(原仮定者の回答(2026-11-03 —— AN531)・R291): 🛞 ngc3198DFM を退役(**62 本** —— 世代切替 has326b = RETIRED_PRESETS に 🛞 の行(AN531)・typeof で守る)。
+    //   写しは tests/fixtures/retired-w326b.json(🛞 の定義・署名 = 基点 1b1fa70・家族の入口を引き継ぐ 🌃 の前後・過去の正本の sha256・名指しする段)。検査の本体は docs.ngc3198Halo326b
+    const has326b = await page.evaluate(() => typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.ngc3198DFM && /^AN531/.test(RETIRED_PRESETS.ngc3198DFM.ja));
+    const IDS326B = has326b ? ['ngc3198DFM'] : [];
+    let FX16 = null;
+    if (has326b) {
+      try { FX16 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w326b.json'), 'utf8')); }
+      catch (e) { bad.push('第326便b の凍結の写しが読めない'); }
+    }
+    const IDS = IDS283.concat(IDS284).concat(IDS285).concat(IDS286).concat(IDS287).concat(IDS288).concat(IDS290).concat(IDS291).concat(IDS298).concat(IDS300).concat(IDS300B).concat(IDS300M).concat(IDS325C).concat(IDS326B).filter((id) => !REV292.includes(id));
+    const FXP = { presets: Object.assign({}, (FX || {}).presets || {}, (FX4 || {}).presets || {}, (FX5 || {}).presets || {}, (FX6 || {}).presets || {}, (FX7 || {}).presets || {}, (FX8 || {}).presets || {}, (FX9 || {}).presets || {}, (FX10 || {}).presets || {}, (FX11 || {}).presets || {}, (FX12 || {}).presets || {}, (FX13 || {}).presets || {}, (FX14 || {}).presets || {}, (FX15 || {}).presets || {}, (FX16 || {}).presets || {}) };
     const r = await page.evaluate(async (a) => {
       const { IDS, FX, BASE } = a;
       const o = {};
@@ -44399,6 +44408,10 @@ if (!FAST) {
         if (!FX13 || FX13.fixtureVersion !== 'w300b-retired-1' || IDS300B.some((id) => !FX13.presets[id] || !FX13.presets[id].raw || FX13.presets[id].base.sigSame !== true))
           bad.push('⑤第300便b の退役の写し(3 本・基点 881667c と署名同じ)が揃わない');
       }
+      if (has326b) {   // 第326便b: 退役 1 本(🛞)の写し(家族の入口 🌃 との対の差・基点 1b1fa70 と署名同じ)
+        if (!FX16 || FX16.fixtureVersion !== 'w326b-retired-1' || IDS326B.some((id) => !FX16.presets[id] || !FX16.presets[id].raw || FX16.presets[id].base.sigSame !== true))
+          bad.push('⑤第326便b の退役の写し(🛞・基点 1b1fa70 と署名同じ)が揃わない');
+      }
       if (has300m) {   // 第300便m: 退役 1 本(🌞)の写し(継続先との対の差・基点 881667c と署名同じ・較正母集団の行)
         if (!FX14 || FX14.fixtureVersion !== 'w300m-retired-1' || IDS300M.some((id) => !FX14.presets[id] || !FX14.presets[id].raw || FX14.presets[id].base.sigSame !== true))
           bad.push('⑤第300便m の退役の写し(🌞・基点 881667c と署名同じ)が揃わない');
@@ -44439,6 +44452,12 @@ if (!FAST) {
       // 第287便b: 同じ流儀で 🪤 の世代を判る(正本の tally.retired が 16 なら第287便の世代・15 なら第286便の世代〔鎖の samplestatus の段で 16 本へ〕)
       const nRetSS = SSJ.tally && SSJ.tally.retired ? SSJ.tally.retired.n : null;
       const nSS = ssGen286 ? IDS.length
+        // 第326便b: 正本が第326便b の退役の前の世代(61 本)—— 鎖の samplestatus の段で 62 本の世代へ
+        : (has326b && nRetSS === IDS.length - IDS326B.length) ? nRetSS
+        // 第326便b: 対象が第325便c・第326便b の退役の前の世代の html(root —— 在位の連鎖の玩具 5 本と 🛞)で、正本(beta 線の鎖が作る)が両方の退役の後の世代(+6 本)
+        //   —— root の昇格の前は正本だけが先に進む(root の html は変えない便)
+        : (!has325c && !has326b && nRetSS === IDS.length + 6 && SSJ.tally.retired && Array.isArray(SSJ.tally.retired.ids)
+          && ['chainDiskToy', 'chainDiskToy3d', 'chainDiskToy3dTilt', 'chainSpreadToy3d', 'chainBurstShell3d', 'ngc3198DFM'].every((id) => SSJ.tally.retired.ids.includes(id))) ? nRetSS
         // 第325便c: 正本が第325便c の退役の前の世代(56 本)—— 鎖の samplestatus の段で 61 本の世代へ
         : (has325c && nRetSS === IDS.length - IDS325C.length) ? nRetSS
         // 第325便(統括 —— ゲート 2 の root で拾った): 対象が第325便c の退役の前の世代の html(root —— 在位の連鎖の玩具 5 本)で、正本(beta 線の鎖が作る)が
@@ -47045,7 +47064,9 @@ if (!FAST) {
     const has300aP = html.indexOf('\nfunction spaceMeshRetiredDenyOf(') >= 0;
     // 第325便c(AN525): 🔗 chainDiskToy の退役の世代(RETIRED_PRESETS に 🔗 の行 —— 第127報)は「達」の代表を 🐌 inertialDragPair(在位・達)へ
     const has325cP = /\n  chainDiskToy:\{ja:"第127報/.test(html);
-    const REP = [['stObj_met', has325cP ? 'inertialDragPair' : (has300aP ? 'chainDiskToy' : 'galaxyAnalogyBHCompose')], ['stObj_unmet', has300aP ? 'ngc3198DFM' : 'clusterAnalogyBH'], ['stCal_hold', 'mercuryReal'], ['stCal_fail', 'saturnZonalD68']];
+    // 第326便b(AN531): 🛞 ngc3198DFM の退役の世代(RETIRED_PRESETS に 🛞 の行 —— AN531)は「未達」の代表を 🥏 shapeToyDisk(在位・未達)へ
+    const has326bP = /\n  ngc3198DFM:\{ja:"AN531/.test(html);
+    const REP = [['stObj_met', has325cP ? 'inertialDragPair' : (has300aP ? 'chainDiskToy' : 'galaxyAnalogyBHCompose')], ['stObj_unmet', has326bP ? 'shapeToyDisk' : (has300aP ? 'ngc3198DFM' : 'clusterAnalogyBH')], ['stCal_hold', 'mercuryReal'], ['stCal_fail', 'saturnZonalD68']];
     const VPS = [{ name: 'Mobile-360x640', width: 360, height: 640, mobile: true }, { name: 'PC-1280x800', width: 1280, height: 800, mobile: false }];
     const sa = [];
     for (const vp of VPS) {
