@@ -619,6 +619,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.realMassF1325e docs.realMassF1325e be
 #   docs.xkLock325f —— 文書)と、qa.mjs の包みの lint.qaHeapRelease310・PHYSICS の節の lint.sectionLookup313(html・本の宣言・器の本文・正本は不変 —— 鎖の段は足さない)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.xkLock325f docs.xkLock325f lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第325便f の塊(ここまで)====
+# ==== 第326便a の塊(ここから)====
+# 第326便a(原仮定者の回答(2026-11-03 —— AN530)「ロックした方がDFMを理解し易いのでロックする。…」・決断事項 AN532(推奨 A —— 別のコミット)・統括の検証項目 R290): 枝 a の新設 3 本
+#   (lint.physLockAlways326a —— 宣言の X_k が導出値・第325便f のデータとの照合〔分類 1・分類 2・満たした 56 本・退役 3 本〕・X_k のノブ 0・凍結の写し /
+#   behavior.xkDerive326a —— 受理・既定値のマージ・読み込み・編集・セーブ・チェックポイント・⏮・A/B・退役の本はロックの外 / docs.xkLock326a —— 文書)と、
+#   世代を直した既存の QA(lint.xkLock325f・ui.physLock315・physlock.ui-110・docs.retired・docs.noRetiredMention294 ほか —— PHYSICS〔第326便a〕の名指し)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.physLockAlways326a behavior.xkDerive326a docs.xkLock326a lint.xkLock325f ui.physLock315 physlock.ui-110 docs.retired docs.noRetiredMention294"
+# ==== 第326便a の塊(ここまで)====
 # ==== 第326便c の塊(ここから)====
 # 第326便c(原仮定者の指示(第128報)「「選択粒子の編集」から、「減光」と「自動」を外す。「X」と「Y」を編集対象に加える」「「パラメータ」の「時空」から、「物理対応ロック」を外す。計算済みの「κ_D」「Xₖ」「Yₖ」を表示する」・
 #   原仮定者の回答(2026-11-03 —— AN530)・統括の検証項目 R292 —— UI だけ): 枝 c の新設 3 本(ui.selEditXY326c —— 選択粒子の編集の x・y と外した欄 / ui.spacetimeDerived326c —— 時空の群の計算済みの 3 行 /

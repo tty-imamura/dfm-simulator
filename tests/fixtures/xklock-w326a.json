@@ -1,0 +1,6542 @@
+{
+ "fixtureVersion": "w326a-xklock-fx-1",
+ "wave": "第326便a",
+ "frozen": true,
+ "ruling": "原仮定者の回答(2026-11-03 —— AN530)・統括の検証項目 R290",
+ "note": "物理対応ロック X_k = G_0/c_0² を常にした移行の前後(基点で在位の 125 本 —— 満たす 56・分類 1〔X_k := G_0/c_0²〕59・分類 2〔G_0 := X_k c_0²〕7・退役 3)。前は基点の html・後は第326便a の html。600 步は本ごとの既定の刻み(appStepDt)・力学の指紋は位置・速度・自転・半径・質量・内部の温度と t(時計 τ を外す)・時計の指紋は τ・dilMax600 は max_i |1 − τ_i/t|。退役の 3 本は物理対応ロックの外(宣言の X_k のまま)。凍結(書き換えない)",
+ "source": "tests/exp-w326a-xklockfx.mjs",
+ "base": {
+  "rev": "1b1fa70",
+  "html": "beta/_w326_base.html",
+  "htmlSha256": "53f5173bf482d60de733e4538044c684dd7427612cf1f30dc043507c1844c8c5"
+ },
+ "now": {
+  "html": "beta/index.html",
+  "htmlSha256": "b0ccf4748cd0006ab32c9ff2485dd45aaa22f07e994feca07292a0e87569e6fa"
+ },
+ "steps": 600,
+ "tally": {
+  "satisfied": 56,
+  "class1": 59,
+  "class2": 7,
+  "retired": 3,
+  "sigSameSatisfied": 56,
+  "dynSameSatisfied": 56,
+  "clockSameSatisfied": 56,
+  "dynSameMigrated": 63,
+  "clockSameMigrated": 19,
+  "nanNow": 0,
+  "acceptNow": 125
+ },
+ "books": {
+  "gclock": {
+   "emoji": "⏱️",
+   "group": "時計と重力",
+   "kind": "class2",
+   "class325f": "X_k を維持して G_0 を合わせる",
+   "basis325f": "keepX",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.0033333333333333335,
+    "sig": "fd2bc8d1",
+    "lockAfterLoad": false,
+    "dyn600": "b232b2d2",
+    "clock600": "01d063aa",
+    "dilMax600": 0.06903515259424908,
+    "activeParams": [
+     "kappaT"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 3,
+    "c": 30,
+    "X": 0.0033333333333333335,
+    "sig": "b29d1d3a",
+    "lockAfterLoad": true,
+    "loadedX": 0.0033333333333333335,
+    "dyn600": "b232b2d2",
+    "clock600": "01d063aa",
+    "dilMax600": 0.06903515259424908,
+    "activeParams": [
+     "G"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "grcal": {
+   "emoji": "🛰️",
+   "group": "時計と重力",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0.25,
+    "c": 30,
+    "X": 0.0033333333333333335,
+    "sig": "5e0209aa",
+    "lockAfterLoad": false,
+    "dyn600": "60bc77cc",
+    "clock600": "61c8bc20",
+    "dilMax600": 0.07996465762456317,
+    "activeParams": [
+     "kappaT",
+     "cLight"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.25,
+    "c": 30,
+    "X": 0.0002777777777777778,
+    "sig": "b3b95e2d",
+    "lockAfterLoad": true,
+    "loadedX": 0.0002777777777777778,
+    "dyn600": "60bc77cc",
+    "clock600": "c2c70500",
+    "dilMax600": 0.006925523281098078,
+    "activeParams": [
+     "G",
+     "cLight"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "grcalGps": {
+   "emoji": "🕰️",
+   "group": "時計と重力",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 0.25,
+    "c": 30,
+    "X": 0.0002777777777777778,
+    "sig": "dfd5f8dc",
+    "lockAfterLoad": true,
+    "dyn600": "b079fffa",
+    "clock600": "743ceede",
+    "dilMax600": 0.05401458342870147,
+    "activeParams": [
+     "kappaT",
+     "cLight"
+    ],
+    "abPatch": {
+     "kappaT": 0
+    }
+   },
+   "after": {
+    "G": 0.25,
+    "c": 30,
+    "X": 0.0002777777777777778,
+    "sig": "dfd5f8dc",
+    "lockAfterLoad": true,
+    "loadedX": 0.0002777777777777778,
+    "dyn600": "b079fffa",
+    "clock600": "743ceede",
+    "dilMax600": 0.05401458342870147,
+    "activeParams": [
+     "G",
+     "cLight"
+    ],
+    "abPatch": {
+     "G": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "grcalLight": {
+   "emoji": "🌟",
+   "group": "時計と重力",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 0.25,
+    "c": 30,
+    "X": 0.0002777777777777778,
+    "sig": "49de2ff2",
+    "lockAfterLoad": true,
+    "dyn600": "be347c21",
+    "clock600": "8595b63d",
+    "dilMax600": 0.006946980953217219,
+    "activeParams": [
+     "kappaT",
+     "cLight"
+    ],
+    "abPatch": {
+     "kappaT": 0
+    }
+   },
+   "after": {
+    "G": 0.25,
+    "c": 30,
+    "X": 0.0002777777777777778,
+    "sig": "49de2ff2",
+    "lockAfterLoad": true,
+    "loadedX": 0.0002777777777777778,
+    "dyn600": "be347c21",
+    "clock600": "8595b63d",
+    "dilMax600": 0.006946980953217219,
+    "activeParams": [
+     "G",
+     "cLight"
+    ],
+    "abPatch": {
+     "G": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "grcalShapiro": {
+   "emoji": "⏲️",
+   "group": "時計と重力",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 0.25,
+    "c": 30,
+    "X": 0.0002777777777777778,
+    "sig": "b24b7e1f",
+    "lockAfterLoad": true,
+    "dyn600": "6d967c9b",
+    "clock600": "888eb369",
+    "dilMax600": 0.0067731340726223666,
+    "activeParams": [
+     "kappaT",
+     "cLight"
+    ],
+    "abPatch": {
+     "kappaT": 0
+    }
+   },
+   "after": {
+    "G": 0.25,
+    "c": 30,
+    "X": 0.0002777777777777778,
+    "sig": "b24b7e1f",
+    "lockAfterLoad": true,
+    "loadedX": 0.0002777777777777778,
+    "dyn600": "6d967c9b",
+    "clock600": "888eb369",
+    "dilMax600": 0.0067731340726223666,
+    "activeParams": [
+     "G",
+     "cLight"
+    ],
+    "abPatch": {
+     "G": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "projectile": {
+   "emoji": "⚾",
+   "group": "運動と時空",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "ac8b8329",
+    "lockAfterLoad": false,
+    "dyn600": "518c3c3c",
+    "clock600": "65fa1859",
+    "dilMax600": 1,
+    "activeParams": [
+     "gravityY",
+     "gravityX"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "98bae908",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "518c3c3c",
+    "clock600": "a6cac92e",
+    "dilMax600": 1,
+    "activeParams": [
+     "gravityY",
+     "gravityX"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.004336,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "echo": {
+   "emoji": "⏪",
+   "group": "運動と時空",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 2,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "342d92a9",
+    "lockAfterLoad": false,
+    "dyn600": "616e89d0",
+    "clock600": "71ed599a",
+    "dilMax600": 0.7446913520495099,
+    "activeParams": [
+     "muF",
+     "gammaN",
+     "kFrame"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 2,
+    "c": 30,
+    "X": 0.0022222222222222222,
+    "sig": "d5aa7eda",
+    "lockAfterLoad": true,
+    "loadedX": 0.0022222222222222222,
+    "dyn600": "616e89d0",
+    "clock600": "5da3188e",
+    "dilMax600": 0.124932487805685,
+    "activeParams": [
+     "muF",
+     "gammaN",
+     "kFrame"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "boxtrans": {
+   "emoji": "📦",
+   "group": "箱宇宙の実験",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.0001,
+    "sig": "866bef2e",
+    "lockAfterLoad": false,
+    "dyn600": "9633973e",
+    "clock600": "6306c2ff",
+    "dilMax600": 0.011901703973622557,
+    "activeParams": [
+     "kFrame",
+     "cLight"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "2dbbbcbd",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "9633973e",
+    "clock600": "0afa86bc",
+    "dilMax600": 0.011309941609711882,
+    "activeParams": [
+     "kFrame",
+     "cLight"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.0064,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "boxrot": {
+   "emoji": "🌀",
+   "group": "箱宇宙の実験",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.0001,
+    "sig": "73d53c4c",
+    "lockAfterLoad": false,
+    "dyn600": "1e80032b",
+    "clock600": "a1af6ec5",
+    "dilMax600": 0.18116544683774372,
+    "activeParams": [
+     "kFrame",
+     "q"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "e0eacbed",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "1e80032b",
+    "clock600": "c265dde6",
+    "dilMax600": 0.17943060398101862,
+    "activeParams": [
+     "kFrame",
+     "q"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "boxexpand": {
+   "emoji": "📈",
+   "group": "箱宇宙の実験",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.0001,
+    "sig": "1b2efb61",
+    "lockAfterLoad": false,
+    "dyn600": "ae5a4979",
+    "clock600": "887b4859",
+    "dilMax600": 0.0012728174527493197,
+    "activeParams": [
+     "kFrame"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "46640f98",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "ae5a4979",
+    "clock600": "413c8ede",
+    "dilMax600": 0.00018999973932976033,
+    "activeParams": [
+     "kFrame"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "boxcomoving": {
+   "emoji": "🫧",
+   "group": "箱宇宙の実験",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.0033333333333333335,
+    "sig": "dcaaf134",
+    "lockAfterLoad": false,
+    "dyn600": "accd176b",
+    "clock600": "61c70511",
+    "dilMax600": 0.23041929801305194,
+    "activeParams": [
+     "kFrame",
+     "kappaT"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "b9a4b431",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "accd176b",
+    "clock600": "8935f99d",
+    "dilMax600": 0.000006914138794611446,
+    "activeParams": [
+     "kFrame",
+     "G"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "boxbound": {
+   "emoji": "🪢",
+   "group": "箱宇宙の実験",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0001,
+    "sig": "a3d837fe",
+    "lockAfterLoad": false,
+    "dyn600": "acc32de5",
+    "clock600": "751781f5",
+    "dilMax600": 0.009483953317007132,
+    "activeParams": [
+     "G",
+     "kFrame"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "3faa63d6",
+    "lockAfterLoad": true,
+    "loadedX": 0.0011111111111111111,
+    "dyn600": "acc32de5",
+    "clock600": "2150b866",
+    "dilMax600": 0.08924092849095722,
+    "activeParams": [
+     "G",
+     "kFrame"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "boxbreath": {
+   "emoji": "🫁",
+   "group": "箱宇宙の実験",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.0033333333333333335,
+    "sig": "ff04e454",
+    "lockAfterLoad": false,
+    "dyn600": "83befe7f",
+    "clock600": "71ebe584",
+    "dilMax600": 0.22044729193051715,
+    "activeParams": [
+     "kappaT",
+     "kFrame"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "88557dc7",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "83befe7f",
+    "clock600": "5358f361",
+    "dilMax600": 0.000006914138794611446,
+    "activeParams": [
+     "G",
+     "kFrame"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "boxredshift": {
+   "emoji": "🔦",
+   "group": "箱宇宙の実験",
+   "kind": "class2",
+   "class325f": "X_k を維持して G_0 を合わせる",
+   "basis325f": "keepX",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.0001,
+    "sig": "6f2cf38d",
+    "lockAfterLoad": false,
+    "dyn600": "37a2b16d",
+    "clock600": "3b900479",
+    "dilMax600": 0.0006682773431256894,
+    "activeParams": [
+     "cLight",
+     "kFrame"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.09,
+    "c": 30,
+    "X": 0.00009999999999999999,
+    "sig": "68064393",
+    "lockAfterLoad": true,
+    "loadedX": 0.00009999999999999999,
+    "dyn600": "d86ebe42",
+    "clock600": "3b900479",
+    "dilMax600": 0.0006682773431256894,
+    "activeParams": [
+     "cLight",
+     "kFrame"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.0064,
+   "sigSame": false,
+   "dynSame": false,
+   "clockSame": true
+  },
+  "probeH": {
+   "emoji": "🧭",
+   "group": "箱宇宙の実験",
+   "kind": "class2",
+   "class325f": "X_k を維持して G_0 を合わせる",
+   "basis325f": "keepX",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.0033333333333333335,
+    "sig": "a5f39a50",
+    "lockAfterLoad": false,
+    "dyn600": "68aa953d",
+    "clock600": "dc10d221",
+    "dilMax600": 0.5935419698556267,
+    "activeParams": [
+     "kappaT",
+     "cLight",
+     "kFrame"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 3,
+    "c": 30,
+    "X": 0.0033333333333333335,
+    "sig": "faaf912f",
+    "lockAfterLoad": true,
+    "loadedX": 0.0033333333333333335,
+    "dyn600": "0f679cfd",
+    "clock600": "55ad2953",
+    "dilMax600": 0.5935430377721789,
+    "activeParams": [
+     "G",
+     "cLight",
+     "kFrame"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": false,
+   "clockSame": false
+  },
+  "freebox": {
+   "emoji": "🕊️",
+   "group": "箱宇宙の実験",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0001,
+    "sig": "29387169",
+    "lockAfterLoad": false,
+    "dyn600": "f62d0046",
+    "clock600": "15b89477",
+    "dilMax600": 0.0171809991200772,
+    "activeParams": [
+     "kRep",
+     "G",
+     "q"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "caeff737",
+    "lockAfterLoad": true,
+    "loadedX": 0.0011111111111111111,
+    "dyn600": "f62d0046",
+    "clock600": "855a0c34",
+    "dilMax600": 0.02959843476613433,
+    "activeParams": [
+     "kRep",
+     "G",
+     "q"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "cosmicweb": {
+   "emoji": "🕸️",
+   "group": "箱宇宙の実験",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 10,
+    "c": 30,
+    "X": 0.0033333333333333335,
+    "sig": "6c85f257",
+    "lockAfterLoad": false,
+    "dyn600": "ba332c1a",
+    "clock600": "4eb5a81a",
+    "dilMax600": 0.24781272808710786,
+    "activeParams": [
+     "G",
+     "kFrame",
+     "kRep"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 10,
+    "c": 30,
+    "X": 0.011111111111111112,
+    "sig": "de46bb4a",
+    "lockAfterLoad": true,
+    "loadedX": 0.011111111111111112,
+    "dyn600": "ba332c1a",
+    "clock600": "bcd1935f",
+    "dilMax600": 0.7337526579697928,
+    "activeParams": [
+     "G",
+     "kFrame",
+     "kRep"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "galaxy": {
+   "emoji": "🌌",
+   "group": "銀河の力学",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.02,
+    "sig": "1350ef63",
+    "lockAfterLoad": false,
+    "dyn600": "bc84b839",
+    "clock600": "e503ef18",
+    "dilMax600": 1,
+    "activeParams": [
+     "kFrame",
+     "D0"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.0008888888888888889,
+    "sig": "f1275992",
+    "lockAfterLoad": true,
+    "loadedX": 0.0008888888888888889,
+    "dyn600": "bc84b839",
+    "clock600": "ad7e4c0e",
+    "dilMax600": 0.11081075668335028,
+    "activeParams": [
+     "kFrame",
+     "D0"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "galaxyStd": {
+   "emoji": "🎡",
+   "group": "銀河の力学",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.02,
+    "sig": "85a60de7",
+    "lockAfterLoad": false,
+    "dyn600": "44c62965",
+    "clock600": "69bf6807",
+    "dilMax600": 1,
+    "activeParams": [
+     "kFrame",
+     "D0"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.0008888888888888889,
+    "sig": "f70e1f18",
+    "lockAfterLoad": true,
+    "loadedX": 0.0008888888888888889,
+    "dyn600": "44c62965",
+    "clock600": "eb615924",
+    "dilMax600": 0.13741052150726374,
+    "activeParams": [
+     "kFrame",
+     "D0"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "galaxyGeo2": {
+   "emoji": "💫",
+   "group": "銀河の力学",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.02,
+    "sig": "7e1aa639",
+    "lockAfterLoad": false,
+    "dyn600": "1c849e64",
+    "clock600": "c3c65b2e",
+    "dilMax600": 1,
+    "activeParams": [
+     "kFrame",
+     "geoPN",
+     "D0"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.0008888888888888889,
+    "sig": "7ec39e76",
+    "lockAfterLoad": true,
+    "loadedX": 0.0008888888888888889,
+    "dyn600": "1c849e64",
+    "clock600": "29a5a00f",
+    "dilMax600": 0.17396515607833918,
+    "activeParams": [
+     "kFrame",
+     "geoPN",
+     "D0"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "galaxyGeo2Flat3d": {
+   "emoji": "🫓",
+   "group": "銀河の力学",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.02,
+    "sig": "caa16ef0",
+    "lockAfterLoad": false,
+    "dyn600": "938afea4",
+    "clock600": "b5128ae5",
+    "dilMax600": 1,
+    "activeParams": [
+     "kFrame",
+     "D0"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.0008888888888888889,
+    "sig": "7b87ce23",
+    "lockAfterLoad": true,
+    "loadedX": 0.0008888888888888889,
+    "dyn600": "938afea4",
+    "clock600": "b5128ae5",
+    "dilMax600": 1,
+    "activeParams": [
+     "kFrame",
+     "D0"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "galaxyGeo2Thick3d": {
+   "emoji": "🥞",
+   "group": "銀河の力学",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.02,
+    "sig": "55b01696",
+    "lockAfterLoad": false,
+    "dyn600": "85db0abc",
+    "clock600": "b5128ae5",
+    "dilMax600": 1,
+    "activeParams": [
+     "kFrame",
+     "D0"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.0008888888888888889,
+    "sig": "2748374f",
+    "lockAfterLoad": true,
+    "loadedX": 0.0008888888888888889,
+    "dyn600": "85db0abc",
+    "clock600": "b5128ae5",
+    "dilMax600": 1,
+    "activeParams": [
+     "kFrame",
+     "D0"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "galaxyGeo2ThickTilt3d": {
+   "emoji": "🧇",
+   "group": "銀河の力学",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.02,
+    "sig": "9f35612a",
+    "lockAfterLoad": false,
+    "dyn600": "64e720cf",
+    "clock600": "b5128ae5",
+    "dilMax600": 1,
+    "activeParams": [
+     "kFrame",
+     "D0"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.0008888888888888889,
+    "sig": "b00259ed",
+    "lockAfterLoad": true,
+    "loadedX": 0.0008888888888888889,
+    "dyn600": "64e720cf",
+    "clock600": "b5128ae5",
+    "dilMax600": 1,
+    "activeParams": [
+     "kFrame",
+     "D0"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "galaxyDB": {
+   "emoji": "🍳",
+   "group": "銀河の力学",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.02,
+    "sig": "81eb5a75",
+    "lockAfterLoad": false,
+    "dyn600": "225b9716",
+    "clock600": "45695f48",
+    "dilMax600": 1,
+    "activeParams": [
+     "kFrame",
+     "geoPN",
+     "D0"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.0008888888888888889,
+    "sig": "1852e944",
+    "lockAfterLoad": true,
+    "loadedX": 0.0008888888888888889,
+    "dyn600": "225b9716",
+    "clock600": "fd375292",
+    "dilMax600": 0.33988948663075813,
+    "activeParams": [
+     "kFrame",
+     "geoPN",
+     "D0"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "rotorSolo": {
+   "emoji": "🕳️",
+   "group": "自転と減光",
+   "kind": "retired",
+   "class325f": "X_k を維持して G_0 を合わせる",
+   "basis325f": "keepX",
+   "before": {
+    "G": 0.25,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "dd441dfb",
+    "lockAfterLoad": false,
+    "dyn600": "12771723",
+    "clock600": "33876559",
+    "dilMax600": 0.19852907458941194,
+    "activeParams": [
+     "kFrame",
+     "kappaT",
+     "q"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.25,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "dd441dfb",
+    "lockAfterLoad": false,
+    "loadedX": 0.016666666666666666,
+    "dyn600": "12771723",
+    "clock600": "33876559",
+    "dilMax600": 0.19852907458941194,
+    "activeParams": [
+     "kFrame",
+     "kappaT",
+     "q"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "retired"
+   },
+   "dt": 0.016,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "massLadder": {
+   "emoji": "🪜",
+   "group": "自転と減光",
+   "kind": "retired",
+   "class325f": "X_k を維持して c_0 を合わせる",
+   "basis325f": "keepX",
+   "before": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.02,
+    "sig": "15d87275",
+    "lockAfterLoad": false,
+    "dyn600": "97a8baec",
+    "clock600": "bea5f08e",
+    "dilMax600": 1,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "D0"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.02,
+    "sig": "15d87275",
+    "lockAfterLoad": false,
+    "loadedX": 0.02,
+    "dyn600": "97a8baec",
+    "clock600": "bea5f08e",
+    "dilMax600": 1,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "D0"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "retired"
+   },
+   "dt": 0.016,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "collapse": {
+   "emoji": "🌫️",
+   "group": "銀河の力学",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 2.2,
+    "c": 30,
+    "X": 0.014285714285714285,
+    "sig": "a5eefaaa",
+    "lockAfterLoad": false,
+    "dyn600": "06547f3e",
+    "clock600": "57642a5d",
+    "dilMax600": 0.04651681582133038,
+    "activeParams": [
+     "etaRad",
+     "pRad",
+     "G"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 2.2,
+    "c": 30,
+    "X": 0.002444444444444445,
+    "sig": "5ddf883",
+    "lockAfterLoad": true,
+    "loadedX": 0.002444444444444445,
+    "dyn600": "06547f3e",
+    "clock600": "1a1a0d59",
+    "dilMax600": 0.012165367603302668,
+    "activeParams": [
+     "etaRad",
+     "pRad",
+     "G"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "axisBarStill": {
+   "emoji": "🥢",
+   "group": "腕と渦伸長(軸力)",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.02,
+    "sig": "8514dc2e",
+    "lockAfterLoad": false,
+    "dyn600": "ed1b2942",
+    "clock600": "6644368d",
+    "dilMax600": 1,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "D0"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.0008888888888888889,
+    "sig": "90410acb",
+    "lockAfterLoad": true,
+    "loadedX": 0.0008888888888888889,
+    "dyn600": "ed1b2942",
+    "clock600": "f6ff7f9e",
+    "dilMax600": 0.6194853633642199,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "D0"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "axisBarArms": {
+   "emoji": "🎏",
+   "group": "腕と渦伸長(軸力)",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.02,
+    "sig": "358725a5",
+    "lockAfterLoad": false,
+    "dyn600": "ae600459",
+    "clock600": "235b35cf",
+    "dilMax600": 1,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "D0"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.0008888888888888889,
+    "sig": "a92403c",
+    "lockAfterLoad": true,
+    "loadedX": 0.0008888888888888889,
+    "dyn600": "ae600459",
+    "clock600": "25b80d02",
+    "dilMax600": 0.145297805468242,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "D0"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "axisBarReach": {
+   "emoji": "🎚️",
+   "group": "腕と渦伸長(軸力)",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.02,
+    "sig": "6b4c4863",
+    "lockAfterLoad": false,
+    "dyn600": "3008dbdd",
+    "clock600": "15a58be3",
+    "dilMax600": 0.9967119221885999,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "D0"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.0008888888888888889,
+    "sig": "7c6840fc",
+    "lockAfterLoad": true,
+    "loadedX": 0.0008888888888888889,
+    "dyn600": "3008dbdd",
+    "clock600": "b2fc3f2c",
+    "dilMax600": 0.5018590986728672,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "D0"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "selfRotor": {
+   "emoji": "🥚",
+   "group": "自転と減光",
+   "kind": "retired",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 8,
+    "c": 30,
+    "X": 0.07142857142857142,
+    "sig": "c2aa92e9",
+    "lockAfterLoad": false,
+    "dyn600": "22a4b733",
+    "clock600": "5e28bb40",
+    "dilMax600": 0.3571887910366063,
+    "activeParams": [
+     "G",
+     "kappaT",
+     "kFrame"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 8,
+    "c": 30,
+    "X": 0.07142857142857142,
+    "sig": "c2aa92e9",
+    "lockAfterLoad": false,
+    "loadedX": 0.07142857142857142,
+    "dyn600": "22a4b733",
+    "clock600": "5e28bb40",
+    "dilMax600": 0.3571887910366063,
+    "activeParams": [
+     "G",
+     "kappaT",
+     "kFrame"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "retired"
+   },
+   "dt": 0.016,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "galaxyMeshSpiral": {
+   "emoji": "🎠",
+   "group": "銀河の力学",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.02,
+    "sig": "6dfee074",
+    "lockAfterLoad": false,
+    "dyn600": "965e939f",
+    "clock600": "730a2d11",
+    "dilMax600": 1,
+    "activeParams": [
+     "D0",
+     "kFrame",
+     "G"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.8,
+    "c": 30,
+    "X": 0.0008888888888888889,
+    "sig": "4c713e83",
+    "lockAfterLoad": true,
+    "loadedX": 0.0008888888888888889,
+    "dyn600": "965e939f",
+    "clock600": "d9291bf2",
+    "dilMax600": 0.4220552345116937,
+    "activeParams": [
+     "D0",
+     "kFrame",
+     "G"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "shapeToyCluster": {
+   "emoji": "🔮",
+   "group": "腕と渦伸長(軸力)",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "4a6639e0",
+    "lockAfterLoad": false,
+    "dyn600": "525c653e",
+    "clock600": "1681a3c5",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "9e4f10bd",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "525c653e",
+    "clock600": "1681a3c5",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "shapeToyDisk": {
+   "emoji": "🥏",
+   "group": "腕と渦伸長(軸力)",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "99bacdbd",
+    "lockAfterLoad": false,
+    "dyn600": "ceef3c24",
+    "clock600": "7ab40545",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "cee99328",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "ceef3c24",
+    "clock600": "7ab40545",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "shapeToyArm": {
+   "emoji": "🧵",
+   "group": "腕と渦伸長(軸力)",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "4dfb50fa",
+    "lockAfterLoad": false,
+    "dyn600": "802627af",
+    "clock600": "5f6c8245",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "4af8802b",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "802627af",
+    "clock600": "5f6c8245",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "shapeToySpiral": {
+   "emoji": "🍭",
+   "group": "腕と渦伸長(軸力)",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "dde465e5",
+    "lockAfterLoad": false,
+    "dyn600": "6b9b92c5",
+    "clock600": "4207f105",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "6bbc9578",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "6b9b92c5",
+    "clock600": "4207f105",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "shapeToyClusterCore": {
+   "emoji": "🎱",
+   "group": "腕と渦伸長(軸力)",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "1f4f8e11",
+    "lockAfterLoad": false,
+    "dyn600": "6f4f9a53",
+    "clock600": "a1213765",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "491da76c",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "6f4f9a53",
+    "clock600": "a1213765",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "shapeToyDiskCore": {
+   "emoji": "📀",
+   "group": "腕と渦伸長(軸力)",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "e41e5e03",
+    "lockAfterLoad": false,
+    "dyn600": "9f241a23",
+    "clock600": "af4e48e5",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "c58249b0",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "9f241a23",
+    "clock600": "af4e48e5",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "shapeToyArmCore": {
+   "emoji": "🧹",
+   "group": "腕と渦伸長(軸力)",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "6a2285ee",
+    "lockAfterLoad": false,
+    "dyn600": "4b6f230d",
+    "clock600": "fe7965e5",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "128b66fb",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "4b6f230d",
+    "clock600": "fe7965e5",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "shapeToySpiralCore": {
+   "emoji": "🎢",
+   "group": "腕と渦伸長(軸力)",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "7254217c",
+    "lockAfterLoad": false,
+    "dyn600": "4bb2409d",
+    "clock600": "995beca5",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "8f5bc3b7",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "4bb2409d",
+    "clock600": "995beca5",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "lensing": {
+   "emoji": "💡",
+   "group": "光の伝播",
+   "kind": "class2",
+   "class325f": "X_k を維持して G_0 を合わせる",
+   "basis325f": "keepX",
+   "before": {
+    "G": 0.25,
+    "c": 30,
+    "X": 0.006666666666666667,
+    "sig": "f17d333f",
+    "lockAfterLoad": false,
+    "dyn600": "5d6eda13",
+    "clock600": "f397c4de",
+    "dilMax600": 0.07904346783955951,
+    "activeParams": [
+     "kappaT",
+     "cLight",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 6,
+    "c": 30,
+    "X": 0.006666666666666667,
+    "sig": "ae4b8378",
+    "lockAfterLoad": true,
+    "loadedX": 0.006666666666666667,
+    "dyn600": "5d6eda13",
+    "clock600": "f397c4de",
+    "dilMax600": 0.07904346783955951,
+    "activeParams": [
+     "G",
+     "cLight",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "spinlens": {
+   "emoji": "🌗",
+   "group": "光の伝播",
+   "kind": "class2",
+   "class325f": "X_k を維持して G_0 を合わせる",
+   "basis325f": "keepX",
+   "before": {
+    "G": 0.5625,
+    "c": 30,
+    "X": 0.005,
+    "sig": "f32dcfa7",
+    "lockAfterLoad": false,
+    "dyn600": "2842525c",
+    "clock600": "5ab61f45",
+    "dilMax600": 0.00994787613550896,
+    "activeParams": [
+     "kFrame",
+     "kappaT",
+     "cLight",
+     "q"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 4.5,
+    "c": 30,
+    "X": 0.005,
+    "sig": "4232d9a4",
+    "lockAfterLoad": true,
+    "loadedX": 0.005,
+    "dyn600": "2842525c",
+    "clock600": "5ab61f45",
+    "dilMax600": 0.00994787613550896,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "cLight",
+     "q"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "blens": {
+   "emoji": "🔭",
+   "group": "光の伝播",
+   "kind": "class2",
+   "class325f": "X_k を維持して G_0 を合わせる",
+   "basis325f": "keepX",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.00909090909090909,
+    "sig": "4a552d58",
+    "lockAfterLoad": false,
+    "dyn600": "8585d968",
+    "clock600": "7c43bc31",
+    "dilMax600": 0.09071038166681988,
+    "activeParams": [
+     "kappaT",
+     "cLight"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 8.181818181818182,
+    "c": 30,
+    "X": 0.00909090909090909,
+    "sig": "a6157127",
+    "lockAfterLoad": true,
+    "loadedX": 0.00909090909090909,
+    "dyn600": "8585d968",
+    "clock600": "7c43bc31",
+    "dilMax600": 0.09071038166681988,
+    "activeParams": [
+     "G",
+     "cLight"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "reddening": {
+   "emoji": "🌆",
+   "group": "光の伝播",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0.05,
+    "c": 30,
+    "X": 0.0025,
+    "sig": "d673dfdc",
+    "lockAfterLoad": false,
+    "dyn600": "a1f04c27",
+    "clock600": "8084b7f9",
+    "dilMax600": 0.009579221407573169,
+    "activeParams": [
+     "kappaT",
+     "cLight",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0.05,
+    "c": 30,
+    "X": 0.00005555555555555556,
+    "sig": "59164bf8",
+    "lockAfterLoad": true,
+    "loadedX": 0.00005555555555555556,
+    "dyn600": "a1f04c27",
+    "clock600": "b730912e",
+    "dilMax600": 0.0007162094116217599,
+    "activeParams": [
+     "G",
+     "cLight",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "gas": {
+   "emoji": "🔥",
+   "group": "スピンと熱",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "7e2393ba",
+    "lockAfterLoad": false,
+    "dyn600": "d5a36322",
+    "clock600": "917c6791",
+    "dilMax600": 0.7208215047915778,
+    "activeParams": [
+     "kRep",
+     "muF",
+     "gammaN",
+     "kappaS"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "79159791",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "d5a36322",
+    "clock600": "deb26e12",
+    "dilMax600": 0.008657832940420218,
+    "activeParams": [
+     "kRep",
+     "muF",
+     "gammaN",
+     "kappaS"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "pressure": {
+   "emoji": "🎈",
+   "group": "スピンと熱",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "4980d152",
+    "lockAfterLoad": false,
+    "dyn600": "6642ff64",
+    "clock600": "af6b3843",
+    "dilMax600": 0.9901216027016441,
+    "activeParams": [
+     "kRep",
+     "kappaS",
+     "muF"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "8267be69",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "6642ff64",
+    "clock600": "4590fc77",
+    "dilMax600": 0.020656843980154105,
+    "activeParams": [
+     "kRep",
+     "kappaS",
+     "muF"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "conduction": {
+   "emoji": "📏",
+   "group": "スピンと熱",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "723e4e6b",
+    "lockAfterLoad": false,
+    "dyn600": "02ef8886",
+    "clock600": "bcc47d84",
+    "dilMax600": 0.5854350179433825,
+    "activeParams": [
+     "kappaS"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "5a4313e",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "02ef8886",
+    "clock600": "54ebb8b5",
+    "dilMax600": 0.000006914138794611446,
+    "activeParams": [
+     "kappaS"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "frictionHeat": {
+   "emoji": "🛷",
+   "group": "スピンと熱",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "8b94cec8",
+    "lockAfterLoad": false,
+    "dyn600": "d20a5265",
+    "clock600": "69f70d07",
+    "dilMax600": 0.062306483586629935,
+    "activeParams": [
+     "muF",
+     "gammaN",
+     "kRep"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "be2dc693",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "d20a5265",
+    "clock600": "7ecf207c",
+    "dilMax600": 0.020212491353353568,
+    "activeParams": [
+     "muF",
+     "gammaN",
+     "kRep"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "coolrace": {
+   "emoji": "🌈",
+   "group": "スピンと熱",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.0001,
+    "sig": "51384b01",
+    "lockAfterLoad": false,
+    "dyn600": "65e11ee2",
+    "clock600": "f5363544",
+    "dilMax600": 0.004996220270793383,
+    "activeParams": [
+     "etaRad",
+     "pRad",
+     "bM"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "72b9c610",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "65e11ee2",
+    "clock600": "64d088a9",
+    "dilMax600": 0.000006914138794611446,
+    "activeParams": [
+     "etaRad",
+     "pRad",
+     "bM"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "convection": {
+   "emoji": "♨️",
+   "group": "スピンと熱",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "11c1ffed",
+    "lockAfterLoad": false,
+    "dyn600": "a49a7256",
+    "clock600": "31dbbd4a",
+    "dilMax600": 0.045285979906718565,
+    "activeParams": [
+     "gravityY",
+     "kRep",
+     "kappaS",
+     "muF"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "8142f796",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "a49a7256",
+    "clock600": "5dffb46c",
+    "dilMax600": 0.007785916328430842,
+    "activeParams": [
+     "gravityY",
+     "kRep",
+     "kappaS",
+     "muF"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "buoyancy": {
+   "emoji": "🧪",
+   "group": "スピンと熱",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "76d44632",
+    "lockAfterLoad": false,
+    "dyn600": "7b50970c",
+    "clock600": "50126b5b",
+    "dilMax600": 0.12060777346293194,
+    "activeParams": [
+     "gravityY",
+     "kRep",
+     "gammaN"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "7a00bbdd",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "7b50970c",
+    "clock600": "a758c731",
+    "dilMax600": 0.02266244093577141,
+    "activeParams": [
+     "gravityY",
+     "kRep",
+     "gammaN"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "cooling": {
+   "emoji": "☕",
+   "group": "スピンと熱",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "d8469000",
+    "lockAfterLoad": false,
+    "dyn600": "ad8fbef8",
+    "clock600": "d69b37c9",
+    "dilMax600": 0.04816627502441473,
+    "activeParams": [
+     "kappaS",
+     "kRep",
+     "gravityY"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "600dfa15",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "ad8fbef8",
+    "clock600": "65a8a517",
+    "dilMax600": 0.009846150875092219,
+    "activeParams": [
+     "kappaS",
+     "kRep",
+     "gravityY"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "emergent": {
+   "emoji": "🧬",
+   "group": "スピンと熱",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "c930f72a",
+    "lockAfterLoad": false,
+    "dyn600": "9b31d24d",
+    "clock600": "74756c22",
+    "dilMax600": 0.12087718645731671,
+    "activeParams": [
+     "kRep",
+     "kappaS",
+     "gravityY",
+     "gammaN"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "31b1b32b",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "9b31d24d",
+    "clock600": "3b8522c6",
+    "dilMax600": 0.001203576723735278,
+    "activeParams": [
+     "kRep",
+     "kappaS",
+     "gravityY",
+     "gammaN"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "emergent2": {
+   "emoji": "🧊",
+   "group": "スピンと熱",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "e822719d",
+    "lockAfterLoad": false,
+    "dyn600": "48c9fc07",
+    "clock600": "ddf420fb",
+    "dilMax600": 0.10515934228897161,
+    "activeParams": [
+     "kRep",
+     "kappaS",
+     "gravityY",
+     "gammaN"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "b9da17e4",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "48c9fc07",
+    "clock600": "27db0732",
+    "dilMax600": 0.01078412930170769,
+    "activeParams": [
+     "kRep",
+     "kappaS",
+     "gravityY",
+     "gammaN"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "chain2": {
+   "emoji": "⛓️",
+   "group": "スピンと熱",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "f53bf831",
+    "lockAfterLoad": false,
+    "dyn600": "850ab2c8",
+    "clock600": "9cf89e65",
+    "dilMax600": 0.09988452990849872,
+    "activeParams": [
+     "kRep",
+     "kappaS",
+     "gravityY",
+     "gammaN"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "5dd0e6e2",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "850ab2c8",
+    "clock600": "fcf15c8d",
+    "dilMax600": 0.01969393094380767,
+    "activeParams": [
+     "kRep",
+     "kappaS",
+     "gravityY",
+     "gammaN"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "chaincycle": {
+   "emoji": "♻️",
+   "group": "スピンと熱",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "86dbafb7",
+    "lockAfterLoad": false,
+    "dyn600": "850ab2c8",
+    "clock600": "9cf89e65",
+    "dilMax600": 0.09988452990849872,
+    "activeParams": [
+     "kRep",
+     "kappaS",
+     "gravityY",
+     "gammaN"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "8f9ae760",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "850ab2c8",
+    "clock600": "fcf15c8d",
+    "dilMax600": 0.01969393094380767,
+    "activeParams": [
+     "kRep",
+     "kappaS",
+     "gravityY",
+     "gammaN"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "earthMoonReal": {
+   "emoji": "🌙",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "d9804771",
+    "lockAfterLoad": true,
+    "dyn600": "0d7d4773",
+    "clock600": "03bccb3d",
+    "dilMax600": 0.000002835619112628862,
+    "activeParams": [
+     "dispMag",
+     "lambdaPN",
+     "cLight"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0,
+     "D0": 0.006,
+     "frameWeight": "pull",
+     "D0pull": 0.0000314447,
+     "qLock": true
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "d9804771",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "0d7d4773",
+    "clock600": "03bccb3d",
+    "dilMax600": 0.000002835619112628862,
+    "activeParams": [
+     "dispMag",
+     "lambdaPN",
+     "cLight"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0,
+     "D0": 0.006,
+     "frameWeight": "pull",
+     "D0pull": 0.0000314447,
+     "qLock": true
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 65.5721,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "earthMoonRealKF1": {
+   "emoji": "🌘",
+   "group": "天体の機構",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "e06e5a8",
+    "lockAfterLoad": true,
+    "dyn600": "1869f99a",
+    "clock600": "03bccb3d",
+    "dilMax600": 0.000002835619112628862,
+    "activeParams": [
+     "D0",
+     "kFrame",
+     "dispMag"
+    ],
+    "abPatch": {
+     "D0": 0.1
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "e06e5a8",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "1869f99a",
+    "clock600": "03bccb3d",
+    "dilMax600": 0.000002835619112628862,
+    "activeParams": [
+     "D0",
+     "kFrame",
+     "dispMag"
+    ],
+    "abPatch": {
+     "D0": 0.1
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 65.5721,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "emAuditSolar": {
+   "emoji": "🔆",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "3f5702dd",
+    "lockAfterLoad": true,
+    "dyn600": "2d3c5b7d",
+    "clock600": "ade005c2",
+    "dilMax600": 0.0000034566554263371074,
+    "activeParams": [
+     "kFrame",
+     "D0",
+     "dispMag"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "3f5702dd",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "2d3c5b7d",
+    "clock600": "ade005c2",
+    "dilMax600": 0.0000034566554263371074,
+    "activeParams": [
+     "kFrame",
+     "D0",
+     "dispMag"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.655721,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "earthMoonSunInertial3d": {
+   "emoji": "🌦️",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "aa288e4e",
+    "lockAfterLoad": true,
+    "dyn600": "a17a674e",
+    "clock600": "e2ba14a5",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 3.85583,
+      "eps": 0.0005,
+      "history": "positions",
+      "pairs": [
+       [
+        1,
+        2
+       ]
+      ]
+     }
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "aa288e4e",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "a17a674e",
+    "clock600": "e2ba14a5",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 3.85583,
+      "eps": 0.0005,
+      "history": "positions",
+      "pairs": [
+       [
+        1,
+        2
+       ]
+      ]
+     }
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.655721,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "earthMoonOnly3d": {
+   "emoji": "🌔",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "908bdb20",
+    "lockAfterLoad": true,
+    "dyn600": "f6eaba0e",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 3.85583,
+      "eps": 0.0005,
+      "history": "positions",
+      "pairs": [
+       [
+        0,
+        1
+       ]
+      ]
+     }
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "908bdb20",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "f6eaba0e",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 3.85583,
+      "eps": 0.0005,
+      "history": "positions",
+      "pairs": [
+       [
+        0,
+        1
+       ]
+      ]
+     }
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.655721,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "qLockRadialAudit": {
+   "emoji": "📶",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "50c695b2",
+    "lockAfterLoad": true,
+    "dyn600": "7eaa6408",
+    "clock600": "8b954cd8",
+    "dilMax600": 0.000005437044523493029,
+    "activeParams": [
+     "q",
+     "kFrame",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 0
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "50c695b2",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "7eaa6408",
+    "clock600": "8b954cd8",
+    "dilMax600": 0.000005437044523493029,
+    "activeParams": [
+     "q",
+     "kFrame",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.258807,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "qLockRadialAuditQ3": {
+   "emoji": "📐",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "23556ca4",
+    "lockAfterLoad": true,
+    "dyn600": "f9b746ef",
+    "clock600": "8b954cd8",
+    "dilMax600": 0.000005437044523493029,
+    "activeParams": [
+     "q",
+     "kFrame",
+     "D0"
+    ],
+    "abPatch": {
+     "q": 8.25
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "23556ca4",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "f9b746ef",
+    "clock600": "8b954cd8",
+    "dilMax600": 0.000005437044523493029,
+    "activeParams": [
+     "q",
+     "kFrame",
+     "D0"
+    ],
+    "abPatch": {
+     "q": 8.25
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.258807,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "mercury": {
+   "emoji": "☿",
+   "group": "天体の機構",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 1.44,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "b92ad7e4",
+    "lockAfterLoad": false,
+    "dyn600": "0833f79d",
+    "clock600": "c4992d93",
+    "dilMax600": 0.04222875690756844,
+    "activeParams": [
+     "lambdaPN",
+     "pnAlpha",
+     "cLight"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 1.44,
+    "c": 30,
+    "X": 0.0015999999999999999,
+    "sig": "9d73dd04",
+    "lockAfterLoad": true,
+    "loadedX": 0.0015999999999999999,
+    "dyn600": "0833f79d",
+    "clock600": "93d00cf6",
+    "dilMax600": 0.0058379089074558355,
+    "activeParams": [
+     "lambdaPN",
+     "pnAlpha",
+     "cLight"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.546901,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "mercuryReal": {
+   "emoji": "☄️",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "d2fa07aa",
+    "lockAfterLoad": true,
+    "dyn600": "25fce5b8",
+    "clock600": "b09fafad",
+    "dilMax600": 0.0000025201244803207956,
+    "activeParams": [
+     "dispMag",
+     "lambdaPN",
+     "cLight"
+    ],
+    "abPatch": {
+     "cLight": 30,
+     "kappaT": 0.007415555555583735
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "d2fa07aa",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "25fce5b8",
+    "clock600": "b09fafad",
+    "dilMax600": 0.0000025201244803207956,
+    "activeParams": [
+     "dispMag",
+     "lambdaPN",
+     "cLight"
+    ],
+    "abPatch": {
+     "cLight": 30
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 2.11126,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "mercurySunInertialFit": {
+   "emoji": "🟫",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "e3f0dbc8",
+    "lockAfterLoad": true,
+    "dyn600": "de298e3e",
+    "clock600": "b09fafad",
+    "dilMax600": 0.0000025201244803207956,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "e3f0dbc8",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "de298e3e",
+    "clock600": "b09fafad",
+    "dilMax600": 0.0000025201244803207956,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 2.11126,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "mercurySunInertial3d": {
+   "emoji": "🌡️",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "6e14aa82",
+    "lockAfterLoad": true,
+    "dyn600": "933136f1",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "6e14aa82",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "933136f1",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 2.111256,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "venusSunInertial3d": {
+   "emoji": "🌋",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "ddd647d8",
+    "lockAfterLoad": true,
+    "dyn600": "22de85df",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "ddd647d8",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "22de85df",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 5.392824,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "marsSunInertial3d": {
+   "emoji": "🔴",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "191bb640",
+    "lockAfterLoad": true,
+    "dyn600": "3be8a445",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "191bb640",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "3be8a445",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 16.48752,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "jupiterSunInertial3d": {
+   "emoji": "🏀",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "f4b75402",
+    "lockAfterLoad": true,
+    "dyn600": "c3b78b82",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "f4b75402",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "c3b78b82",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 10.3982136,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "saturnSunInertial3d": {
+   "emoji": "🟡",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "fe13790c",
+    "lockAfterLoad": true,
+    "dyn600": "7814e64b",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "fe13790c",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "7814e64b",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 25.822128,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "saturnRingInertial3d": {
+   "emoji": "🍩",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "de24c778",
+    "lockAfterLoad": true,
+    "dyn600": "bd9eef39",
+    "clock600": "edceee25",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 0.02211205993960312,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all",
+      "solver": "network-pcg-v1",
+      "spinDrag": {
+       "rot": "surfaceFlip",
+       "axial": "off"
+      }
+     }
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "de24c778",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "bd9eef39",
+    "clock600": "edceee25",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 0.02211205993960312,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all",
+      "solver": "network-pcg-v1",
+      "spinDrag": {
+       "rot": "surfaceFlip",
+       "axial": "off"
+      }
+     }
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.58,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "uranusSunInertial3d": {
+   "emoji": "🔷",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "3b3775d4",
+    "lockAfterLoad": true,
+    "dyn600": "436e801c",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "3b3775d4",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "436e801c",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 73.64496,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "neptuneSunInertial3d": {
+   "emoji": "💙",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "26bbd272",
+    "lockAfterLoad": true,
+    "dyn600": "c7fd2e60",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "26bbd272",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "c7fd2e60",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 144.4536,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "solarSystem16Inertial3d": {
+   "emoji": "🗺️",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "b84b904a",
+    "lockAfterLoad": true,
+    "dyn600": "e299cf37",
+    "clock600": "a7b537c5",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "b84b904a",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "e299cf37",
+    "clock600": "a7b537c5",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {},
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.0010628374544626486,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "jupiterGalilean": {
+   "emoji": "🟠",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "b6d12509",
+    "lockAfterLoad": true,
+    "dyn600": "3bb2354d",
+    "clock600": "16433fe3",
+    "dilMax600": 0.0000028216167750061416,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "b6d12509",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "3bb2354d",
+    "clock600": "16433fe3",
+    "dilMax600": 0.0000028216167750061416,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.424593,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "venusReal": {
+   "emoji": "🌇",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "e04634c0",
+    "lockAfterLoad": true,
+    "dyn600": "50c3c3dd",
+    "clock600": "a3d62669",
+    "dilMax600": 3.446664142980893e-7,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "e04634c0",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "50c3c3dd",
+    "clock600": "a3d62669",
+    "dilMax600": 3.446664142980893e-7,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 5.39282,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "marsMoonsReal": {
+   "emoji": "🥔",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "3eac9120",
+    "lockAfterLoad": true,
+    "dyn600": "5884d269",
+    "clock600": "50ddd341",
+    "dilMax600": 0.0000034387950273995216,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "3eac9120",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "5884d269",
+    "clock600": "50ddd341",
+    "dilMax600": 0.0000034387950273995216,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.765384,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "plutoCharonDiagInput": {
+   "emoji": "🥶",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "40f7d05a",
+    "lockAfterLoad": true,
+    "dyn600": "edf6a1f9",
+    "clock600": "c125cacd",
+    "dilMax600": 0.000007185993483593833,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "40f7d05a",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "edf6a1f9",
+    "clock600": "c125cacd",
+    "dilMax600": 0.000007185993483593833,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 153.293,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "plutoCharonInertialFit": {
+   "emoji": "🟪",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "ab108e1f",
+    "lockAfterLoad": true,
+    "dyn600": "421ebbed",
+    "clock600": "c125cacd",
+    "dilMax600": 0.000007185993483593833,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 0.0001486103,
+      "eps": 0.01,
+      "history": "positions",
+      "pairs": "all",
+      "coreTable": {
+       "n": 4096
+      }
+     }
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "ab108e1f",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "421ebbed",
+    "clock600": "c125cacd",
+    "dilMax600": 0.000007185993483593833,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 0.0001486103,
+      "eps": 0.01,
+      "history": "positions",
+      "pairs": "all",
+      "coreTable": {
+       "n": 4096
+      }
+     }
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 153.293,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "uranusReal": {
+   "emoji": "💠",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "91839054",
+    "lockAfterLoad": true,
+    "dyn600": "c60d3c5e",
+    "clock600": "d2655611",
+    "dilMax600": 0.0000029818739010201156,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "91839054",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "c60d3c5e",
+    "clock600": "d2655611",
+    "dilMax600": 0.0000029818739010201156,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 3.39235,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "neptuneReal": {
+   "emoji": "🌊",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "c6b2cfe8",
+    "lockAfterLoad": true,
+    "dyn600": "fbfb0a0d",
+    "clock600": "8d592c05",
+    "dilMax600": 0.0000045887580997217015,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "c6b2cfe8",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "fbfb0a0d",
+    "clock600": "8d592c05",
+    "dilMax600": 0.0000045887580997217015,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 1.41044,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "alphaCenAB": {
+   "emoji": "✨",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "8e6ee131",
+    "lockAfterLoad": true,
+    "dyn600": "2cd7a6b7",
+    "clock600": "bcfe0525",
+    "dilMax600": 4.5066770903989806e-7,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "8e6ee131",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "2cd7a6b7",
+    "clock600": "bcfe0525",
+    "dilMax600": 4.5066770903989806e-7,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 6.99194,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "siriusAB": {
+   "emoji": "🌟",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "4f002ee6",
+    "lockAfterLoad": true,
+    "dyn600": "fc07cd83",
+    "clock600": "4edb5c45",
+    "dilMax600": 0.000004780295055795136,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "4f002ee6",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "fc07cd83",
+    "clock600": "4edb5c45",
+    "dilMax600": 0.000004780295055795136,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 4.39426,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "siriusABInertial3d": {
+   "emoji": "🌠",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "45f4ca74",
+    "lockAfterLoad": true,
+    "dyn600": "12707be5",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {
+       "kernel": "k1",
+       "rdRule": "kappaM"
+      },
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "45f4ca74",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "12707be5",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {
+       "kernel": "k1",
+       "rdRule": "kappaM"
+      },
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 4.39426,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "alphaCenABInertial3d": {
+   "emoji": "🔶",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "89c61b59",
+    "lockAfterLoad": true,
+    "dyn600": "160217ad",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {
+       "kernel": "k1",
+       "rdRule": "kappaM"
+      },
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "89c61b59",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "160217ad",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {
+       "kernel": "k1",
+       "rdRule": "kappaM"
+      },
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 6.99194,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "alphaCenABInertial3dJ": {
+   "emoji": "🔸",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "826d5fd8",
+    "lockAfterLoad": true,
+    "dyn600": "1749f5d1",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {
+       "kernel": "k1",
+       "rdRule": "kappaM"
+      },
+      "pairs": "all",
+      "history": "positions",
+      "initMotion": "observed"
+     }
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "826d5fd8",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "1749f5d1",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {
+       "kernel": "k1",
+       "rdRule": "kappaM"
+      },
+      "pairs": "all",
+      "history": "positions",
+      "initMotion": "observed"
+     }
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 6.99194,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "psrDoubleABInertial3d": {
+   "emoji": "📟",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 2997.92458,
+    "X": 7.42582647410185e-7,
+    "sig": "a3c03e88",
+    "lockAfterLoad": true,
+    "dyn600": "c20ff6e5",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {
+       "kernel": "k1",
+       "rdRule": "kappaM"
+      },
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 2997.92458,
+    "X": 7.42582647410185e-7,
+    "sig": "a3c03e88",
+    "lockAfterLoad": true,
+    "loadedX": 7.42582647410185e-7,
+    "dyn600": "c20ff6e5",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {
+       "kernel": "k1",
+       "rdRule": "kappaM"
+      },
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 2.45404,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "psrDoubleAB": {
+   "emoji": "📻",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 2997.92458,
+    "X": 7.42582647410185e-7,
+    "sig": "5440febc",
+    "lockAfterLoad": true,
+    "dyn600": "07e6a38f",
+    "clock600": "b34ae6d9",
+    "dilMax600": 0.000008241352785209877,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 2997.92458,
+    "X": 7.42582647410185e-7,
+    "sig": "5440febc",
+    "lockAfterLoad": true,
+    "loadedX": 7.42582647410185e-7,
+    "dyn600": "07e6a38f",
+    "clock600": "b34ae6d9",
+    "dilMax600": 0.000008241352785209877,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 2.45404,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "psrJ1757DFM": {
+   "emoji": "🧮",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 2997.92458,
+    "X": 7.42582647410185e-7,
+    "sig": "6b2f324f",
+    "lockAfterLoad": true,
+    "dyn600": "2a0a5746",
+    "clock600": "1ca8bea9",
+    "dilMax600": 0.000007650080635857037,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 2997.92458,
+    "X": 7.42582647410185e-7,
+    "sig": "6b2f324f",
+    "lockAfterLoad": true,
+    "loadedX": 7.42582647410185e-7,
+    "dyn600": "2a0a5746",
+    "clock600": "1ca8bea9",
+    "dilMax600": 0.000007650080635857037,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 4.40491,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "psrJ1946DFM": {
+   "emoji": "🩺",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 2997.92458,
+    "X": 7.42582647410185e-7,
+    "sig": "3ad491ff",
+    "lockAfterLoad": true,
+    "dyn600": "e81c5ef5",
+    "clock600": "dec276d5",
+    "dilMax600": 6.903693855475623e-7,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 2997.92458,
+    "X": 7.42582647410185e-7,
+    "sig": "3ad491ff",
+    "lockAfterLoad": true,
+    "loadedX": 7.42582647410185e-7,
+    "dyn600": "e81c5ef5",
+    "clock600": "dec276d5",
+    "dilMax600": 6.903693855475623e-7,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 1.88371,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "psrB1534": {
+   "emoji": "📿",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 2997.92458,
+    "X": 7.42582647410185e-7,
+    "sig": "b1146444",
+    "lockAfterLoad": true,
+    "dyn600": "93f961df",
+    "clock600": "41ec9e29",
+    "dilMax600": 0.000004010298552237224,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 2997.92458,
+    "X": 7.42582647410185e-7,
+    "sig": "b1146444",
+    "lockAfterLoad": true,
+    "loadedX": 7.42582647410185e-7,
+    "dyn600": "93f961df",
+    "clock600": "41ec9e29",
+    "dilMax600": 0.000004010298552237224,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 10.0977,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "compactForceToy": {
+   "emoji": "🪗",
+   "group": "運動と時空",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 0.60066,
+    "c": 30,
+    "X": 0.0006674,
+    "sig": "4bdfdcdd",
+    "lockAfterLoad": true,
+    "dyn600": "42eeb102",
+    "clock600": "7e6ca771",
+    "dilMax600": 0.004504034496955911,
+    "activeParams": [
+     "G",
+     "cLight",
+     "geoPN"
+    ],
+    "abPatch": {
+     "compactForce": {
+      "model": "current",
+      "kappa": -6,
+      "chiGate": 0.5,
+      "rc": 0
+     }
+    }
+   },
+   "after": {
+    "G": 0.60066,
+    "c": 30,
+    "X": 0.0006674,
+    "sig": "4bdfdcdd",
+    "lockAfterLoad": true,
+    "loadedX": 0.0006674,
+    "dyn600": "42eeb102",
+    "clock600": "7e6ca771",
+    "dilMax600": 0.004504034496955911,
+    "activeParams": [
+     "G",
+     "cLight",
+     "geoPN"
+    ],
+    "abPatch": {
+     "compactForce": {
+      "model": "current",
+      "kappa": -6,
+      "chiGate": 0.5,
+      "rc": 0
+     }
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 1.35892,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "inertialDragPair": {
+   "emoji": "🐌",
+   "group": "運動と時空",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0001,
+    "sig": "6e2dd451",
+    "lockAfterLoad": false,
+    "dyn600": "56c8a9c7",
+    "clock600": "409151bc",
+    "dilMax600": 0.0005142177544834592,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     }
+    }
+   },
+   "after": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "344e190b",
+    "lockAfterLoad": true,
+    "loadedX": 0.0011111111111111111,
+    "dyn600": "56c8a9c7",
+    "clock600": "995aba9e",
+    "dilMax600": 0.003041731256235969,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     }
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.470751,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "coord3dKeplerTilt": {
+   "emoji": "🌐",
+   "group": "運動と時空",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0001,
+    "sig": "aacb946d",
+    "lockAfterLoad": false,
+    "dyn600": "053c9ad5",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "8ed94e9f",
+    "lockAfterLoad": true,
+    "loadedX": 0.0011111111111111111,
+    "dyn600": "053c9ad5",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.803672223452726,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "coord3dSpinPrecess": {
+   "emoji": "🎲",
+   "group": "運動と時空",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0001,
+    "sig": "3d6c3d65",
+    "lockAfterLoad": false,
+    "dyn600": "e6c26ab4",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "d4249f6b",
+    "lockAfterLoad": true,
+    "loadedX": 0.0011111111111111111,
+    "dyn600": "e6c26ab4",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.4706802966590601,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "binaryCheckEqualInertial3d": {
+   "emoji": "♊",
+   "group": "運動と時空",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "c4112bcd",
+    "lockAfterLoad": true,
+    "dyn600": "3b4d987b",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {
+       "kernel": "k1",
+       "rdRule": "kappaM"
+      },
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    }
+   },
+   "after": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "c4112bcd",
+    "lockAfterLoad": true,
+    "loadedX": 0.0011111111111111111,
+    "dyn600": "3b4d987b",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {
+       "kernel": "k1",
+       "rdRule": "kappaM"
+      },
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 17.453292519943293,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "binaryCheckRatio3Inertial3d": {
+   "emoji": "⚖️",
+   "group": "運動と時空",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "b32173c",
+    "lockAfterLoad": true,
+    "dyn600": "57c5489e",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {
+       "kernel": "k1",
+       "rdRule": "kappaM"
+      },
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    }
+   },
+   "after": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "b32173c",
+    "lockAfterLoad": true,
+    "loadedX": 0.0011111111111111111,
+    "dyn600": "57c5489e",
+    "clock600": "69691905",
+    "dilMax600": 1,
+    "activeParams": [
+     "geoPN"
+    ],
+    "abPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "invSq": {
+       "kernel": "k1",
+       "rdRule": "kappaM"
+      },
+      "enabled": false,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "gLoc": null
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 17.453292519943293,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "boxBinaryToy": {
+   "emoji": "🫂",
+   "group": "運動と時空",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 0.60066,
+    "c": 30,
+    "X": 0.0006674,
+    "sig": "f40bf8e0",
+    "lockAfterLoad": true,
+    "dyn600": "588f771f",
+    "clock600": "a7a7c301",
+    "dilMax600": 0.0029031631375412426,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "cLight"
+    ],
+    "abPatch": {
+     "D0pull": 0.000001
+    }
+   },
+   "after": {
+    "G": 0.60066,
+    "c": 30,
+    "X": 0.0006674,
+    "sig": "f40bf8e0",
+    "lockAfterLoad": true,
+    "loadedX": 0.0006674,
+    "dyn600": "588f771f",
+    "clock600": "a7a7c301",
+    "dilMax600": 0.0029031631375412426,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "cLight"
+    ],
+    "abPatch": {
+     "D0pull": 0.000001
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.679459,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "gw150914": {
+   "emoji": "🎐",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29.9792458,
+    "X": 0.00742582647410185,
+    "sig": "ef85e759",
+    "lockAfterLoad": true,
+    "dyn600": "ed27d5f1",
+    "clock600": "70b56f50",
+    "dilMax600": 0.05402839362800538,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29.9792458,
+    "X": 0.00742582647410185,
+    "sig": "ef85e759",
+    "lockAfterLoad": true,
+    "loadedX": 0.00742582647410185,
+    "dyn600": "ed27d5f1",
+    "clock600": "70b56f50",
+    "dilMax600": 0.05402839362800538,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "kFrame": 1
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.50505,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "gw150914Merge4s": {
+   "emoji": "⏰",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29.9792458,
+    "X": 0.00742582647410185,
+    "sig": "1eec2cff",
+    "lockAfterLoad": true,
+    "dyn600": "d9a5a94d",
+    "clock600": "ae67caca",
+    "dilMax600": 0.05401832281715335,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "spinSpin": 0
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29.9792458,
+    "X": 0.00742582647410185,
+    "sig": "1eec2cff",
+    "lockAfterLoad": true,
+    "loadedX": 0.00742582647410185,
+    "dyn600": "d9a5a94d",
+    "clock600": "ae67caca",
+    "dilMax600": 0.05401832281715335,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "spinSpin": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.50505,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "gw150914SpinDipole": {
+   "emoji": "⚛️",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29.9792458,
+    "X": 0.00742582647410185,
+    "sig": "34f3c5e1",
+    "lockAfterLoad": true,
+    "dyn600": "7eb6458c",
+    "clock600": "79d7fed5",
+    "dilMax600": 0.05395155334120416,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "spinSpin": -1
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29.9792458,
+    "X": 0.00742582647410185,
+    "sig": "34f3c5e1",
+    "lockAfterLoad": true,
+    "loadedX": 0.00742582647410185,
+    "dyn600": "7eb6458c",
+    "clock600": "79d7fed5",
+    "dilMax600": 0.05395155334120416,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "abPatch": {
+     "spinSpin": -1
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.50505,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "tuc47": {
+   "emoji": "🍇",
+   "group": "実在天体のアナロジー",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "f73dce20",
+    "lockAfterLoad": true,
+    "dyn600": "59332ba9",
+    "clock600": "0b4de6c5",
+    "dilMax600": 0.000004741880644365537,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "f73dce20",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "59332ba9",
+    "clock600": "0b4de6c5",
+    "dilMax600": 0.000004741880644365537,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.048,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "ngc3198": {
+   "emoji": "🌃",
+   "group": "実在天体のアナロジー",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "3a1f9c0d",
+    "lockAfterLoad": true,
+    "dyn600": "0f9f4771",
+    "clock600": "9483d1e5",
+    "dilMax600": 0.000004741880644365537,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "3a1f9c0d",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "0f9f4771",
+    "clock600": "9483d1e5",
+    "dilMax600": 0.000004741880644365537,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.048,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "ngc3198DFM": {
+   "emoji": "🛞",
+   "group": "実在天体のアナロジー",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "761fbca5",
+    "lockAfterLoad": true,
+    "dyn600": "12661f89",
+    "clock600": "0d384321",
+    "dilMax600": 0.000007013479869311112,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "761fbca5",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "12661f89",
+    "clock600": "0d384321",
+    "dilMax600": 0.000007013479869311112,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.032,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "supernovaProg": {
+   "emoji": "🥀",
+   "group": "実在天体のアナロジー",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "e0dbf7be",
+    "lockAfterLoad": true,
+    "dyn600": "5bf5f298",
+    "clock600": "9a838b98",
+    "dilMax600": 0.000004741880644365537,
+    "activeParams": [
+     "G",
+     "kFrame",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "e0dbf7be",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "5bf5f298",
+    "clock600": "9a838b98",
+    "dilMax600": 0.000004741880644365537,
+    "activeParams": [
+     "G",
+     "kFrame",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.048,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "crabRemnant": {
+   "emoji": "🦀",
+   "group": "実在天体のアナロジー",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 2997.92458,
+    "X": 7.42582647410185e-7,
+    "sig": "868abf24",
+    "lockAfterLoad": true,
+    "dyn600": "9c934c0d",
+    "clock600": "3db9aaa0",
+    "dilMax600": 0.000021815299972138824,
+    "activeParams": [
+     "G",
+     "kFrame",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 6.674,
+    "c": 2997.92458,
+    "X": 7.42582647410185e-7,
+    "sig": "868abf24",
+    "lockAfterLoad": true,
+    "loadedX": 7.42582647410185e-7,
+    "dyn600": "9c934c0d",
+    "clock600": "3db9aaa0",
+    "dilMax600": 0.000021815299972138824,
+    "activeParams": [
+     "G",
+     "kFrame",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.048,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "saturnZonalD68": {
+   "emoji": "📡",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "e1674e29",
+    "lockAfterLoad": true,
+    "dyn600": "3434de36",
+    "clock600": "8872982a",
+    "dilMax600": 0.0000024920646033432803,
+    "activeParams": [
+     "G",
+     "softening",
+     "dispMag"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "e1674e29",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "3434de36",
+    "clock600": "8872982a",
+    "dilMax600": 0.0000024920646033432803,
+    "activeParams": [
+     "G",
+     "softening",
+     "dispMag"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.498,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "saturnD68Consistent": {
+   "emoji": "🧷",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "e00e45cf",
+    "lockAfterLoad": true,
+    "dyn600": "6afeec34",
+    "clock600": "3fde3645",
+    "dilMax600": 0.0000024920646033432803,
+    "activeParams": [
+     "G",
+     "softening",
+     "dispMag"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "e00e45cf",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "6afeec34",
+    "clock600": "3fde3645",
+    "dilMax600": 0.0000024920646033432803,
+    "activeParams": [
+     "G",
+     "softening",
+     "dispMag"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.498,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "saturnD68ObsOrbit": {
+   "emoji": "📎",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "1e558b7c",
+    "lockAfterLoad": true,
+    "dyn600": "2ccc4f01",
+    "clock600": "3fde3645",
+    "dilMax600": 0.0000024920646033432803,
+    "activeParams": [
+     "G",
+     "softening",
+     "dispMag"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "1e558b7c",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "2ccc4f01",
+    "clock600": "3fde3645",
+    "dilMax600": 0.0000024920646033432803,
+    "activeParams": [
+     "G",
+     "softening",
+     "dispMag"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.498,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "saturnRingReal": {
+   "emoji": "💍",
+   "group": "現実較正",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "8cdab675",
+    "lockAfterLoad": true,
+    "dyn600": "ebd10a66",
+    "clock600": "f71e7d57",
+    "dilMax600": 0.000004121626930531086,
+    "activeParams": [
+     "kFrame",
+     "lambdaPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0,
+     "q": 3,
+     "frameWeight": "share"
+    }
+   },
+   "after": {
+    "G": 6.674,
+    "c": 29979.2458,
+    "X": 7.425826474101849e-9,
+    "sig": "8cdab675",
+    "lockAfterLoad": true,
+    "loadedX": 7.425826474101849e-9,
+    "dyn600": "ebd10a66",
+    "clock600": "f71e7d57",
+    "dilMax600": 0.000004121626930531086,
+    "activeParams": [
+     "kFrame",
+     "lambdaPN",
+     "dispMag"
+    ],
+    "abPatch": {
+     "kFrame": 1,
+     "geoPN": 2,
+     "lambdaPN": 0,
+     "q": 3,
+     "frameWeight": "share"
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.58,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "binary": {
+   "emoji": "⭐",
+   "group": "天体の機構",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0001,
+    "sig": "8b48cd57",
+    "lockAfterLoad": false,
+    "dyn600": "68f6024c",
+    "clock600": "014ea256",
+    "dilMax600": 0.004611372947693537,
+    "activeParams": [
+     "geoPN",
+     "D0",
+     "G"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "e462dc0b",
+    "lockAfterLoad": true,
+    "loadedX": 0.0011111111111111111,
+    "dyn600": "68f6024c",
+    "clock600": "35766fb4",
+    "dilMax600": 0.020501077175141047,
+    "activeParams": [
+     "geoPN",
+     "D0",
+     "G"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "fig8": {
+   "emoji": "♾️",
+   "group": "天体の機構",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0001,
+    "sig": "80e6dd1",
+    "lockAfterLoad": false,
+    "dyn600": "d16535a6",
+    "clock600": "b9e402de",
+    "dilMax600": 0.013579795126317573,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "ae18c3d5",
+    "lockAfterLoad": true,
+    "loadedX": 0.0011111111111111111,
+    "dyn600": "d16535a6",
+    "clock600": "3a81b1c5",
+    "dilMax600": 0.11640387897852456,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.0907412,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "counterring": {
+   "emoji": "💥",
+   "group": "天体の機構",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0001,
+    "sig": "90163849",
+    "lockAfterLoad": false,
+    "dyn600": "36dfa551",
+    "clock600": "d400c00c",
+    "dilMax600": 0.0072989463806159005,
+    "activeParams": [
+     "muF",
+     "gammaN",
+     "etaRad"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "ad7be653",
+    "lockAfterLoad": true,
+    "loadedX": 0.0011111111111111111,
+    "dyn600": "36dfa551",
+    "clock600": "81ac0f81",
+    "dilMax600": 0.022709031899770804,
+    "activeParams": [
+     "muF",
+     "gammaN",
+     "etaRad"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "spinup": {
+   "emoji": "🌪️",
+   "group": "天体の機構",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 4,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "9698a9ed",
+    "lockAfterLoad": false,
+    "dyn600": "e40b8396",
+    "clock600": "c4d46046",
+    "dilMax600": 0.11387294530868597,
+    "activeParams": [
+     "kRep",
+     "etaRad",
+     "G"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 4,
+    "c": 30,
+    "X": 0.0044444444444444444,
+    "sig": "428f840e",
+    "lockAfterLoad": true,
+    "loadedX": 0.0044444444444444444,
+    "dyn600": "e40b8396",
+    "clock600": "6e50df6d",
+    "dilMax600": 0.05169506867726714,
+    "activeParams": [
+     "kRep",
+     "etaRad",
+     "G"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "pulsarSolo": {
+   "emoji": "🏮",
+   "group": "天体の機構",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "1aa0b026",
+    "lockAfterLoad": true,
+    "dyn600": "45575580",
+    "clock600": "02add64f",
+    "dilMax600": 0.00000985463458891278,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "1aa0b026",
+    "lockAfterLoad": true,
+    "loadedX": 0.0011111111111111111,
+    "dyn600": "45575580",
+    "clock600": "02add64f",
+    "dilMax600": 0.00000985463458891278,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.04,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "supernovaCore": {
+   "emoji": "🎇",
+   "group": "天体の機構",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 4,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "d7ce45a3",
+    "lockAfterLoad": false,
+    "dyn600": "76d27209",
+    "clock600": "0cf7f735",
+    "dilMax600": 0.03278936942418487,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "etaRad"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 4,
+    "c": 30,
+    "X": 0.0044444444444444444,
+    "sig": "ec0084d4",
+    "lockAfterLoad": true,
+    "loadedX": 0.0044444444444444444,
+    "dyn600": "76d27209",
+    "clock600": "e6054428",
+    "dilMax600": 0.008853137493134211,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "etaRad"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "whiteDwarfDFM": {
+   "emoji": "⚪",
+   "group": "天体の機構",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 4,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "a32a26b6",
+    "lockAfterLoad": false,
+    "dyn600": "1118223f",
+    "clock600": "0cf7f735",
+    "dilMax600": 0.03278936942418487,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 4,
+    "c": 30,
+    "X": 0.0044444444444444444,
+    "sig": "842658ff",
+    "lockAfterLoad": true,
+    "loadedX": 0.0044444444444444444,
+    "dyn600": "1118223f",
+    "clock600": "e6054428",
+    "dilMax600": 0.008853137493134211,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "primary"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "whiteDwarfBareDFM": {
+   "emoji": "🔘",
+   "group": "天体の機構",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 4,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "e0ccef32",
+    "lockAfterLoad": false,
+    "dyn600": "1118223f",
+    "clock600": "0cf7f735",
+    "dilMax600": 0.03278936942418487,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 4,
+    "c": 30,
+    "X": 0.0044444444444444444,
+    "sig": "e416040f",
+    "lockAfterLoad": true,
+    "loadedX": 0.0044444444444444444,
+    "dyn600": "1118223f",
+    "clock600": "e6054428",
+    "dilMax600": 0.008853137493134211,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": "variant"
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "envelopeShedDFM": {
+   "emoji": "🎆",
+   "group": "天体の機構",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 4,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "4508b431",
+    "lockAfterLoad": false,
+    "dyn600": "1118223f",
+    "clock600": "0cf7f735",
+    "dilMax600": 0.03278936942418487,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 4,
+    "c": 30,
+    "X": 0.0044444444444444444,
+    "sig": "7d09a14a",
+    "lockAfterLoad": true,
+    "loadedX": 0.0044444444444444444,
+    "dyn600": "1118223f",
+    "clock600": "e6054428",
+    "dilMax600": 0.008853137493134211,
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "lfbotTrap": {
+   "emoji": "🐮",
+   "group": "天体の機構",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 4,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "2a39745",
+    "lockAfterLoad": false,
+    "dyn600": "68155a19",
+    "clock600": "5a5f3fe2",
+    "dilMax600": 0.2217935125033066,
+    "activeParams": [
+     "etaRad",
+     "kFrame",
+     "G"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 4,
+    "c": 30,
+    "X": 0.0044444444444444444,
+    "sig": "57a6864a",
+    "lockAfterLoad": true,
+    "loadedX": 0.0044444444444444444,
+    "dyn600": "28a73d25",
+    "clock600": "ffac842c",
+    "dilMax600": 0.07651335000991888,
+    "activeParams": [
+     "etaRad",
+     "kFrame",
+     "G"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": false,
+   "clockSame": false
+  },
+  "layeredCoreDFM": {
+   "emoji": "🧅",
+   "group": "天体の機構",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 1,
+    "c": 30,
+    "X": 0.016666666666666666,
+    "sig": "52601cc",
+    "lockAfterLoad": false,
+    "dyn600": "1538f92d",
+    "clock600": "c2048e6e",
+    "dilMax600": 0.8749892289439838,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null
+   },
+   "after": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "f39d5fd6",
+    "lockAfterLoad": true,
+    "loadedX": 0.0011111111111111111,
+    "dyn600": "1538f92d",
+    "clock600": "2b98982d",
+    "dilMax600": 0.12944515546162982,
+    "activeParams": [
+     "G",
+     "softening"
+    ],
+    "abPatch": null,
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "spinDipoleBinary": {
+   "emoji": "⚙️",
+   "group": "天体の機構",
+   "kind": "class1",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "derive",
+   "before": {
+    "G": 1,
+    "c": 30,
+    "X": 0,
+    "sig": "f2357412",
+    "lockAfterLoad": false,
+    "dyn600": "7820d27e",
+    "clock600": "4e187ca5",
+    "dilMax600": 0.0003962403652965074,
+    "activeParams": [
+     "G",
+     "cLight",
+     "softening"
+    ],
+    "abPatch": {
+     "spinSpin": 0
+    }
+   },
+   "after": {
+    "G": 1,
+    "c": 30,
+    "X": 0.0011111111111111111,
+    "sig": "7866a3f",
+    "lockAfterLoad": true,
+    "loadedX": 0.0011111111111111111,
+    "dyn600": "7820d27e",
+    "clock600": "afd7bcf9",
+    "dilMax600": 0.003574265140892985,
+    "activeParams": [
+     "G",
+     "cLight",
+     "softening"
+    ],
+    "abPatch": {
+     "spinSpin": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 1.62231,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": false
+  },
+  "gasCohSurface": {
+   "emoji": "🌬️",
+   "group": "天体の機構",
+   "kind": "satisfied",
+   "class325f": "X_k = G_0/c_0²",
+   "basis325f": "satisfied",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "aa779d2f",
+    "lockAfterLoad": true,
+    "dyn600": "babd6bfb",
+    "clock600": "ed596f31",
+    "dilMax600": 0.0006918708483385494,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "softening"
+    ],
+    "abPatch": {
+     "gasCoh": 1
+    }
+   },
+   "after": {
+    "G": 0,
+    "c": 30,
+    "X": 0,
+    "sig": "aa779d2f",
+    "lockAfterLoad": true,
+    "loadedX": 0,
+    "dyn600": "babd6bfb",
+    "clock600": "ed596f31",
+    "dilMax600": 0.0006918708483385494,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "softening"
+    ],
+    "abPatch": {
+     "gasCoh": 1
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": true,
+   "dynSame": true,
+   "clockSame": true
+  },
+  "mmPhaseToy": {
+   "emoji": "🪞",
+   "group": "光の伝播",
+   "kind": "class2",
+   "class325f": "X_k を維持して G_0 を合わせる",
+   "basis325f": "keepX",
+   "before": {
+    "G": 0,
+    "c": 30,
+    "X": 0.02,
+    "sig": "34af832",
+    "lockAfterLoad": false,
+    "dyn600": "22772778",
+    "clock600": "066d083a",
+    "dilMax600": 0.21220550934473725,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "kappaT",
+     "softening"
+    ],
+    "abPatch": {
+     "kFrame": 0
+    }
+   },
+   "after": {
+    "G": 18,
+    "c": 30,
+    "X": 0.02,
+    "sig": "76437add",
+    "lockAfterLoad": true,
+    "loadedX": 0.02,
+    "dyn600": "22772778",
+    "clock600": "066d083a",
+    "dilMax600": 0.21220550934473725,
+    "activeParams": [
+     "kFrame",
+     "q",
+     "G",
+     "softening"
+    ],
+    "abPatch": {
+     "kFrame": 0
+    },
+    "accept": true,
+    "warnX": 0,
+    "nan": false,
+    "role": null
+   },
+   "dt": 0.016,
+   "sigSame": false,
+   "dynSame": true,
+   "clockSame": true
+  }
+ }
+}

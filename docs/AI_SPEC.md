@@ -382,7 +382,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 {"name":"高温ガスと低温ガスの混合","emoji":"🔥","scaleTier":"molecular","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"kappaT":0.016666666666666666,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":2},"bodies":[{"type":"box","rMul":1.2,"n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","rMul":1.2,"n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
 
 例3 要望「ブラックホールが見たい。光が吸い込まれるところも。星も1000個ちりばめて」
-{"name":"ブラックホール — 光子捕捉","emoji":"🕳️","scaleTier":"stellar","description":"中央の超大質量天体(ブラックホールの光学類似)。左からの光線が強く曲がり、近くを通る光は捕まって光子球のような円軌道に巻き付く(光子捕捉)。周囲の星は数を400に抑えて軽快に動かす。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"kappaT":0.025,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":1},"bodies":[{"type":"single","rMul":1.2,"m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":0.5,"pinned":true},{"type":"disk","rMul":1.2,"n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.7},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
+{"name":"ブラックホール — 光子捕捉","emoji":"💡","scaleTier":"stellar","description":"中央の超大質量天体(ブラックホールの光学類似)。左からの光線が強く曲がり、近くを通る光は捕まって光子球のような円軌道に巻き付く(光子捕捉)。周囲の星は数を400に抑えて軽快に動かす。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":90,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"kappaT":0.025,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":1},"bodies":[{"type":"single","rMul":1.2,"m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":0.5,"pinned":true},{"type":"disk","rMul":1.2,"n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.7},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
 (質量2000+X_k=0.025(=1/40)+スピン0.5で光子捕捉が起きる=機械検証済み。要望の1000個は上限・性能の推奨に合わせて400に調整し、descriptionでその旨に触れている)
 
 例4 要望「回る空間に引きずられるのを見たい」
@@ -4616,6 +4616,13 @@ SYSTEM_PROMPT の規則 13(逐語):
 
 
 
+
+## 182. 第326便a —— 物理対応ロック X_k = G_0/c_0² を常に(全部の経路)・在位の満たさない本の宣言の移行・X_k のノブの行き先を G_0 へ・「自転と減光」の群の 3 本の退役(原仮定者の回答(2026-11-03 —— AN530)・決断事項 AN532〔既定値のマージ —— 回答待ち・推奨 A で別のコミット〕・統括の検証項目 R290・**步・式・`S._core`・満たしていた在位の 56 本の宣言は不変**)
+
+- **X_k は導出の量**: 本の X_k(鍵 kappaT・旧 Kt)は受理と読み込みと編集の全部の経路で X_k = G_0/c_0²(G_0 = 0 なら 0・値域 [0, 1])に置かれる。AI が本を作るときは、時計と光の強さを G_0(と c_0)で決める —— 宣言した X_k が導出値と違えば受理で置き換わり、告知が 1 行残る(相対 1e-6 の外のとき —— `validatePreset` の返り値 `xkLock.notices`。警告〔warnings〕には入れない)。`abBody.physicsPatch` に X_k を書いても読まない(X_k の対照は G_0 の対照 —— 例 `{G:0}`)。
+- **既定値のマージ(AN532 —— 推奨 A)**: X_k を書かない本も G_0/c_0² になる(既定の G = 1・c_0 = 30 なら 1/900)。表の既定値そのもの(kappaT = 0.016666666666666666)を書いた本は告知なしで導出値へ。**SYSTEM_PROMPT の既定値の一覧(kappaT = 1/60)は本便では変えていない**(AI 生成のまとめた改良 —— 決断事項 AN523 の候補)。
+- 例外は内蔵の退役の本(履歴)だけ —— 開いている間は宣言の X_k のまま。退役 3 本(🕳️ rotorSolo・🪜 massLadder・🥚 selfRotor)を AI の例・注記に挙げない。
+- 凍結の写し `tests/fixtures/xklock-w326a.json`(移行の前後)・`tests/fixtures/retired-w326a.json`。QA `lint.physLockAlways326a`・`behavior.xkDerive326a`・`docs.xkLock326a`。
 ## 184. 第326便c —— UI: 選択粒子の編集の位置 x・y(減光と自動の欄を外す)・「時空」の群の計算済みの決定力定数 κ_D・時空係数 X_k・引きずり係数 Y_k(物理対応ロックの切替を外す)(原仮定者の指示(第128報)・原仮定者の回答(2026-11-03 —— AN530)・統括の検証項目 R292・**UI だけ —— 受理器・步・式・`S._core`・本の宣言の鍵と受理は不変**・**SYSTEM_PROMPT には載せない**)
 
 - **選択粒子の編集**: 減光の欄(`#beSw` —— 数値と "auto")と「自動」のチェック(`#beSwAuto`)を外し、位置の欄 `#beX`・`#beY` を vx・vy の行の直前に加えた(値域 ±5000 —— 受理器の座標と同じ・書き込みは vx・vy と同じ)。AI が書く本の `lightSweep`(数値 0〜1・"auto")は今のまま受理され、今のまま動く(画面から編集できなくなるだけ)。

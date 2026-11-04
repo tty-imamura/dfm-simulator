@@ -296,13 +296,18 @@ export function part3(HP) {
   // κ → 0 と c₀ → ∞ で G に戻る: 固定中心の人工二体 2000 步の位置。κ_T = 0 を kappa:"kappaT" で読む宣言はビット同一(ψ = 0 → expm1(0) = 0)/
   //   c₀ の走査(受理の上限 cLight ≤ 10⁶ の中 —— 10⁴・10⁵・10⁶)で G 一定との位置の相対差が c₀⁻² で縮む(対数の傾き ≈ −2)
   const dt = 2 * Math.PI / 1000, step = (p) => { const v = HP.validatePreset(clone(p)); HP.sim.build(v.preset); const S = HP.sim; for (let k = 0; k < 2000; k++) S.step(dt); return [S.x[1], S.y[1]]; };
-  const k0A = toyPreset({ pinned: true, m: 1e-6, d3: true }), k0B = toyPreset({ pinned: true, m: 1e-6, d3: true, gl: { law: 'kappaC2', kappa: 'kappaT' } });
-  k0A.physics.kappaT = 0; k0B.physics.kappaT = 0;
+  // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 物理対応ロックを常にの世代では X_k は G_0/c_0² の導出の量で、
+  //   G ≠ 0 の本に κ_T = 0 を置けない(受理で導出値へ置き換わる)。この世代の零試験は「ロックの下で kappa:"kappaT"(光学側の X_k)は kappa:"lock"(G/c₀²)と bit で同じ」
+  //   (旧世代: κ_T = 0 を kappa:"kappaT" で読む宣言は G_loc なしとビット同一)。鍵 kappa0Same は互換のため据え置き
+  //   世代の判定は受理の振る舞いから(G ≠ 0 の写しに X_k = 0 を書いて受理が導出値へ置き換えるか —— html の新しい名前を読まない)
+  const lock326a = (() => { const q = toyPreset({ pinned: true, m: 1e-6, d3: true }); q.physics.kappaT = 0; const v = HP.validatePreset(clone(q)); return !!(v.ok && v.preset.physics.kappaT !== 0); })();
+  const k0A = toyPreset(Object.assign({ pinned: true, m: 1e-6, d3: true }, lock326a ? { gl: { law: 'kappaC2' } } : {})), k0B = toyPreset({ pinned: true, m: 1e-6, d3: true, gl: { law: 'kappaC2', kappa: 'kappaT' } });
+  if (!lock326a) { k0A.physics.kappaT = 0; k0B.physics.kappaT = 0; }
   const ka = step(k0A), kb = step(k0B);
   const scan = [1e4, 1e5, 1e6].map((c) => { const a = step(toyPreset({ pinned: true, m: 1e-6, d3: true, c })), b = step(toyPreset({ pinned: true, m: 1e-6, d3: true, c, gl: { law: 'kappaC2' } }));
     return { c, relDiff: Math.hypot(a[0] - b[0], a[1] - b[1]) / Math.hypot(a[0], a[1]) }; });
   const slope = Math.log10(scan[2].relDiff / scan[0].relDiff) / 2;
-  const z2 = { kappa0Same: ka[0] === kb[0] && ka[1] === kb[1], scan, logSlope: slope };
+  const z2 = { kappa0Same: ka[0] === kb[0] && ka[1] === kb[1], kappa0Mode: lock326a ? 'lock-vs-kappaT' : 'kappaT0-vs-none', scan, logSlope: slope };
   // symmetric の運動量(自由な二体 m₂/m₁ = 0.25・20 公転)と receiver の交換の帳簿
   const sym = toyCase(HP, { pinned: false, m: 0.25, d3: true, gl: { law: 'kappaC2', pair: 'symmetric' } }, 1);
   const rec = toyCase(HP, { pinned: false, m: 0.25, d3: true, gl: { law: 'kappaC2' } }, 1);
