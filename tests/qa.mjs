@@ -17049,9 +17049,12 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
     const drv = (c) => res.kap ? g0 / (c * c) : c * c / g0;                // 導出値(世代ネイティブ演算)
     res.cond = drv(c0);                               // Kt=3600 / κ=1/3600
     res.condHalf = drv(c0 / 2);                       // cLight 半減時の導出値(Kt: /4・κ: ×4)
-    res.natural = res.kap ? 1 / 300 : 300;            // grcal 素の時空係数
+    // 第326便a(AN530・R290): 世代切替 = HP.XK_LOCK_VERSION —— 物理対応ロックは常に。🛰 grcal の宣言は導出値 1/3600(旧: 誇張アナログの 1/300)で、
+    //   setPhysLock(false) でも OFF にならない(条件外バッジは出ない —— 期待を反転)
+    res.gen326 = !!HP.XK_LOCK_VERSION;
+    res.natural = res.gen326 ? g0 / (c0 * c0) : (res.kap ? 1 / 300 : 300);            // grcal 素の時空係数
     res.before = stc();
-    res.badgeOff = badge().includes('一般化トイ設定');
+    res.badgeOff = res.gen326 ? !badge().includes('一般化トイ設定') : badge().includes('一般化トイ設定');
     HP.setPhysLock(true);
     res.locked = stc();                               // → 条件値
     res.badgeOn = badge().includes('自動維持');
@@ -51174,8 +51177,11 @@ if (!FAST) {
         const b0 = HP.calibrationBudget();
         HP.setPhysLock(true);
         const b1 = HP.calibrationBudget();
-        const plOk = b0.derived.length === 0 && b1.derived.some(x => x.key === 'kappaT')
-          && b1.N === b0.N - 1 && !b1.knobs.some(x => x.key === 'kappaT');
+        // 第326便a(AN530・R290): 世代切替 = HP.XK_LOCK_VERSION —— 物理対応ロックは常に(読み込みの時点で κ は「導出」—— 手動の ON は無い)
+        const plOk = HP.XK_LOCK_VERSION
+          ? (b0.derived.some(x => x.key === 'kappaT') && b1.derived.some(x => x.key === 'kappaT') && b1.N === b0.N && !b0.knobs.some(x => x.key === 'kappaT'))
+          : (b0.derived.length === 0 && b1.derived.some(x => x.key === 'kappaT')
+          && b1.N === b0.N - 1 && !b1.knobs.some(x => x.key === 'kappaT'));
         HP.setPhysLock(false);
         HP.loadPreset('galaxy', false);   // physLock で書き換わった κ を宣言値へ戻す
         return { rows, lockOk, plOk };
@@ -53065,6 +53071,33 @@ if (!FAST) {
       // 第128便: 時空係数の内部保持キーは世代で違う(root=Kt正準 / beta=κ正準)
       const stc = () => (typeof HP.sim.params.kappaT === 'number')
         ? HP.sim.params.kappaT : HP.sim.params.Kt;
+      // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 世代切替 = HP.XK_LOCK_VERSION —— 物理対応ロックは常に(切替なし)。
+      //   この世代の期待: 在位の本の時空係数の行は常にグレー・setPhysLock(false) でもロックのまま・別の本の読込でも ON(X_k は導出値)・
+      //   保存は physLock:true・読込で導出値・λPN の 2 項は旧世代と同じ(全部の経路は behavior.xkDerive326a)
+      if (HP.XK_LOCK_VERSION) {
+        res.gen326 = true;
+        const der = () => { const p = HP.sim.params; return p.G > 0 ? Math.min(1, p.G / (p.cLight * p.cLight)) : 0; };
+        HP.loadPreset('grcal', false);
+        const a0 = state(); res.grey = a0.dis && a0.cls;
+        HP.setPhysLock(false); const a1 = state(); res.stay = HP.physLock() === true && a1.dis && a1.cls && Object.is(stc(), der());
+        HP.loadPreset('galaxy', false); res.loadOn = HP.physLock() === true && Object.is(stc(), der()) && state().dis;
+        const savesBak2 = localStorage.getItem('hp_saves');
+        try {
+          HP.loadPreset('grcal', false);
+          document.querySelector('#saveName').value = 'QA110ロック';
+          document.getElementById('btnSave').click();
+          const sv = JSON.parse(localStorage.getItem('hp_saves') || '[]');
+          res.savedFlag = !!(sv[0] && sv[0].name === 'QA110ロック' && sv[0].physLock === true);
+          HP.loadPreset('galaxy', false);
+          document.querySelector('#saveList .saveItem .rowBtns .btn.primary').click();
+          res.loadRestores = HP.physLock() === true && Object.is(stc(), der()) && HP.currentPreset().id === 'grcal';
+        } finally { if (savesBak2 === null) localStorage.removeItem('hp_saves'); else localStorage.setItem('hp_saves', savesBak2); HP.loadPreset('galaxy', false); }
+        const v = HP.validatePreset({ name: 'λ連続', description: 'd', camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, physics: { lambdaPN: 0.25, geoPN: 2 },
+          bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+        res.lamKept = !!(v.ok && v.preset.physics.lambdaPN === 0.25);
+        res.promptCont = HP.SYSTEM_PROMPT.includes('lambdaPN:0〜1,') && !HP.SYSTEM_PROMPT.includes('lambdaPN:0〜1(整数)');
+        return res;
+      }
       // ① ロック ⇄ 解除で 時空係数行のグレーアウトが追随する
       HP.setPhysLock(false);
       HP.loadPreset('galaxy', false);
@@ -53120,7 +53153,10 @@ if (!FAST) {
         && !HP.SYSTEM_PROMPT.includes('lambdaPN:0〜1(整数)');
       return res;
     });
-    add('physlock.ui-110', r.freeBefore && r.lockedGrey && r.freeAfter && r.autoUnlock && r.ktIntact
+    if (r.gen326) add('physlock.ui-110', r.grey && r.stay && r.loadOn && r.savedFlag && r.loadRestores && r.lamKept && r.promptCont,
+      `第326便a の世代(物理対応ロックは常に —— 切替なし): 時空係数の行は常にグレー=${r.grey}・setPhysLock(false) でもロックのまま=${r.stay}・別の本の読込でも ON(導出値)=${r.loadOn} `
+      + `セーブ保存 physLock:true=${r.savedFlag} 復元で導出値=${r.loadRestores} λPN0.25保持=${r.lamKept} 値域文言=${r.promptCont}`);
+    else add('physlock.ui-110', r.freeBefore && r.lockedGrey && r.freeAfter && r.autoUnlock && r.ktIntact
       && r.freeAfterLoad && r.savedFlag && r.loadRestores && r.loadGrey && r.noFlagWhenOff && r.loadUnlocks
       && r.lamKept && r.promptCont,
       `グレーアウト(前${r.freeBefore}/中${r.lockedGrey}/後${r.freeAfter}) 読込自動解除=${r.autoUnlock}(Kt維持=${r.ktIntact}・行復帰=${r.freeAfterLoad}) `
@@ -87212,6 +87248,28 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   const hasPL315 = TARGET.startsWith('beta/') && await page.evaluate(() => !!(window.HP && HP.PHYS_LOCK_AUTO_VERSION === 'w315a-physlock-auto-1'));
   if (!hasPL315) {
     console.log('SKIP ui.physLock315(第315便a の読込時の自動 ON の前の世代 — ' + TARGET + ')');
+  } else if (await page.evaluate(() => !!HP.XK_LOCK_VERSION)) {
+    // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 世代切替 = HP.XK_LOCK_VERSION —— 読込時の自動 ON(条件を満たす本だけ・値は書き直さない)は
+    //   「常にロック」へ置き換わった。この世代の期待: 在位の本は読込でロック ON・X_k は G_0/c_0² の導出値(別の sim の build の値とも bit で同じ —— 在位の宣言は導出値)・
+    //   退役の本(履歴)はロックの外で宣言の X_k のまま。セーブ・⏮・A/B・編集の経路は behavior.xkDerive326a
+    const r6 = await page.evaluate(() => {
+      const out = { bad: [], n: 0, on: 0, off: 0 };
+      try {
+        for (const p of HP.allPresets().filter((q) => !String(q.id).startsWith('custom_'))) {
+          HP.setPhysLock(out.n % 2 === 0); HP.loadPreset(p.id, false); out.n++;
+          const P = HP.sim.params, d = P.G > 0 ? Math.min(1, P.G / (P.cLight * P.cLight)) : 0;
+          const S2 = HP.coord3d.makeSim(); S2.build(JSON.parse(JSON.stringify(p)));
+          if (p.familyRole === 'retired') { out.off++; if (HP.physLock() !== false || !Object.is(P.kappaT, S2.params.kappaT)) out.bad.push('退役 ' + p.id + ' がロックの外で宣言の X_k のまま —— でない'); continue; }
+          out.on++;
+          if (!(HP.physLock() === true && Object.is(P.kappaT, d) && Object.is(P.kappaT, S2.params.kappaT))) out.bad.push(p.id + ' の読込でロック ON・導出値・build の値と bit —— でない');
+        }
+      } catch (e) { out.bad.push('落ちた: ' + String(e).slice(0, 160)); }
+      finally { HP.loadPreset('galaxy', false); }
+      return out;
+    });
+    add('ui.physLock315', r6.bad.length === 0,
+      `**物理対応ロックの読込時の扱い**(第315便a の自動 ON → 第326便a の世代: 常にロック —— AN530): 内蔵 ${r6.n} 本のうち在位 ${r6.on} 本は読込でロック ON・X_k は導出値(build の値と bit で同じ)・退役 ${r6.off} 本はロックの外(宣言の X_k)`
+      + (r6.bad.length ? ` / **違反 ${r6.bad.length} 件**: ${r6.bad.slice(0, 6).join(' , ')}` : ''));
   } else {
     const r = await page.evaluate(() => {
       const out = { bad: [], n: 0, on: 0 };
