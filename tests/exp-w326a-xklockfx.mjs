@@ -15,7 +15,8 @@
 // 実行(作業の場所は worktree の根):
 //   node tests/exp-w326a-xklockfx.mjs --measure base --html beta/_w326_base.html --out <scratch>/fx-base.json
 //   node tests/exp-w326a-xklockfx.mjs --measure now  --html beta/index.html      --out <scratch>/fx-now.json
-//   node tests/exp-w326a-xklockfx.mjs --merge <scratch>/fx-base.json <scratch>/fx-now.json --base-rev 1b1fa70 [--force]
+//   node tests/exp-w326a-xklockfx.mjs --merge <scratch>/fx-base.json <scratch>/fx-now.json --base-rev 1b1fa70 [--html beta/index.html] [--force]
+//   (退役の 3 本の内蔵定義そのもの raw は --html の html から —— 第325便c の写しと同じ形 —— docs.retired が 200 步の状態を写しと比べる)
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -78,7 +79,12 @@ async function measure(which, htmlRel, out) {
   console.log(`measure ${which}: ${Object.keys(rows).length} 本 → ${out}`);
 }
 
-function merge(fBase, fNow, baseRev, force) {
+async function rawOf(htmlRel, ids) {
+  const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
+  const { HP } = loadHtmlMain(path.resolve(ROOT, htmlRel));
+  return Object.fromEntries(ids.map((id) => [id, JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)))]));
+}
+function merge(fBase, fNow, baseRev, force, RAW) {
   if (!force && (fs.existsSync(OUT_FX) || fs.existsSync(OUT_RET))) { console.error('凍結の写しが既にある(--force なしでは書き換えない)'); process.exit(2); }
   const A = JSON.parse(fs.readFileSync(fBase, 'utf8')), B = JSON.parse(fs.readFileSync(fNow, 'utf8'));
   const DX = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w325f-xklock.json'), 'utf8'));
@@ -113,11 +119,11 @@ function merge(fBase, fNow, baseRev, force) {
     presets: Object.fromEntries(RETIRE_326A.map((z) => { const a = A.rows[z.id], b = B.rows[z.id];
       return [z.id, { emoji: byD.get(z.id).emoji, group: byD.get(z.id).group, familyRoleAtBase: a.role, familyRole: b.role, presetSigHash: b.sig, base: { presetSigHash: a.sig, sigSame: a.sig === b.sig },
         physics: { G: b.G, cLight: b.c, kappaT: b.X }, lockAfterLoad: b.loaded.lock, dyn600Same: a.s600.dyn === b.s600.dyn,
-        successor: z.successor, reason: z.reason, class325f: byD.get(z.id).class, undecided325f: !!byD.get(z.id).undecided }]; })) };
+        successor: z.successor, reason: z.reason, class325f: byD.get(z.id).class, undecided325f: !!byD.get(z.id).undecided, raw: RAW ? RAW[z.id] : null }]; })) };
   fs.writeFileSync(OUT_RET, JSON.stringify(ret, null, 1) + '\n');
   console.log(JSON.stringify(tally));
 }
 
 if (argv.includes('--measure')) await measure(arg('--measure'), arg('--html', 'beta/index.html'), arg('--out'));
-else if (argv.includes('--merge')) { const i = argv.indexOf('--merge'); merge(argv[i + 1], argv[i + 2], arg('--base-rev', '1b1fa70'), argv.includes('--force')); }
+else if (argv.includes('--merge')) { const i = argv.indexOf('--merge'); const RAW = await rawOf(arg('--html', 'beta/index.html'), RETIRED_IDS_326A); merge(argv[i + 1], argv[i + 2], arg('--base-rev', '1b1fa70'), argv.includes('--force'), RAW); }
 else { console.error('使い方: --measure <base|now> --html <html> --out <json> / --merge <base.json> <now.json> [--base-rev 1b1fa70] [--force]'); process.exit(2); }

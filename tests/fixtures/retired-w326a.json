@@ -33,7 +33,201 @@
    "successor": "lfbotTrap",
    "reason": "減光と外来光線の掃き出し(X_k)と周回のテスト粒子(G_0)の両方が用途 —— 物理対応ロックの下でどの写し方でも用途の一部が動く(調整が必要)",
    "class325f": "X_k を維持して G_0 を合わせる",
-   "undecided325f": true
+   "undecided325f": true,
+   "raw": {
+    "id": "rotorSolo",
+    "name": "光学迷彩矮星(単体)",
+    "emoji": "🕳️",
+    "group": "自転と減光",
+    "scaleTier": "stellar",
+    "sampleClass": "principle",
+    "notClaim": [
+     "dm"
+    ],
+    "familyId": "darkcenter",
+    "familyRole": "retired",
+    "descStruct": {
+     "summary": "光学迷彩矮星とは、この模型で、自転に関連する減光機構(自光の掻き出しと外来光線の掃き出し)により光学的に暗く見えるコンパクト天体に付けた造語である。観測上確立した天体分類(矮星・褐色矮星・白色矮星)やダークマターの同定を意味しない。質量・物理半径は各サンプルの宣言に従う。(旧称: ダークローター)「暗い天体」1個だけを置いた最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・減光=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。",
+     "observe": "②自光の減光(掻き出し): 減光を固定値ではなく auto にしてあるので、実効値 lS_eff=min(1,|s|R/c_surf) が粒子のスピンと半径から毎ステップ算出される(中心天体をタップすると減光欄は「自動」チェック済みで、実効値 lS_eff が数値欄に表示される)— 実測1.00。③外来光線の掃き出し: 回るコアが決定フレームごと光を運び(A11/E8R)、スピン0の対照では起きる有限時間の光子捕捉(実測 非脱出率0.62)が消える(実測0.00)。順行側の光線ほど外へ払われ、逆行側は深く潜る(平均最小接近半径 順行158 対 逆行72 — T8と同じ非対称)。②と③は別機構である: lS_effはスピン0.145で既に1に飽和しているのに、そのスピンでは掃き出しがまだ全く起きていない(非脱出率0.70 = 対照以上)。掃き出しが立ち上がるのはスピン0.3→0.35の間で、飽和点とは2倍以上離れている(スピン値はc₀=30 相似単位 — 旧単位の1/2)。テスト粒子は空間の引きずり(A8/E6′)で順行方向に角運動量を汲み上げられる(12000步平均 L_z=484 対 対照316 — c₀=30 相似変換後の再実測)。運動量・角運動量は帳簿込みで保存する(モニタ表示・相対ずれ1e-4台)。※③は物理対応ロック(X_k=G/c²=1/3600。旧表記 Kt=3600)では起きない — 実測 非脱出率は高スピンでも0.00(反証条件7)。実在のブラックホールやダークマターについての主張ではない(Negative Claims 1/2)。",
+     "control": "おすすめA/B(ワンタップ): 下のボタンで中心コアのスピンを0にした対照と即座に比較できる — 減光・掃き出し・引きずりが同時に消える。",
+     "brief": "単体の光学迷彩矮星の掻き出しと減光を測る。達・掻き出し・非脱出・帳簿が門内。較正対象外。"
+    },
+    "en": {
+     "name": "Optical-Camouflage Dwarf (Single Body)",
+     "descStruct": {
+      "summary": "An optical-camouflage dwarf is a term coined in this model for a compact body that looks optically dark because of spin-related dimming mechanisms (sweeping out its own light and sweeping away incoming rays). It does not denote an established observational class (dwarf, brown dwarf or white dwarf), nor an identification of dark matter. Mass and physical radius follow each sample's declaration. The minimal set-up: one dark body on its own — a high-spin core at the center (m=2000, radius 45, spin 2.0, dimming=auto), 24 test particles orbiting at r=200, and 20 light rays entering from the left. Every particle is free (no pins, no rails): a closed system. Darkness in this universe is a mixture of separate mechanisms (DERIVATIONS §17), and this screen shows two of them at once — and keeps them apart. ",
+      "observe": "(2) Dimming its own light (spin sweeping it out): dimming is set to \"auto\" rather than a fixed number, so the effective value lS_eff=min(1,|s|R/c_surf) is computed every step from the body's own spin and radius (tap the core: the dimming field shows the \"auto\" checkbox ticked, with the effective value lS_eff displayed in the number field) — measured 1.00. (3) Sweeping out incoming rays: the spinning core carries light with the rotating determinacy frame (A11/E8R), and the finite-time photon capture that happens in the spin-0 control (measured non-escape rate 0.62) disappears (measured 0.00). Prograde rays are pushed outward while retrograde rays dive deeper (mean closest approach 158 vs 72 — the same asymmetry as T8). (2) and (3) are different mechanisms: lS_eff is already saturated at 1 by spin 0.145, yet at that spin the ray sweep-out has not started at all (non-escape 0.70, above the control). The sweep-out only switches on between spin 0.3 and 0.35 — more than a factor of two away from the saturation point (spin values are in the c₀=30 similarity units, half the old ones). The test particles are pumped into prograde rotation by the dragging of space (A8/E6′): mean L_z=484 over 12000 steps versus 316 for the control (re-measured after the c₀=30 similarity rescale). Momentum and angular momentum are conserved once the ledger is included (see the monitor; relative drift of order 1e-4). Note: (3) does not happen under the GR-calibration lock (X_k=G/c²=1/3600; legacy notation Kt=3600) — the measured non-escape rate is 0.00 even at high spin (falsification condition 7). Not a claim about real black holes or dark matter (Negative Claims 1/2). ",
+      "control": "Suggested A/B (one-tap): use the button below to compare instantly against the core spin set to 0 — the dimming, the sweep-out and the dragging all vanish together.",
+      "brief": "Measure a single optical-camouflage dwarf's sweeping and dimming. Met: sweeping, non-escape and the ledger pass the gate. Out of calibration scope."
+     },
+     "description": "An optical-camouflage dwarf is a term coined in this model for a compact body that looks optically dark because of spin-related dimming mechanisms (sweeping out its own light and sweeping away incoming rays). It does not denote an established observational class (dwarf, brown dwarf or white dwarf), nor an identification of dark matter. Mass and physical radius follow each sample's declaration. The minimal set-up: one dark body on its own — a high-spin core at the center (m=2000, radius 45, spin 2.0, dimming=auto), 24 test particles orbiting at r=200, and 20 light rays entering from the left. Every particle is free (no pins, no rails): a closed system. Darkness in this universe is a mixture of separate mechanisms (DERIVATIONS §17), and this screen shows two of them at once — and keeps them apart. (2) Dimming its own light (spin sweeping it out): dimming is set to \"auto\" rather than a fixed number, so the effective value lS_eff=min(1,|s|R/c_surf) is computed every step from the body's own spin and radius (tap the core: the dimming field shows the \"auto\" checkbox ticked, with the effective value lS_eff displayed in the number field) — measured 1.00. (3) Sweeping out incoming rays: the spinning core carries light with the rotating determinacy frame (A11/E8R), and the finite-time photon capture that happens in the spin-0 control (measured non-escape rate 0.62) disappears (measured 0.00). Prograde rays are pushed outward while retrograde rays dive deeper (mean closest approach 158 vs 72 — the same asymmetry as T8). (2) and (3) are different mechanisms: lS_eff is already saturated at 1 by spin 0.145, yet at that spin the ray sweep-out has not started at all (non-escape 0.70, above the control). The sweep-out only switches on between spin 0.3 and 0.35 — more than a factor of two away from the saturation point (spin values are in the c₀=30 similarity units, half the old ones). The test particles are pumped into prograde rotation by the dragging of space (A8/E6′): mean L_z=484 over 12000 steps versus 316 for the control (re-measured after the c₀=30 similarity rescale). Momentum and angular momentum are conserved once the ledger is included (see the monitor; relative drift of order 1e-4). Note: (3) does not happen under the GR-calibration lock (X_k=G/c²=1/3600; legacy notation Kt=3600) — the measured non-escape rate is 0.00 even at high spin (falsification condition 7). Not a claim about real black holes or dark matter (Negative Claims 1/2). Suggested A/B (one-tap): use the button below to compare instantly against the core spin set to 0 — the dimming, the sweep-out and the dragging all vanish together.",
+     "status": {
+      "purpose": "Measure a single optical-camouflage dwarf's sweeping and dimming",
+      "state": "sweeping, non-escape and the ledger pass the gate",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "activeParams": [
+     "kFrame",
+     "kappaT",
+     "q"
+    ],
+    "validT": 192,
+    "abBody": {
+     "label": {
+      "ja": "コアのスピン0",
+      "en": "core spin = 0"
+     },
+     "targets": [
+      0
+     ],
+     "patch": {
+      "spin": 0
+     }
+    },
+    "claims": [
+     {
+      "id": "rotorSolo.non-escape-rate",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "metric": "nonEscapeRate",
+      "expected": {
+       "min": 0,
+       "max": 0.15
+      },
+      "descPattern": "が消える\\(実測(\\d+\\.\\d+)\\)",
+      "control": {
+       "patch": {
+        "abBody": true
+       },
+       "expected": {
+        "min": 0.55,
+        "max": 0.78
+       },
+       "descPattern": "実測 非脱出率(\\d+\\.\\d+)\\)が消える"
+      },
+      "testId": "behavior.rotorSolo"
+     },
+     {
+      "id": "rotorSolo.ring-lz-mean",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "metric": "ringLzMean",
+      "expected": {
+       "min": 405,
+       "max": 550
+      },
+      "descPattern": "12000步平均 L_z=(\\d+)",
+      "control": {
+       "patch": {
+        "abBody": true
+       },
+       "expected": {
+        "min": 315,
+        "max": 317.5
+       },
+       "descPattern": "対 対照(\\d+)"
+      },
+      "testId": "behavior.rotorSolo"
+     }
+    ],
+    "camera": {
+     "scale": 300
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "seed": 20260727,
+    "timeRef": {
+     "basis": "observe",
+     "tObs": 9.6,
+     "note": "観察の基準 600 步 —— 光線の本"
+    },
+    "physics": {
+     "G": 0.25,
+     "D0": 2,
+     "kFrame": 1,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 0.016666666666666666,
+     "cLight": 30,
+     "contactK": 10,
+     "contactCap": 2,
+     "bM": 0.25,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 0,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 4,
+     "timeScale": 4,
+     "frameWeight": "share"
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 2000,
+      "x": 0,
+      "y": 0,
+      "vx": 0.00000165,
+      "vy": -7e-7,
+      "spin": 1,
+      "radius": 45,
+      "lightSweep": "auto",
+      "pinned": false
+     },
+     {
+      "type": "ring",
+      "n": 24,
+      "cx": 0,
+      "cy": 0,
+      "rIn": 200,
+      "rOut": 200,
+      "mMin": 0.05,
+      "mMax": 0.05,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "kepler",
+      "aroundMass": 2000,
+      "omega": 0,
+      "vNoise": 0,
+      "direction": 1,
+      "pinned": false
+     }
+    ],
+    "rays": {
+     "n": 20,
+     "spread": 0.6
+    },
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": true,
+     "trail": true,
+     "trailTargets": "sampled",
+     "monitor": true
+    },
+    "description": "光学迷彩矮星とは、この模型で、自転に関連する減光機構(自光の掻き出しと外来光線の掃き出し)により光学的に暗く見えるコンパクト天体に付けた造語である。観測上確立した天体分類(矮星・褐色矮星・白色矮星)やダークマターの同定を意味しない。質量・物理半径は各サンプルの宣言に従う。(旧称: ダークローター)「暗い天体」1個だけを置いた最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・減光=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。②自光の減光(掻き出し): 減光を固定値ではなく auto にしてあるので、実効値 lS_eff=min(1,|s|R/c_surf) が粒子のスピンと半径から毎ステップ算出される(中心天体をタップすると減光欄は「自動」チェック済みで、実効値 lS_eff が数値欄に表示される)— 実測1.00。③外来光線の掃き出し: 回るコアが決定フレームごと光を運び(A11/E8R)、スピン0の対照では起きる有限時間の光子捕捉(実測 非脱出率0.62)が消える(実測0.00)。順行側の光線ほど外へ払われ、逆行側は深く潜る(平均最小接近半径 順行158 対 逆行72 — T8と同じ非対称)。②と③は別機構である: lS_effはスピン0.145で既に1に飽和しているのに、そのスピンでは掃き出しがまだ全く起きていない(非脱出率0.70 = 対照以上)。掃き出しが立ち上がるのはスピン0.3→0.35の間で、飽和点とは2倍以上離れている(スピン値はc₀=30 相似単位 — 旧単位の1/2)。テスト粒子は空間の引きずり(A8/E6′)で順行方向に角運動量を汲み上げられる(12000步平均 L_z=484 対 対照316 — c₀=30 相似変換後の再実測)。運動量・角運動量は帳簿込みで保存する(モニタ表示・相対ずれ1e-4台)。※③は物理対応ロック(X_k=G/c²=1/3600。旧表記 Kt=3600)では起きない — 実測 非脱出率は高スピンでも0.00(反証条件7)。実在のブラックホールやダークマターについての主張ではない(Negative Claims 1/2)。おすすめA/B(ワンタップ): 下のボタンで中心コアのスピンを0にした対照と即座に比較できる — 減光・掃き出し・引きずりが同時に消える。",
+    "status": {
+     "purpose": "単体の光学迷彩矮星の掻き出しと減光を測る",
+     "objective": "met",
+     "state": "掻き出し・非脱出・帳簿が門内",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "behavior.rotorSolo"
+     ]
+    }
+   }
   },
   "massLadder": {
    "emoji": "🪜",
@@ -55,7 +249,245 @@
    "successor": "galaxy",
    "reason": "力学質量(G_0)と減光の光度質量(X_k の井戸)の両方が用途 —— c_0 を合わせる写し方は c_0 = 30 の規約の例外が要る(調整が必要)",
    "class325f": "X_k を維持して c_0 を合わせる",
-   "undecided325f": false
+   "undecided325f": false,
+   "raw": {
+    "id": "massLadder",
+    "name": "隠れ質量ラダー — 暗い中心の力学質量",
+    "emoji": "🪜",
+    "group": "自転と減光",
+    "scaleTier": "galactic",
+    "sampleClass": "composite",
+    "notClaim": [
+     "dm"
+    ],
+    "familyId": "darkcenter",
+    "familyRole": "retired",
+    "descStruct": {
+     "summary": "「光っていないから軽い」とは限らない、を1画面で並べて確かめるサンプル。中心に置いた3つの重い天体(m=2500 / 5000 / 10000)はどれも減光 auto(lightSweep)で、自分の光を表面のフレーム速度で外へ掻き出してしまう — 観測温度は T_obs=(1−減光)·T なので、光度から推定される質量はどれも 0 になる。それぞれの周りに同じ半径180の測定用リング(恒星48体)を回してあり、リングの速度から力学質量 M_dyn=⟨v²r⟩/G を読む。3系は同じ半径・同じ星数・同じ見た目で、違うのは中心の質量だけ。左から右へ 1 : 2 : 4 の「ラダー」になっている。実在のダークマター観測(銀河回転曲線の平坦化・重力レンズ・弾丸銀河団)の再現主張ではない — 光学的な暗さと力学的な重さが独立でありうることを、この宇宙の法則の内側で示すトイモデルである(Negative Claims)。",
+     "observe": "実測(seed固定・6000步=t96): ①**光度質量は0** — 3つの中心の実効減光はどれも実測1.000(完全減光)で、観測温度 T_obs は厳密に 0。中心天体は画面上でほぼ見えないが、決定力マップ(背景の色)には深さの違う3つの井戸が出る。②**力学質量は実質量に比例** — M_dyn=⟨v²r⟩/G はそれぞれ 2780 / 5448 / 10676 で、力学質量の比は実測1.960(5000/2500)・実測3.840(10000/2500)。真の比 2 と 4 を −2.0% / −4.0% で回復する。③**力学質量は実質量より少し重く出る** — M_dyn/m は 1.112 / 1.090 / 1.068 で、常に 1 を超える。その出どころは E6′ 空間引きずり: リングを円軌道に保つ初速はケプラー値の 1.05 / 1.04 / 1.04 倍が必要で(半径 RMS 最小の実測較正)、**kFrame=0 にすると 3系とも厳密に 1.00 倍**に戻る(超過 f²−1 の全量が引きずり由来)。④**暗さは高スピンのせいではない** — 中心スピンを 0.05 まで落としても実効減光は1.000 のまま。掻き出しの分母 c_surf=c·e^{−2ψ} が質量の深い井戸で 0.08 まで落ちるので、ごく遅い自転でも掻き出しが飽和する。逆にスピンを 2 まで上げると引きずりが強まって M_dyn/m は 1.53 / 1.43 / 1.33 まで膨らみ、ラダーは 1.87 / 3.46 へ**圧縮**される(引きずりの寄与は軽い中心ほど相対的に大きい)。⑤**減光は力学に一切効かない** — lightSweep を外した対照と軌道・速度・スピンが 1 bit も違わず、M_dyn も完全一致する(E2 の機械証明がこの構成でも成立)。⑥系間距離を3倍に離した対照でも比は 1.95 / 3.74(差 0.4% / 2.7%)で、1画面配置による相互汚染は結論を変えない。NaN・速度/スピン/反作用クランプはいずれも0回。評価窓 t=96 の外では隣の系の引きが積もり、12000步でリング半径のばらつきが 6.5%→21% まで緩む。",
+     "control": "おすすめA/B: A/B比較で **kFrame=0** にすると空間引きずりが消え、M_dyn の超過(+7〜11%)が消えてリングがゆっくり外へ膨らむ — 力学質量が「実質量+引きずり」でできていたことが直接見える。中心天体をタップして**減光の「自動」を外す**と、中心が観測温度どおりに光り出す(=光度質量が復活する)のに軌道は 1 bit も変わらない。**G** を下げると3系とも同率でリングがほどける。",
+     "brief": "暗い中心の力学質量を 3 段で比べる。達・質量比 1.96・3.84 が窓内。較正対象外。"
+    },
+    "en": {
+     "name": "Hidden-Mass Ladder — Dynamical Mass of a Dark Center",
+     "descStruct": {
+      "summary": "A side-by-side check that \"it isn't shining, so it must be light\" need not hold. The three heavy central bodies (m=2500 / 5000 / 10000) all use auto dimming (lightSweep): their surface frame speed sweeps their own light away, and since observed temperature is T_obs=(1−dimming)·T, the mass you would infer from luminosity is 0 for every one of them. Around each sits an identical measuring ring of 48 stars at radius 180, and the ring's speed gives the dynamical mass M_dyn=⟨v²r⟩/G. Same radius, same star count, same look — only the central mass differs, stepping 1 : 2 : 4 from left to right. Not a claim to reproduce real dark-matter observations (flat galactic rotation curves, gravitational lensing, the Bullet Cluster): it is a toy model showing that optical darkness and dynamical heaviness can be independent under this universe's laws (Negative Claims). ",
+      "observe": "Measured (fixed seed, 6000 steps, t=96): (1) **Luminous mass is zero** — the effective dimming of all three centers measures 1.000 (total), so T_obs is exactly 0. The central bodies are all but invisible on screen, yet the determinacy map (the background colour) shows three wells of different depth. (2) **Dynamical mass tracks true mass** — M_dyn=⟨v²r⟩/G comes out at 2780 / 5448 / 10676, so the dynamical-mass ratios measure 1.960 (5000/2500) and 3.840 (10000/2500), recovering the true 2 and 4 to within −2.0% and −4.0%. (3) **Dynamical mass reads slightly heavy** — M_dyn/m is 1.112 / 1.090 / 1.068, always above 1. The source is E6′ frame dragging: holding the ring on a circular orbit needs 1.05 / 1.04 / 1.04 times the Keplerian speed (calibrated by minimising the radial RMS), and **with kFrame=0 all three fall back to exactly 1.00** — the whole excess f²−1 is dragging. (4) **The darkness is not from fast spin** — drop the central spin to 0.05 and the effective dimming is still 1.000. The denominator of the sweep, c_surf=c·e^{−2ψ}, falls to 0.08 inside such a deep well, so even a very slow rotation saturates it. Raise the spin to 2 instead and the dragging grows: M_dyn/m swells to 1.53 / 1.43 / 1.33 and the ladder **compresses** to 1.87 / 3.46 (dragging contributes relatively more around the lighter center). (5) **Dimming does nothing to the dynamics** — against a control with lightSweep removed, positions, velocities and spins agree to the bit and M_dyn is identical (the machine proof of experiment 70 E2 holds here too). (6) With the systems moved three times further apart the ratios are 1.95 / 3.74 (0.4% and 2.7% different), so packing them onto one screen does not change the conclusion. No NaN; the velocity, spin and reaction caps fire 0 times. Outside the t=96 window the neighbours' pull accumulates and the ring radius scatter relaxes from 6.5% to 21% by step 12000. ",
+      "control": "Suggested A/B: run an A/B comparison with **kFrame=0** and the space dragging vanishes along with the +7–11% excess in M_dyn, letting the rings drift slowly outward — you see directly that the dynamical mass was \"true mass + dragging\". Tap a central body and **turn off the auto dimming** and it lights up at its observed temperature (its luminous mass comes back) while the orbits do not change by a single bit. Lowering **G** unwinds all three rings at the same rate.",
+      "brief": "Compare the dynamical mass of dark centres on three rungs. Met: mass ratios 1.96 and 3.84 lie in their windows. Out of calibration scope."
+     },
+     "description": "A side-by-side check that \"it isn't shining, so it must be light\" need not hold. The three heavy central bodies (m=2500 / 5000 / 10000) all use auto dimming (lightSweep): their surface frame speed sweeps their own light away, and since observed temperature is T_obs=(1−dimming)·T, the mass you would infer from luminosity is 0 for every one of them. Around each sits an identical measuring ring of 48 stars at radius 180, and the ring's speed gives the dynamical mass M_dyn=⟨v²r⟩/G. Same radius, same star count, same look — only the central mass differs, stepping 1 : 2 : 4 from left to right. Not a claim to reproduce real dark-matter observations (flat galactic rotation curves, gravitational lensing, the Bullet Cluster): it is a toy model showing that optical darkness and dynamical heaviness can be independent under this universe's laws (Negative Claims). Measured (fixed seed, 6000 steps, t=96): (1) **Luminous mass is zero** — the effective dimming of all three centers measures 1.000 (total), so T_obs is exactly 0. The central bodies are all but invisible on screen, yet the determinacy map (the background colour) shows three wells of different depth. (2) **Dynamical mass tracks true mass** — M_dyn=⟨v²r⟩/G comes out at 2780 / 5448 / 10676, so the dynamical-mass ratios measure 1.960 (5000/2500) and 3.840 (10000/2500), recovering the true 2 and 4 to within −2.0% and −4.0%. (3) **Dynamical mass reads slightly heavy** — M_dyn/m is 1.112 / 1.090 / 1.068, always above 1. The source is E6′ frame dragging: holding the ring on a circular orbit needs 1.05 / 1.04 / 1.04 times the Keplerian speed (calibrated by minimising the radial RMS), and **with kFrame=0 all three fall back to exactly 1.00** — the whole excess f²−1 is dragging. (4) **The darkness is not from fast spin** — drop the central spin to 0.05 and the effective dimming is still 1.000. The denominator of the sweep, c_surf=c·e^{−2ψ}, falls to 0.08 inside such a deep well, so even a very slow rotation saturates it. Raise the spin to 2 instead and the dragging grows: M_dyn/m swells to 1.53 / 1.43 / 1.33 and the ladder **compresses** to 1.87 / 3.46 (dragging contributes relatively more around the lighter center). (5) **Dimming does nothing to the dynamics** — against a control with lightSweep removed, positions, velocities and spins agree to the bit and M_dyn is identical (the machine proof of experiment 70 E2 holds here too). (6) With the systems moved three times further apart the ratios are 1.95 / 3.74 (0.4% and 2.7% different), so packing them onto one screen does not change the conclusion. No NaN; the velocity, spin and reaction caps fire 0 times. Outside the t=96 window the neighbours' pull accumulates and the ring radius scatter relaxes from 6.5% to 21% by step 12000. Suggested A/B: run an A/B comparison with **kFrame=0** and the space dragging vanishes along with the +7–11% excess in M_dyn, letting the rings drift slowly outward — you see directly that the dynamical mass was \"true mass + dragging\". Tap a central body and **turn off the auto dimming** and it lights up at its observed temperature (its luminous mass comes back) while the orbits do not change by a single bit. Lowering **G** unwinds all three rings at the same rate.",
+     "status": {
+      "purpose": "Compare the dynamical mass of dark centres on three rungs",
+      "state": "mass ratios 1.96 and 3.84 lie in their windows",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "activeParams": [
+     "kFrame",
+     "G",
+     "D0"
+    ],
+    "validT": 96,
+    "claims": [
+     {
+      "id": "massLadder.dyn-mass-ratio-2",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "metric": "dynMassRatio5000to2500",
+      "expected": {
+       "min": 1.76,
+       "max": 2.16
+      },
+      "descPattern": "力学質量の比は実測(\\d+\\.\\d+)\\(5000/2500\\)",
+      "testId": "claim.massladder"
+     },
+     {
+      "id": "massLadder.dyn-mass-ratio-4",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "metric": "dynMassRatio10000to2500",
+      "expected": {
+       "min": 3.46,
+       "max": 4.22
+      },
+      "descPattern": "実測(\\d+\\.\\d+)\\(10000/2500\\)",
+      "testId": "claim.massladder"
+     },
+     {
+      "id": "massLadder.dark-centers",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "metric": "minCenterLightSweep",
+      "expected": {
+       "min": 0.99,
+       "max": 1
+      },
+      "descPattern": "3つの中心の実効減光はどれも実測(\\d+\\.\\d+)",
+      "testId": "claim.massladder"
+     }
+    ],
+    "camera": {
+     "scale": 1800
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "seed": 20260806,
+    "timeRef": {
+     "basis": "observe",
+     "tObs": 9.6,
+     "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+    },
+    "physics": {
+     "G": 0.8,
+     "D0": 1.5,
+     "kFrame": 1,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 0.02,
+     "cLight": 30,
+     "contactK": 10,
+     "contactCap": 2,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 0,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 3,
+     "timeScale": 3,
+     "frameWeight": "share"
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 2500,
+      "x": -1440,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0.5,
+      "pinned": true,
+      "radius": 15,
+      "lightSweep": "auto"
+     },
+     {
+      "type": "single",
+      "m": 5000,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0.5,
+      "pinned": true,
+      "radius": 15,
+      "lightSweep": "auto"
+     },
+     {
+      "type": "single",
+      "m": 10000,
+      "x": 1440,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0.5,
+      "pinned": true,
+      "radius": 15,
+      "lightSweep": "auto"
+     },
+     {
+      "type": "ring",
+      "rMul": 1.2,
+      "n": 48,
+      "cx": -1440,
+      "cy": 0,
+      "rIn": 180,
+      "rOut": 180,
+      "mMin": 0.05,
+      "mMax": 0.05,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "omega",
+      "aroundMass": 0,
+      "omega": 0.019444,
+      "vNoise": 0,
+      "direction": 1,
+      "pinned": false,
+      "bulkVx": 0,
+      "bulkVy": 0
+     },
+     {
+      "type": "ring",
+      "rMul": 1.2,
+      "n": 48,
+      "cx": 0,
+      "cy": 0,
+      "rIn": 180,
+      "rOut": 180,
+      "mMin": 0.05,
+      "mMax": 0.05,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "omega",
+      "aroundMass": 0,
+      "omega": 0.027237,
+      "vNoise": 0,
+      "direction": 1,
+      "pinned": false,
+      "bulkVx": 0,
+      "bulkVy": 0
+     },
+     {
+      "type": "ring",
+      "rMul": 1.2,
+      "n": 48,
+      "cx": 1440,
+      "cy": 0,
+      "rIn": 180,
+      "rOut": 180,
+      "mMin": 0.05,
+      "mMax": 0.05,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "omega",
+      "aroundMass": 0,
+      "omega": 0.038519,
+      "vNoise": 0,
+      "direction": 1,
+      "pinned": false,
+      "bulkVx": 0,
+      "bulkVy": 0
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": true,
+     "trail": false,
+     "monitor": false
+    },
+    "description": "「光っていないから軽い」とは限らない、を1画面で並べて確かめるサンプル。中心に置いた3つの重い天体(m=2500 / 5000 / 10000)はどれも減光 auto(lightSweep)で、自分の光を表面のフレーム速度で外へ掻き出してしまう — 観測温度は T_obs=(1−減光)·T なので、光度から推定される質量はどれも 0 になる。それぞれの周りに同じ半径180の測定用リング(恒星48体)を回してあり、リングの速度から力学質量 M_dyn=⟨v²r⟩/G を読む。3系は同じ半径・同じ星数・同じ見た目で、違うのは中心の質量だけ。左から右へ 1 : 2 : 4 の「ラダー」になっている。実在のダークマター観測(銀河回転曲線の平坦化・重力レンズ・弾丸銀河団)の再現主張ではない — 光学的な暗さと力学的な重さが独立でありうることを、この宇宙の法則の内側で示すトイモデルである(Negative Claims)。実測(seed固定・6000步=t96): ①**光度質量は0** — 3つの中心の実効減光はどれも実測1.000(完全減光)で、観測温度 T_obs は厳密に 0。中心天体は画面上でほぼ見えないが、決定力マップ(背景の色)には深さの違う3つの井戸が出る。②**力学質量は実質量に比例** — M_dyn=⟨v²r⟩/G はそれぞれ 2780 / 5448 / 10676 で、力学質量の比は実測1.960(5000/2500)・実測3.840(10000/2500)。真の比 2 と 4 を −2.0% / −4.0% で回復する。③**力学質量は実質量より少し重く出る** — M_dyn/m は 1.112 / 1.090 / 1.068 で、常に 1 を超える。その出どころは E6′ 空間引きずり: リングを円軌道に保つ初速はケプラー値の 1.05 / 1.04 / 1.04 倍が必要で(半径 RMS 最小の実測較正)、**kFrame=0 にすると 3系とも厳密に 1.00 倍**に戻る(超過 f²−1 の全量が引きずり由来)。④**暗さは高スピンのせいではない** — 中心スピンを 0.05 まで落としても実効減光は1.000 のまま。掻き出しの分母 c_surf=c·e^{−2ψ} が質量の深い井戸で 0.08 まで落ちるので、ごく遅い自転でも掻き出しが飽和する。逆にスピンを 2 まで上げると引きずりが強まって M_dyn/m は 1.53 / 1.43 / 1.33 まで膨らみ、ラダーは 1.87 / 3.46 へ**圧縮**される(引きずりの寄与は軽い中心ほど相対的に大きい)。⑤**減光は力学に一切効かない** — lightSweep を外した対照と軌道・速度・スピンが 1 bit も違わず、M_dyn も完全一致する(E2 の機械証明がこの構成でも成立)。⑥系間距離を3倍に離した対照でも比は 1.95 / 3.74(差 0.4% / 2.7%)で、1画面配置による相互汚染は結論を変えない。NaN・速度/スピン/反作用クランプはいずれも0回。評価窓 t=96 の外では隣の系の引きが積もり、12000步でリング半径のばらつきが 6.5%→21% まで緩む。おすすめA/B: A/B比較で **kFrame=0** にすると空間引きずりが消え、M_dyn の超過(+7〜11%)が消えてリングがゆっくり外へ膨らむ — 力学質量が「実質量+引きずり」でできていたことが直接見える。中心天体をタップして**減光の「自動」を外す**と、中心が観測温度どおりに光り出す(=光度質量が復活する)のに軌道は 1 bit も変わらない。**G** を下げると3系とも同率でリングがほどける。",
+    "status": {
+     "purpose": "暗い中心の力学質量を 3 段で比べる",
+     "objective": "met",
+     "state": "質量比 1.96・3.84 が窓内",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "claim.massladder"
+     ]
+    }
+   }
   },
   "selfRotor": {
    "emoji": "🥚",
@@ -77,7 +509,284 @@
    "successor": "collapse",
    "reason": "雲の成長(G_0)と中心の暗さ(X_k の井戸と c_0 の表面の光速)の両方が用途 —— どの写し方でも用途の一部が動く(調整が必要)",
    "class325f": "X_k = G_0/c_0²",
-   "undecided325f": true
+   "undecided325f": true,
+   "raw": {
+    "id": "selfRotor",
+    "name": "自己形成光学迷彩矮星 — 種から育つ暗い中心",
+    "emoji": "🥚",
+    "group": "自転と減光",
+    "scaleTier": "stellar",
+    "sampleClass": "composite",
+    "notClaim": [
+     "dm"
+    ],
+    "familyId": "rotorform",
+    "familyRole": "retired",
+    "emergence": "E3",
+    "stdTests": {
+     "knockout": "pass",
+     "dose": "pass",
+     "multiSeed": "pass",
+     "nScaling": "pass",
+     "perturb": "pass",
+     "timeWindow": "pass"
+    },
+    "stdTestsRef": [
+     "tests/exp-4-84.mjs",
+     "tests/exp-4-85.mjs",
+     "tests/exp-4-89.mjs",
+     "tests/exp-4-92.mjs"
+    ],
+    "descStruct": {
+     "summary": "**何も仕込まない一様な粒の雲から、重くて暗い「回る中心」がひとりでに育つ**サンプル(創発 — 多seed・粒子数・摂動・時間窓の標準試験4種を通過)。置いたのは 180 粒の一様な円盤(全部おなじ重さ1・自転ゼロ・自由)と、雲全体がゆっくり回る初速(ω₀=0.008)、そして各粒がひとつずつ持つ同じ微小なコアの種(質量の5%・半径0.2・Ω_c=2)だけ。中心天体も暗い核もハローも初期条件には置かない。働くのは自己重力(E4)と接触(E9)、「近づきすぎた2粒は1粒になる」融合(中心距離 d<0.7·(R_i+R_j) で合体)と、コアを保存則どおり足す継承則(M_c′=M_c,i+M_c,j・R_c′=√(R_c,i²+R_c,j²)・J_c′=J_c,i+J_c,j)である。固定天体・境界・一様重力・伝熱壁は無く、重心と重心速度は生成時に1回だけ0へ揃えてある(閉鎖系)。**成立条件は3つに絞れる**: ①融合則(切ると中心は最初の1粒のまま)②自己重力(G の用量反応で単調)③継承則(中心の J_core は飲み込んだ粒数をそのまま数える)。暗さ(A11/E8R)は井戸の深さ ψ=W·X_k だけで決まり、力学には1ビットも効かない。",
+     "observe": "実測(seed 20260806・9000步=t144): 180粒が155回の融合を経て25体になり、いちばん重い1体が全質量の26.7%(m=48)を占める中心天体に育つ。束縛率は0.75。融合を切った対照では最大天体は最初の1粒のまま(質量比0.56%)で束縛率も0.14 — 中心天体は初期条件ではなく融合則の生成物である。原因が自己重力であることは用量反応で分離した: Gだけを2/4/6/8/12と振ると質量比は1.7/6.1/12.8/26.7/44.4%(融合は7/62/125/155/173回)と単調に増える。コアの角運動量J_coreは融合継承の経路だけで貯まる: 中心天体のJ_coreは0.0960で、これは種48個ぶんちょうど、飲み込んだ質量48と1粒単位で一致する(継承則の総和がそのまま個数を数えている)。系全体のΣJ_coreは0.3600(=180粒×0.0020)のまま最後まで変わらず、コア種を外した対照ではJ_coreは恒等的に0になる(継承以外の生成経路が無い)。暗さも育つ: 実効減光lS_eff(A11/E8R — 自転で自分の光を掃き出す度合い)はt=0で0.000、9000步では中心天体は0.999まで暗くなるのに対し周囲の天体は平均0.317のままで、「暗い中心+明るい周辺」が生成する(コントラスト3.2倍。c₀=30 で減光は飽和側 — v1.38〔c₀=60〕実測は0.589/0.159。粒子数・融合回数・質量比・スピン・束縛率など力学量は全て v1.38 と一致)。この暗さは井戸の深さψ=W·X_kだけで決まり力学には一切効かない(実測: X_k=1/12・1/14・1/16・1/20・1/24〔旧表記 Kt 12/14/16/20/24〕で粒子数・融合回数・質量比・スピン・半径がすべて完全一致し、変わるのは減光の1.000/0.999/0.843/0.527/0.386だけ)。自転ゼロで始まった粒のスピンは最後には全部が同じ向きに揃う(創発モニタのスピン整列度0.000→1.000・塊の数166→2・最大塊の質量比0.994・回転支持比V/σ=10.9)。運動量・角運動量(A13/T7)はリザーバ帳簿ゼロのまま厳密に閉じる(モニタ表示・9000步で|ΔL|/L_scale=6.7e-7)。※創発の標準試験(詳細はdocs/PHYSICS.md「創発水準と標準試験」): この現象には多seed・粒子数スケーリング・摂動回復・時間窓の4試験を通してある。【多seed16】20260806〜20260821の16seedで最大天体の質量比は18.3〜53.3%(中央34.7%)に分布し、16seedすべてで18.3%以上になる — 融合を切った対照は全seedで0.56%(=1/180が厳密に保たれる。融合が無ければ質量は動かない)なので、最小でも対照の33倍である。同じ16seedで最大塊の質量比0.972〜1.000・スピン整列度0.985〜1.000・回転支持比V/σ 3.1〜20.8・中心の減光0.943〜1.000・周囲0.253〜0.438・J_core 0.0660〜0.1920(種33〜96個ぶん)・束縛率0.43〜1.00・残り体数17〜37体(融合143〜163回)、NaNもclampもゼロで|ΔL|/L_scaleは最大6e-6。中心と周囲の減光コントラストは2.28〜3.96倍(中央2.75)、対照は0.72〜1.08倍(中央1.03)で16seedを通して一度も重ならない — このあとの(a)で「暗さ単独では融合の有無を判別しない」と記す点について、正しい判別量がこのコントラストの方だということが16seedで裏づけられた。【粒子数スケーリング】n=90/180/360(代表3seed)で質量比の中央値は12.2/26.7/31.7%、最大塊の質量比は0.944/0.994/1.000、整列度はどれも1.000 — 現象は特定の粒子数でだけ立つ離散模様ではない。ただし本サンプルは円盤半径と1粒の質量を固定してnを振るので、nは同時に総質量(=自己重力の強さ)でもある: n=90はGを半分にしたのと同じ側に効き、「対照の10倍」という基準は3seed中2seedでしか満たさない(7.0/11.0/22.0倍)— これも正直な記録として残す。【摂動回復】構造ができたt=120(7500步)で全粒子の速度に平均を差し引いたガウスノイズ(速さRMSの30%・系の全運動量は保存)を入れても、最大塊の質量比・整列度・中心天体の質量比は1つも動かない。この構造は速度の乱れでは壊れず、掃引すると壊れ始めるのは速さRMSの2倍から(15000步で最大塊0.994→0.811、4倍で0.583)。乱れて戻るのは回転支持比V/σ(28〜33%落ちて10步=Δt0.16で復帰)と束縛率(最大11%落ちて200步で復帰)。整列度は速度ノイズでは定義上動かないので、粒子の約半数のスピンを反転させる摂動を別に入れた: 整列度は1.000から−0.907/−0.800/−0.232まで壊れるのに10步(Δt=0.16)で0.976以上へ戻り、反転させた中心天体自身のスピンも10〜200步で正へ復帰する — 揃った回転は「一回限りの配置」ではなく、接触摩擦(E9)と引きずり(A8/E6′)が毎步維持している到達点である。【時間窓】塊は1500步(t=24)でひとつにまとまり、整列度は2000步(t=32)で0.99を超え、質量比は2000〜3000步(t=32〜48)で最終値の90%に達してそこから飽和する。9000步(=validT 144)と18000步の質量比の差は0.0000で、validTは立ち上がりが終わった安定域の内側にある。これら4試験とノックアウト・用量反応を合わせた6試験を通したので、E水準はE2(閉鎖系の創発)からE3(多seed・粒子数変更・摂動回復で頑健性を確認した創発)へ上げてある。実測ハーネス: tests/exp-4-85.mjs。※立たなかった主張も正直に記す: (a)暗さそのものは融合の有無を判別しない — 融合を切った対照でも、180粒が密集した山の中心はlS_eff=0.999まで暗くなる(暗さを決めるのは井戸の深さであって成長経路ではない)。判別するのは「中心が暗く周囲は明るい」というコントラストの方で、対照では周囲も平均0.972まで暗い。(b)引きずりkFrame=0の対照は外縁の回転に系統差を作らない(生き残りが中心へ集まって外縁帯の統計が立たず、差はseed幅に埋もれる)— 本サンプルは引きずりの主張をしない。(c)融合閾値dFracの用量反応は単調ではない(0.7/0.6/0.5/0.35→26.7/47.8/43.3/23.3%)。実在の銀河・ダークマター・星形成の再現を主張するものではない(Negative Claims 1/2)。",
+     "control": "おすすめA/B: X_kを 1/14→1/24 に下げる(≈0.58倍)と井戸が浅くなり中心の暗さが0.999→0.386まで薄れる(力学は1ビットも変わらない)。Gを4に下げると成長がほぼ止まり、同じ9000步でも中心天体は質量比6.1%までしか育たない。右下の「創発モニタ」で塊の数・最大塊の質量比・スピン整列度・回転支持比V/σの時系列が読める。",
+     "brief": "一様な雲から暗く回る中心が育つかを見る。達・4 seed で質量比の最小 18.3%・対照の 33 倍。較正対象外。"
+    },
+    "en": {
+     "name": "Self-Assembling Optical-Camouflage Dwarf — A Dark Center Grown from Seeds",
+     "descStruct": {
+      "summary": "A sample where a heavy, dark, spinning centre grows all by itself out of a plain cloud of grains with nothing built in (emergence — it passed the four standard tests: many seeds, particle-count scaling, perturbation recovery, time window). All that is placed is a uniform disk of 180 grains (identical mass 1, zero spin, all free), a slow overall rotation of the cloud (ω₀=0.008), and one identical tiny core seed inside every grain (5% of its mass, radius 0.2, Ω_c=2). No central body, no dark core and no halo appear in the initial conditions. At work are self-gravity (E4), contact (E9), fusion (two grains within d<0.7·(R_i+R_j) become one) and the inheritance rule that adds their cores up by the conservation laws (M_c′=M_c,i+M_c,j, R_c′=√(R_c,i²+R_c,j²), J_c′=J_c,i+J_c,j). No pinned bodies, no boundary, no uniform gravity, no thermal walls; the centre of mass and its velocity are zeroed once at build time (a closed system). THE CONDITIONS REDUCE TO THREE: (1) the fusion rule (switch it off and the centre stays a single grain), (2) self-gravity (a monotone dose-response in G), (3) the inheritance rule (the centre's J_core literally counts the grains it swallowed). The darkness (A11/E8R) is set by the well depth ψ=W·X_k alone and never touches the dynamics. ",
+      "observe": "Measured (seed 20260806, 9000 steps = t144): 180 grains go through 155 fusions down to 25 bodies, and the heaviest single body grows into a centre holding 26.7% of the total mass (m=48). The bound fraction is 0.75. In the control with fusion switched off the largest body stays the original single grain (mass fraction 0.56%) and the bound fraction is only 0.14 — the central body is a product of the fusion rule, not of the initial conditions. That self-gravity is the cause was isolated by a dose–response: varying only G over 2/4/6/8/12 moves the mass fraction monotonically through 1.7/6.1/12.8/26.7/44.4% (7/62/125/155/173 fusions). The core angular momentum J_core accumulates through the inheritance path and nothing else: the centre's J_core is 0.0960, which is exactly 48 seeds' worth and matches the mass 48 it swallowed grain for grain (the sum in the inheritance rule literally counts them). The system-wide ΣJ_core stays at 0.3600 (=180 grains × 0.0020) to the end, and in the control with the core seeds removed J_core is identically 0 — there is no source other than inheritance. The darkness grows too: the effective dimming lS_eff (A11/E8R — how much of its own light a body sweeps out by spinning) is 0.000 at t=0, and by 9000 steps the central body has dimmed to 0.999 while the bodies around it stay at 0.317 on average (dimming saturates under c₀=30 — the v1.38 measurements at c₀=60 were 0.589/0.159; every dynamical quantity — body count, fusions, mass fraction, spins, bound fraction — matches v1.38) — a dark centre with a bright surround is generated (a contrast of 3.2). That darkness is set purely by the depth of the well ψ=W·X_k and never enters the dynamics (measured: at X_k = 1/12, 1/14, 1/16, 1/20, 1/24 (legacy notation Kt 12/14/16/20/24) the particle count, fusion count, mass fraction, spin and radius are all identical to the last bit, and only the dimming changes: 1.000/0.999/0.843/0.527/0.386). The grains start with zero spin and end up unanimously co-rotating (emergence monitor: spin alignment 0.000→1.000, clump count 166→2, largest-clump mass fraction 0.994, rotation support V/σ=10.9). Momentum and angular momentum (A13/T7) close exactly with all reservoir ledgers at zero (see the monitor; |ΔL|/L_scale = 6.7e-7 over the 9000 steps). Standard emergence tests (see docs/PHYSICS.md §Emergence levels and the standard tests): this phenomenon has been put through four further tests — many seeds, particle-count scaling, perturbation recovery and the time window. [Many seeds, 16] Over seeds 20260806–20260821 the largest body's mass fraction spans 18.3–53.3% (median 34.7%) and is at least 18.3% in every one of the 16 — while the no-fusion control sits at 0.56% for every seed (exactly 1/180: without fusion no mass ever moves), so even the worst seed is 33 times the control. Over the same 16 seeds: largest-clump mass fraction 0.972–1.000, spin alignment 0.985–1.000, rotation support V/σ 3.1–20.8, central dimming 0.943–1.000, surround 0.253–0.438, J_core 0.0660–0.1920 (33–96 seeds' worth), bound fraction 0.43–1.00, 17–37 bodies left (143–163 fusions), no NaN, no clamping, and |ΔL|/L_scale at most 6e-6. The dimming contrast (centre over surround) is 2.28–3.96 (median 2.75) in the main runs against 0.72–1.08 (median 1.03) in the controls, and the two never overlap across the 16 seeds — which confirms, over many seeds, that the discriminating quantity is this contrast and not the darkness on its own (see (a) below). [Particle-count scaling] At n=90/180/360 (3 representative seeds) the median mass fraction is 12.2/26.7/31.7%, the largest-clump mass fraction 0.944/0.994/1.000, and the alignment 1.000 in every case — the phenomenon is not a discrete artefact of one particular particle count. Note honestly, though, that this sample keeps the disk radius and the per-grain mass fixed while varying n, so n is also the total mass (= the strength of self-gravity): n=90 acts like halving G, and the ten-times-the-control bar is met by only 2 of the 3 seeds there (ratios 7.0/11.0/22.0). [Perturbation recovery] Injecting Gaussian velocity noise into every grain once the structure has formed, at t=120 (step 7500), with the mass-weighted mean subtracted so the total momentum is preserved and at 30% of the speed RMS, moves neither the largest-clump mass fraction, nor the alignment, nor the central body's mass fraction at all. This structure is not broken by velocity disorder; sweeping the amplitude, it only starts to break at twice the speed RMS (largest clump 0.994→0.811 by step 15000) and at four times (0.583). What does get disturbed and then returns is the rotation support V/σ (down 28–33%, back within 10 steps = Δt 0.16) and the bound fraction (down at most 11%, back within 200 steps). Alignment is by definition untouched by velocity noise, so a separate perturbation was applied that flips the spin of about half the grains: the alignment is driven from 1.000 down to −0.907/−0.800/−0.232 and climbs back above 0.976 within 10 steps (Δt=0.16), with the flipped central body's own spin returning to positive within 10–200 steps — the co-rotating state is not a one-off configuration but an attractor that contact friction (E9) and dragging (A8/E6′) maintain at every step. [Time window] The clumps merge into one by step 1500 (t=24), the alignment passes 0.99 by step 2000 (t=32), and the mass fraction reaches 90% of its final value between steps 2000 and 3000 (t=32–48) and then saturates; the mass fraction at step 9000 (= validT 144) and at step 18000 differ by 0.0000, so validT sits inside the stable window past the rise. With these four tests on top of the knockouts and dose–responses — six in all — the emergence level has been raised from E2 (emergence in a closed system) to E3 (emergence with robustness confirmed across seeds, particle counts and perturbations). Measurement harness: tests/exp-4-85.mjs. What did NOT hold, recorded honestly: (a) darkness on its own does not discriminate fusion from no fusion — in the no-fusion control the centre of the 180-grain pile also dims to lS_eff=0.999 (darkness is set by the depth of the well, not by the growth path). What does discriminate is the contrast, dark centre against bright surround: in the control the surround dims to 0.972 as well. (b) The kFrame=0 control produces no systematic difference in the outer rotation (the survivors concentrate at the centre so the outer annulus has no statistics, and the difference is buried in the seed spread) — this sample makes no dragging claim. (c) The dose–response in the fusion threshold dFrac is not monotonic (0.7/0.6/0.5/0.35 → 26.7/47.8/43.3/23.3%). Not a claim to reproduce real galaxies, dark matter or star formation (Negative Claims 1/2). ",
+      "control": "Suggested A/B: lower X_k from 1/14 to 1/24 (×0.58) and the well gets shallower, fading the central darkness from 0.999 to 0.386 (the dynamics do not change by a single bit). Drop G to 4 and the growth all but stops — in the same 9000 steps the centre only reaches a mass fraction of 6.1%. The Emergence monitor at the lower right plots the clump count, largest-clump mass fraction, spin alignment and rotation support V/σ over time.",
+      "brief": "See whether a dark spinning centre grows from a uniform cloud. Met: minimum mass fraction 18.3% over 4 seeds, 33× the control. Out of calibration scope."
+     },
+     "description": "A sample where a heavy, dark, spinning centre grows all by itself out of a plain cloud of grains with nothing built in (emergence — it passed the four standard tests: many seeds, particle-count scaling, perturbation recovery, time window). All that is placed is a uniform disk of 180 grains (identical mass 1, zero spin, all free), a slow overall rotation of the cloud (ω₀=0.008), and one identical tiny core seed inside every grain (5% of its mass, radius 0.2, Ω_c=2). No central body, no dark core and no halo appear in the initial conditions. At work are self-gravity (E4), contact (E9), fusion (two grains within d<0.7·(R_i+R_j) become one) and the inheritance rule that adds their cores up by the conservation laws (M_c′=M_c,i+M_c,j, R_c′=√(R_c,i²+R_c,j²), J_c′=J_c,i+J_c,j). No pinned bodies, no boundary, no uniform gravity, no thermal walls; the centre of mass and its velocity are zeroed once at build time (a closed system). THE CONDITIONS REDUCE TO THREE: (1) the fusion rule (switch it off and the centre stays a single grain), (2) self-gravity (a monotone dose-response in G), (3) the inheritance rule (the centre's J_core literally counts the grains it swallowed). The darkness (A11/E8R) is set by the well depth ψ=W·X_k alone and never touches the dynamics. Measured (seed 20260806, 9000 steps = t144): 180 grains go through 155 fusions down to 25 bodies, and the heaviest single body grows into a centre holding 26.7% of the total mass (m=48). The bound fraction is 0.75. In the control with fusion switched off the largest body stays the original single grain (mass fraction 0.56%) and the bound fraction is only 0.14 — the central body is a product of the fusion rule, not of the initial conditions. That self-gravity is the cause was isolated by a dose–response: varying only G over 2/4/6/8/12 moves the mass fraction monotonically through 1.7/6.1/12.8/26.7/44.4% (7/62/125/155/173 fusions). The core angular momentum J_core accumulates through the inheritance path and nothing else: the centre's J_core is 0.0960, which is exactly 48 seeds' worth and matches the mass 48 it swallowed grain for grain (the sum in the inheritance rule literally counts them). The system-wide ΣJ_core stays at 0.3600 (=180 grains × 0.0020) to the end, and in the control with the core seeds removed J_core is identically 0 — there is no source other than inheritance. The darkness grows too: the effective dimming lS_eff (A11/E8R — how much of its own light a body sweeps out by spinning) is 0.000 at t=0, and by 9000 steps the central body has dimmed to 0.999 while the bodies around it stay at 0.317 on average (dimming saturates under c₀=30 — the v1.38 measurements at c₀=60 were 0.589/0.159; every dynamical quantity — body count, fusions, mass fraction, spins, bound fraction — matches v1.38) — a dark centre with a bright surround is generated (a contrast of 3.2). That darkness is set purely by the depth of the well ψ=W·X_k and never enters the dynamics (measured: at X_k = 1/12, 1/14, 1/16, 1/20, 1/24 (legacy notation Kt 12/14/16/20/24) the particle count, fusion count, mass fraction, spin and radius are all identical to the last bit, and only the dimming changes: 1.000/0.999/0.843/0.527/0.386). The grains start with zero spin and end up unanimously co-rotating (emergence monitor: spin alignment 0.000→1.000, clump count 166→2, largest-clump mass fraction 0.994, rotation support V/σ=10.9). Momentum and angular momentum (A13/T7) close exactly with all reservoir ledgers at zero (see the monitor; |ΔL|/L_scale = 6.7e-7 over the 9000 steps). Standard emergence tests (see docs/PHYSICS.md §Emergence levels and the standard tests): this phenomenon has been put through four further tests — many seeds, particle-count scaling, perturbation recovery and the time window. [Many seeds, 16] Over seeds 20260806–20260821 the largest body's mass fraction spans 18.3–53.3% (median 34.7%) and is at least 18.3% in every one of the 16 — while the no-fusion control sits at 0.56% for every seed (exactly 1/180: without fusion no mass ever moves), so even the worst seed is 33 times the control. Over the same 16 seeds: largest-clump mass fraction 0.972–1.000, spin alignment 0.985–1.000, rotation support V/σ 3.1–20.8, central dimming 0.943–1.000, surround 0.253–0.438, J_core 0.0660–0.1920 (33–96 seeds' worth), bound fraction 0.43–1.00, 17–37 bodies left (143–163 fusions), no NaN, no clamping, and |ΔL|/L_scale at most 6e-6. The dimming contrast (centre over surround) is 2.28–3.96 (median 2.75) in the main runs against 0.72–1.08 (median 1.03) in the controls, and the two never overlap across the 16 seeds — which confirms, over many seeds, that the discriminating quantity is this contrast and not the darkness on its own (see (a) below). [Particle-count scaling] At n=90/180/360 (3 representative seeds) the median mass fraction is 12.2/26.7/31.7%, the largest-clump mass fraction 0.944/0.994/1.000, and the alignment 1.000 in every case — the phenomenon is not a discrete artefact of one particular particle count. Note honestly, though, that this sample keeps the disk radius and the per-grain mass fixed while varying n, so n is also the total mass (= the strength of self-gravity): n=90 acts like halving G, and the ten-times-the-control bar is met by only 2 of the 3 seeds there (ratios 7.0/11.0/22.0). [Perturbation recovery] Injecting Gaussian velocity noise into every grain once the structure has formed, at t=120 (step 7500), with the mass-weighted mean subtracted so the total momentum is preserved and at 30% of the speed RMS, moves neither the largest-clump mass fraction, nor the alignment, nor the central body's mass fraction at all. This structure is not broken by velocity disorder; sweeping the amplitude, it only starts to break at twice the speed RMS (largest clump 0.994→0.811 by step 15000) and at four times (0.583). What does get disturbed and then returns is the rotation support V/σ (down 28–33%, back within 10 steps = Δt 0.16) and the bound fraction (down at most 11%, back within 200 steps). Alignment is by definition untouched by velocity noise, so a separate perturbation was applied that flips the spin of about half the grains: the alignment is driven from 1.000 down to −0.907/−0.800/−0.232 and climbs back above 0.976 within 10 steps (Δt=0.16), with the flipped central body's own spin returning to positive within 10–200 steps — the co-rotating state is not a one-off configuration but an attractor that contact friction (E9) and dragging (A8/E6′) maintain at every step. [Time window] The clumps merge into one by step 1500 (t=24), the alignment passes 0.99 by step 2000 (t=32), and the mass fraction reaches 90% of its final value between steps 2000 and 3000 (t=32–48) and then saturates; the mass fraction at step 9000 (= validT 144) and at step 18000 differ by 0.0000, so validT sits inside the stable window past the rise. With these four tests on top of the knockouts and dose–responses — six in all — the emergence level has been raised from E2 (emergence in a closed system) to E3 (emergence with robustness confirmed across seeds, particle counts and perturbations). Measurement harness: tests/exp-4-85.mjs. What did NOT hold, recorded honestly: (a) darkness on its own does not discriminate fusion from no fusion — in the no-fusion control the centre of the 180-grain pile also dims to lS_eff=0.999 (darkness is set by the depth of the well, not by the growth path). What does discriminate is the contrast, dark centre against bright surround: in the control the surround dims to 0.972 as well. (b) The kFrame=0 control produces no systematic difference in the outer rotation (the survivors concentrate at the centre so the outer annulus has no statistics, and the difference is buried in the seed spread) — this sample makes no dragging claim. (c) The dose–response in the fusion threshold dFrac is not monotonic (0.7/0.6/0.5/0.35 → 26.7/47.8/43.3/23.3%). Not a claim to reproduce real galaxies, dark matter or star formation (Negative Claims 1/2). Suggested A/B: lower X_k from 1/14 to 1/24 (×0.58) and the well gets shallower, fading the central darkness from 0.999 to 0.386 (the dynamics do not change by a single bit). Drop G to 4 and the growth all but stops — in the same 9000 steps the centre only reaches a mass fraction of 6.1%. The Emergence monitor at the lower right plots the clump count, largest-clump mass fraction, spin alignment and rotation support V/σ over time.",
+     "status": {
+      "purpose": "See whether a dark spinning centre grows from a uniform cloud",
+      "state": "minimum mass fraction 18.3% over 4 seeds, 33× the control",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "activeParams": [
+     "G",
+     "kappaT",
+     "kFrame"
+    ],
+    "phaseMap": {
+     "xKey": "G",
+     "xValues": [
+      1,
+      2,
+      4,
+      6,
+      9,
+      14
+     ],
+     "yKey": "D0",
+     "yValues": [
+      0.5,
+      1,
+      2,
+      4,
+      8,
+      16
+     ],
+     "steps": 1500,
+     "metric": "align",
+     "label": {
+      "ja": "自己形成光学迷彩矮星の相図(自己重力 G × 背景決定力 D₀)",
+      "en": "Self-assembling optical-camouflage dwarf phase map (self-gravity G × background determinacy D₀)"
+     }
+    },
+    "thermal": "tint",
+    "fusion": {
+     "dFrac": 0.7
+    },
+    "balanceFrame": "barycentric",
+    "validT": 144,
+    "claims": [
+     {
+      "id": "selfRotor.max-mass-fraction",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "metric": "maxBodyMassFraction",
+      "expected": {
+       "min": 0.14,
+       "max": 0.6
+      },
+      "descScale": 0.01,
+      "descPattern": "全質量の(\\d+\\.\\d+)%",
+      "testId": "behavior.selfrotor",
+      "control": {
+       "patch": {
+        "fusion": null
+       },
+       "expected": {
+        "min": 0.004,
+        "max": 0.008
+       },
+       "descScale": 0.01,
+       "descPattern": "質量比(\\d+\\.\\d+)%\\)で束縛率"
+      }
+     },
+     {
+      "id": "selfRotor.multi-seed-min-mass-fraction",
+      "kind": "multi-seed",
+      "prov": "simulated",
+      "metric": "maxBodyMassFractionMinOverSeeds",
+      "expected": {
+       "min": 0.1,
+       "max": 0.6
+      },
+      "descScale": 0.01,
+      "descPattern": "16seedすべてで(\\d+\\.\\d+)%以上",
+      "testId": "behavior.selfrotor-multiseed",
+      "control": {
+       "patch": {
+        "fusion": null
+       },
+       "expected": {
+        "min": 0.004,
+        "max": 0.008
+       },
+       "descScale": 0.01,
+       "descPattern": "対照は全seedで(\\d+\\.\\d+)%"
+      }
+     },
+     {
+      "id": "selfRotor.core-J-inherited",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "metric": "centerCoreJInSeeds",
+      "expected": {
+       "min": 25,
+       "max": 100
+      },
+      "descPattern": "種(\\d+)個ぶん",
+      "testId": "behavior.selfrotor",
+      "control": {
+       "patch": {
+        "core": null
+       },
+       "expected": {
+        "min": 0,
+        "max": 0
+       },
+       "descPattern": "J_coreは恒等的に(0)になる"
+      }
+     },
+     {
+      "id": "selfRotor.center-dimming",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "metric": "centerDimming",
+      "expected": {
+       "min": 0.9,
+       "max": 1
+      },
+      "descPattern": "中心天体は(\\d+\\.\\d+)まで暗くなる",
+      "testId": "behavior.selfrotor"
+     },
+     {
+      "id": "selfRotor.halo-dimming",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "metric": "haloDimming",
+      "expected": {
+       "min": 0.2,
+       "max": 0.5
+      },
+      "descPattern": "周囲の天体は平均(\\d+\\.\\d+)のまま",
+      "testId": "behavior.selfrotor"
+     },
+     {
+      "id": "selfRotor.core-J-counts-mass",
+      "kind": "conservation",
+      "prov": "derived",
+      "metric": "coreJInSeedsOverMassRatio",
+      "expected": {
+       "min": 0.999,
+       "max": 1.001
+      },
+      "testId": "behavior.selfrotor"
+     }
+    ],
+    "camera": {
+     "scale": 150
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "seed": 20260806,
+    "timeRef": {
+     "basis": "observe",
+     "tObs": 9.6,
+     "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+    },
+    "physics": {
+     "G": 8,
+     "D0": 2,
+     "kFrame": 1,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0.5,
+     "gammaN": 0.4,
+     "kappaS": 0,
+     "kappaT": 0.07142857142857142,
+     "cLight": 30,
+     "bM": 1,
+     "etaRad": 0.0016,
+     "pRad": 2,
+     "cHeat": 0.2,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 0,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 3,
+     "timeScale": 2,
+     "frameWeight": "share"
+    },
+    "bodies": [
+     {
+      "type": "disk",
+      "n": 180,
+      "cx": 0,
+      "cy": 0,
+      "radius": 100,
+      "mMin": 1,
+      "mMax": 1,
+      "spinMin": 0,
+      "spinMax": 0,
+      "tInt": 0.5,
+      "vMode": "rigid",
+      "aroundMass": 0,
+      "vScale": 0.008,
+      "direction": 1,
+      "lightSweep": "auto",
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.05,
+       "radius": 0.2,
+       "omega": 2,
+       "Kcs": 0
+      }
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "monitor": true,
+     "emergence": true
+    },
+    "description": "**何も仕込まない一様な粒の雲から、重くて暗い「回る中心」がひとりでに育つ**サンプル(創発 — 多seed・粒子数・摂動・時間窓の標準試験4種を通過)。置いたのは 180 粒の一様な円盤(全部おなじ重さ1・自転ゼロ・自由)と、雲全体がゆっくり回る初速(ω₀=0.008)、そして各粒がひとつずつ持つ同じ微小なコアの種(質量の5%・半径0.2・Ω_c=2)だけ。中心天体も暗い核もハローも初期条件には置かない。働くのは自己重力(E4)と接触(E9)、「近づきすぎた2粒は1粒になる」融合(中心距離 d<0.7·(R_i+R_j) で合体)と、コアを保存則どおり足す継承則(M_c′=M_c,i+M_c,j・R_c′=√(R_c,i²+R_c,j²)・J_c′=J_c,i+J_c,j)である。固定天体・境界・一様重力・伝熱壁は無く、重心と重心速度は生成時に1回だけ0へ揃えてある(閉鎖系)。**成立条件は3つに絞れる**: ①融合則(切ると中心は最初の1粒のまま)②自己重力(G の用量反応で単調)③継承則(中心の J_core は飲み込んだ粒数をそのまま数える)。暗さ(A11/E8R)は井戸の深さ ψ=W·X_k だけで決まり、力学には1ビットも効かない。実測(seed 20260806・9000步=t144): 180粒が155回の融合を経て25体になり、いちばん重い1体が全質量の26.7%(m=48)を占める中心天体に育つ。束縛率は0.75。融合を切った対照では最大天体は最初の1粒のまま(質量比0.56%)で束縛率も0.14 — 中心天体は初期条件ではなく融合則の生成物である。原因が自己重力であることは用量反応で分離した: Gだけを2/4/6/8/12と振ると質量比は1.7/6.1/12.8/26.7/44.4%(融合は7/62/125/155/173回)と単調に増える。コアの角運動量J_coreは融合継承の経路だけで貯まる: 中心天体のJ_coreは0.0960で、これは種48個ぶんちょうど、飲み込んだ質量48と1粒単位で一致する(継承則の総和がそのまま個数を数えている)。系全体のΣJ_coreは0.3600(=180粒×0.0020)のまま最後まで変わらず、コア種を外した対照ではJ_coreは恒等的に0になる(継承以外の生成経路が無い)。暗さも育つ: 実効減光lS_eff(A11/E8R — 自転で自分の光を掃き出す度合い)はt=0で0.000、9000步では中心天体は0.999まで暗くなるのに対し周囲の天体は平均0.317のままで、「暗い中心+明るい周辺」が生成する(コントラスト3.2倍。c₀=30 で減光は飽和側 — v1.38〔c₀=60〕実測は0.589/0.159。粒子数・融合回数・質量比・スピン・束縛率など力学量は全て v1.38 と一致)。この暗さは井戸の深さψ=W·X_kだけで決まり力学には一切効かない(実測: X_k=1/12・1/14・1/16・1/20・1/24〔旧表記 Kt 12/14/16/20/24〕で粒子数・融合回数・質量比・スピン・半径がすべて完全一致し、変わるのは減光の1.000/0.999/0.843/0.527/0.386だけ)。自転ゼロで始まった粒のスピンは最後には全部が同じ向きに揃う(創発モニタのスピン整列度0.000→1.000・塊の数166→2・最大塊の質量比0.994・回転支持比V/σ=10.9)。運動量・角運動量(A13/T7)はリザーバ帳簿ゼロのまま厳密に閉じる(モニタ表示・9000步で|ΔL|/L_scale=6.7e-7)。※創発の標準試験(詳細はdocs/PHYSICS.md「創発水準と標準試験」): この現象には多seed・粒子数スケーリング・摂動回復・時間窓の4試験を通してある。【多seed16】20260806〜20260821の16seedで最大天体の質量比は18.3〜53.3%(中央34.7%)に分布し、16seedすべてで18.3%以上になる — 融合を切った対照は全seedで0.56%(=1/180が厳密に保たれる。融合が無ければ質量は動かない)なので、最小でも対照の33倍である。同じ16seedで最大塊の質量比0.972〜1.000・スピン整列度0.985〜1.000・回転支持比V/σ 3.1〜20.8・中心の減光0.943〜1.000・周囲0.253〜0.438・J_core 0.0660〜0.1920(種33〜96個ぶん)・束縛率0.43〜1.00・残り体数17〜37体(融合143〜163回)、NaNもclampもゼロで|ΔL|/L_scaleは最大6e-6。中心と周囲の減光コントラストは2.28〜3.96倍(中央2.75)、対照は0.72〜1.08倍(中央1.03)で16seedを通して一度も重ならない — このあとの(a)で「暗さ単独では融合の有無を判別しない」と記す点について、正しい判別量がこのコントラストの方だということが16seedで裏づけられた。【粒子数スケーリング】n=90/180/360(代表3seed)で質量比の中央値は12.2/26.7/31.7%、最大塊の質量比は0.944/0.994/1.000、整列度はどれも1.000 — 現象は特定の粒子数でだけ立つ離散模様ではない。ただし本サンプルは円盤半径と1粒の質量を固定してnを振るので、nは同時に総質量(=自己重力の強さ)でもある: n=90はGを半分にしたのと同じ側に効き、「対照の10倍」という基準は3seed中2seedでしか満たさない(7.0/11.0/22.0倍)— これも正直な記録として残す。【摂動回復】構造ができたt=120(7500步)で全粒子の速度に平均を差し引いたガウスノイズ(速さRMSの30%・系の全運動量は保存)を入れても、最大塊の質量比・整列度・中心天体の質量比は1つも動かない。この構造は速度の乱れでは壊れず、掃引すると壊れ始めるのは速さRMSの2倍から(15000步で最大塊0.994→0.811、4倍で0.583)。乱れて戻るのは回転支持比V/σ(28〜33%落ちて10步=Δt0.16で復帰)と束縛率(最大11%落ちて200步で復帰)。整列度は速度ノイズでは定義上動かないので、粒子の約半数のスピンを反転させる摂動を別に入れた: 整列度は1.000から−0.907/−0.800/−0.232まで壊れるのに10步(Δt=0.16)で0.976以上へ戻り、反転させた中心天体自身のスピンも10〜200步で正へ復帰する — 揃った回転は「一回限りの配置」ではなく、接触摩擦(E9)と引きずり(A8/E6′)が毎步維持している到達点である。【時間窓】塊は1500步(t=24)でひとつにまとまり、整列度は2000步(t=32)で0.99を超え、質量比は2000〜3000步(t=32〜48)で最終値の90%に達してそこから飽和する。9000步(=validT 144)と18000步の質量比の差は0.0000で、validTは立ち上がりが終わった安定域の内側にある。これら4試験とノックアウト・用量反応を合わせた6試験を通したので、E水準はE2(閉鎖系の創発)からE3(多seed・粒子数変更・摂動回復で頑健性を確認した創発)へ上げてある。実測ハーネス: tests/exp-4-85.mjs。※立たなかった主張も正直に記す: (a)暗さそのものは融合の有無を判別しない — 融合を切った対照でも、180粒が密集した山の中心はlS_eff=0.999まで暗くなる(暗さを決めるのは井戸の深さであって成長経路ではない)。判別するのは「中心が暗く周囲は明るい」というコントラストの方で、対照では周囲も平均0.972まで暗い。(b)引きずりkFrame=0の対照は外縁の回転に系統差を作らない(生き残りが中心へ集まって外縁帯の統計が立たず、差はseed幅に埋もれる)— 本サンプルは引きずりの主張をしない。(c)融合閾値dFracの用量反応は単調ではない(0.7/0.6/0.5/0.35→26.7/47.8/43.3/23.3%)。実在の銀河・ダークマター・星形成の再現を主張するものではない(Negative Claims 1/2)。おすすめA/B: X_kを 1/14→1/24 に下げる(≈0.58倍)と井戸が浅くなり中心の暗さが0.999→0.386まで薄れる(力学は1ビットも変わらない)。Gを4に下げると成長がほぼ止まり、同じ9000步でも中心天体は質量比6.1%までしか育たない。右下の「創発モニタ」で塊の数・最大塊の質量比・スピン整列度・回転支持比V/σの時系列が読める。",
+    "status": {
+     "purpose": "一様な雲から暗く回る中心が育つかを見る",
+     "objective": "met",
+     "state": "4 seed で質量比の最小 18.3%・対照の 33 倍",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "behavior.selfrotor-multiseed"
+     ]
+    }
+   }
   }
  }
 }

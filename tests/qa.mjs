@@ -44264,8 +44264,17 @@ if (!FAST) {
       try { FX15 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w325c.json'), 'utf8')); }
       catch (e) { bad.push('第325便c の凍結の写しが読めない'); }
     }
-    const IDS = IDS283.concat(IDS284).concat(IDS285).concat(IDS286).concat(IDS287).concat(IDS288).concat(IDS290).concat(IDS291).concat(IDS298).concat(IDS300).concat(IDS300B).concat(IDS300M).concat(IDS325C).filter((id) => !REV292.includes(id));
-    const FXP = { presets: Object.assign({}, (FX || {}).presets || {}, (FX4 || {}).presets || {}, (FX5 || {}).presets || {}, (FX6 || {}).presets || {}, (FX7 || {}).presets || {}, (FX8 || {}).presets || {}, (FX9 || {}).presets || {}, (FX10 || {}).presets || {}, (FX11 || {}).presets || {}, (FX12 || {}).presets || {}, (FX13 || {}).presets || {}, (FX14 || {}).presets || {}, (FX15 || {}).presets || {}) };
+    // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 「自転と減光」の群の 3 本(🕳️🪜🥚)を退役(**64 本** —— 世代切替 has326a = RETIRED_PRESETS の 🕳️ の行が「第128報」)。
+    //   写しは tests/fixtures/retired-w326a.json(3 本の定義・署名 = 基点 1b1fa70 —— 物理対応ロックの外で宣言の X_k のまま)
+    const has326a = await page.evaluate(() => typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.rotorSolo && /^第128報/.test(RETIRED_PRESETS.rotorSolo.ja));
+    const IDS326A = has326a ? ['rotorSolo', 'massLadder', 'selfRotor'] : [];
+    let FX16 = null;
+    if (has326a) {
+      try { FX16 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w326a.json'), 'utf8')); }
+      catch (e) { bad.push('第326便a の凍結の写しが読めない'); }
+    }
+    const IDS = IDS283.concat(IDS284).concat(IDS285).concat(IDS286).concat(IDS287).concat(IDS288).concat(IDS290).concat(IDS291).concat(IDS298).concat(IDS300).concat(IDS300B).concat(IDS300M).concat(IDS325C).concat(IDS326A).filter((id) => !REV292.includes(id));
+    const FXP = { presets: Object.assign({}, (FX || {}).presets || {}, (FX4 || {}).presets || {}, (FX5 || {}).presets || {}, (FX6 || {}).presets || {}, (FX7 || {}).presets || {}, (FX8 || {}).presets || {}, (FX9 || {}).presets || {}, (FX10 || {}).presets || {}, (FX11 || {}).presets || {}, (FX12 || {}).presets || {}, (FX13 || {}).presets || {}, (FX14 || {}).presets || {}, (FX15 || {}).presets || {}, (FX16 || {}).presets || {}) };
     const r = await page.evaluate(async (a) => {
       const { IDS, FX, BASE } = a;
       const o = {};
@@ -46664,7 +46673,10 @@ if (!FAST) {
       // 第288便g: 第288便b の一本化で較正対象(在位の 20 本)はすべて kFrame=0(引きずり無し)になった —— 「較正対象∧¬引きずり」は較正対象と同数で
       //   よい(NOT が 1 本も外さないのは仕様の結果。AND/NOT の配線は got === exp と他の 2 組で見る)
       const mig288T = /^const UNIFY_MIGRATED=/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
-      o.andOk = o.and.every((x) => x.got === x.exp && x.exp > 0 && (x.exp < x.only || (mig288T && x.nm === '較正対象∧¬引きずり' && x.exp === x.only)))
+      // 第326便a(AN530・R290): 物理対応ロックを常にの世代(html の XK_LOCK_VERSION)で、強場トイ領域の本(静的 ψ > 0.5)は在位 14 → 2 本(🧭🕸️ —— 📇 を持たない)になった
+      //   (銀河と棒と腕の X_k 0.02 → G_0/c_0²)—— 「📇∧¬⚠強場」は 📇 と同数でよい(NOT が 1 本も外さないのは移行の結果。配線は got === exp と他の 2 組で見る)
+      const gen326P = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0;
+      o.andOk = o.and.every((x) => x.got === x.exp && x.exp > 0 && (x.exp < x.only || (mig288T && x.nm === '較正対象∧¬引きずり' && x.exp === x.only) || (gen326P && x.nm === '📇∧¬⚠強場' && x.exp === x.only)))
         && a1.other === 'bdgCore,!bdgDrag' && a1.sum === tCore + ' ∧ ¬' + tDrag && a2.other === 'calTarget,!bdgDrag' && a2.sum === tCal + ' ∧ ¬' + tDrag
         && a3.other === 'obsCard,!bdgStrongField' && a3.sum === tObs + ' ∧ ¬' + tStrong;
       // 畳んでも残る・開き直すと同じ
@@ -48272,6 +48284,7 @@ if (!FAST) {
       for (const id of ['darkrotor', 'rotorSolo', 'bhCore', 'massLadder', 'nebulaRotor', 'nebulaShell',
         'nebulaBipolar', 'selfRotor', 'starSeed', 'counterring', 'merger']) res.fam151[id] = famOf(id);
       res.w283b = HP.allPresets().some((p) => p.id === 'darkrotor' && p.familyRole === 'retired');   // 第283便b: 退役の世代
+      res.w326a = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.rotorSolo && /^第128報/.test(RETIRED_PRESETS.rotorSolo.ja);   // 第326便a: 🕳️🪜🥚 の退役の世代
       // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 w290b = RETIRED_PRESETS に ❄️ の行。家族 supernova は 🥀(実在天体のアナロジー)と
       //   🎇(天体の機構 —— 群は変えない)を**宣言して**またぐ(「家族は群をまたいでよい」)。跨ぎを許すのは宣言したこの 1 家族だけ
       res.w290b = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.plutoCharonReal;
@@ -48658,7 +48671,9 @@ if (!FAST) {
       // 第283便b(原仮定者の裁定(第73報)④・R84): 退役の世代では 🕶️⚫🌑🐚⏳🌱 が "retired"・入口は 🕳️ rotorSolo / 🥚 selfRotor
       //   (familyId・group は不変 —— 退役は表示の役割名だけ)
       const RET283 = ['darkrotor', 'bhCore', 'nebulaRotor', 'nebulaShell', 'nebulaBipolar', 'starSeed'];
-      const role151 = (id, prim) => (r.w283b && RET283.includes(id)) ? 'retired'
+      // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 🕳️🪜🥚 も退役した世代(r.w326a —— RETIRED_PRESETS の 🕳️ の行が「第128報」)では 2 家族の全部が "retired"(familyId・group は不変)
+      const RET326 = r.w326a ? ['rotorSolo', 'massLadder', 'selfRotor'] : [];
+      const role151 = (id, prim) => (r.w283b && (RET283.includes(id) || RET326.includes(id))) ? 'retired'
         : (r.w283b ? (id === 'rotorSolo' || id === 'selfRotor') : id === prim) ? 'primary' : 'variant';
       const moved = ['darkrotor', 'rotorSolo', 'bhCore', 'massLadder'].every(
         (id) => eq((r.fam151 || {})[id], ['darkcenter', role151(id, 'darkrotor'), ROTOR]))
@@ -94543,7 +94558,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       for (const z of FX325e.nonReal || []) {
         const p = byId.get(z.id);
         if (!p) { bad.push('① ' + z.id + ' が内蔵に無い'); continue; }
-        if (sigOf(p) !== z.presetSigHash) bad.push('① ' + z.id + ' の署名が写しと違う');
+        // 第326便a(AN530・R290): 物理対応ロックの移行(分類 1 —— X_k := G_0/c_0² だけ)で 5 本の署名が変わった世代は、移行の凍結の写し tests/fixtures/xklock-w326a.json の
+        //   前の署名 = この写しの署名・後の署名 = 今の署名で見る(質量の宣言は下の行で別に見る)
+        let XK326 = null; try { XK326 = JSON.parse(rd325e('tests/fixtures/xklock-w326a.json')); } catch (e) { XK326 = null; }
+        const xb = XK326 && XK326.books && XK326.books[z.id];
+        if (xb && xb.kind === 'class1' ? !(xb.before.sig === z.presetSigHash && xb.after.sig === sigOf(p)) : sigOf(p) !== z.presetSigHash) bad.push('① ' + z.id + ' の署名が写しと違う');
         if (JSON.stringify(p.massCalibration) !== JSON.stringify(z.massCalibration) || JSON.stringify(p.bodies.map((b) => (b.m ?? null))) !== JSON.stringify(z.mass)) bad.push('① ' + z.id + ' の質量の宣言が動いた');
         if (!(p.sampleClass === 'principle' && fOf(p) === 2 && (p.massCalibration || {}).law === 'chi-law-v1-transfer')) bad.push('① ' + z.id + ' が原理の本の台帳 f=2 でない');
         if (!(z.declSame === true && z.sigSame === true)) bad.push('① 写しの ' + z.id + ' の declSame・sigSame');

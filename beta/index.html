@@ -44679,9 +44679,10 @@ function xkLockDefaultDerive(){ return true; }
 function xkDeclaredOf(ph){ return !!(ph && typeof ph==="object" && !Array.isArray(ph) && (isNum(ph.kappaT) || isNum(ph.Kt))); }
 // 物理の写し(既定値のマージの後)から X_k の導出値(physLockCalc と同じ式・同じクランプ)
 function xkDerivedOf(ph){ const G=ph.G, c=ph.cLight, cc=CLAMPS.kappaT; const tgt=(G>0)? G/(c*c) : 0; return clamp(tgt,cc[0],cc[1]); }
-// 内蔵の退役の本か(ID で —— 保存したカスタムの本は内蔵と ID が重ならない〔取り込みで一意化〕)。受理器の口は宣言の familyRole も見る
+// 内蔵の退役の本か(ID で —— 保存したカスタムの本は内蔵と ID が重ならない〔取り込みで一意化〕)。受理器の口も ID で見る(退役の前に凍結した写し
+//   〔familyRole が退役の前の値の過去の正本の写し〕も履歴として同じ扱い —— 外から入る宣言が退役の本の ID を名乗っても、取り込みで ID を付け直すので読み込みではロックの下)
 function xkLockExemptId(id){ try{ const q=BUILTIN_PRESETS.find((b)=>b.id===id); return !!(q && retiredOf(q)); }catch(_){ return false; } }
-function xkLockExemptPreset(p){ return !!(p && typeof p==="object" && retiredOf(p) && xkLockExemptId(p.id)); }
+function xkLockExemptPreset(p){ return !!(p && typeof p==="object" && xkLockExemptId(p.id)); }
 // 今開いている本がロックの下か(内蔵の退役の本だけ外)
 function xkLockActive(){ return !(currentPreset && xkLockExemptId(currentPreset.id)); }
 // 実行時の口: 渡した sim の X_k を導出値へ
