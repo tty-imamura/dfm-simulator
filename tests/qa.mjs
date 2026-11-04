@@ -95290,7 +95290,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const G = m.G, c = m.cLight, want = Math.min(1, Math.max(0, G > 0 ? G / (c * c) : 0));
         if (!Object.is(p.physics.kappaT, want)) notDerived.push(p.id);
         const v = HPx.validatePreset(JSON.parse(JSON.stringify(p)));
-        if (!(v && v.ok) || (v.warnings || []).some((w) => /X_k|kappaT/.test(String(w)))) warnX.push(p.id);
+        if (!(v && v.ok) || (v.warnings || []).some((w) => /X_k|kappaT/.test(String(w))) || !(v.xkLock && v.xkLock.notices.length === 0)) warnX.push(p.id);
       }
       let retMis = 0;
       for (const p of ret) { const v = HPx.validatePreset(JSON.parse(JSON.stringify(p))); if (v && v.ok && !Object.is(v.preset.physics.kappaT, p.physics.kappaT)) retWarn.push(p.id);
@@ -95298,7 +95298,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (notDerived.length) bad.push(`② 在位の本の宣言の X_k が導出値と bit で違う ${notDerived.length}: ${notDerived.slice(0, 8).join(',')}`);
       if (warnX.length) bad.push(`② 受理で X_k の警告か拒否 ${warnX.length}: ${warnX.slice(0, 8).join(',')}`);
       if (retWarn.length) bad.push(`② 退役の本の受理で X_k が動いた ${retWarn.length}: ${retWarn.slice(0, 8).join(',')}`);
-      cases.push(`② 在位 ${live.length} 本の宣言の X_k = G_0/c_0²(bit)${live.length - notDerived.length}/${live.length}・受理の警告 ${warnX.length} / 退役 ${ret.length} 本は宣言のまま(導出値と違う本 ${retMis} —— ロックの外)`);
+      cases.push(`② 在位 ${live.length} 本の宣言の X_k = G_0/c_0²(bit)${live.length - notDerived.length}/${live.length}・受理の告知(xkLock.notices)か X_k の警告 ${warnX.length} / 退役 ${ret.length} 本は宣言のまま(導出値と違う本 ${retMis} —— ロックの外)`);
       // ③
       const byP = new Map(ps.map((p) => [p.id, p]));
       const c56 = [], c1 = [], c2 = [], cR = [];
@@ -95357,20 +95357,20 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       try {
         // ① 受理
         const v1 = HP.validatePreset(mkP({ G: 2, cLight: 30, kappaT: 0.05 }));
-        out.acc = !!(v1.ok && Object.is(v1.preset.physics.kappaT, 2 / 900) && v1.warnings.some((w) => /X_k/.test(w) && /導出/.test(w)));
-        if (!out.acc) B('① 受理: 宣言の X_k 0.05 が導出値 2/900 に置き換わらないか警告が無い');
+        out.acc = !!(v1.ok && Object.is(v1.preset.physics.kappaT, 2 / 900) && v1.xkLock && v1.xkLock.notices.some((w) => /X_k/.test(w) && /導出/.test(w)) && !v1.warnings.some((w) => /X_k/.test(w)));
+        if (!out.acc) B('① 受理: 宣言の X_k 0.05 が導出値 2/900 に置き換わらないか告知(xkLock.notices —— warnings の外)が無い');
         const v2 = HP.validatePreset(mkP({ G: 2, cLight: 30, Kt: 20 }));
         out.accKt = !!(v2.ok && Object.is(v2.preset.physics.kappaT, 2 / 900));
         if (!out.accKt) B('① 受理: 旧 Kt が導出値に置き換わらない');
         const v3 = HP.validatePreset(mkP({ G: 2, cLight: 30 }, { abBody: { label: { ja: 'x', en: 'x' }, physicsPatch: { kappaT: 0, G: 0 } } }));
-        out.accAb = !!(v3.ok && v3.preset.abBody && v3.preset.abBody.physicsPatch && !('kappaT' in v3.preset.abBody.physicsPatch) && v3.preset.abBody.physicsPatch.G === 0 && v3.warnings.some((w) => /abBody/.test(w) && /X_k/.test(w)));
+        out.accAb = !!(v3.ok && v3.preset.abBody && v3.preset.abBody.physicsPatch && !('kappaT' in v3.preset.abBody.physicsPatch) && v3.preset.abBody.physicsPatch.G === 0 && v3.xkLock && v3.xkLock.abDropped === true && v3.xkLock.notices.some((w) => /abBody/.test(w) && /X_k/.test(w)));
         if (!out.accAb) B('① 受理: abBody.physicsPatch の X_k を捨てない(G_0 は運ぶ)');
         // ② 既定値のマージ(AN532)
         const dd = HP.xkLockDefaultDerive();
         const v4 = HP.validatePreset(mkP({ G: 2, cLight: 30 }));
         out.dflt = dd ? Object.is(v4.preset.physics.kappaT, 2 / 900) : Object.is(v4.preset.physics.kappaT, 1 / 60);
         const v5 = HP.validatePreset(mkP({ G: 1, cLight: 30, kappaT: 0.016666666666666666 }));
-        out.dfltSilent = dd ? (Object.is(v5.preset.physics.kappaT, 1 / 900) && !v5.warnings.some((w) => /X_k/.test(w))) : Object.is(v5.preset.physics.kappaT, 1 / 900);
+        out.dfltSilent = dd ? (Object.is(v5.preset.physics.kappaT, 1 / 900) && v5.xkLock.notices.length === 0) : Object.is(v5.preset.physics.kappaT, 1 / 900);
         out.dd = dd;
         if (!(out.dflt && out.dfltSilent)) B('② 既定値のマージ(AN532 —— 導出 ' + dd + ')');
         // ③ 読み込み(内蔵の全部の本)
@@ -95441,7 +95441,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       return out;
     });
     add('behavior.xkDerive326a', r.bad.length === 0,
-      `**物理対応ロックを常に —— 全部の経路で X_k = G_0/c_0²**(第326便a・AN530・R290): 受理(置き換えと警告=${r.acc}・旧 Kt=${r.accKt}・abBody の X_k を捨てる=${r.accAb})・`
+      `**物理対応ロックを常に —— 全部の経路で X_k = G_0/c_0²**(第326便a・AN530・R290): 受理(置き換えと告知 xkLock.notices=${r.acc}・旧 Kt=${r.accKt}・abBody の X_k を捨てる=${r.accAb})・`
       + `既定値のマージ(AN532 導出=${r.dd}: ${r.dflt}・表の既定値の宣言は警告なし=${r.dfltSilent})・読み込み 内蔵 ${r.n} 本(在位でロック ON・導出値 ${r.nOn}・退役はロックの外)・`
       + `編集(G_0・c_0 で追随=${r.edit}・X_k の行は編集不可=${r.xGrey}・直に書いても導出値=${r.xDirect})・セーブ=${r.save}・チェックポイント=${r.ck}・⏮=${r.reset}・`
       + `A/B(🕰️ の G_0=0 の対照=${r.abTap}・B 側の X_k の宣言=${r.abPatchX})・setPhysLock(false) で外れない=${r.setOff}・退役の本の間だけ外=${r.retOff}/${r.retBack}`

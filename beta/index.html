@@ -27672,6 +27672,9 @@ function validatePreset(obj){
   // physics: 部分指定を許容し、既定値へマージ + クランプ
   const ph = Object.assign({}, DEFAULT_PHYSICS);
   const xkDeclared=xkDeclaredOf(p.physics);   // 第326便a(AN530): X_k(kappaT・旧 Kt)を宣言したか(既定値のマージの扱いを分ける —— AN532)
+  // 第326便a: 物理対応ロックの受理の記録(返り値の xkLock)。X_k の置き換えは値域のクランプのような修正ではなく正規化なので **warnings には入れない** ——
+  //   告知の文は xkLock.notices(相対 1e-6 の外の置き換えと abBody の X_k を捨てたとき)。取り込み・AI 生成の画面が出すかは呼び手の判断
+  const xkLockInfo={notices:[], physics:null, abDropped:false};
   if(p.physics!==undefined){
     if(typeof p.physics!=="object" || Array.isArray(p.physics)) bad(reasonText("validatePreset/physics"));
     else for(const k of Object.keys(p.physics)){
@@ -28207,7 +28210,7 @@ function validatePreset(obj){
   // 第242便: contact(接触=完全引きずり)は share のフレーム重みで定義した opt-in — 既定 pull と併用しない(合成は裁定事項)
   if(ph[DRAG_REF_KEY]===DRAG_CONTACT && frameWeightIsPull(ph)){ warnings.push(reasonText("validatePreset/physics.dragRef#3")); ph[FRAME_WEIGHT_KEY]="share"; }
   // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 物理対応ロックを常に —— 受理の後の X_k を G_0/c_0² の導出値へ(内蔵の退役の本〔履歴〕は宣言のまま)
-  { const xa=xkLockAcceptPhysics(p, ph, xkDeclared); if(xa.warn) warnings.push(xa.warn); }
+  { const xa=xkLockAcceptPhysics(p, ph, xkDeclared); xkLockInfo.physics=xa; if(xa.warn) xkLockInfo.notices.push(xa.warn); }
   p.physics=ph;
   const isqMassNonPos=[];   // 第311便b(AN389): single の宣言の質量が正でない天体の添字(質量の下限 massFloor を当てる前 —— 新則の本の受け手の判定に使う)
   // bodies
@@ -29614,13 +29617,13 @@ function validatePreset(obj){
           warnings.push(reasonText("validatePreset/abBody.physicsPatch"));
         } else {
           physicsPatch={};
-          let xkAbWarned=false;   // 第326便a(AN530): B 側の X_k の宣言は読まない(警告は 1 行)
+          let xkAbWarned=false;   // 第326便a(AN530): B 側の X_k の宣言は読まない(告知は 1 行 —— xkLock.notices)
           for(const k of Object.keys(A.physicsPatch)){
             // 第123便: qLock:true — B側の q を自動算出(有限参照正規化規約)する特別キー(CLAMPS 外)
             if(k==="qLock"){ if(A.physicsPatch[k]===true) physicsPatch.qLock=true; continue; }
             // 第326便a(原仮定者の回答(2026-11-03 —— AN530)): 物理対応ロックの下で X_k は導出 —— B 側の kappaT・Kt は捨てる(内蔵の退役の本〔履歴〕は宣言のまま)
             if((k==="kappaT" || k==="Kt") && !xkLockExemptPreset(p)){
-              if(!xkAbWarned){ warnings.push(reasonText("validatePreset/abBody.physicsPatch.kappaT#lock")); xkAbWarned=true; }
+              if(!xkAbWarned){ xkLockInfo.notices.push(reasonText("validatePreset/abBody.physicsPatch.kappaT#lock")); xkAbWarned=true; xkLockInfo.abDropped=true; }
               continue; }
             // 第128便: kappaT は通常キー(CLAMPS[0,1])— 下の汎用経路が拾う。旧 Kt は後方互換で κ へ換算
             if(k==="Kt"){ if(!isNum(A.physicsPatch.kappaT) && isNum(A.physicsPatch[k]))
@@ -30059,8 +30062,8 @@ function validatePreset(obj){
     && (coordOf(p.physics)!=="3d" || p.physics[STATE_CARRY_KEY]!=="double"))
     bad(reasonText("validatePreset/physics.relativeDrag.initMotion"));
   // 第86便: legacyCore = 旧コアキーから コアv2 へ移行した構成かどうか(エクスポートの migration 記録用)
-  return errors.length? {ok:false, errors, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped, geoCompat}
-                      : {ok:true, preset:p, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped, geoCompat, geoMode:geoModeOf(p.physics)};
+  return errors.length? {ok:false, errors, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped, geoCompat, xkLock:xkLockInfo}
+                      : {ok:true, preset:p, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped, geoCompat, geoMode:geoModeOf(p.physics), xkLock:xkLockInfo};   // 第326便a: xkLock(物理対応ロックの受理の記録)
 }
 
 // ===== シミュレーションエンジン =====
