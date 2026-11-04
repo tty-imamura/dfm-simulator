@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第295便c",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-02T21:37:45.669Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T08:15:49.916Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    },
    {
     "file": "tests/out/swing-w293d.json",
-    "bytes": 538327,
-    "sha256": "b1475cdb007b058a5543b7c72483f3be85d7685340a10e70864415ad86d11c5b",
-    "mtime": "2026-11-02T21:36:37.315Z"
+    "bytes": 538301,
+    "sha256": "0f84caeb0b07e9e470be1fe9954937bd2925fe4ae97783796bb5e8e2f48a05d2",
+    "mtime": "2026-11-04T08:14:28.204Z"
    }
   ],
   "code": [
@@ -52,9 +52,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    },
    {
     "file": "tests/lib-w302h-splitrec.mjs",
@@ -63,7 +63,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "fbd4d2456bc09c7d293a4fef1f72b71a44a116c4e65abd76d169f24e9b5dbbfd",
+  "codeSha256": "9c08b0088ff713a8814cad23e4fd7bf195e985086e4917a5d1f0fe5912f3c428",
   "harnessVersion": "w295c-inertial3-1",
   "swingVersion": "w293d-swing-1",
   "engineVersion": "w290c-inertial-1",
@@ -85,7 +85,7 @@
    "全系の保存則が閉じた"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "earthMoonInertial",
     "earthMoonSunInertial",
@@ -114,16 +114,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1394,
-   "segments": 1220,
-   "closureShare": 0.3036
+   "names": 1400,
+   "segments": 1226,
+   "closureShare": 0.3018
   },
-  "scopeSha256": "34608af5aac3a50c51967bf4ba849998ceddb137515c9b0e213e1b018f3f68af",
+  "scopeSha256": "b642296baa8cbe91f8dc52e4fa832a699fd2343d14a8f7ce4c8b1300600a69ea",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/swing-w293d.json",
-    "stableSha256": "c163a1c475e26a8fffc07ff7e7f9fbd50b5c7ce237cc789a42e5e797171a4cfa",
+    "stableSha256": "60ff73362b7c379cfc10c4dba276a9efd64efcaddeca4e02dc197ef8562993e5",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1963,49 +1963,49 @@
  "ok": true,
  "timing": {
   "em-G0-0.008": {
-   "wallSec": 11.815
-  },
-  "em-A2-0.008": {
-   "wallSec": 13.139
+   "wallSec": 14.116
   },
   "em-A1-0.008": {
-   "wallSec": 13.748
+   "wallSec": 16.192
+  },
+  "em-A2-0.008": {
+   "wallSec": 16.353
   },
   "em-A1-0.016": {
-   "wallSec": 6.672
+   "wallSec": 7.846
   },
   "em-G0-0.016": {
-   "wallSec": 6.006
+   "wallSec": 7.082
   },
   "em-A2-0.016": {
-   "wallSec": 6.94
+   "wallSec": 7.715
   },
   "mer-gain0-h2": {
-   "wallSec": 1.905
+   "wallSec": 2.568
   },
   "mer-gain-h2": {
-   "wallSec": 2.3
+   "wallSec": 2.7
   },
   "mer-gain0-h": {
-   "wallSec": 2.328
+   "wallSec": 2.642
   },
   "mer-gain-h": {
-   "wallSec": 2.483
-  },
-  "plu-gain0-h2": {
-   "wallSec": 20.081
+   "wallSec": 2.827
   },
   "plu-gain-h2": {
-   "wallSec": 20.672
+   "wallSec": 24.338
+  },
+  "plu-gain0-h2": {
+   "wallSec": 24.787
   },
   "plu-gain0-h": {
-   "wallSec": 21.214
+   "wallSec": 25.232
   },
   "plu-gain-h": {
-   "wallSec": 21.145
+   "wallSec": 25.273
   }
  },
  "inputMapping": "🟤・🟣 は親の vx/vy を力学速度 v にそのまま与えた(ẋ=v+u)—— 観測の座標速度と同一の比較ではない(🌤️ も 🔆 の状態を v に与えた)。gain 0 の行だけが親と同じ座標速度で始まる",
  "notTarget": "合否・年数の約束は書かない(値の記録)。gain はフィットしない —— 8.85 年・43″/世紀・公転周期のどれにも合わせない",
- "elapsedS": 64.982
+ "elapsedS": 78.024
 }

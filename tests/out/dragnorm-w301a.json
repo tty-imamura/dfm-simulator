@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第301便a",
   "target": "beta/index.html",
-  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-  "generatedAt": "2026-11-03T15:41:27.406Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T08:34:40.113Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7612995,
-    "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-    "mtime": "2026-11-03T15:04:48.828Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -64,9 +64,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    },
    {
     "file": "tests/lib-w303a-pre.mjs",
@@ -81,7 +81,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "acdf3ea55284f52f5e298aeeb5099fa90bf6dbd5a142ff23205c4ef7084c77ad",
+  "codeSha256": "cdd1a4e758d43b7ebc1e688b7d73a60f7f6458f85c0a594d670b0454ccfca97e",
   "harnessVersion": "w301a-dragnorm-1",
   "normVersion": "w301a-norm-1",
   "loadErrors": 0,
@@ -93,7 +93,7 @@
    "背景慣性決定力の値を観測で決めた"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": "all",
    "roots": [
     "HP.DRAG_CORE_RMAX_FACTOR",
@@ -118,11 +118,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1395,
-   "segments": 1221,
-   "closureShare": 0.3033
+   "names": 1401,
+   "segments": 1227,
+   "closureShare": 0.3022
   },
-  "scopeSha256": "bbd84e48d2ced91e654b1e661a4dec1e8d747fe4e2e44a1933cfea2e2ed99fe6",
+  "scopeSha256": "a1c22a86293c2a4693e444a696ccfd6ecd269eefffd713e120db4da89921e8ce",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -1149,5 +1149,5 @@
   "cosmicNoPrecession": true
  },
  "ok": true,
- "elapsedS": 125.32
+ "elapsedS": 127.403
 }
