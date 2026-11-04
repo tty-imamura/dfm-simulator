@@ -24,7 +24,7 @@ import { execFileSync } from 'node:child_process';
 import { REGEN_STEPS, htmlPhysDeclOf } from './lib-w281a-regentable.mjs';
 import { htmlPhysParts, stampParts, physCompare, readLedger, readsProblems, HTMLPHYS_TARGET } from './lib-w325a-htmlphys.mjs';
 import { physValue } from './lib-w323b-quick.mjs';
-import { canonJson } from './lib-w281a-scope.mjs';
+import { canonJson, SCOPE_TOOLING, toolStampOnly } from './lib-w281a-scope.mjs';
 
 export const ALWAYS_SHADOW_VERSION = 'w326e-alwaysshadow-1';
 /** 群の刻印(自分の正本に targetSha256 が無い段が使う —— 同じ鎖で走る常時群の根)。 */
@@ -274,11 +274,16 @@ export function alwaysShadow(plan, o) {
     const rev = anc === true ? groupRev : ownRev;
     dt.refCanon = ref; dt.rev = rev ? rev.slice(0, 12) : null; dt.revFrom = anc === true && ownRev !== groupRev ? 'group' : 'own';
     const cl = closureOf(st, root);
-    // 器が測定コードの集合を刻む正本(calaudit の measurementCodeFiles —— 再生成表は安定 hash の宣言にだけ使うので外す、という器の宣言)は、その集合と cmd の器だけ
-    const mcf = metas.map(([, m]) => m && Array.isArray(m.measurementCodeFiles) ? m.measurementCodeFiles : null).find(Boolean) || null;
-    const codeFiles = new Set(mcf ? mcf.concat((String(st.cmd || '').match(/\b(?:tests|tools)\/[\w.-]+\.mjs\b/g) || [])) : cl.code);
-    for (const [, m] of metas) for (const c of ((m && m.code) || [])) if (c && c.file) codeFiles.add(c.file);
-    dt.codeFrom = mcf ? 'measurementCodeFiles' : 'closure';
+    // 器がコードの集合を刻む正本(来歴の meta.code[]・calaudit の measurementCodeFiles —— 計画が見るのと同じ器の宣言)は、その集合と cmd の器だけ。
+    //   刻まない旧形式の正本(solarsigma・d68three・stoprule・issues・assessed・htmlagg)は器の閉包(保守側に広く)
+    const stamped = new Set();
+    for (const [, m] of metas) {
+      for (const c of ((m && m.code) || [])) if (c && c.file) stamped.add(c.file);
+      for (const c of ((m && m.measurementCodeFiles) || [])) stamped.add(c);
+    }
+    const cmdFiles = String(st.cmd || '').match(/\b(?:tests|tools)\/[\w.-]+\.mjs\b/g) || [];
+    const codeFiles = new Set(stamped.size ? [...stamped].concat(cmdFiles) : cl.code);
+    dt.codeFrom = stamped.size ? 'stamp' : 'closure';
     const cf = [...codeFiles].sort();
     dt.codeFiles = cf.length; dt.dataFiles = cl.data.length;
     if (!rev) {
@@ -286,8 +291,11 @@ export function alwaysShadow(plan, o) {
       const stamped = metas.some(([, m]) => m && ((m.code || []).length || m.measurementCodeSha256));
       if (!stamped) f.code.unknown = true;
     } else {
-      f.code.diff = fileDrift(root, rev, cf);
+      // 刻印の道具(SCOPE_TOOLING)を刻印だけに使う器は、道具の差を「式」にしない(計画の第318便a の規則と同じ —— toolStampOnly)
+      const tsOnly = cf.filter((x) => SCOPE_TOOLING.includes(x) && toolStampOnly(root, cf, x));
+      f.code.diff = fileDrift(root, rev, cf).filter((x) => !tsOnly.includes(x));
       f.data.diff = fileDrift(root, rev, cl.data);
+      dt.toolStampOnly = tsOnly;
     }
     for (const [, m] of metas) {
       if (!m) continue;
@@ -308,7 +316,7 @@ export function alwaysShadow(plan, o) {
     const f = facts[z.key] || {}, dt = detail[z.key] || {};
     return Object.assign({}, z, { html: { kind: dt.decl, same: f.html ? f.html.same : null, diff: f.html ? f.html.diff : [], reads: dt.reads, stamp: dt.stamp, stampFrom: dt.stampFrom, stampHow: dt.stampHow },
       physReuse: (f.stamp && f.stamp.ok === false) || !['reads', 'scope'].includes(dt.decl) ? null : (f.html ? f.html.same : null),
-      code: { rev: dt.rev, revFrom: dt.revFrom, refCanon: dt.refCanon, files: dt.codeFiles, from: dt.codeFrom, diff: (f.code || {}).diff || [], unknown: !!(f.code || {}).unknown },
+      code: { rev: dt.rev, revFrom: dt.revFrom, refCanon: dt.refCanon, files: dt.codeFiles, from: dt.codeFrom, toolStampOnly: dt.toolStampOnly || [], diff: (f.code || {}).diff || [], unknown: !!(f.code || {}).unknown },
       data: { files: dt.dataFiles, diff: (f.data || {}).diff || [] }, inputs: f.inputs || [] });
   });
   return {
