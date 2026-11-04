@@ -17863,7 +17863,9 @@ if (!FAST) {
     });
     if (hasV2) {
       const r = await page.evaluate(() => {
-        const PH = { G: 0.8, D0: 1.5, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 50,
+        // 第326便(統括 —— 原仮定者の回答(2026-11-03 —— AN530)「ロックする」): 物理対応ロックの下では X_k = G_0/c_0² —— 減光の写しの X_k = 1/Kt = 0.02 を保つため
+        //   G_0 := X_k c_0² = 32(分類 2 の型 —— 1 体の本で、殻・コア・収縮の数がロックの無い世代の G_0 = 0.8 と同じ値になることを root と beta で確かめた)
+        const PH = { G: 32, D0: 1.5, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 50,
           cLight: 40, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
           pnAlpha: 1.5, radiusScale: 1, softening: 3, timeScale: 1 };
         const build = (core) => { const v = HP.validatePreset({ name: 't', description: 'd',

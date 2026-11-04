@@ -4,7 +4,7 @@
   "wave": "第281便c",
   "target": "beta/index.html",
   "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T10:43:36.561Z",
+  "generatedAt": "2026-11-04T15:36:31.143Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -22,9 +22,9 @@
   "code": [
    {
     "file": "tests/exp-w281c-rotorledger.mjs",
-    "bytes": 10985,
-    "sha256": "3be962df89995d38222e5a0e55306b47e12afe318258c2f0069898ecd064c630",
-    "mtime": "2026-11-02T04:24:50.092Z"
+    "bytes": 11391,
+    "sha256": "29a6aef33cd3552f775366d739cb29c88d9e7ea641ff7d9b24a538193081ddb6",
+    "mtime": "2026-11-04T15:36:30.440Z"
    },
    {
     "file": "tests/lib-w281c-rotorledger.mjs",
@@ -45,7 +45,7 @@
     "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
-  "codeSha256": "4b2b471d201ab712a42cfd694d307c29c37ae56c02a1d186d81fafc3167d63e1",
+  "codeSha256": "7aadfae3b1ddfbdc66598b6acf5787b5cbcbee8fa53f47d0f7c1d000bcd6845a",
   "scope": {
    "version": "w326e-scope-7",
    "presets": "all",
@@ -294,25 +294,25 @@
    {
     "m": 10,
     "impactB": 150,
-    "deflectionRad": 0,
+    "deflectionRad": -0.0044436387959585774,
     "lswInvariant": true
    },
    {
     "m": 20,
     "impactB": 150,
-    "deflectionRad": 0,
+    "deflectionRad": -0.008917123184328458,
     "lswInvariant": true
    },
    {
     "m": 40,
     "impactB": 150,
-    "deflectionRad": 0,
+    "deflectionRad": -0.01795512845179926,
     "lswInvariant": true
    }
   ],
-  "ratio2x": null,
-  "ratio4x": null
+  "ratio2x": 2.0067164757942177,
+  "ratio4x": 4.040636351480498
  },
- "headlessMs": 291,
+ "headlessMs": 315,
  "headlessErrors": 0
 }

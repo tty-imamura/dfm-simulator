@@ -126,7 +126,9 @@ const lswRay = { preset: 'darkrotor', source: RETIRED_FX, presetSig: drSig, rays
 // ---- (v) 偏向は重力と同じ m を読む(器の中の 1 体の宇宙 —— 内蔵ではない)
 function oneBody(m, lsw) {
   return { name: 'w281c-lens', description: 'harness only', camera: { scale: 300 }, world: { boundary: 'none', size: 0 },
-    physics: { G: 1, D0: 2, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 1 / 60, cLight: 30, softening: 4, etaRad: 0 },
+    // 第326便(統括 —— 原仮定者の回答(2026-11-03 —— AN530)「ロックする」): 物理対応ロックの下では X_k = G_0/c_0² —— 光の偏向の写しの X_k = 1/60 を保つため
+    //   G_0 := X_k c_0² = 15(分類 2 の型 —— 本は固定の 1 体なので G_0 は光線にしか効かない。ロックの無い世代の html でも X_k は宣言の 1/60 のまま)
+    physics: { G: 15, D0: 2, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 1 / 60, cLight: 30, softening: 4, etaRad: 0 },
     bodies: [{ type: 'single', m, x: 0, y: 0, vx: 0, vy: 0, spin: 0, radius: 18, pinned: true, lightSweep: lsw }] };
 }
 const lensRows = [];
