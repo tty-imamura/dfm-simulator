@@ -3,7 +3,7 @@
  "libVersion": "w320a-srcheat-lib-1",
  "generator": "tests/exp-w320a-srcheat.mjs",
  "target": "beta/index.html",
- "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+ "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
  "reuseFrom": null,
  "ruling": "原仮定者の回答(2026-10-30 —— AN475)「減速させる側の引きずりを背景宇宙が補う分も熱に数える」・原仮定者の裁定(第122報)AN471「案3(J)を確かめる。案2bは次点。様々な可能性を探索する」・決断事項 AN471・AN474・AN475・統括の検証項目 R262。balance:\"background\" の版を上げた読み (b) と源のモーメントの半径 invSq.sourceMoment(J・obs・capObs)を在位の本の写しで測る(在位の本の宣言は変えない)",
  "balanceVersion": "w320a-axishold-balance-2",
@@ -12972,43 +12972,43 @@
    "wallSec": 0.002
   },
   "A": {
-   "wallSec": 0.011
+   "wallSec": 0.029
   },
   "Q": {
-   "wallSec": 0.186
+   "wallSec": 0.201
   },
   "B": {
-   "wallSec": 3.937
+   "wallSec": 4.969
   },
   "R": {
-   "wallSec": 0.559
+   "wallSec": 0.557
   },
   "F": {
    "wallSec": 0.001
   },
   "TS": {
-   "wallSec": 0.044
+   "wallSec": 0.056
   }
  },
- "elapsedS": 6.358,
+ "elapsedS": 8.135,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第320便a",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-03T02:21:38.748Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T10:30:52.985Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    },
    {
     "file": "tests/out/srcradius-w319b.json",
-    "bytes": 133005,
-    "sha256": "d350e6c00b9a4d07b036a34db8e3f679944643b37bcfa475c3e2e92409b9e791",
-    "mtime": "2026-11-02T23:51:02.284Z"
+    "bytes": 133013,
+    "sha256": "15cd6c914759e5958461c27cdb8befafdb9f8e205018546d476f38227ec0cdca",
+    "mtime": "2026-11-04T09:52:12.008Z"
    }
   ],
   "code": [
@@ -13044,12 +13044,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "a6a35c9133f2b7e2d71ff01b9711305510ade037e4e6ed1d90f3ce48ec631fd0",
+  "codeSha256": "06db04517ed4fecfa14b06f386a502f63469af3a63a91d72edc99fff40e7b511",
   "harnessVersion": "w320a-srcheat-1",
   "stage": "srcheat",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
@@ -13070,7 +13070,7 @@
    "刻みの差を収束の判定に使わない(感度診断)"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "jupiterSunInertial3d",
     "solarSystem16Inertial3d",
@@ -13102,16 +13102,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1394,
-   "segments": 1220,
-   "closureShare": 0.3038
+   "names": 1400,
+   "segments": 1226,
+   "closureShare": 0.3021
   },
-  "scopeSha256": "233f0679d39644b8d45ff78e2c4802f671f3c683ce8e2d8a1f30761d97b3cdad",
+  "scopeSha256": "c3275bc2a5c987ebdd4866e10be3243f6203ca1c4e95b64cf30902371900128f",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/srcradius-w319b.json",
-    "stableSha256": "da37818c02f713cc657f2da4ee709294bafa3e9356cc984ceae865425ac54d48",
+    "stableSha256": "b27e515583257eb0c07fcb454ea851376e7b99ecf9f0a16ae6b95a33091afc9c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

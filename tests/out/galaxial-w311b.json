@@ -2,7 +2,7 @@
  "version": "w311b-galaxial-1",
  "generator": "tests/exp-w311b-galaxial.mjs",
  "target": "beta/index.html",
- "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+ "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
  "ruling": "原仮定者の裁定(第110報)太陽系における天の川銀河による一様軸引きずりを検討・一様並進引きずりと一様回転引きずりは慣性系では無視できる・背景慣性決定力は引きずりの分母に入れない・(第113報)・決断事項 AN389・AN382・AN390・AN395・統括の検証項目 R227",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -1050,28 +1050,28 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.109
+   "wallSec": 0.131
   },
   "B": {
-   "wallSec": 0.177
+   "wallSec": 0.234
   },
   "D": {
-   "wallSec": 186.244
+   "wallSec": 246.485
   }
  },
- "elapsedS": 188.178,
+ "elapsedS": 248.911,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第311便b",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-03T02:19:45.770Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T10:27:07.502Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1113,12 +1113,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "399f5715398f021c37eeeeecd9c87960cd30b9fc8dd187b116dd69def5438552",
+  "codeSha256": "3c0a033d167d8b1e97039e2a7554e6bce40890efe458df2cab6c0873f21cd67b",
   "harnessVersion": "w311b-galaxial-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1130,7 +1130,7 @@
    "銀河の模型から ω_G を導いた"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "earthMoonOnly3d",
     "earthMoonSunInertial3d",
@@ -1188,11 +1188,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1408,
-   "segments": 1234,
-   "closureShare": 0.3071
+   "names": 1413,
+   "segments": 1239,
+   "closureShare": 0.3053
   },
-  "scopeSha256": "6c07c3b6d4bacace4d99187b96a12c0336a66c131d718668a5263f9af3cc218e",
+  "scopeSha256": "693c921d73f1e4b75da1d99d1030970a503a34ec64fe552207ad02a8e97e30be",
   "scopeComplete": true,
   "inputsStable": [
    {
