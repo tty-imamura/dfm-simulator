@@ -48593,6 +48593,8 @@ function stabilizePreset(input, opts){
   if(!v0.ok) return {ok:false, stage:"validate", errors:v0.errors, changes, notes};
   const p=JSON.parse(JSON.stringify(v0.preset));
   const ph=p.physics;
+  // 第326便a(AN530): 物理対応ロックの受理の告知(宣言の X_k を導出値へ置き換えた・abBody の X_k を捨てた)を変更点に並べる(受理で導出済み —— 下の ① は条件を満たして何もしない)
+  if(v0.xkLock && v0.xkLock.notices.length) for(const n of v0.xkLock.notices) changes.push(n);
   // ① κ=G/c₀²(物理対応ロック)
   { const kd=(ph.cLight>0)? ph.G/(ph.cLight*ph.cLight) : 0;
     const sc=Math.max(Math.abs(kd), Math.abs(ph.kappaT));

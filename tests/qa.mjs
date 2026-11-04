@@ -52936,7 +52936,8 @@ if (!FAST) {
       if (!rk.changes.some((c) => (HP.PHYS_LOCK_AUTO_VERSION ? /X_k/ : /κ/).test(c))) bad.push('κ 再導出が変更点に列挙されていない');
       const toy = HP.stabilizePreset(mk({ G: 1, cLight: 30, kappaT: 0.016666666666666666, softening: 2, timeScale: 1 },
         [sgl(1000, 0, 0, true), sgl(1, 100, 3.1639)], 300), { kepler: true });
-      if (toy.preset.physics.kappaT !== 0.016666666666666666) bad.push('トイ設定の κ が黙って変えられた');
+      // 第326便a(AN530・AN532 —— 推奨 A): 世代切替 = HP.XK_LOCK_VERSION —— トイでも X_k は物理対応ロックの導出値(表の既定値 1/60 の宣言は既定値のマージと同じ扱いで告知なし —— G=1・c₀=30 → 1/900)
+      if (HP.XK_LOCK_VERSION ? !Object.is(toy.preset.physics.kappaT, 1 / 900) : toy.preset.physics.kappaT !== 0.016666666666666666) bad.push(HP.XK_LOCK_VERSION ? 'トイ設定の X_k が導出値でない(物理対応ロック)' : 'トイ設定の κ が黙って変えられた');
       // (f) scaleExp 規約違反は警告+提案のみ(自動変更しない)
       const se = mk({ G: 1, softening: 2, timeScale: 1 }, [sgl(100, 0, 0, true), sgl(1, 100, 1.005)], 300);
       se.scaleExp = { L: 8, T: 2, M: 27 };
@@ -59742,7 +59743,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       out.kappaShown = Math.abs(parseFloat(kIn.value) - kapNow()) / kapNow() < 0.01;
       // ⑤ バリデータ: physics.kappaT 受理(第125便までは内部 Kt=1/kappaT・第128便からは κ のまま)
       const v = validatePreset({ id: 'kap', name: 'k', emoji: '🧪', description: 'κ受理検査', camera: { scale: 300 },
-        world: { boundary: 'none', size: 0 }, physics: { kappaT: 0.01 },
+        world: { boundary: 'none', size: 0 }, physics: (window.HP && HP.XK_LOCK_VERSION) ? { kappaT: 0.01, G: 9 } : { kappaT: 0.01 },   // 第326便a(AN530): ロックの世代は X_k = G_0/c_0² を満たす宣言(G_0 = 9・c_0 = 30)で受理を見る
         bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
       out.kappaKey = !!(v && v.preset && v.preset.physics
         && Math.abs(((typeof v.preset.physics.kappaT === 'number')
@@ -59786,7 +59787,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         && (sp[1].match(/"kappaT":/g) || []).length >= 5 && !sp[1].includes('"Kt":');
       // ③ κ=0 受理(Kt=1e12)+ G/κ の zeroLeft 宣言
       const v = validatePreset({ id: 'k0', name: 'k', emoji: '🧪', description: 'κ0', camera: { scale: 300 },
-        world: { boundary: 'none', size: 0 }, physics: { kappaT: 0 },
+        world: { boundary: 'none', size: 0 }, physics: (window.HP && HP.XK_LOCK_VERSION) ? { kappaT: 0, G: 0 } : { kappaT: 0 },   // 第326便a(AN530): ロックの世代は X_k = 0 を G_0 = 0 で(G_0 > 0 なら導出値へ置き換わる)
         bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
       out.kappaZero = !!(v && v.ok && ((typeof v.preset.physics.kappaT === 'number')
         ? v.preset.physics.kappaT === 0 : v.preset.physics.Kt === 1e12));   // 第128便: κ=0 をそのまま保持
@@ -59849,11 +59850,14 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       const mkP = (ph) => ({ id: 'k', name: 'k', emoji: '🧪', description: '旧Kt受理検査',
         camera: { scale: 300 }, world: { boundary: 'none', size: 0 }, physics: ph,
         bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
-      const v1 = validatePreset(mkP({ Kt: 50 }));
+      // 第326便a(AN530・R290): 世代切替 = HP.XK_LOCK_VERSION —— 旧 Kt も物理対応ロックで導出値へ置き換わる。換算の受理は X_k = G_0/c_0² を満たす宣言で見る
+      //   (Kt 50 → G_0 = 900/50 = 18・Kt 1e12 → G_0 = 0・併記 kappaT 0.01 → G_0 = 9 —— c_0 = 30)
+      const L326 = !!(window.HP && HP.XK_LOCK_VERSION);
+      const v1 = validatePreset(mkP(L326 ? { Kt: 50, G: 18 } : { Kt: 50 }));
       out.bcKt = !!(v1 && v1.ok && v1.preset.physics.kappaT === 0.02 && !('Kt' in v1.preset.physics));
-      const v2 = validatePreset(mkP({ Kt: 1e12 }));
+      const v2 = validatePreset(mkP(L326 ? { Kt: 1e12, G: 0 } : { Kt: 1e12 }));
       out.bcKtInf = !!(v2 && v2.ok && v2.preset.physics.kappaT === 0);   // Kt 上端=時空効果なし
-      const v3 = validatePreset(mkP({ Kt: 50, kappaT: 0.01 }));
+      const v3 = validatePreset(mkP(L326 ? { Kt: 50, kappaT: 0.01, G: 9 } : { Kt: 50, kappaT: 0.01 }));
       out.bcBoth = !!(v3 && v3.ok && v3.preset.physics.kappaT === 0.01);  // 併記は kappaT 優先
       S.build(Object.assign({}, JSON.parse(JSON.stringify(P)),
         { physics: Object.assign({}, P.physics, { Kt: 25 }) }));
