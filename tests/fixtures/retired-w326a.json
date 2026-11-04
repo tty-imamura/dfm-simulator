@@ -1,0 +1,83 @@
+{
+ "fixtureVersion": "w326a-retired-1",
+ "wave": "第326便a",
+ "frozen": true,
+ "ruling": "原仮定者の回答(2026-11-03 —— AN530)「現状の「自転と減光」グループサンプル３本は、調整が必要なので廃止する」",
+ "note": "退役 3 本(在位の「自転と減光」の群の全部)の凍結資産(書き換えない)。退役の本は BUILTIN_PRESETS から消していない(旧セーブ・旧 URL・過去の正本の参照が残る)。presetSig は基点と同じ(familyRole は署名の外)。物理対応ロックの外(宣言の X_k のまま開く)。",
+ "ids": [
+  "rotorSolo",
+  "massLadder",
+  "selfRotor"
+ ],
+ "base": {
+  "rev": "1b1fa70"
+ },
+ "presets": {
+  "rotorSolo": {
+   "emoji": "🕳️",
+   "group": "自転と減光",
+   "familyRoleAtBase": "primary",
+   "familyRole": "retired",
+   "presetSigHash": "dd441dfb",
+   "base": {
+    "presetSigHash": "dd441dfb",
+    "sigSame": true
+   },
+   "physics": {
+    "G": 0.25,
+    "cLight": 30,
+    "kappaT": 0.016666666666666666
+   },
+   "lockAfterLoad": false,
+   "dyn600Same": true,
+   "successor": "lfbotTrap",
+   "reason": "減光と外来光線の掃き出し(X_k)と周回のテスト粒子(G_0)の両方が用途 —— 物理対応ロックの下でどの写し方でも用途の一部が動く(調整が必要)",
+   "class325f": "X_k を維持して G_0 を合わせる",
+   "undecided325f": true
+  },
+  "massLadder": {
+   "emoji": "🪜",
+   "group": "自転と減光",
+   "familyRoleAtBase": "variant",
+   "familyRole": "retired",
+   "presetSigHash": "15d87275",
+   "base": {
+    "presetSigHash": "15d87275",
+    "sigSame": true
+   },
+   "physics": {
+    "G": 0.8,
+    "cLight": 30,
+    "kappaT": 0.02
+   },
+   "lockAfterLoad": false,
+   "dyn600Same": true,
+   "successor": "galaxy",
+   "reason": "力学質量(G_0)と減光の光度質量(X_k の井戸)の両方が用途 —— c_0 を合わせる写し方は c_0 = 30 の規約の例外が要る(調整が必要)",
+   "class325f": "X_k を維持して c_0 を合わせる",
+   "undecided325f": false
+  },
+  "selfRotor": {
+   "emoji": "🥚",
+   "group": "自転と減光",
+   "familyRoleAtBase": "primary",
+   "familyRole": "retired",
+   "presetSigHash": "c2aa92e9",
+   "base": {
+    "presetSigHash": "c2aa92e9",
+    "sigSame": true
+   },
+   "physics": {
+    "G": 8,
+    "cLight": 30,
+    "kappaT": 0.07142857142857142
+   },
+   "lockAfterLoad": false,
+   "dyn600Same": true,
+   "successor": "collapse",
+   "reason": "雲の成長(G_0)と中心の暗さ(X_k の井戸と c_0 の表面の光速)の両方が用途 —— どの写し方でも用途の一部が動く(調整が必要)",
+   "class325f": "X_k = G_0/c_0²",
+   "undecided325f": true
+  }
+ }
+}
