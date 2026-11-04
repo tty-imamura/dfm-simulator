@@ -3730,37 +3730,37 @@
  "ok": true,
  "timing": {
   "Q": {
-   "wallSec": 0.04
+   "wallSec": 0.027
   },
   "Z": {
-   "wallSec": 0.489
+   "wallSec": 0.377
   },
   "A": {
-   "wallSec": 3.631
+   "wallSec": 4.097
   },
   "L": {
-   "wallSec": 12.802
+   "wallSec": 14.798
   },
   "F": {
-   "wallSec": 7.598
+   "wallSec": 8.408
   },
   "C": {
-   "wallSec": 1.712
+   "wallSec": 1.997
   },
   "E": {
-   "wallSec": 14.974
+   "wallSec": 13.799
   },
   "R": {
-   "wallSec": 10.946
+   "wallSec": 12.299
   }
  },
- "elapsedS": 54.302,
+ "elapsedS": 57.788,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便a",
   "target": "beta/index.html",
   "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T09:57:59.413Z",
+  "generatedAt": "2026-11-04T14:52:59.843Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -3772,9 +3772,9 @@
   "code": [
    {
     "file": "tests/exp-w307a-sphereaxial.mjs",
-    "bytes": 42550,
-    "sha256": "8985cb69c7d62b43c667094ce232eb83b7bf4f030798b4da5fa4c79cfccdd7ae",
-    "mtime": "2026-11-04T07:23:35.181Z"
+    "bytes": 42551,
+    "sha256": "60d4aaa8b8445160748aba8a19950daa062a41ea36e8333b07e2acdeb864716e",
+    "mtime": "2026-11-04T14:51:53.808Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
@@ -3801,7 +3801,7 @@
     "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "e04aa92cce69ab8381fd79062410b8038f6d53e5ca5149999b6beb7129323f7d",
+  "codeSha256": "9a6b06961f736da2c55d019161696acf2491d52345ce8eb199dff444778a4149",
   "harnessVersion": "w307a-sphereaxial-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
