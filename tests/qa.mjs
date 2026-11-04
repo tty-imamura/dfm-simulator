@@ -14282,6 +14282,8 @@ await w5bRun('roundtripBuiltins', true); async function W5B_roundtripBuiltins(pa
           });
           // ②警告は移行の告知だけ(値域クランプ等の想定外が1件でもあれば FAIL)
           for (const w of (v.warnings || [])) {
+            // 第326便a(AN530・R290): 世代切替 = HP.XK_LOCK_VERSION —— 物理対応ロックの受理の告知(宣言の X_k を導出値へ置き換え)は想定内(移行の告知とは別に数えない)
+            if (HP.XK_LOCK_VERSION && /physics\.kappaT\(X_k\)は導出の量/.test(w)) continue;
             if (!MIGW.test(w)) rec.warnUnexpected.push(file + ':' + w);
             else if (!CAVEAT.test(w)) rec.noCaveat.push(file + ':' + w);
           }
@@ -16280,7 +16282,10 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
           return Math.abs(ph.kappaT - ph.G / (ph.cLight * ph.cLight)) < 1e-15;
         }),
         // 🛰️ 本体は誇張アナログ = 物理対応条件を満たさない(宣言どおりであることの対照)
-        primaryExaggerated: Math.abs(prim.physics.kappaT
+        // 第326便a(AN530・R290): 世代切替 = HP.XK_LOCK_VERSION —— 物理対応ロックを常にで 🛰️ も X_k = G_0/c_0²(= 1/3600)を満たす(鍵の名は互換のため据え置き —— 期待を反転)
+        primaryExaggerated: HP.XK_LOCK_VERSION
+          ? Object.is(prim.physics.kappaT, prim.physics.G / (prim.physics.cLight * prim.physics.cLight))
+          : Math.abs(prim.physics.kappaT
           - prim.physics.G / (prim.physics.cLight * prim.physics.cLight)) > 1e-6 };
       // ② 🛰️ の説明文に固定済みの正典値(数値をここで作らない — primary からの抽出だけ)
       const d0 = prim.description || '';
@@ -16391,6 +16396,7 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
       && g3.lightRun.miss > 3 * 7;   // 観測者(半径7)を明確に外す = 見かけの位置がずれる
     const shapOk = !g3.shapRun.nan && g3.shapRun.delay > 0
       && g3.shapRun.ratio >= 0.90 && g3.shapRun.ratio <= 1.25;
+    const gen326g = await page.evaluate(() => !!HP.XK_LOCK_VERSION);   // 第326便a: 物理対応ロックを常にの世代
     const declOk = g3.decl.primary && g3.decl.variants && g3.decl.group && g3.decl.cls
       && g3.decl.claims && g3.decl.roles && g3.decl.noFit
       && g3.decl.physCorr.every(Boolean) && g3.decl.primaryExaggerated;
@@ -16406,7 +16412,7 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
       + `(比 ${g3.lightRun.ratio.toFixed(4)}・窓0.90〜1.10) 観測者を外す距離=${g3.lightRun.miss.toFixed(1)} / `
       + `⏲️ 伝播 κ=${g3.shapRun.tK.toFixed(2)} vs κ=0 は ${g3.shapRun.t0.toFixed(2)}(遅れ ${g3.shapRun.delay.toFixed(3)})`
       + ` vs 有限幾何シャピロ ${g3.shapRun.analytic.toFixed(3)}(比 ${g3.shapRun.ratio.toFixed(4)}・窓0.90〜1.25) / `
-      + `宣言=${declOk}(物理対応条件 κ=G/c₀²=[${g3.decl.physCorr.join(',')}]・🛰️は誇張=${g3.decl.primaryExaggerated})`);
+      + `宣言=${declOk}(物理対応条件 κ=G/c₀²=[${g3.decl.physCorr.join(',')}]・${gen326g ? '🛰️もロックで条件を満たす' : '🛰️は誇張'}=${g3.decl.primaryExaggerated})`);
   } else {
     console.log('SKIP behavior.grcal3(🛰️grcal の焦点3サンプル 🕰️🌟⏲️ が未導入 — root 等。第148便)');
   }
@@ -17123,8 +17129,9 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
       // 第128便: CLAMPS のキーが kappaT[0,1] になった世代でも旧 Kt 受理の上限は 1e12
       const ktHi = (typeof CLAMPS !== 'undefined' && CLAMPS.kappaT) ? 1e12
         : ((typeof CLAMPS !== 'undefined' && CLAMPS.Kt) ? CLAMPS.Kt[1] : 1e9);
+      // 第326便a(AN530・R290): 世代切替 = HP.XK_LOCK_VERSION —— 宣言の旧 Kt も物理対応ロックで導出値へ(c_0 は 1e6 にクランプ・G は既定 1 → Kt 換算 c_0²/G = 1e12)
       res.clamped = v2.ok && v2.preset.physics.cLight === 1e6
-        && Math.abs(spc(v2.preset.physics) - (ktHi >= 2e9 ? 2e9 : 1e9)) < 1e-3;
+        && (HP.XK_LOCK_VERSION ? Math.abs(spc(v2.preset.physics) / 1e12 - 1) < 1e-9 : Math.abs(spc(v2.preset.physics) - (ktHi >= 2e9 ? 2e9 : 1e9)) < 1e-3);
       res.badFlagDropped = v2.ok && !('pnSource' in v2.preset.bodies[0]);
       // ② フラグの力学: 閾値未満の中心(m=5 < pnK·max(R,ε)=4.5×2.24≈10)は既定では 1PN 源に
       //   ならない(λ1/λ0 が一致)。pnSource:true で λ1 の軌道が変わる
@@ -22950,9 +22957,9 @@ if (!FAST) {
     cases.push(`定義の 1 文(ja/en)が 🕶️🕳️ の summary の冒頭に ${nJa}/${nEn}・PHYSICS・README・AI_SPEC にあり、防御線は残る`);
     // ③ 機械鍵・ID・表示名・SYSTEM_PROMPT
     // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 世代切替 = html の XK_LOCK_VERSION —— 🕳️🥚 の退役で、退役の本を指していた RETIRED_PRESETS の see 7 行を在位の本へ付け替えた
-    //   (rotorSolo −7 + 退役の行 1 = −6・selfRotor −4 + 1 = −3 —— 改名ではない。ID・保存 JSON の鍵は不変)
+    //   (rotorSolo −7 + 退役の行 1 = −6・selfRotor −4 + 1 と在位の本の注釈の 1 = −4 —— 改名ではない。ID・保存 JSON の鍵は不変)
     const gen326aT = html.indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0;
-    const KEYS = { darkrotor: [21, 'eq'], rotorSolo: [gen326aT ? 14 : 20], selfRotor: [gen326aT ? 14 : 17], nebulaRotor: [7], darkRotor: [40], haloDimming: [1], 'darkrotor-pitch': [5], rotorInFStar: [12] };
+    const KEYS = { darkrotor: [21, 'eq'], rotorSolo: [gen326aT ? 14 : 20], selfRotor: [gen326aT ? 13 : 17], nebulaRotor: [7], darkRotor: [40], haloDimming: [1], 'darkrotor-pitch': [5], rotorInFStar: [12] };
     const kc = Object.fromEntries(Object.keys(KEYS).map((k) => [k, html.split(k).length - 1]));
     const lost = Object.keys(KEYS).filter((k) => KEYS[k][1] === 'eq' ? kc[k] !== KEYS[k][0] : kc[k] < KEYS[k][0]);
     if (lost.length) bad.push('機械鍵の出現数が基点と違う(改名の疑い): ' + lost.map((k) => `${k} ${kc[k]}/${KEYS[k][0]}`).join(','));
