@@ -2,7 +2,7 @@
  "version": "w315b-rsexcess-1",
  "generator": "tests/exp-w315b-rsexcess.mjs",
  "target": "beta/index.html",
- "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+ "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
  "ruling": "決断事項 AN415 観測半径を超えた R_d の表示を、観測半径を超えたシュヴァルツシルト半径 r_s の表示に変更(r_s は全質量と本の G_0・c_0 から・DFM による地平面の判定ではない・R_d の受理と警告と読み口は残す)・原仮定者の裁定(第117報)AN414 の記号・K1 の境界の 1 点・統括の検証項目 R243",
  "units": {
   "book": {
@@ -1378,40 +1378,40 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.03
+   "wallSec": 0.042
   },
   "E": {
-   "wallSec": 0.011
+   "wallSec": 0.006
   },
   "F": {
-   "wallSec": 0.011
+   "wallSec": 0.01
   },
   "V": {
-   "wallSec": 0.02
+   "wallSec": 0.018
   },
   "Z": {
-   "wallSec": 0.12
+   "wallSec": 0.094
   },
   "B": {
-   "wallSec": 12.372
+   "wallSec": 11.726
   },
   "K": {
-   "wallSec": 0.196
+   "wallSec": 0.133
   }
  },
- "elapsedS": 15.51,
+ "elapsedS": 14.589,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便b",
   "target": "beta/index.html",
-  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-  "generatedAt": "2026-11-03T16:03:20.468Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T07:14:17.034Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7612995,
-    "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-    "mtime": "2026-11-03T15:04:48.828Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    }
   ],
   "code": [
@@ -1441,12 +1441,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "ac3c63b3393df9042dad730fdc138dcddfebdf01e740b9080753f1f2dc1fe601",
+  "codeSha256": "1502d786e1af826e2c572afbf7278941b6dfb5ae8739ae0f3490989de50b7259",
   "harnessVersion": "w315b-rsexcess-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1458,7 +1458,7 @@
    "収束した"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": "all",
    "roots": [
     "$",
@@ -1479,11 +1479,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1380,
-   "segments": 1206,
-   "closureShare": 0.3004
+   "names": 1386,
+   "segments": 1212,
+   "closureShare": 0.2993
   },
-  "scopeSha256": "ad28588a13eaf79c6805f20573c458a0f2746538ed5460795369fe9fad3e524f",
+  "scopeSha256": "39aca52ddde7f3bd3d758fa1c4bcafa9d8bb0274b7f2a31a564a8a005a94d59a",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
