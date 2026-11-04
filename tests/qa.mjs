@@ -95189,7 +95189,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----      家族 ngc3198 の在位 = 🌃 だけ(primary 1)/ 退役の行の see に 🛞 が 0(🕶️ darkrotor・🌚 galaxyAnalogyBH は 🌃 へ —— 写しの seeRepoint と同じ)/
 // ----      原稿の退役の名簿に 🛞・🌃 の目的に「対照無しのダークマターハローの本」・🛞 の状況は退役の前のまま(未達)・生成物 SAMPLE_STATUS と FAMILIES の 🌃 の行 /
 // ----      凍結の写しの形(版・frozen・ids・基点 1b1fa70・段 5・過去の正本の sha256・🌃 の前後〔familyRole variant → primary・前の名に「NFW 対照」〕)
-// ----   ② docs.ngc3198Halo326b …… PHYSICS〔第326便b〕(〔第325便 — 統括〕の後・「## 7.」の前)・AI_SPEC §183・CHANGELOG の第326便b の行(AN531)・tests/fixtures/README の項・
+// ----   ①′ behavior.ngc3198AbHalo326b …… 原仮定者の回答(2026-11-04 —— AN533): 🌃 のワンタップ対照(B 側で NFW ハローを外す)の口・押した後の A/B の halo・t = 40 の外縁帯(A は保持・B は空か飛散)・
+//   B の状態は宣言の halo を null にした写しの走行とビット同一
+// ----   ② docs.ngc3198Halo326b …… PHYSICS〔第326便b〕(〔第325便 — 統括〕の後・「## 7.」の前)・AI_SPEC §183・CHANGELOG の第326便b の行(AN531・AN533)・tests/fixtures/README の項・
 // ----      post-merge の ③′・書かない語・禁句・裸の係数記号
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
@@ -95235,8 +95237,16 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const hl = (po.physics || {}).halo || {};
       if (!(hl.model === 'nfw' && hl.rho0 === 2.685e-3 && hl.rs === 61.31 && po.physics.kFrame === 0)) bad.push('② 🌃 の NFW ハロー・kFrame 0 が動いた');
       if (!(sc.id === 'ngc3198' && sc.before && so === sc.before.presetSigHash && so === (sc.after || {}).presetSigHash && sc.sigSame === true && sc.physicsSame === true && sc.bodiesSame === true)) bad.push('② 🌃 の署名・physics・bodies が写しの前と違う');
-      if (po.abBody !== undefined) bad.push('② 🌃 にワンタップ A/B(abBody)がある');
-      cases.push(`② 🌃 primary・名「${po.name}」・説明に対照無しのダークマターハローの本・NFW(ρ₀ ${hl.rho0}・r_s ${hl.rs})と kFrame 0 は不変・署名 ${so} = 写しの前・abBody なし`);
+      // 第326便b(原仮定者の回答(2026-11-04 —— AN533)「…「ワンタップ対照」で比較出来ると良い」): ワンタップ対照(B 側で NFW ハローを外す —— physicsPatch.halo:null だけ)。
+      //   写しの前後(コミットの順で abBody の無い html を凍結した)とは abBody だけが違う —— abBody を外すと写しの前の署名・宣言と同じ
+      const abp = po.abBody || null, lab = (abp && abp.label) || {};
+      if (!(abp && JSON.stringify(abp.physicsPatch) === '{"halo":null}' && abp.targets === undefined && abp.patch === undefined)) bad.push('② 🌃 のワンタップ対照(abBody.physicsPatch が halo:null だけ)');
+      if (!(/NFW/.test(lab.ja || '') && /NFW/.test(lab.en || '') && !/第\d+便|原仮定者|AN\d+|R\d{3}|wave|🛞/.test((lab.ja || '') + (lab.en || '')))) bad.push('② ワンタップ対照のラベル(ja/en に NFW・来歴の語なし)');
+      const vab = H.HP.validatePreset(JSON.parse(JSON.stringify(po)));
+      if (!(vab && vab.ok && vab.preset.abBody && JSON.stringify(vab.preset.abBody.physicsPatch) === '{"halo":null}' && (vab.warnings || []).length === 0)) bad.push('② ワンタップ対照が受理の後に残らない・警告');
+      const poNoAb = JSON.parse(JSON.stringify(po)); delete poNoAb.abBody;
+      if (!(sigOf(poNoAb) === sc.before.presetSigHash)) bad.push('② abBody を外した 🌃 の署名が写しの前と違う');
+      cases.push(`② 🌃 primary・名「${po.name}」・説明に対照無しのダークマターハローの本・NFW(ρ₀ ${hl.rho0}・r_s ${hl.rs})と kFrame 0 は不変・署名 ${so} = 写しの前・ワンタップ対照(B 側 halo:null・ラベル「${lab.ja || ''}」)`);
       // ③ 家族と退役の see
       const fam = P.filter((p) => p.familyId === 'ngc3198');
       const famLive = fam.filter((p) => p.familyRole !== 'retired');
@@ -95271,6 +95281,42 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       `**🛞 ngc3198DFM の退役と 🌃 ngc3198 を家族の入口(対照無しのダークマターハローの本)へ**(第326便b・原仮定者の回答(2026-11-03 —— AN531)・R291 —— familyRole・名・説明の欄・退役の表だけ・署名と物理は不変): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
+  // ---- behavior.ngc3198AbHalo326b(原仮定者の回答(2026-11-04 —— AN533)「現状のngc3198サンプルをロードしても、NFWハローの切り替えは見当たらない。「ワンタップ対照」で比較出来ると良い」):
+  //   🌃 を読み込むと A/B の見出しの直下にワンタップ対照の口が出る(ラベル = 宣言)・押すと A 側は NFW のまま・B 側だけハローなし・2500 步(t = 40)で A は外縁帯を保ち(behavior.ngc3198 の窓)、
+  //   B は外縁帯が空か飛散 —— B の状態は宣言の halo を null にした写しの走行とビット同一(B 側の適用の経路 = 受理器の「なし」の正規化)
+  {
+    const bad = [];
+    const r = await page.evaluate(() => {
+      const meas = (S) => { let sV = 0, n = 0, rmax = 0; for (let i = 0; i < S.n; i++) { const dx = S.x[i], dy = S.y[i], rr = Math.hypot(dx, dy); if (rr > rmax) rmax = rr;
+        if (rr >= 60 && rr < 130) { sV += S.vx[i] * (-dy / rr) + S.vy[i] * (dx / rr); n++; } } return { vt: n ? sV / n : null, nOuter: n, rmax, nan: S.hasNaN() }; };
+      const L0 = LANG; HP.setLang('ja'); HP.loadPreset('ngc3198', false); buildParamRows();
+      const row = document.querySelector('#abQuickRow'), btn = document.querySelector('#btnAbBody');
+      const o = { row: row ? row.style.display : null, btn: btn ? btn.textContent : null, lab: ((HP.currentPreset().abBody || {}).label || {}).ja || null };
+      if (!btn) { HP.setLang(L0); return o; }
+      btn.click();
+      o.abOn = !!ab; o.haloA = sim.params.halo ? sim.params.halo.model : null; o.haloB = ab && ab.simB.params.halo ? ab.simB.params.halo.model : null;
+      for (let k = 0; k < 2500; k++) { sim.step(0.016); ab.simB.step(0.016); }
+      o.A = meas(sim); o.B = meas(ab.simB);
+      const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'ngc3198'))); pd.physics.halo = null;
+      const S2 = makeSim(); S2.build(HP.validatePreset(pd).preset); for (let k = 0; k < 2500; k++) S2.step(0.016);
+      o.same = S2.n === ab.simB.n; for (let i = 0; o.same && i < S2.n; i++) if (!Object.is(S2.x[i], ab.simB.x[i]) || !Object.is(S2.y[i], ab.simB.y[i]) || !Object.is(S2.vx[i], ab.simB.vx[i]) || !Object.is(S2.vy[i], ab.simB.vy[i])) o.same = false;
+      abStop(); o.abOff = !ab; HP.setLang(L0);
+      return o;
+    }).catch((e) => ({ err: String(e).slice(0, 160) }));
+    if (r.err) bad.push('ページ: ' + r.err);
+    else {
+      if (!(r.row === 'flex' && r.btn && r.lab && r.btn.indexOf(r.lab) >= 0)) bad.push('ワンタップ対照の口が出ない・ラベルが宣言と違う');
+      if (!(r.abOn && r.haloA === 'nfw' && r.haloB === null)) bad.push('押した後の A/B の halo(A nfw・B なし)');
+      if (!(r.A && r.A.vt !== null && r.A.vt > 10 && r.A.vt < 14.5 && r.A.nOuter >= 10 && r.A.rmax < 200 && !r.A.nan)) bad.push('A 側(NFW あり)の外縁帯');
+      if (!(r.B && (r.B.nOuter === 0 || r.B.rmax > 300) && !r.B.nan)) bad.push('B 側(NFW なし)の外縁帯が空・飛散でない');
+      if (r.same !== true) bad.push('B 側の状態が宣言の halo を null にした写しの走行と違う');
+      if (r.abOff !== true) bad.push('A/B を終えられない');
+    }
+    add('behavior.ngc3198AbHalo326b', bad.length === 0,
+      `**🌃 のワンタップ対照 —— NFW ハローの有無**(第326便b・原仮定者の回答(2026-11-04 —— AN533)・R291): 口「${r.btn || '—'}」/ t = 40(2500 步): A(NFW あり)外縁帯 vt ${r.A && r.A.vt !== null ? r.A.vt.toFixed(2) : '—'}・${r.A ? r.A.nOuter : '—'} 粒・最遠 ${r.A ? r.A.rmax.toFixed(0) : '—'} / `
+      + `B(NFW なし)外縁帯 ${r.B ? r.B.nOuter : '—'} 粒・最遠 ${r.B ? r.B.rmax.toFixed(0) : '—'}・halo を null にした写しとビット同一=${r.same}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.join(' , ')}` : ''));
+  }
   // ---- docs.ngc3198Halo326b
   {
     const bad = [], cases = [];
@@ -95285,17 +95331,17 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     else {
       if (!(z >= 0 && z < a)) bad.push('〔第326便b〕が〔第325便 — 統括〕の後でない');
       if (!(e7 > a)) bad.push('〔第326便b〕が「## 7.」の前でない');
-      for (const w of ['AN531', 'R291', 'ngc3198DFM', 'tests/fixtures/retired-w326b.json', 'preset.ngc3198Halo326b', 'docs.ngc3198Halo326b', '761fbca5', '3a1f9c0d', '61 → 62', '125 → 124', '言わないこと。**'])
+      for (const w of ['AN531', 'AN533', 'R291', 'ngc3198DFM', 'tests/fixtures/retired-w326b.json', 'preset.ngc3198Halo326b', 'docs.ngc3198Halo326b', 'behavior.ngc3198AbHalo326b', 'physicsPatch', '761fbca5', '3a1f9c0d', '61 → 62', '125 → 124', '言わないこと。**'])
         if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第326便b〕に「' + w + '」が無い');
     }
     const AI = rd326b('docs/AI_SPEC.md'), ai183 = (() => { const m = /\n## 183\. 第326便b[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
-    if (!(ai183 && ai183.indexOf('AN531') >= 0 && ai183.indexOf('ngc3198') >= 0)) bad.push('AI_SPEC §183');
+    if (!(ai183 && ai183.indexOf('AN531') >= 0 && ai183.indexOf('AN533') >= 0 && ai183.indexOf('ngc3198') >= 0)) bad.push('AI_SPEC §183');
     const CL = rd326b('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
     const cl326b = (clb.split('\n').find((l) => l.indexOf('**第326便b**') >= 0)) || '';
-    if (!(cl326b && cl326b.indexOf('AN531') >= 0)) bad.push('CHANGELOG の beta 節に第326便b の行(AN531)が無い');
+    if (!(cl326b && cl326b.indexOf('AN531') >= 0 && cl326b.indexOf('AN533') >= 0)) bad.push('CHANGELOG の beta 節に第326便b の行(AN531・AN533)が無い');
     const FR = rd326b('tests/fixtures/README.md'), PM = rd326b('tools/post-merge-qa.sh');
     if (FR.indexOf('## retired-w326b.json') < 0) bad.push('tests/fixtures/README に retired-w326b.json の項が無い');
-    if (!(PM.indexOf('# ==== 第326便b の塊(ここから)====') >= 0 && /preset\.ngc3198Halo326b/.test(PM) && /docs\.ngc3198Halo326b/.test(PM))) bad.push('post-merge の ③′ に第326便b の塊が無い');
+    if (!(PM.indexOf('# ==== 第326便b の塊(ここから)====') >= 0 && /preset\.ngc3198Halo326b/.test(PM) && /docs\.ngc3198Halo326b/.test(PM) && /behavior\.ngc3198AbHalo326b/.test(PM))) bad.push('post-merge の ③′ に第326便b の塊が無い');
     for (const [nm, tx] of [['PHYSICS〔第326便b〕', sec.split('言わないこと。**')[0]], ['AI_SPEC §183', ai183], ['CHANGELOG の第326便b の行', cl326b]]) {
       const tq = tx.replace(/「[^」]*」/g, '');
       for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');

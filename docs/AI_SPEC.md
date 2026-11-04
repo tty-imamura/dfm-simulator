@@ -4616,6 +4616,6 @@ SYSTEM_PROMPT の規則 13(逐語):
 ## 183. 第326便b —— NGC 3198 の家族の整理: 🛞 ngc3198DFM の退役・🌃 ngc3198 を家族の入口(対照無しのダークマターハローの本)へ(原仮定者の回答(2026-11-03 —— AN531)・統括の検証項目 R291・**受理器・步・式・`S._core`・在位の本の物理の宣言は不変** —— familyRole・名・説明の欄・退役の表だけ・**SYSTEM_PROMPT には載せない**)
 
 - **退役**: 🛞 `ngc3198DFM`(ハロー無しの引きずりで外縁の回転を支える hold-out —— 恒星質量を観測の値〔倍率 1〕へ戻した後も外縁は観測の約 1/3 で未達)は意図した挙動ではないので退役(`familyRole:"retired"`・`RETIRED_PRESETS` の行 —— see は 🌃)。内蔵に残り ID で履歴として開く(ID・物理・保存 JSON・署名は不変)。凍結の写し `tests/fixtures/retired-w326b.json`。将来の geoPN=4 の銀河の本は**新しい ID** で作る(🛞 の ID を使い回さない)。
-- **🌃 `ngc3198`**: 家族 ngc3198 の入口(`familyRole:"primary"`)。**対照無しのダークマターハローの本** —— 外縁の回転は外力 `physics.halo`(NFW —— SPARC の 43 点への自前の 2 ノブの最小二乗・ρ₀ 2.685×10⁻³ 単位・r_s 61.31 単位)が受け持ち、引きずり(kFrame)は 0。名は「指数円盤+NFW ハロー」(説明の欄から DFM 版との対の役割を外した —— 署名・physics・bodies は不変)。
+- **🌃 `ngc3198`**: 家族 ngc3198 の入口(`familyRole:"primary"`)。**対照無しのダークマターハローの本** —— 外縁の回転は外力 `physics.halo`(NFW —— SPARC の 43 点への自前の 2 ノブの最小二乗・ρ₀ 2.685×10⁻³ 単位・r_s 61.31 単位)が受け持ち、引きずり(kFrame)は 0。名は「指数円盤+NFW ハロー」(説明の欄から DFM 版との対の役割を外した —— 署名・physics・bodies は不変)。**ワンタップ対照**(原仮定者の回答(2026-11-04 —— AN533)): `abBody:{label, physicsPatch:{halo:null}}` —— A/B の B 側だけ NFW ハローを外し、同じ初期配置でハローの有無を並べる(B 側の外縁帯は空になる)。AI がハローを持つ本を作るときも、ハローの有無の対照は `physicsPatch:{halo:null}` の abBody で書ける。
 - AI が NGC 3198 の本を作るときの意味: 観測の転写の基準は 🌃(恒星円盤・HI の円盤・NFW の外力)。NFW を外した本を「DFM の引きずりで外縁を支えた」と書かない(🛞 は未達のまま退役した)。
 - QA `preset.ngc3198Halo326b`・`docs.ngc3198Halo326b`(新設)・docs.retired・ui.pickerStatusAxes(世代の直し)。

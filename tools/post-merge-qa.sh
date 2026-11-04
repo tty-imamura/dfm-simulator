@@ -622,11 +622,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.xkLock325f docs.xkLock325f lint.qaHeapR
 # ==== 第326便b の塊(ここから)====
 # 第326便b(原仮定者の回答(2026-11-03 —— AN531)「gc3198DFM〔ngc3198DFM〕は、意図した挙動では無いので廃止し、将来的にgeoPN=4で作り直す。ngc3198は、対照無しのダークマターハローサンプルとする」・
 #   統括の検証項目 R291): 枝 b の新設 1 ブロック(preset.ngc3198Halo326b —— 🛞 の退役・🌃 の家族の入口と説明・退役の see・原稿と生成物・凍結の写し tests/fixtures/retired-w326b.json /
-#   docs.ngc3198Halo326b —— 文書)と、世代で直した QA(docs.retired —— 第326便b の世代と root の正本の世代・ui.pickerStatusAxes —— 未達の代表 🥏)・退役の集合と掲載の数を読む
+#   docs.ngc3198Halo326b —— 文書 / behavior.ngc3198AbHalo326b —— 原仮定者の回答(2026-11-04 —— AN533)の 🌃 のワンタップ対照〔NFW ハローの有無〕)と、世代で直した QA(docs.retired —— 第326便b の世代と root の正本の世代・ui.pickerStatusAxes —— 未達の代表 🥏)・退役の集合と掲載の数を読む
 #   docs.noRetiredMention294・lint.retiredRef302・preset.spaceMeshRetired300・preset.retire298・preset.retired290b・docs.geo4old325c・🛞 を ID で引く behavior.ngc3198(W5b —— 窓は広げない)・
 #   preset.realMassF1325e・docs.realMassF1325e・生成表の docs.sampleStatus-sync・preset.statusLedger-sync・docs.families・規約の速い判定の lint.conventionsCheck323・
 #   PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310(root の部分 QA でも docs.retired を回す —— 正本の退役の数は root の世代の分岐で読む)
-DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.ngc3198Halo326b docs.ngc3198Halo326b docs.retired ui.pickerStatusAxes docs.noRetiredMention294 lint.retiredRef302 preset.spaceMeshRetired300 preset.retire298 preset.retired290b docs.geo4old325c behavior.ngc3198 preset.realMassF1325e docs.realMassF1325e docs.sampleStatus-sync preset.statusLedger-sync docs.families lint.conventionsCheck323 lint.sectionLookup313 lint.qaHeapRelease310"
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.ngc3198Halo326b docs.ngc3198Halo326b behavior.ngc3198AbHalo326b docs.retired ui.pickerStatusAxes docs.noRetiredMention294 lint.retiredRef302 preset.spaceMeshRetired300 preset.retire298 preset.retired290b docs.geo4old325c behavior.ngc3198 preset.realMassF1325e docs.realMassF1325e docs.sampleStatus-sync preset.statusLedger-sync docs.families lint.conventionsCheck323 lint.sectionLookup313 lint.qaHeapRelease310"
 # ==== 第326便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
