@@ -13163,11 +13163,11 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"重い天体のそばに3つの時計を置き、時間の遅れを比べるサンプル。距離だけを70・140・240と変え、動きは完全に止めてある — 変わる条件を「決定力(重力の強さ)」ひとつに絞った統制実験。",
     observe:"時計をタップすると、内側ほど固有時計(τ/t)が小さい: 0.931/0.965/0.979(解析値と1e-5で一致)。運動による時計の遅れ(E7R の運動項)と対をなす、重力の遅れ(A7′/E7R の重力項)の単独デモ。",
-    control:"X_kを2倍(1/300→1/150)に上げると3つの差が同時に拡大する。"},
+    control:"G_0 を2倍(3→6)に上げると、物理対応ロックで X_k = G_0/c_0² も2倍(1/300→1/150)になり、3つの差が同時に拡大する(源は固定なので物体は動かない)。"},
   en:{name:"Gravitational Time Dilation", descStruct:{
     summary:"Three still clocks near a heavy body, placed at distances 70, 140 and 240, comparing how much each one lags. All motion is removed, so distance is the only thing that changes — meaning only the determinacy (this model's term for gravitational strength) varies. ",
     observe:"Tap each clock: the inner one ticks slowest, τ/t = 0.931/0.965/0.979 (matches the analytic value to 1e-5). The gravitational counterpart of motion time dilation (the E7R motion term) — the pure gravity term of A7′/E7R. ",
-    control:"Double X_k (1/300 → 1/150) and all three gaps widen together."}},
+    control:"Double G_0 (3 → 6): under the physical-correspondence lock X_k = G_0/c_0² doubles too (1/300 → 1/150) and all three gaps widen together (the source is pinned, so nothing moves)."}},
   activeParams:["G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   // 第42便 42A(台帳4-78 A案): claims — 説明文の解析一致値(内側時計のτ/t)を機械可読化。
   // QA new.gclock は解析値との誤差<1e-3(実質1e-5一致)を検査する回帰テストで、この値自体の
@@ -13176,7 +13176,7 @@ const BUILTIN_PRESETS = [
     { id:"gclock.tau-inner", kind:"analytic", prov:"derived", metric:"tauInnerClock",
       chain:{ax:["A2","A7"], eq:["E7R"],
         note:"時空係数 X_k ひとつを主役に、ψ=W·X_k から τ/t を閉形式で出し、実走の時計と 1e-5 で一致することを機械検証している(較正ノブは無い)。",
-        noteEn:"With the spacetime coefficient X_k as the only knob, τ/t follows in closed form from ψ=W·X_k and matches the running clock to 1e-5 (no calibration knob)."},
+        noteEn:"With the spacetime coefficient X_k (set through G_0 under the lock) as the only knob, τ/t follows in closed form from ψ=W·X_k and matches the running clock to 1e-5 (no calibration knob)."},
       expected:{min:0.85, max:0.98},   // 実測0.931(解析値と1e-5で一致・new.gclock)
       descPattern:"τ/t\\)が小さい: (\\d\\.\\d+)/", testId:"new.gclock" }
   ],
@@ -13197,16 +13197,16 @@ const BUILTIN_PRESETS = [
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類)→ 第130便 統括裁定(原仮定者提示「外すのも選択肢」の個別適用):
                              // "calibration" → "principle"。SI 対応は式レベル較正(κ=G/c²)が本質で、画面初期値は
-                             // 見やすさ優先の誇張アナログ(物理対応条件 κ=G/cLight² 未成立 — 説明文に明記済み)。
+                             // 見やすさ優先の誇張アナログ(旧: 物理対応条件 κ=G/cLight² 未成立 —— 第326便a で物理対応ロックの導出 X_k = 1/3600 へ)。
                              // 「現実較正」チップは実スケール較正(fidelity:"real")系と紛らわしいため原理実証へ移す
   notClaim:["cal"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
     summary:"この宇宙の時計と光を1本の式ψ=W·X_k(X_k=時空係数=1/Kt。弱場則。A7′/E7R/E8R/T5)で決めたら、現実のGPSや太陽のそばの観測とどれだけ合うかを試す較正デモ。",
-    observe:"X_k=G/c²の1本で: GPS時計の正味進み +38.5μs/日(重力+45.7・運動−7.2。観測≈+38.6)/太陽縁の光偏向 1.7512″(観測≈1.75″)/シャピロ遅延 ≈281μs(カッシーニ幾何)が定量一致する。画面はそのアナログ: 地上時計(r=60)はτ/t=0.920、周回衛星(r=180)は運動しているのにτ/t=0.971で速く進む — 重力項が運動項に勝つ、実GPSと同じ符号構造。左からの光線ファンは中心星の場で屈折し(シャピロ遅延と同じn_eff>1の機構)、X_kを上げると時計差と湾曲が同時に強まる。※SI較正の数値はX_k=G/c²写像の式計算によるもの。画面初期値は見やすさ優先の誇張アナログで、物理対応条件 X_k=G/cLight² は満たしていない(PHYSICS §5 物理対応条件)。",
+    observe:"X_k=G/c²の1本で: GPS時計の正味進み +38.5μs/日(重力+45.7・運動−7.2。観測≈+38.6)/太陽縁の光偏向 1.7512″(観測≈1.75″)/シャピロ遅延 ≈281μs(カッシーニ幾何)が定量一致する。画面はそのアナログ: 地上時計(r=60)はτ/t=0.993、周回衛星(r=180)は運動しているのにτ/t=0.996で速く進む — 重力項が運動項に勝つ、実GPSと同じ符号構造。左からの光線ファンは中心星の場で屈折し(シャピロ遅延と同じn_eff>1の機構)、G_0 を上げると(X_k = G_0/c_0² が追随して)時計差と湾曲が同時に強まる。※SI較正の数値はX_k=G/c²写像の式計算によるもの。画面の値は物理対応ロックで物理対応条件 X_k = G_0/c_0²(= 1/3600)を満たす(兄弟の 🕰️🌟⏲️ と同じ X_k —— 時計の差は誇張しない。PHYSICS §5 物理対応条件)。",
     control:"水星の近日点前進は☿(測地線1PN・E12)が扱う。"},
   en:{name:"Weak-Field GR Calibration — GPS, Light, Shapiro", descStruct:{
     summary:"A calibration demo: this universe's clocks and light both follow one formula, ψ=W·X_k (X_k = the spacetime coefficient = 1/Kt; the weak-field law, A7′/E7R/E8R/T5) — this checks how well that matches real observations like GPS and the Sun's light bending. ",
-    observe:"With the one mapping X_k=G/c²: net GPS clock rate +38.5 μs/day (gravity +45.7, motion −7.2; observed ≈+38.6) / solar-limb deflection 1.7512″ (observed ≈1.75″) / Shapiro delay ≈281 μs (Cassini geometry) — all match quantitatively. On screen, the analog: the ground clock (r=60) shows τ/t=0.920 while the orbiting satellite (r=180), though moving, ticks faster at τ/t=0.971 — gravity beats motion, the same sign structure as real GPS. The ray fan from the left refracts in the central field (the same n_eff>1 mechanism as the Shapiro delay); raise X_k and clock gaps and bending strengthen together. Note: the SI-calibrated numbers come from formula-level computation under the mapping X_k=G/c²; the on-screen initial values are a visibility-first exaggerated analog and do not satisfy the physical-correspondence condition X_k=G/cLight² (see PHYSICS §5). ",
+    observe:"With the one mapping X_k=G/c²: net GPS clock rate +38.5 μs/day (gravity +45.7, motion −7.2; observed ≈+38.6) / solar-limb deflection 1.7512″ (observed ≈1.75″) / Shapiro delay ≈281 μs (Cassini geometry) — all match quantitatively. On screen, the analog: the ground clock (r=60) shows τ/t=0.993 while the orbiting satellite (r=180), though moving, ticks faster at τ/t=0.996 — gravity beats motion, the same sign structure as real GPS. The ray fan from the left refracts in the central field (the same n_eff>1 mechanism as the Shapiro delay); raise G_0 (X_k = G_0/c_0² follows) and clock gaps and bending strengthen together. Note: the SI-calibrated numbers come from formula-level computation under the mapping X_k=G/c²; under the physical-correspondence lock the on-screen values satisfy X_k = G_0/c_0² (= 1/3600 — the same X_k as the sibling samples 🕰️🌟⏲️; the clock gaps are not exaggerated; see PHYSICS §5). ",
     control:"Mercury's perihelion advance is covered by ☿ (geodesic 1PN, E12)."}},
   activeParams:["G","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:280}, world:{boundary:"none",size:0},
@@ -13223,7 +13223,7 @@ const BUILTIN_PRESETS = [
 
 // ===== 第148便: 🛰️grcal の焦点3サンプル(ファミリー grcal の variant)=====
 // 3本とも **物理対応条件 κ=G/cLight²(=1/3600)を満たす**構成にしてある(🛰️ 本体は見やすさ優先の
-// 誇張アナログで κ=1/300 — この条件を満たしていない。PHYSICS §5 物理対応条件)。SI の正典値は
+// 第326便a(AN530): 物理対応ロックで X_k = G_0/c_0² = 1/3600(旧: 誇張アナログで 1/300 —— この条件を満たしていなかった)。PHYSICS §5 物理対応条件)。SI の正典値は
 // 🛰️ と論文1 Table I に固定済みのものの**転記だけ**を使い、式レベル出力は HP.grSI()(表示・QA
 // 専用の純関数)が同じ κ=G/c² の1本から毎回その場で計算する。「式レベル一致」の意味は 🛰️ の
 // 限定文言を踏襲する — 弱場で同じ基準式へ帰着することを言うだけで、「DFM が GR を導出した」とも
@@ -13240,9 +13240,9 @@ const BUILTIN_PRESETS = [
     {q:"画面のアナログ(重力項:運動項)", model:"半径比を実 GPS(R⊕/r_GPS)に合わせたので、画面上の比も 6.3 になる", obs:"—(45.7/7.2=6.3)"},
     {q:"DFM 速度項の感度(pull・χ 地表 0.9972/衛星 0.9535)", model:"二次 −0.92μs/日・一次交差項の振幅 衛星 5.16/地上 0.037μs/日(感度診断 — 予測残差ではない)", obs:"GR 正味は χ=1 の式(比較用)"}],
   descStruct:{
-    summary:"GPS の時計差を「重力項」と「速度項」に分解して見せるサンプル。中心天体のまわりに時計を3つ置く: 地上時計(r=60・静止)、周回衛星(r=250・運動)、そして衛星と同じ半径に置いた静止参照時計(r=250)。3つの時計をタップして固有時(τ/t)を比べると、時計則(A7′/E7R: dτ/dt=√(N²−A²|v−u|²/c₀²))の差が2つの原因にきれいに分かれる。X_k=G/cLight²(=1/3600)を満たす構成なので、これは物理対応条件つきの縮尺模型である(🛰️ 本体は見やすさ優先の誇張アナログでこの条件を満たしていない)。",
+    summary:"GPS の時計差を「重力項」と「速度項」に分解して見せるサンプル。中心天体のまわりに時計を3つ置く: 地上時計(r=60・静止)、周回衛星(r=250・運動)、そして衛星と同じ半径に置いた静止参照時計(r=250)。3つの時計をタップして固有時(τ/t)を比べると、時計則(A7′/E7R: dτ/dt=√(N²−A²|v−u|²/c₀²))の差が2つの原因にきれいに分かれる。X_k=G/cLight²(=1/3600)を満たす構成なので、これは物理対応条件つきの縮尺模型である(🛰️ 本体も物理対応ロックで同じ X_k = 1/3600)。",
     observe:"SI の式レベル出力(X_k=G/c² の1本・観測入力は論文1 Table I の転記のみ・自由パラメータなし)は、GPS 時計の正味 +38.5μs/日(重力項 +45.7・運動項 −7.2。観測≈+38.6μs/日)。入力は地球質量 5.972×10²⁴kg・地上半径 6.371×10⁶m・軌道半径 2.6562×10⁷m で、衛星速度は円軌道の √(GM/r) から出る。画面のアナログでは: 地上時計(r=60)がいちばん遅く、静止参照時計(r=250)がいちばん速く、周回衛星(r=250)はその中間 — 参照時計との差が**運動項だけ**、地上時計との差が**重力項と運動項の合計**になる(差の引き算で2項が分離できる)。衛星が参照時計とすれ違う瞬間は同じ場所・同じ重力なのに時計だけが違う: そこに残るのは速度の効果だけである。半径比 60:250 は実 GPS の R⊕/r_GPS=0.2399 の転記(丸め)なので、画面上の重力項:運動項の比も実 GPS と同じ 6.3 になる — 誇張しているのは効果の大きさだけで、内訳の比は誇張していない。",
-    control:"ワンタップ対照は X_k=0(時空係数ゼロ)— 3つの時計が完全に同じ速さで進む宇宙。X_k のスライダーを上げると3つの差が同時に広がる。※SI 側の数値は X_k=G/c² 写像の式計算(式レベル)によるもので、実験データに当てて検証したものではない。地上時計自身の自転項(Table I の v_ground=0.465km/s)は、論文1 Table I の分解が運動項へ畳み込んでいないので、ここでも別扱いにしてある。"},
+    control:"ワンタップ対照は G_0=0(重力なし —— 物理対応ロックで X_k=0)— 重力の遅れが消えて地上時計と静止参照時計は同じ速さになり、残るのは衛星の運動の遅れだけ(衛星は円軌道を外れてまっすぐ進む)。G_0 のスライダーを上げると(X_k = G_0/c_0² が追随して)重力の差が広がる(衛星の初速は宣言のまま —— 軌道は円から外れる)。※SI 側の数値は X_k=G/c² 写像の式計算(式レベル)によるもので、実験データに当てて検証したものではない。地上時計自身の自転項(Table I の v_ground=0.465km/s)は、論文1 Table I の分解が運動項へ畳み込んでいないので、ここでも別扱いにしてある。"},
   en:{name:"GPS Clock Difference — Splitting Gravity from Speed",
     obsCard:[
       {q:"Net GPS clock rate (satellite − ground)", model:"+38.5 μs/day from the single mapping X_k=G/c² (formula-level output)", obs:"≈+38.6 μs/day (GPS system design value)"},
@@ -13262,9 +13262,9 @@ const BUILTIN_PRESETS = [
       derived:["satellite speed v=√(GM/r_GPS)","gravity term (ψ_ground−ψ_sat)·86400s","motion term −(v²/2c²)·86400s","net = gravity + motion"],
       numerical:["softening ε=2","time multiplier timeScale=4"]},
     descStruct:{
-    summary:"A sample that splits the GPS clock difference into its GRAVITY part and its SPEED part. Three clocks sit around a central body: a ground clock (r=60, at rest), an orbiting satellite (r=250, moving), and a static reference clock at the satellite's own radius (r=250). Tap the three and compare their proper time (τ/t): the clock law (A7′/E7R: dτ/dt=√(N²−A²|v−u|²/c₀²)) splits the differences cleanly into the two causes. This configuration satisfies X_k=G/cLight² (=1/3600), so it is a scale model WITH the physical-correspondence condition — unlike 🛰️ itself, which is a visibility-first exaggerated analog that does not satisfy it. ",
+    summary:"A sample that splits the GPS clock difference into its GRAVITY part and its SPEED part. Three clocks sit around a central body: a ground clock (r=60, at rest), an orbiting satellite (r=250, moving), and a static reference clock at the satellite's own radius (r=250). Tap the three and compare their proper time (τ/t): the clock law (A7′/E7R: dτ/dt=√(N²−A²|v−u|²/c₀²)) splits the differences cleanly into the two causes. This configuration satisfies X_k=G/cLight² (=1/3600), so it is a scale model WITH the physical-correspondence condition — under the lock 🛰️ itself now has the same X_k = 1/3600. ",
     observe:"The formula-level SI output (one mapping, X_k=G/c²; inputs are transcriptions from paper 1 Table I; no free parameter) is a net GPS clock rate of +38.5 μs/day (gravity +45.7, motion −7.2; observed ≈+38.6 μs/day). The inputs are the Earth's mass 5.972×10²⁴ kg, the ground radius 6.371×10⁶ m and the orbit radius 2.6562×10⁷ m, with the satellite speed following from the circular orbit √(GM/r). On screen: the ground clock (r=60) is the slowest, the static reference clock (r=250) the fastest, and the orbiting satellite (r=250) sits between them — its gap to the reference is the MOTION term alone, its gap to the ground clock is gravity AND motion together, so subtracting separates the two. At the instant the satellite passes the reference clock they are at the same place in the same gravity, and only the speed effect is left. The radii 60:250 transcribe the real GPS ratio R⊕/r_GPS=0.2399, so the on-screen gravity:motion ratio is the real 6.3 as well — only the SIZE of the effect is exaggerated, not the breakdown. ",
-    control:"The one-tap control is X_k=0 (no spacetime coefficient): a universe where all three clocks tick at exactly the same rate. Raising the X_k slider widens all three gaps together. Note: the SI numbers come from formula-level computation under the mapping X_k=G/c²; they are not a test against experimental data. The ground clock's own rotation term (v_ground=0.465 km/s in Table I) is kept separate here because the Table I decomposition keeps it separate too."}},
+    control:"The one-tap control is G_0=0 (no gravity — X_k=0 under the lock): the gravity delays vanish, so the ground clock and the static reference clock tick alike and only the satellite's motion delay remains (the satellite leaves its circular orbit and flies straight). Raising the G_0 slider (X_k = G_0/c_0² follows) widens the gravity gaps (the satellite keeps its declared initial speed, so its orbit is no longer circular). Note: the SI numbers come from formula-level computation under the mapping X_k=G/c²; they are not a test against experimental data. The ground clock's own rotation term (v_ground=0.465 km/s in Table I) is kept separate here because the Table I decomposition keeps it separate too."}},
   claims:[
     { id:"grcalGps.net-rate", kind:"analytic", prov:"derived", role:"retrospective_check",
       metric:"gpsNetRateMicrosPerDay",
@@ -13351,7 +13351,7 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"太陽の縁(限)をかすめる光がどれだけ曲がるかを見せるサンプル。左から入る光線ファンのうち、いちばん内側の1組が中心星の限のすぐ外を通り、大きく折れ曲がる。光を曲げているのは時計を遅らせるのと同じ ψ=W·X_k で(E8R: n_eff=e^{2ψ})、レンズ専用の係数は1つも持たない。X_k=G/cLight²(=1/3600)を満たす構成なので、物理対応条件つきの縮尺模型である。",
     observe:"SI の式レベル出力(X_k=G/c² の1本・観測入力は論文1 Table I の転記のみ・自由パラメータなし)は、太陽縁の光偏向は 1.7512″(観測≈1.75″)。入力は太陽質量 1.989×10³⁰kg・太陽半径 6.96×10⁸m(=衝突径数 b)の2つだけで、式は α=4GM/(c²R) — フェルマーの原理を n_eff=e^{2ψ} に当てた弱場一次の帰結である。画面では、光線ファンの最内の1組が限のすぐ外(b=1.25R)を通っていちばん強く折れる。さらに、光源(左の小さな星)から観測者(右の点)へまっすぐ狙って撃った光子は、太陽に引き寄せられて観測者に届かない: 逆に言えば、観測者に届く光は「太陽の向こうのずれた位置」から来ている — 日食観測が測ったのはこのずれである。この光子だけは b=4R を通してある(ψ_b=0.023 の弱場帯なので、エンジンの光学が弱場一次 α=4GM/(c₀²b) と数%で一致することを機械照合できる)。背景色は決定力 W で、限に近いほど濃い。",
-    control:"ワンタップ対照は X_k=0(時空係数ゼロ)— 光線はまっすぐ通り、狙った光子はそのまま観測者に届く。X_k のスライダーを上げると曲がりが強まり、時計の遅れも同時に強まる(同じ ψ の2つの顔)。※SI 側の数値は X_k=G/c² 写像の式計算(式レベル)によるもので、実験データに当てて検証したものではない。"},
+    control:"ワンタップ対照は G_0=0(重力なし —— 物理対応ロックで X_k=0)— 光線はまっすぐ通り、狙った光子はそのまま観測者に届く。G_0 のスライダーを上げると(X_k = G_0/c_0² が追随して)曲がりが強まり、時計の遅れも同時に強まる(同じ ψ の2つの顔)。※SI 側の数値は X_k=G/c² 写像の式計算(式レベル)によるもので、実験データに当てて検証したものではない。"},
   en:{name:"Solar-Limb Light Deflection — 1.75″",
     obsCard:[
       {q:"Bending of light grazing the solar limb", model:"α=4GM☉/(c²R☉)=1.7512″ (no additional parameter)", obs:"≈1.75″ (VLBI light deflection, percent level)"},
@@ -13369,7 +13369,7 @@ const BUILTIN_PRESETS = [
     descStruct:{
     summary:"A sample that shows how much light grazing the Sun's limb is bent. Of the ray fan entering from the left, the innermost pair passes just outside the central star's limb and turns sharply. What bends the light is the same ψ=W·X_k that slows the clocks (E8R: n_eff=e^{2ψ}); there is not a single lens-only coefficient. The configuration satisfies X_k=G/cLight² (=1/3600), so it is a scale model with the physical-correspondence condition. ",
     observe:"The formula-level SI output (one mapping, X_k=G/c²; inputs transcribed from paper 1 Table I; no free parameter) is a solar-limb deflection of 1.7512″ (observed ≈1.75″). The inputs are just two — the solar mass 1.989×10³⁰ kg and the solar radius 6.96×10⁸ m (= the impact parameter b) — and the formula is α=4GM/(c²R), the weak-field first order of Fermat's principle applied to n_eff=e^{2ψ}. On screen the innermost pair of the ray fan passes just outside the limb (b=1.25R) and turns the most. In addition, a photon fired from the source (the small star on the left) straight at the observer (the dot on the right) is pulled toward the star and misses: put the other way round, the light that DOES reach the observer comes from a displaced apparent position beyond the Sun — and that displacement is what the eclipse expeditions measured. That single photon is sent through b=4R, where ψ_b=0.023 puts it in the weak-field band, so the engine's optics can be machine-checked against the first-order α=4GM/(c₀²b) at the percent level. The background colour is the determinacy W, deepest near the limb. ",
-    control:"The one-tap control is X_k=0 (no spacetime coefficient): the rays go straight and the aimed photon lands on the observer. Raising the X_k slider strengthens the bending and the clock lag together — two faces of the same ψ. Note: the SI numbers come from formula-level computation under the mapping X_k=G/c²; they are not a test against experimental data."}},
+    control:"The one-tap control is G_0=0 (no gravity — X_k=0 under the lock): the rays go straight and the aimed photon lands on the observer. Raising the G_0 slider (X_k = G_0/c_0² follows) strengthens the bending and the clock lag together — two faces of the same ψ. Note: the SI numbers come from formula-level computation under the mapping X_k=G/c²; they are not a test against experimental data."}},
   claims:[
     { id:"grcalLight.solar-limb-deflection", kind:"analytic", prov:"derived", role:"retrospective_check",
       metric:"solarLimbDeflectionArcsec",
@@ -13447,8 +13447,8 @@ const BUILTIN_PRESETS = [
     {q:"画面のアナログ", model:"X_k=G/c₀²=1/3600 の物理対応条件つき。A/B で X_k 有無の同時送信を比べる", obs:"—"}],
   descStruct:{
     summary:"太陽のすぐ近くを通る電波信号が、まっすぐ飛ぶ場合より遅れて届くことを見せるサンプル(シャピロ遅延)。遅らせているのは光を曲げているのと同じ屈折率 n_eff=e^{2ψ}>1(A7′/E8R/T5)で、その中では局所光速が c₀/n_eff まで落ちる — 曲がりと遅れは同じ ψ の2つの顔である。X_k=G/cLight²(=1/3600)を満たす構成なので、物理対応条件つきの縮尺模型である。",
-    observe:"SI の式レベル出力(X_k=G/c² の1本・観測入力は論文1 Table I の転記のみ・自由パラメータなし)は、往復の遅延は ≈281μs。幾何はカッシーニの上合配置の理想化で、r₁=1au(地球)・r₂=8.43au(土星)・b=太陽半径 6.96×10⁸m、式は Δt=(4GM/c³)ln(4r₁r₂/b²) である(数値は幾何に依存する — バイキング幾何なら別の値になる)。画面では左の送信機から右の受信機へ信号を繰り返し送る。ワンタップ対照(X_k=0)を開くと上下2画面で同じ送信が同時に走り、**時空係数のある宇宙の信号だけが遅れて進む**のが直接見える — 距離も送信時刻も同じで、違うのは通り道の n_eff だけである。",
-    control:"ワンタップ対照は X_k=0(時空係数ゼロ)— 信号はまっすぐ・最短時間で届く。X_k のスライダーを上げると遅れも曲がりも同時に増える。※SI 側の数値は X_k=G/c² 写像の式計算(式レベル)によるもので、実験データに当てて検証したものではない。往復という言い方は上合幾何の往復(地球→太陽近傍→土星→太陽近傍→地球)を指し、画面のアナログは片道の伝播をそのまま見せている。"},
+    observe:"SI の式レベル出力(X_k=G/c² の1本・観測入力は論文1 Table I の転記のみ・自由パラメータなし)は、往復の遅延は ≈281μs。幾何はカッシーニの上合配置の理想化で、r₁=1au(地球)・r₂=8.43au(土星)・b=太陽半径 6.96×10⁸m、式は Δt=(4GM/c³)ln(4r₁r₂/b²) である(数値は幾何に依存する — バイキング幾何なら別の値になる)。画面では左の送信機から右の受信機へ信号を繰り返し送る。ワンタップ対照(G_0=0 —— 物理対応ロックで X_k=0)を開くと上下2画面で同じ送信が同時に走り、**時空係数のある宇宙の信号だけが遅れて進む**のが直接見える — 距離も送信時刻も同じで、違うのは通り道の n_eff だけである。",
+    control:"ワンタップ対照は G_0=0(重力なし —— 物理対応ロックで X_k=0)— 信号はまっすぐ・最短時間で届く。G_0 のスライダーを上げると(X_k = G_0/c_0² が追随して)遅れも曲がりも同時に増える。※SI 側の数値は X_k=G/c² 写像の式計算(式レベル)によるもので、実験データに当てて検証したものではない。往復という言い方は上合幾何の往復(地球→太陽近傍→土星→太陽近傍→地球)を指し、画面のアナログは片道の伝播をそのまま見せている。"},
   en:{name:"Shapiro Delay — A Signal Passing Close to the Sun",
     obsCard:[
       {q:"Delay of a signal passing close to the Sun", model:"Δt=(4GM☉/c³)ln(4r₁r₂/b²)≈281 μs (idealized Cassini conjunction geometry, round trip)", obs:"the Cassini radio links constrain the PPN coefficient of this formula: γ−1=(2.1±2.3)×10⁻⁵"},
@@ -13466,8 +13466,8 @@ const BUILTIN_PRESETS = [
       numerical:["softening ε=2","time multiplier timeScale=4"]},
     descStruct:{
     summary:"A sample showing that a radio signal passing close to the Sun arrives LATER than one that flies straight (the Shapiro delay). What delays it is the same refractive index n_eff=e^{2ψ}>1 (A7′/E8R/T5) that bends the light: inside it the local light speed drops to c₀/n_eff — bending and delay are two faces of the same ψ. The configuration satisfies X_k=G/cLight² (=1/3600), so it is a scale model with the physical-correspondence condition. ",
-    observe:"The formula-level SI output (one mapping, X_k=G/c²; inputs transcribed from paper 1 Table I; no free parameter) is a round-trip delay of ≈281 μs. The geometry is the idealized Cassini superior conjunction — r₁=1 au (Earth), r₂=8.43 au (Saturn), b = the solar radius 6.96×10⁸ m — and the formula is Δt=(4GM/c³)ln(4r₁r₂/b²) (the number depends on the geometry; the Viking geometry gives a different one). On screen a transmitter on the left sends repeated signals to a receiver on the right. Open the one-tap control (X_k=0) and the same transmission runs in two stacked universes at once, so you can watch directly that ONLY the signal in the universe with a spacetime coefficient falls behind — same distance, same send time, and the only difference is the n_eff along the way. ",
-    control:"The one-tap control is X_k=0 (no spacetime coefficient): the signal goes straight and arrives in the shortest time. Raising the X_k slider increases the delay and the bending together. Note: the SI numbers come from formula-level computation under the mapping X_k=G/c²; they are not a test against experimental data. \"Round trip\" refers to the superior-conjunction round trip (Earth → past the Sun → Saturn → past the Sun → Earth); the on-screen analog simply shows the one-way propagation."}},
+    observe:"The formula-level SI output (one mapping, X_k=G/c²; inputs transcribed from paper 1 Table I; no free parameter) is a round-trip delay of ≈281 μs. The geometry is the idealized Cassini superior conjunction — r₁=1 au (Earth), r₂=8.43 au (Saturn), b = the solar radius 6.96×10⁸ m — and the formula is Δt=(4GM/c³)ln(4r₁r₂/b²) (the number depends on the geometry; the Viking geometry gives a different one). On screen a transmitter on the left sends repeated signals to a receiver on the right. Open the one-tap control (G_0=0 — X_k=0 under the lock) and the same transmission runs in two stacked universes at once, so you can watch directly that ONLY the signal in the universe with a spacetime coefficient falls behind — same distance, same send time, and the only difference is the n_eff along the way. ",
+    control:"The one-tap control is G_0=0 (no gravity — X_k=0 under the lock): the signal goes straight and arrives in the shortest time. Raising the G_0 slider (X_k = G_0/c_0² follows) increases the delay and the bending together. Note: the SI numbers come from formula-level computation under the mapping X_k=G/c²; they are not a test against experimental data. \"Round trip\" refers to the superior-conjunction round trip (Earth → past the Sun → Saturn → past the Sun → Earth); the on-screen analog simply shows the one-way propagation."}},
   claims:[
     { id:"grcalShapiro.round-trip-delay", kind:"analytic", prov:"derived", role:"retrospective_check",
       metric:"shapiroRoundTripMicros",
@@ -13674,10 +13674,10 @@ const BUILTIN_PRESETS = [
   familyId:"boxexpand", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"宇宙の「壁」を外から強制的に膨らませる展示サンプル。壁の点の輪をa(t)=e^{Ht}(H=0.005)という決まった式どおりに広げ続け(railH)、内側の粒子がどこまでついてくるかを見る。",
-    observe:"内部の自由粒子に壁の半分のHubble流(v=½Hr)を与えると、√aに比例した膨張を続ける — 速度加重平均(A5)が内部へ運ぶ膨張は壁の約半分(利得g(0)=1/2、T10・V24a)。箱宇宙の拡大縮小は内部から検知できる(移動回転と違い、距離・波長・時計率を変える — T10)。壁と同率の完全共動u=Hrは質点リングでは作れず、連続背景UniverseBox(🫧)が必要になる — この「足りなさ」の実測こそが本サンプルの主目的。"},
+    observe:"内部の自由粒子に壁の半分のHubble流(v=½Hr)を与えると、√aに比例した膨張を続ける — 速度加重平均(A5)が内部へ運ぶ膨張は壁の約半分(利得g(0)=1/2、T10・V24a)。箱宇宙の拡大縮小は内部から検知できる(移動回転と違い、距離・波長を変える —— この本は G_0=0 なので物理対応ロックで X_k=0 となり時計率は変えない — T10)。壁と同率の完全共動u=Hrは質点リングでは作れず、連続背景UniverseBox(🫧)が必要になる — この「足りなさ」の実測こそが本サンプルの主目的。"},
   en:{name:"Box Universe — Expanding Box (Point-Mass Ring)", descStruct:{
     summary:"An exhibit sample where the universe's 'wall' is forced to expand from outside, following the fixed formula a(t)=e^{Ht} (H=0.005, railH), and we watch how far the interior particles manage to keep up. ",
-    observe:"Give the interior free particles half the wall's Hubble flow (v=½Hr) and they keep expanding in proportion to √a — the velocity-weighted mean (A5) carries only about half of the wall's expansion inward (response ratio g(0)=1/2; T10, V24a). Unlike translation and rotation, expansion and contraction of a box universe *are* detectable from inside — they change distances, wavelengths and clock rates (T10). A point-mass ring cannot produce full comotion u=Hr; that requires the continuous UniverseBox background (🫧). Measuring this very shortfall is the point of this sample."}},
+    observe:"Give the interior free particles half the wall's Hubble flow (v=½Hr) and they keep expanding in proportion to √a — the velocity-weighted mean (A5) carries only about half of the wall's expansion inward (response ratio g(0)=1/2; T10, V24a). Unlike translation and rotation, expansion and contraction of a box universe *are* detectable from inside — they change distances and wavelengths (T10; this sample has G_0=0, so the lock gives X_k=0 and clock rates are unchanged). A point-mass ring cannot produce full comotion u=Hr; that requires the continuous UniverseBox background (🫧). Measuring this very shortfall is the point of this sample."}},
   activeParams:["kFrame"],
   camera:{scale:420}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
@@ -13692,17 +13692,17 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"boxcomoving", catalog:"extended", name:"箱宇宙 — UniverseBoxの完全共動と膨張時計", emoji:"🫧", group:"箱宇宙の実験",
+{ id:"boxcomoving", catalog:"extended", name:"箱宇宙 — UniverseBoxの完全共動", emoji:"🫧", group:"箱宇宙の実験",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   familyId:"boxexpand", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"宇宙の背景そのものを「動く土台」に格上げしたサンプル(連続背景UniverseBox)。ただの一定値だった背景D₀に位置・速度・大きさa(t)を持たせることで、内側の粒子が膨張にぴったり追随する完全なHubble流u_B=H·rが作れる(壁を点の輪で作る前の版では追随が半分しかできなかった — その隙間を埋める連続版。破線円=名目半径L·a)。",
-    observe:"自由粒子は共動座標χ=r/aを保って運ばれ(V24b)、粒子間距離はaに正比例して伸びる。膨張は決定力を希釈し(W_B=D/a)、時計則(A7′/E7R)により中央の固定時計は膨張とともに速く進む(タップでτ/t確認) — 「膨張が時間を進める」に見える相関がモデル内で創発する。ただし膨張は時間の原因ではなく、既に定義された時計の速度を変えているだけ。膨張の反作用はリザーバに帳簿(モニタ・A13)。",
+    observe:"自由粒子は共動座標χ=r/aを保って運ばれ(V24b)、粒子間距離はaに正比例して伸びる。膨張は決定力を希釈する(W_B=D/a)。この本は G_0=0 なので物理対応ロックで X_k = G_0/c_0² = 0 —— 時計の重力の項 ψ = X_k·W は 0 で、中央の固定時計は膨張しても速さが変わらない(τ/t = 1 —— 箱宇宙の群のほかの G_0 = 0 の本と同じ)。膨張の反作用はリザーバに帳簿(モニタ・A13)。",
     control:"kFrame=0で共動が消える(おすすめA/B)。"},
-  en:{name:"Box Universe — Full Comotion & the Expansion Clock", descStruct:{
+  en:{name:"Box Universe — Full Comotion", descStruct:{
     summary:"A sample where the universe's background itself becomes a moving foundation (the continuous UniverseBox). Giving the once-constant background D₀ a position, velocity and size a(t) lets interior particles keep up fully with the expansion — a complete Hubble flow u_B=H·r (closing the gap left by the earlier point-ring wall, which could only carry half the motion inward; dashed circle = nominal radius L·a). ",
-    observe:"Free particles are carried preserving comoving coordinates χ=r/a (V24b), and mutual distances grow in proportion to a. Expansion dilutes determinacy (W_B=D/a), so by the clock law (A7′/E7R) the central pinned clock ticks faster as the universe expands (tap it to see τ/t) — a correlation that looks like 'expansion drives time' emerges inside the model. Yet expansion is not the cause of time: it merely changes the rate of an already-defined clock. Reactions are ledgered to the reservoir (monitor, A13). ",
+    observe:"Free particles are carried preserving comoving coordinates χ=r/a (V24b), and mutual distances grow in proportion to a. Expansion dilutes determinacy (W_B=D/a). This sample has G_0=0, so under the physical-correspondence lock X_k = G_0/c_0² = 0 — the gravity term of the clock ψ = X_k·W is 0 and the central pinned clock keeps its rate as the universe expands (τ/t = 1, like the other G_0 = 0 samples of the Box Universe group). Reactions are ledgered to the reservoir (monitor, A13). ",
     control:"Set kFrame to 0 and comotion vanishes (suggested A/B)."}},
   activeParams:["kFrame","G"],
   camera:{scale:420}, world:{boundary:"none",size:0},
@@ -13746,16 +13746,16 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,boxGraph:true} },
 
-{ id:"boxbreath", name:"箱宇宙 — 呼吸する宇宙と時計", emoji:"🫁", group:"箱宇宙の実験",
+{ id:"boxbreath", name:"箱宇宙 — 呼吸する宇宙", emoji:"🫁", group:"箱宇宙の実験",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"膨らんだり縮んだりを繰り返す「呼吸する宇宙」のサンプル。大きさを表す尺度因子a(t)=1+0.2sin(0.08t)が周期的に増減し、それに合わせて中の粒子も行き来する。",
-    observe:"自由粒子は呼吸するHubble流u_B=H(t)·rに運ばれて往復し、決定力W_B=D/aも振動する — 膨張期(a大)は時計が速く、収縮期(a小)は遅くなる(A7′/E7R。中央の固定時計をタップ)。転回点H=0でも時計は止まらない — 膨張率と時間の速さは別物であり、aだけを「時間の本体」にはできない。散逸ゼロ(摩擦・衝突減衰・放射なし)なら一周期(T≈78.5)でほぼ元の配置に戻る可逆な系。",
+    observe:"自由粒子は呼吸するHubble流u_B=H(t)·rに運ばれて往復し、決定力W_B=D/aも振動する。この本は G_0=0 なので物理対応ロックで X_k = G_0/c_0² = 0 —— 時計は W の振動を感じず、中央の固定時計は τ/t = 1 のまま進む(箱宇宙の群のほかの G_0 = 0 の本と同じ)。転回点H=0でも時間の速さは変わらない —— 膨張率と時間の速さは別物であり、aだけを「時間の本体」にはできない。散逸ゼロ(摩擦・衝突減衰・放射なし)なら一周期(T≈78.5)でほぼ元の配置に戻る可逆な系。",
     control:"muFやgammaNを入れると一周しても戻らない — 幾何学的な周期と熱力学的な時間の矢(A12′)は別物であることを自分で試せる(T10)。"},
-  en:{name:"Box Universe — Breathing Universe & Its Clock", descStruct:{
+  en:{name:"Box Universe — Breathing Universe", descStruct:{
     summary:"A 'breathing universe' that keeps expanding and contracting. Its size, the scale factor a(t)=1+0.2sin(0.08t), oscillates, and the particles inside ride back and forth with it. ",
-    observe:"Free particles ride the breathing Hubble flow u_B=H(t)·r back and forth, and determinacy W_B=D/a oscillates too — clocks tick faster while expanded (large a) and slower while contracted (A7′/E7R; tap the central pinned clock). At the turning points H=0 the clock does not stop — expansion rate and the rate of time are different things, so a alone cannot be 'time itself'. With zero dissipation (no friction, collision damping or radiation) the system returns almost exactly after one period (T≈78.5) — reversible. ",
+    observe:"Free particles ride the breathing Hubble flow u_B=H(t)·r back and forth, and determinacy W_B=D/a oscillates too. This sample has G_0=0, so under the physical-correspondence lock X_k = G_0/c_0² = 0 — the clocks do not feel the oscillation of W and the central pinned clock keeps τ/t = 1 (like the other G_0 = 0 samples of the Box Universe group). At the turning points H=0 the rate of time does not change — expansion rate and the rate of time are different things, so a alone cannot be 'time itself'. With zero dissipation (no friction, collision damping or radiation) the system returns almost exactly after one period (T≈78.5) — reversible. ",
     control:"Add muF or gammaN and it no longer returns — geometric periodicity and the thermodynamic arrow of time (A12′) are distinct, and you can test it yourself (T10)."}},
   activeParams:["G","kFrame"],
   camera:{scale:380}, world:{boundary:"none",size:0},
@@ -13826,11 +13826,11 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"同じ箱の膨張率Hを、2人の観測者が別々の物差しで測る(論文2の中心結果V29を操作可能にしたサンプル)。幾何プローブは共動構造を追ってH_geo=Δln a/Δtを報告する。速度プローブはFLRW流の減衰則w/c∝1/aを仮定し、比R=w/c_locの実測減衰からH_w=−Δln R/Δtを推定する。2つの推定値の食い違いがハッブルテンションと同水準(a=2の点値0.92 対 実宇宙比0.923)になる較正で、HUDの「テンション類似」行から常時確認できる。",
     observe:"粒子の特異速度wはモデルの絶対帳簿では保存するのに(V27)、局所光速c_loc=c₀e^{−2ψ}が膨張の希釈で上がるため、光を物差しにした比Rは減衰する(E8R・V28)— しかもその減衰則は仮定したFLRW形と違うので、2つの推定値の比はH_w/H_geo=2(D·X_k)/aとなり、時刻aと較正D·X_kに依存する。HUDの累積測定(t=0基準)がこれを常時表示する: a=2で指数読みの累積比は 1.333(解析1.3335と1e-2以内で一致)。並記される反比例読みは、同じ実測wを対案の光速則c_loc∝1/W(exp-4-66.mjsの対照則)で読み直したもので、恒等的に 1.000 に張り付く — 関数形を変えるとプローブ依存が消える(exp-4-66.mjsの判別実験と同じモデル内対照)。既定D·X_k=(2/3)ln4≈0.9242はa=2の点値0.92が実宇宙のハッブルテンション比67.4/73.0≈0.923と同水準になる論文2の較正点だが、この数値一致は較正であって証拠ではない(Negative claim 6)。これはテンションの説明ではなく「測定の食い違いは推定器が仮定する減衰則の帰結でありうる」という構造の提示である(Negative claim 3)。",
-    control:"X_kスライダーや「箱宇宙」セクションのDでD·X_kを動かすと比が比例してスケールする(変更後は⏮初めからで再構築してから読む — 累積測定はt=0基準)。"},
+    control:"G_0 スライダー(物理対応ロックで X_k = G_0/c_0² が追随)や「箱宇宙」セクションのDでD·X_kを動かすと比が比例してスケールする(変更後は⏮初めからで再構築してから読む — 累積測定はt=0基準)。"},
   en:{name:"Box Universe — Two H Estimators (a Hubble-Tension Analogue)", descStruct:{
     summary:"Two observers measure the expansion rate H of the same box with different rulers (the central result V29 of paper 2, made operable). The geometric probe tracks comoving structure and reports H_geo=Δln a/Δt. The velocity probe assumes the FLRW decay law w/c∝1/a and infers H_w=−Δln R/Δt from the measured decay of the ratio R=w/c_loc. The calibration makes the two estimates disagree at the same magnitude as the Hubble tension (point value 0.92 at a=2 vs the real-universe ratio 0.923), visible at all times in the HUD's tension-analogue line. ",
     observe:"The particle's peculiar velocity w is conserved in the model's absolute bookkeeping (V27), yet the local light speed c_loc=c0·e^{−2ψ} rises as expansion dilutes determinacy, so the light-referenced ratio R decays (E8R, V28) — and its decay law differs from the assumed FLRW form, so the two estimates disagree by H_w/H_geo=2(D·X_k)/a, depending on the epoch a and the calibration D·X_k. The HUD's cumulative measurement (from t=0) shows this live: at a=2 the exponential reading's cumulative ratio is 1.333 (matching the analytic 1.3335 within 1e-2). The inverse reading shown beside it re-reads the same measured w under the alternative light-speed law c_loc∝1/W (the exp-4-66.mjs control law) and stays identically at 1.000 — change the functional form and the probe dependence vanishes (the same model-internal control as the exp-4-66.mjs discrimination experiment). The default D·X_k=(2/3)ln4≈0.9242 is paper 2's calibration point, where the a=2 point value 0.92 matches the magnitude of the real Hubble-tension ratio 67.4/73.0≈0.923 — a calibration, not evidence (Negative claim 6). This is not an explanation of the tension but a structure: a measurement discrepancy can be the consequence of the decay law the estimator assumes (Negative claim 3). ",
-    control:"Move D·X_k with the X_k slider or the D input in the Box Universe section and the ratio scales in proportion (rebuild with ⏮ Restart after changing — the cumulative measurement is referenced to t=0)."}},
+    control:"Move D·X_k with the G_0 slider (X_k = G_0/c_0² follows under the lock) or the D input in the Box Universe section and the ratio scales in proportion (rebuild with ⏮ Restart after changing — the cumulative measurement is referenced to t=0)."}},
   activeParams:["G","cLight","kFrame"],
   probeHud:true,
   // 第50便 50C: claims — HUD 累積測定の a=2 実測値を機械可読化(QA behavior.probeH の閾値に直結)
@@ -16466,10 +16466,10 @@ const BUILTIN_PRESETS = [
   familyId:"lens", familyRole:"primary",   // 第82便: ファミリー表示(表示専用 — sampleClass と同方針)
   descStruct:{
     summary:"左から飛ぶ光線が、決定力の高い(=時間の遅い)領域で屈折して曲がる(A7′/T5)。",
-    observe:"時間の遅れと光の屈折は単一のψ=W·X_kで統一(E7R/E8R)— X_kを上げると両方が同時に強まる。強い場では光が捕まって周回する(光子球の類似)。背景の色は決定力Wの強さ。粒子をタップすると固有時計(τ/t)が見える。光線の色は時計率比 e^{ψ0−ψ} による波長表示(重力赤方偏移のアナログ — 意味論表示)。"},
+    observe:"時間の遅れと光の屈折は単一のψ=W·X_kで統一(E7R/E8R)— G_0 を上げると(物理対応ロックで X_k = G_0/c_0² が追随して)両方が同時に強まる(源は固定なので物体は動かない)。強い場では光が捕まって周回する(光子球の類似)。背景の色は決定力Wの強さ。粒子をタップすると固有時計(τ/t)が見える。光線の色は時計率比 e^{ψ0−ψ} による波長表示(重力赤方偏移のアナログ — 意味論表示)。"},
   en:{name:"Gravitational Lensing & Photon Capture", descStruct:{
     summary:"Light rays from the left refract and bend where determinacy is high (= time runs slow) (A7′/T5). ",
-    observe:"Time dilation and refraction are unified by one ψ=W·X_k (E7R/E8R) — raise X_k and both strengthen together. In strong fields light is captured into orbit (photon-sphere analogue). Background color = determinacy W. Tap a particle to see its proper clock (τ/t). Ray color encodes wavelength via the clock-rate ratio e^{ψ0−ψ} (a gravitational-redshift analogue — semantic display)."}},
+    observe:"Time dilation and refraction are unified by one ψ=W·X_k (E7R/E8R) — raise G_0 (X_k = G_0/c_0² follows under the lock) and both strengthen together (the source is pinned, so nothing moves). In strong fields light is captured into orbit (photon-sphere analogue). Background color = determinacy W. Tap a particle to see its proper clock (τ/t). Ray color encodes wavelength via the clock-rate ratio e^{ψ0−ψ} (a gravitational-redshift analogue — semantic display)."}},
   activeParams:["G","cLight","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 光線の本"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
@@ -16514,11 +16514,11 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"上下に並ぶ2つの大質量天体へ平行光線束を入射。",
     observe:"単一レンズとは異なり、光線が2つの決定力井戸へ分かれて曲がる複合レンズを観察する(T5)。スピンは0なので非対称引きずり(T8)とは切り離されている。",
-    control:"X_kを半分(1/110→1/220)に下げると湾曲が弱まる。"},
+    control:"G_0 を半分(約 8.18→4.09)に下げると、物理対応ロックで X_k = G_0/c_0² も半分(1/110→1/220)になり湾曲が弱まる。"},
   en:{name:"Binary Gravitational Lens", descStruct:{
     summary:"A parallel beam enters two large masses stacked vertically. ",
     observe:"Unlike a single lens, rays split and bend into two determinacy wells — a compound lens (T5). Spins are zero, isolating this from asymmetric dragging (T8). ",
-    control:"Halve X_k (1/110 → 1/220) and the bending weakens."}},
+    control:"Halve G_0 (about 8.18 → 4.09): under the lock X_k = G_0/c_0² halves too (1/110 → 1/220) and the bending weakens."}},
   activeParams:["G","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 光線の本"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
@@ -18680,7 +18680,7 @@ const BUILTIN_PRESETS = [
     pass:"測地線オプション E12(λ_PN=1・α=1.5)で 1PN 前進を回復 — 同式の実値換算 42.98″/世紀(V18〜V20 で機械検証)。"},
   descStruct:{
     summary:"楕円軌道の惑星が、周るたびに少しずつ向きをずらしながら花びら模様を描くサンプル(近日点の前進)。時計を遅らせるのと同じ量ψ=W·X_kが軌道の形も決める測地線モード(E12・A7′/E7Rの作用化)による。",
-    observe:"pnAlpha=0.5(時間率のみ)では前進が1/3に減る — 実際の水星で42.98″/世紀(全量)と14.33″/世紀(1/3)に対応する。※画面の初期値は、歳差が数周で見える様に増幅した可視化用の誇張アナログで、物理対応条件 X_k=G/cLight² は満たさない(実値換算は同じ式の解析検証による。PHYSICS §5 物理対応条件)。",
+    observe:"pnAlpha=0.5(時間率のみ)では前進が1/3に減る — 実際の水星で42.98″/世紀(全量)と14.33″/世紀(1/3)に対応する。※画面の初期値は、歳差が数周で見える様に増幅した可視化用の誇張アナログで、X_k は物理対応ロックの導出値 G_0/c_0²(= 0.0016)だが G_0 と c_0 の大きさは誇張のまま(実値換算は同じ式の解析検証による。PHYSICS §5 物理対応条件)。",
     control:"λ_PN(lambdaPN)を0にするとニュートンに戻り楕円は閉じる。"},
   en:{name:"Mercury's Perihelion Advance — Geodesic 1PN",
     // 第88便 EXT-09: Failure First(en)
@@ -18689,7 +18689,7 @@ const BUILTIN_PRESETS = [
       pass:"The geodesic option E12 (λ_PN=1, α=1.5) recovers the 1PN advance — 42.98″/century in real-value conversion of the same formula (machine-checked by V18–V20)."},
     descStruct:{
     summary:"A planet on an elliptical orbit traces a slowly turning rosette, its orbit shifting a little further round each lap (perihelion advance). This happens in geodesic mode (E12), where the same quantity ψ=W·X_k that slows clocks also shapes the orbit (the action form of A7′/E7R). ",
-    observe:"With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury. Note: the on-screen initial values are an exaggerated visualization analog — amplified so the precession shows within a few orbits — and do not satisfy the physical-correspondence condition X_k=G/cLight² (the real-value conversion rests on analytic checks of the same formula; see PHYSICS §5). ",
+    observe:"With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury. Note: the on-screen initial values are an exaggerated visualization analog — amplified so the precession shows within a few orbits — ; X_k is the lock's derived value G_0/c_0² (= 0.0016) but the sizes of G_0 and c_0 stay exaggerated (the real-value conversion rests on analytic checks of the same formula; see PHYSICS §5). ",
     control:"Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes."}},
   activeParams:["lambdaPN","pnAlpha","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:220}, world:{boundary:"none",size:0},
@@ -26489,7 +26489,7 @@ const BUILTIN_PRESETS = [
     control:"One-tap A/B: THE B SIDE IS λ=0 — the current kernel itself, with no precession. Suggested manual controls: flip one spin to −1.5 and the force becomes attractive, turning the periapsis PROGRADE; flip both and nothing changes (Q₁Q₂ is unchanged); set spin=0 and no λ does anything at all (pairs with Q=0 are skipped); double λ and the precession roughly doubles (it is first order)."}},
   parameterAudit:{
     observedInputs:["なし(原理トイ — 観測値は1つも転写していない)"],
-    fixedConventions:["等質量二体・kFrame=0(E6′ を切って**スピン双極子の力だけ**を見る)・kRep=muF=γN=S_k=X_k=0・geoPN=0・境界なし",
+    fixedConventions:["等質量二体・kFrame=0(E6′ を切って**スピン双極子の力だけ**を見る)・kRep=muF=γN=S_k=0・X_k=G_0/c_0²=1/900(物理対応ロックの導出 —— 時計と光にだけ効き、この本の力学には入らない)・geoPN=0・境界なし",
       "Q=½mR²s(エンジンの殻慣性 I=½mR² と同じ規約)・C=λG/c²・ρ²=r²+ε²・面外スピン(2D の z ベクトル)"],
     fitted:["なし(λ=200 は**見えるようにするための用量**であってフィットではない — 観測に合わせた量が1つも無い)"],
     derived:["Q=675(両星)","解析予測 Δϖ=−6πλGQ²/(c²·Gm²·p²)"],
@@ -26589,7 +26589,7 @@ const BUILTIN_PRESETS = [
     control:"One-tap A/B: SIDE B IS kFrame=0 — dragging switched off entirely, the classical ether-at-rest case: u at the apparatus is exactly zero and Δφ returns to the full 1.3823 rad (0.22 fringe). Suggested manual controls: set railOmega near 0.1955 so the apparatus RIDES WITH THE ENTRAINED SPACE and the residual wind w=v−u nearly vanishes (Δφ drops to the 1e-6 level); set the central spin to 0 and u=0 brings the classical value back; raise q to sharpen the surface entrainment and strengthen the altitude dependence; set kappaT to 0 and NO BODY QUALIFIES AS A RAY SOURCE any more (the rayHeavy threshold), so light sees u=0 — a check that light's entrainment and matter's entrainment read different source sets. THE CALIBRATION SAMPLES (🌘 and others) WERE NOT TOUCHED: this sample adds nothing to the calibration and is not offered as proof of the surface χ."}},
   parameterAudit:{
     observedInputs:["SI 装置の 3 値のみ(L=11 m・λ=500 nm・v=29.9792458 km/s=地球の公転速度 — 1887 年の装置と地球軌道の桁を借りた**表示の単位**であって、天体の観測転写ではない)"],
-    fixedConventions:["中心天体は pinned(展示の外部拘束)・G=0(引きずりだけを見る)・kRep=muF=γN=S_k=0・geoPN=0・境界なし",
+    fixedConventions:["中心天体は pinned(展示の外部拘束)・G_0=18(物理対応ロックで X_k = G_0/c_0² = 0.02 を導く —— 中心は pinned・装置はレールなので重力は運動に効かない)・kRep=muF=γN=S_k=0・geoPN=0・境界なし",
       "dragRef:\"interior\"(表面高度 h=max(0,d−R) 基準)・frameWeight:\"pull\"(既定)・装置は frameSource:false かつ m=10⁻⁶(装置どうしは引きずり合わない)",
       "装置はレール規定運動(pinned+railOmega=0.2)— 中心天体の自転と同じ角速度で回る「地表の実験室」",
       "光は局所メッシュ速度 u に対して速さ c(A11/E8R)。位相は Δφ=2πc·Δt/λ の**換算**であって波動の干渉そのものではない",
