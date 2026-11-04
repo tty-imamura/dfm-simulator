@@ -22946,7 +22946,10 @@ if (!FAST) {
     if (body.indexOf('実在のダークマターについての主張ではない') < 0) bad.push('群「自転と減光」の防御線が無い');
     cases.push(`定義の 1 文(ja/en)が 🕶️🕳️ の summary の冒頭に ${nJa}/${nEn}・PHYSICS・README・AI_SPEC にあり、防御線は残る`);
     // ③ 機械鍵・ID・表示名・SYSTEM_PROMPT
-    const KEYS = { darkrotor: [21, 'eq'], rotorSolo: [20], selfRotor: [17], nebulaRotor: [7], darkRotor: [40], haloDimming: [1], 'darkrotor-pitch': [5], rotorInFStar: [12] };
+    // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 世代切替 = html の XK_LOCK_VERSION —— 🕳️🥚 の退役で、退役の本を指していた RETIRED_PRESETS の see 7 行を在位の本へ付け替えた
+    //   (rotorSolo −7 + 退役の行 1 = −6・selfRotor −4 + 1 = −3 —— 改名ではない。ID・保存 JSON の鍵は不変)
+    const gen326aT = html.indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0;
+    const KEYS = { darkrotor: [21, 'eq'], rotorSolo: [gen326aT ? 14 : 20], selfRotor: [gen326aT ? 14 : 17], nebulaRotor: [7], darkRotor: [40], haloDimming: [1], 'darkrotor-pitch': [5], rotorInFStar: [12] };
     const kc = Object.fromEntries(Object.keys(KEYS).map((k) => [k, html.split(k).length - 1]));
     const lost = Object.keys(KEYS).filter((k) => KEYS[k][1] === 'eq' ? kc[k] !== KEYS[k][0] : kc[k] < KEYS[k][0]);
     if (lost.length) bad.push('機械鍵の出現数が基点と違う(改名の疑い): ' + lost.map((k) => `${k} ${kc[k]}/${KEYS[k][0]}`).join(','));
@@ -73618,6 +73621,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           if (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.solarInner && /^第90報/.test(RETIRED_PRESETS.solarInner.ja)) RET298T.push('solarInner');
           // 第325便c(原仮定者の回答(2026-11-03 —— AN525)・R286): 旧方式の geoPN=4 の 5 本(🔗🔩🪛🍥🧨)も第297便c の在位の時間の宣言のまま凍結(世代切替 = RETIRED_PRESETS の 🔗 の行が「第127報」)
           if (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.chainDiskToy && /^第127報/.test(RETIRED_PRESETS.chainDiskToy.ja)) RET298T.push('chainDiskToy', 'chainDiskToy3d', 'chainDiskToy3dTilt', 'chainSpreadToy3d', 'chainBurstShell3d');
+          // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 「自転と減光」の群の 3 本(🕳️🪜🥚)も第297便c の在位の時間の宣言のまま凍結(世代切替 = RETIRED_PRESETS の 🕳️ の行が「第128報」)
+          if (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.rotorSolo && /^第128報/.test(RETIRED_PRESETS.rotorSolo.ja)) RET298T.push('rotorSolo', 'massLadder', 'selfRotor');
           if (p.familyRole === 'retired' && RET298T.includes(p.id)) rows.ret298 = (rows.ret298 || 0) + 1;
           if (p.familyRole === 'retired' && !RET298T.includes(p.id)) {
             rows.retired++;
@@ -75101,7 +75106,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           if (!p || !F) { bad.push(id + ' が無い'); continue; }
           if (!(p.physics.coord === '3d' && p.physics.stateCarry === 'double' && p.physics.shapeToy)) bad.push(id + ' の physics の coord/stateCarry/shapeToy');
           const ph = JSON.parse(JSON.stringify(p.physics)); delete ph.coord; delete ph.stateCarry;
-          if (JSON.stringify(ph) !== JSON.stringify(F.physics) || JSON.stringify(p.bodies) !== JSON.stringify(F.bodies) || p.seed !== F.seed) bad.push(id + ' の宣言が写しと coord・stateCarry 以外で違う');
+          // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 世代切替 = html の xkLockAcceptPhysics —— 物理対応ロックを常にで 8 本(G_0 = 0)の X_k は 1/60 → 0(写しは移行の前の凍結のまま)。
+          //   写しの X_k を導出値(G_0/c_0² —— G_0 = 0 なら 0)に読み替えて比べる(他の鍵は写しと同じ)
+          const Fph = (typeof H299e.ctx.xkLockAcceptPhysics === 'function') ? Object.assign({}, F.physics, { kappaT: (F.physics.G > 0 ? F.physics.G / (F.physics.cLight * F.physics.cLight) : 0) }) : F.physics;
+          if (JSON.stringify(ph) !== JSON.stringify(Fph) || JSON.stringify(p.bodies) !== JSON.stringify(F.bodies) || p.seed !== F.seed) bad.push(id + ' の宣言が写しと coord・stateCarry 以外で違う');
           const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
           if (!v.ok) { bad.push(id + ' が受理されない'); continue; }
           if ((v.warnings || []).some((w) => /Z の宣言/.test(String(w)))) bad.push(id + ' の受理に coord2dZ');
@@ -78124,7 +78132,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       if (!Z.gates.cInf) bad.push('③ κ→0・c₀ の走査: ' + JSON.stringify(Z.cInf).slice(0, 160));
       if (!Z.gates.symMomentum) bad.push('symmetric の運動量: ' + JSON.stringify(Z.momentum).slice(0, 120));
       cases.push(`①在位の宣言 ${declN} 本・代表 ${Z.offBitSame.length} 本(${Z.offBitSame.map((z) => z.id).join('・')})で n=0 = 未宣言(ビット)`);
-      cases.push(`③ κ_T=0 ビット同一 ${Z.cInf.kappa0Same}・c₀ 10⁴→10⁶ の差の対数の傾き ${Z.cInf.logSlope.toFixed(3)}・symmetric の |ΔP| ${Z.momentum.symDPNorm}(receiver の交換 ${Z.momentum.recDPNorm.toExponential(2)})`);
+      cases.push(`③ ${Z.cInf.kappa0Mode === 'lock-vs-kappaT' ? 'ロックの下で kappa:"kappaT" = kappa:"lock" ビット同一' : 'κ_T=0 ビット同一'} ${Z.cInf.kappa0Same}・c₀ 10⁴→10⁶ の差の対数の傾き ${Z.cInf.logSlope.toFixed(3)}・symmetric の |ΔP| ${Z.momentum.symDPNorm}(receiver の交換 ${Z.momentum.recDPNorm.toExponential(2)})`);
       // ④ 固定中心の近点(器の toyPreset・runCase を 1 刻みで)
       const P = 2 * Math.PI, toy = (gl) => X.runCase(HP, X.toyPreset(Object.assign({ pinned: true, m: 1e-6, d3: true }, gl ? { gl } : {})), { dt: P / X.TOY.perOrbit, tEnd: X.TOY.orbits * P, ci: 0, oi: 1, mu: 1 });
       const A0 = toy(null);
@@ -95067,6 +95075,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const ps = HPx.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
       const byD = new Map((DX.books || []).map((b) => [b.id, b]));
       const newIds = [], diffIds = [];
+      const gen326a = typeof ctxL.xkLockAcceptPhysics === 'function';   // 第326便a: 物理対応ロックを常に(移行の後の世代)
+      let mig326a = 0;
       for (const p of ps) {
         const b = byD.get(p.id);
         if (!b) { newIds.push(p.id); continue; }
@@ -95074,13 +95084,23 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const ph = v && v.ok ? v.preset.physics : {};
         const r = ctxL.physLockAutoOnOf({ params: ph });
         const ret = !!ctxL.retiredOf(p);
+        // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 世代切替 = html の xkLockAcceptPhysics(物理対応ロックを常に)。データは移行の前の棚卸し(凍結の参照)——
+        //   在位で満たさなかった本は分類どおりに移行した値(分類 1: X_k := G_0/c_0²・分類 2: G_0 := 写像 (ii) の値)で判定は満たす・退役した 3 本(🕳️🪜🥚)は値と判定が同じで退役の別だけ違う
+        if (gen326a && !b.retired && !b.lock.ok) {
+          const r3 = ['rotorSolo', 'massLadder', 'selfRotor'].includes(b.id);
+          const gW = r3 ? b.G : (b.basis === 'keepX' ? b.impact.maps.ii.set.G : b.G), xW = r3 ? b.X : (gW > 0 ? gW / (b.c * b.c) : 0);
+          if (!(ret === r3 && gW === ph.G && b.c === ph.cLight && Object.is(xW, ph.kappaT) && (r3 ? (b.lock.ok === !!r.ok && b.lock.reason === r.reason) : !!r.ok))) diffIds.push(p.id);
+          else mig326a++;
+          continue;
+        }
         if (!(b.retired === ret && b.G === ph.G && b.c === ph.cLight && b.X === ph.kappaT && b.lock && b.lock.ok === !!r.ok && b.lock.reason === r.reason)) diffIds.push(p.id);
       }
       const goneIds = (DX.books || []).filter((b) => !ps.some((p) => p.id === b.id)).map((b) => b.id);
       if (newIds.length) badL.push(`② データに無い本 ${newIds.length}(分類の追記が要る —— node tests/exp-w325f-xklock.mjs): ${newIds.slice(0, 8).join(',')}`);
       if (goneIds.length) badL.push(`② html に無い本 ${goneIds.length}: ${goneIds.slice(0, 8).join(',')}`);
       if (diffIds.length) badL.push(`② G_0・c_0・X_k・判定・在位の別が今の html と違う本 ${diffIds.length}(測りと分類のやり直し): ${diffIds.slice(0, 8).join(',')}`);
-      casesL.push(`② 内蔵 ${ps.length} 本 = データ ${(DX.books || []).length} 本(新しい本 ${newIds.length}・消えた本 ${goneIds.length}・値か判定の違う本 ${diffIds.length})`);
+      casesL.push(`② 内蔵 ${ps.length} 本 = データ ${(DX.books || []).length} 本(新しい本 ${newIds.length}・消えた本 ${goneIds.length}・値か判定の違う本 ${diffIds.length})`
+        + (gen326a ? `・第326便a の移行の世代: 在位で満たさなかった 69 本は分類どおりの移行と退役 3 本 ${mig326a}/69(データは移行の前の棚卸し)` : ''));
     }
     // ③
     const live = (DX.books || []).filter((b) => !b.retired);
@@ -95155,6 +95175,241 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第325便f の塊(ここまで)====
+// ==== 第326便a の塊(ここから —— lint.physLockAlways326a・behavior.xkDerive326a・docs.xkLock326a の 3 ブロック。root は SKIP)====
+// ---- 第326便a(原仮定者の回答(2026-11-03 —— AN530)「ロックした方がDFMを理解し易いのでロックする。X_kのノブの本のUIの行き先はG₀にする。現状の「自転と減光」グループ
+// ----   サンプル３本は、調整が必要なので廃止する。boxcomovingは、他の「箱宇宙の実験」グループサンプルに合わせる」・統括の検証項目 R290): **物理対応ロック X_k = G_0/c_0² を常に**。
+// ----   世代切替 = beta 対象 ∧ html の XK_LOCK_VERSION = "w326a-xklock-always-1"(宣言から)。
+// ----   lint.physLockAlways326a(headless の写し —— 受理だけ・步はしない):
+// ----     ① 版・ロックの口(xkLockAcceptPhysics・xkLockSims・xkLockExemptId・xkLockPhysicsCopy)・`let physLock=true`・既定値のマージの扱い(AN532 —— xkLockDefaultDerive の値を名指す)
+// ----     ② 在位の全部の本の**宣言**の X_k が G_0/c_0²(既定値のマージの後)の導出値と bit で同じ・受理の X_k の警告 0・退役の本は宣言のまま(ロックの外 —— 数を名指す)
+// ----     ③ 第325便f のデータとの照合: 満たした 56 本は G_0・c_0・X_k が 1 bit も変わらない・分類 1 は X_k := G_0/c_0²(G_0・c_0 は不変)・分類 2 の 7 本は G_0 := 写像 (ii) の値・X_k は保つか導出値・
+// ----        退役の 3 本(🕳️🪜🥚)は familyRole "retired"・宣言は基点のまま・RETIRED_PRESETS の行と see が在位の本
+// ----     ④ X_k のノブの行き先: 在位の本の activeParams に kappaT が無い・abBody.physicsPatch に kappaT/Kt が無い(X_k の対照は G_0 の対照で)
+// ----     ⑤ 凍結の写し tests/fixtures/xklock-w326a.json(満たす 56 本の署名・600 步の力学・時計が 56/56 で同じ・移行の本の受理と NaN)・tests/fixtures/retired-w326a.json
+// ----   behavior.xkDerive326a(ページ —— 全部の経路): 受理(宣言の置き換えと警告・旧 Kt・abBody の X_k)・既定値のマージ(AN532)・読み込み(在位の全部の本で X_k = 導出値・ロック ON・
+// ----     退役の本はロックの外)・パラメータの編集(G_0・c_0 で追随・X_k を直に書いても導出値)・セーブの読込・チェックポイントの復元・⏮ 初めから・A/B(B 側の G_0=0 で X_k=0・
+// ----     B 側の X_k の宣言は捨てる)・発散の復元・setPhysLock(false) で外れない
+// ----   docs.xkLock326a: PHYSICS〔第326便a — 〕・AI_SPEC §182・CHANGELOG の第326便a の行・post-merge の ③′・書かない語・禁句
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const H326a = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has326a = TARGET.startsWith('beta/') && H326a.indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0;
+  if (!has326a) {
+    console.log('SKIP lint.physLockAlways326a・behavior.xkDerive326a・docs.xkLock326a(第326便a の物理対応ロックを常にの前の世代 —— ' + TARGET + ')');
+    return;
+  }
+  const RET3 = ['rotorSolo', 'massLadder', 'selfRotor'];
+  // ---- lint.physLockAlways326a
+  {
+    const bad = [], cases = [];
+    let DX = null, FX = null, FR = null;
+    try { DX = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w325f-xklock.json'), 'utf8')); } catch (e) { bad.push('第325便f のデータが読めない'); }
+    try { FX = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'xklock-w326a.json'), 'utf8')); } catch (e) { bad.push('凍結の写し tests/fixtures/xklock-w326a.json が読めない'); }
+    try { FR = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w326a.json'), 'utf8')); } catch (e) { bad.push('凍結の写し tests/fixtures/retired-w326a.json が読めない'); }
+    // ①
+    const fnOk = ['function xkLockAcceptPhysics(', 'function xkLockSims(', 'function xkLockExemptId(', 'function xkLockPhysicsCopy(', 'function xkDerivedOf('].every((s) => H326a.indexOf(s) >= 0);
+    const lockTrue = /\nlet physLock=true;/.test(H326a);
+    const dd = (H326a.match(/function xkLockDefaultDerive\(\)\{ return (true|false); \}/) || [])[1] || null;
+    if (!(fnOk && lockTrue && dd)) bad.push(`① ロックの口(関数 ${fnOk}・let physLock=true ${lockTrue}・既定値のマージの宣言 ${dd})`);
+    cases.push(`① 版 w326a-xklock-always-1・ロックの口・常に ON・既定値のマージの導出(AN532)=${dd}`);
+    let H = null;
+    try { H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { bad.push('headless の写しが作れない: ' + String(e && e.message || e).slice(0, 80)); }
+    if (H && DX) {
+      const HPx = H.HP, cx = H.ctx;
+      const ps = HPx.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+      const live = ps.filter((p) => !cx.retiredOf(p)), ret = ps.filter((p) => cx.retiredOf(p));
+      // ②
+      const notDerived = [], warnX = [], retWarn = [];
+      for (const p of live) {
+        const m = Object.assign({}, cx.DEFAULT_PHYSICS || {}, p.physics);
+        const G = m.G, c = m.cLight, want = Math.min(1, Math.max(0, G > 0 ? G / (c * c) : 0));
+        if (!Object.is(p.physics.kappaT, want)) notDerived.push(p.id);
+        const v = HPx.validatePreset(JSON.parse(JSON.stringify(p)));
+        if (!(v && v.ok) || (v.warnings || []).some((w) => /X_k|kappaT/.test(String(w)))) warnX.push(p.id);
+      }
+      let retMis = 0;
+      for (const p of ret) { const v = HPx.validatePreset(JSON.parse(JSON.stringify(p))); if (v && v.ok && !Object.is(v.preset.physics.kappaT, p.physics.kappaT)) retWarn.push(p.id);
+        const G = p.physics.G, c = p.physics.cLight; if (!Object.is(p.physics.kappaT, Math.min(1, Math.max(0, G > 0 ? G / (c * c) : 0)))) retMis++; }
+      if (notDerived.length) bad.push(`② 在位の本の宣言の X_k が導出値と bit で違う ${notDerived.length}: ${notDerived.slice(0, 8).join(',')}`);
+      if (warnX.length) bad.push(`② 受理で X_k の警告か拒否 ${warnX.length}: ${warnX.slice(0, 8).join(',')}`);
+      if (retWarn.length) bad.push(`② 退役の本の受理で X_k が動いた ${retWarn.length}: ${retWarn.slice(0, 8).join(',')}`);
+      cases.push(`② 在位 ${live.length} 本の宣言の X_k = G_0/c_0²(bit)${live.length - notDerived.length}/${live.length}・受理の警告 ${warnX.length} / 退役 ${ret.length} 本は宣言のまま(導出値と違う本 ${retMis} —— ロックの外)`);
+      // ③
+      const byP = new Map(ps.map((p) => [p.id, p]));
+      const c56 = [], c1 = [], c2 = [], cR = [];
+      const b56 = [], b1 = [], b2 = [], bR = [];
+      for (const b of (DX.books || []).filter((z) => !z.retired)) {
+        const p = byP.get(b.id); if (!p) { bad.push('③ html に無い本 ' + b.id); continue; }
+        const v = HPx.validatePreset(JSON.parse(JSON.stringify(p))), ph = v && v.ok ? v.preset.physics : {};
+        if (RET3.includes(b.id)) { cR.push(b.id); if (!(cx.retiredOf(p) && ph.G === b.G && ph.cLight === b.c && Object.is(ph.kappaT, b.X))) bR.push(b.id); continue; }
+        if (b.lock.ok) { c56.push(b.id); if (!(ph.G === b.G && ph.cLight === b.c && Object.is(ph.kappaT, b.X))) b56.push(b.id); continue; }
+        if (b.basis === 'keepX') { c2.push(b.id); const g2 = b.impact.maps.ii.set.G;
+          if (!(ph.G === g2 && ph.cLight === b.c && Object.is(ph.kappaT, g2 / (b.c * b.c)) && Math.abs(ph.kappaT - b.X) <= 1e-12 * b.X)) b2.push(b.id); continue; }
+        c1.push(b.id); if (!(ph.G === b.G && ph.cLight === b.c && Object.is(ph.kappaT, b.G > 0 ? b.G / (b.c * b.c) : 0))) b1.push(b.id);
+      }
+      if (b56.length) bad.push('③ 満たした本の値が動いた: ' + b56.slice(0, 8).join(','));
+      if (b1.length) bad.push('③ 分類 1 の移行(X_k := G_0/c_0²)が違う: ' + b1.slice(0, 8).join(','));
+      if (b2.length) bad.push('③ 分類 2 の移行(G_0 := X_k c_0²)が違う: ' + b2.slice(0, 8).join(','));
+      if (bR.length) bad.push('③ 退役の 3 本(宣言は基点のまま・familyRole retired)が違う: ' + bR.join(','));
+      if (!(c56.length === 56 && c1.length === 59 && c2.length === 7 && cR.length === 3)) bad.push(`③ 数(満たす ${c56.length}・分類 1 ${c1.length}・分類 2 ${c2.length}・退役 ${cR.length})`);
+      const RP = cx.RETIRED_PRESETS || (() => { try { return H.ctx.eval('RETIRED_PRESETS'); } catch (e) { return null; } })();
+      const seeBad = [];
+      if (RP) { for (const id of RET3) { const e = RP[id]; if (!(e && e.ja && e.en && Array.isArray(e.see) && e.see.length && e.see.every((s) => byP.get(s) && !cx.retiredOf(byP.get(s))))) seeBad.push(id); }
+        for (const id of Object.keys(RP)) for (const s of (RP[id].see || [])) if (RET3.includes(s)) seeBad.push(id + '→' + s); }
+      else bad.push('③ RETIRED_PRESETS が引けない');
+      if (seeBad.length) bad.push('③ RETIRED_PRESETS の行か see(退役の本を指す see が残る): ' + seeBad.slice(0, 8).join(','));
+      cases.push(`③ 第325便f のデータと照合: 満たした ${c56.length} 本は不変 ${c56.length - b56.length}・分類 1 ${c1.length} 本(X_k := G_0/c_0²)${c1.length - b1.length}・分類 2 ${c2.length} 本(G_0 := X_k c_0²)${c2.length - b2.length}・退役 ${cR.length} 本(宣言は基点のまま・RETIRED_PRESETS の行と在位の see)`);
+      // ④
+      const actX = live.filter((p) => (p.activeParams || []).includes('kappaT')).map((p) => p.id);
+      const abX = live.filter((p) => p.abBody && p.abBody.physicsPatch && ('kappaT' in p.abBody.physicsPatch || 'Kt' in p.abBody.physicsPatch)).map((p) => p.id);
+      if (actX.length || abX.length) bad.push(`④ X_k のノブが残る(activeParams ${actX.join(',')}・abBody ${abX.join(',')})`);
+      const gKnob = live.filter((p) => (p.activeParams || []).includes('G')).length;
+      cases.push(`④ 在位の本の X_k のノブ 0(activeParams・abBody)—— G_0 を主役に持つ本 ${gKnob}`);
+    }
+    // ⑤
+    if (FX && FR) {
+      const T = FX.tally || {};
+      if (!(FX.fixtureVersion === 'w326a-xklock-fx-1' && FX.frozen === true && FX.steps === 600 && T.satisfied === 56 && T.class1 === 59 && T.class2 === 7 && T.retired === 3
+        && T.sigSameSatisfied === 56 && T.dynSameSatisfied === 56 && T.clockSameSatisfied === 56 && T.nanNow === 0 && T.acceptNow === 125)) bad.push('⑤ 凍結の写しの数(満たす 56 本の署名・力学・時計・NaN・受理)');
+      const rb = FR.presets || {};
+      if (!(FR.fixtureVersion === 'w326a-retired-1' && FR.frozen === true && RET3.every((id) => rb[id] && rb[id].familyRole === 'retired' && rb[id].base && rb[id].base.sigSame === true && rb[id].lockAfterLoad === false))) bad.push('⑤ 退役 3 本の凍結の写し');
+      cases.push(`⑤ 凍結の写し: 満たす ${T.satisfied} 本の署名 ${T.sigSameSatisfied}・600 步の力学 ${T.dynSameSatisfied}・時計 ${T.clockSameSatisfied} が同じ / 移行 ${T.class1 + T.class2} 本の 600 步の力学が同じ ${T.dynSameMigrated}・時計が同じ ${T.clockSameMigrated} / 受理 ${T.acceptNow}/125・NaN ${T.nanNow} / 退役 3 本の署名は基点と同じ`);
+    }
+    add('lint.physLockAlways326a', bad.length === 0,
+      `**物理対応ロック X_k = G_0/c_0² を常に**(第326便a・原仮定者の回答(2026-11-03 —— AN530)・R290 —— 宣言と移行と凍結の写し): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- behavior.xkDerive326a
+  {
+    const r = await page.evaluate(async () => {
+      const out = { bad: [], n: 0, nOn: 0 };
+      const B = (m) => out.bad.push(m);
+      const der = (S) => { const p = S.params; const t = p.G > 0 ? p.G / (p.cLight * p.cLight) : 0; return Math.min(1, Math.max(0, t)); };
+      const isD = (S) => Object.is(S.params.kappaT, der(S));
+      const savesBak = localStorage.getItem('hp_saves');
+      const mkP = (ph, extra) => Object.assign({ name: 'QA326a', description: 'toy', camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true }, { type: 'single', m: 0.001, x: 40, y: 0, vx: 0, vy: 0, spin: 0, pinned: true }] }, { physics: ph }, extra || {});
+      try {
+        // ① 受理
+        const v1 = HP.validatePreset(mkP({ G: 2, cLight: 30, kappaT: 0.05 }));
+        out.acc = !!(v1.ok && Object.is(v1.preset.physics.kappaT, 2 / 900) && v1.warnings.some((w) => /X_k/.test(w) && /導出/.test(w)));
+        if (!out.acc) B('① 受理: 宣言の X_k 0.05 が導出値 2/900 に置き換わらないか警告が無い');
+        const v2 = HP.validatePreset(mkP({ G: 2, cLight: 30, Kt: 20 }));
+        out.accKt = !!(v2.ok && Object.is(v2.preset.physics.kappaT, 2 / 900));
+        if (!out.accKt) B('① 受理: 旧 Kt が導出値に置き換わらない');
+        const v3 = HP.validatePreset(mkP({ G: 2, cLight: 30 }, { abBody: { label: { ja: 'x', en: 'x' }, physicsPatch: { kappaT: 0, G: 0 } } }));
+        out.accAb = !!(v3.ok && v3.preset.abBody && v3.preset.abBody.physicsPatch && !('kappaT' in v3.preset.abBody.physicsPatch) && v3.preset.abBody.physicsPatch.G === 0 && v3.warnings.some((w) => /abBody/.test(w) && /X_k/.test(w)));
+        if (!out.accAb) B('① 受理: abBody.physicsPatch の X_k を捨てない(G_0 は運ぶ)');
+        // ② 既定値のマージ(AN532)
+        const dd = HP.xkLockDefaultDerive();
+        const v4 = HP.validatePreset(mkP({ G: 2, cLight: 30 }));
+        out.dflt = dd ? Object.is(v4.preset.physics.kappaT, 2 / 900) : Object.is(v4.preset.physics.kappaT, 1 / 60);
+        const v5 = HP.validatePreset(mkP({ G: 1, cLight: 30, kappaT: 0.016666666666666666 }));
+        out.dfltSilent = dd ? (Object.is(v5.preset.physics.kappaT, 1 / 900) && !v5.warnings.some((w) => /X_k/.test(w))) : Object.is(v5.preset.physics.kappaT, 1 / 900);
+        out.dd = dd;
+        if (!(out.dflt && out.dfltSilent)) B('② 既定値のマージ(AN532 —— 導出 ' + dd + ')');
+        // ③ 読み込み(内蔵の全部の本)
+        const ps = HP.allPresets().filter((q) => !String(q.id).startsWith('custom_'));
+        const retired = (p) => p.familyRole === 'retired';
+        for (const p of ps) {
+          HP.loadPreset(p.id, false); out.n++;
+          if (retired(p)) { if (HP.physLock() !== false || !Object.is(HP.sim.params.kappaT, p.physics.kappaT)) B('③ 退役の本 ' + p.id + ' がロックの外でない'); continue; }
+          if (HP.physLock() === true && isD(HP.sim)) out.nOn++; else B('③ ' + p.id + ' の読み込みで X_k が導出値でないかロックが OFF');
+        }
+        // ④ 編集(c_0 と G_0 の行・X_k の行は編集できない)
+        HP.loadPreset('grcal', false);
+        const edit = (k, val) => { const row = document.querySelector('#paramRows .prow[data-k="' + k + '"]'); const inp = row && row.querySelector('input.valIn');
+          if (!inp) return null; inp.value = String(val); inp.dispatchEvent(new Event('change')); return inp; };
+        const P0 = Object.assign({}, HP.sim.params);
+        const e1 = edit('G', P0.G * 2), e2 = edit('cLight', P0.cLight * 2);
+        out.edit = !!(e1 && e2 && HP.sim.params.G === P0.G * 2 && HP.sim.params.cLight === P0.cLight * 2 && isD(HP.sim));
+        if (!out.edit) B('④ G_0・c_0 の編集で X_k が導出値に追随しない');
+        const xRow = document.querySelector('#paramRows .prow[data-k="kappaT"] input.valIn');
+        out.xGrey = !xRow || xRow.disabled === true;
+        if (xRow) { xRow.disabled = false; xRow.value = '0.3'; xRow.dispatchEvent(new Event('change')); }
+        out.xDirect = isD(HP.sim);
+        if (!(out.xGrey && out.xDirect)) B('④ X_k の行が編集できるか、直に書いた X_k が導出値に戻らない');
+        // ⑤ セーブの読込(X_k が条件の外のセーブ)
+        HP.loadPreset('lensing', false);
+        const Pl = Object.assign({}, HP.sim.params);
+        const sv = { name: 'QA326a', comment: '', savedAt: '2026-11-04T00:00:00Z', presetId: 'lensing', presetName: 'p', physics: Object.assign({}, Pl, { kappaT: 0.3 }) };
+        out.save = HP.loadSaveItem(sv) === true && HP.physLock() === true && isD(HP.sim) && HP.sim.params.G === Pl.G;
+        if (!out.save) B('⑤ 条件の外のセーブの読込で X_k が導出値にならない');
+        // ⑥ チェックポイント(保存の後に X_k を直に書き換えた状態で保存 → 復元で導出値)
+        HP.loadPreset('lensing', false);
+        HP.sim.params.kappaT = 0.25;
+        document.getElementById('btnCkSave').click(); HP.sim.params.kappaT = 0.5;
+        document.getElementById('btnCkLoad').click();
+        out.ck = isD(HP.sim);
+        if (!out.ck) B('⑥ チェックポイントの復元で X_k が導出値にならない');
+        // ⑦ ⏮ 初めから
+        HP.sim.params.kappaT = 0.4; document.getElementById('btnReset').click();
+        out.reset = HP.physLock() === true && isD(HP.sim);
+        if (!out.reset) B('⑦ ⏮ 初めからで X_k が導出値にならない');
+        // ⑧ A/B(ワンタップ対照の B 側の G_0 = 0 で X_k = 0・素の A/B は両側とも導出値)
+        HP.loadPreset('grcalGps', false);
+        const btn = document.querySelector('#btnAbBody');
+        if (btn) { btn.click(); const Bs = HP.ab().simB;
+          out.abTap = HP.physLock() === true && Bs.params.G === 0 && Bs.params.kappaT === 0 && isD(HP.sim) && HP.sim.params.G === 0.25;
+          HP.abStop(); }
+        if (!out.abTap) B('⑧ 🕰️ のワンタップ対照(G_0 = 0 —— B 側の X_k = 0・A は導出値のまま)');
+        HP.loadPreset('lensing', false);
+        HP.abStart(undefined, undefined, { targets: [], patch: {}, physicsPatch: { kappaT: 0, cLight: 60 } });
+        out.abPatchX = isD(HP.ab().simB) && HP.ab().simB.params.cLight === 60 && HP.ab().simB.params.kappaT > 0;
+        HP.abStop();
+        if (!out.abPatchX) B('⑧ B 側の X_k の宣言が導出値に置き換わらない(B 側の c_0 から)');
+        // ⑨ 発散の復元・setPhysLock(false)
+        HP.loadPreset('lensing', false);
+        out.setOff = (HP.setPhysLock(false), HP.physLock() === true && isD(HP.sim));
+        if (!out.setOff) B('⑨ setPhysLock(false) でロックが外れた');
+        HP.loadPreset('rotorSolo', false);
+        out.retOff = HP.physLock() === false && HP.sim.params.kappaT === 0.016666666666666666;
+        HP.loadPreset('lensing', false);
+        out.retBack = HP.physLock() === true;
+        if (!(out.retOff && out.retBack)) B('⑨ 退役の本(🕳️)を開く間だけロックの外・在位の本へ戻ると ON —— でない');
+      } catch (e) { B('落ちた: ' + String(e && e.message || e).slice(0, 160)); }
+      finally {
+        try { if (HP.ab()) HP.abStop(); } catch (e) { /* */ }
+        if (savesBak === null) localStorage.removeItem('hp_saves'); else localStorage.setItem('hp_saves', savesBak);
+        HP.loadPreset('galaxy', false);
+      }
+      return out;
+    });
+    add('behavior.xkDerive326a', r.bad.length === 0,
+      `**物理対応ロックを常に —— 全部の経路で X_k = G_0/c_0²**(第326便a・AN530・R290): 受理(置き換えと警告=${r.acc}・旧 Kt=${r.accKt}・abBody の X_k を捨てる=${r.accAb})・`
+      + `既定値のマージ(AN532 導出=${r.dd}: ${r.dflt}・表の既定値の宣言は警告なし=${r.dfltSilent})・読み込み 内蔵 ${r.n} 本(在位でロック ON・導出値 ${r.nOn}・退役はロックの外)・`
+      + `編集(G_0・c_0 で追随=${r.edit}・X_k の行は編集不可=${r.xGrey}・直に書いても導出値=${r.xDirect})・セーブ=${r.save}・チェックポイント=${r.ck}・⏮=${r.reset}・`
+      + `A/B(🕰️ の G_0=0 の対照=${r.abTap}・B 側の X_k の宣言=${r.abPatchX})・setPhysLock(false) で外れない=${r.setOff}・退役の本の間だけ外=${r.retOff}/${r.retBack}`
+      + (r.bad.length ? ` / **違反 ${r.bad.length} 件**: ${r.bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- docs.xkLock326a
+  {
+    const bad = [], cases = [];
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { bad.push('読めない: ' + f); return ''; } };
+    const PH = rd('docs/PHYSICS.md'), i0 = PH.indexOf('〔第326便a — '), i7 = PH.indexOf('\n## 7.');
+    const sec = i0 >= 0 ? PH.slice(i0, PH.indexOf('\n〔第', i0 + 10) > 0 ? PH.indexOf('\n〔第', i0 + 10) : i7) : '';
+    if (!(i0 >= 0 && i0 < i7)) bad.push('PHYSICS〔第326便a — 〕が「## 7.」の前に無い');
+    for (const w of ['AN530', 'AN532', 'tests/fixtures/xklock-w326a.json', 'tests/fixtures/retired-w326a.json', 'lint.physLockAlways326a', 'behavior.xkDerive326a', '56', '59', '7 本', '退役']) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第326便a〕に「' + w + '」が無い');
+    cases.push(`PHYSICS〔第326便a〕${sec.length} 字(「## 7.」の前)`);
+    const cpF = (a) => String.fromCodePoint(...a);
+    const NGF = [cpF([0x518d, 0x73fe, 0x3057, 0x305f]), cpF([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpF([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpF([0x666e, 0x904d, 0x5b9a, 0x6570]), cpF([0x79c1, 0x4fe1]), cpF([0x6dfb, 0x4ed8]), cpF([0x5be9, 0x67fb])];
+    for (const w of ['較正した', 'フィットした', '確認した', '揺れ', '内部熱を説明した', '検証が完了した']) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第326便a〕に書かない語「' + w + '」');
+    if (/(^|[^_A-Za-z])κ(?!_)/.test(sec)) bad.push('PHYSICS〔第326便a〕に裸の係数記号');
+    const AI = rd('docs/AI_SPEC.md'), a0 = AI.indexOf('\n## 182. 第326便a'), ai = a0 >= 0 ? AI.slice(a0, a0 + 8000) : '';
+    if (!(ai.indexOf('X_k = G_0/c_0²') >= 0 && ai.indexOf('AN532') >= 0 && ai.indexOf('SYSTEM_PROMPT') >= 0)) bad.push('AI_SPEC §182(導出・AN532・SYSTEM_PROMPT)');
+    const CLg = rd('CHANGELOG.md'), cb = CLg.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLg.slice(cb, cb + 80000) : '';
+    const cl326a = (clg.split('\n').find((l) => l.indexOf('**第326便a**') >= 0) || '');
+    if (!(cl326a.indexOf('AN530') >= 0 && cl326a.indexOf('tests/fixtures/xklock-w326a.json') >= 0)) bad.push('CHANGELOG の第326便a の行');
+    const PM = rd('tools/post-merge-qa.sh');
+    if (!(PM.indexOf('# ==== 第326便a の塊(ここから)====') >= 0 && PM.indexOf('lint.physLockAlways326a') >= 0 && PM.indexOf('behavior.xkDerive326a') >= 0 && PM.indexOf('docs.xkLock326a') >= 0)) bad.push('post-merge の ③′ に第326便a の塊');
+    for (const [nm, tx] of [['PHYSICS〔第326便a〕', sec], ['AI_SPEC §182', ai], ['CHANGELOG の第326便a の行', cl326a]]) for (const w of NGF) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句');
+    cases.push('AI_SPEC §182・CHANGELOG・post-merge の ③′・書かない語・禁句');
+    add('docs.xkLock326a', bad.length === 0,
+      `**物理対応ロックを常にの文書**(第326便a・AN530・R290): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第326便a の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

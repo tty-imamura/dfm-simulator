@@ -16904,7 +16904,7 @@ const BUILTIN_PRESETS = [
   // 乱数の引きを実際に効かせた16seed のどれでも配位数 c̄ が下限を超える」に取る。
   // 正本は tests/exp-4-87.mjs の16seed(最小 1.98 / 中央 2.28 / 最大 2.75)で、QA は時間予算のため
   // 先頭3seed(7/8/9)に絞って同じ量(seed 集合の最小値)を測る — 既存の kind:"multi-seed"
-  // (galaxy.outer-boost-ratio・selfRotor.multi-seed-min-mass-fraction)と同じ「QA は縮約版・
+  // (galaxy.outer-boost-ratio・退役した自己形成の本の multi-seed の claim)と同じ「QA は縮約版・
   // exp が全数の正本」の流儀。窓下限 1.6 は対照(bondK=0)の 0.125 の10倍(1.25)より上に取る
   claims:[
     { id:"emergent.multi-seed-min-coordination", kind:"multi-seed", prov:"simulated", metric:"meanCoordinationMinOverSeedsIcNoise",
@@ -17056,7 +17056,7 @@ const BUILTIN_PRESETS = [
     control:"Edit the wall schedule (T2/tSwitch) in the world tab to hunt the dissociation threshold. Set angK to 0 and the first-half chains collapse into droplets (the same angle control as ⛓️)."}},
   activeParams:["kRep","kappaS","gravityY","gammaN"],   // ⛓️と同一(angK は phaseChange サブキーのため不可)
   // claims — 説明文の凍結期・解離期の構造値を機械可読化(固定seedの決定論。窓は再較正余地込み)
-  // 第84便A: 固定seed の窓を**16seed の実測幅を内側に含む**ように広げた(第83便A で 🥚 に施した
+  // 第84便A: 固定seed の窓を**16seed の実測幅を内側に含む**ように広げた(第83便A で退役した自己形成の本に施した
   // 「測っていない再現性を窓の狭さで主張しない」処置と同じ)。実測 tests/exp-4-87.mjs(seed 7〜22):
   //   凍結末(t=288)の最大連結 26〜70粒(旧窓 25〜50 は 4seed がはみ出す)
   //   解離末(t=528)の成分数 48〜84(旧窓 50〜95 は 2seed がはみ出す)
@@ -46984,7 +46984,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 {"name":"高温ガスと低温ガスの混合","emoji":"🔥","scaleTier":"molecular","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"kappaT":0.016666666666666666,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":2},"bodies":[{"type":"box","rMul":1.2,"n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","rMul":1.2,"n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
 
 例3 要望「ブラックホールが見たい。光が吸い込まれるところも。星も1000個ちりばめて」
-{"name":"ブラックホール — 光子捕捉","emoji":"🕳️","scaleTier":"stellar","description":"中央の超大質量天体(ブラックホールの光学類似)。左からの光線が強く曲がり、近くを通る光は捕まって光子球のような円軌道に巻き付く(光子捕捉)。周囲の星は数を400に抑えて軽快に動かす。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"kappaT":0.025,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":1},"bodies":[{"type":"single","rMul":1.2,"m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":0.5,"pinned":true},{"type":"disk","rMul":1.2,"n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.7},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
+{"name":"ブラックホール — 光子捕捉","emoji":"💡","scaleTier":"stellar","description":"中央の超大質量天体(ブラックホールの光学類似)。左からの光線が強く曲がり、近くを通る光は捕まって光子球のような円軌道に巻き付く(光子捕捉)。周囲の星は数を400に抑えて軽快に動かす。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"kappaT":0.025,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":1},"bodies":[{"type":"single","rMul":1.2,"m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":0.5,"pinned":true},{"type":"disk","rMul":1.2,"n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.7},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
 (質量2000+X_k=0.025(=1/40)+スピン0.5で光子捕捉が起きる=機械検証済み。要望の1000個は上限・性能の推奨に合わせて400に調整し、descriptionでその旨に触れている)
 
 例4 要望「回る空間に引きずられるのを見たい」
