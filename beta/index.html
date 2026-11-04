@@ -43603,7 +43603,6 @@ function loadSave(s, selValue){
   // プリセット読込時の自動解除と同じ帰結(意図しない持ち越しが起きない)。ONの復元は保存済み
   // physics(導出 κ を含む)の上に enforcePhysLock が走るだけなので値は変わらない
   // 第315便a(AN414・AN419): 保存のフラグ(s.physLock)より今の値で判定する —— 条件を満たせばフラグだけ ON(値は保存どおり 1 bit も動かさない)・満たさなければ OFF
-  // → 第326便a(AN530): 保存のフラグ・保存した X_k に依らず X_k を導出値へ(内蔵の退役の本だけロックの外)
   physLockAutoApply([sim]);
   // 第124便: qLock の復元 — 復元した状態から q を再算出(physLock と同型。旧セーブはキー無しでOFF)
   qLockOn=!!s.qLock;
