@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便b",
   "target": "beta/index.html",
-  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-  "generatedAt": "2026-11-03T16:23:39.887Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T04:24:34.144Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7612995,
-    "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-    "mtime": "2026-11-03T15:04:48.828Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
@@ -20,15 +20,15 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1732313,
-    "sha256": "f4bf0cb70732e4235969805b06790cd2277926f4d274bd962f1c827d039f8183",
-    "mtime": "2026-11-03T15:17:19.184Z"
+    "bytes": 1732310,
+    "sha256": "803390b50b3657ba33d9924fcb2a7e5d4d9c75034cc152a294496cf94f1164fd",
+    "mtime": "2026-11-04T03:57:46.951Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "bytes": 52249,
-    "sha256": "7b3c0c07664bc5b86863b5217d425b1fae93505123c0ced110b543e54f783e28",
-    "mtime": "2026-11-03T15:23:12.884Z"
+    "bytes": 52265,
+    "sha256": "23fb836928eebe9b9fd04c6b1d7215b89ec2fe591db48173b72b4876324fae30",
+    "mtime": "2026-11-04T04:03:17.607Z"
    },
    {
     "file": "tests/data-w286b-clight.json",
@@ -76,14 +76,14 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "e91868369fa76f212dd8f46be36596fd4044d14c7049ce5f3bd12dea2c0966db",
+  "codeSha256": "5e83cc70b11745b800f573b877f8426320e0404f81c244ec22e7ce199cd59ba8",
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": "all",
    "roots": [
     "ASTRO_COMMON",
@@ -105,16 +105,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1357,
-   "segments": 1183,
-   "closureShare": 0.2957
+   "names": 1363,
+   "segments": 1189,
+   "closureShare": 0.2947
   },
-  "scopeSha256": "b918bf194848458df68709f077d7637cc8f51af791860e0ced431618a27a76dd",
+  "scopeSha256": "1ea18bbec49270c77ad7ad56e27147be0bb8557db6515ba0b3cb66a204e9a19b",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "ecb56335e0987afa4c37383777985d8e19982a8f44e78197064126bece67e464",
+    "stableSha256": "3e7f62c5be1ecf7d93e6a4778563c17c9881ac0d18a06bbea9071cb4b9e7bc5f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -155,7 +155,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "c780f9e55070197c42f53778f7f7b2a4ff8f3f9edb68c0795520b6f80c21d25f",
+    "stableSha256": "bdb1fc6f021a4445e348cf4e73e338b8bfb67c8306ae9b7030ae0848e2824d1e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -185,7 +185,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "b67a2b6cf54e538b92e8530db3baa724f6c9510c46b8a29f67c3268c0a079c48",
+    "stableSha256": "56b38f75d9e49afb4a798611b5283ff69f4ecb07c12a8310dcccbce5c9e04676",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -211,7 +211,7 @@
   "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
+ "nowSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
  "note": "判定はしない(正式判定は鎖の calaudit の 3σ 門)。比は λ_PN=1 と 0 の近点増分を GR の主次数(同じ走行の c・接触要素)で割った量 —— λ 増分の一致と λ=1 の実軌道の観測一致は別。Δϖ は deg/周(ω̇ deg/年ではない)。S._core は 1 命令も変えていない。",
  "P": {
   "cond": {
@@ -944,7 +944,7 @@
   "file": "tests/data-w286b-clight.json",
   "bad": [],
   "nReal": 82,
-  "nRetired": 35,
+  "nRetired": 36,
   "roundedLive": [],
   "roundedRetired": [
    "emAuditNewton"
@@ -975,7 +975,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -984,7 +984,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1029,7 +1029,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1047,7 +1047,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1056,7 +1056,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1065,7 +1065,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1074,7 +1074,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1083,25 +1083,25 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
     "id": "boxredshift",
     "declared": false,
-    "bitSame1": true,
-    "bitSameMany": true,
-    "maxPosMany": 0,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 0.0000057220458984375,
     "sigSame": false,
     "nan": false
    },
    {
     "id": "probeH",
     "declared": false,
-    "bitSame1": true,
-    "bitSameMany": true,
-    "maxPosMany": 0,
-    "sigSame": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 0.00004640779518354964,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1110,7 +1110,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1119,7 +1119,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1128,7 +1128,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1137,7 +1137,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1155,7 +1155,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1236,7 +1236,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1245,7 +1245,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1254,7 +1254,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1263,7 +1263,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1281,7 +1281,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1380,7 +1380,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1389,7 +1389,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1398,7 +1398,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1407,7 +1407,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1416,7 +1416,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1425,7 +1425,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1434,7 +1434,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1443,7 +1443,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1452,7 +1452,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1461,7 +1461,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1470,7 +1470,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1479,7 +1479,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1488,7 +1488,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1497,7 +1497,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1506,7 +1506,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1515,7 +1515,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -2118,7 +2118,7 @@
     "bitSame1": false,
     "bitSameMany": false,
     "maxPosMany": 0.0000762939453125,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -2136,7 +2136,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -2145,7 +2145,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -2163,7 +2163,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -2172,7 +2172,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -2181,7 +2181,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -2190,7 +2190,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -2199,7 +2199,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -2208,7 +2208,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -2235,7 +2235,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -2249,6 +2249,8 @@
    }
   ],
   "diff1": [
+   "boxredshift",
+   "probeH",
    "galaxyGeo2",
    "clusterAnalogyBH",
    "shapeToyCluster",
@@ -2309,6 +2311,8 @@
    "binary"
   ],
   "diffMany": [
+   "boxredshift",
+   "probeH",
    "galaxyGeo2",
    "clusterAnalogyBH",
    "shapeToyCluster",
@@ -2369,10 +2373,29 @@
    "binary"
   ],
   "sigDiff": [
+   "gclock",
+   "grcal",
    "projectile",
+   "echo",
    "boxtrans",
+   "boxrot",
+   "boxexpand",
+   "boxcomoving",
+   "boxbound",
+   "boxbreath",
    "boxredshift",
+   "probeH",
+   "freebox",
+   "cosmicweb",
+   "galaxy",
+   "galaxyStd",
    "galaxyGeo2",
+   "galaxyDB",
+   "collapse",
+   "axisBarStill",
+   "axisBarArms",
+   "axisBarReach",
+   "galaxyMeshSpiral",
    "galaxyMeshSpiralGeoToy",
    "galaxyMeshSpiralGeoToyLite",
    "galaxyAnalogyBH",
@@ -2383,6 +2406,22 @@
    "shapeToyClusterCore",
    "shapeToyDiskCore",
    "shapeToyArmCore",
+   "lensing",
+   "spinlens",
+   "blens",
+   "reddening",
+   "gas",
+   "pressure",
+   "conduction",
+   "frictionHeat",
+   "coolrace",
+   "convection",
+   "buoyancy",
+   "cooling",
+   "emergent",
+   "emergent2",
+   "chain2",
+   "chaincycle",
    "earthMoon",
    "earthMoonFree",
    "earthMoonReal",
@@ -2446,15 +2485,27 @@
    "saturnD68ObsOrbit",
    "saturnRingReal",
    "saturnRingRealKF1",
+   "binary",
    "fig8",
+   "counterring",
+   "spinup",
    "pulsarSolo",
-   "spinDipoleBinary"
+   "supernovaCore",
+   "whiteDwarfDFM",
+   "whiteDwarfBareDFM",
+   "envelopeShedDFM",
+   "lfbotTrap",
+   "layeredCoreDFM",
+   "spinDipoleBinary",
+   "mmPhaseToy"
   ],
   "n": 142,
   "declaredN": 52,
-  "bitSameMany": 84,
-  "sigSame": 62,
+  "bitSameMany": 82,
+  "sigSame": 17,
   "changedUndeclared": [
+   "boxredshift",
+   "probeH",
    "galaxyGeo2",
    "shapeToyCluster",
    "shapeToyDisk",
@@ -2471,10 +2522,29 @@
    "psrJ1757CF",
    "psrJ1946CF",
    "binary",
+   "gclock",
+   "grcal",
    "projectile",
+   "echo",
    "boxtrans",
+   "boxrot",
+   "boxexpand",
+   "boxcomoving",
+   "boxbound",
+   "boxbreath",
    "boxredshift",
+   "probeH",
+   "freebox",
+   "cosmicweb",
+   "galaxy",
+   "galaxyStd",
    "galaxyGeo2",
+   "galaxyDB",
+   "collapse",
+   "axisBarStill",
+   "axisBarArms",
+   "axisBarReach",
+   "galaxyMeshSpiral",
    "galaxyMeshSpiralGeoToy",
    "galaxyMeshSpiralGeoToyLite",
    "galaxyAnalogyBH",
@@ -2484,6 +2554,22 @@
    "shapeToyClusterCore",
    "shapeToyDiskCore",
    "shapeToyArmCore",
+   "lensing",
+   "spinlens",
+   "blens",
+   "reddening",
+   "gas",
+   "pressure",
+   "conduction",
+   "frictionHeat",
+   "coolrace",
+   "convection",
+   "buoyancy",
+   "cooling",
+   "emergent",
+   "emergent2",
+   "chain2",
+   "chaincycle",
    "earthMoon",
    "earthMoonFree",
    "mercury",
@@ -2496,9 +2582,19 @@
    "compactForceToy",
    "boxBinaryToy",
    "spaceMeshBinaryToy",
+   "binary",
    "fig8",
+   "counterring",
+   "spinup",
    "pulsarSolo",
-   "spinDipoleBinary"
+   "supernovaCore",
+   "whiteDwarfDFM",
+   "whiteDwarfBareDFM",
+   "envelopeShedDFM",
+   "lfbotTrap",
+   "layeredCoreDFM",
+   "spinDipoleBinary",
+   "mmPhaseToy"
   ],
   "declaredUnchangedBits": [
    "plutoCharonSyncZero",
@@ -2525,13 +2621,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.106,
+   "wallSec": 0.098,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.172,
+   "wallSec": 0.123,
    "errors": 0
   }
  },
- "elapsedS": 507.91
+ "elapsedS": 590.403
 }
