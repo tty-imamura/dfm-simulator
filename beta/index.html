@@ -5211,7 +5211,7 @@ function strongFieldPsi(p){
   // 第128便: κ 正準(physics.kappaT)。旧 Kt 宣言は後方互換で受理(κ=1/Kt)
   const kap=(typeof ph.kappaT==="number" && ph.kappaT>=0)? ph.kappaT
     : (typeof ph.Kt==="number" && ph.Kt>0)? 1/ph.Kt
-    : DEFAULT_PHYSICS.kappaT;
+    : (xkLockDefaultDerive()? xkDerivedOf(Object.assign({},DEFAULT_PHYSICS,ph)) : DEFAULT_PHYSICS.kappaT);   // 第326便a(AN532 —— 推奨 A): X_k を書かない本は導出値
   const rs=(typeof ph.radiusScale==="number")? ph.radiusScale : DEFAULT_PHYSICS.radiusScale;
   const eps=(typeof ph.softening==="number")? ph.softening : DEFAULT_PHYSICS.softening;
   let psi=0;
@@ -44668,8 +44668,10 @@ function setPhysLock(v){
 //   **例外は 1 つ**: 内蔵の退役の本(履歴 —— familyRole "retired")を開いている間は宣言の X_k のまま(ロックの外 —— ID・物理・過去の正本・凍結の写しを動かさない)。
 //   既定値のマージ(X_k を書かない本 —— 手書き・AI)の扱いは決断事項 AN532(xkLockDefaultDerive)。導出の式は physLockCalc と同じ(G_0 > 0 なら G_0/(c_0·c_0)・G_0 = 0 は 0・値域 [0,1] でクランプ)
 const XK_LOCK_VERSION="w326a-xklock-always-1";
-// AN532(既定値のマージの X_k を導出にするか —— 回答待ち): false = 既定値のマージは今のまま(X_k を書かない本の受理の値は DEFAULT_PHYSICS の 1/60)
-function xkLockDefaultDerive(){ return false; }
+// AN532(既定値のマージの X_k を導出にするか —— 回答待ち): false = 既定値のマージは今のまま(X_k を書かない本の受理の値は DEFAULT_PHYSICS の 1/60)。
+//   第326便a(AN532 —— 統括の推奨 A で別のコミット): true = 既定値のマージも導出(X_k を書かない手書き・AI の本も G_0/c_0² —— 既定の G=1・c_0=30 なら 1/900)。
+//   表 DEFAULT_PHYSICS の kappaT(1/60)は値として残す(内蔵の本は全部 X_k を宣言 —— 表の値は受理と読み込みの導出で置き換わる)
+function xkLockDefaultDerive(){ return true; }
 // X_k を宣言したか(kappaT か旧 Kt が数)
 function xkDeclaredOf(ph){ return !!(ph && typeof ph==="object" && !Array.isArray(ph) && (isNum(ph.kappaT) || isNum(ph.Kt))); }
 // 物理の写し(既定値のマージの後)から X_k の導出値(physLockCalc と同じ式・同じクランプ)
@@ -44688,6 +44690,8 @@ function xkLockAcceptPhysics(p, ph, declared){
   const was=ph.kappaT, now=xkDerivedOf(ph);
   ph.kappaT=now;
   if(!declared || was===now) return {};
+  // 第326便a(AN532 —— 推奨 A): 宣言の X_k が表の既定値そのもの(AI の作り方「変更不要なキーは既定値を書く」)は既定値のマージと同じ扱い —— 導出値へ置き換えて警告を出さない
+  if(xkLockDefaultDerive() && was===DEFAULT_PHYSICS.kappaT) return {defaulted:true};
   const d=Math.abs(was-now), m=Math.max(Math.abs(was),Math.abs(now));
   return (d<=1e-6*m)? {} : {warn:reasonText("validatePreset/physics.kappaT#lock", String(was), String(now))};
 }
