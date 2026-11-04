@@ -3,7 +3,7 @@
  "libVersion": "w318d-dragest-lib-1",
  "generator": "tests/exp-w318d-dragest.mjs",
  "target": "beta/index.html",
- "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+ "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
  "reuseFrom": null,
  "ruling": "原仮定者の指示(第120報)「引きずりについて」(銀河の並進は規約で無視・ハローを銀河の回転引きずりで見積もり M_drag と見える質量を比べる・太陽系の逆向きの自転を銀河の軸引きずりの影響と仮定・太陽の回転引きずりが公転面を安定させ・太陽の軸引きずりが金星の自転を逆転させ木星を加熱すると仮定)・決断事項 AN438・統括の検証項目 R257。見積りの材料(規則・在位の本・エンジンの式は変えない —— 新しい法則は足さない)",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -2904,7 +2904,7 @@
      3.5598507439180858,
      0.056213538280470314
     ],
-    "wallSec": 1.906,
+    "wallSec": 2.252,
     "nan": false
    },
    "on|2": {
@@ -2920,7 +2920,7 @@
      3.5656899968253404,
      0.05743818512910459
     ],
-    "wallSec": 3.066,
+    "wallSec": 4.589,
     "nan": false
    },
    "off|1": {
@@ -2936,7 +2936,7 @@
      3.5598507439180858,
      0.056213538280470314
     ],
-    "wallSec": 1.583,
+    "wallSec": 1.926,
     "nan": false
    },
    "off|2": {
@@ -2952,7 +2952,7 @@
      3.5656899968253404,
      0.05743818512910459
     ],
-    "wallSec": 2.889,
+    "wallSec": 3.652,
     "nan": false
    }
   },
@@ -3092,37 +3092,37 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.049
+   "wallSec": 0.079
   },
   "B": {
-   "wallSec": 24.894
+   "wallSec": 33.943
   },
   "C": {
-   "wallSec": 0.219
+   "wallSec": 0.26
   },
   "DE": {
-   "wallSec": 0.141
+   "wallSec": 0.138
   },
   "Drun": {
-   "wallSec": 9.459
+   "wallSec": 12.437
   },
   "F": {
-   "wallSec": 0.009
+   "wallSec": 0.012
   }
  },
- "elapsedS": 36.343,
+ "elapsedS": 49.009,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第318便d",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-03T00:04:25.466Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T10:02:25.545Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    },
    {
     "file": "tests/data-w318c-solar16-input.json",
@@ -3182,12 +3182,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "cf6080db9fd926932536f97312b15386601111b0a6fae3c7eb481f629f14a6ba",
+  "codeSha256": "63b49116dfad5875ceb64bbc3c9ddbccb3af6f477e558f30fb1bc278a0141847",
   "harnessVersion": "w318d-dragest-1",
   "stage": "dragest",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
@@ -3206,7 +3206,7 @@
    "観測の 3σ の合否を付けない"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "jupiterGalilean",
     "jupiterSunInertial3d",
@@ -3243,11 +3243,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1380,
-   "segments": 1206,
-   "closureShare": 0.3013
+   "names": 1386,
+   "segments": 1212,
+   "closureShare": 0.2995
   },
-  "scopeSha256": "3edd8c41c6e3f20073ef7dfe8565f8f1326c50b4142de034d6412cb38d116392",
+  "scopeSha256": "9bf80fe3b031f8c58108827a25ef5e990b042c2309351764fb737d516fa6e19d",
   "scopeComplete": true,
   "inputsStable": [
    {

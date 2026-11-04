@@ -2,7 +2,7 @@
  "version": "w312b-galaxialrd-1",
  "generator": "tests/exp-w312b-galaxialrd.mjs",
  "target": "beta/index.html",
- "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
+ "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
  "ruling": "原仮定者の裁定(第114報)一様軸引きずりは受ける側の dragCore の R_d に応じて変わる・一様重力の様に一定の勾配で近似するのでどの場所でも R_d が同じなら影響は同じ・一様回転引きずりは慣性系であってもコリオリの項が必要(背景側の支配天体を明示していない場合は規約として無視)・決断事項 AN395・統括の検証項目 R231",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "galaxyAxialRdVersion": "w312b-galaxial-rd-1",
@@ -2262,31 +2262,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.033
+   "wallSec": 0.037
   },
   "B": {
-   "wallSec": 0.425
+   "wallSec": 0.542
   },
   "N": {
-   "wallSec": 0.995
+   "wallSec": 0.757
   },
   "X": {
-   "wallSec": 296.356
+   "wallSec": 287.335
   }
  },
- "elapsedS": 299.822,
+ "elapsedS": 290.865,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第312便b",
   "target": "beta/index.html",
-  "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-  "generatedAt": "2026-11-03T03:16:40.844Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T10:02:57.919Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7594118,
-    "sha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-    "mtime": "2026-11-02T20:36:57.567Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2340,12 +2340,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "e11f3312e245ba60918d770059eaf3e71136217953055a4d58aeede65f0d3e71",
+  "codeSha256": "ecd60b5ddef76b0762e63a82bfc1906bd454dcb3df376848077e3aaeaaff9064",
   "harnessVersion": "w312b-galaxialrd-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2358,7 +2358,7 @@
    "銀河の模型から ω_G を導いた"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": [
     "earthMoonOnly3d",
     "earthMoonSunInertial3d",
@@ -2438,11 +2438,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1409,
-   "segments": 1235,
-   "closureShare": 0.3071
+   "names": 1414,
+   "segments": 1240,
+   "closureShare": 0.3053
   },
-  "scopeSha256": "0da26126cfa73f22859ef8eb21dd9fe64a937e36939c91b7b7c9ec05a4e5e085",
+  "scopeSha256": "54ce8379e5299eba4665eccf51388fd6bc31cae4e18f5574b3bf487df8b9ea2c",
   "scopeComplete": true,
   "inputsStable": [
    {
