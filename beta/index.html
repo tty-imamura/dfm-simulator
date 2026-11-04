@@ -66501,6 +66501,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // v1.26: 物理対応ロック(4-12)のQA用
   setPhysLock, physLock:()=>physLock, physLockCalc, physLockSatisfied,
   physLockAutoOnOf, physLockAutoApply, physLockSetFlag, PHYS_LOCK_AUTO_VERSION, DFM_STANCE, DFM_SYMBOL_LINE,   // 第315便a(AN414): 読込時の自動 ON(値を書き直さない)・スタンスと記号の文
+  // ==== 第326便a の塊(ここから)====
+  XK_LOCK_VERSION, xkLockDefaultDerive, xkDeclaredOf, xkDerivedOf, xkLockExemptId, xkLockExemptPreset, xkLockActive, xkLockSims, xkLockAcceptPhysics, xkLockPhysicsCopy,   // 第326便a(AN530): 物理対応ロックを常に(QA・器の口)
+  // ==== 第326便a の塊(ここまで)====
   UI_TEXT_CLEAN_VERSION, symDisp, symDispSegs, symDispText, paramLabel,   // 第316便a(AN422 ①・AN426): 下付きの表示の純関数・ラベルを引く関数(QA が表で照合する)
   stepBudget,  // v1.27: ステップ会計の純関数(P0-1 修正。QA time.step-accounting 用)
   // 第171便: 操作レスポンスの分離(QA ui.input-responsive 用の機械検査口)。
