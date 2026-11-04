@@ -92,8 +92,10 @@ export const FAMILIES = [
   // 第298便b(原仮定者の裁定(第88報)・統括の検証項目 R166): 家族 saturnToy(🪐🎯)は 2 本とも退役して在位 0 —— 空の家族の表を出さない(宣言から外した。
   //   2 本は末尾の「退役」節の本数に数える)。earthmoon・mercury・pluto の退役(🌓🌤️🟤🟣)は宣言の ids に記録として残す(build が退役を外す)
   { key: 'grcal', ja: '時計と重力(GR の較正)', ref: 'grcal', ids: ['grcal', 'grcalGps', 'grcalLight', 'grcalShapiro'] },
-  { key: 'rotor', ja: '光学迷彩矮星', ref: 'rotorSolo',
-    ids: ['rotorSolo', 'massLadder', 'selfRotor', 'darkrotor', 'bhCore', 'bhCoreTilt', 'nebulaRotor', 'nebulaShell', 'nebulaBipolar', 'starSeed'] },
+  // ==== 第326便a の塊(ここから)====
+  // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 家族「光学迷彩矮星」(rotor —— 🕳️🪜🥚 と退役の 7 本)は在位の本が 0 になったので家族の表から外した
+  //   (10 本は末尾の「退役」節に数える —— 宣言は git の履歴)。旧: { key: 'rotor', ja: '光学迷彩矮星', ref: 'rotorSolo', ids: [rotorSolo・massLadder・selfRotor・darkrotor・bhCore・bhCoreTilt・nebulaRotor・nebulaShell・nebulaBipolar・starSeed] }
+  // ==== 第326便a の塊(ここまで)====
 ];
 
 /** 推定の列と候補の規則(文言は md にそのまま出す —— 推定であって裁定ではない)。 */

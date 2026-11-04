@@ -1,4 +1,4 @@
-# 同一天体の家族の差分表と統廃合の候補(v1.47-b325・第283便b)
+# 同一天体の家族の差分表と統廃合の候補(v1.47-b326・第283便b)
 
 > **この文書は生成物である —— 手で直さない。** 器 `tests/exp-w283b-families.mjs` が、対象 html の内蔵プリセットを受理した後の実効 JSON(`validatePreset` の後)と、正本 `tests/out/calaudit-w249.json`(較正母集団)・凍結の写し `tests/fixtures/retired-w283b.json` から作る。QA `docs.families` が正本からこの文書を作り直して 1 字ずつ照合する。
 > 原仮定者の裁定(第73報)④「同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)」への対応(統括の検証項目 R85)。**ここに並ぶのは候補であって実行ではない** —— どの本を畳むかは原仮定者の裁定で決める。観測版と DFM 版は 1 ID にしない。
@@ -20,7 +20,7 @@
 
 ## 集計
 
-- 家族 **22**・本 **53**(在位の本)・推定の列: 主系列 26・比較 22・診断 5。
+- 家族 **21**・本 **50**(在位の本)・推定の列: 主系列 24・比較 21・診断 5。
 - 候補: 規則 A 1・規則 B 0・規則 C(要裁定)1・畳まない組 0。
 
 | 家族 | 本数 | 基準 | 主系列 | 比較 | 診断 | 候補 A/B/C | 畳まない組 |
@@ -46,7 +46,6 @@
 | 超新星(`supernova`) | 2 | `supernovaProg` | 1 | 1 | 0 | 0/0/0 | 0 |
 | 白色矮星(`whiteDwarf`) | 2 | `whiteDwarfDFM` | 1 | 1 | 0 | 0/0/0 | 0 |
 | 時計と重力(GR の較正)(`grcal`) | 4 | `grcal` | 1 | 3 | 0 | 0/0/0 | 0 |
-| 光学迷彩矮星(`rotor`) | 3 | `rotorSolo` | 2 | 1 | 0 | 0/0/0 | 0 |
 
 ## 冥王星–カロン(`pluto`・2 本)
 
@@ -395,7 +394,7 @@
 - `physics.etaRad`: supernovaProg=0 / supernovaCore=0.0016
 - `physics.frameReaction`: supernovaProg=— / supernovaCore=pairReduced
 - `physics.kFrame`: supernovaProg=0 / supernovaCore=1
-- `physics.kappaT`: supernovaProg=7.425826474101849e-9 / supernovaCore=0.016666666666666666
+- `physics.kappaT`: supernovaProg=7.425826474101849e-9 / supernovaCore=0.0044444444444444444
 - `physics.pRad`: supernovaProg=4 / supernovaCore=2
 - `physics.softening`: supernovaProg=1 / supernovaCore=3
 - `physics.stepDt`: supernovaProg=0.048 / supernovaCore=—
@@ -433,11 +432,10 @@
 | 🌟 | `grcalLight` | variant | 比較(上のどれでもない) | 違う入力(質量・位置・速度) | principle | — | 0 | 0 | 0 | — | 2 | — | — | — | 太陽縁の光の偏向を同じ場から出す | `behavior.grcal3` |
 | ⏲️ | `grcalShapiro` | variant | 比較(上のどれでもない) | 違う入力(質量・位置・速度) | principle | — | 0 | 0 | 0 | — | 2 | — | — | — | 太陽の近くを往復する信号の遅れを見せる | `behavior.grcal3` |
 
-**鍵ごとの差**(physics の同じ鍵 23):
+**鍵ごとの差**(physics の同じ鍵 24):
 
 - `physics.contactCap`: grcal=2 / grcalGps=0.01 / grcalLight=0.01 / grcalShapiro=0.01
 - `physics.contactK`: grcal=10 / grcalGps=0.1 / grcalLight=0.1 / grcalShapiro=0.1
-- `physics.kappaT`: grcal=0.0033333333333333335 / grcalGps=0.0002777777777777778 / grcalLight=0.0002777777777777778 / grcalShapiro=0.0002777777777777778
 - `photonEmit`: grcal=— / grcalGps=— / grcalLight=(宣言あり) / grcalShapiro=(宣言あり)
 - `rays`: grcal=(宣言あり) / grcalGps=— / grcalLight=(宣言あり) / grcalShapiro=(宣言あり)
 - `timeRef`: grcal=(宣言あり) / grcalGps=(宣言あり) / grcalLight=(宣言あり) / grcalShapiro=(宣言あり)
@@ -447,42 +445,7 @@
 
 **統廃合の候補**: 規則に当たる組は無い。
 
-## 光学迷彩矮星(`rotor`・3 本)
-
-| 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 🕳️ | `rotorSolo` | primary | 主系列(母集団の外の家族の入口(primary)) | 基準 | principle | — | 0 | 1 | 2 | — | 2 | — | — | — | 単体の光学迷彩矮星の掻き出しと減光を測る | `behavior.rotorSolo` |
-| 🪜 | `massLadder` | variant | 比較(上のどれでもない) | 違う入力(本数・質量・位置・速度) | composite | — | 0 | 1 | 1.5 | — | 2 | — | — | — | 暗い中心の力学質量を 3 段で比べる | `claim.massladder` |
-| 🥚 | `selfRotor` | primary | 主系列(母集団の外の家族の入口(primary)) | 違う入力(本数・質量・位置・速度) | composite | — | 0 | 1 | 2 | — | 2 | — | — | — | 一様な雲から暗く回る中心が育つかを見る | `behavior.selfrotor` `behavior.selfrotor-multiseed` |
-
-**鍵ごとの差**(physics の同じ鍵 13):
-
-- `physics.D0`: rotorSolo=2 / massLadder=1.5 / selfRotor=2
-- `physics.G`: rotorSolo=0.25 / massLadder=0.8 / selfRotor=8
-- `physics.bM`: rotorSolo=0.25 / massLadder=1 / selfRotor=1
-- `physics.cHeat`: rotorSolo=1 / massLadder=1 / selfRotor=0.2
-- `physics.contactCap`: rotorSolo=2 / massLadder=2 / selfRotor=—
-- `physics.contactK`: rotorSolo=10 / massLadder=10 / selfRotor=—
-- `physics.etaRad`: rotorSolo=0 / massLadder=0 / selfRotor=0.0016
-- `physics.gammaN`: rotorSolo=0 / massLadder=0 / selfRotor=0.4
-- `physics.kappaT`: rotorSolo=0.016666666666666666 / massLadder=0.02 / selfRotor=0.07142857142857142
-- `physics.muF`: rotorSolo=0 / massLadder=0 / selfRotor=0.5
-- `physics.pRad`: rotorSolo=4 / massLadder=4 / selfRotor=2
-- `physics.softening`: rotorSolo=4 / massLadder=3 / selfRotor=3
-- `physics.timeScale`: rotorSolo=4 / massLadder=3 / selfRotor=2
-- `fusion`: rotorSolo=— / massLadder=— / selfRotor=(宣言あり)
-- `rays`: rotorSolo=(宣言あり) / massLadder=— / selfRotor=—
-- `seed`: rotorSolo=20260727 / massLadder=20260806 / selfRotor=20260806
-- `thermal`: rotorSolo=— / massLadder=— / selfRotor=tint
-- `timeRef`: rotorSolo=(宣言あり) / massLadder=(宣言あり) / selfRotor=(宣言あり)
-- `sampleClass`: rotorSolo=principle / massLadder=composite / selfRotor=composite
-- `familyRole`: rotorSolo=primary / massLadder=variant / selfRotor=primary
-- `gates(testId)`: rotorSolo=behavior.rotorSolo / massLadder=claim.massladder / selfRotor=behavior.selfrotor,behavior.selfrotor-multiseed
-- `bodies(vs 基準)`: rotorSolo=基準 / massLadder=違う入力(本数・質量・位置・速度) / selfRotor=違う入力(本数・質量・位置・速度)
-
-**統廃合の候補**: 規則に当たる組は無い。
-
-## 退役 61 本の棚卸し(統括の検証項目 R84)
+## 退役 64 本の棚卸し(統括の検証項目 R84)
 
 > 退役は**フラグ**である(`familyRole:"retired"`)。内蔵(BUILTIN_PRESETS)から消していない —— 旧セーブ・履歴の正本・過去の記録が ID で参照する。サンプル一覧に出さず、開いたときに「退役(履歴)」の 1 行を出す。物理・署名・保存 JSON は変えていない。
 
@@ -513,12 +476,10 @@
 - **第285便f の写し** `tests/fixtures/retired-w285f.json`(原仮定者の裁定(第75報)AN51・AN24′): 退役 1 本(`psrJ1757CF`)と、f=1 へ移した本の旧則(`psrJ1757DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`・`behavior.w249a-pnResponse`・`behavior.jointCalProtocol`。
 - **第286便f の写し** `tests/fixtures/retired-w286f.json`(原仮定者の裁定(第76報)AN57): 退役 1 本(`psrJ1946CF`)と、f=1 へ移した本の旧則(`psrJ1946DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `behavior.w249a-pnResponse`・`docs.j1946adoptPublished`・`docs.j1946Adopted`。
 - **第287便b の写し** `tests/fixtures/retired-w287b.json`(原仮定者の裁定(第77報)AN62): 退役 1 本(`psrB1534CF`)と、f=1 へ移した本の旧則(`psrB1534DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`。
-- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 66 本): 凍結の写しを読む 4・再生成表の履歴 25・再生成表の現行 15・道具 4・表の外 18。QA 本体の出現数: darkrotor 146・bhCore 47・nebulaRotor 19・nebulaShell 15・nebulaBipolar 22・starSeed 21・bhCoreTilt 21・galaxyMeshSpiralGeoToyLite 26・psrDoubleABPN 21・psrJ1757PN 13・psrJ1946PN 15・emAuditNewton 35・psrDoubleABCF 15・psrJ1757CF 21・psrJ1946CF 22・psrB1534CF 21。
+- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 64 本): 凍結の写しを読む 2・再生成表の履歴 25・再生成表の現行 15・道具 4・表の外 18。QA 本体の出現数: darkrotor 146・bhCore 47・nebulaRotor 19・nebulaShell 15・nebulaBipolar 22・starSeed 21・bhCoreTilt 21・galaxyMeshSpiralGeoToyLite 26・psrDoubleABPN 21・psrJ1757PN 13・psrJ1946PN 15・emAuditNewton 35・psrDoubleABCF 15・psrJ1757CF 21・psrJ1946CF 22・psrB1534CF 21。
 
 | 器 | 名指しする ID | 再生成表の段 | 扱い |
 |---|---|---|---|
-| `tests/.qa-preflight-12731.mjs` | darkrotor bhCore nebulaRotor nebulaShell nebulaBipolar starSeed bhCoreTilt galaxyMeshSpiralGeoToyLite psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | — | 凍結の写しを読む |
-| `tests/.qa-preflight-30013.mjs` | darkrotor bhCore nebulaRotor nebulaShell nebulaBipolar starSeed bhCoreTilt galaxyMeshSpiralGeoToyLite psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | — | 凍結の写しを読む |
 | `tests/exp-4-48.mjs` | darkrotor | — | 表の外(正本ではない) |
 | `tests/exp-4-67.mjs` | darkrotor | h283b-exp-4-67(history) | 履歴(再生成しない) |
 | `tests/exp-4-72.mjs` | darkrotor | h283b-exp-4-72(history) | 履歴(再生成しない) |
