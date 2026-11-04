@@ -95312,7 +95312,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       // ②
       const notDerived = [], warnX = [], retWarn = [];
       for (const p of live) {
-        const m = Object.assign({}, cx.DEFAULT_PHYSICS || {}, p.physics);
+        const m = Object.assign({}, (() => { try { return H.evalExpr('DEFAULT_PHYSICS'); } catch (e) { return {}; } })(), p.physics);
         const G = m.G, c = m.cLight, want = Math.min(1, Math.max(0, G > 0 ? G / (c * c) : 0));
         if (!Object.is(p.physics.kappaT, want)) notDerived.push(p.id);
         const v = HPx.validatePreset(JSON.parse(JSON.stringify(p)));
@@ -95343,7 +95343,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (b2.length) bad.push('③ 分類 2 の移行(G_0 := X_k c_0²)が違う: ' + b2.slice(0, 8).join(','));
       if (bR.length) bad.push('③ 退役の 3 本(宣言は基点のまま・familyRole retired)が違う: ' + bR.join(','));
       if (!(c56.length === 56 && c1.length === 59 && c2.length === 7 && cR.length === 3)) bad.push(`③ 数(満たす ${c56.length}・分類 1 ${c1.length}・分類 2 ${c2.length}・退役 ${cR.length})`);
-      const RP = cx.RETIRED_PRESETS || (() => { try { return H.ctx.eval('RETIRED_PRESETS'); } catch (e) { return null; } })();
+      const RP = (() => { try { return H.evalExpr('RETIRED_PRESETS'); } catch (e) { return null; } })();
       const seeBad = [];
       if (RP) { for (const id of RET3) { const e = RP[id]; if (!(e && e.ja && e.en && Array.isArray(e.see) && e.see.length && e.see.every((s) => byP.get(s) && !cx.retiredOf(byP.get(s))))) seeBad.push(id); }
         for (const id of Object.keys(RP)) for (const s of (RP[id].see || [])) if (RET3.includes(s)) seeBad.push(id + '→' + s); }
