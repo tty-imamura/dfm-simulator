@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便a",
   "target": "beta/index.html",
-  "targetSha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-  "generatedAt": "2026-11-03T15:16:55.157Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T03:57:42.371Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7612995,
-    "sha256": "28e2c6a9666de4d1f3e0664e8989ea3ca6522c7a2784f94986c9dc154480a2a0",
-    "mtime": "2026-11-03T15:04:48.828Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 96951,
-    "sha256": "912cb05826521c7dfadc34d4c306b1bc09c2d8034e0200936fd3dc51445dafdc",
-    "mtime": "2026-10-28T18:04:20.437Z"
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-04T01:25:44.755Z"
    }
   ],
-  "codeSha256": "989e298b70d5c7d0c12c674477185765578833249792b64b91add6dcf15be920",
+  "codeSha256": "b8230c99d14009e2d3e7ac7bcb8d320b6f05a48dba9980c5d43dd5a7c275df7c",
   "harnessVersion": "w289a-weakfield-h1",
   "libVersion": "w289a-weakfield-1",
   "loadErrors": 0,
@@ -69,7 +69,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w318a-scope-6",
+   "version": "w326e-scope-7",
    "presets": "all",
    "roots": [
     "$",
@@ -92,11 +92,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1358,
-   "segments": 1184,
-   "closureShare": 0.295
+   "names": 1364,
+   "segments": 1190,
+   "closureShare": 0.2939
   },
-  "scopeSha256": "433248478f3f25f90a283d16b44d9ad9c8e169a21514a6c3a450083e9562c4f8",
+  "scopeSha256": "297adcbf2d427c0639e022ce6c3936ca44e78ae347ecd958a78fb50750f3ace5",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -419,7 +419,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.00002945243112740431,
-    "wallSec": 0.042
+    "wallSec": 0.051
    },
    {
     "b": 20000,
@@ -431,7 +431,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.000014726215563702155,
-    "wallSec": 0.03
+    "wallSec": 0.035
    }
   ],
   "clocksOk": true,
@@ -491,10 +491,10 @@
   "tally": {
    "active:default(pull)": 4,
    "active:pull": 18,
-   "active:share": 103,
+   "active:share": 99,
    "retired:default(pull)": 2,
    "retired:pull": 16,
-   "retired:share": 43
+   "retired:share": 47
   },
   "analogies": [
    {
@@ -589,5 +589,5 @@
   "shapiroMicros": 280.9977454260266
  },
  "recordNote": "HP.grSI() の式レベル出力の引用(🛰 grcal —— 再測ではない)",
- "elapsedS": 1.441
+ "elapsedS": 1.586
 }
