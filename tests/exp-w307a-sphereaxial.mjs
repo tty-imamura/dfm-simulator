@@ -214,10 +214,12 @@ const SPHERE = { rot: 'surfaceFlip', axial: 'on', axialModel: 'sphere' };
 /** 宣言から本を探す: 三次元で spinDrag.rot を宣言した本(本の宣言か一押し)—— 🔩🪛🍥🍩 */
 export function idsFromDecl(HP) {
   const on = (r) => !!(r && r.spinDrag && r.spinDrag.rot === 'surfaceFlip');
-  const hit = (e) => (p) => (p.physics || {}).coord === '3d' && p.familyRole !== 'retired' && p.emoji === e
+  const hit = (e) => (p) => (p.physics || {}).coord === '3d' && p.emoji === e
     && (on((p.physics || {}).relativeDrag) || on(p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.relativeDrag));
-  const out = {};
-  for (const e of ['🔩', '🪛', '🍥', '🍩']) { const p = HP.allPresets().find(hit(e)); if (p) out[e] = p.id; }
+  // 第326便(統括 —— 鎖で拾った): 🔩🪛🍥 は第325便c(AN525)で退役した(内蔵に残る —— ID・物理の宣言・署名は不変)。この器と bevel-308a は核の診断の写しに
+  //   これらの本を使うので、在位の本を先に探し、無ければ内蔵の退役の本(履歴)を使う(退役の本は物理対応ロックの外 —— 宣言のまま)
+  const out = {}, all = HP.allPresets();
+  for (const e of ['🔩', '🪛', '🍥', '🍩']) { const p = all.find((q) => q.familyRole !== 'retired' && hit(e)(q)) || all.find(hit(e)); if (p) out[e] = p.id; }
   return out;
 }
 function runBook(H, id, patch, N) {
