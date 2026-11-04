@@ -95173,6 +95173,213 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第325便f の塊(ここまで)====
+// ==== 第326便e の塊(ここから —— lint.alwaysShadow326e・lint.familiesTemp326e・lint.scopeObsSpin326e・lint.narrow326e・docs.w326e の 5 ブロック。root は SKIP)====
+// ---- 第326便e(原仮定者の回答(2026-11-03 —— AN527)「推奨で進める」・原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・
+// ----   原仮定者の指示(2026-11-03)「次便以降で、再生成の段の対象が宣言なしの場合、html全体にしない」・統括の検証項目 R294 —— **道具だけ・html は変えない**):
+// ----   lint.alwaysShadow326e(**常時群 13 段の html の物理の部分の門 —— 影**・tests/lib-w326e-alwaysshadow.mjs):
+// ----     ① 版 w326e-alwaysshadow-1・宣言 ALWAYS_SHADOW_DECL_326E の鍵 = 常時群(新しい常時群の段は名指しで落ちる)・reads の名・html を読まないと宣言した段の器の閉包に
+// ----        html を読む口が無い・scope の段の正本が完全な領域・follows は集約段(declProblems)
+// ----     ② 自己試験(合成の段 —— 版名だけの便で own reuse・根の物理の部分が違えば下流 recheck・器・データ・入力の理由・刻印が無ければ regen /
+// ----        鎖の後の照合の分類 trueSame・falseSame〔門の取りこぼし〕・trueDiff・overRun・na / 照合の物理の値は刻印の欄を外す)
+// ----     ③ 実物: planRegen(only = 常時群)に影を付け、13 段の行の形(own・world・html の読み方・刻印の出どころ・器の比べのコミット)と、鎖の前のコミット = 今の正本の照合
+// ----        (HEAD と今の正本 —— 鎖を走らせていないので falseSame 0)
+// ----     ④ 影のまま: 計画の status を変えない(regen-plan の影は計画の後に付く・鎖の道具と再生成表は影を呼ばない)・regen-plan の口(--always-shadow-check・--no-always-shadow)
+// ----   lint.familiesTemp326e(家族の表の走査からドット始まりの一時ファイルを外す —— tests/exp-w283b-families.mjs の harnessFiles326e):
+// ----     ① 名の規則(.qa-preflight-*.mjs を外す・ふつうの器は入れる)② 一時の木(tests・tools にドット始まりのファイルを置く)で走査に入らない ③ 正本と一覧に
+// ----        ドット始まりの器が無い・器の版 w326e-families-3(家族の行の規則は版 2 のまま —— HARNESS_VERSIONS_IN_ONLY)
+// ----   lint.scopeObsSpin326e(領域 hash の版 7 —— obsSpin の成分の説明の文を外す): ① 版の並びと欄名 ② obsSpin を持つ在位の本ごとに、note・source だけの写しは
+// ----     版 7 で同じ・版 6 で違う / 数・範囲・basis の写しは版 7 で違う ③ 版 7 の写し = 版 6 の写しから obsSpin の説明の文を外したもの(他の欄は 1 字も違わない)
+// ----   lint.narrow326e(全部の本を領域に持つ段の絞りの探索 —— 影・tests/lib-w326e-narrow.mjs): ① 自己試験 ② 名簿 = 第312便c の一覧の段(presets:"all")・型の数 ③ regen-plan の口
+// ----   docs.w326e: PHYSICS〔第326便e — 〕(〔第325便 — 統括〕の後・「## 7.」の前)・AI_SPEC §186・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rd326e = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(path.join(ROOT, 'tests', 'lib-w326e-alwaysshadow.mjs')))) {
+    console.log('SKIP lint.alwaysShadow326e・lint.familiesTemp326e・lint.scopeObsSpin326e・lint.narrow326e・docs.w326e(第326便e の lib の前の世代か beta 対象でない —— ' + TARGET + ')');
+    return;
+  }
+  const imp326e = async (f, bad) => { try { return await import('file://' + path.join(ROOT, f)); } catch (e) { bad.push(f + ' が読めない: ' + String(e && e.message || e).slice(0, 80)); return null; } };
+  const os326e = (await import('node:os')).default;
+  // ---- lint.alwaysShadow326e
+  {
+    const bad = [], cases = [];
+    const AS = await imp326e('tests/lib-w326e-alwaysshadow.mjs', bad), RT = await imp326e('tests/lib-w281a-regentable.mjs', bad);
+    if (AS && RT) {
+      const t0 = Date.now();
+      // ①
+      if (AS.ALWAYS_SHADOW_VERSION !== 'w326e-alwaysshadow-1' || AS.GROUP_STAMP_KEY_326E !== 'calaudit') bad.push('① 版・群の刻印の段');
+      for (const p of AS.declProblems({ root: ROOT })) bad.push('① ' + p);
+      const D = AS.ALWAYS_SHADOW_DECL_326E, kinds = {};
+      for (const d of Object.values(D)) kinds[d.html] = (kinds[d.html] || 0) + 1;
+      cases.push(`① 宣言 ${Object.keys(D).length} 段 = 常時群(html の読み方 ${Object.entries(kinds).map(([k, v]) => k + ' ' + v).join('・')} —— 較正の走行 3 段は ${AS.CAL_READS_326E.join('・')})`);
+      // ②
+      const st = AS.alwaysShadowSelfTest();
+      if (!st.ok) bad.push('② ' + st.bad.slice(0, 3).join(' / '));
+      cases.push(...st.cases);
+      // ③ 実物(常時群だけの計画 —— 依存の伝播は引かない)
+      const keys = Object.keys(D);
+      const p1 = RT.planRegen({ root: ROOT, only: keys });
+      const sh = AS.alwaysShadow(p1, { root: ROOT, html: path.join(ROOT, TARGET) });
+      if (sh.rows.length !== keys.length) bad.push('③ 影の行 ' + sh.rows.length + ' ≠ ' + keys.length);
+      for (const r of sh.rows) {
+        if (!['reuse', 'regen'].includes(r.own) || !['reuse', 'recheck', 'regen'].includes(r.world)) bad.push('③ ' + r.key + ' の own/world');
+        if (r.html.kind !== D[r.key].html) bad.push('③ ' + r.key + ' の html の読み方');
+        if (['none', 'follows'].includes(r.html.kind) && r.physReuse !== null) bad.push('③ ' + r.key + ' は html を読まないのに物理の部分の判定がある');
+        if (r.html.kind === 'reads' && r.physReuse === null && !r.why.some((w) => w.kind === 'stamp')) bad.push('③ ' + r.key + ' の物理の部分の判定が無い(刻印の理由も無い)');
+      }
+      const ck = AS.alwaysShadowCheck(sh, { root: ROOT, baseRev: 'HEAD' });
+      if (!ck.ok) bad.push('③ HEAD と今の正本の照合に falseSame(' + ck.falseSame.join(',') + ')—— 鎖を走らせていないのに値が違う(正本が作業ツリーで書き換わっている)');
+      cases.push(`③ 実物(今の html ${String(sh.htmlSha256).slice(0, 12)}・群の刻印 ${sh.group.sha}・器の比べのコミット ${sh.group.rev}): own reuse ${sh.count.ownReuse}/${sh.rows.length}(${sh.rows.filter((r) => r.own === 'regen').map((r) => r.key + '〔' + r.why.map((w) => w.kind).join('+') + '〕').join('・') || 'regen なし'})`
+        + ` / 照合の口(HEAD と今の正本): ${Object.entries(ck.count).map(([k, v]) => k + ' ' + v).join('・')} / ${((Date.now() - t0) / 1000).toFixed(1)} s`);
+      // ④ 影のまま
+      for (const f of ['tools/regen-chain.mjs', 'tests/lib-w281a-regentable.mjs', 'tools/harness-smoke.mjs']) if (/alwaysShadow|lib-w326e-alwaysshadow/.test(rd326e(f))) bad.push('④ ' + f + ' が影を呼ぶ(影のまま —— 鎖と計画の status は変えない)');
+      const RP = rd326e('tools/regen-plan.mjs');
+      for (const w of ["argv.includes('--always-shadow-check')", "argv.includes('--no-always-shadow')", 'AS.alwaysShadow(plan, {', 'AS.alwaysShadowCheck(P.alwaysShadow326e', 'process.exit(r.ok ? 0 : 1);']) if (RP.indexOf(w) < 0) bad.push('④ regen-plan の配線に「' + w + '」が無い');
+      const iPlan = RP.indexOf('const plan = T.planRegen('), iSh = RP.indexOf('AS.alwaysShadow(plan, {');
+      if (!(iPlan > 0 && iSh > iPlan)) bad.push('④ 影は計画の後に付ける(計画の status を変えない)');
+      cases.push('④ 影のまま: 鎖の道具・再生成表・煙試験は影を呼ばない・regen-plan は計画の後に plan.alwaysShadow326e を付ける・鎖の後の照合 --always-shadow-check(falseSame で終了コード 1)');
+    }
+    add('lint.alwaysShadow326e', bad.length === 0,
+      `**常時群 13 段の html の物理の部分の門(影 —— 判定だけ・鎖は毎便のまま)**(第326便e・原仮定者の回答(2026-11-03 —— AN527)・統括の検証項目 R294): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- lint.familiesTemp326e
+  {
+    const bad = [], cases = [];
+    const FM = await imp326e('tests/exp-w283b-families.mjs', bad);
+    if (FM) {
+      if (typeof FM.harnessFileOk326e !== 'function' || typeof FM.harnessFiles326e !== 'function') bad.push('① 走査の関数が無い');
+      else {
+        const nm = [['.qa-preflight-12731.mjs', false], ['.x.mjs', false], ['exp-w283b-families.mjs', true], ['lib-w281a-scope.mjs', true], ['README.md', false]];
+        for (const [f, want] of nm) if (FM.harnessFileOk326e(f) !== want) bad.push('① 名の規則 ' + f + ' → ' + FM.harnessFileOk326e(f));
+        const tmp = fs.mkdtempSync(path.join(os326e.tmpdir(), 'w326e-fam-'));
+        try {
+          for (const d of ['tests', 'tools']) fs.mkdirSync(path.join(tmp, d));
+          for (const f of ['tests/.qa-preflight-1.mjs', 'tests/exp-a.mjs', 'tools/.qa-tmp.mjs', 'tools/b.mjs', 'tests/c.json']) fs.writeFileSync(path.join(tmp, f), '// w326e\n');   // 退役の本の ID を書かない(docs/FAMILIES.md の QA 本体の出現数を動かさない)
+          const got = FM.harnessFiles326e(tmp).join(',');
+          if (got !== 'tests/exp-a.mjs,tools/b.mjs') bad.push('② 一時の木の走査: ' + got);
+          cases.push(`①② 走査: ドット始まりの一時ファイル(.qa-preflight-*.mjs など)は名指しする器に入れない(一時の木 → ${got})`);
+        } finally { try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) { /* 残っても害は無い */ } }
+        const real = FM.harnessFiles326e(ROOT);
+        if (real.some((f) => path.basename(f).startsWith('.'))) bad.push('② 実物の走査にドット始まりのファイル');
+      }
+      let J = null; try { J = JSON.parse(rd326e('tests/out/families-w283b.json')); } catch (e) { J = null; }
+      const MD = rd326e('docs/FAMILIES.md');
+      if (!J || !J.retired) bad.push('③ 正本が読めない');
+      else {
+        const dot = (J.retired.harnesses || []).filter((h) => path.basename(String(h.file)).startsWith('.'));
+        const cur = J.harnessVersion === FM.HARNESS_VERSION;
+        if (cur && dot.length) bad.push('③ 正本の名指しする器にドット始まりのファイル ' + dot.length + ' 本');
+        if (cur && /`(?:tests|tools)\/\.[^`]*`/.test(MD)) bad.push('③ FAMILIES.md にドット始まりの器の行');
+        if (!(FM.HARNESS_VERSION === 'w326e-families-3' && (FM.HARNESS_VERSIONS_IN_ONLY || []).includes('w294b-families-2') && FM.HARNESS_VERSIONS_IN_ONLY.includes(FM.HARNESS_VERSION))) bad.push('③ 器の版');
+        cases.push(`③ 正本(器の版 ${J.harnessVersion}${cur ? '' : ' —— 今の器の版 ' + FM.HARNESS_VERSION + ' より前の正本(鎖で作り直す)'}): 名指しする器 ${(J.retired.harnesses || []).length} 本・ドット始まり ${dot.length}・`
+          + `${Object.entries(J.retired.kindCounts || {}).map(([k, v]) => k + ' ' + v).join('・')}`);
+      }
+    }
+    add('lint.familiesTemp326e', bad.length === 0,
+      `**家族の表の走査からドット始まりの一時ファイルを外す**(第326便e・統括の検証項目 R294): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- lint.scopeObsSpin326e
+  {
+    const bad = [], cases = [];
+    const SC = await imp326e('tests/lib-w281a-scope.mjs', bad), HLm = await imp326e('tests/lib-w279b-headless.mjs', bad);
+    if (SC && HLm) {
+      if (!(SC.SCOPE_VERSION === 'w326e-scope-7' && SC.SCOPE_VERSION_6 === 'w318a-scope-6' && SC.SCOPE_VERSIONS[SC.SCOPE_VERSIONS.length - 1] === SC.SCOPE_VERSION && SC.SCOPE_VERSIONS.includes(SC.SCOPE_VERSION_6)
+        && JSON.stringify(SC.OBSSPIN_PROSE_KEYS_326E) === JSON.stringify(['note', 'noteEn', 'source', 'sourceEn']) && SC.isScopeV6Plus(SC.SCOPE_VERSION) && SC.isScopeV6Plus(SC.SCOPE_VERSION_6) && !SC.isScopeV6Plus(SC.SCOPE_VERSION_5))) bad.push('① 版の並び・欄名');
+      const L = HLm.loadHtmlHeadless(path.join(ROOT, TARGET));
+      const B = L.evalExpr('BUILTIN_PRESETS');
+      const cl = (x) => JSON.parse(JSON.stringify(x)), H7 = (p) => SC.canonJson(SC.stripPresetProse(p)), H6 = (p) => SC.canonJson(SC.stripPresetProse(p, SC.SCOPE_VERSION_6));
+      const withSpin = B.filter((p) => (p.bodies || []).some((b) => b && b.obsSpin && typeof b.obsSpin === 'object'));
+      let nNote = 0, nPhys = 0, nEq = 0;
+      const walk = (x, f) => { if (Array.isArray(x)) { x.forEach((v) => walk(v, f)); return; } if (!x || typeof x !== 'object') return; f(x); for (const k of Object.keys(x)) walk(x[k], f); };
+      for (const p of withSpin) {
+        const q = cl(p);
+        for (const b of q.bodies) if (b && b.obsSpin) walk(b.obsSpin, (o) => { for (const k of SC.OBSSPIN_PROSE_KEYS_326E) if (typeof o[k] === 'string') o[k] += '※'; });
+        if (H7(q) !== H7(p)) bad.push('② ' + p.id + ': note・source だけの写しが版 7 で違う');
+        if (H6(q) === H6(p)) bad.push('② ' + p.id + ': note・source だけの写しが版 6 で同じ(版 6 の規則が変わった)');
+        nNote++;
+        const ob = q.bodies.find((b) => b && b.obsSpin).obsSpin;
+        for (const [nm, f] of [['omega', (o) => { o.omega = o.omega * (1 + 1e-9); }], ['axis.tiltDeg', (o) => { if (o.axis && o.axis.tiltDeg) o.axis.tiltDeg.deg = (o.axis.tiltDeg.deg || 0) + 0.01; }], ['epoch', (o) => { if (typeof o.epoch === 'string') o.epoch += '※'; }]]) {
+          const r = cl(p), ro = r.bodies.find((b) => b && b.obsSpin).obsSpin; f(ro);
+          if (JSON.stringify(ro) === JSON.stringify(ob) || JSON.stringify(r) === JSON.stringify(p)) continue;
+          if (H7(r) === H7(p)) bad.push('② ' + p.id + ': ' + nm + ' の写しが版 7 で同じ(物理の欄が外れた)'); else nPhys++;
+        }
+        // ③ 版 7 の写し = 版 6 の写しから obsSpin の説明の文を外したもの
+        const s6 = SC.stripPresetProse(p, SC.SCOPE_VERSION_6);
+        if (Array.isArray(s6.bodies)) s6.bodies = s6.bodies.map((b) => (b && b.obsSpin) ? Object.assign({}, b, { obsSpin: SC.stripObsSpinProse326(b.obsSpin) }) : b);
+        if (SC.canonJson(s6) === H7(p)) nEq++; else bad.push('③ ' + p.id + ': 版 7 の写しが版 6 から obsSpin の説明の文を外したものと違う');
+      }
+      if (!withSpin.length) cases.push('② obsSpin を持つ本が無い(照合なし)');
+      else cases.push(`②③ obsSpin を持つ本 ${withSpin.length}(${withSpin.map((p) => p.id).join('・')}): note・source だけの写し → 版 7 で同じ・版 6 で違う ${nNote}/${withSpin.length} / 数・軸・epoch の写し → 版 7 で違う ${nPhys} / 版 7 = 版 6 − obsSpin の説明の文 ${nEq}/${withSpin.length}`);
+    }
+    add('lint.scopeObsSpin326e', bad.length === 0,
+      `**領域 hash の版 7 —— obsSpin の成分の説明の文を外す**(第326便e・統括の検証項目 R294 —— 版 6 の刻印は版 6 の規則で照合): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- lint.narrow326e
+  {
+    const bad = [], cases = [];
+    const NW = await imp326e('tests/lib-w326e-narrow.mjs', bad);
+    if (NW) {
+      const st = NW.narrowSelfTest();
+      if (!st.ok) bad.push('① ' + st.bad.slice(0, 3).join(' / '));
+      cases.push(...st.cases);
+      let SA = null; try { SA = JSON.parse(rd326e(NW.SCOPEALL_FILE_326E)); } catch (e) { SA = null; }
+      if (!SA) bad.push('② ' + NW.SCOPEALL_FILE_326E + ' が読めない');
+      else {
+        const R = NW.narrowRoster({ root: ROOT, rows: SA.steps, books: NW.bookParts(path.join(ROOT, TARGET)) });
+        if (R.rows.length !== SA.steps.length) bad.push('② 名簿の段の数');
+        for (const z of R.rows) if (!['named', 'filter', 'enumerates'].includes(z.cls)) bad.push('② ' + z.key + ' の型');
+        for (const z of R.rows) if (z.cls === 'named' && !z.named.length) bad.push('② ' + z.key + ' は named なのに名指しの本が無い');
+        cases.push(`② 名簿(第312便c の一覧の presets:"all" の段 ${R.rows.length}): ${Object.entries(R.count).map(([k, v]) => k + ' ' + v).join('・')}`);
+      }
+      const RP = rd326e('tools/regen-plan.mjs');
+      for (const w of ["argv.includes('--narrow-explore')", 'NW.narrowShadow(plan, roster,', "getArg('--narrow-from', null)"]) if (RP.indexOf(w) < 0) bad.push('③ regen-plan の配線に「' + w + '」が無い');
+      if (/lib-w326e-narrow/.test(rd326e('tools/regen-chain.mjs') + rd326e('tests/lib-w281a-regentable.mjs'))) bad.push('③ 鎖の道具か再生成表が探索を呼ぶ(影のまま)');
+    }
+    add('lint.narrow326e', bad.length === 0,
+      `**全部の本を領域に持つ段の絞りの探索(影 —— 印字だけ)**(第326便e・統括の検証項目 R294): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- docs.w326e
+  {
+    const bad = [];
+    const PH = rd326e('docs/PHYSICS.md'), a326 = PH.indexOf('〔第326便e — ');
+    const sec = a326 < 0 ? '' : PH.slice(a326, (() => { const e = [PH.indexOf('\n〔第', a326 + 10), PH.indexOf('\n## 7.', a326)].filter((k) => k > a326); return e.length ? Math.min(...e) : undefined; })());
+    const rv = (s) => [...s].reverse().join('');
+    const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv);
+    const NOT = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'たため確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転逆の星金', 'たし明説をータマクーダ', 'たし定判を面平地'].map(rv);
+    if (!sec) bad.push('PHYSICS〔第326便e〕が無い');
+    else {
+      const i7 = PH.indexOf('\n## 7.'), iG = PH.indexOf('〔第325便 — 統括');
+      if (!(a326 < i7 && iG >= 0 && iG < a326)) bad.push('節の位置(〔第325便 — 統括〕の後・「## 7.」の前)');
+      for (const [b, k] of [['a', PH.indexOf('〔第326便a — ')], ['b', PH.indexOf('〔第326便b — ')], ['c', PH.indexOf('〔第326便c — ')], ['d', PH.indexOf('〔第326便d — ')]]) if (k >= 0 && k > a326) bad.push('〔第326便' + b + '〕が〔第326便e〕の後');
+      for (const w of ['R294', 'AN527', 'w326e-alwaysshadow-1', 'ALWAYS_SHADOW_DECL_326E', '--always-shadow-check', '--no-always-shadow', 'falseSame', 'w326e-families-3', '.qa-preflight-',
+        'w326e-quickgate-2', 'minShadowWaves', 'G11', '物理の部分(htmlPhys)', 'w326e-narrow-1', '--narrow-explore', 'w326e-scope-7', 'OBSSPIN_PROSE_KEYS_326E', 'tpsign', 'contact285', 'bgaudit291',
+        'lint.alwaysShadow326e', 'lint.familiesTemp326e', 'lint.scopeObsSpin326e', 'lint.narrow326e', 'docs.w326e', '**表 1', '**表 2', '**表 3', '決断事項候補', '言わないこと', '第327便'])
+        if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第326便e〕に「' + w + '」が無い');
+    }
+    const AI = rd326e('docs/AI_SPEC.md'), ai186 = (() => { const m = /\n## 186\. 第326便e[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+    if (!(ai186 && ai186.indexOf('AN527') >= 0 && ai186.indexOf('影') >= 0 && ai186.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('AI_SPEC §186');
+    const CL = rd326e('CHANGELOG.md'), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+    const cl326 = (clb.split('\n').find((l) => l.indexOf('**第326便e**') >= 0)) || '';
+    if (!cl326) bad.push('CHANGELOG の beta 節に第326便e の行が無い');
+    const TR = rd326e('tools/README.md'), PM = rd326e('tools/post-merge-qa.sh');
+    if (!(TR.indexOf('第326便e') >= 0 && TR.indexOf('--always-shadow-check') >= 0 && TR.indexOf('--narrow-explore') >= 0)) bad.push('tools/README に第326便e の口が無い');
+    if (!(PM.indexOf('# ==== 第326便e の塊(ここから)====') >= 0 && /lint\.alwaysShadow326e/.test(PM) && /docs\.w326e/.test(PM))) bad.push('post-merge の ③′ に第326便e の塊が無い');
+    for (const [nm, tx] of [['PHYSICS〔第326便e〕', sec], ['AI_SPEC §186', ai186], ['CHANGELOG の第326便e の行', cl326]]) {
+      for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+      for (const w of NOT) if (tx.indexOf(w) >= 0) bad.push(nm + ' に書かない語(' + w.length + ' 字)');
+      if (tx.indexOf(String.fromCharCode(0x3ba)) >= 0) bad.push(nm + ' に裸の係数記号');
+    }
+    add('docs.w326e', bad.length === 0,
+      `**道具の便の文書**(第326便e・統括の検証項目 R294): PHYSICS〔第326便e〕(〔第325便 — 統括〕の後・「## 7.」の前)・AI_SPEC §186・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ' —— すべてあり'));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第326便e の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

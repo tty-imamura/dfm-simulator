@@ -41,6 +41,8 @@
 //       器とデータ・入力で reuse にできたか」〔own〕と、常時群を own に置き換えて依存を伝播した影の世界〔world〕の数と秒)。--no-always-shadow で付けない。
 //     ・**鎖の後の照合の口**: --always-shadow-check --plan-json <鎖の前の計画> [--base-rev <鎖の前のコミット —— 既定は計画の headRev>] [--json <file>] —— 常時群の正本の物理の値を
 //       鎖の前のコミットと今で比べ、影の世界の判定と突き合わせる(trueSame / falseSame〔門の取りこぼし〕/ trueDiff / overRun / na —— falseSame があれば終了コード 1)。
+//     ・**全部の本を領域に持つ段の絞りの探索**(tests/lib-w326e-narrow.mjs —— 影・印字だけ): --narrow-explore で presets:"all" の段の名簿(named・filter・enumerates —— 器が条件で
+//       選んだ本だけを読むか)と、--base の html(無ければ --narrow-from <html>)と今の html で変わった本で、領域だけの理由で regen の段のうち絞れば reuse の段を plan.narrow326e に出す。
 // 終了コード: 0(計画を出した)/ 2(表に無い正本が lint の CANON にある等、表が壊れている)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -213,6 +215,20 @@ if (!argv.includes('--no-always-shadow')) {
   try { plan.alwaysShadow326e = AS.alwaysShadow(plan, { root: ROOT, html: HTML, files: [BASE].filter(Boolean) }); }
   catch (e) { plan.alwaysShadow326e = { version: AS.ALWAYS_SHADOW_VERSION, error: String(e && e.message || e).slice(0, 160), rows: [] }; }
 }
+// 第326便e(R294・第325便a の D2): 全部の本を領域に持つ段の絞りの探索(影 —— 印字だけ)
+if (argv.includes('--narrow-explore')) {
+  const NW = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w326e-narrow.mjs')).href);
+  const t1 = Date.now();
+  try {
+    const fromHtml = resolve(getArg('--narrow-from', null)) || BASE;
+    const now = NW.bookParts(HTML), from = fromHtml ? NW.bookParts(fromHtml) : null;
+    const roster = NW.narrowRoster({ root: ROOT, books: now });
+    const changed = from ? NW.changedBooks(from, now) : [];
+    const sh = from ? NW.narrowShadow(plan, roster, { changed, booksList: [from, now] }) : null;
+    plan.narrow326e = { version: NW.NARROW_VERSION, from: fromHtml ? path.relative(ROOT, fromHtml) : null, roster: { count: roster.count, rows: roster.rows.map((z) => ({ key: z.key, cls: z.cls, kinds: z.kinds, why: z.why })) },
+      shadow: sh, ms: Date.now() - t1 };
+  } catch (e) { plan.narrow326e = { version: NW.NARROW_VERSION, error: String(e && e.message || e).slice(0, 160) }; }
+}
 // ==== 第326便e の塊(ここまで)====
 // 第320便d(決断事項 AN478・R265): `--classify` で領域の差を**核・本・表示**に分ける(tests/lib-w320d-perbook.mjs —— 段の判定〔status〕は変えない)。
 //   刻印時の html は --base・--stamp-html <f>(何度でも)・--stamp-git <N>(beta/index.html の直近 N 版 —— 写しは --stamp-dir〔既定 os の一時〕)から sha で引く。
@@ -272,6 +288,12 @@ if (!QUIET) {
       + `(計画は ${fmt(plan.secLower)}〜${fmt(plan.secUpper)})・刻印 ${a.group.sha || '—'}・鎖の後に --always-shadow-check`);
     for (const r of a.rows) console.log(`    ${r.own.padEnd(6)} ${r.key.padEnd(14)} ${String(r.sec).padStart(5)} s  影 ${r.world.padEnd(7)} html ${r.html.kind}${r.physReuse === true ? '(物理の部分が同じ)' : r.physReuse === false ? '(物理の部分が違う)' : r.html.kind === 'none' ? '(html を読まない)' : r.html.kind === 'follows' ? '(上流に従う)' : ''}  ${r.why.map((z) => z.text).join(' / ').slice(0, 90)}`);
   } else if (plan.alwaysShadow326e) console.log('  常時群の物理の部分の門の影: 引けない —— ' + plan.alwaysShadow326e.error);
+  if (plan.narrow326e && !plan.narrow326e.error) {
+    const n = plan.narrow326e, c = n.shadow ? n.shadow.count : null;
+    console.log(`  全部の本を領域に持つ段の絞りの探索(${n.version} —— 影・印字だけ): 名簿 ${Object.entries(n.roster.count).map(([k, v]) => k + ' ' + v).join(' / ')}`
+      + (c ? ` / 変わった本 ${n.shadow.changed.length}(${n.shadow.changed.slice(0, 4).join(',')})・presets:"all" の段の regen ${c.regen}(${fmt(c.secRegen)})のうち絞れば reuse ${c.narrowedReuse}(${fmt(c.secNarrowed)})` : ' / 比べる html が無い(--base か --narrow-from)'));
+    if (n.shadow) for (const z of n.shadow.rows) if (z.narrowed === true) console.log(`    絞れば reuse ${z.key.padEnd(18)} ${String(z.sec).padStart(5)} s  ${z.cls}  ${z.why.slice(0, 90)}`);
+  } else if (plan.narrow326e) console.log('  全部の本を領域に持つ段の絞りの探索: 引けない —— ' + plan.narrow326e.error);
   // ==== 第326便e の塊(ここまで)====
   // 第320便d(AN478): 領域の差の分類の要約
   if (plan.classify320) {
