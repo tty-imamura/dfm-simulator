@@ -44460,7 +44460,8 @@ if (!FAST) {
           bad.push('⑤第300便b の退役の写し(3 本・基点 881667c と署名同じ)が揃わない');
       }
       if (has326b) {   // 第326便b: 退役 1 本(🛞)の写し(家族の入口 🌃 との対の差・基点 1b1fa70 と署名同じ)
-        if (!FX16 || FX16.fixtureVersion !== 'w326b-retired-1' || IDS326B.some((id) => !FX16.presets[id] || !FX16.presets[id].raw || FX16.presets[id].base.sigSame !== true))
+        // 第326便の統合(a + b): 枝 b の写しは FX17(FX16 は枝 a の写し —— 統合で番号を分けた)
+        if (!FX17 || FX17.fixtureVersion !== 'w326b-retired-1' || IDS326B.some((id) => !FX17.presets[id] || !FX17.presets[id].raw || FX17.presets[id].base.sigSame !== true))
           bad.push('⑤第326便b の退役の写し(🛞・基点 1b1fa70 と署名同じ)が揃わない');
       }
       if (has300m) {   // 第300便m: 退役 1 本(🌞)の写し(継続先との対の差・基点 881667c と署名同じ・較正母集団の行)
@@ -95689,7 +95690,12 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const seeR = Object.entries(RP).filter(([, e]) => (e.see || []).includes('ngc3198DFM')).map(([k]) => k);
       if (seeR.length) bad.push('③ see に 🛞 が残る行: ' + seeR.join(','));
       const ch = ((FX326b.seeRepoint || {}).changed || []);
-      if (!(ch.map((z) => z.id).sort().join(',') === 'darkrotor,galaxyAnalogyBH' && ch.every((z) => z.before.includes('ngc3198DFM') && JSON.stringify(RP[z.id].see) === JSON.stringify(z.after) && z.after.includes('ngc3198')))) bad.push('③ 写しの see の付け替え(🕶️・🌚 → 🌃)と今の表');
+      // 第326便の統合(a + b): 枝 a(AN530)が退役させた 🕳️ rotorSolo・🥚 selfRotor を指す see を 🐮 lfbotTrap・🌫️ collapse へ付け替えた世代
+      //   (RETIRED_PRESETS の 🕳️ の行が「第128報」)では、枝 b の写しの付け替えの後の see をその付け替えで読み替えて今の表と照らす
+      const has326aSee = !!(RP.rotorSolo && /^第128報/.test(RP.rotorSolo.ja || ''));
+      const SEE326A = { rotorSolo: 'lfbotTrap', selfRotor: 'collapse' };
+      const afterNow = (a) => has326aSee ? a.map((id) => SEE326A[id] || id) : a;
+      if (!(ch.map((z) => z.id).sort().join(',') === 'darkrotor,galaxyAnalogyBH' && ch.every((z) => z.before.includes('ngc3198DFM') && JSON.stringify(RP[z.id].see) === JSON.stringify(afterNow(z.after)) && z.after.includes('ngc3198')))) bad.push('③ 写しの see の付け替え(🕶️・🌚 → 🌃)と今の表');
       cases.push(`③ 家族 ngc3198 の在位 ${famLive.map((p) => p.emoji).join('')}(退役 ${fam.length - famLive.length})・see の 🛞 0 行(付け替え ${ch.length} 行)`);
       // ④ 原稿・生成物
       const SRC = JSON.parse(rd326b('tests/data-w279a-samplestatus-src.json') || '{}');
