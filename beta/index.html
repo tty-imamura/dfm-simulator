@@ -5603,7 +5603,7 @@ const MASS_BASIS={
   // --- **意図して宣言しない**(チップを出さない)---
   ngc3198:{kind:"undeclared", note:"**NFW ハローは観測質量ではない**(回転曲線に当てた模型の質量である)。恒星円盤の質量も観測から直接読んだ 1 粒の質量ではないので、この群では「観測解の質量を入力」と表示しない。",
     noteEn:"THE NFW HALO IS NOT AN OBSERVED MASS (it is a model mass fitted to the rotation curve), and the stellar-disk mass is not one body's directly observed mass either, so this group never prints \"masses entered from an observed solution\"."},
-  ngc3198DFM:{kind:"undeclared", note:"円盤の質量は模型の量(1 粒の質量は観測されていない —— 恒星と HI の総質量の転写を粒数で割った値)・中心核 m=100 単位は DFM 仮説の宣言値。NFW ハローは持たない。", noteEn:"The disk masses are model quantities (no single grain's mass is observed - the transcribed stellar and HI totals divided by the grain counts); the central rotor m = 100 units is a declared DFM hypothesis. It has no NFW halo."},   // 第326便b(R291): 注の直し —— NFW ハローの注は 🌃 の行だけ(この本は NFW を持たない —— 表示専用・presetSig の外)
+  ngc3198DFM:{kind:"undeclared", note:"🌃 と同じ理由(NFW ハロー・円盤質量は模型の量)。", noteEn:"Same reason as the observation build (the NFW halo and the disk mass are model quantities)."},
   tuc47:{kind:"undeclared", note:"星団の全質量は観測転写だが、**1 粒 1 粒の質量は観測されていない**(Plummer 形の設計値)。", noteEn:"The cluster's total mass is transcribed from observation, but THE INDIVIDUAL GRAIN MASSES ARE NOT OBSERVED (they are Plummer design values)."},
   tuc47DFM:{kind:"undeclared", note:"🍇 と同じ理由。平均場 χ-law の f は**質量補正であって観測質量ではない**。", noteEn:"Same reason as the observation build. The mean-field chi-law f is a MASS CORRECTION, not an observed mass."}
 };
@@ -42057,7 +42057,7 @@ const RETIRED_PRESETS={
   // 第326便b(原仮定者の回答(2026-11-03 —— AN531)「gc3198DFM〔ngc3198DFM〕は、意図した挙動では無いので廃止し、将来的にgeoPN=4で作り直す。ngc3198は、対照無しのダークマターハローサンプルとする」・
   //   統括の検証項目 R291): **退役 1 本**(🛞 —— 内蔵に残す・ID・物理〔第325便e の倍率 1 の宣言〕・claims・保存 JSON・過去の正本は不変 —— 変えたのは familyRole と下の行だけ)。
   //   家族 ngc3198 の入口は 🌃(primary へ)。将来の geoPN=4 の銀河の本は新しい ID で作る。凍結の写しは tests/fixtures/retired-w326b.json(前の宣言の写しは tests/fixtures/realmass-w325e.json)。
-  //   退役の 2 行(🕶️ darkrotor〔第73報〕・🌚 galaxyAnalogyBH〔第90報〕)の see の 🛞 を 🌃 へ付け替えた(理由の文は退役の時点の履歴のまま)。QA docs.ngc3198Halo326b
+  //   退役の 2 行(🕶️ 光学迷彩矮星の銀河〔第73報〕・🌚 銀河アナロジー〔第90報〕)の see の 🛞 を 🌃 へ付け替えた(理由の文は退役の時点の履歴のまま)。QA docs.ngc3198Halo326b
   ngc3198DFM:{ja:"AN531: 意図した挙動ではない(ハロー無しの引きずりで外縁の回転を支える試み —— 恒星質量を観測の値〔倍率 1〕へ戻した後も外縁は観測の約 1/3 で未達)ので廃止した —— 将来は新しい geoPN=4 で別の ID として作り直す。NGC 3198 の入口は対照無しのダークマターハローの本 🌃", en:"AN531: not the intended behaviour (an attempt to hold the outer rotation with halo-free dragging - with the stellar mass back at the observed value, multiplier 1, the outskirts still reach only about a third of the observed speed), so it is retired - a future geoPN=4 build gets a new ID. The NGC 3198 entry point is 🌃, the standalone dark-matter-halo sample", see:["ngc3198"]},
   // ==== 第326便b の塊(ここまで)====
 };
