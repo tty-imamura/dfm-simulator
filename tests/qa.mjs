@@ -21656,10 +21656,14 @@ if (!FAST) {
         const W286B = html286.indexOf('cLight:29979.2458') >= 0, W286F = html286.indexOf('  psrJ1946CF:{ja:') >= 0;
         // 第287便b(原仮定者の裁定(第77報)AN62): 🧶 psrB1534DFM も f=1(観測質量)—— 光線の源の質量が変わる(lens 除外の規則とは無関係 —— 鎖で正本を刻み直した後に出る差)
         const W287B = html286.indexOf('  psrB1534CF:{ja:') >= 0;
+        // 第326便(統括 —— 原仮定者の回答(2026-11-03 —— AN530)): 世代切替 = html の XK_LOCK_VERSION —— 移行した在位の本(凍結の写し xklock-w326a の分類 1・2)の集合
+        const XK326R = html286.indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0
+          ? (() => { try { return Object.entries(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'xklock-w326a.json'), 'utf8')).books || {}).filter(([, v]) => v && (v.kind === 'class1' || v.kind === 'class2')).map(([k]) => k); } catch (e) { return []; } })() : [];
         const CL286 = new Set(); if (W286B) { try { const CL = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w286b-clight.json'), 'utf8')); for (const b of (CL.books || []).concat(CL.others || [])) CL286.add(b.id); } catch (e) { /* 無い世代 */ } }
         const diff = others.filter((z) => !z.heavySame || z.raysDiffering !== 0).map((z) => z.id).filter((id) => !(W284R && id === 'psrDoubleABDFM') && !(W285F && id === 'psrJ1757DFM')
           && !(W286B && (CL286.has(id) || id === 'psrDoubleABGeoToy' || id === 'psrDoubleABSpinCal')) && !(W286F && id === 'psrJ1946DFM') && !(W287B && id === 'psrB1534DFM')
-          && !(typeof W299E_IDS !== 'undefined' && W299E_IDS.includes(id)));   // 第299便e(R174): 参照模型 8 本は三次元・倍精度の状態に変えた(宣言した差 —— lens 除外の規則とは無関係)
+          && !(typeof W299E_IDS !== 'undefined' && W299E_IDS.includes(id))   // 第299便e(R174): 参照模型 8 本は三次元・倍精度の状態に変えた(宣言した差 —— lens 除外の規則とは無関係)
+          && !XK326R.includes(id));   // 第326便(統括 —— AN530): 物理対応ロックの移行で X_k(と分類 2 の G_0)を変えた本 —— 光線は X_k を読む(宣言した差 —— lens 除外の規則とは無関係)
         if (diff.length) bad.push('🌚 以外で光線が変わった本 ' + diff.slice(0, 4).join(','));
         const has288cRL = R.survey.some((z) => z.id === 'galaxyAnalogyBHCompose');   // 第288便c: 🧩(🌚 の写し)も基点に無い(正本を鎖で刻み直した後に survey に入る)
         // 第288便a: 🥜 は正本 cluster-w283f.json(段 clusterAnalogy)より後に入った本 —— 正本の survey に 🥜 の行が**まだ無い**ときだけ 🥜 抜きの並びを受ける(段 clusterAnalogy を走らせ直すと 🥜 が newInNow で入る)
@@ -21837,6 +21841,12 @@ if (!FAST) {
         if (W319D_D3.err) bad.push('三次元の本の宣言が読めない: ' + W319D_D3.err);
         if (has292d285 && W319D_D3.fresh.length) { const inC3 = W319D_D3.fresh.filter((id) => (O.differ || []).indexOf(id) >= 0); for (const id of W319D_D3.fresh) OTHER285.add(id);
           nBuiltin285.splice(0, nBuiltin285.length, nBuiltin285[nBuiltin285.length - 1] + inC3.length); }
+        // 第326便(統括 —— 原仮定者の回答(2026-11-03 —— AN530)): 世代切替 = html の XK_LOCK_VERSION —— 物理対応ロックの移行で宣言を変えた在位の本
+        //   (凍結の写し xklock-w326a の分類 1・2 —— 分類 2 は G_0 が変わるので 1 步も動く)は同便の他枝の宣言した差(contactMode の契約とは無関係)
+        if (html285.indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0) {
+          try { for (const [k, v] of Object.entries(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'xklock-w326a.json'), 'utf8')).books || {})) if (v && (v.kind === 'class1' || v.kind === 'class2')) OTHER285.add(k); }
+          catch (e) { bad.push('第326便a の移行の写し(xklock-w326a.json)が読めない'); }
+        }
         const extra285 = (O.differ || []).filter((id) => !(O.declared || []).includes(id));
         if (!(nBuiltin285.includes(O.n) && extra285.every((id) => OTHER285.has(id)) && O.identical + O.differ.length === O.n)) bad.push('1 步の比較 ' + JSON.stringify(O).slice(0, 160));
         const C = JC.constraint;
@@ -48297,7 +48307,11 @@ if (!FAST) {
       //   (宣言の群・GROUP_ORDER は不変 —— 退役の本は一覧に出さない)。候補を追加して厳密一致(弱体化なし)
       const w326aG = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.rotorSolo && /^第128報/.test(RETIRED_PRESETS.rotorSolo.ja);
       const wantW326 = (wantW295 && w326aG) ? wantW295.filter((g) => g !== '自転と減光') : null;
-      const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272, wantW273, wantW288, (w294c ? null : wantW290), (w295d ? null : wantW294), (w326aG ? null : wantW295), wantW326].filter(Boolean);
+      // 第326便(統括 —— ゲートのフル QA で拾った): 退役の本を開いた後は、その本が隠しの #presetSelect に残る(「読み込み中の 1 本だけ一覧に残る」・
+      //   一覧を組み直すまで残る —— 既存の挙動)。フル QA では docs.retired が 🕳️🪜🥚 を開くので、その世代でも群「自転と減光」の見出しが残る ——
+      //   そのときは第295便d の順(「自転と減光」を含む)を厳密一致で受ける(残っている退役の本の option を見て判る —— 弱体化なし)
+      const stale326 = w326aG && [...document.querySelectorAll('#presetSelect option')].some((o) => ['rotorSolo', 'massLadder', 'selfRotor'].includes(o.value));
+      const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272, wantW273, wantW288, (w294c ? null : wantW290), (w295d ? null : wantW294), ((w326aG && !stale326) ? null : wantW295), wantW326].filter(Boolean);
       const hit = cands.find((c) => JSON.stringify(labels.slice(0, c.length)) === JSON.stringify(c));
       res.groups = labels.slice(0, (hit || want).length);
       res.groupsOk = !!hit;
