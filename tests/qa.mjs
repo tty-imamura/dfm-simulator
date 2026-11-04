@@ -48309,8 +48309,10 @@ if (!FAST) {
       const wantW326 = (wantW295 && w326aG) ? wantW295.filter((g) => g !== '自転と減光') : null;
       // 第326便(統括 —— ゲートのフル QA で拾った): 退役の本を開いた後は、その本が隠しの #presetSelect に残る(「読み込み中の 1 本だけ一覧に残る」・
       //   一覧を組み直すまで残る —— 既存の挙動)。フル QA では docs.retired が 🕳️🪜🥚 を開くので、その世代でも群「自転と減光」の見出しが残る ——
-      //   そのときは第295便d の順(「自転と減光」を含む)を厳密一致で受ける(残っている退役の本の option を見て判る —— 弱体化なし)
-      const stale326 = w326aG && [...document.querySelectorAll('#presetSelect option')].some((o) => ['rotorSolo', 'massLadder', 'selfRotor'].includes(o.value));
+      //   そのときは第295便d の順(「自転と減光」を含む)を厳密一致で受ける(残っている退役の本の option を見て判る —— 群「自転と減光」の退役の本〔🕳️🪜🥚 と
+      //   第283便b で退役した 🕶️ —— darkrotor.* が開く〕の option が一覧に残っていること —— 弱体化なし)
+      const stale326 = w326aG && (() => { const byId = new Map(HP.allPresets().map((p) => [p.id, p]));
+        return [...document.querySelectorAll('#presetSelect option')].some((o) => { const p = byId.get(o.value); return !!p && p.familyRole === 'retired' && p.group === '自転と減光'; }); })();
       const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272, wantW273, wantW288, (w294c ? null : wantW290), (w295d ? null : wantW294), ((w326aG && !stale326) ? null : wantW295), wantW326].filter(Boolean);
       const hit = cands.find((c) => JSON.stringify(labels.slice(0, c.length)) === JSON.stringify(c));
       res.groups = labels.slice(0, (hit || want).length);
