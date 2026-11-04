@@ -157,7 +157,8 @@ export function partS(I, K) {
     const eE = L.familyEPBound({ row, Ag: A0 * g, x, cGalaxyGamma0: I.bodies[key].I * L.DECL.cGalaxy }), eH = hullAt(I, K, key, A0, 0).bound;
     edges[key] = { familyE: eE, hull: eH };
   }
-  const ranks = rankAt(I, K, -0.75);
+  const accP = grid.filter((q) => q.sjiAccepted).map((q) => q.p), pRank = accP.length ? Math.max(...accP) : 0;   // 部 H と同じ規則(太陽–木星–イオが入る格子の点のうち 0 に最も近い p)
+  const ranks = Object.assign({ p: pRank }, rankAt(I, K, pRank));
   const sr = r0.ev.rows.find((q) => q.key === 'sun');
   const sunExact = { A: A0, AOverOmRef: A0 / I.OmRefSI, gDotSun: L.dot(I.g, I.bodies.sun.a), alongRel: sr.alongRel, reactionRel: Math.abs(sr.reaction) / sr.alongScale,
     AWithoutReaction: I.bodies.sun.s / L.dot(I.g, I.bodies.sun.a), AReactionRel: L.relD(A0, I.bodies.sun.s / L.dot(I.g, I.bodies.sun.a)) };
@@ -324,7 +325,7 @@ export function runAll(HP, html) {
   const inputs = { units: I.units, g: I.g, OmRefSI: I.OmRefSI, bodies: Object.fromEntries(Object.entries(I.bodies).map(([k, b]) => [k, { i: b.i, name: b.name, m: b.m, R: b.R, s: b.s, a: b.a, axisEngineAngDeg: b.axisEngineAngDeg, Rd: b.Rd, moi: b.moi, I: b.I, gDotA: L.dot(I.g, b.a) }])),
     tides: Object.fromEntries(Object.entries(I.tides).map(([k, n]) => [k, { n, along: L.dot(n, I.bodies[k.split(':')[0]].a) }])) };
   const k1 = { now: { omega: Know.omega }, J: { omega: KJ.omega, sourceMoment: KJ.sourceMoment } };
-  const J = { inputs, k1, solve: { now: S, J: { grid: SJ.grid, edges: SJ.edges, sunExact: SJ.sunExact } }, heat: H, venus: { now: V, J: { lambdaHullMin: VJ.lambdaHullMin, lambdaEMin: VJ.lambdaEMin, kRejected: VJ.kRejected, rejected: VJ.rejected } },
+  const J = { inputs, k1, solve: { now: S, J: { grid: SJ.grid, edges: SJ.edges, sunExact: SJ.sunExact } }, heat: H, venus: { now: V, J: { lambdaHullMin: VJ.lambdaHullMin, lambdaAtPHeat: VJ.lambdaAtPHeat, lambdaPEdge: VJ.lambdaPEdge, kRejected: VJ.kRejected, rejected: VJ.rejected, grid: VJ.grid, window: VJ.window } },
     checks: C, controls: N, radius: R, pure: { scenes: P, gates: PG }, timing: tm };
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
   return J;

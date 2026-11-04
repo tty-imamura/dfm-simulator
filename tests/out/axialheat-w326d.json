@@ -613,6 +613,7 @@
     }
    },
    "ranks": {
+    "p": -0.75,
     "fixedP": {
      "rank": 4,
      "cols": 4,
@@ -1273,8 +1274,112 @@
   },
   "J": {
    "lambdaHullMin": 262018051152.82794,
+   "lambdaAtPHeat": {
+    "lo": null,
+    "hi": null,
+    "exists": false
+   },
+   "lambdaPEdge": {
+    "p": -0.7366570628896185,
+    "existsBelow": false
+   },
    "kRejected": -92397.79950204202,
-   "rejected": true
+   "rejected": true,
+   "grid": [
+    {
+     "p": -1,
+     "k": -2335939.5918824603,
+     "rejected": true,
+     "inside": false,
+     "lambdaLo": null,
+     "lambdaHi": null,
+     "lambdaExists": false
+    },
+    {
+     "p": -0.75,
+     "k": -92397.79950204202,
+     "rejected": true,
+     "inside": false,
+     "lambdaLo": null,
+     "lambdaHi": null,
+     "lambdaExists": false
+    },
+    {
+     "p": -0.5,
+     "k": -3655.6702580582028,
+     "rejected": true,
+     "inside": false,
+     "lambdaLo": 1993803170201429.8,
+     "lambdaHi": 3605955931473682400,
+     "lambdaExists": true
+    },
+    {
+     "p": -0.25,
+     "k": -145.5214703236514,
+     "rejected": true,
+     "inside": false,
+     "lambdaLo": 79323649207235.23,
+     "lambdaHi": 91214606648638820000,
+     "lambdaExists": true
+    },
+    {
+     "p": 0,
+     "k": -6.679359851418802,
+     "rejected": true,
+     "inside": false,
+     "lambdaLo": 3640911118737.115,
+     "lambdaHi": 2.3060519385213682e+21,
+     "lambdaExists": true
+    },
+    {
+     "p": 1,
+     "k": -0.96137383042093,
+     "rejected": true,
+     "inside": false,
+     "lambdaLo": 524043731911.64655,
+     "lambdaHi": 9.420769147199094e+26,
+     "lambdaExists": true
+    },
+    {
+     "p": 2,
+     "k": -0.9613598337158189,
+     "rejected": true,
+     "inside": false,
+     "lambdaLo": 524036102324.332,
+     "lambdaHi": 3.8486076446160145e+32,
+     "lambdaExists": true
+    }
+   ],
+   "window": {
+    "lo": -0.7366570628896185,
+    "hi": -0.6521575615917578,
+    "width": 0.08449950129786077,
+    "pMid": -0.6944073122406882,
+    "lambda": 84781065391454500,
+    "lambdaLo": 27060168750209536,
+    "lambdaHi": 265623955092830900,
+    "venusOnly": {
+     "A": -0.000014807293435256026,
+     "k": {
+      "venus": 65427.525339201515,
+      "jupiter": 1.9056214448591078,
+      "io": 18240518.51804711
+     },
+     "rejected": [],
+     "accepted": true
+    },
+    "allSunPorts": {
+     "A": -0.00001920752562147158,
+     "k": {
+      "venus": 38651.36312170084,
+      "jupiter": 1.8583978535192027,
+      "io": 23656037.809056293
+     },
+     "rejected": [],
+     "accepted": true
+    },
+    "jupiterSunTargetAll": -0.00029509396937853064
+   }
   }
  },
  "checks": {
@@ -1565,11 +1670,11 @@
   }
  },
  "timing": {
-  "I": 0.133,
-  "K": 0.339,
-  "S": 0.348,
-  "HVCN": 0.36,
-  "R": 0.844
+  "I": 0.193,
+  "K": 0.474,
+  "S": 0.486,
+  "HVCN": 0.507,
+  "R": 1.196
  },
  "gates": {
   "pure": true,
@@ -1586,13 +1691,13 @@
   "radius": true
  },
  "ok": true,
- "elapsedS": 2.705,
+ "elapsedS": 4.478,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第326便d",
   "target": "beta/index.html",
   "targetSha256": "53f5173bf482d60de733e4538044c684dd7427612cf1f30dc043507c1844c8c5",
-  "generatedAt": "2026-11-04T00:49:12.988Z",
+  "generatedAt": "2026-11-04T00:53:05.065Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -1604,9 +1709,9 @@
   "code": [
    {
     "file": "tests/exp-w326d-axialheat.mjs",
-    "bytes": 38364,
-    "sha256": "a3ec6d19d857c3745ee3d7a4174a8c72db4f2707e08643fce2c8574f22ef29dd",
-    "mtime": "2026-11-04T00:49:10.152Z"
+    "bytes": 38676,
+    "sha256": "1f53b28573daa5f298827518d423f4f6871e1eba42198be22f0e6b958420e7f3",
+    "mtime": "2026-11-04T00:53:00.348Z"
    },
    {
     "file": "tests/lib-w326d-axialheat.mjs",
@@ -1645,7 +1750,7 @@
     "mtime": "2026-11-04T00:21:26.754Z"
    }
   ],
-  "codeSha256": "81c87444c5517cec6f355fa41ba5ad69748a50f481a38da5c01035e5bc744aa2",
+  "codeSha256": "489c6949162d0bd9a3d95e037fa4665b5a124b9bb481f1da4c2f3670d34fcec2",
   "harnessVersion": "w326d-axialheat-1",
   "stage": "axialheat",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
