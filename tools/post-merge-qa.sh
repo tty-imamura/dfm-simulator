@@ -626,6 +626,16 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.xkLock325f docs.xkLock325f lint.qaHeapR
 #   世代を直した既存の QA(lint.xkLock325f・ui.physLock315・physlock.ui-110・docs.retired・docs.noRetiredMention294 ほか —— PHYSICS〔第326便a〕の名指し)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.physLockAlways326a behavior.xkDerive326a docs.xkLock326a lint.xkLock325f ui.physLock315 physlock.ui-110 docs.retired docs.noRetiredMention294"
 # ==== 第326便a の塊(ここまで)====
+# ==== 第326便b の塊(ここから)====
+# 第326便b(原仮定者の回答(2026-11-03 —— AN531)「gc3198DFM〔ngc3198DFM〕は、意図した挙動では無いので廃止し、将来的にgeoPN=4で作り直す。ngc3198は、対照無しのダークマターハローサンプルとする」・
+#   統括の検証項目 R291): 枝 b の新設 1 ブロック(preset.ngc3198Halo326b —— 🛞 の退役・🌃 の家族の入口と説明・退役の see・原稿と生成物・凍結の写し tests/fixtures/retired-w326b.json /
+#   docs.ngc3198Halo326b —— 文書 / behavior.ngc3198AbHalo326b —— 原仮定者の回答(2026-11-04 —— AN533)の 🌃 のワンタップ対照〔NFW ハローの有無〕)と、世代で直した QA(docs.retired —— 第326便b の世代と root の正本の世代・ui.pickerStatusAxes —— 未達の代表 🥏)・退役の集合と掲載の数を読む
+#   docs.noRetiredMention294・lint.retiredRef302・preset.spaceMeshRetired300・preset.retire298・preset.retired290b・docs.geo4old325c・🛞 を ID で引く behavior.ngc3198(W5b —— 窓は広げない)・
+#   preset.realMassF1325e・docs.realMassF1325e・生成表の docs.sampleStatus-sync・preset.statusLedger-sync・docs.families・退役の数と時間の宣言の世代を直した preset.revived292b・preset.timeStd297・
+#   在位の別を直した lint.xkLock325f・機械鍵の出現数の docs.terminologyOpticalCamouflage・RETIRED_PRESETS の表で html の物理の部分の code が動く lint.htmlPhys325a・lint.provenanceMeta・規約の速い判定の lint.conventionsCheck323・
+#   PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310(root の部分 QA でも docs.retired を回す —— 正本の退役の数は root の世代の分岐で読む)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.ngc3198Halo326b docs.ngc3198Halo326b behavior.ngc3198AbHalo326b docs.retired ui.pickerStatusAxes docs.noRetiredMention294 lint.retiredRef302 preset.spaceMeshRetired300 preset.retire298 preset.retired290b docs.geo4old325c behavior.ngc3198 preset.realMassF1325e docs.realMassF1325e docs.sampleStatus-sync preset.statusLedger-sync docs.families preset.revived292b preset.timeStd297 lint.xkLock325f docs.terminologyOpticalCamouflage lint.htmlPhys325a lint.provenanceMeta lint.conventionsCheck323 lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第326便b の塊(ここまで)====
 # ==== 第326便c の塊(ここから)====
 # 第326便c(原仮定者の指示(第128報)「「選択粒子の編集」から、「減光」と「自動」を外す。「X」と「Y」を編集対象に加える」「「パラメータ」の「時空」から、「物理対応ロック」を外す。計算済みの「κ_D」「Xₖ」「Yₖ」を表示する」・
 #   原仮定者の回答(2026-11-03 —— AN530)・統括の検証項目 R292 —— UI だけ): 枝 c の新設 3 本(ui.selEditXY326c —— 選択粒子の編集の x・y と外した欄 / ui.spacetimeDerived326c —— 時空の群の計算済みの 3 行 /

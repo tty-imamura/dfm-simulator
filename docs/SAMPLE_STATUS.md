@@ -14,9 +14,9 @@
 
 ## 集計
 
-- 掲載 **122 本**(サンプル一覧に出る在位の本 —— 群 14・うち 0 本の群 4)。状況と較正の集計は掲載の本で数える。
-- 状況: **達 84・部分 35・未達 3・対象外 0**。
-- 較正: 4 値(合/量限定合/否/保留)**0/2/1/16**(台帳の転記)・判定保留(量定義不一致)**0**・較正対象外 **103**。
+- 掲載 **121 本**(サンプル一覧に出る在位の本 —— 群 14・うち 0 本の群 4)。状況と較正の集計は掲載の本で数える。
+- 状況: **達 84・部分 35・未達 2・対象外 0**。
+- 較正: 4 値(合/量限定合/否/保留)**0/2/1/16**(台帳の転記)・判定保留(量定義不一致)**0**・較正対象外 **102**。
 - 量の 5 区分(正本 `tests/out/calaudit-w249.json` の summary.tally の転記 —— 来歴の欄であって合否ではない): 合 **48**・窓 **0**・否 **3**・従 **2**・転 **117**。
 
 | 群 | 本数 | 達 | 部分 | 未達 | 4 値の本 | 判定保留(量定義不一致) | 較正対象外 |
@@ -31,7 +31,7 @@
 | 🌗 自転と減光 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 🌀 腕と軸力 | 11 | 5 | 5 | 1 | 0 | 0 | 11 |
 | 🎯 実在天体との照合 | 41 | 21 | 19 | 1 | 19 | 0 | 22 |
-| 🔭 実在天体のアナロジー | 5 | 2 | 2 | 1 | 0 | 0 | 5 |
+| 🔭 実在天体のアナロジー | 4 | 2 | 2 | 0 | 0 | 0 | 4 |
 | ⚗️ 法則の実験室 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 🖥️ シミュレーション | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 📏 現実との照合 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -202,13 +202,12 @@
 | 📎 | `saturnD68ObsOrbit` | 土星 D68 の近点移動 — 観測定義の軌道の診断コピー(ae=25 km) | 観測の a と ae の定義で置いた D68 の近点移動を測る | 部分・同じ窓で測定済み・a と ae と ϖ̇ の同一元期の組は未確認(根拠: `tests/out/d68-w280e.json`) | 較正対象外 | — | — | — |
 | 💍 | `saturnRingReal` | 土星の環(実単位)— 見えないのが正しい | 実単位の土星の環を kF0 で照合する | 部分・焦点は環の帯の周期・群は試験粒子(質量のある粒の較正と読まない)(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`, `tests/out/tpsign-w284e.json`, `behavior.testParticleSigned`) | 保留 | — | σ 未接続 | C環内縁・ミマス・タイタンの公転周期・近点の観測 σ を観測表に宣言して σ 接続器に入れる。離心率は e↔eProxy の写像を宣言する。C環内縁の周期の残差 −0.27% は 1PN(10⁻⁸ の桁)の外で、1PN の是正では解けない |
 
-## 🔭 実在天体のアナロジー(5 本)
+## 🔭 実在天体のアナロジー(4 本)
 
 | 絵文字 | ID | 名前 | 目的 | 状況(達/部分/未達+根拠) | 較正 | 合わない量と差 | 精度見込み | 保留の解き方 |
 |---|---|---|---|---|---|---|---|---|
 | 🍇 | `tuc47` | 球状星団 47 Tuc(観測転写)— Plummer 形の第一号 | 47 Tuc の配置と速度を観測から転写する | 部分・束縛 93.3%・視線分散との量の対応は未確定(根拠: `behavior.tuc47`) | 較正対象外 | — | — | — |
-| 🌃 | `ngc3198` | 渦巻銀河 NGC 3198(観測転写)— 指数円盤+NFW 対照 | 指数円盤と NFW ハローで回転を比べる | 部分・外縁 128 km/s・ハローは自前 fit(根拠: `behavior.ngc3198`) | 較正対象外 | — | — | — |
-| 🛞 | `ngc3198DFM` | NGC 3198(DFM版)— 恒星質量+自由中心核のアナロジー | ハローなしの DFM で外縁速度を支える | 未達・恒星質量を観測の値(倍率 1)へ戻した後も外縁 51 km/s で未達 —— 次の見直しへ(根拠: `behavior.ngc3198`) | 較正対象外 | — | — | — |
+| 🌃 | `ngc3198` | 渦巻銀河 NGC 3198(観測転写)— 指数円盤+NFW ハロー | 指数円盤と NFW ハローの転写で外縁の回転を保つ(対照無しのダークマターハローの本) | 部分・外縁 128 km/s・ハローは自前 fit(根拠: `behavior.ngc3198`) | 較正対象外 | — | — | — |
 | 🥀 | `supernovaProg` | 超新星前駆星 — ベテルギウス(観測転写) | ベテルギウスの前駆星状態を転写する | 達・静止の保持と転写を検査で確認(根拠: `behavior.supernovaObs`) | 較正対象外 | — | — | — |
 | 🦀 | `crabRemnant` | 超新星残骸 SN 1054 — かに星雲とパルサー(観測転写) | かに星雲とパルサーの残骸状態を転写する | 達・膨張速度の転写と自由膨張を確認(根拠: `behavior.supernovaObs`) | 較正対象外 | — | — | — |
 
@@ -356,7 +355,6 @@
 | 💍 `saturnRingReal` | 125 | dt 125 | 0.08・2 | `preset.saturnRingReal` 0.04・`wave121.ui` 0.04 |
 | 🍇 `tuc47` | — | — | 1.07・2 | `preset.tuc47` 1.07・`behavior.tuc47` 0.00 |
 | 🌃 `ngc3198` | — | — | 1.73・2 | `preset.ngc3198` 1.73・`behavior.ngc3198` 0.00 |
-| 🛞 `ngc3198DFM` | — | — | 4.20・1 | `preset.ngc3198DFM` 4.20 |
 | 🥀 `supernovaProg` | — | — | 0.01・1 | `preset.supernovaProg` 0.01 |
 | 🦀 `crabRemnant` | — | — | 0.18・1 | `preset.crabRemnant` 0.18 |
 
@@ -403,7 +401,7 @@
 | wbglaw-301g | 325 | 領域の宣言 | all(内蔵の全 186 本) |
 | geo4stable-299d | 314 | 領域の宣言 | 1 本: 🟫 `mercurySunInertialFit`(ほかに掲載の外の本 4 本) |
 | clusterStable | 311 | 領域の宣言 | 1 本: 🔥 `gas`(ほかに掲載の外の本 2 本) |
-| galaxydiag | 293 | 領域の宣言 | 2 本: 🌃 `ngc3198`・🛞 `ngc3198DFM` |
+| galaxydiag | 293 | 領域の宣言 | 1 本: 🌃 `ngc3198`(ほかに掲載の外の本 1 本) |
 | geo3-294a | 292 | 領域の宣言 | 1 本: 🌙 `earthMoonReal`(ほかに掲載の外の本 1 本) |
 | moon3d-298c | 290 | 領域の宣言 | 1 本: 🌦️ `earthMoonSunInertial3d`(ほかに掲載の外の本 1 本) |
 | contact285 | 274 | 領域の宣言 | all(内蔵の全 186 本) |
@@ -414,7 +412,7 @@
 | timing294 | 183 | 領域の宣言 | all(内蔵の全 186 本) |
 | geo4-295b | 176 | 領域の宣言 | all(内蔵の全 186 本) |
 | d68 | 170 | 領域の宣言 | all(内蔵の全 186 本) |
-| sparc | 169 | 領域の宣言 | 3 本: 🌌 `galaxy`・🌃 `ngc3198`・🛞 `ngc3198DFM` |
+| sparc | 169 | 領域の宣言 | 2 本: 🌌 `galaxy`・🌃 `ngc3198`(ほかに掲載の外の本 1 本) |
 | pairfuse288 | 161 | 領域の宣言 | 1 本: 🔥 `gas`(ほかに掲載の外の本 4 本) |
 | shapetoy | 148 | 領域の宣言 | 3 本: 🧵 `shapeToyArm`・🔮 `shapeToyCluster`・🥏 `shapeToyDisk` |
 | swing293 | 146 | 領域の宣言 | 1 本: 🔆 `emAuditSolar`(ほかに掲載の外の本 1 本) |
@@ -508,8 +506,8 @@
 | bgcompose | 2.00 | 領域の宣言 | 0 本 |
 | sphereKernel | 2.00 | 領域の宣言 | 1 本: 🔥 `gas` |
 | needmesh | 2.00 | 物理の部分(htmlPhys) | — |
-| galaxychain | 2.00 | 領域の宣言 | 2 本: 🎠 `galaxyMeshSpiral`・🛞 `ngc3198DFM`(ほかに掲載の外の本 2 本) |
-| analogy | 2.00 | 領域の宣言 | 3 本: 🎠 `galaxyMeshSpiral`・🔥 `gas`・🛞 `ngc3198DFM`(ほかに掲載の外の本 4 本) |
+| galaxychain | 2.00 | 領域の宣言 | 1 本: 🎠 `galaxyMeshSpiral`(ほかに掲載の外の本 3 本) |
+| analogy | 2.00 | 領域の宣言 | 2 本: 🎠 `galaxyMeshSpiral`・🔥 `gas`(ほかに掲載の外の本 5 本) |
 | strain | 2.00 | 領域の宣言 | 2 本: 🎠 `galaxyMeshSpiral`・🧹 `shapeToyArmCore` |
 | bgderiv | 2.00 | 領域の宣言 | 0 本 |
 | ckfixcap290 | 2.00 | 領域の宣言 | 2 本: 🧅 `layeredCoreDFM`・🧵 `shapeToyArm`(ほかに掲載の外の本 5 本) |
@@ -542,7 +540,7 @@
 | srcradius-319b | 2.00 | 領域の宣言 | 10 本: 🟠 `jupiterGalilean`・🏀 `jupiterSunInertial3d`・🔴 `marsSunInertial3d`・☿ `mercury`・🌡️ `mercurySunInertial3d`・💙 `neptuneSunInertial3d`・💍 `saturnRingReal`・🟡 `saturnSunInertial3d`・🔷 `uranusSunInertial3d`・🌋 `venusSunInertial3d`(ほかに掲載の外の本 1 本) |
 | srcheat-320a | 2.00 | 領域の宣言 | 3 本: 🏀 `jupiterSunInertial3d`・🗺️ `solarSystem16Inertial3d`・🌋 `venusSunInertial3d` |
 | geo2v3-321a | 2.00 | 領域の宣言 | 1 本: 💫 `galaxyGeo2` |
-| galfield-321c | 2.00 | 領域の宣言 | 15 本: 🍳 `galaxyDB`・💫 `galaxyGeo2`・🎡 `galaxyStd`・🟠 `jupiterGalilean`・🏀 `jupiterSunInertial3d`・🔴 `marsSunInertial3d`・☿ `mercury`・🌡️ `mercurySunInertial3d`・💙 `neptuneSunInertial3d`・🛞 `ngc3198DFM`・💍 `saturnRingReal`・🟡 `saturnSunInertial3d`・🗺️ `solarSystem16Inertial3d`・🔷 `uranusSunInertial3d`・🌋 `venusSunInertial3d`(ほかに掲載の外の本 3 本) |
+| galfield-321c | 2.00 | 領域の宣言 | 14 本: 🍳 `galaxyDB`・💫 `galaxyGeo2`・🎡 `galaxyStd`・🟠 `jupiterGalilean`・🏀 `jupiterSunInertial3d`・🔴 `marsSunInertial3d`・☿ `mercury`・🌡️ `mercurySunInertial3d`・💙 `neptuneSunInertial3d`・💍 `saturnRingReal`・🟡 `saturnSunInertial3d`・🗺️ `solarSystem16Inertial3d`・🔷 `uranusSunInertial3d`・🌋 `venusSunInertial3d`(ほかに掲載の外の本 4 本) |
 | binbooks-322b | 2.00 | 領域の宣言 | 19 本: ✨ `alphaCenAB`・🔶 `alphaCenABInertial3d`・⭐ `binary`・♊ `binaryCheckEqualInertial3d`・⚖️ `binaryCheckRatio3Inertial3d`・🫂 `boxBinaryToy`・🪗 `compactForceToy`・🌐 `coord3dKeplerTilt`・🎲 `coord3dSpinPrecess`・♾️ `fig8`・🎐 `gw150914`・🐌 `inertialDragPair`・📿 `psrB1534`・📻 `psrDoubleAB`・🧮 `psrJ1757DFM`・🩺 `psrJ1946DFM`・🌟 `siriusAB`・🌠 `siriusABInertial3d`・⚙️ `spinDipoleBinary` |
 | fieldcontract-322c | 2.00 | 領域の宣言 | 11 本: 🟠 `jupiterGalilean`・🏀 `jupiterSunInertial3d`・🔴 `marsSunInertial3d`・☿ `mercury`・🌡️ `mercurySunInertial3d`・💙 `neptuneSunInertial3d`・💍 `saturnRingReal`・🟡 `saturnSunInertial3d`・🗺️ `solarSystem16Inertial3d`・🔷 `uranusSunInertial3d`・🌋 `venusSunInertial3d`(ほかに掲載の外の本 1 本) |
 | geo2thick-324a | 2.00 | 領域の宣言 | 4 本: 💫 `galaxyGeo2`・🫓 `galaxyGeo2Flat3d`・🥞 `galaxyGeo2Thick3d`・🧇 `galaxyGeo2ThickTilt3d` |

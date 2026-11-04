@@ -4623,6 +4623,12 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **既定値のマージ(AN532 —— 推奨 A)**: X_k を書かない本も G_0/c_0² になる(既定の G = 1・c_0 = 30 なら 1/900)。表の既定値そのもの(kappaT = 0.016666666666666666)を書いた本は告知なしで導出値へ。**SYSTEM_PROMPT の既定値の一覧(kappaT = 1/60)は本便では変えていない**(AI 生成のまとめた改良 —— 決断事項 AN523 の候補)。
 - 例外は内蔵の退役の本(履歴)だけ —— 開いている間は宣言の X_k のまま。退役 3 本(🕳️ rotorSolo・🪜 massLadder・🥚 selfRotor)を AI の例・注記に挙げない。
 - 凍結の写し `tests/fixtures/xklock-w326a.json`(移行の前後)・`tests/fixtures/retired-w326a.json`。QA `lint.physLockAlways326a`・`behavior.xkDerive326a`・`docs.xkLock326a`。
+## 183. 第326便b —— NGC 3198 の家族の整理: 🛞 ngc3198DFM の退役・🌃 ngc3198 を家族の入口(対照無しのダークマターハローの本)へ(原仮定者の回答(2026-11-03 —— AN531)・統括の検証項目 R291・**受理器・步・式・`S._core`・在位の本の物理の宣言は不変** —— familyRole・名・説明の欄・退役の表だけ・**SYSTEM_PROMPT には載せない**)
+
+- **退役**: 🛞 `ngc3198DFM`(ハロー無しの引きずりで外縁の回転を支える hold-out —— 恒星質量を観測の値〔倍率 1〕へ戻した後も外縁は観測の約 1/3 で未達)は意図した挙動ではないので退役(`familyRole:"retired"`・`RETIRED_PRESETS` の行 —— see は 🌃)。内蔵に残り ID で履歴として開く(ID・物理・保存 JSON・署名は不変)。凍結の写し `tests/fixtures/retired-w326b.json`。将来の geoPN=4 の銀河の本は**新しい ID** で作る(🛞 の ID を使い回さない)。
+- **🌃 `ngc3198`**: 家族 ngc3198 の入口(`familyRole:"primary"`)。**対照無しのダークマターハローの本** —— 外縁の回転は外力 `physics.halo`(NFW —— SPARC の 43 点への自前の 2 ノブの最小二乗・ρ₀ 2.685×10⁻³ 単位・r_s 61.31 単位)が受け持ち、引きずり(kFrame)は 0。名は「指数円盤+NFW ハロー」(説明の欄から DFM 版との対の役割を外した —— 署名・physics・bodies は不変)。**ワンタップ対照**(原仮定者の回答(2026-11-04 —— AN533)): `abBody:{label, physicsPatch:{halo:null}}` —— A/B の B 側だけ NFW ハローを外し、同じ初期配置でハローの有無を並べる(B 側の外縁帯は空になる)。AI がハローを持つ本を作るときも、ハローの有無の対照は `physicsPatch:{halo:null}` の abBody で書ける。
+- AI が NGC 3198 の本を作るときの意味: 観測の転写の基準は 🌃(恒星円盤・HI の円盤・NFW の外力)。NFW を外した本を「DFM の引きずりで外縁を支えた」と書かない(🛞 は未達のまま退役した)。
+- QA `preset.ngc3198Halo326b`・`docs.ngc3198Halo326b`(新設)・docs.retired・ui.pickerStatusAxes(世代の直し)。
 ## 184. 第326便c —— UI: 選択粒子の編集の位置 x・y(減光と自動の欄を外す)・「時空」の群の計算済みの決定力定数 κ_D・時空係数 X_k・引きずり係数 Y_k(物理対応ロックの切替を外す)(原仮定者の指示(第128報)・原仮定者の回答(2026-11-03 —— AN530)・統括の検証項目 R292・**UI だけ —— 受理器・步・式・`S._core`・本の宣言の鍵と受理は不変**・**SYSTEM_PROMPT には載せない**)
 
 - **選択粒子の編集**: 減光の欄(`#beSw` —— 数値と "auto")と「自動」のチェック(`#beSwAuto`)を外し、位置の欄 `#beX`・`#beY` を vx・vy の行の直前に加えた(値域 ±5000 —— 受理器の座標と同じ・書き込みは vx・vy と同じ)。AI が書く本の `lightSweep`(数値 0〜1・"auto")は今のまま受理され、今のまま動く(画面から編集できなくなるだけ)。

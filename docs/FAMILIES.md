@@ -20,7 +20,7 @@
 
 ## 集計
 
-- 家族 **21**・本 **50**(在位の本)・推定の列: 主系列 24・比較 21・診断 5。
+- 家族 **21**・本 **49**(在位の本)・推定の列: 主系列 24・比較 21・診断 4。
 - 候補: 規則 A 1・規則 B 0・規則 C(要裁定)1・畳まない組 0。
 
 | 家族 | 本数 | 基準 | 主系列 | 比較 | 診断 | 候補 A/B/C | 畳まない組 |
@@ -39,7 +39,7 @@
 | 銀河回転(空間メッシュ・アナロジー)(`galaxyMesh`) | 1 | `galaxyMeshSpiral` | 1 | 0 | 0 | 0/0/0 | 0 |
 | 銀河の回転曲線 7 本(`galaxyrot`) | 7 | `galaxy` | 1 | 6 | 0 | 0/0/0 | 0 |
 | 球状星団 47 Tuc(`tuc47`) | 1 | `tuc47` | 1 | 0 | 0 | 0/0/0 | 0 |
-| 渦巻銀河 NGC 3198(`ngc3198`) | 2 | `ngc3198DFM` | 1 | 0 | 1 | 0/0/0 | 0 |
+| 渦巻銀河 NGC 3198(`ngc3198`) | 1 | `ngc3198` | 1 | 0 | 0 | 0/0/0 | 0 |
 | 形の玩具(中心なし)(`shapeToy`) | 4 | `shapeToyCluster` | 1 | 3 | 0 | 0/0/0 | 0 |
 | 形の玩具(中心天体つき)(`shapeToyCore`) | 4 | `shapeToyClusterCore` | 1 | 3 | 0 | 0/0/0 | 0 |
 | 棒と腕(軸力・DFM の外)(`axisBar`) | 3 | `axisBarStill` | 1 | 2 | 0 | 0/0/0 | 0 |
@@ -306,22 +306,15 @@
 
 **統廃合の候補**: 規則に当たる組は無い。
 
-## 渦巻銀河 NGC 3198(`ngc3198`・2 本)
+## 渦巻銀河 NGC 3198(`ngc3198`・1 本)
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 🛞 | `ngc3198DFM` | primary | 主系列(母集団の外の家族の入口(primary)) | 基準 | principle | — | 0 | 1 | 0.006 | — | 2 | 1(f-fixed-1) | — | — | ハローなしの DFM で外縁速度を支える | — |
-| 🌃 | `ngc3198` | variant | 診断(principle・「対照」) | 違う入力(本数・質量・位置・速度) | principle | — | 0 | 0 | 0.006 | — | 2 | — | — | — | 指数円盤と NFW ハローで回転を比べる | — |
+| 🌃 | `ngc3198` | primary | 主系列(母集団の外の家族の入口(primary)) | 基準 | principle | — | 0 | 0 | 0.006 | — | 2 | — | — | — | 指数円盤と NFW ハローの転写で外縁の回転を保つ(対照無しのダークマターハローの本) | — |
 
-**鍵ごとの差**(physics の同じ鍵 24):
+**鍵ごとの差**(physics の同じ鍵 27):
 
-- `physics.halo`: ngc3198DFM=— / ngc3198={"model":"nfw","cx":0,"cy":0,"rho0":0.002685,"rs":61.31}
-- `physics.kFrame`: ngc3198DFM=1 / ngc3198=0
-- `physics.stepDt`: ngc3198DFM=0.032 / ngc3198=0.048
-- `massCalibration`: ngc3198DFM=(宣言あり) / ngc3198=—
-- `timeRef`: ngc3198DFM=(宣言あり) / ngc3198=(宣言あり)
-- `familyRole`: ngc3198DFM=primary / ngc3198=variant
-- `bodies(vs 基準)`: ngc3198DFM=基準 / ngc3198=違う入力(本数・質量・位置・速度)
+- `bodies(vs 基準)`: ngc3198=基準
 
 **統廃合の候補**: 規則に当たる組は無い。
 
@@ -445,7 +438,7 @@
 
 **統廃合の候補**: 規則に当たる組は無い。
 
-## 退役 64 本の棚卸し(統括の検証項目 R84)
+## 退役 65 本の棚卸し(統括の検証項目 R84)
 
 > 退役は**フラグ**である(`familyRole:"retired"`)。内蔵(BUILTIN_PRESETS)から消していない —— 旧セーブ・履歴の正本・過去の記録が ID で参照する。サンプル一覧に出さず、開いたときに「退役(履歴)」の 1 行を出す。物理・署名・保存 JSON は変えていない。
 
@@ -476,7 +469,7 @@
 - **第285便f の写し** `tests/fixtures/retired-w285f.json`(原仮定者の裁定(第75報)AN51・AN24′): 退役 1 本(`psrJ1757CF`)と、f=1 へ移した本の旧則(`psrJ1757DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`・`behavior.w249a-pnResponse`・`behavior.jointCalProtocol`。
 - **第286便f の写し** `tests/fixtures/retired-w286f.json`(原仮定者の裁定(第76報)AN57): 退役 1 本(`psrJ1946CF`)と、f=1 へ移した本の旧則(`psrJ1946DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `behavior.w249a-pnResponse`・`docs.j1946adoptPublished`・`docs.j1946Adopted`。
 - **第287便b の写し** `tests/fixtures/retired-w287b.json`(原仮定者の裁定(第77報)AN62): 退役 1 本(`psrB1534CF`)と、f=1 へ移した本の旧則(`psrB1534DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`。
-- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 64 本): 凍結の写しを読む 2・再生成表の履歴 25・再生成表の現行 15・道具 4・表の外 18。QA 本体の出現数: darkrotor 146・bhCore 47・nebulaRotor 19・nebulaShell 15・nebulaBipolar 22・starSeed 21・bhCoreTilt 21・galaxyMeshSpiralGeoToyLite 26・psrDoubleABPN 21・psrJ1757PN 13・psrJ1946PN 15・emAuditNewton 35・psrDoubleABCF 15・psrJ1757CF 21・psrJ1946CF 22・psrB1534CF 21。
+- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 64 本): 凍結の写しを読む 2・再生成表の履歴 25・再生成表の現行 15・道具 4・表の外 18。QA 本体の出現数: darkrotor 148・bhCore 47・nebulaRotor 19・nebulaShell 15・nebulaBipolar 22・starSeed 21・bhCoreTilt 21・galaxyMeshSpiralGeoToyLite 26・psrDoubleABPN 21・psrJ1757PN 13・psrJ1946PN 15・emAuditNewton 35・psrDoubleABCF 15・psrJ1757CF 21・psrJ1946CF 22・psrB1534CF 21。
 
 | 器 | 名指しする ID | 再生成表の段 | 扱い |
 |---|---|---|---|

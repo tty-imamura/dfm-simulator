@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "8d5b24e59fd955353a84d14576b16053a1f99e073134104dce29987a19f1bf97",
-  "generatedAt": "2026-11-04T02:41:56.812Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T02:48:52.027Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7650629,
-    "sha256": "8d5b24e59fd955353a84d14576b16053a1f99e073134104dce29987a19f1bf97",
-    "mtime": "2026-11-04T02:41:20.143Z"
+    "bytes": 7655546,
+    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "mtime": "2026-11-04T02:48:34.879Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
@@ -50,17 +50,17 @@
    },
    {
     "file": "docs/FAMILIES.md",
-    "bytes": 54555,
-    "sha256": "df88e59b3465b74205cdb89a19ff1940393800b4b9bc34545828d3c37e963141",
-    "mtime": "2026-11-04T02:41:56.783Z"
+    "bytes": 53931,
+    "sha256": "08b1a45e321856ca02fb8d54ff9a69a089b70c277d444d26cb6a62bce11f2b42",
+    "mtime": "2026-11-04T02:48:52.003Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w283b-families.mjs",
-    "bytes": 45989,
-    "sha256": "f86e84444e6d0622ae2262440abe4d84238f6540e017fd78248c29a195aef17b",
-    "mtime": "2026-11-04T02:41:20.219Z"
+    "bytes": 46050,
+    "sha256": "067c89c38a6379955fa53730c9650162f4e3f3d40084cf51da63ebb7b13a106c",
+    "mtime": "2026-11-04T02:47:14.143Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -93,7 +93,7 @@
     "mtime": "2026-11-04T01:25:51.523Z"
    }
   ],
-  "codeSha256": "fc17fa712341e6c5a2c7353a1ad165745831c5e996cc0794a20f2bcd3e66de68",
+  "codeSha256": "d3acfd6c273d6ec4a71f9311281cdfc9c0f6c6c2f67b65b94d9b5afb12ae817c",
   "harnessVersion": "w326e-families-3",
   "scope": {
    "version": "w326e-scope-7",
@@ -120,7 +120,7 @@
    "segments": 1194,
    "closureShare": 0.3226
   },
-  "scopeSha256": "3df9ffe88246eda4c67da3b2981141ba39b022083490da65a36f39120bf13e05",
+  "scopeSha256": "d1ce6e6e526e47db3bd436be66067c6dd0944c99bce58d2123d7e6213dbb53cf",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -259,11 +259,11 @@
  "badRole": [],
  "counts": {
   "families": 21,
-  "members": 50,
+  "members": 49,
   "retiredMembers": 0,
   "role": {
    "主系列": 24,
-   "診断": 5,
+   "診断": 4,
    "比較": 21
   },
   "cand": {
@@ -2535,53 +2535,20 @@
   {
    "key": "ngc3198",
    "ja": "渦巻銀河 NGC 3198",
-   "ref": "ngc3198DFM",
+   "ref": "ngc3198",
    "ids": [
-    "ngc3198DFM",
     "ngc3198"
    ],
-   "retiredIds": [],
+   "retiredIds": [
+    "ngc3198DFM"
+   ],
    "rows": [
-    {
-     "id": "ngc3198DFM",
-     "emoji": "🛞",
-     "name": "NGC 3198(DFM版)— 恒星質量+自由中心核のアナロジー",
-     "familyId": "ngc3198",
-     "familyRole": "primary",
-     "retired": false,
-     "sampleClass": "principle",
-     "catalog": null,
-     "group": "実在天体のアナロジー",
-     "calVariant": null,
-     "inPopulation": false,
-     "variantLabel": null,
-     "geoPN": 0,
-     "kFrame": 1,
-     "D0": 0.006,
-     "D0pull": null,
-     "q": 2,
-     "qLock": false,
-     "massCalibration": {
-      "law": "f-fixed-1",
-      "f": 1
-     },
-     "relativeDrag": null,
-     "spaceMesh": null,
-     "purpose": "ハローなしの DFM で外縁速度を支える",
-     "gates": [],
-     "presetSigHash": "761fbca5",
-     "accepted": true,
-     "roleEst": "主系列",
-     "roleWhy": "母集団の外の家族の入口(primary)",
-     "input": "基準",
-     "vsRef": null
-    },
     {
      "id": "ngc3198",
      "emoji": "🌃",
-     "name": "渦巻銀河 NGC 3198(観測転写)— 指数円盤+NFW 対照",
+     "name": "渦巻銀河 NGC 3198(観測転写)— 指数円盤+NFW ハロー",
      "familyId": "ngc3198",
-     "familyRole": "variant",
+     "familyRole": "primary",
      "retired": false,
      "sampleClass": "principle",
      "catalog": null,
@@ -2598,91 +2565,25 @@
      "massCalibration": null,
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "指数円盤と NFW ハローで回転を比べる",
+     "purpose": "指数円盤と NFW ハローの転写で外縁の回転を保つ(対照無しのダークマターハローの本)",
      "gates": [],
      "presetSigHash": "3a1f9c0d",
      "accepted": true,
-     "roleEst": "診断",
-     "roleWhy": "principle・「対照」",
-     "vsRef": {
-      "bodies": {
-       "count": false,
-       "m": false,
-       "x": false,
-       "v": false,
-       "other": false
-      },
-      "physicsDiff": [
-       "halo",
-       "kFrame",
-       "stepDt"
-      ],
-      "topDiff": [
-       "massCalibration",
-       "timeRef"
-      ]
-     },
-     "input": "違う入力(本数・質量・位置・速度)"
+     "roleEst": "主系列",
+     "roleWhy": "母集団の外の家族の入口(primary)",
+     "input": "基準",
+     "vsRef": null
     }
    ],
    "keyDiff": [
     {
-     "key": "physics.halo",
-     "values": {
-      "ngc3198DFM": null,
-      "ngc3198": {
-       "model": "nfw",
-       "cx": 0,
-       "cy": 0,
-       "rho0": 0.002685,
-       "rs": 61.31
-      }
-     }
-    },
-    {
-     "key": "physics.kFrame",
-     "values": {
-      "ngc3198DFM": 1,
-      "ngc3198": 0
-     }
-    },
-    {
-     "key": "physics.stepDt",
-     "values": {
-      "ngc3198DFM": 0.032,
-      "ngc3198": 0.048
-     }
-    },
-    {
-     "key": "massCalibration",
-     "values": {
-      "ngc3198DFM": "(宣言あり)",
-      "ngc3198": null
-     }
-    },
-    {
-     "key": "timeRef",
-     "values": {
-      "ngc3198DFM": "(宣言あり)",
-      "ngc3198": "(宣言あり)"
-     }
-    },
-    {
-     "key": "familyRole",
-     "values": {
-      "ngc3198DFM": "primary",
-      "ngc3198": "variant"
-     }
-    },
-    {
      "key": "bodies(vs 基準)",
      "values": {
-      "ngc3198DFM": "基準",
-      "ngc3198": "違う入力(本数・質量・位置・速度)"
+      "ngc3198": "基準"
      }
     }
    ],
-   "physicsSameKeys": 24,
+   "physicsSameKeys": 27,
    "candidates": [],
    "keepApart": [],
    "history": []
@@ -4249,6 +4150,7 @@
    "spaceMeshBinaryToy",
    "gw150914DFM",
    "tuc47DFM",
+   "ngc3198DFM",
    "supernovaProgDFM",
    "saturn",
    "saturnLayered",
@@ -5411,7 +5313,7 @@
    }
   ],
   "qaRefs": {
-   "darkrotor": 146,
+   "darkrotor": 148,
    "bhCore": 47,
    "nebulaRotor": 19,
    "nebulaShell": 15,
@@ -5473,6 +5375,7 @@
    "nebulaBipolar",
    "nebulaRotor",
    "nebulaShell",
+   "ngc3198DFM",
    "plutoCharonDFM",
    "plutoCharonInertial",
    "plutoCharonKF0Control",
@@ -5503,5 +5406,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.818
+ "elapsedS": 0.856
 }

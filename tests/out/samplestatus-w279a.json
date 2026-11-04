@@ -13,14 +13,14 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "8d5b24e59fd955353a84d14576b16053a1f99e073134104dce29987a19f1bf97",
-  "generatedAt": "2026-11-04T02:41:59.843Z",
+  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+  "generatedAt": "2026-11-04T02:48:55.188Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 126440,
-    "sha256": "881cf07517ad850e34a769860f1aaed7a831adc34bcffa4b2f37666b2341573f",
-    "mtime": "2026-11-04T02:41:20.219Z"
+    "bytes": 127037,
+    "sha256": "e8dbeacc7cefffb035817a116f0963380d6e632bfede3ae2e52a5fe8b37dc94c",
+    "mtime": "2026-11-04T02:48:51.071Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
@@ -36,9 +36,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 105839,
-    "sha256": "258764c70c0dbed20aa518c3ab83b9ebc83151c4224e9ce749ccfb99eca72dc2",
-    "mtime": "2026-11-04T02:41:59.827Z"
+    "bytes": 105478,
+    "sha256": "bc7849883b877fdcc5ec88999be909e12b134c2316cc6214cb83f21b56719fb0",
+    "mtime": "2026-11-04T02:48:55.171Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -121,7 +121,7 @@
   "objective": {
    "met": 84,
    "partial": 35,
-   "unmet": 3,
+   "unmet": 2,
    "n/a": 0
   },
   "calibration": {
@@ -130,7 +130,7 @@
    "fail": 1,
    "hold": 16,
    "hold-definition": 0,
-   "out-of-scope": 103
+   "out-of-scope": 102
   },
   "four": {
    "合": 0,
@@ -192,7 +192,7 @@
    {
     "group": "実在天体のアナロジー",
     "icon": "🔭",
-    "n": 5
+    "n": 4
    },
    {
     "group": "法則の実験室",
@@ -210,7 +210,7 @@
     "n": 0
    }
   ],
-  "n": 122,
+  "n": 121,
   "scope": "listed",
   "predictionEligible": 0,
   "builtin": {
@@ -237,7 +237,7 @@
    }
   },
   "retired": {
-   "n": 64,
+   "n": 65,
    "ids": [
     "darkrotor",
     "rotorSolo",
@@ -298,6 +298,7 @@
     "spaceMeshBinaryToy",
     "gw150914DFM",
     "tuc47DFM",
+    "ngc3198DFM",
     "supernovaProgDFM",
     "saturn",
     "saturnLayered",
@@ -58869,11 +58870,11 @@
   {
    "id": "ngc3198",
    "emoji": "🌃",
-   "name": "渦巻銀河 NGC 3198(観測転写)— 指数円盤+NFW 対照",
+   "name": "渦巻銀河 NGC 3198(観測転写)— 指数円盤+NFW ハロー",
    "group": "実在天体のアナロジー",
    "sampleClass": "principle",
    "status": {
-    "purpose": "指数円盤と NFW ハローで回転を比べる",
+    "purpose": "指数円盤と NFW ハローの転写で外縁の回転を保つ(対照無しのダークマターハローの本)",
     "objective": "partial",
     "state": "外縁 128 km/s・ハローは自前 fit",
     "calibration": "out-of-scope",
@@ -58883,13 +58884,13 @@
      "behavior.ngc3198"
     ],
     "en": {
-     "purpose": "Compare rotation with an exponential disc and an NFW halo",
+     "purpose": "Hold the outer rotation with transcribed exponential discs and an NFW halo (a standalone dark-matter-halo sample)",
      "state": "outer 128 km/s; the halo is our own fit",
      "mismatch": null,
      "outlook": null,
-     "brief": "Compare rotation with an exponential disc and an NFW halo. Partial: outer 128 km/s; the halo is our own fit. Out of calibration scope."
+     "brief": "Hold the outer rotation with transcribed exponential discs and an NFW halo (a standalone dark-matter-halo sample). Partial: outer 128 km/s; the halo is our own fit. Out of calibration scope."
     },
-    "brief": "指数円盤と NFW ハローで回転を比べる。部分・外縁 128 km/s・ハローは自前 fit。較正対象外。"
+    "brief": "指数円盤と NFW ハローの転写で外縁の回転を保つ(対照無しのダークマターハローの本)。部分・外縁 128 km/s・ハローは自前 fit。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
