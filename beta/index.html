@@ -614,6 +614,14 @@
   .prow.wbgRow .convVal{order:4;}
   .prow.wbgRow .wbgVal{flex:0 0 92px;width:92px;margin-left:auto;text-align:right;font-size:calc(12px*var(--uz,1));color:var(--fg);
     font-variant-numeric:tabular-nums;padding:4px 6px;box-sizing:border-box;border:1px dashed var(--line);border-radius:var(--rS);}
+  /* ==== 第326便c の塊(ここから)==== 原仮定者の指示(第128報): 「時空」の群の筆頭の計算済みの 3 行(読むだけ —— 決定力定数 κ_D・時空係数 X_k・引きずり係数 Y_k)。
+     値は右(数値欄と同じ幅・点線の枠 —— 読むだけの印)・出所の式はその下(右寄せ・淡色)・換算の副表示。見出しは淡色の 1 行 */
+  .stDerived .stdHead{font-size:calc(11px*var(--uz,1));color:var(--dim);padding:2px 0 0;}
+  .prow.stDerivedRow .stdFrom{flex:1 0 100%;order:3;text-align:right;font-size:calc(11px*var(--uz,1));color:var(--dim);margin:-3px 0 0;overflow-wrap:anywhere;}
+  .prow.stDerivedRow .convVal{order:4;}
+  .prow.stDerivedRow .stdVal{flex:0 0 92px;width:92px;margin-left:auto;text-align:right;font-size:calc(12px*var(--uz,1));color:var(--fg);
+    font-variant-numeric:tabular-nums;padding:4px 6px;box-sizing:border-box;border:1px dashed var(--line);border-radius:var(--rS);overflow-wrap:anywhere;}
+  /* ==== 第326便c の塊(ここまで)==== */
   .btn{display:inline-block;border:1px solid var(--line);background:var(--panel);
     border-radius:var(--rL);padding:10px 14px;font-size:calc(13px*var(--uz,1));font-weight:600;touch-action:manipulation;}
   .btn:active{background:var(--press);}
@@ -1009,12 +1017,11 @@
            読み取り専用表示。宣言 ω から周期 P=2π/ω を出し、時間スケール指数で実時間へ換算して見せる
            (🏮 の「2.773 s」がここに出る)。pulse を持たない粒子では行ごと非表示。表示専用 — 物理不変 -->
       <div class="beRow" id="bePulseRow" style="display:none"><label id="beLpulse">パルス</label><input type="text" id="bePulse" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
-      <!-- 第37便 A2(原仮定者指示): 「auto」チェックボックス — ON で lightSweep="auto" を設定し
-           数値欄を読み取り専用にする。OFF は従来の数値入力に戻る。
-           第38便(原仮定者指示・構造のみ。ラベル文字列の改称は次波38B): #beLsw の固定幅指定を
-           削除して既定14pxに戻し、#beSwEff(実効値の別表示スパン)を廃止 — #beSw(flex:1)自体が
-           auto中も実効値を表示するようにしたため(下の updateBodyEdit を参照)、数値欄が広がる -->
-      <div class="beRow"><label id="beLsw">減光</label><input type="text" id="beSw" inputmode="decimal" autocomplete="off"><label id="beLswAuto" style="min-width:0;flex:0 0 auto;margin-left:2px">auto</label><input type="checkbox" id="beSwAuto"></div>
+      <!-- 第37便 A2〜第38便の「減光」欄(#beSw)と「自動」チェック(#beSwAuto)は、第326便c(原仮定者の指示(第128報)「「選択粒子の編集」から、「減光」と「自動」を外す。
+           「X」と「Y」を編集対象に加える」)で外した(本の宣言 lightSweep —— 数値・"auto" —— は今のまま動く。編集できなくなるだけ)。
+           代わりに位置 x・y の欄(vx・vy と同じ型 —— 値域は受理器の座標 ±5000。三次元の本の z は下の行)-->
+      <div class="beRow" id="beXYRow"><label id="beLx">x</label><input type="text" id="beX" inputmode="text" autocomplete="off">
+        <label id="beLy">y</label><input type="text" id="beY" inputmode="text" autocomplete="off"></div>
       <div class="beRow"><label id="beLvx">vx</label><input type="text" id="beVx" inputmode="text" autocomplete="off">
         <label id="beLvy">vy</label><input type="text" id="beVy" inputmode="text" autocomplete="off"></div>
       <!-- 第299便f(原仮定者の裁定(第89報)⑤「三次元では vz を出す」): 三次元の本(physics.coord:"3d")だけの z・vz(二次元の本では行ごと出さない) -->
@@ -1477,7 +1484,7 @@ ja: {
   grpSpacetime:"時空", grpSpinHeat:"スピン・熱", grpDrag:"引きずり・測地線", grpLabBox:"実験箱",
   grpActive:"このサンプルの主役", grpAdvanced:"詳細設定(全パラメータ)",
   // 第95便(原仮定者指示): カテゴリの説明(ⓘ)を全カテゴリに用意
-  grpSpacetimeDesc:"時空の骨格を決める法則群 — 基準光速 c_0・基準重力 G_0・時空係数 X_k(時計と光 —— ψ = X_k W)・一様重力 g_x/g_y・物理対応ロック(X_k = G_0/c_0²)。この宇宙の「舞台」を作るパラメータ。"+DFM_SYMBOL_LINE.ja+DFM_STANCE.ja,   // 第315便a(AN414): 新しい記号・記号の 1 行・スタンス
+  grpSpacetimeDesc:"時空の骨格を決める法則群 — 基準光速 c_0・基準重力 G_0・一様重力 g_x/g_y。群の先頭には、G_0 と c_0 から計算済みの決定力定数 κ_D = 2G_0/c_0²・時空係数 X_k = G_0/c_0²(時計と光 —— ψ = X_k W)・引きずり係数 Y_k = 10G_0/(C_1c_0²) を読むだけの行で出す(G_0・c_0 を変えると追随する)。この宇宙の「舞台」を作るパラメータ。"+DFM_SYMBOL_LINE.ja+DFM_STANCE.ja,   // 第315便a(AN414): 新しい記号・記号の 1 行・スタンス / 第326便c(第128報・AN530): 物理対応ロックの切替を外し、計算済みの 3 行
   grpSpinHeatDesc:"スピン=熱のセクター(A9〜A12系)— 圧力の正体であるスピン斥力 kRep・摩擦 muF・衝突減衰 γn・熱伝導(スピン拡散 S_k)・放射冷却 η_rad・ウィーン定数 b_m・熱容量 C。熱・温度・光のスペクトルに関わる法則。",
   grpDragDesc:"決定フレームの引きずりと測地線(A4/A5/E3/E6′/E12)— 背景決定力 D₀・空間引きずり kFrame・減衰指数 q・測地線モード geoPN・1PN補正。「空間が物質と光を運ぶ」効果の法則群。**geoPN(目的の組)**: 0=汎用 / 1=1PN準拠(観測再現の組 —— 1PN の測地線・kFrame=0 専用・有限質量比の N 体 1PN〔EIH 型 —— 反作用は式に内在〕)/ 2=引きずり近似(kFrame=1 —— q を使った引きずりの近似・較正母集団の外)/ 3=慣性決定力(引きずりを慣性決定力で計算 —— 旧法則版 spaceMesh.lawVersion を宣言した本はその版で走る) / 4=空間メッシュ(旧法則版 spaceMesh.lawVersion の可視化と零試験の置き場 —— 新しい物理モードではない)。**在位の旧メッシュは 4 に移った(3 の旧法則版は旧 JSON だけ)**。0/1/2 の違いは λ_PN(1PN の有無)と kFrame の 2 フラグだけ。**追従比 χ の分母は D₀(share)/D0pull(pull)であって、q は χ に入らない**(q は引きずり核の距離減衰)。kFrame は E6′/E12 の追従の結合で、opt-in の座標変換慣性(physics.spaceMesh の inertia:coordinate)ではその追従を置換するので**実効強度は η_eff=kFrame×inertiaGain** になる。その慣性は**非頂点の粒子だけ**に当たるので、**2 体だけの系では作用対象が 0** で何も起こらない(読み口 S.meshCoordStop=noTargets)。「背景決定力 D₀」の次の行だった**静止背景相当 Wbg**(読み取り専用 —— 場の契約に渡る背景の重み。出所は spaceMesh.D0 の宣言/D0pull/D₀。背景相当の値で kFrame=0 では力に入らない)と「背景慣性決定力 W₀・A₀(宣言)」の欄は削除し、慣性決定力の引きずりの強さは geoPN 行の直後の「背景慣性決定力 W_bg」の行(スライダー・数値欄・ON/OFF —— 単位 [M/L³])で調整する(gain の欄は廃止 —— 以前の gain は 1/W_bg に相当)。",
   grpLabBoxDesc:"箱境界のサンプル専用の実験条件 — 伝熱壁の壁温/壁レート(tint 箱のみ)と壁別の反発係数。箱を「ビーカーの壁」として外部環境を与える。箱境界のサンプルでのみ表示される。",
@@ -1492,6 +1499,18 @@ ja: {
   physLockOnHeld:"✓ ロック中: 読み込んだ X_k が条件 X_k = G_0/c_0² を満たすので値をそのまま保持(G_0・c_0 を編集すると導出値へ自動維持)",   // 第315便a(AN414): 読込時の自動 ON —— 値は書き直さない
   physLockOffOk:"✓ ロック解除中(現在値は条件 X_k = G_0/c_0² を満たしています)",
   physLockOffNg:"⚠ 一般化トイ設定 — GR較正条件外(X_k ≠ G_0/c_0²)",
+  // ==== 第326便c の塊(ここから)====
+  // 第326便c(原仮定者の指示(第128報)「「パラメータ」の「時空」から、「物理対応ロック」を外す。計算済みの「κ_D」「Xₖ」「Yₖ」を表示する」・原仮定者の回答(2026-11-03 —— AN530)「ロックする」):
+  //   時空の群の先頭の読むだけの 3 行(値は stDerivedOf —— 式は第315便a の記号の表)。上の physLock* の 7 文は画面に出なくなった(updatePhysLockBadge と道具の目印が読むので残す)
+  stdHead:"計算済み(読むだけ —— G_0・c_0 から)",
+  stdKdLabel:"決定力定数 κ_D", stdKdFrom:"= 2G_0/c_0²", stdXkFrom:"= G_0/c_0²", stdYkLabel:"引きずり係数 Y_k", stdYkFrom:"= 10G_0/(C_1c_0²)",
+  stdXkOff:(v)=>"⚠ 本の値 —— G_0/c_0² = "+v+" と違う(読み込んだ値のまま)",
+  stdXkClamped:(v)=>"⚠ G_0/c_0² = "+v+" が値域 [0,1] の外 —— X_k はクランプした値",
+  stdReadOnly:"読むだけ —— G_0・c_0 を変えると追随する",
+  stdKdDesc:"決定力定数 κ_D(定義 κ_D ≡ 2G/c² —— 論文 1 の実効レンズ係数)を、この本の基準重力 G_0 と基準光速 c_0 で計算した値 κ_D = 2G_0/c_0²。単位は本の長さ/本の質量 [L/M](換算の表示が ON のときは m/kg を添える)。シュヴァルツシルト半径の物差し r_s = κ_D m(長さの物差し)。読むだけ —— G_0・c_0 を変えると追随する。",
+  stdXkDesc:"時空係数 X_k(鍵 kappaT —— 時計と光: ψ = X_k W)は、基準重力 G_0 と基準光速 c_0 から X_k = G_0/c_0² で決まる(物理対応 —— 切り替えは無い)。表示はエンジンが使う本の値で、G_0/c_0² と違う本(読み込んだ値のまま)と、G_0/c_0² が値域 [0,1] の外でクランプした本はその旨を添える。X_k = G_0/c_0² のとき κ_D = 2X_k・Y_k = (10/C_1)X_k。単位 [L/M]。読むだけ —— G_0・c_0 を変えると追随する。",
+  stdYkDesc:"引きずり係数 Y_k = 10G_0/(C_1c_0²)(C_1 = 6[(√3/2)ln(2+√3) − 1])。引きずり半径の規則 rdRule:\"kappaM\" を宣言した本では、引きずり半径を R_d = Y_k m で決める(天体の大きさではない)。規則を宣言しない本では力学に入らない(表示だけ)。単位 [L/M]。読むだけ —— G_0・c_0 を変えると追随する。",
+  // ==== 第326便c の塊(ここまで)====
   qLockLabel:"q自動算出 qLock(有限参照正規化規約)",
   qLockDesc:"ONの間、「引きずり減衰 q」を有限参照正規化規約の**厳密一致式 q_exact=q*+3·ln(a/(R+a))/ln((R+a)/R)**(R,M=支配源の半径・質量、a=支配源から見た自由天体の距離の中央値)から自動算出します(tests/exp-kf1d.mjs)。**qLock は有限参照正規化規約です**: q=3 核の超過量 X=1.25c₀²R/GM を用い、宣言参照軌道 a でスピン項振幅を LT 振幅に合わせるよう、より急峻な指数を選びます。遠方近似形 q*=3+ln(X)/ln((R+a)/R) は参照軌道で LT 振幅×裸比 (a/(R+a))³ に留まり(🌘0.949・🟠0.625 など)、厳密一致式 q_exact はその裸比を 1 にします(tests/exp-qexact.mjs が4系で全窓 PASS を機械確認。a≫R では q_exact→q*)。どちらの形でも LT の r⁻³ 則も、無限遠での非零 LT 比も保存しません(比は d^{3−q*} で消えます — q_exact 規約でも同形の d^{3−q_exact})。q はグレーアウトされ編集できません。OFFにすると q を手動編集できます(較正主張の域外)。状態はセーブデータに保存され、読込時は復元した状態から再算出します。qLock宣言サンプル(🌘 など)は読込時に自動でONになります。",
   cLinkLabel:"相似変換連動(実験的)",
@@ -1818,7 +1837,7 @@ ja: {
   beDm:"m: 質量。重力(E4)と決定力場W(E1′)の源。負値は実験用(±20000)。",
   beDs:"s: スピン(自転角速度)。空間引きずり(A8)・温度T=Is²(A9)・スピン斥力(A10)の源。",
   beDr:"R: 半径。慣性I=½mR²・接触・引きずり減衰(R/(R+d))^q・温度・扁平率f=5s²R³/(4Gm)に使用。既定はradiusScale·rMul·√|m|(rMulは粒子ごとの倍率・既定1)。",
-  beDsw:"減光: 自星の光をどれだけ外に出さないか(0〜1・1=完全減光)。機構はスピンによる自光の掻き出し(lightSweep)。観測温度は T_obs=(1−減光)·T、放射冷却も(1−減光)倍(光学迷彩矮星)。auto と入力するか隣の「自動」チェックボックスをONにすると、粒子のスピン・半径から lS_eff=min(1,|s|R/c_surf) を毎ステップ算出する — 数値欄は編集不可になり実効値lS_effで上書き表示される。",
+  beDxy:"x/y: 位置の成分(本の長さの単位 —— 値域は受理器の座標と同じ ±5000)。書き換えると選択中の粒子をその位置へ置き直す(速度・スピンはそのまま。vx/vy の編集と同じく外からの操作なので、保存量のモニタには不連続として出る)。⏮ 初めからで本の宣言の位置に戻る。三次元の本の z は下の行。",   // 第326便c(原仮定者の指示(第128報)「「X」と「Y」を編集対象に加える」—— 旧「減光」の説明 beDsw は欄と一緒に外した)
   beDv:"vx/vy: 速度成分。慣性は局所フレームuに対して働く(A5)。",
   beDdq:"引きずりq: この粒子が源となる自転引きずり(E2/E3)の減衰指数 q_i(0.5〜40・body.dragQ)。空欄=既定 physics.q。連星では各天体が自分の q_i を持つ。E5′ スピン斥力の q には効かない。宣言が 1 個でもあると汎用カーネル経路になる。",
   beDp:"固定: 位置・速度・スピンを外部拘束で固定(力・トルクを受けない)。反作用はリザーバへ帳簿(A13)。",
@@ -1839,7 +1858,6 @@ ja: {
   beDsa:"自転軸(三次元): 三次元の本の粒子ごとの自転軸 spinAxis.enable(力学の軸 —— 慣性決定力の回転・軸の引きずりが読む)。θ・φ は今の軸の傾きと方位、Ω_p は宣言した歳差(規定運動 â(t)=R(p̂,Ω_p t)·â₀ —— 編集しても今の軸の位置から続く)、p̂ は歳差の軸。値域は受理器と同じ(θ 0〜180・φ ±360・Ω_p ±100)。二次元の本の表示専用の spinAxis(📻 ほか)とは別の欄。⏮初めからで本の宣言に戻る。",
   beLcvAxOn:"コア軸の宣言(prescribed)",
   beDcvAx:"コア軸の宣言: core.axisMode:\"prescribed\"。面内の軸を φ(t)=φ₀+Ω_p·t に毎步書き戻す規定運動(力学が読むのは J_z だけ —— 傾き θ は上の「傾きθ°」)。φ₀=t=0 の方位[度]・Ω_p=歳差[rad/時間](ON の既定は殻スピン)。歳差だけを変えると今の方位から続く。⏮初めからで本の宣言に戻る。",
-  beDeny3dLsw:"⛔ 三次元の本では減光の自動算出(lightSweep:\"auto\")は未対応 —— 設定すると步が止まるので受け付けない(数値の指定は使える)。",
   uiScaleOpts:[["1","小"],["1.15","標準"],["1.3","大"]],   // 第27便: 3段階を繰り下げ(既定=1.15)
   qualityLabel:"描画品質",
   qualityOpts:[["auto","自動"],["exact","正確"],["lite","軽量"]],
@@ -1852,10 +1870,8 @@ ja: {
   skinLabel:"スキン", skinOpts:[["dark","ダーク"],["light","ライト"]],
   skinDesc:"画面の配色。ダーク(既定)/ライト。シミュレーション画面は両方とも暗い背景のまま(粒子の温度色・光線の波長色は暗い背景の上で意味を持つため)。表示のみで物理・保存データには影響しない。",
   beTitle:"選択粒子の編集", bePinned:"固定(pinned)",
-  beLsw:"減光",   // 第22便: 光掻き出し(lightSweep)ラベル
   beLdq:"引きずりq", beDqPh:"既定 q=",   // 第239便: 粒子別 dragQ 欄
   beLpulse:"パルス", bePulseTurns:"回転",   // 第245便: パルス時計の読み取り専用表示(周期 P・実時間換算・累積回転数)
-  beLswAuto:"自動",   // 第37便 A2(原仮定者指示): 掻出autoの可視化チェックボックス
   // 第80便C: コアv2(第77便)の読み取り専用内訳ブロックのラベル
   beCoreTitle:"コア内訳(v2)", beCoreMode:"種別", beCoreOm:"Ωc/Ωs/Δ", beCoreJ:"Jc/Ic/Kc", beCoreLs:"殻/コア/合成", beCoreLay:"層",
   // 第212便: コアv2 の実行時編集(有効チェック+数値欄)
@@ -2818,7 +2834,7 @@ en: {
   grpSpacetime:"Spacetime", grpSpinHeat:"Spin & Heat", grpDrag:"Dragging & Geodesics", grpLabBox:"Lab Box",
   grpActive:"Key settings of this sample", grpAdvanced:"Advanced (all parameters)",
   // wave 95: category descriptions (ⓘ) for every category
-  grpSpacetimeDesc:"The laws that set the stage of this universe — reference light speed c_0, reference gravity G_0, the spacetime coefficient X_k (clocks & light — ψ = X_k W), uniform gravity g_x/g_y, and the correspondence lock (X_k = G_0/c_0²). "+DFM_SYMBOL_LINE.en+" "+DFM_STANCE.en,   // wave 315a (AN414)
+  grpSpacetimeDesc:"The laws that set the stage of this universe — reference light speed c_0, reference gravity G_0 and uniform gravity g_x/g_y. At the top of the group, read-only rows show the values computed from G_0 and c_0: the determinacy constant κ_D = 2G_0/c_0², the spacetime coefficient X_k = G_0/c_0² (clocks & light — ψ = X_k W) and the drag coefficient Y_k = 10G_0/(C_1c_0²) (they follow edits of G_0 and c_0). "+DFM_SYMBOL_LINE.en+" "+DFM_STANCE.en,   // wave 315a (AN414) / wave 326c (report 128, AN530): the lock toggle removed, three computed rows
   grpSpinHeatDesc:"The spin=heat sector (A9–A12) — spin repulsion kRep (the origin of pressure), friction muF, collision damping γn, conduction (spin diffusion S_k), radiative cooling η_rad, Wien constant b_m and heat capacity C. Everything about heat, temperature and spectra.",
   grpDragDesc:"Determinacy-frame dragging and geodesics (A4/A5/E3/E6′/E12) — background determinacy D₀, frame dragging kFrame, falloff q, geodesic mode geoPN and the 1PN correction. The laws by which space carries matter and light. GEOPN (A PURPOSE SET): 0 = general / 1 = 1PN-compliant (the observation-reproduction set — 1PN geodesic, kFrame=0 only; the finite-mass-ratio N-body 1PN in EIH form, with the reaction built into the equations) / 2 = drag approximation (kFrame=1 — the drag approximation using q, outside the calibration population) / 3 = inertial determinacy (dragging computed from the inertial determinacy — a sample that declares a legacy spaceMesh.lawVersion runs that legacy law) / 4 = space mesh (the home of the legacy spaceMesh law versions for visualisation and null tests - not a new physics mode). THE LISTED LEGACY-MESH SAMPLES HAVE MOVED TO 4 (a legacy law under 3 now comes only from old JSON). Modes 0/1/2 differ only in two flags, lambda_PN (1PN on/off) and kFrame. THE DENOMINATOR OF THE FOLLOW RATIO chi IS D0 (share) or D0pull (pull); q DOES NOT ENTER chi (q is the distance falloff of the dragging kernel). kFrame is the coupling of the E6-prime/E12 follow kick, and the opt-in coordinate inertia (physics.spaceMesh with inertia set to coordinate) REPLACES that kick, so its effective strength is eta_eff = kFrame x inertiaGain. That inertia is applied to NON-VERTEX particles only, so A TWO-BODY SYSTEM HAS ZERO TARGETS and nothing happens (read S.meshCoordStop = noTargets). the row that followed 'Background determinacy D0', the STATIC-BACKGROUND EQUIVALENT Wbg (read-only - the background weight handed to the field contract; source: the spaceMesh.D0 declaration / D0pull / D0. It is a background-equivalent value and does not enter the force when kFrame=0), and the 'Background inertial determinacy W0 / A0 (declaration)' panel are gone; the strength of the inertial-determinacy drag is set in the 'Background inertial determinacy W_bg' row right after the geoPN row (slider, number box, on/off - unit [M/L^3]); the gain input is gone (the former gain corresponds to 1/W_bg).",
   grpLabBoxDesc:"Experimental conditions specific to box-bounded samples — thermal-wall temperature/rate (tint boxes only) and per-wall restitution. The box acts as a beaker wall providing an external environment. Shown only for box-bounded samples.",
@@ -2833,6 +2849,17 @@ en: {
   physLockOnHeld:"✓ Locked: the loaded X_k satisfies X_k = G_0/c_0², so the value is kept as loaded (editing G_0 or c_0 moves it to the derived value)",   // wave 315a (AN414)
   physLockOffOk:"✓ Unlocked (current values happen to satisfy X_k = G_0/c_0²)",
   physLockOffNg:"⚠ Generalized toy setting — outside GR calibration (X_k ≠ G_0/c_0²)",
+  // ==== 第326便c の塊(ここから)====
+  // wave 326c: the read-only computed rows at the top of the Spacetime group (values from stDerivedOf). The physLock* texts above are no longer shown
+  stdHead:"Computed (read-only — from G_0 and c_0)",
+  stdKdLabel:"Determinacy constant κ_D", stdKdFrom:"= 2G_0/c_0²", stdXkFrom:"= G_0/c_0²", stdYkLabel:"Drag coefficient Y_k", stdYkFrom:"= 10G_0/(C_1c_0²)",
+  stdXkOff:(v)=>"⚠ the book's value — differs from G_0/c_0² = "+v+" (kept as loaded)",
+  stdXkClamped:(v)=>"⚠ G_0/c_0² = "+v+" is outside the range [0,1] — X_k is the clamped value",
+  stdReadOnly:"read-only — follows edits of G_0 and c_0",
+  stdKdDesc:"The determinacy constant κ_D (defined as κ_D ≡ 2G/c² — the effective lensing coefficient of paper 1), computed with this book's reference gravity G_0 and reference light speed c_0: κ_D = 2G_0/c_0². Unit: book length per book mass [L/M] (m/kg is added when the unit conversion display is on). The Schwarzschild-radius yardstick is r_s = κ_D m (a length yardstick). Read-only — follows edits of G_0 and c_0.",
+  stdXkDesc:"The spacetime coefficient X_k (key kappaT — clocks & light: ψ = X_k W) is fixed by the reference gravity G_0 and the reference light speed c_0 as X_k = G_0/c_0² (physical correspondence — there is no toggle). The row shows the book's value that the engine uses; a book whose X_k differs from G_0/c_0² (kept as loaded) or whose G_0/c_0² is outside the range [0,1] (clamped) says so. When X_k = G_0/c_0², κ_D = 2X_k and Y_k = (10/C_1)X_k. Unit [L/M]. Read-only — follows edits of G_0 and c_0.",
+  stdYkDesc:"The drag coefficient Y_k = 10G_0/(C_1c_0²) (C_1 = 6[(√3/2)ln(2+√3) − 1]). In a book that declares the drag-radius rule rdRule:\"kappaM\", the drag radius is R_d = Y_k m (not the size of the body). In a book without that rule it does not enter the dynamics (display only). Unit [L/M]. Read-only — follows edits of G_0 and c_0.",
+  // ==== 第326便c の塊(ここまで)====
   qLockLabel:"Auto-derived q — qLock (finite-reference normalization rule)",
   qLockDesc:"While ON, the drag falloff q is auto-derived from the EXACT-AGREEMENT form of the finite-reference normalization rule, q_exact=q*+3·ln(a/(R+a))/ln((R+a)/R) (R, M = dominant source; a = median distance of free bodies) (tests/exp-kf1d.mjs). **qLock is a finite-reference normalization rule**: using the excess X=1.25c₀²R/GM of the q=3 kernel, it selects a steeper exponent so that the spin-term amplitude at the declared reference orbit a matches the Lense–Thirring amplitude. The distant-limit form q*=3+ln(X)/ln((R+a)/R) leaves the bare ratio (a/(R+a))³ at that orbit — 🌘0.949, 🟠0.625 and so on — while q_exact drives that bare ratio to 1 (tests/exp-qexact.mjs verified every claim window on all four systems, and q_exact→q* when a≫R). Either form preserves neither the Lense–Thirring r⁻³ law nor a nonzero Lense–Thirring ratio at infinity (the ratio dies as d^{3−q*}, and likewise as d^{3−q_exact}). The q slider is greyed out. Turn OFF to edit q manually (outside the calibration claim domain). The state is stored in save data; on load, q is re-derived from the restored state. qLock-declared samples (🌘 and others) switch it ON automatically.",
   cLinkLabel:"Similarity-transform link (experimental)",
@@ -3139,7 +3166,7 @@ en: {
   beDm:"m: mass. Source of gravity (E4) and the determinacy field W (E1'). Negative values are experimental.",
   beDs:"s: spin (rotation rate). Source of frame dragging (A8), temperature T=Is^2 (A9), and spin repulsion (A10).",
   beDr:"R: radius. Used in inertia I=1/2 mR^2, contact, drag falloff (R/(R+d))^q, temperature, and oblateness f=5s^2R^3/(4Gm). Default radiusScale x rMul x sqrt(|m|) (rMul = per-body multiplier, default 1).",
-  beDsw:"dimming: how much of the star's own light is kept from escaping (0-1, 1 = fully dimmed). The mechanism is its spin sweeping its own light out (lightSweep). Observed temperature is T_obs = To x (1-dimming) x T, and radiative cooling scales by (1-dimming) too (the optical-camouflage-dwarf mechanism). Enter \"auto\", or check the \"auto\" box next to it, to derive it every step from the body's own spin and radius: lS_eff = min(1, |s|R / c_surf) — the number field becomes read-only and is overwritten to show the effective lS_eff (38th delivery).",
+  beDxy:"x/y: position components (in the book's length unit; range ±5000, the same as the validator's coordinates). Editing moves the selected body to that position (velocity and spin are kept; like a vx/vy edit it is an outside intervention, so the conservation monitor shows a jump). ⏮ Restart returns it to the position the book declares. In a 3D book z is on the row below.",   // wave 326c (the dimming text beDsw was removed with its field)
   beDv:"vx/vy: velocity components. Inertia acts relative to the local frame u (A5).",
   beDdq:"drag q: per-body falloff exponent q_i of the spin drag this body sources (E2/E3; 0.5-40; body.dragQ). Empty = default physics.q. In a binary each star carries its own q_i. Does not touch the E5' spin-repulsion q. Any declaration routes to the generic kernel.",
   beDp:"Pinned: externally constrained (receives no force or torque; spin fixed). Reactions are ledgered to the reservoir (A13).",
@@ -3160,7 +3187,6 @@ en: {
   beDsa:"Spin axis (3D): the per-body spin axis spinAxis.enable of a 3D book (the dynamical axis read by the inertial-determinacy rotational and axial drag). θ and φ are the current tilt and azimuth, Ω_p is the declared precession (prescribed motion â(t)=R(p̂,Ω_p t)·â₀ - an edit continues from the current axis), p̂ is the precession axis. Ranges as in the validator (θ 0-180, φ ±360, Ω_p ±100). A separate field from the display-only 2D spinAxis (📻 and others). ⏮ Restart returns to the book's declaration.",
   beLcvAxOn:"Core axis declaration (prescribed)",
   beDcvAx:"Core axis declaration: core.axisMode:\"prescribed\". Rewrites the in-plane axis to φ(t)=φ₀+Ω_p·t every step (prescribed motion; the dynamics read J_z only - the tilt θ is the field above). φ₀ = azimuth at t=0 [deg], Ω_p = precession [rad/time] (default on ON: the shell spin). Changing only Ω_p continues from the current azimuth. ⏮ Restart returns to the book's declaration.",
-  beDeny3dLsw:"⛔ The automatic light sweep (lightSweep:\"auto\") is not supported in a 3D book - it would halt the steps, so it is refused (a numeric value works).",
   uiScaleOpts:[["1","Small"],["1.15","Standard"],["1.3","Large"]],
   qualityLabel:"Render quality",
   qualityOpts:[["auto","Auto"],["exact","Accurate"],["lite","Lite"]],
@@ -3173,10 +3199,8 @@ en: {
   skinLabel:"Skin", skinOpts:[["dark","Dark"],["light","Light"]],
   skinDesc:"Colour scheme: Dark (default) / Light. The simulation view keeps its dark background in both (body temperature colours and ray wavelength colours are drawn for a dark background). Display only — physics and saved data are unaffected.",
   beTitle:"Edit selected body", bePinned:"Pinned",
-  beLsw:"dimming",   // 第22便: lightSweep label
   beLdq:"drag q", beDqPh:"default q=",   // 第239便
   beLpulse:"pulse", bePulseTurns:"turns",   // 第245便
-  beLswAuto:"auto",   // 第37便 A2(原仮定者指示): sweep auto checkbox
   // 第80便C: read-only core-v2 (wave 77) breakdown block labels
   beCoreTitle:"Core (v2)", beCoreMode:"type", beCoreOm:"Ωc/Ωs/Δ", beCoreJ:"Jc/Ic/Kc", beCoreLs:"shell/core/mix", beCoreLay:"layers",
   // 第212便: runtime core editing (enable checkbox + numeric fields)
@@ -14399,11 +14423,11 @@ const BUILTIN_PRESETS = [
   familyId:"darkcenter", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)/ 第283便b(第73報④・R84): darkcenter の入口を 🕳️(減光の原器)へ(表示専用)
   descStruct:{
     summary:"光学迷彩矮星とは、この模型で、自転に関連する減光機構(自光の掻き出しと外来光線の掃き出し)により光学的に暗く見えるコンパクト天体に付けた造語である。観測上確立した天体分類(矮星・褐色矮星・白色矮星)やダークマターの同定を意味しない。質量・物理半径は各サンプルの宣言に従う。(旧称: ダークローター)「暗い天体」1個だけを置いた最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・減光=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。",
-    observe:"②自光の減光(掻き出し): 減光を固定値ではなく auto にしてあるので、実効値 lS_eff=min(1,|s|R/c_surf) が粒子のスピンと半径から毎ステップ算出される(中心天体をタップすると減光欄は「自動」チェック済みで、実効値 lS_eff が数値欄に表示される)— 実測1.00。③外来光線の掃き出し: 回るコアが決定フレームごと光を運び(A11/E8R)、スピン0の対照では起きる有限時間の光子捕捉(実測 非脱出率0.62)が消える(実測0.00)。順行側の光線ほど外へ払われ、逆行側は深く潜る(平均最小接近半径 順行158 対 逆行72 — T8と同じ非対称)。②と③は別機構である: lS_effはスピン0.145で既に1に飽和しているのに、そのスピンでは掃き出しがまだ全く起きていない(非脱出率0.70 = 対照以上)。掃き出しが立ち上がるのはスピン0.3→0.35の間で、飽和点とは2倍以上離れている(スピン値はc₀=30 相似単位 — 旧単位の1/2)。テスト粒子は空間の引きずり(A8/E6′)で順行方向に角運動量を汲み上げられる(12000步平均 L_z=484 対 対照316 — c₀=30 相似変換後の再実測)。運動量・角運動量は帳簿込みで保存する(モニタ表示・相対ずれ1e-4台)。※③は物理対応ロック(X_k=G/c²=1/3600。旧表記 Kt=3600)では起きない — 実測 非脱出率は高スピンでも0.00(反証条件7)。実在のブラックホールやダークマターについての主張ではない(Negative Claims 1/2)。",
+    observe:"②自光の減光(掻き出し): 減光を固定値ではなく auto にしてあるので、実効値 lS_eff=min(1,|s|R/c_surf) が粒子のスピンと半径から毎ステップ算出される — 実測1.00。③外来光線の掃き出し: 回るコアが決定フレームごと光を運び(A11/E8R)、スピン0の対照では起きる有限時間の光子捕捉(実測 非脱出率0.62)が消える(実測0.00)。順行側の光線ほど外へ払われ、逆行側は深く潜る(平均最小接近半径 順行158 対 逆行72 — T8と同じ非対称)。②と③は別機構である: lS_effはスピン0.145で既に1に飽和しているのに、そのスピンでは掃き出しがまだ全く起きていない(非脱出率0.70 = 対照以上)。掃き出しが立ち上がるのはスピン0.3→0.35の間で、飽和点とは2倍以上離れている(スピン値はc₀=30 相似単位 — 旧単位の1/2)。テスト粒子は空間の引きずり(A8/E6′)で順行方向に角運動量を汲み上げられる(12000步平均 L_z=484 対 対照316 — c₀=30 相似変換後の再実測)。運動量・角運動量は帳簿込みで保存する(モニタ表示・相対ずれ1e-4台)。※③は物理対応ロック(X_k=G/c²=1/3600。旧表記 Kt=3600)では起きない — 実測 非脱出率は高スピンでも0.00(反証条件7)。実在のブラックホールやダークマターについての主張ではない(Negative Claims 1/2)。",
     control:"おすすめA/B(ワンタップ): 下のボタンで中心コアのスピンを0にした対照と即座に比較できる — 減光・掃き出し・引きずりが同時に消える。"},
   en:{name:"Optical-Camouflage Dwarf (Single Body)", descStruct:{
     summary:"An optical-camouflage dwarf is a term coined in this model for a compact body that looks optically dark because of spin-related dimming mechanisms (sweeping out its own light and sweeping away incoming rays). It does not denote an established observational class (dwarf, brown dwarf or white dwarf), nor an identification of dark matter. Mass and physical radius follow each sample's declaration. The minimal set-up: one dark body on its own — a high-spin core at the center (m=2000, radius 45, spin 2.0, dimming=auto), 24 test particles orbiting at r=200, and 20 light rays entering from the left. Every particle is free (no pins, no rails): a closed system. Darkness in this universe is a mixture of separate mechanisms (DERIVATIONS §17), and this screen shows two of them at once — and keeps them apart. ",
-    observe:"(2) Dimming its own light (spin sweeping it out): dimming is set to \"auto\" rather than a fixed number, so the effective value lS_eff=min(1,|s|R/c_surf) is computed every step from the body's own spin and radius (tap the core: the dimming field shows the \"auto\" checkbox ticked, with the effective value lS_eff displayed in the number field) — measured 1.00. (3) Sweeping out incoming rays: the spinning core carries light with the rotating determinacy frame (A11/E8R), and the finite-time photon capture that happens in the spin-0 control (measured non-escape rate 0.62) disappears (measured 0.00). Prograde rays are pushed outward while retrograde rays dive deeper (mean closest approach 158 vs 72 — the same asymmetry as T8). (2) and (3) are different mechanisms: lS_eff is already saturated at 1 by spin 0.145, yet at that spin the ray sweep-out has not started at all (non-escape 0.70, above the control). The sweep-out only switches on between spin 0.3 and 0.35 — more than a factor of two away from the saturation point (spin values are in the c₀=30 similarity units, half the old ones). The test particles are pumped into prograde rotation by the dragging of space (A8/E6′): mean L_z=484 over 12000 steps versus 316 for the control (re-measured after the c₀=30 similarity rescale). Momentum and angular momentum are conserved once the ledger is included (see the monitor; relative drift of order 1e-4). Note: (3) does not happen under the GR-calibration lock (X_k=G/c²=1/3600; legacy notation Kt=3600) — the measured non-escape rate is 0.00 even at high spin (falsification condition 7). Not a claim about real black holes or dark matter (Negative Claims 1/2). ",
+    observe:"(2) Dimming its own light (spin sweeping it out): dimming is set to \"auto\" rather than a fixed number, so the effective value lS_eff=min(1,|s|R/c_surf) is computed every step from the body's own spin and radius — measured 1.00. (3) Sweeping out incoming rays: the spinning core carries light with the rotating determinacy frame (A11/E8R), and the finite-time photon capture that happens in the spin-0 control (measured non-escape rate 0.62) disappears (measured 0.00). Prograde rays are pushed outward while retrograde rays dive deeper (mean closest approach 158 vs 72 — the same asymmetry as T8). (2) and (3) are different mechanisms: lS_eff is already saturated at 1 by spin 0.145, yet at that spin the ray sweep-out has not started at all (non-escape 0.70, above the control). The sweep-out only switches on between spin 0.3 and 0.35 — more than a factor of two away from the saturation point (spin values are in the c₀=30 similarity units, half the old ones). The test particles are pumped into prograde rotation by the dragging of space (A8/E6′): mean L_z=484 over 12000 steps versus 316 for the control (re-measured after the c₀=30 similarity rescale). Momentum and angular momentum are conserved once the ledger is included (see the monitor; relative drift of order 1e-4). Note: (3) does not happen under the GR-calibration lock (X_k=G/c²=1/3600; legacy notation Kt=3600) — the measured non-escape rate is 0.00 even at high spin (falsification condition 7). Not a claim about real black holes or dark matter (Negative Claims 1/2). ",
     control:"Suggested A/B (one-tap): use the button below to compare instantly against the core spin set to 0 — the dimming, the sweep-out and the dragging all vanish together."}},
   activeParams:["kFrame","kappaT","q"],
   validT:192,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(6000步=t≈96。L_z平均・帳簿保存の測定窓)と一致
@@ -45457,6 +45481,78 @@ function bgcApply(S,cand){
   setParamsDirty(true); requestRender();
   return v;
 }
+// ==== 第326便c の塊(ここから)====
+// 第326便c(原仮定者の指示(第128報)「「パラメータ」の「時空」から、「物理対応ロック」を外す。計算済みの「κ_D」「Xₖ」「Yₖ」を表示する」・原仮定者の回答(2026-11-03 —— AN530)「ロックする」・
+//   統括の検証項目 R292): 「時空」の群の筆頭の**読むだけの 3 行**。式は第315便a の記号の表(B 段 —— サンプルで計算):
+//     κ_D = 2G_0/c_0²(演算の順 (2·G_0)/(c_0·c_0) —— r_s の読み口 schwarzschildExcessOf と同じ順)・
+//     X_k = 本の値 physics.kappaT(エンジンが使う値 —— 物理対応の判定 physLockAutoOnOf を満たせば「= G_0/c_0²」・クランプした本・違う本はその旨)・
+//     Y_k = invSqKappa0(G_0, c_0) = 10G_0/(C_1c_0²)(引きずりの規則 rdRule:"kappaM" と同じ関数)。
+//   **表示だけ** —— params・状態・保存・署名に 1 bit も書かない。X_k の導出の経路(受理・読み込み・編集)は別の枝(本枝は触らない)—— ここは今の値を読むだけなので、導出の前後どちらでも正しい
+const ST_DERIVED_VERSION="w326c-st-derived-1";
+function stDerivedOf(S){
+  const p=(S && S.params) || {};
+  const G=p.G, c=p.cLight, x=p.kappaT;
+  const fin=(v)=> typeof v==="number" && isFinite(v);
+  if(!fin(G) || !fin(c) || !(c>0) || !(G>=0)) return {version:ST_DERIVED_VERSION, ok:false, kappaD:null, Xk:fin(x)? x : null, Yk:null, XkDerived:null, clamped:false, state:"invalid"};
+  const kappaD=(2*G)/(c*c);
+  const pc=physLockCalc(S), j=physLockAutoOnOf(S);
+  const state=j.ok? "derived" : ((pc.clamped && x===pc.applied)? "clamped" : "book");
+  return {version:ST_DERIVED_VERSION, ok:true, kappaD, Xk:fin(x)? x : null, Yk:invSqKappa0(G,c), XkDerived:pc.tgt, clamped:pc.clamped, state, reason:j.reason};
+}
+// 表示の書式(0 は "0"・|v| < 1e-3 と ≥ 1e5 は指数 4 桁・他は有効 4 桁)
+function stDerivedFmt(v){
+  if(typeof v!=="number" || !isFinite(v)) return "—";
+  if(v===0) return "0";
+  const a=Math.abs(v);
+  return (a<1e-3 || a>=1e5)? v.toExponential(3) : String(Number(v.toPrecision(4)));
+}
+const ST_DERIVED_ROWS=[["kappaD","stdKdLabel","stdKdDesc","stdKdFrom"],["Xk",null,"stdXkDesc","stdXkFrom"],["Yk","stdYkLabel","stdYkDesc","stdYkFrom"]];
+function buildStDerivedRows(parent){
+  const box=document.createElement("div"); box.id="stDerived"; box.className="stDerived";
+  const hd=document.createElement("div"); hd.className="stdHead"; symDispSet(hd, T("stdHead")); box.appendChild(hd);
+  const kDef=PARAM_DEFS.find(d=>d.key==="kappaT");
+  for(const [k,labKey,descKey] of ST_DERIVED_ROWS){
+    const label=labKey? T(labKey) : paramLabel(kDef);   // X_k の行のラベルはパラメータの表の「時空係数 X_k」(ja/en)と同じ文
+    const row=document.createElement("div"); row.className="prow stDerivedRow"; row.id="std_"+k; row.dataset.k=k; row.dataset.readonly="1";
+    const lab=document.createElement("label"); symDispSet(lab, label); lab.className="tappable"; lab.title=T("stdReadOnly");
+    lab.addEventListener("click",()=>{
+      const nx=row.nextElementSibling;
+      if(nx && nx.classList && nx.classList.contains("pdesc")){ nx.remove(); return; }
+      const d=document.createElement("div"); d.className="pdesc open"; d.dataset.key=k; symDispSet(d, T(descKey)); row.after(d);
+    });
+    const f=document.createElement("span"); f.className="stdFrom";
+    const v=document.createElement("output"); v.className="stdVal";
+    v.setAttribute("aria-readonly","true"); v.setAttribute("aria-label",symDispText(label)+" ("+T("stdReadOnly")+")");
+    const conv=document.createElement("span"); conv.className="convVal";
+    row.appendChild(lab); row.appendChild(f); row.appendChild(v); row.appendChild(conv); box.appendChild(row);
+  }
+  parent.appendChild(box);
+  stDerivedRowSync();
+  // G_0・c_0 の行の編集(syncOthers)・ロックの導出(syncParamRow("kappaT"))・換算の総なめ(refreshScaleConv)で引き直す
+  for(const key of ["G","cLight","kappaT"]) (paramRowSync[key]||(paramRowSync[key]=[])).push(stDerivedRowSync);
+}
+function stDerivedRowSync(){
+  const box=document.getElementById("stDerived");
+  if(!box) return;
+  const st=stDerivedOf(editSim());
+  for(const [k,,,fromKey] of ST_DERIVED_ROWS){
+    const row=document.getElementById("std_"+k); if(!row) continue;
+    const val=st[k];
+    const vs=stDerivedFmt(val);
+    let fs=T(fromKey);
+    if(k==="Xk" && st.ok && st.state==="clamped") fs=T("stdXkClamped")(stDerivedFmt(st.XkDerived));
+    else if(k==="Xk" && st.ok && st.state==="book") fs=T("stdXkOff")(stDerivedFmt(st.XkDerived));
+    const o=row.querySelector(".stdVal"), f=row.querySelector(".stdFrom"), c=row.querySelector(".convVal");
+    if(row.dataset.v!==String(val)) row.dataset.v=String(val);   // 倍精度の値(試験と説明の照合用・表示しない)
+    if(k==="Xk" && row.dataset.state!==st.state) row.dataset.state=st.state;
+    if(o.textContent!==vs) o.textContent=vs;
+    o.title=(typeof val==="number")? String(val) : "";
+    symDispSet(f, fs);
+    const s0=(scaleDispOn && typeof val==="number" && isFinite(val))? scaleConvStr("kappaT", val) : null;   // κ_D・X_k・Y_k は同じ次元 [L/M](m/kg)
+    const t0=s0||""; if(c.textContent!==t0) c.textContent=t0; c.style.display=s0? "" : "none";
+  }
+}
+// ==== 第326便c の塊(ここまで)====
 function buildParamRows(){
   updateAbQuickRow();
   updatePhaseMapRow();   // 第83便B: 相図ランナー(phaseMap 宣言のあるプリセットのみ)
@@ -45627,25 +45723,12 @@ function buildParamRows(){
   const mkCat=(label,descText)=>{ const cd=mkCatDetails(host,label,descText||null);
     const g=document.createElement("div"); g.className="group"; cd.appendChild(g); return g; };
   // 時空(物理対応ロックを筆頭に — 原仮定者指定の並び)
+  // 第326便c(原仮定者の指示(第128報)「「パラメータ」の「時空」から、「物理対応ロック」を外す。計算済みの「κ_D」「Xₖ」「Yₖ」を表示する」・原仮定者の回答(2026-11-03 —— AN530)「ロックする」):
+  //   筆頭の「物理対応ロック」の切替(#physLockCb)と状態のバッジ(#physLockBadge)と X_k のスライダーの行を外し、計算済みの 3 行(読むだけ —— buildStDerivedRows)を筆頭に置いた
+  //   (ロックのフラグ physLock と setPhysLock・updatePhysLockBadge の本文は不変 —— 要素が無ければ何もしない)
   {
     const g=mkCat(T("grpSpacetime"),T("grpSpacetimeDesc"));
-    const row=document.createElement("div"); row.className="prow";
-    const lab=document.createElement("label"); symDispSet(lab, T("physLockLabel"));
-    lab.style.flex="1"; lab.className="tappable";
-    lab.addEventListener("click",()=>{
-      const open=row.nextElementSibling && row.nextElementSibling.classList
-        && row.nextElementSibling.classList.contains("pdesc") ? row.nextElementSibling : null;
-      if(open){ open.remove(); return; }
-      const d=document.createElement("div"); d.className="pdesc open";
-      symDispSet(d, T("physLockDesc"));   // 第316便a(AN426): 記号の下付きは symDispSet(表示だけ)
-      row.after(d);
-    });
-    const cb=document.createElement("input"); cb.type="checkbox"; cb.id="physLockCb"; cb.checked=physLock;
-    cb.addEventListener("change",()=>setPhysLock(cb.checked));
-    row.appendChild(lab); row.appendChild(cb); g.appendChild(row);
-    const badge=document.createElement("div"); badge.id="physLockBadge";
-    badge.style.cssText="font-size:12px;opacity:.9;padding:2px 4px 4px;";
-    g.appendChild(badge);
+    buildStDerivedRows(g);
     // 第100便(Gemini 提案2): 相似変換連動モードのトグル
     // 第124便(原仮定者指示): 「光速 c₀」行の直前へ移動(行は先に作り、st ループ内で挿入)
     let cLinkRow=null;
@@ -45665,7 +45748,8 @@ function buildParamRows(){
       cb2.addEventListener("change",()=>setCLink(cb2.checked));
       row2.appendChild(lab2); row2.appendChild(cb2); cLinkRow=row2;
     }
-    for(const def of catDefs("st")){ if(def.key==="cLight" && cLinkRow) g.appendChild(cLinkRow); mkParamRow(def,g); }
+    for(const def of catDefs("st")){ if(def.key==="kappaT") continue;   // 第326便c: X_k は計算済みの行(上)—— スライダーの行は作らない(主役の群の行は今のまま)
+      if(def.key==="cLight" && cLinkRow) g.appendChild(cLinkRow); mkParamRow(def,g); }
   }
   // 第254便c(第46報): 「引きずり・測地線」を「時空」と「スピン・熱」の間へ移す(表示順のみ)
   { const g=mkCat(T("grpDrag"),T("grpDragDesc"));
@@ -49139,11 +49223,9 @@ function applyLang(){
   // 第275便f: 「広げる/狭くする」は状態でラベルが変わるので applyPanelWide 経由で反映する
   if(typeof applyPanelWide==="function") applyPanelWide();
   $("#beTitle").textContent=T("beTitle"); $("#beLp").textContent=T("bePinned");
-  $("#beLsw").textContent=T("beLsw");   // 第22便
   $("#beLdq").textContent=T("beLdq");   // 第239便
   $("#beLdcOn").textContent=T("beLdcOn"); $("#beLsaOn").textContent=T("beLsaOn"); $("#beLcvAxOn").textContent=T("beLcvAxOn");   // 第299便f
   $("#beLpulse").textContent=T("beLpulse");   // 第245便: パルス時計行
-  $("#beLswAuto").textContent=T("beLswAuto");   // 第37便 A2
   // 第80便C: コアv2内訳ブロックのラベル
   $("#beLcvTitle").textContent=T("beCoreTitle"); $("#beLcvMode").textContent=T("beCoreMode");
   $("#beLcvOm").textContent=T("beCoreOm"); $("#beLcvJ").textContent=T("beCoreJ"); $("#beLcvLs").textContent=T("beCoreLs"); $("#beLcvLay").textContent=T("beCoreLay");
@@ -50207,12 +50289,7 @@ function selEditVisOf(S,i){
     z3: c3, spinAxis3: c3,
     dragCore: ok && !!(S.relDrag && S.relDrag.law==="inertial") };
 }
-// 第299便f: 三次元の本で選択粒子の編集が立てると步が止まる設定(coord3dRuntimeWhy の対象)は**編集を拒否して理由を出す**(黙って止めない)
-function beDeny3dOf(S, op){
-  if(!S || S.coord3d!==true) return null;
-  if(op==="lightSweepAuto") return T("beDeny3dLsw");
-  return null;
-}
+// 第299便f の beDeny3dOf(三次元の本で減光の自動算出を拒否)は、第326便c で減光の欄と一緒に外した(選択粒子の編集から步が止まる設定を立てる入口が無くなった)
 let beDcSel=-1, beDcMsg="", beSaSel=-1, beSaMsg="", beCvAxSel=-1;
 function updateBodyEdit(){
   const el=$("#bodyEdit");
@@ -50233,14 +50310,8 @@ function updateBodyEdit(){
   // 第239便(第31報): 粒子別の引きずり減衰指数 q_i(第237便 body.dragQ)を編集欄へ。未宣言(0)は空欄=既定 physics.q
   $("#beDq").value=(S.dragQ && S.dragQ[i]>0)? fmt(S.dragQ[i]) : "";
   $("#beDq").placeholder=T("beDqPh")+" "+fmt(S.params.q);
-  // 第36便 C2: 掻出は "auto"(粒子パラメータからの算出モード)を受理。
-  // 第37便 A2(原仮定者指示): auto チェックボックスも S.lSwAuto と同期させ、ON中は数値欄を
-  // 読み取り専用にする(入力欄への直接 "auto" 入力は従来どおり併存 — 単一の真実 S.lSwAuto 経由)。
-  // 第38便(原仮定者指示): auto中も #beSw に文字列"auto"ではなく実効値を表示する(S.lSw は auto
-  // 中も毎ステップ実効値を保持 — 36C設計。実行中は毎フレームの updateBodyEdit 呼び出しで追随する)
-  $("#beSw").value = fmt(S.lSw[i]);
-  $("#beSw").readOnly = !!S.lSwAuto[i];
-  $("#beSwAuto").checked = !!S.lSwAuto[i];
+  // 第326便c(原仮定者の指示(第128報)): 第36便〜第38便の減光の欄(#beSw・#beSwAuto)は外した(本の宣言 lightSweep は今のまま動く)。位置 x・y を vx・vy と同じ型で
+  $("#beX").value=fmt(S.x[i]); $("#beY").value=fmt(S.y[i]);
   $("#beVx").value=fmt(S.vx[i]); $("#beVy").value=fmt(S.vy[i]);
   // 第94便(原仮定者指示): 第92・93便のパネル内換算副表示(#beConv 系)は廃止 —
   // 粒子のスケール換算値は画面下の詳細行(render() の selConvTextNow)へ移設した
@@ -50496,35 +50567,11 @@ $("#beDq").addEventListener("change",()=>{
   setParamsDirty(true); requestRender();
   updateBodyEdit();
 });
-// 第36便 C2(原仮定者指示): 掻出欄は数値(0〜1・従来の独立指定)に加えて "auto" を受理する。
-// beBind は parseFloat 前提なので、この欄だけ専用ハンドラにする(他欄の挙動は不変)
-$("#beSw").addEventListener("change",()=>{
-  const S=selSimRef();
-  if(selIdx<0||selIdx>=S.n){ updateBodyEdit(); return; }
-  const raw=$("#beSw").value.trim().toLowerCase();
-  const deny=(raw==="auto")? beDeny3dOf(S,"lightSweepAuto") : null;   // 第299便f: 三次元の本では減光の自動算出は未対応(步が止まる)—— 拒否して理由
-  if(deny){ beDescShown=null; $("#beNote").textContent=deny; updateBodyEdit(); return; }
-  if(raw==="auto"){ S.lSwAuto[selIdx]=1; S.hasLSwAuto=true; setParamsDirty(true); requestRender(); }
-  else{
-    const v=parseFloat(raw.replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));   // v1.24: 全角マイナス等も受理
-    if(isFinite(v)){ S.lSwAuto[selIdx]=0; S.syncLSwAuto(); S.lSw[selIdx]=clamp(v,0,1); setParamsDirty(true); requestRender(); }
-  }
-  updateBodyEdit();
-});
-// 第37便 A2(原仮定者指示): 掻出の auto チェックボックス — 上の #beSw テキスト入力(数値/"auto")と
-// 同じ状態 S.lSwAuto/S.lSw を操作する単一の真実源。ON→auto化(実効値は毎ステップ算出済みの
-// S.lSw をそのまま流用)、OFF→現在の実効値を数値指定として引き継ぐ(S.lSw は auto 中も
-// 常に実効値を保持しているため — 4-51 の設計どおり)
-$("#beSwAuto").addEventListener("change",()=>{
-  const S=selSimRef();
-  if(selIdx<0||selIdx>=S.n){ updateBodyEdit(); return; }
-  const deny=$("#beSwAuto").checked? beDeny3dOf(S,"lightSweepAuto") : null;   // 第299便f: 三次元の本では拒否して理由(チェックを戻す)
-  if(deny){ $("#beSwAuto").checked=false; beDescShown=null; $("#beNote").textContent=deny; updateBodyEdit(); return; }
-  if($("#beSwAuto").checked){ S.lSwAuto[selIdx]=1; S.hasLSwAuto=true; }
-  else{ S.lSwAuto[selIdx]=0; S.syncLSwAuto(); }
-  setParamsDirty(true); requestRender();
-  updateBodyEdit();
-});
+// 第36便 C2〜第37便 A2 の減光の欄(#beSw —— 数値と "auto")と「自動」チェック(#beSwAuto)の handler は、第326便c(原仮定者の指示(第128報)「「選択粒子の編集」から、「減光」と「自動」を外す」)で
+// 欄と一緒に外した。S.lSw・S.lSwAuto・S.syncLSwAuto と本の宣言 lightSweep(数値・"auto")の経路は 1 字も変えていない(編集できなくなるだけ)
+// 第326便c(原仮定者の指示(第128報)「「X」と「Y」を編集対象に加える」): 位置 x・y(値域は受理器の座標 ±5000 —— 三次元の z と同じ・書き込みは vx/vy と同じ beBind の型)
+beBind("#beX",(S,i,v)=>{ S.x[i]=clamp(v,-5000,5000); });
+beBind("#beY",(S,i,v)=>{ S.y[i]=clamp(v,-5000,5000); });
 beBind("#beVx",(S,i,v)=>{ S.vx[i]=clamp(v,-100,100); });
 beBind("#beVy",(S,i,v)=>{ S.vy[i]=clamp(v,-100,100); });
 // 第299便f(第89報⑤): 三次元の本の z・vz(値域は受理器の座標 ±5000・編集の速度 ±100 —— vx/vy と同じ)。二次元の本では行が出ない(書かない)
@@ -50697,7 +50744,7 @@ let beDescShown=null;
 {
   const BE_DESC={beLm:"beDm",beLs:"beDs",beLr:"beDr",   // 第81便: beLmc/beLsc/beLrr は廃止
     beLdq:"beDdq",   // 第239便
-    beLsw:"beDsw",beLswAuto:"beDsw",beLvx:"beDv",beLvy:"beDv",beLp:"beDp",
+    beLx:"beDxy",beLy:"beDxy",beLvx:"beDv",beLvy:"beDv",beLp:"beDp",   // 第326便c: 減光・自動の欄を外し、位置 x・y の欄
     beLcvTitle:"beDcv",   // 第80便C: コアv2内訳ブロックの説明
     beLayTitle:"beDly",beLlyRole:"beDly",beLlyM:"beDly",beLlyR:"beDly",beLlyJ:"beDly",   // 第261便b: 親子コア(層)の説明
     beLcvOn:"beDce",beLcvEmf:"beDce",beLcvEr:"beDce",beLcvEo:"beDce",
@@ -66461,6 +66508,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   coreAxisShow:()=>coreAxisShow, setCoreAxisShow,   // 第275便e: コア軸の投影線(表示専用)
   // 第299便f(原仮定者の裁定(第89報)⑤⑥・R172): 選択粒子の編集の出し分けと編集の入口・三次元の切り替え・家族の畳みの閾値(QA が閾値 5 案を試す口)
   selEditVisOf, coord3dSpinAxisEdit, coreAxisEdit, dragCoreEdit, coordSwitchPlanOf, coordSwitchTo, coordSwitchState:coordSwitchStateOf, coord2dZNonzeroOf,
+  // ==== 第326便c の塊(ここから)====
+  ST_DERIVED_VERSION, stDerivedOf, stDerivedFmt,   // 第326便c(第128報・R292): 「時空」の群の計算済みの 3 行(κ_D・X_k・Y_k —— 表示だけ)の値と書式(QA が読む)
+  // ==== 第326便c の塊(ここまで)====
   familyFoldMin:()=>familyFoldMinNow,
   setFamilyFoldMin:(n)=>{ const o=familyFoldMinNow; familyFoldMinNow=(typeof n==="number" && n>=1 && n===Math.round(n))? n : FAMILY_FOLD_MIN_VARIANTS; return o; },
   spinAxisGlyphCount:()=>spinAxisGlyphN,   // 第288便e: spinAxis の投影線を描いた回数の累計(表示の検査用)
