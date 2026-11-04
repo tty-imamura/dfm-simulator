@@ -41441,7 +41441,7 @@ function restoreLastGood(){
   coordSwitchHold=!!coordSwitch;         // 第299便f: 三次元の切り替えの写しを保つ
   loadPreset(currentPreset.id,false);    // 初期配置へ(スナップショットもクリアされる)
   sim.params=fastParams(snap); sim.updateRadii();   // 第250便e
-  physLockAutoApply([sim]);              // 第315便a(AN414): 戻した値で物理対応ロックを判定し直す(フラグだけ)
+  physLockAutoApply([sim]);              // 第315便a(AN414): 戻した値で物理対応ロックを判定し直す(フラグだけ)→ 第326便a(AN530): 戻した値の X_k を導出値へ
   setParamsDirty(true);                      // 復元値はプリセット既定と異なりうる(未保存扱い)
   buildParamRows(); requestRender();
   notify(T("divRestored"),4000);
@@ -43600,6 +43600,7 @@ function loadSave(s, selValue){
   // プリセット読込時の自動解除と同じ帰結(意図しない持ち越しが起きない)。ONの復元は保存済み
   // physics(導出 κ を含む)の上に enforcePhysLock が走るだけなので値は変わらない
   // 第315便a(AN414・AN419): 保存のフラグ(s.physLock)より今の値で判定する —— 条件を満たせばフラグだけ ON(値は保存どおり 1 bit も動かさない)・満たさなければ OFF
+  // → 第326便a(AN530): 保存のフラグ・保存した X_k に依らず X_k を導出値へ(内蔵の退役の本だけロックの外)
   physLockAutoApply([sim]);
   // 第124便: qLock の復元 — 復元した状態から q を再算出(physLock と同型。旧セーブはキー無しでOFF)
   qLockOn=!!s.qLock;
@@ -43698,7 +43699,7 @@ function loadPreset(id, keepPhysics){
   // 第326便a(AN530): build の前の写しで X_k を導出値へ(内蔵の退役の本〔履歴〕は宣言のまま —— 在位の内蔵の本は宣言が導出値と bit で同じ)
   if(!xkLockExemptId(p.id) && (!keepPhysics || !basePhysics)) merged.physics=xkLockPhysicsCopy(merged.physics);
   sim.build(merged);
-  if(!keepPhysics) physLockAutoApply([sim]);   // 第315便a(AN414): 読込時の自動 ON —— build の後の実値で判定(フラグだけ)
+  if(!keepPhysics) physLockAutoApply([sim]);   // 第315便a(AN414): 読込時の自動 ON —— build の後の実値で判定(フラグだけ)→ 第326便a(AN530): 常にロック(build の前の写しで導出済み —— ここは旗と表示)
   // 第123便(原仮定者指示「qが計算で求まるなら編集対象から外す」): qLock サンプルは
   // 引きずり減衰 q を有限参照正規化規約から自動算出して適用(q スライダーはグレーアウト)
   qLockOn=!!p.qLock;
