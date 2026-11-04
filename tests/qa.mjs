@@ -72785,8 +72785,15 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       if (has297cCL) TS297 = await page.evaluate(() => HP.allPresets().filter((p) => p.timeRef && typeof p.timeRef.legacyTimeScale === 'number').map((p) => p.id));
       const diffManyCL = new Set((J.G || {}).diffMany || []), sigDiffCL = new Set((J.G || {}).sigDiff || []);
       const ok297CL = (id) => (has297aCL || has297cCL) && (!diffManyCL.has(id) || LAM297T.includes(id)) && (!sigDiffCL.has(id) || LAM297S.includes(id) || TS297.includes(id));
-      const undecl297 = [...new Set(((J.G || {}).changedUndeclared || []).filter((id) => !W291B.includes(id) && !W295B.includes(id) && !W299E3.includes(id) && ok297CL(id)))];
-      const undecl = ((J.G || {}).changedUndeclared || []).filter((id) => !W291B.includes(id) && !W295B.includes(id) && !W299E3.includes(id) && !ok297CL(id));
+      // 第326便(統括 —— ゲートのフル QA で拾った・原仮定者の回答(2026-11-03 —— AN530)): 世代切替 = html の XK_LOCK_VERSION —— 物理対応ロックの移行で
+      //   宣言を変えた在位の本(凍結の写し xklock-w326a の分類 1・2 —— X_k := G_0/c_0² か G_0 := X_k c_0²)は基点との前後で動いてよい(cLight の真値の話ではない)
+      //   (第325便の教訓 (i): 正本は beta 線の鎖が作る —— 対象が root の html〔ロックの前の世代〕でも、正本がロックの後の世代なら同じ集合を許す)
+      const XK326CLgen = html.indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0
+        || (() => { try { return fs.readFileSync(path.join(ROOT, 'beta', 'index.html'), 'utf8').indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0; } catch (e) { return false; } })();
+      const XK326CL = XK326CLgen
+        ? (() => { try { return Object.entries(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'xklock-w326a.json'), 'utf8')).books || {}).filter(([, v]) => v && (v.kind === 'class1' || v.kind === 'class2')).map(([k]) => k); } catch (e) { bad.push('④ 第326便a の移行の写し(xklock-w326a.json)が読めない'); return []; } })() : [];
+      const undecl297 = [...new Set(((J.G || {}).changedUndeclared || []).filter((id) => !W291B.includes(id) && !W295B.includes(id) && !W299E3.includes(id) && !XK326CL.includes(id) && ok297CL(id)))];
+      const undecl = ((J.G || {}).changedUndeclared || []).filter((id) => !W291B.includes(id) && !W295B.includes(id) && !W299E3.includes(id) && !XK326CL.includes(id) && !ok297CL(id));
       if (!(J.G && undecl.length === 0)) bad.push('④ 宣言の外で動いた本: ' + undecl.join(','));
       if (undecl297.length) cases.push(`第297便の宣言(λ_PN=0〔軌道は 1PN が走っていた本だけ〕・時間の宣言〔署名だけ〕)で動いた本 ${undecl297.length}(宣言から導く)`);
       cases.push(`前後 ${J.G.bitSameMany}/${J.G.n}(ビット)・${J.G.sigSame}/${J.G.n}(署名)—— 違う本 ⊆ 宣言した ${J.G.declaredN} 本`
