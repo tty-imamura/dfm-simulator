@@ -274,6 +274,12 @@
   .ppRow .ppTagBox{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;flex:0 0 auto;gap:1px;line-height:1.2;}
   .ppRow .ppTagBox .ppTags{margin-left:0;}
   .ppRow .ppGeoTag{font-size:calc(10px*var(--uz,1));color:var(--dim);white-space:nowrap;}
+  /* ==== 第326便c の塊(ここから)==== 原仮定者の指示(2026-11-04)「NFWハローの様な、サンプル固有の処理は、チップで表示して、絞り込み可能にする」:
+     固有の処理のある行だけ、行の下にチップの 1 行(.ppProcTags —— 行の幅いっぱい・右寄せ・折り返す)。固有の処理の無い行は 1 px も変わらない */
+  .ppRow[data-proc]{flex-wrap:wrap;}
+  .ppRow .ppProcTags{flex:1 0 100%;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:2px 4px;margin-top:-2px;}
+  .ppRow .ppProcChip{font-size:calc(10px*var(--uz,1));color:var(--dim);border:1px solid var(--line);border-radius:var(--rS);padding:0 4px;line-height:1.35;white-space:nowrap;}
+  /* ==== 第326便c の塊(ここまで)==== */
   /* 第296便d(原仮定者の裁定〔第86報〕・統括の検証項目 R160): **家族の折りたたみ**の行(button.ppFamFold —— 表示専用)。在位の変種が多い家族の
      variant の行は .ppFamBody に入り、畳んだ家族は hidden(群の畳み .ppGroupBody と同じ作法)。行は primary の下に字下げして置き、
      押せることが分かる見出しの色(--accText)・行より小さめの字・指で押せる高さ(36px)。折り返しで横にはみ出さない */
@@ -2378,6 +2384,30 @@ ja: {
   ppOtherSecTopic:"題材",   // 第294便e(原仮定者の裁定(第84報)①・R152): 「その他」の 4 段目
   // 第307便d(原仮定者の裁定(第100報)UI ③〜⑥・統括の検証項目 R212): 「その他」の 5 段目「E水準」・一覧の行の geoPN・パラメータタブの淡色(グレーアウト)の説明
   ppOtherSecE:"E水準", ppOtherE0Tip:"E0 は emergence の宣言の無い本も含む(旧 次元「E水準」と同じ規則)",
+  // ==== 第326便c の塊(ここから)====
+  // 第326便c(原仮定者の指示(2026-11-04)「NFWハローの様な、サンプル固有の処理は、チップで表示して、絞り込み可能にする」): 「その他」の 6 段目「固有の処理」と行のチップ(表 PROC_TAGS)
+  ppOtherSecProc:"固有の処理",
+  ppNoteProcHead:"その宣言があるときだけ走る専用の計算(宣言の鍵から機械で引く —— 一覧の行の下のチップと同じ)。",
+  ppProcHaloRow:(m)=>(m==="nfw"? "NFW" : (m==="burkert"? "Burkert" : (m==="uniform"? "一様" : m)))+" ハロー",
+  ppProc_halo:"ハロー", ppProc_haloTip:"解析的なハローの外力(NFW・一様・Burkert)を足す本",
+  ppProc_gLoc:"局所重力 G_loc", ppProc_gLocTip:"その場の重力 G_loc の則(law:\"kappaC2\" は X_k·c_loc²)を使う本",
+  ppProc_invSq:"引きずり則 invSq", ppProc_invSqTip:"慣性決定力の引きずりの新しい則(核 K1・K2・引きずり半径の規則)を使う本",
+  ppProc_spinDrag:"自転軸の引きずり", ppProc_spinDragTip:"自転軸の向きの引きずり(軸の保持 axisHold など)を宣言した本",
+  ppProc_dragCore:"構造核", ppProc_dragCoreTip:"引きずりの源の核を一様 2 層(コア+マントル殻)で体積平均する天体のある本",
+  ppProc_core:"コア V2", ppProc_coreTip:"独立のコア(コア V2 —— 殻とコアの自転と熱)を持つ天体のある本",
+  ppProc_layers:"親子コア(層)", ppProc_layersTip:"同心の層(親子コア)を宣言した天体のある本",
+  ppProc_thickness:"円盤の有限厚", ppProc_thicknessTip:"円盤の粒子群に有限の厚みを宣言した本(三次元)",
+  ppProc_obsSpin:"観測の自転", ppProc_obsSpinTip:"天体ごとの観測の自転(源の角運動量 J へ)を宣言した本",
+  ppProc_zonal:"帯状重力", ppProc_zonalTip:"扁平な天体の帯状重力の項(J_2 など)を宣言した本",
+  ppProc_pulse:"パルス時計", ppProc_pulseTip:"運動学のパルスのチャネル(周期 P = 2π/ω)を持つ天体のある本",
+  ppProc_spinDipole:"スピン双極子", ppProc_spinDipoleTip:"自転の源の双極子(観測の自転 ω と半径)を宣言した天体のある本",
+  ppProc_lightSweep:"減光", ppProc_lightSweepTip:"自光の掻き出し(減光 —— 数値 0〜1 か auto)を宣言した天体のある本",
+  ppProc_spinSpin:"スピン–スピン力", ppProc_spinSpinTip:"天体の自転どうしの力(スピン–スピン)の項を宣言した本",
+  ppProc_petersGW:"重力波の放射", ppProc_petersGWTip:"重力波の放射の反作用(Peters の式 —— 外部の物理のオーバーレイ)を使う本",
+  ppProc_axisForce:"軸力", ppProc_axisForceTip:"円盤の恒星を軸へ集める軸力(外部のオーバーレイ)を使う本",
+  ppProc_universeBox:"箱宇宙", ppProc_universeBoxTip:"箱宇宙(膨張・周期の箱)の宣言のある本",
+  ppProc_phaseChange:"相変化", ppProc_phaseChangeTip:"相変化(結合と解離)の宣言のある本",
+  // ==== 第326便c の塊(ここまで)====
   ppGeoDeclTag:(d)=>`(宣言 ${d})`,
   inertAlpha:"λ_PN = 0 なので「1PN係数 α」は効きません(値は保持 —— λ_PN を 0 より大きくすると効きます)。",
   inertDragQ:"kFrame = 0(空間引きずりなし)なので、引きずりの減衰としての「引きずり減衰 q」と「q自動算出 qLock」は効きません(値は保持 —— kFrame を 0 より大きくすると効きます)。",
@@ -3693,6 +3723,29 @@ en: {
   ppOtherSecTopic:"Topic",   // wave 294e (R152): fourth section of "Other"
   // wave 307d (the originator's ruling, report 100, UI 3-6; R212)
   ppOtherSecE:"E-level", ppOtherE0Tip:"E0 also covers samples with no emergence declaration (the same rule as the former E-level filter)",
+  // ==== 第326便c の塊(ここから)====
+  ppOtherSecProc:"Specific processing",
+  ppNoteProcHead:"Dedicated computations that run only when their declaration is present (read from the declared keys — the same as the chips under each row of the list).",
+  ppProcHaloRow:(m)=>(m==="nfw"? "NFW" : (m==="burkert"? "Burkert" : (m==="uniform"? "uniform" : m)))+" halo",
+  ppProc_halo:"Halo", ppProc_haloTip:"samples that add the external force of an analytic halo (NFW, uniform or Burkert)",
+  ppProc_gLoc:"Local gravity G_loc", ppProc_gLocTip:"samples that use a law for the local gravity G_loc (law:\"kappaC2\" is X_k·c_loc²)",
+  ppProc_invSq:"Drag law invSq", ppProc_invSqTip:"samples that use the new drag law of the inertial determinacy force (kernels K1/K2 and the drag-radius rule)",
+  ppProc_spinDrag:"Spin-axis drag", ppProc_spinDragTip:"samples that declare the drag of the spin-axis direction (axis hold axisHold etc.)",
+  ppProc_dragCore:"Structure core", ppProc_dragCoreTip:"samples with a body whose drag source is volume-averaged over two uniform layers (core + mantle shell)",
+  ppProc_core:"Core V2", ppProc_coreTip:"samples with a body that has an independent core (core V2 — shell and core spin and heat)",
+  ppProc_layers:"Nested cores (layers)", ppProc_layersTip:"samples with a body that declares concentric layers (nested cores)",
+  ppProc_thickness:"Finite disk thickness", ppProc_thicknessTip:"samples that give a disk of particles a finite thickness (3D)",
+  ppProc_obsSpin:"Observed spin", ppProc_obsSpinTip:"samples that declare an observed spin per body (into the source angular momentum J)",
+  ppProc_zonal:"Zonal gravity", ppProc_zonalTip:"samples that declare zonal-gravity terms of an oblate body (J_2 etc.)",
+  ppProc_pulse:"Pulse clock", ppProc_pulseTip:"samples with a body that has a kinematic pulse channel (period P = 2π/ω)",
+  ppProc_spinDipole:"Spin dipole", ppProc_spinDipoleTip:"samples with a body that declares a spin-source dipole (observed spin ω and radius)",
+  ppProc_lightSweep:"Dimming", ppProc_lightSweepTip:"samples with a body that declares light sweeping (dimming — a number 0-1 or auto)",
+  ppProc_spinSpin:"Spin–spin force", ppProc_spinSpinTip:"samples that declare the force between the spins of bodies (spin–spin)",
+  ppProc_petersGW:"Gravitational-wave emission", ppProc_petersGWTip:"samples that use the radiation reaction of gravitational waves (the Peters formula — an external physics overlay)",
+  ppProc_axisForce:"Axis force", ppProc_axisForceTip:"samples that use the axis force (an external overlay) that gathers disk stars onto an axis",
+  ppProc_universeBox:"Box universe", ppProc_universeBoxTip:"samples that declare a box universe (expanding or periodic box)",
+  ppProc_phaseChange:"Phase change", ppProc_phaseChangeTip:"samples that declare phase change (bonding and dissociation)",
+  // ==== 第326便c の塊(ここまで)====
   ppGeoDeclTag:(d)=>` (declared ${d})`,
   inertAlpha:"lambda_PN = 0, so the 1PN coefficient alpha has no effect (the value is kept - it applies again when lambda_PN > 0).",
   inertDragQ:"kFrame = 0 (no frame dragging), so the drag falloff q and the auto-derived q (qLock) have no effect as a drag falloff (the values are kept - they apply again when kFrame > 0).",
@@ -42616,7 +42669,7 @@ function ppWithClsCache(fn){
 }
 // 第294便e(原仮定者の裁定(第84報)①・統括の検証項目 R152): 4 段目「題材」(旧 次元「題材」—— 単一選択の ppTopic は撤去。軸は表 TOPIC_TAGS から機械で
 // key "topic:<題材の鍵>" —— 宣言の段の testParticle と鍵が重ならないよう接頭辞を付ける。PP_OTHER_AXES への追加は TOPIC_TAGS の定義の直後)
-const PP_OTHER_SECS=[["decl","ppOtherSecDecl"],["badge","ppOtherSecBadge"],["status","ppOtherSecStatus"],["topic","ppOtherSecTopic"],["emergence","ppOtherSecE"]];   // 第289便f: 3 段目「状況(説明タブ)」・第294便e: 4 段目「題材」・第307便d: 5 段目「E水準」(旧 次元「E水準」)
+const PP_OTHER_SECS=[["decl","ppOtherSecDecl"],["badge","ppOtherSecBadge"],["status","ppOtherSecStatus"],["topic","ppOtherSecTopic"],["emergence","ppOtherSecE"],["proc","ppOtherSecProc"]];   // 第289便f: 3 段目「状況(説明タブ)」・第294便e: 4 段目「題材」・第307便d: 5 段目「E水準」(旧 次元「E水準」)・第326便c: 6 段目「固有の処理」(PROC_TAGS)
 // 第287便e: **三状態**。ppOther の要素は「key」(含む = on)か「!key」(除く = NOT)で、無ければ解除(off)。並びは軸の表の順。
 // 第285便e の旧形(key だけの配列)はそのまま「含む」として読める(後方互換 —— 絞り込みはセッション内のみで URL・保存には載らない)。
 // sig(ppFiltering)は ppOther.join(",") なので状態(「!」)がそのまま入る
@@ -42667,8 +42720,8 @@ function ppStatusWord(a){
   if(a.st==="objective") return T("stChipObj")+" "+T(a.key);
   return (a.val==="out-of-scope")? T(a.key) : T("stChipCal")+" "+T(a.key);
 }
-function ppOtherLabel(a){ return a.ev? T("bdgE_"+a.ev) : (a.tp? topicLabel(a.tp) : (a.st? ppStatusWord(a) : (a.bdg? T(a.key) : T("ppOther_"+a.key)))); }   // 第294便e: 題材の段は TOPIC_TAGS の語・第307便d: E水準の段は説明タブの E水準タグの語
-function ppOtherTip(a){ return a.ev? T("bdgE_"+a.ev+"Tip")+(a.ev==="E0"? "\n"+T("ppOtherE0Tip") : "") : a.tp? topicTip(a.tp) : (a.st? T("ppOtherStatusTip")(a.st==="objective"? T("stChipObj") : T("stChipCal"), ppStatusWord(a))
+function ppOtherLabel(a){ return a.pc? procLabel(a.pc) : a.ev? T("bdgE_"+a.ev) : (a.tp? topicLabel(a.tp) : (a.st? ppStatusWord(a) : (a.bdg? T(a.key) : T("ppOther_"+a.key)))); }   // 第294便e: 題材の段は TOPIC_TAGS の語・第307便d: E水準の段は説明タブの E水準タグの語
+function ppOtherTip(a){ return a.pc? procTip(a.pc) : a.ev? T("bdgE_"+a.ev+"Tip")+(a.ev==="E0"? "\n"+T("ppOtherE0Tip") : "") : a.tp? topicTip(a.tp) : (a.st? T("ppOtherStatusTip")(a.st==="objective"? T("stChipObj") : T("stChipCal"), ppStatusWord(a))
   : (a.bdg? T(a.key+"Tip") : T("ppOther_"+a.key+"Tip"))); }
 // チップの件数: **いま一覧に出せる内蔵**(catalogHidden・退役を除く)のうち、その軸を満たす本の数(他の次元とは独立に数える
 // —— そのチップだけを選んだときの行数と同じ)。実行時に宣言から数える(手打ちしない)。
@@ -42710,6 +42763,44 @@ PP_OTHER_AXES.push(...TOPIC_TAGS.map(t=>({key:"topic:"+t.key, sec:"topic", tp:t.
 //   規則は「その他」と同じ —— 三状態(含む/除く/解除)・選んだ軸はすべて AND(他の段・他の次元・検索とも AND)・段の畳み・段ごとの「全て」・件数(0 件は無効表示)。
 //   判定は従来の第94便の規則のまま(E0 は emergence の宣言の無い本も含む)。語は説明タブの E水準タグと同じ鍵(bdgE_*)。表示専用(宣言・presetSig・保存 JSON は読むだけ)
 PP_OTHER_AXES.push(...EMERGENCE_LEVELS.map(v=>({key:"emergence:"+v, sec:"emergence", ev:v, test:(p)=>!!p && (p.emergence||"E0")===v})));
+// ==== 第326便c の塊(ここから)====
+// 第326便c(原仮定者の指示(2026-11-04)「NFWハローの様な、サンプル固有の処理は、チップで表示して、絞り込み可能にする」): **固有の処理**の規則表 PROC_TAGS(1 か所)。
+//   固有の処理 = その宣言があるときだけ走る専用の計算の経路(既定の物理の全部の本に共通のパラメータではない —— 在位の本の一部だけが宣言する opt-in の鍵)。
+//   各行は**宣言の鍵だけ**を読む純関数(名前・絵文字・群では判定しない・手打ちの本の一覧を持たない)。rule は規則の機械可読の写し(QA と文書が照合する)。
+//   一覧の行の下のチップ(.ppProcTags —— 押せない表示)と、「その他」の 6 段目「固有の処理」(key "proc:<鍵>"・sec "proc" —— 三状態・AND・件数・段の畳み・段の「全て」は他の段と同じ規約)が
+//   この表だけを読む。**表示専用** —— プリセット・presetSig・保存 JSON・力学は 1 bit も変えない。退役の本は一覧に出ない(件数にも入らない —— 他の段と同じ)
+const PROC_TAG_VERSION="w326c-proc-1";
+const procBodyHas=(p,k)=>((p && Array.isArray(p.bodies))? p.bodies : []).some(b=>!!b && b[k]!==undefined && b[k]!==null && b[k]!==false);
+const procDragOf=(p)=>(p && p.physics && p.physics.relativeDrag && typeof p.physics.relativeDrag==="object")? p.physics.relativeDrag : null;
+const PROC_TAGS=[
+  {key:"halo",        rule:"physics.halo",                       test:(p)=>!!(p.physics && p.physics.halo)},
+  {key:"gLoc",        rule:"physics.gLoc",                       test:(p)=>!!(p.physics && p.physics.gLoc)},
+  {key:"invSq",       rule:"physics.relativeDrag.invSq",         test:(p)=>!!(procDragOf(p) && procDragOf(p).invSq)},
+  {key:"spinDrag",    rule:"physics.relativeDrag.spinDrag",      test:(p)=>!!(procDragOf(p) && procDragOf(p).spinDrag)},
+  {key:"dragCore",    rule:"bodies[].dragCore",                  test:(p)=>procBodyHas(p,"dragCore")},
+  {key:"core",        rule:"bodies[].core",                      test:(p)=>procBodyHas(p,"core")},
+  {key:"layers",      rule:"bodies[].layers",                    test:(p)=>procBodyHas(p,"layers")},
+  {key:"thickness",   rule:"bodies[].thickness",                 test:(p)=>procBodyHas(p,"thickness")},
+  {key:"obsSpin",     rule:"bodies[].obsSpin",                   test:(p)=>procBodyHas(p,"obsSpin")},
+  {key:"zonal",       rule:"bodies[].zonal | bodies[].j2",       test:(p)=>procBodyHas(p,"zonal") || procBodyHas(p,"j2")},
+  {key:"pulse",       rule:"bodies[].pulse",                     test:(p)=>procBodyHas(p,"pulse")},
+  {key:"spinDipole",  rule:"bodies[].spinDipole",                test:(p)=>procBodyHas(p,"spinDipole")},
+  {key:"lightSweep",  rule:"bodies[].lightSweep>0 | \"auto\"",   test:(p)=>((p && Array.isArray(p.bodies))? p.bodies : []).some(b=>!!b && (b.lightSweep==="auto" || (typeof b.lightSweep==="number" && b.lightSweep>0)))},
+  {key:"spinSpin",    rule:"physics.spinSpin",                   test:(p)=>!!(p.physics && p.physics.spinSpin)},
+  {key:"petersGW",    rule:"physics.petersGW=true",              test:(p)=>!!(p.physics && p.physics.petersGW===true)},
+  {key:"axisForce",   rule:"physics.axisForce",                  test:(p)=>!!(p.physics && p.physics.axisForce)},
+  {key:"universeBox", rule:"universeBox",                        test:(p)=>!!(p && p.universeBox)},
+  {key:"phaseChange", rule:"phaseChange",                        test:(p)=>!!(p && p.phaseChange)}];
+PP_OTHER_AXES.push(...PROC_TAGS.map(t=>({key:"proc:"+t.key, sec:"proc", pc:t.key, test:(p)=>!!p && !!t.test(p)})));
+function procsOf(p){ return p? PROC_TAGS.filter(t=>t.test(p)).map(t=>t.key) : []; }
+function procLabel(key){ return T("ppProc_"+key); }
+function procTip(key){ const t=PROC_TAGS.find(x=>x.key===key); return T("ppProc_"+key+"Tip")+(t? "("+t.rule+")" : ""); }
+// 行のチップの語(ハローは宣言の型で「NFW ハロー」等 —— 型の名は受理器の HALO_MODELS の値)
+function procRowLabel(key,p){
+  if(key==="halo" && p && p.physics && p.physics.halo && typeof p.physics.halo.model==="string") return T("ppProcHaloRow")(p.physics.halo.model);
+  return procLabel(key);
+}
+// ==== 第326便c の塊(ここまで)====
 function topicTest(key,p){ const t=TOPIC_TAGS.find(x=>x.key===key); return !!t && !!p && !!t.test(p); }
 function topicsOf(p){ return p? TOPIC_TAGS.filter(t=>t.test(p)).map(t=>t.key) : []; }
 function topicLabel(key){ return T("ppTopic_"+key); }
@@ -42799,7 +42890,7 @@ function ppRender(){
   };
   // 第307便d(原仮定者の裁定(第100報)UI ③・R212): 行の右の「スケール」「分類」の 1 行(.ppTags —— 語は従来どおり)の下に、改行して「geoPN」の 1 行
   //   (.ppGeoTag)。2 行は右寄せの入れ物 .ppTagBox に縦に積む(.ppTags の textContent は変えない)。geo = {text, title, bucket}
-  const mkRow=(label,tags,cur,fn,parent,geo)=>{
+  const mkRow=(label,tags,cur,fn,parent,geo,procP)=>{
     const b=document.createElement("button"); b.type="button"; b.className="ppRow";
     if(cur) b.dataset.cur="1";
     const s1=document.createElement("span"); s1.textContent=label; b.appendChild(s1);
@@ -42808,6 +42899,11 @@ function ppRender(){
       const s3=document.createElement("span"); s3.className="ppGeoTag"; s3.textContent=geo.text; s3.title=geo.title; s3.dataset.geo=String(geo.bucket);
       bx.appendChild(s3); b.appendChild(bx); }
     else if(tags){ const s2=document.createElement("span"); s2.className="ppTags"; s2.textContent=tags; b.appendChild(s2); }
+    // 第326便c(原仮定者の指示(2026-11-04)): 固有の処理のチップ(押せない表示 —— 絞り込みは「その他」の段「固有の処理」)。無い本は何も足さない
+    { const pk=procP? procsOf(procP) : []; if(pk.length){ b.dataset.proc=pk.join(" ");
+      const pt=document.createElement("span"); pt.className="ppProcTags";
+      for(const k of pk){ const c=document.createElement("span"); c.className="ppProcChip"; c.dataset.proc=k; c.textContent=procRowLabel(k,procP); c.title=procTip(k); pt.appendChild(c); }
+      b.appendChild(pt); } }
     b.addEventListener("click",fn);
     (parent||body||list).appendChild(b);
   };
@@ -42855,7 +42951,7 @@ function ppRender(){
       if(!famRun || famRun.fid!==p.familyId) famRun=mkFamFold(p.familyId);
       famRun.n++; famRun.b.dataset.n=String(famRun.n); famParent=famRun.d;
     } else famRun=null;
-    mkRow(label,tags,!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id),famParent,ppGeoTagOf(p));   // 第307便d: geoPN の 2 行目
+    mkRow(label,tags,!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id),famParent,ppGeoTagOf(p),p);   // 第307便d: geoPN の 2 行目・第326便c: 固有の処理のチップ
   });
   famRun=null; for(const fid of famSeen) familyFoldSync(fid);   // 第296便d: 畳みの行の語と開閉を家族ごとに揃える
   closeGroup(); closeScope();
@@ -42928,7 +43024,7 @@ function ppNoteText(kind){
     // 第287便e: 三状態の説明と 2 段(宣言・分類バッジ)。件数は「含む」の数(除くの数は一覧に出せる本からその数を引いたもの)
     return T("ppNoteOtherHead")+"\n"+T("ppNoteOtherTri")+"\n"+T("ppNoteOtherFold")
       +PP_OTHER_SECS.map(([sec,tk])=>"\n【"+T(tk)+"】"+(sec==="badge"? " "+T("ppNoteOtherSecBadge") : (sec==="status"? " "+T("ppNoteOtherSecStatus") : (sec==="topic"? " "+T("ppNoteTopicHead")
-          : (sec==="emergence"? " "+T("ppENote")(allPresets().filter(p=>EMERGENCE_LEVELS.indexOf(p.emergence)>=0).length) : ""))))+"\n"   // 第307便d: E水準の段は第147便の運用規約の注記(件数は実行時に数える)
+          : (sec==="emergence"? " "+T("ppENote")(allPresets().filter(p=>EMERGENCE_LEVELS.indexOf(p.emergence)>=0).length) : (sec==="proc"? " "+T("ppNoteProcHead") : "")))))+"\n"   // 第307便d: E水準の段は第147便の運用規約の注記(件数は実行時に数える)
         +PP_OTHER_AXES.filter(a=>a.sec===sec)
           .map(a=>"・"+ppOtherLabel(a)+"("+ppOtherCount(a.key)+") — "+ppOtherTip(a)).join("\n")).join("");
   }
@@ -66510,6 +66606,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   selEditVisOf, coord3dSpinAxisEdit, coreAxisEdit, dragCoreEdit, coordSwitchPlanOf, coordSwitchTo, coordSwitchState:coordSwitchStateOf, coord2dZNonzeroOf,
   // ==== 第326便c の塊(ここから)====
   ST_DERIVED_VERSION, stDerivedOf, stDerivedFmt,   // 第326便c(第128報・R292): 「時空」の群の計算済みの 3 行(κ_D・X_k・Y_k —— 表示だけ)の値と書式(QA が読む)
+  PROC_TAG_VERSION, PROC_TAGS, procsOf,   // 第326便c(原仮定者の指示(2026-11-04)): 固有の処理の規則表と本ごとの鍵(サンプルの選択のチップと「その他」の 6 段目)
   // ==== 第326便c の塊(ここまで)====
   familyFoldMin:()=>familyFoldMinNow,
   setFamilyFoldMin:(n)=>{ const o=familyFoldMinNow; familyFoldMinNow=(typeof n==="number" && n>=1 && n===Math.round(n))? n : FAMILY_FOLD_MIN_VARIANTS; return o; },
