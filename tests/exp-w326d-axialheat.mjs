@@ -315,12 +315,12 @@ export function partR(HP, html) {
 
 /* ───────── 全部と門 ───────── */
 export function runAll(HP, html) {
-  const t0 = Date.now(), tm = {};
-  const I = partI(HP); tm.I = (Date.now() - t0) / 1000;
-  const Know = partK(HP, I, 'now'), KJ = partK(HP, I, 'J'); tm.K = (Date.now() - t0) / 1000;
-  const S = partS(I, Know), SJ = partS(I, KJ); tm.S = (Date.now() - t0) / 1000;
-  const H = partH(I, Know, S), V = partV(I, Know, H), VJ = partV(I, KJ, H), C = partC(I, Know, S, H), N = partN(I, Know); tm.HVCN = (Date.now() - t0) / 1000;
-  const R = partR(HP, html); tm.R = (Date.now() - t0) / 1000;
+  const t0 = Date.now(), tm = {}, mark = (k) => { tm[k] = { wallSec: (Date.now() - t0) / 1000 }; };   // 所要(累計の秒 —— 安定 hash の除外 /timing/*/wallSec)
+  const I = partI(HP); mark('I');
+  const Know = partK(HP, I, 'now'), KJ = partK(HP, I, 'J'); mark('K');
+  const S = partS(I, Know), SJ = partS(I, KJ); mark('S');
+  const H = partH(I, Know, S), V = partV(I, Know, H), VJ = partV(I, KJ, H), C = partC(I, Know, S, H), N = partN(I, Know); mark('HVCN');
+  const R = partR(HP, html); mark('R');
   const P = L.pureScenes(), PG = L.pureGates(P);
   const inputs = { units: I.units, g: I.g, OmRefSI: I.OmRefSI, bodies: Object.fromEntries(Object.entries(I.bodies).map(([k, b]) => [k, { i: b.i, name: b.name, m: b.m, R: b.R, s: b.s, a: b.a, axisEngineAngDeg: b.axisEngineAngDeg, Rd: b.Rd, moi: b.moi, I: b.I, gDotA: L.dot(I.g, b.a) }])),
     tides: Object.fromEntries(Object.entries(I.tides).map(([k, n]) => [k, { n, along: L.dot(n, I.bodies[k.split(':')[0]].a) }])) };

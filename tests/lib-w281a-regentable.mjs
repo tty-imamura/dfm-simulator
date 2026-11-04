@@ -1667,7 +1667,7 @@ export const REGEN_STEPS = [
   //   所要は第326便d の枝の実測 2.7 s(nice 19 —— 4 枝並走の箱〔**並走の秒**〕)
   S('axialheat-326d', 'node tests/exp-w326d-axialheat.mjs', ['tests/out/axialheat-w326d.json'], 3, { secSource: 'w326d-branch', node: true, after: ['obscompare', 'samplestatus'],
     quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ(步を進めない —— 窓が無く、全部を走らせても数秒)',
-    volatilePaths: { 'tests/out/axialheat-w326d.json': META_RUN.concat(['/elapsedS', '/timing']) },
+    volatilePaths: { 'tests/out/axialheat-w326d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第326便d: 軸引きずりの定常の釣り合いと由来ごとの熱の帳簿(診断 —— 銀河場を同定したと数えない・内部熱を観測の熱流に合わせていない・負の散逸の解は不採用)・R_d と R_src の独立の宣言の確かめ' }),
   // ==== 第326便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
