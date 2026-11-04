@@ -36,6 +36,11 @@
 //       (--chain-env <env.json> —— 無ければ node tools/regen-chain.mjs --env で今の箱を引く)を照合し、違えば(か欠ければ)全段の候補 0(--no-env-check で照合しない)。
 //     ・**本運用の門(休眠)**: --quick-gate [--shadow <影の照合の JSON>]… [--shadow-prev <前の記録 | git:<rev>>] [--fp-record <今の記録>] [--plan-json <計画>]
 //       [--chain-env <env.json>] [--promote] [--json <file>] —— 門の関数 quickProductionGate の判定(enter/hold)と理由を印字するだけ(鎖も計画も変えない・終了コード 0)。
+//   第326便e(原仮定者の回答(2026-11-03 —— AN527)「推奨で進める」・R294 —— **影**: 判定だけ・鎖は毎便のまま):
+//     ・**常時群の物理の部分の門の影**(tests/lib-w326e-alwaysshadow.mjs の alwaysShadow): 計画に plan.alwaysShadow326e(常時群 13 段ごとに「常時群でなかったら html の物理の部分の門・
+//       器とデータ・入力で reuse にできたか」〔own〕と、常時群を own に置き換えて依存を伝播した影の世界〔world〕の数と秒)。--no-always-shadow で付けない。
+//     ・**鎖の後の照合の口**: --always-shadow-check --plan-json <鎖の前の計画> [--base-rev <鎖の前のコミット —— 既定は計画の headRev>] [--json <file>] —— 常時群の正本の物理の値を
+//       鎖の前のコミットと今で比べ、影の世界の判定と突き合わせる(trueSame / falseSame〔門の取りこぼし〕/ trueDiff / overRun / na —— falseSame があれば終了コード 1)。
 // 終了コード: 0(計画を出した)/ 2(表に無い正本が lint の CANON にある等、表が壊れている)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -162,6 +167,20 @@ if (argv.includes('--quick-gate')) {
   process.exit(0);
 }
 // ==== 第325便d の塊(ここまで)====
+// ==== 第326便e の塊(ここから)====
+// 第326便e(AN527・R294): 鎖の後の照合の口(計画は引かない —— 鎖の前の計画の plan.alwaysShadow326e と鎖の後の正本)
+if (argv.includes('--always-shadow-check')) {
+  const AS = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w326e-alwaysshadow.mjs')).href);
+  let P = null; try { P = JSON.parse(fs.readFileSync(resolve(getArg('--plan-json', null) || 'tests/out/regen-plan-w281a.json'), 'utf8')); } catch { P = null; }
+  if (!P || !P.alwaysShadow326e || !Array.isArray(P.alwaysShadow326e.rows)) { console.error('regen-plan --always-shadow-check: --plan-json の計画に alwaysShadow326e が無い(鎖の前に node tools/regen-plan.mjs で作る)'); process.exit(2); }
+  const r = AS.alwaysShadowCheck(P.alwaysShadow326e, { root: ROOT, baseRev: getArg('--base-rev', null) || undefined });
+  console.log(`regen-plan --always-shadow-check(${r.version} —— 影の照合・鎖の前 ${r.baseRev || '—'} と今の正本の物理の値): ` + Object.entries(r.count).map(([k, v]) => k + ' ' + v).join(' / ')
+    + (r.ok ? ' —— falseSame 0' : ' —— **falseSame ' + r.falseSame.join(',') + '(門の取りこぼし)**'));
+  for (const z of r.rows) console.log(`  ${z.cat.padEnd(9)} ${z.key.padEnd(14)} 影 ${String(z.world).padEnd(7)} 値 ${z.same === null ? '—' : z.same ? '同じ' : '違う'}${z.explain.length ? '(影の理由 ' + z.explain.join('・') + ')' : ''}${z.why ? '  ' + z.why : ''}`);
+  const js = getArg('--json', null); if (js) fs.writeFileSync(resolve(js), JSON.stringify(r, null, 1));
+  process.exit(r.ok ? 0 : 1);
+}
+// ==== 第326便e の塊(ここまで)====
 const t0 = Date.now();
 const plan = T.planRegen({ root: ROOT, html: HTML, baseHtml: BASE, orderOnly: !argv.includes('--all-edges'), htmlPhys: argv.includes('--no-htmlphys') ? false : undefined });
 plan.generatedAt = new Date().toISOString();
@@ -187,6 +206,14 @@ plan.planMs = Date.now() - t0;
   plan.quickShadow.ms = Date.now() - t1;
 }
 // ==== 第323便b の塊(ここまで)====
+// ==== 第326便e の塊(ここから)====
+// 第326便e(AN527・R294): 常時群の物理の部分の門の影(判定だけ —— 計画の status・鎖は変えない)
+if (!argv.includes('--no-always-shadow')) {
+  const AS = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w326e-alwaysshadow.mjs')).href);
+  try { plan.alwaysShadow326e = AS.alwaysShadow(plan, { root: ROOT, html: HTML, files: [BASE].filter(Boolean) }); }
+  catch (e) { plan.alwaysShadow326e = { version: AS.ALWAYS_SHADOW_VERSION, error: String(e && e.message || e).slice(0, 160), rows: [] }; }
+}
+// ==== 第326便e の塊(ここまで)====
 // 第320便d(決断事項 AN478・R265): `--classify` で領域の差を**核・本・表示**に分ける(tests/lib-w320d-perbook.mjs —— 段の判定〔status〕は変えない)。
 //   刻印時の html は --base・--stamp-html <f>(何度でも)・--stamp-git <N>(beta/index.html の直近 N 版 —— 写しは --stamp-dir〔既定 os の一時〕)から sha で引く。
 //   行ごとに「本 X の変更だけで動く(名簿 A/B/C)」/「核: 式 …」/「表示だけ」を plan.classify320 に出す。引けない刻印は unknown
@@ -236,6 +263,16 @@ if (!QUIET) {
   }
   for (const r of plan.steps) if (r.status !== 'reuse' && r.status !== 'history')
     console.log(`  ${r.status.padEnd(7)} ${r.key.padEnd(16)} ${String(r.sec).padStart(5)} s  ${(r.causeText || r.reasons[0] || '').slice(0, 110)}`);
+  // ==== 第326便e の塊(ここから)====
+  // 第326便e(AN527): 常時群の物理の部分の門の影の要約(段ごとの own・影の世界)
+  if (plan.alwaysShadow326e && !plan.alwaysShadow326e.error) {
+    const a = plan.alwaysShadow326e, w = a.world;
+    console.log(`  常時群の物理の部分の門の影(${a.version} —— 判定だけ・鎖は毎便のまま): own reuse ${a.count.ownReuse}/${a.rows.length}・影の世界の常時群 reuse ${a.count.worldReuse}・recheck ${a.count.worldRecheck}・regen ${a.count.worldRegen}`
+      + `(常時群 ${fmt(a.sec.always)} のうち影の世界で走らせない ${fmt(a.sec.worldReuse)})/ 影の世界の全段: ${Object.entries(w.count).map(([k, v]) => k + ' ' + v).join(' / ')}・下限 ${fmt(w.secLower)}〜上限 ${fmt(w.secUpper)}`
+      + `(計画は ${fmt(plan.secLower)}〜${fmt(plan.secUpper)})・刻印 ${a.group.sha || '—'}・鎖の後に --always-shadow-check`);
+    for (const r of a.rows) console.log(`    ${r.own.padEnd(6)} ${r.key.padEnd(14)} ${String(r.sec).padStart(5)} s  影 ${r.world.padEnd(7)} html ${r.html.kind}${r.physReuse === true ? '(物理の部分が同じ)' : r.physReuse === false ? '(物理の部分が違う)' : r.html.kind === 'none' ? '(html を読まない)' : r.html.kind === 'follows' ? '(上流に従う)' : ''}  ${r.why.map((z) => z.text).join(' / ').slice(0, 90)}`);
+  } else if (plan.alwaysShadow326e) console.log('  常時群の物理の部分の門の影: 引けない —— ' + plan.alwaysShadow326e.error);
+  // ==== 第326便e の塊(ここまで)====
   // 第320便d(AN478): 領域の差の分類の要約
   if (plan.classify320) {
     const c = plan.classify320;
