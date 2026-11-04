@@ -619,6 +619,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.realMassF1325e docs.realMassF1325e be
 #   docs.xkLock325f —— 文書)と、qa.mjs の包みの lint.qaHeapRelease310・PHYSICS の節の lint.sectionLookup313(html・本の宣言・器の本文・正本は不変 —— 鎖の段は足さない)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.xkLock325f docs.xkLock325f lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第325便f の塊(ここまで)====
+# ==== 第326便e の塊(ここから)====
+# 第326便e(原仮定者の回答(2026-11-03 —— AN527)「推奨で進める」・統括の検証項目 R294 —— 道具だけ・html は変えない): 枝 e の新設 5 本(lint.alwaysShadow326e —— 常時群 13 段の
+#   html の物理の部分の門の影と鎖の後の照合の口 / lint.familiesTemp326e —— 家族の表の走査からドット始まりの一時ファイルを外す / lint.scopeObsSpin326e —— 領域 hash の版 7 /
+#   lint.narrow326e —— 全部の本を領域に持つ段の絞りの探索 / docs.w326e —— 文書)と、世代を直した既存の 5 本(docs.families・lint.quickMutation325d・lint.quickGate325d・
+#   lint.regenScope・docs.regenShort319c)と、正本の入力の宣言の lint.stableHashPaths
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.alwaysShadow326e lint.familiesTemp326e lint.scopeObsSpin326e lint.narrow326e docs.w326e docs.families lint.quickMutation325d lint.quickGate325d lint.regenScope docs.regenShort319c lint.stableHashPaths"
+# ==== 第326便e の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

@@ -24,7 +24,11 @@
 import crypto from 'node:crypto';
 import * as Q from './lib-w323b-quick.mjs';
 
-export const QUICKGATE_325D_VERSION = 'w325d-quickgate-1';
+// 第326便e(統括の検証項目 R294 —— 第三者の指摘 P1 を統括が確かめて取り込み・門を厳しくするだけ・休眠のまま): 影の必要便数 1 → 2(G1)・
+//   暦の債務の対応を必須(G11 —— 債務 0 でも鎖が債務の段をフルで走らせる実装が無ければ hold。債務 0 は「次の便から reuse の段の古い正本を落とす仕組みがある」ことの
+//   証明にならない)。版 w325d-quickgate-1 → w326e-quickgate-2(旧版は QUICKGATE_VERSION_HISTORY)。債務を鎖へ接続する実装は次の便
+export const QUICKGATE_325D_VERSION = 'w326e-quickgate-2';
+export const QUICKGATE_VERSION_HISTORY = Object.freeze(['w325d-quickgate-1']);
 const sha256 = (s) => crypto.createHash('sha256').update(String(s)).digest('hex');
 
 // ---------------------------------------------------------------------------------------------
@@ -306,8 +310,10 @@ export function calendarDebt(o) {
 // ---------------------------------------------------------------------------------------------
 // ④ 本運用の門の関数(休眠 —— 鎖は呼ばない)
 // ---------------------------------------------------------------------------------------------
-/** 門の既定の数(第324便c の推奨 —— 統括が第326便で決める)。 */
-export const GATE_DEFAULTS_325D = Object.freeze({ minShadowWaves: 1, minHtmlDiff: 10, maxProcNaShare: 0.1, K: 3, bigSec: 600, bigMax: 2 });
+/** 門の既定の数(第324便c の推奨 —— 第326便e で影の必要便数を 2 へ〔第324便・第325便の鎖の後の照合 —— 第325便d の推奨〕)。 */
+export const GATE_DEFAULTS_325D = Object.freeze({ minShadowWaves: 2, minHtmlDiff: 10, maxProcNaShare: 0.1, K: 3, bigSec: 600, bigMax: 2 });
+/** 第326便e: 門の既定の数の前の版(w325d-quickgate-1 —— 影の必要便数 1)。 */
+export const GATE_DEFAULTS_HISTORY_326E = Object.freeze({ 'w325d-quickgate-1': Object.freeze({ minShadowWaves: 1, minHtmlDiff: 10, maxProcNaShare: 0.1, K: 3, bigSec: 600, bigMax: 2 }) });
 /** 手順の欠測に数えない na の理由(器・lib が違う —— フルへ回す正しい処置・窓の環境が違う —— 窓を変えた便)。 */
 export const NA_NOT_PROCEDURAL_325D = Object.freeze(['codeDiff', 'env']);
 /**
@@ -350,13 +356,15 @@ export function quickProductionGate(o) {
   add('G9', !promote, promote ? 'root 昇格の便(全段フル —— 簡易一致を使わない)' : 'root 昇格の便でない');
   const mu = o && o.mutation;
   add('G10', !!mu && mu.ok === true, mu ? `変異の影の試験 ${mu.ok ? '通る' : '落ちる —— ' + mu.bad.slice(0, 2).join(' / ')}(${mu.version})` : '変異の影の試験が無い');
+  // 第326便e: 債務 0 は「将来の reuse の段を K 便以内にフルへ回す仕組みがある」ことの証明にならない —— 鎖が債務の段をフルで走らせる(supported)ことを必須にする
   const debt = (o && o.debt) || { rows: [], supported: false };
-  add('G11', debt.rows.length === 0 || debt.supported === true, `暦の債務の段 ${debt.rows.length}${debt.rows.length ? '(' + debt.rows.slice(0, 4).map((d) => d.key).join(',') + ')' : ''}・鎖が債務の段をフルで走らせる ${debt.supported === true}`);
+  add('G11', debt.supported === true, `暦の債務の段 ${debt.rows.length}${debt.rows.length ? '(' + debt.rows.slice(0, 4).map((d) => d.key).join(',') + ')' : ''}・鎖が債務の段をフルで走らせる ${debt.supported === true}`
+    + (debt.supported === true ? '' : '(必須 —— 債務 0 でも対応が無ければ入れない・第326便e)'));
   add('G12', !!qs && !!qs.record, qs && qs.record ? `指紋の記録 ${qs.record.steps} 段(第${qs.record.wave}便)` : '計画に指紋の記録が無い');
   const failed = C.filter((c) => !c.ok);
   return { version: QUICKGATE_325D_VERSION, dormant: true, decision: failed.length ? 'hold' : 'enter',
     reasons: failed.length ? failed.map((c) => c.id + ' ' + c.text) : ['すべての門を満たす(' + C.length + ' 項)'], conditions: C,
-    note: '休眠 —— 鎖も計画も呼ばない(印字だけ)。本運用に入れるかは統括が第326便で決める。数(閾値)は GATE_DEFAULTS_325D(第324便c の推奨)' };
+    note: '休眠 —— 鎖も計画も呼ばない(印字だけ)。数(閾値)は GATE_DEFAULTS_325D(第324便c の推奨・影の必要便数 2 と暦の債務の対応の必須は第326便e)' };
 }
 /** 門の表(PHYSICS の表)。 */
 export function gateRows(g) {
@@ -408,21 +416,31 @@ export function quickGateSelfTest(o) {
   const okShadow = { countsAsShadowWave: true, count: { falseSame: 0 }, tally: { keys: 57, comparedHtmlDiff: 55, naByReason: { [Q.SHADOW_NA_WHY.noFingerprint]: 1, [Q.SHADOW_NA_WHY.codeDiff]: 1 } } };
   const qsOk = { K: 3, stepChange: 'yes', promote: false, record: { steps: 59, wave: 324 }, env: { ok: true }, rows: [{ key: 'geo3', eligible: false }, { key: 'x', eligible: true }] };
   const mu = { ok: true, bad: [], version: QUICKGATE_325D_VERSION };
-  const g0 = quickProductionGate({ shadows: [okShadow], plan: { quickShadow: qsOk }, env: e1, mutation: mu, longRoster: ['geo3'] });
-  const g1 = quickProductionGate({ shadows: [okShadow], plan: { quickShadow: Object.assign({}, qsOk, { env: { ok: false } }) }, env: e2, mutation: mu, longRoster: ['geo3'] });
-  const g2 = quickProductionGate({ shadows: [okShadow, Object.assign({}, okShadow, { count: { falseSame: 1 } })], plan: { quickShadow: qsOk }, env: e1, mutation: mu, longRoster: ['geo3'] });
-  const g3 = quickProductionGate({ shadows: [Object.assign({}, okShadow, { tally: Object.assign({}, okShadow.tally, { comparedHtmlDiff: 9 }) })], plan: { quickShadow: qsOk }, env: e1, mutation: mu, longRoster: ['geo3'] });
-  const g4 = quickProductionGate({ shadows: [okShadow], plan: { quickShadow: Object.assign({}, qsOk, { rows: [{ key: 'geo3', eligible: true }] }) }, env: e1, mutation: mu, longRoster: ['geo3'] });
-  const g5 = quickProductionGate({ shadows: [okShadow], plan: { quickShadow: qsOk }, env: e1, mutation: mu, longRoster: ['geo3'], promote: true });
-  const g6 = quickProductionGate({ shadows: [okShadow], plan: { quickShadow: qsOk }, env: e1, mutation: mu, longRoster: ['geo3'], debt: { rows: [{ key: 'a' }], supported: false } });
-  const g7 = quickProductionGate({ shadows: [Object.assign({}, okShadow, { tally: Object.assign({}, okShadow.tally, { naByReason: { [Q.SHADOW_NA_WHY.noFingerprint]: 6, [Q.SHADOW_NA_WHY.codeDiff]: 20 } }) })], plan: { quickShadow: qsOk }, env: e1, mutation: mu, longRoster: ['geo3'] });
+  // 第326便e: 既定の入力は影 2 便・暦の債務の対応あり(門を通る形)—— 1 つずつ崩して落ちる門を確かめる
+  const gateBase = { shadows: [okShadow, JSON.parse(JSON.stringify(okShadow))], plan: { quickShadow: qsOk }, env: e1, mutation: mu, longRoster: ['geo3'], debt: { rows: [], supported: true } };
+  const probe = (patch) => quickProductionGate(Object.assign({}, gateBase, patch));
+  const g0 = probe({});
+  const g1 = probe({ plan: { quickShadow: Object.assign({}, qsOk, { env: { ok: false } }) }, env: e2 });
+  const g2 = probe({ shadows: [okShadow, Object.assign({}, okShadow, { count: { falseSame: 1 } })] });
+  const g3 = probe({ shadows: [okShadow, Object.assign({}, okShadow, { tally: Object.assign({}, okShadow.tally, { comparedHtmlDiff: 9 }) })] });
+  const g4 = probe({ plan: { quickShadow: Object.assign({}, qsOk, { rows: [{ key: 'geo3', eligible: true }] }) } });
+  const g5 = probe({ promote: true });
+  const g6 = probe({ debt: { rows: [{ key: 'a' }], supported: false } });
+  const g7 = probe({ shadows: [okShadow, Object.assign({}, okShadow, { tally: Object.assign({}, okShadow.tally, { naByReason: { [Q.SHADOW_NA_WHY.noFingerprint]: 6, [Q.SHADOW_NA_WHY.codeDiff]: 20 } }) })] });
   const g8 = quickProductionGate({});
+  // 第326便e: 債務 0 で鎖が債務を扱えない → hold(G11)・影 1 便 → hold(G1)・影 1 便の数える便と数えない便 → hold(G1)・債務の欄が無い → hold(G11)
+  const g9 = probe({ debt: { rows: [], supported: false } });
+  const g10 = probe({ shadows: [okShadow] });
+  const g11 = probe({ shadows: [Object.assign({}, okShadow, { countsAsShadowWave: false }), okShadow] });
+  const g12 = probe({ debt: undefined });
   const failIds = (g) => g.conditions.filter((c) => !c.ok).map((c) => c.id).join(',');
-  const want = [[g0, 'enter', ''], [g1, 'hold', 'G6'], [g2, 'hold', 'G2'], [g3, 'hold', 'G3'], [g4, 'hold', 'G5'], [g5, 'hold', 'G9'], [g6, 'hold', 'G11'], [g7, 'hold', 'G4']];
+  const want = [[g0, 'enter', ''], [g1, 'hold', 'G6'], [g2, 'hold', 'G2'], [g3, 'hold', 'G3'], [g4, 'hold', 'G5'], [g5, 'hold', 'G9'], [g6, 'hold', 'G11'], [g7, 'hold', 'G4'],
+    [g9, 'hold', 'G11'], [g10, 'hold', 'G1'], [g11, 'hold', 'G1'], [g12, 'hold', 'G11']];
   const miss = want.filter(([g, dcs, ids]) => g.decision !== dcs || failIds(g) !== ids).map(([g, dcs, ids]) => dcs + '/' + ids + '≠' + g.decision + '/' + failIds(g));
   if (miss.length || g8.decision !== 'hold' || g8.conditions.length !== 12 || g0.dormant !== true || !Array.isArray(g0.reasons)) bad.push('④ 門の関数: ' + miss.join(' ; ') + ' / 空の入力 ' + g8.decision + '・' + g8.conditions.length);
   cases.push(`④ 門の関数(休眠 —— 出力は enter/hold と理由の列): すべて満たす → ${g0.decision}・環境 → ${g1.decision}(${failIds(g1)})・falseSame → ${failIds(g2)}・html が違う比較 9 → ${failIds(g3)}・名簿の段が候補 → ${failIds(g4)}・`
-    + `root 昇格 → ${failIds(g5)}・暦の債務(鎖が走らせない)→ ${failIds(g6)}・手順の欠測 6/57 → ${failIds(g7)}(器・lib が違う 20 は数えない)・空の入力 → ${g8.decision}(門 ${g8.conditions.length} 項)`);
+    + `root 昇格 → ${failIds(g5)}・暦の債務(鎖が走らせない)→ ${failIds(g6)}・手順の欠測 6/57 → ${failIds(g7)}(器・lib が違う 20 は数えない)・空の入力 → ${g8.decision}(門 ${g8.conditions.length} 項)・`
+    + `第326便e: 債務 0 で鎖が債務を扱えない → ${g9.decision}(${failIds(g9)})・影 1 便 → ${g10.decision}(${failIds(g10)})・数える影 1 便 + 数えない 1 便 → ${g11.decision}(${failIds(g11)})・債務の欄なし → ${g12.decision}(${failIds(g12)})・影の必要便数 ${GATE_DEFAULTS_325D.minShadowWaves}`);
   // ⑤ 実物の表の長期の名簿(o.steps・o.knobs・o.roster があれば): 步の関数が変わった便で名簿の段の候補 0・変わらない便で名簿の理由で外れない
   if (o && o.steps && o.knobs && o.roster) {
     const roster = Object.keys(o.roster), by = new Map(o.steps.map((z) => [z.key, z]));
@@ -440,5 +458,5 @@ export function quickGateSelfTest(o) {
   return { version: QUICKGATE_325D_VERSION, ok: bad.length === 0, bad, cases };
 }
 
-export default { QUICKGATE_325D_VERSION, MUT_PLAN_325D, SYN_STAGES_325D, synthRun, simulateQuickWaves, mutationWaveRows, mutationSelfTest, ENV_GATE_FIELDS_325D, heapInfo, recordEnvOf,
+export default { QUICKGATE_325D_VERSION, QUICKGATE_VERSION_HISTORY, GATE_DEFAULTS_HISTORY_326E, MUT_PLAN_325D, SYN_STAGES_325D, synthRun, simulateQuickWaves, mutationWaveRows, mutationSelfTest, ENV_GATE_FIELDS_325D, heapInfo, recordEnvOf,
   quickEnvCheck, envCheckRows, calendarDebt, GATE_DEFAULTS_325D, NA_NOT_PROCEDURAL_325D, quickProductionGate, gateRows, quickGateSelfTest };

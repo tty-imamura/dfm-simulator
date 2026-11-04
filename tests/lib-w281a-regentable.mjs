@@ -2498,10 +2498,12 @@ export function planRegen(o) {
               row.htmlPhys = (row.htmlPhys || []).concat([{ out, from: ph.from, rev: ph.rev, stamp: String(m.targetSha256).slice(0, 12) }]);
             } else {
             // ==== 第325便a の塊(ここまで)====
-            why.push(out + ': 対象 html の hash も領域 hash も一致しない' + (m.scope ? '' : '(領域の宣言なし' + (ph && ph.applicable ? ' —— ' + ph.why : '') + ')'));
+            // 第326便e(R294): 理由の文 —— 物理の部分の宣言(HTMLPHYS_DECL_325A)のある段を「宣言なし」と印字しない(「物理の部分(htmlPhys)」)。判定と理由の種類は不変
+            why.push(out + ': 対象 html の hash も領域 hash も一致しない' + (m.scope ? '' : (ph && ph.applicable ? '(物理の部分(htmlPhys)の宣言 —— ' + ph.why + ')' : '(領域・物理の部分の宣言なし)')));
             if (m.scope && m.scopeComplete === true) cause(scopeCause(hA, m.scope, m.targetSha256), 'scope');
-            else if (ph && ph.applicable && ph.from) cause('対象 html の物理の部分: ' + ph.diff.concat(ph.missing).join(','), 'htmlphys');   // 第325便a
-            else cause('対象 html(領域の宣言なし —— html 全体' + (ph && ph.applicable ? '・刻印の html が台帳・基点・git の履歴に無い' : '') + ')', 'html');
+            else if (ph && ph.applicable && ph.from) cause('対象 html の物理の部分(htmlPhys): ' + ph.diff.concat(ph.missing).join(','), 'htmlphys');   // 第325便a・第326便e(文)
+            else cause(ph && ph.applicable ? '対象 html(物理の部分(htmlPhys)の宣言あり —— 刻印の html が台帳・基点・git の履歴に無いので html 全体)'
+              : '対象 html(領域・物理の部分の宣言なし —— html 全体)', 'html');   // 第326便e(文)
             }   // 第325便a
           }
         }

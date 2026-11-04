@@ -373,3 +373,18 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
   —— `tests/lib-w325d-quickgate.mjs` の `quickProductionGate` の判定(enter/hold)と門ごとの表を印字するだけ(鎖も計画も変えない・終了コード 0)。
   前の便の影の照合は git の記録からも引ける(`--shadow-prev git:<前の便の記録を含むコミット>`)。
 - **変異の影の試験・暦の債務**: `tests/lib-w325d-quickgate.mjs` の `mutationSelfTest`(合成の段の便の模擬)・`calendarDebt`(提案 —— 鎖は呼ばない)。
+
+## 第326便e —— 常時群の物理の部分の門(影)・家族の表の一時ファイル・簡易一致の門の強化・領域 hash の版 7(統括の検証項目 R294・決断事項 AN527)
+
+原仮定者の回答(2026-11-03 —— AN527)「推奨で進める」(常時群に html の物理の部分の門を影で 1 便)。**影 —— 計画の status・鎖・済み印の契約は変えない**。
+
+- **常時群の影**(`tests/lib-w326e-alwaysshadow.mjs` —— 版 w326e-alwaysshadow-1): `node tools/regen-plan.mjs [--base <基点 html>]` の計画に `plan.alwaysShadow326e`(常時群 13 段ごとに
+  「常時群でなかったら html の物理の部分の門・器とデータ・入力で reuse にできたか」〔own〕と、常時群を own に置き換えた影の世界の数と秒)と件数の行。段の html の読み方は
+  `ALWAYS_SHADOW_DECL_326E`(reads・scope・none・follows)。`--no-always-shadow` で付けない。
+- **鎖の後の照合の口**: `node tools/regen-plan.mjs --always-shadow-check --plan-json <鎖の前の計画> [--base-rev <鎖の前のコミット>] [--json <file>]` —— 常時群の正本の物理の値を
+  鎖の前のコミットと今で比べる(trueSame / falseSame〔影 reuse なのに値が違う —— 終了コード 1〕/ trueDiff / overRun / na)。**鎖の前に計画を取っておく**(計画の headRev が既定の基準)。
+- **全部の本を領域に持つ段の絞りの探索**(`tests/lib-w326e-narrow.mjs` —— 版 w326e-narrow-1・影): `node tools/regen-plan.mjs --narrow-explore [--base <html> | --narrow-from <html>]` ——
+  presets:"all" の段の名簿(named・filter・enumerates)と、変わった本だけで絞れば reuse の段の数を `plan.narrow326e` と件数の行に(段の判定は変えない)。
+- **家族の表**: `tests/exp-w283b-families.mjs`(器の版 w326e-families-3)は名指しする器の走査からドット始まりのファイル(QA の静的受理の一時ファイル `.qa-preflight-*.mjs`)を外す。
+- **簡易一致の本運用の門**(`tests/lib-w325d-quickgate.mjs` —— 版 w326e-quickgate-2・休眠のまま): 影の必要便数 2・暦の債務の対応を必須(債務 0 でも鎖が債務を扱えなければ hold)。
+- **領域 hash の版 7**(`tests/lib-w281a-scope.mjs` —— w326e-scope-7): 本の bodies[].obsSpin の成分の説明の文(note・noteEn・source・sourceEn)を領域から外す。版 6 の刻印は版 6 の規則で照合。

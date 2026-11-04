@@ -43836,6 +43836,85 @@ synodic-299b の読み: **3 本と 1 本の正本は物理の欄(葉 784)で差 
 
 **⑦ 言わないこと。** 内部熱と金星の逆回転は解いていない(近点の残差の門の「達」を熱の門と読まない)。退役した 5 本の過去の「達」を新しい geoPN=4 の検証の結果として読まない。簡易一致は影のまま(本運用の受理の口は休眠)。J0737 A の 0° は中央の推定値ではない(模型の入力のノブの既定)。
 
+〔第326便e — 道具: 常時群 13 段の html の物理の部分の門(影)と鎖の後の照合の口・家族の表の走査からドット始まりの一時ファイルを外す・簡易一致の本運用の門の強化・再生成の表の理由の文・全部の本を領域に持つ段の絞りの探索(影)・領域 hash の版 7(obsSpin の成分の説明の文を外す)(原仮定者の回答(2026-11-03 —— AN527)「推奨で進める」・原仮定者の指示(2026-11-01)「今後は、すぐに確認可能な規約を先に判定する」「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・原仮定者の指示(2026-11-03)「次便以降で、再生成の段の対象が宣言なしの場合、html全体にしない」・統括の検証項目 R294)(**html・本の宣言・受理器・步・`S._core`・器の物理の値は変えていない** —— beta/index.html と root の index.html は 1 byte も変えていない・lib と道具と QA と文書と家族の表の正本と一覧だけ・**常時群の門と全部の本の段の絞りは影**〔計画の status・鎖・済み印の契約は変えない〕)〕
+
+**① 何をしたか・なぜ。** 常時群(再生成表の alwaysRun の 13 段 —— calaudit・dt3・kf0・solarsigma・d68three・stoprule・issues・assessed・kf0ledger-old・kf0ledger・samplestatus・htmlagg・mercury)は版名だけの差でも毎便走る(約 16 分と下流の照合)。決断事項 AN527 の推奨のとおり、常時群に第325便a の html の物理の部分の門を**影**(判定だけ —— 鎖は毎便のまま)で当て、鎖の後に常時群の正本の物理の値と突き合わせる口を置いた(② ③)。あわせて、家族の表の生成器が QA の一時ファイルを「名指しする器」に数えていた穴(④)・簡易一致の本運用の門の甘い所(⑤)・再生成の表の古い理由の文(⑥)を直し、第325便a の決断事項候補 D2(本 1 本の宣言の変更で presets:"all" の段が 40 段余り走る)の絞りを探索した(⑦)。第325便c の指摘(obsSpin の注だけの直しで 40 段余りが走る)には領域 hash の版を上げて応えた(⑧)。
+
+**② 常時群の物理の部分の門(影)**(`tests/lib-w326e-alwaysshadow.mjs` —— 版 w326e-alwaysshadow-1)。`node tools/regen-plan.mjs` の計画に `plan.alwaysShadow326e` を付ける(計画の後に付けるので計画の status は変わらない —— `--no-always-shadow` で付けない)。段ごとに「常時群でなかったら reuse にできたか」(own)を次の 4 つで決める:
+- **html**: 段の読み方の宣言 `ALWAYS_SHADOW_DECL_326E` —— `reads`(物理の部分の名 —— 較正の走行 3 段〔calaudit・dt3・kf0〕は行に本の emoji・name と obsCard の条件欄を写すので本は表示の欄を含む全体 `presetFull:*` と文の登録簿・code の中の表示の文の対〔外すのは版名・注釈・生成領域 sample-status だけ〕・d68three は `presetFull:saturnZonalD68`・assessed は `presetFull:*`・samplestatus は第325便a の宣言)/ `scope`(mercury —— 器の領域の宣言)/ `none`(solarsigma・stoprule・issues・kf0ledger-old・kf0ledger —— 正本と観測の CSV を読む・html を読まない)/ `follows`(htmlagg —— 書く段に従う集約段)。刻印の html は段の正本の targetSha256(無ければ calaudit の刻印 —— 同じ鎖で走る常時群の根)を台帳・基点・git の履歴から引く。
+- **器とデータ**: 器がコードの集合を刻む正本(meta.code[]・calaudit の measurementCodeFiles)はその集合、刻まない旧形式の正本は器の閉包(import と本文が名指す器・lib・paper/data・tests/data-*・tests/fixtures)を、**前の鎖のコミット**(calaudit の正本を最後に書いたコミット —— 段の正本のコミットがその祖先なら群のコミット)の blob と今のファイルで比べる。刻印の道具(SCOPE_TOOLING)を刻印だけに使う器は道具の差を数えない(計画の第318便a の規則と同じ)。
+- **入力**: 計画の行の理由の種類 input・decl・tool(正本の meta.inputs の差)。
+- **影の世界**: 常時群を own に置き換え、他の段は計画の自分の判定のまま依存を伝播し直した regen / recheck / reuse の数と秒(計画の数と並べる)。
+
+**表 1 —— 常時群の影**(計画 `--base beta/_w326_base.html`・heap 6144)。(a) 基点の状態(本枝の道具の変更の前 —— 版名だけの差・00:42 UTC):
+
+| 段 | 秒 | html の読み方 | 刻印 | 物理の部分 | own | 影の世界 | 理由 |
+|---|---|---|---|---|---|---|---|
+| calaudit | 436 | reads(code・markup・presetFull:*・textPairs・text:*) | 28e2c6a9666d(own・ledger) | 同じ | reuse | reuse | — |
+| dt3 | 75 | reads(同上) | 28e2c6a9666d(own・ledger) | 同じ | reuse | reuse | — |
+| kf0 | 59 | reads(同上) | 28e2c6a9666d(own・ledger) | 同じ | reuse | reuse | — |
+| solarsigma | 0 | none | — | — | reuse | reuse | — |
+| d68three | 46 | reads(code・markup・presetFull:saturnZonalD68) | 28e2c6a9666d(group・ledger) | 同じ | reuse | reuse | — |
+| assessed | 1 | reads(code・markup・presetFull:*) | 28e2c6a9666d(group・ledger) | 同じ | reuse | reuse | — |
+| samplestatus | 5 | reads(code・presets・markup・build・presetFull:*・text:*) | 28e2c6a9666d(own・ledger) | 違う | regen | regen | html の物理の部分が違う: build |
+| htmlagg | 1 | follows | — | — | reuse | recheck(上流 samplestatus) | — |
+| stoprule・issues・kf0ledger-old・kf0ledger | 0 | none | — | — | reuse | reuse | — |
+| mercury | 333 | scope | — | 同じ | reuse | reuse | — |
+
+own reuse 12/13・影の世界の全段 regen 9・recheck 1(下限 195 s・上限 196 s —— 計画は下限 1146 s〜上限 8455 s)。版名だけの便では常時群の 950 s のうち影の世界で走るのは samplestatus と htmlagg だけ。(b) 本枝の状態(領域 hash の版 7 —— 領域の道具 tests/lib-w281a-scope.mjs を変えた後・01:06 UTC): own reuse 9/13 —— calaudit・dt3・kf0 は測定コードの集合に領域の道具が入っている(measurementCodeSha256 が動く —— 法則の指紋〔閉包の hash〕を計算に使う器)・samplestatus は版名と器。影の世界は下限 1044 s・上限 8243 s(計画は 1425 s〜8459 s)。
+
+**③ 鎖の後の照合の口**: `node tools/regen-plan.mjs --always-shadow-check --plan-json <鎖の前の計画> [--base-rev <鎖の前のコミット>]`。常時群の正本の**物理の値**(tests/lib-w323b-quick.mjs の physValue —— meta・除外 Pointer・時刻と壁時計の欄 + 本 lib の刻印の欄〔calauditWhen・canonicalWhen・assessed の stamp の html の sha・samplestatus の保存 QA の日付〕を外す)を鎖の前のコミットと今で比べ、影の世界の判定と突き合わせる: **trueSame**(影 reuse・値が同じ)/ **falseSame**(影 reuse なのに値が違う —— 門の取りこぼし・終了コード 1)/ **trueDiff**(影で走る・値が違う —— 影の理由の種類 html・code・data・input・upstream を添える)/ **overRun**(影で走る・値が同じ —— 保守側)/ **na**(照合する正本が無い —— htmlagg・dt3 の書き戻しは calaudit の行で見る)。鎖を走らせずに HEAD と今の正本で照合すると falseSame 0(QA ③ —— 合成の自己試験では falseSame を拾う)。**本便の鎖は枝 a の宣言の移行で広い**(常時群は物理の部分が違って trueDiff の見込み)—— 本運用を決める材料は版名・説明だけの便の照合(trueSame が要る)。
+
+**④ 家族の表の一時ファイル**(`tests/exp-w283b-families.mjs` —— 器の版 w294b-families-2 → **w326e-families-3**)。名指しする器の走査(tests/*.mjs・tools/*.mjs)からドット始まりのファイル(QA の静的受理が作る `.qa-preflight-*.mjs`)を外した(`harnessFileOk326e`・`harnessFiles326e`)。家族の行の規則は版 2 のまま(`HARNESS_VERSIONS_IN_ONLY` —— QA docs.families の世代の直し)。
+
+**表 2 —— 家族の表の名指しする器**(正本 tests/out/families-w283b.json・一覧 docs/FAMILIES.md):
+
+| 場合 | 名指しする器 | 凍結の写しを読む | 表の外 | ドット始まり |
+|---|---|---|---|---|
+| 基点の正本(1b1fa70) | 66 | 4 | 18 | 2(`.qa-preflight-12731.mjs`・`.qa-preflight-30013.mjs`) |
+| 基点の器 + 一時ファイル 1 本(scratch の写しの木 —— ドット始まりの 2 本を消した後) | 65(+1 —— 一時ファイルを「表の外」に数える) | 2 | 19 | 1 |
+| 本枝の器(作り直した正本) | 64 | 2 | 18 | 0 |
+| 本枝の器 + 一時ファイル 1 本 | 64(`--check` で正本・一覧とも 1 字一致) | 2 | 18 | 0 |
+
+**⑤ 簡易一致の本運用の門の強化**(`tests/lib-w325d-quickgate.mjs` —— 版 w325d-quickgate-1 → **w326e-quickgate-2**・**休眠のまま** —— 鎖も計画も呼ばない)。`GATE_DEFAULTS_325D.minShadowWaves` を 1 → 2(第324便と第325便の鎖の後の照合 —— 第325便d の推奨)・**G11** は暦の債務の段が 0 でも鎖が債務の段をフルで走らせる実装(supported)が無ければ hold(債務 0 は「次の便から reuse の段の古い正本を落とす仕組みがある」ことを示さない)。自己試験に 4 例を足した(債務 0 で非対応 → hold〔G11〕・影 1 便 → hold〔G1〕・数える影 1 便 + 数えない 1 便 → hold〔G1〕・債務の欄なし → hold〔G11〕)。regen-plan --quick-gate は債務の対応を false で渡すので、債務を鎖へ接続するまで本運用の判定は hold のまま。
+
+**⑥ 再生成の表の理由の文**: 計画の理由の文で、第325便a の物理の部分の宣言(HTMLPHYS_DECL_325A)のある段を「宣言なし」と印字しない —— 「対象 html の物理の部分(htmlPhys): <部分>」・「物理の部分(htmlPhys)の宣言あり —— 刻印の html が台帳・基点・git の履歴に無いので html 全体」・宣言の無い段は「領域・物理の部分の宣言なし —— html 全体」(判定と理由の種類は不変)。SAMPLE_STATUS の生成器(tests/exp-w279a-samplestatus.mjs)の再生成の段の表に区分「**物理の部分(htmlPhys)**」を足した(bh90・galaxyprof・galaxyprof2・d0audit2・selfinertia・needmesh の 6 段 —— 宣言の無い html 全体の段は confirm4 の 1 段)。一覧 docs/SAMPLE_STATUS.md は統合の後の鎖の常時群 samplestatus が作り直す(本枝は scratch の写しで生成器を走らせ、html の生成領域が動かないことだけを見た)。
+
+**⑦ 全部の本を領域に持つ段の絞りの探索**(`tests/lib-w326e-narrow.mjs` —— 版 w326e-narrow-1・**影 —— 印字だけ**・REGEN_SCOPE と段の判定は変えない)。`node tools/regen-plan.mjs --narrow-explore [--base <html> | --narrow-from <html>]`。名簿(第312便c の一覧 tests/data-w312c-scopeall.json の presets:"all" の 45 段を器のコードで読む): **named 6**(宣言だけが all —— pn1・pnsource286・eihdiag287・tpsign・pnsources291・refit-297a)・**filter 7**(使い方が条件の選別と名指しだけで、条件の式が本の宣言だけを読む —— d0audit・shapecrit・rotorledger・calcontract・corecensus293・compose293・pn1x3d-314d)・**enumerates 32**(全本を回る・写す・数える・渡す、か条件の式が本の外の名を読む —— families・chain-296c・clone-301f・statecontract-302e・wbglaw-301g・semic-302d・wbgest-302c の 7 段は式が器の変数を読むので評価できない)。影は「変わった本が、段の読む本(刻印の html と今の html の両方の条件で選んだ本 ∪ 名指し)に入らない」段を「絞れば reuse」と数える(核の差〔閉包・HP・S._core・定数〕がある段は絞らない)。
+
+**表 3 —— 本 1 本の宣言の変更の写しで絞った場合**(scratch の html の写し・計画は `--html <写し> --base beta/_w326_base.html`・本枝の道具の変更による「式」の理由は外して数えた):
+
+| 写し(変えた本と欄) | 計画の regen(下限) | presets:"all" の段の regen | 絞れば reuse |
+|---|---|---|---|
+| (a) psrDoubleABInertial3d の obsSpin.axis.tiltDeg.max 3.2 → 3.3 | 56(2.57 h) | 45(8243 s) | 10(3420 s —— pn1・d0audit・shapecrit・rotorledger・pnsource286・eihdiag287・tpsign・pnsources291・compose293・refit-297a) |
+| (b) venusReal の質量 1988.5 → 1988.6 | 83(6.00 h) | 45(8243 s) | 5(2537 s —— shapecrit・rotorledger・pnsources291・compose293・refit-297a) |
+| (c) shapeToyDisk の kappaT 1/60 → 0.017 | 58(2.63 h) | 45(8243 s) | 9(3344 s —— (a) から shapecrit を外した 9 段) |
+
+絞りが効くのは named 6 と filter のうち条件が狭い段(shapecrit 8 本・rotorledger 6 本・compose293 0 本〔名指し 3〕)だけ —— 全部の本の段の秒の 3〜4 割。残りの 32 段は器が全本を読む(絞るには器を本ごとの部分に分ける —— AN478 の名簿の型 A/B)。
+
+**⑧ 領域 hash の版 7**(`tests/lib-w281a-scope.mjs` —— 現行版 w318a-scope-6 → **w326e-scope-7**)。本の `bodies[].obsSpin` の中の説明の文(`OBSSPIN_PROSE_KEYS_326E` = note・noteEn・source・sourceEn —— 値が文字列のとき・obsSpin の中のどの階層でも)を領域から外す。数・単位・軸の向き・basis・範囲・epoch は残す。版 6 の刻印は版 6 の規則(`SCOPE_VERSION_6` —— 本文は元の実装と 1 字も違わない —— 刻印 12 本の標本で版 6 の hash が前の lib と同じ)で照合するので、**今の刻印の判定は動かない**。新しい刻印(鎖で器が走った段)から版 7。既存 QA の世代の直し: lint.regenScope ①(版の契約)・docs.regenShort319c ④(記録の版)。
+
+**表 4 —— 版 7 の効き目と費用**:
+
+| 場合 | 結果 |
+|---|---|
+| (d) psrDoubleABInertial3d の obsSpin の注だけの写し(今の刻印 = 版 6) | 計画の regen 56(下限 2.57 h)—— 領域の理由で regen の 46 段(8245 s) |
+| 同じ写しを版 7 で引いた領域 hash(鎖で刻み直した後の見込み) | 46 段とも基点の html と同じ(注だけの直しで走る段 0) |
+| 領域の道具の変更で「式」で走る段(本枝の変更が鎖を広げる段) | tpsign(6 s)・contact285(274 s)・bgaudit291(4 s)・timing294(183 s —— 便の開始の入力でも regen)/ 刻印の照合で通した段 132 |
+| 常時群の中 | calaudit の法則の指紋(閉包の hash —— 既定の版で引く)が動くので dt3・kf0 の dt/4 の転記(例外の 4 項)が 1 回だけ新規の走行(第284便c の実測で dt3 112 s・kf0 171 s〔新規の走行〕)|
+
+本便の鎖は枝 a の宣言の移行で presets:"all" の段が走る見込みなので、tpsign・contact285 の追加は 0 の見込み(bgaudit291〔3 本〕は枝 a が 3 本の宣言を動かさなければ追加)。dt/4 の転記も、枝 a が受理の経路(validatePreset —— 法則の指紋の roots)を変えれば同じく動く。
+
+**⑨ 段の判定が動く本枝の変更**(名指し): families(器 —— 本枝で正本を作り直した)・timing294(再生成表と領域の道具 —— 「式」)・tpsign・contact285・bgaudit291(領域の道具 —— 「式」)・samplestatus(器 —— 常時群なので毎便走る)・calaudit の中の dt/4 の転記(⑧)。常時群の影・絞りの探索は判定を変えない。
+
+**⑩ 言わないこと**: 「影の世界で reuse だから値が同じ」(一致は段が読むと宣言した部分と器・データ・入力が同じことだけ —— 値は ③ の照合が測る)・「絞れば reuse の段は本の出力が変わらない」(器の条件の式の外で全本を読む口が無いことは使い方の種類で見ただけ)・「版 7 で注の直しが安全」(版 7 は obsSpin の説明の文だけを外す —— 器が注を出力に写す段は器の領域の宣言の consts で読む)。
+
+**⑪ 決断事項候補**。原仮定者に決めてもらう必要があるもの: (D1)常時群の物理の部分の門を本運用にするか —— 推奨: **A —— 版名・説明だけの便の鎖の後の照合で常時群 13 段の trueSame を 2 便集めてから本運用**(本便の鎖は物理が動くので材料にならない)。B: 常時群は今のまま毎便。(D2)全部の本を領域に持つ段の絞り —— 推奨: **A —— named 6 段は器の REGEN_SCOPE を名指しの本へ絞る(器の宣言の 1 行・その段が「式」で 1 回走る)・filter の段は条件の式を器の外へ出す(第327便以降)**。B: 探索のまま。手順の範囲で統括が決められるもの: (E1)鎖の前に `node tools/regen-plan.mjs --base <基点> --out <計画>` を取り、鎖の後に `--always-shadow-check --plan-json <計画>` を回して進行中版に転記 / (E2)regen-plan --quick-gate の債務の対応を鎖へ接続するまで本運用の判定は hold(⑤)/ (E3)html の物理の部分の lib(w325a-htmlphys-1)の本の表示の欄にも obsSpin の説明の文を足すか(版 2 —— 台帳の作り直しが要る)。
+
+**⑫ 第327便へ**: 鎖の後の照合の記録(本便の鎖 —— trueDiff の見込み)・版名だけの便での照合・named 6 段の絞り・暦の債務の鎖への接続(本運用の門の G11)・filter の段の条件の式の評価できない 7 段(器の変数 BOOK_ID・want・isRuleBookW322・roleVocab)。
+
+**QA**: `lint.alwaysShadow326e`(① 宣言 = 常時群 13 段・読み方の検査 ② 自己試験 ③ 実物〔常時群だけの計画に影を付ける・HEAD と今の正本の照合〕④ 影のまま)・`lint.familiesTemp326e`・`lint.scopeObsSpin326e`・`lint.narrow326e`・`docs.w326e`。既存 QA の世代の直し: docs.families(器の版の集合)・lint.quickMutation325d(門の lib の版)・lint.quickGate325d(影の必要便数 2)・lint.regenScope ①・docs.regenShort319c ④。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
