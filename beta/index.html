@@ -4693,6 +4693,9 @@ const ACCEPT_REASONS = {
   "validatePreset/physics.kappaT#2": "physics.kappaT を値域に修正",
   "validatePreset/physics.Kt": "physics.Kt が数値ではありません",
   "validatePreset/physics.Kt#2": "physics.Kt を値域に修正",
+  // 第326便a(原仮定者の回答(2026-11-03 —— AN530)): 物理対応ロックを常に —— 宣言の X_k は受理で導出値へ置き換える(相対 1e-6 の外のときだけ 1 行)
+  "validatePreset/physics.kappaT#lock": (a0,a1)=>"physics.kappaT(X_k)は導出の量(物理対応ロック X_k = G_0/c_0²)—— 宣言の "+a0+" を導出値 "+a1+" に置き換え(X_k を動かすには G_0 か c_0 を変える)",
+  "validatePreset/abBody.physicsPatch.kappaT#lock": "abBody.physicsPatch の X_k(kappaT・Kt)は読まない —— B 側の X_k は B 側の G_0・c_0 から導出(物理対応ロック —— X_k の対照は G_0 の対照で)",
   "validatePreset/physics.stepDt": "physics.stepDt が数値ではありません",
   "validatePreset/physics.stepDt#2": (a0)=>"physics.stepDt は正の数 — 無視(DT="+a0+")",
   "validatePreset/physics.stepDt#3": "physics.stepDt を値域に修正",
@@ -13165,7 +13168,7 @@ const BUILTIN_PRESETS = [
     summary:"Three still clocks near a heavy body, placed at distances 70, 140 and 240, comparing how much each one lags. All motion is removed, so distance is the only thing that changes — meaning only the determinacy (this model's term for gravitational strength) varies. ",
     observe:"Tap each clock: the inner one ticks slowest, τ/t = 0.931/0.965/0.979 (matches the analytic value to 1e-5). The gravitational counterpart of motion time dilation (the E7R motion term) — the pure gravity term of A7′/E7R. ",
     control:"Double X_k (1/300 → 1/150) and all three gaps widen together."}},
-  activeParams:["kappaT"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  activeParams:["G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   // 第42便 42A(台帳4-78 A案): claims — 説明文の解析一致値(内側時計のτ/t)を機械可読化。
   // QA new.gclock は解析値との誤差<1e-3(実質1e-5一致)を検査する回帰テストで、この値自体の
   // 許容域を直接は与えないため、窓は説明文数値±15%のフォールバック規則で設定する
@@ -13179,7 +13182,7 @@ const BUILTIN_PRESETS = [
   ],
   camera:{scale:280}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 公転の対を代表にしない構成"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0033333333333333335,
+  physics:{G:3, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0033333333333333335,
     cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2, frameWeight:"share"},
   bodies:[ // v1.12(付録L): 第6次提案 P0-1 採用。τ/t 解析一致を機械検証済み
     {type:"single", rMul:1.2, m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
@@ -13205,10 +13208,10 @@ const BUILTIN_PRESETS = [
     summary:"A calibration demo: this universe's clocks and light both follow one formula, ψ=W·X_k (X_k = the spacetime coefficient = 1/Kt; the weak-field law, A7′/E7R/E8R/T5) — this checks how well that matches real observations like GPS and the Sun's light bending. ",
     observe:"With the one mapping X_k=G/c²: net GPS clock rate +38.5 μs/day (gravity +45.7, motion −7.2; observed ≈+38.6) / solar-limb deflection 1.7512″ (observed ≈1.75″) / Shapiro delay ≈281 μs (Cassini geometry) — all match quantitatively. On screen, the analog: the ground clock (r=60) shows τ/t=0.920 while the orbiting satellite (r=180), though moving, ticks faster at τ/t=0.971 — gravity beats motion, the same sign structure as real GPS. The ray fan from the left refracts in the central field (the same n_eff>1 mechanism as the Shapiro delay); raise X_k and clock gaps and bending strengthen together. Note: the SI-calibrated numbers come from formula-level computation under the mapping X_k=G/c²; the on-screen initial values are a visibility-first exaggerated analog and do not satisfy the physical-correspondence condition X_k=G/cLight² (see PHYSICS §5). ",
     control:"Mercury's perihelion advance is covered by ☿ (geodesic 1PN, E12)."}},
-  activeParams:["kappaT","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  activeParams:["G","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:280}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 光線の本"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0.25, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0033333333333333335,
+  physics:{G:0.25, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0002777777777777778,
     cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4, frameWeight:"share"},
   bodies:[ // 付録O O1: 衛星は Plummer 厳密円軌道 v=√(G·M·r²/(r²+ε²)^{3/2})(V13 と同式)
     {type:"single", rMul:1.2, m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
@@ -13320,9 +13323,9 @@ const BUILTIN_PRESETS = [
     fitted:[],
     derived:["衛星速度 v=√(GM/r_GPS)","重力項 (ψ_地上−ψ_衛星)·86400s","運動項 −(v²/2c²)·86400s","正味 = 重力項+運動項"],
     numerical:["ソフトニング ε=2","時間倍率 timeScale=4"]},
-  abBody:{ label:{ja:"X_k=0(時空係数ゼロ — 3つの時計が同じ速さ)", en:"X_k=0 (no spacetime coefficient — all three clocks tick alike)"},
-    physicsPatch:{kappaT:0} },
-  activeParams:["kappaT","cLight"],
+  abBody:{ label:{ja:"G_0=0(重力なし — ロックで X_k=0)", en:"G_0=0 (no gravity — X_k=0 under the lock)"},
+    physicsPatch:{G:0} },
+  activeParams:["G","cLight"],
   camera:{scale:300}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 公転の対を代表にしない構成"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:0.25, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:2.7777777777777778e-4,
@@ -13405,9 +13408,9 @@ const BUILTIN_PRESETS = [
     fitted:[],
     derived:["α=4GM☉/(c²R☉) を秒角へ換算した値"],
     numerical:["ソフトニング ε=2","時間倍率 timeScale=4"]},
-  abBody:{ label:{ja:"X_k=0(時空係数ゼロ — 光はまっすぐ)", en:"X_k=0 (no spacetime coefficient — light goes straight)"},
-    physicsPatch:{kappaT:0} },
-  activeParams:["kappaT","cLight"],
+  abBody:{ label:{ja:"G_0=0(重力なし — ロックで X_k=0・光はまっすぐ)", en:"G_0=0 (no gravity — X_k=0 under the lock; light goes straight)"},
+    physicsPatch:{G:0} },
+  activeParams:["G","cLight"],
   camera:{scale:300}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 光線の本"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:0.25, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:2.7777777777777778e-4,
@@ -13504,9 +13507,9 @@ const BUILTIN_PRESETS = [
     fitted:[],
     derived:["Δt=(4GM☉/c³)ln(4r₁r₂/b²) をマイクロ秒へ換算した値"],
     numerical:["ソフトニング ε=2","時間倍率 timeScale=4"]},
-  abBody:{ label:{ja:"X_k=0(時空係数ゼロ — 信号は最短時間で届く)", en:"X_k=0 (no spacetime coefficient — the signal arrives in the shortest time)"},
-    physicsPatch:{kappaT:0} },
-  activeParams:["kappaT","cLight"],
+  abBody:{ label:{ja:"G_0=0(重力なし — ロックで X_k=0・信号は最短時間で届く)", en:"G_0=0 (no gravity — X_k=0 under the lock; the signal arrives in the shortest time)"},
+    physicsPatch:{G:0} },
+  activeParams:["G","cLight"],
   camera:{scale:380}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 光線の本"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:0.25, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:2.7777777777777778e-4,
@@ -13550,7 +13553,7 @@ const BUILTIN_PRESETS = [
   activeParams:["gravityY","gravityX"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:220}, world:{boundary:"box",size:190},
   timeRef:{basis:"observe", tObs:2.6016, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群・旧 timeScale=0.271 → 1(刻み ×0.271)", legacyTimeScale:0.271},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30/* 第98便: c₀は一律規約の30(⚾は光速非依存 — τ比のみ僅かに変わる。力学は第94便の実値 g_y=9.8 のまま) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:9.8, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1, stepDt:0.004336, frameWeight:"share"},
   bodies:[ // v1.18: Gemini/Grok 第8次提案の合議採用(自由落下×2質量+水平投射+斜方投射)
            // 第94便: 相似変換(×11.068)— 旧 vx3/vy−3.6・timeScale3・g0.08 と同一軌跡(第98便で本版を日常タグの正とする — 原仮定者指示)
@@ -13593,7 +13596,7 @@ const BUILTIN_PRESETS = [
   ],
   camera:{scale:220}, world:{boundary:"none",size:0},   // 境界反射(×0.95)は不可逆なので none 必須
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:2, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{G:2, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0022222222222222222,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:2, frameWeight:"share"},
   bodies:[ // 少数体カオス(3天体)+ 主星まわりの小円盤。スピンは反転対象だが kRep=0・kFrame=0 の
@@ -13622,7 +13625,7 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","cLight"],
   camera:{scale:420}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:3.84, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群・旧 timeScale=0.4 → 1(刻み ×0.4)", legacyTimeScale:0.4},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
+  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30, contactK:1000, contactCap:200, bM:25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:1, stepDt:0.0064, frameWeight:"share"},
   bodies:[
     {type:"ring", n:72, cx:0, cy:0, rIn:260, rOut:260, mMin:20, mMax:20, spinMin:0, spinMax:0,
@@ -13650,7 +13653,7 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","q"],
   camera:{scale:300}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
+  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2, frameWeight:"share"},
   bodies:[
     {type:"ring", n:96, cx:0, cy:0, rIn:260, rOut:260, mMin:20, mMax:20, spinMin:0, spinMax:0,
@@ -13678,7 +13681,7 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame"],
   camera:{scale:420}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
+  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:4, frameWeight:"share"},
   bodies:[
     {type:"ring", n:96, cx:0, cy:0, rIn:260, rOut:260, mMin:20, mMax:20, spinMin:0, spinMax:0,
@@ -13701,11 +13704,11 @@ const BUILTIN_PRESETS = [
     summary:"A sample where the universe's background itself becomes a moving foundation (the continuous UniverseBox). Giving the once-constant background D₀ a position, velocity and size a(t) lets interior particles keep up fully with the expansion — a complete Hubble flow u_B=H·r (closing the gap left by the earlier point-ring wall, which could only carry half the motion inward; dashed circle = nominal radius L·a). ",
     observe:"Free particles are carried preserving comoving coordinates χ=r/a (V24b), and mutual distances grow in proportion to a. Expansion dilutes determinacy (W_B=D/a), so by the clock law (A7′/E7R) the central pinned clock ticks faster as the universe expands (tap it to see τ/t) — a correlation that looks like 'expansion drives time' emerges inside the model. Yet expansion is not the cause of time: it merely changes the rate of an already-defined clock. Reactions are ledgered to the reservoir (monitor, A13). ",
     control:"Set kFrame to 0 and comotion vanishes (suggested A/B)."}},
-  activeParams:["kFrame","kappaT"],
+  activeParams:["kFrame","G"],
   camera:{scale:420}, world:{boundary:"none",size:0},
   universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0033333333333333335,
+  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:4, frameWeight:"share"},
   bodies:[
     {type:"disk", n:24, cx:0, cy:0, radius:200, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
@@ -13731,7 +13734,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:420}, world:{boundary:"none",size:0},
   universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:1, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
+  physics:{G:1, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0011111111111111111,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4, frameWeight:"share"},
   bodies:[ // 連星: d=24 の円軌道(Plummer 厳密 v=√(G·m·d²/(2(d²+ε²)^{3/2}))=1.436。R=10×2<24 で非接触)
     {type:"single", m:100, x:108, y:0, vx:0.432, vy:1.436, spin:0, pinned:false},
@@ -13754,11 +13757,11 @@ const BUILTIN_PRESETS = [
     summary:"A 'breathing universe' that keeps expanding and contracting. Its size, the scale factor a(t)=1+0.2sin(0.08t), oscillates, and the particles inside ride back and forth with it. ",
     observe:"Free particles ride the breathing Hubble flow u_B=H(t)·r back and forth, and determinacy W_B=D/a oscillates too — clocks tick faster while expanded (large a) and slower while contracted (A7′/E7R; tap the central pinned clock). At the turning points H=0 the clock does not stop — expansion rate and the rate of time are different things, so a alone cannot be 'time itself'. With zero dissipation (no friction, collision damping or radiation) the system returns almost exactly after one period (T≈78.5) — reversible. ",
     control:"Add muF or gammaN and it no longer returns — geometric periodicity and the thermodynamic arrow of time (A12′) are distinct, and you can test it yourself (T10)."}},
-  activeParams:["kappaT","kFrame"],
+  activeParams:["G","kFrame"],
   camera:{scale:380}, world:{boundary:"none",size:0},
   universeBox:{mode:"sin", H0:0, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0.2, freq:0.08, phase:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0033333333333333335,
+  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2, frameWeight:"share"},
   bodies:[
     {type:"disk", n:24, cx:0, cy:0, radius:180, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
@@ -13796,7 +13799,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:420}, world:{boundary:"none",size:0},
   universeBox:{mode:"exp", H0:0.1, D:8, dPower:1, L:120, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
   timeRef:{basis:"observe", tObs:3.84, note:"観察の基準 600 步 —— 公転の対を代表にしない構成・旧 timeScale=0.4 → 1(刻み ×0.4)", legacyTimeScale:0.4},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
+  physics:{G:0.09, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.00009999999999999999,
     cLight:30, contactK:1000, contactCap:200, bM:25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:4, timeScale:1, stepDt:0.0064, frameWeight:"share"},
   bodies:[   // 全て共動(Hubble 流初速 v=H·x)。共動光路 c/H=300 で A→C=225(a=4)・B→C=75(a=2→4)
@@ -13828,7 +13831,7 @@ const BUILTIN_PRESETS = [
     summary:"Two observers measure the expansion rate H of the same box with different rulers (the central result V29 of paper 2, made operable). The geometric probe tracks comoving structure and reports H_geo=Δln a/Δt. The velocity probe assumes the FLRW decay law w/c∝1/a and infers H_w=−Δln R/Δt from the measured decay of the ratio R=w/c_loc. The calibration makes the two estimates disagree at the same magnitude as the Hubble tension (point value 0.92 at a=2 vs the real-universe ratio 0.923), visible at all times in the HUD's tension-analogue line. ",
     observe:"The particle's peculiar velocity w is conserved in the model's absolute bookkeeping (V27), yet the local light speed c_loc=c0·e^{−2ψ} rises as expansion dilutes determinacy, so the light-referenced ratio R decays (E8R, V28) — and its decay law differs from the assumed FLRW form, so the two estimates disagree by H_w/H_geo=2(D·X_k)/a, depending on the epoch a and the calibration D·X_k. The HUD's cumulative measurement (from t=0) shows this live: at a=2 the exponential reading's cumulative ratio is 1.333 (matching the analytic 1.3335 within 1e-2). The inverse reading shown beside it re-reads the same measured w under the alternative light-speed law c_loc∝1/W (the exp-4-66.mjs control law) and stays identically at 1.000 — change the functional form and the probe dependence vanishes (the same model-internal control as the exp-4-66.mjs discrimination experiment). The default D·X_k=(2/3)ln4≈0.9242 is paper 2's calibration point, where the a=2 point value 0.92 matches the magnitude of the real Hubble-tension ratio 67.4/73.0≈0.923 — a calibration, not evidence (Negative claim 6). This is not an explanation of the tension but a structure: a measurement discrepancy can be the consequence of the decay law the estimator assumes (Negative claim 3). ",
     control:"Move D·X_k with the X_k slider or the D input in the Box Universe section and the ratio scales in proportion (rebuild with ⏮ Restart after changing — the cumulative measurement is referenced to t=0)."}},
-  activeParams:["kappaT","cLight","kFrame"],
+  activeParams:["G","cLight","kFrame"],
   probeHud:true,
   // 第50便 50C: claims — HUD 累積測定の a=2 実測値を機械可読化(QA behavior.probeH の閾値に直結)
   claims:[
@@ -13849,7 +13852,7 @@ const BUILTIN_PRESETS = [
   universeBox:{mode:"exp", H0:0.01, D:277.2589/* =(2/3)ln4·300 — 論文2較正点 */, dPower:1, L:260,
     cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0, friction:"dfm"},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0033333333333333335,
+  physics:{G:3, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0033333333333333335,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:4, frameWeight:"share"},
   bodies:[
     // 測定粒子(index 0 固定 — V29 と同一の初期条件: Hubble流 vx=H·x + 特異速度 vy=1。
@@ -13903,7 +13906,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:460}, world:{boundary:"none",size:0}, seed:4061,
   measureBox:true,   // 実測尺度因子 a_eff=⟨r⟩/⟨r⟩₀(最初の ring 群=壁)を膨張グラフへ
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:1, D0:4, kFrame:0, q:1, kRep:0.5, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
+  physics:{G:1, D0:4, kFrame:0, q:1, kRep:0.5, muF:0, gammaN:0, kappaS:0, kappaT:0.0011111111111111111,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:4, timeScale:2, frameWeight:"share"},
   bodies:[
@@ -13974,7 +13977,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:420}, world:{boundary:"none",size:0}, seed:20260727,
   universeBox:{mode:"exp", H0:0.01, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:10, D0:0, kFrame:1, q:2, kRep:0.5, muF:0.5, gammaN:0.4, kappaS:0.05, kappaT:0.0033333333333333335,
+  physics:{G:10, D0:0, kFrame:1, q:2, kRep:0.5, muF:0.5, gammaN:0.4, kappaS:0.05, kappaT:0.011111111111111112,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:3e-4, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:4, timeScale:2, frameWeight:"share"},
   bodies:[
@@ -14023,7 +14026,7 @@ const BUILTIN_PRESETS = [
   ],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 光線の本"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0.8, D0:1.5, kFrame:1, q:2, kRep:0.8, muF:0.5, gammaN:0.4, kappaS:0.05, kappaT:0.02,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0.8, D0:1.5, kFrame:1, q:2, kRep:0.8, muF:0.5, gammaN:0.4, kappaS:0.05, kappaT:0.0008888888888888889,
     cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:3, timeScale:3, frameWeight:"share"},
   bodies:[
     {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, lightSweep:0.8, radius:15},
@@ -14077,7 +14080,7 @@ const BUILTIN_PRESETS = [
   ],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0008888888888888889,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3, frameWeight:"share"},
   bodies:[
     {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
@@ -14123,7 +14126,7 @@ const BUILTIN_PRESETS = [
   ],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0008888888888888889,
     cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:2, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3, frameWeight:"share"},
   bodies:[
     {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
@@ -14155,7 +14158,7 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","D0"],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},
-  physics:{coord:"3d", contactMode:"none", G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{coord:"3d", contactMode:"none", G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0008888888888888889,
     cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:2, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3, frameWeight:"share"},
   bodies:[
     {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
@@ -14187,7 +14190,7 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","D0"],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},
-  physics:{coord:"3d", contactMode:"none", G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{coord:"3d", contactMode:"none", G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0008888888888888889,
     cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:2, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3, frameWeight:"share",
     stateCarry:"double"},
   bodies:[
@@ -14213,7 +14216,7 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","D0"],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},
-  physics:{coord:"3d", contactMode:"none", G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{coord:"3d", contactMode:"none", G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0008888888888888889,
     cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:2, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3, frameWeight:"share",
     stateCarry:"double"},
   bodies:[
@@ -14258,7 +14261,7 @@ const BUILTIN_PRESETS = [
   ],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260804,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{contactMode:"normal"/* 第285便a(R95): 契約は normal を明示(保留)—— none の版では bulge/disk 対比の claim(claim.galaxydb-contrast)の窓を外れた(枝の QA: 速度分散比 3.13・|spin| 比 1.01)。決断事項候補 */, G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{contactMode:"normal"/* 第285便a(R95): 契約は normal を明示(保留)—— none の版では bulge/disk 対比の claim(claim.galaxydb-contrast)の窓を外れた(枝の QA: 速度分散比 3.13・|spin| 比 1.01)。決断事項候補 */, G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0008888888888888889,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:3, timeScale:3, frameWeight:"share"},
   bodies:[
@@ -14396,7 +14399,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"darkcenter", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)/ 第283便b(第73報④・R84): darkcenter の入口を 🕳️(減光の原器)へ(表示専用)
+  familyId:"darkcenter", familyRole:"retired",   // 第326便a(原仮定者の回答(2026-11-03 —— AN530)「現状の「自転と減光」グループサンプル３本は、調整が必要なので廃止する」・R290): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない —— 物理対応ロックの外で宣言の X_k のまま開く) / 旧注記: 第82便: ファミリー表示(表示専用)/ 第283便b(第73報④・R84): darkcenter の入口を 🕳️(減光の原器)へ(表示専用)
   descStruct:{
     summary:"光学迷彩矮星とは、この模型で、自転に関連する減光機構(自光の掻き出しと外来光線の掃き出し)により光学的に暗く見えるコンパクト天体に付けた造語である。観測上確立した天体分類(矮星・褐色矮星・白色矮星)やダークマターの同定を意味しない。質量・物理半径は各サンプルの宣言に従う。(旧称: ダークローター)「暗い天体」1個だけを置いた最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・減光=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。",
     observe:"②自光の減光(掻き出し): 減光を固定値ではなく auto にしてあるので、実効値 lS_eff=min(1,|s|R/c_surf) が粒子のスピンと半径から毎ステップ算出される(中心天体をタップすると減光欄は「自動」チェック済みで、実効値 lS_eff が数値欄に表示される)— 実測1.00。③外来光線の掃き出し: 回るコアが決定フレームごと光を運び(A11/E8R)、スピン0の対照では起きる有限時間の光子捕捉(実測 非脱出率0.62)が消える(実測0.00)。順行側の光線ほど外へ払われ、逆行側は深く潜る(平均最小接近半径 順行158 対 逆行72 — T8と同じ非対称)。②と③は別機構である: lS_effはスピン0.145で既に1に飽和しているのに、そのスピンでは掃き出しがまだ全く起きていない(非脱出率0.70 = 対照以上)。掃き出しが立ち上がるのはスピン0.3→0.35の間で、飽和点とは2倍以上離れている(スピン値はc₀=30 相似単位 — 旧単位の1/2)。テスト粒子は空間の引きずり(A8/E6′)で順行方向に角運動量を汲み上げられる(12000步平均 L_z=484 対 対照316 — c₀=30 相似変換後の再実測)。運動量・角運動量は帳簿込みで保存する(モニタ表示・相対ずれ1e-4台)。※③は物理対応ロック(X_k=G/c²=1/3600。旧表記 Kt=3600)では起きない — 実測 非脱出率は高スピンでも0.00(反証条件7)。実在のブラックホールやダークマターについての主張ではない(Negative Claims 1/2)。",
@@ -14762,7 +14765,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"galactic",
   sampleClass:"composite",
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"darkcenter", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
+  familyId:"darkcenter", familyRole:"retired",   // 第326便a(原仮定者の回答(2026-11-03 —— AN530)「現状の「自転と減光」グループサンプル３本は、調整が必要なので廃止する」・R290): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない —— 物理対応ロックの外で宣言の X_k のまま開く) / 旧注記: 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"「光っていないから軽い」とは限らない、を1画面で並べて確かめるサンプル。中心に置いた3つの重い天体(m=2500 / 5000 / 10000)はどれも減光 auto(lightSweep)で、自分の光を表面のフレーム速度で外へ掻き出してしまう — 観測温度は T_obs=(1−減光)·T なので、光度から推定される質量はどれも 0 になる。それぞれの周りに同じ半径180の測定用リング(恒星48体)を回してあり、リングの速度から力学質量 M_dyn=⟨v²r⟩/G を読む。3系は同じ半径・同じ星数・同じ見た目で、違うのは中心の質量だけ。左から右へ 1 : 2 : 4 の「ラダー」になっている。実在のダークマター観測(銀河回転曲線の平坦化・重力レンズ・弾丸銀河団)の再現主張ではない — 光学的な暗さと力学的な重さが独立でありうることを、この宇宙の法則の内側で示すトイモデルである(Negative Claims)。",
     observe:"実測(seed固定・6000步=t96): ①**光度質量は0** — 3つの中心の実効減光はどれも実測1.000(完全減光)で、観測温度 T_obs は厳密に 0。中心天体は画面上でほぼ見えないが、決定力マップ(背景の色)には深さの違う3つの井戸が出る。②**力学質量は実質量に比例** — M_dyn=⟨v²r⟩/G はそれぞれ 2780 / 5448 / 10676 で、力学質量の比は実測1.960(5000/2500)・実測3.840(10000/2500)。真の比 2 と 4 を −2.0% / −4.0% で回復する。③**力学質量は実質量より少し重く出る** — M_dyn/m は 1.112 / 1.090 / 1.068 で、常に 1 を超える。その出どころは E6′ 空間引きずり: リングを円軌道に保つ初速はケプラー値の 1.05 / 1.04 / 1.04 倍が必要で(半径 RMS 最小の実測較正)、**kFrame=0 にすると 3系とも厳密に 1.00 倍**に戻る(超過 f²−1 の全量が引きずり由来)。④**暗さは高スピンのせいではない** — 中心スピンを 0.05 まで落としても実効減光は1.000 のまま。掻き出しの分母 c_surf=c·e^{−2ψ} が質量の深い井戸で 0.08 まで落ちるので、ごく遅い自転でも掻き出しが飽和する。逆にスピンを 2 まで上げると引きずりが強まって M_dyn/m は 1.53 / 1.43 / 1.33 まで膨らみ、ラダーは 1.87 / 3.46 へ**圧縮**される(引きずりの寄与は軽い中心ほど相対的に大きい)。⑤**減光は力学に一切効かない** — lightSweep を外した対照と軌道・速度・スピンが 1 bit も違わず、M_dyn も完全一致する(E2 の機械証明がこの構成でも成立)。⑥系間距離を3倍に離した対照でも比は 1.95 / 3.74(差 0.4% / 2.7%)で、1画面配置による相互汚染は結論を変えない。NaN・速度/スピン/反作用クランプはいずれも0回。評価窓 t=96 の外では隣の系の引きが積もり、12000步でリング半径のばらつきが 6.5%→21% まで緩む。",
@@ -14842,7 +14845,7 @@ const BUILTIN_PRESETS = [
   ],
   camera:{scale:280}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:2.2, D0:1.8, kFrame:1, q:2, kRep:0.6, muF:0.65, gammaN:0.45, kappaS:0.09, kappaT:0.014285714285714285,   // 第51便 51F(原仮定者指摘「塊にならない」): G 1.4→2.2・kRep 1.2→0.6 — 12000步で r50 144→48(3.0倍の中心集中・rMax 438<600 有界を実測)
+  physics:{G:2.2, D0:1.8, kFrame:1, q:2, kRep:0.6, muF:0.65, gammaN:0.45, kappaS:0.09, kappaT:0.002444444444444445,   // 第51便 51F(原仮定者指摘「塊にならない」): G 1.4→2.2・kRep 1.2→0.6 — 12000步で r50 144→48(3.0倍の中心集中・rMax 438<600 有界を実測)
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0.004, pRad:2.8, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:5, timeScale:2.2, frameWeight:"share"},
   bodies:[ // v1.13(付録M): 第6次提案(Grok #3)を内蔵化。v1.18: Gemini 第8次提案採用 —
            // vMode rigid の微小回転 + random 相当の乱れは vNoise でなく速度合成で付与できないため
@@ -14955,7 +14958,7 @@ const BUILTIN_PRESETS = [
   balanceFrame:"barycentric",
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260909,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0008888888888888889,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:3, timeScale:3, stateCarry:"double",
     axisForce:{A:300, Rb:120, rc:6, axis:0, source:0}},
@@ -14999,7 +15002,7 @@ const BUILTIN_PRESETS = [
   balanceFrame:"barycentric",
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260909,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0008888888888888889,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:3, timeScale:3, stateCarry:"double",
     axisForce:{A:15, Rb:110, rc:6, axis:0, source:0, omegaAxis:0.04}},
@@ -15043,7 +15046,7 @@ const BUILTIN_PRESETS = [
   balanceFrame:"barycentric",
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260909,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0008888888888888889,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:3, timeScale:3, stateCarry:"double",
     axisForce:{A:300, Rb:60, rc:6, axis:0, source:0}},
@@ -15057,7 +15060,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"stellar",   // → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"rotorform", familyRole:"primary",   // 第82便統合: ローター形成ファミリー(成長系の変種)/ 第283便b(第73報④・R84): rotorform の入口を 🥚 へ(表示専用)
+  familyId:"rotorform", familyRole:"retired",   // 第326便a(原仮定者の回答(2026-11-03 —— AN530)「現状の「自転と減光」グループサンプル３本は、調整が必要なので廃止する」・R290): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない —— 物理対応ロックの外で宣言の X_k のまま開く) / 旧注記: 第82便統合: ローター形成ファミリー(成長系の変種)/ 第283便b(第73報④・R84): rotorform の入口を 🥚 へ(表示専用)
   emergence:"E3",   // 第83便A: E2(閉鎖系の創発)→ E3(多seed16・粒子数90/180/360・摂動回復で頑健性を確認)
   // 第91便 EXT-07: 標準試験チェックリスト(宣言専用 — 実測は ref のハーネス。①②=exp-4-84・
   // ③⑤⑥=exp-4-85・数値頑健性=exp-4-89・④は 90/180/360(exp-4-85)+720(exp-4-92)の4段階)
@@ -15173,7 +15176,7 @@ const BUILTIN_PRESETS = [
   abQuick:{key:"D0", v:500},   // 第254便b: B 側は D₀ 大 = χ→0(物質線が背景に貼り付く)
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260910,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0008888888888888889,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:3, timeScale:3, stateCarry:"double", frameWeight:"share",
     // 第259便c(第51報・署名便): **引きずりの仕事を内蔵で記録する**(第258便b の opt-in の宣言)。
@@ -15977,7 +15980,7 @@ const BUILTIN_PRESETS = [
   validT:200,
   camera:{scale:160}, world:{boundary:"none",size:0}, seed:20260919,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
@@ -16034,7 +16037,7 @@ const BUILTIN_PRESETS = [
   validT:200,
   camera:{scale:200}, world:{boundary:"none",size:0}, seed:20260919,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
@@ -16092,7 +16095,7 @@ const BUILTIN_PRESETS = [
   validT:200,
   camera:{scale:180}, world:{boundary:"none",size:0}, seed:20260919,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
@@ -16156,7 +16159,7 @@ const BUILTIN_PRESETS = [
   validT:200,
   camera:{scale:230}, world:{boundary:"none",size:0}, seed:20260919,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{contactMode:"none", G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{contactMode:"none", G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
@@ -16230,7 +16233,7 @@ const BUILTIN_PRESETS = [
   validT:200,
   camera:{scale:160}, world:{boundary:"none",size:0}, seed:20260920,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
@@ -16297,7 +16300,7 @@ const BUILTIN_PRESETS = [
   validT:200,
   camera:{scale:200}, world:{boundary:"none",size:0}, seed:20260920,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
@@ -16364,7 +16367,7 @@ const BUILTIN_PRESETS = [
   validT:200,
   camera:{scale:260}, world:{boundary:"none",size:0}, seed:20260920,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
@@ -16434,7 +16437,7 @@ const BUILTIN_PRESETS = [
   validT:200,
   camera:{scale:230}, world:{boundary:"none",size:0}, seed:20260920,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{contactMode:"none", G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{contactMode:"none", G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
@@ -16467,10 +16470,10 @@ const BUILTIN_PRESETS = [
   en:{name:"Gravitational Lensing & Photon Capture", descStruct:{
     summary:"Light rays from the left refract and bend where determinacy is high (= time runs slow) (A7′/T5). ",
     observe:"Time dilation and refraction are unified by one ψ=W·X_k (E7R/E8R) — raise X_k and both strengthen together. In strong fields light is captured into orbit (photon-sphere analogue). Background color = determinacy W. Tap a particle to see its proper clock (τ/t). Ray color encodes wavelength via the clock-rate ratio e^{ψ0−ψ} (a gravitational-redshift analogue — semantic display)."}},
-  activeParams:["kappaT","cLight","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  activeParams:["G","cLight","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 光線の本"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0.25, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.025, kappaT:0.006666666666666667,
+  physics:{G:6, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.025, kappaT:0.006666666666666667,
     cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2, frameWeight:"share"},
   bodies:[
     {type:"single", rMul:1.2, m:1500, x:0,y:0, vx:0,vy:0, spin:0.25, pinned:true},
@@ -16492,10 +16495,10 @@ const BUILTIN_PRESETS = [
     summary:"When the central star spins, the space carrying light (the determinacy frame) rotates too (A11). ",
     observe:"Rays moving with the rotation are swept outward; rays moving against it bend sharply — a vertically symmetric fan bends asymmetrically (T8, an optical analogue of Kerr frame dragging). Background color = W. ",
     control:"Set kFrame to 0 and the drag vanishes — the bending returns to vertical symmetry (suggested A/B)."}},
-  activeParams:["kFrame","kappaT","cLight","q"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  activeParams:["kFrame","G","cLight","q"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 光線の本"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0.5625, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.0375, kappaT:0.005,
+  physics:{G:4.5, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.0375, kappaT:0.005,
     cLight:30, contactK:22.5, contactCap:4.5, bM:0.5625, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1.33333, frameWeight:"share"},
   bodies:[
     {type:"single", rMul:1.2, m:2000, x:0,y:0, vx:0,vy:0, spin:1.5, pinned:true}
@@ -16516,10 +16519,10 @@ const BUILTIN_PRESETS = [
     summary:"A parallel beam enters two large masses stacked vertically. ",
     observe:"Unlike a single lens, rays split and bend into two determinacy wells — a compound lens (T5). Spins are zero, isolating this from asymmetric dragging (T8). ",
     control:"Halve X_k (1/110 → 1/220) and the bending weakens."}},
-  activeParams:["kappaT","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  activeParams:["G","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 光線の本"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.00909090909090909,
+  physics:{G:8.181818181818182, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.00909090909090909,
     cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2, frameWeight:"share"},
   bodies:[ // v1.13(付録M): 第6次提案 P1-3 を内蔵化(12000步スモーク検証済み)
     {type:"single", rMul:1.2, m:1100, x:0,y:-65, vx:0,vy:0, spin:0, pinned:true},
@@ -16543,7 +16546,7 @@ const BUILTIN_PRESETS = [
     summary:"A field of hot background stars with a cold dark cloud drifting in front of it. The cloud is light and does next to nothing dynamically, yet it absorbs the light passing through it by an amount that depends on wavelength — blue goes first, so the starlight seen through the cloud shifts toward red (reddening). Optical transport (volume absorption kAbs, wavelength exponent pAbs, scattering fScat) acts on the **observation layer only**: orbits, spins and proper clocks do not change by a single bit. Not a claim to reproduce real interstellar extinction laws (R_V=3.1 and the like) — it is a toy model of what this universe's optics (E8R) look like once absorption is integrated along the path (Negative Claims). ",
     observe:"Measured (fixed seed, t=0, rays from x=-310 with dl=2.7 over 400 steps): (1) **Rays through the cloud redden** — the optical depth of the ray crossing the cloud center is tau_ref=2.429 at the reference wavelength 550 nm, giving transmittances of 0.0044 in the blue (450 nm) and 0.288 in the red (650 nm), a blue/red ratio of 0.0154. (2) **Beside the cloud it passes clean** — a ray outside the cloud (y=200) has exactly tau_ref=0.000. The local mass kernel has compact support (four particle radii, floored by the softening length), so a ray that never enters any body's support is never absorbed. (3) **The wavelength dependence is set by pAbs** — with pAbs=0 (gray absorption) the blue/red ratio is 1.0000, with pAbs=2 it is 0.151, and at the default pAbs=4 (Rayleigh-like) 0.0154. (4) **Dose response** — stepping kAbs through 0/1.7/3.4/6.8 gives tau_ref 0.000/1.215/2.429/4.859, and tau_ref/kAbs is 0.714537 at all four points (the path integral is linear in kAbs). (5) **The dynamics are untouched** — against a control with kAbs omitted, run for 2000 steps, positions, velocities, spins and proper clocks agree to the bit (scattering fScat is a drawing layer too: the picture changes, the numbers do not). (6) In the spectrum overlay (bottom right) the orange line is the transmittance T(lambda) and the orange outlined bars are the transmitted spectrum. For a source whose luminosity falls as lambda^-4 (pRad=4), multiplying by tau proportional to lambda^-4 moves the transmitted peak a measured 5.09x toward longer wavelengths (analytically lambda_c * tau_ref^(1/pAbs)). ",
     control:"Drag the lambda0 slider (the ray reference wavelength, next to the rays toggle) from the 450 nm side to the 650 nm side and only the rays behind the cloud go from dark back to bright — blue is absorbed, red gets through. Setting physics.kAbs to 0 in the JSON removes optical transport entirely; setting physics.fScat to 0 removes only the cloud's diffuse glow (the scattered light drawn back in)."}},
-  activeParams:["kappaT","cLight","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  activeParams:["G","cLight","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   // 第82便 A: claims — 実測(exp-4-83)から ±10% 程度の窓。testId は QA の claim.reddening
   claims:[
     { id:"reddening.tau-cloud", kind:"fixed-seed", prov:"simulated", metric:"tauRefCloud",
@@ -16567,7 +16570,7 @@ const BUILTIN_PRESETS = [
   // kAbs/fScat は第82便の光学輸送キー(既定は kAbs=0・pAbs=4・fScat=0 で全経路が現行と bit 同一。
   // 既定値のキーは validatePreset が書き出さないので、既存プリセットの署名は 1 文字も変わらない)
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 光線の本"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0.05, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0025,
+  physics:{G:0.05, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.00005555555555555556,
     cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:10, timeScale:2, kAbs:3.4, fScat:0.3, frameWeight:"share"},
   bodies:[
@@ -16602,7 +16605,7 @@ const BUILTIN_PRESETS = [
   thermal:"tint",   // 第36便 D(台帳4-51): 温度=内部状態変数 T_int(A9 改訂)
   camera:{scale:240}, world:{boundary:"box",size:200},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:50, kFrame:0, q:2, kRep:2, muF:0.8, gammaN:0.3, kappaS:0.15, kappaT:0.016666666666666666,
+  physics:{G:0, D0:50, kFrame:0, q:2, kRep:2, muF:0.8, gammaN:0.3, kappaS:0.15, kappaT:0,
     cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2, frameWeight:"share"},
   bodies:[ // v1.18(第8次裁定): 右の vScale 2.5→0.3 — 比較条件をスピンのみに(統制実験化)
     {type:"box", rMul:1.2, n:120, cx:-100,cy:0, w:180,h:360, mMin:1,mMax:1, spinMin:0,spinMax:0, tInt:0.01, vScale:0.3},
@@ -16624,7 +16627,7 @@ const BUILTIN_PRESETS = [
   thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:240}, world:{boundary:"circle",size:210},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:50, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.3, kappaS:0.05, kappaT:0.016666666666666666,
+  physics:{G:0, D0:50, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.3, kappaS:0.05, kappaT:0,
     cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2, frameWeight:"share"},
   bodies:[
     {type:"disk", rMul:1.2, n:90, cx:0,cy:0, radius:50, mMin:1,mMax:1,
@@ -16664,7 +16667,7 @@ const BUILTIN_PRESETS = [
   // T29.5に達するのは実時間10秒—旧の5倍かかる)。実時間5秒で近接優勢の勾配(64→1程度まで)、
   // 実時間30秒でも上列 14.0〜39.4/下列 11.5〜32.9 と明確な勾配が残る(旧は10秒で24〜45に均一化)
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 公転の対を代表にしない構成"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0.3, kappaT:0.016666666666666666,
+  physics:{G:0, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0.3, kappaT:0,
     cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4, frameWeight:"share"},
   bodies:[
     {type:"single", rMul:1.2, m:4, x:-150,y:45, vx:0,vy:0, spin:0, tInt:64, pinned:true},
@@ -16719,7 +16722,7 @@ const BUILTIN_PRESETS = [
   activeParams:["muF","gammaN","kRep"],
   camera:{scale:240}, world:{boundary:"box", size:200}, seed:20260811,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:1.2, muF:0.9, gammaN:0.5, kappaS:0.05, kappaT:0.016666666666666666,
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:1.2, muF:0.9, gammaN:0.5, kappaS:0.05, kappaT:0,
     cLight:30/* c₀=30 一律規約(G=0・光線/PNなし — 力学に不干渉)*/, bM:1, etaRad:0, pRad:4,
     gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2, frameWeight:"share"},
   bodies:[
@@ -16744,7 +16747,7 @@ const BUILTIN_PRESETS = [
   thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:180}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 公転の対を代表にしない構成"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
+  physics:{G:0, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     // 第39便(原仮定者指示): tint 較正 etaRad=1.6e-3(旧1e-5はスピン熱時代〔v1.12〕の較正値のまま
     // tint 移行〔36D〕された残置で、tint では実質「放射冷却が動かない」表示になっていた。
     // 実測(beta 2026-07-28): T=64 が実時間5秒でT≈32(半減)・実時間30秒でT≈9.3(<10)。
@@ -16792,7 +16795,7 @@ const BUILTIN_PRESETS = [
     // 「天井右の冷却板+右端床は非加熱=下降域」で作っていた左右非対称を、壁の言葉で置き換えた形
     thermalWalls:{ bottom:{mode:"heat", T:144, rate:1}, top:{mode:"rad", rate:3}, right:{mode:"rad", rate:10} }},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.1, kappaS:1.2, kappaT:0.016666666666666666,
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.1, kappaS:1.2, kappaT:0,
     cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.031/* 第95便: 日常規約(≈9.8 m/s²)→ 第98便: ビーカー規約として継続 */, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2, frameWeight:"share"},
   bodies:[ // 第37便 C1: pinned ヒーター13枚・冷却板5枚を全廃し、自由な気体だけの系にした
            // (外部駆動は壁の熱交換ひとつだけ = 要因の完全分離)。箱を小さく・密にしたのは、
@@ -16825,7 +16828,7 @@ const BUILTIN_PRESETS = [
   thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:200}, world:{boundary:"box",size:160},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:3, muF:0, gammaN:0.1, kappaS:0, kappaT:0.016666666666666666,
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:3, muF:0, gammaN:0.1, kappaS:0, kappaT:0,
     cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:4, cHeat:30/* 第36便 D: 大きな熱容量で衝突散逸(E9)による昇温を抑え、旧版の「温度一定」統制条件を維持(実測: 12000步で T 20.25→20.71 = +2%)*/,
     gravityX:0, gravityY:0.031/* 第95便: 日常規約(≈9.8 m/s²)— 0.05 から変更。分離は弱まるが持続 → 第98便: ビーカー規約として継続 */, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2, frameWeight:"share"},
   bodies:[ // v1.18: Gemini 第8次提案を機械掃引で調整(スピン固定+radiusScale2.5 — 分離52〜72が持続)
@@ -16858,7 +16861,7 @@ const BUILTIN_PRESETS = [
     bottom:{mode:"heat",T:2,rate:2}, top:{mode:"heat",T:2,rate:2},
     left:{mode:"heat",T:2,rate:2}, right:{mode:"heat",T:2,rate:2} }},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0, gammaN:0.1, kappaS:0.4, kappaT:0.016666666666666666,
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0, gammaN:0.1, kappaS:0.4, kappaT:0,
     cLight:30/* c₀=30 一律規約(G=0・光線/PNなし — 力学に不干渉)*/, bM:1, etaRad:0, pRad:4,
     cHeat:1, gravityX:0, gravityY:0.031/* ビーカー規約(≈9.8 m/s²)*/, geoPN:0, lambdaPN:1,
     pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2, frameWeight:"share"},
@@ -16926,7 +16929,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:140}, world:{boundary:"box", size:110,
     thermalWalls:{ bottom:{mode:"heat", T:2, rate:0.25} }},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:20, muF:0.1, gammaN:0.3, kappaS:0.5, kappaT:0.016666666666666666,
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:20, muF:0.1, gammaN:0.3, kappaS:0.5, kappaT:0,
     cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2, frameWeight:"share"},
   seed:7,
   bodies:[ // 初期は低温の結晶(pitch=接触間隔)— 加熱で三態が順に現れる
@@ -16970,7 +16973,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:140}, world:{boundary:"box", size:110,
     thermalWalls:{ bottom:{mode:"heat", T:0.15, rate:0.15} }},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, kappaT:0.016666666666666666,
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, kappaT:0,
     cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4, frameWeight:"share"},
   seed:7,
   bodies:[ // 温かい液体スタート(jitter で秩序を崩す)
@@ -17016,7 +17019,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:140}, world:{boundary:"box", size:110,
     thermalWalls:{ bottom:{mode:"heat", T:0.6, rate:0.15} }},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, kappaT:0.016666666666666666,
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, kappaT:0,
     cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4, frameWeight:"share"},
   seed:7,
   bodies:[ // 🧊と同じ温かい液体スタート — 差は bondN=2(予算)と壁温だけ
@@ -17077,7 +17080,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:140}, world:{boundary:"box", size:110,
     thermalWalls:{ bottom:{mode:"heat", T:0.6, rate:0.15, T2:20, tSwitch:288} }},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, kappaT:0.016666666666666666,
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, kappaT:0,
     cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4, frameWeight:"share"},
   seed:7,
   bodies:[
@@ -18691,7 +18694,7 @@ const BUILTIN_PRESETS = [
   activeParams:["lambdaPN","pnAlpha","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:220}, world:{boundary:"none",size:0},
   timeRef:{basis:"orbit", pRef:196.884183, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360, legacyTimeScale:6.66667},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
-  physics:{G:1.44, D0:0.05, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{G:1.44, D0:0.05, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0015999999999999999,
     cLight:30, contactK:57.6, contactCap:11.52, bM:1.44, etaRad:0, pRad:4, gravityX:0, gravityY:0,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1, stepDt:0.546901, frameWeight:"share"},
   bodies:[
@@ -18720,7 +18723,7 @@ const BUILTIN_PRESETS = [
   // ②ワンタップ誇張対照: B側 c₀=30(+physLock 追随 Kt=c₀²/G)で 1PN が10⁶倍 —
   // 歳差が数公転で肉眼視できる(Δϖ≈14°/公転)。原仮定者指示「歳差が数周で見える様に増幅する」
   abBody:{ label:{ja:"c₀=30(歳差が見える誇張対照)", en:"c₀=30 (visible-precession contrast)"},
-    physicsPatch:{cLight:30, kappaT:0.007415555555583735} },
+    physicsPatch:{cLight:30} },   // 第326便a(AN530): B 側の X_k は B 側の G_0・c_0 から導出(旧: kappaT:0.007415555555583735 を併記)
   obsCard:[
     {q:"公転周期", model:"87.974 日(実初期条件の構成値)", obs:"87.969 日"},
     {q:"近日点前進(推定器つき宣言 — 第250便d)", model:"43.0″/世紀(estimator=RL-gradient・window=600公転・λ_PN=1−0 差引き・別系 a=150/ε=2・exp-obscal §D・解析比 1.002)", obs:"42.98″/世紀(この系を近点通過・59 近点で測ると 33.65″/世紀 —— 不足は軟化 70.3%・刻み 29.0%・入力 0.63%。推定器を言わずに比べない)"},
@@ -23739,7 +23742,7 @@ const BUILTIN_PRESETS = [
   activeParams:["G","softening"],
   camera:{scale:16}, world:{boundary:"none",size:0},
   timeRef:{basis:"orbit", pRef:169.470327, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360, legacyTimeScale:20},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
-  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
+  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0011111111111111111,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.470751, dispMag:1,
     stateCarry:"double", massPrecision:"double", frameWeight:"share",
@@ -24247,7 +24250,7 @@ const BUILTIN_PRESETS = [
   activeParams:["G","softening"],
   camera:{scale:9}, world:{boundary:"none",size:0},
   timeRef:{basis:"orbit", pRef:289.3220004429814, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=r_p/(1−e)", stepsPerOrbit:360},
-  physics:{coord:"3d", G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
+  physics:{coord:"3d", G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0011111111111111111,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.803672223452726, dispMag:1, frameWeight:"share"},
   bodies:[
@@ -24295,7 +24298,7 @@ const BUILTIN_PRESETS = [
   activeParams:["G","softening"],
   camera:{scale:16}, world:{boundary:"none",size:0},
   timeRef:{basis:"orbit", pRef:169.44490679726164, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o)))", stepsPerOrbit:360},
-  physics:{coord:"3d", G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
+  physics:{coord:"3d", G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0011111111111111111,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.4706802966590601, dispMag:1, frameWeight:"share"},
   bodies:[
@@ -25998,7 +26001,7 @@ const BUILTIN_PRESETS = [
     //   旧 geoPN=1 では E6′ の門(!geo)と輸送の門(geo2)が閉じていたので **kFrame=1 は物質の力学に 1 bit も入っていなかった**
     //   (第282便c の器が kFrame 1/0 のビット一致を実測)。変わるのは 1PN の反作用が自由な恒星どうしに返ることだけ(AN23 —— ⭐ の変化を受理)。
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-    physics:{G:1, D0:10, kFrame:0, q:2, kRep:0, muF:0.05, gammaN:0.1, kappaS:0, kappaT:0.0001,   // 第26便: kFrame 0.5→1(中間値解消。12000步で束縛・円盤240/240残存を実測)→ 第283便a: 1→0(上)
+    physics:{G:1, D0:10, kFrame:0, q:2, kRep:0, muF:0.05, gammaN:0.1, kappaS:0, kappaT:0.0011111111111111111,   // 第26便: kFrame 0.5→1(中間値解消。12000步で束縛・円盤240/240残存を実測)→ 第283便a: 1→0(上)
     cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4, frameWeight:"share"},
   bodies:[ // v1.13(付録M): 第6次提案 P1-1 を内蔵化(12000步スモーク・重心ドリフト0.1)
     {type:"single", rMul:1.2, m:500, x:-60,y:0, vx:0,vy:-1.44, spin:0.03, pinned:false},
@@ -26023,7 +26026,7 @@ const BUILTIN_PRESETS = [
   activeParams:["G","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:140}, world:{boundary:"none",size:0},
   timeRef:{basis:"orbit", pRef:261.334788, pair:[0,2], def:"revolution", source:"8 の字解の周期 T=6.32591398(G=m=1・Chenciner–Montgomery 2000)を初期配置の尺度 L=|x₁|/0.97000436・m で換算 T·√(L³/(Gm))", stepsPerOrbit:2880, note:"360 步では dA=0.053(門 0.02)—— 2880 步で 0.012", legacyTimeScale:2},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
-  physics:{G:1, D0:100, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
+  physics:{G:1, D0:100, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0011111111111111111,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 0.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:0.5, timeScale:1, stepDt:0.0907412, frameWeight:"share"},
   bodies:[ // v1.13(付録M): 第6次提案 P1-2 を内蔵化(有界性を機械検証済み)
     {type:"single", rMul:0.2, m:300, x:-77.6003,y:19.447, vx:0.9028,vy:0.8373, spin:0, pinned:false},
@@ -26048,7 +26051,7 @@ const BUILTIN_PRESETS = [
   activeParams:["muF","gammaN","etaRad"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:190}, world:{boundary:"none",size:0},
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:1, D0:5, kFrame:0, q:2, kRep:0, muF:1, gammaN:0.6, kappaS:0.02, kappaT:0.0001,
+  physics:{G:1, D0:5, kFrame:0, q:2, kRep:0, muF:1, gammaN:0.6, kappaS:0.02, kappaT:0.0011111111111111111,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:1e-5, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 0.8 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2, frameWeight:"share"},
   bodies:[ // v1.12(付録L): 第6次提案 P0-3 採用。muF=1/0 の加熱対照を機械検証済み
     {type:"single", rMul:0.8, m:800, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
@@ -26115,7 +26118,7 @@ const BUILTIN_PRESETS = [
   ],
   camera:{scale:200}, world:{boundary:"none",size:0}, seed:20260728,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:4, D0:2, kFrame:0, q:2, kRep:0, muF:0.5, gammaN:0.4, kappaS:0.05, kappaT:0.016666666666666666,
+  physics:{G:4, D0:2, kFrame:0, q:2, kRep:0, muF:0.5, gammaN:0.4, kappaS:0.05, kappaT:0.0044444444444444444,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0.003, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameWeight:"share"},
   bodies:[
     // 一様円盤(自由・剛体回転の初速 v=vScale·r。tInt=2 は E5′ を切ってあるので力には効かない)
@@ -26192,7 +26195,7 @@ const BUILTIN_PRESETS = [
   balanceFrame:"barycentric",   // 中心自由(pairReduced)— 反跳=中性子星キックが測れる(対称放出では 0)
   camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260907,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 単一の天体(内部の進化)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0044444444444444444,
     cLight:30, bM:1, etaRad:0.0016, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
     pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameReaction:"pairReduced", coupleSink:"reservoir", frameWeight:"share"},
   bodies:[
@@ -26247,7 +26250,7 @@ const BUILTIN_PRESETS = [
   balanceFrame:"barycentric",
   camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260907,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 単一の天体(内部の進化)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0044444444444444444,
     cLight:30, bM:1, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
     pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameReaction:"pairReduced", coupleSink:"reservoir", frameWeight:"share"},
   bodies:[
@@ -26295,7 +26298,7 @@ const BUILTIN_PRESETS = [
   balanceFrame:"barycentric",
   camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260907,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 単一の天体(内部の進化)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0044444444444444444,
     cLight:30, bM:1, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
     pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameReaction:"pairReduced", coupleSink:"reservoir", frameWeight:"share"},
   bodies:[
@@ -26339,7 +26342,7 @@ const BUILTIN_PRESETS = [
   balanceFrame:"barycentric",
   camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260906,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 単一の天体(内部の進化)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0044444444444444444,
     cLight:30, bM:1, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
     pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameReaction:"pairReduced", coupleSink:"reservoir", frameWeight:"share"},
   bodies:[
@@ -26382,7 +26385,7 @@ const BUILTIN_PRESETS = [
   balanceFrame:"barycentric",
   camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260916,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0044444444444444444,
     cLight:30, bM:1, etaRad:0.02, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
     pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2,
     frameReaction:"pairReduced", coupleSink:"reservoir", frameWeight:"share"},
@@ -26442,7 +26445,7 @@ const BUILTIN_PRESETS = [
   validT:20,
   camera:{scale:620}, world:{boundary:"none",size:0}, seed:20260913,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 公転の対を代表にしない構成"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:1, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{G:1, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0011111111111111111,
     // 第261便b(統括が設定した検証仮説 (8)・**署名便**): 接触ばねを **0/0** にした(第260便b で
     // 値域の下限が 0 に開いた)。第259便b の 0.1/0.01 では帯A が **+2.000 = ½·0.01·20²** の床で
     // 押し出されていて、「コア層の内側は重力が厳密に 0」が**床に隠れて見えなかった**。
@@ -26497,7 +26500,7 @@ const BUILTIN_PRESETS = [
     physicsPatch:{spinSpin:0} },
   camera:{scale:260}, world:{boundary:"none",size:0}, seed:20260906,
   timeRef:{basis:"orbit", pRef:584.031925, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360, legacyTimeScale:1},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
-  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
+  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0011111111111111111,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
     pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:1, stepDt:1.62231, spinSpin:200, stateCarry:"double",
     frameWeight:"share"},   // 第242便の規約: 移行済み現実較正 11 本以外は "share" 明示(kFrame=0 なので値は力学に効かない — QA behavior.framePull)
@@ -26596,13 +26599,13 @@ const BUILTIN_PRESETS = [
       "Δφ(SI 1887 装置)= 1.3823008 rad(χ=0)/ 6.9646×10⁻⁴ rad(χ=0.977554)— 比は (1−χ)²",
       "サニャック Δφ=8πAΩ/(λc)= 167.668 rad(A=1 m²・Ω=1000 rad/s)"],
     numerical:["解析器は固定点反復(既定 200 回・|v−u|≪c で線形収束)。位相は倍精度・エンジンの状態は 1 バイトも書き換えない"]},
-  activeParams:["kFrame","q","kappaT","softening"],
+  activeParams:["kFrame","q","G","softening"],
   validT:32,   // レール 1 周 = 2π/0.2 ≈ 31.4
   abBody:{ label:{ja:"kFrame=0(引きずり無し=エーテル静止の古典)", en:"kFrame=0 (no dragging — the classical ether at rest)"},
     physicsPatch:{kFrame:0} },
   camera:{scale:30}, world:{boundary:"none",size:0}, seed:20260907,
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 公転の対を代表にしない構成"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
-  physics:{G:0, D0:2, D0pull:0.00275, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{G:18, D0:2, D0pull:0.00275, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
     pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, dragRef:"interior",
     frameWeight:"pull"},
@@ -27668,6 +27671,7 @@ function validatePreset(obj){
     p.world={boundary:p.world.boundary, size:clamp(p.world.size,0,5000)}; }
   // physics: 部分指定を許容し、既定値へマージ + クランプ
   const ph = Object.assign({}, DEFAULT_PHYSICS);
+  const xkDeclared=xkDeclaredOf(p.physics);   // 第326便a(AN530): X_k(kappaT・旧 Kt)を宣言したか(既定値のマージの扱いを分ける —— AN532)
   if(p.physics!==undefined){
     if(typeof p.physics!=="object" || Array.isArray(p.physics)) bad(reasonText("validatePreset/physics"));
     else for(const k of Object.keys(p.physics)){
@@ -28202,6 +28206,8 @@ function validatePreset(obj){
   if(ph[DRAG_REF_KEY]===DRAG_CONTACT && (ph.geoPN===2 || geoModeOf(ph).core===GEO_CORE_PN[2])){ warnings.push(reasonText("validatePreset/physics.dragRef#2")); ph[DRAG_REF_KEY]="interior"; }
   // 第242便: contact(接触=完全引きずり)は share のフレーム重みで定義した opt-in — 既定 pull と併用しない(合成は裁定事項)
   if(ph[DRAG_REF_KEY]===DRAG_CONTACT && frameWeightIsPull(ph)){ warnings.push(reasonText("validatePreset/physics.dragRef#3")); ph[FRAME_WEIGHT_KEY]="share"; }
+  // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 物理対応ロックを常に —— 受理の後の X_k を G_0/c_0² の導出値へ(内蔵の退役の本〔履歴〕は宣言のまま)
+  { const xa=xkLockAcceptPhysics(p, ph, xkDeclared); if(xa.warn) warnings.push(xa.warn); }
   p.physics=ph;
   const isqMassNonPos=[];   // 第311便b(AN389): single の宣言の質量が正でない天体の添字(質量の下限 massFloor を当てる前 —— 新則の本の受け手の判定に使う)
   // bodies
@@ -29608,9 +29614,14 @@ function validatePreset(obj){
           warnings.push(reasonText("validatePreset/abBody.physicsPatch"));
         } else {
           physicsPatch={};
+          let xkAbWarned=false;   // 第326便a(AN530): B 側の X_k の宣言は読まない(警告は 1 行)
           for(const k of Object.keys(A.physicsPatch)){
             // 第123便: qLock:true — B側の q を自動算出(有限参照正規化規約)する特別キー(CLAMPS 外)
             if(k==="qLock"){ if(A.physicsPatch[k]===true) physicsPatch.qLock=true; continue; }
+            // 第326便a(原仮定者の回答(2026-11-03 —— AN530)): 物理対応ロックの下で X_k は導出 —— B 側の kappaT・Kt は捨てる(内蔵の退役の本〔履歴〕は宣言のまま)
+            if((k==="kappaT" || k==="Kt") && !xkLockExemptPreset(p)){
+              if(!xkAbWarned){ warnings.push(reasonText("validatePreset/abBody.physicsPatch.kappaT#lock")); xkAbWarned=true; }
+              continue; }
             // 第128便: kappaT は通常キー(CLAMPS[0,1])— 下の汎用経路が拾う。旧 Kt は後方互換で κ へ換算
             if(k==="Kt"){ if(!isNum(A.physicsPatch.kappaT) && isNum(A.physicsPatch[k]))
               physicsPatch.kappaT=ktToKappa(A.physicsPatch[k]);
@@ -41961,13 +41972,13 @@ function familyVariantLabel(p){
 //   退役の理由・凍結 fixture・便の印のある履歴コメントは 1 字も変えていない(表示と文書だけ —— presetSig・力学・保存の形は不変)。QA docs.noRetiredMention294
 const FAMILY_ROLES=["primary","variant","retired"];
 const RETIRED_PRESETS={
-  darkrotor:{ja:"腕と減光の長時間の門は重い走行で、減光の原器は 🕳️ rotorSolo・銀河の質量要素は 🌚/🛞 が持つ", en:"its long-run arm and dimming gate is a heavy run; the dimming prototype is 🕳️ rotorSolo and the galaxy mass elements live in 🌚/🛞", see:["rotorSolo","ngc3198DFM"]},   // 第300便a: see の退役の本(🪁🌚🧩 —— 第90報で退役)を在位の本へ付け替えた(理由の文は退役の時点の履歴のまま)
-  bhCore:{ja:"自由な多層の中心は 🌚 の中心 DFM BH(アナロジー)へ引き継ぎ、尺度比較の参照値は試験の固定値に移した", en:"the free multilayer centre is carried by the centre DFM BH of 🌚 (analogy); the scale-comparison reference values moved to a test fixture", see:["rotorSolo","layeredCoreDFM"]},   // 第300便a: see の退役の本(🪁🌚🧩 —— 第90報で退役)を在位の本へ付け替えた(理由の文は退役の時点の履歴のまま)
-  bhCoreTilt:{ja:"⚫ の横倒しの変種で、⚫ と一緒に退役した(傾斜の機構の最小試験は QA に残す)", en:"the tipped-over variant of ⚫, retired together with it (the minimal tilt-mechanism test stays in QA)", see:["rotorSolo"]},
-  nebulaRotor:{ja:"ローター群の星雲は減光の原器 🕳️ と自己形成 🥚 で見られる", en:"the rotor-swarm nebula is covered by the dimming prototype 🕳️ and the self-forming 🥚", see:["rotorSolo","selfRotor"]},
-  nebulaShell:{ja:"🌑 の重殻の変種で、🌑 と一緒に退役した", en:"the heavy-shell variant of 🌑, retired together with it", see:["rotorSolo","selfRotor"]},
-  nebulaBipolar:{ja:"🌑 の双極の変種で、🌑 と一緒に退役した", en:"the bipolar variant of 🌑, retired together with it", see:["rotorSolo","selfRotor"]},
-  starSeed:{ja:"圧縮とパワーボールの経路は 🥚 の自己形成で見られる(パワーボールの機構の最小試験は QA に残す)", en:"the compression and power-ball path is seen in the self-forming 🥚 (the minimal power-ball test stays in QA)", see:["selfRotor","rotorSolo"]},
+  darkrotor:{ja:"腕と減光の長時間の門は重い走行で、減光の原器は 🕳️ rotorSolo・銀河の質量要素は 🌚/🛞 が持つ", en:"its long-run arm and dimming gate is a heavy run; the dimming prototype is 🕳️ rotorSolo and the galaxy mass elements live in 🌚/🛞", see:["lfbotTrap","ngc3198DFM"]},   // 第300便a: see の退役の本(🪁🌚🧩 —— 第90報で退役)を在位の本へ付け替えた(理由の文は退役の時点の履歴のまま)/ 第326便a: see の 🕳️ を在位の 🐮 へ付け替えた(AN530 の退役)
+  bhCore:{ja:"自由な多層の中心は 🌚 の中心 DFM BH(アナロジー)へ引き継ぎ、尺度比較の参照値は試験の固定値に移した", en:"the free multilayer centre is carried by the centre DFM BH of 🌚 (analogy); the scale-comparison reference values moved to a test fixture", see:["lfbotTrap","layeredCoreDFM"]},   // 第300便a: see の退役の本(🪁🌚🧩 —— 第90報で退役)を在位の本へ付け替えた(理由の文は退役の時点の履歴のまま)/ 第326便a: see の 🕳️ を在位の 🐮 へ付け替えた(AN530 の退役)
+  bhCoreTilt:{ja:"⚫ の横倒しの変種で、⚫ と一緒に退役した(傾斜の機構の最小試験は QA に残す)", en:"the tipped-over variant of ⚫, retired together with it (the minimal tilt-mechanism test stays in QA)", see:["lfbotTrap"]},   // 第326便a: see の退役の本(🕳️🥚 —— 原仮定者の回答(2026-11-03 —— AN530)で退役)を在位の本へ付け替えた(理由の文は退役の時点の履歴のまま)
+  nebulaRotor:{ja:"ローター群の星雲は減光の原器 🕳️ と自己形成 🥚 で見られる", en:"the rotor-swarm nebula is covered by the dimming prototype 🕳️ and the self-forming 🥚", see:["lfbotTrap","collapse"]},   // 第326便a: see の退役の本(🕳️🥚 —— 原仮定者の回答(2026-11-03 —— AN530)で退役)を在位の本へ付け替えた(理由の文は退役の時点の履歴のまま)
+  nebulaShell:{ja:"🌑 の重殻の変種で、🌑 と一緒に退役した", en:"the heavy-shell variant of 🌑, retired together with it", see:["lfbotTrap","collapse"]},   // 第326便a: see の退役の本(🕳️🥚 —— 原仮定者の回答(2026-11-03 —— AN530)で退役)を在位の本へ付け替えた(理由の文は退役の時点の履歴のまま)
+  nebulaBipolar:{ja:"🌑 の双極の変種で、🌑 と一緒に退役した", en:"the bipolar variant of 🌑, retired together with it", see:["lfbotTrap","collapse"]},   // 第326便a: see の退役の本(🕳️🥚 —— 原仮定者の回答(2026-11-03 —— AN530)で退役)を在位の本へ付け替えた(理由の文は退役の時点の履歴のまま)
+  starSeed:{ja:"圧縮とパワーボールの経路は 🥚 の自己形成で見られる(パワーボールの機構の最小試験は QA に残す)", en:"the compression and power-ball path is seen in the self-forming 🥚 (the minimal power-ball test stays in QA)", see:["collapse","lfbotTrap"]},   // 第326便a: see の退役の本(🕳️🥚 —— 原仮定者の回答(2026-11-03 —— AN530)で退役)を在位の本へ付け替えた(理由の文は退役の時点の履歴のまま)
   // 第284便b(原仮定者の裁定(第74報)⑤「不用なサンプルを廃止する(galaxyMeshSpiralGeoToyLite・psrDoubleABPN・psrJ1757PN・psrJ1946PN)」・AN35):
   //   退役 6 本(指定 4 本+⭕ emAuditNewton〔🌙 と実効 JSON 同一〕+🪝 psrDoubleABCF〔⚡ の f=1 署名と同時〕)。理由と代わりに見る本
   galaxyMeshSpiralGeoToyLite:{ja:"円盤 80 粒の軽量コピーで、空間メッシュの原理は 🪁 が、中心 DFM BH のアナロジーは 🌚 が持つ", en:"the 80-particle light copy; the space-mesh principle lives in 🪁 and the centre DFM BH analogy in 🌚", see:["galaxyMeshSpiral","shapeToySpiralCore"]},   // 第300便a: see の退役の本(🪁🌚🧩 —— 第90報で退役)を在位の本へ付け替えた(理由の文は退役の時点の履歴のまま)
@@ -42053,6 +42064,13 @@ const RETIRED_PRESETS={
   chainDiskToy3dTilt:{ja:"第127報: 旧方式の geoPN=4(旧 W_bg 則の連鎖の原理の玩具)の退役 —— 新しい geoPN=4(場の API の opt-in)の本は新しい ID で作る。二体の並進の慣性引きずりは 🐌", en:"ruling 127: the old-style geoPN=4 (a chain toy of the older W_bg law) is retired — a new geoPN=4 sample (the opt-in field API) will get a new ID; two-body translational inertial drag is 🐌", see:["inertialDragPair"]},
   chainSpreadToy3d:{ja:"第127報: 旧方式の geoPN=4(旧 W_bg 則の連鎖の原理の玩具)の退役 —— 新しい geoPN=4(場の API の opt-in)の本は新しい ID で作る。二体の並進の慣性引きずりは 🐌", en:"ruling 127: the old-style geoPN=4 (a chain toy of the older W_bg law) is retired — a new geoPN=4 sample (the opt-in field API) will get a new ID; two-body translational inertial drag is 🐌", see:["inertialDragPair"]},
   chainBurstShell3d:{ja:"第127報: 旧方式の geoPN=4(旧 W_bg 則の連鎖の原理の玩具)の退役 —— 新しい geoPN=4(場の API の opt-in)の本は新しい ID で作る(超新星のアナロジーの探索の写し)。超新星の多層の殻は 🎇(別の機構の本)", en:"ruling 127: the old-style geoPN=4 (a chain toy of the older W_bg law) is retired — a new geoPN=4 sample (the opt-in field API) will get a new ID (an exploratory supernova-analogy copy); the layered supernova shells are 🎇 (a different mechanism)", see:["supernovaCore"]},
+  // ==== 第326便a の塊(ここから)====
+  // 第326便a(原仮定者の回答(2026-11-03 —— AN530)「ロックした方がDFMを理解し易いのでロックする。…現状の「自転と減光」グループサンプル３本は、調整が必要なので廃止する」・R290):
+  //   物理対応ロック X_k = G_0/c_0² を常にしたとき、G_0 と X_k の両方を用途に持ち、どの導出の写し方でも用途の一部が動く 3 本(在位の「自転と減光」の群の全部)を退役。ID・物理・過去の正本は履歴として残す(凍結の写し tests/fixtures/retired-w326a.json)
+  rotorSolo:{ja:"第128報: 物理対応ロックを常にした(X_k = G_0/c_0²)—— 減光と外来光線の掃き出し(X_k)と周回のテスト粒子(G_0)の両方を用途に持つこの本は調整が必要なため廃止。減光で溜めた光の放出は 🐮・光の屈折と捕捉は 💡", en:"ruling 128: the physical-correspondence lock is now always on (X_k = G_0/c_0²) — this sample needs both dimming and the sweep of incoming rays (X_k) and an orbiting test particle (G_0), so it needs re-tuning and is retired. Light stored by dimming and released is 🐮; refraction and capture of light is 💡", see:["lfbotTrap","lensing"]},
+  massLadder:{ja:"第128報: 物理対応ロックを常にした(X_k = G_0/c_0²)—— 力学質量(G_0)と減光で光度質量が 0 になること(X_k の井戸)の両方を用途に持つこの本は調整が必要なため廃止(c_0 = 30 の規約の例外も要った)。銀河の回転の力学は 🌌・減光で溜めた光の放出は 🐮", en:"ruling 128: the physical-correspondence lock is now always on (X_k = G_0/c_0²) — this sample needs both a dynamical mass (G_0) and a luminous mass that dimming drives to 0 (the X_k well), so it needs re-tuning and is retired (it would also have needed an exception to the c_0 = 30 convention). Galaxy rotation dynamics is 🌌; light stored by dimming and released is 🐮", see:["galaxy","lfbotTrap"]},
+  selfRotor:{ja:"第128報: 物理対応ロックを常にした(X_k = G_0/c_0²)—— 雲の成長(G_0)と中心の暗さ(X_k の井戸と c_0 の表面の光速)の両方を用途に持つこの本は調整が必要なため廃止。自己重力で雲がつぶれる様子は 🌫️・減光で溜めた光の放出は 🐮", en:"ruling 128: the physical-correspondence lock is now always on (X_k = G_0/c_0²) — this sample needs both cloud growth (G_0) and a dark centre (the X_k well and the surface light speed c_0), so it needs re-tuning and is retired. A cloud collapsing under its own gravity is 🌫️; light stored by dimming and released is 🐮", see:["collapse","lfbotTrap"]},
+  // ==== 第326便a の塊(ここまで)====
 };
 // 第316便c(原仮定者の裁定(第118報)「アプリ内の説明文: 第〜便・決断事項〜などの記述は無くす」・統括の検証項目 R248): **表示の時の来歴の語の除去**。
 // 器と QA が来歴の語を世代の目印として読む欄(RETIRED_PRESETS の ja/en・fitRecord の記録の文・観測の比較の行の名〔OBS_COMPARE_ROWS・
@@ -43677,6 +43695,8 @@ function loadPreset(id, keepPhysics){
   currentPreset=p;
   const merged=JSON.parse(JSON.stringify(p));
   if(keepPhysics && basePhysics) merged.physics=Object.assign({},sim.params);
+  // 第326便a(AN530): build の前の写しで X_k を導出値へ(内蔵の退役の本〔履歴〕は宣言のまま —— 在位の内蔵の本は宣言が導出値と bit で同じ)
+  if(!xkLockExemptId(p.id) && (!keepPhysics || !basePhysics)) merged.physics=xkLockPhysicsCopy(merged.physics);
   sim.build(merged);
   if(!keepPhysics) physLockAutoApply([sim]);   // 第315便a(AN414): 読込時の自動 ON —— build の後の実値で判定(フラグだけ)
   // 第123便(原仮定者指示「qが計算で求まるなら編集対象から外す」): qLock サンプルは
@@ -43926,7 +43946,9 @@ function abStart(key, valB, bodyPatch){
   if(trailBuf._z) trailBufB._z=trailBuf._z.map(b=>b.slice());   // 第298便d: 三次元の本の z も写す
   if(key!==undefined){
     const c=CLAMPS[key];
-    ab.simB.params[key]=clamp(valB,c[0],c[1]); ab.simB.updateRadii();
+    ab.simB.params[key]=clamp(valB,c[0],c[1]);
+    if(physLock) xkLockSims([ab.simB]);   // 第326便a(AN530): X_k は導出(key が kappaT でも B 側の G_0・c_0 の導出値へ戻る)
+    ab.simB.updateRadii();
     ab.lastKey=key;
   }
   if(bodyPatch && ((Array.isArray(bodyPatch.targets)&&bodyPatch.patch)||bodyPatch.physicsPatch)){
@@ -43968,10 +43990,10 @@ function abStart(key, valB, bodyPatch){
         ab.simB.params.kappaT=ktToKappa(bodyPatch.physicsPatch.Kt);
       // 第123便: physicsPatch.qLock:true — B側の q を自動算出(🌙のワンタップが 🌘 と同じ較正になる)
       if(bodyPatch.physicsPatch.qLock) applyQLock(ab.simB);
+      // 第326便a(原仮定者の回答(2026-11-03 —— AN530)): B 側の X_k も導出値(B 側の G_0・c_0 から —— X_k の対照は G_0 の対照で)。
+      //   旧 第315便a: B 側が条件を外れたら(🛰 系の X_k=0 の対照)フラグだけ OFF にして対照の値を保った
+      if(physLock) xkLockSims([ab.simB]);
       ab.simB.updateRadii();
-      // 第315便a(AN414): ワンタップ対照の B 側が物理対応ロックの条件を外れたら(例: 🛰 系の X_k=0 の対照)フラグだけ OFF ——
-      //   ロックの再構築(buildParamRows)が対照の値を導出値で上書きしない(A/B の両側を同じ判定の関数で見る)
-      if(physLock && !(physLockAutoOnOf(sim).ok && physLockAutoOnOf(ab.simB).ok)) physLockSetFlag(false);
     }
     // 第63便(原仮定者指示): patch レシピを保持 — ⏮初めから のたびに B 側へ再適用する
     // (「A/B比較を終了」までワンタップ対照が効き続ける)
@@ -44281,6 +44303,7 @@ $("#btnCkLoad").addEventListener("click",()=>{
   stepGenBump("checkpoint");   // 第175便: 世代更新 — 巻き戻した瞬間より前の繰越は破棄
   ckRestoreOne(sim, ckSnap.a);
   if(ab && ckSnap.b){ ckRestoreOne(ab.simB, ckSnap.b); trailBufB=[]; }
+  physLockAutoApply(ab?[sim,ab.simB]:[sim]);   // 第326便a(AN530): 復元した params でも X_k は導出値
   trailBuf=[]; nanNotified=false; selIdx=-1;
   buildParamRows(); updateBodyEdit(); requestRender();
   syncHud();   // 第142便: チェックポイント復元直後も HUD(t・步数・N・実効倍率)を同期
@@ -44319,6 +44342,7 @@ $("#btnReset").addEventListener("click",()=>{
     const mk2=()=>JSON.parse(JSON.stringify(currentPreset));
     sim.build(mk2()); sim.params=fastParams(keepA); sim.updateRadii(); applyPhaseEdits(sim,snapA);   // 第250便e
     ab.simB.build(mk2()); ab.simB.params=fastParams(keepB); ab.simB.updateRadii(); applyPhaseEdits(ab.simB,snapB);   // 第250便e
+    if(physLock) xkLockSims([sim, ab.simB]);   // 第326便a(AN530): 保持した params でも X_k は導出値
     inertialDragInitObsRedo(sim);   // 第309便c(R220): A の戻したパラメータで観測の分解(宣言か記録のある本だけ —— B は写しを当てた後に 1 回)
     // 第63便(原仮定者指示): 粒子patch系ワンタップA/Bは ⏮初めから でも B 側へ再適用
     // (「A/B比較を終了」するまで有効)
@@ -44343,6 +44367,7 @@ $("#btnReset").addEventListener("click",()=>{
         if(!isNum(ab.bodyPatch.physicsPatch.kappaT) && isNum(ab.bodyPatch.physicsPatch.Kt))
           ab.simB.params.kappaT=ktToKappa(ab.bodyPatch.physicsPatch.Kt);   // 第128便: 旧 Kt patch の後方互換
         if(ab.bodyPatch.physicsPatch.qLock) applyQLock(ab.simB);   // 第123便
+        if(physLock) xkLockSims([ab.simB]);   // 第326便a(AN530): B 側の X_k も導出値(B 側の G_0・c_0 から)
         ab.simB.updateRadii();
       }
     }
@@ -44361,10 +44386,9 @@ $("#btnReset").addEventListener("click",()=>{
   const keep=Object.assign({},sim.params), wasDirty=paramsDirty;
   const snapP=snapshotPhaseEdits(sim);   // 58B: 相変化ノブ・壁編集も保持
   coordSwitchHold=!!coordSwitch;         // 第299便f: 三次元の切り替えの写しは ⏮ でも保つ
-  const lockWas=physLock;                // 第315便a(AN414): 同じ本の ⏮ は手動の ON/OFF を保つ
   loadPreset(currentPreset.id,false);
   sim.params=fastParams(keep); sim.updateRadii();   // 第250便e
-  physLockSetFlag(lockWas);              // 第315便a: 読込時の判定の結果を ⏮ の前のフラグへ戻す(値は保持した params のまま)
+  physLockAutoApply([sim]);              // 第326便a(AN530): 保持した params でも X_k は導出値(旧 第315便a: ⏮ の前の手動の ON/OFF を戻した)
   applyPhaseEdits(sim,snapP);            // 58B
   inertialDragInitObsRedo(sim);          // 第309便c(R220): 戻したパラメータ(軟化など)で観測の分解をし直す(宣言か記録のある本だけ —— 他の本は何もしない)
   applyGraphOverlays(sim,gsnap);         // 第95便: グラフ表示を保持
@@ -44562,7 +44586,7 @@ function setQLock(v){
   const cb=document.getElementById("qLockCb"); if(cb) cb.checked=qLockOn;
   buildParamRows(); requestRender();
 }
-let physLock=false;
+let physLock=true;   // 第326便a(原仮定者の回答(2026-11-03 —— AN530)): 物理対応ロックは常に(切替なし)—— false は内蔵の退役の本(履歴)を開いている間だけ(physLockAutoApply)
 let paramRowSync={};   // 第54便 54D④: key→UI行の表示更新関数の**配列**(主役+詳細の重複行に対応)
 function syncParamRow(key){ (paramRowSync[key]||[]).forEach(f=>f()); }
 // 第128便: 正準形を κ=G/cLight² へ(旧 Kt=cLight²/G の逆数)。G=0 は κ=0 が**正確値**に
@@ -44605,16 +44629,19 @@ function physLockSetFlag(v){
   syncParamRow("kappaT"); updatePhysLockBadge();
   const cb=document.getElementById("physLockCb"); if(cb) cb.checked=physLock;
 }
-// 読込時の判定(A/B の両側 —— 渡した本のすべてが条件を満たすときだけ ON)
+// 第326便a(AN530): 読込・復元・⏮ の口 —— 判定ではなく**導出**(渡した本のすべての X_k を G_0/c_0² の導出値へ)。
+//   ロックの外は内蔵の退役の本(履歴)を開いている間だけ(値は宣言のまま)。旧(第315便a): 条件を満たすときだけフラグを ON にし値は書き直さなかった
 function physLockAutoApply(targets){
-  const on=targets.length>0 && targets.every(S=>physLockAutoOnOf(S).ok);
+  const on=xkLockActive();
+  if(on) xkLockSims(targets);
   physLockSetFlag(on);
   return on;
 }
 // soft:true(再構築の経路 —— buildParamRows)は条件を満たす本の値を保つ(読込時の自動 ON の値を書き直さない)。
 // soft なし(手動の ON・G_0/c_0/X_k の編集)は従来どおり導出値へ
 function enforcePhysLock(targets, soft){
-  for(const S of targets){ if(soft && physLockAutoOnOf(S).ok) continue; S.params.kappaT=physLockCalc(S).applied; }
+  // 第326便a(AN530): soft も導出値へ(ロックは常に —— 条件の内の値を保つ「保持」は無くなった)。引数 soft は呼び手の互換のために残す
+  for(const S of targets){ S.params.kappaT=physLockCalc(S).applied; }
   syncParamRow("kappaT");
   updatePhysLockBadge();
 }
@@ -44626,12 +44653,47 @@ function updatePhysLockBadge(){
   else el.textContent=physLockSatisfied(S)? T("physLockOffOk") : T("physLockOffNg");
 }
 function setPhysLock(v){
-  physLock=!!v;
-  if(physLock) enforcePhysLock(ab?[sim,ab.simB]:[sim]);
-  else { syncParamRow("kappaT"); updatePhysLockBadge(); }   // 第110便: 解除時も κ 行のグレーアウトを解く
-  const cb=document.getElementById("physLockCb"); if(cb) cb.checked=physLock;
+  // 第326便a(原仮定者の回答(2026-11-03 —— AN530)「ロックする」): 切替は無い —— 引数は読まない(常にロック・内蔵の退役の本〔履歴〕だけロックの外)。
+  //   旧: physLock=!!v で ON/OFF を切り替え、OFF は「一般化トイ設定」として X_k を独立に編集できた(第110便〜第325便)
+  physLockAutoApply(ab?[sim,ab.simB]:[sim]);
   requestRender();
+  return physLock;
 }
+// ==== 第326便a の塊(ここから)====
+// 第326便a(原仮定者の回答(2026-11-03 —— AN530)「ロックした方がDFMを理解し易いのでロックする。X_kのノブの本のUIの行き先はG₀にする」・統括の検証項目 R290):
+//   物理対応ロック X_k = G_0/c_0² を**常に**(切替なし)。X_k は基準重力 G_0 と基準光速 c_0 からの**導出の量**で、どの経路でも導出値に置く ——
+//   受理(validatePreset: 宣言の kappaT・旧 Kt を導出値へ置き換える —— 相対 1e-6 の外なら警告 1 行・abBody.physicsPatch の X_k は読まない)・
+//   読み込み(loadPreset: build の前の写しで)・セーブの読込(loadSave)・発散の復元(restoreLastGood)・⏮ 初めから(A/B の両側)・チェックポイントの復元・
+//   A/B(B 側の X_k は B 側の G_0・c_0 から —— X_k の対照は G_0 の対照で)・パラメータの編集(G_0・c_0 を変えると追随・X_k の行は編集できない)。
+//   **例外は 1 つ**: 内蔵の退役の本(履歴 —— familyRole "retired")を開いている間は宣言の X_k のまま(ロックの外 —— ID・物理・過去の正本・凍結の写しを動かさない)。
+//   既定値のマージ(X_k を書かない本 —— 手書き・AI)の扱いは決断事項 AN532(xkLockDefaultDerive)。導出の式は physLockCalc と同じ(G_0 > 0 なら G_0/(c_0·c_0)・G_0 = 0 は 0・値域 [0,1] でクランプ)
+const XK_LOCK_VERSION="w326a-xklock-always-1";
+// AN532(既定値のマージの X_k を導出にするか —— 回答待ち): false = 既定値のマージは今のまま(X_k を書かない本の受理の値は DEFAULT_PHYSICS の 1/60)
+function xkLockDefaultDerive(){ return false; }
+// X_k を宣言したか(kappaT か旧 Kt が数)
+function xkDeclaredOf(ph){ return !!(ph && typeof ph==="object" && !Array.isArray(ph) && (isNum(ph.kappaT) || isNum(ph.Kt))); }
+// 物理の写し(既定値のマージの後)から X_k の導出値(physLockCalc と同じ式・同じクランプ)
+function xkDerivedOf(ph){ const G=ph.G, c=ph.cLight, cc=CLAMPS.kappaT; const tgt=(G>0)? G/(c*c) : 0; return clamp(tgt,cc[0],cc[1]); }
+// 内蔵の退役の本か(ID で —— 保存したカスタムの本は内蔵と ID が重ならない〔取り込みで一意化〕)。受理器の口は宣言の familyRole も見る
+function xkLockExemptId(id){ try{ const q=BUILTIN_PRESETS.find((b)=>b.id===id); return !!(q && retiredOf(q)); }catch(_){ return false; } }
+function xkLockExemptPreset(p){ return !!(p && typeof p==="object" && retiredOf(p) && xkLockExemptId(p.id)); }
+// 今開いている本がロックの下か(内蔵の退役の本だけ外)
+function xkLockActive(){ return !(currentPreset && xkLockExemptId(currentPreset.id)); }
+// 実行時の口: 渡した sim の X_k を導出値へ
+function xkLockSims(targets){ for(const S of targets) if(S && S.params) S.params.kappaT=physLockCalc(S).applied; }
+// 受理の口(validatePreset から): ph は既定値のマージの後の physics。戻り値 {warn?, exempt?, kept?}
+function xkLockAcceptPhysics(p, ph, declared){
+  if(xkLockExemptPreset(p)) return {exempt:true};
+  if(!declared && !xkLockDefaultDerive()) return {kept:true};
+  const was=ph.kappaT, now=xkDerivedOf(ph);
+  ph.kappaT=now;
+  if(!declared || was===now) return {};
+  const d=Math.abs(was-now), m=Math.max(Math.abs(was),Math.abs(now));
+  return (d<=1e-6*m)? {} : {warn:reasonText("validatePreset/physics.kappaT#lock", String(was), String(now))};
+}
+// 読み込みの写し(build の前)に当てる: 既定値のマージの後の G_0・c_0 から X_k を置いた physics の写しを返す(宣言の鍵の並びは保つ)
+function xkLockPhysicsCopy(ph){ const m=Object.assign({},DEFAULT_PHYSICS,ph||{}); return Object.assign({},ph||{},{kappaT:xkDerivedOf(m)}); }
+// ==== 第326便a の塊(ここまで)====
 // ===== 第100便(原仮定者裁定「進める」/ Gemini 提案2): 相似変換連動モード =====
 // c₀ を k 倍したとき、第96便B と同じ力学的相似変換を「現在の状態」へ適用して見た目の運動
 // (描画フレームあたりの進み)を保つ実験的機能。変換表(96B): G・bM・contactK/contactCap ×k²/
