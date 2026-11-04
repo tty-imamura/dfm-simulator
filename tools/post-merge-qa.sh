@@ -619,6 +619,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.realMassF1325e docs.realMassF1325e be
 #   docs.xkLock325f —— 文書)と、qa.mjs の包みの lint.qaHeapRelease310・PHYSICS の節の lint.sectionLookup313(html・本の宣言・器の本文・正本は不変 —— 鎖の段は足さない)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.xkLock325f docs.xkLock325f lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第325便f の塊(ここまで)====
+# ==== 第326便d の塊(ここから)====
+# 第326便d(原仮定者の指示(第128報)「軸引きずりについて」「引きずり計算の補足」・統括の検証項目 R293): 枝 d の新設 3 本(lint.axialHeat326d —— 純関数の場面〔逆向きの 2 源の熱・
+#   固定軸の支え・帳簿の閉じ・尺度の不定・負の Γ・凸包・厳密な 1 步〕/ behavior.axialRadius326d —— 今の html の 🗺️ の写しで R_d と R_src の独立の宣言・K1 の源ごとの軸の ω が正本と同じ /
+#   docs.axialHeat326d —— 正本の門と表が PHYSICS〔第326便d〕に逐語・文書)と、新しい段 axialheat-326d の lint 一式(lint.regenScope・lint.provenanceMeta・lint.stableHashPaths・lint.scopeStop・
+#   lint.scopeAll312・lint.regenChain・lint.canon304・lint.harnessSmoke303・lint.quickBoundary324c)・qa.mjs の包みの lint.qaHeapRelease310・PHYSICS の節の lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.axialHeat326d behavior.axialRadius326d docs.axialHeat326d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第326便d の塊(ここまで)====
 # ==== 第326便e の塊(ここから)====
 # 第326便e(原仮定者の回答(2026-11-03 —— AN527)「推奨で進める」・統括の検証項目 R294 —— 道具だけ・html は変えない): 枝 e の新設 5 本(lint.alwaysShadow326e —— 常時群 13 段の
 #   html の物理の部分の門の影と鎖の後の照合の口 / lint.familiesTemp326e —— 家族の表の走査からドット始まりの一時ファイルを外す / lint.scopeObsSpin326e —— 領域 hash の版 7 /

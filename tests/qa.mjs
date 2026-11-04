@@ -95173,6 +95173,140 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第325便f の塊(ここまで)====
+// ==== 第326便d の塊(ここから —— lint.axialHeat326d・behavior.axialRadius326d・docs.axialHeat326d の 3 ブロック。root は SKIP)====
+// ---- 第326便d(原仮定者の指示(第128報)「軸引きずりについて」「引きずり計算の補足」・統括の検証項目 R293): **軸引きずりの定常の釣り合いと由来ごとの熱の帳簿の診断**と
+// ----   **引きずる側の半径 R_src と引きずられる側の半径 R_d の独立の宣言**(新設 —— 器 tests/exp-w326d-axialheat.mjs・lib tests/lib-w326d-axialheat.mjs・文書の lib tests/lib-w326d-axialheatdoc.mjs・
+// ----   正本 tests/out/axialheat-w326d.json。html・本の宣言・エンジン・受理器は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.axialHeat326d(html を読まない): ① lib の版・宣言(方程式の天体・検査の天体・口の接続・族 E・慣性係数)② 純関数の場面の門 13(逆向きの 2 源で合計トルク 0・熱 2・
+// ----     120° の合成は口ごとの熱・固定軸に垂直な目標は受け手と支えの仕事 0・口の閉じ・負と非有限の Γ の拒否・向きの反転の伝達で正の熱と反作用の仕事・系の帳簿の閉じと L・
+// ----     尺度の不定・口ごとの熱の和・凸包の外の解の不採用・厳密な 1 步と h/2・ランク・凸包の p の端)
+// ----   behavior.axialRadius326d(html を headless で読む —— 正本と照合): ① 🗺️ の写しで R_d と R_src を別々に宣言(器の partR —— 源だけ替えて β と R_d が同じビット・受け手だけ替えて
+// ----     R_src が同じビット・同じ天体の両方は受理器が拒否・obsSpin の R_src・画面の欄)② 今の K1 の源ごとの軸の ω(読み口)と太陽の式の A が正本と相対 1e-12 の内 ③ 在位の 🗺️ は spinDrag を宣言しない
+// ----   docs.axialHeat326d(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全)・宣言が lib の DECL と同じ ② 表 12 本が PHYSICS〔第326便d〕に逐語
+// ----     ③ 節の位置(「## 7.」の前)・必須の語・AI_SPEC §185・CHANGELOG・段の行・.gitignore・post-merge の ③′ ④ 書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const dHarn = path.join(ROOT, 'tests', 'exp-w326d-axialheat.mjs'), dLib = path.join(ROOT, 'tests', 'lib-w326d-axialheat.mjs'), dDoc = path.join(ROOT, 'tests', 'lib-w326d-axialheatdoc.mjs');
+  const dOut = path.join(ROOT, 'tests', 'out', 'axialheat-w326d.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(dHarn) && fs.existsSync(dLib) && fs.existsSync(dDoc))) {
+    console.log('SKIP lint.axialHeat326d・behavior.axialRadius326d・docs.axialHeat326d(第326便d の軸引きずりの帳簿の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const relD326 = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, L0 = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + dHarn); L0 = await import('file://' + dLib); D0 = await import('file://' + dDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(dOut, 'utf8')); } catch (e) { J = null; }
+  // ───── lint.axialHeat326d ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      const DC = L0.DECL;
+      if (!(L0.LIB_VERSION === 'w326d-axialheat-lib-1' && JSON.stringify(DC.solveBodies) === JSON.stringify(['sun', 'venus', 'jupiter', 'io']) && DC.checkBodies.length === 2 && DC.checkBodies.includes('earth')
+        && DC.family === 'E' && DC.cGalaxy === 1 && DC.cK1 === 1 && DC.ports.sun.k1.length === 0 && DC.ports.sun.tide.length === 0 && JSON.stringify(DC.ports.io.k1) === JSON.stringify(['sun', 'jupiter'])
+        && L0.MOI.sun === 0.07 && L0.MOI.jupiter === 0.254)) bad.push('① lib の版・宣言(方程式の天体・口の接続・族 E・慣性係数)');
+      cases.push(`① lib ${L0.LIB_VERSION}・方程式の天体 ${DC.solveBodies.join('・')}・検査 ${DC.checkBodies.join('・')}・族 ${DC.family}(銀河と K1 の口 c = 1・潮汐 k_i は未知)・太陽は銀河の口だけ・イオは K1(太陽・木星)`);
+      let S = null, G = null;
+      try { S = L0.pureScenes(); G = L0.pureGates(S); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G) {
+        for (const [k, v] of Object.entries(G)) if (v !== true) bad.push('② 純関数の場面 ' + k);
+        if (Object.keys(G).length !== 13) bad.push('② 場面の数 ' + Object.keys(G).length);
+        cases.push(`② 純関数の場面 ${Object.values(G).filter(Boolean).length}/${Object.keys(G).length}(逆向きの 2 源: 合計トルク ${S.opposed.torqueSum}・熱 ${S.opposed.heat}・供給 ${S.opposed.supply} / 系の帳簿: k ${S.system.kP.toFixed(3)} ≥ 0・尺度 2 倍で熱 ${S.system.scaleHeatRatio.toFixed(3)} 倍 / 凸包の外は不採用 ${S.system.outsideRejected} / 厳密な 1 步の h と h/2 の差 ${S.step.halfS})`);
+      }
+    }
+    add('lint.axialHeat326d', bad.length === 0,
+      `**軸引きずりの帳簿の純関数**(第326便d・原仮定者の指示(第128報)・R293 —— html を読まない・熱は口ごとに足す・負の散逸は不採用・応答の尺度は同定しない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.axialRadius326d ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+        // ①
+        const R = X.partR(H.HP, html);
+        for (const r of R.rows) if (!r.pass) bad.push('① ' + r.key + '(' + r.ja + ')' + (r.err ? ': ' + String(r.err).slice(0, 80) : ''));
+        if (!(R.ui.rdInput && R.ui.srcInputs.length === 0)) bad.push('① 画面の欄(R_d の欄 ' + R.ui.rdInput + '・R_src の欄 ' + R.ui.srcInputs.join(',') + ')—— 欄を足したなら行と文書を直す');
+        cases.push(`① 🗺️ の写し: 源の R_src だけ(太陽 ${R.rows[0].pass}・木星 ${R.rows[1].pass}—— β と R_d は同じビット)・受け手の R_d だけ(金星 ${R.rows[2].pass} —— R_src は同じビット)・同じ天体の両方は拒否 ${R.rows[3].pass}・obsSpin の R_src ${R.rows[4].pass}・画面の R_d の欄 ${R.ui.rdInput}・R_src の欄 ${R.ui.srcInputs.length}`);
+        // ②
+        const I = X.partI(H.HP), K = X.partK(H.HP, I, 'now'), S = X.partS(I, K);
+        if (!J) bad.push('② 正本 tests/out/axialheat-w326d.json が読めない');
+        else {
+          let dmax = 0;
+          for (const [k, v] of Object.entries(J.k1.now.omega)) { const w = K.omega[k]; if (!w) { bad.push('② K1 の対が無い ' + k); continue; } dmax = Math.max(dmax, relD326(w.along, v.along)); }
+          const dA = relD326(S.sunExact.A, J.solve.now.sunExact.A);
+          if (!(dmax <= 1e-12 && dA <= 1e-12)) bad.push(`② 正本と今の html の K1 の軸の ω(相対 ${dmax.toExponential(2)})・A(${dA.toExponential(2)})—— 器を走らせ直す`);
+          cases.push(`② K1 の源ごとの軸の ω ${Object.keys(K.omega).length} 対と太陽の式の A が正本と相対 1e-12 の内`);
+        }
+        // ③
+        const b16 = H.HP.allPresets().find((p) => p.id === 'solarSystem16Inertial3d'), rdq = b16 && b16.physics && b16.physics.relativeDrag;
+        if (!(rdq && !rdq.spinDrag && !(rdq.invSq && rdq.invSq.sourceMoment))) bad.push('③ 在位の 🗺️ に spinDrag か sourceMoment の宣言(器の写しにだけ足す約束)');
+        cases.push('③ 在位の 🗺️ は並進だけ(spinDrag・sourceMoment は器の写しにだけ)');
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.axialRadius326d', bad.length === 0,
+      `**引きずる側の半径 R_src と引きずられる側の半径 R_d の独立の宣言**(第326便d・原仮定者の指示(第128報)「引きずり計算の補足」・R293 —— 在位の本と受理器は変えない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.axialHeat326d ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第326便d — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7))) bad.push('PHYSICS〔第326便d〕が無いか「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/axialheat-w326d.json が読めない');
+    else {
+      // ①
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L0.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.scopeComplete === true
+        && /^[0-9a-f]{64}$/.test(J.meta.scopeSha256 || '') && J.meta.stage === 'axialheat')) bad.push('① 版・来歴・領域 hash(完全)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L0.DECL)) bad.push('① 正本の宣言が lib の DECL と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
+      // ②
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第326便d〕に表 ' + k + ' が逐語で無い');
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第326便d〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    // ③
+    const want = ['原仮定者の指示(第128報)', 'R293', 'tests/exp-w326d-axialheat.mjs', 'tests/out/axialheat-w326d.json', '今の K1 に固定', '内部熱を観測の熱流に合わせていない', '銀河場を同定したとは数えない',
+      '負の散逸', '逆向きの口も打ち消さない', 'R_src', 'R_d', '欠けている組', '決断事項の候補', 'lint.axialHeat326d', 'behavior.axialRadius326d', 'docs.axialHeat326d', '統括の参考の試作'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第326便d〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 185. 第326便d'), ai = a0 >= 0 ? AS.slice(a0, a0 + 6000) : '';
+    if (!(ai.indexOf('tests/out/axialheat-w326d.json') >= 0 && ai.indexOf('同定していない') >= 0 && ai.indexOf('天体ごとに別々に宣言できる') >= 0)) bad.push('③ AI_SPEC §185(正本・同定していない・半径)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLx.slice(cb, cb + 80000) : '', cl326d = clg.split('\n').find((l) => l.indexOf('**第326便d**') >= 0) || '';
+    if (!(cl326d.indexOf('tests/exp-w326d-axialheat.mjs') >= 0 && cl326d.indexOf('axialheat-326d') >= 0)) bad.push('③ CHANGELOG の第326便d の行');
+    if (!(/S\('axialheat-326d', 'node tests\/exp-w326d-axialheat\.mjs', \['tests\/out\/axialheat-w326d\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ") >= 0
+      && RT.indexOf('// ==== 第326便d の塊(ここから)====') >= 0)) bad.push('③ 段の行 axialheat-326d(quickVerify:false と理由・塊)');
+    if (GI.indexOf('!tests/out/axialheat-w326d.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第326便d の塊(ここから)====') >= 0 && /lint\.axialHeat326d/.test(PM) && /behavior\.axialRadius326d/.test(PM) && /docs\.axialHeat326d/.test(PM))) bad.push('③ post-merge の ③′ に第326便d の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §185・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    // ④
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /内部熱を説明した/, /金星の逆転を説明した/, /銀河の回転曲線を予言した/, /一致した/];
+    const cpD = (a) => String.fromCodePoint(...a), rvD = (t) => t.split('').reverse().join('');
+    const NGD = [cpD([0x518d, 0x73fe, 0x3057, 0x305f]), cpD([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpD([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpD([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpD([0x79c1, 0x4fe1]), cpD([0x6dfb, 0x4ed8]), cpD([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvD));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第326便d〕', sec], ['AI_SPEC §185', ai], ['CHANGELOG の第326便d の行', cl326d], ['器', rd('tests/exp-w326d-axialheat.mjs')], ['lib', rd('tests/lib-w326d-axialheat.mjs')], ['文書の lib', rd('tests/lib-w326d-axialheatdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGD) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+      if (nm.indexOf('PHYSICS') >= 0 || nm.indexOf('AI_SPEC') >= 0 || nm.indexOf('CHANGELOG') >= 0) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.axialHeat326d', bad.length === 0,
+      `**軸引きずりの帳簿と半径の文書**(第326便d・原仮定者の指示(第128報)・R293 —— 内部熱を観測の熱流に合わせていない・銀河場を同定したとは数えない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第326便d の塊(ここまで)====
 // ==== 第326便e の塊(ここから —— lint.alwaysShadow326e・lint.familiesTemp326e・lint.scopeObsSpin326e・lint.narrow326e・docs.w326e の 5 ブロック。root は SKIP)====
 // ---- 第326便e(原仮定者の回答(2026-11-03 —— AN527)「推奨で進める」・原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・
 // ----   原仮定者の指示(2026-11-03)「次便以降で、再生成の段の対象が宣言なしの場合、html全体にしない」・統括の検証項目 R294 —— **道具だけ・html は変えない**):
