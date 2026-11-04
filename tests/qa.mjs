@@ -51088,6 +51088,7 @@ if (!FAST) {
         const gen315 = !!HP.PHYS_LOCK_AUTO_VERSION;
         const lockOf = (p) => {
           if (!gen315) return false;
+          if (HP.XK_LOCK_VERSION) return p.familyRole !== 'retired';   // 第326便a(AN530): 常にロック —— 内蔵の退役の本(履歴)だけロックの外
           const ph = p.physics || {};
           const G = (typeof ph.G === 'number') ? ph.G : DEF.G, c = (typeof ph.cLight === 'number') ? ph.cLight : DEF.cLight;
           const x = (typeof ph.kappaT === 'number') ? ph.kappaT : (typeof ph.Kt === 'number' ? 1 / ph.Kt : DEF.kappaT);
