@@ -40105,8 +40105,8 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
         for (const p of HP.allPresets()) if (/"nuMax"/.test(JSON.stringify(p))) { n++; ids.push(p.id); }
         O.builtin = { n, ids, total: HP.allPresets().length }; }
       // 第326便a(AN530・R290): 物理対応ロックを常にの世代(HP.XK_LOCK_VERSION)で 🐮 の X_k は 1/60 → 1/225(減光が弱まり、上限なしのピーク ν̄ は 3.07)——
-      //   上限が効く試験の ν_max を 5 → 2 にする(ピークより下 —— 試験の型は同じ)
-      O.cap = (window.HP && HP.XK_LOCK_VERSION) ? 2 : 5;
+      //   上限が効く試験の ν_max を 5 → 2.5 にする(初期の ν̄ = 2 より上・上限なしのピークより下 —— 上限を超えたまま滞在する粒子 1 体も旧世代と同じ型)
+      O.cap = (window.HP && HP.XK_LOCK_VERSION) ? 2.5 : 5;
       O.plain = run({}, 900);
       O.cap5 = run({ lightTrap: { nuMax: O.cap } }, 900);
       O.cap100 = run({ lightTrap: { nuMax: 100 } }, 900);
@@ -44465,7 +44465,11 @@ if (!FAST) {
       const ssGen286 = !!(SSJ.tally && SSJ.tally.retired && SSJ.tally.retired.n === IDS.length);
       // 第287便b: 同じ流儀で 🪤 の世代を判る(正本の tally.retired が 16 なら第287便の世代・15 なら第286便の世代〔鎖の samplestatus の段で 16 本へ〕)
       const nRetSS = SSJ.tally && SSJ.tally.retired ? SSJ.tally.retired.n : null;
-      const nSS = ssGen286 ? IDS.length
+      // 第326便a(AN530・R290 —— 第325便の教訓 (i)): 対象が第326便a の退役の前の世代の html(root —— 在位の 🕳️🪜🥚)で、正本(beta 線の鎖が作る)が
+      //   第326便a の退役の後の世代(+3 本・第325便c の前の root ならさらに +5)—— root の昇格の前は正本だけが先に進む(root の html は変えない便)
+      const nSS = (!has326a && SSJ.tally && SSJ.tally.retired && Array.isArray(SSJ.tally.retired.ids) && nRetSS === IDS.length + (has325c ? 0 : 5) + 3
+          && ['rotorSolo', 'massLadder', 'selfRotor'].every((id) => SSJ.tally.retired.ids.includes(id))) ? nRetSS
+        : ssGen286 ? IDS.length
         // 第325便c: 正本が第325便c の退役の前の世代(56 本)—— 鎖の samplestatus の段で 61 本の世代へ
         : (has325c && nRetSS === IDS.length - IDS325C.length) ? nRetSS
         // 第325便(統括 —— ゲート 2 の root で拾った): 対象が第325便c の退役の前の世代の html(root —— 在位の連鎖の玩具 5 本)で、正本(beta 線の鎖が作る)が
