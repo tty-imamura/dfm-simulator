@@ -17051,7 +17051,10 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
     const res = {};
     const findRow = (pre) => [...document.querySelectorAll('#paramRows .prow')]
       .find(x => x.querySelector('label') && x.querySelector('label').textContent.startsWith(pre));
-    const badge = () => document.getElementById('physLockBadge').textContent;
+    // 第326便c(原仮定者の指示(第128報)「「時空」から「物理対応ロック」を外す」)の世代切替: バッジ #physLockBadge は外した —— 計算済みの X_k の行(#std_Xk)の
+    //   状態 data-state(derived = X_k = G_0/c_0² を満たす・book = 本の値が違う)で読む(下の 2 つの判定の語に読み替える)
+    const badge = () => { const b = document.getElementById('physLockBadge'); if (b) return b.textContent;
+      const x = document.getElementById('std_Xk'); return x ? ({ derived: '自動維持', book: '一般化トイ設定' })[x.dataset.state] || '' : ''; };
     HP.setPhysLock(false);
     // 第96便: 🛰grcal は c₀=30/G=0.25 世代でも条件値 c²/G=3600 は不変(相似変換は c²/G を保存)。
     // 期待値は宣言から動的に導出し、追随テストは c を「現在値の半分」へ動かして条件値の追随を見る
@@ -46222,7 +46225,7 @@ if (!FAST) {
               .concat(has289f ? ['stObj_met', 'stObj_partial', 'stObj_unmet', 'stObj_n/a', 'stCal_pass', 'stCal_pass-limited', 'stCal_fail', 'stCal_hold', 'stCal_hold-definition', 'stCal_out-of-scope'] : [])
               .concat(has294e ? ['refModel', 'dmHalo', 'inertial', 'cloakedDwarf', 'pn1Geo', 'testParticle', 'spaceMesh', 'obsCal', 'manyBody']
                 .filter((k) => !(k === 'spaceMesh' && typeof tiltWheelPx === 'function')).map((k) => 'topic:' + k) : [])
-              .concat((typeof spinVisAdvance === 'function') ? EMERGENCE_LEVELS.map((v) => 'emergence:' + v) : []).join(',')   // 第301便e(AN293 ④): 題材 spaceMesh を撤去(世代切替 = tiltWheelPx)・第307便d: 5 段目「E水準」(世代切替 = spinVisAdvance)
+              .concat((typeof spinVisAdvance === 'function') ? EMERGENCE_LEVELS.map((v) => 'emergence:' + v) : []).concat((typeof procsOf === 'function') ? PROC_TAGS.map((t) => 'proc:' + t.key) : []).join(',')   // 第301便e(AN293 ④): 題材 spaceMesh を撤去(世代切替 = tiltWheelPx)・第307便d: 5 段目「E水準」(世代切替 = spinVisAdvance)
           : PP_OTHER_AXES.map((a) => a.key).join(',') === KEYS.join(',');
         o.nAll = KEYS.map((k) => builtins.filter((p) => ax[p.id] && ax[p.id][k]).length);
         const visible = builtins.filter((p) => !catalogHidden(p) && !retiredHidden(p));
@@ -46233,7 +46236,7 @@ if (!FAST) {
         const chips = () => [...document.querySelectorAll('#ppOtherRow .ppChip')].filter((c) => !c.dataset.secAll);   // 第294便e: 段の「全て」は別に見る(ui.pickerReorg294)
         const chip = (k) => chips().find((c) => c.dataset.v === k);
         o.labels = chips().map((c) => c.textContent);
-        o.labelsOk = chips().length === (has294e ? ((typeof tiltWheelPx === 'function') ? 34 : 35) + ((typeof spinVisAdvance === 'function') ? EMERGENCE_LEVELS.length : 0) : (has289f ? 26 : (has287e ? 16 : 5)))   // 第307便d: 「E水準」の段の軸を足す / 第301便e(AN293 ④): 題材 spaceMesh の撤去で 1 減 && chips()[0].dataset.v === 'all' && chips()[0].textContent === HP.T('grpAll')
+        o.labelsOk = chips().length === (has294e ? ((typeof tiltWheelPx === 'function') ? 34 : 35) + ((typeof spinVisAdvance === 'function') ? EMERGENCE_LEVELS.length : 0) + ((typeof procsOf === 'function') ? PROC_TAGS.length : 0) : (has289f ? 26 : (has287e ? 16 : 5)))   // 第307便d: 「E水準」の段の軸を足す / 第301便e(AN293 ④): 題材 spaceMesh の撤去で 1 減 && chips()[0].dataset.v === 'all' && chips()[0].textContent === HP.T('grpAll')
           && KEYS.every((k, i) => chips()[i + 1].dataset.v === k && chips()[i + 1].textContent === HP.T('ppOther_' + k) + '(' + o.exp[i] + ')');
         o.dataN = KEYS.map((k) => +chip(k).dataset.n);
         o.countsOk = o.dataN.every((n, i) => n === o.exp[i]);
@@ -46373,7 +46376,7 @@ if (!FAST) {
       const measure = () => pg.evaluate(([nOther, withTopic, nCls, w307d]) => {
         const DIM = [['scale', 'ppDimScale', HP.SCALE_TIERS.length], ['cls', 'ppDimClass', nCls]].concat(w307d ? [] : [['e', 'ppDimE', HP.EMERGENCE_LEVELS.length]], [
           ['geo', 'ppDimGeo', (typeof GEO4_MIGRATED !== 'undefined') ? 5 : 4/* 第295便b(R154): 桶 4(空間メッシュ)のチップ */]]).concat(withTopic ? [['topic', 'ppDimTopic', 9]] : [],
-          [['other', 'ppDimOther', nOther + (w307d ? HP.EMERGENCE_LEVELS.length : 0)/* 第307便d: 5 段目「E水準」の軸 */]]);
+          [['other', 'ppDimOther', nOther + (w307d ? HP.EMERGENCE_LEVELS.length : 0)/* 第307便d: 5 段目「E水準」の軸 */ + ((typeof procsOf === 'function') ? HP.PROC_TAGS.length : 0)/* 第326便c: 6 段目「固有の処理」の軸 */]]);
         const host = document.getElementById('ppFolds');
         const hr = host.getBoundingClientRect();
         const box = document.querySelector('#ppModal .ppBox').getBoundingClientRect();
@@ -46487,7 +46490,8 @@ if (!FAST) {
     const has294e = /^const PP_OTHER_SECS=\[[^\n]*\["topic",/m.test(html);
     const has301eT = html.indexOf('function tiltWheelPx(') >= 0;   // 第301便e(AN293 ④): 題材 spaceMesh の撤去
     const has307dT = html.indexOf('function spinVisAdvance(') >= 0;   // 第307便d: 「その他」の 5 段目「E水準」(軸 4・段の「全て」1・見出し 1)
-    const SECS = has294e ? ['decl', 'badge', 'status', 'topic'].concat(has307dT ? ['emergence'] : []) : (has289f ? ['decl', 'badge', 'status'] : ['decl', 'badge']);   // 第307便d: 5 段目「E水準」
+    const has326cT = html.indexOf('const PROC_TAG_VERSION=') >= 0;   // 第326便c(原仮定者の指示(2026-11-04)): 6 段目「固有の処理」(世代切替 = procsOf)(軸 18・段の「全て」1・見出し 1)
+    const SECS = has294e ? ['decl', 'badge', 'status', 'topic'].concat(has307dT ? ['emergence'] : []).concat(has326cT ? ['proc'] : []) : (has289f ? ['decl', 'badge', 'status'] : ['decl', 'badge']);   // 第307便d: 5 段目「E水準」・第326便c: 6 段目「固有の処理」
     const BADGE = [['bdgCore', 'core'], ['bdgExtension', 'extension'], ['bdgBackground', 'background'], ['bdgSemantic', 'semantic'],
       ['bdgComparison', 'comparison'], ['bdgDrive', 'drive'], ['bdgClosed', 'closed'], ['bdgTint', 'tint'],
       ['bdgStrongField', 'strongfield'], ['bdgDrag', 'drag']];
@@ -46556,10 +46560,10 @@ if (!FAST) {
           && /合格ではない/.test(calTip) && !/合格(した|済)/.test(calTip) && HP.T('ppOther_calTarget') === '較正対象';
         o.secs = [...document.querySelectorAll('#ppOtherRow .ppOtherSec')].map((x) => x.textContent);
         const w307dB = typeof spinVisAdvance === 'function';   // 第307便d: 5 段目「E水準」(世代切替)
-        o.secOk = o.secs.join('|') === HP.T('ppOtherSecDecl') + '|' + HP.T('ppOtherSecBadge') + (has289f ? '|' + HP.T('ppOtherSecStatus') : '') + (has294e ? '|' + HP.T('ppOtherSecTopic') : '') + (w307dB ? '|' + HP.T('ppOtherSecE') : '')
+        o.secOk = o.secs.join('|') === HP.T('ppOtherSecDecl') + '|' + HP.T('ppOtherSecBadge') + (has289f ? '|' + HP.T('ppOtherSecStatus') : '') + (has294e ? '|' + HP.T('ppOtherSecTopic') : '') + (w307dB ? '|' + HP.T('ppOtherSecE') : '') + ((typeof procsOf === 'function') ? '|' + HP.T('ppOtherSecProc') : '')
           && [...document.querySelectorAll('#ppOtherRow .ppOtherGrp')].every((g) => g.getAttribute('role') === 'group'
             && document.getElementById(g.getAttribute('aria-labelledby')) === g.querySelector(':scope > .ppOtherSec'))
-          && document.querySelectorAll('#ppOtherRow .ppOtherGrp').length === (has294e ? 4 + (w307dB ? 1 : 0) : (has289f ? 3 : 2));
+          && document.querySelectorAll('#ppOtherRow .ppOtherGrp').length === (has294e ? 4 + (w307dB ? 1 : 0) + ((typeof procsOf === 'function') ? 1 : 0) : (has289f ? 3 : 2));   // 第326便c(原仮定者の指示(2026-11-04)): 6 段目「固有の処理」(世代切替 = procsOf)
         document.getElementById('ppDimOtherBtn').click(); await wait(20);
         const note = document.getElementById('ppOtherNote').textContent;
         o.noteOk = BADGE.every(([k], i) => note.includes(HP.T(k) + '(' + o.nVis[i] + ')')) && note.includes(HP.T('ppOther_calTarget') + '(' + o.cal.vis + ')')
@@ -46570,7 +46574,7 @@ if (!FAST) {
         o.en = en.map((c) => c.textContent.replace(/\(\d+\)$/, ''));
         o.enOk = en.length === BADGE.length && en.every((c, i) => c.textContent === HP.T(BADGE[i][0]) + '(' + o.nVis[i] + ')')
           && HP.T('bdgCore') === 'Core axioms' && /not a pass/.test(HP.T('ppOther_calTargetTip'))
-          && [...document.querySelectorAll('#ppOtherRow .ppOtherSec')].map((x) => x.textContent).join('|') === 'Declarations|Class badges (Description tab)' + (has289f ? '|Status (Description tab)' : '') + (has294e ? '|Topic' : '') + ((typeof spinVisAdvance === 'function') ? '|E-level' : '');   // 第307便d: 5 段目
+          && [...document.querySelectorAll('#ppOtherRow .ppOtherSec')].map((x) => x.textContent).join('|') === 'Declarations|Class badges (Description tab)' + (has289f ? '|Status (Description tab)' : '') + (has294e ? '|Topic' : '') + ((typeof spinVisAdvance === 'function') ? '|E-level' : '') + ((typeof procsOf === 'function') ? '|Specific processing' : '');   // 第307便d: 5 段目
         hidePresetPicker(); HP.setLang('ja');
         return o;
       }, [BADGE, has289f, has294e]);
@@ -46697,7 +46701,7 @@ if (!FAST) {
         return { inBox, secFull, secAbove, h: Math.round(document.getElementById('ppFold_other').getBoundingClientRect().height),
           boxW: Math.round(box.width), docX: document.documentElement.scrollWidth - innerWidth, n: els.length }; });
       o.lay = lay;
-      o.layOk = lay.inBox && lay.secFull && lay.secAbove && lay.docX <= 0 && lay.n === (has294e ? (has301eT ? 42 : 43) + (has307dT ? 6 : 0) : (has289f ? 29 : 18));   // 第301便e(AN293 ④): 題材 spaceMesh の撤去で 1 減   // 第289便f: 1+25 チップ+3 見出し・第294便e: 1+34 チップ+段の「全て」4+4 見出し
+      o.layOk = lay.inBox && lay.secFull && lay.secAbove && lay.docX <= 0 && lay.n === (has294e ? (has301eT ? 42 : 43) + (has307dT ? 6 : 0) + (has326cT ? 20 : 0) : (has289f ? 29 : 18));   // 第326便c: 6 段目「固有の処理」(軸 18+段の「全て」1+見出し 1)   // 第301便e(AN293 ④): 題材 spaceMesh の撤去で 1 減   // 第289便f: 1+25 チップ+3 見出し・第294便e: 1+34 チップ+段の「全て」4+4 見出し
       await pg.evaluate(() => { hidePresetPicker(); ppOther = []; try { localStorage.removeItem('hp_pick_fold'); } catch (_) {} ppFold = {}; });
       const s1 = await snap(pg);
       o.same = s1.sig === s0.sig && s1.par === s0.par && s1.sel === s0.sel;
@@ -46756,7 +46760,7 @@ if (!FAST) {
     const has294eF = /^const PP_OTHER_SECS=\[[^\n]*\["topic",/m.test(html);
     // 第307便d(原仮定者の裁定(第100報)UI ④・R212 —— 世代切替 = html の `function spinVisAdvance(`): 5 段目「E水準」(emergence)が末尾に付く
     const has307dF = html.indexOf('function spinVisAdvance(') >= 0;
-    const SECS = has294eF ? ['decl', 'badge', 'status', 'topic'].concat(has307dF ? ['emergence'] : []) : (/const PP_OTHER_STATUS_AXES=/.test(html) ? ['decl', 'badge', 'status'] : ['decl', 'badge']);
+    const SECS = has294eF ? ['decl', 'badge', 'status', 'topic'].concat(has307dF ? ['emergence'] : []).concat(html.indexOf('const PROC_TAG_VERSION=') >= 0 ? ['proc'] : []) : (/const PP_OTHER_STATUS_AXES=/.test(html) ? ['decl', 'badge', 'status'] : ['decl', 'badge']);   // 第326便c(原仮定者の指示(2026-11-04)): 6 段目「固有の処理」(世代切替 = procsOf)
     // 第290便f(第80報で閉じた AN114「既定は畳む(選択中は見える)」—— 世代切替 has290f = html の `const PP_OTHER_SEC_FOLDED=`):
     //   「状況(説明タブ)」の段は**画面幅によらず**既定で畳む(広い画面の既定は decl/badge 開・status 畳)。判定の強さは不変 —— 期待の段ごとの既定だけを切り替える
     const FOLDED290 = /const PP_OTHER_SEC_FOLDED=/.test(html) ? ['status'] : [];
@@ -46964,7 +46968,7 @@ if (!FAST) {
         const sel = vis.filter((p) => ppOtherTest('bdgCore', p) && !ppOtherTest('bdgDrag', p) && ppOtherTest('obsCard', p)).length;
         return { narrow: innerWidth <= PP_OTHER_NARROW_PX, zero, sel,
           sum: [HP.T('ppOther_obsCard'), HP.T('bdgCore'), '¬' + HP.T('bdgDrag')].join(' ∧ '),
-          secs: SECS.map((s) => HP.T({ decl: 'ppOtherSecDecl', badge: 'ppOtherSecBadge', status: 'ppOtherSecStatus', topic: 'ppOtherSecTopic', emergence: 'ppOtherSecE' }[s])) };
+          secs: SECS.map((s) => HP.T({ decl: 'ppOtherSecDecl', badge: 'ppOtherSecBadge', status: 'ppOtherSecStatus', topic: 'ppOtherSecTopic', emergence: 'ppOtherSecE', proc: 'ppOtherSecProc' }[s])) };
       }, SECS);
       await pg.evaluate(() => { ppFold = { other: true }; showPresetPicker(); }); await pg.waitForTimeout(60);
       const d0 = await st();
@@ -47086,7 +47090,7 @@ if (!FAST) {
         // ① 値域
         o.domOk = JSON.stringify(SAMPLE_OBJECTIVES) === JSON.stringify(OBJ) && JSON.stringify(SAMPLE_CALIBRATIONS) === JSON.stringify(CAL)
           && PP_OTHER_AXES.filter((a) => a.sec === 'status').map((a) => a.key).join(',') === KEYS.join(',')
-          && /^decl,badge,status(,topic(,emergence)?)?$/.test(PP_OTHER_SECS.map((x) => x[0]).join(','));   // 第294便e: 4 段目「題材」が後ろに付く世代も・第307便d: 5 段目「E水準」も
+          && /^decl,badge,status(,topic(,emergence(,proc)?)?)?$/.test(PP_OTHER_SECS.map((x) => x[0]).join(','));   // 第326便c(原仮定者の指示(2026-11-04)): 6 段目「固有の処理」(世代切替 = procsOf)   // 第294便e: 4 段目「題材」が後ろに付く世代も・第307便d: 5 段目「E水準」も
         const builtins = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
         const vis = builtins.filter((p) => !catalogHidden(p) && !retiredHidden(p));
         // ② 独立の読み: 生成領域の表 SAMPLE_STATUS を直に(sampleStatusOf を通さない)
@@ -53068,9 +53072,12 @@ if (!FAST) {
   if (gen110) {
     const r = await page.evaluate(() => {
       const res = {};
+      // 第326便c(原仮定者の指示(第128報))の世代切替: 「時空」の群の X_k はスライダーの行ではなく計算済みの読むだけの行(#std_Xk —— 入力の欄が無い)。
+      //   スライダーの行(主役の群 —— 🛰 grcal など)だけを探し、無い本(🌌 galaxy)は「スライダーが無く計算済みの行がある」ことで読む
+      const g326c = !!(window.HP && HP.ST_DERIVED_VERSION);
       const ktRow = () => [...document.querySelectorAll('#paramRows .prow')]
-        .find(x => x.querySelector('label') && x.querySelector('label').textContent.startsWith('時空係数'));
-      const state = () => { const w = ktRow(); return {
+        .find(x => x.querySelector('label') && x.querySelector('label').textContent.startsWith('時空係数') && (!g326c || !!x.querySelector('input[type=range]')));
+      const state = () => { const w = ktRow(); if (g326c && !w) return { dis: false, cls: false, none: true, std: !!document.getElementById('std_Xk') }; return {
         dis: w.querySelector('input[type=range]').disabled && w.querySelector('input.valIn').disabled,
         cls: w.classList.contains('lockedRow') }; };
       // 第128便: 時空係数の内部保持キーは世代で違う(root=Kt正準 / beta=κ正準)
@@ -53092,7 +53099,7 @@ if (!FAST) {
       HP.loadPreset('galaxy', false);
       res.autoUnlock = HP.physLock() === false;
       res.ktIntact = typeof ktRef === 'number' && stc() === ktRef;
-      const s3 = state(); res.freeAfterLoad = !s3.dis && !s3.cls;
+      const s3 = state(); res.freeAfterLoad = (g326c && s3.none) ? s3.std : (!s3.dis && !s3.cls);   // 第326便c: スライダーの無い本は計算済みの行があること
       // ③ セーブ保存/復元(localStorage は退避して復元する)
       const savesBak = localStorage.getItem('hp_saves');
       try {
@@ -55854,6 +55861,29 @@ if (hasSwAutoCb) {
     `ONタップ後(1步): auto=${r.on.auto} 読取専用=${r.on.ro} 値=${r.on.val}` +
     `(実効値lS_eff=${r.on.lSwEff.toFixed(6)}と一致・第38便で#beSwEff廃止→#beSw自体が表示) / ` +
     `OFFタップで復帰: auto=${r.off.auto} 読取専用=${r.off.ro} 値=${r.off.val}(実効値${r.off.numVal.toFixed(6)}を引き継いだ数値)`);
+} else if (await page.evaluate(() => !!(window.HP && HP.ST_DERIVED_VERSION) && !!document.querySelector('#beX'))) {
+  // 第326便c(原仮定者の指示(第128報)「「選択粒子の編集」から、「減光」と「自動」を外す」)の世代切替: 欄(#beSw・#beSwAuto)は外した ——
+  //   欄が無いこと・本の宣言 lightSweep(数値 0.3 / "auto")の経路は今のまま動く(数値は保持・auto は 1 步で実効値 lS_eff を [0,1] に算出)ことを見る
+  const r = await page.evaluate(() => {
+    const s = HP.sim;
+    const mk = (ls) => ({ id: 'qa326c_sw', name: 'sw', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+      physics: { G: 1, D0: 2, kFrame: 1, q: 2, kRep: 1, muF: 0.5, gammaN: 0.4, kappaS: 0.05, Kt: 60, cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+        geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1 },
+      bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 1, pinned: true, radius: 20, lightSweep: ls }], overlays: {} });
+    s.build(mk(0.3)); s.step(0.016);
+    const num = { auto: s.lSwAuto[0], v: s.lSw[0] };
+    s.build(mk('auto')); s.step(0.016);
+    const au = { auto: s.lSwAuto[0], v: s.lSw[0], eff: s.lSwEff(0) };
+    HP.selectBody(0, 'A');
+    const fields = { sw: !!document.querySelector('#beSw'), cb: !!document.querySelector('#beSwAuto'), lab: !!document.querySelector('#beLsw') };
+    HP.selectBody(-1, 'A');
+    return { num, au, fields };
+  });
+  const ok = !r.fields.sw && !r.fields.cb && !r.fields.lab && r.num.auto === 0 && Math.abs(r.num.v - 0.3) < 1e-6
+    && r.au.auto === 1 && r.au.v >= 0 && r.au.v <= 1 && Math.abs(r.au.v - r.au.eff) < 1e-6;
+  add('ui.sweep-auto-checkbox', ok,
+    `第326便c の世代(減光・自動の欄を外した): 欄 #beSw=${r.fields.sw}・#beSwAuto=${r.fields.cb}・ラベル=${r.fields.lab} / ` +
+    `本の宣言 lightSweep 0.3: auto=${r.num.auto}・値=${r.num.v} / "auto": auto=${r.au.auto}・1 步の値=${r.au.v}(実効値 ${r.au.eff})`);
 } else {
   console.log('SKIP ui.sweep-auto-checkbox(対象に #beSwAuto なし — 第37便 A2 未適用の root 等)');
 }
@@ -59707,7 +59737,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       const ktRow = rows[li('時空係数')];
       out.kappaLabel = ktRow.querySelector('label').textContent.includes(((window.HP && HP.symDispText) ? HP.symDispText : ((t) => t))((window.HP && HP.PHYS_LOCK_AUTO_VERSION) ? 'X_k' : 'κ'));   // 第315便a(AN414): 世代切替 —— 時空係数 X_k / 第316便a(AN426): 表示は Xₖ
       const kIn = ktRow.querySelector('input.valIn');
-      out.kappaShown = Math.abs(parseFloat(kIn.value) - kapNow()) / kapNow() < 0.01;
+      // 第326便c(原仮定者の指示(第128報))の世代切替: カテゴリ側の X_k は計算済みの読むだけの行(#std_Xk —— 入力の欄なし)。値は data-v(倍精度)と表示の数で読む
+      out.kappaShown = kIn ? Math.abs(parseFloat(kIn.value) - kapNow()) / kapNow() < 0.01
+        : (ktRow.id === 'std_Xk' && Number(ktRow.dataset.v) === kapNow() && Math.abs(parseFloat(ktRow.querySelector('.stdVal').textContent) - kapNow()) / kapNow() < 0.01);
       // ⑤ バリデータ: physics.kappaT 受理(第125便までは内部 Kt=1/kappaT・第128便からは κ のまま)
       const v = validatePreset({ id: 'kap', name: 'k', emoji: '🧪', description: 'κ受理検査', camera: { scale: 300 },
         world: { boundary: 'none', size: 0 }, physics: { kappaT: 0.01 },
@@ -69210,7 +69242,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         showPresetPicker(); await wait(40);
         const secs = [...document.querySelectorAll('#ppOtherRow > .ppOtherGrp')].map((g) => g.dataset.sec);
         const w307dT = typeof spinVisAdvance === 'function';   // 第307便d: 5 段目「E水準」が題材の後ろに付く(題材は 4 段目のまま)
-        o.foldPos = !document.getElementById('ppFold_topic') && secs[3] === 'topic' && secs.length === 4 + (w307dT ? 1 : 0) && (!w307dT || secs[4] === 'emergence');
+        o.foldPos = !document.getElementById('ppFold_topic') && secs[3] === 'topic' && secs.length === 4 + (w307dT ? 1 : 0) + ((typeof procsOf === 'function') ? 1 : 0) && (!w307dT || secs[4] === 'emergence');   // 第326便c(原仮定者の指示(2026-11-04)): 6 段目「固有の処理」(世代切替 = procsOf)
         const grpEl = () => document.querySelector('#ppOtherRow .ppOtherGrp[data-sec="topic"]');
         const chipsT = () => [...grpEl().querySelectorAll('.ppChip')];
         const chips = chipsT();
@@ -69516,7 +69548,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const tchips = [...document.querySelectorAll('#ppOtherRow .ppOtherGrp[data-sec="topic"] .ppChip')].map((c) => c.dataset.v);
         o.dims = dims; o.secs = secs;
         const w307dR = typeof spinVisAdvance === 'function';   // 第307便d(原仮定者の裁定(第100報)UI ④): 次元「E水準」は「その他」の 5 段目へ
-        if (!(dims === (w307dR ? 'scale/cls/geo/other' : 'scale/cls/e/geo/other') && !document.getElementById('ppFold_topic') && secs === 'decl/badge/status/topic' + (w307dR ? '/emergence' : '')
+        if (!(dims === (w307dR ? 'scale/cls/geo/other' : 'scale/cls/e/geo/other') && !document.getElementById('ppFold_topic') && secs === 'decl/badge/status/topic' + (w307dR ? '/emergence' : '') + ((typeof procsOf === 'function') ? '/proc' : '')
           && tchips.join(',') === ['topic:all'].concat(TOPIC_TAGS.map((t) => 'topic:' + t.key)).join(',') && tchips.length === ((typeof tiltWheelPx === 'function') ? 9 : 10)   // 第301便e(AN293 ④): 題材 spaceMesh の撤去で 8+1
           && document.getElementById('ppOtherSec_topic').textContent === HP.T('ppOtherSecTopic')))
           o.bad.push(`① 次元 ${dims}・段 ${secs}・題材のチップ ${tchips.length}`);
@@ -69536,7 +69568,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         o.secAll = secAll.map((c) => c.dataset.v + ':' + c.getAttribute('aria-pressed')).join(',');
         const firstAfterHead = [...document.querySelectorAll('#ppOtherRow > .ppOtherGrp')].every((g) => { const h = g.querySelector(':scope > .ppOtherSec');
           const n = h && h.nextElementSibling; return !!n && n.dataset.secAll === g.dataset.sec && n.dataset.v === g.dataset.sec + ':all' && n.textContent === HP.T('grpAll'); });
-        if (!(o.secAll === 'decl:all:false,badge:all:true,status:all:true,topic:all:false' + ((typeof spinVisAdvance === 'function') ? ',emergence:all:true' : '') && firstAfterHead)) o.bad.push(`③ 段の全て ${o.secAll}・見出しの直後=${firstAfterHead}`);   // 第307便d: 5 段目の「全て」
+        if (!(o.secAll === 'decl:all:false,badge:all:true,status:all:true,topic:all:false' + ((typeof spinVisAdvance === 'function') ? ',emergence:all:true' : '') + ((typeof procsOf === 'function') ? ',proc:all:true' : '') && firstAfterHead)) o.bad.push(`③ 段の全て ${o.secAll}・見出しの直後=${firstAfterHead}`);   // 第307便d: 5 段目の「全て」
         await click('decl:all');
         o.afterDeclAll = ppOther.join(',');
         if (!(o.afterDeclAll === 'topic:pn1Geo,!topic:obsCal' && chip('decl:all').getAttribute('aria-pressed') === 'true' && chip('topic:all').getAttribute('aria-pressed') === 'false'
@@ -69553,7 +69585,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const offAll = allChips.find((c) => c.dataset.v === 'all' && c.dataset.on !== '1' && !c.dataset.state);
         const offOther = others.find((c) => c.dataset.on !== '1' && !c.dataset.state);
         o.allW = allChips.length ? Math.min(...allChips.map(fw)) : 0; o.otherW = others.length ? Math.max(...others.map(fw)) : 0;
-        if (!(o.nAll === 5 + 4 && firstAll && allChips.every((c) => c.textContent === HP.T('grpAll')) && HP.T('grpAll') === '全て' && I18N.en.grpAll === 'All'
+        if (!(o.nAll === 5 + 4 + ((typeof procsOf === 'function') ? 1 : 0)/* 第326便c(原仮定者の指示(2026-11-04)): 6 段目「固有の処理」の段の「全て」 */ && firstAll && allChips.every((c) => c.textContent === HP.T('grpAll')) && HP.T('grpAll') === '全て' && I18N.en.grpAll === 'All'
           && o.allW >= 700 && o.otherW < 700 && others.length > 0)) o.bad.push(`② 全て ${o.nAll} 個・太さ ${o.allW}/${o.otherW}・先頭=${firstAll}`);
         // 色は従来のまま(同じ状態の他のチップと同じ文字色 —— 例: 未選択のスケールの「全て」は無い〔既定 on〕ので、geoPN「1」を選んで「全て」を off にして比べる)
         ppGeo = '1'; showPresetPicker(true); await wait(20);
@@ -76851,11 +76883,17 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         o.sa = { ia, ib, e1, e2, offOk, onB, r2 };
         if (!(ia >= 0 && e1 < 1e-12 && e2 < 1e-12 && offOk && onB !== false && r2.ok === false && r2.reason === 'coord2d')) o.bad.push('⑦ 自転軸 ' + JSON.stringify(o.sa)); }
       // ⑧ 三次元の拒否(減光の自動算出)
+      // 第326便c(原仮定者の指示(第128報)「「選択粒子の編集」から、「減光」と「自動」を外す」)の世代切替 —— #beSwAuto が無い html では、步が止まる設定を
+      //   選択粒子の編集から立てる入口が無いこと(欄が無い・1 步で止まらない・lightSweep の自動が立たない)を見る
       HP.loadPreset('coord3dKeplerTilt', false); HP.selectBody(0, 'A');
-      { const S = HP.sim, cb = document.getElementById('beSwAuto'); cb.checked = true; cb.dispatchEvent(new Event('change'));
+      { const S = HP.sim, cb = document.getElementById('beSwAuto');
+        if (!cb) { S.step(DT);
+          o.deny = { gen326c: true, field: !!document.getElementById('beSw'), auto: S.lSwAuto[0], has: !!S.hasLSwAuto, halt: S.coord3dHalt };
+          if (!(o.deny.field === false && o.deny.auto === 0 && !o.deny.has && o.deny.halt === null)) o.bad.push('⑧ 三次元の拒否(第326便c —— 欄なし)' + JSON.stringify(o.deny)); }
+        else { cb.checked = true; cb.dispatchEvent(new Event('change'));
         S.step(DT);
         o.deny = { auto: S.lSwAuto[0], has: !!S.hasLSwAuto, halt: S.coord3dHalt, note: document.getElementById('beNote').textContent.slice(0, 30) };
-        if (!(o.deny.auto === 0 && !o.deny.has && o.deny.halt === null && /⛔/.test(o.deny.note))) o.bad.push('⑧ 三次元の拒否 ' + JSON.stringify(o.deny)); }
+        if (!(o.deny.auto === 0 && !o.deny.has && o.deny.halt === null && /⛔/.test(o.deny.note))) o.bad.push('⑧ 三次元の拒否 ' + JSON.stringify(o.deny)); } }
       if (BUILTIN_PRESETS.map((p) => presetSig(p)).join('\u0001') !== sig0) o.bad.push('⑧ 内蔵の本の presetSig が変わった');
       HP.loadPreset('saturnRingReal', false);
       return o;
@@ -87228,6 +87266,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const t = G > 0 ? G / (c * c) : 0; if (t > 1) return false;
         return G === 0 ? x === 0 : Math.abs(x - t) <= 1e-6 * Math.max(x, t); };
       const badge = () => (document.getElementById('physLockBadge') || {}).textContent || '';
+      // 第326便c(原仮定者の指示(第128報)「「時空」から「物理対応ロック」を外す」)の世代切替: バッジは外した —— 計算済みの X_k の行(#std_Xk)の状態と値で読む
+      //   (derived = X_k = G_0/c_0² を満たす —— 読込値の保持も同じ状態・値は data-v で bit を見る / book = 本の値が違う)
+      const g326c = !!HP.ST_DERIVED_VERSION, xkSt = () => { const x = document.getElementById('std_Xk'); return x ? x.dataset.state : null; };
       const savesBak = localStorage.getItem('hp_saves');
       try {
         // ① 内蔵の全本(前のフラグを交互に ON/OFF にして、読込の判定が前の状態に依らないこと)
@@ -87242,9 +87283,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         }
         HP.setPhysLock(false); HP.loadPreset('earthMoonReal', false);
         out.emOn = HP.physLock(); out.emBadge = badge();
-        if (!(out.emOn && out.emBadge.indexOf('自動維持') >= 0)) B('① 🌙 earthMoonReal のバッジ ' + out.emBadge);
+        if (g326c) out.emBadge = 'std_Xk:' + xkSt();
+        if (!(out.emOn && (g326c ? xkSt() === 'derived' : out.emBadge.indexOf('自動維持') >= 0))) B('① 🌙 earthMoonReal のバッジ ' + out.emBadge);
         HP.loadPreset('grcal', false);
-        if (HP.physLock() !== false || badge().indexOf('一般化トイ設定') < 0) B('① 🛰 grcal が OFF(条件外)でない');
+        if (HP.physLock() !== false || (g326c ? xkSt() !== 'book' : badge().indexOf('一般化トイ設定') < 0)) B('① 🛰 grcal が OFF(条件外)でない');
         // ② セーブ
         HP.loadPreset('grcalGps', false);
         const P0 = Object.assign({}, HP.sim.params), d = P0.G / (P0.cLight * P0.cLight);
@@ -87254,7 +87296,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (HP.loadSaveItem(mk(xNear, false)) !== true) B('② 許容の内のセーブが読めない');
         out.nearOn = HP.physLock(); out.nearBit = Object.is(HP.sim.params.kappaT, xNear); out.nearBadge = badge();
         if (!(out.nearOn && out.nearBit)) B('② 許容の内(5e-7)のセーブ: フラグ ' + out.nearOn + '・値 bit ' + out.nearBit);
-        if (out.nearBadge.indexOf('保持') < 0) B('② 保持のバッジでない: ' + out.nearBadge);
+        if (g326c) out.nearBadge = 'std_Xk:' + xkSt() + ':' + (document.getElementById('std_Xk') || { dataset: {} }).dataset.v;
+        if (g326c ? !(xkSt() === 'derived' && document.getElementById('std_Xk').dataset.v === String(xNear)) : out.nearBadge.indexOf('保持') < 0) B('② 保持のバッジでない: ' + out.nearBadge);
         // 再構築(buildParamRows —— 読込・既定に戻す・A/B の対象・言語の切り替えが通る経路)で保持の値が動かない
         buildParamRows();
         if (!Object.is(HP.sim.params.kappaT, xNear) || HP.physLock() !== true) B('⑤ 再構築で保持の値が動いた');
@@ -88077,7 +88120,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }, TABLE);
     const badRows = r.rows.filter((x) => !x.ok);
     if (r.rows.length !== TABLE.length || badRows.length) bad.push('① 表 ' + (TABLE.length - badRows.length) + '/' + TABLE.length + ' ' + badRows.slice(0, 3).map((x) => x.s + '→' + JSON.stringify(x.got)).join(' '));
-    const MARKS = ['symDispSet(lab, paramLabel(def));', 'symDispSet(d, paramDesc(def));', 'd.className="pdesc open"; symDispSet(d, descText);', 'symDispSet(d, T("physLockDesc"));',
+    // 第326便c(原仮定者の指示(第128報)「「時空」から「物理対応ロック」を外す」)の世代切替: ロックの説明の行(symDispSet(d, T("physLockDesc")))は外した ——
+    //   代わりに「時空」の群の計算済みの行の説明(symDispSet(d, T(descKey)))を通す所の印にする(html の ST_DERIVED_VERSION の有無)
+    const MARKS = ['symDispSet(lab, paramLabel(def));', 'symDispSet(d, paramDesc(def));', 'd.className="pdesc open"; symDispSet(d, descText);',
+      (H316s.indexOf('const ST_DERIVED_VERSION=') >= 0 ? 'd.dataset.key=k; symDispSet(d, T(descKey));' : 'symDispSet(d, T("physLockDesc"));'),
       'const mk=(tag,txt)=>{const e=document.createElement(tag); symDispSet(e, txt); el.appendChild(e); return e;};', 'symDispSet($("#beDcNote"), '];
     const nMk = MARKS.filter((m) => H316s.indexOf(m) >= 0).length;
     if (nMk !== MARKS.length) bad.push('② 通す所の印 ' + nMk + '/' + MARKS.length);
@@ -95173,6 +95219,382 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第325便f の塊(ここまで)====
+// ==== 第326便c の塊(ここから —— ui.selEditXY326c・ui.spacetimeDerived326c・ui.pickerProc326c・docs.w326c の 4 ブロック。root は SKIP)====
+// ---- 第326便c(原仮定者の指示(第128報)「「選択粒子の編集」から、「減光」と「自動」を外す。「X」と「Y」を編集対象に加える」「「パラメータ」の「時空」から、「物理対応ロック」を外す。
+// ----   計算済みの「κ_D」「Xₖ」「Yₖ」を表示する」・原仮定者の回答(2026-11-03 —— AN530)「ロックする」・統括の検証項目 R292): **UI だけ**(物理の步・本の宣言・エンジンの式・受理は変えない)。
+// ----   世代切替 = beta 対象 ∧ html の HP.ST_DERIVED_VERSION = "w326c-st-derived-1" ∧ #beX(root 等は 3 件とも SKIP)。期待は html の関数ではなく QA の中で独立に書いた式で作る。
+// ----   ui.selEditXY326c …… 選択粒子の編集: ① 減光(#beSw)・自動(#beSwAuto)の欄とラベルが無い・位置 x・y の欄(#beX・#beY)が vx・vy の行の直前 ② 二次元の本で表示 = fmt(S.x)・
+// ----      編集が選択中の粒子の x・y に入る(他の粒子・速度・質量・スピンは 1 bit も動かない)・値域 ±5000 でクランプ・全角マイナス・数でない入力は書かない・未保存の印 ③ A/B の B の粒子を
+// ----      選んだ編集は B だけ ④ 三次元の本で x・y と z の行がそろい、x の編集が状態に入る ⑤ ⏮ 初めからで本の宣言の位置に戻る ⑥ ラベルのタップで説明 beDxy(ja/en)
+// ----      ⑦ 内蔵の本の presetSig は編集で 1 字も変わらない ⑧ 390×844・1280×800 × ja/en で編集パネルの要素が箱の内側・横スクロールなし
+// ----   ui.spacetimeDerived326c …… 「時空」の群: ① ロックの切替(#physLockCb)・バッジ(#physLockBadge)・X_k のスライダーの行が群に無い・計算済みの 3 行(#std_kappaD・#std_Xk・#std_Yk)が群の筆頭
+// ----      ② 内蔵の全本の受理の後の physics で stDerivedOf が独立の式(κ_D = (2G_0)/(c_0c_0)・X_k = 本の値・Y_k = 10G_0/(C_1c_0c_0)・状態 = 独立に書いた条件)と相対 1e-12 の内
+// ----      ③ 読み込んだ本の 3 行の data-v・表示の数・出所の文(満たす本「= G_0/c_0²」・違う本は本の値の注記)④ G_0・c_0 の行の編集で 3 行が追随(編集の後の params から作り直して照合)
+// ----      ⑤ 換算の表示(scaleDispOn)で m/kg の副表示 = scaleConvStr("kappaT", 値)・OFF で隠れる ⑥ ja/en のラベル・タップで説明・群の説明に「物理対応ロック」の語が無い
+// ----      ⑦ 表示だけ(行の組み立てと引き直しで params の JSON・presetSig が動かない)⑧ A/B の編集対象の切替で B の値を出す ⑨ 390×844・1280×800 × ja/en で横はみ出し 0
+// ----   docs.w326c …… PHYSICS〔第326便c — 〕(「## 7.」の前)・AI_SPEC §184・CHANGELOG の第326便c の行・post-merge の ③′・書かない語・禁句・裸の係数記号
+{
+  const html326c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has326c = TARGET.startsWith('beta/') && html326c.indexOf('const ST_DERIVED_VERSION="w326c-st-derived-1";') >= 0 && html326c.indexOf('id="beX"') >= 0;
+  if (!has326c) {
+    console.log('SKIP ui.selEditXY326c / ui.spacetimeDerived326c / ui.pickerProc326c / docs.w326c(第326便c 未適用 —— ' + TARGET + ')');
+  } else {
+    const open326c = async (vp) => {
+      const ctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, isMobile: !!vp.mobile, hasTouch: !!vp.mobile });
+      const pg = await ctx.newPage();
+      const errs = [];
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      pg.on('dialog', (d) => d.accept());
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+      await pg.evaluate(() => { HP.setLang('ja'); HP.setRunning(false); });
+      return { ctx, pg, errs };
+    };
+    // ---- ui.selEditXY326c
+    {
+      const bad = [], cases = [];
+      const { ctx, pg, errs } = await open326c({ width: 390, height: 844, mobile: true });
+      try {
+        const r = await pg.evaluate(() => {
+          const o = { bad: [] }, B = (m) => o.bad.push(m);
+          const sig0 = BUILTIN_PRESETS.map((p) => presetSig(p)).join('\u0001');
+          const ed = (id, v) => { const e = document.getElementById(id); e.value = v; e.dispatchEvent(new Event('change')); };
+          // ①
+          o.gone = ['beSw', 'beSwAuto', 'beLsw', 'beLswAuto'].filter((id) => !!document.getElementById(id));
+          const xr = document.getElementById('beX') && document.getElementById('beX').closest('.beRow');
+          const nx = xr && xr.nextElementSibling;
+          o.order = !!(xr && document.getElementById('beY') && xr.contains(document.getElementById('beY')) && nx && nx.contains(document.getElementById('beVx')) && xr.parentElement && xr.parentElement.id === 'beBaseRows');
+          if (o.gone.length) B('① 外した欄が残る: ' + o.gone.join(','));
+          if (!o.order) B('① x・y の欄が vx・vy の行の直前に無い');
+          // ② 二次元の本
+          HP.loadPreset('earthMoonInertial', false);
+          { const S = HP.sim, i = 1; HP.selectBody(i, 'A');
+            const shown = document.getElementById('beX').value === fmt(S.x[i]) && document.getElementById('beY').value === fmt(S.y[i]);
+            const snap = (k) => Array.from(S[k].subarray(0, S.n));
+            const keep = ['vx', 'vy', 'm', 'spin'].map(snap), xs0 = snap('x'), ys0 = snap('y');
+            setParamsDirty(false);
+            ed('beX', '123.5'); ed('beY', '-77.25');
+            const set1 = S.x[i] === 123.5 && S.y[i] === -77.25;
+            const others = xs0.every((v, k) => k === i || Object.is(S.x[k], v)) && ys0.every((v, k) => k === i || Object.is(S.y[k], v));
+            const kept = ['vx', 'vy', 'm', 'spin'].every((k, n) => snap(k).every((v, j) => Object.is(v, keep[n][j])));
+            const dirty = getComputedStyle(document.getElementById('dirtyBadge')).display !== 'none';
+            ed('beX', '9000'); const cHi = S.x[i] === 5000; ed('beY', '-9e9'); const cLo = S.y[i] === -5000;
+            ed('beX', '−42'); const fw = S.x[i] === -42; const xb = S.x[i]; ed('beX', 'abc'); const nn = Object.is(S.x[i], xb);
+            o.d2 = { shown, set1, others, kept, dirty, cHi, cLo, fw, nn };
+            if (!Object.values(o.d2).every((v) => v === true)) B('② 二次元の本 ' + JSON.stringify(o.d2));
+            // ⑤ ⏮ 初めから
+            document.getElementById('btnReset').click();
+            const S2 = HP.coord3d.makeSim(); S2.build(JSON.parse(JSON.stringify(HP.currentPreset())));
+            o.reset = Object.is(HP.sim.x[i], S2.x[i]) && Object.is(HP.sim.y[i], S2.y[i]);
+            if (!o.reset) B('⑤ ⏮ 初めからで宣言の位置に戻らない');
+          }
+          // ③ A/B
+          HP.loadPreset('earthMoonInertial', false); HP.abStart();
+          { const A = HP.sim, Bs = HP.ab().simB, xa = A.x[1]; HP.selectBody(1, 'B'); ed('beX', '321.5');
+            o.ab = Bs.x[1] === 321.5 && Object.is(A.x[1], xa); HP.abStop(); if (!o.ab) B('③ A/B の B の編集'); }
+          // ④ 三次元の本
+          HP.loadPreset('mercurySunInertial3d', false);
+          { const S = HP.sim; HP.selectBody(1, 'A');
+            const vis = (id) => getComputedStyle(document.getElementById(id).closest('.beRow')).display !== 'none';
+            const z0 = S.z[1]; ed('beX', '2.5');
+            o.d3 = { rows: vis('beX') && vis('beZ') && vis('beVx'), set: S.x[1] === 2.5, z: Object.is(S.z[1], z0), coord: S.coord3d === true };
+            if (!Object.values(o.d3).every((v) => v === true)) B('④ 三次元の本 ' + JSON.stringify(o.d3)); }
+          // ⑥ 説明
+          { const n = document.getElementById('beNote'); document.getElementById('beLx').click(); const ja = n.textContent === HP.T('beDxy');
+            document.getElementById('beLy').click(); document.getElementById('beLy').click();
+            o.desc = ja && HP.T('beDxy').indexOf('±5000') >= 0; if (!o.desc) B('⑥ 説明 beDxy'); }
+          // ⑦
+          if (BUILTIN_PRESETS.map((p) => presetSig(p)).join('\u0001') !== sig0) B('⑦ 内蔵の本の presetSig が編集で変わった');
+          HP.selectBody(-1, 'A'); HP.loadPreset('saturnRingReal', false);
+          return o;
+        });
+        bad.push(...r.bad.slice(0, 8));
+        cases.push(`① 外した欄 0・x・y が vx・vy の直前 ${r.order} ② 二次元(🌛 earthMoonInertial の粒子 1)の表示・編集 123.5/−77.25・他の粒子と速度・質量・スピンは bit で不変・±5000 のクランプ・全角マイナス・数でない入力は書かない・未保存の印 ③ A/B の B だけ ${r.ab} ④ 三次元(☿ mercurySunInertial3d)x・y・z の行 ${r.d3 && r.d3.rows} ⑤ ⏮ で宣言の位置 ${r.reset} ⑥ 説明 ⑦ presetSig 不変`);
+        // ⑧ はみ出し(2 幅 × ja/en)
+        const ov = [];
+        for (const vp of [{ width: 390, height: 844, mobile: true }, { width: 1280, height: 800 }]) {
+          const o2 = await open326c(vp);
+          const q = await o2.pg.evaluate(() => {
+            const out = { els: 0, bad: [] };
+            for (const lang of ['ja', 'en']) {
+              HP.setLang(lang);
+              for (const id of ['earthMoonInertial', 'mercurySunInertial3d']) {
+                HP.loadPreset(id, false); HP.selectBody(1, 'A');
+                const box = document.getElementById('bodyEdit'), br = box.getBoundingClientRect();
+                for (const e of box.querySelectorAll('*')) { const r2 = e.getBoundingClientRect(); if (!(r2.width > 0) || e.offsetParent === null) continue; out.els++;
+                  if (r2.right > br.right + 0.5 || r2.left < br.left - 0.5) out.bad.push(lang + ' ' + id + ' ' + (e.id || e.tagName) + ' +' + (r2.right - br.right).toFixed(1)); }
+                if (box.scrollWidth > box.clientWidth + 1) out.bad.push(lang + ' ' + id + ' 横スクロール');
+              }
+            }
+            return out;
+          });
+          ov.push(vp.width + ':' + q.els + '要素/' + q.bad.length);
+          if (q.bad.length) bad.push('⑧ ' + vp.width + ' はみ出し ' + q.bad.slice(0, 3).join(' , '));
+          if (o2.errs.length) bad.push('⑧ JS の誤り ' + o2.errs[0].slice(0, 80));
+          await o2.ctx.close();
+        }
+        cases.push('⑧ はみ出し ' + ov.join(' '));
+      } catch (e) { bad.push('落ちた: ' + String(e && e.message || e).slice(0, 160)); }
+      if (errs.length) bad.push('JS の誤り ' + errs[0].slice(0, 100));
+      await ctx.close();
+      add('ui.selEditXY326c', bad.length === 0,
+        `**選択粒子の編集から減光・自動を外し位置 x・y を加えた**(第326便c・原仮定者の指示(第128報)・R292 —— UI だけ): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- ui.spacetimeDerived326c
+    {
+      const bad = [], cases = [];
+      const { ctx, pg, errs } = await open326c({ width: 390, height: 844, mobile: true });
+      try {
+        const r = await pg.evaluate(() => {
+          const o = { bad: [] }, B = (m) => o.bad.push(m);
+          // QA の中で独立に書いた式と条件(アプリの関数は使わない)
+          const C1q = 6 * ((Math.sqrt(3) / 2) * Math.log(2 + Math.sqrt(3)) - 1);
+          const rel = (a, b) => (a === b) || (Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b)));
+          const cond = (p) => { const G = p.G, c = p.cLight, x = p.kappaT;
+            if (![G, c, x].every(Number.isFinite) || G < 0 || !(c > 0) || x < 0) return false;
+            const t = G > 0 ? G / (c * c) : 0; if (t > 1) return false;
+            return G === 0 ? x === 0 : Math.abs(x - t) <= 1e-6 * Math.max(x, t); };
+          const want = (p) => { const G = p.G, c = p.cLight, t = G > 0 ? G / (c * c) : 0, tc = Math.min(1, Math.max(0, t));
+            return { kappaD: (2 * G) / (c * c), Xk: p.kappaT, Yk: (10 * G) / (C1q * c * c), state: cond(p) ? 'derived' : ((t > 1 && p.kappaT === tc) ? 'clamped' : 'book') }; };
+          const stCat = () => [...document.querySelectorAll('#paramRows details.catParams')].find((d) => (d.querySelector('summary').textContent || '').indexOf(HP.T('grpSpacetime')) === 0);
+          const rowsOk = (tag) => { const g = stCat(); if (!g) { B(tag + ' 時空の群が無い'); return null; }
+            const grp = g.querySelector('.group');
+            const first = grp && grp.firstElementChild;
+            const bad0 = [];
+            if (g.querySelector('#physLockCb') || document.getElementById('physLockCb')) bad0.push('切替');
+            if (g.querySelector('#physLockBadge') || document.getElementById('physLockBadge')) bad0.push('バッジ');
+            if (g.querySelector('.prow[data-k="kappaT"]')) bad0.push('X_k のスライダーの行');
+            if (!(first && first.id === 'stDerived')) bad0.push('筆頭が計算済みの行でない');
+            for (const k of ['kappaD', 'Xk', 'Yk']) if (!g.querySelector('#std_' + k + ' output.stdVal')) bad0.push('#std_' + k);
+            if (bad0.length) B(tag + ' ' + bad0.join('・'));
+            return g; };
+          const readRows = () => { const v = {}; for (const k of ['kappaD', 'Xk', 'Yk']) { const e = document.getElementById('std_' + k);
+            v[k] = { v: Number(e.dataset.v), txt: e.querySelector('.stdVal').textContent, from: e.querySelector('.stdFrom').textContent, conv: e.querySelector('.convVal'), st: e.dataset.state }; } return v; };
+          const chk = (tag, p) => { const w = want(p), v = readRows();
+            for (const k of ['kappaD', 'Xk', 'Yk']) { if (!rel(v[k].v, w[k])) B(tag + ' ' + k + ' の値 ' + v[k].v + '(期待 ' + w[k] + ')');
+              if (v[k].txt !== HP.stDerivedFmt(w[k])) B(tag + ' ' + k + ' の表示 ' + v[k].txt); }
+            if (v.Xk.st !== w.state) B(tag + ' X_k の状態 ' + v.Xk.st + '(期待 ' + w.state + ')');
+            const fx = HP.symDispText(w.state === 'derived' ? HP.T('stdXkFrom') : (w.state === 'clamped' ? HP.T('stdXkClamped')(HP.stDerivedFmt(p.G / (p.cLight * p.cLight))) : HP.T('stdXkOff')(HP.stDerivedFmt(p.G > 0 ? p.G / (p.cLight * p.cLight) : 0))));
+            if (v.Xk.from !== fx) B(tag + ' X_k の出所の文 ' + v.Xk.from);
+            if (v.kappaD.from !== HP.symDispText(HP.T('stdKdFrom')) || v.Yk.from !== HP.symDispText(HP.T('stdYkFrom'))) B(tag + ' κ_D・Y_k の出所の文');
+            return w.state; };
+          // ② 内蔵の全本(受理の後の physics —— 読み込まない)
+          { let n = 0, d = 0; const st = { derived: 0, book: 0, clamped: 0 };
+            for (const p of HP.allPresets().filter((q) => !String(q.id).startsWith('custom_'))) {
+              const v = HP.validatePreset(JSON.parse(JSON.stringify(p))); if (!v.ok) { B('② 受理されない ' + p.id); continue; }
+              const ph = v.preset.physics, s = HP.stDerivedOf({ params: ph }), w = want(ph); n++;
+              if (!(s.ok && s.version === HP.ST_DERIVED_VERSION && rel(s.kappaD, w.kappaD) && Object.is(s.Xk, w.Xk) && rel(s.Yk, w.Yk) && s.state === w.state)) { d++; if (d <= 3) B('② ' + p.id + ' ' + JSON.stringify(s).slice(0, 120)); }
+              st[s.state] = (st[s.state] || 0) + 1; }
+            o.all = { n, d, st }; }
+          // ① ③ 読み込んだ本
+          o.books = {};
+          for (const id of ['grcal', 'earthMoonReal', 'mercurySunInertial3d', 'galaxy', 'gclock']) {
+            HP.loadPreset(id, false); const g = rowsOk('① ' + id); if (!g) continue; o.books[id] = chk('③ ' + id, HP.sim.params); }
+          // ④ G_0・c_0 の行の編集で追随
+          HP.loadPreset('grcal', false);
+          { const g = stCat(), inG = g.querySelector('.prow[data-k="G"] input.valIn'), inC = g.querySelector('.prow[data-k="cLight"] input.valIn');
+            const G0 = HP.sim.params.G, c0 = HP.sim.params.cLight;
+            inG.value = String(G0 * 2); inG.dispatchEvent(new Event('change')); const s1 = chk('④ G_0 ×2', HP.sim.params);
+            inC.value = String(c0 / 3); inC.dispatchEvent(new Event('change')); const s2 = chk('④ c_0 ÷3', HP.sim.params);
+            inG.value = '1000000'; inG.dispatchEvent(new Event('change')); inC.value = '1'; inC.dispatchEvent(new Event('change')); const s3 = chk('④ G_0 1e6・c_0 1', HP.sim.params);
+            o.follow = { G: HP.sim.params.G === G0 * 2 ? 'x' : HP.sim.params.G, s1, s2, s3 }; }
+          // ⑤ 換算の表示
+          HP.loadPreset('mercurySunInertial3d', false);
+          { const sd0 = scaleDispOn; scaleDispOn = true; stDerivedRowSync(); const v = readRows();
+            const on = ['kappaD', 'Xk', 'Yk'].every((k) => v[k].conv.style.display !== 'none' && v[k].conv.textContent === scaleConvStr('kappaT', v[k].v) && / m\/kg$/.test(v[k].conv.textContent));
+            scaleDispOn = false; stDerivedRowSync(); const v2 = readRows(); const off = ['kappaD', 'Xk', 'Yk'].every((k) => v2[k].conv.style.display === 'none');
+            scaleDispOn = sd0; stDerivedRowSync(); o.conv = { on, off, sun: v.kappaD.conv.textContent };
+            if (!(on && off)) B('⑤ 換算の表示 ' + JSON.stringify(o.conv)); }
+          // ⑥ ja/en のラベル・説明
+          o.lab = {};
+          for (const lang of ['ja', 'en']) { HP.setLang(lang); HP.loadPreset('earthMoonReal', false);
+            const lt = (k) => document.querySelector('#std_' + k + ' label').textContent;
+            const kDef = HP.PARAM_DEFS.find((d) => d.key === 'kappaT');
+            const ok = lt('kappaD') === HP.symDispText(HP.T('stdKdLabel')) && lt('Xk') === HP.symDispText(HP.paramLabel(kDef)) && lt('Yk') === HP.symDispText(HP.T('stdYkLabel'));
+            document.querySelector('#std_Yk label').click(); const pd = document.querySelector('#std_Yk + .pdesc');
+            const desc = !!pd && pd.textContent === HP.symDispText(HP.T('stdYkDesc')); if (pd) document.querySelector('#std_Yk label').click();
+            const gd = HP.T('grpSpacetimeDesc'), noLock = gd.indexOf(lang === 'ja' ? '物理対応ロック' : 'correspondence lock') < 0 && gd.indexOf('κ_D') >= 0 && gd.indexOf('Y_k') >= 0;
+            o.lab[lang] = { ok, desc, noLock }; if (!(ok && desc && noLock)) B('⑥ ' + lang + ' ' + JSON.stringify(o.lab[lang])); }
+          HP.setLang('ja');
+          // ⑦ 表示だけ
+          { HP.loadPreset('grcalGps', false); const sig0 = BUILTIN_PRESETS.map((p) => presetSig(p)).join('\u0001'), pj = JSON.stringify(HP.sim.params);
+            buildParamRows(); stDerivedRowSync(); refreshScaleConv();
+            o.pure = JSON.stringify(HP.sim.params) === pj && BUILTIN_PRESETS.map((p) => presetSig(p)).join('\u0001') === sig0; if (!o.pure) B('⑦ 表示だけでない'); }
+          // ⑧ A/B
+          HP.loadPreset('grcal', false); HP.abStart();
+          { const Bs = HP.ab().simB; Bs.params.G = Bs.params.G * 4; HP.setAbTarget ? HP.setAbTarget('B') : document.getElementById('btnAbTargetB').click();
+            const vb = readRows(), wb = want(Bs.params);
+            const okB = rel(vb.kappaD.v, wb.kappaD) && rel(vb.Yk.v, wb.Yk);
+            HP.setAbTarget ? HP.setAbTarget('A') : document.getElementById('btnAbTargetA').click();
+            const va = readRows(), wa = want(HP.sim.params);
+            o.ab = okB && rel(va.kappaD.v, wa.kappaD) && !rel(va.kappaD.v, vb.kappaD.v); HP.abStop(); if (!o.ab) B('⑧ A/B の編集対象'); }
+          HP.loadPreset('saturnRingReal', false);
+          return o;
+        });
+        bad.push(...r.bad.slice(0, 8));
+        cases.push(`② 内蔵 ${r.all.n} 本の受理の後の値と独立の式の差 ${r.all.d}(状態: 満たす ${r.all.st.derived}・本の値 ${r.all.st.book}・クランプ ${r.all.st.clamped || 0})`);
+        cases.push(`①③ 読み込んだ 5 本(${Object.entries(r.books).map(([k, v]) => k + ':' + v).join('・')})の筆頭の 3 行・切替/バッジ/スライダーなし ④ G_0・c_0 の編集で追随(${[r.follow.s1, r.follow.s2, r.follow.s3].join('/')})⑤ 換算 ${r.conv.on}/${r.conv.off}(☀️ κ_D ${r.conv.sun}) ⑥ ja/en ラベル・説明・群の説明 ⑦ 表示だけ ${r.pure} ⑧ A/B ${r.ab}`);
+        // ⑨ はみ出し
+        const ov = [];
+        for (const vp of [{ width: 390, height: 844, mobile: true }, { width: 1280, height: 800 }]) {
+          const o2 = await open326c(vp);
+          const q = await o2.pg.evaluate(() => {
+            const out = { n: 0, bad: [] };
+            document.querySelector('#tabs button[data-tab=params]').click();
+            for (const lang of ['ja', 'en']) {
+              HP.setLang(lang);
+              for (const id of ['grcal', 'mercurySunInertial3d']) {
+                HP.loadPreset(id, false); scaleDispOn = true; refreshScaleConv();
+                const g = document.getElementById('stDerived'); const d = g && g.closest('details'); if (d) d.open = true;
+                for (const k of ['kappaD', 'Xk', 'Yk']) { const row = document.getElementById('std_' + k); const pb = row.getBoundingClientRect(); out.n++;
+                  for (const e of row.querySelectorAll('*')) { const q2 = e.getBoundingClientRect(); if (!(q2.width > 0)) continue;
+                    if (q2.right > pb.right + 0.5 || q2.left < pb.left - 0.5) out.bad.push(lang + ' ' + id + ' ' + k + ' ' + (e.className || e.tagName) + ' +' + (q2.right - pb.right).toFixed(1)); } }
+                const pn = document.getElementById('panel'); if (pn.scrollWidth > pn.clientWidth + 1) out.bad.push(lang + ' ' + id + ' パネルの横スクロール');
+              }
+            }
+            return out;
+          });
+          ov.push(vp.width + ':' + q.n + '行/' + q.bad.length);
+          if (q.bad.length) bad.push('⑨ ' + vp.width + ' はみ出し ' + q.bad.slice(0, 3).join(' , '));
+          if (o2.errs.length) bad.push('⑨ JS の誤り ' + o2.errs[0].slice(0, 80));
+          await o2.ctx.close();
+        }
+        cases.push('⑨ はみ出し ' + ov.join(' '));
+      } catch (e) { bad.push('落ちた: ' + String(e && e.message || e).slice(0, 160)); }
+      if (errs.length) bad.push('JS の誤り ' + errs[0].slice(0, 100));
+      await ctx.close();
+      add('ui.spacetimeDerived326c', bad.length === 0,
+        `**「時空」の群の物理対応ロックの切替を外し計算済みの κ_D・X_k・Y_k を表示**(第326便c・原仮定者の指示(第128報)・AN530・R292 —— 表示だけ): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- ui.pickerProc326c(原仮定者の指示(2026-11-04)「NFWハローの様な、サンプル固有の処理は、チップで表示して、絞り込み可能にする」)
+    // ----   ① 表 PROC_TAGS(版 w326c-proc-1・鍵の並びと rule)・「その他」の 6 段目 proc・軸 "proc:<鍵>" ② 内蔵の全本で procsOf = QA の中で独立に書いた規則(宣言の鍵だけ)
+    // ----   ③ 段のチップの件数(含む/除く)= 一覧に出せる本の独立の数え ④ 一覧の行の下のチップ = その本の固有の処理(無い行はチップの入れ物も data-proc も無い)・ハローは宣言の型の語
+    // ----   ⑤ 絞り込み: 各鍵の「含む」「除く」と 2 つの AND の行の集合 = 期待(退役の本は出ない)⑥ ja/en の語 ⑦ 表示だけ(presetSig・params)⑧ 360×640・1280×800 で行のはみ出し 0
+    if (html326c.indexOf('const PROC_TAG_VERSION="w326c-proc-1";') < 0) {
+      console.log('SKIP ui.pickerProc326c(第326便c の固有の処理のチップの前の世代 —— ' + TARGET + ')');
+    } else {
+      const bad = [], cases = [];
+      const KEYS = ['halo', 'gLoc', 'invSq', 'spinDrag', 'dragCore', 'core', 'layers', 'thickness', 'obsSpin', 'zonal', 'pulse', 'spinDipole', 'lightSweep', 'spinSpin', 'petersGW', 'axisForce', 'universeBox', 'phaseChange'];
+      const { ctx, pg, errs } = await open326c({ width: 390, height: 844, mobile: true });
+      try {
+        const r = await pg.evaluate((KEYS) => {
+          const o = { bad: [] }, B = (m) => o.bad.push(m);
+          // QA の中で独立に書いた規則(宣言の鍵だけ)
+          const has = (p, k) => (Array.isArray(p.bodies) ? p.bodies : []).some((b) => !!b && b[k] !== undefined && b[k] !== null && b[k] !== false);
+          const ph = (p) => p.physics || {}, rd = (p) => (ph(p).relativeDrag && typeof ph(p).relativeDrag === 'object') ? ph(p).relativeDrag : {};
+          const RULE = { halo: (p) => !!ph(p).halo, gLoc: (p) => !!ph(p).gLoc, invSq: (p) => !!rd(p).invSq, spinDrag: (p) => !!rd(p).spinDrag,
+            dragCore: (p) => has(p, 'dragCore'), core: (p) => has(p, 'core'), layers: (p) => has(p, 'layers'), thickness: (p) => has(p, 'thickness'), obsSpin: (p) => has(p, 'obsSpin'),
+            zonal: (p) => has(p, 'zonal') || has(p, 'j2'), pulse: (p) => has(p, 'pulse'), spinDipole: (p) => has(p, 'spinDipole'),
+            lightSweep: (p) => (p.bodies || []).some((b) => !!b && (b.lightSweep === 'auto' || (typeof b.lightSweep === 'number' && b.lightSweep > 0))),
+            spinSpin: (p) => !!ph(p).spinSpin, petersGW: (p) => ph(p).petersGW === true, axisForce: (p) => !!ph(p).axisForce, universeBox: (p) => !!p.universeBox, phaseChange: (p) => !!p.phaseChange };
+          const want = (p) => KEYS.filter((k) => RULE[k](p));
+          const sig0 = BUILTIN_PRESETS.map((p) => presetSig(p)).join('\u0001');
+          // ①
+          o.tab = HP.PROC_TAG_VERSION === 'w326c-proc-1' && HP.PROC_TAGS.map((t) => t.key).join(',') === KEYS.join(',') && HP.PROC_TAGS.every((t) => typeof t.rule === 'string' && t.rule.length > 3)
+            && PP_OTHER_SECS[PP_OTHER_SECS.length - 1][0] === 'proc' && PP_OTHER_AXES.filter((a) => a.sec === 'proc').map((a) => a.key).join(',') === KEYS.map((k) => 'proc:' + k).join(',');
+          if (!o.tab) B('① 表・段・軸');
+          // ②
+          { let d = 0; const n = {}; for (const p of BUILTIN_PRESETS) { const a = HP.procsOf(p).join(','), w = want(p).join(','); if (a !== w) { d++; if (d <= 3) B('② ' + p.id + ' ' + a + ' ≠ ' + w); }
+              for (const k of want(p)) if (p.familyRole !== 'retired') n[k] = (n[k] || 0) + 1; }
+            o.all = { n: BUILTIN_PRESETS.length, d, live: n }; }
+          // ③ 件数
+          HP.setLang('ja'); HP.loadPreset('saturnRingReal', false); ppOther = []; ppSetFold('other', true); ppOtherSecOpen.proc = true; showPresetPicker();
+          const vis = BUILTIN_PRESETS.filter((p) => !catalogHidden(p) && !retiredHidden(p));
+          { const g = document.querySelector('#ppOtherRow .ppOtherGrp[data-sec="proc"]'); const bc = [];
+            for (const k of KEYS) { const c = g && g.querySelector('.ppChip[data-v="proc:' + k + '"]'); const on = vis.filter((p) => RULE[k](p)).length;
+              if (!c || c.dataset.nOn !== String(on) || c.dataset.nNot !== String(vis.length - on) || c.textContent !== HP.T('ppProc_' + k) + '(' + on + ')') bc.push(k + ':' + (c ? c.textContent + '/' + c.dataset.nOn + '/' + c.dataset.nNot : 'なし') + '≠' + on); }
+            if (bc.length) B('③ 件数 ' + bc.slice(0, 4).join(' '));
+            o.counts = KEYS.map((k) => k + ' ' + vis.filter((p) => RULE[k](p)).length).join('・'); }
+          // ④ 行のチップ
+          const rowsNow = () => [...document.querySelectorAll('#ppList .ppRow[data-pid]')];
+          { ppOther = []; showPresetPicker(true); let nr = 0, nc = 0; const br = [];
+            for (const b of rowsNow()) { const p = BUILTIN_PRESETS.find((q) => q.id === b.dataset.pid); if (!p) continue; nr++;
+              const w = want(p), got = [...b.querySelectorAll('.ppProcChip')].map((c) => c.dataset.proc);
+              if (w.length) { nc++; if (got.join(',') !== w.join(',') || b.dataset.proc !== w.join(' ') || b.lastElementChild.className !== 'ppProcTags') br.push(p.id); }
+              else if (got.length || b.dataset.proc !== undefined || b.querySelector('.ppProcTags')) br.push(p.id + '(無いはず)'); }
+            const hr = rowsNow().find((b) => b.dataset.pid === 'ngc3198'), hc = hr && hr.querySelector('.ppProcChip[data-proc="halo"]');
+            o.rows = { nr, nc, halo: hc ? hc.textContent : null };
+            if (br.length) B('④ 行のチップ ' + br.slice(0, 4).join(','));
+            if (!(hc && hc.textContent === 'NFW ハロー')) B('④ ハローの語 ' + (hc && hc.textContent)); }
+          // ⑤ 絞り込み
+          { const ids = () => rowsNow().map((b) => b.dataset.pid).sort().join(','); const exp = (f) => vis.filter(f).map((p) => p.id).sort().join(',');
+            const bf = [];
+            for (const k of KEYS) {
+              ppOther = ['proc:' + k]; showPresetPicker(true); if (ids() !== exp((p) => RULE[k](p))) bf.push('含む ' + k);
+              ppOther = ['!proc:' + k]; showPresetPicker(true); if (ids() !== exp((p) => !RULE[k](p))) bf.push('除く ' + k); }
+            ppOther = ['proc:gLoc', 'proc:spinDrag']; showPresetPicker(true); if (ids() !== exp((p) => RULE.gLoc(p) && RULE.spinDrag(p))) bf.push('AND gLoc∧spinDrag');
+            ppOther = ['proc:core', '!proc:pulse']; showPresetPicker(true); if (ids() !== exp((p) => RULE.core(p) && !RULE.pulse(p))) bf.push('AND core∧¬pulse');
+            o.andN = rowsNow().length;
+            if (rowsNow().some((b) => { const p = BUILTIN_PRESETS.find((q) => q.id === b.dataset.pid); return p && p.familyRole === 'retired'; })) bf.push('退役の本が出た');
+            if (bf.length) B('⑤ 絞り込み ' + bf.slice(0, 4).join(','));
+            ppOther = []; }
+          // ⑥ en
+          { HP.setLang('en'); ppOther = []; showPresetPicker(true);
+            const g = document.querySelector('#ppOtherRow .ppOtherGrp[data-sec="proc"]'), sec = g && g.querySelector('.ppOtherSec');
+            const okEn = !!sec && sec.textContent.indexOf('Specific processing') === 0 && KEYS.every((k) => { const c = g.querySelector('.ppChip[data-v="proc:' + k + '"]'); return c && c.textContent.indexOf(HP.T('ppProc_' + k) + '(') === 0; });
+            const hr = rowsNow().find((b) => b.dataset.pid === 'ngc3198'), hc = hr && hr.querySelector('.ppProcChip[data-proc="halo"]');
+            o.en = okEn && !!hc && hc.textContent === 'NFW halo'; if (!o.en) B('⑥ en の語'); HP.setLang('ja'); }
+          // ⑦
+          hidePresetPicker();
+          o.pure = BUILTIN_PRESETS.map((p) => presetSig(p)).join('\u0001') === sig0; if (!o.pure) B('⑦ presetSig が変わった');
+          return o;
+        }, KEYS);
+        bad.push(...r.bad.slice(0, 8));
+        cases.push(`① 表 ${KEYS.length} 鍵(版 w326c-proc-1)・「その他」の 6 段目・軸 proc:<鍵> ② 内蔵 ${r.all.n} 本で procsOf = 独立の規則(差 ${r.all.d})③ 段の件数(${r.counts})④ 行 ${r.rows.nr} のうちチップのある行 ${r.rows.nc}・🌃 「${r.rows.halo}」 ⑤ 各鍵の含む/除く・AND 2 例・退役なし ⑥ en ${r.en} ⑦ presetSig 不変 ${r.pure}`);
+        // ⑧ はみ出し
+        const ov = [];
+        for (const vp of [{ width: 360, height: 640, mobile: true }, { width: 1280, height: 800 }]) {
+          const o2 = await open326c(vp);
+          const q = await o2.pg.evaluate(() => {
+            const out = { n: 0, bad: [] };
+            for (const lang of ['ja', 'en']) { HP.setLang(lang); ppOther = []; showPresetPicker(true);
+              for (const b of document.querySelectorAll('#ppList .ppRow[data-proc]')) { if (b.offsetParent === null) continue; out.n++;
+                const rb = b.getBoundingClientRect();
+                for (const c of b.querySelectorAll('.ppProcChip')) { const q2 = c.getBoundingClientRect(); if (q2.right > rb.right + 0.5 || q2.left < rb.left - 0.5) out.bad.push(lang + ' ' + b.dataset.pid + ' ' + c.dataset.proc); } }
+              const L = document.getElementById('ppList'); if (L && L.scrollWidth > L.clientWidth + 1) out.bad.push(lang + ' 一覧の横スクロール'); }
+            hidePresetPicker(); return out; });
+          ov.push(vp.width + ':' + q.n + '行/' + q.bad.length);
+          if (q.bad.length) bad.push('⑧ ' + vp.width + ' はみ出し ' + q.bad.slice(0, 3).join(' , '));
+          if (o2.errs.length) bad.push('⑧ JS の誤り ' + o2.errs[0].slice(0, 80));
+          await o2.ctx.close();
+        }
+        cases.push('⑧ はみ出し ' + ov.join(' '));
+      } catch (e) { bad.push('落ちた: ' + String(e && e.message || e).slice(0, 160)); }
+      if (errs.length) bad.push('JS の誤り ' + errs[0].slice(0, 100));
+      await ctx.close();
+      add('ui.pickerProc326c', bad.length === 0,
+        `**サンプルの選択の固有の処理のチップと絞り込み**(第326便c・原仮定者の指示(2026-11-04)—— 表示だけ): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- docs.w326c
+    {
+      const bad = [], cases = [];
+      const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+      const PH = rd('docs/PHYSICS.md');
+      const i7 = PH.indexOf('\n## 7. 論文'), c0 = PH.indexOf('〔第326便c — '), c1 = PH.indexOf('\n〔第', c0 + 10), g325 = PH.indexOf('〔第325便 — 統括');
+      const sec = c0 >= 0 ? PH.slice(c0, (c1 > c0 && (i7 < 0 || c1 < i7)) ? c1 : (i7 > c0 ? i7 : undefined)) : '';
+      if (!(c0 >= 0 && (i7 < 0 || c0 < i7) && (g325 < 0 || c0 > g325))) bad.push('PHYSICS〔第326便c〕が無いか、〔第325便 — 統括〕の前・「## 7.」の後ろ');
+      for (const w of ['第128報', 'AN530', 'R292', 'ui.selEditXY326c', 'ui.spacetimeDerived326c', 'docs.w326c', 'w326c-st-derived-1', 'stDerivedOf', 'κ_D = 2G_0/c_0²', 'X_k = G_0/c_0²', 'Y_k = 10G_0/(C_1c_0²)', '±5000', 'beDxy', '#beSw', '#beSwAuto', '#physLockCb', '#physLockBadge', '原仮定者の指示(2026-11-04)', 'PROC_TAGS', 'w326c-proc-1', 'ui.pickerProc326c', 'procsOf'])
+        if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第326便c〕に「' + w + '」が無い');
+      if (/(^|[^_A-Za-z`])κ(?![_D])/.test(sec.replace(/`[^`]*`/g, ''))) bad.push('PHYSICS〔第326便c〕に裸の係数記号');
+      for (const w of ['較正した', 'フィットした', '確認した', '完全に一致', '収束した', '検証が完了した']) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第326便c〕に書かない語「' + w + '」');
+      cases.push(`PHYSICS〔第326便c〕${sec.length} 字(「## 7.」の前)`);
+      const AI = rd('docs/AI_SPEC.md'), a0 = AI.indexOf('\n## 184. 第326便c'), a1 = a0 >= 0 ? AI.indexOf('\n## ', a0 + 5) : -1, ai = a0 >= 0 ? AI.slice(a0, a1 > a0 ? a1 : undefined) : '';
+      if (!(ai.indexOf('ST_DERIVED_VERSION') >= 0 && ai.indexOf('stDerivedOf') >= 0 && ai.indexOf('SYSTEM_PROMPT') >= 0 && ai.indexOf('PROC_TAGS') >= 0)) bad.push('AI_SPEC §184(ST_DERIVED_VERSION・stDerivedOf・PROC_TAGS・SYSTEM_PROMPT の扱い)');
+      const CLg = rd('CHANGELOG.md'), cb = CLg.search(/## v1\.47(?:-b\d+|\.0)\(/), cn = cb >= 0 ? CLg.indexOf('\n## ', cb + 5) : -1, clg = cb >= 0 ? CLg.slice(cb, cn > cb ? cn : undefined) : '';
+      const cl326c = (clg.split('\n').find((l) => l.indexOf('**第326便c**') >= 0) || '');
+      if (!(cl326c.indexOf('ui.selEditXY326c') >= 0 && cl326c.indexOf('ui.spacetimeDerived326c') >= 0 && cl326c.indexOf('ui.pickerProc326c') >= 0)) bad.push('CHANGELOG の第326便c の行');
+      const PM = rd('tools/post-merge-qa.sh');
+      if (!(PM.indexOf('# ==== 第326便c の塊(ここから)====') >= 0 && /ui\.selEditXY326c/.test(PM) && /ui\.spacetimeDerived326c/.test(PM) && /ui\.pickerProc326c/.test(PM) && /docs\.w326c/.test(PM))) bad.push('post-merge の ③′ に第326便c の塊が無い');
+      const cpC = (a) => String.fromCodePoint(...a), rvC = (t) => t.split('').reverse().join('');
+      const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'inimeG', 'edualC', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+      for (const [nm, tx] of [['PHYSICS〔第326便c〕', sec], ['AI_SPEC §184', ai], ['CHANGELOG の第326便c の行', cl326c]]) for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+      cases.push('AI_SPEC §184・CHANGELOG・post-merge の ③′・書かない語・禁句・裸の係数記号');
+      add('docs.w326c', bad.length === 0,
+        `**第326便c の文書**(UI: 選択粒子の編集の x・y・時空の群の計算済みの 3 行 —— R292): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+  }
+}
+// ==== 第326便c の塊(ここまで)====
 // ==== 第326便d の塊(ここから —— lint.axialHeat326d・behavior.axialRadius326d・docs.axialHeat326d の 3 ブロック。root は SKIP)====
 // ---- 第326便d(原仮定者の指示(第128報)「軸引きずりについて」「引きずり計算の補足」・統括の検証項目 R293): **軸引きずりの定常の釣り合いと由来ごとの熱の帳簿の診断**と
 // ----   **引きずる側の半径 R_src と引きずられる側の半径 R_d の独立の宣言**(新設 —— 器 tests/exp-w326d-axialheat.mjs・lib tests/lib-w326d-axialheat.mjs・文書の lib tests/lib-w326d-axialheatdoc.mjs・
@@ -95777,8 +96199,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
             if (!(folds === 'scale/cls/geo/other' && !document.getElementById('ppFold_e') && !document.getElementById('ppDimEBtn'))) o.b4.push('畳み ' + folds);
             const secs = PP_OTHER_SECS.map((x) => x[0]);
             const grp = document.querySelector('#ppOtherRow .ppOtherGrp[data-sec="emergence"]');
-            const grpLast = [...document.querySelectorAll('#ppOtherRow .ppOtherGrp')].pop() === grp;
-            if (!(secs[secs.length - 1] === 'emergence' && grp && grpLast && document.getElementById('ppOtherSec_emergence').textContent === HP.T('ppOtherSecE'))) o.b4.push('段 ' + secs.join(','));
+            const g326c = typeof procsOf === 'function';   // 第326便c(原仮定者の指示(2026-11-04)): 6 段目「固有の処理」(世代切替 = procsOf) —— E水準はその前(5 段目)
+            const grpLast = (g326c ? [...document.querySelectorAll('#ppOtherRow .ppOtherGrp')].slice(-2, -1)[0] : [...document.querySelectorAll('#ppOtherRow .ppOtherGrp')].pop()) === grp;
+            if (!(secs[secs.length - (g326c ? 2 : 1)] === 'emergence' && (!g326c || secs[secs.length - 1] === 'proc') && grp && grpLast && document.getElementById('ppOtherSec_emergence').textContent === HP.T('ppOtherSecE'))) o.b4.push('段 ' + secs.join(','));
             const chips = grp ? [...grp.querySelectorAll('.ppChip:not([data-sec-all])')] : [];
             const keys = chips.map((c) => c.dataset.v);
             if (keys.join(',') !== EMERGENCE_LEVELS.map((v) => 'emergence:' + v).join(',')) o.b4.push('軸 ' + keys.join(','));

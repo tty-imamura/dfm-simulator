@@ -619,6 +619,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.realMassF1325e docs.realMassF1325e be
 #   docs.xkLock325f —— 文書)と、qa.mjs の包みの lint.qaHeapRelease310・PHYSICS の節の lint.sectionLookup313(html・本の宣言・器の本文・正本は不変 —— 鎖の段は足さない)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.xkLock325f docs.xkLock325f lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第325便f の塊(ここまで)====
+# ==== 第326便c の塊(ここから)====
+# 第326便c(原仮定者の指示(第128報)「「選択粒子の編集」から、「減光」と「自動」を外す。「X」と「Y」を編集対象に加える」「「パラメータ」の「時空」から、「物理対応ロック」を外す。計算済みの「κ_D」「Xₖ」「Yₖ」を表示する」・
+#   原仮定者の回答(2026-11-03 —— AN530)・統括の検証項目 R292 —— UI だけ): 枝 c の新設 3 本(ui.selEditXY326c —— 選択粒子の編集の x・y と外した欄 / ui.spacetimeDerived326c —— 時空の群の計算済みの 3 行 /
+#   ui.pickerProc326c —— サンプルの選択の固有の処理のチップと絞り込み〔原仮定者の指示(2026-11-04)〕/ docs.w326c —— 文書)と、世代を直した QA(ui.sweep-auto-checkbox・ui.selEdit299・physlock.kt-derive・physlock.ui-110・wave124.ui・ui.symDisp316・ui.physLock315)・群と行を読む params.roles・
+#   記号の lint.kappaSymbol315・docs.symbols315・i18n.toggle・budget.consistency・ui.wave96a・規約の速い判定の lint.conventionsCheck323・PHYSICS の節の lint.sectionLookup313・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.selEditXY326c ui.spacetimeDerived326c ui.pickerProc326c docs.w326c ui.sweep-auto-checkbox ui.selEdit299 physlock.kt-derive physlock.ui-110 wave124.ui ui.symDisp316 ui.physLock315 params.roles lint.kappaSymbol315 docs.symbols315 i18n.toggle budget.consistency ui.wave96a lint.conventionsCheck323 lint.sectionLookup313 lint.qaHeapRelease310"
+# ==== 第326便c の塊(ここまで)====
 # ==== 第326便d の塊(ここから)====
 # 第326便d(原仮定者の指示(第128報)「軸引きずりについて」「引きずり計算の補足」・統括の検証項目 R293): 枝 d の新設 3 本(lint.axialHeat326d —— 純関数の場面〔逆向きの 2 源の熱・
 #   固定軸の支え・帳簿の閉じ・尺度の不定・負の Γ・凸包・厳密な 1 步〕/ behavior.axialRadius326d —— 今の html の 🗺️ の写しで R_d と R_src の独立の宣言・K1 の源ごとの軸の ω が正本と同じ /
