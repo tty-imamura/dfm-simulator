@@ -40,7 +40,19 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // 第294便b(原仮定者の裁定(第84報)・統括の検証項目 R149): 退役の本は**家族の表に出さない**(末尾の「退役」節の棚卸しだけ)。
 //   家族の行・集計・鍵ごとの差・候補は在位の本だけで作る(宣言 FAMILIES の ids は記録として退役を含んだまま —— build が退役を外す)。
 //   基準(ref)が退役の本だった家族は在位の入口(primary)へ移した(mercury・saturn・psrDoubleAB・gw150914・alphaCen・sirius)。
-export const HARNESS_VERSION = 'w294b-families-2';
+// 第326便e(統括の検証項目 R294 —— 第三者の指摘 P2 を統括が確かめて取り込み): 名指しする器の走査からドット始まりのファイル(QA の静的受理が作る一時の
+//   tests/.qa-preflight-*.mjs など)を外した(harnessFileOk326e)—— 一時ファイルが正本と一覧に「名指しする器」として入り、別の環境で同じ表を作れなかった。
+//   器の版を上げた(w294b-families-2 → w326e-families-3 —— 家族の行の規則〔在位の本だけ〕は版 2 のまま)
+export const HARNESS_VERSION = 'w326e-families-3';
+/** 第326便e: 家族の表が版 2 の規則(家族の行は在位の本だけ)を持つ器の版(QA docs.families が読む)。 */
+export const HARNESS_VERSIONS_IN_ONLY = Object.freeze(['w294b-families-2', 'w326e-families-3']);
+/** 第326便e: 名指しする器の走査に入れるファイル名か(ドット始まりの一時ファイルを外す)。 */
+export const harnessFileOk326e = (f) => typeof f === 'string' && !f.startsWith('.') && /\.mjs$/.test(f);
+/** 第326便e: 名指しする器の走査の対象(tests/*.mjs・tools/*.mjs —— ドット始まりを外す・並びは名前順)。 */
+export function harnessFiles326e(root) {
+  return fs.readdirSync(path.join(root, 'tests')).filter(harnessFileOk326e).map((f) => 'tests/' + f)
+    .concat(fs.readdirSync(path.join(root, 'tools')).filter(harnessFileOk326e).map((f) => 'tools/' + f)).sort();
+}
 export const OUT = 'tests/out/families-w283b.json';
 export const MD = 'docs/FAMILIES.md';
 export const CAL = 'tests/out/calaudit-w249.json';
@@ -296,8 +308,7 @@ export function retiredInventory(ctx) {
     }
     return row;
   });
-  const files = fs.readdirSync(path.join(root, 'tests')).filter((f) => /\.mjs$/.test(f)).map((f) => 'tests/' + f)
-    .concat(fs.readdirSync(path.join(root, 'tools')).filter((f) => /\.mjs$/.test(f)).map((f) => 'tools/' + f)).sort();
+  const files = harnessFiles326e(root);   // 第326便e: ドット始まりの一時ファイルを外す
   const harnesses = [];
   for (const f of files) {
     if (f === 'tests/qa.mjs' || f === 'tests/exp-w283b-families.mjs' || f === 'tests/exp-w283b-retiredfx.mjs' || f === 'tests/exp-w284b-retiredfx.mjs' || f === 'tests/exp-w285f-retiredfx.mjs' || f === 'tests/exp-w286f-retiredfx.mjs' || f === 'tests/exp-w287b-retiredfx.mjs' || f === 'tests/lib-w281a-regentable.mjs') continue;   // 表そのもの・写しを作る器は数えない

@@ -7376,7 +7376,8 @@ if (!TARGET.startsWith('beta/')) {
       const md = fs.readFileSync(path.join(ROOT, 'docs', 'FAMILIES.md'), 'utf8');
       // ①
       // 第294便b(原仮定者の裁定(第84報)・R149): 器の版 w294b-families-2 以降は家族の行が**在位の本だけ**(退役は「退役」節の棚卸しだけ)
-      const retFam = new Set((J.harnessVersion === 'w294b-families-2' && J.retired && Array.isArray(J.retired.ids)) ? J.retired.ids : []);
+      // 第326便e(R294): 器の版 w326e-families-3(ドット始まりの一時ファイルを走査から外した版)も同じ規則 —— 器の HARNESS_VERSIONS_IN_ONLY で照合(世代の直し)
+      const retFam = new Set(((E.HARNESS_VERSIONS_IN_ONLY || ['w294b-families-2']).includes(J.harnessVersion) && J.retired && Array.isArray(J.retired.ids)) ? J.retired.ids : []);
       const want = E.FAMILIES.map((F) => F.key + ':' + F.ids.filter((id) => !retFam.has(id)).length).join(',');
       const got = (J.families || []).map((F) => F.key + ':' + F.rows.length).join(',');
       if (want !== got) bad.push(`①家族の並び・本数 ${got} ≠ 宣言 ${want}`);
@@ -94289,7 +94290,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (QG && Q) {
       MU = QG.mutationSelfTest();
       if (!MU.ok) bad.push(MU.bad.slice(0, 3).join(' / '));
-      if (QG.QUICKGATE_325D_VERSION !== 'w325d-quickgate-1' || MU.K !== 3 || !(QG.MUT_PLAN_325D.mutAfter > QG.MUT_PLAN_325D.window && QG.MUT_PLAN_325D.full > QG.MUT_PLAN_325D.mutAfter)) bad.push('版・K・窓と変異の步数の並び');
+      // 第326便e(R294): 門の強化で版 w326e-quickgate-2(旧版 w325d-quickgate-1 は QUICKGATE_VERSION_HISTORY)—— 世代の直し
+      if (!(QG.QUICKGATE_325D_VERSION === 'w326e-quickgate-2' || (QG.QUICKGATE_325D_VERSION === 'w325d-quickgate-1' && !QG.QUICKGATE_VERSION_HISTORY)) || MU.K !== 3 || !(QG.MUT_PLAN_325D.mutAfter > QG.MUT_PLAN_325D.window && QG.MUT_PLAN_325D.full > QG.MUT_PLAN_325D.mutAfter)) bad.push('版・K・窓と変異の步数の並び');
       if (!(MU.table.quickAtIntro > 0 && MU.table.maxLag <= 3 && MU.table.onceQuick > 0 && MU.table.onceDebtMaxLag <= 3)) bad.push('模擬の表: ' + JSON.stringify(MU.table));
       // 合成の段は実物の表に無い(実物の器・正本を使わない)
       const syn = QG.SYN_STAGES_325D.map((z) => z.key), real = new Set(RT ? RT.REGEN_STEPS.map((z) => z.key) : []);
@@ -94364,7 +94366,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       for (const c of GT.cases) if (/^④/.test(c)) cases.push(c);
       for (const b of GT.bad) if (/^④/.test(b)) bad.push(b);
       const D = QG.GATE_DEFAULTS_325D;
-      if (!(D.minHtmlDiff === 10 && D.maxProcNaShare === 0.1 && D.K === 3 && D.bigSec === 600 && D.bigMax === 2 && D.minShadowWaves === 1)) bad.push('門の既定の数(第324便c の推奨): ' + JSON.stringify(D));
+      // 第326便e(R294): 影の必要便数 1 → 2(版 w326e-quickgate-2 —— 世代の直し。旧版の数は GATE_DEFAULTS_HISTORY_326E)
+      const wantShadow325d = QG.QUICKGATE_325D_VERSION === 'w325d-quickgate-1' ? 1 : 2;
+      if (!(D.minHtmlDiff === 10 && D.maxProcNaShare === 0.1 && D.K === 3 && D.bigSec === 600 && D.bigMax === 2 && D.minShadowWaves === wantShadow325d)) bad.push('門の既定の数(第324便c の推奨・第326便e の影 2 便): ' + JSON.stringify(D));
       // 休眠: 鎖の脚本・鎖の道具・再生成表・regen-plan の計画の経路は門を呼ばない(--quick-gate の印字の口だけ)
       for (const f of ['tools/regen-chain.mjs', 'tests/lib-w281a-regentable.mjs', 'tools/harness-smoke.mjs']) if (/quickProductionGate|--quick-gate/.test(rd325d(f))) bad.push(f + ' が門を呼ぶ');
       const RP = rd325d('tools/regen-plan.mjs'), ig = RP.indexOf("if (argv.includes('--quick-gate')) {"), iq = RP.indexOf('quickProductionGate(');
