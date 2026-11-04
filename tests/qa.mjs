@@ -17084,11 +17084,18 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
     const cIn = findRow((window.HP && HP.PHYS_LOCK_AUTO_VERSION) ? '基準光速' : '光速').querySelector('input.valIn');   // 第315便a(AN414): 世代切替 —— 鍵 cLight のラベルは「基準光速 c_0」
     cIn.value = String(c0 / 2); cIn.dispatchEvent(new Event('change'));
     res.follow = stc();                               // → 条件値(c 半減)
-    const kIn = findRow('時空係数').querySelector('input.valIn');
-    kIn.value = '50'; kIn.dispatchEvent(new Event('change'));
-    res.snapBack = stc();                             // 直接編集は導出値のまま
-    res.snapShown = kIn.value;                        // UI 表示も導出値(κ 表示)
-    res.invGen = findRow('時空係数').querySelector('label').textContent.includes('κ');
+    // 第326便の統合(a + c): X_k の入力の欄が無い世代(a が 🛰 grcal の X_k のノブを G₀ へ・c が「時空」の群の X_k を計算済みの行へ)は、直接の編集の
+    //   代わりに計算済みの行 #std_Xk の値(data-v)を読む(X_k を直に書く入力の正規化は behavior.xkDerive326a が見る)
+    const kRow = findRow('時空係数'); const kIn = kRow && kRow.querySelector('input.valIn');
+    if (kIn) {
+      kIn.value = '50'; kIn.dispatchEvent(new Event('change'));
+      res.snapBack = stc();                             // 直接編集は導出値のまま
+      res.snapShown = kIn.value;                        // UI 表示も導出値(κ 表示)
+      res.invGen = kRow.querySelector('label').textContent.includes('κ');
+    } else {
+      const x = document.getElementById('std_Xk');
+      res.snapBack = stc(); res.snapShown = x ? x.dataset.v : 'NaN'; res.invGen = false; res.noKIn = true;
+    }
     res.edge = HP.physLockCalc({ params: { G: 0, cLight: 30 } });   // G=0 エッジ
     HP.setPhysLock(false);
     HP.loadPreset('grcal', false);
@@ -53135,10 +53142,13 @@ if (!FAST) {
       if (HP.XK_LOCK_VERSION) {
         res.gen326 = true;
         const der = () => { const p = HP.sim.params; return p.G > 0 ? Math.min(1, p.G / (p.cLight * p.cLight)) : 0; };
+        // 第326便の統合(a + c): 🛰 grcal の X_k のノブは G₀ へ(a)・「時空」の群の X_k は計算済みの行(c)—— X_k のスライダーの行がどこにも無い本は、
+        //   「入力の欄が無く、計算済みの行 #std_Xk が導出値(data-state = derived)」で「ロックのまま」と読む
+        const lockedOf = (s) => s.none ? (s.std && document.getElementById('std_Xk').dataset.state === 'derived') : (s.dis && s.cls);
         HP.loadPreset('grcal', false);
-        const a0 = state(); res.grey = a0.dis && a0.cls;
-        HP.setPhysLock(false); const a1 = state(); res.stay = HP.physLock() === true && a1.dis && a1.cls && Object.is(stc(), der());
-        HP.loadPreset('galaxy', false); res.loadOn = HP.physLock() === true && Object.is(stc(), der()) && state().dis;
+        const a0 = state(); res.grey = lockedOf(a0);
+        HP.setPhysLock(false); const a1 = state(); res.stay = HP.physLock() === true && lockedOf(a1) && Object.is(stc(), der());
+        HP.loadPreset('galaxy', false); { const a2 = state(); res.loadOn = HP.physLock() === true && Object.is(stc(), der()) && (a2.none ? lockedOf(a2) : a2.dis); }
         const savesBak2 = localStorage.getItem('hp_saves');
         try {
           HP.loadPreset('grcal', false);
