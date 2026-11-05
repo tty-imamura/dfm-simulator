@@ -97055,13 +97055,22 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (r7) {
           const m7 = SC.scopeMigrate327c(HTML, r7.meta.scope);
           if (!(m7.need && m7.dropped.includes('updateBodyEdit'))) bad.push('⑦ 版 7 の刻印 ' + r7.out + ' で移行が要らないと出た');
-          const st = RT.REGEN_STEPS.find((z) => (z.outs || []).includes(r7.out));
-          if (st && !st.alwaysRun && !st.onlyIfScopeChanged) {
+          // 第327便 統合の継ぎ目(c + d): 枝 d が受理器と loadPreset を変えた世代では、版 7 の刻印の段の多くは領域そのものが変わる(理由 scope —— 移行は要らない)。
+          //   版 7 の刻印のうち領域が今の html で一致する段(切った計画に scope が無い段)を先に探し、そこで scopever を照合する。無ければ「切っても入れても scopever が出ない・scope で走る」を照合する
+          const cand = [];
+          for (const r of rows) { if (!(r.meta && r.meta.scope && r.meta.scope.version === SC.SCOPE_VERSION_7)) continue;
+            const z = RT.REGEN_STEPS.find((q) => (q.outs || []).includes(r.out)); if (z && !z.alwaysRun && !z.onlyIfScopeChanged && !cand.includes(z)) cand.push(z); if (cand.length >= 6) break; }
+          let done7 = false, scoped = [];
+          for (const st of cand) {
             const pOn = RT.planRegen({ root: ROOT, html: HTML, only: [st.key], scopeMigrate: true }), pOff = RT.planRegen({ root: ROOT, html: HTML, only: [st.key], scopeMigrate: false });
             const kOn = ((pOn.steps[0] || {}).causeKinds || []), kOff = ((pOff.steps[0] || {}).causeKinds || []);
-            if (!kOn.includes('scopever') || kOff.includes('scopever')) bad.push('⑦ 計画の移行の理由(' + st.key + ': 入 ' + kOn.join(',') + ' / 切 ' + kOff.join(',') + ')');
-            cases.push(`⑦ 版 7 の刻印(${st.key})は移行が要る(落ちる ${m7.dropped.length} 名)・計画は scopever(切れば出ない)・版 8 と updateBodyEdit を辿らない宣言は要らない`);
-          } else cases.push(`⑦ 版 7 の刻印 ${r7.out} は移行が要る(落ちる ${m7.dropped.length} 名)`);
+            if (kOff.includes('scopever')) { bad.push('⑦ 切った計画に scopever(' + st.key + ')'); done7 = true; break; }
+            if (kOff.includes('scope')) { if (kOn.includes('scopever')) bad.push('⑦ 領域が変わった段に scopever(' + st.key + ': 入 ' + kOn.join(',') + ')'); scoped.push(st.key); continue; }
+            if (!kOn.includes('scopever')) bad.push('⑦ 計画の移行の理由(' + st.key + ': 入 ' + kOn.join(',') + ' / 切 ' + kOff.join(',') + ')');
+            cases.push(`⑦ 版 7 の刻印(${st.key})は移行が要る(落ちる ${m7.dropped.length} 名)・計画は scopever(切れば出ない)・版 8 と updateBodyEdit を辿らない宣言は要らない` + (scoped.length ? `(先に見た ${scoped.length} 段は領域そのものが変わる —— scope で走る)` : ''));
+            done7 = true; break;
+          }
+          if (!done7) cases.push(`⑦ 版 7 の刻印 ${r7.out} は移行が要る(落ちる ${m7.dropped.length} 名)` + (scoped.length ? `・見た ${scoped.length} 段(${scoped.join('・')})は領域そのものが変わる世代(scope で走る・scopever は出ない —— 第327便d の受理器の変更)` : ''));
         } else cases.push('⑦ 版 7 の刻印は 0 本(鎖で全部が版 8 —— 合成の宣言だけ照合)');
       }
       // ⑧ 宣言なし(html 全体)の段 0・families の入力
