@@ -691,6 +691,14 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.xkLock327d behavior.xkClampShown327d be
 #   docs.axialSum327a(節に行を足した)・新しい段 axialdiff-327e の lint 一式(lint.regenScope・lint.provenanceMeta・lint.stableHashPaths・lint.quickBoundary324c・lint.narrowScope327c・docs.w320d)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.axialDiff327e behavior.axialDiff327e docs.axialDiff327e docs.axialSum327a lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.quickBoundary324c lint.narrowScope327c docs.w320d lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第327便e の塊(ここまで)====
+# ==== 第327便f の塊(ここから)====
+# 第327便f(原仮定者の指示(2026-11-05)「金星の逆行自転は、大気熱潮汐の影響と、地球との共鳴を採用する」「R_dはK1で固定し、観測の自転もトルクの釣り合いで進める」・統括の検証項目 R300 ——
+#   診断だけ・html は変えない): 枝 f の新設 3 本(lint.venusTide327f —— 口の型の純関数の場面〔固体の潮汐の受動・熱潮汐の駆動と日射の供給・解析の枝・縮退の中立・共鳴の係数と 5 の比・
+#   系の帳簿・振り子の分離線・入力の拒否〕/ behavior.venusTide327f —— 今の html の 🗺️ の写しで銀河と K1 の口のトルク・釣り合いの振幅・火星の正味のトルクが正本と同じ /
+#   docs.venusTide327f —— 正本の門と表が PHYSICS〔第327便f〕に逐語・第327便e と第327便a の節の「第327便f の更新」・文書)と、節に行を足した docs.axialDiff327e・docs.axialSum327a・
+#   新しい段 venustide-327f の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.venusTide327f behavior.venusTide327f docs.venusTide327f docs.axialDiff327e docs.axialSum327a lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.quickBoundary324c lint.narrowScope327c docs.w320d lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第327便f の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
