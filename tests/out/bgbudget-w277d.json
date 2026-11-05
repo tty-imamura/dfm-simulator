@@ -3,34 +3,34 @@
   "provenanceVersion": "w272e-1",
   "wave": "第278便d(第277便d の器の版上げ)",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T07:13:32.046Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:55:01.020Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/out/bgpredict-w276a.json",
-    "bytes": 96525,
-    "sha256": "17a9b9608a99a65728928dad03dd9b926d94985aa459b7a3a15c6303fde5ebbe",
-    "mtime": "2026-11-04T05:26:22.920Z"
+    "bytes": 96545,
+    "sha256": "ed623faeafcfe35f38e6ad80f281ffeac3ecc03635bf1e460c87184df14dada4",
+    "mtime": "2026-11-05T06:52:04.815Z"
    },
    {
     "file": "tests/out/bgequiv-w278d.json",
-    "bytes": 87314,
-    "sha256": "bee3281229d725d886b44bddcb80b4e3934964e4e97a270f1afef7089ad5a2ec",
-    "mtime": "2026-11-04T05:27:06.180Z"
+    "bytes": 87334,
+    "sha256": "c6c4db6311973ac9a1a37c1cea66257d766b106bff53dfdcde35f15512d17d16",
+    "mtime": "2026-11-05T06:52:51.811Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w277d-bgbudget.mjs",
-    "bytes": 33203,
-    "sha256": "e2f1d37b4b082fe812e56210119b681fb266e9039b40cf0fd40594656d6251ec",
-    "mtime": "2026-10-30T11:33:02.830Z"
+    "bytes": 33218,
+    "sha256": "69be483f84624e903048d31b58ae9db3df3f08b9bc137897de5d7692707d1a5b",
+    "mtime": "2026-11-05T03:10:54.234Z"
    },
    {
     "file": "tests/lib-w275b-meshfield.mjs",
@@ -52,14 +52,14 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "d8d4983e5667d54081259bdae798516500b22ca8440de82f728027b21a324877",
+  "codeSha256": "ee905541b558c732cbbc84d6796179c7b8f1b51c2a72804fdf569267e4fd7f55",
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "earthMoonRealKF1",
     "plutoCharonReal",
@@ -81,11 +81,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1361,
-   "segments": 1187,
-   "closureShare": 0.2934
+   "abBody": false,
+   "names": 1324,
+   "segments": 1161,
+   "closureShare": 0.2874
   },
-  "scopeSha256": "04ce7b0bd50d824ea541b964c2b92d7b3bd301cb36281afc317d1c1618d55c79",
+  "scopeSha256": "d47048545164657ddf4045624f2d3329c24fcc6ce030594140c3085380e40dba",
   "scopeComplete": true,
   "harnessVersion": "w278d-bgbudget-2",
   "comovingVersion": "w277d-comoving-1",

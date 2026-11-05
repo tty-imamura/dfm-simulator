@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便a",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T07:03:59.762Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:59:32.540Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/out/cluster-w283f.json",
-    "bytes": 146807,
-    "sha256": "e66342098c65a0ecc8084d213615b127f7588ca75c4c19274e24504c072106bf",
-    "mtime": "2026-11-04T06:52:42.476Z"
+    "bytes": 146826,
+    "sha256": "c335cbe5a8ff42623815f5d7b6e58d4fc23a3fbcbf2de40c8622f57f6a5b74e3",
+    "mtime": "2026-11-05T10:29:42.539Z"
    },
    {
     "file": "tests/fixtures/cluster-w284a-preset.json",
@@ -28,15 +28,15 @@
   "code": [
    {
     "file": "tests/exp-w284a-cluster.mjs",
-    "bytes": 31862,
-    "sha256": "ea15f394c04c142b4c4ef1f07a1c8b251988c6bf041617edcba02902cfde093a",
-    "mtime": "2026-10-30T11:33:02.830Z"
+    "bytes": 31877,
+    "sha256": "0c1b1e09276cca3f5ab041ab290fa85417d1195fbac9f16ad04334082b38a673",
+    "mtime": "2026-11-05T03:10:54.247Z"
    },
    {
     "file": "tests/exp-w283f-cluster.mjs",
-    "bytes": 32804,
-    "sha256": "661d6069c0228b669087a925b3d61736370b9f9f950ca866940d479fe844b302",
-    "mtime": "2026-10-20T16:19:56.632Z"
+    "bytes": 32819,
+    "sha256": "f2486e54c636e479f0328968b3e4f17eef3cf621e3845d9a3b8c7a68f61ab5df",
+    "mtime": "2026-11-05T03:10:54.247Z"
    },
    {
     "file": "tests/lib-w281c-rotorledger.mjs",
@@ -64,12 +64,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "990ca03ef386ace6419c558b5be3377035c86e5ee6b44de9cac3a67d608a2c4c",
+  "codeSha256": "7c7893b8067931ea1e897c15400e0c3febaee89e7f72f8b4615fef78b38967fe",
   "harnessVersion": "w284a-cluster-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第74報)④: clusterAnalogyBH を修正する。ダークローターは恒星質量で、大きさは惑星、数は恒星の 10〜20 倍。星団では中心の DFM 版 BH の引きずりが支配的。この条件で安定させる。楕円銀河以降では引きずりの連鎖でディスクになる",
@@ -98,7 +98,7 @@
    "楕円銀河でディスクになった"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "clusterAnalogyBH",
     "galaxyAnalogyBH",
@@ -128,16 +128,17 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1364,
-   "segments": 1190,
-   "closureShare": 0.2948
+   "abBody": false,
+   "names": 1327,
+   "segments": 1164,
+   "closureShare": 0.2888
   },
-  "scopeSha256": "e81be5581b24470bbc56b9d2fc1effd41e93c01c2ad662877956b081bab8bff9",
+  "scopeSha256": "ace046f64d1d15aa62bc59b034ce7585218e04a9683b83b57c6cb7a4190d70db",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/cluster-w283f.json",
-    "stableSha256": "072b76b3f07181c709a033145d6eb2be89f190f1b99bcd54b00bfa4b9d6a1148",
+    "stableSha256": "86c08e03b171b406633c49ae69263dc13ea79a8a789ac55f797523854b8852c0",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1287,8 +1288,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 29.146,
-   "rateStepsPerSec": 222.99459719880244
+   "wallSec": 19.082,
+   "rateStepsPerSec": 340.67609484254245
   },
   {
    "key": "n40-r20-s1",
@@ -2264,8 +2265,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 29.657,
-   "rateStepsPerSec": 219.05953145600216
+   "wallSec": 18.813,
+   "rateStepsPerSec": 345.765967664479
   },
   {
    "key": "n40-r20-s2",
@@ -3242,8 +3243,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 28.99,
-   "rateStepsPerSec": 224.65677437248647
+   "wallSec": 18.988,
+   "rateStepsPerSec": 342.3318717312061
   },
   {
    "key": "n40-r10-s0",
@@ -4219,8 +4220,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 28.113,
-   "rateStepsPerSec": 231.14789184561604
+   "wallSec": 19.535,
+   "rateStepsPerSec": 332.7001078194794
   },
   {
    "key": "n40-r10-s1",
@@ -5196,8 +5197,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 27.019,
-   "rateStepsPerSec": 240.96385542168676
+   "wallSec": 19.855,
+   "rateStepsPerSec": 327.8190924267719
   },
   {
    "key": "n40-r10-s2",
@@ -6174,8 +6175,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 26.503,
-   "rateStepsPerSec": 245.82701062215477
+   "wallSec": 21.038,
+   "rateStepsPerSec": 309.4260338076592
   },
   {
    "key": "n80-r20-s0",
@@ -7150,8 +7151,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 40.867,
-   "rateStepsPerSec": 159.04572564612326
+   "wallSec": 25.41,
+   "rateStepsPerSec": 255.75245688124087
   },
   {
    "key": "n80-r20-s1",
@@ -8126,8 +8127,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 38.302,
-   "rateStepsPerSec": 169.84247634524152
+   "wallSec": 26.534,
+   "rateStepsPerSec": 245.129563079251
   },
   {
    "key": "n80-r20-s2",
@@ -9102,8 +9103,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 40.368,
-   "rateStepsPerSec": 160.91383163645392
+   "wallSec": 26.174,
+   "rateStepsPerSec": 248.34246732840225
   },
   {
    "key": "n80-r10-s0",
@@ -10078,8 +10079,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 41.43,
-   "rateStepsPerSec": 157.00717193254508
+   "wallSec": 25.676,
+   "rateStepsPerSec": 253.40215861098076
   },
   {
    "key": "n80-r10-s1",
@@ -11054,8 +11055,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 37.187,
-   "rateStepsPerSec": 174.92239168578755
+   "wallSec": 26.242,
+   "rateStepsPerSec": 247.92439836247465
   },
   {
    "key": "n80-r10-s2",
@@ -12030,8 +12031,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 37.791,
-   "rateStepsPerSec": 171.91064890964077
+   "wallSec": 26.431,
+   "rateStepsPerSec": 245.96697665591194
   },
   {
    "key": "n160-r20-s0",
@@ -13006,8 +13007,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 69.018,
-   "rateStepsPerSec": 94.06299898388735
+   "wallSec": 61.144,
+   "rateStepsPerSec": 106.21209637764301
   },
   {
    "key": "n160-r20-s1",
@@ -13982,8 +13983,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 74.539,
-   "rateStepsPerSec": 87.06049898563771
+   "wallSec": 62.423,
+   "rateStepsPerSec": 103.98112935059933
   },
   {
    "key": "n160-r20-s2",
@@ -14958,8 +14959,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 73.068,
-   "rateStepsPerSec": 88.94379246448425
+   "wallSec": 62.431,
+   "rateStepsPerSec": 104.05960945529291
   },
   {
    "key": "n160-r10-s0",
@@ -15934,8 +15935,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 67.491,
-   "rateStepsPerSec": 96.17239792813784
+   "wallSec": 46.856,
+   "rateStepsPerSec": 138.5918384806228
   },
   {
    "key": "n160-r10-s1",
@@ -16909,8 +16910,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 66.809,
-   "rateStepsPerSec": 97.19514024298785
+   "wallSec": 47.191,
+   "rateStepsPerSec": 137.8928776626306
   },
   {
    "key": "n160-r10-s2",
@@ -17885,8 +17886,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 64.647,
-   "rateStepsPerSec": 100.44175773076029
+   "wallSec": 46.81,
+   "rateStepsPerSec": 138.7669443433197
   },
   {
    "key": "spin0-s0",
@@ -18862,8 +18863,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 26.309,
-   "rateStepsPerSec": 247.22444775094428
+   "wallSec": 18.152,
+   "rateStepsPerSec": 358.68482231816677
   },
   {
    "key": "spin0-s1",
@@ -19839,8 +19840,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 25.771,
-   "rateStepsPerSec": 252.24804390984468
+   "wallSec": 17.222,
+   "rateStepsPerSec": 377.64438487091326
   },
   {
    "key": "spin0-s2",
@@ -20816,8 +20817,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 27.369,
-   "rateStepsPerSec": 237.3887240356083
+   "wallSec": 16.76,
+   "rateStepsPerSec": 388.3960680891872
   },
   {
    "key": "virial",
@@ -21776,8 +21777,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 28.994,
-   "rateStepsPerSec": 224.2136950278537
+   "wallSec": 17.894,
+   "rateStepsPerSec": 363.0048736765448
   },
   {
    "key": "contactOn",
@@ -22754,8 +22755,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 26.797,
-   "rateStepsPerSec": 242.97873936030598
+   "wallSec": 18.211,
+   "rateStepsPerSec": 357.4186431329289
   },
   {
    "key": "eqPinned",
@@ -23731,8 +23732,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 31.376,
-   "rateStepsPerSec": 207.17437176290045
+   "wallSec": 18.35,
+   "rateStepsPerSec": 354.04032125881
   },
   {
    "key": "centerFree",
@@ -24708,8 +24709,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 28.05,
-   "rateStepsPerSec": 231.90065490462726
+   "wallSec": 18.253,
+   "rateStepsPerSec": 356.1809487165393
   },
   {
    "key": "toyOff",
@@ -25683,8 +25684,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 5.162,
-   "rateStepsPerSec": 1295.4818072770893
+   "wallSec": 3.222,
+   "rateStepsPerSec": 2070.9491850431446
   },
   {
    "key": "cut08",
@@ -26659,8 +26660,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 27.022,
-   "rateStepsPerSec": 241.15217148598862
+   "wallSec": 18.546,
+   "rateStepsPerSec": 350.99122521936954
   },
   {
    "key": "eps8",
@@ -27635,8 +27636,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 27.47,
-   "rateStepsPerSec": 237.02403160320424
+   "wallSec": 17.918,
+   "rateStepsPerSec": 363.51396836082125
   }
  ],
  "summary": [
@@ -27764,5 +27765,5 @@
   "E0": -117053.79305150372,
   "E1": 1272952.8601665813
  },
- "elapsedS": 369.621
+ "elapsedS": 265.216
 }

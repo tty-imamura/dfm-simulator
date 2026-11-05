@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便d",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T08:08:28.560Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:55:08.995Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w290d-ckfixcap.mjs",
-    "bytes": 53679,
-    "sha256": "155dc8be67f4b991f6cfe03524e38128fd1ba3596d3527a6a8f6d24a9507fb41",
-    "mtime": "2026-10-25T15:57:19.873Z"
+    "bytes": 53721,
+    "sha256": "435607e24297f7468f74f6e813d08a1b256278a98b536fdc23d13c8275430d54",
+    "mtime": "2026-11-05T03:10:54.250Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -34,12 +34,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "5451204c60206883cdd15099b93da3a878adc0d7b6cecfc8ad8b1c9470708c54",
+  "codeSha256": "5c52681bda8306917b4950f14056b2ac138b6a1e8f8402ac1a97294df9eccf97",
   "harnessVersion": "w290d-ckfixcap-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第80報)②「指摘を参考に改善」で採る不具合修正(チェックポイントが固定中心の状態を運ばない)",
@@ -53,7 +53,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "clusterGrowthCopy",
     "earthMoon",
@@ -102,11 +102,15 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1363,
-   "segments": 1189,
-   "closureShare": 0.294
+   "abBody": false,
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1326,
+   "segments": 1163,
+   "closureShare": 0.2879
   },
-  "scopeSha256": "599d58d8f37ea5c101d361c2b4a2eb87937bc75a31e004c059b915d2225fe03f",
+  "scopeSha256": "88f2094cb04b8b360acfb8cfbada07ba85c0db415411dec5c1e969b6063a00c5",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -2722,5 +2726,5 @@
   },
   "ok": true
  },
- "elapsedS": 0.396
+ "elapsedS": 0.477
 }

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便e",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T10:43:17.807Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:52:16.506Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
@@ -76,18 +76,18 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "447b2d5b8c67afd9bea9dfc74c32a7f4a57b5923eb6fd9e5f6d42a2b3f29e415",
+  "codeSha256": "cbece5dcb0fd30b260bf75a6ebacd0bb3076447627b75627684aea978c43c11d",
   "harnessVersion": "w306e-charonfix-1",
   "loadErrors": 0,
   "ruling": "決断事項 AN339(案 (A) —— DECISIONS v65 §0)・AN334 ④",
   "reading": "統括の検証項目 R208",
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "plutoCharonDiagInput",
     "plutoCharonInertialFit"
@@ -115,11 +115,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1388,
-   "segments": 1214,
-   "closureShare": 0.2973
+   "names": 1351,
+   "segments": 1188,
+   "closureShare": 0.2912
   },
-  "scopeSha256": "6cef79b6602d0a1289c2378d3b7ffc9181e02765f4357d5d5e2ce9228d3bf6d6",
+  "scopeSha256": "44ff7b1932613c51cfe51505527bca1d2c9826a30cea020332e2343e9f0dd267",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -293,11 +293,11 @@
    "M1_16": 551856.44309496,
    "late": 551856.4430958406,
    "eProxy": 3.989633641573282e-9,
-   "wallSec": 16.706,
+   "wallSec": 11.115,
    "steps": 2759283
   },
   "h2": {
-   "wallSec": 17.645,
+   "wallSec": 11.128,
    "dt": 0.08,
    "steps": 5518565,
    "revN": 8,
@@ -320,7 +320,7 @@
    }
   },
   "h4": {
-   "wallSec": 35.542,
+   "wallSec": 24.69,
    "dt": 0.04,
    "steps": 11037129,
    "revN": 8,
@@ -368,7 +368,7 @@
     "d": 0.0011411890154704452,
     "nan": false,
     "revN": 8,
-    "wallSec": 8.872
+    "wallSec": 6.379
    },
    {
     "eps": 0.0025,
@@ -376,7 +376,7 @@
     "d": 0.0003335564397275448,
     "nan": false,
     "revN": 8,
-    "wallSec": 8.601
+    "wallSec": 6.085
    }
   ],
   "extrapolated": 551856.4387835835,
@@ -573,5 +573,5 @@
   "「観測と一致した」",
   "「時計の換算で合った」"
  ],
- "elapsedS": 224.752
+ "elapsedS": 158.371
 }

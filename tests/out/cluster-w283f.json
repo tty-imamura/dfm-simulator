@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便f",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T06:52:42.477Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:29:42.540Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
@@ -28,9 +28,9 @@
   "code": [
    {
     "file": "tests/exp-w283f-cluster.mjs",
-    "bytes": 32804,
-    "sha256": "661d6069c0228b669087a925b3d61736370b9f9f950ca866940d479fe844b302",
-    "mtime": "2026-10-20T16:19:56.632Z"
+    "bytes": 32819,
+    "sha256": "f2486e54c636e479f0328968b3e4f17eef3cf621e3845d9a3b8c7a68f61ab5df",
+    "mtime": "2026-11-05T03:10:54.247Z"
    },
    {
     "file": "tests/lib-w281c-rotorledger.mjs",
@@ -58,12 +58,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "009976a5f54d670e13364eafc71f7ea2e7617de8ee46a03ad1289b4618588c1e",
+  "codeSha256": "266018a29470e2dc212f8b5ecb20f077ef0fbd57393e598c5228830f3191a0e9",
   "harnessVersion": "w283f-cluster-1",
   "loadErrors": 0,
   "headlessErrors": 0,
@@ -82,7 +82,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": "all",
    "roots": [
     "$",
@@ -107,11 +107,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1364,
-   "segments": 1190,
-   "closureShare": 0.2948
+   "abBody": false,
+   "names": 1327,
+   "segments": 1164,
+   "closureShare": 0.2888
   },
-  "scopeSha256": "43e070423620b8138510c0502a6030868c5fd8546e37ec21d6ed478e2e574526",
+  "scopeSha256": "6247702ecd2cd4e7d38489feacd67f2c5a22aa7a456cd2c3842599a157cdd3a5",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -159,7 +160,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 344.5708816335212,
+   "rateStepsPerSec": 393.6099131385531,
    "spinCenter": 12,
    "samples": [
     {
@@ -677,7 +678,7 @@
    },
    "label": "基準(宣言どおり・N_rep 40)",
    "info": false,
-   "wallSec": 18.833
+   "wallSec": 16.486
   },
   {
    "key": "spin0",
@@ -687,7 +688,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 364.74164133738606,
+   "rateStepsPerSec": 384.61538461538464,
    "spinCenter": 0,
    "samples": [
     {
@@ -1205,7 +1206,7 @@
    },
    "label": "中心 spin 0(自転の寄与だけを外す)",
    "info": false,
-   "wallSec": 17.784
+   "wallSec": 16.864
   },
   {
    "key": "noDR",
@@ -1215,7 +1216,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 517.4478958715963,
+   "rateStepsPerSec": 599.9444495880011,
    "spinCenter": 12,
    "samples": [
     {
@@ -1732,7 +1733,7 @@
    },
    "label": "DR なし(DR の行と台帳を外す —— 総質量は M★+中心だけ)",
    "info": false,
-   "wallSec": 12.543
+   "wallSec": 10.811
   },
   {
    "key": "nrep80",
@@ -1742,7 +1743,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 252.375759464091,
+   "rateStepsPerSec": 269.00244925069535,
    "spinCenter": 12,
    "samples": [
     {
@@ -2260,7 +2261,7 @@
    },
    "label": "N_rep 80(DR の総質量 2125 一定・1 体 26.5625)",
    "info": false,
-   "wallSec": 25.702
+   "wallSec": 24.11
   },
   {
    "key": "nrep160",
@@ -2270,7 +2271,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 146.35468425332007,
+   "rateStepsPerSec": 160.78606520768201,
    "spinCenter": 12,
    "samples": [
     {
@@ -2789,7 +2790,7 @@
    },
    "label": "N_rep 160(DR の総質量 2125 一定・1 体 13.28125)",
    "info": false,
-   "wallSec": 44.332
+   "wallSec": 40.341
   },
   {
    "key": "toyOff",
@@ -2799,7 +2800,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 2088.9748549323017,
+   "rateStepsPerSec": 2140.0264200792603,
    "spinCenter": 12,
    "samples": [
     {
@@ -3317,7 +3318,7 @@
    },
    "label": "情報の対照: トイを外す(geoPN=0・spaceMesh なし —— 重力 E4 だけ・同じ初期配置)",
    "info": true,
-   "wallSec": 3.137
+   "wallSec": 3.052
   },
   {
    "key": "toyOffNoDR",
@@ -3327,7 +3328,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 3116.8831168831166,
+   "rateStepsPerSec": 3376.758728504429,
    "spinCenter": 12,
    "samples": [
     {
@@ -3844,7 +3845,7 @@
    },
    "label": "情報の対照: トイを外し DR も外す(重力 E4 だけ・恒星と中心)",
    "info": true,
-   "wallSec": 2.104
+   "wallSec": 1.938
   },
   {
    "key": "smallR",
@@ -3854,7 +3855,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 363.73842267751894,
+   "rateStepsPerSec": 375.41278025606863,
    "spinCenter": 12,
    "samples": [
     {
@@ -4372,7 +4373,7 @@
    },
    "label": "情報の対照: DR 代表粒子の半径を小さく(rMul 1.2 → 0.2・R 8.75 → 1.46 —— E9 の接触ばねが DR どうしで働かない大きさ)",
    "info": true,
-   "wallSec": 17.845
+   "wallSec": 17.28
   }
  ],
  "controls": {
@@ -6623,5 +6624,5 @@
   "compare": "not-compared",
   "why": "参照の行を並べるだけ —— 単位の写像(トイ単位 ↔ pc・km/s)を宣言していないので比較の数を作らない(一致とは書かない)"
  },
- "elapsedS": 179.319
+ "elapsedS": 163.02
 }

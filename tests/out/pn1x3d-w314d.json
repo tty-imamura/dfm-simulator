@@ -2,7 +2,7 @@
  "version": "w314d-pn1x3d-1",
  "generator": "tests/exp-w314d-pn1x3d.mjs",
  "target": "beta/index.html",
- "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "ruling": "原仮定者の裁定(第116報)の補足 —— 太陽と全惑星とトリトン以上の 7 大衛星を 1 つにまとめた三次元サンプルの対照に geoPN=1 と geoPN=3 の両方・統括の検証項目 R241",
  "coord3dPn1Version": "w314d-pn1-3d-1",
  "pn1EihVersion": "w291b-eih-2",
@@ -461,7 +461,7 @@
      "maxRel": 0
     },
     "rateSame": true,
-    "wallSec": 0.22799999999999998
+    "wallSec": 0.30100000000000005
    },
    {
     "variant": "pinned",
@@ -495,7 +495,7 @@
      "maxRel": 0
     },
     "rateSame": true,
-    "wallSec": 0.20400000000000001
+    "wallSec": 0.16
    },
    {
     "variant": "free",
@@ -529,7 +529,7 @@
      "maxRel": 0
     },
     "rateSame": true,
-    "wallSec": 0.08199999999999999
+    "wallSec": 0.08
    },
    {
     "variant": "free",
@@ -563,7 +563,7 @@
      "maxRel": 0
     },
     "rateSame": true,
-    "wallSec": 0.091
+    "wallSec": 0.137
    },
    {
     "variant": "freeLeapfrog",
@@ -597,7 +597,7 @@
      "maxRel": 0
     },
     "rateSame": true,
-    "wallSec": 0.156
+    "wallSec": 0.211
    }
   ],
   "deltaRows": [
@@ -661,7 +661,7 @@
     "absRate": 1.1559763563040448e-15,
     "planeDrift": 5.158807480286034e-16,
     "zEnd": 5.56178033683275e-16,
-    "wallSec": 0.027999999999999997
+    "wallSec": 0.027
    },
    {
     "rot": [
@@ -678,7 +678,7 @@
     "absRate": 1.0325941490751944e-15,
     "planeDrift": 1.128084379585066e-15,
     "zEnd": 6.257002878936875e-16,
-    "wallSec": 0.026000000000000002
+    "wallSec": 0.041
    },
    {
     "rot": [
@@ -695,7 +695,7 @@
     "absRate": 5.526178473158616e-16,
     "planeDrift": 1.6709682002982022e-15,
     "zEnd": 1.6685341010498433e-15,
-    "wallSec": 0.025
+    "wallSec": 0.057999999999999996
    }
   ],
   "worst": {
@@ -743,7 +743,7 @@
     "dP1PN1": 1.251329749593879e-10,
     "dPNewton0": 2.350705041291402e-16,
     "dP1PN0": 1.2010388781322307e-9,
-    "wallSec": 0.06
+    "wallSec": 0.147
    },
    {
     "conf": "3dFlat",
@@ -759,7 +759,7 @@
     "dP1PN1": 1.251329749593879e-10,
     "dPNewton0": 2.350705041291402e-16,
     "dP1PN0": 1.2010388781322307e-9,
-    "wallSec": 0.051000000000000004
+    "wallSec": 0.11
    },
    {
     "conf": "3dTilt",
@@ -775,7 +775,7 @@
     "dP1PN1": 1.2407094393283631e-10,
     "dPNewton0": 2.5549813317505944e-16,
     "dP1PN0": 1.2199301375669954e-9,
-    "wallSec": 0.043
+    "wallSec": 0.065
    }
   ],
   "flatBits": {
@@ -796,42 +796,42 @@
     "hDiv": 1,
     "steps": 2000,
     "dP1PN": 1.2407094393283631e-10,
-    "wallSec": 0.024
+    "wallSec": 0.039
    },
    {
     "integrator": "leapfrog",
     "hDiv": 2,
     "steps": 4000,
     "dP1PN": 6.205482279704377e-11,
-    "wallSec": 0.044
+    "wallSec": 0.082
    },
    {
     "integrator": "leapfrog",
     "hDiv": 4,
     "steps": 8000,
     "dP1PN": 3.103087936039365e-11,
-    "wallSec": 0.087
+    "wallSec": 0.168
    },
    {
     "integrator": "semi",
     "hDiv": 1,
     "steps": 2000,
     "dP1PN": 2.4686594446597114e-10,
-    "wallSec": 0.015
+    "wallSec": 0.031
    },
    {
     "integrator": "semi",
     "hDiv": 2,
     "steps": 4000,
     "dP1PN": 1.236796257120483e-10,
-    "wallSec": 0.036
+    "wallSec": 0.054
    },
    {
     "integrator": "semi",
     "hDiv": 4,
     "steps": 8000,
     "dP1PN": 6.189856618130918e-11,
-    "wallSec": 0.057
+    "wallSec": 0.101
    }
   ],
   "hOrder": {
@@ -872,21 +872,21 @@
     "warnings": 0,
     "deny": [],
     "build": {
-     "wallSec": 0.001
+     "wallSec": 0.002
     },
     "h": 0.00421862799335,
     "n": 16,
     "integrator": "leapfrog",
     "run20": {
-     "wallSec": 0.028
+     "wallSec": 0.057
     },
     "finite": true,
     "halt": null,
     "t": 0.08437255986700003,
     "cost": {
      "steps": 200,
-     "wallSec": 0.06,
-     "rateStepsPerSec": 3333.3333333333335
+     "wallSec": 0.113,
+     "rateStepsPerSec": 1769.9115044247787
     },
     "pn1": {
      "version": "w314d-pn1-3d-1",
@@ -907,21 +907,21 @@
     "warnings": 0,
     "deny": [],
     "build": {
-     "wallSec": 0.001
+     "wallSec": 0
     },
     "h": 0.00421862799335,
     "n": 16,
     "integrator": "leapfrog",
     "run20": {
-     "wallSec": 0.004
+     "wallSec": 0.007
     },
     "finite": true,
     "halt": null,
     "t": 0.08437255986700003,
     "cost": {
      "steps": 200,
-     "wallSec": 0.017,
-     "rateStepsPerSec": 11764.70588235294
+     "wallSec": 0.036,
+     "rateStepsPerSec": 5555.555555555556
     }
    },
    "g3": {
@@ -930,21 +930,21 @@
     "warnings": 0,
     "deny": [],
     "build": {
-     "wallSec": 0.909
+     "wallSec": 1.485
     },
     "h": 0.00421862799335,
     "n": 16,
     "integrator": "leapfrog",
     "run20": {
-     "wallSec": 3.554
+     "wallSec": 5.355
     },
     "finite": true,
     "halt": null,
     "t": 0.08437255986700003,
     "cost": {
      "steps": 20,
-     "wallSec": 3.554,
-     "rateStepsPerSec": 5.627462014631401
+     "wallSec": 5.355,
+     "rateStepsPerSec": 3.7348272642390286
     }
    }
   },
@@ -1020,42 +1020,42 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.084
+   "wallSec": 0.092
   },
   "P": {
-   "wallSec": 0.806
+   "wallSec": 0.919
   },
   "R": {
-   "wallSec": 0.125
+   "wallSec": 0.165
   },
   "N": {
-   "wallSec": 0.42
+   "wallSec": 0.799
   },
   "X": {
-   "wallSec": 4.632
+   "wallSec": 7.147
   }
  },
- "elapsedS": 8.185,
+ "elapsedS": 11.6,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便d",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T07:14:27.477Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:55:26.484Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w314d-pn1x3d.mjs",
-    "bytes": 49025,
-    "sha256": "6bcf47c5d9cc2702844d8c6772ecf7c598fe8f338e93d976c0490c6e1d4b288c",
-    "mtime": "2026-10-23T07:09:27.514Z"
+    "bytes": 49067,
+    "sha256": "4639797d44d224074a4282a862acb6b28e3ea2fcbdc9c80479f6528acb587491",
+    "mtime": "2026-11-05T03:10:54.294Z"
    },
    {
     "file": "tests/lib-w300c-solar16.mjs",
@@ -1089,12 +1089,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "c0030aa1ccaf4f6a646b75b4ab53ed6f7ec2a2729330edae9925fbeb0f28b897",
+  "codeSha256": "800c640b3df7d465053794890d36a05294aa21817a761268ed6ca9c05772647e",
   "harnessVersion": "w314d-pn1x3d-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1106,7 +1106,7 @@
    "DFM から導出した"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": "all",
    "roots": [
     "$",
@@ -1126,11 +1126,15 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1377,
-   "segments": 1203,
-   "closureShare": 0.2964
+   "abBody": false,
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1340,
+   "segments": 1177,
+   "closureShare": 0.2903
   },
-  "scopeSha256": "0164277f134f03aa6209557584d6a4a970def2a9b42291beb3549bfc5827965a",
+  "scopeSha256": "c806a63f08fdfd158dafb94631b6bd1385815d64139d8394854cc99d5e1bc26a",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
