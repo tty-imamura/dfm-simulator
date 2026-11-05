@@ -657,6 +657,14 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.axialHeat326d behavior.axialRadius326d 
 #   lint.regenScope・docs.regenShort319c)と、正本の入力の宣言の lint.stableHashPaths
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.alwaysShadow326e lint.familiesTemp326e lint.scopeObsSpin326e lint.narrow326e docs.w326e docs.families lint.quickMutation325d lint.quickGate325d lint.regenScope docs.regenShort319c lint.stableHashPaths"
 # ==== 第326便e の塊(ここまで)====
+# ==== 第327便a の塊(ここから)====
+# 第327便a(原仮定者の回答(2026-11-05 —— AN534・AN535・AN537)・統括の検証項目 R295 —— 診断だけ・html は変えない): 枝 a の新設 3 本(lint.axialSum327a —— 角速度の和の族 S と族 E の純関数の場面
+#   〔和と平均・細分の不変・受動の口・帳簿・尺度・配分・族 E の照合・採否・凸包・法則・根〕/ behavior.axialSum327a —— 今の html の 🗺️ の写しで族 S・族 E の解と金星の R_d の 2 点が正本と同じ /
+#   docs.axialSum327a —— 正本の門と表が PHYSICS〔第327便a〕に逐語・第326便d の節の「第327便の更新」・文書)と、世代を直した lint.axialHeat326d(族 E の採否の直し —— lib 版 2・場面 14)と
+#   docs.axialHeat326d・behavior.axialRadius326d(正本 axialheat-w326d を走らせ直した)・新しい段 axialsum-327a の lint 一式(lint.regenScope・lint.provenanceMeta・lint.stableHashPaths・
+#   lint.scopeStop・lint.scopeAll312・lint.regenChain・lint.canon304・lint.harnessSmoke303・lint.quickBoundary324c)・qa.mjs の包みの lint.qaHeapRelease310・PHYSICS の節の lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.axialSum327a behavior.axialSum327a docs.axialSum327a lint.axialHeat326d docs.axialHeat326d behavior.axialRadius326d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第327便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

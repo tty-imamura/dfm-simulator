@@ -15,7 +15,7 @@
 //     金星・木星・イオで決めた則を固定して地球・土星へ当てる予言の段(合う・合わないを記録 —— 合わせない)
 //   H 帳簿(候補ごとに由来別の Q・P・供給・軌道の仕事・放射・閉じ)・配分と尺度の感度
 //   P 純関数の場面(lib の pureScenes —— QA lint.axialSum327a と同じ)
-// ■ 言わないこと: 金星の逆回転・内部熱を説明したとは書かない・銀河場を同定したと数えない・格子で見つけた R_d を在位の本へ入れない(根が無くても「解なし」を全部の模型の否定に広げない)・
+// ■ 言わないこと: 金星の逆回転・内部熱の説明ではない・銀河場の同定と数えない・格子で見つけた R_d を在位の本へ入れない(根が無くても「解なし」を全部の模型の否定に広げない)・
 //   負の係数を 0 へ丸めない・地球と土星で合わせない・応答の尺度 Γ は宣言のノブ(内部熱を観測の熱流に合わせていない)。
 import fs from 'node:fs';
 import path from 'node:path';
@@ -36,8 +36,8 @@ export const HARNESS_VERSION = 'w327a-axialsum-1';
 export const OUT_MAIN = 'tests/out/axialsum-w327a.json';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const SAT = Object.keys({ saturn: 1 })[0];   // 鍵の文字列を引用符で書かない(領域の下限 deriveScope が同じ綴りの本の id と取り違える)
-export const NOT_CLAIM = Object.freeze(['金星の逆回転を説明したとは書かない', '内部熱を説明したとは書かない(応答の尺度 Γ は宣言のノブ —— 観測の熱流に合わせていない)',
-  '銀河場を同定したと数えない(A は「太陽の口が銀河だけ」という接続の帰結)', '格子の R_d は採らない(在位の本へ入れない —— 根が無いことを全部の模型の否定に広げない)',
+export const NOT_CLAIM = Object.freeze(['金星の逆回転の説明ではない(条件と残差つきの記録)', '内部熱の説明ではない(応答の尺度 Γ は宣言のノブ —— 観測の熱流に合わせていない)',
+  '銀河場の同定と数えない(A は「太陽の口が銀河だけ」という接続の帰結)', '格子の R_d は採らない(在位の本へ入れない —— 根が無いことを全部の模型の否定に広げない)',
   '負の係数を要する解は不採用(0 へ丸めない)', '地球と土星は検査と予言だけ(合わせていない)', '配分 w は宣言の構成則(観測で決まった値ではない)', '族 E の「要る大きさ」の記録は族 E・今の R_d・K1 固定の条件つき']);
 const SOLVE = E.DECL.solveBodies, CHECK = E.DECL.checkBodies;
 
@@ -133,7 +133,7 @@ export function partS(I, Know, KJ) {
 }
 
 /* ───────── V(AN535)金星の受け手の R_d ───────── */
-function buildAt(HP, I, src, o) {
+export function buildAt(HP, I, src, o) {
   const opt = {};
   if (src === 'J') opt.sm = { kind: 'J', f: X.SRC_F };
   if (o.dragCore) opt.dragCore = Object.fromEntries(Object.entries(o.dragCore).map(([i, R]) => [i, { massFrac: 1, radius: R / I.units.lenSI }]));
@@ -160,7 +160,7 @@ export function venusGrid(I) {
   return [...set].sort((a, b) => a - b);
 }
 /** 一点の解(規約 c・族 F): 金星の潮汐の係数・4 天体の採否・決め手の量(族 S は T_V − s_V・族 E は口の目標の和 − 2 s_V)と K1 の項に要る倍率 */
-function venusPoint(I, K0, tV, RdV, conv, family) {
+export function venusPoint(I, K0, tV, RdV, conv, family) {
   const o = { q: conv.q, RdOver: { venus: RdV }, tOver: { 'venus:sun': tV } }, r = solveAt(I, K0, SOLVE, conv.p, family, o), b = I.bodies.venus;
   const row = r.rows.find((q) => q.key === 'venus'), sys = r.sys.find((q) => q.key === 'venus'), vSun = I.bodies.sun.s * E.dot(tV, b.a), vGal = r.A * sys.f * E.dot(I.g, b.a);
   const lam = family === 'S' ? (b.s - vGal) / vSun : (2 * b.s - vGal) / vSun;   // A を固定・金星は源でない(反作用なし)—— k_V = 0 の倍率(採らない)
@@ -274,7 +274,19 @@ export function partT(I, Know, F) {
   };
   const law = {};
   for (const family of ['S', 'E']) law[family] = [LS.DECL.pMain, -1].map((p) => lawAt(p, family));
-  return { free, law };
+  // 古典の尺度(α = 1)の 1 つの C が木星とイオで同じになる p(p も法則の母数に数える —— 2 母数を 2 天体で決める: 残差は検査にならない)と、その p での地球・土星の予言
+  const pStar = {};
+  for (const family of ['S', 'E']) {
+    const gap = (p) => { const a = lawAt(p, family).laws.classical.amplitudes; const cj = a.find((z) => z.key === 'jupiter').C, ci = a.find((z) => z.key === 'io').C; return cj > 0 && ci > 0 ? Math.log10(cj / ci) : NaN; };
+    let lo = -3, hi = LS.DECL.pMain, glo = gap(lo), ghi = gap(hi), res = null;
+    if (Number.isFinite(glo) && Number.isFinite(ghi) && Math.sign(glo) !== Math.sign(ghi)) {
+      for (let k = 0; k < 60; k++) { const m = 0.5 * (lo + hi), gm = gap(m); if (Math.sign(gm) === Math.sign(glo)) { lo = m; glo = gm; } else { hi = m; ghi = gm; } }
+      const pm = 0.5 * (lo + hi), x = lawAt(pm, family).laws.classical;
+      res = { p: pm, C: x.fit.C, spreadLog10: x.fit.spreadLog10, predictions: x.predictions, venusAmplitude: x.amplitudes.find((z) => z.key === 'venus').C, gapAtMain: gap(LS.DECL.pMain), gapAtMinus1: gap(-1) };
+    }
+    pStar[family] = res || { p: null, why: 'p の区間 [−3, ' + LS.DECL.pMain + '] に木星とイオの古典の振幅の等しい点が無い' };
+  }
+  return { free, law, pStar };
 }
 
 /* ───────── H 帳簿 ───────── */
@@ -331,7 +343,8 @@ export function gatesOf(J) {
     quadratureRecorded: V.orders.every((q) => q.vSunAlong.every(Number.isFinite)),
     solidRuleRecorded: J.solidRule.every((q) => q.ok && Object.values(q.cols).every((c) => c.alongMaxRel <= 1e-12)),
     negativeNotClipped: famRows.every((q) => Object.entries(q.beta).every(([k, v]) => (q.rejected.includes(k) ? v < 0 : v >= 0))),
-    lawStage: ['S', 'E'].every((f) => TT.law[f].every((x) => Object.values(x.laws).every((l) => !l.fit.ok || l.predictions.length === LS.DECL.predictBodies.length && l.predictions.every((q) => Number.isFinite(q.sPred))))),
+    lawStage: ['S', 'E'].every((f) => TT.law[f].every((x) => Object.values(x.laws).every((l) => !l.fit.ok || l.predictions.length === LS.DECL.predictBodies.length && l.predictions.every((q) => Number.isFinite(q.sPred))))
+      && TT.pStar[f].p !== null && TT.pStar[f].spreadLog10 <= 1e-9 && TT.pStar[f].venusAmplitude < 0),
     ledgerCandidates: H.candidates.every((c) => c.ledger.residualRel <= 1e-12 && c.ledger.LTotalRel <= 1e-12 && c.ledger.k1TransferRel <= 1e-12 && c.ledger.portCloseMaxRel <= 1e-12 && c.ledger.holdWorkMaxRel <= 1e-12),
     scaleNotIdentified: H.candidates.every((c) => c.scale.ARel <= 1e-12 && c.scale.betaRelMax <= 1e-12 && E.relD(c.scale.heatRatio, c.scale.lambda) <= 1e-12),
   };
