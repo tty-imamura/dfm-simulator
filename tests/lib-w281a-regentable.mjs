@@ -1696,6 +1696,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/galaxis-w327b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第327便b: 銀河の局所場の大きさの 2 つの経路(太陽の自転・場の API の模型 —— 別の列・平均しない)と「場に対して逆回転」の読み(場の軸は反転しない)の診断 —— 銀河場を同定したと数えない・腕より速い場は仮定' }),
   // ==== 第327便b の塊(ここまで)====
+  // ==== 第327便e の塊(ここから)====
+  // ---- 第327便e(原仮定者の指示(2026-11-05)「軸引きずりについて」・統括の検証項目 R299): **軸引きずりを「近い位置と遠い位置の差分」として読む器**(段 axialdiff-327e ——
+  //   正本 tests/out/axialdiff-w327e.json・lib tests/lib-w327e-axialdiff.mjs —— 第326便d・第327便a の器の写しと読み口〔copyBook・stateOf・partI・buildAt〕を import して使う
+  //   〔code の依存 —— 正本 axialheat-w326d・axialsum-w327a は読まない〕・エンジンの点の読み口 inertialDragIsqPointAt の rotC で近い位置と遠い位置の回転引きずりの場を読む)。
+  //   **診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は 🗺️ を .find で引く 1 本・他の正本は読まない —— html の生成領域の後)。1 プロセス。
+  //   t = 0 の読み口と純関数だけ(步を進めない —— 写しの build は 24 回)。所要は第327便e の枝の実測 9〜11 s(nice 10 —— 統括の鎖と並走の箱〔**並走の秒**〕)
+  S('axialdiff-327e', 'node tests/exp-w327e-axialdiff.mjs', ['tests/out/axialdiff-w327e.json'], 11, { secSource: 'w327e-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ(步を進めない —— 窓が無く、全部を走らせても 15 秒ほど)',
+    volatilePaths: { 'tests/out/axialdiff-w327e.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第327便e: 軸引きずりの核の 2 つの型(勾配と有限の半径の差分)・頭打ちは比の型の性質・金星で銀河は K1・太陽は別の半径の零点(族 S 主・族 E 対照 —— 記録・採らない)・規則を固定した太陽–火星と太陽–地球–月の 3 体の帳簿(合わせない)' }),
+  // ==== 第327便e の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

@@ -684,6 +684,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.narrowScope327c docs.w327c lint.scopeSt
 #   lint.physLockAlways326a・behavior.xkDerive326a・docs.xkLock326a の塊と第326便の統括の照合 / ai.stabilize)と、ロックと退役の数を読む一式(physlock.*・docs.retired・groups.*)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.xkLock327d behavior.xkClampShown327d behavior.xkExemptScope327d docs.xkLock327d lint.physLockAlways326a behavior.xkDerive326a docs.xkLock326a ai.stabilize physlock.kt-derive physlock.ui-110 docs.retired groups.family-invariant groups.family-split groups.reorder"
 # ==== 第327便d の塊(ここまで)====
+# ==== 第327便e の塊(ここから)====
+# 第327便e(原仮定者の指示(2026-11-05)「軸引きずりについて」・統括の検証項目 R299 —— 診断だけ・html は変えない): 枝 e の新設 3 本(lint.axialDiff327e —— 差分の型の純関数の場面
+#   〔勾配の極限・比の頭打ち・自己の場が勝つ間の比例・規則の往復・鏡映の幾何・零点と跳び・系の帳簿・入力の拒否〕/ behavior.axialDiff327e —— 今の html の 🗺️ の写しで核の点と
+#   金星の零点の区間の端が正本と同じ / docs.axialDiff327e —— 正本の門と表が PHYSICS〔第327便e〕に逐語・第327便a の節の「第327便e の更新」・文書)と、第327便a の節を読む
+#   docs.axialSum327a(節に行を足した)・新しい段 axialdiff-327e の lint 一式(lint.regenScope・lint.provenanceMeta・lint.stableHashPaths・lint.quickBoundary324c・lint.narrowScope327c・docs.w320d)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.axialDiff327e behavior.axialDiff327e docs.axialDiff327e docs.axialSum327a lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.quickBoundary324c lint.narrowScope327c docs.w320d lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第327便e の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
