@@ -1719,6 +1719,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/venustide-w327f.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第327便f: 金星のトルクの釣り合い(族 E 主・R_d は K1)に固体の重力潮汐・大気の熱潮汐・地球との共鳴の口 —— 釣り合いの振幅と共鳴の割合・安定と解の枝・共鳴のトルクの大きさ(記録・採らない)・規則を固定した太陽–火星と太陽–地球–月(合わせない)' }),
   // ==== 第327便f の塊(ここまで)====
+  // ==== 第328便a の塊(ここから)====
+  // ---- 第328便a(原仮定者の回答(2026-11-05 —— AN551・AN552・AN553)・統括の検証項目 R301): **場の API の opt-in の契約と直接の滑りの宣言の型の器**
+  //   (段 fieldcontract-328a —— 正本 tests/out/fieldcontract-w328a.json・lib tests/lib-w328a-fieldcontract.mjs —— 第321便c の場の API〔sample〕を opt-in の口で包む〔契約を求めない呼び出しは
+  //   同じ関数・同じ引数〕・枠・定数の Ω_field の宣言の候補・収束の印〔u と curl を別に〕・由来・伝達の版と係数・帳簿の参照〔第326便d の lib の口座の名前〕/直接の滑り ν_G = g_T(Ω_arm − Ω_field)ĝ の
+  //   太陽の式の検査/対照の列〔第327便b の器の関数 partPath1・partPath2・partGrid・partRel を呼んで同じ値〕/双対の帳簿の照合〔第326便d の器の solveAt と lib の evaluate〕/縮退〔ランク 1〕)。
+  //   **診断と契約だけ**(エンジン・在位の本・受理器・第321便c の lib の本文は変えない)。html を読む(本は 🗺️ を .find で引く 1 本 —— 領域の下限の他の本は import した lib の綴り・
+  //   他の正本は読まない —— html の生成領域の後)。1 プロセス。t = 0 の読み口と場の API の純関数だけ(步を進めない)。所要は第328便a の枝の実測 17 s(nice 10 —— 3 枝並走の箱〔**並走の秒**〕)
+  S('fieldcontract-328a', 'node tests/exp-w328a-fieldcontract.mjs', ['tests/out/fieldcontract-w328a.json'], 17, { secSource: 'w328a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: 't = 0 の読み口と場の API の純関数だけ(步を進めない —— 窓が無く、全部を走らせても 20 秒ほど)',
+    volatilePaths: { 'tests/out/fieldcontract-w328a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第328便a: 場の API の opt-in の契約(枠・定数の Ω_field・収束の印 —— 帳簿は第326便d の lib に残す)と直接の滑りの宣言の型(対照の列は第327便b と同じ値・双対の帳簿・縮退はランク 1)—— Ω_field は宣言の候補(同定の値ではない)' }),
+  // ==== 第328便a の塊(ここまで)====
   // ==== 第328便b の塊(ここから)====
   // ---- 第328便b(原仮定者の回答(2026-11-05 —— AN559・AN561・AN562・AN563・AN550・AN566)・統括の検証項目 R302): **受け手の応答の演算の型ごとの指数の判定の器**(段 response-328b ——
   //   正本 tests/out/response-w328b.json・lib tests/lib-w328b-response.mjs —— 第327便e・第326便d の器の入力と読み口〔partI・stateFor・gradT・stencilAt・copyBook・stateOf〕・
