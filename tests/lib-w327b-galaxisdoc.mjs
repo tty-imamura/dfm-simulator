@@ -60,8 +60,8 @@ export function tablesOf(J) {
   {
     const rel = (q) => (q.relKind === 'premise' ? '負(前提そのもの)' : q.relKind === 'always' ? (q.relSign < 0 ? '負(前提の全域)' : '正(前提の全域)')
       : (q.c > 0 ? 'Ω_field > ' + fe(q.threshold) + ' で負・その下で正' : 'Ω_field < ' + fe(q.threshold) + ' で負'));
-    const rows = R.table.map((q) => `| ${q.ja} | ${q.axis} | ${fe(q.w)} | ${q.apparentSign > 0 ? '順' : q.apparentSign < 0 ? '逆' : '0'} | ${rel(q)} |`);
-    T.sign = ['| 体(Ω_body) | 射影の軸 | 遠方の枠での値 [rad/s] | 見た目(遠方の枠) | 場に対して(Ω_body − Ω_field ĝ —— 前提 Ω_field > Ω_p) |', '|---|---|---|---|---|'].concat(rows).join('\n');
+    const rows = R.table.map((q) => `| ${q.ja} | ${q.axis} | ${fe(q.w)} | ${fp(q.c, 4)} | ${q.apparentSign > 0 ? '順' : q.apparentSign < 0 ? '逆' : '0'} | ${rel(q)} | ${fe(q.relAtDirect)} |`);
+    T.sign = ['| 体(Ω_body) | 射影の軸 | 遠方の枠での値 [rad/s] | ĝ·軸 | 見た目(遠方の枠) | 場に対して(Ω_body − Ω_field ĝ —— 前提 Ω_field > Ω_p) | 直接の型の要る Ω_field(' + fe(R.OmegaFieldDirect) + ' rad/s)での場に対する値 |', '|---|---|---|---|---|---|---|'].concat(rows).join('\n');
     const F = R.fasterThanArm;
     T.omega = ['| 量 | 値 [rad/s] | 腕のパターンの角速度の文献の下限との比 |', '|---|---|---|',
       `| 腕のパターンの角速度 Ω_p(文献の範囲) | ${fe(R.OmegaPattern[0])}〜${fe(R.OmegaPattern[1])} | 1〜${fp(R.OmegaPattern[1] / R.OmegaPattern[0])} |`,

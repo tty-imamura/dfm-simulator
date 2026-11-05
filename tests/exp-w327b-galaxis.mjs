@@ -43,6 +43,8 @@ export const NOT_CLAIM = Object.freeze(['銀河場の同定と数えない(二�
   'A は太陽の口が銀河だけという接続の帰結(同定の値ではない)', '半渦度を今の軸引きずりと同じ量と書かない(伝達の候補の 1 つ)', '二つの経路を平均しない',
   '場の軸を反転しない(逆向きは場に対する相対の角速度の符号)', '点のセルの和の半渦度は格子で符号が交互(u が近いことを curl の収束とみなさない)', '回転曲線の予言ではない(流れは宣言の入力)']);
 
+/** 符号の表で自分の軸へ射影する他の天体(第326便d の方程式と検査の天体 —— 鍵の文字列は第326便d の器の IDX の鍵と同じ) */
+const REL_BODIES = Object.freeze(Object.keys(X6.IDX).filter((k) => !/^(sun|moon|titan)$/.test(k)));
 /* ───────── 1 経路 1(太陽の自転)───────── */
 export function partPath1(HP) {
   const I = X6.partI(HP), sun = I.bodies.sun, out = { variants: {} };
@@ -54,7 +56,8 @@ export function partPath1(HP) {
     out.variants[v] = { ok: true, AE: S.sunExact.A, AAlone: alone.A, AOnePort: A1, reaction: sr.reaction, reactionScale: sr.alongScale, reactionRel: S.sunExact.reactionRel, AEVsOnePortRel: L.relD(S.sunExact.A, A1),
       AAloneVsOnePortRel: L.relD(alone.A, A1), AIndependentOfP: S.AIndependentOfP, alongRel: S.sunExact.alongRel };
   }
-  return { s: sun.s, a: sun.a, g: I.g, gDotA: L.dot(I.g, sun.a), angleDeg: L6.angDeg(I.g, sun.a), sAlongG: sun.s * L.dot(I.g, sun.a),
+  const bodies = Object.fromEntries(REL_BODIES.map((k) => { const b = I.bodies[k]; return [k, { name: b.name, s: b.s, a: b.a, gDotA: L.dot(I.g, b.a) }]; }));
+  return { s: sun.s, a: sun.a, g: I.g, gDotA: L.dot(I.g, sun.a), bodies, angleDeg: L6.angDeg(I.g, sun.a), sAlongG: sun.s * L.dot(I.g, sun.a),
     OmRefSI: I.OmRefSI, A: out.variants.now.AE, AOverOmRef: out.variants.now.AE / I.OmRefSI, ...out };
 }
 
@@ -121,15 +124,17 @@ export function partRel(P1, P2, T) {
     { key: 'apiHalfCurl', ja: '今の API の半渦度 (½∇×u)·ĝ', axis: 'ĝ', w: P2.halfCurlZ, c: 1 },
     { key: 'sunG', ja: '太陽の自転の ĝ への射影 s(ĝ·â)', axis: 'ĝ', w: P1.sAlongG, c: 1 },
     { key: 'sunOwn', ja: '太陽の自転(自分の軸 â)', axis: 'â_☉', w: P1.s, c: P1.gDotA },
-  ];
-  const table = L.signTable({ OmegaPattern: Op, rows });
+  ].concat(Object.entries(P1.bodies).map(([k, b]) => ({ key: k + 'Own', ja: b.name + 'の自転(自分の軸 â)', axis: 'â', w: b.s, c: b.gDotA })));
+  // 直接の型(利得 1)で要る Ω_field での場に対する値(Ω_body − Ω_field ĝ の軸への射影 —— 数の例。前提の内の 1 点)
+  const OfDirect = Op[1] - P1.A;
+  const table = L.signTable({ OmegaPattern: Op, rows }).map((q) => Object.assign(q, { relAtDirect: q.w - OfDirect * q.c }));
   const fasterThanArm = { apiRigid: P2.rigid > Op[1], apiBeta: OmBeta > Op[1], apiRigidOverOpLo: P2.rigid / Op[0], apiBetaOverOpLo: OmBeta / Op[0], matterInRange: OmMat >= Op[0] && OmMat <= Op[1] };
   // 要る相対の角速度(候補ごと —— 利得は同じ形の仮定: g_T = (ν_T·ĝ)/Ω_mat。直接の行は第326便d の銀河の口と同じ利得 1)
   const req = [{ key: 'direct', ja: '直接(ν_G = Ω_rel ĝ —— 利得 1)', gain: 1 }].concat(L.DECL.candidates.map((k) => ({ key: k, ja: k, gain: P2.cand[k].alongG / OmMat })))
     .map((q) => { const r = L.requiredRel({ A: P1.A, gain: q.gain });
       return { key: q.key, gain: q.gain, OmRelReq: r.OmRelReq, consistent: r.consistent, overOmMat: r.OmRelReq / OmMat, slip: r.OmRelReq === null ? null : -r.OmRelReq,
         fieldRange: r.consistent ? [Op[0] - r.OmRelReq, Op[1] - r.OmRelReq] : null, fieldPeriodS: r.consistent ? 2 * Math.PI / (-r.OmRelReq) : null }; });
-  return { OmMat, OmegaPattern: Op, OmBeta, table, fasterThanArm, required: req, premise: 'Ω_field > Ω_arm > 0(腕は場に引きずられる —— AN536 の仮定)・場の軸は ĝ のまま(反転しない)',
+  return { OmMat, OmegaPattern: Op, OmBeta, table, OmegaFieldDirect: OfDirect, fasterThanArm, required: req, premise: 'Ω_field > Ω_arm > 0(腕は場に引きずられる —— AN536 の仮定)・場の軸は ĝ のまま(反転しない)',
     gainAssumption: L.DECL.gainUnit + ' を単位に、場に対する源の流れが見た目の流れと同じ形(Ω_rel/Ω_mat 倍)と置く —— 剛体の差の場(Ω_frame ĝ × x′ を引いた流れ)は今の API に無い' };
 }
 

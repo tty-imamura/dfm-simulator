@@ -158,6 +158,58 @@
    -0.4971472011574469
   ],
   "gDotA": -0.3870195220378814,
+  "bodies": {
+   "venus": {
+    "name": "金星",
+    "s": -2.9924494208700665e-7,
+    "a": [
+     0.01869081416890467,
+     0.01087252286146163,
+     0.999766193523431
+    ],
+    "gDotA": -0.4808097555667376
+   },
+   "earth": {
+    "name": "地球",
+    "s": 0.00007292115069816146,
+    "a": [
+     -0.00002518697145586744,
+     0.39775194359135213,
+     0.917492992199351
+    ],
+    "gDotA": -0.45601108018142383
+   },
+   "jupiter": {
+    "name": "木星",
+    "s": 0.00017585323433791654,
+    "a": [
+     -0.01459729090215846,
+     -0.035804400435795566,
+     0.9992522024032526
+    ],
+    "gDotA": -0.509453599360936
+   },
+   "io": {
+    "name": "イオ",
+    "s": 0.00004110592854942084,
+    "a": [
+     -0.015335994210668434,
+     -0.035348566332291276,
+     0.999257367318261
+    ],
+    "gDotA": -0.5100969546667986
+   },
+   "saturn": {
+    "name": "土星",
+    "s": 0.0001637849899870424,
+    "a": [
+     0.0854788318610719,
+     0.46244167759081534,
+     0.8825197244994919
+    ],
+    "gDotA": -0.3644125312790564
+   }
+  },
   "angleDeg": 112.76917201347676,
   "sAlongG": -0.000001108938514579848,
   "OmRefSI": 9.089990689904927e-16,
@@ -774,7 +826,8 @@
     "apparentSign": 1,
     "relSign": -1,
     "threshold": null,
-    "relKind": "premise"
+    "relKind": "premise",
+    "relAtDirect": -0.000007403579133764238
    },
    {
     "key": "matter",
@@ -785,7 +838,8 @@
     "apparentSign": 1,
     "relSign": 0,
     "threshold": 9.089989318505708e-16,
-    "relKind": "conditional"
+    "relKind": "conditional",
+    "relAtDirect": -0.000007403579133616822
    },
    {
     "key": "apiRigid",
@@ -796,7 +850,8 @@
     "apparentSign": 1,
     "relSign": -1,
     "threshold": null,
-    "relKind": "always"
+    "relKind": "always",
+    "relAtDirect": -0.000007403579134525821
    },
    {
     "key": "apiBeta",
@@ -807,7 +862,8 @@
     "apparentSign": 1,
     "relSign": -1,
     "threshold": null,
-    "relKind": "always"
+    "relKind": "always",
+    "relAtDirect": -0.000007403579134278588
    },
    {
     "key": "apiHalfCurl",
@@ -818,7 +874,8 @@
     "apparentSign": -1,
     "relSign": -1,
     "threshold": null,
-    "relKind": "always"
+    "relKind": "always",
+    "relAtDirect": -0.000007403579134525822
    },
    {
     "key": "sunG",
@@ -829,7 +886,8 @@
     "apparentSign": -1,
     "relSign": -1,
     "threshold": null,
-    "relKind": "always"
+    "relKind": "always",
+    "relAtDirect": -0.00000851251764910567
    },
    {
     "key": "sunOwn",
@@ -840,9 +898,71 @@
     "apparentSign": 1,
     "relSign": 1,
     "threshold": null,
-    "relKind": "always"
+    "relKind": "always",
+    "relAtDirect": 0.000005730659315651358
+   },
+   {
+    "key": "venusOwn",
+    "ja": "金星の自転(自分の軸 â)",
+    "axis": "â",
+    "w": -2.9924494208700665e-7,
+    "c": -0.4808097555667376,
+    "apparentSign": -1,
+    "relSign": 0,
+    "threshold": 6.223770183994753e-7,
+    "relKind": "conditional",
+    "relAtDirect": 0.0000032604681319033522
+   },
+   {
+    "key": "earthOwn",
+    "ja": "地球の自転(自分の軸 â)",
+    "axis": "â",
+    "w": 0.00007292115069816146,
+    "c": -0.45601108018142383,
+    "apparentSign": 1,
+    "relSign": 1,
+    "threshold": null,
+    "relKind": "always",
+    "relAtDirect": 0.00007629726481650522
+   },
+   {
+    "key": "jupiterOwn",
+    "ja": "木星の自転(自分の軸 â)",
+    "axis": "â",
+    "w": 0.00017585323433791654,
+    "c": -0.509453599360936,
+    "apparentSign": 1,
+    "relSign": 1,
+    "threshold": null,
+    "relKind": "always",
+    "relAtDirect": 0.00017962501437615425
+   },
+   {
+    "key": "ioOwn",
+    "ja": "イオの自転(自分の軸 â)",
+    "axis": "â",
+    "w": 0.00004110592854942084,
+    "c": -0.5100969546667986,
+    "apparentSign": 1,
+    "relSign": 1,
+    "threshold": null,
+    "relKind": "always",
+    "relAtDirect": 0.00004488247171957711
+   },
+   {
+    "key": "saturnOwn",
+    "ja": "土星の自転(自分の軸 â)",
+    "axis": "â",
+    "w": 0.0001637849899870424,
+    "c": -0.3644125312790564,
+    "apparentSign": 1,
+    "relSign": 1,
+    "threshold": null,
+    "relKind": "always",
+    "relAtDirect": 0.00016648294699997976
    }
   ],
+  "OmegaFieldDirect": 0.000007403579134525822,
   "fasterThanArm": {
    "apiRigid": false,
    "apiBeta": false,
@@ -1148,16 +1268,16 @@
  },
  "timing": {
   "path1": {
-   "wallSec": 0.351
+   "wallSec": 0.32
   },
   "path2": {
-   "wallSec": 5.49
+   "wallSec": 5.698
   },
   "grid": {
-   "wallSec": 7.07
+   "wallSec": 7.146
   },
   "TRH": {
-   "wallSec": 7.071
+   "wallSec": 7.147
   }
  },
  "gates": {
@@ -1175,13 +1295,13 @@
   "handoff": true
  },
  "ok": true,
- "elapsedS": 8.926,
+ "elapsedS": 8.754,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第327便b",
   "target": "beta/index.html",
   "targetSha256": "24c740714d1eb8c1ee8795ff0fa353613ebe2417c7a9d28942ec3e2eb066f83a",
-  "generatedAt": "2026-11-05T00:46:44.510Z",
+  "generatedAt": "2026-11-05T00:58:13.247Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -1193,9 +1313,9 @@
   "code": [
    {
     "file": "tests/exp-w327b-galaxis.mjs",
-    "bytes": 20466,
-    "sha256": "4e8618a7f4255bcbfc9386665a3c82579a8ce97af9392ef7f4f995ce8b436fc6",
-    "mtime": "2026-11-05T00:45:50.136Z"
+    "bytes": 21335,
+    "sha256": "49c16fe50ff06ac7b5be5c308f77bb6a86a769d4dfb136e4f365a6f9b0dff915",
+    "mtime": "2026-11-05T00:56:36.374Z"
    },
    {
     "file": "tests/lib-w327b-galaxis.mjs",
@@ -1264,7 +1384,7 @@
     "mtime": "2026-11-05T00:23:39.073Z"
    }
   ],
-  "codeSha256": "251cedd75dfe0230bc972bfe233da103657514d1719a20de3bba95260a6d6c3c",
+  "codeSha256": "781e6ff1be525cf2683b1db7f8f43324064530f0210ce8188c1eaf1017c524d6",
   "harnessVersion": "w327b-galaxis-1",
   "stage": "galaxis",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)と第321便c の場の API の純関数",
