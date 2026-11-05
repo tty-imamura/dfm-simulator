@@ -17,6 +17,10 @@
 //   H 帳簿(候補ごとの由来別の Q・P・軌道の仕事・日射の供給・閉じ)・P 純関数の場面
 // ■ 言わないこと: 金星の逆回転・内部熱の説明ではない。解いた振幅と割合は条件つきの記録(採らない —— 在位の本へ入れない)。文献の値は桁として並べるだけ。火星と地球–月で合わせない。
 //   負の振幅を 0 に丸めない。τ_0 は宣言の格子(値を決めていない)。
+// ■ 版 2(第328便c・統括の検証項目 R303 —— 検査の範囲の直し): 版 1 の partV は全部の条件で振幅を解いたが、帳簿(系の作り直し・軸の向きの残差・エネルギー・L・口の閉じ)まで
+//   評価したのは条件式 check で選んだ条件だけだった(coverageV1 に件数を残す)。版 2 は**全部の条件を帳簿まで評価**し、件数 coverage { total, checked, rejected } を正本へ・
+//   門 allVenusCasesChecked(件数 = 宣言の条件の格子の積 venusCaseGrid —— 件数が 1 でもずれると偽)。正本に残す行・表・他の部の数は版 1 と同じ(門と件数と worst だけが増える)。
+//   全部の条件の成功は「宣言した口の数式と帳簿が閉じる」ことの検査で、全部の条件が金星で物理的に成り立つ判定ではない(accepted は N_0 ≥ 0 の判定 —— 共鳴の捕獲の幅の内の採否ではない)。
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -34,7 +38,7 @@ import * as LF from './lib-w327f-venustide.mjs';
 const REGEN_SCOPE = {"presets":["solarSystem16Inertial3d"],"roots":["HP.REL_DRAG_INVSQ_SRC_MOMENT_VERSION","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragIsqPointAt","HP.inertialDragIsqState","HP.sim","HP.validatePreset","ctx","cw"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w327f-venustide-1';
+export const HARNESS_VERSION = 'w327f-venustide-2';   // 第328便c: 版 2(partV の帳簿を全部の条件で —— 件数の門)
 export const OUT_MAIN = 'tests/out/venustide-w327f.json';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 export const NOT_CLAIM = Object.freeze(['金星の逆回転の説明ではない(この口の型・この宣言の下で釣り合いの点が観測の自転と同じになる条件の記録)', '内部熱の説明ではない(応答の尺度 τ_0 は宣言の格子 —— 観測の熱流に合わせていない)',
@@ -125,17 +129,31 @@ export function venusSolveAt(IN, VB, { src, fam, p, Q, tau, chi, sForm = 'constQ
 }
 const ledgerOf = (ev) => { const L0 = ev.ledger; return { galaxySupply: L0.galaxySupply, k1Draw: L0.k1Draw, orbitWork: L0.orbitWork, resOrbitWork: L0.resOrbitWork, solarSupply: L0.solarSupply, heat: L0.heat,
   heatSolid: L0.heatSolid, heatPassiveLS: L0.heatPassiveLS, spinPower: L0.spinPower, residualRel: L0.residualRel, LTotalRel: L0.LTotalRel, k1TransferRel: L0.k1TransferRel, portCloseMaxRel: L0.portCloseMaxRel, holdWorkMaxRel: L0.holdWorkMaxRel }; };
-export function partV(IN, VB) {
+/** 第328便c: 金星の釣り合いの条件の格子(宣言から —— 源 × 族 × p × Q × τ_0〔格子 + 年齢 + ∞〕× χ × 固体の型 × 熱潮汐の型〔一定の位相 1 + 熱の緩和は ω_0 の格子〕)と件数(積) */
+export function venusCaseGrid(Dc = D) {
+  const sizes = { sources: Dc.sources.length, families: Dc.families.length, p: Dc.pGrid.length, Q: Dc.lit.Q.venus.length, tau0: Dc.tau0.grid.length + 2, chi: Dc.shares.length,
+    solidForms: Dc.solidForms.length, thermalForms: Dc.thermalForms.reduce((s, f) => s + (f.key === 'relax' ? Dc.relaxOmega0.length : 1), 0) };
+  return { sizes, product: Object.values(sizes).reduce((x, y) => x * y, 1) };
+}
+export function partV(IN, VB, R = null) {
   const rows = [], worst = { alongRel: 0, residualRel: 0, LTotalRel: 0, portCloseMaxRel: 0, k1TransferRel: 0, rejected: 0 };
+  const coverage = { total: 0, checked: 0, rejected: 0 };   // 第328便c: 帳簿まで評価した条件の件数(全部の条件 —— 門 allVenusCasesChecked)
+  // 第328便c: accepted(N_0 ≥ 0)の条件のうち、共鳴の口のトルクに位相がある(abs(N_r) ≤ N_max —— 文献の桁の (B − A)/C)件数と、観測の自転が捕獲の幅の内の件数(記録 —— 門ではない)
+  const NmaxR = R ? R.NmaxMain : null, wR = R ? R.grid.find((q) => q.mult === 1) : null, inW = wR ? wR.offsetOverWidth <= 1 : null, admissible = { accepted: 0, withPhase: 0, insideWidth: 0 };
+  let v1Selected = 0;   // 版 1 の条件式 check が選んだ件数(版 1 は残りの条件を振幅だけで数えた —— 記録)
   const note = (r) => { if (!r.accepted) { worst.rejected++; return; } for (const k of ['alongRel']) worst[k] = Math.max(worst[k], r[k]); for (const k of ['residualRel', 'LTotalRel', 'portCloseMaxRel', 'k1TransferRel']) worst[k] = Math.max(worst[k], r.ledger[k]); };
-  const tforms = Object.keys(VB.thermal.unit);
-  // 全部の条件で釣り合いと帳簿を作り直す(門)—— 正本に残すのは源 J の χ = 0 の全部と、χ の格子(Q 主・τ_0 年齢と無限・p 主と p 0)
-  for (const src of D.sources) for (const fam of D.families) for (const p of D.pGrid) for (const Q of LIT.Q.venus) for (const tau of TAUS) for (const chi of D.shares) for (const sForm of ['constQ', 'constLag']) for (const tForm of tforms) {
+  const tforms = Object.keys(VB.thermal.unit), sforms = D.solidForms.map((q) => q.key);
+  // 全部の条件で釣り合いと帳簿を作り直す(門 —— 版 2: 全部の条件を帳簿まで)—— 正本に残すのは源 J の χ = 0 の全部と、χ の格子(Q 主・τ_0 年齢と無限・p 主と p 0)
+  for (const src of D.sources) for (const fam of D.families) for (const p of D.pGrid) for (const Q of LIT.Q.venus) for (const tau of TAUS) for (const chi of D.shares) for (const sForm of sforms) for (const tForm of tforms) {
     const keep = src === D.sourceMain && sForm === 'constQ' && (chi === 0 ? tForm === 'constPhase' : (Q === LIT.Q.venusMain && (tau === Infinity || tau === LF.TAU_AGE) && (p === D.pMain || p === D.pAlso) && tForm === 'constPhase'));
     const big = src === D.sourceMain && fam === D.familyMain && Q === LIT.Q.venusMain && (tau === Infinity || tau === LF.TAU_AGE) && (p === D.pMain || p === D.pAlso) && chi === 0;
-    const check = keep || big || (p === D.pMain && chi === 0.25);
-    const r = venusSolveAt(IN, VB, { src, fam, p, Q, tau, chi, sForm, tForm, check });
-    if (check) note(r);
+    if (keep || big || (p === D.pMain && chi === 0.25)) v1Selected++;
+    const r = venusSolveAt(IN, VB, { src, fam, p, Q, tau, chi, sForm, tForm, check: true });
+    coverage.total++;
+    if (r.accepted && r.ledger) coverage.checked++;
+    if (!r.accepted) coverage.rejected++;
+    if (r.accepted && R) { admissible.accepted++; if (Math.abs(r.Nr) <= NmaxR) admissible.withPhase++; if (inW) admissible.insideWidth++; }
+    note(r);
     const mainRow = fam === D.familyMain && Q === LIT.Q.venusMain && (tau === Infinity || tau === LF.TAU_AGE) && (p === D.pMain || p === D.pAlso);
     if (keep || big) { if (!mainRow) delete r.ledger; rows.push(r); }   // 帳簿の全体は主の行だけ残す(他の行の閉じは worst に入れた)
   }
@@ -150,7 +168,9 @@ export function partV(IN, VB) {
   // 宣言の観測の自転(243.025 d)での振幅の差(比べる列 —— 本の自転 243.0185 d と)
   const b = IN.I.bodies.venus, sDecl = 2 * Math.PI / (D.obs.venusSpinDays * DAY), alt = Object.assign({}, IN, { I: Object.assign({}, IN.I, { bodies: Object.assign({}, IN.I.bodies, { venus: Object.assign({}, b, { s: sDecl }) }) }) });
   const VB2 = venusBase(alt), r1 = venusSolveAt(IN, VB, { src: D.sourceMain, fam: D.familyMain, p: D.pAlso, Q: LIT.Q.venusMain, tau: LF.TAU_AGE, chi: 0 }), r2 = venusSolveAt(alt, VB2, { src: D.sourceMain, fam: D.familyMain, p: D.pAlso, Q: LIT.Q.venusMain, tau: LF.TAU_AGE, chi: 0 });
-  return { rows, thresholds: thr, worst, declaredSpin: { sBook: b.s, sDecl, N0Book: r1.N0, N0Decl: r2.N0, rel: E.relD(r1.N0, r2.N0) } };
+  return { rows, thresholds: thr, worst, declaredSpin: { sBook: b.s, sDecl, N0Book: r1.N0, N0Decl: r2.N0, rel: E.relD(r1.N0, r2.N0) },
+    coverage, caseGrid: venusCaseGrid().sizes, coverageV1: { checked: v1Selected, note: '版 1 の器が帳簿まで評価した条件(条件式 check —— 残りの条件は振幅だけ)' },
+    admissible: R ? Object.assign(admissible, { NmaxMain: NmaxR, offsetOverWidth: wR.offsetOverWidth, note: 'accepted は N_0 ≥ 0 の判定 —— 位相がある(abs(N_r) ≤ N_max)・捕獲の幅の内(観測の差 ≤ 固定の幅)は別に数える' }) : null };
 }
 
 /* ───────── B 釣り合いの点と安定 ───────── */
@@ -286,8 +306,8 @@ export function runAll(HP) {
   const t0 = Date.now(), tm = {}, mark = (k) => { tm[k] = { wallSec: (Date.now() - t0) / 1000 }; };
   const IN = partI(HP); mark('I');
   const O = partO(IN); mark('O');
-  const VB = venusBase(IN), V = partV(IN, VB); mark('V');
-  const R = partR(IN, VB, O); mark('R');
+  const VB = venusBase(IN), R = partR(IN, VB, O), V = partV(IN, VB, R); mark('V');   // 第328便c: R(N_max と固定の幅)を先に —— partV が位相の有無と捕獲の幅の内の件数を数える
+  mark('R');
   const B = partB(IN, VB, Object.assign({}, O, { declared: O.declared, NmaxMain: R.NmaxMain })); mark('B');
   const ML = partML(IN, VB, B); mark('ML');
   const H = partH(IN, VB); mark('H');
@@ -304,12 +324,15 @@ export function gatesOf(J) {
   const V = J.venus, B = J.branches, R = J.resonance, ML = J.frozen, H = J.ledger, O = J.observed, VB = J.venusBase;
   const allFrozen = ML.mars.map((q) => q.mars).concat(ML.triEM.flatMap((q) => [q.earth, q.moon]));
   const balRows = B.combos.flatMap((c) => c.rows.filter((r) => r.ratio === 1));
+  const nCases = venusCaseGrid().product, cov = V.coverage || {};   // 第328便c: 件数は宣言の格子の積(正本の caseGrid ではなく器の宣言から)
   return {
     pure: Object.values(J.pure.gates).every(Boolean),
     axesFromDecl: Object.values(J.inputs.bodies).every((b) => b.axisEngineAngDeg < 1e-5),
     // 観測の周期: 宣言の値で k ≈ −0.9246・会合周期と太陽日の比 ≈ 5(5.001)・本の状態の比も 5 の近く
     periods: Math.abs(O.declared.k + 0.9246) < 1e-4 && Math.abs(O.declared.ratio - 5) < 0.005 && Math.abs(O.book.ratio - 5) < 0.02 && Math.abs(O.declared.turnsRelEarth + 4) < 0.005,
     sunExactAllP: Object.values(VB.gk).every((fs) => Object.values(fs).every((ps) => Object.values(ps).every((g) => g.sunAlongRel <= 1e-12))),
+    // 第328便c: 全部の条件を帳簿まで評価した(件数 = 宣言の格子の積・帳簿まで = 全部・不採用 0)
+    allVenusCasesChecked: cov.total === nCases && cov.checked === nCases && cov.rejected === 0,
     // 釣り合い: 全部の条件で振幅が非負(駆動の口の向き)・軸の向きの残差・帳簿・L・口の閉じが丸めの内
     venusBalanced: V.worst.rejected === 0 && V.worst.alongRel <= 1e-12 && V.worst.residualRel <= 1e-12 && V.worst.LTotalRel <= 1e-12 && V.worst.portCloseMaxRel <= 1e-12 && V.worst.k1TransferRel <= 1e-12,
     // 観測の自転は振幅の比 1 の行で釣り合いの点(中立の縮退の型を除く)
@@ -334,6 +357,7 @@ export async function main() {
   const R = runAll(HP);
   const out = { version: HARNESS_VERSION, libVersion: LF.LIB_VERSION, w327eLibVersion: LD.LIB_VERSION, w327aLibVersion: LS.LIB_VERSION, w326dLibVersion: E.LIB_VERSION, generator: 'tests/exp-w327f-venustide.mjs', target: TARGET, targetSha256, reuseFrom: null,
     ruling: '原仮定者の指示(2026-11-05)「金星の逆行自転は、大気熱潮汐の影響と、地球との共鳴を採用する」「R_dはK1で固定し、観測の自転もトルクの釣り合いで進める」・統括の検証項目 R300',
+    revision: '第328便c(統括の検証項目 R303)—— 版 2: partV の帳簿を全部の条件で評価・件数 coverage と門 allVenusCasesChecked(正本に残す行・表・他の部の数は版 1 と同じ)',
     decl: LF.DECL, notClaim: NOT_CLAIM, invSqVersion: HP.REL_DRAG_INVSQ_VERSION || null, srcMomentVersion: HP.REL_DRAG_INVSQ_SRC_MOMENT_VERSION || null, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w327f-venustide.mjs', 'tests/lib-w327f-venustide.mjs', 'tests/exp-w327e-axialdiff.mjs', 'tests/lib-w327e-axialdiff.mjs', 'tests/exp-w327a-axialsum.mjs', 'tests/lib-w327a-axialsum.mjs', 'tests/exp-w326d-axialheat.mjs', 'tests/lib-w326d-axialheat.mjs', 'tests/lib-w319a-axisheat.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];

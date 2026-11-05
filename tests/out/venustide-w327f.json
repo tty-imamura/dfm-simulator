@@ -1,14 +1,15 @@
 {
- "version": "w327f-venustide-1",
+ "version": "w327f-venustide-2",
  "libVersion": "w327f-venustide-lib-1",
  "w327eLibVersion": "w327e-axialdiff-lib-1",
  "w327aLibVersion": "w327a-axialsum-lib-1",
  "w326dLibVersion": "w326d-axialheat-lib-2",
  "generator": "tests/exp-w327f-venustide.mjs",
  "target": "beta/index.html",
- "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+ "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
  "reuseFrom": null,
  "ruling": "原仮定者の指示(2026-11-05)「金星の逆行自転は、大気熱潮汐の影響と、地球との共鳴を採用する」「R_dはK1で固定し、観測の自転もトルクの釣り合いで進める」・統括の検証項目 R300",
+ "revision": "第328便c(統括の検証項目 R303)—— 版 2: partV の帳簿を全部の条件で評価・件数 coverage と門 allVenusCasesChecked(正本に残す行・表・他の部の数は版 1 と同じ)",
  "decl": {
   "families": [
    "E",
@@ -11434,10 +11435,10 @@
    }
   ],
   "worst": {
-   "alongRel": 1.8486612755193615e-16,
-   "residualRel": 4.566708661409506e-16,
-   "LTotalRel": 1.86779542587483e-16,
-   "portCloseMaxRel": 3.2113305084613684e-16,
+   "alongRel": 2.4785540943305374e-16,
+   "residualRel": 5.997753602812526e-16,
+   "LTotalRel": 1.8823496440033173e-16,
+   "portCloseMaxRel": 3.2142407642099424e-16,
    "k1TransferRel": 2.1064766701100429e-16,
    "rejected": 0
   },
@@ -11447,6 +11448,33 @@
    "N0Book": 21380585106770776,
    "N0Decl": 21380578571662956,
    "rel": 3.056561729889455e-7
+  },
+  "coverage": {
+   "total": 45360,
+   "checked": 45360,
+   "rejected": 0
+  },
+  "caseGrid": {
+   "sources": 2,
+   "families": 2,
+   "p": 7,
+   "Q": 3,
+   "tau0": 9,
+   "chi": 5,
+   "solidForms": 2,
+   "thermalForms": 6
+  },
+  "coverageV1": {
+   "checked": 1746,
+   "note": "版 1 の器が帳簿まで評価した条件(条件式 check —— 残りの条件は振幅だけ)"
+  },
+  "admissible": {
+   "accepted": 45360,
+   "withPhase": 9072,
+   "insideWidth": 0,
+   "NmaxMain": 176005273118839.9,
+   "offsetOverWidth": 71.29557472116562,
+   "note": "accepted は N_0 ≥ 0 の判定 —— 位相がある(abs(N_r) ≤ N_max)・捕獲の幅の内(観測の差 ≤ 固定の幅)は別に数える"
   }
  },
  "branches": {
@@ -29123,25 +29151,25 @@
  },
  "timing": {
   "I": {
-   "wallSec": 0.355
+   "wallSec": 0.426
   },
   "O": {
-   "wallSec": 0.355
+   "wallSec": 0.426
   },
   "V": {
-   "wallSec": 0.477
+   "wallSec": 1.446
   },
   "R": {
-   "wallSec": 0.485
+   "wallSec": 1.446
   },
   "B": {
-   "wallSec": 3.061
+   "wallSec": 4.386
   },
   "ML": {
-   "wallSec": 5.004
+   "wallSec": 6.958
   },
   "H": {
-   "wallSec": 5.005
+   "wallSec": 6.96
   }
  },
  "gates": {
@@ -29149,6 +29177,7 @@
   "axesFromDecl": true,
   "periods": true,
   "sunExactAllP": true,
+  "allVenusCasesChecked": true,
   "venusBalanced": true,
   "obsIsRoot": true,
   "resonanceConverged": true,
@@ -29157,103 +29186,103 @@
   "scaleOnlyMovesK1": true
  },
  "ok": true,
- "elapsedS": 6.602,
+ "elapsedS": 9.586,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第327便f",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T11:12:10.815Z",
+  "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
+  "generatedAt": "2026-11-05T18:45:38.085Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T10:40:31.231Z"
+    "sha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
+    "mtime": "2026-11-05T18:31:05.213Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w327f-venustide.mjs",
-    "bytes": 36646,
-    "sha256": "0e6bca4353a42408e35306a6650059a1dc4cf6b6d60fbca4e2215a8040044bba",
-    "mtime": "2026-11-05T11:12:04.128Z"
+    "bytes": 40646,
+    "sha256": "558a995179b478c96a9448e9d1c4332f662736772c61e5a3f27a6b6048b75e17",
+    "mtime": "2026-11-05T18:44:59.018Z"
    },
    {
     "file": "tests/lib-w327f-venustide.mjs",
     "bytes": 33477,
     "sha256": "ebc9f32a81ee0fccb5d8b153a8995a854afe6f2a2365c2dd837b2965e38a947a",
-    "mtime": "2026-11-05T11:12:04.127Z"
+    "mtime": "2026-11-05T18:31:05.717Z"
    },
    {
     "file": "tests/exp-w327e-axialdiff.mjs",
     "bytes": 30736,
     "sha256": "841402bccd3636b4ab807fda8b8ee8ecb75b90726824207e0ec8a5ccae2e6caf",
-    "mtime": "2026-11-05T10:40:31.467Z"
+    "mtime": "2026-11-05T18:31:05.641Z"
    },
    {
     "file": "tests/lib-w327e-axialdiff.mjs",
     "bytes": 18180,
     "sha256": "461e2e95fcd15ee815de77f9fdb9bc74e831ef86b44074d1991593b0387a031d",
-    "mtime": "2026-11-05T10:40:31.519Z"
+    "mtime": "2026-11-05T18:31:05.717Z"
    },
    {
     "file": "tests/exp-w327a-axialsum.mjs",
     "bytes": 34897,
     "sha256": "5873cc77e5e3d831b2ac0ff056a40f473bd21a2535054c27a1fbf9ec1d15389c",
-    "mtime": "2026-11-05T10:40:31.467Z"
+    "mtime": "2026-11-05T18:31:05.637Z"
    },
    {
     "file": "tests/lib-w327a-axialsum.mjs",
     "bytes": 32833,
     "sha256": "54cbf074c981ae647b16f02f61b59a8a61d369468bdd1ac3e85913de87ebda9d",
-    "mtime": "2026-11-05T10:40:31.519Z"
+    "mtime": "2026-11-05T18:31:05.713Z"
    },
    {
     "file": "tests/exp-w326d-axialheat.mjs",
     "bytes": 38720,
     "sha256": "c1dc3ade3425c332b8c5c4a2665b7d81467eeefdda857905de4b4d9f17f564bb",
-    "mtime": "2026-11-05T10:40:31.467Z"
+    "mtime": "2026-11-05T18:31:05.637Z"
    },
    {
     "file": "tests/lib-w326d-axialheat.mjs",
     "bytes": 32001,
     "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
-    "mtime": "2026-11-05T10:40:31.519Z"
+    "mtime": "2026-11-05T18:31:05.713Z"
    },
    {
     "file": "tests/lib-w319a-axisheat.mjs",
     "bytes": 14679,
     "sha256": "8e9e99edcfe249d94ff151b0cd8d4cd6d7df50050aaeb618781e33aef5f9f70b",
-    "mtime": "2026-11-05T10:40:31.511Z"
+    "mtime": "2026-11-05T18:31:05.701Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-05T10:40:31.491Z"
+    "mtime": "2026-11-05T18:31:05.677Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-05T10:40:31.487Z"
+    "mtime": "2026-11-05T18:31:05.673Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-05T10:40:31.483Z"
+    "mtime": "2026-11-05T18:31:05.669Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 109301,
     "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T10:40:31.495Z"
+    "mtime": "2026-11-05T18:31:05.685Z"
    }
   ],
-  "codeSha256": "1eda9e70d718c8d4d768217d14a8e94f40bc7a6dde0ba79604f4559192c4bc3e",
-  "harnessVersion": "w327f-venustide-1",
+  "codeSha256": "51204e4d72d4d9fccaab6d4ad9d49bc4468a07f408cdedec04d911a9af4c1b79",
+  "harnessVersion": "w327f-venustide-2",
   "stage": "venustide",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
