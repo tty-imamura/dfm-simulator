@@ -4,7 +4,7 @@
  "apsisVersion": "w304e-apsis-1",
  "generator": "tests/exp-w315d-satk1.mjs",
  "target": "beta/index.html",
- "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "reuseFrom": null,
  "ruling": "原仮定者の裁定(第117報)・決断事項 AN413(衛星 6 本 —— 母惑星との二体と太陽込みの三体の両方で、同じ定義・窓・刻みの引きずりの有無の差。観測の σ の無い量に 3σ の合否を付けない)・AN414(新記号 —— 引きずり係数 Y_k = 10G_0/(C_1 c_0²)・r_d = Y_k m・r_s = 2G_0 m/c_0²)・統括の検証項目 R245。確認の材料(在位へ入れない —— 近似要素の種は観測レコードではない)",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -1117,81 +1117,6 @@
   ],
   "stepsPerOrbit": 720,
   "rows": {
-   "sat:io|two|q00|-|S=720|div=1|N=32": {
-    "key": "sat:io|two|q00|-|S=720|div=1|N=32",
-    "spec": {
-     "sat": "io",
-     "sys": "two",
-     "kind": "q00",
-     "S": 720,
-     "div": 1,
-     "N": 32,
-     "wins": [
-      8,
-      16,
-      32
-     ]
-    },
-    "h": 0.00212385523199,
-    "status": "run",
-    "steps": 23041,
-    "stop": "revMax",
-    "complete": true,
-    "nan": false,
-    "unbound": false,
-    "dt": 0.00212385523199,
-    "warnings": 0,
-    "windows": {
-     "8": {
-      "N": 8,
-      "complete": true,
-      "t1": 12.233720477167907,
-      "sidDays": 1.7699248375531715,
-      "sidRmsDays": 6.903986224323905e-13,
-      "aps": -511435.6544715135,
-      "apsE": 0.0040720263543969045,
-      "node": 0.000002196783210301678,
-      "nodeRms": 4.901516757551114e-16,
-      "incMeanDeg": 3.169925579753005,
-      "eMean": 0.004072126964069714,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "16": {
-      "N": 16,
-      "complete": true,
-      "t1": 24.46744095432577,
-      "sidDays": 1.7699248375523593,
-      "sidRmsDays": 1.7695137611901063e-12,
-      "aps": -511435.6478682999,
-      "apsE": 0.004072025884136978,
-      "node": 4.3655109133649306e-7,
-      "nodeRms": 8.572693166733634e-16,
-      "incMeanDeg": 3.1699255797528574,
-      "eMean": 0.004072126964070792,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "32": {
-      "N": 32,
-      "complete": true,
-      "t1": 48.93488190865256,
-      "sidDays": 1.7699248375522414,
-      "sidRmsDays": 2.9583597350955525e-12,
-      "aps": -511435.73483741924,
-      "apsE": 0.0040720240030935,
-      "node": 1.6570770848970889e-7,
-      "nodeRms": 7.825509093633201e-16,
-      "incMeanDeg": 3.1699255797517956,
-      "eMean": 0.0040721269640708845,
-      "axSat": 0,
-      "axPar": 0
-     }
-    },
-    "betaMax": 0,
-    "isqSteps": 0,
-    "wallSec": 0.312
-   },
    "sat:io|two|q10|-|S=720|div=1|N=32": {
     "key": "sat:io|two|q10|-|S=720|div=1|N=32",
     "spec": {
@@ -1265,7 +1190,82 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.416
+    "wallSec": 0.272
+   },
+   "sat:io|two|q00|-|S=720|div=1|N=32": {
+    "key": "sat:io|two|q00|-|S=720|div=1|N=32",
+    "spec": {
+     "sat": "io",
+     "sys": "two",
+     "kind": "q00",
+     "S": 720,
+     "div": 1,
+     "N": 32,
+     "wins": [
+      8,
+      16,
+      32
+     ]
+    },
+    "h": 0.00212385523199,
+    "status": "run",
+    "steps": 23041,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "unbound": false,
+    "dt": 0.00212385523199,
+    "warnings": 0,
+    "windows": {
+     "8": {
+      "N": 8,
+      "complete": true,
+      "t1": 12.233720477167907,
+      "sidDays": 1.7699248375531715,
+      "sidRmsDays": 6.903986224323905e-13,
+      "aps": -511435.6544715135,
+      "apsE": 0.0040720263543969045,
+      "node": 0.000002196783210301678,
+      "nodeRms": 4.901516757551114e-16,
+      "incMeanDeg": 3.169925579753005,
+      "eMean": 0.004072126964069714,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "16": {
+      "N": 16,
+      "complete": true,
+      "t1": 24.46744095432577,
+      "sidDays": 1.7699248375523593,
+      "sidRmsDays": 1.7695137611901063e-12,
+      "aps": -511435.6478682999,
+      "apsE": 0.004072025884136978,
+      "node": 4.3655109133649306e-7,
+      "nodeRms": 8.572693166733634e-16,
+      "incMeanDeg": 3.1699255797528574,
+      "eMean": 0.004072126964070792,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "32": {
+      "N": 32,
+      "complete": true,
+      "t1": 48.93488190865256,
+      "sidDays": 1.7699248375522414,
+      "sidRmsDays": 2.9583597350955525e-12,
+      "aps": -511435.73483741924,
+      "apsE": 0.0040720240030935,
+      "node": 1.6570770848970889e-7,
+      "nodeRms": 7.825509093633201e-16,
+      "incMeanDeg": 3.1699255797517956,
+      "eMean": 0.0040721269640708845,
+      "axSat": 0,
+      "axPar": 0
+     }
+    },
+    "betaMax": 0,
+    "isqSteps": 0,
+    "wallSec": 0.272
    },
    "sat:europa|three|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32": {
     "key": "sat:europa|three|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32",
@@ -1340,7 +1340,7 @@
     },
     "betaMax": 4.106024140556418e-8,
     "isqSteps": 92161,
-    "wallSec": 57.549
+    "wallSec": 42.895
    },
    "sat:io|three|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32": {
     "key": "sat:io|three|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32",
@@ -1415,7 +1415,7 @@
     },
     "betaMax": 5.342110030767153e-8,
     "isqSteps": 92161,
-    "wallSec": 57.788
+    "wallSec": 43.526
    },
    "sat:ganymede|three|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32": {
     "key": "sat:ganymede|three|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32",
@@ -1490,7 +1490,7 @@
     },
     "betaMax": 3.306651643479926e-8,
     "isqSteps": 92162,
-    "wallSec": 56.131
+    "wallSec": 45.096
    },
    "sat:callisto|three|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32": {
     "key": "sat:callisto|three|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32",
@@ -1565,82 +1565,7 @@
     },
     "betaMax": 2.7418082410943544e-8,
     "isqSteps": 92165,
-    "wallSec": 56.767
-   },
-   "sat:triton|three|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32": {
-    "key": "sat:triton|three|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32",
-    "spec": {
-     "sat": "triton",
-     "sys": "three",
-     "kind": "q11",
-     "S": 720,
-     "div": 4,
-     "N": 32,
-     "wins": [
-      8,
-      16,
-      32
-     ]
-    },
-    "h": 0.0070524495757,
-    "status": "run",
-    "steps": 92161,
-    "stop": "revMax",
-    "complete": true,
-    "nan": false,
-    "unbound": false,
-    "dt": 0.001763112393925,
-    "warnings": 1,
-    "windows": {
-     "8": {
-      "N": 8,
-      "complete": true,
-      "t1": 40.62218286600872,
-      "sidDays": 5.877051919286346,
-      "sidRmsDays": 2.501279524973398e-10,
-      "aps": -7999.326550493862,
-      "apsE": 0.000017311242113995242,
-      "node": 109.53167643310657,
-      "nodeRms": 6.94608452562565e-11,
-      "incMeanDeg": 174.81690080597613,
-      "eMean": 0.00001733534707792804,
-      "axSat": 2.862499213317165e-12,
-      "axPar": 0
-     },
-     "16": {
-      "N": 16,
-      "complete": true,
-      "t1": 81.24436571641998,
-      "sidDays": 5.877051917857491,
-      "sidRmsDays": 2.7583951158558236e-9,
-      "aps": -8523.571801227276,
-      "apsE": 0.00001731165645534369,
-      "node": 109.65704779540697,
-      "nodeRms": 2.247778570697805e-10,
-      "incMeanDeg": 174.81690045089343,
-      "eMean": 0.00001733575897745248,
-      "axSat": 2.862499213317165e-12,
-      "axPar": 0
-     },
-     "32": {
-      "N": 32,
-      "complete": true,
-      "t1": 162.4887314570718,
-      "sidDays": 5.877051918720848,
-      "sidRmsDays": 6.118429642186173e-9,
-      "aps": -8987.751361699007,
-      "apsE": 0.000017312200745769488,
-      "node": 109.89600869853004,
-      "nodeRms": 8.823272877775558e-10,
-      "incMeanDeg": 174.8168997580543,
-      "eMean": 0.00001733629947025603,
-      "axSat": 2.862499213317165e-12,
-      "axPar": 0
-     }
-    },
-    "betaMax": 5.421827206520331e-9,
-    "isqSteps": 92161,
-    "wallSec": 56.204
+    "wallSec": 46.069
    },
    "sat:titan|three|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32": {
     "key": "sat:titan|three|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32",
@@ -1715,7 +1640,82 @@
     },
     "betaMax": 1.4432170841076675e-8,
     "isqSteps": 92161,
-    "wallSec": 57.638
+    "wallSec": 45.179
+   },
+   "sat:triton|three|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32": {
+    "key": "sat:triton|three|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32",
+    "spec": {
+     "sat": "triton",
+     "sys": "three",
+     "kind": "q11",
+     "S": 720,
+     "div": 4,
+     "N": 32,
+     "wins": [
+      8,
+      16,
+      32
+     ]
+    },
+    "h": 0.0070524495757,
+    "status": "run",
+    "steps": 92161,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "unbound": false,
+    "dt": 0.001763112393925,
+    "warnings": 1,
+    "windows": {
+     "8": {
+      "N": 8,
+      "complete": true,
+      "t1": 40.62218286600872,
+      "sidDays": 5.877051919286346,
+      "sidRmsDays": 2.501279524973398e-10,
+      "aps": -7999.326550493862,
+      "apsE": 0.000017311242113995242,
+      "node": 109.53167643310657,
+      "nodeRms": 6.94608452562565e-11,
+      "incMeanDeg": 174.81690080597613,
+      "eMean": 0.00001733534707792804,
+      "axSat": 2.862499213317165e-12,
+      "axPar": 0
+     },
+     "16": {
+      "N": 16,
+      "complete": true,
+      "t1": 81.24436571641998,
+      "sidDays": 5.877051917857491,
+      "sidRmsDays": 2.7583951158558236e-9,
+      "aps": -8523.571801227276,
+      "apsE": 0.00001731165645534369,
+      "node": 109.65704779540697,
+      "nodeRms": 2.247778570697805e-10,
+      "incMeanDeg": 174.81690045089343,
+      "eMean": 0.00001733575897745248,
+      "axSat": 2.862499213317165e-12,
+      "axPar": 0
+     },
+     "32": {
+      "N": 32,
+      "complete": true,
+      "t1": 162.4887314570718,
+      "sidDays": 5.877051918720848,
+      "sidRmsDays": 6.118429642186173e-9,
+      "aps": -8987.751361699007,
+      "apsE": 0.000017312200745769488,
+      "node": 109.89600869853004,
+      "nodeRms": 8.823272877775558e-10,
+      "incMeanDeg": 174.8168997580543,
+      "eMean": 0.00001733629947025603,
+      "axSat": 2.862499213317165e-12,
+      "axPar": 0
+     }
+    },
+    "betaMax": 5.421827206520331e-9,
+    "isqSteps": 92161,
+    "wallSec": 46.452
    },
    "sat:io|two|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32": {
     "key": "sat:io|two|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32",
@@ -1790,7 +1790,7 @@
     },
     "betaMax": 3.35520196473492e-8,
     "isqSteps": 92161,
-    "wallSec": 25.359
+    "wallSec": 22.198
    },
    "sat:io|three|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32": {
     "key": "sat:io|three|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32",
@@ -1865,7 +1865,7 @@
     },
     "betaMax": 5.342110030767153e-8,
     "isqSteps": 46081,
-    "wallSec": 28.088
+    "wallSec": 23.583
    },
    "sat:europa|two|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32": {
     "key": "sat:europa|two|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32",
@@ -1940,7 +1940,7 @@
     },
     "betaMax": 2.1192397306203502e-8,
     "isqSteps": 92161,
-    "wallSec": 26.017
+    "wallSec": 20.713
    },
    "sat:europa|three|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32": {
     "key": "sat:europa|three|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32",
@@ -2015,7 +2015,7 @@
     },
     "betaMax": 4.106024140556418e-8,
     "isqSteps": 46081,
-    "wallSec": 28.217
+    "wallSec": 23.55
    },
    "sat:ganymede|two|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32": {
     "key": "sat:ganymede|two|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32",
@@ -2090,7 +2090,7 @@
     },
     "betaMax": 1.3184383706534792e-8,
     "isqSteps": 92161,
-    "wallSec": 25.339
+    "wallSec": 20.528
    },
    "sat:ganymede|three|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32": {
     "key": "sat:ganymede|three|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32",
@@ -2165,7 +2165,7 @@
     },
     "betaMax": 3.3066485909959963e-8,
     "isqSteps": 46081,
-    "wallSec": 27.245
+    "wallSec": 23.3
    },
    "sat:callisto|two|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32": {
     "key": "sat:callisto|two|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32",
@@ -2240,7 +2240,7 @@
     },
     "betaMax": 7.541983764412541e-9,
     "isqSteps": 92161,
-    "wallSec": 25.566
+    "wallSec": 20.879
    },
    "sat:callisto|three|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32": {
     "key": "sat:callisto|three|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32",
@@ -2315,7 +2315,7 @@
     },
     "betaMax": 2.7418074234495048e-8,
     "isqSteps": 46083,
-    "wallSec": 27.934
+    "wallSec": 22.134
    },
    "sat:titan|two|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32": {
     "key": "sat:titan|two|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32",
@@ -2390,7 +2390,7 @@
     },
     "betaMax": 3.557088406094859e-9,
     "isqSteps": 92161,
-    "wallSec": 24.778
+    "wallSec": 20.993
    },
    "sat:titan|three|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32": {
     "key": "sat:titan|three|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32",
@@ -2465,7 +2465,7 @@
     },
     "betaMax": 1.4432162531225374e-8,
     "isqSteps": 46081,
-    "wallSec": 26.892
+    "wallSec": 23.553
    },
    "sat:triton|two|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32": {
     "key": "sat:triton|two|q11|rdRule=kappaM|kernel=k1|S=720|div=4|N=32",
@@ -2540,7 +2540,7 @@
     },
     "betaMax": 2.1436627443970554e-9,
     "isqSteps": 92161,
-    "wallSec": 24.721
+    "wallSec": 22.284
    },
    "sat:io|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32": {
     "key": "sat:io|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32",
@@ -2615,7 +2615,7 @@
     },
     "betaMax": 3.35520196473492e-8,
     "isqSteps": 46081,
-    "wallSec": 13.003
+    "wallSec": 11.85
    },
    "sat:triton|three|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32": {
     "key": "sat:triton|three|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32",
@@ -2690,7 +2690,7 @@
     },
     "betaMax": 5.421822172580238e-9,
     "isqSteps": 46081,
-    "wallSec": 28.198
+    "wallSec": 24.534
    },
    "sat:io|three|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32": {
     "key": "sat:io|three|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32",
@@ -2765,7 +2765,7 @@
     },
     "betaMax": 5.342110030767153e-8,
     "isqSteps": 23041,
-    "wallSec": 13.475
+    "wallSec": 11.747
    },
    "sat:europa|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32": {
     "key": "sat:europa|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32",
@@ -2840,7 +2840,7 @@
     },
     "betaMax": 2.1192397306203502e-8,
     "isqSteps": 46081,
-    "wallSec": 12.891
+    "wallSec": 10.323
    },
    "sat:europa|three|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32": {
     "key": "sat:europa|three|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32",
@@ -2915,7 +2915,7 @@
     },
     "betaMax": 4.106024140556418e-8,
     "isqSteps": 23041,
-    "wallSec": 13.545
+    "wallSec": 11.69
    },
    "sat:ganymede|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32": {
     "key": "sat:ganymede|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32",
@@ -2990,82 +2990,7 @@
     },
     "betaMax": 1.3184383706534792e-8,
     "isqSteps": 46081,
-    "wallSec": 12.219
-   },
-   "sat:callisto|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32": {
-    "key": "sat:callisto|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32",
-    "spec": {
-     "sat": "callisto",
-     "sys": "two",
-     "kind": "q11",
-     "S": 720,
-     "div": 2,
-     "N": 32,
-     "wins": [
-      8,
-      16,
-      32
-     ]
-    },
-    "h": 0.0200275609653,
-    "status": "run",
-    "steps": 46081,
-    "stop": "revMax",
-    "complete": true,
-    "nan": false,
-    "unbound": false,
-    "dt": 0.01001378048265,
-    "warnings": 1,
-    "windows": {
-     "8": {
-      "N": 8,
-      "complete": true,
-      "t1": 115.35949821588171,
-      "sidDays": 16.68974221873309,
-      "sidRmsDays": 7.875567322396202e-13,
-      "aps": -13507.376419396238,
-      "apsE": 0.007347751975117726,
-      "node": -8.555246123797425e-8,
-      "nodeRms": 5.004747967441201e-16,
-      "incMeanDeg": 3.311925579753098,
-      "eMean": 0.007347787749250775,
-      "axSat": 0,
-      "axPar": 1.4754678130744666e-12
-     },
-     "16": {
-      "N": 16,
-      "complete": true,
-      "t1": 230.71899643160208,
-      "sidDays": 16.689742218720813,
-      "sidRmsDays": 3.009200793376609e-11,
-      "aps": -13507.37655088506,
-      "apsE": 0.00734775191946871,
-      "node": -2.706193953296078e-7,
-      "nodeRms": 9.672350934824983e-16,
-      "incMeanDeg": 3.3119255797528226,
-      "eMean": 0.007347787746233671,
-      "axSat": 0,
-      "axPar": 1.4754678130744666e-12
-     },
-     "32": {
-      "N": 32,
-      "complete": true,
-      "t1": 461.4379928635207,
-      "sidDays": 16.689742218729897,
-      "sidRmsDays": 7.135443187961527e-11,
-      "aps": -13507.376699851337,
-      "apsE": 0.0073477517029076215,
-      "node": -4.1800151106208656e-8,
-      "nodeRms": 2.3189781999495673e-15,
-      "incMeanDeg": 3.3119255797518097,
-      "eMean": 0.007347787740200278,
-      "axSat": 0,
-      "axPar": 1.4754678130744666e-12
-     }
-    },
-    "betaMax": 7.541983764412541e-9,
-    "isqSteps": 46081,
-    "wallSec": 11.716
+    "wallSec": 11.296
    },
    "sat:ganymede|three|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32": {
     "key": "sat:ganymede|three|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32",
@@ -3140,12 +3065,12 @@
     },
     "betaMax": 3.3066364473981185e-8,
     "isqSteps": 23041,
-    "wallSec": 12.888
+    "wallSec": 11.677
    },
-   "sat:titan|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32": {
-    "key": "sat:titan|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32",
+   "sat:callisto|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32": {
+    "key": "sat:callisto|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32",
     "spec": {
-     "sat": "titan",
+     "sat": "callisto",
      "sys": "two",
      "kind": "q11",
      "S": 720,
@@ -3157,65 +3082,65 @@
       32
      ]
     },
-    "h": 0.0191303672326,
+    "h": 0.0200275609653,
     "status": "run",
     "steps": 46081,
     "stop": "revMax",
     "complete": true,
     "nan": false,
     "unbound": false,
-    "dt": 0.0095651836163,
+    "dt": 0.01001378048265,
     "warnings": 1,
     "windows": {
      "8": {
       "N": 8,
       "complete": true,
-      "t1": 110.19163468200672,
-      "sidDays": 15.942076776910437,
-      "sidRmsDays": 3.4922879716551356e-12,
-      "aps": -14197.44924165868,
-      "apsE": 0.028804983874061697,
-      "node": 2.3441987010086014e-7,
-      "nodeRms": 4.650026043277767e-16,
-      "incMeanDeg": 27.07855321560183,
-      "eMean": 0.028805121867642412,
+      "t1": 115.35949821588171,
+      "sidDays": 16.68974221873309,
+      "sidRmsDays": 7.875567322396202e-13,
+      "aps": -13507.376419396238,
+      "apsE": 0.007347751975117726,
+      "node": -8.555246123797425e-8,
+      "nodeRms": 5.004747967441201e-16,
+      "incMeanDeg": 3.311925579753098,
+      "eMean": 0.007347787749250775,
       "axSat": 0,
-      "axPar": 0
+      "axPar": 1.4754678130744666e-12
      },
      "16": {
       "N": 16,
       "complete": true,
-      "t1": 220.38326936390195,
-      "sidDays": 15.942076776902155,
-      "sidRmsDays": 1.9953468723617175e-11,
-      "aps": -14197.453585951413,
-      "apsE": 0.02880498366060897,
-      "node": 2.142338621074966e-7,
-      "nodeRms": 7.20594475548859e-16,
-      "incMeanDeg": 27.078553215604305,
-      "eMean": 0.02880512186217453,
+      "t1": 230.71899643160208,
+      "sidDays": 16.689742218720813,
+      "sidRmsDays": 3.009200793376609e-11,
+      "aps": -13507.37655088506,
+      "apsE": 0.00734775191946871,
+      "node": -2.706193953296078e-7,
+      "nodeRms": 9.672350934824983e-16,
+      "incMeanDeg": 3.3119255797528226,
+      "eMean": 0.007347787746233671,
       "axSat": 0,
-      "axPar": 0
+      "axPar": 1.4754678130744666e-12
      },
      "32": {
       "N": 32,
       "complete": true,
-      "t1": 440.766538727331,
-      "sidDays": 15.94207677688472,
-      "sidRmsDays": 8.2787575027608e-11,
-      "aps": -14197.454822308213,
-      "apsE": 0.02880498281773143,
-      "node": 1.1388687357157932e-7,
-      "nodeRms": 1.8027188345422868e-15,
-      "incMeanDeg": 27.078553215599207,
-      "eMean": 0.028805121851236497,
+      "t1": 461.4379928635207,
+      "sidDays": 16.689742218729897,
+      "sidRmsDays": 7.135443187961527e-11,
+      "aps": -13507.376699851337,
+      "apsE": 0.0073477517029076215,
+      "node": -4.1800151106208656e-8,
+      "nodeRms": 2.3189781999495673e-15,
+      "incMeanDeg": 3.3119255797518097,
+      "eMean": 0.007347787740200278,
       "axSat": 0,
-      "axPar": 0
+      "axPar": 1.4754678130744666e-12
      }
     },
-    "betaMax": 3.557088406094859e-9,
+    "betaMax": 7.541983764412541e-9,
     "isqSteps": 46081,
-    "wallSec": 11.312
+    "wallSec": 11.546
    },
    "sat:callisto|three|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32": {
     "key": "sat:callisto|three|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32",
@@ -3290,7 +3215,82 @@
     },
     "betaMax": 2.741804172577736e-8,
     "isqSteps": 23042,
-    "wallSec": 12.581
+    "wallSec": 11.748
+   },
+   "sat:titan|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32": {
+    "key": "sat:titan|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32",
+    "spec": {
+     "sat": "titan",
+     "sys": "two",
+     "kind": "q11",
+     "S": 720,
+     "div": 2,
+     "N": 32,
+     "wins": [
+      8,
+      16,
+      32
+     ]
+    },
+    "h": 0.0191303672326,
+    "status": "run",
+    "steps": 46081,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "unbound": false,
+    "dt": 0.0095651836163,
+    "warnings": 1,
+    "windows": {
+     "8": {
+      "N": 8,
+      "complete": true,
+      "t1": 110.19163468200672,
+      "sidDays": 15.942076776910437,
+      "sidRmsDays": 3.4922879716551356e-12,
+      "aps": -14197.44924165868,
+      "apsE": 0.028804983874061697,
+      "node": 2.3441987010086014e-7,
+      "nodeRms": 4.650026043277767e-16,
+      "incMeanDeg": 27.07855321560183,
+      "eMean": 0.028805121867642412,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "16": {
+      "N": 16,
+      "complete": true,
+      "t1": 220.38326936390195,
+      "sidDays": 15.942076776902155,
+      "sidRmsDays": 1.9953468723617175e-11,
+      "aps": -14197.453585951413,
+      "apsE": 0.02880498366060897,
+      "node": 2.142338621074966e-7,
+      "nodeRms": 7.20594475548859e-16,
+      "incMeanDeg": 27.078553215604305,
+      "eMean": 0.02880512186217453,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "32": {
+      "N": 32,
+      "complete": true,
+      "t1": 440.766538727331,
+      "sidDays": 15.94207677688472,
+      "sidRmsDays": 8.2787575027608e-11,
+      "aps": -14197.454822308213,
+      "apsE": 0.02880498281773143,
+      "node": 1.1388687357157932e-7,
+      "nodeRms": 1.8027188345422868e-15,
+      "incMeanDeg": 27.078553215599207,
+      "eMean": 0.028805121851236497,
+      "axSat": 0,
+      "axPar": 0
+     }
+    },
+    "betaMax": 3.557088406094859e-9,
+    "isqSteps": 46081,
+    "wallSec": 10.551
    },
    "sat:triton|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32": {
     "key": "sat:triton|two|q11|rdRule=kappaM|kernel=k1|S=720|div=2|N=32",
@@ -3365,7 +3365,7 @@
     },
     "betaMax": 2.143662744397001e-9,
     "isqSteps": 46081,
-    "wallSec": 11.778
+    "wallSec": 10.713
    },
    "sat:titan|three|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32": {
     "key": "sat:titan|three|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32",
@@ -3440,7 +3440,7 @@
     },
     "betaMax": 1.4432129158670071e-8,
     "isqSteps": 23041,
-    "wallSec": 13.036
+    "wallSec": 11.611
    },
    "sat:io|two|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32": {
     "key": "sat:io|two|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32",
@@ -3515,7 +3515,7 @@
     },
     "betaMax": 3.35520196473492e-8,
     "isqSteps": 23041,
-    "wallSec": 5.728
+    "wallSec": 5.708
    },
    "sat:triton|three|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32": {
     "key": "sat:triton|three|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32",
@@ -3590,7 +3590,7 @@
     },
     "betaMax": 5.421803981046071e-9,
     "isqSteps": 23041,
-    "wallSec": 12.314
+    "wallSec": 12.114
    },
    "sat:europa|two|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32": {
     "key": "sat:europa|two|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32",
@@ -3665,7 +3665,7 @@
     },
     "betaMax": 2.1192397306203502e-8,
     "isqSteps": 23041,
-    "wallSec": 5.913
+    "wallSec": 5.821
    },
    "sat:ganymede|two|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32": {
     "key": "sat:ganymede|two|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32",
@@ -3740,7 +3740,7 @@
     },
     "betaMax": 1.3184383706534792e-8,
     "isqSteps": 23041,
-    "wallSec": 5.856
+    "wallSec": 5.605
    },
    "sat:callisto|two|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32": {
     "key": "sat:callisto|two|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32",
@@ -3815,7 +3815,7 @@
     },
     "betaMax": 7.541983764412541e-9,
     "isqSteps": 23041,
-    "wallSec": 5.89
+    "wallSec": 5.42
    },
    "sat:titan|two|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32": {
     "key": "sat:titan|two|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32",
@@ -3890,7 +3890,7 @@
     },
     "betaMax": 3.557088406094859e-9,
     "isqSteps": 23041,
-    "wallSec": 6.281
+    "wallSec": 4.799
    },
    "sat:triton|two|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32": {
     "key": "sat:triton|two|q11|rdRule=kappaM|kernel=k1|S=720|div=1|N=32",
@@ -3965,7 +3965,7 @@
     },
     "betaMax": 2.143662744397001e-9,
     "isqSteps": 23041,
-    "wallSec": 5.995
+    "wallSec": 5.238
    },
    "sat:io|three|q00|-|S=720|div=4|N=32": {
     "key": "sat:io|three|q00|-|S=720|div=4|N=32",
@@ -4040,7 +4040,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.545
+    "wallSec": 0.357
    },
    "sat:io|three|q10|-|S=720|div=4|N=32": {
     "key": "sat:io|three|q10|-|S=720|div=4|N=32",
@@ -4115,7 +4115,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.533
+    "wallSec": 0.497
    },
    "sat:europa|three|q00|-|S=720|div=4|N=32": {
     "key": "sat:europa|three|q00|-|S=720|div=4|N=32",
@@ -4190,82 +4190,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.525
-   },
-   "sat:europa|three|q10|-|S=720|div=4|N=32": {
-    "key": "sat:europa|three|q10|-|S=720|div=4|N=32",
-    "spec": {
-     "sat": "europa",
-     "sys": "three",
-     "kind": "q10",
-     "S": 720,
-     "div": 4,
-     "N": 32,
-     "wins": [
-      8,
-      16,
-      32
-     ]
-    },
-    "h": 0.00426250364952,
-    "status": "run",
-    "steps": 92161,
-    "stop": "revMax",
-    "complete": true,
-    "nan": false,
-    "unbound": false,
-    "dt": 0.00106562591238,
-    "warnings": 0,
-    "windows": {
-     "8": {
-      "N": 8,
-      "complete": true,
-      "t1": 24.552120959658424,
-      "sidDays": 3.5521008324753023,
-      "sidRmsDays": 3.611350086154463e-9,
-      "aps": -44839.229145247766,
-      "apsE": 0.008977693006695625,
-      "node": -14950.574321379789,
-      "nodeRms": 2.7476542893335042e-8,
-      "incMeanDeg": 3.5899058674269497,
-      "eMean": 0.008977722249662782,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "16": {
-      "N": 16,
-      "complete": true,
-      "t1": 49.104241834925475,
-      "sidDays": 3.5521008263564573,
-      "sidRmsDays": 1.4358684897577104e-8,
-      "aps": -45321.430238306624,
-      "apsE": 0.008977492716515934,
-      "node": -15032.947847732094,
-      "nodeRms": 8.994736811264517e-8,
-      "incMeanDeg": 3.589891072431819,
-      "eMean": 0.0089775221657458,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "32": {
-      "N": 32,
-      "complete": true,
-      "t1": 98.20848336114663,
-      "sidDays": 3.552100815035767,
-      "sidRmsDays": 5.2879974452407046e-8,
-      "aps": -46019.13016431052,
-      "apsE": 0.008977207141587099,
-      "node": -15138.889417106313,
-      "nodeRms": 2.1574918564598713e-7,
-      "incMeanDeg": 3.5898706709572688,
-      "eMean": 0.008977236945918772,
-      "axSat": 0,
-      "axPar": 0
-     }
-    },
-    "betaMax": 0,
-    "isqSteps": 0,
-    "wallSec": 0.545
+    "wallSec": 0.476
    },
    "sat:ganymede|three|q00|-|S=720|div=4|N=32": {
     "key": "sat:ganymede|three|q00|-|S=720|div=4|N=32",
@@ -4340,7 +4265,82 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.464
+    "wallSec": 0.449
+   },
+   "sat:europa|three|q10|-|S=720|div=4|N=32": {
+    "key": "sat:europa|three|q10|-|S=720|div=4|N=32",
+    "spec": {
+     "sat": "europa",
+     "sys": "three",
+     "kind": "q10",
+     "S": 720,
+     "div": 4,
+     "N": 32,
+     "wins": [
+      8,
+      16,
+      32
+     ]
+    },
+    "h": 0.00426250364952,
+    "status": "run",
+    "steps": 92161,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "unbound": false,
+    "dt": 0.00106562591238,
+    "warnings": 0,
+    "windows": {
+     "8": {
+      "N": 8,
+      "complete": true,
+      "t1": 24.552120959658424,
+      "sidDays": 3.5521008324753023,
+      "sidRmsDays": 3.611350086154463e-9,
+      "aps": -44839.229145247766,
+      "apsE": 0.008977693006695625,
+      "node": -14950.574321379789,
+      "nodeRms": 2.7476542893335042e-8,
+      "incMeanDeg": 3.5899058674269497,
+      "eMean": 0.008977722249662782,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "16": {
+      "N": 16,
+      "complete": true,
+      "t1": 49.104241834925475,
+      "sidDays": 3.5521008263564573,
+      "sidRmsDays": 1.4358684897577104e-8,
+      "aps": -45321.430238306624,
+      "apsE": 0.008977492716515934,
+      "node": -15032.947847732094,
+      "nodeRms": 8.994736811264517e-8,
+      "incMeanDeg": 3.589891072431819,
+      "eMean": 0.0089775221657458,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "32": {
+      "N": 32,
+      "complete": true,
+      "t1": 98.20848336114663,
+      "sidDays": 3.552100815035767,
+      "sidRmsDays": 5.2879974452407046e-8,
+      "aps": -46019.13016431052,
+      "apsE": 0.008977207141587099,
+      "node": -15138.889417106313,
+      "nodeRms": 2.1574918564598713e-7,
+      "incMeanDeg": 3.5898706709572688,
+      "eMean": 0.008977236945918772,
+      "axSat": 0,
+      "axPar": 0
+     }
+    },
+    "betaMax": 0,
+    "isqSteps": 0,
+    "wallSec": 0.573
    },
    "sat:ganymede|three|q10|-|S=720|div=4|N=32": {
     "key": "sat:ganymede|three|q10|-|S=720|div=4|N=32",
@@ -4415,7 +4415,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.508
+    "wallSec": 0.582
    },
    "sat:callisto|three|q00|-|S=720|div=4|N=32": {
     "key": "sat:callisto|three|q00|-|S=720|div=4|N=32",
@@ -4490,82 +4490,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.491
-   },
-   "sat:callisto|three|q10|-|S=720|div=4|N=32": {
-    "key": "sat:callisto|three|q10|-|S=720|div=4|N=32",
-    "spec": {
-     "sat": "callisto",
-     "sys": "three",
-     "kind": "q10",
-     "S": 720,
-     "div": 4,
-     "N": 32,
-     "wins": [
-      8,
-      16,
-      32
-     ]
-    },
-    "h": 0.0200275609653,
-    "status": "run",
-    "steps": 92165,
-    "stop": "revMax",
-    "complete": true,
-    "nan": false,
-    "unbound": false,
-    "dt": 0.005006890241325,
-    "warnings": 0,
-    "windows": {
-     "8": {
-      "N": 8,
-      "complete": true,
-      "t1": 115.36483993805174,
-      "sidDays": 16.6905146727504,
-      "sidRmsDays": 0.0000014602665127807845,
-      "aps": -142091.54938189485,
-      "apsE": 0.007388618807859484,
-      "node": -71246.04541288345,
-      "nodeRms": 0.000001214852156515535,
-      "incMeanDeg": 3.3116390529389204,
-      "eMean": 0.00738900056714805,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "16": {
-      "N": 16,
-      "complete": true,
-      "t1": 230.72965188807643,
-      "sidDays": 16.690512604221905,
-      "sidRmsDays": 0.000004629030572684658,
-      "aps": -142092.92855285655,
-      "apsE": 0.007388219122585649,
-      "node": -70667.90011319284,
-      "nodeRms": 0.00000573428436750643,
-      "incMeanDeg": 3.3116854767530333,
-      "eMean": 0.007388600865336887,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "32": {
-      "N": 32,
-      "complete": true,
-      "t1": 461.45924784583195,
-      "sidDays": 16.69051037159152,
-      "sidRmsDays": 0.000009406255247387392,
-      "aps": -116516.66662897829,
-      "apsE": 0.00739610271296883,
-      "node": -64216.96056234256,
-      "nodeRms": 0.00008089032715825496,
-      "incMeanDeg": 3.3125457569303416,
-      "eMean": 0.007396444419967092,
-      "axSat": 0,
-      "axPar": 0
-     }
-    },
-    "betaMax": 0,
-    "isqSteps": 0,
-    "wallSec": 0.551
+    "wallSec": 0.458
    },
    "sat:titan|three|q00|-|S=720|div=4|N=32": {
     "key": "sat:titan|three|q00|-|S=720|div=4|N=32",
@@ -4640,7 +4565,82 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.518
+    "wallSec": 0.498
+   },
+   "sat:callisto|three|q10|-|S=720|div=4|N=32": {
+    "key": "sat:callisto|three|q10|-|S=720|div=4|N=32",
+    "spec": {
+     "sat": "callisto",
+     "sys": "three",
+     "kind": "q10",
+     "S": 720,
+     "div": 4,
+     "N": 32,
+     "wins": [
+      8,
+      16,
+      32
+     ]
+    },
+    "h": 0.0200275609653,
+    "status": "run",
+    "steps": 92165,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "unbound": false,
+    "dt": 0.005006890241325,
+    "warnings": 0,
+    "windows": {
+     "8": {
+      "N": 8,
+      "complete": true,
+      "t1": 115.36483993805174,
+      "sidDays": 16.6905146727504,
+      "sidRmsDays": 0.0000014602665127807845,
+      "aps": -142091.54938189485,
+      "apsE": 0.007388618807859484,
+      "node": -71246.04541288345,
+      "nodeRms": 0.000001214852156515535,
+      "incMeanDeg": 3.3116390529389204,
+      "eMean": 0.00738900056714805,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "16": {
+      "N": 16,
+      "complete": true,
+      "t1": 230.72965188807643,
+      "sidDays": 16.690512604221905,
+      "sidRmsDays": 0.000004629030572684658,
+      "aps": -142092.92855285655,
+      "apsE": 0.007388219122585649,
+      "node": -70667.90011319284,
+      "nodeRms": 0.00000573428436750643,
+      "incMeanDeg": 3.3116854767530333,
+      "eMean": 0.007388600865336887,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "32": {
+      "N": 32,
+      "complete": true,
+      "t1": 461.45924784583195,
+      "sidDays": 16.69051037159152,
+      "sidRmsDays": 0.000009406255247387392,
+      "aps": -116516.66662897829,
+      "apsE": 0.00739610271296883,
+      "node": -64216.96056234256,
+      "nodeRms": 0.00008089032715825496,
+      "incMeanDeg": 3.3125457569303416,
+      "eMean": 0.007396444419967092,
+      "axSat": 0,
+      "axPar": 0
+     }
+    },
+    "betaMax": 0,
+    "isqSteps": 0,
+    "wallSec": 0.571
    },
    "sat:titan|three|q10|-|S=720|div=4|N=32": {
     "key": "sat:titan|three|q10|-|S=720|div=4|N=32",
@@ -4715,7 +4715,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.578
+    "wallSec": 0.492
    },
    "sat:triton|three|q00|-|S=720|div=4|N=32": {
     "key": "sat:triton|three|q00|-|S=720|div=4|N=32",
@@ -4790,7 +4790,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.464
+    "wallSec": 0.471
    },
    "sat:triton|three|q10|-|S=720|div=4|N=32": {
     "key": "sat:triton|three|q10|-|S=720|div=4|N=32",
@@ -4865,7 +4865,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.561
+    "wallSec": 0.443
    },
    "sat:io|two|q00|-|S=720|div=4|N=32": {
     "key": "sat:io|two|q00|-|S=720|div=4|N=32",
@@ -4940,7 +4940,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.438
+    "wallSec": 0.453
    },
    "sat:io|two|q10|-|S=720|div=4|N=32": {
     "key": "sat:io|two|q10|-|S=720|div=4|N=32",
@@ -5015,7 +5015,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.522
+    "wallSec": 0.458
    },
    "sat:io|three|q00|-|S=720|div=2|N=32": {
     "key": "sat:io|three|q00|-|S=720|div=2|N=32",
@@ -5090,7 +5090,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.399
+    "wallSec": 0.278
    },
    "sat:io|three|q10|-|S=720|div=2|N=32": {
     "key": "sat:io|three|q10|-|S=720|div=2|N=32",
@@ -5165,7 +5165,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.371
+    "wallSec": 0.437
    },
    "sat:europa|two|q00|-|S=720|div=4|N=32": {
     "key": "sat:europa|two|q00|-|S=720|div=4|N=32",
@@ -5240,82 +5240,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.403
-   },
-   "sat:europa|two|q10|-|S=720|div=4|N=32": {
-    "key": "sat:europa|two|q10|-|S=720|div=4|N=32",
-    "spec": {
-     "sat": "europa",
-     "sys": "two",
-     "kind": "q10",
-     "S": 720,
-     "div": 4,
-     "N": 32,
-     "wins": [
-      8,
-      16,
-      32
-     ]
-    },
-    "h": 0.00426250364952,
-    "status": "run",
-    "steps": 92161,
-    "stop": "revMax",
-    "complete": true,
-    "nan": false,
-    "unbound": false,
-    "dt": 0.00106562591238,
-    "warnings": 0,
-    "windows": {
-     "8": {
-      "N": 8,
-      "complete": true,
-      "t1": 24.55206384101053,
-      "sidDays": 3.552092569590683,
-      "sidRmsDays": 3.132935244621953e-12,
-      "aps": -16361.169801935353,
-      "apsE": 0.008975768137545987,
-      "node": 4.2778454226094586e-7,
-      "nodeRms": 1.0136201017890356e-15,
-      "incMeanDeg": 3.589925579752899,
-      "eMean": 0.008975779239590217,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "16": {
-      "N": 16,
-      "complete": true,
-      "t1": 49.10412768205337,
-      "sidDays": 3.5520925695920784,
-      "sidRmsDays": 9.655513492950087e-12,
-      "aps": -16361.17043596714,
-      "apsE": 0.008975768133272664,
-      "node": -2.0315080956644488e-7,
-      "nodeRms": 1.1816758356426921e-15,
-      "incMeanDeg": 3.589925579752872,
-      "eMean": 0.008975779239589783,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "32": {
-      "N": 32,
-      "complete": true,
-      "t1": 98.2082553639599,
-      "sidDays": 3.552092569589383,
-      "sidRmsDays": 3.8146335647934874e-11,
-      "aps": -16361.170614671322,
-      "apsE": 0.008975768116176501,
-      "node": 3.7253388084180814e-7,
-      "nodeRms": 1.8743469182549883e-15,
-      "incMeanDeg": 3.589925579754752,
-      "eMean": 0.008975779239585367,
-      "axSat": 0,
-      "axPar": 0
-     }
-    },
-    "betaMax": 0,
-    "isqSteps": 0,
-    "wallSec": 0.547
+    "wallSec": 0.428
    },
    "sat:europa|three|q00|-|S=720|div=2|N=32": {
     "key": "sat:europa|three|q00|-|S=720|div=2|N=32",
@@ -5390,7 +5315,82 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.424
+    "wallSec": 0.341
+   },
+   "sat:europa|two|q10|-|S=720|div=4|N=32": {
+    "key": "sat:europa|two|q10|-|S=720|div=4|N=32",
+    "spec": {
+     "sat": "europa",
+     "sys": "two",
+     "kind": "q10",
+     "S": 720,
+     "div": 4,
+     "N": 32,
+     "wins": [
+      8,
+      16,
+      32
+     ]
+    },
+    "h": 0.00426250364952,
+    "status": "run",
+    "steps": 92161,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "unbound": false,
+    "dt": 0.00106562591238,
+    "warnings": 0,
+    "windows": {
+     "8": {
+      "N": 8,
+      "complete": true,
+      "t1": 24.55206384101053,
+      "sidDays": 3.552092569590683,
+      "sidRmsDays": 3.132935244621953e-12,
+      "aps": -16361.169801935353,
+      "apsE": 0.008975768137545987,
+      "node": 4.2778454226094586e-7,
+      "nodeRms": 1.0136201017890356e-15,
+      "incMeanDeg": 3.589925579752899,
+      "eMean": 0.008975779239590217,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "16": {
+      "N": 16,
+      "complete": true,
+      "t1": 49.10412768205337,
+      "sidDays": 3.5520925695920784,
+      "sidRmsDays": 9.655513492950087e-12,
+      "aps": -16361.17043596714,
+      "apsE": 0.008975768133272664,
+      "node": -2.0315080956644488e-7,
+      "nodeRms": 1.1816758356426921e-15,
+      "incMeanDeg": 3.589925579752872,
+      "eMean": 0.008975779239589783,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "32": {
+      "N": 32,
+      "complete": true,
+      "t1": 98.2082553639599,
+      "sidDays": 3.552092569589383,
+      "sidRmsDays": 3.8146335647934874e-11,
+      "aps": -16361.170614671322,
+      "apsE": 0.008975768116176501,
+      "node": 3.7253388084180814e-7,
+      "nodeRms": 1.8743469182549883e-15,
+      "incMeanDeg": 3.589925579754752,
+      "eMean": 0.008975779239585367,
+      "axSat": 0,
+      "axPar": 0
+     }
+    },
+    "betaMax": 0,
+    "isqSteps": 0,
+    "wallSec": 0.484
    },
    "sat:europa|three|q10|-|S=720|div=2|N=32": {
     "key": "sat:europa|three|q10|-|S=720|div=2|N=32",
@@ -5465,7 +5465,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.441
+    "wallSec": 0.373
    },
    "sat:ganymede|two|q00|-|S=720|div=4|N=32": {
     "key": "sat:ganymede|two|q00|-|S=720|div=4|N=32",
@@ -5540,7 +5540,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.484
+    "wallSec": 0.403
    },
    "sat:ganymede|three|q00|-|S=720|div=2|N=32": {
     "key": "sat:ganymede|three|q00|-|S=720|div=2|N=32",
@@ -5615,7 +5615,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.483
+    "wallSec": 0.379
    },
    "sat:ganymede|two|q10|-|S=720|div=4|N=32": {
     "key": "sat:ganymede|two|q10|-|S=720|div=4|N=32",
@@ -5690,7 +5690,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.578
+    "wallSec": 0.445
    },
    "sat:ganymede|three|q10|-|S=720|div=2|N=32": {
     "key": "sat:ganymede|three|q10|-|S=720|div=2|N=32",
@@ -5765,7 +5765,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.354
+    "wallSec": 0.422
    },
    "sat:callisto|two|q00|-|S=720|div=4|N=32": {
     "key": "sat:callisto|two|q00|-|S=720|div=4|N=32",
@@ -5840,82 +5840,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.472
-   },
-   "sat:callisto|two|q10|-|S=720|div=4|N=32": {
-    "key": "sat:callisto|two|q10|-|S=720|div=4|N=32",
-    "spec": {
-     "sat": "callisto",
-     "sys": "two",
-     "kind": "q10",
-     "S": 720,
-     "div": 4,
-     "N": 32,
-     "wins": [
-      8,
-      16,
-      32
-     ]
-    },
-    "h": 0.0200275609653,
-    "status": "run",
-    "steps": 92161,
-    "stop": "revMax",
-    "complete": true,
-    "nan": false,
-    "unbound": false,
-    "dt": 0.005006890241325,
-    "warnings": 0,
-    "windows": {
-     "8": {
-      "N": 8,
-      "complete": true,
-      "t1": 115.3589440578584,
-      "sidDays": 16.689662045406386,
-      "sidRmsDays": 1.3207564859091962e-11,
-      "aps": -3391.7421518303213,
-      "apsE": 0.007344134179435711,
-      "node": 4.244928784291504e-7,
-      "nodeRms": 7.269752912928872e-16,
-      "incMeanDeg": 3.311925579753098,
-      "eMean": 0.007344143023474691,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "16": {
-      "N": 16,
-      "complete": true,
-      "t1": 230.71788811591662,
-      "sidDays": 16.68966204542027,
-      "sidRmsDays": 4.282124610988574e-11,
-      "aps": -3391.7422258306533,
-      "apsE": 0.007344134176119874,
-      "node": 1.4302764652072956e-7,
-      "nodeRms": 1.5306766409284621e-15,
-      "incMeanDeg": 3.3119255797528226,
-      "eMean": 0.007344143023475812,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "32": {
-      "N": 32,
-      "complete": true,
-      "t1": 461.43577623093995,
-      "sidDays": 16.689662045393117,
-      "sidRmsDays": 1.7375222388270236e-10,
-      "aps": -3391.742232500639,
-      "apsE": 0.0073441341628533606,
-      "node": -3.630532430569382e-9,
-      "nodeRms": 1.7226296395225926e-15,
-      "incMeanDeg": 3.3119255797518097,
-      "eMean": 0.0073441430234771074,
-      "axSat": 0,
-      "axPar": 0
-     }
-    },
-    "betaMax": 0,
-    "isqSteps": 0,
-    "wallSec": 0.517
+    "wallSec": 0.378
    },
    "sat:callisto|three|q00|-|S=720|div=2|N=32": {
     "key": "sat:callisto|three|q00|-|S=720|div=2|N=32",
@@ -5990,16 +5915,16 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.389
+    "wallSec": 0.358
    },
-   "sat:callisto|three|q10|-|S=720|div=2|N=32": {
-    "key": "sat:callisto|three|q10|-|S=720|div=2|N=32",
+   "sat:callisto|two|q10|-|S=720|div=4|N=32": {
+    "key": "sat:callisto|two|q10|-|S=720|div=4|N=32",
     "spec": {
      "sat": "callisto",
-     "sys": "three",
+     "sys": "two",
      "kind": "q10",
      "S": 720,
-     "div": 2,
+     "div": 4,
      "N": 32,
      "wins": [
       8,
@@ -6009,63 +5934,63 @@
     },
     "h": 0.0200275609653,
     "status": "run",
-    "steps": 46083,
+    "steps": 92161,
     "stop": "revMax",
     "complete": true,
     "nan": false,
     "unbound": false,
-    "dt": 0.01001378048265,
+    "dt": 0.005006890241325,
     "warnings": 0,
     "windows": {
      "8": {
       "N": 8,
       "complete": true,
-      "t1": 115.36539224701184,
-      "sidDays": 16.69059457853549,
-      "sidRmsDays": 0.0000014600912832601592,
-      "aps": -152220.42700064497,
-      "apsE": 0.007392228684559396,
-      "node": -71246.55554735046,
-      "nodeRms": 0.000001214853352113662,
-      "incMeanDeg": 3.3116390514563387,
-      "eMean": 0.00739263129562582,
+      "t1": 115.3589440578584,
+      "sidDays": 16.689662045406386,
+      "sidRmsDays": 1.3207564859091962e-11,
+      "aps": -3391.7421518303213,
+      "apsE": 0.007344134179435711,
+      "node": 4.244928784291504e-7,
+      "nodeRms": 7.269752912928872e-16,
+      "incMeanDeg": 3.311925579753098,
+      "eMean": 0.007344143023474691,
       "axSat": 0,
       "axPar": 0
      },
      "16": {
       "N": 16,
       "complete": true,
-      "t1": 230.73075651824857,
-      "sidDays": 16.690592510846994,
-      "sidRmsDays": 0.000004626771038228977,
-      "aps": -152211.6336457516,
-      "apsE": 0.007391832474954877,
-      "node": -70668.40524445282,
-      "nodeRms": 0.000005734366160555114,
-      "incMeanDeg": 3.31168547573311,
-      "eMean": 0.007392236073179996,
+      "t1": 230.71788811591662,
+      "sidDays": 16.68966204542027,
+      "sidRmsDays": 4.282124610988574e-11,
+      "aps": -3391.7422258306533,
+      "apsE": 0.007344134176119874,
+      "node": 1.4302764652072956e-7,
+      "nodeRms": 1.5306766409284621e-15,
+      "incMeanDeg": 3.3119255797528226,
+      "eMean": 0.007344143023475812,
       "axSat": 0,
       "axPar": 0
      },
      "32": {
       "N": 32,
       "complete": true,
-      "t1": 461.46145720090317,
-      "sidDays": 16.690590281546196,
-      "sidRmsDays": 0.000009390788304380562,
-      "aps": -126579.79566405855,
-      "apsE": 0.007399730990514009,
-      "node": -64217.419136251774,
-      "nodeRms": 0.00008089095277568778,
-      "incMeanDeg": 3.312545762729336,
-      "eMean": 0.007400098672704756,
+      "t1": 461.43577623093995,
+      "sidDays": 16.689662045393117,
+      "sidRmsDays": 1.7375222388270236e-10,
+      "aps": -3391.742232500639,
+      "apsE": 0.0073441341628533606,
+      "node": -3.630532430569382e-9,
+      "nodeRms": 1.7226296395225926e-15,
+      "incMeanDeg": 3.3119255797518097,
+      "eMean": 0.0073441430234771074,
       "axSat": 0,
       "axPar": 0
      }
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.382
+    "wallSec": 0.422
    },
    "sat:titan|two|q00|-|S=720|div=4|N=32": {
     "key": "sat:titan|two|q00|-|S=720|div=4|N=32",
@@ -6140,16 +6065,16 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.425
+    "wallSec": 0.409
    },
-   "sat:titan|two|q10|-|S=720|div=4|N=32": {
-    "key": "sat:titan|two|q10|-|S=720|div=4|N=32",
+   "sat:callisto|three|q10|-|S=720|div=2|N=32": {
+    "key": "sat:callisto|three|q10|-|S=720|div=2|N=32",
     "spec": {
-     "sat": "titan",
-     "sys": "two",
+     "sat": "callisto",
+     "sys": "three",
      "kind": "q10",
      "S": 720,
-     "div": 4,
+     "div": 2,
      "N": 32,
      "wins": [
       8,
@@ -6157,65 +6082,65 @@
       32
      ]
     },
-    "h": 0.0191303672326,
+    "h": 0.0200275609653,
     "status": "run",
-    "steps": 92161,
+    "steps": 46083,
     "stop": "revMax",
     "complete": true,
     "nan": false,
     "unbound": false,
-    "dt": 0.00478259180815,
+    "dt": 0.01001378048265,
     "warnings": 0,
     "windows": {
      "8": {
       "N": 8,
       "complete": true,
-      "t1": 110.1910935121037,
-      "sidDays": 15.941998482654588,
-      "sidRmsDays": 2.1050472677868514e-13,
-      "aps": -3574.6630804740958,
-      "apsE": 0.02880123888998274,
-      "node": -8.06871103543254e-8,
-      "nodeRms": 4.108270194630002e-16,
-      "incMeanDeg": 27.07855321560183,
-      "eMean": 0.02880127360433032,
+      "t1": 115.36539224701184,
+      "sidDays": 16.69059457853549,
+      "sidRmsDays": 0.0000014600912832601592,
+      "aps": -152220.42700064497,
+      "apsE": 0.007392228684559396,
+      "node": -71246.55554735046,
+      "nodeRms": 0.000001214853352113662,
+      "incMeanDeg": 3.3116390514563387,
+      "eMean": 0.00739263129562582,
       "axSat": 0,
       "axPar": 0
      },
      "16": {
       "N": 16,
       "complete": true,
-      "t1": 220.38218702421335,
-      "sidDays": 15.94199848265461,
-      "sidRmsDays": 4.5162363395668246e-13,
-      "aps": -3574.664214101615,
-      "apsE": 0.02880123887679819,
-      "node": -7.13134689947583e-8,
-      "nodeRms": 6.733756747267798e-16,
-      "incMeanDeg": 27.078553215604305,
-      "eMean": 0.028801273604328933,
+      "t1": 230.73075651824857,
+      "sidDays": 16.690592510846994,
+      "sidRmsDays": 0.000004626771038228977,
+      "aps": -152211.6336457516,
+      "apsE": 0.007391832474954877,
+      "node": -70668.40524445282,
+      "nodeRms": 0.000005734366160555114,
+      "incMeanDeg": 3.31168547573311,
+      "eMean": 0.007392236073179996,
       "axSat": 0,
       "axPar": 0
      },
      "32": {
       "N": 32,
       "complete": true,
-      "t1": 440.76437404733326,
-      "sidDays": 15.941998482616548,
-      "sidRmsDays": 2.1258918019974548e-10,
-      "aps": -3574.6644880275144,
-      "apsE": 0.02880123882406839,
-      "node": 8.789668839559977e-8,
-      "nodeRms": 1.4785404346734696e-15,
-      "incMeanDeg": 27.078553215599207,
-      "eMean": 0.028801273604332576,
+      "t1": 461.46145720090317,
+      "sidDays": 16.690590281546196,
+      "sidRmsDays": 0.000009390788304380562,
+      "aps": -126579.79566405855,
+      "apsE": 0.007399730990514009,
+      "node": -64217.419136251774,
+      "nodeRms": 0.00008089095277568778,
+      "incMeanDeg": 3.312545762729336,
+      "eMean": 0.007400098672704756,
       "axSat": 0,
       "axPar": 0
      }
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.433
+    "wallSec": 0.446
    },
    "sat:titan|three|q00|-|S=720|div=2|N=32": {
     "key": "sat:titan|three|q00|-|S=720|div=2|N=32",
@@ -6290,7 +6215,82 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.358
+    "wallSec": 0.418
+   },
+   "sat:titan|two|q10|-|S=720|div=4|N=32": {
+    "key": "sat:titan|two|q10|-|S=720|div=4|N=32",
+    "spec": {
+     "sat": "titan",
+     "sys": "two",
+     "kind": "q10",
+     "S": 720,
+     "div": 4,
+     "N": 32,
+     "wins": [
+      8,
+      16,
+      32
+     ]
+    },
+    "h": 0.0191303672326,
+    "status": "run",
+    "steps": 92161,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "unbound": false,
+    "dt": 0.00478259180815,
+    "warnings": 0,
+    "windows": {
+     "8": {
+      "N": 8,
+      "complete": true,
+      "t1": 110.1910935121037,
+      "sidDays": 15.941998482654588,
+      "sidRmsDays": 2.1050472677868514e-13,
+      "aps": -3574.6630804740958,
+      "apsE": 0.02880123888998274,
+      "node": -8.06871103543254e-8,
+      "nodeRms": 4.108270194630002e-16,
+      "incMeanDeg": 27.07855321560183,
+      "eMean": 0.02880127360433032,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "16": {
+      "N": 16,
+      "complete": true,
+      "t1": 220.38218702421335,
+      "sidDays": 15.94199848265461,
+      "sidRmsDays": 4.5162363395668246e-13,
+      "aps": -3574.664214101615,
+      "apsE": 0.02880123887679819,
+      "node": -7.13134689947583e-8,
+      "nodeRms": 6.733756747267798e-16,
+      "incMeanDeg": 27.078553215604305,
+      "eMean": 0.028801273604328933,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "32": {
+      "N": 32,
+      "complete": true,
+      "t1": 440.76437404733326,
+      "sidDays": 15.941998482616548,
+      "sidRmsDays": 2.1258918019974548e-10,
+      "aps": -3574.6644880275144,
+      "apsE": 0.02880123882406839,
+      "node": 8.789668839559977e-8,
+      "nodeRms": 1.4785404346734696e-15,
+      "incMeanDeg": 27.078553215599207,
+      "eMean": 0.028801273604332576,
+      "axSat": 0,
+      "axPar": 0
+     }
+    },
+    "betaMax": 0,
+    "isqSteps": 0,
+    "wallSec": 0.52
    },
    "sat:titan|three|q10|-|S=720|div=2|N=32": {
     "key": "sat:titan|three|q10|-|S=720|div=2|N=32",
@@ -6365,7 +6365,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.41
+    "wallSec": 0.451
    },
    "sat:triton|two|q00|-|S=720|div=4|N=32": {
     "key": "sat:triton|two|q00|-|S=720|div=4|N=32",
@@ -6440,82 +6440,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.449
-   },
-   "sat:triton|two|q10|-|S=720|div=4|N=32": {
-    "key": "sat:triton|two|q10|-|S=720|div=4|N=32",
-    "spec": {
-     "sat": "triton",
-     "sys": "two",
-     "kind": "q10",
-     "S": 720,
-     "div": 4,
-     "N": 32,
-     "wins": [
-      8,
-      16,
-      32
-     ]
-    },
-    "h": 0.0070524495757,
-    "status": "run",
-    "steps": 92161,
-    "stop": "revMax",
-    "complete": true,
-    "nan": false,
-    "unbound": false,
-    "dt": 0.001763112393925,
-    "warnings": 0,
-    "windows": {
-     "8": {
-      "N": 8,
-      "complete": true,
-      "t1": 40.6221811397229,
-      "sidDays": 5.87705166951964,
-      "sidRmsDays": 2.4940840643639014e-12,
-      "aps": -10547.492330421943,
-      "apsE": 0.000017277749151998886,
-      "node": 7.330842660213493e-7,
-      "nodeRms": 9.202743245009858e-16,
-      "incMeanDeg": 174.81690113087635,
-      "eMean": 0.000017302610496032364,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "16": {
-      "N": 16,
-      "complete": true,
-      "t1": 81.24436227950342,
-      "sidDays": 5.877051669522215,
-      "sidRmsDays": 1.6448441305570787e-11,
-      "aps": -10547.476077526799,
-      "apsE": 0.000017277749143786668,
-      "node": 7.600986264838875e-9,
-      "nodeRms": 1.855174983900895e-15,
-      "incMeanDeg": 174.81690113088607,
-      "eMean": 0.000017302610497177264,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "32": {
-      "N": 32,
-      "complete": true,
-      "t1": 162.48872455897333,
-      "sidDays": 5.877051669528238,
-      "sidRmsDays": 5.2490563020818055e-11,
-      "aps": -10547.471754185892,
-      "apsE": 0.0000172777491044113,
-      "node": -7.066843989610987e-7,
-      "nodeRms": 3.4782115901512604e-15,
-      "incMeanDeg": 174.8169011308627,
-      "eMean": 0.000017302610495240215,
-      "axSat": 0,
-      "axPar": 0
-     }
-    },
-    "betaMax": 0,
-    "isqSteps": 0,
-    "wallSec": 0.459
+    "wallSec": 0.392
    },
    "sat:triton|three|q00|-|S=720|div=2|N=32": {
     "key": "sat:triton|three|q00|-|S=720|div=2|N=32",
@@ -6590,7 +6515,82 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.34
+    "wallSec": 0.35
+   },
+   "sat:triton|two|q10|-|S=720|div=4|N=32": {
+    "key": "sat:triton|two|q10|-|S=720|div=4|N=32",
+    "spec": {
+     "sat": "triton",
+     "sys": "two",
+     "kind": "q10",
+     "S": 720,
+     "div": 4,
+     "N": 32,
+     "wins": [
+      8,
+      16,
+      32
+     ]
+    },
+    "h": 0.0070524495757,
+    "status": "run",
+    "steps": 92161,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "unbound": false,
+    "dt": 0.001763112393925,
+    "warnings": 0,
+    "windows": {
+     "8": {
+      "N": 8,
+      "complete": true,
+      "t1": 40.6221811397229,
+      "sidDays": 5.87705166951964,
+      "sidRmsDays": 2.4940840643639014e-12,
+      "aps": -10547.492330421943,
+      "apsE": 0.000017277749151998886,
+      "node": 7.330842660213493e-7,
+      "nodeRms": 9.202743245009858e-16,
+      "incMeanDeg": 174.81690113087635,
+      "eMean": 0.000017302610496032364,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "16": {
+      "N": 16,
+      "complete": true,
+      "t1": 81.24436227950342,
+      "sidDays": 5.877051669522215,
+      "sidRmsDays": 1.6448441305570787e-11,
+      "aps": -10547.476077526799,
+      "apsE": 0.000017277749143786668,
+      "node": 7.600986264838875e-9,
+      "nodeRms": 1.855174983900895e-15,
+      "incMeanDeg": 174.81690113088607,
+      "eMean": 0.000017302610497177264,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "32": {
+      "N": 32,
+      "complete": true,
+      "t1": 162.48872455897333,
+      "sidDays": 5.877051669528238,
+      "sidRmsDays": 5.2490563020818055e-11,
+      "aps": -10547.471754185892,
+      "apsE": 0.0000172777491044113,
+      "node": -7.066843989610987e-7,
+      "nodeRms": 3.4782115901512604e-15,
+      "incMeanDeg": 174.8169011308627,
+      "eMean": 0.000017302610495240215,
+      "axSat": 0,
+      "axPar": 0
+     }
+    },
+    "betaMax": 0,
+    "isqSteps": 0,
+    "wallSec": 0.631
    },
    "sat:triton|three|q10|-|S=720|div=2|N=32": {
     "key": "sat:triton|three|q10|-|S=720|div=2|N=32",
@@ -6665,7 +6665,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.372
+    "wallSec": 0.422
    },
    "sat:io|two|q00|-|S=720|div=2|N=32": {
     "key": "sat:io|two|q00|-|S=720|div=2|N=32",
@@ -6740,7 +6740,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.299
+    "wallSec": 0.303
    },
    "sat:io|three|q00|-|S=720|div=1|N=32": {
     "key": "sat:io|three|q00|-|S=720|div=1|N=32",
@@ -6815,7 +6815,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.286
+    "wallSec": 0.301
    },
    "sat:io|two|q10|-|S=720|div=2|N=32": {
     "key": "sat:io|two|q10|-|S=720|div=2|N=32",
@@ -6890,7 +6890,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.369
+    "wallSec": 0.385
    },
    "sat:io|three|q10|-|S=720|div=1|N=32": {
     "key": "sat:io|three|q10|-|S=720|div=1|N=32",
@@ -6965,7 +6965,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.35
+    "wallSec": 0.305
    },
    "sat:europa|two|q00|-|S=720|div=2|N=32": {
     "key": "sat:europa|two|q00|-|S=720|div=2|N=32",
@@ -7040,7 +7040,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.369
+    "wallSec": 0.298
    },
    "sat:europa|three|q00|-|S=720|div=1|N=32": {
     "key": "sat:europa|three|q00|-|S=720|div=1|N=32",
@@ -7115,7 +7115,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.306
+    "wallSec": 0.275
    },
    "sat:europa|two|q10|-|S=720|div=2|N=32": {
     "key": "sat:europa|two|q10|-|S=720|div=2|N=32",
@@ -7190,7 +7190,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.439
+    "wallSec": 0.352
    },
    "sat:europa|three|q10|-|S=720|div=1|N=32": {
     "key": "sat:europa|three|q10|-|S=720|div=1|N=32",
@@ -7265,7 +7265,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.345
+    "wallSec": 0.288
    },
    "sat:ganymede|two|q00|-|S=720|div=2|N=32": {
     "key": "sat:ganymede|two|q00|-|S=720|div=2|N=32",
@@ -7340,82 +7340,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.344
-   },
-   "sat:ganymede|three|q00|-|S=720|div=1|N=32": {
-    "key": "sat:ganymede|three|q00|-|S=720|div=1|N=32",
-    "spec": {
-     "sat": "ganymede",
-     "sys": "three",
-     "kind": "q00",
-     "S": 720,
-     "div": 1,
-     "N": 32,
-     "wins": [
-      8,
-      16,
-      32
-     ]
-    },
-    "h": 0.0085853393697,
-    "status": "run",
-    "steps": 23041,
-    "stop": "revMax",
-    "complete": true,
-    "nan": false,
-    "unbound": false,
-    "dt": 0.0085853393697,
-    "warnings": 0,
-    "windows": {
-     "8": {
-      "N": 8,
-      "complete": true,
-      "t1": 49.45328901297705,
-      "sidDays": 7.15470036938314,
-      "sidRmsDays": 4.028703402028355e-8,
-      "aps": -181522.98193044547,
-      "apsE": 0.0012496715698087958,
-      "node": -30292.150987889574,
-      "nodeRms": 1.8788805874444002e-7,
-      "incMeanDeg": 3.319857071406492,
-      "eMean": 0.0012497456664964557,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "16": {
-      "N": 16,
-      "complete": true,
-      "t1": 98.90657703382665,
-      "sidDays": 7.154700297727743,
-      "sidRmsDays": 1.7000487728214016e-7,
-      "aps": -183595.68832711558,
-      "apsE": 0.001249499217097453,
-      "node": -30505.51002572797,
-      "nodeRms": 4.4370314348119407e-7,
-      "incMeanDeg": 3.3198191032974527,
-      "eMean": 0.0012495728192305482,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "32": {
-      "N": 32,
-      "complete": true,
-      "t1": 197.8131499448239,
-      "sidDays": 7.1547001492233715,
-      "sidRmsDays": 7.114946069109706e-7,
-      "aps": -185776.31308523408,
-      "apsE": 0.0012492872311003272,
-      "node": -30452.815360494995,
-      "nodeRms": 0.0000010902032253086394,
-      "incMeanDeg": 3.319812899326007,
-      "eMean": 0.0012493621358962673,
-      "axSat": 0,
-      "axPar": 0
-     }
-    },
-    "betaMax": 0,
-    "isqSteps": 0,
-    "wallSec": 0.318
+    "wallSec": 0.328
    },
    "sat:ganymede|two|q10|-|S=720|div=2|N=32": {
     "key": "sat:ganymede|two|q10|-|S=720|div=2|N=32",
@@ -7490,7 +7415,82 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.443
+    "wallSec": 0.388
+   },
+   "sat:ganymede|three|q00|-|S=720|div=1|N=32": {
+    "key": "sat:ganymede|three|q00|-|S=720|div=1|N=32",
+    "spec": {
+     "sat": "ganymede",
+     "sys": "three",
+     "kind": "q00",
+     "S": 720,
+     "div": 1,
+     "N": 32,
+     "wins": [
+      8,
+      16,
+      32
+     ]
+    },
+    "h": 0.0085853393697,
+    "status": "run",
+    "steps": 23041,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "unbound": false,
+    "dt": 0.0085853393697,
+    "warnings": 0,
+    "windows": {
+     "8": {
+      "N": 8,
+      "complete": true,
+      "t1": 49.45328901297705,
+      "sidDays": 7.15470036938314,
+      "sidRmsDays": 4.028703402028355e-8,
+      "aps": -181522.98193044547,
+      "apsE": 0.0012496715698087958,
+      "node": -30292.150987889574,
+      "nodeRms": 1.8788805874444002e-7,
+      "incMeanDeg": 3.319857071406492,
+      "eMean": 0.0012497456664964557,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "16": {
+      "N": 16,
+      "complete": true,
+      "t1": 98.90657703382665,
+      "sidDays": 7.154700297727743,
+      "sidRmsDays": 1.7000487728214016e-7,
+      "aps": -183595.68832711558,
+      "apsE": 0.001249499217097453,
+      "node": -30505.51002572797,
+      "nodeRms": 4.4370314348119407e-7,
+      "incMeanDeg": 3.3198191032974527,
+      "eMean": 0.0012495728192305482,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "32": {
+      "N": 32,
+      "complete": true,
+      "t1": 197.8131499448239,
+      "sidDays": 7.1547001492233715,
+      "sidRmsDays": 7.114946069109706e-7,
+      "aps": -185776.31308523408,
+      "apsE": 0.0012492872311003272,
+      "node": -30452.815360494995,
+      "nodeRms": 0.0000010902032253086394,
+      "incMeanDeg": 3.319812899326007,
+      "eMean": 0.0012493621358962673,
+      "axSat": 0,
+      "axPar": 0
+     }
+    },
+    "betaMax": 0,
+    "isqSteps": 0,
+    "wallSec": 0.297
    },
    "sat:ganymede|three|q10|-|S=720|div=1|N=32": {
     "key": "sat:ganymede|three|q10|-|S=720|div=1|N=32",
@@ -7565,7 +7565,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.369
+    "wallSec": 0.317
    },
    "sat:callisto|two|q00|-|S=720|div=2|N=32": {
     "key": "sat:callisto|two|q00|-|S=720|div=2|N=32",
@@ -7640,7 +7640,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.368
+    "wallSec": 0.358
    },
    "sat:callisto|three|q00|-|S=720|div=1|N=32": {
     "key": "sat:callisto|three|q00|-|S=720|div=1|N=32",
@@ -7715,7 +7715,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.309
+    "wallSec": 0.243
    },
    "sat:callisto|two|q10|-|S=720|div=2|N=32": {
     "key": "sat:callisto|two|q10|-|S=720|div=2|N=32",
@@ -7790,7 +7790,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.424
+    "wallSec": 0.408
    },
    "sat:callisto|three|q10|-|S=720|div=1|N=32": {
     "key": "sat:callisto|three|q10|-|S=720|div=1|N=32",
@@ -7865,7 +7865,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.317
+    "wallSec": 0.372
    },
    "sat:titan|two|q00|-|S=720|div=2|N=32": {
     "key": "sat:titan|two|q00|-|S=720|div=2|N=32",
@@ -7940,82 +7940,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.289
-   },
-   "sat:titan|two|q10|-|S=720|div=2|N=32": {
-    "key": "sat:titan|two|q10|-|S=720|div=2|N=32",
-    "spec": {
-     "sat": "titan",
-     "sys": "two",
-     "kind": "q10",
-     "S": 720,
-     "div": 2,
-     "N": 32,
-     "wins": [
-      8,
-      16,
-      32
-     ]
-    },
-    "h": 0.0191303672326,
-    "status": "run",
-    "steps": 46081,
-    "stop": "revMax",
-    "complete": true,
-    "nan": false,
-    "unbound": false,
-    "dt": 0.0095651836163,
-    "warnings": 0,
-    "windows": {
-     "8": {
-      "N": 8,
-      "complete": true,
-      "t1": 110.19163384069127,
-      "sidDays": 15.942076655193304,
-      "sidRmsDays": 1.3631350668018212e-12,
-      "aps": -14202.58359594043,
-      "apsE": 0.028804980041874133,
-      "node": -3.936349397428007e-8,
-      "nodeRms": 8.263093504058642e-16,
-      "incMeanDeg": 27.07855321560183,
-      "eMean": 0.0288051181353358,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "16": {
-      "N": 16,
-      "complete": true,
-      "t1": 220.38326768137395,
-      "sidDays": 15.942076655192372,
-      "sidRmsDays": 2.604355928853806e-12,
-      "aps": -14202.587954029384,
-      "apsE": 0.028804979833739034,
-      "node": -2.66409790220129e-8,
-      "nodeRms": 8.976207202447658e-16,
-      "incMeanDeg": 27.078553215604305,
-      "eMean": 0.028805118135335823,
-      "axSat": 0,
-      "axPar": 0
-     },
-     "32": {
-      "N": 32,
-      "complete": true,
-      "t1": 440.76653536269185,
-      "sidDays": 15.942076655190066,
-      "sidRmsDays": 1.0713763793673513e-11,
-      "aps": -14202.589188411615,
-      "apsE": 0.028804979001200385,
-      "node": 7.065353846988247e-8,
-      "nodeRms": 1.3399621285509238e-15,
-      "incMeanDeg": 27.078553215599207,
-      "eMean": 0.02880511813533852,
-      "axSat": 0,
-      "axPar": 0
-     }
-    },
-    "betaMax": 0,
-    "isqSteps": 0,
-    "wallSec": 0.384
+    "wallSec": 0.346
    },
    "sat:titan|three|q00|-|S=720|div=1|N=32": {
     "key": "sat:titan|three|q00|-|S=720|div=1|N=32",
@@ -8090,14 +8015,14 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.308
+    "wallSec": 0.342
    },
-   "sat:triton|two|q00|-|S=720|div=2|N=32": {
-    "key": "sat:triton|two|q00|-|S=720|div=2|N=32",
+   "sat:titan|two|q10|-|S=720|div=2|N=32": {
+    "key": "sat:titan|two|q10|-|S=720|div=2|N=32",
     "spec": {
-     "sat": "triton",
+     "sat": "titan",
      "sys": "two",
-     "kind": "q00",
+     "kind": "q10",
      "S": 720,
      "div": 2,
      "N": 32,
@@ -8107,65 +8032,65 @@
       32
      ]
     },
-    "h": 0.0070524495757,
+    "h": 0.0191303672326,
     "status": "run",
     "steps": 46081,
     "stop": "revMax",
     "complete": true,
     "nan": false,
     "unbound": false,
-    "dt": 0.00352622478785,
+    "dt": 0.0095651836163,
     "warnings": 0,
     "windows": {
      "8": {
       "N": 8,
       "complete": true,
-      "t1": 40.62237441667079,
-      "sidDays": 5.877079632041992,
-      "sidRmsDays": 1.8290719619538305e-12,
-      "aps": -39295.44263220348,
-      "apsE": 0.000020846679203373116,
-      "node": -1.0092779706911084e-7,
-      "nodeRms": 1.3801279427862624e-15,
-      "incMeanDeg": 174.81690113087635,
-      "eMean": 0.000021133225496598566,
+      "t1": 110.19163384069127,
+      "sidDays": 15.942076655193304,
+      "sidRmsDays": 1.3631350668018212e-12,
+      "aps": -14202.58359594043,
+      "apsE": 0.028804980041874133,
+      "node": -3.936349397428007e-8,
+      "nodeRms": 8.263093504058642e-16,
+      "incMeanDeg": 27.07855321560183,
+      "eMean": 0.0288051181353358,
       "axSat": 0,
       "axPar": 0
      },
      "16": {
       "N": 16,
       "complete": true,
-      "t1": 81.2447488333166,
-      "sidDays": 5.877079632039457,
-      "sidRmsDays": 5.070448227172675e-12,
-      "aps": -39295.48750155682,
-      "apsE": 0.000020846679047824182,
-      "node": -1.36782053206237e-7,
-      "nodeRms": 1.1906392717168979e-15,
-      "incMeanDeg": 174.81690113088607,
-      "eMean": 0.00002113322549774107,
+      "t1": 220.38326768137395,
+      "sidDays": 15.942076655192372,
+      "sidRmsDays": 2.604355928853806e-12,
+      "aps": -14202.587954029384,
+      "apsE": 0.028804979833739034,
+      "node": -2.66409790220129e-8,
+      "nodeRms": 8.976207202447658e-16,
+      "incMeanDeg": 27.078553215604305,
+      "eMean": 0.028805118135335823,
       "axSat": 0,
       "axPar": 0
      },
      "32": {
       "N": 32,
       "complete": true,
-      "t1": 162.48949766674824,
-      "sidDays": 5.877079632041498,
-      "sidRmsDays": 3.0560869355812936e-11,
-      "aps": -39295.51594944748,
-      "apsE": 0.000020846678425877227,
-      "node": 6.951181227501638e-8,
-      "nodeRms": 1.2653419470225782e-15,
-      "incMeanDeg": 174.8169011308627,
-      "eMean": 0.00002113322550256559,
+      "t1": 440.76653536269185,
+      "sidDays": 15.942076655190066,
+      "sidRmsDays": 1.0713763793673513e-11,
+      "aps": -14202.589188411615,
+      "apsE": 0.028804979001200385,
+      "node": 7.065353846988247e-8,
+      "nodeRms": 1.3399621285509238e-15,
+      "incMeanDeg": 27.078553215599207,
+      "eMean": 0.02880511813533852,
       "axSat": 0,
       "axPar": 0
      }
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.366
+    "wallSec": 0.385
    },
    "sat:titan|three|q10|-|S=720|div=1|N=32": {
     "key": "sat:titan|three|q10|-|S=720|div=1|N=32",
@@ -8240,7 +8165,82 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.441
+    "wallSec": 0.331
+   },
+   "sat:triton|two|q00|-|S=720|div=2|N=32": {
+    "key": "sat:triton|two|q00|-|S=720|div=2|N=32",
+    "spec": {
+     "sat": "triton",
+     "sys": "two",
+     "kind": "q00",
+     "S": 720,
+     "div": 2,
+     "N": 32,
+     "wins": [
+      8,
+      16,
+      32
+     ]
+    },
+    "h": 0.0070524495757,
+    "status": "run",
+    "steps": 46081,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "unbound": false,
+    "dt": 0.00352622478785,
+    "warnings": 0,
+    "windows": {
+     "8": {
+      "N": 8,
+      "complete": true,
+      "t1": 40.62237441667079,
+      "sidDays": 5.877079632041992,
+      "sidRmsDays": 1.8290719619538305e-12,
+      "aps": -39295.44263220348,
+      "apsE": 0.000020846679203373116,
+      "node": -1.0092779706911084e-7,
+      "nodeRms": 1.3801279427862624e-15,
+      "incMeanDeg": 174.81690113087635,
+      "eMean": 0.000021133225496598566,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "16": {
+      "N": 16,
+      "complete": true,
+      "t1": 81.2447488333166,
+      "sidDays": 5.877079632039457,
+      "sidRmsDays": 5.070448227172675e-12,
+      "aps": -39295.48750155682,
+      "apsE": 0.000020846679047824182,
+      "node": -1.36782053206237e-7,
+      "nodeRms": 1.1906392717168979e-15,
+      "incMeanDeg": 174.81690113088607,
+      "eMean": 0.00002113322549774107,
+      "axSat": 0,
+      "axPar": 0
+     },
+     "32": {
+      "N": 32,
+      "complete": true,
+      "t1": 162.48949766674824,
+      "sidDays": 5.877079632041498,
+      "sidRmsDays": 3.0560869355812936e-11,
+      "aps": -39295.51594944748,
+      "apsE": 0.000020846678425877227,
+      "node": 6.951181227501638e-8,
+      "nodeRms": 1.2653419470225782e-15,
+      "incMeanDeg": 174.8169011308627,
+      "eMean": 0.00002113322550256559,
+      "axSat": 0,
+      "axPar": 0
+     }
+    },
+    "betaMax": 0,
+    "isqSteps": 0,
+    "wallSec": 0.314
    },
    "sat:triton|three|q00|-|S=720|div=1|N=32": {
     "key": "sat:triton|three|q00|-|S=720|div=1|N=32",
@@ -8315,7 +8315,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.317
+    "wallSec": 0.329
    },
    "sat:triton|two|q10|-|S=720|div=2|N=32": {
     "key": "sat:triton|two|q10|-|S=720|div=2|N=32",
@@ -8390,7 +8390,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.498
+    "wallSec": 0.385
    },
    "sat:triton|three|q10|-|S=720|div=1|N=32": {
     "key": "sat:triton|three|q10|-|S=720|div=1|N=32",
@@ -8465,7 +8465,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.345
+    "wallSec": 0.395
    },
    "sat:europa|two|q00|-|S=720|div=1|N=32": {
     "key": "sat:europa|two|q00|-|S=720|div=1|N=32",
@@ -8540,7 +8540,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.342
+    "wallSec": 0.347
    },
    "sat:europa|two|q10|-|S=720|div=1|N=32": {
     "key": "sat:europa|two|q10|-|S=720|div=1|N=32",
@@ -8615,7 +8615,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.343
+    "wallSec": 0.282
    },
    "sat:ganymede|two|q00|-|S=720|div=1|N=32": {
     "key": "sat:ganymede|two|q00|-|S=720|div=1|N=32",
@@ -8690,7 +8690,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.305
+    "wallSec": 0.329
    },
    "sat:ganymede|two|q10|-|S=720|div=1|N=32": {
     "key": "sat:ganymede|two|q10|-|S=720|div=1|N=32",
@@ -8765,7 +8765,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.32
+    "wallSec": 0.284
    },
    "sat:callisto|two|q00|-|S=720|div=1|N=32": {
     "key": "sat:callisto|two|q00|-|S=720|div=1|N=32",
@@ -8840,7 +8840,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.285
+    "wallSec": 0.264
    },
    "sat:callisto|two|q10|-|S=720|div=1|N=32": {
     "key": "sat:callisto|two|q10|-|S=720|div=1|N=32",
@@ -8915,7 +8915,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.361
+    "wallSec": 0.322
    },
    "sat:titan|two|q00|-|S=720|div=1|N=32": {
     "key": "sat:titan|two|q00|-|S=720|div=1|N=32",
@@ -8990,7 +8990,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.334
+    "wallSec": 0.324
    },
    "sat:titan|two|q10|-|S=720|div=1|N=32": {
     "key": "sat:titan|two|q10|-|S=720|div=1|N=32",
@@ -9065,7 +9065,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.297
+    "wallSec": 0.337
    },
    "sat:triton|two|q00|-|S=720|div=1|N=32": {
     "key": "sat:triton|two|q00|-|S=720|div=1|N=32",
@@ -9140,7 +9140,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.276
+    "wallSec": 0.283
    },
    "sat:triton|two|q10|-|S=720|div=1|N=32": {
     "key": "sat:triton|two|q10|-|S=720|div=1|N=32",
@@ -9215,7 +9215,7 @@
     },
     "betaMax": 0,
     "isqSteps": 0,
-    "wallSec": 0.234
+    "wallSec": 0.262
    }
   }
  },
@@ -19743,100 +19743,100 @@
    "two|nodrag|h/1": {
     "n": 12,
     "steps": 276492,
-    "wallSec": 3.825
+    "wallSec": 3.578
    },
    "three|drag|h/4": {
     "n": 6,
     "steps": 552971,
-    "wallSec": 342.07699999999994
+    "wallSec": 269.217
    },
    "two|drag|h/4": {
     "n": 6,
     "steps": 552966,
-    "wallSec": 151.78
+    "wallSec": 127.595
    },
    "three|drag|h/2": {
     "n": 6,
     "steps": 276488,
-    "wallSec": 166.574
+    "wallSec": 140.654
    },
    "two|drag|h/2": {
     "n": 6,
     "steps": 276486,
-    "wallSec": 72.919
+    "wallSec": 66.279
    },
    "three|drag|h/1": {
     "n": 6,
     "steps": 138247,
-    "wallSec": 77.839
+    "wallSec": 70.587
    },
    "two|drag|h/1": {
     "n": 6,
     "steps": 138246,
-    "wallSec": 35.663
+    "wallSec": 32.591
    },
    "three|nodrag|h/4": {
     "n": 12,
     "steps": 1105942,
-    "wallSec": 6.283
+    "wallSec": 5.867
    },
    "two|nodrag|h/4": {
     "n": 12,
     "steps": 1105932,
-    "wallSec": 5.726999999999999
+    "wallSec": 5.423000000000001
    },
    "three|nodrag|h/2": {
     "n": 12,
     "steps": 552976,
-    "wallSec": 4.723
+    "wallSec": 4.675
    },
    "two|nodrag|h/2": {
     "n": 12,
     "steps": 552972,
-    "wallSec": 4.592
+    "wallSec": 4.25
    },
    "three|nodrag|h/1": {
     "n": 12,
     "steps": 276494,
-    "wallSec": 4.011
+    "wallSec": 3.795
    }
   },
   "rate": {
    "two|nodrag|h/1": {
-    "rateStepsPerSec": 72285.49019607843
+    "rateStepsPerSec": 77275.57294577977
    },
    "three|drag|h/4": {
-    "rateStepsPerSec": 1616.5103178524137
+    "rateStepsPerSec": 2053.9973330064595
    },
    "two|drag|h/4": {
-    "rateStepsPerSec": 3643.2072736855976
+    "rateStepsPerSec": 4333.759159841687
    },
    "three|drag|h/2": {
-    "rateStepsPerSec": 1659.8508770876606
+    "rateStepsPerSec": 1965.7315113683223
    },
    "two|drag|h/2": {
-    "rateStepsPerSec": 3791.6866660266874
+    "rateStepsPerSec": 4171.547548997421
    },
    "three|drag|h/1": {
-    "rateStepsPerSec": 1776.0634129420985
+    "rateStepsPerSec": 1958.533441001884
    },
    "two|drag|h/1": {
-    "rateStepsPerSec": 3876.454588789502
+    "rateStepsPerSec": 4241.845908379614
    },
    "three|nodrag|h/4": {
-    "rateStepsPerSec": 176021.32739137355
+    "rateStepsPerSec": 188502.1305607636
    },
    "two|nodrag|h/4": {
-    "rateStepsPerSec": 193108.43373493978
+    "rateStepsPerSec": 203933.61607966066
    },
    "three|nodrag|h/2": {
-    "rateStepsPerSec": 117081.51598560238
+    "rateStepsPerSec": 118283.63636363637
    },
    "two|nodrag|h/2": {
-    "rateStepsPerSec": 120420.73170731709
+    "rateStepsPerSec": 130111.05882352941
    },
    "three|nodrag|h/1": {
-    "rateStepsPerSec": 68933.93168785839
+    "rateStepsPerSec": 72857.4440052701
    }
   }
  },
@@ -19852,41 +19852,41 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.21
+   "wallSec": 0.121
   },
   "T": {
-   "wallSec": 0.003
+   "wallSec": 0.001
   },
   "E": {
-   "wallSec": 457.679
+   "wallSec": 384.825
   },
   "K": {
    "wallSec": 0.002
   },
   "W": {
-   "wallSec": 0.001
+   "wallSec": 0
   },
   "B": {
-   "wallSec": 0.002
+   "wallSec": 0.003
   }
  },
  "stats": {
   "runs": 108,
   "steps": 5806212
  },
- "elapsedS": 459.984,
+ "elapsedS": 386.518,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便d",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T04:43:46.673Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T05:40:34.047Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -19898,9 +19898,9 @@
   "code": [
    {
     "file": "tests/exp-w315d-satk1.mjs",
-    "bytes": 30152,
-    "sha256": "dcf57bcf27e364fc22e9ccd88eb74d8625bc7abd6886560c7c8443d917a283a8",
-    "mtime": "2026-10-25T15:04:20.689Z"
+    "bytes": 30167,
+    "sha256": "5d5a21c36d1e318d20778ba6dbfb8e5a2c3dfa99a7265a0748828f30c5fd81ac",
+    "mtime": "2026-11-05T03:10:54.298Z"
    },
    {
     "file": "tests/lib-w315d-satk1.mjs",
@@ -19928,12 +19928,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "fc3b1544943701749b7ec337e7e6f34b99dddb324f5cfa975f6ec33c0d78377b",
+  "codeSha256": "23d1ecc55952a593ae09c9c00902205f674256896d0f960d9bffd193b4d0e716",
   "harnessVersion": "w315d-satk1-1",
   "stage": "satk1",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W315D_WORKERS)",
@@ -19948,7 +19948,7 @@
    "観測レコード"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "jupiterGalilean",
     "saturn",
@@ -19972,11 +19972,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1385,
-   "segments": 1211,
-   "closureShare": 0.299
+   "abBody": false,
+   "names": 1348,
+   "segments": 1185,
+   "closureShare": 0.293
   },
-  "scopeSha256": "89b1a7360559e04819ba7ebb93cc7a46095783f158ee484af4d6ae24debe04b4",
+  "scopeSha256": "1288b4941f6caea44cc43e8d3750e7a9938eae14b908ff7977fad1df3237e6e3",
   "scopeComplete": true,
   "inputsStable": [
    {

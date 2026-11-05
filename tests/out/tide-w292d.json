@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第292便d",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T07:11:47.778Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T05:32:23.735Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w292d-tide.mjs",
-    "bytes": 32604,
-    "sha256": "73a434de93b01e4b0eeda9d4e725b689304e84ddda3d1472584165d4bd2ebebf",
-    "mtime": "2026-10-20T16:19:56.640Z"
+    "bytes": 32619,
+    "sha256": "be42e6580fae4d84fa2da107c53d19ba3729a3d0ecd2fea3842af114b6c784c5",
+    "mtime": "2026-11-05T03:10:54.254Z"
    },
    {
     "file": "tests/lib-w292d-tide.mjs",
@@ -40,9 +40,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    },
    {
     "file": "tests/lib-w302h-splitrec.mjs",
@@ -51,7 +51,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "1d876f0d85bfe8dea08bec566af205c0bd2888f45fdbe0c4fa9d4b017b59c95e",
+  "codeSha256": "80eb07ded99f7bd0114052936999ecf39ef630398d94947814f59cb7446d399e",
   "harnessVersion": "w292d-tide-1",
   "libVersion": "w292d-tide-lib-1",
   "engineVersion": "w292d-tide-1",
@@ -69,7 +69,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "earthMoonReal",
     "earthMoonTide",
@@ -97,11 +97,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1405,
-   "segments": 1231,
-   "closureShare": 0.3031
+   "abBody": false,
+   "names": 1368,
+   "segments": 1205,
+   "closureShare": 0.297
   },
-  "scopeSha256": "f0160f86056af041f13a0c089e7a0c614b57f331754c238e8cfe6fc8c46d5a35",
+  "scopeSha256": "152ab766c35c8d0f6057f1c6ee55bbf992eac60c0a347531d20a8d0b1869d455",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -372,7 +373,7 @@
    "dt": 0.016,
    "steps": 1475370,
    "T": 23605.920000000002,
-   "wallSec": 5.058,
+   "wallSec": 4.046,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -422,7 +423,7 @@
    "dt": 0.008,
    "steps": 2950740,
    "T": 23605.920000000002,
-   "wallSec": 10.281,
+   "wallSec": 8,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -501,7 +502,7 @@
    "gain": 0,
    "tide": false,
    "velocity": "v",
-   "wallSec": 5.892,
+   "wallSec": 3.959,
    "dJEarth": 0,
    "dJMoon": 0,
    "tideHeat": 0,
@@ -519,7 +520,7 @@
    "gain": 0,
    "tide": true,
    "velocity": "v",
-   "wallSec": 6.819,
+   "wallSec": 5.689,
    "dJEarth": -1.074392193823668e-12,
    "dJMoon": 5.87666900494468e-16,
    "tideHeat": 7.543641534915281e-15,
@@ -743,71 +744,71 @@
     "gain": 0,
     "tide": false,
     "velocity": "v",
-    "wallSec": 5.892
+    "wallSec": 3.959
    },
    {
     "gain": 0,
     "tide": true,
     "velocity": "v",
-    "wallSec": 6.819
+    "wallSec": 5.689
    },
    {
     "gain": 100,
     "tide": false,
     "velocity": "v",
-    "wallSec": 5.946
+    "wallSec": 4.589
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "v",
-    "wallSec": 7.765
+    "wallSec": 6.144
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 7.696
+    "wallSec": 5.628
    },
    {
     "gain": 1000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 6.085
+    "wallSec": 4.61
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 7.68
+    "wallSec": 5.941
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 8.953
+    "wallSec": 6.451
    },
    {
     "gain": 10000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 7.243
+    "wallSec": 4.846
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 10.233
+    "wallSec": 5.62
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 10.206
+    "wallSec": 5.972
    }
   ],
   "ok": true
  },
  "ok": true,
- "elapsedS": 102.808
+ "elapsedS": 73.829
 }

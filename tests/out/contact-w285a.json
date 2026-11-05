@@ -3,34 +3,34 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便a",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T08:24:01.369Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T05:29:02.243Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1749470,
-    "sha256": "1a3ba1719546bc8b9143c50e22c7fa4eb13e07f96ad5f5a9542cdbdeeb6042e3",
-    "mtime": "2026-11-04T08:10:50.808Z"
+    "bytes": 1732267,
+    "sha256": "7105e91318a949fdf8845870663974f05649f03c8bf9638290c319607f3ac3fc",
+    "mtime": "2026-11-05T05:10:04.718Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w285a-contact.mjs",
-    "bytes": 33358,
-    "sha256": "e7f59b0770151dae13b0b342ac26c1a245245b78c6ec3ed67dc6473c529ffdfc",
-    "mtime": "2026-10-20T16:19:56.636Z"
+    "bytes": 33400,
+    "sha256": "9cc774bd48a91d8ccdade66105754eec3b1edb8b377ced91af267ed04749b2d0",
+    "mtime": "2026-11-05T03:10:54.247Z"
    },
    {
     "file": "tests/exp-w284e-tpsign.mjs",
-    "bytes": 16757,
-    "sha256": "2f13ddc499000e61507312749a833ed63c0e53ad76329bcc6af2be5f53401fb6",
-    "mtime": "2026-10-20T16:19:56.632Z"
+    "bytes": 16799,
+    "sha256": "ff45be9de88b0dcc01effa396e0a2f8ae88348fec9a463a29a7c3d9e80b48bc6",
+    "mtime": "2026-11-05T03:10:54.247Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
@@ -64,12 +64,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "259a31305fc291ad80894db53917fdb38d45a44598d94f3d8cd465ff4efd3423",
+  "codeSha256": "f61e43b2c4a5fabd7f04508d49e8b371adf016b70316b29aaca8ec59c7201c41",
   "harnessVersion": "w285a-contact-1",
   "loadErrors": 0,
   "dt": 0.016,
@@ -82,7 +82,7 @@
    "形状が安定した"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": "all",
    "roots": [
     "$",
@@ -123,16 +123,20 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1363,
-   "segments": 1189,
-   "closureShare": 0.2937
+   "abBody": false,
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1326,
+   "segments": 1163,
+   "closureShare": 0.2877
   },
-  "scopeSha256": "07ec0c6cb7bf80a065a7693547a9cb79e942cdee3332b2f2014580d6a1f7678b",
+  "scopeSha256": "8f242bad6eaeebe4cb088caee77ee38e46d8ccf8c5b25b35794a44ad8cc6719f",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "adcbd3472c95a188028c80ff2b742f025c22b000ba91a2ddc8235447d6de2b9f",
+    "stableSha256": "4e1d04f148aaead243bbedf853c1d834d6c19f1cafa89d912f0983f82308c903",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -173,7 +177,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "ecada61e7643cf04ae5951b2a8c3ff6c42eddae8eda3dbd4a502be58febb35ec",
+    "stableSha256": "98fa85f106f2cc68e41d96ed51c641b90f906087a504527a8ca4b493eb32fbc0",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -1745,7 +1749,7 @@
   "after": {
    "source": "canon",
    "file": "tests/out/calaudit-w249.json",
-   "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38"
+   "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849"
   },
   "table": [
    {
@@ -1947,7 +1951,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 135.763,
+      "wallSec": 99.704,
       "tags": [
        "dt"
       ],
@@ -1962,5 +1966,5 @@
   ],
   "note": null
  },
- "elapsedS": 215.061
+ "elapsedS": 220.06
 }

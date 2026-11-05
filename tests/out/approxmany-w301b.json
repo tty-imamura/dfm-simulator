@@ -357,7 +357,7 @@
     ],
     "resMax": 6.07834e-16,
     "fail": 0,
-    "wallSec": 0.889
+    "wallSec": 0.58
    },
    "B": {
     "bands": [
@@ -1133,54 +1133,54 @@
  "ok": true,
  "timing": {
   "accept": {
-   "wallSec": 0.034
+   "wallSec": 0.033
   },
   "zero": {
-   "wallSec": 1.661
+   "wallSec": 1.536
   },
   "effect": {
-   "wallSec": 2.352
+   "wallSec": 1.876
   },
   "remeasure": {
-   "wallSec": 0.002
+   "wallSec": 0.006
   },
   "audit": {
-   "wallSec": 0.001
+   "wallSec": 0.002
   }
  },
- "elapsedS": 4.05,
+ "elapsedS": 3.453,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第301便b",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T07:14:36.112Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T05:33:11.075Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/out/geo4stable-w299d.json",
-    "bytes": 36192,
-    "sha256": "f54c38261b494f5b5ee61a34a5b3b417f5e9d74f984211decaff68a730726dcf",
-    "mtime": "2026-11-04T06:57:46.280Z"
+    "bytes": 36233,
+    "sha256": "06ec377e03a38e572ad1fe7908a2d48cdc2e73a6c9a95eb938cdf525a4ffd07d",
+    "mtime": "2026-11-05T05:29:30.638Z"
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
-    "bytes": 41370,
-    "sha256": "3758f58ce4c917e48c4771606adfbd8644a7374743dc535460f6927a606be641",
-    "mtime": "2026-11-04T04:26:11.079Z"
+    "bytes": 41412,
+    "sha256": "5859da82673038b85345e4dd6830159cd8953df549e7223a2c1ad85a848b25fe",
+    "mtime": "2026-11-05T05:29:12.142Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w301b-approxmany.mjs",
-    "bytes": 30402,
-    "sha256": "6ba31badd15b513db940a7050ed6d3ea2882aa8dfb8fe5f68695dc54f264dd01",
-    "mtime": "2026-10-20T16:19:56.648Z"
+    "bytes": 30429,
+    "sha256": "53987d268fa44f3dca9c0ef548aa1fad417a493d1f29c12cda620e54a71124e9",
+    "mtime": "2026-11-05T03:10:54.273Z"
    },
    {
     "file": "tests/lib-w301b-approxmany.mjs",
@@ -1190,9 +1190,9 @@
    },
    {
     "file": "tests/exp-w299d-geo4stable.mjs",
-    "bytes": 43485,
-    "sha256": "522a92a68e6db6943ec416569f870d275ccb5cae1f0a4749eca51e68022664eb",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "bytes": 43512,
+    "sha256": "e32e764b6be9e75e40f0cb0e3ea72be75815795145ae6f4734425c111b3ba136",
+    "mtime": "2026-11-05T03:10:54.273Z"
    },
    {
     "file": "tests/lib-w299d-spread.mjs",
@@ -1214,18 +1214,18 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "5aeecbb58e7e98094d4049901fc91b5d959f4d419aaac9975a646a51d5c95e2b",
+  "codeSha256": "dd8257cee2b66ff3a51d066287e8abd1bead54abef4b8297dd4fd0809c435356",
   "harnessVersion": "w301b-approxmany-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第91報)①③「近似多粒子のサンプルでは支配天体は固定する。近似多粒子同士は接触判定を切る。塵は重力も引きずりも無し・天体は自転を設定して重力も引きずりも有り」「chainSpreadToy3d を近似多粒子のフォーマットに合わせる」",
   "reading": "統括の検証項目 R180(対のマスクを辺を作る段で・宣言は physics の 1 つの鍵・🍥 は天体型・🍩 の帯は塵・銀河などの本の監査)",
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": "all",
    "roots": [
     "DT",
@@ -1266,16 +1266,19 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1433,
-   "segments": 1257,
-   "closureShare": 0.3078
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1396,
+   "segments": 1231,
+   "closureShare": 0.3018
   },
-  "scopeSha256": "f897ddb1a703a4cc834ee976877793f470944642d95d47d97df7dc45e038145d",
+  "scopeSha256": "dd48a826ec36d4235029529677cd7b12da42b0405c06475b15c972a1e31f6a45",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/geo4stable-w299d.json",
-    "stableSha256": "dab1d4bba6168284e6af8437f4b495bb0076a34e9d4ed3bc62016eaafe9caa57",
+    "stableSha256": "0cd06237b425b331c709e0c5084881e967a916f12d925f3f1508aef68483acc0",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1289,7 +1292,7 @@
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
-    "stableSha256": "1c5655c757bf583fa584fcee9855c16c1fd448df387df0fb65b0b3251b3660fa",
+    "stableSha256": "687c60bc663bf7a0ab5de65575a4bc3656bd6b2893ee653723f99a39a8a50f41",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

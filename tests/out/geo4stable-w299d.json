@@ -393,10 +393,10 @@
        ],
        "timing": {
         "A": {
-         "wallSec": 1.774
+         "wallSec": 1.381
         },
         "B": {
-         "wallSec": 1.756
+         "wallSec": 1.448
         }
        }
       },
@@ -520,10 +520,10 @@
        ],
        "timing": {
         "A": {
-         "wallSec": 8.093
+         "wallSec": 6.608
         },
         "B": {
-         "wallSec": 7.565
+         "wallSec": 6.231
         }
        }
       },
@@ -647,10 +647,10 @@
        ],
        "timing": {
         "A": {
-         "wallSec": 26.906
+         "wallSec": 26.771
         },
         "B": {
-         "wallSec": 26.325
+         "wallSec": 28.413
         }
        }
       }
@@ -1212,7 +1212,7 @@
   },
   "runs": {
    "A": {
-    "wallSec": 8.093,
+    "wallSec": 6.608,
     "bands": [
      {
       "band": [
@@ -1294,7 +1294,7 @@
     ]
    },
    "B": {
-    "wallSec": 7.565,
+    "wallSec": 6.231,
     "bands": [
      {
       "band": [
@@ -1597,14 +1597,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第299便d",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T06:57:46.281Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T05:29:30.635Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/data-w303a-decl302.json",
@@ -1616,9 +1616,9 @@
   "code": [
    {
     "file": "tests/exp-w299d-geo4stable.mjs",
-    "bytes": 43485,
-    "sha256": "522a92a68e6db6943ec416569f870d275ccb5cae1f0a4749eca51e68022664eb",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "bytes": 43512,
+    "sha256": "e32e764b6be9e75e40f0cb0e3ea72be75815795145ae6f4734425c111b3ba136",
+    "mtime": "2026-11-05T03:10:54.273Z"
    },
    {
     "file": "tests/lib-w299d-spread.mjs",
@@ -1646,9 +1646,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    },
    {
     "file": "tests/lib-w303a-pre.mjs",
@@ -1657,14 +1657,14 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "4c0a87634173b5e1e7499bd52f5272d4ad043dad955626e35477b49a358ec9c9",
+  "codeSha256": "8615f645ee9254cfb8c6a08643545cbfb80f45543c81f0ae3c0c1c3c7196d9d4",
   "harnessVersion": "w299d-geo4stable-1",
   "spreadVersion": "w299d-spread-2",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第89報)③「geoPN=4 の検証が安定したら、physics.spaceMesh サンプルの移行を進める。現状の chainDiskToy 系は、初期配置が集まりすぎている」",
   "reading": "統括の検証項目 R173・DECISIONS v58 の AN278・AN285",
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "chainDiskToy3d",
     "chainSpreadToy3d",
@@ -1706,11 +1706,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1430,
-   "segments": 1254,
-   "closureShare": 0.3073
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1393,
+   "segments": 1228,
+   "closureShare": 0.3013
   },
-  "scopeSha256": "d6bbeed4e2b98c48484332f35219905631975b3556a114e6a6338d594300fc07",
+  "scopeSha256": "33009c65b2aef925bf21edee96c7d4217894dafa898c444b40e69cd418d20148",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -1722,5 +1725,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 287.681
+ "elapsedS": 286.73
 }

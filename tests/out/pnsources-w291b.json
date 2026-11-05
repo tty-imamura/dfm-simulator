@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便b",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T14:50:43.672Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T05:31:21.602Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w291b-pnsources.mjs",
-    "bytes": 34697,
-    "sha256": "f7e346d577f2e21f43bfea18c5ff33bfb2962762a4b3cf4d14991339218f5d17",
-    "mtime": "2026-11-04T14:47:22.137Z"
+    "bytes": 34724,
+    "sha256": "0846a1d9f26ad540219c860498f073816e05ebb63cfd7263278e37ed2726dcfd",
+    "mtime": "2026-11-05T03:10:54.254Z"
    },
    {
     "file": "tests/lib-w285b-gr1pn.mjs",
@@ -58,9 +58,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    },
    {
     "file": "tests/lib-w302a-wbg.mjs",
@@ -69,7 +69,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "d945b079f8a977c514615aaea65f401c3e25d583dbad73b689707eb12f4a901e",
+  "codeSha256": "f6019144f13be7e2e766ed492c82fc9b1a4fd96cddb70aafe9d8423ebda11d0b",
   "harnessVersion": "w291b-pnsources-9",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第81報)⑤「geoPN=1: 軌道計算を精査し、測地線化を GR の 1PN に揃える。観測値をそのまま使えるようにする」",
@@ -86,7 +86,7 @@
    "RC を切った"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": "all",
    "roots": [
     "$",
@@ -119,11 +119,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1369,
-   "segments": 1195,
-   "closureShare": 0.2957
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1332,
+   "segments": 1169,
+   "closureShare": 0.2897
   },
-  "scopeSha256": "1eb42ca4ba8f1c82ad66dbf95ebec74eae176dc653766c4662dfb9d6d7c50ae8",
+  "scopeSha256": "2505750195bcd43ed7686667364473fcb4da8f66e34100976a51b3acd80268ea",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -174,7 +177,7 @@
   "pn1Version": "w285b-eih-1",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "nowSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "A": {
   "n": 186,
   "kf0Books": 28,
@@ -6377,13 +6380,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.123,
+   "wallSec": 0.083,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.161,
+   "wallSec": 0.171,
    "errors": 0
   }
  },
- "elapsedS": 170.836
+ "elapsedS": 127.338
 }

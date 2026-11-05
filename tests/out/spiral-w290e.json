@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便e",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T04:30:58.307Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T05:33:26.915Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w290e-spiral.mjs",
-    "bytes": 38327,
-    "sha256": "7d0ce9c3fc51f87042ae7eb9d6287d9b6b2c99ab06569a6fc80747e970a6facb",
-    "mtime": "2026-10-20T16:19:56.640Z"
+    "bytes": 38354,
+    "sha256": "706944e6731d555937d3048ad490cb567c6384185f32e08fa549df27e0a689ee",
+    "mtime": "2026-11-05T03:10:54.254Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -34,12 +34,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "7ca3a7282bd7d51f0ec1acc298cec55d313dcc9a4a31a0d887d7c55557bf8aef",
+  "codeSha256": "32cf71082046b490b477ce85f98c5a6c8388e6f3835f4d17e0e64d5cf4ad8394",
   "harnessVersion": "w290e-spiral-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第80報)⑤ 渦巻銀河の参照模型 2 本(shapeToyDisk+shapeToyArm/shapeToyDiskCore+shapeToyArmCore)",
@@ -54,7 +54,7 @@
    "観測一致"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "shapeToyArm",
     "shapeToyArmCore",
@@ -81,11 +81,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1364,
-   "segments": 1190,
-   "closureShare": 0.2944
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1327,
+   "segments": 1164,
+   "closureShare": 0.2884
   },
-  "scopeSha256": "03e8589f01ebcf11c050585437befda7dab7d726fc0d9c308b0c79c8d3d68edf",
+  "scopeSha256": "cabc644ed6dedde1813e96f236fa25161f4d638035bf00c534a9ebdd7fa43c96",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1179,71 +1182,71 @@
      "label": "🍭 N",
      "n": 144,
      "steps": 200,
-     "wallSec": 0.043360753,
-     "rateStepsPerSec": 4612.466024286986
+     "wallSec": 0.037483832,
+     "rateStepsPerSec": 5335.633774049568
     },
     {
      "label": "🍭 2N",
      "n": 288,
      "steps": 200,
-     "wallSec": 0.12960604,
-     "rateStepsPerSec": 1543.1379586939004
+     "wallSec": 0.110124186,
+     "rateStepsPerSec": 1816.1314717913103
     },
     {
      "label": "🍭 4N",
      "n": 576,
      "steps": 200,
-     "wallSec": 0.434215104,
-     "rateStepsPerSec": 460.6012046969237
+     "wallSec": 0.371154088,
+     "rateStepsPerSec": 538.8597525025779
     },
     {
      "label": "🍭 内蔵(450)",
      "n": 450,
      "steps": 200,
-     "wallSec": 0.283413152,
-     "rateStepsPerSec": 705.6835527519909
+     "wallSec": 0.294663256,
+     "rateStepsPerSec": 678.7408878696433
     },
     {
      "label": "🎢 N",
      "n": 145,
      "steps": 200,
-     "wallSec": 0.048561277,
-     "rateStepsPerSec": 4118.507839075154
+     "wallSec": 0.040800601,
+     "rateStepsPerSec": 4901.8885775726685
     },
     {
      "label": "🎢 2N",
      "n": 289,
      "steps": 200,
-     "wallSec": 0.137674112,
-     "rateStepsPerSec": 1452.705937918089
+     "wallSec": 0.118415872,
+     "rateStepsPerSec": 1688.9627768818018
     },
     {
      "label": "🎢 4N",
      "n": 577,
      "steps": 200,
-     "wallSec": 0.441719408,
-     "rateStepsPerSec": 452.7761207177929
+     "wallSec": 0.493560997,
+     "rateStepsPerSec": 405.2184050515645
     },
     {
      "label": "🎢 内蔵(451)",
      "n": 451,
      "steps": 200,
-     "wallSec": 0.337181195,
-     "rateStepsPerSec": 593.1528892054612
+     "wallSec": 0.300405228,
+     "rateStepsPerSec": 665.7673747275796
     },
     {
      "label": "🥏",
      "n": 300,
      "steps": 200,
-     "wallSec": 0.155274158,
-     "rateStepsPerSec": 1288.044337680453
+     "wallSec": 0.13410436,
+     "rateStepsPerSec": 1491.3758210396738
     },
     {
      "label": "📀",
      "n": 301,
      "steps": 200,
-     "wallSec": 0.247567079,
-     "rateStepsPerSec": 807.8618563011764
+     "wallSec": 0.155188768,
+     "rateStepsPerSec": 1288.7530623350267
     }
    ],
    "note": "Node headless の壁時計(揮発値)。iPhone の実機は統括が後で測る"
@@ -1275,5 +1278,5 @@
   "kArmImplemented": false
  },
  "ok": false,
- "elapsedS": 54.059
+ "elapsedS": 45.139
 }
