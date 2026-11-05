@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便a",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T10:56:17.689Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T07:23:33.806Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -38,9 +38,9 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "bytes": 110570,
-    "sha256": "4fdab53fe8c53c956700b516ffb1b945dfc40d6bf42ff455a5efd6cb682196d9",
-    "mtime": "2026-11-04T10:43:16.981Z"
+    "bytes": 110611,
+    "sha256": "c0f527d4877499c221f33bb4bcde0bbf353f0d9bdc88d6a07bc6012629eb37df",
+    "mtime": "2026-11-05T07:13:11.295Z"
    },
    {
     "file": "tests/data-w308d-decl307.json",
@@ -52,9 +52,9 @@
   "code": [
    {
     "file": "tests/exp-w306a-an336.mjs",
-    "bytes": 49533,
-    "sha256": "fa6d657729dd9a580ba347dee0694c1c43e0d529cd25e8042952b0cfbf681ecb",
-    "mtime": "2026-10-30T11:33:02.842Z"
+    "bytes": 49560,
+    "sha256": "be81fbb783b10c73bac81e5151c429f5079b91c37f44423555d32a2a19541c40",
+    "mtime": "2026-11-05T03:10:54.280Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -94,9 +94,9 @@
    },
    {
     "file": "tests/exp-w303b-inertialr2.mjs",
-    "bytes": 88175,
-    "sha256": "7a10345c1dfcfd39deb09b96ea27faaad92a52ff4f60d1b6394b7f01d0bdd746",
-    "mtime": "2026-10-30T11:33:02.838Z"
+    "bytes": 88202,
+    "sha256": "02011e17431932872ebb86e0a461b5828a007d832e89296fb996e90ac6c96477",
+    "mtime": "2026-11-05T03:10:54.274Z"
    },
    {
     "file": "tests/lib-w297b-fit.mjs",
@@ -106,9 +106,9 @@
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
-    "bytes": 52861,
-    "sha256": "266dda8f0884604421d04b2bb03398260bebd9b0f761d47861160309149bbe8a",
-    "mtime": "2026-10-30T11:33:02.834Z"
+    "bytes": 52888,
+    "sha256": "33bc2b4c801d143a33bd5dea5491fc37773a826c4454e684e77432248a1a6b5b",
+    "mtime": "2026-11-05T03:10:54.271Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
@@ -130,9 +130,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    },
    {
     "file": "tests/lib-w311c-h4carry.mjs",
@@ -141,7 +141,7 @@
     "mtime": "2026-10-21T20:13:23.994Z"
    }
   ],
-  "codeSha256": "d2f1f5a54f0907b90fb24efddadcd9db9b6db4bcabb5f38655ef44d4c2c6b3ef",
+  "codeSha256": "5925d2caa85dee51997ef927954aa6bb6731ba607ec61cf257b542680af96054",
   "harnessVersion": "w306a-an336-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定〔第97報〕AN336「水星の標的を 1PN + A1 に替える」(派生した参照値 —— sigma null・原資料の幅は未確認・停止許容 0.0009 は宣言・43.0 は履歴の列)・第95報・AN332 の裁定(n = 2 を先・n = +1 は次点・n = 0 は対照・近点では n は決まらない)",
@@ -157,7 +157,7 @@
    "法則を発見した"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "chainDiskToy3d",
     "earthMoonInertial",
@@ -262,11 +262,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1433,
-   "segments": 1259,
-   "closureShare": 0.3066
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1396,
+   "segments": 1233,
+   "closureShare": 0.3005
   },
-  "scopeSha256": "fb67bb1505846c9035e30152038cfc25e2e7943dd15c917dc405ef286977f3ee",
+  "scopeSha256": "f4de945414b7729eb0938d8a74d1c84d6cb513e3ec99f3ce59e3703945cac8ff",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -283,7 +286,7 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "stableSha256": "663faa48426952d3b38e394f7c76b12caa733abe316e1dbd900c4a4460c123ab",
+    "stableSha256": "c7fe2e7a05de9e3c6d1f2f9ca05999306133b866f291a3cb2335a60897ba3216",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -3441,19 +3444,19 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.04
+   "wallSec": 0.028
   },
   "M": {
-   "wallSec": 102.436
+   "wallSec": 78.497
   },
   "T": {
-   "wallSec": 582.417
+   "wallSec": 474.733
   },
   "R": {
-   "wallSec": 0.087
+   "wallSec": 0.056
   },
   "G": {
-   "wallSec": 50.645
+   "wallSec": 37.23
   }
  },
  "stats": {
@@ -3507,11 +3510,11 @@
    }
   },
   "prev": {
-   "generatedAt": "2026-11-03T00:04:36.185Z",
-   "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-   "fileSha256": "427e2d0d18ab53e8b1efa316fb2251009029475990e6c711fdd3205f0d6f3b46"
+   "generatedAt": "2026-11-04T10:56:17.689Z",
+   "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+   "fileSha256": "a9ffd8dcbe22d01865cf2e49c7d13e74bc7b3c8da56e71f882011eb176b8b570"
   },
   "env": "H4_CARRY=1 は比較の実験だけ(既定は全部測る)"
  },
- "elapsedS": 777.81
+ "elapsedS": 620.057
 }

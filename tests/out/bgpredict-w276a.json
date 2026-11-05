@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第276便a",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T05:26:21.152Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T06:52:02.806Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w276a-bgpredict.mjs",
-    "bytes": 21310,
-    "sha256": "c72b6a237dd5c70f71e4dd7f055e617ae8a93dc25e9c57ec84ddc2f9eaacf0b4",
-    "mtime": "2026-11-02T04:24:50.092Z"
+    "bytes": 21325,
+    "sha256": "e087ea8c84a2aa22edd00a903fab298f12bf96fadfd8c8f2c6444f5e97c423cb",
+    "mtime": "2026-11-05T03:10:54.230Z"
    },
    {
     "file": "tests/lib-w275b-dsplit.mjs",
@@ -33,7 +33,7 @@
     "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
-  "codeSha256": "402b729aadfc57a1fed82643791b638b5f81e502fa128578ef8af9f6e9f1e4d3",
+  "codeSha256": "4b6371575c8abb803e002489b697cb314708679d5e07d3b5b927af214a028163",
   "harness": "tests/exp-w276a-bgpredict.mjs",
   "harnessVersion": "w276a-bgpredict-1",
   "dsplitVersion": "w275b-dsplit-1",
@@ -153,7 +153,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": "all",
    "roots": [
     "HP.allPresets",
@@ -166,11 +166,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1361,
-   "segments": 1187,
-   "closureShare": 0.2934
+   "abBody": false,
+   "names": 1324,
+   "segments": 1161,
+   "closureShare": 0.2874
   },
-  "scopeSha256": "96da8c375535d7d3fcd37d05f641ef2b9c2eba674eed1499bfb282c62ea74a46",
+  "scopeSha256": "b74dc740a7e781121d91d06964c816848ee209ce940382a72bf44ebf8bd272f5",
   "scopeComplete": true
  },
  "situations": [

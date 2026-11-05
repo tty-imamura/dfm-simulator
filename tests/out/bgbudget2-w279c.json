@@ -3,34 +3,34 @@
   "provenanceVersion": "w272e-1",
   "wave": "第279便c",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T05:27:47.180Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T06:53:39.997Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/out/bgpredict-w276a.json",
-    "bytes": 96525,
-    "sha256": "17a9b9608a99a65728928dad03dd9b926d94985aa459b7a3a15c6303fde5ebbe",
-    "mtime": "2026-11-04T05:26:22.920Z"
+    "bytes": 96545,
+    "sha256": "ed623faeafcfe35f38e6ad80f281ffeac3ecc03635bf1e460c87184df14dada4",
+    "mtime": "2026-11-05T06:52:04.815Z"
    },
    {
     "file": "tests/out/bgequiv-w278d.json",
-    "bytes": 87314,
-    "sha256": "bee3281229d725d886b44bddcb80b4e3934964e4e97a270f1afef7089ad5a2ec",
-    "mtime": "2026-11-04T05:27:06.180Z"
+    "bytes": 87334,
+    "sha256": "c6c4db6311973ac9a1a37c1cea66257d766b106bff53dfdcde35f15512d17d16",
+    "mtime": "2026-11-05T06:52:51.811Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w279c-bgbudget2.mjs",
-    "bytes": 26992,
-    "sha256": "d174b76cf02ee97462bc9d1465d0d33b354d978f1f0333f7077dbb82d3e7ba56",
-    "mtime": "2026-10-20T16:19:56.628Z"
+    "bytes": 27007,
+    "sha256": "673eff3af70d39289d76307d900e2b7e7c053e6f565be8736c54c287983d2763",
+    "mtime": "2026-11-05T03:10:54.234Z"
    },
    {
     "file": "tests/lib-w279c-bgbudget2.mjs",
@@ -69,7 +69,7 @@
     "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
-  "codeSha256": "4b78e41c7347876d9d4106a890775bf71622759b2d74e2ff9fad4cf7b556d7a2",
+  "codeSha256": "8325ae7e30986e0ade265c687c270e3e866c7afed25d619e5122ed7f9d5099ae",
   "harnessVersion": "w279c-bgbudget2-1",
   "libVersion": "w279c-bgbudget2-1",
   "steps": [
@@ -100,7 +100,7 @@
    "v1.45.0 RC を切った"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "earthMoonRealKF1",
     "galaxy",
@@ -130,16 +130,17 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1361,
-   "segments": 1187,
-   "closureShare": 0.2934
+   "abBody": false,
+   "names": 1324,
+   "segments": 1161,
+   "closureShare": 0.2874
   },
-  "scopeSha256": "ba19a706105c797b4ec539479fa454fdd62e813109f1a11ba654db021fd7e625",
+  "scopeSha256": "a7f180b892a21d6e99b4d6145f853220ee7c48c476b949b863b94592e9fdcf26",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/bgpredict-w276a.json",
-    "stableSha256": "d4a02b765ce9e39bab6f9b13f71452b89a09d3d6b4d4b038280e1a0c3e0d472f",
+    "stableSha256": "44605c60007f56c2932b4cd96b054ef882d575d926776e1e407292e77ae09c0e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
@@ -149,7 +150,7 @@
    },
    {
     "file": "tests/out/bgequiv-w278d.json",
-    "stableSha256": "6656938ac335812ef1205d24d2f0fc8e485bcd3126d0e8d466fdbc98104cb6d6",
+    "stableSha256": "4e3bac4f76aa37ee13638986e28752596b1ffa8e1b6706932e560b83421b3638",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -3989,7 +3990,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.2833765371939005,
-     "ms": 72.19999999925494,
+     "ms": 65.10000000149012,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4017,7 +4018,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.283376531868879,
-     "ms": 200.89999999850988,
+     "ms": 160.5,
      "meshVelN": 20001,
      "meshVelUMax": 0.4740160203706734,
      "meshVelKickMax": 4.715217628827654e-24,
@@ -4045,7 +4046,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 3.249308648191059,
-     "ms": 172.40000000223517,
+     "ms": 145.80000000074506,
      "meshVelN": 32000,
      "meshVelUMax": 2.7730912661943297,
      "meshVelKickMax": 0.0009324681848022852,
@@ -4073,7 +4074,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.283376537213986,
-     "ms": 14.199999999254942,
+     "ms": 14.100000001490116,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4101,7 +4102,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.283376537213305,
-     "ms": 55.100000001490116,
+     "ms": 63.099999997764826,
      "meshVelN": 20001,
      "meshVelUMax": 0.4740160203706734,
      "meshVelKickMax": 4.7152176678048744e-24,
@@ -4129,7 +4130,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219786981379,
-     "ms": 28.699999999254942,
+     "ms": 32.599999997764826,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4157,7 +4158,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219781659954,
-     "ms": 103.10000000149012,
+     "ms": 99.79999999701977,
      "meshVelN": 40001,
      "meshVelUMax": 0.4740160203683489,
      "meshVelKickMax": 2.3576088421360922e-24,
@@ -4185,7 +4186,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 3.2762508784724185,
-     "ms": 230.80000000074506,
+     "ms": 184.5,
      "meshVelN": 64000,
      "meshVelUMax": 2.895322792520311,
      "meshVelKickMax": 0.0004657993829317613,
@@ -4213,7 +4214,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219787001554,
-     "ms": 33.099999997764826,
+     "ms": 22.399999998509884,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4241,7 +4242,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219787004343,
-     "ms": 112.90000000223517,
+     "ms": 118.39999999850988,
      "meshVelN": 40001,
      "meshVelUMax": 0.4740160203683489,
      "meshVelKickMax": 2.3576088422295977e-24,
@@ -4389,7 +4390,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.283369575109093,
-     "ms": 98.5,
+     "ms": 122.5,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4417,7 +4418,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.28336091060813,
-     "ms": 103.10000000149012,
+     "ms": 166,
      "meshVelN": 20001,
      "meshVelUMax": 2.293279944942756,
      "meshVelKickMax": 9.230954067484948e-31,
@@ -4445,7 +4446,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": -5.764277943853813e-13,
-     "ms": 162.20000000298023,
+     "ms": 231.19999999925494,
      "meshVelN": 32000,
      "meshVelUMax": 99.9999999998908,
      "meshVelKickMax": 1.071747995389894e-12,
@@ -4473,7 +4474,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.283449646202045,
-     "ms": 15.5,
+     "ms": 13,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4501,7 +4502,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.283449646202006,
-     "ms": 110.70000000298023,
+     "ms": 53,
      "meshVelN": 20001,
      "meshVelUMax": 2.293279944942756,
      "meshVelKickMax": 9.231215414917267e-31,
@@ -4529,7 +4530,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283237635190551,
-     "ms": 35.400000002235174,
+     "ms": 32.399999998509884,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4557,7 +4558,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283228970719047,
-     "ms": 115.20000000298023,
+     "ms": 116.80000000074506,
      "meshVelN": 40001,
      "meshVelUMax": 2.293279944942756,
      "meshVelKickMax": 4.61550016778107e-31,
@@ -4585,7 +4586,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": -8.819611707622244e-13,
-     "ms": 203.5,
+     "ms": 271,
      "meshVelN": 64000,
      "meshVelUMax": 99.99999999989176,
      "meshVelKickMax": 5.334812070044265e-13,
@@ -4613,7 +4614,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283185404001975,
-     "ms": 26.200000002980232,
+     "ms": 27.199999999254942,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4641,7 +4642,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283185404002259,
-     "ms": 98.5,
+     "ms": 85.20000000298023,
      "meshVelN": 40000,
      "meshVelUMax": 2.293279944942756,
      "meshVelKickMax": 4.6156113869072645e-31,
@@ -4708,5 +4709,5 @@
   }
  ],
  "pageErrors": [],
- "elapsedS": 37.559
+ "elapsedS": 44.651
 }
