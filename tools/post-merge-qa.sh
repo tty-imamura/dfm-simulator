@@ -699,6 +699,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.axialDiff327e behavior.axialDiff327e do
 #   新しい段 venustide-327f の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.venusTide327f behavior.venusTide327f docs.venusTide327f docs.axialDiff327e docs.axialSum327a lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.quickBoundary324c lint.narrowScope327c docs.w320d lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第327便f の塊(ここまで)====
+# ==== 第328便a の塊(ここから)====
+# 第328便a(原仮定者の回答(2026-11-05 —— AN551・AN552・AN553)・統括の検証項目 R301 —— 診断と契約だけ・html は変えない): 枝 a の新設 3 本(lint.fieldContract328a —— 場の API の opt-in の契約の
+#   純関数の場面〔古い呼び出しのビット同一・形・欠測は null・拒否・u を変えない・直接の滑り・双対の同じ係数・二重に数えない・縮退のランク 1・腕と物質・枠と場・収束の印・由来〕と呼ぶだけの検査 /
+#   behavior.fieldContract328a —— 今の html と場の API で古い呼び出し・太陽の位置の契約・太陽の式の閉じ・対照の列〔第327便b の正本と照合〕・双対の帳簿を作り直す / docs.fieldContract328a ——
+#   正本の門と表が PHYSICS〔第328便a〕に逐語・第327便b の節の「第328便の更新」・文書)と、節に行を足した docs.galaxis327b・名簿の行の docs.w320d・新しい段 fieldcontract-328a の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.fieldContract328a behavior.fieldContract328a docs.fieldContract328a docs.galaxis327b docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第328便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

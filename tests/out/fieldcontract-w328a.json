@@ -7,7 +7,7 @@
  "target": "beta/index.html",
  "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
  "reuseFrom": null,
- "ruling": "原仮定者の回答(2026-11-05 —— AN551・AN552・AN553)「推奨で進める」(AN551 = A 直接の滑りを本の宣言の型・剛体/半渦度/シア/K1 の幾何は対照・AN552 = A 定数の Ω_field・AN553 = B 枠・Ω_field・収束の印だけを場の API に足し、帳簿は第326便d の lib に残す)・統括の検証項目 R301",
+ "ruling": "原仮定者の回答(2026-11-05 —— AN551・AN552・AN553 —— 推奨の案で閉じた: AN551 = A 直接の滑りを本の宣言の型・剛体/半渦度/シア/K1 の幾何は対照・AN552 = A 定数の Ω_field〔太陽系近傍の局所〕・AN553 = B 枠・Ω_field・収束の印だけを場の API に足し、帳簿は第326便d の lib に残す)・統括の検証項目 R301",
  "decl": {
   "frameOrigin": "銀河の中心(場の API の銀河中心系の原点)",
   "axis": [
@@ -1076,25 +1076,25 @@
  },
  "timing": {
   "base327b": {
-   "wallSec": 6.965
+   "wallSec": 7.626
   },
   "old": {
-   "wallSec": 12.164
+   "wallSec": 12.946
   },
   "contract": {
-   "wallSec": 13.59
+   "wallSec": 14.196
   },
   "directControls": {
-   "wallSec": 13.591
+   "wallSec": 14.198
   },
   "dual": {
-   "wallSec": 13.824
+   "wallSec": 14.412
   },
   "convDegHand": {
-   "wallSec": 13.825
+   "wallSec": 14.412
   },
   "pure": {
-   "wallSec": 16.066
+   "wallSec": 16.724
   }
  },
  "gates": {
@@ -1114,13 +1114,13 @@
   "handoff": true
  },
  "ok": true,
- "elapsedS": 18.162,
+ "elapsedS": 19.694,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第328便a",
   "target": "beta/index.html",
   "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
-  "generatedAt": "2026-11-05T18:51:34.819Z",
+  "generatedAt": "2026-11-05T18:55:24.357Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -1132,9 +1132,9 @@
   "code": [
    {
     "file": "tests/exp-w328a-fieldcontract.mjs",
-    "bytes": 26070,
-    "sha256": "4458fd8e880a80a48bd2e6277440634e79c36c5511be6c70b453b7224bf37684",
-    "mtime": "2026-11-05T18:50:45.960Z"
+    "bytes": 26108,
+    "sha256": "35095dde19fb488f8602739a5a8f56cb1524450dd4c03e70b33c4cb95c3649a5",
+    "mtime": "2026-11-05T18:55:04.555Z"
    },
    {
     "file": "tests/lib-w328a-fieldcontract.mjs",
@@ -1215,7 +1215,7 @@
     "mtime": "2026-11-05T18:30:54.753Z"
    }
   ],
-  "codeSha256": "64d31e51ee770294700bdbf1b994392b150285f0cb4d2c3399d642ad39d822ee",
+  "codeSha256": "88957ba696cf8cbe20712c65e9c5f2a6c7661c5e533934c8cfa2250a1e778f19",
   "harnessVersion": "w328a-fieldcontract-1",
   "stage": "fieldcontract",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)と第321便c の場の API の純関数(本 lib の opt-in の口で包む)",

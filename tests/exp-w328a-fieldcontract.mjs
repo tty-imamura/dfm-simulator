@@ -237,7 +237,7 @@ export async function main() {
   console.log('第328便a fieldcontract(版 ' + HARNESS_VERSION + ')');
   const R = runAll(HP);
   const out = { version: HARNESS_VERSION, libVersion: C.LIB_VERSION, contractVersion: C.CONTRACT_VERSION, transferVersion: C.TRANSFER_VERSION, generator: 'tests/exp-w328a-fieldcontract.mjs', target: TARGET, targetSha256, reuseFrom: null,
-    ruling: '原仮定者の回答(2026-11-05 —— AN551・AN552・AN553)「推奨で進める」(AN551 = A 直接の滑りを本の宣言の型・剛体/半渦度/シア/K1 の幾何は対照・AN552 = A 定数の Ω_field・AN553 = B 枠・Ω_field・収束の印だけを場の API に足し、帳簿は第326便d の lib に残す)・統括の検証項目 R301',
+    ruling: '原仮定者の回答(2026-11-05 —— AN551・AN552・AN553 —— 推奨の案で閉じた: AN551 = A 直接の滑りを本の宣言の型・剛体/半渦度/シア/K1 の幾何は対照・AN552 = A 定数の Ω_field〔太陽系近傍の局所〕・AN553 = B 枠・Ω_field・収束の印だけを場の API に足し、帳簿は第326便d の lib に残す)・統括の検証項目 R301',
     decl: C.DECL, plan: PLAN, contractKeys: C.CONTRACT_KEYS, subKeys: C.SUB_KEYS, ledgerRefs: C.LEDGER_REFS, handoffMap: HANDOFF_MAP, notClaim: NOT_CLAIM, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w328a-fieldcontract.mjs', 'tests/lib-w328a-fieldcontract.mjs', 'tests/exp-w327b-galaxis.mjs', 'tests/lib-w327b-galaxis.mjs', 'tests/lib-w321c-galfield.mjs', 'tests/lib-w320c-nbcompose.mjs',
