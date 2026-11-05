@@ -32,7 +32,7 @@ import { loadHtmlMain, runRow, fitPeri } from './lib-w280b-emgrid.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 // 第281便a の領域 hash の宣言(再生成の鎖が「この器の正本を走らせ直すか」を引く)—— 読む本は宣言から列挙するので presets は全本
-const REGEN_SCOPE = {"presets":"all","roots":["HP.FIT_RECORD_VERSION","HP.FIT_RECORD_VERSIONS","HP.abStart","HP.abStop","HP.ab","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.geoModeOf","HP.loadPreset","HP.sim","HP.validateFitRecord","HP.validatePreset","isNum","sim"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["HP.FIT_RECORD_VERSION","HP.FIT_RECORD_VERSIONS","HP.abStart","HP.abStop","HP.ab","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.geoModeOf","HP.loadPreset","HP.sim","HP.validateFitRecord","HP.validatePreset","isNum","sim"],"core":true,"consts":[],"complete":true,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.W297A_TARGET || 'beta/index.html';

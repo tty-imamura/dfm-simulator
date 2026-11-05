@@ -30,7 +30,7 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import * as L from './lib-w289a-weakfield.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["$","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.frameWeightOf","HP.frameWeightPow","HP.grSI","HP.sim","HP.validatePreset","LAWS","T","ch","dfmPN1Delta","photonStep","rayField","rayHeavy","traceRay"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.frameWeightOf","HP.frameWeightPow","HP.grSI","HP.sim","HP.validatePreset","LAWS","T","ch","dfmPN1Delta","photonStep","rayField","rayHeavy","traceRay"],"core":true,"consts":[],"complete":true,"abBody":false,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w289a-weakfield-h1';

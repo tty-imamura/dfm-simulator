@@ -38,7 +38,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as LT from './lib-w292d-tide.mjs';
 import { pinSplit302 } from './lib-w302h-splitrec.mjs';   // 第302便h: 第292便d の記録(交差項の表)を分割の步で保つ(器の中だけ —— 宣言・署名は変えない)
-const REGEN_SCOPE = {"presets":["earthMoonReal","earthMoonTide","saturn","shapeToyArm"],"roots":["$","HP.TIDE_INERTIA_FACTOR","HP.TIDE_STEP_VERSION","HP.allPresets","HP.ckRestoreOne","HP.ckSnapOne","HP.dfmMeshVelocityFieldAt","HP.inertialDragState","HP.relDragStepOrderOf","HP.sim","HP.tideCrossCheck","HP.tideEvalRates","HP.tideState","HP.validatePreset","T","cw"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["earthMoonReal","earthMoonTide","saturn","shapeToyArm"],"roots":["$","HP.TIDE_INERTIA_FACTOR","HP.TIDE_STEP_VERSION","HP.allPresets","HP.ckRestoreOne","HP.ckSnapOne","HP.dfmMeshVelocityFieldAt","HP.inertialDragState","HP.relDragStepOrderOf","HP.sim","HP.tideCrossCheck","HP.tideEvalRates","HP.tideState","HP.validatePreset","T","cw"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w292d-tide-1';

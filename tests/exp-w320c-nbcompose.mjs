@@ -33,7 +33,7 @@ import { portsOf, stateOf, book16, pOf, INPUT16, mG318 } from './exp-w319b-srcra
 import { galaxyAxis } from './lib-w317c-satcut.mjs';
 // 第281便a の領域 hash の宣言(器・lib と import した第319便b の器から deriveScope で引いた下限 —— 第319便b の器の宣言と同じ集合〔presets と roots の短い名は import した
 //   lib・器の綴りが数えられた分 —— この器の局所の変数には使わない〕。器が大域で読む最上位の inertialDragIsqRule・inertialDragIsqRuleK1 は下限に入っている)
-const REGEN_SCOPE = {"presets":["jupiterGalilean","jupiterSunInertial3d","marsSunInertial3d","mercury","mercurySunInertial3d","neptuneSunInertial3d","saturn","saturnRingReal","saturnSunInertial3d","uranusSunInertial3d","venusSunInertial3d"],"roots":["$","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragIsqState","HP.sim","HP.validatePreset","T","ab","ch","ctx","cw","inertialDrag3MaintCell","inertialDragGalaxyAxialState","inertialDragIsqK2","inertialDragIsqM2","inertialDragIsqRule","inertialDragIsqRuleK1","pnSource"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["jupiterGalilean","jupiterSunInertial3d","marsSunInertial3d","mercury","mercurySunInertial3d","neptuneSunInertial3d","saturn","saturnRingReal","saturnSunInertial3d","uranusSunInertial3d","venusSunInertial3d"],"roots":["$","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragIsqState","HP.sim","HP.validatePreset","T","ab","ch","ctx","cw","inertialDrag3MaintCell","inertialDragGalaxyAxialState","inertialDragIsqK2","inertialDragIsqM2","inertialDragIsqRule","inertialDragIsqRuleK1","pnSource"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w320c-nbcompose-1';

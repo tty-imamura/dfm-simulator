@@ -42,7 +42,7 @@ import * as AP from './lib-w304e-apsis.mjs';
 import * as L from './lib-w315d-satk1.mjs';
 import * as X315 from './exp-w315d-satk1.mjs';
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 第315便d の器と同じ読み口〔在位の本は .find で引く —— jupiterGalilean・saturnRingReal〕)
-const REGEN_SCOPE = {"presets":["jupiterGalilean","saturn","saturnRingReal"],"roots":["$","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragIsqState","HP.sim","HP.validatePreset","T","ch","ctx","cw","pnSource"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["jupiterGalilean","saturn","saturnRingReal"],"roots":["$","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragIsqState","HP.sim","HP.validatePreset","T","ch","ctx","cw","pnSource"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w316d-sath-1';

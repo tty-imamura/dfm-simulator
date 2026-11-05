@@ -33,7 +33,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as L from './lib-w307a-sphereaxial.mjs';
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 + 本 4 本)
-const REGEN_SCOPE = {"presets":["chainDiskToy3d","chainDiskToy3dTilt","chainSpreadToy3d","saturnRingInertial3d"],"roots":["$","HP.allPresets","HP.coord3d","HP.inertialDrag3SpinState","HP.validatePreset","REL_DRAG_AXIAL_LAW_SPHERE","REL_DRAG_AXIAL_SPHERE_H","REL_DRAG_AXIAL_SPHERE_VERSION","REL_DRAG_SPIN_NODES","T","ab","appStepDt","ctx","dfmGaussLegendre01","dfmInertialDragStep3","inertialDrag3AxialApply","inertialDrag3AxialSphere","inertialDrag3AxialSphereAt","inertialDrag3RigidStep","inertialSpinMoment","inertialSpinMomentDr","relDrag3SpinOf","relDragCoefficientOf"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["chainDiskToy3d","chainDiskToy3dTilt","chainSpreadToy3d","saturnRingInertial3d"],"roots":["$","HP.allPresets","HP.coord3d","HP.inertialDrag3SpinState","HP.validatePreset","REL_DRAG_AXIAL_LAW_SPHERE","REL_DRAG_AXIAL_SPHERE_H","REL_DRAG_AXIAL_SPHERE_VERSION","REL_DRAG_SPIN_NODES","T","ab","appStepDt","ctx","dfmGaussLegendre01","dfmInertialDragStep3","inertialDrag3AxialApply","inertialDrag3AxialSphere","inertialDrag3AxialSphereAt","inertialDrag3RigidStep","inertialSpinMoment","inertialSpinMomentDr","relDrag3SpinOf","relDragCoefficientOf"],"core":true,"consts":[],"complete":true,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w307a-sphereaxial-1';

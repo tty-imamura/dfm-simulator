@@ -35,7 +35,7 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 // 第281便a(AN16・R71): **この器が読む html の領域**の宣言(1 行の JSON —— lint.regenScope が読む)
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["$","DT","HP.BGC_LAW_UNITS","HP.BGC_LAW_VERSION_TAG","HP.allPresets","HP.bgcDistantClosed","HP.bgcWireState","HP.dfmBlendComplexMoments","HP.dfmComplexMomentsOf","HP.dfmComplexMomentsP","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validateBackgroundComplex","HP.validatePreset","bgLawCrossCheck","bgLawPrepare","bgcLawCheck","dfmGeoToyBgLawStep","dfmMeshVelocityStep"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","DT","HP.BGC_LAW_UNITS","HP.BGC_LAW_VERSION_TAG","HP.allPresets","HP.bgcDistantClosed","HP.bgcWireState","HP.dfmBlendComplexMoments","HP.dfmComplexMomentsOf","HP.dfmComplexMomentsP","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validateBackgroundComplex","HP.validatePreset","bgLawCrossCheck","bgLawPrepare","bgcLawCheck","dfmGeoToyBgLawStep","dfmMeshVelocityStep"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w287c-bgdiff-2';   // 第287便c: 遠方 1 源の写し 2 つに時間の契約(timeContract)を足した

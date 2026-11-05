@@ -30,7 +30,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs, closureSame294, declaredOuts, readDeclaredScope } from './lib-w281a-scope.mjs';
 import { REGEN_STEPS, volatileDeclared, REGEN_SEC_FILE } from './lib-w281a-regentable.mjs';   // 第311便c(R228): 段の sec は表の外の実測の見積り(REGEN_SEC_FILE)で上書きされる —— 入力に持つ
 // 第281便a(AN16・R71): この器が読む html の領域(live の (L4) が内蔵の全本を build する —— 全本・退役の表・受理と構築の閉包)
-const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.loadPreset","HP.sim","HP.validatePreset","RETIRED_PRESETS"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.loadPreset","HP.sim","HP.validatePreset","RETIRED_PRESETS"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w294d-timing-1';

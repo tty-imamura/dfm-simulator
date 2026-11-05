@@ -26,7 +26,7 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as LC from './lib-w293c-corecensus.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.coreV2MigrateReport","HP.coreV2ReplaceReport","HP.dfmMeshVelocityFieldAt","HP.dfmSpinDipoleMoment","HP.obsTemp","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.coreV2MigrateReport","HP.coreV2ReplaceReport","HP.dfmMeshVelocityFieldAt","HP.dfmSpinDipoleMoment","HP.obsTemp","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // 第299便f(AN282 ③): -2 = 点粒子の軸 spinAxis の行を 3 区分(二次元の表示専用・三次元の有効化した軸・規定歳差)に分けた版(lib-2)。比較の走行・分類は -1 と同じ

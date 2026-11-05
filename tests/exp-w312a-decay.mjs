@@ -40,7 +40,7 @@ import * as Q from './lib-w311d-planet3.mjs';
 import * as L from './lib-w312a-decay.mjs';
 import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限)
-const REGEN_SCOPE = {"presets":["earthMoonSunInertial3d","jupiterSunInertial3d","marsSunInertial3d","mercury","mercurySunInertial3d","saturn","venusSunInertial3d"],"roots":["$","HP.allPresets","HP.coord3d","HP.validatePreset","REL_DRAG_INVSQ_KERNEL_VERSION","REL_DRAG_INVSQ_LAW_K1","REL_DRAG_INVSQ_VERSION","T","appStepDt","ch","ctx","inertialDragInitObsState","inertialDragIsqK1","inertialDragIsqM1","inertialDragIsqPointAt","inertialDragIsqShellK1","inertialDragIsqShellM1","inertialDragIsqState","inertialDragIsqThinK1"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["earthMoonSunInertial3d","jupiterSunInertial3d","marsSunInertial3d","mercury","mercurySunInertial3d","saturn","venusSunInertial3d"],"roots":["$","HP.allPresets","HP.coord3d","HP.validatePreset","REL_DRAG_INVSQ_KERNEL_VERSION","REL_DRAG_INVSQ_LAW_K1","REL_DRAG_INVSQ_VERSION","T","appStepDt","ch","ctx","inertialDragInitObsState","inertialDragIsqK1","inertialDragIsqM1","inertialDragIsqPointAt","inertialDragIsqShellK1","inertialDragIsqShellM1","inertialDragIsqState","inertialDragIsqThinK1"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w312a-decay-1';

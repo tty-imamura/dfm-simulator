@@ -35,7 +35,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { quantityRows, runOf } from './exp-w284e-tpsign.mjs';
 // 第281便a(AN16・R71): **この器が読む html の領域**の宣言(1 行の JSON —— lint.regenScope が読む)
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["$","CONTACT_DEFAULT","CONTACT_MODES","CONTACT_MODE_KEY","DT","HP.allPresets","HP.coreState","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","LAWS","T","applyQLock","ch","chanSetup","clamp","contactCapOf","contactKOf","contactNoneOf","dfmTestParticleCore","dfmTestParticleStep","geoCoreDispatch","geoCoreDispatchBody","isNum","makeSim","pairChannelGrad","pairChannelOm","pairCorePN","pairCorePlain","presetSig","scaleExpT","springUOf","testParticlePrepare","validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","CONTACT_DEFAULT","CONTACT_MODES","CONTACT_MODE_KEY","DT","HP.allPresets","HP.coreState","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","LAWS","T","applyQLock","ch","chanSetup","clamp","contactCapOf","contactKOf","contactNoneOf","dfmTestParticleCore","dfmTestParticleStep","geoCoreDispatch","geoCoreDispatchBody","isNum","makeSim","pairChannelGrad","pairChannelOm","pairCorePN","pairCorePlain","presetSig","scaleExpT","springUOf","testParticlePrepare","validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w285a-contact-1';

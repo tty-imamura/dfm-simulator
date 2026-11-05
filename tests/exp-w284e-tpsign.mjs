@@ -34,7 +34,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { calStagesOf } from './lib-w283c-calstages.mjs';
 // 第281便a(AN16・R71): **この器が読む html の領域**の宣言(1 行の JSON —— lint.regenScope が読む)
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["$","HP.allPresets","HP.coreState","HP.sim","HP.validatePreset","LAWS","T","ch","chanSetup","clamp","dfmTestParticleCore","dfmTestParticleStep","geoCoreDispatch","isNum","pairChannelGrad","pairChannelOm","pairCorePN","pairCorePlain","scaleExpT","testParticlePrepare"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","earthMoonRealKF1","emAuditDFM","emAuditNewton","gw150914DFM","jupiterGalilean","marsMoonsReal","neptuneReal","plutoCharonDiagInput","plutoCharonReal","psrB1534","psrB1534CF","psrB1534DFM","psrDoubleAB","psrDoubleABCF","psrDoubleABDFM","psrDoubleABPN","psrDoubleABSpinCal","psrJ1757CF","psrJ1757DFM","psrJ1757PN","psrJ1946CF","psrJ1946DFM","psrJ1946PN","qLockRadialAudit","qLockRadialAuditQ3","saturnRingReal","saturnRingRealKF1","saturnZonalD68","siriusAB","siriusABDFM","solarInner","uranusReal","venusReal"],"roots":["$","HP.allPresets","HP.coreState","HP.sim","HP.validatePreset","LAWS","T","ch","chanSetup","clamp","dfmTestParticleCore","dfmTestParticleStep","geoCoreDispatch","isNum","pairChannelGrad","pairChannelOm","pairCorePN","pairCorePlain","scaleExpT","testParticlePrepare"],"core":true,"consts":[],"complete":true,"abBody":false,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w284e-tpsign-1';

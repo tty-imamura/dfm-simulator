@@ -43,7 +43,7 @@ import * as G1 from './lib-w282b-geo1.mjs';
 import * as L283 from './lib-w283a-geomode.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 // 第281便a の規約: この器が読む html の領域(1 行の JSON —— `lint.regenScope` が機械の下限と照合する)
-const REGEN_SCOPE = {"presets":"all","roots":["ASTRO_COMMON","CAL_CONTRACT","DEFAULT_PHYSICS","DT","HP.allPresets","HP.coreState","HP.loadPreset","HP.sim","HP.validatePreset","dfmPN1Delta","dfmPN1EIHKick","geoCoreDispatch","pnSource","presetSig","validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["ASTRO_COMMON","CAL_CONTRACT","DEFAULT_PHYSICS","DT","HP.allPresets","HP.coreState","HP.loadPreset","HP.sim","HP.validatePreset","dfmPN1Delta","dfmPN1EIHKick","geoCoreDispatch","pnSource","presetSig","validatePreset"],"core":true,"consts":[],"complete":true,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';

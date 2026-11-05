@@ -42,7 +42,7 @@ import * as LD from './lib-w292c-dragcore.mjs';
 import * as LC from './lib-w293e-compose.mjs';   // 第293便g: 門 (c) の既定(solve(velocity))の引き直し
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 import { pinSplit302 } from './lib-w302h-splitrec.mjs';   // 第302便h: 退役の 🌛 の記録(第292便c のフィット・感度・118 公転)を同じ分割の步で保つ(器の中だけ —— 宣言・署名は変えない)
-const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonReal"],"roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_TABLE_N","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.dragCoreTableBuild","HP.geoEffectiveMode","HP.inertialDragState","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.relDragStepOrderOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonReal"],"roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_TABLE_N","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.dragCoreTableBuild","HP.geoEffectiveMode","HP.inertialDragState","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.relDragStepOrderOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w292c-dragcore-1';

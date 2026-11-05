@@ -34,7 +34,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import { fmtFloor } from './lib-w311c-h4carry.mjs';
 import * as S16 from './lib-w300c-solar16.mjs';
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 器の本は .find で引く)
-const REGEN_SCOPE = {"presets":"all","roots":["$","COORD3D_PN1_VERSION","COORD3D_VERSION","DT","HP.allPresets","HP.coord3d","HP.validatePreset","PN1_EIH_VERSION","RAY_ALPHA_MIN","T","coordSwitchPlanOf","ctx","dfmPN1Delta"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","COORD3D_PN1_VERSION","COORD3D_VERSION","DT","HP.allPresets","HP.coord3d","HP.validatePreset","PN1_EIH_VERSION","RAY_ALPHA_MIN","T","coordSwitchPlanOf","ctx","dfmPN1Delta"],"core":true,"consts":[],"complete":true,"abBody":false,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w314d-pn1x3d-1';

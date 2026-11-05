@@ -33,7 +33,7 @@ import { fitPeri, runRow } from './lib-w280b-emgrid.mjs';
 import * as SW from './exp-w293d-swing.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 import { pinSplit302 } from './lib-w302h-splitrec.mjs';   // 第302便h: 退役 3 本(🌤️🟤🟣)の記録を第295便c と同じ分割の步で保つ(器の中だけ —— 宣言・署名は変えない)
-const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonSunInertial","emAuditSolar","mercuryReal","mercurySunInertial","plutoCharonDiagInput","plutoCharonInertial"],"roots":["HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragState","HP.relDragStepOrderOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonSunInertial","emAuditSolar","mercuryReal","mercurySunInertial","plutoCharonDiagInput","plutoCharonInertial"],"roots":["HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragState","HP.relDragStepOrderOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w295c-inertial3-1';

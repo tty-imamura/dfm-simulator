@@ -28,7 +28,7 @@ import * as NF from './lib-w289c-nearfar.mjs';
 import * as RD from './lib-w289c-reldrag.mjs';
 import * as LR from './lib-w288c-rotlet.mjs';
 import * as LC from './lib-w288c-compose.mjs';
-const REGEN_SCOPE = {"presets":["galaxyAnalogyBHCompose"],"roots":["$","DT","HP.allPresets","HP.dfmFieldContract","HP.dfmFieldContractOf","HP.dfmMeshVelocityFieldAt","HP.frameWeightPow","HP.sim","HP.validatePreset","cw","dfmFieldContract","sim","validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["galaxyAnalogyBHCompose"],"roots":["$","DT","HP.allPresets","HP.dfmFieldContract","HP.dfmFieldContractOf","HP.dfmMeshVelocityFieldAt","HP.frameWeightPow","HP.sim","HP.validatePreset","cw","dfmFieldContract","sim","validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w289c-nearfar-1';
