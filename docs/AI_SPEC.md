@@ -4670,3 +4670,10 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **退役**: `familyRole` を読む段は器の宣言 `keepProse:["familyRole"]`(または consts)で依存を宣言する —— 本 1 本の退役で、その本を領域に持つ段が走る(古い正本を reuse にしない)。退役の表 `RETIRED_PRESETS` は html の物理の部分の文の登録簿(表示だけで読む)。
 - 名指しの 6 段(pn1・pnsource286・pnsources291・refit-297a・eihdiag287・tpsign)は全部の本のまま(文字列の式の中で全本を回る・較正走行の器の本文の評価と子プロセス)。
 - QA `lint.narrowScope327c`・`docs.w327c`。
+
+## 190. 第327便d —— 物理対応ロックの退役の本の例外を出どころで判定(内蔵の表から開いたときだけ —— 取り込み・貼り付け・AI 生成の本はロックの下)・X_k のクランプの告知と赤の行(原仮定者の回答(2026-11-05 —— AN544・AN545)・統括の検証項目 R298・**步・式・`S._core`・受理器のクランプの値・内蔵の本の宣言は不変**・**SYSTEM_PROMPT には載せない**)
+
+- **AI が作った本・取り込んだ本は ID が内蔵の退役の本と同じでもロックの下(AN545)**: 退役の本をロックの外に置く例外は、内蔵の表から開いた内蔵の退役の本とその続き(セーブの読込・発散の復元・⏮ 初めから・チェックポイントの復元・A/B)だけ。AI 生成・貼り付け・JSON の取り込みの本は受理で X_k = G_0/c_0² に置かれ、`xkLock.notices` に「ID … は内蔵の退役の本と同じ —— 退役の本の例外は内蔵の表から開いたときだけ」の 1 行が残る(`validatePreset(obj, opts)` の第 2 引数 `XK_INTAKE_OPTS` が取り込みの印 —— 返り値 `xkLock.from` は "intake")。AI は退役の本の ID を本の ID に使わない(採用の ID は `custom_…` に付け直す —— 取り込みは `…_2` に一意化)。
+- **クランプの告知(AN544)**: G_0/c_0² が X_k の値域 [0, 1] の外の本は X_k をクランプの値(上限 1)のまま受ける —— 拒否も値域の拡張もしない。宣言の有無に依らず `xkLock.notices` に 1 行(「⚠ G_0/c_0² = … が X_k の値域 [0,1] の外 —— X_k をクランプ」)・返り値 `xkLock.clamped`(`{tgt, applied}`)。取り込みの通知・貼り付けと AI 生成の状態の行に ⚠ の 1 文が出て、開くと時空の群の X_k の行が赤になる。AI が本を作るときは G_0/c_0² ≤ 1 になる G_0・c_0 を選ぶ(時計と光の強さは G_0 で決める —— 第326便a の §182)。
+- 受理の記録 `xkLock` は `version`(`w327d-xklock-provenance-1`)・`from`・`exempt`・`clamped` を持つ。SYSTEM_PROMPT の X_k の文(AN541)と告知の出し方の統一は AI 生成のまとめた改良(決断事項 AN523)の便へ。
+- QA `lint.xkLock327d`・`behavior.xkClampShown327d`・`behavior.xkExemptScope327d`・`docs.xkLock327d`。

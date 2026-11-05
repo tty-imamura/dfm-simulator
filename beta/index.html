@@ -628,6 +628,16 @@
   .prow.stDerivedRow .stdVal{flex:0 0 92px;width:92px;margin-left:auto;text-align:right;font-size:calc(12px*var(--uz,1));color:var(--fg);
     font-variant-numeric:tabular-nums;padding:4px 6px;box-sizing:border-box;border:1px dashed var(--line);border-radius:var(--rS);overflow-wrap:anywhere;}
   /* ==== 第326便c の塊(ここまで)==== */
+  /* ==== 第327便d の塊(ここから)==== 原仮定者の回答(2026-11-05 —— AN544)「クランプの表示を、赤文字にするなど分かり易くする」: G_0/c_0² が値域 [0,1] の外で X_k を
+     クランプしている間(#std_Xk の data-state="clamped" —— G_0・c_0 の編集で実時間に出入り)、X_k の行のラベル・値・出所の文を状態語の赤 --errText(ダーク/ライトとも 7.5:1 以上)に。
+     値の枠も実線の赤 --err・左に赤の帯(色だけに頼らない —— ⚠ の文はそのまま残す) */
+  .prow.stDerivedRow[data-state="clamped"]{box-shadow:inset 3px 0 0 var(--err);padding-left:6px;}
+  .prow.stDerivedRow[data-state="clamped"] > label,
+  .prow.stDerivedRow[data-state="clamped"] .stdFrom,
+  .prow.stDerivedRow[data-state="clamped"] .stdVal{color:var(--errText);}
+  .prow.stDerivedRow[data-state="clamped"] .stdFrom{font-weight:600;}
+  .prow.stDerivedRow[data-state="clamped"] .stdVal{border:1px solid var(--err);font-weight:700;}
+  /* ==== 第327便d の塊(ここまで)==== */
   .btn{display:inline-block;border:1px solid var(--line);background:var(--panel);
     border-radius:var(--rL);padding:10px 14px;font-size:calc(13px*var(--uz,1));font-weight:600;touch-action:manipulation;}
   .btn:active{background:var(--press);}
@@ -1512,9 +1522,12 @@ ja: {
   stdKdLabel:"決定力定数 κ_D", stdKdFrom:"= 2G_0/c_0²", stdXkFrom:"= G_0/c_0²", stdYkLabel:"引きずり係数 Y_k", stdYkFrom:"= 10G_0/(C_1c_0²)",
   stdXkOff:(v)=>"⚠ 本の値 —— G_0/c_0² = "+v+" と違う(読み込んだ値のまま)",
   stdXkClamped:(v)=>"⚠ G_0/c_0² = "+v+" が値域 [0,1] の外 —— X_k はクランプした値",
+  // 第327便d(原仮定者の回答(2026-11-05 —— AN544)): 取り込み・貼り付け・AI 生成の画面の 1 文(クランプ ⚠・物理対応ロックの告知の件数)
+  xkClampIntake:(n,v,a)=>"⚠ 「"+n+"」: G_0/c_0² = "+v+" が X_k の値域 [0,1] の外 —— X_k をクランプ("+a+")。時空の群の X_k の行が赤",
+  xkLockIntake:(n,k)=>"物理対応ロックの告知 "+k+" 件(「"+n+"」 —— X_k = G_0/c_0²)",
   stdReadOnly:"読むだけ —— G_0・c_0 を変えると追随する",
   stdKdDesc:"決定力定数 κ_D(定義 κ_D ≡ 2G/c² —— 論文 1 の実効レンズ係数)を、この本の基準重力 G_0 と基準光速 c_0 で計算した値 κ_D = 2G_0/c_0²。単位は本の長さ/本の質量 [L/M](換算の表示が ON のときは m/kg を添える)。シュヴァルツシルト半径の物差し r_s = κ_D m(長さの物差し)。読むだけ —— G_0・c_0 を変えると追随する。",
-  stdXkDesc:"時空係数 X_k(鍵 kappaT —— 時計と光: ψ = X_k W)は、基準重力 G_0 と基準光速 c_0 から X_k = G_0/c_0² で決まる(物理対応 —— 切り替えは無い)。表示はエンジンが使う本の値で、G_0/c_0² と違う本(読み込んだ値のまま)と、G_0/c_0² が値域 [0,1] の外でクランプした本はその旨を添える。X_k = G_0/c_0² のとき κ_D = 2X_k・Y_k = (10/C_1)X_k。単位 [L/M]。読むだけ —— G_0・c_0 を変えると追随する。",
+  stdXkDesc:"時空係数 X_k(鍵 kappaT —— 時計と光: ψ = X_k W)は、基準重力 G_0 と基準光速 c_0 から X_k = G_0/c_0² で決まる(物理対応 —— 切り替えは無い)。表示はエンジンが使う本の値で、G_0/c_0² と違う本(読み込んだ値のまま)と、G_0/c_0² が値域 [0,1] の外でクランプした本はその旨を添える。X_k = G_0/c_0² のとき κ_D = 2X_k・Y_k = (10/C_1)X_k。単位 [L/M]。読むだけ —— G_0・c_0 を変えると追随する。G_0/c_0² が値域の外でクランプしている間は、この行が赤字になる(⚠ の文を添える —— X_k = G_0/c_0² が成り立っていない印。G_0・c_0 を値域の内へ戻すと元の色に戻る)。",
   stdYkDesc:"引きずり係数 Y_k = 10G_0/(C_1c_0²)(C_1 = 6[(√3/2)ln(2+√3) − 1])。引きずり半径の規則 rdRule:\"kappaM\" を宣言した本では、引きずり半径を R_d = Y_k m で決める(天体の大きさではない)。規則を宣言しない本では力学に入らない(表示だけ)。単位 [L/M]。読むだけ —— G_0・c_0 を変えると追随する。",
   // ==== 第326便c の塊(ここまで)====
   qLockLabel:"q自動算出 qLock(有限参照正規化規約)",
@@ -2885,9 +2898,12 @@ en: {
   stdKdLabel:"Determinacy constant κ_D", stdKdFrom:"= 2G_0/c_0²", stdXkFrom:"= G_0/c_0²", stdYkLabel:"Drag coefficient Y_k", stdYkFrom:"= 10G_0/(C_1c_0²)",
   stdXkOff:(v)=>"⚠ the book's value — differs from G_0/c_0² = "+v+" (kept as loaded)",
   stdXkClamped:(v)=>"⚠ G_0/c_0² = "+v+" is outside the range [0,1] — X_k is the clamped value",
+  // wave 327d (AN544): one line on the import / paste / AI-generation screens (clamp ⚠ · count of lock notices)
+  xkClampIntake:(n,v,a)=>"⚠ \""+n+"\": G_0/c_0² = "+v+" is outside the X_k range [0,1] — X_k clamped ("+a+"). The X_k row of the Spacetime group is red",
+  xkLockIntake:(n,k)=>k+" physical-correspondence lock notice(s) (\""+n+"\" — X_k = G_0/c_0²)",
   stdReadOnly:"read-only — follows edits of G_0 and c_0",
   stdKdDesc:"The determinacy constant κ_D (defined as κ_D ≡ 2G/c² — the effective lensing coefficient of paper 1), computed with this book's reference gravity G_0 and reference light speed c_0: κ_D = 2G_0/c_0². Unit: book length per book mass [L/M] (m/kg is added when the unit conversion display is on). The Schwarzschild-radius yardstick is r_s = κ_D m (a length yardstick). Read-only — follows edits of G_0 and c_0.",
-  stdXkDesc:"The spacetime coefficient X_k (key kappaT — clocks & light: ψ = X_k W) is fixed by the reference gravity G_0 and the reference light speed c_0 as X_k = G_0/c_0² (physical correspondence — there is no toggle). The row shows the book's value that the engine uses; a book whose X_k differs from G_0/c_0² (kept as loaded) or whose G_0/c_0² is outside the range [0,1] (clamped) says so. When X_k = G_0/c_0², κ_D = 2X_k and Y_k = (10/C_1)X_k. Unit [L/M]. Read-only — follows edits of G_0 and c_0.",
+  stdXkDesc:"The spacetime coefficient X_k (key kappaT — clocks & light: ψ = X_k W) is fixed by the reference gravity G_0 and the reference light speed c_0 as X_k = G_0/c_0² (physical correspondence — there is no toggle). The row shows the book's value that the engine uses; a book whose X_k differs from G_0/c_0² (kept as loaded) or whose G_0/c_0² is outside the range [0,1] (clamped) says so. When X_k = G_0/c_0², κ_D = 2X_k and Y_k = (10/C_1)X_k. Unit [L/M]. Read-only — follows edits of G_0 and c_0. While G_0/c_0² is outside the range and X_k is clamped, this row turns red (with the ⚠ note — a sign that X_k = G_0/c_0² does not hold; it returns to its normal colour once G_0 and c_0 are back in range).",
   stdYkDesc:"The drag coefficient Y_k = 10G_0/(C_1c_0²) (C_1 = 6[(√3/2)ln(2+√3) − 1]). In a book that declares the drag-radius rule rdRule:\"kappaM\", the drag radius is R_d = Y_k m (not the size of the body). In a book without that rule it does not enter the dynamics (display only). Unit [L/M]. Read-only — follows edits of G_0 and c_0.",
   // ==== 第326便c の塊(ここまで)====
   qLockLabel:"Auto-derived q — qLock (finite-reference normalization rule)",
@@ -4773,6 +4789,11 @@ const ACCEPT_REASONS = {
   // 第326便a(原仮定者の回答(2026-11-03 —— AN530)): 物理対応ロックを常に —— 宣言の X_k は受理で導出値へ置き換える(相対 1e-6 の外のときだけ 1 行)
   "validatePreset/physics.kappaT#lock": (a0,a1)=>"physics.kappaT(X_k)は導出の量(物理対応ロック X_k = G_0/c_0²)—— 宣言の "+a0+" を導出値 "+a1+" に置き換え(X_k を動かすには G_0 か c_0 を変える)",
   "validatePreset/abBody.physicsPatch.kappaT#lock": "abBody.physicsPatch の X_k(kappaT・Kt)は読まない —— B 側の X_k は B 側の G_0・c_0 から導出(物理対応ロック —— X_k の対照は G_0 の対照で)",
+  // ==== 第327便d の塊(ここから)====
+  // 第327便d(原仮定者の回答(2026-11-05 —— AN544・AN545)): クランプの告知(宣言の有無に依らず)・取り込みの本の ID が内蔵の退役の本と同じ(例外は内蔵の表から開いたときだけ)
+  "validatePreset/physics.kappaT#clamp": (a0,a1)=>"⚠ G_0/c_0² = "+a0+" が X_k の値域 [0,1] の外 —— X_k をクランプ("+a1+")。X_k = G_0/c_0² は成り立たない(G_0 か c_0 を見直す —— 時空の群の X_k の行が赤)",
+  "validatePreset/xkLock#intakeRetiredId": (a0)=>"ID "+a0+" は内蔵の退役の本と同じ —— 退役の本の例外(物理対応ロックの外)は内蔵の表から開いたときだけ。取り込み・貼り付け・AI 生成の本はロックの下(X_k = G_0/c_0²)",
+  // ==== 第327便d の塊(ここまで)====
   "validatePreset/physics.stepDt": "physics.stepDt が数値ではありません",
   "validatePreset/physics.stepDt#2": (a0)=>"physics.stepDt は正の数 — 無視(DT="+a0+")",
   "validatePreset/physics.stepDt#3": "physics.stepDt を値域に修正",
@@ -27707,8 +27728,12 @@ function fitTargetGates(fr){
   return [{q:t0.q, residual:r.value, h2:nm.h2, tol:t0.tol? t0.tol.value : null,
     pass:(t0.tol && isNum(r.value) && isNum(nm.h2))? Math.abs(r.value)+nm.h2<=t0.tol.value : (isNum(r.value) && isNum(nm.h2) && Math.abs(r.value)<=nm.h2)}];
 }
-function validatePreset(obj){
+function validatePreset(obj, opts){
   const errors=[], warnings=[];
+  // ==== 第327便d の塊(ここから)====
+  // 第327便d(原仮定者の回答(2026-11-05 —— AN545)「Bで進める」): 退役の本をロックの外に置く例外の**出どころ**(破壊防止コピーの前の obj と呼び手の opts で決める —— xkLockAcceptFromOf)
+  const xkFrom=xkLockAcceptFromOf(obj, opts);
+  // ==== 第327便d の塊(ここまで)====
   // 第86便(外部レビュー P0-3): 旧コアキー(コアv1)から コアv2 へ**実際に移行したか**の機械可読フラグ。
   // 警告文の文言に依存せず「移行が起きた」を呼び出し側(インポート)が判定できるようにする。
   // 移行そのもの(legacyCoreToV2)のロジックは 1 文字も変えていない — 記録するだけ。
@@ -28292,7 +28317,14 @@ function validatePreset(obj){
   // 第242便: contact(接触=完全引きずり)は share のフレーム重みで定義した opt-in — 既定 pull と併用しない(合成は裁定事項)
   if(ph[DRAG_REF_KEY]===DRAG_CONTACT && frameWeightIsPull(ph)){ warnings.push(reasonText("validatePreset/physics.dragRef#3")); ph[FRAME_WEIGHT_KEY]="share"; }
   // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 物理対応ロックを常に —— 受理の後の X_k を G_0/c_0² の導出値へ(内蔵の退役の本〔履歴〕は宣言のまま)
-  { const xa=xkLockAcceptPhysics(p, ph, xkDeclared); xkLockInfo.physics=xa; if(xa.warn) xkLockInfo.notices.push(xa.warn); }
+  { const xa=xkLockAcceptPhysics(p, ph, xkDeclared, xkFrom); xkLockInfo.physics=xa; if(xa.warn) xkLockInfo.notices.push(xa.warn);
+    // ==== 第327便d の塊(ここから)====
+    // 第327便d(AN544・AN545): 出どころ・版・クランプの記録と告知(取り込みの本の ID が内蔵の退役の本と同じ 1 行・G_0/c_0² が値域の外 1 行 —— 宣言の有無に依らず)
+    xkLockInfo.version=XK_LOCK_VERSION; xkLockInfo.from=xkFrom.from; xkLockInfo.exempt=!!xkFrom.exempt; xkLockInfo.clamped=xa.clamped || null;
+    if(xkFrom.from==="intake") xkLockInfo.notices.push(reasonText("validatePreset/xkLock#intakeRetiredId", xkFrom.id));
+    if(xa.clampNote) xkLockInfo.notices.push(xa.clampNote);
+    // ==== 第327便d の塊(ここまで)====
+  }
   p.physics=ph;
   const isqMassNonPos=[];   // 第311便b(AN389): single の宣言の質量が正でない天体の添字(質量の下限 massFloor を当てる前 —— 新則の本の受け手の判定に使う)
   // bodies
@@ -29704,7 +29736,7 @@ function validatePreset(obj){
             // 第123便: qLock:true — B側の q を自動算出(有限参照正規化規約)する特別キー(CLAMPS 外)
             if(k==="qLock"){ if(A.physicsPatch[k]===true) physicsPatch.qLock=true; continue; }
             // 第326便a(原仮定者の回答(2026-11-03 —— AN530)): 物理対応ロックの下で X_k は導出 —— B 側の kappaT・Kt は捨てる(内蔵の退役の本〔履歴〕は宣言のまま)
-            if((k==="kappaT" || k==="Kt") && !xkLockExemptPreset(p)){
+            if((k==="kappaT" || k==="Kt") && !xkFrom.exempt){   // 第327便d(AN545): 判定は出どころ(xkFrom —— 旧: ID の xkLockExemptPreset(p))
               if(!xkAbWarned){ xkLockInfo.notices.push(reasonText("validatePreset/abBody.physicsPatch.kappaT#lock")); xkAbWarned=true; xkLockInfo.abDropped=true; }
               continue; }
             // 第128便: kappaT は通常キー(CLAMPS[0,1])— 下の汎用経路が拾う。旧 Kt は後方互換で κ へ換算
@@ -43823,15 +43855,21 @@ function loadPreset(id, keepPhysics){
   //   内蔵の退役の本は履歴として開く(spaceMeshRetiredBuiltinOf —— 説明の退役の行に smRetiredOpenNote)
   if(BUILTIN_PRESETS.indexOf(p)<0){ const dn=spaceMeshRetiredDenyOf(p, "custom");
     if(dn.deny){ notify(dn.msg,9000); if(currentPreset){ setPresetSelectValue(currentPreset.id); return; } p=BUILTIN_PRESETS[0]; } }
+  // ==== 第327便d の塊(ここから)====
+  // 第327便d(AN545): 実行時の出どころ —— 解決した本(三次元の切り替えの写しに替える前)が内蔵の表の要素そのものか。内蔵の退役の本はそのときだけロックの外
+  const xkRunNext=xkLockRunFromOf(p);
+  // ==== 第327便d の塊(ここまで)====
   // 第299便f: 三次元の切り替えの写し —— 切り替えの適用と同じ本の ⏮初めから(coordSwitchHold)だけが使う。別の本・一覧からの読み込みでは外す
   if(coordSwitch && coordSwitchHold && coordSwitch.id===p.id) p=coordSwitch.preset;
   else { coordSwitch=null; coordSwMsg=""; coordSwConfirmKey=null; }
   coordSwitchHold=false;
   currentPreset=p;
+  xkLockRun=xkRunNext;   // 第327便d(AN545)
   const merged=JSON.parse(JSON.stringify(p));
   if(keepPhysics && basePhysics) merged.physics=Object.assign({},sim.params);
   // 第326便a(AN530): build の前の写しで X_k を導出値へ(内蔵の退役の本〔履歴〕は宣言のまま —— 在位の内蔵の本は宣言が導出値と bit で同じ)
-  if(!xkLockExemptId(p.id) && (!keepPhysics || !basePhysics)) merged.physics=xkLockPhysicsCopy(merged.physics);
+  // 第327便d(AN545): 例外の判定は出どころ(xkLockRun —— 内蔵の表から開いた内蔵の退役の本だけ。旧: ID の xkLockExemptId(p.id))
+  if(!xkLockRun.exempt && (!keepPhysics || !basePhysics)) merged.physics=xkLockPhysicsCopy(merged.physics);
   sim.build(merged);
   if(!keepPhysics) physLockAutoApply([sim]);   // 第315便a(AN414): 読込時の自動 ON —— build の後の実値で判定(フラグだけ)→ 第326便a(AN530): 常にロック(build の前の写しで導出済み —— ここは旗と表示)
   // 第123便(原仮定者指示「qが計算で求まるなら編集対象から外す」): qLock サンプルは
@@ -44802,7 +44840,7 @@ function setPhysLock(v){
 //   A/B(B 側の X_k は B 側の G_0・c_0 から —— X_k の対照は G_0 の対照で)・パラメータの編集(G_0・c_0 を変えると追随・X_k の行は編集できない)。
 //   **例外は 1 つ**: 内蔵の退役の本(履歴 —— familyRole "retired")を開いている間は宣言の X_k のまま(ロックの外 —— ID・物理・過去の正本・凍結の写しを動かさない)。
 //   既定値のマージ(X_k を書かない本 —— 手書き・AI)の扱いは決断事項 AN532(xkLockDefaultDerive)。導出の式は physLockCalc と同じ(G_0 > 0 なら G_0/(c_0·c_0)・G_0 = 0 は 0・値域 [0,1] でクランプ)
-const XK_LOCK_VERSION="w326a-xklock-always-1";
+const XK_LOCK_VERSION="w327d-xklock-provenance-1";   // 第327便d(AN544・AN545): 例外の判定を ID から出どころへ・クランプの告知(旧 "w326a-xklock-always-1")
 // AN532(既定値のマージの X_k を導出にするか —— 回答待ち): false = 既定値のマージは今のまま(X_k を書かない本の受理の値は DEFAULT_PHYSICS の 1/60)。
 //   第326便a(AN532 —— 統括の推奨 A で別のコミット): true = 既定値のマージも導出(X_k を書かない手書き・AI の本も G_0/c_0² —— 既定の G=1・c_0=30 なら 1/900)。
 //   表 DEFAULT_PHYSICS の kappaT(1/60)は値として残す(内蔵の本は全部 X_k を宣言 —— 表の値は受理と読み込みの導出で置き換わる)
@@ -44813,27 +44851,82 @@ function xkDeclaredOf(ph){ return !!(ph && typeof ph==="object" && !Array.isArra
 function xkDerivedOf(ph){ const G=ph.G, c=ph.cLight, cc=CLAMPS.kappaT; const tgt=(G>0)? G/(c*c) : 0; return clamp(tgt,cc[0],cc[1]); }
 // 内蔵の退役の本か(ID で —— 保存したカスタムの本は内蔵と ID が重ならない〔取り込みで一意化〕)。受理器の口も ID で見る(退役の前に凍結した写し
 //   〔familyRole が退役の前の値の過去の正本の写し〕も履歴として同じ扱い —— 外から入る宣言が退役の本の ID を名乗っても、取り込みで ID を付け直すので読み込みではロックの下)
-function xkLockExemptId(id){ try{ const q=BUILTIN_PRESETS.find((b)=>b.id===id); return !!(q && retiredOf(q)); }catch(_){ return false; } }
-function xkLockExemptPreset(p){ return !!(p && typeof p==="object" && xkLockExemptId(p.id)); }
+function xkLockExemptId(id){ try{ const q=BUILTIN_PRESETS.find((b)=>b.id===id); return !!(q && retiredOf(q)); }catch(_){ return false; } }   // 第327便d(AN545): ID の候補だけ —— 判定は出どころ(xkLockAcceptFromOf・xkLockRunFromOf)
+function xkLockExemptPreset(p){ return !!(p && typeof p==="object" && xkLockAcceptFromOf(p).exempt); }   // 第327便d(AN545): 出どころの既定の判定(内蔵の表の写し —— 取り込みの印 opts.xkFrom は validatePreset が読む)
 // 今開いている本がロックの下か(内蔵の退役の本だけ外)
-function xkLockActive(){ return !(currentPreset && xkLockExemptId(currentPreset.id)); }
+function xkLockActive(){ return !(currentPreset && xkLockRun.exempt); }   // 第327便d(AN545): 出どころ(loadPreset が立てる xkLockRun —— 内蔵の表から開いた内蔵の退役の本とその続きだけ外)。旧: ID(xkLockExemptId)
 // 実行時の口: 渡した sim の X_k を導出値へ
 function xkLockSims(targets){ for(const S of targets) if(S && S.params) S.params.kappaT=physLockCalc(S).applied; }
 // 受理の口(validatePreset から): ph は既定値のマージの後の physics。戻り値 {warn?, exempt?, kept?}
-function xkLockAcceptPhysics(p, ph, declared){
-  if(xkLockExemptPreset(p)) return {exempt:true};
+function xkLockAcceptPhysics(p, ph, declared, from){
+  // 第327便d(AN545): 例外は出どころで(validatePreset が渡す from —— 渡さない呼び手は既定の判定 xkLockAcceptFromOf(p))
+  const xf=from || xkLockAcceptFromOf(p);
+  if(xf.exempt) return {exempt:true, from:xf.from};
   if(!declared && !xkLockDefaultDerive()) return {kept:true};
   const was=ph.kappaT, now=xkDerivedOf(ph);
   ph.kappaT=now;
-  if(!declared || was===now) return {};
+  // 第327便d(AN544): G_0/c_0² が値域 [0,1] の外ならクランプの記録と告知 1 行(宣言の有無に依らず —— 値はクランプの値のまま)
+  const cl=xkLockClampOf(ph), ext=cl? {clamped:cl, clampNote:reasonText("validatePreset/physics.kappaT#clamp", stDerivedFmt(cl.tgt), String(cl.applied))} : {};
+  if(!declared || was===now) return ext;
   // 第326便a(AN532 —— 推奨 A): 宣言の X_k が表の既定値そのもの(AI の作り方「変更不要なキーは既定値を書く」)は既定値のマージと同じ扱い —— 導出値へ置き換えて警告を出さない
-  if(xkLockDefaultDerive() && was===DEFAULT_PHYSICS.kappaT) return {defaulted:true};
+  if(xkLockDefaultDerive() && was===DEFAULT_PHYSICS.kappaT) return Object.assign({defaulted:true}, ext);
   const d=Math.abs(was-now), m=Math.max(Math.abs(was),Math.abs(now));
-  return (d<=1e-6*m)? {} : {warn:reasonText("validatePreset/physics.kappaT#lock", String(was), String(now))};
+  return (d<=1e-6*m)? ext : Object.assign({warn:reasonText("validatePreset/physics.kappaT#lock", String(was), String(now))}, ext);
 }
 // 読み込みの写し(build の前)に当てる: 既定値のマージの後の G_0・c_0 から X_k を置いた physics の写しを返す(宣言の鍵の並びは保つ)
 function xkLockPhysicsCopy(ph){ const m=Object.assign({},DEFAULT_PHYSICS,ph||{}); return Object.assign({},ph||{},{kappaT:xkDerivedOf(m)}); }
 // ==== 第326便a の塊(ここまで)====
+// ==== 第327便d の塊(ここから)====
+// 第327便d(原仮定者の回答(2026-11-05 —— AN545)「Bで進める。内蔵もAI生成調整時に棚卸し予定」・AN544「クランプの表示を、赤文字にするなど分かり易くする」・統括の検証項目 R298):
+//   **退役の本をロックの外に置く例外を「内蔵の表から開いた内蔵の退役の本」だけに**(判定を ID から出どころへ)。
+//   受理(validatePreset(obj, opts)): opts.xkFrom === "intake"(取り込み・貼り付け・AI 生成 —— doImportText・stabilizePreset・観測の記録の経路)は ID が内蔵の退役の本と同じでも
+//     ロックの下(X_k を導出値へ・告知 1 行)。印の無い呼び手(内蔵の表の本そのもの・QA と器の写し・相図のセル・三次元の切り替えの写し —— アプリの中で内蔵の表の本から作る写し)は
+//     内蔵の表の出どころとみなす(例外のまま —— 内蔵 186 本の署名・器の写しの値を 1 bit も動かさない)。from は記録: "table"(内蔵の表の要素そのもの)・"tableCopy"(写し ——
+//     G_0・c_0・X_k が表の宣言と bit で同じ)・"tableEdited"(写しで G_0・c_0・X_k のどれかが表と違う —— 例外のまま・数えるだけ)・"intake"(ロックの下)・null(ID が内蔵の退役の本でない)。
+//   実行時(xkLockActive): loadPreset が**解決した本が内蔵の表の要素そのもの**(BUILTIN_PRESETS の要素 —— 三次元の切り替えの写しは元の本で)かを xkLockRun に立てる。
+//     セーブの読込・発散の復元・⏮ 初めから・チェックポイント・A/B は内蔵の表の本を ID で引き直すか状態を保つ —— 内蔵の表から開いた退役の本の続きは例外のまま。
+//     保存したカスタムの本(取り込み・貼り付け・AI 生成)は内蔵の表の要素でない —— ロックの下(ID は取り込みで一意化・AI の採用は custom_)。
+//   クランプ(AN544): G_0/c_0² が X_k の値域 [0,1] の外ならクランプの値のまま(値は変えない)—— 受理の告知 1 行(xkLock.notices・xkLock.clamped)と、時空の群の X_k の行(#std_Xk の
+//     data-state="clamped")を赤(状態語の色 --errText —— ライト/ダークとも 7.5:1 以上・⚠ の文は残す —— 色だけに頼らない)。取り込みの通知・貼り付けと AI 生成の状態の行にも ⚠ の 1 文
+const XK_INTAKE_OPTS=Object.freeze({xkFrom:"intake"});   // 取り込み・貼り付け・AI 生成の印(validatePreset の第 2 引数)
+let xkLockRun={from:null, exempt:false, id:null};   // 実行時の出どころ(loadPreset が立てる —— 表示と QA の読み口 HP.xkLockRunOf)
+// ID が内蔵の退役の本ならその本(内蔵の表の要素)・でなければ null
+function xkLockRetiredBuiltinOf(id){ try{ const q=BUILTIN_PRESETS.find((b)=>b.id===id); return (q && retiredOf(q))? q : null; }catch(_){ return null; } }
+// 受理の出どころ(obj は破壊防止コピーの前の入力・opts は validatePreset の第 2 引数)
+function xkLockAcceptFromOf(obj, opts){
+  const q=xkLockRetiredBuiltinOf(obj && typeof obj==="object"? obj.id : undefined);
+  if(!q) return {exempt:false, from:null, id:null};
+  if(opts && opts.xkFrom==="intake") return {exempt:false, from:"intake", id:q.id};
+  if(obj===q) return {exempt:true, from:"table", id:q.id};
+  const ph=(obj.physics && typeof obj.physics==="object")? obj.physics : {}, qp=q.physics || {};
+  const xOf=(o)=> isNum(o.kappaT)? o.kappaT : (isNum(o.Kt)? ktToKappa(o.Kt) : DEFAULT_PHYSICS.kappaT);
+  const gOf=(o)=> isNum(o.G)? o.G : DEFAULT_PHYSICS.G, cOf=(o)=> isNum(o.cLight)? o.cLight : DEFAULT_PHYSICS.cLight;
+  const same=Object.is(gOf(ph),gOf(qp)) && Object.is(cOf(ph),cOf(qp)) && Object.is(xOf(ph),xOf(qp));
+  return {exempt:true, from: same? "tableCopy" : "tableEdited", id:q.id};
+}
+// 実行時の出どころ(p は loadPreset が解決した本 —— 三次元の切り替えの写しに替える前)
+function xkLockRunFromOf(p){
+  const q=xkLockRetiredBuiltinOf(p && p.id);
+  if(q && p===q) return {from:"table", exempt:true, id:q.id};
+  const inTable=BUILTIN_PRESETS.indexOf(p)>=0;
+  return {from: inTable? "builtin" : "custom", exempt:false, id:p? p.id : null};
+}
+// G_0/c_0² が X_k の値域の外か(physLockCalc と同じ式・同じクランプ —— 有限でなければ null)
+function xkLockClampOf(ph){ const G=ph.G, c=ph.cLight, cc=CLAMPS.kappaT; const tgt=(G>0)? G/(c*c) : 0;
+  if(!isFinite(tgt)) return null; const ap=clamp(tgt,cc[0],cc[1]); return (ap!==tgt)? {tgt, applied:ap} : null; }
+// 取り込み・貼り付け・AI 生成の画面の 1 文(xkLock の記録から —— クランプ ⚠ と置き換えの件数)
+function xkLockIntakeNoteOf(xl, name){
+  if(!xl) return "";
+  if(xl.clamped) return T("xkClampIntake")(name||"", stDerivedFmt(xl.clamped.tgt), String(xl.clamped.applied));
+  const n=(xl.notices||[]).length;
+  return n? T("xkLockIntake")(name||"", n) : "";
+}
+// 貼り付け・AI 生成の状態の行に足す 1 文(クランプしたときだけ —— 置き換えの告知は変更点の一覧に出る)
+function xkLockStatusOf(r){
+  const xl=r && r.xkLock;
+  return (xl && xl.clamped)? " "+xkLockIntakeNoteOf(xl, r.preset && r.preset.name) : "";
+}
+// ==== 第327便d の塊(ここまで)====
 // ===== 第100便(原仮定者裁定「進める」/ Gemini 提案2): 相似変換連動モード =====
 // c₀ を k 倍したとき、第96便B と同じ力学的相似変換を「現在の状態」へ適用して見た目の運動
 // (描画フレームあたりの進み)を保つ実験的機能。変換表(96B): G・bM・contactK/contactCap ×k²/
@@ -47006,10 +47099,11 @@ function doImportText(text){
   let migFrom=null;
   const addedPresets=[];   // v1.17: 保存一覧への自動登録用
   const modeImp=[];        // 第295便a(R153): 目的の組と違う設定の取り込み(本の名前と判定)
+  const xkImp=[];          // 第327便d(AN544): 物理対応ロックの告知の 1 文(本ごと)
   for(const c of co.customPresets){
     // 第300便a(第90報⑤・R175): physics.spaceMesh(廃止)を宣言した本は取り込まない(不正の件数に数え、理由を最初の誤りとして出す)
     { const dn=spaceMeshRetiredDenyOf(c, "import"); if(dn.deny){ bad++; if(!firstErr) firstErr=dn.msg; continue; } }
-    const v=validatePreset(c);
+    const v=validatePreset(c, XK_INTAKE_OPTS);   // 第327便d(AN545): JSON の取り込みは取り込みの出どころ(ID が内蔵の退役の本と同じでもロックの下 —— 旧: 受理では宣言の X_k が残り、開くときに導出値へ)
     if(v.legacyCore) migFrom=(migFrom===null)? srcSchema : Math.min(migFrom,srcSchema);
     if(!v.ok){ bad++; if(!firstErr) firstErr=v.errors[0]||""; continue; }
     const sig=presetSig(v.preset);
@@ -47032,6 +47126,7 @@ function doImportText(text){
       const mi=modeSettingIssues(v.preset.physics, Object.assign((fr!==undefined)? {fitRecord:fr} : {}, {bodies:v.preset.bodies})); if(mi.length) modeImp.push({name:v.preset.name, mi}); }   // 第298便a: 粒子の宣言(coord2dZ)
     cur.push(v.preset); added++;
     addedPresets.push({preset:v.preset, origId:id});
+    { const xn=xkLockIntakeNoteOf(v.xkLock, v.preset.name); if(xn) xkImp.push(xn); }   // 第327便d(AN544): 物理対応ロックの告知(クランプ ⚠ を先に)
   }
   setCustomPresets(cur);
   // セーブも内容(presetId+physics+universeBox)で重複除外し、名前被りはサフィックスを付けて追記
@@ -47089,7 +47184,9 @@ function doImportText(text){
   if(migNote) msg+=" / "+T("migratedNote");
   if(corrected) msg+=" "+T("importCorrected");   // 第178便: 記号の補正で読めた場合は必ず告げる
   if(modeImp.length) msg+=" / "+T("modeWarnHeadImport")(modeImp.length, modeImp[0].name)+modeIssueText(modeImp[0].mi);   // 第295便a(R153)
-  notify(msg, modeImp.length? 9000 : (bad>0||migNote||corrected)?6000:3000);
+  // 第327便d(原仮定者の回答(2026-11-05 —— AN544)): 物理対応ロックの告知(クランプの ⚠ を先に・他の本は件数)
+  if(xkImp.length){ const xs=xkImp.slice().sort((a,b)=>(b.indexOf("⚠")===0)-(a.indexOf("⚠")===0)); msg+=" / "+xs[0]+(xs.length>1? " (+"+(xs.length-1)+")" : ""); }
+  notify(msg, (modeImp.length || xkImp.some((x)=>x.indexOf("⚠")===0))? 9000 : (bad>0||migNote||corrected||xkImp.length)?6000:3000);
 }
 $("#btnImport").addEventListener("click",()=>doImportText($("#ioArea").value));
 // v1.17: ファイルから読込 — 選択したJSONをテキストボックスへ反映してからインポート
@@ -48249,8 +48346,9 @@ function buildAstroFromRecords(input, opts){
       ? "two-body closure confirmation applied: the drift extrapolation fired but the one-period same-phase closure ("+cPct+"%) is within the ±1% contract — adopted (phase oscillation, not secular drift)"
       : "二体クロージャ確認を適用: ドリフト外挿は発火したが、1公転の同位相クロージャ("+cPct+"%)が ±1% 契約内 — 位相振動と判定して採用");
   }
-  const vp=validatePreset(pAdopt);
+  const vp=validatePreset(pAdopt, XK_INTAKE_OPTS);   // 第327便d(AN545): 観測の記録の経路も取り込みの出どころ
   if(!vp.ok) return {ok:false, stage:"validate", errors:vp.errors, notes:v.notes, meta:M, table:rec.table};
+  if(vp.xkLock && vp.xkLock.notices.length) for(const n of vp.xkLock.notices) v.notes.push(n);   // 第327便d(AN544): 物理対応ロックの告知(クランプ ⚠ を含む)を注記へ
   return {ok:true, preset:vp.preset, warnings:vp.warnings, notes:v.notes, diag, meta:M, table:rec.table,
     ideal:rec.ideal, demoted:built.demoted, stabilized};
 }
@@ -48781,7 +48879,7 @@ function stabilizePreset(input, opts){
   const o=opts||{}, changes=[], notes=[];
   // 第300便a(第90報⑤・R175): 貼り付け・AI 生成の取り込みは physics.spaceMesh(廃止)を受理しない(検証の段の誤り —— 再試行の指示にも理由が載る)
   { const dn=spaceMeshRetiredDenyOf(input, "intake"); if(dn.deny) return {ok:false, stage:"validate", errors:[dn.msg], changes, notes}; }
-  const v0=validatePreset(input);
+  const v0=validatePreset(input, XK_INTAKE_OPTS);   // 第327便d(AN545): 貼り付け・AI 生成は取り込みの出どころ(ID が内蔵の退役の本と同じでもロックの下)
   if(!v0.ok) return {ok:false, stage:"validate", errors:v0.errors, changes, notes};
   const p=JSON.parse(JSON.stringify(v0.preset));
   const ph=p.physics;
@@ -48832,11 +48930,11 @@ function stabilizePreset(input, opts){
     } }
   stabTimeStd(p, changes, notes);   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準(実較正の宣言の本にも当てる —— 画面の刻みは構図ではない)
   // ⑤ 自己診断(複製状態での短い試走)
-  const v1=validatePreset(p);
+  const v1=validatePreset(p, XK_INTAKE_OPTS);   // 第327便d(AN545)
   if(!v1.ok) return {ok:false, stage:"validate", errors:v1.errors, changes, notes};
   const diag=stabSelfCheck(v1.preset);
-  if(!diag.ok) return {ok:false, stage:"diagnosis", errors:diag.errors, changes, notes, diag, preset:v1.preset};
-  return {ok:true, preset:v1.preset, changes, notes, diag, warnings:v1.warnings};
+  if(!diag.ok) return {ok:false, stage:"diagnosis", errors:diag.errors, changes, notes, diag, preset:v1.preset, xkLock:v0.xkLock};
+  return {ok:true, preset:v1.preset, changes, notes, diag, warnings:v1.warnings, xkLock:v0.xkLock};   // 第327便d(AN544): 受理の記録(クランプ・出どころ)を画面の状態の行へ
 }
 
 /* ---- 貼付欄の入口(形状自動判別 → 経路分岐)------------------------------------------ */
@@ -49292,7 +49390,8 @@ function aiPasteRun(save){
   if(!save){ setAiStatus(T("pasteCheckOk"),"ok"); return r; }
   aiAdoptPreset(r.preset);
   setAiStatus(T("pasteSavedOk")(r.preset.name)
-    +((r.warnings&&r.warnings.length)? T("autofix")(r.warnings.join("、")) : ""),"ok");
+    +((r.warnings&&r.warnings.length)? T("autofix")(r.warnings.join("、")) : "")
+    +xkLockStatusOf(r),"ok");   // 第327便d(AN544): クランプの ⚠ を状態の行にも
   return r;
 }
 // 生成物の採用(AI生成・貼付の共通経路)— 保存 → 一覧再構築 → 読み込み
@@ -49330,7 +49429,7 @@ $("#btnGenerate").addEventListener("click",async ()=>{
       obsShowDiag(it);
     }
     aiAdoptPreset(r.preset);
-    setAiStatus(T("added")(r.preset.name)+(r.warnings.length?T("autofix")(r.warnings.join("、")):""),"ok");
+    setAiStatus(T("added")(r.preset.name)+(r.warnings.length?T("autofix")(r.warnings.join("、")):"")+xkLockStatusOf(it),"ok");   // 第327便d(AN544)
   }catch(e){ setAiStatus(String(e.message||e),"err"); }
   btn.disabled=false;
 });
@@ -66669,6 +66768,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // ==== 第326便a の塊(ここから)====
   XK_LOCK_VERSION, xkLockDefaultDerive, xkDeclaredOf, xkDerivedOf, xkLockExemptId, xkLockExemptPreset, xkLockActive, xkLockSims, xkLockAcceptPhysics, xkLockPhysicsCopy,   // 第326便a(AN530): 物理対応ロックを常に(QA・器の口)
   // ==== 第326便a の塊(ここまで)====
+  // ==== 第327便d の塊(ここから)====
+  XK_INTAKE_OPTS, xkLockAcceptFromOf, xkLockRunFromOf, xkLockRunOf:()=>Object.assign({},xkLockRun), xkLockClampOf, xkLockIntakeNoteOf, xkLockStatusOf, stabShowReport,   // 第327便d(AN544・AN545): 出どころ・クランプの告知(QA の口)
+  // ==== 第327便d の塊(ここまで)====
   UI_TEXT_CLEAN_VERSION, symDisp, symDispSegs, symDispText, paramLabel,   // 第316便a(AN422 ①・AN426): 下付きの表示の純関数・ラベルを引く関数(QA が表で照合する)
   stepBudget,  // v1.27: ステップ会計の純関数(P0-1 修正。QA time.step-accounting 用)
   // 第171便: 操作レスポンスの分離(QA ui.input-responsive 用の機械検査口)。

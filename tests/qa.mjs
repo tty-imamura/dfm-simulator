@@ -21671,7 +21671,7 @@ if (!FAST) {
         // 第287便b(原仮定者の裁定(第77報)AN62): 🧶 psrB1534DFM も f=1(観測質量)—— 光線の源の質量が変わる(lens 除外の規則とは無関係 —— 鎖で正本を刻み直した後に出る差)
         const W287B = html286.indexOf('  psrB1534CF:{ja:') >= 0;
         // 第326便(統括 —— 原仮定者の回答(2026-11-03 —— AN530)): 世代切替 = html の XK_LOCK_VERSION —— 移行した在位の本(凍結の写し xklock-w326a の分類 1・2)の集合
-        const XK326R = html286.indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0
+        const XK326R = /const XK_LOCK_VERSION="w3\d\d[a-z]-xklock-[a-z0-9-]+"/.test(html286)   /* 第327便d(AN545): 版は世代で上がる —— 版の型で読む */
           ? (() => { try { return Object.entries(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'xklock-w326a.json'), 'utf8')).books || {}).filter(([, v]) => v && (v.kind === 'class1' || v.kind === 'class2')).map(([k]) => k); } catch (e) { return []; } })() : [];
         const CL286 = new Set(); if (W286B) { try { const CL = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w286b-clight.json'), 'utf8')); for (const b of (CL.books || []).concat(CL.others || [])) CL286.add(b.id); } catch (e) { /* 無い世代 */ } }
         const diff = others.filter((z) => !z.heavySame || z.raysDiffering !== 0).map((z) => z.id).filter((id) => !(W284R && id === 'psrDoubleABDFM') && !(W285F && id === 'psrJ1757DFM')
@@ -21857,7 +21857,7 @@ if (!FAST) {
           nBuiltin285.splice(0, nBuiltin285.length, nBuiltin285[nBuiltin285.length - 1] + inC3.length); }
         // 第326便(統括 —— 原仮定者の回答(2026-11-03 —— AN530)): 世代切替 = html の XK_LOCK_VERSION —— 物理対応ロックの移行で宣言を変えた在位の本
         //   (凍結の写し xklock-w326a の分類 1・2 —— 分類 2 は G_0 が変わるので 1 步も動く)は同便の他枝の宣言した差(contactMode の契約とは無関係)
-        if (html285.indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0) {
+        if (/const XK_LOCK_VERSION="w3\d\d[a-z]-xklock-[a-z0-9-]+"/.test(html285)   /* 第327便d: 版の型 */) {
           try { for (const [k, v] of Object.entries(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'xklock-w326a.json'), 'utf8')).books || {})) if (v && (v.kind === 'class1' || v.kind === 'class2')) OTHER285.add(k); }
           catch (e) { bad.push('第326便a の移行の写し(xklock-w326a.json)が読めない'); }
         }
@@ -23008,7 +23008,7 @@ if (!FAST) {
     // ③ 機械鍵・ID・表示名・SYSTEM_PROMPT
     // 第326便a(原仮定者の回答(2026-11-03 —— AN530)・R290): 世代切替 = html の XK_LOCK_VERSION —— 🕳️🥚 の退役で、退役の本を指していた RETIRED_PRESETS の see 7 行を在位の本へ付け替えた
     //   (rotorSolo −7 + 退役の行 1 = −6・selfRotor −4 + 1 と在位の本の注釈の 1 = −4 —— 改名ではない。ID・保存 JSON の鍵は不変)
-    const gen326aT = html.indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0;
+    const gen326aT = /const XK_LOCK_VERSION="w3\d\d[a-z]-xklock-[a-z0-9-]+"/.test(html);   // 第327便d(AN545): 版は世代で上がる(w327d-xklock-provenance-1)—— 版の型で読む
     const KEYS = { darkrotor: [21, 'eq'], rotorSolo: [gen326aT ? 14 : 20], selfRotor: [gen326aT ? 13 : 17], nebulaRotor: [7], darkRotor: [40], haloDimming: [1], 'darkrotor-pitch': [5], rotorInFStar: [12] };
     const kc = Object.fromEntries(Object.keys(KEYS).map((k) => [k, html.split(k).length - 1]));
     const lost = Object.keys(KEYS).filter((k) => KEYS[k][1] === 'eq' ? kc[k] !== KEYS[k][0] : kc[k] < KEYS[k][0]);
@@ -46753,7 +46753,7 @@ if (!FAST) {
       const mig288T = /^const UNIFY_MIGRATED=/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
       // 第326便a(AN530・R290): 物理対応ロックを常にの世代(html の XK_LOCK_VERSION)で、強場トイ領域の本(静的 ψ > 0.5)は在位 14 → 2 本(🧭🕸️ —— 📇 を持たない)になった
       //   (銀河と棒と腕の X_k 0.02 → G_0/c_0²)—— 「📇∧¬⚠強場」は 📇 と同数でよい(NOT が 1 本も外さないのは移行の結果。配線は got === exp と他の 2 組で見る)
-      const gen326P = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0;
+      const gen326P = /const XK_LOCK_VERSION="w3\d\d[a-z]-xklock-[a-z0-9-]+"/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));   // 第327便d: 版の型
       o.andOk = o.and.every((x) => x.got === x.exp && x.exp > 0 && (x.exp < x.only || (mig288T && x.nm === '較正対象∧¬引きずり' && x.exp === x.only) || (gen326P && x.nm === '📇∧¬⚠強場' && x.exp === x.only)))
         && a1.other === 'bdgCore,!bdgDrag' && a1.sum === tCore + ' ∧ ¬' + tDrag && a2.other === 'calTarget,!bdgDrag' && a2.sum === tCal + ' ∧ ¬' + tDrag
         && a3.other === 'obsCard,!bdgStrongField' && a3.sum === tObs + ' ∧ ¬' + tStrong;
@@ -53060,10 +53060,20 @@ if (!FAST) {
       const chg = [], fail = [];
       // 第300便a(原仮定者の裁定(第90報)⑤・R175): physics.spaceMesh(廃止)を宣言する内蔵の本(全部退役)は取り込みで拒否される側 —— 拒否の段(validate)と理由を見て数えない
       const sm300 = (p) => typeof spaceMeshRetiredDenyOf === 'function' && spaceMeshDeclPathsOf(p).length > 0;
+      // 第327便d(原仮定者の回答(2026-11-05 —— AN545)「Bで進める」): 世代切替 = HP.xkLockAcceptFromOf —— 貼り付けは取り込みの出どころ。内蔵の退役の本の写しを貼ると
+      //   ロックの下(例外は内蔵の表から開いたときだけ)—— 変更点は物理対応ロックの告知だけ(ID が内蔵の退役の本と同じ 1 行・X_k の置き換え・abBody の X_k)で、X_k は導出値(数える)
+      const gen327dS = typeof HP.xkLockAcceptFromOf === 'function';
+      const lockOnly327d = (c) => /内蔵の退役の本と同じ|physics\.kappaT\(X_k\)は導出の量|abBody\.physicsPatch の X_k/.test(c);
+      const derived327d = (ph) => Object.is(ph.kappaT, Math.min(1, Math.max(0, ph.G > 0 ? ph.G / (ph.cLight * ph.cLight) : 0)));
+      let retLocked327d = 0;
       for (const p of HP.allPresets()) {
         const r = HP.stabilizePreset(JSON.parse(JSON.stringify(p)), { kepler: true });
         if (sm300(p)) { if (r.ok || r.stage !== 'validate' || !/physics\.spaceMesh/.test((r.errors || [])[0] || '')) fail.push(p.id + ':spaceMesh を拒否しない'); continue; }
         if (!r.ok) fail.push(p.id + ':' + r.stage);
+        else if (gen327dS && p.familyRole === 'retired') {
+          if (!(r.changes.every(lockOnly327d) && r.changes.some((c) => /内蔵の退役の本と同じ/.test(c)) && derived327d(r.preset.physics) && r.xkLock && r.xkLock.from === 'intake')) chg.push(p.id + ':退役の本の貼り付けがロックの下でない(第327便d)');
+          else retLocked327d++;
+        }
         else if (r.changes.length) chg.push(p.id + ':' + r.changes[0].slice(0, 40));
       }
       if (fail.length) bad.push('内蔵プリセットが自己診断で落ちた: ' + fail.slice(0, 3).join(','));
@@ -53092,13 +53102,13 @@ if (!FAST) {
         if (ab3.ok && ab3.preset.abBody) bad.push('不正 abBody(targets あり・patch 空)が通ってしまった');
       }
       return { bad, nBuiltin: HP.allPresets().length, changes: s1.changes.length,
-        escErr: (esc.errors || [])[0] || '', steps: s1.diag ? s1.diag.steps : 0 };
+        escErr: (esc.errors || [])[0] || '', steps: s1.diag ? s1.diag.steps : 0, gen327dS, retLocked327d };
     });
     add('ai.stabilize', stb.bad.length === 0,
       `決定性(同一入力2回ビット一致)・変更点列挙=${stb.changes}件・κ=G/c₀² 再導出(実較正宣言のみ)・`
       + `ケプラー再導出は脱出速度/落ち込みだけ(束縛楕円 v/v_circ<√2 は不変)・scaleExp は警告のみ・`
       + `自己診断${stb.steps}步の否定対照「${String(stb.escErr).slice(0, 40)}」・`
-      + `内蔵${stb.nBuiltin}本は変更0件で全PASS・abBody(physics レシピ)は検証往復・貼付整形で不変`
+      + `内蔵${stb.nBuiltin}本は変更0件で全PASS${stb.gen327dS ? `(第327便d の世代: 退役の本 ${stb.retLocked327d} 本は貼り付けでロックの下 —— 変更点は物理対応ロックの告知だけ・X_k は導出値)` : ''}・abBody(physics レシピ)は検証往復・貼付整形で不変`
       + `(第200便回帰 — 不正 abBody の無視は従来どおり)`
       + `${stb.bad.length ? ' NG=[' + stb.bad.slice(0, 6).join(' / ') + ']' : ''}`);
 
@@ -72403,7 +72413,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       // 第326便(統括 —— 鎖の後の転記照合で拾った・原仮定者の回答(2026-11-03 —— AN530)): 世代切替 = html の XK_LOCK_VERSION(物理対応ロックを常に)。
       //   移行した在位の本(凍結の写し tests/fixtures/xklock-w326a.json の分類 1・2 —— X_k := G_0/c_0² か G_0 := X_k c_0²)は宣言が変わったので署名が動き、
       //   分類 2 で G_0 が効く本は軌道も動く —— EIH の外の宣言した差として許す(写しの集合だけ —— 手書きの ID 一覧は持たない)
-      const XK326P1 = html297P1.indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0
+      const XK326P1 = /const XK_LOCK_VERSION="w3\d\d[a-z]-xklock-[a-z0-9-]+"/.test(html297P1)   /* 第327便d: 版の型 */
         ? (() => { try { return Object.entries(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'xklock-w326a.json'), 'utf8')).books || {}).filter(([, v]) => v && (v.kind === 'class1' || v.kind === 'class2')).map(([k]) => k); } catch (e) { bad.push('② 第326便a の移行の写し(xklock-w326a.json)が読めない'); return []; } })() : [];
       const notEih285 = G.changedNotEih.filter((id) => !OTHER285B.includes(id) && !LAM297T.includes(id) && !XK326P1.includes(id));
       const sigOff285 = (G.rows || []).filter((r) => !r.sigSame && !SIG285B.includes(r.id) && !LAM297S.includes(r.id) && !TS297.includes(r.id) && !XK326P1.includes(r.id)).map((r) => r.id);
@@ -72804,8 +72814,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       // 第326便(統括 —— ゲートのフル QA で拾った・原仮定者の回答(2026-11-03 —— AN530)): 世代切替 = html の XK_LOCK_VERSION —— 物理対応ロックの移行で
       //   宣言を変えた在位の本(凍結の写し xklock-w326a の分類 1・2 —— X_k := G_0/c_0² か G_0 := X_k c_0²)は基点との前後で動いてよい(cLight の真値の話ではない)
       //   (第325便の教訓 (i): 正本は beta 線の鎖が作る —— 対象が root の html〔ロックの前の世代〕でも、正本がロックの後の世代なら同じ集合を許す)
-      const XK326CLgen = html.indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0
-        || (() => { try { return fs.readFileSync(path.join(ROOT, 'beta', 'index.html'), 'utf8').indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0; } catch (e) { return false; } })();
+      const XK326CLgen = /const XK_LOCK_VERSION="w3\d\d[a-z]-xklock-[a-z0-9-]+"/.test(html)   /* 第327便d: 版の型 */
+        || (() => { try { return /const XK_LOCK_VERSION="w3\d\d[a-z]-xklock-[a-z0-9-]+"/.test(fs.readFileSync(path.join(ROOT, 'beta', 'index.html'), 'utf8')); } catch (e) { return false; } })();
       const XK326CL = XK326CLgen
         ? (() => { try { return Object.entries(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'xklock-w326a.json'), 'utf8')).books || {}).filter(([, v]) => v && (v.kind === 'class1' || v.kind === 'class2')).map(([k]) => k); } catch (e) { bad.push('④ 第326便a の移行の写し(xklock-w326a.json)が読めない'); return []; } })() : [];
       const undecl297 = [...new Set(((J.G || {}).changedUndeclared || []).filter((id) => !W291B.includes(id) && !W295B.includes(id) && !W299E3.includes(id) && !XK326CL.includes(id) && ok297CL(id)))];
@@ -95459,7 +95469,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const H326a = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
-  const has326a = TARGET.startsWith('beta/') && H326a.indexOf('const XK_LOCK_VERSION="w326a-xklock-always-1"') >= 0;
+  const has326a = TARGET.startsWith('beta/') && /const XK_LOCK_VERSION="w3\d\d[a-z]-xklock-[a-z0-9-]+"/.test(H326a);   // 第327便d(AN545): 版は世代で上がる —— 版の型で読む
   if (!has326a) {
     console.log('SKIP lint.physLockAlways326a・behavior.xkDerive326a・docs.xkLock326a(第326便a の物理対応ロックを常にの前の世代 —— ' + TARGET + ')');
     return;
@@ -95477,7 +95487,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const lockTrue = /\nlet physLock=true;/.test(H326a);
     const dd = (H326a.match(/function xkLockDefaultDerive\(\)\{ return (true|false); \}/) || [])[1] || null;
     if (!(fnOk && lockTrue && dd)) bad.push(`① ロックの口(関数 ${fnOk}・let physLock=true ${lockTrue}・既定値のマージの宣言 ${dd})`);
-    cases.push(`① 版 w326a-xklock-always-1・ロックの口・常に ON・既定値のマージの導出(AN532)=${dd}`);
+    cases.push(`① 版 ${(H326a.match(/const XK_LOCK_VERSION="([^"]+)"/) || [])[1]}(第326便a の w326a-xklock-always-1 から世代で上がる —— 第327便d)・ロックの口・常に ON・既定値のマージの導出(AN532)=${dd}`);
     let H = null;
     try { H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { bad.push('headless の写しが作れない: ' + String(e && e.message || e).slice(0, 80)); }
     if (H && DX) {
@@ -97108,6 +97118,302 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第327便c の塊(ここまで)====
+// ==== 第327便d の塊(ここから —— lint.xkLock327d・behavior.xkClampShown327d・behavior.xkExemptScope327d・docs.xkLock327d の 4 ブロック。root は SKIP)====
+// ---- 第327便d(原仮定者の回答(2026-11-05 —— AN544)「クランプの表示を、赤文字にするなど分かり易くする」・(AN545)「Bで進める。内蔵もAI生成調整時に棚卸し予定」・統括の検証項目 R298):
+// ----   **退役の本をロックの外に置く例外を「内蔵の表から開いた内蔵の退役の本」だけに**(判定を ID から出どころへ)と、**X_k のクランプを分かり易く**(値はクランプのまま)。
+// ----   世代切替 = beta 対象 ∧ html の xkLockAcceptFromOf(出どころの口)。
+// ----   lint.xkLock327d(headless の写し —— 受理だけ・步はしない):
+// ----     ① 版(XK_LOCK_VERSION が第326便a の w326a-xklock-always-1 から上がった)・口(xkLockAcceptFromOf・xkLockRunFromOf・xkLockClampOf・XK_INTAKE_OPTS・validatePreset(obj, opts))・
+// ----        取り込みの印の呼び手(JSON の取り込み・貼り付けと AI 生成の 2 回・観測の記録の経路)・赤の CSS(--errText)・日英の文(ヘルプの 1 文・画面の 1 文)・受理の告知の 2 鍵
+// ----     ② 内蔵 186 本: 写しの受理で退役の本は例外のまま(from "tableCopy"・X_k は宣言と bit で同じ・告知 0)・表の要素そのものは "table"・在位は from null(ロックの下 —— 告知 0)
+// ----     ③ 取り込みの印: 退役の本は全部ロックの下(from "intake"・X_k は導出値・ID の告知 1 行)/ 手書きの rotorSolo(G_0 2・c_0 30・X_k 0.05)は取り込みで導出値・印なしは
+// ----        "tableEdited"(内部の写しとして例外のまま —— 記録)
+// ----     ④ クランプ(AN544): G_0 20・c_0 1 は X_k = 1(値はクランプのまま)と告知 1 行(⚠ と 20 —— 宣言の有無に依らず)・値域の内は告知 0・例外の本は告知しない
+// ----   behavior.xkClampShown327d(ページ): 時空の群の X_k の行 —— G_0・c_0 の編集でクランプ域に入ると data-state "clamped" とラベル・値・出所の文の色が --errText(ダーク/ライト)・
+// ----     戻すと元の色(実時間)・⚠ の文が残る・ヘルプの 1 文(日英)/ 取り込み・貼り付け・AI 生成の画面の ⚠(通知・状態の行・変更点の一覧)
+// ----   behavior.xkExemptScope327d(ページ): 経路の表 —— 内蔵の表から開いた 🕳️ rotorSolo は例外(セーブの読込・⏮・チェックポイント・発散の復元・A/B・☿ の対照も例外のまま)/
+// ----     同じ ID の手書きの本の取り込み・貼り付け・AI 生成はロックの下(保存した本も・開いても)/ 取り込んだ本の続き(⏮・発散の復元・A/B)もロックの下
+// ----   docs.xkLock327d: PHYSICS〔第327便d — 〕・第326便a の節の「第327便の更新」の行・AI_SPEC §190・CHANGELOG の第327便d の行・post-merge の ③′・書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const H327d = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has327d = TARGET.startsWith('beta/') && H327d.indexOf('function xkLockAcceptFromOf(') >= 0;
+  if (!has327d) {
+    console.log('SKIP lint.xkLock327d・behavior.xkClampShown327d・behavior.xkExemptScope327d・docs.xkLock327d(第327便d の出どころの判定の前の世代 —— ' + TARGET + ')');
+    return;
+  }
+  const mkHand327d = (id, ph) => ({ id, name: 'QA327d ' + (id || 'hand'), description: 'toy', camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
+    bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true }, { type: 'single', m: 0.001, x: 40, y: 0, vx: 0, vy: 0, spin: 0, pinned: true }], physics: ph });
+  // ---- lint.xkLock327d
+  {
+    const bad = [], cases = [];
+    // ①
+    const ver = (H327d.match(/const XK_LOCK_VERSION="([^"]+)"/) || [])[1] || null;
+    if (!(ver && ver !== 'w326a-xklock-always-1' && /^w3\d\d[a-z]-xklock-[a-z0-9-]+$/.test(ver))) bad.push('① 版が上がっていない: ' + ver);
+    const fns = ['function xkLockAcceptFromOf(obj, opts)', 'function xkLockRunFromOf(', 'function xkLockClampOf(', 'const XK_INTAKE_OPTS=Object.freeze({xkFrom:"intake"})', 'function validatePreset(obj, opts){', 'function xkLockAcceptPhysics(p, ph, declared, from){'];
+    const fnMiss = fns.filter((f) => H327d.indexOf(f) < 0);
+    if (fnMiss.length) bad.push('① 口が無い: ' + fnMiss.join(','));
+    const callers = { import: /const v=validatePreset\(c, XK_INTAKE_OPTS\);/.test(H327d), stab0: /const v0=validatePreset\(input, XK_INTAKE_OPTS\);/.test(H327d),
+      stab1: /const v1=validatePreset\(p, XK_INTAKE_OPTS\);/.test(H327d), records: /const vp=validatePreset\(pAdopt, XK_INTAKE_OPTS\);/.test(H327d) };
+    if (!Object.values(callers).every(Boolean)) bad.push('① 取り込みの印の呼び手: ' + JSON.stringify(callers));
+    const css = /\.prow\.stDerivedRow\[data-state="clamped"\][^{]*\.stdVal\{color:var\(--errText\);\}/.test(H327d) || /\.prow\.stDerivedRow\[data-state="clamped"\] \.stdVal\{color:var\(--errText\);\}/.test(H327d);
+    if (!css) bad.push('① 赤の CSS(--errText)が無い');
+    const keys = ['"validatePreset/physics.kappaT#clamp":', '"validatePreset/xkLock#intakeRetiredId":', 'xkClampIntake:(n,v,a)=>', 'xkLockIntake:(n,k)=>'];
+    const keyN = keys.map((k) => H327d.split(k).length - 1);
+    if (!(keyN[0] === 1 && keyN[1] === 1 && keyN[2] === 2 && keyN[3] === 2)) bad.push('① 文の鍵の数(受理 2 鍵は 1・画面の 2 鍵は日英の 2): ' + keyN.join('/'));
+    const helpJa = /stdXkDesc:"[^"]*この行が赤字になる/.test(H327d), helpEn = /stdXkDesc:"[^"]*this row turns red/.test(H327d);
+    if (!(helpJa && helpEn)) bad.push(`① ヘルプの 1 文(ja ${helpJa}・en ${helpEn})`);
+    cases.push(`① 版 ${ver}・口 ${fns.length - fnMiss.length}/${fns.length}・取り込みの印の呼び手 ${Object.values(callers).filter(Boolean).length}/4・赤の CSS ${css}・文の鍵 ${keyN.join('/')}・ヘルプ ja/en ${helpJa}/${helpEn}`);
+    let H = null;
+    try { H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { bad.push('headless の写しが作れない: ' + String(e && e.message || e).slice(0, 80)); }
+    if (H) {
+      const HPx = H.HP, cx = H.ctx;
+      const B = JSON.parse(H.evalExpr('JSON.stringify(BUILTIN_PRESETS.map((p)=>p.id))'));
+      const all = HPx.allPresets().filter((p) => B.includes(p.id));
+      const ret = all.filter((p) => cx.retiredOf(p)), live = all.filter((p) => !cx.retiredOf(p));
+      const derived = (ph) => Object.is(ph.kappaT, Math.min(1, Math.max(0, ph.G > 0 ? ph.G / (ph.cLight * ph.cLight) : 0)));
+      // ②
+      const r2 = { copyBad: [], tableBad: [], liveBad: [] };
+      for (const p of ret) {
+        const v = HPx.validatePreset(JSON.parse(JSON.stringify(p)));
+        if (!(v.ok && v.xkLock && v.xkLock.from === 'tableCopy' && v.xkLock.exempt === true && Object.is(v.preset.physics.kappaT, p.physics.kappaT) && v.xkLock.notices.length === 0)) r2.copyBad.push(p.id);
+        const vt = HPx.validatePreset(p);
+        if (!(vt.ok && vt.xkLock && vt.xkLock.from === 'table' && Object.is(vt.preset.physics.kappaT, p.physics.kappaT))) r2.tableBad.push(p.id);
+      }
+      for (const p of live) { const v = HPx.validatePreset(JSON.parse(JSON.stringify(p))); if (!(v.ok && v.xkLock && v.xkLock.from === null && v.xkLock.exempt === false && v.xkLock.notices.length === 0 && derived(v.preset.physics))) r2.liveBad.push(p.id); }
+      if (r2.copyBad.length || r2.tableBad.length || r2.liveBad.length) bad.push(`② 内蔵の受理(写し ${r2.copyBad.slice(0, 5).join(',')}・表 ${r2.tableBad.slice(0, 5).join(',')}・在位 ${r2.liveBad.slice(0, 5).join(',')})`);
+      cases.push(`② 内蔵 ${all.length} 本: 退役 ${ret.length} 本の写しは例外のまま(tableCopy・X_k は宣言と bit で同じ・告知 0)${ret.length - r2.copyBad.length}/${ret.length}・表の要素そのもの(table)${ret.length - r2.tableBad.length}/${ret.length}・在位 ${live.length} 本はロックの下(告知 0)${live.length - r2.liveBad.length}/${live.length}`);
+      // ③
+      const IO = H.evalExpr('XK_INTAKE_OPTS');
+      const r3 = { bad: [], changed: 0 };
+      for (const p of ret) {
+        const v = HPx.validatePreset(JSON.parse(JSON.stringify(p)), IO);
+        if (!(v.ok && v.xkLock.from === 'intake' && v.xkLock.exempt === false && derived(v.preset.physics) && v.xkLock.notices.some((n) => n.indexOf('ID ' + p.id + ' は内蔵の退役の本と同じ') === 0))) r3.bad.push(p.id);
+        if (!Object.is(v.preset.physics.kappaT, p.physics.kappaT)) r3.changed++;
+      }
+      const hand = mkHand327d('rotorSolo', { G: 2, cLight: 30, kappaT: 0.05 });
+      const hi = HPx.validatePreset(JSON.parse(JSON.stringify(hand)), IO), hd = HPx.validatePreset(JSON.parse(JSON.stringify(hand)));
+      const handOk = hi.ok && Object.is(hi.preset.physics.kappaT, 2 / 900) && hi.xkLock.from === 'intake' && hd.ok && hd.xkLock.from === 'tableEdited' && hd.preset.physics.kappaT === 0.05;
+      if (r3.bad.length) bad.push('③ 取り込みの印で退役の本がロックの下でない: ' + r3.bad.slice(0, 6).join(','));
+      if (!handOk) bad.push('③ 手書きの rotorSolo(取り込みの印で導出値・印なしは tableEdited の記録)');
+      cases.push(`③ 取り込みの印: 退役 ${ret.length} 本はロックの下(intake・X_k は導出値・ID の告知)${ret.length - r3.bad.length}/${ret.length}(X_k の値が宣言から動く本 ${r3.changed})・手書きの rotorSolo X_k 0.05 → ${hi.ok ? hi.preset.physics.kappaT : '—'}(印なしは ${hd.xkLock ? hd.xkLock.from : '—'})`);
+      // ④
+      const c1 = HPx.validatePreset(mkHand327d('h1', { G: 20, cLight: 1 })), c2 = HPx.validatePreset(mkHand327d('h2', { G: 20, cLight: 1, kappaT: 1 })), c3 = HPx.validatePreset(mkHand327d('h3', { G: 0.5, cLight: 1 }));
+      const cn = (v) => v.xkLock.notices.filter((n) => n.indexOf('⚠ G_0/c_0² = 20 が X_k の値域 [0,1] の外') === 0).length;
+      const clampOk = c1.ok && c1.preset.physics.kappaT === 1 && c1.xkLock.clamped && c1.xkLock.clamped.tgt === 20 && c1.xkLock.clamped.applied === 1 && cn(c1) === 1
+        && c2.ok && c2.preset.physics.kappaT === 1 && cn(c2) === 1 && c2.xkLock.notices.length === 1
+        && c3.ok && c3.preset.physics.kappaT === 0.5 && c3.xkLock.clamped === null && c3.xkLock.notices.length === 0;
+      const exemptNoClamp = ret.every((p) => { const v = HPx.validatePreset(JSON.parse(JSON.stringify(p))); return v.xkLock.clamped === null; });
+      if (!(clampOk && exemptNoClamp)) bad.push(`④ クランプの告知(${clampOk}・例外の本は告知しない ${exemptNoClamp})`);
+      cases.push(`④ クランプ: G_0 20・c_0 1 → X_k ${c1.ok ? c1.preset.physics.kappaT : '—'}(値はクランプのまま)・告知 1 行(宣言なし ${cn(c1)}・宣言 1 でも ${cn(c2)})・G_0 0.5 は告知 ${c3.xkLock.notices.length}・例外の本は告知しない ${exemptNoClamp}`);
+    }
+    add('lint.xkLock327d', bad.length === 0,
+      `**物理対応ロックの例外を出どころで・クランプの告知**(第327便d・原仮定者の回答(2026-11-05 —— AN544・AN545)・R298 —— 受理の写し): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  const open327d = async (vp) => {
+    const ctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, isMobile: !!vp.mobile, hasTouch: !!vp.mobile });
+    const pg = await ctx.newPage();
+    const errs = [];
+    pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+    pg.on('dialog', (d) => d.accept());
+    await pg.goto(INDEX, { waitUntil: 'load' });
+    await pg.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+    await pg.evaluate(() => { HP.setLang('ja'); HP.setRunning(false); });
+    return { ctx, pg, errs };
+  };
+  // ---- behavior.xkClampShown327d
+  {
+    const bad = [], cases = [];
+    const { ctx, pg, errs } = await open327d({ width: 390, height: 844, mobile: true });
+    try {
+      const r = await pg.evaluate(async (hand) => {
+        const o = { bad: [], skins: {} }, B = (m) => o.bad.push(m);
+        const stCat = () => [...document.querySelectorAll('#paramRows details.catParams')].find((d) => (d.querySelector('summary').textContent || '').indexOf(HP.T('grpSpacetime')) === 0);
+        const errRgb = (host) => { const t = document.createElement('span'); t.style.color = 'var(--errText)'; host.appendChild(t); const c = getComputedStyle(t).color; t.remove(); return c; };
+        const read = () => { const row = document.getElementById('std_Xk'); return { st: row.dataset.state, err: errRgb(row), val: getComputedStyle(row.querySelector('.stdVal')).color,
+          from: getComputedStyle(row.querySelector('.stdFrom')).color, lab: getComputedStyle(row.querySelector('label')).color, txt: row.querySelector('.stdFrom').textContent }; };
+        const red = (c) => c.val === c.err && c.from === c.err && c.lab === c.err;
+        const bakSkin = document.documentElement.getAttribute('data-skin');
+        for (const skin of ['dark', 'light']) {
+          if (skin === 'dark') document.documentElement.removeAttribute('data-skin'); else document.documentElement.setAttribute('data-skin', 'light');
+          HP.loadPreset('grcal', false);
+          const g = stCat(), inG = g.querySelector('.prow[data-k="G"] input.valIn'), inC = g.querySelector('.prow[data-k="cLight"] input.valIn');
+          const c0 = read();
+          inG.value = '20'; inG.dispatchEvent(new Event('change')); inC.value = '1'; inC.dispatchEvent(new Event('change'));
+          const c1 = read(), x1 = HP.sim.params.kappaT;
+          inC.value = '30'; inC.dispatchEvent(new Event('change'));
+          const c2 = read();
+          const ok = c0.st === 'derived' && !red(c0) && c1.st === 'clamped' && red(c1) && x1 === 1 && c1.txt.indexOf('⚠') === 0 && c2.st === 'derived' && !red(c2);
+          o.skins[skin] = { ok, err: c1.err, before: c0.val, clamped: c1.val, back: c2.val };
+          if (!ok) B(skin + ' の赤の行: ' + JSON.stringify({ c0: c0.st, c1: c1.st, red1: red(c1), x1, back: c2.st }));
+        }
+        if (bakSkin === null) document.documentElement.removeAttribute('data-skin'); else document.documentElement.setAttribute('data-skin', bakSkin);
+        // ヘルプの 1 文(ja/en)
+        o.help = {};
+        for (const lang of ['ja', 'en']) { HP.setLang(lang); HP.loadPreset('grcal', false);
+          document.querySelector('#std_Xk label').click(); const pd = document.querySelector('#std_Xk + .pdesc');
+          o.help[lang] = !!pd && pd.textContent === HP.symDispText(HP.T('stdXkDesc')) && (lang === 'ja' ? /赤字/ : /turns red/).test(pd.textContent);
+          if (pd) document.querySelector('#std_Xk label').click();
+          if (!o.help[lang]) B('ヘルプの赤の 1 文 ' + lang); }
+        HP.setLang('ja');
+        // 取り込み・貼り付け・AI 生成の画面
+        const bak = { c: localStorage.getItem('hp_custom_presets'), s: localStorage.getItem('hp_saves'), k: localStorage.getItem('hp_key_anthropic') };
+        try {
+          const msgs = []; const n0 = window.notify; window.notify = (m) => { msgs.push(String(m)); };
+          HP.doImportText(JSON.stringify(hand));
+          window.notify = n0;
+          o.importToast = msgs.join(' | ').slice(0, 200);
+          if (!/⚠ 「QA327d hand」: G_0\/c_0² = 20 が X_k の値域/.test(o.importToast)) B('取り込みの通知に ⚠ が無い: ' + o.importToast.slice(0, 80));
+          document.getElementById('aiPasteArea').value = JSON.stringify(hand);
+          document.getElementById('btnAiPaste').click();
+          o.pasteStatus = document.getElementById('aiStatus').textContent.slice(0, 200);
+          o.pasteReport = [...document.querySelectorAll('#aiPasteReport div')].some((p) => /^・⚠ G_0\/c_0² = 20 が X_k の値域/.test(p.textContent));
+          o.pasteRow = (document.getElementById('std_Xk') || { dataset: {} }).dataset.state;
+          if (!(/⚠ 「QA327d hand」/.test(o.pasteStatus) && o.pasteReport && o.pasteRow === 'clamped')) B('貼り付けの画面の ⚠(状態の行・変更点・赤の行): ' + JSON.stringify({ s: o.pasteStatus.slice(0, 60), r: o.pasteReport, row: o.pasteRow }));
+          localStorage.setItem('hp_key_anthropic', 'sk-ant-qa327d');
+          const cl0 = window.callLLM; window.callLLM = async () => JSON.stringify(hand);
+          document.getElementById('aiPrompt').value = 'QA327d';
+          document.getElementById('btnGenerate').click();
+          for (let k = 0; k < 40 && document.getElementById('btnGenerate').disabled; k++) await new Promise((res) => setTimeout(res, 50));
+          window.callLLM = cl0;
+          o.genStatus = document.getElementById('aiStatus').textContent.slice(0, 200);
+          if (!/⚠ 「QA327d hand」/.test(o.genStatus)) B('AI 生成の状態の行に ⚠ が無い: ' + o.genStatus.slice(0, 80));
+        } finally {
+          for (const [k, v] of [['hp_custom_presets', bak.c], ['hp_saves', bak.s], ['hp_key_anthropic', bak.k]]) { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); }
+          HP.loadPreset('saturnRingReal', false);
+        }
+        return o;
+      }, mkHand327d(undefined, { G: 20, cLight: 1 }));
+      bad.push(...r.bad.slice(0, 8));
+      cases.push(`時空の群の X_k の行: ダーク ${r.skins.dark && r.skins.dark.ok}(赤 ${r.skins.dark && r.skins.dark.err})・ライト ${r.skins.light && r.skins.light.ok}(赤 ${r.skins.light && r.skins.light.err})—— G_0 20・c_0 1 でクランプ(data-state clamped・ラベル・値・出所の文が --errText・⚠ の文)→ c_0 30 で元の色(実時間)`);
+      cases.push(`ヘルプの赤の 1 文 ja ${r.help.ja}・en ${r.help.en}`);
+      cases.push(`取り込みの通知「${String(r.importToast || '').slice(0, 40)}…」・貼り付け(状態の行・変更点の ⚠・赤の行 ${r.pasteRow})・AI 生成の状態の行の ⚠`);
+    } catch (e) { bad.push('落ちた: ' + String(e && e.message || e).slice(0, 160)); }
+    if (errs.length) bad.push('JS の誤り ' + errs[0].slice(0, 100));
+    await ctx.close();
+    add('behavior.xkClampShown327d', bad.length === 0,
+      `**X_k のクランプを分かり易く —— 赤の行と画面の ⚠**(第327便d・原仮定者の回答(2026-11-05 —— AN544)・R298 —— 値はクランプのまま): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- behavior.xkExemptScope327d
+  {
+    const bad = [], cases = [];
+    const { ctx, pg, errs } = await open327d({ width: 390, height: 844, mobile: true });
+    try {
+      const r = await pg.evaluate(async (hand) => {
+        const o = { bad: [], rows: [] }, B = (m) => o.bad.push(m);
+        const der = (S) => { const p = S.params; return Math.min(1, Math.max(0, p.G > 0 ? p.G / (p.cLight * p.cLight) : 0)); };
+        const row = (route, exemptWant, lock, X, Xwant, extra) => { const ok = (exemptWant ? lock === false : lock === true) && Object.is(X, Xwant);
+          o.rows.push(route + ':' + (exemptWant ? '例外' : 'ロック') + (ok ? '' : '✗')); if (!ok) B(route + ' ' + JSON.stringify({ lock, X, Xwant, extra })); };
+        const bak = { c: localStorage.getItem('hp_custom_presets'), s: localStorage.getItem('hp_saves'), k: localStorage.getItem('hp_key_anthropic') };
+        const XD = 2 / 900, X0 = 0.016666666666666666;
+        try {
+          // 内蔵の表
+          HP.loadPreset('rotorSolo', false);
+          row('内蔵の表', true, HP.physLock(), HP.sim.params.kappaT, X0, HP.xkLockRunOf());
+          if (HP.xkLockRunOf().from !== 'table') B('内蔵の表の出どころ ' + HP.xkLockRunOf().from);
+          // セーブの読込(内蔵の表から開いた 🕳️ の X_k を変えた状態)
+          const P0 = Object.assign({}, HP.sim.params);
+          HP.loadSaveItem({ name: 'QA327d', comment: '', savedAt: '2026-11-05T00:00:00Z', presetId: 'rotorSolo', presetName: 'p', physics: Object.assign({}, P0, { kappaT: 0.3 }) });
+          row('セーブの読込', true, HP.physLock(), HP.sim.params.kappaT, 0.3);
+          // ⏮(編集した params を保つ)
+          HP.sim.params.kappaT = 0.4; document.getElementById('btnReset').click();
+          row('⏮', true, HP.physLock(), HP.sim.params.kappaT, 0.4);
+          // チェックポイント
+          HP.loadPreset('rotorSolo', false); HP.sim.params.kappaT = 0.25; document.getElementById('btnCkSave').click(); HP.sim.params.kappaT = 0.5; document.getElementById('btnCkLoad').click();
+          row('チェックポイント', true, HP.physLock(), HP.sim.params.kappaT, 0.25);
+          // 発散の復元
+          HP.loadPreset('rotorSolo', false); paramSnapA = Object.assign({}, HP.sim.params, { kappaT: 0.2 }); HP.restoreLastGood();
+          row('発散の復元', true, HP.physLock(), HP.sim.params.kappaT, 0.2);
+          // A/B(素の A/B・☿ mercuryRealKF1 のワンタップ対照 —— B 側の X_k の宣言のまま)
+          HP.loadPreset('rotorSolo', false); HP.abStart();
+          row('A/B', true, HP.physLock(), HP.ab().simB.params.kappaT, X0); HP.abStop();
+          HP.loadPreset('mercuryRealKF1', false);
+          const pX = HP.currentPreset().abBody.physicsPatch.kappaT; document.getElementById('btnAbBody').click();
+          row('A/B(☿ の対照)', true, HP.physLock(), HP.ab() ? HP.ab().simB.params.kappaT : NaN, pX); if (HP.ab()) HP.abStop();
+          // 取り込み(同じ ID の手書きの本)
+          const c0 = JSON.parse(localStorage.getItem('hp_custom_presets') || '[]').length;
+          const n0 = window.notify; window.notify = () => {}; HP.doImportText(JSON.stringify(hand)); window.notify = n0;
+          const cs = JSON.parse(localStorage.getItem('hp_custom_presets') || '[]'), imp = cs[cs.length - 1];
+          if (!(cs.length === c0 + 1 && imp.id === 'rotorSolo_2' && Object.is(imp.physics.kappaT, XD))) B('取り込みの保存の X_k ' + JSON.stringify({ id: imp && imp.id, X: imp && imp.physics.kappaT }));
+          HP.loadPreset(imp.id, false);
+          row('取り込み(開く)', false, HP.physLock(), HP.sim.params.kappaT, XD);
+          if (HP.xkLockRunOf().from !== 'custom') B('取り込みの本の出どころ ' + HP.xkLockRunOf().from);
+          // 取り込んだ本の続き(⏮・発散の復元・A/B)
+          HP.sim.params.kappaT = 0.4; document.getElementById('btnReset').click();
+          row('取り込み → ⏮', false, HP.physLock(), HP.sim.params.kappaT, der(HP.sim));
+          HP.loadPreset(imp.id, false); paramSnapA = Object.assign({}, HP.sim.params, { kappaT: 0.2 }); HP.restoreLastGood();
+          row('取り込み → 発散の復元', false, HP.physLock(), HP.sim.params.kappaT, der(HP.sim));
+          HP.loadPreset(imp.id, false); HP.abStart(undefined, undefined, { targets: [], patch: {}, physicsPatch: { kappaT: 0.3 } });
+          row('取り込み → A/B', false, HP.physLock(), HP.ab().simB.params.kappaT, der(HP.ab().simB)); HP.abStop();
+          // 貼り付け
+          const pr = HP.aiIntakeText(JSON.stringify(hand), { kepler: true });
+          if (!(pr.ok && Object.is(pr.preset.physics.kappaT, XD) && pr.xkLock && pr.xkLock.from === 'intake' && pr.changes.some((c) => /ID rotorSolo は内蔵の退役の本と同じ/.test(c)))) B('貼り付けの受理 ' + JSON.stringify({ ok: pr.ok, X: pr.preset && pr.preset.physics.kappaT }));
+          document.getElementById('aiPasteArea').value = JSON.stringify(hand); document.getElementById('btnAiPaste').click();
+          row('貼り付け(採用して開く)', false, HP.physLock(), HP.sim.params.kappaT, XD, HP.currentPreset().id);
+          const cs2 = JSON.parse(localStorage.getItem('hp_custom_presets') || '[]'); if (!Object.is(cs2[cs2.length - 1].physics.kappaT, XD)) B('貼り付けの保存の X_k');
+          // AI 生成(実行時 LLM の応答を手書きの本に差し替え)
+          localStorage.setItem('hp_key_anthropic', 'sk-ant-qa327d');
+          const cl0 = window.callLLM; window.callLLM = async () => JSON.stringify(hand);
+          document.getElementById('aiPrompt').value = 'QA327d'; document.getElementById('btnGenerate').click();
+          for (let k = 0; k < 40 && document.getElementById('btnGenerate').disabled; k++) await new Promise((res) => setTimeout(res, 50));
+          window.callLLM = cl0;
+          row('AI 生成(採用して開く)', false, HP.physLock(), HP.sim.params.kappaT, XD, HP.currentPreset().id);
+          const cs3 = JSON.parse(localStorage.getItem('hp_custom_presets') || '[]'); if (!Object.is(cs3[cs3.length - 1].physics.kappaT, XD)) B('AI 生成の保存の X_k');
+          // 内蔵の表へ戻ると例外
+          HP.loadPreset('rotorSolo', false);
+          row('内蔵の表へ戻る', true, HP.physLock(), HP.sim.params.kappaT, X0);
+          HP.loadPreset('lensing', false);
+          if (HP.physLock() !== true) B('在位の本でロックが ON でない');
+        } catch (e) { B('落ちた: ' + String(e && e.message || e).slice(0, 160)); }
+        finally {
+          try { if (HP.ab()) HP.abStop(); } catch (e) { /* */ }
+          for (const [k, v] of [['hp_custom_presets', bak.c], ['hp_saves', bak.s], ['hp_key_anthropic', bak.k]]) { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); }
+          HP.loadPreset('saturnRingReal', false);
+        }
+        return o;
+      }, mkHand327d('rotorSolo', { G: 2, cLight: 30, kappaT: 0.05 }));
+      bad.push(...r.bad.slice(0, 8));
+      cases.push(`経路の表(🕳️ rotorSolo と同じ ID の手書きの本 G_0 2・c_0 30・X_k 0.05): ${r.rows.join('・')}`);
+    } catch (e) { bad.push('落ちた: ' + String(e && e.message || e).slice(0, 160)); }
+    if (errs.length) bad.push('JS の誤り ' + errs[0].slice(0, 100));
+    await ctx.close();
+    add('behavior.xkExemptScope327d', bad.length === 0,
+      `**退役の本の例外は内蔵の表から開いたときだけ**(第327便d・原仮定者の回答(2026-11-05 —— AN545)・R298 —— 取り込み・貼り付け・AI 生成はロックの下・内蔵の表から開いた本の続きは例外のまま): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- docs.xkLock327d
+  {
+    const bad = [], cases = [];
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { bad.push('読めない: ' + f); return ''; } };
+    const PH = rd('docs/PHYSICS.md'), i0 = PH.indexOf('〔第327便d — '), i7 = PH.indexOf('\n## 7.');
+    const sec = i0 >= 0 ? PH.slice(i0, PH.indexOf('\n〔第', i0 + 10) > 0 && PH.indexOf('\n〔第', i0 + 10) < i7 ? PH.indexOf('\n〔第', i0 + 10) : i7) : '';
+    if (!(i0 >= 0 && i0 < i7)) bad.push('PHYSICS〔第327便d — 〕が「## 7.」の前に無い');
+    for (const w of ['AN544', 'AN545', 'XK_INTAKE_OPTS', 'xkLockAcceptFromOf', 'xkLockRunFromOf', '--errText', 'lint.xkLock327d', 'behavior.xkClampShown327d', 'behavior.xkExemptScope327d', 'docs.xkLock327d', 'tableEdited', 'w327d-xklock-provenance-1']) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第327便d〕に「' + w + '」が無い');
+    const a0 = PH.indexOf('〔第326便a — '), a1 = a0 >= 0 ? PH.indexOf('\n〔第', a0 + 10) : -1, secA = a0 >= 0 ? PH.slice(a0, a1 > 0 ? a1 : i7) : '';
+    if (!/第327便の更新/.test(secA)) bad.push('第326便a の節に「第327便の更新」の行が無い');
+    cases.push(`PHYSICS〔第327便d〕${sec.length} 字(「## 7.」の前)・第326便a の節の「第327便の更新」`);
+    const cpF = (a) => String.fromCodePoint(...a);
+    const NGF = [cpF([0x518d, 0x73fe, 0x3057, 0x305f]), cpF([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpF([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpF([0x666e, 0x904d, 0x5b9a, 0x6570]), cpF([0x79c1, 0x4fe1]), cpF([0x6dfb, 0x4ed8]), cpF([0x5be9, 0x67fb])];
+    const NOT = ['較正した', 'フィットした', '確認した', '収束した', '完全に一致', '検証が完了した', '内部熱を説明した', '金星の逆転を説明した', '金星の逆回転を説明した'];
+    const AI = rd('docs/AI_SPEC.md'), s0 = AI.indexOf('\n## 190. 第327便d'), ai = s0 >= 0 ? AI.slice(s0, (AI.indexOf('\n## ', s0 + 10) > 0 ? AI.indexOf('\n## ', s0 + 10) : s0 + 8000)) : '';
+    if (!(ai.indexOf('AN545') >= 0 && ai.indexOf('AN544') >= 0 && ai.indexOf('xkLock.notices') >= 0 && ai.indexOf('SYSTEM_PROMPT') >= 0)) bad.push('AI_SPEC §190(AN544・AN545・xkLock.notices・SYSTEM_PROMPT)');
+    const CLg = rd('CHANGELOG.md'), cb = CLg.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLg.slice(cb, cb + 80000) : '';
+    const cl = (clg.split('\n').find((l) => l.indexOf('**第327便d**') >= 0) || '');
+    if (!(cl.indexOf('AN544') >= 0 && cl.indexOf('AN545') >= 0)) bad.push('CHANGELOG の第327便d の行');
+    const PM = rd('tools/post-merge-qa.sh');
+    if (!(PM.indexOf('# ==== 第327便d の塊(ここから)====') >= 0 && ['lint.xkLock327d', 'behavior.xkClampShown327d', 'behavior.xkExemptScope327d', 'docs.xkLock327d'].every((k) => PM.indexOf(k) >= 0))) bad.push('post-merge の ③′ に第327便d の塊');
+    for (const [nm, tx] of [['PHYSICS〔第327便d〕', sec], ['AI_SPEC §190', ai], ['CHANGELOG の第327便d の行', cl]]) {
+      for (const w of NGF) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+      for (const w of NOT) if (tx.indexOf(w) >= 0) bad.push(nm + ' に書かない語「' + w + '」');
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push(nm + ' に裸の係数記号');
+    }
+    cases.push('AI_SPEC §190・CHANGELOG・post-merge の ③′・書かない語・禁句・裸の係数記号');
+    add('docs.xkLock327d', bad.length === 0,
+      `**物理対応ロックの例外の出どころとクランプの表示の文書**(第327便d・AN544・AN545・R298): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第327便d の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

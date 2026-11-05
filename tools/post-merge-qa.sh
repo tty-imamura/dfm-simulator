@@ -678,6 +678,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.galaxis327b behavior.galaxis327b docs.g
 #   (lint.scopeStop・lint.htmlPhys325a・lint.scopeObsSpin326e —— 領域 hash の版 8・html の物理の部分の版 2)と、器の宣言と正本の刻印を照合する lint.regenScope・lint.provenanceMeta・docs.families
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.narrowScope327c docs.w327c lint.scopeStop lint.htmlPhys325a lint.scopeObsSpin326e lint.regenScope lint.provenanceMeta docs.families"
 # ==== 第327便c の塊(ここまで)====
+# ==== 第327便d の塊(ここから)====
+# 第327便d(原仮定者の回答(2026-11-05 —— AN544・AN545)・統括の検証項目 R298 —— beta/index.html を変える): 枝 d の新設 4 本(lint.xkLock327d —— 出どころの口と受理 /
+#   behavior.xkClampShown327d —— 赤の行と画面の ⚠ / behavior.xkExemptScope327d —— 経路の表 / docs.xkLock327d —— 文書)と、世代を直した既存の QA(XK_LOCK_VERSION の版の型 ——
+#   lint.physLockAlways326a・behavior.xkDerive326a・docs.xkLock326a の塊と第326便の統括の照合 / ai.stabilize)と、ロックと退役の数を読む一式(physlock.*・docs.retired・groups.*)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.xkLock327d behavior.xkClampShown327d behavior.xkExemptScope327d docs.xkLock327d lint.physLockAlways326a behavior.xkDerive326a docs.xkLock326a ai.stabilize physlock.kt-derive physlock.ui-110 docs.retired groups.family-invariant groups.family-split groups.reorder"
+# ==== 第327便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
