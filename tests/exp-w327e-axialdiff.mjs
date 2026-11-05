@@ -257,6 +257,9 @@ export function gatesOf(J) {
       && H.rows.every((q) => q.ledger.residualRel <= 1e-12 && q.ledger.LTotalRel <= 1e-12 && q.ledger.k1TransferRel <= 1e-12 && q.ledger.portCloseMaxRel <= 1e-12),
     scaleNotIdentified: cands.every((q) => q.scale.ARel <= 1e-12 && q.scale.betaRelMax <= 1e-12 && E.relD(q.scale.heatRatio, D.scaleLambda) <= 1e-12),
     negativeNotClipped: cands.every((q) => Object.entries(q.beta).every(([k, v]) => (q.rejected.includes(k) ? v < 0 : v >= 0))),
+    // 月 ↔ 地球の口の 2 列(勾配の型・同じ規則の差分)は β が相対 1e-9 の内で同じ(月 ↔ 地球の寄与は小さい —— 表は勾配の列だけ)
+    moonPortsSame: ML.triEM.filter((q) => q.ok && q.moonPort === 'grad').every((q) => { const a = ML.triEM.find((z) => z.ok && z.moonPort === 'alt' && z.frozen === q.frozen && z.rule === q.rule && z.family === q.family);
+      return !!a && Object.keys(q.beta).every((k) => E.relD(q.beta[k], a.beta[k]) <= 1e-9); }),
   };
 }
 

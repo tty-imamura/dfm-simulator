@@ -17756,19 +17756,19 @@
  },
  "timing": {
   "I": {
-   "wallSec": 0.427
+   "wallSec": 0.472
   },
   "K": {
-   "wallSec": 6.361
+   "wallSec": 7.252
   },
   "V": {
-   "wallSec": 6.615
+   "wallSec": 7.931
   },
   "ML": {
-   "wallSec": 6.723
+   "wallSec": 8.157
   },
   "H": {
-   "wallSec": 6.724
+   "wallSec": 8.158
   }
  },
  "gates": {
@@ -17784,16 +17784,17 @@
   "casesRecorded": true,
   "ledgerCloses": true,
   "scaleNotIdentified": true,
-  "negativeNotClipped": true
+  "negativeNotClipped": true,
+  "moonPortsSame": true
  },
  "ok": true,
- "elapsedS": 8.488,
+ "elapsedS": 9.912,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第327便e",
   "target": "beta/index.html",
   "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T05:07:40.136Z",
+  "generatedAt": "2026-11-05T05:12:06.310Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -17805,9 +17806,9 @@
   "code": [
    {
     "file": "tests/exp-w327e-axialdiff.mjs",
-    "bytes": 30238,
-    "sha256": "f8df0b2afdc7530e9a93a7cbad951b423aead8a4241bda2adbac0c702bb02918",
-    "mtime": "2026-11-05T05:07:31.553Z"
+    "bytes": 30736,
+    "sha256": "841402bccd3636b4ab807fda8b8ee8ecb75b90726824207e0ec8a5ccae2e6caf",
+    "mtime": "2026-11-05T05:11:56.218Z"
    },
    {
     "file": "tests/lib-w327e-axialdiff.mjs",
@@ -17870,7 +17871,7 @@
     "mtime": "2026-11-05T04:44:06.622Z"
    }
   ],
-  "codeSha256": "c9415a7e827d841dd3ca00e3ac9e0ae37e1c798b8176279d1ec143c34eadedba",
+  "codeSha256": "d268e05bbe345a05a8dec6c31a43cc8e006debcf036d0d501973df414d61cbab",
   "harnessVersion": "w327e-axialdiff-1",
   "stage": "axialdiff",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
