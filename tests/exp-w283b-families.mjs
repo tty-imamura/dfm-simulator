@@ -486,7 +486,9 @@ if (IS_MAIN) {
   J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第283便b', target: TARGET,
     code: ['tests/exp-w283b-families.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w279a-samplestatus.mjs',
       'tests/lib-w281a-scope.mjs', 'tests/lib-w281a-regentable.mjs'],
-    inputs: [TARGET, CAL].concat(retiredFixtures(ROOT), [MD]) }), { harnessVersion: HARNESS_VERSION });
+    // 第327便c(R297 —— 家族の表の正本の古さ): QA 本体 tests/qa.mjs も入力に(表の「QA 本体の出現数」を本文から数える —— 入力に無いと qa.mjs だけの変更で reuse のまま古くなる。
+    //   ゲートの後に qa.mjs を直したら lint.provenanceMeta が「器を走らせ直すこと」で名指す —— 家族の表を作り直す)
+    inputs: [TARGET, CAL].concat(retiredFixtures(ROOT), [MD, 'tests/qa.mjs']) }), { harnessVersion: HARNESS_VERSION });
   Object.assign(J.meta, w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE), w281aStableInputs(ROOT, J.meta.inputs));
   fs.writeFileSync(path.join(ROOT, OUT), JSON.stringify(J, null, 1) + '\n');
   console.log(JSON.stringify({ out: OUT, md: MD, counts: B.counts, retired: { ids: B.retired.ids.length, kinds: B.retired.kindCounts },

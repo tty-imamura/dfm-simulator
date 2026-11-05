@@ -2208,6 +2208,17 @@ export function htmlPhysDeclOfOut(out, steps, decl) {
   return st ? htmlPhysDeclOf(st.key, decl) : null;
 }
 // ==== 第325便a の塊(ここまで)====
+// ==== 第327便c の塊(ここから)====
+// ---- 第327便c(原仮定者の指示(2026-11-03)「次便以降で、再生成の段の対象が宣言なしの場合、html全体にしない」・統括の検証項目 R297 —— 宣言の無い段の最後の 1 段 confirm4):
+//   **html の全文を文字列で読む段の宣言**(表示の区分と理由だけ —— 計画の判定・htmlReadOf・済み印の契約は変えない)。confirm4 は器が beta/index.html の全文から外部名の出現数を
+//   数えて正本(歴史文書の残数の表 ae7.historyOnly)に写す —— 物理は読まないが全文(注釈・文を含む)を読むので「html を読まない」(htmlInput:'none')にはしない。
+//   正本は meta の無い旧形式(計画は毎回 regen —— 実測 0 s)。SAMPLE_STATUS の再生成の段の表は区分「html の全文(宣言)」と理由を出す(QA lint.narrowScope327c ⑧ が「宣言なし(html 全体)」の段 0 を照合)
+export const HTML_TEXT_READ_DECL_327C = Object.freeze({
+  confirm4: Object.freeze({ reads: 'text', why: '器が html の全文から外部名の出現数を数えて歴史文書の残数の表に写す(注釈・文を含む全文 —— 物理は読まない)・正本は meta の無い旧形式で毎回走る(実測 0 s)' }),
+});
+/** 段の全文読みの宣言(無ければ null)。 */
+export function htmlTextReadDeclOf(key) { return Object.prototype.hasOwnProperty.call(HTML_TEXT_READ_DECL_327C, key) ? HTML_TEXT_READ_DECL_327C[key] : null; }
+// ==== 第327便c の塊(ここまで)====
 
 /**
  * 第285便f(AN53): html 全体を刻む現行の段(正本の meta から —— target が beta/index.html で scopeComplete の領域が無い)。

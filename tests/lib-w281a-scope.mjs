@@ -973,9 +973,41 @@ export function scopeMigrate327c(htmlPath, scope) {
   const dropped = [...a].filter((n) => !b.has(n)).sort(), added = [...b].filter((n) => !a.has(n)).sort();
   return { need: dropped.length > 0 || added.length > 0, from: v, to: SCOPE_VERSION, dropped, added };
 }
+/**
+ * 第327便c(R297): 器の宣言の欄を照合する**器の本文の語**(lint.narrowScope327c ③④ と、宣言を足した道具が同じ関数を使う)。器の本文と import の閉包(codeFilesOf)から、
+ * 刻印の道具(SCOPE_TOOLING)・来歴と html の物理の部分の lib を除いた本文の注釈を潰した写し(文字列は残す —— evalExpr の式の中の語も数える)を読む。REGEN_SCOPE の行は除く。
+ *   A/B の語 … abBody・physicsPatch・abStart・abStop・abQuick・HP.ab(`delete <式>.abBody` は「外す」なので数えない)
+ *   familyRole … 説明文の欄 familyRole を読む(在位の本だけを数える・退役の印を出力に写す)
+ */
+export const NARROW_SKIP_FILES_327C = Object.freeze(['tests/lib-w281a-scope.mjs', 'tests/lib-w281a-regentable.mjs', 'tests/lib-w325a-htmlphys.mjs', 'tests/lib-w272e-provenance.mjs']);
+export const AB_TERMS_RE_327C = /\b(?:abBody|physicsPatch|abStart|abStop|abQuick)\b|\bHP\s*\.\s*ab\b(?![\w$])/;
+const narrowText327 = (t) => scanJs(String(t).split('\n').filter((l) => !/^const REGEN_SCOPE = /.test(l)).join('\n')).nocom;
+export function abMentions327c(codeFiles) {
+  const out = [];
+  for (const cf of codeFiles || []) {
+    if (NARROW_SKIP_FILES_327C.includes(cf.file)) continue;
+    const t = narrowText327(cf.text).replace(/\bdelete\s+[\w$.]+\.abBody\b/g, ' ');
+    const m = AB_TERMS_RE_327C.exec(t);
+    if (m) out.push(cf.file + ':' + (t.slice(0, m.index).split('\n').length) + ':' + m[0]);
+  }
+  return out;
+}
+export function proseMentions327c(codeFiles, key) {
+  const re = new RegExp('\\b' + key + '\\b');
+  const out = [];
+  for (const cf of codeFiles || []) {
+    if (NARROW_SKIP_FILES_327C.includes(cf.file)) continue;
+    const t = narrowText327(cf.text);
+    const m = re.exec(t);
+    if (m) out.push(cf.file + ':' + (t.slice(0, m.index).split('\n').length));
+  }
+  return out;
+}
+/** 宣言が説明文の欄 key を読むと言っているか(keepProse に key・または consts の式が key を名指しする —— families の型)。 */
+export const declReadsProse327c = (decl, key) => { const sc = normalizeScope(decl); return (sc.keepProse || []).includes(key) || sc.consts.some((c) => new RegExp('\\b' + key + '\\b').test(String(c))); };
 // ==== 第327便c の塊(ここまで)====
 
-export default { SCOPE_VERSION, SCOPE_VERSION_7, isScopeV7Plus, SCOPE_STOP_7, SCOPE_STOP_ADDED_327C, SCOPE_VERSION_6, OBSSPIN_PROSE_KEYS_326E, isScopeV6Plus, stripObsSpinProse326, SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION_3, SCOPE_VERSION_4, SCOPE_VERSIONS, SCOPE_STOP, SCOPE_STOP_3, SCOPE_STOP_4, SCOPE_STOP_ADDED_316, stopSetOf, PROSE_KEYS, DATA_REGISTRIES, TEXT_REGISTRIES,
+export default { SCOPE_VERSION, SCOPE_VERSION_7, isScopeV7Plus, SCOPE_STOP_7, SCOPE_STOP_ADDED_327C, scopeMigrate327c, abMentions327c, proseMentions327c, declReadsProse327c, SCOPE_VERSION_6, OBSSPIN_PROSE_KEYS_326E, isScopeV6Plus, stripObsSpinProse326, SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION_3, SCOPE_VERSION_4, SCOPE_VERSIONS, SCOPE_STOP, SCOPE_STOP_3, SCOPE_STOP_4, SCOPE_STOP_ADDED_316, stopSetOf, PROSE_KEYS, DATA_REGISTRIES, TEXT_REGISTRIES,
   CLAIM_PROSE_KEYS, CHAIN_PROSE_KEYS, MASSCAL_PROSE_KEYS, stripPresetProse,
   scanJs, normText, parseTopLevel, hpProps, closureOf, countDynamicRefs, canonJson, normalizeScope, scopeHash, scopeStamp };
 

@@ -36,7 +36,7 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import * as L from './lib-w279a-samplestatus.mjs';
-import { REGEN_STEPS, htmlReadOf, htmlPhysDeclOf } from './lib-w281a-regentable.mjs';   // 第320便d(R265): 宣言の無い段の html の読み方(none = html を読まない)・第326便e: 物理の部分の宣言
+import { REGEN_STEPS, htmlReadOf, htmlPhysDeclOf, htmlTextReadDeclOf } from './lib-w281a-regentable.mjs';   // 第320便d(R265): 宣言の無い段の html の読み方(none = html を読まない)・第326便e: 物理の部分の宣言・第327便c: 全文読みの宣言
 import { readDeclaredScope } from './lib-w281a-scope.mjs';
 import { calStagesOf } from './lib-w283c-calstages.mjs';   // 第283便c: 段別の壁時計(二重加算の修正)
 import * as HS from './lib-w288f-htmlstage.mjs';   // 第288便f(AN90): 鎖の中は一時出力の断片へ(集約段 htmlagg が 1 回だけ書く)
@@ -280,7 +280,11 @@ const secNoReadW320 = undeclaredSteps.filter((z) => noReadW320.has(z.key)).reduc
 const physDeclW326E = (key) => { const d = htmlPhysDeclOf(key); return !!(d && !d.whole); };
 const physW326E = undeclaredSteps.filter((z) => !noReadW320.has(z.key) && physDeclW326E(z.key));
 const secPhysW326E = physW326E.reduce((a, z) => a + (z.sec || 0), 0);
-md.push(`- **宣言の無い段**(どの本に関与するかを宣言していない ${undeclaredSteps.length} 段・実測 ${fmtS(secUndeclared)} s —— うち **html を読まない段** ${noReadW320.size} 段・実測 ${fmtS(secNoReadW320)} s〔対象が lib・CSV・正本 —— html の変更では作り直さない〕・**物理の部分(htmlPhys)の段** ${physW326E.length} 段・実測 ${fmtS(secPhysW326E)} s〔第325便a —— 段が読むと宣言した html の部分だけで比べる。版名・説明だけの差では作り直さない〕・**対象 html の全体に縛られる段** ${undeclaredSteps.length - noReadW320.size - physW326E.length} 段・実測 ${fmtS(secUndeclared - secNoReadW320 - secPhysW326E)} s)と**常時群**(${stepsCurrent.filter((z) => z.alwaysRun).length} 段・実測 ${fmtS(secAlways)} s・毎回走る)は下の「再生成の段の表」で区分「html を読まない」「物理の部分(htmlPhys)」「宣言なし(html 全体)」「常時群」として載せる。現行の段 ${stepsCurrent.length} 段の実測秒の和 ${fmtS(secAll)} s(${(secAll / 3600).toFixed(2)} h・逐次の上限。履歴の段は除く)。`);
+// 第327便c(R297): 宣言の無い段のうち html の全文を文字列で読むと宣言した段(confirm4 —— 再生成表の HTML_TEXT_READ_DECL_327C)を「html の全文(宣言)」に分ける(表示の区分と理由だけ)
+const textDeclW327C = (key) => !!htmlTextReadDeclOf(key);
+const textW327C = undeclaredSteps.filter((z) => !noReadW320.has(z.key) && !physDeclW326E(z.key) && textDeclW327C(z.key));
+const secTextW327C = textW327C.reduce((a, z) => a + (z.sec || 0), 0);
+md.push(`- **宣言の無い段**(どの本に関与するかを宣言していない ${undeclaredSteps.length} 段・実測 ${fmtS(secUndeclared)} s —— うち **html を読まない段** ${noReadW320.size} 段・実測 ${fmtS(secNoReadW320)} s〔対象が lib・CSV・正本 —— html の変更では作り直さない〕・**物理の部分(htmlPhys)の段** ${physW326E.length} 段・実測 ${fmtS(secPhysW326E)} s〔第325便a —— 段が読むと宣言した html の部分だけで比べる。版名・説明だけの差では作り直さない〕・**html の全文を文字列で読むと宣言した段** ${textW327C.length} 段・実測 ${fmtS(secTextW327C)} s〔第327便c —— 物理は読まず全文の語を数える(理由を宣言)〕・**対象 html の全体に縛られる段** ${undeclaredSteps.length - noReadW320.size - physW326E.length - textW327C.length} 段・実測 ${fmtS(secUndeclared - secNoReadW320 - secPhysW326E - secTextW327C)} s)と**常時群**(${stepsCurrent.filter((z) => z.alwaysRun).length} 段・実測 ${fmtS(secAlways)} s・毎回走る)は下の「再生成の段の表」で区分「html を読まない」「物理の部分(htmlPhys)」「html の全文(宣言)」「宣言なし(html 全体)」「常時群」として載せる。現行の段 ${stepsCurrent.length} 段の実測秒の和 ${fmtS(secAll)} s(${(secAll / 3600).toFixed(2)} h・逐次の上限。履歴の段は除く)。`);
 // 第320便d(R265): 保存 QA の時間の**来歴**(どの便・どの commit の QA の保存物か)。鎖の常時群の段 samplestatus は**ゲートの QA の前**に走るので、
 //   ここに載る QA の時間は前の便のゲートの保存物(1 便遅れる)—— 保存物の版名(swCache = QA を回したときの BETA_BUILD)と対象 html の sha で今の html と比べて書く
 const htmlSha0W320 = (await import('node:crypto')).createHash('sha256').update(fs.readFileSync(HTML)).digest('hex');
@@ -315,14 +319,14 @@ md.push('');
 //   宣言なし(対象 html の全体に縛られる)。対象 = all(内蔵の全本)/ 宣言した本のうち掲載の本の列挙(掲載の外の本は数だけ —— 第294便b の「いま使う資料に退役の本を書かない」)/ —(宣言なし)
 // 第326便e(統括の検証項目 R294): 領域の宣言の無い段のうち、再生成表の HTMLPHYS_DECL_325A に物理の部分の宣言(whole でない)がある段は「物理の部分(htmlPhys)」
 //   (第325便a —— 刻印の html と今の html の物理の部分を段が読むと宣言した部分で比べる。版名・説明だけの差では作り直さない)。表示の文だけ —— 段の判定は計画が出す
-const stageKind = (st) => st.alwaysRun ? '常時群' : (stepScope.get(st.key).presets ? '領域の宣言' : (noReadW320.has(st.key) ? 'html を読まない' : (physDeclW326E(st.key) ? '物理の部分(htmlPhys)' : '宣言なし(html 全体)')));   // 第320便d: 宣言なしを 2 つに・第326便e: 物理の部分
+const stageKind = (st) => st.alwaysRun ? '常時群' : (stepScope.get(st.key).presets ? '領域の宣言' : (noReadW320.has(st.key) ? 'html を読まない' : (physDeclW326E(st.key) ? '物理の部分(htmlPhys)' : (textDeclW327C(st.key) ? 'html の全文(宣言 —— ' + htmlTextReadDeclOf(st.key).why + ')' : '宣言なし(html 全体)'))));   // 第320便d: 宣言なしを 2 つに・第326便e: 物理の部分・第327便c: 全文読みの宣言
 const bookLabel = (id) => { const b = byId[id]; return (b && b.emoji ? b.emoji + ' ' : '') + '`' + id + '`'; };
 const stageList = stepsCurrent.map((st, k) => { const sc = stepScope.get(st.key);
   return { key: st.key, sec: st.sec || 0, kind: stageKind(st), presets: sc.presets === 'all' ? 'all' : (sc.presets ? sc.presets.slice() : null), order: k }; })
   .sort((a, b) => (b.sec - a.sec) || (a.order - b.order));
 md.push('### 再生成の段の表');
 md.push('');
-md.push(`> 段 ${stageList.length}(履歴の段を除く)・実測秒の和 ${fmtS(secAll)} s。実測秒は \`tests/lib-w281a-regentable.mjs\` の段の秒(段 1 回の実測 —— 対象の本で共有する)。区分: **常時群** = 毎回走る段・**領域の宣言** = REGEN_SCOPE の presets で対象の本を宣言した段・**物理の部分(htmlPhys)** = 領域の宣言は無いが段が読む html の部分(第325便a の宣言 —— 版名・説明の欄・注釈を外した部分)だけで刻印の html と比べる段(第326便e)・**宣言なし(html 全体)** = 対象 html の全体に縛られる段・**html を読まない** = 宣言は無いが対象が lib・CSV・正本の段(第320便d —— html の変更では作り直さない)。対象: **all** = 内蔵の全本(${got.rows.length} 本)・それ以外は宣言した本のうち掲載の本の列挙(掲載の外の本は数だけ)。並びは実測秒の大きい順。`);
+md.push(`> 段 ${stageList.length}(履歴の段を除く)・実測秒の和 ${fmtS(secAll)} s。実測秒は \`tests/lib-w281a-regentable.mjs\` の段の秒(段 1 回の実測 —— 対象の本で共有する)。区分: **常時群** = 毎回走る段・**領域の宣言** = REGEN_SCOPE の presets で対象の本を宣言した段・**物理の部分(htmlPhys)** = 領域の宣言は無いが段が読む html の部分(第325便a の宣言 —— 版名・説明の欄・注釈を外した部分)だけで刻印の html と比べる段(第326便e)・**html の全文(宣言)** = 物理を読まず html の全文を文字列で読むと理由つきで宣言した段(第327便c —— 外部名の出現数など)・**宣言なし(html 全体)** = 対象 html の全体に縛られる段・**html を読まない** = 宣言は無いが対象が lib・CSV・正本の段(第320便d —— html の変更では作り直さない)。対象: **all** = 内蔵の全本(${got.rows.length} 本)・それ以外は宣言した本のうち掲載の本の列挙(掲載の外の本は数だけ)。並びは実測秒の大きい順。`);
 md.push('');
 md.push('| 段 | 実測(s) | 区分 | 対象の本 |');
 md.push('|---|---|---|---|');

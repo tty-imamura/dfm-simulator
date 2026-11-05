@@ -2895,7 +2895,21 @@ lastAddAt = Date.now();
       //   (停止集合は版 5 と同じ SCOPE_STOP —— 変えたのは文の登録簿・説明文の欄・受理後の warnings)・版 5 の刻印は版 5 の規則(stopSetOf・textRegistriesOf・proseKeysOf)
       // 第326便e(統括の検証項目 R294 —— 世代の直し): 世代切替 = 器の版の定数 OBSSPIN_PROSE_KEYS_326E の有無。新しい世代: 現行版 w326e-scope-7(obsSpin の成分の
       //   説明の文 note・noteEn・source・sourceEn を外す —— 停止集合・文の登録簿・本の名は版 6 と同じ)・版 6 の刻印は版 6 の規則(SCOPE_VERSION_6 = w318a-scope-6)
-      if (Array.isArray(SC.SCOPE_STOP_ADDED_316) && Array.isArray(SC.TEXT_REGISTRIES_ADDED_318) && Array.isArray(SC.OBSSPIN_PROSE_KEYS_326E)) {
+      // 第327便c(統括の検証項目 R297 —— 世代の直し): 世代切替 = 器の版の定数 SCOPE_STOP_ADDED_327C の有無。新しい世代: 現行版 w327c-scope-8(停止集合 = 版 5〜7 の SCOPE_STOP_7 +
+      //   updateBodyEdit —— 文の登録簿・説明文の欄・obsSpin の規則は版 7 と同じ)・版 5〜7 の刻印は SCOPE_STOP_7 で引き直す(stopSetOf)
+      if (Array.isArray(SC.SCOPE_STOP_ADDED_327C)) {
+        if (SC.SCOPE_VERSION !== 'w327c-scope-8' || SC.SCOPE_VERSION_7 !== 'w326e-scope-7' || SC.SCOPE_VERSION_6 !== 'w318a-scope-6' || SC.SCOPE_VERSION_5 !== 'w316d-scope-5' || SC.SCOPE_VERSION_4 !== 'w286d-scope-4' || SC.SCOPE_VERSION_LEGACY !== 'w281a-scope-1' || SC.SCOPE_VERSION_2 !== 'w282e-scope-2' || SC.SCOPE_VERSION_3 !== 'w283e-scope-3'
+          || JSON.stringify(SC.SCOPE_VERSIONS) !== JSON.stringify(['w281a-scope-1', 'w282e-scope-2', 'w283e-scope-3', 'w286d-scope-4', 'w316d-scope-5', 'w318a-scope-6', 'w326e-scope-7', 'w327c-scope-8'])) bad.push('① 版が契約と違う: ' + SC.SCOPE_VERSION);
+        const S4 = SC.SCOPE_STOP_4 || [], S3 = SC.SCOPE_STOP_3 || [], S7 = SC.SCOPE_STOP_7 || [], AD = SC.SCOPE_STOP_ADDED_316, AD8 = SC.SCOPE_STOP_ADDED_327C;
+        if (!(JSON.stringify(S7) === JSON.stringify(S4.concat(AD)) && JSON.stringify(SC.SCOPE_STOP) === JSON.stringify(S7.concat(AD8)) && S4.length === S3.length + 2 && JSON.stringify(AD8) === JSON.stringify(['updateBodyEdit'])))
+          bad.push('① 版 8 の停止集合が版 5〜7(版 4 + SCOPE_STOP_ADDED_316)+ SCOPE_STOP_ADDED_327C でない');
+        if (!(typeof SC.stopSetOf === 'function' && SC.stopSetOf('w327c-scope-8') === SC.SCOPE_STOP && SC.stopSetOf('w326e-scope-7') === S7 && SC.stopSetOf('w318a-scope-6') === S7 && SC.stopSetOf('w316d-scope-5') === S7 && SC.stopSetOf('w286d-scope-4') === S4 && SC.stopSetOf('w283e-scope-3') === S3 && SC.stopSetOf('w282e-scope-2') === S3))
+          bad.push('① 刻印の版 → 停止集合(stopSetOf)が契約と違う');
+        if (!(SC.textRegistriesOf('w327c-scope-8') === SC.TEXT_REGISTRIES && SC.textRegistriesOf('w326e-scope-7') === SC.TEXT_REGISTRIES && SC.textRegistriesOf('w318a-scope-6') === SC.TEXT_REGISTRIES && SC.textRegistriesOf('w316d-scope-5') === SC.TEXT_REGISTRIES_5
+          && JSON.stringify(SC.proseKeysOf('w327c-scope-8')) === JSON.stringify(SC.PROSE_KEYS.concat(['name'])) && JSON.stringify(SC.proseKeysOf('w326e-scope-7')) === JSON.stringify(SC.PROSE_KEYS.concat(['name'])) && SC.proseKeysOf('w316d-scope-5') === SC.PROSE_KEYS))
+          bad.push('① 刻印の版 → 文の登録簿・説明文の欄(textRegistriesOf・proseKeysOf)が契約と違う');
+        if (JSON.stringify(SC.OBSSPIN_PROSE_KEYS_326E) !== JSON.stringify(['note', 'noteEn', 'source', 'sourceEn'])) bad.push('① 版 7・8 の obsSpin の説明の文の欄名');
+      } else if (Array.isArray(SC.SCOPE_STOP_ADDED_316) && Array.isArray(SC.TEXT_REGISTRIES_ADDED_318) && Array.isArray(SC.OBSSPIN_PROSE_KEYS_326E)) {
         if (SC.SCOPE_VERSION !== 'w326e-scope-7' || SC.SCOPE_VERSION_6 !== 'w318a-scope-6' || SC.SCOPE_VERSION_5 !== 'w316d-scope-5' || SC.SCOPE_VERSION_4 !== 'w286d-scope-4' || SC.SCOPE_VERSION_LEGACY !== 'w281a-scope-1' || SC.SCOPE_VERSION_2 !== 'w282e-scope-2' || SC.SCOPE_VERSION_3 !== 'w283e-scope-3'
           || JSON.stringify(SC.SCOPE_VERSIONS) !== JSON.stringify(['w281a-scope-1', 'w282e-scope-2', 'w283e-scope-3', 'w286d-scope-4', 'w316d-scope-5', 'w318a-scope-6', 'w326e-scope-7'])) bad.push('① 版が契約と違う: ' + SC.SCOPE_VERSION);
         const S4 = SC.SCOPE_STOP_4 || [], S3 = SC.SCOPE_STOP_3 || [], AD = SC.SCOPE_STOP_ADDED_316;
@@ -94198,7 +94212,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const t0 = Date.now();
       // ① 定義
       const same = (a, b) => JSON.stringify([...a].sort()) === JSON.stringify([...b].sort());
-      if (HPX.HTMLPHYS_VERSION !== 'w325a-htmlphys-1' || RT.HTMLPHYS_DECL_VERSION_325A !== 'w325a-htmlphysdecl-1' || HPX.HTMLPHYS_LEDGER_VERSION !== 'w325a-htmlphys-ledger-1') bad.push('① 版');
+      // 第327便c(R297 —— 世代の直し): 部分の版 2(w327c-htmlphys-2 —— 文の登録簿に RETIRED_PRESETS を足した世代 —— 世代切替 = HPX.TEXT_REGISTRIES_ADDED_327C の有無)。版 1 の 4 つの登録簿は凍結のまま
+      const wantPhysV325a = Array.isArray(HPX.TEXT_REGISTRIES_ADDED_327C) ? 'w327c-htmlphys-2' : 'w325a-htmlphys-1';
+      if (HPX.HTMLPHYS_VERSION !== wantPhysV325a || RT.HTMLPHYS_DECL_VERSION_325A !== 'w325a-htmlphysdecl-1' || HPX.HTMLPHYS_LEDGER_VERSION !== 'w325a-htmlphys-ledger-1') bad.push('① 版');
       if (!same(HPX.PROSE_325A.top, SC.PROSE_KEYS.concat(SC.PROSE_KEYS_ADDED_318))) bad.push('① 本の表示の欄が領域 hash の版 6 の集合と違う');
       if (!(same(HPX.PROSE_325A.claim, SC.CLAIM_PROSE_KEYS) && same(HPX.PROSE_325A.chain, SC.CHAIN_PROSE_KEYS) && same(HPX.PROSE_325A.massCalibration, SC.MASSCAL_PROSE_KEYS) && same(HPX.PROSE_325A.abBody, SC.AB_BODY_PROSE_KEYS))) bad.push('① claims・chain・massCalibration・abBody の表示の欄が版 6 と違う');
       if (!same(HPX.TEXT_REGISTRIES_325A, SC.TEXT_REGISTRIES)) bad.push('① 文の登録簿が版 6 の TEXT_REGISTRIES と違う');
@@ -96464,11 +96480,13 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const bad = [], cases = [];
     const SC = await imp326e('tests/lib-w281a-scope.mjs', bad), HLm = await imp326e('tests/lib-w279b-headless.mjs', bad);
     if (SC && HLm) {
-      if (!(SC.SCOPE_VERSION === 'w326e-scope-7' && SC.SCOPE_VERSION_6 === 'w318a-scope-6' && SC.SCOPE_VERSIONS[SC.SCOPE_VERSIONS.length - 1] === SC.SCOPE_VERSION && SC.SCOPE_VERSIONS.includes(SC.SCOPE_VERSION_6)
-        && JSON.stringify(SC.OBSSPIN_PROSE_KEYS_326E) === JSON.stringify(['note', 'noteEn', 'source', 'sourceEn']) && SC.isScopeV6Plus(SC.SCOPE_VERSION) && SC.isScopeV6Plus(SC.SCOPE_VERSION_6) && !SC.isScopeV6Plus(SC.SCOPE_VERSION_5))) bad.push('① 版の並び・欄名');
+      // 第327便c(R297 —— 世代の直し): 版 8(w327c-scope-8)の世代では版 7 は SCOPE_VERSION_7(照合は版 7 を名指しで引く —— 版 8 は宣言の無い写しで版 7 と同じ写し)
+      const v7in326e = SC.SCOPE_VERSION_7 || SC.SCOPE_VERSION;
+      if (!(v7in326e === 'w326e-scope-7' && SC.SCOPE_VERSION_6 === 'w318a-scope-6' && SC.SCOPE_VERSIONS[SC.SCOPE_VERSIONS.length - 1] === SC.SCOPE_VERSION && SC.SCOPE_VERSIONS.includes(SC.SCOPE_VERSION_6) && SC.SCOPE_VERSIONS.includes(v7in326e)
+        && JSON.stringify(SC.OBSSPIN_PROSE_KEYS_326E) === JSON.stringify(['note', 'noteEn', 'source', 'sourceEn']) && SC.isScopeV6Plus(SC.SCOPE_VERSION) && SC.isScopeV6Plus(v7in326e) && SC.isScopeV6Plus(SC.SCOPE_VERSION_6) && !SC.isScopeV6Plus(SC.SCOPE_VERSION_5))) bad.push('① 版の並び・欄名');
       const L = HLm.loadHtmlHeadless(path.join(ROOT, TARGET));
       const B = L.evalExpr('BUILTIN_PRESETS');
-      const cl = (x) => JSON.parse(JSON.stringify(x)), H7 = (p) => SC.canonJson(SC.stripPresetProse(p)), H6 = (p) => SC.canonJson(SC.stripPresetProse(p, SC.SCOPE_VERSION_6));
+      const cl = (x) => JSON.parse(JSON.stringify(x)), H7 = (p) => SC.canonJson(SC.stripPresetProse(p, v7in326e)), H6 = (p) => SC.canonJson(SC.stripPresetProse(p, SC.SCOPE_VERSION_6));   // 第327便c: 版 7 を名指し
       const withSpin = B.filter((p) => (p.bodies || []).some((b) => b && b.obsSpin && typeof b.obsSpin === 'object'));
       let nNote = 0, nPhys = 0, nEq = 0;
       const walk = (x, f) => { if (Array.isArray(x)) { x.forEach((v) => walk(v, f)); return; } if (!x || typeof x !== 'object') return; f(x); for (const k of Object.keys(x)) walk(x[k], f); };
@@ -96559,6 +96577,249 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第326便e の塊(ここまで)====
+// ==== 第327便c の塊(ここから —— lint.narrowScope327c・docs.w327c の 2 ブロック。root は SKIP)====
+// ---- 第327便c(原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・原仮定者の指示(2026-11-03)「次便以降で、再生成の段の対象が
+// ----   宣言なしの場合、html全体にしない」・原仮定者の回答(2026-11-04 —— AN543)「推奨で進める」・統括の検証項目 R297 —— **道具だけ・html は変えない**):
+// ----   lint.narrowScope327c(**鎖を狭める 4 件と名指しの段の領域** —— 危ない側〔物理が変わったのに reuse〕を作らないことを変異の写しで照合):
+// ----     ① 版の契約: 領域 hash の版 w327c-scope-8(版 7 は旧版 —— 停止集合は SCOPE_STOP_7)・停止集合 = 版 5〜7 + updateBodyEdit・表示の境界に be* 11 名・html の物理の部分の版 w327c-htmlphys-2
+// ----        (文の登録簿に RETIRED_PRESETS —— 版 1 の 4 つは凍結のまま)・版の移行 w327c-scopemigrate-1
+// ----     ② (i) updateBodyEdit の停止: 本体が物理の配列・sim・本を書かない(S./sim./ab. への代入・build/step/applyXxxEdit の呼び出しが無い —— 写しに 1 文足すと落ちる)・
+// ----        宣言した全器の版 8 の閉包に updateBodyEdit が無く物理側(PHYSICS_KEEP)は残る・写し(updateBodyEdit と落ちた編集の適用の関数 beLayApply に 1 文)で版 8 の領域が同じ・版 7 では変わる・
+// ----        validatePreset に 1 文の写しは版 8 で変わる
+// ----     ③ (iii) 宣言 abBody:false: 宣言した器の本文と import の閉包に A/B の語(abBody・physicsPatch・abStart・abStop・abQuick・HP.ab)が無い(写しの本文に 1 語足すと落ちる)・
+// ----        🌃 の abBody を外した写しで abBody:false の段は同じ・宣言の無い段は変わる・abBody を受理器が拒む形にした写しは abBody:false でも変わる(受理の ok と warnings は残す)
+// ----     ④ (iv) familyRole の依存: 器の本文と import の閉包が familyRole を読む器は keepProse か consts で宣言(宣言を外すと落ちる)・本 1 本の退役の写しで keepProse の段は変わる・版 7 の規則では同じ
+// ----     ⑤ (ii) RETIRED_PRESETS: 退役の表の行だけの写しで既定の reads(code・presets・markup)が同じ・text:RETIRED_PRESETS と生の行の reads が違う・台帳は版 2 の行
+// ----     ⑥ AN543: tpsign・eihdiag287 の領域は名指しの本(器と lib の下限を覆う)で、器の本文に全本を回る口(allPresets()/BUILTIN_PRESETS の find の外 —— 文字列の中も)が無い(写しで足すと落ちる)・
+// ----        pn1・pnsource286・pnsources291・refit-297a は文字列の式(evalExpr・vm)の中で全本を回るので presets:"all" のまま(絞らない根拠を毎回照合)
+// ----     ⑦ 版の移行: 版 7 の刻印の宣言は今の html で移行が要る(閉包から updateBodyEdit が落ちる)・版 8 は要らない・updateBodyEdit を辿らない宣言は要らない・計画は切ると scopever を出さない
+// ----     ⑧ 宣言なし(html 全体)の段 0(confirm4 は全文読みの宣言と理由)・段 families の入力に tests/qa.mjs(器の meta の inputs)
+// ----   docs.w327c: PHYSICS〔第327便c — 〕(第326便e の節の後・「## 7.」の前)・AI_SPEC §189・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rd327c = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const SC = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs')).catch(() => null);
+  if (!(TARGET.startsWith('beta/') && SC && Array.isArray(SC.SCOPE_STOP_ADDED_327C))) {
+    console.log('SKIP lint.narrowScope327c・docs.w327c(第327便c の領域の版 8 の前の世代か beta 対象でない —— ' + TARGET + ')');
+    return;
+  }
+  const os327c = (await import('node:os')).default;
+  // ---- lint.narrowScope327c
+  {
+    const bad = [], cases = [];
+    const t0 = Date.now();
+    const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+    const HPX = await import('file://' + path.join(ROOT, 'tests', 'lib-w325a-htmlphys.mjs'));
+    const HTML = path.join(ROOT, TARGET);
+    const H = fs.readFileSync(HTML, 'utf8');
+    const tmp = fs.mkdtempSync(path.join(os327c.tmpdir(), 'w327c-qa-'));
+    try {
+      // ① 版の契約
+      const BE = ['beCvConfirm', 'beCvSel', 'beCvShown', 'beDcMsg', 'beDcSel', 'beLayIdx', 'beLayMode', 'beLayMsg', 'beLaySel', 'beSaMsg', 'beSaSel'];
+      if (!(SC.SCOPE_VERSION === 'w327c-scope-8' && SC.SCOPE_VERSION_7 === 'w326e-scope-7' && JSON.stringify(SC.SCOPE_VERSIONS.slice(-3)) === JSON.stringify(['w318a-scope-6', 'w326e-scope-7', 'w327c-scope-8'])
+        && SC.isScopeV6Plus(SC.SCOPE_VERSION) && SC.isScopeV7Plus(SC.SCOPE_VERSION_7) && !SC.isScopeV7Plus(SC.SCOPE_VERSION_6))) bad.push('① 領域 hash の版の並び');
+      if (!(JSON.stringify(SC.SCOPE_STOP_ADDED_327C) === JSON.stringify(['updateBodyEdit']) && JSON.stringify(SC.SCOPE_STOP) === JSON.stringify(SC.SCOPE_STOP_7.concat(['updateBodyEdit']))
+        && SC.stopSetOf('w327c-scope-8') === SC.SCOPE_STOP && ['w326e-scope-7', 'w318a-scope-6', 'w316d-scope-5'].every((v) => SC.stopSetOf(v) === SC.SCOPE_STOP_7))) bad.push('① 停止集合と刻印の版の対応');
+      if (!BE.every((n) => SC.SCOPE_STOP_BOUNDARY.includes(n))) bad.push('① 表示の境界に選択粒子の編集の表示の状態 be* が無い');
+      if (!(HPX.HTMLPHYS_VERSION === 'w327c-htmlphys-2' && JSON.stringify(HPX.HTMLPHYS_VERSIONS) === JSON.stringify(['w325a-htmlphys-1', 'w327c-htmlphys-2'])
+        && JSON.stringify(HPX.TEXT_REGISTRIES_ADDED_327C) === JSON.stringify(['RETIRED_PRESETS']) && JSON.stringify(HPX.TEXT_REGISTRIES_325A) === JSON.stringify(['I18N', 'ACCEPT_REASONS', 'LAWS', 'SYSTEM_PROMPT'])
+        && JSON.stringify(HPX.TEXT_REGISTRIES_HTMLPHYS) === JSON.stringify(HPX.TEXT_REGISTRIES_325A.concat(['RETIRED_PRESETS'])))) bad.push('① html の物理の部分の版 2');
+      if (SC.SCOPE_MIGRATE_VERSION_327C !== 'w327c-scopemigrate-1') bad.push('① 版の移行の版');
+      cases.push(`① 版 ${SC.SCOPE_VERSION}(旧版 ${SC.SCOPE_VERSION_7} は停止集合 ${SC.SCOPE_STOP_7.length} 関数)・停止集合 ${SC.SCOPE_STOP.length} 関数・境界 ${SC.SCOPE_STOP_BOUNDARY.length} 名・html の物理の部分 ${HPX.HTMLPHYS_VERSION}`);
+      // ② (i) updateBodyEdit の停止
+      const src = H.slice(H.indexOf('<script>') + 8, H.lastIndexOf('</script>'));
+      const PT = SC.parseTopLevel(src);
+      const physWrite = (codeText) => /\b(?:S|sim|ab|HP)\s*(?:\.\s*[\w$]+|\[[^\]]*\])+\s*(?:=(?!=)|\+=|-=|\*=|\/=|\+\+|--)|\b(?:applyCoreEdit|applyLayerEdit|applyDragCoreEdit|applySpinAxisEdit|build|step|loadPreset|validatePreset)\s*\(/.test(codeText);
+      const seg = PT.segments.find((z) => z.kind === 'function' && z.names.includes('updateBodyEdit'));
+      if (!seg) bad.push('② updateBodyEdit が最上位の function でない');
+      else {
+        if (physWrite(seg.codeText)) bad.push('② updateBodyEdit の本体が物理の配列・sim・本を書く(停止集合から外すこと)');
+        const mut = SC.parseTopLevel(SC.touchFunction(src, 'updateBodyEdit', 'S.m[i]=1;').html).segments.find((z) => z.kind === 'function' && z.names.includes('updateBodyEdit'));
+        if (!(mut && physWrite(mut.codeText))) bad.push('② 変異(updateBodyEdit に S.m[i]=1;)を物理の書き込みとして拾えない');
+      }
+      const rows = await SC.declaredOuts(ROOT);
+      const decls = [...new Map(rows.map((r) => [r.harness, r.decl])).entries()];
+      let nNoUbe = 0;
+      for (const [h, d] of decls) {
+        const roots = d.roots.filter((r) => !SC.TEXT_REGISTRIES.includes(String(r).replace(/^HP\./, '')));
+        const cl = new Set(SC.closureOf(PT, roots, SC.DATA_REGISTRIES.concat(SC.TEXT_REGISTRIES), { hardStop: SC.SCOPE_STOP }).functions);
+        if (cl.has('updateBodyEdit')) bad.push('② ' + h + ' の版 8 の閉包に updateBodyEdit'); else nNoUbe++;
+        const miss = SC.PHYSICS_KEEP.filter((k) => !cl.has(k));
+        if (miss.length) bad.push('② ' + h + ' の版 8 の閉包に物理側 ' + miss.join(',') + ' が無い');
+      }
+      // 写し: updateBodyEdit と落ちた編集の適用の関数 beLayApply に 1 文 → 版 8 は同じ・版 7 は変わる / validatePreset に 1 文 → 版 8 も変わる
+      const dAll = decls.map(([, d]) => d).find((d) => d.presets === 'all' && d.abBody === false && (d.keepProse || []).includes('familyRole'));
+      const dAb = decls.map(([, d]) => d).find((d) => d.presets === 'all' && d.abBody !== false);
+      if (!dAll || !dAb) bad.push('② 写しの照合の宣言が見つからない(presets:"all" の abBody:false・keepProse の宣言と A/B を読む宣言)');
+      else {
+        const hv = (f, d, v) => SC.scopeHash(f, Object.assign({}, d, { version: v }), { version: v }).scopeSha256;
+        const base8 = hv(HTML, dAll, SC.SCOPE_VERSION), base7 = hv(HTML, dAll, SC.SCOPE_VERSION_7);
+        let u = SC.touchFunction(H, 'updateBodyEdit', '$("#beTitle").title="";'), u2 = u.ok ? SC.touchFunction(u.html, 'beLayApply', 'void 0;') : { ok: false };
+        const fU = path.join(tmp, 'ube.html'); if (u2.ok) fs.writeFileSync(fU, u2.html);
+        const vp = SC.touchFunction(H, 'validatePreset'), fV = path.join(tmp, 'vp.html'); if (vp.ok) fs.writeFileSync(fV, vp.html);
+        if (!(u.ok && u2.ok && vp.ok)) bad.push('② 写しが作れない');
+        else {
+          const a8 = hv(fU, dAll, SC.SCOPE_VERSION), a7 = hv(fU, dAll, SC.SCOPE_VERSION_7), v8 = hv(fV, dAll, SC.SCOPE_VERSION);
+          if (a8 !== base8) bad.push('② updateBodyEdit と beLayApply に 1 文の写しで版 8 の領域が変わった(停止が効かない)');
+          if (a7 === base7) bad.push('② 同じ写しで版 7 の領域が変わらない(写しが閉包に届いていない)');
+          if (v8 === base8) bad.push('② validatePreset に 1 文の写しで版 8 の領域が変わらない(取りこぼし —— 危ない側)');
+          cases.push(`② 版 8 の閉包に updateBodyEdit の無い宣言 ${nNoUbe}/${decls.length}(物理側 ${SC.PHYSICS_KEEP.length} 名は残る)・本体は物理を書かない(変異 S.m[i]=1; を拾う)・写し: 選択粒子の編集と編集の適用の関数に 1 文 → 版 8 同じ・版 7 変わる / validatePreset に 1 文 → 版 8 変わる`);
+        }
+        // ③ (iii) abBody:false
+        let nAbDecl = 0, nAbHit = 0;
+        for (const [h, d] of decls) {
+          if (d.abBody !== false) continue;
+          nAbDecl++;
+          const metaCode = [...new Set(rows.filter((r) => r.harness === h).flatMap((r) => ((r.meta && r.meta.code) || []).map((c) => c.file)))];
+          const cfs = SC.codeFilesOf(ROOT, h, metaCode);
+          const hit = SC.abMentions327c(cfs);
+          if (hit.length) { nAbHit++; bad.push('③ ' + h + ' は abBody:false を宣言したが A/B の語を読む(' + hit.slice(0, 2).join(', ') + ')'); }
+          if (nAbDecl === 1) {
+            const fake = cfs.map((c, i) => (i === 0 ? Object.assign({}, c, { text: c.text + "\nHP.abStart('kFrame', 0);\n" }) : c));
+            if (!SC.abMentions327c(fake).length) bad.push('③ 変異(器の本文に HP.abStart)を A/B の語として拾えない');
+            if (SC.abMentions327c([{ file: 'x.mjs', text: 'delete q.abBody;' }]).length) bad.push('③ delete <式>.abBody を A/B の語に数えた');
+          }
+        }
+        const i3 = H.indexOf('{ id:"ngc3198",'), j3 = i3 >= 0 ? H.indexOf('  abBody:{', i3) : -1, k3 = j3 >= 0 ? H.indexOf('physicsPatch:{halo:null} },\n', j3) : -1;
+        if (!(i3 >= 0 && j3 > i3 && k3 > j3 && k3 - j3 < 400)) bad.push('③ 🌃 の abBody が見つからない');
+        else {
+          const fC = path.join(tmp, 'ab.html'); fs.writeFileSync(fC, H.slice(0, j3) + H.slice(k3 + 'physicsPatch:{halo:null} },\n'.length));
+          const fC2 = path.join(tmp, 'ab2.html'); fs.writeFileSync(fC2, H.slice(0, k3) + 'physicsPatch:"x" },\n' + H.slice(k3 + 'physicsPatch:{halo:null} },\n'.length));
+          const c8 = hv(fC, dAll, SC.SCOPE_VERSION), cAb = hv(fC, dAb, SC.SCOPE_VERSION), baseAb = hv(HTML, dAb, SC.SCOPE_VERSION), c28 = hv(fC2, dAll, SC.SCOPE_VERSION);
+          if (c8 !== base8) bad.push('③ 🌃 の abBody を外した写しで abBody:false の段の領域が変わった');
+          if (cAb === baseAb) bad.push('③ 同じ写しで A/B を読む段の領域が変わらない(取りこぼし —— 危ない側)');
+          if (c28 === base8) bad.push('③ abBody を受理器が拒む形の写しで abBody:false の段の領域が変わらない(受理の ok・warnings が残っていない)');
+          cases.push(`③ abBody:false の宣言 ${nAbDecl} 器(A/B の語 ${nAbHit})・変異の語を拾う・🌃 の abBody を外す → abBody:false 同じ・A/B を読む段 変わる / 受理器が拒む形 → abBody:false でも変わる`);
+        }
+        // ④ (iv) familyRole
+        let nFr = 0, nFrOk = 0;
+        for (const [h, d] of decls) {
+          const metaCode = [...new Set(rows.filter((r) => r.harness === h).flatMap((r) => ((r.meta && r.meta.code) || []).map((c) => c.file)))];
+          const hit = SC.proseMentions327c(SC.codeFilesOf(ROOT, h, metaCode), 'familyRole');
+          if (!hit.length) continue;
+          nFr++;
+          if (SC.declReadsProse327c(d, 'familyRole')) nFrOk++; else bad.push('④ ' + h + ' は familyRole を読むが宣言が無い(keepProse か consts —— ' + hit[0] + ')');
+        }
+        if (SC.declReadsProse327c(Object.assign({}, dAll, { keepProse: undefined }), 'familyRole')) bad.push('④ 変異(keepProse を外した宣言)を宣言ありと数えた');
+        const i4 = H.indexOf('{ id:"shapeToyDisk"'), j4 = i4 >= 0 ? H.indexOf('familyRole:"variant"', i4) : -1;
+        if (!(i4 >= 0 && j4 > i4 && j4 - i4 < 400)) bad.push('④ 写しの本(🥏 shapeToyDisk の familyRole)が見つからない');
+        else {
+          const fB = path.join(tmp, 'ret.html'); fs.writeFileSync(fB, H.slice(0, j4) + 'familyRole:"retired"' + H.slice(j4 + 'familyRole:"variant"'.length));
+          const b8 = hv(fB, dAll, SC.SCOPE_VERSION), b7 = hv(fB, Object.assign({}, dAll, { keepProse: undefined }), SC.SCOPE_VERSION_7);
+          if (b8 === base8) bad.push('④ 本 1 本の退役(familyRole)の写しで keepProse の段の領域が変わらない(危ない側)');
+          if (b7 !== base7) bad.push('④ 同じ写しで版 7 の規則の領域が変わった(familyRole は版 7 の説明文の欄 —— 写しが他を変えた)');
+          cases.push(`④ familyRole を読む器 ${nFr}(宣言あり ${nFrOk})・宣言を外す変異を拾う・本 1 本の退役 → keepProse の段 変わる・版 7 の規則では同じ`);
+        }
+      }
+      // ⑤ (ii) RETIRED_PRESETS
+      {
+        const r0 = H.indexOf('const RETIRED_PRESETS={'), r1 = r0 >= 0 ? H.indexOf('{ja:"', r0) : -1;
+        if (!(r0 >= 0 && r1 > r0)) bad.push('⑤ RETIRED_PRESETS の行が見つからない');
+        else {
+          const R = H.slice(0, r1 + 5) + '※' + H.slice(r1 + 5);
+          const pa = HPX.htmlPhysParts(HTML), pb = HPX.htmlPhysPartsOfText(R, { tmpDir: tmp });
+          const cD = HPX.physCompare(pa.parts, pb.parts, HPX.HTMLPHYS_DEFAULT_READS), cT = HPX.physCompare(pa.parts, pb.parts, ['text:RETIRED_PRESETS']), cR = HPX.physCompare(pa.parts, pb.parts, HPX.HTMLPHYS_RAW_READS);
+          if (!(pb.complete && cD.same)) bad.push('⑤ 退役の表の行だけの写しで既定の reads が違う: ' + cD.diff.join(','));
+          if (cT.same || cR.same) bad.push('⑤ 退役の表の行だけの写しで text:RETIRED_PRESETS・生の行の reads が同じ(登録簿に入っていない)');
+          if (!(pa.detail.textCut || []).includes('RETIRED_PRESETS')) bad.push('⑤ 部分の text に RETIRED_PRESETS が無い');
+          const L = HPX.readLedger(ROOT);
+          const vs = [...new Set(Object.values(L.entries || {}).map((e) => e.version))];
+          if (!(vs.length === 1 && vs[0] === HPX.HTMLPHYS_VERSION)) bad.push('⑤ 台帳の行の版が ' + vs.join(',') + '(版 2 で作り直すこと —— node tools/regen-plan.mjs --htmlphys-record)');
+          cases.push(`⑤ 退役の表の行だけの写し → 既定の reads 同じ・text:RETIRED_PRESETS と生の行 違う・台帳 ${Object.keys(L.entries || {}).length} 行(版 ${vs.join(',')})`);
+        }
+      }
+      // ⑥ AN543
+      {
+        const NARROW = { tpsign: 'tests/exp-w284e-tpsign.mjs', eihdiag287: 'tests/exp-w287b-eihdiag.mjs' };
+        const KEEP_ALL = { pn1: 'tests/exp-w285b-pn1.mjs', pnsource286: 'tests/exp-w286b-pnsource.mjs', pnsources291: 'tests/exp-w291b-pnsources.mjs', 'refit-297a': 'tests/exp-w297a-refit.mjs' };
+        const wide = (text) => { const t = String(text).split('\n').filter((l) => !/^const REGEN_SCOPE = /.test(l)).join('\n'); const nc = SC.scanJs(t).nocom; const out = [];
+          for (const m of nc.matchAll(/(?:allPresets\s*\(\s*\)|BUILTIN_PRESETS)\s*(?:\.\s*([A-Za-z_$][\w$]*))?/g)) if (!['find', 'findIndex', 'some'].includes(m[1])) out.push(m[0]); return out; };
+        for (const [k, f] of Object.entries(NARROW)) {
+          const d = SC.readDeclaredScope(rd327c(f));
+          if (!d || d.presets === 'all' || !d.presets.length) { bad.push('⑥ ' + k + ' の領域が名指しの本でない'); continue; }
+          const w = wide(rd327c(f));
+          if (w.length) bad.push('⑥ ' + k + ' の器の本文に全本を回る口(' + w[0] + ')—— presets:"all" に戻すこと');
+        }
+        if (!wide("x(`HP.allPresets().map((p)=>p.id)`)").length) bad.push('⑥ 変異(文字列の中の allPresets().map)を拾えない');
+        for (const [k, f] of Object.entries(KEEP_ALL)) {
+          const d = SC.readDeclaredScope(rd327c(f));
+          if (!d || d.presets !== 'all') bad.push('⑥ ' + k + ' の領域が presets:"all" でない(文字列の式の中で全本を回る —— 絞らない)');
+          if (!wide(rd327c(f)).length) bad.push('⑥ ' + k + ' の器に全本を回る口が見つからない(絞らない根拠が消えた —— 見直すこと)');
+        }
+        cases.push(`⑥ AN543: 名指しへ ${Object.keys(NARROW).join('・')}(全本を回る口 0)/ all のまま ${Object.keys(KEEP_ALL).join('・')}(文字列の式の中で全本を回る)`);
+      }
+      // ⑦ 版の移行
+      {
+        const r7 = rows.find((r) => r.meta && r.meta.scope && r.meta.scope.version === SC.SCOPE_VERSION_7);
+        const syn = { presets: [], roots: ['GEO_MODE_VERSION'], core: false, consts: [], complete: true, version: SC.SCOPE_VERSION_7 };
+        const m0 = SC.scopeMigrate327c(HTML, syn), m8 = r7 ? SC.scopeMigrate327c(HTML, Object.assign({}, r7.meta.scope, { version: SC.SCOPE_VERSION })) : null;
+        if (m0.need) bad.push('⑦ updateBodyEdit を辿らない宣言で移行が要ると出た');
+        if (m8 && m8.need) bad.push('⑦ 版 8 の宣言で移行が要ると出た');
+        if (r7) {
+          const m7 = SC.scopeMigrate327c(HTML, r7.meta.scope);
+          if (!(m7.need && m7.dropped.includes('updateBodyEdit'))) bad.push('⑦ 版 7 の刻印 ' + r7.out + ' で移行が要らないと出た');
+          const st = RT.REGEN_STEPS.find((z) => (z.outs || []).includes(r7.out));
+          if (st && !st.alwaysRun && !st.onlyIfScopeChanged) {
+            const pOn = RT.planRegen({ root: ROOT, html: HTML, only: [st.key], scopeMigrate: true }), pOff = RT.planRegen({ root: ROOT, html: HTML, only: [st.key], scopeMigrate: false });
+            const kOn = ((pOn.steps[0] || {}).causeKinds || []), kOff = ((pOff.steps[0] || {}).causeKinds || []);
+            if (!kOn.includes('scopever') || kOff.includes('scopever')) bad.push('⑦ 計画の移行の理由(' + st.key + ': 入 ' + kOn.join(',') + ' / 切 ' + kOff.join(',') + ')');
+            cases.push(`⑦ 版 7 の刻印(${st.key})は移行が要る(落ちる ${m7.dropped.length} 名)・計画は scopever(切れば出ない)・版 8 と updateBodyEdit を辿らない宣言は要らない`);
+          } else cases.push(`⑦ 版 7 の刻印 ${r7.out} は移行が要る(落ちる ${m7.dropped.length} 名)`);
+        } else cases.push('⑦ 版 7 の刻印は 0 本(鎖で全部が版 8 —— 合成の宣言だけ照合)');
+      }
+      // ⑧ 宣言なし(html 全体)の段 0・families の入力
+      {
+        const steps = RT.REGEN_STEPS.filter((z) => z.role !== 'history' && !z.alwaysRun);
+        const declOf = (st) => { const m = String(st.cmd).match(/tests\/exp-[\w-]+\.mjs/); return m ? SC.readDeclaredScope(rd327c(m[0])) : null; };
+        const whole = steps.filter((st) => { const d = declOf(st); if (d && d.presets) return false; const k = RT.htmlReadOf(st, { root: ROOT }).kind; if (k === 'none') return false;
+          const p = RT.htmlPhysDeclOf(st.key); if (p && !p.whole) return false; return !RT.htmlTextReadDeclOf(st.key); }).map((z) => z.key);
+        if (whole.length) bad.push('⑧ 宣言なし(html 全体)の段: ' + whole.join(','));
+        const c4 = RT.htmlTextReadDeclOf('confirm4');
+        if (!(c4 && /外部名/.test(c4.why) && /全文/.test(c4.why))) bad.push('⑧ confirm4 の全文読みの宣言と理由');
+        const ft = rd327c('tests/exp-w283b-families.mjs');
+        if (!/\[MD, 'tests\/qa\.mjs'\]/.test(ft)) bad.push("⑧ 家族の表の器の meta の inputs に tests/qa.mjs が無い");
+        let fj = null; try { fj = JSON.parse(rd327c('tests/out/families-w283b.json')); } catch (e) { fj = null; }
+        const inQa = !!(fj && fj.meta && (fj.meta.inputs || []).some((z) => z.file === 'tests/qa.mjs'));
+        cases.push(`⑧ 宣言なし(html 全体)の段 ${whole.length}・confirm4 は全文読みの宣言・家族の表の器の入力に tests/qa.mjs(正本の刻印 ${inQa ? 'あり' : 'なし —— 鎖で作り直す'})`);
+      }
+    } catch (e) { bad.push('照合が回らない: ' + String(e && e.message || e).slice(0, 140)); }
+    finally { try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) { /* 残っても害は無い */ } }
+    add('lint.narrowScope327c', bad.length === 0,
+      `**鎖を狭める 4 件と名指しの段の領域**(第327便c・原仮定者の指示(2026-11-01)「サンプルの変更だけでは、全行程を再実行しない」・原仮定者の回答(2026-11-04 —— AN543)・統括の検証項目 R297): ${cases.join(' / ')}`
+      + ` / ${((Date.now() - t0) / 1000).toFixed(1)} s` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ---- docs.w327c
+  {
+    const bad = [];
+    const PH = rd327c('docs/PHYSICS.md'), AI = rd327c('docs/AI_SPEC.md'), CL = rd327c('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第327便c — '), i7 = PH.indexOf('\n## 7.'), i326e = PH.indexOf('〔第326便e — ');
+    if (i0 < 0) bad.push('PHYSICS に〔第327便c〕の節が無い');
+    else if (!(i0 < i7 && i326e >= 0 && i326e < i0)) bad.push('PHYSICS〔第327便c〕の位置(第326便e の節の後・「## 7.」の前)');
+    const sec = i0 >= 0 ? PH.slice(i0, PH.indexOf('\n## ', i0 + 10) > 0 ? Math.min(PH.indexOf('\n## ', i0 + 10), i7 > i0 ? i7 : PH.length) : PH.length) : '';
+    for (const w of ['w327c-scope-8', 'updateBodyEdit', 'RETIRED_PRESETS', 'abBody:false', 'keepProse', 'scopever', 'w327c-htmlphys-2', 'confirm4', 'tests/qa.mjs', 'pnsource286', 'lint.narrowScope327c']) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第327便c〕に ' + w + ' が無い');
+    const ai = AI.indexOf('§189'); const ai189 = ai >= 0 ? AI.slice(ai, ai + 6000) : '';
+    if (ai < 0) bad.push('AI_SPEC に §189 が無い'); else if (!(AI.indexOf('§186') >= 0 && AI.indexOf('§186') < ai)) bad.push('AI_SPEC §189 の位置');
+    const clb = CL.slice(Math.max(0, CL.search(/## v1\.47(?:-b\d+|\.0)\(/)));
+    const cl327 = (clb.split('\n').find((l) => l.indexOf('**第327便c**') >= 0)) || '';
+    if (!cl327) bad.push('CHANGELOG の beta 節に第327便c の行が無い');
+    const TR = rd327c('tools/README.md'), PM = rd327c('tools/post-merge-qa.sh');
+    if (!(TR.indexOf('第327便c') >= 0 && TR.indexOf('--no-scope-migrate') >= 0)) bad.push('tools/README に第327便c の口が無い');
+    if (!(PM.indexOf('# ==== 第327便c の塊(ここから)====') >= 0 && /lint\.narrowScope327c/.test(PM) && /docs\.w327c/.test(PM))) bad.push('post-merge の ③′ に第327便c の塊が無い');
+    const rv327c = (s) => [...s].reverse().join('');
+    const NG = ['信私', '付添', '査審', 'たし現再', 'いなし現再', 'いなれらせわ合', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv327c);
+    const NOT = ['たしトッィフ', 'たし正較', 'たし束収', '致一に全完', 'たし認確', 'ためか確を則法', 'たし了完が証検', 'たし致一に表暦', 'たし明説を熱部内', 'たし明説を転回逆の星金', 'たし明説をータマクーダ', 'たし定判を面平地', 'たし定同を場河銀', 'たし測観を場い速りよ腕'].map(rv327c);
+    for (const [nm, tx] of [['PHYSICS〔第327便c〕', sec], ['AI_SPEC §189', ai189], ['CHANGELOG の第327便c の行', cl327]]) {
+      for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+      for (const w of NOT) if (tx.indexOf(w) >= 0) bad.push(nm + ' に書かない語(' + w.length + ' 字)');
+      if (tx.indexOf(String.fromCharCode(0x3ba)) >= 0) bad.push(nm + ' に裸の係数記号');
+    }
+    add('docs.w327c', bad.length === 0,
+      `**道具の便の文書**(第327便c・統括の検証項目 R297): PHYSICS〔第327便c〕(第326便e の節の後・「## 7.」の前)・AI_SPEC §189・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ' —— すべてあり'));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第327便c の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

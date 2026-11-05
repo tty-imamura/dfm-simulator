@@ -657,6 +657,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.axialHeat326d behavior.axialRadius326d 
 #   lint.regenScope・docs.regenShort319c)と、正本の入力の宣言の lint.stableHashPaths
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.alwaysShadow326e lint.familiesTemp326e lint.scopeObsSpin326e lint.narrow326e docs.w326e docs.families lint.quickMutation325d lint.quickGate325d lint.regenScope docs.regenShort319c lint.stableHashPaths"
 # ==== 第326便e の塊(ここまで)====
+# ==== 第327便c の塊(ここから)====
+# 第327便c(原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・原仮定者の回答(2026-11-04 —— AN543)・統括の検証項目 R297 —— 道具だけ・
+#   html は変えない): 枝 c の新設 2 本(lint.narrowScope327c —— 鎖を狭める 4 件と名指しの段の領域・版の移行・変異の写し / docs.w327c —— 文書)と、世代を直した既存の 3 本
+#   (lint.scopeStop・lint.htmlPhys325a・lint.scopeObsSpin326e —— 領域 hash の版 8・html の物理の部分の版 2)と、器の宣言と正本の刻印を照合する lint.regenScope・lint.provenanceMeta・docs.families
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.narrowScope327c docs.w327c lint.scopeStop lint.htmlPhys325a lint.scopeObsSpin326e lint.regenScope lint.provenanceMeta docs.families"
+# ==== 第327便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
