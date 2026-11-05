@@ -3235,19 +3235,19 @@
  "ok": true,
  "timing": {
   "R": {
-   "wallSec": 0.016
+   "wallSec": 0.018
   },
   "Y": {
-   "wallSec": 0.01
+   "wallSec": 0.007
   },
   "M": {
-   "wallSec": 0.001
+   "wallSec": 0
   },
   "B": {
    "wallSec": 0
   },
   "V": {
-   "wallSec": 0.006
+   "wallSec": 0.007
   }
  },
  "conclusion": {
@@ -3289,25 +3289,25 @@
   "mSumInBand": "6/6",
   "mRef315InBand": "2/6"
  },
- "elapsedS": 0.078,
+ "elapsedS": 0.096,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第317便d",
   "target": "tests/lib-w317d-satan.mjs",
   "targetSha256": "48b55f2cdb4e05b2bf1f3856bd2b93da840f8d5d7f2dedb6e24a111375c9baeb",
-  "generatedAt": "2026-11-04T10:43:39.614Z",
+  "generatedAt": "2026-11-05T10:55:32.189Z",
   "inputs": [
    {
     "file": "tests/out/sath-w316d.json",
-    "bytes": 2245246,
-    "sha256": "ea4b42c4d55acfc79c247f2fc960be3cf78e4f638fc30f2ac3eb2cb1c46b7f89",
-    "mtime": "2026-11-04T04:57:58.675Z"
+    "bytes": 2245312,
+    "sha256": "308effaa18a24452361cacecb49a9e4e56ee7cfc5fee9c8cc1d146b899034614",
+    "mtime": "2026-11-05T05:53:31.578Z"
    },
    {
     "file": "tests/out/satk1-w315d.json",
-    "bytes": 495431,
-    "sha256": "5a5149cfa89ce602499e12ad97264c475caed25ea26eacb383859455521de0e1",
-    "mtime": "2026-11-04T04:43:46.683Z"
+    "bytes": 495430,
+    "sha256": "c8dd9448c865a62e3502f343e57fa8fc68b28b361553b87395e708752466cbdd",
+    "mtime": "2026-11-05T05:40:34.066Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -3361,9 +3361,9 @@
    },
    {
     "file": "tests/exp-w315d-satk1.mjs",
-    "bytes": 30152,
-    "sha256": "dcf57bcf27e364fc22e9ccd88eb74d8625bc7abd6886560c7c8443d917a283a8",
-    "mtime": "2026-10-25T15:04:20.689Z"
+    "bytes": 30167,
+    "sha256": "5d5a21c36d1e318d20778ba6dbfb8e5a2c3dfa99a7265a0748828f30c5fd81ac",
+    "mtime": "2026-11-05T03:10:54.298Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -3373,12 +3373,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "880e6a2a124f1e7a7284c116daca19f937bf52c868355c7232a8157ce6e1da5e",
+  "codeSha256": "f39dc8fbf3bdec8bc19bccc13534d2671e864cacb6918e59d61de5983d59f8c7",
   "harnessVersion": "w317d-satan-1",
   "stage": "satan",
   "engine": "Node の純関数だけ(html を読まない・走行しない)",
@@ -3396,7 +3396,7 @@
   "inputsStable": [
    {
     "file": "tests/out/sath-w316d.json",
-    "stableSha256": "eb3a824f93ba6e858657dc6be365eaf6c28b20aed563a34f67eb3fcb04285a41",
+    "stableSha256": "a92aaf8d85dafe6b435870aa3ec42b73e3241b718db6d23532a9283346e2dffc",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/E/rows/*/wallSec",
@@ -3411,7 +3411,7 @@
    },
    {
     "file": "tests/out/satk1-w315d.json",
-    "stableSha256": "09a25c0fc29bbf890c62e0fd74ed351fa469dfc0299100966d8f0b92ba55862d",
+    "stableSha256": "9f9540cbe1eadc2f77a23b3a0432fb3ceb69d391536f9420e08c57b03ba0891b",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/E/rows/*/wallSec",

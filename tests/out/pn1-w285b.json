@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便b",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T08:16:23.756Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T11:45:52.171Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
@@ -20,17 +20,17 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1749470,
-    "sha256": "1a3ba1719546bc8b9143c50e22c7fa4eb13e07f96ad5f5a9542cdbdeeb6042e3",
-    "mtime": "2026-11-04T08:10:50.808Z"
+    "bytes": 1749484,
+    "sha256": "d004360f326ffd3318498f6350fd73ccbc102f2e44e62cb3293f781d73be464c",
+    "mtime": "2026-11-05T11:41:05.360Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w285b-pn1.mjs",
-    "bytes": 37023,
-    "sha256": "a51fc0868d0973c5024a76012265fbf57087621899ea4cfd4fd5bc6ad464de38",
-    "mtime": "2026-10-20T16:19:56.636Z"
+    "bytes": 37050,
+    "sha256": "67dc78bf2f26ac0cd851f9388c6f46ed8f5710ea2076e5881795fa32cd78ab2c",
+    "mtime": "2026-11-05T03:10:54.247Z"
    },
    {
     "file": "tests/lib-w285b-gr1pn.mjs",
@@ -76,14 +76,14 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "251a42d9920ad1f9e42a30472f1b5c1ec6b8c0d9b4954b9e912cc93da07133aa",
+  "codeSha256": "cb14ed9dc0a7f811d69e58112c88443c0901a00b7f198033baa9f42339198223",
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": "all",
    "roots": [
     "DT",
@@ -108,16 +108,19 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1364,
-   "segments": 1190,
-   "closureShare": 0.2939
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1327,
+   "segments": 1164,
+   "closureShare": 0.2879
   },
-  "scopeSha256": "e99c714d5d6002a4a42d73212ba4d8274d4a21caa32fb033e88a92fa92512e68",
+  "scopeSha256": "f0e4029e98079d1632d227399efbfde87c44e464ec1bafff4085f69eeda9fb49",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "adcbd3472c95a188028c80ff2b742f025c22b000ba91a2ddc8235447d6de2b9f",
+    "stableSha256": "a507d08cc1f16164803239e773afd17edf090a71bc9ba96aa46e379691df2b65",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -158,7 +161,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "ecada61e7643cf04ae5951b2a8c3ff6c42eddae8eda3dbd4a502be58febb35ec",
+    "stableSha256": "134bd9a74bd407bfb4a09effda901eb8105999a34853cdd7c4c838c367097b1a",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -223,7 +226,7 @@
   "sha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "nowSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "note": "geoPN はアプリのモード番号(標準理論の 2PN・3PN ではない)。kF0 の 1PN は PPN(β=1・γ=α−½)の N 体 1PN(α=1.5 で EIH)—— DFM から導出した項ではない。S._core は 1 命令も変えていない(geoCoreDispatch が kF0 の役割に core=1 を渡し、差分 Δ を _core の前に当てる)。Σm·v は状態変数の和で、相対論的な全運動量ではない。",
  "A": {
   "cond": {
@@ -2133,13 +2136,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.121,
+   "wallSec": 0.126,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.155,
+   "wallSec": 0.14,
    "errors": 0
   }
  },
- "elapsedS": 327.224
+ "elapsedS": 281.87
 }

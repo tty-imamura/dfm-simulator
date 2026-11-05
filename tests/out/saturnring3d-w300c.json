@@ -282,7 +282,7 @@
      "max": 0
     }
    },
-   "wallSec": 97.252
+   "wallSec": 71.55
   },
   "m5h2": {
    "key": "m5h2",
@@ -508,7 +508,7 @@
      "max": 0
     }
    },
-   "wallSec": 99.77
+   "wallSec": 72.459
   },
   "h": {
    "key": "h",
@@ -734,7 +734,7 @@
      "max": 0
     }
    },
-   "wallSec": 47.222
+   "wallSec": 35.24
   },
   "m5": {
    "key": "m5",
@@ -960,7 +960,7 @@
      "max": 0
     }
    },
-   "wallSec": 50.384
+   "wallSec": 34.909
   },
   "transfer": {
    "key": "transfer",
@@ -1186,7 +1186,7 @@
      "max": 0.006420567838183037
     }
    },
-   "wallSec": 56.939
+   "wallSec": 46.238
   },
   "flat2d": {
    "key": "flat2d",
@@ -1399,7 +1399,7 @@
    },
    "conserved": null,
    "drag": null,
-   "wallSec": 5.365
+   "wallSec": 4.176
   },
   "flat2dh2": {
    "key": "flat2dh2",
@@ -1612,7 +1612,7 @@
    },
    "conserved": null,
    "drag": null,
-   "wallSec": 10.23
+   "wallSec": 8.026
   },
   "probe": {
    "key": "probe",
@@ -1678,7 +1678,7 @@
      ]
     }
    },
-   "wallSec": 1.64
+   "wallSec": 1.189
   }
  },
  "stepDependence": {
@@ -1924,28 +1924,28 @@
  "ok": true,
  "timing": {
   "h2": {
-   "wallSec": 97.252
+   "wallSec": 71.55
   },
   "m5h2": {
-   "wallSec": 99.77
+   "wallSec": 72.459
   },
   "h": {
-   "wallSec": 47.222
+   "wallSec": 35.24
   },
   "m5": {
-   "wallSec": 50.384
+   "wallSec": 34.909
   },
   "transfer": {
-   "wallSec": 56.939
+   "wallSec": 46.238
   },
   "flat2d": {
-   "wallSec": 5.365
+   "wallSec": 4.176
   },
   "flat2dh2": {
-   "wallSec": 10.23
+   "wallSec": 8.026
   },
   "probe": {
-   "wallSec": 1.64
+   "wallSec": 1.189
   }
  },
  "notClaim": [
@@ -1957,14 +1957,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第300便c",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T04:26:11.056Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T05:29:12.105Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1976,9 +1976,9 @@
   "code": [
    {
     "file": "tests/exp-w300c-saturnring3d.mjs",
-    "bytes": 44305,
-    "sha256": "195b780c637a14f9845cd4205ea77d8fba2f4d8751411b666affc2045eac4339",
-    "mtime": "2026-10-30T11:33:02.838Z"
+    "bytes": 44332,
+    "sha256": "5bdfed11e51620bf303a42294daa2f69200d5eb3b55e698c528533ed7ce01b52",
+    "mtime": "2026-11-05T03:10:54.273Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -2012,18 +2012,18 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "027e6e27105e626e9477a9f9fa188f83659cb90674e668bd576c0d4e974b4da1",
+  "codeSha256": "91110d45957352fccda777bcc3feb28dd17bd16ca3ad36e40935710b54bd19db",
   "harnessVersion": "w300c-saturnring3d-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第90報)⑥「土星の輪の geoPN=3 版の三次元サンプルを作成する」",
   "reading": "統括の検証項目 R177(土星の輪の三次元の新本・試験粒子の扱い・面の保持と損失と刻み依存・回転引きずりの見え方)",
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "jupiterSunInertial3d",
     "marsSunInertial3d",
@@ -2050,11 +2050,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1417,
-   "segments": 1243,
-   "closureShare": 0.3055
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1380,
+   "segments": 1217,
+   "closureShare": 0.2994
   },
-  "scopeSha256": "a0052d0aef4267b415556f0b5c50066405d1fb0285cf53fdf29a511e4ff4be24",
+  "scopeSha256": "2e15683e6589bb86767850bbadcec22317d8bc93ed856b8651605adc23b82ed2",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -2066,5 +2069,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 202.759
+ "elapsedS": 154.499
 }

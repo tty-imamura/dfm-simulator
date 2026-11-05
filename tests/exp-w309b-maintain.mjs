@@ -37,7 +37,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as L from './lib-w309b-maintain.mjs';
 import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 // 第281便a の領域 hash の宣言(器と lib から引いた下限 —— 写しの本 2 本と状態の契約の確かめの 🪛)
-const REGEN_SCOPE = {"presets":["chainDiskToy3dTilt","jupiterSunInertial3d","venusSunInertial3d"],"roots":["$","HP.allPresets","HP.coord3d","HP.inertialDrag3HoldF","HP.tideState","HP.validatePreset","INERTIAL_DRAG3_HOLD_SC","INERTIAL_DRAG3_MAINT_SC","INERTIAL_DRAG3_SC","INERTIAL_DRAG_CK_SAMPLES","REL_DRAG_AXIS_HOLD_MAINT_KEYS","REL_DRAG_AXIS_HOLD_MAINT_REACTIONS","REL_DRAG_AXIS_HOLD_MAINT_VERSION","REL_DRAG_AXIS_HOLD_MODES","SIM_BUILD_RESET","SIM_STEP_SCRATCH","T","appStepDt","ckRestoreOne","ckSnapOne","ctx","inertialDrag3SpinState","tideInertiaOf"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["chainDiskToy3dTilt","jupiterSunInertial3d","venusSunInertial3d"],"roots":["$","HP.allPresets","HP.coord3d","HP.inertialDrag3HoldF","HP.tideState","HP.validatePreset","INERTIAL_DRAG3_HOLD_SC","INERTIAL_DRAG3_MAINT_SC","INERTIAL_DRAG3_SC","INERTIAL_DRAG_CK_SAMPLES","REL_DRAG_AXIS_HOLD_MAINT_KEYS","REL_DRAG_AXIS_HOLD_MAINT_REACTIONS","REL_DRAG_AXIS_HOLD_MAINT_VERSION","REL_DRAG_AXIS_HOLD_MODES","SIM_BUILD_RESET","SIM_STEP_SCRATCH","T","appStepDt","ckRestoreOne","ckSnapOne","ctx","inertialDrag3SpinState","tideInertiaOf"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w309b-maintain-1';

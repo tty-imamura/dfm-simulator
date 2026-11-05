@@ -3,28 +3,28 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便c",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T04:02:26.410Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T05:08:45.196Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/out/compose-w288c.json",
-    "bytes": 9587,
-    "sha256": "cefe40286cd633bf7ccb1cd71a8f7d3e13bd7b91ce2df9c3b784c05fe326380d",
-    "mtime": "2026-11-04T03:56:46.031Z"
+    "bytes": 9608,
+    "sha256": "11a7a051b7893c05925ada8479d6866512fb0b021be6937348e1ab115f4d1134",
+    "mtime": "2026-11-05T05:06:49.558Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w289c-nearfar.mjs",
-    "bytes": 15485,
-    "sha256": "79f8aad090a4219ae5f71656cf3e231d4eec698a8bbddd71ee819545af3e0d39",
-    "mtime": "2026-10-20T16:19:56.636Z"
+    "bytes": 15500,
+    "sha256": "cc542153b7ec148f57135f9d5e40e985289162e1565a65affd49334e69dd8fa9",
+    "mtime": "2026-11-05T03:10:54.250Z"
    },
    {
     "file": "tests/lib-w289c-nearfar.mjs",
@@ -64,12 +64,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "f3ad902d0e729f05d42d211e58ca5b7f562b24e508dc2f196d9ecd61f9fde08b",
+  "codeSha256": "26e86c4437579141d182040a1881f5422803313ad15e58eeabf35b4f03a40358",
   "harnessVersion": "w289c-nearfar-1",
   "libVersion": "w289c-nearfar-1",
   "loadErrors": 0,
@@ -84,7 +84,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "galaxyAnalogyBHCompose"
    ],
@@ -106,16 +106,17 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1362,
-   "segments": 1188,
-   "closureShare": 0.2939
+   "abBody": false,
+   "names": 1325,
+   "segments": 1162,
+   "closureShare": 0.2878
   },
-  "scopeSha256": "b3767079431f828288c928b5517f34c6ba3b3c03b6c627aca85e8d4b0decdde9",
+  "scopeSha256": "fa49e5b0a2e816b8c70148a4677536ad3cd41e049ed43bededf4b7dfd514ad46",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/compose-w288c.json",
-    "stableSha256": "f5eba0a3ca9b630fe8a7051fa9aeff7524cb437862336c73af1c1acef7a8c7ba",
+    "stableSha256": "4a2425fff6a16567cdf8147b8d98b9108e74aad66fcc79c0c6374c9699240621",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -423,5 +424,5 @@
   "how": "既存の u = HP.dfmFieldContract(toy の宣言・excludeBodyId=i)。候補は C=1 で評価し addCandidate(u, du, C) に通す —— C=0 は u をそのまま写す"
  },
  "ok": true,
- "elapsedS": 1.319
+ "elapsedS": 1.078
 }

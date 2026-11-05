@@ -95,6 +95,9 @@ import { HTML_STAGE_ORDER, HTML_STAGE_VERSION } from './lib-w288f-htmlstage.mjs'
 // ==== 第325便a の塊(ここから)====
 import { htmlPhysCheck as w325aHtmlPhysCheck, readLedger as w325aReadLedger } from './lib-w325a-htmlphys.mjs';   // 第325便a(R284): html の物理の部分(最上位では呼ばない —— 循環 import)
 // ==== 第325便a の塊(ここまで)====
+// ==== 第327便c の塊(ここから)====
+import { scopeMigrate327c as w327cScopeMigrate, SCOPE_MIGRATE_VERSION_327C as W327C_MIGRATE_VERSION, SCOPE_VERSION as W327C_SCOPE_VERSION } from './lib-w281a-scope.mjs';   // 第327便c(R297): 領域の版の移行(一回きり)
+// ==== 第327便c の塊(ここまで)====
 
 // ■ 第284便c(原仮定者の裁定(第74報)⑥・AN33・AN43・統括の検証項目 R93)
 //   ・常時の dt3 段を `--h4-exceptions --merge`(h/4 は例外の登録簿の本だけ)・kf0 段を `--kf0-h4-exceptions`(h/4 は登録簿の kf0 の本だけ)へ。
@@ -1670,6 +1673,52 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/axialheat-w326d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第326便d: 軸引きずりの定常の釣り合いと由来ごとの熱の帳簿(診断 —— 銀河場を同定したと数えない・内部熱を観測の熱流に合わせていない・負の散逸の解は不採用)・R_d と R_src の独立の宣言の確かめ' }),
   // ==== 第326便d の塊(ここまで)====
+  // ==== 第327便a の塊(ここから)====
+  // ---- 第327便a(原仮定者の回答(2026-11-05 —— AN534・AN535・AN537)・統括の検証項目 R295): **軸引きずりの「角速度の和」の族 S と否定対照の族 E・金星の受け手の R_d の格子と根・
+  //   天体ごとに自由な潮汐と法則の探索・予言の段・帳簿の器**(段 axialsum-327a —— 正本 tests/out/axialsum-w327a.json・lib tests/lib-w327a-axialsum.mjs —— 第326便d の器の写しと読み口を
+  //   import して使う〔code の依存 —— 正本 axialheat-w326d は読まない〕)。**診断だけ**(エンジン・在位の本・受理器は変えない —— 金星の dragCore は写しで振る)。
+  //   html を読む(本は 🗺️ を .find で引く 1 本・他の正本は読まない —— html の生成領域の後)。1 プロセス。t = 0 の読み口と純関数だけ(步を進めない —— 写しの build は約 160 回)。
+  //   所要は第327便a の枝の実測 42 s(nice 10 —— 3 枝並走の箱〔**並走の秒**〕)
+  S('axialsum-327a', 'node tests/exp-w327a-axialsum.mjs', ['tests/out/axialsum-w327a.json'], 42, { secSource: 'w327a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ(步を進めない —— 窓が無く、全部を走らせても 1 分の内)',
+    volatilePaths: { 'tests/out/axialsum-w327a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第327便a: 角速度の和の族 S(受動の構成則 —— 配分 w は宣言)と族 E の対照・金星の受け手の R_d の格子と根(銀河の応答の規約ごと —— 評価域に非負の区間なし・重なりは評価域の外・格子の R_d は採らない)・天体ごとに自由な潮汐と法則・地球と土星の予言(合わせない)・帳簿' }),
+  // ==== 第327便a の塊(ここまで)====
+  // ==== 第327便b の塊(ここから)====
+  // ---- 第327便b(原仮定者の回答(2026-11-05 —— AN536)・統括の検証項目 R296): **銀河の局所場の大きさの 2 つの経路と「場に対して逆回転」の読みの器**
+  //   (段 galaxis-327b —— 正本 tests/out/galaxis-w327b.json・lib tests/lib-w327b-galaxis.mjs —— 経路 1: 第326便d の器の関数で太陽の式の A〔族 E・口が 1 つの和の式・源の反作用〕/
+  //   経路 2: 第321便c の場の API〔sample・splitState・diskCellsAt を呼ぶだけ〕の太陽の位置の u・∇u・半渦度・u_φ/R・シア/伝達の候補 T_G ごとの比〔平均しない〕/
+  //   点のセルの和の格子の符号/AN536 の相対の角速度の符号と要る大きさ/geoPN=4 の場の API への引き継ぎの形)。**診断だけ**(エンジン・在位の本・受理器・第321便c の lib の本文は変えない)。
+  //   html を読む(本は 🗺️ を .find で引く 1 本 —— 領域の下限の他の本は import した lib の綴り・他の正本は読まない —— html の生成領域の後)。1 プロセス。t = 0 の読み口と純関数だけ(步を進めない)。
+  //   所要は第327便b の枝の実測 8.7 s(nice 10 —— 3 枝並走の箱〔**並走の秒**〕)
+  S('galaxis-327b', 'node tests/exp-w327b-galaxis.mjs', ['tests/out/galaxis-w327b.json'], 9, { secSource: 'w327b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: 't = 0 の読み口と場の API の純関数だけ(步を進めない —— 窓が無く、全部を走らせても 10 秒ほど)',
+    volatilePaths: { 'tests/out/galaxis-w327b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第327便b: 銀河の局所場の大きさの 2 つの経路(太陽の自転・場の API の模型 —— 別の列・平均しない)と「場に対して逆回転」の読み(場の軸は反転しない)の診断 —— 銀河場を同定したと数えない・腕より速い場は仮定' }),
+  // ==== 第327便b の塊(ここまで)====
+  // ==== 第327便e の塊(ここから)====
+  // ---- 第327便e(原仮定者の指示(2026-11-05)「軸引きずりについて」・統括の検証項目 R299): **軸引きずりを「近い位置と遠い位置の差分」として読む器**(段 axialdiff-327e ——
+  //   正本 tests/out/axialdiff-w327e.json・lib tests/lib-w327e-axialdiff.mjs —— 第326便d・第327便a の器の写しと読み口〔copyBook・stateOf・partI・buildAt〕を import して使う
+  //   〔code の依存 —— 正本 axialheat-w326d・axialsum-w327a は読まない〕・エンジンの点の読み口 inertialDragIsqPointAt の rotC で近い位置と遠い位置の回転引きずりの場を読む)。
+  //   **診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は 🗺️ を .find で引く 1 本・他の正本は読まない —— html の生成領域の後)。1 プロセス。
+  //   t = 0 の読み口と純関数だけ(步を進めない —— 写しの build は 24 回)。所要は第327便e の枝の実測 9〜11 s(nice 10 —— 統括の鎖と並走の箱〔**並走の秒**〕)
+  S('axialdiff-327e', 'node tests/exp-w327e-axialdiff.mjs', ['tests/out/axialdiff-w327e.json'], 11, { secSource: 'w327e-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ(步を進めない —— 窓が無く、全部を走らせても 15 秒ほど)',
+    volatilePaths: { 'tests/out/axialdiff-w327e.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第327便e: 軸引きずりの核の 2 つの型(勾配と有限の半径の差分)・頭打ちは比の型の性質・金星で銀河は K1・太陽は別の半径の零点(族 S 主・族 E 対照 —— 記録・採らない)・規則を固定した太陽–火星と太陽–地球–月の 3 体の帳簿(合わせない)' }),
+  // ==== 第327便e の塊(ここまで)====
+  // ==== 第327便f の塊(ここから)====
+  // ---- 第327便f(原仮定者の指示(2026-11-05)「金星の逆行自転は、大気熱潮汐の影響と、地球との共鳴を採用する」「R_dはK1で固定し、観測の自転もトルクの釣り合いで進める」・
+  //   統括の検証項目 R300): **金星のトルクの釣り合いに固体の重力潮汐・大気の熱潮汐・地球との共鳴の口を足す器**(段 venustide-327f —— 正本 tests/out/venustide-w327f.json・
+  //   lib tests/lib-w327f-venustide.mjs —— 第327便e の器の入力と読み口〔partI・stateFor・gradT〕・第327便a の lib の evaluate・solve を import して使う〔code の依存 —— 正本
+  //   axialdiff-w327e・axialsum-w327a・axialheat-w326d は読まない〕)。**診断だけ**(エンジン・在位の本・受理器は変えない —— R_d は K1 のまま)。html を読む(本は 🗺️ を .find で
+  //   引く 1 本・他の正本は読まない —— html の生成領域の後)。1 プロセス。t = 0 の読み口と純関数だけ(步を進めない —— 写しの build は 3 回)。
+  //   所要は第327便f の枝の実測 6.6〜8.3 s(nice 10 —— 統括の鎖と並走の箱〔**並走の秒**〕)
+  S('venustide-327f', 'node tests/exp-w327f-venustide.mjs', ['tests/out/venustide-w327f.json'], 9, { secSource: 'w327f-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ(步を進めない —— 窓が無く、全部を走らせても 10 秒ほど)',
+    volatilePaths: { 'tests/out/venustide-w327f.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第327便f: 金星のトルクの釣り合い(族 E 主・R_d は K1)に固体の重力潮汐・大気の熱潮汐・地球との共鳴の口 —— 釣り合いの振幅と共鳴の割合・安定と解の枝・共鳴のトルクの大きさ(記録・採らない)・規則を固定した太陽–火星と太陽–地球–月(合わせない)' }),
+  // ==== 第327便f の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -2205,6 +2254,17 @@ export function htmlPhysDeclOfOut(out, steps, decl) {
   return st ? htmlPhysDeclOf(st.key, decl) : null;
 }
 // ==== 第325便a の塊(ここまで)====
+// ==== 第327便c の塊(ここから)====
+// ---- 第327便c(原仮定者の指示(2026-11-03)「次便以降で、再生成の段の対象が宣言なしの場合、html全体にしない」・統括の検証項目 R297 —— 宣言の無い段の最後の 1 段 confirm4):
+//   **html の全文を文字列で読む段の宣言**(表示の区分と理由だけ —— 計画の判定・htmlReadOf・済み印の契約は変えない)。confirm4 は器が beta/index.html の全文から外部名の出現数を
+//   数えて正本(歴史文書の残数の表 ae7.historyOnly)に写す —— 物理は読まないが全文(注釈・文を含む)を読むので「html を読まない」(htmlInput:'none')にはしない。
+//   正本は meta の無い旧形式(計画は毎回 regen —— 実測 0 s)。SAMPLE_STATUS の再生成の段の表は区分「html の全文(宣言)」と理由を出す(QA lint.narrowScope327c ⑧ が「宣言なし(html 全体)」の段 0 を照合)
+export const HTML_TEXT_READ_DECL_327C = Object.freeze({
+  confirm4: Object.freeze({ reads: 'text', why: '器が html の全文から外部名の出現数を数えて歴史文書の残数の表に写す(注釈・文を含む全文 —— 物理は読まない)・正本は meta の無い旧形式で毎回走る(実測 0 s)' }),
+});
+/** 段の全文読みの宣言(無ければ null)。 */
+export function htmlTextReadDeclOf(key) { return Object.prototype.hasOwnProperty.call(HTML_TEXT_READ_DECL_327C, key) ? HTML_TEXT_READ_DECL_327C[key] : null; }
+// ==== 第327便c の塊(ここまで)====
 
 /**
  * 第285便f(AN53): html 全体を刻む現行の段(正本の meta から —— target が beta/index.html で scopeComplete の領域が無い)。
@@ -2425,6 +2485,20 @@ export function planRegen(o) {
       gitDepth: o.htmlPhysGitDepth, ledgerOnly: o.htmlPhysLedgerOnly === true });
   };
   // ==== 第325便a の塊(ここまで)====
+  // ==== 第327便c の塊(ここから)====
+  // 第327便c(R297 —— 統括の読み「鎖を狭める 4 件は一回きり鎖が広くなる・その一回をこの便で払う」): **領域の版の移行**。刻印の版(版 5〜7)の閉包と現行の版(版 8)の閉包が
+  //   同じ宣言・今の html で違う段(停止集合に足した updateBodyEdit が閉包に入っていた段)は、刻印の版で領域が一致しても一回だけ regen(理由の種類 scopever —— 走らせ直すと
+  //   版 8 で刻まれ、次の便から選択粒子の編集の欄の変更で走らない)。足す向きだけ(reuse を増やさない)。o.scopeMigrate === false か環境変数 W327C_SCOPE_MIGRATE=0 で切る
+  //   (前後の比べ —— 鎖の --gate も同じ既定で引く)。onlyIfScopeChanged の段(h2/h4 の転記)は従来どおり「領域は同じ」で reuse に戻る(領域が変わる便で版 8 へ)
+  const migrateOn327 = o.scopeMigrate !== undefined ? o.scopeMigrate !== false : process.env.W327C_SCOPE_MIGRATE !== '0';
+  const migrateMemo327 = new Map();
+  const migrate327 = (hAbs, sc) => {
+    if (!migrateOn327 || !sc || sc.version === W327C_SCOPE_VERSION) return null;
+    const k = hAbs + '|' + JSON.stringify(sc);
+    if (!migrateMemo327.has(k)) { let r = null; try { r = w327cScopeMigrate(hAbs, sc); } catch { r = null; } migrateMemo327.set(k, r); }
+    return migrateMemo327.get(k);
+  };
+  // ==== 第327便c の塊(ここまで)====
   const scopeCache = new Map();
   const scopeFull = (hAbs, sc) => {
     const k = hAbs + '|' + JSON.stringify(sc);
@@ -2471,6 +2545,7 @@ export function planRegen(o) {
       for (const out of (st.outs || [])) { const m = metaOfOut(out); if (m && m.target === 'beta/index.html' && m.targetSha256 && m.targetSha256 !== htmlSha && m.scope && m.scopeComplete === true) pre.push(m); }
     }
     for (const m of pre) scopeFull(htmlAbs, m.scope);
+    for (const m of pre) migrate327(htmlAbs, m.scope);   // 第327便c: 移行の要否も今の html の分を先に(領域 hash の器は html を 1 本だけ控える)
     if (o.baseHtml) for (const m of pre) scopeFull(o.baseHtml, m.scope);
   }
   for (const st of STEPS) {
@@ -2500,6 +2575,14 @@ export function planRegen(o) {
           if (sNow && sNow === m.scopeSha256) {
             row.scopeUsed = true;
             if (o.baseHtml && t === 'beta/index.html') row.baseScopeSame = (scopeOn(o.baseHtml, m.scope) === sNow);
+            // ==== 第327便c の塊(ここから)====
+            const mg327 = t === 'beta/index.html' ? migrate327(hA, m.scope) : null;
+            if (mg327 && mg327.need) {
+              why.push(out + ': 領域の版の移行(刻印の版 ' + mg327.from + ' の領域は一致 —— 現行の版 ' + mg327.to + ' の停止集合で閉包が変わる: 落ちる ' + mg327.dropped.length + ' 名・足す ' + mg327.added.length + ' 名 —— 一回きり)');
+              cause('領域の版の移行(' + mg327.from + ' → ' + mg327.to + ' —— 落ちる ' + mg327.dropped.slice(0, 3).join(',') + (mg327.dropped.length > 3 ? ` 他 ${mg327.dropped.length - 3}` : '') + ' —— 一回きり)', 'scopever');
+              row.scopeMigrate327 = { from: mg327.from, to: mg327.to, dropped: mg327.dropped.length, added: mg327.added.length };
+            }
+            // ==== 第327便c の塊(ここまで)====
           } else {
             // ==== 第325便a の塊(ここから)====
             // 第325便a(R284): 領域の宣言の無い正本は、段の宣言(HTMLPHYS_DECL_325A)があれば**刻印の html の物理の部分**と今の html の物理の部分を比べる
@@ -2519,6 +2602,17 @@ export function planRegen(o) {
             }   // 第325便a
           }
         }
+        // ==== 第327便c の塊(ここから)====
+        // 対象 html が刻印と同じ(exact)でも、刻印の版が旧い領域の宣言は移行の要否を引く(次の便から狭くするため —— 足す向きだけ)
+        else if (t === 'beta/index.html' && m.scope && m.scopeComplete === true) {
+          const mg327e = migrate327(hA, m.scope);
+          if (mg327e && mg327e.need) {
+            why.push(out + ': 領域の版の移行(対象 html は刻印と同じ —— 現行の版 ' + mg327e.to + ' の停止集合で閉包が変わる: 落ちる ' + mg327e.dropped.length + ' 名 —— 一回きり)');
+            cause('領域の版の移行(' + mg327e.from + ' → ' + mg327e.to + ' —— 落ちる ' + mg327e.dropped.slice(0, 3).join(',') + (mg327e.dropped.length > 3 ? ` 他 ${mg327e.dropped.length - 3}` : '') + ' —— 一回きり)', 'scopever');
+            row.scopeMigrate327 = { from: mg327e.from, to: mg327e.to, dropped: mg327e.dropped.length, added: mg327e.added.length };
+          }
+        }
+        // ==== 第327便c の塊(ここまで)====
       } else if (shaFile(abs(t)) !== m.targetSha256) { why.push(out + ': 対象 ' + t + ' の hash が違う'); cause('入力(対象): ' + t, 'input'); }
       // コード
       // 第318便a(原仮定者の裁定(第120報)・決断事項 AN427 ⑤・統括の検証項目 R254): 刻印の道具(SCOPE_TOOLING)を刻印だけに使う器(toolStampOnly)は、
@@ -2656,6 +2750,11 @@ export function planRegen(o) {
       sec: list.filter((r) => r.htmlPhysUsed).reduce((a, r) => a + (Number(r.sec) || 0), 0),
       regen: list.filter((r) => (r.causeKinds || []).includes('htmlphys')).map((r) => r.key),
       whole: list.filter((r) => (r.causeKinds || []).includes('html')).map((r) => r.key) },
+    // 第327便c(R297): 領域の版の移行で一回だけ regen にした段(刻印の版の領域は一致 —— 現行の版の停止集合で閉包が変わる)
+    scopeMigrate327c: { version: W327C_MIGRATE_VERSION, on: migrateOn327, to: W327C_SCOPE_VERSION,
+      stages: list.filter((r) => (r.causeKinds || []).includes('scopever')).map((r) => r.key),
+      only: list.filter((r) => r.status === 'regen' && (r.causeKinds || []).length === 1 && r.causeKinds[0] === 'scopever').map((r) => r.key),
+      sec: list.filter((r) => r.status === 'regen' && (r.causeKinds || []).length === 1 && r.causeKinds[0] === 'scopever').reduce((a, r) => a + (Number(r.sec) || 0), 0) },
     html: htmlAbs.replace(root + '/', ''), htmlSha256: htmlSha,
     baseHtml: o.baseHtml ? o.baseHtml.replace(root + '/', '') : null, baseSha256: baseSha,
     count,

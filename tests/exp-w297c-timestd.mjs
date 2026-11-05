@@ -31,7 +31,7 @@ import { fileURLToPath } from 'node:url';
 import { loadHtmlMain } from './lib-w280b-emgrid.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.sim","HP.timeStd","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.sim","HP.timeStd","HP.validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false,"keepProse":["familyRole"]};
 
 export const TIMESTD_VERSION = 'w299a-timestd-2';   // 第299便a: 三次元の本を三次元で数える(二次元の行は w297c-timestd-1 とビット同一)
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');

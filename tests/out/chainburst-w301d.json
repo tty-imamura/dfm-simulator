@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第301便d",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T05:11:30.921Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T07:11:57.831Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w301d-chainburst.mjs",
-    "bytes": 31326,
-    "sha256": "68a409e0447ef249fa4c01c1e22703bf55f141990a46a1e9e31a15dc4d22cf37",
-    "mtime": "2026-10-21T20:13:23.977Z"
+    "bytes": 31341,
+    "sha256": "afbaecaf9607ba870d7b89838c8e50cb4050ca67c43019dd5d16a151d7e1f35d",
+    "mtime": "2026-11-05T03:10:54.273Z"
    },
    {
     "file": "tests/lib-w301d-coupled.mjs",
@@ -46,9 +46,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    },
    {
     "file": "tests/lib-w311c-h4carry.mjs",
@@ -57,7 +57,7 @@
     "mtime": "2026-10-21T20:13:23.994Z"
    }
   ],
-  "codeSha256": "977c0874ee03e39c47797d8a67b6780970bc97dfb43eaee7ebb53a9bb6c4aaad",
+  "codeSha256": "90a17106bf663a9edfbe2e21e56b659bd5f310cd972b440936bfc999bd8c6b89",
   "harnessVersion": "w301d-chainburst-1",
   "engineOrder": "split",
   "coupledLibVersion": "w301d-coupled-1",
@@ -73,7 +73,7 @@
    "gain は普遍定数"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "chainBurstShell3d",
     "chainDiskToy",
@@ -93,11 +93,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1399,
-   "segments": 1225,
-   "closureShare": 0.3017
+   "abBody": false,
+   "names": 1362,
+   "segments": 1199,
+   "closureShare": 0.2957
   },
-  "scopeSha256": "15a8a84fac04a5cb6febac9003b12d2c934bd7448e54393adf817c71a7c009d0",
+  "scopeSha256": "6eab8f8a426e29b9423fe7062e19d86119b45b622d5be0ad4097c051e0bf2cbd",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -709,7 +710,7 @@
     "WT": -41273.370100939224,
     "vMaxT": 48.58876639612431
    },
-   "wallSec": 19.722,
+   "wallSec": 19.721,
    "key": "A.base"
   },
   "A.normNone": {
@@ -1262,7 +1263,7 @@
     "WT": -41273.370100939224,
     "vMaxT": 48.58876639612431
    },
-   "wallSec": 19.674,
+   "wallSec": 18.411,
    "key": "A.normNone"
   },
   "A.3d": {
@@ -1815,7 +1816,7 @@
     "WT": -41273.370100939224,
     "vMaxT": 48.58876639612431
    },
-   "wallSec": 16.383,
+   "wallSec": 17.871,
    "key": "A.3d"
   },
   "B.validate": {
@@ -1825,7 +1826,7 @@
    "posDiffMax": 3.911517405957856e-9,
    "uRelDiffMax": 1.040417014494552e-9,
    "solverTol": 1e-10,
-   "wallSec": 3.994,
+   "wallSec": 3.909,
    "key": "B.validate"
   },
   "B.validate3d": {
@@ -1835,7 +1836,7 @@
    "posDiffMax": 7.343065778278117e-14,
    "uRelDiffMax": 2.5628084562239517e-16,
    "solverTol": 1e-10,
-   "wallSec": 1.052,
+   "wallSec": 0.938,
    "key": "B.validate3d"
   },
   "C.engine.2": {
@@ -2357,7 +2358,7 @@
     "WT": -42191.446098783,
     "vMaxT": 38.639716920128656
    },
-   "wallSec": 29.477,
+   "wallSec": 35.781,
    "key": "C.engine.2"
   },
   "C.engine.4": {
@@ -2879,7 +2880,7 @@
     "WT": 42453.58501737319,
     "vMaxT": 42.38995962509873
    },
-   "wallSec": 56.186,
+   "wallSec": 76.391,
    "key": "C.engine.4"
   },
   "C.engine.8": {
@@ -3401,7 +3402,7 @@
     "WT": 73346.63356417941,
     "vMaxT": 44.124140473880935
    },
-   "wallSec": 111.413,
+   "wallSec": 154.822,
    "key": "C.engine.8"
   },
   "C.rk4.1": {
@@ -3913,7 +3914,7 @@
     "WT": 106578.61845407613,
     "vMaxT": 45.13252261194844
    },
-   "wallSec": 32.335,
+   "wallSec": 42.532,
    "key": "C.rk4.1"
   },
   "C.rk4.2": {
@@ -4425,7 +4426,7 @@
     "WT": 106578.61617625387,
     "vMaxT": 45.13252341390879
    },
-   "wallSec": 63.586,
+   "wallSec": 84.682,
    "key": "C.rk4.2"
   },
   "C.rk4.4": {
@@ -4937,7 +4938,7 @@
     "WT": 106578.61694458411,
     "vMaxT": 45.132523176756344
    },
-   "wallSec": 130.257,
+   "wallSec": 190.511,
    "key": "C.rk4.4"
   },
   "C.rk2.1": {
@@ -5449,7 +5450,7 @@
     "WT": 106582.33882182698,
     "vMaxT": 45.130812919358206
    },
-   "wallSec": 15.173,
+   "wallSec": 21.389,
    "key": "C.rk2.1"
   },
   "C.rk2.2": {
@@ -5961,7 +5962,7 @@
     "WT": 106579.54417030419,
     "vMaxT": 45.132094886280754
    },
-   "wallSec": 31.591,
+   "wallSec": 42.295,
    "key": "C.rk2.2"
   },
   "C.split.1": {
@@ -6479,7 +6480,7 @@
     "WT": -41844.695502095215,
     "vMaxT": 48.59117003869891
    },
-   "wallSec": 8.112,
+   "wallSec": 11.635,
    "key": "C.split.1"
   },
   "C.semic.1": {
@@ -6991,7 +6992,7 @@
     "WT": 99577.99521260727,
     "vMaxT": 48.061682499458534
    },
-   "wallSec": 7.388,
+   "wallSec": 11.323,
    "key": "C.semic.1"
   },
   "C.semic.2": {
@@ -7503,7 +7504,7 @@
     "WT": 104644.65756743045,
     "vMaxT": 47.00672040048217
    },
-   "wallSec": 15.965,
+   "wallSec": 21.55,
    "key": "C.semic.2"
   },
   "C.semic.4": {
@@ -8015,7 +8016,7 @@
     "WT": 106387.92055381023,
     "vMaxT": 45.09318199630117
    },
-   "wallSec": 32.85,
+   "wallSec": 48.194,
    "key": "C.semic.4"
   },
   "D.engine.gain0": {
@@ -8529,7 +8530,7 @@
     "WT": 0,
     "vMaxT": 1.0792495224074543
    },
-   "wallSec": 2.967,
+   "wallSec": 4.126,
    "key": "D.engine.gain0"
   },
   "D.rk4.gain0": {
@@ -9041,7 +9042,7 @@
     "WT": 0,
     "vMaxT": 1.2721078968072699
    },
-   "wallSec": 8.847,
+   "wallSec": 11.747,
    "key": "D.rk4.gain0"
   },
   "D.engine.spin0": {
@@ -9555,7 +9556,7 @@
     "WT": 4568.09842207619,
     "vMaxT": 61.12116026003265
    },
-   "wallSec": 12.372,
+   "wallSec": 15.712,
    "key": "D.engine.spin0"
   },
   "D.rk4.spin0": {
@@ -10067,7 +10068,7 @@
     "WT": 99113.49972323352,
     "vMaxT": 43.698637056671075
    },
-   "wallSec": 26.41,
+   "wallSec": 37.058,
    "key": "D.rk4.spin0"
   },
   "D.engine.seedA": {
@@ -10581,7 +10582,7 @@
     "WT": -10067.304951371905,
     "vMaxT": 22.96975346554436
    },
-   "wallSec": 13.615,
+   "wallSec": 18.962,
    "key": "D.engine.seedA"
   },
   "D.rk4.seedA": {
@@ -11093,7 +11094,7 @@
     "WT": 14386.850105065902,
     "vMaxT": 17.81042343051859
    },
-   "wallSec": 31.162,
+   "wallSec": 41.096,
    "key": "D.rk4.seedA"
   },
   "D.engine.seedB": {
@@ -11607,7 +11608,7 @@
     "WT": -14734.37864163063,
     "vMaxT": 26.756514678972174
    },
-   "wallSec": 14.52,
+   "wallSec": 18.755,
    "key": "D.engine.seedB"
   },
   "D.rk4.seedB": {
@@ -12119,7 +12120,7 @@
     "WT": 19351.363755920458,
     "vMaxT": 20.800839285271408
    },
-   "wallSec": 30.154,
+   "wallSec": 43.815,
    "key": "D.rk4.seedB"
   },
   "D.engine.n40": {
@@ -12633,7 +12634,7 @@
     "WT": -33493.063139831174,
     "vMaxT": 37.274136545152814
    },
-   "wallSec": 2.248,
+   "wallSec": 3.244,
    "key": "D.engine.n40"
   },
   "D.rk4.n40": {
@@ -13145,7 +13146,7 @@
     "WT": 36839.259900733865,
     "vMaxT": 29.849043825021614
    },
-   "wallSec": 6.203,
+   "wallSec": 8.236,
    "key": "D.rk4.n40"
   },
   "D.engine.n120": {
@@ -13659,7 +13660,7 @@
     "WT": -44848.43875158271,
     "vMaxT": 47.430273488967906
    },
-   "wallSec": 27.718,
+   "wallSec": 38.286,
    "key": "D.engine.n120"
   },
   "D.rk4.n120": {
@@ -14171,7 +14172,7 @@
     "WT": 56379.10197697007,
     "vMaxT": 34.52644255419727
    },
-   "wallSec": 86.198,
+   "wallSec": 118.117,
    "key": "D.rk4.n120"
   },
   "D.engine.gain4": {
@@ -14685,7 +14686,7 @@
     "WT": -27795.003524861597,
     "vMaxT": 24.19092154235251
    },
-   "wallSec": 12.96,
+   "wallSec": 18.186,
    "key": "D.engine.gain4"
   },
   "D.rk4.gain4": {
@@ -15197,7 +15198,7 @@
     "WT": 30935.940009312915,
     "vMaxT": 27.091428987225303
    },
-   "wallSec": 31.694,
+   "wallSec": 43.652,
    "key": "D.rk4.gain4"
   },
   "D.engine.gain16": {
@@ -15711,7 +15712,7 @@
     "WT": -7347.736176869599,
     "vMaxT": 51.04036769905371
    },
-   "wallSec": 15.597,
+   "wallSec": 22.081,
    "key": "D.engine.gain16"
   },
   "D.rk4.gain16": {
@@ -16223,7 +16224,7 @@
     "WT": 109421.86357580891,
     "vMaxT": 58.560095704251715
    },
-   "wallSec": 30.187,
+   "wallSec": 42.869,
    "key": "D.rk4.gain16"
   },
   "D.rk4.n40.2": {
@@ -16735,7 +16736,7 @@
     "WT": 36839.25991029691,
     "vMaxT": 29.849043823781233
    },
-   "wallSec": 12.311,
+   "wallSec": 18.046,
    "key": "D.rk4.n40.2"
   },
   "E.rk4.1": {
@@ -17559,7 +17560,7 @@
     "WT": 48352.51956862345,
     "vMaxT": 38.96050708148253
    },
-   "wallSec": 52.011,
+   "wallSec": 69.762,
    "key": "E.rk4.1"
   },
   "E.rk4.2": {
@@ -18383,7 +18384,7 @@
     "WT": 48352.251663299394,
     "vMaxT": 38.96056077569481
    },
-   "wallSec": 106.259,
+   "wallSec": 148.027,
    "key": "E.rk4.2"
   },
   "F.engine.1": {
@@ -18949,7 +18950,7 @@
     "WT": -17676.571260308898,
     "vMaxT": 42.39184516719606
    },
-   "wallSec": 2.795,
+   "wallSec": 4.645,
    "key": "F.engine.1"
   },
   "F.engine.2": {
@@ -19515,7 +19516,7 @@
     "WT": -38618.72382047893,
     "vMaxT": 40.05633441941244
    },
-   "wallSec": 5.997,
+   "wallSec": 8.376,
    "key": "F.engine.2"
   },
   "F.engine.4": {
@@ -20081,7 +20082,7 @@
     "WT": -16639.107925052398,
     "vMaxT": 35.17421822389231
    },
-   "wallSec": 11.089,
+   "wallSec": 17.43,
    "key": "F.engine.4"
   },
   "F.engine.8": {
@@ -20655,7 +20656,7 @@
     "WT": 12928.993208948177,
     "vMaxT": 33.06412263585457
    },
-   "wallSec": 24.542,
+   "wallSec": 34.816,
    "key": "F.engine.8"
   },
   "F.engine.16": {
@@ -21221,7 +21222,7 @@
     "WT": 45832.45244217023,
     "vMaxT": 37.78516152255162
    },
-   "wallSec": 46.525,
+   "wallSec": 64.032,
    "key": "F.engine.16"
   },
   "F.rk4.1": {
@@ -21785,7 +21786,7 @@
     "WT": 65234.90783091443,
     "vMaxT": 34.819805256427706
    },
-   "wallSec": 7.808,
+   "wallSec": 12.107,
    "key": "F.rk4.1"
   },
   "F.rk4.2": {
@@ -22349,7 +22350,7 @@
     "WT": 65234.90770053548,
     "vMaxT": 34.81980517747573
    },
-   "wallSec": 16,
+   "wallSec": 24.182,
    "key": "F.rk4.2"
   },
   "G.engine.gain0": {
@@ -22915,7 +22916,7 @@
     "WT": 0,
     "vMaxT": 1.1096727297414206
    },
-   "wallSec": 8.479,
+   "wallSec": 11.489,
    "key": "G.engine.gain0"
   },
   "G.rk4.gain0": {
@@ -23479,7 +23480,7 @@
     "WT": 0,
     "vMaxT": 0.8525979850510819
    },
-   "wallSec": 2.587,
+   "wallSec": 3.14,
    "key": "G.rk4.gain0"
   },
   "G.engine.spin0": {
@@ -24045,7 +24046,7 @@
     "WT": -14915.826133029575,
     "vMaxT": 38.50110293665895
    },
-   "wallSec": 17.064,
+   "wallSec": 25.397,
    "key": "G.engine.spin0"
   },
   "G.rk4.spin0": {
@@ -24609,7 +24610,7 @@
     "WT": 103407.36180152198,
     "vMaxT": 37.89347435424876
    },
-   "wallSec": 4.997,
+   "wallSec": 7.214,
    "key": "G.rk4.spin0"
   },
   "G.engine.rot1": {
@@ -25175,7 +25176,7 @@
     "WT": 20513.298833347148,
     "vMaxT": 31.37536545439579
    },
-   "wallSec": 23.866,
+   "wallSec": 29.85,
    "key": "G.engine.rot1"
   },
   "G.rk4.rot1": {
@@ -25739,7 +25740,7 @@
     "WT": 57306.67454614236,
     "vMaxT": 30.089391266457106
    },
-   "wallSec": 8.584,
+   "wallSec": 10.868,
    "key": "G.rk4.rot1"
   },
   "G.engine.rot2": {
@@ -26305,7 +26306,7 @@
     "WT": 35632.95024364564,
     "vMaxT": 40.64490843080031
    },
-   "wallSec": 22.5,
+   "wallSec": 30.579,
    "key": "G.engine.rot2"
   },
   "G.rk4.rot2": {
@@ -26869,7 +26870,7 @@
     "WT": 68180.17612145755,
     "vMaxT": 36.15288632172859
    },
-   "wallSec": 8.231,
+   "wallSec": 10.837,
    "key": "G.rk4.rot2"
   },
   "G.engine.shell80": {
@@ -27435,7 +27436,7 @@
     "WT": 11009.42194507971,
     "vMaxT": 31.915161571919946
    },
-   "wallSec": 142.935,
+   "wallSec": 143.59,
    "key": "G.engine.shell80"
   },
   "G.rk4.shell80": {
@@ -27999,7 +28000,7 @@
     "WT": 46391.425970832934,
     "vMaxT": 32.31728764736278
    },
-   "wallSec": 37.432,
+   "wallSec": 41.728,
    "key": "G.rk4.shell80"
   }
  },
@@ -28073,9 +28074,9 @@
    }
   },
   "prev": {
-   "generatedAt": "2026-11-02T22:39:24.727Z",
-   "targetSha256": "5b34cbd5956a8959cfbbddf5c425148ff0700f6097fd7695541b137c824433a8",
-   "fileSha256": "db96ec3311725b1fa57a495743903110951ffa0697b28eb88cf66cc0d1c12f6c"
+   "generatedAt": "2026-11-04T05:11:30.921Z",
+   "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+   "fileSha256": "c1455340f5bd2df85ca38b276cec0071293b95b6249a4016d990dd53a7f45488"
   },
   "env": "H4_CARRY=1 は比較の実験だけ(既定は全部測る)"
  },
@@ -28145,5 +28146,5 @@
   },
   "why": "🔗 の既定の刻み(h = 0.016)で円盤の大半が飛ぶのは本体の分割で早まった分(刻みを細かくすると半径 100 を越える数が減り、結合積分 rk4 では t = 480 まで大半は飛ばない)。ただし機構(引きずりの支える仕事で慣性速度が積み上がり、塊がほどけて放出する)は刻みで収束した解に残る(🔗 の粒子 40 個の変種・三次元の殻)—— 探索の写し 1 本(🧨)を作る"
  },
- "elapsedS": 843.751
+ "elapsedS": 1095.732
 }

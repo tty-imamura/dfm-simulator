@@ -39,7 +39,7 @@ import * as L from './lib-w309a-invsq.mjs';
 import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';
 import { isRuleBookNoCopy, RULE_BOOKS_WHY } from './lib-w320d-rulebooks.mjs';   // 第320便d(AN477): 後に入った本の除外の宣言の条件   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 段 D が在位の全本を数えるので presets は "all")
-const REGEN_SCOPE = {"presets":"all","roots":["$","DRAG_CORE_DEFAULT_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","REL_DRAG_INVSQ_LAW","REL_DRAG_INVSQ_VERSION","REL_DRAG_SPIN_NODES","T","appStepDt","ckRestoreOne","ckSnapOne","ctx","cw","dfmGaussLegendre01","dragCoreDefaultState","inertialDragIsqK2","inertialDragIsqM2","inertialDragIsqPointAt","inertialDragIsqRule","inertialDragIsqState","inertialSpinMoment","inertialSpinMomentFar","relDragEnabledOf","retiredOf","sim"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","DRAG_CORE_DEFAULT_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","REL_DRAG_INVSQ_LAW","REL_DRAG_INVSQ_VERSION","REL_DRAG_SPIN_NODES","T","appStepDt","ckRestoreOne","ckSnapOne","ctx","cw","dfmGaussLegendre01","dragCoreDefaultState","inertialDragIsqK2","inertialDragIsqM2","inertialDragIsqPointAt","inertialDragIsqRule","inertialDragIsqState","inertialSpinMoment","inertialSpinMomentFar","relDragEnabledOf","retiredOf","sim"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w309a-invsq-1';

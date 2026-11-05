@@ -3,28 +3,28 @@
   "provenanceVersion": "w272e-1",
   "wave": "第278便d",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T05:27:06.175Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T06:52:51.805Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/out/bgpredict-w276a.json",
-    "bytes": 96525,
-    "sha256": "17a9b9608a99a65728928dad03dd9b926d94985aa459b7a3a15c6303fde5ebbe",
-    "mtime": "2026-11-04T05:26:22.920Z"
+    "bytes": 96545,
+    "sha256": "ed623faeafcfe35f38e6ad80f281ffeac3ecc03635bf1e460c87184df14dada4",
+    "mtime": "2026-11-05T06:52:04.815Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w278d-bgequiv.mjs",
-    "bytes": 27844,
-    "sha256": "d91b850f08099980a84bee9b2c4f77a219c20d01389251497c9501485f3e1bb9",
-    "mtime": "2026-10-20T16:19:56.628Z"
+    "bytes": 27859,
+    "sha256": "95304769659543b3fb88e512b99fa639a365edb762d222d7eb4ccf7f406550d2",
+    "mtime": "2026-11-05T03:10:54.234Z"
    },
    {
     "file": "tests/lib-w278d-bgequiv.mjs",
@@ -45,7 +45,7 @@
     "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
-  "codeSha256": "e803c4d4b68003e9c2aca19677c180faa035d5a3bad32638c516a5fc29c0582d",
+  "codeSha256": "d06440f26e042022b6633c7e07efe28216bbfd91018be7950c1297d978aa8a64",
   "harnessVersion": "w278d-bgequiv-1",
   "libVersion": "w278d-bgequiv-1",
   "steps": [
@@ -69,7 +69,7 @@
    "観測と合った"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "earthMoonRealKF1",
     "plutoCharonReal",
@@ -99,16 +99,17 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1361,
-   "segments": 1187,
-   "closureShare": 0.2934
+   "abBody": false,
+   "names": 1324,
+   "segments": 1161,
+   "closureShare": 0.2874
   },
-  "scopeSha256": "667cee498f7176b21f3a0211fbade67e0db3a6784cb595d18071d0e11dcb2693",
+  "scopeSha256": "c341400d8b844fc8e7e2acd77f1d140f0c04a67262610df4d9361f95b90aae61",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/bgpredict-w276a.json",
-    "stableSha256": "d4a02b765ce9e39bab6f9b13f71452b89a09d3d6b4d4b038280e1a0c3e0d472f",
+    "stableSha256": "44605c60007f56c2932b4cd96b054ef882d575d926776e1e407292e77ae09c0e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
@@ -3705,5 +3706,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 39.092
+ "elapsedS": 42.654
 }

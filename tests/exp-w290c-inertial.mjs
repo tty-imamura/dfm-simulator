@@ -32,7 +32,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as RD from './lib-w289c-reldrag.mjs';
 import * as LI from './lib-w290c-inertial.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
-const REGEN_SCOPE = {"presets":["boxBinaryToy","compactForceToy","earthMoonFree","inertialDragPair"],"roots":["$","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.ckRestoreOne","HP.ckSnapOne","HP.cloneSimStateNow","HP.dfmInertialDragStep","HP.dfmMeshVelocityFieldAt","HP.inertialDragEpoch","HP.inertialDragState","HP.loadPreset","HP.sim","HP.validatePreset","T","cw","sim","validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["boxBinaryToy","compactForceToy","earthMoonFree","inertialDragPair"],"roots":["$","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.ckRestoreOne","HP.ckSnapOne","HP.cloneSimStateNow","HP.dfmInertialDragStep","HP.dfmMeshVelocityFieldAt","HP.inertialDragEpoch","HP.inertialDragState","HP.loadPreset","HP.sim","HP.validatePreset","T","cw","sim","validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w290c-inertial-1';

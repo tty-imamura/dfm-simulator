@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第295便b",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T04:27:44.242Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T05:31:33.610Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w295b-geo4.mjs",
-    "bytes": 13842,
-    "sha256": "dadbf5a0e0c840aeef07f612097a38d394d141b35a47d8bb7971460951403ccf",
-    "mtime": "2026-10-20T16:19:56.640Z"
+    "bytes": 13884,
+    "sha256": "e5087545ad60ab869899382e11fe30015487165d17ac6e533732db33742d1082",
+    "mtime": "2026-11-05T03:10:54.265Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -40,12 +40,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "a159c66ce12c6f96b742777e433876b3613e30007a2c6c67f2064ea32a5a4f5c",
+  "codeSha256": "d924e5339d1a9ce126280bac95eecc5de4f7b602a047444e5c41654e08fec58e",
   "harnessVersion": "w295b-geo4-1",
   "purposes": [
    "proof",
@@ -88,7 +88,7 @@
    "回転引きずり・大域場を 4 の標準式にした"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": "all",
    "roots": [
     "HP.MODE_SAVE_WARN_CODES",
@@ -107,11 +107,15 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1365,
-   "segments": 1191,
-   "closureShare": 0.2945
+   "abBody": false,
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1328,
+   "segments": 1165,
+   "closureShare": 0.2884
   },
-  "scopeSha256": "f9d15d801d302b38f595240eb4cd62216018ca178ab5db9c457c8f40371ab64f",
+  "scopeSha256": "4637463dcf8403ff197d1d1233ba5dde8d75e545b69617c8a5f6b79adc4fc040",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -196,7 +200,7 @@
      "n": 122,
      "hex": "e6e6c911"
     },
-    "wallSec": 30.112
+    "wallSec": 19.351
    },
    "geo4": {
     "mode": {
@@ -260,7 +264,7 @@
      "n": 122,
      "hex": "e6e6c911"
     },
-    "wallSec": 28.255
+    "wallSec": 18.783
    },
    "cmp": {
     "firstDiffStep": null,
@@ -350,7 +354,7 @@
      "n": 123,
      "hex": "f37f0c27"
     },
-    "wallSec": 6.076
+    "wallSec": 5.22
    },
    "geo4": {
     "mode": {
@@ -414,7 +418,7 @@
      "n": 123,
      "hex": "f37f0c27"
     },
-    "wallSec": 6.133
+    "wallSec": 5.275
    },
    "cmp": {
     "firstDiffStep": null,
@@ -504,7 +508,7 @@
      "n": 123,
      "hex": "f37f0c27"
     },
-    "wallSec": 6.391
+    "wallSec": 5.164
    },
    "geo4": {
     "mode": {
@@ -568,7 +572,7 @@
      "n": 123,
      "hex": "f37f0c27"
     },
-    "wallSec": 6.176
+    "wallSec": 5.621
    },
    "cmp": {
     "firstDiffStep": null,
@@ -658,7 +662,7 @@
      "n": 123,
      "hex": "7edd98c8"
     },
-    "wallSec": 6.986
+    "wallSec": 6.167
    },
    "geo4": {
     "mode": {
@@ -722,7 +726,7 @@
      "n": 123,
      "hex": "7edd98c8"
     },
-    "wallSec": 6.845
+    "wallSec": 5.985
    },
    "cmp": {
     "firstDiffStep": null,
@@ -812,7 +816,7 @@
      "n": 123,
      "hex": "594d9c5e"
     },
-    "wallSec": 6.175
+    "wallSec": 5.812
    },
    "geo4": {
     "mode": {
@@ -876,7 +880,7 @@
      "n": 123,
      "hex": "594d9c5e"
     },
-    "wallSec": 6.108
+    "wallSec": 5.317
    },
    "cmp": {
     "firstDiffStep": null,
@@ -966,7 +970,7 @@
      "n": 123,
      "hex": "ec52c4fd"
     },
-    "wallSec": 36.636
+    "wallSec": 31.161
    },
    "geo4": {
     "mode": {
@@ -1030,7 +1034,7 @@
      "n": 123,
      "hex": "ec52c4fd"
     },
-    "wallSec": 35.629
+    "wallSec": 31.339
    },
    "cmp": {
     "firstDiffStep": null,
@@ -1120,7 +1124,7 @@
      "n": 122,
      "hex": "f0cba3cd"
     },
-    "wallSec": 0.172
+    "wallSec": 0.11
    },
    "geo4": {
     "mode": {
@@ -1184,7 +1188,7 @@
      "n": 122,
      "hex": "f0cba3cd"
     },
-    "wallSec": 0.101
+    "wallSec": 0.106
    },
    "cmp": {
     "firstDiffStep": null,
@@ -1274,7 +1278,7 @@
      "n": 122,
      "hex": "b22e5054"
     },
-    "wallSec": 0.133
+    "wallSec": 0.135
    },
    "geo4": {
     "mode": {
@@ -1338,7 +1342,7 @@
      "n": 122,
      "hex": "b22e5054"
     },
-    "wallSec": 0.086
+    "wallSec": 0.082
    },
    "cmp": {
     "firstDiffStep": null,
@@ -1428,7 +1432,7 @@
      "n": 122,
      "hex": "ba8cabe0"
     },
-    "wallSec": 0.089
+    "wallSec": 0.076
    },
    "geo4": {
     "mode": {
@@ -1492,7 +1496,7 @@
      "n": 122,
      "hex": "ba8cabe0"
     },
-    "wallSec": 0.038
+    "wallSec": 0.035
    },
    "cmp": {
     "firstDiffStep": null,
@@ -1609,7 +1613,7 @@
     "n": 122,
     "hex": "1454e7f2"
    },
-   "wallSec": 0.064
+   "wallSec": 0.065
   },
   "kFrame1": {
    "mode": {
@@ -1679,7 +1683,7 @@
     "n": 124,
     "hex": "6f8e27ce"
    },
-   "wallSec": 0.319
+   "wallSec": 0.287
   }
  },
  "frozen": [
@@ -1719,5 +1723,5 @@
   "inertial3": true
  },
  "ok": true,
- "elapsedS": 187.102
+ "elapsedS": 149.188
 }

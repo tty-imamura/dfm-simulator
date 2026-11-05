@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第297便b",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T09:38:48.267Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:37:48.396Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
@@ -40,9 +40,9 @@
   "code": [
    {
     "file": "tests/exp-w297b-fit.mjs",
-    "bytes": 70690,
-    "sha256": "615f2306018325cd469a4e77c6f25804a6a762c1a6dd36ffe191aba63676de63",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "bytes": 70717,
+    "sha256": "77f636d4584f19e4f7eccedb629d6276ad2cd3186ae964d5981bb7e3869eca82",
+    "mtime": "2026-11-05T03:10:54.265Z"
    },
    {
     "file": "tests/lib-w306e-pre.mjs",
@@ -64,15 +64,15 @@
    },
    {
     "file": "tests/exp-w295c-inertial3.mjs",
-    "bytes": 35895,
-    "sha256": "f35f7e054c4967d75970891c8cdcfac37a40f9938f1abe369ee18f89da7df449",
-    "mtime": "2026-10-20T16:19:56.640Z"
+    "bytes": 35937,
+    "sha256": "90da3ad0d163574b2ae9de34ea271f158793706dd86d90ea83f6713f0832c4fe",
+    "mtime": "2026-11-05T03:10:54.265Z"
    },
    {
     "file": "tests/exp-w293d-swing.mjs",
-    "bytes": 50599,
-    "sha256": "dc004efcb4f2edf6227ed3300b9f5973ece83ef104a96e93cef835eb616ad2f5",
-    "mtime": "2026-10-20T16:19:56.640Z"
+    "bytes": 50614,
+    "sha256": "4ad34f26079166fe66a9b4116ae4925274313fef9e69b98a5f4cae7522ce5f9c",
+    "mtime": "2026-11-05T03:10:54.258Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -100,9 +100,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    },
    {
     "file": "tests/lib-w302h-splitrec.mjs",
@@ -123,7 +123,7 @@
     "mtime": "2026-10-20T16:19:56.684Z"
    }
   ],
-  "codeSha256": "d853c3bf22882c36406f196192990cf0d54c5360c116763eceac0c1e8090109d",
+  "codeSha256": "dc32f35323c032317a4cd301e231a6dfe0d048ddd2307000031e14ce226df855",
   "harnessVersion": "w297b-fit-2",
   "libVersion": "w297b-fit-lib-1",
   "fitRecordVersion": "w297b-1",
@@ -141,7 +141,7 @@
   ],
   "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・子プロセスで並列)",
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": "all",
    "roots": [
     "HP.DRAG_CORE_NR",
@@ -175,11 +175,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1406,
-   "segments": 1232,
-   "closureShare": 0.3032
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1369,
+   "segments": 1206,
+   "closureShare": 0.2971
   },
-  "scopeSha256": "cc11156fcdfb475ad03861c58ba1b81c2aeadd40547eb76ff1c870bc87ed5a01",
+  "scopeSha256": "10979a4cd975bc7e9c8625b50832fbb97292c5a2e0a61913940de7c926485ea4",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -3364,7 +3367,7 @@
      "sid": 27.32885846186129,
      "eMean": 0.05494176955119052,
      "revN": 354,
-     "wallSec": 1.755
+     "wallSec": 2.273
     },
     {
      "label": "傾斜 5.145°(NASA NSSDC Moon Fact Sheet の軌道傾斜(黄道に対して))",
@@ -3373,7 +3376,7 @@
      "sid": 27.32753645997272,
      "eMean": 0.05518676069409869,
      "revN": 354,
-     "wallSec": 1.952
+     "wallSec": 2.396
     },
     {
      "label": "傾斜 5.16°(JPL SSD の平均要素の軌道傾斜(黄道))",
@@ -3382,7 +3385,7 @@
      "sid": 27.327531213933476,
      "eMean": 0.055188216752033496,
      "revN": 354,
-     "wallSec": 1.896
+     "wallSec": 1.674
     }
    ],
    "flat": {
@@ -3393,7 +3396,7 @@
     "sid": 27.32885846186129,
     "eMean": 0.05494176955119052,
     "revN": 354,
-    "wallSec": 1.755
+    "wallSec": 2.273
    },
    "incl": {
     "key": "ems-ref3d-5.145",
@@ -3403,7 +3406,7 @@
     "sid": 27.32753645997272,
     "eMean": 0.05518676069409869,
     "revN": 354,
-    "wallSec": 1.952
+    "wallSec": 2.396
    },
    "engineFlatT2": 8.765021737598444,
    "flatRel": 8.929621986580909e-7,
@@ -3975,313 +3978,313 @@
  "ok": true,
  "timing": {
   "mer-g0-h": {
-   "wallSec": 1.635
+   "wallSec": 1.082
   },
   "mer-g0-h2": {
-   "wallSec": 3.039
+   "wallSec": 2.05
   },
   "mer-grid0-h": {
-   "wallSec": 1.468
+   "wallSec": 1.396
   },
   "mer-grid1-h": {
-   "wallSec": 1.703
+   "wallSec": 1.352
   },
   "mer-grid2-h": {
-   "wallSec": 1.647
+   "wallSec": 1.461
   },
   "mer-grid3-h": {
-   "wallSec": 1.693
+   "wallSec": 1.389
   },
   "mer-grid4-h": {
-   "wallSec": 1.73
+   "wallSec": 1.175
   },
   "mer-grid5-h": {
-   "wallSec": 1.615
+   "wallSec": 1.321
   },
   "mer-grid6-h": {
-   "wallSec": 1.741
+   "wallSec": 1.161
   },
   "mer-grid7-h": {
-   "wallSec": 1.931
+   "wallSec": 1.249
   },
   "mer-grid8-h": {
-   "wallSec": 1.812
+   "wallSec": 1.218
   },
   "mer-grid9-h": {
-   "wallSec": 1.739
+   "wallSec": 1.21
   },
   "mer-grid10-h": {
-   "wallSec": 1.594
+   "wallSec": 1.503
   },
   "mer-grid11-h": {
-   "wallSec": 1.546
+   "wallSec": 1.252
   },
   "mer-grid12-h": {
-   "wallSec": 1.598
+   "wallSec": 1.125
   },
   "mer-it0-h": {
-   "wallSec": 1.589
+   "wallSec": 1.258
   },
   "mer-it1-h": {
-   "wallSec": 1.628
+   "wallSec": 1.419
   },
   "mer-it2-h": {
-   "wallSec": 1.572
+   "wallSec": 1.419
   },
   "mer-it3-h": {
-   "wallSec": 1.433
+   "wallSec": 1.58
   },
   "mer-final-h": {
-   "wallSec": 1.616
+   "wallSec": 1.391
   },
   "mer-final-h2": {
-   "wallSec": 3.117
+   "wallSec": 2.787
   },
   "mer-fscan-0-0.1": {
-   "wallSec": 1.808
+   "wallSec": 1.261
   },
   "mer-fscan-0-0.3": {
-   "wallSec": 2.023
+   "wallSec": 1.25
   },
   "mer-fscan-0-0.5": {
-   "wallSec": 1.9
+   "wallSec": 1.301
   },
   "mer-fscan-0-0.7": {
-   "wallSec": 1.9
+   "wallSec": 1.327
   },
   "mer-fscan-0-0.9": {
-   "wallSec": 1.778
+   "wallSec": 1.158
   },
   "mer-fscan-0-1": {
-   "wallSec": 1.93
+   "wallSec": 1.284
   },
   "plu-grid0-h": {
-   "wallSec": 15.559
+   "wallSec": 11.445
   },
   "plu-grid1-h": {
-   "wallSec": 15.765
+   "wallSec": 10.856
   },
   "plu-grid2-h": {
-   "wallSec": 16.12
+   "wallSec": 11.775
   },
   "plu-grid3-h": {
-   "wallSec": 17.584
+   "wallSec": 10.588
   },
   "plu-grid4-h": {
-   "wallSec": 17.494
+   "wallSec": 11.407
   },
   "plu-grid5-h": {
-   "wallSec": 16.42
+   "wallSec": 11.811
   },
   "plu-grid6-h": {
-   "wallSec": 18.403
+   "wallSec": 11.404
   },
   "plu-grid7-h": {
-   "wallSec": 17.075
+   "wallSec": 11.445
   },
   "plu-grid8-h": {
-   "wallSec": 17.398
+   "wallSec": 11.405
   },
   "plu-grid9-h": {
-   "wallSec": 16.849
+   "wallSec": 11.024
   },
   "plu-grid10-h": {
-   "wallSec": 17.235
+   "wallSec": 11.554
   },
   "plu-grid11-h": {
-   "wallSec": 16.106
-  },
-  "plu-g0-h": {
-   "wallSec": 13.171
+   "wallSec": 10.332
   },
   "plu-grid12-h": {
-   "wallSec": 14.658
+   "wallSec": 10.44
+  },
+  "plu-g0-h": {
+   "wallSec": 11.132
   },
   "plu-g0-h2": {
-   "wallSec": 28.595
+   "wallSec": 21.139
   },
   "plu-it0-h": {
-   "wallSec": 15.595
+   "wallSec": 12.535
   },
   "plu-it1-h": {
-   "wallSec": 17.352
+   "wallSec": 12.133
   },
   "plu-final-h": {
-   "wallSec": 16.028
-  },
-  "plu-final-h2": {
-   "wallSec": 32.181
+   "wallSec": 11.959
   },
   "plu-final-16-h": {
-   "wallSec": 29.494
+   "wallSec": 23.749
+  },
+  "plu-final-h2": {
+   "wallSec": 24.577
   },
   "plu-fscan-0-0.1": {
-   "wallSec": 16.528
+   "wallSec": 12.555
   },
   "plu-fscan-0-0.3": {
-   "wallSec": 17.705
+   "wallSec": 13.593
   },
   "plu-fscan-0-0.5": {
-   "wallSec": 16.041
+   "wallSec": 13.236
   },
   "plu-fscan-0-0.7": {
-   "wallSec": 16.079
+   "wallSec": 14.077
   },
   "plu-fscan-0-0.9": {
-   "wallSec": 16.43
+   "wallSec": 13.126
   },
   "plu-fscan-0-1": {
-   "wallSec": 16.595
+   "wallSec": 13.071
   },
   "plu-fscan-1-0.3": {
-   "wallSec": 14.215
+   "wallSec": 12.266
   },
   "plu-fscan-1-0.5": {
-   "wallSec": 14.286
+   "wallSec": 13.008
   },
   "plu-fscan-1-0.7": {
-   "wallSec": 14.479
+   "wallSec": 12.404
   },
   "plu-fscan-1-0.9": {
-   "wallSec": 15.308
+   "wallSec": 13.345
   },
   "plu-fscan-1-1": {
-   "wallSec": 15.606
+   "wallSec": 12.706
   },
   "ems-ex-g0-h": {
-   "wallSec": 7.893
+   "wallSec": 6.051
   },
   "ems-ex-g0-h2": {
-   "wallSec": 14.855
+   "wallSec": 12.216
   },
   "ems-ex-g0-h4": {
-   "wallSec": 30.492
+   "wallSec": 23.532
   },
   "ems-ex-gT-h": {
-   "wallSec": 9.197
+   "wallSec": 6.285
   },
   "ems-ex-gT-h2": {
-   "wallSec": 17.011
+   "wallSec": 12.784
   },
   "ems-ex-gT-h4": {
-   "wallSec": 34.366
+   "wallSec": 27.06
   },
   "ems-fix-h": {
-   "wallSec": 7.524
+   "wallSec": 6.141
   },
   "ems-fix-h2": {
-   "wallSec": 15.303
+   "wallSec": 13.068
   },
   "ems-fix-h4": {
-   "wallSec": 30.386
+   "wallSec": 23.976
   },
   "ems-fix-long": {
-   "wallSec": 22.25
+   "wallSec": 17.721
   },
   "ems-fix-earthE": {
-   "wallSec": 7.679
+   "wallSec": 6.926
   },
   "ems-long-g0": {
-   "wallSec": 22.789
+   "wallSec": 18.706
   },
   "ems-inv-W": {
-   "wallSec": 8.46
+   "wallSec": 6.623
   },
   "ems-inv-V": {
-   "wallSec": 5.314
+   "wallSec": 4.162
   },
   "ems-grid0-h": {
-   "wallSec": 7.216
+   "wallSec": 6.718
   },
   "ems-grid0-h2": {
-   "wallSec": 14.731
+   "wallSec": 12.988
   },
   "ems-grid1-h": {
-   "wallSec": 9.17
+   "wallSec": 7.283
   },
   "ems-grid1-h2": {
-   "wallSec": 18.979
+   "wallSec": 14.003
   },
   "ems-grid2-h": {
-   "wallSec": 9.204
+   "wallSec": 6.923
   },
   "ems-grid2-h2": {
-   "wallSec": 18.347
+   "wallSec": 14.242
   },
   "ems-grid3-h": {
-   "wallSec": 9.39
+   "wallSec": 6.165
   },
   "ems-grid3-h2": {
-   "wallSec": 17.131
+   "wallSec": 14.151
   },
   "ems-grid4-h": {
-   "wallSec": 8.347
+   "wallSec": 7.336
   },
   "ems-grid4-h2": {
-   "wallSec": 16.504
+   "wallSec": 13.698
   },
   "ems-grid5-h": {
-   "wallSec": 8.817
+   "wallSec": 6.706
   },
   "ems-grid5-h2": {
-   "wallSec": 16.251
+   "wallSec": 13.926
   },
   "ems-grid6-h": {
-   "wallSec": 8.701
+   "wallSec": 6.837
   },
   "ems-grid6-h2": {
-   "wallSec": 17.075
+   "wallSec": 13.461
   },
   "ems-grid7-h": {
-   "wallSec": 8.725
+   "wallSec": 7.312
   },
   "ems-grid7-h2": {
-   "wallSec": 17.882
+   "wallSec": 12.854
   },
   "ems-grid8-h": {
-   "wallSec": 9.182
+   "wallSec": 6.472
   },
   "ems-grid8-h2": {
-   "wallSec": 17.667
+   "wallSec": 12.84
   },
   "ems-grid9-h": {
-   "wallSec": 9.061
+   "wallSec": 6.862
   },
   "ems-grid9-h2": {
-   "wallSec": 17.242
+   "wallSec": 13.695
   },
   "ems-grid10-h": {
-   "wallSec": 9.097
+   "wallSec": 7.121
   },
   "ems-grid10-h2": {
-   "wallSec": 17.186
+   "wallSec": 15.45
   },
   "ems-grid11-h": {
-   "wallSec": 8.675
+   "wallSec": 7.131
   },
   "ems-grid11-h2": {
-   "wallSec": 16.501
+   "wallSec": 14.483
   },
   "ems-grid12-h": {
-   "wallSec": 8.58
+   "wallSec": 7.518
   },
   "ems-grid12-h2": {
-   "wallSec": 17.344
+   "wallSec": 14.218
   },
   "ems-grid13-h": {
-   "wallSec": 9.207
+   "wallSec": 6.619
   },
   "ems-grid13-h2": {
-   "wallSec": 16.243
+   "wallSec": 13.406
   },
   "plu-inv-fit-V": {
-   "wallSec": 8.183
+   "wallSec": 6.099
   },
   "plu-inv-transfer-V": {
-   "wallSec": 9.664
+   "wallSec": 7.378
   },
   "plu-inv-transfer-W": {
-   "wallSec": 13.171
+   "wallSec": 10.256
   }
  },
  "run": {
@@ -4445,5 +4448,5 @@
   "gain は普遍定数",
   "全系の保存則が閉じた"
  ],
- "elapsedS": 568.994
+ "elapsedS": 440.349
 }

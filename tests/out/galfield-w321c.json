@@ -3,7 +3,7 @@
  "libVersion": "w321c-galfield-lib-2",
  "generator": "tests/exp-w321c-galfield.mjs",
  "target": "beta/index.html",
- "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "reuseFrom": null,
  "ruling": "原仮定者の予定(第123報)「geoPN=4の予定: 処理を一新する。銀河の軸引きずりの知見から、銀河の回転引きずりを推定して、銀河のサンプルを作成する」・原仮定者の回答(2026-10-31 —— AN489)・決断事項 AN486・AN487・AN488・AN496・AN497・AN498・統括の検証項目 R268。エンジン・在位の本・受け手の R_d = Y_k m・規則は変えない(器・lib・正本・文書だけ)。半渦度を受け手の軸へ直結する項はエンジンに足さない",
  "workers": 2,
@@ -316,28 +316,28 @@
  },
  "timing": {
   "T": {
-   "wallSec": 160.811
+   "wallSec": 116.457
   },
   "G0std": {
-   "wallSec": 81.314
+   "wallSec": 46.341
   },
   "V": {
-   "wallSec": 64.389
+   "wallSec": 49.879
   },
   "G0db": {
-   "wallSec": 49.522
+   "wallSec": 41.474
   },
   "P": {
-   "wallSec": 27.723
+   "wallSec": 22.113
   },
   "G0rest": {
-   "wallSec": 14.326
+   "wallSec": 11.245
   },
   "H": {
-   "wallSec": 22.575
+   "wallSec": 18.758
   },
   "N": {
-   "wallSec": 11.245
+   "wallSec": 8.969
   }
  },
  "G0": {
@@ -398,7 +398,7 @@
     ],
     "sha256": "4723a04d422f50cec753a0b675afd391c4328d125e5bfdf4ed449c5c0eac1a9c"
    },
-   "wallSec": 81.314
+   "wallSec": 46.341
   },
   "db": {
    "id": "galaxyDB",
@@ -458,7 +458,7 @@
     ],
     "sha256": "3061b7f7aa42471451b680b00eeb9ed936a46da40871633323bf9b1969126804"
    },
-   "wallSec": 49.521
+   "wallSec": 41.474
   },
   "rest": [
    {
@@ -503,7 +503,7 @@
      ],
      "sha256": "e872d29411c8f66825ac52256cb789beb64ebc514640cd4a92db21472d5aedbf"
     },
-    "wallSec": 10.715
+    "wallSec": 8.731
    },
    {
     "id": "chainDiskToy3d",
@@ -547,7 +547,7 @@
      ],
      "sha256": "1cca31d0a9d1ec30df50f48c33a17409657d061d56b07322cf92eb532df72339"
     },
-    "wallSec": 1.001
+    "wallSec": 0.753
    },
    {
     "id": "chainSpreadToy3d",
@@ -591,7 +591,7 @@
      ],
      "sha256": "8cb149ac0895753cf5521a6b3e5dc86096a32aa299e32656177483f24b0b9468"
     },
-    "wallSec": 2.608
+    "wallSec": 1.759
    },
    {
     "id": "galaxyGeo2",
@@ -4977,19 +4977,19 @@
   "hBodies": true
  },
  "ok": true,
- "elapsedS": 221.991,
+ "elapsedS": 161.096,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第321便c",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T10:36:04.821Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:52:40.104Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
@@ -5025,9 +5025,9 @@
    },
    {
     "file": "tests/exp-w320a-srcheat.mjs",
-    "bytes": 37042,
-    "sha256": "f1ce7d9c54fe3dc5383f7d491f742c63bf142543938dc53c0cebcc49d7841119",
-    "mtime": "2026-10-31T03:14:16.312Z"
+    "bytes": 37057,
+    "sha256": "073c7756a83a26576704f2e1d4c2808bc7931cba0c262636ec7e642b85960547",
+    "mtime": "2026-11-05T03:10:54.311Z"
    },
    {
     "file": "tests/lib-w319a-axisheat.mjs",
@@ -5073,12 +5073,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "2687798eb28bd8423853c3f163c90ef2b9c1b9df54b0b0e3f98870b1bf7e3981",
+  "codeSha256": "1ef6c9cc93d9dfb093ab0380a5689f26b39252ce445ea4236b809f81f24e7afd",
   "harnessVersion": "w321c-galfield-2",
   "stage": "galfield",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・子プロセス 2 本で部を分ける)",
@@ -5099,7 +5099,7 @@
    "capObs の全熱を太陽の効果と呼ばない(衛星の源は独立の寄与の列 —— AN498)"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "chainDiskToy3d",
     "chainSpreadToy3d",
@@ -5159,11 +5159,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1429,
-   "segments": 1255,
-   "closureShare": 0.309
+   "names": 1392,
+   "segments": 1229,
+   "closureShare": 0.3029
   },
-  "scopeSha256": "e0af09bf3beab995c0f281392e0218aa345c8319dc7e8e5cce8958996515f142",
+  "scopeSha256": "6b5dff4d9d88d382260b7ef4fc425cc26eae945114eb9e6566d8f851b49973ac",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

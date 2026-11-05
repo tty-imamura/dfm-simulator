@@ -38,7 +38,7 @@ import { meshFlowGrad, decomposeGrad, apparentCounterSpin } from './lib-w272c-bi
 //   lint.regenScope が照合)。正本の meta に scopeStamp で刻む(書く直前 —— 領域の 3 欄)。器の計算と出力の物理の欄は変えない
 import { scopeStamp as w323cScopeStamp } from './lib-w281a-scope.mjs';
 import { provenanceMeta as w323cProv } from './lib-w272e-provenance.mjs';
-const REGEN_SCOPE = {"presets":["spaceMeshBinaryToy"],"roots":["$","HP.allPresets","HP.dfmField","HP.sim","HP.validatePreset","clamp"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["spaceMeshBinaryToy"],"roots":["$","HP.allPresets","HP.dfmField","HP.sim","HP.validatePreset","clamp"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';

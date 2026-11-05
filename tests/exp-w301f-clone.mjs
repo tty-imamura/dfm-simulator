@@ -29,7 +29,7 @@ import { loadHtmlHeadless } from './lib-w279b-headless.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 // 第281便a の領域 hash の宣言(全本を走らせる —— presets "all")
-const REGEN_SCOPE = {"presets":"all","roots":["$","HP.allPresets","HP.loadPreset","SIM_STEP_SCRATCH","appStepDt","applyQLock","ckRestoreOne","ckSnapOne","cloneSimState","ctx","currentPreset","makeSim","qLockOn","sim"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","HP.allPresets","HP.loadPreset","SIM_STEP_SCRATCH","appStepDt","applyQLock","ckRestoreOne","ckSnapOne","cloneSimState","ctx","currentPreset","makeSim","qLockOn","sim"],"core":true,"consts":[],"complete":true,"abBody":false,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w301f-clone-1';

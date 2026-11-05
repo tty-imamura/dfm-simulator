@@ -8,7 +8,7 @@
  "emxVersion": "w303c-emx4-1",
  "generator": "tests/exp-w312d-confirm.mjs",
  "target": "beta/index.html",
- "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "ruling": "原仮定者の裁定(第114報): 水星・金星・火星で絞り込んだ候補を、木星と「太陽と地球と月」で確認する —— 決断事項 AN398(軌道に依る R_d を天体の性質として採らない・候補から決めた規則で R_d を置き残差を測る・合わせない・1 つの天体に 1 つの宣言・太陽は固定・G_loc の分は各系で)・AN396・AN336・統括の検証項目 R233。確認の材料(在位へ入れない)。v2(第313便d —— 原仮定者の裁定(第115報)AN399・AN402・統括の検証項目 R237): 全天体の規則 kappa0(太陽も・κ₀ 固定)の口・受理の目安の cap を外す",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "quick": false,
@@ -178,7 +178,7 @@
     },
     "betaMax": 5.135605990686731e-8,
     "isqSteps": 1740861,
-    "wallSec": 1100.537
+    "wallSec": 800.555
    },
    "jupiter|q01|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=2|N=8": {
     "key": "jupiter|q01|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=2|N=8",
@@ -207,7 +207,7 @@
     "betaMax": 1.0450602602525163e-8,
     "isqSteps": 760089,
     "overlap": 0,
-    "wallSec": 297.169,
+    "wallSec": 220.383,
     "status": "run"
    },
    "jupiter|q11|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=2|N=8": {
@@ -237,7 +237,7 @@
     "betaMax": 1.045060259138874e-8,
     "isqSteps": 760089,
     "overlap": 0,
-    "wallSec": 312.537,
+    "wallSec": 216.147,
     "status": "run"
    },
    "jupiter|q01|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=1|N=8": {
@@ -267,7 +267,7 @@
     "betaMax": 1.0450336831615362e-8,
     "isqSteps": 380044,
     "overlap": 0,
-    "wallSec": 144.764,
+    "wallSec": 113.998,
     "status": "run"
    },
    "jupiter|q11|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=1|N=8": {
@@ -297,7 +297,7 @@
     "betaMax": 1.045033682051679e-8,
     "isqSteps": 380044,
     "overlap": 0,
-    "wallSec": 147.019,
+    "wallSec": 114.298,
     "status": "run"
    },
    "earthmoon|q00|-|div=2|N=118": {
@@ -338,7 +338,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 11.761
+    "wallSec": 8.717
    },
    "earthmoon|q10|-|div=2|N=118": {
     "key": "earthmoon|q10|-|div=2|N=118",
@@ -378,7 +378,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 12.716
+    "wallSec": 9.693
    },
    "earthmoon|q00|-|div=1|N=118": {
     "key": "earthmoon|q00|-|div=1|N=118",
@@ -418,7 +418,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 6.279
+    "wallSec": 4.468
    },
    "earthmoon|q10|-|div=1|N=118": {
     "key": "earthmoon|q10|-|div=1|N=118",
@@ -458,7 +458,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 6.372
+    "wallSec": 5.031
    },
    "jupiter|q00|-|div=2|N=8": {
     "key": "jupiter|q00|-|div=2|N=8",
@@ -484,7 +484,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 3.182,
+    "wallSec": 2.187,
     "status": "run"
    },
    "jupiter|q10|-|div=2|N=8": {
@@ -511,7 +511,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 3.523,
+    "wallSec": 2.41,
     "status": "run"
    },
    "jupiter|q00|-|div=1|N=8": {
@@ -538,7 +538,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.745,
+    "wallSec": 1.197,
     "status": "run"
    },
    "jupiter|q10|-|div=1|N=8": {
@@ -565,7 +565,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.559,
+    "wallSec": 1.333,
     "status": "run"
    }
   }
@@ -733,7 +733,7 @@
    },
    "planet3": {
     "version": "w313d-planet3-3",
-    "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+    "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
     "kernel": "k2"
    }
   },
@@ -1147,7 +1147,7 @@
      "div": 1,
      "n": 1,
      "steps": 1740861,
-     "wallSec": 1100.537
+     "wallSec": 800.555
     },
     "jupiter|drag|h/2": {
      "system": "jupiter",
@@ -1155,7 +1155,7 @@
      "div": 2,
      "n": 2,
      "steps": 1520178,
-     "wallSec": 609.7059999999999
+     "wallSec": 436.53
     },
     "jupiter|drag|h/1": {
      "system": "jupiter",
@@ -1163,7 +1163,7 @@
      "div": 1,
      "n": 2,
      "steps": 760088,
-     "wallSec": 291.783
+     "wallSec": 228.296
     },
     "earthmoon|nodrag|h/2": {
      "system": "earthmoon",
@@ -1171,7 +1171,7 @@
      "div": 2,
      "n": 2,
      "steps": 6963437,
-     "wallSec": 24.476999999999997
+     "wallSec": 18.41
     },
     "earthmoon|nodrag|h/1": {
      "system": "earthmoon",
@@ -1179,7 +1179,7 @@
      "div": 1,
      "n": 2,
      "steps": 3481720,
-     "wallSec": 12.651
+     "wallSec": 9.498999999999999
     },
     "jupiter|nodrag|h/2": {
      "system": "jupiter",
@@ -1187,7 +1187,7 @@
      "div": 2,
      "n": 2,
      "steps": 1520178,
-     "wallSec": 6.705
+     "wallSec": 4.5969999999999995
     },
     "jupiter|nodrag|h/1": {
      "system": "jupiter",
@@ -1195,15 +1195,15 @@
      "div": 1,
      "n": 2,
      "steps": 760088,
-     "wallSec": 3.3040000000000003
+     "wallSec": 2.5300000000000002
     }
    },
    "rate": {
     "jupiter": {
-     "rateStepsPerSec": 2529.444064209325
+     "rateStepsPerSec": 3429.8688679443944
     },
     "earthmoon": {
-     "rateStepsPerSec": 1581.8286890854192
+     "rateStepsPerSec": 2174.5676436971853
     }
    },
    "stage2": {
@@ -1211,37 +1211,37 @@
     "jupiter": {
      "h": {
       "steps": 380044,
-      "spentSec": 150
+      "spentSec": 111
      },
      "h2": {
       "steps": 760088,
-      "spentSec": 300
+      "spentSec": 222
      },
      "h4": {
       "steps": 1520176,
-      "spentSec": 601
+      "spentSec": 443
      }
     },
     "earthmoon": {
      "h": {
       "steps": 1740861,
-      "spentSec": 1101
+      "spentSec": 801
      },
      "h2": {
       "steps": 3481722,
-      "spentSec": 2201
+      "spentSec": 1601
      },
      "h4": {
       "steps": 6963444,
-      "spentSec": 4402
+      "spentSec": 3202
      },
      "long354": {
       "steps": 5222583,
-      "spentSec": 3302
+      "spentSec": 2402
      },
      "long1062": {
       "steps": 15667749,
-      "spentSec": 9905
+      "spentSec": 7205
      }
     }
    }
@@ -1258,28 +1258,28 @@
  "ok": true,
  "timing": {
   "E": {
-   "wallSec": 1100.959
+   "wallSec": 800.939
   },
   "T": {
-   "wallSec": 0.011
+   "wallSec": 0.01
   },
   "C": {
-   "wallSec": 0.096
+   "wallSec": 0.085
   }
  },
- "elapsedS": 1103.4,
+ "elapsedS": 802.719,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第313便d",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T12:51:51.777Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T09:40:59.911Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1295,15 +1295,15 @@
    },
    {
     "file": "tests/out/planet3-w311d.json",
-    "bytes": 81175,
-    "sha256": "9936ab7c54f8cdf5f80818b5c1cd0106db7834a26fd07c7d9e8d962fdff2fd66",
-    "mtime": "2026-11-04T12:33:28.049Z"
+    "bytes": 81186,
+    "sha256": "e89ff312968eed1925f456882be46b8b735a7c96466c8fc0e74654dd92299b91",
+    "mtime": "2026-11-05T09:27:36.895Z"
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "bytes": 89935,
-    "sha256": "a9ffd8dcbe22d01865cf2e49c7d13e74bc7b3c8da56e71f882011eb176b8b570",
-    "mtime": "2026-11-04T10:56:17.705Z"
+    "bytes": 89977,
+    "sha256": "3a896f1ead65810f7969be900ad53f065be2354474d43cb3dc0f0723f62deac3",
+    "mtime": "2026-11-05T07:23:33.835Z"
    },
    {
     "file": "paper/data/pn1-ephemeris-candidates.csv",
@@ -1321,9 +1321,9 @@
   "code": [
    {
     "file": "tests/exp-w312d-confirm.mjs",
-    "bytes": 51266,
-    "sha256": "bcd9566c774ebdfb3dd417ba3fd243e969f6e89651d15c04a9121e8fb183cc54",
-    "mtime": "2026-10-30T11:33:02.846Z"
+    "bytes": 51293,
+    "sha256": "c5cb8906ff5ebd4d20276c537b512ccefb7858cd83b3ac0cc3810294c11d7e92",
+    "mtime": "2026-11-05T03:10:54.290Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -1339,9 +1339,9 @@
    },
    {
     "file": "tests/exp-w311d-planet3.mjs",
-    "bytes": 65495,
-    "sha256": "0d0676e08119ddd37d9b02dccf3e7b5832598db6035948fd9db856aec61b049f",
-    "mtime": "2026-10-30T11:33:02.846Z"
+    "bytes": 65522,
+    "sha256": "ddc866e1587855e0f2e7fb5fcb953d9d1d5f0c265672ca331c254aeaf5aec979",
+    "mtime": "2026-11-05T03:10:54.290Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
@@ -1369,9 +1369,9 @@
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
-    "bytes": 52861,
-    "sha256": "266dda8f0884604421d04b2bb03398260bebd9b0f761d47861160309149bbe8a",
-    "mtime": "2026-10-30T11:33:02.834Z"
+    "bytes": 52888,
+    "sha256": "33bc2b4c801d143a33bd5dea5491fc37773a826c4454e684e77432248a1a6b5b",
+    "mtime": "2026-11-05T03:10:54.271Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
@@ -1393,12 +1393,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "0043bc2d5378bf76eab960cd1799628fd5335c5e72421dda9226c4dcd6d68476",
+  "codeSha256": "c5df6f37d7cccfb2bea8205c598c828f393638ab8cfe4d237518f1ef1bce75c1",
   "harnessVersion": "w313d-confirm-2",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W312D_WORKERS)",
   "notClaim": [
@@ -1410,7 +1410,7 @@
    "R_d を決めた"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "earthMoonOnly3d",
     "earthMoonSunInertial3d",
@@ -1478,11 +1478,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1423,
-   "segments": 1249,
-   "closureShare": 0.3072
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1386,
+   "segments": 1223,
+   "closureShare": 0.3011
   },
-  "scopeSha256": "2a24a0090f1350eaa1125f087f3d22b8f67c8224a0575616f7c6ded43afe8c5b",
+  "scopeSha256": "699628c1135ecd78b6d6d16a8c20e31522665c918452699030617464854fb243",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -1499,7 +1502,7 @@
    },
    {
     "file": "tests/out/planet3-w311d.json",
-    "stableSha256": "e6665a27b25628e7fe77f46ead7dc705a32a039121c60b6115a6e1108d5e70aa",
+    "stableSha256": "e0861f291617a25058ce0e6e079b14c022a5c1e463240aa643c0d29245e2b076",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/E/rows/*/wallSec",
@@ -1513,7 +1516,7 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "stableSha256": "130c0f691a6346a3cb52d459d3ee0ffad071fa95e11857d7f3a3ead992742af6",
+    "stableSha256": "dadb39bca585b527ccca0d1ff70ba17e177e5146846a5d6a3c4c8d5280668fa1",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

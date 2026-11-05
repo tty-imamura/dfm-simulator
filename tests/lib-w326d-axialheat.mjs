@@ -14,7 +14,9 @@
 //   (定常の内部エネルギー・即時の放射は採用した境界の条件 —— 観測の熱流への一致ではない)。k1 の口の仕事は源の自転の口座の間の移し替え(二重に数えない)。
 // ■ 言わないこと: 内部熱・金星の逆回転を説明したとは書かない。銀河場を同定したとは数えない。応答の尺度 Γ は宣言の模型のノブ(熱の大きさを観測の熱流に合わせない)。
 //   負の散逸(Γ < 0)を要求する解は不採用(0 へ丸めない・残差を熱として消さない)。
-export const LIB_VERSION = 'w326d-axialheat-lib-1';
+// 第327便a(統括の検証項目 R295 —— 版 2): 族 E の採否の直し —— 潮汐の口が無い/潮汐の係数 ck = 0 の行で、軸の向きの残差が 0 でない行を不採用(rejected:true)に
+//   (版 1 は rejected:null で accepted:true を返していた —— 自由な未知の残らない行の残差は解ではない)。在位の 4 天体の今の解は変えない(どの行も潮汐の口を持つ)。純関数の場面 ⑪(2 天体の不一致・ck = 0)を足した。
+export const LIB_VERSION = 'w326d-axialheat-lib-2';
 export const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 export const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
 export const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
@@ -186,7 +188,11 @@ export function solveFamilyE(bodies, params) {
   const A = -ref.c0 / ref.cA, k = {}, rows = [];
   for (const r of L) {
     if (r.key === params.ref) { k[r.key] = 0; rows.push({ key: r.key, k: null, rejected: false }); continue; }
-    if (!r.hasTide || r.ck === 0) { k[r.key] = 0; rows.push({ key: r.key, k: null, rejected: null, residual: r.cA * A + r.c0 }); continue; }
+    if (!r.hasTide || r.ck === 0) {
+      // 第327便a: 自由な未知(k_i)の残らない行 —— 残差が丸めの内(Γ abs(ν) の尺度 |cA A| + |c0| の 1e-12)でなければ解ではない(不採用)。丸めの内なら採る(k は置かない)
+      const residual = r.cA * A + r.c0, scale = Math.abs(r.cA * A) + Math.abs(r.c0), balanced = Number.isFinite(residual) && Math.abs(residual) <= 1e-12 * Math.max(scale, 1e-300);
+      k[r.key] = 0; rows.push({ key: r.key, k: null, rejected: !balanced, unresolved: true, residual, residualRel: Math.abs(residual) / Math.max(scale, 1e-300) }); continue;
+    }
     const kk = -(r.cA * A + r.c0) / r.ck;
     k[r.key] = kk; rows.push({ key: r.key, k: kk, rejected: !(kk >= 0) });
   }
@@ -320,6 +326,14 @@ export function pureScenes() {
   S.rank = { full: rankOf([[2, 0, 0, 0], [1, 3, 0, 0], [0.5, 0, -1, 0], [4, 0, 0, 7]]).rank, deficient: rankOf([[1, 2, 2], [3, 1, 1], [0, 5, 5]]).rank };
   // ⑩ 凸包の p の範囲: G(p) = Ag x^p(x < 1)が s を超えるのは p ≤ p*
   { const b = hullPBound({ s: 4, fixed: [0, 1], Ag: 1, x: 0.01 }); S.hullP = { kind: b.kind, p: b.p, check: Math.pow(0.01, b.p) }; }
+  // ⑪(第327便a —— 版 2): 自由な未知の残らない行の採否。銀河の口だけの 2 天体・同じ軸・Γ = 1・基準の自転 1 → A = 1。
+  //   受け手の自転 2 は残差 −1(不採用)・受け手の自転 1 は残差 0(採る)・潮汐の口があっても係数 ck = 0(n·â = s)なら同じ扱い(残差 −1 で不採用)
+  { const mk = (s, ports) => [{ key: 'S', s: 1, a: [0, 0, 1], Rd: 1, ports: [{ kind: 'gal' }] }, { key: 'P', s, a: [0, 0, 1], Rd: 1, ports: ports || [{ kind: 'gal' }] }];
+    const prm = { ref: 'S', p: 0, g: [0, 0, 1], gamma0: { S: 1, P: 1 }, cGalaxy: 1, cK1: 1, k: {} };
+    const bad = solveFamilyE(mk(2), prm), ok = solveFamilyE(mk(1), prm), ck0 = solveFamilyE(mk(2, [{ kind: 'gal' }, { kind: 'tide', src: 'S', n: [0, 0, 2] }]), prm);
+    const rowP = (q) => q.rows.find((r) => r.key === 'P');
+    S.unresolved = { mismatchAccepted: bad.accepted, mismatchRejected: rowP(bad).rejected, mismatchResidual: rowP(bad).residual, matchAccepted: ok.accepted, matchRejected: rowP(ok).rejected,
+      ck0Accepted: ck0.accepted, ck0Rejected: rowP(ck0).rejected, ck0Residual: rowP(ck0).residual, ck0Ck: ck0.lin.find((r) => r.key === 'P').ck }; }
   return S;
 }
 export function pureGates(S) {
@@ -339,5 +353,7 @@ export function pureGates(S) {
     exactStep: S.step.closeRel <= 1e-12 && S.step.halfS <= 1e-12 && S.step.halfHeat <= 1e-12 && S.step.halfWork <= 1e-12 && S.step.perpS1 === 0 && S.step.perpDeltaK === 0 && close(S.step.perpHeat, 1) && close(S.step.perpWork, 1),
     rank: S.rank.full === 4 && S.rank.deficient === 2,
     hullPBound: S.hullP.kind === 'le' && close(S.hullP.check, 4),
+    unresolvedRowRejected: S.unresolved.mismatchAccepted === false && S.unresolved.mismatchRejected === true && S.unresolved.mismatchResidual === -1 && S.unresolved.matchAccepted === true
+      && S.unresolved.matchRejected === false && S.unresolved.ck0Ck === 0 && S.unresolved.ck0Accepted === false && S.unresolved.ck0Rejected === true && S.unresolved.ck0Residual === -1,
   };
 }

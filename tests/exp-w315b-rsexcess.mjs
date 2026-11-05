@@ -35,7 +35,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { fmtFloor } from './lib-w311c-h4carry.mjs';
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 段 B は全本を読む)
-const REGEN_SCOPE = {"presets":"all","roots":["$","AN415_RS_VERSION","HP.allPresets","HP.coord3d","HP.loadPreset","HP.sim","HP.validatePreset","T","appStepDt","ctx","inertialDragIsqRdExcessOf","inertialDragIsqState","schwarzschildExcessOf","validateDragCoreBody"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","AN415_RS_VERSION","HP.allPresets","HP.coord3d","HP.loadPreset","HP.sim","HP.validatePreset","T","appStepDt","ctx","inertialDragIsqRdExcessOf","inertialDragIsqState","schwarzschildExcessOf","validateDragCoreBody"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w315b-rsexcess-1';

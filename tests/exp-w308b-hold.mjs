@@ -40,7 +40,7 @@ import * as L from './lib-w308b-hold.mjs';
 import { ctl3 } from './lib-w307b-tide3d.mjs';
 import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 // 第281便a の領域 hash の宣言(器と lib から引いた下限 + 写しの本 2 本)
-const REGEN_SCOPE = {"presets":["jupiterSunInertial3d","venusSunInertial3d"],"roots":["$","CK_ARRS","CK_SC","HP.allPresets","HP.coord3d","HP.tideState","HP.validatePreset","INERTIAL_DRAG3_HOLD_SC_CK","REL_DRAG_AXIS_HOLD_KEYS","REL_DRAG_AXIS_HOLD_REACTIONS","REL_DRAG_AXIS_HOLD_VERSION","T","appStepDt","ckRestoreOne","ckSnapOne","ctx","inertialDrag3AxialSign","inertialDrag3SpinState","inertialR2Q"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["jupiterSunInertial3d","venusSunInertial3d"],"roots":["$","CK_ARRS","CK_SC","HP.allPresets","HP.coord3d","HP.tideState","HP.validatePreset","INERTIAL_DRAG3_HOLD_SC_CK","REL_DRAG_AXIS_HOLD_KEYS","REL_DRAG_AXIS_HOLD_REACTIONS","REL_DRAG_AXIS_HOLD_VERSION","T","appStepDt","ckRestoreOne","ckSnapOne","ctx","inertialDrag3AxialSign","inertialDrag3SpinState","inertialR2Q"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w308b-hold-1';

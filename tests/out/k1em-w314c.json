@@ -10,7 +10,7 @@
  "emxVersion": "w303c-emx4-1",
  "generator": "tests/exp-w314c-k1outer.mjs --stage em",
  "target": "beta/index.html",
- "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "reuseFrom": null,
  "ruling": "原仮定者の裁定(第116報)の補足(太陽系の各天体の検証の後に 16 体の三次元サンプル)・決断事項 AN410(推奨 —— 外惑星の相対の門と数値の帯の門・裁定で変わる)・AN405(有限質量比は既知の寄与)・AN401(比例定数は 1PN だけ・A1 は暦表ごとの列)・AN396′(ε_fit・ε_num)・AN336・統括の検証項目 R240。κ は一次の値 κ₀ = 10G/(C₁c²) に固定(合わせない)。確認の材料(在位へ入れない)",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -171,7 +171,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 24.789
+    "wallSec": 18.407
    },
    "confirm:earthmoon|q10|-|div=4|N=118": {
     "key": "confirm:earthmoon|q10|-|div=4|N=118",
@@ -212,7 +212,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 26.688
+    "wallSec": 20.253
    },
    "confirm:earthmoon|q11|kappa0|kernel=k1|div=1|N=354": {
     "key": "confirm:earthmoon|q11|kappa0|kernel=k1|div=1|N=354",
@@ -256,7 +256,7 @@
     },
     "betaMax": 1.0076462786787211e-7,
     "isqSteps": 5222781,
-    "wallSec": 2384.309
+    "wallSec": 1883.829
    },
    "confirm:earthmoon|q00|-|div=1|N=354": {
     "key": "confirm:earthmoon|q00|-|div=1|N=354",
@@ -297,7 +297,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 16.444
+    "wallSec": 12.903
    },
    "confirm:earthmoon|q10|-|div=1|N=354": {
     "key": "confirm:earthmoon|q10|-|div=1|N=354",
@@ -338,7 +338,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 22.357
+    "wallSec": 13.753
    },
    "confirm:earthmoon|q11|kappa0|kernel=k1|div=4|N=118": {
     "key": "confirm:earthmoon|q11|kappa0|kernel=k1|div=4|N=118",
@@ -382,7 +382,7 @@
     },
     "betaMax": 1.0076157849255032e-7,
     "isqSteps": 6963437,
-    "wallSec": 3120.79
+    "wallSec": 2493.562
    }
   }
  },
@@ -694,22 +694,22 @@
    "nodrag|h/4|N=118": {
     "n": 2,
     "steps": 13926871,
-    "wallSec": 51.477000000000004
+    "wallSec": 38.66
    },
    "drag|h/1|N=354": {
     "n": 1,
     "steps": 5222781,
-    "wallSec": 2384.309
+    "wallSec": 1883.829
    },
    "nodrag|h/1|N=354": {
     "n": 2,
     "steps": 10445560,
-    "wallSec": 38.801
+    "wallSec": 26.656
    },
    "drag|h/4|N=118": {
     "n": 1,
     "steps": 6963437,
-    "wallSec": 3120.79
+    "wallSec": 2493.562
    }
   }
  },
@@ -722,38 +722,38 @@
  "ok": true,
  "timing": {
   "T": {
-   "wallSec": 0.012
+   "wallSec": 0.01
   },
   "E": {
-   "wallSec": 3146.627
+   "wallSec": 2512.791
   },
   "K": {
    "wallSec": 0.001
   },
   "M": {
-   "wallSec": 0
+   "wallSec": 0.001
   },
   "S": {
-   "wallSec": 0.001
+   "wallSec": 0
   }
  },
  "stats": {
   "runs": 6,
   "steps": 36558649
  },
- "elapsedS": 3148.66,
+ "elapsedS": 2514.423,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便c",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T12:06:05.229Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T09:07:31.233Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -769,9 +769,9 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "bytes": 89935,
-    "sha256": "a9ffd8dcbe22d01865cf2e49c7d13e74bc7b3c8da56e71f882011eb176b8b570",
-    "mtime": "2026-11-04T10:56:17.705Z"
+    "bytes": 89977,
+    "sha256": "3a896f1ead65810f7969be900ad53f065be2354474d43cb3dc0f0723f62deac3",
+    "mtime": "2026-11-05T07:23:33.835Z"
    },
    {
     "file": "paper/data/pn1-ephemeris-candidates.csv",
@@ -789,9 +789,9 @@
   "code": [
    {
     "file": "tests/exp-w314c-k1outer.mjs",
-    "bytes": 58178,
-    "sha256": "2e845e3d4d8eb6d8584e6fda697c52d56f0fa2e6726cfa3ad3a3b6aa9ff7bce7",
-    "mtime": "2026-10-30T11:33:02.846Z"
+    "bytes": 58205,
+    "sha256": "93a1bf8706d8a47ec1e4996fb753ff515c8c0e756f6c58f68b6b5a2e8abb6ef8",
+    "mtime": "2026-11-05T03:10:54.294Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -801,15 +801,15 @@
    },
    {
     "file": "tests/exp-w313d-k1confirm.mjs",
-    "bytes": 36262,
-    "sha256": "c1490392c95aad3e51ca620168001b29a0aeb47f93914f40e91f86c38ec88b50",
-    "mtime": "2026-10-30T11:33:02.846Z"
+    "bytes": 36289,
+    "sha256": "1f19e40d39213e91ecfe36680c3808358a74047e6f05531cfc8d1c80dd5a552f",
+    "mtime": "2026-11-05T03:10:54.294Z"
    },
    {
     "file": "tests/exp-w312d-confirm.mjs",
-    "bytes": 51266,
-    "sha256": "bcd9566c774ebdfb3dd417ba3fd243e969f6e89651d15c04a9121e8fb183cc54",
-    "mtime": "2026-10-30T11:33:02.846Z"
+    "bytes": 51293,
+    "sha256": "c5cb8906ff5ebd4d20276c537b512ccefb7858cd83b3ac0cc3810294c11d7e92",
+    "mtime": "2026-11-05T03:10:54.290Z"
    },
    {
     "file": "tests/lib-w312d-confirm.mjs",
@@ -819,9 +819,9 @@
    },
    {
     "file": "tests/exp-w311d-planet3.mjs",
-    "bytes": 65495,
-    "sha256": "0d0676e08119ddd37d9b02dccf3e7b5832598db6035948fd9db856aec61b049f",
-    "mtime": "2026-10-30T11:33:02.846Z"
+    "bytes": 65522,
+    "sha256": "ddc866e1587855e0f2e7fb5fcb953d9d1d5f0c265672ca331c254aeaf5aec979",
+    "mtime": "2026-11-05T03:10:54.290Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
@@ -849,9 +849,9 @@
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
-    "bytes": 52861,
-    "sha256": "266dda8f0884604421d04b2bb03398260bebd9b0f761d47861160309149bbe8a",
-    "mtime": "2026-10-30T11:33:02.834Z"
+    "bytes": 52888,
+    "sha256": "33bc2b4c801d143a33bd5dea5491fc37773a826c4454e684e77432248a1a6b5b",
+    "mtime": "2026-11-05T03:10:54.271Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
@@ -873,12 +873,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "6554c370d81ad42a1810a05c1cc8a2dc0162472a39dfea67d5513e0ae17a6140",
+  "codeSha256": "49b0a128e062ba1c566e9742cd8b0666a2199acc474ccae2ec55a61ccb6fec93",
   "harnessVersion": "w314c-k1outer-1",
   "stage": "em",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W314C_WORKERS)",
@@ -893,7 +893,7 @@
    "検証が完了した"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "earthMoonOnly3d",
     "earthMoonSunInertial3d",
@@ -961,11 +961,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1423,
-   "segments": 1249,
-   "closureShare": 0.3072
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1386,
+   "segments": 1223,
+   "closureShare": 0.3011
   },
-  "scopeSha256": "2a24a0090f1350eaa1125f087f3d22b8f67c8224a0575616f7c6ded43afe8c5b",
+  "scopeSha256": "699628c1135ecd78b6d6d16a8c20e31522665c918452699030617464854fb243",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -982,7 +985,7 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "stableSha256": "130c0f691a6346a3cb52d459d3ee0ffad071fa95e11857d7f3a3ead992742af6",
+    "stableSha256": "dadb39bca585b527ccca0d1ff70ba17e177e5146846a5d6a3c4c8d5280668fa1",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

@@ -34,7 +34,7 @@ import { DSPLIT_VERSION, ASSUMPTIONS, assumptionRows, determinacySum, splitInvar
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 // 第319便c(原仮定者の指示(第121報)・決断事項 AN454・統括の検証項目 R260): 領域の宣言(器と lib から deriveScope で引いた下限 —— html 全体の刻印をやめ、表示の文だけの変更では作り直さない。値は宣言の前と同じ)
 import { scopeStamp as w319cScopeStamp } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["$","HP.allPresets","HP.frameWeightPow","HP.sim","HP.validatePreset","T","clamp","dfmGeoToyStep"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","HP.allPresets","HP.frameWeightPow","HP.sim","HP.validatePreset","T","clamp","dfmGeoToyStep"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';

@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便d",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T06:49:38.524Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:26:55.042Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/out/galaxychain-w281b.json",
-    "bytes": 255803,
-    "sha256": "9b4a6aef5d404419a65748181c19fe3be4d8de62dafe7d254318f22ef5a86d53",
-    "mtime": "2026-11-04T06:48:49.180Z"
+    "bytes": 255804,
+    "sha256": "bc3dd0c12486d2e478d087648a21bbf941da69dc02a00d2567f35338f9ecba45",
+    "mtime": "2026-11-05T09:50:36.395Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -28,9 +28,9 @@
   "code": [
    {
     "file": "tests/exp-w282d-analogy.mjs",
-    "bytes": 35786,
-    "sha256": "de9ad7f9ab2a5f42329119c20db760247dd07e488c6f21cc66335874e1e01c79",
-    "mtime": "2026-11-03T15:04:48.908Z"
+    "bytes": 35801,
+    "sha256": "e4a30b31b1878af81cdcc83c624836f59356a10f483e005df8dc6552e6028a37",
+    "mtime": "2026-11-05T03:10:54.242Z"
    },
    {
     "file": "tests/exp-w281b-galaxychain.mjs",
@@ -64,12 +64,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "9e9aea190d7d36034b69070432b57e86ac428651cb6b31eb7b6fc40a8ea245af",
+  "codeSha256": "a3f30251d96625dc7bc875da9e4226fc26d10ebf59e408dbbab302006962ebd2",
   "harnessVersion": "w282d-analogy-1",
   "loadErrors": 0,
   "headlessErrors": 0,
@@ -108,7 +108,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "galaxyAnalogyBH",
     "galaxyMeshSpiral",
@@ -159,16 +159,17 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1366,
-   "segments": 1192,
-   "closureShare": 0.2952
+   "abBody": false,
+   "names": 1329,
+   "segments": 1166,
+   "closureShare": 0.2891
   },
-  "scopeSha256": "c04e45e1cadc7cdfed8298e623ca55817bc60145e37db44d0635e5dbfbf8cab5",
+  "scopeSha256": "a28cc751f3f62449d473a422d04ed34f5335ceff86b72d3e11d202acd8345fc8",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/galaxychain-w281b.json",
-    "stableSha256": "150961871dfe84bc8257da260c8c597989a946bcfd4ae169e2e696b0ab675877",
+    "stableSha256": "5ef2cbdbf38eaad2f9620c195b67f93ead59f9dd0bac6be34e16c3d99bed2c9f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
@@ -934,7 +935,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 3.382,
+    "msPerStep": 2.8872,
     "recs": [
      {
       "t": 0,
@@ -1179,7 +1180,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 3.26,
+    "msPerStep": 3.0804,
     "recs": [
      {
       "t": 0,
@@ -1426,7 +1427,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 1.9148,
+    "msPerStep": 1.6892,
     "recs": [
      {
       "t": 0,
@@ -1673,7 +1674,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 2.1764,
+    "msPerStep": 1.7484,
     "recs": [
      {
       "t": 0,
@@ -2868,7 +2869,7 @@
     "spin": 1.2000000476837158,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 2.816333333333333,
+    "msPerStep": 2.917666666666667,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -2933,7 +2934,7 @@
     "spin": 0,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 2.9683333333333333,
+    "msPerStep": 2.8316666666666666,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -3107,5 +3108,5 @@
    "source": "未取得"
   }
  ],
- "elapsedSec": 45.601
+ "elapsedSec": 42.004
 }

@@ -27,7 +27,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as LC from './lib-w288c-compose.mjs';
 import * as LR from './lib-w288c-rotlet.mjs';
-const REGEN_SCOPE = {"presets":["galaxyAnalogyBH","galaxyAnalogyBHCompose"],"roots":["$","DT","HP.allPresets","HP.dfmFieldContract","HP.dfmFieldContractOf","HP.dfmMeshVelocityFieldAt","HP.frameWeightPow","HP.sim","HP.validatePreset","cw","dfmFieldContract","sim","validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["galaxyAnalogyBH","galaxyAnalogyBHCompose"],"roots":["$","DT","HP.allPresets","HP.dfmFieldContract","HP.dfmFieldContractOf","HP.dfmMeshVelocityFieldAt","HP.frameWeightPow","HP.sim","HP.validatePreset","cw","dfmFieldContract","sim","validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w288c-compose-1';

@@ -3,7 +3,7 @@
  "libVersion": "w318c-solar16-lib-1",
  "generator": "tests/exp-w318c-solar16.mjs",
  "target": "beta/index.html",
- "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "quick": false,
  "ruling": "原仮定者の指示(第120報)「支障がなければ、太陽系の１６体サンプルを作成する」・統括の検証項目 R256 —— 内蔵の本 solarSystem16Inertial3d(診断の本 —— 較正の母集団に入れない・観測の 3σ を付けない)。入力は原仮定者から受け取った 16 体の本(第120報)の geoPN=3・K1 の側をそのまま(本便は一次資料に当たっていない —— 暦表との照合はしていない)",
  "input": {
@@ -5271,7 +5271,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.104
+   "wallSec": 0.085
   },
   {
    "key": "io-ctrl-2880",
@@ -5296,7 +5296,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.139
+   "wallSec": 0.123
   },
   {
    "key": "io-ctrl-360",
@@ -5321,7 +5321,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.114
+   "wallSec": 0.093
   },
   {
    "key": "io-ctrl-5760",
@@ -5346,7 +5346,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.254
+   "wallSec": 0.205
   },
   {
    "key": "io-ctrl-720",
@@ -5371,7 +5371,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.094
+   "wallSec": 0.081
   },
   {
    "key": "io-k1-1440",
@@ -5400,7 +5400,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 14.473
+   "wallSec": 11.572
   },
   {
    "key": "io-k1-2880",
@@ -5429,7 +5429,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 30.325
+   "wallSec": 23.546
   },
   {
    "key": "io-k1-360",
@@ -5458,7 +5458,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 3.412
+   "wallSec": 3.311
   },
   {
    "key": "io-k1-5760",
@@ -5487,7 +5487,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 57.685
+   "wallSec": 43.997
   },
   {
    "key": "io-k1-720",
@@ -5516,7 +5516,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 6.989
+   "wallSec": 5.842
   },
   {
    "key": "yr-ctrl-1440",
@@ -5541,7 +5541,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 7.692
+   "wallSec": 6.668
   },
   {
    "key": "yr-ctrl-360",
@@ -5566,7 +5566,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 1.964
+   "wallSec": 1.662
   },
   {
    "key": "yr-k1-1440",
@@ -5595,7 +5595,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 2893.91
+   "wallSec": 2308.057
   },
   {
    "key": "yr-k1-360",
@@ -5624,16 +5624,16 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 760.48
+   "wallSec": 562.294
   }
  ],
  "cost": {
   "rate": {
    "k1": {
-    "rateStepsPerSec": 98.86254916551503
+    "rateStepsPerSec": 126.43313545112613
    },
    "ctrl": {
-    "rateStepsPerSec": 15829.787234042555
+    "rateStepsPerSec": 19011.92504258944
    }
   }
  },
@@ -5660,25 +5660,25 @@
  ],
  "timing": {
   "check": {
-   "wallSec": 1.371
+   "wallSec": 0.973
   },
   "runs": {
-   "wallSec": 2894.461
+   "wallSec": 2308.441
   }
  },
- "elapsedS": 2897.948,
+ "elapsedS": 2311.1,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第318便c",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T11:37:09.346Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T09:05:38.941Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/data-w318c-solar16-input.json",
@@ -5702,9 +5702,9 @@
   "code": [
    {
     "file": "tests/exp-w318c-solar16.mjs",
-    "bytes": 17312,
-    "sha256": "c10453f004dbc7a15ee020245defe43b65778497c2212ce3fd31bb0f5d079910",
-    "mtime": "2026-10-28T18:28:18.399Z"
+    "bytes": 17327,
+    "sha256": "eee44c4b8a3276b3568a509a54a40dc97cdb719428a9553b7ddf7be9cf290ad5",
+    "mtime": "2026-11-05T03:10:54.302Z"
    },
    {
     "file": "tests/lib-w318c-solar16.mjs",
@@ -5750,12 +5750,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "67ce9cf263918c245e9375169f14d8f3d16d9fbebd4e4d3453d39e6e9888d4a5",
+  "codeSha256": "52f79943c89c4462f636aba98b300abc8ad550577edceaa9970f2fae13f46ba8",
   "harnessVersion": "w318c-solar16-1",
   "stage": "solar16",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W318C_WORKERS)",
@@ -5768,7 +5768,7 @@
    "銀河や太陽の自転由来の追加の引きずり(入れていない)"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "earthMoonSunInertial3d",
     "jupiterGalilean",
@@ -5800,11 +5800,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1385,
-   "segments": 1211,
-   "closureShare": 0.299
+   "abBody": false,
+   "names": 1348,
+   "segments": 1185,
+   "closureShare": 0.293
   },
-  "scopeSha256": "8e135e57642fff9342e35b46381368a0a8191220b8b93dc5673952ab16297b1e",
+  "scopeSha256": "2f501ec1fae37e4d39ac793605078101f36791da3e99063b90a2a67474c3a4ca",
   "scopeComplete": true,
   "inputsStable": [
    {

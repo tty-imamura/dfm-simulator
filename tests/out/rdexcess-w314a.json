@@ -2,7 +2,7 @@
  "version": "w314a-rdexcess-1",
  "generator": "tests/exp-w314a-rdexcess.mjs",
  "target": "beta/index.html",
- "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "ruling": "原仮定者の裁定(第116報)AN404 R_d は観測半径を超えても受理する・超えた場合の表示も用意する・AN403/AN409 外殻の引きずりは粒子同士が触れるぐらいの距離の特別処理(将来の地表のサンプル)・決断事項 AN411 の推奨の型・統括の検証項目 R238",
  "units": {
   "book": {
@@ -1464,31 +1464,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.016
+   "wallSec": 0.021
   },
   "W": {
    "wallSec": 0.001
   },
   "N": {
-   "wallSec": 0.389
+   "wallSec": 0.311
   },
   "S": {
-   "wallSec": 0.135
+   "wallSec": 0.107
   }
  },
- "elapsedS": 2.691,
+ "elapsedS": 2.069,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便a",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T10:01:34.601Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:53:11.158Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1506,9 +1506,9 @@
   "code": [
    {
     "file": "tests/exp-w314a-rdexcess.mjs",
-    "bytes": 32184,
-    "sha256": "f6577c705dc538304f1c6ad5cb5a3e34852ca01ce6b39aae6cfcc1931b52d423",
-    "mtime": "2026-10-26T10:28:30.999Z"
+    "bytes": 32199,
+    "sha256": "0189be35bc674cf07c025ab9dc6b1e0f7b917c4ac3c7b65b43528256c7a231f0",
+    "mtime": "2026-11-05T03:10:54.294Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -1542,12 +1542,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "c64332e0de5ecb916176190fdd28d2614cde2b0dd96c920ed7fd178732242e80",
+  "codeSha256": "ed067eac7e100a5332603c74d9e6138226bd4a861921d95b2e3b098565d3c802",
   "harnessVersion": "w314a-rdexcess-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1559,7 +1559,7 @@
    "収束した"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "earthMoonSunInertial3d",
     "jupiterSunInertial3d",
@@ -1591,11 +1591,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1387,
-   "segments": 1213,
-   "closureShare": 0.2996
+   "abBody": false,
+   "names": 1350,
+   "segments": 1187,
+   "closureShare": 0.2935
   },
-  "scopeSha256": "adbe4477cf4acbe0bec9508ba412662587d06425ef98618a8799aff7b261ab06",
+  "scopeSha256": "c83f4428f56db83ee42e85d26cea78006b2afdbf4801c81b8cb55f1116ffc062",
   "scopeComplete": true,
   "inputsStable": [
    {

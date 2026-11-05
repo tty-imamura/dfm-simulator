@@ -2,7 +2,7 @@
  "version": "w302e-axialsign-1",
  "generator": "tests/exp-w302e-axialsign.mjs",
  "target": "beta/index.html",
- "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "base": null,
  "ruling": "原仮定者の裁定(第92報)・統括の検証項目 R189(AN298 ①⑤ —— 源の軸を上半球へ正規化して符号を Ω へ移す・赤道は y → x の順)",
  "signVersion": "w302e-axial-sign-1",
@@ -298,27 +298,27 @@
   "probeReady": true
  },
  "ok": true,
- "elapsedS": 35.93,
+ "elapsedS": 32.369,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第302便e",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T09:56:15.453Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T09:49:30.068Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w302e-axialsign.mjs",
-    "bytes": 14396,
-    "sha256": "50cdd5324eefb3eab7968ec6a2304597faa0acf0175c6f1e97d82b38bd81cf31",
-    "mtime": "2026-10-20T16:19:56.648Z"
+    "bytes": 14411,
+    "sha256": "b63b19a101b7fc87f8f6009f6107d053a1b9d5d0bf514103c78415908446d1bb",
+    "mtime": "2026-11-05T03:10:54.274Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -334,12 +334,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "0221eb2d935439b666c8aa2881ff9f5165ae003ce12b15e0d1a087b1c9a7cd62",
+  "codeSha256": "62885d9b2ca57f49248fff3ca2660f9c022891eeaa3ddeb42109e71f54025114",
   "harnessVersion": "w302e-axialsign-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -347,7 +347,7 @@
    "軸引きずりの強さが較正された"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "chainDiskToy3dTilt"
    ],
@@ -371,11 +371,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1397,
-   "segments": 1221,
-   "closureShare": 0.2994
+   "abBody": false,
+   "names": 1360,
+   "segments": 1195,
+   "closureShare": 0.2934
   },
-  "scopeSha256": "8adf594525dcc24e26d75815fd82791161d40e252351a0436a490976861e48bb",
+  "scopeSha256": "2966f0bba2336f6888610960105ffe300b8acca9d51104c61af7e3ed0d49d5cb",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

@@ -657,6 +657,48 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.axialHeat326d behavior.axialRadius326d 
 #   lint.regenScope・docs.regenShort319c)と、正本の入力の宣言の lint.stableHashPaths
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.alwaysShadow326e lint.familiesTemp326e lint.scopeObsSpin326e lint.narrow326e docs.w326e docs.families lint.quickMutation325d lint.quickGate325d lint.regenScope docs.regenShort319c lint.stableHashPaths"
 # ==== 第326便e の塊(ここまで)====
+# ==== 第327便a の塊(ここから)====
+# 第327便a(原仮定者の回答(2026-11-05 —— AN534・AN535・AN537)・統括の検証項目 R295 —— 診断だけ・html は変えない): 枝 a の新設 3 本(lint.axialSum327a —— 角速度の和の族 S と族 E の純関数の場面
+#   〔和と平均・細分の不変・受動の口・帳簿・尺度・配分・族 E の照合・採否・凸包・法則・根〕/ behavior.axialSum327a —— 今の html の 🗺️ の写しで族 S・族 E の解と金星の R_d の 2 点が正本と同じ /
+#   docs.axialSum327a —— 正本の門と表が PHYSICS〔第327便a〕に逐語・第326便d の節の「第327便の更新」・文書)と、世代を直した lint.axialHeat326d(族 E の採否の直し —— lib 版 2・場面 14)と
+#   docs.axialHeat326d・behavior.axialRadius326d(正本 axialheat-w326d を走らせ直した)・新しい段 axialsum-327a の lint 一式(lint.regenScope・lint.provenanceMeta・lint.stableHashPaths・
+#   lint.scopeStop・lint.scopeAll312・lint.regenChain・lint.canon304・lint.harnessSmoke303・lint.quickBoundary324c)・qa.mjs の包みの lint.qaHeapRelease310・PHYSICS の節の lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.axialSum327a behavior.axialSum327a docs.axialSum327a lint.axialHeat326d docs.axialHeat326d behavior.axialRadius326d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第327便a の塊(ここまで)====
+# ==== 第327便b の塊(ここから)====
+# 第327便b(原仮定者の回答(2026-11-05 —— AN536)・統括の検証項目 R296 —— 診断だけ): 枝 b の新設 3 本(lint.galaxis327b —— 純関数の場面〔剛体回転・平らな曲線・ケプラーの半渦度とシア・
+#   鏡映の核の向き・AN536 の符号の表・場の軸の反転の拒否・要る相対の角速度・平均の列が無い・格子の符号・口が 1 つの和の式〕と呼ぶだけの検査 / behavior.galaxis327b —— 今の html と
+#   場の API で二つの経路を作り直して正本と照合 / docs.galaxis327b —— 正本の門と表が PHYSICS〔第327便b〕に逐語・文書)と、新しい段 galaxis-327b の lint 一式(lint.regenScope・lint.provenanceMeta・
+#   lint.stableHashPaths・lint.scopeStop・lint.scopeAll312・lint.regenChain・lint.canon304・lint.harnessSmoke303・lint.quickBoundary324c)・qa.mjs の包みの lint.qaHeapRelease310・PHYSICS の節の lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.galaxis327b behavior.galaxis327b docs.galaxis327b lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第327便b の塊(ここまで)====
+# ==== 第327便c の塊(ここから)====
+# 第327便c(原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・原仮定者の回答(2026-11-04 —— AN543)・統括の検証項目 R297 —— 道具だけ・
+#   html は変えない): 枝 c の新設 2 本(lint.narrowScope327c —— 鎖を狭める 4 件と名指しの段の領域・版の移行・変異の写し / docs.w327c —— 文書)と、世代を直した既存の 3 本
+#   (lint.scopeStop・lint.htmlPhys325a・lint.scopeObsSpin326e —— 領域 hash の版 8・html の物理の部分の版 2)と、器の宣言と正本の刻印を照合する lint.regenScope・lint.provenanceMeta・docs.families
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.narrowScope327c docs.w327c lint.scopeStop lint.htmlPhys325a lint.scopeObsSpin326e lint.regenScope lint.provenanceMeta docs.families"
+# ==== 第327便c の塊(ここまで)====
+# ==== 第327便d の塊(ここから)====
+# 第327便d(原仮定者の回答(2026-11-05 —— AN544・AN545)・統括の検証項目 R298 —— beta/index.html を変える): 枝 d の新設 4 本(lint.xkLock327d —— 出どころの口と受理 /
+#   behavior.xkClampShown327d —— 赤の行と画面の ⚠ / behavior.xkExemptScope327d —— 経路の表 / docs.xkLock327d —— 文書)と、世代を直した既存の QA(XK_LOCK_VERSION の版の型 ——
+#   lint.physLockAlways326a・behavior.xkDerive326a・docs.xkLock326a の塊と第326便の統括の照合 / ai.stabilize)と、ロックと退役の数を読む一式(physlock.*・docs.retired・groups.*)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.xkLock327d behavior.xkClampShown327d behavior.xkExemptScope327d docs.xkLock327d lint.physLockAlways326a behavior.xkDerive326a docs.xkLock326a ai.stabilize physlock.kt-derive physlock.ui-110 docs.retired groups.family-invariant groups.family-split groups.reorder"
+# ==== 第327便d の塊(ここまで)====
+# ==== 第327便e の塊(ここから)====
+# 第327便e(原仮定者の指示(2026-11-05)「軸引きずりについて」・統括の検証項目 R299 —— 診断だけ・html は変えない): 枝 e の新設 3 本(lint.axialDiff327e —— 差分の型の純関数の場面
+#   〔勾配の極限・比の頭打ち・自己の場が勝つ間の比例・規則の往復・鏡映の幾何・零点と跳び・系の帳簿・入力の拒否〕/ behavior.axialDiff327e —— 今の html の 🗺️ の写しで核の点と
+#   金星の零点の区間の端が正本と同じ / docs.axialDiff327e —— 正本の門と表が PHYSICS〔第327便e〕に逐語・第327便a の節の「第327便e の更新」・文書)と、第327便a の節を読む
+#   docs.axialSum327a(節に行を足した)・新しい段 axialdiff-327e の lint 一式(lint.regenScope・lint.provenanceMeta・lint.stableHashPaths・lint.quickBoundary324c・lint.narrowScope327c・docs.w320d)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.axialDiff327e behavior.axialDiff327e docs.axialDiff327e docs.axialSum327a lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.quickBoundary324c lint.narrowScope327c docs.w320d lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第327便e の塊(ここまで)====
+# ==== 第327便f の塊(ここから)====
+# 第327便f(原仮定者の指示(2026-11-05)「金星の逆行自転は、大気熱潮汐の影響と、地球との共鳴を採用する」「R_dはK1で固定し、観測の自転もトルクの釣り合いで進める」・統括の検証項目 R300 ——
+#   診断だけ・html は変えない): 枝 f の新設 3 本(lint.venusTide327f —— 口の型の純関数の場面〔固体の潮汐の受動・熱潮汐の駆動と日射の供給・解析の枝・縮退の中立・共鳴の係数と 5 の比・
+#   系の帳簿・振り子の分離線・入力の拒否〕/ behavior.venusTide327f —— 今の html の 🗺️ の写しで銀河と K1 の口のトルク・釣り合いの振幅・火星の正味のトルクが正本と同じ /
+#   docs.venusTide327f —— 正本の門と表が PHYSICS〔第327便f〕に逐語・第327便e と第327便a の節の「第327便f の更新」・文書)と、節に行を足した docs.axialDiff327e・docs.axialSum327a・
+#   新しい段 venustide-327f の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.venusTide327f behavior.venusTide327f docs.venusTide327f docs.axialDiff327e docs.axialSum327a lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.quickBoundary324c lint.narrowScope327c docs.w320d lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第327便f の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

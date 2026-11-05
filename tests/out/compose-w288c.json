@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第288便c",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T03:56:46.031Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T05:06:49.563Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w288c-compose.mjs",
-    "bytes": 18031,
-    "sha256": "5c920d6ebac9bab1e11a90d8540f84a0b3980ddf21b8ba6e769a974015e3e8e5",
-    "mtime": "2026-10-20T16:19:56.636Z"
+    "bytes": 18046,
+    "sha256": "97b29665c6ddea2f90b3521ceeb58ea9c2f4ed8ddb24981165f8206d635a71e5",
+    "mtime": "2026-11-05T03:10:54.250Z"
    },
    {
     "file": "tests/lib-w288c-compose.mjs",
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "63acbf7dde1d785c5a5b99f95f0d2f8a314dae4a3900e7b071d6a7d0deab3007",
+  "codeSha256": "55302bc96ca15ff77179387f26dee056c261213f3bbd2a2a824cf1ad57821bf9",
   "harnessVersion": "w288c-compose-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第78報)⑧と第78報で閉じた AN84(背景の台帳に中心を 1 源として足す・中心は 1 回だけ・A_spin は別に構成)/AN85(complex-p2 は既定にしない)・統括の検証項目 R115",
@@ -63,7 +63,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "galaxyAnalogyBH",
     "galaxyAnalogyBHCompose"
@@ -86,11 +86,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1362,
-   "segments": 1188,
-   "closureShare": 0.2939
+   "abBody": false,
+   "names": 1325,
+   "segments": 1162,
+   "closureShare": 0.2878
   },
-  "scopeSha256": "09bb6a8c160a8751e824bd7285be413d104c7a37662a5ae5a89e436ec07faf50",
+  "scopeSha256": "32f93d986efeaab7482ea7610cb8a1d4dcf5a47296b678eb0f249ecc28391578",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -443,6 +444,6 @@
   },
   "ok": true
  },
- "elapsedS": 2.006,
+ "elapsedS": 2.104,
  "ok": true
 }

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第288便e",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T04:02:05.435Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T05:13:43.425Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "cea9d0005aa6ce4ee9ae8f6ccd3d6865d90ebb6b8d73eb9798b593245aba217e",
+  "codeSha256": "393551c40098712eee3fb8ddecc1cd548e47ddb79c323c11edab4dadfa340acf",
   "harnessVersion": "w288e-tilt90-1",
   "libVersion": "w288e-tilt90-1",
   "loadErrors": 0,
@@ -69,7 +69,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "galaxyAnalogyBH",
     "galaxyAnalogyBHTilt90",
@@ -108,11 +108,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1367,
-   "segments": 1193,
-   "closureShare": 0.2948
+   "names": 1330,
+   "segments": 1167,
+   "closureShare": 0.2888
   },
-  "scopeSha256": "b60beeaa183fcb649e0a731871e924d14da7752dbb257d80c65dc72c882633d6",
+  "scopeSha256": "9cf674965e56310be6eebc8fb7400c263671080540f7f6d44714f73fe82b50d1",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -446,7 +446,7 @@
      ]
     }
    ],
-   "wallSec": 9.042
+   "wallSec": 7.793
   },
   {
    "key": "spin0",
@@ -638,7 +638,7 @@
      ]
     }
    ],
-   "wallSec": 9.05
+   "wallSec": 8.151
   },
   {
    "key": "tilt90",
@@ -862,7 +862,7 @@
      ]
     }
    ],
-   "wallSec": 9.973
+   "wallSec": 8.431
   },
   {
    "key": "tilt90-om0",
@@ -1087,7 +1087,7 @@
      ]
     }
    ],
-   "wallSec": 9.94
+   "wallSec": 8.928
   },
   {
    "key": "tilt90-om2x",
@@ -1312,7 +1312,7 @@
      ]
     }
    ],
-   "wallSec": 9.819
+   "wallSec": 8.652
   },
   {
    "key": "tilt0-core",
@@ -1537,7 +1537,7 @@
      ]
     }
    ],
-   "wallSec": 9.534
+   "wallSec": 8.869
   },
   {
    "key": "tilt90-shell",
@@ -1762,7 +1762,7 @@
      ]
     }
    ],
-   "wallSec": 9.675
+   "wallSec": 7.798
   }
  ],
  "same": [
@@ -3282,5 +3282,5 @@
   },
   "stateWithout": null
  },
- "elapsedS": 67.558
+ "elapsedS": 59.024
 }

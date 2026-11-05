@@ -28,7 +28,7 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { loadHtmlMain } from './lib-w280b-emgrid.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["HP.MODE_SAVE_WARN_CODES","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.geo3TransportAt","HP.geoEffectiveMode","HP.geoLawOfSim","HP.geoModeOf","HP.loadPreset","HP.meshChipState","HP.modeSaveWarnings","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["HP.MODE_SAVE_WARN_CODES","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.geo3TransportAt","HP.geoEffectiveMode","HP.geoLawOfSim","HP.geoModeOf","HP.loadPreset","HP.meshChipState","HP.modeSaveWarnings","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w295b-geo4-1';

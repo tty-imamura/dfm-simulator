@@ -1,19 +1,19 @@
 {
  "version": "w325a-htmlphys-ledger-1",
- "partsVersion": "w325a-htmlphys-1",
+ "partsVersion": "w327c-htmlphys-2",
  "note": "第325便a(R284): html の sha → 物理の部分の hash(tests/lib-w325a-htmlphys.mjs)。正本の刻印の html を引くための台帳 —— node tools/regen-plan.mjs --htmlphys-record が作る(手で直さない)",
  "entries": {
-  "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38": {
-   "version": "w325a-htmlphys-1",
+  "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849": {
+   "version": "w327c-htmlphys-2",
    "complete": true,
    "rev": null,
    "from": "html",
    "parts": {
-    "code": "72eed9b1f019453123f760f549b45d81588f5d6aff163672deebb8f826a3ad0e",
+    "code": "68897cd162be8b96ab5efc6d93ef8754ea0897573405915782ff512e9cf5a401",
     "presets": "89c0f855bd31aaced67a48c84a8df1c05c268452c34955b892895b4bb180e050",
-    "markup": "721bd7a8e44469a6d3ad2ce48d42d3daac219062f7b0ba7530a73ede33967834",
-    "comments": "d2e1aaa600e468dc2d575174cc02adaf8c694eb1f047f9a9600baac70b39e2a6",
-    "build": "11b39f939eadef4d933ff51fad9b7ec06eafe92c31e27f63631752a070f15350",
+    "markup": "e8d6c556f895d9c3e2f199455a6f5db23fbe5b366a7801f9ea436023ac0d1eba",
+    "comments": "a437543f07ce8c217ca4f588e23862266e4b43f12672859b46f6b54cd5f36c2c",
+    "build": "a4e7ba2a2f8209908078b45ef98cf8e1f8b8b52ffd13edae61ee5ffb5cc3eb9b",
     "textPairs": "3ef0c68f5db54d949e17ae0b50b64fb614619803d096154f026157ea87b69d66",
     "presetIds": "c6a8f27bfc9a75ad6b2858737de01a524aa21553973abe0cdf5a5ea508e0a034",
     "presetPhys": {
@@ -205,12 +205,13 @@
      "starSeed": "d9a65241f3d624f368143d78dd6a5eea21dc44f6bd476640872c7e19aa205674"
     },
     "text": {
-     "ACCEPT_REASONS": "10aeb2de6feb93f40e4fd123ed2e6ee7875371d9c6bcd21b371ff7404ae5865b",
+     "ACCEPT_REASONS": "d66084794294b77b509a07f6e722c5041860baf672cfd3fc27e0a54834d2b77b",
      "CLAIM_SCOPE": "e4f71d5a6a89bd47fc71154a5bde73523e4fa19cf5577de59e5617f3d0ab56a0",
      "DFM_STANCE": "64dddb3ce6aca476044609ea1f97e884751a1e637092ca4d9fbfedeea07084d0",
      "DFM_SYMBOL_LINE": "919a946695fe58efae45636bd5397853b932c0293b2b2f37f5c7797060fd0376",
-     "I18N": "af152f752883626f7f4a42ffdaa4f3178177e0518c688bd5fc64efe31dfc7807",
+     "I18N": "eaa79615a6a5fcf6ba8511713f53cd81287091fb19e6c99bd7d2958815d4f7cf",
      "LAWS": "b27be4f569be0b8086108a746d1fa578a63db21724a4794158a9a63f403791f7",
+     "RETIRED_PRESETS": "8a04757258a0e8c07edd2220be6beb7e57a6fda5cbf3bc58e9a1a2e09be76ac0",
      "SYSTEM_PROMPT": "615ab7a8ad96c5d83c706d2db9b5f759d3e89c51455f45a26f3ac450c3e14359"
     },
     "regions": {

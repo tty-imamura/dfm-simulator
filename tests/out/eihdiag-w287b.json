@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第287便b",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T08:22:15.319Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T11:50:33.143Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
@@ -20,17 +20,17 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "bytes": 52265,
-    "sha256": "4cabeb4e7fc6adbcf68f6c801372cc0d731ef976b5109be2895e4f4f84835826",
-    "mtime": "2026-11-04T08:16:23.904Z"
+    "bytes": 52305,
+    "sha256": "230ea85328a53e9aa19e91ba973db2c8ac863fb2bd52d77da1f7dcdd32bf6c87",
+    "mtime": "2026-11-05T11:45:52.236Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w287b-eihdiag.mjs",
-    "bytes": 14403,
-    "sha256": "6fffde7166245ab9565d23023be7a285066ed22051837e2eecf65fba32498ac1",
-    "mtime": "2026-10-20T16:19:56.636Z"
+    "bytes": 14430,
+    "sha256": "2b120fb92463f89a213de5ce2972fa3ea16f75d7718aedee9d39f67b709f90a8",
+    "mtime": "2026-11-05T03:10:54.247Z"
    },
    {
     "file": "tests/lib-w282b-geo1.mjs",
@@ -58,14 +58,14 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "ad0af5a03cfa0a06b50d8ae6a46b9753ecf1df9be109a864c27e7b5d925cdace",
+  "codeSha256": "f9212ef86e67113c81aa9a9f02c3bdcf3a07c2e93cbc624a4349b2eda772ad2d",
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": "all",
    "roots": [
     "GEO_CORE_PN",
@@ -84,16 +84,19 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1362,
-   "segments": 1188,
-   "closureShare": 0.2934
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1325,
+   "segments": 1162,
+   "closureShare": 0.2874
   },
-  "scopeSha256": "709008a23fa09f41a8c8d3f084a8d89139c3c49542e59fdcd58ea889d114f389",
+  "scopeSha256": "7521fa4dd4a5281887ae549fac08a9a34abc68632189b81bc623b041cfe8eab1",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "56577511877ce003aabfb14fc68cd293bb055b22de5510000cb57c137f75f815",
+    "stableSha256": "46ff244e50ee1590191ccb0dfc4c4299fb41a4ccaa9b36528264334d238143fd",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -346,8 +349,8 @@
   "新発見"
  ],
  "headless": {
-  "wallSec": 0.089,
+  "wallSec": 0.105,
   "errors": 0
  },
- "elapsedS": 7.391
+ "elapsedS": 7.467
 }

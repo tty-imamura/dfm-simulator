@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第301便g",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T09:51:51.015Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:49:34.326Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -34,9 +34,9 @@
   "code": [
    {
     "file": "tests/exp-w301g-wbglaw.mjs",
-    "bytes": 44457,
-    "sha256": "43bad396b14d01d3d68db5420d910be8f8ef7530865b9e7a101143e8243ffe64",
-    "mtime": "2026-11-01T08:54:18.014Z"
+    "bytes": 44484,
+    "sha256": "cf6cc9b4aec2f7f6ac4f52cfccc49dd5b6a222a05a6e2615a14f1801d862a926",
+    "mtime": "2026-11-05T03:10:54.273Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -52,21 +52,21 @@
    },
    {
     "file": "tests/exp-w295c-inertial3.mjs",
-    "bytes": 35895,
-    "sha256": "f35f7e054c4967d75970891c8cdcfac37a40f9938f1abe369ee18f89da7df449",
-    "mtime": "2026-10-20T16:19:56.640Z"
+    "bytes": 35937,
+    "sha256": "90da3ad0d163574b2ae9de34ea271f158793706dd86d90ea83f6713f0832c4fe",
+    "mtime": "2026-11-05T03:10:54.265Z"
    },
    {
     "file": "tests/exp-w298c-moon3d.mjs",
-    "bytes": 38451,
-    "sha256": "6a7036d76a1401cd91833c68377f8ec88b79478095df990ddab76db5ab71731a",
-    "mtime": "2026-10-30T11:33:02.834Z"
+    "bytes": 38466,
+    "sha256": "7daf50572cc9680c191d44d0edef8565e1a31e3bb8fbf9a254525ba42c6f9d75",
+    "mtime": "2026-11-05T03:10:54.271Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
-    "bytes": 52861,
-    "sha256": "266dda8f0884604421d04b2bb03398260bebd9b0f761d47861160309149bbe8a",
-    "mtime": "2026-10-30T11:33:02.834Z"
+    "bytes": 52888,
+    "sha256": "33bc2b4c801d143a33bd5dea5491fc37773a826c4454e684e77432248a1a6b5b",
+    "mtime": "2026-11-05T03:10:54.271Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
@@ -82,9 +82,9 @@
    },
    {
     "file": "tests/exp-w301a-dragnorm.mjs",
-    "bytes": 25084,
-    "sha256": "c69618646de44ed5847b292881db4e550563c823a2f6fa1920979987d8f8f84e",
-    "mtime": "2026-10-25T16:42:07.778Z"
+    "bytes": 25111,
+    "sha256": "7dd54fe9e5a67d2b2057c09c257c0c181ff716a8d225a3156c55b05382425626",
+    "mtime": "2026-11-05T03:10:54.273Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -100,9 +100,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    },
    {
     "file": "tests/lib-w303a-pre.mjs",
@@ -117,7 +117,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "78aa6aa70e40210e321fef6a6b190c1943a8bf907d3fd10addd7b3a978a268b6",
+  "codeSha256": "2e570da8504b9a8288f1098f4c46e77891993071b2b9d1c3ad2e69e69e8d0443",
   "harnessVersion": "w301g-wbglaw-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(AN300 —— 第91報への追加): 慣性決定力は、重力決定力に比べて近距離の天体の影響が大きい為、背景慣性決定力がサンプル毎に異なるのは問題無い。法則性の探索を行う",
@@ -129,7 +129,7 @@
    "現実の再現の主張"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": "all",
    "roots": [
     "$",
@@ -178,11 +178,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1416,
-   "segments": 1242,
-   "closureShare": 0.3047
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1379,
+   "segments": 1216,
+   "closureShare": 0.2986
   },
-  "scopeSha256": "044cdb3683ef949ed124fbbbf25864298937ff9977d586e1a16ae7417559487c",
+  "scopeSha256": "77cd7a27cccb12500d2e6ecad1379914a85e14c30248d69bc0ff67569b6d0599",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -517,7 +520,7 @@
     "steps": 1282677,
     "nan": false,
     "complete": true,
-    "wallSec": 5.597
+    "wallSec": 6.809
    },
    "run": {
     "P": 23464.58872731004,
@@ -527,7 +530,7 @@
     "steps": 1275004,
     "nan": false,
     "complete": true,
-    "wallSec": 6.231
+    "wallSec": 9.056
    },
    "sys": {
     "unit": {
@@ -604,7 +607,7 @@
     "steps": 5605428,
     "nan": false,
     "complete": true,
-    "wallSec": 27.3
+    "wallSec": 29.515
    },
    "run": {
     "P": 234.4657765388979,
@@ -614,7 +617,7 @@
     "steps": 5568459,
     "nan": false,
     "complete": true,
-    "wallSec": 33.121
+    "wallSec": 37.078
    },
    "sys": {
     "unit": {
@@ -707,7 +710,7 @@
     "steps": 1741364,
     "nan": false,
     "complete": true,
-    "wallSec": 9.534
+    "wallSec": 10.65
    },
    "run": null,
    "sys": {
@@ -801,7 +804,7 @@
     "steps": 1741422,
     "nan": false,
     "complete": true,
-    "wallSec": 5.182
+    "wallSec": 6.402
    },
    "run": {
     "P": 236.05913902529588,
@@ -811,7 +814,7 @@
     "steps": 1741368,
     "nan": false,
     "complete": true,
-    "wallSec": 6.245
+    "wallSec": 8.694
    },
    "sys": {
     "unit": {
@@ -896,7 +899,7 @@
     "steps": 382305,
     "nan": false,
     "complete": true,
-    "wallSec": 1.884
+    "wallSec": 2.15
    },
    "run": {
     "P": 237.45213976932067,
@@ -906,7 +909,7 @@
     "steps": 382294,
     "nan": false,
     "complete": true,
-    "wallSec": 2.011
+    "wallSec": 2.792
    },
    "sys": {
     "unit": {
@@ -978,7 +981,7 @@
     "steps": 380027,
     "nan": false,
     "complete": true,
-    "wallSec": 1.761
+    "wallSec": 2.378
    },
    "run": {
     "P": 759.3879075452348,
@@ -988,7 +991,7 @@
     "steps": 379694,
     "nan": false,
     "complete": true,
-    "wallSec": 1.764
+    "wallSec": 2.646
    },
    "sys": {
     "unit": {
@@ -1068,7 +1071,7 @@
     "steps": 380027,
     "nan": false,
     "complete": true,
-    "wallSec": 1.712
+    "wallSec": 2.06
    },
    "run": {
     "P": 760.0533575960889,
@@ -1078,7 +1081,7 @@
     "steps": 380027,
     "nan": false,
     "complete": true,
-    "wallSec": 1.802
+    "wallSec": 1.919
    },
    "sys": {
     "unit": {
@@ -1150,7 +1153,7 @@
     "steps": 380028,
     "nan": false,
     "complete": true,
-    "wallSec": 1.733
+    "wallSec": 2.097
    },
    "run": {
     "P": 760.054615492685,
@@ -1160,7 +1163,7 @@
     "steps": 380028,
     "nan": false,
     "complete": true,
-    "wallSec": 2.036
+    "wallSec": 2.546
    },
    "sys": {
     "unit": {
@@ -1232,7 +1235,7 @@
     "steps": 380020,
     "nan": false,
     "complete": true,
-    "wallSec": 1.541
+    "wallSec": 1.818
    },
    "run": null,
    "sys": {
@@ -1305,7 +1308,7 @@
     "steps": 380181,
     "nan": false,
     "complete": true,
-    "wallSec": 1.749
+    "wallSec": 1.875
    },
    "run": null,
    "sys": {
@@ -1378,7 +1381,7 @@
     "steps": 380044,
     "nan": false,
     "complete": true,
-    "wallSec": 1.739
+    "wallSec": 1.923
    },
    "run": null,
    "sys": {
@@ -1451,7 +1454,7 @@
     "steps": 379882,
     "nan": false,
     "complete": true,
-    "wallSec": 1.523
+    "wallSec": 2.227
    },
    "run": null,
    "sys": {
@@ -1524,7 +1527,7 @@
     "steps": 380245,
     "nan": false,
     "complete": true,
-    "wallSec": 1.515
+    "wallSec": 1.914
    },
    "run": null,
    "sys": {
@@ -1597,7 +1600,7 @@
     "steps": 380169,
     "nan": false,
     "complete": true,
-    "wallSec": 1.793
+    "wallSec": 2.138
    },
    "run": null,
    "sys": {
@@ -1670,7 +1673,7 @@
     "steps": 380027,
     "nan": false,
     "complete": true,
-    "wallSec": 1.77
+    "wallSec": 2.303
    },
    "run": {
     "P": 760.0533575961334,
@@ -1680,7 +1683,7 @@
     "steps": 380027,
     "nan": false,
     "complete": true,
-    "wallSec": 1.848
+    "wallSec": 2.444
    },
    "sys": {
     "unit": {
@@ -1752,7 +1755,7 @@
     "steps": 379941,
     "nan": false,
     "complete": true,
-    "wallSec": 2.234
+    "wallSec": 2.78
    },
    "run": {
     "P": 49160.03728113461,
@@ -1762,7 +1765,7 @@
     "steps": 336035,
     "nan": false,
     "complete": true,
-    "wallSec": 2.099
+    "wallSec": 2.56
    },
    "sys": {
     "unit": {
@@ -1842,7 +1845,7 @@
     "steps": 2759319,
     "nan": false,
     "complete": true,
-    "wallSec": 15.21
+    "wallSec": 17.736
    },
    "run": {
     "P": 55185.643872033084,
@@ -1852,7 +1855,7 @@
     "steps": 2759283,
     "nan": false,
     "complete": true,
-    "wallSec": 16.978
+    "wallSec": 17.541
    },
    "sys": {
     "unit": {
@@ -4905,7 +4908,7 @@
    "gain0": -703299.901763844,
    "steps": 1282675,
    "nan": false,
-   "wallSec": 5.866
+   "wallSec": 6.239
   },
   {
    "cand": "const",
@@ -4928,7 +4931,7 @@
    "gain0": 8.898473561886753,
    "steps": 1741398,
    "nan": false,
-   "wallSec": 9.253
+   "wallSec": 9.732
   },
   {
    "cand": "const",
@@ -4951,7 +4954,7 @@
    "gain0": 0,
    "steps": 380024,
    "nan": false,
-   "wallSec": 1.641
+   "wallSec": 1.791
   },
   {
    "cand": "const",
@@ -4974,7 +4977,7 @@
    "gain0": 551863.6598982827,
    "steps": 2757209,
    "nan": false,
-   "wallSec": 18.07
+   "wallSec": 17.153
   },
   {
    "cand": "resp",
@@ -4997,7 +5000,7 @@
    "gain0": -703299.901763844,
    "steps": 1274276,
    "nan": false,
-   "wallSec": 6.381
+   "wallSec": 6.386
   },
   {
    "cand": "resp",
@@ -5020,7 +5023,7 @@
    "gain0": 8.898473561886753,
    "steps": 1741355,
    "nan": false,
-   "wallSec": 9.706
+   "wallSec": 9.334
   },
   {
    "cand": "resp",
@@ -5043,7 +5046,7 @@
    "gain0": 0,
    "steps": 380027,
    "nan": false,
-   "wallSec": 1.845
+   "wallSec": 1.456
   },
   {
    "cand": "resp",
@@ -5066,7 +5069,7 @@
    "gain0": 551863.6598982827,
    "steps": 2759296,
    "nan": false,
-   "wallSec": 18.905
+   "wallSec": 16.011
   },
   {
    "cand": "respKind",
@@ -5089,7 +5092,7 @@
    "gain0": -703299.901763844,
    "steps": 1275656,
    "nan": false,
-   "wallSec": 6.986
+   "wallSec": 5.495
   },
   {
    "cand": "respKind",
@@ -5112,7 +5115,7 @@
    "gain0": 8.898473561886753,
    "steps": 1741364,
    "nan": false,
-   "wallSec": 10.153
+   "wallSec": 9.562
   },
   {
    "cand": "respKind",
@@ -5135,7 +5138,7 @@
    "gain0": 0,
    "steps": 380027,
    "nan": false,
-   "wallSec": 1.854
+   "wallSec": 1.47
   },
   {
    "cand": "respKind",
@@ -5285,7 +5288,7 @@
       "periodDays": 224.7020743089923,
       "nan": false,
       "steps": 380020,
-      "wallSec": 1.783
+      "wallSec": 2.065
      },
      {
       "cand": "Ma3",
@@ -5298,7 +5301,7 @@
       "periodDays": 224.69834532800454,
       "nan": false,
       "steps": 380014,
-      "wallSec": 2.323
+      "wallSec": 1.801
      },
      {
       "cand": "ref1pn",
@@ -5311,7 +5314,7 @@
       "periodDays": 224.7021186366644,
       "nan": false,
       "steps": 380020,
-      "wallSec": 1.879,
+      "wallSec": 1.764,
       "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
      }
     ]
@@ -5340,7 +5343,7 @@
       "periodDays": 686.9862545620496,
       "nan": false,
       "steps": 380181,
-      "wallSec": 1.723
+      "wallSec": 1.983
      },
      {
       "cand": "Ma3",
@@ -5353,7 +5356,7 @@
       "periodDays": 686.9735113821038,
       "nan": false,
       "steps": 380174,
-      "wallSec": 1.917
+      "wallSec": 1.602
      },
      {
       "cand": "ref1pn",
@@ -5366,7 +5369,7 @@
       "periodDays": 686.9862634898603,
       "nan": false,
       "steps": 380181,
-      "wallSec": 1.652,
+      "wallSec": 1.77,
       "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
      }
     ]
@@ -5395,7 +5398,7 @@
       "periodDays": 4332.674506479273,
       "nan": false,
       "steps": 380044,
-      "wallSec": 1.645
+      "wallSec": 1.997
      },
      {
       "cand": "Ma3",
@@ -5408,7 +5411,7 @@
       "periodDays": 4332.599585004692,
       "nan": false,
       "steps": 380038,
-      "wallSec": 1.674
+      "wallSec": 1.762
      },
      {
       "cand": "ref1pn",
@@ -5421,7 +5424,7 @@
       "periodDays": 4332.674493343214,
       "nan": false,
       "steps": 380044,
-      "wallSec": 1.669,
+      "wallSec": 1.832,
       "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
      }
     ]
@@ -5450,7 +5453,7 @@
       "periodDays": 10755.620894340293,
       "nan": false,
       "steps": 379882,
-      "wallSec": 2.306
+      "wallSec": 1.753
      },
      {
       "cand": "Ma3",
@@ -5463,7 +5466,7 @@
       "periodDays": 10755.435688142357,
       "nan": false,
       "steps": 379876,
-      "wallSec": 2.31
+      "wallSec": 1.835
      },
      {
       "cand": "ref1pn",
@@ -5476,7 +5479,7 @@
       "periodDays": 10755.620874107855,
       "nan": false,
       "steps": 379882,
-      "wallSec": 2.211,
+      "wallSec": 1.961,
       "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
      }
     ]
@@ -5505,7 +5508,7 @@
       "periodDays": 30702.292524464727,
       "nan": false,
       "steps": 380245,
-      "wallSec": 2.141
+      "wallSec": 1.725
      },
      {
       "cand": "Ma3",
@@ -5518,7 +5521,7 @@
       "periodDays": 30701.765123911908,
       "nan": false,
       "steps": 380238,
-      "wallSec": 2.036
+      "wallSec": 1.903
      },
      {
       "cand": "ref1pn",
@@ -5531,7 +5534,7 @@
       "periodDays": 30702.292494675974,
       "nan": false,
       "steps": 380245,
-      "wallSec": 1.731,
+      "wallSec": 1.888,
       "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
      }
     ]
@@ -5560,7 +5563,7 @@
       "periodDays": 60226.32090400599,
       "nan": false,
       "steps": 380169,
-      "wallSec": 1.889
+      "wallSec": 1.63
      },
      {
       "cand": "Ma3",
@@ -5573,7 +5576,7 @@
       "periodDays": 60225.30795664844,
       "nan": false,
       "steps": 380162,
-      "wallSec": 2.123
+      "wallSec": 1.825
      },
      {
       "cand": "ref1pn",
@@ -5586,7 +5589,7 @@
       "periodDays": 60226.3208671913,
       "nan": false,
       "steps": 380169,
-      "wallSec": 2.296,
+      "wallSec": 1.665,
       "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
      }
     ]
@@ -5602,7 +5605,7 @@
     "aMedSI": 106235961.40840091,
     "sumWMedSI": 474.98686193651787,
     "gain0": {
-     "wallSec": 0.827
+     "wallSec": 0.696
     },
     "preds": [
      {
@@ -5616,7 +5619,7 @@
       "halt": false,
       "uMax": 0.24035648571125404,
       "steps": 720,
-      "wallSec": 1.004
+      "wallSec": 1.102
      },
      {
       "cand": "Ma3",
@@ -5629,7 +5632,7 @@
       "halt": false,
       "uMax": 0.00006256371404921136,
       "steps": 720,
-      "wallSec": 0.82
+      "wallSec": 0.94
      }
     ]
    }
@@ -5648,5 +5651,5 @@
   "predictions": true
  },
  "ok": true,
- "elapsedS": 295.451
+ "elapsedS": 315.992
 }

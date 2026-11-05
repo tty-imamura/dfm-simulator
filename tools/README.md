@@ -388,3 +388,13 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
 - **家族の表**: `tests/exp-w283b-families.mjs`(器の版 w326e-families-3)は名指しする器の走査からドット始まりのファイル(QA の静的受理の一時ファイル `.qa-preflight-*.mjs`)を外す。
 - **簡易一致の本運用の門**(`tests/lib-w325d-quickgate.mjs` —— 版 w326e-quickgate-2・休眠のまま): 影の必要便数 2・暦の債務の対応を必須(債務 0 でも鎖が債務を扱えなければ hold)。
 - **領域 hash の版 7**(`tests/lib-w281a-scope.mjs` —— w326e-scope-7): 本の bodies[].obsSpin の成分の説明の文(note・noteEn・source・sourceEn)を領域から外す。版 6 の刻印は版 6 の規則で照合。
+
+## 第327便c —— 鎖を狭める 4 件・領域 hash の版 8・版の移行(一回きり)・html の物理の部分の版 2・名指しの段の領域(統括の検証項目 R297・決断事項 AN543)
+
+原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・原仮定者の回答(2026-11-04 —— AN543)「推奨で進める」。**計画の status・鎖・済み印の契約の意味は変えない**(領域の宣言と停止の集合だけ)。
+
+- **領域 hash の版 8**(`tests/lib-w281a-scope.mjs` —— w327c-scope-8): 停止集合に `updateBodyEdit`(選択粒子の編集の表示 —— 表示の状態 be* は表示の境界)・器の `REGEN_SCOPE` の宣言 `abBody:false`(ワンタップ対照 A/B を走らせない段 —— 器の本文に A/B の語が無いこと)と `keepProse:["familyRole"]`(familyRole を読む段)。版 7 の刻印は版 7 の規則で照合する。
+- **版の移行**(一回きり): `planRegen` は刻印の版の閉包と現行の版の閉包が違う段を regen にする(理由の種類 `scopever` —— 走らせ直すと版 8 で刻まれる)。`node tools/regen-plan.mjs --no-scope-migrate` か環境変数 `W327C_SCOPE_MIGRATE=0` で切る(鎖の `--gate` も同じ既定)。件数の行「領域の版の移行」。
+- **html の物理の部分の版 2**(`tests/lib-w325a-htmlphys.mjs` —— w327c-htmlphys-2): 退役の表 `RETIRED_PRESETS` を文の登録簿へ(code から外す —— 退役の表の行だけでは code を読む段は走らない)。台帳は `node tools/regen-plan.mjs --htmlphys-record --base <基点 html>` で版 2 の行に作り直す。
+- **AN543**: 名指しの 6 段は presets:"all" のまま(pn1・pnsource286・pnsources291・refit-297a は文字列の式〔evalExpr・vm〕の中で全本を回る・eihdiag287・tpsign は較正走行の器の本文の評価と子プロセス —— QA が根拠の口を照合)。
+- **家族の表**: 器の入力に `tests/qa.mjs`(qa.mjs を直したら `node tests/exp-w283b-families.mjs` で作り直す —— `--check` で照合)。**confirm4**: 再生成表の `HTML_TEXT_READ_DECL_327C`(html の全文を読む理由 —— 表示の区分だけ)。

@@ -35,7 +35,7 @@ import * as L from './lib-w301d-coupled.mjs';
 import { shellBodies, shellStats, SHELL_VERSION } from './lib-w301d-shell.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 import * as H4C from './lib-w311c-h4carry.mjs';   // 第311便c(AN393 (a)・R228): h/4 より細かい刻みの仕事の転記
-const REGEN_SCOPE = {"presets":["chainBurstShell3d","chainDiskToy","chainDiskToy3d"],"roots":["HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.inertialDragState","HP.inertialSpinMoment","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["chainBurstShell3d","chainDiskToy","chainDiskToy3d"],"roots":["HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.inertialDragState","HP.inertialSpinMoment","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w301d-chainburst-1';
