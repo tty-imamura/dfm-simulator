@@ -396,5 +396,5 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
 - **領域 hash の版 8**(`tests/lib-w281a-scope.mjs` —— w327c-scope-8): 停止集合に `updateBodyEdit`(選択粒子の編集の表示 —— 表示の状態 be* は表示の境界)・器の `REGEN_SCOPE` の宣言 `abBody:false`(ワンタップ対照 A/B を走らせない段 —— 器の本文に A/B の語が無いこと)と `keepProse:["familyRole"]`(familyRole を読む段)。版 7 の刻印は版 7 の規則で照合する。
 - **版の移行**(一回きり): `planRegen` は刻印の版の閉包と現行の版の閉包が違う段を regen にする(理由の種類 `scopever` —— 走らせ直すと版 8 で刻まれる)。`node tools/regen-plan.mjs --no-scope-migrate` か環境変数 `W327C_SCOPE_MIGRATE=0` で切る(鎖の `--gate` も同じ既定)。件数の行「領域の版の移行」。
 - **html の物理の部分の版 2**(`tests/lib-w325a-htmlphys.mjs` —— w327c-htmlphys-2): 退役の表 `RETIRED_PRESETS` を文の登録簿へ(code から外す —— 退役の表の行だけでは code を読む段は走らない)。台帳は `node tools/regen-plan.mjs --htmlphys-record --base <基点 html>` で版 2 の行に作り直す。
-- **AN543**: tpsign・eihdiag287 を名指しの本へ。pn1・pnsource286・pnsources291・refit-297a は文字列の式(evalExpr・vm)の中で全本を回るので presets:"all" のまま(QA が根拠を照合)。
+- **AN543**: 名指しの 6 段は presets:"all" のまま(pn1・pnsource286・pnsources291・refit-297a は文字列の式〔evalExpr・vm〕の中で全本を回る・eihdiag287・tpsign は較正走行の器の本文の評価と子プロセス —— QA が根拠の口を照合)。
 - **家族の表**: 器の入力に `tests/qa.mjs`(qa.mjs を直したら `node tests/exp-w283b-families.mjs` で作り直す —— `--check` で照合)。**confirm4**: 再生成表の `HTML_TEXT_READ_DECL_327C`(html の全文を読む理由 —— 表示の区分だけ)。

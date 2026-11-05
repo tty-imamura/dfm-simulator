@@ -27,7 +27,7 @@ import { extractCalauditHelpers } from './lib-w280a-mercury.mjs';
 import * as G1 from './lib-w282b-geo1.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 // 第281便a の規約: この器が読む html の領域(1 行の JSON —— `lint.regenScope` が機械の下限と照合する)
-const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","earthMoonRealKF1","emAuditDFM","emAuditNewton","gw150914DFM","jupiterGalilean","marsMoonsReal","mercury","neptuneReal","plutoCharonDiagInput","plutoCharonReal","psrB1534","psrB1534CF","psrB1534DFM","psrDoubleAB","psrDoubleABCF","psrDoubleABDFM","psrDoubleABPN","psrDoubleABSpinCal","psrJ1757CF","psrJ1757DFM","psrJ1757PN","psrJ1946CF","psrJ1946DFM","psrJ1946PN","qLockRadialAudit","qLockRadialAuditQ3","saturnZonalD68","siriusAB","siriusABDFM","venusReal"],"roots":["GEO_CORE_PN","GEO_MODE_VERSION","HP.allPresets","HP.coreState","HP.sim","HP.validatePreset","PN1_EIH_VERSION","dfmPN1Delta","dfmPN1EIHKick","geoCoreDispatch","geoModeOf","validatePreset"],"core":true,"consts":[],"complete":true,"keepProse":["familyRole"]};
+const REGEN_SCOPE = {"presets":"all","roots":["GEO_CORE_PN","GEO_MODE_VERSION","HP.allPresets","HP.coreState","HP.sim","HP.validatePreset","PN1_EIH_VERSION","dfmPN1Delta","dfmPN1EIHKick","geoCoreDispatch","geoModeOf","validatePreset"],"core":true,"consts":[],"complete":true,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';

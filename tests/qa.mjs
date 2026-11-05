@@ -96590,8 +96590,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----        🌃 の abBody を外した写しで abBody:false の段は同じ・宣言の無い段は変わる・abBody を受理器が拒む形にした写しは abBody:false でも変わる(受理の ok と warnings は残す)
 // ----     ④ (iv) familyRole の依存: 器の本文と import の閉包が familyRole を読む器は keepProse か consts で宣言(宣言を外すと落ちる)・本 1 本の退役の写しで keepProse の段は変わる・版 7 の規則では同じ
 // ----     ⑤ (ii) RETIRED_PRESETS: 退役の表の行だけの写しで既定の reads(code・presets・markup)が同じ・text:RETIRED_PRESETS と生の行の reads が違う・台帳は版 2 の行
-// ----     ⑥ AN543: tpsign・eihdiag287 の領域は名指しの本(器と lib の下限を覆う)で、器の本文に全本を回る口(allPresets()/BUILTIN_PRESETS の find の外 —— 文字列の中も)が無い(写しで足すと落ちる)・
-// ----        pn1・pnsource286・pnsources291・refit-297a は文字列の式(evalExpr・vm)の中で全本を回るので presets:"all" のまま(絞らない根拠を毎回照合)
+// ----     ⑥ AN543: 名指しの 6 段は presets:"all" のまま —— pn1・pnsource286・pnsources291・refit-297a は文字列の式(evalExpr・vm)の中で全本を回る(allPresets()/BUILTIN_PRESETS の
+// ----        find の外 —— 文字列の中の変異を拾う)・eihdiag287・tpsign は較正走行の器の本文の評価と子プロセス(第319便c の KEEP_ALL_319C —— 根拠の口を毎回照合)
 // ----     ⑦ 版の移行: 版 7 の刻印の宣言は今の html で移行が要る(閉包から updateBodyEdit が落ちる)・版 8 は要らない・updateBodyEdit を辿らない宣言は要らない・計画は切ると scopever を出さない
 // ----     ⑧ 宣言なし(html 全体)の段 0(confirm4 は全文読みの宣言と理由)・段 families の入力に tests/qa.mjs(器の meta の inputs)
 // ----   docs.w327c: PHYSICS〔第327便c — 〕(第326便e の節の後・「## 7.」の前)・AI_SPEC §189・CHANGELOG・tools/README・post-merge の ③′・書かない語・禁句・裸の係数記号
@@ -96728,25 +96728,25 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           cases.push(`⑤ 退役の表の行だけの写し → 既定の reads 同じ・text:RETIRED_PRESETS と生の行 違う・台帳 ${Object.keys(L.entries || {}).length} 行(版 ${vs.join(',')})`);
         }
       }
-      // ⑥ AN543
+      // ⑥ AN543(名指しの 6 段 —— 6 段とも presets:"all" のまま。第319便c の KEEP_ALL_319C の理由を毎回照合する)
       {
-        const NARROW = { tpsign: 'tests/exp-w284e-tpsign.mjs', eihdiag287: 'tests/exp-w287b-eihdiag.mjs' };
-        const KEEP_ALL = { pn1: 'tests/exp-w285b-pn1.mjs', pnsource286: 'tests/exp-w286b-pnsource.mjs', pnsources291: 'tests/exp-w291b-pnsources.mjs', 'refit-297a': 'tests/exp-w297a-refit.mjs' };
+        const STR4 = { pn1: 'tests/exp-w285b-pn1.mjs', pnsource286: 'tests/exp-w286b-pnsource.mjs', pnsources291: 'tests/exp-w291b-pnsources.mjs', 'refit-297a': 'tests/exp-w297a-refit.mjs' };
+        const SUB2 = { eihdiag287: ['tests/exp-w287b-eihdiag.mjs', /extractCalauditHelpers/], tpsign: ['tests/exp-w284e-tpsign.mjs', /spawnSync\([^)]*exp-w249b-calaudit\.mjs/] };
         const wide = (text) => { const t = String(text).split('\n').filter((l) => !/^const REGEN_SCOPE = /.test(l)).join('\n'); const nc = SC.scanJs(t).nocom; const out = [];
           for (const m of nc.matchAll(/(?:allPresets\s*\(\s*\)|BUILTIN_PRESETS)\s*(?:\.\s*([A-Za-z_$][\w$]*))?/g)) if (!['find', 'findIndex', 'some'].includes(m[1])) out.push(m[0]); return out; };
-        for (const [k, f] of Object.entries(NARROW)) {
-          const d = SC.readDeclaredScope(rd327c(f));
-          if (!d || d.presets === 'all' || !d.presets.length) { bad.push('⑥ ' + k + ' の領域が名指しの本でない'); continue; }
-          const w = wide(rd327c(f));
-          if (w.length) bad.push('⑥ ' + k + ' の器の本文に全本を回る口(' + w[0] + ')—— presets:"all" に戻すこと');
-        }
         if (!wide("x(`HP.allPresets().map((p)=>p.id)`)").length) bad.push('⑥ 変異(文字列の中の allPresets().map)を拾えない');
-        for (const [k, f] of Object.entries(KEEP_ALL)) {
+        const keep = new Set((RT.KEEP_ALL_319C || []).map((z) => z.key));
+        for (const [k, f] of Object.entries(STR4)) {
           const d = SC.readDeclaredScope(rd327c(f));
-          if (!d || d.presets !== 'all') bad.push('⑥ ' + k + ' の領域が presets:"all" でない(文字列の式の中で全本を回る —— 絞らない)');
+          if (!d || d.presets !== 'all' || !keep.has(k)) bad.push('⑥ ' + k + ' の領域が presets:"all" でない(文字列の式の中で全本を回る —— 名指しに絞ると危ない側)');
           if (!wide(rd327c(f)).length) bad.push('⑥ ' + k + ' の器に全本を回る口が見つからない(絞らない根拠が消えた —— 見直すこと)');
         }
-        cases.push(`⑥ AN543: 名指しへ ${Object.keys(NARROW).join('・')}(全本を回る口 0)/ all のまま ${Object.keys(KEEP_ALL).join('・')}(文字列の式の中で全本を回る)`);
+        for (const [k, [f, re]] of Object.entries(SUB2)) {
+          const d = SC.readDeclaredScope(rd327c(f));
+          if (!d || d.presets !== 'all' || !keep.has(k)) bad.push('⑥ ' + k + ' の領域が presets:"all" でない(較正走行の器の読みは機械の下限に出ない —— 第319便c)');
+          if (!re.test(SC.scanJs(rd327c(f)).nocom)) bad.push('⑥ ' + k + ' の器に較正走行の器の口(本文の評価・子プロセス)が見つからない(根拠が消えた —— 見直すこと)');
+        }
+        cases.push(`⑥ AN543: 6 段とも presets:"all"(${Object.keys(STR4).join('・')} は文字列の式の中で全本を回る・${Object.keys(SUB2).join('・')} は較正走行の器の本文の評価と子プロセス —— 第319便c の記録)・変異の口を拾う`);
       }
       // ⑦ 版の移行
       {

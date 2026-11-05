@@ -4655,5 +4655,5 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **選択粒子の編集の表示**(`updateBodyEdit`)は再生成の領域の外(停止集合)。選択粒子の編集の欄の文や並びを直しても、正本の再生成の段は走らない(表示の状態 be* は表示の境界)。
 - **ワンタップ対照(`abBody`)**: A/B を走らせない段は器の宣言 `abBody:false` で領域から外す(受理の ok と warnings は残す)。本の `abBody` を足す・直すと走るのは A/B の語を読む段だけ。
 - **退役**: `familyRole` を読む段は器の宣言 `keepProse:["familyRole"]`(または consts)で依存を宣言する —— 本 1 本の退役で、その本を領域に持つ段が走る(古い正本を reuse にしない)。退役の表 `RETIRED_PRESETS` は html の物理の部分の文の登録簿(表示だけで読む)。
-- 名指しの本へ絞ったのは tpsign・eihdiag287 の 2 段。pn1・pnsource286・pnsources291・refit-297a は文字列の式の中で全本を回るので全部の本のまま。
+- 名指しの 6 段(pn1・pnsource286・pnsources291・refit-297a・eihdiag287・tpsign)は全部の本のまま(文字列の式の中で全本を回る・較正走行の器の本文の評価と子プロセス)。
 - QA `lint.narrowScope327c`・`docs.w327c`。
