@@ -26848,25 +26848,25 @@
  },
  "timing": {
   "I": {
-   "wallSec": 0.48
+   "wallSec": 0.444
   },
   "C": {
-   "wallSec": 1.568
+   "wallSec": 1.391
   },
   "P": {
-   "wallSec": 1.888
+   "wallSec": 1.731
   },
   "S": {
-   "wallSec": 4.184
+   "wallSec": 3.744
   },
   "N": {
-   "wallSec": 4.581
+   "wallSec": 4.173
   },
   "T": {
-   "wallSec": 4.584
+   "wallSec": 4.176
   },
   "F": {
-   "wallSec": 4.876
+   "wallSec": 4.441
   }
  },
  "gates": {
@@ -26881,13 +26881,13 @@
   "transientLocal": true
  },
  "ok": true,
- "elapsedS": 6.584,
+ "elapsedS": 5.915,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第328便b",
   "target": "beta/index.html",
   "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
-  "generatedAt": "2026-11-05T19:10:45.144Z",
+  "generatedAt": "2026-11-05T19:20:43.991Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -26899,9 +26899,9 @@
   "code": [
    {
     "file": "tests/exp-w328b-response.mjs",
-    "bytes": 39284,
-    "sha256": "0cd787916596f75add24bf09412645e24516c376d1c4c841eb2a3fea506a6d62",
-    "mtime": "2026-11-05T19:10:37.839Z"
+    "bytes": 39467,
+    "sha256": "2ab67d769d321be0e06cb30fbdbea5026e5fc66123e7e03c1405ec66ce2bce62",
+    "mtime": "2026-11-05T19:20:37.973Z"
    },
    {
     "file": "tests/lib-w328b-response.mjs",
@@ -27006,7 +27006,7 @@
     "mtime": "2026-11-05T18:31:04.213Z"
    }
   ],
-  "codeSha256": "972bbcb2c2b1d30f586a6a46c4b6cc72259a92a26b28bfa9c95c7cd0bc6b45fa",
+  "codeSha256": "2049997a856e9451c07982a3f879f971e82221ceccee27b05ba32109090b7454",
   "harnessVersion": "w328b-response-1",
   "stage": "response",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)と第321便c の場の API の純関数",

@@ -320,7 +320,8 @@ export function gatesOf(J) {
   const vs = Object.values(P.forms).map((f) => f.verdict);
   return {
     pure: Object.values(J.pure.gates).every(Boolean),
-    contractShape: C.check.ok === true && C.check.nulls.includes('convergence.curlConverged') && Number.isFinite(C.slip.mag),
+    // 契約の形(共通の形の鍵が揃い・直接の滑りが有限 —— 欠測の null は場所を記録するだけ〔統合で枝 a の buildFieldContract へ差し替えても門は同じ〕)
+    contractShape: C.check.ok === true && Array.isArray(C.check.nulls) && Number.isFinite(C.slip.mag),
     // 既定の列の照合: エンジンの読み口の係数と同じ(K1 の規則の写しの全受け手・金星の R_d 0.1・10 倍・質量 10 倍)
     defaultReproduced: P.defaultColumn.maxRel <= 1e-12 && P.defaultColumn.cases.every((c) => c.ok && c.rel <= 1e-12) && P.forms.engineDefault.verdict.constantExponent
       && Math.abs(P.forms.engineDefault.verdict.slopeRd - 1) <= 1e-12 && Math.abs(P.forms.engineDefault.verdict.slopeM + 1) <= 1e-12,
