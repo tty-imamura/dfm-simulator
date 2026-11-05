@@ -731,47 +731,58 @@
      ]
     },
     "fit": {
+     "ok": true,
+     "why": null,
      "p": 0,
      "maxRes": 0,
      "constant": true,
+     "nearZero": [],
      "rows": [
       {
        "key": "sun",
+       "fac": 1,
        "f": 1,
        "x": 0
       },
       {
        "key": "venus",
+       "fac": 1,
        "f": 1,
        "x": -12.920305254402658
       },
       {
        "key": "mars",
+       "fac": 1,
        "f": 1,
        "x": -14.946494393628644
       },
       {
        "key": "earth",
+       "fac": 1,
        "f": 1,
        "x": -12.715735740140069
       },
       {
        "key": "moon",
+       "fac": 1,
        "f": 1,
        "x": -17.113888745863715
       },
       {
        "key": "jupiter",
+       "fac": 1,
        "f": 1,
        "x": -6.954224178979599
       },
       {
        "key": "io",
+       "fac": 1,
        "f": 1,
        "x": -16.918638943059875
       },
       {
        "key": "saturn",
+       "fac": 1,
        "f": 1,
        "x": -8.160165804741112
       }
@@ -794,6 +805,7 @@
      "bodyFitOk": true,
      "bodyP": 0,
      "bodyMaxRes": 0,
+     "bodyNearZero": [],
      "p": 0,
      "consistent": true,
      "sameAsNegative": true,
@@ -1169,46 +1181,66 @@
      ]
     },
     "fit": {
-     "p": null,
+     "ok": false,
+     "why": "ほぼ 0 の応答(係数 < 1e-12 —— log のべきを当てない)",
+     "p": 1.4066721237146962,
+     "maxRes": 0.9792988902312452,
      "constant": false,
+     "nearZero": [
+      "venus",
+      "mars",
+      "earth",
+      "moon",
+      "jupiter",
+      "io",
+      "saturn"
+     ],
      "rows": [
       {
        "key": "sun",
+       "fac": 3.6214778408784324e-9,
        "f": 1,
        "x": 0
       },
       {
        "key": "venus",
+       "fac": 6.082894070567505e-17,
        "f": 1.6796717632523267e-8,
        "x": -12.920305254402658
       },
       {
        "key": "mars",
+       "fac": 3.03720924915717e-18,
        "f": 8.386657001939459e-10,
        "x": -14.946494393628644
       },
       {
        "key": "earth",
+       "fac": 8.245760041495918e-17,
        "f": 2.2769047344207444e-8,
        "x": -12.715735740140069
       },
       {
        "key": "moon",
+       "fac": 1.4119240142562464e-19,
        "f": 3.898750941725402e-11,
        "x": -17.113888745863715
       },
       {
        "key": "jupiter",
+       "fac": 9.006103421873587e-14,
        "f": 0.000024868586299810272,
        "x": -6.954224178979599
       },
       {
        "key": "io",
+       "fac": 1.9730543094060298e-19,
        "f": 5.448202076883182e-11,
        "x": -16.918638943059875
       },
       {
        "key": "saturn",
+       "fac": 1.4075224035721005e-14,
        "f": 0.000003886596758053583,
        "x": -8.160165804741112
       }
@@ -1229,8 +1261,17 @@
      "k1Line": 2.9999999391620267,
      "dependsOnOther": true,
      "bodyFitOk": false,
-     "bodyP": null,
-     "bodyMaxRes": null,
+     "bodyP": 1.4066721237146962,
+     "bodyMaxRes": 0.9792988902312452,
+     "bodyNearZero": [
+      "venus",
+      "mars",
+      "earth",
+      "moon",
+      "jupiter",
+      "io",
+      "saturn"
+     ],
      "p": null,
      "consistent": null,
      "sameAsNegative": false,
@@ -1622,47 +1663,58 @@
      ]
     },
     "fit": {
+     "ok": true,
+     "why": null,
      "p": -5.524194773676061e-18,
      "maxRes": 1.9358964867657756e-16,
      "constant": true,
+     "nearZero": [],
      "rows": [
       {
        "key": "sun",
+       "fac": 1,
        "f": 1,
        "x": 0
       },
       {
        "key": "venus",
+       "fac": 1.0000000000000002,
        "f": 1.0000000000000002,
        "x": -12.920305254402658
       },
       {
        "key": "mars",
+       "fac": 0.9999999999999999,
        "f": 0.9999999999999999,
        "x": -14.946494393628644
       },
       {
        "key": "earth",
+       "fac": 1.0000000000000002,
        "f": 1.0000000000000002,
        "x": -12.715735740140069
       },
       {
        "key": "moon",
+       "fac": 1,
        "f": 1,
        "x": -17.113888745863715
       },
       {
        "key": "jupiter",
+       "fac": 1,
        "f": 1,
        "x": -6.954224178979599
       },
       {
        "key": "io",
+       "fac": 1.0000000000000002,
        "f": 1.0000000000000002,
        "x": -16.918638943059875
       },
       {
        "key": "saturn",
+       "fac": 0.9999999999999999,
        "f": 0.9999999999999999,
        "x": -8.160165804741112
       }
@@ -1685,6 +1737,7 @@
      "bodyFitOk": true,
      "bodyP": -5.524194773676061e-18,
      "bodyMaxRes": 1.9358964867657756e-16,
+     "bodyNearZero": [],
      "p": -5.524194773676061e-18,
      "consistent": true,
      "sameAsNegative": false,
@@ -2075,47 +2128,58 @@
      ]
     },
     "fit": {
+     "ok": true,
+     "why": null,
      "p": -6.271458106635686e-18,
      "maxRes": 2.0475861589322287e-16,
      "constant": true,
+     "nearZero": [],
      "rows": [
       {
        "key": "sun",
+       "fac": 1,
        "f": 1,
        "x": 0
       },
       {
        "key": "venus",
+       "fac": 1,
        "f": 1,
        "x": -12.920305254402658
       },
       {
        "key": "mars",
+       "fac": 0.9999999999999999,
        "f": 0.9999999999999999,
        "x": -14.946494393628644
       },
       {
        "key": "earth",
+       "fac": 1.0000000000000002,
        "f": 1.0000000000000002,
        "x": -12.715735740140069
       },
       {
        "key": "moon",
+       "fac": 1.0000000000000002,
        "f": 1.0000000000000002,
        "x": -17.113888745863715
       },
       {
        "key": "jupiter",
+       "fac": 1,
        "f": 1,
        "x": -6.954224178979599
       },
       {
        "key": "io",
+       "fac": 1.0000000000000002,
        "f": 1.0000000000000002,
        "x": -16.918638943059875
       },
       {
        "key": "saturn",
+       "fac": 0.9999999999999999,
        "f": 0.9999999999999999,
        "x": -8.160165804741112
       }
@@ -2138,6 +2202,7 @@
      "bodyFitOk": true,
      "bodyP": -6.271458106635686e-18,
      "bodyMaxRes": 2.0475861589322287e-16,
+     "bodyNearZero": [],
      "p": -6.271458106635686e-18,
      "consistent": true,
      "sameAsNegative": false,
@@ -2525,47 +2590,58 @@
      ]
     },
     "fit": {
+     "ok": true,
+     "why": null,
      "p": 0,
      "maxRes": 0,
      "constant": true,
+     "nearZero": [],
      "rows": [
       {
        "key": "sun",
+       "fac": 1,
        "f": 1,
        "x": 0
       },
       {
        "key": "venus",
+       "fac": 1,
        "f": 1,
        "x": -12.920305254402658
       },
       {
        "key": "mars",
+       "fac": 1,
        "f": 1,
        "x": -14.946494393628644
       },
       {
        "key": "earth",
+       "fac": 1,
        "f": 1,
        "x": -12.715735740140069
       },
       {
        "key": "moon",
+       "fac": 1,
        "f": 1,
        "x": -17.113888745863715
       },
       {
        "key": "jupiter",
+       "fac": 1,
        "f": 1,
        "x": -6.954224178979599
       },
       {
        "key": "io",
+       "fac": 1,
        "f": 1,
        "x": -16.918638943059875
       },
       {
        "key": "saturn",
+       "fac": 1,
        "f": 1,
        "x": -8.160165804741112
       }
@@ -2588,6 +2664,7 @@
      "bodyFitOk": true,
      "bodyP": 0,
      "bodyMaxRes": 0,
+     "bodyNearZero": [],
      "p": 0,
      "consistent": true,
      "sameAsNegative": true,
@@ -26771,25 +26848,25 @@
  },
  "timing": {
   "I": {
-   "wallSec": 0.498
+   "wallSec": 0.48
   },
   "C": {
-   "wallSec": 1.661
+   "wallSec": 1.568
   },
   "P": {
-   "wallSec": 2.528
+   "wallSec": 1.888
   },
   "S": {
-   "wallSec": 4.742
+   "wallSec": 4.184
   },
   "N": {
-   "wallSec": 5.445
+   "wallSec": 4.581
   },
   "T": {
-   "wallSec": 5.452
+   "wallSec": 4.584
   },
   "F": {
-   "wallSec": 5.911
+   "wallSec": 4.876
   }
  },
  "gates": {
@@ -26804,13 +26881,13 @@
   "transientLocal": true
  },
  "ok": true,
- "elapsedS": 8.756,
+ "elapsedS": 6.584,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第328便b",
   "target": "beta/index.html",
   "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
-  "generatedAt": "2026-11-05T19:01:25.099Z",
+  "generatedAt": "2026-11-05T19:10:45.144Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -26822,15 +26899,15 @@
   "code": [
    {
     "file": "tests/exp-w328b-response.mjs",
-    "bytes": 38991,
-    "sha256": "b3e6d78c530d58b78c5732e73b7ff22c967cb6b83b652f1941fd4fa691d0775b",
-    "mtime": "2026-11-05T19:01:16.237Z"
+    "bytes": 39284,
+    "sha256": "0cd787916596f75add24bf09412645e24516c376d1c4c841eb2a3fea506a6d62",
+    "mtime": "2026-11-05T19:10:37.839Z"
    },
    {
     "file": "tests/lib-w328b-response.mjs",
-    "bytes": 33611,
-    "sha256": "07fb12aa19e40a9081211b526140d37fd2b59026f0ffa6dbf0c6527330b77b64",
-    "mtime": "2026-11-05T19:00:27.527Z"
+    "bytes": 33805,
+    "sha256": "a52c669c842caea7b566265957afb391aa9bed0f7c6ebb95df90df69f9f2fb6d",
+    "mtime": "2026-11-05T19:03:09.601Z"
    },
    {
     "file": "tests/lib-w327f-venustide.mjs",
@@ -26929,7 +27006,7 @@
     "mtime": "2026-11-05T18:31:04.213Z"
    }
   ],
-  "codeSha256": "1f1ac71a8b8de86c0edd67aaa418c73d9be9e020472d5658e1dfa1e670baf24a",
+  "codeSha256": "972bbcb2c2b1d30f586a6a46c4b6cc72259a92a26b28bfa9c95c7cd0bc6b45fa",
   "harnessVersion": "w328b-response-1",
   "stage": "response",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)と第321便c の場の API の純関数",

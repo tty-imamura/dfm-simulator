@@ -186,11 +186,12 @@ export function bodyFit(form, bodies, env, refKey, gate = DECL.gate) {
   const ref = bodies.find((q) => q.key === refKey), F0 = responseOf(form, ref, env).fac;
   const rows = bodies.map((q) => { const F = responseOf(form, q, env).fac; return { key: q.key, Rd: q.Rd, m: q.m, I: q.I, fac: F, f: F !== null && F0 ? F / F0 : null, x: Math.log(q.Rd / ref.Rd) }; });
   if (rows.some((r) => !(r.f > 0))) return { ok: false, why: '符号が変わるか欠測', rows, constant: false, p: null };
-  if (rows.some((r) => Math.abs(r.fac) < gate.nearZeroAbs)) return { ok: false, why: 'ほぼ 0 の応答(係数 < ' + gate.nearZeroAbs + ' —— log のべきを当てない)', rows, constant: false, p: null, nearZero: rows.filter((r) => Math.abs(r.fac) < gate.nearZeroAbs).map((r) => r.key) };
   let sxy = 0, sxx = 0;
   for (const r of rows) { const y = Math.log(r.f); sxy += r.x * y; sxx += r.x * r.x; }
-  const p = sxy / sxx, maxRes = Math.max(...rows.map((r) => Math.abs(Math.log(r.f) - p * r.x)));
-  return { ok: true, rows, p, maxRes, constant: maxRes <= gate.tolRes };
+  const p = sxy / sxx, maxRes = Math.max(...rows.map((r) => Math.abs(Math.log(r.f) - p * r.x))), nz = rows.filter((r) => Math.abs(r.fac) < gate.nearZeroAbs).map((r) => r.key);
+  // ほぼ 0 の応答(係数 < nearZeroAbs)を含む線は門の外(log のべきを当てない —— 直線の p と残差は参考の記録)
+  if (nz.length) return { ok: false, why: 'ほぼ 0 の応答(係数 < ' + gate.nearZeroAbs + ' —— log のべきを当てない)', rows, constant: false, p, maxRes, nearZero: nz };
+  return { ok: true, rows, p, maxRes, constant: maxRes <= gate.tolRes, nearZero: nz };
 }
 /** 型の判定: 一定の指数(R_d・m・I を独立に)と本の天体の線の p。候補は両方を満たすときだけ(成り立たなければ応答の表 —— p:null) */
 export function verdictOf(meas, fit, gate = DECL.gate) {
@@ -203,7 +204,7 @@ export function verdictOf(meas, fit, gate = DECL.gate) {
   const sameAsNegative = candidate && fit.rows.every((r) => r.f === 1) && Math.abs(aS) <= gate.tolSlope && Math.abs(bS) <= gate.tolSlope;
   const cancellation = candidate && aS !== null && bS !== null && Math.abs(aS) > gate.tolSlope && Math.abs(aS + bS) <= gate.tolSlope;
   return { form: meas.form, constantRd: cA, constantM: cB, constantI: cC, constantJoint: cJ, constantExponent, slopeRd: aS, slopeM: bS, slopeI: meas.c ? cS : null, slopeJoint: sl(meas.joint),
-    k1Line: aS !== null && bS !== null ? aS + bS : null, dependsOnOther, bodyFitOk: fit.ok && fit.constant, bodyP: fit.ok ? fit.p : null, bodyMaxRes: fit.ok ? fit.maxRes : null,
+    k1Line: aS !== null && bS !== null ? aS + bS : null, dependsOnOther, bodyFitOk: fit.ok && fit.constant, bodyP: fit.p === undefined ? null : fit.p, bodyMaxRes: fit.maxRes === undefined ? null : fit.maxRes, bodyNearZero: fit.nearZero || [],
     p: candidate ? fit.p : null, consistent: candidate ? Math.abs(fit.p - (aS + bS)) <= gate.tolSlope : null, sameAsNegative, cancellation,
     verdict: candidate ? (sameAsNegative ? 'candidate-sameAsNegativeControl' : (cancellation ? 'candidate-cancellation' : 'candidate')) : 'table' };
 }

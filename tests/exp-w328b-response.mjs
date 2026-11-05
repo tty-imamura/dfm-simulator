@@ -50,13 +50,14 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w328b-response-1';
 export const OUT_MAIN = 'tests/out/response-w328b.json';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+export const GA_STATE_NAME = 'inertialDragGalaxyAxialState';
 export const NOT_CLAIM = Object.freeze(['p は場の API だけでは決まらない(受け手の演算の型の宣言で決まる —— 型ごとの記録)', '一定の指数が成り立たない型に p を書かない(応答の表のまま)',
   '金星の熱の振幅に合わせて p を選んでいない(p の候補は受け手の演算と本の天体の線だけから)', 'N_0 は観測の自転から解いた量(自転の独立の予言ではない —— 採らない)',
   '金星の逆回転・内部熱の説明ではない', 'A は「太陽の口が銀河だけ」という接続の帰結(銀河場の同定と数えない)', 'Ω_field は宣言の候補(同定ではない)', '変化の時間 I|Ω|/|N| は局所の尺度(履歴の積分ではない)']);
 const SAT = Object.keys({ saturn: 1 })[0];   // 鍵の文字列を引用符で書かない(領域の下限 deriveScope が同じ綴りの本の id と取り違える)
 const BODY8 = Object.freeze(['sun', 'venus', 'mars', 'earth', 'moon', 'jupiter', 'io', SAT]);
 const D = RB.DECL, FD = LF.DECL, LIT = FD.lit, DAY = 86400;
-const GA_STATE = 'inertialDragGalaxyAxialState';   // エンジンの銀河の一様軸の読み口(状態を動かさない —— 受け手ごとの応答の係数)
+const GA_STATE = GA_STATE_NAME;   // エンジンの銀河の一様軸の読み口(状態を動かさない —— 受け手ごとの応答の係数)
 const NOTIDE = Object.freeze(Object.fromEntries(Object.entries(LD.DECL.ports).map(([k, v]) => [k, Object.freeze({ k1: v.k1, tide: Object.freeze([]) })])));
 const SYS = Object.freeze({ venus: ['sun', 'venus'], mars: ['sun', 'mars'], triEM: ['sun', 'earth', 'moon'] });
 const TAUS = Object.freeze(FD.tau0.grid.concat([LF.TAU_AGE, Infinity]).sort((x, y) => x - y));
@@ -100,19 +101,19 @@ export function partC(IN) {
 
 /* ───────── P 受け手の演算の型と p の判定 ───────── */
 const recvOf = (b) => ({ key: b.key, Rd: b.Rd, m: b.m, I: b.I });
-export function partP(HP, IN, C) {
+export function partP(HP, IN, C, gaFn) {
   const ref = { Rd: IN.bodies.sun.Rd, m: IN.bodies.sun.m }, env = { slip: C.slip.vecEcl, Wbg: C.Wbg, ref };
   const bodies = BODY8.map((k) => recvOf(IN.bodies[k])), forms = {}, verdicts = [];
   for (const f of D.forms) {
     const meas = { sun: RB.measureForm(f.key, recvOf(IN.bodies.sun), env), venus: RB.measureForm(f.key, recvOf(IN.bodies.venus), env) };
     const fit = RB.bodyFit(f.key, bodies, env, 'sun'), vs = RB.verdictOf(meas.sun, fit), vv = RB.verdictOf(meas.venus, fit);
     const v = Object.assign({}, vs, { baseAgree: vs.verdict === vv.verdict && (vs.p === null) === (vv.p === null) });
-    forms[f.key] = { role: f.role, ja: f.ja, reads: f.reads, sun: strip(meas.sun), venus: strip(meas.venus), fit: { p: fit.p, maxRes: fit.maxRes, constant: fit.constant, rows: fit.rows.map((r) => ({ key: r.key, f: r.f, x: r.x })) }, verdictVenusBase: vv.verdict, verdict: v };
+    forms[f.key] = { role: f.role, ja: f.ja, reads: f.reads, sun: strip(meas.sun), venus: strip(meas.venus), fit: { ok: fit.ok, why: fit.why || null, p: fit.p, maxRes: fit.maxRes, constant: fit.constant, nearZero: fit.nearZero || [], rows: fit.rows.map((r) => ({ key: r.key, fac: r.fac, f: r.f, x: r.x })) }, verdictVenusBase: vv.verdict, verdict: v };
     verdicts.push(v);
   }
   const uniq = RB.uniquenessOf(verdicts);
   // 既定の列の照合(エンジンの読み口 —— galaxyAxial rdPow 1・massPow −1・R_ref = R_d,☉・m_ref = m_☉ を写しに宣言)
-  const eng = engineDefaultRows(HP, IN), dft = eng.rows.map((r) => { const ours = RB.responseOf('engineDefault', { Rd: r.RdSI, m: r.mSI }, env).fac; return Object.assign(r, { ours, rel: E.relD(ours, r.engine) }); });
+  const eng = engineDefaultRows(HP, IN, gaFn), dft = eng.rows.map((r) => { const ours = RB.responseOf('engineDefault', { Rd: r.RdSI, m: r.mSI }, env).fac; return Object.assign(r, { ours, rel: E.relD(ours, r.engine) }); });
   // 否定対照: K1 の線だけを振る読み(R_d と m を同じ倍率)は既定の列と否定対照で同じ 0 —— 独立に振ると既定の列は R_d の指数 1・m の指数 −1
   const dm = forms.engineDefault.sun, nm = forms.nullP0.sun;
   const negative = { defaultJoint: dm.joint.slope, nullJoint: nm.joint.slope, defaultRd: dm.a.slope, defaultM: dm.b.slope, nullRd: nm.a.slope, nullM: nm.b.slope,
@@ -122,14 +123,16 @@ export function partP(HP, IN, C) {
 const strip = (m) => ({ base: m.base, a: statOf(m.a), b: statOf(m.b), c: m.c ? statOf(m.c) : null, joint: statOf(m.joint), wide: m.wide });
 const statOf = (s) => (s && s.ok ? { slope: s.slope, spread: s.spread, maxRes: s.maxRes, localMin: s.localMin, localMax: s.localMax, constant: RB.constantOf(s) } : { ok: false, why: s ? s.why : null });
 /** エンジンの銀河の一様軸の読み口の受け手ごとの応答の係数(K1 の規則の写し・金星の R_d を 0.1・10 倍・金星の質量を 10 倍〔R_d は K1 の値に固定〕) */
-function engineDefaultRows(HP, IN) {
-  const uL = IN.units.lenSI, uM = IN.units.massSI, iV = XE.IDX.venus, rows = [], cases = [];
+/** gaFn: エンジンの読み口の関数(loadHtmlMain は大域・loadHtmlHeadless は evalExpr で渡す —— 既定は大域の名) */
+export function engineDefaultRows(HP, IN, gaFn) {
+  const gaState = gaFn || globalThis[GA_STATE];
+  const uL = IN.units.lenSI, uM = IN.units.massSI, iV = XE.IDX.venus, rows = [], cases = [], RdSunBook = IN.bodies.sun.Rd / uL;
   const stOf = (mod) => {
-    const b = X.copyBook(HP), sun0 = X.stateOf(HP, b).isq.rdRule.bodies.find((q) => q.i === 0);
-    b.physics.relativeDrag.galaxyAxial = { wx: 0, wy: 0, wz: 1e-9, rdPow: 1, refRadius: sun0.Rd, massPow: -1, refMass: b.bodies[0].m };
+    const b = X.copyBook(HP);
+    b.physics.relativeDrag.galaxyAxial = { wx: 0, wy: 0, wz: 1e-9, rdPow: 1, refRadius: RdSunBook, massPow: -1, refMass: b.bodies[0].m };
     if (mod) mod(b);
     const st = X.stateOf(HP, b);
-    return st.ok ? { st, g: globalThis[GA_STATE](st.S) } : { st, g: null };
+    return st.ok ? { st, g: gaState(st.S) } : { st, g: null };
   };
   const K1 = stOf(null);
   for (const r of K1.g.receivers) rows.push({ case: 'k1Rule', i: r.i, RdSI: r.Rd * uL, mSI: r.mass * uM, engine: r.responseFactor });

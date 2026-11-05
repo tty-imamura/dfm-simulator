@@ -699,6 +699,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.axialDiff327e behavior.axialDiff327e do
 #   新しい段 venustide-327f の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.venusTide327f behavior.venusTide327f docs.venusTide327f docs.axialDiff327e docs.axialSum327a lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.quickBoundary324c lint.narrowScope327c docs.w320d lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第327便f の塊(ここまで)====
+# ==== 第328便b の塊(ここから)====
+# 第328便b(原仮定者の回答(2026-11-05 —— AN559・AN561・AN562・AN563・AN550・AN566)・統括の検証項目 R302 —— 診断だけ・html は変えない): 枝 b の新設 3 本(lint.response328b —— 受け手の演算の
+#   純関数の場面〔契約の形と欠測の null・球の平均・既定の列と否定対照・正の対照・一定でない例の拒否・慣性で配る型の応答の表・源の固定の列の帳簿・入力の拒否〕/ behavior.response328b ——
+#   今の html の 🗺️ の写しで既定の列のエンジンの係数・金星の口のトルクと A・主の型の N_0・固定の列の A と外部の口座が正本と同じ / docs.response328b —— 正本の門と表が PHYSICS〔第328便b〕に逐語・
+#   第327便a と第327便f の節の「第328便の更新」・文書)と、節に行を足した docs.axialSum327a・docs.venusTide327f・新しい段 response-328b の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.response328b behavior.response328b docs.response328b docs.axialSum327a docs.venusTide327f lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.quickBoundary324c lint.narrowScope327c docs.w320d lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第328便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

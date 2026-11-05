@@ -1719,6 +1719,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/venustide-w327f.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第327便f: 金星のトルクの釣り合い(族 E 主・R_d は K1)に固体の重力潮汐・大気の熱潮汐・地球との共鳴の口 —— 釣り合いの振幅と共鳴の割合・安定と解の枝・共鳴のトルクの大きさ(記録・採らない)・規則を固定した太陽–火星と太陽–地球–月(合わせない)' }),
   // ==== 第327便f の塊(ここまで)====
+  // ==== 第328便b の塊(ここから)====
+  // ---- 第328便b(原仮定者の回答(2026-11-05 —— AN559・AN561・AN562・AN563・AN550・AN566)・統括の検証項目 R302): **受け手の応答の演算の型ごとの指数の判定の器**(段 response-328b ——
+  //   正本 tests/out/response-w328b.json・lib tests/lib-w328b-response.mjs —— 第327便e・第326便d の器の入力と読み口〔partI・stateFor・gradT・stencilAt・copyBook・stateOf〕・
+  //   第327便a・第327便e・第327便f の lib・第321便c の場の API を import して使う〔code の依存 —— 正本 axialdiff-w327e・venustide-w327f・axialsum-w327a・axialheat-w326d・galaxis-w327b は読まない〕・
+  //   エンジンの銀河の一様軸の読み口で既定の列の係数を照合)。**診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は 🗺️ を .find で引く 1 本・他の正本は読まない ——
+  //   html の生成領域の後)。1 プロセス。t = 0 の読み口と純関数だけ(步を進めない —— 写しの build は 9 回)。所要は第328便b の枝の実測 4.7〜8.9 s(nice 10 —— 他の枝と並走の箱〔**並走の秒**〕)
+  S('response-328b', 'node tests/exp-w328b-response.mjs', ['tests/out/response-w328b.json'], 9, { secSource: 'w328b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ(步を進めない —— 窓が無く、全部を走らせても 10 秒ほど)',
+    volatilePaths: { 'tests/out/response-w328b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第328便b: 受け手の応答の演算の型ごとの指数の判定(R_d・m・I を独立に —— p の候補は一定の指数の型だけ・p は 1 つでない)・既定の列の照合と否定対照・空間の勾配(別の列)・源の自転を外部の口座に固定した列・金星の N_0 の記録し直し(観測の自転から解いた量)・火星と地球の局所の尺度' }),
+  // ==== 第328便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
