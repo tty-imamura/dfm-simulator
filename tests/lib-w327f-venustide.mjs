@@ -67,6 +67,7 @@ export const DECL = Object.freeze({
   resQuad: 4096,   // 会合周期の平均の点の数(周期の被積分 —— 中点則)
   frozen: Object.freeze({ omega0Rules: Object.freeze(['ratio', 'absolute']), amplitude: 'psScaled', tauSet: Object.freeze(['inf', 'age']) }),   // 規則を固定する型(火星・地球–月へ)
   matchTol: 0.01,   // 「釣り合いの点が観測の自転の 1% の内で安定」を近いと数える
+  syncTol: 0.01,   // 解の枝の名で「同期」と呼ぶ幅(観測の滑り abs(s − n·â) の 1% の内)
   order: Object.freeze(['venus', 'mars', 'triEM']),
   scaleLambda: 2,
 });

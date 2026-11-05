@@ -155,7 +155,7 @@ export function partV(IN, VB) {
 
 /* ───────── B 釣り合いの点と安定 ───────── */
 export function partB(IN, VB, R) {
-  const b = IN.I.bodies.venus, nA = E.dot(IN.I.tides['venus:sun'].n, b.a), xObs = b.s - nA, sRes = b.s * (R.declared.omRes / R.declared.sV), tol = 1e-3 * Math.abs(xObs), out = [];
+  const b = IN.I.bodies.venus, nA = E.dot(IN.I.tides['venus:sun'].n, b.a), xObs = b.s - nA, sRes = b.s * (R.declared.omRes / R.declared.sV), tol = D.syncTol * Math.abs(xObs), out = [];
   const grid = LF.scanGrid([nA, 0], xObs);
   const combos = [];
   for (const tk of D.tau0.branch) for (const p of (tk === 'inf' ? [D.pAlso] : [D.pMain, D.pAlso])) combos.push({ tk, p });

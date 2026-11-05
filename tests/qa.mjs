@@ -97588,6 +97588,167 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第327便e の塊(ここまで)====
+// ==== 第327便f の塊(ここから —— lint.venusTide327f・behavior.venusTide327f・docs.venusTide327f の 3 ブロック。root は SKIP)====
+// ---- 第327便f(原仮定者の指示(2026-11-05)「金星の逆行自転は、大気熱潮汐の影響と、地球との共鳴を採用する」「R_dはK1で固定し、観測の自転もトルクの釣り合いで進める」・
+// ----   統括の検証項目 R300): **金星のトルクの釣り合い(族 E 主・R_d は K1)に固体の重力潮汐・大気の熱潮汐・地球との共鳴の口を足す器**(新設 —— 器 tests/exp-w327f-venustide.mjs・
+// ----   lib tests/lib-w327f-venustide.mjs・文書の lib tests/lib-w327f-venustidedoc.mjs・正本 tests/out/venustide-w327f.json。html・本の宣言・エンジン・受理器は変えない)。
+// ----   世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.venusTide327f(html を読まない): ① lib の版・宣言(族 E が主・源 J が主・p の格子は第327便a と同じ・固体の型 2・熱潮汐の型 2・ω_0 の格子・τ_0 の格子と年齢・共鳴の割合・
+// ----     振幅の比・緯度の係数 8π/5・順は 太陽–金星 → 太陽–火星 → 太陽–地球–月)② 純関数の場面の門 8(固体の潮汐の受動・熱潮汐の駆動と日射の供給・解析の枝と格子の探索・縮退の中立・
+// ----     共鳴の係数と 5 の比・系の帳簿・振り子の分離線・入力の拒否)
+// ----   behavior.venusTide327f(html を headless で読む —— 正本と照合): ① 銀河と K1 の口の軸の向きのトルク × τ_0(族 E・源 J・p 0 と -0.75)と太陽の式の A が正本と相対 1e-12 の内
+// ----     ② 釣り合いの熱潮汐の振幅(族 E・源 J・p 0・Q 30・τ_0 = 年齢・χ = 0)が正本と相対 1e-12 の内・軸の向きの残差が丸めの内 ③ 規則を固定した火星(古典の極限・一定の Q と一定の位相)の
+// ----     観測の自転での正味のトルクが正本と相対 1e-12 の内 ④ 在位の 🗺️ に spinDrag が無く金星に dragCore が無い(写しにだけ足す約束)
+// ----   docs.venusTide327f(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全)・宣言が lib の DECL と同じ ② 表が PHYSICS〔第327便f〕に逐語
+// ----     ③ 節の位置(第327便e の節の後・「## 7.」の前)・必須の語・第327便e と第327便a の節の「第327便f の更新」の行・AI_SPEC §192・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const fHarn = path.join(ROOT, 'tests', 'exp-w327f-venustide.mjs'), fLib = path.join(ROOT, 'tests', 'lib-w327f-venustide.mjs'), fDoc = path.join(ROOT, 'tests', 'lib-w327f-venustidedoc.mjs');
+  const fOut = path.join(ROOT, 'tests', 'out', 'venustide-w327f.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(fHarn) && fs.existsSync(fLib) && fs.existsSync(fDoc))) {
+    console.log('SKIP lint.venusTide327f・behavior.venusTide327f・docs.venusTide327f(第327便f の金星の潮汐の口の器の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const relD327f = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, LF = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + fHarn); LF = await import('file://' + fLib); D0 = await import('file://' + fDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(fOut, 'utf8')); } catch (e) { J = null; }
+  // ───── lint.venusTide327f ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      const DC = LF.DECL;
+      if (!(LF.LIB_VERSION === 'w327f-venustide-lib-1' && JSON.stringify(DC.families) === JSON.stringify(['E', 'S']) && DC.familyMain === 'E' && JSON.stringify(DC.sources) === JSON.stringify(['now', 'J']) && DC.sourceMain === 'J'
+        && JSON.stringify(DC.pGrid) === JSON.stringify([-1, -0.75, -0.5, -0.25, 0, 1, 2]) && DC.pMain === -0.75 && DC.pAlso === 0
+        && JSON.stringify(DC.solidForms.map((q) => q.key)) === JSON.stringify(['constQ', 'constLag']) && JSON.stringify(DC.thermalForms.map((q) => q.key)) === JSON.stringify(['constPhase', 'relax'])
+        && JSON.stringify(DC.relaxOmega0) === JSON.stringify([0.1, 0.3, 1, 3, 10]) && DC.tau0.grid.length === 7 && DC.tau0.ageGyr === 4.57 && JSON.stringify(DC.shares) === JSON.stringify([0, 0.25, 0.5, 0.75, 1])
+        && DC.branchRatios.length === 10 && DC.branchRatios.includes(1) && Math.abs(DC.cLat - 8 * Math.PI / 5) <= 1e-15 && DC.lit.Q.venusMain === 30 && DC.lit.surfacePressurePa.moon === 0
+        && JSON.stringify(DC.order) === JSON.stringify(['venus', 'mars', 'triEM']))) bad.push('① lib の版・宣言(族・源・p の格子・型・ω_0・τ_0・割合・振幅の比・緯度の係数・順)');
+      cases.push(`① lib ${LF.LIB_VERSION}・族 ${DC.familyMain}(主)と族 S(記録)・源 ${DC.sourceMain}(主)・固体の型 ${DC.solidForms.length}・熱潮汐の型 ${DC.thermalForms.length}(ω_0 の格子 ${DC.relaxOmega0.length})・τ_0 の格子 ${DC.tau0.grid.length} + 年齢 + ∞・順 ${DC.order.join(' → ')}`);
+      let S = null, G = null;
+      try { S = LF.pureScenes(); G = LF.pureGates(S); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G) {
+        for (const [k, v] of Object.entries(G)) if (v !== true) bad.push('② 純関数の場面 ' + k);
+        if (Object.keys(G).length !== 8) bad.push('② 場面の数 ' + Object.keys(G).length);
+        cases.push(`② 純関数の場面 ${Object.values(G).filter(Boolean).length}/${Object.keys(G).length}(会合周期/太陽日 ${S.res.ratio.toFixed(4)}・k ${S.res.k.toFixed(4)} / 解析の枝 3(同期は不安定)/ 縮退の中立 ${S.degenerate.neutral} / 共鳴の係数の点の数の差 ${S.res.quadRel.toExponential(1)} / 振り子の分離線 0.95 倍で回らず 1.05 倍で回る)`);
+      }
+    }
+    add('lint.venusTide327f', bad.length === 0,
+      `**金星の潮汐の口の型の純関数**(第327便f・原仮定者の指示(2026-11-05)「金星の逆行自転は、大気熱潮汐の影響と、地球との共鳴を採用する」・R300 —— html を読まない・固体の潮汐は受動・熱潮汐は駆動〔日射の供給〕・共鳴は会合周期の平均): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.venusTide327f ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/venustide-w327f.json が読めない');
+    else {
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        const IN = X.partI(H.HP), VB = X.venusBase(IN);
+        // ①
+        let d1 = 0;
+        for (const p of [0, -0.75]) { const g = VB.gk.J.E[p], r = J.venusBase.gk.J.E[p]; d1 = Math.max(d1, relD327f(g.gkTau, r.gkTau), relD327f(g.A, r.A), relD327f(g.galTau, r.galTau)); }
+        if (!(d1 <= 1e-12)) bad.push(`① 銀河と K1 の口のトルク × τ_0 か A が正本と違う(相対 ${d1.toExponential(2)})—— 器を走らせ直す`);
+        cases.push(`① 銀河と K1 の口の軸の向きのトルク × τ_0(族 E・源 J・p 0 と -0.75)と A ${VB.gk.J.E[0].A.toExponential(3)} rad/s が正本と相対 1e-12 の内(${d1.toExponential(1)})`);
+        // ②
+        const r2 = X.venusSolveAt(IN, VB, { src: 'J', fam: 'E', p: 0, Q: 30, tau: LF.TAU_AGE, chi: 0 }), ref2 = J.venus.rows.find((q) => q.src === 'J' && q.fam === 'E' && q.p === 0 && q.Q === 30 && q.tau === 'age' && q.chi === 0 && q.sForm === 'constQ' && q.tForm === 'constPhase');
+        if (!ref2) bad.push('② 正本に釣り合いの行(族 E・源 J・p 0・Q 30・年齢・χ 0)が無い');
+        else {
+          const d2 = relD327f(r2.N0, ref2.N0);
+          if (!(d2 <= 1e-12 && r2.alongRel <= 1e-12 && r2.accepted === true)) bad.push(`② 釣り合いの熱潮汐の振幅が正本と違うか残差が丸めの外(相対 ${d2.toExponential(2)}・残差 ${r2.alongRel})`);
+          cases.push(`② 釣り合いの熱潮汐の振幅 N_0 ${r2.N0.toExponential(3)} N·m(ε ${r2.eps.toExponential(3)} —— 族 E・p 0・Q 30・τ_0 年齢)が正本と相対 1e-12 の内・軸の向きの残差 < 1e-12`);
+        }
+        // ③
+        const m0 = J.frozen.mars.find((q) => q.tau === 'inf' && q.sForm === 'constQ' && q.tForm === 'constPhase');
+        if (!m0) bad.push('③ 正本に火星の行(古典の極限・一定の Q・一定の位相)が無い');
+        else {
+          const so = X.solidOf(IN, 'mars', 'sun', LF.DECL.lit.Q.mars), th = X.thermalBase(IN, 'mars');
+          const ev = LF.evaluateAll(X.sysOf(IN, 'J', ['sun', 'mars'], 0), null, { mars: [{ kind: 'solid', form: 'constQ', src: 'sun', n: so.n, NQ: so.NQ, wAnc: so.wAnc }, { kind: 'thermal', form: 'constPhase', src: 'sun', n: th.n, N0: m0.eps * th.perPa * th.ps }] });
+          const d3 = relD327f(ev.rows[1].along, m0.mars.Nnet);
+          if (!(d3 <= 1e-12)) bad.push(`③ 火星の正味のトルクが正本と違う(相対 ${d3.toExponential(2)})`);
+          cases.push(`③ 規則を固定した火星(古典の極限・一定の Q と一定の位相)の観測の自転での正味のトルク ${ev.rows[1].along.toExponential(3)} N·m が正本と相対 1e-12 の内`);
+        }
+        // ④
+        const b16 = H.HP.allPresets().find((p) => p.id === 'solarSystem16Inertial3d'), rdq = b16 && b16.physics && b16.physics.relativeDrag;
+        if (!(rdq && !rdq.spinDrag && b16.bodies[2] && !b16.bodies[2].dragCore)) bad.push('④ 在位の 🗺️ に spinDrag か金星の dragCore の宣言(器の写しにだけ足す約束)');
+        cases.push('④ 在位の 🗺️ の金星に dragCore は無く spinDrag も無い(写しにだけ)');
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.venusTide327f', bad.length === 0,
+      `**金星の潮汐の口の写しの読み口**(第327便f・原仮定者の指示(2026-11-05)「R_dはK1で固定し、観測の自転もトルクの釣り合いで進める」・R300 —— 在位の本と受理器は変えない・銀河と K1 の口はエンジンの写しの読み口): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.venusTide327f ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第327便f — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10), iE = PH.indexOf('〔第327便e — ');
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && iE >= 0 && iE < i0)) bad.push('PHYSICS〔第327便f〕が無いか「## 7.」の後ろか第327便e の節の前');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/venustide-w327f.json が読めない');
+    else {
+      // ①
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === LF.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.scopeComplete === true
+        && /^[0-9a-f]{64}$/.test(J.meta.scopeSha256 || '') && J.meta.stage === 'venustide')) bad.push('① 版・来歴・領域 hash(完全)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(LF.DECL)) bad.push('① 正本の宣言が lib の DECL と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
+      // ②
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第327便f〕に表 ' + k + ' が逐語で無い');
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第327便f〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    // ③
+    const want = ['原仮定者の指示(2026-11-05)', 'R300', 'tests/exp-w327f-venustide.mjs', 'tests/out/venustide-w327f.json', '族 E', 'R_d は K1 のまま', '固体の重力潮汐', '大気の熱潮汐', '地球との共鳴',
+      '一定の Q の型', '一定の時間の遅れの型', '一定の位相の型', '熱の緩和の型', '日射の供給', '会合周期', '5:−4', 'τ_0', '文献の値の桁', '採らない', '合わせていない', '金星の逆回転・内部熱の説明ではない',
+      '決断事項の候補', 'lint.venusTide327f', 'behavior.venusTide327f', 'docs.venusTide327f'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第327便f〕に「' + w + '」が無い');
+    const e1 = PH.indexOf('\n〔第', iE + 10), secE = iE >= 0 ? PH.slice(iE, e1 > iE ? e1 : undefined) : '';
+    const updE = (secE.split('\n').find((l) => l.indexOf('**第327便f の更新(') === 0)) || '';
+    if (!(updE && updE.indexOf('R_d は K1 で固定') >= 0 && updE.indexOf('採らない') >= 0 && updE.indexOf('過去の行は書き換えていない') >= 0)) bad.push('③ 第327便e の節に「第327便f の更新」の行(R_d は K1 で固定 —— 別の半径は記録のまま採らない)');
+    const a0 = PH.indexOf('〔第327便a — '), a1 = PH.indexOf('\n〔第', a0 + 10), secA = a0 >= 0 ? PH.slice(a0, a1 > a0 ? a1 : undefined) : '';
+    const updA = (secA.split('\n').find((l) => l.indexOf('**第327便f の更新(') === 0)) || '';
+    if (!(updA && updA.indexOf('族 E(トルクの釣り合い)を主') >= 0 && updA.indexOf('大気の熱潮汐') >= 0 && updA.indexOf('地球との共鳴') >= 0)) bad.push('③ 第327便a の節に「第327便f の更新」の行(族 E を主・大気の熱潮汐と地球との共鳴の口)');
+    const m192 = /\n## 192\. 第327便f[^\n]*/.exec(AS), m191 = /\n## 191\. 第327便e/.exec(AS);
+    const ai = m192 ? (() => { const r = AS.slice(m192.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })() : '';
+    if (!m192) bad.push('③ AI_SPEC に §192 が無い'); else if (!(m191 && m191.index < m192.index)) bad.push('③ AI_SPEC §192 の位置(§191 の後)');
+    if (!(ai.indexOf('tests/out/venustide-w327f.json') >= 0 && ai.indexOf('日射の供給') >= 0 && ai.indexOf('解いた ε と共鳴の割合を本に入れない') >= 0)) bad.push('③ AI_SPEC §192(正本・日射の供給・解いた ε を本に入れない)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLx.slice(cb, cb + 80000) : '', cl327f = clg.split('\n').find((l) => l.indexOf('**第327便f**') >= 0) || '';
+    if (!(cl327f.indexOf('tests/exp-w327f-venustide.mjs') >= 0 && cl327f.indexOf('venustide-327f') >= 0 && cl327f.indexOf('日射の供給') >= 0)) bad.push('③ CHANGELOG の第327便f の行');
+    if (!(/S\('venustide-327f', 'node tests\/exp-w327f-venustide\.mjs', \['tests\/out\/venustide-w327f\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ") >= 0
+      && RT.indexOf('// ==== 第327便f の塊(ここから)====') >= 0)) bad.push('③ 段の行 venustide-327f(quickVerify:false と理由・塊)');
+    if (GI.indexOf('!tests/out/venustide-w327f.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第327便f の塊(ここから)====') >= 0 && /lint\.venusTide327f/.test(PM) && /behavior\.venusTide327f/.test(PM) && /docs\.venusTide327f/.test(PM))) bad.push('③ post-merge の ③′ に第327便f の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・第327便e と第327便a の節の「第327便f の更新」・AI_SPEC §192・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    // ④
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /内部熱を説明した/, /金星の逆転を説明した/, /金星の逆回転を説明した/, /銀河場を同定した/,
+      /腕より速い場を観測した/, /銀河の回転曲線を予言した/, /一致した/];
+    const cpF = (a) => String.fromCodePoint(...a), rvF = (t) => t.split('').reverse().join('');
+    const NGF = [cpF([0x518d, 0x73fe, 0x3057, 0x305f]), cpF([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpF([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpF([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpF([0x79c1, 0x4fe1]), cpF([0x6dfb, 0x4ed8]), cpF([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvF));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第327便f〕', sec], ['第327便e の節の更新の行', updE], ['第327便a の節の更新の行', updA], ['AI_SPEC §192', ai], ['CHANGELOG の第327便f の行', cl327f], ['器', rd('tests/exp-w327f-venustide.mjs')],
+      ['lib', rd('tests/lib-w327f-venustide.mjs')], ['文書の lib', rd('tests/lib-w327f-venustidedoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGF) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+      if (nm.indexOf('PHYSICS') >= 0 || nm.indexOf('AI_SPEC') >= 0 || nm.indexOf('CHANGELOG') >= 0 || nm.indexOf('更新の行') >= 0) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/\d\s*km\/s/.test(tx)) bad.push('④ ' + nm + ' に速度の数の字列');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・第327便e と第327便a の節の更新の行・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.venusTide327f', bad.length === 0,
+      `**金星の潮汐の口の釣り合い・安定と解の枝・共鳴の大きさ・規則を固定した火星と地球–月の文書**(第327便f・原仮定者の指示(2026-11-05)「金星の逆行自転は、大気熱潮汐の影響と、地球との共鳴を採用する」・R300 —— 金星の逆回転・内部熱の説明ではない・解いた振幅と割合は採らない・火星と地球–月で合わせていない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第327便f の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
