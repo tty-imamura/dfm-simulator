@@ -4648,3 +4648,12 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **領域 hash の版 7**: 本の `bodies[].obsSpin` の中の説明の文(`note`・`noteEn`・`source`・`sourceEn` —— 値が文字列のとき)は領域 hash に入らない。AI が本を作るときの意味: obsSpin の注と出典だけの直しは、本を宣言した再生成の段を走らせ直さない(数・単位・軸・basis・範囲・epoch は今までどおり物理の欄)。
 - 家族の表の走査はドット始まりの一時ファイルを数えない・簡易一致の本運用の門は影 2 便と暦の債務の対応を要る(休眠)・全部の本を領域に持つ段の絞りは探索だけ(`--narrow-explore`)。
 - QA `lint.alwaysShadow326e`・`lint.familiesTemp326e`・`lint.scopeObsSpin326e`・`lint.narrow326e`・`docs.w326e`。
+
+## 189. 第327便c —— 再生成の鎖を狭める宣言(領域 hash の版 8・html の物理の部分の版 2)と名指しの段の領域(原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・原仮定者の回答(2026-11-04 —— AN543)・統括の検証項目 R297)
+
+- **AI が作る本と画面には効かない**(道具だけ —— html・受理器・本の宣言・保存の形は不変)。AI 生成の本の受理・署名・步は 1 bit も変わらない。
+- **選択粒子の編集の表示**(`updateBodyEdit`)は再生成の領域の外(停止集合)。選択粒子の編集の欄の文や並びを直しても、正本の再生成の段は走らない(表示の状態 be* は表示の境界)。
+- **ワンタップ対照(`abBody`)**: A/B を走らせない段は器の宣言 `abBody:false` で領域から外す(受理の ok と warnings は残す)。本の `abBody` を足す・直すと走るのは A/B の語を読む段だけ。
+- **退役**: `familyRole` を読む段は器の宣言 `keepProse:["familyRole"]`(または consts)で依存を宣言する —— 本 1 本の退役で、その本を領域に持つ段が走る(古い正本を reuse にしない)。退役の表 `RETIRED_PRESETS` は html の物理の部分の文の登録簿(表示だけで読む)。
+- 名指しの本へ絞ったのは tpsign・eihdiag287 の 2 段。pn1・pnsource286・pnsources291・refit-297a は文字列の式の中で全本を回るので全部の本のまま。
+- QA `lint.narrowScope327c`・`docs.w327c`。
