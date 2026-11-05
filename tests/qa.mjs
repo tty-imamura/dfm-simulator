@@ -96559,6 +96559,148 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第326便e の塊(ここまで)====
+// ==== 第327便b の塊(ここから —— lint.galaxis327b・behavior.galaxis327b・docs.galaxis327b の 3 ブロック。root は SKIP)====
+// ---- 第327便b(原仮定者の回答(2026-11-05 —— AN536)・統括の検証項目 R296): **銀河の局所場の大きさの 2 つの経路(太陽の自転・場の API の模型)と「場に対して逆回転」の読み**
+// ----   (新設 —— 器 tests/exp-w327b-galaxis.mjs・lib tests/lib-w327b-galaxis.mjs・文書の lib tests/lib-w327b-galaxisdoc.mjs・正本 tests/out/galaxis-w327b.json。html・本の宣言・エンジン・
+// ----   受理器・第321便c の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.galaxis327b(html を読まない): ① lib の版・宣言(伝達の候補 4・高さの感度・R_cut・格子・腕のパターンの角速度の文献の範囲・K1 の 2 列)と引き継ぎの成分 12
+// ----     ② 純関数の場面の門 14(剛体回転・平らな曲線・ケプラーの半渦度とシア・半渦度の符号は回転の向きと別・方位の共変・線形・鏡映の核の向き・AN536 の符号の表・相対の射影・
+// ----     場の軸の反転の拒否・要る相対の角速度・平均の列が無い・格子の符号・口が 1 つの和の式)③ 呼ぶだけ(器と lib が場の API の求積を持たない —— 第321便c の lib を import する)
+// ----   behavior.galaxis327b(html を headless で読む —— 正本と照合): ① 経路 1(第326便d の器の関数 —— 太陽の式の A の 2 列・口が 1 つの和の式・源の反作用)が正本と相対 1e-12 の内
+// ----     ② 経路 2(第321便c の場の API —— 太陽の位置の u_φ・u_φ/R・半渦度・シア・β・候補・中心と残余・高さの感度)が正本と相対 1e-9 の内(適応の求積の許容 1e-10 の分)③ 場の API の版が正本と同じ
+// ----   docs.galaxis327b(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全)・宣言が lib の DECL と同じ ② 表 11 本が PHYSICS〔第327便b〕に逐語
+// ----     ③ 節の位置(「## 7.」の前)・必須の語・AI_SPEC §188・CHANGELOG・段の行・.gitignore・post-merge の ③′ ④ 書かない語・禁句・裸の係数記号・km/s の数の字列
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const gHarn = path.join(ROOT, 'tests', 'exp-w327b-galaxis.mjs'), gLib = path.join(ROOT, 'tests', 'lib-w327b-galaxis.mjs'), gDoc = path.join(ROOT, 'tests', 'lib-w327b-galaxisdoc.mjs');
+  const gOut = path.join(ROOT, 'tests', 'out', 'galaxis-w327b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(gHarn) && fs.existsSync(gLib) && fs.existsSync(gDoc))) {
+    console.log('SKIP lint.galaxis327b・behavior.galaxis327b・docs.galaxis327b(第327便b の銀河の局所場の 2 つの経路の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const relD327 = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, L0 = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + gHarn); L0 = await import('file://' + gLib); D0 = await import('file://' + gDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(gOut, 'utf8')); } catch (e) { J = null; }
+  // ───── lint.galaxis327b ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      const DC = L0.DECL;
+      if (!(L0.LIB_VERSION === 'w327b-galaxis-lib-1' && JSON.stringify(DC.candidates) === JSON.stringify(['halfCurl', 'rigid', 'shear', 'k1Mirror']) && JSON.stringify(DC.zSensKpc) === JSON.stringify([-0.02, 0.02])
+        && DC.rCutKpc === 4 && JSON.stringify(DC.cellNr) === JSON.stringify([48, 96, 192, 384]) && JSON.stringify(DC.OmegaPatternKmsKpc) === JSON.stringify([17, 30]) && JSON.stringify(DC.k1Variants) === JSON.stringify(['now', 'J'])
+        && L0.HANDOFF.length === 12)) bad.push('① lib の版・宣言(伝達の候補・高さ・R_cut・格子・腕のパターンの角速度・K1 の 2 列)・引き継ぎの成分');
+      cases.push(`① lib ${L0.LIB_VERSION}・伝達の候補 ${DC.candidates.join('・')}・高さの感度 ${DC.zSensKpc.join('・')} kpc・格子 ${DC.cellNr.join('/')}・引き継ぎの成分 ${L0.HANDOFF.length}`);
+      let S = null, G = null;
+      try { S = L0.pureScenes(); G = L0.pureGates(S); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G) {
+        for (const [k, v] of Object.entries(G)) if (v !== true) bad.push('② 純関数の場面 ' + k);
+        if (Object.keys(G).length !== 14) bad.push('② 場面の数 ' + Object.keys(G).length);
+        cases.push(`② 純関数の場面 ${Object.values(G).filter(Boolean).length}/${Object.keys(G).length}(急に下がる流れの半渦度 ${S.steep.halfCurl.toExponential(2)} < 0・剛体の読み ${S.steep.rigid.toExponential(2)} > 0 / 鏡映の面上 ${S.mirror.plane.toFixed(3)}・45° ${Math.abs(S.mirror.deg45) < 1e-12 ? 0 : S.mirror.deg45} / 腕は見た目 ${S.sign.arm.app > 0 ? '順' : '逆'}・場に対して ${S.sign.arm.rel < 0 ? '逆' : '順'} / 場の軸の反転の拒否 ${S.rejectFlip})`);
+      }
+      // ③ 呼ぶだけ: 器と lib に環の核・求積の関数が無い(第321便c の lib を import して sample を呼ぶ)
+      const th = rd('tests/exp-w327b-galaxis.mjs'), tl = rd('tests/lib-w327b-galaxis.mjs');
+      if (!(/from '\.\/lib-w321c-galfield\.mjs'/.test(th) && /F\.sample\(/.test(th) && !/ringQ|ringP|function integrate|diskUphiAt|diskHalfCurl/.test(th + tl) && !/loadHtml|index\.html/.test(tl))) bad.push('③ 呼ぶだけ(器が場の API を import して呼ぶ・器と lib に求積の写しが無い・lib は html を読まない)');
+      cases.push('③ 器は第321便c の場の API を呼ぶだけ(求積の写し 0)・lib は html を読まない');
+    }
+    add('lint.galaxis327b', bad.length === 0,
+      `**銀河の局所場の 2 つの経路の純関数**(第327便b・原仮定者の回答(2026-11-05 —— AN536)・R296 —— html を読まない・二つの経路は平均しない・場の軸は反転しない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.galaxis327b ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/galaxis-w327b.json が読めない');
+    else {
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        // ①
+        const P1 = X.partPath1(H.HP);
+        let d1 = 0;
+        for (const v of ['now', 'J']) { const a = P1.variants[v], b = J.path1.variants[v]; d1 = Math.max(d1, relD327(a.AE, b.AE), relD327(a.AOnePort, b.AOnePort), relD327(a.AAlone, b.AAlone)); if (!(relD327(a.reactionRel, b.reactionRel) <= 1e-9)) bad.push('① 源の反作用の大きさ(' + v + ')'); }
+        if (!(d1 <= 1e-12 && relD327(P1.gDotA, J.path1.gDotA) <= 1e-12)) bad.push(`① 経路 1 の A・ĝ·â(相対 ${d1.toExponential(2)})—— 器を走らせ直す`);
+        cases.push(`① 経路 1: 太陽の式の A ${P1.A.toExponential(3)} rad/s(今の K1・R_src = J)・口が 1 つの和の式・太陽だけの系が正本と相対 1e-12 の内`);
+        // ②
+        const P2 = X.partPath2();
+        let d2 = 0;
+        for (const k of ['uPhi', 'rigid', 'halfCurlZ', 'shear', 'beta', 'dRuPhi']) d2 = Math.max(d2, relD327(P2[k], J.path2[k]));
+        for (const k of Object.keys(J.path2.cand)) d2 = Math.max(d2, relD327(P2.cand[k].alongG, J.path2.cand[k].alongG));
+        for (let i = 0; i < J.path2.split.parts.length; i++) d2 = Math.max(d2, relD327(P2.split.parts[i].halfCurlZ, J.path2.split.parts[i].halfCurlZ), relD327(P2.split.parts[i].uPhi, J.path2.split.parts[i].uPhi));
+        for (let i = 0; i < J.path2.zSens.length; i++) d2 = Math.max(d2, relD327(P2.zSens[i].halfCurlR, J.path2.zSens[i].halfCurlR), relD327(P2.zSens[i].halfCurlZ, J.path2.zSens[i].halfCurlZ));
+        if (!(d2 <= 1e-9)) bad.push(`② 経路 2 の太陽の位置の量(相対 ${d2.toExponential(2)})—— 器を走らせ直す`);
+        cases.push(`② 経路 2: u_φ ${P2.uPhi.toExponential(3)} m/s・半渦度 ${P2.halfCurlZ.toExponential(3)}・シア ${P2.shear.toExponential(3)} 1/s・候補 4・中心と残余・高さ ±0.02 kpc が正本と相対 ${d2 <= 1e-12 ? '1e-12' : '1e-9'} の内`);
+        // ③
+        if (!(J.path2.fieldVersion === P2.fieldVersion && J.path2.fieldLibVersion === P2.fieldLibVersion && J.path2.model === P2.model)) bad.push('③ 場の API の版・模型の名が正本と違う');
+        cases.push(`③ 場の API ${P2.fieldVersion}(lib ${P2.fieldLibVersion}・模型 ${P2.model})`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.galaxis327b', bad.length === 0,
+      `**銀河の局所場の 2 つの経路の作り直し**(第327便b・原仮定者の回答(2026-11-05 —— AN536)・R296 —— 経路 1 は第326便d の器の関数・経路 2 は第321便c の場の API を呼ぶ): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.galaxis327b ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第327便b — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7))) bad.push('PHYSICS〔第327便b〕が無いか「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/galaxis-w327b.json が読めない');
+    else {
+      // ①
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L0.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.scopeComplete === true
+        && /^[0-9a-f]{64}$/.test(J.meta.scopeSha256 || '') && J.meta.stage === 'galaxis')) bad.push('① 版・来歴・領域 hash(完全)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L0.DECL)) bad.push('① 正本の宣言が lib の DECL と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
+      // ②
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第327便b〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 11) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第327便b〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    // ③
+    const want = ['原仮定者の回答(2026-11-05 —— AN536)', 'R296', 'tests/exp-w327b-galaxis.mjs', 'tests/out/galaxis-w327b.json', '太陽の口が銀河だけという接続の帰結', '平均しない', '場の軸を反転しない',
+      '腕より速い場は仮定', '同じ形の仮定', 'u が近いことを curl の収束とみなさない', '銀河場の同定とは数えない', '腕より速い場は観測の量ではない', '二重に反転', '回転する枠の入力', '仕事とトルクの帳簿',
+      '決断事項の候補', 'lint.galaxis327b', 'behavior.galaxis327b', 'docs.galaxis327b', '統括の参考の試作'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第327便b〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 188. 第327便b'), ai = a0 >= 0 ? AS.slice(a0, a0 + 6000) : '';
+    if (!(ai.indexOf('tests/out/galaxis-w327b.json') >= 0 && ai.indexOf('同定していない') >= 0 && ai.indexOf('場の軸の反転ではない') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('③ AI_SPEC §188(正本・同定していない・場の軸の反転ではない・SYSTEM_PROMPT)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLx.slice(cb, cb + 80000) : '', cl327b = clg.split('\n').find((l) => l.indexOf('**第327便b**') >= 0) || '';
+    if (!(cl327b.indexOf('tests/exp-w327b-galaxis.mjs') >= 0 && cl327b.indexOf('galaxis-327b') >= 0)) bad.push('③ CHANGELOG の第327便b の行');
+    if (!(/S\('galaxis-327b', 'node tests\/exp-w327b-galaxis\.mjs', \['tests\/out\/galaxis-w327b\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: 't = 0 の読み口と場の API の純関数だけ") >= 0
+      && RT.indexOf('// ==== 第327便b の塊(ここから)====') >= 0)) bad.push('③ 段の行 galaxis-327b(quickVerify:false と理由・塊)');
+    if (GI.indexOf('!tests/out/galaxis-w327b.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第327便b の塊(ここから)====') >= 0 && /lint\.galaxis327b/.test(PM) && /behavior\.galaxis327b/.test(PM) && /docs\.galaxis327b/.test(PM))) bad.push('③ post-merge の ③′ に第327便b の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §188・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    // ④
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /内部熱を説明した/, /金星の逆転を説明した/, /銀河の回転曲線を予言した/, /一致した/];
+    // 第327便b の書かない語(引用符の中でも書かない —— 共通ブリーフ): 銀河場の同定・腕より速い場の観測・回転曲線の予言・金星の逆回転の説明
+    const NOT327 = [/銀河場を同定した/, /腕より速い場を観測した/, /回転曲線を予言した/, /金星の逆回転を説明した/, /\d\s*km\/s/];
+    const cpG = (a) => String.fromCodePoint(...a), rvG = (t) => t.split('').reverse().join('');
+    const NGG = [cpG([0x518d, 0x73fe, 0x3057, 0x305f]), cpG([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpG([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpG([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpG([0x79c1, 0x4fe1]), cpG([0x6dfb, 0x4ed8]), cpG([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvG));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第327便b〕', sec], ['AI_SPEC §188', ai], ['CHANGELOG の第327便b の行', cl327b], ['器', rd('tests/exp-w327b-galaxis.mjs')], ['lib', rd('tests/lib-w327b-galaxis.mjs')], ['文書の lib', rd('tests/lib-w327b-galaxisdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGG) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+      for (const re of NOT327) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (nm.indexOf('PHYSICS') >= 0 || nm.indexOf('AI_SPEC') >= 0 || nm.indexOf('CHANGELOG') >= 0) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.galaxis327b', bad.length === 0,
+      `**銀河の局所場の 2 つの経路と場に対する逆回転の読みの文書**(第327便b・原仮定者の回答(2026-11-05 —— AN536)・R296 —— 銀河場の同定とは数えない・腕より速い場は仮定・場の軸は反転しない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第327便b の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
