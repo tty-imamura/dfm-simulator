@@ -97883,7 +97883,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const b0 = PH.indexOf('〔第327便b — '), b1 = PH.indexOf('\n〔第', b0 + 10), sec7b = b0 >= 0 ? PH.slice(b0, b1 > b0 ? b1 : undefined) : '';
     const upd = (sec7b.split('\n').find((l) => l.indexOf('**第328便の更新(第328便a') === 0)) || '';
     if (!(upd && upd.indexOf('w328a-fieldcontract-1') >= 0 && upd.indexOf('AN553 = B') >= 0 && upd.indexOf('腕より遅い') >= 0 && upd.indexOf('過去の行は書き換えていない') >= 0)) bad.push('③ 第327便b の節に「第328便の更新」の行(契約の版・AN553 = B・腕より遅いことは変わらない)');
-    const a0 = AS.indexOf('\n## 193. 第328便a'), ai = a0 >= 0 ? AS.slice(a0, a0 + 6000) : '';
+    const a0 = AS.indexOf('\n## 193. 第328便a'), a1 = a0 >= 0 ? AS.indexOf('\n## ', a0 + 5) : -1, ai = a0 >= 0 ? AS.slice(a0, a1 > a0 ? a1 : a0 + 6000) : '';   // 第328便 統合の継ぎ目(a + b): 固定の 6000 字の窓は次の §194(枝 b —— 書かない語を引用符で持つ)へはみ出す —— 次の見出しまで
     if (!(ai.indexOf('tests/out/fieldcontract-w328a.json') >= 0 && ai.indexOf('宣言の候補') >= 0 && ai.indexOf('欠測は null') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('③ AI_SPEC §193(正本・宣言の候補・欠測は null・SYSTEM_PROMPT)');
     const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLx.slice(cb, cb + 80000) : '', cl328a = clg.split('\n').find((l) => l.indexOf('**第328便a**') >= 0) || '';
     if (!(cl328a.indexOf('tests/exp-w328a-fieldcontract.mjs') >= 0 && cl328a.indexOf('fieldcontract-328a') >= 0)) bad.push('③ CHANGELOG の第328便a の行');
