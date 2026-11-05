@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便c",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T03:55:26.925Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T04:29:32.142Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w298c-moon3d.mjs",
-    "bytes": 38451,
-    "sha256": "6a7036d76a1401cd91833c68377f8ec88b79478095df990ddab76db5ab71731a",
-    "mtime": "2026-10-30T11:33:02.834Z"
+    "bytes": 38466,
+    "sha256": "7daf50572cc9680c191d44d0edef8565e1a31e3bb8fbf9a254525ba42c6f9d75",
+    "mtime": "2026-11-05T03:10:54.271Z"
    },
    {
     "file": "tests/lib-w297b-fit.mjs",
@@ -46,9 +46,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    },
    {
     "file": "tests/lib-w302h-splitrec.mjs",
@@ -57,14 +57,14 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "b63b9ace39d53ddd9da4eae7768c7bd97953c7f1d50dc064743ca3ff442be0be",
+  "codeSha256": "0065cd98697d679aec8e1e21c171f4489f91262f59f9f8f31ca79ed3507d389a",
   "harnessVersion": "w298c-moon3d-1",
   "extractorVersion": "w298c-emx3-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第88報)「三次元座標化する」「geoPN=4 は慣性決定力の多粒子版・三次元が既定」",
   "reading": "統括の検証項目 R167(🌥️ の三次元 —— 月の傾斜 5.145° の再現作業)",
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "earthMoonSunInertial3d",
     "earthMoonSunInertialFit"
@@ -101,11 +101,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1415,
-   "segments": 1241,
-   "closureShare": 0.3045
+   "abBody": false,
+   "names": 1378,
+   "segments": 1215,
+   "closureShare": 0.2985
   },
-  "scopeSha256": "f0912934f869e628a89d13bc00c0eadc189bf1ce9bbd9e0a0b9e8815ddc54e10",
+  "scopeSha256": "1237d441d563a450e4239f5a067bfeeb47e14c29ee65d31ef76e46f181309c1d",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -127,7 +128,7 @@
    "eMean": 0.05494176955119052,
    "revN": 354,
    "kind": "ref3d",
-   "wallSec": 5.992
+   "wallSec": 2.633
   },
   "incl": {
    "key": "ref3d-inc",
@@ -138,7 +139,7 @@
    "eMean": 0.05518676069409869,
    "revN": 354,
    "kind": "ref3d",
-   "wallSec": 6.052
+   "wallSec": 2.196
   },
   "rp": 3.5704925,
   "e0": 0.0755658
@@ -921,242 +922,242 @@
  },
  "ok": true,
  "timing": {
-  "ref3d-0": {
-   "wallSec": 5.992
-  },
   "ref3d-inc": {
-   "wallSec": 6.052
+   "wallSec": 2.196
+  },
+  "ref3d-0": {
+   "wallSec": 2.633
   },
   "flat-2d": {
-   "wallSec": 23.781
+   "wallSec": 10.624
   },
   "flat-3d": {
-   "wallSec": 21.391
-  },
-  "ic-g0-it0-de": {
-   "wallSec": 12.256
+   "wallSec": 11.75
   },
   "ic-g0-it0": {
-   "wallSec": 12.182
+   "wallSec": 4.85
   },
   "ic-g0-it0-dr": {
-   "wallSec": 12.538
+   "wallSec": 5.015
+  },
+  "ic-g0-it0-de": {
+   "wallSec": 5.404
   },
   "ic-g0-it0-di": {
-   "wallSec": 4.503
+   "wallSec": 3.15
   },
   "ic-g0-it1": {
-   "wallSec": 12.78
+   "wallSec": 5.046
   },
   "ic-g0-it1-dr": {
-   "wallSec": 13.19
+   "wallSec": 5.568
   },
   "ic-g0-it1-de": {
-   "wallSec": 13.031
+   "wallSec": 5.625
   },
   "ic-g0-it1-di": {
-   "wallSec": 4.16
-  },
-  "ic-g0-it2": {
-   "wallSec": 12.02
+   "wallSec": 3.55
   },
   "ic-g0-it2-dr": {
-   "wallSec": 12.161
+   "wallSec": 4.321
   },
   "ic-g0-it2-de": {
-   "wallSec": 12.941
+   "wallSec": 5.175
+  },
+  "ic-g0-it2": {
+   "wallSec": 5.474
   },
   "ic-g0-it2-di": {
-   "wallSec": 4.076
+   "wallSec": 3.323
   },
   "fix-h": {
-   "wallSec": 9.751
+   "wallSec": 5.337
   },
   "fix-h2": {
-   "wallSec": 18.569
+   "wallSec": 9.662
   },
   "fix-h4": {
-   "wallSec": 38.392
+   "wallSec": 17.621
   },
   "fix-long": {
-   "wallSec": 29.631
+   "wallSec": 13.997
   },
   "fix-inc0": {
-   "wallSec": 26.79
+   "wallSec": 12.034
   },
   "grid0-h": {
-   "wallSec": 10.261
+   "wallSec": 5.418
   },
   "grid1-h": {
-   "wallSec": 12.547
+   "wallSec": 6.63
   },
   "grid0-h2": {
-   "wallSec": 21.489
+   "wallSec": 10.298
   },
   "grid2-h": {
-   "wallSec": 13.226
+   "wallSec": 6.018
   },
   "grid1-h2": {
-   "wallSec": 24.222
+   "wallSec": 11.754
   },
   "grid3-h": {
-   "wallSec": 12.11
+   "wallSec": 5.956
   },
   "grid2-h2": {
-   "wallSec": 24.338
+   "wallSec": 12.047
   },
   "grid4-h": {
-   "wallSec": 12.07
+   "wallSec": 6.051
   },
   "grid3-h2": {
-   "wallSec": 24.769
+   "wallSec": 11.684
   },
   "grid5-h": {
-   "wallSec": 13.151
+   "wallSec": 5.696
   },
   "grid4-h2": {
-   "wallSec": 22.611
+   "wallSec": 10.43
   },
   "grid6-h": {
-   "wallSec": 11.781
+   "wallSec": 6.553
   },
   "grid5-h2": {
-   "wallSec": 24.126
-  },
-  "grid7-h": {
-   "wallSec": 12.432
+   "wallSec": 9.302
   },
   "grid6-h2": {
-   "wallSec": 23.622
+   "wallSec": 10.553
+  },
+  "grid7-h": {
+   "wallSec": 6.464
   },
   "grid8-h": {
-   "wallSec": 13.206
+   "wallSec": 6.592
   },
   "grid7-h2": {
-   "wallSec": 25.378
+   "wallSec": 13.29
   },
   "grid8-h2": {
-   "wallSec": 21.521
+   "wallSec": 11.566
   },
   "grid9-h": {
-   "wallSec": 10.591
-  },
-  "grid10-h": {
-   "wallSec": 11.744
+   "wallSec": 6.406
   },
   "grid9-h2": {
-   "wallSec": 24.373
+   "wallSec": 10.954
+  },
+  "grid10-h": {
+   "wallSec": 7.4
   },
   "grid11-h": {
-   "wallSec": 13.044
+   "wallSec": 6.306
   },
   "grid10-h2": {
-   "wallSec": 25.044
+   "wallSec": 12.866
   },
   "grid12-h": {
-   "wallSec": 10.443
+   "wallSec": 4.868
   },
   "grid11-h2": {
-   "wallSec": 22.188
-  },
-  "grid12-h2": {
-   "wallSec": 19.24
+   "wallSec": 11.977
   },
   "grid13-h": {
-   "wallSec": 10.712
+   "wallSec": 5.453
+  },
+  "grid12-h2": {
+   "wallSec": 11.331
   },
   "grid13-h2": {
-   "wallSec": 11.704
+   "wallSec": 9.125
   },
   "o0-it0": {
-   "wallSec": 5.398
-  },
-  "ic-o0-it0-dr": {
-   "wallSec": 12.392
+   "wallSec": 3.654
   },
   "ic-o0-it0": {
-   "wallSec": 12.676
+   "wallSec": 5.865
   },
   "ic-o0-it0-de": {
-   "wallSec": 12.741
+   "wallSec": 5.886
+  },
+  "ic-o0-it0-dr": {
+   "wallSec": 6.395
   },
   "ic-o0-it0-di": {
-   "wallSec": 5.327
+   "wallSec": 4.013
   },
   "ic-o0-it1-dr": {
-   "wallSec": 10.97
-  },
-  "ic-o0-it1": {
-   "wallSec": 11.016
+   "wallSec": 5.624
   },
   "ic-o0-it1-de": {
-   "wallSec": 11.261
+   "wallSec": 5.914
+  },
+  "ic-o0-it1": {
+   "wallSec": 6.284
   },
   "ic-o0-it1-di": {
-   "wallSec": 5.214
+   "wallSec": 3.929
   },
   "ic-o0-it2-dr": {
-   "wallSec": 7.251
-  },
-  "ic-o0-it2": {
-   "wallSec": 8.024
+   "wallSec": 6.191
   },
   "ic-o0-it2-de": {
-   "wallSec": 8.291
+   "wallSec": 6.829
+  },
+  "ic-o0-it2": {
+   "wallSec": 7.406
   },
   "ic-o0-it2-di": {
-   "wallSec": 5.016
+   "wallSec": 3.962
   },
   "o0-br-0.2353464": {
-   "wallSec": 4.464
+   "wallSec": 3.682
   },
   "o0-br-0.28764560000000006": {
-   "wallSec": 4.833
+   "wallSec": 3.721
   },
   "o1-it0": {
-   "wallSec": 4.686
-  },
-  "ic-o1-it0-dr": {
-   "wallSec": 6.448
+   "wallSec": 3.823
   },
   "ic-o1-it0-de": {
-   "wallSec": 6.736
+   "wallSec": 4.609
   },
   "ic-o1-it0": {
-   "wallSec": 7.726
+   "wallSec": 5.894
+  },
+  "ic-o1-it0-dr": {
+   "wallSec": 5.959
   },
   "ic-o1-it0-di": {
-   "wallSec": 4.7
-  },
-  "ic-o1-it1": {
-   "wallSec": 6.509
-  },
-  "ic-o1-it1-dr": {
-   "wallSec": 6.772
+   "wallSec": 4.06
   },
   "ic-o1-it1-de": {
-   "wallSec": 7.169
+   "wallSec": 5.249
+  },
+  "ic-o1-it1": {
+   "wallSec": 5.497
+  },
+  "ic-o1-it1-dr": {
+   "wallSec": 5.696
   },
   "ic-o1-it1-di": {
-   "wallSec": 4.507
+   "wallSec": 3.898
   },
   "o1-br-0.23340149999999998": {
-   "wallSec": 4.425
+   "wallSec": 4.117
   },
   "o1-br-0.2852685": {
-   "wallSec": 4.672
+   "wallSec": 4.049
   },
   "final-h": {
-   "wallSec": 7.033
+   "wallSec": 5.487
   },
   "final-h2": {
-   "wallSec": 11.604
+   "wallSec": 11.765
   },
   "final-h4": {
-   "wallSec": 21.601
+   "wallSec": 19.917
   },
   "final-long": {
-   "wallSec": 15.205
+   "wallSec": 17.141
   }
  },
  "notClaim": [
@@ -1166,5 +1167,5 @@
   "「gain は普遍定数」",
   "「参照積分で fitted」"
  ],
- "elapsedS": 430.481
+ "elapsedS": 252.85
 }

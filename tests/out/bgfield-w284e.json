@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便e",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T03:57:07.862Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T05:06:13.187Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w284e-bgfield.mjs",
-    "bytes": 22699,
-    "sha256": "29eef115c62dc6b7515a1222481e78abc8e28d0133c7d3934a973715ba676f5e",
-    "mtime": "2026-10-20T16:19:56.632Z"
+    "bytes": 22714,
+    "sha256": "e6d8e91ca04528cf85196a66c386e3242847f1a3e5062a9bf31fb5fb84c1d075",
+    "mtime": "2026-11-05T03:10:54.247Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -34,12 +34,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "a8d36173d8370d670a99668d52fa0d4e98879c6c3b8c37c86347505a51d48c40",
+  "codeSha256": "fa022e328094950ab06a5e304f5b8cb7ae0a1d25dd806960629012bd699b25b8",
   "harnessVersion": "w284e-bgfield-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第74報)④: 「背景複素決定力 W₀・A₀」関連パラメータについて算出可能なものを確認する",
@@ -59,7 +59,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": "all",
    "roots": [
     "$",
@@ -78,11 +78,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1361,
-   "segments": 1187,
-   "closureShare": 0.2934
+   "abBody": false,
+   "names": 1324,
+   "segments": 1161,
+   "closureShare": 0.2874
   },
-  "scopeSha256": "c6908844c6888f8f673828550d299f0b16bab5ec6bc9b31c0c07239f16dbc4c3",
+  "scopeSha256": "69dac4318cae7b3255a3cffd672fb94bbf167f02457e72803b51eeb167f9cc86",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -531,5 +532,5 @@
    }
   ]
  },
- "elapsedS": 9.461
+ "elapsedS": 8.325
 }

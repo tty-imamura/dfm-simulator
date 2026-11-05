@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便a",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T03:57:21.135Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T05:06:24.600Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w286a-jeans.mjs",
-    "bytes": 11039,
-    "sha256": "3c667decaa09cacc91547040a8e21c8f7ae22a00f552ac36d8a5bb67bf52b2b4",
-    "mtime": "2026-10-30T11:33:02.830Z"
+    "bytes": 11054,
+    "sha256": "bb3297ddb0ea89848ae7f84bc9bb9a0574c301d70a1ffdb2c5070a66e636067b",
+    "mtime": "2026-11-05T03:10:54.247Z"
    },
    {
     "file": "tests/lib-w286a-jeans.mjs",
@@ -28,9 +28,9 @@
    },
    {
     "file": "tests/exp-w283f-cluster.mjs",
-    "bytes": 32804,
-    "sha256": "661d6069c0228b669087a925b3d61736370b9f9f950ca866940d479fe844b302",
-    "mtime": "2026-10-20T16:19:56.632Z"
+    "bytes": 32819,
+    "sha256": "f2486e54c636e479f0328968b3e4f17eef3cf621e3845d9a3b8c7a68f61ab5df",
+    "mtime": "2026-11-05T03:10:54.247Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "e5d7f1c1922fda26bba6bab80b4f56e1538cf7a8dc6efb7016b9059937883fd7",
+  "codeSha256": "df4b303427820077c9824b0abfd9054e91335823e9257ab38495d6d5afaff13f",
   "harnessVersion": "w286a-jeans-1",
   "libVersion": "w286a-jeans-1",
   "ruling": "原仮定者の裁定(第76報)⑤: 球状星団はわずかに回転している —— これをヒントにバランスの取れる状態を計算で割り出す",
@@ -63,7 +63,7 @@
    "3D の球状星団の平衡"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "clusterAnalogyBH",
     "galaxyAnalogyBH",
@@ -93,11 +93,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1365,
-   "segments": 1191,
-   "closureShare": 0.2948
+   "abBody": false,
+   "names": 1328,
+   "segments": 1165,
+   "closureShare": 0.2888
   },
-  "scopeSha256": "b0fdf4a03300524f2fc1f0b2303f47d91fd7a376eeff4d4b8dfbf60612885780",
+  "scopeSha256": "8b7a90646bcde89010bb27308a164dd848dfdaaf549ed7153848020cf92f632a",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -435,5 +436,5 @@
    "err": ""
   }
  },
- "elapsedS": 9.347
+ "elapsedS": 7.763
 }

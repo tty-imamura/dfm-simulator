@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便c",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T03:57:36.129Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T05:06:55.282Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w286c-bgdiff.mjs",
-    "bytes": 32110,
-    "sha256": "f25837d828410f11bafecdd81a6b476551f4c6b8497745840c9807afd882ba27",
-    "mtime": "2026-10-20T16:19:56.636Z"
+    "bytes": 32125,
+    "sha256": "cea2bfbe5a0630b8aa5862b02e78d008198303ec48583b1e0244fdd2afcd12db",
+    "mtime": "2026-11-05T03:10:54.247Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -34,12 +34,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "e35fd66f472e86ff74bbcf4bad593340493c2a1016f8f10ffa3c3bb0f8fe23be",
+  "codeSha256": "58cc442900bb8507dd640909f6c5cded973800a3f6f7cc712d6c6cf3614f6953",
   "harnessVersion": "w287c-bgdiff-2",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第76報)と第76報で閉じた AN7′(解析微分と有限差分の照合)・AN47(share p=1 と複素 p=2 を法則版で分け、単位・有限領域・基準系を宣言してから接続)・AN56(台帳はプリセットの宣言の中・座標系は宣言必須)",
@@ -51,7 +51,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": "all",
    "roots": [
     "$",
@@ -77,11 +77,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1363,
-   "segments": 1189,
-   "closureShare": 0.2936
+   "abBody": false,
+   "names": 1326,
+   "segments": 1163,
+   "closureShare": 0.2875
   },
-  "scopeSha256": "6fd376aad02d3bb15807277c7d4208f934640abcd6f57059d4c67bde3ee25225",
+  "scopeSha256": "c55438bf110561039218d02b6b71a885222400c82ac4f949876c583d12f31fa7",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1047,5 +1048,5 @@
   ],
   "allSame": true
  },
- "elapsedS": 1.144
+ "elapsedS": 1.7
 }
