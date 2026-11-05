@@ -22,7 +22,7 @@ import * as L from './lib-w292a-calcause.mjs';
 import { volatileDeclared } from './lib-w281a-regentable.mjs';
 
 // 領域 hash の宣言(第281便a): 較正母集団 19 本(calaudit の presets —— 第300便m で 🌞 を除いた)と、受理器・構築の閉包(lint.scopeStop ③ —— 物理側が閉包に残る)。
-const REGEN_SCOPE = {"presets":["alphaCenAB","earthMoonReal","emAuditSolar","gw150914","gw150914Merge4s","jupiterGalilean","marsMoonsReal","mercuryReal","neptuneReal","plutoCharonDiagInput","psrB1534","psrDoubleAB","psrJ1757DFM","psrJ1946DFM","saturnRingReal","saturnZonalD68","siriusAB","uranusReal","venusReal"],"roots":["$","HP.sim","HP.validatePreset","T","isNum","validatePreset"],"core":false,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["alphaCenAB","earthMoonReal","emAuditSolar","gw150914","gw150914Merge4s","jupiterGalilean","marsMoonsReal","mercuryReal","neptuneReal","plutoCharonDiagInput","psrB1534","psrDoubleAB","psrJ1757DFM","psrJ1946DFM","saturnRingReal","saturnZonalD68","siriusAB","uranusReal","venusReal"],"roots":["$","HP.sim","HP.validatePreset","T","isNum","validatePreset"],"core":false,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = 'beta/index.html';

@@ -29,7 +29,7 @@ import { simPrint, printDiff } from './exp-w301f-clone.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 // 第281便a の領域 hash の宣言(全本を開く —— presets "all")
-const REGEN_SCOPE = {"presets":"all","roots":["$","CK_ARRS","CK_DEEP","CK_SC","HP.allPresets","HP.loadPreset","SIM_BUILD_RESET","SIM_STATE_DERIVED","SIM_STEP_SCRATCH","appStepDt","applyQLock","ckRestoreOne","ckSnapOne","cloneSimState","ctx","currentPreset","inertialDragCkSnap","makeSim","qLockOn","shapeToyCkSnap","sim"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","CK_ARRS","CK_DEEP","CK_SC","HP.allPresets","HP.loadPreset","SIM_BUILD_RESET","SIM_STATE_DERIVED","SIM_STEP_SCRATCH","appStepDt","applyQLock","ckRestoreOne","ckSnapOne","cloneSimState","ctx","currentPreset","inertialDragCkSnap","makeSim","qLockOn","shapeToyCkSnap","sim"],"core":true,"consts":[],"complete":true,"abBody":false,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w302e-statecontract-1';

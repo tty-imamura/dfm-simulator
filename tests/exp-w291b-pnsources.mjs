@@ -40,7 +40,7 @@ import { definitionMixAudit } from './lib-w280d-charoninput.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便h: gain ⇔ W_bg の同値移行の判定(rdIsGain)
 // 第281便a の規約: この器が読む html の領域(1 行の JSON —— `lint.regenScope` が機械の下限と照合する)
-const REGEN_SCOPE = {"presets":"all","roots":["$","DT","GEO4_MIGRATED","GEO_MODE_VERSION","HP.allPresets","HP.dfmRelativeDragStep","HP.loadPreset","HP.relativeDragProbe","HP.sim","HP.validatePreset","LAWS","PN1_CONTRACT","PN1_EIH_VERSION","T","ch","clamp","ctx","dfmPN1Delta","dfmRelativeDragStep","pairCorePN","pn1GRConformance","pnOrbitalKF0","pnOrbitalSource","pnSource","presetSig","timeStdRevert"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","DT","GEO4_MIGRATED","GEO_MODE_VERSION","HP.allPresets","HP.dfmRelativeDragStep","HP.loadPreset","HP.relativeDragProbe","HP.sim","HP.validatePreset","LAWS","PN1_CONTRACT","PN1_EIH_VERSION","T","ch","clamp","ctx","dfmPN1Delta","dfmRelativeDragStep","pairCorePN","pn1GRConformance","pnOrbitalKF0","pnOrbitalSource","pnSource","presetSig","timeStdRevert"],"core":true,"consts":[],"complete":true,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // 第325便(AN528): 質量の倍率を観測の値へ戻した実在天体の本(凍結の写しの ids —— 写しが無ければ空)。写しは正本の入力(meta.inputs —— 安定 hash を刻む)に入れない:

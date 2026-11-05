@@ -30,7 +30,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":["shapeToyArm","shapeToyArmCore","shapeToyDisk","shapeToyDiskCore","shapeToySpiral","shapeToySpiralCore"],"roots":["$","DT","HP.allPresets","HP.ckRestoreOne","HP.ckSnapOne","HP.cloneSimStateNow","HP.dfmMeshVelocityFieldAt","HP.loadPreset","HP.shapeToySpiralCentreline","HP.shapeToySpiralState","HP.sim","HP.validatePreset","cw"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["shapeToyArm","shapeToyArmCore","shapeToyDisk","shapeToyDiskCore","shapeToySpiral","shapeToySpiralCore"],"roots":["$","DT","HP.allPresets","HP.ckRestoreOne","HP.ckSnapOne","HP.cloneSimStateNow","HP.dfmMeshVelocityFieldAt","HP.loadPreset","HP.shapeToySpiralCentreline","HP.shapeToySpiralState","HP.sim","HP.validatePreset","cw"],"core":true,"consts":[],"complete":true,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w290e-spiral-1';

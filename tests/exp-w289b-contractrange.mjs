@@ -23,7 +23,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { CONTRACT_RANGE_VERSION, CR, CR_HELD, CR_RULE, timeContractDeclared, evalComparison, rowAttr } from './lib-w289b-contractrange.mjs';
 import { runFlag, SHORT_WIDTH_T } from './exp-w288c-bgrange.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["$","DT","HP.BGC_TIME_VERSION","HP.allPresets","HP.bgRangeCardInfo","HP.bgTimeMomentsAt","HP.bgTimePrepare","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validateBackgroundComplex","HP.validatePreset","T","bgTimeMomentsAt","cw"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","DT","HP.BGC_TIME_VERSION","HP.allPresets","HP.bgRangeCardInfo","HP.bgTimeMomentsAt","HP.bgTimePrepare","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validateBackgroundComplex","HP.validatePreset","T","bgTimeMomentsAt","cw"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w289b-contractrange-1';

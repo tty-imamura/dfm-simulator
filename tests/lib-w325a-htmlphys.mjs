@@ -32,8 +32,15 @@ import { parseTopLevel, scanJs, normText, canonJson, scopeOkNow } from './lib-w2
 import { loadHtmlHeadless } from './lib-w279b-headless.mjs';
 
 /** 部分の作り方の版(外す集合・部分の形を変えたら上げる —— 旧版の台帳の行は旧版のまま照合する)。 */
-export const HTMLPHYS_VERSION = 'w325a-htmlphys-1';
-export const HTMLPHYS_VERSIONS = Object.freeze([HTMLPHYS_VERSION]);
+// ==== 第327便c の塊(ここから)====
+// 第327便c(原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・統括の検証項目 R297 —— 「鎖を狭める 4 件」(ii)):
+//   版 2 —— 退役の表 RETIRED_PRESETS(退役の理由の文 ja/en と代わりに見る本の see —— 読むのは表示の関数 retiredNoticeText・obsCardResolved だけ)を文の登録簿へ。
+//   code から外して text:RETIRED_PRESETS で見る(退役のたびに code を読む段 —— bh90・galaxyprof・galaxyprof2・needmesh —— が走らない。生の行を読む段は text:* で走る)。
+//   刻印の html の部分は計画の時に今の版で引き直す(台帳は版 2 の行で作り直す —— --htmlphys-record)。版 1 の行は照合に使わない
+export const HTMLPHYS_VERSION = 'w327c-htmlphys-2';
+export const HTMLPHYS_VERSION_1 = 'w325a-htmlphys-1';
+export const HTMLPHYS_VERSIONS = Object.freeze([HTMLPHYS_VERSION_1, HTMLPHYS_VERSION]);
+// ==== 第327便c の塊(ここまで)====
 /** 台帳(html の sha → 部分の hash)。 */
 export const HTMLPHYS_LEDGER_FILE = 'tests/data-w325a-htmlphys.json';
 export const HTMLPHYS_LEDGER_VERSION = 'w325a-htmlphys-ledger-1';
@@ -44,6 +51,11 @@ export const HTMLPHYS_TARGET = 'beta/index.html';
 export const BUILD_NAME_325A = 'BETA_BUILD';
 /** 文の登録簿(領域 hash の版 6 の TEXT_REGISTRIES と同じ 4 つ —— 凍結の写し)と、文だけの生成領域。 */
 export const TEXT_REGISTRIES_325A = Object.freeze(['I18N', 'ACCEPT_REASONS', 'LAWS', 'SYSTEM_PROMPT']);
+// ==== 第327便c の塊(ここから)====
+/** 第327便c: 版 2 で足した文の登録簿(退役の表 —— 表示だけで読む)。版 2 の部分の作り方は TEXT_REGISTRIES_HTMLPHYS(= 版 1 の 4 つ + これ)。 */
+export const TEXT_REGISTRIES_ADDED_327C = Object.freeze(['RETIRED_PRESETS']);
+export const TEXT_REGISTRIES_HTMLPHYS = Object.freeze(TEXT_REGISTRIES_325A.concat(TEXT_REGISTRIES_ADDED_327C));
+// ==== 第327便c の塊(ここまで)====
 export const TEXT_REGIONS_325A = Object.freeze(['i18n']);
 /** code から外す生成領域(samplestatus が書く一覧 —— 中身は regions:<名> で別に見る)。 */
 export const STRIP_REGIONS_325A = Object.freeze(['sample-status']);
@@ -137,7 +149,7 @@ export function htmlPhysPartsOfText(htmlText, o) {
     const reg = stripR.find(([, rg]) => inRange(seg, rg));
     if (reg) { const k = reg[0]; regions[k] = (regions[k] || '') + seg.text + '\n'; continue; }
     const tr = textR.find(([, rg]) => inRange(seg, rg));
-    const reg2 = nm.find((n) => TEXT_REGISTRIES_325A.indexOf(n) >= 0);
+    const reg2 = nm.find((n) => TEXT_REGISTRIES_HTMLPHYS.indexOf(n) >= 0);   // 第327便c: 版 2 は RETIRED_PRESETS も
     if (tr || reg2) {
       const k = (nm.length ? nm.join(',') : '(stmt)');
       text[k] = (text[k] ? text[k] + '\n' : '') + seg.text;

@@ -33,7 +33,7 @@ import * as L from './lib-w321b-geo3bin.mjs';
 import { isRuleBookNoCopy, RULE_BOOKS_WHY } from './lib-w320d-rulebooks.mjs';
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 段 I が内蔵の全本から連星を宣言で数え上げるので presets は "all"〔後に入る連星の本は一覧に入る ——
 //   除外を置かない〕。calTargetOf は lib の式の写しと同じ名の html の関数 —— 下限に入れて html の分類が変われば作り直す)
-const REGEN_SCOPE = {"presets":"all","roots":["$","HP.MASS_BASIS","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.geoEffectiveMode","HP.geoLawOfSim","HP.geoModeOf","HP.inertialDragLedgerOf","HP.sim","HP.validatePreset","T","calTargetOf","ctx","cw","pnSource"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","HP.MASS_BASIS","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.geoEffectiveMode","HP.geoLawOfSim","HP.geoModeOf","HP.inertialDragLedgerOf","HP.sim","HP.validatePreset","T","calTargetOf","ctx","cw","pnSource"],"core":true,"consts":[],"complete":true,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w321b-geo3bin-1';

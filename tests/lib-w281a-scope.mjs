@@ -75,13 +75,24 @@ import { volatilePathsOf, companionsOf } from './lib-w281a-regentable.mjs';
 // 第326便e(統括の検証項目 R294 —— 第325便c の指摘): 現行版を w326e-scope-7 へ —— 本の bodies[].obsSpin の成分の**説明の文**(note・noteEn・source・sourceEn ——
 //   値が文字列のときだけ・obsSpin の中のどの階層でも)を領域から外す(OBSSPIN_PROSE_KEYS_326E)。注だけの直しで本を宣言した段(presets:'all' の 40 段余り)が走るのを防ぐ。
 //   版 6 の刻印は版 6 の規則(w318a-scope-6 —— 本文は元の実装と 1 字も違わない)で引き直す。数・単位・軸の向き・basis・範囲・epoch は残す
-export const SCOPE_VERSION = 'w326e-scope-7';
+// ==== 第327便c の塊(ここから)====
+// 第327便c(原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・原仮定者の回答(2026-11-04 —— AN543)・統括の検証項目 R297):
+//   現行版を w327c-scope-8 へ —— (i) 停止集合に選択粒子の編集の表示の関数 updateBodyEdit を足す(SCOPE_STOP_ADDED_327C —— 表示の状態 be* は表示の境界へ)・
+//   (iii) 器の宣言 abBody:false(ワンタップ対照 A/B を走らせない段)の領域から本の abBody を外す・(iv) 器の宣言 keepProse(説明文の欄のうち器が読む欄 —— familyRole)を
+//   その段の領域の本の写しに残す。版 7 の刻印は版 7 の規則(SCOPE_VERSION_7 —— 本文は元の実装と 1 字も違わない)で引き直す。
+//   版 7 の刻印のまま版 8 の停止集合で閉包が変わる段は、計画が一回だけ regen にする(理由の種類 scopever —— tests/lib-w281a-regentable.mjs の planRegen・scopeMigrate327c)
+export const SCOPE_VERSION = 'w327c-scope-8';
+/** 第326便e の版 7(obsSpin の説明の文を外す)。旧刻印の照合用。 */
+export const SCOPE_VERSION_7 = 'w326e-scope-7';
+// ==== 第327便c の塊(ここまで)====
 /** 第318便a の版 6(文の登録簿・本の名と abBody.label・受理後の warnings)。旧刻印の照合用。 */
 export const SCOPE_VERSION_6 = 'w318a-scope-6';
 /** 第326便e: 版 7 で外す obsSpin の中の説明の文の欄名(値が文字列のときだけ)。 */
 export const OBSSPIN_PROSE_KEYS_326E = ['note', 'noteEn', 'source', 'sourceEn'];
-/** 第326便e: 版 6 以降(版 6・版 7)—— 文の登録簿・本の名・abBody.label・受理後の warnings の規則が同じ版。 */
-export const isScopeV6Plus = (version) => version === SCOPE_VERSION_6 || version === SCOPE_VERSION;
+/** 第326便e: 版 6 以降(版 6・版 7)—— 文の登録簿・本の名・abBody.label・受理後の warnings の規則が同じ版。第327便c: 版 8 も */
+export const isScopeV6Plus = (version) => version === SCOPE_VERSION_6 || version === SCOPE_VERSION_7 || version === SCOPE_VERSION;
+/** 第327便c: 版 7 以降(版 7・版 8)—— obsSpin の説明の文を外す規則が同じ版。 */
+export const isScopeV7Plus = (version) => version === SCOPE_VERSION_7 || version === SCOPE_VERSION;
 /** 第316便d の版 5(停止集合 SCOPE_STOP —— 登録簿は版 5 までの TEXT_REGISTRIES_5・説明文の欄は PROSE_KEYS だけ)。旧刻印の照合用。 */
 export const SCOPE_VERSION_5 = 'w316d-scope-5';
 /** 第286便d の統合の版 4(停止集合に lcAfterStep/lcReset —— 版 3 の閉包・本文はそのまま)。旧刻印の照合用 —— 停止集合は SCOPE_STOP_4。 */
@@ -93,7 +104,7 @@ export const SCOPE_VERSION_LEGACY = 'w281a-scope-1';
 /** 版 2(第282便e —— 停止集合あり・説明文の除外は最上位の PROSE_KEYS だけ)。この版の刻印は版 2 の規則で照合する。 */
 export const SCOPE_VERSION_2 = 'w282e-scope-2';
 /** 照合できる版の一覧(これ以外の版の刻印は照合できない = 不一致)。 */
-export const SCOPE_VERSIONS = [SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION_3, SCOPE_VERSION_4, SCOPE_VERSION_5, SCOPE_VERSION_6, SCOPE_VERSION];
+export const SCOPE_VERSIONS = [SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION_3, SCOPE_VERSION_4, SCOPE_VERSION_5, SCOPE_VERSION_6, SCOPE_VERSION_7, SCOPE_VERSION];   // 第327便c: 版 7 を旧版へ
 
 /**
  * **停止集合**(第282便e・AN22 —— 原仮定者の裁定(第72報)・統括の検証項目 R82)。
@@ -144,10 +155,24 @@ SCOPE_STOP.push(...SCOPE_STOP_ADDED_316);
 export const SCOPE_STOP_4 = SCOPE_STOP.filter((n) => !SCOPE_STOP_ADDED_316.includes(n));
 /** 版 2・3 の停止集合(第286便d の統合で足した 2 名を除く —— 旧刻印を同じ規則で引き直すため)。 */
 export const SCOPE_STOP_3 = SCOPE_STOP_4.filter((n) => n !== 'lcAfterStep' && n !== 'lcReset');
+// ==== 第327便c の塊(ここから)====
+/**
+ * 第327便c(R297 —— 第326便c の決断事項候補 D・DECISIONS の「鎖を狭める 4 件」(i)): 版 8 で足した**表示の関数**。updateBodyEdit は選択粒子の編集の欄を
+ * 選んだ粒子の状態から書き直す関数で、物理の配列を書かない(書くのは DOM と表示の状態 be* —— SCOPE_STOP_BOUNDARY に足した 11 名)。步の関数(合体の後の選択の付け替え)・
+ * loadPreset・validatePreset の閉包から呼ばれるので、版 7 までは宣言した全段の閉包に入り、選択粒子の編集の欄の変更だけで全段が regen になった(第326便c —— regen 184)。
+ * 止めると閉包から落ちる名前(編集の適用の関数 beDcApply・beLayApply・beSaApply・applyBeMin など —— 表示の状態 be* を書く関数として入っていた)は、
+ * 残る閉包のどこからも参照されない(lint.narrowScope327c ② が名前ごとに照合 —— 落ちた名前の本文を変えた写しで版 8 の領域が変わらず、物理側は残る)。
+ */
+export const SCOPE_STOP_ADDED_327C = ['updateBodyEdit'];
+/** 版 5〜7 の停止集合(第316便d の SCOPE_STOP —— 並びも同じ。版 5〜7 の刻印を同じ規則で引き直すため)。 */
+export const SCOPE_STOP_7 = SCOPE_STOP.slice();
+SCOPE_STOP.push(...SCOPE_STOP_ADDED_327C);
+// ==== 第327便c の塊(ここまで)====
 /** 刻印の版 → 停止集合(版 1 は停止集合なし —— 呼ぶ側が閉包の引き方を分ける。版 2〜3 は SCOPE_STOP_3・版 4 は SCOPE_STOP_4・現行版は SCOPE_STOP) */
 // 第318便a: 版 6 の停止集合は版 5 と同じ(SCOPE_STOP)—— 版 6 で変えたのは文の登録簿・説明文の欄・受理後の warnings
 // 第326便e: 版 7 の停止集合も SCOPE_STOP(版 7 で変えたのは obsSpin の説明の文だけ)
-export const stopSetOf = (version) => ((isScopeV6Plus(version) || version === SCOPE_VERSION_5) ? SCOPE_STOP : (version === SCOPE_VERSION_4 ? SCOPE_STOP_4 : SCOPE_STOP_3));
+// 第327便c: 版 8 は SCOPE_STOP(= 版 5〜7 の SCOPE_STOP_7 + SCOPE_STOP_ADDED_327C)・版 5〜7 は SCOPE_STOP_7
+export const stopSetOf = (version) => (version === SCOPE_VERSION ? SCOPE_STOP : ((isScopeV6Plus(version) || version === SCOPE_VERSION_5) ? SCOPE_STOP_7 : (version === SCOPE_VERSION_4 ? SCOPE_STOP_4 : SCOPE_STOP_3)));
 
 /**
  * プリセットの**説明文だけの欄**(`sim.build`・`validatePreset` の受理判定・`applyQLock` が読まない欄)。
@@ -672,11 +697,15 @@ const dropStrings = (o, keys) => {
  * @param {object} p プリセット(生の定義か受理後の定義)
  * @param {string} [version] 版(既定は現行版)
  */
-export function stripPresetProse(p, version) {
+export function stripPresetProse(p, version, decl) {
   const v = version || SCOPE_VERSION;
   const o = {};
-  const PK = proseKeysOf(v);   // 第318便a: 版 6 は本の名 name も外す(版 1〜5 は PROSE_KEYS だけ —— 元の実装と同じ)
+  // 第327便c(R297): 版 8 は器の宣言 keepProse(説明文の欄のうち器が読む欄 —— familyRole)を残す・宣言 abBody:false の段は abBody を外す(版 1〜7 は decl を読まない)
+  const d8 = (v === SCOPE_VERSION && decl) ? decl : null;
+  const keep8 = d8 && Array.isArray(d8.keepProse) ? d8.keepProse : [];
+  const PK = proseKeysOf(v).filter((k) => keep8.indexOf(k) < 0);   // 第318便a: 版 6 は本の名 name も外す(版 1〜5 は PROSE_KEYS だけ —— 元の実装と同じ)
   for (const k of Object.keys(p || {}).sort()) if (PK.indexOf(k) < 0) o[k] = p[k];
+  if (d8 && d8.abBody === false) delete o.abBody;   // 第327便c: ワンタップ対照 A/B を走らせない段(lint.narrowScope327c ③ が器の本文の A/B の語を照合)
   if (v === SCOPE_VERSION_LEGACY || v === SCOPE_VERSION_2) return o;
   if (Array.isArray(o.claims)) {
     o.claims = o.claims.map((c) => {
@@ -693,7 +722,7 @@ export function stripPresetProse(p, version) {
     o.abBody = r;
   }
   // 第326便e(R294): 版 7 は bodies[].obsSpin の中の説明の文(OBSSPIN_PROSE_KEYS_326E —— 値が文字列のときだけ)を外す(数・単位・軸・basis・範囲・epoch は残す)
-  if (v === SCOPE_VERSION && Array.isArray(o.bodies)) {
+  if (isScopeV7Plus(v) && Array.isArray(o.bodies)) {   // 第327便c: 版 7・8
     o.bodies = o.bodies.map((b) => (b && typeof b === 'object' && !Array.isArray(b) && b.obsSpin && typeof b.obsSpin === 'object' && !Array.isArray(b.obsSpin))
       ? Object.assign({}, b, { obsSpin: stripObsSpinProse326(b.obsSpin) }) : b);
   }
@@ -789,6 +818,9 @@ export function normalizeScope(decl) {
     consts: Array.isArray(d.consts) ? d.consts.slice() : [],
     complete: d.complete === true,
     note: typeof d.note === 'string' ? d.note : undefined,
+    // 第327便c(R297): 版 8 の宣言の欄(宣言したときだけ —— 旧い宣言・刻印の正規化は 1 字も変わらない)
+    ...(d.abBody === false ? { abBody: false } : {}),
+    ...(Array.isArray(d.keepProse) && d.keepProse.length ? { keepProse: d.keepProse.map(String).slice().sort() } : {}),
   };
 }
 
@@ -823,11 +855,11 @@ export function scopeHash(htmlPath, decl, opts) {
         const v = X.L.HP.validatePreset(JSON.parse(JSON.stringify(raw)));
         acc = { ok: !!v.ok, legacyCore: v.legacyCore === undefined ? null : v.legacyCore,
           kFrameSnapped: v.kFrameSnapped === undefined ? null : v.kFrameSnapped,
-          preset: v.preset ? stripPresetProse(v.preset, version) : null };
+          preset: v.preset ? stripPresetProse(v.preset, version, sc) : null };   // 第327便c: 版 8 は宣言の keepProse・abBody を読む
         // 第318便a: 版 6 は受理器の warnings(内蔵の本に出た警告の文)も受理後の定義に入れる(理由の文は表へ移したので、出た文だけを数える)
         if (isScopeV6Plus(version)) acc.warnings = Array.isArray(v.warnings) ? v.warnings.map(String) : [];   // 第326便e: 版 6・7
       } catch (e) { why.push('validatePreset が投げた: ' + id); }
-      presets.push({ id, raw: stripPresetProse(raw, version), accepted: acc });
+      presets.push({ id, raw: stripPresetProse(raw, version, sc), accepted: acc });
     }
   }
   // ② ③ 依存閉包
@@ -875,7 +907,9 @@ export function scopeHash(htmlPath, decl, opts) {
         : canonJson(Object.assign({ v: version, presets, closure: fnTexts, hp: hpTexts, core, consts,
           proseKeys: proseKeysOf(version), registries: DATA_REGISTRIES, textRegistries: regs, scopeStop: stopSet,
           claimProse: { claim: CLAIM_PROSE_KEYS, chain: CHAIN_PROSE_KEYS, massCalibration: MASSCAL_PROSE_KEYS },
-          abBodyProse: AB_BODY_PROSE_KEYS, acceptedWarnings: true }, version === SCOPE_VERSION ? { obsSpinProse: OBSSPIN_PROSE_KEYS_326E } : {}));
+          abBodyProse: AB_BODY_PROSE_KEYS, acceptedWarnings: true }, isScopeV7Plus(version) ? { obsSpinProse: OBSSPIN_PROSE_KEYS_326E } : {},
+          // 第327便c: 版 8 は宣言の abBody:false・keepProse も本文に(版 7 の本文は 1 字も違わない)
+          version === SCOPE_VERSION ? { abBodyDrop: sc.abBody === false, keepProse: sc.keepProse || [] } : {}));
   const complete = why.length === 0;
   const scopeSha256 = sha256(body);
   const closureBytes = segs.reduce((a, s) => a + (s.end - s.start), 0);
@@ -911,7 +945,69 @@ export function scopeStamp(htmlPath, decl) {
   scopeSha256: r.scopeSha256, scopeComplete: r.scopeComplete };
 }
 
-export default { SCOPE_VERSION, SCOPE_VERSION_6, OBSSPIN_PROSE_KEYS_326E, isScopeV6Plus, stripObsSpinProse326, SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION_3, SCOPE_VERSION_4, SCOPE_VERSIONS, SCOPE_STOP, SCOPE_STOP_3, SCOPE_STOP_4, SCOPE_STOP_ADDED_316, stopSetOf, PROSE_KEYS, DATA_REGISTRIES, TEXT_REGISTRIES,
+// ==== 第327便c の塊(ここから)====
+/**
+ * 第327便c(R297): **版の移行の要否**(一回きり —— 統括の読み「鎖を狭める 4 件は一回きり鎖が広くなる・本便は html を変えないのでその一回をこの便で払う」)。
+ * 計画は刻印の版で領域 hash を引き直す(版 7 の刻印は版 7 の閉包 —— updateBodyEdit を含む)ので、版を上げても刻み直すまで狭くならない。刻印の版の規則と現行の版の規則で
+ * **同じ宣言・同じ html の閉包の名前**を引き、違えば(現行の版の停止集合で閉包が変わる段)要とする —— planRegen が理由の種類 scopever で regen にする(走らせ直すと現行の版で刻まれる)。
+ * 足す向き(regen)だけ —— reuse を増やさない。版 8 の宣言の欄(abBody:false・keepProse)は器の宣言の変更(器のコードの変更 —— 「式」)で走るので、ここでは見ない。
+ * @param {string} htmlPath 計画の html(今の html)
+ * @param {object} scope 正本の meta.scope(刻印の宣言と版)
+ * @returns {{need:boolean, from:string, to?:string, dropped?:string[], added?:string[], why?:string}}
+ */
+export const SCOPE_MIGRATE_VERSION_327C = 'w327c-scopemigrate-1';
+/** 移行を引く刻印の版(版 5〜7 —— 版 8 と停止集合の外の規則〔閉包の roots の扱い〕が近い版)。 */
+export const SCOPE_MIGRATE_FROM_327C = Object.freeze([SCOPE_VERSION_5, SCOPE_VERSION_6, SCOPE_VERSION_7]);
+export function scopeMigrate327c(htmlPath, scope) {
+  const v = (scope && scope.version) || SCOPE_VERSION_LEGACY;
+  if (v === SCOPE_VERSION) return { need: false, from: v, why: '現行の版' };
+  if (SCOPE_MIGRATE_FROM_327C.indexOf(v) < 0) return { need: false, from: v, why: '移行を引く版の外' };
+  const X = loadCtx(htmlPath);
+  const sc = normalizeScope(scope);
+  const namesOf = (ver) => {
+    const regs = textRegistriesOf(ver);
+    const rootsV = isScopeV6Plus(ver) ? sc.roots.filter((r) => !regs.includes(String(r).replace(/^HP\./, ''))) : sc.roots;
+    return new Set(closureOf(X.parsed, rootsV, DATA_REGISTRIES.concat(regs), { hardStop: stopSetOf(ver) }).functions);
+  };
+  const a = namesOf(v), b = namesOf(SCOPE_VERSION);
+  const dropped = [...a].filter((n) => !b.has(n)).sort(), added = [...b].filter((n) => !a.has(n)).sort();
+  return { need: dropped.length > 0 || added.length > 0, from: v, to: SCOPE_VERSION, dropped, added };
+}
+/**
+ * 第327便c(R297): 器の宣言の欄を照合する**器の本文の語**(lint.narrowScope327c ③④ と、宣言を足した道具が同じ関数を使う)。器の本文と import の閉包(codeFilesOf)から、
+ * 刻印の道具(SCOPE_TOOLING)・来歴と html の物理の部分の lib を除いた本文の注釈を潰した写し(文字列は残す —— evalExpr の式の中の語も数える)を読む。REGEN_SCOPE の行は除く。
+ *   A/B の語 … abBody・physicsPatch・abStart・abStop・abQuick・HP.ab(`delete <式>.abBody` は「外す」なので数えない)
+ *   familyRole … 説明文の欄 familyRole を読む(在位の本だけを数える・退役の印を出力に写す)
+ */
+export const NARROW_SKIP_FILES_327C = Object.freeze(['tests/lib-w281a-scope.mjs', 'tests/lib-w281a-regentable.mjs', 'tests/lib-w325a-htmlphys.mjs', 'tests/lib-w272e-provenance.mjs']);
+export const AB_TERMS_RE_327C = /\b(?:abBody|physicsPatch|abStart|abStop|abQuick)\b|\bHP\s*\.\s*ab\b(?![\w$])/;
+const narrowText327 = (t) => scanJs(String(t).split('\n').filter((l) => !/^const REGEN_SCOPE = /.test(l)).join('\n')).nocom;
+export function abMentions327c(codeFiles) {
+  const out = [];
+  for (const cf of codeFiles || []) {
+    if (NARROW_SKIP_FILES_327C.includes(cf.file)) continue;
+    const t = narrowText327(cf.text).replace(/\bdelete\s+[\w$.]+\.abBody\b/g, ' ');
+    const m = AB_TERMS_RE_327C.exec(t);
+    if (m) out.push(cf.file + ':' + (t.slice(0, m.index).split('\n').length) + ':' + m[0]);
+  }
+  return out;
+}
+export function proseMentions327c(codeFiles, key) {
+  const re = new RegExp('\\b' + key + '\\b');
+  const out = [];
+  for (const cf of codeFiles || []) {
+    if (NARROW_SKIP_FILES_327C.includes(cf.file)) continue;
+    const t = narrowText327(cf.text);
+    const m = re.exec(t);
+    if (m) out.push(cf.file + ':' + (t.slice(0, m.index).split('\n').length));
+  }
+  return out;
+}
+/** 宣言が説明文の欄 key を読むと言っているか(keepProse に key・または consts の式が key を名指しする —— families の型)。 */
+export const declReadsProse327c = (decl, key) => { const sc = normalizeScope(decl); return (sc.keepProse || []).includes(key) || sc.consts.some((c) => new RegExp('\\b' + key + '\\b').test(String(c))); };
+// ==== 第327便c の塊(ここまで)====
+
+export default { SCOPE_VERSION, SCOPE_VERSION_7, isScopeV7Plus, SCOPE_STOP_7, SCOPE_STOP_ADDED_327C, scopeMigrate327c, abMentions327c, proseMentions327c, declReadsProse327c, SCOPE_VERSION_6, OBSSPIN_PROSE_KEYS_326E, isScopeV6Plus, stripObsSpinProse326, SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION_3, SCOPE_VERSION_4, SCOPE_VERSIONS, SCOPE_STOP, SCOPE_STOP_3, SCOPE_STOP_4, SCOPE_STOP_ADDED_316, stopSetOf, PROSE_KEYS, DATA_REGISTRIES, TEXT_REGISTRIES,
   CLAIM_PROSE_KEYS, CHAIN_PROSE_KEYS, MASSCAL_PROSE_KEYS, stripPresetProse,
   scanJs, normText, parseTopLevel, hpProps, closureOf, countDynamicRefs, canonJson, normalizeScope, scopeHash, scopeStamp };
 
@@ -1414,7 +1510,9 @@ export async function scopeStopProbe(o) {
  */
 export const SCOPE_STOP_BOUNDARY = ['liveCmp',   // 第286便d の統合: ライブ比較の表示状態(lcAfterStep/lcReset が書く)
   'cv', 'ctx', 'dpr', 'cw', 'ch', 'tempP90EMA', 'emTick', 'emHist', '_ooLast',
-  'pmCells', 'paramRowSync', '_monCls'];
+  'pmCells', 'paramRowSync', '_monCls',
+  // 第327便c(R297): 選択粒子の編集の表示の状態(updateBodyEdit が書く —— 選んだ粒子・欄の文・表示した派生値・層のタブと切り替え・2 段確認)
+  'beCvConfirm', 'beCvSel', 'beCvShown', 'beDcMsg', 'beDcSel', 'beLayIdx', 'beLayMode', 'beLayMsg', 'beLaySel', 'beSaMsg', 'beSaSel'];
 
 /** 第282便e: 物理側(停止集合に入れてはいけない —— 現行版の閉包に残ることを `lint.scopeStop` ③ が照合)。 */
 export const PHYSICS_KEEP = ['validatePreset', 'applyQLock', 'qLockCalc', 'makeSim', 'loadPreset', 'geo3InitVelocity',

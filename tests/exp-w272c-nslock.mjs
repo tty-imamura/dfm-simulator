@@ -57,7 +57,7 @@ import { provenanceMeta as w281aProv } from './lib-w272e-provenance.mjs';
 import { scopeHash as w281aScopeHash } from './lib-w281a-scope.mjs';
 import { MERGE_VERSION as W322D_MERGE_VERSION, mergeGate as w322dGate, coreShaOf as w322dCoreSha, bookShaOf as w322dBookSha,
   rowInputSha as w322dRowSha, stagesOfRows as w322dStages, canonText as w322dCanon } from './lib-w322d-nslockmerge.mjs';
-const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","galaxy","psrB1534DFM","psrDoubleABDFM","psrJ1757DFM","psrJ1946DFM","siriusAB","siriusABDFM"],"roots":["$","HP.allPresets","HP.sim","HP.validatePreset","applyQLock","ch","clamp","ctx","isNum","validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","galaxy","psrB1534DFM","psrDoubleABDFM","psrJ1757DFM","psrJ1946DFM","siriusAB","siriusABDFM"],"roots":["$","HP.allPresets","HP.sim","HP.validatePreset","applyQLock","ch","clamp","ctx","isNum","validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';

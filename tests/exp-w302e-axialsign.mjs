@@ -27,7 +27,7 @@ import { loadHtmlHeadless } from './lib-w279b-headless.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 // 第281便a の領域 hash の宣言
-const REGEN_SCOPE = {"presets":["chainDiskToy3dTilt"],"roots":["HP.REL_DRAG_AXIAL_SIGN_VERSION","HP.inertialDrag3AxialOmega","HP.inertialDrag3AxialSign","HP.inertialDragProbeAt","HP.inertialDragProbeSample","HP.loadPreset","HP.sim","REL_DRAG_AXIAL_SIGN_VERSION","T","appStepDt","ctx","inertialDrag3AxialOmega","inertialDrag3AxialSign","inertialDrag3SpinState","sim"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["chainDiskToy3dTilt"],"roots":["HP.REL_DRAG_AXIAL_SIGN_VERSION","HP.inertialDrag3AxialOmega","HP.inertialDrag3AxialSign","HP.inertialDragProbeAt","HP.inertialDragProbeSample","HP.loadPreset","HP.sim","REL_DRAG_AXIAL_SIGN_VERSION","T","appStepDt","ctx","inertialDrag3AxialOmega","inertialDrag3AxialSign","inertialDrag3SpinState","sim"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w302e-axialsign-1';

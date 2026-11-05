@@ -95,6 +95,9 @@ import { HTML_STAGE_ORDER, HTML_STAGE_VERSION } from './lib-w288f-htmlstage.mjs'
 // ==== 第325便a の塊(ここから)====
 import { htmlPhysCheck as w325aHtmlPhysCheck, readLedger as w325aReadLedger } from './lib-w325a-htmlphys.mjs';   // 第325便a(R284): html の物理の部分(最上位では呼ばない —— 循環 import)
 // ==== 第325便a の塊(ここまで)====
+// ==== 第327便c の塊(ここから)====
+import { scopeMigrate327c as w327cScopeMigrate, SCOPE_MIGRATE_VERSION_327C as W327C_MIGRATE_VERSION, SCOPE_VERSION as W327C_SCOPE_VERSION } from './lib-w281a-scope.mjs';   // 第327便c(R297): 領域の版の移行(一回きり)
+// ==== 第327便c の塊(ここまで)====
 
 // ■ 第284便c(原仮定者の裁定(第74報)⑥・AN33・AN43・統括の検証項目 R93)
 //   ・常時の dt3 段を `--h4-exceptions --merge`(h/4 は例外の登録簿の本だけ)・kf0 段を `--kf0-h4-exceptions`(h/4 は登録簿の kf0 の本だけ)へ。
@@ -2228,6 +2231,17 @@ export function htmlPhysDeclOfOut(out, steps, decl) {
   return st ? htmlPhysDeclOf(st.key, decl) : null;
 }
 // ==== 第325便a の塊(ここまで)====
+// ==== 第327便c の塊(ここから)====
+// ---- 第327便c(原仮定者の指示(2026-11-03)「次便以降で、再生成の段の対象が宣言なしの場合、html全体にしない」・統括の検証項目 R297 —— 宣言の無い段の最後の 1 段 confirm4):
+//   **html の全文を文字列で読む段の宣言**(表示の区分と理由だけ —— 計画の判定・htmlReadOf・済み印の契約は変えない)。confirm4 は器が beta/index.html の全文から外部名の出現数を
+//   数えて正本(歴史文書の残数の表 ae7.historyOnly)に写す —— 物理は読まないが全文(注釈・文を含む)を読むので「html を読まない」(htmlInput:'none')にはしない。
+//   正本は meta の無い旧形式(計画は毎回 regen —— 実測 0 s)。SAMPLE_STATUS の再生成の段の表は区分「html の全文(宣言)」と理由を出す(QA lint.narrowScope327c ⑧ が「宣言なし(html 全体)」の段 0 を照合)
+export const HTML_TEXT_READ_DECL_327C = Object.freeze({
+  confirm4: Object.freeze({ reads: 'text', why: '器が html の全文から外部名の出現数を数えて歴史文書の残数の表に写す(注釈・文を含む全文 —— 物理は読まない)・正本は meta の無い旧形式で毎回走る(実測 0 s)' }),
+});
+/** 段の全文読みの宣言(無ければ null)。 */
+export function htmlTextReadDeclOf(key) { return Object.prototype.hasOwnProperty.call(HTML_TEXT_READ_DECL_327C, key) ? HTML_TEXT_READ_DECL_327C[key] : null; }
+// ==== 第327便c の塊(ここまで)====
 
 /**
  * 第285便f(AN53): html 全体を刻む現行の段(正本の meta から —— target が beta/index.html で scopeComplete の領域が無い)。
@@ -2448,6 +2462,20 @@ export function planRegen(o) {
       gitDepth: o.htmlPhysGitDepth, ledgerOnly: o.htmlPhysLedgerOnly === true });
   };
   // ==== 第325便a の塊(ここまで)====
+  // ==== 第327便c の塊(ここから)====
+  // 第327便c(R297 —— 統括の読み「鎖を狭める 4 件は一回きり鎖が広くなる・その一回をこの便で払う」): **領域の版の移行**。刻印の版(版 5〜7)の閉包と現行の版(版 8)の閉包が
+  //   同じ宣言・今の html で違う段(停止集合に足した updateBodyEdit が閉包に入っていた段)は、刻印の版で領域が一致しても一回だけ regen(理由の種類 scopever —— 走らせ直すと
+  //   版 8 で刻まれ、次の便から選択粒子の編集の欄の変更で走らない)。足す向きだけ(reuse を増やさない)。o.scopeMigrate === false か環境変数 W327C_SCOPE_MIGRATE=0 で切る
+  //   (前後の比べ —— 鎖の --gate も同じ既定で引く)。onlyIfScopeChanged の段(h2/h4 の転記)は従来どおり「領域は同じ」で reuse に戻る(領域が変わる便で版 8 へ)
+  const migrateOn327 = o.scopeMigrate !== undefined ? o.scopeMigrate !== false : process.env.W327C_SCOPE_MIGRATE !== '0';
+  const migrateMemo327 = new Map();
+  const migrate327 = (hAbs, sc) => {
+    if (!migrateOn327 || !sc || sc.version === W327C_SCOPE_VERSION) return null;
+    const k = hAbs + '|' + JSON.stringify(sc);
+    if (!migrateMemo327.has(k)) { let r = null; try { r = w327cScopeMigrate(hAbs, sc); } catch { r = null; } migrateMemo327.set(k, r); }
+    return migrateMemo327.get(k);
+  };
+  // ==== 第327便c の塊(ここまで)====
   const scopeCache = new Map();
   const scopeFull = (hAbs, sc) => {
     const k = hAbs + '|' + JSON.stringify(sc);
@@ -2494,6 +2522,7 @@ export function planRegen(o) {
       for (const out of (st.outs || [])) { const m = metaOfOut(out); if (m && m.target === 'beta/index.html' && m.targetSha256 && m.targetSha256 !== htmlSha && m.scope && m.scopeComplete === true) pre.push(m); }
     }
     for (const m of pre) scopeFull(htmlAbs, m.scope);
+    for (const m of pre) migrate327(htmlAbs, m.scope);   // 第327便c: 移行の要否も今の html の分を先に(領域 hash の器は html を 1 本だけ控える)
     if (o.baseHtml) for (const m of pre) scopeFull(o.baseHtml, m.scope);
   }
   for (const st of STEPS) {
@@ -2523,6 +2552,14 @@ export function planRegen(o) {
           if (sNow && sNow === m.scopeSha256) {
             row.scopeUsed = true;
             if (o.baseHtml && t === 'beta/index.html') row.baseScopeSame = (scopeOn(o.baseHtml, m.scope) === sNow);
+            // ==== 第327便c の塊(ここから)====
+            const mg327 = t === 'beta/index.html' ? migrate327(hA, m.scope) : null;
+            if (mg327 && mg327.need) {
+              why.push(out + ': 領域の版の移行(刻印の版 ' + mg327.from + ' の領域は一致 —— 現行の版 ' + mg327.to + ' の停止集合で閉包が変わる: 落ちる ' + mg327.dropped.length + ' 名・足す ' + mg327.added.length + ' 名 —— 一回きり)');
+              cause('領域の版の移行(' + mg327.from + ' → ' + mg327.to + ' —— 落ちる ' + mg327.dropped.slice(0, 3).join(',') + (mg327.dropped.length > 3 ? ` 他 ${mg327.dropped.length - 3}` : '') + ' —— 一回きり)', 'scopever');
+              row.scopeMigrate327 = { from: mg327.from, to: mg327.to, dropped: mg327.dropped.length, added: mg327.added.length };
+            }
+            // ==== 第327便c の塊(ここまで)====
           } else {
             // ==== 第325便a の塊(ここから)====
             // 第325便a(R284): 領域の宣言の無い正本は、段の宣言(HTMLPHYS_DECL_325A)があれば**刻印の html の物理の部分**と今の html の物理の部分を比べる
@@ -2542,6 +2579,17 @@ export function planRegen(o) {
             }   // 第325便a
           }
         }
+        // ==== 第327便c の塊(ここから)====
+        // 対象 html が刻印と同じ(exact)でも、刻印の版が旧い領域の宣言は移行の要否を引く(次の便から狭くするため —— 足す向きだけ)
+        else if (t === 'beta/index.html' && m.scope && m.scopeComplete === true) {
+          const mg327e = migrate327(hA, m.scope);
+          if (mg327e && mg327e.need) {
+            why.push(out + ': 領域の版の移行(対象 html は刻印と同じ —— 現行の版 ' + mg327e.to + ' の停止集合で閉包が変わる: 落ちる ' + mg327e.dropped.length + ' 名 —— 一回きり)');
+            cause('領域の版の移行(' + mg327e.from + ' → ' + mg327e.to + ' —— 落ちる ' + mg327e.dropped.slice(0, 3).join(',') + (mg327e.dropped.length > 3 ? ` 他 ${mg327e.dropped.length - 3}` : '') + ' —— 一回きり)', 'scopever');
+            row.scopeMigrate327 = { from: mg327e.from, to: mg327e.to, dropped: mg327e.dropped.length, added: mg327e.added.length };
+          }
+        }
+        // ==== 第327便c の塊(ここまで)====
       } else if (shaFile(abs(t)) !== m.targetSha256) { why.push(out + ': 対象 ' + t + ' の hash が違う'); cause('入力(対象): ' + t, 'input'); }
       // コード
       // 第318便a(原仮定者の裁定(第120報)・決断事項 AN427 ⑤・統括の検証項目 R254): 刻印の道具(SCOPE_TOOLING)を刻印だけに使う器(toolStampOnly)は、
@@ -2679,6 +2727,11 @@ export function planRegen(o) {
       sec: list.filter((r) => r.htmlPhysUsed).reduce((a, r) => a + (Number(r.sec) || 0), 0),
       regen: list.filter((r) => (r.causeKinds || []).includes('htmlphys')).map((r) => r.key),
       whole: list.filter((r) => (r.causeKinds || []).includes('html')).map((r) => r.key) },
+    // 第327便c(R297): 領域の版の移行で一回だけ regen にした段(刻印の版の領域は一致 —— 現行の版の停止集合で閉包が変わる)
+    scopeMigrate327c: { version: W327C_MIGRATE_VERSION, on: migrateOn327, to: W327C_SCOPE_VERSION,
+      stages: list.filter((r) => (r.causeKinds || []).includes('scopever')).map((r) => r.key),
+      only: list.filter((r) => r.status === 'regen' && (r.causeKinds || []).length === 1 && r.causeKinds[0] === 'scopever').map((r) => r.key),
+      sec: list.filter((r) => r.status === 'regen' && (r.causeKinds || []).length === 1 && r.causeKinds[0] === 'scopever').reduce((a, r) => a + (Number(r.sec) || 0), 0) },
     html: htmlAbs.replace(root + '/', ''), htmlSha256: htmlSha,
     baseHtml: o.baseHtml ? o.baseHtml.replace(root + '/', '') : null, baseSha256: baseSha,
     count,

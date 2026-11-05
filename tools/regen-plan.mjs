@@ -184,7 +184,9 @@ if (argv.includes('--always-shadow-check')) {
 }
 // ==== 第326便e の塊(ここまで)====
 const t0 = Date.now();
-const plan = T.planRegen({ root: ROOT, html: HTML, baseHtml: BASE, orderOnly: !argv.includes('--all-edges'), htmlPhys: argv.includes('--no-htmlphys') ? false : undefined });
+// 第327便c(R297): `--no-scope-migrate` は領域の版の移行(一回きり —— 理由の種類 scopever)を引かない(前後の比べ —— 環境変数 W327C_SCOPE_MIGRATE=0 と同じ)
+const plan = T.planRegen({ root: ROOT, html: HTML, baseHtml: BASE, orderOnly: !argv.includes('--all-edges'), htmlPhys: argv.includes('--no-htmlphys') ? false : undefined,
+  scopeMigrate: argv.includes('--no-scope-migrate') ? false : undefined });
 plan.generatedAt = new Date().toISOString();
 plan.planMs = Date.now() - t0;
 // ==== 第323便b の塊(ここから)====
@@ -295,6 +297,13 @@ if (!QUIET) {
     if (n.shadow) for (const z of n.shadow.rows) if (z.narrowed === true) console.log(`    絞れば reuse ${z.key.padEnd(18)} ${String(z.sec).padStart(5)} s  ${z.cls}  ${z.why.slice(0, 90)}`);
   } else if (plan.narrow326e) console.log('  全部の本を領域に持つ段の絞りの探索: 引けない —— ' + plan.narrow326e.error);
   // ==== 第326便e の塊(ここまで)====
+  // ==== 第327便c の塊(ここから)====
+  // 第327便c(R297): 領域の版の移行(一回きり)の件数 —— 刻印の版の領域は一致・現行の版の停止集合で閉包が変わる段(走らせ直すと現行の版で刻まれる)
+  if (plan.scopeMigrate327c) {
+    const g = plan.scopeMigrate327c;
+    console.log(`  領域の版の移行(${g.version} —— → ${g.to}・一回きり): ${g.on ? '入' : '切(--no-scope-migrate か W327C_SCOPE_MIGRATE=0)'} —— 理由に移行を持つ段 ${g.stages.length}・移行だけで走る段 ${g.only.length}(${fmt(g.sec)})`);
+  }
+  // ==== 第327便c の塊(ここまで)====
   // 第320便d(AN478): 領域の差の分類の要約
   if (plan.classify320) {
     const c = plan.classify320;

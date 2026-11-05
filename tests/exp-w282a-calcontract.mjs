@@ -25,7 +25,7 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { provenanceMetaScoped } from './lib-w281a-scope.mjs';
 
-const REGEN_SCOPE = {"presets":"all","roots":["$","CAL_CONTRACT","HP.allPresets","HP.currentPreset","HP.sim","HP.validatePreset","MASS_BASIS","applyQLock","ch","ctx","isNum","validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","CAL_CONTRACT","HP.allPresets","HP.currentPreset","HP.sim","HP.validatePreset","MASS_BASIS","applyQLock","ch","ctx","isNum","validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = 'beta/index.html';

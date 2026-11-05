@@ -44575,6 +44575,44 @@ own reuse 12/13・影の世界の全段 regen 9・recheck 1(下限 195 s・上�
 
 **⑫ 段と QA。** 段 `galaxis-327b`(regentable の第327便b の塊 —— `quickVerify: false`・理由「t = 0 の読み口と場の API の純関数だけ」・見積り 9 s・`after: ['obscompare', 'samplestatus']`)。QA 新設 3 本: `lint.galaxis327b`(純関数の場面 14 —— html を読まない)・`behavior.galaxis327b`(今の html と場の API で経路 1 の A と経路 2 の太陽の位置の量を作り直し、正本と相対 1e-12 の内)・`docs.galaxis327b`(正本の門・表 11 本が本節に逐語・文書)。
 
+〔第327便c — 道具: 鎖を狭める 4 件(選択粒子の編集の表示の関数 updateBodyEdit を停止集合へ・退役の表 RETIRED_PRESETS を文の登録簿へ・ワンタップ対照 A/B を走らせない段の領域から abBody を外す・在位の本だけを数える段に familyRole の依存を宣言)・名指しの段の領域(AN543 —— 6 段とも all のまま)・領域 hash の版 8 と版の移行(一回きり)・家族の表の入力に tests/qa.mjs・confirm4 の全文読みの宣言(原仮定者の指示(2026-11-01)「今後は、サンプルの変更だけでは、全行程を再実行しない様にする」・原仮定者の指示(2026-11-03)「次便以降で、再生成の段の対象が宣言なしの場合、html全体にしない」・原仮定者の回答(2026-11-04 —— AN543)「推奨で進める」・統括の検証項目 R297)〕
+
+**① 何をしたか・なぜ。** 第326便の鎖は regen 184 段だった。主因は 4 つ —— (i) 選択粒子の編集の欄を書き直す表示の関数 `updateBodyEdit` が步の関数(合体の後の選択の付け替え)・受理器・`loadPreset` の閉包から呼ばれ、宣言した**全 168 器の閉包**に入っていた(この関数の 1 文で全段が regen)/(ii) 退役の表 `RETIRED_PRESETS`(退役の理由の文と代わりに見る本 —— 読むのは表示の関数だけ)が html の物理の部分の `code` に入り、退役のたびに物理の部分の宣言の 6 段が動いた/(iii) 🌃 のワンタップ対照の `abBody.physicsPatch` が A/B を走らせない段の領域にも入った/(iv) 在位の本だけを数える段(`familyRole` で退役を外す・退役の印を出力に写す)が `familyRole` を宣言しておらず、`familyRole` は領域の説明文の欄なので**退役だけの変更で古い正本が reuse になる**(危ない側 —— 正しさの穴)。本枝は**計画の status・鎖・済み印の契約の意味を変えず**、領域の宣言と停止の集合の側で 4 件を直した。html・エンジン・本の宣言・器の物理の値は 1 字も変えていない。
+
+**② 領域 hash の版 8**(`tests/lib-w281a-scope.mjs` —— `SCOPE_VERSION = 'w327c-scope-8'`・旧版 `SCOPE_VERSION_7 = 'w326e-scope-7'`)。
+- **(i) 停止集合に `updateBodyEdit`**(`SCOPE_STOP_ADDED_327C`)。版 5〜7 の停止集合は `SCOPE_STOP_7`(並びも同じ)で、版 7 の刻印は版 7 の規則で引き直す(刻印の html を git から引き、版 7 の刻印 170 本を新しい lib で引き直して 170/170 一致)。本体が直接書く最上位の名は表示の状態 11 名(`beCvConfirm`・`beCvSel`・`beCvShown`・`beDcMsg`・`beDcSel`・`beLayIdx`・`beLayMode`・`beLayMsg`・`beLaySel`・`beSaMsg`・`beSaSel`)だけで、表示の境界 `SCOPE_STOP_BOUNDARY` に足した。止めると全 168 器の閉包から 42 名が落ちる —— 選択粒子の編集の適用の関数(`beDcApply`・`beLayApply`・`beSaApply`・`applyBeMin` ほか)は「表示の状態 be* を書く関数」として閉包に入っていただけで、残る閉包のどこからも参照されない。物理側(`PHYSICS_KEEP` 12 名)は全器の版 8 の閉包に残る。
+- **(iii) 宣言 `abBody:false`**(器の `REGEN_SCOPE` —— 版 8 だけが読む)。宣言した段の領域の本の写し(生の定義と受理後の定義)から `abBody` を外す。**受理の `ok` と `warnings` は残す**(abBody が受理器に拒まれる形になれば段は動く)。宣言してよいのは、器の本文と import の閉包に A/B の語(`abBody`・`physicsPatch`・`abStart`・`abStop`・`abQuick`・`HP.ab` —— 文字列の式の中の語も数える。`delete <式>.abBody` は外す側なので数えない)が無い器だけ(`abMentions327c`)。html の中で `abBody` を読む関数は受理器(正規化)・空間メッシュの退役の門(内蔵の本は通らない)・ワンタップ対照の行(停止集合)だけ。95 器に宣言した。
+- **(iv) 宣言 `keepProse:["familyRole"]`**(版 8 だけが読む)。宣言した段の領域の本の写しに説明文の欄 `familyRole` を残す(本 1 本の退役でその本を領域に持つ段が動く)。器の本文と import の閉包が `familyRole` を読む器は宣言が要る(`proseMentions327c`・families の型の consts でもよい —— `declReadsProse327c`)。54 器に宣言した(families は consts で宣言済み)。
+- 版 8 の本文は版 7 の本文に `abBodyDrop`・`keepProse` を足したもの(版 7 の本文は 1 字も違わない)。
+
+**③ html の物理の部分の版 2**(`tests/lib-w325a-htmlphys.mjs` —— `HTMLPHYS_VERSION = 'w327c-htmlphys-2'`)。**(ii)** 文の登録簿に `RETIRED_PRESETS` を足した(`TEXT_REGISTRIES_ADDED_327C` —— 版 1 の 4 つ `TEXT_REGISTRIES_325A` は凍結のまま)。`code` から外して `text:RETIRED_PRESETS` で見る —— 退役の表の行だけの変更で `code`・`presets`・`markup` を読む段(bh90・galaxyprof・galaxyprof2・needmesh)は走らず、生の行を読む段(d0audit2・selfinertia —— `text:*`)は走る。刻印の html の部分は計画の時に今の版で引き直すので刻み直しは要らない(台帳 `tests/data-w325a-htmlphys.json` は版 2 の行で作り直した —— `node tools/regen-plan.mjs --htmlphys-record`)。
+
+**④ 名指しの段の領域(AN543)。** **6 段とも presets:"all" のまま**(絞ると危ない側になる —— 統括の読みとの違い)。pn1・pnsource286・pnsources291・refit-297a は器が文字列の式の中で全本を回る(pn1: `evalExpr('HP.allPresets().filter(…geoPN…)')` と全本の id・pnsource286: `allPresets().filter(p=>p.scaleExp)` と全本の id の読み込みと署名・pnsources291: テンプレートの式の `for(const p of HP.allPresets())` で全本を読み込んで進める・refit-297a: `vm.runInThisContext('BUILTIN_PRESETS')` を変数に受けて `geoPN≥2` の本を回る)。eihdiag287・tpsign は較正走行の器(`tests/exp-w249b-calaudit.mjs`)の本文を html の中で評価する・子プロセス(`--only`)で走らせる —— 読みが器と lib の下限に出ない。この 6 段は第319便c が「all のまま残す段」(`KEEP_ALL_319C`)として理由つきで記録していた。器と lib の下限(`deriveScope`)は文字列とテンプレートの地の文を潰した写しを読むので、第312便c の一覧と第326便e の名簿はこの 6 段を「名指し」(narrow-now)と数えていた。第326便e の見込み「本 1 本の変更で最大 2883 s」は、**条件で選ぶ本の宣言**(器の外の述語の領域 —— pn1 の geoPN 1〜2・refit-297a の geoPN≥2)を足すまで得られない(決断事項候補)。
+
+**⑤ 版の移行(一回きり —— `scopeMigrate327c`・版 `w327c-scopemigrate-1`)。** 計画は刻印の版で領域 hash を引き直すので、版を上げても刻み直すまで狭くならない(版 7 の刻印は版 7 の閉包 —— updateBodyEdit を含む)。`planRegen` は、刻印の版(版 5〜7)の領域が今の html で一致していても、**同じ宣言・同じ html で刻印の版の閉包と現行の版の閉包の名前が違う段**を一回だけ regen にする(理由の種類 `scopever`・理由の文「領域の版の移行(… —— 一回きり)」)。足す向きだけで reuse は増えない。走らせ直すと版 8 で刻まれ、移行の理由は消える。onlyIfScopeChanged の段(h2/h4 の転記)は従来どおり「領域は同じ」で reuse に戻る(領域が変わる便で版 8 へ)。切るときは `node tools/regen-plan.mjs --no-scope-migrate` か環境変数 `W327C_SCOPE_MIGRATE=0`(鎖の `--gate` も同じ既定)。
+
+**⑥ 一回きりの広さ**(`node tools/regen-plan.mjs --base beta/_w327_base.html` —— 本便の html は基点と同じ・実測秒の和は逐次の上限)。
+| 場合 | regen | reuse | recheck | 実測秒の和(下限〜上限) |
+|---|---|---|---|---|
+| 基点の道具(本枝なし) | 8 | 172 | 20 | 0.24 h 〜 2.31 h |
+| 本枝(版の移行を切る —— 器の宣言の変更だけ) | 144 | 52 | 4 | 16.94 h 〜 17.64 h |
+| 本枝(既定 —— 版の移行あり) | 177 | 22 | 1 | 19.52 h 〜 19.53 h |
+regen 177 の理由: 器の宣言の変更と版の移行 135・版の移行だけ 34(9295 s)・器だけ 1・器と入力 1・正本が無い 6。recheck 1 は家族の表(本枝で作り直した —— 常時群の後)。reuse 22 は html を読まない段・物理の部分が同じ 6 段・h2/h4 の転記 2 段。器の宣言の変更が import で他の器の `meta.code[]` に効くので、版の移行を切っても 144 段が走る(器の宣言は版 8 の刻印を作る —— 走れば次の便から狭い)。
+
+**⑦ 次の便からの狭さ**(第326便の型の変更を基点の写しの html に入れ、段の領域と物理の部分が変わる段を数えた —— 前 = 今の刻印〔版 7・物理の部分の版 1〕/ 後 = 鎖の後〔器の今の宣言の版 8・物理の部分の版 2〕。常時群と正本の無い段は変更に依らないので除く)。
+| 写し | 前(段・秒) | 後(段・秒) | 後に残る段 |
+|---|---|---|---|
+| (a) 選択粒子の編集だけ(updateBodyEdit に表示の 1 文) | 174・68273 s | 6・5 s | 物理の部分の code を読む 6 段 |
+| (b) 退役 1 本だけ(🥏 shapeToyDisk の familyRole と退役の表の 1 行) | 8・193 s | 30・6495 s | familyRole を読む 28 段 + 生の行の 2 段 |
+| (c) 🌃 の abBody だけ(ワンタップ対照を外す) | 50・7210 s | 19・4889 s | A/B の語を読む 16 段 + galaxyprof2 + 生の行の 2 段 |
+(b) は**広くなる** —— 前の 8 段のほかに、退役の印を出力に写す・在位の本だけを数える 22 段が古いまま reuse になっていた(② (iv) の正しさの穴)。後の 30 段は退役した本を領域に持ち familyRole を読む段と生の行の段だけ。
+
+**⑧ 家族の表と confirm4。** 家族の表の器(`tests/exp-w283b-families.mjs`)は表の「QA 本体の出現数」を `tests/qa.mjs` の本文から数えるが、`meta.inputs` に qa.mjs が無かった(第326便のゲートの直しの後、qa.mjs だけが変わって正本が古いまま —— `--check` が不一致)。入力に `tests/qa.mjs` を足した —— 以後は qa.mjs の変更で段 families が regen になり、ゲートの後に qa.mjs を直したら `lint.provenanceMeta` が「器を走らせ直すこと」で名指す(家族の表を作り直す・8 s)。正本と `docs/FAMILIES.md` は本枝の最後の qa.mjs で作り直した。confirm4 は器が html の全文から外部名の出現数を数えて歴史文書の残数の表に写す(物理は読まないが全文を読む —— 「html を読まない」にはしない)ので、再生成表に全文読みの宣言 `HTML_TEXT_READ_DECL_327C`(表示の区分と理由だけ —— 計画の判定・`htmlReadOf`・済み印の契約は不変)を置き、SAMPLE_STATUS の再生成の段の表の区分を「html の全文(宣言)」にした(「宣言なし(html 全体)」の段は 0)。
+
+**QA**: `lint.narrowScope327c`(① 版の契約 ② updateBodyEdit の停止 —— 本体が物理を書かない〔変異 `S.m[i]=1;` を拾う〕・全器の版 8 の閉包に無く物理側は残る・updateBodyEdit と beLayApply に 1 文の写しで版 8 同じ・版 7 変わる・validatePreset に 1 文で版 8 変わる ③ abBody:false —— 宣言した器に A/B の語 0〔変異を拾う〕・🌃 の abBody を外す写しで宣言の段は同じ・A/B を読む段は変わる・受理器が拒む形では宣言の段も変わる ④ familyRole —— 読む器 55 は全部宣言〔外す変異を拾う〕・本 1 本の退役の写しで keepProse の段は変わる・版 7 の規則では同じ ⑤ RETIRED_PRESETS の行だけの写しで既定の reads 同じ・text と生の行は違う・台帳は版 2 ⑥ AN543 の 6 段は all のまま —— 4 段に文字列の式の中で全本を回る口・2 段に較正走行の器の口〔文字列の中の変異を拾う〕 ⑦ 版の移行 —— 版 7 の刻印は要る・版 8 と updateBodyEdit を辿らない宣言は要らない・計画は切ると scopever を出さない ⑧ 宣言なし(html 全体)の段 0・families の入力)・`docs.w327c`。世代を直した既存: `lint.scopeStop` ①(版 8 の世代)・`lint.htmlPhys325a` ①(部分の版 2)・`lint.scopeObsSpin326e` ①(版 7 を名指し)。
+
+**言わないこと。** 「鎖が速くなった」(本便の鎖は一回きり広い —— 狭くなるのは版 8 で刻まれた後)・「停止した関数が結果を変えない」の証明(器は UI を操作しない —— 操作の中の書き込みは辿らない)・「A/B の語が無ければ abBody を読まない」の証明(器の本文の語の下限 —— 本の全体を出力に写す器は語を書かずに読みうる)・AN543 の 6 段を「名指し」と書くこと。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
