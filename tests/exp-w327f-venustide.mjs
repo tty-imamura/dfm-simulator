@@ -135,9 +135,11 @@ export function venusCaseGrid(Dc = D) {
     solidForms: Dc.solidForms.length, thermalForms: Dc.thermalForms.reduce((s, f) => s + (f.key === 'relax' ? Dc.relaxOmega0.length : 1), 0) };
   return { sizes, product: Object.values(sizes).reduce((x, y) => x * y, 1) };
 }
-export function partV(IN, VB) {
+export function partV(IN, VB, R = null) {
   const rows = [], worst = { alongRel: 0, residualRel: 0, LTotalRel: 0, portCloseMaxRel: 0, k1TransferRel: 0, rejected: 0 };
   const coverage = { total: 0, checked: 0, rejected: 0 };   // 第328便c: 帳簿まで評価した条件の件数(全部の条件 —— 門 allVenusCasesChecked)
+  // 第328便c: accepted(N_0 ≥ 0)の条件のうち、共鳴の口のトルクに位相がある(abs(N_r) ≤ N_max —— 文献の桁の (B − A)/C)件数と、観測の自転が捕獲の幅の内の件数(記録 —— 門ではない)
+  const NmaxR = R ? R.NmaxMain : null, wR = R ? R.grid.find((q) => q.mult === 1) : null, inW = wR ? wR.offsetOverWidth <= 1 : null, admissible = { accepted: 0, withPhase: 0, insideWidth: 0 };
   let v1Selected = 0;   // 版 1 の条件式 check が選んだ件数(版 1 は残りの条件を振幅だけで数えた —— 記録)
   const note = (r) => { if (!r.accepted) { worst.rejected++; return; } for (const k of ['alongRel']) worst[k] = Math.max(worst[k], r[k]); for (const k of ['residualRel', 'LTotalRel', 'portCloseMaxRel', 'k1TransferRel']) worst[k] = Math.max(worst[k], r.ledger[k]); };
   const tforms = Object.keys(VB.thermal.unit), sforms = D.solidForms.map((q) => q.key);
@@ -150,6 +152,7 @@ export function partV(IN, VB) {
     coverage.total++;
     if (r.accepted && r.ledger) coverage.checked++;
     if (!r.accepted) coverage.rejected++;
+    if (r.accepted && R) { admissible.accepted++; if (Math.abs(r.Nr) <= NmaxR) admissible.withPhase++; if (inW) admissible.insideWidth++; }
     note(r);
     const mainRow = fam === D.familyMain && Q === LIT.Q.venusMain && (tau === Infinity || tau === LF.TAU_AGE) && (p === D.pMain || p === D.pAlso);
     if (keep || big) { if (!mainRow) delete r.ledger; rows.push(r); }   // 帳簿の全体は主の行だけ残す(他の行の閉じは worst に入れた)
@@ -166,7 +169,8 @@ export function partV(IN, VB) {
   const b = IN.I.bodies.venus, sDecl = 2 * Math.PI / (D.obs.venusSpinDays * DAY), alt = Object.assign({}, IN, { I: Object.assign({}, IN.I, { bodies: Object.assign({}, IN.I.bodies, { venus: Object.assign({}, b, { s: sDecl }) }) }) });
   const VB2 = venusBase(alt), r1 = venusSolveAt(IN, VB, { src: D.sourceMain, fam: D.familyMain, p: D.pAlso, Q: LIT.Q.venusMain, tau: LF.TAU_AGE, chi: 0 }), r2 = venusSolveAt(alt, VB2, { src: D.sourceMain, fam: D.familyMain, p: D.pAlso, Q: LIT.Q.venusMain, tau: LF.TAU_AGE, chi: 0 });
   return { rows, thresholds: thr, worst, declaredSpin: { sBook: b.s, sDecl, N0Book: r1.N0, N0Decl: r2.N0, rel: E.relD(r1.N0, r2.N0) },
-    coverage, caseGrid: venusCaseGrid().sizes, coverageV1: { checked: v1Selected, note: '版 1 の器が帳簿まで評価した条件(条件式 check —— 残りの条件は振幅だけ)' } };
+    coverage, caseGrid: venusCaseGrid().sizes, coverageV1: { checked: v1Selected, note: '版 1 の器が帳簿まで評価した条件(条件式 check —— 残りの条件は振幅だけ)' },
+    admissible: R ? Object.assign(admissible, { NmaxMain: NmaxR, offsetOverWidth: wR.offsetOverWidth, note: 'accepted は N_0 ≥ 0 の判定 —— 位相がある(abs(N_r) ≤ N_max)・捕獲の幅の内(観測の差 ≤ 固定の幅)は別に数える' }) : null };
 }
 
 /* ───────── B 釣り合いの点と安定 ───────── */
@@ -302,8 +306,8 @@ export function runAll(HP) {
   const t0 = Date.now(), tm = {}, mark = (k) => { tm[k] = { wallSec: (Date.now() - t0) / 1000 }; };
   const IN = partI(HP); mark('I');
   const O = partO(IN); mark('O');
-  const VB = venusBase(IN), V = partV(IN, VB); mark('V');
-  const R = partR(IN, VB, O); mark('R');
+  const VB = venusBase(IN), R = partR(IN, VB, O), V = partV(IN, VB, R); mark('V');   // 第328便c: R(N_max と固定の幅)を先に —— partV が位相の有無と捕獲の幅の内の件数を数える
+  mark('R');
   const B = partB(IN, VB, Object.assign({}, O, { declared: O.declared, NmaxMain: R.NmaxMain })); mark('B');
   const ML = partML(IN, VB, B); mark('ML');
   const H = partH(IN, VB); mark('H');

@@ -11467,6 +11467,14 @@
   "coverageV1": {
    "checked": 1746,
    "note": "版 1 の器が帳簿まで評価した条件(条件式 check —— 残りの条件は振幅だけ)"
+  },
+  "admissible": {
+   "accepted": 45360,
+   "withPhase": 9072,
+   "insideWidth": 0,
+   "NmaxMain": 176005273118839.9,
+   "offsetOverWidth": 71.29557472116562,
+   "note": "accepted は N_0 ≥ 0 の判定 —— 位相がある(abs(N_r) ≤ N_max)・捕獲の幅の内(観測の差 ≤ 固定の幅)は別に数える"
   }
  },
  "branches": {
@@ -29143,25 +29151,25 @@
  },
  "timing": {
   "I": {
-   "wallSec": 0.384
+   "wallSec": 0.426
   },
   "O": {
-   "wallSec": 0.384
+   "wallSec": 0.426
   },
   "V": {
-   "wallSec": 1.372
+   "wallSec": 1.446
   },
   "R": {
-   "wallSec": 1.381
+   "wallSec": 1.446
   },
   "B": {
-   "wallSec": 4.547
+   "wallSec": 4.386
   },
   "ML": {
    "wallSec": 6.958
   },
   "H": {
-   "wallSec": 6.959
+   "wallSec": 6.96
   }
  },
  "gates": {
@@ -29178,13 +29186,13 @@
   "scaleOnlyMovesK1": true
  },
  "ok": true,
- "elapsedS": 9.971,
+ "elapsedS": 9.586,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第327便f",
   "target": "beta/index.html",
   "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
-  "generatedAt": "2026-11-05T18:41:06.171Z",
+  "generatedAt": "2026-11-05T18:45:38.085Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -29196,9 +29204,9 @@
   "code": [
    {
     "file": "tests/exp-w327f-venustide.mjs",
-    "bytes": 39672,
-    "sha256": "0036b6d08925b240337a003217f7ed25ec239dd92183f472f6a5da9916b0e4b5",
-    "mtime": "2026-11-05T18:39:49.199Z"
+    "bytes": 40646,
+    "sha256": "558a995179b478c96a9448e9d1c4332f662736772c61e5a3f27a6b6048b75e17",
+    "mtime": "2026-11-05T18:44:59.018Z"
    },
    {
     "file": "tests/lib-w327f-venustide.mjs",
@@ -29273,7 +29281,7 @@
     "mtime": "2026-11-05T18:31:05.685Z"
    }
   ],
-  "codeSha256": "edea6c0748c0fa305c175cbb5855beadc566ddb71c53bad89569c8e628fbf0d5",
+  "codeSha256": "51204e4d72d4d9fccaab6d4ad9d49bc4468a07f408cdedec04d911a9af4c1b79",
   "harnessVersion": "w327f-venustide-2",
   "stage": "venustide",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
