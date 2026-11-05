@@ -1,0 +1,1279 @@
+{
+ "version": "w328a-fieldcontract-1",
+ "libVersion": "w328a-fieldcontract-lib-1",
+ "contractVersion": "w328a-fieldcontract-1",
+ "transferVersion": "w328a-directslip-1",
+ "generator": "tests/exp-w328a-fieldcontract.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
+ "reuseFrom": null,
+ "ruling": "原仮定者の回答(2026-11-05 —— AN551・AN552・AN553)「推奨で進める」(AN551 = A 直接の滑りを本の宣言の型・剛体/半渦度/シア/K1 の幾何は対照・AN552 = A 定数の Ω_field・AN553 = B 枠・Ω_field・収束の印だけを場の API に足し、帳簿は第326便d の lib に残す)・統括の検証項目 R301",
+ "decl": {
+  "frameOrigin": "銀河の中心(場の API の銀河中心系の原点)",
+  "axis": [
+   0,
+   0,
+   1
+  ],
+  "timeUnit": "s",
+  "omegaFrame": 0,
+  "omegaFieldModes": [
+   "constant"
+  ],
+  "omegaFieldRef": "遠方の枠(回転しない銀河中心系)での ĝ の向きの成分",
+  "uTolRel": 0.001,
+  "curlTolRel": 0.01,
+  "convergenceMethod": "点のセルの和の格子の列(粗 → 細)と主の経路(環の積分)の比べ —— u は最後の格子の相対の差 ≤ 1e-3 で縮む・curl(半渦度の ĝ の成分)は符号が全部同じで最後の相対の差 ≤ 1e-2(環の積分と中心差分の照合の差とは別の経路)"
+ },
+ "plan": {
+  "gTDeclared": 1,
+  "armPick": "hi",
+  "gTsDegeneracy": [
+   1,
+   0.5,
+   2
+  ],
+  "oldCalls": [
+   "mainCheckNorm",
+   "plain",
+   "zMinusCheck",
+   "split",
+   "outside",
+   "proxy"
+  ],
+  "dualSystems": [
+   "sunOnly",
+   "solve4"
+  ],
+  "dualP": 0,
+  "mismatchFactor": 2
+ },
+ "contractKeys": [
+  "version",
+  "frame",
+  "omegaField",
+  "convergence",
+  "sources",
+  "transfer",
+  "ledgerRefs"
+ ],
+ "subKeys": {
+  "frame": [
+   "id",
+   "origin",
+   "axis",
+   "velocityRef",
+   "timeUnit",
+   "lengthUnit",
+   "omegaFrame"
+  ],
+  "omegaField": [
+   "mode",
+   "value",
+   "at",
+   "ref",
+   "unit",
+   "source"
+  ],
+  "convergence": [
+   "uConverged",
+   "curlConverged",
+   "method",
+   "gridSigns"
+  ],
+  "source": [
+   "sourceId",
+   "owns",
+   "coef"
+  ],
+  "transfer": [
+   "id",
+   "version",
+   "form",
+   "gT"
+  ],
+  "ledgerRefs": [
+   "supply",
+   "reaction",
+   "heat"
+  ]
+ },
+ "ledgerRefs": {
+  "supply": "w326d-axialheat-lib-2#ledger.galaxySupply",
+  "reaction": "w326d-axialheat-lib-2#ledger.L.galaxyCenter",
+  "heat": "w326d-axialheat-lib-2#ledger.heat"
+ },
+ "handoffMap": [
+  {
+   "key": "frameInput",
+   "to": "frame",
+   "status": "declaredOnly",
+   "ja": "枠の宣言(原点・軸・速度の基準・時刻と長さの単位・omegaFrame = 0 —— 回転する枠の入力は版 1 の外)"
+  },
+  {
+   "key": "fieldOmega",
+   "to": "omegaField",
+   "status": "added",
+   "ja": "定数の Ω_field の宣言(値・位置・基準・単位・出どころ —— 欠測は null)"
+  },
+  {
+   "key": "curlResolved",
+   "to": "convergence",
+   "status": "added",
+   "ja": "収束の印(u と curl を別に・格子の符号の列)"
+  },
+  {
+   "key": "torqueWork",
+   "to": "ledgerRefs",
+   "status": "refOnly",
+   "ja": "帳簿の口座への参照だけ(計算は第326便d の lib の evaluate —— AN553 = B)"
+  }
+ ],
+ "notClaim": [
+  "Ω_field の値は宣言の候補(同定の値ではない —— g_T と Ω_field は太陽の 1 式で縮退)",
+  "銀河場の同定と数えない",
+  "腕より速い場は観測の量ではない(AN536 の仮定)",
+  "直接の滑りは構成則の採用(相対の回転の符号だけからトルクの向きを導いたと書かない)",
+  "座標の枠を変える操作と新しい場を足す操作を混ぜない(Ω_field を宣言しても u は変えない)",
+  "対照の列は本の宣言の型ではない(剛体の読み・半渦度・シア・K1 の源の幾何)",
+  "u が近いことを curl の収束とみなさない",
+  "回転曲線の予言ではない(流れは宣言の入力)"
+ ],
+ "base": {
+  "A": -0.000007403579133553588,
+  "uPhi": 0.24800622645288334,
+  "halfCurlZ": -9.655119515060239e-23,
+  "OmMat": 9.089989318505708e-16,
+  "OmegaPattern": [
+   5.50932479205542e-16,
+   9.722337868333095e-16
+  ],
+  "OmegaFieldDirect327b": 0.000007403579134525822,
+  "fasterThanArm": {
+   "apiRigid": false,
+   "apiBeta": false,
+   "apiRigidOverOpLo": 0.0000017790977507380443,
+   "apiBetaOverOpLo": 0.4487553453862348,
+   "matterInRange": true
+  },
+  "fieldVersion": "w321c-galfield-2",
+  "fieldLibVersion": "w321c-galfield-lib-2",
+  "galaxisLibVersion": "w327b-galaxis-lib-1",
+  "galaxisHarnessVersion": "w327b-galaxis-1"
+ },
+ "old": {
+  "rows": [
+   {
+    "key": "mainCheckNorm",
+    "bitSame": true,
+    "noFieldContract": true,
+    "ok": true
+   },
+   {
+    "key": "plain",
+    "bitSame": true,
+    "noFieldContract": true,
+    "ok": true
+   },
+   {
+    "key": "zMinusCheck",
+    "bitSame": true,
+    "noFieldContract": true,
+    "ok": true
+   },
+   {
+    "key": "split",
+    "bitSame": true,
+    "noFieldContract": true,
+    "ok": true
+   },
+   {
+    "key": "outside",
+    "bitSame": true,
+    "noFieldContract": true,
+    "ok": false
+   },
+   {
+    "key": "proxy",
+    "bitSame": true,
+    "noFieldContract": true,
+    "ok": true
+   }
+  ],
+  "allBitSame": true
+ },
+ "contract": {
+  "decl": {
+   "frame": {},
+   "omegaField": {
+    "mode": "constant",
+    "value": 0.000007403579134525822,
+    "at": {
+     "R_kpc": 8.2,
+     "z_kpc": 0
+    },
+    "source": "declared"
+   },
+   "transfer": {
+    "form": "directSlip",
+    "gT": 1
+   },
+   "convergence": {
+    "uConverged": true,
+    "curlConverged": false,
+    "method": "点のセルの和の格子の列(粗 → 細)と主の経路(環の積分)の比べ —— u は最後の格子の相対の差 ≤ 1e-3 で縮む・curl(半渦度の ĝ の成分)は符号が全部同じで最後の相対の差 ≤ 1e-2(環の積分と中心差分の照合の差とは別の経路)",
+    "gridSigns": [
+     1,
+     -1,
+     1,
+     -1
+    ]
+   }
+  },
+  "main": {
+   "version": "w328a-fieldcontract-1",
+   "frame": {
+    "id": "galactocentric",
+    "origin": "銀河の中心(場の API の銀河中心系の原点)",
+    "axis": [
+     0,
+     0,
+     1
+    ],
+    "velocityRef": "source-flow-GC(源の流れの銀河中心系 —— 受け手の動きの項を数えない)",
+    "timeUnit": "s",
+    "lengthUnit": "kpc",
+    "omegaFrame": 0
+   },
+   "omegaField": {
+    "mode": "constant",
+    "value": 0.000007403579134525822,
+    "at": {
+     "R_kpc": 8.2,
+     "z_kpc": 0
+    },
+    "ref": "遠方の枠(回転しない銀河中心系)での ĝ の向きの成分",
+    "unit": "rad/s",
+    "source": "declared"
+   },
+   "convergence": {
+    "uConverged": true,
+    "curlConverged": false,
+    "method": "点のセルの和の格子の列(粗 → 細)と主の経路(環の積分)の比べ —— u は最後の格子の相対の差 ≤ 1e-3 で縮む・curl(半渦度の ĝ の成分)は符号が全部同じで最後の相対の差 ≤ 1e-2(環の積分と中心差分の照合の差とは別の経路)",
+    "gridSigns": [
+     1,
+     -1,
+     1,
+     -1
+    ]
+   },
+   "sources": [
+    {
+     "sourceId": "mw319b-tanh:full",
+     "owns": [
+      "disk:thin[0,∞)",
+      "disk:thick[0,∞)",
+      "disk:HI[0,∞)",
+      "disk:H2[0,∞)",
+      "bulge[0,∞)"
+     ],
+     "coef": 1
+    }
+   ],
+   "transfer": {
+    "id": "directSlip",
+    "version": "w328a-directslip-1",
+    "form": "directSlip",
+    "gT": 1
+   },
+   "ledgerRefs": {
+    "supply": "w326d-axialheat-lib-2#ledger.galaxySupply",
+    "reaction": "w326d-axialheat-lib-2#ledger.L.galaxyCenter",
+    "heat": "w326d-axialheat-lib-2#ledger.heat"
+   }
+  },
+  "nullContract": {
+   "version": "w328a-fieldcontract-1",
+   "frame": {
+    "id": "galactocentric",
+    "origin": "銀河の中心(場の API の銀河中心系の原点)",
+    "axis": [
+     0,
+     0,
+     1
+    ],
+    "velocityRef": "source-flow-GC(源の流れの銀河中心系 —— 受け手の動きの項を数えない)",
+    "timeUnit": "s",
+    "lengthUnit": "kpc",
+    "omegaFrame": 0
+   },
+   "omegaField": {
+    "mode": "constant",
+    "value": null,
+    "at": null,
+    "ref": null,
+    "unit": "rad/s",
+    "source": null
+   },
+   "convergence": {
+    "uConverged": null,
+    "curlConverged": null,
+    "method": null,
+    "gridSigns": null
+   },
+   "sources": [
+    {
+     "sourceId": "mw319b-tanh:full",
+     "owns": [
+      "disk:thin[0,∞)",
+      "disk:thick[0,∞)",
+      "disk:HI[0,∞)",
+      "disk:H2[0,∞)",
+      "bulge[0,∞)"
+     ],
+     "coef": 1
+    }
+   ],
+   "transfer": {
+    "id": "directSlip",
+    "version": "w328a-directslip-1",
+    "form": "directSlip",
+    "gT": null
+   },
+   "ledgerRefs": {
+    "supply": "w326d-axialheat-lib-2#ledger.galaxySupply",
+    "reaction": "w326d-axialheat-lib-2#ledger.L.galaxyCenter",
+    "heat": "w326d-axialheat-lib-2#ledger.heat"
+   }
+  },
+  "splitContract": {
+   "version": "w328a-fieldcontract-1",
+   "frame": {
+    "id": "galactocentric",
+    "origin": "銀河の中心(場の API の銀河中心系の原点)",
+    "axis": [
+     0,
+     0,
+     1
+    ],
+    "velocityRef": "source-flow-GC(源の流れの銀河中心系 —— 受け手の動きの項を数えない)",
+    "timeUnit": "s",
+    "lengthUnit": "kpc",
+    "omegaFrame": 0
+   },
+   "omegaField": {
+    "mode": "constant",
+    "value": 0.000007403579134525822,
+    "at": {
+     "R_kpc": 8.2,
+     "z_kpc": 0
+    },
+    "ref": "遠方の枠(回転しない銀河中心系)での ĝ の向きの成分",
+    "unit": "rad/s",
+    "source": "declared"
+   },
+   "convergence": {
+    "uConverged": true,
+    "curlConverged": false,
+    "method": "点のセルの和の格子の列(粗 → 細)と主の経路(環の積分)の比べ —— u は最後の格子の相対の差 ≤ 1e-3 で縮む・curl(半渦度の ĝ の成分)は符号が全部同じで最後の相対の差 ≤ 1e-2(環の積分と中心差分の照合の差とは別の経路)",
+    "gridSigns": [
+     1,
+     -1,
+     1,
+     -1
+    ]
+   },
+   "sources": [
+    {
+     "sourceId": "mw319b-tanh:center",
+     "owns": [
+      "bulge[0,∞)",
+      "disk:thin[0,4)",
+      "disk:thick[0,4)",
+      "disk:HI[0,4)",
+      "disk:H2[0,4)"
+     ],
+     "coef": 1
+    },
+    {
+     "sourceId": "mw319b-tanh:residual",
+     "owns": [
+      "disk:thin[4,∞)",
+      "disk:thick[4,∞)",
+      "disk:HI[4,∞)",
+      "disk:H2[4,∞)"
+     ],
+     "coef": 1
+    }
+   ],
+   "transfer": {
+    "id": "directSlip",
+    "version": "w328a-directslip-1",
+    "form": "directSlip",
+    "gT": 1
+   },
+   "ledgerRefs": {
+    "supply": "w326d-axialheat-lib-2#ledger.galaxySupply",
+    "reaction": "w326d-axialheat-lib-2#ledger.L.galaxyCenter",
+    "heat": "w326d-axialheat-lib-2#ledger.heat"
+   }
+  },
+  "outsideContract": {
+   "version": "w328a-fieldcontract-1",
+   "frame": {
+    "id": "galactocentric",
+    "origin": "銀河の中心(場の API の銀河中心系の原点)",
+    "axis": [
+     0,
+     0,
+     1
+    ],
+    "velocityRef": "source-flow-GC(源の流れの銀河中心系 —— 受け手の動きの項を数えない)",
+    "timeUnit": "s",
+    "lengthUnit": "kpc",
+    "omegaFrame": 0
+   },
+   "omegaField": {
+    "mode": "constant",
+    "value": 0.000007403579134525822,
+    "at": {
+     "R_kpc": 8.2,
+     "z_kpc": 0
+    },
+    "ref": "遠方の枠(回転しない銀河中心系)での ĝ の向きの成分",
+    "unit": "rad/s",
+    "source": "declared"
+   },
+   "convergence": {
+    "uConverged": true,
+    "curlConverged": false,
+    "method": "点のセルの和の格子の列(粗 → 細)と主の経路(環の積分)の比べ —— u は最後の格子の相対の差 ≤ 1e-3 で縮む・curl(半渦度の ĝ の成分)は符号が全部同じで最後の相対の差 ≤ 1e-2(環の積分と中心差分の照合の差とは別の経路)",
+    "gridSigns": [
+     1,
+     -1,
+     1,
+     -1
+    ]
+   },
+   "sources": null,
+   "transfer": {
+    "id": "directSlip",
+    "version": "w328a-directslip-1",
+    "form": "directSlip",
+    "gT": 1
+   },
+   "ledgerRefs": {
+    "supply": "w326d-axialheat-lib-2#ledger.galaxySupply",
+    "reaction": "w326d-axialheat-lib-2#ledger.L.galaxyCenter",
+    "heat": "w326d-axialheat-lib-2#ledger.heat"
+   }
+  },
+  "restBitSame": true,
+  "candidate": {
+   "OmegaField": 0.000007403579134525822,
+   "consistent": true
+  },
+  "OmegaArm": 9.722337868333095e-16,
+  "arm": {
+   "lo": 5.50932479205542e-16,
+   "mid": 7.615831330194257e-16,
+   "hi": 9.722337868333095e-16
+  },
+  "shape": {
+   "main": true,
+   "nullC": true,
+   "split": true,
+   "outside": true
+  }
+ },
+ "direct": {
+  "A": -0.000007403579133553588,
+  "AJ": -0.000007403579133553588,
+  "OmegaArm": 9.722337868333095e-16,
+  "OmegaField": 0.000007403579134525822,
+  "gT": 1,
+  "nuAlong": -0.000007403579133553588,
+  "slipArm": -0.000007403579133553588,
+  "premise": true,
+  "closureRel": 0,
+  "sunResidualRel": 0,
+  "vs327bOmegaField": 0,
+  "rel": {
+   "toArm": -0.000007403579133553588,
+   "toMatter": -0.000007403579133616822
+  },
+  "relDiff": 6.323439764432254e-17,
+  "OmegaMat": 9.089989318505708e-16,
+  "periodS": 848668.6227042006,
+  "overOmMat": 8144761093.891897,
+  "armSens": {
+   "lo": 0.00000740357913410452,
+   "mid": 0.000007403579134315171,
+   "hi": 0.000007403579134525822
+  },
+  "armSensRel": 5.6905109652355106e-11,
+  "nullSlip": {
+   "ok": false,
+   "nu": null
+  }
+ },
+ "controls": {
+  "rows": [
+   {
+    "key": "direct",
+    "role": "declared",
+    "alongG": null,
+    "gain": 1,
+    "vs327bAlong": null,
+    "vs327bGain": 0,
+    "OmRelReq": -0.000007403579133553588,
+    "vs327bOmRel": 0,
+    "consistent": true,
+    "consistentSame": true,
+    "OmegaFieldReq": 0.000007403579134525822,
+    "vs327bField": 0,
+    "overOmMat": -8144761092.822332
+   },
+   {
+    "key": "halfCurl",
+    "role": "control",
+    "alongG": -9.655119515060239e-23,
+    "gain": -1.0621706117304252e-7,
+    "vs327bAlong": 0,
+    "vs327bGain": 0,
+    "OmRelReq": 69.70235338645001,
+    "vs327bOmRel": 0,
+    "consistent": false,
+    "consistentSame": true,
+    "OmegaFieldReq": null,
+    "vs327bField": null,
+    "overOmMat": 76680346856456260
+   },
+   {
+    "key": "rigid",
+    "role": "control",
+    "alongG": 9.801627345631142e-22,
+    "gain": 0.0000010782881037799084,
+    "vs327bAlong": 0,
+    "vs327bGain": 0,
+    "OmRelReq": -6.866049164041179,
+    "vs327bOmRel": 0,
+    "consistent": true,
+    "consistentSame": true,
+    "OmegaFieldReq": 6.86604916404118,
+    "vs327bField": 0,
+    "overOmMat": -7553418297272411
+   },
+   {
+    "key": "shear",
+    "role": "control",
+    "alongG": -2.153427859427433e-21,
+    "gain": -0.000002369010329905902,
+    "vs327bAlong": 0,
+    "vs327bGain": 0,
+    "OmRelReq": 3.125178071236043,
+    "vs327bOmRel": 0,
+    "consistent": false,
+    "consistentSame": true,
+    "OmegaFieldReq": null,
+    "vs327bField": null,
+    "overOmMat": 3438043722310761.5
+   },
+   {
+    "key": "k1Mirror",
+    "role": "control",
+    "alongG": -9.801627345631142e-22,
+    "gain": -0.0000010782881037799084,
+    "vs327bAlong": 0,
+    "vs327bGain": 0,
+    "OmRelReq": 6.866049164041179,
+    "vs327bOmRel": 0,
+    "consistent": false,
+    "consistentSame": true,
+    "OmegaFieldReq": null,
+    "vs327bField": null,
+    "overOmMat": 7553418297272411
+   }
+  ],
+  "OmMat": 9.089989318505708e-16,
+  "maxAlong": 0,
+  "maxGain": 0,
+  "maxOmRel": 0,
+  "consistentKeys": [
+   "direct",
+   "rigid"
+  ]
+ },
+ "dual": {
+  "frameAxisAngDeg": 0,
+  "systems": [
+   {
+    "key": "sunOnly",
+    "bodies": [
+     "sun"
+    ],
+    "A326d": -0.000007403579133553588,
+    "AVsContract": 0,
+    "ports": [
+     {
+      "key": "sun",
+      "nuAlong": -0.000007403579133553585,
+      "nuVsContract": 3.432257285191221e-16,
+      "supply": 3.139642079842367e+36,
+      "supplySum": 3.139642079842367e+36,
+      "supplyRel": 0,
+      "workArm": -4.1229600623195106e+26,
+      "workField": 3.139642080254663e+36,
+      "reactionArm": 4.240708477894521e+41,
+      "reactionField": -4.240708477894521e+41,
+      "reactionSum": 0,
+      "heat": 3.139642079842367e+36,
+      "mismatchRel": 0.5000000000000001
+     }
+    ],
+    "galaxySupply": 3.139642079842367e+36,
+    "orbitWork": 0,
+    "heat": 3.139642079842367e+36,
+    "spinPower": -138558840193022840000,
+    "sumVsLedger": 0,
+    "ledgerResidualRel": 4.413204966343791e-17,
+    "doubledRel": 1,
+    "remainderRel": 0,
+    "mismatchMinRel": 0.5000000000000001,
+    "mismatchMaxRel": 0.5000000000000001,
+    "reactionSumMax": 0,
+    "galaxySupplyVs326d": 0,
+    "portSupplyMaxRel": 0
+   },
+   {
+    "key": "solve4",
+    "bodies": [
+     "sun",
+     "venus",
+     "jupiter",
+     "io"
+    ],
+    "A326d": -0.000007403579133553588,
+    "AVsContract": 0,
+    "ports": [
+     {
+      "key": "sun",
+      "nuAlong": -0.000007403579133553585,
+      "nuVsContract": 3.432257285191221e-16,
+      "supply": 3.139642079842367e+36,
+      "supplySum": 3.139642079842367e+36,
+      "supplyRel": 0,
+      "workArm": -4.1229600623195106e+26,
+      "workField": 3.139642080254663e+36,
+      "reactionArm": 4.240708477894521e+41,
+      "reactionField": -4.240708477894521e+41,
+      "reactionSum": 0,
+      "heat": 3.139642079842367e+36,
+      "mismatchRel": 0.5000000000000001
+     },
+     {
+      "key": "venus",
+      "nuAlong": -0.000007403579133553585,
+      "nuVsContract": 3.432257285191221e-16,
+      "supply": 3.2872574301318864e+27,
+      "supplySum": 3.287257430131887e+27,
+      "supplyRel": 1.6723844285780307e-16,
+      "workArm": -431680769792629000,
+      "workField": 3.287257430563568e+27,
+      "reactionArm": 4.44009224570017e+32,
+      "reactionField": -4.44009224570017e+32,
+      "reactionSum": 0,
+      "heat": 3.3551915731871166e+27,
+      "mismatchRel": 0.5000000000000002
+     },
+     {
+      "key": "jupiter",
+      "nuAlong": -0.000007403579133553585,
+      "nuVsContract": 3.432257285191221e-16,
+      "supply": -1.4338696159238867e+33,
+      "supplySum": -1.4338696159238867e+33,
+      "supplyRel": 0,
+      "workArm": 1.8829493969976395e+23,
+      "workField": -1.4338696161121815e+33,
+      "reactionArm": -1.936724913799435e+38,
+      "reactionField": 1.936724913799435e+38,
+      "reactionSum": 0,
+      "heat": 6.9877249156949665e+34,
+      "mismatchRel": 0.4999999999999999
+     },
+     {
+      "key": "io",
+      "nuAlong": -0.000007403579133553585,
+      "nuVsContract": 3.432257285191221e-16,
+      "supply": -1.1247161624448886e+25,
+      "supplySum": -1.1247161624448888e+25,
+      "supplyRel": 1.9093560844114102e-16,
+      "workArm": 1476970846128536.5,
+      "workField": -1.1247161625925858e+25,
+      "reactionArm": -1.5191519428050536e+30,
+      "reactionField": 1.5191519428050536e+30,
+      "reactionSum": 0,
+      "heat": 1.606049893354752e+26,
+      "mismatchRel": 0.5000000000000001
+     }
+    ],
+    "galaxySupply": 3.138208213502454e+36,
+    "orbitWork": 1.4614668183444767e+34,
+    "heat": 3.1528228816858987e+36,
+    "spinPower": -188619000326980670000,
+    "sumVsLedger": 0,
+    "ledgerResidualRel": 5.982543498482891e-17,
+    "doubledRel": 0.9953645768468826,
+    "remainderRel": 0,
+    "mismatchMinRel": 0.4999999999999999,
+    "mismatchMaxRel": 0.5000000000000002,
+    "reactionSumMax": 0,
+    "galaxySupplyVs326d": 0,
+    "portSupplyMaxRel": 1.9093560844114102e-16
+   }
+  ],
+  "ledgerRefs": {
+   "supply": "w326d-axialheat-lib-2#ledger.galaxySupply",
+   "reaction": "w326d-axialheat-lib-2#ledger.L.galaxyCenter",
+   "heat": "w326d-axialheat-lib-2#ledger.heat"
+  },
+  "refsResolve": true
+ },
+ "convergence": {
+  "uConverged": true,
+  "curlConverged": false,
+  "gridSigns": [
+   1,
+   -1,
+   1,
+   -1
+  ],
+  "signsVs327b": true,
+  "uLastRel": 0.00046182287085278325,
+  "grids": [
+   [
+    48,
+    96,
+    16
+   ],
+   [
+    96,
+    192,
+    24
+   ],
+   [
+    192,
+    384,
+    32
+   ],
+   [
+    384,
+    768,
+    48
+   ]
+  ],
+  "perCandidate": {
+   "halfCurl": {
+    "converged": false,
+    "signs": [
+     1,
+     -1,
+     1,
+     -1
+    ],
+    "lastRel": 0.5955078094017728
+   },
+   "rigid": {
+    "converged": true,
+    "signs": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "lastRel": 0.0004618228708528701
+   },
+   "shear": {
+    "converged": false,
+    "signs": [
+     -1,
+     -1,
+     -1,
+     -1
+    ],
+    "lastRel": 0.05393354171333828
+   },
+   "k1Mirror": {
+    "converged": true,
+    "signs": [
+     -1,
+     -1,
+     -1,
+     -1
+    ],
+    "lastRel": 0.0004618228708528701
+   }
+  },
+  "routeRel": 1.4964229187160603e-10
+ },
+ "degeneracy": {
+  "rows": [
+   {
+    "gT": 1,
+    "OmegaField": 0.000007403579134525822,
+    "consistent": true,
+    "productRel": 0
+   },
+   {
+    "gT": 0.5,
+    "OmegaField": 0.00001480715826807941,
+    "consistent": true,
+    "productRel": 0
+   },
+   {
+    "gT": 2,
+    "OmegaField": 0.0000037017895677490277,
+    "consistent": true,
+    "productRel": 0
+   },
+   {
+    "gT": 0.0000010782881037799084,
+    "OmegaField": 6.86604916404118,
+    "consistent": true,
+    "productRel": 0
+   }
+  ],
+  "rankOne": 1,
+  "unknowns": 2,
+  "distinctPairs": 4,
+  "gTs": [
+   1,
+   0.5,
+   2,
+   0.0000010782881037799084
+  ],
+  "rigidOmegaField": 6.86604916404118,
+  "rigidVs327b": 0
+ },
+ "handoff": {
+  "rows": [
+   {
+    "key": "frameInput",
+    "to": "frame",
+    "status": "declaredOnly",
+    "ja": "枠の宣言(原点・軸・速度の基準・時刻と長さの単位・omegaFrame = 0 —— 回転する枠の入力は版 1 の外)",
+    "missingIn327b": true,
+    "inContract": true
+   },
+   {
+    "key": "fieldOmega",
+    "to": "omegaField",
+    "status": "added",
+    "ja": "定数の Ω_field の宣言(値・位置・基準・単位・出どころ —— 欠測は null)",
+    "missingIn327b": true,
+    "inContract": true
+   },
+   {
+    "key": "curlResolved",
+    "to": "convergence",
+    "status": "added",
+    "ja": "収束の印(u と curl を別に・格子の符号の列)",
+    "missingIn327b": true,
+    "inContract": true
+   },
+   {
+    "key": "torqueWork",
+    "to": "ledgerRefs",
+    "status": "refOnly",
+    "ja": "帳簿の口座への参照だけ(計算は第326便d の lib の evaluate —— AN553 = B)",
+    "missingIn327b": true,
+    "inContract": true
+   }
+  ],
+  "missing327b": [
+   "frameInput",
+   "fieldOmega",
+   "torqueWork",
+   "curlResolved"
+  ],
+  "haveAll": true,
+  "sourcesAlso": true,
+  "transferAlso": true
+ },
+ "pure": {
+  "scenes": {
+   "bitSame": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "optInRest": true,
+   "shape": {
+    "c0": true,
+    "c1": true,
+    "keys": [
+     "version",
+     "frame",
+     "omegaField",
+     "convergence",
+     "sources",
+     "transfer",
+     "ledgerRefs"
+    ]
+   },
+   "nulls": {
+    "value": null,
+    "at": null,
+    "ref": null,
+    "src": null,
+    "gT": null,
+    "u": null,
+    "curl": null,
+    "grid": null,
+    "method": null,
+    "omegaFrame": 0,
+    "slip": null
+   },
+   "declared": {
+    "value": 0.000003,
+    "src": "declared",
+    "ref": "遠方の枠(回転しない銀河中心系)での ĝ の向きの成分",
+    "gT": 1,
+    "curl": false
+   },
+   "outside": {
+    "sources": null,
+    "shape": true
+   },
+   "reject": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "rejectNotApi": [
+    true,
+    true,
+    true
+   ],
+   "rejectOpt": true,
+   "noMutate": {
+    "same": true,
+    "uSame": true
+   },
+   "slip": {
+    "nu": -4,
+    "premise": true,
+    "nuB": 1,
+    "premiseB": false,
+    "vec": [
+     0,
+     0,
+     -4
+    ]
+   },
+   "dual": {
+    "supplySum": -6,
+    "supplyNu": -6,
+    "rel": 0,
+    "reactionSum": 0,
+    "workArm": 3,
+    "workField": -9,
+    "mismatchRel": 0.2,
+    "mismatchSame": false
+   },
+   "noDouble": {
+    "supplyVsLedger": 1.1712909356689038e-16,
+    "closes": 2.7519518136652856e-16,
+    "doubledRel": 0.9999999999999999,
+    "remainder": 0
+   },
+   "degeneracy": {
+    "of": [
+     5,
+     3,
+     2,
+     1.5
+    ],
+    "prodMax": 0,
+    "rank": 1,
+    "pairs": 4,
+    "zeroGain": null
+   },
+   "rel": {
+    "toArm": -2,
+    "toMatter": -1.8
+   },
+   "frameVsField": {
+    "shifted": -3.9999999999999996,
+    "base": -4,
+    "addField": -5
+   },
+   "conv": {
+    "alt": {
+     "uConverged": true,
+     "curlConverged": false,
+     "method": "点のセルの和の格子の列(粗 → 細)と主の経路(環の積分)の比べ —— u は最後の格子の相対の差 ≤ 1e-3 で縮む・curl(半渦度の ĝ の成分)は符号が全部同じで最後の相対の差 ≤ 1e-2(環の積分と中心差分の照合の差とは別の経路)",
+     "gridSigns": [
+      1,
+      -1,
+      1,
+      -1
+     ]
+    },
+    "same": {
+     "uConverged": true,
+     "curlConverged": true,
+     "method": "点のセルの和の格子の列(粗 → 細)と主の経路(環の積分)の比べ —— u は最後の格子の相対の差 ≤ 1e-3 で縮む・curl(半渦度の ĝ の成分)は符号が全部同じで最後の相対の差 ≤ 1e-2(環の積分と中心差分の照合の差とは別の経路)",
+     "gridSigns": [
+      -1,
+      -1
+     ]
+    },
+    "one": {
+     "uConverged": null,
+     "curlConverged": null,
+     "method": "点のセルの和の格子の列(粗 → 細)と主の経路(環の積分)の比べ —— u は最後の格子の相対の差 ≤ 1e-3 で縮む・curl(半渦度の ĝ の成分)は符号が全部同じで最後の相対の差 ≤ 1e-2(環の積分と中心差分の照合の差とは別の経路)",
+     "gridSigns": null
+    }
+   },
+   "sources": {
+    "ids": [
+     "mw319b-tanh:center",
+     "mw319b-tanh:residual"
+    ],
+    "n": 2,
+    "owns": [
+     5,
+     4
+    ],
+    "ownsSame": true
+   }
+  },
+  "gates": {
+   "oldCallBitSame": true,
+   "contractShape": true,
+   "missingIsNull": true,
+   "rejectBadDecl": true,
+   "fieldNotAddedToU": true,
+   "directSlip": true,
+   "dualSameCoef": true,
+   "noDoubleCount": true,
+   "degeneracyRankOne": true,
+   "armVsMatter": true,
+   "frameShiftKeepsSlip": true,
+   "convergenceSeparate": true,
+   "sourcesDisjoint": true
+  }
+ },
+ "timing": {
+  "base327b": {
+   "wallSec": 6.965
+  },
+  "old": {
+   "wallSec": 12.164
+  },
+  "contract": {
+   "wallSec": 13.59
+  },
+  "directControls": {
+   "wallSec": 13.591
+  },
+  "dual": {
+   "wallSec": 13.824
+  },
+  "convDegHand": {
+   "wallSec": 13.825
+  },
+  "pure": {
+   "wallSec": 16.066
+  }
+ },
+ "gates": {
+  "pure": true,
+  "oldCallsBitSame": true,
+  "contractShape": true,
+  "missingIsNull": true,
+  "sourcesFromApi": true,
+  "sunClosure": true,
+  "armVsMatter": true,
+  "controlsMatch327b": true,
+  "dualLedger": true,
+  "frameAxisSame": true,
+  "convergenceSeparate": true,
+  "degeneracyRankOne": true,
+  "apiStillSlowerThanArm": true,
+  "handoff": true
+ },
+ "ok": true,
+ "elapsedS": 18.162,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第328便a",
+  "target": "beta/index.html",
+  "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
+  "generatedAt": "2026-11-05T18:51:34.819Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7668923,
+    "sha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
+    "mtime": "2026-11-05T18:30:49.733Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w328a-fieldcontract.mjs",
+    "bytes": 26070,
+    "sha256": "4458fd8e880a80a48bd2e6277440634e79c36c5511be6c70b453b7224bf37684",
+    "mtime": "2026-11-05T18:50:45.960Z"
+   },
+   {
+    "file": "tests/lib-w328a-fieldcontract.mjs",
+    "bytes": 33971,
+    "sha256": "bc266d12ed79357c9822739c55a7b1c67eee04683d39392f7bca85be6b4d9ced",
+    "mtime": "2026-11-05T18:49:18.516Z"
+   },
+   {
+    "file": "tests/exp-w327b-galaxis.mjs",
+    "bytes": 21335,
+    "sha256": "49c16fe50ff06ac7b5be5c308f77bb6a86a769d4dfb136e4f365a6f9b0dff915",
+    "mtime": "2026-11-05T18:30:54.593Z"
+   },
+   {
+    "file": "tests/lib-w327b-galaxis.mjs",
+    "bytes": 23613,
+    "sha256": "c332f4c60d2ea6f0228a7e995ed99a3e1af6418c550680e19f6ff23be01dd054",
+    "mtime": "2026-11-05T18:30:58.141Z"
+   },
+   {
+    "file": "tests/lib-w321c-galfield.mjs",
+    "bytes": 29045,
+    "sha256": "88c79fb3873c9c46b1949017d3ab2531109f647458816de3dac04924afdb0108",
+    "mtime": "2026-11-05T18:30:56.361Z"
+   },
+   {
+    "file": "tests/lib-w320c-nbcompose.mjs",
+    "bytes": 25953,
+    "sha256": "21f1ceba1d96e85fcbd92dbb6b1f6ffa47f130d1d02880ed23c221971dddd1f4",
+    "mtime": "2026-11-05T18:30:55.817Z"
+   },
+   {
+    "file": "tests/lib-w319b-srcradius.mjs",
+    "bytes": 30288,
+    "sha256": "6bf633cc248c1c2ac02e1d29fa964058436b8d609577116cad38c271406842be",
+    "mtime": "2026-11-05T18:30:55.637Z"
+   },
+   {
+    "file": "tests/lib-w319a-axisheat.mjs",
+    "bytes": 14679,
+    "sha256": "8e9e99edcfe249d94ff151b0cd8d4cd6d7df50050aaeb618781e33aef5f9f70b",
+    "mtime": "2026-11-05T18:30:55.633Z"
+   },
+   {
+    "file": "tests/exp-w326d-axialheat.mjs",
+    "bytes": 38720,
+    "sha256": "c1dc3ade3425c332b8c5c4a2665b7d81467eeefdda857905de4b4d9f17f564bb",
+    "mtime": "2026-11-05T18:30:54.589Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-05T18:30:58.077Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-11-05T18:30:54.745Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-11-05T18:30:54.741Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-05T18:30:54.737Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T18:30:54.753Z"
+   }
+  ],
+  "codeSha256": "64d31e51ee770294700bdbf1b994392b150285f0cb4d2c3399d642ad39d822ee",
+  "harnessVersion": "w328a-fieldcontract-1",
+  "stage": "fieldcontract",
+  "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)と第321便c の場の API の純関数(本 lib の opt-in の口で包む)",
+  "notClaim": [
+   "Ω_field の値は宣言の候補(同定の値ではない —— g_T と Ω_field は太陽の 1 式で縮退)",
+   "銀河場の同定と数えない",
+   "腕より速い場は観測の量ではない(AN536 の仮定)",
+   "直接の滑りは構成則の採用(相対の回転の符号だけからトルクの向きを導いたと書かない)",
+   "座標の枠を変える操作と新しい場を足す操作を混ぜない(Ω_field を宣言しても u は変えない)",
+   "対照の列は本の宣言の型ではない(剛体の読み・半渦度・シア・K1 の源の幾何)",
+   "u が近いことを curl の収束とみなさない",
+   "回転曲線の予言ではない(流れは宣言の入力)"
+  ],
+  "scope": {
+   "version": "w327c-scope-8",
+   "presets": [
+    "jupiterGalilean",
+    "jupiterSunInertial3d",
+    "marsSunInertial3d",
+    "mercury",
+    "mercurySunInertial3d",
+    "neptuneSunInertial3d",
+    "saturn",
+    "saturnRingReal",
+    "saturnSunInertial3d",
+    "solarSystem16Inertial3d",
+    "uranusSunInertial3d",
+    "venusSunInertial3d"
+   ],
+   "roots": [
+    "$",
+    "HP.REL_DRAG_INVSQ_SRC_MOMENT_VERSION",
+    "HP.REL_DRAG_INVSQ_VERSION",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.inertialDragIsqState",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "ab",
+    "ch",
+    "ctx",
+    "cw",
+    "inertialDragGalaxyAxialState",
+    "pnSource"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "abBody": false,
+   "names": 1349,
+   "segments": 1186,
+   "closureShare": 0.2935
+  },
+  "scopeSha256": "428c7e3c283269abed05a7abc7edde3edef34351be42c60dfc849b21315c99a6",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}
