@@ -1681,6 +1681,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/axialsum-w327a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第327便a: 角速度の和の族 S(受動の構成則 —— 配分 w は宣言)と族 E の対照・金星の受け手の R_d の格子と根(銀河の応答の規約ごと —— 評価域に非負の区間なし・重なりは評価域の外・格子の R_d は採らない)・天体ごとに自由な潮汐と法則・地球と土星の予言(合わせない)・帳簿' }),
   // ==== 第327便a の塊(ここまで)====
+  // ==== 第327便b の塊(ここから)====
+  // ---- 第327便b(原仮定者の回答(2026-11-05 —— AN536)・統括の検証項目 R296): **銀河の局所場の大きさの 2 つの経路と「場に対して逆回転」の読みの器**
+  //   (段 galaxis-327b —— 正本 tests/out/galaxis-w327b.json・lib tests/lib-w327b-galaxis.mjs —— 経路 1: 第326便d の器の関数で太陽の式の A〔族 E・口が 1 つの和の式・源の反作用〕/
+  //   経路 2: 第321便c の場の API〔sample・splitState・diskCellsAt を呼ぶだけ〕の太陽の位置の u・∇u・半渦度・u_φ/R・シア/伝達の候補 T_G ごとの比〔平均しない〕/
+  //   点のセルの和の格子の符号/AN536 の相対の角速度の符号と要る大きさ/geoPN=4 の場の API への引き継ぎの形)。**診断だけ**(エンジン・在位の本・受理器・第321便c の lib の本文は変えない)。
+  //   html を読む(本は 🗺️ を .find で引く 1 本 —— 領域の下限の他の本は import した lib の綴り・他の正本は読まない —— html の生成領域の後)。1 プロセス。t = 0 の読み口と純関数だけ(步を進めない)。
+  //   所要は第327便b の枝の実測 8.7 s(nice 10 —— 3 枝並走の箱〔**並走の秒**〕)
+  S('galaxis-327b', 'node tests/exp-w327b-galaxis.mjs', ['tests/out/galaxis-w327b.json'], 9, { secSource: 'w327b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: 't = 0 の読み口と場の API の純関数だけ(步を進めない —— 窓が無く、全部を走らせても 10 秒ほど)',
+    volatilePaths: { 'tests/out/galaxis-w327b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第327便b: 銀河の局所場の大きさの 2 つの経路(太陽の自転・場の API の模型 —— 別の列・平均しない)と「場に対して逆回転」の読み(場の軸は反転しない)の診断 —— 銀河場を同定したと数えない・腕より速い場は仮定' }),
+  // ==== 第327便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

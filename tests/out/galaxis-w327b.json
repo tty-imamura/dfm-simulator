@@ -1,0 +1,1447 @@
+{
+ "version": "w327b-galaxis-1",
+ "libVersion": "w327b-galaxis-lib-1",
+ "generator": "tests/exp-w327b-galaxis.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "24c740714d1eb8c1ee8795ff0fa353613ebe2417c7a9d28942ec3e2eb066f83a",
+ "reuseFrom": null,
+ "ruling": "原仮定者の回答(2026-11-05 —— AN536)「銀河の局所場の大きさは、太陽の自転と、APIの模型の、両方を検証する。「銀河の回転と逆向き」の解釈については、銀河は腕を引きずって回転しているが、腕が引きずられるという事はその腕より慣性決定力場の方が早く回転しており、見た目は順回転だが場に対して逆回転になる」・統括の検証項目 R296",
+ "decl": {
+  "candidates": [
+   "halfCurl",
+   "rigid",
+   "shear",
+   "k1Mirror"
+  ],
+  "zSensKpc": [
+   -0.02,
+   0.02
+  ],
+  "rCutKpc": 4,
+  "cellNr": [
+   48,
+   96,
+   192,
+   384
+  ],
+  "OmegaPatternKmsKpc": [
+   17,
+   30
+  ],
+  "gainUnit": "Ω_mat = V(R_0)/R_0(宣言の模型の流れの太陽の位置の角速度)",
+  "k1Variants": [
+   "now",
+   "J"
+  ]
+ },
+ "handoffDecl": [
+  {
+   "key": "u",
+   "ja": "u[3](m/s —— 銀河中心系)",
+   "path": [
+    "u"
+   ],
+   "need": "全部の候補(rigid・k1Mirror は u だけ)"
+  },
+  {
+   "key": "gradU",
+   "ja": "∇u[9](∂u_a/∂x_b —— 1/s)",
+   "path": [
+    "gradU"
+   ],
+   "need": "halfCurl・shear(勾配の候補)"
+  },
+  {
+   "key": "dUdt",
+   "ja": "∂_t u と定常の宣言(定常なら 0・定常でなければ null —— 0 で埋めない)",
+   "path": [
+    "dUdt"
+   ],
+   "need": "仕事の帳簿(場の時間変化の仕事)"
+  },
+  {
+   "key": "sourceId",
+   "ja": "由来 ID(成分の持ち主の宣言 —— 項ごとの key・coef・owns)",
+   "path": [
+    "source",
+    "terms"
+   ],
+   "need": "口ごとの熱を由来ごとに分ける"
+  },
+  {
+   "key": "parts",
+   "ja": "項ごとの u・∇u(中心と残余の重ならない分割)",
+   "path": [
+    "parts"
+   ],
+   "need": "由来ごとの ν_G"
+  },
+  {
+   "key": "velocityRef",
+   "ja": "速度の基準(今は源の流れの銀河中心系に固定の文字列)",
+   "path": [
+    "contract",
+    "velocityRef"
+   ],
+   "need": "AN536 の場の枠(回転する枠 Ω_frame の入力)"
+  },
+  {
+   "key": "frameInput",
+   "ja": "回転する枠の入力(Ω_frame —— 源の速さから Ω_frame ĝ × x′ を引いた場)",
+   "path": [
+    "frame"
+   ],
+   "need": "AN536 の Ω_rel を場の API の中で作る(同じ形の仮定を外す)"
+  },
+  {
+   "key": "fieldOmega",
+   "ja": "場の角速度の宣言 Ω_field(腕より速い場 —— 仮定の入力)",
+   "path": [
+    "omegaField"
+   ],
+   "need": "AN536 の前提を宣言として持つ"
+  },
+  {
+   "key": "torqueWork",
+   "ja": "仕事とトルクの帳簿(受け手ごとの N・供給 N·ν・熱 —— 由来 ID つき)",
+   "path": [
+    "ledger"
+   ],
+   "need": "銀河の中心の供給 = 熱 = 放射(第326便d の帳簿へ渡す)"
+  },
+  {
+   "key": "curlResolved",
+   "ja": "半渦度の収束の印(格子の和の符号の安定 —— 環の積分の経路の誤差とは別)",
+   "path": [
+    "curlResolved"
+   ],
+   "need": "低い N の本で curl を使う前の門"
+  },
+  {
+   "key": "routeError",
+   "ja": "照合の別経路の差(中心差分)",
+   "path": [
+    "error",
+    "route"
+   ],
+   "need": "勾配の候補の誤差の見積り"
+  },
+  {
+   "key": "normalization",
+   "ja": "正規化の量(β・∇β・Z = 1 + β の項)",
+   "path": [
+    "normalization"
+   ],
+   "need": "u/β の読み(重みの平均の源の速さ)"
+  }
+ ],
+ "notClaim": [
+  "銀河場の同定と数えない(二つの経路を別の列に並べ、倍率と条件を記録する)",
+  "腕より速い場は観測の量ではない(Ω_field > Ω_arm は AN536 の仮定)",
+  "A は太陽の口が銀河だけという接続の帰結(同定の値ではない)",
+  "半渦度を今の軸引きずりと同じ量と書かない(伝達の候補の 1 つ)",
+  "二つの経路を平均しない",
+  "場の軸を反転しない(逆向きは場に対する相対の角速度の符号)",
+  "点のセルの和の半渦度は格子で符号が交互(u が近いことを curl の収束とみなさない)",
+  "回転曲線の予言ではない(流れは宣言の入力)"
+ ],
+ "path1": {
+  "s": 0.0000028653296576375425,
+  "a": [
+   0.1223534934723276,
+   -0.031037870245067125,
+   0.9920011457885356
+  ],
+  "g": [
+   0.8676661436080015,
+   0.00035159313914186365,
+   -0.4971472011574469
+  ],
+  "gDotA": -0.3870195220378814,
+  "bodies": {
+   "venus": {
+    "name": "金星",
+    "s": -2.9924494208700665e-7,
+    "a": [
+     0.01869081416890467,
+     0.01087252286146163,
+     0.999766193523431
+    ],
+    "gDotA": -0.4808097555667376
+   },
+   "earth": {
+    "name": "地球",
+    "s": 0.00007292115069816146,
+    "a": [
+     -0.00002518697145586744,
+     0.39775194359135213,
+     0.917492992199351
+    ],
+    "gDotA": -0.45601108018142383
+   },
+   "jupiter": {
+    "name": "木星",
+    "s": 0.00017585323433791654,
+    "a": [
+     -0.01459729090215846,
+     -0.035804400435795566,
+     0.9992522024032526
+    ],
+    "gDotA": -0.509453599360936
+   },
+   "io": {
+    "name": "イオ",
+    "s": 0.00004110592854942084,
+    "a": [
+     -0.015335994210668434,
+     -0.035348566332291276,
+     0.999257367318261
+    ],
+    "gDotA": -0.5100969546667986
+   },
+   "saturn": {
+    "name": "土星",
+    "s": 0.0001637849899870424,
+    "a": [
+     0.0854788318610719,
+     0.46244167759081534,
+     0.8825197244994919
+    ],
+    "gDotA": -0.3644125312790564
+   }
+  },
+  "angleDeg": 112.76917201347676,
+  "sAlongG": -0.000001108938514579848,
+  "OmRefSI": 9.089990689904927e-16,
+  "A": -0.000007403579133553588,
+  "AOverOmRef": -8144759864.029104,
+  "variants": {
+   "now": {
+    "ok": true,
+    "AE": -0.000007403579133553588,
+    "AAlone": -0.000007403579133553588,
+    "AOnePort": -0.0000074035791335535896,
+    "reaction": -1823013190861057.2,
+    "reactionScale": 6.918178686526773e+41,
+    "reactionRel": 2.6351056737106182e-27,
+    "AEVsOnePortRel": 2.2881715234608136e-16,
+    "AAloneVsOnePortRel": 2.2881715234608136e-16,
+    "AIndependentOfP": true,
+    "alongRel": 6.989850216009022e-17
+   },
+   "J": {
+    "ok": true,
+    "AE": -0.000007403579133553588,
+    "AAlone": -0.000007403579133553588,
+    "AOnePort": -0.0000074035791335535896,
+    "reaction": -5.033893266088872e+23,
+    "reactionScale": 6.918178686526773e+41,
+    "reactionRel": 7.276327331487452e-19,
+    "AEVsOnePortRel": 2.2881715234608136e-16,
+    "AAloneVsOnePortRel": 2.2881715234608136e-16,
+    "AIndependentOfP": true,
+    "alongRel": 7.062613489060387e-17
+   }
+  }
+ },
+ "path2": {
+  "posKpc": [
+   8.2,
+   0,
+   0
+  ],
+  "R0Kpc": 8.2,
+  "model": "mw319b-tanh",
+  "fieldVersion": "w321c-galfield-2",
+  "fieldLibVersion": "w321c-galfield-lib-2",
+  "velocityRef": "source-flow-GC(源の流れの銀河中心系 —— 受け手の動きの項を数えない)",
+  "u": [
+   0,
+   0.24800622645288334,
+   0
+  ],
+  "gradU": [
+   0,
+   -9.801627345631142e-22,
+   0,
+   -1.173265124864319e-21,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "halfCurl": [
+   0,
+   0,
+   -9.655119515060239e-23
+  ],
+  "uPhi": 0.24800622645288334,
+  "rigid": 9.801627345631142e-22,
+  "dRuPhi": -1.173265124864319e-21,
+  "uOverRFromG": 9.801627345631142e-22,
+  "halfCurlZ": -9.655119515060239e-23,
+  "shear": -2.153427859427433e-21,
+  "halfCurlZApi": -9.655119515060235e-23,
+  "halfCurlVsApiRel": 3.652448886796468e-16,
+  "uOverRVsGRel": 0,
+  "beta": 0.000003964516008621157,
+  "corrShare": 0.000017665609184737622,
+  "routeZ": 1.4448142125278834e-32,
+  "routeR": 0,
+  "quadU": 1.825567309415473e-12,
+  "edgeShare": 0.018652566897456424,
+  "divU": 0,
+  "dUdt": [
+   0,
+   0,
+   0
+  ],
+  "stationary": true,
+  "uOffPhiRel": 0,
+  "cand": {
+   "halfCurl": {
+    "nu": [
+     0,
+     0,
+     -9.655119515060239e-23
+    ],
+    "alongG": -9.655119515060239e-23,
+    "norm": 9.655119515060239e-23
+   },
+   "rigid": {
+    "nu": [
+     0,
+     0,
+     9.801627345631142e-22
+    ],
+    "alongG": 9.801627345631142e-22,
+    "norm": 9.801627345631142e-22
+   },
+   "shear": {
+    "nu": [
+     0,
+     0,
+     -2.153427859427433e-21
+    ],
+    "alongG": -2.153427859427433e-21,
+    "norm": 2.153427859427433e-21
+   },
+   "k1Mirror": {
+    "nu": [
+     0,
+     0,
+     -9.801627345631142e-22
+    ],
+    "alongG": -9.801627345631142e-22,
+    "norm": 9.801627345631142e-22
+   }
+  },
+  "zSens": [
+   {
+    "zKpc": -0.02,
+    "uPhi": 0.24797823189846488,
+    "rigid": 9.800520953287525e-22,
+    "halfCurlZ": -9.646942492921144e-23,
+    "halfCurlR": -4.500738235101037e-23,
+    "shear": -2.1530430405159277e-21,
+    "cand": {
+     "halfCurl": {
+      "nu": [
+       -4.500738235101037e-23,
+       0,
+       -9.646942492921144e-23
+      ],
+      "alongG": -9.646942492921144e-23,
+      "norm": 1.064519347511486e-22
+     },
+     "rigid": {
+      "nu": [
+       0,
+       0,
+       9.800520953287525e-22
+      ],
+      "alongG": 9.800520953287525e-22,
+      "norm": 9.800520953287525e-22
+     },
+     "shear": {
+      "nu": [
+       0,
+       0,
+       -2.1530430405159277e-21
+      ],
+      "alongG": -2.1530430405159277e-21,
+      "norm": 2.1530430405159277e-21
+     },
+     "k1Mirror": {
+      "nu": [
+       -4.780713488733423e-24,
+       0,
+       -9.800404350519507e-22
+      ],
+      "alongG": -9.800404350519507e-22,
+      "norm": 9.800520953287525e-22
+     }
+    },
+    "routeZ": 1.440008791621722e-32,
+    "routeR": 2.7527683666830674e-29,
+    "halfCurlTiltDeg": 25.011195442583098
+   },
+   {
+    "zKpc": 0.02,
+    "uPhi": 0.2479782318984649,
+    "rigid": 9.800520953287527e-22,
+    "halfCurlZ": -9.646942492921144e-23,
+    "halfCurlR": 4.5007382351010427e-23,
+    "shear": -2.1530430405159285e-21,
+    "cand": {
+     "halfCurl": {
+      "nu": [
+       4.5007382351010427e-23,
+       0,
+       -9.646942492921144e-23
+      ],
+      "alongG": -9.646942492921144e-23,
+      "norm": 1.0645193475114864e-22
+     },
+     "rigid": {
+      "nu": [
+       0,
+       0,
+       9.800520953287527e-22
+      ],
+      "alongG": 9.800520953287527e-22,
+      "norm": 9.800520953287527e-22
+     },
+     "shear": {
+      "nu": [
+       0,
+       0,
+       -2.1530430405159285e-21
+      ],
+      "alongG": -2.1530430405159285e-21,
+      "norm": 2.1530430405159285e-21
+     },
+     "k1Mirror": {
+      "nu": [
+       4.780713488733424e-24,
+       0,
+       -9.80040435051951e-22
+      ],
+      "alongG": -9.80040435051951e-22,
+      "norm": 9.800520953287527e-22
+     }
+    },
+    "routeZ": 1.442197562102953e-32,
+    "routeR": 2.752786362913831e-29,
+    "halfCurlTiltDeg": 25.011195442583116
+   }
+  ],
+  "split": {
+   "rCutKpc": 4,
+   "parts": [
+    {
+     "key": "center",
+     "uPhi": 0.04060491180223746,
+     "halfCurlZ": -8.738220132930099e-23,
+     "cand": {
+      "halfCurl": {
+       "nu": [
+        0,
+        0,
+        -8.738220132930098e-23
+       ],
+       "alongG": -8.738220132930098e-23,
+       "norm": 8.738220132930098e-23
+      },
+      "rigid": {
+       "nu": [
+        0,
+        0,
+        1.6047750880293445e-22
+       ],
+       "alongG": 1.6047750880293445e-22,
+       "norm": 1.6047750880293445e-22
+      },
+      "shear": {
+       "nu": [
+        0,
+        0,
+        -4.9571942026447085e-22
+       ],
+       "alongG": -4.9571942026447085e-22,
+       "norm": 4.9571942026447085e-22
+      },
+      "k1Mirror": {
+       "nu": [
+        0,
+        0,
+        -1.6047750880293445e-22
+       ],
+       "alongG": -1.6047750880293445e-22,
+       "norm": 1.6047750880293445e-22
+      }
+     }
+    },
+    {
+     "key": "residual",
+     "uPhi": 0.2074013146506459,
+     "halfCurlZ": -9.1689938213018e-24,
+     "cand": {
+      "halfCurl": {
+       "nu": [
+        0,
+        0,
+        -9.168993821301786e-24
+       ],
+       "alongG": -9.168993821301786e-24,
+       "norm": 9.168993821301786e-24
+      },
+      "rigid": {
+       "nu": [
+        0,
+        0,
+        8.196852257601798e-22
+       ],
+       "alongG": 8.196852257601798e-22,
+       "norm": 8.196852257601798e-22
+      },
+      "shear": {
+       "nu": [
+        0,
+        0,
+        -1.6577084391629632e-21
+       ],
+       "alongG": -1.6577084391629632e-21,
+       "norm": 1.6577084391629632e-21
+      },
+      "k1Mirror": {
+       "nu": [
+        0,
+        0,
+        -8.196852257601798e-22
+       ],
+       "alongG": -8.196852257601798e-22,
+       "norm": 8.196852257601798e-22
+      }
+     }
+    }
+   ],
+   "sumUVsFullRel": 1.119148338031826e-16,
+   "sumWVsFullRel": 4.504686960382292e-15
+  }
+ },
+ "grid": {
+  "rows": [
+   {
+    "nr": 48,
+    "np": 96,
+    "nz": 16,
+    "uPhi": 0.24677704793734254,
+    "uRel": -0.004956240547349014,
+    "cand": {
+     "halfCurl": {
+      "alongG": 1.7071681519972692e-22,
+      "rel": 2.7681481304652893
+     },
+     "rigid": {
+      "alongG": 9.75304812275072e-22,
+      "rel": -0.004956240547349052
+     },
+     "shear": {
+      "alongG": -1.6209720601863227e-21,
+      "rel": 0.24725964090697847
+     },
+     "k1Mirror": {
+      "alongG": -9.75304812275072e-22,
+      "rel": 0.004956240547349052
+     }
+    }
+   },
+   {
+    "nr": 96,
+    "np": 192,
+    "nz": 24,
+    "uPhi": 0.24871575712351768,
+    "uRel": 0.002860938940051723,
+    "cand": {
+     "halfCurl": {
+      "alongG": -2.6370032624387807e-22,
+      "rel": -1.73119691405739
+     },
+     "rigid": {
+      "alongG": 9.829669202980134e-22,
+      "rel": 0.0028609389400517556
+     },
+     "shear": {
+      "alongG": -2.5035629877036785e-21,
+      "rel": -0.16259431526503118
+     },
+     "k1Mirror": {
+      "alongG": -9.829669202980134e-22,
+      "rel": -0.0028609389400517556
+     }
+    }
+   },
+   {
+    "nr": 192,
+    "np": 384,
+    "nz": 32,
+    "uPhi": 0.2482618175820988,
+    "uRel": 0.0010305835174828919,
+    "cand": {
+     "halfCurl": {
+      "alongG": 2.0771135500442237e-23,
+      "rel": 1.2151307963411848
+     },
+     "rigid": {
+      "alongG": 9.81172874121806e-22,
+      "rel": 0.0010305835174830196
+     },
+     "shear": {
+      "alongG": -1.922825208466029e-21,
+      "rel": 0.10708631354974578
+     },
+     "k1Mirror": {
+      "alongG": -9.81172874121806e-22,
+      "rel": -0.0010305835174830196
+     }
+    }
+   },
+   {
+    "nr": 384,
+    "np": 768,
+    "nz": 48,
+    "uPhi": 0.24812076140037317,
+    "uRel": 0.00046182287085278325,
+    "cand": {
+     "halfCurl": {
+      "alongG": -1.540481858698607e-22,
+      "rel": -0.5955078094017728
+     },
+     "rigid": {
+      "alongG": 9.806153961310931e-22,
+      "rel": 0.0004618228708528701
+     },
+     "shear": {
+      "alongG": -2.2695698507105274e-21,
+      "rel": -0.05393354171333828
+     },
+     "k1Mirror": {
+      "alongG": -9.806153961310931e-22,
+      "rel": -0.0004618228708528701
+     }
+    }
+   }
+  ],
+  "signs": {
+   "halfCurl": {
+    "signs": [
+     1,
+     -1,
+     1,
+     -1
+    ],
+    "alternates": true,
+    "sameSign": false,
+    "lastRel": 1.134835313919176
+   },
+   "rigid": {
+    "signs": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "alternates": false,
+    "sameSign": true,
+    "lastRel": 0.0005681750947424636
+   },
+   "shear": {
+    "signs": [
+     -1,
+     -1,
+     -1,
+     -1
+    ],
+    "alternates": false,
+    "sameSign": true,
+    "lastRel": 0.152779894452662
+   },
+   "k1Mirror": {
+    "signs": [
+     -1,
+     -1,
+     -1,
+     -1
+    ],
+    "alternates": false,
+    "sameSign": true,
+    "lastRel": 0.0005681750947424636
+   }
+  },
+  "uLastRel": 0.00046182287085278325,
+  "ringSign": {
+   "halfCurl": -1,
+   "rigid": 1,
+   "shear": -1,
+   "k1Mirror": -1
+  }
+ },
+ "table": {
+  "rows": [
+   {
+    "key": "halfCurl",
+    "path1A": -0.000007403579133553588,
+    "path2AlongG": -9.655119515060239e-23,
+    "signAgree": true,
+    "needFactor": 76680346856456260,
+    "absRatio": 76680346856456260,
+    "norm": 9.655119515060239e-23,
+    "alongSunAxis": 3.7367197399372346e-23,
+    "sunAxisSignAgree": true,
+    "AJ": -0.000007403579133553588,
+    "center": -8.738220132930098e-23,
+    "residual": -9.168993821301786e-24,
+    "zMinus": -9.646942492921144e-23,
+    "zPlus": -9.646942492921144e-23,
+    "zMinusSunAxis": 3.411422901237219e-23,
+    "zPlusSunAxis": 4.0556872442373203e-23,
+    "gridSigns": [
+     1,
+     -1,
+     1,
+     -1
+    ],
+    "gridAlternates": true,
+    "gridSameSign": false,
+    "scaledUPhiOverC": 63434562.676583186
+   },
+   {
+    "key": "rigid",
+    "path1A": -0.000007403579133553588,
+    "path2AlongG": 9.801627345631142e-22,
+    "signAgree": false,
+    "needFactor": -7553418297272411,
+    "absRatio": 7553418297272411,
+    "norm": 9.801627345631142e-22,
+    "alongSunAxis": -3.7934211304995925e-22,
+    "sunAxisSignAgree": false,
+    "AJ": -0.000007403579133553588,
+    "center": 1.6047750880293445e-22,
+    "residual": 8.196852257601798e-22,
+    "zMinus": 9.800520953287525e-22,
+    "zPlus": 9.800520953287527e-22,
+    "zMinusSunAxis": -3.7929929350635806e-22,
+    "zPlusSunAxis": -3.792992935063581e-22,
+    "gridSigns": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "gridAlternates": false,
+    "gridSameSign": true,
+    "scaledUPhiOverC": 6248638.745697512
+   },
+   {
+    "key": "shear",
+    "path1A": -0.000007403579133553588,
+    "path2AlongG": -2.153427859427433e-21,
+    "signAgree": true,
+    "needFactor": 3438043722310761.5,
+    "absRatio": 3438043722310761.5,
+    "norm": 2.153427859427433e-21,
+    "alongSunAxis": 8.334186208986632e-22,
+    "sunAxisSignAgree": true,
+    "AJ": -0.000007403579133553588,
+    "center": -4.9571942026447085e-22,
+    "residual": -1.6577084391629632e-21,
+    "zMinus": -2.1530430405159277e-21,
+    "zPlus": -2.1530430405159285e-21,
+    "zMinusSunAxis": 8.332696884674611e-22,
+    "zPlusSunAxis": 8.332696884674614e-22,
+    "gridSigns": [
+     -1,
+     -1,
+     -1,
+     -1
+    ],
+    "gridAlternates": false,
+    "gridSameSign": true,
+    "scaledUPhiOverC": 2844155.1052972674
+   },
+   {
+    "key": "k1Mirror",
+    "path1A": -0.000007403579133553588,
+    "path2AlongG": -9.801627345631142e-22,
+    "signAgree": true,
+    "needFactor": 7553418297272411,
+    "absRatio": 7553418297272411,
+    "norm": 9.801627345631142e-22,
+    "alongSunAxis": 3.7934211304995925e-22,
+    "sunAxisSignAgree": true,
+    "AJ": -0.000007403579133553588,
+    "center": -1.6047750880293445e-22,
+    "residual": -8.196852257601798e-22,
+    "zMinus": -9.800404350519507e-22,
+    "zPlus": -9.80040435051951e-22,
+    "zMinusSunAxis": 3.789526098594073e-22,
+    "zPlusSunAxis": 3.796369516437994e-22,
+    "gridSigns": [
+     -1,
+     -1,
+     -1,
+     -1
+    ],
+    "gridAlternates": false,
+    "gridSameSign": true,
+    "scaledUPhiOverC": 6248638.745697512
+   }
+  ],
+  "frameAngDeg": 0,
+  "conditions": [
+   "宣言の模型 mw319b-tanh(円盤 4 + 静止のバルジ・V(R) = V0 tanh(R/R_t))・定常",
+   "太陽の位置 R_0 = 8.2 kpc・面上(高さの感度は ±0.02 kpc の列)",
+   "弱い場の一次の分子 u(Z = 1 + β で割らない —— 補正の割合は corrShare)",
+   "速度の基準は源の流れの銀河中心系(受け手の動きの項を数えない)",
+   "経路 1 は第326便d の接続(太陽の口は銀河だけ)・族 E・K1 は今のまま",
+   "伝達の候補は宣言(T_G の利得 1 —— 候補の量をそのまま ν_G に)"
+  ]
+ },
+ "rel": {
+  "OmMat": 9.089989318505708e-16,
+  "OmegaPattern": [
+   5.50932479205542e-16,
+   9.722337868333095e-16
+  ],
+  "OmBeta": 2.4723389499037764e-16,
+  "table": [
+   {
+    "key": "arm",
+    "ja": "腕のパターン(文献の範囲の中央)",
+    "axis": "ĝ",
+    "w": 7.615831330194257e-16,
+    "c": 1,
+    "apparentSign": 1,
+    "relSign": -1,
+    "threshold": null,
+    "relKind": "premise",
+    "relAtDirect": -0.000007403579133764238
+   },
+   {
+    "key": "matter",
+    "ja": "物質の公転 V(R_0)/R_0(宣言の模型の流れ)",
+    "axis": "ĝ",
+    "w": 9.089989318505708e-16,
+    "c": 1,
+    "apparentSign": 1,
+    "relSign": 0,
+    "threshold": 9.089989318505708e-16,
+    "relKind": "conditional",
+    "relAtDirect": -0.000007403579133616822
+   },
+   {
+    "key": "apiRigid",
+    "ja": "今の API の場の剛体の読み u_φ/R",
+    "axis": "ĝ",
+    "w": 9.801627345631142e-22,
+    "c": 1,
+    "apparentSign": 1,
+    "relSign": -1,
+    "threshold": null,
+    "relKind": "always",
+    "relAtDirect": -0.000007403579134525821
+   },
+   {
+    "key": "apiBeta",
+    "ja": "今の API の β で割った読み u_φ/(βR)(重みの平均の源の速さ)",
+    "axis": "ĝ",
+    "w": 2.4723389499037764e-16,
+    "c": 1,
+    "apparentSign": 1,
+    "relSign": -1,
+    "threshold": null,
+    "relKind": "always",
+    "relAtDirect": -0.000007403579134278588
+   },
+   {
+    "key": "apiHalfCurl",
+    "ja": "今の API の半渦度 (½∇×u)·ĝ",
+    "axis": "ĝ",
+    "w": -9.655119515060239e-23,
+    "c": 1,
+    "apparentSign": -1,
+    "relSign": -1,
+    "threshold": null,
+    "relKind": "always",
+    "relAtDirect": -0.000007403579134525822
+   },
+   {
+    "key": "sunG",
+    "ja": "太陽の自転の ĝ への射影 s(ĝ·â)",
+    "axis": "ĝ",
+    "w": -0.000001108938514579848,
+    "c": 1,
+    "apparentSign": -1,
+    "relSign": -1,
+    "threshold": null,
+    "relKind": "always",
+    "relAtDirect": -0.00000851251764910567
+   },
+   {
+    "key": "sunOwn",
+    "ja": "太陽の自転(自分の軸 â)",
+    "axis": "â_☉",
+    "w": 0.0000028653296576375425,
+    "c": -0.3870195220378814,
+    "apparentSign": 1,
+    "relSign": 1,
+    "threshold": null,
+    "relKind": "always",
+    "relAtDirect": 0.000005730659315651358
+   },
+   {
+    "key": "venusOwn",
+    "ja": "金星の自転(自分の軸 â)",
+    "axis": "â",
+    "w": -2.9924494208700665e-7,
+    "c": -0.4808097555667376,
+    "apparentSign": -1,
+    "relSign": 0,
+    "threshold": 6.223770183994753e-7,
+    "relKind": "conditional",
+    "relAtDirect": 0.0000032604681319033522
+   },
+   {
+    "key": "earthOwn",
+    "ja": "地球の自転(自分の軸 â)",
+    "axis": "â",
+    "w": 0.00007292115069816146,
+    "c": -0.45601108018142383,
+    "apparentSign": 1,
+    "relSign": 1,
+    "threshold": null,
+    "relKind": "always",
+    "relAtDirect": 0.00007629726481650522
+   },
+   {
+    "key": "jupiterOwn",
+    "ja": "木星の自転(自分の軸 â)",
+    "axis": "â",
+    "w": 0.00017585323433791654,
+    "c": -0.509453599360936,
+    "apparentSign": 1,
+    "relSign": 1,
+    "threshold": null,
+    "relKind": "always",
+    "relAtDirect": 0.00017962501437615425
+   },
+   {
+    "key": "ioOwn",
+    "ja": "イオの自転(自分の軸 â)",
+    "axis": "â",
+    "w": 0.00004110592854942084,
+    "c": -0.5100969546667986,
+    "apparentSign": 1,
+    "relSign": 1,
+    "threshold": null,
+    "relKind": "always",
+    "relAtDirect": 0.00004488247171957711
+   },
+   {
+    "key": "saturnOwn",
+    "ja": "土星の自転(自分の軸 â)",
+    "axis": "â",
+    "w": 0.0001637849899870424,
+    "c": -0.3644125312790564,
+    "apparentSign": 1,
+    "relSign": 1,
+    "threshold": null,
+    "relKind": "always",
+    "relAtDirect": 0.00016648294699997976
+   }
+  ],
+  "OmegaFieldDirect": 0.000007403579134525822,
+  "fasterThanArm": {
+   "apiRigid": false,
+   "apiBeta": false,
+   "apiRigidOverOpLo": 0.0000017790977507380443,
+   "apiBetaOverOpLo": 0.4487553453862348,
+   "matterInRange": true
+  },
+  "required": [
+   {
+    "key": "direct",
+    "gain": 1,
+    "OmRelReq": -0.000007403579133553588,
+    "consistent": true,
+    "overOmMat": -8144761092.822332,
+    "slip": 0.000007403579133553588,
+    "fieldRange": [
+     0.00000740357913410452,
+     0.000007403579134525822
+    ],
+    "fieldPeriodS": 848668.6228156473
+   },
+   {
+    "key": "halfCurl",
+    "gain": -1.0621706117304252e-7,
+    "OmRelReq": 69.70235338645001,
+    "consistent": false,
+    "overOmMat": 76680346856456260,
+    "slip": -69.70235338645001,
+    "fieldRange": null,
+    "fieldPeriodS": null
+   },
+   {
+    "key": "rigid",
+    "gain": 0.0000010782881037799084,
+    "OmRelReq": -6.866049164041179,
+    "consistent": true,
+    "overOmMat": -7553418297272411,
+    "slip": 6.866049164041179,
+    "fieldRange": [
+     6.86604916404118,
+     6.86604916404118
+    ],
+    "fieldPeriodS": 0.9151092800333905
+   },
+   {
+    "key": "shear",
+    "gain": -0.000002369010329905902,
+    "OmRelReq": 3.125178071236043,
+    "consistent": false,
+    "overOmMat": 3438043722310761.5,
+    "slip": -3.125178071236043,
+    "fieldRange": null,
+    "fieldPeriodS": null
+   },
+   {
+    "key": "k1Mirror",
+    "gain": -0.0000010782881037799084,
+    "OmRelReq": 6.866049164041179,
+    "consistent": false,
+    "overOmMat": 7553418297272411,
+    "slip": -6.866049164041179,
+    "fieldRange": null,
+    "fieldPeriodS": null
+   }
+  ],
+  "premise": "Ω_field > Ω_arm > 0(腕は場に引きずられる —— AN536 の仮定)・場の軸は ĝ のまま(反転しない)",
+  "gainAssumption": "Ω_mat = V(R_0)/R_0(宣言の模型の流れの太陽の位置の角速度) を単位に、場に対する源の流れが見た目の流れと同じ形(Ω_rel/Ω_mat 倍)と置く —— 剛体の差の場(Ω_frame ĝ × x′ を引いた流れ)は今の API に無い"
+ },
+ "handoff": {
+  "rows": [
+   {
+    "key": "u",
+    "ja": "u[3](m/s —— 銀河中心系)",
+    "need": "全部の候補(rigid・k1Mirror は u だけ)",
+    "have": true
+   },
+   {
+    "key": "gradU",
+    "ja": "∇u[9](∂u_a/∂x_b —— 1/s)",
+    "need": "halfCurl・shear(勾配の候補)",
+    "have": true
+   },
+   {
+    "key": "dUdt",
+    "ja": "∂_t u と定常の宣言(定常なら 0・定常でなければ null —— 0 で埋めない)",
+    "need": "仕事の帳簿(場の時間変化の仕事)",
+    "have": true
+   },
+   {
+    "key": "sourceId",
+    "ja": "由来 ID(成分の持ち主の宣言 —— 項ごとの key・coef・owns)",
+    "need": "口ごとの熱を由来ごとに分ける",
+    "have": true
+   },
+   {
+    "key": "parts",
+    "ja": "項ごとの u・∇u(中心と残余の重ならない分割)",
+    "need": "由来ごとの ν_G",
+    "have": true
+   },
+   {
+    "key": "velocityRef",
+    "ja": "速度の基準(今は源の流れの銀河中心系に固定の文字列)",
+    "need": "AN536 の場の枠(回転する枠 Ω_frame の入力)",
+    "have": true
+   },
+   {
+    "key": "frameInput",
+    "ja": "回転する枠の入力(Ω_frame —— 源の速さから Ω_frame ĝ × x′ を引いた場)",
+    "need": "AN536 の Ω_rel を場の API の中で作る(同じ形の仮定を外す)",
+    "have": false
+   },
+   {
+    "key": "fieldOmega",
+    "ja": "場の角速度の宣言 Ω_field(腕より速い場 —— 仮定の入力)",
+    "need": "AN536 の前提を宣言として持つ",
+    "have": false
+   },
+   {
+    "key": "torqueWork",
+    "ja": "仕事とトルクの帳簿(受け手ごとの N・供給 N·ν・熱 —— 由来 ID つき)",
+    "need": "銀河の中心の供給 = 熱 = 放射(第326便d の帳簿へ渡す)",
+    "have": false
+   },
+   {
+    "key": "curlResolved",
+    "ja": "半渦度の収束の印(格子の和の符号の安定 —— 環の積分の経路の誤差とは別)",
+    "need": "低い N の本で curl を使う前の門",
+    "have": false
+   },
+   {
+    "key": "routeError",
+    "ja": "照合の別経路の差(中心差分)",
+    "need": "勾配の候補の誤差の見積り",
+    "have": true
+   },
+   {
+    "key": "normalization",
+    "ja": "正規化の量(β・∇β・Z = 1 + β の項)",
+    "need": "u/β の読み(重みの平均の源の速さ)",
+    "have": true
+   }
+  ],
+  "missing": [
+   "frameInput",
+   "fieldOmega",
+   "torqueWork",
+   "curlResolved"
+  ],
+  "have": [
+   "u",
+   "gradU",
+   "dUdt",
+   "sourceId",
+   "parts",
+   "velocityRef",
+   "routeError",
+   "normalization"
+  ]
+ },
+ "pure": {
+  "scenes": {
+   "rigid": {
+    "halfCurl": 8.101948223610913e-16,
+    "rigid": 8.101948223610913e-16,
+    "shear": 0,
+    "k1Mirror": -8.101948223610913e-16
+   },
+   "flat": {
+    "halfCurl": 4.0509741118054567e-16,
+    "rigid": 8.101948223610913e-16,
+    "shear": -8.101948223610913e-16,
+    "k1Mirror": -8.101948223610913e-16
+   },
+   "kepler": {
+    "halfCurl": 2.0254870559027283e-16,
+    "rigid": 8.101948223610913e-16,
+    "shear": -1.215292233541637e-15,
+    "k1Mirror": -8.101948223610913e-16
+   },
+   "steep": {
+    "halfCurl": -4.0509741118054567e-16,
+    "rigid": 8.101948223610913e-16,
+    "shear": -2.430584467083274e-15,
+    "k1Mirror": -8.101948223610913e-16
+   },
+   "rotate": 1.6227802734369745e-16,
+   "linear": 0,
+   "mirror": {
+    "plane": -1,
+    "deg45": -1.7212184035845673e-16,
+    "nearAxis": 0.9999999999979999
+   },
+   "sign": {
+    "arm": {
+     "app": 1,
+     "rel": -1,
+     "kind": "premise",
+     "th": null
+    },
+    "mat": {
+     "app": 1,
+     "rel": 0,
+     "kind": "conditional",
+     "th": 2.5
+    },
+    "slow": {
+     "app": 1,
+     "rel": -1,
+     "kind": "always",
+     "th": null
+    },
+    "bodyG": {
+     "app": -1,
+     "rel": -1,
+     "kind": "always",
+     "th": null
+    },
+    "bodyOwn": {
+     "app": 1,
+     "rel": 1,
+     "kind": "always",
+     "th": null
+    }
+   },
+   "signAt4": {
+    "arm": -1.5,
+    "bodyOwn": 2.6,
+    "bodyOwnExpect": 2.6
+   },
+   "rejectFlip": true,
+   "req": {
+    "pos": {
+     "gain": 0.5,
+     "OmRelReq": -4,
+     "consistent": true
+    },
+    "neg": {
+     "gain": -0.5,
+     "OmRelReq": 4,
+     "consistent": false
+    }
+   },
+   "twoPath": {
+    "keys": [
+     "key",
+     "path1A",
+     "path2AlongG",
+     "signAgree",
+     "needFactor",
+     "absRatio"
+    ],
+    "needX": -4,
+    "agreeY": true,
+    "absY": 2000
+   },
+   "grid": {
+    "alt": {
+     "signs": [
+      1,
+      -1,
+      1,
+      -1
+     ],
+     "alternates": true,
+     "sameSign": false,
+     "lastRel": 1.2
+    },
+    "same": {
+     "signs": [
+      -1,
+      -1,
+      -1,
+      -1
+     ],
+     "alternates": false,
+     "sameSign": true,
+     "lastRel": 0.043478260869565064
+    }
+   },
+   "onePort": {
+    "A": 3.701631435361851,
+    "expect": 3.701631435361851,
+    "rejectPerp": true
+   }
+  },
+  "gates": {
+   "rigidField": true,
+   "flatCurve": true,
+   "keplerCurve": true,
+   "halfCurlSignNotRotation": true,
+   "rotationCovariant": true,
+   "linearInFlow": true,
+   "mirrorGeometry": true,
+   "signTablePremise": true,
+   "relativeProjection": true,
+   "fieldAxisNotFlipped": true,
+   "requiredRel": true,
+   "twoPathNoAverage": true,
+   "gridSigns": true,
+   "onePort": true
+  }
+ },
+ "timing": {
+  "path1": {
+   "wallSec": 0.32
+  },
+  "path2": {
+   "wallSec": 5.698
+  },
+  "grid": {
+   "wallSec": 7.146
+  },
+  "TRH": {
+   "wallSec": 7.147
+  }
+ },
+ "gates": {
+  "pure": true,
+  "path1OnePort": true,
+  "path2Api": true,
+  "splitSums": true,
+  "frameSame": true,
+  "twoPathColumns": true,
+  "scaleGap": true,
+  "curlCaution": true,
+  "signTable": true,
+  "fieldAxisNotFlipped": true,
+  "apiNotFasterThanArm": true,
+  "handoff": true
+ },
+ "ok": true,
+ "elapsedS": 8.754,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第327便b",
+  "target": "beta/index.html",
+  "targetSha256": "24c740714d1eb8c1ee8795ff0fa353613ebe2417c7a9d28942ec3e2eb066f83a",
+  "generatedAt": "2026-11-05T00:58:13.247Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7655546,
+    "sha256": "24c740714d1eb8c1ee8795ff0fa353613ebe2417c7a9d28942ec3e2eb066f83a",
+    "mtime": "2026-11-05T00:23:38.689Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w327b-galaxis.mjs",
+    "bytes": 21335,
+    "sha256": "49c16fe50ff06ac7b5be5c308f77bb6a86a769d4dfb136e4f365a6f9b0dff915",
+    "mtime": "2026-11-05T00:56:36.374Z"
+   },
+   {
+    "file": "tests/lib-w327b-galaxis.mjs",
+    "bytes": 23613,
+    "sha256": "c332f4c60d2ea6f0228a7e995ed99a3e1af6418c550680e19f6ff23be01dd054",
+    "mtime": "2026-11-05T00:45:50.135Z"
+   },
+   {
+    "file": "tests/lib-w321c-galfield.mjs",
+    "bytes": 29045,
+    "sha256": "88c79fb3873c9c46b1949017d3ab2531109f647458816de3dac04924afdb0108",
+    "mtime": "2026-11-05T00:23:39.097Z"
+   },
+   {
+    "file": "tests/lib-w320c-nbcompose.mjs",
+    "bytes": 25953,
+    "sha256": "21f1ceba1d96e85fcbd92dbb6b1f6ffa47f130d1d02880ed23c221971dddd1f4",
+    "mtime": "2026-11-05T00:23:39.093Z"
+   },
+   {
+    "file": "tests/lib-w319b-srcradius.mjs",
+    "bytes": 30288,
+    "sha256": "6bf633cc248c1c2ac02e1d29fa964058436b8d609577116cad38c271406842be",
+    "mtime": "2026-11-05T00:23:39.093Z"
+   },
+   {
+    "file": "tests/lib-w319a-axisheat.mjs",
+    "bytes": 14679,
+    "sha256": "8e9e99edcfe249d94ff151b0cd8d4cd6d7df50050aaeb618781e33aef5f9f70b",
+    "mtime": "2026-11-05T00:23:39.093Z"
+   },
+   {
+    "file": "tests/exp-w326d-axialheat.mjs",
+    "bytes": 38705,
+    "sha256": "ac5290408227d36951b483e3d8272bea59557c0a68d7016e2c7706fc23feb842",
+    "mtime": "2026-11-05T00:23:39.029Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 29449,
+    "sha256": "d6d4dca6f76f91fdac2e40012d5bbbf0a5503dcf1ae2092472cc8dbec6197c43",
+    "mtime": "2026-11-05T00:23:39.101Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-11-05T00:23:39.065Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-11-05T00:23:39.065Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-05T00:23:39.057Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 99653,
+    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
+    "mtime": "2026-11-05T00:23:39.073Z"
+   }
+  ],
+  "codeSha256": "781e6ff1be525cf2683b1db7f8f43324064530f0210ce8188c1eaf1017c524d6",
+  "harnessVersion": "w327b-galaxis-1",
+  "stage": "galaxis",
+  "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)と第321便c の場の API の純関数",
+  "notClaim": [
+   "銀河場の同定と数えない(二つの経路を別の列に並べ、倍率と条件を記録する)",
+   "腕より速い場は観測の量ではない(Ω_field > Ω_arm は AN536 の仮定)",
+   "A は太陽の口が銀河だけという接続の帰結(同定の値ではない)",
+   "半渦度を今の軸引きずりと同じ量と書かない(伝達の候補の 1 つ)",
+   "二つの経路を平均しない",
+   "場の軸を反転しない(逆向きは場に対する相対の角速度の符号)",
+   "点のセルの和の半渦度は格子で符号が交互(u が近いことを curl の収束とみなさない)",
+   "回転曲線の予言ではない(流れは宣言の入力)"
+  ],
+  "scope": {
+   "version": "w326e-scope-7",
+   "presets": [
+    "jupiterGalilean",
+    "jupiterSunInertial3d",
+    "marsSunInertial3d",
+    "mercury",
+    "mercurySunInertial3d",
+    "neptuneSunInertial3d",
+    "saturn",
+    "saturnRingReal",
+    "saturnSunInertial3d",
+    "solarSystem16Inertial3d",
+    "uranusSunInertial3d",
+    "venusSunInertial3d"
+   ],
+   "roots": [
+    "$",
+    "HP.REL_DRAG_INVSQ_SRC_MOMENT_VERSION",
+    "HP.REL_DRAG_INVSQ_VERSION",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.inertialDragIsqState",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "ab",
+    "ch",
+    "ctx",
+    "cw",
+    "inertialDragGalaxyAxialState",
+    "pnSource"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1386,
+   "segments": 1212,
+   "closureShare": 0.2995
+  },
+  "scopeSha256": "0cd14763b60b4d3e82c3bef40c6469a881c95968ec5bfbc05ca0e396b2525d60",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

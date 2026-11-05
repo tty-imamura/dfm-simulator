@@ -665,6 +665,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.alwaysShadow326e lint.familiesTemp326e 
 #   lint.scopeStop・lint.scopeAll312・lint.regenChain・lint.canon304・lint.harnessSmoke303・lint.quickBoundary324c)・qa.mjs の包みの lint.qaHeapRelease310・PHYSICS の節の lint.sectionLookup313
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.axialSum327a behavior.axialSum327a docs.axialSum327a lint.axialHeat326d docs.axialHeat326d behavior.axialRadius326d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第327便a の塊(ここまで)====
+# ==== 第327便b の塊(ここから)====
+# 第327便b(原仮定者の回答(2026-11-05 —— AN536)・統括の検証項目 R296 —— 診断だけ): 枝 b の新設 3 本(lint.galaxis327b —— 純関数の場面〔剛体回転・平らな曲線・ケプラーの半渦度とシア・
+#   鏡映の核の向き・AN536 の符号の表・場の軸の反転の拒否・要る相対の角速度・平均の列が無い・格子の符号・口が 1 つの和の式〕と呼ぶだけの検査 / behavior.galaxis327b —— 今の html と
+#   場の API で二つの経路を作り直して正本と照合 / docs.galaxis327b —— 正本の門と表が PHYSICS〔第327便b〕に逐語・文書)と、新しい段 galaxis-327b の lint 一式(lint.regenScope・lint.provenanceMeta・
+#   lint.stableHashPaths・lint.scopeStop・lint.scopeAll312・lint.regenChain・lint.canon304・lint.harnessSmoke303・lint.quickBoundary324c)・qa.mjs の包みの lint.qaHeapRelease310・PHYSICS の節の lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.galaxis327b behavior.galaxis327b docs.galaxis327b lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第327便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
