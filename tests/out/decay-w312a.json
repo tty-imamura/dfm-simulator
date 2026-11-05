@@ -3,7 +3,7 @@
  "libVersion": "w312a-decay-lib-1",
  "generator": "tests/exp-w312a-decay.mjs",
  "target": "beta/index.html",
- "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "ruling": "原仮定者の裁定(第114報)AN398 —— R_d² が惑星の質量 × 軌道の半直弦に比例する結果は、距離に応じた引きずりの減衰が強すぎる可能性(r⁻³ なら r⁻² などを調査・軸引きずりだけ違う場合・受け側の質量が影響する場合も)・決断事項 AN398・統括の検証項目 R230",
  "kernelVersion": "w312a-invsq-k1-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -2042,31 +2042,31 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.541
+   "wallSec": 0.431
   },
   "P": {
-   "wallSec": 0.893
+   "wallSec": 0.748
   },
   "S": {
-   "wallSec": 0.16
+   "wallSec": 0.155
   },
   "E": {
-   "wallSec": 1.345
+   "wallSec": 1.274
   }
  },
- "elapsedS": 5.357,
+ "elapsedS": 4.129,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第312便a",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T12:51:59.776Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:25:54.655Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2082,17 +2082,17 @@
    },
    {
     "file": "tests/out/planet3-w311d.json",
-    "bytes": 81175,
-    "sha256": "9936ab7c54f8cdf5f80818b5c1cd0106db7834a26fd07c7d9e8d962fdff2fd66",
-    "mtime": "2026-11-04T12:33:28.049Z"
+    "bytes": 81186,
+    "sha256": "e89ff312968eed1925f456882be46b8b735a7c96466c8fc0e74654dd92299b91",
+    "mtime": "2026-11-05T09:27:36.895Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w312a-decay.mjs",
-    "bytes": 41189,
-    "sha256": "ed8928f41ce0d6c1de79ff5ff4b94ae0bdb3fc3580a0ac890fc1dcfb8f37d74d",
-    "mtime": "2026-10-25T16:42:07.805Z"
+    "bytes": 41204,
+    "sha256": "d1e2c750e92c7e827f65092d7d86b15cc624d1d21052e70a3e7bbe1c9667ba9e",
+    "mtime": "2026-11-05T03:10:54.290Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -2150,12 +2150,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "4170af870fec2b343a3bea39ca263621b214637d4b5a24d84449f95da3c6102a",
+  "codeSha256": "723956c5d038663eae706468dffd980df2ff46c026a457f4f924431b8770c13d",
   "harnessVersion": "w312a-decay-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2167,7 +2167,7 @@
    "収束した"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "earthMoonSunInertial3d",
     "jupiterSunInertial3d",
@@ -2201,11 +2201,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1388,
-   "segments": 1214,
-   "closureShare": 0.3003
+   "abBody": false,
+   "names": 1351,
+   "segments": 1188,
+   "closureShare": 0.2943
   },
-  "scopeSha256": "2dbf845b28cc1a8b7937d69b849b1bdef7df95f90e578c3655fa1506f2739642",
+  "scopeSha256": "dc9b0d5db3b3e3ef62bb5ece5949bcf93a2d8ab8c0eae4b0d089e5131c2188e6",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -2222,7 +2223,7 @@
    },
    {
     "file": "tests/out/planet3-w311d.json",
-    "stableSha256": "e6665a27b25628e7fe77f46ead7dc705a32a039121c60b6115a6e1108d5e70aa",
+    "stableSha256": "e0861f291617a25058ce0e6e079b14c022a5c1e463240aa643c0d29245e2b076",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/E/rows/*/wallSec",

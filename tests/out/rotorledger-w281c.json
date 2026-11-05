@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第281便c",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T15:36:31.143Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:26:10.309Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -22,9 +22,9 @@
   "code": [
    {
     "file": "tests/exp-w281c-rotorledger.mjs",
-    "bytes": 11391,
-    "sha256": "29a6aef33cd3552f775366d739cb29c88d9e7ea641ff7d9b24a538193081ddb6",
-    "mtime": "2026-11-04T15:36:30.440Z"
+    "bytes": 11406,
+    "sha256": "b798e540d1d48601cdf31f6dd48fa858dd4f2799eb705bbf22aab16a4aacd6f5",
+    "mtime": "2026-11-05T03:10:54.238Z"
    },
    {
     "file": "tests/lib-w281c-rotorledger.mjs",
@@ -45,9 +45,9 @@
     "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
-  "codeSha256": "7aadfae3b1ddfbdc66598b6acf5787b5cbcbee8fa53f47d0f7c1d000bcd6845a",
+  "codeSha256": "e1af05a1ae20a09aa021bff24b5ec0255881edd286bdc5d618a147fa4aec7b94",
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": "all",
    "roots": [
     "HP.allPresets",
@@ -62,11 +62,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1363,
-   "segments": 1189,
-   "closureShare": 0.2938
+   "abBody": false,
+   "names": 1326,
+   "segments": 1163,
+   "closureShare": 0.2877
   },
-  "scopeSha256": "0cc6e952c6d47f6a58e97bcb5672555672e9e49d752de64bd391e12f32a4f868",
+  "scopeSha256": "c5ef49490c2bb2b2f881da8544b5363ecfda0586e8df75d97dfdb8d6631dadf3",
   "scopeComplete": true
  },
  "note": "条件付き台帳(仮定の 3 シナリオ)と η 対照(仮説)。観測との一致や検出を主張しない。較正母集団に入れない。🛞 の既定は追加 0(現状)。",
@@ -313,6 +314,6 @@
   "ratio2x": 2.0067164757942177,
   "ratio4x": 4.040636351480498
  },
- "headlessMs": 315,
+ "headlessMs": 210,
  "headlessErrors": 0
 }

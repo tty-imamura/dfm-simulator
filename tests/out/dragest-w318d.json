@@ -3,7 +3,7 @@
  "libVersion": "w318d-dragest-lib-1",
  "generator": "tests/exp-w318d-dragest.mjs",
  "target": "beta/index.html",
- "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "reuseFrom": null,
  "ruling": "原仮定者の指示(第120報)「引きずりについて」(銀河の並進は規約で無視・ハローを銀河の回転引きずりで見積もり M_drag と見える質量を比べる・太陽系の逆向きの自転を銀河の軸引きずりの影響と仮定・太陽の回転引きずりが公転面を安定させ・太陽の軸引きずりが金星の自転を逆転させ木星を加熱すると仮定)・決断事項 AN438・統括の検証項目 R257。見積りの材料(規則・在位の本・エンジンの式は変えない —— 新しい法則は足さない)",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -2904,7 +2904,7 @@
      3.5598507439180858,
      0.056213538280470314
     ],
-    "wallSec": 2.252,
+    "wallSec": 1.621,
     "nan": false
    },
    "on|2": {
@@ -2920,7 +2920,7 @@
      3.5656899968253404,
      0.05743818512910459
     ],
-    "wallSec": 4.589,
+    "wallSec": 3.713,
     "nan": false
    },
    "off|1": {
@@ -2936,7 +2936,7 @@
      3.5598507439180858,
      0.056213538280470314
     ],
-    "wallSec": 1.926,
+    "wallSec": 1.822,
     "nan": false
    },
    "off|2": {
@@ -2952,7 +2952,7 @@
      3.5656899968253404,
      0.05743818512910459
     ],
-    "wallSec": 3.652,
+    "wallSec": 3.162,
     "nan": false
    }
   },
@@ -3092,37 +3092,37 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.079
+   "wallSec": 0.116
   },
   "B": {
-   "wallSec": 33.943
+   "wallSec": 26.818
   },
   "C": {
-   "wallSec": 0.26
+   "wallSec": 0.195
   },
   "DE": {
-   "wallSec": 0.138
+   "wallSec": 0.117
   },
   "Drun": {
-   "wallSec": 12.437
+   "wallSec": 10.342
   },
   "F": {
    "wallSec": 0.012
   }
  },
- "elapsedS": 49.009,
+ "elapsedS": 39.987,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第318便d",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T10:02:25.545Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T09:48:10.246Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/data-w318c-solar16-input.json",
@@ -3140,9 +3140,9 @@
   "code": [
    {
     "file": "tests/exp-w318d-dragest.mjs",
-    "bytes": 39569,
-    "sha256": "73f324003aa00d83ee240fbeab00afc7acbbd23a8b921b73ce18bb58adf559da",
-    "mtime": "2026-10-28T16:33:38.620Z"
+    "bytes": 39584,
+    "sha256": "d320a2535ff3cc910ec07564d23ed98df4d187223cd83e96c079e48fb892840f",
+    "mtime": "2026-11-05T03:10:54.302Z"
    },
    {
     "file": "tests/lib-w318d-dragest.mjs",
@@ -3182,12 +3182,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "63b49116dfad5875ceb64bbc3c9ddbccb3af6f477e558f30fb1bc278a0141847",
+  "codeSha256": "56518aa4691e5fab517040f59a23a487aca615987e981132fd1d0a36d9c0e34b",
   "harnessVersion": "w318d-dragest-1",
   "stage": "dragest",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
@@ -3206,7 +3206,7 @@
    "観測の 3σ の合否を付けない"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "jupiterGalilean",
     "jupiterSunInertial3d",
@@ -3243,11 +3243,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1386,
-   "segments": 1212,
-   "closureShare": 0.2995
+   "abBody": false,
+   "names": 1349,
+   "segments": 1186,
+   "closureShare": 0.2935
   },
-  "scopeSha256": "9bf80fe3b031f8c58108827a25ef5e990b042c2309351764fb737d516fa6e19d",
+  "scopeSha256": "8219fd22de89b473f46b30d1a6445cb6eeadcc73103f7f6994fcc367cb52823f",
   "scopeComplete": true,
   "inputsStable": [
    {

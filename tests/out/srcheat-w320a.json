@@ -3,7 +3,7 @@
  "libVersion": "w320a-srcheat-lib-1",
  "generator": "tests/exp-w320a-srcheat.mjs",
  "target": "beta/index.html",
- "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "reuseFrom": null,
  "ruling": "原仮定者の回答(2026-10-30 —— AN475)「減速させる側の引きずりを背景宇宙が補う分も熱に数える」・原仮定者の裁定(第122報)AN471「案3(J)を確かめる。案2bは次点。様々な可能性を探索する」・決断事項 AN471・AN474・AN475・統括の検証項目 R262。balance:\"background\" の版を上げた読み (b) と源のモーメントの半径 invSq.sourceMoment(J・obs・capObs)を在位の本の写しで測る(在位の本の宣言は変えない)",
  "balanceVersion": "w320a-axishold-balance-2",
@@ -12969,54 +12969,54 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.002
+   "wallSec": 0.005
   },
   "A": {
-   "wallSec": 0.029
+   "wallSec": 0.022
   },
   "Q": {
-   "wallSec": 0.201
+   "wallSec": 0.246
   },
   "B": {
-   "wallSec": 4.969
+   "wallSec": 4.203
   },
   "R": {
-   "wallSec": 0.557
+   "wallSec": 0.493
   },
   "F": {
    "wallSec": 0.001
   },
   "TS": {
-   "wallSec": 0.056
+   "wallSec": 0.038
   }
  },
- "elapsedS": 8.135,
+ "elapsedS": 6.794,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第320便a",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T10:30:52.985Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:25:35.960Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/out/srcradius-w319b.json",
-    "bytes": 133013,
-    "sha256": "15cd6c914759e5958461c27cdb8befafdb9f8e205018546d476f38227ec0cdca",
-    "mtime": "2026-11-04T09:52:12.008Z"
+    "bytes": 133031,
+    "sha256": "8fcf9c3dd48d64612225a2b94883b49c8ec792f2bc487b598b1acdfdcac0fe81",
+    "mtime": "2026-11-05T09:43:38.407Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w320a-srcheat.mjs",
-    "bytes": 37042,
-    "sha256": "f1ce7d9c54fe3dc5383f7d491f742c63bf142543938dc53c0cebcc49d7841119",
-    "mtime": "2026-10-31T03:14:16.312Z"
+    "bytes": 37057,
+    "sha256": "073c7756a83a26576704f2e1d4c2808bc7931cba0c262636ec7e642b85960547",
+    "mtime": "2026-11-05T03:10:54.311Z"
    },
    {
     "file": "tests/lib-w320a-srcheat.mjs",
@@ -13044,12 +13044,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "06db04517ed4fecfa14b06f386a502f63469af3a63a91d72edc99fff40e7b511",
+  "codeSha256": "550bce510f250446fe83d4fd6445450d2c0f82b450aeef85f9ca10e139d472d1",
   "harnessVersion": "w320a-srcheat-1",
   "stage": "srcheat",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
@@ -13070,7 +13070,7 @@
    "刻みの差を収束の判定に使わない(感度診断)"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "jupiterSunInertial3d",
     "solarSystem16Inertial3d",
@@ -13102,16 +13102,17 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1400,
-   "segments": 1226,
-   "closureShare": 0.3021
+   "abBody": false,
+   "names": 1363,
+   "segments": 1200,
+   "closureShare": 0.296
   },
-  "scopeSha256": "c3275bc2a5c987ebdd4866e10be3243f6203ca1c4e95b64cf30902371900128f",
+  "scopeSha256": "1a0714b06e9300bdb5d3f7d5df87cfa02d43fe1956fb3a38cbbbad3f07cde0e8",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/srcradius-w319b.json",
-    "stableSha256": "b27e515583257eb0c07fcb454ea851376e7b99ecf9f0a16ae6b95a33091afc9c",
+    "stableSha256": "bb4d7173d03f05c91388a00b9f0189dda878c22dd3f0c557275c0fe52ebeb413",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

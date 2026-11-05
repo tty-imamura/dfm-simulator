@@ -3,7 +3,7 @@
  "libVersion": "w326d-axialheat-lib-2",
  "generator": "tests/exp-w326d-axialheat.mjs",
  "target": "beta/index.html",
- "targetSha256": "24c740714d1eb8c1ee8795ff0fa353613ebe2417c7a9d28942ec3e2eb066f83a",
+ "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "reuseFrom": null,
  "ruling": "原仮定者の指示(第128報)「軸引きずりについて」(太陽系の全天体は銀河の回転由来の軸引きずり・惑星と衛星は太陽由来・イオは木星由来 —— 太陽–金星・太陽–木星–イオの自転で銀河の軸引きずりの方程式を解く/観測の自転は軸引きずりと潮汐の合算・自転軸は遠方宇宙に対して固定・由来ごとの差分のトルクを内部熱へ・逆向きは打ち消さない/歳差は無視/エネルギーの出所は銀河の中心〔変化は無視〕・最後は背景宇宙へ放射)・「引きずり計算の補足」(引きずる側と引きずられる側の計算上の半径を別々に設定可能)・統括の検証項目 R293",
  "decl": {
@@ -1683,19 +1683,19 @@
  },
  "timing": {
   "I": {
-   "wallSec": 0.114
+   "wallSec": 0.109
   },
   "K": {
-   "wallSec": 0.322
+   "wallSec": 0.337
   },
   "S": {
-   "wallSec": 0.33
+   "wallSec": 0.348
   },
   "HVCN": {
-   "wallSec": 0.341
+   "wallSec": 0.367
   },
   "R": {
-   "wallSec": 0.748
+   "wallSec": 0.864
   }
  },
  "gates": {
@@ -1713,66 +1713,66 @@
   "radius": true
  },
  "ok": true,
- "elapsedS": 3.751,
+ "elapsedS": 2.799,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第326便d",
   "target": "beta/index.html",
-  "targetSha256": "24c740714d1eb8c1ee8795ff0fa353613ebe2417c7a9d28942ec3e2eb066f83a",
-  "generatedAt": "2026-11-05T00:38:32.046Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:25:57.771Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "24c740714d1eb8c1ee8795ff0fa353613ebe2417c7a9d28942ec3e2eb066f83a",
-    "mtime": "2026-11-05T00:23:36.389Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w326d-axialheat.mjs",
-    "bytes": 38705,
-    "sha256": "ac5290408227d36951b483e3d8272bea59557c0a68d7016e2c7706fc23feb842",
-    "mtime": "2026-11-05T00:23:36.977Z"
+    "bytes": 38720,
+    "sha256": "c1dc3ade3425c332b8c5c4a2665b7d81467eeefdda857905de4b4d9f17f564bb",
+    "mtime": "2026-11-05T03:10:54.314Z"
    },
    {
     "file": "tests/lib-w326d-axialheat.mjs",
     "bytes": 32001,
     "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
-    "mtime": "2026-11-05T00:38:06.381Z"
+    "mtime": "2026-11-05T02:28:43.830Z"
    },
    {
     "file": "tests/lib-w319a-axisheat.mjs",
     "bytes": 14679,
     "sha256": "8e9e99edcfe249d94ff151b0cd8d4cd6d7df50050aaeb618781e33aef5f9f70b",
-    "mtime": "2026-11-05T00:23:37.049Z"
+    "mtime": "2026-10-30T11:12:10.075Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-05T00:23:37.017Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-05T00:23:37.017Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-05T00:23:37.009Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-05T00:23:37.025Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "9122cadd3a42f69fb38b2f61719b3a4fb0a8dc33e473e37f06f7fc80b882f2ce",
+  "codeSha256": "6bc84c7a8ae24b94793d6cd8a0582c4aa9c37907318e0f82851e1e2f3985c125",
   "harnessVersion": "w326d-axialheat-1",
   "stage": "axialheat",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
@@ -1787,7 +1787,7 @@
    "恒星の点火は同じ帳簿の応用(本便は解かない)"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "solarSystem16Inertial3d"
    ],
@@ -1806,11 +1806,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1385,
-   "segments": 1211,
-   "closureShare": 0.299
+   "abBody": false,
+   "names": 1348,
+   "segments": 1185,
+   "closureShare": 0.293
   },
-  "scopeSha256": "7196657b90c54cdb5cc1689c24fac2faca70f86feac43226267cf3f5ca1d1e28",
+  "scopeSha256": "9bfae0f15d03aa4117d99f284bec93f5995676ddafdd59fbd5735face8ec0aa1",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

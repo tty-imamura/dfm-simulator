@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第304便a",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T09:57:02.808Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T09:48:55.580Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -28,9 +28,9 @@
   "code": [
    {
     "file": "tests/exp-w304a-shell.mjs",
-    "bytes": 37509,
-    "sha256": "3fb7aaaabb18131a4bcd2b99da60ca455b909d84f66f7b5d2d497f137dce151f",
-    "mtime": "2026-10-30T11:33:02.838Z"
+    "bytes": 37536,
+    "sha256": "a8f57db2c4601a70df662d820f430115604a856a71ca3da076d2d38211c330c6",
+    "mtime": "2026-11-05T03:10:54.280Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -40,9 +40,9 @@
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
-    "bytes": 52861,
-    "sha256": "266dda8f0884604421d04b2bb03398260bebd9b0f761d47861160309149bbe8a",
-    "mtime": "2026-10-30T11:33:02.834Z"
+    "bytes": 52888,
+    "sha256": "33bc2b4c801d143a33bd5dea5491fc37773a826c4454e684e77432248a1a6b5b",
+    "mtime": "2026-11-05T03:10:54.271Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
@@ -64,9 +64,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    },
    {
     "file": "tests/lib-w306a-pre.mjs",
@@ -75,7 +75,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "90ce0c6605c4de441a833cc78656289db98c42527a7d877893b104263d01eb94",
+  "codeSha256": "4c58c8929835c0d5db4ce9a358d374e08f5b43bf377f2cec9db997b73adf19c7",
   "harnessVersion": "w304a-shell-1",
   "shellVersion": "w304a-shell-1",
   "loadErrors": 0,
@@ -91,7 +91,7 @@
    "現実を再現した"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "earthMoonInertial",
     "earthMoonSunInertial3d",
@@ -152,11 +152,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1419,
-   "segments": 1245,
-   "closureShare": 0.3058
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1382,
+   "segments": 1219,
+   "closureShare": 0.2998
   },
-  "scopeSha256": "95e5ba41cae82db53c763de959daf7db5583f1de9838d330eb4e69ab8b4ffe75",
+  "scopeSha256": "e0f10de7f3ed638f647269cd692bb6c01d5cc41b79ca0a0725fcde61fa1c8760",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -845,11 +848,11 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 0.311
+   "wallSec": 0.376
   },
   "M": {
-   "wallSec": 42.58
+   "wallSec": 40.29
   }
  },
- "elapsedS": 45.025
+ "elapsedS": 42.866
 }

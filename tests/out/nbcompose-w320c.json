@@ -3,7 +3,7 @@
  "libVersion": "w320c-nbcompose-lib-1",
  "generator": "tests/exp-w320c-nbcompose.mjs",
  "target": "beta/index.html",
- "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "reuseFrom": null,
  "ruling": "原仮定者の指示(第122報)・決断事項 AN472「中心１体の影響が大きいが、銀河の渦の中では半渦度は無視出来ない。太陽系近傍においては合成された影響になる」・AN473・統括の検証項目 R264。エンジン・在位の本・受け手の R_d = Y_k m・規則は変えない(器・lib・正本・文書だけ)。半渦度を受け手の軸へ直結する項はエンジンに足さない",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -9284,43 +9284,43 @@
  "ok": true,
  "timing": {
   "F": {
-   "wallSec": 3.337
+   "wallSec": 3.011
   },
   "N": {
-   "wallSec": 42.356
+   "wallSec": 41.673
   },
   "P": {
-   "wallSec": 3.564
+   "wallSec": 3.519
   },
   "Shape": {
-   "wallSec": 0.007
+   "wallSec": 0.005
   },
   "D": {
-   "wallSec": 0.002
+   "wallSec": 0.001
   },
   "B": {
-   "wallSec": 0
+   "wallSec": 0.001
   },
   "Rload": {
-   "wallSec": 0.238
+   "wallSec": 0.298
   },
   "R": {
-   "wallSec": 0.007
+   "wallSec": 0.018
   }
  },
- "elapsedS": 51.267,
+ "elapsedS": 50.253,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第320便c",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T07:13:13.440Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T09:48:39.944Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/data-w318c-solar16-input.json",
@@ -9332,9 +9332,9 @@
   "code": [
    {
     "file": "tests/exp-w320c-nbcompose.mjs",
-    "bytes": 30333,
-    "sha256": "36b7bcf2d6a169d478e81c49d9ab85d3d8b6241ebdc48f3ada8f561984d68a31",
-    "mtime": "2026-10-31T02:21:19.134Z"
+    "bytes": 30348,
+    "sha256": "58bd91627ad33644287442ee23978b772e6b62f18e1a9ec681e36090d145288e",
+    "mtime": "2026-11-05T03:10:54.311Z"
    },
    {
     "file": "tests/lib-w320c-nbcompose.mjs",
@@ -9344,9 +9344,9 @@
    },
    {
     "file": "tests/exp-w319b-srcradius.mjs",
-    "bytes": 39320,
-    "sha256": "fb451a17f3a878506ca7669cc084dd5816617554113bda4a3b21a728d2729b12",
-    "mtime": "2026-10-30T10:16:05.881Z"
+    "bytes": 39335,
+    "sha256": "29f96b752b9a3432140e060f6971a57a1e2620d234c639f5963b69a663395ec0",
+    "mtime": "2026-11-05T03:10:54.311Z"
    },
    {
     "file": "tests/lib-w319b-srcradius.mjs",
@@ -9392,12 +9392,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "eaa31e368d919f3308100f1464569db7c207fdc79b0c4f3842e1837345a0008a",
+  "codeSha256": "aa10f84d971267fec29c477ad0cea3f2b331e41b6e558e02d4947fbec4ce818d",
   "harnessVersion": "w320c-nbcompose-1",
   "stage": "nbcompose",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス・步は進めない)",
@@ -9415,7 +9415,7 @@
    "数の桁が近いことを証拠と呼ばない"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "jupiterGalilean",
     "jupiterSunInertial3d",
@@ -9454,11 +9454,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1386,
-   "segments": 1212,
-   "closureShare": 0.2995
+   "abBody": false,
+   "names": 1349,
+   "segments": 1186,
+   "closureShare": 0.2935
   },
-  "scopeSha256": "9bf80fe3b031f8c58108827a25ef5e990b042c2309351764fb737d516fa6e19d",
+  "scopeSha256": "8219fd22de89b473f46b30d1a6445cb6eeadcc73103f7f6994fcc367cb52823f",
   "scopeComplete": true,
   "inputsStable": [
    {

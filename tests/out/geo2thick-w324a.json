@@ -34,7 +34,7 @@
   ]
  },
  "target": "beta/index.html",
- "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "ruling": "原仮定者の回答(2026-11-01 —— AN500)・決断事項 AN513・AN510・統括の検証項目 R279",
  "parts": {
   "accept": {
@@ -677,7 +677,7 @@
      },
      "spinPolicy": "vector"
     },
-    "wallSec": 163.359
+    "wallSec": 174.809
    },
    "frozen": {
     "ratio": 1.1800727845699235,
@@ -771,7 +771,7 @@
       null
      ],
      "nan": false,
-     "wallSec": 323.664
+     "wallSec": 345.807
     },
     {
      "kind": "tilt-h2",
@@ -847,7 +847,7 @@
       null
      ],
      "nan": false,
-     "wallSec": 333.284
+     "wallSec": 337.655
     },
     {
      "kind": "thick",
@@ -923,7 +923,7 @@
       null
      ],
      "nan": false,
-     "wallSec": 147.23
+     "wallSec": 155.561
     },
     {
      "kind": "tilt",
@@ -999,7 +999,7 @@
       null
      ],
      "nan": false,
-     "wallSec": 131.395
+     "wallSec": 158.837
     },
     {
      "kind": "thin",
@@ -1075,7 +1075,7 @@
       null
      ],
      "nan": false,
-     "wallSec": 122.987
+     "wallSec": 146.43
     },
     {
      "kind": "thinTilt",
@@ -1151,7 +1151,7 @@
       null
      ],
      "nan": false,
-     "wallSec": 121.602
+     "wallSec": 106.861
     }
    ],
    "cov": {
@@ -1257,28 +1257,28 @@
  ],
  "timing": {
   "accept": {
-   "wallSec": 0.126
+   "wallSec": 0.108
   },
   "an510": {
-   "wallSec": 3.928
+   "wallSec": 4.194
   },
   "ckpt": {
-   "wallSec": 2.874
+   "wallSec": 3.616
   },
   "wide": {
-   "wallSec": 27.476
+   "wallSec": 29.735
   },
   "heavy": {
-   "wallSec": 733.648
+   "wallSec": 767.92
   },
   "flat": {
-   "wallSec": 163.359
+   "wallSec": 174.809
   },
   "pair": {
-   "wallSec": 333.284
+   "wallSec": 345.807
   }
  },
- "elapsedS": 733.658,
+ "elapsedS": 767.933,
  "gates": {
   "flatFrozen": true,
   "flatClean": true,
@@ -1299,14 +1299,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第324便a",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T10:48:47.460Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:16:52.964Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    }
   ],
   "code": [
@@ -1348,12 +1348,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "c73b92f8ee84e5a02194a7a90edd790050a43e8be0b39ca9d3b56f042d02fbe2",
+  "codeSha256": "ca1b1c776956d573ee9a037d8b4cf73ee499e124887596b60418660ff4551a98",
   "harnessVersion": "w324a-geo2thick-1",
   "stage": "geo2thick",
   "parts": [
@@ -1375,7 +1375,7 @@
    "h と h/2 は刻みの感度診断(収束の判定に使わない)"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "galaxyGeo2",
     "galaxyGeo2Flat3d",
@@ -1412,11 +1412,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1380,
-   "segments": 1206,
-   "closureShare": 0.2972
+   "names": 1343,
+   "segments": 1180,
+   "closureShare": 0.2911
   },
-  "scopeSha256": "fc04cb0a2e8864412d3a0628139b75e971fc167a1dc1508af96fd58e0fede949",
+  "scopeSha256": "3488420149feeef27b2cc5e6ac41427842eb387166856e8bd95d9c97d26e6e84",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

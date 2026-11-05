@@ -2,7 +2,7 @@
  "version": "w313a-kappam-1",
  "generator": "tests/exp-w313a-kappam.mjs",
  "target": "beta/index.html",
- "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
+ "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
  "ruling": "原仮定者の裁定(第115報)AN399 K1 を採用・AN402 太陽を含む全天体に R_d = κm(重力半径に比例する長さ)・補足(外殻は近距離の計算に要る・厚みは考えない・6.5e6 m は K2 の未宣言の上限 —— K1 では無視)・決断事項 AN403・AN404・統括の検証項目 R234",
  "rdRuleVersion": "w313a-invsq-k1-kappam-1",
  "shellRecvVersion": "w313a-shellrecv-1",
@@ -2338,31 +2338,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.03
+   "wallSec": 0.046
   },
   "R": {
-   "wallSec": 1.08
+   "wallSec": 1.043
   },
   "B": {
-   "wallSec": 2.116
+   "wallSec": 1.222
   },
   "E": {
-   "wallSec": 0.965
+   "wallSec": 0.995
   }
  },
- "elapsedS": 6.118,
+ "elapsedS": 5.17,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第313便a",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T10:22:56.136Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:25:42.992Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2380,9 +2380,9 @@
   "code": [
    {
     "file": "tests/exp-w313a-kappam.mjs",
-    "bytes": 35481,
-    "sha256": "5618289389ca58398bd002a412c643a079dcada27163ac14fe9f8d40d006474e",
-    "mtime": "2026-10-26T10:28:30.999Z"
+    "bytes": 35496,
+    "sha256": "7a7b94692c0586a56e2e189ff1333c93ec1c667a2b4b06262bf94c5661503adf",
+    "mtime": "2026-11-05T03:10:54.290Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -2416,12 +2416,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 99653,
-    "sha256": "e5b8e5a142a33ceb7228f25e64a326910241a87e5517cc8d889e6e1746d9522f",
-    "mtime": "2026-11-04T01:25:44.755Z"
+    "bytes": 109301,
+    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
+    "mtime": "2026-11-05T03:10:54.318Z"
    }
   ],
-  "codeSha256": "79ff857c711b04645896991bfc8fb2bbb4230fe677a780e643d8ae23265174db",
+  "codeSha256": "c95270e4404e6d5a16e60c1ee55545ee798550a2d563a1e67ad0941ae9fb24f5",
   "harnessVersion": "w313a-kappam-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2433,7 +2433,7 @@
    "収束した"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "earthMoonSunInertial3d",
     "jupiterSunInertial3d",
@@ -2462,11 +2462,12 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1386,
-   "segments": 1212,
-   "closureShare": 0.2993
+   "abBody": false,
+   "names": 1349,
+   "segments": 1186,
+   "closureShare": 0.2933
   },
-  "scopeSha256": "ddd9c81cbf57c7d6251a602ce335bbec7e6f237033b2a6c63fff674aa131ae05",
+  "scopeSha256": "11318c38a4b9f8f94326005d8e02861c8400b19647da4b86f5c1e1f536682d2f",
   "scopeComplete": true,
   "inputsStable": [
    {

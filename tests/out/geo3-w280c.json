@@ -3,34 +3,34 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便c",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T08:53:52.449Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T09:51:06.780Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7655546,
-    "sha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-    "mtime": "2026-11-04T02:48:34.879Z"
+    "bytes": 7668923,
+    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+    "mtime": "2026-11-05T03:18:58.814Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1749470,
-    "sha256": "1a3ba1719546bc8b9143c50e22c7fa4eb13e07f96ad5f5a9542cdbdeeb6042e3",
-    "mtime": "2026-11-04T08:10:50.808Z"
+    "bytes": 1732267,
+    "sha256": "7105e91318a949fdf8845870663974f05649f03c8bf9638290c319607f3ac3fc",
+    "mtime": "2026-11-05T05:10:04.718Z"
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "bytes": 103769,
-    "sha256": "8c9e1c30337c6ebcfa771ec4ad5cea69b0c32934db6d32e1fd00bd3ee77034c7",
-    "mtime": "2026-11-04T05:27:47.188Z"
+    "bytes": 103741,
+    "sha256": "69181d7c9178624deda3612210cc965770e1d408670b141afc93730a8263c556",
+    "mtime": "2026-11-05T06:53:40.003Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w280c-geo3.mjs",
-    "bytes": 39081,
-    "sha256": "7fe535e549be78388df800ff05d5230290a881b75c46175ef926c8feb1b83dd3",
-    "mtime": "2026-10-20T16:19:56.632Z"
+    "bytes": 39108,
+    "sha256": "b3648de3ddc6b380d37d2cfe63a812977661890685e62b18d2f48e29e158f0ac",
+    "mtime": "2026-11-05T03:10:54.238Z"
    },
    {
     "file": "tests/lib-w280c-geo3.mjs",
@@ -51,7 +51,7 @@
     "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
-  "codeSha256": "b0c82f4870ddd41dfd3d81fcab0b269bfd86a7868bcb004c4132da4b3dbdecc9",
+  "codeSha256": "6bdc2bc2d1f3689033019a2fa3476eec8d8ceaac961abbbac6c77dd46507b55d",
   "harnessVersion": "w280c-geo3-2",
   "quick": false,
   "part": null,
@@ -69,7 +69,7 @@
    "v1.45.0 RC を切った"
   ],
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": [
     "alphaCenAB",
     "alphaCenABDFM",
@@ -135,16 +135,19 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1371,
-   "segments": 1197,
-   "closureShare": 0.2951
+   "keepProse": [
+    "familyRole"
+   ],
+   "names": 1335,
+   "segments": 1172,
+   "closureShare": 0.2892
   },
-  "scopeSha256": "fc58d5b677b87966a88c578730db3df29d54c1f8cb75136e55c1a52d99f836e4",
+  "scopeSha256": "be885789e4c08f4c9573d88581d245a51f173826c69c499e389356fc6f422b8c",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "adcbd3472c95a188028c80ff2b742f025c22b000ba91a2ddc8235447d6de2b9f",
+    "stableSha256": "4e1d04f148aaead243bbedf853c1d834d6c19f1cafa89d912f0983f82308c903",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -185,7 +188,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "ecada61e7643cf04ae5951b2a8c3ff6c42eddae8eda3dbd4a502be58febb35ec",
+    "stableSha256": "98fa85f106f2cc68e41d96ed51c641b90f906087a504527a8ca4b493eb32fbc0",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -215,7 +218,7 @@
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "stableSha256": "329676b4eac49ffd20769148e27a15ce1a4225aebcaa44bd6c7aad515fac80ba",
+    "stableSha256": "03893b2379823a3733ec07e0afbf41000e6476f4f46b26254797b2eb018a6745",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -295,7 +298,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.006
+       "wallSec": 2.064
       },
       "dt/2": {
        "steps": 5700398,
@@ -328,7 +331,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 5.232
+       "wallSec": 4.096
       }
      }
     },
@@ -367,7 +370,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.012
+       "wallSec": 2.035
       },
       "dt/2": {
        "steps": 5700398,
@@ -400,7 +403,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 6.241
+       "wallSec": 3.721
       }
      }
     },
@@ -439,7 +442,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.637
+       "wallSec": 1.272
       },
       "dt/2": {
        "steps": 5700398,
@@ -472,7 +475,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.635
+       "wallSec": 3.005
       }
      }
     },
@@ -511,7 +514,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.603
+       "wallSec": 1.66
       },
       "dt/2": {
        "steps": 5700398,
@@ -544,7 +547,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 5.09
+       "wallSec": 3.387
       }
      }
     },
@@ -587,7 +590,7 @@
          "stop": null
         }
        },
-       "wallSec": 9.148
+       "wallSec": 6.836
       },
       "dt/2": {
        "steps": 5700398,
@@ -624,7 +627,7 @@
          "stop": null
         }
        },
-       "wallSec": 17.638
+       "wallSec": 13.646
       }
      }
     },
@@ -667,7 +670,7 @@
          "stop": null
         }
        },
-       "wallSec": 14.551
+       "wallSec": 9.596
       },
       "dt/2": {
        "steps": 5700398,
@@ -704,7 +707,7 @@
          "stop": null
         }
        },
-       "wallSec": 27.241
+       "wallSec": 19.203
       }
      }
     },
@@ -747,7 +750,7 @@
          "stop": null
         }
        },
-       "wallSec": 9.372
+       "wallSec": 6.034
       },
       "dt/2": {
        "steps": 5700398,
@@ -784,7 +787,7 @@
          "stop": null
         }
        },
-       "wallSec": 17.043
+       "wallSec": 11.493
       }
      }
     },
@@ -827,7 +830,7 @@
          "stop": null
         }
        },
-       "wallSec": 11.46
+       "wallSec": 8.21
       },
       "dt/2": {
        "steps": 5700398,
@@ -864,7 +867,7 @@
          "stop": null
         }
        },
-       "wallSec": 27.109
+       "wallSec": 16.191
       }
      }
     },
@@ -907,7 +910,7 @@
          "stop": null
         }
        },
-       "wallSec": 7.594
+       "wallSec": 5.64
       },
       "dt/2": {
        "steps": 5700398,
@@ -944,7 +947,7 @@
          "stop": null
         }
        },
-       "wallSec": 14.72
+       "wallSec": 10.522
       }
      }
     },
@@ -983,7 +986,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.985
+       "wallSec": 2.712
       },
       "dt/2": {
        "steps": 5700398,
@@ -1016,7 +1019,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 7.923
+       "wallSec": 5.257
       }
      }
     },
@@ -1055,7 +1058,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.878
+       "wallSec": 2.164
       },
       "dt/2": {
        "steps": 5700398,
@@ -1088,7 +1091,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 6.863
+       "wallSec": 5.078
       }
      }
     },
@@ -1131,7 +1134,7 @@
          "stop": null
         }
        },
-       "wallSec": 9.338
+       "wallSec": 6.668
       },
       "dt/2": {
        "steps": 5700398,
@@ -1168,7 +1171,7 @@
          "stop": null
         }
        },
-       "wallSec": 17.362
+       "wallSec": 12.945
       }
      }
     }
@@ -1285,7 +1288,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 20.369
+       "wallSec": 15.499
       },
       "dt/2": {
        "steps": 41388996,
@@ -1318,7 +1321,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 43.903
+       "wallSec": 30.434
       }
      }
     },
@@ -1357,7 +1360,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 15.659
+       "wallSec": 12.697
       },
       "dt/2": {
        "steps": 41388996,
@@ -1390,7 +1393,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 32.346
+       "wallSec": 24.607
       }
      }
     },
@@ -1429,7 +1432,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 17.244
+       "wallSec": 12.216
       },
       "dt/2": {
        "steps": 41388996,
@@ -1462,7 +1465,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 33.811
+       "wallSec": 25.237
       }
      }
     },
@@ -1507,7 +1510,7 @@
          "stop": null
         }
        },
-       "wallSec": 101.534
+       "wallSec": 75.003
       },
       "dt/2": {
        "steps": 41388996,
@@ -1546,7 +1549,7 @@
          "stop": null
         }
        },
-       "wallSec": 226.58
+       "wallSec": 145.105
       }
      }
     },
@@ -1591,7 +1594,7 @@
          "stop": null
         }
        },
-       "wallSec": 74.759
+       "wallSec": 47
       },
       "dt/2": {
        "steps": 41388996,
@@ -1630,7 +1633,7 @@
          "stop": null
         }
        },
-       "wallSec": 143.634
+       "wallSec": 101.744
       }
      }
     },
@@ -1675,7 +1678,7 @@
          "stop": null
         }
        },
-       "wallSec": 66.11
+       "wallSec": 53.677
       },
       "dt/2": {
        "steps": 41388996,
@@ -1714,7 +1717,7 @@
          "stop": null
         }
        },
-       "wallSec": 131.174
+       "wallSec": 111.386
       }
      }
     }
@@ -2085,5 +2088,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 1147.173
+ "elapsedS": 820.12
 }

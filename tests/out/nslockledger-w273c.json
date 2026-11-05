@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第273便c(第63報・AH24)",
   "target": "beta/index.html",
-  "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-  "generatedAt": "2026-11-04T09:50:17.871Z",
+  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "generatedAt": "2026-11-05T10:26:05.823Z",
   "inputs": [
    {
     "file": "tests/out/nslock-w272c.json",
-    "bytes": 232635,
-    "sha256": "27b11b0742d0f94855448499f0efb0c89e6e58af9f66bc78c9b409333c323cbd",
-    "mtime": "2026-11-04T06:52:54.816Z"
+    "bytes": 232655,
+    "sha256": "238189a6d5802f5d5609e95ddc818fb08d485ada6a368d738ab935ec32217843",
+    "mtime": "2026-11-05T10:14:36.995Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w273c-nslockledger.mjs",
-    "bytes": 9374,
-    "sha256": "8dfe89ec747521fe4abcfca8a02bc3deea374ced9a87fe1c29f423de012ffa5c",
-    "mtime": "2026-11-02T04:24:50.088Z"
+    "bytes": 9389,
+    "sha256": "5ae717ff8606dba7b6550debfb4a53e9a718ff0b69db6bb009d0d324a93308bd",
+    "mtime": "2026-11-05T03:10:54.230Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -27,9 +27,9 @@
     "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
-  "codeSha256": "4b81d7d9f015ab8b609345454ff3e828dd94761f98de378cdd9aaabe9ec00872",
+  "codeSha256": "c48beb829c3b4a99373284d5bcc0512f97fbc83275a7e1b06587af61dafe3bef",
   "scope": {
-   "version": "w326e-scope-7",
+   "version": "w327c-scope-8",
    "presets": "all",
    "roots": [
     "HP.allPresets",
@@ -39,16 +39,17 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1361,
-   "segments": 1187,
-   "closureShare": 0.2934
+   "abBody": false,
+   "names": 1324,
+   "segments": 1161,
+   "closureShare": 0.2874
   },
-  "scopeSha256": "29b7c88dac302966df1ed93520f297d4380b7e30781041b36614ed1cdc7ef93c",
+  "scopeSha256": "bc74221763216d9c7edb7b52d790f3dcd9fb70c5015de2865f7572266219e73f",
   "scopeComplete": true
  },
  "section": "NS 連星 4 系の lock 枝(kFrame=0・f=1・λ_PN=1)の記録",
  "sourceHarness": "w272c-nslock-1",
- "sourceAt": "2026-11-04T06:36:49.919Z",
+ "sourceAt": "2026-11-05T10:03:20.001Z",
  "metric": "近点間 P = 位相制限(1.5π)の最初の 20 近点(19 区間)の平均間隔。ω̇ = 採用近点の方位を実時刻に回帰した傾き(°/年)。e = 窓内の (r_max−r_min)/(r_max+r_min)(eProxy)。",
  "assessedStageRule": "**ω̇ は 3 段(h, h/2, h/4)の Richardson 外挿**(`omegaDotExt`)と**h/4 段の値**(`omegaDotH4`)を両方置く。外挿は観測次数 p が正で単調な列だけに作る(第273便c・AH30 —— 非正の次数から外挿は作らない)。",
  "declarationNote": "`pnAlpha`・`lambdaPN`・`geoPN`・`frameWeight` は**内蔵プリセットの宣言**であって実測ではない。**速度は E12 の主張域どおり u=0 の絶対値(座標速度)**で、正本は docs/PHYSICS.md の E12 節である(この器は宣言を読んだだけで、規約を作っていない)。",
