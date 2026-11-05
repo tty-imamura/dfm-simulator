@@ -1670,6 +1670,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/axialheat-w326d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第326便d: 軸引きずりの定常の釣り合いと由来ごとの熱の帳簿(診断 —— 銀河場を同定したと数えない・内部熱を観測の熱流に合わせていない・負の散逸の解は不採用)・R_d と R_src の独立の宣言の確かめ' }),
   // ==== 第326便d の塊(ここまで)====
+  // ==== 第327便a の塊(ここから)====
+  // ---- 第327便a(原仮定者の回答(2026-11-05 —— AN534・AN535・AN537)・統括の検証項目 R295): **軸引きずりの「角速度の和」の族 S と否定対照の族 E・金星の受け手の R_d の格子と根・
+  //   天体ごとに自由な潮汐と法則の探索・予言の段・帳簿の器**(段 axialsum-327a —— 正本 tests/out/axialsum-w327a.json・lib tests/lib-w327a-axialsum.mjs —— 第326便d の器の写しと読み口を
+  //   import して使う〔code の依存 —— 正本 axialheat-w326d は読まない〕)。**診断だけ**(エンジン・在位の本・受理器は変えない —— 金星の dragCore は写しで振る)。
+  //   html を読む(本は 🗺️ を .find で引く 1 本・他の正本は読まない —— html の生成領域の後)。1 プロセス。t = 0 の読み口と純関数だけ(步を進めない —— 写しの build は約 160 回)。
+  //   所要は第327便a の枝の実測 42 s(nice 10 —— 3 枝並走の箱〔**並走の秒**〕)
+  S('axialsum-327a', 'node tests/exp-w327a-axialsum.mjs', ['tests/out/axialsum-w327a.json'], 42, { secSource: 'w327a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ(步を進めない —— 窓が無く、全部を走らせても 1 分の内)',
+    volatilePaths: { 'tests/out/axialsum-w327a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第327便a: 角速度の和の族 S(受動の構成則 —— 配分 w は宣言)と族 E の対照・金星の受け手の R_d の格子と根(銀河の応答の規約ごと —— 評価域に非負の区間なし・重なりは評価域の外・格子の R_d は採らない)・天体ごとに自由な潮汐と法則・地球と土星の予言(合わせない)・帳簿' }),
+  // ==== 第327便a の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

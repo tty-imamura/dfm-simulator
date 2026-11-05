@@ -96224,7 +96224,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   正本 tests/out/axialheat-w326d.json。html・本の宣言・エンジン・受理器は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
 // ----   lint.axialHeat326d(html を読まない): ① lib の版・宣言(方程式の天体・検査の天体・口の接続・族 E・慣性係数)② 純関数の場面の門 13(逆向きの 2 源で合計トルク 0・熱 2・
 // ----     120° の合成は口ごとの熱・固定軸に垂直な目標は受け手と支えの仕事 0・口の閉じ・負と非有限の Γ の拒否・向きの反転の伝達で正の熱と反作用の仕事・系の帳簿の閉じと L・
-// ----     尺度の不定・口ごとの熱の和・凸包の外の解の不採用・厳密な 1 步と h/2・ランク・凸包の p の端)
+// ----     尺度の不定・口ごとの熱の和・凸包の外の解の不採用・厳密な 1 步と h/2・ランク・凸包の p の端 —— 第327便a の世代の直し: lib 版 2 で ⑪ 自由な未知の残らない行の採否〔2 天体の不一致・ck = 0〕を足して 14)
 // ----   behavior.axialRadius326d(html を headless で読む —— 正本と照合): ① 🗺️ の写しで R_d と R_src を別々に宣言(器の partR —— 源だけ替えて β と R_d が同じビット・受け手だけ替えて
 // ----     R_src が同じビット・同じ天体の両方は受理器が拒否・obsSpin の R_src・画面の欄)② 今の K1 の源ごとの軸の ω(読み口)と太陽の式の A が正本と相対 1e-12 の内 ③ 在位の 🗺️ は spinDrag を宣言しない
 // ----   docs.axialHeat326d(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全)・宣言が lib の DECL と同じ ② 表 12 本が PHYSICS〔第326便d〕に逐語
@@ -96248,7 +96248,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (err0) bad.push('器/lib が読めない: ' + err0);
     else {
       const DC = L0.DECL;
-      if (!(L0.LIB_VERSION === 'w326d-axialheat-lib-1' && JSON.stringify(DC.solveBodies) === JSON.stringify(['sun', 'venus', 'jupiter', 'io']) && DC.checkBodies.length === 2 && DC.checkBodies.includes('earth')
+      if (!(L0.LIB_VERSION === 'w326d-axialheat-lib-2' && JSON.stringify(DC.solveBodies) === JSON.stringify(['sun', 'venus', 'jupiter', 'io']) && DC.checkBodies.length === 2 && DC.checkBodies.includes('earth')
         && DC.family === 'E' && DC.cGalaxy === 1 && DC.cK1 === 1 && DC.ports.sun.k1.length === 0 && DC.ports.sun.tide.length === 0 && JSON.stringify(DC.ports.io.k1) === JSON.stringify(['sun', 'jupiter'])
         && L0.MOI.sun === 0.07 && L0.MOI.jupiter === 0.254)) bad.push('① lib の版・宣言(方程式の天体・口の接続・族 E・慣性係数)');
       cases.push(`① lib ${L0.LIB_VERSION}・方程式の天体 ${DC.solveBodies.join('・')}・検査 ${DC.checkBodies.join('・')}・族 ${DC.family}(銀河と K1 の口 c = 1・潮汐 k_i は未知)・太陽は銀河の口だけ・イオは K1(太陽・木星)`);
@@ -96256,8 +96256,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       try { S = L0.pureScenes(); G = L0.pureGates(S); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
       if (G) {
         for (const [k, v] of Object.entries(G)) if (v !== true) bad.push('② 純関数の場面 ' + k);
-        if (Object.keys(G).length !== 13) bad.push('② 場面の数 ' + Object.keys(G).length);
-        cases.push(`② 純関数の場面 ${Object.values(G).filter(Boolean).length}/${Object.keys(G).length}(逆向きの 2 源: 合計トルク ${S.opposed.torqueSum}・熱 ${S.opposed.heat}・供給 ${S.opposed.supply} / 系の帳簿: k ${S.system.kP.toFixed(3)} ≥ 0・尺度 2 倍で熱 ${S.system.scaleHeatRatio.toFixed(3)} 倍 / 凸包の外は不採用 ${S.system.outsideRejected} / 厳密な 1 步の h と h/2 の差 ${S.step.halfS})`);
+        if (Object.keys(G).length !== 14) bad.push('② 場面の数 ' + Object.keys(G).length);   // 第327便a(世代の直し): lib 版 2 で ⑪ 自由な未知の残らない行の採否を足した(13 → 14)
+        cases.push(`② 純関数の場面 ${Object.values(G).filter(Boolean).length}/${Object.keys(G).length}(逆向きの 2 源: 合計トルク ${S.opposed.torqueSum}・熱 ${S.opposed.heat}・供給 ${S.opposed.supply} / 系の帳簿: k ${S.system.kP.toFixed(3)} ≥ 0・尺度 2 倍で熱 ${S.system.scaleHeatRatio.toFixed(3)} 倍 / 凸包の外は不採用 ${S.system.outsideRejected} / 厳密な 1 步の h と h/2 の差 ${S.step.halfS} / 自由な未知の残らない行: 残差 ${S.unresolved.mismatchResidual} は不採用 ${S.unresolved.mismatchRejected}・ck = 0 の行も不採用 ${S.unresolved.ck0Rejected}〔第327便a〕)`);
       }
     }
     add('lint.axialHeat326d', bad.length === 0,
@@ -96559,6 +96559,151 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第326便e の塊(ここまで)====
+// ==== 第327便a の塊(ここから —— lint.axialSum327a・behavior.axialSum327a・docs.axialSum327a の 3 ブロック。root は SKIP)====
+// ---- 第327便a(原仮定者の回答(2026-11-05 —— AN534「金星の逆回転と内部熱がまだ解決していないので、金星に影響する項目は検証対象。「角速度の和」は依頼したイメージ」・
+// ----   AN535・AN537)・統括の検証項目 R295): **軸引きずりの「角速度の和」の族 S と否定対照の族 E・金星の受け手の R_d の格子と根・天体ごとに自由な潮汐と法則の探索**(新設 ——
+// ----   器 tests/exp-w327a-axialsum.mjs・lib tests/lib-w327a-axialsum.mjs・文書の lib tests/lib-w327a-axialsumdoc.mjs・正本 tests/out/axialsum-w327a.json。html・本の宣言・エンジン・受理器は変えない)。
+// ----   世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.axialSum327a(html を読まない): ① lib の版・宣言(族 S が主・族 E が対照・配分の均等が主・p の格子は第326便d と同じ・銀河の応答の規約 6 列・源 2 列・法則の候補 3)
+// ----     ② 純関数の場面の門 13(和と平均の最小の例・120° の合成・細分の不変・受動の口・族 S と族 E の系の帳簿・尺度の不定・配分の感度〔定常は動かず熱は動く〕・族 E は第326便d の lib と同じ数・
+// ----     採否〔自由な未知の残らない行と負の β〕・凸包・法則の学びと予言・二分法の根)
+// ----   behavior.axialSum327a(html を headless で読む —— 正本と照合): ① 族 S と族 E の p の格子の A・β が正本と相対 1e-12 の内 ② 金星の R_d の 2 点(K1 の規則・観測半径 —— 源 J)の
+// ----     太陽の K1 の寄与と族 S の β が正本と相対 1e-12 の内 ③ 在位の 🗺️ の金星に dragCore が無い・spinDrag の宣言が無い(写しにだけ足す約束)
+// ----   docs.axialSum327a(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全)・宣言が lib の DECL と同じ ② 表が PHYSICS〔第327便a〕に逐語
+// ----     ③ 節の位置(「## 7.」の前・第326便e の節の後ろ)・必須の語・第326便d の節の「第327便の更新」の行・AI_SPEC §187・CHANGELOG・段の行・.gitignore・post-merge の ③′ ④ 書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const aHarn = path.join(ROOT, 'tests', 'exp-w327a-axialsum.mjs'), aLib = path.join(ROOT, 'tests', 'lib-w327a-axialsum.mjs'), aDoc = path.join(ROOT, 'tests', 'lib-w327a-axialsumdoc.mjs');
+  const aOut = path.join(ROOT, 'tests', 'out', 'axialsum-w327a.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(aHarn) && fs.existsSync(aLib) && fs.existsSync(aDoc))) {
+    console.log('SKIP lint.axialSum327a・behavior.axialSum327a・docs.axialSum327a(第327便a の角速度の和の器の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const relD327 = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, LS = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + aHarn); LS = await import('file://' + aLib); D0 = await import('file://' + aDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(aOut, 'utf8')); } catch (e) { J = null; }
+  // ───── lint.axialSum327a ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      const DC = LS.DECL;
+      if (!(LS.LIB_VERSION === 'w327a-axialsum-lib-1' && DC.main === 'S' && DC.control === 'E' && DC.allocationMain === 'equal' && DC.allocations.equal.gal === null
+        && JSON.stringify(DC.pGrid) === JSON.stringify([-1, -0.75, -0.5, -0.25, 0, 1, 2]) && DC.pMain === -0.75 && DC.conventions.length === 6 && DC.conventions[0].key === 'q1mass' && DC.conventions[0].q === 1 && DC.conventions[0].p === 0
+        && DC.conventions[1].q === 0 && DC.sources.length === 2 && DC.laws.length === 3 && JSON.stringify(DC.trainBodies) === JSON.stringify(['venus', 'jupiter', 'io']) && DC.predictBodies.length === 2)) bad.push('① lib の版・宣言(族・配分・p の格子・規約・源・法則)');
+      cases.push(`① lib ${LS.LIB_VERSION}・族 ${DC.main}(和 —— 主)と族 ${DC.control}(平均 —— 対照)・配分 ${DC.allocationMain}(感度 ${Object.keys(DC.allocations).length - 1} 列)・銀河の応答の規約 ${DC.conventions.length} 列・源 ${DC.sources.length} 列・法則の候補 ${DC.laws.length}`);
+      let S = null, G = null;
+      try { S = LS.pureScenes(); G = LS.pureGates(S); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G) {
+        for (const [k, v] of Object.entries(G)) if (v !== true) bad.push('② 純関数の場面 ' + k);
+        if (Object.keys(G).length !== 13) bad.push('② 場面の数 ' + Object.keys(G).length);
+        cases.push(`② 純関数の場面 ${Object.values(G).filter(Boolean).length}/${Object.keys(G).length}(同じ軸の 1 と 2: 和 ${S.sumVsMean.sum}・平均 ${S.sumVsMean.mean} / 細分の差 ${S.split.heat.toExponential(1)} / 尺度 2 倍で熱 ${S.system.scale.heatRatio.toFixed(3)} 倍 / 配分で熱 ${S.system.alloc.heatG.toFixed(3)}・${S.system.alloc.heatK.toFixed(3)} 倍 / 族 E は第326便d の lib と相対 ${S.sameAsW326d.maxRel} / 法則の α ${S.law.alpha.toFixed(3)})`);
+      }
+    }
+    add('lint.axialSum327a', bad.length === 0,
+      `**角速度の和の族 S と否定対照の族 E の純関数**(第327便a・原仮定者の回答(2026-11-05 —— AN534・AN535・AN537)・R295 —— html を読まない・和は受動の口の構成則〔配分 w は宣言〕・熱は口ごとに足す・負の係数は不採用・応答の尺度は決まらない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.axialSum327a ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/axialsum-w327a.json が読めない');
+    else {
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        const XD = await import('file://' + path.join(ROOT, 'tests', 'exp-w326d-axialheat.mjs'));
+        const I = XD.partI(H.HP), Kn = XD.partK(H.HP, I, 'now'), KJ = XD.partK(H.HP, I, 'J');
+        // ①
+        const S1 = X.partS(I, Kn, KJ);
+        let dmax = 0;
+        for (const src of ['now', 'J']) for (const nm of ['S', 'E']) S1.families[src][nm].forEach((q, k) => { const r = J.sum.families[src][nm][k];
+          dmax = Math.max(dmax, relD327(q.A, r.A), ...Object.keys(q.beta).map((z) => relD327(q.beta[z], r.beta[z]))); });
+        if (!(dmax <= 1e-12)) bad.push(`① 族 S・族 E の A・β が正本と違う(相対 ${dmax.toExponential(2)})—— 器を走らせ直す`);
+        cases.push(`① 族 S と族 E の p の格子 ${S1.families.now.S.length} 点 × 源 2 の A・β が正本と相対 1e-12 の内(${dmax.toExponential(1)})`);
+        // ②
+        let d2 = 0;
+        for (const R of [I.bodies.venus.Rd, I.bodies.venus.R]) {
+          const z = R === I.bodies.venus.Rd ? { ok: true, t: KJ.t } : X.buildAt(H.HP, I, 'J', { dragCore: { 2: R } }), ref = J.venusRd.sources.J.points.find((q) => q.ok && q.Rd === R);
+          if (!z.ok || !ref) { bad.push('② 金星の R_d ' + R + ' の点が作れない'); continue; }
+          const tv = z.t['venus:sun'], av = I.bodies.venus.a, vS = I.bodies.sun.s * (tv[0] * av[0] + tv[1] * av[1] + tv[2] * av[2]);
+          d2 = Math.max(d2, relD327(vS, ref.vSunAlong));
+          for (const c of LS.DECL.conventions) { const p = X.venusPoint(I, KJ, z.t['venus:sun'], R, c, 'S'); d2 = Math.max(d2, relD327(p.beta, ref.cols[c.key + ':S'].beta)); }
+        }
+        if (!(d2 <= 1e-12)) bad.push(`② 金星の R_d の 2 点が正本と違う(相対 ${d2.toExponential(2)})—— 器を走らせ直す`);
+        cases.push(`② 金星の R_d の 2 点(K1 の規則・観測半径 —— 源 J)の太陽の K1 の寄与と族 S の β(規約 ${LS.DECL.conventions.length} 列)が正本と相対 1e-12 の内`);
+        // ③
+        const b16 = H.HP.allPresets().find((p) => p.id === 'solarSystem16Inertial3d'), rdq = b16 && b16.physics && b16.physics.relativeDrag;
+        if (!(rdq && !rdq.spinDrag && b16.bodies[2] && !b16.bodies[2].dragCore)) bad.push('③ 在位の 🗺️ に spinDrag か金星の dragCore の宣言(器の写しにだけ足す約束)');
+        cases.push('③ 在位の 🗺️ の金星に dragCore は無く spinDrag も無い(写しにだけ)');
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.axialSum327a', bad.length === 0,
+      `**角速度の和の族 S と金星の受け手の R_d の写しの読み口**(第327便a・原仮定者の回答(2026-11-05 —— AN534・AN535)・R295 —— 在位の本と受理器は変えない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.axialSum327a ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第327便a — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10), ie = PH.indexOf('〔第326便e — ');
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && (ie < 0 || ie < i0))) bad.push('PHYSICS〔第327便a〕が無いか「## 7.」の後ろか第326便e の節の前');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/axialsum-w327a.json が読めない');
+    else {
+      // ①
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === LS.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.scopeComplete === true
+        && /^[0-9a-f]{64}$/.test(J.meta.scopeSha256 || '') && J.meta.stage === 'axialsum')) bad.push('① 版・来歴・領域 hash(完全)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(LS.DECL)) bad.push('① 正本の宣言が lib の DECL と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
+      // ②
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第327便a〕に表 ' + k + ' が逐語で無い');
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第327便a〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    // ③
+    const want = ['原仮定者の回答(2026-11-05 —— AN534)', 'R295', 'tests/exp-w327a-axialsum.mjs', 'tests/out/axialsum-w327a.json', 'K1 に固定', '内部熱を観測の熱流に合わせていない', '銀河場の同定ではない',
+      '金星の逆回転・内部熱の説明ではない', '配分 w は観測で決まった値ではない構成則', '平均の型', '重なりは評価域の外', '格子の R_d は採らない', '負の係数', '地球と土星で係数を合わせていない', '決断事項の候補',
+      'lint.axialSum327a', 'behavior.axialSum327a', 'docs.axialSum327a', '統括の参考の試作', '全部の模型の否定に広げない'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第327便a〕に「' + w + '」が無い');
+    const d0 = PH.indexOf('〔第326便d — '), d1 = PH.indexOf('\n〔第', d0 + 10), secD = d0 >= 0 ? PH.slice(d0, d1 > d0 ? d1 : undefined) : '';
+    if (!(secD.indexOf('**第327便の更新(第327便a') >= 0 && secD.indexOf('族 E(トルクの釣り合い)・今の R_d(= Y_k m)・K1 固定での記録') >= 0)) bad.push('③ 第326便d の節に「第327便の更新」の行(族 E・今の R_d・K1 固定の記録と限定)');
+    const a0 = AS.indexOf('\n## 187. 第327便a'), ai = a0 >= 0 ? AS.slice(a0, a0 + 6000) : '';
+    if (!(ai.indexOf('tests/out/axialsum-w327a.json') >= 0 && ai.indexOf('配分 w は宣言の構成則') >= 0 && ai.indexOf('格子の R_d を本に入れない') >= 0)) bad.push('③ AI_SPEC §187(正本・配分・格子の R_d)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLx.slice(cb, cb + 80000) : '', cl327a = clg.split('\n').find((l) => l.indexOf('**第327便a**') >= 0) || '';
+    if (!(cl327a.indexOf('tests/exp-w327a-axialsum.mjs') >= 0 && cl327a.indexOf('axialsum-327a') >= 0 && cl327a.indexOf('w326d-axialheat-lib-2') >= 0)) bad.push('③ CHANGELOG の第327便a の行');
+    if (!(/S\('axialsum-327a', 'node tests\/exp-w327a-axialsum\.mjs', \['tests\/out\/axialsum-w327a\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ") >= 0
+      && RT.indexOf('// ==== 第327便a の塊(ここから)====') >= 0)) bad.push('③ 段の行 axialsum-327a(quickVerify:false と理由・塊)');
+    if (GI.indexOf('!tests/out/axialsum-w327a.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第327便a の塊(ここから)====') >= 0 && /lint\.axialSum327a/.test(PM) && /behavior\.axialSum327a/.test(PM) && /docs\.axialSum327a/.test(PM))) bad.push('③ post-merge の ③′ に第327便a の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・第326便d の節の「第327便の更新」・AI_SPEC §187・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    // ④
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /内部熱を説明した/, /金星の逆転を説明した/, /金星の逆回転を説明した/, /銀河場を同定した/,
+      /腕より速い場を観測した/, /銀河の回転曲線を予言した/, /一致した/];
+    const cpA = (a) => String.fromCodePoint(...a), rvA = (t) => t.split('').reverse().join('');
+    const NGA = [cpA([0x518d, 0x73fe, 0x3057, 0x305f]), cpA([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpA([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpA([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpA([0x79c1, 0x4fe1]), cpA([0x6dfb, 0x4ed8]), cpA([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvA));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第327便a〕', sec], ['第326便d の節', secD], ['AI_SPEC §187', ai], ['CHANGELOG の第327便a の行', cl327a], ['器', rd('tests/exp-w327a-axialsum.mjs')], ['lib', rd('tests/lib-w327a-axialsum.mjs')],
+      ['文書の lib', rd('tests/lib-w327a-axialsumdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGA) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+      if (nm.indexOf('PHYSICS') >= 0 || nm.indexOf('AI_SPEC') >= 0 || nm.indexOf('CHANGELOG') >= 0) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);   // 第326便d の節は禁句と記号だけ(その節の否定の文は第326便d の QA が読む)
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号(節・第326便d の節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.axialSum327a', bad.length === 0,
+      `**角速度の和・金星の R_d・潮汐の法則の文書**(第327便a・原仮定者の回答(2026-11-05 —— AN534・AN535・AN537)・R295 —— 金星の逆回転・内部熱の説明ではない・格子の R_d は採らない・地球と土星で合わせていない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第327便a の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
