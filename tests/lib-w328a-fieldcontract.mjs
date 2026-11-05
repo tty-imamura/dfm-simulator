@@ -142,11 +142,11 @@ export function buildFieldContract(sampleOut, decl) {
     sources: sourcesOf(sampleOut), transfer: transferDeclOf(d.transfer), ledgerRefs: Object.assign({}, LEDGER_REFS) };
 }
 /**
- * **opt-in の口** —— sampleWithContract(positionKpc, time, sourceState, opts)。opts.contract が無ければ第321便c の sample(positionKpc, time, sourceState, opts)をそのまま返す
+ * **opt-in の口** —— sampleWithContract(positionKpc, time, sourceState, opts)。opts.contract が無ければ(鍵が無い・undefined・null)第321便c の sample(positionKpc, time, sourceState, opts)をそのまま返す
  * (同じ関数・同じ引数 —— 古い呼び出しの結果はビット同一)。opts.contract(object)があれば contract の鍵を除いた opts で sample を呼び、戻り値に鍵 fieldContract を足す。
  */
 export function sampleWithContract(positionKpc, time, sourceState, opts) {
-  if (!(isObj(opts) && 'contract' in opts)) return F.sample(positionKpc, time, sourceState, opts);
+  if (!(isObj(opts) && opts.contract !== undefined && opts.contract !== null)) return F.sample(positionKpc, time, sourceState, opts);   // 求めない(鍵が無い・undefined・null)—— 同じ関数・同じ引数
   const { contract: req, ...rest } = opts;
   if (!isObj(req)) throw new RangeError('opts.contract は object(契約を求めないなら鍵を置かない)');
   const out = F.sample(positionKpc, time, sourceState, rest);
@@ -264,6 +264,9 @@ export function pureScenes() {
   { const cases = [[pos, F.fullState(), {}], [[50, 0, 0], F.fullState(), {}], [[6, 2, 0.1], F.splitState(4), {}],
       [pos, { model: F.MODEL_ID, stationary: true, terms: [{ key: 'proxy', coef: 1, owns: [{ comp: 'galaxy:proxy' }], proxy: { J: 1e67 } }] }, {}]];
     S.bitSame = cases.map(([p, st, o]) => JSON.stringify(sampleWithContract(p, 0, st, o)) === JSON.stringify(F.sample(p, 0, st, o)));
+    // opts を渡さない呼び出し・鍵 contract が undefined / null の呼び出しも求めない口(sample と同じ)
+    S.bitSameNoOpt = JSON.stringify(sampleWithContract([50, 0, 0], 0, F.fullState())) === JSON.stringify(F.sample([50, 0, 0], 0, F.fullState()))
+      && [undefined, null].every((v) => { const w = sampleWithContract(pos, 0, F.fullState(), { contract: v }); return !('fieldContract' in w) && JSON.stringify(w) === JSON.stringify(F.sample(pos, 0, F.fullState(), { contract: v })); });
     const w = sampleWithContract(pos, 0, F.fullState(), { contract: {} }), { fieldContract: fc, ...rest } = w;
     S.optInRest = JSON.stringify(rest) === JSON.stringify(F.sample(pos, 0, F.fullState(), {})) && Object.keys(w).pop() === 'fieldContract' && isObj(fc); }
   // ② 形と ③ 欠測は null
@@ -319,7 +322,7 @@ export function pureScenes() {
 export function pureGates(S) {
   const close = (a, b, t = 1e-12) => Math.abs(a - b) <= t * Math.max(Math.abs(a), Math.abs(b), 1e-300);
   return {
-    oldCallBitSame: S.bitSame.length === 4 && S.bitSame.every((x) => x === true) && S.optInRest === true,
+    oldCallBitSame: S.bitSame.length === 4 && S.bitSame.every((x) => x === true) && S.bitSameNoOpt === true && S.optInRest === true,
     contractShape: S.shape.c0 === true && S.shape.c1 === true && JSON.stringify(S.shape.keys) === JSON.stringify(CONTRACT_KEYS) && S.outside.shape === true,
     missingIsNull: S.nulls.value === null && S.nulls.at === null && S.nulls.ref === null && S.nulls.src === null && S.nulls.gT === null && S.nulls.u === null && S.nulls.curl === null
       && S.nulls.grid === null && S.nulls.method === null && S.nulls.slip === null && S.nulls.omegaFrame === 0 && S.outside.sources === null

@@ -908,6 +908,7 @@
     true,
     true
    ],
+   "bitSameNoOpt": true,
    "optInRest": true,
    "shape": {
     "c0": true,
@@ -1076,25 +1077,25 @@
  },
  "timing": {
   "base327b": {
-   "wallSec": 7.626
+   "wallSec": 7.512
   },
   "old": {
-   "wallSec": 12.946
+   "wallSec": 13.432
   },
   "contract": {
-   "wallSec": 14.196
+   "wallSec": 14.894
   },
   "directControls": {
-   "wallSec": 14.198
+   "wallSec": 14.896
   },
   "dual": {
-   "wallSec": 14.412
+   "wallSec": 15.061
   },
   "convDegHand": {
-   "wallSec": 14.412
+   "wallSec": 15.062
   },
   "pure": {
-   "wallSec": 16.724
+   "wallSec": 18.104
   }
  },
  "gates": {
@@ -1114,13 +1115,13 @@
   "handoff": true
  },
  "ok": true,
- "elapsedS": 19.694,
+ "elapsedS": 19.785,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第328便a",
   "target": "beta/index.html",
   "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
-  "generatedAt": "2026-11-05T18:55:24.357Z",
+  "generatedAt": "2026-11-05T19:06:39.085Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -1138,9 +1139,9 @@
    },
    {
     "file": "tests/lib-w328a-fieldcontract.mjs",
-    "bytes": 33971,
-    "sha256": "bc266d12ed79357c9822739c55a7b1c67eee04683d39392f7bca85be6b4d9ced",
-    "mtime": "2026-11-05T18:49:18.516Z"
+    "bytes": 34662,
+    "sha256": "c7907ae81e2192005d440c57066b4d6894e59c6b35f0de9eeff0cbfb8c2e1604",
+    "mtime": "2026-11-05T19:05:28.282Z"
    },
    {
     "file": "tests/exp-w327b-galaxis.mjs",
@@ -1215,7 +1216,7 @@
     "mtime": "2026-11-05T18:30:54.753Z"
    }
   ],
-  "codeSha256": "88957ba696cf8cbe20712c65e9c5f2a6c7661c5e533934c8cfa2250a1e778f19",
+  "codeSha256": "a397842a4b5df0c024d06486bb5760243cb97a0ad60d8407e40a148f723d50a7",
   "harnessVersion": "w328a-fieldcontract-1",
   "stage": "fieldcontract",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)と第321便c の場の API の純関数(本 lib の opt-in の口で包む)",
