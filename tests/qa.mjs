@@ -96224,7 +96224,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   正本 tests/out/axialheat-w326d.json。html・本の宣言・エンジン・受理器は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
 // ----   lint.axialHeat326d(html を読まない): ① lib の版・宣言(方程式の天体・検査の天体・口の接続・族 E・慣性係数)② 純関数の場面の門 13(逆向きの 2 源で合計トルク 0・熱 2・
 // ----     120° の合成は口ごとの熱・固定軸に垂直な目標は受け手と支えの仕事 0・口の閉じ・負と非有限の Γ の拒否・向きの反転の伝達で正の熱と反作用の仕事・系の帳簿の閉じと L・
-// ----     尺度の不定・口ごとの熱の和・凸包の外の解の不採用・厳密な 1 步と h/2・ランク・凸包の p の端)
+// ----     尺度の不定・口ごとの熱の和・凸包の外の解の不採用・厳密な 1 步と h/2・ランク・凸包の p の端 —— 第327便a の世代の直し: lib 版 2 で ⑪ 自由な未知の残らない行の採否〔2 天体の不一致・ck = 0〕を足して 14)
 // ----   behavior.axialRadius326d(html を headless で読む —— 正本と照合): ① 🗺️ の写しで R_d と R_src を別々に宣言(器の partR —— 源だけ替えて β と R_d が同じビット・受け手だけ替えて
 // ----     R_src が同じビット・同じ天体の両方は受理器が拒否・obsSpin の R_src・画面の欄)② 今の K1 の源ごとの軸の ω(読み口)と太陽の式の A が正本と相対 1e-12 の内 ③ 在位の 🗺️ は spinDrag を宣言しない
 // ----   docs.axialHeat326d(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全)・宣言が lib の DECL と同じ ② 表 12 本が PHYSICS〔第326便d〕に逐語
@@ -96248,7 +96248,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (err0) bad.push('器/lib が読めない: ' + err0);
     else {
       const DC = L0.DECL;
-      if (!(L0.LIB_VERSION === 'w326d-axialheat-lib-1' && JSON.stringify(DC.solveBodies) === JSON.stringify(['sun', 'venus', 'jupiter', 'io']) && DC.checkBodies.length === 2 && DC.checkBodies.includes('earth')
+      if (!(L0.LIB_VERSION === 'w326d-axialheat-lib-2' && JSON.stringify(DC.solveBodies) === JSON.stringify(['sun', 'venus', 'jupiter', 'io']) && DC.checkBodies.length === 2 && DC.checkBodies.includes('earth')
         && DC.family === 'E' && DC.cGalaxy === 1 && DC.cK1 === 1 && DC.ports.sun.k1.length === 0 && DC.ports.sun.tide.length === 0 && JSON.stringify(DC.ports.io.k1) === JSON.stringify(['sun', 'jupiter'])
         && L0.MOI.sun === 0.07 && L0.MOI.jupiter === 0.254)) bad.push('① lib の版・宣言(方程式の天体・口の接続・族 E・慣性係数)');
       cases.push(`① lib ${L0.LIB_VERSION}・方程式の天体 ${DC.solveBodies.join('・')}・検査 ${DC.checkBodies.join('・')}・族 ${DC.family}(銀河と K1 の口 c = 1・潮汐 k_i は未知)・太陽は銀河の口だけ・イオは K1(太陽・木星)`);
@@ -96256,8 +96256,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       try { S = L0.pureScenes(); G = L0.pureGates(S); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
       if (G) {
         for (const [k, v] of Object.entries(G)) if (v !== true) bad.push('② 純関数の場面 ' + k);
-        if (Object.keys(G).length !== 13) bad.push('② 場面の数 ' + Object.keys(G).length);
-        cases.push(`② 純関数の場面 ${Object.values(G).filter(Boolean).length}/${Object.keys(G).length}(逆向きの 2 源: 合計トルク ${S.opposed.torqueSum}・熱 ${S.opposed.heat}・供給 ${S.opposed.supply} / 系の帳簿: k ${S.system.kP.toFixed(3)} ≥ 0・尺度 2 倍で熱 ${S.system.scaleHeatRatio.toFixed(3)} 倍 / 凸包の外は不採用 ${S.system.outsideRejected} / 厳密な 1 步の h と h/2 の差 ${S.step.halfS})`);
+        if (Object.keys(G).length !== 14) bad.push('② 場面の数 ' + Object.keys(G).length);   // 第327便a(世代の直し): lib 版 2 で ⑪ 自由な未知の残らない行の採否を足した(13 → 14)
+        cases.push(`② 純関数の場面 ${Object.values(G).filter(Boolean).length}/${Object.keys(G).length}(逆向きの 2 源: 合計トルク ${S.opposed.torqueSum}・熱 ${S.opposed.heat}・供給 ${S.opposed.supply} / 系の帳簿: k ${S.system.kP.toFixed(3)} ≥ 0・尺度 2 倍で熱 ${S.system.scaleHeatRatio.toFixed(3)} 倍 / 凸包の外は不採用 ${S.system.outsideRejected} / 厳密な 1 步の h と h/2 の差 ${S.step.halfS} / 自由な未知の残らない行: 残差 ${S.unresolved.mismatchResidual} は不採用 ${S.unresolved.mismatchRejected}・ck = 0 の行も不採用 ${S.unresolved.ck0Rejected}〔第327便a〕)`);
       }
     }
     add('lint.axialHeat326d', bad.length === 0,
