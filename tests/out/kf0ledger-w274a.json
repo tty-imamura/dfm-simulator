@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第274便a(第64報・kF0 棚卸し便)",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T12:20:46.973Z",
+  "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
+  "generatedAt": "2026-11-06T00:32:50.767Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1749484,
-    "sha256": "d004360f326ffd3318498f6350fd73ccbc102f2e44e62cb3293f781d73be464c",
-    "mtime": "2026-11-05T11:41:05.360Z"
+    "bytes": 1734341,
+    "sha256": "923717c601582043848d6886f9666639491b77a4f65e02ffe168790a0a67569c",
+    "mtime": "2026-11-05T23:45:32.902Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 175493,
-    "sha256": "a6621623ff68ded40055d163942a3fc59071f08f40d6a4af4914e5b8e335f741",
-    "mtime": "2026-11-05T12:20:46.528Z"
+    "bytes": 175494,
+    "sha256": "3465f977ff80968ade5cabfc608097bf7d7e0328174392260f15f8e0592543e1",
+    "mtime": "2026-11-06T00:32:50.367Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
@@ -39,8 +39,8 @@
    {
     "file": "tests/out/calcontract-w282a.json",
     "bytes": 141260,
-    "sha256": "1bee7194a9f9ec67593088e4adcd49b07070b56ac3d2118afa5db6fb5eaa7417",
-    "mtime": "2026-11-05T11:50:40.052Z"
+    "sha256": "ea2c0937bd2423aa941a49d726f5f6dae2a0a880c6d35480c098ec86b9636a81",
+    "mtime": "2026-11-05T23:51:25.131Z"
    }
   ],
   "code": [
@@ -2281,7 +2281,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "c6a847765fc73af23a7ad5340ac1b4f311438722c9723a699d72c4c967fb7651",
+   "fileSha256": "a6621623ff68ded40055d163942a3fc59071f08f40d6a4af4914e5b8e335f741",
    "citedValue": 551864.0613634228,
    "citedCfg": {
     "kFrame": 0,
