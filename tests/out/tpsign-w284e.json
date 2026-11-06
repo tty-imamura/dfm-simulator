@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便e",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T11:50:45.035Z",
+  "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
+  "generatedAt": "2026-11-05T23:51:32.163Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "sha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
+    "mtime": "2026-11-05T18:27:49.341Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1749484,
-    "sha256": "d004360f326ffd3318498f6350fd73ccbc102f2e44e62cb3293f781d73be464c",
-    "mtime": "2026-11-05T11:41:05.360Z"
+    "bytes": 1734341,
+    "sha256": "923717c601582043848d6886f9666639491b77a4f65e02ffe168790a0a67569c",
+    "mtime": "2026-11-05T23:45:32.902Z"
    }
   ],
   "code": [
@@ -103,7 +103,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "a507d08cc1f16164803239e773afd17edf090a71bc9ba96aa46e379691df2b65",
+    "stableSha256": "8f217b25cb89e1c4bf35fed218ac77c24715c4ad6f7f46a3d75236e02ec999f2",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -144,7 +144,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "134bd9a74bd407bfb4a09effda901eb8105999a34853cdd7c4c838c367097b1a",
+    "stableSha256": "98fa85f106f2cc68e41d96ed51c641b90f906087a504527a8ca4b493eb32fbc0",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -186,8 +186,8 @@
  "after": {
   "source": "canon",
   "file": "tests/out/calaudit-w249.json",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "when": "2026-11-05T11:41:05.156Z",
+  "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
+  "when": "2026-11-05T23:45:32.700Z",
   "canonFourValues": {
    "合": 0,
    "量限定合": 2,
@@ -567,7 +567,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 48.504,
+      "wallSec": 50.926,
       "tags": [
        "dt"
       ],
@@ -782,7 +782,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 111.277,
+      "wallSec": 120.684,
       "tags": [
        "dt"
       ],
@@ -950,5 +950,5 @@
    "decideNext": "必要な窓(近点数)と誤差予算"
   }
  ],
- "elapsedS": 0.15
+ "elapsedS": 0.524
 }
