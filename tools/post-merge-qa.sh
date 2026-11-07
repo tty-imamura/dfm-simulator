@@ -720,6 +720,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.response328b behavior.response328b docs
 #   名指ししないので世代は直していない)・節に行を足した第327便の統括の節を位置で読む docs.axialDiff327e・段の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.venusCoverage328c lint.resPower328c docs.w328c lint.venusTide327f behavior.venusTide327f docs.venusTide327f docs.axialDiff327e lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第328便c の塊(ここまで)====
+# ==== 第329便b の塊(ここから)====
+# 第329便b(原仮定者の方針(2026-11-07)・原仮定者の回答(2026-11-07 —— AN568・AN569・AN570)・統括の検証項目 R305 —— 診断だけ・html は変えない): 枝 b の新設 3 本(lint.galRot329b —— 既存理論の
+#   ラベルと場の契約の版 2 の純関数の場面〔恒等式・物質線の反例・微分の型・ラベルの口・基準列と η・箱の集計/版 1 と同じ・回す枠・欠測は null・拒否・往復と相対の速さ・滑りと帳簿・ラベル〕と
+#   fixture の照合〔sha256・生の文・第三者の写し・CSV の v_rot〕・呼ぶだけの検査 / behavior.galRot329b —— 今の html の 🌃 の写しで DFM の探り・場の API で版 2 の口・fixture で基準列を作り直す /
+#   docs.galRot329b —— 正本の門と表が PHYSICS〔第329便b〕に逐語・第328便a の節の「第329便の更新」・文書)と、節に行を足した docs.fieldContract328a・名簿の行の docs.w320d・新しい段 galrot-329b の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.galRot329b behavior.galRot329b docs.galRot329b docs.fieldContract328a docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第329便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

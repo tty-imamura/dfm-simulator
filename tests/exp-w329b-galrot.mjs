@@ -214,7 +214,7 @@ function partsOf(P0, P1, h, ci, U) {
   return out;
 }
 function firstStepSame(P0, P1) { for (const k of ['x', 'y', 'vx', 'vy']) for (let i = 0; i < P0.a.n; i++) if (P0.a[k][i] !== P1.a[k][i]) return false; return true; }
-function probeSet(HP, FX, id, t, { nMul = 1, obsVel = false, kF = PLAN.kFOn, hs = PLAN.hs } = {}) {
+export function probeSet(HP, FX, id, t, { nMul = 1, obsVel = false, kF = PLAN.kFOn, hs = PLAN.hs } = {}) {
   const rows = hs.map((h) => {
     const t0 = Date.now(), base = offTo(HP, id, t - h, h, nMul), U = unitsOf(base.preset), ci = centerOf(base.preset), st = obsVel ? withObsVel(base.st, ci, U, FX) : base.st;
     const P0 = probeRun(HP, id, PLAN.kFOff, st, h, nMul), P1 = probeRun(HP, id, kF, st, h, nMul), parts = partsOf(P0, P1, h, ci, U);
