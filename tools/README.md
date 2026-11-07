@@ -398,3 +398,15 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
 - **html の物理の部分の版 2**(`tests/lib-w325a-htmlphys.mjs` —— w327c-htmlphys-2): 退役の表 `RETIRED_PRESETS` を文の登録簿へ(code から外す —— 退役の表の行だけでは code を読む段は走らない)。台帳は `node tools/regen-plan.mjs --htmlphys-record --base <基点 html>` で版 2 の行に作り直す。
 - **AN543**: 名指しの 6 段は presets:"all" のまま(pn1・pnsource286・pnsources291・refit-297a は文字列の式〔evalExpr・vm〕の中で全本を回る・eihdiag287・tpsign は較正走行の器の本文の評価と子プロセス —— QA が根拠の口を照合)。
 - **家族の表**: 器の入力に `tests/qa.mjs`(qa.mjs を直したら `node tests/exp-w283b-families.mjs` で作り直す —— `--check` で照合)。**confirm4**: 再生成表の `HTML_TEXT_READ_DECL_327C`(html の全文を読む理由 —— 表示の区分だけ)。
+
+## 第329便c — 道具: 条件で選ぶ本の宣言(AN554)・常時群の影の揮発の欄・固定の字数の窓・QA_FAST の heap の既定・契約の継ぎ目
+
+- **条件で選ぶ本の宣言**(`tests/lib-w281a-scope.mjs` —— 選択器 `w329c-presetselect-1`): 器の REGEN_SCOPE に presets "all"(選べないときの戻り先)と `presetsWhere`(条件・読んだ欄・名指しの本・全本の数・器の選ぶ式)を書くと、
+  刻印の道具が今の html で条件を評価し、選ばれた本 ∪ 名指しの本だけを領域 hash に刻む(評価が不明 —— 版・形・値の型・欠けた欄・閉包の本の表の読みの違い —— なら all)。
+  pn1・refit-297a の 2 段(名指しの 6 段の残り 4 段は all のまま —— 再生成表の `CONDSELECT_KEEP_ALL_329C`)。器が本の表を読む行は再生成表の `CONDSELECT_329C`(QA が逐語で照合)。
+- **危ない側の変異の試験**: `node tools/condselect-probe329c.mjs [--json <file>]` —— html の写し(一時のディレクトリ)を変えて、条件の宣言と従来の all の領域 hash を引く
+  (条件に当たる本の変更 → regen・当たらない本 → reuse・条件に入る → regen・評価が不明 → all・鍵を足す・閉包の読み・本を足す → regen)。走らせない・正本を書かない・30 秒ほど。
+- **常時群の影の照合の揮発の欄**: `tests/lib-w326e-alwaysshadow.mjs` の `SHADOW_VOLATILE_329C`(stoprule の正本の時間の欄と文の中の秒 —— `--always-shadow-check` の比べ)。
+- **固定の字数の窓**: tests/qa.mjs の `secUntilNext329c(text, i, seps)`(次の見出しの前まで)—— 新しい QA は節を固定の字数で切らない。
+- **QA_FAST の heap の既定**: `QA_FAST=1 node tests/qa.mjs` は heap の上限が 6144 MB より小さく heap を明示していなければ --max-old-space-size=6144 の子で起こし直す(`QA_HEAP_DEFAULT=0` で切る)。
+- **契約の継ぎ目**: 第328便b の lib の `slipOf(c, OmegaArm)`(Ω_arm は明示の引数)・器は第328便a の `buildFieldContract`(版 w328b-response-2)。

@@ -5,7 +5,10 @@
 //
 // ■ 契約(第328便の共通の形 —— ただの JSON の値・関数を含めない・欠測は null で 0 で埋めない): version 'w328a-fieldcontract-1'・frame{id, origin, axis, velocityRef, timeUnit,
 //   lengthUnit, omegaFrame}・omegaField{mode:'constant', value, at, ref, unit, source}・convergence{uConverged, curlConverged, method, gridSigns}・sources[{sourceId, owns, coef}]・
-//   transfer{id, version, form:'directSlip', gT}・ledgerRefs{supply, reaction, heat}。直接の滑りの目標 ν_slip = g_T(Ω_frame − Ω_field) â_frame(AN551 —— 構成則の宣言)。
+//   transfer{id, version, form:'directSlip', gT}・ledgerRefs{supply, reaction, heat}。直接の滑りの目標 ν_slip = g_T(Ω_arm − Ω_field) â_frame(AN551 —— 構成則の宣言)。
+//   **第329便c(版 lib-2 —— 原仮定者の回答(2026-11-07 —— AN569)・統括の検証項目 R306)**: Ω_arm(腕のパターンの角速度)は**受け手の側の入力**で、slipOf(c, OmegaArm) の
+//   明示の引数で渡す(契約の frame.omegaFrame〔座標の枠の回転 —— 第328便a の版 1 は 0〕から代用しない)。演算は第328便a の lib の directSlipOf へ委ねる(式を写さない)。
+//   版 lib-1 の slipOf(c) は frame.omegaFrame を Ω_arm と読んでいた(第328便b の器の中の作り手 contractFromLegacy でだけ整合 —— 第328便a の buildFieldContract の契約では意味が変わる継ぎ目)。
 // ■ 受け手の演算の型(宣言 —— 走行の前に置く。今の DFM の式から導いた法則ではない。受け手 = {R_d, m, I}〔I は天体の慣性 —— R_d・m と独立の量〕・env = {slip, W_bg, ref})
 //   ballMean(主): 受け手の R_d の球で場の回転を平均する(定数の Ω_field の場は球の平均が中心の値 —— 一次の場でも中心の値。二次の項は (R_d²/10)∇² —— 純関数の場面 ②)
 //   inertiaShare(主): 直接の滑りを受け手の慣性で配る(R_d の球の慣性 I_c = (2/5) m R_d² と天体の慣性 I の比 —— ν = ν_slip I_c/(I_c + I))
@@ -23,7 +26,8 @@
 //   内部熱・金星の逆回転の説明ではない・銀河場の同定と数えない・負の係数は不採用(0 に丸めない)・変化の時間 I|Ω|/|N| はその列の瞬間のトルクの局所の尺度(履歴の積分ではない)。
 import * as E from './lib-w326d-axialheat.mjs';
 import * as LS from './lib-w327a-axialsum.mjs';
-export const LIB_VERSION = 'w328b-response-lib-1';
+import * as FC from './lib-w328a-fieldcontract.mjs';
+export const LIB_VERSION = 'w328b-response-lib-2';   // 第329便c: slipOf の Ω_arm を明示の引数へ(lib-1 は frame.omegaFrame を Ω_arm と読んだ)
 export const CONTRACT_VERSION = 'w328a-fieldcontract-1';
 const { dot, scale, norm, relD } = E;
 const vec3 = (a) => Array.isArray(a) && a.length === 3 && a.every(Number.isFinite);
@@ -85,15 +89,21 @@ export function checkContract(c) {
   if (c.transfer && c.transfer.form !== 'directSlip') errors.push('transfer.form は directSlip(AN551)');
   return { ok: missing.length === 0 && errors.length === 0, missing, nulls, errors };
 }
-/** 直接の滑り ν_slip = g_T(Ω_frame − Ω_field) â(欠測が 1 つでもあれば null —— 0 で埋めない) */
-export function slipOf(c) {
+/**
+ * 直接の滑り ν_slip = g_T(Ω_arm − Ω_field) â(第329便c —— lib-2)。**Ω_arm は受け手の側の入力**(明示の引数 —— 契約の frame.omegaFrame から代用しない・AN569)。
+ * 演算は第328便a の lib の directSlipOf(式を写さない)。欠測(契約の g_T・Ω_field・軸か引数の Ω_arm が null・undefined)は null(0 で埋めない —— 0 は欠測ではない)。
+ * directSlip が拒否する入力(場の軸の反転 Ω_field ≤ 0・負の利得・単位でない軸)は ok:false で返す(投げない)。
+ */
+export function slipOf(c, OmegaArm) {
   const ck = checkContract(c);
   if (!ck.ok) return { ok: false, why: ck.errors.concat(ck.missing.map((m) => '欠け ' + m)).join('・'), vec: null };
-  const need = { 'frame.omegaFrame': c.frame.omegaFrame, 'omegaField.value': c.omegaField.value, 'transfer.gT': c.transfer.gT, 'frame.axis': c.frame.axis };
+  const need = { OmegaArm, 'omegaField.value': c.omegaField.value, 'transfer.gT': c.transfer.gT, 'frame.axis': c.frame.axis };
   const miss = Object.entries(need).filter(([, v]) => v === null || v === undefined).map(([k]) => k);
   if (miss.length) return { ok: false, why: '欠測(null)' + miss.join('・') + ' —— 0 で埋めない', missing: miss, vec: null };
-  const mag = c.transfer.gT * (c.frame.omegaFrame - c.omegaField.value);
-  return { ok: true, mag, axis: c.frame.axis.slice(), vec: scale(c.frame.axis, mag), relFrame: c.frame.omegaFrame - c.omegaField.value };
+  let sl = null;
+  try { sl = FC.directSlipOf(c, OmegaArm); } catch (e) { return { ok: false, why: 'directSlip が拒否: ' + String(e && e.message || e).slice(0, 120), vec: null }; }
+  if (!sl.ok) return { ok: false, why: sl.why, vec: null };
+  return { ok: true, mag: sl.nuAlong, axis: c.frame.axis.slice(), vec: sl.nu, relArm: sl.slipArm, premise: sl.premise, OmegaArm, omegaFrame: c.frame.omegaFrame };
 }
 
 /* ───────── 球の平均(受け手の R_d の球)———————— */
@@ -252,7 +262,7 @@ export function localScale({ I, s, N }) {
 
 /* ───────── 純関数の場面(QA lint.response328b と器の P 段)———————— */
 export function toyContract(o = {}) {
-  return { version: CONTRACT_VERSION, frame: { id: 'toy', origin: 'toy-origin', axis: [0, 0, 1], velocityRef: 'toy', timeUnit: 's', lengthUnit: 'm', omegaFrame: 'omegaFrame' in o ? o.omegaFrame : 1e-15 },
+  return { version: CONTRACT_VERSION, frame: { id: 'toy', origin: 'toy-origin', axis: [0, 0, 1], velocityRef: 'toy', timeUnit: 's', lengthUnit: 'm', omegaFrame: 'omegaFrame' in o ? o.omegaFrame : 0 },
     omegaField: { mode: o.mode || 'constant', value: 'value' in o ? o.value : 2e-6, at: { R_kpc: 8, z_kpc: 0 }, ref: 'toy', unit: 'rad/s', source: 'declared' },
     convergence: { uConverged: null, curlConverged: null, method: 'toy', gridSigns: null }, sources: [{ sourceId: 'toy:all', owns: ['all'], coef: 1 }],
     transfer: { id: 'directSlip', version: 'toy-1', form: 'directSlip', gT: 'gT' in o ? o.gT : 1 }, ledgerRefs: { supply: 'galaxySupply', reaction: 'k1Transfer.sourceReactionWork', heat: 'heat' } };
@@ -260,10 +270,14 @@ export function toyContract(o = {}) {
 export function pureScenes() {
   const S = {};
   // ① 契約: 形・直接の滑り・欠測は null(0 で埋めない)・版の違い・軸が単位でない・関数・定数でない型の拒否
-  { const c = toyContract(), sl = slipOf(c), cn = slipOf(toyContract({ omegaFrame: null })), cg = slipOf(toyContract({ gT: null }));
+  //   第329便c(lib-2): Ω_arm は引数(1e-15)—— 引数の欠測は null・omegaFrame(座標の枠)を変えても滑りは同じ(反例 —— lib-1 は omegaFrame を Ω_arm と読んだ)
+  { const c = toyContract(), sl = slipOf(c, 1e-15), cn = slipOf(c, null), cu = slipOf(c), cg = slipOf(toyContract({ gT: null }), 1e-15);
+    const fr = [0, 5e-16, -3e-16, 1e-15, 7].map((of) => slipOf(toyContract({ omegaFrame: of }), 1e-15)), fz = slipOf(c, 0), fc = FC.directSlipOf(c, 1e-15);
     const bad = [Object.assign(toyContract(), { version: 'other' }), Object.assign(toyContract(), { frame: Object.assign(toyContract().frame, { axis: [0, 0, 2] }) }),
       Object.assign(toyContract(), { transfer: Object.assign(toyContract().transfer, { gT: () => 1 }) }), toyContract({ mode: 'field' })].map((x) => checkContract(x).ok);
-    S.contract = { ok: checkContract(c).ok, nulls: checkContract(c).nulls, mag: sl.mag, expect: 1 * (1e-15 - 2e-6), nullFrame: cn.ok === false && cn.vec === null && /null/.test(cn.why), nullGain: cg.ok === false && cg.vec === null, badAllRejected: bad.every((x) => x === false) }; }
+    S.contract = { ok: checkContract(c).ok, nulls: checkContract(c).nulls, mag: sl.mag, expect: 1 * (1e-15 - 2e-6), nullArm: cn.ok === false && cn.vec === null && /null/.test(cn.why) && cu.ok === false && cu.vec === null,
+      nullGain: cg.ok === false && cg.vec === null, badAllRejected: bad.every((x) => x === false),
+      frameIndependent: fr.every((q) => q.ok === true && q.mag === sl.mag && q.relArm === sl.relArm), zeroArmNotMissing: fz.ok === true && fz.mag === -2e-6, sameAsFieldContract: sl.vec.every((v, i) => v === fc.nu[i]) && sl.mag === fc.nuAlong }; }
   // ② 球の平均: 一次の場は中心の値・二次の場は中心 + (R²/10)∇²・定数の契約の場は R_d に依らない(同じビット)
   { const c0 = [1, -2, 3], G = [[0.3, 0.1, -0.2], [0.05, -0.4, 0.2], [0.1, 0.2, 0.7]], lin = (x) => [c0[0] + G[0][0] * x[0] + G[0][1] * x[1] + G[0][2] * x[2], c0[1] + G[1][0] * x[0] + G[1][1] * x[1] + G[1][2] * x[2], c0[2] + G[2][0] * x[0] + G[2][1] * x[1] + G[2][2] * x[2]];
     const Hq = [0.5, -0.25, 0.75], quad = (x) => [c0[0] + Hq[0] * (x[0] * x[0] + 2 * x[1] * x[1]), c0[1] + Hq[1] * x[2] * x[2], c0[2] + Hq[2] * (x[0] * x[1] + x[2] * x[2])], R = 0.7;
@@ -305,7 +319,8 @@ export function pureScenes() {
 export function pureGates(S) {
   const close = (x, y, t = 1e-12) => Math.abs(x - y) <= t * Math.max(1, Math.abs(x), Math.abs(y));
   return {
-    contractShape: S.contract.ok && close(S.contract.mag, S.contract.expect) && S.contract.nullFrame && S.contract.nullGain && S.contract.badAllRejected && S.contract.nulls.includes('convergence.uConverged'),
+    contractShape: S.contract.ok && close(S.contract.mag, S.contract.expect) && S.contract.nullArm && S.contract.nullGain && S.contract.badAllRejected && S.contract.nulls.includes('convergence.uConverged')
+      && S.contract.frameIndependent && S.contract.zeroArmNotMissing && S.contract.sameAsFieldContract,
     ballMean: S.ball.linRel <= 1e-14 && S.ball.quadRel <= 1e-12 && S.ball.constSame === true && close(S.ball.constFac, 1, 1e-15),
     defaultAndNegative: close(S.defaultNeg.dRd, 1) && close(S.defaultNeg.dM, -1) && S.defaultNeg.dSpread <= 1e-12 && S.defaultNeg.nRd === 0 && S.defaultNeg.nM === 0 && S.defaultNeg.jointBlind && S.defaultNeg.independentSees,
     positiveControl: close(S.positive.a, 1.7) && close(S.positive.b, -0.3) && S.positive.aConst && S.positive.bConst && close(S.positive.pBody, 1.4),

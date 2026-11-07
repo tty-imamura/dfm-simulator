@@ -41058,7 +41058,7 @@ balance:"background" の受理の正準形は第319便a のまま(真)・版 w32
 **② AN478 —— 領域の差の分類(核・本・表示)と本ごとに分けられる器の名簿。** `tests/lib-w320d-perbook.mjs`:
 - **分類**(段ごと —— 刻印した html と今の html の scopeHash の parts の差): display(対象 html は違うが領域 hash が同じ)・book(差が本の生の定義/受理後の定義だけ —— 本の id の集合)・core(閉包の関数・HP・S._core・定数・領域の版のどれか)・none・nodecl(領域の宣言なし)・other(html 以外の理由)・unknown(刻印時の html が手元に無い)。`node tools/regen-plan.mjs --classify [--stamp-html <f>] [--stamp-git <N>]` が `plan.classify320` に行ごとの分類と文(「本 X の変更だけで動く —— 名簿 A/B/C」「核: 式 …」「表示だけ」)を出す(**段の判定 status は変えない**)。
 - **判定の例**(枝の写し —— 刻印時の html は git の履歴から 12 種のうち 2 種を引けた): ❄️ の質量の最下位桁だけを変えた写しでは book 55 段(すべて plutoCharonReal —— 名簿の型で A が 7 段・B が 10 段・C が 38 段)・display 94・nodecl 24・other 28・unknown 1。validatePreset の本体に 1 文を足した写しでは core 149 段(核: 式: validatePreset)・book 0。
-- **名簿**(`tests/data-w320d-perbook.json` —— `node tools/regen-plan.mjs --roster --write|--check`・版 w320d-roster-1・機械の読み): 名簿 A 12・B 35・C 174(第329便の枝 a・b の統合の後に引き直した —— 段 221〔段 spinbias-329a・galrot-329b を足した〕・見積りの秒 A 6203 s・B 6122 s・C 21736 s〔段の秒は第329便の便の開始の更新 —— 第328便の鎖の実測 —— を含む〕。第329便a・b の枝ではそれぞれ C 173・段 220。第328便の枝 a・b・c の統合の後は C 172 —— 段 219〔段 fieldcontract-328a・response-328b を足した〕・見積りの秒 A 5282 s・B 6119 s・C 23397 s〔段の秒は第328便の便の開始の更新 —— 第327便の鎖 1・鎖 2 の実測 —— を含む〕。第328便a・b の枝ではそれぞれ C 171・段 218。第327便f の枝では C 170 —— 段 217〔段 venustide-327f を足した〕・見積りの秒 A 7083 s・B 9521 s・C 56991 s。第327便e の枝では C 169 —— 段 216〔段 axialdiff-327e を足した〕・見積りの秒 C 56982 s。第327便の枝 a・b・c の統合の後は C 168 —— 段 215〔段 axialsum-327a・galaxis-327b を足した〕・見積りの秒 A 7083 s・B 9521 s・C 56971 s〔段の秒は第327便の便の開始の更新 —— 第326便の鎖 1・鎖 2 の実測 —— を含む〕。第327便b の枝では C 167〔段 galaxis-327b〕。第326便の 5 枝の統合の後は C 166 —— 第326便の 5 枝の統合の後に引き直した —— 段 213〔段 axialheat-326d を足した〕・見積りの秒 A 6614 s・B 5883 s・C 28064 s〔段の秒は第326便の便の開始の更新 —— 第325便の鎖の実測 —— を含む〕。第324便の 5 枝の統合の後は C 165・段 212〔段 geo2thick-324a・obsspin-324b を足した —— 長い窓と再開の門の段は履歴〕・見積りの秒 A 5480 s・B 12979 s・C 50690 s。第322便の 4 枝の統合の後は B 33・段 210〔段 geo2flat-322a・binbooks-322b・fieldcontract-322c を足した〕・見積りの秒 A 5208 s・B 11152 s・C 51594 s。枝 a の時点は C 163・段 208・C 51489 s〔段の秒は第322便の便の開始の更新を含む〕。第321便の統合の後は C 162・段 207 —— 見積りの秒 A 4935 s・B 10628 s・C 48231 s。第320便の統合の後は C 159・段 204 —— 見積りの秒 A 5492 s・B 11180 s・C 51310 s —— 統合の後〔枝 a・b・c の段 srcheat-320a・jexplore-320b・nbcompose-320c を足し、axisheat-319a を履歴へ〕に引き直した名簿。枝の時点は C 157・段 202・C 51258 s)。**A** = 器に `--only` があり正本に本ごとの容器がある段(charon-h2 1074 s・charoneps-h4 838 s・nslock 650 s・charonInput 595 s・charon-h 554 s・charon-h4 513 s・charoneps-h2 423 s・galaxydiag 293 s・charoneps-h 220 s・sparc 185 s・cluster 78 s・charondfm 69 s)/ **B** = 正本に宣言の本の過半を覆う本ごとの容器があり全体集計・共有フィット・対の比較の印が無い段(器を読んで確かめる候補 —— satnext-318b 5151 s・satcut-317c 2446 s・earthmoon-303c 807 s・rotframe-306d 542 s・spinavg-305d 430 s・timestd-297c 425 s ほか)/ **C** = 全体の再走(領域の宣言なし 52・正本に本ごとの容器が無い 48・本ごとの容器が宣言の本の過半を覆わない 33〔宣言の多くは凍結の写しと参照の本 —— 下限〕・対の比較 8・全体集計 6〔KEEP_ALL_319C〕・本が 1 冊以下 6・共有フィット 4)。
+- **名簿**(`tests/data-w320d-perbook.json` —— `node tools/regen-plan.mjs --roster --write|--check`・版 w320d-roster-1・機械の読み): 名簿 A 12・B 35・C 174(第329便の枝 a・b・c の統合の後に引き直した —— 段 221〔段 spinbias-329a・galrot-329b を足した〕・見積りの秒 A 6203 s・B 6122 s・C 21736 s〔段の秒は第329便の便の開始の更新 —— 第328便の鎖の実測 —— を含む〕。第329便a・b の枝ではそれぞれ C 173・段 220。第328便の枝 a・b・c の統合の後は C 172 —— 段 219〔段 fieldcontract-328a・response-328b を足した〕・見積りの秒 A 5282 s・B 6119 s・C 23397 s〔段の秒は第328便の便の開始の更新 —— 第327便の鎖 1・鎖 2 の実測 —— を含む〕。第328便a・b の枝ではそれぞれ C 171・段 218。第327便f の枝では C 170 —— 段 217〔段 venustide-327f を足した〕・見積りの秒 A 7083 s・B 9521 s・C 56991 s。第327便e の枝では C 169 —— 段 216〔段 axialdiff-327e を足した〕・見積りの秒 C 56982 s。第327便の枝 a・b・c の統合の後は C 168 —— 段 215〔段 axialsum-327a・galaxis-327b を足した〕・見積りの秒 A 7083 s・B 9521 s・C 56971 s〔段の秒は第327便の便の開始の更新 —— 第326便の鎖 1・鎖 2 の実測 —— を含む〕。第327便b の枝では C 167〔段 galaxis-327b〕。第326便の 5 枝の統合の後は C 166 —— 第326便の 5 枝の統合の後に引き直した —— 段 213〔段 axialheat-326d を足した〕・見積りの秒 A 6614 s・B 5883 s・C 28064 s〔段の秒は第326便の便の開始の更新 —— 第325便の鎖の実測 —— を含む〕。第324便の 5 枝の統合の後は C 165・段 212〔段 geo2thick-324a・obsspin-324b を足した —— 長い窓と再開の門の段は履歴〕・見積りの秒 A 5480 s・B 12979 s・C 50690 s。第322便の 4 枝の統合の後は B 33・段 210〔段 geo2flat-322a・binbooks-322b・fieldcontract-322c を足した〕・見積りの秒 A 5208 s・B 11152 s・C 51594 s。枝 a の時点は C 163・段 208・C 51489 s〔段の秒は第322便の便の開始の更新を含む〕。第321便の統合の後は C 162・段 207 —— 見積りの秒 A 4935 s・B 10628 s・C 48231 s。第320便の統合の後は C 159・段 204 —— 見積りの秒 A 5492 s・B 11180 s・C 51310 s —— 統合の後〔枝 a・b・c の段 srcheat-320a・jexplore-320b・nbcompose-320c を足し、axisheat-319a を履歴へ〕に引き直した名簿。枝の時点は C 157・段 202・C 51258 s)。**A** = 器に `--only` があり正本に本ごとの容器がある段(charon-h2 1074 s・charoneps-h4 838 s・nslock 650 s・charonInput 595 s・charon-h 554 s・charon-h4 513 s・charoneps-h2 423 s・galaxydiag 293 s・charoneps-h 220 s・sparc 185 s・cluster 78 s・charondfm 69 s)/ **B** = 正本に宣言の本の過半を覆う本ごとの容器があり全体集計・共有フィット・対の比較の印が無い段(器を読んで確かめる候補 —— satnext-318b 5151 s・satcut-317c 2446 s・earthmoon-303c 807 s・rotframe-306d 542 s・spinavg-305d 430 s・timestd-297c 425 s ほか)/ **C** = 全体の再走(領域の宣言なし 52・正本に本ごとの容器が無い 48・本ごとの容器が宣言の本の過半を覆わない 33〔宣言の多くは凍結の写しと参照の本 —— 下限〕・対の比較 8・全体集計 6〔KEEP_ALL_319C〕・本が 1 冊以下 6・共有フィット 4)。
 - **本ごとの行の再利用の契約**(--merge の器が守る条件): 入力 hash(本の生の定義と受理後の定義の hash)・コード(器と lib の sha)・環境(Node と Chromium の版)の**一致する行だけ**を再利用する。全体集計・共有フィット・対の比較は全体の再走。本便は名簿と判定まで(器の `--only/--merge` の実装は名簿 A の上位から —— 決断事項の候補)。
 
 **③ AN481 —— 受理の鍵を足すとほぼ全段の型(変異試験 —— `tools/an481-probe.mjs`・`tests/lib-w320d-an481.mjs`)。** 1 つの最上位の段の本文だけを変える変異(識別子は増やさない —— 閉包の集合は同じなので、その段が閉包にある宣言だけが動く)で、宣言した 154 器のうち動く器の数を候補の閉包の型ごとに数えた:
@@ -45423,6 +45423,22 @@ regen 177 の理由: 器の宣言の変更と版の移行 135・版の移行だ�
 - 次の便へ: 枝 a の契約の関数(`buildFieldContract`)へ差し替えて同じ判定を走らせる(契約の形は同じ —— 数は変わらない見込み)・慣性で配る型の f_i を口ごとに使う列(p を経ない)を第326便d・第327便a の帳簿に通す・Ω_field を位置の関数にした契約で球の平均の型の R_d の応答を測る(二次の項 (R_d²/10)∇²)。
 - QA: `lint.response328b`(lib の版と宣言・純関数の場面 8 —— 契約の形と欠測の null・球の平均・既定の列と否定対照・正の対照・一定でない例の拒否・慣性で配る型の応答の表・源の固定の列の帳簿・入力の拒否)・`behavior.response328b`(今の html の 🗺️ の写しで既定の列のエンジンの係数・金星の銀河と K1 の口のトルクと太陽の式の A・主の型の N_0・源の固定の列の A と外部の口座が正本と同じ)・`docs.response328b`(正本の門と表が本節に逐語・第327便a と第327便f の節の「第328便の更新」の行・AI_SPEC §194・CHANGELOG・段の行・書かない語と禁句)。
 
+**第329便の更新(第329便c —— 契約の継ぎ目・原仮定者の回答(2026-11-07 —— AN569)・統括の検証項目 R306 —— 過去の行は書き換えていない)。** 本節 ② の器の中の作り手 `contractFromLegacy()` は frame.omegaFrame に Ω_arm(腕のパターンの角速度)を入れ、lib の `slipOf` は同じ欄を Ω_arm と読んでいた。第328便a の契約の frame.omegaFrame は座標の枠の回転(版 1 は 0 —— 回転しない銀河中心系)なので、作り手だけを第328便a の `buildFieldContract` へ差し替えると滑りの意味が変わる(継ぎ目 —— アプリの数値の回帰ではない)。第329便c は lib を版 `w328b-response-lib-2` にし、`slipOf(c, OmegaArm)` で Ω_arm を**明示の引数**(受け手の側の入力 —— 契約の外)に分け、演算を第328便a の lib の `directSlipOf` へ委ねた(式を写さない)。器は版 `w328b-response-2` で主の契約を `buildFieldContract` で作り、`contractFromLegacy()` は**比べる列**に残した(門 `contractSeam` —— 同じ Ω_arm を明示の引数で渡した 2 つの経路の滑りのベクトルと W_bg がビット同一)。物理の塊(p・空間の勾配・金星・源の固定・過渡・予言)は版 1 の正本と JSON で同一で、表 2〜15 は同じ。表 1 だけを次の版 2 に置き換える(上の表 1 は版 1 の記録)。版 1 の読み(omegaFrame を Ω_arm)を第328便a の契約に当てると g_T(0 − Ω_field)になり、この位置では Ω_arm ≪ Ω_field なので主の滑りと相対 1e-10 の桁の差(表の 4 桁には出ない —— 意味の違い)。反例の純関数の場面(① 契約): omegaFrame を 0・5e-16・−3e-16・1e-15・7 に変えても同じ Ω_arm なら滑りは同じ・Ω_arm = 0 は欠測ではない(滑り −Ω_field)・Ω_arm の欠測は null(0 で埋めない)。
+
+**表 1(第329便c —— 版 2)**
+| 欄 | 値 |
+|---|---|
+| version | w328a-fieldcontract-1 |
+| frame(id・axis・omegaFrame [rad/s]) | galactocentric・(0, 0, 1)・0(座標の枠の回転 —— 第328便a の版 1 は回転しない銀河中心系) |
+| Ω_arm [rad/s](受け手の側の入力 —— 契約の外・slipOf の明示の引数) | 7.616e-16(渦状腕のパターンの角速度の文献の範囲 5.509e-16〜9.722e-16 の中点) |
+| omegaField(mode・value [rad/s]・at) | constant・7.404e-6・R 8.2 kpc・z 0.0 kpc(宣言の候補 —— 同定ではない) |
+| transfer(form・version・g_T) | directSlip・w328a-directslip-1・1 |
+| 直接の滑り ν_slip = g_T(Ω_arm − Ω_field) [rad/s] | -7.404e-6(太陽の式の A -7.404e-6 と同じ —— 宣言の作り方) |
+| 比べる列(版 1 の器の中の作り手 contractFromLegacy —— frame.omegaFrame に Ω_arm を入れていた) | 同じ Ω_arm を明示の引数で渡すと滑りのベクトルはビット同一(同一)・版 1 の読み(omegaFrame を Ω_arm)を主の契約に当てた値 -7.404e-6(主の滑りと相対 1.029e-10 の差 —— 継ぎ目の反例の記録・採らない) |
+| convergence(uConverged・curlConverged・gridSigns) | null・null・null(第321便c の sample に収束の印は無い —— 0 で埋めない) |
+| sources | mw319b-tanh:full(5 成分・係数 1) |
+| 背景の場 W_bg = β/(10G_0/c_0²) [kg/m](K1 の比の型だけが読む) | 5.339e+20(β 3.965e-6) |
+
 〔第328便c — 第327便f の器の検査の範囲の直し(版 2 —— 全 45 360 条件を帳簿まで評価・件数の門)・共鳴の口の仕事の契約(位相・保存のポテンシャル・角運動量の反作用 —— 診断だけ・エンジンに入れない)・第327便f の文の限定(原仮定者の回答(2026-11-05 —— AN564 = A: 共鳴の口はエンジンに足さず診断に残す)の支え・統括の検証項目 R303)(**診断だけ —— html・エンジン・在位の本・受理器・`S._core`・第327便f の lib の式〔`resPort` を含む〕は 1 bit も変えていない**・器 `tests/exp-w327f-venustide.mjs`〔版 2〕・lib `tests/lib-w328c-respower.mjs`・文書の lib `tests/lib-w328c-doc.mjs`・正本 `tests/out/venustide-w327f.json`・段 `venustide-327f`)〕
 
 **① 検査の範囲の直し(器の版 2)。** 第327便f の器の版 1 の部 V は、源 × 族 × p × Q × τ_0 × χ × 固体の型 × 熱潮汐の型の **45 360 条件の全部で振幅を解いた**が、解いた振幅を足した系を作り直して**帳簿(軸の向きの残差・エネルギー・L・口の閉じ・K1 の移し替え)まで評価したのは条件式で選んだ 1 746 条件**だった(正本に残す行・主の行〔族 E・Q 30・τ_0 年齢と ∞・p 主と p 0・χ 0〕の全部の型・p 主で χ 0.25 の条件)。第327便f の節の ④ の「全部で … 帳簿・L・口の閉じは丸めの内」は、検査の範囲を言い過ぎていた(振幅が非負なのは全部の条件で正しい —— 帳簿の閉じの範囲だけが 1 746 条件)。**器の版 2**(`HARNESS_VERSION = 'w327f-venustide-2'`)は全部の条件を帳簿まで評価し、件数 `coverage = { total, checked, rejected }` を正本へ・門 `allVenusCasesChecked`(件数 = 宣言の条件の格子の積 `venusCaseGrid` —— 正本の欄ではなく器の宣言から数える)を足した。版 1 の件数は `coverageV1` に残した。
@@ -45904,6 +45920,99 @@ regen 177 の理由: 器の宣言の変更と版の移行 135・版の移行だ�
 **⑭ 段と QA。** 段 `galrot-329b`(regentable の第329便b の塊 —— `quickVerify: 'long'`・理由「時間発展の後の OFF/ON の差(T = 40 —— h と h/2)と t* = 10 の状態の探りを含む」・見積り 45 s・`after: ['fieldcontract-328a', 'obscompare', 'samplestatus']`・REGEN_SCOPE は版 8 の宣言〔core・本 🌃🛞 と import した lib の綴りの本・abBody:false〕)。fixture は `EXTERNAL_VOLATILE` に除く欄なしで宣言(書き換えない)。QA の新設 3 本: `lint.galRot329b`(html を読まない —— 版・鍵の形・宣言・純関数の場面 8 + 7・fixture の sha256 と生の文と CSV・呼ぶだけ)・`behavior.galRot329b`(今の html を headless で —— 🌃 の写しの探り・版 2 の口と回す枠・基準列・η・ラベルを作り直して正本と同じ)・`docs.galRot329b`(正本の門・表 10 本が本節に逐語・第328便a の節の「第329便の更新」・AI_SPEC §197・CHANGELOG・段の行・書かない語 —— 版名〔CHANGELOG〕を読むので lint・behavior と別の最上位のブロック)。周転円の振動数の記号は本節と AI_SPEC §197 でコードの書式(`lint.kappaSymbol315` —— 文書の係数記号は κ_D だけで、コードの書式の中は引用として数えない)。**既存の QA の直し(名指し)**: `docs.w327c` の節の窓を次の節の見出しでも切った(旧の窓は「## 7.」まで後ろの節を全部含み、後ろの節の係数記号を第327便c の節の違反に数えていた —— 照合する語と規則は不変)。
 
 **⑮ 次の便へ。** geoPN = 4 の銀河の本を作る便では、ラベルの口に宣言を置き(出典つき)、契約の版 2 の回す枠でパターンの枠を宣言する。寄与の度合いを広げるなら他の SPARC の銀河の写し(同じ fixture の型)と kF の比例の記録を足す。時間発展の後の差を寄与の数に使うなら N を上げて刻みで決まることを先に見る。
+
+〔第329便c — 道具: 契約の継ぎ目(第328便b の Ω_arm を slipOf の明示の引数へ・作り手を第328便a の buildFieldContract へ)・名指しの 6 段のうち条件で選べる 2 段の宣言(AN554 —— pn1・refit-297a)・常時群の影の比べに stoprule の揮発の欄・固定の字数の窓の棚卸し(102 窓を「次の見出しまで」へ)・QA_FAST の heap の既定(原仮定者の回答(2026-11-05 —— AN554 = A)・原仮定者の回答(2026-11-07 —— AN569)・統括の検証項目 R306)(**道具だけ —— html・エンジン・在位の本・受理器・`S._core` は 1 bit も変えていない**・beta/index.html と root の index.html は 1 byte も変えていない・**物理の塊の値は変えていない** —— 第328便b の器の版 2 の正本の物理の塊は版 1 と JSON で同一・計画の status・鎖・済み印の契約は変えない)〕
+
+**① 回答と読み。** 原仮定者の回答(2026-11-05 —— AN554 = A)は「名指しの 6 段は条件で選ぶ本の宣言を道具の便で(pn1 と refit-297a から)」。原仮定者の回答(2026-11-07 —— AN569 = A)は「Ω_arm は受け手の側の入力 —— 契約の frame.omegaFrame に入れない」。原仮定者の方針(2026-11-07)「範囲を広げ過ぎず、その中での整合性を成立させる」に合わせ、本便の枝 c は**道具の継ぎ目と狭さだけ**を直した(新しい物理の口・新しい段は足していない)。危ない側(物理が変わったのに reuse)を作らないことを変異の試験で示した(③ の表 3)。
+
+**② 契約の継ぎ目(AN569)。** 第328便a の契約の `frame.omegaFrame` は**座標の枠の回転**(版 1 は 0 —— 回転しない銀河中心系)で、第328便b の lib の `slipOf(c)` は同じ欄を **Ω_arm(腕のパターンの角速度)**として読んでいた(器の中の作り手 `contractFromLegacy()` でだけ整合 —— 作り手を差し替えると滑りの意味が変わる。アプリの数値の回帰ではない)。lib を版 `w328b-response-lib-2` にし、`slipOf(c, OmegaArm)` で Ω_arm を明示の引数に分け、演算は第328便a の lib の `directSlipOf` へ委ねた(式を写さない)。器は版 `w328b-response-2` で主の契約を `buildFieldContract` で作り、`contractFromLegacy()` は比べる列に残した(門 `contractSeam` —— 同じ Ω_arm を渡した 2 つの経路の滑りのベクトルと W_bg がビット同一)。
+
+**表 1**
+| 項 | 版 1(第328便b) | 版 2(第329便c) |
+|---|---|---|
+| 契約の作り手 | 器の中の `contractFromLegacy()`(frame.omegaFrame に Ω_arm) | 第328便a の `buildFieldContract`(frame.omegaFrame 0 —— 座標の枠) |
+| Ω_arm | 契約の frame.omegaFrame から読む | `slipOf(c, OmegaArm)` の明示の引数(受け手の側の入力 —— 契約の外) |
+| 滑りの演算 | lib の中の g_T(Ω_frame − Ω_field) | 第328便a の `directSlipOf`(g_T(Ω_arm − Ω_field)) |
+| 物理の塊(p・空間の勾配・金星・源の固定・過渡・予言) | — | 版 1 の正本と JSON で同一(物理の塊は C.slip と C.Wbg だけを読む) |
+| 版 1 の読みを主の契約に当てた値 | — | g_T(0 − Ω_field) —— この位置では主の滑りと相対 1e-10 の桁の差(Ω_arm ≪ Ω_field —— 表の 4 桁には出ない意味の違い) |
+| 反例の純関数の場面 | — | omegaFrame を 0・5e-16・−3e-16・1e-15・7 に変えても同じ Ω_arm なら滑りは同じ・Ω_arm = 0 は欠測ではない・Ω_arm の欠測は null |
+
+**③ 条件で選ぶ本の宣言(AN554)。** 第327便c の表 4 の名指しの 6 段は、器の中の文字列の式で内蔵の全本から本を選ぶので、名指しの本へ絞ると危ない側になる(機械の下限 deriveScope は文字列の中を見ない)。本便は**器の外の宣言**を足した: 器の REGEN_SCOPE に presets "all"(選べないときの戻り先 —— 他の道具は従来どおり「全部」と読む)と **presetsWhere**(選択器の版 `w329c-presetselect-1`・条件〔path・op・値・欠けた欄の扱い〕・読んだ欄・名指しの本〔下限 deriveScope の名指し〕・全本の数を読むか・器の選ぶ式)。刻印の道具(`tests/lib-w281a-scope.mjs` の `selectPresets329c`)が今の html で条件を評価し、**選ばれた本 ∪ 名指しの本**(と閉包の loadPreset が見つからないときに読む先頭の本)だけを領域 hash に刻む。指紋には選択器の版・宣言・選ばれた本の id の列・刻んだ本の列・全本の数・閉包の読みの鍵の名と型・**全本の physics の鍵の名の列の hash**(閉包の fastParams が全本の physics の鍵の名を読む —— 値は読まない)を入れる。**評価が不明なら all へ戻る**: 選択器の版・宣言の形・op・読んだ欄の宣言が違う/読んだ欄の値が有限の数でない本がある/欠けた欄の扱いが無いのに欠けた本がある/**閉包の関数で本の表を読む行**(BUILTIN_PRESETS・allPresets() —— 8 関数 10 行)が宣言の表 `REG_READS_329C` と 1 行でも違う。宣言の無い段の領域 hash の本文は 1 字も変わらない(全部の正本の刻印 190 本で道具の変更の前後の hash が同じ)。器の本文の選ぶ式と、器が内蔵の本の表を読む行の全部は、再生成表の `CONDSELECT_329C` に写し、QA が器の本文と逐語で照合する(器が新しい読みを足したら落ちる —— 宣言を見直す)。
+
+**表 2**
+| 段 | 見積りの秒 | 扱い | 条件(器の選ぶ式) | 条件で選ぶ本 / 内蔵 | 刻む本 | 理由 |
+|---|---|---|---|---|---|---|
+| refit-297a | 1657 | **条件で選ぶ** | geoPN ≥ 2(欠けは 0) | 64 / 186 | 66(名指し 7) | 器の DECL が `BUILTIN.filter(geoPN ≥ 2)` で選び、他は名指しの本を .find で引く |
+| pnsource286 | 544 | all のまま | — | — | 186 | 条件(scaleExp のある本)の行に加えて内蔵の全本の 1/32 歩のビット比較と署名 —— 全本を読むのが器の目的 |
+| pn1 | 319 | **条件で選ぶ** | 0 < geoPN < 3(欠けは 0)・全本の数 | 50 / 186 | 55(名指し 40・先頭の本) | (G) が geoPN 1/2 の本を選び全本の数を読む・(E) は名指しの 12 本 |
+| pnsources291 | 130 | all のまま | — | — | 186 | 内蔵の全本を読み込んで進める —— 全本を読むのが器の目的 |
+| eihdiag287 | 14 | all のまま | — | — | 186 | 較正走行の器の関数の本文を html の中で評価 —— 選ぶ式が別の器の中(器の外の宣言と照合できない) |
+| tpsign | 6 | all のまま | — | — | 186 | 較正走行の器を子プロセスで —— 選ぶ式が子の中 |
+
+**表 3**(危ない側の変異の試験 —— `node tools/condselect-probe329c.mjs`: html の写しを変えて、条件の宣言の領域 hash と従来の presets "all" の領域 hash を引く。変異に使う本は今の html から選ぶ〔名指しの本・先頭の本の外〕—— 本便の html では earthMoonReal・galaxyGeo2Flat3d・grcal・grcalGps)
+| 変異 | pn1 | refit-297a | 従来の all |
+|---|---|---|---|
+| earthMoonReal(geoPN 1)の physics の数を変える | regen | reuse | 両方 regen |
+| galaxyGeo2Flat3d(geoPN 2)の physics の数を変える | regen | regen | 両方 regen |
+| grcal(geoPN 0 —— 条件に当たらない)の physics の数を変える | **reuse** | **reuse** | 両方 regen |
+| grcal の geoPN 0 → 1(pn1 の条件に入る) | regen | reuse | 両方 regen |
+| grcal の geoPN 0 → 2(両方の条件に入る) | regen | regen | 両方 regen |
+| grcal の geoPN を文字列 "0"(評価が不明) | regen(all へ戻る) | regen(all へ戻る) | 両方 regen |
+| all へ戻った写しで条件に当たらない別の本(grcalGps)の数を変える | regen | regen | — |
+| grcal に physics の鍵を足す(fastParams が鍵の名を読む) | regen | regen | 両方 regen |
+| loadPreset に本の表を回す行を足す(閉包の読みが宣言の表と違う) | regen(all へ戻る) | regen(all へ戻る) | 両方 regen |
+| 本を 1 冊足す | regen | regen | 両方 regen |
+
+**表 4**(次の便からの狭さ —— 内蔵の本 1 冊の physics の値だけを変えたとき 6 段のうち走る段。秒は再生成表の見積り)
+| 本の数 | 走る段 | 秒 |
+|---|---|---|
+| 90 | 4 段(all のままの段だけ) | 694 |
+| 30 | 5 段(+ pn1) | 1013 |
+| 41 | 5 段(+ refit-297a) | 2351 |
+| 25 | 6 段(両方に刻む本) | 2670 |
+- 前は全部の本で 6 段 2670 s。後は本 1 冊あたりの平均 1376 s(鍵の名を足す・本を足す変更は今までどおり 6 段)。
+- **一回きりの広さ**: 器の宣言の変更で pn1 と refit-297a の 2 段が一回 regen(器の本文の変更 —— 「式」)。全段の領域 hash の版は上げていない(宣言の無い段の本文は同じ)。計画の広さは本節の表 7。
+
+**④ 常時群の影の比べの揮発の欄。** 第328便の鎖の後の照合(`node tools/regen-plan.mjs --always-shadow-check`)で stoprule が「影 reuse・正本の値が違う」(falseSame 1)になった。stoprule の正本は刻印の無い旧形式で、壁時計の欄(when・wallSec・nowWallSec・nowRate・maxWallSec)は指紋の既定で外れていたが、**資源の上限の文 /resource/finding の中の最長の秒**(「最長 49.2 s < 600 s」)が残っていた(物理の取りこぼしではない)。比べの道具の表 `SHADOW_VOLATILE_329C`(`tests/lib-w326e-alwaysshadow.mjs`)に、stoprule の正本の時間の欄の名(どの階層でも)と、文の中の「数 s」を「#」に正規化する Pointer を宣言した(上限の秒は /resource/ceilingSec の数で比べる・步数・近点の数・判定・超えた段の列は外さない)。
+
+**表 5**
+| 項 | 結果 |
+|---|---|
+| 第328便の前後の stoprule の正本(613c6cc → 9a05a89)| 宣言の前は値が違う(falseSame)→ 宣言の後は同じ(trueSame) |
+| 時間の欄と文の秒だけが違う合成の 2 つ | 同じ(trueSame) |
+| 物理の欄の差 6 種(步数・近点の数・判定・超えた段の列・文の秒以外の字・上限の秒の数) | 違う(falseSame のまま) |
+| 表に無い正本 | 今までどおり(文の中の秒も比べる) |
+
+**⑤ 固定の字数の窓の棚卸し。** tests/qa.mjs で AI_SPEC・PHYSICS・CHANGELOG の節を `X.slice(i, i + N)` の固定の字数で切る窓は 102 窓(AI_SPEC 70・PHYSICS 18・CHANGELOG 14)で、**全部が節を越えていた**(AI_SPEC は窓 3000〜20000 字に対して節の残り 1006〜3874 字 —— 次の節を読む・PHYSICS は窓 20000〜60000 字に対して節 5832〜25340 字・CHANGELOG は窓 30000〜80000 字)。CHANGELOG の beta の節は便を跨いで伸びる(今 55 169 字)ので、窓 60000 字の鍵は数便で**足りない側**に変わる(古い便の行が窓の外に出て落ちる)。102 窓を共通の小さな関数 `secUntilNext329c(text, i, seps)`(i から次の見出しの前まで —— AI_SPEC と CHANGELOG は '\n## '・PHYSICS は「〔第…便x — 」の見出しの行と '\n## ')に直した。PHYSICS の境界を行頭の「〔第」にすると、節の中の行頭の参照(「〔第301便d〕の …」)で切れて第302便d の節が 1 666 字になり docs.semic302 が落ちた —— 見出しの行(「 — 」つき)で切る形にして通した。直した窓を読む 86 鍵は beta の部分 QA で全部 PASS(root は 82 鍵が beta 線の SKIP・4 鍵 PASS)。
+
+**表 6**(直さない窓)
+| 窓 | 理由 |
+|---|---|
+| AI_SPEC の句 law:"inertial" の後 3000 字に「既定は宣言しない」(第290便c の鍵) | 句の近さの窓(節の読みではない) |
+| AI_SPEC の句の前後 3000 字(第297便の層の契約の鍵) | 句の近さの窓 |
+| PHYSICS の節の中の注記の段落 2400・2600 字(docs.w308d・docs.w309d) | 節の中の段落の窓(段落の終わりの印が無い —— 書かない語の照合) |
+| html の本の字面の 4000 字(第284便e・第285便) | AI_SPEC・PHYSICS・CHANGELOG ではない(html) |
+| CALIBRATION_VERDICT の §5.19 の 9000 字 | 対象の 3 つの文書の外(次の便の候補 —— 境界は '\n### ') |
+| AI_SPEC §181・§193 の既定の窓(次の見出しが無いときだけ) | 既に次の見出しまで |
+
+**⑥ QA_FAST の heap の既定。** QA_FAST(QA_TIER=fast)を Node の既定の heap(この箱で約 2 GB)で起こすと途中で heap の上限で止まった(第328便b)。tests/qa.mjs の先頭で、QA_FAST かつ heap の上限が 6144 MB より小さく、heap を明示していない(NODE_OPTIONS か execArgv に --max-old-space-size が無い)ときだけ、同じ引数・同じ環境に --max-old-space-size=6144 を足した子の Node で自分を起こし直し、子の終了コードで終わる(本文・判定・順・結果のファイルは同じ)。CI(ci.yml は 6144 を明示)・保存 QA(フル)・運用の flock + heap・先行再実行の子・QA_HEAP_DEFAULT=0 は起こし直さない(走り方は変えない)。値は運用の正本の flock + heap と同じ 6144。
+
+**⑦ 計画の広さ・言わないこと・決断事項の候補・次の便へ。**
+
+**表 7**
+| 区分 | 段(見積りの秒) | 理由 |
+|---|---|---|
+| regen(本枝の宣言) | pn1 319・refit-297a 1657 | 器の REGEN_SCOPE に presetsWhere(器の本文の変更 —— 一回きり。走らせ直すと条件で選ぶ本の刻印になる) |
+| regen(本枝の道具) | tpsign 6・contact285 220・bgaudit291 4・timing294 161 | 刻印の道具 tests/lib-w281a-scope.mjs を計算に使う器(道具の変更は「式」—— 第318便a の規則のまま。timing294 は便の開始の秒の表の入力でも走る) |
+| regen(本枝の QA) | families 5 | 入力 tests/qa.mjs・再生成表 |
+| regen(枝の作業場) | obsintake・recordid・confirm2・confirm3・confirm4・intakeB(0〜1 s) | 枝の作業場に正本が無い(統括の箱では今までどおり) |
+| reuse(道具の照合) | 140 段 | 刻印の道具の変更を照合で通した(宣言の無い段の領域 hash は前と同じ) |
+| 計(`node tools/regen-plan.mjs --base beta/_w329_base.html`) | always 13・regen 13(2374 s)・recheck 15・reuse 178・history 39 | 下限 53.0 min・上限 2.64 h(response-328b は枝で正本を作り直したので reuse) |
+
+- **言わないこと**: 条件で選ぶ本の宣言は「器が条件で選んだ本だけを読む」ことの宣言で、器の結果の正しさの判定ではない・全本を読む 4 段は狭くしない・契約の継ぎ目の直しは意味の直しで、物理の塊の値は変えていない・stoprule の揮発の欄は時間の欄だけ(物理の欄は今までどおり比べる)。
+- **決断事項の候補**: (1) 名指しの段の閉包の fastParams は全本の physics の鍵の名を読む(値は読まない —— S.params の鍵の並び)。条件で選ぶ 2 段は指紋に入れたが、名指しの本の段(第319便c の NARROWED_319C ほか)は今まで数えていない —— 名指しの段にも入れるか(入れると一回きり全部の名指しの段が regen)(2) all のまま残した 4 段(pnsource286 は全本のビット比較・pnsources291 は全本の歩・eihdiag287 と tpsign は別の器の中の式)の作り直しをするか(器の目的を変えるので推奨は今のまま)(3) CALIBRATION_VERDICT の §5.19 の窓も同じ関数で直すか。
+- 次の便へ: 鎖で pn1 と refit-297a を一回走らせ直すと正本に presetsWhere の刻印が入り、次の便から条件で選ぶ本の領域で照合する(走らせ直す前の刻印は presets "all")。常時群の影の照合で stoprule が trueSame になることを鎖の後に確かめる。第328便b の器の版 2 の段 response-328b は器の変更で一回 regen。
+- QA: `lint.contractSeam329c`(lib-2 の slipOf の明示の引数・枠の回転に依らない反例・正本の門 contractSeam と物理の塊を読む欄)・`lint.condSelect329c`(選択器の自己試験・器の宣言と選ぶ式・器が本の表を読む行の照合・選択器の結果と器の正本の選んだ本・変異の試験の道具)・`lint.alwaysShadowVolatile329c`(揮発の欄の自己試験・第328便の前後の stoprule の正本〔git の履歴があるとき〕)・`lint.fixedWindow329c`(固定の字数の窓の残りが表 6 の窓だけ・境界の関数の場面)・`lint.qaHeapDefault329c`(起こし直しの条件と値)・`docs.w329c`(本節・AI_SPEC §198・CHANGELOG・tools/README・post-merge・書かない語と禁句)。既存の QA の世代の直し: `lint.response328b` の lib の版を版の型へ(lib-1 → lib-2)。
 
 〔第328便 — 統括: 原仮定者の指示(第130報)「改めて残った決断事項をまとめる」・原仮定者の回答(2026-11-05 —— 第327便の残りの決断事項 17 項〔AN550〜AN557・AN559〜AN567〕を推奨どおり: AN553 = B・他は A)を受けた第328便の構成・統合・決断事項・次の便(統括の検証項目 R301〜R303)〕
 
