@@ -1,6 +1,6 @@
 // 第328便b(原仮定者の回答(2026-11-05 —— AN559・AN561・AN562・AN563・AN550・AN566)・統括の検証項目 R302): **正本 tests/out/response-w328b.json から PHYSICS〔第328便b〕の表を作る文書の lib**
 // (QA docs.response328b が節の表と逐語で照合する —— 表の数は有効数字 4 桁〔傾きは小数 6 桁〕・丸めの程度の数〔閉じの残差・丸めの内の p と傾きの幅〕は「< 1e-12」の形で書き、数そのものは載せない)。
-export const DOC_VERSION = 'w328b-responsedoc-1';
+export const DOC_VERSION = 'w328b-responsedoc-2';   // 第329便c: 表 1 を第328便a の作り手の契約・Ω_arm は受け手の入力の形へ(版 1 の表 1 は PHYSICS〔第328便b〕に履歴として残す)
 const fe = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toExponential(3));
 const fx = (x, d) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toFixed(d));
 const lt = (x, t = 1e-12) => (x === null || x === undefined ? '—' : (Number.isFinite(x) && Math.abs(x) <= t ? '< ' + t.toExponential(0) : fe(x)));
@@ -15,12 +15,14 @@ const SF = { constQ: '一定の Q', constLag: '一定の時間の遅れ' };
 const TF = (k) => (k === 'constPhase' ? '一定の位相' : '熱の緩和 ω_0/σ_obs = ' + k.split(':')[1]);
 export function tablesOf(J) {
   const T = {}, C = J.contract, P = J.p, S = J.spatial, N = J.venus, F = J.fixedSource, TR = J.transient;
-  // 表 1 場の契約(器の中の contractFromLegacy —— 統合で枝 a の buildFieldContract へ)
-  { const c = C.contract;
+  // 表 1 場の契約(第329便c —— 第328便a の buildFieldContract・Ω_arm は受け手の入力〔契約の外〕・版 1 の作り手 contractFromLegacy は比べる列)
+  { const c = C.contract, sm = C.seam || {};
     T.contract = ['| 欄 | 値 |', '|---|---|',
-      `| version | ${c.version} |`, `| frame.axis(銀河中心系)・omegaFrame [rad/s] | (0, 0, 1)・${fe(c.frame.omegaFrame)}(渦状腕のパターンの角速度の文献の範囲 ${fe(C.OmegaPattern[0])}〜${fe(C.OmegaPattern[1])} の中点) |`,
+      `| version | ${c.version} |`, `| frame(id・axis・omegaFrame [rad/s]) | ${c.frame.id}・(0, 0, 1)・${c.frame.omegaFrame}(座標の枠の回転 —— 第328便a の版 1 は回転しない銀河中心系) |`,
+      `| Ω_arm [rad/s](受け手の側の入力 —— 契約の外・slipOf の明示の引数) | ${fe(C.armInput.value)}(渦状腕のパターンの角速度の文献の範囲 ${fe(C.OmegaPattern[0])}〜${fe(C.OmegaPattern[1])} の中点) |`,
       `| omegaField(mode・value [rad/s]・at) | ${c.omegaField.mode}・${fe(c.omegaField.value)}・R ${fx(c.omegaField.at.R_kpc, 1)} kpc・z ${fx(c.omegaField.at.z_kpc, 1)} kpc(宣言の候補 —— 同定ではない) |`,
-      `| transfer(form・g_T) | ${c.transfer.form}・${c.transfer.gT} |`, `| 直接の滑り ν_slip = g_T(Ω_frame − Ω_field) [rad/s] | ${fe(C.slip.mag)}(太陽の式の A ${fe(C.Asun)} と同じ —— 宣言の作り方) |`,
+      `| transfer(form・version・g_T) | ${c.transfer.form}・${c.transfer.version}・${c.transfer.gT} |`, `| 直接の滑り ν_slip = g_T(Ω_arm − Ω_field) [rad/s] | ${fe(C.slip.mag)}(太陽の式の A ${fe(C.Asun)} と同じ —— 宣言の作り方) |`,
+      `| 比べる列(版 1 の器の中の作り手 contractFromLegacy —— frame.omegaFrame に Ω_arm を入れていた) | 同じ Ω_arm を明示の引数で渡すと滑りのベクトルはビット同一(${sm.sameSlip ? '同一' : '違う'})・版 1 の読み(omegaFrame を Ω_arm)を主の契約に当てた値 ${fe(sm.lib1ReadingOnNewContract)}(主の滑りと相対 ${fe(sm.lib1ReadingRel)} の差 —— 継ぎ目の反例の記録・採らない) |`,
       `| convergence(uConverged・curlConverged・gridSigns) | null・null・null(第321便c の sample に収束の印は無い —— 0 で埋めない) |`,
       `| sources | ${c.sources.map((q) => q.sourceId + '(' + q.owns.length + ' 成分・係数 ' + q.coef + ')').join('・')} |`,
       `| 背景の場 W_bg = β/(10G_0/c_0²) [kg/m](K1 の比の型だけが読む) | ${fe(C.Wbg)}(β ${fe(C.beta)}) |`].join('\n'); }

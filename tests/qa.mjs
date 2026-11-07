@@ -97946,7 +97946,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (err0) bad.push('器/lib が読めない: ' + err0);
     else {
       const DC = RB.DECL;
-      if (!(RB.LIB_VERSION === 'w328b-response-lib-1' && RB.CONTRACT_VERSION === 'w328a-fieldcontract-1'
+      // 第329便c(世代の直し): lib の版は版の型(lib-1 → lib-2 —— slipOf の Ω_arm を明示の引数へ)
+      if (!(/^w328b-response-lib-\d+$/.test(RB.LIB_VERSION) && RB.CONTRACT_VERSION === 'w328a-fieldcontract-1'
         && JSON.stringify(DC.forms.map((q) => q.key + ':' + q.role)) === JSON.stringify(['ballMean:main', 'inertiaShare:main', 'k1Ratio:check', 'engineDefault:default', 'nullP0:negative'])
         && JSON.stringify(DC.mainForms) === JSON.stringify(['ballMean', 'inertiaShare']) && DC.ballSelfMean === 1.2 && DC.ballInertia === 0.4 && DC.scan.decades === 1 && DC.scan.points === 9
         && DC.gate.tolSlope === 1e-4 && DC.gate.tolRes === 1e-4 && DC.gate.nearZeroAbs === 1e-12 && DC.gate.agreeTol === 1e-4 && DC.fixedSource.src === 'sun' && DC.fixedSource.ext === 'sunExt'

@@ -1,6 +1,6 @@
 {
- "version": "w328b-response-1",
- "libVersion": "w328b-response-lib-1",
+ "version": "w328b-response-2",
+ "libVersion": "w328b-response-lib-2",
  "contractVersion": "w328a-fieldcontract-1",
  "w327fLibVersion": "w327f-venustide-lib-1",
  "w327eLibVersion": "w327e-axialdiff-lib-1",
@@ -10,7 +10,7 @@
  "fieldVersion": "w321c-galfield-2",
  "generator": "tests/exp-w328b-response.mjs",
  "target": "beta/index.html",
- "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
+ "targetSha256": "0faa65b5f137f8a0e9e6998ecafaedb8552289de79fdd41ec4b17eb77c75cc4e",
  "reuseFrom": null,
  "ruling": "原仮定者の回答(2026-11-05 —— AN559・AN561・AN562・AN563・AN550・AN566)・統括の検証項目 R302",
  "decl": {
@@ -248,8 +248,8 @@
   "contract": {
    "version": "w328a-fieldcontract-1",
    "frame": {
-    "id": "galactocentric-armPattern",
-    "origin": "galactic-center(第321便c の銀河中心系)",
+    "id": "galactocentric",
+    "origin": "銀河の中心(場の API の銀河中心系の原点)",
     "axis": [
      0,
      0,
@@ -258,7 +258,7 @@
     "velocityRef": "source-flow-GC(源の流れの銀河中心系 —— 受け手の動きの項を数えない)",
     "timeUnit": "s",
     "lengthUnit": "kpc",
-    "omegaFrame": 7.615831330194257e-16
+    "omegaFrame": 0
    },
    "omegaField": {
     "mode": "constant",
@@ -274,7 +274,7 @@
    "convergence": {
     "uConverged": null,
     "curlConverged": null,
-    "method": "legacy(第321便c の sample に収束の印は無い —— 枝 a の契約で置く)",
+    "method": null,
     "gridSigns": null
    },
    "sources": [
@@ -292,14 +292,14 @@
    ],
    "transfer": {
     "id": "directSlip",
-    "version": "w328b-legacy-1",
+    "version": "w328a-directslip-1",
     "form": "directSlip",
     "gT": 1
    },
    "ledgerRefs": {
-    "supply": "galaxySupply",
-    "reaction": "k1Transfer.sourceReactionWork",
-    "heat": "heat"
+    "supply": "w326d-axialheat-lib-2#ledger.galaxySupply",
+    "reaction": "w326d-axialheat-lib-2#ledger.L.galaxyCenter",
+    "heat": "w326d-axialheat-lib-2#ledger.heat"
    }
   },
   "check": {
@@ -308,13 +308,21 @@
    "nulls": [
     "convergence.uConverged",
     "convergence.curlConverged",
+    "convergence.method",
     "convergence.gridSigns"
    ],
    "errors": []
   },
+  "armInput": {
+   "value": 7.615831330194257e-16,
+   "unit": "rad/s",
+   "source": "渦状腕のパターンの角速度の文献の範囲の中点(第327便b の lib の DECL.OmegaPatternKmsKpc)",
+   "role": "受け手の側の入力(契約の外 —— slipOf の明示の引数・AN569)"
+  },
   "slip": {
    "mag": -0.0000074035791335535896,
-   "relFrame": -0.0000074035791335535896,
+   "relArm": -0.0000074035791335535896,
+   "premise": true,
    "vecEcl": [
     -0.0000064238349557071125,
     -2.6030476284513053e-9,
@@ -329,6 +337,87 @@
   ],
   "Wbg": 533882123753863100000,
   "beta": 0.000003964516008621157,
+  "legacy": {
+   "contract": {
+    "version": "w328a-fieldcontract-1",
+    "frame": {
+     "id": "galactocentric-armPattern",
+     "origin": "galactic-center(第321便c の銀河中心系)",
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "velocityRef": "source-flow-GC(源の流れの銀河中心系 —— 受け手の動きの項を数えない)",
+     "timeUnit": "s",
+     "lengthUnit": "kpc",
+     "omegaFrame": 7.615831330194257e-16
+    },
+    "omegaField": {
+     "mode": "constant",
+     "value": 0.000007403579134315173,
+     "at": {
+      "R_kpc": 8.2,
+      "z_kpc": 0
+     },
+     "ref": "太陽の式の A を g_T = 1 で生む宣言の候補(第327便b の経路 1 —— 同定ではない)",
+     "unit": "rad/s",
+     "source": "declared"
+    },
+    "convergence": {
+     "uConverged": null,
+     "curlConverged": null,
+     "method": "legacy(第321便c の sample に収束の印は無い —— 枝 a の契約で置く)",
+     "gridSigns": null
+    },
+    "sources": [
+     {
+      "sourceId": "mw319b-tanh:full",
+      "owns": [
+       "disk:thin[0,∞)",
+       "disk:thick[0,∞)",
+       "disk:HI[0,∞)",
+       "disk:H2[0,∞)",
+       "bulge[0,∞)"
+      ],
+      "coef": 1
+     }
+    ],
+    "transfer": {
+     "id": "directSlip",
+     "version": "w328b-legacy-1",
+     "form": "directSlip",
+     "gT": 1
+    },
+    "ledgerRefs": {
+     "supply": "galaxySupply",
+     "reaction": "k1Transfer.sourceReactionWork",
+     "heat": "heat"
+    }
+   },
+   "check": {
+    "ok": true,
+    "missing": [],
+    "nulls": [
+     "convergence.uConverged",
+     "convergence.curlConverged",
+     "convergence.gridSigns"
+    ],
+    "errors": []
+   },
+   "slipMag": -0.0000074035791335535896
+  },
+  "seam": {
+   "omegaFrameNew": 0,
+   "omegaFrameLegacy": 7.615831330194257e-16,
+   "slipNew": -0.0000074035791335535896,
+   "slipLegacyExplicitArm": -0.0000074035791335535896,
+   "sameSlip": true,
+   "lib1ReadingOnNewContract": -0.000007403579134315173,
+   "lib1ReadingRel": 1.0286692458954656e-10,
+   "shapeOk": true,
+   "note": "版 1 の読み(slipOf が frame.omegaFrame を Ω_arm と読む)を第328便a の契約に当てた値は g_T(0 − Ω_field)(主の滑りと違う —— 継ぎ目の反例の記録・採らない)"
+  },
   "sample": {
    "uPhi": 0.24800622645288334,
    "halfCurlZ": -9.655119515060235e-23,
@@ -26768,9 +26857,12 @@
     ],
     "mag": -0.000001999999999,
     "expect": -0.000001999999999,
-    "nullFrame": true,
+    "nullArm": true,
     "nullGain": true,
-    "badAllRejected": true
+    "badAllRejected": true,
+    "frameIndependent": true,
+    "zeroArmNotMissing": true,
+    "sameAsFieldContract": true
    },
    "ball": {
     "linRel": 1.1102230246251565e-16,
@@ -26848,30 +26940,31 @@
  },
  "timing": {
   "I": {
-   "wallSec": 0.444
+   "wallSec": 0.452
   },
   "C": {
-   "wallSec": 1.391
+   "wallSec": 1.577
   },
   "P": {
-   "wallSec": 1.731
+   "wallSec": 1.902
   },
   "S": {
-   "wallSec": 3.744
+   "wallSec": 4.095
   },
   "N": {
-   "wallSec": 4.173
+   "wallSec": 4.379
   },
   "T": {
-   "wallSec": 4.176
+   "wallSec": 4.382
   },
   "F": {
-   "wallSec": 4.441
+   "wallSec": 4.584
   }
  },
  "gates": {
   "pure": true,
   "contractShape": true,
+  "contractSeam": true,
   "defaultReproduced": true,
   "negativeControl": true,
   "verdictsStable": true,
@@ -26881,133 +26974,139 @@
   "transientLocal": true
  },
  "ok": true,
- "elapsedS": 5.915,
+ "elapsedS": 6.195,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第328便b",
   "target": "beta/index.html",
-  "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
-  "generatedAt": "2026-11-05T19:20:43.991Z",
+  "targetSha256": "0faa65b5f137f8a0e9e6998ecafaedb8552289de79fdd41ec4b17eb77c75cc4e",
+  "generatedAt": "2026-11-07T18:30:48.046Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7668923,
-    "sha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
-    "mtime": "2026-11-05T18:31:03.733Z"
+    "sha256": "0faa65b5f137f8a0e9e6998ecafaedb8552289de79fdd41ec4b17eb77c75cc4e",
+    "mtime": "2026-11-07T18:20:24.924Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w328b-response.mjs",
-    "bytes": 39467,
-    "sha256": "2ab67d769d321be0e06cb30fbdbea5026e5fc66123e7e03c1405ec66ce2bce62",
-    "mtime": "2026-11-05T19:20:37.973Z"
+    "bytes": 42754,
+    "sha256": "39ab868132db94958fd160452a8976dab9ddc7870ccdeb03327f2a7b010e4754",
+    "mtime": "2026-11-07T18:30:05.395Z"
    },
    {
     "file": "tests/lib-w328b-response.mjs",
-    "bytes": 33805,
-    "sha256": "a52c669c842caea7b566265957afb391aa9bed0f7c6ebb95df90df69f9f2fb6d",
-    "mtime": "2026-11-05T19:03:09.601Z"
+    "bytes": 36001,
+    "sha256": "69ff402c69987d43e7fcf0cb9bc19d3a5093e0b67d838cc00e54bac70aa97478",
+    "mtime": "2026-11-07T18:28:35.859Z"
+   },
+   {
+    "file": "tests/lib-w328a-fieldcontract.mjs",
+    "bytes": 34662,
+    "sha256": "c7907ae81e2192005d440c57066b4d6894e59c6b35f0de9eeff0cbfb8c2e1604",
+    "mtime": "2026-11-07T18:20:25.168Z"
    },
    {
     "file": "tests/lib-w327f-venustide.mjs",
     "bytes": 33477,
     "sha256": "ebc9f32a81ee0fccb5d8b153a8995a854afe6f2a2365c2dd837b2965e38a947a",
-    "mtime": "2026-11-05T18:31:04.257Z"
+    "mtime": "2026-11-07T18:20:25.168Z"
    },
    {
     "file": "tests/exp-w327e-axialdiff.mjs",
     "bytes": 30736,
     "sha256": "841402bccd3636b4ab807fda8b8ee8ecb75b90726824207e0ec8a5ccae2e6caf",
-    "mtime": "2026-11-05T18:31:04.153Z"
+    "mtime": "2026-11-07T18:20:25.124Z"
    },
    {
     "file": "tests/lib-w327e-axialdiff.mjs",
     "bytes": 18180,
     "sha256": "461e2e95fcd15ee815de77f9fdb9bc74e831ef86b44074d1991593b0387a031d",
-    "mtime": "2026-11-05T18:31:04.253Z"
+    "mtime": "2026-11-07T18:20:25.168Z"
    },
    {
     "file": "tests/exp-w327a-axialsum.mjs",
     "bytes": 34897,
     "sha256": "5873cc77e5e3d831b2ac0ff056a40f473bd21a2535054c27a1fbf9ec1d15389c",
-    "mtime": "2026-11-05T18:31:04.153Z"
+    "mtime": "2026-11-07T18:20:25.124Z"
    },
    {
     "file": "tests/lib-w327a-axialsum.mjs",
     "bytes": 32833,
     "sha256": "54cbf074c981ae647b16f02f61b59a8a61d369468bdd1ac3e85913de87ebda9d",
-    "mtime": "2026-11-05T18:31:04.253Z"
+    "mtime": "2026-11-07T18:20:25.168Z"
    },
    {
     "file": "tests/lib-w327b-galaxis.mjs",
     "bytes": 23613,
     "sha256": "c332f4c60d2ea6f0228a7e995ed99a3e1af6418c550680e19f6ff23be01dd054",
-    "mtime": "2026-11-05T18:31:04.253Z"
+    "mtime": "2026-11-07T18:20:25.168Z"
    },
    {
     "file": "tests/lib-w321c-galfield.mjs",
     "bytes": 29045,
     "sha256": "88c79fb3873c9c46b1949017d3ab2531109f647458816de3dac04924afdb0108",
-    "mtime": "2026-11-05T18:31:04.245Z"
+    "mtime": "2026-11-07T18:20:25.164Z"
    },
    {
     "file": "tests/lib-w320c-nbcompose.mjs",
     "bytes": 25953,
     "sha256": "21f1ceba1d96e85fcbd92dbb6b1f6ffa47f130d1d02880ed23c221971dddd1f4",
-    "mtime": "2026-11-05T18:31:04.241Z"
+    "mtime": "2026-11-07T18:20:25.160Z"
    },
    {
     "file": "tests/lib-w319b-srcradius.mjs",
     "bytes": 30288,
     "sha256": "6bf633cc248c1c2ac02e1d29fa964058436b8d609577116cad38c271406842be",
-    "mtime": "2026-11-05T18:31:04.237Z"
+    "mtime": "2026-11-07T18:20:25.160Z"
    },
    {
     "file": "tests/exp-w326d-axialheat.mjs",
     "bytes": 38720,
     "sha256": "c1dc3ade3425c332b8c5c4a2665b7d81467eeefdda857905de4b4d9f17f564bb",
-    "mtime": "2026-11-05T18:31:04.153Z"
+    "mtime": "2026-11-07T18:20:25.124Z"
    },
    {
     "file": "tests/lib-w326d-axialheat.mjs",
     "bytes": 32001,
     "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
-    "mtime": "2026-11-05T18:31:04.253Z"
+    "mtime": "2026-11-07T18:20:25.168Z"
    },
    {
     "file": "tests/lib-w319a-axisheat.mjs",
     "bytes": 14679,
     "sha256": "8e9e99edcfe249d94ff151b0cd8d4cd6d7df50050aaeb618781e33aef5f9f70b",
-    "mtime": "2026-11-05T18:31:04.237Z"
+    "mtime": "2026-11-07T18:20:25.160Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-05T18:31:04.193Z"
+    "mtime": "2026-11-07T18:20:25.144Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-05T18:31:04.193Z"
+    "mtime": "2026-11-07T18:20:25.144Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-05T18:31:04.185Z"
+    "mtime": "2026-11-07T18:20:25.140Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 109301,
     "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T18:31:04.213Z"
+    "mtime": "2026-11-07T18:20:25.148Z"
    }
   ],
-  "codeSha256": "2049997a856e9451c07982a3f879f971e82221ceccee27b05ba32109090b7454",
-  "harnessVersion": "w328b-response-1",
+  "codeSha256": "c130148c9cbed532a2f6da54c272f33a0a800b72598b7624ec318f73040750a2",
+  "harnessVersion": "w328b-response-2",
   "stage": "response",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)と第321便c の場の API の純関数",
   "notClaim": [
