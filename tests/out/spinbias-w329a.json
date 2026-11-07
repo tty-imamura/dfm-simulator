@@ -5558,6 +5558,11 @@
    }
   ],
   "mainConsistent": false,
+  "mainIntersection": {
+   "lo": 0.0000012447540367965752,
+   "hi": -0.0006903601606054355,
+   "empty": true
+  },
   "rank": 1,
   "note": "同じ局所の場を受ける天体の行は互いに比例(ランク 1)—— 閾値は A の範囲を狭めるだけで g_T と Ω_field は分けない(g_T = 1 は代表の規約)"
  },
@@ -5770,28 +5775,28 @@
  },
  "timing": {
   "I": {
-   "wallSec": 0.263
+   "wallSec": 0.234
   },
   "table": {
-   "wallSec": 0.264
+   "wallSec": 0.234
   },
   "P": {
-   "wallSec": 0.273
+   "wallSec": 0.242
   },
   "S": {
-   "wallSec": 3.546
+   "wallSec": 3.883
   },
   "B": {
-   "wallSec": 3.681
+   "wallSec": 4.085
   },
   "F": {
-   "wallSec": 3.69
+   "wallSec": 4.094
   },
   "A": {
-   "wallSec": 3.691
+   "wallSec": 4.095
   },
   "M": {
-   "wallSec": 4.805
+   "wallSec": 5.236
   }
  },
  "gates": {
@@ -5804,13 +5809,13 @@
   "phaseModel": true
  },
  "ok": true,
- "elapsedS": 6.688,
+ "elapsedS": 7.076,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第329便a",
   "target": "beta/index.html",
   "targetSha256": "0faa65b5f137f8a0e9e6998ecafaedb8552289de79fdd41ec4b17eb77c75cc4e",
-  "generatedAt": "2026-11-07T18:42:33.842Z",
+  "generatedAt": "2026-11-07T18:44:38.839Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -5822,9 +5827,9 @@
   "code": [
    {
     "file": "tests/exp-w329a-spinbias.mjs",
-    "bytes": 43585,
-    "sha256": "1413ffa002d691ec5d6e704a2b48387a24a9a215261cdd66fd5e2ded353e0395",
-    "mtime": "2026-11-07T18:42:06.314Z"
+    "bytes": 43900,
+    "sha256": "569bd82f4ebee6ec809fc730aef120f0e3e8b7178f656433ada515baad459723",
+    "mtime": "2026-11-07T18:44:31.671Z"
    },
    {
     "file": "tests/lib-w329a-spinbias.mjs",
@@ -5905,7 +5910,7 @@
     "mtime": "2026-11-07T18:20:18.932Z"
    }
   ],
-  "codeSha256": "49d96005a7920f8e46889d77d6d079e99f851e69f5f3360c6f9805b3f7a2401e",
+  "codeSha256": "2c4fda4843f5a9b485c220c0149e47b471b26b48d138257f2c4c2553fe7c20fc",
   "harnessVersion": "w329a-spinbias-1",
   "stage": "spinbias",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)と純関数",

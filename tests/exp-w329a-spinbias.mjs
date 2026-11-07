@@ -325,7 +325,9 @@ export function partA(IN, Pp) {
   const si = PAIRS.map((key) => { const b = IN.bodies[key], G0 = b.I / LF.TAU_AGE, lock = rowSI(IN, key, 'age', 'lock'), dTdA = G0 * E.dot(IN.g, b.a), Astar = IN.Asun - lock.torque / dTdA;
     return { key, torqueLock: lock.torque, dTdA, Astar, AstarOverAsun: Astar / IN.Asun }; });
   const main = ['venus', 'jupiter', SATK].map((k) => rows.find((q) => q.body === k)).filter(Boolean);
-  return { Asun: IN.Asun, rows, si, mainConsistent: main.every((q) => q.AsunInside), rank: 1, note: '同じ局所の場を受ける天体の行は互いに比例(ランク 1)—— 閾値は A の範囲を狭めるだけで g_T と Ω_field は分けない(g_T = 1 は代表の規約)' };
+  const los = main.map((q) => q.range.lo).filter((x) => x !== null), his = main.map((q) => q.range.hi).filter((x) => x !== null);
+  const lo = los.length ? Math.max(...los) : null, hi = his.length ? Math.min(...his) : null, inter = { lo, hi, empty: lo !== null && hi !== null && lo > hi };
+  return { Asun: IN.Asun, rows, si, mainConsistent: main.every((q) => q.AsunInside), mainIntersection: inter, rank: 1, note: '同じ局所の場を受ける天体の行は互いに比例(ランク 1)—— 閾値は A の範囲を狭めるだけで g_T と Ω_field は分けない(g_T = 1 は代表の規約)' };
 }
 
 /* ───────── M AN575 の小さな位相の模型 ───────── */
