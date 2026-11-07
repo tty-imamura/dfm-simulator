@@ -821,6 +821,8 @@ export function normalizeScope(decl) {
     // 第327便c(R297): 版 8 の宣言の欄(宣言したときだけ —— 旧い宣言・刻印の正規化は 1 字も変わらない)
     ...(d.abBody === false ? { abBody: false } : {}),
     ...(Array.isArray(d.keepProse) && d.keepProse.length ? { keepProse: d.keepProse.map(String).slice().sort() } : {}),
+    // 第329便c(R306・AN554): 条件で選ぶ本の宣言(宣言したときだけ —— 旧い宣言・刻印の正規化は 1 字も変わらない。中身は写すだけ —— 検査は選択器 selectPresets329c)
+    ...(d.presetsWhere !== undefined && d.presetsWhere !== null ? { presetsWhere: JSON.parse(JSON.stringify(d.presetsWhere)) } : {}),
   };
 }
 
@@ -844,9 +846,16 @@ export function scopeHash(htmlPath, decl, opts) {
   if (!X.L || !X.L.HP) why.push('headless の読み込みに失敗: ' + (X.loadError || 'HP が無い'));
   // ① プリセット
   const presets = [];
+  let presetSel329 = null;   // 第329便c: 条件で選ぶ本の選択器の結果(宣言したときだけ)
   if (X.L && X.L.HP) {
     const B = X.L.evalExpr('BUILTIN_PRESETS');
-    const ids = sc.presets === 'all' ? B.map((p) => p.id) : sc.presets;
+    let ids = sc.presets === 'all' ? B.map((p) => p.id) : sc.presets;
+    // 第329便c(R306・AN554): presets "all" と条件の宣言 presetsWhere —— 選択器が条件・閉包の本の表の読み・型を確かめて選べたら、選ばれた本 ∪ 名指しの本(と閉包が読む先頭の本)
+    //   だけを刻む(選べなければ all のまま —— 保守側)。版 8 の刻印だけ(旧版の刻印に presetsWhere は無い)
+    if (sc.presets === 'all' && sc.presetsWhere !== undefined && version === SCOPE_VERSION) {
+      presetSel329 = selectPresets329c(B, sc.presetsWhere, closureReads329c(X.parsed, sc, version));
+      if (presetSel329.ok) ids = presetSel329.ids;
+    }
     for (const id of ids) {
       const raw = B.find((p) => p.id === id);
       if (!raw) { why.push('プリセットが無い: ' + id); presets.push({ id, missing: true }); continue; }
@@ -909,7 +918,9 @@ export function scopeHash(htmlPath, decl, opts) {
           claimProse: { claim: CLAIM_PROSE_KEYS, chain: CHAIN_PROSE_KEYS, massCalibration: MASSCAL_PROSE_KEYS },
           abBodyProse: AB_BODY_PROSE_KEYS, acceptedWarnings: true }, isScopeV7Plus(version) ? { obsSpinProse: OBSSPIN_PROSE_KEYS_326E } : {},
           // 第327便c: 版 8 は宣言の abBody:false・keepProse も本文に(版 7 の本文は 1 字も違わない)
-          version === SCOPE_VERSION ? { abBodyDrop: sc.abBody === false, keepProse: sc.keepProse || [] } : {}));
+          version === SCOPE_VERSION ? { abBodyDrop: sc.abBody === false, keepProse: sc.keepProse || [] } : {},
+          // 第329便c: 条件で選ぶ本の指紋(宣言したときだけ —— 選択器の版・条件・名指し・選ばれた本・読んだ欄・数・閉包の読みの鍵の名・all へ戻った理由)
+          presetSel329 ? { presetSelect: presetSel329.body } : {}));
   const complete = why.length === 0;
   const scopeSha256 = sha256(body);
   const closureBytes = segs.reduce((a, s) => a + (s.end - s.start), 0);
@@ -921,6 +932,7 @@ export function scopeHash(htmlPath, decl, opts) {
     hp: Object.fromEntries(hpTexts.map(([k, t]) => [k, sha256(t)])),
     core: core === null ? null : sha256(core),
     consts: Object.fromEntries(consts.map(([k, v]) => [k, sha256(String(v))])),
+    ...(presetSel329 ? { presetSelect: sha256(canonJson(presetSel329.body)) } : {}),   // 第329便c
   };
   return {
     scope: Object.assign({ version }, sc, { complete }),
@@ -930,7 +942,8 @@ export function scopeHash(htmlPath, decl, opts) {
     detail: { why, version, stopped: cl.stopped || [], nPresets: presets.length, nNames: cl.functions.length, nSegments: segs.length,
       nMutators: cl.mutators.length, nWriters: cl.writers.length, nHp: cl.hp.length, closureBytes, scriptBytes: X.src.length,
       closureShare: +(closureBytes / X.src.length).toFixed(4), names: cl.functions,
-      selfCheck: X.parsed.selfCheck, dynamicRefs: X.dynamicRefs },
+      selfCheck: X.parsed.selfCheck, dynamicRefs: X.dynamicRefs,
+      ...(presetSel329 ? { presetSelect: presetSel329.summary } : {}) },
   };
 }
 
@@ -941,7 +954,8 @@ export function scopeHash(htmlPath, decl, opts) {
 export function scopeStamp(htmlPath, decl) {
   const r = scopeHash(htmlPath, decl);
   return { scope: Object.assign({}, r.scope, { names: r.detail.nNames, segments: r.detail.nSegments,
-    closureShare: r.detail.closureShare, why: r.detail.why.length ? r.detail.why : undefined }),
+    closureShare: r.detail.closureShare, why: r.detail.why.length ? r.detail.why : undefined },
+    r.detail.presetSelect ? { presetSelect: r.detail.presetSelect } : {}),   // 第329便c: 選択器の結果(見るため —— 正規化は読まない)
   scopeSha256: r.scopeSha256, scopeComplete: r.scopeComplete };
 }
 
@@ -1006,6 +1020,154 @@ export function proseMentions327c(codeFiles, key) {
 /** 宣言が説明文の欄 key を読むと言っているか(keepProse に key・または consts の式が key を名指しする —— families の型)。 */
 export const declReadsProse327c = (decl, key) => { const sc = normalizeScope(decl); return (sc.keepProse || []).includes(key) || sc.consts.some((c) => new RegExp('\\b' + key + '\\b').test(String(c))); };
 // ==== 第327便c の塊(ここまで)====
+
+// ==== 第329便c の塊(ここから)====
+/**
+ * 第329便c(原仮定者の回答(2026-11-05 —— AN554 = A)・統括の検証項目 R306): **条件で選ぶ本の宣言**(presets "all" の段のうち、器が内蔵の本を条件の式で選んで読む段 ——
+ *   第327便c の表 4 の名指しの 6 段は器の中の文字列の式で全本から選ぶので名指しの本へは絞れない〔危ない側〕→ **器の外(REGEN_SCOPE の presetsWhere)に条件を宣言**し、
+ *   刻印の道具が今の html で条件を評価して、選ばれた本 ∪ 名指しの本だけを領域 hash に刻む)。
+ * 宣言(ただの JSON —— 器の REGEN_SCOPE の 1 行): presets:"all"(選べないときの戻り先 —— 他の道具は従来どおり「全部」と読む)に足して
+ *   presetsWhere = { selector: PRESET_SELECT_VERSION_329C, where: [{ path, op, value, missing? }…](全部を満たす本 —— op は gt・ge・lt・le・eq・ne・in), reads: [条件が読む欄の path],
+ *                    named: [器と lib が名指しで引く本 —— 下限 deriveScope の名指し], countAll: 全本の数を読むか, harnessExpr: 器の本文の選ぶ式(QA が器の本文と逐語で照合) }
+ * 選択器(selectPresets329c)が **all へ戻る**(選べない —— 保守側)とき: 選択器の版が違う・宣言の形が違う(知らない鍵・op・path・reads が条件の path と違う)・
+ *   読んだ欄の値が有限の数でも欠け(missing の宣言で埋める)でもない本がある・欠けた欄の扱いが無いのに欠けた本がある・
+ *   **閉包の本の表の読み**(器の roots の閉包の関数のうち BUILTIN_PRESETS・allPresets() を読む行)が宣言の表 REG_READS_329C と 1 行でも違う(新しい読み・書き換え)。
+ * 指紋(領域 hash の本文の presetSelect): 選択器の版・宣言・選ばれた本の id の列(内蔵の表の順)・名指し・刻んだ本の列・全本の数(countAll)・閉包の読みの鍵の名と型・
+ *   全本の physics の鍵の名の列の hash(閉包の fastParams が全本の physics の鍵の名を読む —— 値は読まない)・all へ戻った理由。
+ * 足す向きは「選べたときだけ狭い」(選べなければ全部)。計画の status・鎖・済み印の契約は変えない(領域 hash の本文が狭くなるだけ —— 宣言の無い段の本文は 1 字も変わらない)。
+ */
+export const PRESET_SELECT_VERSION_329C = 'w329c-presetselect-1';
+export const PRESET_SELECT_OPS_329C = Object.freeze(['gt', 'ge', 'lt', 'le', 'eq', 'ne', 'in']);
+const PRESET_SELECT_KEYS_329C = Object.freeze(['selector', 'where', 'reads', 'named', 'countAll', 'harnessExpr', 'note']);
+const REG_RE_329C = /allPresets\s*\(|BUILTIN_PRESETS/;
+const regLine329c = (l) => l.trim().replace(/\s+/g, ' ');
+/**
+ * 閉包の本の表の読みの宣言(選択器の版 1 —— 第329便c の html の閉包〔pn1・refit-297a の roots〕から引いた行・注釈は除く・空白は 1 つに)。
+ * kind: byId(渡した id の本だけ —— 器が渡す id は選ばれた本か名指しの本)・byIdFirst(byId と見つからないときの先頭の本 —— 先頭の本も刻む)・identity(同じ物が表にあるか)・
+ *   def(allPresets の定義 —— 内蔵 + 保存の本〔headless では空〕)・physicsKeys(全本の physics の鍵の名 —— 値は読まない・鍵の名の列の hash を指紋に)。
+ */
+export const REG_READS_329C = Object.freeze({
+  fastParams: Object.freeze({ kind: 'physicsKeys', lines: Object.freeze(['for(const q of BUILTIN_PRESETS) if(q && q.physics && typeof q.physics==="object") for(const k of Object.keys(q.physics)){ if(k===COORD_KEY && q.physics[SHAPE_TOY_KEY]!==undefined) continue; ks.add(k); }']) }),
+  validatePreset: Object.freeze({ kind: 'byId', lines: Object.freeze(['const bi=(typeof p.id==="string")? BUILTIN_PRESETS.find((q)=>q.id===p.id) : null;']) }),
+  restoreDraft: Object.freeze({ kind: 'byId', lines: Object.freeze(['if(d.presetId && allPresets().some(p=>p.id===d.presetId)) loadPreset(d.presetId,false);']) }),
+  allPresets: Object.freeze({ kind: 'def', lines: Object.freeze(['function allPresets(){ return BUILTIN_PRESETS.concat(getCustomPresets()); }']) }),
+  loadSave: Object.freeze({ kind: 'byId', lines: Object.freeze(['const pre=allPresets().find(p=>p.id===s.presetId);']) }),
+  loadPreset: Object.freeze({ kind: 'byIdFirst', lines: Object.freeze(['let p=allPresets().find(q=>q.id===id) || BUILTIN_PRESETS[0];', 'if(BUILTIN_PRESETS.indexOf(p)<0){ const dn=spaceMeshRetiredDenyOf(p, "custom");',
+    'if(dn.deny){ notify(dn.msg,9000); if(currentPreset){ setPresetSelectValue(currentPreset.id); return; } p=BUILTIN_PRESETS[0]; } }']) }),
+  xkLockRetiredBuiltinOf: Object.freeze({ kind: 'byId', lines: Object.freeze(['function xkLockRetiredBuiltinOf(id){ try{ const q=BUILTIN_PRESETS.find((b)=>b.id===id); return (q && retiredOf(q))? q : null; }catch(_){ return null; } }']) }),
+  xkLockRunFromOf: Object.freeze({ kind: 'identity', lines: Object.freeze(['const inTable=BUILTIN_PRESETS.indexOf(p)>=0;']) }),
+});
+/** 閉包の本の表の読み(関数名 → 読む行)—— scopeHash と同じ閉包(刻印の版の roots・停止集合)。HP の鍵の本文も見る。 */
+export function closureReads329c(parsed, sc, version) {
+  const regs = textRegistriesOf(version);
+  const rootsV = isScopeV6Plus(version) ? sc.roots.filter((r) => !regs.includes(String(r).replace(/^HP\./, ''))) : sc.roots;
+  const cl = closureOf(parsed, rootsV, DATA_REGISTRIES.concat(regs), { hardStop: stopSetOf(version) });
+  const out = {};
+  for (const k of cl.segIdx) {
+    const sg = parsed.segments[k], ls = scanJs(sg.text).nocom.split('\n').filter((l) => REG_RE_329C.test(l)).map(regLine329c);
+    if (ls.length) out[sg.names.length ? sg.names.join(',') : '(stmt)#' + sha256(sg.text).slice(0, 8)] = ls;
+  }
+  for (const h of cl.hp) { const ls = scanJs(String(h.text)).nocom.split('\n').filter((l) => REG_RE_329C.test(l)).map(regLine329c); if (ls.length) out['HP.' + h.name] = ls; }
+  return out;
+}
+const getPath329c = (o, p) => p.split('.').reduce((x, k) => (x !== null && x !== undefined && typeof x === 'object' ? x[k] : undefined), o);
+const cmp329c = (op, v, w) => (op === 'gt' ? v > w : op === 'ge' ? v >= w : op === 'lt' ? v < w : op === 'le' ? v <= w : op === 'eq' ? v === w : op === 'ne' ? v !== w : op === 'in' ? w.includes(v) : false);
+/**
+ * 選択器(純関数 —— I/O なし): B = 内蔵の表(BUILTIN_PRESETS の生の要素)・decl = presetsWhere・reads = closureReads329c の戻り(null なら閉包の照合を飛ばす —— 自己試験だけ)。
+ * @returns {{ok:boolean, why?:string, ids:string[]|null, body:object, summary:object}}
+ */
+export function selectPresets329c(B, decl, reads) {
+  const sel0 = decl && typeof decl === 'object' ? decl.selector : null;
+  const fail = (why) => ({ ok: false, why, ids: null, body: { v: PRESET_SELECT_VERSION_329C, decl: decl === undefined ? null : decl, fallback: why },
+    summary: { selector: sel0 || null, ok: false, fallback: why, nAll: Array.isArray(B) ? B.length : null } });
+  if (!Array.isArray(B) || !B.length) return fail('内蔵の表が読めない');
+  if (!(decl && typeof decl === 'object' && !Array.isArray(decl))) return fail('presetsWhere は object');
+  for (const k of Object.keys(decl)) if (!PRESET_SELECT_KEYS_329C.includes(k)) return fail('知らない鍵 ' + k);
+  if (decl.selector !== PRESET_SELECT_VERSION_329C) return fail('選択器の版 ' + decl.selector + '(' + PRESET_SELECT_VERSION_329C + ' を受ける)');
+  if (!(Array.isArray(decl.where) && decl.where.length)) return fail('where は 1 つ以上の条件');
+  const PATH_RE = /^[A-Za-z_$][\w$]*(\.[A-Za-z_$][\w$]*)*$/;
+  for (const c of decl.where) {
+    if (!(c && typeof c === 'object' && typeof c.path === 'string' && PATH_RE.test(c.path) && PRESET_SELECT_OPS_329C.includes(c.op))) return fail('条件の形(path・op)');
+    if (Object.keys(c).some((k) => !['path', 'op', 'value', 'missing'].includes(k))) return fail('条件の知らない鍵');
+    if (c.op === 'in' ? !(Array.isArray(c.value) && c.value.length && c.value.every(Number.isFinite)) : !Number.isFinite(c.value)) return fail('条件の値は有限の数(in は数の列)');
+    if ('missing' in c && !Number.isFinite(c.missing)) return fail('missing は有限の数');
+  }
+  const paths = [...new Set(decl.where.map((c) => c.path))].sort();
+  if (!(Array.isArray(decl.reads) && JSON.stringify(decl.reads.slice().sort()) === JSON.stringify(paths))) return fail('reads が条件の path と違う(読んだ欄の宣言)');
+  if (!(Array.isArray(decl.named) && decl.named.every((x) => typeof x === 'string'))) return fail('named は id の列');
+  if (!(decl.countAll === undefined || typeof decl.countAll === 'boolean')) return fail('countAll は真偽');
+  if (!(typeof decl.harnessExpr === 'string' && decl.harnessExpr.length > 0)) return fail('harnessExpr(器の本文の選ぶ式)が無い');
+  // 閉包の本の表の読み —— 宣言の表と 1 行でも違えば all
+  const kinds = {};
+  if (reads !== null && reads !== undefined) {
+    for (const [fn, ls] of Object.entries(reads)) {
+      const w = REG_READS_329C[fn];
+      if (!w) return fail('閉包の本の表の読みが宣言の表に無い: ' + fn);
+      if (JSON.stringify(ls) !== JSON.stringify(w.lines)) return fail('閉包の本の表の読みが宣言の表と違う: ' + fn);
+      kinds[fn] = w.kind;
+    }
+  }
+  // 条件の評価(内蔵の表の順)
+  const selected = [];
+  for (const p of B) {
+    let all = true;
+    for (const c of decl.where) {
+      let v = getPath329c(p, c.path);
+      if ((v === undefined || v === null) && 'missing' in c) v = c.missing;
+      if (v === undefined || v === null) return fail('欠けた欄の扱いが無い: ' + (p && p.id) + ' ' + c.path);
+      if (!(typeof v === 'number' && Number.isFinite(v))) return fail('読んだ欄の値が有限の数でない: ' + (p && p.id) + ' ' + c.path);
+      if (!cmp329c(c.op, v, c.value)) { all = false; break; }
+    }
+    if (all) selected.push(String(p.id));
+  }
+  const kindList = Object.values(kinds);
+  const first = kindList.includes('byIdFirst') ? String(B[0].id) : null;
+  const want = new Set(selected.concat(decl.named, first === null ? [] : [first]));
+  const ids = B.map((p) => String(p.id)).filter((id) => want.has(id));
+  for (const id of decl.named) if (!ids.includes(id)) ids.push(id);   // 表に無い名指しの本は末尾(scopeHash が「プリセットが無い」で不完全にする —— 名指しの段と同じ)
+  const physicsKeysSha = kindList.includes('physicsKeys') ? sha256(canonJson(B.map((p) => (p && p.physics && typeof p.physics === 'object' ? Object.keys(p.physics) : null)))) : null;
+  const body = { v: PRESET_SELECT_VERSION_329C, decl, selected, named: decl.named.slice(), first, hashed: ids, allCount: decl.countAll === true ? B.length : null,
+    closureReads: Object.keys(kinds).sort().map((k) => k + ':' + kinds[k]), physicsKeysSha, fallback: null };
+  return { ok: true, ids, body, summary: { selector: PRESET_SELECT_VERSION_329C, ok: true, fallback: null, nAll: B.length, nSelected: selected.length, nHashed: ids.length, selected, first,
+    allCount: body.allCount, closureReads: body.closureReads } };
+}
+/**
+ * 自己試験(I/O なし —— QA lint.condSelect329c): ① 条件の評価(pn1 の型 0 < geoPN < 3・refit の型 geoPN ≥ 2・missing)② all へ戻る 9 種 ③ 狭さと感度(選ばれない本の他の欄 → 同じ・
+ *   条件の欄で本が入る → 違う・全本の数 → 違う・physics の鍵の名 → 違う・選ばれた本の値 → 刻む本に入る)。
+ */
+export function presetSelectSelfTest329c() {
+  const bad = [], cases = [];
+  const mk = () => [{ id: 'a', physics: { geoPN: 0, G: 1 } }, { id: 'b', physics: { geoPN: 2, G: 1 } }, { id: 'c', physics: { geoPN: 1, G: 1 } }, { id: 'd', physics: { geoPN: 3, G: 1 } }, { id: 'e', physics: { geoPN: 4, G: 1 } }];
+  const P1 = { selector: PRESET_SELECT_VERSION_329C, where: [{ path: 'physics.geoPN', op: 'gt', value: 0, missing: 0 }, { path: 'physics.geoPN', op: 'lt', value: 3, missing: 0 }], reads: ['physics.geoPN'], named: ['a'], countAll: true, harnessExpr: 'x' };
+  const P2 = { selector: PRESET_SELECT_VERSION_329C, where: [{ path: 'physics.geoPN', op: 'ge', value: 2, missing: 0 }], reads: ['physics.geoPN'], named: [], harnessExpr: 'y' };
+  const R = { fastParams: REG_READS_329C.fastParams.lines.slice(), loadPreset: REG_READS_329C.loadPreset.lines.slice() };
+  const s1 = selectPresets329c(mk(), P1, R), s2 = selectPresets329c(mk(), P2, R), s3 = selectPresets329c(mk().map((p, i) => (i === 3 ? { id: 'd', physics: {} } : p)), P2, R);
+  if (!(s1.ok && s1.body.selected.join(',') === 'b,c' && s1.ids.join(',') === 'a,b,c' && s1.body.first === 'a' && s1.body.allCount === 5)) bad.push('① pn1 の型: ' + JSON.stringify(s1.summary));
+  if (!(s2.ok && s2.body.selected.join(',') === 'b,d,e' && s2.ids.join(',') === 'a,b,d,e' && s2.body.allCount === null)) bad.push('① refit の型: ' + JSON.stringify(s2.summary));
+  if (!(s3.ok && s3.body.selected.join(',') === 'b,e')) bad.push('① missing 0(欠けた欄)');
+  cases.push(`① 条件の評価: 0 < geoPN < 3 → ${s1.body.selected.join(',')}(名指し a・先頭の本 a)・geoPN ≥ 2 → ${s2.body.selected.join(',')}・欠けた geoPN は missing 0`);
+  const F = {
+    version: [mk(), Object.assign({}, P1, { selector: 'w329c-presetselect-0' }), R], key: [mk(), Object.assign({}, P1, { extra: 1 }), R], op: [mk(), Object.assign({}, P1, { where: [{ path: 'physics.geoPN', op: 'approx', value: 1 }] }), R],
+    reads: [mk(), Object.assign({}, P1, { reads: ['physics.G'] }), R], string: [mk().map((p, i) => (i === 1 ? { id: 'b', physics: { geoPN: '2' } } : p)), P1, R],
+    missingNoDefault: [mk().map((p, i) => (i === 1 ? { id: 'b' } : p)), Object.assign({}, P2, { where: [{ path: 'physics.geoPN', op: 'ge', value: 2 }] }), R],
+    closureNew: [mk(), P1, Object.assign({}, R, { newReader: ['for(const q of BUILTIN_PRESETS) sum+=q.physics.G;'] })],
+    closureEdit: [mk(), P1, Object.assign({}, R, { loadPreset: ['let p=allPresets().find(q=>q.id===id) || BUILTIN_PRESETS[1];'] })], noExpr: [mk(), Object.assign({}, P1, { harnessExpr: '' }), R],
+  };
+  const notFell = Object.entries(F).filter(([, a]) => selectPresets329c(...a).ok !== false).map(([k]) => k);
+  if (notFell.length) bad.push('② all へ戻らない: ' + notFell.join(','));
+  cases.push(`② all へ戻る ${Object.keys(F).length} 種(版・知らない鍵・op・reads・文字列の値・欠けた欄の扱いなし・閉包の新しい読み・閉包の読みの書き換え・器の式なし)`);
+  const h = (B, d) => { const r = selectPresets329c(B, d || P1, R); return sha256(canonJson(r.body)) + '|' + (r.ids || []).join(','); };
+  const base = h(mk());
+  const otherField = h(mk().map((p, i) => (i === 3 ? { id: 'd', physics: { geoPN: 3, G: 9 } } : p)));
+  const enter = h(mk().map((p, i) => (i === 3 ? { id: 'd', physics: { geoPN: 2, G: 1 } } : p)));
+  const count = h(mk().concat([{ id: 'f', physics: { geoPN: 0, G: 1 } }]));
+  const keyName = h(mk().map((p, i) => (i === 4 ? { id: 'e', physics: { geoPN: 4, G: 1, newKey: 1 } } : p)));
+  const selVal = selectPresets329c(mk().map((p, i) => (i === 1 ? { id: 'b', physics: { geoPN: 2, G: 7 } } : p)), P1, R);
+  if (!(otherField === base && enter !== base && count !== base && keyName !== base && selVal.ids.includes('b'))) bad.push('③ 狭さと感度');
+  cases.push('③ 選ばれない本の他の欄 → 同じ(狭い)・条件の欄で本が入る → 違う・全本の数(countAll)→ 違う・physics の鍵の名 → 違う・選ばれた本は刻む本に入る(値の差は本の hash で拾う)');
+  return { version: PRESET_SELECT_VERSION_329C, ok: bad.length === 0, bad, cases };
+}
+// ==== 第329便c の塊(ここまで)====
 
 export default { SCOPE_VERSION, SCOPE_VERSION_7, isScopeV7Plus, SCOPE_STOP_7, SCOPE_STOP_ADDED_327C, scopeMigrate327c, abMentions327c, proseMentions327c, declReadsProse327c, SCOPE_VERSION_6, OBSSPIN_PROSE_KEYS_326E, isScopeV6Plus, stripObsSpinProse326, SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION_3, SCOPE_VERSION_4, SCOPE_VERSIONS, SCOPE_STOP, SCOPE_STOP_3, SCOPE_STOP_4, SCOPE_STOP_ADDED_316, stopSetOf, PROSE_KEYS, DATA_REGISTRIES, TEXT_REGISTRIES,
   CLAIM_PROSE_KEYS, CHAIN_PROSE_KEYS, MASSCAL_PROSE_KEYS, stripPresetProse,
