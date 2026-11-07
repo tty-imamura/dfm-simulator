@@ -720,6 +720,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.response328b behavior.response328b docs
 #   名指ししないので世代は直していない)・節に行を足した第327便の統括の節を位置で読む docs.axialDiff327e・段の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.venusCoverage328c lint.resPower328c docs.w328c lint.venusTide327f behavior.venusTide327f docs.venusTide327f docs.axialDiff327e lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第328便c の塊(ここまで)====
+# ==== 第329便a の塊(ここから)====
+# 第329便a(原仮定者の方針(2026-11-07)・原仮定者の回答(2026-11-07 —— AN570・AN571・AN574・AN575)・統括の検証項目 R304 —— 診断だけ・html は変えない): 枝 a の新設 3 本(lint.spinBias329a ——
+#   偏りの口と比べる表の純関数の場面〔保存の口・契約の閉じ・平衡の位相と勾配・分離線と要る振幅・水星の 1 回対称の項・由来ごとの熱と結合の口・位相の模型の h と h/2・入力の拒否〕と呼ぶだけの検査 /
+#   behavior.spinBias329a —— 今の html の 🗺️ の写しで入力・受動の口のトルク・受理器の s_d の読み口と守り・偏りの列の要る振幅が正本と同じ / docs.spinBias329a —— 正本の門と表が
+#   PHYSICS〔第329便a〕に逐語・第327便f の節の「第329便の更新」・文書)と、節に行を足した第327便f の節を読む docs.venusTide327f・docs.w328c・docs.response328b・新しい段 spinbias-329a の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.spinBias329a behavior.spinBias329a docs.spinBias329a docs.venusTide327f docs.w328c docs.response328b lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.quickBoundary324c lint.narrowScope327c docs.w320d lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第329便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

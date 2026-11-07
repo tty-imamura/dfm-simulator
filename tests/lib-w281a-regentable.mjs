@@ -1742,6 +1742,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/response-w328b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第328便b: 受け手の応答の演算の型ごとの指数の判定(R_d・m・I を独立に —— p の候補は一定の指数の型だけ・p は 1 つでない)・既定の列の照合と否定対照・空間の勾配(別の列)・源の自転を外部の口座に固定した列・金星の N_0 の記録し直し(観測の自転から解いた量)・火星と地球の局所の尺度' }),
   // ==== 第328便b の塊(ここまで)====
+  // ==== 第329便a の塊(ここから)====
+  // ---- 第329便a(原仮定者の方針(2026-11-07)・原仮定者の回答(2026-11-07 —— AN570・AN571・AN574・AN575)・統括の検証項目 R304): **金星・イオ・月・水星の比べる表と表裏の偏りのノブの器**
+  //   (段 spinbias-329a —— 正本 tests/out/spinbias-w329a.json・lib tests/lib-w329a-spinbias.mjs —— 第326便d・第327便e の器の写しと読み口〔copyBook・stateOf・gradT・stateFor〕・
+  //   第327便a・第327便f・第328便c の lib を import して使う〔code の依存 —— 他の正本は読まない〕)。**診断だけ**(エンジン・在位の本・受理器は変えない —— 偏りの口は宣言したノブ)。
+  //   html を読む(本は 🗺️ を .find で引く 1 本 —— html の生成領域の後)。1 プロセス。t = 0 の読み口と純関数だけ(本の步を進めない —— 写しの build は約 40 回・位相の模型は lib の
+  //   1 自由度の純関数)。所要は第329便a の枝の実測 4〜8 s(nice 10 —— 他の枝と並走の箱〔**並走の秒**〕)
+  S('spinbias-329a', 'node tests/exp-w329a-spinbias.mjs', ['tests/out/spinbias-w329a.json'], 8, { secSource: 'w329a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ(本の步を進めない —— 窓が無く、全部を走らせても 10 秒ほど)',
+    volatilePaths: { 'tests/out/spinbias-w329a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第329便a: 金星・イオ・月・水星の比べる表(観測の k と像の k を別の列)・受動の口の残差・s_d の作用箇所(受理器の読み口と守り)・表裏の偏りの 3 列(保存の口・熱 0)・金星とイオの式の形(残差)・有効な滑り A の範囲(ランク 1)・小さな位相の模型(h と h/2)—— 偏りの振幅は宣言したノブの記録' }),
+  // ==== 第329便a の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
