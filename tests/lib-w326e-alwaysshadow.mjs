@@ -346,8 +346,74 @@ export function shadowPhysValue(J, rel) {
   const drop = new Set(EXTRA_STAMP_KEYS_326E);
   const walk = (x) => { if (Array.isArray(x)) { x.forEach(walk); return; } if (!x || typeof x !== 'object') return; for (const k of Object.keys(x)) { if (drop.has(k)) delete x[k]; else walk(x[k]); } };
   walk(v);
+  applyShadowVolatile329c(v, rel);   // 第329便c: 正本ごとの揮発の欄(時間の欄・文の中の秒 —— 旧形式の正本を含む)
   return v;
 }
+
+// ==== 第329便c の塊(ここから)====
+/**
+ * 第329便c(統括の検証項目 R306 —— 第328便の鎖の後の常時群の影の falseSame 1): **照合の物理の値から外す揮発の欄**(正本ごと —— 比べの道具の表)。
+ *   stoprule の正本は刻印の無い旧形式で、走行の壁時計の欄(when・wallSec・nowWallSec・baseWallSec・maxWallSec・nowRate・baseRate —— 名はどの階層でも)は指紋の既定(physValue の
+ *   FP_RUNTIME_KEYS)で外れるが、**資源の上限の文 /resource/finding の中の最長の秒**(「最長 49.2 s < 600 s」)が残り、影 reuse・値が違う(falseSame)と出た —— 物理の取りこぼしではない。
+ *   keys = どの階層でも外す欄名(既定で外れる欄も宣言として並べる —— 欄の一覧)・secondsText = 文の中の「数 s」(秒)を「#」に正規化する Pointer(文の他の字は比べる —— 上限の秒は
+ *   /resource/ceilingSec・/spec/wallCeilingSec の数で比べる)。物理の欄(步数・近点の数・判定・超えた段の列 /resource/exceeded)は外さない。
+ */
+export const SHADOW_VOLATILE_VERSION_329C = 'w329c-shadowvol-1';
+export const SHADOW_VOLATILE_329C = Object.freeze({
+  'tests/out/stoprule-w270a.json': Object.freeze({
+    keys: Object.freeze(['when', 'wallSec', 'nowWallSec', 'baseWallSec', 'maxWallSec', 'nowRate', 'baseRate']),
+    secondsText: Object.freeze(['/resource/finding']),
+    why: '停止条件の照合の器(走行はしない —— calaudit の正本と基点の写しを読む)。壁時計の欄と資源の上限の文の最長の秒は走行の箱と負荷で変わる',
+  }),
+});
+/** 文の中の秒の正規化(「49.2 s」「600 s」→「# s」—— 単位 s の直前の数だけ。数の後に s 以外の字が続く数〔步数・近点の数〕は残す)。 */
+export const normSecondsText329c = (t) => String(t).replace(/\d+(?:\.\d+)?(?=\s*s(?![A-Za-z0-9_]))/g, '#');
+/** 揮発の欄を外す(v は physValue の写し —— その場で書き換える)。表に無い正本は何もしない。 */
+export function applyShadowVolatile329c(v, rel) {
+  const d = SHADOW_VOLATILE_329C[rel];
+  if (!d || !v || typeof v !== 'object') return v;
+  const ks = new Set(d.keys);
+  const walk = (x) => { if (Array.isArray(x)) { x.forEach(walk); return; } if (!x || typeof x !== 'object') return; for (const k of Object.keys(x)) { if (ks.has(k)) delete x[k]; else walk(x[k]); } };
+  walk(v);
+  for (const p of d.secondsText) {
+    const toks = p.slice(1).split('/');
+    let x = v;
+    for (let i = 0; x && typeof x === 'object' && i < toks.length - 1; i++) x = x[toks[i]];
+    const last = toks[toks.length - 1];
+    if (x && typeof x === 'object' && typeof x[last] === 'string') x[last] = normSecondsText329c(x[last]);
+  }
+  return v;
+}
+/**
+ * 自己試験(I/O なし —— QA lint.alwaysShadowVolatile329c): ① 時間の欄と文の中の秒だけが違う 2 つの stoprule の形 → 同じ(trueSame)② 物理の欄(步数・近点の数・判定・
+ * 超えた段の列・文の秒以外の字)が違う → 違う(falseSame のまま)③ 表に無い正本は今までどおり(文の秒も比べる)④ 秒の正規化は步数・近点の数を残す。
+ */
+export function shadowVolatileSelfTest329c() {
+  const bad = [], cases = [], rel = 'tests/out/stoprule-w270a.json';
+  const mk = (o) => ({ when: o.when || 't1', replay: { rows: [{ id: 'x', nowMaxSteps: o.steps || 80000000, nowStepsRun: o.steps || 80000000, nowPeriFoundA: [o.peri || 27], nowWallSec: o.w || 76.5, nowRate: o.r || 689655, baseWallSec: 21.962, baseRate: 1666667, same: false }] },
+    recalc: { rows: [{ id: 'x', wallSec: o.w2 || 3.1, ok: o.ok === undefined ? true : o.ok }] },
+    resource: { ceilingSec: o.cap || 600, exceeded: o.ex || [], maxWallSec: o.w || 76.5, stages: 48, finding: '**資源上限を超えた段は ' + (o.nEx || 0) + ' である**(最長 ' + (o.w || 76.5).toFixed(1) + ' s < ' + (o.cap || 600) + ' s)—— 現行の走行では' + (o.word || '効いていない') + '上限である。' } });
+  const a = mk({}), b = mk({ when: 't2', w: 55.8, r: 588235, w2: 9.9 });
+  const sh = (J, r) => shadowPhysSha(J, r === undefined ? rel : r);
+  if (sh(a) !== sh(b)) bad.push('① 時間の欄と文の秒だけの差が同じにならない');
+  const ck = alwaysShadowCheck({ headRev: 'r0', rows: [{ key: 'stoprule', world: 'reuse', own: 'reuse', why: [], upstream: [] }] }, { root: '/nonexistent', baseRev: 'r0', readBase: () => JSON.stringify(a), readNow: () => JSON.stringify(b) });
+  if (!(ck.ok === true && ck.count.trueSame === 1)) bad.push('① 照合の口で trueSame にならない: ' + JSON.stringify(ck.count));
+  cases.push('① 時間の欄(when・wallSec・nowWallSec・nowRate)と資源の文の最長の秒だけが違う → 同じ(照合 trueSame)');
+  const muts = { steps: mk({ steps: 40000000 }), peri: mk({ peri: 13 }), ok: mk({ ok: false }), exceeded: mk({ ex: [{ id: 'x', tag: 'dt', wallSec: 700 }], nEx: 1 }), word: mk({ word: '効いている' }), cap: mk({ cap: 900 }) };
+  const missed = Object.entries(muts).filter(([, J]) => sh(J) === sh(a)).map(([k]) => k);
+  if (missed.length) bad.push('② 物理の欄の差を外した: ' + missed.join(','));
+  const ck2 = alwaysShadowCheck({ headRev: 'r0', rows: [{ key: 'stoprule', world: 'reuse', own: 'reuse', why: [], upstream: [] }] }, { root: '/nonexistent', baseRev: 'r0', readBase: () => JSON.stringify(a), readNow: () => JSON.stringify(muts.peri) });
+  if (!(ck2.ok === false && ck2.falseSame.join(',') === 'stoprule')) bad.push('② 物理の差が falseSame にならない');
+  cases.push(`② 物理の欄の差(步数・近点の数・判定・超えた段の列・文の秒以外の字・上限の秒の数)${Object.keys(muts).length} 種は違う → falseSame のまま`);
+  const other = 'tests/out/other-w329c.json';
+  if (sh(a, other) === sh(b, other)) bad.push('③ 表に無い正本の文の秒を外した');
+  cases.push('③ 表に無い正本は今までどおり(文の中の秒も比べる)');
+  const n1 = normSecondsText329c('最長 49.2 s < 600 s・80,000,000 步・近点 13 個・5s・12 sec'), w1 = '最長 # s < # s・80,000,000 步・近点 13 個・#s・12 sec';
+  if (n1 !== w1) bad.push('④ 秒の正規化: ' + n1);
+  cases.push('④ 秒の正規化は「数 s」だけ(步数・近点の数・sec の綴りは残す)');
+  return { version: SHADOW_VOLATILE_VERSION_329C, ok: bad.length === 0, bad, cases };
+}
+// ==== 第329便c の塊(ここまで)====
 export const shadowPhysSha = (J, rel) => sha256(canonJson({ v: ALWAYS_SHADOW_VERSION, data: shadowPhysValue(J, rel) }));
 /** 照合の分類(純関数): world(影の世界の判定)と same(値が同じか —— null は欠測)。 */
 export function checkClass(world, same) {

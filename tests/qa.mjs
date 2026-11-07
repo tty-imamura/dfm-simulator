@@ -15,6 +15,27 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // 既定は従来どおり index.html — CI の挙動は不変。
 const TARGET = process.env.QA_TARGET || 'index.html';
 const INDEX = 'file://' + path.join(ROOT, TARGET);
+// ==== 第329便c の塊(ここから —— QA_FAST の heap の既定)====
+// 第329便c(統括の検証項目 R306・運用の正本の flock + heap と同じ値): **QA_FAST の heap の既定**。QA_FAST(QA_TIER=fast)を Node の既定の heap(この箱で約 2 GB)で起こすと
+//   途中で heap の上限で止まる(第328便b)。heap の上限が QA_HEAP_MB_329C より小さいときだけ、同じ引数・同じ環境に NODE_OPTIONS の --max-old-space-size を足した子の Node で
+//   自分を起こし直し、子の終了コードで終わる(本文・判定・順・結果のファイルは同じ —— 子が書く)。起こし直さない走行(走り方は変えない): フルの QA(QA_FAST でない —— CI・保存 QA)・
+//   heap を明示した走行(NODE_OPTIONS か execArgv に --max-old-space-size —— CI の ci.yml・運用の flock + heap)・既に足りる heap・先行再実行の子(QA_REPLAY_CHILD)・
+//   起こし直した子(QA_HEAP_REEXEC_329C)・QA_HEAP_DEFAULT=0。QA lint.qaHeapDefault329c が条件と値を照合する。
+const QA_HEAP_MB_329C = 6144;
+if ((process.env.QA_FAST === '1' || process.env.QA_TIER === 'fast') && process.env.QA_HEAP_DEFAULT !== '0' && process.env.QA_REPLAY_CHILD !== '1' && process.env.QA_HEAP_REEXEC_329C !== '1'
+  && !/--max-old-space-size/.test(String(process.env.NODE_OPTIONS || '') + ' ' + process.execArgv.join(' '))) {
+  const heapMb329c = (await import('node:v8')).getHeapStatistics().heap_size_limit / 1048576;
+  if (heapMb329c < QA_HEAP_MB_329C) {
+    const { spawn: spawn329c } = await import('node:child_process');
+    console.log(`第329便c: QA_FAST の heap の上限 ${Math.round(heapMb329c)} MB < ${QA_HEAP_MB_329C} MB —— --max-old-space-size=${QA_HEAP_MB_329C} の子の Node で起こし直す(QA_HEAP_DEFAULT=0 で切る)`);
+    const env329c = Object.assign({}, process.env, { NODE_OPTIONS: (String(process.env.NODE_OPTIONS || '') + ' --max-old-space-size=' + QA_HEAP_MB_329C).trim(), QA_HEAP_REEXEC_329C: '1' });
+    const ch329c = spawn329c(process.execPath, process.execArgv.concat(process.argv.slice(1)), { stdio: 'inherit', env: env329c });
+    for (const sg of ['SIGINT', 'SIGTERM', 'SIGHUP']) process.on(sg, () => { try { ch329c.kill(sg); } catch { /* 子は終わっている */ } });
+    process.exit(await new Promise((res) => ch329c.on('exit', (c) => res(c === null ? 1 : c))));
+  }
+}
+if (process.env.QA_HEAP_REEXEC_329C === '1') console.log(`第329便c: 起こし直した子の Node(heap の上限 ${Math.round((await import('node:v8')).getHeapStatistics().heap_size_limit / 1048576)} MB)`);
+// ==== 第329便c の塊(ここまで)====
 // 第286便b(原仮定者の裁定(第76報)AN59): **cLight の真値化の世代**。実単位の本の c は c_SI·10^(T−L)(L−T=4 の族 29979.2458・
 //   L−T=5 の族 2997.92458・L−T=7 の族 29.9792458)、κ=G/c² も同期。root(旧則 —— 3×10⁴・3×10³・30 の丸め)と beta を分ける。
 //   世代の目印は html の CAL_CONTRACT の units 欄(第286便b)。旧値は履歴(tests/data-w286b-clight.json)。
