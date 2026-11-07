@@ -5111,3 +5111,35 @@ export default { QUICK_LONG_VERSION, QUICK_LONG_ROSTER, quickLongRows, NSLOCK_SH
   CALIBRATE_RULE, RESUME_CHECK_MAX_SEC, timelineRuns, calibrateProbe312, V_H4_SHADOW, SCOPE_ALL_VERSION, scopeAllReasons312,
   // 第323便b(R276)
   AFTER_KIND_VERSION, afterDepKinds, isOrderOnlyDep, afterKindCounts, w323bChainProbe };
+// ==== 第329便c の塊(ここから)====
+// ---- 第329便c(原仮定者の回答(2026-11-05 —— AN554 = A)・統括の検証項目 R306): **名指しの 6 段のうち条件で選べる段の宣言**(第327便c の表 4 —— 器の中の文字列の式で全本から選ぶ段)。
+//   条件で選ぶ段(CONDSELECT_329C): 器の REGEN_SCOPE に presets "all"(選べないときの戻り先)+ presetsWhere(条件・読んだ欄・名指し・全本の数・器の選ぶ式 —— 刻印の道具の選択器
+//   tests/lib-w281a-scope.mjs の selectPresets329c が評価し、選ばれた本 ∪ 名指しの本だけを領域 hash に刻む・評価が不明なら all)。harnessReads = 器の本文で内蔵の本の表を読む行の全部
+//   (注釈は除く・空白は 1 つに —— 器が新しい読みを足したら QA lint.condSelect329c が名指しで落とす〔宣言を見直す〕)。recorded = 器が正本に書く「選んだ本」(選択器の結果と照合)。
+//   all のまま残す段(CONDSELECT_KEEP_ALL_329C): 第319便c の KEEP_ALL_319C の 4 段(理由は第329便c の測り直し)。
+export const CONDSELECT_VERSION_329C = 'w329c-condselect-1';
+export const CONDSELECT_329C = Object.freeze([
+  Object.freeze({ key: 'pn1', harness: 'tests/exp-w285b-pn1.mjs', out: 'tests/out/pn1-w285b.json', recorded: 'G.rows の id(基点の html にもある本)と G.scope の本の数',
+    harnessReads: Object.freeze([
+      'window.__w285bCopy = (id, kFrame0) => { const p = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));',   // (E) の名指しの 12 本(named)
+      'sig(id){ return presetSig(HP.allPresets().find((q)=>q.id===id)); },',   // (G) の選ばれた本の署名
+      'mode(id){ const p=HP.allPresets().find((q)=>q.id===id); const g=geoModeOf(p.physics||{}); return { core:g.core, pn1:g.pn1||null, geoPN:g.geoPN, kFrame:g.kFrame }; },',   // (G) の選ばれた本の型
+      "const ids = HN.evalExpr('HP.allPresets().filter((p)=>{ const g=(p.physics||{}).geoPN; return g>0 && g<3; }).map((p)=>p.id)'),",   // 条件(harnessExpr)
+      "baseIds = new Set(HB.evalExpr('HP.allPresets().map((p)=>p.id)'));",   // 基点の html(git の写し —— 今の html ではない)
+      "Gb.nAll = HN.evalExpr('HP.allPresets().length');",   // 全本の数(countAll)
+    ]) }),
+  Object.freeze({ key: 'refit-297a', harness: 'tests/exp-w297a-refit.mjs', out: 'tests/out/refit-w297a.json', recorded: 'declared.books の id(条件で選んだ本の全部)',
+    harnessReads: Object.freeze([
+      "const BUILTIN = vm.runInThisContext('BUILTIN_PRESETS');",   // 表の値(下の 3 行が読む)
+      "const presetOf = (id) => { const p = BUILTIN.find((q) => q.id === id); if (!p) throw new Error('no preset ' + id); return clone(p); };",   // 名指しの本(named)
+      'const DECL = BUILTIN.filter((p) => ((p.physics || {}).geoPN || 0) >= 2).map((p) => ({ id: p.id, emoji: p.emoji, geoPN: p.physics.geoPN,',   // 条件(harnessExpr)
+      'const bp = BUILTIN.find((q) => q.id === GAL_ID), keep = bp.physics.lambdaPN;',   // 名指しの本 galaxyGeo2(named)
+    ]) }),
+]);
+export const CONDSELECT_KEEP_ALL_329C = Object.freeze([
+  Object.freeze({ key: 'pnsource286', why: '条件(scaleExp のある本)の行に加えて、内蔵の全本の 1/32 歩のビット比較と署名(HP.allPresets().map(id))—— 全本を読むのが器の目的' }),
+  Object.freeze({ key: 'pnsources291', why: 'for (const p of HP.allPresets()) で内蔵の全本を読み込んで進める —— 全本を読むのが器の目的' }),
+  Object.freeze({ key: 'eihdiag287', why: '較正走行の器 tests/exp-w249b-calaudit.mjs の関数の本文を html の中で評価する —— 選ぶ式が別の器の中にあり、器の外の宣言と照合できない(13 s)' }),
+  Object.freeze({ key: 'tpsign', why: '較正走行の器を子プロセス(--only)で走らせる —— 選ぶ式が子の中にあり、器の外の宣言と照合できない(6 s)' }),
+]);
+// ==== 第329便c の塊(ここまで)====
