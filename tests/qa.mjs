@@ -98411,7 +98411,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const AI9 = '# x\n\n## 1. a\nA\n## 2. b\nB\n', PH9 = '〔第301便d — 本〕\nX\n〔第300便c〕の参照\nY\n〔第302便e — 次〕\nZ\n## 7. 論文\nW', CL9 = '## v1.47-b329(開発中)\n- a\n- b\n## v1.46.0(RC)\n- c\n';
       const PHS = /\n〔第\d+便[a-z]* — |\n## /;
       const ok2 = secUntilNext329c(AI9, AI9.indexOf('## 1.'), '\n## ') === '## 1. a\nA' && secUntilNext329c(PH9, 0, PHS) === '〔第301便d — 本〕\nX\n〔第300便c〕の参照\nY'
-        && secUntilNext329c(PH9, PH9.indexOf('〔第302便e'), PHS) === '〔第302便e — 次〕\nZ' && secUntilNext329c(CL9, CL9.search(/## v1\.47(?:-b\d+|\.0)\(/), '\n## ') === '## v1.47-b329(開発中)\n- a\n- b'
+        && secUntilNext329c(PH9, PH9.indexOf('〔第302便e — '), PHS) === '〔第302便e — 次〕\nZ' && secUntilNext329c(CL9, CL9.search(/## v1\.47(?:-b\d+|\.0)\(/), '\n## ') === '## v1.47-b329(開発中)\n- a\n- b'
         && secUntilNext329c(AI9, -1, '\n## ') === '' && secUntilNext329c(null, 0, '\n## ') === '' && secUntilNext329c(AI9, AI9.indexOf('## 2.'), '\n## ') === '## 2. b\nB\n';
       if (!ok2) bad.push('② 境界の関数の場面');
       cases.push('② 境界の関数: AI_SPEC の次の §・PHYSICS は「〔第…便x — 」の見出しの行で切る(行頭の参照「〔第300便c〕の」では切らない)・CHANGELOG の版の節・印が無いと空・最後の節は終わりまで');
@@ -98437,7 +98437,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const run = (extra) => spawnSync329c(process.execPath, [path.join(ROOT, 'tests', 'qa.mjs')], { cwd: ROOT, encoding: 'utf8', timeout: 60000, env: Object.assign({}, env0, extra) });
       const r1 = run({}), r2 = run({ QA_HEAP_DEFAULT: '0' }), r3 = run({ NODE_OPTIONS: '--max-old-space-size=3072' });
       const lim = (await import('node:v8')).getHeapStatistics().heap_size_limit / 1048576;
-      const m1 = /起こし直した子の Node(heap の上限 (\d+) MB)/.exec(r1.stdout || '');
+      const m1 = /起こし直した子の Node\(heap の上限 (\d+) MB\)/.exec(r1.stdout || '');
       const plainMb = Number((spawnSync329c(process.execPath, ['-e', 'console.log(require("v8").getHeapStatistics().heap_size_limit/1048576)'], { encoding: 'utf8', env: env0 }).stdout || '0').trim());
       if (plainMb < 6144) { if (!(m1 && Number(m1[1]) >= 6144 && r1.status !== 0)) bad.push('② heap を明示しない QA_FAST が起こし直さない(' + String(r1.stdout || '').slice(0, 120) + ')'); }
       if (/第329便c: QA_FAST の heap/.test(r2.stdout || '') || /第329便c: QA_FAST の heap/.test(r3.stdout || '')) bad.push('② QA_HEAP_DEFAULT=0 か heap の明示で起こし直した');

@@ -1128,7 +1128,7 @@ export function selectPresets329c(B, decl, reads) {
   const physicsKeysSha = kindList.includes('physicsKeys') ? sha256(canonJson(B.map((p) => (p && p.physics && typeof p.physics === 'object' ? Object.keys(p.physics) : null)))) : null;
   const body = { v: PRESET_SELECT_VERSION_329C, decl, selected, named: decl.named.slice(), first, hashed: ids, allCount: decl.countAll === true ? B.length : null,
     closureReads: Object.keys(kinds).sort().map((k) => k + ':' + kinds[k]), physicsKeysSha, fallback: null };
-  return { ok: true, ids, body, summary: { selector: PRESET_SELECT_VERSION_329C, ok: true, fallback: null, nAll: B.length, nSelected: selected.length, nHashed: ids.length, selected, first,
+  return { ok: true, ids, body, summary: { selector: PRESET_SELECT_VERSION_329C, ok: true, fallback: null, nAll: B.length, nSelected: selected.length, nHashed: ids.length, selected, hashed: ids.slice(), first,
     allCount: body.allCount, closureReads: body.closureReads } };
 }
 /**
@@ -1654,7 +1654,9 @@ export async function scopeStopProbe(o) {
     // (d) ❄️ の質量
     const fM = path.join(tmp, 'mass.html'); fs.writeFileSync(fM, P.mass.html);
     const mN = rows.map((r) => hN(fM, r.decl));
-    const expect = rows.map((r) => r.decl.presets === 'all' || (Array.isArray(r.decl.presets) && r.decl.presets.includes('plutoCharonReal')));
+    // 第329便c(世代の直し —— AN554): presets "all" + presetsWhere の段は、選択器が刻む本(選べなければ全部)に ❄️ があるときだけ変わる(条件に当たらず名指しでもない段は変わらないのが正しい)
+    const hashedHas329 = (r) => { const ps = (scopeHash(HTML, r.decl).detail || {}).presetSelect; return !ps || ps.ok !== true || !Array.isArray(ps.hashed) || ps.hashed.includes('plutoCharonReal'); };
+    const expect = rows.map((r) => (r.decl.presets === 'all' && (r.decl.presetsWhere === undefined || hashedHas329(r))) || (Array.isArray(r.decl.presets) && r.decl.presets.includes('plutoCharonReal')));
     res.d.ok = P.mass.ok;
     res.d.nowChanged = mN.filter((h, i) => h !== nowN[i]).length;
     res.d.expected = expect.filter(Boolean).length;
