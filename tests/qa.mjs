@@ -97101,7 +97101,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const i0 = PH.indexOf('〔第327便c — '), i7 = PH.indexOf('\n## 7.'), i326e = PH.indexOf('〔第326便e — ');
     if (i0 < 0) bad.push('PHYSICS に〔第327便c〕の節が無い');
     else if (!(i0 < i7 && i326e >= 0 && i326e < i0)) bad.push('PHYSICS〔第327便c〕の位置(第326便e の節の後・「## 7.」の前)');
-    const sec = i0 >= 0 ? PH.slice(i0, PH.indexOf('\n## ', i0 + 10) > 0 ? Math.min(PH.indexOf('\n## ', i0 + 10), i7 > i0 ? i7 : PH.length) : PH.length) : '';
+    // 第329便b の継ぎ目: 節の窓を次の節の見出し(\n〔第)でも切る —— 旧の窓は「## 7.」まで後ろの節を全部含み、後ろの節の係数記号(κ_D・`κ_epi`)を本節の違反に数えた
+    const i1w327c = PH.indexOf('\n〔第', i0 + 10);
+    const sec = i0 >= 0 ? PH.slice(i0, Math.min(...[PH.indexOf('\n## ', i0 + 10), i7, i1w327c].filter((x) => x > i0), PH.length)) : '';
     for (const w of ['w327c-scope-8', 'updateBodyEdit', 'RETIRED_PRESETS', 'abBody:false', 'keepProse', 'scopever', 'w327c-htmlphys-2', 'confirm4', 'tests/qa.mjs', 'pnsource286', 'lint.narrowScope327c']) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第327便c〕に ' + w + ' が無い');
     const m189 = /\n## 189\. 第327便c[^\n]*/.exec(AI), m186 = /\n## 186\. 第326便e/.exec(AI);
     const ai189 = m189 ? (() => { const r = AI.slice(m189.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })() : '';
@@ -98255,7 +98257,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   const gHarn = path.join(ROOT, 'tests', 'exp-w329b-galrot.mjs'), gLib = path.join(ROOT, 'tests', 'lib-w329b-galrot.mjs'), gLib2 = path.join(ROOT, 'tests', 'lib-w329b-fieldcontract2.mjs'), gDoc = path.join(ROOT, 'tests', 'lib-w329b-galrotdoc.mjs');
   const gOut = path.join(ROOT, 'tests', 'out', 'galrot-w329b.json');
   if (!(TARGET.startsWith('beta/') && fs.existsSync(gHarn) && fs.existsSync(gLib) && fs.existsSync(gLib2) && fs.existsSync(gDoc))) {
-    console.log('SKIP lint.galRot329b・behavior.galRot329b・docs.galRot329b(第329便b の銀河の既存理論のラベルと契約の版 2 の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP lint.galRot329b・behavior.galRot329b(第329便b の銀河の既存理論のラベルと契約の版 2 の前の世代か beta 対象でない — ' + TARGET + ')');
     return;
   }
   const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
@@ -98345,6 +98347,22 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       `**銀河の既存の回転の理論のラベル・契約の版 2・DFM の OFF/ON の作り直し**(第329便b・原仮定者の方針(2026-11-07)・R305 —— 今の html の 🌃 の診断の写し・版 1 の呼び出しはビット同一): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
+  })();   // 第310便c(heap)
+}
+// ---- 第329便b: docs.galRot329b は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
+// ----   lint・behavior を数えない)。世代切替は上と同じ
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const gHarn = path.join(ROOT, 'tests', 'exp-w329b-galrot.mjs'), gLib = path.join(ROOT, 'tests', 'lib-w329b-galrot.mjs'), gLib2 = path.join(ROOT, 'tests', 'lib-w329b-fieldcontract2.mjs'), gDoc = path.join(ROOT, 'tests', 'lib-w329b-galrotdoc.mjs');
+  const gOut = path.join(ROOT, 'tests', 'out', 'galrot-w329b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(gHarn) && fs.existsSync(gLib) && fs.existsSync(gLib2) && fs.existsSync(gDoc))) {
+    console.log('SKIP docs.galRot329b(第329便b の銀河の既存理論のラベルと契約の版 2 の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, GL = null, C2 = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + gHarn); GL = await import('file://' + gLib); C2 = await import('file://' + gLib2); D0 = await import('file://' + gDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(gOut, 'utf8')); } catch (e) { J = null; }
   // ───── docs.galRot329b ─────
   {
     const bad = [], cases = [];

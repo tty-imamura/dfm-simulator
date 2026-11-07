@@ -103,5 +103,7 @@ export function tablesOf(J) {
   // 表 10 天の川の太陽の近傍の桁の比(同一視しない)
   T.mw = ['| 量 | 値 [rad/s] | 種類 | Ω_field との比 | log10 |', '|---|---|---|---|---|']
     .concat(M.rows.map((q) => `| ${q.ja} | ${fe(q.value)} | ${q.kind} | ${fe(q.ratioFieldOver)} | ${q.log10.toFixed(2)} |`)).join('\n');
+  // 周転円の振動数の記号はコードの書式で(lint.kappaSymbol315 —— 文書の係数記号は κ_D だけ・コードの書式の中は引用として数えない)
+  for (const k of Object.keys(T)) T[k] = T[k].replace(/κ_epi/g, '`κ_epi`');
   return T;
 }
