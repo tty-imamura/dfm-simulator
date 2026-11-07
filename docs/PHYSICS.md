@@ -45605,7 +45605,14 @@ regen 177 の理由: 器の宣言の変更と版の移行 135・版の移行だ�
 **⑦ 計画の広さ・言わないこと・決断事項の候補・次の便へ。**
 
 **表 7**
-__PLAN_TABLE__
+| 区分 | 段(見積りの秒) | 理由 |
+|---|---|---|
+| regen(本枝の宣言) | pn1 319・refit-297a 1657 | 器の REGEN_SCOPE に presetsWhere(器の本文の変更 —— 一回きり。走らせ直すと条件で選ぶ本の刻印になる) |
+| regen(本枝の道具) | tpsign 6・contact285 220・bgaudit291 4・timing294 161 | 刻印の道具 tests/lib-w281a-scope.mjs を計算に使う器(道具の変更は「式」—— 第318便a の規則のまま。timing294 は便の開始の秒の表の入力でも走る) |
+| regen(本枝の QA) | families 5 | 入力 tests/qa.mjs・再生成表 |
+| regen(枝の作業場) | obsintake・recordid・confirm2・confirm3・confirm4・intakeB(0〜1 s) | 枝の作業場に正本が無い(統括の箱では今までどおり) |
+| reuse(道具の照合) | 140 段 | 刻印の道具の変更を照合で通した(宣言の無い段の領域 hash は前と同じ) |
+| 計(`node tools/regen-plan.mjs --base beta/_w329_base.html`) | always 13・regen 13(2374 s)・recheck 15・reuse 178・history 39 | 下限 53.0 min・上限 2.64 h(response-328b は枝で正本を作り直したので reuse) |
 
 - **言わないこと**: 条件で選ぶ本の宣言は「器が条件で選んだ本だけを読む」ことの宣言で、器の結果の正しさの判定ではない・全本を読む 4 段は狭くしない・契約の継ぎ目の直しは意味の直しで、物理の塊の値は変えていない・stoprule の揮発の欄は時間の欄だけ(物理の欄は今までどおり比べる)。
 - **決断事項の候補**: (1) 名指しの段の閉包の fastParams は全本の physics の鍵の名を読む(値は読まない —— S.params の鍵の並び)。条件で選ぶ 2 段は指紋に入れたが、名指しの本の段(第319便c の NARROWED_319C ほか)は今まで数えていない —— 名指しの段にも入れるか(入れると一回きり全部の名指しの段が regen)(2) all のまま残した 4 段(pnsource286 は全本のビット比較・pnsources291 は全本の歩・eihdiag287 と tpsign は別の器の中の式)の作り直しをするか(器の目的を変えるので推奨は今のまま)(3) CALIBRATION_VERDICT の §5.19 の窓も同じ関数で直すか。
