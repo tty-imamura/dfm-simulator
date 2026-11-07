@@ -3067,7 +3067,7 @@
     "labelPortInContract": true
    }
   },
-  "wallSec": 3.961
+  "wallSec": 3.883
  },
  "port": {
   "bookDeclared": null,
@@ -4299,7 +4299,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 0.703
+      "wallSec": 0.945
      },
      {
       "h": 0.008,
@@ -4452,7 +4452,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 1.442
+      "wallSec": 2.093
      },
      {
       "h": 0.004,
@@ -4605,7 +4605,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 3.944
+      "wallSec": 3.424
      }
     ],
     "convH2H4": 0.054629046598599657,
@@ -4770,7 +4770,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 0.06
+      "wallSec": 0.08
      },
      {
       "h": 0.008,
@@ -4923,7 +4923,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 0.035
+      "wallSec": 0.049
      },
      {
       "h": 0.004,
@@ -5076,7 +5076,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 0.038
+      "wallSec": 0.057
      }
     ],
     "convH2H4": 0.00047737325098374167,
@@ -5243,7 +5243,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 0.723
+      "wallSec": 0.749
      },
      {
       "h": 0.008,
@@ -5396,7 +5396,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 2.184
+      "wallSec": 2.158
      },
      {
       "h": 0.004,
@@ -5549,7 +5549,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 3.317
+      "wallSec": 3.365
      }
     ],
     "convH2H4": 0.2242127122604667,
@@ -5867,7 +5867,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 0.013
+      "wallSec": 0.014
      },
      {
       "h": 0.004,
@@ -6020,7 +6020,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 0.019
+      "wallSec": 0.018
      }
     ],
     "convH2H4": 0.033895994905648576,
@@ -6187,7 +6187,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 0.16
+      "wallSec": 0.194
      },
      {
       "h": 0.008,
@@ -6340,7 +6340,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 0.076
+      "wallSec": 0.082
      },
      {
       "h": 0.004,
@@ -6493,7 +6493,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 0.059
+      "wallSec": 0.055
      }
     ],
     "convH2H4": 0.00044272307191210015,
@@ -6660,7 +6660,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 0.035
+      "wallSec": 0.032
      },
      {
       "h": 0.008,
@@ -6813,7 +6813,7 @@
         "why": "粒子の数が下限 3 未満"
        }
       ],
-      "wallSec": 0.035
+      "wallSec": 0.038
      },
      {
       "h": 0.004,
@@ -7295,7 +7295,7 @@
    "readableSameAcrossH": true
   },
   "kFLinearMaxRel": 0.00005938505388922337,
-  "wallSec": 13.004
+  "wallSec": 13.518
  },
  "evolve": {
   "runs": [
@@ -8013,7 +8013,7 @@
    }
   ],
   "reading": "時間発展の後の OFF/ON の差(同じ初期状態から —— 定常の解ではない・低 N の円盤は両方とも緩和する)。刻みで決まらない箱は寄与の数に使わない",
-  "wallSec": 25.904
+  "wallSec": 27.28
  },
  "eta": {
   "rows": [
@@ -8869,31 +8869,31 @@
  },
  "timing": {
   "inputs": {
-   "wallSec": 0.008
-  },
-  "labels": {
    "wallSec": 0.012
   },
+  "labels": {
+   "wallSec": 0.017
+  },
   "contract": {
-   "wallSec": 3.974
+   "wallSec": 3.901
   },
   "port": {
-   "wallSec": 3.974
+   "wallSec": 3.901
   },
   "baseline": {
-   "wallSec": 3.975
+   "wallSec": 3.903
   },
   "dfm": {
-   "wallSec": 16.98
+   "wallSec": 17.421
   },
   "evolve": {
-   "wallSec": 42.884
+   "wallSec": 44.701
   },
   "eta": {
-   "wallSec": 42.885
+   "wallSec": 44.702
   },
   "mw": {
-   "wallSec": 42.885
+   "wallSec": 44.702
   }
  },
  "gates": {
@@ -8917,13 +8917,13 @@
   "mwRatios": true
  },
  "ok": true,
- "elapsedS": 44.614,
+ "elapsedS": 46.758,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第329便b",
   "target": "beta/index.html",
   "targetSha256": "0faa65b5f137f8a0e9e6998ecafaedb8552289de79fdd41ec4b17eb77c75cc4e",
-  "generatedAt": "2026-11-07T18:46:41.512Z",
+  "generatedAt": "2026-11-07T19:24:48.967Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -8953,9 +8953,9 @@
   "code": [
    {
     "file": "tests/exp-w329b-galrot.mjs",
-    "bytes": 41227,
-    "sha256": "d12d22c7e985aa55f96c4d0de7e1fe2ba57505a55896afe1fcaadfc8b679bad6",
-    "mtime": "2026-11-07T18:45:50.209Z"
+    "bytes": 41234,
+    "sha256": "f81817e02ebcd9b40573e0ad4a9f2df21322e6b962759c8a57c27e8d34347d44",
+    "mtime": "2026-11-07T18:47:15.092Z"
    },
    {
     "file": "tests/lib-w329b-galrot.mjs",
@@ -9036,7 +9036,7 @@
     "mtime": "2026-11-07T18:20:24.268Z"
    }
   ],
-  "codeSha256": "f74d57079f6b962becfa98101d35900d264a1f2506611e62084a7cc5e524a4c0",
+  "codeSha256": "de761c1cc548295b44a5dcfe9e99fa64cfd4e86ac723fb036d4ddb5119394404",
   "harnessVersion": "w329b-galrot-1",
   "stage": "galrot",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)・🌃🛞 の診断の写し(器の中)・場の API の純関数(版 2 の口で包む)",
