@@ -98275,6 +98275,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第328便c の塊(ここまで)====
+
 // ==== 第329便c の塊(ここから —— lint.contractSeam329c・lint.condSelect329c・lint.alwaysShadowVolatile329c・lint.fixedWindow329c・lint.qaHeapDefault329c・docs.w329c の 6 ブロック。root は SKIP)====
 // ---- 第329便c(原仮定者の回答(2026-11-05 —— AN554 = A)・原仮定者の回答(2026-11-07 —— AN569)・統括の検証項目 R306): **道具**(契約の継ぎ目・条件で選ぶ本の宣言・常時群の影の揮発の欄・
 // ----   固定の字数の窓・QA_FAST の heap の既定)。html・本の宣言・エンジン・受理器・物理の塊の値は変えない。世代切替 = beta 対象 ∧ 変異の試験の道具 tools/condselect-probe329c.mjs がある。
