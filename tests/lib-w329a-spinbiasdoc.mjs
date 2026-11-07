@@ -1,5 +1,5 @@
 // 第329便a(統括の検証項目 R304): **PHYSICS〔第329便a〕の表を作る文書の lib** —— 正本 tests/out/spinbias-w329a.json から(QA docs.spinBias329a が節の表と逐語で照合する ——
-//   表の数は有効数字 4 桁・丸めの程度の数は「< 1e-12」の形)。AN574 の印の文(第327便f の χ ≥ 0.25 の行 —— 数は動かさない)もここに置く。
+//   表の数は有効数字 4 桁・丸めの程度の数は「< 1e-12」の形 —— 位相の模型の帳簿と h/h2 の差は「< 1e-10」「< 1e-6 rad」の形〔Node の版で丸めの桁が動く〕)。AN574 の印の文(第327便f の χ ≥ 0.25 の行 —— 数は動かさない)もここに置く。
 import * as LF from './lib-w327f-venustide.mjs';
 export const DOC_VERSION = 'w329a-spinbiasdoc-1';
 const fe = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toExponential(3));
@@ -82,8 +82,8 @@ export function tablesOf(J) {
   T.phaseDecl = ['| 宣言 | 値 |', '|---|---|', `| 組・列・τ_0 | 太陽–金星(パターンは地球との 5:−4)・N₁ を足す列・${TAU[M.tau]} |`, `| C [kg m²] | ${fe(M.C)} |`, `| N₁・N₂ [N·m] | ${fe(M.N1)}・${fe(M.N2)} |`,
     `| ω_res [rad/s](周期 [d]) | ${fe(M.omegaRes)}(${fx(2 * Math.PI / M.omegaRes / 86400, 3)}) |`, `| ロックの受動の口のトルク [N·m] | ${fe(M.torqueLock)} |`, `| γ* [deg]・∂N/∂γ [N·m] | ${fx(M.gammaStar * 180 / Math.PI, 4)}・${fe(M.gradient)} |`,
     `| 秤動の周期 [年] | ${fe(M.libPeriodYears)} |`, `| 減衰 D = Σ Γ_α [N·m·s](減衰の時間 C/D [年]) | ${fe(M.damping)}(${fe(M.dampTimeYears)}) |`, `| 分離線の半幅 [rad/s] | ${fe(M.width)} |`].join('\n');
-  T.phaseRuns = ['| 開始 | k_0 | 滑り/分離線の半幅 | 模型の長さ [年]・步の数(h) | 判定 h・h/2 | 帳簿(パターンの枠)h・h/2 | 帳簿(慣性の枠)h/2 | 最後の γ の差(h と h/2)[rad] | 熱の積分 [J](h/2) |', '|---|---|---|---|---|---|---|---|---|']
-    .concat(M.runs.map((r) => `| ${r.start === 'observed' ? '観測の k' : '像の k'} | ${fx(r.k0, 8)} | ${fe(r.slip0OverWidth)} | ${fe(r.spanYears)}・${ni(r.steps)} | ${r.h.state === 'libration' ? '秤動' : '循環'}・${r.h2.state === 'libration' ? '秤動' : '循環'} | ${fe(r.h.patternRel)}・${fe(r.h2.patternRel)} | ${fe(r.h2.inertialRel)} | ${fe(r.gammaDiff)} | ${fe(r.h2.heat)} |`)).join('\n');
+  T.phaseRuns = ['| 開始 | k_0 | 滑り/分離線の半幅 | 模型の長さ [年]・步の数(h) | 判定 h・h/2 | 帳簿(パターンの枠)h・h/2 | 帳簿(慣性の枠)h/2 | 最後の γ の差(h と h/2)| 熱の積分 [J](h/2) |', '|---|---|---|---|---|---|---|---|---|']
+    .concat(M.runs.map((r) => `| ${r.start === 'observed' ? '観測の k' : '像の k'} | ${fx(r.k0, 8)} | ${fe(r.slip0OverWidth)} | ${fe(r.spanYears)}・${ni(r.steps)} | ${r.h.state === 'libration' ? '秤動' : '循環'}・${r.h2.state === 'libration' ? '秤動' : '循環'} | ${lt(r.h.patternRel, 1e-10)}・${lt(r.h2.patternRel, 1e-10)} | ${lt(r.h2.inertialRel, 1e-10)} | ${lt(r.gammaDiff, 1e-6)} rad | ${fe(r.h2.heat)} |`)).join('\n');
   // 表 13 AN574 の印
   const c4 = an574Counts();
   T.an574 = ['| 第327便f の行 | 条件の数(宣言の格子) | 印 |', '|---|---|---|', `| χ = 0 | ${ni(c4.chi0)} | 共鳴の口のトルク 0(位相の有無を問わない) |`, `| χ ≥ 0.25(${c4.shares.filter((x) => x > 0).join('・')}) | ${ni(c4.chiPos)} | ${AN574_MARK} —— abs(N_r) > N_max(文献の桁の四重極)で位相が無い。数は第327便f・第328便c のまま |`].join('\n');
