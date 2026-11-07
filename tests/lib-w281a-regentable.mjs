@@ -1753,6 +1753,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/spinbias-w329a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第329便a: 金星・イオ・月・水星の比べる表(観測の k と像の k を別の列)・受動の口の残差・s_d の作用箇所(受理器の読み口と守り)・表裏の偏りの 3 列(保存の口・熱 0)・金星とイオの式の形(残差)・有効な滑り A の範囲(ランク 1)・小さな位相の模型(h と h/2)—— 偏りの振幅は宣言したノブの記録' }),
   // ==== 第329便a の塊(ここまで)====
+  // ==== 第329便b の塊(ここから)====
+  // ---- 第329便b(原仮定者の方針(2026-11-07)「既存の銀河の回転の理論を利用して DFM を融合する」「寄与の度合いを調査する」・原仮定者の回答(2026-11-07 —— AN568・AN569・AN570)・
+  //   統括の検証項目 R305): **銀河の既存の回転の理論のラベルと場の契約の版 2 と DFM の寄与の度合いの器**(段 galrot-329b —— 正本 tests/out/galrot-w329b.json・lib tests/lib-w329b-galrot.mjs と
+  //   tests/lib-w329b-fieldcontract2.mjs —— 第321便c の場の API と第328便a の契約を包む〔版 1 の呼び出しは同じ関数・同じ引数〕/NGC 3198 の rotmod の写し〔fixture —— 出典・URL・sha256・第三者の写しの印〕の
+  //   ラベルと基準列/🌃🛞 の診断の写しの DFM の OFF/ON〔同じ状態を注入した写しの 2 歩目 —— h/h2/h4〕と時間発展の後の差〔T = 40・h と h/2〕/η と M_eq)。**診断だけ**(エンジン・内蔵の本・受理器・
+  //   第321便c・第327便b・第328便a の lib の本文は変えない)。html を読む(本は 🌃・🛞 を .find で引く 2 本)・fixture・観測の CSV・第328便a の正本(宣言の候補 Ω_field —— after に)を読む。
+  //   **鎖の段はネットへ取りに行かない**(fixture だけ)。1 プロセス。所要は第329便b の枝の実測 45 s(nice 10 —— 他の枝と並走の箱〔**並走の秒**〕)
+  S('galrot-329b', 'node tests/exp-w329b-galrot.mjs', ['tests/out/galrot-w329b.json'], 45, { secSource: 'w329b-branch', node: true, after: ['fieldcontract-328a', 'obscompare', 'samplestatus'],
+    quickVerify: 'long', quickVerifyWhy: '時間発展の後の OFF/ON の差(T = 40 —— h と h/2)と t* = 10 の状態の探りを含む(短い窓の簡易一致を使わない)',
+    volatilePaths: { 'tests/out/galrot-w329b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/contract/wallSec', '/dfm/wallSec', '/evolve/wallSec', '/dfm/*/*/rows/*/wallSec', '/dfm/nSens/rows/*/wallSec']) },
+    note: '第329便b: 既存の回転の理論のラベル(κ_epi と κ_D を分ける)・場の契約の版 2(回転する枠 —— 版 1 の呼び出しはビット同一)・ラベルの口(宣言なしは null)・NGC 3198 の基準列と DFM の OFF/ON(内向きと接線を分ける)・η と M_eq(寄与の度合いの診断 —— ハローの置き換えは主張しない)' }),
+  // ==== 第329便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -2410,6 +2422,11 @@ export const EXTERNAL_VOLATILE = {
   'tests/data-w318c-solar16-input.json': [],
   'tests/data-w300c-solar16-schema.json': [],
   // ==== 第318便c の塊(ここまで)====
+  // ==== 第329便b の塊(ここから)====
+  // 第329便b(R305): NGC 3198 の rotmod の写し(第三者の写し —— 出典・URL・sha256・取得の時刻・生の文を持つ fixture。tests/exp-w329b-galrot.mjs が読む —— 書き換えない・除く欄は無い。
+  //   正本 galrot-w329b の入力 —— 鎖の段はネットへ取りに行かない)
+  'tests/fixtures/ngc3198-rotmod-w329b.json': [],
+  // ==== 第329便b の塊(ここまで)====
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

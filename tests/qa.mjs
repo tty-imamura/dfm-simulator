@@ -97101,7 +97101,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const i0 = PH.indexOf('〔第327便c — '), i7 = PH.indexOf('\n## 7.'), i326e = PH.indexOf('〔第326便e — ');
     if (i0 < 0) bad.push('PHYSICS に〔第327便c〕の節が無い');
     else if (!(i0 < i7 && i326e >= 0 && i326e < i0)) bad.push('PHYSICS〔第327便c〕の位置(第326便e の節の後・「## 7.」の前)');
-    const sec = i0 >= 0 ? PH.slice(i0, PH.indexOf('\n## ', i0 + 10) > 0 ? Math.min(PH.indexOf('\n## ', i0 + 10), i7 > i0 ? i7 : PH.length) : PH.length) : '';
+    // 第329便b の継ぎ目: 節の窓を次の節の見出し(\n〔第)でも切る —— 旧の窓は「## 7.」まで後ろの節を全部含み、後ろの節の係数記号(κ_D・`κ_epi`)を本節の違反に数えた
+    const i1w327c = PH.indexOf('\n〔第', i0 + 10);
+    const sec = i0 >= 0 ? PH.slice(i0, Math.min(...[PH.indexOf('\n## ', i0 + 10), i7, i1w327c].filter((x) => x > i0), PH.length)) : '';
     for (const w of ['w327c-scope-8', 'updateBodyEdit', 'RETIRED_PRESETS', 'abBody:false', 'keepProse', 'scopever', 'w327c-htmlphys-2', 'confirm4', 'tests/qa.mjs', 'pnsource286', 'lint.narrowScope327c']) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第327便c〕に ' + w + ' が無い');
     const m189 = /\n## 189\. 第327便c[^\n]*/.exec(AI), m186 = /\n## 186\. 第326便e/.exec(AI);
     const ai189 = m189 ? (() => { const r = AI.slice(m189.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })() : '';
@@ -98412,6 +98414,192 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第329便a の塊(ここまで)====
+// ==== 第329便b の塊(ここから —— lint.galRot329b・behavior.galRot329b・docs.galRot329b の 3 ブロック。root は SKIP)====
+// ---- 第329便b(原仮定者の方針(2026-11-07)「既存の銀河の回転の理論を利用して DFM を融合する」「寄与の度合いを調査する」・原仮定者の回答(2026-11-07 —— AN568・AN569・AN570・AN572)・
+// ----   統括の検証項目 R305): **銀河の既存の回転の理論のラベル・場の契約の版 2(回転する枠)・ラベルの口・NGC 3198 の基準列と DFM の OFF/ON の寄与の度合い**(新設 ——
+// ----   器 tests/exp-w329b-galrot.mjs・lib tests/lib-w329b-galrot.mjs と tests/lib-w329b-fieldcontract2.mjs・文書の lib tests/lib-w329b-galrotdoc.mjs・fixture tests/fixtures/ngc3198-rotmod-w329b.json・
+// ----   正本 tests/out/galrot-w329b.json。html・本の宣言・エンジン・受理器・第321便c・第327便b・第328便a の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib 2 本・文書の lib がある。
+// ----   lint.galRot329b(html を読まない): ① lib の版・契約の版 2・包む第328便a の契約の版・鍵の形(手で書いた一覧と照合)・宣言 ② 純関数の場面(ラベルの lib 8・契約の lib 7)
+// ----     ③ fixture(生の文の sha256 = 出典の sha256 = 手で書いた値・生の文を読み直して行と同じ・第三者の写しの印・観測の CSV の v_rot 43 行と V_obs が同じ・URL が同じ)
+// ----     ④ 呼ぶだけ(第321便c・第327便b・第328便a の lib の本文に w329b の語が無い・新しい lib は html を読まない・器と lib はネットへ取りに行かない)
+// ----   behavior.galRot329b(html を headless で読む —— 正本と照合): ① 🌃 の写しの探り(観測の速さ・t* = 0.032・h)の箱が正本の h の行と同じ(1 歩目の同一)② 版 2 の口の古い呼び出しが
+// ----     第321便c の sample と JSON の文字列で同じ・宣言の無い枠の版 2 の版 1 の形が第328便a の正本の契約と同じ・回す枠の u′ が正本と相対 1e-12 の内 ③ 基準列・η・ラベルの表を fixture と正本の箱から作り直して同じ
+// ----   docs.galRot329b(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全・abBody:false)・宣言が lib の DECL と同じ ② 表 10 本が PHYSICS〔第329便b〕に逐語
+// ----     ③ 節の位置(〔第328便c〕の節の後・「## 7.」の前)・必須の語・第328便a の節の「第329便の更新」の行・AI_SPEC §197(次の見出しまで)・CHANGELOG・段の行・EXTERNAL_VOLATILE・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・更新の行・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const gHarn = path.join(ROOT, 'tests', 'exp-w329b-galrot.mjs'), gLib = path.join(ROOT, 'tests', 'lib-w329b-galrot.mjs'), gLib2 = path.join(ROOT, 'tests', 'lib-w329b-fieldcontract2.mjs'), gDoc = path.join(ROOT, 'tests', 'lib-w329b-galrotdoc.mjs');
+  const gOut = path.join(ROOT, 'tests', 'out', 'galrot-w329b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(gHarn) && fs.existsSync(gLib) && fs.existsSync(gLib2) && fs.existsSync(gDoc))) {
+    console.log('SKIP lint.galRot329b・behavior.galRot329b(第329便b の銀河の既存理論のラベルと契約の版 2 の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const relD329 = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, GL = null, C2 = null, D0 = null, C1 = null, FA = null, J = null, err0 = null;
+  try { X = await import('file://' + gHarn); GL = await import('file://' + gLib); C2 = await import('file://' + gLib2); D0 = await import('file://' + gDoc);
+    C1 = await import('file://' + path.join(ROOT, 'tests', 'lib-w328a-fieldcontract.mjs')); FA = await import('file://' + path.join(ROOT, 'tests', 'lib-w321c-galfield.mjs')); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(gOut, 'utf8')); } catch (e) { J = null; }
+  // 形(lib の定数と別に手で書く)
+  const SHAPE2 = { top: ['version', 'baseVersion', 'frame', 'rates', 'omegaField', 'convergence', 'sources', 'transfer', 'ledgerRefs', 'labels'],
+    frame: ['id', 'origin', 'originKpc', 'Q', 'axis', 'velocityRef', 'originVelocity', 'timeUnit', 'lengthUnit', 'velocityUnit', 'omegaFrame', 'complete'],
+    rates: ['omegaFrame', 'omegaMat', 'omegaField', 'omegaP', 'unit', 'ref', 'note'], port: ['mode', 'A_O', 'B_O', 'Omega', 'kappaEpi', 'OmegaP', 'at', 'unit', 'source', 'note'] };
+  const FIX_SHA = '17b774ad11e7dd745a067073b76f1909d4de32fa87616df12b64da3f225cf953';
+  // ───── lint.galRot329b ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      if (!(GL.LIB_VERSION === 'w329b-galrot-lib-1' && C2.LIB_VERSION === 'w329b-fieldcontract2-lib-1' && C2.CONTRACT2_VERSION === 'w329b-fieldcontract-2' && C2.BASE_CONTRACT_VERSION === C1.CONTRACT_VERSION
+        && C1.CONTRACT_VERSION === 'w328a-fieldcontract-1' && C1.LIB_VERSION === 'w328a-fieldcontract-lib-1' && FA.FIELD_VERSION === 'w321c-galfield-2' && FA.LIB_VERSION === 'w321c-galfield-lib-2')) bad.push('① 版(lib 2 本・契約の版 2・包む第328便a の契約と第321便c の場の API の版が基点と同じ)');
+      if (JSON.stringify(C2.CONTRACT2_KEYS) !== JSON.stringify(SHAPE2.top) || JSON.stringify(C2.FRAME2_KEYS) !== JSON.stringify(SHAPE2.frame) || JSON.stringify(C2.RATES_KEYS) !== JSON.stringify(SHAPE2.rates)
+        || JSON.stringify(GL.PORT_KEYS) !== JSON.stringify(SHAPE2.port) || SHAPE2.rates.includes('omegaArm')) bad.push('① 鍵の形(版 2 の契約・枠・rates・ラベルの口 —— rates に Ω_arm が無い)');
+      const DG = GL.DECL;
+      if (!(JSON.stringify(DG.derivTypes) === JSON.stringify(['centralDiff', 'localQuad']) && DG.localQuadHalfWidth === 2 && DG.upsilonDisk === 0.5 && JSON.stringify(DG.upsilonSens) === JSON.stringify([0.3, 0.5, 0.8])
+        && DG.kSigma === 2 && DG.radialOverTangential === 2 && DG.minParticles === 3 && C2.DECL.units.length === 'kpc' && C2.DECL.units.velocity === 'm/s' && C2.DECL.units.time === 's')) bad.push('① 宣言(微分の型・Υ・有意の σ・内向きと接線の比・単位)');
+      cases.push(`① lib ${GL.LIB_VERSION}・${C2.LIB_VERSION}・契約 ${C2.CONTRACT2_VERSION}(版 1 ${C2.BASE_CONTRACT_VERSION})・鍵 ${SHAPE2.top.length}・rates ${SHAPE2.rates.length}(Ω_arm は受け手の側)`);
+      let G1 = null, G2 = null;
+      try { G1 = GL.pureGates(GL.pureScenes()); G2 = C2.pureGates(C2.pureScenes()); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G1 && G2) {
+        for (const [k, v] of Object.entries(G1)) if (v !== true) bad.push('② ラベルの lib の場面 ' + k);
+        for (const [k, v] of Object.entries(G2)) if (v !== true) bad.push('② 契約の lib の場面 ' + k);
+        if (Object.keys(G1).length !== 8 || Object.keys(G2).length !== 7) bad.push('② 場面の数 ' + Object.keys(G1).length + '・' + Object.keys(G2).length);
+        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(恒等式・物質線の反例・微分の型・ラベルの口・基準列と η・箱の集計)+ ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}(版 1 と同じ・回す枠・欠測は null・拒否・往復と相対の速さ・滑りと帳簿・ラベル)`);
+      }
+      // ③ fixture
+      let FXJ = null; try { FXJ = JSON.parse(rd('tests/fixtures/ngc3198-rotmod-w329b.json') || 'null'); } catch (e) { FXJ = null; }
+      if (!FXJ) bad.push('③ fixture が読めない');
+      else {
+        const sha = crypto.createHash('sha256').update(Buffer.from(FXJ.rawText, 'utf8')).digest('hex');
+        const parsed = FXJ.rawText.split('\n').filter((l) => l.trim() && !l.startsWith('#')).map((l) => { const c = l.trim().split(/\s+/).map(Number); return { R: c[0], Vobs: c[1], errV: c[2], Vgas: c[3], Vdisk: c[4], Vbul: c[5], SBdisk: c[6], SBbul: c[7] }; });
+        const CSVx = X.readCsv(ROOT), cmp = FXJ.rows.map((r) => { const c = CSVx.vrot.find((q) => Math.abs(q.R - r.R) < 1e-9); return c ? Math.abs(c.v - r.Vobs) : Infinity; });
+        if (!(sha === FXJ.provenance.sha256 && sha === FIX_SHA && JSON.stringify(parsed) === JSON.stringify(FXJ.rows) && FXJ.thirdPartyCopy === true && FXJ.rows.length === 43
+          && /^https:\/\/raw\.githubusercontent\.com\/.+NGC3198_rotmod\.dat$/.test(FXJ.provenance.url) && /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/.test(FXJ.provenance.fetchedAtUtc)
+          && cmp.every((x) => x <= 1e-9) && CSVx.vrot.length === 43 && CSVx.vrot.every((q) => q.url === FXJ.provenance.url))) bad.push('③ fixture(sha256・生の文・第三者の写しの印・43 行・CSV の v_rot と URL)');
+        cases.push(`③ fixture: 生の文の sha256 = 出典の sha256(${FIX_SHA.slice(0, 12)}…)・読み直して 43 行が同じ・第三者の写し ${FXJ.thirdPartyCopy}・観測の CSV の v_rot 43 行と V_obs と URL が同じ`);
+      }
+      const th = rd('tests/exp-w329b-galrot.mjs'), tl = rd('tests/lib-w329b-galrot.mjs'), tl2 = rd('tests/lib-w329b-fieldcontract2.mjs'), base3 = rd('tests/lib-w321c-galfield.mjs') + rd('tests/lib-w327b-galaxis.mjs') + rd('tests/lib-w328a-fieldcontract.mjs');
+      if (!(/from '\.\/lib-w328a-fieldcontract\.mjs'/.test(tl2) && /from '\.\/lib-w321c-galfield\.mjs'/.test(tl2) && /C1\.sampleWithContract\(/.test(tl2) && !/w329b/.test(base3)
+        && !/loadHtml|index\.html/.test(tl + tl2) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + tl2))) bad.push('④ 呼ぶだけ(版 2 の lib が版 1 の口を包む・第321便c・第327便b・第328便a の lib の本文に w329b が無い・lib は html を読まない・ネットへ取りに行かない)');
+      cases.push('④ 版 2 の lib は第328便a の口を包むだけ(第321便c・第327便b・第328便a の lib の本文は版 2 を知らない)・lib は html を読まない・器と lib はネットへ取りに行かない');
+    }
+    add('lint.galRot329b', bad.length === 0,
+      `**銀河の既存の回転の理論のラベルと場の契約の版 2 の純関数**(第329便b・原仮定者の回答(2026-11-07 —— AN568・AN569・AN570)・R305 —— html を読まない・版 1 の呼び出しはビット同一・欠測は null・fixture は第三者の写し): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.galRot329b ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/galrot-w329b.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x), FX = X.readFixture(ROOT), CSVx = X.readCsv(ROOT);
+        // ① 🌃 の写しの探り
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        const t0 = X.PLAN.probeT[0], h0 = X.PLAN.hs[0], P = X.probeSet(H.HP, FX, X.PLAN.books.main, t0, { obsVel: true, hs: [h0] }), ref = J.dfm.obsVel[String(t0)].rows[0];
+        let d1 = 0; for (let k = 0; k < ref.bins.length; k++) { const a = P.rows[0].bins[k], b = ref.bins[k]; if ((a.dv2Raw === null) !== (b.dv2Raw === null) || a.n !== b.n || a.readable !== b.readable) d1 = Infinity; else if (a.dv2Raw !== null) d1 = Math.max(d1, relD329(a.dv2Raw, b.dv2Raw), relD329(a.ain, b.ain)); }
+        if (!(d1 <= 1e-12 && P.rows[0].firstStepSame === true && P.rows[0].nan === false)) bad.push(`① 🌃 の写しの探りの箱が正本と違う(相対 ${d1})か 1 歩目が同一でない —— 器を走らせ直す`);
+        cases.push(`① 🌃 の写しの探り(観測の速さ・t* ${t0}・h ${h0})の箱 ${ref.bins.length} が正本と相対 1e-12 の内・1 歩目は ON と OFF で同一`);
+        // ② 版 2 の口
+        const pos = [FA.FLOW.R0kpc, 0, 0], st = FA.fullState(), base = FA.sample(pos, 0, st, {});
+        const oldSame = js(C2.sampleWithContract2(pos, 0, st, {})) === js(base) && js(C2.sampleWithContract2([50, 0, 0], 0, st, {})) === js(FA.sample([50, 0, 0], 0, st, {}));
+        const FC = JSON.parse(rd('tests/out/fieldcontract-w328a.json') || 'null'), d = { omegaField: FC.contract.decl.omegaField, transfer: FC.contract.decl.transfer, convergence: FC.contract.decl.convergence };
+        const v = C2.toV1(C2.buildFieldContract2(base, d));
+        const U = C2.DECL.units, fr = { originKpc: [0, 0, 0], Q: [[1, 0, 0], [0, 1, 0], [0, 0, 1]], originVelocity: [0, 0, 0], omegaFrame: J.contract.rotating.OmegaFrame, lengthUnit: U.length, velocityUnit: U.velocity, timeUnit: U.time };
+        const sR = C2.sampleInFrame(pos, 0, st, { frame: fr }), dR = Math.hypot(...sR.u.map((x, i) => x - J.contract.rotating.uFrame[i])) / Math.hypot(...J.contract.rotating.uFrame);
+        if (!(oldSame && v.ok && js(v.contract) === js(FC.contract.main) && dR <= 1e-12 && sR.gradU === null)) bad.push(`② 版 2 の口(古い呼び出し ${oldSame}・版 1 の形 ${v.ok && js(v.contract) === js(FC.contract.main)}・回す枠の u′ の相対 ${dR})`);
+        cases.push(`② 版 2 の口の古い呼び出しが第321便c の sample と同じ・宣言の無い枠の版 1 の形が第328便a の正本の契約と同じ・回す枠(Ω_frame ${J.contract.rotating.OmegaFrame.toExponential(3)} rad/s)の u′ が正本と相対 1e-12 の内・∇u′ は null`);
+        // ③ 基準列・η・ラベル
+        const B = X.partBaseline(FX, CSVx), E = X.partEta(J.baseline, J.dfm), L = X.partLabels(FX);
+        if (!(js(B.bins) === js(J.baseline.bins) && js(B.sensUpsilon) === js(J.baseline.sensUpsilon) && js(E.rows) === js(J.eta.rows) && js(E.summary) === js(J.eta.summary) && js(L.tables) === js(J.labels.tables)))
+          bad.push('③ 基準列・η・ラベルの表を作り直して正本と違う —— 器を走らせ直す');
+        cases.push(`③ 基準列(箱 ${B.bins.length}・Υ の感度)・η(${E.summary.nEta} 箱 —— ${E.summary.min === null ? '保留' : E.summary.min.toPrecision(4) + '〜' + E.summary.max.toPrecision(4)})・ラベルの表(43 行 × 微分の型 2)を fixture と正本の箱から作り直して同じ`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.galRot329b', bad.length === 0,
+      `**銀河の既存の回転の理論のラベル・契約の版 2・DFM の OFF/ON の作り直し**(第329便b・原仮定者の方針(2026-11-07)・R305 —— 今の html の 🌃 の診断の写し・版 1 の呼び出しはビット同一): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ---- 第329便b: docs.galRot329b は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
+// ----   lint・behavior を数えない)。世代切替は上と同じ
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const gHarn = path.join(ROOT, 'tests', 'exp-w329b-galrot.mjs'), gLib = path.join(ROOT, 'tests', 'lib-w329b-galrot.mjs'), gLib2 = path.join(ROOT, 'tests', 'lib-w329b-fieldcontract2.mjs'), gDoc = path.join(ROOT, 'tests', 'lib-w329b-galrotdoc.mjs');
+  const gOut = path.join(ROOT, 'tests', 'out', 'galrot-w329b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(gHarn) && fs.existsSync(gLib) && fs.existsSync(gLib2) && fs.existsSync(gDoc))) {
+    console.log('SKIP docs.galRot329b(第329便b の銀河の既存理論のラベルと契約の版 2 の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, GL = null, C2 = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + gHarn); GL = await import('file://' + gLib); C2 = await import('file://' + gLib2); D0 = await import('file://' + gDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(gOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.galRot329b ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第329便b — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10), ic = PH.indexOf('〔第328便c — ');
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ic >= 0 && ic < i0)) bad.push('PHYSICS〔第329便b〕が無いか〔第328便c〕の節の前か「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/galrot-w329b.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === GL.LIB_VERSION && J.contractLibVersion === C2.LIB_VERSION && J.contractVersion === C2.CONTRACT2_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION
+        && J.meta.provenanceVersion && J.meta.scopeComplete === true && /^[0-9a-f]{64}$/.test(J.meta.scopeSha256 || '') && J.meta.stage === 'galrot' && J.meta.scope && J.meta.scope.abBody === false)) bad.push('① 版・来歴・領域 hash(完全・abBody:false)');
+      if (JSON.stringify(J.decl.galrot) !== JSON.stringify(GL.DECL) || JSON.stringify(J.decl.contract2) !== JSON.stringify(C2.DECL)) bad.push('① 正本の宣言が lib の DECL と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第329便b〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 10) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第329便b〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の方針(2026-11-07)', '原仮定者の回答(2026-11-07 —— AN568', 'R305', 'tests/exp-w329b-galrot.mjs', 'tests/out/galrot-w329b.json', 'tests/lib-w329b-fieldcontract2.mjs', 'w329b-fieldcontract-2',
+      'κ_epi', 'κ_D', '周転円の振動数', '1/R で変わる', '瞬間の値', '4.791799', '同じ数の別の列', '内側 Lindblad 共鳴', '全半径の同じパターン速度ではない', '欠測', 'null', '新しい力ではない', '引いた速さを引きずりへもう一度足さない',
+      '版 1 の呼び出しは基点とビット同一', '受け手の側の入力', 'ランク 1', '第三者の写し', 'ネットへ取りに行かない', '同じ速度で評価した値', '内向き a_in と接線 a_t を**分けて**', '等価の質量', 'ハローの置き換えは主張しない',
+      'kF に比例', '同一視しない', '第131報への枝の答え', '決断事項の候補', 'lint.galRot329b', 'behavior.galRot329b', 'docs.galRot329b', '統括の参考の試作', 'p 値を出さない'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第329便b〕に「' + w + '」が無い');
+    const a0p = PH.indexOf('〔第328便a — '), a1p = PH.indexOf('\n〔第', a0p + 10), sec8a = a0p >= 0 ? PH.slice(a0p, a1p > a0p ? a1p : undefined) : '';
+    const upd = (sec8a.split('\n').find((l) => l.indexOf('**第329便の更新(第329便b') === 0)) || '';
+    if (!(upd && upd.indexOf('w329b-fieldcontract-2') >= 0 && upd.indexOf('ビット同一') >= 0 && upd.indexOf('受け手の側') >= 0 && upd.indexOf('過去の行は書き換えていない') >= 0)) bad.push('③ 第328便a の節に「第329便の更新」の行(版 2・ビット同一・Ω_arm は受け手の側)');
+    const a0 = AS.indexOf('\n## 197. 第329便b'), a1 = a0 >= 0 ? AS.indexOf('\n## ', a0 + 5) : -1, ai = a0 >= 0 ? AS.slice(a0, a1 > a0 ? a1 : undefined) : '';   // 次の見出しまで(固定の字数の窓を持たない)
+    if (!(ai.indexOf('tests/out/galrot-w329b.json') >= 0 && ai.indexOf('κ_epi') >= 0 && ai.indexOf('null') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('等価の質量') >= 0)) bad.push('③ AI_SPEC §197(正本・κ_epi・null・SYSTEM_PROMPT・等価の質量)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLx.slice(cb, cb + 80000) : '', cl329b = clg.split('\n').find((l) => l.indexOf('**第329便b**') >= 0) || '';
+    if (!(cl329b.indexOf('tests/exp-w329b-galrot.mjs') >= 0 && cl329b.indexOf('galrot-329b') >= 0)) bad.push('③ CHANGELOG の第329便b の行');
+    if (!(/S\('galrot-329b', 'node tests\/exp-w329b-galrot\.mjs', \['tests\/out\/galrot-w329b\.json'\]/.test(RT) && RT.indexOf("quickVerify: 'long', quickVerifyWhy: '時間発展の後の OFF/ON の差") >= 0
+      && RT.indexOf('// ==== 第329便b の塊(ここから)====') >= 0 && RT.indexOf("'tests/fixtures/ngc3198-rotmod-w329b.json': []") >= 0)) bad.push('③ 段の行 galrot-329b(quickVerify と理由・塊)・fixture の EXTERNAL_VOLATILE');
+    if (GI.indexOf('!tests/out/galrot-w329b.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第329便b の塊(ここから)====') >= 0 && /lint\.galRot329b/.test(PM) && /behavior\.galRot329b/.test(PM) && /docs\.galRot329b/.test(PM))) bad.push('③ post-merge の ③′ に第329便b の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・第328便a の節の「第329便の更新」・AI_SPEC §197(次の見出しまで)・CHANGELOG・段の行・fixture の宣言・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /内部熱を説明した/, /金星の逆転を説明した/, /銀河の回転曲線を予言した/, /一致した/];
+    const NOT329 = [/銀河場を同定した/, /腕より速い場を観測した/, /回転曲線を予言した/, /\d\s*km\/s/, /p を決めた/, /κ_epi\/2[^。\n]{0,8}は一定/];
+    const cpC = (a) => String.fromCodePoint(...a), rvC = (t) => t.split('').reverse().join('');
+    // 第329便b の書かない語(引用符の中でも書かない —— 文字で持たない): ハローを説明した・ハローが要らない・ハローは要らない
+    const HALO = [cpC([0x30cf, 0x30ed, 0x30fc, 0x3092, 0x8aac, 0x660e, 0x3057, 0x305f]), cpC([0x30cf, 0x30ed, 0x30fc, 0x304c, 0x8981, 0x3089, 0x306a, 0x3044]), cpC([0x30cf, 0x30ed, 0x30fc, 0x306f, 0x8981, 0x3089, 0x306a, 0x3044])];
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第329便b〕', sec], ['第328便a の節の更新の行', upd], ['AI_SPEC §197', ai], ['CHANGELOG の第329便b の行', cl329b], ['器', rd('tests/exp-w329b-galrot.mjs')], ['lib', rd('tests/lib-w329b-galrot.mjs')],
+      ['契約の lib', rd('tests/lib-w329b-fieldcontract2.mjs')], ['文書の lib', rd('tests/lib-w329b-galrotdoc.mjs')], ['fixture', rd('tests/fixtures/ngc3198-rotmod-w329b.json').replace(/"rawText": "[^"]*"/, '')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(HALO)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT329) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/PHYSICS|更新の行|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列(節・更新の行・AI_SPEC・CHANGELOG・器・lib 2 本・文書の lib・fixture の説明)');
+    add('docs.galRot329b', bad.length === 0,
+      `**銀河の既存の回転の理論のラベル・契約の版 2・寄与の度合いの文書**(第329便b・原仮定者の方針(2026-11-07)・原仮定者の回答(2026-11-07 —— AN568・AN569・AN570・AN572)・R305 —— κ_epi と κ_D を分ける・寄与の数は宣言の上の値・ハローの置き換えは主張しない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第329便b の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
