@@ -45554,17 +45554,17 @@ regen 177 の理由: 器の宣言の変更と版の移行 135・版の移行だ�
 | eihdiag287 | 14 | all のまま | — | — | 186 | 較正走行の器の関数の本文を html の中で評価 —— 選ぶ式が別の器の中(器の外の宣言と照合できない) |
 | tpsign | 6 | all のまま | — | — | 186 | 較正走行の器を子プロセスで —— 選ぶ式が子の中 |
 
-**表 3**(危ない側の変異の試験 —— `node tools/condselect-probe329c.mjs`: html の写しを変えて、条件の宣言の領域 hash と従来の presets "all" の領域 hash を引く)
+**表 3**(危ない側の変異の試験 —— `node tools/condselect-probe329c.mjs`: html の写しを変えて、条件の宣言の領域 hash と従来の presets "all" の領域 hash を引く。変異に使う本は今の html から選ぶ〔名指しの本・先頭の本の外〕—— 本便の html では earthMoonReal・galaxyGeo2Flat3d・grcal・grcalGps)
 | 変異 | pn1 | refit-297a | 従来の all |
 |---|---|---|---|
-| earthMoonTide(geoPN 1)の physics の数を変える | regen | reuse | 両方 regen |
-| mercuryRealKF1(geoPN 2)の physics の数を変える | regen | regen | 両方 regen |
-| projectile(geoPN 0 —— 条件に当たらない)の physics の数を変える | **reuse** | **reuse** | 両方 regen |
-| projectile の geoPN 0 → 1(pn1 の条件に入る) | regen | reuse | 両方 regen |
-| projectile の geoPN 0 → 2(両方の条件に入る) | regen | regen | 両方 regen |
-| projectile の geoPN を文字列 "0"(評価が不明) | regen(all へ戻る) | regen(all へ戻る) | 両方 regen |
-| all へ戻った写しで条件に当たらない別の本(boxtrans)の数を変える | regen | regen | — |
-| projectile に physics の鍵を足す(fastParams が鍵の名を読む) | regen | regen | 両方 regen |
+| earthMoonReal(geoPN 1)の physics の数を変える | regen | reuse | 両方 regen |
+| galaxyGeo2Flat3d(geoPN 2)の physics の数を変える | regen | regen | 両方 regen |
+| grcal(geoPN 0 —— 条件に当たらない)の physics の数を変える | **reuse** | **reuse** | 両方 regen |
+| grcal の geoPN 0 → 1(pn1 の条件に入る) | regen | reuse | 両方 regen |
+| grcal の geoPN 0 → 2(両方の条件に入る) | regen | regen | 両方 regen |
+| grcal の geoPN を文字列 "0"(評価が不明) | regen(all へ戻る) | regen(all へ戻る) | 両方 regen |
+| all へ戻った写しで条件に当たらない別の本(grcalGps)の数を変える | regen | regen | — |
+| grcal に physics の鍵を足す(fastParams が鍵の名を読む) | regen | regen | 両方 regen |
 | loadPreset に本の表を回す行を足す(閉包の読みが宣言の表と違う) | regen(all へ戻る) | regen(all へ戻る) | 両方 regen |
 | 本を 1 冊足す | regen | regen | 両方 regen |
 

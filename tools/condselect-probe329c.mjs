@@ -5,6 +5,7 @@
 // 名指しの 6 段のうち条件で選べる 2 段(pn1・refit-297a)の REGEN_SCOPE(presets "all" + presetsWhere)を器の本文から読み、今の html と変えた写しで
 //   ① 条件の宣言の領域 hash(選択器 selectPresets329c —— tests/lib-w281a-scope.mjs)② presetsWhere を外した宣言(従来の presets "all")の領域 hash を引き、変異ごとに
 //   regen(hash が違う)/ reuse(同じ)を期待と照らす:
+//   (変異に使う本は今の html から選ぶ —— pickBooks: 名指しの本・先頭の本の外。第329便c の html では earthMoonTide・mercuryRealKF1・projectile・boxtrans)
 //   selectedPhys   … 条件に当たる本の physics の値を変える → regen(危ない側の否定)
 //   otherPhys      … 条件に当たらない本の physics の値を変える → reuse(狭さ —— 従来の all は regen)
 //   enterSet       … 条件の欄を変えて本が条件に入る → regen
@@ -25,6 +26,8 @@ const HTML = path.resolve(ROOT, arg('--html', 'beta/index.html'));
 const JSON_OUT = arg('--json', null);
 export const PROBE_VERSION_329C = 'w329c-condprobe-1';
 const SC = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w281a-scope.mjs')).href);
+const HL = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')).href);
+let HTML_FOR_PICK = HTML;
 
 const STAGES = [['pn1', 'tests/exp-w285b-pn1.mjs'], ['refit-297a', 'tests/exp-w297a-refit.mjs']];
 const decls = Object.fromEntries(STAGES.map(([k, f]) => [k, SC.readDeclaredScope(fs.readFileSync(path.join(ROOT, f), 'utf8'))]));
@@ -36,8 +39,23 @@ const inBook = (t, id, fn) => { const [i, j] = litRange(t, id); const seg = fn(t
 const physNum = (seg) => seg.replace(/(physics:\{[\s\S]*?\b(?!geoPN\b)([A-Za-z_]\w*):\s*)(\d+(?:\.\d+)?)/, (m, a, k, v) => a + String(Number(v) + 1));
 const geoTo = (v) => (seg) => seg.replace(/\bgeoPN:0\b/, 'geoPN:' + v);
 
-export function mutations(t) {
-  const SEL1 = 'earthMoonTide', SEL2 = 'mercuryRealKF1', OTHER = 'projectile';
+/**
+ * 変異に使う本を今の html から選ぶ(名指しの本・先頭の本の外 —— 字面に physics:{ と数の鍵があり、geoPN 0 の本は字面に geoPN:0 がある本の最初)。
+ * 既定は第329便c の html で選ばれる earthMoonTide(geoPN 1)・mercuryRealKF1(geoPN 2)・projectile と boxtrans(geoPN 0)。
+ */
+export function pickBooks(t) {
+  const { loadHtmlHeadless } = HL;
+  const B = loadHtmlHeadless(HTML_FOR_PICK).evalExpr('BUILTIN_PRESETS');
+  const named = new Set(STAGES.flatMap(([k]) => (decls[k].presetsWhere && decls[k].presetsWhere.named) || []).concat([String(B[0].id)]));
+  const okLit = (id, needGeo0) => { try { const [i, j] = litRange(t, id); const seg = t.slice(i, j); return physNum(seg) !== seg && (!needGeo0 || /\bgeoPN:0\b/.test(seg)); } catch { return false; } };
+  const pick = (g, n, needGeo0) => B.filter((p) => p.physics && p.physics.geoPN === g && !named.has(String(p.id)) && okLit(String(p.id), needGeo0)).slice(0, n).map((p) => String(p.id));
+  const [SEL1] = pick(1, 1, false), [SEL2] = pick(2, 1, false), [OTHER, OTHER2] = pick(0, 2, true);
+  if (!(SEL1 && SEL2 && OTHER && OTHER2)) throw new Error('変異に使う本が選べない');
+  return { SEL1, SEL2, OTHER, OTHER2 };
+}
+
+export function mutations(t, books) {
+  const { SEL1, SEL2, OTHER } = books;
   const m = {
     selectedPhys1: { html: inBook(t, SEL1, physNum), expect: { 'pn1': 'regen', 'refit-297a': 'reuse' }, what: SEL1 + '(geoPN 1)の physics の数を変える' },
     selectedPhys2: { html: inBook(t, SEL2, physNum), expect: { 'pn1': 'regen', 'refit-297a': 'regen' }, what: SEL2 + '(geoPN 2)の physics の数を変える' },
@@ -54,6 +72,7 @@ export function mutations(t) {
 }
 
 export function runProbe(htmlPath) {
+  HTML_FOR_PICK = htmlPath;
   const t = fs.readFileSync(htmlPath, 'utf8');
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w329c-cond-'));
   const rows = [], bad = [];
@@ -64,10 +83,10 @@ export function runProbe(htmlPath) {
     }));
     const base = hashOf(htmlPath);
     for (const [k] of STAGES) if (!(base[k].complete && base[k].sel && base[k].sel.ok)) bad.push('基点の html で ' + k + ' の選択器が選べない(' + JSON.stringify(base[k].sel) + ')');
-    const M = mutations(t);
+    const books = pickBooks(t), M = mutations(t, books);
     // 戻った後の狭さ(badValue の上にさらに条件に当たらない別の本の数を変える)
-    const fbOther = inBook(M.badValue.html, 'boxtrans', physNum);
-    for (const [name, mu] of Object.entries(M).concat([['badValue+other', { html: fbOther, expect: null, what: 'all へ戻った写しで条件に当たらない別の本(boxtrans)の数を変える' }]])) {
+    const fbOther = inBook(M.badValue.html, books.OTHER2, physNum);
+    for (const [name, mu] of Object.entries(M).concat([['badValue+other', { html: fbOther, expect: null, what: 'all へ戻った写しで条件に当たらない別の本(' + books.OTHER2 + ')の数を変える' }]])) {
       const f = path.join(tmp, name + '.html');
       fs.writeFileSync(f, mu.html);
       const h = hashOf(f);
@@ -85,7 +104,7 @@ export function runProbe(htmlPath) {
       try { fs.unlinkSync(f); } catch { /* 消せなくてよい */ }
     }
     const summary = Object.fromEntries(STAGES.map(([k]) => [k, { nAll: base[k].sel ? base[k].sel.nAll : null, nSelected: base[k].sel ? base[k].sel.nSelected : null, nHashed: base[k].sel ? base[k].sel.nHashed : null }]));
-    return { version: PROBE_VERSION_329C, selector: SC.PRESET_SELECT_VERSION_329C, html: path.relative(ROOT, htmlPath), ok: bad.length === 0, bad, base: summary, rows };
+    return { version: PROBE_VERSION_329C, selector: SC.PRESET_SELECT_VERSION_329C, html: path.relative(ROOT, htmlPath), books, ok: bad.length === 0, bad, base: summary, rows };
   } finally { try { fs.rmSync(tmp, { recursive: true, force: true }); } catch { /* 一時 */ } }
 }
 
