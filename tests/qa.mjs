@@ -98237,6 +98237,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第328便c の塊(ここまで)====
+
 // ==== 第329便a の塊(ここから —— lint.spinBias329a・behavior.spinBias329a・docs.spinBias329a の 3 ブロック。root は SKIP)====
 // ---- 第329便a(原仮定者の方針(2026-11-07)・原仮定者の回答(2026-11-07 —— AN570・AN571・AN574・AN575)・統括の検証項目 R304): **金星・イオ・月・水星の比べる表と表裏の偏りのノブの器**(新設 ——
 // ----   器 tests/exp-w329a-spinbias.mjs・lib tests/lib-w329a-spinbias.mjs・文書の lib tests/lib-w329a-spinbiasdoc.mjs・正本 tests/out/spinbias-w329a.json。html・本の宣言・エンジン・受理器は変えない)。
