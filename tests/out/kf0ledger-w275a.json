@@ -3,8 +3,8 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(第65報・判定器便: R33 の対照分類と観測列の分離)",
   "target": "beta/index.html",
-  "targetSha256": "0faa65b5f137f8a0e9e6998ecafaedb8552289de79fdd41ec4b17eb77c75cc4e",
-  "generatedAt": "2026-11-08T01:00:03.398Z",
+  "targetSha256": "d4039e385d15a3688fa45df35ca922265688e6b7bf5e83519b7ffca0fc62bf4e",
+  "generatedAt": "2026-11-08T21:01:04.179Z",
   "inputs": [
    {
     "file": "tests/out/presetaxes-w275a.json",
@@ -15,14 +15,14 @@
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 1734334,
-    "sha256": "e11a04025e5138989518712ec4562c1d8691d46815da7452ab6b6e0bc864cec0",
-    "mtime": "2026-11-08T00:07:53.593Z"
+    "sha256": "5198850eb7047ace8dc11ec0b75e61aa1c23d241c86509e92a67e4092a0c1835",
+    "mtime": "2026-11-08T20:01:01.426Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 175497,
-    "sha256": "ad7b3004fb257408723550567855d884f0354d7556c6a0db1fe694dd8315c4cb",
-    "mtime": "2026-11-08T01:00:02.598Z"
+    "bytes": 175499,
+    "sha256": "03898c7550f5cf257af5fb97bcfa084e3cbcbf39c0c9545b5d87388ab927509b",
+    "mtime": "2026-11-08T21:01:03.294Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
@@ -45,8 +45,8 @@
    {
     "file": "tests/out/calcontract-w282a.json",
     "bytes": 141260,
-    "sha256": "5646bd844cd9746ab891b766c72a2d027b9b62bb39347395e69442be13015f18",
-    "mtime": "2026-11-08T00:19:00.969Z"
+    "sha256": "565f3683022d8e276d61cafd375d76767dfac6222d8ad9c8a65ad8df88e106ae",
+    "mtime": "2026-11-08T20:12:21.226Z"
    }
   ],
   "code": [
@@ -2567,7 +2567,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "3465f977ff80968ade5cabfc608097bf7d7e0328174392260f15f8e0592543e1",
+   "fileSha256": "ad7b3004fb257408723550567855d884f0354d7556c6a0db1fe694dd8315c4cb",
    "citedValue": 551864.0613634228,
    "citedCfg": {
     "kFrame": 0,
@@ -2575,7 +2575,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
+   "citedTargetSha256": "0faa65b5f137f8a0e9e6998ecafaedb8552289de79fdd41ec4b17eb77c75cc4e",
    "thisRunValue": null,
    "relDiff": null,
    "identical": null,
