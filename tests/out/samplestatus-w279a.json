@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.47-b329",
+  "betaBuild": "v1.47-b330",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,8 +13,8 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "0faa65b5f137f8a0e9e6998ecafaedb8552289de79fdd41ec4b17eb77c75cc4e",
-  "generatedAt": "2026-11-08T03:20:39.299Z",
+  "targetSha256": "d4039e385d15a3688fa45df35ca922265688e6b7bf5e83519b7ffca0fc62bf4e",
+  "generatedAt": "2026-11-08T20:07:59.110Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
@@ -25,8 +25,8 @@
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 1734334,
-    "sha256": "e11a04025e5138989518712ec4562c1d8691d46815da7452ab6b6e0bc864cec0",
-    "mtime": "2026-11-08T00:07:53.593Z"
+    "sha256": "5198850eb7047ace8dc11ec0b75e61aa1c23d241c86509e92a67e4092a0c1835",
+    "mtime": "2026-11-08T20:01:01.426Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
@@ -36,9 +36,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 107938,
-    "sha256": "31cd579f5826c2f714e9ba465f536a6f2bb69db3213beeda7f5bdfcc8048f568",
-    "mtime": "2026-11-08T03:20:39.286Z"
+    "bytes": 108519,
+    "sha256": "d4b69eccfc8bdad5b94918b23a07259d65985cdb73cf2570af8961ac3461279f",
+    "mtime": "2026-11-08T20:07:59.094Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -362,7 +362,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -458,7 +458,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -626,7 +626,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -696,7 +696,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -792,7 +792,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -960,7 +960,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -1035,7 +1035,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -1131,7 +1131,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -1299,7 +1299,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -1362,7 +1362,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -1458,7 +1458,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -1626,7 +1626,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -1689,7 +1689,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -1785,7 +1785,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -1953,7 +1953,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -2017,7 +2017,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -2113,7 +2113,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -2281,7 +2281,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -2345,7 +2345,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -2441,7 +2441,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -2609,7 +2609,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -2690,7 +2690,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -2786,7 +2786,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -2954,7 +2954,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -3011,7 +3011,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -3107,7 +3107,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -3275,7 +3275,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -3332,7 +3332,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -3428,7 +3428,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -3596,7 +3596,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -3653,7 +3653,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -3749,7 +3749,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -3917,7 +3917,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -3980,7 +3980,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -4076,7 +4076,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -4244,7 +4244,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -4307,7 +4307,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -4403,7 +4403,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -4571,7 +4571,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -4628,7 +4628,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -4724,7 +4724,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -4892,7 +4892,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -4961,7 +4961,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -5057,7 +5057,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -5225,7 +5225,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -5288,7 +5288,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -5384,7 +5384,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -5552,7 +5552,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -5633,7 +5633,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -5729,7 +5729,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -5897,7 +5897,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -5966,7 +5966,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -6080,7 +6080,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -6284,7 +6284,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -6353,7 +6353,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -6449,7 +6449,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -6659,7 +6659,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -6722,7 +6722,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -6818,7 +6818,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -7046,7 +7046,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -7109,7 +7109,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -7205,7 +7205,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -7385,7 +7385,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -7448,7 +7448,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -7544,7 +7544,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -7718,7 +7718,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -7781,7 +7781,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -7877,7 +7877,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -8051,7 +8051,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -8114,7 +8114,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -8210,7 +8210,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -8384,7 +8384,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -8447,7 +8447,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -8543,7 +8543,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -8711,7 +8711,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -8786,7 +8786,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -8882,7 +8882,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -9050,7 +9050,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -9113,7 +9113,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -9209,7 +9209,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -9377,7 +9377,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -9440,7 +9440,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -9536,7 +9536,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -9704,7 +9704,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -9767,7 +9767,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -9863,7 +9863,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -10031,7 +10031,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -10100,7 +10100,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -10196,7 +10196,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -10364,7 +10364,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -10433,7 +10433,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -10529,7 +10529,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -10703,7 +10703,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -10760,7 +10760,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -10856,7 +10856,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -11024,7 +11024,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -11087,7 +11087,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -11183,7 +11183,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -11351,7 +11351,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -11421,7 +11421,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -11517,7 +11517,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -11685,7 +11685,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -11743,7 +11743,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -11839,7 +11839,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -12007,7 +12007,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -12065,7 +12065,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -12161,7 +12161,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -12329,7 +12329,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -12386,7 +12386,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -12482,7 +12482,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -12650,7 +12650,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -12719,7 +12719,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -12833,7 +12833,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -13001,7 +13001,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -13065,7 +13065,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -13185,7 +13185,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -13359,7 +13359,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -13416,7 +13416,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -13530,7 +13530,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -13698,7 +13698,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -13755,7 +13755,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -13863,7 +13863,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -13953,7 +13953,7 @@
      },
      {
       "key": "bgaudit291",
-      "sec": 4,
+      "sec": 7,
       "share": 3,
       "always": false
      },
@@ -14085,7 +14085,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -14142,7 +14142,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -14238,7 +14238,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -14418,7 +14418,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -14468,7 +14468,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -14564,7 +14564,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -14744,7 +14744,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -14801,7 +14801,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -14897,7 +14897,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -15071,7 +15071,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -15129,7 +15129,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -15231,7 +15231,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -15429,7 +15429,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -15479,7 +15479,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -15575,7 +15575,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -15773,7 +15773,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -15823,7 +15823,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -15919,7 +15919,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -16105,7 +16105,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -16157,7 +16157,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -16265,7 +16265,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -16439,7 +16439,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -16498,7 +16498,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -16600,7 +16600,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -16780,7 +16780,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -16839,7 +16839,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -16941,7 +16941,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -17133,7 +17133,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -17191,7 +17191,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -17287,7 +17287,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -17467,7 +17467,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -17544,7 +17544,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -17646,7 +17646,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -17820,7 +17820,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -17879,7 +17879,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -17981,7 +17981,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -18161,7 +18161,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -18220,7 +18220,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -18328,7 +18328,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -18508,7 +18508,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -18566,7 +18566,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -18662,7 +18662,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -18842,7 +18842,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -18918,7 +18918,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -19014,7 +19014,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -19182,7 +19182,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -19245,7 +19245,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -19341,7 +19341,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -19509,7 +19509,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -19572,7 +19572,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -19668,7 +19668,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -19836,7 +19836,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -19899,7 +19899,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -19995,7 +19995,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -20163,7 +20163,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -20226,7 +20226,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -20352,7 +20352,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -20568,7 +20568,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -20637,7 +20637,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -20733,7 +20733,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -20901,7 +20901,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -20970,7 +20970,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -21066,7 +21066,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -21234,7 +21234,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -21309,7 +21309,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -21405,7 +21405,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -21573,7 +21573,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -21630,7 +21630,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -21726,7 +21726,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -21894,7 +21894,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -21957,7 +21957,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -22053,7 +22053,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -22221,7 +22221,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -22296,7 +22296,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -22392,7 +22392,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -22560,7 +22560,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -22623,7 +22623,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -22719,7 +22719,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -22887,7 +22887,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -22950,7 +22950,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -23046,7 +23046,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -23214,7 +23214,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -23283,7 +23283,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -23379,7 +23379,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -23547,7 +23547,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -23616,7 +23616,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -23712,7 +23712,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -23880,7 +23880,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -23950,7 +23950,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -24046,7 +24046,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -24214,7 +24214,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -24283,7 +24283,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -24379,7 +24379,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -24571,7 +24571,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -24640,7 +24640,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -24736,7 +24736,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -24910,7 +24910,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -24974,17 +24974,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 116.18900000000001,
+     "wallSec": 142.392,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 37.932,
+       "wallSec": 43.884,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 78.257,
+       "wallSec": 98.508,
        "reused": false,
        "reusedBy": null
       }
@@ -24996,7 +24996,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -25104,7 +25104,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -25308,7 +25308,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -25365,7 +25365,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -25461,7 +25461,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -25635,7 +25635,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -25707,7 +25707,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -25851,7 +25851,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -26037,7 +26037,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -26094,7 +26094,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -26190,7 +26190,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -26424,7 +26424,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -26499,7 +26499,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -26607,7 +26607,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -26775,7 +26775,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -26840,7 +26840,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -26960,7 +26960,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -27128,7 +27128,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -27192,17 +27192,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.253,
+     "wallSec": 4.189,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.196,
+       "wallSec": 1.405,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.057,
+       "wallSec": 2.784,
        "reused": false,
        "reusedBy": null
       }
@@ -27214,7 +27214,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -27322,7 +27322,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -27544,7 +27544,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -27607,7 +27607,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -27703,7 +27703,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -27913,7 +27913,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -27976,7 +27976,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -28072,7 +28072,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -28306,7 +28306,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -28354,7 +28354,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -28406,7 +28406,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -28502,7 +28502,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -28814,7 +28814,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -28868,7 +28868,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -28950,7 +28950,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -29046,7 +29046,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -29286,7 +29286,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -29328,7 +29328,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -29398,7 +29398,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -29506,7 +29506,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -29674,7 +29674,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -29731,7 +29731,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -29839,7 +29839,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -30007,7 +30007,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -30070,7 +30070,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -30178,7 +30178,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -30346,7 +30346,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -30409,7 +30409,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -30511,7 +30511,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -30763,7 +30763,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -30865,8 +30865,14 @@
      },
      {
       "key": "galrot-329b",
-      "sec": 45,
+      "sec": 2,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "spinclass-330a",
+      "sec": 5,
+      "share": 12,
       "always": false
      },
      {
@@ -30877,7 +30883,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -30942,17 +30948,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.792,
+     "wallSec": 8.4,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.543,
+       "wallSec": 2.891,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.249,
+       "wallSec": 5.509,
        "reused": false,
        "reusedBy": null
       }
@@ -30964,7 +30970,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -31084,7 +31090,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -31330,7 +31336,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -31378,7 +31384,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -31435,7 +31441,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -31531,7 +31537,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -31741,7 +31747,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -31805,7 +31811,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -31901,7 +31907,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -32129,7 +32135,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -32177,7 +32183,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -32260,7 +32266,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -32356,7 +32362,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -32668,7 +32674,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -32782,8 +32788,14 @@
      },
      {
       "key": "galrot-329b",
-      "sec": 45,
+      "sec": 2,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "spinclass-330a",
+      "sec": 5,
+      "share": 12,
       "always": false
      },
      {
@@ -32794,7 +32806,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -32877,7 +32889,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -32973,7 +32985,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -33285,7 +33297,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -33405,8 +33417,14 @@
      },
      {
       "key": "galrot-329b",
-      "sec": 45,
+      "sec": 2,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "spinclass-330a",
+      "sec": 5,
+      "share": 12,
       "always": false
      },
      {
@@ -33417,7 +33435,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -33476,7 +33494,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -33572,7 +33590,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -33854,7 +33872,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -33968,8 +33986,14 @@
      },
      {
       "key": "galrot-329b",
-      "sec": 45,
+      "sec": 2,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "spinclass-330a",
+      "sec": 5,
+      "share": 12,
       "always": false
      },
      {
@@ -33980,7 +34004,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -34039,7 +34063,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -34135,7 +34159,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -34441,7 +34465,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -34561,8 +34585,14 @@
      },
      {
       "key": "galrot-329b",
-      "sec": 45,
+      "sec": 2,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "spinclass-330a",
+      "sec": 5,
+      "share": 12,
       "always": false
      },
      {
@@ -34573,7 +34603,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -34644,7 +34674,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -34740,7 +34770,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -34998,7 +35028,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -35112,8 +35142,14 @@
      },
      {
       "key": "galrot-329b",
-      "sec": 45,
+      "sec": 2,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "spinclass-330a",
+      "sec": 5,
+      "share": 12,
       "always": false
      },
      {
@@ -35124,7 +35160,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -35182,7 +35218,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -35278,7 +35314,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -35476,7 +35512,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -35559,7 +35595,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -35655,7 +35691,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -35913,7 +35949,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -36027,8 +36063,14 @@
      },
      {
       "key": "galrot-329b",
-      "sec": 45,
+      "sec": 2,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "spinclass-330a",
+      "sec": 5,
+      "share": 12,
       "always": false
      },
      {
@@ -36039,7 +36081,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -36098,7 +36140,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -36194,7 +36236,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -36452,7 +36494,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -36566,8 +36608,14 @@
      },
      {
       "key": "galrot-329b",
-      "sec": 45,
+      "sec": 2,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "spinclass-330a",
+      "sec": 5,
+      "share": 12,
       "always": false
      },
      {
@@ -36578,7 +36626,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -36635,7 +36683,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -36731,7 +36779,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -36965,13 +37013,25 @@
      },
      {
       "key": "spinbias-329a",
-      "sec": 8,
+      "sec": 0,
+      "share": 1,
+      "always": false
+     },
+     {
+      "key": "spinclass-330a",
+      "sec": 5,
+      "share": 12,
+      "always": false
+     },
+     {
+      "key": "dragweight-330b",
+      "sec": 3,
       "share": 1,
       "always": false
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -37041,7 +37101,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -37143,7 +37203,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -37317,7 +37377,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -37374,7 +37434,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -37470,7 +37530,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -37644,7 +37704,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -37696,7 +37756,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -37804,7 +37864,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -37972,7 +38032,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -38032,7 +38092,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -38140,7 +38200,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -38308,7 +38368,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -38372,17 +38432,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 41.613,
+     "wallSec": 50.93600000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 14.959,
+       "wallSec": 18.172,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 26.654,
+       "wallSec": 32.764,
        "reused": false,
        "reusedBy": null
       }
@@ -38394,7 +38454,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -38514,7 +38574,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -38784,7 +38844,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -38910,8 +38970,14 @@
      },
      {
       "key": "galrot-329b",
-      "sec": 45,
+      "sec": 2,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "spinclass-330a",
+      "sec": 5,
+      "share": 12,
       "always": false
      },
      {
@@ -38922,7 +38988,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -38986,17 +39052,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 22.468,
+     "wallSec": 24.369,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.754,
+       "wallSec": 8.235,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 14.714,
+       "wallSec": 16.134,
        "reused": false,
        "reusedBy": null
       }
@@ -39008,7 +39074,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -39164,7 +39230,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -39398,7 +39464,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -39446,7 +39512,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -39510,17 +39576,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 14.572,
+     "wallSec": 20.046,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.919,
+       "wallSec": 6.429,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 9.653,
+       "wallSec": 13.617,
        "reused": false,
        "reusedBy": null
       }
@@ -39532,7 +39598,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -39652,7 +39718,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -39886,7 +39952,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -39934,7 +40000,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -39999,7 +40065,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -40191,7 +40257,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -40359,7 +40425,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -40428,7 +40494,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -40542,7 +40608,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -40716,7 +40782,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -40786,7 +40852,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -40900,7 +40966,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -41068,7 +41134,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -41140,17 +41206,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 223.834,
+     "wallSec": 258.319,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 75.333,
+       "wallSec": 85.016,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 148.501,
+       "wallSec": 173.303,
        "reused": false,
        "reusedBy": null
       }
@@ -41162,7 +41228,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -41330,7 +41396,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -41552,7 +41618,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -41609,7 +41675,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -41705,7 +41771,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -41915,7 +41981,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -41979,7 +42045,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -42075,7 +42141,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -42285,7 +42351,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -42339,7 +42405,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -42420,7 +42486,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -42522,7 +42588,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -42690,7 +42756,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -42748,7 +42814,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -42850,7 +42916,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -42892,7 +42958,7 @@
      },
      {
       "key": "bgaudit291",
-      "sec": 4,
+      "sec": 7,
       "share": 3,
       "always": false
      },
@@ -43024,7 +43090,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -43084,11 +43150,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 53.236,
+     "wallSec": 58.985,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 53.236,
+       "wallSec": 58.985,
        "reused": false,
        "reusedBy": null
       }
@@ -43100,7 +43166,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -43208,7 +43274,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -43442,7 +43508,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -43490,7 +43556,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -43554,17 +43620,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.282,
+     "wallSec": 6.949999999999999,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.732,
+       "wallSec": 2.547,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.55,
+       "wallSec": 4.403,
        "reused": false,
        "reusedBy": null
       }
@@ -43576,7 +43642,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -43732,7 +43798,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -43966,7 +44032,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -44014,7 +44080,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -44076,17 +44142,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 9.933,
+     "wallSec": 11.205,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 9.933,
+       "wallSec": 11.205,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 24.232,
+       "wallSec": 23.655,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -44097,8 +44163,8 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 53.768,
-     "reusedH2Sec": 24.232,
+     "reusedSec": 53.191,
+     "reusedH2Sec": 23.655,
      "reusedH4Sec": 29.536
     },
     "regenSteps": [
@@ -44110,7 +44176,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -44260,7 +44326,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -44446,7 +44512,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -44516,7 +44582,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -44636,7 +44702,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -44804,7 +44870,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -44866,17 +44932,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.757,
+     "wallSec": 7.424,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.757,
+       "wallSec": 7.424,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.036,
+       "wallSec": 14.789,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -44887,8 +44953,8 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 30.533,
-     "reusedH2Sec": 13.036,
+     "reusedSec": 32.286,
+     "reusedH2Sec": 14.789,
      "reusedH4Sec": 17.497
     },
     "regenSteps": [
@@ -44900,7 +44966,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -45050,7 +45116,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -45236,7 +45302,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -45306,7 +45372,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -45426,7 +45492,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -45594,7 +45660,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -45657,7 +45723,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -45753,7 +45819,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -45927,7 +45993,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -45990,7 +46056,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -46086,7 +46152,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -46266,7 +46332,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -46329,7 +46395,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -46425,7 +46491,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -46599,7 +46665,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -46662,7 +46728,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -46758,7 +46824,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -46932,7 +46998,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -46997,17 +47063,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 11.471,
+     "wallSec": 11.468,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.824,
+       "wallSec": 3.721,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.647,
+       "wallSec": 7.747,
        "reused": false,
        "reusedBy": null
       }
@@ -47019,7 +47085,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -47151,7 +47217,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -47343,7 +47409,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -47413,7 +47479,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -47569,7 +47635,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -47737,7 +47803,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -47801,7 +47867,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -47897,7 +47963,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -48065,7 +48131,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -48123,7 +48189,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -48237,7 +48303,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -48405,7 +48471,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -48464,17 +48530,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.2219999999999995,
+     "wallSec": 8.889,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.397,
+       "wallSec": 3.15,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.825,
+       "wallSec": 5.739,
        "reused": false,
        "reusedBy": null
       }
@@ -48492,7 +48558,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -48648,7 +48714,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -48834,7 +48900,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -48893,17 +48959,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.751,
+     "wallSec": 3.54,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.912,
+       "wallSec": 1.252,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.839,
+       "wallSec": 2.288,
        "reused": false,
        "reusedBy": null
       }
@@ -48921,7 +48987,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -49077,7 +49143,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -49263,7 +49329,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -49321,7 +49387,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -49435,7 +49501,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -49603,7 +49669,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -49661,7 +49727,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -49775,7 +49841,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -49943,7 +50009,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -50001,7 +50067,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -50115,7 +50181,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -50283,7 +50349,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -50341,7 +50407,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -50455,7 +50521,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -50623,7 +50689,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -50681,7 +50747,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -50795,7 +50861,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -50963,7 +51029,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -51021,7 +51087,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -51135,7 +51201,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -51303,7 +51369,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -51362,17 +51428,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 50.592,
+     "wallSec": 65.176,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 15.959,
+       "wallSec": 22.083,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 34.633,
+       "wallSec": 43.093,
        "reused": false,
        "reusedBy": null
       }
@@ -51384,7 +51450,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -51498,7 +51564,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -51684,7 +51750,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -51748,7 +51814,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -51904,7 +51970,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -52072,7 +52138,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -52130,7 +52196,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -52244,7 +52310,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -52412,7 +52478,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -52469,7 +52535,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -52565,7 +52631,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -52751,7 +52817,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -52808,7 +52874,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -52904,7 +52970,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -52952,7 +53018,7 @@
      },
      {
       "key": "bgaudit291",
-      "sec": 4,
+      "sec": 7,
       "share": 3,
       "always": false
      },
@@ -53114,7 +53180,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -53183,7 +53249,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -53279,7 +53345,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -53465,7 +53531,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -53528,7 +53594,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -53624,7 +53690,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -53882,7 +53948,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -53963,7 +54029,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -54059,7 +54125,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -54269,7 +54335,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -54351,7 +54417,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -54447,7 +54513,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -54651,7 +54717,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -54720,7 +54786,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -54816,7 +54882,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -54996,7 +55062,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -55053,7 +55119,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -55149,7 +55215,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -55335,7 +55401,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -55404,7 +55470,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -55500,7 +55566,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -55686,7 +55752,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -55743,7 +55809,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -55839,7 +55905,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -56013,7 +56079,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -56076,7 +56142,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -56172,7 +56238,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -56346,7 +56412,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -56409,7 +56475,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -56505,7 +56571,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -56691,7 +56757,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -56748,7 +56814,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -56850,7 +56916,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -57024,7 +57090,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -57082,17 +57148,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.5,
+     "wallSec": 2.622,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.54,
+       "wallSec": 0.599,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.96,
+       "wallSec": 2.023,
        "reused": false,
        "reusedBy": null
       }
@@ -57104,7 +57170,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -57212,7 +57278,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -57398,7 +57464,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -57462,7 +57528,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -57594,7 +57660,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -57762,7 +57828,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -57826,17 +57892,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.179,
+     "wallSec": 0.22699999999999998,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.087,
+       "wallSec": 0.122,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.092,
+       "wallSec": 0.105,
        "reused": false,
        "reusedBy": null
       }
@@ -57848,7 +57914,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -57950,7 +58016,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -58124,7 +58190,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -58181,7 +58247,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -58277,7 +58343,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -58445,7 +58511,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -58502,7 +58568,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -58604,7 +58670,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -58772,7 +58838,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -58835,7 +58901,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -58937,7 +59003,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -59105,7 +59171,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -59162,7 +59228,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -59270,7 +59336,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -59438,13 +59504,13 @@
      },
      {
       "key": "galrot-329b",
-      "sec": 45,
+      "sec": 2,
       "share": 13,
       "always": false
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -59507,7 +59573,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -59627,7 +59693,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -59801,13 +59867,13 @@
      },
      {
       "key": "galrot-329b",
-      "sec": 45,
+      "sec": 2,
       "share": 13,
       "always": false
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -59864,7 +59930,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -59960,7 +60026,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -60128,7 +60194,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -60185,7 +60251,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -60281,7 +60347,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -60449,7 +60515,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -60506,7 +60572,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -60602,7 +60668,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -60770,7 +60836,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -60827,7 +60893,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -60929,7 +60995,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -61193,7 +61259,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -61319,8 +61385,14 @@
      },
      {
       "key": "galrot-329b",
-      "sec": 45,
+      "sec": 2,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "spinclass-330a",
+      "sec": 5,
+      "share": 12,
       "always": false
      },
      {
@@ -61331,7 +61403,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -61412,7 +61484,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -61508,7 +61580,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -61676,7 +61748,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -61750,17 +61822,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.097,
+     "wallSec": 7.256,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.097,
+       "wallSec": 7.256,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 12.2,
+       "wallSec": 14.058,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -61771,14 +61843,14 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 31.872999999999998,
-     "reusedH2Sec": 12.2,
-     "reusedH4Sec": 19.673
+     "reusedSec": 33.730999999999995,
+     "reusedH2Sec": 14.058,
+     "reusedH4Sec": 19.672999999999995
     },
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -61898,7 +61970,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -62072,7 +62144,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -62147,7 +62219,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -62243,7 +62315,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -62411,7 +62483,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -62468,7 +62540,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -62564,7 +62636,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -62732,7 +62804,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -62792,11 +62864,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 125.839,
+     "wallSec": 141.548,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 125.839,
+       "wallSec": 141.548,
        "reused": false,
        "reusedBy": null
       }
@@ -62808,7 +62880,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -62922,7 +62994,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -63162,7 +63234,7 @@
      },
      {
       "key": "k1outer-314c",
-      "sec": 2060,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -63288,8 +63360,14 @@
      },
      {
       "key": "galrot-329b",
-      "sec": 45,
+      "sec": 2,
       "share": 13,
+      "always": false
+     },
+     {
+      "key": "spinclass-330a",
+      "sec": 5,
+      "share": 12,
       "always": false
      },
      {
@@ -63300,7 +63378,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -63366,7 +63444,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -63474,7 +63552,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -63642,7 +63720,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -63699,7 +63777,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -63795,7 +63873,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -63975,7 +64053,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -64051,7 +64129,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -64147,7 +64225,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -64327,7 +64405,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -64390,7 +64468,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -64486,7 +64564,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -64654,7 +64732,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -64717,7 +64795,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -64813,7 +64891,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -64981,7 +65059,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -65050,7 +65128,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -65146,7 +65224,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -65314,7 +65392,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -65371,7 +65449,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -65467,7 +65545,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -65635,7 +65713,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -65692,7 +65770,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -65788,7 +65866,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -65956,7 +66034,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -66013,7 +66091,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -66109,7 +66187,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -66277,7 +66355,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -66334,7 +66412,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -66430,7 +66508,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -66598,7 +66676,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -66655,7 +66733,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -66751,7 +66829,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -66919,7 +66997,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -66982,7 +67060,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -67078,7 +67156,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -67252,7 +67330,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -67309,7 +67387,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -67405,7 +67483,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -67585,7 +67663,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -67642,7 +67720,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -67738,7 +67816,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -67906,7 +67984,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -67969,7 +68047,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -68065,7 +68143,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -68233,7 +68311,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -68290,7 +68368,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 24,
+      "sec": 27,
       "share": "all",
       "always": false
      },
@@ -68386,7 +68464,7 @@
      },
      {
       "key": "contact285",
-      "sec": 220,
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -68554,7 +68632,7 @@
      },
      {
       "key": "timing294",
-      "sec": 161,
+      "sec": 181,
       "share": "all",
       "always": false
      }
@@ -68584,9 +68662,9 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 221,
-  "regenSecSum": 34061,
-  "alwaysSec": 806,
+  "regenSteps": 223,
+  "regenSecSum": 31964,
+  "alwaysSec": 809,
   "undeclaredSteps": 27,
   "undeclaredSec": 1593,
   "qaTotal": 1447,
@@ -68598,8 +68676,8 @@
    "date": "2026-11-08T02:49:18.256Z",
    "betaBuild": "v1.47-b329",
    "targetSha256": "0faa65b5f137f8a0e9e6998ecafaedb8552289de79fdd41ec4b17eb77c75cc4e",
-   "sameBuild": true,
-   "sameHtml": true,
+   "sameBuild": false,
+   "sameHtml": false,
    "rule": "鎖の常時群の段 samplestatus はゲートの QA の前に走る —— 保存 QA の時間は前の便のゲートの保存物(1 便遅れる)。版名が同じでも html の sha が違えば同じ便の中の前の html の QA"
   },
   "noHtmlSteps": {
@@ -68634,7 +68712,7 @@
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 49.468
+    "sec": 52.502
    },
    "h4": {
     "n": 3,
@@ -68665,34 +68743,6 @@
       "saturnRingReal",
       "saturnSunInertial3d",
       "uranusSunInertial3d",
-      "venusSunInertial3d"
-     ]
-    },
-    {
-     "key": "k1outer-314c",
-     "sec": 2060,
-     "kind": "領域の宣言",
-     "presets": [
-      "earthMoonOnly3d",
-      "earthMoonSunInertial3d",
-      "earthMoonSunInertialFit",
-      "jupiterGalilean",
-      "jupiterSunInertial3d",
-      "marsMoonsReal",
-      "marsSunInertial3d",
-      "mercury",
-      "mercuryReal",
-      "mercurySunInertial3d",
-      "mercurySunInertialFit",
-      "neptuneReal",
-      "neptuneSunInertial3d",
-      "plutoCharonInertialFit",
-      "saturn",
-      "saturnRingReal",
-      "saturnSunInertial3d",
-      "uranusReal",
-      "uranusSunInertial3d",
-      "venusReal",
       "venusSunInertial3d"
      ]
     },
@@ -69158,7 +69208,13 @@
     },
     {
      "key": "contact285",
-     "sec": 220,
+     "sec": 195,
+     "kind": "領域の宣言",
+     "presets": "all"
+    },
+    {
+     "key": "timing294",
+     "sec": 181,
      "kind": "領域の宣言",
      "presets": "all"
     },
@@ -69192,12 +69248,6 @@
       "galaxyMeshSpiralGeoToy",
       "gas"
      ]
-    },
-    {
-     "key": "timing294",
-     "sec": 161,
-     "kind": "領域の宣言",
-     "presets": "all"
     },
     {
      "key": "saturnring3d-300c",
@@ -69425,26 +69475,6 @@
      ]
     },
     {
-     "key": "galrot-329b",
-     "sec": 45,
-     "kind": "領域の宣言",
-     "presets": [
-      "jupiterGalilean",
-      "jupiterSunInertial3d",
-      "marsSunInertial3d",
-      "mercury",
-      "mercurySunInertial3d",
-      "neptuneSunInertial3d",
-      "ngc3198",
-      "ngc3198DFM",
-      "saturn",
-      "saturnRingReal",
-      "saturnSunInertial3d",
-      "uranusSunInertial3d",
-      "venusSunInertial3d"
-     ]
-    },
-    {
      "key": "fixcap288",
      "sec": 44,
      "kind": "領域の宣言",
@@ -69478,6 +69508,12 @@
      ]
     },
     {
+     "key": "d0audit",
+     "sec": 27,
+     "kind": "領域の宣言",
+     "presets": "all"
+    },
+    {
      "key": "drag3d-298c",
      "sec": 26,
      "kind": "領域の宣言",
@@ -69496,14 +69532,8 @@
      "presets": null
     },
     {
-     "key": "d0audit",
-     "sec": 24,
-     "kind": "領域の宣言",
-     "presets": "all"
-    },
-    {
      "key": "dt3",
-     "sec": 18,
+     "sec": 21,
      "kind": "常時群",
      "presets": null
     },
@@ -69583,18 +69613,20 @@
      ]
     },
     {
-     "key": "spinbias-329a",
-     "sec": 8,
-     "kind": "領域の宣言",
-     "presets": [
-      "solarSystem16Inertial3d"
-     ]
-    },
-    {
      "key": "calcontract",
      "sec": 7,
      "kind": "領域の宣言",
      "presets": "all"
+    },
+    {
+     "key": "bgaudit291",
+     "sec": 7,
+     "kind": "領域の宣言",
+     "presets": [
+      "charonGeoToy3",
+      "galaxyAnalogyBH",
+      "inertialDragPair"
+     ]
     },
     {
      "key": "obscompare",
@@ -69751,6 +69783,25 @@
      ]
     },
     {
+     "key": "spinclass-330a",
+     "sec": 5,
+     "kind": "領域の宣言",
+     "presets": [
+      "jupiterGalilean",
+      "jupiterSunInertial3d",
+      "marsSunInertial3d",
+      "mercury",
+      "mercurySunInertial3d",
+      "neptuneSunInertial3d",
+      "saturn",
+      "saturnRingReal",
+      "saturnSunInertial3d",
+      "solarSystem16Inertial3d",
+      "uranusSunInertial3d",
+      "venusSunInertial3d"
+     ]
+    },
+    {
      "key": "slipaudit",
      "sec": 4,
      "kind": "領域の宣言",
@@ -69771,16 +69822,6 @@
      "kind": "領域の宣言",
      "presets": [
       "bhCoreTilt"
-     ]
-    },
-    {
-     "key": "bgaudit291",
-     "sec": 4,
-     "kind": "領域の宣言",
-     "presets": [
-      "charonGeoToy3",
-      "galaxyAnalogyBH",
-      "inertialDragPair"
      ]
     },
     {
@@ -69933,6 +69974,14 @@
     },
     {
      "key": "axialheat-326d",
+     "sec": 3,
+     "kind": "領域の宣言",
+     "presets": [
+      "solarSystem16Inertial3d"
+     ]
+    },
+    {
+     "key": "dragweight-330b",
      "sec": 3,
      "kind": "領域の宣言",
      "presets": [
@@ -70661,6 +70710,34 @@
      ]
     },
     {
+     "key": "k1outer-314c",
+     "sec": 2,
+     "kind": "領域の宣言",
+     "presets": [
+      "earthMoonOnly3d",
+      "earthMoonSunInertial3d",
+      "earthMoonSunInertialFit",
+      "jupiterGalilean",
+      "jupiterSunInertial3d",
+      "marsMoonsReal",
+      "marsSunInertial3d",
+      "mercury",
+      "mercuryReal",
+      "mercurySunInertial3d",
+      "mercurySunInertialFit",
+      "neptuneReal",
+      "neptuneSunInertial3d",
+      "plutoCharonInertialFit",
+      "saturn",
+      "saturnRingReal",
+      "saturnSunInertial3d",
+      "uranusReal",
+      "uranusSunInertial3d",
+      "venusReal",
+      "venusSunInertial3d"
+     ]
+    },
+    {
      "key": "k1em-314c",
      "sec": 2,
      "kind": "領域の宣言",
@@ -71028,6 +71105,26 @@
      ]
     },
     {
+     "key": "galrot-329b",
+     "sec": 2,
+     "kind": "領域の宣言",
+     "presets": [
+      "jupiterGalilean",
+      "jupiterSunInertial3d",
+      "marsSunInertial3d",
+      "mercury",
+      "mercurySunInertial3d",
+      "neptuneSunInertial3d",
+      "ngc3198",
+      "ngc3198DFM",
+      "saturn",
+      "saturnRingReal",
+      "saturnSunInertial3d",
+      "uranusSunInertial3d",
+      "venusSunInertial3d"
+     ]
+    },
+    {
      "key": "charonaudit-305e",
      "sec": 2,
      "kind": "領域の宣言",
@@ -71262,6 +71359,14 @@
     },
     {
      "key": "venustide-327f",
+     "sec": 0,
+     "kind": "領域の宣言",
+     "presets": [
+      "solarSystem16Inertial3d"
+     ]
+    },
+    {
+     "key": "spinbias-329a",
      "sec": 0,
      "kind": "領域の宣言",
      "presets": [
