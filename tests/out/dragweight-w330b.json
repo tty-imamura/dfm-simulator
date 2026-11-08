@@ -5,7 +5,7 @@
  "target": "beta/index.html",
  "targetSha256": "d4039e385d15a3688fa45df35ca922265688e6b7bf5e83519b7ffca0fc62bf4e",
  "reuseFrom": null,
- "ruling": "原仮定者の整理(2026-11-08)「引きずり = Σ(相対速度 × 重み)/Σ重み(自分を含む)・重み = 質量/距離²・慣性移動 = 自分自身の引きずり」「ディスクは平坦回転する」(作業仮説 —— 診断で検査)・「ジャイロ効果も DFM の範囲」・「2 本の腕は密度波・棒は解決案は無い」・原仮定者の回答(2026-11-08 —— AN578・AN580)・統括の検証項目 R308",
+ "ruling": "原仮定者の整理(2026-11-08)「引きずり = Σ(相対速度 × 重み)/Σ重み(自分を含む)・重み = 質量/距離²・慣性移動 = 自分自身の引きずり」「ディスクは平坦回転する」(作業仮説 —— 診断で検査)・「ジャイロ効果も DFM の範囲」・「2 本の腕は密度波・棒は解決案は無い」・原仮定者の補足(2026-11-08)「回転引きずりは座標変換 —— 角速度は距離で変わらず接線の速度は r に比例・重み 1/r² で 1/r に見える」・原仮定者の補足その2(2026-11-08)「回転引きずりは回転にも効く —— 角速度そのままの順回転・重み 1/r²・潮汐との二重計上に注意・軸引きずりは現状どおり」・原仮定者の回答(2026-11-08 —— AN578・AN580)・統括の検証項目 R308",
  "decl": {
   "pLaws": [
    2,
@@ -59,6 +59,54 @@
    ]
   ],
   "corrTolRel": 0.001,
+  "duo": [
+   0,
+   3
+  ],
+  "duoFactors": [
+   1,
+   2,
+   4,
+   8
+  ],
+  "spinDecl": {
+   "rot": "surfaceFlip",
+   "axial": "on",
+   "axialModel": "bevel"
+  },
+  "scalingRs": [
+   1,
+   2,
+   4,
+   8,
+   16
+  ],
+  "slopeTol": 0.05,
+  "tidePairs": [
+   [
+    4,
+    3
+   ],
+   [
+    7,
+    6
+   ]
+  ],
+  "tidePairNames": [
+   [
+    "月",
+    "地球"
+   ],
+   [
+    "イオ",
+    "木星"
+   ]
+  ],
+  "galOmega": 8.815e-16,
+  "galR0Kpc": 8.2,
+  "sunMassKg": 1.98847e+30,
+  "sunRadiusM": 695700000,
+  "galSource": "天の川の Ω = A_O − B_O(第329便b の表 10 —— Bovy 2017 の Oort の量・文献の値)・R0 8.2 kpc・M_eq = (Ω R0)² R0/G(球の等価の質量 —— 宣言)",
   "upsDisk": 0.5,
   "ringFromKpc": 1,
   "ringToKpc": 30,
@@ -286,10 +334,10 @@
     "naive": [
      9.762072315723156,
      39.78043548672533,
-     89.783412576336,
+     89.78341257633599,
      159.78442805824784,
-     249.7848935850233,
-     359.7851452869078
+     249.78489358502327,
+     359.78514528690783
     ],
     "sl": {
      "allPositive": true,
@@ -304,6 +352,52 @@
      "outer": -2.794533211658619,
      "flat": false
     }
+   },
+   "frameRot": {
+    "vt1": [
+     0,
+     2,
+     0
+    ],
+    "c1": 6,
+    "c2": 3,
+    "want1": 6,
+    "slope": {
+     "translation": -2,
+     "frameRotation": -1,
+     "rotationSpin": -2,
+     "k1Translation": -1,
+     "engineK1Rot": -2,
+     "engineK2Rot": -3.0000004830455516,
+     "engineK1Axial": -3,
+     "engineK2Axial": -4.000000805076084
+    }
+   },
+   "coRotate": {
+    "dCo": 0,
+    "dRest": [
+     0,
+     0.2,
+     0
+    ]
+   },
+   "mouths": {
+    "trRatio": 0.5,
+    "spRatio": 0.25,
+    "trOverSp1": 1,
+    "target": [
+     0,
+     0,
+     1
+    ],
+    "slip": [
+     0,
+     0,
+     0.6000000000000001
+    ],
+    "slipShift": 2.220446049250313e-16,
+    "coSlip": 0,
+    "beta": 0.375
    }
   },
   "gates": {
@@ -317,7 +411,10 @@
    "oblateRetrograde": true,
    "flatResonance": true,
    "densityWaveLabel": true,
-   "miniDiskChain": true
+   "miniDiskChain": true,
+   "frameRotationScaling": true,
+   "coRotateInvisible": true,
+   "twoMouths": true
   }
  },
  "engine": {
@@ -766,6 +863,312 @@
    "order": 8
   }
  },
+ "components": {
+  "engine": {
+   "k1Rule": {
+    "rows": [
+     {
+      "f": 1,
+      "ok": true,
+      "beta": 1.0037984178511752e-7,
+      "rot": 4.1862071552168074e-20,
+      "omega": 1.628551997897695e-22,
+      "alpha": 0.9999998996201582,
+      "law": "inv1-ball-total-ratio"
+     },
+     {
+      "f": 2,
+      "ok": true,
+      "beta": 5.018992344036473e-8,
+      "rot": 1.0465518419306326e-20,
+      "omega": 2.0356206178640632e-23,
+      "alpha": 0.9999999498100766,
+      "law": "inv1-ball-total-ratio"
+     },
+     {
+      "f": 4,
+      "ok": true,
+      "beta": 2.509496235713402e-8,
+      "rot": 2.616379671234595e-21,
+      "omega": 2.544719730349179e-24,
+      "alpha": 0.9999999749050377,
+      "law": "inv1-ball-total-ratio"
+     },
+     {
+      "f": 8,
+      "ok": true,
+      "beta": 1.2547481337805029e-8,
+      "rot": 6.54094926109657e-22,
+      "omega": 3.1812138356022787e-25,
+      "alpha": 0.9999999874525186,
+      "law": "inv1-ball-total-ratio"
+     }
+    ],
+    "slope": {
+     "beta": [
+      -0.9999999267640417,
+      -0.999999963382013,
+      -0.9999999816909947
+     ],
+     "rot": [
+      -1.9999999267640292,
+      -1.9999999633820298,
+      -1.999999981691001
+     ],
+     "omega": [
+      -3.0000491701477388,
+      -2.9998900338872296,
+      -2.99985751422152
+     ]
+    }
+   },
+   "k2Radius": {
+    "rows": [
+     {
+      "f": 1,
+      "ok": true,
+      "beta": 0.0002861815728224233,
+      "rot": 3.7663684942264273e-7,
+      "omega": 2.5299254814912378e-9,
+      "alpha": 0.9997138184271775,
+      "law": "invsq-ball-total-ratio"
+     },
+     {
+      "f": 2,
+      "ok": true,
+      "beta": 0.00007156101216429003,
+      "rot": 4.7089816327461165e-8,
+      "omega": 1.5820161697247733e-10,
+      "alpha": 0.9999284389878357,
+      "law": "invsq-ball-total-ratio"
+     },
+     {
+      "f": 4,
+      "ok": true,
+      "beta": 0.00001789122950142519,
+      "rot": 5.8865461981748815e-9,
+      "omega": 9.888871678419527e-12,
+      "alpha": 0.9999821087704985,
+      "law": "invsq-ball-total-ratio"
+     },
+     {
+      "f": 8,
+      "ok": true,
+      "beta": 0.000004472868408433338,
+      "rot": 7.358282491395379e-10,
+      "omega": 6.180743360594268e-13,
+      "alpha": 0.9999955271315916,
+      "law": "invsq-ball-total-ratio"
+     }
+    ],
+    "slope": {
+     "beta": [
+      -1.9996850819602545,
+      -1.9999212590195439,
+      -1.9999803140378196
+     ],
+     "rot": [
+      -2.99968715678816,
+      -2.999921777721969,
+      -2.999980443713146
+     ],
+     "omega": [
+      -3.9992586404897557,
+      -3.9998146167120554,
+      -3.9999536514631684
+     ]
+    }
+   }
+  },
+  "pure": {
+   "rows": [
+    {
+     "r": 1,
+     "translation": 1,
+     "frameRotation": 1,
+     "k1Translation": 1,
+     "rotationSpin": 1,
+     "engineK1Rot": 0.00002,
+     "engineK2Rot": 0.00004000114291428918,
+     "engineK1Axial": 0.00004,
+     "engineK2Axial": 0.00012000571468574548
+    },
+    {
+     "r": 2,
+     "translation": 0.25,
+     "frameRotation": 0.5,
+     "k1Translation": 0.5,
+     "rotationSpin": 0.25,
+     "engineK1Rot": 0.000005,
+     "engineK2Rot": 0.00000500003571473215,
+     "engineK1Axial": 0.000005,
+     "engineK2Axial": 0.0000075000892872768165
+    },
+    {
+     "r": 4,
+     "translation": 0.0625,
+     "frameRotation": 0.25,
+     "k1Translation": 0.25,
+     "rotationSpin": 0.0625,
+     "engineK1Rot": 0.00000125,
+     "engineK2Rot": 6.250011160749164e-7,
+     "engineK1Axial": 6.25e-7,
+     "engineK2Axial": 4.6875139509538935e-7
+    },
+    {
+     "r": 8,
+     "translation": 0.015625,
+     "frameRotation": 0.125,
+     "k1Translation": 0.125,
+     "rotationSpin": 0.015625,
+     "engineK1Rot": 3.125e-7,
+     "engineK2Rot": 7.81250348772594e-8,
+     "engineK1Axial": 7.8125e-8,
+     "engineK2Axial": 2.9296896798293934e-8
+    },
+    {
+     "r": 16,
+     "translation": 0.00390625,
+     "frameRotation": 0.0625,
+     "k1Translation": 0.0625,
+     "rotationSpin": 0.00390625,
+     "engineK1Rot": 7.8125e-8,
+     "engineK2Rot": 9.765626089913718e-9,
+     "engineK1Axial": 9.765625e-9,
+     "engineK2Axial": 1.8310550280980635e-9
+    }
+   ],
+   "slope": {
+    "translation": [
+     -2,
+     -2,
+     -2,
+     -2
+    ],
+    "frameRotation": [
+     -1,
+     -1,
+     -1,
+     -1
+    ],
+    "rotationSpin": [
+     -2,
+     -2,
+     -2,
+     -2
+    ],
+    "k1Translation": [
+     -1,
+     -1,
+     -1,
+     -1
+    ],
+    "engineK1Rot": [
+     -2,
+     -2,
+     -2,
+     -2
+    ],
+    "engineK2Rot": [
+     -3.0000309162739387,
+     -3.0000077288096927,
+     -3.0000019321862497,
+     -3.0000004830455516
+    ],
+    "engineK1Axial": [
+     -3,
+     -3,
+     -3,
+     -3
+    ],
+    "engineK2Axial": [
+     -4.000051527798028,
+     -4.000012881391659,
+     -4.000003220313052,
+     -4.000000805076084
+    ]
+   },
+   "keys": [
+    "translation",
+    "frameRotation",
+    "rotationSpin",
+    "k1Translation",
+    "engineK1Rot",
+    "engineK2Rot",
+    "engineK1Axial",
+    "engineK2Axial"
+   ]
+  },
+  "reading": {
+   "translation": -2,
+   "rotation": -1,
+   "axial": -1,
+   "source": "原仮定者の補足(2026-11-08)の読み —— 並進は m/r²(速度は r に依らない)・回転と軸は座標変換で m/r² × Ω r(1/r に見える)"
+  }
+ },
+ "tideRot": {
+  "rows": [
+   {
+    "recv": "月",
+    "src": "地球",
+    "OmegaRecv": 0.0000026619606639829396,
+    "OmegaSrcAlong": 0.00006643168310123802,
+    "nAlong": 0.0000026728117420696016,
+    "rM": 402448639.9082309,
+    "betaK1": 9.632343327284045e-23,
+    "betaRadius": 0.0006940600710762447,
+    "slipRotK1": 6.142518604012497e-27,
+    "slipRotRadius": 4.4260018087313665e-8,
+    "slipTide": 1.085107808666202e-8,
+    "targetRatio": 24.8546061271786,
+    "spinTargetSlipK1": 6.142518604012497e-27
+   },
+   {
+    "recv": "イオ",
+    "src": "木星",
+    "OmegaRecv": 0.00004110592854942084,
+    "OmegaSrcAlong": 0.00017585316808573943,
+    "nAlong": 0.00004105353087118147,
+    "rM": 420232129.66357964,
+    "betaK1": 3.413209642759834e-20,
+    "betaRadius": 0.15473392877200615,
+    "slipRotK1": 4.599205773206318e-24,
+    "slipRotRadius": 0.000020849969764637174,
+    "slipTide": -5.2397678239370624e-8,
+    "targetRatio": 4.283508978497727,
+    "spinTargetSlipK1": 4.599205773206318e-24
+   }
+  ],
+  "note": "軸の向きは受け手の軸へ射影した大きさ(源の自転と公転の向きを受け手の軸へ)・2 体だけの重み(宣言)・本の JSON を読むだけ(步を進めない)"
+ },
+ "galWindow": {
+  "Omega": 8.815e-16,
+  "R0Kpc": 8.2,
+  "MeqKg": 1.8860431465732915e+41,
+  "betaK1": 2.0829804863593488e-22,
+  "betaSunRadius": 3.286806190770675e-13,
+  "rows": [
+   {
+    "T": 1,
+    "upper": 2.78180244e-8,
+    "k1": 5.7944401994268236e-30,
+    "sunRadius": 9.143245481292969e-21
+   },
+   {
+    "T": 100,
+    "upper": 0.00000278180244,
+    "k1": 5.7944401994268235e-28,
+    "sunRadius": 9.143245481292969e-19
+   },
+   {
+    "T": 1000,
+    "upper": 0.000027818024400000002,
+    "k1": 5.7944401994268235e-27,
+    "sunRadius": 9.143245481292969e-18
+   }
+  ],
+  "source": "天の川の Ω = A_O − B_O(第329便b の表 10 —— Bovy 2017 の Oort の量・文献の値)・R0 8.2 kpc・M_eq = (Ω R0)² R0/G(球の等価の質量 —— 宣言)"
+ },
  "chain": {
   "cases": {
    "main": {
@@ -778,7 +1181,8 @@
      "boundary": false,
      "vMode": "zero",
      "K": 24,
-     "dR": 1
+     "dR": 1,
+     "centerRot": "moment"
     },
     "nRings": 30,
     "nPoints": 720,
@@ -872,7 +1276,7 @@
        "boundary": 0
       },
       "rowSumB": 0.33207344522451787,
-      "naiveCenterRatio": 2559.7856345248483
+      "naiveCenterRatio": 2559.785634524848
      },
      {
       "R": 30,
@@ -909,7 +1313,8 @@
      "boundary": false,
      "vMode": "zero",
      "K": 24,
-     "dR": 1
+     "dR": 1,
+     "centerRot": "moment"
     },
     "nRings": 30,
     "nPoints": 720,
@@ -943,7 +1348,7 @@
        "boundary": 0
       },
       "rowSumB": 0.07306955489406115,
-      "naiveCenterRatio": 9.762072315723154
+      "naiveCenterRatio": 9.762072315723156
      },
      {
       "R": 2,
@@ -1018,7 +1423,7 @@
        "boundary": 0
       },
       "rowSumB": 0.198289656963694,
-      "naiveCenterRatio": 8999.785691606623
+      "naiveCenterRatio": 8999.785691606625
      }
     ],
     "solve": {
@@ -1040,7 +1445,8 @@
      "boundary": false,
      "vMode": "zero",
      "K": 24,
-     "dR": 1
+     "dR": 1,
+     "centerRot": "moment"
     },
     "nRings": 30,
     "nPoints": 720,
@@ -1171,7 +1577,8 @@
      "boundary": false,
      "vMode": "zero",
      "K": 24,
-     "dR": 1
+     "dR": 1,
+     "centerRot": "moment"
     },
     "nRings": 30,
     "nPoints": 720,
@@ -1205,7 +1612,7 @@
        "boundary": 0
       },
       "rowSumB": 1.7441214475218873e-14,
-      "naiveCenterRatio": 9.762072315723154
+      "naiveCenterRatio": 9.762072315723156
      },
      {
       "R": 2,
@@ -1302,7 +1709,8 @@
      "boundary": false,
      "vMode": "zero",
      "K": 24,
-     "dR": 1
+     "dR": 1,
+     "centerRot": "moment"
     },
     "nRings": 30,
     "nPoints": 720,
@@ -1396,7 +1804,7 @@
        "boundary": 0
       },
       "rowSumB": 0.42060412501198924,
-      "naiveCenterRatio": 2559.7856345248483
+      "naiveCenterRatio": 2559.785634524848
      },
      {
       "R": 30,
@@ -1433,7 +1841,8 @@
      "boundary": false,
      "vMode": "zero",
      "K": 24,
-     "dR": 1
+     "dR": 1,
+     "centerRot": "moment"
     },
     "nRings": 30,
     "nPoints": 720,
@@ -1497,7 +1906,7 @@
        "boundary": 0
       },
       "rowSumB": 0.35867555222423797,
-      "naiveCenterRatio": 159.78442805824784
+      "naiveCenterRatio": 159.78442805824787
      },
      {
       "R": 8,
@@ -1564,7 +1973,8 @@
      "boundary": false,
      "vMode": "zero",
      "K": 24,
-     "dR": 1
+     "dR": 1,
+     "centerRot": "moment"
     },
     "nRings": 30,
     "nPoints": 720,
@@ -1643,7 +2053,7 @@
        "boundary": 0
       },
       "rowSumB": 0.3028405614409767,
-      "naiveCenterRatio": 1279.9999999999998
+      "naiveCenterRatio": 1280
      },
      {
       "R": 16,
@@ -1695,7 +2105,8 @@
      "boundary": true,
      "vMode": "zero",
      "K": 24,
-     "dR": 1
+     "dR": 1,
+     "centerRot": "moment"
     },
     "nRings": 30,
     "nPoints": 720,
@@ -1759,7 +2170,7 @@
        "boundary": 0.0039097128521496625
       },
       "rowSumB": 0.3522263126981919,
-      "naiveCenterRatio": 159.78442805824784
+      "naiveCenterRatio": 159.78442805824787
      },
      {
       "R": 8,
@@ -1789,7 +2200,7 @@
        "boundary": 0.0528475089725325
       },
       "rowSumB": 0.3145241908484754,
-      "naiveCenterRatio": 2559.7856345248483
+      "naiveCenterRatio": 2559.785634524848
      },
      {
       "R": 30,
@@ -1826,7 +2237,8 @@
      "boundary": false,
      "vMode": "zero",
      "K": 48,
-     "dR": 1
+     "dR": 1,
+     "centerRot": "moment"
     },
     "nRings": 30,
     "nPoints": 1440,
@@ -1957,7 +2369,8 @@
      "boundary": false,
      "vMode": "zero",
      "K": 12,
-     "dR": 1
+     "dR": 1,
+     "centerRot": "moment"
     },
     "nRings": 30,
     "nPoints": 360,
@@ -2066,7 +2479,7 @@
        "boundary": 0
       },
       "rowSumB": 0.22654419963631842,
-      "naiveCenterRatio": 8999.785691606623
+      "naiveCenterRatio": 8999.785691606625
      }
     ],
     "solve": {
@@ -2088,7 +2501,8 @@
      "boundary": false,
      "vMode": "zero",
      "K": 24,
-     "dR": 0.5
+     "dR": 0.5,
+     "centerRot": "moment"
     },
     "nRings": 59,
     "nPoints": 1416,
@@ -2122,7 +2536,7 @@
        "boundary": 0
       },
       "rowSumB": 0.21990118633578837,
-      "naiveCenterRatio": 9.762072315723154
+      "naiveCenterRatio": 9.762072315723156
      },
      {
       "R": 2,
@@ -2152,7 +2566,7 @@
        "boundary": 0
       },
       "rowSumB": 0.30661351203515846,
-      "naiveCenterRatio": 159.78442805824784
+      "naiveCenterRatio": 159.78442805824787
      },
      {
       "R": 8,
@@ -2182,7 +2596,7 @@
        "boundary": 0
       },
       "rowSumB": 0.3035896294792553,
-      "naiveCenterRatio": 2559.7856345248483
+      "naiveCenterRatio": 2559.785634524848
      },
      {
       "R": 30,
@@ -2197,7 +2611,7 @@
        "boundary": 0
       },
       "rowSumB": 0.22674622786997745,
-      "naiveCenterRatio": 8999.785691606623
+      "naiveCenterRatio": 8999.785691606625
      }
     ],
     "solve": {
@@ -2219,7 +2633,8 @@
      "boundary": false,
      "vMode": "zero",
      "K": 24,
-     "dR": 1
+     "dR": 1,
+     "centerRot": "moment"
     },
     "nRings": 30,
     "nPoints": 720,
@@ -2272,7 +2687,7 @@
        "boundary": 0
       },
       "rowSumB": 0.25102669232008856,
-      "naiveCenterRatio": 39.78043548672533
+      "naiveCenterRatio": 39.780435486725324
      },
      {
       "R": 4,
@@ -2317,7 +2732,7 @@
        "boundary": 0
       },
       "rowSumB": 0.3017698237108811,
-      "naiveCenterRatio": 2559.7856345248474
+      "naiveCenterRatio": 2559.785634524848
      },
      {
       "R": 30,
@@ -2354,7 +2769,8 @@
      "boundary": false,
      "vMode": "bar",
      "K": 24,
-     "dR": 1
+     "dR": 1,
+     "centerRot": "moment"
     },
     "nRings": 30,
     "nPoints": 720,
@@ -2448,7 +2864,7 @@
        "boundary": 0
       },
       "rowSumB": 0.33207344522451787,
-      "naiveCenterRatio": 2559.7856345248483
+      "naiveCenterRatio": 2559.785634524848
      },
      {
       "R": 30,
@@ -2485,7 +2901,8 @@
      "boundary": false,
      "vMode": "bar",
      "K": 24,
-     "dR": 1
+     "dR": 1,
+     "centerRot": "moment"
     },
     "nRings": 30,
     "nPoints": 720,
@@ -2519,7 +2936,7 @@
        "boundary": 0
       },
       "rowSumB": 1.7441214475218873e-14,
-      "naiveCenterRatio": 9.762072315723154
+      "naiveCenterRatio": 9.762072315723156
      },
      {
       "R": 2,
@@ -2616,7 +3033,8 @@
      "boundary": true,
      "vMode": "bar",
      "K": 24,
-     "dR": 1
+     "dR": 1,
+     "centerRot": "moment"
     },
     "nRings": 30,
     "nPoints": 720,
@@ -2680,7 +3098,7 @@
        "boundary": 0.0039097128521496625
       },
       "rowSumB": 0.3522263126981919,
-      "naiveCenterRatio": 159.78442805824784
+      "naiveCenterRatio": 159.78442805824787
      },
      {
       "R": 8,
@@ -2710,7 +3128,7 @@
        "boundary": 0.0528475089725325
       },
       "rowSumB": 0.3145241908484754,
-      "naiveCenterRatio": 2559.7856345248483
+      "naiveCenterRatio": 2559.785634524848
      },
      {
       "R": 30,
@@ -2736,6 +3154,534 @@
      "engineFormResidualRel": 7.999844718632638e-16,
      "doubleCountRel": 0.19706073998064402
     }
+   },
+   "frame": {
+    "decl": {
+     "dist": "fixture",
+     "f": 0.9,
+     "selfType": "ballMean",
+     "kappa": false,
+     "p": 2,
+     "boundary": false,
+     "vMode": "zero",
+     "K": 24,
+     "dR": 1,
+     "centerRot": "frame"
+    },
+    "nRings": 30,
+    "nPoints": 720,
+    "McMsun": 391453435.7476915,
+    "MdiskMsun": 18613548101.597183,
+    "OmegaC": 2.2705709896669583e-15,
+    "expDisk": null,
+    "selfRadiusKpc": {
+     "first": 0.11747357299804642,
+     "last": 0.45
+    },
+    "slope": {
+     "outer": 1.9131257240288677,
+     "flat": false,
+     "noChainOuter": 2.18745959489907,
+     "vbarOuter": -0.29507518773061836,
+     "vobsOuter": -0.04997848369044625,
+     "allPositive": true
+    },
+    "picks": [
+     {
+      "R": 1,
+      "U": 2864.377274905109,
+      "noChain": 2295.5399451452145,
+      "UoverVobs": 0.06078254164254873,
+      "vbar": 56176.11526763399,
+      "shares": {
+       "self": 0.6777764983222765,
+       "center": 0.03276417406094864,
+       "disk": 0.28945932761677495,
+       "boundary": 0
+      },
+      "rowSumB": 0.18400516748620477,
+      "naiveCenterRatio": 9.762072315723156
+     },
+     {
+      "R": 2,
+      "U": 3975.1039516759593,
+      "noChain": 2948.105755245682,
+      "UoverVobs": 0.05092917114479861,
+      "vbar": 59427.81457675696,
+      "shares": {
+       "self": 0.5506949797633405,
+       "center": 0.021039113329139564,
+       "disk": 0.42826590690752,
+       "boundary": 0
+      },
+      "rowSumB": 0.2604396116530662,
+      "naiveCenterRatio": 39.78043548672533
+     },
+     {
+      "R": 4,
+      "U": 4433.007252759109,
+      "noChain": 2913.847834412218,
+      "UoverVobs": 0.03858983462684752,
+      "vbar": 79061.02953301526,
+      "shares": {
+       "self": 0.46462959788074265,
+       "center": 0.01039731609067696,
+       "disk": 0.5249730860285804,
+       "boundary": 0
+      },
+      "rowSumB": 0.35360882165284147,
+      "naiveCenterRatio": 159.78442805824787
+     },
+     {
+      "R": 8,
+      "U": 5097.186454153137,
+      "noChain": 3465.9173001100985,
+      "UoverVobs": 0.034684368317386985,
+      "vbar": 97455.76964847143,
+      "shares": {
+       "self": 0.48698373142720186,
+       "center": 0.006183616949348971,
+       "disk": 0.506832651623449,
+       "boundary": 0
+      },
+      "rowSumB": 0.34241520187722435,
+      "naiveCenterRatio": 639.7853947432822
+     },
+     {
+      "R": 16,
+      "U": 11656.53591982607,
+      "noChain": 9091.465377375,
+      "UoverVobs": 0.07611754883962198,
+      "vbar": 84942.3099200566,
+      "shares": {
+       "self": 0.3788722319661178,
+       "center": 0.00811013860604371,
+       "disk": 0.6130176294278384,
+       "boundary": 0
+      },
+      "rowSumB": 0.33207344522451787,
+      "naiveCenterRatio": 2559.785634524848
+     },
+     {
+      "R": 30,
+      "U": 38416.68482087443,
+      "noChain": 36208.56484180187,
+      "UoverVobs": 0.262977876697372,
+      "vbar": 70387.81350255269,
+      "shares": {
+       "self": 0.07200270826114887,
+       "center": 0.017226792669308055,
+       "disk": 0.910770499069543,
+       "boundary": 0
+      },
+      "rowSumB": 0.2302710157639887,
+      "naiveCenterRatio": 8999.785691606625
+     }
+    ],
+    "solve": {
+     "iters": 25,
+     "converged": true,
+     "rhoEst": 0.26153846153846155,
+     "maxDiffRel": 8.522809663689288e-16,
+     "engineFormResidualRel": 4.73489425760516e-16,
+     "doubleCountRel": 0.15867753147573302
+    }
+   },
+   "frameF05": {
+    "decl": {
+     "dist": "fixture",
+     "f": 0.5,
+     "selfType": "ballMean",
+     "kappa": false,
+     "p": 2,
+     "boundary": false,
+     "vMode": "zero",
+     "K": 24,
+     "dR": 1,
+     "centerRot": "frame"
+    },
+    "nRings": 30,
+    "nPoints": 720,
+    "McMsun": 391453435.7476915,
+    "MdiskMsun": 18613548101.597183,
+    "OmegaC": 2.2705709896669583e-15,
+    "expDisk": null,
+    "selfRadiusKpc": {
+     "first": 0.06526309611002579,
+     "last": 0.25
+    },
+    "slope": {
+     "outer": 2.680323162635053,
+     "flat": false,
+     "noChainOuter": 2.783441297161634,
+     "vbarOuter": -0.29507518773061836,
+     "vobsOuter": -0.04997848369044625,
+     "allPositive": true
+    },
+    "picks": [
+     {
+      "R": 1,
+      "U": 991.5170213670976,
+      "noChain": 911.5726711635623,
+      "UoverVobs": 0.02104014899452727,
+      "vbar": 56176.11526763399,
+      "shares": {
+       "self": 0.8720431161491037,
+       "center": 0.013010849900639606,
+       "disk": 0.11494603395025671,
+       "boundary": 0
+      },
+      "rowSumB": 0.07306955489406115,
+      "naiveCenterRatio": 9.762072315723156
+     },
+     {
+      "R": 2,
+      "U": 1492.5698286535549,
+      "noChain": 1319.9153095536221,
+      "UoverVobs": 0.01912285695497611,
+      "vbar": 59427.81457675696,
+      "shares": {
+       "self": 0.7988387717046992,
+       "center": 0.009419556178794804,
+       "disk": 0.19174167211650603,
+       "boundary": 0
+      },
+      "rowSumB": 0.11660308658311166,
+      "naiveCenterRatio": 39.78043548672533
+     },
+     {
+      "R": 4,
+      "U": 1709.3019519993252,
+      "noChain": 1427.817640955963,
+      "UoverVobs": 0.014879668787806966,
+      "vbar": 79061.02953301526,
+      "shares": {
+       "self": 0.7376625863698334,
+       "center": 0.005094799789316549,
+       "disk": 0.25724261384085007,
+       "boundary": 0
+      },
+      "rowSumB": 0.1732722304819408,
+      "naiveCenterRatio": 159.78442805824787
+     },
+     {
+      "R": 8,
+      "U": 1951.7161116055302,
+      "noChain": 1657.664575711943,
+      "UoverVobs": 0.013280667888997495,
+      "vbar": 97455.76964847143,
+      "shares": {
+       "self": 0.7546367032040734,
+       "center": 0.002957474711350478,
+       "disk": 0.2424058220845763,
+       "boundary": 0
+      },
+      "rowSumB": 0.16376892498822684,
+      "naiveCenterRatio": 639.7853947432822
+     },
+     {
+      "R": 16,
+      "U": 5509.593926287225,
+      "noChain": 4917.831030721565,
+      "UoverVobs": 0.03597782288452898,
+      "vbar": 84942.3099200566,
+      "shares": {
+       "self": 0.6640144041815828,
+       "center": 0.00438700359564814,
+       "disk": 0.3315985922227692,
+       "boundary": 0
+      },
+      "rowSumB": 0.17962792857000082,
+      "naiveCenterRatio": 2559.785634524848
+     },
+     {
+      "R": 30,
+      "U": 32206.80014663216,
+      "noChain": 31179.71177487369,
+      "UoverVobs": 0.22046868326274152,
+      "vbar": 70387.81350255269,
+      "shares": {
+       "self": 0.20088829229496585,
+       "center": 0.014834236943145378,
+       "disk": 0.7842774707618888,
+       "boundary": 0
+      },
+      "rowSumB": 0.198289656963694,
+      "naiveCenterRatio": 8999.785691606625
+     }
+    ],
+    "solve": {
+     "iters": 16,
+     "converged": true,
+     "rhoEst": 0.18518518518518517,
+     "maxDiffRel": 2.2591370707605883e-16,
+     "engineFormResidualRel": 1.6943528030704412e-16,
+     "doubleCountRel": 0.24662236384710398
+    }
+   },
+   "frameKappaM": {
+    "decl": {
+     "dist": "fixture",
+     "f": 0.9,
+     "selfType": "ballMean",
+     "kappa": true,
+     "p": 2,
+     "boundary": false,
+     "vMode": "zero",
+     "K": 24,
+     "dR": 1,
+     "centerRot": "frame"
+    },
+    "nRings": 30,
+    "nPoints": 720,
+    "McMsun": 391453435.7476915,
+    "MdiskMsun": 18613548101.597183,
+    "OmegaC": 2.2705709896669583e-15,
+    "expDisk": null,
+    "selfRadiusKpc": {
+     "first": 2.9775343648977457e-8,
+     "last": 9.287004472363078e-11
+    },
+    "slope": {
+     "outer": -5.843826700527619,
+     "flat": false,
+     "noChainOuter": -5.843826700527617,
+     "vbarOuter": -0.29507518773061836,
+     "vobsOuter": -0.04997848369044625,
+     "allPositive": true
+    },
+    "picks": [
+     {
+      "R": 1,
+      "U": 2.1758630513848004e-10,
+      "noChain": 2.175863051384766e-10,
+      "UoverVobs": 4.617216024158728e-15,
+      "vbar": 56176.11526763399,
+      "shares": {
+       "self": 0.9999999999999695,
+       "center": 3.105602927935438e-15,
+       "disk": 2.7436850191695374e-14,
+       "boundary": 0
+      },
+      "rowSumB": 1.7441214475218873e-14,
+      "naiveCenterRatio": 9.762072315723156
+     },
+     {
+      "R": 2,
+      "U": 1.265774992228415e-10,
+      "noChain": 1.2657749922284008e-10,
+      "UoverVobs": 1.6217153562192454e-15,
+      "vbar": 59427.81457675696,
+      "shares": {
+       "self": 0.9999999999999807,
+       "center": 9.033184601094741e-16,
+       "disk": 1.838768076833729e-14,
+       "boundary": 0
+      },
+      "rowSumB": 1.1182025842511048e-14,
+      "naiveCenterRatio": 39.78043548672533
+     },
+     {
+      "R": 4,
+      "U": 9.720618484146191e-11,
+      "noChain": 9.720618484146084e-11,
+      "UoverVobs": 8.46190945301083e-16,
+      "vbar": 79061.02953301526,
+      "shares": {
+       "self": 0.999999999999982,
+       "center": 3.4685525367158195e-16,
+       "disk": 1.751314198175356e-14,
+       "boundary": 0
+      },
+      "rowSumB": 1.1796417120076206e-14,
+      "naiveCenterRatio": 159.78442805824787
+     },
+     {
+      "R": 8,
+      "U": 2.1312835454744012e-11,
+      "noChain": 2.1312835454743912e-11,
+      "UoverVobs": 1.4502554329710546e-16,
+      "vbar": 97455.76964847143,
+      "shares": {
+       "self": 0.9999999999999969,
+       "center": 3.802468412978396e-17,
+       "disk": 3.116647043713067e-15,
+       "boundary": 0
+      },
+      "rowSumB": 2.1056009774325476e-15,
+      "naiveCenterRatio": 639.7853947432822
+     },
+     {
+      "R": 16,
+      "U": 1.5784619365760163e-12,
+      "noChain": 1.5784619365760155e-12,
+      "UoverVobs": 1.0307406452070708e-17,
+      "vbar": 84942.3099200566,
+      "shares": {
+       "self": 1,
+       "center": 1.4080837971240103e-18,
+       "disk": 1.0643223664580338e-16,
+       "boundary": 0
+      },
+      "rowSumB": 5.765465430237446e-17,
+      "naiveCenterRatio": 2559.785634524848
+     },
+     {
+      "R": 30,
+      "U": 2.1418485633704704e-14,
+      "noChain": 2.1418485633704704e-14,
+      "UoverVobs": 1.4661827016797286e-19,
+      "vbar": 70387.81350255269,
+      "shares": {
+       "self": 1,
+       "center": 1.0190180497748299e-20,
+       "disk": 5.387489102413239e-19,
+       "boundary": 0
+      },
+      "rowSumB": 1.3621242555589078e-19,
+      "naiveCenterRatio": 8999.785691606625
+     }
+    ],
+    "solve": {
+     "iters": 1,
+     "converged": true,
+     "rhoEst": null,
+     "maxDiffRel": 0,
+     "engineFormResidualRel": 0,
+     "doubleCountRel": 0.9999999999999841
+    }
+   },
+   "frameBoundary": {
+    "decl": {
+     "dist": "fixture",
+     "f": 0.9,
+     "selfType": "ballMean",
+     "kappa": false,
+     "p": 2,
+     "boundary": true,
+     "vMode": "zero",
+     "K": 24,
+     "dR": 1,
+     "centerRot": "frame"
+    },
+    "nRings": 30,
+    "nPoints": 720,
+    "McMsun": 391453435.7476915,
+    "MdiskMsun": 18613548101.597183,
+    "OmegaC": 2.2705709896669583e-15,
+    "expDisk": null,
+    "selfRadiusKpc": {
+     "first": 0.11747357299804642,
+     "last": 0.45
+    },
+    "slope": {
+     "outer": 1.5003056563226098,
+     "flat": false,
+     "noChainOuter": 1.7822532032170713,
+     "vbarOuter": -0.29507518773061836,
+     "vobsOuter": -0.04997848369044625,
+     "allPositive": true
+    },
+    "picks": [
+     {
+      "R": 1,
+      "U": 2861.1995399509756,
+      "noChain": 2293.8683091610014,
+      "UoverVobs": 0.06071510960108171,
+      "vbar": 56176.11526763399,
+      "shares": {
+       "self": 0.6772829344501925,
+       "center": 0.0327403148497556,
+       "disk": 0.2892485403337945,
+       "boundary": 0.0007282103662574349
+      },
+      "rowSumB": 0.1838711730157964,
+      "naiveCenterRatio": 9.762072315723156
+     },
+     {
+      "R": 2,
+      "U": 3963.1490353073627,
+      "noChain": 2942.353724048681,
+      "UoverVobs": 0.05077600433729882,
+      "vbar": 59427.81457675696,
+      "shares": {
+       "self": 0.5496205221398329,
+       "center": 0.02099806404316632,
+       "disk": 0.42743031990296265,
+       "boundary": 0.0019510939140380428
+      },
+      "rowSumB": 0.25993146951179547,
+      "naiveCenterRatio": 39.78043548672533
+     },
+     {
+      "R": 4,
+      "U": 4405.2559149728695,
+      "noChain": 2902.4555260848083,
+      "UoverVobs": 0.03834825606069962,
+      "vbar": 79061.02953301526,
+      "shares": {
+       "self": 0.4628130295704192,
+       "center": 0.010356665570329378,
+       "disk": 0.5229205920071018,
+       "boundary": 0.0039097128521496625
+      },
+      "rowSumB": 0.3522263126981919,
+      "naiveCenterRatio": 159.78442805824787
+     },
+     {
+      "R": 8,
+      "U": 5026.817057664284,
+      "noChain": 3432.9997084435017,
+      "UoverVobs": 0.034205531985217315,
+      "vbar": 97455.76964847143,
+      "shares": {
+       "self": 0.4823585975214139,
+       "center": 0.006124887972245319,
+       "disk": 0.5020190023569447,
+       "boundary": 0.009497512149395891
+      },
+      "rowSumB": 0.3391631093372576,
+      "naiveCenterRatio": 639.7853947432822
+     },
+     {
+      "R": 16,
+      "U": 10923.424194411693,
+      "noChain": 8611.004079270706,
+      "UoverVobs": 0.07133030604742878,
+      "vbar": 84942.3099200566,
+      "shares": {
+       "self": 0.358849778287845,
+       "center": 0.0076815379832923325,
+       "disk": 0.5806211747563301,
+       "boundary": 0.0528475089725325
+      },
+      "rowSumB": 0.3145241908484754,
+      "naiveCenterRatio": 2559.785634524848
+     },
+     {
+      "R": 30,
+      "U": 23014.883235418296,
+      "noChain": 21874.737118588415,
+      "UoverVobs": 0.1575462628779347,
+      "vbar": 70387.81350255269,
+      "shares": {
+       "self": 0.04349910917266463,
+       "center": 0.010407249298168738,
+       "disk": 0.5502252113431291,
+       "boundary": 0.3958684301860374
+      },
+      "rowSumB": 0.1391139902361542,
+      "naiveCenterRatio": 8999.785691606625
+     }
+    ],
+    "solve": {
+     "iters": 26,
+     "converged": true,
+     "rhoEst": 0.7142857142857143,
+     "maxDiffRel": 7.903535225182281e-16,
+     "engineFormResidualRel": 7.903535225182281e-16,
+     "doubleCountRel": 0.20574482787786189
+    }
    }
   },
   "outerRangeZero": [
@@ -2743,7 +3689,13 @@
    1.392074132566309
   ],
   "nFlatZero": 3,
-  "nZero": 12
+  "nZero": 12,
+  "frameRangeZero": [
+   -5.843826700527619,
+   2.680323162635053
+  ],
+  "nFlatFrame": 0,
+  "nFrame": 4
  },
  "gyro": {
   "earth": {
@@ -3515,22 +4467,31 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.008
+   "wallSec": 0.012
   },
   "inputs": {
-   "wallSec": 0.011
+   "wallSec": 0.012
   },
   "engine": {
    "wallSec": 0.064
   },
+  "components": {
+   "wallSec": 0.113
+  },
+  "tideRot": {
+   "wallSec": 0.114
+  },
+  "galWindow": {
+   "wallSec": 0.115
+  },
   "chain": {
-   "wallSec": 0.284
+   "wallSec": 0.316
   },
   "gyro": {
-   "wallSec": 0.285
+   "wallSec": 0.316
   },
   "wave": {
-   "wallSec": 0.29
+   "wallSec": 0.319
   }
  },
  "gates": {
@@ -3541,18 +4502,21 @@
   "k1NotSquareLaw": true,
   "chainSolved": true,
   "chainOnceOnly": true,
-  "naiveCenterDiffers": true,
+  "centerRotTypesDiffer": true,
   "gyroEarth": true,
+  "componentsEngine": true,
+  "tideRotTable": true,
+  "galWindowTable": true,
   "waveRadii": true
  },
  "ok": true,
- "elapsedS": 2.253,
+ "elapsedS": 2.393,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第330便b",
   "target": "beta/index.html",
   "targetSha256": "d4039e385d15a3688fa45df35ca922265688e6b7bf5e83519b7ffca0fc62bf4e",
-  "generatedAt": "2026-11-08T14:03:41.682Z",
+  "generatedAt": "2026-11-08T16:56:10.853Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -3570,15 +4534,15 @@
   "code": [
    {
     "file": "tests/exp-w330b-dragweight.mjs",
-    "bytes": 24378,
-    "sha256": "a0d9a65a438bfa8742873daa8ffb502298f364aaf01e3f233e95ea6e1bf459a0",
-    "mtime": "2026-11-08T13:52:16.418Z"
+    "bytes": 33940,
+    "sha256": "524cb4f1b25d0521aae7ddb397fc1ef3f58e97607239811268afe4374dbd2d2c",
+    "mtime": "2026-11-08T16:56:07.662Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
-    "bytes": 34591,
-    "sha256": "71b71955d527e740f1947f693aa2ec79bcfd631b2e284e979cca6146626a4774",
-    "mtime": "2026-11-08T13:52:16.417Z"
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-08T16:56:07.660Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
@@ -3635,7 +4599,7 @@
     "mtime": "2026-11-08T13:27:27.960Z"
    }
   ],
-  "codeSha256": "4de61869e05feba63c211df7ce7c7d12a5948e5817864ec924fe3d96771dc380",
+  "codeSha256": "86c194823f8f20f66d82c10828b3fa7429fcd884850a2ce23f90c74833ff8963",
   "harnessVersion": "w330b-dragweight-1",
   "stage": "dragweight",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)・🗺️ の写しの受理と読み口(步を進めない)・純関数(lib)",

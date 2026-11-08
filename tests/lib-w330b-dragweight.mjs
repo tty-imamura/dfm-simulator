@@ -17,6 +17,12 @@
 //     (源の接線の速度の受け手の接線への射影 cos φ —— 半径の向きの成分は対称で消える)。中心は有限の一様球(質量 M_c・半径 R_c・自転 Ω_c)で絶対速度 0 —— 回転の寄与は
 //     **源の中の速度 Ω_c × ρ の重みつきの平均**(Ω_c M_c M_p(r; R_c) —— M_p は第309便a・第312便a の一様球の回転のモーメント)で、受け手の距離 r に Ω_c を掛けた速度を源の速度にしない。
 //     境界(宣言)は背景に対して静止した外の環(速度 0 に固定)か無し。速度の形 U(R)・局所のべき d ln U/d ln R・分母 W の内訳(自己・中心・円盤・境界)を返す。**結果は宣言した型の表の値**。
+//   回転引きずりを座標変換として扱う型(原仮定者の補足(2026-11-08) —— frameRotationTerm): 源の角速度 Ω â は距離に依らず、受け手の位置の接線の引きずり速度は v_t = Ω â × (x − x_src)
+//     (r に比例)・重み m/r² → 分子の寄与 m Ω r_⊥/r²(面の中で m Ω/r —— K1 の遠方の 1/r と同じ尺度に見える)。並進(速度が r に依らない)は m/r² のまま。componentScaling は並進・
+//     回転の座標変換・今のエンジンの K1/K2 の並進・回転・軸の項の分子の r の次数を同じ表に(W を一定と置いた分子 —— 宣言した型の値)。受け手が同じ回転で共に回れば相対は 0(回転は検知できない)。
+//   回転引きずりの回転の口(原仮定者の補足その2(2026-11-08) —— spinTarget): 受け手の自転の目標 ν_i = (w_ii Ω_i + Σ_j w_ij Ω_j)/W_i(Ω_j は源の角速度のベクトルそのもの —— 順回転・
+//     重み m/r² で r の因子が無いので遠くで 1/r²)・滑り Σ_j β_ij(Ω_j − Ω_i)。並進の口(座標変換の接線の速度 Ω r × m/r² —— 1/r)と同じ表に(componentScaling の rotationSpin)。
+//     一様の角速度を全部に足しても滑りは同じ・共に回れば滑り 0。今のエンジン(新則 invSq)にこの口は無い(回転の項は並進の u へ・軸の項は姿勢の角と軸へ —— S.spin は変えない)。
 //   ジャイロ(gyroResponse): dL/dt = N(実トルクはそのまま)・Ω_prec = L × N⊥/|L|²(Ω_prec × L = N⊥ —— 軸の回転は直交の向きに現れる)。**90° 回した別のトルクを足さない**。
 //     L = 0 なら歳差は null。保存のジャイロ・歳差は熱に数えない。偏平な天体の軌道の平均のトルク(oblateTorqueAvg)と円錐の回転率(coneRate)・窓の角(windowAngle)。
 //   密度波(densityWaveLabel・resonanceRadii): 2 本腕は宣言したパターン速度 Ω_p(一定)の密度波・共鳴の条件 m(Ω − Ω_p) = ±`κ_epi`(m = 2 —— 内側と外側の Lindblad 共鳴)・共回転 Ω = Ω_p。
@@ -177,12 +183,14 @@ export function chainFromWeights({ selfW, w, v, fixed = {}, extra = null }) {
 /* ───────── 円盤の連鎖の低 N の試し ───────── */
 /**
  * decl = { rings:[{ R [m], m [kg] }](R の昇順)・K(方位の点の数)・p(2|1)・self:{ type, Rs:[m —— 環ごとの点の自己の半径] }・center:{ M [kg], Rc [m], Omega [rad/s] }・
- *   v:[m/s —— 環ごとの慣性の接線の速度]・boundary: null | { R [m], m [kg], K }(背景に対して静止 —— 速度 0 に固定)}
+ *   v:[m/s —— 環ごとの慣性の接線の速度]・boundary: null | { R [m], m [kg], K }(背景に対して静止 —— 速度 0 に固定)・
+ *   centerRot: 'moment'(既定 —— 源の中の速度 Ω_c × ρ の重みつきの平均 Ω_c M_c M_p)| 'frame'(座標変換 —— 受け手の距離 × Ω_c に中心の重みを掛ける: 原仮定者の補足(2026-11-08)の読み)}
  * 戻り値: rows(環ごとの R・U・α・β_center・Σβ_disk・Σ_l B_kl・回転の項・W の内訳)・solve(直接法と反復の差・エンジンの型の残差・二重計上の否定対照)・
- *   noChain(B = 0 の値 —— 連鎖を入れない列)・naiveCenter(受け手の距離 r に Ω_c を掛けた速度を中心の速度にした否定対照の比)
+ *   noChain(B = 0 の値 —— 連鎖を入れない列)・naiveCenterRatio(座標変換の型の回転の項 ÷ 源の中の速度の型の回転の項)
  */
 export function diskChain(decl) {
-  const { rings, K, p, self, center, v, boundary = null } = decl;
+  const { rings, K, p, self, center, v, boundary = null, centerRot = 'moment' } = decl;
+  if (!['moment', 'frame'].includes(centerRot)) throw new RangeError('diskChain: centerRot は moment(源の中の速度の重みつきの平均)か frame(座標変換 —— 受け手の距離 × Ω_c)');
   chkP(p);
   if (!(Array.isArray(rings) && rings.length >= 2 && rings.every((r, k) => isFin(r.R) && r.R > 0 && isFin(r.m) && r.m > 0 && (k === 0 || r.R > rings[k - 1].R)))) throw new RangeError('diskChain: 環は R の昇順・正の質量');
   if (!(Number.isInteger(K) && K >= 4)) throw new RangeError('diskChain: K は 4 以上の整数');
@@ -210,11 +218,12 @@ export function diskChain(decl) {
       }
     }
     if (boundary) for (let q = 0; q < boundary.K; q++) { const f = phi(q, boundary.K) + Math.PI / boundary.K, r = Math.hypot(boundary.R * Math.cos(f) - Rk, boundary.R * Math.sin(f)); Wb += pointWeight(boundary.m / boundary.K, r, p); }
-    const wc = center.M * D.Kball(p, Rk, center.Rc), rotNum = center.Omega * center.M * D.Mball(p, Rk, center.Rc);
+    const wc = center.M * D.Kball(p, Rk, center.Rc), rotMoment = center.Omega * center.M * D.Mball(p, Rk, center.Rc), rotFrame = center.Omega * Rk * wc;
+    const rotNum = centerRot === 'frame' ? rotFrame : rotMoment;
     const W = sw + Wd + Wb + wc;
     alpha.push(sw / W); vv.push([v[k]]); B.push(row.map((x) => x / W)); c.push([rotNum / W]);
     rows.push({ R: Rk, W, shares: { self: sw / W, center: wc / W, disk: Wd / W, boundary: Wb / W }, rowSumB: row.reduce((a, x) => a + x, 0) / W, rot: rotNum / W,
-      naiveCenterRatio: (center.Omega * Rk * wc / W) / (rotNum / W) });
+      naiveCenterRatio: rotFrame / rotMoment, centerRot });
   }
   // 自由な環どうしの B の対角は自分の環の他の点(同じ節点の速度)—— 解く行列では対角を外に出す: U_k (1 − B_kk) = αv + Σ_{l≠k} B_kl U_l + c
   const Bf = B.map((r, k) => r.map((x, l) => (l === k ? 0 : x / (1 - B[k][k]))));
@@ -233,6 +242,37 @@ export function slopes(R, U, Rmin) {
   let outer = null;
   if (idx.length >= 2) { const mx = idx.reduce((s, k) => s + lnR[k], 0) / idx.length, my = idx.reduce((s, k) => s + lnU[k], 0) / idx.length; let sxy = 0, sxx = 0; for (const k of idx) { sxy += (lnR[k] - mx) * (lnU[k] - my); sxx += (lnR[k] - mx) ** 2; } outer = sxy / sxx; }
   return { allPositive: ok, local, outer, flat: outer === null ? null : Math.abs(outer) <= DECL.flatSlope };
+}
+
+/* ───────── 回転引きずりを座標変換として扱う型(原仮定者の補足(2026-11-08))───────── */
+/** 源(位置 src・質量 m・角速度 Omega〔rad/s〕・軸 axis)の回転を座標変換として扱う: 受け手の位置 recv の接線の引きずり速度 v_t = Ω â × (recv − src)(距離に比例)・重み m/r^p・分子の寄与 w v_t */
+export function frameRotationTerm({ m, Omega, axis, src, recv, p = 2 }) {
+  chkP(p);
+  if (!isFin(m) || m < 0 || !isFin(Omega) || !(Array.isArray(axis) && axis.length === 3 && axis.every(isFin)) || !(Array.isArray(src) && src.every(isFin)) || !(Array.isArray(recv) && recv.every(isFin))) throw new RangeError('frameRotationTerm: 定義域');
+  const a = I.unit(axis), d = I.sub(recv, src), r = I.norm(d), vt = I.scale(I.cross(a, d), Omega), w = pointWeight(m, r, p);
+  return { r, rPerp: I.norm(I.cross(a, d)), vt, w, contribution: I.scale(vt, w) };
+}
+/**
+ * 成分ごとの分子の r の依存(W を一定と置いた分子の大きさ —— 宣言した型の値): 並進(速度 v は r に依らない)m v/r²・回転の座標変換 m Ω r/r²(補足の読み)・
+ * K1 の並進 m v/r・今のエンジンの回転の項(K1: m Ω R²/(5r²)・K2: m Ω M2(r; R))・軸の項の大きさ(K1: m Ω |dM1/dr|・K2: m Ω |dM2/dr| —— amp = −n̂·∇(m M/W) の W 一定の分)。
+ * 戻り値: rows(r ごと)と slope(隣の r の両対数の傾き —— 鍵ごと)
+ */
+export function componentScaling({ rs, m = 1, v = 1, Omega = 1, R = 0.01 }) {
+  if (!(Array.isArray(rs) && rs.length >= 2 && rs.every((r, k) => isFin(r) && r > 3 * R && (k === 0 || r > rs[k - 1])))) throw new RangeError('componentScaling: r は R の 3 倍より外の昇順');
+  const rows = rs.map((r) => ({ r, translation: pointWeight(m, r, 2) * v, frameRotation: pointWeight(m, r, 2) * Omega * r, k1Translation: pointWeight(m, r, 1) * v,
+    rotationSpin: pointWeight(m, r, 2) * Omega, engineK1Rot: m * Omega * D.Mball(1, r, R), engineK2Rot: m * Omega * D.Mball(2, r, R), engineK1Axial: m * Omega * Math.abs(D.MballDr(1, r, R)), engineK2Axial: m * Omega * Math.abs(D.MballDr(2, r, R)) }));
+  const keys = ['translation', 'frameRotation', 'rotationSpin', 'k1Translation', 'engineK1Rot', 'engineK2Rot', 'engineK1Axial', 'engineK2Axial'];
+  const slope = Object.fromEntries(keys.map((k) => [k, rows.slice(1).map((q, i) => Math.log(q[k] / rows[i][k]) / Math.log(q.r / rows[i].r))]));
+  return { rows, slope, keys };
+}
+
+/**
+ * 回転引きずりの回転の口(原仮定者の補足その2(2026-11-08)): 受け手の自転の角速度ベクトル Omega(3 成分)・自己の重み selfW・源 [{ weight, omega(3 成分 —— 源の角速度そのもの) }]。
+ * 戻り値: W・alpha・beta・target ν = αΩ_i + Σβ_j Ω_j(順回転の目標)・slip = ν − Ω_i = Σβ_j(Ω_j − Ω_i)(weightedMotion と同じ会計 —— 速度の代わりに角速度)
+ */
+export function spinTarget(Omega, selfW, sources) {
+  const q = weightedMotion(Omega, selfW, (sources || []).map((s) => ({ weight: s.weight, velocity: s.omega })));
+  return { W: q.W, alpha: q.alpha, beta: q.beta, target: q.U, slip: q.d };
 }
 
 /* ───────── ジャイロ ───────── */
@@ -344,6 +384,21 @@ export function pureScenes() {
   //    中心の速度を受け手の距離 × Ω_c にした否定対照は回転のモーメントの値より大きい
   { const rings = [1, 2, 3, 4, 5, 6].map((R) => ({ R, m: 1 })), d = diskChain({ rings, K: 12, p: 2, self: { type: 'ballMean', Rs: rings.map(() => 0.2) }, center: { M: 3, Rc: 0.5, Omega: 1 }, v: rings.map(() => 0) });
     S.miniDisk = { U: d.U, noChain: d.noChain, solve: d.solve, naive: d.rows.map((r) => r.naiveCenterRatio), sl: slopes(rings.map((r) => r.R), d.U, 3) }; }
+  // ⑫ 回転引きずりを座標変換として扱う型(原仮定者の補足(2026-11-08)): 源の角速度は距離に依らず v_t = Ω r(接線)・重み m/r² → 寄与 m Ω/r(r を 2 倍で 1/2)。並進(速度一定)は m/r²(1/4)・
+  //    K1 の並進の重み m/r(速度一定)は 1/2 —— 座標変換の型の回転と同じ尺度
+  { const t1 = frameRotationTerm({ m: 3, Omega: 2, axis: [0, 0, 1], src: [0, 0, 0], recv: [1, 0, 0] }), t2 = frameRotationTerm({ m: 3, Omega: 2, axis: [0, 0, 1], src: [0, 0, 0], recv: [2, 0, 0] });
+    const sc = componentScaling({ rs: [1, 2, 4, 8, 16] });
+    S.frameRot = { vt1: t1.vt, c1: I.norm(t1.contribution), c2: I.norm(t2.contribution), want1: 3 * 2 / 1, slope: Object.fromEntries(sc.keys.map((k) => [k, sc.slope[k][sc.slope[k].length - 1]])) }; }
+  // ⑬ 受け手が同じ角速度で共に回るなら相対は 0(回転は検知できない)・静止した受け手には接線の d が出る
+  { const t = frameRotationTerm({ m: 1, Omega: 0.5, axis: [0, 0, 1], src: [0, 0, 0], recv: [2, 0, 0] }), vi = I.scale(I.cross([0, 0, 1], [2, 0, 0]), 0.5);
+    const co = weightedMotion(vi, 1, [{ weight: t.w, velocity: t.vt }]), rest = weightedMotion([0, 0, 0], 1, [{ weight: t.w, velocity: t.vt }]);
+    S.coRotate = { dCo: vmaxAbs(co.d), dRest: rest.d }; }
+  // ⑭ 回転引きずりの 2 つの口(原仮定者の補足その2(2026-11-08)): 同じ源(質量 3・角速度 2)で r = 1・2 の並進の口(Ω r × m/r² —— 1/r)と回転の口(Ω × m/r² —— 1/r²)・
+  //    回転の口は順回転(目標は源の向き)・一様の角速度を足しても滑りは同じ・共に回れば滑り 0
+  { const mk = (r) => ({ tr: I.norm(frameRotationTerm({ m: 3, Omega: 2, axis: [0, 0, 1], src: [0, 0, 0], recv: [r, 0, 0] }).contribution), sp: pointWeight(3, r, 2) * 2 });
+    const a = mk(1), b = mk(2), Om = [0, 0, 0.4], src = [{ weight: pointWeight(3, 1, 2), omega: [0, 0, 2] }], t0 = spinTarget(Om, 5, src);
+    const sh = [0, 0, 7], t1 = spinTarget(Om.map((x, k) => x + sh[k]), 5, src.map((q) => ({ ...q, omega: q.omega.map((x, k) => x + sh[k]) }))), tc = spinTarget([0, 0, 2], 5, src);
+    S.mouths = { trRatio: b.tr / a.tr, spRatio: b.sp / a.sp, trOverSp1: a.tr / a.sp, target: t0.target, slip: t0.slip, slipShift: vmaxAbs(vsub(t1.slip, t0.slip)), coSlip: vmaxAbs(tc.slip), beta: t0.beta[0] }; }
   return S;
 }
 export function pureGates(S) {
@@ -361,5 +416,11 @@ export function pureGates(S) {
     densityWaveLabel: S.dwLabel.mode === 'densityWave' && S.dwLabel.bar === 'notClaim' && S.dwLabel.sep.join() === 'matter,pattern,field' && S.dwLabel.reject.every((x) => x === true),
     miniDiskChain: S.miniDisk.U.every((u, k) => u > S.miniDisk.noChain[k]) && S.miniDisk.solve.maxDiffRel <= 1e-12 && S.miniDisk.solve.engineFormResidualRel <= 1e-12 && S.miniDisk.solve.doubleCountRel > 1e-6
       && S.miniDisk.naive.every((x) => x > 1),
+    frameRotationScaling: close(S.frameRot.vt1[1], 2) && S.frameRot.vt1[0] === 0 && close(S.frameRot.c1, S.frameRot.want1) && close(S.frameRot.c2 / S.frameRot.c1, 0.5)
+      && close(S.frameRot.slope.translation, -2, 1e-12) && close(S.frameRot.slope.frameRotation, -1, 1e-12) && close(S.frameRot.slope.k1Translation, -1, 1e-12)
+      && close(S.frameRot.slope.engineK1Rot, -2, 1e-12) && Math.abs(S.frameRot.slope.engineK2Rot + 3) < 1e-3 && close(S.frameRot.slope.engineK1Axial, -3, 1e-12) && Math.abs(S.frameRot.slope.engineK2Axial + 4) < 1e-3,
+    coRotateInvisible: S.coRotate.dCo === 0 && S.coRotate.dRest[1] > 0 && S.coRotate.dRest[0] === 0,
+    twoMouths: close(S.mouths.trRatio, 0.5) && close(S.mouths.spRatio, 0.25) && close(S.mouths.trOverSp1, 1) && close(S.mouths.beta, 3 / 8) && close(S.mouths.slip[2], (3 / 8) * (2 - 0.4))
+      && S.mouths.slip[2] > 0 && S.mouths.slipShift <= 1e-12 && S.mouths.coSlip === 0,
   };
 }

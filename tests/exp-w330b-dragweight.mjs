@@ -11,6 +11,12 @@
 // ■ 何をするか
 //   E 今のエンジンの経路との対応: 受理器の試し(🗺️ の写しで kernel と rdRule の組 —— 拒否の文)・3 体の写し(太陽・地球・月)の β_ij を
 //     エンジンの読み口と第132報の点の式(重み m/r^p・自己の重みの型 3 つ)で比べる(K1 の本 = 規則 R_d = Y_k m・K2 の写し = 宣言の半径)
+//   E′ 成分ごとの対応(原仮定者の補足(2026-11-08)「回転引きずりは座標変換 —— 角速度は距離で変わらず接線の速度は r に比例・重み 1/r² で 1/r に見える」): 🗺️ の 2 体の写し(太陽・地球 ——
+//     回転と軸を宣言)で地球の距離を 1・2・4・8 倍にしたときのエンジンの読み口の並進 β・回転の係数・軸の ω の両対数の傾き(K1 の規則・K2 の宣言の半径)と、lib の componentScaling
+//     (並進 m v/r²・回転の座標変換 m Ω r/r²・K1 の並進 m v/r・エンジンの回転と軸の項 —— W を一定と置いた分子)を同じ表に
+//   R 回転引きずりの回転の口(原仮定者の補足その2(2026-11-08) —— 順回転・重み m/r²)と潮汐の口の二重計上の照合: 🗺️ の本の宣言(月–地球・イオ–木星)から受け手の自転・源の自転・
+//     公転の平均運動 n(潮汐の目標)を作り、回転の口の重み β(点の式・自己 ballHarmonic —— R_d = Y_k m と宣言の半径の 2 つ)と滑りを潮汐の滑りと並べる(本の JSON を読むだけ)
+//   GW 銀河の回転引きずりの太陽系の枠への窓の角(第329便b の天の川の Ω —— 回転の口の重みの比 × Ω × 時間の窓)
 //   C 連鎖と平坦な回転の低 N の試し(NGC 3198 の恒星の円盤の面密度〔fixture の SBdisk × Υ_disk〕と指数円盤の宣言・中心の有限の球の自転・境界・自己の重みの型と半径・
 //     重みの距離の次数・方位の点の数・環の間隔)—— 速度の形 U(R)・外側のべき・分母 W の内訳
 //   G ジャイロ: 地球の歳差(太陽と月の軌道の平均のトルク → gyroResponse → 円錐の回転率)と文献の周期の照合(残差)・窓の角
@@ -51,6 +57,14 @@ export const PLAN = Object.freeze({
   acceptCombos: Object.freeze([['k1', 'kappaM'], ['k2', 'kappaM'], [null, 'kappaM'], ['k2', null], ['k1', null], [null, null]]),
   /** 対応の門(K2 の写し ↔ p = 2・ballHarmonic、K1 の本 ↔ p = 1・ballHarmonic の β の相対の差の上限 —— 受け手の体積の 1/r^p の変化と近い場の補正の分) */
   corrTolRel: 1e-3,
+  /** 成分ごとの対応: 2 体の写し(🗺️ の 0 太陽・3 地球)の地球の距離の倍率・回転と軸の宣言・lib の componentScaling の r の格子 */
+  duo: Object.freeze([0, 3]), duoFactors: Object.freeze([1, 2, 4, 8]), spinDecl: Object.freeze({ rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' }), scalingRs: Object.freeze([1, 2, 4, 8, 16]),
+  /** 傾きの門(エンジンの読み口の傾きと次数の差の上限 —— 受け手の体積と自己の分母の変化の分) */
+  slopeTol: 0.05,
+  /** 回転の口と潮汐の口の照合の組(🗺️ の添字 —— [受け手, 源]: 月–地球・イオ–木星) */
+  tidePairs: Object.freeze([Object.freeze([4, 3]), Object.freeze([7, 6])]), tidePairNames: Object.freeze([['月', '地球'], ['イオ', '木星']].map((x) => Object.freeze(x))),
+  /** 銀河の窓: 天の川の Ω(第329便b の表 10 —— Bovy 2017 の A_O − B_O・文献の値)・太陽の銀河中心の距離 R0・太陽の質量・半径(文献の値 —— 本便は一次資料に当たっていない) */
+  galOmega: 8.815e-16, galR0Kpc: 8.2, sunMassKg: 1.98847e30, sunRadiusM: 6.957e8, galSource: '天の川の Ω = A_O − B_O(第329便b の表 10 —— Bovy 2017 の Oort の量・文献の値)・R0 8.2 kpc・M_eq = (Ω R0)² R0/G(球の等価の質量 —— 宣言)',
   /** 円盤: Υ_disk(第329便b の宣言 0.5)・環の半径 [kpc](1〜30 kpc・間隔 1)・方位の点 24・中心の球の半径 0.5 kpc・自己の半径の比 f(点の最小の間隔の半分に掛ける) */
   upsDisk: 0.5, ringFromKpc: 1, ringToKpc: 30, ringStepKpc: 1, K: 24, RcKpc: 0.5, fMain: 0.9,
   /** 外側のべきを読む範囲 [kpc] */
@@ -109,6 +123,60 @@ export function partEngine(HP) {
   return { accept, trio, harmonic: { H2: L.harmonicSelf(2), H1: L.harmonicSelf(1), order: L.DECL.harmonicOrder } };
 }
 
+/* ───────── E′ 成分ごとの対応(原仮定者の補足(2026-11-08))───────── */
+function duoCopy(book, kernel, rule, f) {
+  const b = trioCopy(book, kernel, rule);
+  b.bodies = PLAN.duo.map((i) => clone(book.bodies[i]));
+  const s0 = b.bodies[0], e = b.bodies[1];
+  for (const k of ['x', 'y', 'z']) e[k] = s0[k] + f * (e[k] - s0[k]);
+  b.physics.relativeDrag = Object.assign(clone(b.physics.relativeDrag), { spinDrag: clone(PLAN.spinDecl) });
+  return b;
+}
+export function partComponents(HP) {
+  const book = bookOf(HP), out = {};
+  for (const [key, kernel, rule] of [['k1Rule', 'k1', 'kappaM'], ['k2Radius', null, null]]) {
+    const rows = [];
+    for (const f of PLAN.duoFactors) {
+      const v = HP.validatePreset(duoCopy(book, kernel, rule, f));
+      if (!v.ok) { rows.push({ f, ok: false, errors: v.errors.slice(0, 3) }); continue; }
+      const S = HP.coord3d.makeSim(); S.build(clone(v.preset));
+      const st = HP.inertialDragIsqState(S), rr = st.receivers.find((q) => q.i === 1);
+      rows.push({ f, ok: true, beta: rr.beta[0], rot: Math.hypot(rr.rot[0], rr.rot[1], rr.rot[2]), omega: rr.omega ? Math.hypot(...rr.omega) : null, alpha: 1 - rr.betaSum, law: st.law });
+    }
+    const sl = (k) => rows.slice(1).map((q, i) => (q.ok && rows[i].ok && q[k] > 0 && rows[i][k] > 0 ? Math.log(q[k] / rows[i][k]) / Math.log(q.f / rows[i].f) : null));
+    out[key] = { rows, slope: { beta: sl('beta'), rot: sl('rot'), omega: sl('omega') } };
+  }
+  const sc = L.componentScaling({ rs: PLAN.scalingRs.slice() });
+  return { engine: out, pure: sc, reading: { translation: -2, rotation: -1, axial: -1, source: '原仮定者の補足(2026-11-08)の読み —— 並進は m/r²(速度は r に依らない)・回転と軸は座標変換で m/r² × Ω r(1/r に見える)' } };
+}
+
+/* ───────── R 回転の口と潮汐の口の照合(原仮定者の補足その2(2026-11-08))───────── */
+const axisOf = (b) => { const t = b.spinAxis.tiltDeg * Math.PI / 180, a = b.spinAxis.azimuthDeg * Math.PI / 180; return [Math.sin(t) * Math.cos(a), Math.sin(t) * Math.sin(a), Math.cos(t)]; };
+export function partTideRot(HP) {
+  const book = bookOf(HP), se = book.scaleExp, uL = Math.pow(10, se.L), uT = Math.pow(10, se.T), uM = Math.pow(10, se.M), G = book.physics.G;
+  const dot3 = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], cr3 = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+  const rows = PLAN.tidePairs.map(([ri, si], k) => {
+    const R = book.bodies[ri], Sx = book.bodies[si], aR = axisOf(R), aS = axisOf(Sx);
+    const rv = [R.x - Sx.x, R.y - Sx.y, R.z - Sx.z], vv = [R.vx - Sx.vx, R.vy - Sx.vy, R.vz - Sx.vz], r = Math.hypot(...rv), mu = G * (R.m + Sx.m), v2 = dot3(vv, vv);
+    const sma = 1 / (2 / r - v2 / mu), nB = Math.sqrt(mu / (sma * sma * sma)), h = cr3(rv, vv), hu = h.map((x) => x / Math.hypot(...h));
+    const OmR = R.spin / uT, OmS = (Sx.spin / uT) * dot3(aS, aR), nAl = (nB / uT) * dot3(hu, aR), mR = R.m * uM, mS = Sx.m * uM, rSI = r * uL;
+    const wS = L.pointWeight(mS, rSI, 2), beta = (Rself) => { const sw = L.selfWeight({ type: 'ballHarmonic', m: mR, R: Rself, p: 2 }).w; return wS / (sw + wS); };
+    const bK1 = beta(L.kappaMRadius(mR)), bRad = beta(R.radius * uL);
+    const tK1 = L.spinTarget([0, 0, OmR], L.selfWeight({ type: 'ballHarmonic', m: mR, R: L.kappaMRadius(mR), p: 2 }).w, [{ weight: wS, omega: [0, 0, OmS] }]);
+    return { recv: PLAN.tidePairNames[k][0], src: PLAN.tidePairNames[k][1], OmegaRecv: OmR, OmegaSrcAlong: OmS, nAlong: nAl, rM: rSI, betaK1: bK1, betaRadius: bRad,
+      slipRotK1: bK1 * (OmS - OmR), slipRotRadius: bRad * (OmS - OmR), slipTide: nAl - OmR, targetRatio: OmS / nAl, spinTargetSlipK1: tK1.slip[2] };
+  });
+  return { rows, note: '軸の向きは受け手の軸へ射影した大きさ(源の自転と公転の向きを受け手の軸へ)・2 体だけの重み(宣言)・本の JSON を読むだけ(步を進めない)' };
+}
+/* ───────── GW 銀河の回転引きずりの太陽系の枠への窓の角 ───────── */
+export function partGalWindow() {
+  const R0 = PLAN.galR0Kpc * KPC, Om = PLAN.galOmega, Meq = (Om * R0) * (Om * R0) * R0 / GR.G_SI, wG = L.pointWeight(Meq, R0, 2);
+  const beta = (Rself) => { const sw = L.selfWeight({ type: 'ballHarmonic', m: PLAN.sunMassKg, R: Rself, p: 2 }).w; return wG / (sw + wG); };
+  const bK1 = beta(L.kappaMRadius(PLAN.sunMassKg)), bSun = beta(PLAN.sunRadiusM);
+  const rows = PLAN.windowYears.map((T) => { const t = T * PLAN.yearS; return { T, upper: L.windowAngle(Om, t), k1: L.windowAngle(bK1 * Om, t), sunRadius: L.windowAngle(bSun * Om, t) }; });
+  return { Omega: Om, R0Kpc: PLAN.galR0Kpc, MeqKg: Meq, betaK1: bK1, betaSunRadius: bSun, rows, source: PLAN.galSource };
+}
+
 /* ───────── C 連鎖と平坦な回転の低 N の試し ───────── */
 export function readFixture(root = ROOT) {
   const J = JSON.parse(fs.readFileSync(path.join(root, FIXTURE), 'utf8'));
@@ -129,7 +197,7 @@ export function expDiskFit(rows) {
   return { hKpc: h, SB0, n };
 }
 export function diskCase(FX, c) {
-  const o = Object.assign({ dist: 'fixture', f: PLAN.fMain, selfType: 'ballMean', kappa: false, p: 2, boundary: false, vMode: 'zero', K: PLAN.K, dR: PLAN.ringStepKpc }, c);
+  const o = Object.assign({ dist: 'fixture', f: PLAN.fMain, selfType: 'ballMean', kappa: false, p: 2, boundary: false, vMode: 'zero', K: PLAN.K, dR: PLAN.ringStepKpc, centerRot: 'moment' }, c);
   const rows = FX.rows, EF = expDiskFit(rows);
   const sigma = (R) => PLAN.upsDisk * (o.dist === 'fixture' ? interpRow(rows, R, 'SBdisk') : EF.SB0 * Math.exp(-R / EF.hKpc));   // M☉/pc²
   const Rs = []; for (let k = 0; ; k++) { const R = PLAN.ringFromKpc + k * o.dR; if (R > PLAN.ringToKpc + 1e-9) break; Rs.push(Math.round(R * 1e6) / 1e6); }
@@ -140,7 +208,7 @@ export function diskCase(FX, c) {
   const vobs = Rs.map((R) => interpRow(rows, R, 'Vobs') * 1e3), OmC = interpRow(rows, PLAN.RcKpc, 'Vobs') * 1e3 / (PLAN.RcKpc * KPC);
   const Mdisk = rings.reduce((a, r) => a + r.m, 0);
   const d = L.diskChain({ rings, K: o.K, p: o.p, self: { type: o.selfType, Rs: Rself }, center: { M: Mc, Rc: PLAN.RcKpc * KPC, Omega: OmC }, v: o.vMode === 'zero' ? Rs.map(() => 0) : vbar,
-    boundary: o.boundary ? { R: PLAN.boundaryRKpc * KPC, m: Mdisk, K: PLAN.boundaryK } : null });
+    boundary: o.boundary ? { R: PLAN.boundaryRKpc * KPC, m: Mdisk, K: PLAN.boundaryK } : null, centerRot: o.centerRot });
   const sl = L.slopes(Rs, d.U, PLAN.outerFromKpc), sl0 = L.slopes(Rs, d.noChain, PLAN.outerFromKpc), slB = L.slopes(Rs, vbar, PLAN.outerFromKpc), slO = L.slopes(Rs, vobs, PLAN.outerFromKpc);
   const pick = PLAN.pickKpc.map((R) => Rs.indexOf(R)).filter((k) => k >= 0);
   return { decl: o, nRings: Rs.length, nPoints: Rs.length * o.K, McMsun: Mc / MSUN, MdiskMsun: Mdisk / MSUN, OmegaC: OmC, expDisk: o.dist === 'exp' ? EF : null,
@@ -153,12 +221,14 @@ export const DISK_CASES = Object.freeze([
   ['main', {}], ['f05', { f: 0.5 }], ['f025', { f: 0.25 }], ['kappaM', { kappa: true }], ['point', { selfType: 'point' }], ['harmonic', { selfType: 'ballHarmonic' }],
   ['p1', { p: 1 }], ['boundary', { boundary: true }], ['K48', { K: 48 }], ['K12', { K: 12 }], ['dR05', { dR: 0.5 }], ['exp', { dist: 'exp' }],
   ['vbar', { vMode: 'bar' }], ['vbarKappaM', { vMode: 'bar', kappa: true }], ['vbarBoundary', { vMode: 'bar', boundary: true }],
+  ['frame', { centerRot: 'frame' }], ['frameF05', { centerRot: 'frame', f: 0.5 }], ['frameKappaM', { centerRot: 'frame', kappa: true }], ['frameBoundary', { centerRot: 'frame', boundary: true }],
 ].map(([k, v]) => Object.freeze([k, Object.freeze(v)])));
 export function partChain(FX) {
   const cases = Object.fromEntries(DISK_CASES.map(([k, c]) => [k, diskCase(FX, c)]));
-  const outer = Object.values(cases).filter((q) => q.decl.vMode === 'zero').map((q) => q.slope.outer);
-  return { cases, outerRangeZero: [Math.min(...outer), Math.max(...outer)], nFlatZero: Object.values(cases).filter((q) => q.decl.vMode === 'zero' && q.slope.flat === true).length,
-    nZero: Object.values(cases).filter((q) => q.decl.vMode === 'zero').length };
+  const zm = Object.values(cases).filter((q) => q.decl.vMode === 'zero' && q.decl.centerRot === 'moment'), zf = Object.values(cases).filter((q) => q.decl.vMode === 'zero' && q.decl.centerRot === 'frame');
+  const rng = (a) => [Math.min(...a.map((q) => q.slope.outer)), Math.max(...a.map((q) => q.slope.outer))];
+  return { cases, outerRangeZero: rng(zm), nFlatZero: zm.filter((q) => q.slope.flat === true).length, nZero: zm.length,
+    frameRangeZero: rng(zf), nFlatFrame: zf.filter((q) => q.slope.flat === true).length, nFrame: zf.length };
 }
 
 /* ───────── G ジャイロと歳差の窓 ───────── */
@@ -197,8 +267,13 @@ export function gatesOf(J) {
     k1NotSquareLaw: E.trio.k1Rule.ok === true && E.trio.k1Rule.rows.every((r) => r.crossLaw.ratioToEngine.every((x) => x === null || x < 1e-6)),
     chainSolved: Object.values(C.cases).every((q) => q.solve.converged === true && q.solve.maxDiffRel <= 1e-10 && q.solve.engineFormResidualRel <= 1e-10),
     chainOnceOnly: Object.values(C.cases).filter((q) => !q.decl.kappa).every((q) => q.solve.doubleCountRel > 1e-6),
-    naiveCenterDiffers: Object.values(C.cases).every((q) => q.picks.every((p) => p.naiveCenterRatio > 1)),
+    centerRotTypesDiffer: Object.values(C.cases).every((q) => q.picks.every((p) => p.naiveCenterRatio > 1)),
     gyroEarth: G.earth.retrograde === true && Number.isFinite(G.earth.periodYears) && G.earth.heat === 0 && G.earth.dL.every((x, k) => x === G.earth.torqueSun[k] + G.earth.torqueMoon[k]),
+    componentsEngine: ['k1Rule', 'k2Radius'].every((k) => J.components.engine[k].rows.every((r) => r.ok === true)) && (() => { const e = J.components.engine, ok = (a, want) => a.every((x) => x !== null && Math.abs(x - want) <= PLAN.slopeTol);
+      return ok(e.k1Rule.slope.beta, -1) && ok(e.k1Rule.slope.rot, -2) && ok(e.k1Rule.slope.omega, -3) && ok(e.k2Radius.slope.beta, -2) && ok(e.k2Radius.slope.rot, -3) && ok(e.k2Radius.slope.omega, -4); })(),
+    tideRotTable: J.tideRot.rows.length === PLAN.tidePairs.length && J.tideRot.rows.every((q) => [q.OmegaRecv, q.OmegaSrcAlong, q.nAlong, q.betaK1, q.betaRadius, q.slipTide].every(Number.isFinite) && q.betaK1 < q.betaRadius && q.betaRadius < 1
+      && Math.abs(q.spinTargetSlipK1 - q.slipRotK1) <= 1e-12 * Math.max(Math.abs(q.slipRotK1), 1e-300)),
+    galWindowTable: J.galWindow.rows.length === PLAN.windowYears.length && J.galWindow.betaK1 < J.galWindow.betaSunRadius && J.galWindow.betaSunRadius < 1 && J.galWindow.rows.every((q) => q.k1 <= q.sunRadius && q.sunRadius <= q.upper),
     waveRadii: W.grid.length === PLAN.omegaPGrid.length && W.grid.every((g) => Array.isArray(g.localQuad.CR.at) && Array.isArray(g.localQuad.ILR.at) && Array.isArray(g.localQuad.OLR.at)) && W.bar.status === 'notClaim' && W.label.mode === 'densityWave',
   };
 }
@@ -207,10 +282,13 @@ export function runAll(HP, root = ROOT) {
   const PS = L.pureScenes(), pure = { scenes: PS, gates: L.pureGates(PS) }; mark('pure');
   const FX = readFixture(root); mark('inputs');
   const engine = partEngine(HP); mark('engine');
+  const components = partComponents(HP); mark('components');
+  const tideRot = partTideRot(HP); mark('tideRot');
+  const galWindow = partGalWindow(); mark('galWindow');
   const chain = partChain(FX); mark('chain');
   const gyro = partGyro(); mark('gyro');
   const wave = partWave(FX); mark('wave');
-  const J = { inputs: { fixtureSha256Same: FX.shaSame, fixtureVersion: FX.J.version, fixtureRows: FX.rows.length }, pure, engine, chain, gyro, wave, timing: tm };
+  const J = { inputs: { fixtureSha256Same: FX.shaSame, fixtureVersion: FX.J.version, fixtureRows: FX.rows.length }, pure, engine, components, tideRot, galWindow, chain, gyro, wave, timing: tm };
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
   return J;
 }
@@ -226,7 +304,7 @@ export async function main() {
   console.log('第330便b dragweight(版 ' + HARNESS_VERSION + ')');
   const R = runAll(HP);
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w330b-dragweight.mjs', target: TARGET, targetSha256, reuseFrom: null,
-    ruling: '原仮定者の整理(2026-11-08)「引きずり = Σ(相対速度 × 重み)/Σ重み(自分を含む)・重み = 質量/距離²・慣性移動 = 自分自身の引きずり」「ディスクは平坦回転する」(作業仮説 —— 診断で検査)・「ジャイロ効果も DFM の範囲」・「2 本の腕は密度波・棒は解決案は無い」・原仮定者の回答(2026-11-08 —— AN578・AN580)・統括の検証項目 R308',
+    ruling: '原仮定者の整理(2026-11-08)「引きずり = Σ(相対速度 × 重み)/Σ重み(自分を含む)・重み = 質量/距離²・慣性移動 = 自分自身の引きずり」「ディスクは平坦回転する」(作業仮説 —— 診断で検査)・「ジャイロ効果も DFM の範囲」・「2 本の腕は密度波・棒は解決案は無い」・原仮定者の補足(2026-11-08)「回転引きずりは座標変換 —— 角速度は距離で変わらず接線の速度は r に比例・重み 1/r² で 1/r に見える」・原仮定者の補足その2(2026-11-08)「回転引きずりは回転にも効く —— 角速度そのままの順回転・重み 1/r²・潮汐との二重計上に注意・軸引きずりは現状どおり」・原仮定者の回答(2026-11-08 —— AN578・AN580)・統括の検証項目 R308',
     decl: L.DECL, plan: PLAN, selfTypes: L.SELF_TYPES, notClaim: NOT_CLAIM, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w330b-dragweight.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w312a-decay.mjs', 'tests/lib-w310d-shell.mjs', 'tests/lib-w307a-sphereaxial.mjs',

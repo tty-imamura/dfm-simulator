@@ -11,6 +11,7 @@ export const CASE_LABEL = Object.freeze({
   kappaM: '自己の半径 = K1 の規則 R_d = Y_k m(点の質量から)', point: '自己の型 point(m/R²)', harmonic: '自己の型 ballHarmonic', p1: '重みの次数 p 1(今の K1 の遠方 m/r)',
   boundary: '境界(45 kpc・背景に静止・円盤と同じ質量)', K48: '方位 48 点', K12: '方位 12 点', dR05: '環の間隔 0.5 kpc', exp: '指数円盤(SBdisk の当てはめ)',
   vbar: '慣性 = v_bar(バリオンの円の速さ)', vbarKappaM: '慣性 = v_bar・自己の半径 = R_d = Y_k m', vbarBoundary: '慣性 = v_bar・境界',
+  frame: '中心の回転を座標変換の型に(受け手の距離 × Ω_c —— 原仮定者の補足(2026-11-08)の読み)', frameF05: '座標変換の型・f 0.5', frameKappaM: '座標変換の型・自己の半径 = R_d = Y_k m', frameBoundary: '座標変換の型・境界',
 });
 export function tablesOf(J) {
   const T = {}, S = J.pure.scenes, G = J.pure.gates, E = J.engine, C = J.chain, Y = J.gyro, W = J.wave;
@@ -26,7 +27,10 @@ export function tablesOf(J) {
     `| 偏平な天体の軌道の平均のトルク(傾き 0.4 rad)の円錐の回転率と解析の値 −(3/2)(C − A)cos ε/(Cω) | ${f3(S.oblate.coneRate)}・${f3(S.oblate.expected)} | ${tf(G.oblateRetrograde)} |`,
     `| 平坦な回転の表(v₀ = 150・Ω_p = 10)の共鳴の半径 CR・ILR・OLR と解析の値 v₀/Ω_p・(1 ∓ 1/√2)v₀/Ω_p | ${f3(S.flatRes.CR[0])}・${f3(S.flatRes.ILR[0])}・${f3(S.flatRes.OLR[0])} / ${S.flatRes.want.map(f3).join('・')} | ${tf(G.flatResonance)} |`,
     `| 密度波のラベル(一定の Ω_p と出典 —— 全半径の規則・関数・m ≠ 2・出典なし・知らない鍵を拒否)・棒 | ${S.dwLabel.reject.filter(Boolean).length}/${S.dwLabel.reject.length}・${S.dwLabel.bar} | ${tf(G.densityWaveLabel)} |`,
-    `| 小さな円盤(6 環・方位 12・中心だけ回る): 連鎖の U が B = 0 の値より大きい環・直接法と反復の差・二重計上の差・中心の速度を r × Ω_c にした否定対照の比の最小 | ${S.miniDisk.U.filter((u, k) => u > S.miniDisk.noChain[k]).length}/${S.miniDisk.U.length}・${lt(S.miniDisk.solve.maxDiffRel, 1e-12)}・${f3(S.miniDisk.solve.doubleCountRel)}・${f3(Math.min(...S.miniDisk.naive))} | ${tf(G.miniDiskChain)} |`].join('\n');
+    `| 小さな円盤(6 環・方位 12・中心だけ回る): 連鎖の U が B = 0 の値より大きい環・直接法と反復の差・二重計上の差・座標変換の型 ÷ 源の中の速度の型の回転の項の比の最小 | ${S.miniDisk.U.filter((u, k) => u > S.miniDisk.noChain[k]).length}/${S.miniDisk.U.length}・${lt(S.miniDisk.solve.maxDiffRel, 1e-12)}・${f3(S.miniDisk.solve.doubleCountRel)}・${f3(Math.min(...S.miniDisk.naive))} | ${tf(G.miniDiskChain)} |`,
+    `| 回転引きずりを座標変換として扱う型(原仮定者の補足(2026-11-08)—— 源の角速度 2・質量 3・受け手 r = 1・2): 接線の速度・寄与・r を 2 倍の比 / W 一定の分子の傾き(並進・座標変換の回転・K1 の並進) | (${S.frameRot.vt1.map(f3).join(', ')})・${f3(S.frameRot.c1)}・${f3(S.frameRot.c2 / S.frameRot.c1)} / ${[S.frameRot.slope.translation, S.frameRot.slope.frameRotation, S.frameRot.slope.k1Translation].map(f3).join('・')} | ${tf(G.frameRotationScaling)} |`,
+    `| 受け手が同じ角速度で共に回るときの d・静止した受け手の d(回転は共に回れば検知できない) | ${S.coRotate.dCo}・(${S.coRotate.dRest.map(f3).join(', ')}) | ${tf(G.coRotateInvisible)} |`,
+    `| 回転引きずりの 2 つの口(原仮定者の補足その2(2026-11-08)—— 同じ源で r を 2 倍): 並進の口(Ω r × m/r²)の比・回転の口(Ω × m/r²)の比・r = 1 の並進 ÷ 回転 / 回転の口の β・滑り・一様の角速度を足した滑りの差・共に回る滑り | ${f3(S.mouths.trRatio)}・${f3(S.mouths.spRatio)}・${f3(S.mouths.trOverSp1)} / ${f3(S.mouths.beta)}・${f3(S.mouths.slip[2])}・${lt(S.mouths.slipShift, 1e-12)}・${S.mouths.coSlip} | ${tf(G.twoMouths)} |`].join('\n');
   // 表 2 受理器の試し(🗺️ の写しで kernel と rdRule の組)
   T.accept = ['| kernel | rdRule | 受理 | 正準形の invSq か拒否の文 |', '|---|---|---|---|']
     .concat(E.accept.map((a) => `| ${a.kernel || '(省略 —— k2)'} | ${a.rdRule || '(省略)'} | ${a.ok ? '受理' : '拒否'} | ${a.ok ? '`' + JSON.stringify(a.canonical) + '`' : a.errors.map(String).join(' / ')} |`)).join('\n');
@@ -37,6 +41,24 @@ export function tablesOf(J) {
     T.trio = ['| 核 | 受け手 | R_d [本の長さ 10⁹ m] | エンジンの β(源ごと) | 点の式の β(p = 核の遠方の次数・ballHarmonic) | 点の式との相対の差(point・ballMean・ballHarmonic) | 別の次数の点の式とエンジンの比 |', '|---|---|---|---|---|---|---|']
       .concat(E.trio.k1Rule.rows.map((r) => row('k1Rule', r)), E.trio.k2Radius.rows.map((r) => row('k2Radius', r))).join('\n');
   }
+  // 表 成分ごとの r の次数(原仮定者の補足(2026-11-08)の読み・今のエンジンの読み口・lib の W 一定の分子)
+  {
+    const P = J.components, e = P.engine, sl = (a) => a.map(f3).join('・'), last = (k) => P.pure.slope[k][P.pure.slope[k].length - 1];
+    T.components = ['| 成分 | 原仮定者の補足(2026-11-08)の読み | エンジン K1(規則)の読み口の傾き(距離 1→2・2→4・4→8 倍) | エンジン K2(宣言の半径)の読み口の傾き | lib の W 一定の分子(K1・K2) | 補足の読みと |', '|---|---|---|---|---|---|',
+      `| 並進(β —— 3 体の写しの表の量) | m/r²(速度は r に依らない)—— ${f3(last('translation'))} | ${sl(e.k1Rule.slope.beta)} | ${sl(e.k2Radius.slope.beta)} | ${f3(last('k1Translation'))}・${f3(last('translation'))} | K1 は違う(1/r を並進に使う)・K2 は同じ次数 |`,
+      `| 回転(spinDrag.rot の係数 ⟨(m M/W) n̂⟩) | 座標変換 m/r² × Ω r —— ${f3(last('frameRotation'))} | ${sl(e.k1Rule.slope.rot)} | ${sl(e.k2Radius.slope.rot)} | ${f3(last('engineK1Rot'))}・${f3(last('engineK2Rot'))} | どちらも違う(源の中の速度 Ω × ρ の平均 —— R²/r² と R²/r³) |`,
+      `| 回転の口(受け手の自転の目標 ν = Σ w Ω_j/W —— 原仮定者の補足その2(2026-11-08)) | 順回転 m/r² × Ω —— ${f3(last('rotationSpin'))} | 無い(新則 invSq に受け手の自転を源の Ω へ引く口は無い) | 無い | ${f3(last('rotationSpin'))}(lib だけ) | 今のエンジンに口が無い |`,
+      `| 軸(spinDrag.axial bevel の ω —— dragCore の核の軸も同じ係数) | 座標変換の見え方 1/r(統括の読み —— 補足は回転だけを書く)—— ${f3(-1)} | ${sl(e.k1Rule.slope.omega)} | ${sl(e.k2Radius.slope.omega)} | ${f3(last('engineK1Axial'))}・${f3(last('engineK2Axial'))} | どちらも違う(回転のモーメントの勾配) |`].join('\n');
+  }
+  // 表 回転の口と潮汐の口の照合(原仮定者の補足その2(2026-11-08))
+  {
+    const R = J.tideRot.rows;
+    T.tideRot = ['| 受け手 ← 源 | 受け手の自転 Ω [rad/s] | 源の自転(受け手の軸へ)[rad/s] | 公転の平均運動 n(潮汐の目標)[rad/s] | 源 ÷ n | 回転の口の β(R_d = Y_k m・宣言の半径) | 回転の口の滑り β(Ω_src − Ω)(同) [rad/s] | 潮汐の滑り n − Ω [rad/s] |', '|---|---|---|---|---|---|---|---|']
+      .concat(R.map((q) => `| ${q.recv} ← ${q.src} | ${fe(q.OmegaRecv)} | ${fe(q.OmegaSrcAlong)} | ${fe(q.nAlong)} | ${f3(q.targetRatio)} | ${fe(q.betaK1)}・${fe(q.betaRadius)} | ${fe(q.slipRotK1)}・${fe(q.slipRotRadius)} | ${fe(q.slipTide)} |`)).join('\n');
+    const Gw = J.galWindow;
+    T.galWindow = ['| 時間の窓 [年] | 上限(β = 1)Ω T [rad] | 太陽の自己 R_d = Y_k m のとき β Ω T [rad] | 太陽の自己 = 太陽の半径のとき β Ω T [rad] |', '|---|---|---|---|']
+      .concat(Gw.rows.map((q) => `| ${q.T} | ${fe(q.upper)} | ${fe(q.k1)} | ${fe(q.sunRadius)} |`), [`| (宣言) | Ω ${fe(Gw.Omega)} rad/s・R0 ${Gw.R0Kpc} kpc・M_eq ${fe(Gw.MeqKg)} kg | β ${fe(Gw.betaK1)} | β ${fe(Gw.betaSunRadius)} |`]).join('\n');
+  }
   // 表 4 円盤の連鎖の低 N の試し(速度の形)
   {
     const at = (q, R) => q.picks.find((p) => p.R === R);
@@ -46,7 +68,7 @@ export function tablesOf(J) {
   // 表 5 分母 W の内訳(主と境界の宣言)
   {
     const m = C.cases.main, b = C.cases.boundary;
-    T.share = ['| R [kpc] | 主: U [m/s] | 主: B = 0 の U | 主: 自己・中心・円盤 | 境界: U [m/s] | 境界: 自己・中心・円盤・境界 | 中心の速度を r × Ω_c にした否定対照 ÷ 回転のモーメントの値 |', '|---|---|---|---|---|---|---|']
+    T.share = ['| R [kpc] | 主: U [m/s] | 主: B = 0 の U | 主: 自己・中心・円盤 | 境界: U [m/s] | 境界: 自己・中心・円盤・境界 | 中心の回転の項: 座標変換の型(r × Ω_c)÷ 源の中の速度の型(M_p) |', '|---|---|---|---|---|---|---|']
       .concat(m.picks.map((p, k) => { const q = b.picks[k]; return `| ${p.R} | ${fe(p.U)} | ${fe(p.noChain)} | ${f3(p.shares.self)}・${fe(p.shares.center)}・${f3(p.shares.disk)} | ${fe(q.U)} | ${f3(q.shares.self)}・${fe(q.shares.center)}・${f3(q.shares.disk)}・${fe(q.shares.boundary)} | ${fe(p.naiveCenterRatio)} |`; })).join('\n');
     T.diskDecl = ['| 量 | 値 |', '|---|---|',
       `| 環の数・点の数(主) | ${m.nRings}・${m.nPoints} |`,
@@ -57,7 +79,8 @@ export function tablesOf(J) {
       `| 点の自己の半径(主 —— 最初と最後の環)[kpc] | ${f3(m.selfRadiusKpc.first)}・${f3(m.selfRadiusKpc.last)} |`,
       `| 点の自己の半径(R_d = Y_k m —— 最初と最後の環)[kpc] | ${fe(C.cases.kappaM.selfRadiusKpc.first)}・${fe(C.cases.kappaM.selfRadiusKpc.last)} |`,
       `| 参照のべき: v_bar・v_obs(10〜30 kpc) | ${f3(m.slope.vbarOuter)}・${f3(m.slope.vobsOuter)} |`,
-      `| 慣性 0 の宣言 ${C.nZero} 通りの外側のべきの範囲・平坦の判定が真の数 | ${f3(C.outerRangeZero[0])}〜${f3(C.outerRangeZero[1])}・${C.nFlatZero}/${C.nZero} |`].join('\n');
+      `| 慣性 0 の宣言 ${C.nZero} 通り(中心の回転は源の中の速度の型)の外側のべきの範囲・平坦の判定が真の数 | ${f3(C.outerRangeZero[0])}〜${f3(C.outerRangeZero[1])}・${C.nFlatZero}/${C.nZero} |`,
+      `| 慣性 0 の宣言 ${C.nFrame} 通り(中心の回転は座標変換の型 —— 原仮定者の補足(2026-11-08))の外側のべきの範囲・平坦の判定が真の数 | ${f3(C.frameRangeZero[0])}〜${f3(C.frameRangeZero[1])}・${C.nFlatFrame}/${C.nFrame} |`].join('\n');
   }
   // 表 6 ジャイロ —— 地球の歳差(太陽と月の軌道の平均のトルク)と文献の周期
   {
