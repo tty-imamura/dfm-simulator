@@ -1765,6 +1765,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/galrot-w329b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/contract/wallSec', '/dfm/wallSec', '/evolve/wallSec', '/dfm/*/*/rows/*/wallSec', '/dfm/nSens/rows/*/wallSec']) },
     note: '第329便b: 既存の回転の理論のラベル(κ_epi と κ_D を分ける)・場の契約の版 2(回転する枠 —— 版 1 の呼び出しはビット同一)・ラベルの口(宣言なしは null)・NGC 3198 の基準列と DFM の OFF/ON(内向きと接線を分ける)・η と M_eq(寄与の度合いの診断 —— ハローの置き換えは主張しない)' }),
   // ==== 第329便b の塊(ここまで)====
+  // ==== 第330便b の塊(ここから)====
+  // ---- 第330便b(原仮定者の整理(2026-11-08)「引きずり = Σ(相対速度 × 重み)/Σ重み(自分を含む)・重み = 質量/距離²」「ジャイロ効果も DFM の範囲」「2 本の腕は密度波」・
+  //   原仮定者の回答(2026-11-08 —— AN578・AN580)・統括の検証項目 R308): **第132報の重みの式と今のエンジンの経路の対応・連鎖と平坦な回転の低 N の試し・ジャイロと歳差の窓・
+  //   密度波のラベルと共鳴の半径の器**(段 dragweight-330b —— 正本 tests/out/dragweight-w330b.json・lib tests/lib-w330b-dragweight.mjs —— 第309便a・第312便a の参照の lib と
+  //   第329便b のラベルの lib を import して使う〔code の依存 —— 他の正本は読まない〕)。**診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は 🗺️ を .find で引く 1 本 ——
+  //   写しの受理と読み口 inertialDragIsqState だけ・步を進めない)・NGC 3198 の rotmod の写し(第329便b の fixture)を読む。1 プロセス。所要は第330便b の枝の実測 2〜3 s(nice 10)
+  S('dragweight-330b', 'node tests/exp-w330b-dragweight.mjs', ['tests/out/dragweight-w330b.json'], 3, { secSource: 'w330b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: '步を進めない読み口と純関数だけ(窓が無く、全部を走らせても数秒)',
+    volatilePaths: { 'tests/out/dragweight-w330b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第330便b: 第132報の重みの式の純関数(自己の重みは有限の宣言・連鎖は一度だけ)・今のエンジンの経路との対応(3 体の写しの β と受理器の試し)・円盤の連鎖の低 N の試し(速度の形の表)・ジャイロと地球の歳差の照合と窓の角・密度波の共鳴の半径(棒は notClaim)' }),
+  // ==== 第330便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

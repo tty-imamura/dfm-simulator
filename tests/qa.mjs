@@ -98861,6 +98861,186 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第329便c の塊(ここまで)====
 
+// ==== 第330便b の塊(ここから —— lint.dragWeight330b・behavior.dragWeight330b・docs.dragWeight330b の 3 ブロック。root は SKIP)====
+// ---- 第330便b(原仮定者の整理(2026-11-08)「引きずり = Σ(相対速度 × 重み)/Σ重み(自分を含む)・重み = 質量/距離²・慣性移動 = 自分自身の引きずり」「ジャイロ効果も DFM の範囲」
+// ----   「2 本の腕は密度波・棒は現状は解決案は無い」・原仮定者の回答(2026-11-08 —— AN578・AN580)・統括の検証項目 R308): **第132報の重みの式の純関数と今のエンジンの経路の対応・
+// ----   連鎖と平坦な回転の低 N の試し・ジャイロと歳差の窓・密度波の共鳴の半径・回転する枠の欠測の修正**(新設 —— 器 tests/exp-w330b-dragweight.mjs・lib tests/lib-w330b-dragweight.mjs・
+// ----   文書の lib tests/lib-w330b-dragweightdoc.mjs・正本 tests/out/dragweight-w330b.json。html・本の宣言・エンジン・受理器・第321便c・第327便b・第328便a の lib の本文は変えない ——
+// ----   第329便b の契約の lib は欠測の修正だけ)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.dragWeight330b(html を読まない): ① lib・器・文書の lib の版・自己の重みの型の一覧(手で書いた一覧と照合)・宣言 ② 純関数の場面 11 ③ 呼ぶだけ(lib の import は第309便a・
+// ----     第312便a の参照の lib だけ・lib と器は html を読まない〔器は loadHtmlMain の写しだけ〕・ネットへ取りに行かない・第309便a・第312便a・第329便b のラベルの lib の本文に w330b の語が無い)
+// ----     ④ 回転する枠の欠測の修正(第329便b の契約の lib の版 2 以上・Ω_frame が null なら全部 null・有限なら引いた値・非有限は拒否・galrot の正本の枠の中の値を今の lib で作り直して同じ)
+// ----   behavior.dragWeight330b(html を headless で読む —— 正本と照合): ① 🗺️ の写しの受理器の試しの組と拒否の文・3 体の写しの β がエンジンの読み口で正本と相対 1e-12 の内
+// ----     ② 円盤の連鎖の 15 通りを fixture から作り直して U と外側のべきが正本と相対 1e-9 の内 ③ ジャイロの周期・密度波の共鳴の半径を作り直して同じ ④ 作り直した門が全部真
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w330b-dragweight.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w330b-dragweight.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w330b-dragweightdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'dragweight-w330b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP lint.dragWeight330b・behavior.dragWeight330b(第330便b の重みの式の純関数と対応の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const relD330 = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, L = null, D0 = null, C2 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); C2 = await import('file://' + path.join(ROOT, 'tests', 'lib-w329b-fieldcontract2.mjs')); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── lint.dragWeight330b ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      if (!(L.LIB_VERSION === 'w330b-dragweight-lib-1' && X.HARNESS_VERSION === 'w330b-dragweight-1' && D0.DOC_VERSION === 'w330b-dragweightdoc-1')) bad.push('① 版(lib・器・文書の lib)');
+      if (JSON.stringify(L.SELF_TYPES) !== JSON.stringify(['point', 'ballMean', 'ballHarmonic'])) bad.push('① 自己の重みの型の一覧(手で書いた一覧と違う)');
+      const DG = L.DECL;
+      if (!(JSON.stringify(DG.pLaws) === JSON.stringify([2, 1]) && DG.ballMeanC[2] === 9 / 4 && DG.ballMeanC[1] === 6 / 5 && DG.harmonicOrder === 8 && DG.flatSlope === 0.1 && DG.armM === 2)) bad.push('① 宣言(距離の次数・ballMean の係数・求積の次数・平坦の判定・腕の数)');
+      cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・文書 ${D0.DOC_VERSION}・自己の重みの型 ${L.SELF_TYPES.length}(m/0² にしない —— 有限の宣言)・p = ${DG.pLaws.join('・')}`);
+      let G1 = null;
+      try { G1 = L.pureGates(L.pureScenes()); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G1) {
+        for (const [k, v] of Object.entries(G1)) if (v !== true) bad.push('② 場面 ' + k);
+        if (Object.keys(G1).length !== 11) bad.push('② 場面の数 ' + Object.keys(G1).length);
+        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(ガリレイ変換・共動と自己だけ・静止した中心の項・3 点の連鎖 10/23・7/23・入力の拒否・自己の重みの型・ジャイロ・偏平な天体の歳差の向き・平坦な回転の共鳴の半径・密度波のラベル・小さな円盤の連鎖)`);
+      }
+      const tl = rd('tests/lib-w330b-dragweight.mjs'), th = rd('tests/exp-w330b-dragweight.mjs'), td = rd('tests/lib-w330b-dragweightdoc.mjs'), base3 = rd('tests/lib-w309a-invsq.mjs') + rd('tests/lib-w312a-decay.mjs') + rd('tests/lib-w329b-galrot.mjs');
+      const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+      if (!(JSON.stringify(imps) === JSON.stringify(['lib-w309a-invsq.mjs', 'lib-w312a-decay.mjs']) && !/loadHtml|index\.html/.test(tl + td) && /loadHtmlMain/.test(th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/w330b/.test(base3)))
+        bad.push('③ 呼ぶだけ(lib の import は第309便a・第312便a の参照の lib だけ・lib は html を読まない・ネットへ取りに行かない・参照の lib の本文に w330b が無い)');
+      cases.push('③ lib の import は第309便a・第312便a の参照の lib だけ(エンジンの式を写さない)・lib と文書の lib は html を読まない・器と lib はネットへ取りに行かない・参照の lib と第329便b のラベルの lib の本文は不変');
+      // ④ 回転する枠の欠測の修正(第329便b の契約の lib の版 2 以上)
+      try {
+        const r0 = { omegaFrame: null, omegaMat: { value: null }, omegaField: 2, omegaP: null }, miss = C2.ratesInFrame(r0, 1), fin = C2.ratesInFrame({ ...r0, omegaFrame: 0.5, omegaP: 4, omegaMat: { value: 3 } }, 1);
+        const rej = [() => C2.ratesInFrame({ ...r0, omegaFrame: NaN }, 1), () => C2.ratesInFrame({ ...r0, omegaFrame: Infinity }, 1), () => C2.ratesInFrame({ ...r0, omegaFrame: 0 }, NaN)].map((f) => { try { f(); return false; } catch (e) { return e instanceof RangeError; } });
+        const G = JSON.parse(rd('tests/out/galrot-w329b.json') || 'null'), again = G ? C2.ratesInFrame(G.contract.mw.contract.rates, G.inputs.fc328.OmegaArm) : null;
+        const vOk = /^w329b-fieldcontract2-lib-([2-9]|[1-9][0-9]+)$/.test(C2.LIB_VERSION);
+        if (!(vOk && Object.values(miss).every((x) => x === null) && JSON.stringify(fin) === JSON.stringify({ omegaMat: 2.5, omegaField: 1.5, omegaP: 3.5, omegaArm: 0.5, omegaFrameInFrame: 0 }) && rej.every(Boolean)
+          && G && JSON.stringify(again) === JSON.stringify(G.contract.mw.ratesInFrame) && G.contractLibVersion === C2.LIB_VERSION)) bad.push('④ 回転する枠の欠測の修正(版・欠測は全部 null・有限は引いた値・非有限の拒否・galrot の正本の枠の中の値と版 —— galrot の器を走らせ直す)');
+        cases.push(`④ 第329便b の契約の lib ${C2.LIB_VERSION}: Ω_frame が null なら全部 null・有限なら同じ式・非有限は拒否 ${rej.filter(Boolean).length}/${rej.length}・galrot の正本の枠の中の値を今の lib で作り直して同じ`);
+      } catch (e) { bad.push('④ 作れない: ' + String(e && e.message || e).slice(0, 120)); }
+    }
+    add('lint.dragWeight330b', bad.length === 0,
+      `**第132報の重みの式・連鎖の固定点・ジャイロ・密度波のラベルの純関数と回転する枠の欠測の修正**(第330便b・原仮定者の整理(2026-11-08)・R308 —— html を読まない・自己の重みは有限の宣言・連鎖は一度だけ計上・90° 回した別のトルクを足さない・棒は notClaim): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.dragWeight330b ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/dragweight-w330b.json が読めない');
+    else {
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        // ① 受理器の試しと 3 体の β
+        const E = X.partEngine(H.HP), js = (x) => JSON.stringify(x);
+        let dB = 0, sameAcc = js(E.accept) === js(J.engine.accept);
+        for (const k of ['k1Rule', 'k2Radius']) { const a = E.trio[k], b = J.engine.trio[k]; if (!(a.ok && b.ok && a.rows.length === b.rows.length && a.bestType === b.bestType)) dB = Infinity; else a.rows.forEach((r, i) => r.engineBeta.forEach((x, j) => { dB = Math.max(dB, relD330(x, b.rows[i].engineBeta[j])); })); }
+        if (!(sameAcc && dB <= 1e-12)) bad.push(`① 受理器の試しの組(同じ ${sameAcc})か 3 体の β(相対 ${dB})が正本と違う —— 器を走らせ直す`);
+        cases.push(`① 🗺️ の写しの受理器の試し ${E.accept.length} 組(kernel だけ k2 にして rdRule を保つ組は拒否)・3 体の写しの β(K1 の規則・K2 の宣言の半径)が正本と相対 1e-12 の内・近い点の式の型 ${E.trio.k2Radius.bestType}`);
+        // ② 円盤の連鎖
+        const FX = X.readFixture(ROOT), C = X.partChain(FX);
+        let dU = 0, dS = 0;
+        for (const [k, q] of Object.entries(C.cases)) { const r = J.chain.cases[k]; if (!r || r.picks.length !== q.picks.length) { dU = Infinity; continue; } q.picks.forEach((p, i) => { dU = Math.max(dU, relD330(p.U, r.picks[i].U)); }); dS = Math.max(dS, relD330(q.slope.outer, r.slope.outer)); }
+        if (!(dU <= 1e-9 && dS <= 1e-9 && Object.keys(C.cases).length === Object.keys(J.chain.cases).length)) bad.push(`② 円盤の連鎖を作り直して正本と違う(U の相対 ${dU}・べきの相対 ${dS})—— 器を走らせ直す`);
+        cases.push(`② 円盤の連鎖 ${Object.keys(C.cases).length} 通りを fixture から作り直して U と外側のべきが正本と相対 1e-9 の内(慣性 0 の外側のべき ${C.outerRangeZero.map((x) => x.toPrecision(4)).join('〜')}・平坦の判定 ${C.nFlatZero}/${C.nZero})`);
+        // ③ ジャイロと密度波
+        const Y = X.partGyro(), W = X.partWave(FX);
+        let dW = 0; W.grid.forEach((g, i) => { for (const t of ['CR', 'OLR', 'ILR']) { const a = g.localQuad[t].at, b = J.wave.grid[i].localQuad[t].at; if (a.length !== b.length) dW = Infinity; else a.forEach((x, k) => { dW = Math.max(dW, relD330(x, b[k])); }); } });
+        if (!(relD330(Y.earth.periodYears, J.gyro.earth.periodYears) <= 1e-12 && dW <= 1e-12)) bad.push(`③ ジャイロの周期か密度波の共鳴の半径が正本と違う(${dW})`);
+        cases.push(`③ 地球の歳差の周期 ${Y.earth.periodYears.toPrecision(5)} 年(文献の 25 772 年との比 ${Y.earth.ratio.toPrecision(4)} —— 残差)・Ω_p の格子 ${W.grid.length} 点の共鳴の半径を作り直して同じ・棒は ${W.bar.status}`);
+        // ④ 門
+        const J2 = Object.assign({}, J, { engine: E, chain: C, gyro: Y, wave: W, pure: { scenes: L.pureScenes(), gates: L.pureGates(L.pureScenes()) } }), G2 = X.gatesOf(J2);
+        if (!Object.values(G2).every((v) => v === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.dragWeight330b', bad.length === 0,
+      `**第132報の重みの式と今のエンジンの経路の対応・円盤の連鎖・ジャイロ・密度波の作り直し**(第330便b・原仮定者の整理(2026-11-08)・R308 —— 今の html の 🗺️ の写し・步を進めない読み口・速度の形は宣言した型の表の値): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第330便b: docs.dragWeight330b は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
+// ----   lint・behavior を数えない)。世代切替は上と同じ
+// ----   docs.dragWeight330b(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全・abBody:false)・宣言が lib の DECL と同じ ② 表 9 本が PHYSICS〔第330便b〕に逐語
+// ----     ③ 節の位置(〔第329便c〕の節の後・「## 7.」の前)・必須の語・〔第329便b〕の節の「第330便の更新」の行・AI_SPEC §200(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・更新の行・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w330b-dragweight.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w330b-dragweight.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w330b-dragweightdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'dragweight-w330b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.dragWeight330b(第330便b の重みの式の純関数と対応の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.dragWeight330b ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第330便b — '), i7 = PH.indexOf('\n## 7. 論文'), ic = PH.indexOf('〔第329便c — ');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ic >= 0 && ic < i0)) bad.push('PHYSICS〔第330便b〕が無いか〔第329便c〕の節の前か「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/dragweight-w330b.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.scopeComplete === true
+        && /^[0-9a-f]{64}$/.test(J.meta.scopeSha256 || '') && J.meta.stage === 'dragweight' && J.meta.scope && J.meta.scope.abBody === false)) bad.push('① 版・来歴・領域 hash(完全・abBody:false)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.selfTypes) !== JSON.stringify(L.SELF_TYPES)) bad.push('① 正本の宣言が lib の DECL と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第330便b〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 9) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第330便b〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の整理(2026-11-08)', '原仮定者の回答(2026-11-08 —— AN578', 'R308', 'tests/exp-w330b-dragweight.mjs', 'tests/out/dragweight-w330b.json', 'tests/lib-w330b-dragweight.mjs', 'w330b-dragweight-lib-1',
+      '`κ_epi`', 'κ_D', 'd_i は速度で、力・加速度ではない', 'm/0² にできない', '一度だけ計上', '10/23・7/23', '連鎖の存在と平坦な回転は別', '核で分かれる', 'validateInvSq/physics.relativeDrag.invSq.rdRule#2',
+      '文字列 1 か所の置き換えでは', '案 A', '案 B', '案 C', '源の中の速度 Ω_c × ρ', '宣言した型の表の値', '90° 回した別のトルクを足さない', '熱に数えない', '25 772', '全半径の規則にしない', '棒渦巻の棒は未解決',
+      'notClaim', '全部 null', '第132報への枝の答え', '決断事項の候補', 'lint.dragWeight330b', 'behavior.dragWeight330b', 'docs.dragWeight330b', '統括の参考の試作', 'AN580', 'AN581', 'AN582', 'AN583'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第330便b〕に「' + w + '」が無い');
+    const b0p = PH.indexOf('〔第329便b — '), sec9b = secUntilNext329c(PH, b0p, /\n〔第\d+便[a-z]* — |\n## /);
+    const upd = (sec9b.split('\n').find((l) => l.indexOf('**第330便の更新(第330便b') === 0)) || '';
+    if (!(upd && upd.indexOf('w329b-fieldcontract2-lib-2') >= 0 && upd.indexOf('全部 null') >= 0 && upd.indexOf('AN580') >= 0 && upd.indexOf('過去の行は書き換えていない') >= 0)) bad.push('③ 〔第329便b〕の節に「第330便の更新」の行(lib-2・欠測は全部 null・AN580)');
+    const a0 = AS.indexOf('\n## 200. 第330便b'), ai = secUntilNext329c(AS, a0, '\n## ');   // 次の見出しまで(固定の字数の窓を持たない)
+    if (!(ai.indexOf('tests/out/dragweight-w330b.json') >= 0 && ai.indexOf('`κ_epi`') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('棒は未解決') >= 0 && ai.indexOf('d は速度で力ではない') >= 0)) bad.push('③ AI_SPEC §200(正本・κ_epi・SYSTEM_PROMPT・棒・d は速度)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl330b = clg.split('\n').find((l) => l.indexOf('**第330便b**') >= 0) || '';
+    if (!(cl330b.indexOf('tests/exp-w330b-dragweight.mjs') >= 0 && cl330b.indexOf('dragweight-330b') >= 0)) bad.push('③ CHANGELOG の第330便b の行');
+    if (!(/S\('dragweight-330b', 'node tests\/exp-w330b-dragweight\.mjs', \['tests\/out\/dragweight-w330b\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '步を進めない読み口と純関数だけ") >= 0
+      && RT.indexOf('// ==== 第330便b の塊(ここから)====') >= 0)) bad.push('③ 段の行 dragweight-330b(quickVerify と理由・塊)');
+    if (GI.indexOf('!tests/out/dragweight-w330b.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第330便b の塊(ここから)====') >= 0 && /lint\.dragWeight330b/.test(PM) && /behavior\.dragWeight330b/.test(PM) && /docs\.dragWeight330b/.test(PM))) bad.push('③ post-merge の ③′ に第330便b の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・〔第329便b〕の節の「第330便の更新」・AI_SPEC §200(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /内部熱を説明した/, /金星の逆転を説明した/, /銀河の回転曲線を予言した/, /一致した/];
+    const NOT330 = [/\d\s*km\/s/, /p を決めた/, /κ_epi\/2[^。\n]{0,8}は一定/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第330便b の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 平坦な回転を説明した・連鎖で平坦に回ることを示した・第132報の式と同じと確かめた・歳差を無視してよいことを確かめた・ハローを説明した
+    const W330 = ['たし明説を転回な坦平', 'たし示をとこる回に坦平で鎖連', 'たしめか確とじ同と式の報231第', 'たしめか確をとこいよてし視無を差歳', 'たし明説をーロハ'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第330便b〕', sec], ['〔第329便b〕の更新の行', upd], ['AI_SPEC §200', ai], ['CHANGELOG の第330便b の行', cl330b], ['器', rd('tests/exp-w330b-dragweight.mjs')], ['lib', rd('tests/lib-w330b-dragweight.mjs')],
+      ['文書の lib', rd('tests/lib-w330b-dragweightdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W330)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT330) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/PHYSICS|更新の行|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の κ_epi(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・コードの書式の外の κ_epi・km/s の数の字列(節・更新の行・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.dragWeight330b', bad.length === 0,
+      `**第132報の重みの式と今のエンジンの経路の対応・連鎖と平坦な回転の低 N の試し・ジャイロ・密度波・枠の欠測の修正の文書**(第330便b・原仮定者の整理(2026-11-08)・原仮定者の回答(2026-11-08 —— AN578・AN580)・R308 —— κ_epi と κ_D を分ける・速度の形は宣言した型の表の値・棒は notClaim): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第330便b の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

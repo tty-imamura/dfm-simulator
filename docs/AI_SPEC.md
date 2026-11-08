@@ -4742,3 +4742,14 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **固定の字数の窓**: tests/qa.mjs の AI_SPEC・PHYSICS・CHANGELOG の節を固定の字数で切る 102 窓を `secUntilNext329c(text, i, seps)`(次の見出しの前まで —— PHYSICS は「〔第…便x — 」の見出しの行)へ。新しい QA は節を固定の字数で切らない(この関数か「次の見出しまで」の形で)。
 - **QA_FAST の heap の既定**: QA_FAST で heap の上限が 6144 MB より小さく heap を明示していないときだけ、tests/qa.mjs が --max-old-space-size=6144 の子の Node で自分を起こし直す(QA_HEAP_DEFAULT=0 で切る・CI とフルの QA の走り方は変えない)。
 - QA `lint.contractSeam329c`・`lint.condSelect329c`・`lint.alwaysShadowVolatile329c`・`lint.fixedWindow329c`・`lint.qaHeapDefault329c`・`docs.w329c`。既存の世代の直し: `lint.response328b` の lib の版を版の型へ。
+
+## 200. 第330便b —— 第132報の重みの式(質量/距離²・自分を含む)の純関数と今のエンジンの経路の対応表・受理器の試し・連鎖と平坦な回転の低 N の試し・ジャイロの純関数と歳差の窓・密度波のラベルと共鳴の半径・回転する枠の欠測の修正(診断だけ)(原仮定者の整理(2026-11-08)・原仮定者の回答(2026-11-08 —— AN578・AN580)・統括の検証項目 R308・**html・本の宣言・受理器・步・`S._core`・第321便c・第327便b・第328便a の lib の本文は不変** —— 器と lib と QA と文書だけ・第329便b の契約の lib は欠測の修正だけ・**SYSTEM_PROMPT には載せない**)
+
+- **正本** `tests/out/dragweight-w330b.json`(器 `tests/exp-w330b-dragweight.mjs` —— 版 w330b-dragweight-1・lib `tests/lib-w330b-dragweight.mjs`〔重みの式・自己の重みの型・連鎖の固定点・円盤の連鎖の低 N の試し・ジャイロ・密度波のラベルと共鳴の半径〕・文書の lib `tests/lib-w330b-dragweightdoc.mjs`・段 dragweight-330b)。
+- **重みの式**: d_i = Σ w_ij(v_j − v_i)/W_i・W_i = w_ii + Σ w_ij(自分を含む)・U_i = v_i + d_i。**d は速度で力ではない**。点の重み m/r^p(p = 2 が第132報・p = 1 は今の K1 の遠方)。自己の重みは有限の dragCore の半径の宣言(point・ballMean・ballHarmonic —— m/0² にしない)。静止した中心の項は消さない(絶対速度の寄与だけ 0)。連鎖は固定点を一度だけ解く(解いた後に足さない)。
+- **今のエンジンとの対応**: 在位の invSq の本(K1・R_d = Y_k m)は分母・自己・連鎖の構造は第132報の式と同じ型で、遠方の重みは m/r(m/r² ではない)。K2(既定の核 —— 内蔵の本では使っていない)の遠方の重みは m/r²。kernel だけ k2 にして rdRule を保つ組は受理器が拒否する(R_d の規則は K1 の値)。AI が本を作るときに rdRule と kernel:"k2" を組にしない。
+- **円盤の連鎖の試し**: 速度の形は自己の重みの大きさと離散化の宣言に強く依る(慣性 0 の 12 通りで外側のべき −7.844〜1.392・平坦の判定は 3/12)。AI が本や説明を作るときは、連鎖があることと平坦な回転を同じ事柄として書かない(表の値として書く)。
+- **ジャイロ**: dL/dt = N・Ω_prec = L × N⊥/|L|²(90° 回した別のトルクを足さない・L = 0 は null・熱に数えない)。地球の歳差の周期はこの模型で文献の値の 0.9895 倍(残差)。窓の角は表(無視してよいかの判定ではない)。
+- **密度波**: 2 本腕は一定の Ω_p(出典つき)の密度波のラベル —— 共鳴 m(Ω − Ω_p) = ±`κ_epi`(m = 2)・共回転 Ω = Ω_p。`κ_epi` と κ_D は別。Ω_p = Ω − `κ_epi`/2 を全半径の規則にしない。物質の Ω・パターンの Ω_p・DFM の Ω_field を分ける。**棒は未解決**(notClaim)。
+- **回転する枠の欠測**: `ratesInFrame`(`w329b-fieldcontract2-lib-2`)は Ω_frame が null なら全部 null・非有限は拒否(0 で埋めない)。
+- QA `lint.dragWeight330b`(版・宣言・純関数の場面 11・呼ぶだけ・枠の欠測の修正の場面)・`behavior.dragWeight330b`(今の html の 🗺️ の写しの受理器の試しと 3 体の β・円盤・ジャイロ・密度波を作り直して正本と同じ)・`docs.dragWeight330b`(正本の門と表 9 本が PHYSICS〔第330便b〕に逐語・〔第329便b〕の節の「第330便の更新」の行・書かない語と禁句)。
