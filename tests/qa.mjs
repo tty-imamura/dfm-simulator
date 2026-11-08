@@ -98489,8 +98489,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const bad = [], cases = [];
     if (err0) bad.push('器/lib が読めない: ' + err0);
     else {
-      if (!(GL.LIB_VERSION === 'w329b-galrot-lib-1' && C2.LIB_VERSION === 'w329b-fieldcontract2-lib-1' && C2.CONTRACT2_VERSION === 'w329b-fieldcontract-2' && C2.BASE_CONTRACT_VERSION === C1.CONTRACT_VERSION
-        && C1.CONTRACT_VERSION === 'w328a-fieldcontract-1' && C1.LIB_VERSION === 'w328a-fieldcontract-lib-1' && FA.FIELD_VERSION === 'w321c-galfield-2' && FA.LIB_VERSION === 'w321c-galfield-lib-2')) bad.push('① 版(lib 2 本・契約の版 2・包む第328便a の契約と第321便c の場の API の版が基点と同じ)');
+      if (!(GL.LIB_VERSION === 'w329b-galrot-lib-1' && /^w329b-fieldcontract2-lib-[1-9][0-9]*$/.test(C2.LIB_VERSION) && C2.CONTRACT2_VERSION === 'w329b-fieldcontract-2' && C2.BASE_CONTRACT_VERSION === C1.CONTRACT_VERSION
+        && C1.CONTRACT_VERSION === 'w328a-fieldcontract-1' && C1.LIB_VERSION === 'w328a-fieldcontract-lib-1' && FA.FIELD_VERSION === 'w321c-galfield-2' && FA.LIB_VERSION === 'w321c-galfield-lib-2')) bad.push('① 版(lib 2 本・契約の版 2・包む第328便a の契約と第321便c の場の API の版が基点と同じ)');   // 第330便b: 契約の lib の版は版の型(lib-2 —— ratesInFrame の欠測の修正・世代の直し)
       if (JSON.stringify(C2.CONTRACT2_KEYS) !== JSON.stringify(SHAPE2.top) || JSON.stringify(C2.FRAME2_KEYS) !== JSON.stringify(SHAPE2.frame) || JSON.stringify(C2.RATES_KEYS) !== JSON.stringify(SHAPE2.rates)
         || JSON.stringify(GL.PORT_KEYS) !== JSON.stringify(SHAPE2.port) || SHAPE2.rates.includes('omegaArm')) bad.push('① 鍵の形(版 2 の契約・枠・rates・ラベルの口 —— rates に Ω_arm が無い)');
       const DG = GL.DECL;
