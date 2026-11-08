@@ -46014,6 +46014,68 @@ regen 177 の理由: 器の宣言の変更と版の移行 135・版の移行だ�
 - 次の便へ: 鎖で pn1 と refit-297a を一回走らせ直すと正本に presetsWhere の刻印が入り、次の便から条件で選ぶ本の領域で照合する(走らせ直す前の刻印は presets "all")。常時群の影の照合で stoprule が trueSame になることを鎖の後に確かめる。第328便b の器の版 2 の段 response-328b は器の変更で一回 regen。
 - QA: `lint.contractSeam329c`(lib-2 の slipOf の明示の引数・枠の回転に依らない反例・正本の門 contractSeam と物理の塊を読む欄)・`lint.condSelect329c`(選択器の自己試験・器の宣言と選ぶ式・器が本の表を読む行の照合・選択器の結果と器の正本の選んだ本・変異の試験の道具)・`lint.alwaysShadowVolatile329c`(揮発の欄の自己試験・第328便の前後の stoprule の正本〔git の履歴があるとき〕)・`lint.fixedWindow329c`(固定の字数の窓の残りが表 6 の窓だけ・境界の関数の場面)・`lint.qaHeapDefault329c`(起こし直しの条件と値)・`docs.w329c`(本節・AI_SPEC §198・CHANGELOG・tools/README・post-merge・書かない語と禁句)。既存の QA の世代の直し: `lint.response328b` の lib の版を版の型へ(lib-1 → lib-2)。
 
+〔第330便c — 道具: 計画の「道具の照合」と lint.provenanceMeta の判定を 1 つの関数に(対象が html でない正本の領域の刻印)・名指しの段の physics の鍵の集合の守り(AN584 —— 理由の種類 physKeys / tableRead)・版名 QA の束の batchKeys を半開区間に・CALIBRATION_VERDICT §5.19 の窓を次の見出しまで(原仮定者の回答(2026-11-08 —— AN584・AN585)・統括の検証項目 R309)(**道具だけ —— html・エンジン・在位の本・受理器・`S._core` は 1 bit も変えていない**・beta/index.html と root の index.html は 1 byte も変えていない・**全段の領域 hash の版は上げていない**〔版 8 のまま —— 宣言の無い段の領域 hash の本文は 1 字も変わらない〕・計画の status・鎖・済み印の契約は変えない —— 理由の種類を 2 つ足すだけ)〕
+
+**① 回答と読み。** 原仮定者の回答(2026-11-08 —— AN584)は「A の条件つき」: fastParams の鍵の名の指紋(全本の physics の鍵の名)は次に領域 hash の版を上げる便で入れる。それより前に physics の鍵の集合や閉包の読みを変える便では、該当する名指しの段を明示に regen して危ない reuse を許さない。原仮定者の回答(2026-11-08 —— AN585)は「A」: 名指しの 6 段の残り 4 段(pnsource286・pnsources291・eihdiag287・tpsign)は all のまま —— 短縮より計画と lint.provenanceMeta の判定の一致を先に。統括の検証項目 R309 は、第329便の鎖の後に計画(`tools/regen-plan.mjs`)が段 galaxychain を「道具の照合が通る」で reuse にし、lint.provenanceMeta が同じ段の正本 chainledger-w281b を「コードが刻印と違う —— 器を走らせ直すこと」で落とした食い違い(統括が galaxychain → analogy を走らせ直した —— 物理の値は不変)を、計画と lint のどちらかの判定を変えて揃えること。本節の道具: `tests/lib-w281a-scope.mjs`(道具の照合の関数)・`tests/lib-w281a-regentable.mjs`(計画)・新しい lib `tests/lib-w330c-toolguard.mjs`(physics の鍵の集合の守り)・`tests/lib-w322d-qapart.mjs`(batchKeys)・変異の試験の道具 `tools/toolguard-probe330c.mjs`。
+
+**② 食い違いの正体と案の比べ。** 第329便c の報告の読み(「刻印の道具を計算に使う器」の型)とは違い、chainledger-w281b の器は刻印の道具から刻印の名 scopeStamp だけを読む(第318便a の toolStampOnly は真 —— 刻印だけに使う器)。食い違いの正体は **対象(meta.target)が html でない正本に領域の刻印がある** ことだった: chainledger-w281b の対象は `tests/lib-w281b-chain.mjs`(中身は lib だけから作る)で、器は同じ段の他の正本と同じ REGEN_SCOPE を beta/index.html で刻む(第319便c)。計画の照合は「対象が html のときだけ領域を引き直す」(対象が lib なら領域を見ずに一致 → reuse)、lint の照合(`toolStampRecheck` → `scopeOkNow`)は「対象が html でなければ不一致」(→ ④)。同じ規則の 2 つの写しが別々に書かれていたのが原因(刻印の道具を計算に使う器 —— tpsign・contact285・bgaudit291・timing294 —— は計画も lint も regen / ④ で前から揃っている)。
+
+**表 1**(案の比べ —— 秒は本便の作業の木の計画〔再生成表の見積り〕)
+| 案 | 中身 | 第329便の型(対象が lib・領域一致) | 物理を変えない道具の変更 | 刻印の hash が変わる道具の変更 | 危ない側 |
+|---|---|---|---|---|---|
+| A | 計画が「刻印の道具を code に持つ器」を道具の照合で通さない | regen | 道具の照合で通していた 134 段(17 450 s)が毎回 regen | regen | 作らない(広い —— 道具を直す便ごとに約 4.8 h) |
+| B | lint が計画の道具の照合の記録を読んで通す | — | — | — | 計画の JSON(tests/out/regen-plan-w281a.json)はコミットしない作業物 —— CI の lint が読めない・記録が古いと通してしまう |
+| **C(採った)** | 照合の規則を 1 つの関数にし、計画と lint の両方が呼ぶ。領域の刻印があれば必ず引き直す —— 対象が html でなければ器が刻印に使う html(beta/index.html —— 計画では候補の html)で | reuse(領域が一致) | 計算に使う器だけ regen(本便の作業の木で 4 段 + families) | 刻印が合わない段は regen | 作らない(対象・入力・道具でないコードの sha は従来どおり別に照合) |
+| 旧 | 計画は対象が html でないと領域を見ない・lint は対象が html でないと不一致 | 計画 reuse・lint ④ | — | — | 食い違い |
+- C の関数: `toolRecheck330c(root, meta, opts)`(版 `w330c-toolcheck-2` —— `toolStampRecheck` はこれを呼ぶ)。計画は自分の領域 hash の控えを `opts.scopeOn` で渡す(同じ scopeHash・刻印の版 —— 引く回数を増やさない)。lint.provenanceMeta・lint.toolStamp318 ほか `toolStampRecheck` を呼ぶ QA はそのまま同じ規則になる。
+- C は旧の計画より厳しく(対象が lib でも領域が合わなければ regen)、旧の lint より狭い(対象が lib でも領域が合えば通す)。root で刻んだ刻印(QA_TARGET=index.html)は beta/index.html で引き直すと合わず regen(走らせ直す側)。
+
+**表 2**(変異の試験 —— 計画〔`tools/regen-plan.mjs`〕と lint の道具の照合〔lint.provenanceMeta の ④ と同じ条件〕を `node tools/toolguard-probe330c.mjs --agree <計画>` で突き合わせた)
+| 写し | 計画 | lint が落とす正本 | 揃う |
+|---|---|---|---|
+| 第329便の鎖の後(d77f4d7)・旧の道具 | galaxychain reuse(道具の照合 133 段) | chainledger-w281b(④) | **食い違い 1 段**(第329便と同じ) |
+| 同じ木に本便の道具 | galaxychain・analogy reuse(道具の照合 142 段)・計算に使う器 4 段と families が regen | 5(計算に使う器と families の計算の行) | 揃う |
+| 本便の作業の木(物理を変えない道具の変更 —— 本便そのもの) | 同上 | 5 | 揃う |
+| 刻印の hash が変わる道具の変更(版 8 の本文に 1 欄を足した写し) | regen 187(理由の種類 tool 141 —— galaxychain・analogy・tpsign を含む) | 146 | 揃う |
+| 一時の root の 4 段(自己試験 —— a html・刻印だけ / b lib・刻印だけ / c lib・領域 1 字違い / d 計算に使う器) | a・b reuse(道具の照合)・c regen(tool)・d regen(code) | c・d | 揃う(旧の規則なら b・c で計画 reuse・lint ④) |
+- 第329便の実例: d77f4d7 の木では、旧の計画と旧の lint で食い違いがちょうど 1 段(galaxychain —— chainledger-w281b)出た。同じ木に本便の道具を入れると揃い、galaxychain は両方で reuse(領域 hash 38a3b7d59185 が beta/index.html で一致 —— 第329便に走らせ直した段の物理の値が不変だったことと合う)。
+
+**③ AN584 の守り(名指しの段の physics の鍵の集合)。** 名指しの本の段(REGEN_SCOPE の presets が id の列)の閉包は fastParams を持つ(本便の作業の木で 138/138 本 —— validatePreset ほか)。fastParams は**内蔵の全本の physics の鍵の名**から S.params の雛形(鍵の並び)を作るが、領域 hash は名指しの本の中身と閉包の関数の本文だけを刻む(BUILTIN_PRESETS はデータの登録簿で閉包の外)—— 名指しでない本に新しい physics の鍵を足しても名指しの段の領域 hash は同じ。条件で選ぶ本の段(presetsWhere —— 第329便c)は指紋 physicsKeysSha を本文に持ち、presets "all" の段は全本の中身を刻むので当たらない。
+- 規則(`tests/lib-w330c-toolguard.mjs` —— 版 `w330c-physkeys-1`。planRegen が領域の一致した名指しの段の正本ごとに引く): 閉包の本の表の読み(scopeHash の detail に足した `tableReads330c` —— hash の本文には入れない)を第329便c の宣言の表 `REG_READS_329C` と照らし、
+  physicsKeys の読み(fastParams)があれば **刻印の html と今の html の fastParams の雛形**(`Object.keys(fastParams({}))` —— 鍵の名と並び・値は読まない)が違えば regen(理由の種類 `physKeys`)、
+  宣言の表に無い読み(全本を回す関数など)があれば **全本の中身(説明の文を除く)** が違えば regen(理由の種類 `tableRead`)。宣言の表の byId・byIdFirst・def・identity は名指しの本だけを読む(下限 deriveScope の名指し)ので守りの外。
+  刻印の html は候補のファイル(今の html・基点の html)→ git の履歴(第325便a の findHtmlBySha)で引き、**引けなければ regen**(保守側 —— 理由 physKeys)。足す向きだけ(reuse を増やさない)。`node tools/regen-plan.mjs --no-physkeys` か環境変数 `W330C_PHYSKEYS=0` で切る(前後の比べ)。
+- fastParams の指紋そのもの(領域 hash の版の更新)はしていない(AN584 —— 次に版を上げる便で)。
+
+**表 3**(計画の全段の変異の試験 —— `node tools/regen-plan.mjs --html <写し> --base beta/_w330_base.html`。写しは `node tools/toolguard-probe330c.mjs --emit-html <dir>`。段の数は自分の判定〔ownStatus〕の regen)
+| 写し | 守り | regen の段 | 守りだけで走る段(秒) | 理由の種類 |
+|---|---|---|---|---|
+| K: 名指しでない本 plutoCharonReal の physics に鍵 w330cProbeKey を足す | 入 | 190 | 120(18 139 s) | physKeys 121 |
+| K | 切(--no-physkeys) | 70 | 0 | —(守りが無いと 120 段が reuse —— 危ない側) |
+| V: 同じ本の質量の最下位桁だけ | 入 | 72 | 3(6 s —— inposk1-315c・charonaudit-305e・charonfix-306e) | tableRead 3 |
+| 本便の作業の木(今の html) | 入 | 11 | 0 | —(一回きりの広さ 0) |
+- 名指しの段の刻印の html は 3 つ(e3c27e81・0faa65b5・9c8d7bf0 —— どれも git の履歴にある)で、どれも今の html と fastParams の雛形(61 鍵)・各本の physics の鍵の名の列が同じ —— **今、守りが当たる段は 0**(本便の鎖で守りが足す段は 0)。
+- 宣言の表に無い本の表の読みを閉包に持つ名指しの段は 4 本: inposk1-315c(inPositionK1State —— 全本を回す。器が呼ぶ)・obscompare(obsCompareRetired —— 行の id で引く)・charonaudit-305e と charonfix-306e(auditRows —— 器の中の同じ名の局所の関数が REGEN_SCOPE の roots に入り、html の auditRows が閉包に入った)。V で走るのはこのうち領域が同じ 3 段(6 s —— 保守側)。
+- 純関数の判定(8 例)と計画の上の自己試験(一時の root —— 名指しの段 n と、宣言の表に無い読みを持つ段 u): K → n・u regen(physKeys)/ V → n reuse・u regen(tableRead)/ K で守りを切る → n reuse / 同じ html → reuse。
+
+**④ 版名 QA の束(batchKeys)。** `tests/lib-w322d-qapart.mjs` の `batchKeys` は範囲(半開区間 [始め, 終わり))の組を `k.span[0] <= g.end` で作り、端が接するだけの塊も 1 つの組にしていた(第325便c〜第328便c の塊が 48 鍵の 1 組 —— 第329便は統合で塊の前に空行を挟んで組を切った)。本便は根を直した(`<` —— 版 `w330c-batchkeys-2`)。今の qa.mjs の版名 QA の範囲は「同じ」か「離れている」だけ(一部だけ重なる範囲 0)なので、組は「同じ範囲の鍵」になる。qapart は束ごとに範囲の和を走らせるだけで、各鍵がちょうど 1 束に入ることは変わらない。
+
+**表 4**
+| 項 | `<=`(版 1) | `<`(版 2) |
+|---|---|---|
+| 今の qa.mjs の版名 QA の組(tools/qa-keys.mjs —— 329 鍵) | 95 組・最大 48 鍵 | 163 組・最大 18 鍵(1 つの塊の中の鍵) |
+| 束(50 鍵ずつ) | 9 束(49/49/50/46/14/40/23/48/10) | 7 束(49/49/50/50/50/50/31) |
+| docs.w322d ④ の缶詰(a [0,5)・b [3,8)・c [10,12)・d [12,14)・e [20,30) を 2 鍵ずつ) | [a,b] [c,d] [e] | 同じ(c と d は別の組 —— 2 鍵ずつの束で同じ束) |
+| 接する範囲の缶詰(a [0,5)・b [5,8)・c [5,8) を 2 鍵ずつ —— 本便の QA) | [a,b,c](1 組 3 鍵) | [a] [b,c] |
+| tools/qa-keys.mjs の自己試験 ④(列 0 の if の docs.h と次の最上位の文 docs.i —— 1 鍵ずつ) | [docs.h,docs.i] | [docs.h] [docs.i](期待を世代で直した) |
+- 統合の手順の「枝の塊の前の空行」は害が無いので残してよい(本便の塊の前にも 1 行)。
+
+**⑤ CALIBRATION_VERDICT §5.19 の窓。** docs.nsLockLedgerRow(第273便c)は §5.19 を固定の 9000 字で切っていた(節は 10 309 字 —— 終わりの 1 309 字を読んでいなかった・足りない側)。`secUntilNext329c(md, i, ['\n### ', '\n## '])`(次の「### 」か「## 」の見出しまで —— 節の中の「#### 5.19.x」の小見出しは含む)へ直した。書かない語(潮汐ロックを証明・観測と合った・係数 6 を導入)は節の中では鉤括弧の中にだけあり、判定は PASS のまま。lint.fixedWindow329c の対象(AI_SPEC・PHYSICS・CHANGELOG)には足さず、本便の docs.w330c が CALIBRATION_VERDICT を固定の字数で切る窓の残り(0)を数える(lint.fixedWindow329c の正規表現は `X.slice(i, i + N)` の形だけで、§5.19 の窓〔`md.slice(Math.max(0, …), md.indexOf(…) + 9000)`〕は拾えない形だった —— 他の便の塊の検査の形は変えない)。
+
+**⑥ QA。** 新設: lint.toolCheckProv330c(① 照合の規則の自己試験 ② 計画の照合が lint と同じ関数を呼ぶ〔再生成表の本文〕③ 一時の root の 4 段で計画と lint が揃う)・lint.physKeysGuard330c(① 判定の純関数 8 例 ② 変異の写しの指紋 ③ 計画の上の自己試験 ④ 計画の行の欄と理由の種類)・docs.w330c(本節・AI_SPEC §201・CHANGELOG・tools/README・post-merge・batchKeys の接する範囲の缶詰と今の qa.mjs の束 ≤ 50・§5.19 の窓・CALIBRATION_VERDICT の固定の字数の窓 0・書かない語)。既存の世代の直し: tools/qa-keys.mjs の自己試験 ④ の束の期待(docs.w322d ③ が呼ぶ)・docs.nsLockLedgerRow の §5.19 の窓。
+
+**⑦ 言わないこと。** 「全部の危ない reuse を塞いだ」(守りは physics の鍵の名と宣言の表に無い本の表の読みだけ —— 宣言の表の byId などの読みは名指しの本だけを読むという前提〔lint.regenScope の下限〕に立つ)。「雛形が同じなら名指しの段の結果は同じ」(雛形は鍵の名と並びだけ —— 値は名指しの本の領域 hash が見る)。「計画と lint はどの場合も揃う」(揃えたのは道具の照合の規則 —— 本節の表 2 の写しで揃った)。「束の上限は二度と超えない」(1 つの塊に 50 を超える鍵を書けば超える —— docs.w322d ⑤ が数える)。
+
 〔第328便 — 統括: 原仮定者の指示(第130報)「改めて残った決断事項をまとめる」・原仮定者の回答(2026-11-05 —— 第327便の残りの決断事項 17 項〔AN550〜AN557・AN559〜AN567〕を推奨どおり: AN553 = B・他は A)を受けた第328便の構成・統合・決断事項・次の便(統括の検証項目 R301〜R303)〕
 
 **① 第328便の構成。** 便の開始(統括)で beta の版名を v1.47-b328 に・段の見積りの秒を第327便の鎖 1・鎖 2 の実測で更新(a96bea2)。枝 a(場の API の opt-in の契約 —— 枠・定数の Ω_field の宣言・収束の印・由来・伝達の版と係数・帳簿の口座の参照と、直接の滑りの宣言の型 —— AN551・AN552・AN553)・枝 b(受け手の応答の演算と p の判定・源の自転を外部の口座に固定した比べる列・金星の熱潮汐の振幅の記録し直し・予言のやり直しの扱い・火星と地球の局所の尺度 —— AN559・AN561・AN562・AN563・AN550・AN566)・枝 c(第327便f の器の検査の範囲の直し・共鳴の口の仕事の契約 —— AN564)。**どの枝も `beta/index.html`・root の `index.html`・エンジン・内蔵の本・受理器を変えていない**(診断と契約と道具)。AN554(名指しの 6 段を条件で選ぶ)は次の便の道具の便へ。

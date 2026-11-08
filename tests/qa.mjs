@@ -98862,6 +98862,144 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第329便c の塊(ここまで)====
 
+// ==== 第330便c の塊(ここから —— lint.toolCheckProv330c・lint.physKeysGuard330c・docs.w330c の 3 ブロック。root は SKIP)====
+// ---- 第330便c(原仮定者の回答(2026-11-08 —— AN584・AN585)・統括の検証項目 R309): **道具**(計画の「道具の照合」と lint.provenanceMeta の判定を 1 つの関数に・名指しの段の
+// ----   physics の鍵の集合の守り・版名 QA の束の batchKeys を半開区間に・CALIBRATION_VERDICT §5.19 の窓)。html・本の宣言・エンジン・受理器・全段の領域 hash の版は変えない。
+// ----   世代切替 = beta 対象 ∧ 変異の試験の道具 tools/toolguard-probe330c.mjs がある。一時ファイルは TMPDIR の下(使い終わったら消す)。
+// ----   lint.toolCheckProv330c: ① 照合の規則の自己試験(対象が html / lib × 領域一致 / 1 字違い・領域の刻印なし —— toolStampRecheck は toolRecheck330c を返す)
+// ----     ② 計画の照合が lint と同じ関数を呼ぶ(再生成表の本文に旧の写しが無い)・lint.provenanceMeta が toolStampRecheck を呼ぶ ③ 一時の root の 4 段で計画と lint が揃う
+// ----     (a html・刻印だけ・領域一致 → reuse / b lib・刻印だけ・領域一致 → reuse〔第329便の型〕/ c lib・領域 1 字違い → regen〔tool〕/ d 計算に使う器 → regen〔code〕)
+// ----     ④ 実物: 対象が html でない正本で領域の刻印を持つ本の数と照合の結果(情報 —— 合わなければ計画も lint も走らせ直す側)
+// ----   lint.physKeysGuard330c: ① 判定の純関数 8 例 ② 変異の写しの指紋(名指しでない本に鍵 → 雛形が違う・値だけ → 雛形は同じ・中身は違う)③ 計画の上の自己試験
+// ----     (K → n・u regen〔physKeys〕/ V → n reuse・u regen〔tableRead〕/ 守りを切った K → n reuse / 同じ html → reuse)④ 計画の配線(理由の種類・件数の欄・--no-physkeys・簡易一致は領域だけに数えない)
+// ----   docs.w330c: PHYSICS〔第330便c〕(位置・表・必須の語)・AI_SPEC §201・CHANGELOG・tools/README・post-merge・batchKeys の接する範囲の缶詰と今の qa.mjs の束 ≤ 50・
+// ----     §5.19 の窓(次の見出しまで)・CALIBRATION_VERDICT を固定の字数で切る窓の残り 0・書かない語・禁句・裸の係数記号・速度の数の字列
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const fProbe330c = path.join(ROOT, 'tools', 'toolguard-probe330c.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(fProbe330c))) {
+    console.log('SKIP lint.toolCheckProv330c・lint.physKeysGuard330c・docs.w330c(第330便c の道具の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd330c = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const imp330c = async (f) => import('file://' + path.join(ROOT, f));
+  const os330c = await import('node:os');
+  const tmp330c = fs.mkdtempSync(path.join(os330c.tmpdir(), 'w330c-qa-'));
+  try {
+  // ───── lint.toolCheckProv330c ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const SC = await imp330c('tests/lib-w281a-scope.mjs'), TG = await imp330c('tests/lib-w330c-toolguard.mjs');
+      if (SC.TOOL_CHECK_VERSION_330C !== 'w330c-toolcheck-2' || SC.TOOLCHECK_NONHTML_HTML_330C !== 'beta/index.html') bad.push('① 版 ' + SC.TOOL_CHECK_VERSION_330C + '・対象が html でない刻印の html ' + SC.TOOLCHECK_NONHTML_HTML_330C);
+      const s1 = SC.toolCheckSelfTest330c(ROOT, TG.SELFTEST_DECL_330C);
+      if (!s1.ok) bad.push('① ' + s1.bad.slice(0, 3).join(' / '));
+      cases.push('① ' + s1.cases.join(' / '));
+      const RTx = rd330c('tests/lib-w281a-regentable.mjs'), SCx = rd330c('tests/lib-w281a-scope.mjs'), QAx = rd330c('tests/qa.mjs');
+      const need2 = ["import { toolStampRecheck as w330cToolRecheck", 'const rc = w330cToolRecheck(root, m, { htmlAbs, scopeOn });'];
+      for (const w of need2) if (RTx.indexOf(w) < 0) bad.push('② 再生成表に「' + w + '」が無い');
+      if (RTx.indexOf("if (scopeOn(hA2, m.scope) !== m.scopeSha256) rc.why.push('領域 hash')") >= 0) bad.push('② 再生成表に旧の照合の写しが残る');
+      const iT = SCx.indexOf('export function toolStampRecheck(root, meta, opts) {');
+      if (!(iT >= 0 && SCx.slice(iT, iT + 400).indexOf('return toolRecheck330c(root, meta, opts);') >= 0)) bad.push('② toolStampRecheck が toolRecheck330c を呼ばない');
+      if (QAx.indexOf('SC.toolStampOnly(ROOT, arr.map((z) => z.file), s.file) && SC.toolStampRecheck(ROOT, m).ok') < 0) bad.push('② lint.provenanceMeta が toolStampRecheck を呼ばない');
+      cases.push('② 計画の照合(planRegen)と lint.provenanceMeta が同じ関数 toolStampRecheck → toolRecheck330c(再生成表に旧の写し無し)');
+      const s3 = await TG.toolPlanSelfTest330c(ROOT, { tmpDir: tmp330c });
+      if (!s3.ok) bad.push('③ ' + s3.bad.slice(0, 3).join(' / '));
+      cases.push('③ ' + s3.cases.join(' / '));
+      const rows = await SC.declaredOuts(ROOT);
+      const nh = rows.filter((r) => r.meta && r.meta.scope && r.meta.scopeComplete === true && !/\.html$/.test(String(r.meta.target || '')));
+      const nhOk = nh.filter((r) => SC.toolRecheck330c(ROOT, r.meta).ok).length;
+      cases.push(`④ 実物: 対象が html でない正本で領域の刻印を持つ本 ${nh.length}(${nh.map((r) => r.out.replace('tests/out/', '')).slice(0, 4).join(', ')})—— beta/index.html で引き直して一致 ${nhOk}(合わなければ計画も lint も走らせ直す側)`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.toolCheckProv330c', bad.length === 0,
+      `**計画と lint の道具の照合を 1 つの関数に**(第330便c・R309 —— 第329便の鎖の後の食い違い〔計画は galaxychain を reuse・lint は chainledger-w281b を ④〕の正体は対象が lib の正本の領域の刻印): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── lint.physKeysGuard330c ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const TG = await imp330c('tests/lib-w330c-toolguard.mjs'), Q323 = await imp330c('tests/lib-w323b-quick.mjs');
+      if (TG.PHYSKEYS_GUARD_VERSION_330C !== 'w330c-physkeys-1' || Object.keys(TG.PHYSKEYS_KINDS_330C).join(',') !== 'physKeys,tableRead') bad.push('① 版と理由の種類');
+      const s1 = TG.physKeysSelfTest330c();
+      if (!s1.ok) bad.push('① ' + s1.bad.slice(0, 3).join(' / '));
+      cases.push('① ' + s1.cases.join(' / '));
+      const s2 = await TG.physKeysPlanSelfTest330c(ROOT, { tmpDir: tmp330c });
+      if (!s2.ok) bad.push('②③ ' + s2.bad.slice(0, 3).join(' / '));
+      cases.push(s2.cases.join(' / '));
+      const RTx = rd330c('tests/lib-w281a-regentable.mjs'), RPx = rd330c('tools/regen-plan.mjs'), SCx = rd330c('tests/lib-w281a-scope.mjs');
+      const need4 = [['tests/lib-w281a-regentable.mjs', RTx, ["physKeysGuard330c as w330cPhysKeysGuard", "cause((pk330.kind === 'tableRead'", 'physKeys330c: { version: W330C_PHYSKEYS_VERSION', "process.env.W330C_PHYSKEYS !== '0'"]],
+        ['tools/regen-plan.mjs', RPx, ["argv.includes('--no-physkeys') ? false : undefined", 'physics の鍵の集合の守り']], ['tests/lib-w281a-scope.mjs', SCx, ['tableReads330c: tableReads330', 'function tableReadsOf330c(']]];
+      for (const [f, tx, ws] of need4) for (const w of ws) if (tx.indexOf(w) < 0) bad.push('④ ' + f + ' に「' + w + '」が無い');
+      if (Q323.regionOnlyKinds(['physKeys']) || Q323.regionOnlyKinds(['tableRead'])) bad.push('④ 簡易一致が physKeys・tableRead を領域だけに数える');
+      cases.push('④ 計画の配線(理由の種類 physKeys / tableRead・件数の欄 physKeys330c・--no-physkeys・W330C_PHYSKEYS=0・scopeHash の detail.tableReads330c —— 刻印には載せない)・簡易一致は領域だけに数えない');
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.physKeysGuard330c', bad.length === 0,
+      `**名指しの段の physics の鍵の集合の守り**(第330便c・原仮定者の回答(2026-11-08 —— AN584)・R309 —— fastParams の指紋を領域 hash に入れるのは次に版を上げる便・それまで鍵の集合が変われば名指しの段を regen): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.w330c ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const PH = rd330c('docs/PHYSICS.md'), AS = rd330c('docs/AI_SPEC.md'), CLx = rd330c('CHANGELOG.md'), TR = rd330c('tools/README.md'), PM = rd330c('tools/post-merge-qa.sh'), CV = rd330c('docs/CALIBRATION_VERDICT_v1.44.md');
+      const i0 = PH.indexOf('〔第330便c — '), iC = PH.indexOf('〔第329便c — '), iT = PH.indexOf('〔第328便 — 統括'), i7 = PH.indexOf('\n## 7. 論文');
+      const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+      if (!(i0 >= 0 && iC >= 0 && iC < i0 && (iT < 0 || i0 < iT) && (i7 < 0 || i0 < i7))) bad.push('① PHYSICS〔第330便c〕の位置(第329便c の節の後・第328便の統括の節と「## 7.」の前)');
+      for (let k = 1; k <= 4; k++) if (sec.indexOf('**表 ' + k + '**') < 0) bad.push('① 表 ' + k + ' が無い');
+      const want = ['原仮定者の回答(2026-11-08 —— AN584)', '原仮定者の回答(2026-11-08 —— AN585)', 'R309', 'toolRecheck330c', 'w330c-toolcheck-2', 'chainledger-w281b', 'toolStampOnly', 'w330c-physkeys-1', 'physKeys', 'tableRead',
+        'REG_READS_329C', 'tableReads330c', '--no-physkeys', 'w330c-batchkeys-2', 'secUntilNext329c', 'tools/toolguard-probe330c.mjs', '全段の領域 hash の版は上げていない', 'lint.toolCheckProv330c', 'lint.physKeysGuard330c', 'docs.w330c'];
+      for (const w of want) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第330便c〕に「' + w + '」が無い');
+      cases.push(`① PHYSICS〔第330便c〕(第329便c の節の後・表 4 本・必須の語 ${want.length})`);
+      const a201 = AS.search(/\n## 201\. 第330便c/), a198 = AS.search(/\n## 198\. 第329便c/), ai = secUntilNext329c(AS, a201, '\n## ');
+      if (!(a201 >= 0 && a198 >= 0 && a198 < a201 && ['toolRecheck330c', 'physKeys', 'tableRead', 'w330c-batchkeys-2', 'tools/toolguard-probe330c.mjs', 'SYSTEM_PROMPT には載せない'].every((w) => ai.indexOf(w) >= 0))) bad.push('② AI_SPEC §201(§198 の後・必須の語)');
+      const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = secUntilNext329c(CLx, cb, '\n## '), cl = clg.split('\n').find((l) => l.indexOf('**第330便c**') >= 0) || '';
+      if (!(cl.indexOf('AN584') >= 0 && cl.indexOf('toolRecheck330c') >= 0 && cl.indexOf('lint.physKeysGuard330c') >= 0)) bad.push('② CHANGELOG の第330便c の行');
+      if (!(TR.indexOf('tools/toolguard-probe330c.mjs') >= 0 && TR.indexOf('--no-physkeys') >= 0)) bad.push('② tools/README');
+      if (!(PM.indexOf('# ==== 第330便c の塊(ここから)====') >= 0 && ['lint.toolCheckProv330c', 'lint.physKeysGuard330c', 'docs.w330c', 'docs.w322d', 'docs.nsLockLedgerRow'].every((k) => PM.indexOf(k) >= 0))) bad.push('② post-merge の ③′ に第330便c の塊');
+      cases.push('② AI_SPEC §201・CHANGELOG・tools/README・post-merge の ③′');
+      const QP = await imp330c('tests/lib-w322d-qapart.mjs'), QK = await imp330c('tools/qa-keys.mjs');
+      const b3 = QP.batchKeys([{ id: 'a', span: [0, 5] }, { id: 'b', span: [5, 8] }, { id: 'c', span: [5, 8] }], 2);
+      if (QP.BATCH_KEYS_VERSION_330C !== 'w330c-batchkeys-2' || JSON.stringify(b3) !== JSON.stringify([['a'], ['b', 'c']])) bad.push('③ batchKeys の接する範囲の缶詰: ' + JSON.stringify(b3));
+      const QO = await imp330c('tests/lib-w279b-qaorder.mjs'), SC = await imp330c('tests/lib-w281a-scope.mjs');
+      const RK = QK.extractKeys({ qaSrc: rd330c('tests/qa.mjs'), QO, QP, SC });
+      const over = RK.batches.filter((b) => b.length > QK.DEFAULT_CHUNK).length;
+      if (over) bad.push('③ 今の qa.mjs の版名 QA の束に 50 鍵を超える束 ' + over);
+      cases.push(`③ batchKeys(${QP.BATCH_KEYS_VERSION_330C} —— 半開区間): 接する範囲 a [0,5)・b,c [5,8) → ${JSON.stringify(b3)} / 今の qa.mjs の版名 QA の束 ${RK.batches.length}(${RK.batches.map((b) => b.length).join('/')})`);
+      const QA5 = rd330c('tests/qa.mjs'), iN5 = QA5.indexOf("add('docs.nsLockLedgerRow'"), body5 = iN5 > 0 ? QA5.slice(QA5.lastIndexOf('\n{\n', iN5), iN5) : '';
+      if (!body5 || body5.indexOf("md.indexOf('### 5.19') + " + '9' + '000') >= 0 || body5.indexOf("secUntilNext329c(md, md.indexOf('### 5.19'), [") < 0) bad.push('④ docs.nsLockLedgerRow の §5.19 の窓が次の見出しまでになっていない');
+      const s519 = secUntilNext329c(CV, CV.indexOf('### 5.19'), ['\n### ', '\n## ']);
+      const qaL = QA5.split('\n'), reW = /([A-Za-z_$][\w$]*)\s*\.\s*slice\(([^;]*?)\+\s*([0-9_]{3,7})\s*\)/g, cvW = [];
+      for (let i = 0; i < qaL.length; i++) {
+        if (/^\s*\/\//.test(qaL[i])) continue;
+        reW.lastIndex = 0; let m;
+        while ((m = reW.exec(qaL[i]))) { for (let k = i; k >= Math.max(0, i - 600); k--) { const d = new RegExp('(?:const|let|var|,)\\s*' + m[1].replace(/\$/g, '\\$') + '\\s*=\\s*([^;]{0,200})').exec(qaL[k]); if (d) { if (/CALIBRATION_VERDICT/.test(d[1])) cvW.push((i + 1) + ':' + m[0]); break; } } }
+      }
+      if (cvW.length) bad.push('④ CALIBRATION_VERDICT を固定の字数で切る窓が残る: ' + cvW.slice(0, 3).join(' | '));
+      cases.push(`④ §5.19 は次の見出しまで(${s519.length} 字 —— 固定の 9000 字は足りなかった)・CALIBRATION_VERDICT を固定の字数で切る窓の残り ${cvW.length}`);
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /説明した/, /同定した/, /一致した/, /示した/, /確かめた/];
+      const cpC = (a) => String.fromCodePoint(...a), rvC = (t) => t.split('').reverse().join('');
+      const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+        cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+      const texts = [['PHYSICS〔第330便c〕', sec], ['AI_SPEC §201', ai], ['CHANGELOG の第330便c の行', cl], ['道具', rd330c('tools/toolguard-probe330c.mjs')], ['lib', rd330c('tests/lib-w330c-toolguard.mjs')]];
+      for (const [nm, tx] of texts) {
+        for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push('⑤ ' + nm + ' に禁句(' + w.length + ' 字)');
+        if (nm !== '道具' && nm !== 'lib') for (const re of NOT) if (re.test(strip(tx))) bad.push('⑤ ' + nm + ' に書かない語 ' + re.source);
+        if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('⑤ ' + nm + ' に裸の係数記号');
+        if (/\d\s*km\/s/.test(tx)) bad.push('⑤ ' + nm + ' に速度の数の字列');
+      }
+      cases.push('⑤ 書かない語・禁句・裸の係数記号・速度の数の字列(節・AI_SPEC・CHANGELOG・道具・lib)');
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.w330c', bad.length === 0,
+      `**第330便c の文書**(R309 —— 道具: 計画と lint の道具の照合・physics の鍵の集合の守り・batchKeys・§5.19 の窓): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  } finally { try { fs.rmSync(tmp330c, { recursive: true, force: true }); } catch (e) { /* 残っても害は無い */ } }
+  })();   // 第310便c(heap)
+}
+// ==== 第330便c の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
