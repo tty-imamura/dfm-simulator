@@ -884,6 +884,7 @@ export function scopeHash(htmlPath, decl, opts) {
   const segs = cl.segIdx.map((k) => X.parsed.segments[k]);
   const fnTexts = segs.map((s) => [s.names.length ? s.names.join(',') : '(stmt)', s.text]);
   const hpTexts = cl.hp.map((h) => ['HP.' + h.name, h.text]);
+  const tableReads330 = tableReadsOf330c(X, segs, cl.hp);   // 第330便c(AN584): 閉包の本の表の読み(detail だけ —— hash の本文には入れない)
   // ④ S._core
   let core = null;
   if (sc.core) {
@@ -943,7 +944,8 @@ export function scopeHash(htmlPath, decl, opts) {
       nMutators: cl.mutators.length, nWriters: cl.writers.length, nHp: cl.hp.length, closureBytes, scriptBytes: X.src.length,
       closureShare: +(closureBytes / X.src.length).toFixed(4), names: cl.functions,
       selfCheck: X.parsed.selfCheck, dynamicRefs: X.dynamicRefs,
-      ...(presetSel329 ? { presetSelect: presetSel329.summary } : {}) },
+      ...(presetSel329 ? { presetSelect: presetSel329.summary } : {}),
+      tableReads330c: tableReads330 },   // 第330便c(AN584): 閉包の本の表の読み(関数名 → 読む行 —— 計画の physics の鍵の守りが読む・刻印には載せない)
   };
 }
 
@@ -1349,12 +1351,103 @@ export function toolStampOnly(root, codeFiles, tool) {
  * 領域は刻印の版で今の html から引く(`scopeOkNow` —— html が刻印の時と違えば、領域の一致がそのまま「同じ領域を読んだ」の判定)。
  * @returns {{ok:boolean, why:string[]}}
  */
-export function toolStampRecheck(root, meta) {
-  const why = [];
-  if (meta && meta.scope && meta.scopeComplete === true) { if (!scopeOkNow(root, meta)) why.push('領域 hash'); }
-  for (const z of ((meta && meta.inputsStable) || [])) if (!stableMatches(root, z)) why.push('安定 hash ' + z.file);
-  return { ok: why.length === 0, why };
+export function toolStampRecheck(root, meta, opts) {
+  // 第330便c(R309): 計画(planRegen の「道具」の照合)と lint(provenanceMeta ほか)が**同じ関数**で引く —— 規則は toolRecheck330c(対象が html でない刻印の領域も照合する)
+  return toolRecheck330c(root, meta, opts);
 }
+
+// ==== 第330便c の塊(ここから)====
+/**
+ * 第330便c(統括の検証項目 R309 —— 運用の正本の第329便の教訓: 計画の「道具の照合」と lint.provenanceMeta の食い違い): **道具の照合の規則を 1 つに**。
+ * 第329便の食い違い(chainledger-w281b —— 段 galaxychain)の正体は「刻印の道具を計算に使う器」ではなく、**対象が html でない正本に領域の刻印がある**とき:
+ *   計画の照合は「対象が html のときだけ領域を引き直す」(対象が lib なら領域を見ずに一致 → reuse)・lint の照合(scopeOkNow)は「対象が html でなければ不一致」(→ ④ 走らせ直すこと)。
+ * 規則(版 w330c-toolcheck-2 —— 計画と lint が同じ関数を呼ぶ):
+ *   ・領域の刻印(scopeComplete:true)があれば必ず引き直す —— 対象が html ならその html(計画の候補の html を opts.htmlAbs で渡せる —— 対象が beta/index.html のとき)、
+ *     **対象が html でなければ器が刻印に使う html**(TOOLCHECK_NONHTML_HTML_330C = beta/index.html —— 器は QA_TARGET か beta/index.html で刻む。root で刻んだ刻印は不一致 → 走らせ直す側)
+ *   ・入力の安定 hash の刻印は全部が一致
+ * 危ない側(物理が変わったのに reuse)を作らない: 対象・入力・道具でないコードの sha は呼ぶ側が従来どおり別に照合する(この関数は道具の差を通すかだけ)。
+ * 旧の計画(領域を見ない)より厳しく、旧の lint(必ず不一致)より狭い —— 物理を変えない道具の変更で余計な段を増やさない。
+ * @param {string} root リポジトリ root
+ * @param {object} meta 正本の meta
+ * @param {{htmlAbs?:string, scopeOn?:function}} [opts] htmlAbs: 計画の候補の html(beta/index.html の代わり)・scopeOn: 領域 hash を引く関数(計画の控え —— 無ければ scopeOkOn330c)
+ * @returns {{ok:boolean, why:string[], version:string, scopeHtml:string|null}}
+ */
+export const TOOL_CHECK_VERSION_330C = 'w330c-toolcheck-2';
+export const TOOLCHECK_NONHTML_HTML_330C = 'beta/index.html';
+const okOnCache330 = new Map();
+/** 領域の刻印を html の絶対パスで引き直して一致するか(scopeOkNow の html を名指しする形 —— 刻印の版で引く)。 */
+export function scopeOkOn330c(htmlAbs, meta) {
+  if (!meta || meta.scopeComplete !== true || !meta.scope || !/^[0-9a-f]{64}$/.test(String(meta.scopeSha256 || ''))) return false;
+  let htmlSha = null;
+  try { htmlSha = crypto.createHash('sha256').update(fs.readFileSync(htmlAbs)).digest('hex'); } catch { return false; }
+  const key = htmlSha + '|' + String(meta.scope.version || SCOPE_VERSION_LEGACY) + '|' + JSON.stringify(normalizeScope(meta.scope));
+  if (!okOnCache330.has(key)) {
+    let h = null;
+    try { h = scopeHash(htmlAbs, meta.scope, { version: meta.scope.version || SCOPE_VERSION_LEGACY }); } catch { h = null; }
+    okOnCache330.set(key, h ? (h.scopeComplete ? h.scopeSha256 : null) : null);
+  }
+  return okOnCache330.get(key) === meta.scopeSha256;
+}
+export function toolRecheck330c(root, meta, opts) {
+  const why = [];
+  const r0 = String(root).replace(/\/$/, '');
+  let scopeHtml = null;
+  if (meta && meta.scope && meta.scopeComplete === true) {
+    const t = String(meta.target || '');
+    const isHtml = /\.html$/.test(t);
+    const rel = isHtml ? t : TOOLCHECK_NONHTML_HTML_330C;
+    scopeHtml = (rel === 'beta/index.html' && opts && opts.htmlAbs) ? opts.htmlAbs : r0 + '/' + rel;
+    // opts.scopeOn(htmlAbs, scope) → 領域 hash(complete でなければ null)—— 計画は自分の控え(scopeFull)を渡す(同じ scopeHash・刻印の版 —— 引く回数を増やさない)
+    const okNow = (opts && typeof opts.scopeOn === 'function') ? (/^[0-9a-f]{64}$/.test(String(meta.scopeSha256 || '')) && opts.scopeOn(scopeHtml, meta.scope) === meta.scopeSha256) : scopeOkOn330c(scopeHtml, meta);
+    if (!okNow) why.push(isHtml ? '領域 hash' : '領域 hash(対象 ' + t + ' は html でない —— 刻印の html ' + rel + ' で引き直す)');
+  }
+  for (const z of ((meta && meta.inputsStable) || [])) if (!stableMatches(r0, z)) why.push('安定 hash ' + z.file);
+  return { ok: why.length === 0, why, version: TOOL_CHECK_VERSION_330C, scopeHtml };
+}
+/**
+ * 自己試験(I/O は今の html の領域 hash だけ —— QA lint.toolCheckProv330c): 刻印の写しを作り、対象が html / lib・領域の一致 / 1 字違い・安定 hash の有無で
+ * 照合の結果が規則どおりか(対象が lib でも領域を引き直す・1 字違えば不一致・領域の刻印が無ければ安定 hash だけ)。
+ * @param {string} root リポジトリ root
+ * @param {object} decl 小さな領域の宣言(REGEN_SCOPE の形 —— complete:true)
+ */
+export function toolCheckSelfTest330c(root, decl) {
+  const bad = [], cases = [];
+  const r0 = String(root).replace(/\/$/, '');
+  const st = scopeStamp(r0 + '/' + TOOLCHECK_NONHTML_HTML_330C, decl);
+  if (!st.scopeComplete) return { ok: false, bad: ['宣言の領域が complete でない: ' + JSON.stringify(st.scope.why || null)], cases };
+  const mk = (target, sha) => ({ target, scope: st.scope, scopeSha256: sha || st.scopeSha256, scopeComplete: true, inputsStable: [] });
+  const flip = (s) => (s[0] === '0' ? '1' : '0') + s.slice(1);
+  const rows = [
+    ['html の対象・領域一致', mk('beta/index.html'), true],
+    ['html の対象・1 字違い', mk('beta/index.html', flip(st.scopeSha256)), false],
+    ['lib の対象・領域一致(第329便の chainledger の型)', mk('tests/lib-w281b-chain.mjs'), true],
+    ['lib の対象・1 字違い(旧の計画は一致にした)', mk('tests/lib-w281b-chain.mjs', flip(st.scopeSha256)), false],
+    ['領域の刻印なし・安定 hash なし', { target: 'tests/lib-w281b-chain.mjs', inputsStable: [] }, true],
+  ];
+  for (const [nm, m, want] of rows) { const r = toolRecheck330c(r0, m); if (r.ok !== want) bad.push(nm + ' → ' + r.ok + '(期待 ' + want + ')'); }
+  const viaOld = toolStampRecheck(r0, mk('tests/lib-w281b-chain.mjs'));
+  if (viaOld.version !== TOOL_CHECK_VERSION_330C) bad.push('toolStampRecheck が toolRecheck330c を呼ばない');
+  cases.push(`照合の規則 ${rows.length} 例(html/lib の対象 × 領域一致/1 字違い・領域なし)—— toolStampRecheck は ${TOOL_CHECK_VERSION_330C} を返す`);
+  return { ok: bad.length === 0, bad, cases, version: TOOL_CHECK_VERSION_330C };
+}
+/**
+ * 第330便c(AN584): 閉包の本の表の読み(closureReads329c と同じ行の取り方 —— 閉包の関数のうち BUILTIN_PRESETS・allPresets() を読む行。注釈は除く・空白は 1 つに)。
+ * scopeHash の detail に載せる(hash の本文・刻印には入れない —— 宣言の無い段の領域 hash は 1 字も変わらない)。html ごとに区切りの写しを控える(生の本文を先に見る)。
+ */
+function tableReadsOf330c(X, segs, hp) {
+  if (!X.tableReadMemo330) X.tableReadMemo330 = new Map();
+  const memo = X.tableReadMemo330;
+  const linesOf = (text) => {
+    if (!/allPresets\s*\(|BUILTIN_PRESETS/.test(text)) return null;
+    if (!memo.has(text)) { const ls = scanJs(text).nocom.split('\n').filter((l) => /allPresets\s*\(|BUILTIN_PRESETS/.test(l)).map((l) => l.trim().replace(/\s+/g, ' ')); memo.set(text, ls.length ? ls : null); }
+    return memo.get(text);
+  };
+  const out = {};
+  for (const sg of segs) { const ls = linesOf(sg.text); if (ls) out[sg.names.length ? sg.names.join(',') : '(stmt)#' + sha256(sg.text).slice(0, 8)] = ls; }
+  for (const h of (hp || [])) { const ls = linesOf(String(h.text)); if (ls) out['HP.' + h.name] = ls; }
+  return out;
+}
+// ==== 第330便c の塊(ここまで)====
 
 /** 器の本文から `const REGEN_SCOPE = {…};`(1 行の JSON)を読む。無ければ null。 */
 export function readDeclaredScope(harnessText) {

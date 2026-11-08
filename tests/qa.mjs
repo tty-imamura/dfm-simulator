@@ -8450,7 +8450,8 @@ if (!TARGET.startsWith('beta/')) {
     }
     if (md.indexOf('### 5.19') < 0) bad.push('②台帳に §5.19 が無い');
     if (md.indexOf('未解析') < 0) bad.push('④「未解析」の明記が無い');
-    const seg = md.slice(Math.max(0, md.indexOf('### 5.19')), md.indexOf('### 5.19') + 9000);
+    // 第330便c(R309 —— 第329便c の報告 E3): §5.19 は固定の 9000 字(節は 10 309 字 —— 終わりの 1 309 字を読んでいなかった)ではなく次の「### 」か「## 」の見出しまで(secUntilNext329c)
+    const seg = secUntilNext329c(md, md.indexOf('### 5.19'), ['\n### ', '\n## ']);
     for (const w of ['潮汐ロックを証明', '観測と合った', '係数 6 を導入']) {
       const bare = seg.replace(/[「『][^」』]*[」』]/g, '');
       if (bare.indexOf(w) >= 0) bad.push(`③禁止語「${w}」が §5.19 にある`);

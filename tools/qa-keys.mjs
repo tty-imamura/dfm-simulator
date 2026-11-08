@@ -12,6 +12,7 @@
 //      ・範囲の中のコードが、qapart の前文に無い**上流の最上位の名前**(範囲より前の const/let・関数宣言 —— 範囲の中で宣言した同名は除く)を読む
 //   ③ 版名を読むブロック: 範囲の**コメントを除いた本文**(文字列は残す —— `rd('CHANGELOG.md')` 型の読みを拾う)が正規表現のどれかに合う(既定 CHANGELOG・BETA_BUILD・APP_VERSION・sw.js —— `--re` で差し替え・足す)。
 //   ④ 束: 範囲の順に並べ、範囲が重なる鍵は同じ束に入れて **50 鍵ずつ**(`--chunk`)のファイル `<out-dir>/qa-keys-<k>.txt`(1 行・空白区切り)と `index.json`。
+//      第330便c: 範囲は半開区間 —— 端が接するだけの塊は別の組(tests/lib-w322d-qapart.mjs の batchKeys 版 w330c-batchkeys-2。第329便までは接する塊も 1 組で、統合で塊の前に空行を挟んでいた)。
 //
 // ■ 使い方(統括の便の開始 —— 1 行)
 //   node tools/qa-keys.mjs --out-dir <scratch>/qakeys     # 版名 QA の鍵を 50 鍵ずつ → 各ファイルを qapart で:
@@ -193,7 +194,10 @@ export async function selfTest(opt) {
   if (!(zh && zh.unit && zh.upstream.join(',') === 'upstreamSafe')) bad.push('② 列 0 の if の中の鍵の範囲・前文に写す上流の const(docs.h): ' + JSON.stringify(zh || null));
   if (Object.keys(ex).some((k) => /add の行を含まない/.test(ex[k]))) bad.push('② 範囲が add の行を含まない鍵が残る(第323便a の取り直し)');
   if (r.unmatched !== 1) bad.push('③ 版名を読まない範囲が 1 でない: ' + r.unmatched);
-  if (JSON.stringify(r.batches) !== JSON.stringify([['docs.a'], ['docs.e', 'docs.f'], ['docs.h', 'docs.i']])) bad.push('④ 束(範囲が重なる鍵は同じ束): ' + JSON.stringify(r.batches));
+  // 第330便c(R309): batchKeys は半開区間の重なり(`<` —— 版 w330c-batchkeys-2)。列 0 の if(docs.h)と次の最上位の文(docs.i)は範囲が接するだけ → 別の束
+  //   (第322便d〜第329便の `<=` の期待は [['docs.a'], ['docs.e','docs.f'], ['docs.h','docs.i']])。同じ範囲の鍵(docs.e・docs.f)は同じ束のまま
+  const want330c = L.QP.BATCH_KEYS_VERSION_330C ? [['docs.a'], ['docs.e', 'docs.f'], ['docs.h'], ['docs.i']] : [['docs.a'], ['docs.e', 'docs.f'], ['docs.h', 'docs.i']];
+  if (JSON.stringify(r.batches) !== JSON.stringify(want330c)) bad.push('④ 束(範囲が重なる鍵は同じ束・接するだけは別の束): ' + JSON.stringify(r.batches));
   const r2 = extractKeys({ qaSrc: Q, QO: L.QO, QP: L.QP, SC: L.SC, res: ['nothing'] });
   if (r2.selected.map((z) => z.id).join(',') !== 'docs.g') bad.push('③ --re の差し替え: ' + r2.selected.map((z) => z.id).join(','));
   cases.push(`缶詰(${QA_KEYS_W323A}): 鍵 ${r.keys}(文字列の中の add を数えない)・選ぶ ${sel}(docs.h は列 0 の if の中 —— 前文に上流の const・docs.i は最上位の文)・外す ${Object.keys(ex).sort().join(',')}(コメントに当たる・w5cGetUnit・写せない上流の名前 let)・版名を読まない ${r.unmatched}・束 ${JSON.stringify(r.batches)}・--re で差し替え → ${r2.selected.map((z) => z.id).join(',')}`);
