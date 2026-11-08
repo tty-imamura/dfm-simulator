@@ -98861,6 +98861,198 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第329便c の塊(ここまで)====
 
+// ==== 第330便a の塊(ここから —— lint.spinClass330a・behavior.spinClass330a・docs.spinClass330a の 3 ブロック。root は SKIP)====
+// ---- 第330便a(原仮定者の整理(2026-11-08)・原仮定者の回答(2026-11-08 —— AN577・AN578・AN579)・統括の検証項目 R307): **自転の 3 分類と由来ごとのトルクと重みの表の器**(新設 ——
+// ----   器 tests/exp-w330a-spinclass.mjs・lib tests/lib-w330a-spinclass.mjs・文書の lib tests/lib-w330a-spinclassdoc.mjs・正本 tests/out/spinclass-w330a.json。html・本の宣言・エンジン・受理器・
+// ----   既存の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.spinClass330a(html を読まない): ① lib の版・宣言(16 体の順・3 分類 7/2/7 と期待の群・型 2・τ_0 の 2 枝・射影・一定の時間の遅れ・混ざるの幅・精度の宣言)と文献の値が paper/data の
+// ----     CSV の行と同じ値(自転と公転の周期・一般歳差・水星の近点の移動の 1PN の行)② 純関数の場面の門 9 ③ 呼ぶだけ(lib は html もファイルも読まない・器は第327便a・第327便f・第328便b の lib と
+// ----     第329便a の器を呼び第327便f の器を import しない・K1 の核の式の名を写さない)
+// ----   behavior.spinClass330a(html を headless で読む —— 正本と照合): ① 16 体の入力と A_☉・慣性で配る型の f_i ② 由来ごとのトルクと熱・判定(128 行)③ 1 つの A ④ 金星の符号の表
+// ----     ⑤ 内部熱の帳簿(閉じたか・Q)が正本と相対 1e-12 の内 ⑥ 在位の 🗺️ に spinDrag・dragCore が無い
+// ----   docs.spinClass330a(正本): ① 門(作り直して同じ・全部真)・版・来歴・領域 hash(完全)・宣言が lib の DECL と同じ ② 表 15 本が PHYSICS〔第330便a〕に逐語・第329便a の節の「第330便の更新」の
+// ----     行が文書の lib の行と逐語 ③ 節の位置(第329便c の節の後・第328便の統括の節の前)・必須の語・AI_SPEC §199(次の見出しまで —— secUntilNext329c)・CHANGELOG(次の見出しまで)・段の行・
+// ----     .gitignore・post-merge の ③′ ④ 書かない語(「説明した」「確かめた」「示した」「解決した」「釣り合っている」ほか —— 引用の外)・禁句・裸の係数記号・速度の数の字列
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const fHarn = path.join(ROOT, 'tests', 'exp-w330a-spinclass.mjs'), fLib = path.join(ROOT, 'tests', 'lib-w330a-spinclass.mjs'), fDoc = path.join(ROOT, 'tests', 'lib-w330a-spinclassdoc.mjs');
+  const fOut = path.join(ROOT, 'tests', 'out', 'spinclass-w330a.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(fHarn) && fs.existsSync(fLib) && fs.existsSync(fDoc))) {
+    console.log('SKIP lint.spinClass330a・behavior.spinClass330a・docs.spinClass330a(第330便a の自転の 3 分類の器の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const relD330a = (a, b) => (a === b ? 0 : (a === null || b === null || a === undefined || b === undefined ? Infinity : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b))));
+  let X = null, SC = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + fHarn); SC = await import('file://' + fLib); D0 = await import('file://' + fDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(fOut, 'utf8')); } catch (e) { J = null; }
+  const MER330 = Object.keys({ mercury: 1 })[0], SAT330 = Object.keys({ saturn: 1 })[0];
+  // ───── lint.spinClass330a ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      const DC = SC.DECL;
+      if (!(SC.LIB_VERSION === 'w330a-spinclass-lib-1' && DC.bodies.length === 16 && DC.bodies[0] === 'sun' && DC.bodies[2] === 'venus' && DC.bodies[15] === 'triton'
+        && DC.classes.tidalLock.length === 7 && DC.classes.partialLock.length === 2 && DC.classes.noLock.length === 7 && JSON.stringify(DC.classes.partialLock) === JSON.stringify([MER330, 'venus'])
+        && DC.classes.noLock.includes('sun') && DC.classes.noLock.includes('earth') && DC.classes.noLock.includes('mars') && DC.classes.tidalLock.includes('moon') && DC.classes.tidalLock.includes('io')
+        && JSON.stringify(DC.expected) === JSON.stringify({ tidalLock: 'tide', partialLock: 'mixed', noLock: 'axial' }) && JSON.stringify(DC.responseForms) === JSON.stringify(['ballMean', 'inertiaShare'])
+        && JSON.stringify(DC.tau0) === JSON.stringify(['inf', 'age']) && DC.projections.main === 'book' && DC.projections.also === 'coplanar' && DC.solidMain === 'constLag' && DC.mixedBandLog10 === 1
+        && DC.precisionRel === 0.01 && DC.ledgerTol === 1e-12 && DC.windows.length === 3)) bad.push('① lib の版・宣言(16 体・3 分類・期待の群・型・τ_0・射影・固体の型・幅・精度・窓)');
+      // 文献の値が paper/data の CSV の行と同じ値(行は本文で引く —— 書き換えない)
+      const csvRow = (file, body, qty, srcRe) => { const ln = rd(file).split('\n').find((l) => { const c = l.split(','); return c[0] === body && c[1] === qty && (!srcRe || srcRe.test(l)); }); return ln ? Number(ln.split(',')[2]) : null; };
+      const SO = 'paper/data/solar-observations.csv', JV = 'paper/data/jovian-satellites.csv', L = DC.lit, DAYs = 86400;
+      const chk = [['金星の自転', csvRow(SO, 'Venus', 'rotation_period', null) / DAYs, L.spinDays.venus], ['天王星の自転', csvRow(SO, 'Uranus', 'rotation_period', null) / DAYs, Math.abs(L.spinDays.uranus)],
+        ['海王星の自転', csvRow(SO, 'Neptune', 'rotation_period', null) / DAYs, L.spinDays.neptune], ['トリトンの自転', csvRow(SO, 'Triton', 'rotation_period', null) / DAYs, L.spinDays.triton],
+        ['木星の自転', csvRow(JV, 'Jupiter', 'rotation_period', null) / 24, L.spinDays.jupiter], ['水星の公転', csvRow(SO, 'Mercury', 'orbital_period', /NSSDC/) / DAYs, L.orbitDays[MER330]],
+        ['月の公転', csvRow(SO, 'Moon', 'orbital_period', /NSSDC Moon Fact Sheet/) / DAYs, L.orbitDays.moon], ['タイタンの公転', csvRow(SO, 'Titan', 'orbital_period', null) / DAYs, L.orbitDays.titan],
+        ['イオの公転', csvRow(JV, 'Io', 'sidereal_orbital_period', null), L.orbitDays.io], ['エウロパの公転', csvRow(JV, 'Europa', 'sidereal_orbital_period', null), L.orbitDays.europa],
+        ['ガニメデの公転', csvRow(JV, 'Ganymede', 'sidereal_orbital_period', null), L.orbitDays.ganymede], ['カリストの公転', csvRow(JV, 'Callisto', 'sidereal_orbital_period', null), L.orbitDays.callisto],
+        ['一般歳差', csvRow(SO, 'Moon', 'general_precession', null) * 3600, L.precessionArcsecPerYear.earth], ['水星の近点の移動の 1PN', csvRow(SO, 'Mercury', 'periastron_advance_gr', null), L.mercuryPeriGRDegPerYear]];
+      const off = chk.filter(([, a, b]) => !(Number.isFinite(a) && relD330a(a, b) <= 1e-9));
+      if (off.length) bad.push('① 文献の値が paper/data の CSV の行と違う(' + off.map(([n, a, b]) => n + ' ' + a + '/' + b).join('・') + ')');
+      cases.push(`① lib ${SC.LIB_VERSION}・16 体・3 分類 ${DC.classes.tidalLock.length}/${DC.classes.partialLock.length}/${DC.classes.noLock.length}(宣言の作業仮説)・型 ${DC.responseForms.join('・')}・τ_0 ${DC.tau0.join('・')}・文献の値 ${chk.length} 行が paper/data の行と同じ値`);
+      let S = null, G = null;
+      try { S = SC.pureScenes(); G = SC.pureGates(S); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G) {
+        for (const [k, v] of Object.entries(G)) if (v !== true) bad.push('② 純関数の場面 ' + k);
+        if (Object.keys(G).length !== 9) bad.push('② 場面の数 ' + Object.keys(G).length);
+        cases.push(`② 純関数の場面 ${Object.values(G).filter(Boolean).length}/${Object.keys(G).length}(合トルク 0 の熱 ${S.heat.heat}(合成の後 ${S.heat.mergedHeat})・重みの定常 ${S.weight.nuStar}・1 つの A ${S.singleA.galOnly}/${S.singleA.withOther}・水星の測地の歳差 ${S.geodetic.arcsecPerCentury.toFixed(2)}″/世紀・入力の拒否)`);
+      }
+      const lt = rd('tests/lib-w330a-spinclass.mjs'), ht = rd('tests/exp-w330a-spinclass.mjs');
+      if (/loadHtml|readFileSync|from 'node:fs'/.test(lt)) bad.push('③ lib が html かファイルを読む');
+      if (/from '\.\/exp-w327f-venustide\.mjs'/.test(ht) || !['lib-w327f-venustide', 'lib-w327a-axialsum', 'lib-w328b-response', 'exp-w329a-spinbias'].every((n) => ht.indexOf("from './" + n + ".mjs'") >= 0)) bad.push('③ 器が第327便f の器を import するか第327便a・第327便f・第328便b の lib と第329便a の器を呼ばない');
+      if (/inertialDragIsqK1\b|inertialDragIsqM1\b/.test(lt + ht)) bad.push('③ K1 の核の式の名を写す');
+      cases.push('③ 呼ぶだけ(lib は html もファイルも読まない・器は第327便a・第327便f・第328便b の lib と第329便a の器を呼び第327便f の器は import しない・K1 の核を写さない)');
+    }
+    add('lint.spinClass330a', bad.length === 0,
+      `**自転の 3 分類と由来ごとのトルクと重みの純関数**(第330便a・原仮定者の整理(2026-11-08)・原仮定者の回答(2026-11-08 —— AN577・AN578・AN579)・R307 —— html を読まない・3 分類は宣言の作業仮説): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.spinClass330a ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/spinclass-w330a.json が読めない');
+    else {
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        const IN = X.partI(H.HP);
+        // ①
+        let d1 = 0;
+        for (const [k, q] of Object.entries(J.inputs.bodies)) { const b = IN.bodies[k]; if (!b) { d1 = Infinity; continue; } for (const f of ['m', 'R', 'sBook', 'sObs', 'Rd', 'I', 'gDotA']) d1 = Math.max(d1, relD330a(b[f], q[f])); }
+        d1 = Math.max(d1, relD330a(IN.Asun, J.inputs.Asun));
+        for (const [k, v] of Object.entries(J.inputs.fOf.inertiaShare)) d1 = Math.max(d1, relD330a(IN.fOf.inertiaShare[k], v));
+        if (!(d1 <= 1e-12)) bad.push(`① 16 体の入力が正本と違う(相対 ${d1})—— 器を走らせ直す`);
+        cases.push(`① 16 体の入力(質量・半径・自転〔本と観測〕・R_d・慣性・ĝ·â)・A_☉・慣性で配る型の f_i が正本と相対 1e-12 の内`);
+        // ②
+        const Cc = X.partC(IN);
+        let d2 = 0, nv = 0;
+        for (const r of Cc.rows) { const q = J.classTable.rows.find((z) => z.key === r.key && z.form === r.form && z.tau === r.tau && z.proj === r.proj); if (!q) { d2 = Infinity; continue; }
+          d2 = Math.max(d2, relD330a(r.along, q.along)); for (const o of r.origins) { const z = q.origins.find((w) => w.key === o.key); d2 = Math.max(d2, z ? Math.max(relD330a(o.torqueAlong, z.torqueAlong), relD330a(o.heat, z.heat)) : Infinity); }
+          if (r.verdictTorque !== q.verdictTorque || r.verdictWeight !== q.verdictWeight) nv++; }
+        if (!(d2 <= 1e-12 && nv === 0 && Cc.rows.length === J.classTable.rows.length)) bad.push(`② 由来ごとのトルク・熱か判定が正本と違う(相対 ${d2}・判定の違い ${nv})`);
+        cases.push(`② 由来ごとのトルクと熱と判定 ${Cc.rows.length} 行(16 体 × 型 2 × τ_0 2 × 射影 2)が正本と相対 1e-12 の内・判定は同じ`);
+        // ③
+        const Ee = X.partE(IN);
+        let d3 = 0;
+        for (const r of Ee.rows) { const q = J.earthMars.rows.find((z) => z.key === r.key && z.form === r.form && z.col === r.col); if (!q) { d3 = Infinity; continue; } for (const nm of ['galOnly', 'galK1', 'galK1Tide']) d3 = Math.max(d3, relD330a(r[nm].A, q[nm].A)); }
+        if (!(d3 <= 1e-12)) bad.push(`③ 1 つの A が正本と違う(相対 ${d3})`);
+        cases.push(`③ 1 つの A ${Ee.rows.length} 行(銀河の 1 口・銀河 + K1・銀河 + K1 + 潮汐)が正本と相対 1e-12 の内`);
+        // ④
+        const Vv = X.partV(IN);
+        let d4 = 0, no = 0;
+        for (const r of Vv.rows) { const q = J.venusSigns.rows.find((z) => z.form === r.form && z.tau === r.tau && z.proj === r.proj && z.thermal === r.thermal); if (!q) { d4 = Infinity; continue; }
+          for (const f of ['gal', 'sunK1', 'sunSolid', 'sunThermal', 'net']) d4 = Math.max(d4, relD330a(r[f], q[f])); if (r.opposite !== q.opposite) no++; }
+        if (!(d4 <= 1e-12 && no === 0 && Vv.rows.every((q) => q.negativeGamma === false))) bad.push(`④ 金星の符号の表が正本と違う(相対 ${d4}・逆符号の判定の違い ${no})か負の Γ`);
+        cases.push(`④ 金星の符号の表 ${Vv.rows.length} 行が正本と相対 1e-12 の内(熱潮汐なしの逆符号 ${Vv.oppositeNoThermal}・負の Γ なし)`);
+        // ⑤
+        const Hh = X.partH(IN);
+        let d5 = 0;
+        for (const r of Hh.rows) { const q = J.heat.rows.find((z) => z.key === r.key && z.form === r.form && z.tau === r.tau && z.variant === r.variant); if (!q) { d5 = Infinity; continue; } d5 = Math.max(d5, relD330a(r.Q, q.Q), relD330a(r.Qaxial, q.Qaxial)); if (r.closed !== q.closed) d5 = Infinity; }
+        if (!(d5 <= 1e-12 && Hh.allClosed)) bad.push(`⑤ 内部熱の帳簿が正本と違う(相対 ${d5})か閉じない行`);
+        cases.push(`⑤ 内部熱の帳簿 ${Hh.rows.length} 行の Q と閉じたかが正本と同じ(全部の行で宣言した範囲で収支が閉じた)`);
+        // ⑥
+        const b16 = H.HP.allPresets().find((p) => p.id === 'solarSystem16Inertial3d'), rdq = b16 && b16.physics && b16.physics.relativeDrag;
+        if (!(rdq && !rdq.spinDrag && b16.bodies.length === 16 && b16.bodies.every((b) => !b.dragCore))) bad.push('⑥ 在位の 🗺️ に spinDrag か dragCore の宣言(器の写しにだけ足す約束)');
+        cases.push('⑥ 在位の 🗺️ に spinDrag は無く 16 天体に dragCore も無い(写しにだけ)');
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.spinClass330a', bad.length === 0,
+      `**自転の 3 分類・由来ごとのトルク・1 つの A・金星の符号・内部熱の帳簿の写しの読み口**(第330便a・原仮定者の整理(2026-11-08)・R307 —— 在位の本と受理器は変えない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.spinClass330a ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const PSEP = /\n〔第\d+便[a-z]* — |\n## /;
+    const i0 = PH.indexOf('〔第330便a — '), i7 = PH.indexOf('\n## 7. 論文'), iC = PH.indexOf('〔第329便c — '), iG = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, PSEP), sec329a = secUntilNext329c(PH, PH.indexOf('〔第329便a — '), PSEP);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && iC >= 0 && iC < i0 && iG >= 0 && i0 < iG)) bad.push('PHYSICS〔第330便a〕が無いか「## 7.」の後ろか第329便c の節の前か第328便の統括の節の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/spinclass-w330a.json が読めない');
+    else {
+      // ①
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === SC.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.scopeComplete === true
+        && /^[0-9a-f]{64}$/.test(J.meta.scopeSha256 || '') && J.meta.stage === 'spinclass')) bad.push('① 版・来歴・領域 hash(完全)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(SC.DECL)) bad.push('① 正本の宣言が lib の DECL と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
+      // ②
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第330便a〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 15) bad.push('② 表の数 ' + Object.keys(T).length);
+      const up = D0.update329aLine(J);
+      if (sec329a.indexOf(up) < 0) bad.push('② 第329便a の節に「第330便の更新」の行(文書の lib の行と逐語)が無い');
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第330便a〕に逐語(文書の lib ${D0.DOC_VERSION})・第329便a の節の「第330便の更新」の行(N₁ の最小 ${J.an577.A.requiredOverTorque.toFixed(1)} 倍・宣言 ${J.an577.A.declaredOverTorque.toFixed(1)} 倍・AN579 の注記)`);
+    }
+    // ③
+    const want = ['原仮定者の整理(2026-11-08)', '原仮定者の回答(2026-11-08 —— AN578 = A と C を同じ表に)', 'R307', 'tests/exp-w330a-spinclass.mjs', 'tests/out/spinclass-w330a.json', '宣言の作業仮説',
+      '分類を結果で書き換えない', '由来ごとのトルクの大きさ', '由来ごとの応答 Γ の重み', '主と副を付けない', 'τ_0 は今の実装では熱だけのノブではない', '1 つの A では合わない', '新しい定数を作らない',
+      '今の応答の型では同符号', '負の Γ は採らない', '最小と宣言を分けて読む', '現象論の宣言', '捕獲や起源の同定ではない', '凝縮の供給は固定の口座', '宣言した範囲で収支が閉じた', '別の欄',
+      '比は τ_0 の枝で桁が動く', '自転の軸の向きのトルクの釣り合い(3:2)へは足さない', '窓の角の表', '現実のその期間で歳差が無視できることの確認ではない', 'AN579 の注記', '残差',
+      '決断事項の候補', 'lint.spinClass330a', 'behavior.spinClass330a', 'docs.spinClass330a'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第330便a〕に「' + w + '」が無い');
+    const m199 = /\n## 199\. 第330便a[^\n]*/.exec(AS), m198 = /\n## 198\. 第329便c/.exec(AS);
+    const ai = m199 ? secUntilNext329c(AS, m199.index + 1, '\n## ') : '';   // 次の見出しまで(固定の字数の窓を使わない)
+    if (!m199) bad.push('③ AI_SPEC に §199 が無い'); else if (!(m198 && m198.index < m199.index)) bad.push('③ AI_SPEC §199 の位置(§198 の後)');
+    if (!(ai.indexOf('tests/out/spinclass-w330a.json') >= 0 && ai.indexOf('宣言の作業仮説') >= 0 && ai.indexOf('宣言した範囲で収支が閉じた') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('③ AI_SPEC §199(正本・宣言の作業仮説・収支・SYSTEM_PROMPT に載せない)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = secUntilNext329c(CLx, cb, '\n## ');   // 次の見出しまで
+    const cl330a = clg.split('\n').find((l) => l.indexOf('**第330便a**') >= 0) || '';
+    if (!(cl330a.indexOf('tests/exp-w330a-spinclass.mjs') >= 0 && cl330a.indexOf('spinclass-330a') >= 0 && cl330a.indexOf('宣言の作業仮説') >= 0)) bad.push('③ CHANGELOG の第330便a の行');
+    if (!(/S\('spinclass-330a', 'node tests\/exp-w330a-spinclass\.mjs', \['tests\/out\/spinclass-w330a\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ") >= 0
+      && RT.indexOf('// ==== 第330便a の塊(ここから)====') >= 0)) bad.push('③ 段の行 spinclass-330a(quickVerify:false と理由・塊)');
+    if (GI.indexOf('!tests/out/spinclass-w330a.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第330便a の塊(ここから)====') >= 0 && /lint\.spinClass330a/.test(PM) && /behavior\.spinClass330a/.test(PM) && /docs\.spinClass330a/.test(PM))) bad.push('③ post-merge の ③′ に第330便a の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §199(次の見出しまで)・CHANGELOG(次の見出しまで)・段の行・.gitignore・post-merge の ③′');
+    // ④
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /説明した/, /一致した/, /確かめた/, /示した/, /解決した/, /釣り合っている/,
+      /近さを説明/, /無視してよい/, /銀河場を同定した/, /機構を同定した/, /共通の法則を見つけた/, /捕獲を確定した/, /起源を確定した/, /ハローが要らない/, /ハローを説明/];
+    const cpA = (a) => String.fromCodePoint(...a), rvA = (t) => t.split('').reverse().join('');
+    const NGA = [cpA([0x518d, 0x73fe, 0x3057, 0x305f]), cpA([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpA([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpA([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpA([0x79c1, 0x4fe1]), cpA([0x6dfb, 0x4ed8]), cpA([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvA));   // 禁句(文字で持たない)
+    const upd = (sec329a.split('\n').find((l) => l.indexOf('**第330便の更新(第330便a') === 0)) || '';
+    const texts = [['PHYSICS〔第330便a〕', sec], ['第329便a の節の更新の行', upd], ['AI_SPEC §199', ai], ['CHANGELOG の第330便a の行', cl330a], ['器', rd('tests/exp-w330a-spinclass.mjs')],
+      ['lib', rd('tests/lib-w330a-spinclass.mjs')], ['文書の lib', rd('tests/lib-w330a-spinclassdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGA) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+      if (nm.indexOf('PHYSICS') >= 0 || nm.indexOf('AI_SPEC') >= 0 || nm.indexOf('CHANGELOG') >= 0 || nm.indexOf('更新の行') >= 0) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/\d\s*km\/s/.test(tx)) bad.push('④ ' + nm + ' に速度の数の字列');
+    }
+    if (!upd) bad.push('④ 第329便a の節の更新の行が見つからない');
+    cases.push('④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・第329便a の節の更新の行・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.spinClass330a', bad.length === 0,
+      `**自転の 3 分類・地球と火星の対照・金星の符号・AN577 C の 2 列・内部熱の帳簿・測地の歳差・歳差の窓の文書**(第330便a・原仮定者の整理(2026-11-08)・原仮定者の回答(2026-11-08 —— AN577・AN578・AN579)・R307 —— 3 分類は宣言の作業仮説・内部熱は宣言した範囲の収支で観測の熱流との比は別の欄): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第330便a の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

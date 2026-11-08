@@ -1765,6 +1765,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/galrot-w329b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/contract/wallSec', '/dfm/wallSec', '/evolve/wallSec', '/dfm/*/*/rows/*/wallSec', '/dfm/nSens/rows/*/wallSec']) },
     note: '第329便b: 既存の回転の理論のラベル(κ_epi と κ_D を分ける)・場の契約の版 2(回転する枠 —— 版 1 の呼び出しはビット同一)・ラベルの口(宣言なしは null)・NGC 3198 の基準列と DFM の OFF/ON(内向きと接線を分ける)・η と M_eq(寄与の度合いの診断 —— ハローの置き換えは主張しない)' }),
   // ==== 第329便b の塊(ここまで)====
+  // ==== 第330便a の塊(ここから)====
+  // ---- 第330便a(原仮定者の整理(2026-11-08)・原仮定者の回答(2026-11-08 —— AN577・AN578・AN579)・統括の検証項目 R307): **自転の 3 分類と由来ごとのトルクと重みの表・地球と火星の対照・
+  //   金星の符号の表・AN577 C の 2 列・内部熱の帳簿・水星の測地の歳差・歳差の窓の器**(段 spinclass-330a —— 正本 tests/out/spinclass-w330a.json・lib tests/lib-w330a-spinclass.mjs —— 第326便d・
+  //   第327便e の器の写しと読み口〔copyBook・stateOf・stateFor・gradT〕・第327便a・第327便f・第328便b の lib と第329便a の器の部〔partI・partP・partB・partM〕を import して使う〔code の依存 ——
+  //   他の正本は読まない〕)。**診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は 🗺️ を .find で引く 1 本 —— 第328便b の lib が import する場の API の閉包で下限は 12 本)。
+  //   1 プロセス。t = 0 の読み口と純関数だけ(本の步を進めない)。所要は第330便a の枝の実測 3〜5 s(nice 10 —— 他の枝と並走の箱〔**並走の秒**〕)
+  S('spinclass-330a', 'node tests/exp-w330a-spinclass.mjs', ['tests/out/spinclass-w330a.json'], 5, { secSource: 'w330a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ(本の步を進めない —— 窓が無く、全部を走らせても 10 秒ほど)',
+    volatilePaths: { 'tests/out/spinclass-w330a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第330便a: 自転の 3 分類(宣言の作業仮説 —— 由来ごとのトルクの大きさと Γ の重みの 2 つの判定・球の平均 p = 0 と慣性で配る型・τ_0 の 2 枝)・地球と火星の対照(1 つの A)・金星の符号の表・AN577 C の 2 列・内部熱の帳簿(宣言した範囲の収支と観測の熱流との比を別の欄)・測地の歳差・歳差の窓' }),
+  // ==== 第330便a の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
