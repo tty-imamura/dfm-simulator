@@ -46041,7 +46041,7 @@ regen 177 の理由: 器の宣言の変更と版の移行 135・版の移行だ�
 - 第329便の実例: d77f4d7 の木では、旧の計画と旧の lint で食い違いがちょうど 1 段(galaxychain —— chainledger-w281b)出た。同じ木に本便の道具を入れると揃い、galaxychain は両方で reuse(領域 hash 38a3b7d59185 が beta/index.html で一致 —— 第329便に走らせ直した段の物理の値が不変だったことと合う)。
 
 **③ AN584 の守り(名指しの段の physics の鍵の集合)。** 名指しの本の段(REGEN_SCOPE の presets が id の列)の閉包は fastParams を持つ(本便の作業の木で 138/138 本 —— validatePreset ほか)。fastParams は**内蔵の全本の physics の鍵の名**から S.params の雛形(鍵の並び)を作るが、領域 hash は名指しの本の中身と閉包の関数の本文だけを刻む(BUILTIN_PRESETS はデータの登録簿で閉包の外)—— 名指しでない本に新しい physics の鍵を足しても名指しの段の領域 hash は同じ。条件で選ぶ本の段(presetsWhere —— 第329便c)は指紋 physicsKeysSha を本文に持ち、presets "all" の段は全本の中身を刻むので当たらない。
-- 規則(`tests/lib-w330c-toolguard.mjs` —— 版 `w330c-physkeys-1`。planRegen が領域の一致した名指しの段の正本ごとに引く): 閉包の本の表の読み(scopeHash の detail に足した `tableReads330c` —— hash の本文には入れない)を第329便c の宣言の表 `REG_READS_329C` と照らし、
+- 規則(`tests/lib-w330c-toolguard.mjs` —— 版 `w330c-physkeys-1`。planRegen が領域の照合を通った名指しの段の正本ごとに引く): 閉包の本の表の読み(scopeHash の detail に足した `tableReads330c` —— hash の本文には入れない)を第329便c の宣言の表 `REG_READS_329C` と照らし、
   physicsKeys の読み(fastParams)があれば **刻印の html と今の html の fastParams の雛形**(`Object.keys(fastParams({}))` —— 鍵の名と並び・値は読まない)が違えば regen(理由の種類 `physKeys`)、
   宣言の表に無い読み(全本を回す関数など)があれば **全本の中身(説明の文を除く)** が違えば regen(理由の種類 `tableRead`)。宣言の表の byId・byIdFirst・def・identity は名指しの本だけを読む(下限 deriveScope の名指し)ので守りの外。
   刻印の html は候補のファイル(今の html・基点の html)→ git の履歴(第325便a の findHtmlBySha)で引き、**引けなければ regen**(保守側 —— 理由 physKeys)。足す向きだけ(reuse を増やさない)。`node tools/regen-plan.mjs --no-physkeys` か環境変数 `W330C_PHYSKEYS=0` で切る(前後の比べ)。
