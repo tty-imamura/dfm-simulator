@@ -32,7 +32,8 @@ import { loadHtmlMain, runRow, fitPeri } from './lib-w280b-emgrid.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 // 第281便a の領域 hash の宣言(再生成の鎖が「この器の正本を走らせ直すか」を引く)—— 読む本は宣言から列挙するので presets は全本
-const REGEN_SCOPE = {"presets":"all","roots":["HP.FIT_RECORD_VERSION","HP.FIT_RECORD_VERSIONS","HP.abStart","HP.abStop","HP.ab","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.geoModeOf","HP.loadPreset","HP.sim","HP.validateFitRecord","HP.validatePreset","isNum","sim"],"core":true,"consts":[],"complete":true,"keepProse":["familyRole"]};
+// 第329便c(原仮定者の回答(2026-11-05 —— AN554)・R306): presets "all" は選べないときの戻り先。presetsWhere = 条件で選ぶ本の宣言(器の DECL が選ぶ geoPN ≥ 2 の本 ∪ 名指しの本 7 本〔下限 deriveScope の名指し〕)—— 刻印の道具の選択器 selectPresets329c が評価する
+const REGEN_SCOPE = {"presets":"all","roots":["HP.FIT_RECORD_VERSION","HP.FIT_RECORD_VERSIONS","HP.abStart","HP.abStop","HP.ab","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.geoModeOf","HP.loadPreset","HP.sim","HP.validateFitRecord","HP.validatePreset","isNum","sim"],"core":true,"consts":[],"complete":true,"keepProse":["familyRole"],"presetsWhere":{"selector":"w329c-presetselect-1","where":[{"path":"physics.geoPN","op":"ge","value":2,"missing":0}],"reads":["physics.geoPN"],"named":["charonGeoToy3","earthMoonRealKF1","galaxy","galaxyGeo2","mercuryGeoToy3","qLockRadialAudit","qLockRadialAuditQ3"],"harnessExpr":"BUILTIN.filter((p) => ((p.physics || {}).geoPN || 0) >= 2)"}};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.W297A_TARGET || 'beta/index.html';

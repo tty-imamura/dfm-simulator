@@ -15,6 +15,43 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // 既定は従来どおり index.html — CI の挙動は不変。
 const TARGET = process.env.QA_TARGET || 'index.html';
 const INDEX = 'file://' + path.join(ROOT, TARGET);
+// ==== 第329便c の塊(ここから —— QA_FAST の heap の既定)====
+// 第329便c(統括の検証項目 R306・運用の正本の flock + heap と同じ値): **QA_FAST の heap の既定**。QA_FAST(QA_TIER=fast)を Node の既定の heap(この箱で約 2 GB)で起こすと
+//   途中で heap の上限で止まる(第328便b)。heap の上限が QA_HEAP_MB_329C より小さいときだけ、同じ引数・同じ環境に NODE_OPTIONS の --max-old-space-size を足した子の Node で
+//   自分を起こし直し、子の終了コードで終わる(本文・判定・順・結果のファイルは同じ —— 子が書く)。起こし直さない走行(走り方は変えない): フルの QA(QA_FAST でない —— CI・保存 QA)・
+//   heap を明示した走行(NODE_OPTIONS か execArgv に --max-old-space-size —— CI の ci.yml・運用の flock + heap)・既に足りる heap・先行再実行の子(QA_REPLAY_CHILD)・
+//   起こし直した子(QA_HEAP_REEXEC_329C)・QA_HEAP_DEFAULT=0。QA lint.qaHeapDefault329c が条件と値を照合する。
+const QA_HEAP_MB_329C = 6144;
+if ((process.env.QA_FAST === '1' || process.env.QA_TIER === 'fast') && process.env.QA_HEAP_DEFAULT !== '0' && process.env.QA_REPLAY_CHILD !== '1' && process.env.QA_HEAP_REEXEC_329C !== '1'
+  && !/--max-old-space-size/.test(String(process.env.NODE_OPTIONS || '') + ' ' + process.execArgv.join(' '))) {
+  const heapMb329c = (await import('node:v8')).getHeapStatistics().heap_size_limit / 1048576;
+  if (heapMb329c < QA_HEAP_MB_329C) {
+    const { spawn: spawn329c } = await import('node:child_process');
+    console.log(`第329便c: QA_FAST の heap の上限 ${Math.round(heapMb329c)} MB < ${QA_HEAP_MB_329C} MB —— --max-old-space-size=${QA_HEAP_MB_329C} の子の Node で起こし直す(QA_HEAP_DEFAULT=0 で切る)`);
+    const env329c = Object.assign({}, process.env, { NODE_OPTIONS: (String(process.env.NODE_OPTIONS || '') + ' --max-old-space-size=' + QA_HEAP_MB_329C).trim(), QA_HEAP_REEXEC_329C: '1' });
+    const ch329c = spawn329c(process.execPath, process.execArgv.concat(process.argv.slice(1)), { stdio: 'inherit', env: env329c });
+    for (const sg of ['SIGINT', 'SIGTERM', 'SIGHUP']) process.on(sg, () => { try { ch329c.kill(sg); } catch { /* 子は終わっている */ } });
+    process.exit(await new Promise((res) => ch329c.on('exit', (c) => res(c === null ? 1 : c))));
+  }
+}
+if (process.env.QA_HEAP_REEXEC_329C === '1') console.log(`第329便c: 起こし直した子の Node(heap の上限 ${Math.round((await import('node:v8')).getHeapStatistics().heap_size_limit / 1048576)} MB)`);
+// ==== 第329便c の塊(ここまで)====
+// ==== 第329便c の塊(ここから —— 節を「次の見出しまで」で切る共通の関数)====
+// 第329便c(統括の検証項目 R306 —— 第328便の継ぎ目: AI_SPEC の節を固定の字数で読む窓が次の節まで読んだ): AI_SPEC・PHYSICS・CHANGELOG の節を固定の字数(slice(i, i + 6000) ほか)で
+//   切らず、i から次の見出し(seps —— 文字列・文字列の列・正規表現のどれか —— i + 1 より後の最初)の前までを返す。i < 0(印が無い)・文書が無いは ''。見出しの型:
+//   AI_SPEC '\n## '(§ の節)・PHYSICS /\n〔第\d+便[a-z]* — |\n## /(〔第…便x — …〕の見出しの行 —— 行頭の参照「〔第301便d〕の…」では切らない・「## 7.」の前で止まる)・
+//   CHANGELOG '\n## '(版の節 —— beta の節は便を跨いで伸びる)。QA lint.fixedWindow329c が固定の字数の窓の残り(直さない窓は理由つきの表)を数える。
+function secUntilNext329c(text, i, seps) {
+  if (typeof text !== 'string' || !(i >= 0) || i >= text.length) return '';
+  let end = text.length;
+  for (const s of (Array.isArray(seps) ? seps : [seps])) {
+    let e = -1;
+    if (s instanceof RegExp) { const re = new RegExp(s.source, 'g'); re.lastIndex = i + 1; const m = re.exec(text); e = m ? m.index : -1; } else e = text.indexOf(s, i + 1);
+    if (e >= 0 && e < end) end = e;
+  }
+  return text.slice(i, end);
+}
+// ==== 第329便c の塊(ここまで)====
 // 第286便b(原仮定者の裁定(第76報)AN59): **cLight の真値化の世代**。実単位の本の c は c_SI·10^(T−L)(L−T=4 の族 29979.2458・
 //   L−T=5 の族 2997.92458・L−T=7 の族 29.9792458)、κ=G/c² も同期。root(旧則 —— 3×10⁴・3×10³・30 の丸め)と beta を分ける。
 //   世代の目印は html の CAL_CONTRACT の units 欄(第286便b)。旧値は履歴(tests/data-w286b-clight.json)。
@@ -10062,7 +10099,7 @@ if (!TARGET.startsWith('beta/')) {
       if (P.indexOf('〔第275便b') < 0) bad.push('⑧ PHYSICS に〔第275便b〕節が無い');
       else {
         // 節に出る主要な数(規則の内訳と行数)が正本と一致するか
-        const sec = P.slice(P.indexOf('〔第275便b'), P.indexOf('〔第275便b') + 40000);
+        const sec = secUntilNext329c(P, P.indexOf('〔第275便b'), /\n〔第\d+便[a-z]* — |\n## /);
         if (sec.indexOf('39') < 0) bad.push('⑧ PHYSICS〔第275便b〕に監査の行数 39 が無い');
         for (const [k, n] of Object.entries(byRule))
           if (sec.indexOf(String(n)) < 0) bad.push(`⑧ PHYSICS〔第275便b〕に ${k} の本数 ${n} が無い`);
@@ -10159,7 +10196,7 @@ if (!TARGET.startsWith('beta/')) {
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       if (P.indexOf('〔第276便a') < 0) bad.push('⑧ PHYSICS に〔第276便a〕節が無い');
       else {
-        const sec = P.slice(P.indexOf('〔第276便a'), P.indexOf('〔第276便a') + 40000);
+        const sec = secUntilNext329c(P, P.indexOf('〔第276便a'), /\n〔第\d+便[a-z]* — |\n## /);
         for (const n of [String(S.total), String(S.groups)])
           if (sec.indexOf(n) < 0) bad.push(`⑧ PHYSICS〔第276便a〕に ${n} が無い`);
         for (const id of qIds)
@@ -10241,7 +10278,7 @@ if (!TARGET.startsWith('beta/')) {
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       if (P.indexOf('〔第276便a') < 0) bad.push('⑦ PHYSICS に〔第276便a〕節が無い');
       else {
-        const sec = P.slice(P.indexOf('〔第276便a'), P.indexOf('〔第276便a') + 40000);
+        const sec = secUntilNext329c(P, P.indexOf('〔第276便a'), /\n〔第\d+便[a-z]* — |\n## /);
         for (const [k, n] of Object.entries(byRule))
           if (sec.indexOf(String(n)) < 0) bad.push(`⑦ PHYSICS〔第276便a〕に ${k} の本数 ${n} が無い`);
       }
@@ -10323,7 +10360,7 @@ if (!TARGET.startsWith('beta/')) {
       if (at < 0) bad.push('⑦ PHYSICS に〔第277便d〕節が無い');
       else {
         // **「言わないこと。」の段落は禁止語の一覧そのもの**なので、走査はその手前までにする
-        const whole = P.slice(at, at + 40000);
+        const whole = secUntilNext329c(P, at, /\n〔第\d+便[a-z]* — |\n## /);
         const cut = whole.indexOf('**言わないこと。**');
         const sec = cut >= 0 ? whole.slice(0, cut) : whole;
         for (const w of ['慣性を導出した', '運動量則を導出した'])
@@ -10446,7 +10483,7 @@ if (!TARGET.startsWith('beta/')) {
       if (at < 0) bad.push('⑥ PHYSICS に〔第277便d〕節が無い');
       else {
         // **「言わないこと。」の段落は禁止語の一覧そのもの**なので、走査はその手前までにする
-        const whole = P.slice(at, at + 40000);
+        const whole = secUntilNext329c(P, at, /\n〔第\d+便[a-z]* — |\n## /);
         const cut = whole.indexOf('**言わないこと。**');
         const sec = cut >= 0 ? whole.slice(0, cut) : whole;
         for (const q of ['背景を無視してよいことを証明した', '背景を較正した'])
@@ -10513,7 +10550,7 @@ if (!TARGET.startsWith('beta/')) {
       cases.push(`3 行 × はしご 12 段 × 項 9 × 刻み ${S.length ? S[0].steps.join('/') : '—'} 步・分解恒等式は 1 点も走行も一致`);
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const at = P.indexOf('〔第278便d');
-      const whole = at >= 0 ? P.slice(at, at + 40000) : '';
+      const whole = at >= 0 ? secUntilNext329c(P, at, /\n〔第\d+便[a-z]* — |\n## /) : '';
       const cut = whole.indexOf('**言わないこと。**');
       const sec = cut >= 0 ? whole.slice(0, cut) : whole;
       const pc = S.find((z) => z.id === 'plutoCharonReal');
@@ -10631,7 +10668,7 @@ if (!TARGET.startsWith('beta/')) {
       }
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const at = P.indexOf('〔第278便d');
-      const sec = at >= 0 ? P.slice(at, at + 40000) : '';
+      const sec = at >= 0 ? secUntilNext329c(P, at, /\n〔第\d+便[a-z]* — |\n## /) : '';
       if (at < 0) bad.push('⑤ PHYSICS に〔第278便d〕節が無い');
       else if (sec.indexOf('fieldTime + 移流 = advected') < 0 || sec.indexOf('fieldTime を禁止しない') < 0)
         bad.push('⑤ PHYSICS〔第278便d〕に「fieldTime + 移流 = advected」「fieldTime を禁止しない」が無い');
@@ -10702,7 +10739,7 @@ if (!TARGET.startsWith('beta/')) {
       cases.push(`ページ vs node ${J.pageVsNode.bitIdentical}/${J.pageVsNode.n} ビット一致・(d)(e)(f) の引き直しは正本と同じ`);
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const at = P.indexOf('〔第279便c');
-      const whole = at >= 0 ? P.slice(at, at + 60000) : '';
+      const whole = at >= 0 ? secUntilNext329c(P, at, /\n〔第\d+便[a-z]* — |\n## /) : '';
       const cut = whole.indexOf('**言わないこと。**');
       const sec = cut >= 0 ? whole.slice(0, cut) : whole;
       if (at < 0) bad.push('⑨ PHYSICS に〔第279便c〕節が無い');
@@ -10804,7 +10841,7 @@ if (!TARGET.startsWith('beta/')) {
       if (!(J.meta.notClaim || []).length) bad.push('⑨ meta.notClaim が無い');
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const at = P.indexOf('〔第279便c');
-      const whole = at >= 0 ? P.slice(at, at + 60000) : '';
+      const whole = at >= 0 ? secUntilNext329c(P, at, /\n〔第\d+便[a-z]* — |\n## /) : '';
       const cut = whole.indexOf('**言わないこと。**');
       const sec = cut >= 0 ? whole.slice(0, cut) : whole;
       if (at < 0) bad.push('⑨ PHYSICS に〔第279便c〕節が無い');
@@ -11061,7 +11098,7 @@ if (!TARGET.startsWith('beta/')) {
       cases.push(`ページ vs node ${pv.bitIdentical}/${pv.n} ビット一致(残りは Math.pow の最下位ビット・最大 ${sci(pv.maxRelDiff, 1)})・(c)(e) の引き直しは正本と相対 1e-12 で同じ`);
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const at = P.indexOf('〔第280便b — ');
-      const whole = at >= 0 ? P.slice(at, at + 60000) : '';
+      const whole = at >= 0 ? secUntilNext329c(P, at, /\n〔第\d+便[a-z]* — |\n## /) : '';
       const cut = whole.indexOf('**言わないこと。**');
       const sec = cut >= 0 ? whole.slice(0, cut) : whole;
       if (at < 0) bad.push('⑨ PHYSICS に〔第280便b〕節が無い');
@@ -23657,7 +23694,7 @@ if (!FAST) {
         if (CL.indexOf('第292便c') < 0) bad.push('CHANGELOG に第292便c が無い');
         const AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
         const ai = AS.indexOf('`dragCore:{massFrac, radius}`');
-        if (!(ai >= 0 && /既定なし/.test(AS.slice(ai, ai + 3000)) && /massFrac/.test(AS.slice(ai, ai + 3000)))) bad.push('AI_SPEC に dragCore の鍵・値域・既定なしが無い');
+        if (!(ai >= 0 && /既定なし/.test(secUntilNext329c(AS, ai, '\n## ')) && /massFrac/.test(secUntilNext329c(AS, ai, '\n## ')))) bad.push('AI_SPEC に dragCore の鍵・値域・既定なしが無い');
         if (HP292.SYSTEM_PROMPT && /dragCore/.test(HP292.SYSTEM_PROMPT)) bad.push('SYSTEM_PROMPT に dragCore がある(AI 生成には開放しない)');
         cases.push('CHANGELOG・AI_SPEC(既定なし)・SYSTEM_PROMPT に載せない');
       }
@@ -23836,7 +23873,7 @@ if (!FAST) {
         if (CL.indexOf('第293便e') < 0) bad.push('CHANGELOG に第293便e が無い');
         const AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
         const ai = AS.indexOf('`physics.relativeDrag.compose`');
-        const aiSec = ai >= 0 ? AS.slice(ai, ai + 3000) : '';
+        const aiSec = ai >= 0 ? secUntilNext329c(AS, ai, '\n## ') : '';
         if (!has293g && !(ai >= 0 && /solveFrom/.test(aiSec) && /solveIters/.test(aiSec) && /既定 "sum"/.test(aiSec))) bad.push('AI_SPEC に compose・solveFrom・solveIters・既定 "sum" が無い');
         if (has293g && !(ai >= 0 && /solveFrom/.test(aiSec) && /solveIters/.test(aiSec) && /既定 "solve"/.test(aiSec) && /旧法則版/.test(aiSec) && /第293便g/.test(aiSec))) bad.push('AI_SPEC に compose・solveFrom・solveIters・既定 "solve"・旧法則版(sum)・第293便g が無い');
         if (has293g && CL.indexOf('第293便g') < 0) bad.push('CHANGELOG に第293便g が無い');
@@ -24361,7 +24398,7 @@ if (!FAST) {
         cases.push(`必須の語・禁止語 0(${FORBID.length} 語)`);
         const AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
         const ai = AS.indexOf('第293便c —— コアの 3 つの鍵は別の仕事');
-        if (!(ai >= 0 && /致命拒否/.test(AS.slice(ai, ai + 4000)) && AS.slice(ai, ai + 4000).indexOf('`layers:[{role, m, r, J, …}]`') >= 0)) bad.push('AI_SPEC にコアの 3 つの鍵の表(同時宣言の規則)が無い');
+        if (!(ai >= 0 && /致命拒否/.test(secUntilNext329c(AS, ai, '\n## ')) && secUntilNext329c(AS, ai, '\n## ').indexOf('`layers:[{role, m, r, J, …}]`') >= 0)) bad.push('AI_SPEC にコアの 3 つの鍵の表(同時宣言の規則)が無い');
         if (HP293.SYSTEM_PROMPT && /dragCore/.test(HP293.SYSTEM_PROMPT)) bad.push('SYSTEM_PROMPT に dragCore がある');
         const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
         if (CL.indexOf('第293便c') < 0) bad.push('CHANGELOG に第293便c の行が無い');
@@ -49948,7 +49985,7 @@ if (!FAST) {
       cases.push(`E0 の 8 公転窓 ${ap0.toFixed(3)} 年・27 公転窓 ${w('E0', 0.016, 1).apsPeriodYr.toFixed(3)} 年`);
       const Pm = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const a0 = Pm.indexOf('〔第280便b — ');
-      const whole = a0 >= 0 ? Pm.slice(a0, a0 + 60000) : '';
+      const whole = a0 >= 0 ? secUntilNext329c(Pm, a0, /\n〔第\d+便[a-z]* — |\n## /) : '';
       const cut = whole.indexOf('**言わないこと。**');
       const sec = cut >= 0 ? whole.slice(0, cut) : whole;
       const nums = ['E0', 'E1', 'E2', 'E3', 'E4', 'E6', 'E7', 'E8', 'S0'].map((id) => f4(w(id, 0.016, 1).slopeDegPerPeri));
@@ -50309,7 +50346,7 @@ if (!FAST) {
       const i0 = Pm.indexOf('\n〔第280便c — ');   // 節の見出し(§6 の表の行にも「〔第280便c〕」が出るので行頭の見出しで探す)
       if (i0 < 0) bad.push('⑦ PHYSICS に〔第280便c〕節が無い');
       else {
-        const sec = Pm.slice(i0, i0 + 60000);
+        const sec = secUntilNext329c(Pm, i0, /\n〔第\d+便[a-z]* — |\n## /);
         const e3 = (x) => Number(x).toExponential(2).replace(/e([+-])(\d+)/, (m, s, d) => '×10' + (s === '-' ? '⁻' : '') + String(d).split('').map((c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c]).join('')).replace(/^-/, '−');
         const want = [m1 && e3(m1.a_M2_minus_M0), m1 && e3(m1.a_M3_minus_M0), c1 && c1.rev2 && e3(c1.rev2.C2_minus_C0)];
         for (const w of want) if (w && sec.indexOf(w) < 0) bad.push(`⑦ PHYSICS〔第280便c〕に ${w} が無い`);
@@ -64748,7 +64785,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       const i0 = md.indexOf('〔第287便d');
       if (i0 < 0) bad.push('⑥PHYSICS に〔第287便d〕の節が無い');
       else for (const need of ['🎐🎻⏰⚛️', 'systemOf', 'geoPN=0', 'ui.gwGroupMove'])
-        if (!md.slice(i0, i0 + 20000).includes(need)) bad.push(`⑥PHYSICS〔第287便d〕に「${need}」が無い`);
+        if (!secUntilNext329c(md, i0, /\n〔第\d+便[a-z]* — |\n## /).includes(need)) bad.push(`⑥PHYSICS〔第287便d〕に「${need}」が無い`);
     } catch (e) { bad.push('実行に失敗: ' + String(e).slice(0, 200)); }
     if (errs.length) bad.push('ページのエラー: ' + errs[0].slice(0, 100));
     const s = info.sys || {};
@@ -64844,7 +64881,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       // ⑦ 文書
       const md = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const i0 = md.indexOf('〔第287便d');
-      if (i0 < 0 || !md.slice(i0, i0 + 20000).includes('ui.trailFollowFrame')) bad.push('⑦PHYSICS〔第287便d〕に ui.trailFollowFrame が無い');
+      if (i0 < 0 || !secUntilNext329c(md, i0, /\n〔第\d+便[a-z]* — |\n## /).includes('ui.trailFollowFrame')) bad.push('⑦PHYSICS〔第287便d〕に ui.trailFollowFrame が無い');
       const ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
       if (!/第287便d[\s\S]{0,3000}追従フレーム/.test(ai)) bad.push('⑦AI_SPEC に追従フレームの行が無い');
     } catch (e) { bad.push('実行に失敗: ' + String(e).slice(0, 200)); }
@@ -64953,7 +64990,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       // ④ 文書
       const md = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const i0 = md.indexOf('〔第287便d');
-      if (i0 < 0 || !md.slice(i0, i0 + 20000).includes('ui.liveComparePeriodDef')) bad.push('④PHYSICS〔第287便d〕に ui.liveComparePeriodDef が無い');
+      if (i0 < 0 || !secUntilNext329c(md, i0, /\n〔第\d+便[a-z]* — |\n## /).includes('ui.liveComparePeriodDef')) bad.push('④PHYSICS〔第287便d〕に ui.liveComparePeriodDef が無い');
       const ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
       if (!/第287便d[\s\S]{0,3000}periodDef/.test(ai)) bad.push('④AI_SPEC に periodDef の行が無い');
     } catch (e) { bad.push('実行に失敗: ' + String(e).slice(0, 200)); }
@@ -70252,7 +70289,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       if (!(g.kF === 0 && g.geo === 0)) bad.push('⏰ の physics が geoPN=0・kFrame=0 でない');
       if (html289.indexOf('unifyGwNote:"GW の 2 本(🎐⏰)は geoPN=0 のまま') < 0) bad.push('一本化の注記に GW の 2 本の geoPN=0 が無い');
       const PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
-      const i0 = PH.indexOf('〔第289便b'), sec = i0 >= 0 ? PH.slice(i0, i0 + 20000) : '';
+      const i0 = PH.indexOf('〔第289便b'), sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /) : '';
       if (!sec) bad.push('PHYSICS〔第289便b〕が無い');
       else if (!/4 s は観測値/.test(sec) || !/条が消えて合った/.test(sec)) bad.push('PHYSICS〔第289便b〕の書かないことが無い');
       cases.push(`⏰ 名前「${g.name}」・summary に窓の宣言/geoPN=0/未宣言・physics geoPN=${g.geo}・kFrame=${g.kF}(不変)・一本化の注記・PHYSICS の書かないこと`);
@@ -74681,7 +74718,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const NG = [/私信/, /添付/, /審査/, /再現した/, /再現しない/, /合わせられない/, /普遍定数/, /ChatGPT|Grok|Gemini|Claude|GPT-|Opus|Sonnet|Haiku/];
       const harn = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w298c-drag3d.mjs'), 'utf8') + fs.readFileSync(path.join(ROOT, 'tests', 'exp-w298c-moon3d.mjs'), 'utf8');
       const strip = (t) => t.replace(/「[^」]*」/g, '');
-      for (const [nm, tx] of [['PHYSICS', psec], ['新本', blk('chainDiskToy3d') + blk('chainDiskToy3dTilt') + blk('earthMoonSunInertial3d')], ['器', harn], ['AI_SPEC', (ai >= 0) ? Ai.slice(ai, ai + 20000) : '']])
+      for (const [nm, tx] of [['PHYSICS', psec], ['新本', blk('chainDiskToy3d') + blk('chainDiskToy3dTilt') + blk('earthMoonSunInertial3d')], ['器', harn], ['AI_SPEC', (ai >= 0) ? secUntilNext329c(Ai, ai, '\n## ') : '']])
         for (const re of NG) if (re.test(strip(tx))) bad.push(nm + ' に禁句 ' + re.source);
       cases.push(`PHYSICS〔第298便c〕${psec.length} 字・AI_SPEC の節・CHANGELOG・README・段 2 つ・.gitignore・禁句 0`);
       add('docs.moon3d298', bad.length === 0,
@@ -75061,7 +75098,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const Ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
       const ai = Ai.indexOf('第299便c —— 惑星の geoPN=3 三次元の本');
       if (ai < 0) bad.push('AI_SPEC に第299便c の節が無い');
-      else { const as = Ai.slice(ai, ai + 6000); for (const w of ['planetDecl3', 'preset.planets3d299', 'docs.planets3d299', 'planet3d_no_target']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); }
+      else { const as = secUntilNext329c(Ai, ai, '\n## '); for (const w of ['planetDecl3', 'preset.planets3d299', 'docs.planets3d299', 'planet3d_no_target']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); }
       const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'), RM = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
       if (CL.indexOf('第299便c') < 0) bad.push('CHANGELOG に第299便c が無い');
       if (RM.indexOf('第299便c') < 0) bad.push('README に要点が無い');
@@ -75074,7 +75111,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const NG = [/私信/, /添付/, /審査/, /再現した/, /再現しない/, /合わせられない/, /普遍定数/, /ChatGPT|Grok|Gemini|Claude|GPT-|Opus|Sonnet|Haiku/];
       const harn = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w299c-planets3d.mjs'), 'utf8') + fs.readFileSync(path.join(ROOT, 'tests', 'lib-w299c-planets3d.mjs'), 'utf8');
       const strip = (t) => t.replace(/「[^」]*」/g, '');
-      for (const [nm, tx] of [['PHYSICS', psec], ['新本', ids9.map(blk).join('')], ['器', harn], ['AI_SPEC', (ai >= 0) ? Ai.slice(ai, ai + 6000) : '']])
+      for (const [nm, tx] of [['PHYSICS', psec], ['新本', ids9.map(blk).join('')], ['器', harn], ['AI_SPEC', (ai >= 0) ? secUntilNext329c(Ai, ai, '\n## ') : '']])
         for (const re of NG) if (re.test(strip(tx))) bad.push(nm + ' に禁句 ' + re.source);
       cases.push(`PHYSICS〔第299便c〕${psec.length} 字・AI_SPEC の節・CHANGELOG・README・段・.gitignore・禁句 0`);
       add('docs.planets3d299', bad.length === 0,
@@ -75120,7 +75157,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     const psec30 = (a30 >= 0) ? Pd30.slice(a30, e30.length ? Math.min(...e30) : undefined) : '';
     const Ai30 = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
     const ai30 = Ai30.indexOf('第300便c —— 土星の輪の geoPN=3 三次元');
-    const aiSec30 = (ai30 >= 0) ? Ai30.slice(ai30, ai30 + 8000) : '';
+    const aiSec30 = (ai30 >= 0) ? secUntilNext329c(Ai30, ai30, '\n## ') : '';
     const NG30 = [/私信/, /添付/, /審査/, /再現した/, /再現しない/, /合わせられない/, /普遍定数/, /ChatGPT|Grok|Gemini|Claude|GPT-|Opus|Sonnet|Haiku/];
     const strip30 = (t) => t.replace(/「[^」]*」/g, '');
     // ---- ① preset.saturnRing3d300
@@ -78198,7 +78235,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         for (const w of ['physics.approxMany', '塵', '天体', 'pinned', 'S._rdPairSet', 'spinZero', 'approxmany-w301b.json', 'S._core', '受動プローブ']) if (psec.indexOf(w) < 0) bad.push('PHYSICS〔第301便b〕に「' + w + '」が無い');
       }
       const Ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'), ai = Ai.indexOf('第301便b —— 近似多粒子の契約');
-      const aiSec = (ai >= 0) ? Ai.slice(ai, ai + 6000) : '';
+      const aiSec = (ai >= 0) ? secUntilNext329c(Ai, ai, '\n## ') : '';
       if (!aiSec) bad.push('AI_SPEC に第301便b の節が無い');
       else for (const w of ['physics.approxMany', 'behavior.approxMany301', 'preset.approxMany301']) if (aiSec.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い');
       if (fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8').indexOf('第301便b') < 0) bad.push('CHANGELOG');
@@ -78436,7 +78473,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       for (const w of ['physics.gLoc', 'κ_g', 'receiver', 'symmetric', 'gLocWork', 'gloc-w302b.json', 'S._core', '近点の一次だけ']) if (psec.indexOf(w) < 0) bad.push('PHYSICS〔第302便b〕に「' + w + '」が無い');
     }
     const Ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'), ai = Ai.indexOf('第302便b —— 局所重力');
-    const aiSec = (ai >= 0) ? Ai.slice(ai, ai + 5000) : '';
+    const aiSec = (ai >= 0) ? secUntilNext329c(Ai, ai, '\n## ') : '';
     if (!aiSec) bad.push('AI_SPEC に第302便b の節が無い');
     else for (const w of ['physics.gLoc', 'behavior.gLoc302']) if (aiSec.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い');
     if (fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8').indexOf('第302便b') < 0) bad.push('CHANGELOG');
@@ -79466,7 +79503,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (!SE.fit || !(SE.fit.rows || []).length) bad.push('正本に影響の表(fit)が無い');
         if (!SE.chain) bad.push('正本に連鎖の段(chain)が無い');
       }
-      const i0 = PH.indexOf('〔第302便d'), sec = i0 >= 0 ? PH.slice(i0, i0 + 30000) : '';
+      const i0 = PH.indexOf('〔第302便d'), sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /) : '';
       if (!sec) bad.push('PHYSICS〔第302便d〕が無い');
       else {
         for (const w of ['R188', 'AN303', 'stepOrder', 'semic', 'split', 'R_E', 'inertialDragWork', 'semic-w302d.json', 'exp-w302d-semic.mjs', '再フィット']) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第302便d〕に「' + w + '」が無い');
@@ -80117,7 +80154,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           if (J.mercury && J.transfer && J.gLocTable) { const nums = X.docNumbers(J), miss = nums.filter((t) => psec.indexOf(t) < 0); if (miss.length) bad.push('PHYSICS〔第303便b〕に正本の数が無い: ' + miss.slice(0, 6).join(' ')); else cases.push(`PHYSICS の表の数 ${nums.length} 個が正本と一致`); }
         }
         const Ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'), ai = Ai.indexOf('第303便b —— 源の慣性決定力');
-        const aiSec = (ai >= 0) ? Ai.slice(ai, ai + 5000) : '';
+        const aiSec = (ai >= 0) ? secUntilNext329c(Ai, ai, '\n## ') : '';
         if (!aiSec) bad.push('AI_SPEC に第303便b の節が無い');
         else for (const w of ['physics.relativeDrag.inertialR2', 'cRatio', 'behavior.inertialR2_303', 'SYSTEM_PROMPT']) if (aiSec.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い');
         if (String(H.HP.SYSTEM_PROMPT || '').indexOf('inertialR2') >= 0) bad.push('SYSTEM_PROMPT に inertialR2 が載っている(本便は載せない)');
@@ -80275,7 +80312,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           if (J.mercury && J.zero) { const nums = X.docNumbers(J), miss = nums.filter((t) => psec.indexOf(t) < 0); if (miss.length) bad.push('PHYSICS〔第304便a〕に正本の数が無い: ' + miss.slice(0, 6).join(' ')); else cases.push(`PHYSICS の数 ${nums.length} 個が正本と一致`); }
         }
         const Ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'), ai = Ai.indexOf('第304便a —— 引きずり核の球面');
-        const aiSec = (ai >= 0) ? Ai.slice(ai, ai + 5000) : '';
+        const aiSec = (ai >= 0) ? secUntilNext329c(Ai, ai, '\n## ') : '';
         if (!aiSec) bad.push('AI_SPEC に第304便a の節が無い');
         else for (const w of ['dragCore:{shellRatio', 'shellSelf', 'inertialR2.self', 'behavior.shell304', 'SYSTEM_PROMPT']) if (aiSec.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い');
         if (/shellRatio|shellSelf/.test(String(H.HP.SYSTEM_PROMPT || ''))) bad.push('SYSTEM_PROMPT に殻の鍵が載っている(本便は載せない)');
@@ -81428,7 +81465,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           for (const [nm, t] of [['PHYSICS〔第305便a〕', sec], ['器', rd('tests/exp-w305a-pairnorm.mjs')], ['html の節', eng]]) for (const w of NG.concat(nm === '器' ? [] : NG2)) if (t.indexOf(w) >= 0) bad.push(nm + 'に禁句(' + w.length + ' 字)');
         }
         const Ai = rd('docs/AI_SPEC.md'), ai = Ai.indexOf('第305便a —— 対ごとの正規化');
-        const aiSec = ai >= 0 ? Ai.slice(ai, ai + 4000) : '';
+        const aiSec = ai >= 0 ? secUntilNext329c(Ai, ai, '\n## ') : '';
         if (!aiSec) bad.push('AI_SPEC に第305便a の節が無い');
         else for (const w of ['physics.relativeDrag.inertialR2.denom', '"pair"', 'network-pcg-v1', 'behavior.pairNorm305']) if (aiSec.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い');
         if (String(H.HP.SYSTEM_PROMPT || '').indexOf('denom') >= 0) bad.push('SYSTEM_PROMPT に denom が載っている(本便は載せない)');
@@ -81746,7 +81783,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (RM.indexOf('第307便a') < 0) bad.push('README に第307便a が無い');
       { const ai = AS.indexOf('第307便a —— 軸引きずりの球面の核');
         if (ai < 0) bad.push('AI_SPEC に第307便a の節が無い');
-        else { const as = AS.slice(ai, ai + 6000); for (const w of ['axialModel', 'axialGain', 'rotStep', 'SYSTEM_PROMPT には載せない', 'docs.sphereAxial307']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['axialModel', 'axialGain', 'rotStep', 'SYSTEM_PROMPT には載せない', 'docs.sphereAxial307']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); } }
       if (RT.indexOf("S('sphereaxial-307a', 'node tests/exp-w307a-sphereaxial.mjs', ['tests/out/sphereaxial-w307a.json']") < 0 || !/secSource: 'w307a-branch'/.test(RT)) bad.push('再生成の段 sphereaxial-307a');
       if (GI.indexOf('!tests/out/sphereaxial-w307a.json') < 0) bad.push('.gitignore の例外');
       if (PM.indexOf('docs.sphereAxial307') < 0) bad.push('post-merge の ③′ に docs.sphereAxial307 が無い');
@@ -81981,7 +82018,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (RM.indexOf('第308便a') < 0) bad.push('README に第308便a が無い');
       { const ai = AS.indexOf('第308便a —— 軸引きずりの鏡映の核');
         if (ai < 0) bad.push('AI_SPEC に第308便a の節が無い');
-        else { const as = AS.slice(ai, ai + 6000); for (const w of ['axialModel', 'axialGain', 'axialNorm', 'SYSTEM_PROMPT には載せない', 'docs.bevel308']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['axialModel', 'axialGain', 'axialNorm', 'SYSTEM_PROMPT には載せない', 'docs.bevel308']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); } }
       if (RT.indexOf("S('bevel-308a', 'node tests/exp-w308a-bevel.mjs', ['tests/out/bevel-w308a.json']") < 0 || !/secSource: 'w308a-branch'/.test(RT)) bad.push('再生成の段 bevel-308a');
       if (GI.indexOf('!tests/out/bevel-w308a.json') < 0) bad.push('.gitignore の例外');
       if (PM.indexOf('docs.bevel308') < 0) bad.push('post-merge の ③′ に docs.bevel308 が無い');
@@ -82158,7 +82195,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (RM.indexOf('第309便a') < 0) bad.push('README に第309便a が無い');
       { const ai = AS.indexOf('## 111.');
         if (ai < 0) bad.push('AI_SPEC に §111 が無い');
-        else { const as = AS.slice(ai, ai + 6000); for (const w of ['invSq', 'dragCoreDefault', 'SYSTEM_PROMPT には載せない', 'docs.invSq309']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §111 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['invSq', 'dragCoreDefault', 'SYSTEM_PROMPT には載せない', 'docs.invSq309']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §111 に「' + w + '」が無い'); } }
       if (RT.indexOf("S('invsq-309a', 'node tests/exp-w309a-invsq.mjs', ['tests/out/invsq-w309a.json']") < 0 || !/secSource: 'w309a-branch'/.test(RT)) bad.push('再生成の段 invsq-309a');
       if (GI.indexOf('!tests/out/invsq-w309a.json') < 0) bad.push('.gitignore の例外');
       if (PM.indexOf('docs.invSq309') < 0 || PM.indexOf('behavior.invSq309') < 0) bad.push('post-merge の ③′ に docs.invSq309/behavior.invSq309 が無い');
@@ -82340,7 +82377,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (RM.indexOf('第310便a') < 0) bad.push('README に第310便a が無い');
       { const ai = AS.indexOf('## 115.');
         if (ai < 0) bad.push('AI_SPEC に §115 が無い');
-        else { const as = AS.slice(ai, ai + 6000); for (const w of ['invSq', 'Wbg2', 'outerShell', 'w310a-invsq-wbg0-1', 'SYSTEM_PROMPT には載せない', 'docs.invSq310']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §115 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['invSq', 'Wbg2', 'outerShell', 'w310a-invsq-wbg0-1', 'SYSTEM_PROMPT には載せない', 'docs.invSq310']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §115 に「' + w + '」が無い'); } }
       if (RT.indexOf("S('invsq-310a', 'node tests/exp-w310a-invsq.mjs', ['tests/out/invsq-w310a.json']") < 0 || !/secSource: 'w310a-branch'/.test(RT)) bad.push('再生成の段 invsq-310a');
       if (GI.indexOf('!tests/out/invsq-w310a.json') < 0) bad.push('.gitignore の例外');
       if (PM.indexOf('docs.invSq310') < 0 || PM.indexOf('behavior.invSq310') < 0) bad.push('post-merge の ③′ に docs.invSq310/behavior.invSq310 が無い');
@@ -82501,7 +82538,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (RM.indexOf('第311便a') < 0) bad.push('README に第311便a が無い');
       { const ai = AS.indexOf('## 119.');
         if (ai < 0) bad.push('AI_SPEC に §119 が無い');
-        else { const as = AS.slice(ai, ai + 6000); for (const w of ['dragCore', 'spin', 'spinAxis', 'w311a-corespin-1', 'SYSTEM_PROMPT には載せない', 'docs.coreSpin311']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §119 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['dragCore', 'spin', 'spinAxis', 'w311a-corespin-1', 'SYSTEM_PROMPT には載せない', 'docs.coreSpin311']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §119 に「' + w + '」が無い'); } }
       if (RT.indexOf("S('corespin-311a', 'node tests/exp-w311a-corespin.mjs', ['tests/out/corespin-w311a.json']") < 0 || !/secSource: 'w311a-branch'/.test(RT)) bad.push('再生成の段 corespin-311a');
       if (GI.indexOf('!tests/out/corespin-w311a.json') < 0) bad.push('.gitignore の例外');
       if (PM.indexOf('docs.coreSpin311') < 0 || PM.indexOf('behavior.coreSpin311') < 0) bad.push('post-merge の ③′ に docs.coreSpin311/behavior.coreSpin311 が無い');
@@ -84380,7 +84417,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (RM.indexOf('第311便b') < 0) bad.push('README に第311便b が無い');
       { const ai = AS.indexOf('## 120.');
         if (ai < 0) bad.push('AI_SPEC に §120 が無い');
-        else { const as = AS.slice(ai, ai + 6000); for (const w of ['galaxyAxial', 'w311b-galaxial-1', 'motionDenomSmall', 'SYSTEM_PROMPT には載せない', 'docs.galaxial311']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §120 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['galaxyAxial', 'w311b-galaxial-1', 'motionDenomSmall', 'SYSTEM_PROMPT には載せない', 'docs.galaxial311']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §120 に「' + w + '」が無い'); } }
       if (RT.indexOf("S('galaxial-311b', 'node tests/exp-w311b-galaxial.mjs', ['tests/out/galaxial-w311b.json']") < 0 || !/secSource: 'w311b-branch'/.test(RT)) bad.push('再生成の段 galaxial-311b');
       if (GI.indexOf('!tests/out/galaxial-w311b.json') < 0) bad.push('.gitignore の例外');
       if (PM.indexOf('docs.galaxial311') < 0 || PM.indexOf('behavior.galaxial311') < 0) bad.push('post-merge の ③′ に docs.galaxial311/behavior.galaxial311 が無い');
@@ -84585,7 +84622,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (RM.indexOf('第312便b') < 0) bad.push('README に第312便b が無い');
       { const ai = AS.indexOf('## 124.');
         if (ai < 0) bad.push('AI_SPEC に §124 が無い');
-        else { const as = AS.slice(ai, ai + 6000); for (const w of ['rdPow', 'refRadius', 'w312b-galaxial-rd-1', 'SYSTEM_PROMPT には載せない', 'docs.galaxialRd312', 'コリオリ']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §124 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['rdPow', 'refRadius', 'w312b-galaxial-rd-1', 'SYSTEM_PROMPT には載せない', 'docs.galaxialRd312', 'コリオリ']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §124 に「' + w + '」が無い'); } }
       if (RT.indexOf("S('galaxialrd-312b', 'node tests/exp-w312b-galaxialrd.mjs', ['tests/out/galaxialrd-w312b.json']") < 0 || !/secSource: 'w312b-branch'/.test(RT)) bad.push('再生成の段 galaxialrd-312b');
       if (GI.indexOf('!tests/out/galaxialrd-w312b.json') < 0) bad.push('.gitignore の例外');
       if (PM.indexOf('docs.galaxialRd312') < 0 || PM.indexOf('behavior.galaxialRd312') < 0) bad.push('post-merge の ③′ に docs.galaxialRd312/behavior.galaxialRd312 が無い');
@@ -84803,7 +84840,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (RM.indexOf('第313便b') < 0) bad.push('README に第313便b が無い');
       { const ai = AS.indexOf('## 128.');
         if (ai < 0) bad.push('AI_SPEC に §128 が無い');
-        else { const as = AS.slice(ai, ai + 6000); for (const w of ['massPow', 'refMass', 'w313b-galaxial-rdm-1', 'SYSTEM_PROMPT には載せない', 'docs.galaxialRdm313', 'K1']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §128 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['massPow', 'refMass', 'w313b-galaxial-rdm-1', 'SYSTEM_PROMPT には載せない', 'docs.galaxialRdm313', 'K1']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §128 に「' + w + '」が無い'); } }
       if (RT.indexOf("S('galaxialrdm-313b', 'node tests/exp-w313b-galaxialrdm.mjs', ['tests/out/galaxialrdm-w313b.json']") < 0 || !/secSource: 'w313b-branch'/.test(RT)) bad.push('再生成の段 galaxialrdm-313b');
       if (GI.indexOf('!tests/out/galaxialrdm-w313b.json') < 0) bad.push('.gitignore の例外');
       if (PM.indexOf('docs.galaxialRdm313') < 0 || PM.indexOf('behavior.galaxialRdm313') < 0) bad.push('post-merge に docs.galaxialRdm313/behavior.galaxialRdm313 が無い');
@@ -85251,7 +85288,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (!(Sc.sec.indexOf('⑪ 注記(原仮定者の裁定〔第101報〕') >= 0 && Sc.sec.indexOf('(C) に寄せた') >= 0 && Sc.sec.indexOf('元の自転軸を維持するトルク') >= 0 && Sc.sec.indexOf('第308便b') >= 0)) bad.push('PHYSICS〔第307便c〕⑪(第101報の注記 —— (C)・実装は第308便b)');
       const ai = AS.indexOf('第308便d —— ');
       if (ai < 0) bad.push('AI_SPEC に第308便d の節が無い');
-      else { const as = AS.slice(ai, ai + 5000); for (const w of ['tide3ReceiverWarnings', 'spinAxis', 'radiusFloor', 'targets[].role', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); }
+      else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['tide3ReceiverWarnings', 'spinAxis', 'radiusFloor', 'targets[].role', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); }
       // 第309便(統括): 便の基点の版名の更新で見出しが b309 へ進む —— b307 以降の見出しの塊のどれかにあればよい(見出しの番号を固定しない —— 第308便の docs.w307e と同じ型)
       const mB8 = /\n## v1\.45(?:-b(\d+)|\.0\()/g; let blk = '';   // 第310便(v1.45.0 昇格): RC 節 `## v1.45.0(` の下へ移った行も受ける
       for (let mm; (mm = mB8.exec(CL)) !== null; ) { if (mm[1] !== undefined && +mm[1] < 307) continue; const iB = mm.index + 1, iN = CL.indexOf('\n## ', iB + 5); blk += CL.slice(iB, iN > iB ? iN : undefined); }
@@ -85656,7 +85693,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (RM.indexOf('第310便d') < 0) bad.push('README に第310便d が無い');
       { const ai = AS.indexOf('## 118.');
         if (ai < 0) bad.push('AI_SPEC に §118 が無い');
-        else { const as = AS.slice(ai, ai + 6000); for (const w of ['exp-w310d-mdsweep.mjs', 'mdsweep-w310d.json', 'SYSTEM_PROMPT には載せない', 'docs.mdSweep310']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §118 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w310d-mdsweep.mjs', 'mdsweep-w310d.json', 'SYSTEM_PROMPT には載せない', 'docs.mdSweep310']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §118 に「' + w + '」が無い'); } }
       if (RT.indexOf("S('mdsweep-310d', 'node tests/exp-w310d-mdsweep.mjs', ['tests/out/mdsweep-w310d.json']") < 0 || !/secSource: 'w310d-branch'/.test(RT)) bad.push('再生成の段 mdsweep-310d');
       if (GI.indexOf('!tests/out/mdsweep-w310d.json') < 0) bad.push('.gitignore の例外');
       if (PM.indexOf('docs.mdSweep310') < 0) bad.push('post-merge の ③′ に docs.mdSweep310 が無い');
@@ -85814,7 +85851,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (RM.indexOf('第311便d') < 0) bad.push('README に第311便d が無い');
     { const ai = AS.indexOf('## 122.');
       if (ai < 0) bad.push('AI_SPEC に §122 が無い');
-      else { const as = AS.slice(ai, ai + 6000); for (const w of ['exp-w311d-planet3.mjs', 'planet3-w311d.json', 'SYSTEM_PROMPT には載せない', 'docs.planet3_311']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §122 に「' + w + '」が無い'); } }
+      else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w311d-planet3.mjs', 'planet3-w311d.json', 'SYSTEM_PROMPT には載せない', 'docs.planet3_311']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §122 に「' + w + '」が無い'); } }
     if (RT.indexOf("S('planet3-311d', 'node tests/exp-w311d-planet3.mjs', ['tests/out/planet3-w311d.json']") < 0 || !/secSource: 'w311d-branch'/.test(RT)) bad.push('再生成の段 planet3-311d');
     if (GI.indexOf('!tests/out/planet3-w311d.json') < 0) bad.push('.gitignore の例外');
     if (PM.indexOf('docs.planet3_311') < 0) bad.push('post-merge の ③′ に docs.planet3_311 が無い');
@@ -85980,7 +86017,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (RM.indexOf('第312便a') < 0) bad.push('README に第312便a が無い');
       { const ai = AS.indexOf('## 123.');
         if (ai < 0) bad.push('AI_SPEC に §123 が無い');
-        else { const as = AS.slice(ai, ai + 6000); for (const w of ['invSq', 'kernel', 'k1', 'w312a-invsq-k1-1', 'SYSTEM_PROMPT には載せない', 'docs.decay312']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §123 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['invSq', 'kernel', 'k1', 'w312a-invsq-k1-1', 'SYSTEM_PROMPT には載せない', 'docs.decay312']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §123 に「' + w + '」が無い'); } }
       if (RT.indexOf("S('decay-312a', 'node tests/exp-w312a-decay.mjs', ['tests/out/decay-w312a.json']") < 0 || !/secSource: 'w312a-branch'/.test(RT)) bad.push('再生成の段 decay-312a');
       if (GI.indexOf('!tests/out/decay-w312a.json') < 0) bad.push('.gitignore の例外');
       if (PM.indexOf('docs.decay312') < 0 || PM.indexOf('behavior.decayK1_312') < 0) bad.push('post-merge の ③′ に docs.decay312/behavior.decayK1_312 が無い');
@@ -86113,7 +86150,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (RM.indexOf('第312便d') < 0) bad.push('README に第312便d が無い');
     { const ai = AS.indexOf('## 126.');
       if (ai < 0) bad.push('AI_SPEC に §126 が無い');
-      else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w312d-confirm.mjs', 'confirm-w312d.json', 'SYSTEM_PROMPT には載せない', 'docs.confirm312', 'w312d-planet3-2']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §126 に「' + w + '」が無い'); } }
+      else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w312d-confirm.mjs', 'confirm-w312d.json', 'SYSTEM_PROMPT には載せない', 'docs.confirm312', 'w312d-planet3-2']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §126 に「' + w + '」が無い'); } }
     if (RT.indexOf("S('confirm-312d', 'node tests/exp-w312d-confirm.mjs', ['tests/out/confirm-w312d.json']") < 0 || !/secSource: 'w312d-branch'/.test(RT)) bad.push('再生成の段 confirm-312d');
     if (GI.indexOf('!tests/out/confirm-w312d.json') < 0) bad.push('.gitignore の例外');
     if (PM.indexOf('docs.confirm312') < 0) bad.push('post-merge の ③′ に docs.confirm312 が無い');
@@ -86326,7 +86363,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (RM.indexOf('第313便a') < 0) bad.push('README に第313便a が無い');
       { const ai = AS.indexOf('## 127.');
         if (ai < 0) bad.push('AI_SPEC に §127 が無い');
-        else { const as = AS.slice(ai, ai + 6000); for (const w of ['invSq', 'rdRule', 'kappaM', 'shellRecv', 'w313a-invsq-k1-kappam-1', 'SYSTEM_PROMPT には載せない', 'docs.kappaM313']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §127 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['invSq', 'rdRule', 'kappaM', 'shellRecv', 'w313a-invsq-k1-kappam-1', 'SYSTEM_PROMPT には載せない', 'docs.kappaM313']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §127 に「' + w + '」が無い'); } }
       if (RT.indexOf("S('kappam-313a', 'node tests/exp-w313a-kappam.mjs', ['tests/out/kappam-w313a.json']") < 0 || !/secSource: 'w313a-branch'/.test(RT)) bad.push('再生成の段 kappam-313a');
       if (GI.indexOf('!tests/out/kappam-w313a.json') < 0) bad.push('.gitignore の例外');
       if (PM.indexOf('docs.kappaM313') < 0 || PM.indexOf('behavior.kappaM313') < 0 || PM.indexOf('behavior.shellRecv313') < 0) bad.push('post-merge の ③′ に docs.kappaM313/behavior.kappaM313/behavior.shellRecv313 が無い');
@@ -86594,7 +86631,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (RM.indexOf('第314便a') < 0) bad.push('README に第314便a が無い');
       { const ai = AS.indexOf('## 131.');
         if (ai < 0) bad.push('AI_SPEC に §131 が無い');
-        else { const as = AS.slice(ai, ai + 6000); for (const w of ['radiusExcess', 'w314a-rd-excess-1', 'AN404', 'AN411', '重なり', 'SYSTEM_PROMPT には載せない', 'docs.rdExcess314']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §131 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['radiusExcess', 'w314a-rd-excess-1', 'AN404', 'AN411', '重なり', 'SYSTEM_PROMPT には載せない', 'docs.rdExcess314']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §131 に「' + w + '」が無い'); } }
       if (RT.indexOf("S('rdexcess-314a', 'node tests/exp-w314a-rdexcess.mjs', ['tests/out/rdexcess-w314a.json']") < 0 || !/secSource: 'w314a-branch'/.test(RT)) bad.push('再生成の段 rdexcess-314a');
       if (GI.indexOf('!tests/out/rdexcess-w314a.json') < 0) bad.push('.gitignore の例外');
       if (PM.indexOf('docs.rdExcess314') < 0 || PM.indexOf('behavior.rdExcess314') < 0 || PM.indexOf('ui.rdExcess314') < 0) bad.push('post-merge に docs.rdExcess314/behavior.rdExcess314/ui.rdExcess314 が無い');
@@ -86706,7 +86743,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   if (CLg.indexOf('第313便d') < 0) bad.push('CHANGELOG に第313便d が無い');
   if (RM.indexOf('第313便d') < 0) bad.push('README に第313便d が無い');
   { const ai = AS.indexOf('## 130.'); if (ai < 0) bad.push('AI_SPEC に §130 が無い');
-    else { const as = AS.slice(ai, ai + 8000); for (const w of ['w313d-planet3-3', 'w313d-confirm-2', 'docs.planet3v3_313', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §130 に「' + w + '」が無い'); } }
+    else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['w313d-planet3-3', 'w313d-confirm-2', 'docs.planet3v3_313', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §130 に「' + w + '」が無い'); } }
   if (PM.indexOf('docs.planet3v3_313') < 0) bad.push('post-merge の ③′ に docs.planet3v3_313 が無い');
   const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
   const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
@@ -86814,7 +86851,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第313便d〕に「' + w + '」が無い');
     }
     { const ai = AS.indexOf('## 130.'); if (ai < 0) bad.push('AI_SPEC に §130 が無い');
-      else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w313d-k1confirm.mjs', 'k1confirm-w313d.json', 'docs.k1confirm313', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §130 に「' + w + '」が無い'); } }
+      else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w313d-k1confirm.mjs', 'k1confirm-w313d.json', 'docs.k1confirm313', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §130 に「' + w + '」が無い'); } }
     if (RT.indexOf("S('k1confirm-313d', 'node tests/exp-w313d-k1confirm.mjs', ['tests/out/k1confirm-w313d.json']") < 0 || !/secSource: 'w313d-branch'/.test(RT)) bad.push('再生成の段 k1confirm-313d');
     if (GI.indexOf('!tests/out/k1confirm-w313d.json') < 0) bad.push('.gitignore の例外');
     if (PM.indexOf('docs.k1confirm313') < 0) bad.push('post-merge の ③′ に docs.k1confirm313 が無い');
@@ -86922,7 +86959,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (RM.indexOf('第314便b') < 0) bad.push('README に第314便b が無い');
       { const ai = AS.indexOf('## 132.');
         if (ai < 0) bad.push('AI_SPEC に §132 が無い');
-        else { const as = AS.slice(ai, ai + 6000); for (const w of ['第314便b', 'rdscale-w314b.json', 'docs.rdScale314', '採用しない', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §132 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['第314便b', 'rdscale-w314b.json', 'docs.rdScale314', '採用しない', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §132 に「' + w + '」が無い'); } }
       if (RT.indexOf("S('rdscale-314b', 'node tests/exp-w314b-rdscale.mjs', ['tests/out/rdscale-w314b.json']") < 0 || !/secSource: 'w314b-branch'/.test(RT)) bad.push('再生成の段 rdscale-314b');
       if (GI.indexOf('!tests/out/rdscale-w314b.json') < 0) bad.push('.gitignore の例外');
       if (PM.indexOf('docs.rdScale314') < 0) bad.push('post-merge に docs.rdScale314 が無い');
@@ -87116,7 +87153,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (sec.indexOf(w) < 0) bo.push('PHYSICS〔第314便c〕に「' + w + '」が無い');
     }
     { const ai = AS.indexOf('## 133.'); if (ai < 0) bo.push('AI_SPEC に §133 が無い');
-      else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w314c-k1outer.mjs', 'k1outer-w314c.json', 'k1em-w314c.json', 'docs.k1outer314', 'docs.k1em314', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bo.push('AI_SPEC §133 に「' + w + '」が無い'); } }
+      else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w314c-k1outer.mjs', 'k1outer-w314c.json', 'k1em-w314c.json', 'docs.k1outer314', 'docs.k1em314', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bo.push('AI_SPEC §133 に「' + w + '」が無い'); } }
     if (RT.indexOf("S('k1outer-314c', 'node tests/exp-w314c-k1outer.mjs', ['tests/out/k1outer-w314c.json']") < 0 || RT.indexOf("S('k1em-314c', 'node tests/exp-w314c-k1outer.mjs --stage em', ['tests/out/k1em-w314c.json']") < 0 || !/secSource: 'w314c-branch'/.test(RT)) bo.push('再生成の段 k1outer-314c・k1em-314c');
     if (GI.indexOf('!tests/out/k1outer-w314c.json') < 0 || GI.indexOf('!tests/out/k1em-w314c.json') < 0) bo.push('.gitignore の例外');
     if (PM.indexOf('docs.k1outer314') < 0 || PM.indexOf('docs.k1em314') < 0) bo.push('post-merge の ③′ に docs.k1outer314・docs.k1em314 が無い');
@@ -87274,7 +87311,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (RM.indexOf('第314便d') < 0) bad.push('README に第314便d が無い');
       { const ai = AS.indexOf('## 134.');
         if (ai < 0) bad.push('AI_SPEC に §134 が無い');
-        else { const as = AS.slice(ai, ai + 6000); for (const w of ['geoPN=1', 'physics.coord:"3d"', 'w314d-pn1-3d-1', 'HP.coord3d.pn1', 'approxMany', 'docs.pn1x3d314', 'SYSTEM_PROMPT']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §134 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['geoPN=1', 'physics.coord:"3d"', 'w314d-pn1-3d-1', 'HP.coord3d.pn1', 'approxMany', 'docs.pn1x3d314', 'SYSTEM_PROMPT']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §134 に「' + w + '」が無い'); } }
       if (RT.indexOf("S('pn1x3d-314d', 'node tests/exp-w314d-pn1x3d.mjs', ['tests/out/pn1x3d-w314d.json']") < 0 || !/secSource: 'w314d-branch'/.test(RT)) bad.push('再生成の段 pn1x3d-314d');
       if (GI.indexOf('!tests/out/pn1x3d-w314d.json') < 0) bad.push('.gitignore の例外');
       if (PM.indexOf('docs.pn1x3d314') < 0 || PM.indexOf('behavior.pn1x3d314') < 0) bad.push('post-merge に docs.pn1x3d314/behavior.pn1x3d314 が無い');
@@ -87847,7 +87884,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (RM.indexOf('第315便b') < 0) bad.push('README に第315便b が無い');
       { const ai = AS.indexOf('## 136.');
         if (ai < 0) bad.push('AI_SPEC に §136 が無い');
-        else { const as = AS.slice(ai, ai + 6000); for (const w of ['schwarzschildExcessOf', 'w315b-rs-excess-1', 'AN415', 'radiusExcess', '#beRsX', '#rsExcessNotice', 'SYSTEM_PROMPT には載せない', 'docs.rsExcess315']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §136 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['schwarzschildExcessOf', 'w315b-rs-excess-1', 'AN415', 'radiusExcess', '#beRsX', '#rsExcessNotice', 'SYSTEM_PROMPT には載せない', 'docs.rsExcess315']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §136 に「' + w + '」が無い'); } }
       if (RT.indexOf("S('rsexcess-315b', 'node tests/exp-w315b-rsexcess.mjs', ['tests/out/rsexcess-w315b.json']") < 0 || !/secSource: 'w315b-branch'/.test(RT)) bad.push('再生成の段 rsexcess-315b');
       if (GI.indexOf('!tests/out/rsexcess-w315b.json') < 0) bad.push('.gitignore の例外');
       if (PM.indexOf('docs.rsExcess315') < 0 || PM.indexOf('behavior.rsExcess315') < 0 || PM.indexOf('ui.rsExcess315') < 0) bad.push('post-merge に docs.rsExcess315/behavior.rsExcess315/ui.rsExcess315 が無い');
@@ -88064,7 +88101,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         cases.push(`⑤ obsCard(ja/en)が正本の数(r_1PN・門・q_1PN・r_d)を持つ ${nObs}/7・SAMPLE_STATUS の原稿の 7 行`);
         // ⑥
         { const ai = AS.indexOf('## 137.'); if (ai < 0) bad.push('⑥ AI_SPEC に §137 が無い');
-          else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w315c-inposk1.mjs', 'inposk1-w315c.json', 'data-w315c-legacy7.json', 'preset.inposK1_315', 'behavior.inposK1_315', 'docs.inposK1_315', 'inPositionK1Of', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('⑥ AI_SPEC §137 に「' + w + '」が無い'); } }
+          else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w315c-inposk1.mjs', 'inposk1-w315c.json', 'data-w315c-legacy7.json', 'preset.inposK1_315', 'behavior.inposK1_315', 'docs.inposK1_315', 'inPositionK1Of', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('⑥ AI_SPEC §137 に「' + w + '」が無い'); } }
         { const hb = CL.search(/## v1\.46(?:-b\d+|\.0)\(/), hn = hb >= 0 ? CL.indexOf('\n## ', hb + 5) : -1, cs = hb >= 0 ? CL.slice(hb, hn > hb ? hn : undefined) : '';
           if (cs.indexOf('第315便c') < 0 || cs.indexOf('AN406') < 0) bad.push('⑥ CHANGELOG の beta 節に第315便c(AN406)の行が無い'); }
         if (RM.indexOf('第315便c') < 0) bad.push('⑥ README に第315便c の要点が無い');
@@ -88179,8 +88216,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         cases.push(`⑤ PHYSICS〔第315便d〕の表の行 衛星 ${nS}・一様の門 ${nG}・入力の契約 ${nC} 行と数 ${nums.length} 個を正本から作り直して照合`);
       }
       { const ai = AS.indexOf('## 138.'); if (ai < 0) bad.push('AI_SPEC に §138 が無い');
-        else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w315d-satk1.mjs', 'satk1-w315d.json', 'docs.satK1_315', 'AN413', 'AN410', 'AN412', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §138 に「' + w + '」が無い'); } }
-      { const ci = CLx.search(/## v1\.46(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, ci + 30000) : ''; if (cs.indexOf('第315便d') < 0) bad.push('CHANGELOG の beta の節に第315便d が無い'); }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w315d-satk1.mjs', 'satk1-w315d.json', 'docs.satK1_315', 'AN413', 'AN410', 'AN412', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §138 に「' + w + '」が無い'); } }
+      { const ci = CLx.search(/## v1\.46(?:-b\d+|\.0)\(/), cs = ci >= 0 ? secUntilNext329c(CLx, ci, '\n## ') : ''; if (cs.indexOf('第315便d') < 0) bad.push('CHANGELOG の beta の節に第315便d が無い'); }
       if (RMx.indexOf('第315便d') < 0) bad.push('README に第315便d が無い');
       if (RT.indexOf("S('satk1-315d', 'node tests/exp-w315d-satk1.mjs', ['tests/out/satk1-w315d.json']") < 0 || !/secSource: 'w315d-branch'/.test(RT)) bad.push('再生成の段 satk1-315d');
       if (GI.indexOf('!tests/out/satk1-w315d.json') < 0) bad.push('.gitignore の例外');
@@ -88762,8 +88799,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         cases.push(`④ PHYSICS〔第316便d〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
       }
       { const ai = AS.indexOf('## 142.'); if (ai < 0) bad.push('AI_SPEC に §142 が無い');
-        else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w316d-sath.mjs', 'sath-w316d.json', 'docs.satH316', 'docs.paperSymbols316', 'lint.perfTargets316', 'AN423', 'AN424', 'AN416', 'w316d-scope-5', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §142 に「' + w + '」が無い'); } }
-      { const ci = CLx.search(/## v1\.46(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, ci + 40000) : ''; if (cs.indexOf('第316便d') < 0) bad.push('CHANGELOG の beta の節に第316便d が無い'); }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w316d-sath.mjs', 'sath-w316d.json', 'docs.satH316', 'docs.paperSymbols316', 'lint.perfTargets316', 'AN423', 'AN424', 'AN416', 'w316d-scope-5', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §142 に「' + w + '」が無い'); } }
+      { const ci = CLx.search(/## v1\.46(?:-b\d+|\.0)\(/), cs = ci >= 0 ? secUntilNext329c(CLx, ci, '\n## ') : ''; if (cs.indexOf('第316便d') < 0) bad.push('CHANGELOG の beta の節に第316便d が無い'); }
       if (RMx.indexOf('第316便d') < 0) bad.push('README に第316便d が無い');
       if (RT.indexOf("S('sath-316d', 'node tests/exp-w316d-sath.mjs', ['tests/out/sath-w316d.json']") < 0 || !/secSource: 'w316d-branch'/.test(RT)) bad.push('再生成の段 sath-316d');
       if (GI.indexOf('!tests/out/sath-w316d.json') < 0) bad.push('.gitignore の例外');
@@ -88959,7 +88996,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         cases.push(`④ PHYSICS〔第317便a〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
       }
       { const ai = AS.indexOf('## 143.'); if (ai < 0) bad.push('AI_SPEC に §143 が無い');
-        else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w317a-satmeas.mjs', 'satmeas-w317a.json', 'lib-w317a-satmeas.mjs', 'docs.satMeas317a', 'behavior.satMeas317a', 'AN431', 'R250', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §143 に「' + w + '」が無い'); }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w317a-satmeas.mjs', 'satmeas-w317a.json', 'lib-w317a-satmeas.mjs', 'docs.satMeas317a', 'behavior.satMeas317a', 'AN431', 'R250', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §143 に「' + w + '」が無い'); }
         if (AS.indexOf('## 142.') < 0 || AS.indexOf('## 143.') < AS.indexOf('## 142.')) bad.push('AI_SPEC §143 が §142 の前'); }
       { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第317便a') < 0) bad.push('CHANGELOG の beta の節に第317便a が無い'); }
       if (RMx.indexOf('第317便a') < 0) bad.push('README に第317便a が無い');
@@ -89141,7 +89178,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         cases.push(`④ PHYSICS〔第317便b〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
       }
       { const ai = AS.indexOf('## 144.'); if (ai < 0) bad.push('AI_SPEC に §144 が無い');
-        else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w317b-satn.mjs', 'satn-w317b.json', 'docs.satN317b', 'behavior.satN317b', 'AN431', 'R251', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §144 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w317b-satn.mjs', 'satn-w317b.json', 'docs.satN317b', 'behavior.satN317b', 'AN431', 'R251', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §144 に「' + w + '」が無い'); } }
       { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第317便b') < 0) bad.push('CHANGELOG の beta の節に第317便b が無い'); }
       if (RMx.indexOf('第317便b') < 0) bad.push('README に第317便b が無い');
       if (RT.indexOf("S('satn-317b', 'node tests/exp-w317b-satn.mjs', ['tests/out/satn-w317b.json']") < 0 || !/secSource: 'w317b-branch'/.test(RT)) bad.push('再生成の段 satn-317b');
@@ -89372,7 +89409,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           cases.push(`④ PHYSICS〔第317便c〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
         }
         { const ai = AS.indexOf('## 145.'); if (ai < 0) bad.push('AI_SPEC に §145 が無い');
-          else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w317c-satcut.mjs', 'lib-w317c-satcut.mjs', 'satcut-w317c.json', 'behavior.satCut317c', 'docs.satCut317c', 'AN431', 'AN435', 'M0', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §145 に「' + w + '」が無い'); } }
+          else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w317c-satcut.mjs', 'lib-w317c-satcut.mjs', 'satcut-w317c.json', 'behavior.satCut317c', 'docs.satCut317c', 'AN431', 'AN435', 'M0', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §145 に「' + w + '」が無い'); } }
         { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第317便c') < 0) bad.push('CHANGELOG の beta の節に第317便c が無い'); }
         if (RT.indexOf("S('satcut-317c', 'node tests/exp-w317c-satcut.mjs', ['tests/out/satcut-w317c.json']") < 0 || !/secSource: 'w317c-branch'/.test(RT)) bad.push('再生成の段 satcut-317c');
         if (GI.indexOf('!tests/out/satcut-w317c.json') < 0) bad.push('.gitignore の例外');
@@ -89453,7 +89490,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         cases.push(`③ PHYSICS〔第317便d〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
       }
       { const ai = AS.indexOf('## 146.'); if (ai < 0) bad.push('AI_SPEC に §146 が無い');
-        else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w317d-satan.mjs', 'satan-w317d.json', 'docs.satAn317d', 'docs.paper3Key317d', 'AN431', 'AN432', 'kappaT', 'SYSTEM_PROMPT には載せない', '普遍則として採らない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §146 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w317d-satan.mjs', 'satan-w317d.json', 'docs.satAn317d', 'docs.paper3Key317d', 'AN431', 'AN432', 'kappaT', 'SYSTEM_PROMPT には載せない', '普遍則として採らない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §146 に「' + w + '」が無い'); } }
       { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第317便d') < 0) bad.push('CHANGELOG の beta の節に第317便d が無い'); }
       if (RMx.indexOf('第317便d') < 0) bad.push('README に第317便d が無い');
       if (RT.indexOf("S('satan-317d', 'node tests/exp-w317d-satan.mjs', ['tests/out/satan-w317d.json']") < 0 || !/secSource: 'w317d-branch'/.test(RT)) bad.push('再生成の段 satan-317d');
@@ -89512,7 +89549,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         else { const nd = (para.replace(/\\\$/g, '').match(/\$/g) || []).length; if (nd % 2) bad.push('③ ' + f + ': 直した段落のインラインの $ が奇数'); } }
       cases.push('③ 論文 3 の en/ja の括弧と環境の対応・直した段落の $ の偶奇');
       const PH = (() => { try { return fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'); } catch (e) { return ''; } })();
-      const i0 = PH.indexOf('〔第317便d — '), sec = i0 >= 0 ? PH.slice(i0, i0 + 60000) : '';
+      const i0 = PH.indexOf('〔第317便d — '), sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /) : '';
       for (const w of ['英(前)', '英(後)', '日(前)', '日(後)', 'the parameter \\texttt{kappaT}', '$X_k$ が編集・宣言・保存の正準キー', 'パラメータ \\texttt{kappaT} である']) if (sec.indexOf(w) < 0) bad.push('④ PHYSICS〔第317便d〕に「' + w + '」が無い');
       cases.push('④ PHYSICS〔第317便d〕に前と後の文');
     } catch (e) { bad.push('論文が読めない: ' + String(e).slice(0, 160)); }
@@ -90052,7 +90089,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           cases.push(`④ PHYSICS〔第318便b〕の表の行 ${rows.length} 行(第317便の記録の訂正の表を含む)と数 ${nums.length} 個を正本から作り直して照合`);
         }
         { const ai = AS.indexOf('## 148.'); if (ai < 0) bad.push('AI_SPEC に §148 が無い');
-          else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w318b-satnext.mjs', 'lib-w318b-satnext.mjs', 'satnext-w318b.json', 'behavior.satNext318b', 'docs.satNext318b', 'AN436', 'AN437', 'AN439', 'AN440', 'AN442', 'M0', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §148 に「' + w + '」が無い'); } }
+          else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w318b-satnext.mjs', 'lib-w318b-satnext.mjs', 'satnext-w318b.json', 'behavior.satNext318b', 'docs.satNext318b', 'AN436', 'AN437', 'AN439', 'AN440', 'AN442', 'M0', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §148 に「' + w + '」が無い'); } }
         { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第318便b') < 0) bad.push('CHANGELOG の beta の節に第318便b が無い'); }
         if (RT.indexOf("S('satnext-318b', 'node tests/exp-w318b-satnext.mjs', ['tests/out/satnext-w318b.json']") < 0 || !/secSource: 'w318b-branch'/.test(RT)) bad.push('再生成の段 satnext-318b');
         if (GI.indexOf('!tests/out/satnext-w318b.json') < 0) bad.push('.gitignore の例外');
@@ -90234,7 +90271,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           cases.push(`③ PHYSICS〔第318便c〕の表の行 ${rows.length} 行を正本から作り直して照合`);
         }
         { const ai = AS.indexOf('## 149.'); if (ai < 0) bad.push('AI_SPEC に §149 が無い');
-          else { const as = AS.slice(ai, ai + 8000); for (const w of ['solarSystem16Inertial3d', 'exp-w318c-solar16.mjs', 'lib-w318c-solar16.mjs', 'solar16-w318c.json', 'behavior.solar16Builtin318c', 'docs.solar16Builtin318c', 'solar16_diag']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §149 に「' + w + '」が無い'); } }
+          else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['solarSystem16Inertial3d', 'exp-w318c-solar16.mjs', 'lib-w318c-solar16.mjs', 'solar16-w318c.json', 'behavior.solar16Builtin318c', 'docs.solar16Builtin318c', 'solar16_diag']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §149 に「' + w + '」が無い'); } }
         { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第318便c') < 0) bad.push('CHANGELOG の beta の節に第318便c が無い'); }
         if (RT.indexOf("S('solar16-318c', 'node tests/exp-w318c-solar16.mjs', ['tests/out/solar16-w318c.json']") < 0 || !/secSource: 'w318c-branch'/.test(RT)) bad.push('再生成の段 solar16-318c');
         if (GI.indexOf('!tests/out/solar16-w318c.json') < 0) bad.push('.gitignore の例外');
@@ -90403,7 +90440,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           cases.push(`③ PHYSICS〔第318便d〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
         }
         { const ai = AS.indexOf('## 150.'); if (ai < 0) bad.push('AI_SPEC に §150 が無い');
-          else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w318d-dragest.mjs', 'lib-w318d-dragest.mjs', 'dragest-w318d.json', 'behavior.dragEst318d', 'docs.dragEst318d', 'AN438', 'R257', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §150 に「' + w + '」が無い'); } }
+          else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w318d-dragest.mjs', 'lib-w318d-dragest.mjs', 'dragest-w318d.json', 'behavior.dragEst318d', 'docs.dragEst318d', 'AN438', 'R257', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §150 に「' + w + '」が無い'); } }
         { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第318便d') < 0) bad.push('CHANGELOG の beta の節に第318便d が無い'); }
         if (RT.indexOf("S('dragest-318d', 'node tests/exp-w318d-dragest.mjs', ['tests/out/dragest-w318d.json']") < 0 || !/secSource: 'w318d-branch'/.test(RT)) bad.push('再生成の段 dragest-318d');
         if (GI.indexOf('!tests/out/dragest-w318d.json') < 0) bad.push('.gitignore の例外');
@@ -90574,7 +90611,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         }
         if (sec318.indexOf('訂正(第319便a)') < 0 || sec318.indexOf('2.232e-18') < 0) bad.push('PHYSICS〔第318便d〕に第319便a の訂正の段落が無い');
         { const ai = AS.indexOf('## 151.'); if (ai < 0) bad.push('AI_SPEC に §151 が無い');
-          else { const as = AS.slice(ai, ai + 8000); for (const w of ['compose', 'balance', 'exp-w319a-axisheat.mjs', 'axisheat-w319a.json', 'behavior.axisHoldBalance319', 'docs.axisHeat319', 'AN468', 'R258']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §151 に「' + w + '」が無い'); } }
+          else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['compose', 'balance', 'exp-w319a-axisheat.mjs', 'axisheat-w319a.json', 'behavior.axisHoldBalance319', 'docs.axisHeat319', 'AN468', 'R258']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §151 に「' + w + '」が無い'); } }
         { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第319便a') < 0) bad.push('CHANGELOG の beta の節に第319便a が無い'); }
         if (RT.indexOf("S('axisheat-319a', 'node tests/exp-w319a-axisheat.mjs', ['tests/out/axisheat-w319a.json']") < 0 || !/secSource: 'w319a-branch/.test(RT)) bad.push('再生成の段 axisheat-319a');   // 第320便a: 履歴へ(secSource の後ろに履歴の注)
         if (GI.indexOf('!tests/out/axisheat-w319a.json') < 0) bad.push('.gitignore の例外');
@@ -90676,7 +90713,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         cases.push(`③ PHYSICS〔第319便b〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
       }
       { const ai = AS.indexOf('## 152.'); if (ai < 0) bad.push('AI_SPEC に §152 が無い');
-        else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w319b-srcradius.mjs', 'lib-w319b-srcradius.mjs', 'srcradius-w319b.json', 'docs.srcRadius319', 'AN445', 'R259', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §152 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w319b-srcradius.mjs', 'lib-w319b-srcradius.mjs', 'srcradius-w319b.json', 'docs.srcRadius319', 'AN445', 'R259', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §152 に「' + w + '」が無い'); } }
       { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第319便b') < 0) bad.push('CHANGELOG の beta の節に第319便b が無い'); }
       if (RT.indexOf("S('srcradius-319b', 'node tests/exp-w319b-srcradius.mjs', ['tests/out/srcradius-w319b.json']") < 0 || !/secSource: 'w319b-branch'/.test(RT)) bad.push('再生成の段 srcradius-319b');
       if (GI.indexOf('!tests/out/srcradius-w319b.json') < 0) bad.push('.gitignore の例外');
@@ -90688,7 +90725,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (/κ(?!_D)/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第319便b〕に裸の κ(κ は κ_D だけ —— コードの書式の外)');
       if (/(?<![\w`])r_d(?![\w`])/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第319便b〕の新しい文に r_d(引きずり半径は R_d)');
       for (const f of ['tests/exp-w319b-srcradius.mjs', 'tests/lib-w319b-srcradius.mjs', 'tests/lib-w319b-srcradiusdoc.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); if (tx.indexOf('κ') >= 0) bad.push(f + ' に κ の字'); for (const re of NOT) if (re.test(tx)) bad.push(f + ' に書かない語 ' + re.source); }
-      { const ai = AS.indexOf('## 152.'), as = ai >= 0 ? AS.slice(ai, ai + 8000) : ''; for (const w of NG.concat(NG2)) if (as.indexOf(w) >= 0) bad.push('AI_SPEC §152 に禁句(' + w.length + ' 字)'); }
+      { const ai = AS.indexOf('## 152.'), as = ai >= 0 ? secUntilNext329c(AS, ai, '\n## ') : ''; for (const w of NG.concat(NG2)) if (as.indexOf(w) >= 0) bad.push('AI_SPEC §152 に禁句(' + w.length + ' 字)'); }
       cases.push('④ 書かない語・禁句・裸の κ・新しい文の r_d(節と器と lib と文書の lib・AI_SPEC §152)');
     } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
   }
@@ -90805,7 +90842,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第319便c〕に「' + w + '」が無い');
     }
     { const ai = AS.indexOf('## 153.'); if (ai < 0) bad.push('AI_SPEC に §153 が無い');
-      else { const as = AS.slice(ai, ai + 6000); for (const w of ['scope-probe319.mjs', 'scopeprobe-w319c.json', 'lib-w319c-regenshort.mjs', 'docs.regenShort319c', 'AN454', 'R260', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §153 に「' + w + '」が無い'); }
+      else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['scope-probe319.mjs', 'scopeprobe-w319c.json', 'lib-w319c-regenshort.mjs', 'docs.regenShort319c', 'AN454', 'R260', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §153 に「' + w + '」が無い'); }
       if (AS.indexOf('## 150.') < 0 || AS.indexOf('## 153.') < AS.indexOf('## 150.')) bad.push('AI_SPEC §153 が §150 の前'); }
     { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第319便c') < 0) bad.push('CHANGELOG の beta の節に第319便c が無い'); }
     if (TR.indexOf('scope-probe319.mjs') < 0) bad.push('tools/README に scope-probe319.mjs が無い');
@@ -91185,7 +91222,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           cases.push(`③ PHYSICS〔第320便a〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
         }
         { const ai = AS.indexOf('## 155.'); if (ai < 0) bad.push('AI_SPEC に §155 が無い');
-          else { const as = AS.slice(ai, ai + 8000); for (const w of ['balance', 'sourceMoment', 'exp-w320a-srcheat.mjs', 'srcheat-w320a.json', 'behavior.srcHeat320', 'docs.srcHeat320', 'AN475', 'AN471', 'R262']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §155 に「' + w + '」が無い'); } }
+          else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['balance', 'sourceMoment', 'exp-w320a-srcheat.mjs', 'srcheat-w320a.json', 'behavior.srcHeat320', 'docs.srcHeat320', 'AN475', 'AN471', 'R262']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §155 に「' + w + '」が無い'); } }
         { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第320便a') < 0) bad.push('CHANGELOG の beta の節に第320便a が無い'); }
         if (RT.indexOf("S('srcheat-320a', 'node tests/exp-w320a-srcheat.mjs', ['tests/out/srcheat-w320a.json']") < 0 || !/secSource: 'w320a-branch'/.test(RT)) bad.push('再生成の段 srcheat-320a');
         if (!/S\('axisheat-319a',[^\n]*role: 'history'/.test(RT)) bad.push('段 axisheat-319a が履歴でない');
@@ -91305,7 +91342,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         cases.push(`③ PHYSICS〔第320便b〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
       }
       { const ai = AS.indexOf('## 156.'); if (ai < 0) bad.push('AI_SPEC に §156 が無い');
-        else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w320b-jexplore.mjs', 'lib-w320b-jexplore.mjs', 'jexplore-w320b.json', 'docs.jExplore320b', 'AN471', 'R263', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §156 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w320b-jexplore.mjs', 'lib-w320b-jexplore.mjs', 'jexplore-w320b.json', 'docs.jExplore320b', 'AN471', 'R263', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §156 に「' + w + '」が無い'); } }
       { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第320便b') < 0) bad.push('CHANGELOG の beta の節に第320便b が無い'); }
       if (RT.indexOf("S('jexplore-320b', 'node tests/exp-w320b-jexplore.mjs', ['tests/out/jexplore-w320b.json']") < 0 || !/secSource: 'w320b-branch'/.test(RT)) bad.push('再生成の段 jexplore-320b');
       if (GI.indexOf('!tests/out/jexplore-w320b.json') < 0) bad.push('.gitignore の例外');
@@ -91318,7 +91355,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (/κ(?!_D)/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第320便b〕に裸の κ(κ は κ_D だけ —— コードの書式の外)');
       if (/(?<![\w`])r_d(?![\w`])/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第320便b〕の新しい文に r_d(引きずり半径は R_d)');
       for (const f of ['tests/exp-w320b-jexplore.mjs', 'tests/lib-w320b-jexplore.mjs', 'tests/lib-w320b-jexploredoc.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); if (tx.indexOf('κ') >= 0) bad.push(f + ' に κ の字'); for (const re of NOT) if (re.test(tx)) bad.push(f + ' に書かない語 ' + re.source); }
-      { const ai = AS.indexOf('## 156.'), as = ai >= 0 ? AS.slice(ai, ai + 8000) : ''; for (const w of NG.concat(NG2)) if (as.indexOf(w) >= 0) bad.push('AI_SPEC §156 に禁句(' + w.length + ' 字)'); }
+      { const ai = AS.indexOf('## 156.'), as = ai >= 0 ? secUntilNext329c(AS, ai, '\n## ') : ''; for (const w of NG.concat(NG2)) if (as.indexOf(w) >= 0) bad.push('AI_SPEC §156 に禁句(' + w.length + ' 字)'); }
       cases.push('④ 書かない語・禁句・裸の κ・新しい文の r_d(節と器と lib と文書の lib・AI_SPEC §156)');
     } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
   }
@@ -91429,7 +91466,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第320便c〕に「' + w + '」が無い');
         cases.push(`③ PHYSICS〔第320便c〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
       }
-      const ai = AS.indexOf('## 157.'), as = ai >= 0 ? AS.slice(ai, ai + 8000) : '';
+      const ai = AS.indexOf('## 157.'), as = ai >= 0 ? secUntilNext329c(AS, ai, '\n## ') : '';
       if (ai < 0) bad.push('AI_SPEC に §157 が無い');
       else for (const w of ['exp-w320c-nbcompose.mjs', 'lib-w320c-nbcompose.mjs', 'nbcompose-w320c.json', 'docs.nbCompose320c', 'AN472', 'R264', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §157 に「' + w + '」が無い');
       { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第320便c') < 0) bad.push('CHANGELOG の beta の節に第320便c が無い'); }
@@ -91797,7 +91834,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           cases.push(`② PHYSICS〔第321便a〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
         }
         { const ai = AS.indexOf('## 159.'); if (ai < 0) bad.push('AI_SPEC に §159 が無い');
-          else { const as = AS.slice(ai, ai + 6000); for (const w of ['geoPN=2', 'exp-w321a-geo2v3.mjs', 'geo2v3-w321a.json', 'behavior.geo2v3321a', 'docs.geo2v3321a', 'R266', 'SYSTEM_PROMPT']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §159 に「' + w + '」が無い'); } }
+          else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['geoPN=2', 'exp-w321a-geo2v3.mjs', 'geo2v3-w321a.json', 'behavior.geo2v3321a', 'docs.geo2v3321a', 'R266', 'SYSTEM_PROMPT']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §159 に「' + w + '」が無い'); } }
         { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第321便a') < 0) bad.push('CHANGELOG の beta の節に第321便a が無い'); }
         if (RT.indexOf("S('geo2v3-321a', 'node tests/exp-w321a-geo2v3.mjs', ['tests/out/geo2v3-w321a.json']") < 0 || !/secSource: 'w321a-branch'/.test(RT)) bad.push('再生成の段 geo2v3-321a');
         if (GI.indexOf('!tests/out/geo2v3-w321a.json') < 0) bad.push('.gitignore の例外');
@@ -91940,7 +91977,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         cases.push(`⑤ PHYSICS〔第321便b〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
       }
       { const ai = AS.indexOf('## 160.'); if (ai < 0) bad.push('AI_SPEC に §160 が無い');
-        else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w321b-geo3bin.mjs', 'lib-w321b-geo3bin.mjs', 'geo3bin-w321b.json', 'docs.geo3Bin321b', 'R267', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §160 に「' + w + '」が無い'); } }
+        else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w321b-geo3bin.mjs', 'lib-w321b-geo3bin.mjs', 'geo3bin-w321b.json', 'docs.geo3Bin321b', 'R267', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §160 に「' + w + '」が無い'); } }
       { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第321便b') < 0) bad.push('CHANGELOG の beta の節に第321便b が無い'); }
       if (RT.indexOf("S('geo3bin-321b', 'node tests/exp-w321b-geo3bin.mjs', ['tests/out/geo3bin-w321b.json']") < 0 || !/secSource: 'w321b-branch'/.test(RT)) bad.push('再生成の段 geo3bin-321b');
       if (GI.indexOf('!tests/out/geo3bin-w321b.json') < 0) bad.push('.gitignore の例外');
@@ -91953,7 +91990,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (/κ(?!_D)/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第321便b〕に裸の κ(κ は κ_D だけ —— コードの書式の外)');
       if (/(?<![\w`])r_d(?![\w`])/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第321便b〕の新しい文に r_d(引きずり半径は R_d)');
       for (const f of ['tests/exp-w321b-geo3bin.mjs', 'tests/lib-w321b-geo3bin.mjs', 'tests/lib-w321b-geo3bindoc.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); if (tx.indexOf('κ') >= 0) bad.push(f + ' に κ の字'); for (const re of NOT) if (re.test(tx)) bad.push(f + ' に書かない語 ' + re.source); }
-      { const ai = AS.indexOf('## 160.'), as = ai >= 0 ? AS.slice(ai, ai + 8000) : ''; for (const w of NG.concat(NG2)) if (as.indexOf(w) >= 0) bad.push('AI_SPEC §160 に禁句(' + w.length + ' 字)'); }
+      { const ai = AS.indexOf('## 160.'), as = ai >= 0 ? secUntilNext329c(AS, ai, '\n## ') : ''; for (const w of NG.concat(NG2)) if (as.indexOf(w) >= 0) bad.push('AI_SPEC §160 に禁句(' + w.length + ' 字)'); }
       cases.push('⑥ 書かない語・禁句・裸の κ・新しい文の r_d(節と器と lib と文書の lib・AI_SPEC §160)');
     } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
   }
@@ -92058,7 +92095,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第321便c〕に「' + w + '」が無い');
         cases.push(`③ PHYSICS〔第321便c〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
       }
-      const ai = AS.indexOf('## 161.'), as = ai >= 0 ? AS.slice(ai, ai + 8000) : '';
+      const ai = AS.indexOf('## 161.'), as = ai >= 0 ? secUntilNext329c(AS, ai, '\n## ') : '';
       if (ai < 0) bad.push('AI_SPEC に §161 が無い');
       else for (const w of ['exp-w321c-galfield.mjs', 'lib-w321c-galfield.mjs', 'galfield-w321c.json', 'docs.galField321c', 'AN489', 'R268', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §161 に「' + w + '」が無い');
       { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第321便c') < 0) bad.push('CHANGELOG の beta の節に第321便c が無い'); }
@@ -92387,7 +92424,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           cases.push(`② PHYSICS〔第322便a〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
         }
         { const ai = AS.indexOf('## 163.'); if (ai < 0) bad.push('AI_SPEC に §163 が無い');
-          else { const as = AS.slice(ai, ai + 6000); for (const w of ['geoPN=2', 'galaxyGeo2Flat3d', 'exp-w322a-geo2flat.mjs', 'geo2flat-w322a.json', 'behavior.geo2flat322a', 'docs.geo2flat322a', 'R270', 'SYSTEM_PROMPT']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §163 に「' + w + '」が無い'); } }
+          else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['geoPN=2', 'galaxyGeo2Flat3d', 'exp-w322a-geo2flat.mjs', 'geo2flat-w322a.json', 'behavior.geo2flat322a', 'docs.geo2flat322a', 'R270', 'SYSTEM_PROMPT']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §163 に「' + w + '」が無い'); } }
         { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第322便a') < 0) bad.push('CHANGELOG の beta の節に第322便a が無い'); }
         if (RT.indexOf("S('geo2flat-322a', 'node tests/exp-w322a-geo2flat.mjs', ['tests/out/geo2flat-w322a.json']") < 0 || !/secSource: 'w322a-branch'/.test(RT)) bad.push('再生成の段 geo2flat-322a');
         if (GI.indexOf('!tests/out/geo2flat-w322a.json') < 0) bad.push('.gitignore の例外');
@@ -92565,7 +92602,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         }
         // ⑤
         { const ai = AS.indexOf('## 164.'); if (ai < 0) bad.push('AI_SPEC に §164 が無い');
-          else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w322b-binbooks.mjs', 'lib-w322b-binbooks.mjs', 'binbooks-w322b.json', 'behavior.binBooks322b', 'docs.binBooks322b', 'R271', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §164 に「' + w + '」が無い'); } }
+          else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w322b-binbooks.mjs', 'lib-w322b-binbooks.mjs', 'binbooks-w322b.json', 'behavior.binBooks322b', 'docs.binBooks322b', 'R271', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §164 に「' + w + '」が無い'); } }
         { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第322便b') < 0) bad.push('CHANGELOG の beta の節に第322便b が無い'); }
         if (RT.indexOf("S('binbooks-322b', 'node tests/exp-w322b-binbooks.mjs', ['tests/out/binbooks-w322b.json']") < 0 || !/secSource: 'w322b-branch'/.test(RT)) bad.push('再生成の段 binbooks-322b');
         if (GI.indexOf('!tests/out/binbooks-w322b.json') < 0) bad.push('.gitignore の例外');
@@ -92584,7 +92621,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)');
           if (tx.indexOf('κ') >= 0) bad.push(f + ' に κ の字');
         }
-        { const ai = AS.indexOf('## 164.'), as = ai >= 0 ? AS.slice(ai, ai + 8000) : ''; for (const w of NG.concat(NG2)) if (as.indexOf(w) >= 0) bad.push('AI_SPEC §164 に禁句(' + w.length + ' 字)'); }
+        { const ai = AS.indexOf('## 164.'), as = ai >= 0 ? secUntilNext329c(AS, ai, '\n## ') : ''; for (const w of NG.concat(NG2)) if (as.indexOf(w) >= 0) bad.push('AI_SPEC §164 に禁句(' + w.length + ' 字)'); }
         cases.push('⑥ 書かない語・禁句・裸の κ・新しい文の r_d(節と器と lib と文書の lib と本の塊・AI_SPEC §164)');
       } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
     }
@@ -92699,7 +92736,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第322便c〕に「' + w + '」が無い');
         cases.push(`③ PHYSICS〔第322便c〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
       }
-      const ai = AS.indexOf('## 165.'), as = ai >= 0 ? AS.slice(ai, ai + 8000) : '';
+      const ai = AS.indexOf('## 165.'), as = ai >= 0 ? secUntilNext329c(AS, ai, '\n## ') : '';
       if (ai < 0) bad.push('AI_SPEC に §165 が無い');
       else for (const w of ['exp-w322c-fieldcontract.mjs', 'lib-w322c-fieldcontract.mjs', 'fieldcontract-w322c.json', 'docs.fieldContract322c', 'AN512', 'AN511', 'R272', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §165 に「' + w + '」が無い');
       { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第322便c') < 0) bad.push('CHANGELOG の beta の節に第322便c が無い'); }
@@ -93668,11 +93705,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         }
         // ④
         { const ai = AS.indexOf('## 172.'); if (ai < 0) bad.push('AI_SPEC に §172 が無い');
-          else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w324b-obsspin.mjs', 'lib-w324b-obsspin.mjs', 'obsspin-w324b.json', 'behavior.obsSpin324b', 'docs.obsSpin324b', 'R280', 'obsSpin', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §172 に「' + w + '」が無い');
+          else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['exp-w324b-obsspin.mjs', 'lib-w324b-obsspin.mjs', 'obsspin-w324b.json', 'behavior.obsSpin324b', 'docs.obsSpin324b', 'R280', 'obsSpin', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §172 に「' + w + '」が無い');
             for (const w of NG.concat(NG2)) if (as.indexOf(w) >= 0) bad.push('AI_SPEC §172 に禁句(' + w.length + ' 字)'); } }
         { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第324便b') < 0) bad.push('CHANGELOG の beta の節に第324便b が無い'); if (cs.indexOf('第324便e') < 0) bad.push('CHANGELOG の beta の節に第324便e が無い'); }
         { const ai = AS.indexOf('## 175.'); if (ai < 0) bad.push('AI_SPEC に §175 が無い');   // 第324便e(AN521)
-          else { const as = AS.slice(ai, ai + 8000); for (const w of ['AN521', 'R283', 'orbitNormal', 'tiltDeg', 'azimuthDeg', 'sense', 'basis', '"knob"', 'obsSpin', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §175 に「' + w + '」が無い');
+          else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['AN521', 'R283', 'orbitNormal', 'tiltDeg', 'azimuthDeg', 'sense', 'basis', '"knob"', 'obsSpin', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §175 に「' + w + '」が無い');
             for (const w of NG.concat(NG2)) if (as.indexOf(w) >= 0) bad.push('AI_SPEC §175 に禁句(' + w.length + ' 字)'); } }
         if (RT.indexOf("S('obsspin-324b', 'node tests/exp-w324b-obsspin.mjs', ['tests/out/obsspin-w324b.json']") < 0 || !/secSource: 'w324[be]-branch'/.test(RT) || !/'obsspin-324b'[^\n]*quickVerify: 'long'/.test(RT)) bad.push('再生成の段 obsspin-324b(quickVerify long)');
         if (GI.indexOf('!tests/out/obsspin-w324b.json') < 0) bad.push('.gitignore の例外');
@@ -93994,7 +94031,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           cases.push(`② PHYSICS〔第324便a〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
         }
         { const ai = AS.indexOf('## 171.'); if (ai < 0) bad.push('AI_SPEC に §171 が無い');
-          else { const as = AS.slice(ai, ai + 6000); for (const w of ['thickness', 'galaxyGeo2Thick3d', 'galaxyGeo2ThickTilt3d', 'exp-w324a-geo2thick.mjs', 'geo2thick-w324a.json', 'behavior.geo2thick324a', 'docs.geo2thick324a', 'R279', 'SYSTEM_PROMPT']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §171 に「' + w + '」が無い'); } }
+          else { const as = secUntilNext329c(AS, ai, '\n## '); for (const w of ['thickness', 'galaxyGeo2Thick3d', 'galaxyGeo2ThickTilt3d', 'exp-w324a-geo2thick.mjs', 'geo2thick-w324a.json', 'behavior.geo2thick324a', 'docs.geo2thick324a', 'R279', 'SYSTEM_PROMPT']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §171 に「' + w + '」が無い'); } }
         { const ci = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, CLx.indexOf('\n## v1.46', ci) > ci ? CLx.indexOf('\n## v1.46', ci) : undefined) : ''; if (cs.indexOf('第324便a') < 0) bad.push('CHANGELOG の beta の節に第324便a が無い'); }
         if (RT.indexOf("S('geo2thick-324a', 'node tests/exp-w324a-geo2thick.mjs', ['tests/out/geo2thick-w324a.json']") < 0 || !/secSource: 'w324a-branch'/.test(RT) || !/geo2thick-324a[^\n]*quickVerify: 'long'/.test(RT)) bad.push('再生成の段 geo2thick-324a(quickVerify \'long\')');
         if (GI.indexOf('!tests/out/geo2thick-w324a.json') < 0) bad.push('.gitignore の例外');
@@ -95297,9 +95334,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   const sec = c0 >= 0 ? PH.slice(c0, (c1 > c0 && (i7 < 0 || c1 < i7)) ? c1 : (i7 > c0 ? i7 : undefined)) : '';
   for (const w of ['AN525', '原仮定者の回答(2026-11-03 —— AN525)', 'retired-w325c.json', 'exp-w325c-retiredfx.mjs', '130 → 125', '新しい ID', 'docs.geo4old325c', '場の API の opt-in', '引き継ぎ'])
     if (sec.indexOf(w) < 0) bad.push('⑤ PHYSICS〔第325便c〕に「' + w + '」が無い');
-  const AI = (() => { try { return fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'); } catch (e) { return ''; } })(), a0 = AI.indexOf('\n## 178. 第325便c'), ai = a0 >= 0 ? AI.slice(a0, a0 + 12000) : '';
+  const AI = (() => { try { return fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'); } catch (e) { return ''; } })(), a0 = AI.indexOf('\n## 178. 第325便c'), ai = a0 >= 0 ? secUntilNext329c(AI, a0, '\n## ') : '';
   if (!(ai.indexOf('AN525') >= 0 && ai.indexOf('retired-w325c.json') >= 0)) bad.push('⑤ AI_SPEC §178 に退役の項');
-  const CL = (() => { try { return fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'); } catch (e) { return ''; } })(), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), cl = cb >= 0 ? CL.slice(cb, cb + 60000) : '';
+  const CL = (() => { try { return fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'); } catch (e) { return ''; } })(), cb = CL.search(/## v1\.47(?:-b\d+|\.0)\(/), cl = cb >= 0 ? secUntilNext329c(CL, cb, '\n## ') : '';
   if (!((cl.split('\n').find((l) => l.indexOf('**第325便c**') >= 0) || '').indexOf('AN525') >= 0)) bad.push('⑤ CHANGELOG の第325便c の行に AN525');
   cases.push('⑤ PHYSICS〔第325便c〕の ⑤・AI_SPEC §178・CHANGELOG');
   add('docs.geo4old325c', bad.length === 0,
@@ -95436,9 +95473,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const NGF = [cpF([0x518d, 0x73fe, 0x3057, 0x305f]), cpF([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpF([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpF([0x666e, 0x904d, 0x5b9a, 0x6570]), cpF([0x79c1, 0x4fe1]), cpF([0x6dfb, 0x4ed8]), cpF([0x5be9, 0x67fb])].concat(['TPGtahC', 'inimeG', 'edualC', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvF));   // 禁句(文字で持たない)
     for (const w of ['較正した', 'フィットした', 'GR に一致', '常に有効にすべき', '確認した']) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第325便f〕に書かない語「' + w + '」');
     if (/(^|[^_A-Za-z])κ(?!_)/.test(sec)) bad.push('PHYSICS〔第325便f〕に裸の係数記号');
-    const AI = rd('docs/AI_SPEC.md'), a0 = AI.indexOf('\n## 181. 第325便f'), ai = a0 >= 0 ? AI.slice(a0, a0 + 8000) : '';
+    const AI = rd('docs/AI_SPEC.md'), a0 = AI.indexOf('\n## 181. 第325便f'), ai = a0 >= 0 ? secUntilNext329c(AI, a0, '\n## ') : '';
     if (!(ai.indexOf('tests/data-w325f-xklock.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('AI_SPEC §181(データの名・SYSTEM_PROMPT には載せない)');
-    const CLg = rd('CHANGELOG.md'), cb = CLg.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLg.slice(cb, cb + 80000) : '';
+    const CLg = rd('CHANGELOG.md'), cb = CLg.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLg, cb, '\n## ') : '';
     if (!((clg.split('\n').find((l) => l.indexOf('**第325便f**') >= 0) || '').indexOf('tests/data-w325f-xklock.json') >= 0)) bad.push('CHANGELOG の第325便f の行');
     const PM = rd('tools/post-merge-qa.sh');
     if (!(PM.indexOf('# ==== 第325便f の塊(ここから)====') >= 0 && PM.indexOf('lint.xkLock325f') >= 0 && PM.indexOf('docs.xkLock325f') >= 0)) bad.push('post-merge の ③′ に第325便f の塊');
@@ -95671,9 +95708,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const NGF = [cpF([0x518d, 0x73fe, 0x3057, 0x305f]), cpF([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpF([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpF([0x666e, 0x904d, 0x5b9a, 0x6570]), cpF([0x79c1, 0x4fe1]), cpF([0x6dfb, 0x4ed8]), cpF([0x5be9, 0x67fb])];
     for (const w of ['較正した', 'フィットした', '確認した', '揺れ', '内部熱を説明した', '検証が完了した']) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第326便a〕に書かない語「' + w + '」');
     if (/(^|[^_A-Za-z])κ(?!_)/.test(sec)) bad.push('PHYSICS〔第326便a〕に裸の係数記号');
-    const AI = rd('docs/AI_SPEC.md'), a0 = AI.indexOf('\n## 182. 第326便a'), ai = a0 >= 0 ? AI.slice(a0, a0 + 8000) : '';
+    const AI = rd('docs/AI_SPEC.md'), a0 = AI.indexOf('\n## 182. 第326便a'), ai = a0 >= 0 ? secUntilNext329c(AI, a0, '\n## ') : '';
     if (!(ai.indexOf('X_k = G_0/c_0²') >= 0 && ai.indexOf('AN532') >= 0 && ai.indexOf('SYSTEM_PROMPT') >= 0)) bad.push('AI_SPEC §182(導出・AN532・SYSTEM_PROMPT)');
-    const CLg = rd('CHANGELOG.md'), cb = CLg.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLg.slice(cb, cb + 80000) : '';
+    const CLg = rd('CHANGELOG.md'), cb = CLg.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLg, cb, '\n## ') : '';
     const cl326a = (clg.split('\n').find((l) => l.indexOf('**第326便a**') >= 0) || '');
     if (!(cl326a.indexOf('AN530') >= 0 && cl326a.indexOf('tests/fixtures/xklock-w326a.json') >= 0)) bad.push('CHANGELOG の第326便a の行');
     const PM = rd('tools/post-merge-qa.sh');
@@ -96349,9 +96386,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const want = ['原仮定者の指示(第128報)', 'R293', 'tests/exp-w326d-axialheat.mjs', 'tests/out/axialheat-w326d.json', '今の K1 に固定', '内部熱を観測の熱流に合わせていない', '銀河場を同定したとは数えない',
       '負の散逸', '逆向きの口も打ち消さない', 'R_src', 'R_d', '欠けている組', '決断事項の候補', 'lint.axialHeat326d', 'behavior.axialRadius326d', 'docs.axialHeat326d', '統括の参考の試作'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第326便d〕に「' + w + '」が無い');
-    const a0 = AS.indexOf('\n## 185. 第326便d'), ai = a0 >= 0 ? AS.slice(a0, a0 + 6000) : '';
+    const a0 = AS.indexOf('\n## 185. 第326便d'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
     if (!(ai.indexOf('tests/out/axialheat-w326d.json') >= 0 && ai.indexOf('同定していない') >= 0 && ai.indexOf('天体ごとに別々に宣言できる') >= 0)) bad.push('③ AI_SPEC §185(正本・同定していない・半径)');
-    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLx.slice(cb, cb + 80000) : '', cl326d = clg.split('\n').find((l) => l.indexOf('**第326便d**') >= 0) || '';
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl326d = clg.split('\n').find((l) => l.indexOf('**第326便d**') >= 0) || '';
     if (!(cl326d.indexOf('tests/exp-w326d-axialheat.mjs') >= 0 && cl326d.indexOf('axialheat-326d') >= 0)) bad.push('③ CHANGELOG の第326便d の行');
     if (!(/S\('axialheat-326d', 'node tests\/exp-w326d-axialheat\.mjs', \['tests\/out\/axialheat-w326d\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ") >= 0
       && RT.indexOf('// ==== 第326便d の塊(ここから)====') >= 0)) bad.push('③ 段の行 axialheat-326d(quickVerify:false と理由・塊)');
@@ -96701,9 +96738,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第327便a〕に「' + w + '」が無い');
     const d0 = PH.indexOf('〔第326便d — '), d1 = PH.indexOf('\n〔第', d0 + 10), secD = d0 >= 0 ? PH.slice(d0, d1 > d0 ? d1 : undefined) : '';
     if (!(secD.indexOf('**第327便の更新(第327便a') >= 0 && secD.indexOf('族 E(トルクの釣り合い)・今の R_d(= Y_k m)・K1 固定での記録') >= 0)) bad.push('③ 第326便d の節に「第327便の更新」の行(族 E・今の R_d・K1 固定の記録と限定)');
-    const a0 = AS.indexOf('\n## 187. 第327便a'), ai = a0 >= 0 ? AS.slice(a0, a0 + 6000) : '';
+    const a0 = AS.indexOf('\n## 187. 第327便a'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
     if (!(ai.indexOf('tests/out/axialsum-w327a.json') >= 0 && ai.indexOf('配分 w は宣言の構成則') >= 0 && ai.indexOf('格子の R_d を本に入れない') >= 0)) bad.push('③ AI_SPEC §187(正本・配分・格子の R_d)');
-    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLx.slice(cb, cb + 80000) : '', cl327a = clg.split('\n').find((l) => l.indexOf('**第327便a**') >= 0) || '';
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl327a = clg.split('\n').find((l) => l.indexOf('**第327便a**') >= 0) || '';
     if (!(cl327a.indexOf('tests/exp-w327a-axialsum.mjs') >= 0 && cl327a.indexOf('axialsum-327a') >= 0 && cl327a.indexOf('w326d-axialheat-lib-2') >= 0)) bad.push('③ CHANGELOG の第327便a の行');
     if (!(/S\('axialsum-327a', 'node tests\/exp-w327a-axialsum\.mjs', \['tests\/out\/axialsum-w327a\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ") >= 0
       && RT.indexOf('// ==== 第327便a の塊(ここから)====') >= 0)) bad.push('③ 段の行 axialsum-327a(quickVerify:false と理由・塊)');
@@ -96842,9 +96879,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       '腕より速い場は仮定', '同じ形の仮定', 'u が近いことを curl の収束とみなさない', '銀河場の同定とは数えない', '腕より速い場は観測の量ではない', '二重に反転', '回転する枠の入力', '仕事とトルクの帳簿',
       '決断事項の候補', 'lint.galaxis327b', 'behavior.galaxis327b', 'docs.galaxis327b', '統括の参考の試作'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第327便b〕に「' + w + '」が無い');
-    const a0 = AS.indexOf('\n## 188. 第327便b'), ai = a0 >= 0 ? AS.slice(a0, a0 + 6000) : '';
+    const a0 = AS.indexOf('\n## 188. 第327便b'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
     if (!(ai.indexOf('tests/out/galaxis-w327b.json') >= 0 && ai.indexOf('同定していない') >= 0 && ai.indexOf('場の軸の反転ではない') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('③ AI_SPEC §188(正本・同定していない・場の軸の反転ではない・SYSTEM_PROMPT)');
-    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLx.slice(cb, cb + 80000) : '', cl327b = clg.split('\n').find((l) => l.indexOf('**第327便b**') >= 0) || '';
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl327b = clg.split('\n').find((l) => l.indexOf('**第327便b**') >= 0) || '';
     if (!(cl327b.indexOf('tests/exp-w327b-galaxis.mjs') >= 0 && cl327b.indexOf('galaxis-327b') >= 0)) bad.push('③ CHANGELOG の第327便b の行');
     if (!(/S\('galaxis-327b', 'node tests\/exp-w327b-galaxis\.mjs', \['tests\/out\/galaxis-w327b\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: 't = 0 の読み口と場の API の純関数だけ") >= 0
       && RT.indexOf('// ==== 第327便b の塊(ここから)====') >= 0)) bad.push('③ 段の行 galaxis-327b(quickVerify:false と理由・塊)');
@@ -97101,7 +97138,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const i0 = PH.indexOf('〔第327便c — '), i7 = PH.indexOf('\n## 7.'), i326e = PH.indexOf('〔第326便e — ');
     if (i0 < 0) bad.push('PHYSICS に〔第327便c〕の節が無い');
     else if (!(i0 < i7 && i326e >= 0 && i326e < i0)) bad.push('PHYSICS〔第327便c〕の位置(第326便e の節の後・「## 7.」の前)');
-    const sec = i0 >= 0 ? PH.slice(i0, PH.indexOf('\n## ', i0 + 10) > 0 ? Math.min(PH.indexOf('\n## ', i0 + 10), i7 > i0 ? i7 : PH.length) : PH.length) : '';
+    // 第329便b の継ぎ目: 節の窓を次の節の見出し(\n〔第)でも切る —— 旧の窓は「## 7.」まで後ろの節を全部含み、後ろの節の係数記号(κ_D・`κ_epi`)を本節の違反に数えた
+    const i1w327c = PH.indexOf('\n〔第', i0 + 10);
+    const sec = i0 >= 0 ? PH.slice(i0, Math.min(...[PH.indexOf('\n## ', i0 + 10), i7, i1w327c].filter((x) => x > i0), PH.length)) : '';
     for (const w of ['w327c-scope-8', 'updateBodyEdit', 'RETIRED_PRESETS', 'abBody:false', 'keepProse', 'scopever', 'w327c-htmlphys-2', 'confirm4', 'tests/qa.mjs', 'pnsource286', 'lint.narrowScope327c']) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第327便c〕に ' + w + ' が無い');
     const m189 = /\n## 189\. 第327便c[^\n]*/.exec(AI), m186 = /\n## 186\. 第326便e/.exec(AI);
     const ai189 = m189 ? (() => { const r = AI.slice(m189.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })() : '';
@@ -97406,7 +97445,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const NOT = ['較正した', 'フィットした', '確認した', '収束した', '完全に一致', '検証が完了した', '内部熱を説明した', '金星の逆転を説明した', '金星の逆回転を説明した'];
     const AI = rd('docs/AI_SPEC.md'), s0 = AI.indexOf('\n## 190. 第327便d'), ai = s0 >= 0 ? AI.slice(s0, (AI.indexOf('\n## ', s0 + 10) > 0 ? AI.indexOf('\n## ', s0 + 10) : s0 + 8000)) : '';
     if (!(ai.indexOf('AN545') >= 0 && ai.indexOf('AN544') >= 0 && ai.indexOf('xkLock.notices') >= 0 && ai.indexOf('SYSTEM_PROMPT') >= 0)) bad.push('AI_SPEC §190(AN544・AN545・xkLock.notices・SYSTEM_PROMPT)');
-    const CLg = rd('CHANGELOG.md'), cb = CLg.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLg.slice(cb, cb + 80000) : '';
+    const CLg = rd('CHANGELOG.md'), cb = CLg.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLg, cb, '\n## ') : '';
     const cl = (clg.split('\n').find((l) => l.indexOf('**第327便d**') >= 0) || '');
     if (!(cl.indexOf('AN544') >= 0 && cl.indexOf('AN545') >= 0)) bad.push('CHANGELOG の第327便d の行');
     const PM = rd('tools/post-merge-qa.sh');
@@ -97558,7 +97597,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const ai = m191 ? (() => { const r = AS.slice(m191.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })() : '';
     if (!m191) bad.push('③ AI_SPEC に §191 が無い'); else if (!(m190 && m190.index < m191.index)) bad.push('③ AI_SPEC §191 の位置(§190 の後)');
     if (!(ai.indexOf('tests/out/axialdiff-w327e.json') >= 0 && ai.indexOf('比の型の性質') >= 0 && ai.indexOf('零点の R_alt を本に入れない') >= 0)) bad.push('③ AI_SPEC §191(正本・比の型・零点の R_alt)');
-    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLx.slice(cb, cb + 80000) : '', cl327e = clg.split('\n').find((l) => l.indexOf('**第327便e**') >= 0) || '';
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl327e = clg.split('\n').find((l) => l.indexOf('**第327便e**') >= 0) || '';
     if (!(cl327e.indexOf('tests/exp-w327e-axialdiff.mjs') >= 0 && cl327e.indexOf('axialdiff-327e') >= 0 && cl327e.indexOf('比の型の性質') >= 0)) bad.push('③ CHANGELOG の第327便e の行');
     if (!(/S\('axialdiff-327e', 'node tests\/exp-w327e-axialdiff\.mjs', \['tests\/out\/axialdiff-w327e\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ") >= 0
       && RT.indexOf('// ==== 第327便e の塊(ここから)====') >= 0)) bad.push('③ 段の行 axialdiff-327e(quickVerify:false と理由・塊)');
@@ -97719,7 +97758,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const ai = m192 ? (() => { const r = AS.slice(m192.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })() : '';
     if (!m192) bad.push('③ AI_SPEC に §192 が無い'); else if (!(m191 && m191.index < m192.index)) bad.push('③ AI_SPEC §192 の位置(§191 の後)');
     if (!(ai.indexOf('tests/out/venustide-w327f.json') >= 0 && ai.indexOf('日射の供給') >= 0 && ai.indexOf('解いた ε と共鳴の割合を本に入れない') >= 0)) bad.push('③ AI_SPEC §192(正本・日射の供給・解いた ε を本に入れない)');
-    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLx.slice(cb, cb + 80000) : '', cl327f = clg.split('\n').find((l) => l.indexOf('**第327便f**') >= 0) || '';
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl327f = clg.split('\n').find((l) => l.indexOf('**第327便f**') >= 0) || '';
     if (!(cl327f.indexOf('tests/exp-w327f-venustide.mjs') >= 0 && cl327f.indexOf('venustide-327f') >= 0 && cl327f.indexOf('日射の供給') >= 0)) bad.push('③ CHANGELOG の第327便f の行');
     if (!(/S\('venustide-327f', 'node tests\/exp-w327f-venustide\.mjs', \['tests\/out\/venustide-w327f\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ") >= 0
       && RT.indexOf('// ==== 第327便f の塊(ここから)====') >= 0)) bad.push('③ 段の行 venustide-327f(quickVerify:false と理由・塊)');
@@ -97885,7 +97924,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (!(upd && upd.indexOf('w328a-fieldcontract-1') >= 0 && upd.indexOf('AN553 = B') >= 0 && upd.indexOf('腕より遅い') >= 0 && upd.indexOf('過去の行は書き換えていない') >= 0)) bad.push('③ 第327便b の節に「第328便の更新」の行(契約の版・AN553 = B・腕より遅いことは変わらない)');
     const a0 = AS.indexOf('\n## 193. 第328便a'), a1 = a0 >= 0 ? AS.indexOf('\n## ', a0 + 5) : -1, ai = a0 >= 0 ? AS.slice(a0, a1 > a0 ? a1 : a0 + 6000) : '';   // 第328便 統合の継ぎ目(a + b): 固定の 6000 字の窓は次の §194(枝 b —— 書かない語を引用符で持つ)へはみ出す —— 次の見出しまで
     if (!(ai.indexOf('tests/out/fieldcontract-w328a.json') >= 0 && ai.indexOf('宣言の候補') >= 0 && ai.indexOf('欠測は null') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('③ AI_SPEC §193(正本・宣言の候補・欠測は null・SYSTEM_PROMPT)');
-    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLx.slice(cb, cb + 80000) : '', cl328a = clg.split('\n').find((l) => l.indexOf('**第328便a**') >= 0) || '';
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl328a = clg.split('\n').find((l) => l.indexOf('**第328便a**') >= 0) || '';
     if (!(cl328a.indexOf('tests/exp-w328a-fieldcontract.mjs') >= 0 && cl328a.indexOf('fieldcontract-328a') >= 0)) bad.push('③ CHANGELOG の第328便a の行');
     if (!(/S\('fieldcontract-328a', 'node tests\/exp-w328a-fieldcontract\.mjs', \['tests\/out\/fieldcontract-w328a\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: 't = 0 の読み口と場の API の純関数だけ") >= 0
       && RT.indexOf('// ==== 第328便a の塊(ここから)====') >= 0)) bad.push('③ 段の行 fieldcontract-328a(quickVerify:false と理由・塊)');
@@ -97946,7 +97985,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (err0) bad.push('器/lib が読めない: ' + err0);
     else {
       const DC = RB.DECL;
-      if (!(RB.LIB_VERSION === 'w328b-response-lib-1' && RB.CONTRACT_VERSION === 'w328a-fieldcontract-1'
+      // 第329便c(世代の直し): lib の版は版の型(lib-1 → lib-2 —— slipOf の Ω_arm を明示の引数へ)
+      if (!(/^w328b-response-lib-\d+$/.test(RB.LIB_VERSION) && RB.CONTRACT_VERSION === 'w328a-fieldcontract-1'
         && JSON.stringify(DC.forms.map((q) => q.key + ':' + q.role)) === JSON.stringify(['ballMean:main', 'inertiaShare:main', 'k1Ratio:check', 'engineDefault:default', 'nullP0:negative'])
         && JSON.stringify(DC.mainForms) === JSON.stringify(['ballMean', 'inertiaShare']) && DC.ballSelfMean === 1.2 && DC.ballInertia === 0.4 && DC.scan.decades === 1 && DC.scan.points === 9
         && DC.gate.tolSlope === 1e-4 && DC.gate.tolRes === 1e-4 && DC.gate.nearZeroAbs === 1e-12 && DC.gate.agreeTol === 1e-4 && DC.fixedSource.src === 'sun' && DC.fixedSource.ext === 'sunExt'
@@ -98049,7 +98089,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const ai = m194 ? (() => { const r = AS.slice(m194.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })() : '';
     if (!m194) bad.push('③ AI_SPEC に §194 が無い'); else if (!(m192 && m192.index < m194.index)) bad.push('③ AI_SPEC §194 の位置(§192 の後)');
     if (!(ai.indexOf('tests/out/response-w328b.json') >= 0 && ai.indexOf('p は 1 つでない') >= 0 && ai.indexOf('自転の独立の予言ではない') >= 0)) bad.push('③ AI_SPEC §194(正本・p は 1 つでない・N_0 は予言ではない)');
-    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLx.slice(cb, cb + 80000) : '', cl328b = clg.split('\n').find((l) => l.indexOf('**第328便b**') >= 0) || '';
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl328b = clg.split('\n').find((l) => l.indexOf('**第328便b**') >= 0) || '';
     if (!(cl328b.indexOf('tests/exp-w328b-response.mjs') >= 0 && cl328b.indexOf('response-328b') >= 0 && cl328b.indexOf('p は 1 つでない') >= 0)) bad.push('③ CHANGELOG の第328便b の行');
     if (!(/S\('response-328b', 'node tests\/exp-w328b-response\.mjs', \['tests\/out\/response-w328b\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ") >= 0
       && RT.indexOf('// ==== 第328便b の塊(ここから)====') >= 0)) bad.push('③ 段の行 response-328b(quickVerify:false と理由・塊)');
@@ -98210,7 +98250,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const ai = m195 ? (() => { const r = AS.slice(m195.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })() : '';
     if (!m195) bad.push('④ AI_SPEC に §195 が無い'); else if (!(m192 && m192.index < m195.index)) bad.push('④ AI_SPEC §195 の位置(§192 の後)');
     if (!(ai.indexOf('w327f-venustide-2') >= 0 && ai.indexOf('tests/lib-w328c-respower.mjs') >= 0 && ai.indexOf('エンジンに入れない') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('④ AI_SPEC §195(器の版 2・契約の lib・エンジンに入れない・SYSTEM_PROMPT には載せない)');
-    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? CLx.slice(cb, cb + 80000) : '', cl328c = clg.split('\n').find((l) => l.indexOf('**第328便c**') >= 0) || '';
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl328c = clg.split('\n').find((l) => l.indexOf('**第328便c**') >= 0) || '';
     if (!(cl328c.indexOf('w327f-venustide-2') >= 0 && cl328c.indexOf('tests/lib-w328c-respower.mjs') >= 0 && cl328c.indexOf('1 746') >= 0 && cl328c.indexOf('45 360') >= 0)) bad.push('④ CHANGELOG の第328便c の行');
     if (!(PM.indexOf('# ==== 第328便c の塊(ここから)====') >= 0 && /lint\.venusCoverage328c/.test(PM) && /lint\.resPower328c/.test(PM) && /docs\.w328c/.test(PM))) bad.push('④ post-merge の ③′ に第328便c の塊');
     cases.push('④ AI_SPEC §195・CHANGELOG・post-merge の ③′');
@@ -98237,6 +98277,589 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第328便c の塊(ここまで)====
+
+// ==== 第329便a の塊(ここから —— lint.spinBias329a・behavior.spinBias329a・docs.spinBias329a の 3 ブロック。root は SKIP)====
+// ---- 第329便a(原仮定者の方針(2026-11-07)・原仮定者の回答(2026-11-07 —— AN570・AN571・AN574・AN575)・統括の検証項目 R304): **金星・イオ・月・水星の比べる表と表裏の偏りのノブの器**(新設 ——
+// ----   器 tests/exp-w329a-spinbias.mjs・lib tests/lib-w329a-spinbias.mjs・文書の lib tests/lib-w329a-spinbiasdoc.mjs・正本 tests/out/spinbias-w329a.json。html・本の宣言・エンジン・受理器は変えない)。
+// ----   世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.spinBias329a(html を読まない): ① lib の版・宣言(4 組の鍵・種類・役・像の k・τ_0 の 2 つの枝・球の平均 p = 0・一定の時間の遅れ・余裕 2・位相の模型)と文献の周期が
+// ----     paper/data の CSV の行と同じ値(金星の公転と自転・水星と月の公転・イオの公転)② 純関数の場面の門 8 ③ 呼ぶだけ(lib は html もファイルも読まない・第328便c の契約を import・
+// ----     器は第327便a・第327便f の lib を呼び第327便f の器を import しない・K1 の核の式の名を写さない)
+// ----   behavior.spinBias329a(html を headless で読む —— 正本と照合): ① 7 天体の入力(質量・半径・自転・R_d)② 受動の口(SI の型のロックの列のトルク・第327便a の型の受け手の β)
+// ----     ③ 受理器の s_d の読み口(受理・拒否・不変・比例)と dragCore と R_src の守り ④ 偏りの列の要る振幅(N₂ だけ・N₁ を足す)が正本と相対 1e-12 の内 ⑤ 在位の 🗺️ に dragCore・spinDrag が無い
+// ----   docs.spinBias329a(正本): ① 門(作り直して同じ・全部真)・版・来歴・領域 hash(完全)・宣言が lib の DECL と同じ ② 表 19 本が PHYSICS〔第329便a〕に逐語・AN574 の数が第327便f の正本の
+// ----     件数と同じ ③ 節の位置(第328便c の節の後・第328便の統括の節の前)・必須の語・第327便f の節の「第329便の更新」の行・AI_SPEC §196(次の見出しまで)・CHANGELOG(次の見出しまで)・段の行・
+// ----     .gitignore・post-merge の ③′ ④ 書かない語(「説明した」「共通の法則を見つけた」「表の面を同定した」ほか —— 引用の外)・禁句・裸の係数記号・速度の数の字列
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const fHarn = path.join(ROOT, 'tests', 'exp-w329a-spinbias.mjs'), fLib = path.join(ROOT, 'tests', 'lib-w329a-spinbias.mjs'), fDoc = path.join(ROOT, 'tests', 'lib-w329a-spinbiasdoc.mjs');
+  const fOut = path.join(ROOT, 'tests', 'out', 'spinbias-w329a.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(fHarn) && fs.existsSync(fLib) && fs.existsSync(fDoc))) {
+    console.log('SKIP lint.spinBias329a・behavior.spinBias329a・docs.spinBias329a(第329便a の比べる表と偏りのノブの器の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const relD329a = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, SB = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + fHarn); SB = await import('file://' + fLib); D0 = await import('file://' + fDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(fOut, 'utf8')); } catch (e) { J = null; }
+  // ───── lint.spinBias329a ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      const DC = SB.DECL;
+      if (!(SB.LIB_VERSION === 'w329a-spinbias-lib-1' && JSON.stringify(DC.pairs.map((q) => q.key + ':' + q.src + ':' + q.kind + ':' + q.role + ':' + q.image)) === JSON.stringify(['mercury:sun:gasSolid:side:1.5', 'venus:sun:gasSolid:main:-1', 'io:jupiter:gasSolid:main:1', 'moon:earth:solidSolid:control:1'])
+        && JSON.stringify(DC.mainPairs) === JSON.stringify(['venus', 'io']) && DC.controlPair === 'moon' && JSON.stringify(DC.tau0) === JSON.stringify(['inf', 'age']) && DC.galaxyResponse.p === 0 && DC.galaxyResponse.form === 'ballMean'
+        && DC.family === 'E' && DC.solidMain === 'constLag' && DC.margin === 2 && JSON.stringify(DC.sdFactors) === JSON.stringify([0, 0.5, 1, 2, -1]) && DC.spinRangeBook === 20
+        && DC.phaseModel.pair === 'venus' && DC.phaseModel.column === 'n1' && DC.phaseModel.tau === 'age' && JSON.stringify(DC.pairs.find((q) => q.key === 'venus').pattern.modes.map((m) => m.key + m.coefficient)) === JSON.stringify(['earth5', 'venus-4']))) bad.push('① lib の版・宣言(4 組・種類・役・像の k・τ_0・球の平均・一定の時間の遅れ・余裕・位相の模型・金星のパターン)');
+      // 文献の周期が paper/data の CSV の行と同じ値(行は本文で引く —— 書き換えない)
+      const csvRow = (file, body, qty, srcRe) => { const ln = rd(file).split('\n').find((l) => { const c = l.split(','); return c[0] === body && c[1] === qty && (!srcRe || srcRe.test(l)); }); return ln ? Number(ln.split(',')[2]) : null; };
+      const vO = csvRow('paper/data/solar-observations.csv', 'Venus', 'orbital_period', null), vS = csvRow('paper/data/solar-observations.csv', 'Venus', 'rotation_period', null), mO = csvRow('paper/data/solar-observations.csv', 'Mercury', 'orbital_period', /NSSDC/);
+      const lO = csvRow('paper/data/solar-observations.csv', 'Moon', 'orbital_period', /NSSDC Moon Fact Sheet/), iO = csvRow('paper/data/jovian-satellites.csv', 'Io', 'sidereal_orbital_period', null);
+      const chk = [[vO / 86400, DC.obs.venus.orbitDays], [vS / 86400, DC.obs.venus.spinDays], [mO / 86400, DC.obs.mercury.orbitDays], [lO / 86400, DC.obs.moon.orbitDays], [iO, DC.obs.io.orbitDays]];
+      if (!chk.every(([a, b]) => Number.isFinite(a) && relD329a(a, b) <= 1e-9)) bad.push('① 文献の周期が paper/data の CSV の行と違う(' + chk.map(([a, b]) => a + '/' + b).join('・') + ')');
+      cases.push(`① lib ${SB.LIB_VERSION}・4 組(主 ${DC.mainPairs.join('・')}・対照 ${DC.controlPair})・τ_0 ${DC.tau0.join('・')}・球の平均 p ${DC.galaxyResponse.p}・余裕 ${DC.margin}・文献の周期 5 行が paper/data の行と同じ値`);
+      let S = null, G = null;
+      try { S = SB.pureScenes(); G = SB.pureGates(S); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G) {
+        for (const [k, v] of Object.entries(G)) if (v !== true) bad.push('② 純関数の場面 ' + k);
+        if (Object.keys(G).length !== 8) bad.push('② 場面の数 ' + Object.keys(G).length);
+        cases.push(`② 純関数の場面 ${Object.values(G).filter(Boolean).length}/${Object.keys(G).length}(表裏の深さ ${S.port.frontBackN1}・第328便c と同じビット ${S.contract.sameAs328c}・水星の 1 回対称 ${S.mercury.m1}・由来ごとの熱 ${S.heat.heat}(合成 ${S.heat.heatMerged})・模型の h/h2 の帳簿の比 ${S.model.ratio.toFixed(1)})`);
+      }
+      const lt = rd('tests/lib-w329a-spinbias.mjs'), ht = rd('tests/exp-w329a-spinbias.mjs');
+      if (/loadHtml|readFileSync/.test(lt)) bad.push('③ lib が html かファイルを読む');
+      if (!/from '\.\/lib-w328c-respower\.mjs'/.test(lt)) bad.push('③ lib が第328便c の契約を import しない');
+      if (/from '\.\/exp-w327f-venustide\.mjs'/.test(ht) || !/from '\.\/lib-w327f-venustide\.mjs'/.test(ht) || !/from '\.\/lib-w327a-axialsum\.mjs'/.test(ht)) bad.push('③ 器が第327便f の器を import する(lib を呼ぶ約束)か第327便a・第327便f の lib を呼ばない');
+      if (/inertialDragIsqK1\b|inertialDragIsqM1\b/.test(lt + ht)) bad.push('③ K1 の核の式の名を写す');
+      cases.push('③ 呼ぶだけ(lib は html もファイルも読まない・第328便c の契約を import・器は第327便a・第327便f の lib を呼び第327便f の器は import しない・K1 の核を写さない)');
+    }
+    add('lint.spinBias329a', bad.length === 0,
+      `**金星・イオ・月・水星の比べる表と表裏の偏りのノブの純関数**(第329便a・原仮定者の方針(2026-11-07)・原仮定者の回答(2026-11-07 —— AN575)・R304 —— html を読まない・偏りの口は保存の口〔熱 0〕で宣言したノブの診断): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.spinBias329a ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/spinbias-w329a.json が読めない');
+    else {
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        const IN = X.partI(H.HP);
+        // ①
+        let d1 = 0;
+        for (const [k, q] of Object.entries(J.inputs.bodies)) { const b = IN.bodies[k]; if (!b) { d1 = Infinity; continue; } for (const f of ['m', 'R', 's', 'Rd', 'I']) d1 = Math.max(d1, relD329a(b[f], q[f])); }
+        d1 = Math.max(d1, relD329a(IN.Asun, J.inputs.Asun));
+        if (!(d1 <= 1e-12)) bad.push(`① 7 天体の入力が正本と違う(相対 ${d1})—— 器を走らせ直す`);
+        cases.push(`① 7 天体の入力(質量・半径・自転・R_d・慣性)と太陽の式の A が正本と相対 1e-12 の内`);
+        // ②
+        const P = X.partP(IN);
+        let d2 = 0, n2 = 0;
+        for (const r of P.si.filter((q) => q.col === 'lock')) { const q = J.passive.si.find((z) => z.key === r.key && z.tau === r.tau && z.proj === r.proj && z.col === 'lock'); if (!q) { d2 = Infinity; continue; } d2 = Math.max(d2, relD329a(r.torque, q.torque)); n2++; }
+        for (const [k, q] of Object.entries(P.beta)) { const z = J.passive.beta[k]; d2 = Math.max(d2, z ? relD329a(q.recv.beta, z.recv.beta) : Infinity); if (!z || q.recv.rejected !== z.recv.rejected) d2 = Infinity; }
+        if (!(d2 <= 1e-12)) bad.push(`② 受動の口のトルクか β が正本と違う(相対 ${d2})`);
+        cases.push(`② 受動の口(SI の型のロックの列 ${n2} 行のトルク・第327便a の型の受け手の β と採否 ${Object.keys(P.beta).length} 行)が正本と相対 1e-12 の内`);
+        // ③
+        const S = X.partS(H.HP, IN), mis = [];
+        for (const r of S.engine) { const q = J.sd.engine.find((z) => z.key === r.key && z.f === r.f); if (!q || q.ok !== r.ok || (r.ok && (r.RdSame !== q.RdSame || r.ownTargetSame !== q.ownTargetSame || r.linMaxRel > 1e-12))) mis.push(r.key + ':' + r.f); }
+        if (!(mis.length === 0 && S.guard.every((q) => q.sourceMomentGuard === true) && S.guard.length === J.sd.guard.length)) bad.push(`③ 受理器の s_d の読み口か守りが正本と違う(${mis.join('・')})`);
+        cases.push(`③ 受理器の s_d の読み口 ${S.engine.length} 件(受理 ${S.engine.filter((q) => q.ok).length}・拒否 ${S.engine.filter((q) => !q.ok).length} —— 不変と比例)と dragCore と R_src の守り ${S.guard.length} 件が正本と同じ`);
+        // ④
+        const B = X.partB(IN);
+        let d4 = 0;
+        for (const r of B.rows) { const q = J.bias.rows.find((z) => z.key === r.key && z.tau === r.tau); if (!q) { d4 = Infinity; continue; } d4 = Math.max(d4, relD329a(r.required.n2.required, q.required.n2.required), r.required.n1 ? relD329a(r.required.n1.required, q.required.n1.required) : 0, relD329a(r.none.torqueLock, q.none.torqueLock)); }
+        if (!(d4 <= 1e-12)) bad.push(`④ 偏りの列の要る振幅が正本と違う(相対 ${d4})`);
+        cases.push(`④ 偏りの列 ${B.rows.length} 行の要る振幅(N₂ だけ・N₁ を足す)と無偏りのトルクが正本と相対 1e-12 の内`);
+        // ⑤
+        const b16 = H.HP.allPresets().find((p) => p.id === 'solarSystem16Inertial3d'), rdq = b16 && b16.physics && b16.physics.relativeDrag;
+        if (!(rdq && !rdq.spinDrag && [0, 1, 2, 3, 4, 6, 7].every((i) => b16.bodies[i] && !b16.bodies[i].dragCore))) bad.push('⑤ 在位の 🗺️ に spinDrag か dragCore の宣言(器の写しにだけ足す約束)');
+        cases.push('⑤ 在位の 🗺️ に spinDrag は無く 7 天体に dragCore も無い(写しにだけ —— 偏りの口は本に入れない)');
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.spinBias329a', bad.length === 0,
+      `**比べる表・受動の口・s_d の作用箇所・偏りの列の写しの読み口**(第329便a・原仮定者の方針(2026-11-07)・R304 —— 在位の本と受理器は変えない・s_d は既存の dragCore.spin を写しで振る): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.spinBias329a ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第329便a — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10), iC = PH.indexOf('〔第328便c — '), iG = PH.indexOf('〔第328便 — 統括');
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && iC >= 0 && iC < i0 && (iG < 0 || i0 < iG))) bad.push('PHYSICS〔第329便a〕が無いか「## 7.」の後ろか第328便c の節の前か第328便の統括の節の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/spinbias-w329a.json が読めない');
+    else {
+      // ①
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === SB.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.scopeComplete === true
+        && /^[0-9a-f]{64}$/.test(J.meta.scopeSha256 || '') && J.meta.stage === 'spinbias')) bad.push('① 版・来歴・領域 hash(完全)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(SB.DECL)) bad.push('① 正本の宣言が lib の DECL と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
+      // ②
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第329便a〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 19) bad.push('② 表の数 ' + Object.keys(T).length);
+      let JF = null; try { JF = JSON.parse(rd('tests/out/venustide-w327f.json')); } catch (e) { JF = null; }
+      const c4 = D0.an574Counts();
+      if (!(JF && JF.venus && JF.venus.coverage && JF.venus.coverage.total === c4.total && JF.venus.admissible && JF.venus.admissible.withPhase === c4.chi0)) bad.push('② AN574 の数(宣言の格子の χ = 0 の条件)が第327便f の正本の件数(withPhase)と違う');
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第329便a〕に逐語(文書の lib ${D0.DOC_VERSION})・AN574 の χ ≥ 0.25 の ${c4.chiPos} 条件と χ = 0 の ${c4.chi0} 条件が第327便f の正本の件数と同じ`);
+    }
+    // ③
+    const want = ['原仮定者の方針(2026-11-07)', '原仮定者の回答(2026-11-07 —— AN570・AN571・AN574・AN575)', 'R304', 'tests/exp-w329a-spinbias.mjs', 'tests/out/spinbias-w329a.json', '観測の k と像の k', '別の列',
+      'Σ c_j = 1', 'U_bias = −N₁ cos γ − (N₂/2) cos 2γ', 'N₁ が表裏', '保存の口なので熱 0', '復元の勾配', '由来ごと', '宣言したノブで表現できた', '受理器は dragCore を宣言した天体に sourceMoment の R_src',
+      's_d に受動の口の残差を消す余地は無い', '表裏の偏り N₁ では 3:2 を保てない', '会合のたびにほぼ同じ面が向く幾何', '共通の形の候補にならない', 'ランク 1', '3 天体の範囲は交わらない',
+      '位相なし(指定のトルクの帳簿)', '捕獲や起源の確定ではない', 'h と h/2', '既存の四重極だけの金星を長い時間で計算し直す段は作っていない', '新しい力・エンジンの口は足していない',
+      '金星の逆回転・内部熱の説明ではない', '決断事項の候補', 'lint.spinBias329a', 'behavior.spinBias329a', 'docs.spinBias329a'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第329便a〕に「' + w + '」が無い');
+    const updOf = (head, tag) => { const a0 = PH.indexOf(head), a1 = PH.indexOf('\n〔第', a0 + 10), sx = a0 >= 0 ? PH.slice(a0, a1 > a0 ? a1 : undefined) : ''; return (sx.split('\n').find((l) => l.indexOf(tag) === 0)) || ''; };
+    const updF = updOf('〔第327便f — ', '**第329便の更新(第329便a');
+    if (!(updF && updF.indexOf('位相なし(指定のトルクの帳簿)') >= 0 && updF.indexOf('AN574') >= 0 && updF.indexOf('過去の行は書き換えていない') >= 0 && updF.indexOf('別の仮定') >= 0)) bad.push('③ 第327便f の節に「第329便の更新」の行(AN574 の印・別の仮定・過去の行は書き換えていない)');
+    const m196 = /\n## 196\. 第329便a[^\n]*/.exec(AS), m195 = /\n## 195\. 第328便c/.exec(AS);
+    const ai = m196 ? (() => { const r = AS.slice(m196.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })() : '';   // 次の見出しまで(固定の字数の窓を使わない)
+    if (!m196) bad.push('③ AI_SPEC に §196 が無い'); else if (!(m195 && m195.index < m196.index)) bad.push('③ AI_SPEC §196 の位置(§195 の後)');
+    if (!(ai.indexOf('tests/out/spinbias-w329a.json') >= 0 && ai.indexOf('宣言したノブで表現できた') >= 0 && ai.indexOf('位相なし(指定のトルクの帳簿)') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('③ AI_SPEC §196(正本・宣言したノブ・AN574 の印・SYSTEM_PROMPT に載せない)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clRest = cb >= 0 ? CLx.slice(cb) : '', clEnd = clRest.indexOf('\n## ', 3), clg = clEnd < 0 ? clRest : clRest.slice(0, clEnd);   // 次の見出しまで
+    const cl329a = clg.split('\n').find((l) => l.indexOf('**第329便a**') >= 0) || '';
+    if (!(cl329a.indexOf('tests/exp-w329a-spinbias.mjs') >= 0 && cl329a.indexOf('spinbias-329a') >= 0 && cl329a.indexOf('宣言したノブで表現できた') >= 0)) bad.push('③ CHANGELOG の第329便a の行');
+    if (!(/S\('spinbias-329a', 'node tests\/exp-w329a-spinbias\.mjs', \['tests\/out\/spinbias-w329a\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ") >= 0
+      && RT.indexOf('// ==== 第329便a の塊(ここから)====') >= 0)) bad.push('③ 段の行 spinbias-329a(quickVerify:false と理由・塊)');
+    if (GI.indexOf('!tests/out/spinbias-w329a.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第329便a の塊(ここから)====') >= 0 && /lint\.spinBias329a/.test(PM) && /behavior\.spinBias329a/.test(PM) && /docs\.spinBias329a/.test(PM))) bad.push('③ post-merge の ③′ に第329便a の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・第327便f の節の「第329便の更新」・AI_SPEC §196(次の見出しまで)・CHANGELOG(次の見出しまで)・段の行・.gitignore・post-merge の ③′');
+    // ④
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /説明した/, /一致した/, /銀河場を同定した/, /機構を同定した/, /表の面を同定した/,
+      /共通の法則を見つけた/, /共通の法則を発見/, /捕獲を確定した/, /起源を確定した/, /ハローが要らない/, /ハローを説明/, /p を決めた/, /共鳴が金星を固定した/, /熱潮汐が逆行を説明した/];
+    const cpA = (a) => String.fromCodePoint(...a), rvA = (t) => t.split('').reverse().join('');
+    const NGA = [cpA([0x518d, 0x73fe, 0x3057, 0x305f]), cpA([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpA([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpA([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpA([0x79c1, 0x4fe1]), cpA([0x6dfb, 0x4ed8]), cpA([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvA));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第329便a〕', sec], ['第327便f の節の更新の行', updF], ['AI_SPEC §196', ai], ['CHANGELOG の第329便a の行', cl329a], ['器', rd('tests/exp-w329a-spinbias.mjs')],
+      ['lib', rd('tests/lib-w329a-spinbias.mjs')], ['文書の lib', rd('tests/lib-w329a-spinbiasdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGA) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+      if (nm.indexOf('PHYSICS') >= 0 || nm.indexOf('AI_SPEC') >= 0 || nm.indexOf('CHANGELOG') >= 0 || nm.indexOf('更新の行') >= 0) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/\d\s*km\/s/.test(tx)) bad.push('④ ' + nm + ' に速度の数の字列');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・第327便f の節の更新の行・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.spinBias329a', bad.length === 0,
+      `**金星・イオ・月・水星の比べる表・s_d の作用箇所・表裏の偏りの 3 列・式の形・A の範囲・AN574 の印・小さな位相の模型の文書**(第329便a・原仮定者の方針(2026-11-07)・原仮定者の回答(2026-11-07 —— AN570・AN571・AN574・AN575)・R304 —— 偏りの振幅は宣言したノブで表現できた要る振幅・金星の逆回転・内部熱の説明ではない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第329便a の塊(ここまで)====
+// ==== 第329便b の塊(ここから —— lint.galRot329b・behavior.galRot329b・docs.galRot329b の 3 ブロック。root は SKIP)====
+// ---- 第329便b(原仮定者の方針(2026-11-07)「既存の銀河の回転の理論を利用して DFM を融合する」「寄与の度合いを調査する」・原仮定者の回答(2026-11-07 —— AN568・AN569・AN570・AN572)・
+// ----   統括の検証項目 R305): **銀河の既存の回転の理論のラベル・場の契約の版 2(回転する枠)・ラベルの口・NGC 3198 の基準列と DFM の OFF/ON の寄与の度合い**(新設 ——
+// ----   器 tests/exp-w329b-galrot.mjs・lib tests/lib-w329b-galrot.mjs と tests/lib-w329b-fieldcontract2.mjs・文書の lib tests/lib-w329b-galrotdoc.mjs・fixture tests/fixtures/ngc3198-rotmod-w329b.json・
+// ----   正本 tests/out/galrot-w329b.json。html・本の宣言・エンジン・受理器・第321便c・第327便b・第328便a の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib 2 本・文書の lib がある。
+// ----   lint.galRot329b(html を読まない): ① lib の版・契約の版 2・包む第328便a の契約の版・鍵の形(手で書いた一覧と照合)・宣言 ② 純関数の場面(ラベルの lib 8・契約の lib 7)
+// ----     ③ fixture(生の文の sha256 = 出典の sha256 = 手で書いた値・生の文を読み直して行と同じ・第三者の写しの印・観測の CSV の v_rot 43 行と V_obs が同じ・URL が同じ)
+// ----     ④ 呼ぶだけ(第321便c・第327便b・第328便a の lib の本文に w329b の語が無い・新しい lib は html を読まない・器と lib はネットへ取りに行かない)
+// ----   behavior.galRot329b(html を headless で読む —— 正本と照合): ① 🌃 の写しの探り(観測の速さ・t* = 0.032・h)の箱が正本の h の行と同じ(1 歩目の同一)② 版 2 の口の古い呼び出しが
+// ----     第321便c の sample と JSON の文字列で同じ・宣言の無い枠の版 2 の版 1 の形が第328便a の正本の契約と同じ・回す枠の u′ が正本と相対 1e-12 の内 ③ 基準列・η・ラベルの表を fixture と正本の箱から作り直して同じ
+// ----   docs.galRot329b(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全・abBody:false)・宣言が lib の DECL と同じ ② 表 10 本が PHYSICS〔第329便b〕に逐語
+// ----     ③ 節の位置(〔第328便c〕の節の後・「## 7.」の前)・必須の語・第328便a の節の「第329便の更新」の行・AI_SPEC §197(次の見出しまで)・CHANGELOG・段の行・EXTERNAL_VOLATILE・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・更新の行・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const gHarn = path.join(ROOT, 'tests', 'exp-w329b-galrot.mjs'), gLib = path.join(ROOT, 'tests', 'lib-w329b-galrot.mjs'), gLib2 = path.join(ROOT, 'tests', 'lib-w329b-fieldcontract2.mjs'), gDoc = path.join(ROOT, 'tests', 'lib-w329b-galrotdoc.mjs');
+  const gOut = path.join(ROOT, 'tests', 'out', 'galrot-w329b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(gHarn) && fs.existsSync(gLib) && fs.existsSync(gLib2) && fs.existsSync(gDoc))) {
+    console.log('SKIP lint.galRot329b・behavior.galRot329b(第329便b の銀河の既存理論のラベルと契約の版 2 の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const relD329 = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, GL = null, C2 = null, D0 = null, C1 = null, FA = null, J = null, err0 = null;
+  try { X = await import('file://' + gHarn); GL = await import('file://' + gLib); C2 = await import('file://' + gLib2); D0 = await import('file://' + gDoc);
+    C1 = await import('file://' + path.join(ROOT, 'tests', 'lib-w328a-fieldcontract.mjs')); FA = await import('file://' + path.join(ROOT, 'tests', 'lib-w321c-galfield.mjs')); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(gOut, 'utf8')); } catch (e) { J = null; }
+  // 形(lib の定数と別に手で書く)
+  const SHAPE2 = { top: ['version', 'baseVersion', 'frame', 'rates', 'omegaField', 'convergence', 'sources', 'transfer', 'ledgerRefs', 'labels'],
+    frame: ['id', 'origin', 'originKpc', 'Q', 'axis', 'velocityRef', 'originVelocity', 'timeUnit', 'lengthUnit', 'velocityUnit', 'omegaFrame', 'complete'],
+    rates: ['omegaFrame', 'omegaMat', 'omegaField', 'omegaP', 'unit', 'ref', 'note'], port: ['mode', 'A_O', 'B_O', 'Omega', 'kappaEpi', 'OmegaP', 'at', 'unit', 'source', 'note'] };
+  const FIX_SHA = '17b774ad11e7dd745a067073b76f1909d4de32fa87616df12b64da3f225cf953';
+  // ───── lint.galRot329b ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      if (!(GL.LIB_VERSION === 'w329b-galrot-lib-1' && C2.LIB_VERSION === 'w329b-fieldcontract2-lib-1' && C2.CONTRACT2_VERSION === 'w329b-fieldcontract-2' && C2.BASE_CONTRACT_VERSION === C1.CONTRACT_VERSION
+        && C1.CONTRACT_VERSION === 'w328a-fieldcontract-1' && C1.LIB_VERSION === 'w328a-fieldcontract-lib-1' && FA.FIELD_VERSION === 'w321c-galfield-2' && FA.LIB_VERSION === 'w321c-galfield-lib-2')) bad.push('① 版(lib 2 本・契約の版 2・包む第328便a の契約と第321便c の場の API の版が基点と同じ)');
+      if (JSON.stringify(C2.CONTRACT2_KEYS) !== JSON.stringify(SHAPE2.top) || JSON.stringify(C2.FRAME2_KEYS) !== JSON.stringify(SHAPE2.frame) || JSON.stringify(C2.RATES_KEYS) !== JSON.stringify(SHAPE2.rates)
+        || JSON.stringify(GL.PORT_KEYS) !== JSON.stringify(SHAPE2.port) || SHAPE2.rates.includes('omegaArm')) bad.push('① 鍵の形(版 2 の契約・枠・rates・ラベルの口 —— rates に Ω_arm が無い)');
+      const DG = GL.DECL;
+      if (!(JSON.stringify(DG.derivTypes) === JSON.stringify(['centralDiff', 'localQuad']) && DG.localQuadHalfWidth === 2 && DG.upsilonDisk === 0.5 && JSON.stringify(DG.upsilonSens) === JSON.stringify([0.3, 0.5, 0.8])
+        && DG.kSigma === 2 && DG.radialOverTangential === 2 && DG.minParticles === 3 && C2.DECL.units.length === 'kpc' && C2.DECL.units.velocity === 'm/s' && C2.DECL.units.time === 's')) bad.push('① 宣言(微分の型・Υ・有意の σ・内向きと接線の比・単位)');
+      cases.push(`① lib ${GL.LIB_VERSION}・${C2.LIB_VERSION}・契約 ${C2.CONTRACT2_VERSION}(版 1 ${C2.BASE_CONTRACT_VERSION})・鍵 ${SHAPE2.top.length}・rates ${SHAPE2.rates.length}(Ω_arm は受け手の側)`);
+      let G1 = null, G2 = null;
+      try { G1 = GL.pureGates(GL.pureScenes()); G2 = C2.pureGates(C2.pureScenes()); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G1 && G2) {
+        for (const [k, v] of Object.entries(G1)) if (v !== true) bad.push('② ラベルの lib の場面 ' + k);
+        for (const [k, v] of Object.entries(G2)) if (v !== true) bad.push('② 契約の lib の場面 ' + k);
+        if (Object.keys(G1).length !== 8 || Object.keys(G2).length !== 7) bad.push('② 場面の数 ' + Object.keys(G1).length + '・' + Object.keys(G2).length);
+        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(恒等式・物質線の反例・微分の型・ラベルの口・基準列と η・箱の集計)+ ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}(版 1 と同じ・回す枠・欠測は null・拒否・往復と相対の速さ・滑りと帳簿・ラベル)`);
+      }
+      // ③ fixture
+      let FXJ = null; try { FXJ = JSON.parse(rd('tests/fixtures/ngc3198-rotmod-w329b.json') || 'null'); } catch (e) { FXJ = null; }
+      if (!FXJ) bad.push('③ fixture が読めない');
+      else {
+        const sha = crypto.createHash('sha256').update(Buffer.from(FXJ.rawText, 'utf8')).digest('hex');
+        const parsed = FXJ.rawText.split('\n').filter((l) => l.trim() && !l.startsWith('#')).map((l) => { const c = l.trim().split(/\s+/).map(Number); return { R: c[0], Vobs: c[1], errV: c[2], Vgas: c[3], Vdisk: c[4], Vbul: c[5], SBdisk: c[6], SBbul: c[7] }; });
+        const CSVx = X.readCsv(ROOT), cmp = FXJ.rows.map((r) => { const c = CSVx.vrot.find((q) => Math.abs(q.R - r.R) < 1e-9); return c ? Math.abs(c.v - r.Vobs) : Infinity; });
+        if (!(sha === FXJ.provenance.sha256 && sha === FIX_SHA && JSON.stringify(parsed) === JSON.stringify(FXJ.rows) && FXJ.thirdPartyCopy === true && FXJ.rows.length === 43
+          && /^https:\/\/raw\.githubusercontent\.com\/.+NGC3198_rotmod\.dat$/.test(FXJ.provenance.url) && /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/.test(FXJ.provenance.fetchedAtUtc)
+          && cmp.every((x) => x <= 1e-9) && CSVx.vrot.length === 43 && CSVx.vrot.every((q) => q.url === FXJ.provenance.url))) bad.push('③ fixture(sha256・生の文・第三者の写しの印・43 行・CSV の v_rot と URL)');
+        cases.push(`③ fixture: 生の文の sha256 = 出典の sha256(${FIX_SHA.slice(0, 12)}…)・読み直して 43 行が同じ・第三者の写し ${FXJ.thirdPartyCopy}・観測の CSV の v_rot 43 行と V_obs と URL が同じ`);
+      }
+      const th = rd('tests/exp-w329b-galrot.mjs'), tl = rd('tests/lib-w329b-galrot.mjs'), tl2 = rd('tests/lib-w329b-fieldcontract2.mjs'), base3 = rd('tests/lib-w321c-galfield.mjs') + rd('tests/lib-w327b-galaxis.mjs') + rd('tests/lib-w328a-fieldcontract.mjs');
+      if (!(/from '\.\/lib-w328a-fieldcontract\.mjs'/.test(tl2) && /from '\.\/lib-w321c-galfield\.mjs'/.test(tl2) && /C1\.sampleWithContract\(/.test(tl2) && !/w329b/.test(base3)
+        && !/loadHtml|index\.html/.test(tl + tl2) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + tl2))) bad.push('④ 呼ぶだけ(版 2 の lib が版 1 の口を包む・第321便c・第327便b・第328便a の lib の本文に w329b が無い・lib は html を読まない・ネットへ取りに行かない)');
+      cases.push('④ 版 2 の lib は第328便a の口を包むだけ(第321便c・第327便b・第328便a の lib の本文は版 2 を知らない)・lib は html を読まない・器と lib はネットへ取りに行かない');
+    }
+    add('lint.galRot329b', bad.length === 0,
+      `**銀河の既存の回転の理論のラベルと場の契約の版 2 の純関数**(第329便b・原仮定者の回答(2026-11-07 —— AN568・AN569・AN570)・R305 —— html を読まない・版 1 の呼び出しはビット同一・欠測は null・fixture は第三者の写し): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.galRot329b ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/galrot-w329b.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x), FX = X.readFixture(ROOT), CSVx = X.readCsv(ROOT);
+        // ① 🌃 の写しの探り
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        const t0 = X.PLAN.probeT[0], h0 = X.PLAN.hs[0], P = X.probeSet(H.HP, FX, X.PLAN.books.main, t0, { obsVel: true, hs: [h0] }), ref = J.dfm.obsVel[String(t0)].rows[0];
+        let d1 = 0; for (let k = 0; k < ref.bins.length; k++) { const a = P.rows[0].bins[k], b = ref.bins[k]; if ((a.dv2Raw === null) !== (b.dv2Raw === null) || a.n !== b.n || a.readable !== b.readable) d1 = Infinity; else if (a.dv2Raw !== null) d1 = Math.max(d1, relD329(a.dv2Raw, b.dv2Raw), relD329(a.ain, b.ain)); }
+        if (!(d1 <= 1e-12 && P.rows[0].firstStepSame === true && P.rows[0].nan === false)) bad.push(`① 🌃 の写しの探りの箱が正本と違う(相対 ${d1})か 1 歩目が同一でない —— 器を走らせ直す`);
+        cases.push(`① 🌃 の写しの探り(観測の速さ・t* ${t0}・h ${h0})の箱 ${ref.bins.length} が正本と相対 1e-12 の内・1 歩目は ON と OFF で同一`);
+        // ② 版 2 の口
+        const pos = [FA.FLOW.R0kpc, 0, 0], st = FA.fullState(), base = FA.sample(pos, 0, st, {});
+        const oldSame = js(C2.sampleWithContract2(pos, 0, st, {})) === js(base) && js(C2.sampleWithContract2([50, 0, 0], 0, st, {})) === js(FA.sample([50, 0, 0], 0, st, {}));
+        const FC = JSON.parse(rd('tests/out/fieldcontract-w328a.json') || 'null'), d = { omegaField: FC.contract.decl.omegaField, transfer: FC.contract.decl.transfer, convergence: FC.contract.decl.convergence };
+        const v = C2.toV1(C2.buildFieldContract2(base, d));
+        const U = C2.DECL.units, fr = { originKpc: [0, 0, 0], Q: [[1, 0, 0], [0, 1, 0], [0, 0, 1]], originVelocity: [0, 0, 0], omegaFrame: J.contract.rotating.OmegaFrame, lengthUnit: U.length, velocityUnit: U.velocity, timeUnit: U.time };
+        const sR = C2.sampleInFrame(pos, 0, st, { frame: fr }), dR = Math.hypot(...sR.u.map((x, i) => x - J.contract.rotating.uFrame[i])) / Math.hypot(...J.contract.rotating.uFrame);
+        if (!(oldSame && v.ok && js(v.contract) === js(FC.contract.main) && dR <= 1e-12 && sR.gradU === null)) bad.push(`② 版 2 の口(古い呼び出し ${oldSame}・版 1 の形 ${v.ok && js(v.contract) === js(FC.contract.main)}・回す枠の u′ の相対 ${dR})`);
+        cases.push(`② 版 2 の口の古い呼び出しが第321便c の sample と同じ・宣言の無い枠の版 1 の形が第328便a の正本の契約と同じ・回す枠(Ω_frame ${J.contract.rotating.OmegaFrame.toExponential(3)} rad/s)の u′ が正本と相対 1e-12 の内・∇u′ は null`);
+        // ③ 基準列・η・ラベル
+        const B = X.partBaseline(FX, CSVx), E = X.partEta(J.baseline, J.dfm), L = X.partLabels(FX);
+        if (!(js(B.bins) === js(J.baseline.bins) && js(B.sensUpsilon) === js(J.baseline.sensUpsilon) && js(E.rows) === js(J.eta.rows) && js(E.summary) === js(J.eta.summary) && js(L.tables) === js(J.labels.tables)))
+          bad.push('③ 基準列・η・ラベルの表を作り直して正本と違う —— 器を走らせ直す');
+        cases.push(`③ 基準列(箱 ${B.bins.length}・Υ の感度)・η(${E.summary.nEta} 箱 —— ${E.summary.min === null ? '保留' : E.summary.min.toPrecision(4) + '〜' + E.summary.max.toPrecision(4)})・ラベルの表(43 行 × 微分の型 2)を fixture と正本の箱から作り直して同じ`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.galRot329b', bad.length === 0,
+      `**銀河の既存の回転の理論のラベル・契約の版 2・DFM の OFF/ON の作り直し**(第329便b・原仮定者の方針(2026-11-07)・R305 —— 今の html の 🌃 の診断の写し・版 1 の呼び出しはビット同一): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ---- 第329便b: docs.galRot329b は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
+// ----   lint・behavior を数えない)。世代切替は上と同じ
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const gHarn = path.join(ROOT, 'tests', 'exp-w329b-galrot.mjs'), gLib = path.join(ROOT, 'tests', 'lib-w329b-galrot.mjs'), gLib2 = path.join(ROOT, 'tests', 'lib-w329b-fieldcontract2.mjs'), gDoc = path.join(ROOT, 'tests', 'lib-w329b-galrotdoc.mjs');
+  const gOut = path.join(ROOT, 'tests', 'out', 'galrot-w329b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(gHarn) && fs.existsSync(gLib) && fs.existsSync(gLib2) && fs.existsSync(gDoc))) {
+    console.log('SKIP docs.galRot329b(第329便b の銀河の既存理論のラベルと契約の版 2 の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, GL = null, C2 = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + gHarn); GL = await import('file://' + gLib); C2 = await import('file://' + gLib2); D0 = await import('file://' + gDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(gOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.galRot329b ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第329便b — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10), ic = PH.indexOf('〔第328便c — ');
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ic >= 0 && ic < i0)) bad.push('PHYSICS〔第329便b〕が無いか〔第328便c〕の節の前か「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/galrot-w329b.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === GL.LIB_VERSION && J.contractLibVersion === C2.LIB_VERSION && J.contractVersion === C2.CONTRACT2_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION
+        && J.meta.provenanceVersion && J.meta.scopeComplete === true && /^[0-9a-f]{64}$/.test(J.meta.scopeSha256 || '') && J.meta.stage === 'galrot' && J.meta.scope && J.meta.scope.abBody === false)) bad.push('① 版・来歴・領域 hash(完全・abBody:false)');
+      if (JSON.stringify(J.decl.galrot) !== JSON.stringify(GL.DECL) || JSON.stringify(J.decl.contract2) !== JSON.stringify(C2.DECL)) bad.push('① 正本の宣言が lib の DECL と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第329便b〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 10) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第329便b〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の方針(2026-11-07)', '原仮定者の回答(2026-11-07 —— AN568', 'R305', 'tests/exp-w329b-galrot.mjs', 'tests/out/galrot-w329b.json', 'tests/lib-w329b-fieldcontract2.mjs', 'w329b-fieldcontract-2',
+      'κ_epi', 'κ_D', '周転円の振動数', '1/R で変わる', '瞬間の値', '4.791799', '同じ数の別の列', '内側 Lindblad 共鳴', '全半径の同じパターン速度ではない', '欠測', 'null', '新しい力ではない', '引いた速さを引きずりへもう一度足さない',
+      '版 1 の呼び出しは基点とビット同一', '受け手の側の入力', 'ランク 1', '第三者の写し', 'ネットへ取りに行かない', '同じ速度で評価した値', '内向き a_in と接線 a_t を**分けて**', '等価の質量', 'ハローの置き換えは主張しない',
+      'kF に比例', '同一視しない', '第131報への枝の答え', '決断事項の候補', 'lint.galRot329b', 'behavior.galRot329b', 'docs.galRot329b', '統括の参考の試作', 'p 値を出さない'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第329便b〕に「' + w + '」が無い');
+    const a0p = PH.indexOf('〔第328便a — '), a1p = PH.indexOf('\n〔第', a0p + 10), sec8a = a0p >= 0 ? PH.slice(a0p, a1p > a0p ? a1p : undefined) : '';
+    const upd = (sec8a.split('\n').find((l) => l.indexOf('**第329便の更新(第329便b') === 0)) || '';
+    if (!(upd && upd.indexOf('w329b-fieldcontract-2') >= 0 && upd.indexOf('ビット同一') >= 0 && upd.indexOf('受け手の側') >= 0 && upd.indexOf('過去の行は書き換えていない') >= 0)) bad.push('③ 第328便a の節に「第329便の更新」の行(版 2・ビット同一・Ω_arm は受け手の側)');
+    const a0 = AS.indexOf('\n## 197. 第329便b'), a1 = a0 >= 0 ? AS.indexOf('\n## ', a0 + 5) : -1, ai = a0 >= 0 ? AS.slice(a0, a1 > a0 ? a1 : undefined) : '';   // 次の見出しまで(固定の字数の窓を持たない)
+    if (!(ai.indexOf('tests/out/galrot-w329b.json') >= 0 && ai.indexOf('κ_epi') >= 0 && ai.indexOf('null') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('等価の質量') >= 0)) bad.push('③ AI_SPEC §197(正本・κ_epi・null・SYSTEM_PROMPT・等価の質量)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl329b = clg.split('\n').find((l) => l.indexOf('**第329便b**') >= 0) || '';
+    if (!(cl329b.indexOf('tests/exp-w329b-galrot.mjs') >= 0 && cl329b.indexOf('galrot-329b') >= 0)) bad.push('③ CHANGELOG の第329便b の行');
+    if (!(/S\('galrot-329b', 'node tests\/exp-w329b-galrot\.mjs', \['tests\/out\/galrot-w329b\.json'\]/.test(RT) && RT.indexOf("quickVerify: 'long', quickVerifyWhy: '時間発展の後の OFF/ON の差") >= 0
+      && RT.indexOf('// ==== 第329便b の塊(ここから)====') >= 0 && RT.indexOf("'tests/fixtures/ngc3198-rotmod-w329b.json': []") >= 0)) bad.push('③ 段の行 galrot-329b(quickVerify と理由・塊)・fixture の EXTERNAL_VOLATILE');
+    if (GI.indexOf('!tests/out/galrot-w329b.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第329便b の塊(ここから)====') >= 0 && /lint\.galRot329b/.test(PM) && /behavior\.galRot329b/.test(PM) && /docs\.galRot329b/.test(PM))) bad.push('③ post-merge の ③′ に第329便b の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・第328便a の節の「第329便の更新」・AI_SPEC §197(次の見出しまで)・CHANGELOG・段の行・fixture の宣言・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /内部熱を説明した/, /金星の逆転を説明した/, /銀河の回転曲線を予言した/, /一致した/];
+    const NOT329 = [/銀河場を同定した/, /腕より速い場を観測した/, /回転曲線を予言した/, /\d\s*km\/s/, /p を決めた/, /κ_epi\/2[^。\n]{0,8}は一定/];
+    const cpC = (a) => String.fromCodePoint(...a), rvC = (t) => t.split('').reverse().join('');
+    // 第329便b の書かない語(引用符の中でも書かない —— 文字で持たない): ハローを説明した・ハローが要らない・ハローは要らない
+    const HALO = [cpC([0x30cf, 0x30ed, 0x30fc, 0x3092, 0x8aac, 0x660e, 0x3057, 0x305f]), cpC([0x30cf, 0x30ed, 0x30fc, 0x304c, 0x8981, 0x3089, 0x306a, 0x3044]), cpC([0x30cf, 0x30ed, 0x30fc, 0x306f, 0x8981, 0x3089, 0x306a, 0x3044])];
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第329便b〕', sec], ['第328便a の節の更新の行', upd], ['AI_SPEC §197', ai], ['CHANGELOG の第329便b の行', cl329b], ['器', rd('tests/exp-w329b-galrot.mjs')], ['lib', rd('tests/lib-w329b-galrot.mjs')],
+      ['契約の lib', rd('tests/lib-w329b-fieldcontract2.mjs')], ['文書の lib', rd('tests/lib-w329b-galrotdoc.mjs')], ['fixture', rd('tests/fixtures/ngc3198-rotmod-w329b.json').replace(/"rawText": "[^"]*"/, '')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(HALO)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT329) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/PHYSICS|更新の行|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列(節・更新の行・AI_SPEC・CHANGELOG・器・lib 2 本・文書の lib・fixture の説明)');
+    add('docs.galRot329b', bad.length === 0,
+      `**銀河の既存の回転の理論のラベル・契約の版 2・寄与の度合いの文書**(第329便b・原仮定者の方針(2026-11-07)・原仮定者の回答(2026-11-07 —— AN568・AN569・AN570・AN572)・R305 —— κ_epi と κ_D を分ける・寄与の数は宣言の上の値・ハローの置き換えは主張しない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第329便b の塊(ここまで)====
+
+// ==== 第329便c の塊(ここから —— lint.contractSeam329c・lint.condSelect329c・lint.alwaysShadowVolatile329c・lint.fixedWindow329c・lint.qaHeapDefault329c・docs.w329c の 6 ブロック。root は SKIP)====
+// ---- 第329便c(原仮定者の回答(2026-11-05 —— AN554 = A)・原仮定者の回答(2026-11-07 —— AN569)・統括の検証項目 R306): **道具**(契約の継ぎ目・条件で選ぶ本の宣言・常時群の影の揮発の欄・
+// ----   固定の字数の窓・QA_FAST の heap の既定)。html・本の宣言・エンジン・受理器・物理の塊の値は変えない。世代切替 = beta 対象 ∧ 変異の試験の道具 tools/condselect-probe329c.mjs がある。
+// ----   lint.contractSeam329c: ① lib の版 lib-2・器の版 2 ② 純関数の反例(omegaFrame を変えても同じ Ω_arm なら滑りは同じ・Ω_arm の欠測は null・0 は欠測でない・第328便a の作り手の契約で
+// ----     slipOf(c, 1) = g_T(1 − Ω_field))③ lib が frame.omegaFrame で滑りを計算しない・第328便a の directSlipOf を呼ぶ・器が buildFieldContract と 2 引数の slipOf を呼ぶ
+// ----     ④ 正本の門 contractSeam(2 つの経路の滑りがビット同一)・omegaFrame 0・Ω_arm は契約の外・物理の塊が読む滑りと W_bg が契約の値と同じ
+// ----   lint.condSelect329c: ① 選択器の自己試験 ② 器の宣言(presets "all" + presetsWhere・選択器の版・器の本文に選ぶ式)・器が本の表を読む行が再生成表の CONDSELECT_329C と逐語・
+// ----     名指しの 6 段 = 条件で選ぶ段 ∪ all のまま残す段 ③ 今の html で選べる・選ばれた本が器の正本の選んだ本と同じ(正本が今の html と領域で一致するとき)④ 変異の試験の道具(子の Node)が期待どおり
+// ----   lint.alwaysShadowVolatile329c: ① 揮発の欄の自己試験 ② 表は stoprule だけ・時間の欄の名・文の秒の Pointer・stoprule は常時群 ③ 第328便の前後の stoprule の正本(git の履歴があるとき)
+// ----     が宣言の前は違い・後は同じ ④ 第326便e の自己試験は今までどおり
+// ----   lint.fixedWindow329c: ① AI_SPEC・PHYSICS・CHANGELOG の節を固定の字数で切る窓の残りが直さない窓の表だけ ② 境界の関数の場面(行頭の参照で切らない・印が無いと空)③ 呼び出しの数
+// ----   lint.qaHeapDefault329c: ① 先頭の起こし直しの塊(6144・条件)② 子で起こし直す(heap を明示しない走行)・QA_HEAP_DEFAULT=0 と heap の明示では起こし直さない ③ ci.yml は heap を明示
+// ----   docs.w329c: PHYSICS〔第329便c〕(位置・表・必須の語)・第328便b の節の「第329便の更新」・AI_SPEC §198・CHANGELOG・tools/README・post-merge・書かない語・禁句・裸の係数記号・速度の数の字列
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const fProbe329c = path.join(ROOT, 'tools', 'condselect-probe329c.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(fProbe329c))) {
+    console.log('SKIP lint.contractSeam329c・lint.condSelect329c・lint.alwaysShadowVolatile329c・lint.fixedWindow329c・lint.qaHeapDefault329c・docs.w329c(第329便c の道具の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd329c = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const imp329c = async (f) => import('file://' + path.join(ROOT, f));
+  const { spawnSync: spawnSync329c } = await import('node:child_process');
+  // ───── lint.contractSeam329c ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const RB = await imp329c('tests/lib-w328b-response.mjs'), FC = await imp329c('tests/lib-w328a-fieldcontract.mjs'), X = await imp329c('tests/exp-w328b-response.mjs'), GF = await imp329c('tests/lib-w321c-galfield.mjs');
+      if (!(RB.LIB_VERSION === 'w328b-response-lib-2' && X.HARNESS_VERSION === 'w328b-response-2')) bad.push('① lib の版 ' + RB.LIB_VERSION + '・器の版 ' + X.HARNESS_VERSION);
+      cases.push(`① lib ${RB.LIB_VERSION}・器 ${X.HARNESS_VERSION}`);
+      const c0 = RB.toyContract(), ref = FC.directSlipOf(c0, 1e-15);
+      const fr = [0, 5e-16, -3e-16, 1e-15, 7].map((of) => RB.slipOf(RB.toyContract({ omegaFrame: of }), 1e-15));
+      if (!fr.every((q) => q.ok === true && q.mag === ref.nuAlong)) bad.push('② 枠の回転で滑りが変わる');
+      const nA = RB.slipOf(c0), nN = RB.slipOf(c0, null), z0 = RB.slipOf(c0, 0);
+      if (!(nA.ok === false && nA.vec === null && nN.ok === false && nN.vec === null && z0.ok === true && z0.mag === -2e-6)) bad.push('② Ω_arm の欠測は null・0 は欠測でない');
+      const cR = FC.buildFieldContract(GF.sample([8.2, 0, 0], 0, GF.fullState()), { omegaField: { value: 2, at: { R_kpc: 8.2, z_kpc: 0 }, ref: 'qa' }, transfer: { gT: 1 } });
+      const s1 = RB.slipOf(cR, 1);
+      if (!(cR.frame.omegaFrame === 0 && RB.checkContract(cR).ok && s1.ok && s1.mag === -1 && RB.slipOf(cR).ok === false && s1.vec.every((v, i) => v === FC.directSlipOf(cR, 1).nu[i]))) bad.push('② 第328便a の作り手の契約で slipOf(c, 1) = −1 にならない');
+      cases.push('② 反例: omegaFrame 0・5e-16・−3e-16・1e-15・7 で滑りは同じ・Ω_arm の欠測は null・0 は欠測でない・第328便a の作り手の契約(omegaFrame 0・Ω_field 2)で slipOf(c, 1) = −1(版 1 の読みなら −2)');
+      const noCom = (t) => t.split('\n').filter((l) => !/^\s*\/\//.test(l)).join('\n'), lt = noCom(rd329c('tests/lib-w328b-response.mjs')), ht = noCom(rd329c('tests/exp-w328b-response.mjs'));
+      if (/frame\.omegaFrame\s*-/.test(lt) || !/from '\.\/lib-w328a-fieldcontract\.mjs'/.test(lt) || !/FC\.directSlipOf\(/.test(lt)) bad.push('③ lib が omegaFrame で滑りを計算するか directSlipOf を呼ばない');
+      if (!/FC\.buildFieldContract\(/.test(ht) || !/RB\.slipOf\(contract,\s*Oarm\)/.test(ht)) bad.push('③ 器が buildFieldContract と 2 引数の slipOf を呼ばない');
+      cases.push('③ lib は omegaFrame で滑りを計算せず第328便a の directSlipOf を呼ぶ・器は buildFieldContract と slipOf(contract, Ω_arm)');
+      const J = JSON.parse(rd329c('tests/out/response-w328b.json') || 'null'), C = J && J.contract;
+      if (!(J && J.version === X.HARNESS_VERSION && J.gates && J.gates.contractSeam === true && C.seam && C.seam.sameSlip === true && C.contract.frame.omegaFrame === 0 && !('omegaArm' in C.contract.frame)
+        && C.armInput && C.armInput.value > 0 && J.p.env.slipMag === C.slip.mag && J.p.env.Wbg === C.Wbg)) bad.push('④ 正本の門 contractSeam・omegaFrame 0・Ω_arm は契約の外・物理の塊が読む滑りと W_bg(器を走らせ直す)');
+      else cases.push(`④ 正本の門 contractSeam(2 つの経路の滑り ${C.slip.mag.toExponential(4)} rad/s がビット同一)・omegaFrame 0・Ω_arm ${C.armInput.value.toExponential(3)}(契約の外)・物理の塊は同じ滑りと W_bg を読む`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.contractSeam329c', bad.length === 0,
+      `**契約の継ぎ目**(第329便c・原仮定者の回答(2026-11-07 —— AN569)・R306 —— Ω_arm は受け手の側の入力・作り手は第328便a の buildFieldContract・物理の塊は不変): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── lint.condSelect329c ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const SC = await imp329c('tests/lib-w281a-scope.mjs'), RT = await imp329c('tests/lib-w281a-regentable.mjs');
+      const st = SC.presetSelectSelfTest329c();
+      if (!st.ok) bad.push('① 選択器の自己試験: ' + st.bad.join(' , '));
+      cases.push(`① 選択器 ${SC.PRESET_SELECT_VERSION_329C} の自己試験 ${st.cases.length} 項(${st.ok ? '真' : '偽'})`);
+      const recs = RT.CONDSELECT_329C || [], keep = RT.CONDSELECT_KEEP_ALL_329C || [], k319 = (RT.KEEP_ALL_319C || []).map((z) => z.key).sort();
+      if (JSON.stringify(recs.map((z) => z.key).concat(keep.map((z) => z.key)).sort()) !== JSON.stringify(k319)) bad.push('② 名指しの 6 段 ≠ 条件で選ぶ段 ∪ all のまま残す段');
+      const htmlAbs = path.join(ROOT, TARGET), htmlSha = crypto.createHash('sha256').update(fs.readFileSync(htmlAbs)).digest('hex');
+      for (const r of recs) {
+        const ht = rd329c(r.harness), d = SC.readDeclaredScope(ht), pw = d && d.presetsWhere;
+        if (!(d && d.presets === 'all' && pw && pw.selector === SC.PRESET_SELECT_VERSION_329C && typeof pw.harnessExpr === 'string' && ht.indexOf(pw.harnessExpr) >= 0)) { bad.push('② ' + r.key + ' の宣言(presets "all" + presetsWhere・器の本文に選ぶ式)'); continue; }
+        const lines = SC.scanJs(ht).nocom.split('\n').filter((l) => /allPresets\s*\(|\bBUILTIN\b|BUILTIN_PRESETS/.test(l) && !/^const REGEN_SCOPE = /.test(l.trim())).map((l) => l.trim().replace(/\s+/g, ' '));
+        if (JSON.stringify(lines) !== JSON.stringify(r.harnessReads)) bad.push('② ' + r.key + ' の器が本の表を読む行が CONDSELECT_329C と違う(宣言を見直す): ' + lines.filter((l) => !r.harnessReads.includes(l)).slice(0, 2).join(' | ').slice(0, 160));
+        const h = SC.scopeHash(htmlAbs, d), ps = h.detail.presetSelect;
+        if (!(h.scopeComplete && ps && ps.ok && ps.nSelected > 0 && ps.nHashed < ps.nAll)) { bad.push('③ ' + r.key + ' が今の html で選べない: ' + JSON.stringify(ps).slice(0, 160)); continue; }
+        const J = JSON.parse(rd329c(r.out) || 'null'), fresh = !!(J && J.meta && (J.meta.targetSha256 === htmlSha || SC.scopeOkNow(ROOT, J.meta)));
+        let rec = null, same = null;
+        if (J && r.key === 'refit-297a') { rec = (J.declared && J.declared.books || []).map((z) => z.id); same = JSON.stringify(rec) === JSON.stringify(ps.selected); }
+        if (J && r.key === 'pn1') { rec = (J.G && J.G.rows || []).map((z) => z.id); same = rec.every((id) => ps.selected.includes(id)) && String(J.G.scope || '').indexOf('(' + ps.selected.length + ' 本)') >= 0; }
+        if (fresh && same !== true) bad.push('③ ' + r.key + ' の選ばれた本が器の正本の選んだ本と違う');
+        cases.push(`${r.key} ${ps.nSelected}/${ps.nAll} 本を条件で選び ${ps.nHashed} 本を刻む(正本の選んだ本と ${same === true ? '同じ' : (fresh ? '違う' : '照合は鎖の後')})`);
+      }
+      cases.splice(1, 0, `② 器の宣言と選ぶ式・器が本の表を読む行(${recs.map((r) => r.key + ' ' + r.harnessReads.length + ' 行').join('・')})・all のまま ${keep.map((z) => z.key).join('・')}`);
+      const tmp = fs.mkdtempSync(path.join((await import('node:os')).tmpdir(), 'w329c-qa-')), jf = path.join(tmp, 'probe.json');
+      const pr = spawnSync329c(process.execPath, [fProbe329c, '--json', jf], { cwd: ROOT, encoding: 'utf8', timeout: 300000, maxBuffer: 1 << 26, env: Object.assign({}, process.env, { TMPDIR: tmp }) });
+      let P = null; try { P = JSON.parse(fs.readFileSync(jf, 'utf8')); } catch (e) { P = null; }
+      try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) { /* 一時 */ }
+      if (!(pr.status === 0 && P && P.ok === true && P.rows.length === 10)) bad.push('④ 変異の試験の道具(rc ' + pr.status + '): ' + (P ? P.bad.slice(0, 3).join(' , ') : String(pr.stderr || '').slice(0, 160)));
+      else cases.push(`④ 変異の試験 ${P.rows.length} 種(条件に当たる本 → regen・当たらない本 → reuse〔従来の all は regen〕・条件に入る → regen・評価が不明・閉包の読み → all・鍵・本を足す → regen)`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.condSelect329c', bad.length === 0,
+      `**条件で選ぶ本の宣言**(第329便c・原仮定者の回答(2026-11-05 —— AN554 = A)・R306 —— 器の外の宣言 presetsWhere・評価が不明なら all・危ない側を作らない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── lint.alwaysShadowVolatile329c ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const AS = await imp329c('tests/lib-w326e-alwaysshadow.mjs'), RT = await imp329c('tests/lib-w281a-regentable.mjs');
+      const st = AS.shadowVolatileSelfTest329c();
+      if (!st.ok) bad.push('① 自己試験: ' + st.bad.join(' , '));
+      cases.push(`① 揮発の欄の自己試験 ${st.cases.length} 項(${st.ok ? '真' : '偽'})`);
+      const V = AS.SHADOW_VOLATILE_329C, rel = 'tests/out/stoprule-w270a.json', d = V[rel], stp = RT.REGEN_STEPS.find((z) => z.key === 'stoprule');
+      if (!(JSON.stringify(Object.keys(V)) === JSON.stringify([rel]) && d && ['when', 'wallSec', 'nowWallSec', 'nowRate', 'maxWallSec'].every((k) => d.keys.includes(k)) && JSON.stringify(d.secondsText) === JSON.stringify(['/resource/finding'])
+        && stp && stp.alwaysRun === true && (stp.outs || []).includes(rel))) bad.push('② 表の形(stoprule だけ・時間の欄・文の秒の Pointer・常時群)');
+      cases.push(`② 表 ${AS.SHADOW_VOLATILE_VERSION_329C}: stoprule の時間の欄 ${d ? d.keys.length : 0}・文の秒 ${d ? d.secondsText.join(',') : '—'}(常時群)`);
+      const show = (rev) => { try { return execSync('git -C ' + JSON.stringify(ROOT) + ' show ' + rev + ':' + rel, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], maxBuffer: 1 << 28 }); } catch (e) { return null; } };
+      const a = show('613c6cc'), b = show('9a05a89');
+      if (a && b) {
+        const A = JSON.parse(a), B = JSON.parse(b), before = AS.shadowPhysSha(A, 'x329c/' + rel) === AS.shadowPhysSha(B, 'x329c/' + rel), after = AS.shadowPhysSha(A, rel) === AS.shadowPhysSha(B, rel);
+        const ck = AS.alwaysShadowCheck({ headRev: '613c6cc', rows: [{ key: 'stoprule', world: 'reuse', own: 'reuse', why: [], upstream: [] }] }, { root: ROOT, baseRev: '613c6cc', readBase: () => a, readNow: () => b });
+        if (!(before === false && after === true && ck.count.trueSame === 1)) bad.push('③ 第328便の前後の stoprule の正本(宣言の前 ' + before + '・後 ' + after + ')');
+        cases.push(`③ 第328便の前後の stoprule の正本(613c6cc → 9a05a89): 宣言の前は ${before ? '同じ' : '違う(falseSame)'} → 後は ${after ? '同じ(trueSame)' : '違う'}`);
+      } else cases.push('③ 第328便の前後の stoprule の正本: git の履歴が無い(浅い checkout —— 自己試験 ① で見る)');
+      if (!AS.alwaysShadowSelfTest().ok) bad.push('④ 第326便e の自己試験');
+      cases.push('④ 第326便e の自己試験は今までどおり');
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.alwaysShadowVolatile329c', bad.length === 0,
+      `**常時群の影の比べの揮発の欄**(第329便c・R306 —— 第328便の鎖の後の falseSame 1 は stoprule の文の中の秒・物理の欄は外さない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── lint.fixedWindow329c ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const src = rd329c('tests/qa.mjs'), L = src.split('\n');
+      const re = /([A-Za-z_$][\w$]*)\s*\.\s*slice\(\s*([A-Za-z_$][\w$]*)\s*,\s*\2\s*\+\s*([0-9_]{3,7})\s*\)/g;
+      const docOf = (ln, v) => { for (let k = ln - 1; k >= Math.max(0, ln - 600); k--) { const m = new RegExp('(?:const|let|var|,)\\s*' + v.replace(/\$/g, '\\$') + '\\s*=\\s*([^;]{0,200})').exec(L[k]); if (m) return /AI_SPEC/.test(m[1]) ? 'AI_SPEC' : /PHYSICS/.test(m[1]) ? 'PHYSICS' : /CHANGELOG/.test(m[1]) ? 'CHANGELOG' : 'other'; } return 'other'; };
+      // 直さない窓(句の近さの窓 —— 節の読みではない): AI_SPEC の句 law:"inertial" の後 3000 字に「既定は宣言しない」(第290便c の鍵)
+      const KEEP = [{ sig: 'AS.slice(ai, ai + 3000)', near: "AS.indexOf('law:\"inertial\"'" }];
+      const left = [];
+      for (let i = 0; i < L.length; i++) {
+        if (/^\s*\/\//.test(L[i])) continue;
+        re.lastIndex = 0; let m;
+        while ((m = re.exec(L[i]))) { const doc = docOf(i + 1, m[1]); if (doc === 'other') continue; if (KEEP.some((k) => m[0].replace(/\s+/g, ' ') === k.sig && L[i].indexOf(k.near) >= 0)) continue; left.push((i + 1) + ':' + doc + ':' + m[0]); }
+      }
+      if (left.length) bad.push('① 固定の字数の窓が残る(次の見出しまでへ —— secUntilNext329c): ' + left.slice(0, 3).join(' | '));
+      cases.push(`① AI_SPEC・PHYSICS・CHANGELOG の節を固定の字数で切る窓の残り ${left.length}(直さない近さの窓 ${KEEP.length} は除く)`);
+      const AI9 = '# x\n\n## 1. a\nA\n## 2. b\nB\n', PH9 = '〔第301便d — 本〕\nX\n〔第300便c〕の参照\nY\n〔第302便e — 次〕\nZ\n## 7. 論文\nW', CL9 = '## v1.47-b329(開発中)\n- a\n- b\n## v1.46.0(RC)\n- c\n';
+      const PHS = /\n〔第\d+便[a-z]* — |\n## /;
+      const ok2 = secUntilNext329c(AI9, AI9.indexOf('## 1.'), '\n## ') === '## 1. a\nA' && secUntilNext329c(PH9, 0, PHS) === '〔第301便d — 本〕\nX\n〔第300便c〕の参照\nY'
+        && secUntilNext329c(PH9, PH9.indexOf('〔第302便e — '), PHS) === '〔第302便e — 次〕\nZ' && secUntilNext329c(CL9, CL9.search(/## v1\.47(?:-b\d+|\.0)\(/), '\n## ') === '## v1.47-b329(開発中)\n- a\n- b'
+        && secUntilNext329c(AI9, -1, '\n## ') === '' && secUntilNext329c(null, 0, '\n## ') === '' && secUntilNext329c(AI9, AI9.indexOf('## 2.'), '\n## ') === '## 2. b\nB\n';
+      if (!ok2) bad.push('② 境界の関数の場面');
+      cases.push('② 境界の関数: AI_SPEC の次の §・PHYSICS は「〔第…便x — 」の見出しの行で切る(行頭の参照「〔第300便c〕の」では切らない)・CHANGELOG の版の節・印が無いと空・最後の節は終わりまで');
+      const n = (src.match(/secUntilNext329c\(/g) || []).length - 1 - (src.match(/secUntilNext329c\((AI9|PH9|CL9|null), /g) || []).length;
+      if (n < 102) bad.push('③ 呼び出しの数 ' + n + '(102 以上)');
+      cases.push(`③ 次の見出しまでの呼び出し ${n}`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.fixedWindow329c', bad.length === 0,
+      `**節を「次の見出しまで」で読む**(第329便c・R306 —— 第328便の継ぎ目: 固定の字数の窓が次の節まで読んだ・CHANGELOG の beta の節は伸びる): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── lint.qaHeapDefault329c ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const src = rd329c('tests/qa.mjs'), head = src.slice(0, src.indexOf('const C_TRUE_286B'));
+      const need = ['const QA_HEAP_MB_329C = 6144;', "process.env.QA_FAST === '1' || process.env.QA_TIER === 'fast'", "process.env.QA_HEAP_DEFAULT !== '0'", "process.env.QA_REPLAY_CHILD !== '1'", "process.env.QA_HEAP_REEXEC_329C !== '1'", '/--max-old-space-size/.test(', 'heap_size_limit'];
+      const miss = need.filter((w) => head.indexOf(w) < 0);
+      if (miss.length) bad.push('① 先頭の塊に無い: ' + miss.join(' | '));
+      cases.push('① 先頭の塊(6144 MB・QA_FAST だけ・QA_HEAP_DEFAULT=0・先行再実行の子・起こし直した子・heap の明示では起こし直さない)');
+      const env0 = Object.assign({}, process.env, { QA_FAST: '1', QA_TARGET: '__w329c_none__.html', QA_REPLAY_FAIL: '0' });
+      for (const k of ['NODE_OPTIONS', 'QA_HEAP_REEXEC_329C', 'QA_REPLAY_CHILD', 'QA_TIER', 'QA_HEAP_DEFAULT']) delete env0[k];
+      const run = (extra) => spawnSync329c(process.execPath, [path.join(ROOT, 'tests', 'qa.mjs')], { cwd: ROOT, encoding: 'utf8', timeout: 60000, env: Object.assign({}, env0, extra) });
+      const r1 = run({}), r2 = run({ QA_HEAP_DEFAULT: '0' }), r3 = run({ NODE_OPTIONS: '--max-old-space-size=3072' });
+      const lim = (await import('node:v8')).getHeapStatistics().heap_size_limit / 1048576;
+      const m1 = /起こし直した子の Node\(heap の上限 (\d+) MB\)/.exec(r1.stdout || '');
+      const plainMb = Number((spawnSync329c(process.execPath, ['-e', 'console.log(require("v8").getHeapStatistics().heap_size_limit/1048576)'], { encoding: 'utf8', env: env0 }).stdout || '0').trim());
+      if (plainMb < 6144) { if (!(m1 && Number(m1[1]) >= 6144 && r1.status !== 0)) bad.push('② heap を明示しない QA_FAST が起こし直さない(' + String(r1.stdout || '').slice(0, 120) + ')'); }
+      if (/第329便c: QA_FAST の heap/.test(r2.stdout || '') || /第329便c: QA_FAST の heap/.test(r3.stdout || '')) bad.push('② QA_HEAP_DEFAULT=0 か heap の明示で起こし直した');
+      cases.push(`② 既定の heap ${Math.round(plainMb)} MB の Node で QA_FAST → ${m1 ? '子の Node(' + m1[1] + ' MB)で起こし直す' : (plainMb >= 6144 ? '足りる(起こし直さない)' : '起こし直さない')}・QA_HEAP_DEFAULT=0・heap の明示(3072 MB)では起こし直さない(この QA の heap ${Math.round(lim)} MB)`);
+      const ci = rd329c('.github/workflows/ci.yml');
+      if (!/NODE_OPTIONS:\s*'--max-old-space-size=6144'/.test(ci)) bad.push('③ ci.yml の NODE_OPTIONS が 6144 を明示しない(CI の走り方が変わる)');
+      cases.push('③ ci.yml は heap 6144 を明示(起こし直さない —— フルの QA はもともと対象外)');
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.qaHeapDefault329c', bad.length === 0,
+      `**QA_FAST の heap の既定**(第329便c・R306 —— 運用の正本の flock + heap と同じ 6144 MB・CI と保存 QA の走り方は変えない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.w329c ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const PH = rd329c('docs/PHYSICS.md'), AS = rd329c('docs/AI_SPEC.md'), CLx = rd329c('CHANGELOG.md'), TR = rd329c('tools/README.md'), PM = rd329c('tools/post-merge-qa.sh');
+      const i0 = PH.indexOf('〔第329便c — '), iC = PH.indexOf('〔第328便c — '), iT = PH.indexOf('〔第328便 — 統括'), i7 = PH.indexOf('\n## 7. 論文');
+      const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+      if (!(i0 >= 0 && iC >= 0 && iC < i0 && (iT < 0 || i0 < iT) && (i7 < 0 || i0 < i7))) bad.push('① PHYSICS〔第329便c〕の位置(第328便c の節の後・第328便の統括の節と「## 7.」の前)');
+      for (let k = 1; k <= 7; k++) if (sec.indexOf('**表 ' + k + '**') < 0) bad.push('① 表 ' + k + ' が無い');
+      if (sec.indexOf('__PLAN_TABLE__') >= 0) bad.push('① 表 7 の印が残る');
+      const want = ['原仮定者の回答(2026-11-05 —— AN554 = A)', '原仮定者の回答(2026-11-07 —— AN569)', 'R306', 'slipOf(c, OmegaArm)', 'buildFieldContract', 'contractFromLegacy()', 'contractSeam', 'presetsWhere',
+        'w329c-presetselect-1', 'selectPresets329c', '評価が不明なら all へ戻る', 'REG_READS_329C', 'CONDSELECT_329C', 'tools/condselect-probe329c.mjs', '一回きりの広さ', 'SHADOW_VOLATILE_329C', 'falseSame', 'trueSame',
+        'secUntilNext329c', '102 窓', '6144', 'QA_HEAP_DEFAULT=0', '決断事項の候補', 'lint.contractSeam329c', 'lint.condSelect329c', 'lint.alwaysShadowVolatile329c', 'lint.fixedWindow329c', 'lint.qaHeapDefault329c', 'docs.w329c'];
+      for (const w of want) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第329便c〕に「' + w + '」が無い');
+      cases.push(`① PHYSICS〔第329便c〕(第328便c の節の後・表 7 本・必須の語 ${want.length})`);
+      const sB = secUntilNext329c(PH, PH.indexOf('〔第328便b — '), /\n〔第\d+便[a-z]* — |\n## /), upd = (sB.split('\n').find((l) => l.indexOf('**第329便の更新(第329便c') === 0)) || '';
+      if (!(upd.indexOf('AN569') >= 0 && upd.indexOf('slipOf(c, OmegaArm)') >= 0 && upd.indexOf('過去の行は書き換えていない') >= 0 && sB.indexOf('**表 1(第329便c —— 版 2)**') >= 0)) bad.push('② 第328便b の節に「第329便の更新」の行と表 1(版 2)');
+      cases.push('② 第328便b の節の「第329便の更新」の行と表 1(版 2)');
+      const a198 = AS.search(/\n## 198\. 第329便c/), a195 = AS.search(/\n## 195\. 第328便c/), ai = secUntilNext329c(AS, a198, '\n## ');
+      if (!(a198 >= 0 && a195 >= 0 && a195 < a198 && ['presetsWhere', 'slipOf(c, OmegaArm)', 'SHADOW_VOLATILE_329C', 'secUntilNext329c', '6144', 'SYSTEM_PROMPT には載せない'].every((w) => ai.indexOf(w) >= 0))) bad.push('③ AI_SPEC §198(§195 の後・必須の語)');
+      const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = secUntilNext329c(CLx, cb, '\n## '), cl = clg.split('\n').find((l) => l.indexOf('**第329便c**') >= 0) || '';
+      if (!(cl.indexOf('AN554') >= 0 && cl.indexOf('presetsWhere') >= 0 && cl.indexOf('lint.condSelect329c') >= 0)) bad.push('③ CHANGELOG の第329便c の行');
+      if (!(TR.indexOf('tools/condselect-probe329c.mjs') >= 0 && TR.indexOf('QA_HEAP_DEFAULT=0') >= 0)) bad.push('③ tools/README');
+      if (!(PM.indexOf('# ==== 第329便c の塊(ここから)====') >= 0 && ['lint.contractSeam329c', 'lint.condSelect329c', 'lint.alwaysShadowVolatile329c', 'lint.fixedWindow329c', 'lint.qaHeapDefault329c', 'docs.w329c'].every((k) => PM.indexOf(k) >= 0))) bad.push('③ post-merge の ③′ に第329便c の塊');
+      cases.push('③ AI_SPEC §198・CHANGELOG・tools/README・post-merge の ③′');
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /説明した/, /同定した/, /一致した/, /ハローが要らない/, /共通の法則を見つけた/];
+      const cpC = (a) => String.fromCodePoint(...a), rvC = (t) => t.split('').reverse().join('');
+      const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+        cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+      const texts = [['PHYSICS〔第329便c〕', sec], ['第328便b の節の更新の行', upd], ['AI_SPEC §198', ai], ['CHANGELOG の第329便c の行', cl], ['道具', rd329c('tools/condselect-probe329c.mjs')]];
+      for (const [nm, tx] of texts) {
+        for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+        if (nm !== '道具') for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+        if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+        if (/\d\s*km\/s/.test(tx)) bad.push('④ ' + nm + ' に速度の数の字列');
+      }
+      cases.push('④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・更新の行・AI_SPEC・CHANGELOG・道具)');
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.w329c', bad.length === 0,
+      `**第329便c の文書**(R306 —— 道具: 契約の継ぎ目・条件で選ぶ本の宣言・揮発の欄・固定の字数の窓・heap の既定): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第329便c の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

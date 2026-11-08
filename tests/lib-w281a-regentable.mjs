@@ -1742,6 +1742,29 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/response-w328b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第328便b: 受け手の応答の演算の型ごとの指数の判定(R_d・m・I を独立に —— p の候補は一定の指数の型だけ・p は 1 つでない)・既定の列の照合と否定対照・空間の勾配(別の列)・源の自転を外部の口座に固定した列・金星の N_0 の記録し直し(観測の自転から解いた量)・火星と地球の局所の尺度' }),
   // ==== 第328便b の塊(ここまで)====
+  // ==== 第329便a の塊(ここから)====
+  // ---- 第329便a(原仮定者の方針(2026-11-07)・原仮定者の回答(2026-11-07 —— AN570・AN571・AN574・AN575)・統括の検証項目 R304): **金星・イオ・月・水星の比べる表と表裏の偏りのノブの器**
+  //   (段 spinbias-329a —— 正本 tests/out/spinbias-w329a.json・lib tests/lib-w329a-spinbias.mjs —— 第326便d・第327便e の器の写しと読み口〔copyBook・stateOf・gradT・stateFor〕・
+  //   第327便a・第327便f・第328便c の lib を import して使う〔code の依存 —— 他の正本は読まない〕)。**診断だけ**(エンジン・在位の本・受理器は変えない —— 偏りの口は宣言したノブ)。
+  //   html を読む(本は 🗺️ を .find で引く 1 本 —— html の生成領域の後)。1 プロセス。t = 0 の読み口と純関数だけ(本の步を進めない —— 写しの build は約 40 回・位相の模型は lib の
+  //   1 自由度の純関数)。所要は第329便a の枝の実測 4〜8 s(nice 10 —— 他の枝と並走の箱〔**並走の秒**〕)
+  S('spinbias-329a', 'node tests/exp-w329a-spinbias.mjs', ['tests/out/spinbias-w329a.json'], 8, { secSource: 'w329a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: 't = 0 の読み口と純関数だけ(本の步を進めない —— 窓が無く、全部を走らせても 10 秒ほど)',
+    volatilePaths: { 'tests/out/spinbias-w329a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第329便a: 金星・イオ・月・水星の比べる表(観測の k と像の k を別の列)・受動の口の残差・s_d の作用箇所(受理器の読み口と守り)・表裏の偏りの 3 列(保存の口・熱 0)・金星とイオの式の形(残差)・有効な滑り A の範囲(ランク 1)・小さな位相の模型(h と h/2)—— 偏りの振幅は宣言したノブの記録' }),
+  // ==== 第329便a の塊(ここまで)====
+  // ==== 第329便b の塊(ここから)====
+  // ---- 第329便b(原仮定者の方針(2026-11-07)「既存の銀河の回転の理論を利用して DFM を融合する」「寄与の度合いを調査する」・原仮定者の回答(2026-11-07 —— AN568・AN569・AN570)・
+  //   統括の検証項目 R305): **銀河の既存の回転の理論のラベルと場の契約の版 2 と DFM の寄与の度合いの器**(段 galrot-329b —— 正本 tests/out/galrot-w329b.json・lib tests/lib-w329b-galrot.mjs と
+  //   tests/lib-w329b-fieldcontract2.mjs —— 第321便c の場の API と第328便a の契約を包む〔版 1 の呼び出しは同じ関数・同じ引数〕/NGC 3198 の rotmod の写し〔fixture —— 出典・URL・sha256・第三者の写しの印〕の
+  //   ラベルと基準列/🌃🛞 の診断の写しの DFM の OFF/ON〔同じ状態を注入した写しの 2 歩目 —— h/h2/h4〕と時間発展の後の差〔T = 40・h と h/2〕/η と M_eq)。**診断だけ**(エンジン・内蔵の本・受理器・
+  //   第321便c・第327便b・第328便a の lib の本文は変えない)。html を読む(本は 🌃・🛞 を .find で引く 2 本)・fixture・観測の CSV・第328便a の正本(宣言の候補 Ω_field —— after に)を読む。
+  //   **鎖の段はネットへ取りに行かない**(fixture だけ)。1 プロセス。所要は第329便b の枝の実測 45 s(nice 10 —— 他の枝と並走の箱〔**並走の秒**〕)
+  S('galrot-329b', 'node tests/exp-w329b-galrot.mjs', ['tests/out/galrot-w329b.json'], 45, { secSource: 'w329b-branch', node: true, after: ['fieldcontract-328a', 'obscompare', 'samplestatus'],
+    quickVerify: 'long', quickVerifyWhy: '時間発展の後の OFF/ON の差(T = 40 —— h と h/2)と t* = 10 の状態の探りを含む(短い窓の簡易一致を使わない)',
+    volatilePaths: { 'tests/out/galrot-w329b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/contract/wallSec', '/dfm/wallSec', '/evolve/wallSec', '/dfm/*/*/rows/*/wallSec', '/dfm/nSens/rows/*/wallSec']) },
+    note: '第329便b: 既存の回転の理論のラベル(κ_epi と κ_D を分ける)・場の契約の版 2(回転する枠 —— 版 1 の呼び出しはビット同一)・ラベルの口(宣言なしは null)・NGC 3198 の基準列と DFM の OFF/ON(内向きと接線を分ける)・η と M_eq(寄与の度合いの診断 —— ハローの置き換えは主張しない)' }),
+  // ==== 第329便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -2399,6 +2422,11 @@ export const EXTERNAL_VOLATILE = {
   'tests/data-w318c-solar16-input.json': [],
   'tests/data-w300c-solar16-schema.json': [],
   // ==== 第318便c の塊(ここまで)====
+  // ==== 第329便b の塊(ここから)====
+  // 第329便b(R305): NGC 3198 の rotmod の写し(第三者の写し —— 出典・URL・sha256・取得の時刻・生の文を持つ fixture。tests/exp-w329b-galrot.mjs が読む —— 書き換えない・除く欄は無い。
+  //   正本 galrot-w329b の入力 —— 鎖の段はネットへ取りに行かない)
+  'tests/fixtures/ngc3198-rotmod-w329b.json': [],
+  // ==== 第329便b の塊(ここまで)====
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */
@@ -5111,3 +5139,35 @@ export default { QUICK_LONG_VERSION, QUICK_LONG_ROSTER, quickLongRows, NSLOCK_SH
   CALIBRATE_RULE, RESUME_CHECK_MAX_SEC, timelineRuns, calibrateProbe312, V_H4_SHADOW, SCOPE_ALL_VERSION, scopeAllReasons312,
   // 第323便b(R276)
   AFTER_KIND_VERSION, afterDepKinds, isOrderOnlyDep, afterKindCounts, w323bChainProbe };
+// ==== 第329便c の塊(ここから)====
+// ---- 第329便c(原仮定者の回答(2026-11-05 —— AN554 = A)・統括の検証項目 R306): **名指しの 6 段のうち条件で選べる段の宣言**(第327便c の表 4 —— 器の中の文字列の式で全本から選ぶ段)。
+//   条件で選ぶ段(CONDSELECT_329C): 器の REGEN_SCOPE に presets "all"(選べないときの戻り先)+ presetsWhere(条件・読んだ欄・名指し・全本の数・器の選ぶ式 —— 刻印の道具の選択器
+//   tests/lib-w281a-scope.mjs の selectPresets329c が評価し、選ばれた本 ∪ 名指しの本だけを領域 hash に刻む・評価が不明なら all)。harnessReads = 器の本文で内蔵の本の表を読む行の全部
+//   (注釈は除く・空白は 1 つに —— 器が新しい読みを足したら QA lint.condSelect329c が名指しで落とす〔宣言を見直す〕)。recorded = 器が正本に書く「選んだ本」(選択器の結果と照合)。
+//   all のまま残す段(CONDSELECT_KEEP_ALL_329C): 第319便c の KEEP_ALL_319C の 4 段(理由は第329便c の測り直し)。
+export const CONDSELECT_VERSION_329C = 'w329c-condselect-1';
+export const CONDSELECT_329C = Object.freeze([
+  Object.freeze({ key: 'pn1', harness: 'tests/exp-w285b-pn1.mjs', out: 'tests/out/pn1-w285b.json', recorded: 'G.rows の id(基点の html にもある本)と G.scope の本の数',
+    harnessReads: Object.freeze([
+      'window.__w285bCopy = (id, kFrame0) => { const p = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));',   // (E) の名指しの 12 本(named)
+      'sig(id){ return presetSig(HP.allPresets().find((q)=>q.id===id)); },',   // (G) の選ばれた本の署名
+      'mode(id){ const p=HP.allPresets().find((q)=>q.id===id); const g=geoModeOf(p.physics||{}); return { core:g.core, pn1:g.pn1||null, geoPN:g.geoPN, kFrame:g.kFrame }; },',   // (G) の選ばれた本の型
+      "const ids = HN.evalExpr('HP.allPresets().filter((p)=>{ const g=(p.physics||{}).geoPN; return g>0 && g<3; }).map((p)=>p.id)'),",   // 条件(harnessExpr)
+      "baseIds = new Set(HB.evalExpr('HP.allPresets().map((p)=>p.id)'));",   // 基点の html(git の写し —— 今の html ではない)
+      "Gb.nAll = HN.evalExpr('HP.allPresets().length');",   // 全本の数(countAll)
+    ]) }),
+  Object.freeze({ key: 'refit-297a', harness: 'tests/exp-w297a-refit.mjs', out: 'tests/out/refit-w297a.json', recorded: 'declared.books の id(条件で選んだ本の全部)',
+    harnessReads: Object.freeze([
+      "const BUILTIN = vm.runInThisContext('BUILTIN_PRESETS');",   // 表の値(下の 3 行が読む)
+      "const presetOf = (id) => { const p = BUILTIN.find((q) => q.id === id); if (!p) throw new Error('no preset ' + id); return clone(p); };",   // 名指しの本(named)
+      'const DECL = BUILTIN.filter((p) => ((p.physics || {}).geoPN || 0) >= 2).map((p) => ({ id: p.id, emoji: p.emoji, geoPN: p.physics.geoPN,',   // 条件(harnessExpr)
+      'const bp = BUILTIN.find((q) => q.id === GAL_ID), keep = bp.physics.lambdaPN;',   // 名指しの本 galaxyGeo2(named)
+    ]) }),
+]);
+export const CONDSELECT_KEEP_ALL_329C = Object.freeze([
+  Object.freeze({ key: 'pnsource286', why: '条件(scaleExp のある本)の行に加えて、内蔵の全本の 1/32 歩のビット比較と署名(HP.allPresets().map(id))—— 全本を読むのが器の目的' }),
+  Object.freeze({ key: 'pnsources291', why: 'for (const p of HP.allPresets()) で内蔵の全本を読み込んで進める —— 全本を読むのが器の目的' }),
+  Object.freeze({ key: 'eihdiag287', why: '較正走行の器 tests/exp-w249b-calaudit.mjs の関数の本文を html の中で評価する —— 選ぶ式が別の器の中にあり、器の外の宣言と照合できない(13 s)' }),
+  Object.freeze({ key: 'tpsign', why: '較正走行の器を子プロセス(--only)で走らせる —— 選ぶ式が子の中にあり、器の外の宣言と照合できない(6 s)' }),
+]);
+// ==== 第329便c の塊(ここまで)====

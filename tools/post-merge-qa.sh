@@ -720,6 +720,27 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.response328b behavior.response328b docs
 #   名指ししないので世代は直していない)・節に行を足した第327便の統括の節を位置で読む docs.axialDiff327e・段の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.venusCoverage328c lint.resPower328c docs.w328c lint.venusTide327f behavior.venusTide327f docs.venusTide327f docs.axialDiff327e lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313"
 # ==== 第328便c の塊(ここまで)====
+# ==== 第329便a の塊(ここから)====
+# 第329便a(原仮定者の方針(2026-11-07)・原仮定者の回答(2026-11-07 —— AN570・AN571・AN574・AN575)・統括の検証項目 R304 —— 診断だけ・html は変えない): 枝 a の新設 3 本(lint.spinBias329a ——
+#   偏りの口と比べる表の純関数の場面〔保存の口・契約の閉じ・平衡の位相と勾配・分離線と要る振幅・水星の 1 回対称の項・由来ごとの熱と結合の口・位相の模型の h と h/2・入力の拒否〕と呼ぶだけの検査 /
+#   behavior.spinBias329a —— 今の html の 🗺️ の写しで入力・受動の口のトルク・受理器の s_d の読み口と守り・偏りの列の要る振幅が正本と同じ / docs.spinBias329a —— 正本の門と表が
+#   PHYSICS〔第329便a〕に逐語・第327便f の節の「第329便の更新」・文書)と、節に行を足した第327便f の節を読む docs.venusTide327f・docs.w328c・docs.response328b・新しい段 spinbias-329a の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.spinBias329a behavior.spinBias329a docs.spinBias329a docs.venusTide327f docs.w328c docs.response328b lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.quickBoundary324c lint.narrowScope327c docs.w320d lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第329便a の塊(ここまで)====
+# ==== 第329便b の塊(ここから)====
+# 第329便b(原仮定者の方針(2026-11-07)・原仮定者の回答(2026-11-07 —— AN568・AN569・AN570)・統括の検証項目 R305 —— 診断だけ・html は変えない): 枝 b の新設 3 本(lint.galRot329b —— 既存理論の
+#   ラベルと場の契約の版 2 の純関数の場面〔恒等式・物質線の反例・微分の型・ラベルの口・基準列と η・箱の集計/版 1 と同じ・回す枠・欠測は null・拒否・往復と相対の速さ・滑りと帳簿・ラベル〕と
+#   fixture の照合〔sha256・生の文・第三者の写し・CSV の v_rot〕・呼ぶだけの検査 / behavior.galRot329b —— 今の html の 🌃 の写しで DFM の探り・場の API で版 2 の口・fixture で基準列を作り直す /
+#   docs.galRot329b —— 正本の門と表が PHYSICS〔第329便b〕に逐語・第328便a の節の「第329便の更新」・文書)と、節に行を足した docs.fieldContract328a・名簿の行の docs.w320d・新しい段 galrot-329b の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.galRot329b behavior.galRot329b docs.galRot329b docs.fieldContract328a docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第329便b の塊(ここまで)====
+# ==== 第329便c の塊(ここから)====
+# 第329便c(原仮定者の回答(2026-11-05 —— AN554 = A)・原仮定者の回答(2026-11-07 —— AN569)・統括の検証項目 R306 —— 道具だけ・html は変えない): 枝 c の新設 6 本(lint.contractSeam329c —— 契約の継ぎ目 /
+#   lint.condSelect329c —— 条件で選ぶ本の宣言と変異の試験 / lint.alwaysShadowVolatile329c —— 常時群の影の揮発の欄 / lint.fixedWindow329c —— 固定の字数の窓の残り / lint.qaHeapDefault329c —— QA_FAST の heap の既定 /
+#   docs.w329c)と、世代を直した lint.response328b・器の版を上げて正本を作り直した段 response-328b の QA・刻印の道具と再生成表を触った lint 一式・固定の字数の窓を「次の見出しまで」へ直した 86 鍵
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.contractSeam329c lint.condSelect329c lint.alwaysShadowVolatile329c lint.fixedWindow329c lint.qaHeapDefault329c docs.w329c lint.response328b behavior.response328b docs.response328b lint.alwaysShadow326e docs.regenShort319c lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.qaOrder"
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.d0audit-sync docs.d0sites-sync docs.bgpredict-sync docs.selfInertia-sync docs.bgbudget-sync docs.bgEquivalence docs.comovingAdvection docs.bgCompose docs.bgbudget2-sync docs.sphereKernel preset.earthMoonInertial docs.composeContract docs.coreCensus docs.emgrid-sync docs.geo3-sync ui.gwGroupMove ui.trailFollowFrame ui.liveComparePeriodDef docs.gwWindowDecl docs.moon3d298 docs.planets3d299 preset.saturnRing3d300 preset.approxMany301 behavior.gLoc302 docs.semic302 docs.inertialR2_303 docs.shell304 docs.pairNorm305 docs.sphereAxial307 docs.bevel308 docs.invSq309 docs.invSq310 docs.coreSpin311 docs.galaxial311 docs.galaxialRd312 docs.galaxialRdm313 docs.w308d docs.mdSweep310 docs.planet3_311 docs.decay312 docs.confirm312 docs.kappaM313 docs.rdExcess314 docs.planet3v3_313 docs.k1confirm313 docs.rdScale314 docs.k1outer314 docs.pn1x3d314 docs.rsExcess315 docs.inposK1_315 docs.satK1_315 docs.satH316 docs.satMeas317a docs.satN317b docs.satCut317c docs.satAn317d docs.paper3Key317d docs.satNext318b docs.solar16Builtin318c docs.dragEst318d docs.axisHeat319 docs.srcRadius319 docs.regenShort319c docs.srcHeat320 docs.jExplore320b docs.nbCompose320c docs.geo2v3321a docs.geo3Bin321b docs.galField321c docs.geo2flat322a docs.binBooks322b docs.fieldContract322c docs.obsSpin324b docs.geo2thick324a docs.geo4old325c docs.xkLock325f docs.xkLock326a docs.axialHeat326d docs.axialSum327a docs.galaxis327b docs.xkLock327d docs.axialDiff327e docs.venusTide327f docs.fieldContract328a docs.w328c"
+# ==== 第329便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

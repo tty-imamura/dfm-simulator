@@ -9,9 +9,11 @@
 //   入力は html だけ(他の正本・データは読まない)。1 プロセス(子プロセスなし)。t = 0 の読み口と純関数だけ(步を進めない)。
 //
 // ■ 何をするか
-//   C 場の契約: 第321便c の sample の出力から、器の中の小さい関数 contractFromLegacy() で第328便の共通の形の値を作る(統合で枝 a の buildFieldContract へ差し替える)。
-//     直接の滑りの宣言(AN551): ν_slip = g_T(Ω_frame − Ω_field) ĝ —— g_T = 1・Ω_frame は渦状腕のパターンの角速度の文献の範囲の中点・Ω_field は太陽の式(経路 1)の A を
-//     生む宣言の候補(同定ではない)。収束の印は第321便c の sample に無い —— null(0 で埋めない)。背景の場 W_bg は sample の β から。
+//   C 場の契約(第329便c —— 版 2): 第321便c の sample の出力から、第328便a の lib の作り手 buildFieldContract で第328便の共通の形の値を作る(frame.omegaFrame は座標の枠の回転 —— 版 1 は 0)。
+//     直接の滑りの宣言(AN551): ν_slip = g_T(Ω_arm − Ω_field) ĝ —— g_T = 1・**Ω_arm は受け手の側の入力**(渦状腕のパターンの角速度の文献の範囲の中点 —— slipOf の明示の引数・
+//     契約の外 —— 原仮定者の回答(2026-11-07 —— AN569))・Ω_field は太陽の式(経路 1)の A を生む宣言の候補(同定ではない)。収束の印は第321便c の sample に無い —— null(0 で埋めない)。
+//     背景の場 W_bg は sample の β から。版 1 の器の中の作り手 contractFromLegacy()(frame.omegaFrame に Ω_arm を入れていた)は**比べる列**として残す(門 contractSeam: 2 つの経路の
+//     滑りのベクトルと W_bg がビット同一 —— 物理の塊〔P・S・N・F・T・U〕は C.slip と C.Wbg だけを読むので不変)。
 //   P 受け手の演算の型(lib の DECL.forms)ごとに: 固定の位置(太陽の位置)で R_d・m・I を独立に ±1 桁・K1 の線(R_d と m を同じ倍率)・広い範囲の R_d の表・本の 8 天体の
 //     f_i = F_i/F_☉ と ln f = p ln(R_d/R_d,☉)。一定の指数が成り立つ型だけ p の候補(成り立たなければ応答の表)。既定の列(q = 1・m_ref/m)はエンジンの読み口の係数と照合
 //     (K1 の規則の写し・金星の R_d を 0.1・10 倍・金星の質量を 10 倍〔R_d は固定〕)。否定対照(p = 0)は K1 の線だけを振る読みが既定の列と見分けないことを門に。
@@ -42,12 +44,13 @@ import * as LF from './lib-w327f-venustide.mjs';
 import * as GF from './lib-w321c-galfield.mjs';
 import * as LB from './lib-w327b-galaxis.mjs';
 import * as RB from './lib-w328b-response.mjs';
+import * as FC from './lib-w328a-fieldcontract.mjs';
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 版 8 の宣言: ワンタップ対照の A/B を走らせない〔abBody:false〕・説明文の欄を読まない〔keepProse なし〕。
 //   presets は器が .find で引く在位の本 🗺️ 1 本と、場の API が import する第319便b の lib とその import の綴りの 11 本〔第327便b の器と同じ型〕)
 const REGEN_SCOPE = {"presets":["jupiterGalilean","jupiterSunInertial3d","marsSunInertial3d","mercury","mercurySunInertial3d","neptuneSunInertial3d","saturn","saturnRingReal","saturnSunInertial3d","solarSystem16Inertial3d","uranusSunInertial3d","venusSunInertial3d"],"roots":["$","HP.REL_DRAG_INVSQ_SRC_MOMENT_VERSION","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragIsqPointAt","HP.inertialDragIsqState","HP.sim","HP.validatePreset","T","ab","ch","ctx","cw","inertialDragGalaxyAxialState","pnSource"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w328b-response-1';
+export const HARNESS_VERSION = 'w328b-response-2';   // 第329便c: 作り手を第328便a の buildFieldContract へ・Ω_arm を slipOf の明示の引数へ(版 1 は contractFromLegacy)
 export const OUT_MAIN = 'tests/out/response-w328b.json';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 export const GA_STATE_NAME = 'inertialDragGalaxyAxialState';
@@ -73,8 +76,8 @@ export function partI(HP) {
   return { I5, bodies, g: I5.g, tides: I5.tides, units: I5.units, ST, K };
 }
 
-/* ───────── C 場の契約(器の中の小さい関数 —— 統合で枝 a の buildFieldContract へ差し替える)───────── */
-/** 第321便c の sample の出力と宣言から、第328便の共通の形の契約の値を作る(欠測は null —— 0 で埋めない) */
+/* ───────── C 場の契約(第329便c: 作り手は第328便a の buildFieldContract・Ω_arm は受け手の入力)───────── */
+/** **比べる列**(版 1 の器の中の作り手 —— frame.omegaFrame に Ω_arm を入れていた。第329便c から partC の主の契約は作らない —— 継ぎ目の門 contractSeam の比べにだけ使う) */
 export function contractFromLegacy(sampleOut, decl) {
   const s = sampleOut || {}, at = s.cyl ? { R_kpc: s.cyl.RKpc, z_kpc: s.cyl.zKpc } : null;
   return {
@@ -91,11 +94,23 @@ export function contractFromLegacy(sampleOut, decl) {
 export function partC(IN) {
   const s0 = GF.sample(POS0, 0, GF.fullState(), { normalization: true }), sun = IN.bodies.sun, gA = E.dot(IN.g, sun.a);
   const Asun = sun.s / gA;   // 太陽の式(口が 1 つ —— 銀河だけ)の A(f_☉ = 1 —— 第327便b の経路 1 の和の式)
-  const Op = LB.DECL.OmegaPatternKmsKpc.map((x) => x * LB.KMS_PER_KPC), Ofr = 0.5 * (Op[0] + Op[1]);
-  const decl = { omegaFrame: Ofr, omegaField: Ofr - Asun / 1, gT: 1, ref: '太陽の式の A を g_T = 1 で生む宣言の候補(第327便b の経路 1 —— 同定ではない)' };
-  const contract = contractFromLegacy(s0, decl), ck = RB.checkContract(contract), sl = RB.slipOf(contract);
+  const Op = LB.DECL.OmegaPatternKmsKpc.map((x) => x * LB.KMS_PER_KPC), Oarm = 0.5 * (Op[0] + Op[1]);
+  const ref = '太陽の式の A を g_T = 1 で生む宣言の候補(第327便b の経路 1 —— 同定ではない)', Ofield = Oarm - Asun / 1;
+  // 主の契約(第328便a の作り手 —— frame は場の API の回転しない銀河中心系〔omegaFrame 0 —— 宣言の値〕)。Ω_arm は契約に入れない(受け手の側の入力 —— slipOf の引数)
+  const contract = FC.buildFieldContract(s0, { omegaField: { value: Ofield, at: { R_kpc: s0.cyl.RKpc, z_kpc: s0.cyl.zKpc }, ref }, transfer: { gT: 1 } });
+  const ck = RB.checkContract(contract), sl = RB.slipOf(contract, Oarm);
+  const armInput = { value: Oarm, unit: 'rad/s', source: '渦状腕のパターンの角速度の文献の範囲の中点(第327便b の lib の DECL.OmegaPatternKmsKpc)', role: '受け手の側の入力(契約の外 —— slipOf の明示の引数・AN569)' };
+  // 比べる列(版 1 の作り手 —— frame.omegaFrame = Ω_arm)。同じ Ω_arm を明示の引数で渡すと滑りはビット同一。版 1 の読み(omegaFrame を Ω_arm)を主の契約に当てると g_T(0 − Ω_field)(継ぎ目の反例)
+  const legacy = contractFromLegacy(s0, { omegaFrame: Oarm, omegaField: Ofield, gT: 1, ref }), sLeg = RB.slipOf(legacy, Oarm);
+  const lib1OnNew = contract.transfer.gT * (contract.frame.omegaFrame - contract.omegaField.value);
+  const vecEcl = E.scale(IN.g, sl.mag), vecLeg = E.scale(IN.g, sLeg.mag);
+  const seam = { omegaFrameNew: contract.frame.omegaFrame, omegaFrameLegacy: legacy.frame.omegaFrame, slipNew: sl.mag, slipLegacyExplicitArm: sLeg.mag,
+    sameSlip: sl.ok === true && sLeg.ok === true && sl.mag === sLeg.mag && vecEcl.every((v, i) => v === vecLeg[i]),
+    lib1ReadingOnNewContract: lib1OnNew, lib1ReadingRel: E.relD(lib1OnNew, sl.mag), shapeOk: FC.contractShapeOk(contract),
+    note: '版 1 の読み(slipOf が frame.omegaFrame を Ω_arm と読む)を第328便a の契約に当てた値は g_T(0 − Ω_field)(主の滑りと違う —— 継ぎ目の反例の記録・採らない)' };
   const Wbg = s0.normalization.beta / GF.COEF;   // 背景の場 [kg/m](β = (10G_0/c_0²)∫ρ/|x − x′| dV′ —— 太陽系の天体の自己でない場は数えない)
-  return { contract, check: ck, slip: { mag: sl.mag, relFrame: sl.relFrame, vecEcl: E.scale(IN.g, sl.mag) }, Asun, gDotAsun: gA, OmegaPattern: Op, Wbg, beta: s0.normalization.beta,
+  return { contract, check: ck, armInput, slip: { mag: sl.mag, relArm: sl.relArm, premise: sl.premise, vecEcl }, Asun, gDotAsun: gA, OmegaPattern: Op, Wbg, beta: s0.normalization.beta,
+    legacy: { contract: legacy, check: RB.checkContract(legacy), slipMag: sLeg.mag }, seam,
     sample: { uPhi: s0.uPhi, halfCurlZ: s0.halfCurlCyl.z, halfCurlR: s0.halfCurlCyl.R, positionKpc: s0.positionKpc, fieldVersion: s0.version, libVersion: s0.libVersion } };
 }
 
@@ -322,6 +337,9 @@ export function gatesOf(J) {
     pure: Object.values(J.pure.gates).every(Boolean),
     // 契約の形(共通の形の鍵が揃い・直接の滑りが有限 —— 欠測の null は場所を記録するだけ〔統合で枝 a の buildFieldContract へ差し替えても門は同じ〕)
     contractShape: C.check.ok === true && Array.isArray(C.check.nulls) && Number.isFinite(C.slip.mag),
+    // 第329便c: 継ぎ目の門 —— 主の契約は第328便a の作り手(omegaFrame 0・形が共通の形)・Ω_arm は契約の外・版 1 の作り手の経路と滑りのベクトルがビット同一(物理の塊は C.slip と C.Wbg だけを読む)
+    contractSeam: !!C.seam && C.seam.sameSlip === true && C.seam.omegaFrameNew === 0 && C.seam.shapeOk === true && !('omegaArm' in C.contract.frame) && Number.isFinite(C.armInput && C.armInput.value)
+      && C.seam.lib1ReadingRel > 1e-12,   // 反例が記録に残る(この位置では Ω_arm ≪ Ω_field なので相対 1e-10 の差 —— 意味の違いで、表の 4 桁には出ない)
     // 既定の列の照合: エンジンの読み口の係数と同じ(K1 の規則の写しの全受け手・金星の R_d 0.1・10 倍・質量 10 倍)
     defaultReproduced: P.defaultColumn.maxRel <= 1e-12 && P.defaultColumn.cases.every((c) => c.ok && c.rel <= 1e-12) && P.forms.engineDefault.verdict.constantExponent
       && Math.abs(P.forms.engineDefault.verdict.slopeRd - 1) <= 1e-12 && Math.abs(P.forms.engineDefault.verdict.slopeM + 1) <= 1e-12,
@@ -351,7 +369,7 @@ export async function main() {
     ruling: '原仮定者の回答(2026-11-05 —— AN559・AN561・AN562・AN563・AN550・AN566)・統括の検証項目 R302',
     decl: D, notClaim: NOT_CLAIM, invSqVersion: HP.REL_DRAG_INVSQ_VERSION || null, srcMomentVersion: HP.REL_DRAG_INVSQ_SRC_MOMENT_VERSION || null, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w328b-response.mjs', 'tests/lib-w328b-response.mjs', 'tests/lib-w327f-venustide.mjs', 'tests/exp-w327e-axialdiff.mjs', 'tests/lib-w327e-axialdiff.mjs', 'tests/exp-w327a-axialsum.mjs', 'tests/lib-w327a-axialsum.mjs',
+  const CODE = ['tests/exp-w328b-response.mjs', 'tests/lib-w328b-response.mjs', 'tests/lib-w328a-fieldcontract.mjs', 'tests/lib-w327f-venustide.mjs', 'tests/exp-w327e-axialdiff.mjs', 'tests/lib-w327e-axialdiff.mjs', 'tests/exp-w327a-axialsum.mjs', 'tests/lib-w327a-axialsum.mjs',
     'tests/lib-w327b-galaxis.mjs', 'tests/lib-w321c-galfield.mjs', 'tests/lib-w320c-nbcompose.mjs', 'tests/lib-w319b-srcradius.mjs', 'tests/exp-w326d-axialheat.mjs', 'tests/lib-w326d-axialheat.mjs', 'tests/lib-w319a-axisheat.mjs',
     'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第328便b', target: TARGET, code: CODE, inputs: [TARGET] }), {

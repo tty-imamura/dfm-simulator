@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便d",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T10:26:55.042Z",
+  "targetSha256": "0faa65b5f137f8a0e9e6998ecafaedb8552289de79fdd41ec4b17eb77c75cc4e",
+  "generatedAt": "2026-11-08T01:34:12.400Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "sha256": "0faa65b5f137f8a0e9e6998ecafaedb8552289de79fdd41ec4b17eb77c75cc4e",
+    "mtime": "2026-11-07T18:12:50.516Z"
    },
    {
     "file": "tests/out/galaxychain-w281b.json",
     "bytes": 255804,
-    "sha256": "bc3dd0c12486d2e478d087648a21bbf941da69dc02a00d2567f35338f9ecba45",
-    "mtime": "2026-11-05T09:50:36.395Z"
+    "sha256": "b18fe74528c6b77fa81029e809cc25800189373989cc56a55f28a4ae9fb90cf5",
+    "mtime": "2026-11-08T01:30:48.658Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -64,12 +64,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 127532,
+    "sha256": "40a750f533ac64147700b63de2aa890a2d18e6f1bf47d0216024352a0512c9b7",
+    "mtime": "2026-11-07T22:42:19.125Z"
    }
   ],
-  "codeSha256": "a3f30251d96625dc7bc875da9e4226fc26d10ebf59e408dbbab302006962ebd2",
+  "codeSha256": "d71b6eac431121543e735acd230a17638eda563d92bf26f588dd63af8f96a421",
   "harnessVersion": "w282d-analogy-1",
   "loadErrors": 0,
   "headlessErrors": 0,
@@ -169,7 +169,7 @@
   "inputsStable": [
    {
     "file": "tests/out/galaxychain-w281b.json",
-    "stableSha256": "5ef2cbdbf38eaad2f9620c195b67f93ead59f9dd0bac6be34e16c3d99bed2c9f",
+    "stableSha256": "4e57aedd348ad51560933e0adfb526f77b9f3488b27d7fb376ce7d64e365ed86",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
@@ -935,7 +935,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 2.8872,
+    "msPerStep": 3.0568,
     "recs": [
      {
       "t": 0,
@@ -1180,7 +1180,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 3.0804,
+    "msPerStep": 3.0996,
     "recs": [
      {
       "t": 0,
@@ -1427,7 +1427,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 1.6892,
+    "msPerStep": 2.1016,
     "recs": [
      {
       "t": 0,
@@ -1674,7 +1674,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 1.7484,
+    "msPerStep": 1.7592,
     "recs": [
      {
       "t": 0,
@@ -2869,7 +2869,7 @@
     "spin": 1.2000000476837158,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 2.917666666666667,
+    "msPerStep": 2.5673333333333335,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -2934,7 +2934,7 @@
     "spin": 0,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 2.8316666666666666,
+    "msPerStep": 2.551,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -3108,5 +3108,5 @@
    "source": "未取得"
   }
  ],
- "elapsedSec": 42.004
+ "elapsedSec": 41.487
 }
