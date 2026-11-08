@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.47-b328",
+  "betaBuild": "v1.47-b329",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,8 +13,8 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
-  "generatedAt": "2026-11-06T02:41:56.023Z",
+  "targetSha256": "0faa65b5f137f8a0e9e6998ecafaedb8552289de79fdd41ec4b17eb77c75cc4e",
+  "generatedAt": "2026-11-08T00:13:18.500Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
@@ -24,9 +24,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734341,
-    "sha256": "923717c601582043848d6886f9666639491b77a4f65e02ffe168790a0a67569c",
-    "mtime": "2026-11-05T23:45:32.902Z"
+    "bytes": 1734334,
+    "sha256": "e11a04025e5138989518712ec4562c1d8691d46815da7452ab6b6e0bc864cec0",
+    "mtime": "2026-11-08T00:07:53.593Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
@@ -36,9 +36,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 107477,
-    "sha256": "51a540d3e175c6c8656cf241de2d6022e8c8aeb1e50e40e606de154337f7a75c",
-    "mtime": "2026-11-06T02:41:56.007Z"
+    "bytes": 108035,
+    "sha256": "22d1f94e908bbfb3270dc84e94f80fff432191366f2de4356adacf4c3e9a5091",
+    "mtime": "2026-11-08T00:13:18.485Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -422,19 +422,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -756,19 +756,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -1095,19 +1095,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -1422,19 +1422,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -1749,19 +1749,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -2077,19 +2077,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -2405,19 +2405,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -2750,19 +2750,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -3071,19 +3071,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -3392,19 +3392,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -3713,19 +3713,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -4040,19 +4040,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -4367,19 +4367,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -4688,19 +4688,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -5021,19 +5021,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -5348,19 +5348,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -5693,19 +5693,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -6044,19 +6044,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -6413,19 +6413,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -6782,19 +6782,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -7169,19 +7169,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -7508,19 +7508,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -7841,19 +7841,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -8174,19 +8174,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -8507,19 +8507,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -8846,19 +8846,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -9173,19 +9173,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -9500,19 +9500,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -9827,19 +9827,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -10160,19 +10160,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -10493,19 +10493,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -10820,19 +10820,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -11147,19 +11147,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -11481,19 +11481,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -11803,19 +11803,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -12125,19 +12125,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -12446,19 +12446,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -12797,19 +12797,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -13149,19 +13149,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -13494,19 +13494,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -13827,19 +13827,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -14202,19 +14202,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -14528,19 +14528,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -14861,19 +14861,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -15195,19 +15195,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -15539,19 +15539,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -15883,19 +15883,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -16229,19 +16229,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -16564,19 +16564,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -16905,19 +16905,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -17251,19 +17251,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -17610,19 +17610,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -17945,19 +17945,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -18292,19 +18292,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -18626,19 +18626,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -18978,19 +18978,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -19305,19 +19305,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -19632,19 +19632,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -19959,19 +19959,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -20316,19 +20316,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -20697,19 +20697,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -21030,19 +21030,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -21369,19 +21369,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -21690,19 +21690,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -22017,19 +22017,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -22356,19 +22356,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -22683,19 +22683,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -23010,19 +23010,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -23343,19 +23343,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -23676,19 +23676,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -24010,19 +24010,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -24343,19 +24343,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -24700,19 +24700,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -24974,17 +24974,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 115.317,
+     "wallSec": 116.18900000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 38.818,
+       "wallSec": 37.932,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 76.499,
+       "wallSec": 78.257,
        "reused": false,
        "reusedBy": null
       }
@@ -25056,7 +25056,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -25068,19 +25068,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -25146,7 +25146,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -25425,19 +25425,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -25773,7 +25773,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -25797,7 +25797,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -25815,19 +25815,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -26154,19 +26154,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -26541,7 +26541,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -26559,7 +26559,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -26571,19 +26571,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -26888,7 +26888,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -26912,7 +26912,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -26924,19 +26924,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -27192,17 +27192,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.437,
+     "wallSec": 3.253,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.121,
+       "wallSec": 1.196,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.316,
+       "wallSec": 2.057,
        "reused": false,
        "reusedBy": null
       }
@@ -27286,19 +27286,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -27364,7 +27364,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -27667,19 +27667,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -28036,19 +28036,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -28312,7 +28312,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -28466,19 +28466,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -28820,7 +28820,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -29010,19 +29010,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -29292,7 +29292,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -29470,19 +29470,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -29773,7 +29773,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -29791,7 +29791,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -29803,19 +29803,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -30112,7 +30112,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -30130,7 +30130,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -30142,19 +30142,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -30451,7 +30451,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -30475,19 +30475,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -30769,7 +30769,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -30853,14 +30853,20 @@
      },
      {
       "key": "fieldcontract-328a",
-      "sec": 17,
+      "sec": 2,
       "share": 12,
       "always": false
      },
      {
       "key": "response-328b",
-      "sec": 9,
+      "sec": 2,
       "share": 12,
+      "always": false
+     },
+     {
+      "key": "galrot-329b",
+      "sec": 45,
+      "share": 13,
       "always": false
      },
      {
@@ -30936,17 +30942,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.703,
+     "wallSec": 7.792,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.763,
+       "wallSec": 2.543,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.94,
+       "wallSec": 5.249,
        "reused": false,
        "reusedBy": null
       }
@@ -31000,7 +31006,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -31024,7 +31030,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -31042,19 +31048,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -31120,7 +31126,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -31330,7 +31336,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -31489,19 +31495,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -31859,19 +31865,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -32129,7 +32135,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -32314,19 +32320,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -32668,7 +32674,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -32764,14 +32770,20 @@
      },
      {
       "key": "fieldcontract-328a",
-      "sec": 17,
+      "sec": 2,
       "share": 12,
       "always": false
      },
      {
       "key": "response-328b",
-      "sec": 9,
+      "sec": 2,
       "share": 12,
+      "always": false
+     },
+     {
+      "key": "galrot-329b",
+      "sec": 45,
+      "share": 13,
       "always": false
      },
      {
@@ -32925,19 +32937,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -33279,7 +33291,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -33381,14 +33393,20 @@
      },
      {
       "key": "fieldcontract-328a",
-      "sec": 17,
+      "sec": 2,
       "share": 12,
       "always": false
      },
      {
       "key": "response-328b",
-      "sec": 9,
+      "sec": 2,
       "share": 12,
+      "always": false
+     },
+     {
+      "key": "galrot-329b",
+      "sec": 45,
+      "share": 13,
       "always": false
      },
      {
@@ -33518,19 +33536,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -33842,7 +33860,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -33938,14 +33956,20 @@
      },
      {
       "key": "fieldcontract-328a",
-      "sec": 17,
+      "sec": 2,
       "share": 12,
       "always": false
      },
      {
       "key": "response-328b",
-      "sec": 9,
+      "sec": 2,
       "share": 12,
+      "always": false
+     },
+     {
+      "key": "galrot-329b",
+      "sec": 45,
+      "share": 13,
       "always": false
      },
      {
@@ -34075,19 +34099,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -34423,7 +34447,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -34525,14 +34549,20 @@
      },
      {
       "key": "fieldcontract-328a",
-      "sec": 17,
+      "sec": 2,
       "share": 12,
       "always": false
      },
      {
       "key": "response-328b",
-      "sec": 9,
+      "sec": 2,
       "share": 12,
+      "always": false
+     },
+     {
+      "key": "galrot-329b",
+      "sec": 45,
+      "share": 13,
       "always": false
      },
      {
@@ -34674,19 +34704,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -34974,7 +35004,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -35070,14 +35100,20 @@
      },
      {
       "key": "fieldcontract-328a",
-      "sec": 17,
+      "sec": 2,
       "share": 12,
       "always": false
      },
      {
       "key": "response-328b",
-      "sec": 9,
+      "sec": 2,
       "share": 12,
+      "always": false
+     },
+     {
+      "key": "galrot-329b",
+      "sec": 45,
+      "share": 13,
       "always": false
      },
      {
@@ -35206,19 +35242,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -35583,19 +35619,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -35883,7 +35919,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -35979,14 +36015,20 @@
      },
      {
       "key": "fieldcontract-328a",
-      "sec": 17,
+      "sec": 2,
       "share": 12,
       "always": false
      },
      {
       "key": "response-328b",
-      "sec": 9,
+      "sec": 2,
       "share": 12,
+      "always": false
+     },
+     {
+      "key": "galrot-329b",
+      "sec": 45,
+      "share": 13,
       "always": false
      },
      {
@@ -36116,19 +36158,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -36416,7 +36458,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -36512,14 +36554,20 @@
      },
      {
       "key": "fieldcontract-328a",
-      "sec": 17,
+      "sec": 2,
       "share": 12,
       "always": false
      },
      {
       "key": "response-328b",
-      "sec": 9,
+      "sec": 2,
       "share": 12,
+      "always": false
+     },
+     {
+      "key": "galrot-329b",
+      "sec": 45,
+      "share": 13,
       "always": false
      },
      {
@@ -36647,19 +36695,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -36905,14 +36953,20 @@
      },
      {
       "key": "fieldcontract-328a",
-      "sec": 17,
+      "sec": 2,
       "share": 12,
       "always": false
      },
      {
       "key": "response-328b",
-      "sec": 9,
+      "sec": 2,
       "share": 12,
+      "always": false
+     },
+     {
+      "key": "spinbias-329a",
+      "sec": 8,
+      "share": 1,
       "always": false
      },
      {
@@ -37029,7 +37083,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -37053,19 +37107,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -37380,19 +37434,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -37702,7 +37756,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -37714,19 +37768,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -38050,19 +38104,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -38318,17 +38372,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 42.034,
+     "wallSec": 41.613,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 14.468,
+       "wallSec": 14.959,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 27.566,
+       "wallSec": 26.654,
        "reused": false,
        "reusedBy": null
       }
@@ -38382,7 +38436,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -38406,7 +38460,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -38424,19 +38478,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -38502,7 +38556,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -38736,7 +38790,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -38844,14 +38898,20 @@
      },
      {
       "key": "fieldcontract-328a",
-      "sec": 17,
+      "sec": 2,
       "share": 12,
       "always": false
      },
      {
       "key": "response-328b",
-      "sec": 9,
+      "sec": 2,
       "share": 12,
+      "always": false
+     },
+     {
+      "key": "galrot-329b",
+      "sec": 45,
+      "share": 13,
       "always": false
      },
      {
@@ -38926,17 +38986,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 21.948,
+     "wallSec": 22.468,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.451,
+       "wallSec": 7.754,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 14.497,
+       "wallSec": 14.714,
        "reused": false,
        "reusedBy": null
       }
@@ -38954,37 +39014,37 @@
      },
      {
       "key": "charon-h",
-      "sec": 536,
+      "sec": 658,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1013,
+      "sec": 1294,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 487,
+      "sec": 602,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 207,
+      "sec": 245,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 388,
+      "sec": 468,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 778,
+      "sec": 940,
       "share": 10,
       "always": false
      },
@@ -39026,7 +39086,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -39050,7 +39110,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -39068,19 +39128,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -39146,7 +39206,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -39344,7 +39404,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -39450,17 +39510,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 15.236,
+     "wallSec": 14.572,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.093,
+       "wallSec": 4.919,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 10.143,
+       "wallSec": 9.653,
        "reused": false,
        "reusedBy": null
       }
@@ -39514,7 +39574,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -39538,7 +39598,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -39556,19 +39616,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -39634,7 +39694,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -39832,7 +39892,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -39945,49 +40005,49 @@
      },
      {
       "key": "charon-h",
-      "sec": 536,
+      "sec": 658,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1013,
+      "sec": 1294,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 487,
+      "sec": 602,
       "share": 10,
       "always": false
      },
      {
       "key": "charonk",
-      "sec": 695,
+      "sec": 899,
       "share": 2,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 207,
+      "sec": 245,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 388,
+      "sec": 468,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 778,
+      "sec": 940,
       "share": 10,
       "always": false
      },
      {
       "key": "charonfactors",
-      "sec": 295,
+      "sec": 356,
       "share": 2,
       "always": false
      },
@@ -40047,13 +40107,13 @@
      },
      {
       "key": "charonInput",
-      "sec": 542,
+      "sec": 665,
       "share": 5,
       "always": false
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -40077,7 +40137,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -40095,19 +40155,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -40422,7 +40482,7 @@
      },
      {
       "key": "charonInput",
-      "sec": 542,
+      "sec": 665,
       "share": 5,
       "always": false
      },
@@ -40446,19 +40506,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -40780,7 +40840,7 @@
      },
      {
       "key": "charonInput",
-      "sec": 542,
+      "sec": 665,
       "share": 5,
       "always": false
      },
@@ -40804,19 +40864,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -41080,17 +41140,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 228.262,
+     "wallSec": 223.834,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 70.647,
+       "wallSec": 75.333,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 157.615,
+       "wallSec": 148.501,
        "reused": false,
        "reusedBy": null
       }
@@ -41108,49 +41168,49 @@
      },
      {
       "key": "charon-h",
-      "sec": 536,
+      "sec": 658,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1013,
+      "sec": 1294,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 487,
+      "sec": 602,
       "share": 10,
       "always": false
      },
      {
       "key": "charonk",
-      "sec": 695,
+      "sec": 899,
       "share": 2,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 207,
+      "sec": 245,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 388,
+      "sec": 468,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 778,
+      "sec": 940,
       "share": 10,
       "always": false
      },
      {
       "key": "charonfactors",
-      "sec": 295,
+      "sec": 356,
       "share": 2,
       "always": false
      },
@@ -41192,13 +41252,13 @@
      },
      {
       "key": "charonInput",
-      "sec": 542,
+      "sec": 665,
       "share": 5,
       "always": false
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -41222,7 +41282,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -41234,19 +41294,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -41312,7 +41372,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -41609,19 +41669,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -41979,19 +42039,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -42231,7 +42291,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -42402,7 +42462,7 @@
      },
      {
       "key": "charonInput",
-      "sec": 542,
+      "sec": 665,
       "share": 5,
       "always": false
      },
@@ -42426,19 +42486,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -42730,7 +42790,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -42754,19 +42814,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -43024,11 +43084,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 50.926,
+     "wallSec": 53.236,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 50.926,
+       "wallSec": 53.236,
        "reused": false,
        "reusedBy": null
       }
@@ -43112,19 +43172,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -43190,7 +43250,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -43388,7 +43448,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -43494,17 +43554,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.876,
+     "wallSec": 7.282,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.989,
+       "wallSec": 2.732,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.887,
+       "wallSec": 4.55,
        "reused": false,
        "reusedBy": null
       }
@@ -43522,37 +43582,37 @@
      },
      {
       "key": "charon-h",
-      "sec": 536,
+      "sec": 658,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1013,
+      "sec": 1294,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 487,
+      "sec": 602,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 207,
+      "sec": 245,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 388,
+      "sec": 468,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 778,
+      "sec": 940,
       "share": 10,
       "always": false
      },
@@ -43594,7 +43654,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -43618,7 +43678,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -43636,19 +43696,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -43714,7 +43774,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -43912,7 +43972,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -44016,17 +44076,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.017,
+     "wallSec": 9.933,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.017,
+       "wallSec": 9.933,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 21.084,
+       "wallSec": 24.232,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -44037,9 +44097,9 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 50.620000000000005,
-     "reusedH2Sec": 21.084,
-     "reusedH4Sec": 29.536000000000005
+     "reusedSec": 53.768,
+     "reusedH2Sec": 24.232,
+     "reusedH4Sec": 29.536
     },
     "regenSteps": [
      {
@@ -44056,37 +44116,37 @@
      },
      {
       "key": "charon-h",
-      "sec": 536,
+      "sec": 658,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1013,
+      "sec": 1294,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 487,
+      "sec": 602,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 207,
+      "sec": 245,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 388,
+      "sec": 468,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 778,
+      "sec": 940,
       "share": 10,
       "always": false
      },
@@ -44128,7 +44188,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -44152,7 +44212,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -44164,19 +44224,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -44242,7 +44302,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -44498,7 +44558,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -44522,7 +44582,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -44540,19 +44600,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -44806,17 +44866,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.776,
+     "wallSec": 5.757,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.776,
+       "wallSec": 5.757,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 12.16,
+       "wallSec": 13.036,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -44827,8 +44887,8 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 29.657,
-     "reusedH2Sec": 12.16,
+     "reusedSec": 30.533,
+     "reusedH2Sec": 13.036,
      "reusedH4Sec": 17.497
     },
     "regenSteps": [
@@ -44846,37 +44906,37 @@
      },
      {
       "key": "charon-h",
-      "sec": 536,
+      "sec": 658,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1013,
+      "sec": 1294,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 487,
+      "sec": 602,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 207,
+      "sec": 245,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 388,
+      "sec": 468,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 778,
+      "sec": 940,
       "share": 10,
       "always": false
      },
@@ -44918,7 +44978,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -44942,7 +45002,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -44954,19 +45014,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -45032,7 +45092,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -45288,7 +45348,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -45312,7 +45372,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -45330,19 +45390,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -45657,19 +45717,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -45990,19 +46050,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -46329,19 +46389,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -46662,19 +46722,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -46937,17 +46997,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.522,
+     "wallSec": 11.471,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.595,
+       "wallSec": 3.824,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.927,
+       "wallSec": 7.647,
        "reused": false,
        "reusedBy": null
       }
@@ -47019,7 +47079,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -47043,7 +47103,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -47055,19 +47115,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -47139,7 +47199,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -47359,37 +47419,37 @@
      },
      {
       "key": "charon-h",
-      "sec": 536,
+      "sec": 658,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1013,
+      "sec": 1294,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 487,
+      "sec": 602,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 207,
+      "sec": 245,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 388,
+      "sec": 468,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 778,
+      "sec": 940,
       "share": 10,
       "always": false
      },
@@ -47431,7 +47491,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -47455,7 +47515,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -47473,19 +47533,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -47801,19 +47861,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -48105,7 +48165,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -48129,7 +48189,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -48141,19 +48201,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -48404,17 +48464,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.4879999999999995,
+     "wallSec": 7.2219999999999995,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.51,
+       "wallSec": 2.397,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.978,
+       "wallSec": 4.825,
        "reused": false,
        "reusedBy": null
       }
@@ -48438,37 +48498,37 @@
      },
      {
       "key": "charon-h",
-      "sec": 536,
+      "sec": 658,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1013,
+      "sec": 1294,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 487,
+      "sec": 602,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 207,
+      "sec": 245,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 388,
+      "sec": 468,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 778,
+      "sec": 940,
       "share": 10,
       "always": false
      },
@@ -48510,7 +48570,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -48534,7 +48594,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -48552,19 +48612,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -48630,7 +48690,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -48833,17 +48893,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.269,
+     "wallSec": 2.751,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.046,
+       "wallSec": 0.912,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.223,
+       "wallSec": 1.839,
        "reused": false,
        "reusedBy": null
       }
@@ -48867,37 +48927,37 @@
      },
      {
       "key": "charon-h",
-      "sec": 536,
+      "sec": 658,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1013,
+      "sec": 1294,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 487,
+      "sec": 602,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 207,
+      "sec": 245,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 388,
+      "sec": 468,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 778,
+      "sec": 940,
       "share": 10,
       "always": false
      },
@@ -48939,7 +48999,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -48963,7 +49023,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -48981,19 +49041,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -49059,7 +49119,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -49303,7 +49363,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -49327,7 +49387,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -49339,19 +49399,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -49643,7 +49703,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -49667,7 +49727,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -49679,19 +49739,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -49983,7 +50043,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -50007,7 +50067,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -50019,19 +50079,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -50323,7 +50383,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -50347,7 +50407,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -50359,19 +50419,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -50663,7 +50723,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -50687,7 +50747,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -50699,19 +50759,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -51003,7 +51063,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -51027,7 +51087,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -51039,19 +51099,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -51302,17 +51362,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 54.766999999999996,
+     "wallSec": 50.592,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 18.022,
+       "wallSec": 15.959,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 36.745,
+       "wallSec": 34.633,
        "reused": false,
        "reusedBy": null
       }
@@ -51366,7 +51426,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -51390,7 +51450,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -51402,19 +51462,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -51480,7 +51540,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -51694,37 +51754,37 @@
      },
      {
       "key": "charon-h",
-      "sec": 536,
+      "sec": 658,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1013,
+      "sec": 1294,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 487,
+      "sec": 602,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 207,
+      "sec": 245,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 388,
+      "sec": 468,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 778,
+      "sec": 940,
       "share": 10,
       "always": false
      },
@@ -51766,7 +51826,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -51790,7 +51850,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -51808,19 +51868,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -52112,7 +52172,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -52136,7 +52196,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -52148,19 +52208,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -52469,19 +52529,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -52808,19 +52868,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -53183,19 +53243,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -53528,19 +53588,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -53963,19 +54023,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -54351,19 +54411,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -54720,19 +54780,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -55053,19 +55113,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -55404,19 +55464,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -55743,19 +55803,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -56076,19 +56136,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -56409,19 +56469,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -56754,19 +56814,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -57022,17 +57082,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.643,
+     "wallSec": 1.5,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.536,
+       "wallSec": 0.54,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.107,
+       "wallSec": 0.96,
        "reused": false,
        "reusedBy": null
       }
@@ -57116,19 +57176,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -57194,7 +57254,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -57450,7 +57510,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -57480,7 +57540,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -57498,19 +57558,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -57766,17 +57826,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.187,
+     "wallSec": 0.179,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.082,
+       "wallSec": 0.087,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.105,
+       "wallSec": 0.092,
        "reused": false,
        "reusedBy": null
       }
@@ -57854,19 +57914,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -57932,7 +57992,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -58181,19 +58241,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -58508,19 +58568,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -58841,19 +58901,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -59174,19 +59234,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -59377,6 +59437,12 @@
       "always": false
      },
      {
+      "key": "galrot-329b",
+      "sec": 45,
+      "share": 13,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -59525,19 +59591,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -59734,6 +59800,12 @@
       "always": false
      },
      {
+      "key": "galrot-329b",
+      "sec": 45,
+      "share": 13,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -59852,19 +59924,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -60173,19 +60245,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -60494,19 +60566,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -60821,19 +60893,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -61127,7 +61199,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -61235,14 +61307,20 @@
      },
      {
       "key": "fieldcontract-328a",
-      "sec": 17,
+      "sec": 2,
       "share": 12,
       "always": false
      },
      {
       "key": "response-328b",
-      "sec": 9,
+      "sec": 2,
       "share": 12,
+      "always": false
+     },
+     {
+      "key": "galrot-329b",
+      "sec": 45,
+      "share": 13,
       "always": false
      },
      {
@@ -61394,19 +61472,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -61672,17 +61750,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.914,
+     "wallSec": 6.097,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.914,
+       "wallSec": 6.097,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 11.637,
+       "wallSec": 12.2,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -61693,8 +61771,8 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 31.31,
-     "reusedH2Sec": 11.637,
+     "reusedSec": 31.872999999999998,
+     "reusedH2Sec": 12.2,
      "reusedH4Sec": 19.673
     },
     "regenSteps": [
@@ -61742,7 +61820,7 @@
      },
      {
       "key": "geo3",
-      "sec": 825,
+      "sec": 1008,
       "share": 35,
       "always": false
      },
@@ -61766,7 +61844,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -61784,19 +61862,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -61862,7 +61940,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -62129,19 +62207,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -62450,19 +62528,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -62714,11 +62792,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 120.684,
+     "wallSec": 125.839,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 120.684,
+       "wallSec": 125.839,
        "reused": false,
        "reusedBy": null
       }
@@ -62790,7 +62868,7 @@
      },
      {
       "key": "mercury",
-      "sec": 244,
+      "sec": 294,
       "share": 35,
       "always": true
      },
@@ -62808,19 +62886,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -62886,7 +62964,7 @@
      },
      {
       "key": "calcause292",
-      "sec": 3,
+      "sec": 6,
       "share": 19,
       "always": false
      },
@@ -63090,7 +63168,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2515,
+      "sec": 2,
       "share": 21,
       "always": false
      },
@@ -63198,14 +63276,20 @@
      },
      {
       "key": "fieldcontract-328a",
-      "sec": 17,
+      "sec": 2,
       "share": 12,
       "always": false
      },
      {
       "key": "response-328b",
-      "sec": 9,
+      "sec": 2,
       "share": 12,
+      "always": false
+     },
+     {
+      "key": "galrot-329b",
+      "sec": 45,
+      "share": 13,
       "always": false
      },
      {
@@ -63354,19 +63438,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -63675,19 +63759,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -64027,19 +64111,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -64366,19 +64450,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -64693,19 +64777,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -65026,19 +65110,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -65347,19 +65431,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -65668,19 +65752,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -65989,19 +66073,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -66310,19 +66394,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -66631,19 +66715,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -66958,19 +67042,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -67285,19 +67369,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -67618,19 +67702,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -67945,19 +68029,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -68266,19 +68350,19 @@
      },
      {
       "key": "pn1",
-      "sec": 274,
+      "sec": 319,
       "share": "all",
       "always": false
      },
      {
       "key": "pnsource286",
-      "sec": 475,
+      "sec": 544,
       "share": "all",
       "always": false
      },
      {
       "key": "eihdiag287",
-      "sec": 10,
+      "sec": 14,
       "share": "all",
       "always": false
      },
@@ -68500,9 +68584,9 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 219,
-  "regenSecSum": 34798,
-  "alwaysSec": 551,
+  "regenSteps": 221,
+  "regenSecSum": 34061,
+  "alwaysSec": 806,
   "undeclaredSteps": 27,
   "undeclaredSec": 1593,
   "qaTotal": 1435,
@@ -68514,8 +68598,8 @@
    "date": "2026-11-06T02:10:55.192Z",
    "betaBuild": "v1.47-b328",
    "targetSha256": "9c8d7bf06b29fd3ce12c7e851eb488b166e7314504fa2cb8c1f0958d1cce862e",
-   "sameBuild": true,
-   "sameHtml": true,
+   "sameBuild": false,
+   "sameHtml": false,
    "rule": "鎖の常時群の段 samplestatus はゲートの QA の前に走る —— 保存 QA の時間は前の便のゲートの保存物(1 便遅れる)。版名が同じでも html の sha が違えば同じ便の中の前の html の QA"
   },
   "noHtmlSteps": {
@@ -68550,7 +68634,7 @@
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 44.881
+    "sec": 49.468
    },
    "h4": {
     "n": 3,
@@ -68581,34 +68665,6 @@
       "saturnRingReal",
       "saturnSunInertial3d",
       "uranusSunInertial3d",
-      "venusSunInertial3d"
-     ]
-    },
-    {
-     "key": "k1em-314c",
-     "sec": 2515,
-     "kind": "領域の宣言",
-     "presets": [
-      "earthMoonOnly3d",
-      "earthMoonSunInertial3d",
-      "earthMoonSunInertialFit",
-      "jupiterGalilean",
-      "jupiterSunInertial3d",
-      "marsMoonsReal",
-      "marsSunInertial3d",
-      "mercury",
-      "mercuryReal",
-      "mercurySunInertial3d",
-      "mercurySunInertialFit",
-      "neptuneReal",
-      "neptuneSunInertial3d",
-      "plutoCharonInertialFit",
-      "saturn",
-      "saturnRingReal",
-      "saturnSunInertial3d",
-      "uranusReal",
-      "uranusSunInertial3d",
-      "venusReal",
       "venusSunInertial3d"
      ]
     },
@@ -68669,6 +68725,23 @@
      ]
     },
     {
+     "key": "charon-h2",
+     "sec": 1294,
+     "kind": "領域の宣言",
+     "presets": [
+      "alphaCenAB",
+      "neptuneReal",
+      "plutoCharonDiagInput",
+      "plutoCharonReal",
+      "psrB1534DFM",
+      "psrDoubleABDFM",
+      "psrJ1757DFM",
+      "psrJ1946DFM",
+      "siriusAB",
+      "venusReal"
+     ]
+    },
+    {
      "key": "refit-298b",
      "sec": 1264,
      "kind": "領域の宣言",
@@ -68715,31 +68788,8 @@
      ]
     },
     {
-     "key": "charon-h2",
-     "sec": 1013,
-     "kind": "領域の宣言",
-     "presets": [
-      "alphaCenAB",
-      "neptuneReal",
-      "plutoCharonDiagInput",
-      "plutoCharonReal",
-      "psrB1534DFM",
-      "psrDoubleABDFM",
-      "psrJ1757DFM",
-      "psrJ1946DFM",
-      "siriusAB",
-      "venusReal"
-     ]
-    },
-    {
-     "key": "nsgrid",
-     "sec": 955,
-     "kind": "html を読まない",
-     "presets": null
-    },
-    {
      "key": "geo3",
-     "sec": 825,
+     "sec": 1008,
      "kind": "領域の宣言",
      "presets": [
       "alphaCenAB",
@@ -68780,6 +68830,38 @@
      ]
     },
     {
+     "key": "nsgrid",
+     "sec": 955,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
+     "key": "charoneps-h4",
+     "sec": 940,
+     "kind": "領域の宣言",
+     "presets": [
+      "alphaCenAB",
+      "neptuneReal",
+      "plutoCharonDiagInput",
+      "plutoCharonReal",
+      "psrB1534DFM",
+      "psrDoubleABDFM",
+      "psrJ1757DFM",
+      "psrJ1946DFM",
+      "siriusAB",
+      "venusReal"
+     ]
+    },
+    {
+     "key": "charonk",
+     "sec": 899,
+     "kind": "領域の宣言",
+     "presets": [
+      "plutoCharonReal",
+      "plutoCharonDiagInput"
+     ]
+    },
+    {
      "key": "confirm-312d",
      "sec": 803,
      "kind": "領域の宣言",
@@ -68814,23 +68896,6 @@
      "presets": [
       "earthMoonInertial",
       "earthMoonReal"
-     ]
-    },
-    {
-     "key": "charoneps-h4",
-     "sec": 778,
-     "kind": "領域の宣言",
-     "presets": [
-      "alphaCenAB",
-      "neptuneReal",
-      "plutoCharonDiagInput",
-      "plutoCharonReal",
-      "psrB1534DFM",
-      "psrDoubleABDFM",
-      "psrJ1757DFM",
-      "psrJ1946DFM",
-      "siriusAB",
-      "venusReal"
      ]
     },
     {
@@ -68870,15 +68935,6 @@
      ]
     },
     {
-     "key": "charonk",
-     "sec": 695,
-     "kind": "領域の宣言",
-     "presets": [
-      "plutoCharonReal",
-      "plutoCharonDiagInput"
-     ]
-    },
-    {
      "key": "nslock",
      "sec": 682,
      "kind": "領域の宣言",
@@ -68896,7 +68952,7 @@
     },
     {
      "key": "charonInput",
-     "sec": 542,
+     "sec": 665,
      "kind": "領域の宣言",
      "presets": [
       "plutoCharonDFM",
@@ -68908,7 +68964,7 @@
     },
     {
      "key": "charon-h",
-     "sec": 536,
+     "sec": 658,
      "kind": "領域の宣言",
      "presets": [
       "alphaCenAB",
@@ -68925,7 +68981,7 @@
     },
     {
      "key": "charon-h4",
-     "sec": 487,
+     "sec": 602,
      "kind": "領域の宣言",
      "presets": [
       "alphaCenAB",
@@ -68942,25 +68998,13 @@
     },
     {
      "key": "pnsource286",
-     "sec": 475,
-     "kind": "領域の宣言",
-     "presets": "all"
-    },
-    {
-     "key": "galaxyproto",
-     "sec": 467,
-     "kind": "html を読まない",
-     "presets": null
-    },
-    {
-     "key": "timestd-297c",
-     "sec": 406,
+     "sec": 544,
      "kind": "領域の宣言",
      "presets": "all"
     },
     {
      "key": "charoneps-h2",
-     "sec": 388,
+     "sec": 468,
      "kind": "領域の宣言",
      "presets": [
       "alphaCenAB",
@@ -68976,10 +69020,37 @@
      ]
     },
     {
+     "key": "galaxyproto",
+     "sec": 467,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
+     "key": "timestd-297c",
+     "sec": 406,
+     "kind": "領域の宣言",
+     "presets": "all"
+    },
+    {
+     "key": "calaudit",
+     "sec": 394,
+     "kind": "常時群",
+     "presets": null
+    },
+    {
      "key": "compose293",
      "sec": 387,
      "kind": "領域の宣言",
      "presets": "all"
+    },
+    {
+     "key": "charonfactors",
+     "sec": 356,
+     "kind": "領域の宣言",
+     "presets": [
+      "plutoCharonReal",
+      "plutoCharonDiagInput"
+     ]
     },
     {
      "key": "galaxydiag",
@@ -68989,6 +69060,12 @@
       "ngc3198",
       "ngc3198DFM"
      ]
+    },
+    {
+     "key": "pn1",
+     "sec": 319,
+     "kind": "領域の宣言",
+     "presets": "all"
     },
     {
      "key": "geo4stable-299d",
@@ -69003,41 +69080,8 @@
      ]
     },
     {
-     "key": "charonfactors",
-     "sec": 295,
-     "kind": "領域の宣言",
-     "presets": [
-      "plutoCharonReal",
-      "plutoCharonDiagInput"
-     ]
-    },
-    {
-     "key": "geo3-294a",
-     "sec": 292,
-     "kind": "領域の宣言",
-     "presets": [
-      "earthMoonInertial",
-      "earthMoonReal"
-     ]
-    },
-    {
-     "key": "pn1",
-     "sec": 274,
-     "kind": "領域の宣言",
-     "presets": "all"
-    },
-    {
-     "key": "moon3d-298c",
-     "sec": 256,
-     "kind": "領域の宣言",
-     "presets": [
-      "earthMoonSunInertial3d",
-      "earthMoonSunInertialFit"
-     ]
-    },
-    {
      "key": "mercury",
-     "sec": 244,
+     "sec": 294,
      "kind": "常時群",
      "presets": [
       "alphaCenAB",
@@ -69078,20 +69122,26 @@
      ]
     },
     {
-     "key": "calaudit",
-     "sec": 223,
-     "kind": "常時群",
-     "presets": null
+     "key": "geo3-294a",
+     "sec": 292,
+     "kind": "領域の宣言",
+     "presets": [
+      "earthMoonInertial",
+      "earthMoonReal"
+     ]
     },
     {
-     "key": "contact285",
-     "sec": 220,
+     "key": "moon3d-298c",
+     "sec": 256,
      "kind": "領域の宣言",
-     "presets": "all"
+     "presets": [
+      "earthMoonSunInertial3d",
+      "earthMoonSunInertialFit"
+     ]
     },
     {
      "key": "charoneps-h",
-     "sec": 207,
+     "sec": 245,
      "kind": "領域の宣言",
      "presets": [
       "alphaCenAB",
@@ -69105,6 +69155,12 @@
       "siriusAB",
       "venusReal"
      ]
+    },
+    {
+     "key": "contact285",
+     "sec": 220,
+     "kind": "領域の宣言",
+     "presets": "all"
     },
     {
      "key": "swing293",
@@ -69335,6 +69391,12 @@
      ]
     },
     {
+     "key": "kf0",
+     "sec": 50,
+     "kind": "常時群",
+     "presets": null
+    },
+    {
      "key": "spiral290",
      "sec": 49,
      "kind": "領域の宣言",
@@ -69363,6 +69425,26 @@
      ]
     },
     {
+     "key": "galrot-329b",
+     "sec": 45,
+     "kind": "領域の宣言",
+     "presets": [
+      "jupiterGalilean",
+      "jupiterSunInertial3d",
+      "marsSunInertial3d",
+      "mercury",
+      "mercurySunInertial3d",
+      "neptuneSunInertial3d",
+      "ngc3198",
+      "ngc3198DFM",
+      "saturn",
+      "saturnRingReal",
+      "saturnSunInertial3d",
+      "uranusSunInertial3d",
+      "venusSunInertial3d"
+     ]
+    },
+    {
      "key": "fixcap288",
      "sec": 44,
      "kind": "領域の宣言",
@@ -69375,16 +69457,16 @@
      ]
     },
     {
+     "key": "d68three",
+     "sec": 43,
+     "kind": "常時群",
+     "presets": null
+    },
+    {
      "key": "bgtime287",
      "sec": 43,
      "kind": "領域の宣言",
      "presets": "all"
-    },
-    {
-     "key": "d68three",
-     "sec": 37,
-     "kind": "常時群",
-     "presets": null
     },
     {
      "key": "emonly-300b",
@@ -69420,35 +69502,16 @@
      "presets": "all"
     },
     {
-     "key": "kf0",
-     "sec": 22,
-     "kind": "常時群",
-     "presets": null
-    },
-    {
      "key": "dt3",
      "sec": 18,
      "kind": "常時群",
      "presets": null
     },
     {
-     "key": "fieldcontract-328a",
-     "sec": 17,
+     "key": "eihdiag287",
+     "sec": 14,
      "kind": "領域の宣言",
-     "presets": [
-      "jupiterGalilean",
-      "jupiterSunInertial3d",
-      "marsSunInertial3d",
-      "mercury",
-      "mercurySunInertial3d",
-      "neptuneSunInertial3d",
-      "saturn",
-      "saturnRingReal",
-      "saturnSunInertial3d",
-      "solarSystem16Inertial3d",
-      "uranusSunInertial3d",
-      "venusSunInertial3d"
-     ]
+     "presets": "all"
     },
     {
      "key": "chain-296c",
@@ -69477,12 +69540,6 @@
       "galaxyAnalogyBH",
       "gas"
      ]
-    },
-    {
-     "key": "eihdiag287",
-     "sec": 10,
-     "kind": "領域の宣言",
-     "presets": "all"
     },
     {
      "key": "contractrange289",
@@ -69515,25 +69572,6 @@
      "presets": "all"
     },
     {
-     "key": "response-328b",
-     "sec": 9,
-     "kind": "領域の宣言",
-     "presets": [
-      "jupiterGalilean",
-      "jupiterSunInertial3d",
-      "marsSunInertial3d",
-      "mercury",
-      "mercurySunInertial3d",
-      "neptuneSunInertial3d",
-      "saturn",
-      "saturnRingReal",
-      "saturnSunInertial3d",
-      "solarSystem16Inertial3d",
-      "uranusSunInertial3d",
-      "venusSunInertial3d"
-     ]
-    },
-    {
      "key": "inertial290",
      "sec": 8,
      "kind": "領域の宣言",
@@ -69542,6 +69580,14 @@
       "compactForceToy",
       "earthMoonFree",
       "inertialDragPair"
+     ]
+    },
+    {
+     "key": "spinbias-329a",
+     "sec": 8,
+     "kind": "領域の宣言",
+     "presets": [
+      "solarSystem16Inertial3d"
      ]
     },
     {
@@ -69606,6 +69652,32 @@
      "sec": 6,
      "kind": "領域の宣言",
      "presets": "all"
+    },
+    {
+     "key": "calcause292",
+     "sec": 6,
+     "kind": "領域の宣言",
+     "presets": [
+      "alphaCenAB",
+      "earthMoonReal",
+      "emAuditSolar",
+      "gw150914",
+      "gw150914Merge4s",
+      "jupiterGalilean",
+      "marsMoonsReal",
+      "mercuryReal",
+      "neptuneReal",
+      "plutoCharonDiagInput",
+      "psrB1534",
+      "psrDoubleAB",
+      "psrJ1757DFM",
+      "psrJ1946DFM",
+      "saturnRingReal",
+      "saturnZonalD68",
+      "siriusAB",
+      "uranusReal",
+      "venusReal"
+     ]
     },
     {
      "key": "coord3d-298a",
@@ -69739,32 +69811,6 @@
      "kind": "領域の宣言",
      "presets": [
       "galaxyAnalogyBHCompose"
-     ]
-    },
-    {
-     "key": "calcause292",
-     "sec": 3,
-     "kind": "領域の宣言",
-     "presets": [
-      "alphaCenAB",
-      "earthMoonReal",
-      "emAuditSolar",
-      "gw150914",
-      "gw150914Merge4s",
-      "jupiterGalilean",
-      "marsMoonsReal",
-      "mercuryReal",
-      "neptuneReal",
-      "plutoCharonDiagInput",
-      "psrB1534",
-      "psrDoubleAB",
-      "psrJ1757DFM",
-      "psrJ1946DFM",
-      "saturnRingReal",
-      "saturnZonalD68",
-      "siriusAB",
-      "uranusReal",
-      "venusReal"
      ]
     },
     {
@@ -70615,6 +70661,34 @@
      ]
     },
     {
+     "key": "k1em-314c",
+     "sec": 2,
+     "kind": "領域の宣言",
+     "presets": [
+      "earthMoonOnly3d",
+      "earthMoonSunInertial3d",
+      "earthMoonSunInertialFit",
+      "jupiterGalilean",
+      "jupiterSunInertial3d",
+      "marsMoonsReal",
+      "marsSunInertial3d",
+      "mercury",
+      "mercuryReal",
+      "mercurySunInertial3d",
+      "mercurySunInertialFit",
+      "neptuneReal",
+      "neptuneSunInertial3d",
+      "plutoCharonInertialFit",
+      "saturn",
+      "saturnRingReal",
+      "saturnSunInertial3d",
+      "uranusReal",
+      "uranusSunInertial3d",
+      "venusReal",
+      "venusSunInertial3d"
+     ]
+    },
+    {
      "key": "pn1x3d-314d",
      "sec": 2,
      "kind": "領域の宣言",
@@ -70913,6 +70987,44 @@
      "kind": "領域の宣言",
      "presets": [
       "solarSystem16Inertial3d"
+     ]
+    },
+    {
+     "key": "fieldcontract-328a",
+     "sec": 2,
+     "kind": "領域の宣言",
+     "presets": [
+      "jupiterGalilean",
+      "jupiterSunInertial3d",
+      "marsSunInertial3d",
+      "mercury",
+      "mercurySunInertial3d",
+      "neptuneSunInertial3d",
+      "saturn",
+      "saturnRingReal",
+      "saturnSunInertial3d",
+      "solarSystem16Inertial3d",
+      "uranusSunInertial3d",
+      "venusSunInertial3d"
+     ]
+    },
+    {
+     "key": "response-328b",
+     "sec": 2,
+     "kind": "領域の宣言",
+     "presets": [
+      "jupiterGalilean",
+      "jupiterSunInertial3d",
+      "marsSunInertial3d",
+      "mercury",
+      "mercurySunInertial3d",
+      "neptuneSunInertial3d",
+      "saturn",
+      "saturnRingReal",
+      "saturnSunInertial3d",
+      "solarSystem16Inertial3d",
+      "uranusSunInertial3d",
+      "venusSunInertial3d"
      ]
     },
     {
