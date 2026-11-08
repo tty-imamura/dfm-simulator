@@ -33,6 +33,7 @@ export const PHYSKEYS_KINDS_330C = Object.freeze({
 const sha256 = (b) => crypto.createHash('sha256').update(b).digest('hex');
 
 const fpMemo = new Map();   // html の sha → 指紋(1 つの走行の中だけ)
+const pathMemo = new Map();   // html のパス|大きさ|更新時刻 → 指紋(同じファイルを正本ごとに読み直さない)
 /**
  * html の指紋: fastParams の雛形(鍵の名と並び)と全本の中身(説明の文を除く —— 現行の版の stripPresetProse)の hash。
  * @param {string|{buf:Buffer, path?:string}} src html の絶対パスか本文
@@ -40,6 +41,13 @@ const fpMemo = new Map();   // html の sha → 指紋(1 つの走行の中だ�
  * @returns {{sha:string, template:string[]|null, templateSha:string|null, tableSha:string|null, nBooks:number|null, why:string[]}}
  */
 export function htmlKeysOf330c(src, o) {
+  let pk = null;
+  if (typeof src === 'string') { try { const st = fs.statSync(src); pk = src + '|' + st.size + '|' + st.mtimeMs; } catch { pk = null; } if (pk && pathMemo.has(pk)) return pathMemo.get(pk); }
+  const r0 = htmlKeysOfBuf330(src, o);
+  if (pk) pathMemo.set(pk, r0);
+  return r0;
+}
+function htmlKeysOfBuf330(src, o) {
   const buf = typeof src === 'string' ? fs.readFileSync(src) : src.buf;
   const s = sha256(buf);
   if (fpMemo.has(s)) return fpMemo.get(s);
