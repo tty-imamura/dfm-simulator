@@ -43,6 +43,9 @@
 //       鎖の前のコミットと今で比べ、影の世界の判定と突き合わせる(trueSame / falseSame〔門の取りこぼし〕/ trueDiff / overRun / na —— falseSame があれば終了コード 1)。
 //     ・**全部の本を領域に持つ段の絞りの探索**(tests/lib-w326e-narrow.mjs —— 影・印字だけ): --narrow-explore で presets:"all" の段の名簿(named・filter・enumerates —— 器が条件で
 //       選んだ本だけを読むか)と、--base の html(無ければ --narrow-from <html>)と今の html で変わった本で、領域だけの理由で regen の段のうち絞れば reuse の段を plan.narrow326e に出す。
+//   第330便c(R309・AN584): 道具の照合は lint.provenanceMeta と同じ関数(tests/lib-w281a-scope.mjs の toolStampRecheck → toolRecheck330c —— 対象が html でない正本の領域の刻印も
+//     beta/index.html で引き直す)。名指しの段の閉包の fastParams が読む全本の physics の鍵の名(雛形)・宣言の表に無い本の表の読みを刻印の html と比べ、違えば regen を足す
+//     (tests/lib-w330c-toolguard.mjs —— 理由の種類 physKeys / tableRead・`--no-physkeys` で切る)。
 // 終了コード: 0(計画を出した)/ 2(表に無い正本が lint の CANON にある等、表が壊れている)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -186,7 +189,8 @@ if (argv.includes('--always-shadow-check')) {
 const t0 = Date.now();
 // 第327便c(R297): `--no-scope-migrate` は領域の版の移行(一回きり —— 理由の種類 scopever)を引かない(前後の比べ —— 環境変数 W327C_SCOPE_MIGRATE=0 と同じ)
 const plan = T.planRegen({ root: ROOT, html: HTML, baseHtml: BASE, orderOnly: !argv.includes('--all-edges'), htmlPhys: argv.includes('--no-htmlphys') ? false : undefined,
-  scopeMigrate: argv.includes('--no-scope-migrate') ? false : undefined });
+  scopeMigrate: argv.includes('--no-scope-migrate') ? false : undefined,
+  physKeys: argv.includes('--no-physkeys') ? false : undefined });   // 第330便c(AN584): `--no-physkeys` は physics の鍵の集合の守りを引かない(前後の比べ —— 環境変数 W330C_PHYSKEYS=0 と同じ)
 plan.generatedAt = new Date().toISOString();
 plan.planMs = Date.now() - t0;
 // ==== 第323便b の塊(ここから)====
@@ -304,6 +308,14 @@ if (!QUIET) {
     console.log(`  領域の版の移行(${g.version} —— → ${g.to}・一回きり): ${g.on ? '入' : '切(--no-scope-migrate か W327C_SCOPE_MIGRATE=0)'} —— 理由に移行を持つ段 ${g.stages.length}・移行だけで走る段 ${g.only.length}(${fmt(g.sec)})`);
   }
   // ==== 第327便c の塊(ここまで)====
+  // ==== 第330便c の塊(ここから)====
+  // 第330便c(R309・AN584): 道具の照合の版(計画と lint が同じ関数)と physics の鍵の集合の守り(名指しの段 —— 理由の種類 physKeys / tableRead)
+  if (plan.physKeys330c) {
+    const g = plan.physKeys330c;
+    console.log(`  道具の照合(${plan.toolCheck330c} —— lint.provenanceMeta と同じ関数)/ physics の鍵の集合の守り(${g.version} —— AN584): ${g.on ? '入' : '切(--no-physkeys か W330C_PHYSKEYS=0)'} —— `
+      + `physKeys ${g.physKeys.length} 段・tableRead ${g.tableRead.length} 段・守りだけで走る段 ${g.only.length}(${fmt(g.sec)})${g.only.length ? ': ' + g.only.slice(0, 6).join(',') + (g.only.length > 6 ? ` 他 ${g.only.length - 6}` : '') : ''}`);
+  }
+  // ==== 第330便c の塊(ここまで)====
   // 第320便d(AN478): 領域の差の分類の要約
   if (plan.classify320) {
     const c = plan.classify320;

@@ -4762,3 +4762,12 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **密度波**: 2 本腕は一定の Ω_p(出典つき)の密度波のラベル —— 共鳴 m(Ω − Ω_p) = ±`κ_epi`(m = 2)・共回転 Ω = Ω_p。`κ_epi` と κ_D は別。Ω_p = Ω − `κ_epi`/2 を全半径の規則にしない。物質の Ω・パターンの Ω_p・DFM の Ω_field を分ける。**棒は未解決**(notClaim)。
 - **回転する枠の欠測**: `ratesInFrame`(`w329b-fieldcontract2-lib-2`)は Ω_frame が null なら全部 null・非有限は拒否(0 で埋めない)。
 - QA `lint.dragWeight330b`(版・宣言・純関数の場面 14・呼ぶだけ・枠の欠測の修正の場面)・`behavior.dragWeight330b`(今の html の 🗺️ の写しの受理器の試しと 3 体の β・2 体の写しの成分ごとの傾き・回転の口と潮汐の照合・銀河の窓・円盤・ジャイロ・密度波を作り直して正本と同じ)・`docs.dragWeight330b`(正本の門と表 12 本が PHYSICS〔第330便b〕に逐語・〔第329便b〕の節の「第330便の更新」の行・書かない語と禁句)。
+
+## 201. 第330便c —— 道具: 計画の「道具の照合」と lint.provenanceMeta の判定を 1 つの関数に・名指しの段の physics の鍵の集合の守り(AN584)・版名 QA の束の batchKeys を半開区間に・CALIBRATION_VERDICT §5.19 の窓(原仮定者の回答(2026-11-08 —— AN584・AN585)・統括の検証項目 R309・**html・本の宣言・受理器・步・`S._core` は不変・全段の領域 hash の版は版 8 のまま** —— 道具と lib と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
+
+- **道具の照合**(`tests/lib-w281a-scope.mjs` の `toolRecheck330c(root, meta, opts)` —— 版 w330c-toolcheck-2): 刻印の道具(SCOPE_TOOLING)を刻印だけに使う器の正本は、道具の sha の違いを「式」にせず刻印を今の道具で引き直して照合する(第318便a)。計画の planRegen と lint(provenanceMeta ほか —— `toolStampRecheck` はこの関数を呼ぶ)が**同じ関数**を呼ぶ。領域の刻印があれば必ず引き直す —— 対象が html でなければ器が刻印に使う html(beta/index.html —— 計画では候補の html)で。入力の安定 hash も全部が一致。第329便の食い違い(chainledger-w281b —— 対象が lib・領域の刻印あり)は旧の計画が領域を見ず、旧の lint が必ず不一致にしたこと。
+- **physics の鍵の集合の守り**(AN584 —— `tests/lib-w330c-toolguard.mjs` 版 w330c-physkeys-1): 名指しの本の段(presets が id の列)の領域の照合が通ったとき、閉包の本の表の読み(scopeHash の `detail.tableReads330c` —— 刻印には載せない)が fastParams(全本の physics の鍵の名)を含めば刻印の html と今の html の雛形 `Object.keys(fastParams({}))` を、宣言の表 `REG_READS_329C` に無い読みを含めば全本の中身(説明の文を除く)を比べ、違えば regen(理由の種類 `physKeys` / `tableRead`)。刻印の html が引けなければ regen。`node tools/regen-plan.mjs --no-physkeys`・`W330C_PHYSKEYS=0` で切る。fastParams の指紋を領域 hash に入れるのは次に版を上げる便(AN584)。
+- **batchKeys**(`tests/lib-w322d-qapart.mjs` —— 版 w330c-batchkeys-2): 範囲は半開区間 —— 端が接するだけの塊は別の組(`<`)。tools/qa-keys.mjs の束は 50 鍵ずつ(1 つの塊に 50 を超える鍵を書かない)。
+- **§5.19 の窓**: docs.nsLockLedgerRow は CALIBRATION_VERDICT §5.19 を次の「### 」か「## 」の見出しまで読む(`secUntilNext329c`)。
+- **変異の試験** `node tools/toolguard-probe330c.mjs`(照合の規則・一時の root の 4 段で計画と lint が揃う・守りの判定・計画の上の守り)・`--agree <計画>`(実物の正本で計画と lint の道具の照合を突き合わせる)・`--emit-html <dir>`(名指しでない本に鍵を足した写しと値だけの写し)。
+- QA `lint.toolCheckProv330c`・`lint.physKeysGuard330c`・`docs.w330c`。既存の世代の直し: tools/qa-keys.mjs の自己試験 ④ の束の期待・docs.nsLockLedgerRow の §5.19 の窓。

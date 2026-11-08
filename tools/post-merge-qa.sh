@@ -755,6 +755,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.spinClass330a behavior.spinClass330a do
 #   PHYSICS〔第330便b〕に逐語・〔第329便b〕の節の「第330便の更新」・文書)と、世代を直した lint.galRot329b と節に行を足した docs.galRot329b・新しい段 dragweight-330b の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.dragWeight330b behavior.dragWeight330b docs.dragWeight330b lint.galRot329b behavior.galRot329b docs.galRot329b docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c"
 # ==== 第330便b の塊(ここまで)====
+# ==== 第330便c の塊(ここから)====
+# 第330便c(原仮定者の回答(2026-11-08 —— AN584・AN585)・統括の検証項目 R309 —— 道具だけ・html は変えない): 枝 c の新設 3 本(lint.toolCheckProv330c —— 計画と lint の道具の照合を 1 つの関数に /
+#   lint.physKeysGuard330c —— 名指しの段の physics の鍵の集合の守り / docs.w330c)と、道具の照合の関数を呼ぶ lint 一式(provenanceMeta・toolStamp318・canon304 ほか)・batchKeys を直した
+#   版名 QA の束の QA(docs.w322d —— qa-keys の自己試験 ④ の期待を世代で直した)・§5.19 の窓を直した docs.nsLockLedgerRow・固定の字数の窓の lint.fixedWindow329c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.toolCheckProv330c lint.physKeysGuard330c docs.w330c docs.w322d docs.nsLockLedgerRow lint.fixedWindow329c lint.toolStamp318 lint.provenanceMeta lint.regenScope lint.canon304 lint.scopeAll312 lint.stableHashPaths lint.regenChain lint.scopeStop lint.condSelect329c lint.qaOrder"
+# ==== 第330便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

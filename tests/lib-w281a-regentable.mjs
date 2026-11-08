@@ -98,6 +98,10 @@ import { htmlPhysCheck as w325aHtmlPhysCheck, readLedger as w325aReadLedger } fr
 // ==== 第327便c の塊(ここから)====
 import { scopeMigrate327c as w327cScopeMigrate, SCOPE_MIGRATE_VERSION_327C as W327C_MIGRATE_VERSION, SCOPE_VERSION as W327C_SCOPE_VERSION } from './lib-w281a-scope.mjs';   // 第327便c(R297): 領域の版の移行(一回きり)
 // ==== 第327便c の塊(ここまで)====
+// ==== 第330便c の塊(ここから)====
+import { toolStampRecheck as w330cToolRecheck, TOOL_CHECK_VERSION_330C as W330C_TOOLCHECK_VERSION } from './lib-w281a-scope.mjs';   // 第330便c(R309): 道具の照合は lint と同じ関数(対象が html でない刻印の領域も引き直す)
+import { physKeysGuard330c as w330cPhysKeysGuard, PHYSKEYS_GUARD_VERSION_330C as W330C_PHYSKEYS_VERSION } from './lib-w330c-toolguard.mjs';   // 第330便c(AN584): physics の鍵の集合の守り(最上位では呼ばない —— 循環 import)
+// ==== 第330便c の塊(ここまで)====
 
 // ■ 第284便c(原仮定者の裁定(第74報)⑥・AN33・AN43・統括の検証項目 R93)
 //   ・常時の dt3 段を `--h4-exceptions --merge`(h/4 は例外の登録簿の本だけ)・kf0 段を `--kf0-h4-exceptions`(h/4 は登録簿の kf0 の本だけ)へ。
@@ -2572,6 +2576,16 @@ export function planRegen(o) {
     return migrateMemo327.get(k);
   };
   // ==== 第327便c の塊(ここまで)====
+  // ==== 第330便c の塊(ここから)====
+  // 第330便c(AN584): physics の鍵の集合の守り(tests/lib-w330c-toolguard.mjs —— 刻印の html は基点・計画の html → git の履歴。引けなければ regen)
+  const physKeysOn330 = o.physKeys !== undefined ? o.physKeys !== false : process.env.W330C_PHYSKEYS !== '0';
+  const physKeys330 = (hAbs, m) => {
+    let r = null;
+    try { r = w330cPhysKeysGuard({ root, meta: m, html: hAbs, full: scopeFull(hAbs, m.scope), files: [o.baseHtml, htmlAbs].filter(Boolean), gitDepth: o.htmlPhysGitDepth, tmpDir: o.tmpDir }); }
+    catch (e) { r = { need: true, kind: 'physKeys', why: '守りが投げた(' + String(e && e.message || e).slice(0, 60) + ' —— 保守側で走らせる)' }; }
+    return r;
+  };
+  // ==== 第330便c の塊(ここまで)====
   const scopeCache = new Map();
   const scopeFull = (hAbs, sc) => {
     const k = hAbs + '|' + JSON.stringify(sc);
@@ -2656,6 +2670,16 @@ export function planRegen(o) {
               row.scopeMigrate327 = { from: mg327.from, to: mg327.to, dropped: mg327.dropped.length, added: mg327.added.length };
             }
             // ==== 第327便c の塊(ここまで)====
+            // ==== 第330便c の塊(ここから)====
+            // 第330便c(AN584 の条件 —— R309): 名指しの段の閉包の fastParams が読む全本の physics の鍵の名(雛形)・宣言の表に無い本の表の読みを、刻印の html と今の html で比べる
+            //   (領域 hash には入っていない —— 違えば regen を足す・理由の種類 physKeys / tableRead。足す向きだけ)。o.physKeys === false か環境変数 W330C_PHYSKEYS=0 で切る(前後の比べ)
+            const pk330 = physKeysOn330 ? physKeys330(hA, m) : null;
+            if (pk330 && pk330.need) {
+              why.push(out + ': ' + (pk330.kind === 'tableRead' ? '本の表の読み' : 'physics の鍵の集合') + '(第330便c の守り —— AN584): ' + pk330.why);
+              cause((pk330.kind === 'tableRead' ? '本の表の読み(tableRead): ' : 'physics の鍵の集合(physKeys): ') + pk330.why, pk330.kind);
+              row.physKeys330 = (row.physKeys330 || []).concat([{ out, kind: pk330.kind, from: pk330.from || null }]);
+            }
+            // ==== 第330便c の塊(ここまで)====
           } else {
             // ==== 第325便a の塊(ここから)====
             // 第325便a(R284): 領域の宣言の無い正本は、段の宣言(HTMLPHYS_DECL_325A)があれば**刻印の html の物理の部分**と今の html の物理の部分を比べる
@@ -2701,10 +2725,11 @@ export function planRegen(o) {
         }
         if (toolDrift.length) {
           // 照合は計画の対象 html(--html の候補を含む)で引く —— 領域は刻印の版で・安定 hash は刻印の行の版で
-          const rc = { why: [] };
-          if (m.scope && m.scopeComplete === true && /\.html$/.test(String(t || ''))) { const hA2 = (t === 'beta/index.html') ? htmlAbs : abs(t); if (scopeOn(hA2, m.scope) !== m.scopeSha256) rc.why.push('領域 hash'); }
-          for (const z of (m.inputsStable || [])) if (!stableMatches(root, z)) rc.why.push('安定 hash ' + z.file);
-          rc.ok = rc.why.length === 0;
+          // ==== 第330便c の塊(ここから)====
+          // 第330便c(R309 —— 第329便の chainledger-w281b): lint.provenanceMeta と**同じ関数**(toolStampRecheck → toolRecheck330c)。対象が html でない正本の領域の刻印も
+          //   器が刻印に使う html(beta/index.html —— 計画の候補の html)で引き直す(旧の計画は領域を見ずに一致 → reuse・lint は不一致 → ④ の食い違い)
+          const rc = w330cToolRecheck(root, m, { htmlAbs, scopeOn });
+          // ==== 第330便c の塊(ここまで)====
           if (rc.ok) { row.toolChecked = (row.toolChecked || []).concat(toolDrift.map((f) => out + ':' + f)); }
           else { why.push(out + ': 道具 ' + toolDrift.join(',') + ' が変わり、刻印を今の道具で引き直すと一致しない(' + rc.why.slice(0, 2).join('・') + ')'); cause('道具(照合が不一致): ' + toolDrift.join(','), 'tool'); }
         }
@@ -2828,6 +2853,15 @@ export function planRegen(o) {
       stages: list.filter((r) => (r.causeKinds || []).includes('scopever')).map((r) => r.key),
       only: list.filter((r) => r.status === 'regen' && (r.causeKinds || []).length === 1 && r.causeKinds[0] === 'scopever').map((r) => r.key),
       sec: list.filter((r) => r.status === 'regen' && (r.causeKinds || []).length === 1 && r.causeKinds[0] === 'scopever').reduce((a, r) => a + (Number(r.sec) || 0), 0) },
+    // ==== 第330便c の塊(ここから)====
+    // 第330便c(R309・AN584): 道具の照合の版(計画と lint が同じ関数)・physics の鍵の集合の守りで regen を足した段(理由の種類 physKeys / tableRead)
+    toolCheck330c: W330C_TOOLCHECK_VERSION,
+    physKeys330c: { version: W330C_PHYSKEYS_VERSION, on: physKeysOn330,
+      physKeys: list.filter((r) => (r.causeKinds || []).includes('physKeys')).map((r) => r.key),
+      tableRead: list.filter((r) => (r.causeKinds || []).includes('tableRead')).map((r) => r.key),
+      only: list.filter((r) => r.status === 'regen' && (r.causeKinds || []).length && r.causeKinds.every((k) => k === 'physKeys' || k === 'tableRead')).map((r) => r.key),
+      sec: list.filter((r) => r.status === 'regen' && (r.causeKinds || []).length && r.causeKinds.every((k) => k === 'physKeys' || k === 'tableRead')).reduce((a, r) => a + (Number(r.sec) || 0), 0) },
+    // ==== 第330便c の塊(ここまで)====
     html: htmlAbs.replace(root + '/', ''), htmlSha256: htmlSha,
     baseHtml: o.baseHtml ? o.baseHtml.replace(root + '/', '') : null, baseSha256: baseSha,
     count,
