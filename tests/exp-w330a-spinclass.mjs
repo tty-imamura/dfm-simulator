@@ -225,7 +225,7 @@ export function partN(HP) {
     requiredOverTorque: req.required / req.torque, declaredOverTorque: decl / req.torque, requiredOverN2: req.required / N2, declaredOverN2: decl / N2, gammaStarDeg: rv.n1.phase ? rv.n1.phase.gammaDeg : null,
     deltaOverWidthDeclared: rv.n1.phase ? rv.n1.phase.deltaOverWidth : null,
     phaseModel: { N1: M9.N1, spanYears: M9.runs[0].spanYears, libPeriodYears: M9.libPeriodYears, runs: M9.runs.map((q) => ({ start: q.start, stateH: q.h.state, stateH2: q.h2.state, patternRelH2: q.h2.patternRel, inertialRelH2: q.h2.inertialRel, converged: q.converged })) },
-    reads: '軌道の周波数(現在の軌道の 5 n_地球 − 4 n_金星)のパターン —— 観測の差を秒動の一瞬と読む列' };
+    reads: '軌道の周波数(現在の軌道の 5 n_地球 − 4 n_金星)のパターン —— 観測の差を秤動の一瞬と読む列' };
   const rB = SB.requiredAmplitudes({ Treq: To, Delta: 0, C, N2fix: N2, n1Admissible: true });
   const colB = { omegaPatternDeclared: P.s, omegaResOrbit: rv.omegaRes, deltaOmega: dOm, torqueCondObs: Math.abs(To), torqueCondLock: Math.abs(Tl), requiredN1: rB.n1.required, governs: rB.n1.governs, widthCond: rB.n1.width,
     workGapScale: Math.abs(Tl) * Math.abs(dOm), workGapScaleObs: Math.abs(To) * Math.abs(dOm),

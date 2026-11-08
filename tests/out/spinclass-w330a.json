@@ -11116,7 +11116,7 @@
      }
     ]
    },
-   "reads": "軌道の周波数(現在の軌道の 5 n_地球 − 4 n_金星)のパターン —— 観測の差を秒動の一瞬と読む列"
+   "reads": "軌道の周波数(現在の軌道の 5 n_地球 − 4 n_金星)のパターン —— 観測の差を秤動の一瞬と読む列"
   },
   "B": {
    "omegaPatternDeclared": -2.9923691869737844e-7,
@@ -14492,28 +14492,28 @@
  },
  "timing": {
   "I": {
-   "wallSec": 0.311
+   "wallSec": 0.305
   },
   "C": {
-   "wallSec": 0.333
+   "wallSec": 0.321
   },
   "E": {
-   "wallSec": 0.336
+   "wallSec": 0.323
   },
   "V": {
-   "wallSec": 0.339
+   "wallSec": 0.325
   },
   "N": {
-   "wallSec": 2.564
+   "wallSec": 2.037
   },
   "H": {
-   "wallSec": 2.571
+   "wallSec": 2.041
   },
   "W": {
-   "wallSec": 2.573
+   "wallSec": 2.042
   },
   "G": {
-   "wallSec": 2.574
+   "wallSec": 2.043
   }
  },
  "gates": {
@@ -14528,13 +14528,13 @@
   "precession": true
  },
  "ok": true,
- "elapsedS": 4.994,
+ "elapsedS": 4.138,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第330便a",
   "target": "beta/index.html",
   "targetSha256": "d4039e385d15a3688fa45df35ca922265688e6b7bf5e83519b7ffca0fc62bf4e",
-  "generatedAt": "2026-11-08T13:50:02.901Z",
+  "generatedAt": "2026-11-08T13:52:05.765Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -14547,8 +14547,8 @@
    {
     "file": "tests/exp-w330a-spinclass.mjs",
     "bytes": 40203,
-    "sha256": "e44902ee554b6fbac91e86f5a50bfb90df38514c35cab26ee361a2061a7c23f8",
-    "mtime": "2026-11-08T13:49:44.944Z"
+    "sha256": "b8c24c2b729e461aebe1bfe6261ce1aa8a66cc455d0e5bb0349e1297e7382954",
+    "mtime": "2026-11-08T13:52:01.495Z"
    },
    {
     "file": "tests/lib-w330a-spinclass.mjs",
@@ -14671,7 +14671,7 @@
     "mtime": "2026-11-08T13:27:21.660Z"
    }
   ],
-  "codeSha256": "6fab3bd55d7043be3f30440027118c01f98a05dc60ab2a3ef6d3df6ccd74e3cf",
+  "codeSha256": "e3548ff9c8c2ca9b8022ddddc5bafd5ec5d6adad322b8c41a46542762c2532f8",
   "harnessVersion": "w330a-spinclass-1",
   "stage": "spinclass",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)と純関数",
