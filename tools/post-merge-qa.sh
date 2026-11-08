@@ -748,6 +748,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.d0audit-sync docs.d0sites-sync docs.bgp
 #   節に行を足した第329便a の節を読む docs.spinBias329a・新しい段 spinclass-330a の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.spinClass330a behavior.spinClass330a docs.spinClass330a docs.spinBias329a lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.quickBoundary324c lint.narrowScope327c docs.w320d lint.qaHeapRelease310 lint.sectionLookup313 lint.fixedWindow329c"
 # ==== 第330便a の塊(ここまで)====
+# ==== 第330便b の塊(ここから)====
+# 第330便b(原仮定者の整理(2026-11-08)・原仮定者の回答(2026-11-08 —— AN578・AN580)・統括の検証項目 R308 —— 診断だけ・html は変えない): 枝 b の新設 3 本(lint.dragWeight330b ——
+#   重みの式・自己の重みの型・連鎖の固定点・ジャイロ・密度波のラベルの純関数の場面と呼ぶだけの検査・回転する枠の欠測の修正〔第329便b の契約の lib-2〕の場面 /
+#   behavior.dragWeight330b —— 今の html の 🗺️ の写しで受理器の試しと 3 体の β・円盤の連鎖・ジャイロ・密度波を作り直して正本と同じ / docs.dragWeight330b —— 正本の門と表が
+#   PHYSICS〔第330便b〕に逐語・〔第329便b〕の節の「第330便の更新」・文書)と、世代を直した lint.galRot329b と節に行を足した docs.galRot329b・新しい段 dragweight-330b の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.dragWeight330b behavior.dragWeight330b docs.dragWeight330b lint.galRot329b behavior.galRot329b docs.galRot329b docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c"
+# ==== 第330便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
