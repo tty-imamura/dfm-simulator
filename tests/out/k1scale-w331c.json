@@ -18307,28 +18307,28 @@
  "ok": true,
  "timing": {
   "pure": {
-   "wallSec": 0.243
+   "wallSec": 0.4
   },
   "P": {
-   "wallSec": 0.001
+   "wallSec": 0.002
   },
   "A": {
    "wallSec": 0.001
   },
   "R": {
-   "wallSec": 0.001
-  },
-  "E": {
-   "wallSec": 0.013
-  },
-  "K": {
    "wallSec": 0.003
   },
+  "E": {
+   "wallSec": 0.019
+  },
+  "K": {
+   "wallSec": 0.004
+  },
   "H": {
-   "wallSec": 0
+   "wallSec": 0.001
   },
   "S": {
-   "wallSec": 0.347
+   "wallSec": 0.27
   },
   "Z": {
    "wallSec": 0.001
@@ -18337,25 +18337,25 @@
    "wallSec": 0.001
   },
   "X": {
-   "wallSec": 2.5
+   "wallSec": 2.339
   },
   "V": {
-   "wallSec": 0.012
+   "wallSec": 0.011
   }
  },
  "stats": {
   "runs": 286,
   "steps": 200456761,
-  "cpuSec": 6074.735
+  "spentSecTotal": 6074.735
  },
  "resumed": 288,
- "elapsedS": 4.777,
+ "elapsedS": 5.023,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第331便c",
   "target": "beta/index.html",
   "targetSha256": "60dca011e60350b5a32283b2df914a78c6fe1c799345f5c95ef05eeaf91ab4c1",
-  "generatedAt": "2026-11-09T16:59:22.928Z",
+  "generatedAt": "2026-11-09T17:13:36.997Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -18409,9 +18409,9 @@
   "code": [
    {
     "file": "tests/exp-w331c-k1scale.mjs",
-    "bytes": 41714,
-    "sha256": "9f214c726729f7a522e3b8b60fea951576e997069787a7ae5a0de4ef41f90c23",
-    "mtime": "2026-11-09T16:59:18.031Z"
+    "bytes": 41728,
+    "sha256": "5a770ee116efe7c872aae122beaf7032a3f46ed1f57c542d50e2edf182268add",
+    "mtime": "2026-11-09T17:13:31.834Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
@@ -18474,7 +18474,7 @@
     "mtime": "2026-11-09T15:44:25.929Z"
    }
   ],
-  "codeSha256": "141311b08ed516de7eff8f9e9388c99aacec5efcff28b2a854baadd1a07946ff",
+  "codeSha256": "62ac76a7bfde8d8fe4eaed511c20a06f7edc511e3f2af0086ee73017b003ed0b",
   "harnessVersion": "w331c-k1scale-1",
   "stage": "k1scale",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W331C_WORKERS)",

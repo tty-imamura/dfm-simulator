@@ -1797,12 +1797,12 @@ export const REGEN_STEPS = [
   //   (段 k1scale-331c —— 正本 tests/out/k1scale-w331c.json・lib tests/lib-w331c-k1scale.mjs —— 第315便c の器の写しの関数〔BOOKS・刻み・抽出器〕と第330便b の lib の自己の重みを
   //   import して使う)。**診断だけ**(エンジン・在位の本・受理器・G_loc の符号・n・R_d の規則は変えない —— 写しの中だけで n と K1 の有無と惑星の質量を変える)。html と
   //   正本 tests/out/inposk1-w315c.json(段 R の分担の比・写しのビット同一の照合)と、原仮定者の補足(2026-11-09)の K1 の R_d の有効な例の一覧(段 V)が読む正本 6 本
-  //   (k1confirm-w313d・k1outer-w314c・k1em-w314c・satk1-w315d・binbooks-w322b・rdexcess-w314a)を読む(after に連ねる)。補足 1 の回転引きずりの型の表(段 X)と spinDrag の写し(段 W —— 1 公転 2 本)。
+  //   (k1confirm-w313d・k1outer-w314c・k1em-w314c・satk1-w315d・binbooks-w322b・rdexcess-w314a)を読む(after に連ねる —— 記録の値の出典 axialheat-w326d は lib が名を書くだけ〔順序だけ after に〕)。補足 1 の回転引きずりの型の表(段 X)と spinDrag の写し(段 W —— 1 公転 2 本)。
   //   走行は子プロセス 2 本(workers 2)。所要は第331便c の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走 —— 引きずりの走行〔🌡️🏀💙 × n 格子と η の写し〕が段の所要を決める)
   S('k1scale-331c', 'node tests/exp-w331c-k1scale.mjs', ['tests/out/k1scale-w331c.json'], 3100, { secSource: 'w331c-branch', node: true, workers: 2,
-    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'obscompare', 'samplestatus'],
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus'],
     quickVerify: 'long', quickVerifyWhy: '写しの段 E のエンジンの近点(8 公転 × h・h/2〔外惑星は h/4〕—— 窓を持たない)',
-    volatilePaths: { 'tests/out/k1scale-w331c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/stats/cpuSec']) },
+    volatilePaths: { 'tests/out/k1scale-w331c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/stats/spentSecTotal']) },
     note: '第331便c: G_loc の基準表(n ∈ {2, 1, 0, −1, −2, −3}〔対称は −6 も〕× 受け手/対称 × K1 の有無 —— 一次の解析と在位の 7 本の写しの数値・全近点移動の出所・候補の表〔採るかは次の報の決断〕)・K1 の R_d のスケールの読み(分担の比・η・回る枠の座標回転・m/r² の座標則・1PN と K1 の大きさ —— 複数を並べる)・土星の環の厚みとの関連の候補の表(文献の値・R_d・J₂ の振動数と引きずりの項)・原仮定者の補足(2026-11-09)の回転引きずりの型の表(今の組を基準)と K1 の R_d の有効な例・有効でない例・まだ判定していない例の一覧' }),
   // ==== 第331便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
