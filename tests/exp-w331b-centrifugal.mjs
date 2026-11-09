@@ -144,7 +144,8 @@ export function gridDecls() {
   return out;
 }
 export const SIDE_CASES = Object.freeze([
-  ['main', {}], ['spinNone', { sourceSpin: 'none' }], ['centerMoment', { centerRot: 'moment' }], ['axesFixed', { axes: 'fixed' }], ['boundary', { boundary: true }], ['expDisk', { dist: 'exp' }],
+  ['main', {}], ['spinNone', { sourceSpin: 'none' }], ['centerMoment', { centerRot: 'moment' }], ['axesFixed', { axes: 'fixed' }], ['axesHalfCurl', { axes: 'halfCurl' }], ['spinNoneHalfCurl', { sourceSpin: 'none', axes: 'halfCurl' }],
+  ['boundary', { boundary: true }], ['expDisk', { dist: 'exp' }],
   ['kappaM', { kappa: true }], ['noCenterField', { reading: 'field', center: false }], ['noCenterReceiver', { center: false }], ['fieldBg0', { reading: 'field' }], ['fieldBg1', { reading: 'field', bgMul: 1 }],
   ['mainBg1', { bgMul: 1 }],
 ].map(([k, v]) => Object.freeze([k, Object.freeze(v)])));

@@ -8,7 +8,7 @@ const tf = (x) => (x === true ? '真' : x === false ? '偽' : 'null');
 const kms = (v) => f3(v / 1e3);   // m/s → km s⁻¹ の数(単位は見出しに)
 export const SIDE_LABEL = Object.freeze({
   main: '主(受け手の枠・自己 ballMean・f 0.9・間隔 1 kpc・方位 24・背景 0・源 sync・中心 frame・軸 rigid・境界なし・fixture の面密度)', spinNone: '源の回転の型 none(並進だけ)',
-  centerMoment: '中心の型 moment(第330便b の源の中の速度の重みつきの平均)', axesFixed: '軸の型 fixed(Ω ≈ √(g/R) + Ω_f/2 の型)', boundary: '境界(45 kpc・背景に静止・円盤と同じ質量)',
+  centerMoment: '中心の型 moment(第330便b の源の中の速度の重みつきの平均)', axesFixed: '軸の型 fixed(Ω ≈ √(g/R) + Ω_f/2 の型)', axesHalfCurl: '軸の型 halfCurl(ω_f = Ω_f + ½R dΩ_f/dR —— 環の格子の差分・不動点の反復)', spinNoneHalfCurl: '源 none・軸の型 halfCurl', boundary: '境界(45 kpc・背景に静止・円盤と同じ質量)',
   expDisk: '指数円盤(SBdisk の当てはめ)', kappaM: '自己の半径 = K1 の規則 R_d = Y_k m(点の質量から)', noCenterField: '中心なし・場の枠・背景 0(錨 0)', noCenterReceiver: '中心なし・受け手の枠・背景 0',
   fieldBg0: '場の枠・背景 0', fieldBg1: '場の枠・背景 = 3H₀c/(2G)', mainBg1: '主・背景 = 3H₀c/(2G)',
 });

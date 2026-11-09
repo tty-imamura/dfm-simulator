@@ -24,7 +24,7 @@
 //     受け手(各環の φ = 0 の点)の枠の角速度 Ω_f,k = Σ_l B_kl Ω_l + c_k。源の回転の型(SOURCE_SPINS): sync(源は並進 v_j = Ω_l ẑ × x_j と回転 Ω_l を持つ ——
 //     m/r² の座標則で並進と回転を 1 つにすると受け手の位置で Ω_l ẑ × x_k: B_kl = Σ_q w/W)/none(並進だけ: B_kl = Σ_q w (R_l/R_k) cos φ_q/W)。
 //     中心の型(CENTER_ROTS): frame(座標変換 —— w_c Ω_c)/moment(第330便b の源の中の速度の重みつきの平均 Ω_c M_c M_p(R_k; R_c)/R_k)。
-//     rigid の軸では (I − B)Ω = Ω_K + c を直接法と反復(Jacobi)で解く・fixed の軸は不動点の反復。**錨(自己・中心・境界・背景の分母の分)が全部 0 なら一様の回転を足しても
+//     rigid の軸では (I − B)Ω = Ω_K + c を直接法と反復(Jacobi)で解く・fixed と halfCurl の軸は不動点の反復(halfCurl の dΩ_f/dR は環の格子の不等間隔の差分)。**錨(自己・中心・境界・背景の分母の分)が全部 0 なら一様の回転を足しても
 //     式が変わらず(行和 1)、解が無いか一意でない —— 退化として記録**(解を作らない)。
 //
 // ■ 言わないこと: 枠の回転・円盤の速度・太陽系と環の大きさは、宣言した型の表の値と残差として書く(遠心の要求が下がる関係は宣言の式 —— 平坦な回転の機構の同定・
@@ -137,15 +137,23 @@ export function pointSourceFrame({ mSrc, OmegaSrc, r, mRecv = null, Rself = null
 }
 
 /* ───────── 要る形のずれの部(halfCurl の大きさ)───────── */
+/** 不等間隔の中心差分(端は片側)の df/dR */
+export function derivNonUniform(R, f) {
+  const n = R.length;
+  return R.map((Rk, k) => {
+    if (k === 0) return (f[1] - f[0]) / (R[1] - R[0]);
+    if (k === n - 1) return (f[n - 1] - f[n - 2]) / (R[n - 1] - R[n - 2]);
+    const h1 = Rk - R[k - 1], h2 = R[k + 1] - Rk;
+    return (-h2 / (h1 * (h1 + h2))) * f[k - 1] + ((h2 - h1) / (h1 * h2)) * f[k] + (h1 / (h2 * (h1 + h2))) * f[k + 1];
+  });
+}
 /** 不等間隔の中心差分(端は片側)の dΩ_f/dR・halfCurl の ω_f・rigid の要る形での要求の残差 [R(Ω − Ω_f)(Ω − ω_f) − g]/g */
 export function shearCheck({ R, OmegaF, Omega, g }) {
   const n = R.length;
   if (!(n >= 3) || [OmegaF, Omega, g].some((a) => !Array.isArray(a) || a.length !== n) || !R.every((x, k) => isFin(x) && x > 0 && (k === 0 || x > R[k - 1]))) throw new RangeError('shearCheck: R の昇順・同じ長さ');
+  const dd = derivNonUniform(R, OmegaF);
   return R.map((Rk, k) => {
-    let d;
-    if (k === 0) d = (OmegaF[1] - OmegaF[0]) / (R[1] - R[0]);
-    else if (k === n - 1) d = (OmegaF[n - 1] - OmegaF[n - 2]) / (R[n - 1] - R[n - 2]);
-    else { const h1 = Rk - R[k - 1], h2 = R[k + 1] - Rk; d = (-h2 / (h1 * (h1 + h2))) * OmegaF[k - 1] + ((h2 - h1) / (h1 * h2)) * OmegaF[k] + (h1 / (h2 * (h1 + h2))) * OmegaF[k + 1]; }
+    const d = dd[k];
     const wf = axesOmega('halfCurl', { R: Rk, OmegaF: OmegaF[k], dOmegaFdR: d }), fd = frameDemand({ R: Rk, Omega: Omega[k], OmegaF: OmegaF[k], omegaF: wf });
     return { R: Rk, dOmegaFdR: d, omegaF: wf, shearOverG: g[k] > 0 ? fd.shearPart / g[k] : null, residualOverG: g[k] > 0 ? (fd.demand - g[k]) / g[k] : null, logSlope: OmegaF[k] !== 0 ? d * Rk / OmegaF[k] : null };
   });
@@ -170,14 +178,14 @@ const matVec = (B, x) => B.map((r) => r.reduce((s, b, j) => s + b * x[j], 0));
 /**
  * decl = { rings:[{ R [m], m [kg] }](R の昇順)・K(方位の点 ≥ 4)・p(2)・reading('field'|'receiver')・self:{ type, Rs:[m] }(receiver だけ —— 環ごとの点の自己の半径)・
  *   center: null | { M [kg], Rc [m], Omega [rad/s], rot:'frame'|'moment' }・wBg [kg/m² —— p = 2 の単位]・sourceSpin('sync'|'none')・OmegaK:[rad/s —— 環ごとの √(g/R)]・
- *   axes('rigid'|'fixed')・boundary: null | { R [m], m [kg], K }(静止の外の環 —— 速度 0) }
+ *   axes('rigid'|'fixed'|'halfCurl' —— halfCurl の dΩ_f/dR は環の格子の差分)・boundary: null | { R [m], m [kg], K }(静止の外の環 —— 速度 0) }
  * 戻り値: rows(環ごとの R・Ω_K・Ω・Ω_f・v・分母の内訳 shares・B の行和・錨の分)・solve(方式・止まったか・回数・反復の率の目安・直接法と反復の差・式の残差)・degenerate と理由
  */
 export function diskFrameFixedPoint(decl) {
   const { rings, K, p = DECL.p, reading, self = null, center = null, wBg = 0, sourceSpin = 'sync', OmegaK, axes = 'rigid', boundary = null } = decl;
   if (!FRAME_READINGS.includes(reading)) throw new RangeError('diskFrameFixedPoint: 読みは ' + FRAME_READINGS.join('・'));
   if (!SOURCE_SPINS.includes(sourceSpin)) throw new RangeError('diskFrameFixedPoint: 源の回転の型は ' + SOURCE_SPINS.join('・'));
-  if (!['rigid', 'fixed'].includes(axes)) throw new RangeError('diskFrameFixedPoint: 軸の型は rigid か fixed(halfCurl は shearCheck で表に)');
+  chkAxes(axes);
   if (p !== 2) throw new RangeError('diskFrameFixedPoint: p = 2(第133報の m/r²)だけ');
   if (!(Array.isArray(rings) && rings.length >= 2 && rings.every((r, k) => isFin(r.R) && r.R > 0 && isFin(r.m) && r.m > 0 && (k === 0 || r.R > rings[k - 1].R)))) throw new RangeError('diskFrameFixedPoint: 環は R の昇順・正の質量');
   if (!(Number.isInteger(K) && K >= 4)) throw new RangeError('diskFrameFixedPoint: K は 4 以上の整数');
@@ -241,17 +249,20 @@ export function diskFrameFixedPoint(decl) {
     const res = vmax(matVec(M, G.x).map((s, k) => s - rhs[k])) / Math.max(1e-300, vmax(rhs));
     Om = G.x; solve = { method: 'linear', converged: conv, iters: it, rhoEst: rho, directVsIterRel: vmax(G.x.map((v, k) => v - x[k])) / Math.max(1e-300, vmax(G.x)), residualRel: res, minPivRel: G.minPivRel };
   } else {
-    const F = (of, k) => 0.5 * (of + Math.sqrt(of * of + 4 * OmegaK[k] * OmegaK[k]));
+    // fixed: ω_f = 0 / halfCurl: ω_f = Ω_f + ½R dΩ_f/dR(環の格子の不等間隔の差分 —— 端は片側)。順行の根 Ω = [(Ω_f + ω_f) + √((Ω_f − ω_f)² + 4Ω_K²)]/2 の不動点の反復
+    const Rr = rings.map((r) => r.R), wfOf = (of) => (axes === 'fixed' ? of.map(() => 0) : derivNonUniform(Rr, of).map((d, k) => of[k] + 0.5 * Rr[k] * d));
+    const F = (of, wf, k) => 0.5 * ((of + wf) + Math.sqrt((of - wf) * (of - wf) + 4 * OmegaK[k] * OmegaK[k]));
     let x = OmegaK.slice(), it = 0, prev = null, rho = null, conv = false;
     for (; it < DECL.iterMax; it++) {
-      const of = matVec(B, x).map((s, k) => s + c[k]), nx = of.map((o, k) => F(o, k)), ch = vmax(nx.map((v, k) => v - x[k]));
+      const of = matVec(B, x).map((s, k) => s + c[k]), wf = wfOf(of), nx = of.map((o, k) => F(o, wf[k], k)), ch = vmax(nx.map((v, k) => v - x[k]));
       if (!nx.every(isFin)) break;
       if (prev !== null && prev > 0) rho = ch / prev; prev = ch; x = nx;
       if (ch <= DECL.iterTol * Math.max(1e-300, vmax(x))) { conv = true; it++; break; }
     }
-    const of = matVec(B, x).map((s, k) => s + c[k]);
-    const res = vmax(x.map((o, k) => (o - of[k]) * o - OmegaK[k] * OmegaK[k])) / Math.max(1e-300, vmax(OmegaK.map((q) => q * q)));
+    const of = matVec(B, x).map((s, k) => s + c[k]), wf = wfOf(of);
+    const res = vmax(x.map((o, k) => (o - of[k]) * (o - wf[k]) - OmegaK[k] * OmegaK[k])) / Math.max(1e-300, vmax(OmegaK.map((q) => q * q)));
     Om = x; solve = { method: 'picard', converged: conv, iters: it, rhoEst: rho, directVsIterRel: null, residualRel: res, minPivRel: null };
+    if (axes === 'halfCurl') rows.forEach((r, k) => { r.omegaF = wf[k]; r.shearOverOmK2 = OmegaK[k] > 0 ? (x[k] - of[k]) * (of[k] - wf[k]) / (OmegaK[k] * OmegaK[k]) : null; });
     if (!conv) { out.degenerate = false; out.why = '不動点の反復が止まらない(上限 ' + DECL.iterMax + ' 回)'; }
   }
   const OmF = matVec(B, Om).map((s, k) => s + c[k]);
