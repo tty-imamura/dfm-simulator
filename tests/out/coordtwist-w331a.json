@@ -11719,7 +11719,7 @@
     "balanceRel": 0.9977153534947442
    }
   ],
-  "note": "分類が一致したか(第330便a の重みの判定)と機構が実装されたか(口の有無)は別の欄。金星・水星は宣言と通約の値(短い時間窓では観測の自転を固定)"
+  "note": "分類の一致の欄(第330便a の重みの判定と期待の群)と機構の実装の欄(口の有無)は別。金星・水星は宣言と通約の値(短い時間窓では観測の自転を固定)"
  },
  "earthMars": {
   "rows": [
@@ -12262,25 +12262,25 @@
    "wallSec": 0.018
   },
   "inputs": {
-   "wallSec": 0.023
+   "wallSec": 0.024
   },
   "engine": {
-   "wallSec": 0.181
+   "wallSec": 0.187
   },
   "apsis": {
-   "wallSec": 0.251
+   "wallSec": 0.271
   },
   "rotTide": {
-   "wallSec": 0.267
+   "wallSec": 0.289
   },
   "heat": {
-   "wallSec": 0.268
+   "wallSec": 0.29
   },
   "lock": {
-   "wallSec": 0.268
+   "wallSec": 0.29
   },
   "earthMars": {
-   "wallSec": 0.282
+   "wallSec": 0.306
   }
  },
  "gates": {
@@ -12297,13 +12297,13 @@
   "earthMarsRows": true
  },
  "ok": true,
- "elapsedS": 2.335,
+ "elapsedS": 2.16,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第331便a",
   "target": "beta/index.html",
   "targetSha256": "60dca011e60350b5a32283b2df914a78c6fe1c799345f5c95ef05eeaf91ab4c1",
-  "generatedAt": "2026-11-09T16:04:32.825Z",
+  "generatedAt": "2026-11-09T16:10:58.407Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -12328,8 +12328,8 @@
    {
     "file": "tests/exp-w331a-coordtwist.mjs",
     "bytes": 39072,
-    "sha256": "e90190dcda9da30b728c7993dcf97d5aab63f40f7122eff82661ad3cfd280038",
-    "mtime": "2026-11-09T16:04:30.404Z"
+    "sha256": "f4531c461b158e07a40d6a950cf486004668132c5547eeecc1e06f546c3f1036",
+    "mtime": "2026-11-09T16:09:13.329Z"
    },
    {
     "file": "tests/lib-w331a-coordtwist.mjs",
@@ -12386,7 +12386,7 @@
     "mtime": "2026-11-09T15:44:19.493Z"
    }
   ],
-  "codeSha256": "7eabe0796d6de0bba22720714e3dde7ab5fb10b59d22b9e9592e214ef615fe12",
+  "codeSha256": "49694041f23cc996be11178e868b8af1eb77eb2c19ec53a40e30945c84b2968d",
   "harnessVersion": "w331a-coordtwist-1",
   "stage": "coordtwist",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)・🗺️ の写しの受理と読み口(步を進めない)・純関数(lib)",

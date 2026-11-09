@@ -256,7 +256,7 @@ export function partLock(IN) {
     return { body: d.body, targetBody: d.targetBody, comm: cm, weight: { ballMean: w('ballMean'), inertiaShare: w('inertiaShare') }, classMatch: w('ballMean') ? w('ballMean').matchWeight : null, mechanism: d.mechanism, window: d.window };
   });
   const vt = IN.SCJ.venusSigns.rows.filter((q) => q.tau === 'age' && q.proj === 'book').map((q) => ({ form: q.form, thermal: q.thermal, N0: q.N0, gal: q.gal, sunK1: q.sunK1, sunSolid: q.sunSolid, sunThermal: q.sunThermal, net: q.net, opposite: q.opposite, balanceRel: q.balanceRel }));
-  return { decl: LOCK_TARGETS, rows, venusThermal: vt, note: '分類が一致したか(第330便a の重みの判定)と機構が実装されたか(口の有無)は別の欄。金星・水星は宣言と通約の値(短い時間窓では観測の自転を固定)' };
+  return { decl: LOCK_TARGETS, rows, venusThermal: vt, note: '分類の一致の欄(第330便a の重みの判定と期待の群)と機構の実装の欄(口の有無)は別。金星・水星は宣言と通約の値(短い時間窓では観測の自転を固定)' };
 }
 
 /* ───────── M 地球と火星の比べる列 ───────── */
