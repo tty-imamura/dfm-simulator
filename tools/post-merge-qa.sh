@@ -761,6 +761,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.dragWeight330b behavior.dragWeight330b 
 #   版名 QA の束の QA(docs.w322d —— qa-keys の自己試験 ④ の期待を世代で直した)・§5.19 の窓を直した docs.nsLockLedgerRow・固定の字数の窓の lint.fixedWindow329c
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.toolCheckProv330c lint.physKeysGuard330c docs.w330c docs.w322d docs.nsLockLedgerRow lint.fixedWindow329c lint.toolStamp318 lint.provenanceMeta lint.regenScope lint.canon304 lint.scopeAll312 lint.stableHashPaths lint.regenChain lint.scopeStop lint.condSelect329c lint.qaOrder"
 # ==== 第330便c の塊(ここまで)====
+# ==== 第331便c の塊(ここから)====
+# 第331便c(原仮定者の整理(2026-11-09)・原仮定者の追記(2026-11-09)・統括の検証項目 R312 —— 診断だけ・html は変えない): 枝 c の新設 3 本(lint.k1Scale331c ——
+#   G_loc の一次の分担・候補・K1 のスケールの読み・純粋な積分器・土星の環の振動数の純関数の場面と呼ぶだけの検査・文献の値の出典 / behavior.k1Scale331c —— 今の html で
+#   t = 0 の印字と写しの宣言・正本の数値の表を作り直して同じ・在位の正本とのビット同一 / docs.k1Scale331c —— 正本の門と表 14 本が PHYSICS〔第331便c〕に逐語・文書)と、
+#   新しい段 k1scale-331c の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.k1Scale331c behavior.k1Scale331c docs.k1Scale331c docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c"
+# ==== 第331便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
