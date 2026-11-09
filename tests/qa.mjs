@@ -99386,6 +99386,180 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第330便c の塊(ここまで)====
 
+// ==== 第331便b の塊(ここから —— lint.centrifugal331b・behavior.centrifugal331b・docs.centrifugal331b の 3 ブロック。root は SKIP)====
+// ---- 第331便b(原仮定者の追記(2026-11-09)「回転引きずりで空間を引きずる事による大きな影響は、遠心力を弱める事で有る」・原仮定者の整理(2026-11-09)・
+// ----   原仮定者の決断(2026-11-09 —— AN593 = B・AN595 = A)・統括の検証項目 R311): **遠心力を弱める関係の純関数と、NGC 3198 の要る枠の回転・m/r² の座標則の円盤の枠の固定点
+// ----   (AN593 B の格子)・太陽系と土星の環の面内の大きさの器**(新設 —— 器 tests/exp-w331b-centrifugal.mjs・lib tests/lib-w331b-centrifugal.mjs・文書の lib tests/lib-w331b-centrifugaldoc.mjs・
+// ----   正本 tests/out/centrifugal-w331b.json。html・本の宣言・エンジン・受理器・第329便b と第330便b の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.centrifugal331b(html を読まない): ① lib・器・文書の lib の版・型の一覧(手で書いた一覧と照合)・宣言・器の格子の宣言 ② 純関数の場面 14
+// ----     ③ 呼ぶだけ(lib の import は第312便a の参照の lib と第330便b の重みの lib だけ・lib と文書の lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w331b の語が無い)
+// ----   behavior.centrifugal331b(html を headless で読む —— 正本と照合): ① 要る枠の回転(fixture の行)を作り直して相対 1e-12 の内 ② AN593 B の格子 400 列と横の列を作り直して
+// ----     速度と外側のべきと残差が相対 1e-9 の内 ③ 太陽系(🗺️ の宣言)と土星の環(💍 の宣言)を作り直して x が相対 1e-12 の内 ④ 作り直した門が全部真
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w331b-centrifugal.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w331b-centrifugal.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w331b-centrifugaldoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'centrifugal-w331b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP lint.centrifugal331b・behavior.centrifugal331b(第331便b の遠心力を弱める関係の表の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const relD331 = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── lint.centrifugal331b ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      if (!(L.LIB_VERSION === 'w331b-centrifugal-lib-1' && X.HARNESS_VERSION === 'w331b-centrifugal-1' && D0.DOC_VERSION === 'w331b-centrifugaldoc-1')) bad.push('① 版(lib・器・文書の lib)');
+      const js = (x) => JSON.stringify(x);
+      if (!(js(L.AXES_TYPES) === js(['rigid', 'halfCurl', 'fixed']) && js(L.FRAME_READINGS) === js(['field', 'receiver']) && js(L.SOURCE_SPINS) === js(['sync', 'none']) && js(L.CENTER_ROTS) === js(['frame', 'moment'])))
+        bad.push('① 型の一覧(軸・読み・源の回転・中心 —— 手で書いた一覧と違う)');
+      const DG = L.DECL, PL = X.PLAN;
+      if (!(DG.iterTol === 1e-13 && DG.iterMax === 20000 && DG.degenerateAnchor === 0 && DG.singularPivot === 1e-13 && DG.degenerateIters === 200 && DG.p === 2)) bad.push('① 宣言(反復の止め・退化の判定・p)');
+      if (!(js(PL.gridSpins) === js(['sync', 'none']) && js(PL.gridSelfTypes) === js(['point', 'ballMean', 'ballHarmonic']) && js(PL.gridF) === js([0.25, 0.5, 0.9]) && js(PL.gridDisc) === js([[1, 12], [1, 24], [1, 48], [0.5, 24]])
+        && js(PL.gridBgMul) === js([0, 1e-3, 1e-2, 1e-1, 1]) && PL.H0kmsMpc === 67.4 && PL.upsDisk === 0.5 && PL.main.reading === 'receiver' && PL.main.sourceSpin === 'sync' && PL.main.axes === 'rigid' && PL.planets.length === 8 && js(PL.ringParticleRadii) === js([0.01, 1, 10])))
+        bad.push('① 器の格子の宣言(源の回転・自己の型・f・離散化・背景の倍率・H₀・Υ_disk・主の宣言・惑星・粒子の半径)');
+      cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・文書 ${D0.DOC_VERSION}・軸の型 ${L.AXES_TYPES.length}・枠の読み ${L.FRAME_READINGS.length}・源の回転の型 ${L.SOURCE_SPINS.length}・格子 ${PL.gridSpins.length}×{${PL.gridSelfTypes.length}×${PL.gridF.length}+1}×${PL.gridDisc.length}×${PL.gridBgMul.length}`);
+      let G1 = null;
+      try { G1 = L.pureGates(L.pureScenes()); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G1) {
+        for (const [k, v] of Object.entries(G1)) if (v !== true) bad.push('② 場面 ' + k);
+        if (Object.keys(G1).length !== 14) bad.push('② 場面の数 ' + Object.keys(G1).length);
+        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(Ω_f = 0 でニュートン・枠と共に回れば要求 0・剛体の枠の一次の読み・逆向きの枠・釣り合いの恒等式と内訳・単位・逆算・halfCurl のずれの部・枠の 2 つの読み・自己の項を分子に入れる否定対照・入力の拒否・小さな円盤の固定点と退化・背景の重みの宣言の型・弱める割合と一次の目安)`);
+      }
+      const tl = rd('tests/lib-w331b-centrifugal.mjs'), th = rd('tests/exp-w331b-centrifugal.mjs'), td = rd('tests/lib-w331b-centrifugaldoc.mjs'), base3 = rd('tests/lib-w330b-dragweight.mjs') + rd('tests/lib-w312a-decay.mjs') + rd('tests/lib-w329b-galrot.mjs');
+      const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+      if (!(js(imps) === js(['lib-w312a-decay.mjs', 'lib-w330b-dragweight.mjs']) && !/loadHtml|index\.html/.test(tl + td) && /loadHtmlMain/.test(th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/w331b/.test(base3)))
+        bad.push('③ 呼ぶだけ(lib の import は第312便a の参照の lib と第330便b の重みの lib だけ・lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w331b が無い)');
+      cases.push('③ lib の import は第312便a の参照の lib と第330便b の重みの lib だけ(エンジンの式を写さない)・lib と文書の lib は html を読まない・器と lib はネットへ取りに行かない・呼ぶ lib(第330便b・第312便a・第329便b)の本文は不変');
+    }
+    add('lint.centrifugal331b', bad.length === 0,
+      `**遠心力を弱める関係の純関数**(第331便b・原仮定者の追記(2026-11-09)・R311 —— html を読まない・回る枠の中の円軌道の釣り合いは宣言の式・自己の項は分母だけ・錨が 0 なら退化として記録): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.centrifugal331b ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/centrifugal-w331b.json が読めない');
+    else {
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        const FX = X.readFixture(ROOT), wCos = J.background.wCos;
+        // ① 要る枠の回転
+        const Q = X.partRequired(FX);
+        let dQ = 0; Q.rows.forEach((q, i) => { const r = J.required.rows[i]; if (!r || (q.why === null) !== (r.why === null)) { dQ = Infinity; return; } if (q.why === null) for (const k of ['reqRigid', 'reqFixed', 'OmegaObs', 'OmegaBar']) dQ = Math.max(dQ, relD331(q[k], r[k])); });
+        if (!(dQ <= 1e-12 && Q.rows.length === J.required.rows.length)) bad.push(`① 要る枠の回転を作り直して正本と違う(相対 ${dQ})—— 器を走らせ直す`);
+        cases.push(`① NGC 3198 の要る枠の回転 ${Q.n} 行(外側で Ω_f,req ÷ Ω_obs ${Q.outer.ratioRigidRange.map((x) => x.toPrecision(3)).join('〜')}・rigid の要る形のずれの部 ÷ g ${Q.outer.shearOverGRange.map((x) => x.toPrecision(3)).join('〜')})が正本と相対 1e-12 の内`);
+        // ② 格子と横の列
+        const Dk = X.partDisk(FX, wCos);
+        let dV = 0, dS = 0, dR = 0;
+        const cmp = (q, r) => { if (!r || q.ok !== r.ok || q.degenerate !== r.degenerate) { dV = Infinity; return; } if (!q.ok) return; q.picks.forEach((p, i) => { dV = Math.max(dV, relD331(p.v, r.picks[i].v)); }); dS = Math.max(dS, relD331(q.slope.outer, r.slope.outer)); dR = Math.max(dR, relD331(q.resOuter.rms, r.resOuter.rms)); };
+        Dk.grid.forEach((q, i) => cmp(q, J.disk.grid[i]));
+        for (const [k, q] of Object.entries(Dk.side)) cmp(q, J.disk.side[k]);
+        if (!(dV <= 1e-9 && dS <= 1e-9 && dR <= 1e-9 && Dk.grid.length === J.disk.grid.length && Object.keys(Dk.side).length === Object.keys(J.disk.side).length)) bad.push(`② 円盤の枠の固定点を作り直して正本と違う(v の相対 ${dV}・べき ${dS}・残差 ${dR})—— 器を走らせ直す`);
+        cases.push(`② AN593 B の格子 ${Dk.grid.length} 列と横の列 ${Object.keys(Dk.side).length} を fixture から作り直して速度・外側のべき・残差が正本と相対 1e-9 の内(外側の残差 rms ${Dk.resOuterRange.map((x) => x.toPrecision(3)).join('〜')}・退化 ${Dk.nDegenerate}・横の列の退化 ${Object.values(Dk.side).filter((q) => q.degenerate).length})`);
+        // ③ 太陽系と土星の環
+        const So = X.partSolar(H.HP, wCos), Rg = X.partRings(H.HP, wCos);
+        let dX = 0;
+        So.rows.forEach((r, i) => { const s = J.solar.rows[i]; if (!s || s.readings.length !== r.readings.length) { dX = Infinity; return; } dX = Math.max(dX, relD331(r.n, s.n)); r.readings.forEach((q, k) => { dX = Math.max(dX, relD331(q.x, s.readings[k].x)); }); });
+        Rg.rows.forEach((r, i) => { const s = J.rings.rows[i]; if (!s || s.readings.length !== r.readings.length) { dX = Infinity; return; } dX = Math.max(dX, relD331(r.n, s.n)); r.readings.forEach((q, k) => { dX = Math.max(dX, relD331(q.x, s.readings[k].x)); }); });
+        if (!(dX <= 1e-12)) bad.push(`③ 太陽系か土星の環の x を作り直して正本と違う(相対 ${dX})`);
+        cases.push(`③ 太陽系 ${So.rows.length} 惑星(🗺️ の宣言 —— 場の枠の x ${So.rows[0].OmegaSunOverN.toPrecision(4)}〜${So.rows[So.rows.length - 1].OmegaSunOverN.toPrecision(4)})と土星の環 ${Rg.rows.length} 縁(💍 の宣言 —— 自転 ${Rg.saturn.spinHours.toFixed(2)} 時間)を作り直して x が正本と相対 1e-12 の内`);
+        // ④ 門
+        const J2 = Object.assign({}, J, { required: Q, disk: Dk, solar: So, rings: Rg, pure: { scenes: L.pureScenes(), gates: L.pureGates(L.pureScenes()) } }), G2 = X.gatesOf(J2);
+        if (!Object.values(G2).every((v) => v === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.centrifugal331b', bad.length === 0,
+      `**NGC 3198 の要る枠の回転・円盤の枠の固定点(AN593 B の格子)・太陽系と土星の環の作り直し**(第331便b・原仮定者の追記(2026-11-09)・R311 —— 今の html の 🗺️ と 💍 の宣言を読むだけ・步を進めない・速度と残差は宣言した型の表の値): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第331便b: docs.centrifugal331b は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
+// ----   lint・behavior を数えない)。世代切替は上と同じ
+// ----   docs.centrifugal331b(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全・core:false・abBody:false)・宣言が lib の DECL と同じ ② 表 9 本が PHYSICS〔第331便b〕に逐語
+// ----     ③ 節の位置(〔第330便c〕の節の後・「## 7.」の前)・必須の語・AI_SPEC §203(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w331b-centrifugal.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w331b-centrifugal.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w331b-centrifugaldoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'centrifugal-w331b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.centrifugal331b(第331便b の遠心力を弱める関係の表の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.centrifugal331b ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第331便b — '), i7 = PH.indexOf('\n## 7. 論文'), ic = PH.indexOf('〔第330便c — ');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ic >= 0 && ic < i0)) bad.push('PHYSICS〔第331便b〕が無いか〔第330便c〕の節の前か「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/centrifugal-w331b.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.scopeComplete === true
+        && /^[0-9a-f]{64}$/.test(J.meta.scopeSha256 || '') && J.meta.stage === 'centrifugal' && J.meta.scope && J.meta.scope.abBody === false && J.meta.scope.core === false)) bad.push('① 版・来歴・領域 hash(完全・core:false・abBody:false)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.axesTypes) !== JSON.stringify(L.AXES_TYPES) || JSON.stringify(J.frameReadings) !== JSON.stringify(L.FRAME_READINGS)) bad.push('① 正本の宣言が lib の DECL と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第331便b〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 9) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第331便b〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の追記(2026-11-09)', '原仮定者の整理(2026-11-09)', '原仮定者の決断(2026-11-09 —— AN593 = B)', 'R311', 'tests/exp-w331b-centrifugal.mjs', 'tests/out/centrifugal-w331b.json', 'tests/lib-w331b-centrifugal.mjs', 'w331b-centrifugal-lib-1',
+      '`κ_epi`', 'κ_D', '要求 R(Ω − Ω_f)(Ω − ω_f) = g', 'v = √(gR) + Ω_f R', '枠が局所の慣性系', 'rigid', 'halfCurl', 'fixed', 'Larmor', '場の枠', '受け手の枠', '自己の項は分母だけ', '否定対照', 'm/0² にできない',
+      '3H₀c/(2G)', 'Wbg2 = 0 だけ', 'AN378', '無引きずりの対照', '退化として記録', 'sync', 'none', '錨', '速度の絶対値', '宣言に強く依る', '外縁の 10〜29%', '寄与率として使わない', '面内の遠心だけ', '環の厚みは扱わない',
+      'J2', '1PN の一次の式', '第133報への枝の答え', '決断事項の候補', 'AN595 = A', 'AN586', 'lint.centrifugal331b', 'behavior.centrifugal331b', 'docs.centrifugal331b', '作業仮説の宣言の式', '今のコードの実装を混ぜない'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第331便b〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 203. 第331便b'), ai = secUntilNext329c(AS, a0, '\n## ');   // 次の見出しまで(固定の字数の窓を持たない)
+    if (!(a0 >= 0 && ai.indexOf('tests/out/centrifugal-w331b.json') >= 0 && ai.indexOf('`κ_epi`') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('R(Ω − Ω_f)(Ω − ω_f) = g') >= 0 && ai.indexOf('自己の項は分母だけ') >= 0 && ai.indexOf('Ω_p を混ぜない') >= 0)) bad.push('③ AI_SPEC §203(正本・κ_epi・SYSTEM_PROMPT・宣言の式・自己の項・Ω_p)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl331b = clg.split('\n').find((l) => l.indexOf('**第331便b**') >= 0) || '';
+    if (!(cl331b.indexOf('tests/exp-w331b-centrifugal.mjs') >= 0 && cl331b.indexOf('centrifugal-331b') >= 0 && cl331b.indexOf('原仮定者の追記(2026-11-09)') >= 0 && cl331b.indexOf('AN593') >= 0)) bad.push('③ CHANGELOG の第331便b の行');
+    if (!(/S\('centrifugal-331b', 'node tests\/exp-w331b-centrifugal\.mjs', \['tests\/out\/centrifugal-w331b\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '本の宣言の値と純関数だけ") >= 0
+      && RT.indexOf('// ==== 第331便b の塊(ここから)====') >= 0)) bad.push('③ 段の行 centrifugal-331b(quickVerify と理由・塊)');
+    if (GI.indexOf('!tests/out/centrifugal-w331b.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第331便b の塊(ここから)====') >= 0 && /lint\.centrifugal331b/.test(PM) && /behavior\.centrifugal331b/.test(PM) && /docs\.centrifugal331b/.test(PM))) bad.push('③ post-merge の ③′ に第331便b の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §203(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /内部熱を説明した/, /金星の逆転を説明した/, /銀河の回転曲線を予言した/, /一致した/];
+    const NOT331 = [/\d\s*km\/s/, /κ_epi\/2[^。\n]{0,8}は一定/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第331便b の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・暗黒物質が要らない・η を求めた・R_d が土星の環の厚みを決める・
+    //   K1 は太陽–木星のスケールで有効・G_loc で水星の近点を・座標則が今のエンジンと同じ・ハローが要らない
+    const W331 = ['ためか確', 'たし示', 'たし明説', 'いなら要が質物黒暗', 'ため求を η', 'るめ決をみ厚の環の星土が d_R', '効有でルーケスの星木–陽太は 1K', 'を点近の星水で col_G', 'じ同とンジンエの今が則標座', 'いなら要がーロハ'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第331便b〕', sec], ['AI_SPEC §203', ai], ['CHANGELOG の第331便b の行', cl331b], ['器', rd('tests/exp-w331b-centrifugal.mjs')], ['lib', rd('tests/lib-w331b-centrifugal.mjs')], ['文書の lib', rd('tests/lib-w331b-centrifugaldoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W331)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT331) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の κ_epi(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・コードの書式の外の κ_epi・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.centrifugal331b', bad.length === 0,
+      `**遠心力を弱める関係・NGC 3198 の要る枠と円盤の枠の固定点(AN593 B)・太陽系と土星の環の文書**(第331便b・原仮定者の追記(2026-11-09)・原仮定者の決断(2026-11-09 —— AN593・AN595)・R311 —— 宣言の式と今のコードの実装を混ぜない・κ_epi と κ_D を分ける・速度と残差は宣言した型の表の値): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第331便b の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
