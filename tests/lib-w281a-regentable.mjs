@@ -1791,6 +1791,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/dragweight-w330b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第330便b: 第132報の重みの式の純関数(自己の重みは有限の宣言・連鎖は一度だけ)・今のエンジンの経路との対応(3 体の写しの β と受理器の試し)・円盤の連鎖の低 N の試し(速度の形の表)・ジャイロと地球の歳差の照合と窓の角・密度波の共鳴の半径(棒は notClaim)' }),
   // ==== 第330便b の塊(ここまで)====
+  // ==== 第331便a の塊(ここから)====
+  // ---- 第331便a(原仮定者の決断(2026-11-09 —— AN586〜AN590)・原仮定者の回答(2026-11-09 —— AN591)・原仮定者の整理(2026-11-09)・統括の検証項目 R310): **座標変換の引きずり(並進 + 回転を 1 つ・
+  //   重み m/r²)と今のエンジンの成分ごとの比べる表・回転の自転の口と潮汐の口(別の channel)・内部熱の 3 欄・lockTargets・地球と火星の比べる列の器**(段 coordtwist-331a —— 正本
+  //   tests/out/coordtwist-w331a.json・lib tests/lib-w331a-coordtwist.mjs —— 第330便b の lib と第326便d の lib を import して呼ぶ)。**診断だけ**(エンジン・在位の本・受理器は変えない)。
+  //   html を読む(本は 🗺️ を .find で引く 1 本 —— 写しの受理と読み口 inertialDragIsqState だけ・步を進めない)・第330便a の正本(16 体の観測の自転と軸・由来ごとの口の行・帳簿・金星の符号 —— after に)・
+  //   第315便c の正本(在位の 7 本の近点の K1 の引きずりの分 —— after に)を読む。1 プロセス。所要は第331便a の枝の実測 1〜3 s(nice 10)
+  S('coordtwist-331a', 'node tests/exp-w331a-coordtwist.mjs', ['tests/out/coordtwist-w331a.json'], 3, { secSource: 'w331a-branch', node: true, after: ['spinclass-330a', 'inposk1-315c', 'obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: '步を進めない読み口と純関数だけ(窓が無く、全部を走らせても数秒)',
+    volatilePaths: { 'tests/out/coordtwist-w331a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第331便a: 座標則(V = v_j + Ω_j × (x_i − x_j)・重み m/r²・自己は有限の宣言)の純関数と今のエンジン K1・K2 の成分ごとの比べる表(2 体・3 体・16 体の写し)・在位の 7 本の近点と自転の一次の目安・回転の自転の口と潮汐の口の登録と 4 条件・内部熱の 3 欄・lockTargets(金星 = 太陽 + 地球・水星 = 3:2)・地球と火星の比べる列' }),
+  // ==== 第331便a の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
