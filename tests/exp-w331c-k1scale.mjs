@@ -14,8 +14,11 @@
 //     H 系(🌡️ の写しの惑星の質量を木星の 1・10・100 倍 × q00・q10・q01・q11 × h・h/2 —— 有限質量比 η を振る)
 //   K 数値の表(G_loc の分 ÷ q_1PN と解析の差・n = 0 と G_loc なしのビット同一・在位の宣言とのビット同一・K1 の分の n による変化〔加法性〕・候補の残差)
 //   H η の表 / S スケールの読み((iii) 回る枠の座標回転・(iv) m/r² の座標則・(v) 1PN と K1 の大きさと物差し —— 純粋な積分器の f(e))/ Z 土星の環の候補の表
+//   X 補足 1(原仮定者の補足(2026-11-09)「太陽–水星における G_loc と回転引きずりの組み合わせを調査する」—— 今の組〔G_loc n = 2 + K1〕を基準に、K1 の分を回転引きずりとして読む型の
+//     一次の分担〔(i) K1 の並進とその接線・動径の分解・(ii) 太陽の自転・(iii) 水星の公転の回る枠・(iv) 太陽–木星の回る枠・(v) 座標則〕と要る長さ)・W 今のエンジンの回転と軸の引きずり
+//     (spinDrag)の写しの 1 公転の状態のビットの比べ(🌡️)/ V 補足 2(「K1 の R_d は有効性が認められる場合は使用する。有効な例と有効で無い例をリスト化する」—— 既存の正本と本枝の表から)
 // ■ 試走: W331C_QUICK=1(W331C_OUT が要る —— 正本を書かない)。再開: W331C_CACHE=<dir>(走行 1 本ごとの結果を逐次書く)。
-// ■ 言わないこと: 「G_loc で水星の近点を再現した」「K1 は太陽–木星のスケールで有効と確かめた」「R_d が土星の環の厚みを決める」—— 宣言した型で表の値になった・残差・候補の表と書く。
+// ■ 言わないこと: 水星の近点・K1 のスケール・土星の環について結論の語(PHYSICS〔第331便c〕⑫ と docs.k1Scale331c の書かない語)を使わない —— 宣言した型で表の値になった・残差・候補の表と書く。
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
@@ -39,6 +42,11 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w331c-k1scale-1';
 export const OUT_MAIN = 'tests/out/k1scale-w331c.json';
 export const INPOS_OUT = IK.OUT_MAIN;   // 正本 tests/out/inposk1-w315c.json(段 R —— 在位の本の分担の比)
+/** 補足 2 の一覧が読む正本(段 V —— 鎖の after に連ねる) */
+export const VALID_INPUTS = Object.freeze({ k1confirm: 'tests/out/k1confirm-w313d.json', k1outer: 'tests/out/k1outer-w314c.json', k1em: 'tests/out/k1em-w314c.json', satk1: 'tests/out/satk1-w315d.json',
+  binbooks: 'tests/out/binbooks-w322b.json', rdexcess: 'tests/out/rdexcess-w314a.json' });
+/** 今のエンジンの回転と軸の引きずり(第311便d の NEW_DRAG の spinDrag —— 第313便d の確認の系の q11 と同じ宣言)を在位の写しに足す */
+export const SPIN_DRAG = Object.freeze({ rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel', initSpin: 'observed' });
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const clone = (x) => JSON.parse(JSON.stringify(x));
 const ARCSEC = 180 / Math.PI * 3600;
@@ -51,10 +59,12 @@ export const PLAN = Object.freeze({
   gBooks: Object.freeze(IK.BOOKS.map((b) => b.key)),
   kBooks: Object.freeze(['mercury', 'jupiter', 'neptune']), kNFine: Object.freeze([2, -3]),
   etaBook: 'mercury', etaScales: Object.freeze([1, 10, 100]), etaKinds: Object.freeze(['q00', 'q10', 'q01', 'q11']), etaDivs: Object.freeze([1, 2]),
+  spinBook: 'mercury', spinOrbits: 1,
 });
 export const QUICK_PLAN = Object.freeze({
   N: 1, divs: Object.freeze([1]), outerDivs: Object.freeze([1]), gBooks: Object.freeze(['mercury']), kBooks: Object.freeze(['mercury']), kNFine: Object.freeze([]),
   etaBook: 'mercury', etaScales: Object.freeze([10]), etaKinds: Object.freeze(['q00', 'q10', 'q01', 'q11']), etaDivs: Object.freeze([1]),
+  spinBook: 'mercury', spinOrbits: 1,
 });
 /** G_loc の宣言の列(null = G_loc なし) */
 export function glList() {
@@ -64,7 +74,7 @@ export function glList() {
   return out;
 }
 export const glKey = (g) => (g ? g.pair[0] + String(g.n) : 'none');
-export const specKey = (s) => s.set === 'H' ? ['H', s.book, 'x' + s.scale, s.kind, 'div=' + s.div, 'N=' + s.N].join('|') : [s.set, s.book, glKey(s.gl), s.k1 ? 'K1' : 'noK1', 'div=' + s.div, 'N=' + s.N].join('|');
+export const specKey = (s) => s.set === 'W' ? ['W', s.book, s.variant, 'orbits=' + s.orbits].join('|') : s.set === 'H' ? ['H', s.book, 'x' + s.scale, s.kind, 'div=' + s.div, 'N=' + s.N].join('|') : [s.set, s.book, glKey(s.gl), s.k1 ? 'K1' : 'noK1', 'div=' + s.div, 'N=' + s.N].join('|');
 const divsOf = (k, P) => (IK.OUTER_KEYS.includes(k) ? P.outerDivs : P.divs);
 
 /* ───────── 写しの本 ───────── */
@@ -101,8 +111,22 @@ export function bookOfSpec(HP, sp) {
   return { p, q: copyBook(p, sp.gl, sp.k1) };
 }
 const hOf = (p) => P3.stepsOf(p.timeRef.pRef).h;
+/** W 系: 在位の写し(n = 2 の受け手 + K1)に spinDrag を足すか足さないかで 1 公転の状態(位置・速度・自転)を返す */
+export function runSpinCheck(HP, sp) {
+  const p = liveOf(HP, IK.bookOf(sp.book).id), q = copyBook(p, { n: 2, pair: 'receiver' }, true);
+  if (sp.variant === 'spin') q.physics.relativeDrag.spinDrag = clone(SPIN_DRAG);
+  const v = HP.validatePreset(clone(q));
+  if (!v.ok) return { key: specKey(sp), spec: sp, status: 'rejected', err: JSON.stringify(v.errors).slice(0, 300) };
+  const h = hOf(p), steps = Math.round(sp.orbits * p.timeRef.pRef / h), S = HP.coord3d.makeSim(), t0 = Date.now();
+  S.build(clone(v.preset));
+  for (let k = 0; k < steps; k++) S.step(h);
+  const st = []; for (let i = 0; i < 2; i++) st.push(S.x[i], S.y[i], S.z[i], S.vx[i], S.vy[i], S.vz[i]);
+  const sp2 = []; for (let i = 0; i < 2; i++) sp2.push(S.spin ? S.spin[i] : null);
+  return { key: specKey(sp), spec: sp, status: 'run', h, steps, state: st, spin: sp2, spinDragDecl: !!(v.preset.physics.relativeDrag && v.preset.physics.relativeDrag.spinDrag), complete: true, nan: st.some((x) => !Number.isFinite(x)), apsNew: 0, wallSec: (Date.now() - t0) / 1000 };
+}
 /** 1 本の走行 */
 export function runSpec(HP, sp) {
+  if (sp.set === 'W') return runSpinCheck(HP, sp);
   const { p, q } = bookOfSpec(HP, sp), h = hOf(p), v = HP.validatePreset(clone(q));
   if (!v.ok) return { key: specKey(sp), spec: sp, status: 'rejected', err: JSON.stringify(v.errors).slice(0, 300) };
   const r = PL3.measure(HP, q, h / sp.div, sp.N);
@@ -135,14 +159,15 @@ function cachedBatch(run, dir, scopeSha256, stat) {
 }
 
 /* ───────── 段 P(t = 0 の印字)───────── */
-export function probeOf(HP) {
-  const inPos = vm.runInThisContext('inPositionK1Of'), out = { systems: {}, saturn: null };
+export function probeOf(HP, ev = (x) => vm.runInThisContext(x)) {
+  const inPos = ev('inPositionK1Of'), out = { systems: {}, saturn: null };
   for (const b of IK.BOOKS) {
     const p = liveOf(HP, b.id), s = inPos(p), pn = AN.pn1Of(p), Lm = Math.pow(10, p.scaleExp.L), Mm = Math.pow(10, p.scaleExp.M), Tm = Math.pow(10, p.scaleExp.T);
     const M = p.bodies[0].m * Mm, m = p.bodies[1].m * Mm, G = p.physics.G * Lm ** 3 / (Mm * Tm * Tm), c = p.physics.cLight * Lm / Tm;
     out.systems[b.key] = { id: b.id, emoji: b.emoji, ja: b.ja, M, m, G, c, eta: L.etaOf(M, m), q1pn: pn.value, aSI: pn.a * Lm, e: pn.e, PSI: pn.P * Tm, h: hOf(p),
       Rsun: p.bodies[0].radius * Lm, Rplanet: p.bodies[1].radius * Lm, rdSun: s.bodies[0].rd * Lm, rdPlanet: s.bodies[1].rd * Lm, rdRule: s.rdRule, kernel: s.kernel, gLoc: s.gLoc,
-      gLocDecl: clone(p.physics.gLoc || null), gLocN: (p.physics.gLoc && p.physics.gLoc.law === 'kappaC2') ? 2 : null, gLocPair: (p.physics.gLoc && p.physics.gLoc.pair) || 'receiver(既定)' };
+      gLocDecl: clone(p.physics.gLoc || null), gLocN: (p.physics.gLoc && p.physics.gLoc.law === 'kappaC2') ? 2 : null, gLocPair: (p.physics.gLoc && p.physics.gLoc.pair) || 'receiver(既定)',
+      OmSun: p.bodies[0].spin / Tm, sunTiltDeg: p.bodies[0].spinAxis ? p.bodies[0].spinAxis.tiltDeg : null };
   }
   // 🟡 と 💍 の宣言の値(読むだけ)
   const ps = liveOf(HP, 'saturnSunInertial3d'), pr = liveOf(HP, 'saturnRingReal'), sS = inPos(ps);
@@ -187,7 +212,8 @@ export function specsOf(P) {
     for (const n of P.kNFine) K.push({ set: 'K', book: k, gl: { n, pair: 'receiver' }, k1: true, div: 2, N: P.N });
   }
   for (const s of P.etaScales) for (const kind of P.etaKinds) for (const d of P.etaDivs) H.push({ set: 'H', book: P.etaBook, scale: s, kind, div: d, N: P.N });
-  return { G, K, H };
+  const Wsp = ['nospin', 'spin'].map((variant) => ({ set: 'W', book: P.spinBook, variant, orbits: P.spinOrbits }));
+  return { G, K, H, W: Wsp };
 }
 
 /* ───────── 段 K(数値の表)───────── */
@@ -315,6 +341,36 @@ export function partZ(J) {
     others: ['jupiter', 'uranus', 'neptune'].map((k) => ({ key: k, rd: J.P.systems[k].rdPlanet })) };
 }
 
+/* ───────── 段 W・X(補足 1 —— 回転引きずりの型)───────── */
+export function partW(J) {
+  const P = J.plan, a = rowOf(J, { set: 'W', book: P.spinBook, variant: 'nospin', orbits: P.spinOrbits }), b = rowOf(J, { set: 'W', book: P.spinBook, variant: 'spin', orbits: P.spinOrbits });
+  if (!(a && b && a.status === 'run' && b.status === 'run')) return { missing: true };
+  const nDiff = a.state.filter((x, i) => !Object.is(x, b.state[i])).length, dMax = Math.max(...a.state.map((x, i) => Math.abs(x - b.state[i])));
+  return { book: P.spinBook, orbits: P.spinOrbits, steps: a.steps, nState: a.state.length, nDiff, bitSame: nDiff === 0, dMax, spinDiff: a.spin.map((x, i) => b.spin[i] - x), spinDragDecl: [a.spinDragDecl, b.spinDragDecl], share: nDiff === 0 ? 0 : null };
+}
+export function partX(J) {
+  const P = J.P, OmSun = P.systems.mercury.OmSun, OmJ = 2 * Math.PI / P.systems.jupiter.PSI, cache = new Map(), out = { OmSun, OmJ, systems: {}, scale: {} };
+  for (const b of IK.BOOKS) out.systems[b.key] = L.rotCandidates(P.systems[b.key], { OmSun, OmJ, engine: b.key === J.plan.spinBook ? J.W : null, cache });
+  // 水星で要る倍率 λ を他の惑星へ(同じ λR_d —— 尺度を持つか)
+  const M = out.systems.mercury;
+  for (const id of ['v-t', 'v-orb']) {
+    const lam = (M.rows.find((z) => z.id === id) || {}).lambda;
+    if (!lam) continue;
+    out.scale[id] = { lambda: lam, rows: IK.BOOKS.map((b) => { const z = out.systems[b.key].rows.find((y) => y.id === id); return { key: b.key, share: z.shareRd * Math.pow(lam, z.p), factor: z.shareRd * Math.pow(lam, z.p) / L.DECL.k1Share }; }) };
+  }
+  return out;
+}
+/* ───────── 段 V(補足 2 —— K1 の R_d の有効な例・有効でない例・まだ判定していない例)───────── */
+export function partV(J, root = ROOT) {
+  const C = {};
+  const rd = (f) => { try { return JSON.parse(fs.readFileSync(path.join(root, f), 'utf8')); } catch (e) { return null; } };
+  C.inposk1 = rd(INPOS_OUT);
+  for (const [k, f] of Object.entries(VALID_INPUTS)) C[k] = rd(f);
+  C.rotMercury = J.X && J.X.systems.mercury; C.ringZ = J.Z;
+  const missing = Object.keys(VALID_INPUTS).filter((k) => !C[k]);
+  return { inputs: clone(VALID_INPUTS), missing, rows: L.validityRows(C), records: clone(L.VALID_RECORDS), galaxy: clone(L.GALAXY_PROBE) };
+}
+
 /* ───────── 門(器の自己点検)───────── */
 export function gatesOf(J) {
   const g = {};
@@ -333,6 +389,11 @@ export function gatesOf(J) {
   if (J.H) g.etaRows = J.H.rows.length > 0 && J.H.rows.every((z) => Math.abs(z.kShare - z.kShareA) < 1e-2 && Math.abs(z.gShare - z.gShareA) < 1e-2);
   if (J.S) g.scaleRows = J.S.rows.length === IK.BOOKS.length && J.S.rows.every((z) => Math.abs(z.k1Share - L.k1Share()) < 1e-2);
   if (J.Z) g.ringRows = J.Z.cand.length === 5 && Math.abs(J.Z.rdRel) < 1e-6;
+  if (J.W) g.spinRuns = !J.W.missing && J.W.spinDragDecl[0] === false && J.W.spinDragDecl[1] === true;
+  if (J.X) { const r = (id) => J.X.systems.mercury.rows.find((z) => z.id === id);
+    g.rotK1 = Math.abs(r('i').shareRd - L.DECL.k1Share) < 1e-12 && Math.abs(r('i-tan').eFactor - 2) < 1e-4 && Math.abs(r('i-rad').eFactor + 1) < 1e-4 && Math.abs(r('i-spin').shareRd - L.DECL.k1Share) < 1e-3
+      && r('ii').shareObs < 0 && r('iii').shareObs < 0 && r('iv').shareObs < 0 && r('v-t').shareObs > 0; }
+  if (J.V) g.validRows = J.V.missing.length === 0 && J.V.rows.length >= 12 && ['valid', 'invalid', 'open'].every((c) => J.V.rows.some((z) => z.cls === c)) && J.V.rows.every((z) => z.yardstick && z.source);
   return g;
 }
 
@@ -349,17 +410,21 @@ export async function runAll(HP, o) {
   const jobs = [];
   for (const s of sp.K) jobs.push([[s], 100 * s.div]);
   for (const s of sp.H) jobs.push([[s], (Q.KINDS[s.kind].drag ? 100 : 1) * s.div]);
+  for (const s of sp.W) jobs.push([[s], 50]);
   const byBook = {}; for (const s of sp.G) (byBook[s.book + '|' + s.div] = byBook[s.book + '|' + s.div] || []).push(s);
   for (const arr of Object.values(byBook)) jobs.push([arr, 1]);
   await Promise.all(jobs.map(([sps, pri]) => o.run(sps, pri).then((rs) => { for (const r of rs) { rows[r.key] = r; o.log(r); } })));
-  const all = sp.G.concat(sp.K, sp.H);
+  const all = sp.G.concat(sp.K, sp.H, sp.W);
   J.E = { N: P.N, rows: Object.fromEntries(all.map((s) => [specKey(s), rows[specKey(s)]])) }; tick('E');
   J.K = partK(J); tick('K');
   J.H = partH(J); tick('H');
   J.S = partS(J); tick('S');
   J.Z = partZ(J); tick('Z');
+  J.W = partW(J); tick('W');
+  J.X = partX(J); tick('X');
+  J.V = partV(J); tick('V');
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean); J.timing = t;
-  const runs = Object.values(J.E.rows).filter((r) => r && r.status === 'run');
+  const runs = Object.values(J.E.rows).filter((r) => r && r.status === 'run' && r.spec.set !== 'W');
   J.stats = { runs: runs.length, steps: runs.reduce((s, r) => s + r.steps, 0), cpuSec: runs.reduce((s, r) => s + (r.wallSec || 0), 0) };
   return J;
 }
@@ -389,12 +454,12 @@ export async function main() {
   const R = await runAll(HP, { quick, plan, run, log });
   const out = { version: HARNESS_VERSION, inposk1HarnessVersion: IK.HARNESS_VERSION, planet3LibVersion: Q.LIB_VERSION, an336LibVersion: AN.LIB_VERSION, generator: 'tests/exp-w331c-k1scale.mjs', target: TARGET, targetSha256,
     ruling: '原仮定者の整理(2026-11-09)「水星の近点移動は G_loc を採用」・原仮定者の追記(2026-11-09)「K1 の R_d を使った計算は『太陽–木星』のスケールで有効なのではないか」「『土星の環の厚み』との関連も調べる」・' +
-      '統括の検証項目 R312。診断だけ —— 在位の G_loc の符号・n・R_d の規則は変えない(写しの中だけ)。採るかは次の報の決断', invSqVersion: HP.REL_DRAG_INVSQ_VERSION || null, ...R };
+      '原仮定者の補足(2026-11-09)「太陽–水星における G_loc と回転引きずりの組み合わせを調査する」「K1 の R_d は有効性が認められる場合は使用する。有効な例と有効で無い例をリスト化する」・統括の検証項目 R312。診断だけ —— 在位の G_loc の符号・n・R_d の規則は変えない(写しの中だけ)。採るかは次の報の決断', invSqVersion: HP.REL_DRAG_INVSQ_VERSION || null, ...R };
   if (cstat.resumed > 0) out.resumed = cstat.resumed;
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w331c-k1scale.mjs', 'tests/lib-w331c-k1scale.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/exp-w315c-inposk1.mjs', 'tests/exp-w311d-planet3.mjs', 'tests/lib-w311d-planet3.mjs', 'tests/lib-w306a-an336.mjs',
     'tests/lib-w299c-planets3d.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第331便c', target: TARGET, code: CODE, inputs: [TARGET, INPOS_OUT] }), {
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第331便c', target: TARGET, code: CODE, inputs: [TARGET, INPOS_OUT].concat(Object.values(VALID_INPUTS)) }), {
     harnessVersion: HARNESS_VERSION, stage: 'k1scale', engine: 'Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W331C_WORKERS)', notClaim: NOT_CLAIM });
   Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
