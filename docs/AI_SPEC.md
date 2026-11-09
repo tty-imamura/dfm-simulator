@@ -4771,3 +4771,10 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **§5.19 の窓**: docs.nsLockLedgerRow は CALIBRATION_VERDICT §5.19 を次の「### 」か「## 」の見出しまで読む(`secUntilNext329c`)。
 - **変異の試験** `node tools/toolguard-probe330c.mjs`(照合の規則・一時の root の 4 段で計画と lint が揃う・守りの判定・計画の上の守り)・`--agree <計画>`(実物の正本で計画と lint の道具の照合を突き合わせる)・`--emit-html <dir>`(名指しでない本に鍵を足した写しと値だけの写し)。
 - QA `lint.toolCheckProv330c`・`lint.physKeysGuard330c`・`docs.w330c`。既存の世代の直し: tools/qa-keys.mjs の自己試験 ④ の束の期待・docs.nsLockLedgerRow の §5.19 の窓。
+
+## 206. 第331便e —— 現象の状況一覧 docs/PHENOMENA_STATUS.md(現象ごとに段階・仕組み・帳簿を固定の語彙で分ける・各行の証拠と主な数を QA が照合する)(原仮定者の補足(2026-11-09)・統括の検証項目 R314・**文書と QA だけ** —— html・本の宣言・エンジン・受理器・`S._core`・既存の lib の本文・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
+
+- **文書** `docs/PHENOMENA_STATUS.md`(手書き —— 32 行・基点 54678d4 の記録): 各行の欄は段階・仕組み・帳簿・物差し・主な数・証拠・残っていること・次の段・第331便の調べ・食い違いの理由。**段階**は門の内・一部・残差・扱っていない(固定の 4 語 —— 「合った」の欄)、**仕組み**は実装(在位)・実装(opt-in)・診断・宣言(未接続)・なし(「仕組みが実装された」の欄)、**帳簿**は閉じた・未・該当なし(「帳簿が閉じた」の欄)。SAMPLE_STATUS の状況との対応: 門の内は引く本が全部「達」・残差は「達」を引くなら理由・扱っていないは本を引くなら理由。観測との較正の語(合・量限定合・否・保留)は SAMPLE_STATUS の較正の欄だけ。
+- **照合の lib** `tests/lib-w331e-phenostatus.mjs`(版 w331e-phenostatus-1): `parsePhenoDoc331e(md)`・`checkPhenoDoc331e({ md, html, ssMd, ph, qaSrc, exists, readText, readJson })`(① 形 ② 語彙 ③ 件数の表と要約 ④ 証拠の実在 —— 本 ID は html の `id:"…"` と SAMPLE_STATUS の状況の語・節は見出しの行 ⑤ 段階と状況の対応と理由の欄 ⑥ 主な数の転記 `TRANSCRIPTS_331E` ⑦ 書かない語・禁句・裸の係数記号・速度の数の字列)・`selfTest331e()`(缶詰の文書で 14 種の壊し方)。
+- 行を足す・段階を動かすときは、行の欄・件数の表・要約の表・PHYSICS〔第331便e〕の表 1 を同じ便で直す。主な数を足すときは転記の表に項を足す(出典の型 phys・ss・json・file)。
+- QA `lint.phenomena331e`(lib の版と語彙・規則の自己試験・転記の表の形)・`docs.phenomena331e`(文書の照合・PHYSICS〔第331便e〕・AI_SPEC §206・CHANGELOG・README・post-merge の ③′・書かない語)。

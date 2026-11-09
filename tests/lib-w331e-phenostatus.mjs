@@ -201,7 +201,7 @@ export function wordAudit331e(name, text, opts = {}) {
   for (const w of NG_WORDS_331E) if (tx.indexOf(w) >= 0) bad.push(name + ' に禁句(' + w.length + ' 字)');
   if (!opts.noNot) { const s = tx.replace(/「[^」]*」/g, ''); for (const re of NOT_WORDS_331E) if (re.test(s)) bad.push(name + ' に書かない語 ' + re.source); }
   const nb = tx.replace(/`[^`\n]*`/g, '');
-  const k = (nb.match(/κ(?!_D)/g) || []).length;
+  const k = (nb.match(new RegExp('\\u03ba(?!_D)', 'g')) || []).length;
   if (k) bad.push(name + ' に裸の係数記号 ' + k + ' 字(κ_D 以外はコードの書式で)');
   if (/\d\s*km\/s/.test(tx)) bad.push(name + ' に速度の数の字列');
   return bad;
