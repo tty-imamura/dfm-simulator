@@ -21,7 +21,7 @@ import * as C1 from './lib-w328a-fieldcontract.mjs';
 import * as GR from './lib-w329b-galrot.mjs';
 import { integrate, ringQ, ringP, sigOf, hOf, vOf, rhoBulge, COEF } from './lib-w320c-nbcompose.mjs';
 
-export const LIB_VERSION = 'w329b-fieldcontract2-lib-1';
+export const LIB_VERSION = 'w329b-fieldcontract2-lib-2';   // 第330便b: ratesInFrame の欠測(Ω_frame が null)を全部 null に・非有限は拒否(lib-1 は欠測を 0 として引いた)
 export const CONTRACT2_VERSION = 'w329b-fieldcontract-2';
 export const BASE_CONTRACT_VERSION = C1.CONTRACT_VERSION;
 export const CONTRACT2_KEYS = Object.freeze(['version', 'baseVersion', 'frame', 'rates', 'omegaField', 'convergence', 'sources', 'transfer', 'ledgerRefs', 'labels']);
@@ -101,10 +101,18 @@ export function fromFrame(fr, xp, vp) {
   needComplete(fr, 'fromFrame');
   return { x: add(mulQ(fr.Q, xp), fr.originKpc), v: add(mulQ(fr.Q, add(vp, scl(cross([0, 0, 1], xp), fr.omegaFrame * KPC))), fr.originVelocity) };
 }
-/** 角速度の宣言を回す枠の中へ(各々から Ω_frame を引く —— 差〔滑り〕は変わらない)。null は null のまま */
+/** 角速度の宣言を回す枠の中へ(各々から Ω_frame を引く —— 差〔滑り〕は変わらない)。null は null のまま。
+ *  第330便b(lib-2): **Ω_frame が欠測(null・undefined)なら全部 null**(枠の中の値は決まらない —— 0 として引かない。lib-1 は欠測の Ω_frame を 0 として引き、枠の中の Ω_frame も 0 と返した)・
+ *  Ω_frame と各々の角速度が置かれていて非有限なら RangeError(0 で埋めない)。Ω_frame が有限の数のときの値は lib-1 と同じ式・同じ演算(x − Ω_frame)。 */
 export function ratesInFrame(rates, OmegaArm) {
-  const sh = (x) => (x === null || x === undefined ? null : x - rates.omegaFrame);
-  return { omegaMat: rates.omegaMat && rates.omegaMat.value !== null ? sh(rates.omegaMat.value) : null, omegaField: sh(rates.omegaField), omegaP: sh(rates.omegaP), omegaArm: sh(OmegaArm), omegaFrameInFrame: 0 };
+  const wc = rates.omegaFrame, missing = wc === null || wc === undefined;
+  if (!missing && !isFin(wc)) throw new RangeError('ratesInFrame: omegaFrame は有限の数 [rad/s] か null');
+  const sh = (x) => {
+    if (missing || x === null || x === undefined) return null;
+    if (!isFin(x)) throw new RangeError('ratesInFrame: 角速度は有限の数 [rad/s] か null');
+    return x - wc;
+  };
+  return { omegaMat: rates.omegaMat && rates.omegaMat.value !== null ? sh(rates.omegaMat.value) : null, omegaField: sh(rates.omegaField), omegaP: sh(rates.omegaP), omegaArm: sh(OmegaArm), omegaFrameInFrame: missing ? null : 0 };
 }
 
 /* ───────── 契約(版 2)───────── */

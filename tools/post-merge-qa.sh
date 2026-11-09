@@ -741,6 +741,26 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.galRot329b behavior.galRot329b docs.gal
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.contractSeam329c lint.condSelect329c lint.alwaysShadowVolatile329c lint.fixedWindow329c lint.qaHeapDefault329c docs.w329c lint.response328b behavior.response328b docs.response328b lint.alwaysShadow326e docs.regenShort319c lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.qaOrder"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.d0audit-sync docs.d0sites-sync docs.bgpredict-sync docs.selfInertia-sync docs.bgbudget-sync docs.bgEquivalence docs.comovingAdvection docs.bgCompose docs.bgbudget2-sync docs.sphereKernel preset.earthMoonInertial docs.composeContract docs.coreCensus docs.emgrid-sync docs.geo3-sync ui.gwGroupMove ui.trailFollowFrame ui.liveComparePeriodDef docs.gwWindowDecl docs.moon3d298 docs.planets3d299 preset.saturnRing3d300 preset.approxMany301 behavior.gLoc302 docs.semic302 docs.inertialR2_303 docs.shell304 docs.pairNorm305 docs.sphereAxial307 docs.bevel308 docs.invSq309 docs.invSq310 docs.coreSpin311 docs.galaxial311 docs.galaxialRd312 docs.galaxialRdm313 docs.w308d docs.mdSweep310 docs.planet3_311 docs.decay312 docs.confirm312 docs.kappaM313 docs.rdExcess314 docs.planet3v3_313 docs.k1confirm313 docs.rdScale314 docs.k1outer314 docs.pn1x3d314 docs.rsExcess315 docs.inposK1_315 docs.satK1_315 docs.satH316 docs.satMeas317a docs.satN317b docs.satCut317c docs.satAn317d docs.paper3Key317d docs.satNext318b docs.solar16Builtin318c docs.dragEst318d docs.axisHeat319 docs.srcRadius319 docs.regenShort319c docs.srcHeat320 docs.jExplore320b docs.nbCompose320c docs.geo2v3321a docs.geo3Bin321b docs.galField321c docs.geo2flat322a docs.binBooks322b docs.fieldContract322c docs.obsSpin324b docs.geo2thick324a docs.geo4old325c docs.xkLock325f docs.xkLock326a docs.axialHeat326d docs.axialSum327a docs.galaxis327b docs.xkLock327d docs.axialDiff327e docs.venusTide327f docs.fieldContract328a docs.w328c"
 # ==== 第329便c の塊(ここまで)====
+# ==== 第330便a の塊(ここから)====
+# 第330便a(原仮定者の整理(2026-11-08)・原仮定者の回答(2026-11-08 —— AN577・AN578・AN579)・統括の検証項目 R307 —— 診断だけ・html は変えない): 枝 a の新設 3 本(lint.spinClass330a ——
+#   分類と群・重みの定常・1 つの A・符号の表・内部熱の帳簿・測地の歳差・古典と節の歳差・窓の角の純関数の場面と呼ぶだけの検査・文献の値が paper/data の行と同じ値 / behavior.spinClass330a —— 今の html の
+#   🗺️ の写しで入力・由来ごとのトルク・1 つの A・金星の符号・帳簿が正本と同じ / docs.spinClass330a —— 正本の門と表が PHYSICS〔第330便a〕に逐語・第329便a の節の「第330便の更新」・文書)と、
+#   節に行を足した第329便a の節を読む docs.spinBias329a・新しい段 spinclass-330a の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.spinClass330a behavior.spinClass330a docs.spinClass330a docs.spinBias329a lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.quickBoundary324c lint.narrowScope327c docs.w320d lint.qaHeapRelease310 lint.sectionLookup313 lint.fixedWindow329c"
+# ==== 第330便a の塊(ここまで)====
+# ==== 第330便b の塊(ここから)====
+# 第330便b(原仮定者の整理(2026-11-08)・原仮定者の回答(2026-11-08 —— AN578・AN580)・統括の検証項目 R308 —— 診断だけ・html は変えない): 枝 b の新設 3 本(lint.dragWeight330b ——
+#   重みの式・自己の重みの型・連鎖の固定点・ジャイロ・密度波のラベルの純関数の場面と呼ぶだけの検査・回転する枠の欠測の修正〔第329便b の契約の lib-2〕の場面 /
+#   behavior.dragWeight330b —— 今の html の 🗺️ の写しで受理器の試しと 3 体の β・円盤の連鎖・ジャイロ・密度波を作り直して正本と同じ / docs.dragWeight330b —— 正本の門と表が
+#   PHYSICS〔第330便b〕に逐語・〔第329便b〕の節の「第330便の更新」・文書)と、世代を直した lint.galRot329b と節に行を足した docs.galRot329b・新しい段 dragweight-330b の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.dragWeight330b behavior.dragWeight330b docs.dragWeight330b lint.galRot329b behavior.galRot329b docs.galRot329b docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c"
+# ==== 第330便b の塊(ここまで)====
+# ==== 第330便c の塊(ここから)====
+# 第330便c(原仮定者の回答(2026-11-08 —— AN584・AN585)・統括の検証項目 R309 —— 道具だけ・html は変えない): 枝 c の新設 3 本(lint.toolCheckProv330c —— 計画と lint の道具の照合を 1 つの関数に /
+#   lint.physKeysGuard330c —— 名指しの段の physics の鍵の集合の守り / docs.w330c)と、道具の照合の関数を呼ぶ lint 一式(provenanceMeta・toolStamp318・canon304 ほか)・batchKeys を直した
+#   版名 QA の束の QA(docs.w322d —— qa-keys の自己試験 ④ の期待を世代で直した)・§5.19 の窓を直した docs.nsLockLedgerRow・固定の字数の窓の lint.fixedWindow329c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.toolCheckProv330c lint.physKeysGuard330c docs.w330c docs.w322d docs.nsLockLedgerRow lint.fixedWindow329c lint.toolStamp318 lint.provenanceMeta lint.regenScope lint.canon304 lint.scopeAll312 lint.stableHashPaths lint.regenChain lint.scopeStop lint.condSelect329c lint.qaOrder"
+# ==== 第330便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

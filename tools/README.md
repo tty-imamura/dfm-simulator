@@ -410,3 +410,15 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
 - **固定の字数の窓**: tests/qa.mjs の `secUntilNext329c(text, i, seps)`(次の見出しの前まで)—— 新しい QA は節を固定の字数で切らない。
 - **QA_FAST の heap の既定**: `QA_FAST=1 node tests/qa.mjs` は heap の上限が 6144 MB より小さく heap を明示していなければ --max-old-space-size=6144 の子で起こし直す(`QA_HEAP_DEFAULT=0` で切る)。
 - **契約の継ぎ目**: 第328便b の lib の `slipOf(c, OmegaArm)`(Ω_arm は明示の引数)・器は第328便a の `buildFieldContract`(版 w328b-response-2)。
+
+## 第330便c — 道具: 計画と lint の道具の照合を 1 つの関数に・名指しの段の physics の鍵の集合の守り(AN584)・batchKeys を半開区間に・§5.19 の窓
+
+- **道具の照合**(`tests/lib-w281a-scope.mjs` の `toolRecheck330c` —— 版 w330c-toolcheck-2): `toolStampRecheck` と計画の planRegen が同じ関数を呼ぶ。領域の刻印があれば必ず引き直す(対象が html でなければ beta/index.html —— 計画では候補の html で)。
+  第329便の鎖の後の食い違い(計画は galaxychain を reuse・lint.provenanceMeta は chainledger-w281b を ④)は、対象が lib の正本に領域の刻印があったこと(旧の計画は領域を見ない・旧の lint は必ず不一致)。
+- **physics の鍵の集合の守り**(AN584 —— `tests/lib-w330c-toolguard.mjs` 版 w330c-physkeys-1): 名指しの本の段の閉包の fastParams が読む全本の physics の鍵の名(雛形)・宣言の表に無い本の表の読み(全本の中身)を刻印の html と今の html で比べ、
+  違えば regen(理由の種類 `physKeys` / `tableRead`・件数の行「physics の鍵の集合の守り」)。刻印の html は基点・計画の html → git の履歴(引けなければ regen)。`node tools/regen-plan.mjs --no-physkeys`・`W330C_PHYSKEYS=0` で切る。
+- **変異の試験**: `node tools/toolguard-probe330c.mjs [--json <file>]`(照合の規則・一時の root の 4 段で計画と lint・守りの判定・計画の上の守り —— 15〜20 秒)/
+  `--agree <計画の JSON> [--root <木>] [--lib <木>]`(実物の正本で計画と lint の道具の照合を突き合わせる —— 揃わなければ終了コード 1。刻印の道具を変える便は鎖の前の計画でこれを回すと食い違いを早く見る)/
+  `--emit-html <dir>`(名指しでない本に physics の鍵を足した写し htmlK.html・値だけの写し htmlV.html —— `node tools/regen-plan.mjs --html <dir>/htmlK.html --base <基点 html>` で全段の広さ)。
+- **batchKeys**(`tests/lib-w322d-qapart.mjs` 版 w330c-batchkeys-2): 範囲は半開区間 —— 端が接するだけの塊は別の組(tools/qa-keys.mjs の束が隣の塊に引きずられて 50 を超えない)。統合で枝の塊の前に空行を置く手順は残してよい(害は無い)。
+- **§5.19 の窓**: docs.nsLockLedgerRow は CALIBRATION_VERDICT §5.19 を次の「### 」か「## 」の見出しまで読む(`secUntilNext329c`)。

@@ -191,17 +191,22 @@ export const QAPART_PRELUDE_NAMES = ['fs', 'crypto', 'path', 'execSync', 'create
 /**
  * 鍵の束(--batch N): 鍵を切り出しの範囲の順に並べ、**範囲が重なる鍵は同じ束**に入れて、束の鍵の数が N を超えないように分ける
  * (1 つの範囲に N を超える鍵があればその範囲だけで 1 束)。
+ * 第330便c(R309 —— 第329便の継ぎ目: docs.w322d ⑤「50 鍵を超える束」): 範囲は半開区間 [始め, 終わり) —— **端が接するだけの範囲は重ならない**(`<`)。
+ *   第322便d〜第329便は `<=` で接する塊も 1 つの組にした(統合で塊の前に空行を挟んで組を切っていた)。今の qa.mjs の範囲は「同じ」か「離れている」だけ(一部だけ重なる範囲 0)。
  * @param {Array<{id:string, span:[number,number]}>} keyed
  * @param {number} n
  * @returns {string[][]}
  */
+// ==== 第330便c の塊(ここから)====
+export const BATCH_KEYS_VERSION_330C = 'w330c-batchkeys-2';   // 版 1 = 第322便d の `<=`(接する範囲も組)・版 2 = 半開区間の重なり `<`
+// ==== 第330便c の塊(ここまで)====
 export function batchKeys(keyed, n) {
   const sorted = keyed.slice().sort((p, q) => p.span[0] - q.span[0] || p.span[1] - q.span[1]);
-  // 重なる範囲を組にまとめる
+  // 重なる範囲を組にまとめる(第330便c: 半開区間 —— 接するだけの範囲は別の組)
   const groups = [];
   for (const k of sorted) {
     const g = groups[groups.length - 1];
-    if (g && k.span[0] <= g.end) { g.ids.push(k.id); g.end = Math.max(g.end, k.span[1]); }
+    if (g && k.span[0] < g.end) { g.ids.push(k.id); g.end = Math.max(g.end, k.span[1]); }
     else groups.push({ ids: [k.id], end: k.span[1] });
   }
   const out = [];
@@ -278,4 +283,4 @@ export function summaryText(c) {
     + (c.errors ? `・範囲の例外 ${c.errors}` : '');
 }
 
-export default { QAPART_LIB_VERSION, qaSpanner, QAPART_PRELUDE_NAMES, batchKeys, QAPART_SUMMARY_VERSION, skipTokens, skipCovers, classifyRequested, summaryText };
+export default { QAPART_LIB_VERSION, qaSpanner, QAPART_PRELUDE_NAMES, batchKeys, BATCH_KEYS_VERSION_330C, QAPART_SUMMARY_VERSION, skipTokens, skipCovers, classifyRequested, summaryText };
