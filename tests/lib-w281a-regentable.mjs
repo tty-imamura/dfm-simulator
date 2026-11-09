@@ -1813,6 +1813,20 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/centrifugal-w331b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第331便b: 遠心力を弱める関係の純関数(回る枠の中の円軌道の釣り合いの宣言の式・軸の型・枠の 2 つの読み・自己の重みの型・否定対照)・NGC 3198 の要る枠の回転・m/r² の座標則の円盤の枠の固定点の AN593 B の格子(速度の絶対値と残差・無引きずりの対照)・太陽系と土星の環の面内の大きさ' }),
   // ==== 第331便b の塊(ここまで)====
+  // ==== 第331便c の塊(ここから)====
+  // ---- 第331便c(原仮定者の整理(2026-11-09)「水星の近点移動は G_loc を採用」・原仮定者の追記(2026-11-09)「K1 の R_d を使った計算は『太陽–木星』のスケールで有効なのではないか」
+  //   「『土星の環の厚み』との関連も調べる」・統括の検証項目 R312): **G_loc の基準表(全近点移動の出所)・K1 の R_d のスケールの読みの表・土星の環の厚みとの関連の候補の表の器**
+  //   (段 k1scale-331c —— 正本 tests/out/k1scale-w331c.json・lib tests/lib-w331c-k1scale.mjs —— 第315便c の器の写しの関数〔BOOKS・刻み・抽出器〕と第330便b の lib の自己の重みを
+  //   import して使う)。**診断だけ**(エンジン・在位の本・受理器・G_loc の符号・n・R_d の規則は変えない —— 写しの中だけで n と K1 の有無と惑星の質量を変える)。html と
+  //   正本 tests/out/inposk1-w315c.json(段 R の分担の比・写しのビット同一の照合)と、原仮定者の補足(2026-11-09)の K1 の R_d の有効な例の一覧(段 V)が読む正本 6 本
+  //   (k1confirm-w313d・k1outer-w314c・k1em-w314c・satk1-w315d・binbooks-w322b・rdexcess-w314a)を読む(after に連ねる —— 記録の値の出典 axialheat-w326d は lib が名を書くだけ〔順序だけ after に〕)。補足 1 の回転引きずりの型の表(段 X)と spinDrag の写し(段 W —— 1 公転 2 本)。
+  //   走行は子プロセス 2 本(workers 2)。所要は第331便c の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走 —— 引きずりの走行〔🌡️🏀💙 × n 格子と η の写し〕が段の所要を決める)
+  S('k1scale-331c', 'node tests/exp-w331c-k1scale.mjs', ['tests/out/k1scale-w331c.json'], 3100, { secSource: 'w331c-branch', node: true, workers: 2,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus'],
+    quickVerify: 'long', quickVerifyWhy: '写しの段 E のエンジンの近点(8 公転 × h・h/2〔外惑星は h/4〕—— 窓を持たない)',
+    volatilePaths: { 'tests/out/k1scale-w331c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/stats/spentSec']) },
+    note: '第331便c: G_loc の基準表(n ∈ {2, 1, 0, −1, −2, −3}〔対称は −6 も〕× 受け手/対称 × K1 の有無 —— 一次の解析と在位の 7 本の写しの数値・全近点移動の出所・候補の表〔採るかは次の報の決断〕)・K1 の R_d のスケールの読み(分担の比・η・回る枠の座標回転・m/r² の座標則・1PN と K1 の大きさ —— 複数を並べる)・土星の環の厚みとの関連の候補の表(文献の値・R_d・J₂ の振動数と引きずりの項)・原仮定者の補足(2026-11-09)の回転引きずりの型の表(今の組を基準)と K1 の R_d の有効な例・有効でない例・まだ判定していない例の一覧' }),
+  // ==== 第331便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
