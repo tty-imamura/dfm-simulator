@@ -99386,6 +99386,267 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第330便c の塊(ここまで)====
 
+// ==== 第331便d の塊(ここから —— lint.equations331d・docs.equations331d の 2 ブロック。root は SKIP)====
+// ---- 第331便d(原仮定者の依頼(2026-11-09)「今の DFM で使われている主要な計算式をリスト化する。解説付きで、数式版とプログラム版を用意する」・統括の検証項目 R313):
+// ----   **文書と QA だけ**(docs/EQUATIONS.md —— html・本の宣言・エンジン・受理器・lib の本文は変えない)。世代切替 = beta 対象 ∧ docs/EQUATIONS.md がある。
+// ----   lint.equations331d: ① プログラム版の各抜粋(見出し「**プログラム版 k**(`ファイル` · `関数の名`)」の直後の js のブロック —— `// …` の行で断片に分ける)が、名指しのファイルの
+// ----     名指しの関数の本体(function・=function は括弧と波括弧の対応 —— 文字列とコメントは tests/lib-w281a-scope.mjs の scanJs で潰す / const は宣言の行)の中に、空白を 1 つに
+// ----     まとめた形でそのまま在る・名が定義されている・断片は短い(6 行・320 字まで)② 変異の写しの自己試験(断片の 1 字違い → その項・抜粋・断片の番号と関数の名で 1 件だけ落ちる /
+// ----     名の 1 字違い → 名が無い / 字下げと改行を変えた写し → 通る)③ PHYSICS §5 の E の一覧の名(行頭の「- **E…」「### E…」)が本書 §6 の表に全部ある(拾わない名は理由の欄が空でない)
+// ----   docs.equations331d: ① 各項(### EQ-NN)にラベル(5 種のどれか)と 4 つの部分(数式版・解説・プログラム版・PHYSICS の節)・§3 の一覧と項の見出しとラベルが同じ・
+// ----     宣言〔未接続〕の項の抜粋は tests の lib だけ ② 定数(C₁ の閉じた式と ⟨1/K1(t; 1)⟩ の数値の求積・抜粋を評価した Y_k と R_d/r_s = 5/C₁・G_loc の近点の一次の比 −n/3)と
+// ----     在位の 🌡️ の正本 tests/out/inposk1-w315c.json(G_loc の分 −2/3・K1 の分 5/3・和・二体の 1PN の式の値・差)を本書の数と照らす ③ 禁句・外部の名・書かない語・裸の係数記号・
+// ----     速度の数の字列(本書・PHYSICS〔第331便d〕・AI_SPEC §205・CHANGELOG の行)④ PHYSICS〔第331便d〕の位置と必須の語・AI_SPEC §205・CHANGELOG・README の文書の表・post-merge の ③′
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const fEq331d = path.join(ROOT, 'docs', 'EQUATIONS.md');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(fEq331d))) {
+    console.log('SKIP lint.equations331d・docs.equations331d(第331便d の文書の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const fc331d = new Map(), rd331d = (f) => { if (!fc331d.has(f)) { let t = ''; try { t = fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { t = ''; } fc331d.set(f, t); } return fc331d.get(f); };   // 読んだファイルは 1 回だけ
+  const SC331d = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
+  const EQ331d = rd331d('docs/EQUATIONS.md');
+  const LABELS331d = ['実装〔既定〕', '実装〔opt-in〕', '実装〔読み口〕', '診断', '宣言〔未接続〕'];
+  const norm331d = (t) => t.replace(/\s+/g, ' ').trim();
+  const esc331d = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // 項の切り出し(### EQ-NN の見出しから次の「### 」か「## 」まで)
+  const items331d = (doc) => {
+    const out = [], re = /\n### (EQ-\d\d) ([^\n]*)/g;
+    let m;
+    while ((m = re.exec(doc))) {
+      const end = secUntilNext329c(doc, m.index, ['\n### ', '\n## ']);
+      out.push({ id: m[1], title: m[2], text: end });
+    }
+    return out;
+  };
+  // 抜粋のブロック(見出しの行・ファイル・名・断片)
+  const blocks331d = (text) => {
+    const out = [], re = /- \*\*プログラム版 (\d+)\*\*\(`([^`]+)` · `([^`]+)`\)\n\n```js\n([\s\S]*?)\n```/g;
+    let m;
+    while ((m = re.exec(text))) {
+      const frags = [], cur = [];
+      for (const ln of m[4].split('\n')) { if (ln.trim() === '// …') { frags.push(cur.splice(0)); } else cur.push(ln); }
+      frags.push(cur.splice(0));
+      out.push({ k: Number(m[1]), file: m[2], name: m[3], frags: frags.map((ls) => ls.join('\n')) });
+    }
+    return out;
+  };
+  // 名の本体の範囲(function・=function は括弧と波括弧の対応 —— scanJs の code で文字列とコメントを潰す / const は宣言の行)
+  const bodyCache331d = new Map();
+  const bodyOf331d = (file, src, name) => {
+    const key = file + '\u0000' + name;
+    if (bodyCache331d.has(key)) return bodyCache331d.get(key);
+    let res = null;
+    const nm = esc331d(name);
+    let fx = null;
+    for (const m of src.matchAll(new RegExp('(?:^|[^\\w$.])(?:function\\s+' + nm + '\\s*\\(|' + nm + '\\s*=\\s*function\\s*\\()', 'gm'))) {
+      const ls = src.lastIndexOf('\n', m.index) + 1, pre = src.slice(ls, m.index + 1);
+      if (pre.indexOf('//') >= 0 || /^\s*\*/.test(pre)) continue;   // コメントの行の中の名は数えない
+      fx = m; break;
+    }
+    if (fx) {
+      const at = fx.index + fx[0].length - 1;   // 引数の「(」
+      for (let len = 20000; res === null; len *= 4) {
+        const sl = src.slice(at, at + len), code = SC331d.scanJs(sl).code;
+        let i = 0, dp = 0;
+        for (; i < code.length; i++) { const c = code[i]; if (c === '(') dp++; else if (c === ')') { dp--; if (dp === 0) break; } }
+        let j = (i < code.length) ? code.indexOf('{', i) : -1, db = 0, k = j;
+        if (j >= 0) for (; k < code.length; k++) { const c = code[k]; if (c === '{') db++; else if (c === '}') { db--; if (db === 0) break; } }
+        if (j >= 0 && k < code.length) res = { kind: 'function', text: src.slice(fx.index, at + k + 1) };
+        else if (at + len >= src.length) { res = { kind: 'unclosed', text: '' }; break; }
+      }
+    } else {
+      const cx = new RegExp('^[ \\t]*(?:export\\s+)?(?:const|let|var)\\s+(?:[^\\n]*?,\\s*)?' + nm + '\\s*=[^\\n]*', 'm').exec(src);
+      if (cx) res = { kind: 'const', text: cx[0] };
+    }
+    bodyCache331d.set(key, res);
+    return res;
+  };
+  // 照合の本体(文書の写しを引数に —— 変異の自己試験も同じ関数)
+  const check331d = (doc) => {
+    const bad = [], st = { items: 0, blocks: 0, frags: 0, files: new Set(), names: new Set() };
+    for (const it of items331d(doc)) {
+      st.items++;
+      for (const b of blocks331d(it.text)) {
+        st.blocks++;
+        const where = `${it.id} の抜粋 ${b.k}(${b.file} · ${b.name})`;
+        const src = rd331d(b.file);
+        if (!src) { bad.push(where + ': ファイルが無い'); continue; }
+        st.files.add(b.file);
+        const body = bodyOf331d(b.file, src, b.name);
+        if (!body || body.kind === 'unclosed') { bad.push(where + ': 名が無い' + (body ? '(本体の波括弧が閉じない)' : '')); continue; }
+        st.names.add(b.file + ':' + b.name);
+        const nb = body.norm || (body.norm = norm331d(body.text));
+        b.frags.forEach((f, mi) => {
+          st.frags++;
+          const nf = norm331d(f), lines = f.split('\n').length;
+          if (!nf) { bad.push(where + `の断片 ${mi + 1}: 空`); return; }
+          if (lines > 6 || nf.length > 320) bad.push(where + `の断片 ${mi + 1}: 長い(${lines} 行・${nf.length} 字 —— 6 行・320 字まで)`);
+          if (nb.indexOf(nf) < 0) bad.push(where + `の断片 ${mi + 1} が${body.kind === 'const' ? '宣言の行' : '関数の本体'}に無い: «${nf.slice(0, 70)}»`);
+        });
+      }
+    }
+    return { bad, st };
+  };
+  // ───── lint.equations331d ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const r = check331d(EQ331d);
+      for (const b of r.bad) bad.push('① ' + b);
+      if (r.st.items < 20 || r.st.blocks < r.st.items) bad.push(`① 項 ${r.st.items}・抜粋 ${r.st.blocks}(項は 20 以上・抜粋は項ごとに 1 つ以上)`);
+      cases.push(`① 項 ${r.st.items}・抜粋 ${r.st.blocks}・断片 ${r.st.frags}・ファイル ${r.st.files.size}(${[...r.st.files].join('・')})・名 ${r.st.names.size} —— 名指しの関数の本体の中に空白をまとめた形で在る`);
+      // ② 変異の写しの自己試験
+      const b18 = '```js\nreturn -2*n*Math.PI*muEff/(c0*c0*a*(1-e*e));\n```';
+      if (EQ331d.indexOf(b18) < 0) bad.push('② 自己試験の種(EQ-18 の gLocPeriAdvance の抜粋)が本書に無い');
+      else {
+        const m1 = check331d(EQ331d.replace(b18, b18.replace('-2*n', '-3*n')));
+        const ok1 = m1.bad.length === 1 && /^EQ-18 の抜粋 3\(beta\/index\.html · gLocPeriAdvance\)の断片 1 が関数の本体に無い/.test(m1.bad[0]);
+        if (!ok1) bad.push('② 1 字違いの断片の出し方: ' + JSON.stringify(m1.bad.slice(0, 3)));
+        const h18 = '(`beta/index.html` · `gLocPeriAdvance`)';
+        const m2 = check331d(EQ331d.replace(h18, h18.replace('gLocPeriAdvance', 'gLocPeriAdvanceX')));
+        const ok2 = m2.bad.length === 1 && /^EQ-18 の抜粋 3\(beta\/index\.html · gLocPeriAdvanceX\): 名が無い/.test(m2.bad[0]);
+        if (!ok2) bad.push('② 名の 1 字違いの出し方: ' + JSON.stringify(m2.bad.slice(0, 3)));
+        const b02 = '```js\nconst invd3=invW*invW*invW;\nconst fg=G*invd3;\n';
+        const m3 = EQ331d.indexOf(b02) >= 0 ? check331d(EQ331d.replace(b02, '```js\n      const invd3=invW*invW*invW;   const fg=G*invd3;\n\n')) : { bad: ['種が無い'] };
+        if (m3.bad.length) bad.push('② 字下げと改行を変えた写しが落ちる: ' + JSON.stringify(m3.bad.slice(0, 2)));
+        cases.push(`② 変異の自己試験: 断片の 1 字違い → ${ok1 ? '1 件(EQ-18 の抜粋 3・断片 1・gLocPeriAdvance)' : '×'} / 名の 1 字違い → ${ok2 ? '1 件(名が無い)' : '×'} / 字下げと改行の違い → ${m3.bad.length ? '×' : '通る'}`);
+      }
+      // ③ PHYSICS §5 の E の名の拾い漏れ
+      const PH = rd331d('docs/PHYSICS.md'), a5 = PH.indexOf('\n## 5. 計算式'), b5 = a5 >= 0 ? PH.indexOf('\n## 6. ', a5) : -1;
+      const s5 = (a5 >= 0 && b5 > a5) ? PH.slice(a5, b5) : '';
+      if (!s5) bad.push('③ PHYSICS の §5 が見つからない');
+      const names = [...new Set([...s5.matchAll(/^(?:- \*\*|### )(E\d+[^\s(〔*（]*)/gm)].map((m) => m[1]))];
+      const s6 = secUntilNext329c(EQ331d, EQ331d.indexOf('\n## 6. '), '\n## ');
+      const rows = new Map(s6.split('\n').filter((l) => /^\| E\d/.test(l)).map((l) => { const c = l.split('|').map((z) => z.trim()); return [c[1], { item: c[2], why: c[3] }]; }));
+      const ids = new Set(items331d(EQ331d).map((z) => z.id));
+      const miss = names.filter((n) => !rows.has(n)), noWhy = [], badRef = [];
+      for (const [n, r] of rows) {
+        if (r.item === '—') { if (!r.why || r.why === '—') noWhy.push(n); }
+        else for (const id of r.item.split(/[・,、 ]+/).filter(Boolean)) if (!ids.has(id)) badRef.push(n + '→' + id);
+      }
+      if (names.length < 13) bad.push('③ §5 の E の名が少ない(' + names.length + ')—— 数え方が崩れた');
+      if (miss.length) bad.push('③ §6 の表に無い E の名: ' + miss.join(' '));
+      if (noWhy.length) bad.push('③ 拾わない名の理由の欄が空: ' + noWhy.join(' '));
+      if (badRef.length) bad.push('③ §6 の表が無い項を指す: ' + badRef.join(' '));
+      cases.push(`③ PHYSICS §5 の E の名 ${names.length}(${names.join(' ')})—— §6 の表に全部(項 ${[...rows.values()].filter((r) => r.item !== '—').length}・理由つきで拾わない ${[...rows.values()].filter((r) => r.item === '—').length})`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.equations331d', bad.length === 0,
+      `**主要な計算式の一覧のプログラム版を実物のコードと照合**(第331便d・原仮定者の依頼(2026-11-09)・R313 —— 抜粋が古くなれば項・抜粋・断片の番号と関数の名で落ちる): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.equations331d ─────
+  {
+    const bad = [], cases = [];
+    try {
+      // ① 項の形
+      const its = items331d(EQ331d), cnt = Object.fromEntries(LABELS331d.map((l) => [l, 0]));
+      for (const it of its) {
+        const lab = (/\n- \*\*ラベル\*\*: ([^\n]+)/.exec(it.text) || [])[1] || '';
+        const L = LABELS331d.find((l) => lab.trim() === l);
+        if (!L) bad.push(`① ${it.id} のラベル「${lab.slice(0, 20)}」が 5 種のどれでもない`); else cnt[L]++;
+        for (const part of ['\n- **数式版**', '\n- **解説**', '\n- **プログラム版 1**', '\n- **PHYSICS の節**: ']) if (it.text.indexOf(part) < 0) bad.push(`① ${it.id} に「${part.replace(/[\n*-]/g, '').trim()}」が無い`);
+        if (L === '宣言〔未接続〕') for (const b of blocks331d(it.text)) if (!/^tests\/lib-/.test(b.file)) bad.push(`① ${it.id}(宣言〔未接続〕)の抜粋 ${b.k} が tests の lib でない(${b.file})`);
+        if (L && L.indexOf('実装') === 0) for (const b of blocks331d(it.text)) if (b.file !== 'beta/index.html') bad.push(`① ${it.id}(${L})の抜粋 ${b.k} が beta/index.html でない(${b.file})`);
+        if (L === '診断') for (const b of blocks331d(it.text)) if (!/^tests\/lib-/.test(b.file)) bad.push(`① ${it.id}(診断)の抜粋 ${b.k} が tests の lib でない(${b.file})`);
+      }
+      const s3 = secUntilNext329c(EQ331d, EQ331d.indexOf('\n## 3. '), '\n## ');
+      const t3 = s3.split('\n').filter((l) => /^\| EQ-\d\d /.test(l)).map((l) => l.split('|').map((z) => z.trim()));
+      const t3s = t3.map((c) => c[1] + '=' + c[3]).join(','), its3 = its.map((it) => it.id + '=' + (((/\n- \*\*ラベル\*\*: ([^\n]+)/.exec(it.text) || [])[1]) || '').trim()).join(',');
+      if (t3s !== its3) bad.push('① §3 の一覧と項の見出し・ラベルが違う');
+      const dup = its.map((z) => z.id).filter((z, k, a) => a.indexOf(z) !== k);
+      if (dup.length) bad.push('① 項の番号の重複: ' + dup.join(' '));
+      cases.push(`① 項 ${its.length}(${LABELS331d.map((l) => l + ' ' + cnt[l]).join('・')})—— 各項にラベルと 4 つの部分・§3 の一覧と同じ・宣言と診断の抜粋は tests の lib・実装の抜粋は beta/index.html`);
+      // ② 定数と正本
+      const sec = (id) => (its.find((z) => z.id === id) || { text: '' }).text;
+      const s14 = sec('EQ-14'), s18 = sec('EQ-18');
+      const C1 = 6 * ((Math.sqrt(3) / 2) * Math.log(2 + Math.sqrt(3)) - 1);
+      let hq = 0; { const N = 20000; for (let k = 0; k < N; k++) { const t = (k + 0.5) / N; hq += 3 * t * t * (2 / (3 - t * t)) / N; } }   // ⟨1/K1(t; 1)⟩ = ∫₀¹ 3t² · 2/(3 − t²) dt(一様な球の体積の重み)
+      if (!(Math.abs(hq - C1) < 1e-8)) bad.push('② C₁ と ⟨1/K1(t; 1)⟩ の求積が違う: ' + hq + ' / ' + C1);
+      const c1s = C1.toFixed(13), rrs = (5 / C1).toFixed(6);
+      if (s14.indexOf(c1s) < 0) bad.push('② EQ-14 に C₁ = ' + c1s + ' が無い');
+      if (s14.indexOf(rrs) < 0) bad.push('② EQ-14 に R_d/r_s = ' + rrs + ' が無い');
+      const exb = (id, k) => { const b = blocks331d(sec(id)).find((z) => z.k === k); return b ? b.frags.join('\n') : ''; };
+      const cExpr = (/REL_DRAG_INVSQ_C1=([^;]+);/.exec(exb('EQ-14', 1)) || [])[1], kExpr = (/return ([^;]+);/.exec(exb('EQ-14', 2)) || [])[1];
+      const gExpr = (/return ([^;]+);/.exec(exb('EQ-18', 3)) || [])[1];
+      if (!cExpr || !kExpr || !gExpr) bad.push('② 抜粋の式が取れない(EQ-14 の 1・2・EQ-18 の 3)');
+      else {
+        const C1c = Function('"use strict"; return (' + cExpr + ');')();
+        const Yk = Function('G', 'c', 'REL_DRAG_INVSQ_C1', '"use strict"; return (' + kExpr + ');');
+        const PA = Function('n', 'muEff', 'c0', 'a', 'e', '"use strict"; return (' + gExpr + ');');
+        if (!(Math.abs(C1c / C1 - 1) < 1e-14)) bad.push('② 抜粋の C₁ と閉じた式が違う: ' + C1c);
+        const rel = (a, b) => Math.abs(a / b - 1);
+        let ykMax = 0, rsMax = 0;
+        for (const [G, c] of [[6.674, 29979.2458], [1, 30], [6.674e-11, 299792458]]) {
+          ykMax = Math.max(ykMax, rel(Yk(G, c, C1c), 10 * G / (C1 * c * c)));
+          rsMax = Math.max(rsMax, rel(Yk(G, c, C1c) / (2 * G / (c * c)), 5 / C1));
+        }
+        if (!(ykMax < 1e-12 && rsMax < 1e-12)) bad.push(`② 抜粋の Y_k と 10G/(C₁c²)・R_d/r_s と 5/C₁ の相対の差 ${ykMax.toExponential(2)}・${rsMax.toExponential(2)}`);
+        let gMax = 0;
+        for (const n of [2, 1, 0, -1, -3]) for (const [mu, c0, a, e] of [[1.327e20, 299792458, 5.79e10, 0.2056], [6.674, 29979.2458, 57.9, 0.2056]]) {
+          const q1 = 6 * Math.PI * mu / (c0 * c0 * a * (1 - e * e)), r = PA(n, mu, c0, a, e) / q1;
+          gMax = Math.max(gMax, Math.abs(r - (-n / 3)));
+        }
+        if (!(gMax < 1e-12)) bad.push('② 抜粋の gLocPeriAdvance の一次の比が −n/3 でない: ' + gMax);
+        if (!(s18.indexOf('−n/3') >= 0 && s18.indexOf('n = −3') >= 0)) bad.push('② EQ-18 に一次の比 −n/3 と n = −3 が無い');
+        cases.push(`② C₁ = ${c1s}(閉じた式・抜粋・⟨1/K1(t; 1)⟩ の求積の差 ${Math.abs(hq - C1).toExponential(1)})・Y_k と R_d/r_s = 5/C₁ = ${rrs}(抜粋を評価 —— 相対の差 ${Math.max(ykMax, rsMax).toExponential(1)})・G_loc の一次の比 −n/3(n = 2, 1, 0, −1, −3 —— 差 ${gMax.toExponential(1)})`);
+      }
+      let J = null; try { J = JSON.parse(rd331d('tests/out/inposk1-w315c.json')); } catch (e) { J = null; }
+      const me = J && J.K && J.K.systems && J.K.systems.mercury, row = me && me.byDiv && me.byDiv[String(me.fine)];
+      if (!row || !row.q) bad.push('② 正本 inposk1-w315c の K.systems.mercury が読めない');
+      else {
+        const tot = row.q.q11 - row.q.q00, gl = row.dqG, k1 = row.DG, q1pn = tot - row.r1pn;
+        const mn = (x, d) => (x < 0 ? '−' : '+') + Math.abs(x).toFixed(d);
+        const [mm, ee] = row.r1pn.toExponential(1).split('e'), SUP = { '-': '⁻', 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹' };
+        const want = [mn(gl, 2) + '″/世紀', mn(k1, 2) + '″/世紀', tot.toFixed(2) + '″/世紀', q1pn.toFixed(5) + '″/世紀', mm + '×10' + ee.split('').map((ch) => SUP[ch] || '').join('') + '″/世紀'];
+        for (const w of want) if (s18.indexOf(w) < 0) bad.push('② EQ-18 に正本の「' + w + '」が無い');
+        if (!(Math.abs(gl / tot + 2 / 3) < 1e-3 && Math.abs(k1 / tot - 5 / 3) < 1e-3 && Math.abs(gl + k1 - tot) < 1e-9 * Math.abs(tot))) bad.push(`② 正本の分担が −2/3・5/3 でない(${(gl / tot).toFixed(5)}・${(k1 / tot).toFixed(5)})`);
+        const s2 = secUntilNext329c(EQ331d, EQ331d.indexOf('\n## 2. '), '\n## ');
+        for (const w of want.slice(0, 4)) if (s2.indexOf(w) < 0) bad.push('② §2 の対応表に正本の「' + w + '」が無い');
+        cases.push(`② 在位の 🌡️(正本 inposk1-w315c・刻み h/${me.fine}): G_loc の分 ${mn(gl, 2)}(比 ${(gl / tot).toFixed(4)})・K1 の分 ${mn(k1, 2)}(比 ${(k1 / tot).toFixed(4)})・和 ${tot.toFixed(2)}・q_1PN ${q1pn.toFixed(5)}・差 ${row.r1pn.toExponential(2)} ″/世紀 —— EQ-18 と §2 に同じ数`);
+      }
+      // ③ 禁句・外部の名・書かない語・裸の係数記号・速度の数の字列
+      const PH = rd331d('docs/PHYSICS.md'), AS = rd331d('docs/AI_SPEC.md'), CLx = rd331d('CHANGELOG.md'), RM = rd331d('README.md'), PM = rd331d('tools/post-merge-qa.sh');
+      const i0 = PH.indexOf('〔第331便d — '), sec331 = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /) : '';
+      const a205 = AS.search(/\n## 205\. 第331便d/), ai = a205 >= 0 ? secUntilNext329c(AS, a205, '\n## ') : '';
+      const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl = clg.split('\n').find((l) => l.indexOf('**第331便d**') >= 0) || '';
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /説明した/, /同定した/, /一致した/, /示した/, /確かめた/, /再現/,
+        /遠心力を弱めることで平坦/, /R_d が土星の環の厚みを決める/, /スケールで有効と確/, /G_loc で水星の近点を/, /座標則が今のエンジンと同じ/];
+      const cpC = (a) => String.fromCodePoint(...a), rvC = (t) => t.split('').reverse().join('');
+      const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+        cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+      for (const [nm, tx] of [['本書', EQ331d], ['PHYSICS〔第331便d〕', sec331], ['AI_SPEC §205', ai], ['CHANGELOG の第331便d の行', cl]]) {
+        for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push('③ ' + nm + ' に禁句(' + w.length + ' 字)');
+        for (const re of NOT) if (re.test(strip(tx))) bad.push('③ ' + nm + ' に書かない語 ' + re.source);
+        const kap = nm === '本書' ? /κ(?!_D|_epi)/ : /(^|[^_A-Za-z`])κ(?!_D)/;
+        const tk = nm === '本書' ? tx : tx.replace(/`[^`\n]*`/g, '');
+        if (kap.test(tk)) bad.push('③ ' + nm + ' に裸の係数記号');
+        if (/\d\s*km\/s/.test(tx)) bad.push('③ ' + nm + ' に速度の数の字列');
+      }
+      cases.push('③ 禁句・外部の名・書かない語・裸の係数記号(本書は κ_D と κ_epi だけ・節と AI_SPEC と CHANGELOG は κ_D だけ —— κ_epi はコードの書式)・速度の数の字列(本書・節・AI_SPEC・CHANGELOG)');
+      // ④ 置き場所
+      const iC = PH.indexOf('〔第330便c — '), iT = PH.indexOf('〔第328便 — 統括'), i7 = PH.indexOf('\n## 7. 論文');
+      if (!(i0 >= 0 && iC >= 0 && iC < i0 && (iT < 0 || i0 < iT) && (i7 < 0 || i0 < i7))) bad.push('④ PHYSICS〔第331便d〕の位置(第330便c の節の後・第328便の統括の節と「## 7.」の前)');
+      const wantP = ['原仮定者の依頼(2026-11-09)', 'R313', 'docs/EQUATIONS.md', '実装〔既定〕', '実装〔opt-in〕', '実装〔読み口〕', '診断', '宣言〔未接続〕', 'lint.equations331d', 'docs.equations331d',
+        '−28.65', '+71.63', '42.98', 'inposk1-w315c', '−n/3', 'n = −3', 'html・本の宣言・エンジン・受理器'];
+      for (const w of wantP) if (sec331.indexOf(w) < 0) bad.push('④ PHYSICS〔第331便d〕に「' + w + '」が無い');
+      const a201 = AS.search(/\n## 201\. 第330便c/);
+      if (!(a205 >= 0 && a201 >= 0 && a201 < a205 && ['docs/EQUATIONS.md', '宣言〔未接続〕', 'lint.equations331d', 'G_loc'].every((w) => ai.indexOf(w) >= 0))) bad.push('④ AI_SPEC §205(§201 の後・必須の語)');
+      if (!(cl.indexOf('docs/EQUATIONS.md') >= 0 && cl.indexOf('lint.equations331d') >= 0 && cl.indexOf('docs.equations331d') >= 0)) bad.push('④ CHANGELOG の第331便d の行');
+      if (RM.indexOf('[docs/EQUATIONS.md](docs/EQUATIONS.md)') < 0) bad.push('④ README の文書の表に docs/EQUATIONS.md が無い');
+      if (!(PM.indexOf('# ==== 第331便d の塊(ここから)====') >= 0 && ['lint.equations331d', 'docs.equations331d'].every((k) => PM.indexOf(k) >= 0))) bad.push('④ post-merge の ③′ に第331便d の塊');
+      cases.push(`④ PHYSICS〔第331便d〕(第330便c の節の後・必須の語 ${wantP.length})・AI_SPEC §205・CHANGELOG・README の文書の表・post-merge の ③′`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.equations331d', bad.length === 0,
+      `**主要な計算式の一覧の文書**(第331便d・原仮定者の依頼(2026-11-09)・R313 —— ラベルと 4 つの部分・定数と在位の水星の正本・書かない語・置き場所): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第331便d の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

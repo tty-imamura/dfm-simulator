@@ -761,6 +761,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.dragWeight330b behavior.dragWeight330b 
 #   版名 QA の束の QA(docs.w322d —— qa-keys の自己試験 ④ の期待を世代で直した)・§5.19 の窓を直した docs.nsLockLedgerRow・固定の字数の窓の lint.fixedWindow329c
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.toolCheckProv330c lint.physKeysGuard330c docs.w330c docs.w322d docs.nsLockLedgerRow lint.fixedWindow329c lint.toolStamp318 lint.provenanceMeta lint.regenScope lint.canon304 lint.scopeAll312 lint.stableHashPaths lint.regenChain lint.scopeStop lint.condSelect329c lint.qaOrder"
 # ==== 第330便c の塊(ここまで)====
+# ==== 第331便d の塊(ここから)====
+# 第331便d(原仮定者の依頼(2026-11-09)・統括の検証項目 R313 —— 文書と QA だけ・html は変えない): 枝 d の新設 2 本(lint.equations331d —— docs/EQUATIONS.md のプログラム版の抜粋が
+#   名指しのファイルの名指しの関数の本体に在る・変異の自己試験・PHYSICS §5 の E の名の拾い漏れ / docs.equations331d —— ラベルと 4 つの部分・定数と在位の水星の正本・書かない語・置き場所)と、
+#   PHYSICS と AI_SPEC の新しい文の係数記号の lint.kappaSymbol315・節の窓の lint.fixedWindow329c・節の引き方の lint.sectionLookup313・版名 QA の束の docs.w322d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.equations331d docs.equations331d lint.kappaSymbol315 lint.fixedWindow329c lint.sectionLookup313 docs.w322d"
+# ==== 第331便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
