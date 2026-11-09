@@ -425,7 +425,7 @@ export async function runAll(HP, o) {
   J.V = partV(J); tick('V');
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean); J.timing = t;
   const runs = Object.values(J.E.rows).filter((r) => r && r.status === 'run' && r.spec.set !== 'W');
-  J.stats = { runs: runs.length, steps: runs.reduce((s, r) => s + r.steps, 0), spentSecTotal: runs.reduce((s, r) => s + (r.wallSec || 0), 0) };
+  J.stats = { runs: runs.length, steps: runs.reduce((s, r) => s + r.steps, 0), spentSec: runs.reduce((s, r) => s + (r.wallSec || 0), 0) };
   return J;
 }
 
@@ -464,6 +464,6 @@ export async function main() {
   Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, JSON.stringify(out, null, 1) + '\n');
-  console.log('→', path.relative(ROOT, OUT), 'ok=' + out.ok, JSON.stringify(out.gates), out.elapsedS + ' s', 'runs ' + out.stats.runs + '・cpu ' + out.stats.spentSecTotal.toFixed(0) + ' s');
+  console.log('→', path.relative(ROOT, OUT), 'ok=' + out.ok, JSON.stringify(out.gates), out.elapsedS + ' s', 'runs ' + out.stats.runs + '・cpu ' + out.stats.spentSec.toFixed(0) + ' s');
 }
 if (IS_MAIN) await main();

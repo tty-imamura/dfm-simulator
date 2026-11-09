@@ -18307,7 +18307,7 @@
  "ok": true,
  "timing": {
   "pure": {
-   "wallSec": 0.4
+   "wallSec": 0.278
   },
   "P": {
    "wallSec": 0.002
@@ -18316,46 +18316,46 @@
    "wallSec": 0.001
   },
   "R": {
-   "wallSec": 0.003
+   "wallSec": 0.002
   },
   "E": {
-   "wallSec": 0.019
+   "wallSec": 0.018
   },
   "K": {
-   "wallSec": 0.004
+   "wallSec": 0.005
   },
   "H": {
-   "wallSec": 0.001
+   "wallSec": 0
   },
   "S": {
-   "wallSec": 0.27
+   "wallSec": 0.34
   },
   "Z": {
    "wallSec": 0.001
   },
   "W": {
-   "wallSec": 0.001
+   "wallSec": 0
   },
   "X": {
-   "wallSec": 2.339
+   "wallSec": 2.422
   },
   "V": {
-   "wallSec": 0.011
+   "wallSec": 0.014
   }
  },
  "stats": {
   "runs": 286,
   "steps": 200456761,
-  "spentSecTotal": 6074.735
+  "spentSec": 6074.735
  },
  "resumed": 288,
- "elapsedS": 5.023,
+ "elapsedS": 4.827,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第331便c",
   "target": "beta/index.html",
   "targetSha256": "60dca011e60350b5a32283b2df914a78c6fe1c799345f5c95ef05eeaf91ab4c1",
-  "generatedAt": "2026-11-09T17:13:36.997Z",
+  "generatedAt": "2026-11-09T17:21:03.738Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -18409,9 +18409,9 @@
   "code": [
    {
     "file": "tests/exp-w331c-k1scale.mjs",
-    "bytes": 41728,
-    "sha256": "5a770ee116efe7c872aae122beaf7032a3f46ed1f57c542d50e2edf182268add",
-    "mtime": "2026-11-09T17:13:31.834Z"
+    "bytes": 41718,
+    "sha256": "ed0112b7e4ee101a19092b3fe4a42a04b128475e5c93bfdd1ca8c82acf1cff72",
+    "mtime": "2026-11-09T17:20:58.795Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
@@ -18474,7 +18474,7 @@
     "mtime": "2026-11-09T15:44:25.929Z"
    }
   ],
-  "codeSha256": "62ac76a7bfde8d8fe4eaed511c20a06f7edc511e3f2af0086ee73017b003ed0b",
+  "codeSha256": "f94cf1afd58a1c55a5f4c1babb16086c808fd06e1ae62f067d6110a51838e007",
   "harnessVersion": "w331c-k1scale-1",
   "stage": "k1scale",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W331C_WORKERS)",
