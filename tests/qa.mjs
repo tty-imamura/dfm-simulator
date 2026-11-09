@@ -99821,6 +99821,93 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第331便d の塊(ここまで)====
 
+// ==== 第331便e の塊(ここから —— lint.phenomena331e・docs.phenomena331e の 2 ブロック。root は SKIP)====
+// ---- 第331便e(原仮定者の補足(2026-11-09)「これまでに検証対象となった様々な現象が、どの程度解決しているのかを、リスト化する」・統括の検証項目 R314): **文書と QA だけ**
+// ----   (現象の状況一覧 docs/PHENOMENA_STATUS.md —— html・本の宣言・エンジン・受理器・既存の lib の本文・physics の鍵は変えない・器と段は足さない)。
+// ----   世代切替 = beta 対象 ∧ 照合の lib tests/lib-w331e-phenostatus.mjs がある。
+// ----   lint.phenomena331e: ① lib の版と固定の語彙(段階 4・仕組み 5・帳簿 3・欄 9)② 照合の規則の自己試験(缶詰の小さい文書 —— 良い形は通り、14 種の壊し方は期待の違反で落ちる)
+// ----     ③ 転記の表の形(行の番号・出典の型・json は値の関数と桁・節は見出しの型)
+// ----   docs.phenomena331e: ① 文書の照合(形・語彙・件数の表と要約・証拠の実在〔本 ID は html と SAMPLE_STATUS の状況の語・パス・節は見出しの行・QA の鍵〕・段階と状況の対応と理由の欄・
+// ----     主な数の転記・書かない語)—— 壊れたときは行・欄・数・出典を違反の文に ② PHYSICS〔第331便e〕(第330便c の節の後・第331便d の節があればその後・第328便の統括の節と「## 7.」の前・
+// ----     表 2 本・必須の語・表 1 の件数が文書の件数と同じ)③ AI_SPEC §206・CHANGELOG・README・post-merge の ③′ ④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・AI_SPEC・CHANGELOG の行・lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const fLib331e = path.join(ROOT, 'tests', 'lib-w331e-phenostatus.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(fLib331e))) {
+    console.log('SKIP lint.phenomena331e・docs.phenomena331e(第331便e の現象の状況一覧の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd331e = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const PS331e = await import('file://' + fLib331e);
+  // ───── lint.phenomena331e ─────
+  {
+    const bad = [], cases = [];
+    try {
+      if (PS331e.PHENO_STATUS_VERSION_331E !== 'w331e-phenostatus-1' || PS331e.PHENO_DOC_331E !== 'docs/PHENOMENA_STATUS.md') bad.push('① 版と文書の名');
+      if (PS331e.STAGES_331E.join('|') !== '門の内|一部|残差|扱っていない' || PS331e.MECHS_331E.join('|') !== '実装(在位)|実装(opt-in)|診断|宣言(未接続)|なし'
+        || PS331e.LEDGERS_331E.join('|') !== '閉じた|未|該当なし' || PS331e.FIELDS_331E.length !== 9) bad.push('① 固定の語彙');
+      cases.push(`① ${PS331e.PHENO_STATUS_VERSION_331E}: 段階 ${PS331e.STAGES_331E.join('・')}・仕組み ${PS331e.MECHS_331E.length}・帳簿 ${PS331e.LEDGERS_331E.join('・')}・欄 ${PS331e.FIELDS_331E.length}`);
+      const st = PS331e.selfTest331e();
+      if (!st.ok) bad.push('② ' + st.bad.slice(0, 3).join(' / '));
+      cases.push('② 規則の自己試験: ' + st.cases.join(' / '));
+      const T = PS331e.TRANSCRIPTS_331E, kinds = ['phys', 'ss', 'json', 'file'];
+      const badT = T.filter((t) => !/^P\d\d$/.test(t.row) || !kinds.includes(t.src) || !t.text || !t.ref
+        || (t.src === 'json' && !(typeof t.val === 'function' && Number.isInteger(t.fixed))) || (t.src === 'phys' && !/^〔第\d+便(?:[a-z]+ — $| — 統括$)/.test(t.ref)));
+      if (badT.length) bad.push('③ 転記の表の形の外 ' + badT.length + ' 項: ' + badT.slice(0, 3).map((t) => t.row + ' ' + t.text).join(' , '));
+      cases.push(`③ 転記の表 ${T.length} 項(${kinds.map((k) => k + ' ' + T.filter((t) => t.src === k).length).join('・')})`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.phenomena331e', bad.length === 0,
+      `**現象の状況一覧の照合の規則**(第331便e・原仮定者の補足(2026-11-09)・R314 —— 段階・仕組み・帳簿を固定の語彙で分け、証拠と主な数を照合する純関数): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.phenomena331e ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const MD = rd331e(PS331e.PHENO_DOC_331E), PH = rd331e('docs/PHYSICS.md'), AS = rd331e('docs/AI_SPEC.md'), CLx = rd331e('CHANGELOG.md'), RM = rd331e('README.md'), PMx = rd331e('tools/post-merge-qa.sh');
+      // ① 文書の照合
+      const R = PS331e.checkPhenoDoc331e({ md: MD, html: rd331e(TARGET), ssMd: rd331e('docs/SAMPLE_STATUS.md'), ph: PH, qaSrc: rd331e('tests/qa.mjs'),
+        exists: (p) => fs.existsSync(path.join(ROOT, p)), readText: rd331e, readJson: (p) => { try { return JSON.parse(rd331e(p)); } catch (e) { return null; } } });
+      for (const b of R.bad) bad.push(b);
+      cases.push('① 文書 ' + PS331e.PHENO_DOC_331E + ': ' + R.cases.join(' / '));
+      // ② PHYSICS〔第331便e〕
+      const i0 = PH.indexOf('\n〔第331便e — '), iC = PH.indexOf('\n〔第330便c — '), iD = PH.indexOf('\n〔第331便d — '), iT = PH.indexOf('\n〔第328便 — 統括'), i7 = PH.indexOf('\n## 7. 論文');
+      const sec = secUntilNext329c(PH, i0 + 1, /\n〔第\d+便[a-z]* — |\n## /);
+      if (!(i0 >= 0 && iC >= 0 && iC < i0 && (iD < 0 || iD < i0) && (iT < 0 || i0 < iT) && (i7 < 0 || i0 < i7))) bad.push('② PHYSICS〔第331便e〕の位置(第330便c の節の後・第331便d の節があればその後・第328便の統括の節と「## 7.」の前)');
+      for (let k = 1; k <= 2; k++) if (sec.indexOf('**表 ' + k + '**') < 0) bad.push('② 表 ' + k + ' が無い');
+      const want = ['原仮定者の補足(2026-11-09)', 'R314', 'docs/PHENOMENA_STATUS.md', 'tests/lib-w331e-phenostatus.mjs', 'w331e-phenostatus-1', 'parsePhenoDoc331e', 'checkPhenoDoc331e', 'TRANSCRIPTS_331E', 'selfTest331e',
+        '門の内', '一部', '残差', '扱っていない', '実装(在位)', '診断', '宣言(未接続)', '閉じた', '該当なし', '−28.65″/世紀', '+71.63″/世紀', 'lint.phenomena331e', 'docs.phenomena331e'];
+      for (const w of want) if (sec.indexOf(w) < 0) bad.push('② PHYSICS〔第331便e〕に「' + w + '」が無い');
+      const T1 = R.tally ? R.tally.stage : {};
+      for (const [v, list] of Object.entries(T1)) {
+        const ln = sec.split('\n').find((l) => l.startsWith('| ' + v + ' |')) || '';
+        if (ln.indexOf('| ' + list.length + '(' + list.join('・') + ') |') < 0) bad.push('② PHYSICS〔第331便e〕の表 1 の「' + v + '」の件数が文書の ' + list.length + '(' + list.join('・') + ')と違う');
+      }
+      const nTr = PS331e.TRANSCRIPTS_331E.length;
+      if (sec.indexOf('転記の表の ' + nTr + ' 項') < 0 || sec.indexOf('(`TRANSCRIPTS_331E` —— ' + nTr + ' 項)') < 0) bad.push('② PHYSICS〔第331便e〕の転記の項の数が ' + nTr + ' でない');
+      cases.push(`② PHYSICS〔第331便e〕(第330便c の節の後・表 2 本・必須の語 ${want.length}・表 1 の件数 = 文書・転記 ${nTr} 項)`);
+      // ③ AI_SPEC §206・CHANGELOG・README・post-merge
+      const a206 = AS.search(/\n## 206\. 第331便e/), a201 = AS.search(/\n## 201\. 第330便c/), ai = secUntilNext329c(AS, a206, '\n## ');
+      if (!(a206 >= 0 && a201 >= 0 && a201 < a206 && ['docs/PHENOMENA_STATUS.md', 'tests/lib-w331e-phenostatus.mjs', 'TRANSCRIPTS_331E', 'lint.phenomena331e', 'docs.phenomena331e', 'SYSTEM_PROMPT には載せない'].every((w) => ai.indexOf(w) >= 0))) bad.push('③ AI_SPEC §206(§201 の後・必須の語)');
+      const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = secUntilNext329c(CLx, cb, '\n## '), cl = clg.split('\n').find((l) => l.indexOf('**第331便e**') >= 0) || '';
+      if (!(cl.indexOf('docs/PHENOMENA_STATUS.md') >= 0 && cl.indexOf('R314') >= 0 && cl.indexOf('docs.phenomena331e') >= 0 && cl.indexOf('lint.phenomena331e') >= 0)) bad.push('③ CHANGELOG の beta の節の第331便e の行');
+      if (RM.indexOf('| [docs/PHENOMENA_STATUS.md](docs/PHENOMENA_STATUS.md) |') < 0) bad.push('③ README の文書の表に docs/PHENOMENA_STATUS.md の行が無い');
+      if (!(PMx.indexOf('# ==== 第331便e の塊(ここから)====') >= 0 && ['lint.phenomena331e', 'docs.phenomena331e', 'lint.kappaSymbol315', 'lint.fixedWindow329c', 'docs.w322d'].every((k) => PMx.indexOf(k) >= 0))) bad.push('③ post-merge の ③′ に第331便e の塊');
+      cases.push('③ AI_SPEC §206・CHANGELOG・README の文書の表・post-merge の ③′');
+      // ④ 書かない語・禁句・裸の係数記号・速度の数の字列
+      const W = [].concat(PS331e.wordAudit331e('PHYSICS〔第331便e〕', sec), PS331e.wordAudit331e('AI_SPEC §206', ai), PS331e.wordAudit331e('CHANGELOG の第331便e の行', cl),
+        PS331e.wordAudit331e('lib', rd331e('tests/lib-w331e-phenostatus.mjs'), { noNot: true }));
+      for (const b of W) bad.push('④ ' + b);
+      cases.push('④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・AI_SPEC・CHANGELOG の行・lib)' + W.length);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.phenomena331e', bad.length === 0,
+      `**現象の状況一覧**(第331便e・原仮定者の補足(2026-11-09)・R314 —— 「合った」「仕組みが実装された」「帳簿が閉じた」を別の欄に・各行の証拠と主な数を照合): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第331便e の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

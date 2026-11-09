@@ -773,6 +773,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.centrifugal331b behavior.centrifugal331
 #   PHYSICS と AI_SPEC の新しい文の係数記号の lint.kappaSymbol315・節の窓の lint.fixedWindow329c・節の引き方の lint.sectionLookup313・版名 QA の束の docs.w322d
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.equations331d docs.equations331d lint.kappaSymbol315 lint.fixedWindow329c lint.sectionLookup313 docs.w322d"
 # ==== 第331便d の塊(ここまで)====
+# ==== 第331便e の塊(ここから)====
+# 第331便e(原仮定者の補足(2026-11-09)・統括の検証項目 R314 —— 文書と QA だけ・html は変えない): 枝 e の新設 2 本(lint.phenomena331e —— 現象の状況一覧の照合の規則の自己試験と転記の表の形 /
+#   docs.phenomena331e —— docs/PHENOMENA_STATUS.md の証拠の実在・語彙と件数・SAMPLE_STATUS の状況との対応と理由の欄・主な数の転記・PHYSICS〔第331便e〕・文書)と、PHYSICS・AI_SPEC・CHANGELOG を読む lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.phenomena331e docs.phenomena331e lint.kappaSymbol315 lint.fixedWindow329c lint.sectionLookup313 lint.qaHeapRelease310 docs.w322d docs.sampleStatus-sync"
+# ==== 第331便e の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
