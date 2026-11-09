@@ -136,12 +136,15 @@ function engineRow(eng, i) {
 /** 座標則の受け手 i(源は写しの他の全天体・自己の重みの型 key = 形|規則) */
 function coordRow(eng, i, key, extra = {}) {
   const [shape, rule] = key.split('|'), B = eng.bodies, sd = L.selfDecl({ shape, rule, m: B[i].m, Robs: B[i].Robs });
-  const src = B.map((b, j) => ({ id: 'b' + j, x: b.x, v: b.v, omega: b.omega, m: b.m })).filter((_, j) => j !== i);
-  const q = L.coordTwist({ id: 'b' + i, x: B[i].x, v: B[i].v, omega: B[i].omega, selfW: sd.w }, src);
+  // 核の半径(重なりの拒否 —— 自己の重みと同じ規則の半径を全部の天体に宣言する: R_d = Y_k m か観測の半径)
+  const src = B.map((b, j) => ({ id: 'b' + j, x: b.x, v: b.v, omega: b.omega, m: b.m, Rcore: coreRadius(rule, b.m, b.Robs) })).filter((_, j) => j !== i);
+  const q = L.coordTwist({ id: 'b' + i, x: B[i].x, v: B[i].v, omega: B[i].omega, selfW: sd.w, Rcore: sd.R }, src);
   const byId = Object.fromEntries(q.ports.map((p) => [p.id, p]));
   return { key, selfW: sd.w, selfR: sd.R, alpha: q.alpha, betaSum: q.ports.reduce((t, p) => t + p.beta, 0), beta: B.map((_, j) => (j === i ? null : byId['b' + j].beta)), rotCoef: B.map((_, j) => (j === i ? null : byId['b' + j].beta * byId['b' + j].r)),
     dTr: nrm(q.dTrans), dRot: nrm(q.dRot), slip: nrm(q.spin.slip), slipAlong: dot(q.spin.slip, B[i].axis), ...extra };
 }
+/** 核の半径(自己の重みの規則と同じ —— kappaM: R_d = Y_k m・radius: 観測の半径) */
+const coreRadius = (rule, m, Robs) => (rule === 'kappaM' ? W.kappaMRadius(m) : Robs);
 const slopesOf = (fs2, ys) => fs2.slice(1).map((f, k) => (ys[k + 1] > 0 && ys[k] > 0 ? Math.log(ys[k + 1] / ys[k]) / Math.log(f / fs2[k]) : null));
 
 /* ───────── E 今のエンジンとの成分ごとの比べる表 ───────── */
@@ -271,7 +274,7 @@ export function partEarthMars(HP, IN) {
     const all = src.concat(gal ? [{ s: 'gal', weight: wG, omega: galOm[gal] }] : []);
     const t = W.spinTarget(Om, sd.w, all.map((q) => ({ weight: q.weight, omega: q.omega })));
     const part = (names) => all.filter((q) => names.includes(q.s)).reduce((s, q) => s + q.weight / t.W * dot(sub(q.omega, Om), b.a), 0);
-    const cS = L.coordTwist({ id: k, x: e16.bodies[i].x, v: e16.bodies[i].v, omega: Om, selfW: sd.w }, src.map((q) => { const j = PLAN.keys.indexOf(q.s); return { id: q.s, x: e16.bodies[j].x, v: e16.bodies[j].v, omega: q.omega, m: SB[q.s].m }; }));
+    const cS = L.coordTwist({ id: k, x: e16.bodies[i].x, v: e16.bodies[i].v, omega: Om, selfW: sd.w, Rcore: sd.R }, src.map((q) => { const j = PLAN.keys.indexOf(q.s); return { id: q.s, x: e16.bodies[j].x, v: e16.bodies[j].v, omega: q.omega, m: SB[q.s].m, Rcore: coreRadius(rule, SB[q.s].m, SB[q.s].R) }; }));
     return { key: k, self: key, gal, spinObs: b.sObs, targetAlong: dot(t.target, b.a), slipAlong: dot(t.slip, b.a), slipOverSpin: dot(t.slip, b.a) / b.sObs, betaSum: t.beta.reduce((u, x) => u + x, 0),
       bySource: { sun: part(groups.sun), moon: part(groups.moon), others: part(groups.others), gal: gal ? part(['gal']) : 0 }, dTr: nrm(cS.dTrans), dRot: nrm(cS.dRot) };
   };

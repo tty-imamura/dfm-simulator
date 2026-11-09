@@ -12259,28 +12259,28 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.018
+   "wallSec": 0.038
   },
   "inputs": {
-   "wallSec": 0.024
+   "wallSec": 0.046
   },
   "engine": {
-   "wallSec": 0.187
+   "wallSec": 0.422
   },
   "apsis": {
-   "wallSec": 0.271
+   "wallSec": 0.572
   },
   "rotTide": {
-   "wallSec": 0.289
+   "wallSec": 0.609
   },
   "heat": {
-   "wallSec": 0.29
+   "wallSec": 0.61
   },
   "lock": {
-   "wallSec": 0.29
+   "wallSec": 0.61
   },
   "earthMars": {
-   "wallSec": 0.306
+   "wallSec": 0.641
   }
  },
  "gates": {
@@ -12297,13 +12297,13 @@
   "earthMarsRows": true
  },
  "ok": true,
- "elapsedS": 2.16,
+ "elapsedS": 3.507,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第331便a",
   "target": "beta/index.html",
   "targetSha256": "60dca011e60350b5a32283b2df914a78c6fe1c799345f5c95ef05eeaf91ab4c1",
-  "generatedAt": "2026-11-09T16:10:58.407Z",
+  "generatedAt": "2026-11-09T16:37:11.662Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -12327,9 +12327,9 @@
   "code": [
    {
     "file": "tests/exp-w331a-coordtwist.mjs",
-    "bytes": 39072,
-    "sha256": "f4531c461b158e07a40d6a950cf486004668132c5547eeecc1e06f546c3f1036",
-    "mtime": "2026-11-09T16:09:13.329Z"
+    "bytes": 39527,
+    "sha256": "424ee4e00dea1d710c95ddb41d37ea18d19dc5e587ec1a4a9157a9ba0e5023d7",
+    "mtime": "2026-11-09T16:37:07.674Z"
    },
    {
     "file": "tests/lib-w331a-coordtwist.mjs",
@@ -12386,7 +12386,7 @@
     "mtime": "2026-11-09T15:44:19.493Z"
    }
   ],
-  "codeSha256": "49694041f23cc996be11178e868b8af1eb77eb2c19ec53a40e30945c84b2968d",
+  "codeSha256": "5aed7ba86f1ed662a3867594b66cca267cf51af8bae2c4355534072e557048f5",
   "harnessVersion": "w331a-coordtwist-1",
   "stage": "coordtwist",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)・🗺️ の写しの受理と読み口(步を進めない)・純関数(lib)",
