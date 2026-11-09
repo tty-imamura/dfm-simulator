@@ -1791,6 +1791,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/dragweight-w330b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第330便b: 第132報の重みの式の純関数(自己の重みは有限の宣言・連鎖は一度だけ)・今のエンジンの経路との対応(3 体の写しの β と受理器の試し)・円盤の連鎖の低 N の試し(速度の形の表)・ジャイロと地球の歳差の照合と窓の角・密度波の共鳴の半径(棒は notClaim)' }),
   // ==== 第330便b の塊(ここまで)====
+  // ==== 第331便b の塊(ここから)====
+  // ---- 第331便b(原仮定者の追記(2026-11-09)「回転引きずりで空間を引きずる事による大きな影響は、遠心力を弱める事で有る」・原仮定者の決断(2026-11-09 —— AN593 = B)・統括の検証項目 R311):
+  //   **遠心力を弱める関係の表の器 —— NGC 3198 の要る枠の回転と m/r² の座標則の円盤の枠の固定点(AN593 B の格子 400 列)・太陽系と土星の環の面内の大きさ**(段 centrifugal-331b ——
+  //   正本 tests/out/centrifugal-w331b.json・lib tests/lib-w331b-centrifugal.mjs —— 第330便b の重みの lib・第312便a の参照の lib・第329便b のラベルの lib を import して使う〔code の依存 —— 他の正本は読まない〕)。
+  //   **診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は 🗺️ と 💍 を .find で引く 2 本 —— 宣言の値を読むだけ・步を進めない・core:false)・NGC 3198 の rotmod の写し
+  //   (第329便b の fixture)を読む。1 プロセス。所要は第331便b の枝の実測 2〜4 s(nice 10)
+  S('centrifugal-331b', 'node tests/exp-w331b-centrifugal.mjs', ['tests/out/centrifugal-w331b.json'], 4, { secSource: 'w331b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: '本の宣言の値と純関数だけ(步を進めない —— 窓が無く、全部を走らせても数秒)',
+    volatilePaths: { 'tests/out/centrifugal-w331b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第331便b: 遠心力を弱める関係の純関数(回る枠の中の円軌道の釣り合いの宣言の式・軸の型・枠の 2 つの読み・自己の重みの型・否定対照)・NGC 3198 の要る枠の回転・m/r² の座標則の円盤の枠の固定点の AN593 B の格子(速度の絶対値と残差・無引きずりの対照)・太陽系と土星の環の面内の大きさ' }),
+  // ==== 第331便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
