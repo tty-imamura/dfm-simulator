@@ -56,9 +56,9 @@ export function tablesOf(J) {
   }
   // 表 5 16 体の写し —— 受け手ごと(右辺の大きさ: エンジンは β と回転の係数の 1 回の和・座標則は d —— 連立の前の同じ扱い)
   {
-    T.full = ['| 受け手 | 最大の源 | Σβ: K1・K2・座標則(R_d = Y_k m)・座標則(観測の半径) | 並進 [m/s]: K1・座標則(観測の半径) | 回転 [m/s]: K1・K2・座標則(観測の半径) | 自転の滑り(座標則・観測の半径)[rad/s]・軸の ω(K1)[rad/s] |', '|---|---|---|---|---|---|']
+    T.full = ['| 受け手 | 最大の源 | Σβ: K1・K2・座標則(R_d = Y_k m)・座標則(観測の半径) | 並進 [m/s]: K1・K2・座標則(観測の半径) | 回転 [m/s]: K1・K2・座標則(観測の半径) | 自転の滑り(座標則・観測の半径)[rad/s]・軸の ω(K1)[rad/s] |', '|---|---|---|---|---|---|']
       .concat(E.full.rows.map((r) => { const hk = r.coord['ballHarmonic|kappaM'], hr = r.coord['ballHarmonic|radius'];
-        return `| ${nm(r.key)} | ${nm(P.keys[r.jMaxK1])} | ${fe(r.k1.betaSum)}・${fe(r.k2.betaSum)}・${fe(hk.betaSum)}・${fe(hr.betaSum)} | ${fe(r.k1.uTr)}・${fe(hr.dTr)} | ${fe(r.k1.uRot)}・${fe(r.k2.uRot)}・${fe(hr.dRot)} | ${fe(hr.slip)}・${fe(r.k1.omegaAx)} |`; })).join('\n');
+        return `| ${nm(r.key)} | ${nm(P.keys[r.jMaxK1])} | ${fe(r.k1.betaSum)}・${fe(r.k2.betaSum)}・${fe(hk.betaSum)}・${fe(hr.betaSum)} | ${fe(r.k1.uTr)}・${fe(r.k2.uTr)}・${fe(hr.dTr)} | ${fe(r.k1.uRot)}・${fe(r.k2.uRot)}・${fe(hr.dRot)} | ${fe(hr.slip)}・${fe(r.k1.omegaAx)} |`; })).join('\n');
   }
   // 表 6 在位の 7 本の近点と自転の一次の目安
   {
