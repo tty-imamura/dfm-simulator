@@ -3,7 +3,7 @@
 //   計算する方法も係数付きで検証)」「m_d はなるべく使わない」「重みは m/r² が有力だが他の次数でも検証」・統括の検証項目 R317):
 //   **回転引きずりの三次元の差分 —— 比べる 3 列(① 切り口・帯の外 0〔第332便a の主の式 —— 凍結の対照〕/② 源の全体の三次元の差分〔対向 2 点・半径 R_d の一様に回る球・球殻の求積 ——
 //   重み r^(−α)〕/③ 狭い帯 + 0 でない尾の異方的な応答〔宣言の型 —— 尾の関数と係数は走行の前に DECL_TAIL に置く〕)と引きずり自転 s_d(J を保って R_d に縮めた回転 —— 係数 λ_J)の純関数**
-//   (器 tests/exp-w333a-rotdiff.mjs と QA lint.rotDiff333a・behavior.rotDiff333a が読む —— html を読まない・状態を持たない・第332便a の帯の lib と第319便b の源の半径の lib は呼ぶだけ)。
+//   (器 tests/exp-w333a-rotdiff.mjs と QA lint.rotDiff333a・behavior.rotDiff333a が読む —— html を読まない・状態を持たない・第332便a の帯の lib と第319便b の源の慣性係数の表は値を写す)。
 //
 // ■ 区別(各表・各式に付ける): 宣言(未接続)= この lib の 3 列・s_d・応答率の 2 列(今のエンジンに無い)/実装 = 今の beta の html の K1 の核(R_d の球 —— 回転の項は源のモーメント
 //   M1 = R²/(5r²)・opt-in の源のモーメントの半径 invSq.sourceMoment —— 〔第320便a〕)/診断 = 器の表(一次の目安・円軌道の平均)。
@@ -25,7 +25,6 @@
 // ■ 言わないこと: 3 列・s_d・応答率は宣言の型の表の値と残差(公転面の揃い・累積の小ささを決めた仕組みとは書かない)・今のエンジンの K1 は R_d の球で 3 列と形が違う・s_d をサンプルの観測自転へ
 //   書き戻さない・`κ_epi` と κ_D は別・文献の値は本便は一次資料に当たっていない。
 import { shapeWeight, bandForce, rdOf, couplingOf, sphereRot, orbitRates, glNodes, C1, DECL as DECL332 } from './lib-w332a-eqband.mjs';
-import { MOI, MOI_UNIFORM } from './lib-w319b-srcradius.mjs';
 
 export const LIB_VERSION = 'w333a-rotdiff-lib-1';
 const isFin = Number.isFinite;
@@ -55,8 +54,12 @@ export const DECL_TAIL = Object.freeze({
 export const GRID = Object.freeze({ z: Object.freeze([0, 0.5, 1, 2, 10, 100, 1e6]), rho: Object.freeze([2, 10, 100, 1e4]) });
 /** 一次外挿が壊れる印(走行の前の宣言): 年齢の間の累積の |Δi| が今の角を超える・|Δ ln a| ≥ 0.1 */
 export const BREAK = Object.freeze({ fracMax: 1, dLnAMax: 0.1 });
+/** 源の慣性係数の表(第319便b の tests/lib-w319b-srcradius.mjs の MOI・MOI_UNIFORM と同じ値の写し —— import すると領域の下限が第319便b の閉包の本へ広がるので写す。QA lint.rotDiff333a が同じ値か照合する) */
+export const MOI = Object.freeze({ 0: 0.07, 1: 0.346, 2: 0.33, 3: 0.3307, 4: 0.3929, 5: 0.3644, 6: 0.254, 11: 0.21 });
+export const MOI_UNIFORM = 0.4;
 /** 源の慣性係数 f_obs(第319便b の MOI —— 名の無い天体は一様な球 0.4 の宣言〔文献の値ではない〕)—— 🗺️ の添字 */
 export const fObsOf = (i) => (MOI[i] !== undefined ? MOI[i] : MOI_UNIFORM);
+export const fObsIsLit = (i) => MOI[i] !== undefined;
 export const F_OBS_SRC = '第319便b の tests/lib-w319b-srcradius.mjs の MOI(太陽 0.07・水星 0.346・金星 0.33・地球 0.3307・月 0.3929・火星 0.3644・木星 0.254・土星 0.21 —— 文献の値・本便は一次資料に当たっていない)・名の無い天体(天王星・海王星など)は一様な球 0.4 の宣言';
 
 function chk(o, need) {
