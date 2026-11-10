@@ -809,6 +809,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.transGeo2332b behavior.transGeo2332b do
 #   PHYSICS〔第333便a〕に逐語・文書)と、新しい段 rotdiff-333a の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.rotDiff333a behavior.rotDiff333a docs.rotDiff333a docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c"
 # ==== 第333便a の塊(ここまで)====
+# ==== 第333便c の塊(ここから)====
+# 第333便c(原仮定者の整理(2026-11-10)・原仮定者の回答(2026-11-10 —— AN597・AN598・AN600)・統括の検証項目 R319 —— 診断だけ・html は変えない): 枝 c の新設 3 本(lint.mercury3d333c —— 三次元の幾何の宣言・
+#   効果の型の一覧と純関数の場面〔Gauss の平均・J₂ の独立の照合・対向 2 点の差分・切り口の式と第332便a の平均・連星の一次〕と呼ぶだけの検査・文献の出典 / behavior.mercury3d333c —— 今の html の 🌡️🌋🔴 の
+#   宣言から幾何・今の組・G_loc の格子・統合した並進・回転の差分・対照を作り直して正本と同じ / docs.mercury3d333c —— 正本の門と表 11 本が PHYSICS〔第333便c〕に逐語・文書)と、新しい段 mercury3d-333c の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.mercury3d333c behavior.mercury3d333c docs.mercury3d333c docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c"
+# ==== 第333便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
