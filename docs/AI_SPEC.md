@@ -4818,3 +4818,12 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **照合の lib** `tests/lib-w331e-phenostatus.mjs`(版 w331e-phenostatus-1): `parsePhenoDoc331e(md)`・`checkPhenoDoc331e({ md, html, ssMd, ph, qaSrc, exists, readText, readJson })`(① 形 ② 語彙 ③ 件数の表と要約 ④ 証拠の実在 —— 本 ID は html の `id:"…"` と SAMPLE_STATUS の状況の語・節は見出しの行 ⑤ 段階と状況の対応と理由の欄 ⑥ 主な数の転記 `TRANSCRIPTS_331E` ⑦ 書かない語・禁句・裸の係数記号・速度の数の字列)・`selfTest331e()`(缶詰の文書で 14 種の壊し方)。
 - 行を足す・段階を動かすときは、行の欄・件数の表・要約の表・PHYSICS〔第331便e〕の表 1 を同じ便で直す。主な数を足すときは転記の表に項を足す(出典の型 phys・ss・json・file)。
 - QA `lint.phenomena331e`(lib の版と語彙・規則の自己試験・転記の表の形)・`docs.phenomena331e`(文書の照合・PHYSICS〔第331便e〕・AI_SPEC §206・CHANGELOG・README・post-merge の ③′・書かない語)。
+
+## 208. 第332便b —— 並進引きずり(座標変換の回転を統合 —— 半径を見ない・重み m/r²)と geoPN = 2 の u の場・v − u 輸送の同じ入力の比べる表(💫 galaxyGeo2 の写しと NGC 3198)・違いの分解・近似として読める範囲(診断だけ)(原仮定者の補足(2026-11-10)・統括の検証項目 R316・**html・本の宣言・受理器・步・`S._core`・第329〜331便の lib の本文は不変・physics の鍵は足さない** —— 器と lib と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
+
+- **正本** `tests/out/transgeo2-w332b.json`(器 `tests/exp-w332b-transgeo2.mjs` —— 版 w332b-transgeo2-1・lib `tests/lib-w332b-transgeo2.mjs`〔場の式 frameField・定常の輸送 transportSteady・円軌道の読み circularVelocity・自己の重み selfWeightOf〕・文書の lib `tests/lib-w332b-transgeo2doc.mjs`・段 transgeo2-332b)。
+- **用語(本便から)**: 並進引きずり = 源の座標の速度 v_j + Ω_j × (x_i − x_j) の重み m/r² の平均(座標変換の回転を統合 —— 源の半径を見ない・第331便a の座標則)。geoPN = 2 の u = Σ_{j≠i} w_j (v_j + ω_j(d) ẑ × (r − r_j))/(D₀ + Σ_{j≠i} w_j)(w = m/√(d²+ε²)・ω_j(d) = s_j (R_j/(R_j + d))^q —— 源の半径を見る)。違いは核・源の回転・分母の 3 つ(器が 1 つずつ入れ替える)。
+- **宣言の読み(診断 —— エンジンの式ではない)**: 定常の輸送 a = k_F[(u·∇)u + (∇×u) ẑ × (v − k_F u)] と円軌道の読み(continuum —— 第331便b の枠の式の ω_f = ω_z − Ω_f の型と同じ・rigid —— v = √(gR) + u_φ)。エンジンの時間発展は 600 步の窓の欄に別に書く。
+- **表の値の要点**: 在位の宣言の geoPN = 2 の列では、宣言した物差し(比の 10%・べき 0.1・向き 10°)の内に入る半径は全部の系と型で 0。エンジンの既存の宣言(frameWeight:"pull"・D0pull 0)の列は、源の回転が効かない系で並進引きずりの場の読みの 0.98〜0.99 倍・NGC 3198 で 0.47〜0.93 倍(物差しの内は 4〜10 kpc)。G0(geoPN = 2 の在位の型)÷ 並進引きずりの場の読みは 💫 で 0.0034〜0.064・NGC 3198 で 0.19〜0.45。自己の重みを R_d = Y_k m にすると 1 − α は m/r² の核で 5.5e-19〜2.4e-5(引きずりの速度は実質 0)。自己を入れない読みで比を一番動かすのは 💫 では源の回転・NGC 3198 では核。在位の受理器は E2 の q を 0.5 より下に置かない(座標変換の回転は本の宣言で表せない)。エンジンの u と勾配は lib の式と Float32 の丸めの桁で同じ。
+- AI が本や説明を作るときは、geoPN = 2 を並進引きずりと同じ法則・近似として書かない(同じ入力の表と残差)。平坦な回転の機構・暗黒物質の代わりとして書かない。κ_D と周転円の振動数を同じ量と書かない。
+- QA `lint.transGeo2332b`(版・宣言・物差し・純関数の場面 12・呼ぶだけ)・`behavior.transGeo2332b`(今の html の 💫 の写しでエンジンとの照らし・窓・同じ入力の表・NGC 3198・違いの分解・範囲を作り直して正本と同じ)・`docs.transGeo2332b`(正本の門と表 12 本が PHYSICS〔第332便b〕に逐語・書かない語と禁句)。
