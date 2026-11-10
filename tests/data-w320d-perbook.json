@@ -4,12 +4,12 @@
  "count": {
   "A": 12,
   "B": 35,
-  "C": 176
+  "C": 179
  },
  "secByTier": {
-  "A": 6203,
-  "B": 6125,
-  "C": 19636
+  "A": 7608,
+  "B": 6118,
+  "C": 23856
  },
  "reuseContract": "本ごとの行を再利用してよいのは入力 hash(本の生の定義と受理後の定義の hash)・コード(器と lib の sha)・環境(Node と Chromium の版)の一致する行だけ(AN478)",
  "note": "機械の読み(器の --only/--merge・正本の本ごとの容器・全体集計/共有フィット/対の比較の印)。A = 本ごとに分けられる(--merge の実装は名簿の上位から)・B = 器を読んで確かめる候補・C = 全体の再走",
@@ -1765,6 +1765,30 @@
    "only": false,
    "merge": false,
    "why": "本が 1 冊以下(本ごと = 全体)"
+  },
+  {
+   "key": "coordtwist-331a",
+   "tier": "C",
+   "presets": 1,
+   "only": false,
+   "merge": false,
+   "why": "本が 1 冊以下(本ごと = 全体)"
+  },
+  {
+   "key": "centrifugal-331b",
+   "tier": "C",
+   "presets": 2,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "k1scale-331c",
+   "tier": "C",
+   "presets": 19,
+   "only": false,
+   "merge": false,
+   "why": "本ごとの容器が宣言の本の過半を覆わない(2/19 —— 宣言の多くは参照・凍結の写し)"
   },
   {
    "key": "charonaudit-305e",

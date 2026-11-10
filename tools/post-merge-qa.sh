@@ -761,6 +761,36 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.dragWeight330b behavior.dragWeight330b 
 #   版名 QA の束の QA(docs.w322d —— qa-keys の自己試験 ④ の期待を世代で直した)・§5.19 の窓を直した docs.nsLockLedgerRow・固定の字数の窓の lint.fixedWindow329c
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.toolCheckProv330c lint.physKeysGuard330c docs.w330c docs.w322d docs.nsLockLedgerRow lint.fixedWindow329c lint.toolStamp318 lint.provenanceMeta lint.regenScope lint.canon304 lint.scopeAll312 lint.stableHashPaths lint.regenChain lint.scopeStop lint.condSelect329c lint.qaOrder"
 # ==== 第330便c の塊(ここまで)====
+# ==== 第331便a の塊(ここから)====
+# 第331便a(原仮定者の決断(2026-11-09 —— AN586〜AN590)・原仮定者の回答(2026-11-09 —— AN591)・統括の検証項目 R310 —— 診断だけ・html は変えない): 枝 a の新設 3 本(lint.coordTwist331a ——
+#   座標則・自己の重みの宣言・口の登録と 4 条件・近点の一次の目安・通約・内部熱の 3 欄の純関数の場面と呼ぶだけの検査・lockTargets の宣言・入力の正本の値 / behavior.coordTwist331a —— 今の html の
+#   🗺️ の写しで成分ごとの表・近点の目安・4 条件・地球と火星を作り直して正本と同じ / docs.coordTwist331a —— 正本の門と表が PHYSICS〔第331便a〕に逐語・文書)と、新しい段 coordtwist-331a の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.coordTwist331a behavior.coordTwist331a docs.coordTwist331a docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c"
+# ==== 第331便a の塊(ここまで)====
+# ==== 第331便b の塊(ここから)====
+# 第331便b(原仮定者の追記(2026-11-09)・原仮定者の決断(2026-11-09 —— AN593・AN595)・統括の検証項目 R311 —— 診断だけ・html は変えない): 枝 b の新設 3 本(lint.centrifugal331b ——
+#   回る枠の中の円軌道の釣り合い・枠の 2 つの読み・否定対照・円盤の枠の固定点の純関数の場面と呼ぶだけの検査 / behavior.centrifugal331b —— 今の html の 🗺️ と 💍 の宣言と fixture から
+#   要る枠・AN593 B の格子・横の列・太陽系・環を作り直して正本と同じ / docs.centrifugal331b —— 正本の門と表が PHYSICS〔第331便b〕に逐語・文書)と、新しい段 centrifugal-331b の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.centrifugal331b behavior.centrifugal331b docs.centrifugal331b docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c"
+# ==== 第331便b の塊(ここまで)====
+# ==== 第331便c の塊(ここから)====
+# 第331便c(原仮定者の整理(2026-11-09)・原仮定者の追記(2026-11-09)・統括の検証項目 R312 —— 診断だけ・html は変えない): 枝 c の新設 3 本(lint.k1Scale331c ——
+#   G_loc の一次の分担・候補・K1 のスケールの読み・純粋な積分器・土星の環の振動数の純関数の場面と呼ぶだけの検査・文献の値の出典 / behavior.k1Scale331c —— 今の html で
+#   t = 0 の印字と写しの宣言・正本の数値の表を作り直して同じ・在位の正本とのビット同一 / docs.k1Scale331c —— 正本の門と表 14 本が PHYSICS〔第331便c〕に逐語・文書)と、
+#   新しい段 k1scale-331c の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.k1Scale331c behavior.k1Scale331c docs.k1Scale331c docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c"
+# ==== 第331便c の塊(ここまで)====
+# ==== 第331便d の塊(ここから)====
+# 第331便d(原仮定者の依頼(2026-11-09)・統括の検証項目 R313 —— 文書と QA だけ・html は変えない): 枝 d の新設 2 本(lint.equations331d —— docs/EQUATIONS.md のプログラム版の抜粋が
+#   名指しのファイルの名指しの関数の本体に在る・変異の自己試験・PHYSICS §5 の E の名の拾い漏れ / docs.equations331d —— ラベルと 4 つの部分・定数と在位の水星の正本・書かない語・置き場所)と、
+#   PHYSICS と AI_SPEC の新しい文の係数記号の lint.kappaSymbol315・節の窓の lint.fixedWindow329c・節の引き方の lint.sectionLookup313・版名 QA の束の docs.w322d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.equations331d docs.equations331d lint.kappaSymbol315 lint.fixedWindow329c lint.sectionLookup313 docs.w322d"
+# ==== 第331便d の塊(ここまで)====
+# ==== 第331便e の塊(ここから)====
+# 第331便e(原仮定者の補足(2026-11-09)・統括の検証項目 R314 —— 文書と QA だけ・html は変えない): 枝 e の新設 2 本(lint.phenomena331e —— 現象の状況一覧の照合の規則の自己試験と転記の表の形 /
+#   docs.phenomena331e —— docs/PHENOMENA_STATUS.md の証拠の実在・語彙と件数・SAMPLE_STATUS の状況との対応と理由の欄・主な数の転記・PHYSICS〔第331便e〕・文書)と、PHYSICS・AI_SPEC・CHANGELOG を読む lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.phenomena331e docs.phenomena331e lint.kappaSymbol315 lint.fixedWindow329c lint.sectionLookup313 lint.qaHeapRelease310 docs.w322d docs.sampleStatus-sync"
+# ==== 第331便e の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
