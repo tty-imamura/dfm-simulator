@@ -29,8 +29,10 @@ import { loadHtmlMain } from './lib-w280b-emgrid.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as L from './lib-w333b-axialfield.mjs';
-// 第281便a の領域 hash の宣言(版 8 —— 器と lib と import の閉包から deriveScope で引いた下限)。
-const REGEN_SCOPE = null;
+// 第281便a の領域 hash の宣言(版 8 —— 器と lib と import の閉包から deriveScope で引いた下限。器が引く本は 🗺️ solarSystem16Inertial3d〔写しの元 —— .find で引く〕と 💍 saturnRingReal
+//   〔環の帯の半径の宣言だけ〕の 2 本。roots の T・ch・ctx・cw・HP.sim・HP.dfmMeshVelocityFieldAt は import した tests/lib-w280b-emgrid.mjs・tests/lib-w279b-headless.mjs の綴りが数えられた分 ——
+//   この器と lib の局所の変数には使わない。エンジンを読む(core —— 写しの build と読み口)。ワンタップ対照 A/B は走らせない〔abBody:false〕・説明文の欄は読まない)
+const REGEN_SCOPE = {"presets":["saturnRingReal","solarSystem16Inertial3d"],"roots":["HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragIsqState","HP.sim","HP.validatePreset","T","ch","ctx","cw"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w333b-axialfield-1';
@@ -62,7 +64,7 @@ export const PLAN = Object.freeze({
   /** 配置(本の時刻・金星の内合・水星の近日点・全天体の自転 0〔本の時刻の位置と速度 —— 今の口が 0 になり通過の項だけが残る比べる配置〕) */
   geoms: Object.freeze(['epoch', 'venusConj', 'mercuryPeri', 'spin0']),
   /** 源ごとの表を残す列(α 1・2 × 自己 3) */
-  perSourceAlphas: Object.freeze([1, 2]),
+  perSourceAlphas: Object.freeze([1, 2]), perSourceKeep: '2|none',
   /** エンジンの写しの spinDrag(今の invSq の軸の口 —— 鏡映 × sinθ × 受け手の近遠の差分・A = 1)と変種(K1 の規則〔在位〕・K2 の宣言の半径) */
   spinDecl: Object.freeze({ rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel', axialGain: 1 }),
   engineVariants: Object.freeze([Object.freeze({ key: 'k1Rule', kernel: 'k1', rule: 'kappaM', pairAlpha: 1, pairSelf: 'kappaM' }), Object.freeze({ key: 'k2Radius', kernel: null, rule: null, pairAlpha: 2, pairSelf: 'robs' })]),
@@ -286,6 +288,9 @@ export function runAll(HP) {
     }
     field[g] = partField(base); mark('field.' + g);
     for (const v of PLAN.engineVariants) compare[g][v.key] = engine[g][v.key].ok ? compareRows(field[g], engine[g][v.key], v) : [];
+    // 正本を軽く: 源ごとの表は場の枠(2|none)だけを残す(他の列は並べの表 compare に入った)・エンジンの源ごとの行は compare に入った
+    field[g].perSource = { [PLAN.perSourceKeep]: field[g].perSource[PLAN.perSourceKeep] };
+    for (const v of PLAN.engineVariants) if (engine[g][v.key].ok) engine[g][v.key].rows = engine[g][v.key].rows.map((r) => (r ? Object.assign({}, r, { per: undefined }) : r));
   }
   const eEpoch = engineOf(HP, book, 'epoch', 'k1', 'kappaM');
   const finite = partFinite(eEpoch); mark('finite');
@@ -310,7 +315,9 @@ export async function main() {
     ruling: '原仮定者の整理(2026-11-10)「軸引きずりは、回転を統合した並進引きずりに対する、手前と奥の差分とする。源の回転でも発生するが、源が横を通り抜けても発生する」「回転を統合した並進引きずりは、背景宇宙に対する回転により、順方向の公転に対しては遠心力を下げる。逆方向の公転に対しては遠心力を上げる」「引きずりの重みは、m/r^2 が有力だが、他の次数でも検証を行う」(作業仮説 —— 診断で検査)・統括の検証項目 R318',
     decl: L.DECL, plan: PLAN, alphas: L.ALPHAS, selfRules: L.SELF_RULES, receiverModes: L.RECEIVER_MODES, notClaim: NOT_CLAIM, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w333b-axialfield.mjs', 'tests/lib-w333b-axialfield.mjs', 'tests/lib-w332b-transgeo2.mjs', 'tests/lib-w331a-coordtwist.mjs', 'tests/lib-w331b-centrifugal.mjs', 'tests/lib-w330b-dragweight.mjs'];
+  const CODE = ['tests/exp-w333b-axialfield.mjs', 'tests/lib-w333b-axialfield.mjs', 'tests/lib-w332b-transgeo2.mjs', 'tests/lib-w331a-coordtwist.mjs', 'tests/lib-w331b-centrifugal.mjs', 'tests/lib-w330b-dragweight.mjs',
+    'tests/lib-w326d-axialheat.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w312a-decay.mjs', 'tests/lib-w310d-shell.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs',
+    'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第333便b', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, stage: 'axialfield', engine: 'Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)・🗺️ solarSystem16Inertial3d の写し(受理器 → build → 読み口 inertialDragIsqState —— 步は進めない)・純関数(lib)', notClaim: NOT_CLAIM });
   Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));
