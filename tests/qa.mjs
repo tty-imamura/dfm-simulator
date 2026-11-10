@@ -100742,7 +100742,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   lint.axialField333b(html を読まない): ① lib・器・文書の lib の版・次数と自己の規則と受け手の型の一覧(手で書いた一覧と照合)・宣言・器の宣言 ② 純関数の場面 15
 // ----     ③ 呼ぶだけ(lib の import は第330便b・第331便b・第332便b の lib だけ・lib と文書の lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w333b の語が無い)
 // ----   behavior.axialField333b(html を headless で読む —— 正本と照合): 器の runAll を今の html で作り直し、場の表・今の口の読み口・並べ・有限の受け手・遠心・次数と単位の数が
-// ----     正本と相対 1e-9 の内・判定の文字列が同じ・作り直した門が全部真
+// ----     正本と相対 1e-9 の内(相対の差の欄 rel は絶対 1e-9・丸めの残差の欄 partsSumRel は門だけ)・判定の文字列が同じ・作り直した門が全部真
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const wHarn = path.join(ROOT, 'tests', 'exp-w333b-axialfield.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w333b-axialfield.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w333b-axialfielddoc.mjs');
@@ -100801,6 +100801,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const diffs = [];
         const walk = (a, b, at) => {
           if (diffs.length > 5) return;
+          // 丸めの残差の欄(partsSumRel —— 恒等式の残差・門で ≤ 1e-9)は照合しない・相対の差の欄(rel)は絶対の差 1e-9 で比べる(Node の版で最下位が動く丸めの桁 —— Node 24 の実測)
+          const leaf = at.slice(at.lastIndexOf('/') + 1);
+          if (leaf === 'partsSumRel') return;
+          if (typeof a === 'number' && typeof b === 'number' && leaf === 'rel') { nNum++; if (Math.abs(a - b) > 1e-9) diffs.push(at + ' 絶対 ' + Math.abs(a - b).toExponential(2)); return; }
           if (typeof a === 'number' && typeof b === 'number') { nNum++; const d = a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b), 1e-300); if (d > dMax) dMax = d; if (d > 1e-9 && Math.abs(a - b) > 1e-300) diffs.push(at + ' ' + d.toExponential(2)); return; }
           if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') { if (a !== b) diffs.push(at + ' 値'); return; }
           if (Array.isArray(a) !== Array.isArray(b)) { diffs.push(at + ' 形'); return; }
