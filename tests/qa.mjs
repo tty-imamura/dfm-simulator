@@ -100733,6 +100733,199 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第332便b の塊(ここまで)====
 
+// ==== 第333便a の塊(ここから —— lint.rotDiff333a・behavior.rotDiff333a・docs.rotDiff333a の 3 ブロック。root は SKIP)====
+// ---- 第333便a(原仮定者の整理(2026-11-10)「回転引きずりは引きずり半径の手前と奥の差分 —— R_d を超えると急激に減衰する・ただし斜め方向も差分は有るので厳密には 0 ではない」
+// ----   「引きずり自転 s_d はノブ —— 角運動量を保存して半径を R_d に縮めた回転を係数付きで」・統括の検証項目 R317): **回転引きずりの三次元の差分の 3 列(切り口・源の全体・帯 + 尾 ——
+// ----   宣言・未接続)・引きずり自転 s_d と源のモーメントの J 案との等価・応答率の 2 列と公転面の揃いの表の器**(新設 —— 器 tests/exp-w333a-rotdiff.mjs・lib tests/lib-w333a-rotdiff.mjs・
+// ----   文書の lib tests/lib-w333a-rotdiffdoc.mjs・正本 tests/out/rotdiff-w333a.json。html・本の宣言・エンジン・受理器・第332便a の lib と器の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.rotDiff333a(html を読まない): ① lib・器・文書の lib の版・3 列と型の一覧(手で書いた一覧と照合)・走行の前の宣言(DECL・DECL_TAIL・GRID・BREAK)・器の宣言 ② 純関数の場面 9
+// ----     ③ 呼ぶだけ(lib の import は第332便a の lib だけ・lib と文書の lib は html を読まない・ネットへ取りに行かない・呼ぶ lib と器の本文に w333a の語が無い)④ 慣性係数の表が第319便b の MOI と同じ
+// ----   behavior.rotDiff333a(html を headless で読む —— 正本と照合): ① 3 列の表 ② s_d の表 ③ 写しのエンジンの読み口との等価 ④ 揃いの表を今の html の 🗺️ と 💍 の宣言から作り直して
+// ----     正本と相対 1e-9 の内 ⑤ 作り直した門が全部真
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w333a-rotdiff.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w333a-rotdiff.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w333a-rotdiffdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'rotdiff-w333a.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP lint.rotDiff333a・behavior.rotDiff333a(第333便a の回転引きずりの三次元の差分の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const relD333 = (a, b) => (a === b ? 0 : (a === null || b === null || a === undefined || b === undefined) ? Infinity : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── lint.rotDiff333a ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      if (!(L.LIB_VERSION === 'w333a-rotdiff-lib-1' && X.HARNESS_VERSION === 'w333a-rotdiff-1' && D0.DOC_VERSION === 'w333a-rotdiffdoc-1')) bad.push('① 版(lib・器・文書の lib)');
+      const js = (x) => JSON.stringify(x);
+      if (!(js(L.COLUMNS) === js(['slice', 'pair', 'ball', 'shell', 'sum2', 'sum4', 'latW', 'lorentz']) && js(L.KINDS2) === js(['pair', 'ball', 'shell']) && js(L.TAIL_TYPES) === js(['sum2', 'sum4', 'latW', 'lorentz']) && js(L.RATES) === js(['fixed', 'linked'])))
+        bad.push('① 3 列と型の一覧(手で書いた一覧と違う)');
+      const DG = L.DECL, DT3 = L.DECL_TAIL, PL = X.PLAN;
+      if (!(js(DG.alphas) === js([1, 1.5, 2, 3]) && DG.alphaMain === 2 && DG.fD === 0.4 && js(DG.lambdas) === js([0, 1e-6, 1e-3, 1]) && DG.quad.nr === 24 && DG.quad.nth === 48 && DG.quad.nph === 48 && DG.quad.farSwitch === 1e3
+        && DT3.sum2.k === 1e-2 && DT3.sum4.k === 1e-4 && DT3.sum2.alpha === 2 && DT3.latW.u0 === 0.5 && DT3.latW.n === 4 && DT3.latW.alpha === 2 && DT3.lorentz.n === 8 && DT3.steepRho === 100 && DT3.steepZ === 2 && DT3.steepMax === 1e-2
+        && js(L.GRID.z) === js([0, 0.5, 1, 2, 10, 100, 1e6]) && js(L.GRID.rho) === js([2, 10, 100, 1e4]) && L.BREAK.fracMax === 1 && L.BREAK.dLnAMax === 0.1))
+        bad.push('① 走行の前の宣言(α・f_d・λ_J・求積・尾の関数と係数・急減の物差し・格子・一次外挿が壊れる印)');
+      if (!(js(PL.sdBodies) === js([0, 1, 2, 3, 5, 6, 11, 13, 14, 4]) && js(PL.alignCols) === js(['slice', 'ball', 'sum2', 'sum4', 'latW', 'lorentz']) && js(PL.spinCases) === js(['s', 1e-6, 1e-3, 1]) && PL.equivTol === 1e-6
+        && js(PL.equivPairs.map((q) => q.idx)) === js([[0, 6], [3, 4]]) && PL.alphaPts.length === 5)) bad.push('① 器の宣言(s_d の天体・揃いの列・自転の場合・等価の写し・上限)');
+      cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・文書 ${D0.DOC_VERSION}・列 ${L.COLUMNS.length}・③ の型 ${L.TAIL_TYPES.length}(尾の関数と係数は走行の前の宣言)・α ${DG.alphas.length}・λ_J ${DG.lambdas.length}`);
+      let G1 = null;
+      try { G1 = L.pureGates(L.pureScenes()); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G1) {
+        for (const [k, v] of Object.entries(G1)) if (v !== true) bad.push('② 場面 ' + k);
+        if (Object.keys(G1).length !== 9) bad.push('② 場面の数 ' + Object.keys(G1).length);
+        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(z の上下の対称と s_d の符号・対向 2 点の閉じた値・α と遠方の尺度・求積の収束・帯の中で ① と一致する条件・緯度の応答・s_d と J・円軌道の平均・入力の拒否)`);
+      }
+      const tl = rd('tests/lib-w333a-rotdiff.mjs'), th = rd('tests/exp-w333a-rotdiff.mjs'), td = rd('tests/lib-w333a-rotdiffdoc.mjs'), base2 = rd('tests/lib-w332a-eqband.mjs') + rd('tests/exp-w332a-eqband.mjs');
+      const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+      if (!(js(imps) === js(['lib-w332a-eqband.mjs']) && !/loadHtml|index\.html/.test(tl + td) && /loadHtmlMain/.test(th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/w333a/.test(base2)))
+        bad.push('③ 呼ぶだけ(lib の import は第332便a の lib だけ・lib は html を読まない・ネットへ取りに行かない・呼ぶ lib と器の本文に w333a が無い)');
+      cases.push('③ lib の import は第332便a の lib だけ(器は第332便a の器の本の読みを呼ぶ)・lib と文書の lib は html を読まない・器と lib はネットへ取りに行かない・呼ぶ lib と器の本文は不変');
+      try {
+        const M19 = await import('file://' + path.join(ROOT, 'tests', 'lib-w319b-srcradius.mjs'));
+        if (!(js(L.MOI) === js(M19.MOI) && L.MOI_UNIFORM === M19.MOI_UNIFORM && /一次資料に当たっていない/.test(L.F_OBS_SRC))) bad.push('④ 慣性係数の表が第319便b の MOI と違う');
+        cases.push(`④ 慣性係数の表(${Object.keys(L.MOI).length} 天体・名の無い天体 ${L.MOI_UNIFORM} の宣言)が第319便b の MOI と同じ`);
+      } catch (e) { bad.push('④ 第319便b の lib が読めない: ' + String(e && e.message || e).slice(0, 100)); }
+    }
+    add('lint.rotDiff333a', bad.length === 0,
+      `**回転引きずりの三次元の差分の 3 列と引きずり自転 s_d の純関数**(第333便a・原仮定者の整理(2026-11-10)・R317 —— html を読まない・① 切り口〔第332便a の主〕・② 源の全体〔重み r^(−α)〕・③ 帯 + 尾〔走行の前の宣言〕・s_d = λ_J (f_obs/f_d)(R_obs/R_d)² s): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.rotDiff333a ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/rotdiff-w333a.json が読めない');
+    else {
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        const X332 = await import('file://' + path.join(ROOT, 'tests', 'exp-w332a-eqband.mjs'));
+        const mx = (a, b, keys) => { let d = 0; for (const k of keys) d = Math.max(d, relD333(a[k], b[k])); return d; };
+        const BK = X332.readBooks(H.HP);
+        // ① 3 列の表
+        const A1 = X.partColumns();
+        let dA = 0;
+        A1.rows.forEach((q, i) => { dA = Math.max(dA, mx(q, J.columns.rows[i] || {}, L.COLUMNS)); });
+        A1.alpha.forEach((q, i) => { dA = Math.max(dA, mx(q, J.columns.alpha[i] || {}, ['pair', 'ball', 'shell'])); });
+        A1.verdict.forEach((q, i) => { const r = J.columns.verdict[i] || {}; if (q.steep !== r.steep || q.nonzero !== r.nonzero) dA = Infinity; });
+        if (!(dA <= 1e-9 && A1.rows.length === J.columns.rows.length)) bad.push(`① 3 列の表を作り直して正本と違う(相対 ${dA})—— 器を走らせ直す`);
+        cases.push(`① 3 列の表 ${A1.rows.length} 点・α ${A1.alpha.length} 行・判定(両立 ${A1.verdict.filter((v) => v.both).map((v) => v.col).join('・')})が正本と相対 1e-9 の内`);
+        // ② s_d の表
+        const B1 = X.partDragSpin(BK);
+        let dB = 0;
+        B1.rows.forEach((q, i) => { const r = J.dragSpin.rows[i] || {}; dB = Math.max(dB, mx(q, r, ['m', 'Robs', 'Rd', 's', 'ratio1', 'vdOverC1', 'vdOverCUniform', 'Rsrc', 'equivRatio'])); });
+        if (!(dB <= 1e-9 && B1.rows.length === J.dragSpin.rows.length)) bad.push(`② s_d の表を作り直して正本と違う(相対 ${dB})`);
+        cases.push(`② s_d の表 ${B1.rows.length} 天体(🗺️ の宣言 —— 太陽の s_d/s ${B1.rows[0].ratio1.toPrecision(4)})が正本と相対 1e-9 の内`);
+        // ③ 写しのエンジンの読み口との等価
+        const E1 = X.partEquiv(H.HP, BK);
+        let dE = 0;
+        E1.rows.forEach((q, i) => { dE = Math.max(dE, mx(q, J.equiv.rows[i] || {}, ['engineJ', 'engine0', 'libSd', 'libS'])); });
+        if (!(dE <= 1e-9)) bad.push(`③ 写しのエンジンの読み口との等価を作り直して正本と違う(相対 ${dE})`);
+        cases.push(`③ 写しのエンジンの読み口(J 案 —— ${E1.rows.map((q) => q.name).join('・')})と s_d の読みの式が正本と相対 1e-9 の内`);
+        // ④ 揃いの表
+        const C1x = X.partAlign(BK);
+        let dC = 0;
+        C1x.rows.forEach((q, i) => { const r = J.align.rows[i] || {}; dC = Math.max(dC, mx(q, r, ['dIdt', 'dLnAdt', 'frac'])); if (q.aligning !== r.aligning || q.breaks !== r.breaks || q.pair !== r.pair || q.col !== r.col) dC = Infinity; });
+        if (!(dC <= 1e-9 && C1x.rows.length === J.align.rows.length)) bad.push(`④ 揃いの表を作り直して正本と違う(相対 ${dC})`);
+        cases.push(`④ 揃いの表 ${C1x.rows.length} 行(列 ${X.PLAN.alignCols.length} × 自転 × 応答率 × 組 21)が正本と相対 1e-9 の内`);
+        // ⑤ 門
+        const J2 = Object.assign({}, J, { columns: A1, dragSpin: B1, equiv: E1, align: C1x, pure: { scenes: L.pureScenes(), gates: L.pureGates(L.pureScenes()) } }), G2 = X.gatesOf(J2);
+        if (!Object.values(G2).every((v) => v === true)) bad.push('⑤ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`⑤ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.rotDiff333a', bad.length === 0,
+      `**3 列の表・s_d の表・源のモーメントの J 案との等価・応答率の 2 列と公転面の揃いの表の作り直し**(第333便a・原仮定者の整理(2026-11-10)・R317 —— 今の html の 🗺️ と 💍 の宣言を読む・🗺️ の 2 体の写しの読み口・步を進めない・宣言の型の表の値): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第333便a: docs.rotDiff333a は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
+// ----   lint・behavior を数えない)。世代切替は上と同じ
+// ----   docs.rotDiff333a(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全・core:true・abBody:false)・走行の前の宣言が lib と同じ ② 表 12 本が PHYSICS〔第333便a〕に逐語
+// ----     ③ 節の位置(〔第332便b〕の節の後・〔第328便 — 統括〕の前)・必須の語・AI_SPEC §209(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・裸の係数記号(文書はコードの書式の外の κ_D 以外・コードは κ_D・`κ₀`・κ_epi 以外)・速度の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w333a-rotdiff.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w333a-rotdiff.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w333a-rotdiffdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'rotdiff-w333a.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.rotDiff333a(第333便a の回転引きずりの三次元の差分の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.rotDiff333a ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第333便a — '), ib = PH.indexOf('〔第332便b — '), iz = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && ib >= 0 && ib < i0 && iz > i0)) bad.push('PHYSICS〔第333便a〕が無いか〔第332便b〕の節の前か〔第328便 — 統括〕の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/rotdiff-w333a.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.scopeComplete === true
+        && /^[0-9a-f]{64}$/.test(J.meta.scopeSha256 || '') && J.meta.stage === 'rotdiff' && J.meta.scope && J.meta.scope.abBody === false && J.meta.scope.core === true)) bad.push('① 版・来歴・領域 hash(完全・core:true・abBody:false)');
+      if (JSON.stringify(J.declTail) !== JSON.stringify(L.DECL_TAIL) || JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.grid) !== JSON.stringify(L.GRID) || JSON.stringify(J.breakDecl) !== JSON.stringify(L.BREAK)
+        || Object.keys(J).indexOf('declTail') > Object.keys(J).indexOf('pure')) bad.push('① 走行の前の宣言(尾の関数と係数・格子・一次外挿が壊れる印)が lib と違うか正本の先頭に無い(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}・走行の前の宣言が正本の先頭`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第333便a〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 12) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第333便a〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の整理(2026-11-10)', '原仮定者の回答(2026-11-10 —— AN611〜AN613)', 'R317', '① 切り口', '② 源の全体の三次元の差分', '③ 狭い帯 + 0 でない尾', '尾の関数と係数は走行の前に宣言', '`declTail`',
+      '② だけでは R_d を境にした急減は出ない', '0.9996', '急減と 0 でない尾が同時に成り立つのは ③ の宣言の型だけ', 's_d = λ_J (f_obs/f_d)(R_obs/R_d)² s', '物質の表面の速度としては読めない', '遠方の回転のモーメントの等価', 'λ_J (2/5)/f_d',
+      'fixed', 'linked', '一次外挿が壊れる印', '符号はどの列・どの s_d・どの応答率でも同じ', '帯を横切る所だけの寄与', '宣言(未接続)', '今のコードの実装', 'R_d の**球**', 'R_d = Y_k m', '引きずり自転 s_d',
+      '原仮定者の整理(2026-11-10)への枝の答え', '決断事項の候補', 'Q1 帯と尾の宣言の選び方', 'Q4 AN611(NF)の本採用に要るもの', '仕事とトルクの帳簿', 'AN596', '第334便への引き継ぎ',
+      'tests/exp-w333a-rotdiff.mjs', 'tests/out/rotdiff-w333a.json', 'tests/lib-w333a-rotdiff.mjs', 'lint.rotDiff333a', 'behavior.rotDiff333a', 'docs.rotDiff333a', '`κ_epi`', '一次資料に当たっていない'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第333便a〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 209. 第333便a'), ai = secUntilNext329c(AS, a0, '\n## ');   // 次の見出しまで(固定の字数の窓を持たない)
+    if (!(a0 >= 0 && ai.indexOf('tests/out/rotdiff-w333a.json') >= 0 && ai.indexOf('`κ_epi`') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('R_d の**球**') >= 0 && ai.indexOf('宣言(未接続)') >= 0
+      && ai.indexOf('s_d R_d/c₀ は物質の表面の速度ではない') >= 0 && ai.indexOf('fixed') >= 0 && ai.indexOf('linked') >= 0)) bad.push('③ AI_SPEC §209(正本・κ_epi・SYSTEM_PROMPT・球の核・宣言・s_d の読み・応答率の 2 列)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl333a = clg.split('\n').find((l) => l.indexOf('**第333便a**') >= 0) || '';
+    if (!(cl333a.indexOf('tests/exp-w333a-rotdiff.mjs') >= 0 && cl333a.indexOf('rotdiff-333a') >= 0 && cl333a.indexOf('原仮定者の整理(2026-11-10)') >= 0 && cl333a.indexOf('R317') >= 0)) bad.push('③ CHANGELOG の第333便a の行');
+    if (!(/S\('rotdiff-333a', 'node tests\/exp-w333a-rotdiff\.mjs', \['tests\/out\/rotdiff-w333a\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '本の宣言の値と純関数と步を進めない読み口だけ") >= 0
+      && RT.indexOf('// ==== 第333便a の塊(ここから)====') >= 0)) bad.push('③ 段の行 rotdiff-333a(quickVerify と理由・塊)');
+    if (GI.indexOf('!tests/out/rotdiff-w333a.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第333便a の塊(ここから)====') >= 0 && /lint\.rotDiff333a/.test(PM) && /behavior\.rotDiff333a/.test(PM) && /docs\.rotDiff333a/.test(PM))) bad.push('③ post-merge の ③′ に第333便a の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §209(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /内部熱を説明した/, /金星の逆転を説明した/, /銀河の回転曲線を予言した/, /一致した/];
+    const NOT333 = [/\d\s*km\/s/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第333便a の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・で公転面の揃いを解い・公転面の揃いを説明・累積の小ささが解け・
+    //   軸引きずりで自転や共鳴を説明・密度波で回転曲線が合っ・水星の近点を新しい引きずりで
+    const W333 = ['ためか確', 'たし示', 'たし明説', 'い解をい揃の面転公で', '明説をい揃の面転公', 'け解がさ小の積累', '明説を鳴共や転自でりずき引軸', 'っ合が線曲転回で波度密', 'でりずき引いし新を点近の星水'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第333便a〕', sec], ['AI_SPEC §209', ai], ['CHANGELOG の第333便a の行', cl333a], ['器', rd('tests/exp-w333a-rotdiff.mjs')], ['lib', rd('tests/lib-w333a-rotdiff.mjs')], ['文書の lib', rd('tests/lib-w333a-rotdiffdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W333)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT333) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) {
+        for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+        if (/κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の κ_D 以外のカッパ(lint.kappaSymbol315 の型)');
+      } else if (/(^|[^_A-Za-z`])κ(?![_₀])/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・コードの書式の外のカッパ・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.rotDiff333a', bad.length === 0,
+      `**回転引きずりの三次元の差分の 3 列・引きずり自転 s_d・源のモーメントの J 案との等価・応答率の 2 列と公転面の揃いの表の文書**(第333便a・原仮定者の整理(2026-11-10)・R317 —— 宣言〔未接続〕と今のコードの実装を混ぜない・尾は走行の前の宣言・宣言した型の表の値と残差): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第333便a の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
