@@ -4849,6 +4849,17 @@ SYSTEM_PROMPT の規則 13(逐語):
 - AI が本や説明を作るときは、公転面の揃いや累積の小ささを s_d で決めたと書かない(宣言の型ごとの表・一次外挿の限界の印)。s_d を観測自転と書かない。R_d を観測の半径と書かない。`κ_epi` と κ_D を同じ量と書かない。文献の値は一次資料に当たっていない。
 - QA `lint.rotDiff333a`(版・3 列と型の一覧・走行の前の宣言・純関数の場面 9・呼ぶだけ・慣性係数の表)・`behavior.rotDiff333a`(今の html の 🗺️ と 💍 の宣言から作り直して正本と同じ・写しのエンジンとの等価・門)・`docs.rotDiff333a`(正本の門と表 12 本が PHYSICS〔第333便a〕に逐語・節の位置・書かない語と禁句)。
 
+
+## 210. 第333便b —— 軸引きずりの新しい定義(回転を統合した並進引きずりの場 U(p) の受け手の手前と奥の差分 —— ω_field = ½∇×U とひずみ)の太陽系の表・今のエンジンの軸の口との並べ・遠心の要求の順行と逆行・重みの次数と単位(診断だけ)(原仮定者の整理(2026-11-10)・原仮定者の回答(2026-11-10 —— AN604・AN606・AN607・AN621)・統括の検証項目 R318・**html・本の宣言・受理器・步・`S._core`・第329〜332便の lib の本文は不変・physics の鍵は足さない** —— 器と lib と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
+
+- **正本** `tests/out/axialfield-w333b.json`(器 `tests/exp-w333b-axialfield.mjs` —— 版 w333b-axialfield-1・lib `tests/lib-w333b-axialfield.mjs`〔場の式 integratedField・局所の回転 localSpin・差分 fdSpin・有限の受け手 finiteReceiver・遠心の対 centrifugalPair・重み weightOf〕・文書の lib `tests/lib-w333b-axialfielddoc.mjs`・段 axialfield-333b)。
+- **記号(本便から)**: 位置 p・距離 r・観測自転 s・公転の角速度 Ω・慣性決定力 W・背景慣性決定力 W₀・引きずり係数 Y_k(R_d = Y_k m)。重力と時計の背景決定力 D₀ を引きずりの分母に使わない。
+- **用語**: 軸引きずり(新しい定義)= 回転を統合した並進引きずりの場 U(p) = Σ W_j (v_j + s_j × (p − p_j))/(K + Σ W_j) の**受け手の**手前と奥の差分(局所の ω_field = ½∇×U —— 対称の部はひずみで軸回転に足さない)。源の自転でも、源が横を通り抜けても 0 でない(源ごとに自転の直接・自転のモーメントの勾配・並進の 3 つの部)。今のエンジンの軸の口(源の自転と源の球のモーメントの半径にだけ依る鏡映の型)とは別の列として並べる —— 重ねて足さない。
+- **重みの次数**: W^(α) = (m/r_ref²)(r_ref/r)^α(α = 1, 1.5, 2, 3・r_ref は単位を揃える宣言の長さ)。W₀ = 0 では r_ref に依らない・W₀ ≠ 0 では α ≠ 2 で依る。W₀ の比べる列 3H₀c/(2G) は次元が合うだけ。
+- **表の値の要点**: 場の枠(自己なし)の惑星の ω_field は太陽の自転の座標の回転の桁(半径を見ないので距離で減らない)・受け手の枠(R_d)は ω_field ÷ s が 1e-20 の桁・受け手の枠(観測半径)はイオ 0.2 s の桁。今の軸の口は自転 0 の源で 0・新しい定義は並進の部が残る。遠心の要求は剛体の枠で 0 < Ω_f/Ω < 2 のときだけ順行が減る —— 場の枠の惑星と衛星は Ω_f/Ω > 2(順行でも増す)・受け手の枠(観測半径)は惑星 0.0015〜0.038・ガリレオ衛星 1.1〜1.5・土星の環(場の枠)0.46〜1.35。
+- AI が本や説明を作るときは、新しい軸の差分を自転・共鳴・公転面の機構として書かない(宣言した型の表の値)・ω_field をトルクや発熱と書かない(応答と帳簿は未接続)・順行で遠心の要求が必ず減るとは書かない(0 < Ω_f/Ω < 2 の条件つき)。
+- QA `lint.axialField333b`(版・宣言・純関数の場面 15・呼ぶだけ)・`behavior.axialField333b`(今の html の 🗺️ の写しで場の表・今の口の並べ・有限の受け手・遠心・次数と単位を作り直して正本と同じ)・`docs.axialField333b`(正本の門と表 12 本が PHYSICS〔第333便b〕に逐語・書かない語と禁句)。
+
 ## 211. 第333便c —— 水星の三次元の対照: 今の組(G_loc n = 2 + K1)を凍結の基準に、G_loc の次数と対称・統合した並進引きずり・回転引きずりの差分を効果ごとに単独で(太陽の赤道面・黄道・水星の公転面を分ける —— 診断だけ)(原仮定者の整理(2026-11-10)・原仮定者の回答(2026-11-10 —— AN597・AN598・AN600)・統括の検証項目 R319・**html・本の宣言・受理器・步・`S._core`・第330〜332便の lib の本文は不変・physics の鍵は足さない** —— 器と lib と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
 
 - **正本** `tests/out/mercury3d-w333c.json`(器 `tests/exp-w333c-mercury3d.mjs` —— 版 w333c-mercury3d-1・lib `tests/lib-w333c-mercury3d.mjs`〔三次元の幾何 frameOfElements・orbitOfState・anglesOn・Gauss の式の軌道の平均 secularRates・速度の型の加速度 velocityToAccel・帯の区間 bandWindows・効果の型 gLocAccel・k1Velocity・transDragVelocity・pairSpeed・pairAccel・cutAccel・引きずり自転 dragSpin・連星 binaryShare・binaryNumeric・純粋な三次元の積分器 integrate3d〕・文書の lib `tests/lib-w333c-mercury3ddoc.mjs`・段 `mercury3d-333c`)。今の組の値は正本 `tests/out/inposk1-w315c.json` を読む。

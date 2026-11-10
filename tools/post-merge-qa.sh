@@ -809,6 +809,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.transGeo2332b behavior.transGeo2332b do
 #   PHYSICS〔第333便a〕に逐語・文書)と、新しい段 rotdiff-333a の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.rotDiff333a behavior.rotDiff333a docs.rotDiff333a docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c"
 # ==== 第333便a の塊(ここまで)====
+# ==== 第333便b の塊(ここから)====
+# 第333便b(原仮定者の整理(2026-11-10)・統括の検証項目 R318 —— 診断だけ・html は変えない): 枝 b の新設 3 本(lint.axialField333b —— 統合した並進の場と受け手の差分・遠心の順行と逆行・
+#   次数と単位の純関数の場面と呼ぶだけの検査 / behavior.axialField333b —— 今の html の 🗺️ の写しで場の表・今の軸の口の読み口・有限の受け手・遠心・次数と単位を作り直して正本と同じ /
+#   docs.axialField333b —— 正本の門と表が PHYSICS〔第333便b〕に逐語・文書)と、新しい段 axialfield-333b の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.axialField333b behavior.axialField333b docs.axialField333b docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c"
+# ==== 第333便b の塊(ここまで)====
 # ==== 第333便c の塊(ここから)====
 # 第333便c(原仮定者の整理(2026-11-10)・原仮定者の回答(2026-11-10 —— AN597・AN598・AN600)・統括の検証項目 R319 —— 診断だけ・html は変えない): 枝 c の新設 3 本(lint.mercury3d333c —— 三次元の幾何の宣言・
 #   効果の型の一覧と純関数の場面〔Gauss の平均・J₂ の独立の照合・対向 2 点の差分・切り口の式と第332便a の平均・連星の一次〕と呼ぶだけの検査・文献の出典 / behavior.mercury3d333c —— 今の html の 🌡️🌋🔴 の
