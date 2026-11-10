@@ -135,7 +135,7 @@ export function partEquiv(HP, BK) {
   const sun = B[0], fS = L.fObsOf(0), Ds = L.dragSpin({ m: sun.m, Robs: sun.R, s: Math.abs(sun.Omega), fObs: fS }), Es = L.srcMomentRatio({ m: sun.m, Robs: sun.R, s: Math.abs(sun.Omega), fObs: fS });
   const diff = { sunRd: Ds.Rd, sunRsrc: Es.Rsrc, sunRobs: sun.R, rsrcOverRd: Es.Rsrc / Ds.Rd, gammaRatio: Ds.ratio,
     rows: [['結合 β(並進 —— C₁R_d K1)', '不変(R_src を読まない)', '不変(R_d を読む)'], ['遠方の回転のモーメント', 's R_src²/5', 's_d R_d²/5(λ_J = 1・f_d = 2/5 で同じ)'],
-      ['応答率 γ(NF の帯の押し)', '無し(回転の項は s に比例)', 'fixed: β|s|・linked: β|s_d|(s_d/s 倍)'], ['分母 W と ∇W', '不変', '不変'],
+      ['応答率 γ(NF の帯の押し)', '無し(回転の項は s に比例)', 'fixed: β s・linked: β s_d(大きさ —— s_d/s 倍)'], ['分母 W と ∇W', '不変', '不変'],
       ['近接場(源の内の M1)', 'r < R_src で一様な球の内部の M1', 'r < R_d だけ(R_d は R_src の桁で小さい)'], ['帯(赤道面からの距離)', '無し(球の核)', '① ③ は R_d の帯・② は帯なし']] };
   return { rows, diff, note: '写しは 🗺️ の 2 体(源 0 番・受け手 1 番)・J 案は源の f だけを宣言(f_obs —— 第319便b の MOI)・s_d は λ_J = 1・f_d = 2/5・読みの式は第332便a の lib の sphereRot(源の自転を s_d に)' };
 }

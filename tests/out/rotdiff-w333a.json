@@ -2009,7 +2009,7 @@
     [
      "応答率 γ(NF の帯の押し)",
      "無し(回転の項は s に比例)",
-     "fixed: β|s|・linked: β|s_d|(s_d/s 倍)"
+     "fixed: β s・linked: β s_d(大きさ —— s_d/s 倍)"
     ],
     [
      "分母 W と ∇W",
@@ -20876,22 +20876,22 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.545
+   "wallSec": 0.417
   },
   "books": {
-   "wallSec": 0.546
+   "wallSec": 0.418
   },
   "columns": {
-   "wallSec": 1.019
+   "wallSec": 0.822
   },
   "dragSpin": {
-   "wallSec": 1.02
+   "wallSec": 0.823
   },
   "equiv": {
-   "wallSec": 1.063
+   "wallSec": 0.854
   },
   "align": {
-   "wallSec": 1.313
+   "wallSec": 1.065
   }
  },
  "gates": {
@@ -20903,13 +20903,13 @@
   "alignTable": true
  },
  "ok": true,
- "elapsedS": 3.023,
+ "elapsedS": 2.65,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第333便a",
   "target": "beta/index.html",
   "targetSha256": "6dd99a739eb9858a45fde9ce757fa7b21358a677d39e7dc56b3b80754790aeb9",
-  "generatedAt": "2026-11-10T20:00:50.156Z",
+  "generatedAt": "2026-11-10T20:02:35.015Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -20921,9 +20921,9 @@
   "code": [
    {
     "file": "tests/exp-w333a-rotdiff.mjs",
-    "bytes": 26463,
-    "sha256": "a5911c0284763c71404511d4c12f8ecf7b6b3a35b2973630eab015e0dd95bdf2",
-    "mtime": "2026-11-10T20:00:47.045Z"
+    "bytes": 26478,
+    "sha256": "c6bab4f2b161fa0e62b6e7fec4eeaeecd608bab0fca7eb2729a15f8d84b0139f",
+    "mtime": "2026-11-10T20:02:24.925Z"
    },
    {
     "file": "tests/lib-w333a-rotdiff.mjs",
@@ -20980,7 +20980,7 @@
     "mtime": "2026-11-10T19:46:40.323Z"
    }
   ],
-  "codeSha256": "6ec86628a256dd8b37c91fc1048f23ec4ea12a05f07deb01709bb61bf3e8016f",
+  "codeSha256": "c3b3c9d734c70defabeeb33c00dc48b0b21e49211455ab4cb8a2bd9bc7d9e80b",
   "harnessVersion": "w333a-rotdiff-1",
   "stage": "rotdiff",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)・🗺️ と 💍 の本の宣言を読む(步を進めない)・🗺️ の 2 体の写しの読み口 inertialDragIsqState(照合 E —— 源のモーメントの J 案)・純関数(lib)",
