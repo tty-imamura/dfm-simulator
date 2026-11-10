@@ -803,6 +803,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.eqBand332a behavior.eqBand332a docs.eqB
 #   同じ入力の表・NGC 3198・違いの分解・近似として読める範囲を作り直して正本と同じ / docs.transGeo2332b —— 正本の門と表が PHYSICS〔第332便b〕に逐語・文書)と、新しい段 transgeo2-332b の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.transGeo2332b behavior.transGeo2332b docs.transGeo2332b docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c"
 # ==== 第332便b の塊(ここまで)====
+# ==== 第333便a の塊(ここから)====
+# 第333便a(原仮定者の整理(2026-11-10)・統括の検証項目 R317 —— 診断だけ・html は変えない): 枝 a の新設 3 本(lint.rotDiff333a —— 3 列と型の一覧・走行の前の宣言・純関数の場面と呼ぶだけの検査・
+#   慣性係数の表 / behavior.rotDiff333a —— 今の html の 🗺️ と 💍 の宣言から 3 列の表・s_d の表・写しのエンジンとの等価・揃いの表を作り直して正本と同じ / docs.rotDiff333a —— 正本の門と表 12 本が
+#   PHYSICS〔第333便a〕に逐語・文書)と、新しい段 rotdiff-333a の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.rotDiff333a behavior.rotDiff333a docs.rotDiff333a docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c"
+# ==== 第333便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
