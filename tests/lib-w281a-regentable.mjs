@@ -1851,6 +1851,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/transgeo2-w332b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/engine/windows/*/wallSec']) },
     note: '第332便b: 並進引きずり(座標変換の回転を統合 —— 半径を見ない・重み m/r²・自己は R_d の規則)と geoPN = 2 の u の場(E2・E3 —— m/r・源の自転の減衰・自己を分母から外す)の同じ入力の表(💫 の写しと NGC 3198)・エンジンとの照らし(u と勾配)・定常の輸送と円軌道の読み・違いの分解(核・源の回転・分母)・近似として読める範囲(走行の前の物差し)・原仮定者の補足その4(2026-11-10)の重み m/r の並進引きずりと m/r² の均一さの表(部 U)' }),
   // ==== 第332便b の塊(ここまで)====
+  // ==== 第333便d の塊(ここから)====
+  // ---- 第333便d(原仮定者の整理(2026-11-10)「個々の星の軌道は同心円ではなく、楕円軌道の密度波で腕が形成される —— 同心円に近い前提の計算では合わせにくいのではないか」・
+  //   原仮定者の回答(2026-11-10 —— AN608)・統括の検証項目 R320): **銀河の非円軌道と密度波の低 N の対照の器**(段 noncirc-333d —— 正本 tests/out/noncirc-w333d.json・
+  //   lib tests/lib-w333d-noncirc.mjs —— 第332便b・第330便b・第329便b の lib を import して呼ぶ〔code の依存 —— 他の正本は読まない〕)。**診断だけ・運動学の対照だけ**。
+  //   **html を読まない**(来歴の対象は純関数 tests/lib-w333d-noncirc.mjs —— 第317便d の satan の型・領域の宣言なし)・NGC 3198 の rotmod の写し(第329便b の fixture)だけを読む。
+  //   1 プロセス。所要は第333便d の枝の実測 4.5〜5 s(同じ箱で 5 枝が並走)
+  S('noncirc-333d', 'node tests/exp-w333d-noncirc.mjs', ['tests/out/noncirc-w333d.json'], 5, { secSource: 'w333d-branch', node: true,
+    quickVerify: false, quickVerifyWhy: '全部を走らせても数秒(純関数と fixture だけ —— html を読まない)—— 簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/noncirc-w333d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第333便d: 同じ方位平均の質量分布(案内中心の環の質量が同じ)で 円軌道・位相を乱した非円軌道(種 3)・パターンの枠で位相を揃えた非円軌道(運動学的な密度波 kin と一定の Ω_p の卵形 pattern)の NGC 3198 の低 N の円盤 × 統合した並進の場 U(α = 2・1 × 引きずり自転 none・sync × 場の読み・自己 R_d = Y_k m)の方位平均・m = 2・渦度・J の流れ・トルクと仕事の目安・∂U/∂t(解析と中心差分)・腕と分散の切り分け・離散化の依存・共鳴の半径' }),
+  // ==== 第333便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
