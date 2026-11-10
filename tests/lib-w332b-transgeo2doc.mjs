@@ -96,20 +96,19 @@ export function tablesOf(J) {
       const by = Object.fromEntries(D[b].rows.map((r) => [r.axis, r]));
       return `| ${GAL[g]} | ${BASE[b]} | ` + Object.keys(AXIS).map((ax) => (by[ax] ? `${f3(by[ax].medianAbsLn)}(${f3(by[ax].maxAbsLn)}${by[ax].signFlips ? '・符号 ' + by[ax].signFlips : ''})` : '—')).join(' | ') + ` | ${D[b].ranked.map((a) => AXIS[a].replace(/(.*)/, '$1')).join(' > ')} |`;
     }))).join('\n');
-  // 表 11 近似として読める範囲(物差し: 比 10%・べき 0.1・向き 10° / 緩い 2 倍)
+  // 表 11 近似として読める範囲(物差し: 比 10%・べき 0.1・向き 10° / 緩い 2 倍)—— geoPN = 2 の列 4 つ(在位の宣言・背景 0・エンジンの pull と D0pull 0・その q = 0)
   {
-    const rows = [];
+    const rows = [], mn = (xs, k) => Math.min(...xs.map((q) => q[k])), mx = (xs, k) => Math.max(...xs.map((q) => q[k])), sum = (xs, k) => xs.reduce((s, q) => s + q[k], 0);
     for (const lab of Object.keys(RANGE_LABEL)) {
       const R0 = J.range.filter((q) => q.label === lab);
-      const groups = [['trans|coord|field']].concat(['kappaM', 'kappaD', 'book'].map((rule) => R0.filter((q) => q.geo === 'G0' && q.target.includes(':' + rule + ':')).map((q) => q.target))).filter((g) => g.length);
+      const groups = [['trans|coord|field']].concat(['kappaM', 'kappaD', 'book'].map((rule) => [...new Set(R0.filter((q) => q.target.includes(':' + rule + ':')).map((q) => q.target))])).filter((g) => g.length);
       for (const grp of groups) {
-        const a = R0.filter((q) => q.geo === 'G0' && grp.includes(q.target)), b = R0.filter((q) => q.geo === 'G0bg0' && grp.includes(q.target));
-        const mn = (xs, k) => Math.min(...xs.map((q) => q[k])), mx = (xs, k) => Math.max(...xs.map((q) => q[k])), sum = (xs, k) => xs.reduce((s, q) => s + q[k], 0);
-        const looseR = [...new Set(a.flatMap((q) => q.looseR))].sort((x, y) => x - y);
-        rows.push(`| ${RANGE_LABEL[lab]} | ${grp.length === 1 ? ruleOf(grp[0]) : ruleOf(grp[0]) + '(形 ' + grp.length + ')'} | ${a[0].n} | ${g3(mn(a, 'ratioMin'))}〜${g3(mx(a, 'ratioMax'))} | ${sum(a, 'nTight')}・${sum(a, 'nLoose')}・${sum(a, 'nDvTight')} | ${g3(mn(b, 'ratioMin'))}〜${g3(mx(b, 'ratioMax'))} | ${sum(b, 'nTight')}・${sum(b, 'nLoose')} | ${looseR.length ? looseR.map((x) => f3(x)).join('・') : '—'} |`);
+        const cell = (geo, dv) => { const a = R0.filter((q) => q.geo === geo && grp.includes(q.target)); return `${g3(mn(a, 'ratioMin'))}〜${g3(mx(a, 'ratioMax'))}(${sum(a, 'nTight')}・${sum(a, 'nLoose')}${dv ? '・' + sum(a, 'nDvTight') : ''})`; };
+        const tp = R0.filter((q) => q.geo === 'Gpull0' && grp.includes(q.target)), tightR = [...new Set(tp.flatMap((q) => q.tightR))].sort((x, y) => x - y);
+        rows.push(`| ${RANGE_LABEL[lab]} | ${grp.length === 1 ? ruleOf(grp[0]) : ruleOf(grp[0]) + '(形 ' + grp.length + ')'} | ${tp[0].n} | ${cell('G0', true)} | ${cell('G0bg0', false)} | ${cell('Gpull0', true)} | ${cell('Gpull0coord', true)} | ${tightR.length ? (tightR.length > 8 ? f3(tightR[0]) + '〜' + f3(tightR[tightR.length - 1]) + '(' + tightR.length + ' 点)' : tightR.map((x) => f3(x)).join('・')) : '—'} |`);
       }
     }
-    T.range = ['| 系 | 並進引きずりの型 | 半径の点 | G0 ÷ 並進の u_φ の範囲 | G0: 物差しの内の点(比 10%・緩い 2 倍・Δv 10%)| G0bg0 ÷ 並進の範囲 | G0bg0: 比 10%・緩い 2 倍 | 緩い物差しの内の半径(G0) |', '|---|---|---|---|---|---|---|---|'].concat(rows).join('\n');
+    T.range = ['| 系 | 並進引きずりの型 | 半径の点 | G0(在位の宣言)÷ 並進の u_φ(比 10%・緩い 2 倍・Δv 10% の内の点)| G0bg0(背景 0)| Gpull0(frameWeight:"pull"・D0pull 0・q は本の値 —— 受理される)| Gpull0coord(Gpull0 の源の回転を座標変換 —— q = 0 は受理されない)| Gpull0 の物差しの内の半径 |', '|---|---|---|---|---|---|---|---|'].concat(rows).join('\n');
   }
   // 表 12 自己の重みの規則の値
   {

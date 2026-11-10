@@ -70,6 +70,10 @@ export const PLAN = Object.freeze({
   ngcPickKpc: Object.freeze([1, 2, 4, 8, 16, 30]), ngcOuterFromKpc: 10,
   /** NGC 3198 の核(pullSoft はエンジンの照らしの無い系では並べない —— 💫 だけ) */
   ngcKernels: Object.freeze(['geo2', 'trans']),
+  /** NGC 3198 に足す組(エンジンの宣言で表せる pull の列 —— frameWeight:"pull"・D0pull 0・q は本の値 / q = 0 の列は受理されない宣言の比べる列) */
+  ngcExtraCombos: Object.freeze(['pullSoft|decay|field', 'pullSoft|coord|field', 'pullSoft|decay|e3']),
+  /** 近似として読める範囲で並進引きずりと比べる geoPN = 2 の列(G0 = 在位の宣言・G0bg0 = 背景 0・Gpull0 = エンジンの pull と D0pull 0〔受理される〕・Gpull0coord = その源の回転を座標変換〔q = 0 —— 受理されない〕) */
+  rangeGeos: Object.freeze([Object.freeze(['G0', 'geo2|decay|e3']), Object.freeze(['G0bg0', 'geo2|decay|field']), Object.freeze(['Gpull0', 'pullSoft|decay|field']), Object.freeze(['Gpull0coord', 'pullSoft|coord|field'])]),
   /** geoPN = 2 の宣言の NGC 3198 への写し(💫 の宣言の無次元の写し —— L = 円盤の半径〔💫 260・NGC 3198 30 kpc〕・M = 全質量・ε/L・D₀ L^p/M・q は本の値) */
   ngcScaleNote: '💫 の宣言の無次元の写し: ε_N = ε_本 × L_N/L_本・D₀,N(p) = D₀,本 × (M_N/M_本) × (L_本/L_N)^p(L = 円盤の半径・M = 全質量)・q = 本の q・中心の自転 = v_obs(R_c)/R_c・中心の半径 R_c',
   G: GR.G_SI, c: 299792458, kpcM: GR.KPC_M,
@@ -223,7 +227,7 @@ export function partBook(HP) {
     let fcMax = 0;
     for (const cmb of combos(PLAN.selfRulesBook)) table[keyOf(cmb)] = withCircular(binRows(evalSystem(sys, cmb), PLAN.binEdges)).map((r) => {
       if (fin(r.frameCheck)) fcMax = Math.max(fcMax, Math.abs(r.frameCheck));
-      const { dvRigid, frameCheck, ...keep } = r; void dvRigid; void frameCheck; return keep; });
+      const { dvRigid, frameCheck, uR, aPhi, ...keep } = r; void dvRigid; void frameCheck; void uR; void aPhi; return keep; });   // 動径の成分は向きの欄(angleDeg)で持つ
     out[tag] = { decl, table, nCombos: Object.keys(table).length, frameCheckMax: fcMax };
   }
   return out;
@@ -252,7 +256,7 @@ export function partNgc(FX, scale) {
   for (const dist of PLAN.ngcDists) for (const [dR, K] of PLAN.ngcDisc) {
     const N = ngcSystem(FX, { dist, dR, K }, scale), table = {};
     let fcMax = 0, uRMax = 0;
-    for (const cmb of combos(PLAN.selfRulesNgc).filter((q) => PLAN.ngcKernels.includes(q.kernel))) {
+    for (const cmb of combos(PLAN.selfRulesNgc).filter((q) => PLAN.ngcKernels.includes(q.kernel) || PLAN.ngcExtraCombos.includes(q.key))) {
       const rows = evalSystem(N.sys, cmb).map((r, k) => Object.assign(r, { RKpc: N.Rs[k], vObs: N.vobs[k], vBar: N.vbar[k] }));   // R は m(SI で計算 —— 表示は RKpc・km/s)
       table[keyOf(cmb)] = withCircular(rows).map((r) => {
         if (fin(r.frameCheck)) fcMax = Math.max(fcMax, Math.abs(r.frameCheck));
@@ -290,11 +294,11 @@ export function decompose(table, quantity) {
   return res;
 }
 export function approxRange(table, rules, label) {
-  const g0 = table[keyOf(PLAN.baseG0)], g0bg0 = table[keyOf({ kernel: 'geo2', rot: 'decay', denom: 'field' })];
+  const geos = PLAN.rangeGeos.map(([nm, k]) => [nm, table[k]]);
   const targets = [{ kernel: 'trans', rot: 'coord', denom: 'field' }];
   for (const r of rules) for (const s of PLAN.selfShapes) targets.push({ kernel: 'trans', rot: 'coord', denom: 'self:' + r + ':' + s });
   const rows = [];
-  for (const [gname, G] of [['G0', g0], ['G0bg0', g0bg0]]) for (const tg of targets) {
+  for (const [gname, G] of geos) for (const tg of targets) {
     const Tt = table[keyOf(tg)], per = [];
     for (let k = 0; k < G.length; k++) {
       const a = G[k], b = Tt[k];
@@ -303,7 +307,7 @@ export function approxRange(table, rules, label) {
       const dvRatio = fin(a.dvContinuum) && fin(b.dvContinuum) && b.dvContinuum !== 0 ? a.dvContinuum / b.dvContinuum : null;
       const tight = Math.abs(ratio - 1) <= PLAN.yardTight.ratio && dSl !== null && dSl <= PLAN.yardTight.slope && dAng <= PLAN.yardTight.angleDeg;
       const loose = ratio > 0 && Math.abs(Math.log(ratio)) <= PLAN.yardLoose.lnRatio;
-      per.push({ R: a.RKpc !== undefined ? a.RKpc : a.R, ratio, dSlope: dSl, dvRatio, tight, loose, dvTight: dvRatio !== null && Math.abs(dvRatio - 1) <= PLAN.yardTight.ratio });
+      per.push({ R: a.RKpc !== undefined ? a.RKpc : a.R, ratio, dSlope: dSl, tight, loose, dvTight: dvRatio !== null && Math.abs(dvRatio - 1) <= PLAN.yardTight.ratio });
     }
     rows.push({ label, geo: gname, target: keyOf(tg), nTight: per.filter((q) => q.tight).length, nLoose: per.filter((q) => q.loose).length, nDvTight: per.filter((q) => q.dvTight).length, n: per.length,
       tightR: per.filter((q) => q.tight).map((q) => q.R), looseR: per.filter((q) => q.loose).map((q) => q.R), ratioMedian: median(per.map((q) => q.ratio)), ratioMin: Math.min(...per.filter((q) => fin(q.ratio)).map((q) => q.ratio)),
@@ -315,7 +319,7 @@ export function approxRange(table, rules, label) {
 /* ───────── 門 ───────── */
 export function gatesOf(J) {
   const E = J.engine, Bk = J.book, Ng = J.ngc;
-  const nB = combos(PLAN.selfRulesBook).length, nN = combos(PLAN.selfRulesNgc).filter((q) => PLAN.ngcKernels.includes(q.kernel)).length;
+  const nB = combos(PLAN.selfRulesBook).length, nN = combos(PLAN.selfRulesNgc).filter((q) => PLAN.ngcKernels.includes(q.kernel) || PLAN.ngcExtraCombos.includes(q.key)).length;
   return {
     pure: Object.values(J.pure.gates).every(Boolean),
     engineAnchorU: E.anchors.length === PLAN.engineCombos.length && E.anchors.every((q) => q.calls === 2 && q.receivers === Bk.book.decl.nRecv && q.uRel <= PLAN.engineTolU && q.wsumRel <= PLAN.engineTolU),
@@ -326,8 +330,8 @@ export function gatesOf(J) {
     ngcComplete: PLAN.ngcDists.every((d) => Ng.main[d] && Object.keys(Ng.main[d].table).length === nN && Ng.main[d].uRMaxRel <= 1e-9 && Object.values(Ng.main[d].table).every((rows) => rows.length === Ng.main[d].Rs.length && rows.every((r) => fin(r.uPhi))))
       && Ng.side.length === PLAN.ngcDists.length * (PLAN.ngcDisc.length - 1),
     frameIdentity: Bk.book.frameCheckMax <= 1e-9 && Bk.centerSpin0.frameCheckMax <= 1e-9 && PLAN.ngcDists.every((d) => Ng.main[d].frameCheckMax <= 1e-9),
-    decomposed: [['book', 5], ['ngcFixture', 4]].every(([k, nr]) => ['G0', 'G0bg0', 'TF', 'TS'].every((b) => J.decomp[k][b].rows.length === nr && J.decomp[k][b].ranked.length >= nr - 1)),
-    rangeDeclared: J.range.length > 0 && J.range.every((q) => q.n > 0 && Array.isArray(q.per)),
+    decomposed: ['book', 'ngcFixture'].every((k) => ['G0', 'G0bg0', 'TF', 'TS'].every((b) => J.decomp[k][b].rows.length >= 4 && J.decomp[k][b].ranked.length >= J.decomp[k][b].rows.length - 1)),
+    rangeDeclared: J.range.length > 0 && J.range.every((q) => q.n > 0 && Array.isArray(q.per)) && PLAN.rangeGeos.every(([nm]) => J.range.some((q) => q.geo === nm)),
   };
 }
 export function runAll(HP, root = ROOT) {

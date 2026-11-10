@@ -100356,8 +100356,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (!(js(PL.binEdges) === js([30, 60, 90, 120, 150, 180, 210, 240, 261]) && js(PL.outerBand) === js([156, 286]) && PL.windowSteps === 600 && PL.dt === 0.016 && PL.engineCombos.length === 4 && js(PL.windowCombos) === js(['shareD0', 'shareBg0'])
         && js(PL.yardTight) === js({ ratio: 0.1, slope: 0.1, angleDeg: 10 }) && PL.yardLoose.lnRatio === Math.log(2) && js(PL.ngcDisc) === js([[1, 24], [1, 48], [0.5, 24]]) && js(PL.ngcDists) === js(['fixture', 'exp']) && PL.upsDisk === 0.5
         && js(PL.baseG0) === js({ kernel: 'geo2', rot: 'decay', denom: 'e3' }) && js(PL.baseTF) === js({ kernel: 'trans', rot: 'coord', denom: 'field' }) && js(PL.baseTS) === js({ kernel: 'trans', rot: 'coord', denom: 'self:kappaM:ballMean' })
-        && js(PL.selfRulesBook) === js(['kappaM', 'kappaD', 'book']) && js(PL.selfRulesNgc) === js(['kappaM', 'kappaD']) && js(PL.ngcKernels) === js(['geo2', 'trans'])))
-        bad.push('① 器の宣言(箱・外縁帯・窓・写し・物差し・NGC 3198 の離散化と分布・Υ_disk・基準・自己の規則・核)');
+        && js(PL.selfRulesBook) === js(['kappaM', 'kappaD', 'book']) && js(PL.selfRulesNgc) === js(['kappaM', 'kappaD']) && js(PL.ngcKernels) === js(['geo2', 'trans'])
+        && js(PL.ngcExtraCombos) === js(['pullSoft|decay|field', 'pullSoft|coord|field', 'pullSoft|decay|e3']) && js(PL.rangeGeos.map((q) => q[0])) === js(['G0', 'G0bg0', 'Gpull0', 'Gpull0coord'])))
+        bad.push('① 器の宣言(箱・外縁帯・窓・写し・物差し・NGC 3198 の離散化と分布・Υ_disk・基準・自己の規則・核・足す組・範囲の geoPN = 2 の列)');
       cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・文書 ${D0.DOC_VERSION}・核 ${L.KERNELS.length}・源の回転 ${L.ROTS.length}・自己の規則 ${L.SELF_RULES.length}・物差し 比 ${PL.yardTight.ratio}・べき ${PL.yardTight.slope}・向き ${PL.yardTight.angleDeg}°・緩い 2 倍・窓 ${PL.windowSteps} 步`);
       let G1 = null;
       try { G1 = L.pureGates(L.pureScenes()); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
@@ -100469,7 +100470,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const want = ['原仮定者の補足(2026-11-10)', 'R316', 'tests/exp-w332b-transgeo2.mjs', 'tests/out/transgeo2-w332b.json', 'tests/lib-w332b-transgeo2.mjs', 'w332b-transgeo2-lib-1', '並進引きずり', '座標変換の回転', '半径を見ない',
       'm/√(d²+ε²)', 'ω_j(d) = s_j (R_j/(R_j + d))^q', 'R_d = Y_k m', 'κ_D m', '本の半径', 'm/0² にできない', '場の読み', '受け手の読み', 'E3', 'D₀', 'dRel は速度で、力・加速度ではない', '同じ入力',
       '定常の輸送', 'ω_f = ω_z − Ω_f', '第331便b の枠の式', 'continuum', 'rigid', 'q = 0', '値域の下限 0.5', 'Float32', '600 步', '12000 步', 'pull', '違いの分解', '物差し', '比の 10%', '2 倍',
-      '物差し(比 10%)の内に入る半径は全部の系と型で 0', '1 − α', '源の回転', '核', '原仮定者の補足(2026-11-10)への枝の答え', '決断事項の候補', '次の便へ', 'lint.transGeo2332b', 'behavior.transGeo2332b', 'docs.transGeo2332b',
+      '在位の宣言の列(G0・G0bg0)では物差し(比 10%)の内に入る半径は全部の系と型で 0', 'Gpull0', 'D0pull 0', '1 − α', '源の回転', '核', '原仮定者の補足(2026-11-10)への枝の答え', '決断事項の候補', '次の便へ', 'lint.transGeo2332b', 'behavior.transGeo2332b', 'docs.transGeo2332b',
       '作業仮説の宣言の式と今のコードの実装を混ぜない', '宣言〔未接続〕', '実装〔opt-in〕'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第332便b〕に「' + w + '」が無い');
     const a0 = AS.indexOf('\n## 208. 第332便b'), ai = secUntilNext329c(AS, a0, '\n## ');   // 次の見出しまで(固定の字数の窓を持たない)
