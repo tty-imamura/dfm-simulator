@@ -57,7 +57,7 @@ export function kernelOf(name, epsBook = 0) {
 /**
  * 場の式(1 受け手 —— 平面)。at:[x, y]・sources:[{ x, y, vx, vy, m ≥ 0, spin, R > 0(decay で spin ≠ 0 のとき)}]・kernel:{ p ∈ {1, 2}, eps ≥ 0 }・rot:{ type ∈ ROTS, q ≥ 0 }・
  * selfW ≥ 0(受け手の自己の重み —— 分母だけ)・bg ≥ 0(背景 —— 速度 0 の項)・v:[vx, vy](受け手の速度 —— dRel を返すときだけ)。
- * 戻り値: u・W・Wsrc・P・J(2×2)・curl・div・shares{ src, self, bg }・dRel(v があるとき)
+ * 戻り値: u・W・Wsrc・P・J(2×2)・vort・div・shares{ src, self, bg }・dRel(v があるとき)
  */
 export function frameField({ at, sources, kernel, rot, selfW = 0, bg = 0, v = null }) {
   if (!Array.isArray(at) || at.length !== 2 || !at.every(fin) || !Array.isArray(sources)) throw new RangeError('frameField: at は有限の 2 成分・sources は配列');
@@ -87,7 +87,7 @@ export function frameField({ at, sources, kernel, rot, selfW = 0, bg = 0, v = nu
   if (!(Wt > 0) || !fin(Wt)) throw new RangeError('frameField: 分母が 0(源・自己・背景のどれも無い)');
   const ux = Px / Wt, uy = Py / Wt;
   const J = [[(Pxx - ux * dWx) / Wt, (Pxy - ux * dWy) / Wt], [(Pyx - uy * dWx) / Wt, (Pyy - uy * dWy) / Wt]];
-  const out = { u: [ux, uy], W: Wt, Wsrc: Ws, P: [Px, Py], J, curl: J[1][0] - J[0][1], div: J[0][0] + J[1][1], shares: { src: Ws / Wt, self: selfW / Wt, bg: bg / Wt },
+  const out = { u: [ux, uy], W: Wt, Wsrc: Ws, P: [Px, Py], J, vort: J[1][0] - J[0][1], div: J[0][0] + J[1][1], shares: { src: Ws / Wt, self: selfW / Wt, bg: bg / Wt },
     dP: [[Pxx, Pxy], [Pyx, Pyy]], dW: [dWx, dWy] };
   if (v !== null) out.dRel = [(Px + selfW * v[0]) / Wt - v[0], (Py + selfW * v[1]) / Wt - v[1]];
   return out;
@@ -96,9 +96,9 @@ export function frameField({ at, sources, kernel, rot, selfW = 0, bg = 0, v = nu
 /** v − u 輸送の定常の読み: a = k_F [J u + (∇×u) ẑ × (v − k_F u)](ẑ × (w_x, w_y) = (−w_y, w_x)) */
 export function transportSteady({ u, J, v, kF = 1 }) {
   if (![u, v].every((a) => Array.isArray(a) && a.length === 2 && a.every(fin)) || !Array.isArray(J) || !fin(kF)) throw new RangeError('transportSteady: 入力');
-  const curl = J[1][0] - J[0][1], conv = [J[0][0] * u[0] + J[0][1] * u[1], J[1][0] * u[0] + J[1][1] * u[1]], wx = v[0] - kF * u[0], wy = v[1] - kF * u[1];
-  const cor = [-curl * wy, curl * wx];
-  return { a: [kF * (conv[0] + cor[0]), kF * (conv[1] + cor[1])], conv, cor, curl };
+  const vort = J[1][0] - J[0][1], conv = [J[0][0] * u[0] + J[0][1] * u[1], J[1][0] * u[0] + J[1][1] * u[1]], wx = v[0] - kF * u[0], wy = v[1] - kF * u[1];
+  const cor = [-vort * wy, vort * wx];
+  return { a: [kF * (conv[0] + cor[0]), kF * (conv[1] + cor[1])], conv, cor, vort };
 }
 
 /** 位置 (x, y) での動径・接線の成分(φ̂ = (−y, x)/r —— 反時計回りが正) */
@@ -205,10 +205,10 @@ export function pureScenes() {
       const tr = transportSteady({ u: [0, uPhi], J, v: [0, circ.vContinuum] }), aR = tr.a[0];
       const fd = CF.frameDemand({ R: Rr, Omega: Om, OmegaF: Of, omegaF: omegaZ - Of });
       rows.push({ R: Rr, aRvsFormula: relD(aR, -Of * Of * Rr - omegaZ * (circ.vContinuum - uPhi)), aRvsFrame: relD(aR, fd.demand - Om * Om * Rr), balance: relD(g, Om * Om * Rr + aR),
-        rigid: relD(circ.vRigid, Math.sqrt(g * Rr) + uPhi), frameCheck: Math.abs(circ.frameCheck), curl: relD(tr.curl, omegaZ) });
+        rigid: relD(circ.vRigid, Math.sqrt(g * Rr) + uPhi), frameCheck: Math.abs(circ.frameCheck), vort: relD(tr.vort, omegaZ) });
     }
     const rg = rows[3]; const rigidRoot = circularVelocity({ g: 0.6, R: 3, uPhi: 0.6, omegaZ: 0.4 });
-    S.steadyCircular = { rows, maxRel: Math.max(...rows.flatMap((r) => [r.aRvsFormula, r.aRvsFrame, r.balance, r.rigid, r.frameCheck, r.curl])), rigidFieldContinuumEqRigid: relD(rigidRoot.vContinuum, rigidRoot.vRigid), rgR: rg.R }; }
+    S.steadyCircular = { rows, maxRel: Math.max(...rows.flatMap((r) => [r.aRvsFormula, r.aRvsFrame, r.balance, r.rigid, r.frameCheck, r.vort])), rigidFieldContinuumEqRigid: relD(rigidRoot.vContinuum, rigidRoot.vRigid), rgR: rg.R }; }
   // ⑧ 鏡の対称の配置(中心 + 方位 12 点の環 2 本 —— 源は円運動)で受け手 (R, 0) の動径の成分と J_xx・J_yy が 0(x 軸の鏡の対称 —— 離散の環は連続の軸対称ではないので J_xy = −u_φ/R は門にしない)
   { const src = [{ x: 0, y: 0, vx: 0, vy: 0, m: 10, spin: 0.8, R: 0.5 }];
     for (const [Rr, vv] of [[1.5, 2], [3.5, 1.4]]) for (let k = 0; k < 12; k++) { const f = 2 * Math.PI * k / 12; src.push({ x: Rr * Math.cos(f), y: Rr * Math.sin(f), vx: -vv * Math.sin(f), vy: vv * Math.cos(f), m: 0.4, spin: 0, R: 0.1 }); }
@@ -219,7 +219,7 @@ export function pureScenes() {
   // ⑨ k_F = 0 で輸送 0・k_F の一般(J u の項は k_F 倍・コリオリは w = v − k_F u)
   { const F = frameField({ at, sources: SR, kernel: K1, rot: RD, bg: 1.5 }), t0 = transportSteady({ u: F.u, J: F.J, v: vR, kF: 0 }), t2 = transportSteady({ u: F.u, J: F.J, v: vR, kF: 0.5 });
     const conv = [F.J[0][0] * F.u[0] + F.J[0][1] * F.u[1], F.J[1][0] * F.u[0] + F.J[1][1] * F.u[1]], wx = vR[0] - 0.5 * F.u[0], wy = vR[1] - 0.5 * F.u[1];
-    S.kFrame = { zero: Math.max(Math.abs(t0.a[0]), Math.abs(t0.a[1])), half: Math.max(relD(t2.a[0], 0.5 * (conv[0] - F.curl * wy)), relD(t2.a[1], 0.5 * (conv[1] + F.curl * wx))) }; }
+    S.kFrame = { zero: Math.max(Math.abs(t0.a[0]), Math.abs(t0.a[1])), half: Math.max(relD(t2.a[0], 0.5 * (conv[0] - F.vort * wy)), relD(t2.a[1], 0.5 * (conv[1] + F.vort * wx))) }; }
   // ⑩ 局所のべき(べき乗の場 —— 不等間隔)と比の要約
   { const R = [1, 1.3, 2, 2.2, 3.5, 5, 8], f = R.map((r) => 3 * Math.pow(r, -0.7)), sl = localSlopes(R, f), rs = ratioSummary([1, 2, -3, 4], [2, 2, 3, 8]);
     S.slopes = { maxErr: Math.max(...sl.map((s) => Math.abs(s + 0.7))), signNull: localSlopes([1, 2, 3], [1, -1, 2]).every((s) => s === null), ratio: rs }; }

@@ -100396,7 +100396,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         // ② 💫 の同じ入力
         const Bk = X.partBook(H.HP);
         let dB = 0;
-        for (const tag of ['book', 'centerSpin0']) for (const [k, rows] of Object.entries(Bk[tag].table)) { const ref = J.book[tag].table[k]; if (!ref || ref.length !== rows.length) { dB = Infinity; continue; } rows.forEach((r, i) => { for (const f of ['uPhi', 'aR', 'vContinuum', 'curl', 'dRelPhi']) dB = Math.max(dB, relD332(r[f], ref[i][f])); }); }
+        for (const tag of ['book', 'centerSpin0']) for (const [k, rows] of Object.entries(Bk[tag].table)) { const ref = J.book[tag].table[k]; if (!ref || ref.length !== rows.length) { dB = Infinity; continue; } rows.forEach((r, i) => { for (const f of ['uPhi', 'aR', 'vContinuum', 'vort', 'dRelPhi']) dB = Math.max(dB, relD332(r[f], ref[i][f])); }); }
         if (!(dB <= 1e-9 && Bk.book.nCombos === J.book.book.nCombos)) bad.push(`② 💫 の同じ入力を作り直して正本と違う(相対 ${dB})—— 器を走らせ直す`);
         cases.push(`② 💫 の同じ入力 ${Bk.book.nCombos} 組 × 2(本・中心の自転 0)× 箱 ${X.PLAN.binEdges.length - 1} の u_φ・a_R・continuum の v・渦度・dRel が正本と相対 1e-9 の内`);
         // ③ NGC 3198

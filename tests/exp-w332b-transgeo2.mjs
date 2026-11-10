@@ -117,7 +117,7 @@ function evalSystem(sys, combo) {
     const F = L.frameField({ at, sources: src, kernel: K, rot, selfW, bg, v });
     const tr = L.transportSteady({ u: F.u, J: F.J, v, kF: 1 });
     const up = L.polar(at, F.u), dp = L.polar(at, F.dRel), ap = L.polar(at, tr.a), vp = L.polar(at, v);
-    return { R: up.r, uPhi: up.phi, uR: up.R, angleDeg: Math.atan2(up.R, up.phi) * 180 / Math.PI, dRelPhi: dp.phi, curl: F.curl, aR: ap.R, aPhi: ap.phi, vPhi: vp.phi, g: sys.g[k], shareSelf: F.shares.self, shareBg: F.shares.bg };
+    return { R: up.r, uPhi: up.phi, uR: up.R, angleDeg: Math.atan2(up.R, up.phi) * 180 / Math.PI, dRelPhi: dp.phi, vort: F.vort, aR: ap.R, aPhi: ap.phi, vPhi: vp.phi, g: sys.g[k], shareSelf: F.shares.self, shareBg: F.shares.bg };
   });
 }
 const median = CF.median;
@@ -128,7 +128,7 @@ function binRows(rows, edges) {
     const q = rows.filter((r) => r.R >= edges[b] && r.R < edges[b + 1]);
     if (!q.length) { out.push({ lo: edges[b], hi: edges[b + 1], n: 0 }); continue; }
     const m = (k) => median(q.map((r) => r[k]));
-    out.push({ lo: edges[b], hi: edges[b + 1], n: q.length, R: m('R'), uPhi: m('uPhi'), uR: m('uR'), angleDeg: m('angleDeg'), dRelPhi: m('dRelPhi'), curl: m('curl'), aR: m('aR'), aPhi: m('aPhi'), vPhi: m('vPhi'), g: m('g'),
+    out.push({ lo: edges[b], hi: edges[b + 1], n: q.length, R: m('R'), uPhi: m('uPhi'), uR: m('uR'), angleDeg: m('angleDeg'), dRelPhi: m('dRelPhi'), vort: m('vort'), aR: m('aR'), aPhi: m('aPhi'), vPhi: m('vPhi'), g: m('g'),
       shareSelf: m('shareSelf'), shareBg: m('shareBg') });
   }
   return out;
@@ -137,7 +137,7 @@ function withCircular(rows) {
   const sl = L.localSlopes(rows.map((r) => r.R), rows.map((r) => r.uPhi));
   return rows.map((r, k) => {
     if (!(r.n === undefined || r.n > 0)) return r;
-    const circ = L.circularVelocity({ g: Math.max(0, r.g), R: r.R, uPhi: r.uPhi, omegaZ: r.curl });
+    const circ = L.circularVelocity({ g: Math.max(0, r.g), R: r.R, uPhi: r.uPhi, omegaZ: r.vort });
     return Object.assign({}, r, { slope: sl[k], vNewton: circ.vNewton, vContinuum: circ.vContinuum, vRigid: circ.vRigid, dvContinuum: circ.vContinuum === null ? null : circ.vContinuum - circ.vNewton, dvRigid: circ.vRigid - circ.vNewton, frameCheck: circ.frameCheck });
   });
 }
@@ -257,7 +257,7 @@ export function partNgc(FX, scale) {
       table[keyOf(cmb)] = withCircular(rows).map((r) => {
         if (fin(r.frameCheck)) fcMax = Math.max(fcMax, Math.abs(r.frameCheck));
         uRMax = Math.max(uRMax, Math.abs(r.uR) / Math.max(1e-300, Math.abs(r.uPhi)));
-        return { RKpc: r.RKpc, uPhi: r.uPhi, dRelPhi: r.dRelPhi, curl: r.curl, aR: r.aR, vObs: r.vObs, vBar: r.vBar, slope: r.slope, vContinuum: r.vContinuum, dvContinuum: r.dvContinuum, shareSelf: r.shareSelf, shareBg: r.shareBg }; });   // 動径の成分・向き(0)・重力(v_bar²/R)は軸対称で落とす
+        return { RKpc: r.RKpc, uPhi: r.uPhi, dRelPhi: r.dRelPhi, vort: r.vort, aR: r.aR, vObs: r.vObs, vBar: r.vBar, slope: r.slope, vContinuum: r.vContinuum, dvContinuum: r.dvContinuum, shareSelf: r.shareSelf, shareBg: r.shareBg }; });   // 動径の成分・向き(0)・重力(v_bar²/R)は軸対称で落とす
     }
     const isMain = dR === PLAN.ngcDisc[0][0] && K === PLAN.ngcDisc[0][1];
     if (isMain) out.main[dist] = { decl: N.decl, Rs: N.Rs, table, frameCheckMax: fcMax, uRMaxRel: uRMax };
