@@ -258,7 +258,7 @@ expression and converts to $43.0''$/century against the observed
 $42.98''$/century.
 (P2)~The stability of the strong-dragging sector is \emph{unit-system
 dependent}: the loop gain that controls collapse is built from the
-dimensional weight $w=m/d$, so the same physical configuration
+dimensional weight $w=m/r$, so the same physical configuration
 survives or collapses according to the declared exponents.
 (P3)~With dragging on, a \emph{pure two-body} Earth--Moon system
 reproduces the sidereal month and the $8.85$-year lunar apsidal cycle
@@ -305,7 +305,7 @@ agreement of a number is not identification of a mechanism.
 
 % wave 316d (the originator's ruling, report 118 -- decision AN416): a short notation table and one note.
 % Symbols only -- no number, equation, window or claim is changed; implementation keys are unchanged.
-\noindent\textit{Notation.}\footnote{Earlier versions of this paper wrote the spacetime coefficient as $\kappa$ and the light speed in the correspondence lock as $c_{\mathrm{light}}$; this version writes $X_k$ and $c_0$ (the committed figure panels of Papers~1 and~2 keep their earlier labels). The letter $\kappa$ now denotes only Einstein's gravitational constant $8\pi G/c^{4}$. The implementation keys (\texttt{kappaT}, \texttt{cLight}), all numbers, equations and claims are unchanged; only the symbols are renamed.}
+\noindent\textit{Notation.}\footnote{Earlier versions of this paper wrote the spacetime coefficient as $\kappa$ and the light speed in the correspondence lock as $c_{\mathrm{light}}$; this version writes $X_k$ and $c_0$ (the committed figure panels of Papers~1 and~2 keep their earlier labels). The letter $\kappa$ now denotes only Einstein's gravitational constant $8\pi G/c^{4}$. Earlier versions also wrote a position as $\bm r$ and a distance as $d$; this version writes $\bm p$ and $r$ (the 1PN strength $d\equiv GM/(c^{2}a)$ is not a distance and keeps its letter). The implementation keys (\texttt{kappaT}, \texttt{cLight}), all numbers, equations and claims are unchanged; only the symbols are renamed.}
 \begin{center}
 \small
 \begin{tabular}{@{}lp{0.74\columnwidth}@{}}
@@ -397,7 +397,7 @@ Only the third attempt, with a double-precision state carry, succeeded.
 P2 (Sec.~\ref{sec:p2}) is a negative result promoted to a structural
 statement: when free binaries with full dragging collapsed, the
 quantity that organized the measurements turned out to be a loop gain
-assembled from the \emph{dimensional} weight $w=m/d$, so that the
+assembled from the \emph{dimensional} weight $w=m/r$, so that the
 stability of a configuration depends on the declared unit system.
 Every subsequent calibration inherits that fact.
 
@@ -605,19 +605,20 @@ consistent on its own.
 The quantities calibrated in Secs.~\ref{sec:p3}--\ref{sec:p4} live in
 the model's Machian sector, so we restate the three equations they
 involve.
-The determinacy weight of a source $j$ at distance $d_j$, the field,
+The determinacy weight of a source $j$ at distance $r_j$ (we write $\bm p$
+for a position and $r$ for a distance), the field,
 and the local frame velocity are
 \begin{align}
-  w_j &= \frac{m_j}{\sqrt{d_j^{2}+\varepsilon^{2}}},
+  w_j &= \frac{m_j}{\sqrt{r_j^{2}+\varepsilon^{2}}},
   \qquad W = D_0+\sum_j w_j,
   \label{eq:W}\\
-  \bm u(\bm r) &= \frac{1}{W(\bm r)}\sum_j w_j
-   \Bigl[\bm v_j+\omega_j(d_j)\,\hat z\times(\bm r-\bm r_j)\Bigr],
+  \bm u(\bm p) &= \frac{1}{W(\bm p)}\sum_j w_j
+   \Bigl[\bm v_j+\omega_j(r_j)\,\hat z\times(\bm p-\bm p_j)\Bigr],
   \label{eq:u}
 \end{align}
 with the \emph{spin term} of a source of radius $R_j$ and spin $s_j$,
 \begin{equation}
-  \omega_j(d) = s_j\left(\frac{R_j}{R_j+d}\right)^{q}.
+  \omega_j(r) = s_j\left(\frac{R_j}{R_j+r}\right)^{q}.
   \label{eq:spinterm}
 \end{equation}
 Dragging transports a particle through the change of its own local
@@ -670,7 +671,7 @@ Galactic (legacy) & $2$ & $2$ & $0$ & $1$ & off \\
 The solar-system row's choice $q=3$ with $D_0=0.1$ was made so that
 the effective falloff index
 \begin{equation}
-  n(d) = q+\frac{D_0}{D_0+w(d)}
+  n(r) = q+\frac{D_0}{D_0+w(r)}
   \label{eq:neff}
 \end{equation}
 equals $3$---the Lense--Thirring distance
@@ -869,8 +870,8 @@ The subtraction in Sec.~\ref{sec:p1ladder}---measuring with the 1PN
 term on and off and differencing---is not a refinement.
 It is required, and the reason is a failure worth reporting in full.
 
-Plummer softening replaces $1/d^{2}$ attraction by
-$d/(d^{2}+\varepsilon^{2})^{3/2}$, which is not an inverse-square law,
+Plummer softening replaces $1/r^{2}$ attraction by
+$r/(r^{2}+\varepsilon^{2})^{3/2}$, which is not an inverse-square law,
 so a softened Kepler orbit does not close: it precesses
 \emph{retrograde} by
 \begin{equation}
@@ -1001,7 +1002,7 @@ The weights entering Eq.~(\ref{eq:gain}) are $w=m/\sqrt{d^{2}+
 length.
 The background $D_0$ carries the same dimensions.
 Consequently the ratio $\chi=w/(D_0+w)$---and with it the loop
-gain---depends on the numerical values of $m$ and $d$, that is, on the
+gain---depends on the numerical values of $m$ and $r$, that is, on the
 declared scale exponents, even when the physical system being
 represented is identical.
 
@@ -1248,7 +1249,7 @@ The two systems are calibrated by \emph{different terms} of
 Eq.~(\ref{eq:u}): the Earth--Moon precession is a motion-term effect
 (Sec.~\ref{sec:p3origin}), while the Mercury retrograde precession is a
 spin-term effect, because a pinned Sun has $\bm v=0$ and therefore
-contributes to $\bm u$ only through $\omega(d)$.
+contributes to $\bm u$ only through $\omega(r)$.
 The motion term is controlled by $D_0$; the spin term is controlled by
 $q$.
 So the right repair is not to suppress everything with $D_0$ but to
@@ -1296,11 +1297,11 @@ Take the spin term of Eq.~(\ref{eq:spinterm}) and the Lense--Thirring
 rate of a uniformly rotating sphere, $\Omega_{LT}=2GJ/(c_0^{2}r^{3})$
 with $J=\tfrac{2}{5}MR^{2}s$, i.e.
 $\Omega_{LT}=GMR^{2}s/(1.25\,c_0^{2}r^{3})$.
-At $q=3$ and \emph{far from the source} ($d\gg R$) the bare spin term
-tends to $sR^{3}/d^{3}$, so the ratio of the two tends to a constant in
-which the orbit $d$ and the spin $s$ both cancel:
+At $q=3$ and \emph{far from the source} ($r\gg R$) the bare spin term
+tends to $sR^{3}/r^{3}$, so the ratio of the two tends to a constant in
+which the orbit $r$ and the spin $s$ both cancel:
 \begin{equation}
-  X \;=\; \lim_{d\gg R}\frac{\omega_{q=3}(d)}{\Omega_{LT}(d)}
+  X \;=\; \lim_{r\gg R}\frac{\omega_{q=3}(r)}{\Omega_{LT}(r)}
     \;=\; \frac{1.25\,c_0^{2}R}{GM},
   \label{eq:X}
 \end{equation}
@@ -1333,8 +1334,8 @@ amplitude times the bare geometric ratio $(a/(R+a))^{3}$---which tends
 to $1$ in the far-field limit $a\gg R$.
 It preserves neither the Lense--Thirring $r^{-3}$ law nor a nonzero
 Lense--Thirring ratio at infinity: since $q^{*}>3$, the ratio
-$\omega_{q^{*}}(d)/\Omega_{LT}(d)$ vanishes as $d^{3-q^{*}}$ as
-$d\to\infty$.
+$\omega_{q^{*}}(r)/\Omega_{LT}(r)$ vanishes as $r^{3-q^{*}}$ as
+$r\to\infty$.
 % wave 161 (M-3b): a quantitative note on that decay.  The factors are
 % evaluations of 10^(3-q*) and 2^(3-q*) at the q* values already in
 % Table \ref{tab:finrad}; no new measurement is involved.
@@ -1464,7 +1465,7 @@ What the adoption changes is exactly one thing: the bare ratio at the
 declared reference orbit moves from $(a/(R+a))^{3}$ to unity.
 It changes nothing about what the rule fails to preserve, because
 $q_{\mathrm{exact}}>3$ as well, so the ratio to the Lense--Thirring
-rate still falls as $d^{3-q_{\mathrm{exact}}}$ and still vanishes at
+rate still falls as $r^{3-q_{\mathrm{exact}}}$ and still vanishes at
 infinity; and it changes nothing in this manuscript, whose state of
 record is the tag \texttt{v1.41.0} (Sec.~\ref{sec:avail}).
 That the two conventions cannot be told apart by the measurements is a
@@ -1577,8 +1578,8 @@ measured, and this exclusion is a declaration, not a result.
 
 Because Eq.~(\ref{eq:qlock}) fixes the exponent from the source's
 surface geometry, it also fixes the shape of the entrainment profile
-$\omega_{\mathrm{drag}}(d)$ relative to the Lense--Thirring rate
-$\Omega_{LT}\propto d^{-3}$.
+$\omega_{\mathrm{drag}}(r)$ relative to the Lense--Thirring rate
+$\Omega_{LT}\propto r^{-3}$.
 For the Saturn system the profile is strongly super-LT immediately
 above the surface, crosses unity in the mid-ring region, and falls off
 rapidly outward: at a surface height $h=0.5$ the ratio is $\times45$,
@@ -1662,7 +1663,7 @@ tends to $1$, not to infinity, as $r\to0$: the profile is written in
 terms of $R+r$ rather than $r$, so the source's own radius provides the
 scale that keeps it finite.
 The dilution factor $\chi=w/(D_0+w)$ is bounded above by unity as well,
-and it is the one that saturates: as the local weight $w=m/d$ grows
+and it is the one that saturates: as the local weight $w=m/r$ grows
 towards the surface, $\chi$ rises towards $1$ and then \emph{stops},
 reaching $0.912$ at $1.5$ Earth radii.
 Both factors are therefore capped, and $\omega_{\mathrm{DFM}}$ is bounded
@@ -2399,7 +2400,7 @@ qualification entirely, is not attempted here and is the natural next
 question.
 It is worth naming the shape such a reformulation would have to take,
 without pretending that any of it has been done.
-$D_0$ enters only through $\chi=w/(D_0+w)$ with $w=m/d$, so what the
+$D_0$ enters only through $\chi=w/(D_0+w)$ with $w=m/r$, so what the
 theory would need is a declared reference weight $w_{\ast}$ with which
 to form the dimensionless $\hat D_0=D_0/w_{\ast}$; the whole question is
 where $w_{\ast}$ comes from.
@@ -2451,7 +2452,7 @@ is what makes it small enough for the $43''$/century calibration to
 survive under dragging.
 What it pays is the radial profile of the dragging term,
 everywhere---outside the reference orbit the ratio to the
-Lense--Thirring rate falls as $d^{3-q^{*}}$ and vanishes at
+Lense--Thirring rate falls as $r^{3-q^{*}}$ and vanishes at
 infinity---plus a computable offset at the reference orbit itself.
 The exact-agreement convention adopted afterwards
 (Sec.~\ref{sec:qlock}) does remove that offset, and forces the
@@ -2535,7 +2536,7 @@ Two further limits are stated here rather than left to be inferred.
 First, qLock is a finite-reference normalization of the spin term's
 amplitude at one declared orbit---not a match to the Lense--Thirring
 rate there, and not a statement about the far field, where the ratio
-falls as $d^{3-q^{*}}$ and vanishes: substituting the rule's own output
+falls as $r^{3-q^{*}}$ and vanishes: substituting the rule's own output
 back in leaves
 the finite-radius factor $(a/(R+a))^{3}$ of Eq.~(\ref{eq:finrad}),
 which is $0.956$, $0.949$, $0.256$ and $0.625$ for the Mercury,
@@ -2548,7 +2549,7 @@ reported here were made under Eq.~(\ref{eq:qlock}), for the bookkeeping
 reason given in Sec.~\ref{sec:qlock}, and the application adopted
 $q_{\mathrm{exact}}$ as its operating convention afterwards---which
 changes the bare ratio at the reference orbit and nothing the rule
-preserves, the ratio still falling as $d^{3-q}$ outside it.
+preserves, the ratio still falling as $r^{3-q}$ outside it.
 The measured outcome is indistinguishable under the two
 (Sec.~\ref{sec:jupsens}).
 That a second convention exists, that the model cannot tell them apart,
