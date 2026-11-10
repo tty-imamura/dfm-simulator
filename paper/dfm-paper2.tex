@@ -155,7 +155,7 @@ automated verification gates that run in continuous integration.
 
 % wave 316d (the originator's ruling, report 118 -- decision AN416): a short notation table and one note.
 % Symbols only -- no number, equation, window or claim is changed; implementation keys are unchanged.
-\noindent\textit{Notation.}\footnote{Earlier versions of this paper wrote the spacetime coefficient as $\kappa$; this version writes $X_k$ (the figure panels keep the legacy form $\psi = W/K_t$ with $K_t = 1/X_k$). The letter $\kappa$ now denotes only Einstein's gravitational constant $8\pi G/c^4$. The implementation key (\texttt{kappaT}), all numbers, equations and claims are unchanged; only the symbol is renamed.}
+\noindent\textit{Notation.}\footnote{Earlier versions of this paper wrote the spacetime coefficient as $\kappa$; this version writes $X_k$ (the figure panels keep the legacy form $\psi = W/K_t$ with $K_t = 1/X_k$). The letter $\kappa$ now denotes only Einstein's gravitational constant $8\pi G/c^4$. Earlier versions also wrote a position as $\bm r$ and a distance as $d$; this version writes $\bm p$ and $r$. The implementation key (\texttt{kappaT}), all numbers, equations and claims are unchanged; only the symbol is renamed.}
 \begin{center}
 \small
 \begin{tabular}{@{}lp{0.74\columnwidth}@{}}
@@ -240,10 +240,11 @@ optically dark gravitating bodies.
 \subsection{Fields, forces, clocks, and light}
 
 DFM is a two-dimensional particle model.
-Point masses $m_j$ at positions $\bm r_j$ source a scalar
+Point masses $m_j$ at positions $\bm p_j$ (we write $\bm p$ for a position
+and $r$ for a distance) source a scalar
 \emph{determinacy field}
 \begin{equation}
-  W(\bm r)=D_0+W_B+\sum_j \frac{m_j}{\sqrt{|\bm r-\bm r_j|^2+
+  W(\bm p)=D_0+W_B+\sum_j \frac{m_j}{\sqrt{|\bm p-\bm p_j|^2+
   \epsilon^2}} ,
   \label{eq:W}
 \end{equation}
@@ -271,7 +272,7 @@ lengths, times, and speeds are in internal simulation units throughout
 units).
 Optional sectors used in this paper: a pressure-like pair repulsion
 between spinning or heated particles with far-field force
-$F\propto d^{\,1-2q}$ (Sec.~\ref{sec:layers}), dissipative contact
+$F\propto r^{\,1-2q}$ (Sec.~\ref{sec:layers}), dissipative contact
 (normal damping and translation-to-spin friction), conduction, and
 radiative cooling; each is switched off wherever it is not explicitly
 listed as active.
@@ -382,7 +383,7 @@ determinacy frame with a measured \emph{gain} $g(r)$.
 For a uniform ring of wall masses the analytic average of the
 direction-projected position over sources gives
 \begin{equation}
-  \bigl\langle \hat n\,(\hat n\cdot\bm r)\bigr\rangle=\tfrac{1}{2}\bm r ,
+  \bigl\langle \hat n\,(\hat n\cdot\bm p)\bigr\rangle=\tfrac{1}{2}\bm p ,
   \label{eq:gain}
 \end{equation}
 so the interior center couples to wall rotation and expansion with
@@ -426,9 +427,9 @@ uniform-ring curve.
   measurements coincide, as they must: both couple through the same
   weighted mean. The gray curve is the analytic uniform-ring limit
   $g(r)=(R/r)\,I_c/I_0$ with
-  $I_c=\oint\cos\theta\,\mathrm d\theta/\sqrt{d(\theta)^2+\epsilon^2}$,
-  $I_0=\oint \mathrm d\theta/\sqrt{d(\theta)^2+\epsilon^2}$, where
-  $d(\theta)$ is the distance from the probe point to the ring element
+  $I_c=\oint\cos\theta\,\mathrm d\theta/\sqrt{r_{\rm el}(\theta)^2+\epsilon^2}$,
+  $I_0=\oint \mathrm d\theta/\sqrt{r_{\rm el}(\theta)^2+\epsilon^2}$, where
+  $r_{\rm el}(\theta)$ is the distance from the probe point to the ring element
   at azimuth $\theta$; the $r\to0$
   limit is Eq.~(\ref{eq:gain}). Measured $g(20)=0.5002$ for both
   probes; largest deviation from the analytic curve over the whole
@@ -447,7 +448,7 @@ without dynamics.
 The comoving coordinate $\chi=r/a$ of a fully comoving particle is
 conserved to $1.5\times10^{-5}$ over the verification run (V24b).
 Bound systems follow the box only fractionally: the measured orbit
-scaling $d\propto a^{n_{\mathrm{eff}}}$ has an exponent that grows
+scaling $r_{12}\propto a^{n_{\mathrm{eff}}}$ has an exponent that grows
 with the determinacy
 share $\varphi_B$ of the box at the orbit (V25: net exponent $1.61$
 at $\varphi_B{\to}1$ and $0.00$ at $\varphi_B{\to}0$), giving the
@@ -458,11 +459,11 @@ of a measured dial (Fig.~\ref{fig:phib}).
   \includegraphics[width=\linewidth]{p2fig3.pdf}
   \caption{The following of expansion is a dial, not a switch. Net
   expansion susceptibility $n_{\mathrm{eff}}$ of a bound binary
-  ($d\propto a^{n}$) against the box's determinacy share
+  ($r_{12}\propto a^{n}$) against the box's determinacy share
   $\varphi_B=W_B/(W_B+w_{\mathrm{local}})$, measured with the V25
   construction (prescribed $H=0.004$ box, run to $a=1.2$, differenced
   against an $H=0$ control so that internal dissipation cancels). The
-  scan holds the binary fixed ($m=2000$, $d=24$) and varies only the
+  scan holds the binary fixed ($m=2000$, $r_{12}=24$) and varies only the
   box determinacy $D$. Circled: the two V25 gate points, the
   box-dominated binary ($\varphi_B=0.965$, $n=1.61$) and the locally
   dominated one ($\varphi_B=0.088$, $n=0.00$). The dashed line is the
@@ -522,10 +523,10 @@ With the repulsion on, the measured effective scale factor
 accelerates to $a_{\mathrm{eff}}=2.18$; with it
 removed ($k_{\mathrm{Rep}}=0$) the same box coasts to
 $a_{\mathrm{eff}}\approx1.005$ and recollapses.
-The far-field pair repulsion scales as $F\propto d^{\,1-2q}$; this
-preset uses $q=1$, for which it decays as $1/d$---slower than
+The far-field pair repulsion scales as $F\propto r^{\,1-2q}$; this
+preset uses $q=1$, for which it decays as $1/r$---slower than
 gravity, so it wins at large separation (the DFM default $q=2$ gives
-$1/d^{3}$ and would not).
+$1/r^{3}$ and would not).
 The specific value $2.18$ is a property of this discrete ring
 configuration
 ($q=1$, $k_{\mathrm{Rep}}=0.5$, 64 equal wall masses), not a
