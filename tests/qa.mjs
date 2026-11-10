@@ -101131,6 +101131,195 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第333便c の塊(ここまで)====
 
+// ==== 第333便d の塊(ここから —— lint.nonCirc333d・behavior.nonCirc333d・docs.nonCirc333d の 3 ブロック。root は SKIP)====
+// ---- 第333便d(原仮定者の整理(2026-11-10)「個々の星の軌道は同心円ではなく、楕円軌道の密度波で腕が形成される —— 同心円に近い前提の計算では合わせにくいのではないか」・
+// ----   原仮定者の回答(2026-11-10 —— AN608)・統括の検証項目 R320): **銀河の非円軌道と密度波の低 N の対照の器**(新設 —— 器 tests/exp-w333d-noncirc.mjs〔html を読まない〕・
+// ----   lib tests/lib-w333d-noncirc.mjs・文書の lib tests/lib-w333d-noncircdoc.mjs・正本 tests/out/noncirc-w333d.json。html・本の宣言・エンジン・受理器・第329〜332便の lib の本文は変えない)。
+// ----   世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.nonCirc333d(html を読まない): ① lib・器・文書の lib の版・族と自転の型の一覧(手で書いた一覧と照合)・lib の宣言・器の宣言(離散化・振幅・種・Ω_p・組・要約の範囲・差分の刻み)
+// ----     ② 純関数の場面 11 ③ 呼ぶだけ(lib の import は第332便b の lib だけ・lib と器と文書の lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w333d の語が無い)
+// ----   behavior.nonCirc333d(正本と照合 —— html を読まない): ① 族と組を作り直して方位平均 U_φ と要約が相対 1e-9 の内(丸めの桁の量は 1e-10 の床)② 比べ(腕と分散)を作り直して同じ
+// ----     ③ 離散化・∂U/∂t の差分の照らし・共鳴の半径を作り直して同じ・作り直した門が全部真 ④ 円軌道の族の円盤が第332便b の NGC 3198 の円盤(ngcSystem —— 呼ぶだけ)と同じ質量・位置・速度
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w333d-noncirc.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w333d-noncirc.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w333d-noncircdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'noncirc-w333d.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP lint.nonCirc333d・behavior.nonCirc333d(第333便d の非円軌道の低 N の対照の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const cmp333 = (a, b, floor = 0) => (a === b ? 0 : (a === null || b === null || a === undefined || b === undefined) ? Infinity : Math.abs(a - b) <= floor ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── lint.nonCirc333d ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      if (!(L.LIB_VERSION === 'w333d-noncirc-lib-1' && X.HARNESS_VERSION === 'w333d-noncirc-1' && D0.DOC_VERSION === 'w333d-noncircdoc-1')) bad.push('① 版(lib・器・文書の lib)');
+      const js = (x) => JSON.stringify(x);
+      if (!(js(L.FAMILIES) === js(['circ', 'random', 'kin', 'pattern']) && js(L.SPIN_TYPES) === js(['none', 'sync']))) bad.push('① 一覧(族・自転の型 —— 手で書いた一覧と違う)');
+      const DG = L.DECL, PL = X.PLAN;
+      if (!(DG.yCap === 4 && DG.armPhi0 === 0 && DG.armPitchDeg === 20 && DG.armR0Kpc === 1 && DG.idTol === 1e-12 && DG.fdTol === 1e-6)) bad.push('① lib の宣言(方位の振幅の上限・腕の向き・許容)');
+      if (!(PL.upsDisk === 0.5 && PL.ringFromKpc === 1 && PL.ringToKpc === 30 && PL.RcKpc === 0.5 && js(PL.disc) === js([[1, 24], [1, 48], [0.5, 24]]) && js(PL.amps) === js([0.05, 0.1, 0.2]) && js(PL.seeds) === js([1, 2, 3])
+        && js(PL.omegaPKms) === js([5, 10, 20]) && js(PL.combos.map((c) => c.key)) === js(['a2|none|field', 'a2|none|selfRd', 'a2|sync|field', 'a1|none|field', 'a1|sync|field'])
+        && PL.combos.every((c) => ['trans', 'transR'].includes(c.kernel) && L.SPIN_TYPES.includes(c.spin) && ['field', 'selfRd'].includes(c.denom)) && PL.selfShape === 'ballMean' && PL.selfRule === 'kappaM'
+        && PL.sumFromKpc === 3 && PL.sumToKpc === 28 && PL.discAmp === 0.1 && PL.discSeed === 1 && PL.discOmegaPKms === 10 && PL.hFrac === 1e-5 && PL.fdEvery === 15 && PL.fdTol === 1e-6))
+        bad.push('① 器の宣言(円盤・離散化・振幅・種・Ω_p・組・自己の規則・要約の範囲・離散化の列・差分の刻みと許容)');
+      cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・文書 ${D0.DOC_VERSION}・族 ${L.FAMILIES.length}・組 ${PL.combos.length}・ε ${PL.amps.join('/')}・種 ${PL.seeds.length}・Ω_p ${PL.omegaPKms.join('/')} km s⁻¹ kpc⁻¹・離散化 ${PL.disc.length}`);
+      let G1 = null;
+      try { G1 = L.pureGates(L.pureScenes()); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G1) {
+        for (const [k, v] of Object.entries(G1)) if (v !== true) bad.push('② 場面 ' + k);
+        if (Object.keys(G1).length !== 11) bad.push('② 場面の数 ' + Object.keys(G1).length);
+        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(軌道の式と微分・角運動量の一次の保存・閉じないロゼット・円の族・位相を揃える・種・パターンの枠・∂U/∂t と中心差分・1 つの源・剛体の回転・Fourier・拒否)`);
+      }
+      const tl = rd('tests/lib-w333d-noncirc.mjs'), th = rd('tests/exp-w333d-noncirc.mjs'), td = rd('tests/lib-w333d-noncircdoc.mjs'), base = rd('tests/lib-w332b-transgeo2.mjs') + rd('tests/lib-w330b-dragweight.mjs') + rd('tests/lib-w329b-galrot.mjs') + rd('tests/lib-w331b-centrifugal.mjs');
+      const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+      if (!(js(imps) === js(['lib-w332b-transgeo2.mjs']) && !/loadHtml|index\.html/.test(tl + td + th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/w333d/.test(base)))
+        bad.push('③ 呼ぶだけ(lib の import は第332便b の lib だけ・lib と器と文書の lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w333d が無い)');
+      cases.push('③ lib の import は第332便b の lib だけ(場の式は呼ぶ —— 写さない)・器と lib と文書の lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文は不変');
+    }
+    add('lint.nonCirc333d', bad.length === 0,
+      `**非円軌道の低 N の円盤と場の時間微分の純関数**(第333便d・原仮定者の整理(2026-11-10)・R320 —— html を読まない・同じ方位平均の質量分布の 4 族・一次の周転円〔閉じたケプラー楕円ではない〕): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.nonCirc333d ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/noncirc-w333d.json が読めない');
+    else {
+      try {
+        const FX = X.readFixture(ROOT);
+        // ① 族と組
+        const F = X.partFamilies(FX);
+        let dF = 0, dS = 0;
+        const SK = ['A2', 'uPhiA2', 'sigmaROverV', 'dudtOverConv', 'dudtOverSteady', 'jFluxNorm', 'torqueSum', 'workSum', 'shareSrc'];
+        for (const [k, r] of Object.entries(F.families)) { const ref = J.fam.families[k]; if (!ref || ref.dropped !== r.dropped) { dF = Infinity; continue; }
+          for (const [c, v] of Object.entries(r.combos)) { const rc = ref.combos[c]; if (!rc) { dF = Infinity; continue; } v.uPhiMean.forEach((x, i) => { dF = Math.max(dF, cmp333(x, rc.uPhiMean[i], 1e-10 * Math.abs(J.fam.decl.vObs[i] || 1))); });
+            for (const q of SK) dS = Math.max(dS, cmp333(v.summary[q], rc.summary[q], q === 'shareSrc' ? 1e-30 : q.endsWith('Sum') ? 1e-10 * Math.abs(rc.summary[q] || 0) : 1e-10)); } }
+        if (!(dF <= 1e-9 && dS <= 1e-9 && Object.keys(F.families).length === Object.keys(J.fam.families).length)) bad.push(`① 族と組を作り直して正本と違う(U_φ ${dF}・要約 ${dS})—— 器を走らせ直す`);
+        cases.push(`① 族 ${Object.keys(F.families).length} × 組 ${X.PLAN.combos.length} の方位平均 U_φ と要約(m = 2・σ_R・∂U/∂t の比・J の流れ・トルク・仕事・源の分)が正本と相対 1e-9 の内`);
+        // ② 比べ
+        const C = X.compare(F);
+        let dC = 0;
+        C.rows.forEach((r, i) => { const ref = J.cmp.rows[i]; if (!ref || ref.combo !== r.combo || ref.amp !== r.amp) { dC = Infinity; return; } for (const q of ['dispOverCirc', 'seedScatterOverCirc']) dC = Math.max(dC, cmp333(r[q], ref[q], 1e-12));
+          for (const [a, v] of Object.entries(r.arms)) for (const q of ['armOverCirc', 'armOverScatter', 'totOverCirc']) dC = Math.max(dC, cmp333(v[q], ref.arms[a][q], 1e-12)); });
+        if (!(dC <= 1e-9 && C.rows.length === J.cmp.rows.length)) bad.push(`② 腕と分散の比べを作り直して正本と違う(相対 ${dC})`);
+        cases.push(`② 腕と分散の比べ ${C.rows.length} 行(組 × ε —— 腕 ÷ 種のばらつきの主の組の ε ≤ 0.1 は ${C.rows.filter((r) => r.combo === X.PLAN.combos[0].key && r.amp <= 0.1).map((r) => r.arms.kin.armOverScatter.toFixed(2)).join('・')})が正本と相対 1e-9 の内`);
+        // ③ 離散化・差分・共鳴
+        const Dz = X.partDisc(FX), Fd = X.partFd(FX), Rs = X.partResonance(FX);
+        let dD = 0;
+        Dz.forEach((r, i) => { const ref = J.disc[i]; if (!ref || ref.dR !== r.dR || ref.K !== r.K) { dD = Infinity; return; } r.armKinOverCirc.forEach((x, k) => { dD = Math.max(dD, cmp333(x, ref.armKinOverCirc[k], 1e-12)); }); for (const [k, f] of Object.entries(r.families)) dD = Math.max(dD, cmp333(f.summary.dudtOverConv, ref.families[k].summary.dudtOverConv, 1e-12)); });
+        const fdOk = Fd.rows.length === J.fd.rows.length && Fd.maxRelH <= X.PLAN.fdTol && Fd.maxRelH2 <= X.PLAN.fdTol && cmp333(Fd.hSec, J.fd.hSec) <= 1e-12;
+        const rsOk = JSON.stringify(Rs.grid.map((g) => [g.OmegaP, g.CR.length, g.ILR.length, g.OLR.length])) === JSON.stringify(J.res.grid.map((g) => [g.OmegaP, g.CR.length, g.ILR.length, g.OLR.length])) && Rs.grid.every((g, i) => g.CR.every((x, k) => cmp333(x, J.res.grid[i].CR[k]) <= 1e-9));
+        if (!(dD <= 1e-9 && fdOk && rsOk)) bad.push(`③ 離散化・差分の照らし・共鳴の半径を作り直して正本と違う(離散化 ${dD}・差分 ${fdOk}・共鳴 ${rsOk})`);
+        const J2 = Object.assign({}, J, { fam: F, cmp: C, disc: Dz, fd: Fd, res: Rs, pure: { scenes: L.pureScenes(), gates: L.pureGates(L.pureScenes()) } }), G2 = X.gatesOf(J2);
+        if (!Object.values(G2).every((v) => v === true)) bad.push('③ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`③ 離散化 ${Dz.length}・∂U/∂t の差分の照らし ${Fd.rows.length} 組(h・h/2 の差の最大 ${Fd.maxRelH.toExponential(2)}・${Fd.maxRelH2.toExponential(2)})・共鳴の半径 Ω_p ${Rs.grid.length} 点を作り直して同じ・作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+        // ④ 第332便b の NGC 3198 の円盤(ngcSystem —— 呼ぶだけ)と同じ
+        const X332 = await import('file://' + path.join(ROOT, 'tests', 'exp-w332b-transgeo2.mjs'));
+        const N = X332.ngcSystem(FX, { dist: 'fixture', dR: X.PLAN.disc[0][0], K: X.PLAN.disc[0][1] }, { epsOverL: 0, D0LM: { 1: 0, 2: 0 }, q: 0 });
+        const RG = Object.assign(X.ringsOf(FX, X.PLAN.disc[0][0]), { dR: X.PLAN.disc[0][0], K: X.PLAN.disc[0][1] });
+        const Dc = L.buildDisk({ rings: RG.rings, K: RG.K, family: 'circ', R0: L.DECL.armR0Kpc * 3.0856775814913673e19, center: RG.center, spin: 'none' });
+        let dN = N.sys.pts.length === Dc.pts.length ? 0 : Infinity;
+        N.sys.pts.forEach((p, i) => { const q = Dc.pts[i]; if (!q) return; const sc = Math.max(Math.hypot(p.x, p.y), 1), sv = Math.max(Math.hypot(p.vx, p.vy), 1);
+          dN = Math.max(dN, cmp333(p.m, q.m), Math.hypot(p.x - q.x, p.y - q.y) / sc, Math.hypot(p.vx - q.vx, p.vy - q.vy) / sv); });
+        if (!(dN <= 1e-12 && cmp333(N.sys.pts[0].spin, Dc.pts[0].spin) <= 1e-15)) bad.push(`④ 円軌道の族の円盤が第332便b の NGC 3198 の円盤と違う(相対 ${dN})`);
+        cases.push(`④ 円軌道の族の円盤(点 ${Dc.pts.length})が第332便b の ngcSystem の円盤と質量・位置・速度・中心の引きずり自転で相対 1e-12 の内(同じ方位平均の質量分布の起点)`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.nonCirc333d', bad.length === 0,
+      `**非円軌道の低 N の対照の作り直し**(第333便d・原仮定者の整理(2026-11-10)・R320 —— html を読まない・族と組・腕と分散の比べ・離散化・∂U/∂t の差分の照らし・共鳴の半径・第332便b の円盤との起点の照合): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第333便d: docs.nonCirc333d は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
+// ----   lint・behavior を数えない)。世代切替は上と同じ
+// ----   docs.nonCirc333d(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib)・宣言が lib と器と同じ ② 表 8 本が PHYSICS〔第333便d〕に逐語
+// ----     ③ 節の位置(〔第332便b〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・AI_SPEC §212(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w333d-noncirc.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w333d-noncirc.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w333d-noncircdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'noncirc-w333d.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.nonCirc333d(第333便d の非円軌道の低 N の対照の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.nonCirc333d ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第333便d — '), i7 = PH.indexOf('\n## 7. 論文'), ib = PH.indexOf('〔第332便b — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ib >= 0 && ib < i0 && iu > i0)) bad.push('PHYSICS〔第333便d〕が無いか〔第332便b〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/noncirc-w333d.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'noncirc'
+        && J.target === 'tests/lib-w333d-noncirc.mjs' && J.meta.scope === undefined)) bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN) || JSON.stringify(J.families) !== JSON.stringify(L.FAMILIES)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第333便d〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 8) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第333便d〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の整理(2026-11-10)', '原仮定者の回答(2026-11-10 —— AN608', 'AN618 = C', 'AN621 = A', 'AN622 = C', 'R320', 'tests/exp-w333d-noncirc.mjs', 'tests/out/noncirc-w333d.json', 'tests/lib-w333d-noncirc.mjs',
+      '同じ方位平均の質量分布', '閉じたケプラー楕円ではない', 'ロゼット', '一次の周転円の近似', 'R(t) = R_g + X cos ψ', 'φ(t) = φ_g − (2Ω/ν)(X/R_g) sin ψ', 'ν = 2(Ω − Ω_p)', 'Ω − `κ_epi`/2', '種を宣言した乱数', 'mulberry32',
+      '対数螺旋', '共回転の近く', '引きずり自転 s_d', '観測の自転', 'パターン速度 Ω_p', 'sync は s_d = Ω(R_g) の模型の宣言', '∂_t w_j = −∇_p w_j · v_j', '∂_t c_j = a_j − s_d,j ẑ × v_j', 'Ω₀ ẑ × U − Ω₀ J (ẑ × p)',
+      '定常の場へ軌道の上の速度だけを差し替える読み', '半径の向きの J の流れ', '引きずりの緩和の率あたり', '源の側の帳簿は宣言していない', '腕と分散の切り分け', '種のばらつき', 'v_obs − v_bar', '離散化の依存が大きい',
+      'R_d = Y_k m', '相互作用の時間発展はしない', '作業仮説の宣言の式と今のコードの実装を混ぜない', '宣言〔未接続〕', 'notClaim', '原仮定者の整理(2026-11-10)への枝の答え', '決断事項の候補', '次の便へ', 'AN615',
+      'lint.nonCirc333d', 'behavior.nonCirc333d', 'docs.nonCirc333d', 'U(p)'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第333便d〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 212. 第333便d'), ai = secUntilNext329c(AS, a0, '\n## ');   // 次の見出しまで(固定の字数の窓を持たない)
+    if (!(a0 >= 0 && ai.indexOf('tests/out/noncirc-w333d.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('閉じたケプラー楕円ではない') >= 0 && ai.indexOf('sync を星の観測の自転と書かない') >= 0
+      && ai.indexOf('定常の場へ軌道の上の速度だけを差し替えない') >= 0 && ai.indexOf('AN618 = C') >= 0)) bad.push('③ AI_SPEC §212(正本・SYSTEM_PROMPT・軌道の宣言・分ける量・時間微分・自己の重み)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl333d = clg.split('\n').find((l) => l.indexOf('**第333便d**') >= 0) || '';
+    if (!(cl333d.indexOf('tests/exp-w333d-noncirc.mjs') >= 0 && cl333d.indexOf('noncirc-333d') >= 0 && cl333d.indexOf('原仮定者の整理(2026-11-10)') >= 0 && cl333d.indexOf('R320') >= 0 && cl333d.indexOf('AN608') >= 0)) bad.push('③ CHANGELOG の第333便d の行');
+    if (!(/S\('noncirc-333d', 'node tests\/exp-w333d-noncirc\.mjs', \['tests\/out\/noncirc-w333d\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '全部を走らせても数秒(純関数と fixture だけ") >= 0
+      && RT.indexOf('// ==== 第333便d の塊(ここから)====') >= 0)) bad.push('③ 段の行 noncirc-333d(quickVerify と理由・塊)');
+    if (GI.indexOf('!tests/out/noncirc-w333d.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第333便d の塊(ここから)====') >= 0 && /lint\.nonCirc333d/.test(PM) && /behavior\.nonCirc333d/.test(PM) && /docs\.nonCirc333d/.test(PM))) bad.push('③ post-merge の ③′ に第333便d の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §212(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /内部熱を説明した/, /金星の逆転を説明した/, /銀河の回転曲線を予言した/, /一致した/];
+    const NOT333 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第333便d の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・密度波で回転曲線が合った・非円軌道が平坦な回転の理由・平坦な回転を説明した・
+    //   暗黒物質が要らない・ハローが要らない・腕を再現・回転曲線の理由を同定
+    const W333 = ['ためか確', 'たし示', 'たし明説', 'たっ合が線曲転回で波度密', '由理の転回な坦平が道軌円非', 'たし明説を転回な坦平', 'いなら要が質物黒暗', 'いなら要がーロハ', '定同を由理の線曲転回'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第333便d〕', sec], ['AI_SPEC §212', ai], ['CHANGELOG の第333便d の行', cl333d], ['器', rd('tests/exp-w333d-noncirc.mjs')], ['lib', rd('tests/lib-w333d-noncirc.mjs')], ['文書の lib', rd('tests/lib-w333d-noncircdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W333)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT333) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.nonCirc333d', bad.length === 0,
+      `**非円軌道と密度波の低 N の対照の文書**(第333便d・原仮定者の整理(2026-11-10)・R320 —— 宣言の式と今のコードの実装を混ぜない・3 つの族の差の表・残差): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第333便d の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
