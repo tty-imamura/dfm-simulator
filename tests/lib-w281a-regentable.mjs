@@ -1832,8 +1832,10 @@ export const REGEN_STEPS = [
   //   統括の検証項目 R315): **新しい「回転引きずり」(帯の力 —— 宣言・未接続)の診断の器 —— 環の厚みと帯の厚み 2R_d(κ₀m と κ_D m)・帯の中の鉛直の振動・公転面の届く/届かない・
   //   揃える時間の目安・太陽–木星の物差し・今の K1 の球の核との違い**(段 eqband-332a —— 正本 tests/out/eqband-w332a.json・lib tests/lib-w332a-eqband.mjs —— 第330便b の重みの lib と
   //   第331便c の K1 のスケールの lib を import して呼ぶ)。**診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は 🗺️ と 💍 を .find で引く 2 本 —— 宣言の値を読む・
-  //   比べる列 K だけ 🗺️ の 2 体の写しの読み口 inertialDragIsqState・步を進めない)・他の正本は読まない。1 プロセス。所要は第332便a の枝の実測 1〜2 s
-  S('eqband-332a', 'node tests/exp-w332a-eqband.mjs', ['tests/out/eqband-w332a.json'], 2, { secSource: 'w332a-branch', node: true, after: ['obscompare', 'samplestatus'],
+  //   比べる列 K だけ 🗺️ の 2 体の写しの読み口 inertialDragIsqState・步を進めない)・他の正本は読まない(import する第331便c の lib が記録の値の出典の正本の名を書くだけ —— 順序だけ after に
+  //   第331便c の段と同じ 8 段)。1 プロセス。所要は第332便a の枝の実測 1〜2 s
+  S('eqband-332a', 'node tests/exp-w332a-eqband.mjs', ['tests/out/eqband-w332a.json'], 2, { secSource: 'w332a-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus'],
     quickVerify: false, quickVerifyWhy: '本の宣言の値と純関数と步を進めない読み口だけ(窓が無く、全部を走らせても数秒)',
     volatilePaths: { 'tests/out/eqband-w332a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第332便a: 新しい回転引きずり(自転する天体の赤道面からの距離 ≤ R_d の帯の力 —— 形 4・尾 3・向き A/B/C・強さ 4・R_d の規則 κ₀m/κ_D m の宣言)の純関数・環の厚みと 2R_d の比・帯の中の鉛直の振動と収まる高さ・B の共に回る時間・公転面の届く/届かない(赤道面からの高さ ÷ R_d)・揃える時間の目安(宣言の型 × 組 —— 太陽系の年齢との比・公転の大きさの変わる時間との比・A は永年の変化 0)・太陽–木星の物差し 10・今の K1 の球の核の回転の項との違い(lib の読みの式とエンジンの読み口)' }),

@@ -59,7 +59,7 @@ export const PLAN = Object.freeze({
   shapeVariants: Object.freeze([['step', 'none'], ['step', 'inv'], ['k1plane', 'none'], ['k1plane', 'inv'], ['gauss', 'own'], ['sech2', 'own']].map((x) => Object.freeze(x))),
   /** O2 の宣言の型(揃える時間 —— 主は literal) */
   decls: Object.freeze([
-    Object.freeze({ key: 'literal', label: '字どおり(段・尾 0・B・k1N・κ₀m)', decl: Object.freeze({ shape: 'step', tail: 'none', dir: 'B', strength: 'k1N', rule: 'kappa0' }), bodyR: false }),
+    Object.freeze({ key: 'literal', label: '字どおり(段・尾 0・B・k1N・R_d = Y_k m)', decl: Object.freeze({ shape: 'step', tail: 'none', dir: 'B', strength: 'k1N', rule: 'kappa0' }), bodyR: false }),
     Object.freeze({ key: 'literalD', label: '字どおり・R_d = κ_D m', decl: Object.freeze({ shape: 'step', tail: 'none', dir: 'B', strength: 'k1N', rule: 'kappaD' }), bodyR: false }),
     Object.freeze({ key: 'tailInv', label: '帯の外の尾 R_d/|z|(段・B・k1N)', decl: Object.freeze({ shape: 'step', tail: 'inv', dir: 'B', strength: 'k1N', rule: 'kappa0' }), bodyR: false }),
     Object.freeze({ key: 'k1plane', label: 'K1 の核の平面の類比(尾 2R_d/(3|z|)・B・k1N)', decl: Object.freeze({ shape: 'k1plane', tail: 'inv', dir: 'B', strength: 'k1N', rule: 'kappa0' }), bodyR: false }),
@@ -197,7 +197,7 @@ export function partMetrics(BK, AL) {
     rows.push({ name: PLAN.planetNames[k], eta: P.m / sun.m, obliqPlaneDeg: oblPlane, iSunDeg: planeDeg(o.i), fFwd: fF, fRev: fR, torque: P.m * o.a * Math.abs(T), alignRate: lit.tAlignYr ? 1 / lit.tAlignYr : 0,
       both: fF * fR, massBoth: P.m * fF * fR, share43: (4 / 3) * P.m / (sun.m + P.m) });
   });
-  const METRICS = [['eta', '質量比 η = m/M_☉', 'max'], ['obliqPlaneDeg', '自転軸と公転面の法線の角(赤道面と公転面の角)', 'min'], ['iSunDeg', '太陽の赤道面と公転面の角', 'min'], ['fFwd', '太陽の帯の中の時間の割合(字どおり・κ₀m)', 'max'],
+  const METRICS = [['eta', '質量比 η = m/M_☉', 'max'], ['obliqPlaneDeg', '自転軸と公転面の法線の角(赤道面と公転面の角)', 'min'], ['iSunDeg', '太陽の赤道面と公転面の角', 'min'], ['fFwd', '太陽の帯の中の時間の割合(字どおり・Y_k m)', 'max'],
     ['fRev', '惑星の帯の中に太陽がいる時間の割合(惑星の R_d・自転軸の傾き)', 'max'], ['torque', '太陽の帯の B のトルク m a|⟨T⟩|(字どおり)[N m]', 'max'], ['alignRate', '揃える率 1/t_align(字どおり)[1/年]', 'max'],
     ['both', '両方の帯(時間の割合の積 —— 位相が独立の宣言)', 'max'], ['massBoth', '質量 × 両方の帯 [kg]', 'max'], ['share43', '第331便c の K1 の宣言の 1PN からの外れ (4/3)η(質量比の物差し)', 'max']];
   const table = METRICS.map(([key, label, best]) => {
@@ -308,7 +308,7 @@ export async function main() {
   console.log('第332便a eqband(版 ' + HARNESS_VERSION + ')');
   const R = runAll(HP);
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w332a-eqband.mjs', target: TARGET, targetSha256, reuseFrom: null,
-    ruling: '原仮定者の補足(2026-11-10)「R_d = κ_D·m は観測半径とは別の値」「座標変換版の回転引きずりは並進引きずりに統合する」「K1 の回転引きずりは、自転時に赤道面からの距離が κ_D·m 以下の範囲で強く働く力と仮定する」「土星環の幅・太陽系の公転面の揃い・太陽–木星で顕著、と繋がる」(作業仮説 —— 診断で検査・未接続)・統括の検証項目 R315(R_d の規則の値 κ₀m と原文の字どおりの κ_D m の 2 列)',
+    ruling: '原仮定者の補足(2026-11-10)「R_d = κ_D·m は観測半径とは別の値」「座標変換版の回転引きずりは並進引きずりに統合する」「K1 の回転引きずりは、自転時に赤道面からの距離が κ_D·m 以下の範囲で強く働く力と仮定する」「土星環の幅・太陽系の公転面の揃い・太陽–木星で顕著、と繋がる」(作業仮説 —— 診断で検査・未接続)・統括の検証項目 R315(R_d の規則の値 Y_k m〔統括の読みの κ₀m〕と原文の字どおりの κ_D m の 2 列)',
     decl: L.DECL, shapes: L.SHAPES, tails: L.TAILS, shapeTails: L.SHAPE_TAILS, dirs: L.DIRS, vprofs: L.VPROFS, strengths: L.STRENGTHS, rules: L.RULES, units: L.UNITS, lit: L.LIT, plan: PLAN, notClaim: NOT_CLAIM, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w332a-eqband.mjs', 'tests/lib-w332a-eqband.mjs', 'tests/lib-w331c-k1scale.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w312a-decay.mjs', 'tests/lib-w310d-shell.mjs',

@@ -5,7 +5,7 @@
  "target": "beta/index.html",
  "targetSha256": "60dca011e60350b5a32283b2df914a78c6fe1c799345f5c95ef05eeaf91ab4c1",
  "reuseFrom": null,
- "ruling": "原仮定者の補足(2026-11-10)「R_d = κ_D·m は観測半径とは別の値」「座標変換版の回転引きずりは並進引きずりに統合する」「K1 の回転引きずりは、自転時に赤道面からの距離が κ_D·m 以下の範囲で強く働く力と仮定する」「土星環の幅・太陽系の公転面の揃い・太陽–木星で顕著、と繋がる」(作業仮説 —— 診断で検査・未接続)・統括の検証項目 R315(R_d の規則の値 κ₀m と原文の字どおりの κ_D m の 2 列)",
+ "ruling": "原仮定者の補足(2026-11-10)「R_d = κ_D·m は観測半径とは別の値」「座標変換版の回転引きずりは並進引きずりに統合する」「K1 の回転引きずりは、自転時に赤道面からの距離が κ_D·m 以下の範囲で強く働く力と仮定する」「土星環の幅・太陽系の公転面の揃い・太陽–木星で顕著、と繋がる」(作業仮説 —— 診断で検査・未接続)・統括の検証項目 R315(R_d の規則の値 Y_k m〔統括の読みの κ₀m〕と原文の字どおりの κ_D m の 2 列)",
  "decl": {
   "G": 6.674e-11,
   "c": 299792458,
@@ -429,7 +429,7 @@
   "decls": [
    {
     "key": "literal",
-    "label": "字どおり(段・尾 0・B・k1N・κ₀m)",
+    "label": "字どおり(段・尾 0・B・k1N・R_d = Y_k m)",
     "decl": {
      "shape": "step",
      "tail": "none",
@@ -6994,7 +6994,7 @@
   "summary": [
    {
     "decl": "literal",
-    "label": "字どおり(段・尾 0・B・k1N・κ₀m)",
+    "label": "字どおり(段・尾 0・B・k1N・R_d = Y_k m)",
     "planets": {
      "tAlignOverAge": [
       1.1791125511445455,
@@ -7446,7 +7446,7 @@
    },
    {
     "key": "fFwd",
-    "label": "太陽の帯の中の時間の割合(字どおり・κ₀m)",
+    "label": "太陽の帯の中の時間の割合(字どおり・Y_k m)",
     "best": "max",
     "values": [
      0.000003264644322443765,
@@ -7882,19 +7882,19 @@
    "wallSec": 0.006
   },
   "rings": {
-   "wallSec": 0.029
+   "wallSec": 0.028
   },
   "reach": {
-   "wallSec": 0.031
+   "wallSec": 0.029
   },
   "align": {
-   "wallSec": 0.048
+   "wallSec": 0.052
   },
   "metrics": {
-   "wallSec": 0.049
+   "wallSec": 0.053
   },
   "sphere": {
-   "wallSec": 0.098
+   "wallSec": 0.114
   }
  },
  "gates": {
@@ -7908,13 +7908,13 @@
   "sphereVsBand": true
  },
  "ok": true,
- "elapsedS": 1.912,
+ "elapsedS": 2.144,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第332便a",
   "target": "beta/index.html",
   "targetSha256": "60dca011e60350b5a32283b2df914a78c6fe1c799345f5c95ef05eeaf91ab4c1",
-  "generatedAt": "2026-11-10T00:59:17.193Z",
+  "generatedAt": "2026-11-10T01:02:12.213Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -7926,9 +7926,9 @@
   "code": [
    {
     "file": "tests/exp-w332a-eqband.mjs",
-    "bytes": 36129,
-    "sha256": "4bf8a7702ba3fc6b98a833506cf6d39a6e19771ab4e56f89f0697a8ffe194c9c",
-    "mtime": "2026-11-10T00:58:46.053Z"
+    "bytes": 36162,
+    "sha256": "8428d906563fbf1eaee5f116417ec902b91c9b8e661050f96eba3b2798acbc61",
+    "mtime": "2026-11-10T01:02:00.876Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
@@ -7997,7 +7997,7 @@
     "mtime": "2026-11-10T00:34:06.200Z"
    }
   ],
-  "codeSha256": "72ad7210b51bdc7e8766b680fd1e94a15ea8dd0fd3b1d5f49595e8d17fc33a59",
+  "codeSha256": "647366ff6506bebf910b23b2930881007f8d139a72e955ca4ee83e410c8f615b",
   "harnessVersion": "w332a-eqband-1",
   "stage": "eqband",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)・🗺️ と 💍 の本の宣言を読む(步を進めない)・🗺️ の 2 体の写しの読み口 inertialDragIsqState(比べる列 K)・純関数(lib)",
