@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.47-b331",
+  "betaBuild": "v1.47-b332",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,8 +13,8 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "60dca011e60350b5a32283b2df914a78c6fe1c799345f5c95ef05eeaf91ab4c1",
-  "generatedAt": "2026-11-10T01:06:47.076Z",
+  "targetSha256": "cec8c8064b1b721c127250f9f59e12df820fe33fc57a11a751f055758e221602",
+  "generatedAt": "2026-11-10T09:54:12.863Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
@@ -24,9 +24,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734332,
-    "sha256": "6e7fab076be5dd30a0c4081eadecd029fedf62985f0b2fae734347ac28644317",
-    "mtime": "2026-11-09T22:02:01.934Z"
+    "bytes": 1734316,
+    "sha256": "c16a1ad0ec436342e4493124485eed7840311767c470a4f168f5cd1d72b38950",
+    "mtime": "2026-11-10T06:50:54.132Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
@@ -36,9 +36,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 109149,
-    "sha256": "e031a364964634849f4d1b916fefbf1e3f794b3f8f90dbbae1ce34b464e96cf1",
-    "mtime": "2026-11-10T01:06:47.056Z"
+    "bytes": 109320,
+    "sha256": "052f243809aea06e0780a00fdcb8a319c834cfddf634da5a473e74a631abb2ad",
+    "mtime": "2026-11-10T09:54:12.845Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -112,9 +112,9 @@
   "codeSha256": "fd485c9c33b0ac9b2ddd4e326949679abf7a9deb8bbdbff4c0f2fb296b0b8946",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "ca8cb98dee808a4d81358b96a86b536197c1d377",
-   "date": "2026-11-10T00:31:40.269Z",
-   "pass": 1464
+   "commit": "f2a14d51816706b6e3a9303efc9c39c4b4624c1b",
+   "date": "2026-11-10T09:05:42.313Z",
+   "pass": 1470
   }
  },
  "tally": {
@@ -362,7 +362,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -634,23 +634,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 15169,
+     "ms": 16308,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 14944,
+       "ms": 16074,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 188,
+       "ms": 202,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 37,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -696,7 +696,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -968,23 +968,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 58,
+     "ms": 48,
      "tests": [
       {
        "id": "preset.grcal",
-       "ms": 44,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.clocks",
-       "ms": 13,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.calib-text",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       },
@@ -1035,7 +1035,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -1307,11 +1307,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 147,
+     "ms": 162,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 101,
+       "ms": 116,
        "pass": true,
        "via": "claims+targetIds"
       },
@@ -1362,7 +1362,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -1634,17 +1634,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 150,
+     "ms": 152,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 101,
+       "ms": 116,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalLight",
-       "ms": 49,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -1689,7 +1689,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -1961,17 +1961,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 136,
+     "ms": 143,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 101,
+       "ms": 116,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 35,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -2017,7 +2017,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -2289,11 +2289,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 32,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.projectile",
-       "ms": 32,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       },
@@ -2345,7 +2345,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -2617,35 +2617,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 856,
+     "ms": 796,
      "tests": [
       {
        "id": "echo.leapfrog-return",
-       "ms": 340,
+       "ms": 331,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "echo.hud",
-       "ms": 316,
+       "ms": 263,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-echo",
-       "ms": 141,
+       "ms": 148,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.echo",
-       "ms": 52,
+       "ms": 50,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "echo.schema-clamp",
-       "ms": 7,
+       "ms": 4,
        "pass": true,
        "via": "targetIds"
       }
@@ -2690,7 +2690,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -2962,11 +2962,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 191,
+     "ms": 179,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 191,
+       "ms": 179,
        "pass": true,
        "via": "targetIds"
       }
@@ -3011,7 +3011,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -3283,11 +3283,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 212,
+     "ms": 183,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 212,
+       "ms": 183,
        "pass": true,
        "via": "targetIds"
       }
@@ -3332,7 +3332,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -3604,11 +3604,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 279,
+     "ms": 277,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 279,
+       "ms": 277,
        "pass": true,
        "via": "targetIds"
       }
@@ -3653,7 +3653,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -3925,17 +3925,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 324,
+     "ms": 369,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 226,
+       "ms": 232,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxcomoving",
-       "ms": 98,
+       "ms": 137,
        "pass": true,
        "via": "targetIds"
       }
@@ -3980,7 +3980,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -4252,17 +4252,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 480,
+     "ms": 585,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 386,
+       "ms": 534,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 94,
+       "ms": 51,
        "pass": true,
        "via": "targetIds"
       }
@@ -4307,7 +4307,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -4579,11 +4579,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 71,
+     "ms": 102,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 71,
+       "ms": 102,
        "pass": true,
        "via": "targetIds"
       }
@@ -4628,7 +4628,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -4900,23 +4900,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 168,
+     "ms": 183,
      "tests": [
       {
        "id": "shot.regress-boxredshift",
-       "ms": 121,
+       "ms": 129,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "box.photon-abc",
-       "ms": 29,
+       "ms": 32,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.boxredshift",
-       "ms": 18,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -4961,7 +4961,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -5233,17 +5233,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 173,
+     "ms": 187,
      "tests": [
       {
        "id": "behavior.probeH",
-       "ms": 102,
+       "ms": 114,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.probeH",
-       "ms": 71,
+       "ms": 73,
        "pass": true,
        "via": "targetIds"
       }
@@ -5288,7 +5288,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -5560,35 +5560,35 @@
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 2425,
+     "ms": 2690,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 1428,
+       "ms": 1519,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.freebox",
-       "ms": 377,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "shot.regress-freebox",
-       "ms": 307,
+       "ms": 486,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.graph-measured",
-       "ms": 275,
+       "ms": 351,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "shot.regress-freebox",
+       "ms": 284,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.no-rail-badge",
-       "ms": 32,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -5633,7 +5633,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -5905,17 +5905,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3977,
+     "ms": 4132,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 3976,
+       "ms": 4132,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.cosmicweb",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -5966,7 +5966,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -6292,23 +6292,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 10181,
+     "ms": 11259,
      "tests": [
       {
        "id": "shot.regress-galaxy",
-       "ms": 6154,
+       "ms": 6358,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.galaxy",
-       "ms": 4024,
+       "ms": 4900,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxy-outerboost",
-       "ms": 3,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -6353,7 +6353,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -6667,17 +6667,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 76384,
+     "ms": 86248,
      "tests": [
       {
        "id": "claim.galaxystd-outerboost",
-       "ms": 72052,
+       "ms": 81453,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyStd",
-       "ms": 4332,
+       "ms": 4795,
        "pass": true,
        "via": "targetIds"
       }
@@ -6722,7 +6722,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -7045,6 +7045,12 @@
       "always": false
      },
      {
+      "key": "transgeo2-332b",
+      "sec": 17,
+      "share": 1,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 181,
       "share": "all",
@@ -7054,17 +7060,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 145833,
+     "ms": 154483,
      "tests": [
       {
        "id": "claim.galaxygeo2-outerboost",
-       "ms": 138512,
+       "ms": 148731,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyGeo2",
-       "ms": 7321,
+       "ms": 5752,
        "pass": true,
        "via": "targetIds"
       }
@@ -7109,7 +7115,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -7393,17 +7399,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 8013,
+     "ms": 8117,
      "tests": [
       {
        "id": "behavior.geo2flat322a",
-       "ms": 7865,
+       "ms": 7960,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.geo2flat322a",
-       "ms": 148,
+       "ms": 157,
        "pass": true,
        "via": "targetIds"
       }
@@ -7448,7 +7454,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -7726,17 +7732,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 77864,
+     "ms": 81270,
      "tests": [
       {
        "id": "behavior.geo2thick324a",
-       "ms": 77716,
+       "ms": 81100,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.geo2thick324a",
-       "ms": 148,
+       "ms": 170,
        "pass": true,
        "via": "targetIds"
       }
@@ -7781,7 +7787,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -8059,17 +8065,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 77864,
+     "ms": 81270,
      "tests": [
       {
        "id": "behavior.geo2thick324a",
-       "ms": 77716,
+       "ms": 81100,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.geo2thick324a",
-       "ms": 148,
+       "ms": 170,
        "pass": true,
        "via": "targetIds"
       }
@@ -8114,7 +8120,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -8392,17 +8398,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4949,
+     "ms": 4253,
      "tests": [
       {
        "id": "preset.galaxyDB",
-       "ms": 4949,
+       "ms": 4252,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxydb-contrast",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -8447,7 +8453,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -8719,29 +8725,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 7296,
+     "ms": 7751,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 4113,
+       "ms": 4521,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 3118,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "darkrotor.allfree",
-       "ms": 35,
+       "ms": 3168,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.uphi",
-       "ms": 30,
+       "ms": 33,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "darkrotor.allfree",
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -8786,7 +8792,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -9058,17 +9064,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1055,
+     "ms": 1237,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 866,
+       "ms": 1111,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 189,
+       "ms": 126,
        "pass": true,
        "via": "targetIds"
       }
@@ -9113,7 +9119,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -9385,17 +9391,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4921,
+     "ms": 5867,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 4534,
+       "ms": 5595,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 387,
+       "ms": 272,
        "pass": true,
        "via": "targetIds"
       }
@@ -9440,7 +9446,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -9712,17 +9718,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4572,
+     "ms": 5912,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 4040,
+       "ms": 5553,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 532,
+       "ms": 359,
        "pass": true,
        "via": "targetIds"
       }
@@ -9767,7 +9773,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -10039,23 +10045,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 27966,
+     "ms": 29642,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 20830,
+       "ms": 21249,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 6870,
+       "ms": 8242,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 266,
+       "ms": 151,
        "pass": true,
        "via": "targetIds"
       }
@@ -10100,7 +10106,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -10372,22 +10378,22 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3325,
+     "ms": 3607,
      "tests": [
       {
        "id": "preset.bhCore",
-       "ms": 3325,
+       "ms": 3606,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "claim.bhcore-selfdrive",
-       "ms": 0,
+       "id": "claim.bhcore-free",
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
-       "id": "claim.bhcore-free",
+       "id": "claim.bhcore-selfdrive",
        "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
@@ -10433,7 +10439,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -10711,11 +10717,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 3100,
+     "ms": 2535,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 3100,
+       "ms": 2535,
        "pass": true,
        "via": "targetIds"
       }
@@ -10760,7 +10766,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -11032,17 +11038,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5961,
+     "ms": 7473,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 5442,
+       "ms": 6976,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 519,
+       "ms": 497,
        "pass": true,
        "via": "targetIds"
       }
@@ -11087,7 +11093,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -11359,17 +11365,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 28219,
+     "ms": 29682,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 26816,
+       "ms": 28062,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 1403,
+       "ms": 1620,
        "pass": true,
        "via": "targetIds"
       },
@@ -11421,7 +11427,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -11693,11 +11699,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6293,
+     "ms": 6264,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 6293,
+       "ms": 6264,
        "pass": true,
        "via": "targetIds"
       }
@@ -11743,7 +11749,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -12015,11 +12021,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 7839,
+     "ms": 6552,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 7839,
+       "ms": 6552,
        "pass": true,
        "via": "targetIds"
       }
@@ -12065,7 +12071,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -12337,11 +12343,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5496,
+     "ms": 5336,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 5496,
+       "ms": 5336,
        "pass": true,
        "via": "targetIds"
       }
@@ -12386,7 +12392,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -12658,11 +12664,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1138,
+     "ms": 1016,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 1138,
+       "ms": 1016,
        "pass": true,
        "via": "targetIds"
       },
@@ -12719,7 +12725,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -13009,11 +13015,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3926,
+     "ms": 3880,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 3926,
+       "ms": 3880,
        "pass": true,
        "via": "targetIds"
       },
@@ -13065,7 +13071,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -13367,11 +13373,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 8717,
+     "ms": 6395,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 8717,
+       "ms": 6395,
        "pass": true,
        "via": "targetIds"
       }
@@ -13416,7 +13422,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -13706,11 +13712,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2325,
+     "ms": 1587,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 2325,
+       "ms": 1587,
        "pass": true,
        "via": "targetIds"
       }
@@ -13755,7 +13761,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -14093,11 +14099,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2124,
+     "ms": 1528,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 2124,
+       "ms": 1528,
        "pass": true,
        "via": "targetIds"
       }
@@ -14142,7 +14148,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -14468,7 +14474,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -14752,11 +14758,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 81,
+     "ms": 94,
      "tests": [
       {
        "id": "behavior.tilt90Copy",
-       "ms": 81,
+       "ms": 94,
        "pass": true,
        "via": "targetIds"
       }
@@ -14801,7 +14807,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -15079,11 +15085,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 9686,
+     "ms": 12655,
      "tests": [
       {
        "id": "behavior.tilt90LayersCopy",
-       "ms": 9686,
+       "ms": 12655,
        "pass": true,
        "via": "targetIds"
       }
@@ -15129,7 +15135,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -15479,7 +15485,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -15823,7 +15829,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -16157,7 +16163,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -16447,11 +16453,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 478,
+     "ms": 476,
      "tests": [
       {
        "id": "preset.shapeToyCluster",
-       "ms": 478,
+       "ms": 476,
        "pass": true,
        "via": "targetIds"
       }
@@ -16498,7 +16504,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -16788,11 +16794,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 659,
+     "ms": 789,
      "tests": [
       {
        "id": "preset.shapeToyDisk",
-       "ms": 659,
+       "ms": 789,
        "pass": true,
        "via": "targetIds"
       }
@@ -16839,7 +16845,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -17141,11 +17147,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 427,
+     "ms": 336,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 427,
+       "ms": 336,
        "pass": true,
        "via": "targetIds"
       }
@@ -17191,7 +17197,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -17475,29 +17481,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 6424,
+     "ms": 6216,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 4424,
+       "ms": 4701,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 1710,
+       "ms": 1226,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 174,
+       "ms": 177,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 116,
+       "ms": 112,
        "pass": true,
        "via": "targetIds"
       }
@@ -17544,7 +17550,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -17828,11 +17834,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 490,
+     "ms": 447,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 490,
+       "ms": 447,
        "pass": true,
        "via": "targetIds"
       }
@@ -17879,7 +17885,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -18169,11 +18175,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 635,
+     "ms": 722,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 635,
+       "ms": 722,
        "pass": true,
        "via": "targetIds"
       }
@@ -18220,7 +18226,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -18516,11 +18522,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 290,
+     "ms": 270,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 290,
+       "ms": 270,
        "pass": true,
        "via": "targetIds"
       }
@@ -18566,7 +18572,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -18850,29 +18856,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 6424,
+     "ms": 6216,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 4424,
+       "ms": 4701,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 1710,
+       "ms": 1226,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 174,
+       "ms": 177,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 116,
+       "ms": 112,
        "pass": true,
        "via": "targetIds"
       }
@@ -18918,7 +18924,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -19190,17 +19196,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 218,
+     "ms": 190,
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 162,
+       "ms": 146,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lensing",
-       "ms": 56,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       }
@@ -19245,7 +19251,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -19517,11 +19523,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 33,
+     "ms": 31,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 33,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       },
@@ -19572,7 +19578,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -19844,17 +19850,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 77,
+     "ms": 70,
      "tests": [
       {
        "id": "preset.blens",
-       "ms": 60,
+       "ms": 54,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.blens",
-       "ms": 17,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -19899,7 +19905,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -20171,17 +20177,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 321,
+     "ms": 316,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 297,
+       "ms": 285,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.reddening",
-       "ms": 24,
+       "ms": 31,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -20226,7 +20232,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -20576,23 +20582,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 29847,
+     "ms": 33330,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 25339,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "preset.gas",
-       "ms": 2351,
+       "ms": 29087,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-gas",
-       "ms": 2157,
+       "ms": 2178,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "preset.gas",
+       "ms": 2065,
        "pass": true,
        "via": "targetIds"
       }
@@ -20637,7 +20643,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -20909,23 +20915,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 15374,
+     "ms": 18744,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 12008,
+       "ms": 15386,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 1938,
+       "ms": 1839,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 1428,
+       "ms": 1519,
        "pass": true,
        "via": "targetIds"
       }
@@ -20970,7 +20976,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -21242,29 +21248,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 802,
+     "ms": 827,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 561,
+       "ms": 644,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 200,
+       "ms": 136,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-zero-cost",
-       "ms": 27,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-bath",
-       "ms": 14,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -21309,7 +21315,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -21581,11 +21587,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 853,
+     "ms": 1054,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 853,
+       "ms": 1054,
        "pass": true,
        "via": "targetIds"
       }
@@ -21630,7 +21636,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -21902,11 +21908,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 27,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 27,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       },
@@ -21957,7 +21963,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -22229,17 +22235,17 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 3358,
+     "ms": 3328,
      "tests": [
       {
        "id": "preset.convection",
-       "ms": 1736,
+       "ms": 1771,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-convection",
-       "ms": 1604,
+       "ms": 1539,
        "pass": true,
        "via": "targetIds"
       },
@@ -22296,7 +22302,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -22568,11 +22574,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2459,
+     "ms": 3103,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 2459,
+       "ms": 3103,
        "pass": true,
        "via": "targetIds"
       },
@@ -22623,7 +22629,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -22895,11 +22901,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1662,
+     "ms": 3548,
      "tests": [
       {
        "id": "preset.cooling",
-       "ms": 1662,
+       "ms": 3548,
        "pass": true,
        "via": "targetIds"
       },
@@ -22950,7 +22956,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -23222,11 +23228,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1175,
+     "ms": 1044,
      "tests": [
       {
        "id": "preset.emergent",
-       "ms": 1175,
+       "ms": 1044,
        "pass": true,
        "via": "targetIds"
       },
@@ -23283,7 +23289,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -23555,11 +23561,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2162,
+     "ms": 2011,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 2162,
+       "ms": 2011,
        "pass": true,
        "via": "targetIds"
       },
@@ -23616,7 +23622,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -23888,17 +23894,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1060,
+     "ms": 919,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 1060,
+       "ms": 918,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "phasechange.chain2",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       },
@@ -23950,7 +23956,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -24222,11 +24228,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1616,
+     "ms": 1378,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 1616,
+       "ms": 1378,
        "pass": true,
        "via": "targetIds"
       },
@@ -24283,7 +24289,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -24579,23 +24585,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 501,
+     "ms": 425,
      "tests": [
       {
        "id": "behavior.earthMoon",
-       "ms": 255,
+       "ms": 238,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-earthMoon",
-       "ms": 127,
+       "ms": 130,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoon",
-       "ms": 119,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       }
@@ -24640,7 +24646,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -24918,17 +24924,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1122,
+     "ms": 1473,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 1020,
+       "ms": 1454,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 102,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -24974,17 +24980,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 152.43,
+     "wallSec": 151.596,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 51.745,
+       "wallSec": 51.63,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 100.685,
+       "wallSec": 99.966,
        "reused": false,
        "reusedBy": null
       }
@@ -24996,7 +25002,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -25056,7 +25062,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -25316,11 +25322,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 27,
+     "ms": 21,
      "tests": [
       {
        "id": "preset.earthMoonReal",
-       "ms": 27,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -25365,7 +25371,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -25643,23 +25649,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3254,
+     "ms": 3281,
      "tests": [
       {
        "id": "behavior.tideGate",
-       "ms": 3153,
+       "ms": 3204,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonTide",
-       "ms": 76,
+       "ms": 62,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonTide",
-       "ms": 25,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -25707,7 +25713,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -25797,7 +25803,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -26045,11 +26051,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 31,
+     "ms": 21,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 31,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -26094,7 +26100,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -26432,23 +26438,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 597,
+     "ms": 712,
      "tests": [
       {
        "id": "behavior.dragCoreGate",
-       "ms": 478,
+       "ms": 585,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonInertial",
-       "ms": 83,
+       "ms": 94,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonInertial",
-       "ms": 35,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       },
@@ -26499,7 +26505,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -26559,7 +26565,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -26783,11 +26789,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 29,
+     "ms": 37,
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 29,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       },
@@ -26840,7 +26846,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -26912,7 +26918,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -27136,11 +27142,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 65,
+     "ms": 39,
      "tests": [
       {
        "id": "preset.emAuditDFM",
-       "ms": 65,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       },
@@ -27192,17 +27198,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.2490000000000006,
+     "wallSec": 4.252,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.573,
+       "wallSec": 1.628,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.676,
+       "wallSec": 2.624,
        "reused": false,
        "reusedBy": null
       }
@@ -27214,7 +27220,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -27552,11 +27558,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 17,
+     "ms": 37,
      "tests": [
       {
        "id": "preset.emAuditSolar",
-       "ms": 17,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       },
@@ -27607,7 +27613,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -27921,11 +27927,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 288,
+     "ms": 291,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 284,
+       "ms": 287,
        "pass": true,
        "via": "targetIds"
       },
@@ -27976,7 +27982,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -28412,7 +28418,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -28888,35 +28894,35 @@
     "qa": {
      "attributed": true,
      "n": 10,
-     "ms": 46940,
+     "ms": 53372,
      "tests": [
       {
        "id": "behavior.gLocNull307",
-       "ms": 36216,
+       "ms": 41977,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgDirect302",
-       "ms": 2819,
+       "ms": 2788,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.shell304",
-       "ms": 1771,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.inertialR2_303",
-       "ms": 1631,
+       "ms": 1976,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgEstimate302",
-       "ms": 1624,
+       "ms": 1815,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.inertialR2_303",
+       "ms": 1808,
        "pass": true,
        "via": "targetIds"
       }
@@ -28962,7 +28968,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -29348,23 +29354,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2721,
+     "ms": 2966,
      "tests": [
       {
        "id": "behavior.wbgEstimate302",
-       "ms": 1624,
+       "ms": 1815,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthReorg300",
-       "ms": 901,
+       "ms": 983,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.dragNorm301",
-       "ms": 196,
+       "ms": 168,
        "pass": true,
        "via": "targetIds"
       }
@@ -29410,7 +29416,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -29694,11 +29700,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 26,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 26,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -29743,7 +29749,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -29803,7 +29809,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -30027,17 +30033,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 823,
+     "ms": 1137,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 791,
+       "ms": 1102,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAudit",
-       "ms": 32,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -30082,7 +30088,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -30142,7 +30148,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -30366,17 +30372,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 827,
+     "ms": 1128,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 791,
+       "ms": 1102,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAuditQ3",
-       "ms": 36,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -30421,7 +30427,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -30909,17 +30915,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 532,
+     "ms": 516,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 511,
+       "ms": 504,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.mercury",
-       "ms": 21,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       }
@@ -30966,17 +30972,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.151,
+     "wallSec": 9.688,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.763,
+       "wallSec": 4.025,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.388,
+       "wallSec": 5.663,
        "reused": false,
        "reusedBy": null
       }
@@ -30988,7 +30994,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -31054,7 +31060,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -31416,11 +31422,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 13,
      "tests": [
       {
        "id": "preset.mercuryReal",
-       "ms": 19,
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       }
@@ -31465,7 +31471,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -31779,11 +31785,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 288,
+     "ms": 291,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 284,
+       "ms": 287,
        "pass": true,
        "via": "targetIds"
       },
@@ -31835,7 +31841,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -32221,35 +32227,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 59614,
+     "ms": 60887,
      "tests": [
       {
        "id": "ui.liveMeasure297",
-       "ms": 47866,
+       "ms": 48914,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.gLoc302",
-       "ms": 8312,
+       "ms": 8507,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ui.wbgSlider302",
-       "ms": 1378,
+       "ms": 1266,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.retire298",
-       "ms": 886,
+       "ms": 915,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.fitCond298",
-       "ms": 750,
+       "ms": 853,
        "pass": true,
        "via": "targetIds"
       }
@@ -32296,7 +32302,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -32850,35 +32856,35 @@
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 17697,
+     "ms": 18545,
      "tests": [
       {
        "id": "behavior.gLoc302",
-       "ms": 8312,
+       "ms": 8507,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.shell304",
-       "ms": 1771,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.inertialR2_303",
-       "ms": 1631,
+       "ms": 1976,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgEstimate302",
-       "ms": 1624,
+       "ms": 1815,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.inertialR2_303",
+       "ms": 1808,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.pairNorm305",
-       "ms": 1410,
+       "ms": 1455,
        "pass": true,
        "via": "targetIds"
       }
@@ -32925,7 +32931,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -33485,11 +33491,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 188,
+     "ms": 145,
      "tests": [
       {
        "id": "preset.planets306",
-       "ms": 188,
+       "ms": 145,
        "pass": true,
        "via": "targetIds"
       }
@@ -33536,7 +33542,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -34060,11 +34066,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 188,
+     "ms": 145,
      "tests": [
       {
        "id": "preset.planets306",
-       "ms": 188,
+       "ms": 145,
        "pass": true,
        "via": "targetIds"
       }
@@ -34111,7 +34117,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -34665,23 +34671,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1397,
+     "ms": 1363,
      "tests": [
       {
        "id": "behavior.initObs309",
-       "ms": 753,
+       "ms": 741,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.invSq309",
-       "ms": 456,
+       "ms": 477,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.planets306",
-       "ms": 188,
+       "ms": 145,
        "pass": true,
        "via": "targetIds"
       }
@@ -34728,7 +34734,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -35228,11 +35234,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 188,
+     "ms": 145,
      "tests": [
       {
        "id": "preset.planets306",
-       "ms": 188,
+       "ms": 145,
        "pass": true,
        "via": "targetIds"
       }
@@ -35278,7 +35284,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -35580,35 +35586,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 10988,
+     "ms": 11444,
      "tests": [
       {
        "id": "behavior.wbgDirect302",
-       "ms": 2819,
+       "ms": 2788,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.shell304",
-       "ms": 1771,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.inertialR2_303",
-       "ms": 1631,
+       "ms": 1976,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgEstimate302",
-       "ms": 1624,
+       "ms": 1815,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.inertialR2_303",
+       "ms": 1808,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.pairNorm305",
-       "ms": 1410,
+       "ms": 1455,
        "pass": true,
        "via": "targetIds"
       }
@@ -35655,7 +35661,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -36155,11 +36161,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 188,
+     "ms": 145,
      "tests": [
       {
        "id": "preset.planets306",
-       "ms": 188,
+       "ms": 145,
        "pass": true,
        "via": "targetIds"
       }
@@ -36206,7 +36212,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -36706,11 +36712,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 188,
+     "ms": 145,
      "tests": [
       {
        "id": "preset.planets306",
-       "ms": 188,
+       "ms": 145,
        "pass": true,
        "via": "targetIds"
       }
@@ -36755,7 +36761,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -37114,6 +37120,12 @@
       "always": false
      },
      {
+      "key": "eqband-332a",
+      "sec": 2,
+      "share": 2,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 181,
       "share": "all",
@@ -37123,23 +37135,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 8933,
+     "ms": 10617,
      "tests": [
       {
        "id": "behavior.solar16Builtin318c",
-       "ms": 6621,
+       "ms": 7979,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.solarSystem16Inertial3d",
-       "ms": 2166,
+       "ms": 2493,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.solar16Builtin318c",
-       "ms": 146,
+       "ms": 145,
        "pass": true,
        "via": "targetIds"
       }
@@ -37185,7 +37197,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -37469,11 +37481,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 23,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 23,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -37518,7 +37530,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -37840,7 +37852,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -37900,7 +37912,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -38124,11 +38136,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 22,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 22,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -38176,7 +38188,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -38460,17 +38472,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1595,
+     "ms": 1839,
      "tests": [
       {
        "id": "behavior.solarInner",
-       "ms": 1552,
+       "ms": 1799,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.solarInner",
-       "ms": 43,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -38516,17 +38528,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 55.78,
+     "wallSec": 51.379999999999995,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 20.468,
+       "wallSec": 16.76,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 35.312,
+       "wallSec": 34.62,
        "reused": false,
        "reusedBy": null
       }
@@ -38538,7 +38550,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -38604,7 +38616,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -39086,17 +39098,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 488,
+     "ms": 372,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 475,
+       "ms": 358,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.jupiterGalilean",
-       "ms": 13,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -39142,17 +39154,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 33.212,
+     "wallSec": 28.701999999999998,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 11.191,
+       "wallSec": 8.94,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 22.021,
+       "wallSec": 19.762,
        "reused": false,
        "reusedBy": null
       }
@@ -39164,7 +39176,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -39266,7 +39278,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -39616,17 +39628,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4092,
+     "ms": 4513,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 4082,
+       "ms": 4501,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 10,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       }
@@ -39672,17 +39684,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 21.463,
+     "wallSec": 17.058,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 8.13,
+       "wallSec": 6.097,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.333,
+       "wallSec": 10.961,
        "reused": false,
        "reusedBy": null
       }
@@ -39694,7 +39706,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -39760,7 +39772,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -40114,13 +40126,13 @@
      "tests": [
       {
        "id": "preset.marsMoonsReal",
-       "ms": 9,
+       "ms": 10,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.marsMoonsReal",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -40167,7 +40179,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -40305,7 +40317,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -40535,11 +40547,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 18,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 18,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       },
@@ -40596,7 +40608,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -40892,17 +40904,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 12060,
+     "ms": 12257,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 12023,
+       "ms": 12222,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 37,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -40954,7 +40966,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -41244,11 +41256,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 26,
+     "ms": 42,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 26,
+       "ms": 42,
        "pass": true,
        "via": "targetIds"
       }
@@ -41308,17 +41320,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 301.195,
+     "wallSec": 255.711,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 103.753,
+       "wallSec": 88.284,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 197.442,
+       "wallSec": 167.427,
        "reused": false,
        "reusedBy": null
       }
@@ -41330,7 +41342,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -41450,7 +41462,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -41728,11 +41740,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 21,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -41777,7 +41789,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -42091,11 +42103,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 288,
+     "ms": 291,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 284,
+       "ms": 287,
        "pass": true,
        "via": "targetIds"
       },
@@ -42147,7 +42159,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -42515,35 +42527,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 9138,
+     "ms": 9709,
      "tests": [
       {
        "id": "behavior.wbgDirect302",
-       "ms": 2819,
+       "ms": 2788,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.shell304",
-       "ms": 1771,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.inertialR2_303",
-       "ms": 1631,
+       "ms": 1976,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgEstimate302",
-       "ms": 1624,
+       "ms": 1815,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.inertialR2_303",
+       "ms": 1808,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.retire298",
-       "ms": 886,
+       "ms": 915,
        "pass": true,
        "via": "targetIds"
       }
@@ -42588,7 +42600,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -42866,11 +42878,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 27,
+     "ms": 49,
      "tests": [
       {
        "id": "preset.plutoCharonSyncZero",
-       "ms": 27,
+       "ms": 49,
        "pass": true,
        "via": "targetIds"
       }
@@ -42916,7 +42928,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -43200,11 +43212,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 18,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.charonGeoToy3",
-       "ms": 18,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -43252,11 +43264,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 66.452,
+     "wallSec": 57.098,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 66.452,
+       "wallSec": 57.098,
        "reused": false,
        "reusedBy": null
       }
@@ -43268,7 +43280,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -43672,17 +43684,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 37,
+     "ms": 28,
      "tests": [
       {
        "id": "preset.uranusReal",
-       "ms": 36,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.uranusReal",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -43728,17 +43740,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.369999999999999,
+     "wallSec": 6.328,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.246,
+       "wallSec": 2.197,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.124,
+       "wallSec": 4.131,
        "reused": false,
        "reusedBy": null
       }
@@ -43750,7 +43762,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -43852,7 +43864,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -44202,17 +44214,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 19,
+     "ms": 16,
      "tests": [
       {
        "id": "preset.neptuneReal",
-       "ms": 19,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.neptuneReal",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -44256,17 +44268,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 11.13,
+     "wallSec": 13.087,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 11.13,
+       "wallSec": 13.087,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 30.561,
+       "wallSec": 22.887,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -44277,8 +44289,8 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 60.097,
-     "reusedH2Sec": 30.561,
+     "reusedSec": 52.423,
+     "reusedH2Sec": 22.887,
      "reusedH4Sec": 29.536
     },
     "regenSteps": [
@@ -44290,7 +44302,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -44392,7 +44404,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -44634,17 +44646,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3159,
+     "ms": 3560,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3142,
+       "ms": 3538,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 17,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -44696,7 +44708,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -44762,7 +44774,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -44992,17 +45004,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3181,
+     "ms": 3592,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3142,
+       "ms": 3538,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 39,
+       "ms": 54,
        "pass": true,
        "via": "targetIds"
       }
@@ -45046,17 +45058,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.662,
+     "wallSec": 6.857,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.662,
+       "wallSec": 6.857,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 18.079,
+       "wallSec": 11.93,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -45067,8 +45079,8 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 35.576,
-     "reusedH2Sec": 18.079,
+     "reusedSec": 29.427,
+     "reusedH2Sec": 11.93,
      "reusedH4Sec": 17.497
     },
     "regenSteps": [
@@ -45080,7 +45092,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -45182,7 +45194,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -45424,17 +45436,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2765,
+     "ms": 2827,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2749,
+       "ms": 2809,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 16,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -45486,7 +45498,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -45552,7 +45564,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -45782,17 +45794,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2801,
+     "ms": 2863,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2749,
+       "ms": 2809,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 52,
+       "ms": 54,
        "pass": true,
        "via": "targetIds"
       }
@@ -45837,7 +45849,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -46115,17 +46127,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 593,
+     "ms": 417,
      "tests": [
       {
        "id": "behavior.binBooks322b",
-       "ms": 431,
+       "ms": 264,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.binBooks322b",
-       "ms": 162,
+       "ms": 153,
        "pass": true,
        "via": "targetIds"
       }
@@ -46170,7 +46182,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -46454,17 +46466,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 593,
+     "ms": 417,
      "tests": [
       {
        "id": "behavior.binBooks322b",
-       "ms": 431,
+       "ms": 264,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.binBooks322b",
-       "ms": 162,
+       "ms": 153,
        "pass": true,
        "via": "targetIds"
       }
@@ -46509,7 +46521,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -46787,17 +46799,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 862,
+     "ms": 845,
      "tests": [
       {
        "id": "behavior.obsSpin324b",
-       "ms": 694,
+       "ms": 660,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.obsSpin324b",
-       "ms": 168,
+       "ms": 185,
        "pass": true,
        "via": "targetIds"
       }
@@ -46842,7 +46854,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -47120,17 +47132,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 862,
+     "ms": 845,
      "tests": [
       {
        "id": "behavior.obsSpin324b",
-       "ms": 694,
+       "ms": 660,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.obsSpin324b",
-       "ms": 168,
+       "ms": 185,
        "pass": true,
        "via": "targetIds"
       }
@@ -47177,17 +47189,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 11.844999999999999,
+     "wallSec": 13.543000000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.648,
+       "wallSec": 4.054,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.197,
+       "wallSec": 9.489,
        "reused": false,
        "reusedBy": null
       }
@@ -47199,7 +47211,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -47283,7 +47295,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -47531,17 +47543,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 16,
+     "ms": 32,
      "tests": [
       {
        "id": "preset.psrDoubleAB",
-       "ms": 15,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.psrDoubleAB",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -47593,7 +47605,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -47695,7 +47707,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -47925,17 +47937,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 7836,
+     "ms": 9310,
      "tests": [
       {
        "id": "behavior.psrF1",
-       "ms": 7788,
+       "ms": 9245,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 48,
+       "ms": 65,
        "pass": true,
        "via": "targetIds"
       }
@@ -47981,7 +47993,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -48253,11 +48265,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 28,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 25,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -48303,7 +48315,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -48369,7 +48381,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -48593,11 +48605,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 56,
+     "ms": 90,
      "tests": [
       {
        "id": "preset.psrDoubleABSpinCal",
-       "ms": 56,
+       "ms": 90,
        "pass": true,
        "via": "targetIds"
       }
@@ -48644,17 +48656,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.836,
+     "wallSec": 7.044,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.607,
+       "wallSec": 2.385,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.229,
+       "wallSec": 4.659,
        "reused": false,
        "reusedBy": null
       }
@@ -48672,7 +48684,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -48774,7 +48786,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -49022,11 +49034,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 17,
+     "ms": 33,
      "tests": [
       {
        "id": "preset.psrJ1757DFM",
-       "ms": 17,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -49073,17 +49085,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.638,
+     "wallSec": 4.295999999999999,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.739,
+       "wallSec": 1.424,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.899,
+       "wallSec": 2.872,
        "reused": false,
        "reusedBy": null
       }
@@ -49101,7 +49113,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -49203,7 +49215,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -49451,11 +49463,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.psrJ1946DFM",
-       "ms": 19,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -49501,7 +49513,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -49567,7 +49579,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -49791,11 +49803,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 48,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.psrDoubleABPN",
-       "ms": 48,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -49841,7 +49853,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -49907,7 +49919,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -50131,11 +50143,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 21,
      "tests": [
       {
        "id": "preset.psrJ1757PN",
-       "ms": 25,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -50181,7 +50193,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -50247,7 +50259,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -50471,11 +50483,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 22,
+     "ms": 41,
      "tests": [
       {
        "id": "preset.psrJ1946PN",
-       "ms": 22,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -50521,7 +50533,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -50587,7 +50599,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -50811,11 +50823,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 59,
+     "ms": 92,
      "tests": [
       {
        "id": "preset.psrDoubleABCF",
-       "ms": 59,
+       "ms": 92,
        "pass": true,
        "via": "targetIds"
       }
@@ -50861,7 +50873,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -50927,7 +50939,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -51151,11 +51163,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 61,
+     "ms": 55,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 61,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       }
@@ -51201,7 +51213,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -51267,7 +51279,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -51491,11 +51503,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 57,
+     "ms": 49,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 57,
+       "ms": 49,
        "pass": true,
        "via": "targetIds"
       }
@@ -51542,17 +51554,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 66.109,
+     "wallSec": 61.759,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 23.245,
+       "wallSec": 19.93,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 42.864,
+       "wallSec": 41.829,
        "reused": false,
        "reusedBy": null
       }
@@ -51564,7 +51576,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -51630,7 +51642,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -51872,11 +51884,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.psrB1534",
-       "ms": 21,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -51928,7 +51940,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -52030,7 +52042,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -52260,11 +52272,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 40,
+     "ms": 41,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 40,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -52310,7 +52322,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -52376,7 +52388,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -52600,11 +52612,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 60,
+     "ms": 45,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 60,
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       }
@@ -52649,7 +52661,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -52939,11 +52951,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 11,
      "tests": [
       {
        "id": "preset.compactForceToy",
-       "ms": 19,
+       "ms": 11,
        "pass": true,
        "via": "targetIds"
       }
@@ -52988,7 +53000,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -53302,23 +53314,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3450,
+     "ms": 3382,
      "tests": [
       {
        "id": "preset.inertialDragPair",
-       "ms": 2875,
+       "ms": 2748,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialDragGate",
-       "ms": 562,
+       "ms": 618,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.inertialDragPair",
-       "ms": 13,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -53363,7 +53375,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -53653,17 +53665,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 338,
+     "ms": 479,
      "tests": [
       {
        "id": "behavior.chain296",
-       "ms": 284,
+       "ms": 433,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.chainContract296",
-       "ms": 54,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       }
@@ -53708,7 +53720,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -54070,35 +54082,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 14919,
+     "ms": 16061,
      "tests": [
       {
        "id": "behavior.meshField298",
-       "ms": 3759,
+       "ms": 3568,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgDirect302",
-       "ms": 2819,
+       "ms": 2788,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.sphereAxial307",
-       "ms": 2022,
+       "ms": 2523,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.shell304",
-       "ms": 1771,
+       "ms": 1976,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "behavior.inertialR2_303",
-       "ms": 1631,
+       "id": "docs.bevel308",
+       "ms": 1935,
        "pass": true,
        "via": "targetIds"
       }
@@ -54143,7 +54155,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -54457,35 +54469,35 @@
     "qa": {
      "attributed": true,
      "n": 7,
-     "ms": 18147,
+     "ms": 19248,
      "tests": [
       {
        "id": "lint.stateContract302",
-       "ms": 11234,
+       "ms": 11523,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgDirect302",
-       "ms": 2819,
+       "ms": 2788,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.sphereAxial307",
-       "ms": 2022,
+       "ms": 2523,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.bevel308",
-       "ms": 1499,
+       "ms": 1935,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.axisHold308",
-       "ms": 396,
+       "ms": 322,
        "pass": true,
        "via": "targetIds"
       }
@@ -54531,7 +54543,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -54839,17 +54851,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 34156,
+     "ms": 39273,
      "tests": [
       {
        "id": "behavior.geo4Stable299",
-       "ms": 34048,
+       "ms": 39170,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.approxMany301",
-       "ms": 100,
+       "ms": 95,
        "pass": true,
        "via": "targetIds"
       },
@@ -54900,7 +54912,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -55233,7 +55245,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -55523,23 +55535,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 7513,
+     "ms": 7830,
      "tests": [
       {
        "id": "ui.selEdit299",
-       "ms": 3614,
+       "ms": 3724,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ui.paramTab299",
-       "ms": 2638,
+       "ms": 2769,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ui.axisGizmo307",
-       "ms": 1261,
+       "ms": 1337,
        "pass": true,
        "via": "targetIds"
       }
@@ -55584,7 +55596,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -55874,11 +55886,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 3614,
+     "ms": 3724,
      "tests": [
       {
        "id": "ui.selEdit299",
-       "ms": 3614,
+       "ms": 3724,
        "pass": true,
        "via": "targetIds"
       }
@@ -55923,7 +55935,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -56201,17 +56213,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 593,
+     "ms": 417,
      "tests": [
       {
        "id": "behavior.binBooks322b",
-       "ms": 431,
+       "ms": 264,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.binBooks322b",
-       "ms": 162,
+       "ms": 153,
        "pass": true,
        "via": "targetIds"
       }
@@ -56256,7 +56268,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -56534,17 +56546,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 593,
+     "ms": 417,
      "tests": [
       {
        "id": "behavior.binBooks322b",
-       "ms": 431,
+       "ms": 264,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.binBooks322b",
-       "ms": 162,
+       "ms": 153,
        "pass": true,
        "via": "targetIds"
       }
@@ -56589,7 +56601,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -56879,11 +56891,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 24,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -56928,7 +56940,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -57212,11 +57224,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 33,
+     "ms": 35,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 33,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -57262,17 +57274,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.873,
+     "wallSec": 3.479,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.585,
+       "wallSec": 1.04,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.288,
+       "wallSec": 2.439,
        "reused": false,
        "reusedBy": null
       }
@@ -57284,7 +57296,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -57586,17 +57598,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3997,
+     "ms": 4872,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3978,
+       "ms": 4843,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.gw150914",
-       "ms": 19,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -57642,7 +57654,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -57720,7 +57732,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -57950,17 +57962,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4040,
+     "ms": 4920,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3978,
+       "ms": 4843,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 62,
+       "ms": 77,
        "pass": true,
        "via": "targetIds"
       }
@@ -58006,17 +58018,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.22399999999999998,
+     "wallSec": 0.193,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.078,
+       "wallSec": 0.076,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.146,
+       "wallSec": 0.117,
        "reused": false,
        "reusedBy": null
       }
@@ -58028,7 +58040,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -58312,11 +58324,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 16,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.gw150914Merge4s",
-       "ms": 16,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -58361,7 +58373,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -58633,11 +58645,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 16,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.gw150914SpinDipole",
-       "ms": 16,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -58682,7 +58694,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -58960,11 +58972,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1311,
+     "ms": 1520,
      "tests": [
       {
        "id": "preset.tuc47",
-       "ms": 1310,
+       "ms": 1519,
        "pass": true,
        "via": "targetIds"
       },
@@ -59015,7 +59027,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -59293,11 +59305,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 7681,
+     "ms": 5348,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 7681,
+       "ms": 5348,
        "pass": true,
        "via": "targetIds"
       }
@@ -59342,7 +59354,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -59632,11 +59644,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1827,
+     "ms": 1734,
      "tests": [
       {
        "id": "preset.ngc3198",
-       "ms": 1827,
+       "ms": 1734,
        "pass": true,
        "via": "targetIds"
       },
@@ -59687,7 +59699,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -59995,11 +60007,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 4955,
+     "ms": 5844,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 4955,
+       "ms": 5844,
        "pass": true,
        "via": "targetIds"
       }
@@ -60044,7 +60056,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -60316,11 +60328,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 15,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 15,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -60365,7 +60377,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -60637,11 +60649,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 31,
+     "ms": 23,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 31,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -60686,7 +60698,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -60958,11 +60970,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 259,
+     "ms": 290,
      "tests": [
       {
        "id": "preset.crabRemnant",
-       "ms": 259,
+       "ms": 290,
        "pass": true,
        "via": "targetIds"
       }
@@ -61007,7 +61019,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -61531,23 +61543,29 @@
     "qa": {
      "attributed": true,
      "n": 6,
-     "ms": 5098,
+     "ms": 4452,
      "tests": [
       {
-       "id": "preset.saturn",
-       "ms": 2671,
+       "id": "shot.regress-saturn",
+       "ms": 2350,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "shot.regress-saturn",
-       "ms": 2426,
+       "id": "preset.saturn",
+       "ms": 2101,
        "pass": true,
        "via": "targetIds"
+      },
+      {
+       "id": "behavior.saturn-kframe-control",
+       "ms": 1,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "behavior.saturn",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       },
@@ -61556,12 +61574,6 @@
        "ms": 0,
        "pass": true,
        "via": "claims"
-      },
-      {
-       "id": "behavior.saturn-kframe-control",
-       "ms": 0,
-       "pass": true,
-       "via": "claims+targetIds"
       }
      ]
     }
@@ -61604,7 +61616,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -61876,29 +61888,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 5529,
+     "ms": 5631,
      "tests": [
       {
-       "id": "shot.regress-saturnLayered",
-       "ms": 2878,
+       "id": "preset.saturnLayered",
+       "ms": 3036,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "preset.saturnLayered",
-       "ms": 2633,
+       "id": "shot.regress-saturnLayered",
+       "ms": 2573,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "core.twolayer",
-       "ms": 18,
+       "ms": 21,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "behavior.saturnLayered",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -61942,17 +61954,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.99,
+     "wallSec": 5.392,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.99,
+       "wallSec": 5.392,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.162,
+       "wallSec": 15.95,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -61963,14 +61975,14 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 32.835,
-     "reusedH2Sec": 13.162,
-     "reusedH4Sec": 19.673000000000002
+     "reusedSec": 35.623,
+     "reusedH2Sec": 15.95,
+     "reusedH4Sec": 19.673
     },
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -62036,7 +62048,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -62272,23 +62284,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 9538,
+     "ms": 9721,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 9480,
+       "ms": 9661,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 32,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "zonal.analytic-d68",
-       "ms": 23,
+       "ms": 24,
        "pass": true,
        "via": "claims"
       },
@@ -62339,7 +62351,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -62611,11 +62623,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 12,
+     "ms": 32,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 12,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -62660,7 +62672,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -62932,11 +62944,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 11,
+     "ms": 16,
      "tests": [
       {
        "id": "preset.saturnD68ObsOrbit",
-       "ms": 11,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -62984,11 +62996,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 150.916,
+     "wallSec": 132.758,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 150.916,
+       "wallSec": 132.758,
        "reused": false,
        "reusedBy": null
       }
@@ -63000,7 +63012,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -63060,7 +63072,7 @@
      },
      {
       "key": "mercury",
-      "sec": 409,
+      "sec": 341,
       "share": 35,
       "always": true
      },
@@ -63503,6 +63515,12 @@
       "always": false
      },
      {
+      "key": "eqband-332a",
+      "sec": 2,
+      "share": 2,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 2,
       "share": 29,
@@ -63518,17 +63536,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 89,
+     "ms": 97,
      "tests": [
       {
        "id": "preset.saturnRingReal",
-       "ms": 55,
+       "ms": 49,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "wave121.ui",
-       "ms": 34,
+       "ms": 48,
        "pass": true,
        "via": "claims"
       }
@@ -63576,7 +63594,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -63860,11 +63878,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 287,
+     "ms": 289,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 287,
+       "ms": 289,
        "pass": true,
        "via": "targetIds"
       }
@@ -63909,7 +63927,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -64193,28 +64211,28 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4863,
+     "ms": 4389,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 4809,
+       "ms": 4325,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ai.obs-binary",
-       "ms": 54,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "preset.kframe-binary-default",
-       "ms": 0,
+       "ms": 63,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.binary",
+       "ms": 1,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "preset.kframe-binary-default",
        "ms": 0,
        "pass": true,
        "via": "targetIds"
@@ -64261,7 +64279,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -64545,17 +64563,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 127,
+     "ms": 119,
      "tests": [
       {
        "id": "shot.regress-fig8",
-       "ms": 110,
+       "ms": 106,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.fig8",
-       "ms": 17,
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       }
@@ -64600,7 +64618,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -64872,11 +64890,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 859,
+     "ms": 1050,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 859,
+       "ms": 1050,
        "pass": true,
        "via": "targetIds"
       },
@@ -64927,7 +64945,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -65199,23 +65217,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2216,
+     "ms": 2397,
      "tests": [
       {
        "id": "shot.regress-spinup",
-       "ms": 1134,
+       "ms": 1397,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.spinup",
-       "ms": 1081,
+       "ms": 1000,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.spinup",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -65260,7 +65278,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -65532,11 +65550,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 321,
+     "ms": 236,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 321,
+       "ms": 236,
        "pass": true,
        "via": "targetIds"
       }
@@ -65581,7 +65599,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -65853,11 +65871,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 186,
+     "ms": 140,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 186,
+       "ms": 140,
        "pass": true,
        "via": "targetIds"
       }
@@ -65902,7 +65920,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -66174,11 +66192,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 176,
+     "ms": 80,
      "tests": [
       {
        "id": "preset.whiteDwarfDFM",
-       "ms": 176,
+       "ms": 80,
        "pass": true,
        "via": "targetIds"
       }
@@ -66223,7 +66241,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -66495,11 +66513,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 162,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.whiteDwarfBareDFM",
-       "ms": 162,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -66544,7 +66562,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -66816,11 +66834,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 143,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.envelopeShedDFM",
-       "ms": 143,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -66865,7 +66883,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -67137,17 +67155,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 301,
+     "ms": 192,
      "tests": [
       {
        "id": "preset.lfbotTrap",
-       "ms": 215,
+       "ms": 100,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lfbotTrap",
-       "ms": 86,
+       "ms": 92,
        "pass": true,
        "via": "targetIds"
       }
@@ -67192,7 +67210,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -67470,11 +67488,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 15,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.layeredCoreDFM",
-       "ms": 15,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -67519,7 +67537,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -67852,7 +67870,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -68124,17 +68142,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 221,
+     "ms": 258,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 182,
+       "ms": 203,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gasCohSurface",
-       "ms": 39,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       }
@@ -68179,7 +68197,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -68451,11 +68469,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 13,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.mmPhaseToy",
-       "ms": 13,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -68500,7 +68518,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 31,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -68772,17 +68790,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 107,
+     "ms": 72,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 82,
+       "ms": 37,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
-       "ms": 25,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -68794,20 +68812,20 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 226,
+  "regenSteps": 228,
   "regenSecSum": 37582,
-  "alwaysSec": 1036,
+  "alwaysSec": 1022,
   "undeclaredSteps": 27,
   "undeclaredSec": 1593,
-  "qaTotal": 1469,
-  "qaDurationMs": 4651816,
+  "qaTotal": 1475,
+  "qaDurationMs": 5046370,
   "qaProvenance": {
    "since": "第320便d(R265)",
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "ca8cb98dee808a4d81358b96a86b536197c1d377",
-   "date": "2026-11-10T00:31:40.269Z",
-   "betaBuild": "v1.47-b331",
-   "targetSha256": "60dca011e60350b5a32283b2df914a78c6fe1c799345f5c95ef05eeaf91ab4c1",
+   "commit": "f2a14d51816706b6e3a9303efc9c39c4b4624c1b",
+   "date": "2026-11-10T09:05:42.313Z",
+   "betaBuild": "v1.47-b332",
+   "targetSha256": "cec8c8064b1b721c127250f9f59e12df820fe33fc57a11a751f055758e221602",
    "sameBuild": true,
    "sameHtml": true,
    "rule": "鎖の常時群の段 samplestatus はゲートの QA の前に走る —— 保存 QA の時間は前の便のゲートの保存物(1 便遅れる)。版名が同じでも html の sha が違えば同じ便の中の前の html の QA"
@@ -68844,7 +68862,7 @@
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 61.802
+    "sec": 50.766999999999996
    },
    "h4": {
     "n": 3,
@@ -69229,7 +69247,7 @@
     },
     {
      "key": "calaudit",
-     "sec": 476,
+     "sec": 530,
      "kind": "常時群",
      "presets": null
     },
@@ -69249,8 +69267,35 @@
      ]
     },
     {
+     "key": "timestd-297c",
+     "sec": 406,
+     "kind": "領域の宣言",
+     "presets": "all"
+    },
+    {
+     "key": "pn1",
+     "sec": 398,
+     "kind": "領域の宣言",
+     "presets": "all"
+    },
+    {
+     "key": "compose293",
+     "sec": 387,
+     "kind": "領域の宣言",
+     "presets": "all"
+    },
+    {
+     "key": "galaxydiag",
+     "sec": 347,
+     "kind": "領域の宣言",
+     "presets": [
+      "ngc3198",
+      "ngc3198DFM"
+     ]
+    },
+    {
      "key": "mercury",
-     "sec": 409,
+     "sec": 341,
      "kind": "常時群",
      "presets": [
       "alphaCenAB",
@@ -69288,33 +69333,6 @@
       "siriusAB",
       "siriusABDFM",
       "venusReal"
-     ]
-    },
-    {
-     "key": "timestd-297c",
-     "sec": 406,
-     "kind": "領域の宣言",
-     "presets": "all"
-    },
-    {
-     "key": "pn1",
-     "sec": 398,
-     "kind": "領域の宣言",
-     "presets": "all"
-    },
-    {
-     "key": "compose293",
-     "sec": 387,
-     "kind": "領域の宣言",
-     "presets": "all"
-    },
-    {
-     "key": "galaxydiag",
-     "sec": 347,
-     "kind": "領域の宣言",
-     "presets": [
-      "ngc3198",
-      "ngc3198DFM"
      ]
     },
     {
@@ -69667,7 +69685,7 @@
     },
     {
      "key": "d0audit",
-     "sec": 31,
+     "sec": 26,
      "kind": "領域の宣言",
      "presets": "all"
     },
@@ -69694,6 +69712,14 @@
      "sec": 25,
      "kind": "html を読まない",
      "presets": null
+    },
+    {
+     "key": "transgeo2-332b",
+     "sec": 17,
+     "kind": "領域の宣言",
+     "presets": [
+      "galaxyGeo2"
+     ]
     },
     {
      "key": "chain-296c",
@@ -71297,6 +71323,15 @@
       "saturnSunInertial3d",
       "uranusSunInertial3d",
       "venusSunInertial3d"
+     ]
+    },
+    {
+     "key": "eqband-332a",
+     "sec": 2,
+     "kind": "領域の宣言",
+     "presets": [
+      "saturnRingReal",
+      "solarSystem16Inertial3d"
      ]
     },
     {

@@ -1827,6 +1827,30 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/k1scale-w331c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/stats/spentSec']) },
     note: '第331便c: G_loc の基準表(n ∈ {2, 1, 0, −1, −2, −3}〔対称は −6 も〕× 受け手/対称 × K1 の有無 —— 一次の解析と在位の 7 本の写しの数値・全近点移動の出所・候補の表〔採るかは次の報の決断〕)・K1 の R_d のスケールの読み(分担の比・η・回る枠の座標回転・m/r² の座標則・1PN と K1 の大きさ —— 複数を並べる)・土星の環の厚みとの関連の候補の表(文献の値・R_d・J₂ の振動数と引きずりの項)・原仮定者の補足(2026-11-09)の回転引きずりの型の表(今の組を基準)と K1 の R_d の有効な例・有効でない例・まだ判定していない例の一覧' }),
   // ==== 第331便c の塊(ここまで)====
+  // ==== 第332便a の塊(ここから)====
+  // ---- 第332便a(原仮定者の補足(2026-11-10)「K1 の回転引きずりは、自転時に赤道面からの距離が κ_D·m 以下の範囲で強く働く力と仮定する」「R_d = κ_D·m は観測半径とは別の値」・
+  //   統括の検証項目 R315): **新しい「回転引きずり」(帯の力 —— 宣言・未接続)の診断の器 —— 環の厚みと帯の厚み 2R_d(κ₀m と κ_D m)・帯の中の鉛直の振動・公転面の届く/届かない・
+  //   揃える時間の目安・太陽–木星の物差し・今の K1 の球の核との違い**(段 eqband-332a —— 正本 tests/out/eqband-w332a.json・lib tests/lib-w332a-eqband.mjs —— 第330便b の重みの lib と
+  //   第331便c の K1 のスケールの lib を import して呼ぶ)。**診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は 🗺️ と 💍 を .find で引く 2 本 —— 宣言の値を読む・
+  //   比べる列 K だけ 🗺️ の 2 体の写しの読み口 inertialDragIsqState・步を進めない)・他の正本は読まない(import する第331便c の lib が記録の値の出典の正本の名を書くだけ —— 順序だけ after に
+  //   第331便c の段と同じ 8 段)。1 プロセス。所要は第332便a の枝の実測 1〜2 s
+  S('eqband-332a', 'node tests/exp-w332a-eqband.mjs', ['tests/out/eqband-w332a.json'], 2, { secSource: 'w332a-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: '本の宣言の値と純関数と步を進めない読み口だけ(窓が無く、全部を走らせても数秒)',
+    volatilePaths: { 'tests/out/eqband-w332a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第332便a: 新しい回転引きずり(自転する天体の赤道面からの距離 ≤ R_d の帯の力 —— 主は原仮定者の補足その3 の手前と奥の差分・形 6・尾 3・向き NF/NS/A/B/C・強さ 4・R_d の規則 κ₀m/κ_D m の宣言)の純関数・環の厚みと 2R_d の比・帯の中の鉛直の振動と収まる高さ・B の共に回る時間・公転面の届く/届かない(赤道面からの高さ ÷ R_d)・揃える時間の目安(宣言の型 × 組 —— 太陽系の年齢との比・公転の大きさの変わる時間との比・A は永年の変化 0)・太陽–木星の物差し 10・今の K1 の球の核の回転の項との違い(lib の読みの式とエンジンの読み口)・補足その3 の表(R_d = κ₀m・交点ごとの寄与・累積・原始太陽系の円盤・水平との違い・符号と累積)' }),
+  // ==== 第332便a の塊(ここまで)====
+  // ==== 第332便b の塊(ここから)====
+  // ---- 第332便b(原仮定者の補足(2026-11-10)「座標変換版の「回転引きずり」は、天体の半径を見ないので、「並進引きずり」に統合する。銀河のスケールでの geoPN=2 の近似と比較する」・
+  //   統括の検証項目 R316): **並進引きずり(座標変換の回転を統合 —— 半径を見ない・重み m/r²)と geoPN = 2 の u の場・v − u 輸送の同じ入力の比べる表の器**(段 transgeo2-332b —— 正本
+  //   tests/out/transgeo2-w332b.json・lib tests/lib-w332b-transgeo2.mjs —— 第331便a・第331便b・第330便b・第329便b の lib を import して呼ぶ〔code の依存 —— 他の正本は読まない〕)。
+  //   **診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は 💫 galaxyGeo2 を .find で引く 1 本 —— 写しを受理器に通して build・2 步の照らしと 600 步の窓 3 本)・
+  //   NGC 3198 の rotmod の写し(第329便b の fixture)を読む。1 プロセス。所要は第332便b の枝の実測 13〜17 s(nice 10 —— 第331便のゲートと同じ箱・補足その4 の部 U を足した版 2 で 17 s)
+  S('transgeo2-332b', 'node tests/exp-w332b-transgeo2.mjs', ['tests/out/transgeo2-w332b.json'], 17, { secSource: 'w332b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: '全部を走らせても十数秒(写しの 2 步の照らしと 600 步の窓 3 本・純関数の表)—— 簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/transgeo2-w332b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/engine/windows/*/wallSec']) },
+    note: '第332便b: 並進引きずり(座標変換の回転を統合 —— 半径を見ない・重み m/r²・自己は R_d の規則)と geoPN = 2 の u の場(E2・E3 —— m/r・源の自転の減衰・自己を分母から外す)の同じ入力の表(💫 の写しと NGC 3198)・エンジンとの照らし(u と勾配)・定常の輸送と円軌道の読み・違いの分解(核・源の回転・分母)・近似として読める範囲(走行の前の物差し)・原仮定者の補足その4(2026-11-10)の重み m/r の並進引きずりと m/r² の均一さの表(部 U)' }),
+  // ==== 第332便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
