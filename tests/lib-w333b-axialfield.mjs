@@ -14,8 +14,9 @@
 //   統合した並進の場(integratedField): 源 j の座標の速度 c_j(p) = v_j + s_j × (p − p_j)(回転を統合した並進引きずり —— 半径を見ない)・
 //     U(p) = [Σ_j W_j c_j + K z(p)] / (K + Σ_j W_j)・K = W_self + W₀(位置に依らない —— 受け手の自己の重みは受け手の中で一定と宣言)・z(p) = 速度 0 の項の速度(静止 —— 0。共通の回転座標の引き算の場面だけ −Ω_c × p)。
 //     解析の勾配 J_ab = ∂U_a/∂p_b = [∂_b P_a − U_a ∂_b W_t]/W_t(∂_b W_j = −α W_j n̂_jb / r_j)。
-//     源ごとの分け方(和は J に一致): J^(j) = [∂W_j ⊗ (c_j − U) + W_j [s_j]×]/W_t を 3 つに —— 源の自転の直接の項 W_j [s_j]×/W_t(源の座標の剛体回転)・
-//     源の自転のモーメントの勾配の項 ∂W_j ⊗ (s_j × (p − p_j))/W_t・**並進の通過の項** ∂W_j ⊗ (v_j − U)/W_t(源の自転 0 でも残る —— 源が横を通り抜ける分)。
+//     源ごとの分け方(場は源の運動 v_j・s_j について線形 —— 和は J に一致): 源の自転の直接の項 (W_j/W_t)[s_j]×(源の座標の剛体回転)・
+//     源の自転のモーメントの勾配の項 ∂(W_j/W_t) ⊗ (s_j × (p − p_j))・**源の並進(通過)の項** ∂(W_j/W_t) ⊗ v_j(源の自転 0 でも残る —— 源が横を通り抜ける分)。
+//     ∂(W_j/W_t) = [∂W_j − (W_j/W_t)∂W_t]/W_t は正規化の分母(自己・他の源・W₀)の勾配を含む。速度は背景の静止系で測る(K ≠ 0 では一様な並進を足すと値が変わる —— 背景が静止の宣言)。
 //   局所の回転(localSpin): ω_field = ½∇×U(J の反対称の部 —— 球対称の受け手の剛体回転の成分)・ひずみ = (J + Jᵀ)/2(**全部を軸回転に足さない**)。
 //     差分の局所の回転(fdSpin —— 中心差分の刻み h)・h/2 の収束(誤差 ∝ h²)。
 //   有限の受け手(finiteReceiver): pair(手前と奥 —— p ± R ê_b の差分で J を作る)/ballL(一様な球の剛体の成分 ω_L = I⁻¹ ∫ρ r′ × U dV —— 体積の求積)/
@@ -43,8 +44,8 @@ export const DECL = Object.freeze({
   quadOrder: 8,
   /** 恒等式の門の相対の許容・解析と差分の照らしの許容 */
   idTol: 1e-12, fdTol: 1e-7,
-  /** 遠心の判定の境界の幅(|x| と |x − 2| がこれ以下は「同じ」) */
-  xEqTol: 1e-12,
+  /** 遠心の判定の境界(x = 0 と x = 2 だけを「同じ」—— 小さい x も符号で判定する) */
+  xEqTol: 0,
 });
 
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
@@ -87,7 +88,7 @@ function chkSources(sources) {
 }
 /**
  * 場の式(1 点)。at:[3]・sources:[{ p, v, s, m }]・alpha・rRef・selfW ≥ 0・W0 ≥ 0・frame:{ spin:[3], all:boolean }(共通の回転座標の引き算 —— 場面だけ)・parts(源ごとの分け方を返す)。
- * 戻り値: U・Wt・Wsrc・J・omega・strain・div・shares{ src, self, bg }・parts?[{ spinDirect, spinGrad, pass }(J の部)]
+ * 戻り値: U・Wt・Wsrc・J・omega・strain・div・shares{ src, self, bg }・parts?[{ spinDirect, spinGrad, trans }(J の部 —— frame.all の場面は最後に { rest })]
  */
 export function integratedField({ at, sources, alpha, rRef, selfW = 0, W0 = 0, frame = null, parts = false }) {
   if (!v3(at)) throw new RangeError('integratedField: at は有限の 3 成分');
@@ -112,14 +113,16 @@ export function integratedField({ at, sources, alpha, rRef, selfW = 0, W0 = 0, f
   const Wt = K + Ws;
   if (!(Wt > 0) || !fin(Wt)) throw new RangeError('integratedField: 分母が 0(源・自己・背景のどれも無い)');
   const U = scl(P, 1 / Wt);
+  // 源ごとの分け方(場は源の運動〔v_j・s_j〕について線形 —— 重みを固定して 1 つの運動だけを残した場の J の和が J): ∂(W_j/W_t) = [∂W_j − (W_j/W_t) ∂W_t]/W_t
   let J = zero3();
   const partOut = parts ? [] : null;
   for (const q of per) {
-    const sD = mscl(skew(q.s), q.w / Wt), sG = mscl(outer(q.sd, q.gW), 1 / Wt), pS = mscl(outer(sub(q.v, U), q.gW), 1 / Wt);
-    J = madd(madd(madd(J, sD), sG), pS);
-    if (parts) partOut.push({ spinDirect: sD, spinGrad: sG, pass: pS, w: q.w });
+    const gS = scl(sub(q.gW, scl(dWt, q.w / Wt)), 1 / Wt);
+    const sD = mscl(skew(q.s), q.w / Wt), sG = outer(q.sd, gS), tR = outer(q.v, gS);
+    J = madd(madd(madd(J, sD), sG), tR);
+    if (parts) partOut.push({ spinDirect: sD, spinGrad: sG, trans: tR, w: q.w });
   }
-  if (frame && frame.all) J = madd(J, mscl(skew(scl(Oc, -1)), K / Wt));
+  if (frame && frame.all) { const rest = madd(outer(zv, scl(dWt, -K / (Wt * Wt))), mscl(skew(scl(Oc, -1)), K / Wt)); J = madd(J, rest); if (parts) partOut.push({ rest }); }
   const L = localSpin(J);
   const out = { U, Wt, Wsrc: Ws, J, omega: L.omega, strain: L.strain, div: J[0][0] + J[1][1] + J[2][2], shares: { src: Ws / Wt, self: selfW / Wt, bg: W0 / Wt } };
   if (parts) out.parts = partOut;
@@ -210,13 +213,16 @@ export function centrifugalPair({ R, Omega, OmegaF, omegaF = null, g = null }) {
     // 逆行は軌道の向きを反転 —— 軌道の法線を基準にすると場の成分が反転する(鏡映)
     const Of = sgn * OmegaF, wf = omegaF === null ? Of : sgn * omegaF;
     const fr = CF.frameDemand({ R, Omega, OmegaF: Of }), fa = CF.frameDemand({ R, Omega, OmegaF: Of, omegaF: wf });
-    const x = Of / Omega;
-    return { x, verdict: demandVerdict(x), demandRigid: fr.demand, changeRigid: fr.demand - fr.total, demandAxis: fa.demand, changeAxis: fa.demand - fa.total, verdictAxis: (fa.demand - fa.total) < 0 ? 'decrease' : (fa.demand - fa.total) > 0 ? 'increase' : 'equal' };
+    // 要求の変化は桁落ちを避けて閉じた式で: 剛体 R(Ω_f² − 2ΩΩ_f)・半渦度の軸 R(Ω_f ω_f − Ω(Ω_f + ω_f))(frameDemand の demand − total と同じ量)
+    const x = Of / Omega, cR = R * (Of * Of - 2 * Omega * Of), cA = R * (Of * wf - Omega * (Of + wf));
+    return { x, verdict: demandVerdict(x), demandRigid: fr.demand, changeRigid: cR, demandAxis: fa.demand, changeAxis: cA, verdictAxis: cA < 0 ? 'decrease' : cA > 0 ? 'increase' : 'equal' };
   };
   const gg = g === null ? Omega * Omega * R : g;
   const cp = CF.circularOmega({ g: gg, R, OmegaF }), cr = CF.circularOmega({ g: gg, R, OmegaF: -OmegaF });
   const ap = omegaF === null ? cp : CF.circularOmega({ g: gg, R, OmegaF, omegaF }), ar = omegaF === null ? cr : CF.circularOmega({ g: gg, R, OmegaF: -OmegaF, omegaF: -omegaF });
-  return { pro: side(1), retro: side(-1), OmegaPro: cp.Omega, OmegaRetro: cr.Omega, dvRigid: (cp.Omega - cr.Omega) * R, dvAxis: (ap.Omega - ar.Omega) * R, OmegaK: cp.OmegaK };
+  // 速さの差は閉じた式(根の平方根の部は順行と逆行で同じ —— 剛体 2Ω_f R・半渦度の軸 (Ω_f + ω_f)R)。根の差 dvRoots は第331便b の circularOmega から(照らし)
+  const wf = omegaF === null ? OmegaF : omegaF;
+  return { pro: side(1), retro: side(-1), OmegaPro: cp.Omega, OmegaRetro: cr.Omega, dvRigid: 2 * OmegaF * R, dvAxis: (OmegaF + wf) * R, dvRoots: { rigid: (cp.Omega - cr.Omega) * R, axis: (ap.Omega - ar.Omega) * R }, OmegaK: cp.OmegaK };
 }
 
 /* ───────── 補助(器が使う) ───────── */
@@ -265,7 +271,7 @@ export function pureScenes() {
   { const src = (vy) => [{ p: [0, 0, 0], v: [0, vy, 0], s: [0, 0, 0], m: 1 }], P = [2, 0, 0];
     const F = integratedField({ at: P, sources: src(3), alpha: 2, rRef: 1, selfW: 1, parts: true }), Fr = integratedField({ at: P, sources: src(-3), alpha: 2, rRef: 1, selfW: 1 });
     const fld = (p) => integratedField({ at: p, sources: src(3), alpha: 2, rRef: 1, selfW: 1 }).U, e1 = Math.abs(fdSpin(fld, P, 0.2).omega[2] + 0.24), e2 = Math.abs(fdSpin(fld, P, 0.1).omega[2] + 0.24);
-    S.passing = { omegaZ: F.omega[2], Uy: F.U[1], reversed: Fr.omega[2], h2ratio: e1 / e2, passPart: localSpin(F.parts[0].pass).omega[2], spinParts: nrm(localSpin(madd(F.parts[0].spinDirect, F.parts[0].spinGrad)).omega) }; }
+    S.passing = { omegaZ: F.omega[2], Uy: F.U[1], reversed: Fr.omega[2], h2ratio: e1 / e2, passPart: localSpin(F.parts[0].trans).omega[2], spinParts: nrm(localSpin(madd(F.parts[0].spinDirect, F.parts[0].spinGrad)).omega) }; }
   // ⑥ 源だけの正規化(自己・背景なし・1 つの源・自転 0)で差分が消える —— 分母の勾配(自己・他の源・W₀)が要る
   { const src = [{ p: [0, 0, 0], v: [0, 3, 0], s: [0, 0, 0], m: 1 }], F = integratedField({ at: [2, 0, 0], sources: src, alpha: 2, rRef: 1 }), Fb = integratedField({ at: [2, 0, 0], sources: src, alpha: 2, rRef: 1, W0: 1 });
     const two = integratedField({ at: [2, 0, 0], sources: [src[0], { p: [5, 1, 0], v: [0, 0, 0], s: [0, 0, 0], m: 2 }], alpha: 2, rRef: 1 });
@@ -277,8 +283,12 @@ export function pureScenes() {
     S.commonFrame = { allShift: nrm(sub(sub(A.omega, B.omega), Oc)), srcOnlyShiftOverOc: nrm(sub(A.omega, C.omega)) / nrm(Oc), shareSrc: A.shares.src, fdAll: nrm(sub(fd.omega, B.omega)) / nrm(B.omega) }; }
   // ⑧ 源ごとの分け方の和は J(自転の直接・自転のモーメントの勾配・並進の通過)
   { const F = integratedField({ at, sources: SR, alpha: 1.5, rRef: 2, selfW: 0.3, W0: 0.1, parts: true });
-    let Jsum = zero3(); for (const q of F.parts) Jsum = madd(madd(madd(Jsum, q.spinDirect), q.spinGrad), q.pass);
-    S.partsSum = { rel: mmaxAbs(madd(Jsum, F.J, -1)) / mmaxAbs(F.J), n: F.parts.length }; }
+    let Jsum = zero3(); for (const q of F.parts) Jsum = madd(madd(madd(Jsum, q.spinDirect), q.spinGrad), q.trans);
+    // 線形性: 源 0 の並進だけを残した場(他の源の運動 0・重みは同じ)の J は源 0 の並進の項と同じ
+    const only = SR.map((s, k) => ({ p: s.p, v: k === 0 ? s.v : [0, 0, 0], s: [0, 0, 0], m: s.m })), G = integratedField({ at, sources: only, alpha: 1.5, rRef: 2, selfW: 0.3, W0: 0.1 });
+    const Ff = integratedField({ at, sources: SR, alpha: 2, rRef: 1, selfW: 0.4, W0: 0.2, frame: { spin: [0.05, -0.1, 0.3], all: true }, parts: true });
+    let Jf = zero3(); for (const q of Ff.parts) Jf = q.rest ? madd(Jf, q.rest) : madd(madd(madd(Jf, q.spinDirect), q.spinGrad), q.trans);
+    S.partsSum = { rel: mmaxAbs(madd(Jsum, F.J, -1)) / mmaxAbs(F.J), n: F.parts.length, linear: mmaxAbs(madd(G.J, F.parts[0].trans, -1)) / mmaxAbs(G.J), frameRel: mmaxAbs(madd(Jf, Ff.J, -1)) / mmaxAbs(Ff.J) }; }
   // ⑨ 源の自転だけの閉じた式 ω = (W/W_t)[s − (α/2)(K/W_t) s_⊥](1 つの源 + 一定の K —— α = 2・K ≫ W の赤道面で ω → 0、軸の上で (W/W_t)s)
   { const rows = [];
     for (const a of ALPHAS) for (const d of [[2, 0, 0], [0, 0, 2], [1.2, 0.5, 1.4]]) {
@@ -307,8 +317,9 @@ export function pureScenes() {
     S.w332bLink = { u: Math.max(relD(A.u[0], B.U[0]), relD(A.u[1], B.U[1])), vortHalf: relD(A.vort / 2, B.omega[2]) }; }
   // ⑬ 遠心の順行と逆行(第331便b の式を呼ぶ): x = 0.5 は減る・x = 2.5 は増す・x = −0.5 は増す・x = 2 は同じ・対の速さの差は剛体 2Ω_f R
   { const a = centrifugalPair({ R: 2, Omega: 1, OmegaF: 0.5 }), b = centrifugalPair({ R: 2, Omega: 1, OmegaF: 2.5 }), c = centrifugalPair({ R: 2, Omega: 1, OmegaF: 2 }), d = centrifugalPair({ R: 3, Omega: 0.7, OmegaF: 0.1, g: 0.9 });
-    const e = centrifugalPair({ R: 2, Omega: 1, OmegaF: 0.5, omegaF: 0.2 });
-    S.centrifugal = { v: [a.pro.verdict, a.retro.verdict, b.pro.verdict, b.retro.verdict, c.pro.verdict], changeA: a.pro.changeRigid, changeAformula: 2 * (0.25 - 1), dv: relD(d.dvRigid, 2 * 0.1 * 3),
+    const e = centrifugalPair({ R: 2, Omega: 1, OmegaF: 0.5, omegaF: 0.2 }), t = centrifugalPair({ R: 1, Omega: 1, OmegaF: 1e-20, omegaF: 3e-20 });
+    const fr = CF.frameDemand({ R: 2, Omega: 1, OmegaF: 0.5, omegaF: 0.2 });
+    S.centrifugal = { v: [a.pro.verdict, a.retro.verdict, b.pro.verdict, b.retro.verdict, c.pro.verdict, t.pro.verdict, t.retro.verdict, t.pro.verdictAxis, t.retro.verdictAxis], axisClosed: relD(e.pro.changeAxis, fr.demand - fr.total), dvRoots: Math.max(relD(e.dvRigid, e.dvRoots.rigid), relD(e.dvAxis, e.dvRoots.axis), relD(d.dvRigid, d.dvRoots.rigid)), changeA: a.pro.changeRigid, changeAformula: 2 * (0.25 - 1), dv: relD(d.dvRigid, 2 * 0.1 * 3),
       axisDemand: relD(e.pro.demandAxis, 2 * (1 - 0.5) * (1 - 0.2)), axisRetro: relD(e.retro.demandAxis, 2 * (1 + 0.5) * (1 + 0.2)) }; }
   // ⑭ 近日点の状態(二体)と回転
   { const mu = 1.3, r = [1, 0.2, 0.05], v = [-0.1, 1.05, 0.02], P = periapsisState(r, v, mu), en = (rr, vv) => dot(vv, vv) / 2 - mu / nrm(rr), hh = (rr, vv) => crs(rr, vv);
@@ -334,12 +345,12 @@ export function pureGates(S) {
       && Math.abs(S.passing.passPart + 0.24) <= tol && S.passing.spinParts === 0,
     sourceOnly: S.sourceOnly.omega <= 1e-15 && Math.abs(S.sourceOnly.withW0) > 0.01 && S.sourceOnly.twoSources > 0.01,
     commonFrame: S.commonFrame.allShift <= tol && Math.abs(S.commonFrame.srcOnlyShiftOverOc - 1) > 0.01 && S.commonFrame.fdAll <= DECL.fdTol,
-    partsSum: S.partsSum.rel <= tol && S.partsSum.n === 4,
+    partsSum: S.partsSum.rel <= tol && S.partsSum.n === 4 && S.partsSum.linear <= tol && S.partsSum.frameRel <= tol,
     spinClosed: S.spinClosed.maxRel <= tol && Math.abs(S.spinClosed.equatorOverShare) <= 1e-9 && Math.abs(S.spinClosed.axisOverShare - 1) <= 1e-9 && Math.abs(S.spinClosed.alpha1Eq - 0.5) <= 1e-9 && Math.abs(S.spinClosed.alpha3Eq + 0.5) <= 1e-9,
     finite: S.finite.linear.every((x) => x <= 1e-9) && S.finite.ratios.every((x) => Math.abs(x - 4) < 0.3) && S.finite.at02.every((x) => x > 1e-4),
     units: S.units.rows.every((r) => r.w0zero <= 1e-14) && S.units.rows.filter((r) => r.alpha !== 2).every((r) => r.w0pos > 1e-3) && S.units.rows.find((r) => r.alpha === 2).w0pos <= 1e-14 && S.units.w330b <= tol,
     w332bLink: S.w332bLink.u <= tol && S.w332bLink.vortHalf <= 1e-10,
-    centrifugal: S.centrifugal.v.join() === 'decrease,increase,increase,increase,equal' && Math.abs(S.centrifugal.changeA - S.centrifugal.changeAformula) <= tol && S.centrifugal.dv <= tol && S.centrifugal.axisDemand <= tol && S.centrifugal.axisRetro <= tol,
+    centrifugal: S.centrifugal.v.join() === 'decrease,increase,increase,increase,equal,decrease,increase,decrease,increase' && S.centrifugal.axisClosed <= tol && S.centrifugal.dvRoots <= 1e-12 && Math.abs(S.centrifugal.changeA - S.centrifugal.changeAformula) <= tol && S.centrifugal.dv <= tol && S.centrifugal.axisDemand <= tol && S.centrifugal.axisRetro <= tol,
     periapsis: S.periapsis.energy <= 1e-12 && S.periapsis.h <= 1e-12 && S.periapsis.radial <= 1e-12 && S.periapsis.rot <= 1e-15,
     reject: S.reject.n === S.reject.of,
   };
