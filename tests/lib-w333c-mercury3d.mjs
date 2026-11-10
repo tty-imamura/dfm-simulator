@@ -88,7 +88,7 @@ export const GEOM = Object.freeze({
   /** JPL の近似要素(E. M. Standish・1800〜2050 年の Table 1・T = 0 —— 🌡️🌋🔴 の本の種と同じ表) */
   elemSrc: 'JPL SSD「Approximate Positions of the Planets」Table 1(Standish, E. M.・J2000 の平均黄道と分点・T = 0)',
   planets: Object.freeze({
-    mercury: Object.freeze({ ja: '水星', a: 0.38709927, e: 0.20563593, I: 7.00497902, varpi: 77.45779628, Om: 48.33076593, m: 3.3011e23, R: 2.4397e6, spin: 1.2400e-6, eqIncLit: 3.38 }),
+    merc: Object.freeze({ ja: '水星', a: 0.38709927, e: 0.20563593, I: 7.00497902, varpi: 77.45779628, Om: 48.33076593, m: 3.3011e23, R: 2.4397e6, spin: 1.2400e-6, eqIncLit: 3.38 }),
     venus: Object.freeze({ ja: '金星', a: 0.72333566, e: 0.00677672, I: 3.39467605, varpi: 131.60246718, Om: 76.67984255, m: 4.8675e24, R: 6.0518e6, spin: -2.9924e-7, eqIncLit: 3.86 }),
     earth: Object.freeze({ ja: '地球(EMB)', a: 1.00000261, e: 0.01671123, I: -0.00001531, varpi: 102.93768193, Om: 0, m: 5.9722e24, R: 6.371e6, spin: 7.2921e-5, eqIncLit: 7.155 }),
     mars: Object.freeze({ ja: '火星', a: 1.52371034, e: 0.09339410, I: 1.84969142, varpi: -23.94362959, Om: 49.55953891, m: 6.4171e23, R: 3.3895e6, spin: 7.0882e-5, eqIncLit: 5.65 }),
