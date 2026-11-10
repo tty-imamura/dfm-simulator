@@ -1827,6 +1827,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/k1scale-w331c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/stats/spentSec']) },
     note: '第331便c: G_loc の基準表(n ∈ {2, 1, 0, −1, −2, −3}〔対称は −6 も〕× 受け手/対称 × K1 の有無 —— 一次の解析と在位の 7 本の写しの数値・全近点移動の出所・候補の表〔採るかは次の報の決断〕)・K1 の R_d のスケールの読み(分担の比・η・回る枠の座標回転・m/r² の座標則・1PN と K1 の大きさ —— 複数を並べる)・土星の環の厚みとの関連の候補の表(文献の値・R_d・J₂ の振動数と引きずりの項)・原仮定者の補足(2026-11-09)の回転引きずりの型の表(今の組を基準)と K1 の R_d の有効な例・有効でない例・まだ判定していない例の一覧' }),
   // ==== 第331便c の塊(ここまで)====
+  // ==== 第332便a の塊(ここから)====
+  // ---- 第332便a(原仮定者の補足(2026-11-10)「K1 の回転引きずりは、自転時に赤道面からの距離が κ_D·m 以下の範囲で強く働く力と仮定する」「R_d = κ_D·m は観測半径とは別の値」・
+  //   統括の検証項目 R315): **新しい「回転引きずり」(帯の力 —— 宣言・未接続)の診断の器 —— 環の厚みと帯の厚み 2R_d(κ₀m と κ_D m)・帯の中の鉛直の振動・公転面の届く/届かない・
+  //   揃える時間の目安・太陽–木星の物差し・今の K1 の球の核との違い**(段 eqband-332a —— 正本 tests/out/eqband-w332a.json・lib tests/lib-w332a-eqband.mjs —— 第330便b の重みの lib と
+  //   第331便c の K1 のスケールの lib を import して呼ぶ)。**診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は 🗺️ と 💍 を .find で引く 2 本 —— 宣言の値を読む・
+  //   比べる列 K だけ 🗺️ の 2 体の写しの読み口 inertialDragIsqState・步を進めない)・他の正本は読まない。1 プロセス。所要は第332便a の枝の実測 1〜2 s
+  S('eqband-332a', 'node tests/exp-w332a-eqband.mjs', ['tests/out/eqband-w332a.json'], 2, { secSource: 'w332a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: '本の宣言の値と純関数と步を進めない読み口だけ(窓が無く、全部を走らせても数秒)',
+    volatilePaths: { 'tests/out/eqband-w332a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第332便a: 新しい回転引きずり(自転する天体の赤道面からの距離 ≤ R_d の帯の力 —— 形 4・尾 3・向き A/B/C・強さ 4・R_d の規則 κ₀m/κ_D m の宣言)の純関数・環の厚みと 2R_d の比・帯の中の鉛直の振動と収まる高さ・B の共に回る時間・公転面の届く/届かない(赤道面からの高さ ÷ R_d)・揃える時間の目安(宣言の型 × 組 —— 太陽系の年齢との比・公転の大きさの変わる時間との比・A は永年の変化 0)・太陽–木星の物差し 10・今の K1 の球の核の回転の項との違い(lib の読みの式とエンジンの読み口)' }),
+  // ==== 第332便a の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
