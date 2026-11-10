@@ -100733,6 +100733,211 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第332便b の塊(ここまで)====
 
+// ==== 第333便c の塊(ここから —— lint.mercury3d333c・behavior.mercury3d333c・docs.mercury3d333c の 3 ブロック。root は SKIP)====
+// ---- 第333便c(原仮定者の整理(2026-11-10)「水星は絡む要素が多く難しい天体・軌道も公転面に対して斜め」「G_loc も次数を含めて選択肢のひとつ」「新しい解釈の引きずりも検証する」・
+// ----   原仮定者の回答(2026-11-10 —— AN597・AN598・AN600)・統括の検証項目 R319): **水星の三次元の対照の純関数と器**(新設 —— 器 tests/exp-w333c-mercury3d.mjs・lib tests/lib-w333c-mercury3d.mjs・
+// ----   文書の lib tests/lib-w333c-mercury3ddoc.mjs・正本 tests/out/mercury3d-w333c.json。html・本の宣言・エンジン・受理器・前の便の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.mercury3d333c(html を読まない): ① 版・宣言(n の格子・α の格子・自己の規則・λ_J の格子・f_d・平均の点・一次外挿の印)・効果の型の一覧 ② 純関数の場面 8(G_loc・K1・J₂ の独立の照合・
+// ----     対向 2 点の差分・切り口の式と第332便a の平均・連星の一次・入力の拒否・H₁ = C₁)③ 呼ぶだけ(lib の import は第330便b・第331便c・第332便a の lib だけ・lib と文書の lib は html を読まない・
+// ----     ネットへ取りに行かない・呼ぶ lib の本文に w333c の語が無い)④ 文献の値の出典(極・黄道傾斜角・近似要素・質量・太陽の慣性モーメントの係数・一次資料の注記)
+// ----   behavior.mercury3d333c(html を headless で読む —— 正本と照合): ① 幾何 ② 今の組と G_loc の格子 ③ 統合した並進 ④ 回転の差分 ⑤ 対照 ⑥ 連星・数値の照合 を今の html の 🌡️🌋🔴 の宣言から
+// ----     作り直して正本と相対 1e-9 の内(行の尺度の 1e-9 を床に —— 数値の残りの桁を比べない)⑦ 作り直した門が全部真
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w333c-mercury3d.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w333c-mercury3d.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w333c-mercury3ddoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'mercury3d-w333c.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP lint.mercury3d333c・behavior.mercury3d333c(第333便c の水星の三次元の対照の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── lint.mercury3d333c ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      const js = (x) => JSON.stringify(x);
+      if (!(L.LIB_VERSION === 'w333c-mercury3d-lib-1' && X.HARNESS_VERSION === 'w333c-mercury3d-1' && D0.DOC_VERSION === 'w333c-mercury3ddoc-1')) bad.push('① 版(lib・器・文書の lib)');
+      const DG = L.DECL, PL = X.PLAN;
+      if (!(DG.G === 6.674e-11 && DG.c === 299792458 && js(DG.nGrid) === js([2, 1, 0, -1, -2, -3, -6]) && js(DG.pairs) === js(['receiver', 'symmetric']) && js(DG.alphaGrid) === js([1, 1.5, 2, 3])
+        && js(DG.selfRules) === js(['kappaM', 'radius']) && js(DG.pairAlpha) === js([1, 1.5, 2, 3]) && js(DG.lambdaJ) === js([1e-6, 1e-3, 1]) && DG.fDrag === 0.4 && DG.nodes === 2048 && DG.nodesFine === 4096
+        && DG.bandGL === 48 && DG.bandGLFine === 96 && DG.breakPerOrbit === 1e-3 && js(DG.etaGrid) === js([0, 9.5352e-4, 0.1, 0.25])))
+        bad.push('① 宣言(G・c・n の格子・型・α の格子・自己の規則・λ_J・f_d・平均の点・帯の点・一次外挿の印・η の格子)');
+      if (!(js(L.BINARY_TYPES.map((t) => t.key)) === js(['now', 'sym2', 'sym4', 'recvM3', 'symM6']) && js(Object.keys(PL.books)) === js(['merc', 'venus', 'mars']) && js(PL.controls) === js(['venus', 'earth', 'mars'])
+        && js(PL.numeric.map((t) => t.key)) === js(['gLoc', 'k1', 'transRot1', 'transTr2', 'pair2']) && PL.numericTol === 2e-3 && PL.inposDiv === '2'))
+        bad.push('① 器の宣言(連星の型 5・本 3・対照 3・数値の照合の型 5・照合の上限・正本の刻み)');
+      cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・文書 ${D0.DOC_VERSION}・n の格子 ${DG.nGrid.length} × 型 ${DG.pairs.length}・α ${DG.alphaGrid.length} × 自己の規則 ${DG.selfRules.length}・対向 2 点の α ${DG.pairAlpha.length} × s_d ${1 + DG.lambdaJ.length} × 応答率 2・連星の型 ${L.BINARY_TYPES.length}`);
+      let G1 = null;
+      try { G1 = L.pureGates(L.pureScenes()); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G1) {
+        for (const [k, v] of Object.entries(G1)) if (v !== true) bad.push('② 場面 ' + k);
+        if (Object.keys(G1).length !== 8) bad.push('② 場面の数 ' + Object.keys(G1).length);
+        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(G_loc の力の型・K1 の速度の型・J₂ の独立の照合・対向 2 点の差分・切り口の式と第332便a の平均・連星の一次・入力の拒否・H₁ = C₁)`);
+      }
+      const tl = rd('tests/lib-w333c-mercury3d.mjs'), th = rd('tests/exp-w333c-mercury3d.mjs'), td = rd('tests/lib-w333c-mercury3ddoc.mjs'), base3 = rd('tests/lib-w330b-dragweight.mjs') + rd('tests/lib-w331c-k1scale.mjs') + rd('tests/lib-w332a-eqband.mjs');
+      const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+      if (!(js(imps) === js(['lib-w330b-dragweight.mjs', 'lib-w331c-k1scale.mjs', 'lib-w332a-eqband.mjs']) && !/loadHtml|index\.html/.test(tl + td) && /loadHtmlMain/.test(th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/w333c/.test(base3)))
+        bad.push('③ 呼ぶだけ(lib の import は第330便b・第331便c・第332便a の lib だけ・lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w333c が無い)');
+      cases.push('③ lib の import は第330便b の重み・第331便c の K1 のスケール・第332便a の帯の lib だけ(エンジンの式を写さない)・lib と文書の lib は html を読まない・器と lib はネットへ取りに行かない・呼ぶ lib の本文は不変');
+      const GL = L.GEOM;
+      if (!(/Archinal/.test(GL.sunPole.src) && /Capitaine/.test(GL.obliquityArcsec.src) && /Standish/.test(GL.elemSrc) && /NSSDC/.test(GL.massSrc) && /0\.07|慣性モーメント/.test(GL.sunMoI.src) && /Carrington/.test(GL.sunEquatorTilt.src)
+        && js(Object.keys(GL.planets)) === js(['merc', 'venus', 'earth', 'mars']) && /一次資料に当たっていない/.test(GL.note) && GL.sunPole.ra === 286.13 && GL.sunPole.dec === 63.87 && GL.obliquityArcsec.value === 84381.406))
+        bad.push('④ 文献の値の出典(太陽の極・黄道傾斜角・近似要素・質量・慣性モーメントの係数・赤道面の傾き・惑星 4・一次資料の注記)');
+      cases.push(`④ 文献の値の出典(太陽の極 α0 ${GL.sunPole.ra}°・δ0 ${GL.sunPole.dec}°・ε0 ${GL.obliquityArcsec.value}″・近似要素・質量・太陽の I/(MR²) ${GL.sunMoI.value} —— 本便は一次資料に当たっていない)`);
+    }
+    add('lint.mercury3d333c', bad.length === 0,
+      `**水星の三次元の対照の純関数**(第333便c・原仮定者の整理(2026-11-10)・原仮定者の回答(2026-11-10 —— AN597)・R319 —— html を読まない・三次元の幾何・Gauss の式の軌道の平均・効果の型〔G_loc の次数と対称・統合した並進引きずり・回転引きずりの差分〕・連星の対称 G_loc): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.mercury3d333c ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/mercury3d-w333c.json が読めない');
+    else {
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        // 行の尺度の 1e-9 を床にした相対の差(数値の残りの桁〔中心力の交点など〕を比べない —— Node の版で超越関数の最後の桁が違っても通る)
+        const dif = (a, b, sc) => (a === b ? 0 : (a === null || b === null || a === undefined || b === undefined) ? Infinity : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b), Math.abs(sc || 0), 1e-300));
+        const rowSc = (q) => Math.max(Math.abs(q.apsIn || 0), ...['ecl', 'sun'].flatMap((f) => ['domega', 'dvarpi', 'dnode', 'di'].map((k) => (q[f] && Number.isFinite(q[f][k]) ? Math.abs(q[f][k]) : 0))));
+        const cmpRow = (a, b) => { const sc = Math.max(rowSc(a), rowSc(b)); let d = dif(a.apsIn, b.apsIn, sc); for (const f of ['ecl', 'sun']) for (const k of ['domega', 'dvarpi', 'dnode', 'di']) d = Math.max(d, dif((a[f] || {})[k], (b[f] || {})[k], sc)); if (a.breaks !== b.breaks) d = Infinity; return d; };
+        const BK = X.readBooks(H.HP);
+        // ① 幾何
+        const Gm = X.partGeom(BK);
+        let dG = 0;
+        Gm.rows.forEach((q, i) => { const r = J.geom.rows[i] || {}; for (const k of ['aAU', 'e', 'iEqDeg', 'nodeEqDeg', 'omegaEqDeg', 'varpiEclDeg']) dG = Math.max(dG, dif(q[k], r[k], 1)); if (q.key !== r.key) dG = Infinity; });
+        dG = Math.max(dG, dif(Gm.sunBook.tiltDeg, J.geom.sunBook.tiltDeg), dif(Gm.sunBook.azimuthDeg, J.geom.sunBook.azimuthDeg), dif(Gm.sunBook.spin, J.geom.sunBook.spin));
+        if (!(dG <= 1e-9 && Gm.rows.length === J.geom.rows.length)) bad.push(`① 幾何を作り直して正本と違う(相対 ${dG})—— 器を走らせ直す`);
+        const mer = Gm.rows.find((q) => q.key === 'merc');
+        cases.push(`① 幾何 ${Gm.rows.length} 惑星(本の太陽の極 傾き ${Gm.sunBook.tiltDeg.toFixed(4)}°・水星の太陽の赤道面に対する傾き ${mer.iEqDeg.toFixed(4)}°)が正本と相対 1e-9 の内`);
+        // ② 今の組と G_loc の格子
+        const inpos = JSON.parse(rd('tests/out/inposk1-w315c.json')), S = X.systemOf(BK, 'merc'), GK = X.partGlocK1(S, inpos.K.systems.mercury);
+        let dK = Math.max(cmpRow(GK.now.gLoc, J.mercury.glock1.now.gLoc), cmpRow(GK.now.k1, J.mercury.glock1.now.k1), dif(GK.now.canon.sum, J.mercury.glock1.now.canon.sum));
+        GK.grid.forEach((q, i) => { const r = J.mercury.glock1.grid[i] || {}; dK = Math.max(dK, cmpRow(q, r), dif(q.share, r.share, 1)); if (q.n !== r.n || q.pair !== r.pair) dK = Infinity; });
+        if (!(dK <= 1e-9)) bad.push(`② 今の組と G_loc の格子を作り直して正本と違う(相対 ${dK})`);
+        cases.push(`② 今の組(G_loc ${GK.now.gLoc.apsIn.toFixed(3)} + K1 ${GK.now.k1.apsIn.toFixed(3)}″/世紀 —— 正本 inposk1-w315c ${GK.now.canon.dqG.toFixed(3)} + ${GK.now.canon.DG.toFixed(3)})と G_loc の格子 ${GK.grid.length} 行が正本と相対 1e-9 の内`);
+        // ③ 統合した並進
+        const TR = X.partTrans(S);
+        let dT = 0;
+        TR.rows.forEach((q, i) => { const r = J.mercury.trans.rows[i] || {}; dT = Math.max(dT, cmpRow(q, r)); if (q.rule !== r.rule || q.alpha !== r.alpha || q.part !== r.part) dT = Infinity; });
+        if (!(dT <= 1e-9 && TR.rows.length === J.mercury.trans.rows.length)) bad.push(`③ 統合した並進を作り直して正本と違う(相対 ${dT})`);
+        const r1 = TR.rows.find((q) => q.rule === 'kappaM' && q.alpha === 1 && q.part === 'rot');
+        cases.push(`③ 統合した並進 ${TR.rows.length} 行(α = 1・Y_k m の回転の分 —— 黄道の交点 ${r1.ecl.dnode.toFixed(2)}″/世紀・太陽の赤道面の交点 ${r1.sun.dnode.toFixed(1)}″/世紀)が正本と相対 1e-9 の内`);
+        // ④ 回転の差分
+        const RD = X.partRotDiff(S);
+        let dR = cmpRow(RD.cut, J.mercury.rotDiff.cut);
+        RD.pair.forEach((q, i) => { const r = J.mercury.rotDiff.pair[i] || {}; dR = Math.max(dR, cmpRow(q, r), dif(q.sd, r.sd)); if (q.alpha !== r.alpha || q.sdKey !== r.sdKey || q.resp !== r.resp) dR = Infinity; });
+        if (!(dR <= 1e-9 && RD.pair.length === J.mercury.rotDiff.pair.length)) bad.push(`④ 回転の差分を作り直して正本と違う(相対 ${dR})`);
+        cases.push(`④ 回転の差分(切り口の式 + 対向 2 点 ${RD.pair.length} 行 —— 一次外挿が壊れる ${RD.pair.filter((q) => q.breaks).length})が正本と相対 1e-9 の内`);
+        // ⑤ 対照
+        const CT = X.partControls(BK);
+        let dC = 0;
+        CT.forEach((q, i) => { const r = J.controls[i] || {}; dC = Math.max(dC, dif(q.gLoc, r.gLoc), dif(q.k1, r.k1), dif(q.transRot1.sunNode, (r.transRot1 || {}).sunNode), dif(q.pair2obs.sunDi, (r.pair2obs || {}).sunDi), dif(q.iEqDeg, r.iEqDeg)); if (q.key !== r.key) dC = Infinity; });
+        if (!(dC <= 1e-9 && CT.length === J.controls.length)) bad.push(`⑤ 対照を作り直して正本と違う(相対 ${dC})`);
+        cases.push(`⑤ 対照 ${CT.length} 惑星(金星・地球・火星)が正本と相対 1e-9 の内`);
+        // ⑥ 連星・数値の照合
+        const BN = X.partBinary(), NU = X.partNumeric(S);
+        let dB = 0;
+        BN.first.forEach((q, i) => q.shares.forEach((s, k) => { dB = Math.max(dB, dif(s.total, ((J.binary.first[i] || {}).shares || [])[k] ? J.binary.first[i].shares[k].total : null)); }));
+        BN.numeric.forEach((q, i) => { dB = Math.max(dB, dif(q.total, (J.binary.numeric[i] || {}).total)); });
+        NU.rows.forEach((q, i) => { const r = J.numeric.rows[i] || {}, sc = Math.max(...['aps', 'di', 'dnode', 'domega', 'dlnA'].map((k) => Math.abs(q.analytic[k]))); for (const k of ['aps', 'di', 'dnode', 'domega', 'dlnA']) dB = Math.max(dB, dif(q.analytic[k], (r.analytic || {})[k], sc), dif(q.h2[k], (r.h2 || {})[k], 1e-6 * sc)); });
+        if (!(dB <= 1e-9)) bad.push(`⑥ 連星・数値の照合を作り直して正本と違う(相対 ${dB})`);
+        cases.push(`⑥ 連星(型 ${BN.first.length} × η ${BN.first[0].shares.length}・純粋な積分器 ${BN.numeric.length})・数値の照合 ${NU.rows.length} 型が正本と相対 1e-9 の内(数値の写しは尺度の 1e-6 を床に)`);
+        // ⑦ 門
+        const J2 = Object.assign({}, J, { geom: Gm, mercury: { glock1: GK, trans: TR, rotDiff: RD }, controls: CT, binary: BN, numeric: NU, pure: { scenes: L.pureScenes(), gates: L.pureGates(L.pureScenes()) } }), G2 = X.gatesOf(J2);
+        if (!Object.values(G2).every((v) => v === true)) bad.push('⑦ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`⑦ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.mercury3d333c', bad.length === 0,
+      `**水星の三次元の対照の作り直し**(第333便c・原仮定者の整理(2026-11-10)・R319 —— 今の html の 🌡️🌋🔴 の宣言を読む・步を進めない・効果は宣言の型の単独の一次の率): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第333便c: docs.mercury3d333c は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
+// ----   lint・behavior を数えない)。世代切替は上と同じ
+// ----   docs.mercury3d333c(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全・core:false・abBody:false)・宣言が lib の DECL と同じ ② 表 11 本が PHYSICS〔第333便c〕に逐語
+// ----     ③ 節の位置(〔第332便b〕の節の後・〔第328便 — 統括〕の前)・必須の語・AI_SPEC §211(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・係数の記号(文書はコードの書式の外の κ_D 以外のカッパを書かない)・速度の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w333c-mercury3d.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w333c-mercury3d.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w333c-mercury3ddoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'mercury3d-w333c.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.mercury3d333c(第333便c の水星の三次元の対照の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.mercury3d333c ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第333便c — '), ie = PH.indexOf('〔第332便b — '), iz = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && ie >= 0 && ie < i0 && iz > i0)) bad.push('PHYSICS〔第333便c〕が無いか〔第332便b〕の節の前か〔第328便 — 統括〕の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/mercury3d-w333c.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.scopeComplete === true
+        && /^[0-9a-f]{64}$/.test(J.meta.scopeSha256 || '') && J.meta.stage === 'mercury3d' && J.meta.scope && J.meta.scope.abBody === false && J.meta.scope.core === false)) bad.push('① 版・来歴・領域 hash(完全・core:false・abBody:false)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.geomLit) !== JSON.stringify(L.GEOM) || JSON.stringify(J.notClaim) !== JSON.stringify(X.NOT_CLAIM)) bad.push('① 正本の宣言が lib の DECL・GEOM・器の NOT_CLAIM と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第333便c〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 11) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第333便c〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の整理(2026-11-10)', '原仮定者の回答(2026-11-10 —— AN597)', '原仮定者の回答(2026-11-10 —— AN598)', '原仮定者の回答(2026-11-10 —— AN600)', 'R319', '凍結の基準', '太陽の赤道面', '黄道', '近点引数 ω', '近点経度 ϖ = Ω_node + ω',
+      '交点の歳差', '軌道面の中の近点の回り', '単独', '同時のフィットはしない', '統合した並進引きずり', '回転引きずりの差分', '切り口の式', '対向 2 点の三次元の差分', '固定の応答率', '連動の応答率', 'λ_J', 'Y_k m', 'Gauss の式',
+      '一次外挿が壊れる', '純粋な三次元の積分器', '宣言(未接続)', '今のコードの実装', 'tests/exp-w333c-mercury3d.mjs', 'tests/out/mercury3d-w333c.json', 'tests/lib-w333c-mercury3d.mjs', 'w333c-mercury3d-lib-1', '統括の参考の試作', '枝 a',
+      '対称 n = 4 + K1', '等質量', '一次資料に当たっていない', 'Larmor', '第134報への枝の答え', '決断事項の候補', '第334便への引き継ぎ', 'lint.mercury3d333c', 'behavior.mercury3d333c', 'docs.mercury3d333c', '観測自転 s', '引きずり自転 s_d'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第333便c〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 211. 第333便c'), ai = secUntilNext329c(AS, a0, '\n## ');   // 次の見出しまで(固定の字数の窓を持たない)
+    if (!(a0 >= 0 && ai.indexOf('tests/out/mercury3d-w333c.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('宣言(未接続)') >= 0 && ai.indexOf('凍結の基準') >= 0 && ai.indexOf('太陽の赤道面') >= 0))
+      bad.push('③ AI_SPEC §211(正本・SYSTEM_PROMPT・宣言・凍結の基準・太陽の赤道面)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl333c = clg.split('\n').find((l) => l.indexOf('**第333便c**') >= 0) || '';
+    if (!(cl333c.indexOf('tests/exp-w333c-mercury3d.mjs') >= 0 && cl333c.indexOf('mercury3d-333c') >= 0 && cl333c.indexOf('原仮定者の整理(2026-11-10)') >= 0 && cl333c.indexOf('R319') >= 0)) bad.push('③ CHANGELOG の第333便c の行');
+    if (!(/S\('mercury3d-333c', 'node tests\/exp-w333c-mercury3d\.mjs', \['tests\/out\/mercury3d-w333c\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '本の宣言の値と一次の平均と純粋な積分器だけ") >= 0
+      && RT.indexOf('// ==== 第333便c の塊(ここから)====') >= 0)) bad.push('③ 段の行 mercury3d-333c(quickVerify と理由・塊)');
+    if (GI.indexOf('!tests/out/mercury3d-w333c.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第333便c の塊(ここから)====') >= 0 && /lint\.mercury3d333c/.test(PM) && /behavior\.mercury3d333c/.test(PM) && /docs\.mercury3d333c/.test(PM))) bad.push('③ post-merge の ③′ に第333便c の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §211(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /内部熱を説明した/, /金星の逆転を説明した/, /銀河の回転曲線を予言した/, /一致した/];
+    const NOT333 = [/\d\s*km\/s/, /κ₀/, /D_bg|W_bg|Wbg/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第333便c の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・G_loc の次数を決めた・s_d で公転面の揃いを解いた・軸引きずりで自転や共鳴を説明・密度波で回転曲線が合った
+    const W333 = ['ためか確', 'たし示', 'たし明説', 'ため決を数次の', 'たい解をい揃の面転公で', '明説を鳴共や転自でりずき引軸', 'たっ合が線曲転回で波度密'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第333便c〕', sec], ['AI_SPEC §211', ai], ['CHANGELOG の第333便c の行', cl333c], ['器', rd('tests/exp-w333c-mercury3d.mjs')], ['lib', rd('tests/lib-w333c-mercury3d.mjs')], ['文書の lib', rd('tests/lib-w333c-mercury3ddoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W333)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT333) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) {
+        for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+        if (/κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の κ_D 以外のカッパ(lint.kappaSymbol315 の型)');
+      } else if (/κ/.test(tx)) bad.push('④ ' + nm + ' に係数のカッパ(本枝の器・lib は Y_k・C₁ で書く)');
+    }
+    cases.push('④ 書かない語・禁句・係数の記号(κ₀ を使わない・コードの名前 D_bg・W_bg・m_d を説明に出さない)・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.mercury3d333c', bad.length === 0,
+      `**水星の三次元の対照の文書**(第333便c・原仮定者の整理(2026-11-10)・原仮定者の回答(2026-11-10 —— AN597)・R319 —— 宣言した型の単独の一次の率・凍結の基準との差・残差): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第333便c の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
