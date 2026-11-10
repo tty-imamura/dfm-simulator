@@ -791,6 +791,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.equations331d docs.equations331d lint.k
 #   docs.phenomena331e —— docs/PHENOMENA_STATUS.md の証拠の実在・語彙と件数・SAMPLE_STATUS の状況との対応と理由の欄・主な数の転記・PHYSICS〔第331便e〕・文書)と、PHYSICS・AI_SPEC・CHANGELOG を読む lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.phenomena331e docs.phenomena331e lint.kappaSymbol315 lint.fixedWindow329c lint.sectionLookup313 lint.qaHeapRelease310 docs.w322d docs.sampleStatus-sync"
 # ==== 第331便e の塊(ここまで)====
+# ==== 第332便a の塊(ここから)====
+# 第332便a(原仮定者の補足(2026-11-10)・原仮定者の補足その3(2026-11-10)・統括の検証項目 R315 —— 診断だけ・html は変えない): 枝 a の新設 3 本(lint.eqBand332a —— 帯の力〔宣言・未接続〕の形・尾・向き・強さ・
+#   規則の型の一覧と純関数の場面と呼ぶだけの検査・文献の出典 / behavior.eqBand332a —— 今の html の 🗺️ と 💍 の宣言から環・公転面・揃える時間・物差し・球の核と帯の比べを作り直して
+#   正本と同じ / docs.eqBand332a —— 正本の門と表 17 本が PHYSICS〔第332便a〕に逐語・文書)と、新しい段 eqband-332a の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.eqBand332a behavior.eqBand332a docs.eqBand332a docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c"
+# ==== 第332便a の塊(ここまで)====
 # ==== 第332便b の塊(ここから)====
 # 第332便b(原仮定者の補足(2026-11-10)・統括の検証項目 R316 —— 診断だけ・html は変えない): 枝 b の新設 3 本(lint.transGeo2332b —— 場の式・解析の勾配・E2 の q = 0 と座標変換の回転・
 #   第331便a の座標則との照らし・定常の輸送と第331便b の枠の式の純関数の場面と呼ぶだけの検査・物差しの宣言 / behavior.transGeo2332b —— 今の html の 💫 の写しでエンジンとの照らし・
