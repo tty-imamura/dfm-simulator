@@ -1856,9 +1856,10 @@ export const REGEN_STEPS = [
   //   原仮定者の回答(2026-11-10 —— AN597・AN598・AN600)・統括の検証項目 R319): **水星の三次元の対照の器 —— 今の組(G_loc n = 2 + K1)を凍結の基準に、G_loc の次数と対称・統合した並進引きずり・
   //   回転引きずりの差分(切り口の式と対向 2 点の三次元の差分)を効果ごとに単独で(近点引数・近点経度・交点・傾き —— 太陽の赤道面と黄道を分ける)・地球・火星・金星の対照・連星の対称 G_loc**
   //   (段 mercury3d-333c —— 正本 tests/out/mercury3d-w333c.json・lib tests/lib-w333c-mercury3d.mjs —— 第330便b・第331便c・第332便a の lib を import して呼ぶ)。**診断だけ**(エンジン・在位の本・
-  //   受理器は変えない)。html を読む(本は 🌡️🌋🔴 を .find で引く 3 本 —— 宣言の値を読む・步を進めない)・正本 inposk1-w315c を読む(今の組の値)。1 プロセス。所要は第333便c の枝の実測 4〜6 s
+  //   受理器は変えない)。html を読む(本は 🌡️🌋🔴 を .find で引く 3 本 —— 宣言の値を読む・步を進めない)・正本 inposk1-w315c を読む(今の組の値 —— 他の正本は読まない。import する第331便c の lib が
+  //   記録の値の出典の正本の名を書くだけ —— 順序だけ after に第331便c・第332便a の段と同じ 8 段)。1 プロセス。所要は第333便c の枝の実測 4〜6 s
   S('mercury3d-333c', 'node tests/exp-w333c-mercury3d.mjs', ['tests/out/mercury3d-w333c.json'], 6, { secSource: 'w333c-branch', node: true,
-    after: ['inposk1-315c', 'obscompare', 'samplestatus'],
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus'],
     quickVerify: false, quickVerifyWhy: '本の宣言の値と一次の平均と純粋な積分器だけ(窓が無く、全部を走らせても数秒)',
     volatilePaths: { 'tests/out/mercury3d-w333c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第333便c: 水星の三次元の対照(太陽の赤道面・黄道・水星の公転面を分ける)—— 今の組(G_loc n = 2 + K1 —— 正本 inposk1-w315c の値と一次の分担)・G_loc の n ∈ {2, 1, 0, −1, −2, −3, −6} × 受け手/対称・統合した並進引きずり(α ∈ {1, 1.5, 2, 3} × 自己の半径〔Y_k m・観測の半径〕× 並進の分/回転の分)・回転引きずりの差分(第332便a の切り口の式・対向 2 点の三次元の差分 × α × s_d〔観測自転・λ_J の格子〕× 応答率〔固定・連動〕)の単独の一次の率(近点引数・近点経度・交点・傾き・軌道面の中の近点・ln a)・純粋な三次元の積分器の照合・金星・地球・火星の対照・連星の対称 G_loc(η の格子 × 型 —— 一次と純粋な積分器)' }),
