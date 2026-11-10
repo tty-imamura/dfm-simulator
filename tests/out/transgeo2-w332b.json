@@ -147,7 +147,8 @@
   ],
   "ngcScaleNote": "💫 の宣言の無次元の写し: ε_N = ε_本 × L_N/L_本・D₀,N(p) = D₀,本 × (M_N/M_本) × (L_本/L_N)^p(L = 円盤の半径・M = 全質量)・q = 本の q・中心の自転 = v_obs(R_c)/R_c・中心の半径 R_c",
   "G": 6.674e-11,
-  "c": 299792458
+  "c": 299792458,
+  "kpcM": 30856775814913670000
  },
  "kernels": [
   "geo2",
@@ -507,7 +508,7 @@
      0,
      0.32726505614025614
     ],
-    "wallSec": 4.416,
+    "wallSec": 5.341,
     "ratioOverKF0": 1.0009282388892706,
     "profileRatio": [
      1.1152773945316414,
@@ -593,7 +594,7 @@
      0,
      0.33296343718509275
     ],
-    "wallSec": 4.192,
+    "wallSec": 4.251,
     "ratioOverKF0": 1.0000940824602904,
     "profileRatio": [
      1.1286423091295865,
@@ -678,7 +679,7 @@
      0,
      0
     ],
-    "wallSec": 1.492,
+    "wallSec": 1.448,
     "ratioOverKF0": 1,
     "profileRatio": [
      1,
@@ -65448,25 +65449,25 @@
  ],
  "timing": {
   "pure": {
-   "wallSec": 0.004
-  },
-  "inputs": {
    "wallSec": 0.005
   },
+  "inputs": {
+   "wallSec": 0.006
+  },
   "engine": {
-   "wallSec": 10.527
+   "wallSec": 11.571
   },
   "book": {
-   "wallSec": 11.743
+   "wallSec": 12.942
   },
   "ngc": {
-   "wallSec": 12.201
+   "wallSec": 13.57
   },
   "decomp": {
-   "wallSec": 12.204
+   "wallSec": 13.573
   },
   "range": {
-   "wallSec": 12.206
+   "wallSec": 13.576
   }
  },
  "gates": {
@@ -65482,13 +65483,13 @@
   "rangeDeclared": true
  },
  "ok": true,
- "elapsedS": 13.965,
+ "elapsedS": 15.652,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第332便b",
   "target": "beta/index.html",
   "targetSha256": "60dca011e60350b5a32283b2df914a78c6fe1c799345f5c95ef05eeaf91ab4c1",
-  "generatedAt": "2026-11-10T00:59:05.846Z",
+  "generatedAt": "2026-11-10T01:02:24.845Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -65506,9 +65507,9 @@
   "code": [
    {
     "file": "tests/exp-w332b-transgeo2.mjs",
-    "bytes": 35786,
-    "sha256": "ee6ee2beb350e05dd970a139412ce3b357e007b1267364c6a73fa633f5a8f2e4",
-    "mtime": "2026-11-10T00:58:42.822Z"
+    "bytes": 35802,
+    "sha256": "c3f54189d80cfb699aa9dc9574bf823b5964e3588dd63fc597d72759fbfa8139",
+    "mtime": "2026-11-10T01:02:09.059Z"
    },
    {
     "file": "tests/lib-w332b-transgeo2.mjs",
@@ -65595,7 +65596,7 @@
     "mtime": "2026-11-10T00:34:12.224Z"
    }
   ],
-  "codeSha256": "420e2657a4a148e50427cf530bbd88f580d81746999ef024744fe11d941c3a23",
+  "codeSha256": "f8f52c81e68c38a59af9e19c3b588ec2f9ebc863314b02ca332f73dca6710878",
   "harnessVersion": "w332b-transgeo2-1",
   "stage": "transgeo2",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)・💫 galaxyGeo2 の写し(受理器 → build → 步)・純関数(lib)",

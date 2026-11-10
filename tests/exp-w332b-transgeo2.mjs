@@ -72,7 +72,7 @@ export const PLAN = Object.freeze({
   ngcKernels: Object.freeze(['geo2', 'trans']),
   /** geoPN = 2 の宣言の NGC 3198 への写し(💫 の宣言の無次元の写し —— L = 円盤の半径〔💫 260・NGC 3198 30 kpc〕・M = 全質量・ε/L・D₀ L^p/M・q は本の値) */
   ngcScaleNote: '💫 の宣言の無次元の写し: ε_N = ε_本 × L_N/L_本・D₀,N(p) = D₀,本 × (M_N/M_本) × (L_本/L_N)^p(L = 円盤の半径・M = 全質量)・q = 本の q・中心の自転 = v_obs(R_c)/R_c・中心の半径 R_c',
-  G: GR.G_SI, c: 299792458,
+  G: GR.G_SI, c: 299792458, kpcM: GR.KPC_M,
 });
 
 /* ───────── 入力 ───────── */

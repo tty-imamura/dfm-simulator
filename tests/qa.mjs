@@ -100320,6 +100320,193 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第331便e の塊(ここまで)====
 
+// ==== 第332便b の塊(ここから —— lint.transGeo2332b・behavior.transGeo2332b・docs.transGeo2332b の 3 ブロック。root は SKIP)====
+// ---- 第332便b(原仮定者の補足(2026-11-10)「座標変換版の「回転引きずり」は、天体の半径を見ないので、「並進引きずり」に統合する。銀河のスケールでの geoPN=2 の近似と比較する」・
+// ----   統括の検証項目 R316): **並進引きずり(座標変換の回転を統合 —— 半径を見ない・重み m/r²)と geoPN = 2 の u の場・v − u 輸送の同じ入力の比べる表の器**(新設 —— 器
+// ----   tests/exp-w332b-transgeo2.mjs・lib tests/lib-w332b-transgeo2.mjs・文書の lib tests/lib-w332b-transgeo2doc.mjs・正本 tests/out/transgeo2-w332b.json。html・本の宣言・エンジン・受理器・
+// ----   第329〜331便の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.transGeo2332b(html を読まない): ① lib・器・文書の lib の版・核と源の回転と自己の規則の一覧(手で書いた一覧と照合)・宣言・器の宣言(物差し・箱・窓・写し・NGC 3198 の離散化)
+// ----     ② 純関数の場面 12 ③ 呼ぶだけ(lib の import は第330便b・第331便a・第331便b の lib だけ・lib と文書の lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w332b の語が無い)
+// ----   behavior.transGeo2332b(html を headless で読む —— 正本と照合): ① 💫 の写しのエンジンとの照らしと窓を作り直して相対 1e-9 の内(照らしの差は Float32 の桁・勾配は 1e-12 の内)
+// ----     ② 💫 の同じ入力(本・中心の自転 0)を作り直して u_φ・a_R・continuum の v が相対 1e-9 の内 ③ NGC 3198 を作り直して同じ ④ 違いの分解と範囲を作り直して同じ・作り直した門が全部真
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w332b-transgeo2.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w332b-transgeo2.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w332b-transgeo2doc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'transgeo2-w332b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP lint.transGeo2332b・behavior.transGeo2332b(第332便b の並進引きずりと geoPN = 2 の比べる表の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const relD332 = (a, b) => (a === b ? 0 : (a === null || b === null || a === undefined || b === undefined) ? Infinity : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── lint.transGeo2332b ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      if (!(L.LIB_VERSION === 'w332b-transgeo2-lib-1' && X.HARNESS_VERSION === 'w332b-transgeo2-1' && D0.DOC_VERSION === 'w332b-transgeo2doc-1')) bad.push('① 版(lib・器・文書の lib)');
+      const js = (x) => JSON.stringify(x);
+      if (!(js(L.KERNELS) === js(['geo2', 'trans', 'pullSoft']) && js(L.ROTS) === js(['decay', 'coord']) && js(L.SELF_RULES) === js(['kappaM', 'kappaD', 'book']) && js(L.SELF_SHAPES) === js(['point', 'ballMean', 'ballHarmonic'])))
+        bad.push('① 一覧(核・源の回転・自己の規則・形 —— 手で書いた一覧と違う)');
+      const DG = L.DECL, PL = X.PLAN;
+      if (!(js(DG.kernelP) === js({ geo2: 1, trans: 2, pullSoft: 2 }) && js(DG.kernelSoft) === js({ geo2: true, trans: false, pullSoft: true }) && DG.fdStep === 1e-6 && DG.fdTol === 1e-6 && DG.idTol === 1e-12)) bad.push('① 宣言(核の p・軟化・差分の刻み・許容)');
+      if (!(js(PL.binEdges) === js([30, 60, 90, 120, 150, 180, 210, 240, 261]) && js(PL.outerBand) === js([156, 286]) && PL.windowSteps === 600 && PL.dt === 0.016 && PL.engineCombos.length === 4 && js(PL.windowCombos) === js(['shareD0', 'shareBg0'])
+        && js(PL.yardTight) === js({ ratio: 0.1, slope: 0.1, angleDeg: 10 }) && PL.yardLoose.lnRatio === Math.log(2) && js(PL.ngcDisc) === js([[1, 24], [1, 48], [0.5, 24]]) && js(PL.ngcDists) === js(['fixture', 'exp']) && PL.upsDisk === 0.5
+        && js(PL.baseG0) === js({ kernel: 'geo2', rot: 'decay', denom: 'e3' }) && js(PL.baseTF) === js({ kernel: 'trans', rot: 'coord', denom: 'field' }) && js(PL.baseTS) === js({ kernel: 'trans', rot: 'coord', denom: 'self:kappaM:ballMean' })
+        && js(PL.selfRulesBook) === js(['kappaM', 'kappaD', 'book']) && js(PL.selfRulesNgc) === js(['kappaM', 'kappaD']) && js(PL.ngcKernels) === js(['geo2', 'trans'])))
+        bad.push('① 器の宣言(箱・外縁帯・窓・写し・物差し・NGC 3198 の離散化と分布・Υ_disk・基準・自己の規則・核)');
+      cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・文書 ${D0.DOC_VERSION}・核 ${L.KERNELS.length}・源の回転 ${L.ROTS.length}・自己の規則 ${L.SELF_RULES.length}・物差し 比 ${PL.yardTight.ratio}・べき ${PL.yardTight.slope}・向き ${PL.yardTight.angleDeg}°・緩い 2 倍・窓 ${PL.windowSteps} 步`);
+      let G1 = null;
+      try { G1 = L.pureGates(L.pureScenes()); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G1) {
+        for (const [k, v] of Object.entries(G1)) if (v !== true) bad.push('② 場面 ' + k);
+        if (Object.keys(G1).length !== 12) bad.push('② 場面の数 ' + Object.keys(G1).length);
+        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(正規化・ガリレイ・解析の勾配と差分・E2 の q = 0 と座標変換の回転・第331便a の座標則と同じ値・自己の因子・定常の輸送と第331便b の枠の式・鏡の対称・k_F・局所のべき・自己の規則・拒否)`);
+      }
+      const tl = rd('tests/lib-w332b-transgeo2.mjs'), th = rd('tests/exp-w332b-transgeo2.mjs'), td = rd('tests/lib-w332b-transgeo2doc.mjs'), base3 = rd('tests/lib-w330b-dragweight.mjs') + rd('tests/lib-w331a-coordtwist.mjs') + rd('tests/lib-w331b-centrifugal.mjs') + rd('tests/lib-w329b-galrot.mjs');
+      const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+      if (!(js(imps) === js(['lib-w330b-dragweight.mjs', 'lib-w331a-coordtwist.mjs', 'lib-w331b-centrifugal.mjs']) && !/loadHtml|index\.html/.test(tl + td) && /loadHtmlMain/.test(th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/w332b/.test(base3)))
+        bad.push('③ 呼ぶだけ(lib の import は第330便b・第331便a・第331便b の lib だけ・lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w332b が無い)');
+      cases.push('③ lib の import は第330便b・第331便a・第331便b の lib だけ(エンジンの式を写さない —— 場の式は宣言として書き器がエンジンの値と照らす)・lib と文書の lib は html を読まない・器と lib はネットへ取りに行かない・呼ぶ lib の本文は不変');
+    }
+    add('lint.transGeo2332b', bad.length === 0,
+      `**並進引きずりと geoPN = 2 の場の式の純関数**(第332便b・原仮定者の補足(2026-11-10)・R316 —— html を読まない・核と源の回転と分母を 1 つずつ入れ替える・自己は有限の宣言): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.transGeo2332b ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/transgeo2-w332b.json が読めない');
+    else {
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        const FX = X.readFixture(ROOT);
+        // ① エンジンとの照らしと窓
+        const E = X.partEngine(H.HP);
+        let dA = 0, dW = 0;
+        E.anchors.forEach((q, i) => { const r = J.engine.anchors[i]; if (!r || r.key !== q.key || r.receivers !== q.receivers) { dA = Infinity; return; } for (const k of ['uRel', 'gradRel', 'wsumRel']) dA = Math.max(dA, relD332(q[k], r[k])); });
+        E.windows.forEach((q, i) => { const r = J.engine.windows[i]; if (!r || r.key !== q.key || r.nan !== q.nan || r.clampV !== q.clampV) { dW = Infinity; return; } dW = Math.max(dW, relD332(q.vphiEnd, r.vphiEnd), relD332(q.ratioOverKF0, r.ratioOverKF0)); q.profileRatio.forEach((x, k) => { dW = Math.max(dW, relD332(x, r.profileRatio[k])); }); });
+        if (!(dA <= 1e-9 && dW <= 1e-9 && E.anchors.length === J.engine.anchors.length && E.windows.length === J.engine.windows.length && E.qRange.accepted === J.engine.qRange.accepted)) bad.push(`① エンジンとの照らしか窓を作り直して正本と違う(照らし ${dA}・窓 ${dW})—— 器を走らせ直す`);
+        if (!E.anchors.every((q) => q.uRel <= X.PLAN.engineTolU && q.gradRel <= X.PLAN.engineTolGrad)) bad.push('① 今の html のエンジンの u か勾配が lib の場の式と離れた(Float32 の桁・1e-12 の外)');
+        cases.push(`① 💫 の写し ${E.anchors.length} つで u の相対の差 ${Math.max(...E.anchors.map((q) => q.uRel)).toExponential(2)}・勾配 ${Math.max(...E.anchors.map((q) => q.gradRel)).toExponential(2)}・q = 0 は受理器が ${E.qRange.accepted} に直す・窓 ${E.windows.length} 本(外縁帯の比 ${E.windows.map((q) => q.ratioOverKF0.toFixed(4)).join('・')})が正本と相対 1e-9 の内`);
+        // ② 💫 の同じ入力
+        const Bk = X.partBook(H.HP);
+        let dB = 0;
+        for (const tag of ['book', 'centerSpin0']) for (const [k, rows] of Object.entries(Bk[tag].table)) { const ref = J.book[tag].table[k]; if (!ref || ref.length !== rows.length) { dB = Infinity; continue; } rows.forEach((r, i) => { for (const f of ['uPhi', 'aR', 'vContinuum', 'curl', 'dRelPhi']) dB = Math.max(dB, relD332(r[f], ref[i][f])); }); }
+        if (!(dB <= 1e-9 && Bk.book.nCombos === J.book.book.nCombos)) bad.push(`② 💫 の同じ入力を作り直して正本と違う(相対 ${dB})—— 器を走らせ直す`);
+        cases.push(`② 💫 の同じ入力 ${Bk.book.nCombos} 組 × 2(本・中心の自転 0)× 箱 ${X.PLAN.binEdges.length - 1} の u_φ・a_R・continuum の v・渦度・dRel が正本と相対 1e-9 の内`);
+        // ③ NGC 3198
+        const bd = Bk.book.decl, scale = { epsOverL: bd.eps / bd.Lbook, D0LM: { 1: bd.D0 * bd.Lbook / bd.Mtot, 2: bd.D0 * bd.Lbook * bd.Lbook / bd.Mtot }, q: bd.q };
+        const Ng = X.partNgc(FX, scale);
+        let dN = 0;
+        for (const dist of X.PLAN.ngcDists) for (const [k, rows] of Object.entries(Ng.main[dist].table)) { const ref = J.ngc.main[dist].table[k]; if (!ref || ref.length !== rows.length) { dN = Infinity; continue; } rows.forEach((r, i) => { for (const f of ['uPhi', 'aR', 'dvContinuum']) dN = Math.max(dN, relD332(r[f], ref[i][f])); }); }
+        Ng.side.forEach((s, i) => { const ref = J.ngc.side[i]; for (const [k, v] of Object.entries(s.summary)) v.uPhiPick.forEach((x, j) => { dN = Math.max(dN, relD332(x, ref.summary[k].uPhiPick[j])); }); });
+        if (!(dN <= 1e-9)) bad.push(`③ NGC 3198 を作り直して正本と違う(相対 ${dN})—— 器を走らせ直す`);
+        cases.push(`③ NGC 3198(fixture・指数円盤 × 離散化 ${X.PLAN.ngcDisc.length})の u_φ・a_R・Δv が正本と相対 1e-9 の内`);
+        // ④ 違いの分解・範囲・門
+        const dec = { book: X.decompose(Bk.book.table, 'uPhi'), bookSpin0: X.decompose(Bk.centerSpin0.table, 'uPhi'), ngcFixture: X.decompose(Ng.main.fixture.table, 'uPhi'), ngcExp: X.decompose(Ng.main.exp.table, 'uPhi'),
+          bookDv: X.decompose(Bk.book.table, 'dvContinuum'), ngcFixtureDv: X.decompose(Ng.main.fixture.table, 'dvContinuum') };
+        let dD = 0, rk = true;
+        for (const [g, D] of Object.entries(dec)) for (const [b, q] of Object.entries(D)) { const ref = J.decomp[g][b]; if (JSON.stringify(q.ranked) !== JSON.stringify(ref.ranked)) rk = false; q.rows.forEach((r, i) => { dD = Math.max(dD, relD332(r.medianAbsLn, ref.rows[i].medianAbsLn)); }); }
+        const rng = [...X.approxRange(Bk.book.table, X.PLAN.selfRulesBook, 'book'), ...X.approxRange(Bk.centerSpin0.table, X.PLAN.selfRulesBook, 'bookSpin0'), ...X.approxRange(Ng.main.fixture.table, X.PLAN.selfRulesNgc, 'ngcFixture'), ...X.approxRange(Ng.main.exp.table, X.PLAN.selfRulesNgc, 'ngcExp')];
+        const rgSame = rng.length === J.range.length && rng.every((q, i) => q.target === J.range[i].target && q.nTight === J.range[i].nTight && q.nLoose === J.range[i].nLoose && q.nDvTight === J.range[i].nDvTight && relD332(q.ratioMedian, J.range[i].ratioMedian) <= 1e-9);
+        if (!(dD <= 1e-9 && rk && rgSame)) bad.push(`④ 違いの分解か範囲を作り直して正本と違う(相対 ${dD}・順 ${rk}・範囲 ${rgSame})`);
+        const J2 = Object.assign({}, J, { engine: E, book: Bk, ngc: Ng, decomp: dec, range: rng, pure: { scenes: L.pureScenes(), gates: L.pureGates(L.pureScenes()) } }), G2 = X.gatesOf(J2);
+        if (!Object.values(G2).every((v) => v === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`④ 違いの分解 ${Object.keys(dec).length} 系 × 基準 4 と範囲 ${rng.length} 行(物差しの内の点 ${rng.reduce((s, q) => s + q.nTight, 0)})を作り直して同じ・作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.transGeo2332b', bad.length === 0,
+      `**💫 の写しのエンジンとの照らしと窓・同じ入力の表・NGC 3198・違いの分解・近似として読める範囲の作り直し**(第332便b・原仮定者の補足(2026-11-10)・R316 —— 今の html の 💫 の写しを受理器に通して build・步は 2 步と 600 步の窓だけ・表は宣言した型の値): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第332便b: docs.transGeo2332b は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
+// ----   lint・behavior を数えない)。世代切替は上と同じ
+// ----   docs.transGeo2332b(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全・core・abBody:false・presets は 💫 の 1 本)・宣言が lib の DECL と同じ ② 表 12 本が PHYSICS〔第332便b〕に逐語
+// ----     ③ 節の位置(〔第331便e〕の節の後・「## 7.」の前)・必須の語・AI_SPEC §208(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w332b-transgeo2.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w332b-transgeo2.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w332b-transgeo2doc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'transgeo2-w332b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.transGeo2332b(第332便b の並進引きずりと geoPN = 2 の比べる表の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.transGeo2332b ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第332便b — '), i7 = PH.indexOf('\n## 7. 論文'), ie = PH.indexOf('〔第331便e — ');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ie >= 0 && ie < i0)) bad.push('PHYSICS〔第332便b〕が無いか〔第331便e〕の節の前か「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/transgeo2-w332b.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.scopeComplete === true
+        && /^[0-9a-f]{64}$/.test(J.meta.scopeSha256 || '') && J.meta.stage === 'transgeo2' && J.meta.scope && J.meta.scope.abBody === false && J.meta.scope.core === true
+        && JSON.stringify(J.meta.scope.presets) === JSON.stringify(['galaxyGeo2']))) bad.push('① 版・来歴・領域 hash(完全・core・abBody:false・presets は 💫 の 1 本)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.kernels) !== JSON.stringify(L.KERNELS) || JSON.stringify(J.rots) !== JSON.stringify(L.ROTS) || JSON.stringify(J.selfRules) !== JSON.stringify(L.SELF_RULES)) bad.push('① 正本の宣言が lib の DECL と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第332便b〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 12) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第332便b〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の補足(2026-11-10)', 'R316', 'tests/exp-w332b-transgeo2.mjs', 'tests/out/transgeo2-w332b.json', 'tests/lib-w332b-transgeo2.mjs', 'w332b-transgeo2-lib-1', '並進引きずり', '座標変換の回転', '半径を見ない',
+      'm/√(d²+ε²)', 'ω_j(d) = s_j (R_j/(R_j + d))^q', 'R_d = Y_k m', 'κ_D m', '本の半径', 'm/0² にできない', '場の読み', '受け手の読み', 'E3', 'D₀', 'dRel は速度で、力・加速度ではない', '同じ入力',
+      '定常の輸送', 'ω_f = ω_z − Ω_f', '第331便b の枠の式', 'continuum', 'rigid', 'q = 0', '値域の下限 0.5', 'Float32', '600 步', '12000 步', 'pull', '違いの分解', '物差し', '比の 10%', '2 倍',
+      '物差し(比 10%)の内に入る半径は全部の系と型で 0', '1 − α', '源の回転', '核', '原仮定者の補足(2026-11-10)への枝の答え', '決断事項の候補', '次の便へ', 'lint.transGeo2332b', 'behavior.transGeo2332b', 'docs.transGeo2332b',
+      '作業仮説の宣言の式と今のコードの実装を混ぜない', '宣言〔未接続〕', '実装〔opt-in〕'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第332便b〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 208. 第332便b'), ai = secUntilNext329c(AS, a0, '\n## ');   // 次の見出しまで(固定の字数の窓を持たない)
+    if (!(a0 >= 0 && ai.indexOf('tests/out/transgeo2-w332b.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('並進引きずり') >= 0 && ai.indexOf('ω_f = ω_z − Ω_f') >= 0 && ai.indexOf('物差し') >= 0 && ai.indexOf('q を 0.5 より下に置かない') >= 0)) bad.push('③ AI_SPEC §208(正本・SYSTEM_PROMPT・用語・宣言の読み・物差し・q の値域)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl332b = clg.split('\n').find((l) => l.indexOf('**第332便b**') >= 0) || '';
+    if (!(cl332b.indexOf('tests/exp-w332b-transgeo2.mjs') >= 0 && cl332b.indexOf('transgeo2-332b') >= 0 && cl332b.indexOf('原仮定者の補足(2026-11-10)') >= 0 && cl332b.indexOf('R316') >= 0)) bad.push('③ CHANGELOG の第332便b の行');
+    if (!(/S\('transgeo2-332b', 'node tests\/exp-w332b-transgeo2\.mjs', \['tests\/out\/transgeo2-w332b\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '全部を走らせても十数秒") >= 0
+      && RT.indexOf('// ==== 第332便b の塊(ここから)====') >= 0)) bad.push('③ 段の行 transgeo2-332b(quickVerify と理由・塊)');
+    if (GI.indexOf('!tests/out/transgeo2-w332b.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第332便b の塊(ここから)====') >= 0 && /lint\.transGeo2332b/.test(PM) && /behavior\.transGeo2332b/.test(PM) && /docs\.transGeo2332b/.test(PM))) bad.push('③ post-merge の ③′ に第332便b の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §208(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /内部熱を説明した/, /金星の逆転を説明した/, /銀河の回転曲線を予言した/, /一致した/];
+    const NOT332 = [/\d\s*km\/s/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第332便b の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・geoPN = 2 が並進引きずりと同じ・平坦な回転を説明した・土星の環の厚みを説明した・
+    //   公転面が揃う理由を示した・回転引きずりで太陽–木星を・暗黒物質が要らない・ハローが要らない
+    const W332 = ['ためか確', 'たし示', 'たし明説', 'じ同とりずき引進並が 2 = NPoeg', 'たし明説を転回な坦平', 'たし明説をみ厚の環の星土', 'たし示を由理う揃が面転公', 'を星木–陽太でりずき引転回', 'いなら要が質物黒暗', 'いなら要がーロハ'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第332便b〕', sec], ['AI_SPEC §208', ai], ['CHANGELOG の第332便b の行', cl332b], ['器', rd('tests/exp-w332b-transgeo2.mjs')], ['lib', rd('tests/lib-w332b-transgeo2.mjs')], ['文書の lib', rd('tests/lib-w332b-transgeo2doc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W332)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT332) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.transGeo2332b', bad.length === 0,
+      `**並進引きずりと geoPN = 2 の同じ入力の比べる表・違いの分解・近似として読める範囲の文書**(第332便b・原仮定者の補足(2026-11-10)・R316 —— 宣言の式と今のコードの実装を混ぜない・同じとは書かない・物差しの内か外かの表): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第332便b の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
