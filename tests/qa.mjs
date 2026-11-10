@@ -100347,25 +100347,27 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const bad = [], cases = [];
     if (err0) bad.push('器/lib が読めない: ' + err0);
     else {
-      if (!(L.LIB_VERSION === 'w332b-transgeo2-lib-1' && X.HARNESS_VERSION === 'w332b-transgeo2-1' && D0.DOC_VERSION === 'w332b-transgeo2doc-1')) bad.push('① 版(lib・器・文書の lib)');
+      if (!(L.LIB_VERSION === 'w332b-transgeo2-lib-2' && X.HARNESS_VERSION === 'w332b-transgeo2-2' && D0.DOC_VERSION === 'w332b-transgeo2doc-2')) bad.push('① 版(lib・器・文書の lib —— 補足その4 の版 2)');
       const js = (x) => JSON.stringify(x);
-      if (!(js(L.KERNELS) === js(['geo2', 'trans', 'pullSoft']) && js(L.ROTS) === js(['decay', 'coord']) && js(L.SELF_RULES) === js(['kappaM', 'kappaD', 'book']) && js(L.SELF_SHAPES) === js(['point', 'ballMean', 'ballHarmonic'])))
+      if (!(js(L.KERNELS) === js(['geo2', 'trans', 'pullSoft', 'transR']) && js(L.ROTS) === js(['decay', 'coord']) && js(L.SELF_RULES) === js(['kappaM', 'kappaD', 'book']) && js(L.SELF_SHAPES) === js(['point', 'ballMean', 'ballHarmonic'])))
         bad.push('① 一覧(核・源の回転・自己の規則・形 —— 手で書いた一覧と違う)');
       const DG = L.DECL, PL = X.PLAN;
-      if (!(js(DG.kernelP) === js({ geo2: 1, trans: 2, pullSoft: 2 }) && js(DG.kernelSoft) === js({ geo2: true, trans: false, pullSoft: true }) && DG.fdStep === 1e-6 && DG.fdTol === 1e-6 && DG.idTol === 1e-12)) bad.push('① 宣言(核の p・軟化・差分の刻み・許容)');
+      if (!(js(DG.kernelP) === js({ geo2: 1, trans: 2, pullSoft: 2, transR: 1 }) && js(DG.kernelSoft) === js({ geo2: true, trans: false, pullSoft: true, transR: false }) && DG.fdStep === 1e-6 && DG.fdTol === 1e-6 && DG.idTol === 1e-12)) bad.push('① 宣言(核の p・軟化・差分の刻み・許容)');
       if (!(js(PL.binEdges) === js([30, 60, 90, 120, 150, 180, 210, 240, 261]) && js(PL.outerBand) === js([156, 286]) && PL.windowSteps === 600 && PL.dt === 0.016 && PL.engineCombos.length === 4 && js(PL.windowCombos) === js(['shareD0', 'shareBg0'])
         && js(PL.yardTight) === js({ ratio: 0.1, slope: 0.1, angleDeg: 10 }) && PL.yardLoose.lnRatio === Math.log(2) && js(PL.ngcDisc) === js([[1, 24], [1, 48], [0.5, 24]]) && js(PL.ngcDists) === js(['fixture', 'exp']) && PL.upsDisk === 0.5
         && js(PL.baseG0) === js({ kernel: 'geo2', rot: 'decay', denom: 'e3' }) && js(PL.baseTF) === js({ kernel: 'trans', rot: 'coord', denom: 'field' }) && js(PL.baseTS) === js({ kernel: 'trans', rot: 'coord', denom: 'self:kappaM:ballMean' })
         && js(PL.selfRulesBook) === js(['kappaM', 'kappaD', 'book']) && js(PL.selfRulesNgc) === js(['kappaM', 'kappaD']) && js(PL.ngcKernels) === js(['geo2', 'trans'])
-        && js(PL.ngcExtraCombos) === js(['pullSoft|decay|field', 'pullSoft|coord|field', 'pullSoft|decay|e3']) && js(PL.rangeGeos.map((q) => q[0])) === js(['G0', 'G0bg0', 'Gpull0', 'Gpull0coord'])))
-        bad.push('① 器の宣言(箱・外縁帯・窓・写し・物差し・NGC 3198 の離散化と分布・Υ_disk・基準・自己の規則・核・足す組・範囲の geoPN = 2 の列)');
+        && js(PL.ngcExtraCombos) === js(['pullSoft|decay|field', 'pullSoft|coord|field', 'pullSoft|decay|e3']) && js(PL.rangeGeos.map((q) => q[0])) === js(['G0', 'G0bg0', 'Gpull0', 'Gpull0coord'])
+        && js(PL.mainKernels) === js(['geo2', 'trans', 'pullSoft']) && js(PL.uniformTransDenoms) === js(['field', 'self:kappaM:point', 'self:kappaM:ballMean', 'self:kappaM:ballHarmonic', 'self:kappaD:ballMean'])
+        && js(PL.uniformRefs) === js(['geo2|decay|e3', 'geo2|coord|field', 'pullSoft|decay|field', 'pullSoft|coord|field']) && js(PL.uniformSpins) === js(['book', 'sync']) && js(PL.yardUniform) === js({ ratio: 0.1, slope: 0.1 }) && PL.uniformOuterFromBook === 156))
+        bad.push('① 器の宣言(箱・外縁帯・窓・写し・物差し・NGC 3198 の離散化と分布・Υ_disk・基準・自己の規則・核・足す組・範囲の geoPN = 2 の列・補足その4 の部 U の組と均一さの物差し)');
       cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・文書 ${D0.DOC_VERSION}・核 ${L.KERNELS.length}・源の回転 ${L.ROTS.length}・自己の規則 ${L.SELF_RULES.length}・物差し 比 ${PL.yardTight.ratio}・べき ${PL.yardTight.slope}・向き ${PL.yardTight.angleDeg}°・緩い 2 倍・窓 ${PL.windowSteps} 步`);
       let G1 = null;
       try { G1 = L.pureGates(L.pureScenes()); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
       if (G1) {
         for (const [k, v] of Object.entries(G1)) if (v !== true) bad.push('② 場面 ' + k);
-        if (Object.keys(G1).length !== 12) bad.push('② 場面の数 ' + Object.keys(G1).length);
-        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(正規化・ガリレイ・解析の勾配と差分・E2 の q = 0 と座標変換の回転・第331便a の座標則と同じ値・自己の因子・定常の輸送と第331便b の枠の式・鏡の対称・k_F・局所のべき・自己の規則・拒否)`);
+        if (Object.keys(G1).length !== 14) bad.push('② 場面の数 ' + Object.keys(G1).length);
+        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(正規化・ガリレイ・解析の勾配と差分・E2 の q = 0 と座標変換の回転・第331便a の座標則と同じ値・自己の因子・定常の輸送と第331便b の枠の式・鏡の対称・k_F・局所のべき・自己の規則・拒否・補足その4 の m/r の中心の分子と自己の極限・m/r の並進引きずり = E3 の型の q = 0)`);
       }
       const tl = rd('tests/lib-w332b-transgeo2.mjs'), th = rd('tests/exp-w332b-transgeo2.mjs'), td = rd('tests/lib-w332b-transgeo2doc.mjs'), base3 = rd('tests/lib-w330b-dragweight.mjs') + rd('tests/lib-w331a-coordtwist.mjs') + rd('tests/lib-w331b-centrifugal.mjs') + rd('tests/lib-w329b-galrot.mjs');
       const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
@@ -100408,6 +100410,13 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         Ng.side.forEach((s, i) => { const ref = J.ngc.side[i]; for (const [k, v] of Object.entries(s.summary)) v.uPhiPick.forEach((x, j) => { dN = Math.max(dN, relD332(x, ref.summary[k].uPhiPick[j])); }); });
         if (!(dN <= 1e-9)) bad.push(`③ NGC 3198 を作り直して正本と違う(相対 ${dN})—— 器を走らせ直す`);
         cases.push(`③ NGC 3198(fixture・指数円盤 × 離散化 ${X.PLAN.ngcDisc.length})の u_φ・a_R・Δv が正本と相対 1e-9 の内`);
+        // ③′ 補足その4 の部 U(重み m/r の並進引きずりと m/r² の均一さ)
+        const Un = X.partUniform(H.HP, FX, scale);
+        let dU = 0, fU = true;
+        Un.systems.forEach((sy, i) => { const ref = J.uniform.systems[i]; if (!ref || ref.tag !== sy.tag || ref.spin !== sy.spin || ref.nSeries !== sy.nSeries) { dU = Infinity; return; }
+          for (const [k, z] of Object.entries(sy.series)) { const r = ref.series[k]; if (!r) { dU = Infinity; continue; } z.uPhi.forEach((x, j) => { dU = Math.max(dU, relD332(x, r.uPhi[j])); }); if (z.uniform !== r.uniform || z.ratioOk !== r.ratioOk || z.slopeOk !== r.slopeOk) fU = false; } });
+        if (!(dU <= 1e-9 && fU)) bad.push(`③′ 補足その4 の部 U を作り直して正本と違う(u_φ の相対 ${dU}・物差しの判定 ${fU})`);
+        cases.push(`③′ 補足その4 の部 U(系 ${Un.systems.length}・列 ${Un.systems.reduce((s, q) => s + q.nSeries, 0)} —— 均一さの両方の物差しの内 ${Un.systems.reduce((s, q) => s + Object.values(q.series).filter((z) => z.uniform).length, 0)})が正本と相対 1e-9 の内`);
         // ④ 違いの分解・範囲・門
         const dec = { book: X.decompose(Bk.book.table, 'uPhi'), bookSpin0: X.decompose(Bk.centerSpin0.table, 'uPhi'), ngcFixture: X.decompose(Ng.main.fixture.table, 'uPhi'), ngcExp: X.decompose(Ng.main.exp.table, 'uPhi'),
           bookDv: X.decompose(Bk.book.table, 'dvContinuum'), ngcFixtureDv: X.decompose(Ng.main.fixture.table, 'dvContinuum') };
@@ -100416,7 +100425,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const rng = [...X.approxRange(Bk.book.table, X.PLAN.selfRulesBook, 'book'), ...X.approxRange(Bk.centerSpin0.table, X.PLAN.selfRulesBook, 'bookSpin0'), ...X.approxRange(Ng.main.fixture.table, X.PLAN.selfRulesNgc, 'ngcFixture'), ...X.approxRange(Ng.main.exp.table, X.PLAN.selfRulesNgc, 'ngcExp')];
         const rgSame = rng.length === J.range.length && rng.every((q, i) => q.target === J.range[i].target && q.nTight === J.range[i].nTight && q.nLoose === J.range[i].nLoose && q.nDvTight === J.range[i].nDvTight && relD332(q.ratioMedian, J.range[i].ratioMedian) <= 1e-9);
         if (!(dD <= 1e-9 && rk && rgSame)) bad.push(`④ 違いの分解か範囲を作り直して正本と違う(相対 ${dD}・順 ${rk}・範囲 ${rgSame})`);
-        const J2 = Object.assign({}, J, { engine: E, book: Bk, ngc: Ng, decomp: dec, range: rng, pure: { scenes: L.pureScenes(), gates: L.pureGates(L.pureScenes()) } }), G2 = X.gatesOf(J2);
+        const J2 = Object.assign({}, J, { engine: E, book: Bk, ngc: Ng, decomp: dec, range: rng, uniform: Un, pure: { scenes: L.pureScenes(), gates: L.pureGates(L.pureScenes()) } }), G2 = X.gatesOf(J2);
         if (!Object.values(G2).every((v) => v === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
         cases.push(`④ 違いの分解 ${Object.keys(dec).length} 系 × 基準 4 と範囲 ${rng.length} 行(物差しの内の点 ${rng.reduce((s, q) => s + q.nTight, 0)})を作り直して同じ・作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
       } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
@@ -100464,19 +100473,19 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第332便b〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 12) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 14) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第332便b〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
-    const want = ['原仮定者の補足(2026-11-10)', 'R316', 'tests/exp-w332b-transgeo2.mjs', 'tests/out/transgeo2-w332b.json', 'tests/lib-w332b-transgeo2.mjs', 'w332b-transgeo2-lib-1', '並進引きずり', '座標変換の回転', '半径を見ない',
+    const want = ['原仮定者の補足(2026-11-10)', 'R316', 'tests/exp-w332b-transgeo2.mjs', 'tests/out/transgeo2-w332b.json', 'tests/lib-w332b-transgeo2.mjs', 'w332b-transgeo2-lib-2', '原仮定者の補足その4(2026-11-10)', 'transR', '均一さの物差し', '端 ÷ 中心付近 1 ± 10%', 'M_c Ω_c', 'E3 の型(重み m/r)の ε = 0・q = 0・D₀ = 0 と同じ式', 'sync', '均一さと平坦な回転は別の量', '並進引きずり', '座標変換の回転', '半径を見ない',
       'm/√(d²+ε²)', 'ω_j(d) = s_j (R_j/(R_j + d))^q', 'R_d = Y_k m', 'κ_D m', '本の半径', 'm/0² にできない', '場の読み', '受け手の読み', 'E3', 'D₀', 'dRel は速度で、力・加速度ではない', '同じ入力',
       '定常の輸送', 'ω_f = ω_z − Ω_f', '第331便b の枠の式', 'continuum', 'rigid', 'q = 0', '値域の下限 0.5', 'Float32', '600 步', '12000 步', 'pull', '違いの分解', '物差し', '比の 10%', '2 倍',
       '在位の宣言の列(G0・G0bg0)では物差し(比 10%)の内に入る半径は全部の系と型で 0', 'Gpull0', 'D0pull 0', '1 − α', '源の回転', '核', '原仮定者の補足(2026-11-10)への枝の答え', '決断事項の候補', '次の便へ', 'lint.transGeo2332b', 'behavior.transGeo2332b', 'docs.transGeo2332b',
       '作業仮説の宣言の式と今のコードの実装を混ぜない', '宣言〔未接続〕', '実装〔opt-in〕'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第332便b〕に「' + w + '」が無い');
     const a0 = AS.indexOf('\n## 208. 第332便b'), ai = secUntilNext329c(AS, a0, '\n## ');   // 次の見出しまで(固定の字数の窓を持たない)
-    if (!(a0 >= 0 && ai.indexOf('tests/out/transgeo2-w332b.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('並進引きずり') >= 0 && ai.indexOf('ω_f = ω_z − Ω_f') >= 0 && ai.indexOf('物差し') >= 0 && ai.indexOf('q を 0.5 より下に置かない') >= 0)) bad.push('③ AI_SPEC §208(正本・SYSTEM_PROMPT・用語・宣言の読み・物差し・q の値域)');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/transgeo2-w332b.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('並進引きずり') >= 0 && ai.indexOf('ω_f = ω_z − Ω_f') >= 0 && ai.indexOf('物差し') >= 0 && ai.indexOf('q を 0.5 より下に置かない') >= 0 && ai.indexOf('補足その4') >= 0 && ai.indexOf('M_c Ω_c') >= 0)) bad.push('③ AI_SPEC §208(正本・SYSTEM_PROMPT・用語・宣言の読み・物差し・q の値域・補足その4)');
     const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl332b = clg.split('\n').find((l) => l.indexOf('**第332便b**') >= 0) || '';
-    if (!(cl332b.indexOf('tests/exp-w332b-transgeo2.mjs') >= 0 && cl332b.indexOf('transgeo2-332b') >= 0 && cl332b.indexOf('原仮定者の補足(2026-11-10)') >= 0 && cl332b.indexOf('R316') >= 0)) bad.push('③ CHANGELOG の第332便b の行');
+    if (!(cl332b.indexOf('tests/exp-w332b-transgeo2.mjs') >= 0 && cl332b.indexOf('transgeo2-332b') >= 0 && cl332b.indexOf('原仮定者の補足(2026-11-10)') >= 0 && cl332b.indexOf('R316') >= 0 && cl332b.indexOf('補足その4') >= 0)) bad.push('③ CHANGELOG の第332便b の行');
     if (!(/S\('transgeo2-332b', 'node tests\/exp-w332b-transgeo2\.mjs', \['tests\/out\/transgeo2-w332b\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '全部を走らせても十数秒") >= 0
       && RT.indexOf('// ==== 第332便b の塊(ここから)====') >= 0)) bad.push('③ 段の行 transgeo2-332b(quickVerify と理由・塊)');
     if (GI.indexOf('!tests/out/transgeo2-w332b.json') < 0) bad.push('③ .gitignore の例外');

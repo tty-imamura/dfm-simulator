@@ -1832,11 +1832,11 @@ export const REGEN_STEPS = [
   //   統括の検証項目 R316): **並進引きずり(座標変換の回転を統合 —— 半径を見ない・重み m/r²)と geoPN = 2 の u の場・v − u 輸送の同じ入力の比べる表の器**(段 transgeo2-332b —— 正本
   //   tests/out/transgeo2-w332b.json・lib tests/lib-w332b-transgeo2.mjs —— 第331便a・第331便b・第330便b・第329便b の lib を import して呼ぶ〔code の依存 —— 他の正本は読まない〕)。
   //   **診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は 💫 galaxyGeo2 を .find で引く 1 本 —— 写しを受理器に通して build・2 步の照らしと 600 步の窓 3 本)・
-  //   NGC 3198 の rotmod の写し(第329便b の fixture)を読む。1 プロセス。所要は第332便b の枝の実測 13〜15 s(nice 10 —— 第331便のゲートと同じ箱)
-  S('transgeo2-332b', 'node tests/exp-w332b-transgeo2.mjs', ['tests/out/transgeo2-w332b.json'], 15, { secSource: 'w332b-branch', node: true, after: ['obscompare', 'samplestatus'],
+  //   NGC 3198 の rotmod の写し(第329便b の fixture)を読む。1 プロセス。所要は第332便b の枝の実測 13〜17 s(nice 10 —— 第331便のゲートと同じ箱・補足その4 の部 U を足した版 2 で 17 s)
+  S('transgeo2-332b', 'node tests/exp-w332b-transgeo2.mjs', ['tests/out/transgeo2-w332b.json'], 17, { secSource: 'w332b-branch', node: true, after: ['obscompare', 'samplestatus'],
     quickVerify: false, quickVerifyWhy: '全部を走らせても十数秒(写しの 2 步の照らしと 600 步の窓 3 本・純関数の表)—— 簡易一致の窓を持たない',
     volatilePaths: { 'tests/out/transgeo2-w332b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/engine/windows/*/wallSec']) },
-    note: '第332便b: 並進引きずり(座標変換の回転を統合 —— 半径を見ない・重み m/r²・自己は R_d の規則)と geoPN = 2 の u の場(E2・E3 —— m/r・源の自転の減衰・自己を分母から外す)の同じ入力の表(💫 の写しと NGC 3198)・エンジンとの照らし(u と勾配)・定常の輸送と円軌道の読み・違いの分解(核・源の回転・分母)・近似として読める範囲(走行の前の物差し)' }),
+    note: '第332便b: 並進引きずり(座標変換の回転を統合 —— 半径を見ない・重み m/r²・自己は R_d の規則)と geoPN = 2 の u の場(E2・E3 —— m/r・源の自転の減衰・自己を分母から外す)の同じ入力の表(💫 の写しと NGC 3198)・エンジンとの照らし(u と勾配)・定常の輸送と円軌道の読み・違いの分解(核・源の回転・分母)・近似として読める範囲(走行の前の物差し)・原仮定者の補足その4(2026-11-10)の重み m/r の並進引きずりと m/r² の均一さの表(部 U)' }),
   // ==== 第332便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと

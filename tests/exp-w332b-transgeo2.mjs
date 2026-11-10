@@ -36,7 +36,7 @@ import * as CF from './lib-w331b-centrifugal.mjs';
 const REGEN_SCOPE = {"presets":["galaxyGeo2"],"roots":["HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","T","ch","ctx","cw"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w332b-transgeo2-1';
+export const HARNESS_VERSION = 'w332b-transgeo2-2';   // 版 2(原仮定者の補足その4(2026-11-10)): 部 U(重み m/r の並進引きずりと m/r² の均一さの表)
 export const OUT_MAIN = 'tests/out/transgeo2-w332b.json';
 export const FIXTURE = 'tests/fixtures/ngc3198-rotmod-w329b.json';
 export const BOOK_ID = 'galaxyGeo2';
@@ -73,6 +73,14 @@ export const PLAN = Object.freeze({
   /** NGC 3198 に足す組(エンジンの宣言で表せる pull の列 —— frameWeight:"pull"・D0pull 0・q は本の値 / q = 0 の列は受理されない宣言の比べる列) */
   ngcExtraCombos: Object.freeze(['pullSoft|decay|field', 'pullSoft|coord|field', 'pullSoft|decay|e3']),
   /** 近似として読める範囲で並進引きずりと比べる geoPN = 2 の列(G0 = 在位の宣言・G0bg0 = 背景 0・Gpull0 = エンジンの pull と D0pull 0〔受理される〕・Gpull0coord = その源の回転を座標変換〔q = 0 —— 受理されない〕) */
+  /** 主の表の核(版 1 と同じ 3 つ —— m/r の並進引きずり transR は部 U だけで並べる) */
+  mainKernels: Object.freeze(['geo2', 'trans', 'pullSoft']),
+  /** 部 U(原仮定者の補足その4(2026-11-10)「回転を含んだ並進引きずりの重みを m/r にした場合の検証も行い比較する」—— 走行の前の宣言): 並進引きずりの核 m/r(transR)と m/r²(trans)×
+   *  源の回転 2 × 分母(場の読み・自己 R_d = Y_k m の形 3〔主は ballMean〕・自己 κ_D m ballMean)と比べる列 4(G0・E3 の型の q = 0 の場の読み・Gpull0・その座標変換)/
+   *  源の自転の型 2(book = 本の宣言〔円盤 0・中心は本の値〕・sync = 円盤の点も公転の角速度を持つ〔角速度を維持する読み〕)/ 均一さの物差し: 端 ÷ 中心付近 1 ± 10%・外側のべき |p| ≤ 0.1 */
+  uniformTransDenoms: Object.freeze(['field', 'self:kappaM:point', 'self:kappaM:ballMean', 'self:kappaM:ballHarmonic', 'self:kappaD:ballMean']),
+  uniformRefs: Object.freeze(['geo2|decay|e3', 'geo2|coord|field', 'pullSoft|decay|field', 'pullSoft|coord|field']),
+  uniformSpins: Object.freeze(['book', 'sync']), yardUniform: Object.freeze({ ratio: 0.1, slope: 0.1 }), uniformOuterFromBook: 156,
   rangeGeos: Object.freeze([Object.freeze(['G0', 'geo2|decay|e3']), Object.freeze(['G0bg0', 'geo2|decay|field']), Object.freeze(['Gpull0', 'pullSoft|decay|field']), Object.freeze(['Gpull0coord', 'pullSoft|coord|field'])]),
   /** geoPN = 2 の宣言の NGC 3198 への写し(💫 の宣言の無次元の写し —— L = 円盤の半径〔💫 260・NGC 3198 30 kpc〕・M = 全質量・ε/L・D₀ L^p/M・q は本の値) */
   ngcScaleNote: '💫 の宣言の無次元の写し: ε_N = ε_本 × L_N/L_本・D₀,N(p) = D₀,本 × (M_N/M_本) × (L_本/L_N)^p(L = 円盤の半径・M = 全質量)・q = 本の q・中心の自転 = v_obs(R_c)/R_c・中心の半径 R_c',
@@ -100,7 +108,7 @@ function expFit(rows) {
 
 /* ───────── 組の宣言 ───────── */
 function denomList(rules) { const out = ['e3', 'field']; for (const r of rules) for (const s of PLAN.selfShapes) out.push('self:' + r + ':' + s); return out; }
-export function combos(rules) { const out = []; for (const kernel of L.KERNELS) for (const rot of L.ROTS) for (const denom of denomList(rules)) out.push({ kernel, rot, denom, key: kernel + '|' + rot + '|' + denom }); return out; }
+export function combos(rules) { const out = []; for (const kernel of PLAN.mainKernels) for (const rot of L.ROTS) for (const denom of denomList(rules)) out.push({ kernel, rot, denom, key: kernel + '|' + rot + '|' + denom }); return out; }
 const keyOf = (o) => o.kernel + '|' + o.rot + '|' + o.denom;
 
 /* ───────── 場の評価(1 系 —— 受け手ごと)───────── */
@@ -316,6 +324,38 @@ export function approxRange(table, rules, label) {
   return rows;
 }
 
+/* ───────── U 重み m/r の並進引きずり(原仮定者の補足その4)───────── */
+export function uniformCombos() {
+  const out = [];
+  for (const kernel of ['transR', 'trans']) for (const rot of L.ROTS) for (const denom of PLAN.uniformTransDenoms) out.push({ kernel, rot, denom, key: kernel + '|' + rot + '|' + denom });
+  for (const k of PLAN.uniformRefs) { const [kernel, rot, denom] = k.split('|'); out.push({ kernel, rot, denom, key: k }); }
+  return out;
+}
+function withSync(sys) {   // 円盤の点(固定の天体でない受け手)に公転の角速度を持たせる写し(器の中の宣言 —— 本は変えない)
+  const recvSet = new Set(sys.recv);
+  return Object.assign({}, sys, { pts: sys.pts.map((p, i) => (recvSet.has(i) || p.ring ? Object.assign({}, p, { spin: (p.x * p.vy - p.y * p.vx) / (p.x * p.x + p.y * p.y) }) : p)) });
+}
+export function partUniform(HP, FX, scale) {
+  const out = { yard: PLAN.yardUniform, systems: [] };
+  const sysList = [];
+  for (const [tag, opt] of [['book', {}], ['bookSpin0', { centerSpinZero: true }]]) { const { sys } = bookSystem(HP, opt); sysList.push({ tag, kind: 'book', sys }); }
+  for (const dist of PLAN.ngcDists) { const N = ngcSystem(FX, { dist, dR: PLAN.ngcDisc[0][0], K: PLAN.ngcDisc[0][1] }, scale); N.sys.pts.forEach((p, i) => { if (i > 0) p.ring = true; }); sysList.push({ tag: dist === 'fixture' ? 'ngcFixture' : 'ngcExp', kind: 'ngc', sys: N.sys, N }); }
+  for (const S0 of sysList) for (const spin of PLAN.uniformSpins) {
+    const sys = spin === 'sync' ? withSync(S0.sys) : S0.sys, series = {};
+    for (const cmb of uniformCombos()) {
+      if (S0.kind === 'ngc' && spin === 'sync' && cmb.rot === 'decay') continue;   // NGC 3198 の環の点に源の半径が無い(E2 の減衰は源の半径を見る)—— 並べない
+      const rows = evalSystem(sys, cmb);
+      let R, u, extra = {};
+      if (S0.kind === 'book') { const b = binRows(rows, PLAN.binEdges); R = b.map((q) => q.R); u = b.map((q) => q.uPhi); }
+      else { R = S0.N.Rs.slice(); u = rows.map((q) => q.uPhi); extra = { uOverVobs: u.map((x, k) => x / S0.N.vobs[k]), vRigidOverVobs: u.map((x, k) => (S0.N.vbar[k] + x) / S0.N.vobs[k]) }; }
+      const un = L.uniformity({ R, f: u, outerFrom: S0.kind === 'book' ? PLAN.uniformOuterFromBook : PLAN.ngcOuterFromKpc, yard: PLAN.yardUniform });
+      series[cmb.key] = Object.assign({ R, uPhi: u }, extra, un);
+    }
+    out.systems.push({ tag: S0.tag, spin, nSeries: Object.keys(series).length, series });
+  }
+  return out;
+}
+
 /* ───────── 門 ───────── */
 export function gatesOf(J) {
   const E = J.engine, Bk = J.book, Ng = J.ngc;
@@ -331,6 +371,7 @@ export function gatesOf(J) {
       && Ng.side.length === PLAN.ngcDists.length * (PLAN.ngcDisc.length - 1),
     frameIdentity: Bk.book.frameCheckMax <= 1e-9 && Bk.centerSpin0.frameCheckMax <= 1e-9 && PLAN.ngcDists.every((d) => Ng.main[d].frameCheckMax <= 1e-9),
     decomposed: ['book', 'ngcFixture'].every((k) => ['G0', 'G0bg0', 'TF', 'TS'].every((b) => J.decomp[k][b].rows.length >= 4 && J.decomp[k][b].ranked.length >= J.decomp[k][b].rows.length - 1)),
+    uniformTable: J.uniform.systems.length === 8 && J.uniform.systems.every((q) => q.nSeries === (q.tag.startsWith('ngc') && q.spin === 'sync' ? 12 : 24) && Object.values(q.series).every((z) => z.uPhi.every(fin) && typeof z.uniform === 'boolean')),
     rangeDeclared: J.range.length > 0 && J.range.every((q) => q.n > 0 && Array.isArray(q.per)) && PLAN.rangeGeos.every(([nm]) => J.range.some((q) => q.geo === nm)),
   };
 }
@@ -349,7 +390,8 @@ export function runAll(HP, root = ROOT) {
   }; mark('decomp');
   const range = [...approxRange(book.book.table, PLAN.selfRulesBook, 'book'), ...approxRange(book.centerSpin0.table, PLAN.selfRulesBook, 'bookSpin0'),
     ...approxRange(ngc.main.fixture.table, PLAN.selfRulesNgc, 'ngcFixture'), ...approxRange(ngc.main.exp.table, PLAN.selfRulesNgc, 'ngcExp')]; mark('range');
-  const J = { inputs: { fixtureSha256Same: FX.shaSame, fixtureVersion: FX.J.version, fixtureRows: FX.rows.length }, scale, pure, engine, book, ngc, decomp, range, timing: tm };
+  const uniform = partUniform(HP, FX, scale); mark('uniform');
+  const J = { inputs: { fixtureSha256Same: FX.shaSame, fixtureVersion: FX.J.version, fixtureRows: FX.rows.length }, scale, pure, engine, book, ngc, decomp, range, uniform, timing: tm };
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
   return J;
 }
