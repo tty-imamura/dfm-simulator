@@ -15,6 +15,8 @@
 //   J 太陽–木星: 「顕著」の物差しを宣言して惑星ごとに(質量比・傾き・帯の中の時間・トルク・揃える率・両方の帯・質量 × 両方の帯)—— 木星が最大になる物差しとならない物差し
 //   K 今の K1 の球の核との違い: 同じ入力(土星の B 環の外縁の半径・赤道面からの高さ 0〜2R_d・緯度 45°・軸の上)で球の核の回転の速度と帯の型の大きさ・向き —— 球の核は lib の読みの式と
 //     🗺️ の 2 体の写しのエンジンの読み口で比べる(写しは 土星 + タイタンを点へ置き直す・太陽 + 木星は本の位置)
+//   S3 原仮定者の補足その3(2026-11-10): R_d = κ₀m の表(太陽・8 惑星・月)・主の宣言を「手前と奥の差分」(nearfar・NF)へ・交点ごとの寄与(Δi は両方の交点で同じ符号・
+//     法線の向きの力積は逆)・年齢の間の累積・原始太陽系の円盤(帯の中に居続ける物質と円盤の質量の割合)・水平との違い(1 − cos i・sin i)・符号と累積の判定(大きさの門を置かない)
 // ■ 言わないこと: 帯の力は宣言の型(原仮定者の補足の作業仮説 —— 未接続)の表の値と残差。土星の環の厚み・公転面の揃い・太陽–木星を帯で決めたとは書かない。今のエンジンの K1 は R_d の球
 //   (中心からの距離)で、帯(赤道面からの距離)と形が違う。文献の値は本便は一次資料に当たっていない。
 import fs from 'node:fs';
@@ -31,7 +33,7 @@ import * as L from './lib-w332a-eqband.mjs';
 const REGEN_SCOPE = {"presets":["saturnRingReal","solarSystem16Inertial3d"],"roots":["HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragIsqState","HP.sim","HP.validatePreset","T","ch","ctx","cw"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w332a-eqband-1';
+export const HARNESS_VERSION = 'w332a-eqband-2';
 export const OUT_MAIN = 'tests/out/eqband-w332a.json';
 export const SOLAR_ID = 'solarSystem16Inertial3d';
 export const RING_ID = 'saturnRingReal';
@@ -59,7 +61,13 @@ export const PLAN = Object.freeze({
   shapeVariants: Object.freeze([['step', 'none'], ['step', 'inv'], ['k1plane', 'none'], ['k1plane', 'inv'], ['gauss', 'own'], ['sech2', 'own']].map((x) => Object.freeze(x))),
   /** O2 の宣言の型(揃える時間 —— 主は literal) */
   decls: Object.freeze([
-    Object.freeze({ key: 'literal', label: '字どおり(段・尾 0・B・k1N・R_d = Y_k m)', decl: Object.freeze({ shape: 'step', tail: 'none', dir: 'B', strength: 'k1N', rule: 'kappa0' }), bodyR: false }),
+    Object.freeze({ key: 'nfMain', label: '主: 手前と奥の差分(nearfar・尾 0・NF・k1N・R_d = Y_k m)', decl: Object.freeze({ shape: 'nearfar', tail: 'none', dir: 'NF', strength: 'k1N', rule: 'kappa0' }), bodyR: false }),
+    Object.freeze({ key: 'nfChord', label: '手前と奥の差分の弦の形(nfchord・NF)', decl: Object.freeze({ shape: 'nfchord', tail: 'none', dir: 'NF', strength: 'k1N', rule: 'kappa0' }), bodyR: false }),
+    Object.freeze({ key: 'nfStep', label: '差分の押しを段の形で(step・NF)', decl: Object.freeze({ shape: 'step', tail: 'none', dir: 'NF', strength: 'k1N', rule: 'kappa0' }), bodyR: false }),
+    Object.freeze({ key: 'nfD', label: '手前と奥の差分・R_d = κ_D m', decl: Object.freeze({ shape: 'nearfar', tail: 'none', dir: 'NF', strength: 'k1N', rule: 'kappaD' }), bodyR: false }),
+    Object.freeze({ key: 'nfBody', label: '手前と奥の差分・受け手の大きさを足す', decl: Object.freeze({ shape: 'nearfar', tail: 'none', dir: 'NF', strength: 'k1N', rule: 'kappa0' }), bodyR: true }),
+    Object.freeze({ key: 'nsMain', label: '差分の速度への滑り(nearfar・NS)', decl: Object.freeze({ shape: 'nearfar', tail: 'none', dir: 'NS', strength: 'k1N', rule: 'kappa0' }), bodyR: false }),
+    Object.freeze({ key: 'literal', label: '第1版の主: 共回りへの滑り(段・尾 0・B・k1N・R_d = Y_k m)', decl: Object.freeze({ shape: 'step', tail: 'none', dir: 'B', strength: 'k1N', rule: 'kappa0' }), bodyR: false }),
     Object.freeze({ key: 'literalD', label: '字どおり・R_d = κ_D m', decl: Object.freeze({ shape: 'step', tail: 'none', dir: 'B', strength: 'k1N', rule: 'kappaD' }), bodyR: false }),
     Object.freeze({ key: 'tailInv', label: '帯の外の尾 R_d/|z|(段・B・k1N)', decl: Object.freeze({ shape: 'step', tail: 'inv', dir: 'B', strength: 'k1N', rule: 'kappa0' }), bodyR: false }),
     Object.freeze({ key: 'k1plane', label: 'K1 の核の平面の類比(尾 2R_d/(3|z|)・B・k1N)', decl: Object.freeze({ shape: 'k1plane', tail: 'inv', dir: 'B', strength: 'k1N', rule: 'kappa0' }), bodyR: false }),
@@ -75,6 +83,9 @@ export const PLAN = Object.freeze({
   spinDecl: Object.freeze({ rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' }),
   /** 球の核の lib の読みの式とエンジンの読み口の相対の差の上限(受け手の自己の場の一次 —— 源の場 C₁R_d/r の桁が残る) */
   sphereTol: 1e-6,
+  /** 補足その3: R_d = κ₀m の表の天体(🗺️ の添字 —— 太陽・8 惑星・月)・交点の表と原始太陽系の円盤の列の宣言の型(主と第1版の主と滑り)・円盤の厚みの比 H/r(文献の値)・円盤の中の物質の傾き(帯の中 —— 0.5 R_d/a) */
+  kappaBodies: Object.freeze([0, 1, 2, 3, 4, 5, 6, 11, 13, 14]), kappaNames: Object.freeze(['太陽', '水星', '金星', '地球', '月', '火星', '木星', '土星', '天王星', '海王星']),
+  crossDecls: Object.freeze(['nfMain', 'nsMain', 'literal']), diskDecls: Object.freeze(['nfMain', 'nsMain', 'literal']), diskAspect: 0.05, diskInBandFrac: 0.5,
   G: L.DECL.G, c: L.DECL.c, yearS: L.DECL.yearS, ageYr: L.DECL.ageYr,
 });
 
@@ -178,7 +189,9 @@ export function partAlign(BK) {
   const summary = PLAN.decls.map((D) => {
     const rs = rows.filter((r) => r.decl === D.key && r.kind === 'sun-planet'), ms = rows.filter((r) => r.decl === D.key && r.kind === 'planet-moon'), gs = rows.filter((r) => r.decl === D.key && r.kind === 'ring');
     const rng = (a) => { const f = a.filter((x) => x !== null && Number.isFinite(x)); return f.length ? [Math.min(...f), Math.max(...f)] : null; };
-    return { decl: D.key, label: D.label, planets: { tAlignOverAge: rng(rs.map((r) => r.tAlignOverAge)), nAligning: rs.filter((r) => r.aligning === true).length, nUnderAge: rs.filter((r) => r.tAlignOverAge !== null && r.tAlignOverAge < 1).length, n: rs.length },
+    const sg = (a) => a.map((r) => (r.aligning === true ? '+' : r.aligning === false ? '−' : '0')).join('');
+    return { decl: D.key, label: D.label, sign: { planets: sg(rs), moons: sg(ms), rings: sg(gs) },
+      planets: { tAlignOverAge: rng(rs.map((r) => r.tAlignOverAge)), nAligning: rs.filter((r) => r.aligning === true).length, nUnderAge: rs.filter((r) => r.tAlignOverAge !== null && r.tAlignOverAge < 1).length, n: rs.length },
       moons: { tAlignOverAge: rng(ms.map((r) => r.tAlignOverAge)), nAligning: ms.filter((r) => r.aligning === true).length, nMisaligning: ms.filter((r) => r.aligning === false).length, n: ms.length },
       rings: { tAlignYr: rng(gs.map((r) => r.tAlignYr)), tAYr: rng(gs.map((r) => r.tAYr)), n: gs.length } };
   });
@@ -194,17 +207,19 @@ export function partMetrics(BK, AL) {
     const zF = o.a * Math.sin(o.i), zR = o.a * Math.sin(oblPlane * DEG);
     const fF = zF <= Rd0 ? 1 : (2 / Math.PI) * Math.asin(Rd0 / zF), fR = zR <= RdP ? 1 : (2 / Math.PI) * Math.asin(RdP / zR);
     const T = lit.dAdtOverA * o.n * o.a / 2;   // 軌道の向きの平均の加速度 [m/s²]((da/dt)/a = 2T/(na))
+    const nf = AL.rows.find((r) => r.decl === 'nfMain' && r.pair === '太陽–' + PLAN.planetNames[k]), Tn = nf.dAdtOverA * o.n * o.a / 2;
     rows.push({ name: PLAN.planetNames[k], eta: P.m / sun.m, obliqPlaneDeg: oblPlane, iSunDeg: planeDeg(o.i), fFwd: fF, fRev: fR, torque: P.m * o.a * Math.abs(T), alignRate: lit.tAlignYr ? 1 / lit.tAlignYr : 0,
-      both: fF * fR, massBoth: P.m * fF * fR, share43: (4 / 3) * P.m / (sun.m + P.m) });
+      both: fF * fR, massBoth: P.m * fF * fR, share43: (4 / 3) * P.m / (sun.m + P.m), nfTorque: P.m * o.a * Math.abs(Tn), nfAlignRate: nf.tAlignYr ? 1 / nf.tAlignYr : 0 });
   });
   const METRICS = [['eta', '質量比 η = m/M_☉', 'max'], ['obliqPlaneDeg', '自転軸と公転面の法線の角(赤道面と公転面の角)', 'min'], ['iSunDeg', '太陽の赤道面と公転面の角', 'min'], ['fFwd', '太陽の帯の中の時間の割合(字どおり・Y_k m)', 'max'],
     ['fRev', '惑星の帯の中に太陽がいる時間の割合(惑星の R_d・自転軸の傾き)', 'max'], ['torque', '太陽の帯の B のトルク m a|⟨T⟩|(字どおり)[N m]', 'max'], ['alignRate', '揃える率 1/t_align(字どおり)[1/年]', 'max'],
-    ['both', '両方の帯(時間の割合の積 —— 位相が独立の宣言)', 'max'], ['massBoth', '質量 × 両方の帯 [kg]', 'max'], ['share43', '第331便c の K1 の宣言の 1PN からの外れ (4/3)η(質量比の物差し)', 'max']];
+    ['both', '両方の帯(時間の割合の積 —— 位相が独立の宣言)', 'max'], ['massBoth', '質量 × 両方の帯 [kg]', 'max'], ['share43', '第331便c の K1 の宣言の 1PN からの外れ (4/3)η(質量比の物差し)', 'max'],
+    ['nfTorque', '主(手前と奥の差分)の太陽の帯のトルク m a|⟨T⟩| [N m]', 'max'], ['nfAlignRate', '主(手前と奥の差分)の揃える率 1/t_align [1/年]', 'max']];
   const table = METRICS.map(([key, label, best]) => {
     const vals = rows.map((r) => r[key]), pick = best === 'max' ? Math.max(...vals) : Math.min(...vals), who = rows[vals.indexOf(pick)].name;
     return { key, label, best, values: vals, top: who, jupiterTop: who === '木星', jupiterRank: 1 + vals.filter((v) => (best === 'max' ? v > rows[4][key] : v < rows[4][key])).length };
   });
-  return { rows, table, note: '源は太陽(字どおりの帯 —— 段・尾 0・B・k1N・κ₀m)と惑星(自分の R_d・自転軸 —— 太陽がその帯の中にいる時間)・「顕著」の物差しは宣言(どれかを採らない)' };
+  return { rows, table, note: '源は太陽(第1版の主 —— 段・尾 0・B・k1N・κ₀m —— と主の手前と奥の差分)と惑星(自分の R_d・自転軸 —— 太陽がその帯の中にいる時間)・「顕著」の物差しは宣言(どれかを採らない)' };
 }
 
 /* ───────── K 今の K1 の球の核との違い ───────── */
@@ -234,12 +249,14 @@ export function partSphere(HP, BK) {
     .concat([{ label: '緯度 45°', zOverRd: r0 * Math.SQRT1_2 / Rd, x: [r0 * Math.SQRT1_2, 0, r0 * Math.SQRT1_2] }, { label: '軸の上', zOverRd: r0 / Rd, x: [0, 0, r0] }]);
   const vK = Math.sqrt(PLAN.G * ring.m / r0);
   const lib = pts.map((p) => {
-    const sp = L.sphereRot(body, { x: p.x }), qB = L.bandForce(body, { x: p.x }, { dir: 'B' }), qA = L.bandForce(body, { x: p.x }, { dir: 'A', strength: 'k1N' });
+    const sp = L.sphereRot(body, { x: p.x }), qB = L.bandForce(body, { x: p.x }, { dir: 'B', shape: 'step', tail: 'none' }), qA = L.bandForce(body, { x: p.x }, { dir: 'A', strength: 'k1N', shape: 'step', tail: 'none' });
+    const qN = L.bandForce(body, { x: p.x }, { dir: 'NF', shape: 'nearfar', tail: 'none' }), uNvel = qN.beta * qN.S * qN.U0;
     const S = Object.fromEntries(PLAN.shapeVariants.map(([sh, tl]) => [sh + '|' + tl, L.shapeWeight(sh, tl, qB.t)]));
     const uBvel = qB.beta * qB.S * qB.slip, rho = qB.rho, slipK = ring.Omega * rho - (rho > 0 ? vK * rho / r0 : 0);
     const cosDir = sp.mag > 0 && nrm(qB.aB) > 0 ? dot(sp.uRot, qB.aB) / (sp.mag * nrm(qB.aB)) : null;
     return { label: p.label, zOverRd: p.zOverRd, thetaDeg: Math.acos(p.x[2] / r0) / DEG, sphereMag: sp.mag, sphereVert: sp.uRot[2], sphereBeta: sp.beta, S, uBvel, uBvelOverSphere: sp.mag > 0 ? uBvel / sp.mag : null,
-      aB: nrm(qB.aB), aA: qA.aA[2], slipRest: qB.slip, slipK, uBvelK: qB.beta * qB.S * slipK, cosDir };
+      aB: nrm(qB.aB), aA: qA.aA[2], slipRest: qB.slip, slipK, uBvelK: qB.beta * qB.S * slipK, cosDir,
+      Snf: qN.S, uNvel, uNvelOverSphere: sp.mag > 0 ? uNvel / sp.mag : null, aNF: nrm(qN.aNF), cosNF: sp.mag > 0 && nrm(qN.aNF) > 0 ? dot(sp.uRot, qN.aNF) / (sp.mag * nrm(qN.aNF)) : null };
   });
   // エンジンの読み口(🗺️ の写し —— 土星 + タイタンを土星の自転軸の枠の点へ置き直す)
   const book = bookOf(HP), B = BK.solar.bodies, uL = BK.solar.uL, si = 11, ti = 12, sat = B[si], ax = sat.axis;
@@ -258,10 +275,55 @@ export function partSphere(HP, BK) {
   { const eq = eng.find((q) => q.label === 'z = 0 R_d'); for (const q of eng) { q.engineOverEq = q.engineMag === null ? null : q.engineMag / eq.engineMag; q.libOverEq = q.libMag / eq.libMag; } }   // 軸の上は丸めの残り(赤道の値との比)
   // 太陽 + 木星(本の位置)
   const sun = B[0], jup = B[6], Ej = engineRot(HP, book, [0, 6], null), spj = L.sphereRot({ x: sun.x, m: sun.m, axis: sun.axis, Omega: sun.Omega }, { x: jup.x });
-  const qj = L.bandForce({ x: sun.x, m: sun.m, axis: sun.axis, Omega: sun.Omega }, { x: jup.x, v: jup.v }, { dir: 'C' });
+  const qj = L.bandForce({ x: sun.x, m: sun.m, axis: sun.axis, Omega: sun.Omega }, { x: jup.x, v: jup.v }, { dir: 'C', shape: 'step', tail: 'none' });
   const sunJup = { engineMag: Ej.ok ? Ej.mag : null, libMag: spj.mag, rel: Ej.ok ? relD(Ej.mag, spj.mag) : null, engineBeta: Ej.ok ? Ej.beta : null, libBeta: spj.beta, zOverRd: qj.t, bandS: qj.S, bandA: nrm(qj.aA), bandB: nrm(qj.aB), ok: Ej.ok };
   return { saturn: { m: ring.m, Omega: ring.Omega, Rd, r0, vK }, lib, engine: { saturnBook: { m: sat.m, Omega: sat.Omega, spinHours: 2 * Math.PI / Math.abs(sat.Omega) / 3600, Rd: RdS }, rows: eng, sunJupiter: sunJup, law: Ej.ok ? Ej.law : null },
     note: '受け手は静止(B の Δ = Ωρ)と円軌道の速さ(ケプラー)の 2 つ。球の核の u_rot は今のエンジンの回転の項(在位の 7 本は宣言しない —— 写しに spinDrag を宣言して読む)・帯の B の速度の形 β S Δ は比べるための写像(帯の力は加速度の宣言)' };
+}
+
+/* ───────── S3 原仮定者の補足その3(R_d = κ₀m の表・交点ごとの寄与・原始太陽系の円盤・水平との違い・符号と累積)───────── */
+export function partSupp3(BK, AL) {
+  const B = BK.solar.bodies, sun = B[PLAN.sunIndex], G = PLAN.G, c = PLAN.c;
+  const kappa = { kappa0: L.kappa0(), kappaD: L.kappaD(), C1: L.C1, formula: 'κ₀ = 10G/(C₁c²)・C₁ = 6[(√3/2)ln(2+√3) − 1]・R_d = κ₀m(G = 6.674e-11・c = 299792458 —— SI)',
+    rows: PLAN.kappaBodies.map((bi, k) => ({ name: PLAN.kappaNames[k], m: B[bi].m, Rd0: L.rdOf(B[bi].m, 'kappa0'), RdD: L.rdOf(B[bi].m, 'kappaD'), Robs: B[bi].R, RdOverRobs: L.rdOf(B[bi].m, 'kappa0') / B[bi].R })) };
+  kappa.rows.push({ name: '土星(💍 の宣言)', m: BK.ring.m, Rd0: L.rdOf(BK.ring.m, 'kappa0'), RdD: L.rdOf(BK.ring.m, 'kappaD'), Robs: BK.ring.R, RdOverRobs: L.rdOf(BK.ring.m, 'kappa0') / BK.ring.R });
+  const declOf = (key) => PLAN.decls.find((d) => d.key === key);
+  // 交点ごとの寄与(太陽–惑星 —— 主・滑り・第1版の主)
+  const cross = [];
+  PLAN.planets.forEach((pi, k) => {
+    const o = orbitOf(sun, B[pi]);
+    for (const key of PLAN.crossDecls) {
+      const q = L.crossingTable({ src: { m: sun.m, Omega: Math.abs(sun.Omega) }, orbit: { a: o.a, i: o.i, n: o.n, v: o.v }, decl: declOf(key).decl }), ar = AL.rows.find((r) => r.decl === key && r.pair === '太陽–' + PLAN.planetNames[k]);
+      cross.push({ name: PLAN.planetNames[k], decl: key, planeAngleDeg: planeDeg(o.i), arcHalf: q.arcHalf, durS: q.durS, fracIn: q.durS * 2 / q.periodS, dIasc: q.asc.dI, dIdesc: q.desc.dI, Wasc: q.asc.Wimp, Wdesc: q.desc.Wimp, dLnAasc: q.asc.dLnA,
+        sumOverAvg: ar.dIdt !== 0 ? (q.sum.dI / q.periodS) / ar.dIdt : null });
+    }
+  });
+  // 原始太陽系の円盤(面の中の物質が帯の中に居続ける —— 傾き 0.5 R_d/a の円軌道・太陽が源)・円盤の質量のうち帯の中の割合(H = (H/r) a —— 文献の値)
+  const disk = PLAN.planets.map((pi, k) => {
+    const o = orbitOf(sun, B[pi]), Rd = L.rdOf(sun.m), iIn = PLAN.diskInBandFrac * Rd / o.a, vC = Math.sqrt(G * sun.m / o.a), nC = vC / o.a;
+    const row = { name: PLAN.planetNames[k], a: o.a, iIn, frac: Object.fromEntries(L.LIT.diskAspect.values.map((h) => [String(h), L.diskBandFraction(Rd, h * o.a)])) };
+    for (const key of PLAN.diskDecls) {
+      const q = L.orbitRates({ src: { m: sun.m, Omega: Math.abs(sun.Omega) }, orbit: { a: o.a, i: iIn, n: nC, v: vC }, decl: declOf(key).decl });
+      row[key] = { aligning: q.aligning, fracIn: q.fracIn, tAlignYr: q.tAlign === null ? null : q.tAlign / PLAN.yearS, tAYr: q.tA === null ? null : q.tA / PLAN.yearS,
+        overLife: q.tAlign === null ? null : q.tAlign / PLAN.yearS / L.LIT.diskLife.hi, overAge: q.tAlign === null ? null : q.tAlign / PLAN.yearS / PLAN.ageYr };
+    }
+    return row;
+  });
+  // 水平との違い(源の赤道面と受け手の公転面の角 i —— 方位の押しの軌道の向きの成分 cos i・法線の成分の最大 sin i)・惑星の自転軸の傾き(惑星の帯 —— 衛星の公転面と太陽の方向)
+  const tilt = PLAN.planets.map((pi, k) => {
+    const o = orbitOf(sun, B[pi]), iS = Math.min(o.i, Math.PI - o.i), obl = angleDeg(scl(B[pi].axis, Math.sign(B[pi].Omega) || 1), o.hHat) * DEG, oP = Math.min(obl, Math.PI - obl);
+    return { name: PLAN.planetNames[k], iSunDeg: iS / DEG, alongLoss: 1 - Math.cos(iS), normalMax: Math.sin(iS), obliqDeg: obl / DEG, alongLossOb: 1 - Math.cos(oP), normalMaxOb: Math.sin(oP) };
+  });
+  const moonTilt = PLAN.moons.map(([mi, hi, nm]) => { const o = orbitOf(B[hi], B[mi]), iP = Math.min(o.i, Math.PI - o.i); return { name: PLAN.planetNames[PLAN.planets.indexOf(hi)] + '–' + nm, planeAngleDeg: iP / DEG, alongLoss: 1 - Math.cos(iP), normalMax: Math.sin(iP), retro: o.i > Math.PI / 2 }; });
+  // 符号と累積(補足その3「わずかでもプラスの影響があれば有効」—— 判定は符号・大きさの門を置かない)
+  const verdict = AL.summary.map((s) => ({ decl: s.decl, label: s.label, sign: s.sign, planetsAllPlus: /^\+{8}$/.test(s.sign.planets), moonsPlus: (s.sign.moons.match(/\+/g) || []).length, ringsPlus: (s.sign.rings.match(/\+/g) || []).length }));
+  // 累積(太陽系の年齢の間の傾きの変化 Δi = 年齢 × di/dt —— 符号つき・今の角に対する割合)
+  const ageS = PLAN.ageYr * PLAN.yearS;
+  const accum = PLAN.planets.map((pi, k) => { const row = { name: PLAN.planetNames[k] };
+    for (const key of PLAN.crossDecls) { const r = AL.rows.find((x) => x.decl === key && x.pair === '太陽–' + PLAN.planetNames[k]); row[key] = { dIdeg: r.dIdt * ageS / DEG, frac: r.dIdt * ageS / (r.planeAngleDeg * DEG), dLnA: r.dAdtOverA * ageS }; }
+    return row; });
+  return { kappa, cross, disk, accum, diskAspect: L.LIT.diskAspect, diskLife: L.LIT.diskLife, tilt, moonTilt, verdict,
+    note: '補足その3 の物差し: 揃える向きの符号(+)と累積(大きさの表は残す・大きさの門は置かない)。円盤の列は帯の中に居続ける物質(傾き 0.5 R_d/a)・円盤の質量の割合はガウスの鉛直の分布の宣言' };
 }
 
 /* ───────── 門 ───────── */
@@ -276,10 +338,14 @@ export function gatesOf(J) {
     reachTable: O.rows.length >= PLAN.planets.length + PLAN.moons.length + 6 && O.rows.every((q) => Number.isFinite(q.zOverRd0) && q.zOverRd0 > 0 && Math.abs(q.zOverRdD / q.zOverRd0 - 5 / L.C1) <= 1e-9 * 6),
     alignTable: A.rows.length === PLAN.decls.length * (PLAN.planets.length + PLAN.moons.length + 6) && A.rows.every((q) => Number.isFinite(q.dIdt) && Number.isFinite(q.dAdtOverA))
       && A.rows.filter((q) => q.decl === 'vertA').every((q) => q.dIdt === 0 && q.dAdtOverA === 0 && (q.aSecRel === null || q.aSecRel <= 1e-12)),
-    metricsTable: M.rows.length === PLAN.planets.length && M.table.length === 10 && M.table.every((t) => t.values.every(Number.isFinite)),
+    metricsTable: M.rows.length === PLAN.planets.length && M.table.length === 12 && M.table.every((t) => t.values.every(Number.isFinite)),
+    supp3: J.supp3.kappa.rows.length === PLAN.kappaBodies.length + 1 && J.supp3.kappa.rows.every((q) => Math.abs(q.Rd0 / q.m - J.supp3.kappa.kappa0) <= 1e-12 * J.supp3.kappa.kappa0)
+      && J.supp3.cross.length === PLAN.planets.length * PLAN.crossDecls.length && J.supp3.cross.every((q) => q.sumOverAvg !== null && Math.abs(q.sumOverAvg - 1) <= 1e-6 && Math.sign(q.dIasc) === Math.sign(q.dIdesc) && Math.sign(q.Wasc) === -Math.sign(q.Wdesc))
+      && J.supp3.disk.length === PLAN.planets.length && J.supp3.disk.every((q) => PLAN.diskDecls.every((k) => q[k].fracIn === 1)) && J.supp3.verdict.length === PLAN.decls.length
+      && J.supp3.accum.length === PLAN.planets.length && J.supp3.accum.every((q) => q.nfMain.dIdeg < 0 && q.nsMain.dIdeg > 0),
     sphereEngine: K.engine.rows.every((q) => q.ok === true && (q.label === '軸の上' ? q.engineOverEq <= 1e-9 && q.libOverEq <= 1e-9 : q.rel !== null && q.rel <= PLAN.sphereTol && q.cos > 1 - 1e-9) && q.betaRel <= PLAN.sphereTol)
       && K.engine.sunJupiter.ok === true && K.engine.sunJupiter.rel <= PLAN.sphereTol,
-    sphereVsBand: K.lib.every((q) => q.sphereVert === 0) && K.lib.find((q) => q.label === '軸の上').sphereMag === 0 && K.lib.filter((q) => q.zOverRd > 1).every((q) => q.S['step|none'] === 0 && q.aB === 0)
+    sphereVsBand: K.lib.every((q) => q.sphereVert === 0) && Math.abs(K.lib[0].uNvelOverSphere - 5) <= 1e-9 && K.lib.filter((q) => q.zOverRd >= 1).every((q) => q.Snf === 0 && q.aNF === 0) && K.lib.find((q) => q.label === '軸の上').sphereMag === 0 && K.lib.filter((q) => q.zOverRd > 1).every((q) => q.S['step|none'] === 0 && q.aB === 0)
       && K.lib.filter((q) => q.zOverRd <= 1).every((q) => q.S['step|none'] === 1 && q.aB > 0),
   };
 }
@@ -292,7 +358,8 @@ export function runAll(HP) {
   const align = partAlign(BK); mark('align');
   const metrics = partMetrics(BK, align); mark('metrics');
   const sphere = partSphere(HP, BK); mark('sphere');
-  const J = { books: { saturnRing: { m: BK.ring.m, spinHours: BK.ring.spinHours, R: BK.ring.R, bands: BK.ring.bands }, solarScale: { uL: BK.solar.uL, uT: BK.solar.uT, uM: BK.solar.uM } }, pure, rings, reach, align, metrics, sphere, timing: tm };
+  const supp3 = partSupp3(BK, align); mark('supp3');
+  const J = { books: { saturnRing: { m: BK.ring.m, spinHours: BK.ring.spinHours, R: BK.ring.R, bands: BK.ring.bands }, solarScale: { uL: BK.solar.uL, uT: BK.solar.uT, uM: BK.solar.uM } }, pure, rings, reach, align, metrics, sphere, supp3, timing: tm };
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
   return J;
 }
@@ -308,7 +375,7 @@ export async function main() {
   console.log('第332便a eqband(版 ' + HARNESS_VERSION + ')');
   const R = runAll(HP);
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w332a-eqband.mjs', target: TARGET, targetSha256, reuseFrom: null,
-    ruling: '原仮定者の補足(2026-11-10)「R_d = κ_D·m は観測半径とは別の値」「座標変換版の回転引きずりは並進引きずりに統合する」「K1 の回転引きずりは、自転時に赤道面からの距離が κ_D·m 以下の範囲で強く働く力と仮定する」「土星環の幅・太陽系の公転面の揃い・太陽–木星で顕著、と繋がる」(作業仮説 —— 診断で検査・未接続)・統括の検証項目 R315(R_d の規則の値 Y_k m〔統括の読みの κ₀m〕と原文の字どおりの κ_D m の 2 列)',
+    ruling: '原仮定者の補足(2026-11-10)「R_d = κ_D·m は観測半径とは別の値」「座標変換版の回転引きずりは並進引きずりに統合する」「K1 の回転引きずりは、自転時に赤道面からの距離が κ_D·m 以下の範囲で強く働く力と仮定する」「土星環の幅・太陽系の公転面の揃い・太陽–木星で顕著、と繋がる」(作業仮説 —— 診断で検査・未接続)・原仮定者の補足その3(2026-11-10)「R_d = κ₀m を採用・κ₀ の計算式と太陽と各惑星の κ₀m を提示」「回転引きずりは源の天体の自転の手前側と奥側の差分 —— 赤道面が最も強く、赤道面からの距離が引きずり半径を超えるとほぼ消える」「公転面の揃いは長い年月の結果 —— わずかでもプラスの影響があれば有効・原始太陽系が円盤状であることも考慮」「斜めに横切る軌道は公転面からの位置で影響が変わる・斜めの自転は水平と若干違う」・統括の検証項目 R315(R_d の規則の値 Y_k m〔統括の読みの κ₀m〕と原文の字どおりの κ_D m の 2 列)',
     decl: L.DECL, shapes: L.SHAPES, tails: L.TAILS, shapeTails: L.SHAPE_TAILS, dirs: L.DIRS, vprofs: L.VPROFS, strengths: L.STRENGTHS, rules: L.RULES, units: L.UNITS, lit: L.LIT, plan: PLAN, notClaim: NOT_CLAIM, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w332a-eqband.mjs', 'tests/lib-w332a-eqband.mjs', 'tests/lib-w331c-k1scale.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w312a-decay.mjs', 'tests/lib-w310d-shell.mjs',

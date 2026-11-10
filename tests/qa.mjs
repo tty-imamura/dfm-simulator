@@ -100325,11 +100325,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   統括の検証項目 R315): **新しい回転引きずり(帯の力 —— 宣言・未接続)の純関数と、環の厚み・帯の中の鉛直の振動・公転面の届く/届かないと揃える時間・太陽–木星の物差し・
 // ----   今の K1 の球の核との違いの器**(新設 —— 器 tests/exp-w332a-eqband.mjs・lib tests/lib-w332a-eqband.mjs・文書の lib tests/lib-w332a-eqbanddoc.mjs・正本 tests/out/eqband-w332a.json。
 // ----   html・本の宣言・エンジン・受理器・第330便b と第331便c の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
-// ----   lint.eqBand332a(html を読まない): ① lib・器・文書の lib の版・型の一覧(手で書いた一覧と照合)・宣言・器の宣言 ② 純関数の場面 12
+// ----   lint.eqBand332a(html を読まない): ① lib・器・文書の lib の版・型の一覧(手で書いた一覧と照合)・宣言(主 = 手前と奥の差分 —— 原仮定者の補足その3)・器の宣言 ② 純関数の場面 13
 // ----     ③ 呼ぶだけ(lib の import は第330便b の重みの lib と第331便c の K1 のスケールの lib だけ・lib と文書の lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w332a の語が無い)
 // ----     ④ 文献の値の出典(環・惑星・衛星・年齢 —— 出典の文字列が空でない・環の厚みの種類は 4 語)
 // ----   behavior.eqBand332a(html を headless で読む —— 正本と照合): ① 環(厚みの比・鉛直・形)② 公転面(届く/届かない)③ 揃える時間 ④ 物差し ⑤ 球の核と帯の比べ(lib の読みの式と
-// ----     エンジンの読み口)を今の html の 🗺️ と 💍 の宣言から作り直して正本と相対 1e-9 の内 ⑥ 作り直した門が全部真
+// ----     エンジンの読み口)⑥ 原仮定者の補足その3 の表(R_d = κ₀m・交点・累積・円盤・符号)を今の html の 🗺️ と 💍 の宣言から作り直して正本と相対 1e-9 の内 ⑦ 作り直した門が全部真
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const wHarn = path.join(ROOT, 'tests', 'exp-w332a-eqband.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w332a-eqband.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w332a-eqbanddoc.mjs');
@@ -100348,25 +100348,27 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const bad = [], cases = [];
     if (err0) bad.push('器/lib が読めない: ' + err0);
     else {
-      if (!(L.LIB_VERSION === 'w332a-eqband-lib-1' && X.HARNESS_VERSION === 'w332a-eqband-1' && D0.DOC_VERSION === 'w332a-eqbanddoc-1')) bad.push('① 版(lib・器・文書の lib)');
+      if (!(L.LIB_VERSION === 'w332a-eqband-lib-1' && X.HARNESS_VERSION === 'w332a-eqband-2' && D0.DOC_VERSION === 'w332a-eqbanddoc-2')) bad.push('① 版(lib・器・文書の lib)');
       const js = (x) => JSON.stringify(x);
-      if (!(js(L.SHAPES) === js(['step', 'k1plane', 'gauss', 'sech2']) && js(L.TAILS) === js(['none', 'inv', 'own']) && js(L.DIRS) === js(['A', 'B', 'C']) && js(L.VPROFS) === js(['sgn', 'lin'])
+      if (!(js(L.SHAPES) === js(['nearfar', 'nfchord', 'step', 'k1plane', 'gauss', 'sech2']) && js(L.TAILS) === js(['none', 'inv', 'own']) && js(L.DIRS) === js(['NF', 'NS', 'A', 'B', 'C']) && js(L.VPROFS) === js(['sgn', 'lin'])
         && js(L.STRENGTHS) === js(['k1N', 'k1spin', 'k2N', 'N']) && js(L.RULES) === js(['kappa0', 'kappaD'])
-        && js(L.SHAPE_TAILS) === js({ step: ['none', 'inv'], k1plane: ['none', 'inv'], gauss: ['own'], sech2: ['own'] })))
+        && js(L.SHAPE_TAILS) === js({ nearfar: ['none'], nfchord: ['none'], step: ['none', 'inv'], k1plane: ['none', 'inv'], gauss: ['own'], sech2: ['own'] })))
         bad.push('① 型の一覧(形・尾・向き・鉛直の形・強さ・規則・形ごとの尾 —— 手で書いた一覧と違う)');
       const DG = L.DECL, PL = X.PLAN;
-      if (!(DG.G === 6.674e-11 && DG.c === 299792458 && DG.ageYr === 4.5682e9 && js(DG.main) === js({ shape: 'step', tail: 'none', dir: 'B', vprof: 'sgn', strength: 'k1N', rule: 'kappa0' })
-        && DG.quad.inner === 48 && DG.quad.tailPts === 64 && DG.quad.tailSegs === 4 && js(DG.quad.smoothT) === js([0.5, 1, 2, 4, 8, 16, 40]))) bad.push('① 宣言(G・c・年齢・主の宣言・求積)');
-      if (!(js(PL.decls.map((d) => d.key)) === js(['literal', 'literalD', 'tailInv', 'k1plane', 'smooth', 'bodySize', 'strongN', 'weakK2', 'vertA']) && js(PL.sphereZ) === js([0, 0.5, 0.999, 1.001, 2]) && PL.ringH === 10
-        && js(PL.planets) === js([1, 2, 3, 5, 6, 11, 13, 14]) && PL.moons.length === 7 && PL.sphereTol === 1e-6 && PL.shapeVariants.length === 6))
-        bad.push('① 器の宣言(揃える時間の宣言の型 9・球の核の点・環の厚み・惑星・衛星・球の核の差の上限・形の比べ)');
+      if (!(DG.G === 6.674e-11 && DG.c === 299792458 && DG.ageYr === 4.5682e9 && js(DG.main) === js({ shape: 'nearfar', tail: 'none', dir: 'NF', vprof: 'sgn', strength: 'k1N', rule: 'kappa0' })
+        && js(DG.mainV1) === js({ shape: 'step', tail: 'none', dir: 'B', vprof: 'sgn', strength: 'k1N', rule: 'kappa0' })
+        && DG.quad.inner === 48 && DG.quad.tailPts === 64 && DG.quad.tailSegs === 4 && js(DG.quad.smoothT) === js([0.5, 1, 2, 4, 8, 16, 40]))) bad.push('① 宣言(G・c・年齢・主の宣言〔手前と奥の差分〕と第1版の主・求積)');
+      if (!(js(PL.decls.map((d) => d.key)) === js(['nfMain', 'nfChord', 'nfStep', 'nfD', 'nfBody', 'nsMain', 'literal', 'literalD', 'tailInv', 'k1plane', 'smooth', 'bodySize', 'strongN', 'weakK2', 'vertA']) && js(PL.sphereZ) === js([0, 0.5, 0.999, 1.001, 2]) && PL.ringH === 10
+        && js(PL.planets) === js([1, 2, 3, 5, 6, 11, 13, 14]) && PL.moons.length === 7 && PL.sphereTol === 1e-6 && PL.shapeVariants.length === 6
+        && js(PL.kappaBodies) === js([0, 1, 2, 3, 4, 5, 6, 11, 13, 14]) && js(PL.crossDecls) === js(['nfMain', 'nsMain', 'literal']) && js(PL.diskDecls) === js(['nfMain', 'nsMain', 'literal']) && PL.diskInBandFrac === 0.5))
+        bad.push('① 器の宣言(揃える時間の宣言の型 15・球の核の点・環の厚み・惑星・衛星・球の核の差の上限・形の比べ・補足その3 の表の天体と宣言の型)');
       cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・文書 ${D0.DOC_VERSION}・形 ${L.SHAPES.length}・尾 ${L.TAILS.length}・向き ${L.DIRS.length}・強さ ${L.STRENGTHS.length}・規則 ${L.RULES.length}・揃える時間の宣言の型 ${PL.decls.length}`);
       let G1 = null;
       try { G1 = L.pureGates(L.pureScenes()); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
       if (G1) {
         for (const [k, v] of Object.entries(G1)) if (v !== true) bad.push('② 場面 ' + k);
-        if (Object.keys(G1).length !== 12) bad.push('② 場面の数 ' + Object.keys(G1).length);
-        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(鏡映・符号・帯の外で 0・連続・自転 0・共に回る・ガリレイ・入力の拒否・規則の比 5/C₁・恒等式 C₁・球の核の読みの式・軌道の平均の求積と閉じた式)`);
+        if (Object.keys(G1).length !== 13) bad.push('② 場面の数 ' + Object.keys(G1).length);
+        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(鏡映・符号・帯の外で 0・手前と奥の差分・連続・自転 0・共に回る・ガリレイ・入力の拒否・規則の比 5/C₁・恒等式 C₁・球の核の読みの式・軌道の平均の求積と閉じた式)`);
       }
       const tl = rd('tests/lib-w332a-eqband.mjs'), th = rd('tests/exp-w332a-eqband.mjs'), td = rd('tests/lib-w332a-eqbanddoc.mjs'), base2 = rd('tests/lib-w330b-dragweight.mjs') + rd('tests/lib-w331c-k1scale.mjs');
       const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
@@ -100375,9 +100377,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push('③ lib の import は第330便b の重みの lib と第331便c の K1 のスケールの lib だけ(エンジンの式を写さない —— 球の核は読みの式)・lib と文書の lib は html を読まない・器と lib はネットへ取りに行かない・呼ぶ lib の本文は不変');
       const LT = L.LIT, kinds = new Set(['typical', 'upper', 'moonInc', 'none']);
       if (!(LT.rings.length === 8 && LT.rings.every((q) => typeof q.src === 'string' && q.src.length > 10 && kinds.has(q.kind)) && LT.planets.rows.length === 8 && LT.planets.src.length > 10 && LT.moons.rows.length >= 7 && LT.moons.src.length > 10
+        && /Haisch/.test(LT.diskLife.src) && /Armitage/.test(LT.diskAspect.src)
         && /Bouvier/.test(LT.age.src) && /Iess/.test(LT.ringAge.src) && /Jacobson/.test(LT.saturnJ2.src) && /一次資料に当たっていない/.test(LT.note)))
         bad.push('④ 文献の値の出典(環 8・惑星 8・衛星・年齢・環の年齢・J₂・一次資料の注記)');
-      cases.push(`④ 文献の値の出典(環 ${LT.rings.length}・惑星 ${LT.planets.rows.length}・衛星 ${LT.moons.rows.length}・年齢・環の年齢・J₂ —— 本便は一次資料に当たっていない)`);
+      cases.push(`④ 文献の値の出典(環 ${LT.rings.length}・惑星 ${LT.planets.rows.length}・衛星 ${LT.moons.rows.length}・年齢・環の年齢・J₂・円盤の厚みと寿命 —— 本便は一次資料に当たっていない)`);
     }
     add('lint.eqBand332a', bad.length === 0,
       `**新しい回転引きずり(帯の力 —— 宣言・未接続)の純関数**(第332便a・原仮定者の補足(2026-11-10)・R315 —— html を読まない・形 × 尾 × 向き × 強さ × R_d の規則〔Y_k m と κ_D m〕の宣言・今のエンジンの K1 の球の核は読みの式): ${cases.join(' / ')}`
@@ -100423,15 +100426,26 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         // ⑤ 球の核と帯
         const Sp = X.partSphere(H.HP, BK);
         let dS = 0;
-        Sp.lib.forEach((q, i) => { dS = Math.max(dS, mx(q, J.sphere.lib[i] || {}, ['sphereMag', 'uBvel', 'aB', 'aA'])); });
+        Sp.lib.forEach((q, i) => { dS = Math.max(dS, mx(q, J.sphere.lib[i] || {}, ['sphereMag', 'uBvel', 'aB', 'aA', 'uNvel', 'aNF'])); });
         Sp.engine.rows.forEach((q, i) => { const r = J.sphere.engine.rows[i] || {}; if (q.label !== '軸の上') dS = Math.max(dS, mx(q, r, ['engineMag', 'libMag'])); });
         dS = Math.max(dS, mx(Sp.engine.sunJupiter, J.sphere.engine.sunJupiter, ['engineMag', 'libMag']));
         if (!(dS <= 1e-9)) bad.push(`⑤ 球の核と帯の比べを作り直して正本と違う(相対 ${dS})`);
         cases.push(`⑤ 球の核と帯の比べ(lib の点 ${Sp.lib.length}・エンジンの読み口の写し ${Sp.engine.rows.length} + 太陽 + 木星)が正本と相対 1e-9 の内`);
-        // ⑥ 門
-        const J2 = Object.assign({}, J, { rings: Rg, reach: Rc, align: Al, metrics: Mt, sphere: Sp, pure: { scenes: L.pureScenes(), gates: L.pureGates(L.pureScenes()) } }), G2 = X.gatesOf(J2);
-        if (!Object.values(G2).every((v) => v === true)) bad.push('⑥ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
-        cases.push(`⑥ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+        // ⑥ 補足その3(R_d = κ₀m の表・交点ごとの寄与・累積・原始太陽系の円盤・水平との違い・符号)
+        const S3 = X.partSupp3(BK, Al);
+        let d3 = 0;
+        S3.kappa.rows.forEach((q, i) => { d3 = Math.max(d3, mx(q, J.supp3.kappa.rows[i] || {}, ['m', 'Rd0', 'RdD', 'Robs'])); });
+        S3.cross.forEach((q, i) => { d3 = Math.max(d3, mx(q, J.supp3.cross[i] || {}, ['dIasc', 'dIdesc', 'Wasc', 'Wdesc', 'durS'])); });
+        S3.disk.forEach((q, i) => { const r = J.supp3.disk[i] || {}; for (const k of X.PLAN.diskDecls) { d3 = Math.max(d3, relD332(q[k].tAlignYr, (r[k] || {}).tAlignYr), relD332(q[k].tAYr, (r[k] || {}).tAYr)); if (q[k].aligning !== (r[k] || {}).aligning) d3 = Infinity; } });
+        S3.accum.forEach((q, i) => { const r = J.supp3.accum[i] || {}; for (const k of X.PLAN.crossDecls) d3 = Math.max(d3, relD332(q[k].dIdeg, (r[k] || {}).dIdeg)); });
+        S3.verdict.forEach((q, i) => { const r = J.supp3.verdict[i] || {}; if (JSON.stringify(q.sign) !== JSON.stringify(r.sign)) d3 = Infinity; });
+        if (!(d3 <= 1e-9)) bad.push(`⑥ 補足その3 の表を作り直して正本と違う(相対 ${d3})`);
+        const vm = S3.verdict.find((q) => q.decl === 'nfMain');
+        cases.push(`⑥ 補足その3 の表(R_d = κ₀m ${S3.kappa.rows.length} 天体・交点 ${S3.cross.length}・円盤 ${S3.disk.length}・累積 ${S3.accum.length}・主の符号 ${vm.sign.planets}/${vm.sign.moons}/${vm.sign.rings})が正本と相対 1e-9 の内`);
+        // ⑦ 門
+        const J2 = Object.assign({}, J, { rings: Rg, reach: Rc, align: Al, metrics: Mt, sphere: Sp, supp3: S3, pure: { scenes: L.pureScenes(), gates: L.pureGates(L.pureScenes()) } }), G2 = X.gatesOf(J2);
+        if (!Object.values(G2).every((v) => v === true)) bad.push('⑦ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`⑦ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
       } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
     }
     add('behavior.eqBand332a', bad.length === 0,
@@ -100443,7 +100457,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 
 // ---- 第332便a: docs.eqBand332a は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
 // ----   lint・behavior を数えない)。世代切替は上と同じ
-// ----   docs.eqBand332a(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全・core:true・abBody:false)・宣言が lib の DECL と同じ ② 表 12 本が PHYSICS〔第332便a〕に逐語
+// ----   docs.eqBand332a(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全・core:true・abBody:false)・宣言が lib の DECL と同じ ② 表 17 本が PHYSICS〔第332便a〕に逐語
 // ----     ③ 節の位置(〔第331便e〕の節の後・〔第328便 — 統括〕の前)・必須の語・AI_SPEC §207(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
 // ----     ④ 書かない語・禁句・裸の係数記号(文書はコードの書式の外の κ_D 以外・コードは κ_D・`κ₀`・κ_epi 以外)・速度の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
 {
@@ -100476,18 +100490,20 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第332便a〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 12) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 17) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第332便a〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
-    const want = ['原仮定者の補足(2026-11-10)', 'R315', 'tests/exp-w332a-eqband.mjs', 'tests/out/eqband-w332a.json', 'tests/lib-w332a-eqband.mjs', 'w332a-eqband-lib-1', 'Y_k m', 'κ_D m', '`κ₀m`', '5/C₁',
+    const want = ['原仮定者の補足(2026-11-10)', '原仮定者の補足その3(2026-11-10)', '手前と奥の差分', 'Ω(R_d² − z²)/ρ', '源の枠の鉛直の成分は 0', '符号と累積', '大きさの門は置かない', '惑星 8/8', '交点で符号が逆', '両方の交点で同じ符号',
+      '原始太陽系の円盤', '水平との若干の違い', '1 − cos i', '5.000 倍', '原仮定者の補足その3(2026-11-10)への枝の答え', 'Q1 手前と奥の差分の作用の型', 'R315', 'tests/exp-w332a-eqband.mjs', 'tests/out/eqband-w332a.json', 'tests/lib-w332a-eqband.mjs', 'w332a-eqband-lib-1', 'Y_k m', 'κ_D m', '`κ₀m`', '5/C₁',
       'K1 の核の平面の類比', 'r → |z| の置き換え', '宣言(未接続)', '今のコードの実装', 'R_d の**球**', '向き A', '方位の力', 'γ は |Ω| に比例', '永年の di/dt と da/dt は 0', '節の歳差',
       '2Y_k m ÷ H = 1.001', '一次資料に当たっていない', '要確認', 'gA = C₁R_d Gm/r³', '字どおりの帯は惑星にも衛星にも届かない', '届くのは環の粒子', '約 6° 傾く', '約半分', '質量で重みを付けた物差し', '水星',
       '5(r/R_d)²', '鉛直の成分を持たない', '原仮定者の補足(2026-11-10)への枝の答え', '決断事項の候補', '第333便への引き継ぎ', 'Q6 エンジンへ opt-in で入れるか', 'AN596', 'lint.eqBand332a', 'behavior.eqBand332a', 'docs.eqBand332a', '`κ_epi`'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第332便a〕に「' + w + '」が無い');
     const a0 = AS.indexOf('\n## 207. 第332便a'), ai = secUntilNext329c(AS, a0, '\n## ');   // 次の見出しまで(固定の字数の窓を持たない)
-    if (!(a0 >= 0 && ai.indexOf('tests/out/eqband-w332a.json') >= 0 && ai.indexOf('`κ_epi`') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('R_d の**球**') >= 0 && ai.indexOf('宣言(未接続)') >= 0 && ai.indexOf('`κ₀m`') >= 0)) bad.push('③ AI_SPEC §207(正本・κ_epi・SYSTEM_PROMPT・球の核・宣言・κ₀m)');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/eqband-w332a.json') >= 0 && ai.indexOf('`κ_epi`') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('R_d の**球**') >= 0 && ai.indexOf('宣言(未接続)') >= 0 && ai.indexOf('`κ₀m`') >= 0
+      && ai.indexOf('手前と奥の差分') >= 0 && ai.indexOf('符号と累積') >= 0)) bad.push('③ AI_SPEC §207(正本・κ_epi・SYSTEM_PROMPT・球の核・宣言・κ₀m・手前と奥の差分・符号と累積)');
     const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl332a = clg.split('\n').find((l) => l.indexOf('**第332便a**') >= 0) || '';
-    if (!(cl332a.indexOf('tests/exp-w332a-eqband.mjs') >= 0 && cl332a.indexOf('eqband-332a') >= 0 && cl332a.indexOf('原仮定者の補足(2026-11-10)') >= 0 && cl332a.indexOf('R315') >= 0)) bad.push('③ CHANGELOG の第332便a の行');
+    if (!(cl332a.indexOf('tests/exp-w332a-eqband.mjs') >= 0 && cl332a.indexOf('eqband-332a') >= 0 && cl332a.indexOf('原仮定者の補足(2026-11-10)') >= 0 && cl332a.indexOf('原仮定者の補足その3(2026-11-10)') >= 0 && cl332a.indexOf('R315') >= 0)) bad.push('③ CHANGELOG の第332便a の行');
     if (!(/S\('eqband-332a', 'node tests\/exp-w332a-eqband\.mjs', \['tests\/out\/eqband-w332a\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '本の宣言の値と純関数と步を進めない読み口だけ") >= 0
       && RT.indexOf('// ==== 第332便a の塊(ここから)====') >= 0)) bad.push('③ 段の行 eqband-332a(quickVerify と理由・塊)');
     if (GI.indexOf('!tests/out/eqband-w332a.json') < 0) bad.push('③ .gitignore の例外');

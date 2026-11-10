@@ -19,6 +19,12 @@
 //     gA = β·G m(−dK1/dr)〔r ≥ R_d で β·Gm/r²〕[m/s²]・γ = β|Ω| [1/s])/k1spin(β は k1N と同じ・gA = β Ω²ρ〔自転 0 で 0〕・γ = β|Ω|)/
 //     k2N(β = (R_d K1)²〔m/r² の重みを自己 m/R_d² で割った型 —— r ≫ R_d で (R_d/r)²〕・gA = β Gm/r²・γ = β|Ω|)/N(β = 1・gA = Gm/r²・γ = |Ω| —— 上の端の比べる列)。
 //   **B の γ は |Ω| に比例**(自転 0 で方位の力 0)。A の k1N・k2N・N は自転に依らない(比べる列)・k1spin は自転 0 で 0。
+// ■ 手前と奥の差分(原仮定者の補足その3(2026-11-10)「回転引きずりは源の天体の自転の手前側と奥側の差分なので、赤道面が最も強い。赤道面からの距離が引きずり半径を超えると、ほぼ消える」
+//   —— 主の宣言): 受け手の高さ z の赤道面に平行な面で源の R_d の球を切ると半径 ℓ = √(R_d² − z²) の円。受け手から軸へ向かう線の手前の点(距離 ρ − ℓ)と奥の点(ρ + ℓ)の自転の速度は
+//   ±Ωℓ φ̂(逆向き)。K1 の重み 1/距離 で平均すると Ωℓ[1/(ρ−ℓ) − 1/(ρ+ℓ)]/[1/(ρ−ℓ) + 1/(ρ+ℓ)] = Ωℓ²/ρ = Ω(R_d² − z²)/ρ —— 形 nearfar S = 1 − t²(赤道面で最大・|z| = R_d で 0 へ
+//   連続)と尺度 U₀ = ΩR_d²/ρ。重みを付けない弦の差 2Ωℓ の形は nfchord(√(1 − t²))。**向き**: 剛体の自転の速度は ŝ に垂直 —— 差分は方位(自転の向き)だけで、源の枠の鉛直の成分は 0。
+//   受け手の公転面から見ると、方位の押しは軌道の向きの成分 cos i/N と公転面の法線の成分 −sin i cos u/N(交点で符号が逆 —— 公転面からの位置で向きが変わる)を持つ。
+//   NF = 自転の向きへ押す γ S U₀ φ̂(受け手の速度に依らない)/NS = 差分の速度 S U₀ への滑り γ S (S U₀ − v_φ) φ̂(比べる列 —— 公転の速さが U₀ より桁で大きいので逆向き)。
 // ■ 軌道の平均(円軌道・半径 a・速さ v・赤道面に対する傾き i〔0〜π〕・節の線を x —— u は昇交点からの角)
 //   N(u) = √(cos²u + sin²u cos²i)・z = a sin u sin i・ρ = aN・v_φ = v cos i/N・Δ(u) = ΩaN − v cos i/N(源は静止)。
 //   ガウスの式: di/dt = (cos u/(na)) W・(da/dt)/a = 2T/(na)・dΩ_node/dt = (sin u/(na sin i)) W(W = 軌道面の法線の成分・T = 軌道の向きの成分)。
@@ -31,20 +37,23 @@ import { C1, LIT as LIT331C, ringFreq } from './lib-w331c-k1scale.mjs';
 
 export const LIB_VERSION = 'w332a-eqband-lib-1';
 const isFin = Number.isFinite;
-export const SHAPES = Object.freeze(['step', 'k1plane', 'gauss', 'sech2']);
+export const SHAPES = Object.freeze(['nearfar', 'nfchord', 'step', 'k1plane', 'gauss', 'sech2']);
 export const TAILS = Object.freeze(['none', 'inv', 'own']);
-export const DIRS = Object.freeze(['A', 'B', 'C']);
+export const DIRS = Object.freeze(['NF', 'NS', 'A', 'B', 'C']);
 export const VPROFS = Object.freeze(['sgn', 'lin']);
 export const STRENGTHS = Object.freeze(['k1N', 'k1spin', 'k2N', 'N']);
 export const RULES = Object.freeze(['kappa0', 'kappaD']);
 /** 形ごとに受理する尾 */
-export const SHAPE_TAILS = Object.freeze({ step: Object.freeze(['none', 'inv']), k1plane: Object.freeze(['none', 'inv']), gauss: Object.freeze(['own']), sech2: Object.freeze(['own']) });
-export const UNITS = Object.freeze({ beta: '1(無次元の結合)', gA: 'm/s²(A の加速度の尺度)', rate: '1/s(B の滑りの率 γ = β|Ω|)', slip: 'm/s(Δ)', a: 'm/s²', Rd: 'm', z: 'm' });
+export const SHAPE_TAILS = Object.freeze({ nearfar: Object.freeze(['none']), nfchord: Object.freeze(['none']), step: Object.freeze(['none', 'inv']), k1plane: Object.freeze(['none', 'inv']), gauss: Object.freeze(['own']), sech2: Object.freeze(['own']) });
+export const UNITS = Object.freeze({ beta: '1(無次元の結合)', gA: 'm/s²(A の加速度の尺度)', rate: '1/s(B・NF・NS の率 γ = β|Ω|)', slip: 'm/s(Δ)', U0: 'm/s(手前と奥の差分の速度の尺度 ΩR_d²/ρ)', a: 'm/s²', Rd: 'm', z: 'm' });
 /** 器の宣言(走行の前に置く —— 結果を見て変えない) */
 export const DECL = Object.freeze({
   G: 6.674e-11, c: 299792458,
-  /** 主の宣言(表の行の基準 —— 原文の「帯の内で強く働く」を字どおりに: 段・尾 0・B・K1 の強さ・R_d は今の規則 κ₀m) */
-  main: Object.freeze({ shape: 'step', tail: 'none', dir: 'B', vprof: 'sgn', strength: 'k1N', rule: 'kappa0' }),
+  /** 主の宣言(原仮定者の補足その3(2026-11-10)「回転引きずりは源の天体の自転の手前側と奥側の差分 —— 赤道面が最も強く、赤道面からの距離が引きずり半径を超えるとほぼ消える」
+   *  「R_d = κ₀m を採用」: 形 nearfar〔受け手の高さの赤道面に平行な切り口の手前と奥の K1 の重みつきの差分 —— 1 − t²〕・尾 0・向き NF〔自転の向きへ押す〕・K1 の強さ・R_d = κ₀m) */
+  main: Object.freeze({ shape: 'nearfar', tail: 'none', dir: 'NF', vprof: 'sgn', strength: 'k1N', rule: 'kappa0' }),
+  /** 第1版の主(補足その2 の字どおり —— 比べる列): 段・尾 0・B(共回りへの滑り)・k1N・κ₀m */
+  mainV1: Object.freeze({ shape: 'step', tail: 'none', dir: 'B', vprof: 'sgn', strength: 'k1N', rule: 'kappa0' }),
   /** 軌道の平均の求積(Gauss–Legendre の点の数・滑らかな形の区切りの t・尾の対数の区間の分割) */
   quad: Object.freeze({ inner: 48, tailPts: 64, tailSegs: 4, smoothT: Object.freeze([0.5, 1, 2, 4, 8, 16, 40]) }),
   /** 太陽系の年齢と環の年齢の幅(文献の値 —— LIT) */
@@ -56,6 +65,8 @@ export const LIT = Object.freeze({
   note: '文献の値 —— 本便は一次資料に当たっていない。土星の環の局所の厚みは総説の典型の値(環ごとの一次資料ではない)。要確認の印は記憶の値の確からしさが低いもの',
   age: Object.freeze({ value: 4.5682e9, src: 'Bouvier, A. & Wadhwa, M. 2010, Nature Geoscience 3, 637(CAI の Pb–Pb 年代 4568.2 Myr)' }),
   ringAge: Object.freeze({ lo: 1e7, hi: 4.5e9, src: 'Iess, L. et al. 2019, Science 364, eaat2965(質量と汚れから若い環 1e7〜1e8 年)・Cuzzi, J. N. et al. 2010, Science 327, 1470(若い環と古い環の両説の総説)' }),
+  diskAspect: Object.freeze({ values: Object.freeze([0.03, 0.05, 0.1]), src: 'Chiang, E. I. & Goldreich, P. 1997, ApJ 490, 368・Armitage, P. J. 2011, ARA&A 49, 195(原始惑星系円盤の厚みと半径の比 H/r ≈ 0.03〜0.1 の桁)' }),
+  diskLife: Object.freeze({ lo: 1e6, hi: 1e7, src: 'Haisch, K. E., Lada, E. A. & Lada, C. J. 2001, ApJ 553, L153(円盤の寿命 —— 約 3 Myr で半分・約 6 Myr でほぼ失われる・1e6〜1e7 年の桁)' }),
   saturnJ2: LIT331C.saturnJ2,
   thickness: LIT331C.thickness,
   bendingA: LIT331C.bendingA,
@@ -122,6 +133,8 @@ export function shapeWeight(shape, tail, t) {
   if (!SHAPES.includes(shape)) throw new RangeError('shapeWeight: 形は ' + SHAPES.join('・'));
   if (!(SHAPE_TAILS[shape] || []).includes(tail)) throw new RangeError('shapeWeight: 形 ' + shape + ' の尾は ' + SHAPE_TAILS[shape].join('・') + ' だけ');
   if (!(t >= 0) || !isFin(t)) { if (t === Infinity) return 0; throw new RangeError('shapeWeight: t ≥ 0'); }
+  if (shape === 'nearfar') return t <= 1 ? 1 - t * t : 0;
+  if (shape === 'nfchord') return t <= 1 ? Math.sqrt(1 - t * t) : 0;
   if (shape === 'step') return t <= 1 ? 1 : tail === 'inv' ? 1 / t : 0;
   if (shape === 'k1plane') return t <= 1 ? 1 - t * t / 3 : tail === 'inv' ? (2 / 3) / t : 0;
   if (shape === 'gauss') return Math.exp(-0.5 * t * t);
@@ -188,8 +201,12 @@ export function bandForce(body, recv, decl) {
   if (rho > 0) { phi = scl(crs(s, rv), 1 / rho); slip = b.Omega * rho - dot(sub(q.v, b.v), phi); }
   const aA = (d.dir === 'A' || d.dir === 'C') ? scl(s, -gA * S * P) : [0, 0, 0];
   const aB = (d.dir === 'B' || d.dir === 'C') ? scl(phi, rate * S * slip) : [0, 0, 0];
-  const a = add(aA, aB);
-  return { z, rho, r, Rd, t, inBand: t <= 1, S, P, beta, gA, rate, slip, phi, aA, aB, a, aMag: nrm(a), decl: d, units: UNITS };
+  // 手前と奥の差分(補足その3): 尺度 U₀ = Ω R_d²/ρ(赤道面の K1 の重みつきの差分の速度 —— 符号は Ω)。NF = 自転の向きへ押す γ S U₀ φ̂(受け手の速度に依らない)/
+  //   NS = 差分の速度 S U₀ への滑り γ S (S U₀ − (v − v_b)·φ̂) φ̂
+  const U0 = rho > 0 ? b.Omega * Rd * Rd / rho : 0, vphi = rho > 0 ? dot(sub(q.v, b.v), phi) : 0;
+  const aNF = d.dir === 'NF' ? scl(phi, rate * S * U0) : d.dir === 'NS' ? scl(phi, rate * S * (S * U0 - vphi)) : [0, 0, 0];
+  const a = add(add(aA, aB), aNF);
+  return { z, rho, r, Rd, t, inBand: t <= 1, S, P, beta, gA, rate, slip, U0, phi, aA, aB, aNF, a, aMag: nrm(a), decl: d, units: UNITS };
 }
 /** 複数の源の和(各源の帯の力を足す —— 宣言: 重ね合わせ) */
 export function bandForceSum(bodies, recv, decl) {
@@ -279,8 +296,14 @@ export function orbitRates({ src, orbit, decl, bodyR = 0 }) {
   const uOfT = (t) => { const zz = t * Rd + bodyR; return asi <= 0 || zz >= asi ? Math.PI / 2 : Math.asin(zz / asi); };
   const Nf = (u) => Math.sqrt(Math.cos(u) * Math.cos(u) + Math.sin(u) * Math.sin(u) * ci * ci);
   const S = (u) => shapeWeight(d.shape, d.tail, tOf(u));
-  const useB = d.dir === 'B' || d.dir === 'C', useA = d.dir === 'A' || d.dir === 'C';
+  const useB = d.dir === 'B' || d.dir === 'C', useA = d.dir === 'A' || d.dir === 'C', useN = d.dir === 'NF' || d.dir === 'NS';
   let dIdt = 0, dAdtOverA = 0, nodeRate = 0, aSecular = null;
+  if (useN && gamma !== 0) {
+    // 手前と奥の差分(補足その3): a_φ(u) = γ S U₀(NF)か γ S (S U₀ − v cos i/N)(NS)・U₀ = Ω R_d²/(aN)
+    const aPhi = (u) => { const N = Nf(u), Sv = S(u), U0 = Om * Rd * Rd / (a * N); return d.dir === 'NF' ? gamma * Sv * U0 : gamma * Sv * (Sv * U0 - v * ci / N); };
+    dIdt += bandQuad((u) => -aPhi(u) * si * Math.cos(u) * Math.cos(u) / (n * a * Nf(u)), uOfT, d.shape, d.tail);
+    dAdtOverA += bandQuad((u) => 2 * aPhi(u) * ci / (Nf(u) * n * a), uOfT, d.shape, d.tail);
+  }
   if (useB && gamma !== 0) {
     const Delta = (u) => { const N = Nf(u); return Om * a * N - v * ci / N; };
     dIdt += bandQuad((u) => -gamma * S(u) * Delta(u) * si * Math.cos(u) * Math.cos(u) / (n * a * Nf(u)), uOfT, d.shape, d.tail);
@@ -303,6 +326,38 @@ export function orbitRates({ src, orbit, decl, bodyR = 0 }) {
   const aligning = dPlane < 0 ? true : dPlane > 0 ? false : null;
   return { Rd, beta, gamma, eps: asi > 0 ? (Rd + bodyR) / asi : Infinity, dIdt, dAdtOverA, nodeRate, aSecular, fracIn, planeAngle, aligning,
     tAlign: aligning === true && planeAngle > 0 ? planeAngle / -dPlane : null, tA: dAdtOverA !== 0 ? 1 / Math.abs(dAdtOverA) : null, tNode: nodeRate !== 0 ? 2 * Math.PI / Math.abs(nodeRate) : null };
+}
+
+/**
+ * 交点ごとの寄与(原仮定者の補足その3(2026-11-10)「公転面を斜めに横切る軌道では、公転面からの位置で影響が変化する」—— 診断): 円軌道が源の赤道面を横切る昇交点(u ≈ 0)と降交点(u ≈ π)の
+ * 帯の中の区間 [−u₀, u₀](u₀ = asin(R_d/(a sin i)))で、方位の力(NF・NS・B)の Δi・Δ(ln a)・軌道面の法線の向きの力積 ∫W dt を別々に積分する。法線の向きの力は cos u に比例して交点で
+ * 符号が逆(公転面からの位置で向きが変わる)・Δi は cos²u に比例して両方の交点で同じ符号。戻り値の sum は 1 周の和(orbitRates の平均 × 周期と同じ —— 門で照合)。
+ */
+export function crossingTable({ src, orbit, decl }) {
+  const d = checkDecl(decl);
+  if (!['NF', 'NS', 'B'].includes(d.dir)) throw new RangeError('crossingTable: 向きは NF・NS・B(方位の力)だけ');
+  if (!(SHAPE_TAILS[d.shape] || []).includes('none') || d.tail !== 'none') throw new RangeError('crossingTable: 尾 none の形だけ(帯の外で 0 —— 交点の区間で閉じる)');
+  if (!src || !(src.m > 0) || !isFin(src.Omega) || !orbit || !(orbit.a > 0) || !(orbit.i > 0) || !(orbit.i < Math.PI) || !(orbit.n > 0) || !(orbit.v > 0)) throw new RangeError('crossingTable: 源と 0 < i < π の円軌道');
+  const Rd = src.Rd !== undefined ? src.Rd : rdOf(src.m, d.rule, d.G, d.c), { a, i, n, v } = orbit, si = Math.sin(i), ci = Math.cos(i), Om = src.Omega;
+  const beta = couplingOf(d.strength, a, Rd), gamma = beta * Math.abs(Om), eps = Rd / (a * Math.abs(si)), u0 = eps >= 1 ? Math.PI / 2 : Math.asin(eps);
+  const node = (sg) => {
+    const trig = (sv) => { const su = sg * Math.sin(sv), cu = sg * Math.cos(sv), N = Math.sqrt(cu * cu + su * su * ci * ci), t = a * Math.abs(su) * Math.abs(si) / Rd, S = shapeWeight(d.shape, d.tail, t);
+      const aPhi = d.dir === 'NF' ? gamma * S * Om * Rd * Rd / (a * N) : d.dir === 'NS' ? gamma * S * (S * Om * Rd * Rd / (a * N) - v * ci / N) : gamma * S * (Om * a * N - v * ci / N);
+      return { cu, N, aPhi }; };
+    const f = (g) => glInt((sv) => g(trig(sv)), -u0, u0, DECL.quad.inner) / n;
+    return { dI: f((q) => -q.aPhi * si * q.cu * q.cu / (n * a * q.N)), dLnA: f((q) => 2 * q.aPhi * ci / (q.N * n * a)), Wimp: f((q) => -q.aPhi * si * q.cu / q.N) };
+  };
+  const asc = node(1), desc = node(-1);
+  return { Rd, eps, u0, durS: 2 * u0 / n, arcHalf: eps < 1 ? Rd / Math.abs(si) : null, asc, desc, sum: { dI: asc.dI + desc.dI, dLnA: asc.dLnA + desc.dLnA, Wimp: asc.Wimp + desc.Wimp }, periodS: 2 * Math.PI / n };
+}
+/** ガウスの鉛直の分布の円盤(厚み H = h a)のうち |z| ≤ R_d にある質量の割合 erf(R_d/(√2 H))(原始太陽系の円盤の列 —— 宣言) */
+export function diskBandFraction(Rd, H) {
+  if (!(Rd > 0) || !(H > 0)) throw new RangeError('diskBandFraction: R_d > 0・H > 0');
+  const x = Rd / (Math.SQRT2 * H);
+  if (x < 1e-4) return x * 2 / Math.sqrt(Math.PI) * (1 - x * x / 3);
+  // erf の級数(x < 3)と漸近(x ≥ 3)
+  if (x < 3) { let sum = x, term = x; for (let k = 1; k < 200; k++) { term *= -x * x / k; const add = term / (2 * k + 1); sum += add; if (Math.abs(add) < 1e-17 * Math.abs(sum)) break; } return 2 / Math.sqrt(Math.PI) * sum; }
+  return 1 - Math.exp(-x * x) / (x * Math.sqrt(Math.PI));
 }
 
 /* ───────── 環(診断 —— 鉛直の振動の一次の目安)───────── */
@@ -347,11 +402,11 @@ export function pureScenes() {
   });
   // 2 符号: A は赤道面へ・B は Ω > 0 で順(静止した受け手)・Ω < 0 で逆
   { const up = bandForce(body, { x: [rB, 0, 0.5 * Rd0] }, { dir: 'A' }), dn = bandForce(body, { x: [rB, 0, -0.5 * Rd0] }, { dir: 'A' });
-    const pro = bandForce(body, { x: [rB, 0, 0] }, { dir: 'B' }), ret = bandForce(Object.assign({}, body, { Omega: -body.Omega }), { x: [rB, 0, 0] }, { dir: 'B' });
+    const pro = bandForce(body, { x: [rB, 0, 0] }, { dir: 'B', shape: 'step' }), ret = bandForce(Object.assign({}, body, { Omega: -body.Omega }), { x: [rB, 0, 0] }, { dir: 'B', shape: 'step' });
     const zero = bandForce(body, { x: [rB, 0, 0] }, { dir: 'A' });
     S.sign = { up: up.aA[2], dn: dn.aA[2], pro: pro.aB[1], ret: ret.aB[1], zeroAtPlane: zero.aA[2] }; }
   // 3 帯の外で 0(段・k1plane の尾 none)と帯の内で 0 でない
-  S.outside = ['step', 'k1plane'].map((sh) => { const o = bandForce(body, { x: [rB, 0, (1 + 1e-9) * Rd0] }, { shape: sh, tail: 'none', dir: 'C' }), i = bandForce(body, { x: [rB, 0, (1 - 1e-9) * Rd0] }, { shape: sh, tail: 'none', dir: 'C' }); return { sh, out: o.aMag, inS: i.S, outS: o.S }; });
+  S.outside = ['step', 'k1plane', 'nearfar', 'nfchord'].map((sh) => { const o = bandForce(body, { x: [rB, 0, (1 + 1e-9) * Rd0] }, { shape: sh, tail: 'none', dir: 'C' }), i = bandForce(body, { x: [rB, 0, (1 - 1e-9) * Rd0] }, { shape: sh, tail: 'none', dir: 'C' }); return { sh, out: o.aMag, inS: i.S, outS: o.S }; });
   // 4 連続: 滑らかな形は t = 1 で連続・k1plane の尾 inv は値と傾きが連続・段の尾 inv は値が連続
   { const dl = 1e-7, sw = (sh, tl, t) => shapeWeight(sh, tl, t);
     S.cont = { gauss: Math.abs(sw('gauss', 'own', 1 + dl) - sw('gauss', 'own', 1 - dl)), sech2: Math.abs(sw('sech2', 'own', 1 + dl) - sw('sech2', 'own', 1 - dl)),
@@ -360,16 +415,25 @@ export function pureScenes() {
   // 5 自転 0: B は 0(全部の強さ)・k1spin の A も 0
   S.spin0 = STRENGTHS.map((st) => { const q = bandForce(Object.assign({}, body, { Omega: 0 }), { x: [rB, 3e3, 0.3 * Rd0], v: [10, -20, 0.5] }, { dir: 'C', strength: st }); return { st, aB: nrm(q.aB), aA: nrm(q.aA) }; });
   // 6 共に回る受け手は Δ = 0(B = 0)・7 ガリレイ変換(源と受け手に同じ速度を足す)で同じ
-  { const x = [rB * 0.6, rB * 0.8, 0.2 * Rd0], vc = crs(scl(body.axis, body.Omega), x), q = bandForce(body, { x, v: vc }, { dir: 'B' });
+  { const x = [rB * 0.6, rB * 0.8, 0.2 * Rd0], vc = crs(scl(body.axis, body.Omega), x), q = bandForce(body, { x, v: vc }, { dir: 'B', shape: 'step' });
     const V = [1234.5, -987.6, 55.5], g1 = bandForce(body, { x, v: [100, 200, 3] }, { dir: 'C' }), g2 = bandForce(Object.assign({}, body, { v: V }), { x, v: add([100, 200, 3], V) }, { dir: 'C' });
     S.corot = { slip: q.slip, slipRel: Math.abs(q.slip) / (body.Omega * rB), aB: nrm(q.aB) };
     S.galilei = { diff: nrm(sub(g1.a, g2.a)) / g1.aMag }; }
+  // 13 手前と奥の差分(補足その3): nearfar・nfchord は t = 1 で 0 へ連続・赤道面で最大・NF は受け手の速度に依らず自転の向き・自転 0 で 0・NS は速い順行の受け手で逆向き・
+  //    鉛直の成分なし(剛体の自転の速度は ŝ に垂直)・赤道面の NF の速度の形 β U₀ は球の核の回転の速度の 5 倍(ρ = r)
+  { const nf = (x, v, extra) => bandForce(body, { x, v }, Object.assign({ shape: 'nearfar', tail: 'none', dir: 'NF' }, extra || {}));
+    const e0 = nf([rB, 0, 0]), e5 = nf([rB, 0, 0.5 * Rd0]), eMov = nf([rB, 0, 0], [0, 2e4, 30]), e1 = nf([rB, 0, (1 - 1e-9) * Rd0]);
+    const s0 = bandForce(Object.assign({}, body, { Omega: 0 }), { x: [rB, 0, 0] }, { shape: 'nearfar', dir: 'NF' }), vK = Math.sqrt(DECL.G * body.m / rB);
+    const ns = nf([rB, 0, 0], [0, vK, 0], { dir: 'NS' }), sp = sphereRot(body, { x: [rB, 0, 0] });
+    S.nearfar = { edgeS: e1.S, edgeChord: shapeWeight('nfchord', 'none', 1 - 1e-12), center: e0.S, half: e5.S / e0.S, pro: e0.aNF[1], indep: nrm(sub(e0.aNF, eMov.aNF)), spin0: nrm(s0.aNF), nsSign: ns.aNF[1],
+      vert: e0.aNF[2], e5vert: e5.aNF[2], velOverSphere: (e0.beta * e0.S * e0.U0) / sp.mag, U0: e0.U0 }; }
   // 8 入力の拒否
   const rej = [() => bandForce(body, { x: [0, 0, 0] }), () => bandForce(Object.assign({}, body, { m: 0 }), { x: [1, 0, 0] }), () => bandForce(Object.assign({}, body, { axis: [0, 0, 0] }), { x: [1, 0, 0] }),
     () => bandForce(body, { x: [1, 0, 0] }, { shape: 'box' }), () => bandForce(body, { x: [1, 0, 0] }, { shape: 'gauss', tail: 'none' }), () => bandForce(body, { x: [1, 0, 0] }, { shape: 'step', tail: 'own' }),
     () => bandForce(body, { x: [1, 0, 0] }, { dir: 'D' }), () => bandForce(body, { x: [1, 0, 0] }, { strength: 'k3' }), () => bandForce(body, { x: [1, 0, 0] }, { rule: 'radius' }),
     () => bandForce(body, { x: [1, NaN, 0] }), () => bandForce(Object.assign({}, body, { Omega: NaN }), { x: [1, 0, 0] }), () => bandForce(body, { x: [1, 0, 0] }, { vprof: 'cube' }),
-    () => sphereRot(body, { x: [0.5 * Rd0, 0, 0] }), () => orbitRates({ src: { m: 1, Omega: 1 }, orbit: { a: 1, i: 4, n: 1, v: 1 }, decl: {} }), () => rdOf(-1)];
+    () => sphereRot(body, { x: [0.5 * Rd0, 0, 0] }), () => orbitRates({ src: { m: 1, Omega: 1 }, orbit: { a: 1, i: 4, n: 1, v: 1 }, decl: {} }), () => rdOf(-1),
+    () => bandForce(body, { x: [1, 0, 0] }, { shape: 'nearfar', tail: 'inv' })];
   S.reject = rej.map((f) => { try { f(); return false; } catch (e) { return e instanceof RangeError; } });
   // 9 規則の比と κ₀・κ_D
   S.rule = { ratio: rdOf(1, 'kappa0') / rdOf(1, 'kappaD'), expect: 5 / C1, k0: kappa0(), kD: kappaD(), satRd0: Rd0, satRdD: rdOf(body.m, 'kappaD') };
@@ -381,8 +445,8 @@ export function pureScenes() {
   // 12 軌道の平均の求積と閉じた式(段の尾 none・inv)・A の永年の di/dt = 0
   S.quad = [1e-9, 1e-4, 0.3, 2].flatMap((eps) => ['none', 'inv'].map((tl) => ({ eps, tl, num: avgCos2S('step', tl, eps), closed: avgCos2StepClosed(tl, eps) })));
   { const src = { m: 1.9885e30, Omega: 2.865e-6 }, GM = DECL.G * src.m, a = 7.785e11, n = Math.sqrt(GM / (a * a * a));
-    const qa = orbitRates({ src, orbit: { a, i: 0.1063, n, v: n * a }, decl: { dir: 'A', strength: 'k1N' } });
-    const qb = orbitRates({ src, orbit: { a, i: 1e-3, n, v: n * a }, decl: { dir: 'B' } });
+    const qa = orbitRates({ src, orbit: { a, i: 0.1063, n, v: n * a }, decl: { dir: 'A', strength: 'k1N', shape: 'step', tail: 'none' } });
+    const qb = orbitRates({ src, orbit: { a, i: 1e-3, n, v: n * a }, decl: { dir: 'B', shape: 'step', tail: 'none' } });
     // 小さな i の閉じた式: di/dt ≈ −(sin i γ Δ/(n a))·avgCos2(ε)(Δ = Ωa − v)
     const Rd = rdOf(src.m), gam = C1 * Rd / a * src.Omega, eps = Rd / (a * Math.sin(1e-3)), closed = -(Math.sin(1e-3) * gam * (src.Omega * a - n * a) / (n * a)) * avgCos2StepClosed('none', eps);
     S.orbit = { aDidt: qa.dIdt, aSecRel: Math.abs(qa.aSecular.dIdt) / qa.aSecular.scale, aNode: qa.nodeRate, bDidt: qb.dIdt, bClosed: closed, bAligning: qb.aligning }; }
@@ -391,14 +455,16 @@ export function pureScenes() {
 export function pureGates(S) {
   const rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b), 1e-300);
   return {
-    mirror: S.mirror.length === 6 && S.mirror.every((q) => q.odd && q.even),
+    mirror: S.mirror.length === 8 && S.mirror.every((q) => q.odd && q.even),
     sign: S.sign.up < 0 && S.sign.dn > 0 && S.sign.pro > 0 && S.sign.ret < 0 && S.sign.zeroAtPlane === 0,
     outsideZero: S.outside.every((q) => q.out === 0 && q.outS === 0 && q.inS > 0),
+    nearFar: S.nearfar.edgeS < 1e-8 && S.nearfar.edgeChord < 1e-5 && S.nearfar.center === 1 && Math.abs(S.nearfar.half - 0.75) < 1e-12 && S.nearfar.pro > 0 && S.nearfar.indep === 0 && S.nearfar.spin0 === 0
+      && S.nearfar.nsSign < 0 && S.nearfar.vert === 0 && S.nearfar.e5vert === 0 && Math.abs(S.nearfar.velOverSphere - 5) < 1e-9,
     continuity: S.cont.gauss < 1e-6 && S.cont.sech2 < 1e-6 && S.cont.k1v < 1e-6 && Math.abs(S.cont.k1slopeL - S.cont.k1slopeR) < 1e-5 && S.cont.stepInv < 1e-6 && S.cont.stepNoneJump === 1 && rel(S.cont.k1edge, 2 / 3) < 1e-15,
     spinZero: S.spin0.every((q) => q.aB === 0) && S.spin0.find((q) => q.st === 'k1spin').aA === 0 && S.spin0.find((q) => q.st === 'k1N').aA > 0,
     corotation: S.corot.slipRel < 1e-12 && S.corot.aB < 1e-25,
     galilei: S.galilei.diff < 1e-12,
-    reject: S.reject.length === 15 && S.reject.every(Boolean),
+    reject: S.reject.length === 16 && S.reject.every(Boolean),
     ruleRatio: rel(S.rule.ratio, S.rule.expect) < 1e-15 && rel(S.rule.k0, 8.8076e-27) < 1e-4 && rel(S.rule.kD, 1.4852e-27) < 1e-4,
     k1Identity: rel(S.k1id.k0, C1) < 1e-6 && rel(S.k1id.kD, C1) < 1e-6,
     sphereCore: S.sphere.axis === 0 && rel(S.sphere.latRatio, Math.SQRT1_2) < 1e-12 && rel(S.sphere.farRatio, 0.25) < 1e-12 && S.sphere.pro > 0 && S.sphere.vert === 0 && rel(S.sphere.beta, S.sphere.betaExpect) < 1e-15,
