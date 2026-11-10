@@ -116,7 +116,7 @@ function evalCombo(D, combo) {
     const up = TG.polar(at, F.u), vp = TG.polar(at, v), dp = TG.polar(at, Dt.dudt), dux = F.u[0] - v[0], duy = F.u[1] - v[1];
     rows.push({ i, R: up.r, phi: Math.atan2(P.y, P.x), m: P.m, uPhi: up.phi, uR: up.R, vPhi: vp.phi, vR: vp.R, vortHalf: 0.5 * F.vort, dudtPhi: dp.phi, dudtR: dp.R,
       dudtAbs: Math.hypot(Dt.dudt[0], Dt.dudt[1]), steadyAbs: Math.hypot(tr.a[0], tr.a[1]), convAbs: Math.hypot(Jv[0], Jv[1]),
-      torque: P.m * (P.x * duy - P.y * dux), work: P.m * (P.vx * dux + P.vy * duy), shareSelf: F.shares.self, uDotSame: Math.max(Math.abs(Dt.u[0] - F.u[0]), Math.abs(Dt.u[1] - F.u[1])) / Math.max(Math.hypot(F.u[0], F.u[1]), 1e-300) });
+      torque: P.m * (P.x * duy - P.y * dux), work: P.m * (P.vx * dux + P.vy * duy), shareSelf: F.shares.self, shareSrc: F.shares.src, uDotSame: Math.max(Math.abs(Dt.u[0] - F.u[0]), Math.abs(Dt.u[1] - F.u[1])) / Math.max(Math.hypot(F.u[0], F.u[1]), 1e-300) });
   }
   return rows;
 }
@@ -125,21 +125,21 @@ function edgesOf(RG) { const dR = RG.dR * KPC, e = RG.rings.map((r) => r.Rg - dR
 function annuli(D, rows, edges, RG) {
   const kin = L.annulusKinematics(D.pts.slice(1), edges);
   return kin.map((a, b) => {
-    const q = rows.filter((r) => r.R >= a.lo && r.R < a.hi), base = { RKpc: RG.rings[b].RKpc, n: a.n };
+    const q = rows.filter((r) => r.R >= a.lo && r.R < a.hi), base = { RKpc: RG.rings[b].RKpc, n: a.n, lo: a.lo, hi: a.hi };
     if (!q.length) return base;
     const M = q.reduce((s, r) => s + r.m, 0), mean = (k) => q.reduce((s, r) => s + r.m * r[k], 0) / M;
     const uF = L.fourierM(q.map((r) => r.phi), q.map((r) => r.uPhi - mean('uPhi')), 2), uPhiMean = mean('uPhi');
     return Object.assign(base, { mass: a.mass, A2: a.A2, phase2: a.phase2, vphiMean: a.vphiMean, vRMean: a.vRMean, sigmaR: a.sigmaR, sigmaPhi: a.sigmaPhi, jFlux: a.jFlux,
       uPhiMean, uRMean: mean('uR'), uPhiA2: 2 * Math.hypot(uF.c, uF.s) / q.length / Math.abs(uPhiMean), uPhiPhase2: uF.phase,   // U_φ の m = 2 の振幅 ÷ |方位平均|
       vortHalfMean: mean('vortHalf'), dudtPhiMean: mean('dudtPhi'), dudtOverConv: median(q.map((r) => r.dudtAbs / r.convAbs)), dudtOverSteady: median(q.map((r) => r.dudtAbs / r.steadyAbs)),
-      torque: q.reduce((s, r) => s + r.torque, 0), work: q.reduce((s, r) => s + r.work, 0), shareSelf: median(q.map((r) => r.shareSelf)) });
+      torque: q.reduce((s, r) => s + r.torque, 0), work: q.reduce((s, r) => s + r.work, 0), shareSelf: median(q.map((r) => r.shareSelf)), shareSrc: median(q.map((r) => r.shareSrc)) });
   });
 }
 const inSum = (a) => a.RKpc >= PLAN.sumFromKpc && a.RKpc <= PLAN.sumToKpc;
 function summaryOf(an, RG) {
   const q = an.filter((a) => inSum(a) && a.n > 0), mo = (k) => median(q.map((a) => a[k]));
   return { n: q.length, A2: mo('A2'), uPhiA2: mo('uPhiA2'), sigmaROverV: median(q.map((a) => a.sigmaR / RG.rings.find((r) => r.RKpc === a.RKpc).vObs)), dudtOverConv: mo('dudtOverConv'), dudtOverSteady: mo('dudtOverSteady'),
-    jFluxSum: q.reduce((s, a) => s + a.jFlux, 0), torqueSum: q.reduce((s, a) => s + a.torque, 0), workSum: q.reduce((s, a) => s + a.work, 0), shareSelf: mo('shareSelf'),
+    jFluxSum: q.reduce((s, a) => s + a.jFlux, 0), jFluxNorm: q.reduce((s, a) => s + a.jFlux, 0) / q.reduce((s, a) => s + a.mass * a.vphiMean * a.vphiMean * 0.5 * (a.lo + a.hi) / (a.hi - a.lo), 0), torqueSum: q.reduce((s, a) => s + a.torque, 0), workSum: q.reduce((s, a) => s + a.work, 0), shareSelf: mo('shareSelf'), shareSrc: mo('shareSrc'),
     phaseLag: median(q.filter((a) => a.A2 > 1e-9 && a.uPhiA2 > 1e-9).map((a) => Math.abs(L.wrapM(a.uPhiPhase2 - a.phase2)))) };   // 円軌道の族は m = 2 が丸めの桁 —— 位相を比べない(null)
 }
 
