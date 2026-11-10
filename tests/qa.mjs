@@ -100831,7 +100831,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 
 // ---- 第333便b: docs.axialField333b は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
 // ----   lint・behavior を数えない)。世代切替は上と同じ
-// ----   docs.axialField333b(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全・core・abBody:false・presets は 🗺️ と 💍 の 2 本)・宣言が lib の DECL と同じ ② 表 13 本が PHYSICS〔第333便b〕に逐語
+// ----   docs.axialField333b(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全・core・abBody:false・presets は 🗺️ と 💍 の 2 本)・宣言が lib の DECL と同じ ② 表 12 本が PHYSICS〔第333便b〕に逐語
 // ----     ③ 節の位置(〔第332便b〕の節の後・「## 7.」の前)・必須の語・AI_SPEC §210(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
 // ----     ④ 書かない語・禁句・係数記号・速度の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)・説明に出さないコードの名前
 {
@@ -100865,7 +100865,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第333便b〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 13) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 12) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第333便b〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の整理(2026-11-10)', '原仮定者の回答(2026-11-10 —— AN604', 'R318', 'tests/exp-w333b-axialfield.mjs', 'tests/out/axialfield-w333b.json', 'tests/lib-w333b-axialfield.mjs', 'w333b-axialfield-lib-1', '統括の参考の試作',
