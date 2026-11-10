@@ -205,7 +205,7 @@
   "c": 299792458
  },
  "notClaim": [
-  "表は宣言した型の一次の率・基準との差・残差(G_loc の次数を決めたとは書かない)",
+  "表は宣言した型の一次の率・基準との差・残差(G_loc の次数を選んだとは書かない)",
   "新しい引きずりで水星の近点の値を出したとは書かない",
   "一次の率は無摂動の軌道の平均(写しの時間発展ではない)—— 率 × 周期が 1e-3 を超える列は一次外挿が壊れる印",
   "統合した並進引きずり・回転引きずりの差分・対称の G_loc の n の格子は宣言(未接続 —— 今のエンジンに無い)",
@@ -2732,16 +2732,16 @@
    "wallSec": 0.033
   },
   "merc3d": {
-   "wallSec": 0.224
+   "wallSec": 0.253
   },
   "numeric": {
-   "wallSec": 2.844
+   "wallSec": 2.542
   },
   "controls": {
-   "wallSec": 3.346
+   "wallSec": 2.897
   },
   "bin": {
-   "wallSec": 4.174
+   "wallSec": 3.439
   }
  },
  "gates": {
@@ -2756,13 +2756,13 @@
   "binary": true
  },
  "ok": true,
- "elapsedS": 6.145,
+ "elapsedS": 5.209,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第333便c",
   "target": "beta/index.html",
   "targetSha256": "6dd99a739eb9858a45fde9ce757fa7b21358a677d39e7dc56b3b80754790aeb9",
-  "generatedAt": "2026-11-10T20:07:55.710Z",
+  "generatedAt": "2026-11-10T20:11:14.333Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -2781,14 +2781,14 @@
    {
     "file": "tests/exp-w333c-mercury3d.mjs",
     "bytes": 29178,
-    "sha256": "03206c7ce8c28f9804afb74c6dfa2928a90536a0ef7358f1fe5979b254442c45",
-    "mtime": "2026-11-10T20:06:03.691Z"
+    "sha256": "537c57b720b55098c9b338fabbccde74de39e10a6c6f329b7e768fd513b0e915",
+    "mtime": "2026-11-10T20:11:09.041Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35614,
-    "sha256": "c5f526ad651aeca338dd2e7e8249d54b633e9e972eb9fb1410a255fc9291e45e",
-    "mtime": "2026-11-10T20:06:03.687Z"
+    "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
+    "mtime": "2026-11-10T20:11:09.040Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
@@ -2857,12 +2857,12 @@
     "mtime": "2026-11-10T19:46:47.695Z"
    }
   ],
-  "codeSha256": "4775b066965857549fa76bc8be5ac42ac5b50cb388d212bf0cedc42493f378d2",
+  "codeSha256": "575cc9376c0af5b3ca0fc550f6030f1ba015fc0cb506731d742276710e97edb7",
   "harnessVersion": "w333c-mercury3d-1",
   "stage": "mercury3d",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)・🌡️🌋🔴 の本の宣言を読む(步を進めない)・正本 inposk1-w315c の値を読む・純関数(lib)",
   "notClaim": [
-   "表は宣言した型の一次の率・基準との差・残差(G_loc の次数を決めたとは書かない)",
+   "表は宣言した型の一次の率・基準との差・残差(G_loc の次数を選んだとは書かない)",
    "新しい引きずりで水星の近点の値を出したとは書かない",
    "一次の率は無摂動の軌道の平均(写しの時間発展ではない)—— 率 × 周期が 1e-3 を超える列は一次外挿が壊れる印",
    "統合した並進引きずり・回転引きずりの差分・対称の G_loc の n の格子は宣言(未接続 —— 今のエンジンに無い)",
