@@ -1,6 +1,6 @@
 // 第332便b(原仮定者の補足(2026-11-10)・統括の検証項目 R316): **正本 tests/out/transgeo2-w332b.json から PHYSICS〔第332便b〕の表を作る文書の lib**
 // (QA docs.transGeo2332b が節の表と逐語で照合する —— 表の数は有効数字 4 桁か指数 3 桁・丸めの程度の数〔恒等式の残差・解析と差分の差〕は「< 1e-10」の形で書き、数そのものは載せない)。
-export const DOC_VERSION = 'w332b-transgeo2doc-1';
+export const DOC_VERSION = 'w332b-transgeo2doc-2';   // 版 2(原仮定者の補足その4): 表 1 に場面 ⑬ ⑭・表 13・14(重み m/r の並進引きずりの均一さ)
 const fe = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toExponential(3));
 const f3 = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toPrecision(4));
 const lt = (x, t) => (Number.isFinite(x) && Math.abs(x) <= t ? '< ' + t.toExponential(0) : '**' + fe(x) + '**');
@@ -35,7 +35,9 @@ export function tablesOf(J) {
     `| ⑨ k_F = 0 で輸送 0・k_F = 0.5 の式との相対の差 | ${S.kFrame.zero}・${lt(S.kFrame.half, 1e-10)} | ${tf(G.kFrame)} |`,
     `| ⑩ 局所のべき(R^−0.7 の不等間隔)の誤差・符号の変わる列は null・比の要約(符号の反転 ${S.slopes.ratio.signFlips}) | ${lt(S.slopes.maxErr, 1e-10)}・${tf(S.slopes.signNull)} | ${tf(G.slopes)} |`,
     `| ⑪ 自己の規則: R_d ÷ κ_D m(= 5/C₁)・本の半径の ballMean の重みの差・kappaM と第330便b の kappaMRadius の差 | ${f3(S.selfRules.ratioRdOverKd)}・${S.selfRules.wBook}・${S.selfRules.kappaM} | ${tf(G.selfRules)} |`,
-    `| ⑫ 入力の拒否(知らない核・負の軟化・受け手と源の一致・源なしの分母 0・p = 3・知らない回転・半径 0 の decay・負の背景・本の半径なし・知らない規則・g < 0・原点の極座標) | ${S.reject.n}/${S.reject.of} | ${tf(G.reject)} |`].join('\n');
+    `| ⑫ 入力の拒否(知らない核・負の軟化・受け手と源の一致・源なしの分母 0・p = 3・知らない回転・半径 0 の decay・負の背景・本の半径なし・知らない規則・g < 0・原点の極座標) | ${S.reject.n}/${S.reject.of} | ${tf(G.reject)} |`,
+    `| ⑬ 補足その4: 中心の自転 Ω の座標変換の回転の分子(r = 1・2・4・8)—— m/r で mΩ との差・m/r² で mΩ/r との差 / 自己の重みが分母を占める(w_self = 1e6 m)と m/r の u_φ の端 ÷ 中心付近・外側のべき(物差しの内)と m/r² の端 ÷ 中心付近(物差しの外)/ mΩ/(w_self + m/r) との差 | ${lt(S.mOverRCenter.numR, 1e-10)}・${lt(S.mOverRCenter.num2, 1e-10)} / ${f3(S.mOverRCenter.uniformR.edgeOverCenter)}・${lt(S.mOverRCenter.uniformR.outerSlope, 1e-6)}・${f3(S.mOverRCenter.uniform2.edgeOverCenter)} / ${lt(S.mOverRCenter.selfLimit, 1e-10)} | ${tf(G.mOverRCenter)} |`,
+    `| ⑭ 補足その4: m/r の並進引きずりの場の読み(座標変換・自己なし・背景なし)と E3 の型(p 1)の ε = 0・q = 0・D₀ = 0 の u・J の差 / D₀ > 0 は源の分の倍・自己も源の分の倍(相対の差)/ ε = 0.3 との相対の差(違う所) | ${S.mOverRIsE3.same}・${S.mOverRIsE3.sameJ} / ${lt(S.mOverRIsE3.bgFactor, 1e-10)}・${lt(S.mOverRIsE3.selfFactor, 1e-10)} / ${fe(S.mOverRIsE3.epsDiff)} | ${tf(G.mOverRIsE3)} |`].join('\n');
   // 表 2 エンジンとの照らし(2 步目の S._core の入口の状態 —— 固定の天体を除く 380 粒子)
   T.engine = ['| 💫 の写し | frameWeight | 核(p・ε) | 背景 | q | u の相対の差(Float32 の配列) | ∇P・∇W の相対の差 | 分母の和の相対の差 |', '|---|---|---|---|---|---|---|---|']
     .concat(E.anchors.map((q) => `| ${q.key} | ${q.frameWeight} | ${q.kernel}(${q.p}・${f3(q.eps)}) | ${f3(q.bg)} | ${f3(q.q)} | ${fe(q.uRel)} | ${lt(q.gradRel, 1e-12)} | ${fe(q.wsumRel)} |`))
@@ -109,6 +111,31 @@ export function tablesOf(J) {
       }
     }
     T.range = ['| 系 | 並進引きずりの型 | 半径の点 | G0(在位の宣言)÷ 並進の u_φ(比 10%・緩い 2 倍・Δv 10% の内の点)| G0bg0(背景 0)| Gpull0(frameWeight:"pull"・D0pull 0・q は本の値 —— 受理される)| Gpull0coord(Gpull0 の源の回転を座標変換 —— q = 0 は受理されない)| Gpull0 の物差しの内の半径 |', '|---|---|---|---|---|---|---|---|'].concat(rows).join('\n');
+  }
+  // 表 13 補足その4 —— 重み m/r の並進引きずりと m/r² の均一さ(物差し: 端 ÷ 中心付近 1 ± 10%・外側のべき |p| ≤ 0.1 —— 走行の前の宣言)
+  {
+    const U = J.uniform, UL = Object.freeze({ book: '💫 の写し', bookSpin0: '💫・中心の自転 0', ngcFixture: 'NGC 3198 fixture', ngcExp: 'NGC 3198 指数円盤' });
+    const CL = Object.freeze({ 'transR|coord|field': 'm/r・座標変換・場の読み', 'transR|coord|self:kappaM:ballMean': 'm/r・座標変換・自己 R_d = Y_k m', 'transR|coord|self:kappaD:ballMean': 'm/r・座標変換・自己 κ_D m',
+      'trans|coord|field': 'm/r²・座標変換・場の読み(TF)', 'trans|coord|self:kappaM:ballMean': 'm/r²・座標変換・自己 R_d = Y_k m(TS)', 'geo2|decay|e3': 'G0(在位の geoPN = 2)', 'geo2|coord|field': 'E3 の型・q = 0・D₀ = 0(ε は本の値)', 'pullSoft|decay|field': 'Gpull0(pull・D0pull 0)' });
+    const unitOf = (tag) => (tag.startsWith('ngc') ? 'km s⁻¹' : 'L/T'), val = (tag, x) => (tag.startsWith('ngc') ? g3(x / 1e3) : g3(x));
+    const rows = [];
+    for (const sy of U.systems) {
+      const keys = sy.spin === 'book' ? Object.keys(CL) : ['transR|coord|field', 'transR|coord|self:kappaM:ballMean', 'transR|coord|self:kappaD:ballMean', 'trans|coord|field'];
+      for (const k of keys) { const z = sy.series[k]; if (!z) continue; const mid = Math.floor(z.uPhi.length / 2);
+        rows.push(`| ${UL[sy.tag]} | ${sy.spin} | ${CL[k]} | ${val(sy.tag, z.uPhi[0])}・${val(sy.tag, z.uPhi[mid])}・${val(sy.tag, z.uPhi[z.uPhi.length - 1])} ${unitOf(sy.tag)} | ${f3(z.edgeOverCenter)} | ${f3(z.outerSlope)} | ${f3(z.maxOverMin)} | ${tf(z.ratioOk)}・${tf(z.slopeOk)} |`); }
+    }
+    const all = U.systems.flatMap((sy) => Object.values(sy.series)), nB = all.filter((z) => z.uniform).length, nR = all.filter((z) => z.ratioOk).length, nS = all.filter((z) => z.slopeOk).length;
+    T.uniform = ['| 系 | 源の自転 | 組 | u_φ(最初・中ほど・最後の半径)| 端 ÷ 中心付近 | 外側のべき | 最大 ÷ 最小 | 物差しの内(比・べき) |', '|---|---|---|---|---|---|---|---|']
+      .concat(rows).concat([`| 全部の列(系 4 × 源の自転 2 —— ${all.length} 列) | — | — | — | — | — | — | 両方 ${nB}・比の内 ${nR}・べきの内 ${nS} |`]).join('\n');
+  }
+  // 表 14 補足その4 —— NGC 3198 の v_obs との比(fixture・u_φ ÷ v_obs と剛体の枠の読み (v_bar + u_φ) ÷ v_obs)
+  {
+    const sys = J.uniform.systems.filter((q) => q.tag === 'ngcFixture'), idx = [1, 4, 8, 16, 30].map((R) => J.ngc.main.fixture.Rs.indexOf(R)).filter((k) => k >= 0);
+    const CL = Object.freeze({ 'transR|coord|field': 'm/r・座標変換・場の読み', 'transR|coord|self:kappaM:ballMean': 'm/r・座標変換・自己 R_d = Y_k m', 'trans|coord|field': 'm/r²・座標変換・場の読み(TF)', 'geo2|decay|e3': 'G0', 'pullSoft|decay|field': 'Gpull0' });
+    const rows = [];
+    for (const sy of sys) for (const k of Object.keys(CL)) { const z = sy.series[k]; if (!z) continue;
+      rows.push(`| ${sy.spin} | ${CL[k]} | ${idx.map((i) => g3(z.uOverVobs[i])).join('・')} | ${idx.map((i) => f3(z.vRigidOverVobs[i])).join('・')} |`); }
+    T.uniformNgc = ['| 源の自転 | 組 | u_φ ÷ v_obs(1・4・8・16・30 kpc) | 剛体の枠の読み (v_bar + u_φ) ÷ v_obs(同じ半径) |', '|---|---|---|---|'].concat(rows).join('\n');
   }
   // 表 12 自己の重みの規則の値
   {

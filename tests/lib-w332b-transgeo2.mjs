@@ -26,9 +26,10 @@ import * as W from './lib-w330b-dragweight.mjs';
 import * as CT from './lib-w331a-coordtwist.mjs';
 import * as CF from './lib-w331b-centrifugal.mjs';
 
-export const LIB_VERSION = 'w332b-transgeo2-lib-1';
-/** 核(p・軟化の扱い)—— geo2 = E1′(p 1・本の ε)・trans = 並進引きずりの点の重み(p 2・ε 0)・pullSoft = エンジンの frameWeight:"pull"(p 2・本の ε) */
-export const KERNELS = Object.freeze(['geo2', 'trans', 'pullSoft']);
+export const LIB_VERSION = 'w332b-transgeo2-lib-2';   // 版 2(原仮定者の補足その4(2026-11-10)): 核 transR(m/r の並進引きずり)・均一さの物差し uniformity・場面 ⑬ ⑭
+/** 核(p・軟化の扱い)—— geo2 = E1′(p 1・本の ε)・trans = 並進引きずりの点の重み(p 2・ε 0)・pullSoft = エンジンの frameWeight:"pull"(p 2・本の ε)・
+ *  transR = 重み m/r の並進引きずり(p 1・ε 0 —— 原仮定者の補足その4(2026-11-10)「回転を含んだ並進引きずりの重みを m/r にした場合」) */
+export const KERNELS = Object.freeze(['geo2', 'trans', 'pullSoft', 'transR']);
 /** 源の回転 —— decay = E2(源の半径 R_j を見る減衰)・coord = 座標変換の回転(半径を見ない) */
 export const ROTS = Object.freeze(['decay', 'coord']);
 /** 自己の重みの半径の規則(kappaM = K1 の規則 R_d = Y_k m・kappaD = κ_D m・book = 本の宣言の半径 —— 比べる列) */
@@ -37,7 +38,7 @@ export const SELF_SHAPES = W.SELF_TYPES;
 /** 宣言(走行の前に置く —— 結果を見て変えない) */
 export const DECL = Object.freeze({
   /** 核の p(geo2 1・trans 2・pullSoft 2)と軟化を本の ε にするか */
-  kernelP: Object.freeze({ geo2: 1, trans: 2, pullSoft: 2 }), kernelSoft: Object.freeze({ geo2: true, trans: false, pullSoft: true }),
+  kernelP: Object.freeze({ geo2: 1, trans: 2, pullSoft: 2, transR: 1 }), kernelSoft: Object.freeze({ geo2: true, trans: false, pullSoft: true, transR: false }),
   /** 解析の勾配と差分の照らしの相対の刻み・許容 */
   fdStep: 1e-6, fdTol: 1e-6,
   /** 恒等式の門の相対の許容 */
@@ -157,6 +158,20 @@ export function ratioSummary(base, alt) {
   return { n: L.length, medianAbsLn: CF.median(L), maxAbsLn: L.length ? Math.max(...L) : null, signFlips: flips.length };
 }
 
+/**
+ * 均一さの読み(原仮定者の補足その4 —— 物差しは呼ぶ側の宣言 yard = { ratio, slope }): R の昇順・f(速度の場の値)・outerFrom(外側のべきを読む半径の下限)。
+ * 戻り値: 端 ÷ 中心付近(最後の点 ÷ 最初の点)・外側の局所のべきの中央値・最大 ÷ 最小(|f|)・物差しの内か(|端 ÷ 中心 − 1| ≤ ratio ∧ |外側のべき| ≤ slope)
+ */
+export function uniformity({ R, f, outerFrom, yard }) {
+  if (!Array.isArray(R) || !Array.isArray(f) || R.length !== f.length || R.length < 3 || !fin(outerFrom) || !yard || !fin(yard.ratio) || !fin(yard.slope)) throw new RangeError('uniformity: 同じ長さ 3 点以上・外側の下限・物差し');
+  const sl = localSlopes(R, f), outer = sl.filter((x, k) => R[k] >= outerFrom);
+  const ok = f.every((v) => fin(v) && v !== 0) && f.every((v) => Math.sign(v) === Math.sign(f[0]));
+  const edgeOverCenter = ok ? f[f.length - 1] / f[0] : null, outerSlope = outer.length && outer.every(fin) ? CF.median(outer) : null;
+  const a = f.map(Math.abs), maxOverMin = ok ? Math.max(...a) / Math.min(...a) : null;
+  const ratioOk = edgeOverCenter !== null && Math.abs(edgeOverCenter - 1) <= yard.ratio, slopeOk = outerSlope !== null && Math.abs(outerSlope) <= yard.slope;
+  return { edgeOverCenter, outerSlope, maxOverMin, ratioOk, slopeOk, uniform: ratioOk && slopeOk };
+}
+
 /* ───────── 純関数の場面と門 ───────── */
 export function pureScenes() {
   const S = {};
@@ -234,6 +249,21 @@ export function pureScenes() {
       () => polar([0, 0], [1, 0])];
     let n = 0; for (const f of bad) { try { f(); } catch (e) { if (e instanceof RangeError) n++; } }
     S.reject = { n, of: bad.length }; }
+  // ⑬ 補足その4: 中心の自転 Ω の座標変換の回転は m/r の重みで分子 w·Ω r = mΩ(距離に依らない)・m/r² では mΩ/r。自己の重みが分母を占めると m/r の u_φ は距離に依らない(mΩ/w_self)
+  { const KR = kernelOf('transR'), src = [{ x: 0, y: 0, vx: 0, vy: 0, m: 3, spin: 0.4, R: 0.5 }], rs = [1, 2, 4, 8];
+    const num = (K) => rs.map((r) => { const F = frameField({ at: [r, 0], sources: src, kernel: K, rot: RC }); return F.P[1]; });
+    const nR = num(KR), n2 = num(K2), selfBig = 3e6;
+    const uR = rs.map((r) => frameField({ at: [r, 0], sources: src, kernel: KR, rot: RC, selfW: selfBig }).u[1]), u2 = rs.map((r) => frameField({ at: [r, 0], sources: src, kernel: K2, rot: RC, selfW: selfBig }).u[1]);
+    const un = uniformity({ R: rs, f: uR, outerFrom: 2, yard: { ratio: 0.1, slope: 0.1 } }), u2n = uniformity({ R: rs, f: u2, outerFrom: 2, yard: { ratio: 0.1, slope: 0.1 } });
+    S.mOverRCenter = { numR: Math.max(...nR.map((x) => Math.abs(x / (3 * 0.4) - 1))), num2: Math.max(...n2.map((x, k) => Math.abs(x * rs[k] / (3 * 0.4) - 1))), uniformR: un, uniform2: u2n,
+      selfLimit: relD(uR[0], 3 * 0.4 / (selfBig + 3)) }; }
+  // ⑭ 補足その4: m/r の並進引きずりの場の読み(transR・座標変換・自己なし・背景なし)は E3 の型(p 1)で ε = 0・q = 0・D₀ = 0 の場と同じ値・D₀ > 0 は源の分の倍・ε > 0 と自己は違う所
+  { const KR = kernelOf('transR'), K0 = kernelOf('geo2', 0), Ke = kernelOf('geo2', 0.3), D = 1.5;
+    const T0 = frameField({ at, sources: SR, kernel: KR, rot: RC }), E0 = frameField({ at, sources: SR, kernel: K0, rot: { type: 'decay', q: 0 } });
+    const Eb = frameField({ at, sources: SR, kernel: K0, rot: { type: 'decay', q: 0 }, bg: D }), Ee = frameField({ at, sources: SR, kernel: Ke, rot: { type: 'decay', q: 0 } }), Ts = frameField({ at, sources: SR, kernel: KR, rot: RC, selfW: 2 });
+    S.mOverRIsE3 = { same: Math.max(Math.abs(T0.u[0] - E0.u[0]), Math.abs(T0.u[1] - E0.u[1])), sameJ: Math.max(...[0, 1].flatMap((a) => [0, 1].map((c) => Math.abs(T0.J[a][c] - E0.J[a][c])))),
+      bgFactor: Math.max(relD(Eb.u[0], Eb.shares.src * T0.u[0]), relD(Eb.u[1], Eb.shares.src * T0.u[1])), epsDiff: Math.max(relD(Ee.u[0], T0.u[0]), relD(Ee.u[1], T0.u[1])),
+      selfFactor: Math.max(relD(Ts.u[0], Ts.shares.src * T0.u[0]), relD(Ts.u[1], Ts.shares.src * T0.u[1])) }; }
   return S;
 }
 export function pureGates(S) {
@@ -251,5 +281,7 @@ export function pureGates(S) {
     slopes: S.slopes.maxErr <= 1e-9 && S.slopes.signNull && S.slopes.ratio.signFlips === 1 && S.slopes.ratio.n === 4,
     selfRules: Math.abs(S.selfRules.ratioRdOverKd - 5 / 0.8431) < 1e-3 && S.selfRules.wBook <= tol && S.selfRules.kappaM <= tol,
     reject: S.reject.n === S.reject.of,
+    mOverRCenter: S.mOverRCenter.numR <= tol * 10 && S.mOverRCenter.num2 <= tol * 10 && S.mOverRCenter.uniformR.uniform === true && S.mOverRCenter.uniform2.uniform === false && S.mOverRCenter.selfLimit <= tol,
+    mOverRIsE3: S.mOverRIsE3.same === 0 && S.mOverRIsE3.sameJ === 0 && S.mOverRIsE3.bgFactor <= tol && S.mOverRIsE3.epsDiff > 1e-6 && S.mOverRIsE3.selfFactor <= tol,
   };
 }
