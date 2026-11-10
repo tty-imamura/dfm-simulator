@@ -186,7 +186,7 @@ Evidence}}%
 \begin{abstract}
 We present Determinacy-Field Mechanics (DFM), an educational toy model in
 which a single scalar field $W$ (the ``determinacy field,'' sourced by
-point masses as $w = m/\sqrt{d^2+\varepsilon^2}$) simultaneously plays
+point masses as $w = m/\sqrt{r^2+\varepsilon^2}$ at distance $r$) simultaneously plays
 four roles---the weight defining the local inertial frame, the
 gravitational potential, the local clock rate, and the optical
 refractive index---while a single signed spin degree of freedom $s$ per
@@ -205,10 +205,10 @@ machine-verified by an embedded test suite.
 % statement is the one already made in the body (Sec. II B and
 % contribution C2); nothing new is claimed here.
 The plane is idealized in one respect that should be said at the
-outset: the field is \emph{posited} to fall off as $w \propto m/d$, so
+outset: the field is \emph{posited} to fall off as $w \propto m/r$, so
 that the force is inverse-square as in three dimensions, rather than
-the $1/d$ that a Gauss-law-consistent field on a plane would give.
-The choice keeps Kepler orbits and $1/d^2$ forces in the picture a
+the $1/r$ that a Gauss-law-consistent field on a plane would give.
+The choice keeps Kepler orbits and $1/r^2$ forces in the picture a
 student sees, at the price of the flux reading of the law and of the
 shell theorem, and the body states that price where the axioms
 introduce it.
@@ -260,7 +260,8 @@ bookkeeping in interactive form.
 
 % wave 316d (the originator's ruling, report 118 -- decision AN416): a short notation table and one note.
 % Symbols only -- no number, equation, window or claim is changed; implementation keys are unchanged.
-\noindent\textit{Notation.}\footnote{Earlier versions of this paper wrote the spacetime coefficient as $\kappa$ and the spin-diffusion coefficient as $\kappa_s$; this version writes $X_k$ and $S_k$ (the figure panels keep the earlier labels). The implementation keys (\texttt{kappaT}, \texttt{kappaS}), all numbers, equations and claims are unchanged; only the symbols are renamed.}
+% wave 333e (R321): position p, distance r, momentum P (formerly r, d, p) -- symbols only.
+\noindent\textit{Notation.}\footnote{Earlier versions of this paper wrote the spacetime coefficient as $\kappa$ and the spin-diffusion coefficient as $\kappa_s$; this version writes $X_k$ and $S_k$ (the figure panels keep the earlier labels). Earlier versions also wrote a position as $\vect{r}$ and a distance as $d$; this version writes $\vect{p}$ and $r$ (a momentum is written $\vect{P}$). The implementation keys (\texttt{kappaT}, \texttt{kappaS}), all numbers, equations and claims are unchanged; only the symbols are renamed.}
 \begin{center}
 \small
 \begin{tabular}{@{}lp{0.74\columnwidth}@{}}
@@ -304,13 +305,13 @@ is
 \emph{a Machian toy model on a fixed Euclidean background that makes the
 inertial standard emergent from the matter distribution}.
 Every point mass $j$ contributes a scalar ``determinacy''
-$w_j = m_j/\sqrt{d_j^2+\varepsilon^2}$ ($\to m_j/d_j$ as
+$w_j = m_j/\sqrt{r_j^2+\varepsilon^2}$ ($\to m_j/r_j$ as
 $\varepsilon \to 0$), quantifying how strongly it pins down the spatial
 coordinates near it.
 The total field $W = \Dz + \sum_j w_j$, together with one signed spin
 scalar $s_i$ per particle, then plays every dynamical role in the model:
 the determinacy-weighted average of the sources' motion defines the
-local frame $\vect{u}(\vect{r})$ against which inertia holds; the
+local frame $\vect{u}(\vect{p})$ against which inertia holds; the
 gradient of $W$ is the gravitational acceleration; a single
 dimensionless potential $\psi = W\Kt$ sets both the local clock
 rate and the optical refractive index---the coefficient $\Kt$ (the
@@ -379,15 +380,15 @@ run as a single-file numerical implementation---an existence proof by
 implementation.
 
 \item[C2.]{\bf Structural decomposition of Newtonian gravity.}
-Taking the gradient of the determinacy $w \propto m/d$ as the
+Taking the gradient of the determinacy $w \propto m/r$ as the
 acceleration (axioms A3 and A6) yields the inverse-square law, since
-$\nabla(m/d) \propto m/d^2$.
+$\nabla(m/r) \propto m/r^2$.
 This is \emph{not} a derivation of gravity from nothing; it is a
 decomposition of the gravitational law into two assumptions---the field
-distance law $w \propto m/d$ and the gradient response
+distance law $w \propto m/r$ and the gradient response
 $\vect{a} = G\nabla W$.
 We note that on a two-dimensional plane a Gauss-law-consistent field
-would instead fall off as $1/d$; DFM deliberately posits the
+would instead fall off as $1/r$; DFM deliberately posits the
 three-dimensional-like distance law on the plane (a pseudo-3D
 idealization, Sec.~\ref{sec:axioms}).
 
@@ -554,17 +555,21 @@ consequences T1--T9 with their conditions and machine gates.
 
 The world consists of a finite set of point particles indexed by $i$,
 with mass
-$m_i$, position $\vect{r}_i$, velocity $\vect{v}_i$, and a signed spin
+$m_i$, position $\vect{p}_i$, velocity $\vect{v}_i$, and a signed spin
 scalar $s_i$ (angular velocity about the out-of-plane axis), evolving
 in discrete time on a two-dimensional Euclidean plane.
 Particles are softened point sources for gravity and determinacy, but
 carry a finite disk radius $R_i = r_R\sqrt{m_i}$ and moment of
 inertia $I_i = \tfrac{1}{2}m_iR_i^2$ for contact and spin.
-We write $d_j = |\vect{r}-\vect{r}_j|$,
-$\hat{n}_{ij} = (\vect{r}_i-\vect{r}_j)/d_{ij}$, and
+Throughout, $\vect{p}$ denotes a position and $r$ a distance:
+we write $r_j = |\vect{p}-\vect{p}_j|$,
+$r_{ij} = |\vect{p}_i-\vect{p}_j|$,
+$\hat{n}_{ij} = (\vect{p}_i-\vect{p}_j)/r_{ij}$, and
 $\hat{z}\times(x,y) = (-y,x)$.
 The softening length $\varepsilon$ is a numerical regularization, not
 part of the theory (Sec.~\ref{sec:dynamics}).
+Momenta are written with a capital letter ($\Delta\vect{P}_i =
+m_i\Delta\vect{v}_i$ for a particle, $\vect{P}_{\rm tot}$ for the total).
 There are exactly two primitive fields derived from the particles: the
 scalar determinacy $W$ and the frame velocity $\vect{u}$; neither is an
 independent dynamical entity.
@@ -590,14 +595,14 @@ $\Dz \to \infty$ Newtonian limit of C4 rather than in conflict with
 A2.
 
 \item[A3.]{\bf (Determinacy)} Particle $j$ contributes determinacy
-$w_j = m_j/\sqrt{d_j^2+\varepsilon^2}$ at distance $d_j$
-($\to m_j/d_j$ as $\varepsilon\to 0$).
+$w_j = m_j/\sqrt{r_j^2+\varepsilon^2}$ at distance $r_j$
+($\to m_j/r_j$ as $\varepsilon\to 0$).
 Distant large-scale structure contributes a uniform, isotropic
 \emph{background determinacy} $\Dz$.
-The total field is $W(\vect{r}) = \Dz + \sum_j w_j(\vect{r})$.
+The total field is $W(\vect{p}) = \Dz + \sum_j w_j(\vect{p})$.
 
 \item[A4.]{\bf (Local frame)} The local ``velocity of space''
-$\vect{u}(\vect{r})$ is the determinacy-weighted average of the
+$\vect{u}(\vect{p})$ is the determinacy-weighted average of the
 sources' motion (translation plus spin rotation).
 The background $\Dz$ contributes at rest.
 
@@ -606,7 +611,7 @@ of the local frame along its own path with strength $k_F$:
 at each update,
 $\Delta\vect{v} = k_F\,\Delta_{\rm path}\vect{u}$, where
 $\Delta_{\rm path}\vect{u}
- = \vect{u}(\vect{r}^{\,n+1},t_{n+1}) - \vect{u}(\vect{r}^{\,n},t_n)$
+ = \vect{u}(\vect{p}^{\,n+1},t_{n+1}) - \vect{u}(\vect{p}^{\,n},t_n)$
 is evaluated at the particle's successive positions (the discrete
 transport derivative; rule E6$'$).
 At $k_F = 1$ the particle preserves (in the absence of other
@@ -618,22 +623,22 @@ models.
 Only $k_F \in \{0,1\}$ is used for headline claims in this paper.
 
 \item[A6.]{\bf (Gravity)} The spatial gradient of determinacy is an
-acceleration: $\vect{a} = G\,\nabla D(\vect{r})$.
-Because $w \propto m/d$, this yields the inverse-square law
+acceleration: $\vect{a} = G\,\nabla D(\vect{p})$.
+Because $w \propto m/r$, this yields the inverse-square law
 (see contribution C2 for the intended logical status).
 \emph{Educational remark:} a genuinely two-dimensional field obeying
-Gauss's law would fall off as $1/d$ (logarithmic potential) and give a
-$1/d$ force; A3's $w \propto m/d$ deliberately imports the
+Gauss's law would fall off as $1/r$ (logarithmic potential) and give a
+$1/r$ force; A3's $w \propto m/r$ deliberately imports the
 three-dimensional distance law onto the 2D stage.
 DFM is thus a pseudo-3D idealization drawn in a plane, not a
 self-consistent 2D field theory---a choice made so that the familiar
-inverse-square phenomenology (Kepler orbits, $1/d^2$ forces) survives
+inverse-square phenomenology (Kepler orbits, $1/r^2$ forces) survives
 in the picture students see; the flux (Gauss-law) interpretation of
 the field is deliberately suspended, while orbits remain conic
 sections.
 It is worth being explicit about what that suspension costs, because
 the cost is structural rather than cosmetic.
-With $w \propto m/d$ on a plane there is no two-dimensional Poisson
+With $w \propto m/r$ on a plane there is no two-dimensional Poisson
 equation the field satisfies: $\nabla^2 W$ does not reduce to a
 multiple of the mass density, the flux of $\nabla W$ through a closed
 curve is not proportional to the mass it encloses, and consequently
@@ -674,7 +679,7 @@ radicand (local superluminal motion) is unphysical and freezes the
 clock.
 
 \item[A8.]{\bf (Spin dragging)} Spin $s_j$ gives the surrounding frame
-a rotational component $\omega_j(d)$ (a Lense--Thirring analogue),
+a rotational component $\omega_j(r)$ (a Lense--Thirring analogue),
 matching rigid rotation at the surface and decaying with distance.
 
 \item[A9.]{\bf (Heat $=$ spin)} The square of spin is the particle's
@@ -685,11 +690,11 @@ friction; spins of nearby particles diffuse and equilibrate over time.
 
 \item[A10.]{\bf (Spin repulsion---test-particle motivation)} A test
 body inside a frame rotating at $\omega$ feels the centrifugal
-acceleration $\omega^2 d$ outward; hot (fast-spinning) particles
+acceleration $\omega^2 r$ outward; hot (fast-spinning) particles
 therefore push each other apart---the origin of pressure.
 This axiom supplies the \emph{motivation and the test-particle limit}
 of the repulsion only; for two finite masses the centrifugal readings
-$m_i\omega_j^2 d$ and $m_j\omega_i^2 d$ do not form an
+$m_i\omega_j^2 r$ and $m_j\omega_i^2 r$ do not form an
 action--reaction pair, so the finite-mass pair law is \emph{not}
 derived from A10 alone.
 The symmetric form actually used (E5$'$: reduced mass, sum of both
@@ -698,8 +703,8 @@ A10's reading in the test-particle limit
 $m_i \ll m_j$, $\omega_i = 0$.
 
 \item[A11.]{\bf (Light and simultaneity)} Light propagates
-isotropically at speed $c_0/n_{\rm eff}(\vect{r})$ relative to the
-local determinacy frame $\vect{u}(\vect{r})$ (light is carried by the
+isotropically at speed $c_0/n_{\rm eff}(\vect{p})$ relative to the
+local determinacy frame $\vect{u}(\vect{p})$ (light is carried by the
 medium, with the same response strength $k_F$ as matter; rule E8R).
 Coordinate time $t$ is unique across the universe (absolute
 simultaneity); the proper-time lag is a \emph{dynamical} slowing of
@@ -735,7 +740,7 @@ simultaneously, the account is open (open problem L17).
 repulsion, frame dragging, contact, spin diffusion---obeys pairwise
 action--reaction symmetry, and the system conserves
 linear momentum and total angular momentum
-$L_{\rm tot} = \sum_i m_i(\vect{r}_i\times\vect{v}_i)_z
+$L_{\rm tot} = \sum_i m_i(\vect{p}_i\times\vect{v}_i)_z
  + \sum_i I_i s_i$ exactly.
 Momentum exchanged with the background $\Dz$ is booked as transfer to
 a stationary infinite-inertia reservoir (the distant universe)---the
@@ -775,39 +780,39 @@ $N \le 600$.
 
 \paragraph*{E1$'$ (Determinacy field).}
 \begin{equation}
-w_j(\vect{r}) = \frac{m_j}{\sqrt{d_j^2+\varepsilon^2}},\qquad
-W(\vect{r}) = \Dz + \sum_j w_j(\vect{r}).
+w_j(\vect{p}) = \frac{m_j}{\sqrt{r_j^2+\varepsilon^2}},\qquad
+W(\vect{p}) = \Dz + \sum_j w_j(\vect{p}).
 \label{eq:E1}
 \end{equation}
 The Plummer form makes $\nabla w_j$ exactly consistent with the force
 law Eq.~(\ref{eq:E4}), since
-$\nabla\bigl[m(d^2+\varepsilon^2)^{-1/2}\bigr]
- = -m\,d\,(d^2+\varepsilon^2)^{-3/2}\,\hat{d}$; A6 therefore holds at
+$\nabla\bigl[m(r^2+\varepsilon^2)^{-1/2}\bigr]
+ = -m\,r\,(r^2+\varepsilon^2)^{-3/2}\,\hat{r}$; A6 therefore holds at
 finite $\varepsilon$
 (machine check V9, residual $2.4\times10^{-4}$), and $\varepsilon$ is
 a numerical device, not physics.
 
 \paragraph*{E2 (Spin-dragging angular velocity).}
 \begin{equation}
-\omega_j(d) = s_j\left(\frac{R_j}{R_j+d}\right)^{q},\qquad
+\omega_j(r) = s_j\left(\frac{R_j}{R_j+r}\right)^{q},\qquad
 q = 2 \text{ (default)}.
 \label{eq:E2}
 \end{equation}
 
 \paragraph*{E3 (Local frame velocity).}
 \begin{equation}
-\vect{u}(\vect{r}) =
+\vect{u}(\vect{p}) =
 \frac{\sum_j w_j\left[\vect{v}_j
- + \omega_j(d_j)\,\hat{z}\times(\vect{r}-\vect{r}_j)\right]}
-{W(\vect{r})}.
+ + \omega_j(r_j)\,\hat{z}\times(\vect{p}-\vect{p}_j)\right]}
+{W(\vect{p})}.
 \label{eq:E3}
 \end{equation}
 
 \paragraph*{E4 (Gravity).}
 \begin{equation}
 \vect{a}_{{\rm grav},i} =
- -G\sum_{j\ne i} \frac{m_j(\vect{r}_i-\vect{r}_j)}
- {(d_{ij}^2+\varepsilon^2)^{3/2}}.
+ -G\sum_{j\ne i} \frac{m_j(\vect{p}_i-\vect{p}_j)}
+ {(r_{ij}^2+\varepsilon^2)^{3/2}}.
 \label{eq:E4}
 \end{equation}
 
@@ -816,19 +821,19 @@ Per pair, a central force
 \begin{equation}
 \vect{F}_{{\rm rep}}(i{\leftarrow}j) =
  k_{\rm rep}\,\mu_{ij}
- \left[\omega_i(d_{ij})^2+\omega_j(d_{ij})^2\right]
- (\vect{r}_i-\vect{r}_j),
+ \left[\omega_i(r_{ij})^2+\omega_j(r_{ij})^2\right]
+ (\vect{p}_i-\vect{p}_j),
 \label{eq:E5}
 \end{equation}
 with reduced mass $\mu_{ij} = m_im_j/(m_i+m_j)$, applied equally and
 oppositely.
 The symmetric form is dictated by A13 (reciprocity); A10 supplies its
 test-particle limit (Sec.~\ref{sec:axioms}).
-The far-field limit at $q=2$ is a $1/d^3$ repulsion.
+The far-field limit at $q=2$ is a $1/r^3$ repulsion.
 
 \paragraph*{E6$'$ (Frame dragging: transport $+$ reaction).}
 Each step, with the self-excluded frame
-$\vect{u}_i = \vect{u}(\vect{r}_i)|_{j \ne i}$:
+$\vect{u}_i = \vect{u}(\vect{p}_i)|_{j \ne i}$:
 \begin{equation}
 \Delta\vect{v}_i = k_F\left[\vect{u}_i(\text{now})
  - \vect{u}_i(\text{previous})\right],
@@ -837,37 +842,37 @@ $\vect{u}_i = \vect{u}(\vect{r}_i)|_{j \ne i}$:
 a first-order discretization of transport by $D\vect{u}/Dt$
 (this is the discrete transport derivative $\Delta_{\rm path}\vect{u}$
 of axiom A5, evaluated at the particle's successive positions).
-The reaction distributes $\Delta\vect{p}_i = m_i\Delta\vect{v}_i$ back
+The reaction distributes $\Delta\vect{P}_i = m_i\Delta\vect{v}_i$ back
 onto the frame sources $j$ in proportion to their frame weights
-$\phi_{ij} = w_j(\vect{r}_i)/W(\vect{r}_i)$ (self-excluded,
+$\phi_{ij} = w_j(\vect{p}_i)/W(\vect{p}_i)$ (self-excluded,
 $j \ne i$), with the background share $\phi_{\rm bg} = \Dz/W$ booked to
 the reservoir.
 Explicitly, per pair $(i,j)$ and per step,
 \begin{align}
 \Delta\vect{v}_j &\mathrel{-}= \frac{\phi_{ij}}{m_j}\,
- \Delta\vect{p}_i,\nonumber\\
-n_{ij} &= \left[(\vect{r}_i-\vect{r}_j)\times
- \phi_{ij}\Delta\vect{p}_i\right]_z,\qquad
+ \Delta\vect{P}_i,\nonumber\\
+n_{ij} &= \left[(\vect{p}_i-\vect{p}_j)\times
+ \phi_{ij}\Delta\vect{P}_i\right]_z,\qquad
 \Delta s_i = \Delta s_j = -\frac{n_{ij}}{I_i+I_j},
 \label{eq:E6pair}
 \end{align}
 where $n_{ij}$ denotes the residual pair torque and the spin transfer
 is at
 equal angular acceleration; the background torque
-$[\vect{r}_i \times \phi_{\rm bg}\Delta\vect{p}_i]_z$ goes to the
+$[\vect{p}_i \times \phi_{\rm bg}\Delta\vect{P}_i]_z$ goes to the
 reservoir ledger.
 All increments are computed from the frame field evaluated at the same
 time step and applied
 simultaneously; pinned (externally held) particles are booked to the
 reservoir, making such runs explicitly open systems.
 \emph{Pairwise conservation proof:} particle $i$ receives momentum
-$\phi_{ij}\Delta\vect{p}_i$ from source $j$ and $j$ loses exactly
-$\phi_{ij}\Delta\vect{p}_i$ [Eq.~(\ref{eq:E6pair})], so
-$\Delta\vect{P} = 0$ pair by pair; the pair's orbital angular momentum
+$\phi_{ij}\Delta\vect{P}_i$ from source $j$ and $j$ loses exactly
+$\phi_{ij}\Delta\vect{P}_i$ [Eq.~(\ref{eq:E6pair})], so
+$\Delta\vect{P}_{\rm tot} = 0$ pair by pair; the pair's orbital angular momentum
 changes by the residual torque $n_{ij}$ while the spin ledger changes
 by $(I_i+I_j)\,\Delta s_i = -n_{ij}$, so $\Delta L_{\rm tot} = 0$ pair
 by pair.
-With $\Dz = 0$ and no pinned particles, $\vect{P}$ and $L_{\rm tot}$
+With $\Dz = 0$ and no pinned particles, $\vect{P}_{\rm tot}$ and $L_{\rm tot}$
 are therefore conserved exactly at the equation level (T7); the
 numerical residual of the verification run is at the single-precision
 rounding floor and independent of the time step
@@ -876,15 +881,15 @@ rounding floor and independent of the time step
 \paragraph*{E7R (Proper time).}
 Equation~(\ref{eq:A7}) integrated per particle,
 $\tau_i \mathrel{+}= \dot\tau_i\,\ud t$, with
-$\psi_i = W_{\rm ext}(\vect{r}_i)\,\Kt$ self-excluded.
+$\psi_i = W_{\rm ext}(\vect{p}_i)\,\Kt$ self-excluded.
 Weak-field, low-speed expansion:
 $\dot\tau \approx 1 - \psi - |\vect{v}-\vect{u}|^2/(2c_0^2)$.
 
 \paragraph*{E8R (Light rays).}
 \begin{equation}
-n_{\rm eff}(\vect{r}) = e^{2\psi(\vect{r})},\qquad
-\frac{\ud\vect{r}}{\ud t}
- = \frac{c_0}{n_{\rm eff}}\,\hat{c} + k_F\,\vect{u}(\vect{r}),
+n_{\rm eff}(\vect{p}) = e^{2\psi(\vect{p})},\qquad
+\frac{\ud\vect{p}}{\ud t}
+ = \frac{c_0}{n_{\rm eff}}\,\hat{c} + k_F\,\vect{u}(\vect{p}),
 \label{eq:E8}
 \end{equation}
 with the direction updated according to Fermat's rule in the frame
@@ -908,11 +913,11 @@ weak-field lensing coefficient is the derived combination
 $(a+b)\Kt = 2\Kt$ and is never retuned per observable.
 
 \paragraph*{E9 (Contact).}
-For $d_{ij} < R_i + R_j$: a symmetric normal spring resolves overlap; a
+For $r_{ij} < R_i + R_j$: a symmetric normal spring resolves overlap; a
 normal damping impulse (inelasticity $\gamma_n$) radiates its energy
 loss (A12$'$); and tangential friction with effective arms
-$\tilde R_i = R_i d/(R_i{+}R_j)$, $\tilde R_j = R_j d/(R_i{+}R_j)$
-(so $\tilde R_i + \tilde R_j = d$, preserving $L$ exactly) converts
+$\tilde R_i = R_i r/(R_i{+}R_j)$, $\tilde R_j = R_j r/(R_i{+}R_j)$
+(so $\tilde R_i + \tilde R_j = r$, preserving $L$ exactly) converts
 sliding into spin,
 \begin{align}
 v_s &= (\vect{v}_i-\vect{v}_j)\cdot\hat{t}
@@ -926,10 +931,10 @@ action), converging to rolling contact; slip dissipation is radiated.
 \paragraph*{E10$'$ (Spin diffusion).}
 \begin{equation}
 \frac{\ud s_i}{\ud t} = S_k\sum_{j\ne i}
- \frac{I_j}{I_i+I_j}\,(s_j-s_i)\,g(d_{ij}),
+ \frac{I_j}{I_i+I_j}\,(s_j-s_i)\,g(r_{ij}),
 \label{eq:E10}
 \end{equation}
-$g(d) = [(R_i{+}R_j)/(R_i{+}R_j{+}d)]^2$.
+$g(r) = [(R_i{+}R_j)/(R_i{+}R_j{+}r)]^2$.
 The $I$-weighting conserves $\sum_i I_i s_i$ pair by pair; the
 synchronization energy loss is radiated (A12$'$).
 The fixed point is uniformity of $s$, which coincides with temperature
@@ -961,7 +966,7 @@ repeated from identical initial conditions with only $k_F$ changed
 \subsection{Weak-field mapping and benchmark calibration}
 \label{sec:calib}
 
-Let $\Phi_N = -G D$ with $D = \sum_j m_j/d_j$ ($\varepsilon\to0$).
+Let $\Phi_N = -G D$ with $D = \sum_j m_j/r_j$ ($\varepsilon\to0$).
 The weak-field expansion of E7R,
 $\dot\tau \approx 1 - \psi - |\vect{v}-\vect{u}|^2/(2c_0^2)$,
 matches the weak-field, slow-motion GR clock rate
@@ -1117,7 +1122,7 @@ declared with it below.
 The clock rule E7R defines a line element
 \begin{equation}
 c^2\ud\tau^2 = e^{-2\psi}c^2\ud t^2
- - e^{+2\psi}\left|\ud\vect{r}-\vect{u}\,\ud t\right|^2 ,
+ - e^{+2\psi}\left|\ud\vect{p}-\vect{u}\,\ud t\right|^2 ,
 \label{eq:line}
 \end{equation}
 and the natural question---answered affirmatively here for the static
@@ -1138,7 +1143,7 @@ by default), applied per source $j$:
 \end{split}
 \label{eq:e12}
 \end{equation}
-with $U_j = Gm_j/\sqrt{d_j^2+\varepsilon^2}$ (so $\nabla U_j$ is the
+with $U_j = Gm_j/\sqrt{r_j^2+\varepsilon^2}$ (so $\nabla U_j$ is the
 E4 acceleration of source $j$).
 This per-source form omits the cross terms of the total-potential
 expression $U\nabla U$ with $U = \sum_j U_j$; the two coincide when a
@@ -1242,7 +1247,7 @@ E_{\rm tot} = K_{\rm trans} + K_{\rm spin} + U_{\rm grav}
 \end{equation}
 where $K_{\rm trans} = \sum_i \tfrac12 m_i|\vect{v}_i|^2$,
 $K_{\rm spin} = \sum_i \tfrac12 I_i s_i^2$,
-$U_{\rm grav} = -\sum_{i<j} G m_i m_j/\sqrt{d_{ij}^2+\varepsilon^2}$
+$U_{\rm grav} = -\sum_{i<j} G m_i m_j/\sqrt{r_{ij}^2+\varepsilon^2}$
 (the exact potential of the Plummer force E4),
 $U_{\rm contact}$ is the piecewise normal-spring potential of E9,
 $U_{\rm rep}$ is the E5$'$ pair potential (closed form for $q=2$;
@@ -1549,7 +1554,7 @@ a static hot/cold lattice closes its temperature gap exponentially at
 a measured rate $1.8\times10^{-3}$ per unit time while total spin
 angular momentum $\sum_i I_i s_i$ is conserved to the rounding floor,
 and a two-body version of the same run reproduces the analytic
-relaxation rate $S_k\,g(d)$ of Eq.~(\ref{eq:E10}) to
+relaxation rate $S_k\,g(r)$ of Eq.~(\ref{eq:E10}) to
 $3\times10^{-5}$ relative error.
 Equilibration is thus a property of the diffusion rule itself, not an
 artifact of everything decaying to zero.
@@ -1828,9 +1833,9 @@ the $\varepsilon \to 0$ limit.
 
 A physical intuition for why the calibration constant is an
 \emph{inverse line density} (m\,kg$^{-1}$), i.e.\ a gravitational
-length per unit mass: the determinacy $W = \sum m/d$ itself has
+length per unit mass: the determinacy $W = \sum m/r$ itself has
 mass-per-length dimension, and $\psi = W\Kt$ reaches order unity
-exactly when $GM/(c^2 d) \sim 1$, i.e.\ at the mass-to-radius ratio of
+exactly when $GM/(c^2 r) \sim 1$, i.e.\ at the mass-to-radius ratio of
 a relativistically compact system.
 The same combination recurs as the mass-per-radius scale of the
 observable universe ($GM_u/(c^2R_H) \sim 1$, the Sciama coincidence)
@@ -1925,7 +1930,7 @@ Zeroth-law control & $G{=}0$, $k_F{=}0$, $k_{\rm rep}{=}0$,
 $\mu_f{=}\gamma_n{=}\eta_{\rm rad}{=}0$, $S_k{=}0.3$;
 $8\times6$ static lattice (spacing 40), $m{=}1$, spins $0.3$
 (left) / $2.5$ (right), 4000 steps; two-body variant $m{=}2$,
-$d{=}30$, spins $2/0$, 2500 steps \\
+$r{=}30$, spins $2/0$, 2500 steps \\
 V18--V20 & $G{=}1$, $\Dz{=}0.05$, $k_F{=}0$, $k_{\rm rep}{=}0$, all
 dissipation off, $\Kt{=}10^{-4}$, $c_0{=}40$, \texttt{geoPN}{=}1,
 $\varepsilon{=}0.5$; pinned source $m{=}150$ at origin, test
@@ -1985,7 +1990,7 @@ A10,
 E5$'$, E9, E10$'$ & CNP (single size; L9) & \texttt{gas} /
 \texttt{pressure} gates; isolated zeroth-law control
 (Sec.~\ref{sec:exp6}) \\
-T7 & With $\Dz{=}0$, no pinned particles: $\vect{P}$ and
+T7 & With $\Dz{=}0$, no pinned particles: $\vect{P}_{\rm tot}$ and
 $L_{\rm tot}$ exactly conserved; $\Dz{>}0$ deficits equal the
 reservoir ledger & A13, E4, E5$'$, E6$'$, E9, E10$'$ &
 equation-level theorem (proof in Sec.~\ref{sec:dynamics}) & V1

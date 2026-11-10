@@ -101320,6 +101320,174 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第333便d の塊(ここまで)====
 
+// ==== 第333便e の塊(ここから —— lint.symbols333e・docs.symbols333e の 2 ブロック。root は SKIP)====
+// ---- 第333便e(原仮定者の整理(2026-11-10)・原仮定者の回答(2026-11-10 —— AN609・AN610)・統括の検証項目 R321): **文書と論文と QA だけ**(記号の整理 —— html・エンジン・
+// ----   内蔵の本・受理器・lib の本文・physics の鍵は変えない・器と段は足さない)。世代切替 = beta 対象 ∧ docs/EQUATIONS.md に「記号の整理(第333便e)」。
+// ----   lint.symbols333e: 新しい文(PHYSICS の〔第333便〕以降の節・AI_SPEC §209 以降・CHANGELOG の第333便以降の行・docs/EQUATIONS.md・docs/PHENOMENA_STATUS.md)に
+// ----     ① カッパに添字 0 の旧い記号が無い(**コードの書式の中も数える** —— lint.kappaSymbol315 はコードの書式の外の裸のカッパを見る。本 lint はこの文字列だけを全部見る:
+// ----     同じ規則を二重に持たない)② コードの書式(`…` と ``` の塊)の外にコードの名前 W_bg・Wbg・Wbg2・D_bg が無い ③ 式の一覧と現象の一覧のコードの書式の外に
+// ----     引きずりの質量の旧い記号が無い ④ 変異の自己試験(壊した写しで期待の件数だけ落ち、過去の節・過去の行に足した写しとコードの書式の中の W_bg は数えない)
+// ----   docs.symbols333e: ① docs/EQUATIONS.md §1 の対応表(必須の 24 記号・4 欄・コードの名前が html か tests の lib に在る・旧 W と新 W の対応の文)と数式版の旧い記号
+// ----     ② 論文 10 本(TeX のコメントの外)の旧い位置と距離の記号・論文 1〜3 の定義の文と脚注の 1 文・括弧と環境の対応 ③ PHYSICS〔第333便e〕の位置と表 1〜3・
+// ----     AI_SPEC §213・CHANGELOG・post-merge の ③′ ④ 書かない語・禁句(節・AI_SPEC・CHANGELOG の行)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rd333e = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const EQ333e = rd333e('docs/EQUATIONS.md');
+  if (!(TARGET.startsWith('beta/') && EQ333e.indexOf('記号の整理(第333便e)') >= 0)) {
+    console.log('SKIP lint.symbols333e・docs.symbols333e(第333便e の記号の整理の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const K0_333E = new RegExp(String.fromCodePoint(0x3ba) + '(?:' + String.fromCodePoint(0x2080) + '|_0|_\\{0\\}|0)|\\\\u03ba\\\\u2080', 'g');   // カッパに添字 0(文字で持たない)
+  const CODE_333E = /W_bg|W_\{bg\}|(?<![A-Za-z0-9_$])Wbg2?(?![A-Za-z0-9_$])|D_bg|(?<![A-Za-z0-9_$])Dbg(?![A-Za-z0-9_$])/g;
+  const MD_333E = /(?<![A-Za-z0-9_$])m_d(?![A-Za-z0-9_$])/g;
+  const stripCode333e = (t) => t.replace(/```[\s\S]*?```/g, ' ').replace(/`[^`\n]*`/g, ' ');
+  // 新しい文の切り出し(写しを引数に —— 変異の自己試験も同じ関数)
+  const newTexts333e = ({ ph, ai, cl, eq, pst }) => {
+    const out = [];
+    for (const m of ph.matchAll(/\n〔第(\d+)便([a-z]*) — /g)) {
+      if (Number(m[1]) < 333) continue;
+      out.push({ name: 'PHYSICS〔第' + m[1] + '便' + m[2] + '〕', text: secUntilNext329c(ph, m.index + 1, [/\n〔第\d+便[a-z]* — /, '\n## ']) });
+    }
+    for (const m of ai.matchAll(/\n## (\d+)\. /g)) if (Number(m[1]) >= 209) out.push({ name: 'AI_SPEC §' + m[1], text: secUntilNext329c(ai, m.index + 1, '\n## ') });
+    for (const ln of cl.split('\n')) { const m = /^- \*\*第(\d+)便([a-z]*)/.exec(ln); if (m && Number(m[1]) >= 333) out.push({ name: 'CHANGELOG の第' + m[1] + '便' + m[2] + ' の行', text: ln }); }
+    out.push({ name: 'docs/EQUATIONS.md', text: eq, md: true }, { name: 'docs/PHENOMENA_STATUS.md', text: pst, md: true });
+    return out;
+  };
+  const audit333e = (texts) => {
+    const bad = [];
+    for (const t of texts) {
+      const k0 = (t.text.match(K0_333E) || []).length, sc = stripCode333e(t.text), cn = sc.match(CODE_333E) || [], md = t.md ? (sc.match(MD_333E) || []).length : 0;
+      if (k0) bad.push(t.name + ': カッパに添字 0 の旧い記号 ' + k0 + ' 件');
+      if (cn.length) bad.push(t.name + ': コードの書式の外にコードの名前 ' + cn.length + ' 件(' + [...new Set(cn)].join(' ') + ')');
+      if (md) bad.push(t.name + ': コードの書式の外に引きずりの質量の旧い記号 ' + md + ' 件');
+    }
+    return bad;
+  };
+  const SRC333e = { ph: rd333e('docs/PHYSICS.md'), ai: rd333e('docs/AI_SPEC.md'), cl: (() => { const c = rd333e('CHANGELOG.md'), b = c.search(/## v1\.47(?:-b\d+|\.0)\(/); return b >= 0 ? secUntilNext329c(c, b, '\n## ') : ''; })(), eq: EQ333e, pst: rd333e('docs/PHENOMENA_STATUS.md') };
+  // ───── lint.symbols333e ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const T = newTexts333e(SRC333e), B = audit333e(T);
+      for (const b of B) bad.push('① ' + b);
+      if (!T.some((t) => t.name === 'PHYSICS〔第333便e〕') || !T.some((t) => t.name === 'AI_SPEC §213') || !T.some((t) => t.name === 'CHANGELOG の第333便e の行')) bad.push('① 範囲の切り出し(本枝の節・§213・CHANGELOG の行が無い)');
+      cases.push(`① 新しい文 ${T.length} 本(${T.map((t) => t.name).join('・')})—— カッパに添字 0 の旧い記号 0・コードの書式の外のコードの名前 0・式と現象の一覧の引きずりの質量の旧い記号 0`);
+      // ④ 変異の自己試験
+      const K0 = String.fromCodePoint(0x3ba, 0x2080), cnt = (s) => audit333e(newTexts333e(s)).length;
+      const base = cnt(SRC333e);
+      const iE = SRC333e.ph.indexOf('\n〔第333便e — '), iOld = SRC333e.ph.indexOf('\n〔第332便b — ');
+      const insAt = (t, i, w) => t.slice(0, i + 1) + w + t.slice(i + 1);
+      const M = [
+        ['節の地の文にカッパに添字 0', { ...SRC333e, ph: insAt(SRC333e.ph, SRC333e.ph.indexOf('\n', iE + 1), 'R_d = ' + K0 + ' m。\n') }, 1],
+        ['節のコードの書式の中にカッパに添字 0(lint.kappaSymbol315 は数えない型)', { ...SRC333e, ph: insAt(SRC333e.ph, SRC333e.ph.indexOf('\n', iE + 1), '`' + K0 + 'm`。\n') }, 1],
+        ['節の地の文に W_bg', { ...SRC333e, ph: insAt(SRC333e.ph, SRC333e.ph.indexOf('\n', iE + 1), '背景は W_bg。\n') }, 1],
+        ['節のコードの書式の中の W_bg(数えない)', { ...SRC333e, ph: insAt(SRC333e.ph, SRC333e.ph.indexOf('\n', iE + 1), '鍵 `W_bg`。\n') }, 0],
+        ['過去の節(第332便b)に W_bg とカッパに添字 0(数えない)', { ...SRC333e, ph: insAt(SRC333e.ph, SRC333e.ph.indexOf('\n', iOld + 1), 'W_bg と ' + K0 + '。\n') }, 0],
+        ['新しい便の節(第334便z)に D_bg', { ...SRC333e, ph: SRC333e.ph + '\n〔第334便z — 試験〕\nD_bg の文。\n' }, 1],
+        ['AI_SPEC §214 に Wbg2', { ...SRC333e, ai: SRC333e.ai + '\n## 214. 試験\n- Wbg2 の文。\n' }, 1],
+        ['CHANGELOG の第333便の行にカッパに添字 0', { ...SRC333e, cl: SRC333e.cl + '\n- **第333便z**(試験)' + K0 + '\n' }, 1],
+        ['CHANGELOG の第332便の行(数えない)', { ...SRC333e, cl: SRC333e.cl + '\n- **第332便z**(試験)' + K0 + ' W_bg\n' }, 0],
+        ['式の一覧の地の文に引きずりの質量の旧い記号', { ...SRC333e, eq: SRC333e.eq + '\nR_d = Y_k m_d\n' }, 1],
+        ['式の一覧のプログラム版の塊の中の Wbg2(数えない)', { ...SRC333e, eq: SRC333e.eq + '\n```js\nlet W=Wbg2;\n```\n' }, 0],
+        ['現象の一覧の地の文に Wbg', { ...SRC333e, pst: SRC333e.pst + '\n- Wbg の文\n' }, 1],
+      ];
+      const got = M.map(([nm, s, want]) => { const d = cnt(s) - base; if (d !== want) bad.push('④ 変異「' + nm + '」の違反の差 ' + d + '(期待 ' + want + ')'); return nm + ' ' + d; });
+      cases.push(`④ 変異の自己試験 ${M.length} 種(${got.join(' / ')})`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.symbols333e', bad.length === 0,
+      `**新しい文の記号**(第333便e・原仮定者の整理(2026-11-10)・AN609・R321 —— カッパに添字 0 の旧い記号を書かない〔コードの書式の中も〕・コードの名前はコードの書式の中だけ・lint.kappaSymbol315 と重ならない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.symbols333e ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const H = rd333e(TARGET), LIBS = fs.readdirSync(path.join(ROOT, 'tests')).filter((f) => /^lib-.*\.mjs$/.test(f)).map((f) => rd333e('tests/' + f)).join('\n');
+      // ① 対応表
+      const s1 = secUntilNext329c(EQ333e, EQ333e.indexOf('\n## 1. 記号と単位'), '\n## ');
+      const rows = s1.split('\n').filter((l) => /^\| /.test(l) && !/^\|---/.test(l)).slice(1).map((l) => l.split('|').slice(1, -1).map((z) => z.trim()));
+      const WANT = ['G₀・c₀', 'X_k', 'κ_D', 'r_s', 'Y_k', 'S_k', 'C₁', 'D_j', 'D_loc', 'D₀', 'W_ij', 'W_ii', 'W_i', 'W₀', 'β_ij', 'p(p_i)', 'r(r_ij・r_j)', 'R', 'R_d', 'R_src', 's・â', 's_d', 'Ω・Ω_p', 'm'];
+      const have = new Map(rows.map((r) => [r[0], r]));
+      for (const w of WANT) if (!have.has(w)) bad.push('① 対応表に「' + w + '」の行が無い');
+      const bad4 = rows.filter((r) => r.length !== 4 || !r[2]).map((r) => r[0]);
+      if (bad4.length) bad.push('① 対応表の 4 欄の外: ' + bad4.join(' '));
+      let nNames = 0; const miss = [];
+      for (const r of rows) for (const m of (r[2] || '').matchAll(/`([^`]+)`/g)) {
+        const tk = m[1];
+        if (/^".*"$/.test(tk)) { nNames++; if (H.indexOf(tk) < 0) miss.push(r[0] + ':' + tk); continue; }
+        for (const id of tk.replace(/^(?:physics|S|params)\./, '').split(/[^A-Za-z0-9_$]+/).filter((x) => x.length >= 2 && !/^\d/.test(x))) {
+          nNames++; const re = new RegExp('(^|[^A-Za-z0-9_$])' + id.replace(/\$/g, '\\$') + '([^A-Za-z0-9_$]|$)');
+          if (!re.test(H) && !re.test(LIBS)) miss.push(r[0] + ':' + id);
+        }
+      }
+      if (miss.length) bad.push('① 対応表のコードの名前が html と tests の lib に無い: ' + miss.slice(0, 6).join(' '));
+      if (!(have.get('D_loc') && /\*\*W\*\*/.test(have.get('D_loc')[3]) && have.get('W₀') && /`W_bg`/.test(have.get('W₀')[3]) && /枝ごとに次元が違う/.test(have.get('W₀')[2]))) bad.push('① D_loc の旧い記号 W・W₀ の旧い名と枝ごとの次元の注記');
+      if (s1.indexOf('旧 W(決定力場)= 新 D_loc・旧 w_j = 新 D_j・新 W = 慣性決定力(引きずりの重み)') < 0 || s1.indexOf('過去の節は書き換えない') < 0) bad.push('① 旧 W と新 W の対応の文・過去の節の扱いの文');
+      const fm = EQ333e.split('\n').filter((l) => l.startsWith('- **数式版**'));
+      const oldF = fm.filter((l) => /(?<![A-Za-z_])d_(?:ij|j)(?![A-Za-z])|m\/d(?![A-Za-z])|W_bg|w_ij|(?<![A-Za-z_])m_d/.test(l));
+      if (oldF.length) bad.push('① 数式版に旧い記号 ' + oldF.length + ' 行: ' + oldF.map((l) => l.slice(0, 40)).join(' , '));
+      cases.push(`① 対応表 ${rows.length} 行(必須の ${WANT.length} 記号・4 欄)・コードの名前 ${nNames} 個が html か tests の lib に在る・旧 W と新 W の対応の文・数式版 ${fm.length} 行に旧い記号 0`);
+      // ② 論文 10 本
+      const uncom = (t) => t.split('\n').map((l) => { let i = 0; while (i < l.length) { if (l[i] === '\\') { i += 2; continue; } if (l[i] === '%') return l.slice(0, i); i++; } return l; }).join('\n');
+      const FILES = ['dfm-paper.tex', 'dfm-paper-ja.tex', 'dfm-paper2.tex', 'dfm-paper2-ja.tex', 'dfm-paper3.tex', 'dfm-paper3-ja.tex', 'dfm-paper4.tex', 'dfm-paper4-ja.tex', 'dfm-paper5.tex', 'dfm-paper5-ja.tex'];
+      const OLD = [/\\vect\{r\}/g, /\\bm\s*r(?![A-Za-z])/g, /\\bm\{r\}/g, /(?<![A-Za-z\\])d_(?:j|\{ij\})(?![A-Za-z])/g, /(?<![A-Za-z\\])m\/d(?![A-Za-z_])/g, /\\Delta\\vect\{p\}/g];
+      const DEF = { 'dfm-paper.tex': ['Throughout, $\\vect{p}$ denotes a position and $r$ a distance', 'this version writes $\\vect{p}$ and $r$'], 'dfm-paper-ja.tex': ['本稿を通じて $\\vect{p}$ は位置,$r$ は距離を表す', '本版はそれぞれ $\\vect{p}$・$r$ と書く'],
+        'dfm-paper2.tex': ['(we write $\\bm p$ for a position\nand $r$ for a distance)', 'this version writes $\\bm p$ and $r$'], 'dfm-paper2-ja.tex': ['(位置を $\\bm p$,距離を $r$ と書く)', '本版はそれぞれ $\\bm p$・$r$ と書く'],
+        'dfm-paper3.tex': ['(we write $\\bm p$\nfor a position and $r$ for a distance)', 'is not a distance and keeps its letter'], 'dfm-paper3-ja.tex': ['(位置を $\\bm p$、距離を $r$ と書く)', '距離ではないので文字を変えない'] };
+      const prow = [];
+      for (const f of FILES) {
+        const raw = rd333e('paper/' + f), t = uncom(raw);
+        if (!raw) { bad.push('② ' + f + ' が読めない'); continue; }
+        const mk = /-ja\.tex$/.test(f) ? '\\textbf{記号}\\footnote{' : '\\textit{Notation.}\\footnote{', b0 = t.indexOf(mk), b1 = b0 >= 0 ? t.indexOf('\\end{center}', b0) : -1;
+        const body = (b0 >= 0 && b1 > b0) ? t.slice(0, b0) + t.slice(b1) : t;   // 記号表と脚注(旧 → 新の対応を書く所)は数えない —— docs.paperSymbols316 と同じ切り方
+        let n = 0; for (const re of OLD) n += (body.match(re) || []).length;
+        if (n) bad.push('② ' + f + ' に旧い位置・距離・運動量の記号 ' + n + ' 件');
+        for (const w of (DEF[f] || [])) if (t.indexOf(w) < 0) bad.push('② ' + f + ' に定義の文か脚注の文「' + w.replace(/\n/g, ' ').slice(0, 30) + '」が無い');
+        let dep = 0, mn = 0; for (let i = 0; i < t.length; i++) { const c = t[i]; if (c === '\\') { i++; continue; } if (c === '{') dep++; else if (c === '}') { dep--; mn = Math.min(mn, dep); } }
+        const st = []; let envBad = 0; for (const m of t.matchAll(/\\(begin|end)\{([^}]+)\}/g)) { if (m[1] === 'begin') st.push(m[2]); else if (st.pop() !== m[2]) envBad++; }
+        if (dep !== 0 || mn < 0 || envBad || st.length) bad.push('② ' + f + ': 括弧か環境の対応が崩れた');
+        prow.push(f.replace('dfm-paper', 'p').replace('.tex', '') + ' ' + n);
+      }
+      cases.push(`② 論文 10 本の旧い位置・距離・運動量の記号(${prow.join('・')})・論文 1〜3 の定義の文と脚注の文・括弧と環境の対応`);
+      // ③ 置き場所
+      const PH = SRC333e.ph, AS = SRC333e.ai, PM = rd333e('tools/post-merge-qa.sh');
+      const i0 = PH.indexOf('\n〔第333便e — '), iB = PH.indexOf('\n〔第332便b — '), iT = PH.indexOf('\n〔第328便 — 統括'), i7 = PH.indexOf('\n## 7. 論文');
+      const prevBr = ['a', 'b', 'c', 'd'].map((x) => PH.indexOf('\n〔第333便' + x + ' — ')).filter((x) => x >= 0);
+      if (!(i0 >= 0 && iB >= 0 && iB < i0 && prevBr.every((x) => x < i0) && (iT < 0 || i0 < iT) && (i7 < 0 || i0 < i7))) bad.push('③ PHYSICS〔第333便e〕の位置(第332便b と第333便 a〜d の節の後・第328便の統括の節と「## 7.」の前)');
+      const sec = secUntilNext329c(PH, i0 + 1, [/\n〔第\d+便[a-z]* — /, '\n## ']);
+      for (let k = 1; k <= 3; k++) if (sec.indexOf('**表 ' + k + ' ') < 0) bad.push('③ PHYSICS〔第333便e〕に表 ' + k + ' が無い');
+      const wantP = ['原仮定者の整理(2026-11-10)', '原仮定者の回答(2026-11-10 —— AN609・AN610)', 'R321', 'docs/EQUATIONS.md', '旧 W(決定力場)= 新 D_loc', '新 W = 慣性決定力', '過去の節は書き換えない', '位置 p・距離 r', 'lint.symbols333e', 'docs.symbols333e', 'lint.kappaSymbol315', '`W_bg`', '`Wbg2`', 'pdflatex', 'lualatex', '1PN の強さ'];
+      for (const w of wantP) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第333便e〕に「' + w + '」が無い');
+      for (const w of ['X_k', 'κ_D', 'Y_k', 'D_j', 'D_loc', 'D₀', 'W₀', 'p', 'r', 's_d', 'm']) if (!sec.split('\n').some((l) => l.startsWith('| ' + w + ' |'))) bad.push('③ 表 1 に「' + w + '」の行が無い');
+      const a213 = AS.search(/\n## 213\. 第333便e/), a208 = AS.search(/\n## 208\. 第332便b/), ai = a213 >= 0 ? secUntilNext329c(AS, a213 + 1, '\n## ') : '';
+      if (!(a213 >= 0 && a208 >= 0 && a208 < a213 && ['docs/EQUATIONS.md', 'lint.symbols333e', 'docs.symbols333e', 'SYSTEM_PROMPT には載せない', 'D_loc'].every((w) => ai.indexOf(w) >= 0))) bad.push('③ AI_SPEC §213(§208 の後・必須の語)');
+      const cl = SRC333e.cl.split('\n').find((l) => l.indexOf('**第333便e**') >= 0) || '';
+      if (!(['R321', 'docs/EQUATIONS.md', 'lint.symbols333e', 'docs.symbols333e', 'AN609'].every((w) => cl.indexOf(w) >= 0))) bad.push('③ CHANGELOG の beta の節の第333便e の行');
+      if (!(PM.indexOf('# ==== 第333便e の塊(ここから)====') >= 0 && ['lint.symbols333e', 'docs.symbols333e', 'lint.equations331d', 'docs.paperSymbols316'].every((k) => PM.indexOf(k) >= 0))) bad.push('③ post-merge の ③′ に第333便e の塊');
+      cases.push(`③ PHYSICS〔第333便e〕(第332便b の後・表 1〜3・必須の語 ${wantP.length})・AI_SPEC §213・CHANGELOG・post-merge の ③′`);
+      // ④ 書かない語・禁句
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /説明した/, /同定した/, /一致した/, /示した/, /確かめた/, /再現/];
+      const cpC = (a) => String.fromCodePoint(...a), rvC = (t) => t.split('').reverse().join('');
+      const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])]
+        .concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+      for (const [nm, tx] of [['PHYSICS〔第333便e〕', sec], ['AI_SPEC §213', ai], ['CHANGELOG の第333便e の行', cl]]) {
+        for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+        for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+        if (/(^|[^_A-Za-z`])κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' に裸の係数記号');
+        if (/\d\s*km\/s/.test(tx)) bad.push('④ ' + nm + ' に速度の数の字列');
+      }
+      cases.push('④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・AI_SPEC・CHANGELOG の行)');
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.symbols333e', bad.length === 0,
+      `**記号の整理の文書と論文**(第333便e・原仮定者の整理(2026-11-10)・AN609・AN610・R321 —— 説明の記号とコードの名前の対応表・数式版・論文の位置 p と距離 r・置き場所): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第333便e の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

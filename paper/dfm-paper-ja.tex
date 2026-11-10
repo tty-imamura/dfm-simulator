@@ -103,7 +103,7 @@ Shapiro Delay\\ as Consequences of One Calibration, Not as Evidence)\par}
 \textbf{概要} ---
 本稿では,教育用トイモデル「決定力場モデル」(Determinacy-Field
 Mechanics; DFM)を提示する。このモデルでは,点質量を源として
-$w = m/\sqrt{d^2+\varepsilon^2}$ の形で生成される単一のスカラー場 $W$
+距離 $r$ において $w = m/\sqrt{r^2+\varepsilon^2}$ の形で生成される単一のスカラー場 $W$
 (「決定力場」)が,局所慣性系を定める重み・重力ポテンシャル・局所的な
 時計の進み・光学的屈折率という4つの役割を同時に担い,粒子ごとの符号付き
 スピン自由度 $s$ が熱として振る舞う。この場のただ1つの較正
@@ -117,8 +117,8 @@ HTML ファイルのシミュレータとして実装されており,主要な�
 テストスイートによって機械検証されている。
 % 第161便(M-4): 平面上でなぜ 1/d² を選ぶのか。本文(第II節Bと貢献 C2)が
 % 既に述べている内容であり,新しい主張はしていない。
-平面には理想化が1つある:場の減衰は $w \propto m/d$ と\emph{措定}されており,
-力は平面上のガウス則が与える $1/d$ ではなく3次元と同じ逆二乗になる---ケプラー
+平面には理想化が1つある:場の減衰は $w \propto m/r$ と\emph{措定}されており,
+力は平面上のガウス則が与える $1/r$ ではなく3次元と同じ逆二乗になる---ケプラー
 軌道を描像に残す代わりに殻定理とフラックスの読みを手放す代償は本文が述べる。
 1パラメータの背景決定力
 $\Dz$ はニュートン的絶対空間($\Dz \to \infty$)と完全に関係論的な
@@ -164,7 +164,8 @@ Zenodo \href{https://doi.org/10.5281/zenodo.21454189}%
 
 % 第316便d(原仮定者の裁定(第118報)・決断事項 AN416): 短い記号表と脚注 1 つ。
 % 記号だけ —— 数値・式・窓・主張は変えない。実装の鍵は不変。
-\noindent\textbf{記号}\footnote{本稿の旧版は時空係数を $\kappa$,スピン拡散係数を $\kappa_s$ と書いた。本版はそれぞれ $X_k$・$S_k$ と書く(図のパネル見出しは旧表記のまま)。実装の鍵(\texttt{kappaT}・\texttt{kappaS})・数値・式・主張は変えていない。記号の名前だけを改めた。}
+% 第333便e(統括の検証項目 R321): 位置 p・距離 r・運動量 P(旧 r・d・p)。記号だけ。
+\noindent\textbf{記号}\footnote{本稿の旧版は時空係数を $\kappa$,スピン拡散係数を $\kappa_s$ と書いた。本版はそれぞれ $X_k$・$S_k$ と書く(図のパネル見出しは旧表記のまま)。旧版は位置を $\vect{r}$,距離を $d$ とも書いた。本版はそれぞれ $\vect{p}$・$r$ と書く(運動量は $\vect{P}$)。実装の鍵(\texttt{kappaT}・\texttt{kappaS})・数値・式・主張は変えていない。記号の名前だけを改めた。}
 \begin{center}
 \small
 \begin{tabular}{@{}lp{0.74\columnwidth}@{}}
@@ -203,12 +204,12 @@ $r_s$ & シュヴァルツシルト半径(重力半径)$r_s = \kappa_D m$ \\
 \emph{固定ユークリッド背景上のマッハ的トイモデルであって,慣性の基準を
 物質分布から創発させるもの}である。
 各点質量 $j$ はスカラーの「決定力」
-$w_j = m_j/\sqrt{d_j^2+\varepsilon^2}$($\varepsilon \to 0$ で
-$\to m_j/d_j$)を寄与し,これはその近傍で空間座標をどれだけ強く
+$w_j = m_j/\sqrt{r_j^2+\varepsilon^2}$($\varepsilon \to 0$ で
+$\to m_j/r_j$)を寄与し,これはその近傍で空間座標をどれだけ強く
 確定させるかを定量化する。
 全体場 $W = \Dz + \sum_j w_j$ は,粒子ごとの符号付きスピンスカラー
 $s_i$ と併せて,モデル内のあらゆる力学的役割を担う:源の運動の決定力
-加重平均が,慣性の拠り所となる局所フレーム $\vect{u}(\vect{r})$ を
+加重平均が,慣性の拠り所となる局所フレーム $\vect{u}(\vect{p})$ を
 定義する;$W$ の勾配が重力加速度である;単一の無次元の決定
 ポテンシャル $\psi = W\Kt$ が局所的な時計の進みと光学的屈折率の
 双方を定める---係数 $\Kt$(実装のパラメータ \texttt{kappaT})は $G/c^2$ と
@@ -265,12 +266,12 @@ $\Kt = G/c^2$ から従う。そこで $42.98''$/世紀 を回復したことは
 ことを示す---実装による存在証明である。
 
 \item[C2.]{\bf ニュートン重力の構造的分解。}
-決定力 $w \propto m/d$ の勾配を加速度とする(公理 A3 と A6)ことで
-逆二乗則が得られる。$\nabla(m/d) \propto m/d^2$ だからである。
+決定力 $w \propto m/r$ の勾配を加速度とする(公理 A3 と A6)ことで
+逆二乗則が得られる。$\nabla(m/r) \propto m/r^2$ だからである。
 これは無からの重力の導出では\emph{ない}。重力法則を2つの仮定---場の
-距離則 $w \propto m/d$ と勾配応答 $\vect{a} = G\nabla W$---へ分解した
+距離則 $w \propto m/r$ と勾配応答 $\vect{a} = G\nabla W$---へ分解した
 ものである。
-なお2次元平面上でガウスの法則と整合する場は $1/d$ で減衰するはずで
+なお2次元平面上でガウスの法則と整合する場は $1/r$ で減衰するはずで
 あり,DFM は意図的に3次元的距離則を平面上に置いている(擬3次元的
 理想化,第\ref{sec:axioms}節)。
 
@@ -411,14 +412,18 @@ DFM はこの論争に加わらない。$k_F$ を自由なダイヤルとして�
 \subsection{存在論と記法}
 
 世界は添字 $i$ の有限個の点粒子からなり,各粒子は質量 $m_i$,位置
-$\vect{r}_i$,速度 $\vect{v}_i$,符号付きスピンスカラー $s_i$(面外軸
+$\vect{p}_i$,速度 $\vect{v}_i$,符号付きスピンスカラー $s_i$(面外軸
 まわりの角速度)を持ち,2次元ユークリッド平面上で離散時間発展する。
 粒子は重力と決定力についてはソフト化された点源であるが,接触とスピンの
 ためには有限の円盤半径 $R_i = r_R\sqrt{m_i}$ と慣性モーメント
 $I_i = \tfrac{1}{2}m_iR_i^2$ を持つ。
-$d_j = |\vect{r}-\vect{r}_j|$,
-$\hat{n}_{ij} = (\vect{r}_i-\vect{r}_j)/d_{ij}$,
+本稿を通じて $\vect{p}$ は位置,$r$ は距離を表す:
+$r_j = |\vect{p}-\vect{p}_j|$,
+$r_{ij} = |\vect{p}_i-\vect{p}_j|$,
+$\hat{n}_{ij} = (\vect{p}_i-\vect{p}_j)/r_{ij}$,
 $\hat{z}\times(x,y) = (-y,x)$ と書く。
+運動量は大文字で書く(粒子の $\Delta\vect{P}_i = m_i\Delta\vect{v}_i$,
+全体の $\vect{P}_{\rm tot}$)。
 ソフトニング長 $\varepsilon$ は数値的正則化であり,理論の一部ではない
 (第\ref{sec:dynamics}節)。
 粒子から導かれる原始的な場はちょうど2つ---スカラー決定力 $W$ と
@@ -440,21 +445,21 @@ SI 単位を復元する。
 モデルは明示的背景を持つ優先系モデルであって,A2 と矛盾するのではなく
 C4 の $\Dz \to \infty$ ニュートン極限と整合する。
 
-\item[A3.]{\bf (決定力)} 粒子 $j$ は距離 $d_j$ において決定力
-$w_j = m_j/\sqrt{d_j^2+\varepsilon^2}$($\varepsilon\to 0$ で
-$\to m_j/d_j$)を寄与する。
+\item[A3.]{\bf (決定力)} 粒子 $j$ は距離 $r_j$ において決定力
+$w_j = m_j/\sqrt{r_j^2+\varepsilon^2}$($\varepsilon\to 0$ で
+$\to m_j/r_j$)を寄与する。
 遠方の大規模構造は一様等方な\emph{背景決定力} $\Dz$ を寄与する。
-全体場は $W(\vect{r}) = \Dz + \sum_j w_j(\vect{r})$ である。
+全体場は $W(\vect{p}) = \Dz + \sum_j w_j(\vect{p})$ である。
 
 \item[A4.]{\bf (局所フレーム)} 局所的な「空間の速度」
-$\vect{u}(\vect{r})$ は,源の運動(並進+スピン回転)の決定力加重平均で
+$\vect{u}(\vect{p})$ は,源の運動(並進+スピン回転)の決定力加重平均で
 ある。背景 $\Dz$ は静止として寄与する。
 
 \item[A5.]{\bf (慣性,パラメータ化)} 粒子は自身の経路に沿った局所
 フレームの変化に強さ $k_F$ で応答する:各更新で
 $\Delta\vect{v} = k_F\,\Delta_{\rm path}\vect{u}$,ここで
 $\Delta_{\rm path}\vect{u}
- = \vect{u}(\vect{r}^{\,n+1},t_{n+1}) - \vect{u}(\vect{r}^{\,n},t_n)$
+ = \vect{u}(\vect{p}^{\,n+1},t_{n+1}) - \vect{u}(\vect{p}^{\,n},t_n)$
 は粒子の逐次位置で評価される(離散輸送微分;規則 E6$'$)。
 $k_F = 1$ では粒子は(他の撃力がなければ)\emph{局所フレームに対する}
 速度 $\vect{v}-\vect{u}$ を保存する(完全な引きずり:フレームが動けば
@@ -463,18 +468,18 @@ $k_F$ は部分引きずりモデルの1パラメータ族を定義する。
 本稿の主要な主張には $k_F \in \{0,1\}$ のみを用いる。
 
 \item[A6.]{\bf (重力)} 決定力の空間勾配は加速度である:
-$\vect{a} = G\,\nabla D(\vect{r})$。
-$w \propto m/d$ であるから,これは逆二乗則を与える(意図する論理的
+$\vect{a} = G\,\nabla D(\vect{p})$。
+$w \propto m/r$ であるから,これは逆二乗則を与える(意図する論理的
 位置づけは貢献 C2 を参照)。
-\emph{教育的注意:}ガウスの法則に従う真正の2次元場は $1/d$ で減衰し
-(対数ポテンシャル)$1/d$ の力を与える;A3 の $w \propto m/d$ は
+\emph{教育的注意:}ガウスの法則に従う真正の2次元場は $1/r$ で減衰し
+(対数ポテンシャル)$1/r$ の力を与える;A3 の $w \propto m/r$ は
 意図的に3次元的距離則を2次元の舞台に持ち込んでいる。
 DFM は平面に描かれた擬3次元的理想化であって,自己整合的な2次元場の
-理論ではない---馴染み深い逆二乗現象論(ケプラー軌道,$1/d^2$ の力)が
+理論ではない---馴染み深い逆二乗現象論(ケプラー軌道,$1/r^2$ の力)が
 学習者の見る画面の中で生き残るようにした選択である;場のフラックス
 (ガウスの法則)的解釈は意図的に停止され,軌道は円錐曲線のままである。
 この停止が何を代償にしているかは,見た目の問題ではなく構造の問題なので
-明示しておく。平面上で $w \propto m/d$ とした以上,この場が満たす2次元の
+明示しておく。平面上で $w \propto m/r$ とした以上,この場が満たす2次元の
 ポアソン方程式は存在しない:$\nabla^2 W$ は質量密度の定数倍にはならず,
 閉曲線を貫く $\nabla W$ のフラックスは内部質量に比例せず,したがって
 \emph{殻定理も成り立たない}---一様な物質リングの内側で,場は3次元の
@@ -507,7 +512,7 @@ $(a+b)\Kt = 2\Kt$ を含め,この単一の公理的選択の帰結であって,
 非物理的であり,時計を凍結する。
 
 \item[A8.]{\bf (スピン引きずり)} スピン $s_j$ は周囲のフレームに回転
-成分 $\omega_j(d)$ を与える(レンズ=サーリングのアナロジー)。表面で
+成分 $\omega_j(r)$ を与える(レンズ=サーリングのアナロジー)。表面で
 剛体回転に一致し,距離とともに減衰する。
 
 \item[A9.]{\bf (熱 $=$ スピン)} スピンの2乗が粒子の熱である;
@@ -517,11 +522,11 @@ $(a+b)\Kt = 2\Kt$ を含め,この単一の公理的選択の帰結であって,
 スピンは拡散し,時間とともに平衡化する。
 
 \item[A10.]{\bf (スピン斥力---試験粒子的動機づけ)} 角速度 $\omega$ で
-回転するフレームの内部にある試験体は外向きの遠心加速度 $\omega^2 d$ を
+回転するフレームの内部にある試験体は外向きの遠心加速度 $\omega^2 r$ を
 感じる;したがって熱い(速く回る)粒子は互いに押し離し合う---圧力の
 起源である。
 この公理は斥力の\emph{動機づけと試験粒子極限}のみを供給する;有限質量の
-2体については遠心的読み値 $m_i\omega_j^2 d$ と $m_j\omega_i^2 d$ は
+2体については遠心的読み値 $m_i\omega_j^2 r$ と $m_j\omega_i^2 r$ は
 作用・反作用対をなさないので,有限質量のペア則は A10 単独からは導出
 され\emph{ない}。
 実際に使用される対称形(E5$'$:換算質量,両スピン項の和)は相互性要求
@@ -529,7 +534,7 @@ A13 によって固定され,試験粒子極限 $m_i \ll m_j$,$\omega_i = 0$ で
 A10 の読み値に帰着する。
 
 \item[A11.]{\bf (光と同時性)} 光は局所決定フレーム
-$\vect{u}(\vect{r})$ に対して速さ $c_0/n_{\rm eff}(\vect{r})$ で等方的に
+$\vect{u}(\vect{p})$ に対して速さ $c_0/n_{\rm eff}(\vect{p})$ で等方的に
 伝播する(光は媒質に運ばれ,物質と同じ応答強度 $k_F$ を持つ;規則
 E8R)。
 座標時 $t$ は宇宙全体で一意である(絶対的同時性);固有時間の遅れは時計の
@@ -558,7 +563,7 @@ $\lambda_{\rm peak} = b_m/T_i$ と光度 $\Lambda_i = \eta_{\rm rad}T_i^p$
 \item[A13.]{\bf (相互性)} すべての相互作用---重力,スピン斥力,
 フレーム引きずり,接触,スピン拡散---はペアごとの作用・反作用対称性に
 従い,系は線運動量と全角運動量
-$L_{\rm tot} = \sum_i m_i(\vect{r}_i\times\vect{v}_i)_z
+$L_{\rm tot} = \sum_i m_i(\vect{p}_i\times\vect{v}_i)_z
  + \sum_i I_i s_i$ を厳密に保存する。
 背景 $\Dz$ と交換された運動量は,静止した無限慣性リザーバ(遠方宇宙)
 への移転として記帳される---落下するリンゴに向かって地球が感知できない
@@ -591,37 +596,37 @@ $\Dz$ の意味は強調に値する:これはモデルの唯一最重要のダ�
 
 \paragraph*{E1$'$(決定力場)。}
 \begin{equation}
-w_j(\vect{r}) = \frac{m_j}{\sqrt{d_j^2+\varepsilon^2}},\qquad
-W(\vect{r}) = \Dz + \sum_j w_j(\vect{r}).
+w_j(\vect{p}) = \frac{m_j}{\sqrt{r_j^2+\varepsilon^2}},\qquad
+W(\vect{p}) = \Dz + \sum_j w_j(\vect{p}).
 \label{eq:E1}
 \end{equation}
 プラマー形は $\nabla w_j$ を力の法則 式~(\ref{eq:E4}) と厳密に整合させる。
-$\nabla\bigl[m(d^2+\varepsilon^2)^{-1/2}\bigr]
- = -m\,d\,(d^2+\varepsilon^2)^{-3/2}\,\hat{d}$ だからである;
+$\nabla\bigl[m(r^2+\varepsilon^2)^{-1/2}\bigr]
+ = -m\,r\,(r^2+\varepsilon^2)^{-3/2}\,\hat{r}$ だからである;
 したがって A6 は有限 $\varepsilon$ でも成り立ち(機械検査 V9,残差
 $2.4\times10^{-4}$),$\varepsilon$ は数値的装置であって物理ではない。
 
 \paragraph*{E2(スピン引きずり角速度)。}
 \begin{equation}
-\omega_j(d) = s_j\left(\frac{R_j}{R_j+d}\right)^{q},\qquad
+\omega_j(r) = s_j\left(\frac{R_j}{R_j+r}\right)^{q},\qquad
 q = 2 \text{(既定)}.
 \label{eq:E2}
 \end{equation}
 
 \paragraph*{E3(局所フレーム速度)。}
 \begin{equation}
-\vect{u}(\vect{r}) =
+\vect{u}(\vect{p}) =
 \frac{\sum_j w_j\left[\vect{v}_j
- + \omega_j(d_j)\,\hat{z}\times(\vect{r}-\vect{r}_j)\right]}
-{W(\vect{r})}.
+ + \omega_j(r_j)\,\hat{z}\times(\vect{p}-\vect{p}_j)\right]}
+{W(\vect{p})}.
 \label{eq:E3}
 \end{equation}
 
 \paragraph*{E4(重力)。}
 \begin{equation}
 \vect{a}_{{\rm grav},i} =
- -G\sum_{j\ne i} \frac{m_j(\vect{r}_i-\vect{r}_j)}
- {(d_{ij}^2+\varepsilon^2)^{3/2}}.
+ -G\sum_{j\ne i} \frac{m_j(\vect{p}_i-\vect{p}_j)}
+ {(r_{ij}^2+\varepsilon^2)^{3/2}}.
 \label{eq:E4}
 \end{equation}
 
@@ -630,18 +635,18 @@ q = 2 \text{(既定)}.
 \begin{equation}
 \vect{F}_{{\rm rep}}(i{\leftarrow}j) =
  k_{\rm rep}\,\mu_{ij}
- \left[\omega_i(d_{ij})^2+\omega_j(d_{ij})^2\right]
- (\vect{r}_i-\vect{r}_j),
+ \left[\omega_i(r_{ij})^2+\omega_j(r_{ij})^2\right]
+ (\vect{p}_i-\vect{p}_j),
 \label{eq:E5}
 \end{equation}
 を換算質量 $\mu_{ij} = m_im_j/(m_i+m_j)$ で,等大逆向きに適用する。
 対称形は A13(相互性)によって規定される;A10 はその試験粒子極限を
 供給する(第\ref{sec:axioms}節)。
-$q=2$ での遠方場極限は $1/d^3$ の斥力である。
+$q=2$ での遠方場極限は $1/r^3$ の斥力である。
 
 \paragraph*{E6$'$(フレーム引きずり:輸送 $+$ 反作用)。}
 各ステップ,自己除外フレーム
-$\vect{u}_i = \vect{u}(\vect{r}_i)|_{j \ne i}$ を用いて:
+$\vect{u}_i = \vect{u}(\vect{p}_i)|_{j \ne i}$ を用いて:
 \begin{equation}
 \Delta\vect{v}_i = k_F\left[\vect{u}_i(\text{現在})
  - \vect{u}_i(\text{直前})\right],
@@ -649,48 +654,48 @@ $\vect{u}_i = \vect{u}(\vect{r}_i)|_{j \ne i}$ を用いて:
 \end{equation}
 これは $D\vect{u}/Dt$ による輸送の1次離散化である(公理 A5 の離散輸送
 微分 $\Delta_{\rm path}\vect{u}$ を粒子の逐次位置で評価したもの)。
-反作用は $\Delta\vect{p}_i = m_i\Delta\vect{v}_i$ をフレーム源 $j$ に,
-そのフレーム重み $\phi_{ij} = w_j(\vect{r}_i)/W(\vect{r}_i)$(自己除外,
+反作用は $\Delta\vect{P}_i = m_i\Delta\vect{v}_i$ をフレーム源 $j$ に,
+そのフレーム重み $\phi_{ij} = w_j(\vect{p}_i)/W(\vect{p}_i)$(自己除外,
 $j \ne i$)に比例して配り戻し,背景シェア $\phi_{\rm bg} = \Dz/W$ は
 リザーバに記帳される。
 明示的には,ペア $(i,j)$ ごと,ステップごとに
 \begin{align}
 \Delta\vect{v}_j &\mathrel{-}= \frac{\phi_{ij}}{m_j}\,
- \Delta\vect{p}_i,\nonumber\\
-n_{ij} &= \left[(\vect{r}_i-\vect{r}_j)\times
- \phi_{ij}\Delta\vect{p}_i\right]_z,\nonumber\\
+ \Delta\vect{P}_i,\nonumber\\
+n_{ij} &= \left[(\vect{p}_i-\vect{p}_j)\times
+ \phi_{ij}\Delta\vect{P}_i\right]_z,\nonumber\\
 \Delta s_i &= \Delta s_j = -\frac{n_{ij}}{I_i+I_j},
 \label{eq:E6pair}
 \end{align}
 ここで $n_{ij}$ は残留ペアトルクを表し,スピン移転は等角加速度で行う;
-背景トルク $[\vect{r}_i \times \phi_{\rm bg}\Delta\vect{p}_i]_z$ は
+背景トルク $[\vect{p}_i \times \phi_{\rm bg}\Delta\vect{P}_i]_z$ は
 リザーバ台帳に入る。
 すべての増分は同一時間ステップで評価されたフレーム場から計算され,
 同時に適用される;固定(外部保持)粒子はリザーバに記帳され,そのような
 ランは明示的に開放系となる。
 \emph{ペアごとの保存の証明:}粒子 $i$ は源 $j$ から運動量
-$\phi_{ij}\Delta\vect{p}_i$ を受け取り,$j$ はちょうど
-$\phi_{ij}\Delta\vect{p}_i$ を失う[式~(\ref{eq:E6pair})]ので,
-$\Delta\vect{P} = 0$ がペアごとに成り立つ;ペアの軌道角運動量は残留
+$\phi_{ij}\Delta\vect{P}_i$ を受け取り,$j$ はちょうど
+$\phi_{ij}\Delta\vect{P}_i$ を失う[式~(\ref{eq:E6pair})]ので,
+$\Delta\vect{P}_{\rm tot} = 0$ がペアごとに成り立つ;ペアの軌道角運動量は残留
 トルク $n_{ij}$ だけ変化し,スピン台帳は
 $(I_i+I_j)\,\Delta s_i = -n_{ij}$ だけ変化するので,
 $\Delta L_{\rm tot} = 0$ もペアごとに成り立つ。
-したがって $\Dz = 0$ かつ固定粒子なしのとき,$\vect{P}$ と $L_{\rm tot}$
+したがって $\Dz = 0$ かつ固定粒子なしのとき,$\vect{P}_{\rm tot}$ と $L_{\rm tot}$
 は方程式レベルで厳密に保存される(T7);検証ランの数値残差は単精度の
 丸め床にあり,時間刻みに依存しない(表\ref{tab:verify})。
 
 \paragraph*{E7R(固有時間)。}
 式~(\ref{eq:A7}) を粒子ごとに積分する:
 $\tau_i \mathrel{+}= \dot\tau_i\,\ud t$,ここで
-$\psi_i = W_{\rm ext}(\vect{r}_i)\,\Kt$ は自己除外である。
+$\psi_i = W_{\rm ext}(\vect{p}_i)\,\Kt$ は自己除外である。
 弱場・低速展開:
 $\dot\tau \approx 1 - \psi - |\vect{v}-\vect{u}|^2/(2c_0^2)$。
 
 \paragraph*{E8R(光線)。}
 \begin{equation}
-n_{\rm eff}(\vect{r}) = e^{2\psi(\vect{r})},\qquad
-\frac{\ud\vect{r}}{\ud t}
- = \frac{c_0}{n_{\rm eff}}\,\hat{c} + k_F\,\vect{u}(\vect{r}),
+n_{\rm eff}(\vect{p}) = e^{2\psi(\vect{p})},\qquad
+\frac{\ud\vect{p}}{\ud t}
+ = \frac{c_0}{n_{\rm eff}}\,\hat{c} + k_F\,\vect{u}(\vect{p}),
 \label{eq:E8}
 \end{equation}
 方向は $\vect{u}$ と共動するフレームでフェルマーの規則に従って更新する:
@@ -708,10 +713,10 @@ $\ud\hat{c}/\ud l = 2\nabla\psi - (2\nabla\psi\cdot\hat{c})\hat{c}$。
 $(a+b)\Kt = 2\Kt$ であり,観測量ごとに再調整されることは決してない。
 
 \paragraph*{E9(接触)。}
-$d_{ij} < R_i + R_j$ のとき:対称な法線バネが重なりを解消する;法線
+$r_{ij} < R_i + R_j$ のとき:対称な法線バネが重なりを解消する;法線
 減衰撃力(非弾性 $\gamma_n$)はそのエネルギー損失を放射する(A12$'$);
-実効アーム $\tilde R_i = R_i d/(R_i{+}R_j)$,
-$\tilde R_j = R_j d/(R_i{+}R_j)$($\tilde R_i + \tilde R_j = d$ となり
+実効アーム $\tilde R_i = R_i r/(R_i{+}R_j)$,
+$\tilde R_j = R_j r/(R_i{+}R_j)$($\tilde R_i + \tilde R_j = r$ となり
 $L$ を厳密に保存)を持つ接線摩擦がすべりをスピンに変換する:
 \begin{align}
 v_s &= (\vect{v}_i-\vect{v}_j)\cdot\hat{t}
@@ -725,10 +730,10 @@ j_t &= \tfrac{\mu_f}{3}\,\mu_{ij}\,v_s,
 \paragraph*{E10$'$(スピン拡散)。}
 \begin{equation}
 \frac{\ud s_i}{\ud t} = S_k\sum_{j\ne i}
- \frac{I_j}{I_i+I_j}\,(s_j-s_i)\,g(d_{ij}),
+ \frac{I_j}{I_i+I_j}\,(s_j-s_i)\,g(r_{ij}),
 \label{eq:E10}
 \end{equation}
-$g(d) = [(R_i{+}R_j)/(R_i{+}R_j{+}d)]^2$。
+$g(r) = [(R_i{+}R_j)/(R_i{+}R_j{+}r)]^2$。
 $I$ 重み付けは $\sum_i I_i s_i$ をペアごとに保存する;同期のエネルギー
 損失は放射される(A12$'$)。
 固定点は $s$ の一様性であり,これが温度の一様性と一致するのは慣性
@@ -759,7 +764,7 @@ $k_F = 0$ とし(スピン項も無効化),E4 のみを残すと,モデルは標
 \subsection{弱場対応とベンチマーク較正}
 \label{sec:calib}
 
-$\Phi_N = -G D$,$D = \sum_j m_j/d_j$($\varepsilon\to0$)とする。
+$\Phi_N = -G D$,$D = \sum_j m_j/r_j$($\varepsilon\to0$)とする。
 E7R の弱場展開
 $\dot\tau \approx 1 - \psi - |\vect{v}-\vect{u}|^2/(2c_0^2)$
 は,単一の同定
@@ -896,7 +901,7 @@ $k_F$ の普遍的な物理較正は存在しない;太陽系条件下で局所�
 時計規則 E7R は線素
 \begin{equation}
 c^2\ud\tau^2 = e^{-2\psi}c^2\ud t^2
- - e^{+2\psi}\left|\ud\vect{r}-\vect{u}\,\ud t\right|^2 ,
+ - e^{+2\psi}\left|\ud\vect{p}-\vect{u}\,\ud t\right|^2 ,
 \label{eq:line}
 \end{equation}
 を定義する。そこで自然な問い---静的セクターについては本稿で肯定的に
@@ -912,7 +917,7 @@ c^2\ud\tau^2 = e^{-2\psi}c^2\ud t^2
  - (1+2\alpha)(\nabla U_j\cdot\vect{v})\,\vect{v}\Bigr],
 \label{eq:e12}
 \end{multline}
-ここで $U_j = Gm_j/\sqrt{d_j^2+\varepsilon^2}$($\nabla U_j$ は源 $j$ の
+ここで $U_j = Gm_j/\sqrt{r_j^2+\varepsilon^2}$($\nabla U_j$ は源 $j$ の
 E4 加速度)。
 この源ごとの形は全ポテンシャル表式 $U\nabla U$($U = \sum_j U_j$)の
 交差項を落としている;両者は単一の源が支配的なときに一致し,それが以下の
@@ -1001,7 +1006,7 @@ E_{\rm tot} = K_{\rm trans} + K_{\rm spin} + U_{\rm grav}
 \end{equation}
 と定義する。ここで $K_{\rm trans} = \sum_i \tfrac12 m_i|\vect{v}_i|^2$,
 $K_{\rm spin} = \sum_i \tfrac12 I_i s_i^2$,
-$U_{\rm grav} = -\sum_{i<j} G m_i m_j/\sqrt{d_{ij}^2+\varepsilon^2}$
+$U_{\rm grav} = -\sum_{i<j} G m_i m_j/\sqrt{r_{ij}^2+\varepsilon^2}$
 (プラマー力 E4 の厳密なポテンシャル),
 $U_{\rm contact}$ は E9 の区分的法線バネポテンシャル,
 $U_{\rm rep}$ は E5$'$ のペアポテンシャル($q=2$ で閉形式;スピンが固定
@@ -1253,7 +1258,7 @@ $\pm6.77\times10^{-2}$~rad,スピン反転で符号反転。}
 した静的な高温/低温格子は,温度ギャップを単位時間あたり測定レート
 $1.8\times10^{-3}$ で指数関数的に閉じ,その間,全スピン角運動量
 $\sum_i I_i s_i$ は丸め床まで保存される。同じランの2体版は
-式~(\ref{eq:E10}) の解析緩和レート $S_k\,g(d)$ を相対誤差
+式~(\ref{eq:E10}) の解析緩和レート $S_k\,g(r)$ を相対誤差
 $3\times10^{-5}$ で再現する。
 したがって平衡化は拡散規則そのものの性質であり,すべてがゼロへ減衰する
 ことの副産物ではない。
@@ -1483,8 +1488,8 @@ $2\Kt = \kappa_D = 2G/c^2$ & $\approx 1.48\times10^{-27}\ {\rm m\,kg^{-1}}$ &
 
 較正定数が\emph{線密度の逆数}(m\,kg$^{-1}$),すなわち単位質量あたりの
 重力長であることの物理的直観:決定力
-$W = \sum m/d$ 自体が質量/長さの次元を持ち,$\psi = W\Kt$ が1の
-オーダーに達するのはちょうど $GM/(c^2 d) \sim 1$,すなわち相対論的に
+$W = \sum m/r$ 自体が質量/長さの次元を持ち,$\psi = W\Kt$ が1の
+オーダーに達するのはちょうど $GM/(c^2 r) \sim 1$,すなわち相対論的に
 コンパクトな系の質量対半径比においてである。
 同じ組合せは観測可能な宇宙の質量対半径スケール
 ($GM_u/(c^2R_H) \sim 1$,シアマの一致)としても,GR 文献で論じられる
@@ -1573,7 +1578,7 @@ $k_F{=}1/0$ の A/B;外縁帯 $r\in[85,130]$,ステップ 1000--2000 で
 第0法則対照 & $G{=}0$,$k_F{=}0$,$k_{\rm rep}{=}0$,
 $\mu_f{=}\gamma_n{=}\eta_{\rm rad}{=}0$,$S_k{=}0.3$;
 $8\times6$ 静的格子(間隔 40),$m{=}1$,スピン $0.3$(左)/
-$2.5$(右),4000 ステップ;2体版 $m{=}2$,$d{=}30$,スピン
+$2.5$(右),4000 ステップ;2体版 $m{=}2$,$r{=}30$,スピン
 $2/0$,2500 ステップ \\
 V18--V20 & $G{=}1$,$\Dz{=}0.05$,$k_F{=}0$,$k_{\rm rep}{=}0$,
 全散逸オフ,$\Kt{=}10^{-4}$,$c_0{=}40$,\texttt{geoPN}{=}1,
@@ -1626,7 +1631,7 @@ T6 & スピン=熱は温度を平衡化し(第0法則類似),圧力を生む
 (単一粒径でのみ有効) & A9, A10, E5$'$, E9, E10$'$ &
 CNP(単一粒径;L9) & \texttt{gas} / \texttt{pressure} ゲート;
 孤立第0法則対照(第\ref{sec:exp6}節) \\
-T7 & $\Dz{=}0$,固定粒子なしのとき:$\vect{P}$ と $L_{\rm tot}$ は
+T7 & $\Dz{=}0$,固定粒子なしのとき:$\vect{P}_{\rm tot}$ と $L_{\rm tot}$ は
 厳密に保存;$\Dz{>}0$ の欠損はリザーバ台帳に等しい & A13, E4,
 E5$'$, E6$'$, E9, E10$'$ & 方程式レベルの定理
 (証明は第\ref{sec:dynamics}節) & V1(残差は丸め床,
