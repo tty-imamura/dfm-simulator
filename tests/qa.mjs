@@ -101824,7 +101824,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl334b = clg.split('\n').find((l) => l.indexOf('**第334便b**') >= 0) || '';
     if (!(cl334b.indexOf('tests/exp-w334b-ledger.mjs') >= 0 && cl334b.indexOf('ledger-334b') >= 0 && cl334b.indexOf('原仮定者の整理(2026-11-11)') >= 0 && cl334b.indexOf('R323') >= 0 && cl334b.indexOf('AN626') >= 0)) bad.push('③ CHANGELOG の第334便b の行');
     if (!(/S\('ledger-334b', 'node tests\/exp-w334b-ledger\.mjs', \['tests\/out\/ledger-w334b\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '純関数と第333便b の正本の値と窓の RK4 だけ") >= 0
-      && RT.indexOf("after: ['axialfield-333b']") >= 0 && RT.indexOf('// ==== 第334便b の塊(ここから)====') >= 0)) bad.push('③ 段の行 ledger-334b(quickVerify と理由・after・塊)');
+      && RT.indexOf("'axialheat-326d', 'axialfield-333b'],") >= 0 && RT.indexOf('// ==== 第334便b の塊(ここから)====') >= 0)) bad.push('③ 段の行 ledger-334b(quickVerify と理由・after・塊)');
     if (GI.indexOf('!tests/out/ledger-w334b.json') < 0) bad.push('③ .gitignore の例外');
     if (!(PM.indexOf('# ==== 第334便b の塊(ここから)====') >= 0 && /lint\.ledger334b/.test(PM) && /behavior\.ledger334b/.test(PM) && /docs\.ledger334b/.test(PM))) bad.push('③ post-merge の ③′ に第334便b の塊');
     cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §215(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');

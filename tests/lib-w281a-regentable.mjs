@@ -1903,8 +1903,9 @@ export const REGEN_STEPS = [
   //   原仮定者の回答(2026-11-11 —— AN626・AN628・AN629・AN630)・統括の検証項目 R323): **仕事とトルクの帳簿の器**(段 ledger-334b —— 正本 tests/out/ledger-w334b.json・
   //   lib tests/lib-w334b-ledger.mjs —— 第333便a・第333便b・第332便a・第331便a・第330便a・第326便d の lib を import して呼ぶ)。**診断だけ**。**html を読まない**(来歴の対象は純関数
   //   tests/lib-w334b-ledger.mjs —— 第333便d の型・領域の宣言なし)・第333便b の正本 tests/out/axialfield-w333b.json を読む(本の時刻の ω_field の 3 部と今の軸の口の値 —— 並べるだけ ——
-  //   順序だけ after に axialfield-333b)。1 プロセス。所要は第334便b の枝の実測 34〜36 s(窓の RK4 が大半)
-  S('ledger-334b', 'node tests/exp-w334b-ledger.mjs', ['tests/out/ledger-w334b.json'], 36, { secSource: 'w334b-branch', node: true, after: ['axialfield-333b'],
+  //   順序だけ after に axialfield-333b と、import する第332便a の lib が呼ぶ第331便c の lib が記録の値の出典の正本の名を書く 8 段 —— 第333便a と同じ)。1 プロセス。所要は第334便b の枝の実測 34〜36 s(窓の RK4 が大半)
+  S('ledger-334b', 'node tests/exp-w334b-ledger.mjs', ['tests/out/ledger-w334b.json'], 36, { secSource: 'w334b-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'axialfield-333b'],
     quickVerify: false, quickVerifyWhy: '純関数と第333便b の正本の値と窓の RK4 だけ(html を読まない・全部を走らせても 40 秒の内)—— 簡易一致の窓を持たない',
     volatilePaths: { 'tests/out/ledger-w334b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第334便b: 回転引きずりの押し(NF)と滑り(NS)の円軌道の平均のトルクと仕事・源の自転の反作用・共役の角速度の 2 列(S 観測自転 s/D J 等価の s_d)の熱と比・観測の熱流との比・補助の帳簿(太陽–木星・地球–月・土星の環の粒子 3 半径・木星–イオ × 傾き 2 × 列 5 × 応答率 2)/軸引きずりの応答 N = Γ(ω_field − s_i)(経路ごとの口と相殺の否定対照・τ の格子 3・自己の重み 3・今の軸の口の値と並べる —— 本の時刻)/2 体 3 体の窓(太陽–水星–金星・地球–月・冥王星–カロン・木星–イオ —— 刻み h と h/2 の閉じ)/潮汐の勾配と引きずりの場の勾配の次数/自分自身への並進引きずりの割合(太陽系・連星・銀河の星)' }),
