@@ -839,6 +839,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.symbols333e docs.symbols333e lint.equat
 #   今の html の 🌡️🌋🔴 の宣言から窓・仮説・組み合わせ・文献の比・対照を作り直して正本と同じ / docs.mercuryNode334c —— 正本の門と表 13 本が PHYSICS〔第334便c〕に逐語・文書)と、新しい段 mercurynode-334c の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.mercuryNode334c behavior.mercuryNode334c docs.mercuryNode334c docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
 # ==== 第334便c の塊(ここまで)====
+# ==== 第334便d の塊(ここから)====
+# 第334便d(原仮定者の整理(2026-11-11)・原仮定者の回答(2026-11-11 —— AN637・AN634・AN624)・統括の検証項目 R325 —— 診断だけ・html は変えない): 枝 d の新設 3 本(lint.binaryLaw334d —— 同期の零試験と
+#   二体の同時発展の純関数の場面と呼ぶだけの検査・宣言 / behavior.binaryLaw334d —— 系の表・零試験・部分集合の格子・傾いた軸の行を今の html の 10 本から作り直して正本と同じ /
+#   docs.binaryLaw334d —— 正本の門と表 12 本が PHYSICS〔第334便d〕に逐語・文書)と、新しい段 binarylaw-334d の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.binaryLaw334d behavior.binaryLaw334d docs.binaryLaw334d docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
+# ==== 第334便d の塊(ここまで)====
 # ==== 第334便e の塊(ここから)====
 # 第334便e(原仮定者の回答(2026-11-11 —— AN638・AN640)・原仮定者の整理(2026-11-11)・統括の検証項目 R326 —— 診断だけ・html は変えない): 枝 e の新設 3 本(lint.gridFloor334e —— 固定の受け手の格子の場の
 #   純関数の場面と呼ぶだけの検査・器の宣言〔誤差の幅の定義・目標・判定の比〕/ behavior.gridFloor334e —— 格子の受け手の主の離散化・幅と分解・目標・腕の比べ・星の点の受け手と第333便d の照らし・
