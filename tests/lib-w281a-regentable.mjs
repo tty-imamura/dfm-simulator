@@ -1902,10 +1902,11 @@ export const REGEN_STEPS = [
   // ---- 第334便a(原仮定者の整理(2026-11-11)「回転引きずりは、距離 r において、赤道面からの高さ z が十分に小さい場合は、z/r に比例する …… 源の重力が十分に支配的な範囲では、
   //   回転引きずりの速度が z に比例する区間がある」「扁平な天体は、赤道面方向の回転引きずりが強いと想定する —— 『赤道面方向の引きずり半径を扁平率で割る』などの検証を行う。次数も幾つか試す」・
   //   原仮定者の回答(2026-11-11 —— AN623・AN624)・統括の検証項目 R322): **回転引きずりの高さ則と扁平な源の器**(段 heightlaw-334a —— 正本 tests/out/heightlaw-w334a.json・
-  //   lib tests/lib-w334a-heightlaw.mjs —— 第333便a・第332便a・第333便b・第331便c の lib と第333便d の器〔円盤の作り方〕を import して呼ぶ〔code の依存 —— 他の正本は読まない〕)。**診断だけ**。
+  //   lib tests/lib-w334a-heightlaw.mjs —— 第333便a・第332便a・第333便b・第331便c の lib と第333便d の器〔円盤の作り方〕を import して呼ぶ〔code の依存 —— 他の正本は読まない。順序だけ after に第333便c の段と同じ 8 段〕)。**診断だけ**。
   //   **html を読まない**(来歴の対象は純関数 tests/lib-w334a-heightlaw.mjs —— 第333便d の型・領域の宣言なし)・NGC 3198 の rotmod の写し(第329便b の fixture)だけを読む。
   //   1 プロセス。所要は第334便a の枝の実測 2〜3 s
   S('heightlaw-334a', 'node tests/exp-w334a-heightlaw.mjs', ['tests/out/heightlaw-w334a.json'], 3, { secSource: 'w334a-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // 順序だけ(import する第331便c の lib が記録の値の出典の正本の名を書くだけ —— 正本は読まない・第333便c の段と同じ 8 段)
     quickVerify: false, quickVerifyWhy: '全部を走らせても数秒(純関数と fixture だけ —— html を読まない)—— 簡易一致の窓を持たない',
     volatilePaths: { 'tests/out/heightlaw-w334a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第334便a: 回転引きずりの高さ則の読みの候補 T1(視線方向の捩れ s_d z)・T2(半渦度の動径の成分 × r —— 切り口と球)・T3(比較用のスカラー則)× 比べる列(第333便a の切り口・三次元の差分・帯と尾)× s_d(観測自転・J 案)の高さの分布(土星の主な環・木星の主環・天王星の ε 環・NGC 3198)・「源の重力が支配的な範囲」の 2 つの物差し(決定力 D の割合と β —— 自己の重みの 3 列 × W₀)・環の厚みへ繋ぐ対照(鉛直の速度の場の型と H ~ σ_z/ν_eff)・扁平な源(文字どおり R_d/f_flat^q と軸比 R_d/(1 − f_flat)^q × q・体積を保つ回転楕円体の求積 —— J 固定と半径だけ・天体の表と環の厚みとの比)' }),
