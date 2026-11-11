@@ -122,9 +122,10 @@ export function partEpoch(AX) {
 
 /* ───────── C 窓 ───────── */
 const systemOf = (k) => (k === 'sj' ? L.sjSystem() : L.WINDOW_SYSTEMS[k]());
-export function partWindows() {
+export function partWindows(only = null) {
   const W = L.DECL.window, out = {};
   for (const k of PLAN.windowSystems) {
+    if (only && !only.includes(k)) continue;
     const sys0 = systemOf(k), P = 2 * Math.PI / sys0.n, T = W.orbits * P, runs = [];
     const job = (label, selfRule, tauF, push, carry = false) => {
       const r = [1, 2].map((m) => L.windowRun(systemOf(k), { selfRule, tauSec: tauF ? tauF * P : null, push, carry, steps: W.stepsPerOrbit * W.orbits * m, T }));
