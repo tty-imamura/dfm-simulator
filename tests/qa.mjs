@@ -101685,14 +101685,16 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     return;
   }
   const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
-  // 数の葉を全部比べる(構造が違えば Infinity・関数は見ない・相対の差の最大)
-  const deep334 = (a, b) => {
-    if (typeof a === 'number' && typeof b === 'number') return a === b ? 0 : (Number.isFinite(a) && Number.isFinite(b)) ? Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b), 1e-300) : Infinity;
+  // 数の葉を全部比べる(構造が違えば Infinity・関数は見ない・相対の差の最大)。丸めの程度の欄(求積の点を増やした差 rel・conv と打ち消しの実際の扁平率 fEff —— Node の版で下の桁が動く)は
+  //   絶対 1e-12 の床(他の欄は床なし —— 小さな値の s_d や V/z も相対で比べる)
+  const FLOOR334 = new Set(['rel', 'conv', 'fEff']);
+  const deep334 = (a, b, key = '') => {
+    if (typeof a === 'number' && typeof b === 'number') return a === b ? 0 : (Number.isFinite(a) && Number.isFinite(b)) ? ((FLOOR334.has(key) && Math.abs(a - b) <= 1e-12) ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b), 1e-300)) : Infinity;
     if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') return a === b ? 0 : Infinity;
     if (Array.isArray(a) !== Array.isArray(b)) return Infinity;
     const ka = Object.keys(a).filter((k) => typeof a[k] !== 'function'), kb = Object.keys(b).filter((k) => typeof b[k] !== 'function');
     if (ka.length !== kb.length) return Infinity;
-    let m = 0; for (const k of ka) { if (!(k in b)) return Infinity; m = Math.max(m, deep334(a[k], b[k])); if (m === Infinity) return m; }
+    let m = 0; for (const k of ka) { if (!(k in b)) return Infinity; m = Math.max(m, deep334(a[k], b[k], Array.isArray(a) ? key : k)); if (m === Infinity) return m; }
     return m;
   };
   const jsn = (x) => JSON.parse(JSON.stringify(x));
