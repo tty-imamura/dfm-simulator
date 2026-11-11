@@ -89,10 +89,10 @@ function ringStats(G, rec, nR, e, c) {
 }
 
 /* ───────── G 格子の受け手 × 離散化 × 族 × 位相 × 軟化 × 組 ───────── */
-export function partGrid(FX) {
+export function partGrid(FX, discs = PLAN.disc) {   // discs: 作り直す離散化の部分(QA が主の離散化だけを作り直す —— 既定は全部)
   const rec = L.receiverGrid(PLAN.recRadiiKpc.map((R) => R * KPC), PLAN.nAz, PLAN.azOffFrac, 0), eps = PLAN.softKpc.map((e) => e * KPC), nR = PLAN.recRadiiKpc.length;
   const vals = {}, m2 = {}, gap = { minFrac: Infinity }, discInfo = {};
-  for (const q of PLAN.disc) {
+  for (const q of discs) {
     const RG = ringsAt(FX, q), dk = dkey(q); vals[dk] = {};
     // 離散化の列の円盤の量(環の質量の和・内と外の端 —— 間隔 ΔR の環は R_k ± ΔR/2 を代表する)
     discInfo[dk] = { n: RG.rings.length * q[1] + 1, MdiskMsun: RG.rings.reduce((s, r) => s + r.m, 0) / GR.MSUN_KG, innerEdgeKpc: PLAN.ringFromKpc - q[0] / 2, outerEdgeKpc: RG.rings[RG.rings.length - 1].RKpc + q[0] / 2 };
