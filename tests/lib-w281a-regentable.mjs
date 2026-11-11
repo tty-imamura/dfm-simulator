@@ -1898,6 +1898,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/noncirc-w333d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第333便d: 同じ方位平均の質量分布(案内中心の環の質量が同じ)で 円軌道・位相を乱した非円軌道(種 3)・パターンの枠で位相を揃えた非円軌道(運動学的な密度波 kin と一定の Ω_p の卵形 pattern)の NGC 3198 の低 N の円盤 × 統合した並進の場 U(α = 2・1 × 引きずり自転 none・sync × 場の読み・自己 R_d = Y_k m)の方位平均・m = 2・渦度・J の流れ・トルクと仕事の目安・∂U/∂t(解析と中心差分)・腕と分散の切り分け・離散化の依存・共鳴の半径' }),
   // ==== 第333便d の塊(ここまで)====
+  // ==== 第334便e の塊(ここから)====
+  // ---- 第334便e(原仮定者の回答(2026-11-11 —— AN638 = A「先に離散化の依存を下げる」・AN640 = A)・原仮定者の整理(2026-11-11)「土星の環と銀河の円盤について」・統括の検証項目 R326):
+  //   **銀河の離散化の床の器**(段 gridfloor-334e —— 正本 tests/out/gridfloor-w334e.json・lib tests/lib-w334e-gridfloor.mjs —— 第333便d の lib と器〔readFixture・ringsOf・partDisc〕・
+  //   第332便b の lib を import して呼ぶ〔code の依存 —— 他の正本は読まない〕)。**診断だけ・運動学の対照だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w334e-gridfloor.mjs ——
+  //   第317便d の satan の型・領域の宣言なし)・NGC 3198 の rotmod の写し(第329便b の fixture)だけを読む。1 プロセス。所要は第334便e の枝の実測 21〜24 s
+  //   (格子の受け手 168 点 × 離散化 9 組 × 族 15 × 位相 3 × 軟化 4 —— 最も細かい組は源 11233 点。間引かない: 受け手 × 源の 1 回の走査で軟化と組を同時に)
+  S('gridfloor-334e', 'node tests/exp-w334e-gridfloor.mjs', ['tests/out/gridfloor-w334e.json'], 23, { secSource: 'w334e-branch', node: true,
+    quickVerify: false, quickVerifyWhy: '純関数と fixture だけ(html を読まない)—— 全部を走らせても 30 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/gridfloor-w334e.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第334便e: NGC 3198 の恒星の円盤(第333便d の 4 族)の統合した並進の場 U を星の点でない固定の受け手の格子(半径 7 × 方位 24・面内と高さ z の列)で読む —— 離散化 9 組(環の間隔 × 方位の数)・軟化 4・種 5・方位の位相 3 の誤差の幅(目標 1%)と分解・「腕あり − 円」の差 ÷ 幅(判定の比 3)・m = 2 の密度と U_φ の m = 2・星の点の受け手と第333便d の離散化の列の照らし・円盤の源の場の高さ z の偶奇と次数(薄い円盤と sech² の厚みの対照)' }),
+  // ==== 第334便e の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

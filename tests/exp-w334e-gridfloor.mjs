@@ -44,7 +44,7 @@ export const NOT_CLAIM = Object.freeze(['誤差の幅は宣言した受け手の
   '高さ z の列は表だけ(高さの則の式を当てない)', '主列は W₀ = 0(背景慣性決定力と自己の重みを分母に入れない —— AN640)', 'κ_epi と κ_D は別の量', '棒・暗黒物質のハロー全体は扱わない(notClaim)']);
 /** 器の宣言(走行の前に置く —— 結果を見て変えない) */
 export const PLAN = Object.freeze({
-  recRadiiKpc: Object.freeze([4, 8, 12, 16, 20, 24, 28]), nAz: 24, azOffFrac: 0.4,
+  recRadiiKpc: Object.freeze([4, 8, 12, 16, 20, 24, 28]), nAz: 24, azOffFrac: 0.4, ringFromKpc: 1,   // ringFromKpc は第333便d の PLAN と同じ(端の記録だけ)
   disc: Object.freeze([[1, 24], [1, 48], [1, 96], [0.5, 24], [0.5, 48], [0.5, 96], [0.25, 24], [0.25, 48], [0.25, 96]].map((q) => Object.freeze(q))),
   mainDisc: Object.freeze([0.25, 96]), fineDisc: Object.freeze([[0.5, 48], [0.5, 96], [0.25, 48], [0.25, 96]].map((q) => Object.freeze(q))),
   softKpc: Object.freeze([0, 0.05, 0.1, 0.25]), mainSoftKpc: 0.1, softForm: 'plummer',
@@ -54,7 +54,7 @@ export const PLAN = Object.freeze({
   bandDef: '同じ族・組・軟化・位相・半径で離散化だけを変えた ⟨U_φ⟩ の(最大 − 最小)÷ |平均|', target: 0.01, exceedRatio: 3,
   zKpc: Object.freeze([0, 0.05, -0.05, 0.1, -0.1, 0.25, -0.25, 0.5, -0.5, 1, -1]), thickZ0Kpc: 0.3, thickSeeds: Object.freeze([1, 2, 3]), thickSeedBase: 1000,
   zDisc: Object.freeze([Object.freeze([0.25, 96]), Object.freeze([1, 24])]), zSoftKpc: Object.freeze([0, 0.1]),
-  starRingsKpc: Object.freeze([5, 10, 20]), m2HalfWidthKpc: 0.5,
+  starRingsKpc: Object.freeze([5, 10, 20]), m2HalfWidthKpc: 0.5, m2EdgeRule: 'between',   // 帯の端は環の間(R ± (0.5 + ΔR/2) —— 端が環の上に乗ると丸めで環が割れる)
 });
 const dkey = (q) => q[0] + 'x' + q[1];
 const sameQ = (a, b) => a[0] === b[0] && a[1] === b[1];
@@ -91,9 +91,11 @@ function ringStats(G, rec, nR, e, c) {
 /* ───────── G 格子の受け手 × 離散化 × 族 × 位相 × 軟化 × 組 ───────── */
 export function partGrid(FX) {
   const rec = L.receiverGrid(PLAN.recRadiiKpc.map((R) => R * KPC), PLAN.nAz, PLAN.azOffFrac, 0), eps = PLAN.softKpc.map((e) => e * KPC), nR = PLAN.recRadiiKpc.length;
-  const vals = {}, m2 = {}, gap = { minFrac: Infinity };
+  const vals = {}, m2 = {}, gap = { minFrac: Infinity }, discInfo = {};
   for (const q of PLAN.disc) {
     const RG = ringsAt(FX, q), dk = dkey(q); vals[dk] = {};
+    // 離散化の列の円盤の量(環の質量の和・内と外の端 —— 間隔 ΔR の環は R_k ± ΔR/2 を代表する)
+    discInfo[dk] = { n: RG.rings.length * q[1] + 1, MdiskMsun: RG.rings.reduce((s, r) => s + r.m, 0) / GR.MSUN_KG, innerEdgeKpc: PLAN.ringFromKpc - q[0] / 2, outerEdgeKpc: RG.rings[RG.rings.length - 1].RKpc + q[0] / 2 };
     for (const ph of PLAN.phases) gap.minFrac = Math.min(gap.minFrac, L.azGapFrac({ nAz: PLAN.nAz, offFrac: PLAN.azOffFrac, K: q[1], phaseFrac: ph }));
     for (const cfg of familyConfigs()) {
       const Dn = diskOf(RG, cfg, 'none'), Ds = diskOf(RG, cfg, 'sync'), rec0 = { n: Dn.pts.length, dropped: Dn.dropped };
@@ -102,12 +104,14 @@ export function partGrid(FX) {
         const ang = 2 * Math.PI * ph / q[1], S = L.packSources(L.rotateDisk(Dn.pts, ang), L.rotateDisk(Ds.pts, ang)), G = L.gridField({ rec: rec.map((r) => r.p), S, epsList: eps, W0: PLAN.W0 });
         rec0['f' + ph] = PLAN.softKpc.map((_, e) => L.COMBOS.map((_, c) => { const st = ringStats(G, rec, nR, e, c); return sameQ(q, PLAN.mainDisc) && ph === PLAN.mainPhase ? st : { uPhi: st.uPhi, minDistKpc: c === 0 ? st.minDistKpc : undefined }; }));
       }
-      if (sameQ(q, PLAN.mainDisc)) {   // m = 2 の密度(帯 R ± 0.5 kpc —— 第333便d の annulusKinematics を呼ぶ・位相 0)
-        m2[cfg.key] = PLAN.recRadiiKpc.map((R) => { const a = N3.annulusKinematics(Dn.pts.slice(1), [(R - PLAN.m2HalfWidthKpc) * KPC, (R + PLAN.m2HalfWidthKpc) * KPC])[0]; return { RKpc: R, n: a.n, A2: a.n ? a.A2 : null, phase2: a.n ? a.phase2 : null }; });
+      if (sameQ(q, PLAN.mainDisc)) {   // m = 2 の密度(帯 R ± (0.5 + ΔR/2) kpc —— 端は環の間・第333便d の annulusKinematics を呼ぶ・位相 0)
+        const hw = PLAN.m2HalfWidthKpc + q[0] / 2;
+        m2[cfg.key] = PLAN.recRadiiKpc.map((R) => { const a = N3.annulusKinematics(Dn.pts.slice(1), [(R - hw) * KPC, (R + hw) * KPC])[0]; return { RKpc: R, n: a.n, A2: a.n ? a.A2 : null, phase2: a.n ? a.phase2 : null }; });
       }
     }
   }
-  return { receivers: rec.length, gapMinFrac: gap.minFrac, vals, m2 };
+  const RG0 = ringsAt(FX, PLAN.mainDisc), vObs = PLAN.recRadiiKpc.map((R) => RG0.rings.find((r) => Math.abs(r.RKpc - R) < 1e-9).vObs);
+  return { receivers: rec.length, gapMinFrac: gap.minFrac, discInfo, vObsAtRec: vObs, vals, m2 };
 }
 
 /* ───────── B 幅の表と分解 ───────── */
@@ -272,7 +276,8 @@ export async function main() {
     harnessVersion: HARNESS_VERSION, stage: 'gridfloor', engine: 'Node の純関数だけ(html を読まない・エンジンの步を進めない —— 源は宣言の軌道の式の時刻 0)', notClaim: NOT_CLAIM });
   Object.assign(out.meta, w281aStableInputs(ROOT, out.meta.inputs));
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
-  fs.writeFileSync(OUT, JSON.stringify(out, null, 1) + '\n');
+  // 数の配列は 1 行に(正本の大きさを抑える —— JSON としては同じ値)
+  fs.writeFileSync(OUT, JSON.stringify(out, null, 1).replace(/\[\s*(-?[\d.eE+-]+(?:,\s*-?[\d.eE+-]+|,\s*null)*)\s*\]/g, (m, a) => '[' + a.replace(/\s+/g, '') + ']') + '\n');
   console.log('→', path.relative(ROOT, OUT), 'ok=' + out.ok, JSON.stringify(out.gates), out.elapsedS + ' s');
 }
 if (IS_MAIN) await main();
