@@ -1898,6 +1898,19 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/noncirc-w333d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第333便d: 同じ方位平均の質量分布(案内中心の環の質量が同じ)で 円軌道・位相を乱した非円軌道(種 3)・パターンの枠で位相を揃えた非円軌道(運動学的な密度波 kin と一定の Ω_p の卵形 pattern)の NGC 3198 の低 N の円盤 × 統合した並進の場 U(α = 2・1 × 引きずり自転 none・sync × 場の読み・自己 R_d = Y_k m)の方位平均・m = 2・渦度・J の流れ・トルクと仕事の目安・∂U/∂t(解析と中心差分)・腕と分散の切り分け・離散化の依存・共鳴の半径' }),
   // ==== 第333便d の塊(ここまで)====
+  // ==== 第334便c の塊(ここから)====
+  // ---- 第334便c(原仮定者の整理(2026-11-11)「水星の近点移動について: 斜め軌道の交点での並進の回転が有望」「引き続き、様々な組み合わせを調べる」・
+  //   原仮定者の回答(2026-11-11 —— AN633〜AN636)・統括の検証項目 R324): **水星の斜め軌道の交点の窓の積分の器 —— 統合した並進引きずりの回転の分・並進の分・両方を交点の前後・離れた部分・全周に分けて
+  //   L̂ と e のベクトルの変化で(2 つの速度の読み)・交点の非対称の仮説の検査・組み合わせ・文献の値(未照合)との比と係数の上限・金星・地球・火星の対照**(段 mercurynode-334c —— 正本
+  //   tests/out/mercurynode-w334c.json・lib tests/lib-w334c-mercurynode.mjs —— 第333便c の器の readBooks・systemOf と第333便c・第330便b・第332便a・第309便a・第312便a の lib を import して呼ぶ)。
+  //   **診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は 🌡️🌋🔴 を .find で引く 3 本 —— 宣言の値を読む・步を進めない)・他の正本は読まない(import する第333便c の器と
+  //   第331便c の lib が正本の名を書くだけ —— 順序だけ after に第333便c の段と同じ段と mercury3d-333c)。1 プロセス。所要は第334便c の枝の実測 8〜10 s
+  S('mercurynode-334c', 'node tests/exp-w334c-mercurynode.mjs', ['tests/out/mercurynode-w334c.json'], 10, { secSource: 'w334c-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercury3d-333c'],
+    quickVerify: false, quickVerifyWhy: '本の宣言の値と一次の窓の積分と純粋な積分器だけ(窓が無く、全部を走らせても十秒)',
+    volatilePaths: { 'tests/out/mercurynode-w334c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第334便c: 水星の斜め軌道の交点の窓の積分 —— 統合した並進引きずりの回転の分・並進の分・両方と K1・G_loc・太陽の J₂・Lense–Thirring を、太陽の赤道面の交点 ±5°・±15°・±45°・黄道の交点 ±15°・高さの帯(R_d の 1・100 倍・太陽の半径の 1・3 倍)の昇交点の窓・降交点の窓・離れた部分と全周に分けて(L̂ の変化・e の面内の回転と面外・交点・傾き・近点引数・近点経度 —— 2 つの速度の読みと境界の項)・交点の非対称の仮説(e × 近点引数 × α の格子・二次の結合の純粋な積分器)・組み合わせ(G_loc の型 × K1・K1 の代わりの統合した並進 × α × 揃えた自己の形 × 自己の半径・源の自転 s と s_d)・文献の値(未照合)との比と係数の上限・金星・地球・火星の対照' }),
+  // ==== 第334便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
