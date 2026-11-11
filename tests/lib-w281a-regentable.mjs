@@ -1898,6 +1898,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/noncirc-w333d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第333便d: 同じ方位平均の質量分布(案内中心の環の質量が同じ)で 円軌道・位相を乱した非円軌道(種 3)・パターンの枠で位相を揃えた非円軌道(運動学的な密度波 kin と一定の Ω_p の卵形 pattern)の NGC 3198 の低 N の円盤 × 統合した並進の場 U(α = 2・1 × 引きずり自転 none・sync × 場の読み・自己 R_d = Y_k m)の方位平均・m = 2・渦度・J の流れ・トルクと仕事の目安・∂U/∂t(解析と中心差分)・腕と分散の切り分け・離散化の依存・共鳴の半径' }),
   // ==== 第333便d の塊(ここまで)====
+  // ==== 第334便a の塊(ここから)====
+  // ---- 第334便a(原仮定者の整理(2026-11-11)「回転引きずりは、距離 r において、赤道面からの高さ z が十分に小さい場合は、z/r に比例する …… 源の重力が十分に支配的な範囲では、
+  //   回転引きずりの速度が z に比例する区間がある」「扁平な天体は、赤道面方向の回転引きずりが強いと想定する —— 『赤道面方向の引きずり半径を扁平率で割る』などの検証を行う。次数も幾つか試す」・
+  //   原仮定者の回答(2026-11-11 —— AN623・AN624)・統括の検証項目 R322): **回転引きずりの高さ則と扁平な源の器**(段 heightlaw-334a —— 正本 tests/out/heightlaw-w334a.json・
+  //   lib tests/lib-w334a-heightlaw.mjs —— 第333便a・第332便a・第333便b・第331便c の lib と第333便d の器〔円盤の作り方〕を import して呼ぶ〔code の依存 —— 他の正本は読まない〕)。**診断だけ**。
+  //   **html を読まない**(来歴の対象は純関数 tests/lib-w334a-heightlaw.mjs —— 第333便d の型・領域の宣言なし)・NGC 3198 の rotmod の写し(第329便b の fixture)だけを読む。
+  //   1 プロセス。所要は第334便a の枝の実測 2〜3 s
+  S('heightlaw-334a', 'node tests/exp-w334a-heightlaw.mjs', ['tests/out/heightlaw-w334a.json'], 3, { secSource: 'w334a-branch', node: true,
+    quickVerify: false, quickVerifyWhy: '全部を走らせても数秒(純関数と fixture だけ —— html を読まない)—— 簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/heightlaw-w334a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第334便a: 回転引きずりの高さ則の読みの候補 T1(視線方向の捩れ s_d z)・T2(半渦度の動径の成分 × r —— 切り口と球)・T3(比較用のスカラー則)× 比べる列(第333便a の切り口・三次元の差分・帯と尾)× s_d(観測自転・J 案)の高さの分布(土星の主な環・木星の主環・天王星の ε 環・NGC 3198)・「源の重力が支配的な範囲」の 2 つの物差し(決定力 D の割合と β —— 自己の重みの 3 列 × W₀)・環の厚みへ繋ぐ対照(鉛直の速度の場の型と H ~ σ_z/ν_eff)・扁平な源(文字どおり R_d/f_flat^q と軸比 R_d/(1 − f_flat)^q × q・体積を保つ回転楕円体の求積 —— J 固定と半径だけ・天体の表と環の厚みとの比)' }),
+  // ==== 第334便a の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
