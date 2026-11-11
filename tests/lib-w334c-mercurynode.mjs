@@ -67,8 +67,9 @@ export const DECL = Object.freeze({
   hypoAlpha: Object.freeze([1, 2]),
   hypoHalfDeg: 15,
   omegaDependenceTol: 1e-6,
-  /** 純粋な積分器(単位の軌道 μ = a = 1 —— 係数を一次の線形の範囲へ上げた写し・h と h/2・窓の長さ 2 つ)と二次の結合の係数 c と 2c */
-  integ: Object.freeze({ steps: Object.freeze([2000, 4000]), nOrb: Object.freeze([12, 24]), cRot: 1e-5, cTrans: 1e-6, secondC: Object.freeze([1e-3, 2e-3]), secondSteps: 4000, secondNOrb: 16 }),
+  /** 純粋な積分器(単位の軌道 μ = a = 1 —— 係数を一次の線形の範囲へ上げた写し・h と h/2・窓の長さ 2 つ)と二次の結合の係数 c と 2c(試走で c = 1e-3 は三次の項で c と 2c の比が 3.61 —— 1e-4 に下げた:
+   *  数値の照合の範囲の宣言で、比べる量ではない)・二次の結合の e × ω の格子(上の eGrid の e > 0 と omegaGridDeg)と傾きの格子(試走の後に足した対照 —— 比べる量ではない) */
+  integ: Object.freeze({ steps: Object.freeze([2000, 4000]), nOrb: Object.freeze([12, 24]), cRot: 1e-5, cTrans: 1e-6, secondC: Object.freeze([1e-4, 2e-4]), secondSteps: 4000, secondNOrb: 16, secondGridSteps: 2000, secondIncDeg: Object.freeze([1.7, 3.381, 7]) }),
   breakPerOrbit: DECL333C.breakPerOrbit,
 });
 /** 文献の値と出典(**この箱から一次資料に当たれない —— 記憶の値・未照合**。確かさの程度を書く) */
@@ -313,4 +314,14 @@ export function pureGates(S) {
     rejects: S.rejects.every(Boolean) && S.nullBH3 === true,
   };
 }
-export { C1, gLocShare, q1PNPerOrbit, dragSpin, weightOf, integrate3d, CENTURY_S, GEOM333C, kappaMRadius, splitAbout as splitL };
+export { C1, gLocShare, q1PNPerOrbit, dragSpin, weightOf, integrate3d, CENTURY_S, GEOM333C, kappaMRadius, splitAbout as splitL, vec as vecOps, anglesOn as anglesOnPlane };
+
+/* ───────── 周期の項の大きさ(一次 —— 公転の中の L̂ の累積の振れ)───────── */
+/** 公転を離心近点角で nSeg に分け、窓ごとの L̂ の増分(率 × 周期)を累積して、永年の分(時間の割合 × 全周の増分)を引いた最大の振れ [rad](同じ位相の標本では消える分) */
+export function periodicAmplitude(orb, eff, nSeg = 64) {
+  const Pd = 2 * Math.PI / Math.sqrt(orb.mu / orb.a ** 3), full = vectorRates(orb, eff, {}), segs = [];
+  for (let k = 0; k < nSeg; k++) { const E0 = -Math.PI + 2 * Math.PI * k / nSeg, E1 = E0 + 2 * Math.PI / nSeg; segs.push({ E1, R: vectorRates(orb, eff, { windows: [[E0, E1]], gl: 16 }) }); }
+  let cum = [0, 0, 0], amp = 0;
+  for (const q of segs) { cum = add(cum, scl(q.R.Ldot, Pd)); const M1 = q.E1 - orb.e * Math.sin(q.E1), frac = (M1 + Math.PI) / (2 * Math.PI); amp = Math.max(amp, nrm(sub(cum, scl(full.Ldot, Pd * frac)))); }
+  return { amp, perOrbit: full.LdotMag * Pd };
+}
