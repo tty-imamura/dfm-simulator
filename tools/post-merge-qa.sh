@@ -839,6 +839,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.symbols333e docs.symbols333e lint.equat
 #   今の html の 🌡️🌋🔴 の宣言から窓・仮説・組み合わせ・文献の比・対照を作り直して正本と同じ / docs.mercuryNode334c —— 正本の門と表 13 本が PHYSICS〔第334便c〕に逐語・文書)と、新しい段 mercurynode-334c の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.mercuryNode334c behavior.mercuryNode334c docs.mercuryNode334c docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
 # ==== 第334便c の塊(ここまで)====
+# ==== 第334便e の塊(ここから)====
+# 第334便e(原仮定者の回答(2026-11-11 —— AN638・AN640)・原仮定者の整理(2026-11-11)・統括の検証項目 R326 —— 診断だけ・html は変えない): 枝 e の新設 3 本(lint.gridFloor334e —— 固定の受け手の格子の場の
+#   純関数の場面と呼ぶだけの検査・器の宣言〔誤差の幅の定義・目標・判定の比〕/ behavior.gridFloor334e —— 格子の受け手の主の離散化・幅と分解・目標・腕の比べ・星の点の受け手と第333便d の照らし・
+#   高さの列を作り直して正本と同じ / docs.gridFloor334e —— 正本の門と表 17 本が PHYSICS〔第334便e〕に逐語・文書)と、新しい段 gridfloor-334e の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.gridFloor334e behavior.gridFloor334e docs.gridFloor334e docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
+# ==== 第334便e の塊(ここまで)====
 # ==== 第334便f の塊(ここから)====
 # 第334便f(原仮定者の整理(2026-11-11)・統括の検証項目 R327 —— 文書と QA だけ・html は変えない): 枝 f の新設 2 本(lint.terms334f —— 引きずり 3 種の用語の表と
 #   第333便の診断の式の項・変異の自己試験 / docs.terms334f —— 現象の一覧の更新した行と P33・PHYSICS〔第334便f〕・文書)と、直した文書を読む鍵(式の一覧・現象の一覧・記号)
