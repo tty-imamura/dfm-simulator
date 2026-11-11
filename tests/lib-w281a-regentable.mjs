@@ -1898,6 +1898,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/noncirc-w333d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第333便d: 同じ方位平均の質量分布(案内中心の環の質量が同じ)で 円軌道・位相を乱した非円軌道(種 3)・パターンの枠で位相を揃えた非円軌道(運動学的な密度波 kin と一定の Ω_p の卵形 pattern)の NGC 3198 の低 N の円盤 × 統合した並進の場 U(α = 2・1 × 引きずり自転 none・sync × 場の読み・自己 R_d = Y_k m)の方位平均・m = 2・渦度・J の流れ・トルクと仕事の目安・∂U/∂t(解析と中心差分)・腕と分散の切り分け・離散化の依存・共鳴の半径' }),
   // ==== 第333便d の塊(ここまで)====
+  // ==== 第334便b の塊(ここから)====
+  // ---- 第334便b(原仮定者の整理(2026-11-11)「自分自身への並進引きずりが慣性」「軸引きずり = 受ける側の部位による差分 —— 潮汐力の引きずり版」「s_d は J 案が有望」・
+  //   原仮定者の回答(2026-11-11 —— AN626・AN628・AN629・AN630)・統括の検証項目 R323): **仕事とトルクの帳簿の器**(段 ledger-334b —— 正本 tests/out/ledger-w334b.json・
+  //   lib tests/lib-w334b-ledger.mjs —— 第333便a・第333便b・第332便a・第331便a・第330便a・第326便d の lib を import して呼ぶ)。**診断だけ**。**html を読まない**(来歴の対象は純関数
+  //   tests/lib-w334b-ledger.mjs —— 第333便d の型・領域の宣言なし)・第333便b の正本 tests/out/axialfield-w333b.json を読む(本の時刻の ω_field の 3 部と今の軸の口の値 —— 並べるだけ ——
+  //   順序だけ after に axialfield-333b)。1 プロセス。所要は第334便b の枝の実測 23 s(窓の RK4 が大半)
+  S('ledger-334b', 'node tests/exp-w334b-ledger.mjs', ['tests/out/ledger-w334b.json'], 25, { secSource: 'w334b-branch', node: true, after: ['axialfield-333b'],
+    quickVerify: false, quickVerifyWhy: '純関数と第333便b の正本の値と窓の RK4 だけ(html を読まない・全部を走らせても 30 秒の内)—— 簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/ledger-w334b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第334便b: 回転引きずりの押し(NF)と滑り(NS)の円軌道の平均のトルクと仕事・源の自転の反作用・共役の角速度の 2 列(S 観測自転 s/D J 等価の s_d)の熱と比・観測の熱流との比・補助の帳簿(太陽–木星・地球–月・土星の環の粒子 3 半径・木星–イオ × 傾き 2 × 列 5 × 応答率 2)/軸引きずりの応答 N = Γ(ω_field − s_i)(経路ごとの口と相殺の否定対照・τ の格子 3・自己の重み 3・今の軸の口の値と並べる —— 本の時刻)/2 体 3 体の窓(太陽–水星–金星・地球–月・冥王星–カロン・木星–イオ —— 刻み h と h/2 の閉じ)/潮汐の勾配と引きずりの場の勾配の次数/自分自身への並進引きずりの割合(太陽系・連星・銀河の星)' }),
+  // ==== 第334便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

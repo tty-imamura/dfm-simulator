@@ -386,6 +386,8 @@ export function pcSystem() {
 }
 export function emSystem() { return twoBody('earth', 'moon', LIT.bodies.moon.a); }
 export function jiSystem() { return twoBody('jupiter', 'io', LIT.bodies.io.a); }
+/** 太陽–木星(潮汐の対応の表だけ —— 窓には入れない) */
+export function sjSystem() { return twoBody('sun', 'jupiter', LIT.bodies.jupiter.a); }
 /** 太陽–水星–金星(各惑星は太陽のまわりの円軌道 —— 惑星どうしの初期の相互の摂動は入れない・全体の重心を引く) */
 export function smvSystem() {
   const S0 = bodyOf('sun'), Me = bodyOf('mercury'), Ve = bodyOf('venus'), bs = [Object.assign(S0, { p: [0, 0, 0], v: [0, 0, 0] })];
