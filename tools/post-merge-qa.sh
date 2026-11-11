@@ -833,6 +833,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.nonCirc333d behavior.nonCirc333d docs.n
 #   PHYSICS〔第333便e〕・文書)と、直した文書と論文を読む鍵(式の一覧・現象の一覧・論文の記号・論文 3 の鍵の文・裸のカッパ)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.symbols333e docs.symbols333e lint.equations331d docs.equations331d lint.phenomena331e docs.phenomena331e docs.paperSymbols316 docs.paper3Key317d docs.symbols315 lint.kappaSymbol315 lint.sectionLookup313 lint.qaHeapRelease310"
 # ==== 第333便e の塊(ここまで)====
+# ==== 第334便d の塊(ここから)====
+# 第334便d(原仮定者の整理(2026-11-11)・原仮定者の回答(2026-11-11 —— AN637・AN634・AN624)・統括の検証項目 R325 —— 診断だけ・html は変えない): 枝 d の新設 3 本(lint.binaryLaw334d —— 同期の零試験と
+#   二体の同時発展の純関数の場面と呼ぶだけの検査・宣言 / behavior.binaryLaw334d —— 系の表・零試験・部分集合の格子・傾いた軸の行を今の html の 10 本から作り直して正本と同じ /
+#   docs.binaryLaw334d —— 正本の門と表 12 本が PHYSICS〔第334便d〕に逐語・文書)と、新しい段 binarylaw-334d の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.binaryLaw334d behavior.binaryLaw334d docs.binaryLaw334d docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
+# ==== 第334便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
