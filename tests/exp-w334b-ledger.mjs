@@ -62,6 +62,8 @@ export const PLAN = Object.freeze({
   bookKeys: Object.freeze(['sun', MER, 'venus', 'earth', 'moon', 'mars', 'jupiter', 'io', 'europa', 'ganymede', 'callisto', SAT, 'titan', 'uranus', 'neptune', 'triton']),
   /** C 窓: 系・自己の重み・τ の格子(lib の DECL)・押しだけの列・両方の列(自己 none・τ = 10³ 公転) */
   windowSystems: Object.freeze(['smv', 'em', 'pc', 'ji']), bothSelf: 'none', bothTau: 1e3,
+  /** 自己の項が受け手自身の運動を運ぶ読み(慣性の比べる列 —— lib の carryAt)の自己の重みの列 */
+  carrySelf: Object.freeze(['kappaM', 'robs']),
   /** D 潮汐の組(源 → 受け手 —— 窓の系の円軌道の配置)と太陽–木星 */
   tidePairs: Object.freeze([Object.freeze(['em', 0, 1]), Object.freeze(['ji', 0, 1]), Object.freeze(['sj', 0, 1]), Object.freeze(['pc', 1, 0])]),
   /** E 自己の割合の受け手(太陽系は主星だけを源に —— 2 体の円軌道の配置) */
@@ -124,10 +126,10 @@ export function partWindows() {
   const W = L.DECL.window, out = {};
   for (const k of PLAN.windowSystems) {
     const sys0 = systemOf(k), P = 2 * Math.PI / sys0.n, T = W.orbits * P, runs = [];
-    const job = (label, selfRule, tauF, push) => {
-      const r = [1, 2].map((m) => L.windowRun(systemOf(k), { selfRule, tauSec: tauF ? tauF * P : null, push, steps: W.stepsPerOrbit * W.orbits * m, T }));
+    const job = (label, selfRule, tauF, push, carry = false) => {
+      const r = [1, 2].map((m) => L.windowRun(systemOf(k), { selfRule, tauSec: tauF ? tauF * P : null, push, carry, steps: W.stepsPerOrbit * W.orbits * m, T }));
       const [a, b] = r, conv = b.closeE > 0 ? a.closeE / b.closeE : null;
-      runs.push({ label, selfRule, tauOrbits: tauF, push, h: a.h, closeE: [a.closeE, b.closeE], closeL: [a.closeL, b.closeL], convRatio: conv,
+      runs.push({ label, selfRule, tauOrbits: tauF, push, carry, h: a.h, closeE: [a.closeE, b.closeE], closeL: [a.closeL, b.closeL], convRatio: conv,
         closed: b.closeE <= W.closeTol && (b.closeE <= W.floor || (conv !== null && conv >= W.convRatio)) && b.closeL <= W.closeTol,
         ledgerAxialRel: Math.abs(b.ledgerAxial) / Math.max(Math.abs(b.acc.supply), Math.abs(b.acc.recvWork), b.acc.heatPath, 1e-300),
         heatPath: b.acc.heatPath, heatMerged: b.acc.heatMerged, heatExcess: b.heatExcess, supply: b.acc.supply, recvWork: b.acc.recvWork, dE: b.dE, dED: b.dED, dEoverE0: b.dEoverE0,
@@ -136,11 +138,14 @@ export function partWindows() {
         hHalfDiff: { heatPath: Math.abs(a.acc.heatPath - b.acc.heatPath) / Math.max(Math.abs(b.acc.heatPath), 1e-300), QnfS: Math.abs(a.QnfS - b.QnfS) / Math.max(Math.abs(b.QnfS), 1e-300) } });
     };
     for (const sr of L.SELF_RULES) for (const tf of L.DECL.tauOrbits) job('axial', sr, tf, false);
+    for (const sr of PLAN.carrySelf) for (const tf of L.DECL.tauOrbits) job('carry', sr, tf, false, true);
     job('push', 'none', null, true);
     job('both', PLAN.bothSelf, PLAN.bothTau, true);
     // 時刻 0 の ω_field と自転の差(同期の 0 の読み —— 自己の重み 3 列)
     const sync = L.SELF_RULES.map((sr) => ({ selfRule: sr, rows: sys0.bodies.map((b, i) => { const srcs = sys0.bodies.filter((_, j) => j !== i).map((q) => ({ key: q.key, p: q.p, v: q.v, s: q.s, m: q.m }));
-      const fa = L.fieldAt({ at: b.p, sources: srcs, selfRule: sr, m: b.m, R: b.R }); return { key: b.key, omegaMinusSRel: nrm(sub(fa.F.omega, b.s)) / nrm(b.s), omegaOverS: nrm(fa.F.omega) / nrm(b.s) }; }) }));
+      const fa = L.fieldAt({ at: b.p, sources: srcs, selfRule: sr, m: b.m, R: b.R }), ca = sr === 'none' ? null : L.carryAt({ at: b.p, sources: srcs, selfRule: sr, m: b.m, R: b.R, v: b.v, s: b.s });
+      return { key: b.key, omegaMinusSRel: nrm(sub(fa.F.omega, b.s)) / nrm(b.s), omegaOverS: nrm(fa.F.omega) / nrm(b.s), fSelf: fa.F.shares.self, oneMinusF: fa.F.shares.src,
+        carryMinusSRel: ca ? nrm(sub(ca.omegaEff, b.s)) / nrm(b.s) : null }; }) }));
     out[k] = { keys: sys0.keys, periodDays: P / DAY, T, runs, sync };
   }
   return out;
@@ -203,9 +208,9 @@ export function gatesOf(J) {
     epochComplete: J.epoch.rows.length === PLAN.epochBodies.length && J.epoch.rows.every((r) => PLAN.epochCols.every((c) => r.cols[c] && L.DECL.tauOrbits.every((t) => fin(r.cols[c].tau[t].heatParts)))),
     epochIdentity: J.epoch.rows.every((r) => PLAN.epochCols.every((c) => L.DECL.tauOrbits.every((t) => { const q = r.cols[c].tau[t]; return q.identityRel <= 1e-12 && q.torqueRel <= 1e-12 && q.excessParts >= -1e-12 * q.heatMerged
       && (q.perSource === null || (q.perSource.identityRel <= 1e-12 && q.perSource.torqueRel <= 1e-12 && q.perSource.excess >= -1e-12 * q.perSource.merged)); }))),
-    windowsComplete: PLAN.windowSystems.every((k) => W[k] && W[k].runs.length === L.SELF_RULES.length * L.DECL.tauOrbits.length + 2),
+    windowsComplete: PLAN.windowSystems.every((k) => W[k] && W[k].runs.length === (L.SELF_RULES.length + PLAN.carrySelf.length) * L.DECL.tauOrbits.length + 2),
     windowsClosed: PLAN.windowSystems.every((k) => W[k].runs.every((r) => r.closed && r.ledgerAxialRel <= 1e-9 && r.heatExcess >= -1e-9 * Math.abs(r.heatMerged))),
-    pcSyncNone: W.pc.sync.find((q) => q.selfRule === 'none').rows.every((r) => r.omegaMinusSRel <= 1e-12) && W.pc.runs.filter((r) => r.label === 'axial' && r.selfRule === 'none').every((r) => Math.abs(r.heatPath) <= 1e-12 * Math.abs(r.supply) + 1e-300 || r.heatPath === 0),
+    pcSyncNone: W.pc.sync.find((q) => q.selfRule === 'none').rows.every((r) => r.omegaMinusSRel <= 1e-12) && W.pc.sync.filter((q) => q.selfRule !== 'none').every((q) => q.rows.every((r) => r.carryMinusSRel <= 1e-9)) && W.pc.runs.filter((r) => r.label === 'axial' && r.selfRule === 'none').every((r) => Math.abs(r.heatPath) <= 1e-12 * Math.abs(r.supply) + 1e-300 || r.heatPath === 0),
     tide: J.tide.rows.length === PLAN.tidePairs.length * L.SELF_RULES.length && J.tide.rows.every((r) => Math.abs(r.slope.rT + 3) <= 1e-9 && Math.abs(r.slope.mT - 1) <= 1e-9 && r.base.Ttrace <= 1e-12 * r.base.Tnorm),
     self: J.self.rows.length > 0 && J.self.rows.every((r) => r.kappaM.boundOk && r.robs.boundOk && fin(r.engineK1.sumBeta)),
   };

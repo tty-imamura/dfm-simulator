@@ -170,6 +170,10 @@
   ],
   "bothSelf": "none",
   "bothTau": 1000,
+  "carrySelf": [
+   "kappaM",
+   "robs"
+  ],
   "tidePairs": [
    [
     "em",
@@ -381,7 +385,11 @@
    "sync": {
     "none": 0,
     "heat0": 0,
-    "kappaM": 1
+    "kappaM": 1,
+    "carryKappaM": 0,
+    "carryRobs": 0,
+    "carryTorque": 8.788794008375919e-25,
+    "carryFd": 7.528779777245689e-14
    },
    "push": {
     "Pn": 5.423440838500093e-15,
@@ -404,8 +412,8 @@
     "small": true
    },
    "window": {
-    "c1": 9.116013860037743e-9,
-    "c2": 5.634795830275048e-10,
+    "c1": 9.109923063359673e-9,
+    "c2": 5.631030983312721e-10,
     "l1": 4.76878801845226e-16,
     "l2": 1.3226238206863717e-16,
     "ledger": 8.154163246030736e-16,
@@ -15812,16 +15820,17 @@
      "selfRule": "none",
      "tauOrbits": 1,
      "push": false,
+     "carry": false,
      "h": 19001.43132253497,
      "closeE": [
-      2.5011879247285383e-12,
-      1.522250988177294e-13
+      1.1982958381195446e-12,
+      7.292960670623293e-14
      ],
      "closeL": [
       7.455710676018527e-16,
       7.326353625412272e-16
      ],
-     "convRatio": 16.43085104988764,
+     "convRatio": 16.43085561871174,
      "closed": true,
      "ledgerAxialRel": 9.61531934858367e-16,
      "heatPath": 7.673897623141032e+35,
@@ -15855,16 +15864,17 @@
      "selfRule": "none",
      "tauOrbits": 1000,
      "push": false,
+     "carry": false,
      "h": 19001.43132253497,
      "closeE": [
-      2.0401714927868243e-16,
-      1.6321371939894229e-15
+      2.0401714923863236e-16,
+      1.6321371936690245e-15
      ],
      "closeL": [
       4.972384959267699e-16,
       2.2962214649055696e-15
      ],
-     "convRatio": 0.1250000000183836,
+     "convRatio": 0.12500000001838343,
      "closed": true,
      "ledgerAxialRel": 2.0401714924867786e-16,
      "heatPath": 1.347047613301016e+33,
@@ -15898,16 +15908,17 @@
      "selfRule": "none",
      "tauOrbits": 1000000,
      "push": false,
+     "carry": false,
      "h": 19001.43132253497,
      "closeE": [
-      1.9847286006984077e-16,
-      1.5877828803198377e-15
+      1.9847286003140367e-16,
+      1.5877828800123437e-15
      ],
      "closeL": [
       4.470872196181175e-16,
       6.434298884323608e-16
      ],
-     "convRatio": 0.12500000001880676,
+     "convRatio": 0.12500000001880654,
      "closed": true,
      "ledgerAxialRel": 3.374038620679655e-15,
      "heatPath": 1.3518300893974836e+30,
@@ -15941,6 +15952,7 @@
      "selfRule": "kappaM",
      "tauOrbits": 1,
      "push": false,
+     "carry": false,
      "h": 19001.43132253497,
      "closeE": [
       8.16055424108546e-13,
@@ -15984,6 +15996,7 @@
      "selfRule": "kappaM",
      "tauOrbits": 1000,
      "push": false,
+     "carry": false,
      "h": 19001.43132253497,
      "closeE": [
       8.711252937494001e-16,
@@ -16027,6 +16040,7 @@
      "selfRule": "kappaM",
      "tauOrbits": 1000000,
      "push": false,
+     "carry": false,
      "h": 19001.43132253497,
      "closeE": [
       0,
@@ -16070,6 +16084,7 @@
      "selfRule": "robs",
      "tauOrbits": 1,
      "push": false,
+     "carry": false,
      "h": 19001.43132253497,
      "closeE": [
       8.147180668105286e-13,
@@ -16113,6 +16128,7 @@
      "selfRule": "robs",
      "tauOrbits": 1000,
      "push": false,
+     "carry": false,
      "h": 19001.43132253497,
      "closeE": [
       6.969002350121604e-16,
@@ -16156,6 +16172,7 @@
      "selfRule": "robs",
      "tauOrbits": 1000000,
      "push": false,
+     "carry": false,
      "h": 19001.43132253497,
      "closeE": [
       8.4816381089744e-16,
@@ -16195,10 +16212,275 @@
      }
     },
     {
+     "label": "carry",
+     "selfRule": "kappaM",
+     "tauOrbits": 1,
+     "push": false,
+     "carry": true,
+     "h": 19001.43132253497,
+     "closeE": [
+      5.689156168836906e-16,
+      9.95602329798724e-16
+     ],
+     "closeL": [
+      1.9584425751361983e-15,
+      1.562607899852603e-15
+     ],
+     "convRatio": 0.571428571283783,
+     "closed": true,
+     "ledgerAxialRel": 1.2918465906454552e-15,
+     "heatPath": 123853715416826690,
+     "heatMerged": 96219842254392700,
+     "heatExcess": 27633873162433984,
+     "supply": 11359000782856756,
+     "recvWork": -112494714633970100,
+     "dE": -112494714633969980,
+     "dED": -3.1072889655878385e+25,
+     "dEoverE0": -4.0677289644052756e-19,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      2.0344387149241178e-19,
+      1.6563105825764622e-20,
+      1.215848439627756e-19
+     ],
+     "hHalfDiff": {
+      "heatPath": 5.287769670824298e-10,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "kappaM",
+     "tauOrbits": 1000,
+     "push": false,
+     "carry": true,
+     "h": 19001.43132253497,
+     "closeE": [
+      2.5001174570084096e-15,
+      1.8056403860746934e-15
+     ],
+     "closeL": [
+      1.6890304908576615e-15,
+      1.899164097172003e-15
+     ],
+     "convRatio": 1.384615384264554,
+     "closed": true,
+     "ledgerAxialRel": 4.41549127662019e-15,
+     "heatPath": 123853715416827.19,
+     "heatMerged": 96219842254392.81,
+     "heatExcess": 27633873162434.375,
+     "supply": 11359000782856.785,
+     "recvWork": -112494714633969.86,
+     "dE": -112494714633970.06,
+     "dED": -3.1072889655878415e+22,
+     "dEoverE0": -4.0677289644052787e-22,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      2.03443871492412e-22,
+      1.656310582576463e-23,
+      1.2158484396277574e-22
+     ],
+     "hHalfDiff": {
+      "heatPath": 5.287747608506722e-10,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "kappaM",
+     "tauOrbits": 1000000,
+     "push": false,
+     "carry": true,
+     "h": 19001.43132253497,
+     "closeE": [
+      3.3910013251524602e-15,
+      2.034600795606999e-15
+     ],
+     "closeL": [
+      1.428006396890965e-15,
+      1.0390272577783207e-15
+     ],
+     "convRatio": 1.66666666624437,
+     "closed": true,
+     "ledgerAxialRel": 1.3552010056591018e-15,
+     "heatPath": 123853715416.82689,
+     "heatMerged": 96219842254.39247,
+     "heatExcess": 27633873162.434418,
+     "supply": 11359000782.856794,
+     "recvWork": -112494714633.97026,
+     "dE": -112494714633.97003,
+     "dED": -31072889655878406000,
+     "dEoverE0": -4.0677289644052774e-25,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      2.0344387149241192e-25,
+      1.6563105825764655e-26,
+      1.2158484396277554e-25
+     ],
+     "hHalfDiff": {
+      "heatPath": 5.287779955922738e-10,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "robs",
+     "tauOrbits": 1,
+     "push": false,
+     "carry": true,
+     "h": 19001.43132253497,
+     "closeE": [
+      1.3506564599486986e-15,
+      7.718036915960226e-16
+     ],
+     "closeL": [
+      2.195292120101854e-15,
+      1.993915132249422e-15
+     ],
+     "convRatio": 1.749999999553849,
+     "closed": true,
+     "ledgerAxialRel": 1.8494755710795556e-15,
+     "heatPath": 2.043590777613694e+26,
+     "heatMerged": 1.5184078787367498e+26,
+     "heatExcess": 5.251828988769442e+25,
+     "supply": 2.6844655164622224e+25,
+     "recvWork": -1.7751442259674755e+26,
+     "dE": -1.775144225967477e+26,
+     "dED": -6.226399742782572e+39,
+     "dEoverE0": -6.418795414041813e-10,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      3.2101293596568746e-10,
+      0.010887510946907854,
+      0.002423982161822108
+     ],
+     "hHalfDiff": {
+      "heatPath": 5.178563544509893e-10,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "robs",
+     "tauOrbits": 1000,
+     "push": false,
+     "carry": true,
+     "h": 19001.43132253497,
+     "closeE": [
+      1.6958153694653103e-15,
+      2.826358949829445e-15
+     ],
+     "closeL": [
+      9.993797766876607e-16,
+      4.2693509256086224e-15
+     ],
+     "convRatio": 0.599999999847027,
+     "closed": true,
+     "ledgerAxialRel": 1.1484165599809047e-15,
+     "heatPath": 2.0452598141209798e+23,
+     "heatMerged": 1.518486459805843e+23,
+     "heatExcess": 5.267733543151369e+22,
+     "supply": 2.7007541033434624e+22,
+     "recvWork": -1.7751844037866357e+23,
+     "dE": -1.7751844037866307e+23,
+     "dED": -6.364473703973619e+36,
+     "dEoverE0": -6.418940694181622e-13,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      3.210210386336276e-13,
+      0.000011061009261378429,
+      0.000002428428994245088
+     ],
+     "hHalfDiff": {
+      "heatPath": 5.184508513487852e-10,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "robs",
+     "tauOrbits": 1000000,
+     "push": false,
+     "carry": true,
+     "h": 19001.43132253497,
+     "closeE": [
+      5.52023218351869e-16,
+      1.840077394975362e-16
+     ],
+     "closeL": [
+      3.099837020226763e-16,
+      3.732698729592449e-16
+     ],
+     "convRatio": 2.999999999235143,
+     "closed": true,
+     "ledgerAxialRel": 2.4032134719390233e-15,
+     "heatPath": 204526150397875000000,
+     "heatMerged": 151848653906608880000,
+     "heatExcess": 52677496491266110000,
+     "supply": 27007705970065600000,
+     "recvWork": -177518444427809880000,
+     "dE": -177518444427809850000,
+     "dED": -6.364614053444986e+33,
+     "dEoverE0": -6.418940840595894e-16,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      3.2102104680003065e-16,
+      1.1061184599192357e-8,
+      2.428433446526914e-9
+     ],
+     "hHalfDiff": {
+      "heatPath": 5.184527723702842e-10,
+      "QnfS": 0
+     }
+    },
+    {
      "label": "push",
      "selfRule": "none",
      "tauOrbits": null,
      "push": true,
+     "carry": false,
      "h": 19001.43132253497,
      "closeE": [
       1.2728981755194779e-15,
@@ -16242,6 +16524,7 @@
      "selfRule": "none",
      "tauOrbits": 1000,
      "push": true,
+     "carry": false,
      "h": 19001.43132253497,
      "closeE": [
       0,
@@ -16288,17 +16571,26 @@
       {
        "key": "sun",
        "omegaMinusSRel": 0.8595201448779023,
-       "omegaOverS": 0.14231391006538355
+       "omegaOverS": 0.14231391006538355,
+       "fSelf": 0,
+       "oneMinusF": 1,
+       "carryMinusSRel": null
       },
       {
        "key": "mercury",
        "omegaMinusSRel": 1.3246051664620913,
-       "omegaOverS": 2.3107156675511087
+       "omegaOverS": 2.3107156675511087,
+       "fSelf": 0,
+       "oneMinusF": 1,
+       "carryMinusSRel": null
       },
       {
        "key": "venus",
        "omegaMinusSRel": 8.591754268340422,
-       "omegaOverS": 9.575176622915558
+       "omegaOverS": 9.575176622915558,
+       "fSelf": 0,
+       "oneMinusF": 1,
+       "carryMinusSRel": null
       }
      ]
     },
@@ -16308,17 +16600,26 @@
       {
        "key": "sun",
        "omegaMinusSRel": 1,
-       "omegaOverS": 1.1626924453117512e-20
+       "omegaOverS": 1.1626924453117512e-20,
+       "fSelf": 1,
+       "oneMinusF": 7.930778520864278e-20,
+       "carryMinusSRel": 1.1672089473721233e-22
       },
       {
        "key": "mercury",
        "omegaMinusSRel": 1,
-       "omegaOverS": 4.730690067484651e-27
+       "omegaOverS": 4.730690067484651e-27,
+       "fSelf": 1,
+       "oneMinusF": 1.518458035923074e-20,
+       "carryMinusSRel": 3.4128004877781473e-29
       },
       {
        "key": "venus",
        "omegaMinusSRel": 1,
-       "omegaOverS": 7.045695270767217e-20
+       "omegaOverS": 7.045695270767217e-20,
+       "fSelf": 1,
+       "oneMinusF": 6.412321714321065e-20,
+       "carryMinusSRel": 2.932043798547751e-20
       }
      ]
     },
@@ -16328,17 +16629,26 @@
       {
        "key": "sun",
        "omegaMinusSRel": 0.9999999999818564,
-       "omegaOverS": 1.8346521975351254e-11
+       "omegaOverS": 1.8346521975351254e-11,
+       "fSelf": 0.9999999998748575,
+       "oneMinusF": 1.2514246824421435e-10,
+       "carryMinusSRel": 1.07033257864438e-10
       },
       {
        "key": "mercury",
        "omegaMinusSRel": 0.9997434737093379,
-       "omegaOverS": 0.000258574866811503
+       "omegaOverS": 0.000258574866811503,
+       "fSelf": 0.9894215358393476,
+       "oneMinusF": 0.010578464160652355,
+       "carryMinusSRel": 0.003344396513455291
       },
       {
        "key": "venus",
        "omegaMinusSRel": 1.0000442696943892,
-       "omegaOverS": 0.0014022839969276407
+       "omegaOverS": 0.0014022839969276407,
+       "fSelf": 0.9987238523834273,
+       "oneMinusF": 0.0012761476165727024,
+       "carryMinusSRel": 0.0014607281641630266
       }
      ]
     }
@@ -16357,16 +16667,17 @@
      "selfRule": "none",
      "tauOrbits": 1,
      "push": false,
+     "carry": false,
      "h": 5893.610375353037,
      "closeE": [
-      4.168607434199244e-12,
-      2.602696745008975e-13
+      4.165322614261992e-12,
+      2.60064584664694e-13
      ],
      "closeL": [
       1.479787728792914e-15,
       6.973692364079427e-16
      ],
-     "convRatio": 16.01649305549375,
+     "convRatio": 16.01649305549396,
      "closed": true,
      "ledgerAxialRel": 4.4056064694162335e-15,
      "heatPath": 9.936887974799891e+28,
@@ -16399,16 +16710,17 @@
      "selfRule": "none",
      "tauOrbits": 1000,
      "push": false,
+     "carry": false,
      "h": 5893.610375353037,
      "closeE": [
-      1.4542473599656765e-15,
-      8.9492145228657e-16
+      1.4541325848239512e-15,
+      8.948508214301234e-16
      ],
      "closeL": [
       1.5113848638520362e-15,
       7.193977624208824e-16
      ],
-     "convRatio": 1.6250000000000002,
+     "convRatio": 1.6250000000000009,
      "closed": true,
      "ledgerAxialRel": 1.3423821784298563e-15,
      "heatPath": 1.1853078130043631e+27,
@@ -16441,16 +16753,17 @@
      "selfRule": "none",
      "tauOrbits": 1000000,
      "push": false,
+     "carry": false,
      "h": 5893.610375353037,
      "closeE": [
-      2.392705963154966e-15,
-      3.2627808588476805e-15
+      2.3925248880011716e-15,
+      3.2625339381834157e-15
      ],
      "closeL": [
       2.1173474730123873e-15,
       2.6408852450380447e-15
      ],
-     "convRatio": 0.7333333333333335,
+     "convRatio": 0.7333333333333334,
      "closed": true,
      "ledgerAxialRel": 1.4138717055006615e-15,
      "heatPath": 1.192426728967323e+24,
@@ -16483,6 +16796,7 @@
      "selfRule": "kappaM",
      "tauOrbits": 1,
      "push": false,
+     "carry": false,
      "h": 5893.610375353037,
      "closeE": [
       8.142004730497705e-13,
@@ -16525,6 +16839,7 @@
      "selfRule": "kappaM",
      "tauOrbits": 1000,
      "push": false,
+     "carry": false,
      "h": 5893.610375353037,
      "closeE": [
       1.5091327877592872e-15,
@@ -16567,6 +16882,7 @@
      "selfRule": "kappaM",
      "tauOrbits": 1000000,
      "push": false,
+     "carry": false,
      "h": 5893.610375353037,
      "closeE": [
       8.396311074077168e-16,
@@ -16609,6 +16925,7 @@
      "selfRule": "robs",
      "tauOrbits": 1,
      "push": false,
+     "carry": false,
      "h": 5893.610375353037,
      "closeE": [
       8.158553607797403e-13,
@@ -16651,6 +16968,7 @@
      "selfRule": "robs",
      "tauOrbits": 1000,
      "push": false,
+     "carry": false,
      "h": 5893.610375353037,
      "closeE": [
       8.623616932033267e-16,
@@ -16693,6 +17011,7 @@
      "selfRule": "robs",
      "tauOrbits": 1000000,
      "push": false,
+     "carry": false,
      "h": 5893.610375353037,
      "closeE": [
       6.297234038372127e-16,
@@ -16731,10 +17050,269 @@
      }
     },
     {
+     "label": "carry",
+     "selfRule": "kappaM",
+     "tauOrbits": 1,
+     "push": false,
+     "carry": true,
+     "h": 5893.610375353037,
+     "closeE": [
+      8.386632535392331e-16,
+      0
+     ],
+     "closeL": [
+      9.03252770593237e-16,
+      9.310515913284843e-16
+     ],
+     "convRatio": null,
+     "closed": true,
+     "ledgerAxialRel": 1.677460787642973e-15,
+     "heatPath": 278939242.6496195,
+     "heatMerged": 274561943.8514749,
+     "heatExcess": 4377298.798144639,
+     "supply": -5322041.855954939,
+     "recvWork": -284261284.50557494,
+     "dE": -284261284.50557494,
+     "dED": -3.4457411397174744e+24,
+     "dEoverE0": -1.3336943522848386e-21,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      6.6690545918583145e-22,
+      3.682695851854645e-21
+     ],
+     "hHalfDiff": {
+      "heatPath": 2.1381973255346836e-9,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "kappaM",
+     "tauOrbits": 1000,
+     "push": false,
+     "carry": true,
+     "h": 5893.610375353037,
+     "closeE": [
+      2.0475177088360184e-16,
+      1.0237588566654166e-15
+     ],
+     "closeL": [
+      1.3676112160947353e-15,
+      1.3357858435147364e-15
+     ],
+     "convRatio": 0.19999999956094985,
+     "closed": true,
+     "ledgerAxialRel": 8.190726502162948e-16,
+     "heatPath": 278939.24264962,
+     "heatMerged": 274561.94385147496,
+     "heatExcess": 4377.298798145028,
+     "supply": -5322.041855954933,
+     "recvWork": -284261.28450557514,
+     "dE": -284261.28450557485,
+     "dED": -3.4457411397174726e+21,
+     "dEoverE0": -1.333694352284838e-24,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      6.669054591858312e-25,
+      3.682695851854641e-24
+     ],
+     "hHalfDiff": {
+      "heatPath": 2.1381958047109026e-9,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "kappaM",
+     "tauOrbits": 1000000,
+     "push": false,
+     "carry": true,
+     "h": 5893.610375353037,
+     "closeE": [
+      1.3996703087746212e-15,
+      7.998116067698576e-16
+     ],
+     "closeL": [
+      3.2164493572606214e-16,
+      2.2195990447522422e-15
+     ],
+     "convRatio": 1.7499999961583081,
+     "closed": true,
+     "ledgerAxialRel": 1.999689087442127e-16,
+     "heatPath": 278.93924264962004,
+     "heatMerged": 274.56194385147535,
+     "heatExcess": 4.377298798144693,
+     "supply": -5.32204185595494,
+     "recvWork": -284.261284505575,
+     "dE": -284.26128450557525,
+     "dED": -3445741139717478000,
+     "dEoverE0": -1.33369435228484e-27,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      6.669054591858321e-28,
+      3.682695851854638e-27
+     ],
+     "hHalfDiff": {
+      "heatPath": 2.1381952357453314e-9,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "robs",
+     "tauOrbits": 1,
+     "push": false,
+     "carry": true,
+     "h": 5893.610375353037,
+     "closeE": [
+      1.7349390359553422e-15,
+      2.726332776786513e-15
+     ],
+     "closeL": [
+      1.6102029341606093e-15,
+      8.635042599600172e-16
+     ],
+     "convRatio": 0.6363636349632595,
+     "closed": true,
+     "ledgerAxialRel": 2.9217687423932048e-15,
+     "heatPath": 1.3229899102944795e+25,
+     "heatMerged": 4.2046103597074177e+24,
+     "heatExcess": 9.025288743237377e+24,
+     "supply": 9.06252612637056e+24,
+     "recvWork": -4.167372976574275e+24,
+     "dE": -4.167372976574263e+24,
+     "dED": -3.4501139542372745e+40,
+     "dEoverE0": -0.00001955244032752743,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      0.000009782401545673906,
+      0.026519714537607143
+     ],
+     "hHalfDiff": {
+      "heatPath": 2.3187599874558403e-9,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "robs",
+     "tauOrbits": 1000,
+     "push": false,
+     "carry": true,
+     "h": 5893.610375353037,
+     "closeE": [
+      1.0892343695625926e-15,
+      2.2994947852460806e-15
+     ],
+     "closeL": [
+      1.6226780492621497e-15,
+      3.216224162840949e-15
+     ],
+     "convRatio": 0.4736842094843142,
+     "closed": true,
+     "ledgerAxialRel": 2.8530094842207895e-15,
+     "heatPath": 1.3231198917766616e+22,
+     "heatMerged": 4.205908833576779e+21,
+     "heatExcess": 9.025290084189837e+21,
+     "supply": 9.063157211237906e+21,
+     "recvWork": -4.1680417065286715e+21,
+     "dE": -4.1680417065286616e+21,
+     "dED": -3.600705524227097e+37,
+     "dEoverE0": -1.9555577868276028e-8,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      9.783455105196847e-9,
+      0.000026585832224560265
+     ],
+     "hHalfDiff": {
+      "heatPath": 2.318611326728232e-9,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "robs",
+     "tauOrbits": 1000000,
+     "push": false,
+     "carry": true,
+     "h": 5893.610375353037,
+     "closeE": [
+      7.091369963344791e-16,
+      2.0092214940342087e-15
+     ],
+     "closeL": [
+      2.9332994121363886e-15,
+      1.6242378906493082e-15
+     ],
+     "convRatio": 0.35294117569419425,
+     "closed": true,
+     "ledgerAxialRel": 2.1669991769066564e-15,
+     "heatPath": 13231200226355716000,
+     "heatMerged": 4205910135516049400,
+     "heatExcess": 9025290090839667000,
+     "supply": 9063157849337221000,
+     "recvWork": -4168042377018523000,
+     "dE": -4168042377018532000,
+     "dED": -3.6008568785585425e+34,
+     "dEoverE0": -1.9555581014073932e-11,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      9.783456160658363e-12,
+      2.658589845180461e-8
+     ],
+     "hHalfDiff": {
+      "heatPath": 2.318612190819342e-9,
+      "QnfS": 0
+     }
+    },
+    {
      "label": "push",
      "selfRule": "none",
      "tauOrbits": null,
      "push": true,
+     "carry": false,
      "h": 5893.610375353037,
      "closeE": [
       3.4235949452753695e-16,
@@ -16777,16 +17355,17 @@
      "selfRule": "none",
      "tauOrbits": 1000,
      "push": true,
+     "carry": false,
      "h": 5893.610375353037,
      "closeE": [
-      2.23730311153802e-16,
-      6.711909334614054e-16
+      2.237127055014696e-16,
+      6.711381165044069e-16
      ],
      "closeL": [
       6.811717948256151e-16,
       3.473950468304713e-15
      ],
-     "convRatio": 0.33333333333333365,
+     "convRatio": 0.3333333333333343,
      "closed": true,
      "ledgerAxialRel": 2.4610339953713647e-15,
      "heatPath": 1.1853078122758411e+27,
@@ -16822,12 +17401,18 @@
       {
        "key": "earth",
        "omegaMinusSRel": 0.9651068618573895,
-       "omegaOverS": 0.036501063387032
+       "omegaOverS": 0.036501063387032,
+       "fSelf": 0,
+       "oneMinusF": 1,
+       "carryMinusSRel": null
       },
       {
        "key": "moon",
        "omegaMinusSRel": 26.440513571455842,
-       "omegaOverS": 27.396462108423872
+       "omegaOverS": 27.396462108423872,
+       "fSelf": 0,
+       "oneMinusF": 1,
+       "carryMinusSRel": null
       }
      ]
     },
@@ -16837,12 +17422,18 @@
       {
        "key": "earth",
        "omegaMinusSRel": 1,
-       "omegaOverS": 8.311462183059431e-24
+       "omegaOverS": 8.311462183059431e-24,
+       "fSelf": 1,
+       "oneMinusF": 2.3019664558828003e-22,
+       "carryMinusSRel": 0
       },
       {
        "key": "moon",
        "omegaMinusSRel": 1,
-       "omegaOverS": 2.799316172673127e-24
+       "omegaOverS": 2.799316172673127e-24,
+       "fSelf": 1,
+       "oneMinusF": 2.3019664558828013e-22,
+       "carryMinusSRel": 0
       }
      ]
     },
@@ -16852,12 +17443,18 @@
       {
        "key": "earth",
        "omegaMinusSRel": 0.9999998881333084,
-       "omegaOverS": 1.2192856735350523e-7
+       "omegaOverS": 1.2192856735350523e-7,
+       "fSelf": 0.9999966230313991,
+       "oneMinusF": 0.0000033769686008510403,
+       "carryMinusSRel": 0.0000032640959487439024
       },
       {
        "key": "moon",
        "omegaMinusSRel": 0.99990780184651,
-       "omegaOverS": 0.00009421709498978268
+       "omegaOverS": 0.00009421709498978268,
+       "fSelf": 0.9983410558290986,
+       "oneMinusF": 0.0016589441709014587,
+       "carryMinusSRel": 0.0001815127341737414
       }
      ]
     }
@@ -16876,6 +17473,7 @@
      "selfRule": "none",
      "tauOrbits": 1,
      "push": false,
+     "carry": false,
      "h": 1379.6332572825152,
      "closeE": [
       0,
@@ -16918,6 +17516,7 @@
      "selfRule": "none",
      "tauOrbits": 1000,
      "push": false,
+     "carry": false,
      "h": 1379.6332572825152,
      "closeE": [
       0,
@@ -16960,6 +17559,7 @@
      "selfRule": "none",
      "tauOrbits": 1000000,
      "push": false,
+     "carry": false,
      "h": 1379.6332572825152,
      "closeE": [
       0,
@@ -17002,6 +17602,7 @@
      "selfRule": "kappaM",
      "tauOrbits": 1,
      "push": false,
+     "carry": false,
      "h": 1379.6332572825152,
      "closeE": [
       8.166747371669614e-13,
@@ -17044,6 +17645,7 @@
      "selfRule": "kappaM",
      "tauOrbits": 1000,
      "push": false,
+     "carry": false,
      "h": 1379.6332572825152,
      "closeE": [
       5.342792714024045e-16,
@@ -17086,6 +17688,7 @@
      "selfRule": "kappaM",
      "tauOrbits": 1000000,
      "push": false,
+     "carry": false,
      "h": 1379.6332572825152,
      "closeE": [
       1.9073872257543484e-15,
@@ -17128,6 +17731,7 @@
      "selfRule": "robs",
      "tauOrbits": 1,
      "push": false,
+     "carry": false,
      "h": 1379.6332572825152,
      "closeE": [
       7.6243286742193e-13,
@@ -17170,6 +17774,7 @@
      "selfRule": "robs",
      "tauOrbits": 1000,
      "push": false,
+     "carry": false,
      "h": 1379.6332572825152,
      "closeE": [
       8.908339160260302e-16,
@@ -17212,6 +17817,7 @@
      "selfRule": "robs",
      "tauOrbits": 1000000,
      "push": false,
+     "carry": false,
      "h": 1379.6332572825152,
      "closeE": [
       3.469413944619921e-15,
@@ -17250,10 +17856,269 @@
      }
     },
     {
+     "label": "carry",
+     "selfRule": "kappaM",
+     "tauOrbits": 1,
+     "push": false,
+     "carry": true,
+     "h": 1379.6332572825152,
+     "closeE": [
+      5.553160412379029e-19,
+      4.613072513320013e-19
+     ],
+     "closeL": [
+      5.276001692419149e-16,
+      1.9164134560307977e-16
+     ],
+     "convRatio": 1.203787800071332,
+     "closed": true,
+     "ledgerAxialRel": 1.1528302333359019e-15,
+     "heatPath": 98.6154200612768,
+     "heatMerged": 2.981243456875004e-19,
+     "heatExcess": 98.6154200612768,
+     "supply": 98.61542006288703,
+     "recvWork": 1.6103389461793776e-9,
+     "dE": 1.6103389310153748e-9,
+     "dED": 260345478139.19852,
+     "dEoverE0": 3.2722272992390124e-33,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      1.6361136496181685e-33,
+      1.636113649661774e-33
+     ],
+     "hHalfDiff": {
+      "heatPath": 3.341856703798992e-9,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "kappaM",
+     "tauOrbits": 1000,
+     "push": false,
+     "carry": true,
+     "h": 1379.6332572825152,
+     "closeE": [
+      7.47768815107265e-21,
+      4.243989270890869e-19
+     ],
+     "closeL": [
+      3.4348969433393485e-16,
+      3.3686955228058198e-15
+     ],
+     "convRatio": 0.017619479394920774,
+     "closed": true,
+     "ledgerAxialRel": 7.036317342138059e-16,
+     "heatPath": 0.09861542006127681,
+     "heatMerged": 2.9812434568750024e-22,
+     "heatExcess": 0.09861542006127681,
+     "supply": 0.09861542006288722,
+     "recvWork": 1.6103389196332188e-12,
+     "dE": 1.6103389335839783e-12,
+     "dED": 260345477.51001334,
+     "dEoverE0": 3.272227304458445e-36,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      1.6361136528447235e-36,
+      1.6361136327856123e-36
+     ],
+     "hHalfDiff": {
+      "heatPath": 3.341856422346298e-9,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "kappaM",
+     "tauOrbits": 1000000,
+     "push": false,
+     "carry": true,
+     "h": 1379.6332572825152,
+     "closeE": [
+      2.3965798524029297e-19,
+      3.511640958355701e-19
+     ],
+     "closeL": [
+      1.844915348675405e-15,
+      1.0965805685737506e-15
+     ],
+     "convRatio": 0.6824672228236881,
+     "closed": true,
+     "ledgerAxialRel": 1.0994245847090744e-15,
+     "heatPath": 0.00009861542006127675,
+     "heatMerged": 2.9812434568750084e-25,
+     "heatExcess": 0.00009861542006127675,
+     "supply": 0.00009861542006288698,
+     "recvWork": 1.6103389297594661e-15,
+     "dE": 1.6103389413028644e-15,
+     "dED": 260345.4777935018,
+     "dEoverE0": 3.27222732014331e-39,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      1.6361136612567358e-39,
+      1.6361136226350825e-39
+     ],
+     "hHalfDiff": {
+      "heatPath": 3.341856593856535e-9,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "robs",
+     "tauOrbits": 1,
+     "push": false,
+     "carry": true,
+     "h": 1379.6332572825152,
+     "closeE": [
+      1.563920436324817e-19,
+      9.681597267437616e-20
+     ],
+     "closeL": [
+      1.297715059121188e-15,
+      3.0053483899506703e-15
+     ],
+     "convRatio": 1.615353740838605,
+     "closed": true,
+     "ledgerAxialRel": 3.446315486241441e-15,
+     "heatPath": 1.5821520756527862e+22,
+     "heatMerged": 47.45474775147533,
+     "heatExcess": 1.5821520756527862e+22,
+     "supply": 1.5821520756785421e+22,
+     "recvWork": 257614504559.82666,
+     "dE": 257614504048.19458,
+     "dED": 1.882756926856145e+32,
+     "dEoverE0": 5.234756463938293e-13,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      1.7514223905170059e-13,
+      2.9972832102925916e-12
+     ],
+     "hHalfDiff": {
+      "heatPath": 3.328463161118583e-9,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "robs",
+     "tauOrbits": 1000,
+     "push": false,
+     "carry": true,
+     "h": 1379.6332572825152,
+     "closeE": [
+      5.140935375909258e-19,
+      5.5202087229160326e-21
+     ],
+     "closeL": [
+      1.577355837555158e-16,
+      1.5469546250943331e-15
+     ],
+     "convRatio": 93.12936582574682,
+     "closed": true,
+     "ledgerAxialRel": 6.472197051994849e-16,
+     "heatPath": 15821520756504734000,
+     "heatMerged": 0.047756757394834023,
+     "heatExcess": 15821520756504734000,
+     "supply": 15821520756763494000,
+     "recvWork": 258750496.00195265,
+     "dE": 258750496.03112465,
+     "dED": 1.9022222779399162e+29,
+     "dEoverE0": 5.257839952182079e-16,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      1.752552845561858e-16,
+      3.0313265373029273e-15
+     ],
+     "hHalfDiff": {
+      "heatPath": 3.3051717546494852e-9,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "robs",
+     "tauOrbits": 1000000,
+     "push": false,
+     "carry": true,
+     "h": 1379.6332572825152,
+     "closeE": [
+      2.0004553131007268e-19,
+      1.1169296172710702e-19
+     ],
+     "closeL": [
+      1.2323039489755276e-15,
+      5.035639725876687e-16
+     ],
+     "convRatio": 1.791030770576506,
+     "closed": true,
+     "ledgerAxialRel": 1.2641009867177473e-16,
+     "heatPath": 15821520756504702,
+     "heatMerged": 0.00004775706215550065,
+     "heatExcess": 15821520756504702,
+     "supply": 15821520756763452,
+     "recvWork": 258751.51597625375,
+     "dE": 258751.51656650452,
+     "dED": 1.9022414845726285e+26,
+     "dEoverE0": 5.257860689578819e-19,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      1.752552845527665e-19,
+      3.0313603288897837e-18
+     ],
+     "hHalfDiff": {
+      "heatPath": 3.3051505480913383e-9,
+      "QnfS": 0
+     }
+    },
+    {
      "label": "push",
      "selfRule": "none",
      "tauOrbits": null,
      "push": true,
+     "carry": false,
      "h": 1379.6332572825152,
      "closeE": [
       1.147292248183869e-15,
@@ -17296,6 +18161,7 @@
      "selfRule": "none",
      "tauOrbits": 1000,
      "push": true,
+     "carry": false,
      "h": 1379.6332572825152,
      "closeE": [
       1.4223086741123363e-15,
@@ -17341,12 +18207,18 @@
       {
        "key": "pluto",
        "omegaMinusSRel": 0,
-       "omegaOverS": 1
+       "omegaOverS": 1,
+       "fSelf": 0,
+       "oneMinusF": 1,
+       "carryMinusSRel": null
       },
       {
        "key": "charon",
        "omegaMinusSRel": 0,
-       "omegaOverS": 1
+       "omegaOverS": 1,
+       "fSelf": 0,
+       "oneMinusF": 1,
+       "carryMinusSRel": null
       }
      ]
     },
@@ -17356,12 +18228,18 @@
       {
        "key": "pluto",
        "omegaMinusSRel": 1,
-       "omegaOverS": 3.721736690836347e-24
+       "omegaOverS": 3.721736690836347e-24,
+       "fSelf": 1,
+       "oneMinusF": 4.174743167556719e-24,
+       "carryMinusSRel": 0
       },
       {
        "key": "charon",
        "omegaMinusSRel": 1,
-       "omegaOverS": 4.530064767203724e-25
+       "omegaOverS": 4.530064767203724e-25,
+       "fSelf": 1,
+       "oneMinusF": 4.1747431675567195e-24,
+       "carryMinusSRel": 0
       }
      ]
     },
@@ -17371,12 +18249,18 @@
       {
        "key": "pluto",
        "omegaMinusSRel": 0.9996011392607292,
-       "omegaOverS": 0.00039886073927079596
+       "omegaOverS": 0.00039886073927079596,
+       "fSelf": 0.9995526146491567,
+       "oneMinusF": 0.0004473853508434109,
+       "carryMinusSRel": 0
       },
       {
        "key": "charon",
        "omegaMinusSRel": 0.9990999059033805,
-       "omegaOverS": 0.0009000940966194631
+       "omegaOverS": 0.0009000940966194631,
+       "fSelf": 0.992204342630358,
+       "oneMinusF": 0.007795657369642001,
+       "carryMinusSRel": 0
       }
      ]
     }
@@ -17395,16 +18279,17 @@
      "selfRule": "none",
      "tauOrbits": 1,
      "push": false,
+     "carry": false,
      "h": 382.17210361096613,
      "closeE": [
-      3.1062814885791504e-12,
-      1.8889826156059827e-13
+      3.106281333580104e-12,
+      1.8889825213484147e-13
      ],
      "closeL": [
       4.768274425887372e-16,
       2.9874640140007746e-15
      ],
-     "convRatio": 16.444203683593244,
+     "convRatio": 16.444203683593344,
      "closed": true,
      "ledgerAxialRel": 1.0232841904691131e-16,
      "heatPath": 1.0708761376610866e+34,
@@ -17437,16 +18322,17 @@
      "selfRule": "none",
      "tauOrbits": 1000,
      "push": false,
+     "carry": false,
      "h": 382.17210361096613,
      "closeE": [
-      6.476429053186442e-16,
-      3.022333558153669e-15
+      6.476428908709919e-16,
+      3.022333490731298e-15
      ],
      "closeL": [
       7.78668225358133e-16,
       4.3243883721456453e-16
      ],
-     "convRatio": 0.21428571428571455,
+     "convRatio": 0.2142857142857141,
      "closed": true,
      "ledgerAxialRel": 3.562035979252538e-15,
      "heatPath": 1.27737965442364e+32,
@@ -17479,16 +18365,17 @@
      "selfRule": "none",
      "tauOrbits": 1000000,
      "push": false,
+     "carry": false,
      "h": 382.17210361096613,
      "closeE": [
-      1.4696492246493116e-15,
-      8.397995569424641e-16
+      1.4696491920619557e-15,
+      8.397995383211172e-16
      ],
      "closeL": [
       3.025557996561128e-16,
       3.16830297550117e-16
      ],
-     "convRatio": 1.7499999999999993,
+     "convRatio": 1.7500000000000007,
      "closed": true,
      "ledgerAxialRel": 9.447745015602722e-16,
      "heatPath": 1.2850515505445245e+29,
@@ -17521,6 +18408,7 @@
      "selfRule": "kappaM",
      "tauOrbits": 1,
      "push": false,
+     "carry": false,
      "h": 382.17210361096613,
      "closeE": [
       8.146192999950171e-13,
@@ -17563,6 +18451,7 @@
      "selfRule": "kappaM",
      "tauOrbits": 1000,
      "push": false,
+     "carry": false,
      "h": 382.17210361096613,
      "closeE": [
       3.306075977630433e-16,
@@ -17605,6 +18494,7 @@
      "selfRule": "kappaM",
      "tauOrbits": 1000000,
      "push": false,
+     "carry": false,
      "h": 382.17210361096613,
      "closeE": [
       1.6094665258676528e-16,
@@ -17647,16 +18537,17 @@
      "selfRule": "robs",
      "tauOrbits": 1,
      "push": false,
+     "carry": false,
      "h": 382.17210361096613,
      "closeE": [
-      8.143655478487644e-13,
-      4.9105557341494456e-14
+      8.143655452832248e-13,
+      4.9105557186794686e-14
      ],
      "closeL": [
       2.3029993406588746e-15,
       6.720126197695431e-15
      ],
-     "convRatio": 16.58397932815277,
+     "convRatio": 16.58397932815273,
      "closed": true,
      "ledgerAxialRel": 1.015101960547689e-15,
      "heatPath": 3.6344592699360903e+34,
@@ -17689,16 +18580,17 @@
      "selfRule": "robs",
      "tauOrbits": 1000,
      "push": false,
+     "carry": false,
      "h": 382.17210361096613,
      "closeE": [
-      1.653038488459225e-15,
-      8.265192442296103e-16
+      1.6530384830482834e-15,
+      8.265192415241416e-16
      ],
      "closeL": [
       1.209604837358631e-16,
       1.6813400513936808e-16
      ],
-     "convRatio": 2.0000000000000053,
+     "convRatio": 2.0000000000000004,
      "closed": true,
      "ledgerAxialRel": 1.4877346396132984e-15,
      "heatPath": 2.1795491607883897e+32,
@@ -17731,10 +18623,11 @@
      "selfRule": "robs",
      "tauOrbits": 1000000,
      "push": false,
+     "carry": false,
      "h": 382.17210361096613,
      "closeE": [
-      1.770413714379717e-15,
-      3.218934026144934e-16
+      1.7704137085848272e-15,
+      3.218934015608771e-16
      ],
      "closeL": [
       2.40852485791094e-16,
@@ -17769,10 +18662,269 @@
      }
     },
     {
+     "label": "carry",
+     "selfRule": "kappaM",
+     "tauOrbits": 1,
+     "push": false,
+     "carry": true,
+     "h": 382.17210361096613,
+     "closeE": [
+      9.681717147397958e-16,
+      2.4204292907578377e-15
+     ],
+     "closeL": [
+      7.06887656098583e-16,
+      3.490703664921851e-15
+     ],
+     "convRatio": 0.39999999935410663,
+     "closed": true,
+     "ledgerAxialRel": 2.413797577073197e-16,
+     "heatPath": 16571397858680934,
+     "heatMerged": 9504499061081136,
+     "heatExcess": 7066898797599798,
+     "supply": 4176902735403074.5,
+     "recvWork": -12394495123277856,
+     "dE": -12394495123277886,
+     "dED": -1.3763368253662978e+29,
+     "dEoverE0": -3.4018168822439556e-19,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      1.701144111402395e-19,
+      2.5913191689430968e-20
+     ],
+     "hHalfDiff": {
+      "heatPath": 1.9772529921388374e-9,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "kappaM",
+     "tauOrbits": 1000,
+     "push": false,
+     "carry": true,
+     "h": 382.17210361096613,
+     "closeE": [
+      1.260640253567443e-15,
+      1.1030602236526595e-15
+     ],
+     "closeL": [
+      1.0222773854867997e-15,
+      2.496895114986468e-15
+     ],
+     "convRatio": 1.1428571410117347,
+     "closed": true,
+     "ledgerAxialRel": 2.7108078258146223e-15,
+     "heatPath": 16571397858680.951,
+     "heatMerged": 9504499061081.12,
+     "heatExcess": 7066898797599.832,
+     "supply": 4176902735403.0625,
+     "recvWork": -12394495123277.844,
+     "dE": -12394495123277.83,
+     "dED": -1.3763368253662915e+26,
+     "dEoverE0": -3.40181688224394e-22,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      1.7011441114023877e-22,
+      2.5913191689430912e-23
+     ],
+     "hHalfDiff": {
+      "heatPath": 1.977253327807561e-9,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "kappaM",
+     "tauOrbits": 1000000,
+     "push": false,
+     "carry": true,
+     "h": 382.17210361096613,
+     "closeE": [
+      1.5388674970305731e-16,
+      1.3849807495638884e-15
+     ],
+     "closeL": [
+      2.1146456150510456e-16,
+      9.983177608772455e-16
+     ],
+     "convRatio": 0.11111111093169646,
+     "closed": true,
+     "ledgerAxialRel": 1.035889539416257e-15,
+     "heatPath": 16571397858.680897,
+     "heatMerged": 9504499061.081125,
+     "heatExcess": 7066898797.5997715,
+     "supply": 4176902735.4030647,
+     "recvWork": -12394495123.27785,
+     "dE": -12394495123.277832,
+     "dED": -1.3763368253662917e+23,
+     "dEoverE0": -3.4018168822439405e-25,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      1.7011441114023877e-25,
+      2.591319168943099e-26
+     ],
+     "hHalfDiff": {
+      "heatPath": 1.977257150930561e-9,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "robs",
+     "tauOrbits": 1,
+     "push": false,
+     "carry": true,
+     "h": 382.17210361096613,
+     "closeE": [
+      4.835601053330611e-16,
+      2.256613828535862e-15
+     ],
+     "closeL": [
+      1.993120823808517e-15,
+      1.0548580514520984e-15
+     ],
+     "convRatio": 0.21428571393928086,
+     "closed": true,
+     "ledgerAxialRel": 0,
+     "heatPath": 3.631574390689288e+29,
+     "heatMerged": 1.661224079536939e+29,
+     "heatExcess": 1.9703503111523487e+29,
+     "supply": 1.4662965081935827e+29,
+     "recvWork": -2.1652778824957054e+29,
+     "dE": -2.1652778824957005e+29,
+     "dED": 6.479991068904547e+44,
+     "dEoverE0": -0.000005942863168012055,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      0.000002973322762049849,
+      0.5394822293811867
+     ],
+     "hHalfDiff": {
+      "heatPath": 3.030897317445821e-9,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "robs",
+     "tauOrbits": 1000,
+     "push": false,
+     "carry": true,
+     "h": 382.17210361096613,
+     "closeE": [
+      6.304400286019502e-16,
+      0
+     ],
+     "closeL": [
+      1.6032089227538496e-15,
+      7.018139894040828e-16
+     ],
+     "convRatio": null,
+     "closed": true,
+     "ledgerAxialRel": 1.8333589960343553e-15,
+     "heatPath": 2.9986261014735715e+26,
+     "heatMerged": 1.6635109043037753e+26,
+     "heatExcess": 1.3351151971697963e+26,
+     "supply": 8.32668637131924e+25,
+     "recvWork": -2.1659574643416528e+26,
+     "dE": -2.1659574643416528e+26,
+     "dED": 7.564995040195252e+41,
+     "dEoverE0": -5.944728361368809e-9,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      2.9748312779329804e-9,
+      0.0008011523820372452
+     ],
+     "hHalfDiff": {
+      "heatPath": 1.9310080503907607e-9,
+      "QnfS": 0
+     }
+    },
+    {
+     "label": "carry",
+     "selfRule": "robs",
+     "tauOrbits": 1000000,
+     "push": false,
+     "carry": true,
+     "h": 382.17210361096613,
+     "closeE": [
+      6.156651338414145e-16,
+      6.15665134832697e-16
+     ],
+     "closeL": [
+      1.1269684745509618e-16,
+      1.9011033711973463e-15
+     ],
+     "convRatio": 0.9999999983898998,
+     "closed": true,
+     "ledgerAxialRel": 1.2311922186400854e-15,
+     "heatPath": 2.9978970498017636e+23,
+     "heatMerged": 1.663514426759726e+23,
+     "heatExcess": 1.3343826230420375e+23,
+     "supply": 8.319384570494683e+22,
+     "recvWork": -2.165958592752299e+23,
+     "dE": -2.1659585927522975e+23,
+     "dED": 7.56514820792846e+38,
+     "dEoverE0": -5.944731458426288e-12,
+     "pOrb": 0,
+     "srcSupplyS": 0,
+     "srcSupplyD": 0,
+     "QnfS": 0,
+     "QnfD": 0,
+     "QnfDoverS": null,
+     "QnfSRel": null,
+     "QnfDRel": null,
+     "dsRel": [
+      2.974833343907082e-12,
+      8.014933116046944e-7
+     ],
+     "hHalfDiff": {
+      "heatPath": 1.9295233257870884e-9,
+      "QnfS": 0
+     }
+    },
+    {
      "label": "push",
      "selfRule": "none",
      "tauOrbits": null,
      "push": true,
+     "carry": false,
      "h": 382.17210361096613,
      "closeE": [
       6.980259968478027e-16,
@@ -17815,6 +18967,7 @@
      "selfRule": "none",
      "tauOrbits": 1000,
      "push": true,
+     "carry": false,
      "h": 382.17210361096613,
      "closeE": [
       4.31761871465175e-16,
@@ -17860,12 +19013,18 @@
       {
        "key": "jupiter",
        "omegaMinusSRel": 0.7667026926559538,
-       "omegaOverS": 0.23375225674876698
+       "omegaOverS": 0.23375225674876698,
+       "fSelf": 0,
+       "oneMinusF": 1,
+       "carryMinusSRel": null
       },
       {
        "key": "io",
        "omegaMinusSRel": 3.2799798526864836,
-       "omegaOverS": 4.278033563863229
+       "omegaOverS": 4.278033563863229,
+       "fSelf": 0,
+       "oneMinusF": 1,
+       "carryMinusSRel": null
       }
      ]
     },
@@ -17875,12 +19034,18 @@
       {
        "key": "jupiter",
        "omegaMinusSRel": 1,
-       "omegaOverS": 1.7285083615943343e-20
+       "omegaOverS": 1.7285083615943343e-20,
+       "fSelf": 1,
+       "oneMinusF": 7.395705837497232e-20,
+       "carryMinusSRel": 0
       },
       {
        "key": "io",
        "omegaMinusSRel": 1,
-       "omegaOverS": 3.4796340436749136e-24
+       "omegaOverS": 3.4796340436749136e-24,
+       "fSelf": 1,
+       "oneMinusF": 7.395705837497234e-20,
+       "carryMinusSRel": 0
       }
      ]
     },
@@ -17890,12 +19055,18 @@
       {
        "key": "jupiter",
        "omegaMinusSRel": 0.9999996981823295,
-       "omegaOverS": 3.022685896853254e-7
+       "omegaOverS": 3.022685896853254e-7,
+       "fSelf": 0.9999987066943832,
+       "oneMinusF": 0.0000012933056168383555,
+       "carryMinusSRel": 9.916111153349127e-7
       },
       {
        "key": "io",
        "omegaMinusSRel": 0.6558678106697748,
-       "omegaOverS": 0.34491713527230367
+       "omegaOverS": 0.34491713527230367,
+       "fSelf": 0.7160582348144751,
+       "oneMinusF": 0.28394176518552494,
+       "carryMinusSRel": 0.26442125114009074
       }
      ]
     }
@@ -18812,25 +19983,25 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.116
+   "wallSec": 0.131
   },
   "inputs": {
-   "wallSec": 0.136
+   "wallSec": 0.148
   },
   "push": {
-   "wallSec": 0.342
+   "wallSec": 0.423
   },
   "epoch": {
-   "wallSec": 0.362
+   "wallSec": 0.44
   },
   "windows": {
-   "wallSec": 21.504
+   "wallSec": 36.041
   },
   "tide": {
-   "wallSec": 21.506
+   "wallSec": 36.044
   },
   "self": {
-   "wallSec": 21.508
+   "wallSec": 36.047
   }
  },
  "gates": {
@@ -18848,13 +20019,13 @@
   "self": true
  },
  "ok": true,
- "elapsedS": 21.512,
+ "elapsedS": 36.05,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第334便b",
   "target": "tests/lib-w334b-ledger.mjs",
-  "targetSha256": "929420ae3f125f2cecff8ae4490a98e2e232cfec7d8e78d705e808fe1c8b37fb",
-  "generatedAt": "2026-11-11T18:41:21.232Z",
+  "targetSha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+  "generatedAt": "2026-11-11T18:45:43.125Z",
   "inputs": [
    {
     "file": "tests/out/axialfield-w333b.json",
@@ -18866,15 +20037,15 @@
   "code": [
    {
     "file": "tests/exp-w334b-ledger.mjs",
-    "bytes": 24127,
-    "sha256": "abb128e141776725e13f32e7bcbb555209958cc89464f15ee506ddda2e3441c6",
-    "mtime": "2026-11-11T18:40:03.709Z"
+    "bytes": 24828,
+    "sha256": "6dafec81e6cfe2e1a70a6f8efc3827ecea8685a8239eccc4afc2d048aeb8c51d",
+    "mtime": "2026-11-11T18:44:07.458Z"
    },
    {
     "file": "tests/lib-w334b-ledger.mjs",
-    "bytes": 41623,
-    "sha256": "929420ae3f125f2cecff8ae4490a98e2e232cfec7d8e78d705e808fe1c8b37fb",
-    "mtime": "2026-11-11T18:38:41.896Z"
+    "bytes": 45562,
+    "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+    "mtime": "2026-11-11T18:45:06.708Z"
    },
    {
     "file": "tests/lib-w333a-rotdiff.mjs",
@@ -18973,7 +20144,7 @@
     "mtime": "2026-11-11T18:17:04.241Z"
    }
   ],
-  "codeSha256": "e1ac2d207ede234f3c71716d485a20e348a88ce9d010072dc86c19fed845d2ce",
+  "codeSha256": "e0f6255966d59ffa933ac49072bebf24257f447c0a795b5e40e540f543c9876a",
   "harnessVersion": "w334b-ledger-1",
   "stage": "ledger",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 第333便b の正本の本の時刻の値を読む)",

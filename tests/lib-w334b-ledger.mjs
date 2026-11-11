@@ -161,6 +161,28 @@ export function fieldAt({ at, sources, selfRule, m, R, alpha = DECL.alpha, rRef 
   const F = B333.integratedField({ at, sources: sources.map((q) => ({ p: q.p, v: q.v, s: q.s, m: q.m })), alpha, rRef, selfW: sw.w, W0, parts: true });
   return { F, parts: partsOfField(F, (j) => sources[j].key), selfW: sw.w };
 }
+/**
+ * 自己の項が受け手自身の座標の速度 C_i(p) = v_i + s_i × (p − p_i) を運ぶ読み(「自分自身への並進引きずりが慣性」の比べる列 —— 第333便b の場の自己の項は静止〔速度 0〕)。
+ * U′ = U + (W_ii/W_t) C_i ⇒ ω′ = ω_field + f_self s_i + ½ (g × v_i)(g = −W_ii ∇W_t/W_t² —— W_ii は受け手の中で一定の宣言・p = p_i で C_i = v_i)。
+ * 自己の分は口にしない(慣性 —— 供給の経路ではない): N = Γ(ω′ − s_i) = Γ_eff(ν_src − s_i)・Γ_eff = Γ(1 − f_self)・経路は源の 3 部と自己の勾配の項 self|carryGrad を (1 − f_self) で割った値。
+ * 1 − f_self は分母の源の分 W_src/W_t(丸めで 1 − f が 0 にならない形)
+ */
+export function carryAt({ at, sources, selfRule, m, R, v, s, alpha = DECL.alpha, rRef = DECL.rRef }) {
+  const fa = fieldAt({ at, sources, selfRule, m, R, alpha, rRef }), F = fa.F, f = F.shares.self, oneMinus = F.shares.src;
+  let dWt = [0, 0, 0];
+  for (const q of sources) { const d = sub(at, q.p), r = nrm(d), w = B333.weightOf(q.m, r, alpha, rRef); dWt = add(dWt, scl(d, -alpha * w / (r * r))); }
+  const g = scl(dWt, -fa.selfW / (F.Wt * F.Wt)), extra = scl(crs(g, v), 0.5), omegaEff = add(add(F.omega, scl(s, f)), extra);
+  const parts = oneMinus > 0 ? fa.parts.map((q) => ({ key: q.key, omega: scl(q.omega, 1 / oneMinus) })).concat([{ key: 'self|carryGrad', omega: scl(extra, 1 / oneMinus) }]) : [];
+  return { F, omegaEff, fSelf: f, oneMinus, parts, extra };
+}
+
+/** carryAt の照らし: U′(p) = [Σ W_j c_j + W_ii (v_i + s_i × (p − p_i))]/W_t を中心差分で ½∇×U′(第333便b の fdSpin —— 刻みは距離の 1e-4) */
+export function carryFd({ at, sources, selfRule, m, R, v, s, alpha = DECL.alpha, rRef = DECL.rRef }) {
+  const sw = B333.selfWeightOf({ rule: selfRule, m, Robs: R, alpha, rRef, G: DECL.G, c: DECL.c });
+  const U = (p) => { let P = scl(add(v, crs(s, sub(p, at))), sw.w), W = sw.w; for (const q of sources) { const d = sub(p, q.p), w = B333.weightOf(q.m, nrm(d), alpha, rRef); P = add(P, scl(add(q.v, crs(q.s, d)), w)); W += w; } return scl(P, 1 / W); };
+  const rmin = Math.min(...sources.map((q) => nrm(sub(at, q.p))));
+  return B333.fdSpin(U, at, 1e-4 * rmin).omega;
+}
 
 /* ───────── ① 回転引きずりの押しの帳簿(円軌道の 1 周の平均)───────── */
 /** 押しの加速度(源の枠 —— 源の自転軸 ẑ・p は源の中心から・v は源に対する速度): NF a = γ s_U U₁ φ̂/NS a = γ g (s_U U₁ − v·φ̂) φ̂ */
@@ -272,7 +294,7 @@ export function windowRun(sys, opt) {
   function rhs(y) {
     const dy = new Float64Array(sz), pos = B.map((_, k) => P3(y, 6 * k)), vel = B.map((_, k) => P3(y, 6 * k + 3)), sp = B.map((_, k) => add(S0[k], P3(y, 6 * nb + 3 * k)));
     const tq = B.map(() => [0, 0, 0]);
-    let rw = 0, sup = 0, qPath = 0, qMerged = 0, pOrb = 0, srcS = 0, srcD = 0; const nOrb = [0, 0, 0], nAx = [0, 0, 0];
+    let rw = 0, rwAbs = 0, sup = 0, qPath = 0, qMerged = 0, pOrb = 0, srcS = 0, srcD = 0; const nOrb = [0, 0, 0], nAx = [0, 0, 0];
     for (let k = 0; k < nb; k++) {
       dy.set(vel[k], 6 * k);
       let acc = [0, 0, 0];
@@ -281,8 +303,9 @@ export function windowRun(sys, opt) {
     }
     if (opt.tauSec) for (let k = 0; k < nb; k++) {
       const srcs = []; for (let j = 0; j < nb; j++) if (j !== k) srcs.push({ key: keys[j], p: pos[j], v: vel[j], s: sp[j], m: B[j].m });
-      const fa = fieldAt({ at: pos[k], sources: srcs, selfRule: opt.selfRule, m: B[k].m, R: B[k].R }), L = axialLedger({ parts: fa.parts, s: sp[k], Gamma: Gam[k] });
-      tq[k] = add(tq[k], L.torque); nAx[0] += L.torque[0]; nAx[1] += L.torque[1]; nAx[2] += L.torque[2]; rw += L.recvWork; sup += L.supply; qPath += L.heat; qMerged += L.merged.heat;
+      const fa = opt.carry ? carryAt({ at: pos[k], sources: srcs, selfRule: opt.selfRule, m: B[k].m, R: B[k].R, v: vel[k], s: sp[k] }) : fieldAt({ at: pos[k], sources: srcs, selfRule: opt.selfRule, m: B[k].m, R: B[k].R });
+      const L = axialLedger({ parts: fa.parts, s: sp[k], Gamma: opt.carry ? Gam[k] * fa.oneMinus : Gam[k] });
+      tq[k] = add(tq[k], L.torque); nAx[0] += L.torque[0]; nAx[1] += L.torque[1]; nAx[2] += L.torque[2]; rw += L.recvWork; rwAbs += L.per.reduce((x, q) => x + Math.abs(q.recvWork), 0); sup += L.supply; qPath += L.heat; qMerged += L.merged.heat;
     }
     if (opt.push) for (let k = 0; k < nb; k++) {   // 源 k の押しを受け手 i の軌道へ(源の自転軸 ŝ_k の枠で)
       const sk = sp[k], sa = nrm(sk); if (!(sa > 0)) continue;
@@ -295,7 +318,7 @@ export function windowRun(sys, opt) {
       }
     }
     for (let k = 0; k < nb; k++) dy.set(scl(tq[k], 1 / B[k].I), 6 * nb + 3 * k);
-    const o = 9 * nb; dy[o] = rw; dy[o + 1] = sup; dy[o + 2] = qPath; dy[o + 3] = qMerged; dy[o + 4] = pOrb; dy[o + 5] = srcS; dy[o + 6] = srcD; dy[o + 7] = 0;
+    const o = 9 * nb; dy[o] = rw; dy[o + 1] = sup; dy[o + 2] = qPath; dy[o + 3] = qMerged; dy[o + 4] = pOrb; dy[o + 5] = srcS; dy[o + 6] = srcD; dy[o + 7] = rwAbs;
     dy[o + 8] = nOrb[0]; dy[o + 9] = nOrb[1]; dy[o + 10] = nOrb[2]; dy[o + 11] = nAx[0]; dy[o + 12] = nAx[1]; dy[o + 13] = nAx[2];
     return { dy };
   }
@@ -307,8 +330,9 @@ export function windowRun(sys, opt) {
   const o = 9 * nb, ds = B.map((_, k) => P3(y, 6 * nb + 3 * k));
   const dE = B.reduce((s, b, k) => s + b.I * (dot(S0[k], ds[k]) + 0.5 * dot(ds[k], ds[k])), 0), dED = B.reduce((s, b, k) => s + (b.I / b.Id) * b.I * (dot(S0[k], ds[k]) + 0.5 * dot(ds[k], ds[k])), 0);
   const dL = B.reduce((a, b, k) => add(a, scl(ds[k], b.I)), [0, 0, 0]), nOrbInt = [y[o + 8], y[o + 9], y[o + 10]];
-  const acc = { recvWork: y[o], supply: y[o + 1], heatPath: y[o + 2], heatMerged: y[o + 3], pOrb: y[o + 4], srcSupplyS: y[o + 5], srcSupplyD: y[o + 6], nOrb: nOrbInt, nAx: [y[o + 11], y[o + 12], y[o + 13]] };
-  const eTerms = acc.recvWork - acc.srcSupplyS, eScale = Math.max(Math.abs(dE), Math.abs(acc.recvWork), Math.abs(acc.srcSupplyS), 1e-300);
+  const acc = { recvWork: y[o], supply: y[o + 1], heatPath: y[o + 2], heatMerged: y[o + 3], pOrb: y[o + 4], srcSupplyS: y[o + 5], srcSupplyD: y[o + 6], recvWorkAbs: y[o + 7], nOrb: nOrbInt, nAx: [y[o + 11], y[o + 12], y[o + 13]] };
+  // 閉じの物差し: 帳簿の項の大きさ(口ごとの受け手の仕事の絶対値の和 Σ_k|N_k·s_i| を含む —— 相殺する口の和の丸めの桁を分母に持つ)
+  const eTerms = acc.recvWork - acc.srcSupplyS, eScale = Math.max(Math.abs(dE), Math.abs(acc.recvWork), Math.abs(acc.srcSupplyS), acc.recvWorkAbs, 1e-300);
   // 角運動量: ΔL_spin = ∫ΣN_ax dt − ∫ΣN_NF dt(NF の反作用は源の自転へ・軌道へは +N_NF —— 軸の応答の反作用は供給の口座へ)
   const lRes = sub(add(dL, nOrbInt), acc.nAx), lScale = Math.max(nrm(dL), nrm(nOrbInt), nrm(acc.nAx), 1e-300);
   return { steps, h, dE, dED, dEoverE0: dE / Math.max(B.reduce((s, b, k) => s + 0.5 * b.I * dot(S0[k], S0[k]), 0), 1e-300), acc, closeE: Math.abs(dE - eTerms) / eScale, closeEabs: dE - eTerms,
@@ -330,7 +354,14 @@ export function pureScenes() {
   { const pc = pcSystem(), F0 = fieldAt({ at: pc.bodies[0].p, sources: [Object.assign({ key: 'charon' }, pc.bodies[1])], selfRule: 'none', m: pc.bodies[0].m, R: pc.bodies[0].R });
     const Fk = fieldAt({ at: pc.bodies[0].p, sources: [Object.assign({ key: 'charon' }, pc.bodies[1])], selfRule: 'kappaM', m: pc.bodies[0].m, R: pc.bodies[0].R });
     const L0 = axialLedger({ parts: F0.parts, s: pc.bodies[0].s, Gamma: 1 });
-    S.sync = { none: nrm(sub(F0.F.omega, pc.bodies[0].s)) / nrm(pc.bodies[0].s), heat0: L0.heat, kappaM: nrm(sub(Fk.F.omega, pc.bodies[0].s)) / nrm(pc.bodies[0].s) }; }
+    const Ck = carryAt({ at: pc.bodies[0].p, sources: [Object.assign({ key: 'charon' }, pc.bodies[1])], selfRule: 'kappaM', m: pc.bodies[0].m, R: pc.bodies[0].R, v: pc.bodies[0].v, s: pc.bodies[0].s });
+    const Cr = carryAt({ at: pc.bodies[0].p, sources: [Object.assign({ key: 'charon' }, pc.bodies[1])], selfRule: 'robs', m: pc.bodies[0].m, R: pc.bodies[0].R, v: pc.bodies[0].v, s: pc.bodies[0].s });
+    const N0 = axialLedger({ parts: Cr.parts, s: pc.bodies[0].s, Gamma: Cr.oneMinus });
+    // 自己の運動を運ぶ読みで ω′ − s_i = (1 − f)(ω_src − s_i) + ½ g × v_i —— 直接の式(U′ の J を中心差分で作る)との照らし
+    const ref = carryFd({ at: pc.bodies[0].p, sources: [Object.assign({ key: 'charon' }, pc.bodies[1])], selfRule: 'robs', m: pc.bodies[0].m, R: pc.bodies[0].R, v: pc.bodies[0].v, s: pc.bodies[0].s });
+    S.sync = { none: nrm(sub(F0.F.omega, pc.bodies[0].s)) / nrm(pc.bodies[0].s), heat0: L0.heat, kappaM: nrm(sub(Fk.F.omega, pc.bodies[0].s)) / nrm(pc.bodies[0].s),
+      carryKappaM: nrm(sub(Ck.omegaEff, pc.bodies[0].s)) / nrm(pc.bodies[0].s), carryRobs: nrm(sub(Cr.omegaEff, pc.bodies[0].s)) / nrm(pc.bodies[0].s), carryTorque: nrm(N0.torque),
+      carryFd: nrm(sub(Cr.omegaEff, ref)) / nrm(ref) }; }
   // 4 押しの帳簿: 円軌道で P = n·N(恒等式)・orbitPush との照らし(NF・傾き 0.1)・i = 0 で Q_S = N(s − n)・Q_D/Q_S = (s_d − n)/(s − n)
   { const src = bodyOf('jupiter'), r1 = pushLedger({ src, m: 1, a: 4.217e8, i: 0.1, col: 'ball', rate: 'fixed', dir: 'NF' }), r0 = pushLedger({ src, m: 1, a: 4.217e8, i: 0, col: 'ball', rate: 'fixed', dir: 'NF' });
     const rs = pushLedger({ src, m: 1, a: 4.217e8, i: 0.1, col: 'slice', rate: 'fixed', dir: 'NF' }), rn = pushLedger({ src, m: 1, a: 4.217e8, i: 0, col: 'ball', rate: 'fixed', dir: 'NS' });
@@ -362,7 +393,7 @@ export function pureGates(S) {
   return {
     identity: S.identity.id <= t && S.identity.torque <= 1e-12 && S.identity.excess <= 1e-9 && S.identity.nPorts === 3 && S.identity.parallel <= 1e-12 && S.identity.mergedRes <= t && S.identity.excessPos,
     cancel: S.cancel.merged === 0 && relD(S.cancel.path, S.cancel.expect) <= t && S.cancel.torque <= 1e-12,
-    sync: S.sync.none <= 1e-12 && S.sync.heat0 <= 1e-30 && S.sync.kappaM > 1e-6,
+    sync: S.sync.none <= 1e-12 && S.sync.heat0 <= 1e-30 && S.sync.kappaM > 1e-6 && S.sync.carryKappaM <= 1e-12 && S.sync.carryRobs <= 1e-9 && S.sync.carryFd <= 1e-6,
     push: S.push.Pn <= 1e-12 && S.push.vsP <= DECL.pushTol && S.push.vsNh <= DECL.pushTol && S.push.vsNi <= DECL.pushTol && S.push.tidal <= 1e-12 && S.push.ratio <= 1e-12 && S.push.nsSign,
     tide: S.tide.sym <= 1e-15 && S.tide.trace <= 1e-15 && S.tide.fd <= 1e-6 && Math.abs(S.tide.slope - 3) <= 1e-12,
     self: S.self.f <= 1e-12 && S.self.bound && S.self.small,
