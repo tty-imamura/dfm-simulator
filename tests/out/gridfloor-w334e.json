@@ -40722,19 +40722,19 @@
    "wallSec": 0.033
   },
   "grid": {
-   "wallSec": 16.76
+   "wallSec": 14.742
   },
   "bands": {
-   "wallSec": 16.895
+   "wallSec": 14.841
   },
   "arms": {
-   "wallSec": 16.899
+   "wallSec": 14.847
   },
   "star": {
-   "wallSec": 19.018
+   "wallSec": 17.025
   },
   "z": {
-   "wallSec": 21.376
+   "wallSec": 19.292
   }
  },
  "gates": {
@@ -40749,13 +40749,13 @@
   "zThickUz0": true
  },
  "ok": true,
- "elapsedS": 21.381,
+ "elapsedS": 19.295,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第334便e",
   "target": "tests/lib-w334e-gridfloor.mjs",
   "targetSha256": "2dbe2d3645fca112c2ae1296c83fef2153ab0fc3c948910a3459ddb9ab532d9b",
-  "generatedAt": "2026-11-11T18:35:56.439Z",
+  "generatedAt": "2026-11-11T19:28:25.109Z",
   "inputs": [
    {
     "file": "tests/fixtures/ngc3198-rotmod-w329b.json",
@@ -40767,9 +40767,9 @@
   "code": [
    {
     "file": "tests/exp-w334e-gridfloor.mjs",
-    "bytes": 27018,
-    "sha256": "e05ae89ff2759ae48b7ba09d261e89f3079958f78ecf9c6c56ee354425265d96",
-    "mtime": "2026-11-11T18:35:34.961Z"
+    "bytes": 27143,
+    "sha256": "712b849de89efe443c278874b7aeb14f4f293a750810a103fcb4d2f23d076150",
+    "mtime": "2026-11-11T18:42:34.421Z"
    },
    {
     "file": "tests/lib-w334e-gridfloor.mjs",
@@ -40862,7 +40862,7 @@
     "mtime": "2026-11-11T18:17:06.341Z"
    }
   ],
-  "codeSha256": "5638d38f95b770c59f75886082ad5e2b24b58314f19298092433a205bd2901d4",
+  "codeSha256": "a547ccab4b390fdcc856a02153f5858393e8759a437f545176e061369100c93f",
   "harnessVersion": "w334e-gridfloor-1",
   "stage": "gridfloor",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 源は宣言の軌道の式の時刻 0)",
