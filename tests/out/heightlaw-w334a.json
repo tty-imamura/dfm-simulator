@@ -13815,22 +13815,22 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.285
+   "wallSec": 0.364
   },
   "disk": {
-   "wallSec": 0.289
+   "wallSec": 0.369
   },
   "dominance": {
-   "wallSec": 0.296
+   "wallSec": 0.385
   },
   "heights": {
-   "wallSec": 0.311
+   "wallSec": 0.426
   },
   "thickness": {
-   "wallSec": 0.312
+   "wallSec": 0.427
   },
   "oblate": {
-   "wallSec": 2.176
+   "wallSec": 2.526
   }
  },
  "gates": {
@@ -13841,13 +13841,13 @@
   "oblateTable": true
  },
  "ok": true,
- "elapsedS": 2.182,
+ "elapsedS": 2.534,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第334便a",
   "target": "tests/lib-w334a-heightlaw.mjs",
-  "targetSha256": "e1c29442d5c8c12dbc9cd2f15a9f9fb53e9d7796f16baa774ef31a782068b0ab",
-  "generatedAt": "2026-11-11T18:35:59.783Z",
+  "targetSha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+  "generatedAt": "2026-11-11T18:44:10.681Z",
   "inputs": [
    {
     "file": "tests/fixtures/ngc3198-rotmod-w329b.json",
@@ -13859,15 +13859,15 @@
   "code": [
    {
     "file": "tests/exp-w334a-heightlaw.mjs",
-    "bytes": 31482,
-    "sha256": "977ee00ca393eff84e29dfac5cbcfb160fad47a8e39fc8d331b056b281d94a8c",
-    "mtime": "2026-11-11T18:35:57.509Z"
+    "bytes": 31518,
+    "sha256": "a98a5083d5fd18c92f57f58a6fd83b80a0d8483297ad44dba6595aa44f2bd717",
+    "mtime": "2026-11-11T18:43:52.216Z"
    },
    {
     "file": "tests/lib-w334a-heightlaw.mjs",
-    "bytes": 40153,
-    "sha256": "e1c29442d5c8c12dbc9cd2f15a9f9fb53e9d7796f16baa774ef31a782068b0ab",
-    "mtime": "2026-11-11T18:31:54.014Z"
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-11T18:43:52.217Z"
    },
    {
     "file": "tests/lib-w333a-rotdiff.mjs",
@@ -13948,7 +13948,7 @@
     "mtime": "2026-11-11T18:16:58.013Z"
    }
   ],
-  "codeSha256": "900c4bd85ba96f1dc9f7a612e18935288d17597473b39122cec996c178b55b4a",
+  "codeSha256": "9246702c60e6bfa46103a091a29022bc505721ba50c23323eccded5b7c6d4a46",
   "harnessVersion": "w334a-heightlaw-1",
   "stage": "heightlaw",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 太陽系は lib の文献の値・銀河は第329便b の fixture から第333便d の器の円盤)",

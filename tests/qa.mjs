@@ -101667,6 +101667,199 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第333便e の塊(ここまで)====
 
+// ==== 第334便a の塊(ここから —— lint.heightLaw334a・behavior.heightLaw334a・docs.heightLaw334a の 3 ブロック。root は SKIP)====
+// ---- 第334便a(原仮定者の整理(2026-11-11)「回転引きずりは、距離 r において、赤道面からの高さ z が十分に小さい場合は、z/r に比例する …… 源の重力が十分に支配的な範囲では、
+// ----   回転引きずりの速度が z に比例する区間がある」「扁平な天体は、赤道面方向の回転引きずりが強いと想定する」・原仮定者の回答(2026-11-11 —— AN623・AN624)・統括の検証項目 R322):
+// ----   **回転引きずりの高さ則と扁平な源の器**(新設 —— 器 tests/exp-w334a-heightlaw.mjs〔html を読まない〕・lib tests/lib-w334a-heightlaw.mjs・文書の lib tests/lib-w334a-heightlawdoc.mjs・
+// ----   正本 tests/out/heightlaw-w334a.json。html・本の宣言・エンジン・受理器・第329〜333便の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.heightLaw334a(html を読まない): ① lib・器・文書の lib の版・読みの候補と比べる列と自己の重みと則と厚みの型の一覧(手で書いた一覧と照合)・lib の宣言・器の宣言
+// ----     ② 純関数の場面 11 ③ 呼ぶだけ(lib の import は第333便a・第332便a・第333便b・第331便c の lib だけ・lib と器と文書の lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w334a の語が無い)
+// ----   behavior.heightLaw334a(正本と照合 —— html を読まない): ① 範囲の物差し ② 高さの分布・z に比例する範囲・T3 の列 ③ 厚みの対照・扁平の則・回転楕円体の求積・天体の表を作り直して
+// ----     正本と相対 1e-12 の内・作り直した門が全部真 ④ 比べる列が第333便a の lib の値と同じ(呼ぶだけ)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w334a-heightlaw.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w334a-heightlaw.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w334a-heightlawdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'heightlaw-w334a.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP lint.heightLaw334a・behavior.heightLaw334a(第334便a の高さ則と扁平な源の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  // 数の葉を全部比べる(構造が違えば Infinity・関数は見ない・相対の差の最大)
+  const deep334 = (a, b) => {
+    if (typeof a === 'number' && typeof b === 'number') return a === b ? 0 : (Number.isFinite(a) && Number.isFinite(b)) ? Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b), 1e-300) : Infinity;
+    if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') return a === b ? 0 : Infinity;
+    if (Array.isArray(a) !== Array.isArray(b)) return Infinity;
+    const ka = Object.keys(a).filter((k) => typeof a[k] !== 'function'), kb = Object.keys(b).filter((k) => typeof b[k] !== 'function');
+    if (ka.length !== kb.length) return Infinity;
+    let m = 0; for (const k of ka) { if (!(k in b)) return Infinity; m = Math.max(m, deep334(a[k], b[k])); if (m === Infinity) return m; }
+    return m;
+  };
+  const jsn = (x) => JSON.parse(JSON.stringify(x));
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── lint.heightLaw334a ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      const js = (x) => JSON.stringify(x);
+      if (!(L.LIB_VERSION === 'w334a-heightlaw-lib-1' && X.HARNESS_VERSION === 'w334a-heightlaw-1' && D0.DOC_VERSION === 'w334a-heightlawdoc-1')) bad.push('① 版(lib・器・文書の lib)');
+      if (!(js(L.READINGS) === js(['T1', 'T2', 'T3']) && js(L.CONTRASTS) === js(['slice', 'ball', 'pair', 'lorentz', 'sum2']) && js(L.SELF_RULES) === js(['none', 'kappaM', 'robs'])
+        && js(L.LAWS) === js(['inverseF', 'axisRatio']) && js(L.THICK_TYPES) === js(['focus', 'diverge', 'shear', 'tilt']))) bad.push('① 一覧(読みの候補・比べる列・自己の重み・則・厚みの型 —— 手で書いた一覧と違う)');
+      const DG = L.DECL, PL = X.PLAN;
+      if (!(DG.t3.A === 1 && js(DG.t3.ells) === js([2, 4, 8]) && DG.t3.ellMain === 4 && js(DG.t3.Hs) === js(['Rd', 'Robs']) && DG.t3.HMain === 'Rd' && DG.prop.tol === 0.1 && DG.prop.lo === -14 && DG.prop.hi === 0 && DG.prop.step === 0.25
+        && DG.dominance.share === 0.5 && DG.dominance.alpha === 2 && DG.dominance.W0main === 0 && js(DG.oblate.qs) === js([1 / 3, 1 / 2, 1, 2, 3]) && DG.oblate.qMain === 1 && js(DG.oblate.fGrid) === js([0, 1e-3, 1e-2, 0.1, 0.3, 0.6, 0.9])
+        && DG.oblate.kI === 0.4 && DG.oblate.lambdaJ === 1 && js(DG.spheroid.alphas) === js([1, 1.5, 2, 3]) && js(DG.spheroid.rhoOverReq) === js([1.5, 2, 10, 100]) && js(DG.spheroid.fShapes) === js([0, 0.1, 0.3, 0.6])
+        && js(DG.spheroid.quad) === js({ nr: 24, nth: 48, nph: 48 }) && js(DG.thickness.sigmaZ) === js([1e-3, 2e-3, 5e-3]) && DG.t2.hOverRd === 1e-3 && DG.t2.farSwitch === 1e3
+        && js(Object.keys(DG.readings)) === js(['T1', 'T2', 'T3']) && DG.readings.T1.parity === 'odd' && DG.readings.T2.parity === 'odd' && DG.readings.T3.parity === 'odd')) bad.push('① lib の宣言(T3 の A・ℓ・H・比例の物差し・範囲の物差し・扁平の q と f・回転楕円体・σ_z・T2 の刻み・読みの偶奇)');
+      if (!(js(PL.zRing) === js([0.1, 1, 10, 100]) && js(PL.zJup) === js([1, 10, 100, 1e3, 1e4]) && js(PL.zGalKpc) === js([0.05, 0.1, 0.3, 1]) && PL.galDR === 1 && PL.galK === 24 && js(PL.galR) === js([5, 10, 20])
+        && js(PL.galZ) === js([0, 0.05, 0.2, 1]) && PL.galHeightR === 10 && PL.galFObs === 0.4 && js(PL.sdCases) === js(['obs', 'J']) && PL.thickRate === 'k1N')) bad.push('① 器の宣言(高さの格子・円盤・範囲の受け手・s_d の 2 列・緩和の率)');
+      cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・文書 ${D0.DOC_VERSION}・読み ${L.READINGS.join('/')}・比べる列 ${L.CONTRASTS.length}・則 ${L.LAWS.length} × q ${DG.oblate.qs.length}・T3 ℓ ${DG.t3.ells.join('/')}・厚みの型 ${L.THICK_TYPES.length}`);
+      let G1 = null;
+      try { G1 = L.pureGates(L.pureScenes()); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G1) {
+        for (const [k, v] of Object.entries(G1)) if (v !== true) bad.push('② 場面 ' + k);
+        if (Object.keys(G1).length !== 11) bad.push('② 場面の数 ' + Object.keys(G1).length);
+        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(偶奇・小さい z の極限・T2 の遠方の形・赤道面・比例の範囲・範囲の物差し・扁平の則・回転楕円体の求積・厚みの対照・J 案・拒否)`);
+      }
+      const tl = rd('tests/lib-w334a-heightlaw.mjs'), th = rd('tests/exp-w334a-heightlaw.mjs'), td = rd('tests/lib-w334a-heightlawdoc.mjs');
+      const base = rd('tests/lib-w333a-rotdiff.mjs') + rd('tests/lib-w332a-eqband.mjs') + rd('tests/lib-w333b-axialfield.mjs') + rd('tests/lib-w331c-k1scale.mjs') + rd('tests/lib-w333d-noncirc.mjs') + rd('tests/exp-w333d-noncirc.mjs');
+      const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+      if (!(js(imps) === js(['lib-w331c-k1scale.mjs', 'lib-w332a-eqband.mjs', 'lib-w333a-rotdiff.mjs', 'lib-w333b-axialfield.mjs']) && !/loadHtml|index\.html/.test(tl + td + th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/w334a/.test(base)))
+        bad.push('③ 呼ぶだけ(lib の import は第333便a・第332便a・第333便b・第331便c の lib だけ・lib と器と文書の lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w334a が無い)');
+      cases.push('③ lib の import は第333便a・第332便a・第333便b・第331便c の lib だけ(比べる列・R_d・重み・J₂ の振動数は呼ぶ —— 写さない)・器と lib と文書の lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文は不変');
+    }
+    add('lint.heightLaw334a', bad.length === 0,
+      `**回転引きずりの高さ則と扁平な源の純関数**(第334便a・原仮定者の整理(2026-11-11)・R322 —— html を読まない・読みの候補 T1〜T3 の成分と偶奇・範囲の 2 つの物差し・扁平の則 × q・回転楕円体の求積・厚みの対照): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.heightLaw334a ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/heightlaw-w334a.json が読めない');
+    else {
+      try {
+        const FX = (await import('file://' + path.join(ROOT, 'tests', 'exp-w333d-noncirc.mjs'))).readFixture(ROOT), GD = X.galaxyDisk(FX);
+        // ① 範囲の物差し
+        const Dm = jsn(X.partDominance(GD)), dD = deep334(Dm, J.dominance);
+        if (!(dD <= 1e-12)) bad.push(`① 範囲の物差しを作り直して正本と違う(相対 ${dD})—— 器を走らせ直す`);
+        cases.push(`① 範囲の物差し 太陽系 ${Dm.solar.length} 行・NGC 3198 ${Dm.galaxy.length} 行(D の割合・加速度の割合・β × 自己 3 列・宇宙の背景の W₀)が正本と相対 1e-12 の内 —— D で範囲の内 ${Dm.solar.filter((r) => r.dDominant).length}・β none で内 ${Dm.solar.filter((r) => r.betaDominant.none).length}`);
+        // ② 高さの分布・比例の範囲・T3 の列
+        const Hh = jsn(X.partHeights(GD)), dH = deep334(Hh, J.heights);
+        if (!(dH <= 1e-12)) bad.push(`② 高さの分布と z に比例する範囲を作り直して正本と違う(相対 ${dH})`);
+        cases.push(`② 高さの分布 ${Hh.rows.length} 行・比例の範囲 ${Hh.ranges.length} 行・T3 の ℓ × H ${Hh.t3v.length} 行が正本と相対 1e-12 の内`);
+        // ③ 厚みの対照・扁平・門
+        const Kt = jsn(X.partThickness()), Ob = jsn(X.partOblate(GD)), dK = deep334(Kt, J.thickness), dO = deep334(Ob, J.oblate);
+        if (!(dK <= 1e-12 && dO <= 1e-12)) bad.push(`③ 厚みの対照・扁平の則・回転楕円体の求積・天体の表を作り直して正本と違う(厚み ${dK}・扁平 ${dO})`);
+        const PS = L.pureScenes(), J2 = Object.assign({}, J, { dominance: Dm, heights: Hh, thickness: Kt, oblate: Ob, pure: { scenes: PS, gates: L.pureGates(PS) } }), G2 = X.gatesOf(J2);
+        if (!Object.values(G2).every((v) => v === true)) bad.push('③ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`③ 厚みの対照 ${Kt.rows.length} 行・扁平の則 ${Ob.rules.length}・回転楕円体 ${Ob.quad.length}・天体 ${Ob.bodies.length} を作り直して相対 1e-12 の内・作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+        // ④ 比べる列は第333便a の lib の値(呼ぶだけ)
+        const A = await import('file://' + path.join(ROOT, 'tests', 'lib-w333a-rotdiff.mjs'));
+        let dA = 0, nA = 0;
+        for (const r of J.heights.rows.filter((q, i) => i % 7 === 0)) {
+          const x = { rho: r.rho, z: r.z, Rd: r.Rd, sd: r.sd }, far = Math.hypot(r.rho, r.z) / r.Rd >= A.DECL.quad.farSwitch;
+          const ref = { slice: A.sliceVel(x), pair: A.pairVel(Object.assign({ alpha: 2 }, x)), ball: far ? A.farVel(Object.assign({ alpha: 2, kind: 'ball' }, x)) : A.bodyVel(Object.assign({ alpha: 2, kind: 'ball' }, x)), lorentz: A.tailVel('lorentz', x), sum2: A.tailVel('sum2', x) };
+          for (const [k, v] of Object.entries(ref)) { dA = Math.max(dA, deep334(v, r[k])); nA++; }
+        }
+        if (!(dA <= 1e-12)) bad.push(`④ 比べる列が第333便a の lib の値と違う(相対 ${dA})`);
+        cases.push(`④ 比べる列(切り口・対向 2 点・球・lorentz・sum2)の ${nA} 値が第333便a の lib を直に呼んだ値と相対 1e-12 の内(凍結の対照 —— 写さない)`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.heightLaw334a', bad.length === 0,
+      `**回転引きずりの高さ則と扁平な源の作り直し**(第334便a・原仮定者の整理(2026-11-11)・R322 —— html を読まない・範囲の物差し・高さの分布と比例の範囲・厚みの対照・扁平の則と回転楕円体の求積と天体の表・比べる列は第333便a の lib): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第334便a: docs.heightLaw334a は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
+// ----   lint・behavior を数えない)。世代切替は上と同じ
+// ----   docs.heightLaw334a(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib)・宣言が lib と器と同じ ② 表 11 本が PHYSICS〔第334便a〕に逐語
+// ----     ③ 節の位置(第333便e の節の後・第328便の統括の節と「## 7.」の前)・必須の語・AI_SPEC §214(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w334a-heightlaw.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w334a-heightlaw.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w334a-heightlawdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'heightlaw-w334a.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.heightLaw334a(第334便a の高さ則と扁平な源の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.heightLaw334a ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第334便a — '), i7 = PH.indexOf('\n## 7. 論文'), ie = PH.indexOf('〔第333便e — '), iu = PH.indexOf('\n〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ie >= 0 && ie < i0 && iu > i0)) bad.push('PHYSICS〔第334便a〕が無いか〔第333便e〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/heightlaw-w334a.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'heightlaw'
+        && J.target === 'tests/lib-w334a-heightlaw.mjs' && J.meta.scope === undefined && J.fixtureSha256Same === true)) bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・fixture の hash)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN) || JSON.stringify(J.readings) !== JSON.stringify(L.READINGS) || JSON.stringify(J.lit) !== JSON.stringify(L.LIT334A)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
+      if (Object.keys(J).indexOf('decl') > Object.keys(J).indexOf('pure')) bad.push('① 宣言が正本の先頭に無い(走行の前の宣言 —— 結果より前に置く)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}・宣言は正本の先頭`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第334便a〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 11) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第334便a〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の整理(2026-11-11)', '原仮定者の回答(2026-11-11 —— AN623', 'AN624 = A', 'AN625 = A', 'AN627 = A', 'R322', 'tests/exp-w334a-heightlaw.mjs', 'tests/out/heightlaw-w334a.json', 'tests/lib-w334a-heightlaw.mjs',
+      'T1 視線方向の捩れ', 'T2 回転の場の半渦度の動径の成分', 'T3 比較用のスカラー則', 's_d·r̂ = s_d z/r', '**s_d z**', 'z の奇関数', 'z の偶関数', '方位の速度を符号付きの z の式に置き換えない', '反対の向きの 2 つを同じ名前で採用済みにしない',
+      '比べる列(凍結の対照)', 'D_j/ΣD', 'β = W_j/(W_self + W₀ + ΣW)', '「源の重力が支配的」と「正規化した引きずりの重みが支配的」は同じではない', '適用外', '物差しの選び方で範囲が入れ替わる',
+      '速度の比例則だけでは平衡の厚みは決まらない', 'H ~ σ_z/ν_eff', '文献の値・未照合', '独立な一致ではない', '文字どおり R_d,eq = R_d/f_flat^q', '軸比 R_d,eq = R_d/(1 − f_flat)^q', '扁平ほど半径が小さい', 'R_pol = R_d³/R_eq²',
+      's_d R_eq² = λ_J J/(k_I m) は半径を広げても増えない', 'J の二重の増幅', '独立な一致の数は 1', '次数で桁が動く', 'J 案の列は速度として読まない', '並進引きずり = 源の移動と回転を使った座標変換', '軸引きずり = 受け手の部位による並進引きずりの差分',
+      '回転引きずり = 源の回転による空間の捩れ', '作業仮説の宣言の式と今のコードの実装を混ぜない', '宣言〔未接続〕', '原仮定者の整理(2026-11-11)への枝の答え', '決断事項の候補', '次の便へ', 'lint.heightLaw334a', 'behavior.heightLaw334a', 'docs.heightLaw334a'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第334便a〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 214. 第334便a'), ai = secUntilNext329c(AS, a0, '\n## ');   // 次の見出しまで(固定の字数の窓を持たない)
+    if (!(a0 >= 0 && ai.indexOf('tests/out/heightlaw-w334a.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('方位の速度を符号付きの z の式に置き換えない') >= 0 && ai.indexOf('「高さ則が厚みを決めた」と書かない') >= 0
+      && ai.indexOf('J を固定すると s_d R_eq² は半径を広げても増えない') >= 0 && ai.indexOf('AN627 = A') >= 0 && ai.indexOf('適用外') >= 0)) bad.push('③ AI_SPEC §214(正本・SYSTEM_PROMPT・成分・厚み・J 固定・適用外・エンジンへ入れない)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl334a = clg.split('\n').find((l) => l.indexOf('**第334便a**') >= 0) || '';
+    if (!(cl334a.indexOf('tests/exp-w334a-heightlaw.mjs') >= 0 && cl334a.indexOf('heightlaw-334a') >= 0 && cl334a.indexOf('原仮定者の整理(2026-11-11)') >= 0 && cl334a.indexOf('R322') >= 0 && cl334a.indexOf('AN623') >= 0)) bad.push('③ CHANGELOG の第334便a の行');
+    if (!(/S\('heightlaw-334a', 'node tests\/exp-w334a-heightlaw\.mjs', \['tests\/out\/heightlaw-w334a\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '全部を走らせても数秒(純関数と fixture だけ") >= 0
+      && RT.indexOf('// ==== 第334便a の塊(ここから)====') >= 0)) bad.push('③ 段の行 heightlaw-334a(quickVerify と理由・塊)');
+    if (GI.indexOf('!tests/out/heightlaw-w334a.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第334便a の塊(ここから)====') >= 0 && /lint\.heightLaw334a/.test(PM) && /behavior\.heightLaw334a/.test(PM) && /docs\.heightLaw334a/.test(PM))) bad.push('③ post-merge の ③′ に第334便a の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §214(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    // 「…とは書かない」「…と書かない」の否定の形は除いてから第334便a の書かない語を数える(書かない語を書かないと宣言する文は数えない)
+    const stripNeg = (t) => strip(t).replace(/[^\n・。、()(),'"`]*(?:とは書かない|と書かない)/g, ' ');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /内部熱を説明した/, /金星の逆転を説明した/, /銀河の回転曲線を予言した/, /一致した/];
+    const NOT334 = [/\d\s*km\/s/, new RegExp(String.fromCodePoint(0x3ba, 0x2080)), /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /(?<![A-Za-z0-9_$])m_d(?![A-Za-z0-9_$])/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第334便a の書かない語(逆さの字で持つ): 確かめた・示した・説明した・環の厚みを解いた・円盤を解いた・強まることを導いた・慣性を引きずりから導いた・観測に合った・高さ則が厚みを決めた・水星の近点を
+    const W334 = ['ためか確', 'たし示', 'たし明説', 'たい解をみ厚の環', 'たい解を盤円', 'たい導をとこるま強', 'たい導らかりずき引を性慣', 'たっ合に測観', 'ため決をみ厚が則さ高'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第334便a〕', sec], ['AI_SPEC §214', ai], ['CHANGELOG の第334便a の行', cl334a], ['器', rd('tests/exp-w334a-heightlaw.mjs')], ['lib', rd('tests/lib-w334a-heightlaw.mjs')], ['文書の lib', rd('tests/lib-w334a-heightlawdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+      for (const w of W334) if (stripNeg(tx).indexOf(w) >= 0) bad.push('④ ' + nm + ' に書かない語(' + w.length + ' 字)');
+      for (const re of NOT334) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.heightLaw334a', bad.length === 0,
+      `**回転引きずりの高さ則と扁平な源の文書**(第334便a・原仮定者の整理(2026-11-11)・R322 —— 宣言の式と今のコードの実装を混ぜない・読みの候補の表・範囲の 2 つの物差し・扁平の則 × 次数・条件付きの恒等式): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第334便a の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
