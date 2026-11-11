@@ -269,6 +269,15 @@ export function twoBody({ eta, e, eps, g = null, k1 = false, spins = null, steps
 }
 /** 一次の分担(入れた式 —— 第331便c の gLocShare + K1 の +5/3) */
 export const firstShare = (g, k1, eta) => (g ? gLocShare(g.n, g.pair, eta) : 0) + (k1 ? 5 / 3 : 0);
+/**
+ * 受け手の型の重心の自己加速(一次 —— 本 lib で書いた条件付きの式・同時発展の積分器で照らす): 作用反作用の差 F = m_1 a_1 + m_2 a_2 ≈ (m_1 m_2/r²)(G_1 − G_2) r̂・G_1 − G_2 ≈ 2nε(m_1 − m_2)/r。
+ * 公転の平均 ⟨r̂/r³⟩ = e P̂/[2a³(1 − e²)^{3/2}](μ = a = 1)から、1 公転あたりの重心の速さの増え |ΔV_cm| = 2π|n|ε η √(1 − 4η) e/(1 − e²)^{3/2}(対称の型は 0 —— 作用反作用を保つ)。
+ * エンジンは同じ差を帳簿 gLocPx に積む(局所光速の場との交換 —— 閉じた保存とは書かない)。
+ */
+export function cmKickPerOrbit({ pair, n, eta, e, eps }) {
+  if (pair !== 'receiver') return 0;
+  return 2 * Math.PI * Math.abs(n) * eps * eta * Math.sqrt(Math.max(0, 1 - 4 * eta)) * e / Math.pow(1 - e * e, 1.5);
+}
 /** 還元の和(第333便c の binaryNumeric —— 相対の軌道に還元した G_loc と K1 の別々の計算の和) */
 export function reducedShare(g, k1, eta, e, eps) {
   const r = binaryNumeric({ pair: g.pair, n: g.n, k1 }, eta, { e, eps });
@@ -370,4 +379,4 @@ export function pureGates(S) {
     rejects: S.rejects.every(Boolean),
   };
 }
-export { BINARY_TYPES };
+export { BINARY_TYPES, orbitOfState, vec };
