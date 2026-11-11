@@ -19983,25 +19983,25 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.131
+   "wallSec": 0.126
   },
   "inputs": {
-   "wallSec": 0.148
+   "wallSec": 0.141
   },
   "push": {
-   "wallSec": 0.423
+   "wallSec": 0.307
   },
   "epoch": {
-   "wallSec": 0.44
+   "wallSec": 0.313
   },
   "windows": {
-   "wallSec": 36.041
+   "wallSec": 33.167
   },
   "tide": {
-   "wallSec": 36.044
+   "wallSec": 33.169
   },
   "self": {
-   "wallSec": 36.047
+   "wallSec": 33.17
   }
  },
  "gates": {
@@ -20019,13 +20019,13 @@
   "self": true
  },
  "ok": true,
- "elapsedS": 36.05,
+ "elapsedS": 33.173,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第334便b",
   "target": "tests/lib-w334b-ledger.mjs",
   "targetSha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
-  "generatedAt": "2026-11-11T18:45:43.125Z",
+  "generatedAt": "2026-11-11T19:12:12.331Z",
   "inputs": [
    {
     "file": "tests/out/axialfield-w333b.json",
@@ -20037,9 +20037,9 @@
   "code": [
    {
     "file": "tests/exp-w334b-ledger.mjs",
-    "bytes": 24828,
-    "sha256": "6dafec81e6cfe2e1a70a6f8efc3827ecea8685a8239eccc4afc2d048aeb8c51d",
-    "mtime": "2026-11-11T18:44:07.458Z"
+    "bytes": 24884,
+    "sha256": "2b11bc159dab3eaba6a4123f17cf07c6f089e6b92923e2add445998b228eab3d",
+    "mtime": "2026-11-11T18:49:23.279Z"
    },
    {
     "file": "tests/lib-w334b-ledger.mjs",
@@ -20144,7 +20144,7 @@
     "mtime": "2026-11-11T18:17:04.241Z"
    }
   ],
-  "codeSha256": "e0f6255966d59ffa933ac49072bebf24257f447c0a795b5e40e540f543c9876a",
+  "codeSha256": "3f34be58859f3f3147d477464d1829b34a1d78c0ab2eceefd95db7cbad36c787",
   "harnessVersion": "w334b-ledger-1",
   "stage": "ledger",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 第333便b の正本の本の時刻の値を読む)",
