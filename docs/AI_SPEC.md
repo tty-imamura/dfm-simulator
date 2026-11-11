@@ -4887,6 +4887,17 @@ SYSTEM_PROMPT の規則 13(逐語):
 - QA `lint.symbols333e`(新しい文の旧い記号と、コードの書式の外のコードの名前 —— 変異の自己試験つき)・`docs.symbols333e`(対応表の必須の行とコードの名前の実在・数式版・論文 10 本の位置と距離の旧い記号・定義の文・括弧と環境・本節と PHYSICS〔第333便e〕・CHANGELOG・post-merge)。
 
 
+
+## 215. 第334便b —— 仕事とトルクの帳簿(回転引きずりの押しの軌道のトルクと仕事・源の自転の反作用・共役の角速度の 2 列・軸引きずりの応答 N = Γ(ω_field − s_i) の経路ごとの口・2 体 3 体の窓・潮汐力との対応・自分自身への並進引きずりの割合)(診断だけ)(原仮定者の整理(2026-11-11)・原仮定者の回答(2026-11-11 —— AN624・AN625・AN626・AN628・AN629・AN630)・統括の検証項目 R323・**html・本の宣言・受理器・步・`S._core`・第329〜333便の lib の本文は不変・physics の鍵は足さない** —— 器と lib と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
+
+- **正本** `tests/out/ledger-w334b.json`(器 `tests/exp-w334b-ledger.mjs` —— 版 w334b-ledger-1・html を読まない・lib `tests/lib-w334b-ledger.mjs`〔押しの帳簿 `pushLedger`・軸の応答の帳簿 `axialLedger`・自己が自分の運動を運ぶ読み `carryAt`・窓 `windowRun`・重力の勾配 `tidalTensor`・自己の割合 `selfShareRow`〕・文書の lib `tests/lib-w334b-ledgerdoc.mjs`・段 ledger-334b)。入力は第333便b の正本 `tests/out/axialfield-w333b.json` だけ(並べる値)。
+- **帳簿の宣言**: 押しの熱 Q = Ω_c·N_orb − P_orb(源の自転の反作用 −N_orb・熱の槽は源・Q < 0 は不採用の印)。**共役の角速度は 2 列**: S = 観測自転 s/D = J 等価の s_d —— D の列の熱は S の列の s_d/s 倍(2.8e8〜1.3e16)。AI が本や説明を作るときも、s_d を源の機械仕事の角速度や実体の自転として書かない(J を表す等価なパラメータ)。
+- **軸の応答**: N = Γ(ω_field − s_i)・Q = Γ|ω_field − s_i|²・τ = I_i/Γ(Γ は単位の格子 —— 同定しない)。由来(源 × 3 部)ごとの口で記帳し、**由来ごとのトルクを相殺してから熱を出さない**(相殺した 1 つの口は否定対照 —— 熱が消える分 Γ[(Σ|ω_k|)² − |Σω_k|²])。ω_field を回転率として書き、トルクや熱と書かない。今の軸の口の値と新しい定義の値を重ねて足さない(並べる)。
+- **自己の項**: 第333便b の場の自己の項は静止で、自己の重みが大きいと ω_field → 0。自己の項が受け手自身の運動を運ぶ読み(ω′ = ω_field + f_self s_i + ½ g × v_i)では同期の配置(冥王星–カロン)で全部の自己の列が ω′ = s —— 慣性の読みの比べる列(導出ではない)。
+- **表の値の要点**: S の列でも土星の C・B 環の粒子(同期の半径の内側)は Q_S < 0(今の NF の型は Q ≥ 0 を全部の受け手で満たさない)・NS は s > n の組で Q_S < 0。窓の閉じは h/2 で 1e-12 の内(τ = 1 公転で刻みの比 16)。重力の勾配は r⁻³ m¹・自己なしの 1 つの源の ω_field は源の自転(r と m に依らない —— ひずみ 0)・自己 R_d の列で r⁻³ m¹。
+- AI が本や説明を作るときは、帳簿の熱と観測の熱流の比を熱の由来の説明に使わない(宣言した型の表の値)・慣性を引きずりの式から作った量と書かない(読みの対応)。
+- QA `lint.ledger334b`(版・宣言・純関数の場面 8・呼ぶだけ・html を読まない)・`behavior.ledger334b`(押し・軸の応答・潮汐・自己の割合と 1 系の窓を作り直して正本と同じ)・`docs.ledger334b`(正本の門・表 9 本が PHYSICS〔第334便b〕に逐語・本節・CHANGELOG・段の行・書かない語)。
+
 ## 216. 第334便c —— 水星の斜め軌道の交点の窓の積分: 統合した並進引きずりの回転の分・並進の分・両方を、交点の前後・交点から離れた部分・全周に分けて L̂ と e のベクトルの変化で(交点の非対称の仮説の検査・組み合わせ・文献の値〔未照合〕との比と係数の上限 —— 診断だけ)(原仮定者の整理(2026-11-11)・原仮定者の回答(2026-11-11 —— AN633〜AN636)・統括の検証項目 R324・**html・本の宣言・受理器・步・`S._core`・第330〜333便の lib と器の本文は不変・physics の鍵は足さない** —— 器と lib と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
 
 - **正本** `tests/out/mercurynode-w334c.json`(器 `tests/exp-w334c-mercurynode.mjs` —— 版 w334c-mercurynode-1・lib `tests/lib-w334c-mercurynode.mjs`〔窓の一次の率 vectorRates(dh/dt = p × F・de/dt = (F × h + w × (p × F))/μ の窓ごとの積分と面に垂直な力の分け)・交点の窓 nodeWindows・高さの帯 heightWindows・速度の型の境界の項 boundaryTerm・揃えた自己の形 selfAligned・ballField・harmonicSelfGeneral・効果の型 effectOf・面内の回転の純粋な積分器 integrateFrame・周期の項 periodicAmplitude〕・文書の lib `tests/lib-w334c-mercurynodedoc.mjs`・段 `mercurynode-334c`)。第333便c の器の readBooks・systemOf と lib の secularRates・velocityToAccel・transDragVelocity・integrate3d を呼ぶ(本文は不変)。

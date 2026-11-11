@@ -833,6 +833,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.nonCirc333d behavior.nonCirc333d docs.n
 #   PHYSICS〔第333便e〕・文書)と、直した文書と論文を読む鍵(式の一覧・現象の一覧・論文の記号・論文 3 の鍵の文・裸のカッパ)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.symbols333e docs.symbols333e lint.equations331d docs.equations331d lint.phenomena331e docs.phenomena331e docs.paperSymbols316 docs.paper3Key317d docs.symbols315 lint.kappaSymbol315 lint.sectionLookup313 lint.qaHeapRelease310"
 # ==== 第333便e の塊(ここまで)====
+# ==== 第334便b の塊(ここから)====
+# 第334便b(原仮定者の整理(2026-11-11)・原仮定者の回答(2026-11-11 —— AN626・AN630)・統括の検証項目 R323 —— 診断だけ・html は変えない): 枝 b の新設 3 本(lint.ledger334b —— 帳簿の純関数の
+#   場面と呼ぶだけの検査・宣言 / behavior.ledger334b —— 押し・軸の応答・潮汐の対応・自己の割合と 1 系の窓を作り直して正本と同じ / docs.ledger334b —— 正本の門と表 9 本が
+#   PHYSICS〔第334便b〕に逐語・文書)と、新しい段 ledger-334b の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.ledger334b behavior.ledger334b docs.ledger334b docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c"
+# ==== 第334便b の塊(ここまで)====
 # ==== 第334便c の塊(ここから)====
 # 第334便c(原仮定者の整理(2026-11-11)・原仮定者の回答(2026-11-11 —— AN633〜AN636)・統括の検証項目 R324 —— 診断だけ・html は変えない): 枝 c の新設 3 本(lint.mercuryNode334c —— 窓の宣言と
 #   純関数の場面〔窓の和・面を変えたベクトル・面に垂直な力・並進と K1・揃えた自己の形・文献の式・ω に依らない面内の回転・帯の区間〕と呼ぶだけの検査・文献の出典と未照合の印 / behavior.mercuryNode334c ——
