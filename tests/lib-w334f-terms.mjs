@@ -36,7 +36,7 @@ const cp = (a) => String.fromCodePoint(...a);
 export const DECIDE_WORDS_334F = Object.freeze([cp([0x63a1, 0x7528]), cp([0x78ba, 0x5b9a])]);   // 文字で持たない(本 lib の照合の語がそのまま文書の検索に掛からないように)
 export const NOT_WORDS_334F = Object.freeze([/慣性を引きずりから導/, /高さ則で環の厚み/, /扁平な天体で引きずりが強まることを導/, /交点の並進の回転で水星の近点を/, /連星の残差の法則で観測に合/, /観測に合った/]);
 
-// ── 主な数の転記の表(第334便f —— 第331便e の TRANSCRIPTS_331E と同じ型。docs.phenomena331e が第331便e の 88 項に足して照合する)──
+// ── 主な数の転記の表(第334便f —— 第331便e の TRANSCRIPTS_331E と同じ型。docs.phenomena331e が第331便e の 86 項に足して照合する)──
 export const TRANSCRIPTS_334F = Object.freeze([
   { row: 'P01', text: '交点 +20.27″/世紀・傾き +14.11″/世紀', src: 'phys', ref: '〔第333便c — ' },
   { row: 'P01', text: '+242.9″/世紀', src: 'phys', ref: '〔第333便c — ' },
