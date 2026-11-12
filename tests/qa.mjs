@@ -103900,6 +103900,152 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第335便g の塊(ここまで)====
 
+// ==== 第336便b の塊(ここから —— lint.unmarkedFail336b・docs.unmarkedFail336b の 2 ブロック。root は SKIP)====
+// ---- 第336便b(統括の検証項目 R336 —— 道具と QA と文書だけ・html・エンジン・内蔵の本・受理器は変えない・段は足さない): **印のない FAIL を数の外に置かない**。
+// ----   第335便の統合の後の受け入れ(tools/post-merge-qa.sh)の ① は FAIL 8 件のうち種類の印 〔違反の種類 w320d: …〕 を出す 2 件だけを要約の数に入れ、印のない 6 件
+// ----   (うち 1 件は鎖で直らない型)が数の外にいた。世代切替 = beta 対象 ∧ tests/lib-w336b-unmarked.mjs がある。
+// ----   lint.unmarkedFail336b: ① 版(lib の版・種類の lib の版 2・末尾の字数)と刻印の型の語(版 2 で足した 5 つは刻印の型・「摂動の再走」などは刻印の型以外)
+// ----     (a) 合成のログの自己試験(selfTest336b —— 印あり PASS/FAIL・印なし FAIL〔刻印の文あり/なし〕・PASS だけ・空)
+// ----     (b) post-merge-qa.sh から kinds320 と unmarked336b を切り出して bash で実行: 「印のない FAIL n 件」と id・一覧のファイル・「1 件ずつ読むこと」の句・0 件なら句なし・
+// ----         ① と ④ の呼び出し(1-unmarked.txt・4-unmarked.txt)
+// ----     (c) 第335便の ① のログの抜粋(tests/data-w336b-pm335-preflight.txt —— 凍結・sha256)を summarizeLog と kinds320 に通して期待の要約と同じ
+// ----     (d) 印を付けた鍵(MARKED_KEYS_336B)の detail が lib の violationText を通る経路を持つ(静的 —— 判定の式は不変)
+// ----   docs.unmarkedFail336b: PHYSICS〔第336便b〕の位置と必須の語・AI_SPEC §228・CHANGELOG の行・tools/README.md の post-merge の節・post-merge の ③′ の塊・書かない語
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const fLib336b = path.join(ROOT, 'tests', 'lib-w336b-unmarked.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(fLib336b))) {
+    console.log('SKIP lint.unmarkedFail336b・docs.unmarkedFail336b(第336便b の印のない FAIL の一覧の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd336b = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const U336b = await import('file://' + fLib336b);
+  const LK336b = await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs'));
+  const PM336b = rd336b('tools/post-merge-qa.sh') || '';
+  // ───── lint.unmarkedFail336b ─────
+  {
+    const bad = [], cases = [];
+    const os336b = await import('node:os');
+    const tmp336b = fs.mkdtempSync(path.join(os336b.tmpdir(), 'qa-w336b-'));
+    try {
+      // ① 版と刻印の型の語
+      if (!(U336b.UNMARKED_VERSION_336B === 'w336b-unmarked-1' && LK336b.LINT_KINDS_VERSION === 'w336b-lintkinds-2' && U336b.TAIL_CHARS_336B === 120)) bad.push('① 版(w336b-unmarked-1・w336b-lintkinds-2・末尾 120 字)');
+      const POS = ['① meta.targetSha256 が検査対象の html と違う(器を再走する)', '② JSON の入力 hash a… が 現行 b… と不一致 —— **統合後は再走して入れ替える**', '生成領域に旧語が残る(鎖の samplestatus の再走待ち —— 手で直さない)',
+        '① meta.targetSha256 が検査対象の html と違う(別ソースの走行)', '①targetSha256 が現在の beta/index.html と違う(走行後に html が動いた)', '① 正本の宣言が lib と違う(器を走らせ直す)', '④ x のコード y が刻印と違う —— 鎖で作り直す段 z'];
+      const NEG = ['k: 摂動の再走が決定論でない', '③ 走らせ直した門が偽: g', '② exp-a.mjs の宣言が下限を覆わない: preset p', 'AI_SPEC §5 に SYSTEM_PROMPT の逐語が無い', '①来歴が w272e-1/64 桁でない'];
+      const pBad = POS.filter((t) => LK336b.classifyViolation(t) !== 'stamp'), nBad = NEG.filter((t) => LK336b.classifyViolation(t) !== 'other');
+      if (pBad.length || nBad.length) bad.push('① 刻印の型の語: ' + pBad.concat(nBad).map((t) => t.slice(0, 40)).join(' , '));
+      cases.push(`① ${U336b.UNMARKED_VERSION_336B}・${LK336b.LINT_KINDS_VERSION}(刻印の型の語 ${LK336b.STAMP_PATTERNS.length} —— 刻印の型 ${POS.length} 例・刻印の型以外 ${NEG.length} 例)`);
+      // (a)
+      const st = U336b.selfTest336b();
+      if (!st.ok) bad.push('(a) ' + st.bad.slice(0, 3).join(' / '));
+      cases.push('(a) ' + st.cases.join(' / '));
+      // (b) post-merge-qa.sh の kinds320 と unmarked336b を切り出して実行
+      const fnOf = (name) => { const i = PM336b.indexOf('\n' + name + '() {'); if (i < 0) return ''; const e = PM336b.indexOf('\n}\n', i + 1); return e < 0 ? '' : PM336b.slice(i + 1, e + 2); };
+      const fK = fnOf('kinds320'), fU = fnOf('unmarked336b');
+      if (!fK || !fU) bad.push('(b) post-merge-qa.sh に kinds320() か unmarked336b() が無い');
+      const { execFileSync: ex336b } = await import('node:child_process');
+      const runSh = (log, out, label) => {
+        const sh = path.join(tmp336b, 'k.sh');
+        fs.writeFileSync(sh, 'ROOT=' + JSON.stringify(ROOT) + '\n' + fK + '\n' + fU + '\nkinds320 "$1"\nunmarked336b "$1" "$2" "$3"\n');
+        return ex336b('bash', [sh, log, out, label], { encoding: 'utf8', timeout: 60000 }).split('\n');
+      };
+      if (fK && fU) {
+        const S = '① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)', O = 'AI_SPEC §5 に SYSTEM_PROMPT の逐語が無い';
+        const syn = ['PASS lint.a  x', 'FAIL lint.b  y' + LK336b.violationText([S]), 'FAIL docs.d  文 / **違反 1 件**: ' + S, 'FAIL docs.e  文 / **違反 1 件**: ' + O + '  [0.2s]', 'SKIP docs.g'].join('\n') + '\n';
+        const fSyn = path.join(tmp336b, '1-preflight.log'), fOut = path.join(tmp336b, '1-unmarked.txt');
+        fs.writeFileSync(fSyn, syn);
+        const o1 = runSh(fSyn, fOut, '①');
+        const want1 = '・刻印の型以外の違反 0 件(刻印の型 1 件 —— 鎖で直る)・‼ 印のない FAIL 2 件(docs.d〔刻印の文〕・docs.e —— 種類を数えていない・理由の文を読んで分ける)';
+        if (o1[0] !== want1) bad.push('(b) kinds320 の出力: ' + String(o1[0]).slice(0, 120));
+        if (o1[1] !== '・‼ ① の印のない FAIL を 1 件ずつ読むこと(一覧 ' + fOut + ')') bad.push('(b) 要約の句: ' + String(o1[1]).slice(0, 120));
+        const ft = fs.existsSync(fOut) ? fs.readFileSync(fOut, 'utf8') : '';
+        if (!(/印のない FAIL 2 件/.test(ft) && ft.indexOf('1. docs.d 〔文に刻印の型の語〕') >= 0 && ft.indexOf('2. docs.e 〔文に刻印の型の語なし〕 文 / **違反 1 件**: ' + O + '\n') >= 0)) bad.push('(b) 一覧のファイル');
+        const fP = path.join(tmp336b, 'pass.log'); fs.writeFileSync(fP, 'PASS lint.a  x\nPASS lint.b  y' + LK336b.violationText([]) + '\n');
+        const o0 = runSh(fP, path.join(tmp336b, '0.txt'), '④');
+        if (!(o0[0] === '' && o0[1] === '')) bad.push('(b) PASS だけのログで句が出た: ' + JSON.stringify(o0.slice(0, 2)));
+        cases.push('(b) post-merge-qa.sh の kinds320・unmarked336b を bash で実行: 合成のログで「印のない FAIL 2 件」と id・一覧・「1 件ずつ読むこと」/ PASS だけは句なし');
+      }
+      if (!(/S1="\$S1\$\(unmarked336b "\$LOG\/1-preflight\.log" "\$LOG\/1-unmarked\.txt" ①\)"/.test(PM336b) && /S4="\$S4\$\(unmarked336b "\$LOG\/4-beta\.log" "\$LOG\/4-unmarked\.txt" ④\)"/.test(PM336b)
+        && PM336b.indexOf('S1="$S1$(unmarked336b') > PM336b.indexOf('S1="$S1$(kinds320') && PM336b.indexOf('S4="$S4$(unmarked336b') > PM336b.indexOf('S4="$S4$(kinds320'))) bad.push('(b) post-merge の ① と ④ の呼び出し(kinds320 の後に unmarked336b)');
+      // (c) 第335便の ① のログの抜粋(凍結)
+      const ex = rd336b(U336b.PM335_EXCERPT_FILE);
+      if (!ex) bad.push('(c) ' + U336b.PM335_EXCERPT_FILE + ' が無い');
+      else {
+        const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, U336b.PM335_EXCERPT_FILE))).digest('hex');
+        if (sha !== U336b.PM335_EXCERPT_SHA256) bad.push('(c) 抜粋の sha256 が凍結の値と違う(' + sha.slice(0, 12) + ')');
+        const E = U336b.PM335_EXPECT, s = LK336b.summarizeLog(ex);
+        const nF = ex.split('\n').filter((l) => /^FAIL /.test(l)).length, nP = ex.split('\n').filter((l) => /^PASS /.test(l)).length;
+        if (!(nF === E.nFail && nP === E.nPass && s.other === E.other && s.stamp === E.stamp && JSON.stringify(s.byLint) === JSON.stringify(E.byLint) && JSON.stringify(s.unmarked) === JSON.stringify(E.unmarked)))
+          bad.push('(c) summarizeLog の要約が期待と違う ' + JSON.stringify({ nF, nP, o: s.other, s: s.stamp, u: s.unmarked }).slice(0, 200));
+        const rows = U336b.unmarkedRows(ex);
+        if (JSON.stringify(rows.map((r) => [r.id, r.kind])) !== JSON.stringify(E.unmarked) || rows[5].tail.indexOf('SYSTEM_PROMPT の逐語が無い') < 0) bad.push('(c) 一覧の行');
+        if (fK && fU) {
+          const fEx = path.join(ROOT, U336b.PM335_EXCERPT_FILE), fOut2 = path.join(tmp336b, 'pm335-unmarked.txt');
+          const o2 = runSh(fEx, fOut2, '①');
+          if (o2[0] !== E.kinds320Now) bad.push('(c) kinds320 の今の出力が期待と違う: ' + String(o2[0]).slice(0, 160));
+          if (o2[1] !== '・‼ ① の印のない FAIL を 1 件ずつ読むこと(一覧 ' + fOut2 + ')') bad.push('(c) 要約の句');
+          if (!(o2[0].startsWith(E.summary335))) bad.push('(c) 第335便の要約の文が今の出力の頭に無い');
+        }
+        cases.push(`(c) 第335便の ① の抜粋(FAIL ${nF}・PASS ${nP}・sha256 ${sha.slice(0, 12)})→ 刻印の型以外 ${s.other}・刻印の型 ${s.stamp}(${s.byLint.map((z) => z[0]).join('・')})・印のない FAIL ${s.unmarked.length} 件(${s.unmarked.map((z) => z[0] + (z[1] === 'stamp' ? '〔刻印の文〕' : '')).join('・')})`);
+      }
+      // (d) 印を付けた鍵の経路(静的)
+      const qaSrc = rd336b('tests/qa.mjs') || '';
+      const M = U336b.markedPathStatic(qaSrc);
+      if (!M.ok) bad.push('(d) 印の経路が無い鍵 ' + M.missing.concat(M.noAdd).slice(0, 6).join(','));
+      if (new Set(U336b.MARKED_KEYS_336B).size !== U336b.MARKED_KEYS_336B.length || U336b.MARKED_KEYS_336B.length < 120) bad.push('(d) 印を付けた鍵の一覧(重複・数)');
+      for (const k of ['lint.calauditMergeKeyHash', 'docs.d0sites-sync', 'docs.selfInertia-sync', 'docs.kf0Ledger', 'lint.canon303']) if (!U336b.MARKED_KEYS_336B.includes(k)) bad.push('(d) 第335便の印のない刻印の型の鍵 ' + k + ' が一覧に無い');
+      const M0 = U336b.markedPathStatic(qaSrc, U336b.MARKED_KEYS_320D, { needLibPath: false });
+      if (!M0.ok) bad.push('(d) 第320便d の 5 本の経路');
+      const nTag = qaSrc.split('\n').filter((l) => l.indexOf('violationText(bad') >= 0 && l.endsWith('// 第336便b(R336): 種類の印')).length;
+      if (nTag !== U336b.MARKED_KEYS_336B.length) bad.push('(d) 印を付けた行の数 ' + nTag + ' が一覧の数 ' + U336b.MARKED_KEYS_336B.length + ' と違う');
+      cases.push(`(d) 印を付けた鍵 ${M.n} 本(第335便の 5 本を含む)と第320便d の 5 本の detail が lib の violationText を通る(静的・判定の式は不変)`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    finally { try { fs.rmSync(tmp336b, { recursive: true, force: true }); } catch (e) { /* 片付けの失敗は判定に入れない */ } }
+    add('lint.unmarkedFail336b', bad.length === 0,
+      `**印のない FAIL を数の外に置かない**(第336便b・R336 —— 第335便の post-merge の ① は種類の印のある 2 件だけを数え、印のない 6 件が数の外にいた): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.unmarkedFail336b ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const PH = rd336b('docs/PHYSICS.md') || '', AS = rd336b('docs/AI_SPEC.md') || '', CLx = rd336b('CHANGELOG.md') || '', TR = rd336b('tools/README.md') || '';
+      // ① PHYSICS〔第336便b〕
+      const i0 = PH.indexOf('\n〔第336便b — '), iG = PH.indexOf('\n〔第335便g — '), iA = PH.indexOf('\n〔第336便a — '), iT = PH.indexOf('\n〔第328便 — 統括'), i7 = PH.indexOf('\n## 7. 論文');
+      if (!(i0 >= 0 && iG >= 0 && iG < i0 && (iA < 0 || iA < i0) && (iT < 0 || i0 < iT) && (i7 < 0 || i0 < i7))) bad.push('① PHYSICS〔第336便b〕の位置(第335便g〔と第336便a〕の節の後・第328便の統括の節と「## 7.」の前)');
+      const sec = i0 >= 0 ? secUntilNext329c(PH, i0 + 1, [/\n〔第\d+便[a-z]* — /, '\n## ']) : '';
+      const wantP = ['R336', 'tools/post-merge-qa.sh', 'kinds320', '〔違反の種類 w320d:', '印のない FAIL', '1 件ずつ読む', '1-unmarked.txt', '4-unmarked.txt', 'tests/lib-w336b-unmarked.mjs', 'w336b-unmarked-1',
+        'tests/lib-w320d-lintkinds.mjs', 'w336b-lintkinds-2', 'violationText', 'summarizeLog', 'tests/data-w336b-pm335-preflight.txt', 'lint.unmarkedFail336b', 'docs.unmarkedFail336b',
+        'lint.calauditMergeKeyHash', 'docs.d0sites-sync', 'docs.selfInertia-sync', 'docs.kf0Ledger', 'lint.canon303', 'docs.uiText316', '判定は変えない', '数の外', '変えていない所'];
+      for (const w of wantP) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第336便b〕に「' + w + '」が無い');
+      if (sec.indexOf('印を付けた鍵 ' + U336b.MARKED_KEYS_336B.length + ' 本') < 0) bad.push('① PHYSICS〔第336便b〕の印を付けた鍵の数が ' + U336b.MARKED_KEYS_336B.length + ' でない');
+      cases.push(`① PHYSICS〔第336便b〕(第335便g の節の後・必須の語 ${wantP.length}・印を付けた鍵 ${U336b.MARKED_KEYS_336B.length} 本)`);
+      // ② AI_SPEC §228・CHANGELOG・tools/README.md・post-merge
+      const a228 = AS.search(/\n## 228\. 第336便b/), a226 = AS.search(/\n## 226\. 第335便g/), ai = a228 >= 0 ? secUntilNext329c(AS, a228 + 1, '\n## ') : '';
+      if (!(a228 >= 0 && a226 >= 0 && a226 < a228 && ['tools/post-merge-qa.sh', '印のない FAIL', '1-unmarked.txt', 'tests/lib-w336b-unmarked.mjs', 'lint.unmarkedFail336b', 'docs.unmarkedFail336b', 'SYSTEM_PROMPT には載せない'].every((w) => ai.indexOf(w) >= 0))) bad.push('② AI_SPEC §228(§226 の後・必須の語)');
+      const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl = clg.split('\n').find((l) => l.indexOf('**第336便b**') >= 0) || '';
+      if (!(['R336', 'tools/post-merge-qa.sh', '印のない FAIL', 'lint.unmarkedFail336b', 'docs.unmarkedFail336b'].every((w) => cl.indexOf(w) >= 0))) bad.push('② CHANGELOG の beta の節の第336便b の行');
+      const tp = TR.indexOf('post-merge-qa.sh'), trSec = TR.indexOf('第336便b');
+      if (!(tp >= 0 && trSec >= 0 && ['1-unmarked.txt', '4-unmarked.txt', '1 件ずつ読む', 'tests/lib-w336b-unmarked.mjs'].every((w) => TR.indexOf(w, trSec) >= 0 && TR.indexOf(w, trSec) < trSec + 1200))) bad.push('② tools/README.md の post-merge の節(第336便b の 3 行)');
+      if (!(PM336b.indexOf('# ==== 第336便b の塊(ここから)====') >= 0 && ['lint.unmarkedFail336b', 'docs.unmarkedFail336b', 'lint.violationKinds320'].every((k) => PM336b.indexOf(k) >= 0))) bad.push('② post-merge の ③′ に第336便b の塊');
+      cases.push('② AI_SPEC §228(§226 の後)・CHANGELOG の第336便b の行・tools/README.md の post-merge の節・post-merge の ③′');
+      // ③ 書かない語(要約の事実で書く)
+      const W = [];
+      for (const [nm, t] of [['PHYSICS〔第336便b〕', sec], ['AI_SPEC §228', ai], ['CHANGELOG の第336便b の行', cl]]) {
+        for (const w of ['見落とし', '統括の誤り', '取りこぼしは無くなった', '見逃しは無い', '完全に防ぐ']) if (t.indexOf(w) >= 0) W.push(nm + ' に「' + w + '」');
+      }
+      for (const b of W) bad.push('③ ' + b);
+      cases.push('③ 書かない語(節・AI_SPEC・CHANGELOG の行)' + W.length);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.unmarkedFail336b', bad.length === 0,
+      `**印のない FAIL の一覧と「1 件ずつ読む」の規則の文書**(第336便b・R336 —— PHYSICS の節・AI_SPEC・CHANGELOG・tools/README.md・post-merge の ③′): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第336便b の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

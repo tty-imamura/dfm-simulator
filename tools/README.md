@@ -27,6 +27,10 @@ tools/post-merge-qa.sh [--base beta/_wNNN_base.html] [--failed "id id …"] [--n
 Playwright は `PLAYWRIGHT_CORE_DIR`(未設定なら `/opt/node22/lib/node_modules/playwright` があればそれ)。
 **フル QA・CI の代わりではない**。
 
+第336便b(統括の検証項目 R336): ① と ④ の要約の種類の数(刻印の型以外 k 件)は種類の印のある行だけの和 —— **印のない FAIL** は `$LOG/1-unmarked.txt`(④ は `$LOG/4-unmarked.txt`)に id・文に刻印の型の語があるか・理由の文の末尾 120 字で並ぶ(`tests/lib-w336b-unmarked.mjs`)。
+1 件でもあれば最後の 1 行の ① か ④ に「‼ ① の印のない FAIL を 1 件ずつ読むこと(一覧 …)」が出る(終了コードは従来どおり)。**数が 0 でも、印のない FAIL は 1 件ずつ読む**。
+QA `lint.unmarkedFail336b` がこの関数と第335便の ① のログの抜粋(`tests/data-w336b-pm335-preflight.txt`)を照合する。
+
 ## preflight の heap の上限(第305便e —— 決断事項 AN328)
 
 `npm run test:preflight` と `tools/post-merge-qa.sh` の ① は `node --max-old-space-size=6144 tests/qa-preflight.mjs` で起動する

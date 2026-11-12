@@ -54,6 +54,18 @@ export const MARKED_KEYS_336B = Object.freeze([
 /** 第320便d・第335便までに印を出していた鍵(参考 —— 本便は変えていない)。 */
 export const MARKED_KEYS_320D = Object.freeze(['lint.provenanceMeta', 'lint.regenScope', 'lint.stableHashPaths', 'lint.scopeAll312', 'lint.canon304']);
 
+/** 第335便の ① のログの抜粋(凍結 —— 作り直さない)と期待の要約(QA lint.unmarkedFail336b (c))。 */
+export const PM335_EXCERPT_FILE = 'tests/data-w336b-pm335-preflight.txt';
+export const PM335_EXCERPT_SHA256 = 'b68a168bfbe4278338a5dcaef4813da98355f1aac13d4da455ff5b5d3c00ad98';
+export const PM335_EXPECT = Object.freeze({
+  nFail: 8, nPass: 4, other: 0, stamp: 24,
+  byLint: [['lint.provenanceMeta', 0, 21], ['lint.canon304', 0, 3]],
+  unmarked: [['lint.calauditMergeKeyHash', 'stamp'], ['docs.d0sites-sync', 'stamp'], ['docs.selfInertia-sync', 'stamp'], ['docs.kf0Ledger', 'stamp'], ['lint.canon303', 'stamp'], ['docs.uiText316', 'other']],
+  // 第335便の要約(当時の kinds320 —— 印のない FAIL を並べる前)と、tools/post-merge-qa.sh の kinds320 の今の出力(版 2 の語で 5 件が〔刻印の文〕)
+  summary335: '・刻印の型以外の違反 0 件(刻印の型 24 件 —— 鎖で直る)',
+  kinds320Now: '・刻印の型以外の違反 0 件(刻印の型 24 件 —— 鎖で直る)・‼ 印のない FAIL 6 件(lint.calauditMergeKeyHash〔刻印の文〕・docs.d0sites-sync〔刻印の文〕・docs.selfInertia-sync〔刻印の文〕・docs.kf0Ledger〔刻印の文〕・lint.canon303〔刻印の文〕・docs.uiText316 —— 種類を数えていない・理由の文を読んで分ける)',
+});
+
 /** 行の detail(id の後ろ)から末尾の所要 [n.ns] を外し、末尾 n 字を返す(長ければ先頭に「…」)。 */
 export function tailOf(detail, n) {
   const k = Number.isFinite(n) ? n : TAIL_CHARS_336B;
@@ -91,14 +103,15 @@ export function unmarkedNotice(n, label, file) {
 }
 
 /** 印を付けた鍵の detail が lib の violationText を通る経路を持つか(静的 —— add の呼び出しの範囲だけを見る)。 */
-export function markedPathStatic(qaSrc, ids) {
+export function markedPathStatic(qaSrc, ids, o) {
+  const needLib = !(o && o.needLibPath === false);   // 第320便d の 5 本は lib を add の前の変数に読む(add の中に lib の名が無い)
   const src = String(qaSrc || ''), missing = [], noAdd = [];
   for (const id of ids || MARKED_KEYS_336B) {
     const i = src.indexOf("add('" + id + "'");
     if (i < 0) { noAdd.push(id); continue; }
     const e = src.indexOf('));', i);
     const seg = e < 0 ? '' : src.slice(i, e + 3);
-    if (!(seg.indexOf('violationText(bad') >= 0 && seg.indexOf('lib-w320d-lintkinds.mjs') >= 0)) missing.push(id);
+    if (!(seg.indexOf('violationText(bad') >= 0 && (!needLib || seg.indexOf('lib-w320d-lintkinds.mjs') >= 0))) missing.push(id);
   }
   return { ok: !missing.length && !noAdd.length, n: (ids || MARKED_KEYS_336B).length, missing, noAdd };
 }
