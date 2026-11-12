@@ -179,7 +179,8 @@ export function partLit(BK) {
     const ratio = (q) => ({ varpi: sV ? varpiOf(q) / sV : null, node: sN && nodeOf(q) !== null ? nodeOf(q) / sN : null });
     const kmax = (q) => { const a = sV ? sV / Math.abs(varpiOf(q)) : Infinity, b = sN && nodeOf(q) !== null ? sN / Math.abs(nodeOf(q)) : Infinity; return { varpi: sV ? a : null, node: sN && nodeOf(q) !== null ? b : null, min: Math.min(a, b) }; };
     const K = kmax(rows.rot), Rd = L.kappaMRadius(S.M), sdFac = (PLAN.sunMoI / L.DECL.fDrag) * (S.Rsun / Rd) ** 2, Rk = L.kappaMRadius(S.m);
-    return { key, ja: L.GEOM333C.planets[key].ja, sigma: { varpi: sV, node: sN }, lit: { varpi: lv, node: ln }, rows, ratio: { rot: ratio(rows.rot), rotPt: ratio(rows.rotPt), j2: ratio(rows.j2), lt: ratio(rows.lt) },
+    return { key, ja: L.GEOM333C.planets[key].ja, scale: { varpi: sV, node: sN },   // 比べる尺度 |値| + 幅(第335便c で欄の名 sigma → scale —— 統計の σ ではない)
+      lit: { varpi: lv, node: ln }, rows, ratio: { rot: ratio(rows.rot), rotPt: ratio(rows.rotPt), j2: ratio(rows.j2), lt: ratio(rows.lt) },
       kmax: K, kmaxPt: kmax(rows.rotPt), lambdaJmax: K.min / sdFac, RselfMaxOverYkm: K.min, RselfMaxOverRobs: K.min * Rk / S.R, rotOverLt: { node: nodeOf(rows.rot) !== null ? nodeOf(rows.rot) / nodeOf(rows.lt) : null, Lmag: rows.rot.Lmag / rows.lt.Lmag } };
   });
 }

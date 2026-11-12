@@ -102762,6 +102762,220 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第334便f の塊(ここまで)====
 
+// ==== 第335便c の塊(ここから —— lint.mercuryCombo335c・behavior.mercuryCombo335c・docs.mercuryCombo335c の 3 ブロック。root は SKIP)====
+// ---- 第335便c(原仮定者の決断(2026-11-12)「回転の並進引きずりが近点移動に効くのではないか —— 斜め軌道なので、位置で影響が変化する」「回転引きずり有りの組み合わせも検証する」・
+// ----   原仮定者の補足(2026-11-12)「距離の変化による並進引きずり」・原仮定者の回答(2026-11-12 —— AN646・AN650・AN655・AN657)・統括の検証項目 R330): **水星の組み合わせの純関数と器**(新設 ——
+// ----   器 tests/exp-w335c-mercurycombo.mjs・lib tests/lib-w335c-mercurycombo.mjs・文書の lib tests/lib-w335c-mercurycombodoc.mjs・正本 tests/out/mercurycombo-w335c.json。html・本の宣言・エンジン・受理器は変えない)。
+// ----   世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.mercuryCombo335c(html を読まない): ① 版・宣言(基準の列・足す列・T1 の向き 4 × 結合 3・区間・格子・型の判定の物差し・二次の結合)・器の宣言(足す列 18)② 純関数の場面 8
+// ----     ③ 呼ぶだけ(lib の import は第332便a・第333便c・第334便a・第334便c の lib だけ・器は第333便c の器を呼ぶ・lib と文書の lib は html を読まない・ネットへ取りに行かない)
+// ----     ④ 文献の値の訂正(第334便c の LIT の火星の近点の側 = 出典の表 mas/年 × 0.1・幅の意味・訂正の記録・本環境では未照合の印)
+// ----   behavior.mercuryCombo335c(html を headless で読む —— 正本と照合): ① 分解 ② 組み合わせ ③ 区間と型 ④ 二次の結合 ⑤ 対照 を今の html の 🌡️🌋🔴 の宣言から作り直して正本と相対 1e-9 の内
+// ----     (行の尺度を床に —— 積分器は 1e-6)⑥ 作り直した門が全部真
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w335c-mercurycombo.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w335c-mercurycombo.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w335c-mercurycombodoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'mercurycombo-w335c.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP lint.mercuryCombo335c・behavior.mercuryCombo335c(第335便c の水星の組み合わせの前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, LC = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); LC = await import('file://' + path.join(ROOT, 'tests', 'lib-w334c-mercurynode.mjs')); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── lint.mercuryCombo335c ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      const js = (x) => JSON.stringify(x), DG = L.DECL, PL = X.PLAN;
+      if (!(L.LIB_VERSION === 'w335c-mercurycombo-lib-1' && X.HARNESS_VERSION === 'w335c-mercurycombo-1' && D0.DOC_VERSION === 'w335c-mercurycombodoc-1')) bad.push('① 版(lib・器・文書の lib)');
+      if (!(js(DG.mainTrans) === js({ alpha: 1, shape: 'ballHarmonic', radius: 'kappaM' }) && js(DG.baseCols) === js(['gloc', 'trans']) && js(DG.pairAlpha) === js([1, 2]) && js(DG.pairAmp) === js(['observed', 'jEquiv'])
+        && js(DG.t1Dirs) === js(['phi', 'tangent', 'normal', 'radial']) && js(DG.t1Couplings) === js(['vel', 'velNoSelf', 'push']) && js(DG.jEquiv) === js({ lambdaJ: 1, fObs: 0.07 })
+        && DG.nBins === 36 && DG.binGL === 16 && js(DG.eGrid) === js([0, 0.1, 0.2056, 0.4]) && js(DG.omegaGridDeg) === js([0, 45, 90, 109.58, 135]) && js(DG.incGridDeg) === js([0, 3.381, 7])
+        && DG.shapeOmegaDeg.length === 12 && DG.omegaDependenceTol === 1e-6 && DG.zeroTol === 1e-9 && DG.binSumTol === 1e-8 && DG.closureTol === 1e-9 && DG.gridCols.length === 20
+        && DG.mix.cT === 1e-4 && DG.mix.cX === 1e-4 && js(DG.mix.steps) === js([1000, 2000]) && js(DG.mix.nOrb) === js([8, 16]) && DG.mix.resolveFactor === 10 && DG.breakPerOrbit === 1e-3))
+        bad.push('① 宣言(基準・足す列・T1 の向きと結合・区間・格子・型の判定の物差し・二次の結合)');
+      if (!(PL.comboCols.length === 18 && js(PL.comboCols.slice(0, 6).map((c) => c.key)) === js(['rot', 'pair1obs', 'pair2obs', 'pair1jEquiv', 'pair2jEquiv', 'cut']) && PL.comboCols.filter((c) => c.group === 'R4').length === 12
+        && js(PL.decompCols) === js(['transRadial', 'transTangent', 'transNormal', 'trans']) && js(PL.controls) === js(['venus', 'earth', 'mars'])))
+        bad.push('① 器の宣言(足す列 18・分解の列・対照 3)');
+      cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・文書 ${D0.DOC_VERSION}・足す列 ${PL.comboCols.length}(T1 の向き ${DG.t1Dirs.length} × 結合 ${DG.t1Couplings.length})・区間 ${DG.nBins}・格子 e ${DG.eGrid.length} × ω ${DG.omegaGridDeg.length} × 傾き ${DG.incGridDeg.length}`);
+      let G1 = null;
+      try { G1 = L.pureGates(L.pureScenes()); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G1) {
+        for (const [k, v] of Object.entries(G1)) if (v !== true) bad.push('② 場面 ' + k);
+        if (Object.keys(G1).length !== 8) bad.push('② 場面の数 ' + Object.keys(G1).length);
+        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(分解の閉じ・動径の成分・T1 の速さの指標・向きの基底・区間の和・当てはめ・単位の写し・入力の拒否)`);
+      }
+      const tl = rd('tests/lib-w335c-mercurycombo.mjs'), th = rd('tests/exp-w335c-mercurycombo.mjs'), td = rd('tests/lib-w335c-mercurycombodoc.mjs');
+      const base4 = ['tests/lib-w332a-eqband.mjs', 'tests/lib-w333c-mercury3d.mjs', 'tests/lib-w334a-heightlaw.mjs', 'tests/lib-w334c-mercurynode.mjs', 'tests/exp-w333c-mercury3d.mjs'].map(rd).join('\n');
+      const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort(), impsH = [...th.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+      if (!(js(imps) === js(['lib-w332a-eqband.mjs', 'lib-w333c-mercury3d.mjs', 'lib-w334a-heightlaw.mjs', 'lib-w334c-mercurynode.mjs']) && impsH.indexOf('exp-w333c-mercury3d.mjs') >= 0 && !/from '\.\/lib-w33[34][a-z]-/.test(td)
+        && !/loadHtml|index\.html/.test(tl + td) && /loadHtmlMain/.test(th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/w335c/.test(base4) && base4.length > 1000))
+        bad.push('③ 呼ぶだけ(lib の import は第332便a・第333便c・第334便a・第334便c の lib だけ・器は第333便c の器を呼ぶ・lib は html を読まない・ネットへ取りに行かない・呼ぶ lib と器の本文に w335c が無い)');
+      cases.push('③ lib の import は第332便a・第333便c・第334便a・第334便c の lib だけ・器は第333便c の器の readBooks・systemOf を呼ぶ(エンジンの式を写さない)・lib と文書の lib は html を読まない・ネットへ取りに行かない');
+      const LT = LC.LIT, K = LT.correction335c || {};
+      if (!(js(LT.dvarpi.mars) === js([-0.000020, 0.000037]) && js(LT.dvarpi.merc) === js([-0.0020, 0.0030]) && js(LT.dvarpi.venus) === js([0.0026, 0.0016]) && js(LT.dvarpi.earth) === js([0.00019, 0.00019])
+        && K.key === 'dvarpi.mars' && js(K.before) === js([-0.00020, 0.00037]) && js(K.after) === js(LT.dvarpi.mars) && Math.abs(K.after[0] - 0.1 * K.before[0]) < 1e-18 && /mas\/年/.test(K.printed) && /0\.1/.test(K.conversion)
+        && /未到達/.test(K.basis) && /pn1-primary-audit-20261015\.csv/.test(K.basis) && /5%/.test(LT.widthMeaning.dnode) && /1σ ではない/.test(LT.widthMeaning.dnode) && /σ ではない/.test(LT.widthMeaning.scale)
+        && [LT.note, LT.dvarpi.src, LT.dnode.src].every((t) => /未照合/.test(t)) && /未到達/.test(LT.note) && !/一次資料で照合した|一次資料に当たった/.test(JSON.stringify(LT)) && L.LIT.dvarpi === LT.dvarpi))
+        bad.push('④ 文献の値の訂正(火星の近点の側 = 出典の表 mas/年 × 0.1・幅の意味・訂正の記録・未照合の印・lib が第334便c の LIT を呼ぶ)');
+      cases.push(`④ 文献の値の訂正(火星の暦表の追加の近点の歳差 ${K.before ? K.before.join(' ± ') : '?'} → ${LT.dvarpi.mars.join(' ± ')} ″/世紀・交点の側の幅は残差の変化 5% の区間 —— 本環境では未照合)`);
+    }
+    add('lint.mercuryCombo335c', bad.length === 0,
+      `**水星の組み合わせの純関数**(第335便c・原仮定者の決断(2026-11-12)・原仮定者の補足(2026-11-12)・R330 —— html を読まない・並進の分の動径/接線の分解・回転引きずり有りの組み合わせ〔T1 の向きの候補 × 結合〕・区間と型の判定・二次の結合・文献の値の訂正): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.mercuryCombo335c ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/mercurycombo-w335c.json が読めない');
+    else {
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        const X3 = await import('file://' + path.join(ROOT, 'tests', 'exp-w333c-mercury3d.mjs'));
+        // 数の木を比べる(行の尺度 sc を床にした相対の差 —— 数値の残りの桁を比べない。文字・真偽は一致・形が違えば Infinity)
+        const deep = (a, b, sc) => { if (typeof a === 'number' && typeof b === 'number') return a === b ? 0 : (!Number.isFinite(a) || !Number.isFinite(b)) ? Infinity : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b), Math.abs(sc), 1e-300);
+          if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') return a === b ? 0 : Infinity;
+          const ka = Object.keys(a), kb = Object.keys(b); if (ka.length !== kb.length) return Infinity; let d = 0; for (const k of ka) d = Math.max(d, deep(a[k], b[k], sc)); return d; };
+        const rsc = (q) => Math.max(Math.abs(q && q.Lmag || 0), Math.abs(q && q.apsW || 0));
+        const BK = X3.readBooks(H.HP), S = X3.systemOf(BK, 'merc');
+        // ① 分解
+        const D = X.partDecomp(S), DJ = J.mercury.decomp, trS = rsc(D.main.trans);
+        let dD = Math.max(...Object.keys(D.main).map((k) => deep(D.main[k], DJ.main[k], Math.max(rsc(D.main[k]), 1e-9 * trS))), ...Object.keys(D.rotParts).map((k) => deep(D.rotParts[k], DJ.rotParts[k], rsc(D.main.rot))),
+          deep(D.combos, DJ.combos, Math.abs(D.q1cy)), D.grid.length === DJ.grid.length ? 0 : Infinity);
+        D.grid.forEach((q, i) => { dD = Math.max(dD, deep(q, DJ.grid[i], Math.max(Math.abs(q.all || 0), 1)) ); });
+        if (!(dD <= 1e-9)) bad.push(`① 分解を作り直して正本と違う(相対 ${dD})—— 器を走らせ直す`);
+        cases.push(`① 分解(動径 ${D.main.transRadial.apsW.toFixed(2)}・接線 ${D.main.transTangent.apsW.toFixed(2)}・全体 ${D.main.trans.apsW.toFixed(2)}″/世紀・二重の否定対照 ÷ q_1PN ${D.combos.find((q) => q.key === 'double').overQ.toFixed(3)})が正本と相対 1e-9 の内`);
+        // ② 組み合わせ
+        const C = X.partCombos(S);
+        let dC = C.cols.length === J.mercury.combos.cols.length ? deep(C.base, J.mercury.combos.base, Math.abs(C.base.apsW)) : Infinity;
+        C.cols.forEach((q, i) => { const r = J.mercury.combos.cols[i] || {}; if (q.key !== r.key) dC = Infinity; const s = Math.max(rsc(q.alone), 1e-9 * trS); dC = Math.max(dC, deep(q.alone, r.alone, s), deep(q.withBase, r.withBase, Math.max(s, Math.abs(C.base.apsW))), deep(q.lit.ratio, r.lit.ratio, 1e-3)); });
+        if (!(dC <= 1e-9)) bad.push(`② 組み合わせを作り直して正本と違う(相対 ${dC})`);
+        cases.push(`② 組み合わせ ${C.cols.length} 列(基準 + 列の和・文献の尺度との参考の比)が正本と相対 1e-9 の内`);
+        // ③ 区間と型
+        const P = X.partPosition(S), PJ = J.mercury.position;
+        let dP = P.mercury.length === PJ.mercury.length && P.cols.length === PJ.cols.length ? 0 : Infinity;
+        P.mercury.forEach((q, i) => { const r = PJ.mercury[i] || {}; if (q.key !== r.key) dP = Infinity; const s = Math.max(Math.abs(q.grossApsW || 0), 1e-9 * trS); dP = Math.max(dP, deep(q.perBin, r.perBin, s), deep(q.fullApsW, r.fullApsW, s)); });
+        P.cols.forEach((q, i) => { const r = PJ.cols[i] || {}; if (q.key !== r.key || q.belowFloor !== r.belowFloor || q.typeOf.has !== r.typeOf.has || q.typeOf.omegaDependent !== r.typeOf.omegaDependent) dP = Infinity;
+          q.grid.forEach((g, k) => { const t = (r.grid || [])[k] || {}; dP = Math.max(dP, deep(g.pts.map((p) => p.apsW), (t.pts || []).map((p) => p.apsW), Math.max(q.scale, 1e-9 * trS))); }); });
+        if (!(dP <= 1e-9)) bad.push(`③ 区間と型を作り直して正本と違う(相対 ${dP})`);
+        cases.push(`③ 区間 ${P.mercury.length} 列 × ${L.DECL.nBins}・格子 ${P.cols.length} 列(宣言の型が有る列 ${P.cols.filter((q) => q.typeOf.has).length})が正本と相対 1e-9 の内`);
+        // ④ 二次の結合(尺度の 1e-6)
+        const M = X.partMix(S);
+        let dM = M.rows.length === J.mercury.mix.rows.length ? 0 : Infinity;
+        M.rows.forEach((q, i) => { const r = J.mercury.mix.rows[i] || {}; if (q.key !== r.key || q.resolved !== r.resolved) dM = Infinity; dM = Math.max(dM, deep(q.mixRef, r.mixRef, q.numSpread), deep(q.qMix, r.qMix, q.numSpread / (L.DECL.mix.cT * L.DECL.mix.cX))); });
+        if (!(dM <= 1e-6)) bad.push(`④ 二次の結合を作り直して正本と違う(相対 ${dM})`);
+        cases.push(`④ 二次の結合 ${M.rows.length} 相手(並進 × 回転の分 ${M.rows[0].qMix.toFixed(1)})が正本と相対 1e-6 の内`);
+        // ⑤ 対照
+        const CT = X.partControls(BK);
+        let dT = CT.length === J.controls.length ? 0 : Infinity;
+        CT.forEach((q, i) => { const r = J.controls[i] || {}; if (q.key !== r.key) dT = Infinity; const s = Math.abs(q.decomp.main.trans.apsW);
+          dT = Math.max(dT, deep(q.decomp.combos, r.decomp.combos, s)); q.combos.cols.forEach((c, k) => { dT = Math.max(dT, deep(c.alone, r.combos.cols[k].alone, Math.max(rsc(c.alone), 1e-9 * s))); }); });
+        if (!(dT <= 1e-9)) bad.push(`⑤ 対照を作り直して正本と違う(相対 ${dT})`);
+        cases.push(`⑤ 対照 ${CT.length} 惑星(金星・地球・火星)が正本と相対 1e-9 の内`);
+        // ⑥ 門
+        const J2 = Object.assign({}, J, { mercury: { decomp: D, combos: C, position: P, mix: M }, controls: CT, pure: { scenes: L.pureScenes(), gates: L.pureGates(L.pureScenes()) } }), G2 = X.gatesOf(J2);
+        if (!Object.values(G2).every((v) => v === true)) bad.push('⑥ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`⑥ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.mercuryCombo335c', bad.length === 0,
+      `**水星の組み合わせの作り直し**(第335便c・原仮定者の決断(2026-11-12)・R330 —— 今の html の 🌡️🌋🔴 の宣言を読む・步を進めない・列は宣言の型の一次の率): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第335便c: docs.mercuryCombo335c は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
+// ----   lint・behavior を数えない)。世代切替は上と同じ
+// ----   docs.mercuryCombo335c(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全・core:false・abBody:false)・宣言が lib の DECL・LIT・器の PLAN・NOT_CLAIM と同じ・宣言が正本の先頭
+// ----     ② 表 13 本が PHYSICS〔第335便c〕に逐語 ③ 節の位置(〔第334便f〕の節の後・〔第328便 — 統括〕の前)・必須の語・AI_SPEC §222(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・係数の記号・速度の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w335c-mercurycombo.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w335c-mercurycombo.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w335c-mercurycombodoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'mercurycombo-w335c.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.mercuryCombo335c(第335便c の水星の組み合わせの前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null, Jtext = '';
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { Jtext = fs.readFileSync(wOut, 'utf8'); J = JSON.parse(Jtext); } catch (e) { J = null; }
+  // ───── docs.mercuryCombo335c ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第335便c — '), ie = PH.indexOf('〔第334便f — '), iz = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && ie >= 0 && ie < i0 && iz > i0)) bad.push('PHYSICS〔第335便c〕が無いか〔第334便f〕の節の前か〔第328便 — 統括〕の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/mercurycombo-w335c.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.scopeComplete === true
+        && /^[0-9a-f]{64}$/.test(J.meta.scopeSha256 || '') && J.meta.stage === 'mercurycombo' && J.meta.scope && J.meta.scope.abBody === false && J.meta.scope.core === false)) bad.push('① 版・来歴・領域 hash(完全・core:false・abBody:false)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN) || JSON.stringify(J.literature) !== JSON.stringify(L.LIT) || JSON.stringify(J.notClaim) !== JSON.stringify(X.NOT_CLAIM)) bad.push('① 正本の宣言が lib の DECL・LIT・器の PLAN・NOT_CLAIM と違う(器を走らせ直す)');
+      const ks = Object.keys(J);
+      if (!(ks.indexOf('decl') >= 0 && ks.indexOf('decl') < ks.indexOf('mercury') && ks.indexOf('plan') < ks.indexOf('mercury'))) bad.push('① 宣言(decl・plan)が正本の先頭に無い');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}・宣言が先頭`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第335便c〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 13) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第335便c〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の決断(2026-11-12)', '原仮定者の補足(2026-11-12)', '原仮定者の回答(2026-11-12 —— AN646)', '原仮定者の回答(2026-11-12 —— AN650)', '原仮定者の回答(2026-11-12 —— AN655)', '原仮定者の回答(2026-11-12 —— AN657)', 'R330',
+      '距離の変化による並進引きずり', '動径の成分', '二重', '否定対照', '凍結の基準', 'K1 の代わり', '重ねて足さない', 'T1', '速さの指標', '向き', '結合', '速度の場', '自己なし', '押し', '採用ではない', '同時のフィットはしない',
+      '区間', '打ち消し', '型の判定', '宣言した型', '走行の後に足した読み', 'e ベクトル', '離心率に依らない', '二次の結合', '分解できない', '文献の値の訂正', 'mas/年', '0.1', '5%', '1σ ではない', 'scale', '未照合', '未到達',
+      '外の照合の記録', '記憶の値', '参考の比', '厳密な信頼の上限ではない', '統括の参考の試作', '宣言(未接続)', '今のコードの実装', 'tests/exp-w335c-mercurycombo.mjs', 'tests/out/mercurycombo-w335c.json', 'tests/lib-w335c-mercurycombo.mjs',
+      'w335c-mercurycombo-lib-1', '第136報への枝の答え', '決断事項の候補', '第336便への引き継ぎ', 'lint.mercuryCombo335c', 'behavior.mercuryCombo335c', 'docs.mercuryCombo335c', '走行の後に変えたもの'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第335便c〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 222. 第335便c'), ai = secUntilNext329c(AS, a0, '\n## ');   // 次の見出しまで(固定の字数の窓を持たない)
+    if (!(a0 >= 0 && ai.indexOf('tests/out/mercurycombo-w335c.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('宣言(走行の前)') >= 0 && ai.indexOf('未照合') >= 0 && ai.indexOf('T1') >= 0))
+      bad.push('③ AI_SPEC §222(正本・SYSTEM_PROMPT・宣言・未照合・T1)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl335c = clg.split('\n').find((l) => l.indexOf('**第335便c**') >= 0) || '';
+    if (!(cl335c.indexOf('tests/exp-w335c-mercurycombo.mjs') >= 0 && cl335c.indexOf('mercurycombo-335c') >= 0 && cl335c.indexOf('原仮定者の決断(2026-11-12)') >= 0 && cl335c.indexOf('R330') >= 0 && cl335c.indexOf('文献の値の訂正') >= 0)) bad.push('③ CHANGELOG の第335便c の行');
+    if (!(/S\('mercurycombo-335c', 'node tests\/exp-w335c-mercurycombo\.mjs', \['tests\/out\/mercurycombo-w335c\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '本の宣言の値と一次の区間の積分と純粋な積分器だけ") >= 0
+      && RT.indexOf('// ==== 第335便c の塊(ここから)====') >= 0)) bad.push('③ 段の行 mercurycombo-335c(quickVerify と理由・塊)');
+    if (GI.indexOf('!tests/out/mercurycombo-w335c.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第335便c の塊(ここから)====') >= 0 && /lint\.mercuryCombo335c/.test(PM) && /behavior\.mercuryCombo335c/.test(PM) && /docs\.mercuryCombo335c/.test(PM))) bad.push('③ post-merge の ③′ に第335便c の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §222(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /内部熱を説明した/, /一致した/, /棄却した/, /ので棄却/, /観測の余りに合っ/];
+    const NOT333 = [/\d\s*km\/s/, /D_bg|W_bg|Wbg/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第335便c の書かない語(否定の「と書かない」「とは書かない」を除いて —— 逆さの字で持つ): 近点が出た・近点の値が出た・不足が埋まった・一次資料で照合した・確かめた・示した・説明した
+    const W335 = ['たが出が点近', 'たが出が値の点近', 'たっま埋が足不', 'たし合照で料資次一', 'ためか確', 'たし示', 'たし明説'].map(rvC);
+    const negStrip = (t) => t.replace(/[^。・\n]*?(?:とは|と)書かない/g, '');
+    const K0 = String.fromCodePoint(0x3ba, 0x2080);   // カッパに添字 0(文字で持たない)
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第335便c〕', sec], ['AI_SPEC §222', ai], ['CHANGELOG の第335便c の行', cl335c], ['器', rd('tests/exp-w335c-mercurycombo.mjs')], ['lib', rd('tests/lib-w335c-mercurycombo.mjs')], ['文書の lib', rd('tests/lib-w335c-mercurycombodoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+      const tn = negStrip(tx);
+      for (const w of W335) if (tn.indexOf(w) >= 0) bad.push('④ ' + nm + ' に書かない語(' + w.length + ' 字)');
+      for (const re of NOT333) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・記号 ' + re.source);
+      if (tx.indexOf(K0) >= 0) bad.push('④ ' + nm + ' にカッパに添字 0 の旧い記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) {
+        for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+        if (/κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の κ_D 以外のカッパ(lint.kappaSymbol315 の型)');
+      } else if (/κ/.test(tx)) bad.push('④ ' + nm + ' に係数のカッパ(本枝の器・lib は Y_k・C₁ で書く)');
+    }
+    cases.push('④ 書かない語・禁句・係数の記号(カッパに添字 0 を使わない・コードの名前 D_bg・W_bg・m_d を説明に出さない)・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.mercuryCombo335c', bad.length === 0,
+      `**水星の組み合わせの文書**(第335便c・原仮定者の決断(2026-11-12)・原仮定者の補足(2026-11-12)・R330 —— 宣言した型の一次の率・位置の依存の型の有無・文献の値〔訂正・本環境では未照合〕との参考の比): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第335便c の塊(ここまで)====
+
 // ==== 第335便g の塊(ここから —— lint.terms335g・docs.terms335g の 2 ブロック。root は SKIP)====
 // ---- 第335便g(原仮定者の決断(2026-11-12)・原仮定者の補足(2026-11-12)・原仮定者の回答(2026-11-12 —— AN666)・原仮定者の回答(2026-11-10 —— AN609・AN610)・統括の検証項目 R334):
 // ----   **文書と QA だけ**(docs/EQUATIONS.md の EQ-34〜EQ-43〔第334便の診断の式〕と §2a の用語の更新・docs/PHENOMENA_STATUS.md の欄「第334便の調べ」 —— html・エンジン・

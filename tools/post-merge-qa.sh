@@ -868,6 +868,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.gridFloor334e behavior.gridFloor334e do
 #   第333便の診断の式の項・変異の自己試験 / docs.terms334f —— 現象の一覧の更新した行と P33・PHYSICS〔第334便f〕・文書)と、直した文書を読む鍵(式の一覧・現象の一覧・記号)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.terms334f docs.terms334f lint.equations331d docs.equations331d lint.phenomena331e docs.phenomena331e lint.symbols333e docs.symbols333e lint.kappaSymbol315"
 # ==== 第334便f の塊(ここまで)====
+# ==== 第335便c の塊(ここから)====
+# 第335便c(原仮定者の決断(2026-11-12)・原仮定者の補足(2026-11-12)・原仮定者の回答(2026-11-12 —— AN646・AN650・AN655・AN657)・統括の検証項目 R330 —— 診断だけ・html は変えない): 枝 c の新設 3 本
+#   (lint.mercuryCombo335c —— 宣言と純関数の場面〔分解の閉じ・動径の成分・T1 の速さの指標・向きの基底・区間の和・当てはめ・単位の写し・入力の拒否〕と呼ぶだけの検査・文献の値の訂正 /
+#   behavior.mercuryCombo335c —— 今の html の 🌡️🌋🔴 の宣言から分解・組み合わせ・区間・型・二次の結合・対照を作り直して正本と同じ / docs.mercuryCombo335c —— 正本の門と表が PHYSICS〔第335便c〕に逐語・文書)と、
+#   文献の値を訂正した第334便c の 3 本と、新しい段 mercurycombo-335c の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.mercuryCombo335c behavior.mercuryCombo335c docs.mercuryCombo335c lint.mercuryNode334c behavior.mercuryNode334c docs.mercuryNode334c docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
+# ==== 第335便c の塊(ここまで)====
 # ==== 第335便g の塊(ここから)====
 # 第335便g(原仮定者の決断(2026-11-12)・統括の検証項目 R334 —— 文書と QA だけ・html は変えない): 枝 g の新設 2 本(lint.terms335g —— 第334便の診断の式の項 EQ-34〜EQ-43 と
 #   用語の表の更新・第334便f の照合の世代の写し・変異の自己試験 / docs.terms335g —— 現象の一覧の欄「第334便の調べ」・PHYSICS〔第335便g〕・文書)と、直した文書を読む鍵

@@ -3,7 +3,7 @@
  "libVersion": "w334c-mercurynode-lib-1",
  "generator": "tests/exp-w334c-mercurynode.mjs",
  "target": "beta/index.html",
- "targetSha256": "64008166fa63729730721be6afc6c538226d4d1a47bf7d12233659ff2fa9f9b5",
+ "targetSha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
  "reuseFrom": null,
  "ruling": "原仮定者の整理(2026-11-11)「水星の近点移動について: 斜め軌道の交点での並進の回転が有望」「引き続き、様々な組み合わせを調べる」・原仮定者の回答(2026-11-11 —— AN633)交点・傾き・ベクトルの変化を比べる量に・原仮定者の回答(2026-11-11 —— AN634)今の受け手 n = 2 + K1 は凍結の基準・原仮定者の回答(2026-11-11 —— AN635)統合した並進の回転の分を先に・原仮定者の回答(2026-11-11 —— AN636)自己の半径は Y_k m を基準・次数と自己の形を揃えた格子・統括の検証項目 R324",
  "decl": {
@@ -120,9 +120,9 @@
   "breakPerOrbit": 0.001
  },
  "literature": {
-  "note": "文献の値・未照合 —— この箱から論文と暦表のサイトに届かない。値は記憶の値(確かさ: 桁〔mas/世紀〕は中程度・個々の値と誤差は低い)。物差しには |値| + 誤差を使う",
+  "note": "文献の値・本環境では未照合 —— この箱から論文と暦表のサイトに届かない(本環境から一次資料は未到達)。値は外の照合の記録 + 記憶の値(確かさ: 桁〔mas/世紀〕は中程度・個々の値と誤差は低い —— 近点の側は第335便c の訂正の後、リポジトリの転写の記録とも同じ値)。比べる尺度には |値| + 幅を使う(近点の側の幅 = 出典の表の ±・交点の側の幅 = フィットの後の残差の変化が 5% 以内になる区間の半幅 —— 1σ ではない)",
   "dvarpi": {
-   "src": "Pitjeva & Pitjev 2013(MNRAS 432, 3431 —— EPM2011)の追加の近点の歳差(記憶の値・未照合)",
+   "src": "Pitjeva & Pitjev 2013(MNRAS 432, 3431 —— EPM2011)の追加の近点の歳差(表の単位 mas/年 × 0.1 → ″/世紀・外の照合の記録 + 記憶の値・本環境では未照合 —— 火星は第335便c で 10 倍の誤りを訂正)",
    "merc": [
     -0.002,
     0.003
@@ -136,12 +136,12 @@
     0.00019
    ],
    "mars": [
-    -0.0002,
-    0.00037
+    -0.00002,
+    0.000037
    ]
   },
   "dnode": {
-   "src": "Fienga et al. 2011(Celest. Mech. Dyn. Astr. 111, 363 —— INPOP10a)の追加の交点の歳差(記憶の値・未照合 —— 確かさは近点より低い)",
+   "src": "Fienga et al. 2011(Celest. Mech. Dyn. Astr. 111, 363 —— INPOP10a)の追加の交点の歳差(外の照合の記録 + 記憶の値・本環境では未照合 —— 幅はフィットの後の残差の変化が 5% 以内になる区間の半幅で 1σ ではない・確かさは近点より低い)",
    "merc": [
     0.0014,
     0.0018
@@ -163,6 +163,25 @@
   "sunJlit": {
    "value": 1.9e+41,
    "src": "Pijpers 1998 の太陽の角運動量 ≈ 1.9e41 kg m²/s(記憶の値・未照合 —— 本便は 0.07 M R² s で作り、比べる値)"
+  },
+  "widthMeaning": {
+   "dvarpi": "出典の表の ±(近点の側)",
+   "dnode": "フィットの後の残差の変化が 5% 以内になる区間の半幅(交点の側 —— 1σ ではない)",
+   "scale": "比べる尺度 = |値| + 幅(統計の σ ではない —— 係数の比は特定の暦表・量・幅からの参考の比で、厳密な信頼の上限ではない)"
+  },
+  "correction335c": {
+   "key": "dvarpi.mars",
+   "before": [
+    -0.0002,
+    0.00037
+   ],
+   "after": [
+    -0.00002,
+    0.000037
+   ],
+   "printed": "−0.00020 ± 0.00037 mas/年",
+   "conversion": "× 0.1(mas/年 → ″/世紀)",
+   "basis": "外の照合の記録(出典の表を見た記録)と記憶の値(同じ表の mas/世紀の値 −0.020 ± 0.037)が同じ・リポジトリの一次の値の監査の表 paper/data/pn1-primary-audit-20261015.csv の火星の行(−0.00002・幅 0.000037)とも同じ —— 本環境から一次資料は未到達"
   },
   "formulaSrc": "太陽の J₂ の永年の率(Murray, C. D. & Dermott, S. F. 1999, Solar System Dynamics の型)・Lense, J. & Thirring, H. 1918(Physikalische Zeitschrift 19, 156)の交点と近点引数の率(いずれも太陽の赤道面の要素 —— 記憶の式を純関数の場面で Gauss の平均と照らす)"
  },
@@ -12585,7 +12604,7 @@
   {
    "key": "merc",
    "ja": "水星",
-   "sigma": {
+   "scale": {
     "varpi": 0.005,
     "node": 0.0031999999999999997
    },
@@ -12756,7 +12775,7 @@
   {
    "key": "venus",
    "ja": "金星",
-   "sigma": {
+   "scale": {
     "varpi": 0.0042,
     "node": 0.0017000000000000001
    },
@@ -12927,7 +12946,7 @@
   {
    "key": "earth",
    "ja": "地球(EMB)",
-   "sigma": {
+   "scale": {
     "varpi": 0.00038,
     "node": null
    },
@@ -13075,14 +13094,14 @@
   {
    "key": "mars",
    "ja": "火星",
-   "sigma": {
-    "varpi": 0.00057,
+   "scale": {
+    "varpi": 0.000057,
     "node": 0.00017999999999999998
    },
    "lit": {
     "varpi": [
-     -0.0002,
-     0.00037
+     -0.00002,
+     0.000037
     ],
     "node": [
      -0.00005,
@@ -13209,29 +13228,29 @@
    },
    "ratio": {
     "rot": {
-     "varpi": -141.08103284072365,
+     "varpi": -1410.8103284072365,
      "node": -857446.1334091151
     },
     "rotPt": {
-     "varpi": -167.33174939156177,
+     "varpi": -1673.3174939156177,
      "node": -1016999.076825642
     },
     "j2": {
-     "varpi": 0.37240619537909786,
+     "varpi": 3.7240619537909785,
      "node": 2.990997590588933
     },
     "lt": {
-     "varpi": -0.05640373234352525,
+     "varpi": -0.5640373234352525,
      "node": -0.22554542500943908
     }
    },
    "kmax": {
-    "varpi": 0.007088125029031866,
+    "varpi": 0.0007088125029031866,
     "node": 0.0000011662540199745327,
     "min": 0.0000011662540199745327
    },
    "kmaxPt": {
-    "varpi": 0.005976152186516423,
+    "varpi": 0.0005976152186516424,
     "node": 9.832850616947448e-7,
     "min": 9.832850616947448e-7
    },
@@ -13803,28 +13822,28 @@
  ],
  "timing": {
   "pure": {
-   "wallSec": 0.203
+   "wallSec": 0.157
   },
   "books": {
-   "wallSec": 0.204
+   "wallSec": 0.158
   },
   "windows": {
-   "wallSec": 0.487
+   "wallSec": 0.4
   },
   "hypo": {
-   "wallSec": 1.388
+   "wallSec": 1.032
   },
   "combos": {
-   "wallSec": 2.028
+   "wallSec": 1.494
   },
   "lit": {
-   "wallSec": 2.142
+   "wallSec": 1.614
   },
   "numeric": {
-   "wallSec": 5.543
+   "wallSec": 6.12
   },
   "controls": {
-   "wallSec": 7.676
+   "wallSec": 7.687
   }
  },
  "gates": {
@@ -13842,114 +13861,114 @@
   "rotNode": true
  },
  "ok": true,
- "elapsedS": 9.859,
+ "elapsedS": 9.684,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第334便c",
   "target": "beta/index.html",
-  "targetSha256": "64008166fa63729730721be6afc6c538226d4d1a47bf7d12233659ff2fa9f9b5",
-  "generatedAt": "2026-11-11T18:42:37.191Z",
+  "targetSha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
+  "generatedAt": "2026-11-12T15:12:40.577Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7668923,
-    "sha256": "64008166fa63729730721be6afc6c538226d4d1a47bf7d12233659ff2fa9f9b5",
-    "mtime": "2026-11-11T18:17:04.653Z"
+    "sha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
+    "mtime": "2026-11-12T15:00:26.876Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w334c-mercurynode.mjs",
-    "bytes": 33710,
-    "sha256": "d86b887a1345b52afbd76d954675957bfcd2273e0499841edcb8712ef86d3f01",
-    "mtime": "2026-11-11T18:42:09.501Z"
+    "bytes": 33823,
+    "sha256": "a803d279f2fa2904bc528f0881b6c1e235584c0dde68c633d627833193da3932",
+    "mtime": "2026-11-12T15:12:24.513Z"
    },
    {
     "file": "tests/lib-w334c-mercurynode.mjs",
-    "bytes": 33911,
-    "sha256": "72ef91bd9a749a64d0737277f5f3e05a05adfae9fae86ab109754f840674eb43",
-    "mtime": "2026-11-11T18:40:01.902Z"
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-12T15:12:15.428Z"
    },
    {
     "file": "tests/exp-w333c-mercury3d.mjs",
     "bytes": 29178,
     "sha256": "c10bf270e3dd20cdf68cb1d4c93fb182f040391f5296e160c9eca48b617092d4",
-    "mtime": "2026-11-11T18:17:04.881Z"
+    "mtime": "2026-11-12T15:00:27.120Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35614,
     "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
-    "mtime": "2026-11-11T18:17:04.929Z"
+    "mtime": "2026-11-12T15:00:27.168Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-11T18:17:04.929Z"
+    "mtime": "2026-11-12T15:00:27.164Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-11T18:17:04.929Z"
+    "mtime": "2026-11-12T15:00:27.164Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-11T18:17:04.925Z"
+    "mtime": "2026-11-12T15:00:27.164Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-11T18:17:04.913Z"
+    "mtime": "2026-11-12T15:00:27.152Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-11T18:17:04.913Z"
+    "mtime": "2026-11-12T15:00:27.152Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-11T18:17:04.913Z"
+    "mtime": "2026-11-12T15:00:27.152Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-11T18:17:04.909Z"
+    "mtime": "2026-11-12T15:00:27.148Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-11T18:17:04.901Z"
+    "mtime": "2026-11-12T15:00:27.140Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-11T18:17:04.901Z"
+    "mtime": "2026-11-12T15:00:27.140Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-11T18:17:04.897Z"
+    "mtime": "2026-11-12T15:00:27.136Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-11T18:17:04.905Z"
+    "mtime": "2026-11-12T15:00:27.144Z"
    }
   ],
-  "codeSha256": "f054ce534d07c2b151e3e1c732c2bc037813dd44cda1fef896374d8d0f1db733",
+  "codeSha256": "960625d60d838ff7ce4ffaf941027d4b3e85a20d0f65c32b9f80679c171a89e9",
   "harnessVersion": "w334c-mercurynode-1",
   "stage": "mercurynode",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)・🌡️🌋🔴 の本の宣言を読む(步を進めない)・純関数(lib)",
