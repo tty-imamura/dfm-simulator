@@ -102759,7 +102759,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   受理器・前の便の lib と器の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
 // ----   lint.binaryTilt335d(html を読まない): ① 版・宣言(同期の型・求積・同時発展の刻み・同期の型の同時発展・族と k・設計の系と検証の系・物差し・傾きの格子と間引き・重心・刻みの感度)・器の PLAN
 // ----     ② 純関数の場面 9 ③ 呼ぶだけ(lib の import は第334便d・第333便c の lib だけ・lib と文書の lib は html を読まない・ネットへ取りに行かない・呼ぶ lib と器の本文に w335d の語が無い)
-// ----   behavior.binaryTilt335d(html を Node で読む —— 正本と照合): ① 系の表(今の html の 11 本)② 同期の型の要約 ③ 求積 ④ 部分集合(器の PLAN.behaviorSubset —— 族 2 行・傾き 2 行・同期の型 2 行)
+// ----   behavior.binaryTilt335d(html を headless で読む —— 正本と照合): ① 系の表(今の html の 11 本)② 同期の型の要約 ③ 求積 ④ 部分集合(器の PLAN.behaviorSubset —— 族 2 行・傾き 2 行・同期の型 2 行)
 // ----     を作り直して正本と相対 1e-9 の内(行の尺度を床に)⑤ 作り直した門
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
@@ -102823,7 +102823,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     else if (!J) bad.push('正本 tests/out/binarytilt-w335d.json が読めない');
     else {
       try {
-        const { loadHtmlMain } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs')), H = loadHtmlMain(path.join(ROOT, TARGET));
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
         const dif = (a, b, sc) => (a === b ? 0 : (a === null || b === null || a === undefined || b === undefined) ? Infinity : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b), Math.abs(sc || 0), 1e-300));
         // ① 系の表
         const BK = X.readBooks(H.HP), SY = X.partSystems(BK);
