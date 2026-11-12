@@ -1898,6 +1898,68 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/noncirc-w333d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第333便d: 同じ方位平均の質量分布(案内中心の環の質量が同じ)で 円軌道・位相を乱した非円軌道(種 3)・パターンの枠で位相を揃えた非円軌道(運動学的な密度波 kin と一定の Ω_p の卵形 pattern)の NGC 3198 の低 N の円盤 × 統合した並進の場 U(α = 2・1 × 引きずり自転 none・sync × 場の読み・自己 R_d = Y_k m)の方位平均・m = 2・渦度・J の流れ・トルクと仕事の目安・∂U/∂t(解析と中心差分)・腕と分散の切り分け・離散化の依存・共鳴の半径' }),
   // ==== 第333便d の塊(ここまで)====
+  // ==== 第334便a の塊(ここから)====
+  // ---- 第334便a(原仮定者の整理(2026-11-11)「回転引きずりは、距離 r において、赤道面からの高さ z が十分に小さい場合は、z/r に比例する …… 源の重力が十分に支配的な範囲では、
+  //   回転引きずりの速度が z に比例する区間がある」「扁平な天体は、赤道面方向の回転引きずりが強いと想定する —— 『赤道面方向の引きずり半径を扁平率で割る』などの検証を行う。次数も幾つか試す」・
+  //   原仮定者の回答(2026-11-11 —— AN623・AN624)・統括の検証項目 R322): **回転引きずりの高さ則と扁平な源の器**(段 heightlaw-334a —— 正本 tests/out/heightlaw-w334a.json・
+  //   lib tests/lib-w334a-heightlaw.mjs —— 第333便a・第332便a・第333便b・第331便c の lib と第333便d の器〔円盤の作り方〕を import して呼ぶ〔code の依存 —— 他の正本は読まない。順序だけ after に第333便c の段と同じ 8 段〕)。**診断だけ**。
+  //   **html を読まない**(来歴の対象は純関数 tests/lib-w334a-heightlaw.mjs —— 第333便d の型・領域の宣言なし)・NGC 3198 の rotmod の写し(第329便b の fixture)だけを読む。
+  //   1 プロセス。所要は第334便a の枝の実測 2〜3 s
+  S('heightlaw-334a', 'node tests/exp-w334a-heightlaw.mjs', ['tests/out/heightlaw-w334a.json'], 3, { secSource: 'w334a-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // 順序だけ(import する第331便c の lib が記録の値の出典の正本の名を書くだけ —— 正本は読まない・第333便c の段と同じ 8 段)
+    quickVerify: false, quickVerifyWhy: '全部を走らせても数秒(純関数と fixture だけ —— html を読まない)—— 簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/heightlaw-w334a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第334便a: 回転引きずりの高さ則の読みの候補 T1(視線方向の捩れ s_d z)・T2(半渦度の動径の成分 × r —— 切り口と球)・T3(比較用のスカラー則)× 比べる列(第333便a の切り口・三次元の差分・帯と尾)× s_d(観測自転・J 案)の高さの分布(土星の主な環・木星の主環・天王星の ε 環・NGC 3198)・「源の重力が支配的な範囲」の 2 つの物差し(決定力 D の割合と β —— 自己の重みの 3 列 × W₀)・環の厚みへ繋ぐ対照(鉛直の速度の場の型と H ~ σ_z/ν_eff)・扁平な源(文字どおり R_d/f_flat^q と軸比 R_d/(1 − f_flat)^q × q・体積を保つ回転楕円体の求積 —— J 固定と半径だけ・天体の表と環の厚みとの比)' }),
+  // ==== 第334便a の塊(ここまで)====
+  // ==== 第334便b の塊(ここから)====
+  // ---- 第334便b(原仮定者の整理(2026-11-11)「自分自身への並進引きずりが慣性」「軸引きずり = 受ける側の部位による差分 —— 潮汐力の引きずり版」「s_d は J 案が有望」・
+  //   原仮定者の回答(2026-11-11 —— AN626・AN628・AN629・AN630)・統括の検証項目 R323): **仕事とトルクの帳簿の器**(段 ledger-334b —— 正本 tests/out/ledger-w334b.json・
+  //   lib tests/lib-w334b-ledger.mjs —— 第333便a・第333便b・第332便a・第331便a・第330便a・第326便d の lib を import して呼ぶ)。**診断だけ**。**html を読まない**(来歴の対象は純関数
+  //   tests/lib-w334b-ledger.mjs —— 第333便d の型・領域の宣言なし)・第333便b の正本 tests/out/axialfield-w333b.json を読む(本の時刻の ω_field の 3 部と今の軸の口の値 —— 並べるだけ ——
+  //   順序だけ after に axialfield-333b と、import する第332便a の lib が呼ぶ第331便c の lib が記録の値の出典の正本の名を書く 8 段 —— 第333便a と同じ)。1 プロセス。所要は第334便b の枝の実測 34〜36 s(窓の RK4 が大半)
+  S('ledger-334b', 'node tests/exp-w334b-ledger.mjs', ['tests/out/ledger-w334b.json'], 36, { secSource: 'w334b-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'axialfield-333b'],
+    quickVerify: false, quickVerifyWhy: '純関数と第333便b の正本の値と窓の RK4 だけ(html を読まない・全部を走らせても 40 秒の内)—— 簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/ledger-w334b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第334便b: 回転引きずりの押し(NF)と滑り(NS)の円軌道の平均のトルクと仕事・源の自転の反作用・共役の角速度の 2 列(S 観測自転 s/D J 等価の s_d)の熱と比・観測の熱流との比・補助の帳簿(太陽–木星・地球–月・土星の環の粒子 3 半径・木星–イオ × 傾き 2 × 列 5 × 応答率 2)/軸引きずりの応答 N = Γ(ω_field − s_i)(経路ごとの口と相殺の否定対照・τ の格子 3・自己の重み 3・今の軸の口の値と並べる —— 本の時刻)/2 体 3 体の窓(太陽–水星–金星・地球–月・冥王星–カロン・木星–イオ —— 刻み h と h/2 の閉じ)/潮汐の勾配と引きずりの場の勾配の次数/自分自身への並進引きずりの割合(太陽系・連星・銀河の星)' }),
+  // ==== 第334便b の塊(ここまで)====
+  // ==== 第334便c の塊(ここから)====
+  // ---- 第334便c(原仮定者の整理(2026-11-11)「水星の近点移動について: 斜め軌道の交点での並進の回転が有望」「引き続き、様々な組み合わせを調べる」・
+  //   原仮定者の回答(2026-11-11 —— AN633〜AN636)・統括の検証項目 R324): **水星の斜め軌道の交点の窓の積分の器 —— 統合した並進引きずりの回転の分・並進の分・両方を交点の前後・離れた部分・全周に分けて
+  //   L̂ と e のベクトルの変化で(2 つの速度の読み)・交点の非対称の仮説の検査・組み合わせ・文献の値(未照合)との比と係数の上限・金星・地球・火星の対照**(段 mercurynode-334c —— 正本
+  //   tests/out/mercurynode-w334c.json・lib tests/lib-w334c-mercurynode.mjs —— 第333便c の器の readBooks・systemOf と第333便c・第330便b・第332便a・第309便a・第312便a の lib を import して呼ぶ)。
+  //   **診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は 🌡️🌋🔴 を .find で引く 3 本 —— 宣言の値を読む・步を進めない)・他の正本は読まない(import する第333便c の器と
+  //   第331便c の lib が正本の名を書くだけ —— 順序だけ after に第333便c の段と同じ段と mercury3d-333c)。1 プロセス。所要は第334便c の枝の実測 8〜10 s
+  S('mercurynode-334c', 'node tests/exp-w334c-mercurynode.mjs', ['tests/out/mercurynode-w334c.json'], 10, { secSource: 'w334c-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercury3d-333c'],
+    quickVerify: false, quickVerifyWhy: '本の宣言の値と一次の窓の積分と純粋な積分器だけ(窓が無く、全部を走らせても十秒)',
+    volatilePaths: { 'tests/out/mercurynode-w334c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第334便c: 水星の斜め軌道の交点の窓の積分 —— 統合した並進引きずりの回転の分・並進の分・両方と K1・G_loc・太陽の J₂・Lense–Thirring を、太陽の赤道面の交点 ±5°・±15°・±45°・黄道の交点 ±15°・高さの帯(R_d の 1・100 倍・太陽の半径の 1・3 倍)の昇交点の窓・降交点の窓・離れた部分と全周に分けて(L̂ の変化・e の面内の回転と面外・交点・傾き・近点引数・近点経度 —— 2 つの速度の読みと境界の項)・交点の非対称の仮説(e × 近点引数 × α の格子・二次の結合の純粋な積分器)・組み合わせ(G_loc の型 × K1・K1 の代わりの統合した並進 × α × 揃えた自己の形 × 自己の半径・源の自転 s と s_d)・文献の値(未照合)との比と係数の上限・金星・地球・火星の対照' }),
+  // ==== 第334便c の塊(ここまで)====
+  // ==== 第334便d の塊(ここから)====
+  // ---- 第334便d(原仮定者の整理(2026-11-11)「連星について —— 新しい引きずりや、傾いた自転軸でのフィットなどを検証する」「冥王星とカロンが、連星のヒントになると想定」
+  //   「合わなくても、合わない量に法則性が見付かれば、進展したとする」・原仮定者の回答(2026-11-11 —— AN637・AN634・AN624)・統括の検証項目 R325): **連星と冥王星–カロンの器 —— 同期の零試験と反例・
+  //   二体の同時発展の格子と還元の和との差・残差の法則(走行の前に宣言した族と物差し・設計の系と検証の系)・傾いた自転軸・冥王星–カロンの位置づけ**(段 binarylaw-334d —— 正本
+  //   tests/out/binarylaw-w334d.json・lib tests/lib-w334d-binarylaw.mjs —— 第331便a・第331便c・第333便c の lib を import して呼ぶ〔code の依存 —— 他の正本は読まない。import する第331便c の lib が
+  //   記録の値の出典の正本の名を書くだけ —— 順序だけ after に第333便c の段と同じ 10 段〕)。**診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は連星と冥王星–カロンの 10 本を
+  //   .find で引く —— 宣言の値を読む・步を進めない)。1 プロセス。所要は第334便d の枝の実測 47〜49 s
+  S('binarylaw-334d', 'node tests/exp-w334d-binarylaw.mjs', ['tests/out/binarylaw-w334d.json'], 49, { secSource: 'w334d-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: '本の宣言の値と純関数と二体の同時発展の積分器だけ(窓が無く、全部を走らせても 1 分の内)',
+    volatilePaths: { 'tests/out/binarylaw-w334d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第334便d: 同期の零試験(質量比 5 × 位相 3 × 受け手 2 × 自己の重み 3 —— 座標変換の d と自転の滑りが 0)と反例(離心率・源の軸の傾き・非同期・源の角速度の混同 —— 次数)・二体の同時発展の格子(G_loc の型 5 × K1 の有無 × η 6 × e 4 × ε 3 —— 近点の率 ÷ 1PN・周期の相対差・e と面の漂い・E と L の帳簿・重心の自己加速・h/h/2/h/4)と還元の和(第333便c の binaryNumeric)との差と交差の項・残差の法則(族 F1〜F4 —— 設計の格子に当て検証の系 📟🧮🩺📿 で判定)・傾いた自転軸(並進引きずりの回転の分 —— 傾き 6 × 軸の組 4 × 自転 2)・系の表(本の η・e・ε・自転)・冥王星–カロンの位置づけ。残差の法則の判定は検証の系の本の全部で 1 つ(共有フィット —— 族の係数は格子に当て、本どうしで 1 つの判定 —— 本ごとに分けない)' }),
+  // ==== 第334便d の塊(ここまで)====
+  // ==== 第334便e の塊(ここから)====
+  // ---- 第334便e(原仮定者の回答(2026-11-11 —— AN638 = A「先に離散化の依存を下げる」・AN640 = A)・原仮定者の整理(2026-11-11)「土星の環と銀河の円盤について」・統括の検証項目 R326):
+  //   **銀河の離散化の床の器**(段 gridfloor-334e —— 正本 tests/out/gridfloor-w334e.json・lib tests/lib-w334e-gridfloor.mjs —— 第333便d の lib と器〔readFixture・ringsOf・partDisc〕・
+  //   第332便b の lib を import して呼ぶ〔code の依存 —— 他の正本は読まない〕)。**診断だけ・運動学の対照だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w334e-gridfloor.mjs ——
+  //   第317便d の satan の型・領域の宣言なし)・NGC 3198 の rotmod の写し(第329便b の fixture)だけを読む。1 プロセス。所要は第334便e の枝の実測 21〜24 s
+  //   (格子の受け手 168 点 × 離散化 9 組 × 族 15 × 位相 3 × 軟化 4 —— 最も細かい組は源 11233 点。間引かない: 受け手 × 源の 1 回の走査で軟化と組を同時に)
+  S('gridfloor-334e', 'node tests/exp-w334e-gridfloor.mjs', ['tests/out/gridfloor-w334e.json'], 23, { secSource: 'w334e-branch', node: true,
+    quickVerify: false, quickVerifyWhy: '純関数と fixture だけ(html を読まない)—— 全部を走らせても 30 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/gridfloor-w334e.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第334便e: NGC 3198 の恒星の円盤(第333便d の 4 族)の統合した並進の場 U を星の点でない固定の受け手の格子(半径 7 × 方位 24・面内と高さ z の列)で読む —— 離散化 9 組(環の間隔 × 方位の数)・軟化 4・種 5・方位の位相 3 の誤差の幅(目標 1%)と分解・「腕あり − 円」の差 ÷ 幅(判定の比 3)・m = 2 の密度と U_φ の m = 2・星の点の受け手と第333便d の離散化の列の照らし・円盤の源の場の高さ z の偶奇と次数(薄い円盤と sech² の厚みの対照)' }),
+  // ==== 第334便e の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

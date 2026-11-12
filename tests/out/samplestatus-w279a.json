@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.47-b333",
+  "betaBuild": "v1.47-b334",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,8 +13,8 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "6dd99a739eb9858a45fde9ce757fa7b21358a677d39e7dc56b3b80754790aeb9",
-  "generatedAt": "2026-11-11T02:00:48.551Z",
+  "targetSha256": "64008166fa63729730721be6afc6c538226d4d1a47bf7d12233659ff2fa9f9b5",
+  "generatedAt": "2026-11-12T00:42:58.603Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
@@ -24,9 +24,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734337,
-    "sha256": "2af4074087a898a237fdd5d039e90e906dbca7712828a571838a531a599c2017",
-    "mtime": "2026-11-10T22:58:57.567Z"
+    "bytes": 1734342,
+    "sha256": "7147e415626637d5323675039fea5a7c6d9bcf691c528cea8e2b9ed8a0d26e02",
+    "mtime": "2026-11-11T22:03:11.090Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
@@ -36,9 +36,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 109730,
-    "sha256": "05643f499e372cdb34fa88ade884d94ed74edd09cc1e5907c0a65e09273db877",
-    "mtime": "2026-11-11T02:00:48.534Z"
+    "bytes": 110385,
+    "sha256": "06bb39a5c13f85e94f8cf42e999b1c573d1d40b5cc9dca0c2657a2492c5fd3a7",
+    "mtime": "2026-11-12T00:42:58.582Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -112,9 +112,9 @@
   "codeSha256": "fd485c9c33b0ac9b2ddd4e326949679abf7a9deb8bbdbff4c0f2fb296b0b8946",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "6985896a6b2b33de26a0245eed154964707283ab",
-   "date": "2026-11-11T01:27:57.856Z",
-   "pass": 1484
+   "commit": "06d7fa06f73f0a07ac28feb6424408d808c47d80",
+   "date": "2026-11-12T00:08:47.602Z",
+   "pass": 1501
   }
  },
  "tally": {
@@ -362,7 +362,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -626,7 +626,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -634,23 +634,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 13581,
+     "ms": 14323,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 13370,
+       "ms": 13919,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 182,
+       "ms": 211,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 29,
+       "ms": 193,
        "pass": true,
        "via": "targetIds"
       }
@@ -696,7 +696,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -960,7 +960,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -968,17 +968,17 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 35,
+     "ms": 82,
      "tests": [
       {
        "id": "preset.grcal",
-       "ms": 24,
+       "ms": 56,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.clocks",
-       "ms": 11,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       },
@@ -1035,7 +1035,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -1299,7 +1299,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -1307,19 +1307,19 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 182,
+     "ms": 125,
      "tests": [
       {
-       "id": "preset.grcalGps",
-       "ms": 113,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
        "id": "behavior.grcal3",
-       "ms": 69,
+       "ms": 79,
        "pass": true,
        "via": "claims+targetIds"
+      },
+      {
+       "id": "preset.grcalGps",
+       "ms": 46,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -1362,7 +1362,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -1626,7 +1626,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -1634,19 +1634,19 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 357,
+     "ms": 128,
      "tests": [
       {
-       "id": "preset.grcalLight",
-       "ms": 288,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
        "id": "behavior.grcal3",
-       "ms": 69,
+       "ms": 79,
        "pass": true,
        "via": "claims+targetIds"
+      },
+      {
+       "id": "preset.grcalLight",
+       "ms": 49,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -1689,7 +1689,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -1953,7 +1953,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -1961,17 +1961,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 102,
+     "ms": 115,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 69,
+       "ms": 79,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 33,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -2017,7 +2017,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -2281,7 +2281,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -2289,11 +2289,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 35,
+     "ms": 30,
      "tests": [
       {
        "id": "preset.projectile",
-       "ms": 35,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       },
@@ -2345,7 +2345,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -2609,7 +2609,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -2617,35 +2617,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 976,
+     "ms": 956,
      "tests": [
       {
        "id": "echo.hud",
-       "ms": 395,
+       "ms": 380,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "echo.leapfrog-return",
-       "ms": 363,
+       "ms": 330,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-echo",
-       "ms": 166,
+       "ms": 161,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.echo",
-       "ms": 48,
+       "ms": 79,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "echo.schema-clamp",
-       "ms": 4,
+       "ms": 6,
        "pass": true,
        "via": "targetIds"
       }
@@ -2690,7 +2690,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -2954,7 +2954,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -2962,11 +2962,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 205,
+     "ms": 241,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 205,
+       "ms": 241,
        "pass": true,
        "via": "targetIds"
       }
@@ -3011,7 +3011,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -3275,7 +3275,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -3283,11 +3283,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 179,
+     "ms": 249,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 179,
+       "ms": 249,
        "pass": true,
        "via": "targetIds"
       }
@@ -3332,7 +3332,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -3596,7 +3596,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -3604,11 +3604,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 392,
+     "ms": 336,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 392,
+       "ms": 336,
        "pass": true,
        "via": "targetIds"
       }
@@ -3653,7 +3653,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -3917,7 +3917,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -3925,17 +3925,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 468,
+     "ms": 403,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 352,
+       "ms": 294,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxcomoving",
-       "ms": 116,
+       "ms": 109,
        "pass": true,
        "via": "targetIds"
       }
@@ -3980,7 +3980,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -4244,7 +4244,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -4252,17 +4252,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 397,
+     "ms": 360,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 306,
+       "ms": 321,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 91,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       }
@@ -4307,7 +4307,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -4571,7 +4571,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -4579,11 +4579,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 73,
+     "ms": 135,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 73,
+       "ms": 135,
        "pass": true,
        "via": "targetIds"
       }
@@ -4628,7 +4628,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -4892,7 +4892,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -4900,7 +4900,7 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 192,
+     "ms": 170,
      "tests": [
       {
        "id": "shot.regress-boxredshift",
@@ -4910,13 +4910,13 @@
       },
       {
        "id": "box.photon-abc",
-       "ms": 39,
+       "ms": 22,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.boxredshift",
-       "ms": 22,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -4961,7 +4961,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -5225,7 +5225,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -5233,17 +5233,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 178,
+     "ms": 219,
      "tests": [
       {
        "id": "behavior.probeH",
-       "ms": 100,
+       "ms": 143,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.probeH",
-       "ms": 78,
+       "ms": 76,
        "pass": true,
        "via": "targetIds"
       }
@@ -5288,7 +5288,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -5552,7 +5552,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -5560,35 +5560,35 @@
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 2317,
+     "ms": 2254,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 1359,
+       "ms": 1257,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.freebox",
-       "ms": 378,
+       "ms": 373,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-freebox",
-       "ms": 289,
+       "ms": 347,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.graph-measured",
-       "ms": 255,
+       "ms": 240,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.no-rail-badge",
-       "ms": 29,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -5633,7 +5633,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -5897,7 +5897,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -5905,17 +5905,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3701,
+     "ms": 4247,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 3700,
+       "ms": 4247,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.cosmicweb",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -5966,7 +5966,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -6284,7 +6284,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -6292,23 +6292,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 10027,
+     "ms": 11252,
      "tests": [
       {
        "id": "shot.regress-galaxy",
-       "ms": 6133,
+       "ms": 7121,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.galaxy",
-       "ms": 3893,
+       "ms": 4131,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxy-outerboost",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -6353,7 +6353,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -6659,7 +6659,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -6667,17 +6667,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 69371,
+     "ms": 77331,
      "tests": [
       {
        "id": "claim.galaxystd-outerboost",
-       "ms": 65470,
+       "ms": 73021,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyStd",
-       "ms": 3901,
+       "ms": 4310,
        "pass": true,
        "via": "targetIds"
       }
@@ -6722,7 +6722,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -7052,7 +7052,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -7060,17 +7060,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 109548,
+     "ms": 120367,
      "tests": [
       {
        "id": "claim.galaxygeo2-outerboost",
-       "ms": 104364,
+       "ms": 114463,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyGeo2",
-       "ms": 5184,
+       "ms": 5904,
        "pass": true,
        "via": "targetIds"
       }
@@ -7115,7 +7115,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -7391,7 +7391,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -7399,17 +7399,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 8590,
+     "ms": 8462,
      "tests": [
       {
        "id": "behavior.geo2flat322a",
-       "ms": 8440,
+       "ms": 8282,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.geo2flat322a",
-       "ms": 150,
+       "ms": 180,
        "pass": true,
        "via": "targetIds"
       }
@@ -7454,7 +7454,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -7724,7 +7724,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -7732,17 +7732,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 70839,
+     "ms": 75009,
      "tests": [
       {
        "id": "behavior.geo2thick324a",
-       "ms": 70700,
+       "ms": 74865,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.geo2thick324a",
-       "ms": 139,
+       "ms": 144,
        "pass": true,
        "via": "targetIds"
       }
@@ -7787,7 +7787,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -8057,7 +8057,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -8065,17 +8065,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 70839,
+     "ms": 75009,
      "tests": [
       {
        "id": "behavior.geo2thick324a",
-       "ms": 70700,
+       "ms": 74865,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.geo2thick324a",
-       "ms": 139,
+       "ms": 144,
        "pass": true,
        "via": "targetIds"
       }
@@ -8120,7 +8120,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -8390,7 +8390,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -8398,11 +8398,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3203,
+     "ms": 3971,
      "tests": [
       {
        "id": "preset.galaxyDB",
-       "ms": 3203,
+       "ms": 3971,
        "pass": true,
        "via": "targetIds"
       },
@@ -8453,7 +8453,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -8717,7 +8717,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -8725,29 +8725,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 6891,
+     "ms": 8556,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 3977,
+       "ms": 5133,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 2873,
+       "ms": 3376,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.uphi",
-       "ms": 22,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.allfree",
-       "ms": 19,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -8792,7 +8792,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -9056,7 +9056,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -9064,17 +9064,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 966,
+     "ms": 1065,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 872,
+       "ms": 892,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 94,
+       "ms": 173,
        "pass": true,
        "via": "targetIds"
       }
@@ -9119,7 +9119,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -9383,7 +9383,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -9391,17 +9391,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4142,
+     "ms": 4986,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 3875,
+       "ms": 4745,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 267,
+       "ms": 241,
        "pass": true,
        "via": "targetIds"
       }
@@ -9446,7 +9446,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -9710,7 +9710,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -9718,17 +9718,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3841,
+     "ms": 4545,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 3550,
+       "ms": 4191,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 291,
+       "ms": 354,
        "pass": true,
        "via": "targetIds"
       }
@@ -9773,7 +9773,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -10037,7 +10037,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -10045,23 +10045,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 23504,
+     "ms": 27245,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 17345,
+       "ms": 20434,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 6033,
+       "ms": 6666,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 126,
+       "ms": 145,
        "pass": true,
        "via": "targetIds"
       }
@@ -10106,7 +10106,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -10370,7 +10370,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -10378,22 +10378,22 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2908,
+     "ms": 4010,
      "tests": [
       {
        "id": "preset.bhCore",
-       "ms": 2907,
+       "ms": 4009,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "claim.bhcore-selfdrive",
+       "id": "claim.bhcore-free",
        "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
-       "id": "claim.bhcore-free",
+       "id": "claim.bhcore-selfdrive",
        "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
@@ -10439,7 +10439,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -10709,7 +10709,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -10717,11 +10717,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2560,
+     "ms": 2729,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 2560,
+       "ms": 2729,
        "pass": true,
        "via": "targetIds"
       }
@@ -10766,7 +10766,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -11030,7 +11030,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -11038,17 +11038,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5658,
+     "ms": 6622,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 5097,
+       "ms": 5970,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 561,
+       "ms": 652,
        "pass": true,
        "via": "targetIds"
       }
@@ -11093,7 +11093,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -11357,7 +11357,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -11365,23 +11365,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 25653,
+     "ms": 29017,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 24200,
+       "ms": 27242,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 1453,
+       "ms": 1774,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.collapse-cooling",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -11427,7 +11427,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -11691,7 +11691,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -11699,11 +11699,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5443,
+     "ms": 7962,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 5443,
+       "ms": 7962,
        "pass": true,
        "via": "targetIds"
       }
@@ -11749,7 +11749,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -12013,7 +12013,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -12021,11 +12021,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5336,
+     "ms": 6413,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 5336,
+       "ms": 6413,
        "pass": true,
        "via": "targetIds"
       }
@@ -12071,7 +12071,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -12335,7 +12335,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -12343,11 +12343,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5150,
+     "ms": 6353,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 5150,
+       "ms": 6353,
        "pass": true,
        "via": "targetIds"
       }
@@ -12392,7 +12392,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -12656,7 +12656,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -12664,22 +12664,22 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1202,
+     "ms": 1541,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 1201,
+       "ms": 1541,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "behavior.selfrotor-multiseed",
-       "ms": 1,
+       "id": "behavior.selfrotor",
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
-       "id": "behavior.selfrotor",
+       "id": "behavior.selfrotor-multiseed",
        "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
@@ -12725,7 +12725,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -13007,7 +13007,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -13015,17 +13015,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3522,
+     "ms": 4043,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 3521,
+       "ms": 4043,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.galaxyMesh",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -13071,7 +13071,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -13365,7 +13365,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -13373,11 +13373,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6532,
+     "ms": 8489,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 6532,
+       "ms": 8489,
        "pass": true,
        "via": "targetIds"
       }
@@ -13422,7 +13422,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -13704,7 +13704,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -13712,11 +13712,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1591,
+     "ms": 2153,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 1591,
+       "ms": 2153,
        "pass": true,
        "via": "targetIds"
       }
@@ -13761,7 +13761,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -14091,7 +14091,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -14099,11 +14099,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1542,
+     "ms": 1817,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 1542,
+       "ms": 1817,
        "pass": true,
        "via": "targetIds"
       }
@@ -14148,7 +14148,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -14424,7 +14424,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -14474,7 +14474,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -14750,7 +14750,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -14758,11 +14758,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 74,
+     "ms": 75,
      "tests": [
       {
        "id": "behavior.tilt90Copy",
-       "ms": 74,
+       "ms": 75,
        "pass": true,
        "via": "targetIds"
       }
@@ -14807,7 +14807,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -15077,7 +15077,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -15085,11 +15085,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 9321,
+     "ms": 9815,
      "tests": [
       {
        "id": "behavior.tilt90LayersCopy",
-       "ms": 9321,
+       "ms": 9815,
        "pass": true,
        "via": "targetIds"
       }
@@ -15135,7 +15135,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -15435,7 +15435,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -15485,7 +15485,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -15779,7 +15779,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -15829,7 +15829,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -16111,7 +16111,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -16163,7 +16163,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -16445,7 +16445,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -16453,11 +16453,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 533,
+     "ms": 513,
      "tests": [
       {
        "id": "preset.shapeToyCluster",
-       "ms": 533,
+       "ms": 513,
        "pass": true,
        "via": "targetIds"
       }
@@ -16504,7 +16504,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -16786,7 +16786,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -16794,11 +16794,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 652,
+     "ms": 951,
      "tests": [
       {
        "id": "preset.shapeToyDisk",
-       "ms": 652,
+       "ms": 951,
        "pass": true,
        "via": "targetIds"
       }
@@ -16845,7 +16845,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -17139,7 +17139,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -17147,11 +17147,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 274,
+     "ms": 283,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 274,
+       "ms": 283,
        "pass": true,
        "via": "targetIds"
       }
@@ -17197,7 +17197,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -17473,7 +17473,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -17481,29 +17481,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 5686,
+     "ms": 6258,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 4254,
+       "ms": 4714,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 1158,
+       "ms": 1244,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 156,
+       "ms": 170,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 118,
+       "ms": 130,
        "pass": true,
        "via": "targetIds"
       }
@@ -17550,7 +17550,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -17826,7 +17826,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -17834,11 +17834,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 482,
+     "ms": 479,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 482,
+       "ms": 479,
        "pass": true,
        "via": "targetIds"
       }
@@ -17885,7 +17885,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -18167,7 +18167,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -18175,11 +18175,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 608,
+     "ms": 652,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 608,
+       "ms": 652,
        "pass": true,
        "via": "targetIds"
       }
@@ -18226,7 +18226,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -18514,7 +18514,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -18522,11 +18522,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 288,
+     "ms": 280,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 288,
+       "ms": 280,
        "pass": true,
        "via": "targetIds"
       }
@@ -18572,7 +18572,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -18848,7 +18848,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -18856,29 +18856,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 5686,
+     "ms": 6258,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 4254,
+       "ms": 4714,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 1158,
+       "ms": 1244,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 156,
+       "ms": 170,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 118,
+       "ms": 130,
        "pass": true,
        "via": "targetIds"
       }
@@ -18924,7 +18924,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -19188,7 +19188,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -19196,17 +19196,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 218,
+     "ms": 188,
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 145,
+       "ms": 150,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lensing",
-       "ms": 73,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -19251,7 +19251,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -19515,7 +19515,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -19523,11 +19523,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 41,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 41,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       },
@@ -19578,7 +19578,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -19842,7 +19842,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -19850,17 +19850,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 57,
+     "ms": 72,
      "tests": [
       {
        "id": "preset.blens",
-       "ms": 45,
+       "ms": 53,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.blens",
-       "ms": 12,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -19905,7 +19905,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -20169,7 +20169,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -20177,17 +20177,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 315,
+     "ms": 300,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 290,
+       "ms": 272,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.reddening",
-       "ms": 25,
+       "ms": 28,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -20232,7 +20232,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -20574,7 +20574,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -20582,23 +20582,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 27587,
+     "ms": 29387,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 23825,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "preset.gas",
-       "ms": 1884,
+       "ms": 25312,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-gas",
-       "ms": 1878,
+       "ms": 2049,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "preset.gas",
+       "ms": 2026,
        "pass": true,
        "via": "targetIds"
       }
@@ -20643,7 +20643,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -20907,7 +20907,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -20915,23 +20915,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 15099,
+     "ms": 16098,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 11706,
+       "ms": 12771,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 2034,
+       "ms": 2070,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 1359,
+       "ms": 1257,
        "pass": true,
        "via": "targetIds"
       }
@@ -20976,7 +20976,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -21240,7 +21240,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -21248,29 +21248,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 676,
+     "ms": 739,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 522,
+       "ms": 576,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 114,
+       "ms": 108,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-zero-cost",
-       "ms": 27,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-bath",
-       "ms": 13,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -21315,7 +21315,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -21579,7 +21579,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -21587,11 +21587,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 865,
+     "ms": 971,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 865,
+       "ms": 971,
        "pass": true,
        "via": "targetIds"
       }
@@ -21636,7 +21636,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -21900,7 +21900,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -21908,11 +21908,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 18,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 18,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       },
@@ -21963,7 +21963,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -22227,7 +22227,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -22235,23 +22235,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 3017,
+     "ms": 3615,
      "tests": [
       {
-       "id": "preset.convection",
-       "ms": 1540,
+       "id": "shot.regress-convection",
+       "ms": 1887,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "shot.regress-convection",
-       "ms": 1452,
+       "id": "preset.convection",
+       "ms": 1710,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "perf.convection-timescale",
-       "ms": 25,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       },
@@ -22302,7 +22302,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -22566,7 +22566,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -22574,17 +22574,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2236,
+     "ms": 2430,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 2236,
+       "ms": 2429,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.buoyancy",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -22629,7 +22629,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -22893,7 +22893,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -22901,17 +22901,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1581,
+     "ms": 3398,
      "tests": [
       {
        "id": "preset.cooling",
-       "ms": 1581,
+       "ms": 3397,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.collapse-cooling",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -22956,7 +22956,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -23220,7 +23220,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -23228,11 +23228,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 801,
+     "ms": 875,
      "tests": [
       {
        "id": "preset.emergent",
-       "ms": 801,
+       "ms": 875,
        "pass": true,
        "via": "targetIds"
       },
@@ -23289,7 +23289,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -23553,7 +23553,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -23561,11 +23561,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1725,
+     "ms": 2077,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 1725,
+       "ms": 2077,
        "pass": true,
        "via": "targetIds"
       },
@@ -23622,7 +23622,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -23886,7 +23886,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -23894,11 +23894,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 881,
+     "ms": 886,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 881,
+       "ms": 886,
        "pass": true,
        "via": "targetIds"
       },
@@ -23956,7 +23956,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -24220,7 +24220,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -24228,11 +24228,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1155,
+     "ms": 1304,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 1155,
+       "ms": 1304,
        "pass": true,
        "via": "targetIds"
       },
@@ -24289,7 +24289,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -24577,7 +24577,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -24585,23 +24585,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 457,
+     "ms": 518,
      "tests": [
       {
        "id": "behavior.earthMoon",
-       "ms": 228,
+       "ms": 277,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-earthMoon",
-       "ms": 135,
+       "ms": 132,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoon",
-       "ms": 94,
+       "ms": 109,
        "pass": true,
        "via": "targetIds"
       }
@@ -24646,7 +24646,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -24916,7 +24916,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -24924,17 +24924,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 976,
+     "ms": 1120,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 902,
+       "ms": 1035,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 74,
+       "ms": 85,
        "pass": true,
        "via": "targetIds"
       }
@@ -24980,17 +24980,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 115.11599999999999,
+     "wallSec": 140.673,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 39.629,
+       "wallSec": 44.259,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 75.487,
+       "wallSec": 96.414,
        "reused": false,
        "reusedBy": null
       }
@@ -25002,7 +25002,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -25062,7 +25062,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -25314,7 +25314,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -25322,11 +25322,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.earthMoonReal",
-       "ms": 19,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -25371,7 +25371,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -25641,7 +25641,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -25649,23 +25649,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2938,
+     "ms": 3421,
      "tests": [
       {
        "id": "behavior.tideGate",
-       "ms": 2863,
+       "ms": 3324,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonTide",
-       "ms": 60,
+       "ms": 69,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonTide",
-       "ms": 15,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -25713,7 +25713,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -25803,7 +25803,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -26043,7 +26043,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -26051,11 +26051,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 31,
+     "ms": 23,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 31,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -26100,7 +26100,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -26430,7 +26430,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -26438,23 +26438,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 609,
+     "ms": 673,
      "tests": [
       {
        "id": "behavior.dragCoreGate",
-       "ms": 493,
+       "ms": 556,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonInertial",
-       "ms": 77,
+       "ms": 83,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonInertial",
-       "ms": 38,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       },
@@ -26505,7 +26505,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -26565,7 +26565,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -26781,7 +26781,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -26789,17 +26789,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 49,
+     "ms": 28,
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 48,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims"
       }
@@ -26846,7 +26846,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -26918,7 +26918,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -27134,7 +27134,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -27142,17 +27142,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 72,
+     "ms": 44,
      "tests": [
       {
        "id": "preset.emAuditDFM",
-       "ms": 71,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims"
       }
@@ -27198,17 +27198,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.729,
+     "wallSec": 4.2829999999999995,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.201,
+       "wallSec": 1.633,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.528,
+       "wallSec": 2.65,
        "reused": false,
        "reusedBy": null
       }
@@ -27220,7 +27220,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -27550,7 +27550,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -27558,17 +27558,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 16,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.emAuditSolar",
-       "ms": 15,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims"
       }
@@ -27613,7 +27613,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -27919,7 +27919,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -27927,11 +27927,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 279,
+     "ms": 309,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 275,
+       "ms": 305,
        "pass": true,
        "via": "targetIds"
       },
@@ -27982,7 +27982,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -28366,7 +28366,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -28418,7 +28418,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -28886,7 +28886,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -28894,35 +28894,35 @@
     "qa": {
      "attributed": true,
      "n": 10,
-     "ms": 42013,
+     "ms": 45058,
      "tests": [
       {
        "id": "behavior.gLocNull307",
-       "ms": 32392,
+       "ms": 34547,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgDirect302",
-       "ms": 2590,
+       "ms": 2665,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.shell304",
-       "ms": 1653,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.wbgEstimate302",
-       "ms": 1531,
+       "ms": 2223,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialR2_303",
-       "ms": 1420,
+       "ms": 1588,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.wbgEstimate302",
+       "ms": 1522,
        "pass": true,
        "via": "targetIds"
       }
@@ -28968,7 +28968,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -29346,7 +29346,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -29354,23 +29354,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2646,
+     "ms": 2548,
      "tests": [
       {
        "id": "behavior.wbgEstimate302",
-       "ms": 1531,
+       "ms": 1522,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthReorg300",
-       "ms": 938,
+       "ms": 869,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.dragNorm301",
-       "ms": 177,
+       "ms": 157,
        "pass": true,
        "via": "targetIds"
       }
@@ -29416,7 +29416,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -29692,7 +29692,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -29700,11 +29700,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 47,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 24,
+       "ms": 47,
        "pass": true,
        "via": "targetIds"
       }
@@ -29749,7 +29749,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -29809,7 +29809,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -30025,7 +30025,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -30033,17 +30033,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 689,
+     "ms": 757,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 663,
+       "ms": 718,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAudit",
-       "ms": 26,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       }
@@ -30088,7 +30088,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -30148,7 +30148,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -30364,7 +30364,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -30372,11 +30372,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 697,
+     "ms": 752,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 663,
+       "ms": 718,
        "pass": true,
        "via": "claims"
       },
@@ -30427,7 +30427,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -30907,7 +30907,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -30915,17 +30915,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 411,
+     "ms": 437,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 396,
+       "ms": 425,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.mercury",
-       "ms": 15,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       }
@@ -30972,17 +30972,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.276999999999999,
+     "wallSec": 8.46,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.483,
+       "wallSec": 2.952,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.794,
+       "wallSec": 5.508,
        "reused": false,
        "reusedBy": null
       }
@@ -30994,7 +30994,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -31060,7 +31060,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -31414,7 +31414,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -31422,11 +31422,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 23,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.mercuryReal",
-       "ms": 23,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -31471,7 +31471,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -31777,7 +31777,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -31785,11 +31785,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 279,
+     "ms": 309,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 275,
+       "ms": 305,
        "pass": true,
        "via": "targetIds"
       },
@@ -31841,7 +31841,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -32219,7 +32219,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -32227,35 +32227,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 57153,
+     "ms": 56249,
      "tests": [
       {
        "id": "ui.liveMeasure297",
-       "ms": 46004,
+       "ms": 44996,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.gLoc302",
-       "ms": 8096,
+       "ms": 8071,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ui.wbgSlider302",
-       "ms": 1205,
+       "ms": 1261,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.retire298",
-       "ms": 787,
+       "ms": 837,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.fitCond298",
-       "ms": 680,
+       "ms": 702,
        "pass": true,
        "via": "targetIds"
       }
@@ -32302,7 +32302,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -32847,6 +32847,12 @@
       "always": false
      },
      {
+      "key": "mercurynode-334c",
+      "sec": 10,
+      "share": 3,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 2,
       "share": 29,
@@ -32854,7 +32860,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -32862,35 +32868,35 @@
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 16306,
+     "ms": 17485,
      "tests": [
       {
        "id": "behavior.gLoc302",
-       "ms": 8096,
+       "ms": 8071,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.shell304",
-       "ms": 1653,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.wbgEstimate302",
-       "ms": 1531,
+       "ms": 2223,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialR2_303",
-       "ms": 1420,
+       "ms": 1588,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.wbgEstimate302",
+       "ms": 1522,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ui.softeningFloorSlider305",
-       "ms": 1151,
+       "ms": 1319,
        "pass": true,
        "via": "targetIds"
       }
@@ -32937,7 +32943,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -33488,6 +33494,12 @@
       "always": false
      },
      {
+      "key": "mercurynode-334c",
+      "sec": 10,
+      "share": 3,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 2,
       "share": 29,
@@ -33495,7 +33507,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -33503,11 +33515,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 140,
+     "ms": 191,
      "tests": [
       {
        "id": "preset.planets306",
-       "ms": 140,
+       "ms": 191,
        "pass": true,
        "via": "targetIds"
       }
@@ -33554,7 +33566,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -34069,6 +34081,12 @@
       "always": false
      },
      {
+      "key": "mercurynode-334c",
+      "sec": 10,
+      "share": 3,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 2,
       "share": 29,
@@ -34076,7 +34094,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -34084,11 +34102,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 140,
+     "ms": 191,
      "tests": [
       {
        "id": "preset.planets306",
-       "ms": 140,
+       "ms": 191,
        "pass": true,
        "via": "targetIds"
       }
@@ -34135,7 +34153,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -34681,7 +34699,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -34689,23 +34707,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1258,
+     "ms": 1459,
      "tests": [
       {
        "id": "behavior.initObs309",
-       "ms": 739,
+       "ms": 873,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.invSq309",
-       "ms": 379,
+       "ms": 395,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.planets306",
-       "ms": 140,
+       "ms": 191,
        "pass": true,
        "via": "targetIds"
       }
@@ -34752,7 +34770,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -35244,7 +35262,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -35252,11 +35270,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 140,
+     "ms": 191,
      "tests": [
       {
        "id": "preset.planets306",
-       "ms": 140,
+       "ms": 191,
        "pass": true,
        "via": "targetIds"
       }
@@ -35302,7 +35320,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -35596,7 +35614,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -35604,35 +35622,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 9684,
+     "ms": 10709,
      "tests": [
       {
        "id": "behavior.wbgDirect302",
-       "ms": 2590,
+       "ms": 2665,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.shell304",
-       "ms": 1653,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.wbgEstimate302",
-       "ms": 1531,
+       "ms": 2223,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialR2_303",
-       "ms": 1420,
+       "ms": 1588,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.wbgEstimate302",
+       "ms": 1522,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ui.wbgSlider302",
-       "ms": 1205,
+       "ms": 1261,
        "pass": true,
        "via": "targetIds"
       }
@@ -35679,7 +35697,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -36171,7 +36189,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -36179,11 +36197,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 140,
+     "ms": 191,
      "tests": [
       {
        "id": "preset.planets306",
-       "ms": 140,
+       "ms": 191,
        "pass": true,
        "via": "targetIds"
       }
@@ -36230,7 +36248,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -36722,7 +36740,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -36730,11 +36748,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 140,
+     "ms": 191,
      "tests": [
       {
        "id": "preset.planets306",
-       "ms": 140,
+       "ms": 191,
        "pass": true,
        "via": "targetIds"
       }
@@ -36779,7 +36797,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -37157,7 +37175,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -37165,23 +37183,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 7922,
+     "ms": 8489,
      "tests": [
       {
        "id": "behavior.solar16Builtin318c",
-       "ms": 5620,
+       "ms": 6092,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.solarSystem16Inertial3d",
-       "ms": 2164,
+       "ms": 2254,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.solar16Builtin318c",
-       "ms": 138,
+       "ms": 143,
        "pass": true,
        "via": "targetIds"
       }
@@ -37227,7 +37245,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -37503,7 +37521,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -37511,11 +37529,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 20,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 21,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -37560,7 +37578,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -37830,7 +37848,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -37882,7 +37900,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -37942,7 +37960,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -38158,7 +38176,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -38166,11 +38184,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 22,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 22,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -38218,7 +38236,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -38494,7 +38512,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -38502,17 +38520,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1447,
+     "ms": 1810,
      "tests": [
       {
        "id": "behavior.solarInner",
-       "ms": 1411,
+       "ms": 1770,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.solarInner",
-       "ms": 36,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -38558,17 +38576,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 39.254,
+     "wallSec": 44.311,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 13.054,
+       "wallSec": 15.106,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 26.2,
+       "wallSec": 29.205,
        "reused": false,
        "reusedBy": null
       }
@@ -38580,7 +38598,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -38646,7 +38664,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -39120,7 +39138,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -39128,17 +39146,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 313,
+     "ms": 334,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 300,
+       "ms": 306,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.jupiterGalilean",
-       "ms": 13,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -39184,17 +39202,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 22.128,
+     "wallSec": 24.298000000000002,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.362,
+       "wallSec": 7.961,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 14.766,
+       "wallSec": 16.337,
        "reused": false,
        "reusedBy": null
       }
@@ -39206,7 +39224,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -39308,7 +39326,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -39650,7 +39668,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -39658,17 +39676,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4137,
+     "ms": 4318,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 4127,
+       "ms": 4290,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 10,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -39714,17 +39732,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 14.815999999999999,
+     "wallSec": 17.812,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.036,
+       "wallSec": 5.585,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 9.78,
+       "wallSec": 12.227,
        "reused": false,
        "reusedBy": null
       }
@@ -39736,7 +39754,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -39802,7 +39820,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -40144,7 +40162,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -40152,17 +40170,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 8,
+     "ms": 11,
      "tests": [
       {
        "id": "preset.marsMoonsReal",
-       "ms": 8,
+       "ms": 10,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.marsMoonsReal",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -40209,7 +40227,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -40347,7 +40365,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -40569,7 +40587,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -40577,11 +40595,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 16,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 16,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       },
@@ -40638,7 +40656,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -40926,7 +40944,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -40934,17 +40952,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 11329,
+     "ms": 11323,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 11284,
+       "ms": 11249,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 45,
+       "ms": 74,
        "pass": true,
        "via": "targetIds"
       }
@@ -40996,7 +41014,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -41278,7 +41296,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -41286,11 +41304,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 37,
+     "ms": 43,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 37,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       }
@@ -41350,17 +41368,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 215.291,
+     "wallSec": 248.387,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 72.229,
+       "wallSec": 89.576,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 143.062,
+       "wallSec": 158.811,
        "reused": false,
        "reusedBy": null
       }
@@ -41372,7 +41390,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -41492,7 +41510,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -41749,6 +41767,12 @@
       "always": false
      },
      {
+      "key": "binarylaw-334d",
+      "sec": 49,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 2,
       "share": 29,
@@ -41762,7 +41786,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -41770,11 +41794,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 12,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 12,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -41819,7 +41843,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -42125,7 +42149,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -42133,11 +42157,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 279,
+     "ms": 309,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 275,
+       "ms": 305,
        "pass": true,
        "via": "targetIds"
       },
@@ -42189,7 +42213,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -42530,6 +42554,12 @@
       "always": false
      },
      {
+      "key": "binarylaw-334d",
+      "sec": 49,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "charonaudit-305e",
       "sec": 2,
       "share": 1,
@@ -42549,7 +42579,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -42557,35 +42587,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 8367,
+     "ms": 9199,
      "tests": [
       {
        "id": "behavior.wbgDirect302",
-       "ms": 2590,
+       "ms": 2665,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.shell304",
-       "ms": 1653,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.wbgEstimate302",
-       "ms": 1531,
+       "ms": 2223,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialR2_303",
-       "ms": 1420,
+       "ms": 1588,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.wbgEstimate302",
+       "ms": 1522,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.retire298",
-       "ms": 787,
+       "ms": 837,
        "pass": true,
        "via": "targetIds"
       }
@@ -42630,7 +42660,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -42900,7 +42930,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -42908,11 +42938,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 28,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.plutoCharonSyncZero",
-       "ms": 28,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -42958,7 +42988,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -43234,7 +43264,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -43242,11 +43272,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 20,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.charonGeoToy3",
-       "ms": 20,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -43294,11 +43324,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 51.087,
+     "wallSec": 59.175,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 51.087,
+       "wallSec": 59.175,
        "reused": false,
        "reusedBy": null
       }
@@ -43310,7 +43340,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -43706,7 +43736,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -43714,17 +43744,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 39,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.uranusReal",
-       "ms": 37,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.uranusReal",
-       "ms": 2,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -43770,17 +43800,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.252000000000001,
+     "wallSec": 6.535,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.794,
+       "wallSec": 1.843,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.458,
+       "wallSec": 4.692,
        "reused": false,
        "reusedBy": null
       }
@@ -43792,7 +43822,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -43894,7 +43924,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -44236,7 +44266,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -44244,11 +44274,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 19,
+     "ms": 12,
      "tests": [
       {
        "id": "preset.neptuneReal",
-       "ms": 19,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       },
@@ -44298,17 +44328,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.266,
+     "wallSec": 10.742,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.266,
+       "wallSec": 10.742,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 22.267,
+       "wallSec": 23.488,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -44319,9 +44349,9 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 51.803,
-     "reusedH2Sec": 22.267,
-     "reusedH4Sec": 29.535999999999998
+     "reusedSec": 53.024,
+     "reusedH2Sec": 23.488,
+     "reusedH4Sec": 29.536
     },
     "regenSteps": [
      {
@@ -44332,7 +44362,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -44434,7 +44464,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -44668,7 +44698,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -44676,17 +44706,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3116,
+     "ms": 3047,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3091,
+       "ms": 3031,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 25,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -44738,7 +44768,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -44804,7 +44834,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -45026,7 +45056,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -45034,17 +45064,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3147,
+     "ms": 3072,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3091,
+       "ms": 3031,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 56,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -45088,17 +45118,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.033,
+     "wallSec": 5.824,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.033,
+       "wallSec": 5.824,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 12.085,
+       "wallSec": 13.64,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -45109,8 +45139,8 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 29.582,
-     "reusedH2Sec": 12.085,
+     "reusedSec": 31.137,
+     "reusedH2Sec": 13.64,
      "reusedH4Sec": 17.497
     },
     "regenSteps": [
@@ -45122,7 +45152,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -45224,7 +45254,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -45458,7 +45488,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -45466,17 +45496,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2275,
+     "ms": 2509,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2261,
+       "ms": 2491,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 14,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -45528,7 +45558,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -45594,7 +45624,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -45816,7 +45846,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -45824,17 +45854,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2298,
+     "ms": 2543,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2261,
+       "ms": 2491,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 37,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -45879,7 +45909,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -46149,7 +46179,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -46157,17 +46187,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 407,
+     "ms": 449,
      "tests": [
       {
        "id": "behavior.binBooks322b",
-       "ms": 260,
+       "ms": 282,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.binBooks322b",
-       "ms": 147,
+       "ms": 167,
        "pass": true,
        "via": "targetIds"
       }
@@ -46212,7 +46242,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -46487,8 +46517,14 @@
       "always": false
      },
      {
+      "key": "binarylaw-334d",
+      "sec": 49,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -46496,17 +46532,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 407,
+     "ms": 449,
      "tests": [
       {
        "id": "behavior.binBooks322b",
-       "ms": 260,
+       "ms": 282,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.binBooks322b",
-       "ms": 147,
+       "ms": 167,
        "pass": true,
        "via": "targetIds"
       }
@@ -46551,7 +46587,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -46820,8 +46856,14 @@
       "always": false
      },
      {
+      "key": "binarylaw-334d",
+      "sec": 49,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -46829,17 +46871,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 840,
+     "ms": 808,
      "tests": [
       {
        "id": "behavior.obsSpin324b",
-       "ms": 664,
+       "ms": 639,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.obsSpin324b",
-       "ms": 176,
+       "ms": 169,
        "pass": true,
        "via": "targetIds"
       }
@@ -46884,7 +46926,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -47153,8 +47195,14 @@
       "always": false
      },
      {
+      "key": "binarylaw-334d",
+      "sec": 49,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -47162,17 +47210,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 840,
+     "ms": 808,
      "tests": [
       {
        "id": "behavior.obsSpin324b",
-       "ms": 664,
+       "ms": 639,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.obsSpin324b",
-       "ms": 176,
+       "ms": 169,
        "pass": true,
        "via": "targetIds"
       }
@@ -47219,17 +47267,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.770999999999999,
+     "wallSec": 11.68,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.57,
+       "wallSec": 3.879,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.201,
+       "wallSec": 7.801,
        "reused": false,
        "reusedBy": null
       }
@@ -47241,7 +47289,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -47325,7 +47373,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -47565,7 +47613,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -47573,11 +47621,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 16,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.psrDoubleAB",
-       "ms": 16,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       },
@@ -47635,7 +47683,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -47737,7 +47785,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -47959,7 +48007,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -47967,17 +48015,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 7238,
+     "ms": 8081,
      "tests": [
       {
        "id": "behavior.psrF1",
-       "ms": 7194,
+       "ms": 8035,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 44,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       }
@@ -48023,7 +48071,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -48287,7 +48335,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -48295,11 +48343,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 18,
+     "ms": 21,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 18,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -48345,7 +48393,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -48411,7 +48459,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -48627,7 +48675,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -48635,11 +48683,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 68,
+     "ms": 70,
      "tests": [
       {
        "id": "preset.psrDoubleABSpinCal",
-       "ms": 68,
+       "ms": 70,
        "pass": true,
        "via": "targetIds"
       }
@@ -48686,17 +48734,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.136000000000001,
+     "wallSec": 8.709,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.494,
+       "wallSec": 2.874,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.642,
+       "wallSec": 5.835,
        "reused": false,
        "reusedBy": null
       }
@@ -48714,7 +48762,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -48816,7 +48864,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -49055,8 +49103,14 @@
       "always": false
      },
      {
+      "key": "binarylaw-334d",
+      "sec": 49,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -49064,11 +49118,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.psrJ1757DFM",
-       "ms": 19,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -49115,17 +49169,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.3209999999999997,
+     "wallSec": 3.468,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.07,
+       "wallSec": 1.095,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.251,
+       "wallSec": 2.373,
        "reused": false,
        "reusedBy": null
       }
@@ -49143,7 +49197,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -49245,7 +49299,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -49484,8 +49538,14 @@
       "always": false
      },
      {
+      "key": "binarylaw-334d",
+      "sec": 49,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -49493,11 +49553,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 20,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.psrJ1946DFM",
-       "ms": 20,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -49543,7 +49603,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -49609,7 +49669,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -49825,7 +49885,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -49833,11 +49893,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 45,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.psrDoubleABPN",
-       "ms": 45,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -49883,7 +49943,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -49949,7 +50009,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -50165,7 +50225,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -50173,11 +50233,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 39,
+     "ms": 21,
      "tests": [
       {
        "id": "preset.psrJ1757PN",
-       "ms": 39,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -50223,7 +50283,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -50289,7 +50349,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -50505,7 +50565,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -50513,11 +50573,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.psrJ1946PN",
-       "ms": 24,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -50563,7 +50623,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -50629,7 +50689,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -50845,7 +50905,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -50853,11 +50913,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 60,
+     "ms": 52,
      "tests": [
       {
        "id": "preset.psrDoubleABCF",
-       "ms": 60,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -50903,7 +50963,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -50969,7 +51029,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -51185,7 +51245,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -51193,11 +51253,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 58,
+     "ms": 56,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 58,
+       "ms": 56,
        "pass": true,
        "via": "targetIds"
       }
@@ -51243,7 +51303,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -51309,7 +51369,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -51525,7 +51585,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -51533,11 +51593,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 44,
+     "ms": 58,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 44,
+       "ms": 58,
        "pass": true,
        "via": "targetIds"
       }
@@ -51584,17 +51644,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 53.590999999999994,
+     "wallSec": 60.376,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 17.468,
+       "wallSec": 19.549,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 36.123,
+       "wallSec": 40.827,
        "reused": false,
        "reusedBy": null
       }
@@ -51606,7 +51666,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -51672,7 +51732,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -51905,8 +51965,14 @@
       "always": false
      },
      {
+      "key": "binarylaw-334d",
+      "sec": 49,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -51914,11 +51980,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 12,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.psrB1534",
-       "ms": 12,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -51970,7 +52036,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -52072,7 +52138,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -52294,7 +52360,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -52302,11 +52368,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 43,
+     "ms": 41,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 43,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -52352,7 +52418,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -52418,7 +52484,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -52634,7 +52700,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -52642,11 +52708,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 66,
+     "ms": 56,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 66,
+       "ms": 56,
        "pass": true,
        "via": "targetIds"
       }
@@ -52691,7 +52757,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -52973,7 +53039,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -52981,11 +53047,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 13,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.compactForceToy",
-       "ms": 13,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -53030,7 +53096,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -53336,7 +53402,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -53344,23 +53410,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2974,
+     "ms": 3010,
      "tests": [
       {
        "id": "preset.inertialDragPair",
-       "ms": 2509,
+       "ms": 2540,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialDragGate",
-       "ms": 449,
+       "ms": 457,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.inertialDragPair",
-       "ms": 16,
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       }
@@ -53405,7 +53471,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -53687,7 +53753,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -53695,17 +53761,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 332,
+     "ms": 294,
      "tests": [
       {
        "id": "behavior.chain296",
-       "ms": 287,
+       "ms": 248,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.chainContract296",
-       "ms": 45,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       }
@@ -53750,7 +53816,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -54104,7 +54170,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -54112,35 +54178,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 12958,
+     "ms": 14204,
      "tests": [
       {
        "id": "behavior.meshField298",
-       "ms": 3246,
+       "ms": 3234,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgDirect302",
-       "ms": 2590,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "docs.sphereAxial307",
-       "ms": 1776,
+       "ms": 2665,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.shell304",
-       "ms": 1653,
+       "ms": 2223,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "docs.sphereAxial307",
+       "ms": 1986,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialR2_303",
-       "ms": 1420,
+       "ms": 1588,
        "pass": true,
        "via": "targetIds"
       }
@@ -54185,7 +54251,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -54491,7 +54557,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -54499,35 +54565,35 @@
     "qa": {
      "attributed": true,
      "n": 7,
-     "ms": 16866,
+     "ms": 17493,
      "tests": [
       {
        "id": "lint.stateContract302",
-       "ms": 10667,
+       "ms": 10998,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgDirect302",
-       "ms": 2590,
+       "ms": 2665,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.sphereAxial307",
-       "ms": 1776,
+       "ms": 1986,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.bevel308",
-       "ms": 1322,
+       "ms": 1375,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.axisHold308",
-       "ms": 354,
+       "ms": 310,
        "pass": true,
        "via": "targetIds"
       }
@@ -54573,7 +54639,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -54873,7 +54939,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -54881,23 +54947,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 30805,
+     "ms": 29883,
      "tests": [
       {
        "id": "behavior.geo4Stable299",
-       "ms": 30696,
+       "ms": 29777,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.approxMany301",
-       "ms": 102,
+       "ms": 98,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.chainSpread299",
-       "ms": 7,
+       "ms": 8,
        "pass": true,
        "via": "targetIds"
       }
@@ -54942,7 +55008,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -55218,7 +55284,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -55226,11 +55292,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1,
+     "ms": 0,
      "tests": [
       {
        "id": "preset.chainBurstShell301",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -55275,7 +55341,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -55557,7 +55623,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -55565,23 +55631,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 7279,
+     "ms": 6992,
      "tests": [
       {
        "id": "ui.selEdit299",
-       "ms": 3330,
+       "ms": 3274,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ui.paramTab299",
-       "ms": 2653,
+       "ms": 2411,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ui.axisGizmo307",
-       "ms": 1296,
+       "ms": 1307,
        "pass": true,
        "via": "targetIds"
       }
@@ -55626,7 +55692,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -55908,7 +55974,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -55916,11 +55982,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 3330,
+     "ms": 3274,
      "tests": [
       {
        "id": "ui.selEdit299",
-       "ms": 3330,
+       "ms": 3274,
        "pass": true,
        "via": "targetIds"
       }
@@ -55965,7 +56031,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -56234,8 +56300,14 @@
       "always": false
      },
      {
+      "key": "binarylaw-334d",
+      "sec": 49,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -56243,17 +56315,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 407,
+     "ms": 449,
      "tests": [
       {
        "id": "behavior.binBooks322b",
-       "ms": 260,
+       "ms": 282,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.binBooks322b",
-       "ms": 147,
+       "ms": 167,
        "pass": true,
        "via": "targetIds"
       }
@@ -56298,7 +56370,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -56567,8 +56639,14 @@
       "always": false
      },
      {
+      "key": "binarylaw-334d",
+      "sec": 49,
+      "share": 10,
+      "always": false
+     },
+     {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -56576,17 +56654,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 407,
+     "ms": 449,
      "tests": [
       {
        "id": "behavior.binBooks322b",
-       "ms": 260,
+       "ms": 282,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.binBooks322b",
-       "ms": 147,
+       "ms": 167,
        "pass": true,
        "via": "targetIds"
       }
@@ -56631,7 +56709,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -56913,7 +56991,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -56921,11 +56999,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 21,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -56970,7 +57048,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -57246,7 +57324,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -57254,11 +57332,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 36,
+     "ms": 30,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 36,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -57304,17 +57382,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.751,
+     "wallSec": 2.362,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.606,
+       "wallSec": 0.547,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.145,
+       "wallSec": 1.815,
        "reused": false,
        "reusedBy": null
       }
@@ -57326,7 +57404,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -57620,7 +57698,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -57628,17 +57706,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3759,
+     "ms": 4309,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3741,
+       "ms": 4284,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.gw150914",
-       "ms": 18,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -57684,7 +57762,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -57762,7 +57840,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -57984,7 +58062,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -57992,17 +58070,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3792,
+     "ms": 4336,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3741,
+       "ms": 4284,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 51,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -58048,17 +58126,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.21100000000000002,
+     "wallSec": 0.202,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.098,
+       "wallSec": 0.109,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.113,
+       "wallSec": 0.093,
        "reused": false,
        "reusedBy": null
       }
@@ -58070,7 +58148,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -58346,7 +58424,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -58354,11 +58432,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.gw150914Merge4s",
-       "ms": 19,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -58403,7 +58481,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -58667,7 +58745,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -58724,7 +58802,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -58994,7 +59072,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -59002,17 +59080,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1090,
+     "ms": 1123,
      "tests": [
       {
        "id": "preset.tuc47",
-       "ms": 1090,
+       "ms": 1120,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.tuc47",
-       "ms": 0,
+       "ms": 3,
        "pass": true,
        "via": "targetIds"
       }
@@ -59057,7 +59135,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -59327,7 +59405,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -59335,11 +59413,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5298,
+     "ms": 6191,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 5298,
+       "ms": 6191,
        "pass": true,
        "via": "targetIds"
       }
@@ -59384,7 +59462,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -59666,7 +59744,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -59674,11 +59752,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1772,
+     "ms": 2120,
      "tests": [
       {
        "id": "preset.ngc3198",
-       "ms": 1772,
+       "ms": 2120,
        "pass": true,
        "via": "targetIds"
       },
@@ -59729,7 +59807,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -60029,7 +60107,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -60037,11 +60115,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 4216,
+     "ms": 5060,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 4216,
+       "ms": 5060,
        "pass": true,
        "via": "targetIds"
       }
@@ -60086,7 +60164,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -60350,7 +60428,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -60358,11 +60436,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 15,
+     "ms": 20,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 15,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -60407,7 +60485,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -60671,7 +60749,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -60679,11 +60757,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 25,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -60728,7 +60806,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -60992,7 +61070,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -61000,11 +61078,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 221,
+     "ms": 354,
      "tests": [
       {
        "id": "preset.crabRemnant",
-       "ms": 221,
+       "ms": 354,
        "pass": true,
        "via": "targetIds"
       }
@@ -61049,7 +61127,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -61565,7 +61643,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -61573,17 +61651,17 @@
     "qa": {
      "attributed": true,
      "n": 6,
-     "ms": 4539,
+     "ms": 5606,
      "tests": [
       {
        "id": "preset.saturn",
-       "ms": 2280,
+       "ms": 3018,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-saturn",
-       "ms": 2259,
+       "ms": 2588,
        "pass": true,
        "via": "targetIds"
       },
@@ -61646,7 +61724,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -61910,7 +61988,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -61918,29 +61996,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 5308,
+     "ms": 5462,
      "tests": [
       {
        "id": "shot.regress-saturnLayered",
-       "ms": 2871,
+       "ms": 2777,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.saturnLayered",
-       "ms": 2422,
+       "ms": 2663,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "core.twolayer",
-       "ms": 15,
+       "ms": 21,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "behavior.saturnLayered",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -61984,17 +62062,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.417,
+     "wallSec": 6.534,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.417,
+       "wallSec": 6.534,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 11.171,
+       "wallSec": 12.178,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -62005,14 +62083,14 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 30.843999999999998,
-     "reusedH2Sec": 11.171,
+     "reusedSec": 31.851,
+     "reusedH2Sec": 12.178,
      "reusedH4Sec": 19.673
     },
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -62078,7 +62156,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -62306,7 +62384,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -62314,23 +62392,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 8254,
+     "ms": 9934,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 8197,
+       "ms": 9866,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 29,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "zonal.analytic-d68",
-       "ms": 25,
+       "ms": 24,
        "pass": true,
        "via": "claims"
       },
@@ -62381,7 +62459,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -62645,7 +62723,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -62653,11 +62731,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 30,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 30,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -62702,7 +62780,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -62966,7 +63044,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -62974,11 +63052,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 17,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.saturnD68ObsOrbit",
-       "ms": 17,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -63026,11 +63104,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 117.02,
+     "wallSec": 131.315,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 117.02,
+       "wallSec": 131.315,
        "reused": false,
        "reusedBy": null
       }
@@ -63042,7 +63120,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -63102,7 +63180,7 @@
      },
      {
       "key": "mercury",
-      "sec": 341,
+      "sec": 287,
       "share": 35,
       "always": true
      },
@@ -63570,7 +63648,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -63578,17 +63656,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 89,
+     "ms": 111,
      "tests": [
       {
        "id": "preset.saturnRingReal",
-       "ms": 53,
+       "ms": 77,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "wave121.ui",
-       "ms": 36,
+       "ms": 34,
        "pass": true,
        "via": "claims"
       }
@@ -63636,7 +63714,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -63912,7 +63990,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -63920,11 +63998,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 236,
+     "ms": 344,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 236,
+       "ms": 344,
        "pass": true,
        "via": "targetIds"
       }
@@ -63969,7 +64047,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -64245,7 +64323,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -64253,28 +64331,28 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 3941,
+     "ms": 4149,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 3891,
+       "ms": 4084,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ai.obs-binary",
-       "ms": 49,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.binary",
-       "ms": 1,
+       "ms": 65,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.kframe-binary-default",
+       "ms": 0,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.binary",
        "ms": 0,
        "pass": true,
        "via": "targetIds"
@@ -64321,7 +64399,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -64597,7 +64675,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -64605,17 +64683,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 157,
+     "ms": 131,
      "tests": [
       {
        "id": "shot.regress-fig8",
-       "ms": 145,
+       "ms": 116,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.fig8",
-       "ms": 12,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -64660,7 +64738,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -64924,7 +65002,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -64932,11 +65010,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 838,
+     "ms": 821,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 838,
+       "ms": 821,
        "pass": true,
        "via": "targetIds"
       },
@@ -64987,7 +65065,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -65251,7 +65329,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -65259,23 +65337,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2036,
+     "ms": 2035,
      "tests": [
       {
        "id": "shot.regress-spinup",
-       "ms": 1147,
+       "ms": 1194,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.spinup",
-       "ms": 889,
+       "ms": 840,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.spinup",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -65320,7 +65398,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -65584,7 +65662,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -65592,11 +65670,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 63,
+     "ms": 228,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 63,
+       "ms": 228,
        "pass": true,
        "via": "targetIds"
       }
@@ -65641,7 +65719,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -65905,7 +65983,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -65913,11 +65991,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 37,
+     "ms": 125,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 37,
+       "ms": 125,
        "pass": true,
        "via": "targetIds"
       }
@@ -65962,7 +66040,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -66226,7 +66304,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -66234,11 +66312,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 13,
+     "ms": 75,
      "tests": [
       {
        "id": "preset.whiteDwarfDFM",
-       "ms": 13,
+       "ms": 75,
        "pass": true,
        "via": "targetIds"
       }
@@ -66283,7 +66361,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -66547,7 +66625,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -66555,11 +66633,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 18,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.whiteDwarfBareDFM",
-       "ms": 18,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -66604,7 +66682,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -66868,7 +66946,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -66876,11 +66954,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 18,
+     "ms": 11,
      "tests": [
       {
        "id": "preset.envelopeShedDFM",
-       "ms": 18,
+       "ms": 11,
        "pass": true,
        "via": "targetIds"
       }
@@ -66925,7 +67003,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -67189,7 +67267,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -67197,17 +67275,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 150,
+     "ms": 158,
      "tests": [
       {
        "id": "preset.lfbotTrap",
-       "ms": 82,
+       "ms": 80,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lfbotTrap",
-       "ms": 68,
+       "ms": 78,
        "pass": true,
        "via": "targetIds"
       }
@@ -67252,7 +67330,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -67522,7 +67600,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -67530,11 +67608,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 10,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.layeredCoreDFM",
-       "ms": 10,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -67579,7 +67657,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -67855,7 +67933,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -67863,11 +67941,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 9,
+     "ms": 29,
      "tests": [
       {
        "id": "preset.spinDipoleBinary",
-       "ms": 9,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -67912,7 +67990,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -68176,7 +68254,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -68184,17 +68262,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 187,
+     "ms": 219,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 164,
+       "ms": 187,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gasCohSurface",
-       "ms": 23,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -68239,7 +68317,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -68503,7 +68581,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -68511,11 +68589,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 10,
+     "ms": 16,
      "tests": [
       {
        "id": "preset.mmPhaseToy",
-       "ms": 10,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -68560,7 +68638,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 22,
       "share": "all",
       "always": false
      },
@@ -68824,7 +68902,7 @@
      },
      {
       "key": "timing294",
-      "sec": 204,
+      "sec": 180,
       "share": "all",
       "always": false
      }
@@ -68832,17 +68910,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 44,
+     "ms": 97,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 30,
+       "ms": 73,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
-       "ms": 14,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -68854,28 +68932,28 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 232,
-  "regenSecSum": 37606,
-  "alwaysSec": 1003,
-  "undeclaredSteps": 28,
-  "undeclaredSec": 1598,
-  "qaTotal": 1489,
-  "qaDurationMs": 4404186,
+  "regenSteps": 237,
+  "regenSecSum": 37495,
+  "alwaysSec": 799,
+  "undeclaredSteps": 31,
+  "undeclaredSec": 1660,
+  "qaTotal": 1506,
+  "qaDurationMs": 4812838,
   "qaProvenance": {
    "since": "第320便d(R265)",
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "6985896a6b2b33de26a0245eed154964707283ab",
-   "date": "2026-11-11T01:27:57.856Z",
-   "betaBuild": "v1.47-b333",
-   "targetSha256": "6dd99a739eb9858a45fde9ce757fa7b21358a677d39e7dc56b3b80754790aeb9",
+   "commit": "06d7fa06f73f0a07ac28feb6424408d808c47d80",
+   "date": "2026-11-12T00:08:47.602Z",
+   "betaBuild": "v1.47-b334",
+   "targetSha256": "64008166fa63729730721be6afc6c538226d4d1a47bf7d12233659ff2fa9f9b5",
    "sameBuild": true,
    "sameHtml": true,
    "rule": "鎖の常時群の段 samplestatus はゲートの QA の前に走る —— 保存 QA の時間は前の便のゲートの保存物(1 便遅れる)。版名が同じでも html の sha が違えば同じ便の中の前の html の QA"
   },
   "noHtmlSteps": {
    "since": "第320便d(R265)",
-   "n": 21,
-   "sec": 1593,
+   "n": 24,
+   "sec": 1655,
    "keys": [
     "obsintake",
     "recordid",
@@ -68897,7 +68975,10 @@
     "nsmode",
     "reldrag289",
     "satan-317d",
-    "noncirc-333d"
+    "noncirc-333d",
+    "heightlaw-334a",
+    "ledger-334b",
+    "gridfloor-334e"
    ],
    "rule": "宣言の無い段のうち再生成表の htmlReadOf が none(html を読まない)の段"
   },
@@ -68905,7 +68986,7 @@
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 45.523
+    "sec": 49.306
    },
    "h4": {
     "n": 3,
@@ -69289,12 +69370,6 @@
      ]
     },
     {
-     "key": "calaudit",
-     "sec": 530,
-     "kind": "常時群",
-     "presets": null
-    },
-    {
      "key": "galaxyproto",
      "sec": 467,
      "kind": "html を読まない",
@@ -69322,6 +69397,12 @@
      "presets": "all"
     },
     {
+     "key": "calaudit",
+     "sec": 389,
+     "kind": "常時群",
+     "presets": null
+    },
+    {
      "key": "compose293",
      "sec": 387,
      "kind": "領域の宣言",
@@ -69334,48 +69415,6 @@
      "presets": [
       "ngc3198",
       "ngc3198DFM"
-     ]
-    },
-    {
-     "key": "mercury",
-     "sec": 341,
-     "kind": "常時群",
-     "presets": [
-      "alphaCenAB",
-      "alphaCenABDFM",
-      "earthMoonReal",
-      "earthMoonRealKF1",
-      "emAuditDFM",
-      "emAuditNewton",
-      "gw150914DFM",
-      "jupiterGalilean",
-      "marsMoonsReal",
-      "mercuryReal",
-      "mercuryRealKF1",
-      "neptuneReal",
-      "plutoCharonDiagInput",
-      "plutoCharonReal",
-      "psrB1534",
-      "psrB1534CF",
-      "psrB1534DFM",
-      "psrDoubleAB",
-      "psrDoubleABCF",
-      "psrDoubleABDFM",
-      "psrDoubleABPN",
-      "psrDoubleABSpinCal",
-      "psrJ1757CF",
-      "psrJ1757DFM",
-      "psrJ1757PN",
-      "psrJ1946CF",
-      "psrJ1946DFM",
-      "psrJ1946PN",
-      "qLockRadialAudit",
-      "qLockRadialAuditQ3",
-      "saturnRingReal",
-      "saturnZonalD68",
-      "siriusAB",
-      "siriusABDFM",
-      "venusReal"
      ]
     },
     {
@@ -69417,6 +69456,48 @@
      ]
     },
     {
+     "key": "mercury",
+     "sec": 287,
+     "kind": "常時群",
+     "presets": [
+      "alphaCenAB",
+      "alphaCenABDFM",
+      "earthMoonReal",
+      "earthMoonRealKF1",
+      "emAuditDFM",
+      "emAuditNewton",
+      "gw150914DFM",
+      "jupiterGalilean",
+      "marsMoonsReal",
+      "mercuryReal",
+      "mercuryRealKF1",
+      "neptuneReal",
+      "plutoCharonDiagInput",
+      "plutoCharonReal",
+      "psrB1534",
+      "psrB1534CF",
+      "psrB1534DFM",
+      "psrDoubleAB",
+      "psrDoubleABCF",
+      "psrDoubleABDFM",
+      "psrDoubleABPN",
+      "psrDoubleABSpinCal",
+      "psrJ1757CF",
+      "psrJ1757DFM",
+      "psrJ1757PN",
+      "psrJ1946CF",
+      "psrJ1946DFM",
+      "psrJ1946PN",
+      "qLockRadialAudit",
+      "qLockRadialAuditQ3",
+      "saturnRingReal",
+      "saturnZonalD68",
+      "siriusAB",
+      "siriusABDFM",
+      "venusReal"
+     ]
+    },
+    {
      "key": "moon3d-298c",
      "sec": 256,
      "kind": "領域の宣言",
@@ -69433,7 +69514,7 @@
     },
     {
      "key": "timing294",
-     "sec": 204,
+     "sec": 180,
      "kind": "領域の宣言",
      "presets": "all"
     },
@@ -69679,10 +69760,21 @@
      ]
     },
     {
-     "key": "d68three",
-     "sec": 48,
-     "kind": "常時群",
-     "presets": null
+     "key": "binarylaw-334d",
+     "sec": 49,
+     "kind": "領域の宣言",
+     "presets": [
+      "alphaCenABInertial3d",
+      "alphaCenABInertial3dJ",
+      "binaryCheckEqualInertial3d",
+      "binaryCheckRatio3Inertial3d",
+      "plutoCharonDiagInput",
+      "plutoCharonInertialFit",
+      "psrB1534",
+      "psrDoubleABInertial3d",
+      "psrJ1757DFM",
+      "psrJ1946DFM"
+     ]
     },
     {
      "key": "ref3d-299e",
@@ -69718,6 +69810,18 @@
      "presets": "all"
     },
     {
+     "key": "d68three",
+     "sec": 42,
+     "kind": "常時群",
+     "presets": null
+    },
+    {
+     "key": "ledger-334b",
+     "sec": 36,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
      "key": "emonly-300b",
      "sec": 32,
      "kind": "領域の宣言",
@@ -69725,12 +69829,6 @@
       "earthMoonOnly3d",
       "earthMoonSunInertial3d"
      ]
-    },
-    {
-     "key": "d0audit",
-     "sec": 26,
-     "kind": "領域の宣言",
-     "presets": "all"
     },
     {
      "key": "drag3d-298c",
@@ -69751,10 +69849,22 @@
      "presets": null
     },
     {
+     "key": "gridfloor-334e",
+     "sec": 23,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
      "key": "dt3",
      "sec": 22,
      "kind": "常時群",
      "presets": null
+    },
+    {
+     "key": "d0audit",
+     "sec": 22,
+     "kind": "領域の宣言",
+     "presets": "all"
     },
     {
      "key": "transgeo2-332b",
@@ -69809,6 +69919,16 @@
      "sec": 10,
      "kind": "領域の宣言",
      "presets": "all"
+    },
+    {
+     "key": "mercurynode-334c",
+     "sec": 10,
+     "kind": "領域の宣言",
+     "presets": [
+      "marsSunInertial3d",
+      "mercurySunInertial3d",
+      "venusSunInertial3d"
+     ]
     },
     {
      "key": "bgrange288",
@@ -69934,12 +70054,6 @@
      "key": "dyncenter",
      "sec": 5,
      "kind": "html を読まない",
-     "presets": null
-    },
-    {
-     "key": "samplestatus",
-     "sec": 5,
-     "kind": "常時群",
      "presets": null
     },
     {
@@ -70241,6 +70355,12 @@
      ]
     },
     {
+     "key": "heightlaw-334a",
+     "sec": 3,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
      "key": "qsplit",
      "sec": 2,
      "kind": "領域の宣言",
@@ -70406,6 +70526,12 @@
       "galaxyMeshSpiral",
       "shapeToyArmCore"
      ]
+    },
+    {
+     "key": "samplestatus",
+     "sec": 2,
+     "kind": "常時群",
+     "presets": null
     },
     {
      "key": "clusterAnalogy",
