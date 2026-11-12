@@ -12,11 +12,15 @@
 //   で出す(tools/post-merge-qa.sh の ① の要約がこの印を拾って「刻印の型以外の違反 k 件」を出す)。
 //
 // ■ しないこと: 判定しない・違反を足さない/消さない(数と並びだけ)。lint の本文の判定の式は変えない。
-export const LINT_KINDS_VERSION = 'w320d-lintkinds-1';
+export const LINT_KINDS_VERSION = 'w336b-lintkinds-2';
 
 /** 刻印の型の文の印(どれかに当たれば刻印の型)。文の作り手(qa.mjs の lint)は「器を走らせ直すこと」を必ず添える。 */
 // lint.canon304 の刻印の型は「—— 鎖で作り直す段 <段>」と書く(第320便d の部分 QA で見つけた —— 入力・コード・対象の刻印の違い)
-export const STAMP_PATTERNS = [/走らせ直す/, /鎖で作り直す/];
+// 第336便b(統括の検証項目 R336): 古い鍵の刻印の型の文の書き方 5 つを足した(版 2)—— 「(器を再走する)」・「統合後は再走して入れ替える」・
+//   「(鎖の samplestatus の再走待ち)」・「(別ソースの走行)」(正本の meta.targetSha256 が検査対象の html と違う)・「(走行後に html が動いた)」
+//   (--merge の鍵の targetSha256)。どれも鎖で器を走らせ直せば直る(「摂動の再走が決定論でない」は当たらない —— 語を狭く取る)。第335便の post-merge の ① では
+//   docs.d0sites-sync・docs.kf0Ledger・lint.calauditMergeKeyHash の文がこの書き方で、刻印の型に数えられなかった。
+export const STAMP_PATTERNS = [/走らせ直す/, /鎖で作り直す/, /器を再走/, /統合後は再走して/, /再走待ち/, /別ソースの走行/, /走行後に html が動いた/];
 
 /** 違反の文を分類する('stamp' | 'other')。 */
 export function classifyViolation(s) {

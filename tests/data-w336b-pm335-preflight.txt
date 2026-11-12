@@ -1,0 +1,16 @@
+# 第335便の統合の後の受け入れ(tools/post-merge-qa.sh)① 静的受理(QA_TARGET=beta/index.html node tests/qa-preflight.mjs)のログの抜粋 —— 第336便b(統括の検証項目 R336)が凍結した。
+# 元のログは 526 判定(PASS 518・FAIL 8)。FAIL は 8 行すべて・PASS は 4 行だけを残し、長い行は id・種類の印(在れば)・文の末尾 120 字に切った(途中は「…」)。
+# lint.unmarkedFail336b がこの抜粋を tests/lib-w320d-lintkinds.mjs の summarizeLog と tools/post-merge-qa.sh の kinds320 に通し、期待の要約と突き合わせる(作り直さない —— 凍結)。
+PASS syntax  …(抜粋)
+PASS lint.coreBudget  …(抜粋)
+FAIL lint.provenanceMeta  …〔違反の種類 w320d: 刻印の型以外 0 件・刻印の型 21 件〕 … presetFull:*,text:* —— **器を走らせ直すこと** , ③tests/out/d0sites-w276a.json の beta/index.html が刻印と違う —— **器を走らせ直すこと** …ほか 17 件
+FAIL lint.calauditMergeKeyHash  …**(意図した動作 —— 通常走行 + `--dt3-registry --merge` で作り直す) / **違反 1 件**: ①targetSha256 が現在の beta/index.html と違う(走行後に html が動いた)
+FAIL docs.d0sites-sync  …化規約**であって、環境から引きずり指数を予言する式ではない —— **背景を変えても q は自動では動かない**(実測) / **違反 1 件**: ① meta.targetSha256 が検査対象の html と違う(別ソースの走行)
+FAIL docs.selfInertia-sync  …_core には1 命令も足していない。**慣性は導出していない** —— 置いたのは仮説と、その検算・否定対照である / **違反 1 件**: ① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)
+FAIL docs.kf0Ledger  …べて ✓** の行にだけ付く**候補**であって、**較正完了ではない**。**未測定は未測定と書く**(推定で埋めない) / **違反 1 件**: ① meta.targetSha256 が検査対象の html と違う(別ソースの走行)
+FAIL lint.canon303  …が刻印と違う —— 鎖で作り直す段 semic-302d , ④ tests/out/semic-w302d.json のコード tests/lib-w281a-scope.mjs が刻印と違う —— 鎖で作り直す段 semic-302d
+FAIL lint.canon304  …〔違反の種類 w320d: 刻印の型以外 0 件・刻印の型 3 件〕 … 印と違う —— 鎖で作り直す段 drag3d-298c , ④ tests/out/drag3d-w298c.json のコード tests/lib-w281a-scope.mjs が刻印と違う —— 鎖で作り直す段 drag3d-298c
+FAIL docs.uiText316  …5 の逐語・CHANGELOG・README・EXPLAINER ja/en の記号・post-merge 4 ID・書かない語・裸の κ なし / **違反 1 件**: AI_SPEC §5 に SYSTEM_PROMPT の逐語が無い
+PASS docs.terms335g  …(抜粋)
+PASS preflight.builtinsAcceptBuildStep  …(抜粋)
+[preflight] FAILED (518/526) → tests/out/qa-preflight-beta.json(fullQaStillRequired:true — フル QA は npm test)
