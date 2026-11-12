@@ -103451,6 +103451,186 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第335便d の塊(ここまで)====
 
+// ==== 第335便e の塊(ここから —— lint.moonApsis335e・behavior.moonApsis335e・docs.moonApsis335e の 3 ブロック。root は SKIP)====
+// ---- 第335便e(原仮定者の補足(2026-11-12)「月の近点移動の周期は太陽無しでは徐々に減衰するが、太陽有りだと安定する」・原仮定者の決断(2026-11-12)自己を運ぶ式・統括の検証項目 R332):
+// ----   **月の近点と太陽の有無の 4 列の純関数と器**(新設 —— 器 tests/exp-w335e-moonapsis.mjs・lib tests/lib-w335e-moonapsis.mjs・文書の lib tests/lib-w335e-moonapsisdoc.mjs・
+// ----   正本 tests/out/moonapsis-w335e.json。html・本の宣言・エンジン・受理器・既存の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.moonApsis335e(html を読まない): ① 版・宣言(4 列・引きずりの型・強さ・成分・窓・刻み・判定の版 2)② 純関数の場面 10(二体の閉じた式 3・保存の型・零・共変性・J₂ の交点・
+// ----     調和の回帰・入力の拒否・自己の重み)③ 呼ぶだけ(lib の import は第331便c・第333便c の lib だけ・lib と文書の lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w335e の語が無い)
+// ----     ④ 文献の値の注記(未照合)
+// ----   behavior.moonApsis335e(html を headless で読む —— 正本と照合): ① 本の値と写しの規則(今の html の 🌦️・🌔)② 太陽なしの D0 と宣言の強さの D1 を作り直して差の量が正本と相対 1e-6 の内
+// ----     ③ 判定・線形・分解・供給の表を正本の差から作り直して同じ ④ 作り直した門
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w335e-moonapsis.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w335e-moonapsis.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w335e-moonapsisdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'moonapsis-w335e.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP lint.moonApsis335e・behavior.moonApsis335e(第335便e の月の近点と太陽の有無の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── lint.moonApsis335e ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      const js = (x) => JSON.stringify(x), D = L.DECL;
+      if (!(L.LIB_VERSION === 'w335e-moonapsis-lib-1' && X.HARNESS_VERSION === 'w335e-moonapsis-1' && D0.DOC_VERSION === 'w335e-moonapsisdoc-1')) bad.push('① 版(lib・器・文書の lib)');
+      if (!(js(D.columns) === js(['S0D0', 'S1D0', 'S0D1', 'S1D1']) && js(D.books) === js({ withSun: 'earthMoonSunInertial3d', noSun: 'earthMoonOnly3d' }) && D.copyRule === 'emOnly'))
+        bad.push('① 4 列と本の宣言');
+      if (!(D.drag.alpha === 1 && D.drag.selfType === 'ballHarmonic' && D.drag.selfRadius === 'Y_k m' && D.drag.W0 === 0 && js(D.drag.axes) === js({ sun: '+z', earth: 'j2', moon: '+z' }) && js(D.drag.axisCompare) === js({ earth: '+z', strengths: [1e6] })))
+        bad.push('① 引きずりの型の宣言(α・自己の型と半径・W₀・自転軸)');
+      if (!(js(D.strengths) === js([1, 1e3, 1e6]) && js(D.parts) === js(['rad', 'tan']) && js(D.partStrengths) === js([1, 1e6]) && js(D.windowsYr) === js([20, 100]) && D.stepsPerOrbit === 360 && D.sampleEvery === 12 && D.harmonics === 3 && D.halfSubset.length === 6))
+        bad.push('① 強さ・成分・窓・刻み・標本・h/2 の部分集合の宣言');
+      if (!(D.judge.bandFactor === 10 && D.judge.floorRel === 1e-12 && D.judge.linTol === 0.1 && D.judge.keepRatio === 0.1 && D.judge.version === 2 && js(D.judge.windowStable) === js([0.5, 2])))
+        bad.push('① 判定の物差し(版 2 —— 帯 ∧ 窓の安定)');
+      cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・文書 ${D0.DOC_VERSION}・4 列・強さ ${D.strengths.length}・成分 ${D.parts.length} × ${D.partStrengths.length}・窓 ${D.windowsYr.join('/')} 年・刻み 1/${D.stepsPerOrbit} 恒星月・判定 版 ${D.judge.version}`);
+      let G1 = null;
+      try { G1 = L.pureGates(L.pureScenes()); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G1) {
+        for (const [k, v] of Object.entries(G1)) if (v !== true) bad.push('② 場面 ' + k);
+        if (Object.keys(G1).length !== 10) bad.push('② 場面の数 ' + Object.keys(G1).length);
+        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(二体の閉じた式 両方・動径・接線・保存の型・零・共変性・J₂ の交点・調和の回帰・入力の拒否・自己の重み)`);
+      }
+      const tl = rd('tests/lib-w335e-moonapsis.mjs'), th = rd('tests/exp-w335e-moonapsis.mjs'), td = rd('tests/lib-w335e-moonapsisdoc.mjs'), base2 = rd('tests/lib-w331c-k1scale.mjs') + rd('tests/lib-w333c-mercury3d.mjs');
+      const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+      if (!(js(imps) === js(['lib-w331c-k1scale.mjs', 'lib-w333c-mercury3d.mjs']) && !/loadHtml|index\.html/.test(tl + td) && /loadHtmlMain/.test(th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/w335e/.test(base2)))
+        bad.push('③ 呼ぶだけ(lib の import は第331便c・第333便c の lib だけ・lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w335e が無い)');
+      cases.push('③ lib の import は第331便c の K1 のスケール・第333便c の水星の三次元の lib だけ(エンジンの式を写さない)・lib と文書の lib は html を読まない・器と lib はネットへ取りに行かない・呼ぶ lib の本文は不変');
+      if (!(/未照合/.test(X.PLAN.litNote) && /一次資料に当たっていない/.test(js(X.NOT_CLAIM)) && /未照合/.test(tl))) bad.push('④ 文献の値の注記(未照合)');
+      cases.push('④ 文献の値の注記(本の fitRecord の obs の欄の出典 —— 未照合)');
+    }
+    add('lint.moonApsis335e', bad.length === 0,
+      `**月の近点と太陽の有無の純関数**(第335便e・原仮定者の補足(2026-11-12)・R332 —— html を読まない・4 列・多体の並進引きずり〔宣言(未接続)〕・走行の前の宣言): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.moonApsis335e ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/moonapsis-w335e.json が読めない');
+    else {
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H = loadHtmlHeadless(path.join(ROOT, TARGET));
+        // 尺度を床にした相対の差(Node の版で超越関数の最後の桁が違っても通る)
+        const dif = (a, b, sc) => (a === b ? 0 : (a === null || b === null || a === undefined || b === undefined) ? Infinity : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b), Math.abs(sc || 0), 1e-300));
+        // ① 本の値と写しの規則
+        const BK = X.readBooks(H.HP), jb = J.books;
+        let d1 = 0;
+        for (const k of ['G', 'c', 'pRef', 'spo']) d1 = Math.max(d1, dif(BK[k], jb[k], 0));
+        BK.masses.forEach((m, i) => { d1 = Math.max(d1, dif(m, jb.masses[i], 0)); }); BK.spins.forEach((s, i) => { d1 = Math.max(d1, dif(s, jb.spins[i], 0)); });
+        for (const k of ['aps', 'sid', 'e', 'node']) d1 = Math.max(d1, dif(BK.fitRecord[k].model, jb.fitRecord[k].model, 0));
+        if (!(d1 === 0 && BK.copy.ok === true && JSON.stringify(BK.copy) === JSON.stringify(jb.copy) && BK.dragOff.withSun && BK.dragOff.noSun && BK.pinnedSun)) bad.push(`① 本の値と写しの規則が正本と違う(相対 ${d1})—— 器を走らせ直す`);
+        cases.push(`① 本の値(G・c₀・刻み・質量・自転・fitRecord の模型の値)と写しの規則(🌔 = 🌦️ の emOnly)が正本と同じ・在位の 2 本は引きずり OFF・太陽は固定`);
+        // ② 太陽なしの D0 と宣言の強さの D1(100 年 —— 作り直して差の量を照らす)
+        const off = X.runOne(BK, { S: 0, lam: 0 }), on = X.runOne(BK, { S: 0, lam: 1 }), b0 = X.baseSummary(off, 0), ds = X.diffSummary(on, off, 0, b0);
+        let d2 = 0;
+        for (const w of ['w20', 'w100']) { for (const k of ['apsPeriodYr', 'nodePeriodYr', 'sidDay', 'eMean']) d2 = Math.max(d2, dif(b0[w][k], J.base.S0[w][k], 0));
+          const r = J.diffs.find((q) => q.key === 'S0|both|1|j2')[w]; for (const k of ['dvarpi', 'dnode', 'de', 'dE']) d2 = Math.max(d2, dif(ds[w][k], r[k], Math.abs(r[k]) * 1e-3)); }
+        if (!(d2 <= 1e-6)) bad.push(`② 太陽なしの D0・D1 を作り直して正本と違う(相対 ${d2})`);
+        cases.push(`② 太陽なしの D0(近点 ${b0.w100.apsPeriodYr.toPrecision(4)} 年・恒星月 ${b0.w100.sidDay.toPrecision(6)} 日)と宣言の強さの D1(近点の率の差 ${ds.w100.dvarpi.toExponential(3)} rad/年)を作り直して正本と相対 1e-6 の内(e と E の差の傾きは自分の 1e-3 倍を床に)`);
+        // ③ 判定・線形・分解・供給(正本の差から作り直す)
+        const JG = X.judgeAll(J), SP = X.partSplit(J, BK), SU = X.partSupply(J, JG);
+        const same = JSON.stringify(JG) === JSON.stringify(J.judge) && JSON.stringify(SP) === JSON.stringify(J.split) && JSON.stringify(SU) === JSON.stringify(J.supply);
+        if (!same) bad.push('③ 判定・線形・分解・供給の表を正本の差から作り直して違う');
+        cases.push(`③ 判定 ${JG.rows.length} 行・線形 ${JG.lin.length} 行・分解 ${SP.rows.length} 行・供給の表を正本の差から作り直して同じ(太陽が保つか: ${JG.keep})`);
+        // ④ 門
+        const G2 = X.gatesOf(Object.assign({}, J, { books: Object.assign({}, J.books, { copy: BK.copy }), judge: JG, pure: { gates: L.pureGates(L.pureScenes()) } }));
+        if (!Object.values(G2).every((v) => v === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.moonApsis335e', bad.length === 0,
+      `**月の近点と太陽の有無の作り直し**(第335便e・原仮定者の補足(2026-11-12)・R332 —— 今の html の 🌦️・🌔 の宣言を読む・步を進めない・宣言の型の表): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第335便e: docs.moonApsis335e は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
+// ----   lint・behavior を数えない)。世代切替は上と同じ
+// ----   docs.moonApsis335e(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴・領域 hash(完全・core:false・abBody:false)・宣言が lib の DECL・器の PLAN と同じ ② 表 12 本が PHYSICS〔第335便e〕に逐語
+// ----     ③ 節の位置(〔第334便f〕の節の後・〔第328便 — 統括〕の前)・必須の語・AI_SPEC §224(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・係数の記号(文書はコードの書式の外の κ_D 以外のカッパを書かない)・速度の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w335e-moonapsis.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w335e-moonapsis.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w335e-moonapsisdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'moonapsis-w335e.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.moonApsis335e(第335便e の月の近点と太陽の有無の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.moonApsis335e ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第335便e — '), ie = PH.indexOf('〔第334便f — '), iz = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && ie >= 0 && ie < i0 && iz > i0)) bad.push('PHYSICS〔第335便e〕が無いか〔第334便f〕の節の前か〔第328便 — 統括〕の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/moonapsis-w335e.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.scopeComplete === true
+        && /^[0-9a-f]{64}$/.test(J.meta.scopeSha256 || '') && J.meta.stage === 'moonapsis' && J.meta.scope && J.meta.scope.abBody === false && J.meta.scope.core === false)) bad.push('① 版・来歴・領域 hash(完全・core:false・abBody:false)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN) || JSON.stringify(J.notClaim) !== JSON.stringify(X.NOT_CLAIM)) bad.push('① 正本の宣言が lib の DECL・器の PLAN・NOT_CLAIM と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第335便e〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 12) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第335便e〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の補足(2026-11-12)', '原仮定者の決断(2026-11-12)', 'R332', '4 列', '同じ初期状態', '自己を運ぶ式', '観測自転 s', 'W₀ = 0', 'Y_k', '拡大した対照', '動径の成分', '距離の変化による並進引きずり',
+      '閉じた式', '強制の成分', '自由の成分', '走行の前', '版 2', '版 1 からの変更', '周期の項の漏れ', '下限', '判定できない', '散逸の口', '速度の型', '宣言(未接続)', '引きずり OFF', '束縛の外', '未照合',
+      '月の近点の安定を引きずりと太陽の供給で出したとは言わない', 'tests/exp-w335e-moonapsis.mjs', 'tests/out/moonapsis-w335e.json', 'tests/lib-w335e-moonapsis.mjs', 'w335e-moonapsis-lib-1',
+      '第136報への枝の答え', '決断事項の候補', '第336便への引き継ぎ', 'lint.moonApsis335e', 'behavior.moonApsis335e', 'docs.moonApsis335e'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第335便e〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 224. 第335便e'), ai = secUntilNext329c(AS, a0, '\n## ');   // 次の見出しまで(固定の字数の窓を持たない)
+    if (!(a0 >= 0 && ai.indexOf('tests/out/moonapsis-w335e.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('宣言(未接続)') >= 0 && ai.indexOf('拡大した対照') >= 0 && ai.indexOf('散逸の口') >= 0))
+      bad.push('③ AI_SPEC §224(正本・SYSTEM_PROMPT・宣言・拡大した対照・散逸の口)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl335e = clg.split('\n').find((l) => l.indexOf('**第335便e**') >= 0) || '';
+    if (!(cl335e.indexOf('tests/exp-w335e-moonapsis.mjs') >= 0 && cl335e.indexOf('moonapsis-335e') >= 0 && cl335e.indexOf('原仮定者の補足(2026-11-12)') >= 0 && cl335e.indexOf('R332') >= 0)) bad.push('③ CHANGELOG の第335便e の行');
+    if (!(/S\('moonapsis-335e', 'node tests\/exp-w335e-moonapsis\.mjs', \['tests\/out\/moonapsis-w335e\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '本の宣言の値と純関数と多体の積分器だけ") >= 0
+      && RT.indexOf('// ==== 第335便e の塊(ここから)====') >= 0)) bad.push('③ 段の行 moonapsis-335e(quickVerify と理由・塊)');
+    if (GI.indexOf('!tests/out/moonapsis-w335e.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第335便e の塊(ここから)====') >= 0 && /lint\.moonApsis335e/.test(PM) && /behavior\.moonApsis335e/.test(PM) && /docs\.moonApsis335e/.test(PM))) bad.push('③ post-merge の ③′ に第335便e の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §224(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /内部熱を説明した/, /金星の逆転を説明した/, /銀河の回転曲線を予言した/, /一致した/];
+    const NOT335 = [/\d\s*km\/s/, /D_bg|W_bg|Wbg/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第335便の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・楕円銀河が出来た・ロックした連星で引きずりが合った・供給で熱が合った・今のエンジンで既に出た
+    const W335 = ['ためか確', 'たし示', 'たし明説', 'たき来出が河銀円楕', 'たっ合がりずき引で星連たしクッロ', 'たっ合が熱で給供', 'たし出に既でンジンエの今'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const K0 = new RegExp(String.fromCodePoint(0x3ba) + '(?:' + String.fromCodePoint(0x2080) + '|_0|0)');
+    const texts = [['PHYSICS〔第335便e〕', sec], ['AI_SPEC §224', ai], ['CHANGELOG の第335便e の行', cl335e], ['器', rd('tests/exp-w335e-moonapsis.mjs')], ['lib', rd('tests/lib-w335e-moonapsis.mjs')], ['文書の lib', rd('tests/lib-w335e-moonapsisdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W335)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT335) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・記号 ' + re.source);
+      if (K0.test(tx)) bad.push('④ ' + nm + ' に旧い引きずり係数の記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) {
+        for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+        if (/κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の κ_D 以外のカッパ(lint.kappaSymbol315 の型)');
+      } else if (/κ/.test(tx)) bad.push('④ ' + nm + ' に係数のカッパ(本枝の器・lib は Y_k・C₁ で書く)');
+    }
+    cases.push('④ 書かない語・禁句・係数の記号(旧い引きずり係数の記号を使わない・コードの名前 D_bg・W_bg・m_d を説明に出さない)・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.moonApsis335e', bad.length === 0,
+      `**月の近点と太陽の有無の文書**(第335便e・原仮定者の補足(2026-11-12)・R332 —— 4 列の表・減衰の時間の下限・釣り合いの有無): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第335便e の塊(ここまで)====
+
 // ==== 第335便g の塊(ここから —— lint.terms335g・docs.terms335g の 2 ブロック。root は SKIP)====
 // ---- 第335便g(原仮定者の決断(2026-11-12)・原仮定者の補足(2026-11-12)・原仮定者の回答(2026-11-12 —— AN666)・原仮定者の回答(2026-11-10 —— AN609・AN610)・統括の検証項目 R334):
 // ----   **文書と QA だけ**(docs/EQUATIONS.md の EQ-34〜EQ-43〔第334便の診断の式〕と §2a の用語の更新・docs/PHENOMENA_STATUS.md の欄「第334便の調べ」 —— html・エンジン・

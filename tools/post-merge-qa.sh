@@ -893,6 +893,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.mercuryCombo335c behavior.mercuryCombo3
 #   docs.binaryTilt335d —— 正本の門と表 14 本が PHYSICS〔第335便d〕に逐語・文書)と、新しい段 binarytilt-335d の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.binaryTilt335d behavior.binaryTilt335d docs.binaryTilt335d docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
 # ==== 第335便d の塊(ここまで)====
+# ==== 第335便e の塊(ここから)====
+# 第335便e(原仮定者の補足(2026-11-12)・原仮定者の決断(2026-11-12)・統括の検証項目 R332 —— 診断だけ・html は変えない): 枝 e の新設 3 本(lint.moonApsis335e —— 月の近点と太陽の有無の
+#   純関数の場面と呼ぶだけの検査・宣言 / behavior.moonApsis335e —— 本の値と写しの規則・太陽なしの D0 と D1・判定と分解の表を今の html の 2 本から作り直して正本と同じ /
+#   docs.moonApsis335e —— 正本の門と表 12 本が PHYSICS〔第335便e〕に逐語・文書)と、新しい段 moonapsis-335e の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.moonApsis335e behavior.moonApsis335e docs.moonApsis335e docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
+# ==== 第335便e の塊(ここまで)====
 # ==== 第335便g の塊(ここから)====
 # 第335便g(原仮定者の決断(2026-11-12)・統括の検証項目 R334 —— 文書と QA だけ・html は変えない): 枝 g の新設 2 本(lint.terms335g —— 第334便の診断の式の項 EQ-34〜EQ-43 と
 #   用語の表の更新・第334便f の照合の世代の写し・変異の自己試験 / docs.terms335g —— 現象の一覧の欄「第334便の調べ」・PHYSICS〔第335便g〕・文書)と、直した文書を読む鍵
