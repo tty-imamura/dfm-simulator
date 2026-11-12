@@ -50155,11 +50155,13 @@ QA: `lint.mercuryNode334c`(宣言・場面 9・呼ぶだけ・文献の出典と
 | 受理の理由(ACCEPT_REASONS) | 9 | 9 | 0 | 1 → 1 置き換えた | 0 |
 | AI の指示(SYSTEM_PROMPT) | 1 | 1 | 0 | 0 | 0 |
 | 退役の表(RETIRED_PRESETS —— 退役の理由の文の日英) | 10 | 10 | 0 | 0 | 0 |
-| 内蔵の本の表示の欄(name・descStruct・obsCard・parameterAudit・abBody.label・status ほか) | 251 | 251 | 0 | 0 | 29(中心重力の係数 —— 置き換えなかった)+ 注記 1 |
+| 内蔵の本の表示の欄(name・descStruct・obsCard・parameterAudit・abBody.label・status ほか) | 251 | 228 | 23(静止背景の本 4 本 —— 別の量・下の ②′) | 0 | 29(中心重力の係数 —— 置き換えなかった)+ 注記 1 |
 | 内蔵の本の fitRecord(フィットの記録) | 8 | 0 | 8(presets の hash に入る欄) | 0 | 0 |
 | 関数の中の文字列(エラーの文・凡例・状態の注記) | 17 | 0 | 17(code の hash に入る) | 0 | 1(引きずり係数 —— code の hash に入る) |
 | 生成領域 sample-status | 12 | 原稿で 6(下の ④) | 12(鎖の samplestatus が原稿から書き直すまで) | 0 | 0 |
-| 計(文字列の中) | 402 | **365** | 37 | 1 | 30 → 30(置き換え 0) |
+| 計(文字列の中) | 402 | **342** | 60 | 1 | 30 → 30(置き換え 0) |
+
+**②′ 静止背景の `W_bg` は量で分けた。** 静止背景の本 4 本(galaxyAnalogyBHCompose 14・clusterAnalogyBH 1・clusterGrowthCopy 5・fixedCaptureCopy 3 —— 旧い空間メッシュの法則 spaceMesh の lawVersion "scalar" で D0 を背景に読む本)の `W_bg` は、旧い決定力場 W = `W_bg` + Σw_j の背景(「旧 `W_bg` = D₀ と同じ数」)で、新しい記号では D₀ の量にあたる —— 背景慣性決定力 `W₀`(引きずりの `physics.relativeDrag.Wbg`)とは別の量なので `W₀` に置き換えると意味が変わる。置き換えの試しの画面の確認で見付けて戻した(式 W = `W_bg` + Σw_j の W も旧い決定力場の記号なので、`D₀` へ記号だけを替えると式の形が崩れる —— 置き換え先は決断事項の候補)。
 
 注釈の中の `W_bg` 126 件・`D_bg` 2 件・カッパに添字 0 の 39 件は数えず、変えていない(コメントは対象外)。マークアップ(script の外)には 0 件。
 
@@ -50169,7 +50171,7 @@ QA: `lint.mercuryNode334c`(宣言・場面 9・呼ぶだけ・文献の出典と
 
 | 測り方 | 結果 |
 |---|---|
-| html の物理の部分の hash(code・presets・markup) | 基点と同じ(code 68897cd1…・presets 89c0f855…・markup e8d6c556…)—— 変わったのは text:I18N・text:ACCEPT_REASONS・text:SYSTEM_PROMPT・text:RETIRED_PRESETS と本の全体の写し(presetFull 24 本)だけ |
+| html の物理の部分の hash(code・presets・markup) | 基点と同じ(code 68897cd1…・presets 89c0f855…・markup e8d6c556…)—— 変わったのは text:I18N・text:ACCEPT_REASONS・text:SYSTEM_PROMPT・text:RETIRED_PRESETS と本の全体の写し(presetFull 20 本)だけ |
 | 署名(`tests/exp-w272d-sigsame.mjs` —— 基点 html と本便の html) | 署名 186/186 同じ |
 | 600 步(`tests/exp-w258c-bitsame.mjs`) | 600 步 186/186 ビット同一・ページのエラー 0 |
 | 規約の速い判定(`tools/conventions-check.mjs`) | OK(警告のある本の数は基点と同じ) |
@@ -50197,7 +50199,7 @@ QA: `lint.mercuryNode334c`(宣言・場面 9・呼ぶだけ・文献の出典と
 
 **⑥ QA の世代の直し。** 置き換えた文字列を固定していた html を読む鍵 4 本の期待を、世代の注記つきで新しい記号に直した(`preset.inertialDragPair`・`ui.wbgSlider302`・`preset.sampleWords325b`・`docs.words325c` の 5 か所 —— 世代は 🎱 の概要の注記の有無で判定・古い世代の html〔root〕は従来の期待のまま・検査の数は不変)。文書(PHYSICS・AI_SPEC・CHANGELOG の過去の行)を読む鍵は直していない(過去の節は書き換えない)。
 
-**⑦ 新しい QA(第335便a —— root は SKIP)。** `lint.appSymbols335a`: lib の版と宣言・html の文字列の中の旧い記号を 1 件ずつ領域と持ち主に分けて許可の外 0・**許可 56 件**(表 4 の 18 項 —— 件数ちょうど・理由つき)・注記が日英 1 か所ずつ・原稿の表示の欄 0・生成領域の原稿の遅れ 12 件・script の外 0・変異の自己試験 15 種(注釈と識別子と `Wbg` は数えない型を含む)。`docs.appSymbols335a`: 本節の位置と表と必須の語・AI_SPEC §220・CHANGELOG・post-merge の ③′・書かない語。
+**⑦ 新しい QA(第335便a —— root は SKIP)。** `lint.appSymbols335a`: lib の版と宣言・html の文字列の中の旧い記号を 1 件ずつ領域と持ち主に分けて許可の外 0・**許可 79 件**(表 4 の 22 項 —— 件数ちょうど・理由つき)・注記が日英 1 か所ずつ・原稿の表示の欄 0・生成領域の原稿の遅れ 12 件・script の外 0・変異の自己試験 15 種(注釈と識別子と `Wbg` は数えない型を含む)。`docs.appSymbols335a`: 本節の位置と表と必須の語・AI_SPEC §220・CHANGELOG・post-merge の ③′・書かない語。
 
 **表 4 許可の一覧(置き換えなかった件 —— `ALLOW_335A`)**
 
@@ -50217,12 +50219,16 @@ QA: `lint.mercuryNode334c`(宣言・場面 9・呼ぶだけ・文献の出典と
 | `W_bg` | 本の fitRecord | earthMoonSunInertial3d | 1 | presets の hash |
 | `W_bg` | 本の fitRecord | mercurySunInertialFit | 6 | presets の hash |
 | `W_bg` | 本の fitRecord | plutoCharonInertialFit | 1 | presets の hash |
+| `W_bg` | 本の表示の欄 | galaxyAnalogyBHCompose | 14 | 静止背景(別の量 —— ②′) |
+| `W_bg` | 本の表示の欄 | clusterAnalogyBH | 1 | 静止背景(別の量) |
+| `W_bg` | 本の表示の欄 | clusterGrowthCopy | 5 | 静止背景(別の量) |
+| `W_bg` | 本の表示の欄 | fixedCaptureCopy | 3 | 静止背景(別の量) |
 | カッパに添字 0 | 本の表示の欄 | shapeToyClusterCore | 12 | 中心重力の係数(別の量 —— 注記 1 か所を含む) |
 | カッパに添字 0 | 本の表示の欄 | shapeToyDiskCore | 5 | 中心重力の係数 |
 | カッパに添字 0 | 本の表示の欄 | shapeToyArmCore | 5 | 中心重力の係数 |
 | カッパに添字 0 | 本の表示の欄 | shapeToySpiralCore | 8 | 中心重力の係数 |
 
-**⑧ 変えていない所。** 注釈・識別子・保存の鍵(`Wbg` ほか)・物理の宣言の値・エンジン・受理器・`S._core`・`beta/sw.js`・root の index.html・論文・`docs/EQUATIONS.md`(§1 の対応表の「アプリの説明文」の注記は本枝では触らない —— 統合の後の候補)。PHYSICS の過去の節は書き換えていない。置き換えなかった 37 件(`W_bg`)と 30 件(カッパに添字 0 —— 中心重力の係数 29・関数の中の引きずり係数 1)は表 4 と ④ のとおり。
+**⑧ 変えていない所。** 注釈・識別子・保存の鍵(`Wbg` ほか)・物理の宣言の値・エンジン・受理器・`S._core`・`beta/sw.js`・root の index.html・論文・`docs/EQUATIONS.md`(§1 の対応表の「アプリの説明文」の注記は本枝では触らない —— 統合の後の候補)。PHYSICS の過去の節は書き換えていない。置き換えなかった 60 件(`W_bg` —— 関数の中 17・fitRecord 8・静止背景 23・生成領域 12)と 30 件(カッパに添字 0 —— 中心重力の係数 29・関数の中の引きずり係数 1)は表 4 と ④ のとおり。
 
 〔第328便 — 統括: 原仮定者の指示(第130報)「改めて残った決断事項をまとめる」・原仮定者の回答(2026-11-05 —— 第327便の残りの決断事項 17 項〔AN550〜AN557・AN559〜AN567〕を推奨どおり: AN553 = B・他は A)を受けた第328便の構成・統合・決断事項・次の便(統括の検証項目 R301〜R303)〕
 

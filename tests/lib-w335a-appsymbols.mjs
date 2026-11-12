@@ -13,6 +13,7 @@
 //   ・関数の中の単独の文字列(エラーの文・凡例・状態の注記 —— 表示だけでも html の物理の部分の hash〔code〕に入る。物理の部分を動かしてまで置き換えない)
 //   ・内蔵の本の fitRecord(フィットの記録 —— 本の物理の写し〔presets〕に入る欄)
 //   ・形状の本の中心重力の係数(別の量)
+//   ・静止背景の本(spaceMesh の lawVersion "scalar" —— 旧い決定力場の背景 = 新しい記号では D₀ の量。背景慣性決定力とは別の量 —— 置き換え先は決断待ち)
 //   ・生成領域 sample-status(原稿 tests/data-w279a-samplestatus-src.json を直した —— 鎖の samplestatus の段が原稿から書き直すまでの遅れだけを許す)
 //
 // ■ しないこと
@@ -30,6 +31,8 @@ export const SYMBOLS_335A = Object.freeze([
 export const REGISTRIES_335A = Object.freeze(['I18N', 'ACCEPT_REASONS', 'LAWS', 'SYSTEM_PROMPT', 'RETIRED_PRESETS']);
 export const GEN_REGIONS_335A = Object.freeze(['i18n', 'sample-status']);
 /** 中心重力の係数を使う形状の本(law:"coreField")。 */
+/** 静止背景の本(spaceMesh の lawVersion "scalar" で D0 を背景に読む本 —— `W_bg` は背景慣性決定力ではない)。 */
+export const STATIC_BG_IDS_335A = Object.freeze(['galaxyAnalogyBHCompose', 'clusterAnalogyBH', 'clusterGrowthCopy', 'fixedCaptureCopy']);
 export const CORE_FIELD_IDS_335A = Object.freeze(['shapeToyClusterCore', 'shapeToyDiskCore', 'shapeToyArmCore', 'shapeToySpiralCore']);
 /** 注記(🎱 の概要 —— 日英 1 か所ずつ)。 */
 export const CORE_NOTE_335A = Object.freeze({
@@ -42,6 +45,7 @@ export const CORE_NOTE_335A = Object.freeze({
  */
 const WHY_CODE = '関数の中の単独の文字列 —— 表示だけでも html の物理の部分の hash(code)に入る(置き換えると code の hash が動く)';
 const WHY_FIT = '内蔵の本の fitRecord —— 本の物理の写し(presets の hash)に入る欄(置き換えると presets の hash が動く)';
+const WHY_STATIC = '静止背景(spaceMesh の lawVersion "scalar" の D0 —— 旧い決定力場 W = W_bg + Σw_j の背景で、新しい記号では D₀ の量。背景慣性決定力 W₀ とは別の量 —— 置き換えると意味が変わる・置き換え先は決断待ち)';
 const WHY_CORE = '形状の本の中心重力の係数 G·M_c/r_c³(時間⁻²)—— 引きずり係数とは別の量(置き換えると式の意味が変わる)';
 export const ALLOW_335A = Object.freeze([
   { sym: 'W_bg', region: 'code', owner: 'geoInertialSetWbg', n: 3, why: WHY_CODE + '(引きずりの調整の拒否の文)' },
@@ -58,6 +62,10 @@ export const ALLOW_335A = Object.freeze([
   { sym: 'W_bg', region: 'BUILTIN_PRESETS', owner: 'earthMoonSunInertial3d', key: 'fitRecord', n: 1, why: WHY_FIT },
   { sym: 'W_bg', region: 'BUILTIN_PRESETS', owner: 'mercurySunInertialFit', key: 'fitRecord', n: 6, why: WHY_FIT },
   { sym: 'W_bg', region: 'BUILTIN_PRESETS', owner: 'plutoCharonInertialFit', key: 'fitRecord', n: 1, why: WHY_FIT },
+  { sym: 'W_bg', region: 'BUILTIN_PRESETS', owner: 'galaxyAnalogyBHCompose', key: '*', n: 14, why: WHY_STATIC },
+  { sym: 'W_bg', region: 'BUILTIN_PRESETS', owner: 'clusterAnalogyBH', key: '*', n: 1, why: WHY_STATIC },
+  { sym: 'W_bg', region: 'BUILTIN_PRESETS', owner: 'clusterGrowthCopy', key: '*', n: 5, why: WHY_STATIC },
+  { sym: 'W_bg', region: 'BUILTIN_PRESETS', owner: 'fixedCaptureCopy', key: '*', n: 3, why: WHY_STATIC },
   { sym: 'kappa0', region: 'BUILTIN_PRESETS', owner: 'shapeToyClusterCore', key: '*', n: 12, why: WHY_CORE + ' —— 注記 1 か所を含む' },
   { sym: 'kappa0', region: 'BUILTIN_PRESETS', owner: 'shapeToyDiskCore', key: '*', n: 5, why: WHY_CORE },
   { sym: 'kappa0', region: 'BUILTIN_PRESETS', owner: 'shapeToyArmCore', key: '*', n: 5, why: WHY_CORE },
@@ -185,6 +193,7 @@ export function checkAppSymbols335a(o) {
   if (outside.length > 8) bad.push('許可の外 ほか ' + (outside.length - 8) + ' 件');
   for (const a of ALLOW_335A) { const n = used.get(a) || 0; if (n !== a.n) bad.push(`許可の件数: ${a.sym} ${a.region} ${a.owner}${a.key ? '.' + a.key : ''} が ${n}(宣言 ${a.n})`); }
   for (const id of new Set(ALLOW_335A.filter((a) => a.sym === 'kappa0' && a.region === 'BUILTIN_PRESETS').map((a) => a.owner))) if (!CORE_FIELD_IDS_335A.includes(id)) bad.push('中心重力の係数の許可が形状の本の外: ' + id);
+  for (const a of ALLOW_335A.filter((x) => x.why === WHY_STATIC)) if (!STATIC_BG_IDS_335A.includes(a.owner)) bad.push('静止背景の許可が静止背景の本の外: ' + a.owner);
   for (const [lang, t] of Object.entries(CORE_NOTE_335A)) { const n = o.html.split(t).length - 1; if (n !== 1) bad.push(`注記(${lang})が ${n} か所(1 か所を期待)`); }
   if (R.outsideScript) bad.push('script の外(マークアップ)に旧い記号 ' + R.outsideScript + ' 件');
   const nAllow = ALLOW_335A.reduce((s, a) => s + a.n, 0);
@@ -239,4 +248,4 @@ export function selfTest335a(o) {
   return { ok: bad.length === 0, n, bad, cases };
 }
 
-export default { APPSYM_VERSION_335A, SYMBOLS_335A, ALLOW_335A, CORE_FIELD_IDS_335A, CORE_NOTE_335A, scanAppSymbols335a, srcOldSymbols335a, checkAppSymbols335a, selfTest335a };
+export default { APPSYM_VERSION_335A, SYMBOLS_335A, ALLOW_335A, CORE_FIELD_IDS_335A, STATIC_BG_IDS_335A, CORE_NOTE_335A, scanAppSymbols335a, srcOldSymbols335a, checkAppSymbols335a, selfTest335a };

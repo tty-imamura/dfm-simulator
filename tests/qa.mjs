@@ -102762,7 +102762,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ---- 第335便a(原仮定者の決断(2026-11-12)「AN641: A を進めて良い。以前は、説明文の変更で再生成の段が走っていた」・原仮定者の回答(2026-11-12 —— AN641)・統括の検証項目 R328):
 // ----   **アプリの説明文の記号**(beta/index.html の文字列の中だけ —— 画面の文言・受理の理由・本の説明。注釈・識別子・保存の鍵・物理の宣言の値・beta/sw.js・root は不変)。
 // ----   世代切替 = beta 対象 ∧ 照合の lib tests/lib-w335a-appsymbols.mjs がある。
-// ----   lint.appSymbols335a: ① lib の版と宣言(記号 3 つ・許可の一覧 18 項〔理由つき〕・形状の本 4 本・注記の日英)② html の文字列の中の旧い記号を 1 件ずつ分類して
+// ----   lint.appSymbols335a: ① lib の版と宣言(記号 3 つ・許可の一覧 22 項〔理由つき〕・形状の本 4 本・静止背景の本 4 本・注記の日英)② html の文字列の中の旧い記号を 1 件ずつ分類して
 // ----     許可の外 0・許可の件数がちょうど・注記が日英 1 か所ずつ・生成領域 sample-status は原稿 tests/data-w279a-samplestatus-src.json の遅れだけ・script の外 0 ③ 変異の自己試験(15 種以上)
 // ----   docs.appSymbols335a: ① PHYSICS〔第335便a〕の位置(第334便f の節の後・第328便の統括の節と「## 7.」の前)・表と必須の語・数が lib の走査と同じ ② AI_SPEC §220(§219 の後)・
 // ----     CHANGELOG・post-merge の ③′ ③ 書かない語・禁句・裸の係数記号・速度の数の字列(節・AI_SPEC・CHANGELOG の行)
@@ -102782,8 +102782,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const bad = [], cases = [];
     try {
       if (AS335a.APPSYM_VERSION_335A !== 'w335a-appsym-1' || AS335a.SYMBOLS_335A.map((s) => s.id + '→' + s.to).join('|') !== 'W_bg→W₀|D_bg→D₀|kappa0→Y_k'
-        || AS335a.ALLOW_335A.length !== 18 || AS335a.CORE_FIELD_IDS_335A.length !== 4 || AS335a.ALLOW_335A.some((a) => !a.why || !(a.n > 0))) bad.push('① 版と宣言');
-      cases.push(`① ${AS335a.APPSYM_VERSION_335A}: 記号 ${AS335a.SYMBOLS_335A.map((s) => s.id + ' → ' + s.to).join('・')}・許可 ${AS335a.ALLOW_335A.length} 項(理由つき)・形状の本 ${AS335a.CORE_FIELD_IDS_335A.length} 本・注記 日英`);
+        || AS335a.ALLOW_335A.length !== 22 || AS335a.CORE_FIELD_IDS_335A.length !== 4 || AS335a.STATIC_BG_IDS_335A.length !== 4 || AS335a.ALLOW_335A.some((a) => !a.why || !(a.n > 0))) bad.push('① 版と宣言');
+      cases.push(`① ${AS335a.APPSYM_VERSION_335A}: 記号 ${AS335a.SYMBOLS_335A.map((s) => s.id + ' → ' + s.to).join('・')}・許可 ${AS335a.ALLOW_335A.length} 項(理由つき)・形状の本 ${AS335a.CORE_FIELD_IDS_335A.length} 本・静止背景の本 ${AS335a.STATIC_BG_IDS_335A.length} 本・注記 日英`);
       R335a = AS335a.checkAppSymbols335a(SRC335a);
       for (const b of R335a.bad) bad.push('② ' + b);
       cases.push('② ' + R335a.cases.join(' / '));
@@ -102808,7 +102808,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       for (let k = 1; k <= 4; k++) if (sec.indexOf('**表 ' + k + ' ') < 0) bad.push('① PHYSICS〔第335便a〕に表 ' + k + ' が無い');
       const wantP = ['原仮定者の決断(2026-11-12)', '原仮定者の回答(2026-11-12 —— AN641)', 'R328', '`W₀`', '`D₀`', '`Y_k`', '中心重力の係数', 'fitRecord', 'code', 'presets', 'markup',
         'tests/data-w279a-samplestatus-src.json', 'sample-status', '署名 186/186', '600 步', 'd0audit2', 'selfinertia', 'drag3d-298c', 'semic-302d', 'families', 'lint.appSymbols335a', 'docs.appSymbols335a',
-        'tests/lib-w335a-appsymbols.mjs', '注釈', '識別子', '置き換えなかった'];
+        'tests/lib-w335a-appsymbols.mjs', '注釈', '識別子', '置き換えなかった', '静止背景'];
       for (const w of wantP) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第335便a〕に「' + w + '」が無い');
       const nAllow = AS335a.ALLOW_335A.reduce((s, a) => s + a.n, 0);
       if (R335a && sec.indexOf('許可 ' + nAllow + ' 件') < 0) bad.push('① PHYSICS〔第335便a〕の許可の件数が ' + nAllow + ' でない');

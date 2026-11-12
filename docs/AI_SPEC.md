@@ -4949,5 +4949,6 @@ SYSTEM_PROMPT の規則 13(逐語):
 ## 220. 第335便a —— アプリの説明文の記号(beta の html の文字列の中だけ —— 画面の文言・受理の理由・本の説明)(原仮定者の決断(2026-11-12)・原仮定者の回答(2026-11-12 —— AN641)・統括の検証項目 R328・**物理の部分〔code・presets・markup〕の hash・署名 186/186・600 步は不変** —— 注釈・識別子・保存の鍵・物理の宣言の値は不変)
 - **記号**: 画面の文言・受理の理由・AI の指示・退役の理由・本の表示の欄では、背景慣性決定力を `W₀`・背景決定力を `D₀` と書く(旧 `W_bg`・`D_bg`)。引きずり係数は `Y_k`。保存 JSON の鍵は従来どおり `Wbg`(`physics.relativeDrag.Wbg` —— コードの名前は変えない)。AI が本の説明を書くときも説明の記号は `W₀`・`D₀`・`Y_k`、鍵はコードの書式の `Wbg` で書く。
 - **中心重力の係数**: 形状の本(law:"coreField")の Φ の係数(G·M_c/r_c³ —— 時間⁻²)は引きずり係数 `Y_k` とは別の量で、記号は置き換えていない(🎱 の概要に注記 1 か所)。
+- **静止背景**: 静止背景の本(spaceMesh の lawVersion "scalar" —— galaxyAnalogyBHCompose ほか 4 本)の `W_bg` は旧い決定力場の背景(新しい記号では D₀ の量)で背景慣性決定力 `W₀` とは別の量 —— 置き換えていない。
 - **置き換えていない件**: 関数の中の単独の文字列(エラーの文・凡例・状態の注記 —— html の物理の部分の hash に入る)と本の fitRecord(本の物理の写しに入る)は旧い記号のまま(許可の一覧 `ALLOW_335A` —— `tests/lib-w335a-appsymbols.mjs`)。サンプル状況の生成領域は原稿 `tests/data-w279a-samplestatus-src.json` を直し、鎖の samplestatus の段が書き直す。
 - SYSTEM_PROMPT の背景慣性決定力の行の記号も `W₀` にした(鍵の説明 `Wbg` は不変)。QA `lint.appSymbols335a`(html の文字列の中の旧い記号の分類・許可の一覧・変異の自己試験)・`docs.appSymbols335a`(PHYSICS〔第335便a〕・本節・CHANGELOG・post-merge)。
