@@ -868,6 +868,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.gridFloor334e behavior.gridFloor334e do
 #   第333便の診断の式の項・変異の自己試験 / docs.terms334f —— 現象の一覧の更新した行と P33・PHYSICS〔第334便f〕・文書)と、直した文書を読む鍵(式の一覧・現象の一覧・記号)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.terms334f docs.terms334f lint.equations331d docs.equations331d lint.phenomena331e docs.phenomena331e lint.symbols333e docs.symbols333e lint.kappaSymbol315"
 # ==== 第334便f の塊(ここまで)====
+# ==== 第335便a の塊(ここから)====
+# 第335便a(原仮定者の決断(2026-11-12)・原仮定者の回答(2026-11-12 —— AN641)・統括の検証項目 R328 —— beta/index.html の文字列の中の記号だけ・物理の部分は不変): 枝 a の新設 2 本
+#   (lint.appSymbols335a —— html の文字列の中の旧い記号の分類と許可の一覧・変異の自己試験 / docs.appSymbols335a —— PHYSICS〔第335便a〕・AI_SPEC §220・CHANGELOG)と、
+#   物理の部分の hash・説明文を読む鍵(第335便a で期待の記号を世代の注記つきで直した鍵を含む)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.appSymbols335a docs.appSymbols335a lint.htmlPhys325a lint.symbols333e lint.kappaSymbol315 lint.presetText316b ui.wbgSlider302 behavior.wbgDirect302 docs.words325c"
+# ==== 第335便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
