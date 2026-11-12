@@ -100281,9 +100281,12 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       // 第334便f(世代の注記 —— 統括の検証項目 R327): 第334便f で第333便の結果の行の数(欄「第333便の調べ」)と行 P33 を足した。転記の照合は第331便e の 86 項に
       //   tests/lib-w334f-terms.mjs の TRANSCRIPTS_334F を足して同じ規則で照らす(第331便e の項は 1 つも外さない —— lib が無い世代は従来どおり 86 項だけ)。
       const TR334f = fs.existsSync(path.join(ROOT, 'tests', 'lib-w334f-terms.mjs')) ? (await import('file://' + path.join(ROOT, 'tests', 'lib-w334f-terms.mjs'))).TRANSCRIPTS_334F : [];
+      // 第335便g(世代の注記 —— 統括の検証項目 R334): 第335便g で欄「第334便の調べ」(第334便の結果の行の数)を足した。転記の照合に tests/lib-w335g-terms.mjs の TRANSCRIPTS_335G を
+      //   足して同じ規則で照らす(第331便e の 86 項と第334便f の 16 項は 1 つも外さない —— lib が無い世代は従来どおり)。
+      const TR335g = fs.existsSync(path.join(ROOT, 'tests', 'lib-w335g-terms.mjs')) ? (await import('file://' + path.join(ROOT, 'tests', 'lib-w335g-terms.mjs'))).TRANSCRIPTS_335G : [];
       const R = PS331e.checkPhenoDoc331e({ md: MD, html: rd331e(TARGET), ssMd: rd331e('docs/SAMPLE_STATUS.md'), ph: PH, qaSrc: rd331e('tests/qa.mjs'),
         exists: (p) => fs.existsSync(path.join(ROOT, p)), readText: rd331e, readJson: (p) => { try { return JSON.parse(rd331e(p)); } catch (e) { return null; } },
-        transcripts: PS331e.TRANSCRIPTS_331E.concat(TR334f) });
+        transcripts: PS331e.TRANSCRIPTS_331E.concat(TR334f, TR335g) });
       for (const b of R.bad) bad.push(b);
       cases.push('① 文書 ' + PS331e.PHENO_DOC_331E + ': ' + R.cases.join(' / '));
       // ② PHYSICS〔第331便e〕
@@ -102683,6 +102686,13 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   const rd334f = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
   const TM334f = await import('file://' + fLib334f);
   const SRC334f = { eq: rd334f('docs/EQUATIONS.md'), ph: rd334f('docs/PHYSICS.md'), md: rd334f('docs/PHENOMENA_STATUS.md'), readText: rd334f };
+  // 第335便g(世代の注記 —— 原仮定者の回答(2026-11-12 —— AN666)・統括の検証項目 R334): 第335便g で EQ-34 以降(第334便の診断の式)を足し、§2a の表の行から EQ-34 以降を指した。
+  //   本ブロックの照合(checkTerms334f の EQ-29〜EQ-33 の固定と selfTest334f)は lib-w334f-terms.mjs の本文を変えずに、EQ-34 以降の項と §2a の表の EQ-34 以降の参照を外した写し
+  //   (tests/lib-w335g-terms.mjs の view334fOf335g)で読む —— 第334便f の照合の中身(表 3 行・必須の語・EQ-29〜EQ-33・変異 15 種)は 1 つも外さない。EQ-34 以降と参照の実在は
+  //   lint.terms335g が持つ。lib が無い世代は従来どおり実物で読む。
+  const fLib335gV = path.join(ROOT, 'tests', 'lib-w335g-terms.mjs');
+  const VW335g = fs.existsSync(fLib335gV) ? (await import('file://' + fLib335gV)).view334fOf335g : null;
+  const SRC334fv = VW335g ? Object.assign({}, SRC334f, { eq: VW335g(SRC334f.eq) }) : SRC334f;
   // ───── lint.terms334f ─────
   {
     const bad = [], cases = [];
@@ -102694,10 +102704,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const badT = T.filter((t) => !TM334f.PHENO_ROWS_334F.includes(t.row) || t.src !== 'phys' || !t.text || !/^〔第3[23]\d便[a-z]+ — $/.test(t.ref));
       if (badT.length) bad.push('① 転記の表の形の外 ' + badT.length + ' 項: ' + badT.slice(0, 3).map((t) => t.row + ' ' + t.text).join(' , '));
       cases.push(`① ${TM334f.TERMS_VERSION_334F}: 3 種(${TM334f.TERM_KINDS_334F.join('・')})・表 ${TM334f.TERM_COLS_334F.length} 欄・新しい項 ${TM334f.NEW_EQ_IDS_334F.join('・')}(ラベル ${TM334f.NEW_LABELS_334F.join('・')})・更新した行 ${TM334f.PHENO_ROWS_334F.join('・')}・転記 ${T.length} 項(節の本文)`);
-      const R = TM334f.checkTerms334f(SRC334f);
+      const R = TM334f.checkTerms334f(SRC334fv);
       for (const b of R.bad) bad.push(b);
-      cases.push('② docs/EQUATIONS.md: ' + R.cases.join(' / '));
-      const st = TM334f.selfTest334f(SRC334f);
+      cases.push('② docs/EQUATIONS.md' + (VW335g ? '(第335便g の世代 —— EQ-34 以降を除いた写し)' : '') + ': ' + R.cases.join(' / '));
+      const st = TM334f.selfTest334f(SRC334fv);
       if (!st.ok) bad.push('③ ' + st.bad.slice(0, 3).join(' / '));
       if (st.n < 15) bad.push('③ 変異の種類が 15 より少ない(' + st.n + ')');
       cases.push(`③ 変異の自己試験 ${st.n} 種: ` + st.cases.join(' / '));
@@ -102725,7 +102735,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         '比べる列', '凍結の対照', '自己の並進 = 慣性', 'EQ-29', 'EQ-33', 'P33', '第333便の調べ', 'TRANSCRIPTS_334F', 'lint.terms334f', 'docs.terms334f', 'lint.equations331d', 'docs.phenomena331e',
         '変えていない所', 'アプリの説明文', '段階は変えていない'];
       for (const w of wantP) if (sec.indexOf(w) < 0) bad.push('② PHYSICS〔第334便f〕に「' + w + '」が無い');
-      const nT = TM334f.TRANSCRIPTS_334F.length, nSt = TM334f.selfTest334f(SRC334f).n;
+      const nT = TM334f.TRANSCRIPTS_334F.length, nSt = TM334f.selfTest334f(SRC334fv).n;
       if (sec.indexOf('転記 ' + nT + ' 項') < 0) bad.push('② PHYSICS〔第334便f〕の転記の項の数が ' + nT + ' でない');
       if (sec.indexOf('変異 ' + nSt + ' 種') < 0) bad.push('② PHYSICS〔第334便f〕の変異の種類の数が ' + nSt + ' でない');
       for (const id of TM334f.NEW_EQ_IDS_334F) if (!sec.split('\n').some((l) => l.startsWith('| ' + id + ' |'))) bad.push('② PHYSICS〔第334便f〕の表 2 に ' + id + ' の行が無い');
@@ -102751,6 +102761,100 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第334便f の塊(ここまで)====
+
+// ==== 第335便g の塊(ここから —— lint.terms335g・docs.terms335g の 2 ブロック。root は SKIP)====
+// ---- 第335便g(原仮定者の決断(2026-11-12)・原仮定者の補足(2026-11-12)・原仮定者の回答(2026-11-12 —— AN666)・原仮定者の回答(2026-11-10 —— AN609・AN610)・統括の検証項目 R334):
+// ----   **文書と QA だけ**(docs/EQUATIONS.md の EQ-34〜EQ-43〔第334便の診断の式〕と §2a の用語の更新・docs/PHENOMENA_STATUS.md の欄「第334便の調べ」 —— html・エンジン・
+// ----   内蔵の本・受理器・既存の lib の本文・physics の鍵は変えない・器と段は足さない)。世代切替 = beta 対象 ∧ 照合の lib tests/lib-w335g-terms.mjs がある。
+// ----   lint.terms335g: ① lib の版と宣言(新しい項の番号とラベル・更新した行と段階・転記の表の形)② 式の一覧の照合(checkTerms335g —— EQ-34 以降の項のラベル・4 つの部分・第334便の節の
+// ----     見出しの実在・抜粋が tests の lib の名指しの定義の範囲に在る・回答の番号と主の候補の語・EQ-40 に文献の物差しの数を書かない・水星の lib の文献の値の宣言の行を載せない・
+// ----     §2a の表の 3 行の更新の語と表の下の 3 項・項の参照の実在・§3/§6/§7・書かない語)③ 第334便f の照合の世代の写しが通る ④ 変異の自己試験(selfTest335g —— 18 種)
+// ----   docs.terms335g: ① 現象の状況一覧の欄「第334便の調べ」(checkPhenoRows335g —— 行の集合と位置・段階の不変・冒頭の注記)② PHYSICS〔第335便g〕の位置(第334便f と第335便 a〜f の
+// ----     節の後・第328便の統括の節と「## 7.」の前)・表と必須の語・数が lib と同じ ③ AI_SPEC §226(§219 の後)・CHANGELOG・post-merge の ③′ ④ 書かない語・禁句・裸の係数記号・
+// ----     速度の数の字列(節・AI_SPEC・CHANGELOG の行・lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const fLib335g = path.join(ROOT, 'tests', 'lib-w335g-terms.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(fLib335g))) {
+    console.log('SKIP lint.terms335g・docs.terms335g(第335便g の第334便の式と用語の更新の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd335g = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const TM335g = await import('file://' + fLib335g);
+  const TF335g = await import('file://' + path.join(ROOT, 'tests', 'lib-w334f-terms.mjs'));
+  const SRC335g = { eq: rd335g('docs/EQUATIONS.md'), ph: rd335g('docs/PHYSICS.md'), md: rd335g('docs/PHENOMENA_STATUS.md'), readText: rd335g };
+  // ───── lint.terms335g ─────
+  {
+    const bad = [], cases = [];
+    try {
+      if (TM335g.TERMS_VERSION_335G !== 'w335g-terms-1' || TM335g.NEW_EQ_IDS_335G.join('|') !== 'EQ-34|EQ-35|EQ-36|EQ-37|EQ-38|EQ-39|EQ-40|EQ-41|EQ-42|EQ-43'
+        || TM335g.NEW_EQ_IDS_335G.some((id) => !['診断', '宣言〔未接続〕'].includes(TM335g.EQ_LABELS_335G[id]))
+        || TM335g.PHENO_ROWS_335G.join('|') !== 'P01|P05|P08|P10|P12|P18|P19|P23|P24|P33' || TM335g.PHENO_FIELD_335G !== '第334便の調べ') bad.push('① 版と宣言');
+      const T = TM335g.TRANSCRIPTS_335G;
+      const badT = T.filter((t) => !TM335g.PHENO_ROWS_335G.includes(t.row) || t.src !== 'phys' || !t.text || !/^〔第334便[a-e] — $/.test(t.ref));
+      if (badT.length) bad.push('① 転記の表の形の外 ' + badT.length + ' 項: ' + badT.slice(0, 3).map((t) => t.row + ' ' + t.text).join(' , '));
+      cases.push(`① ${TM335g.TERMS_VERSION_335G}: 新しい項 ${TM335g.NEW_EQ_IDS_335G.map((id) => id + ' ' + TM335g.EQ_LABELS_335G[id]).join('・')}・欄「${TM335g.PHENO_FIELD_335G}」の行 ${TM335g.PHENO_ROWS_335G.join('・')}・転記 ${T.length} 項(第334便の節の本文)`);
+      const R = TM335g.checkTerms335g(SRC335g);
+      for (const b of R.bad) bad.push(b);
+      cases.push('② docs/EQUATIONS.md: ' + R.cases.join(' / '));
+      const V = Object.assign({}, SRC335g, { eq: TM335g.view334fOf335g(SRC335g.eq) }), R4 = TF335g.checkTerms334f(V);
+      if (!R4.ok) bad.push('③ 第334便f の照合の世代の写しが落ちる: ' + R4.bad.slice(0, 2).join(' / '));
+      if (TF335g.eqItems334f(V.eq).some((z) => z.num >= TM335g.NEW_EQ_FROM_335G)) bad.push('③ 世代の写しに EQ-34 以降の項が残る');
+      cases.push(`③ 第334便f の照合の世代の写し(EQ-34 以降の項 ${TM335g.NEW_EQ_IDS_335G.length} と §2a の表の参照を外す)で checkTerms334f ${R4.ok ? '通る' : '落ちる'}`);
+      const st = TM335g.selfTest335g(SRC335g);
+      if (!st.ok) bad.push('④ ' + st.bad.slice(0, 3).join(' / '));
+      if (st.n < 18) bad.push('④ 変異の種類が 18 より少ない(' + st.n + ')');
+      cases.push(`④ 変異の自己試験 ${st.n} 種: ` + st.cases.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.terms335g', bad.length === 0,
+      `**第334便の診断の式の項と用語の表の更新**(第335便g・原仮定者の決断と補足(2026-11-12)・AN666・R334 —— EQ-34〜EQ-43 のラベルと節・抜粋が lib の実物の定義の範囲に在る・§2a の更新の語・第334便f の照合の世代の写し・変異の自己試験): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.terms335g ─────
+  {
+    const bad = [], cases = [];
+    try {
+      // ① 現象の状況一覧の欄「第334便の調べ」
+      const P = TM335g.checkPhenoRows335g(SRC335g);
+      for (const b of P.bad) bad.push(b);
+      cases.push('① docs/PHENOMENA_STATUS.md: ' + P.cases.join(' / '));
+      // ② PHYSICS〔第335便g〕
+      const PH = SRC335g.ph, AS = rd335g('docs/AI_SPEC.md'), CLx = rd335g('CHANGELOG.md'), PM = rd335g('tools/post-merge-qa.sh');
+      const i0 = PH.indexOf('\n〔第335便g — '), iF = PH.indexOf('\n〔第334便f — '), iT = PH.indexOf('\n〔第328便 — 統括'), i7 = PH.indexOf('\n## 7. 論文');
+      const prevBr = ['a', 'b', 'c', 'd', 'e', 'f'].map((x) => PH.indexOf('\n〔第335便' + x + ' — ')).filter((x) => x >= 0);
+      if (!(i0 >= 0 && iF >= 0 && iF < i0 && prevBr.every((x) => x < i0) && (iT < 0 || i0 < iT) && (i7 < 0 || i0 < i7))) bad.push('② PHYSICS〔第335便g〕の位置(第334便f の節と第335便 a〜f の節の後・第328便の統括の節と「## 7.」の前)');
+      const sec = i0 >= 0 ? secUntilNext329c(PH, i0 + 1, [/\n〔第\d+便[a-z]* — /, '\n## ']) : '';
+      for (let k = 1; k <= 3; k++) if (sec.indexOf('**表 ' + k + ' ') < 0) bad.push('② PHYSICS〔第335便g〕に表 ' + k + ' が無い');
+      const wantP = ['原仮定者の決断(2026-11-12)', '原仮定者の補足(2026-11-12)', 'AN666', 'R334', 'docs/EQUATIONS.md', '§2a', 'docs/PHENOMENA_STATUS.md', 'tests/lib-w335g-terms.mjs', 'w335g-terms-1',
+        'EQ-34', 'EQ-43', '主の候補', '自己を運ぶ式', 'v を分けた形', '距離の変化による並進引きずり', 'ロックした連星', '供給', '開いた系の口', 'まず楕円銀河', '比べる尺度(参考の比)', '第335便で診断中',
+        '第334便の調べ', 'TRANSCRIPTS_335G', 'view334fOf335g', 'lint.terms335g', 'docs.terms335g', 'lint.terms334f', 'docs.phenomena331e', '変えていない所', '段階は変えていない'];
+      for (const w of wantP) if (sec.indexOf(w) < 0) bad.push('② PHYSICS〔第335便g〕に「' + w + '」が無い');
+      const nT = TM335g.TRANSCRIPTS_335G.length, nSt = TM335g.selfTest335g(SRC335g).n;
+      if (sec.indexOf('転記 ' + nT + ' 項') < 0) bad.push('② PHYSICS〔第335便g〕の転記の項の数が ' + nT + ' でない');
+      if (sec.indexOf('変異 ' + nSt + ' 種') < 0) bad.push('② PHYSICS〔第335便g〕の変異の種類の数が ' + nSt + ' でない');
+      for (const id of TM335g.NEW_EQ_IDS_335G) if (!sec.split('\n').some((l) => l.startsWith('| ' + id + ' |'))) bad.push('② PHYSICS〔第335便g〕の表 2 に ' + id + ' の行が無い');
+      for (const id of TM335g.PHENO_ROWS_335G) if (!sec.split('\n').some((l) => l.startsWith('| ' + id + ' |'))) bad.push('② PHYSICS〔第335便g〕の表 3 に ' + id + ' の行が無い');
+      cases.push(`② PHYSICS〔第335便g〕(第334便f の節の後・表 3 本・必須の語 ${wantP.length}・転記 ${nT} 項・変異 ${nSt} 種・項 ${TM335g.NEW_EQ_IDS_335G.length} 行と更新した行 ${TM335g.PHENO_ROWS_335G.length} 行)`);
+      // ③ AI_SPEC §226・CHANGELOG・post-merge
+      const a226 = AS.search(/\n## 226\. 第335便g/), a219 = AS.search(/\n## 219\. 第334便f/), ai = a226 >= 0 ? secUntilNext329c(AS, a226 + 1, '\n## ') : '';
+      if (!(a226 >= 0 && a219 >= 0 && a219 < a226 && ['docs/EQUATIONS.md', 'EQ-34', 'EQ-43', '§2a', '自己を運ぶ式', 'docs/PHENOMENA_STATUS.md', 'lint.terms335g', 'docs.terms335g', 'SYSTEM_PROMPT には載せない'].every((w) => ai.indexOf(w) >= 0))) bad.push('③ AI_SPEC §226(§219 の後・必須の語)');
+      const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl = clg.split('\n').find((l) => l.indexOf('**第335便g**') >= 0) || '';
+      if (!(['R334', 'docs/EQUATIONS.md', 'docs/PHENOMENA_STATUS.md', 'lint.terms335g', 'docs.terms335g', '原仮定者の決断(2026-11-12)'].every((w) => cl.indexOf(w) >= 0))) bad.push('③ CHANGELOG の beta の節の第335便g の行');
+      if (!(PM.indexOf('# ==== 第335便g の塊(ここから)====') >= 0 && ['lint.terms335g', 'docs.terms335g', 'lint.terms334f', 'docs.terms334f', 'lint.equations331d', 'docs.equations331d', 'lint.phenomena331e', 'docs.phenomena331e', 'lint.symbols333e'].every((k) => PM.indexOf(k) >= 0))) bad.push('③ post-merge の ③′ に第335便g の塊');
+      cases.push('③ AI_SPEC §226(§219 の後)・CHANGELOG の第335便g の行・post-merge の ③′');
+      // ④ 書かない語・禁句・裸の係数記号・速度の数の字列
+      const W = [].concat(TM335g.wordAudit335g('PHYSICS〔第335便g〕', sec), TM335g.wordAudit335g('AI_SPEC §226', ai), TM335g.wordAudit335g('CHANGELOG の第335便g の行', cl),
+        TM335g.wordAudit335g('lib', rd335g('tests/lib-w335g-terms.mjs'), { noNot: true }));
+      for (const b of W) bad.push('④ ' + b);
+      cases.push('④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・AI_SPEC・CHANGELOG の行・lib)' + W.length);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.terms335g', bad.length === 0,
+      `**第334便の式と用語の更新・現象の状況一覧の欄「第334便の調べ」の文書**(第335便g・原仮定者の決断と補足(2026-11-12)・R334 —— 更新した行と段階の不変・PHYSICS の節・AI_SPEC・CHANGELOG・置き場所): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第335便g の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
