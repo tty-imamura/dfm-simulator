@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第302便d",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T07:25:29.092Z",
+  "targetSha256": "27db447180a614987ccd00ca6a2778cc672a03b1e3565cf327a220be5343681d",
+  "generatedAt": "2026-11-12T18:10:23.303Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7669158,
+    "sha256": "27db447180a614987ccd00ca6a2778cc672a03b1e3565cf327a220be5343681d",
+    "mtime": "2026-11-12T17:40:34.653Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -88,9 +88,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    },
    {
     "file": "tests/lib-w303a-pre.mjs",
@@ -135,7 +135,7 @@
     "mtime": "2026-11-05T03:10:54.273Z"
    }
   ],
-  "codeSha256": "cf99a46b93e15096856aedc9827cdf45d366db51dda08f3c733cb07dd0f34e22",
+  "codeSha256": "a2cfe8a2476e7927ac48b6b3382037f525fa8d88af7471234f70ab6f47e031fa",
   "harnessVersion": "w302d-semic-1",
   "semicVersion": "w302d-semic-1",
   "orderPreVersion": "w302d-orderpre-1",
@@ -215,7 +215,7 @@
    "segments": 1242,
    "closureShare": 0.3021
   },
-  "scopeSha256": "71b8b585ebb5a694bc75122295e59f33b3aaad8e3f70276db18402e5492d5fa8",
+  "scopeSha256": "131eb0ce7724b6567d1c44418607607133d5a20764117758655bb63dbba89635",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -382,7 +382,7 @@
   "split": {
    "steps": 600,
    "dt": 0.016,
-   "baseFrom": "carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(beta/_w302_base.html)))))))))))))))))",
+   "baseFrom": "carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(carried(beta/_w302_base.html))))))))))))))))))",
    "fpSplit": {
     "earthMoonInertial": "232cfc51",
     "earthMoonSunInertial": "bf61fc85",
@@ -520,7 +520,7 @@
    "gain0Same": true,
    "ledger": true
   },
-  "wallSec": 37.436
+  "wallSec": 45.164
  },
  "fit": {
   "rows": [
@@ -670,7 +670,7 @@
     "boundMaxSemic": 0.002065939296275486
    }
   ],
-  "wallSec": 71.064
+  "wallSec": 75.284
  },
  "chain": {
   "w296c": {
@@ -682,7 +682,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 12.623,
+    "wallSec": 11.537,
     "bools": {
      "part5.accept.ok": true,
      "part5.gates.noNaN": true,
@@ -709,7 +709,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 11.205,
+    "wallSec": 14.517,
     "bools": {
      "part5.accept.ok": true,
      "part5.gates.noNaN": true,
@@ -2610,7 +2610,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 19.892,
+    "wallSec": 21.88,
     "bools": {
      "part5.spinSource3d.ok": true,
      "part5.dragCore3d.ok": true,
@@ -2643,7 +2643,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 19.329,
+    "wallSec": 19.043,
     "bools": {
      "part5.spinSource3d.ok": true,
      "part5.dragCore3d.ok": true,
@@ -4561,7 +4561,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 4.46,
+    "wallSec": 4.428,
     "bools": {
      "selfTest.ok": true,
      "gateB.rows.0.allSame": true,
@@ -4610,7 +4610,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 4.797,
+    "wallSec": 4.399,
     "bools": {
      "selfTest.ok": true,
      "gateB.rows.0.allSame": true,
@@ -6007,7 +6007,7 @@
    "env": null,
    "split": {
     "code": 0,
-    "wallSec": 269.027,
+    "wallSec": 287.082,
     "bools": {
      "gate.stableAll": true,
      "gate.migrateAll": true,
@@ -6018,7 +6018,7 @@
    },
    "semic": {
     "code": 0,
-    "wallSec": 273.615,
+    "wallSec": 300.658,
     "bools": {
      "gate.stableAll": true,
      "gate.migrateAll": true,
@@ -9181,7 +9181,7 @@
    },
    "split": {
     "code": 0,
-    "wallSec": 42.818,
+    "wallSec": 44.588,
     "bools": {},
     "numbers": {
      "A.base": {
@@ -9208,7 +9208,7 @@
    },
    "semic": {
     "code": 0,
-    "wallSec": 40.789,
+    "wallSec": 46.484,
     "bools": {},
     "numbers": {
      "A.base": {
@@ -9238,8 +9238,8 @@
    "rawSplit": null,
    "rawSemic": null
   },
-  "wallSec": 698.584
+  "wallSec": 754.635
  },
  "ok": true,
- "elapsedS": 809.009
+ "elapsedS": 877.371
 }
