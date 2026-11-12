@@ -39,6 +39,8 @@ const crs = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0
 const unit = (a) => { const n = nrm(a); return n > 0 ? scl(a, 1 / n) : [0, 0, 0]; };
 const relD = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b), 1e-300));
 const DEG = Math.PI / 180, DAY = 86400, KPC = 3.0856775814913673e19;
+/** 銀河の源の物理の源の名(口の鍵 —— 本の id と同じ綴りにしない) */
+export const GAL_KEY = 'milkyWaySrc';
 
 /** 一覧 */
 export const SELF_RULES = B333.SELF_RULES;
@@ -113,12 +115,12 @@ export function carriedVelocity({ v, selfW, W0 = 0, vBg = null, sources }) {
 export function carryRow({ at, v, s, m, R, sources, selfRule, alpha = DECL.alpha, rRef = DECL.rRef }) {
   const sw = B333.selfWeightOf({ rule: selfRule, m, Robs: R, alpha, rRef, G: DECL.G, c: DECL.c });
   const srcs = sources.map((q) => ({ w: B333.weightOf(q.m, nrm(sub(at, q.p)), alpha, rRef), C: coordVelocity(q, at) }));
-  const cv = carriedVelocity({ v, selfW: sw.w, sources: srcs });
+  const cvr = carriedVelocity({ v, selfW: sw.w, sources: srcs });
   const F = B333.integratedField({ at, sources: sources.map((q) => ({ p: q.p, v: q.v, s: q.s, m: q.m })), alpha, rRef, selfW: sw.w });
-  const Ust = add(F.U, scl(v, cv.fSelf)), idRel = nrm(sub(cv.U, Ust)) / Math.max(nrm(cv.U), 1e-300), dirRel = nrm(sub(cv.U, cv.direct)) / Math.max(nrm(cv.U), 1e-300);
-  const cMax = Math.max(...srcs.map((q) => nrm(sub(q.C, v)))), dn = nrm(cv.d);
+  const Ust = add(F.U, scl(v, cvr.fSelf)), idRel = nrm(sub(cvr.U, Ust)) / Math.max(nrm(cvr.U), 1e-300), dirRel = nrm(sub(cvr.U, cvr.direct)) / Math.max(nrm(cvr.U), 1e-300);
+  const cMax = Math.max(...srcs.map((q) => nrm(sub(q.C, v)))), dn = nrm(cvr.d);
   const ca = L334.carryAt({ at, sources, selfRule, m, R, v, s });
-  return { d: cv.d, dNorm: dn, srcShare: cv.srcShare, fSelf: cv.fSelf, cMax, bound: cv.srcShare * cMax, boundOk: dn <= cv.srcShare * cMax * (1 + 1e-12), idStaticRel: idRel, idDirectRel: dirRel,
+  return { d: cvr.d, dNorm: dn, srcShare: cvr.srcShare, fSelf: cvr.fSelf, cMax, bound: cvr.srcShare * cMax, boundOk: dn <= cvr.srcShare * cMax * (1 + 1e-12), idStaticRel: idRel, idDirectRel: dirRel,
     omegaCarry: ca.omegaEff, omegaStatic: F.omega, oneMinusCarry: ca.oneMinus };
 }
 
@@ -136,7 +138,10 @@ export function groupBySource(parts) {
   return [...g].map(([key, omega]) => ({ key, omega }));
 }
 /** 熱の口の 3 列(主 bySource・比 byPart・否定対照 merged)—— 第334便b の axialLedger を呼ぶ(byPart の列の merged が否定対照) */
-export function heatColumns({ parts, s, Gamma }) {
+export function heatColumns({ parts: parts0, s, Gamma }) {
+  // 同じ鍵の部(1 つの物理の源を多数の点で置いた源 —— 例 銀河の円盤の点)は鍵ごとに先に足す(分解ごとの列は「源 × 部」の口)
+  const mm = new Map(); for (const q of parts0) { if (!q || typeof q.key !== 'string' || !v3(q.omega)) throw new RangeError('heatColumns: 部は { key, omega:[3] }'); mm.set(q.key, add(mm.get(q.key) || [0, 0, 0], q.omega)); }
+  const parts = [...mm].map(([key, omega]) => ({ key, omega }));
   const P = L334.axialLedger({ parts, s, Gamma }), S = L334.axialLedger({ parts: groupBySource(parts), s, Gamma });
   const t0 = P.merged.torque, tq = (t) => nrm(sub(t, t0)) / Math.max(nrm(t0), 1e-300);
   return { omega: P.omega, bySource: { heat: S.heat, torque: S.torque, nPorts: S.nPorts, identityRel: S.identityRel }, byPart: { heat: P.heat, torque: P.torque, nPorts: P.nPorts, identityRel: P.identityRel },
@@ -171,12 +176,12 @@ export function galaxyOf(g = DECL.galaxy) {
 }
 /**
  * 銀河の源(本の座標・太陽系の重心の系の速度): variant center/inner・spin obs(Ω_gal)/jd(s_d —— 中心の点だけ)・NR・K。
- * 太陽系の重心を原点に置き、銀河の中心は R₀ x̂ の向き・重心の銀河に対する速度は v₀ ŷ(源の速度は銀河の系の速度 − v₀ ŷ)。鍵は全部 'galaxy'(1 つの物理の源)。
+ * 太陽系の重心を原点に置き、銀河の中心は R₀ x̂ の向き・重心の銀河に対する速度は v₀ ŷ(源の速度は銀河の系の速度 − v₀ ŷ)。鍵は全部 GAL_KEY(1 つの物理の源)。
  */
 export function galaxySources({ variant, spin = 'obs', NR = DECL.galaxy.NR, K = DECL.galaxy.K, axes = galacticAxes(), gal = galaxyOf() }) {
   if (!GAL_SOURCES.includes(variant) || !['obs', 'jd'].includes(spin)) throw new RangeError('galaxySources: 読みは ' + GAL_SOURCES.join('・') + '・自転は obs・jd');
   const { xg, yg, Lhat } = axes, R0 = gal.R0, v0 = DECL.galaxy.v0, pc = scl(xg, R0), vOff = scl(yg, -v0);
-  if (variant === 'center') return [{ key: 'galaxy', p: pc, v: vOff, s: scl(Lhat, spin === 'jd' ? gal.sd : gal.Omega), m: gal.M }];
+  if (variant === 'center') return [{ key: GAL_KEY, p: pc, v: vOff, s: scl(Lhat, spin === 'jd' ? gal.sd : gal.Omega), m: gal.M }];
   if (spin !== 'obs') throw new RangeError('galaxySources: J 等価の読みは中心の点だけ');
   if (!(Number.isInteger(NR) && NR > 0 && Number.isInteger(K) && K > 0)) throw new RangeError('galaxySources: NR・K は正の整数');
   const u = scl(xg, -1), out = [], mq = gal.M / (NR * K);
@@ -184,7 +189,7 @@ export function galaxySources({ variant, spin = 'obs', NR = DECL.galaxy.NR, K = 
     const R = (k + 0.5) * R0 / NR;
     for (let l = 0; l < K; l++) {
       const ph = 2 * Math.PI * (l + 0.5) / K, cp = Math.cos(ph), sp = Math.sin(ph);
-      out.push({ key: 'galaxy', p: add(pc, add(scl(u, R * cp), scl(yg, R * sp))), v: add(scl(add(scl(u, -sp), scl(yg, cp)), v0), vOff), s: [0, 0, 0], m: mq });
+      out.push({ key: GAL_KEY, p: add(pc, add(scl(u, R * cp), scl(yg, R * sp))), v: add(scl(add(scl(u, -sp), scl(yg, cp)), v0), vOff), s: [0, 0, 0], m: mq });
     }
   }
   return out;
@@ -195,10 +200,10 @@ export function galaxySources({ variant, spin = 'obs', NR = DECL.galaxy.NR, K = 
  */
 export function galaxyPortAt({ at, vRecv, sRecv, m, R, sources, selfRule = 'none', carry = false }) {
   const fa = carry ? carryPartsAt({ at, vRecv, sRecv, sources, selfRule, m, R }) : partsAt({ at, vRecv, sources, selfRule, m, R });
-  const g = groupBySource(fa.parts), gal = g.find((q) => q.key === 'galaxy'), sumAbs = g.reduce((t, q) => t + nrm(q.omega), 0);
+  const g = groupBySource(fa.parts), gal = g.find((q) => q.key === GAL_KEY), sumAbs = g.reduce((t, q) => t + nrm(q.omega), 0);
   if (!gal) throw new RangeError('galaxyPortAt: 銀河の源が無い');
   const w = nrm(gal.omega), nu = w > 0 ? scl(gal.omega, sumAbs / w) : [0, 0, 0];
-  return { omegaGal: gal.omega, nu, share: sumAbs > 0 ? w / sumAbs : 0, sumAbs, omegaTotal: g.reduce((a, q) => add(a, q.omega), [0, 0, 0]), nGroups: g.length };
+  return { omegaGal: gal.omega, nu, share: sumAbs > 0 ? w / sumAbs : 0, sumAbs, omegaTotal: g.reduce((a, q) => add(a, q.omega), [0, 0, 0]), nGroups: g.length, parts: fa.parts };
 }
 /**
  * 供給の帳簿の 1 行(受動の型): 受け手の自転 sVec・損失のトルク N_loss(ŝ の向きの大きさ —— 正は自転を減らす)・口の目標 T:[3]・J。
@@ -230,7 +235,7 @@ export function lineTwistAtOffset({ s, r, b }) {
 /** T1 の受け手の行(源の自転 s・源 → 受け手 r・受け手の半径 R・受け手の自転 sRecv・受け手の位置の ω_field): 率・表面の速さの最大 |s·r̂| R・指標 s z・受け手の自転の r̂ 成分・ω_field の r̂ 成分 */
 export function t1Row({ s, r, R, sRecv = null, omegaField = null }) {
   const L = lineTwistAtOffset({ s, r, b: [0, 0, 0] }), rh = L.axis, side = unit(crs(rh, Math.abs(rh[2]) < 0.9 ? [0, 0, 1] : [1, 0, 0])), Lb = lineTwistAtOffset({ s, r, b: scl(side, R) });
-  return { rate: L.rate, rateOverS: L.rate / nrm(s), rateDirectRel: relD(L.rate, L.rateDirect), proxy: L.proxy, surfaceMax: Math.abs(L.rate) * R, surfaceAt: nrm(Lb.u), center: L.center,
+  return { rate: L.rate, rateOverS: L.rate / nrm(s), rateDirectRel: relD(L.rate, L.rateDirect), rateDirectOverS: Math.abs(L.rate - L.rateDirect) / nrm(s), proxy: L.proxy, surfaceMax: Math.abs(L.rate) * R, surfaceAt: nrm(Lb.u), center: L.center,
     recvPar: sRecv ? dot(sRecv, rh) : null, fieldPar: omegaField ? dot(omegaField, rh) : null };
 }
 
