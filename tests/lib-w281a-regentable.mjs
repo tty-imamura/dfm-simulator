@@ -1960,6 +1960,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/gridfloor-w334e.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第334便e: NGC 3198 の恒星の円盤(第333便d の 4 族)の統合した並進の場 U を星の点でない固定の受け手の格子(半径 7 × 方位 24・面内と高さ z の列)で読む —— 離散化 9 組(環の間隔 × 方位の数)・軟化 4・種 5・方位の位相 3 の誤差の幅(目標 1%)と分解・「腕あり − 円」の差 ÷ 幅(判定の比 3)・m = 2 の密度と U_φ の m = 2・星の点の受け手と第333便d の離散化の列の照らし・円盤の源の場の高さ z の偶奇と次数(薄い円盤と sech² の厚みの対照)' }),
   // ==== 第334便e の塊(ここまで)====
+  // ==== 第335便f の塊(ここから)====
+  // ---- 第335便f(原仮定者の補足(2026-11-12)「まずは、楕円銀河の再現を目指す」・原仮定者の回答(2026-11-12 —— AN665)・統括の検証項目 R333):
+  //   **楕円銀河の型の模型の器**(段 elliptical-335f —— 正本 tests/out/elliptical-w335f.json・lib tests/lib-w335f-elliptical.mjs —— 第333便d の lib〔乱数〕・第334便e の lib〔受け手の場〕・
+  //   第332便a の lib〔引きずり半径〕・第329便b の lib〔単位の定数〕を import して呼ぶ〔code の依存 —— 他の正本は読まない〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数
+  //   tests/lib-w335f-elliptical.mjs —— 第317便d の satan の型・領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第335便f の枝の実測 42〜45 s
+  //   (直接の和 —— 52 本 × 500 步〔h/2 の 3 本は 1000 步〕・主の N 512。重い列 N 1024・2048 は器の任意の旗 --deep で正本の外へ)
+  S('elliptical-335f', 'node tests/exp-w335f-elliptical.mjs', ['tests/out/elliptical-w335f.json'], 45, { secSource: 'w335f-branch', node: true,
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 60 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/elliptical-w335f.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/runs/*/wallSec']) },
+    note: '第335便f: 分散で支える三次元の系(Plummer 球が主・Hernquist 球・扁平 0.7・回転の支え v_rot/σ 0.3 は対照)の重力だけの対照(N 256・512 × 軟化 0.02・0.05・0.1 × 種 3 —— 5 横断の時間)の量の推移と誤差の幅・平衡の記録・緩和の時間と窓の比・星どうしの並進引きずり(作用の型 速度の場/押し γ 0.01・0.1・1 ÷ t_cr × 重み α 2・1 × 自己の重み なし・R_d = Y_k m)を 1 つずつ足した差 ÷ 幅(判定の比 3)・引きずりの仕事と E の帳簿・h と h/2' }),
+  // ==== 第335便f の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
