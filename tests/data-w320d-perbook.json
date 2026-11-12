@@ -4,12 +4,12 @@
  "count": {
   "A": 12,
   "B": 35,
-  "C": 191
+  "C": 195
  },
  "secByTier": {
   "A": 7608,
   "B": 6118,
-  "C": 23900
+  "C": 23985
  },
  "reuseContract": "本ごとの行を再利用してよいのは入力 hash(本の生の定義と受理後の定義の hash)・コード(器と lib の sha)・環境(Node と Chromium の版)の一致する行だけ(AN478)",
  "note": "機械の読み(器の --only/--merge・正本の本ごとの容器・全体集計/共有フィット/対の比較の印)。A = 本ごとに分けられる(--merge の実装は名簿の上位から)・B = 器を読んで確かめる候補・C = 全体の再走",
@@ -1879,12 +1879,44 @@
    "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
   },
   {
+   "key": "carryledger-335b",
+   "tier": "C",
+   "presets": 3,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
    "key": "mercurycombo-335c",
    "tier": "C",
    "presets": 3,
    "only": false,
    "merge": false,
    "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "binarytilt-335d",
+   "tier": "C",
+   "presets": 11,
+   "only": false,
+   "merge": false,
+   "why": "共有フィット(段の名か注記 —— 本どうしで 1 つの係数)"
+  },
+  {
+   "key": "moonapsis-335e",
+   "tier": "C",
+   "presets": 2,
+   "only": false,
+   "merge": false,
+   "why": "正本に本ごとの容器が無い(宣言の本は下限 —— 凍結の写し・参照の本を含む)"
+  },
+  {
+   "key": "elliptical-335f",
+   "tier": "C",
+   "presets": null,
+   "only": false,
+   "merge": false,
+   "why": "領域の宣言なし(html 全体か html を読まない —— 本の差を分けられない)"
   },
   {
    "key": "charonaudit-305e",
