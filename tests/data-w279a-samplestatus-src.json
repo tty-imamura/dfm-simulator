@@ -286,16 +286,16 @@
    }
   },
   "mercurySunInertialFit": {
-   "purpose": "係数移送版の写しで W_bg だけを近点率(43.0″/世紀)に合わせる(semic)",
+   "purpose": "係数移送版の写しで W₀ だけを近点率(43.0″/世紀)に合わせる(semic)",
    "objective": "met",
-   "state": "W_bg 221.1206・残差 1.79e-5・h/2 差 1.97e-4・周期と離心率は未調整・核は同定不可",
+   "state": "W₀ 221.1206・残差 1.79e-5・h/2 差 1.97e-4・周期と離心率は未調整・核は同定不可",
    "evidence": [
     "tests/out/refit-w303a.json",
     "tests/out/fit-w297b.json"
    ],
    "en": {
-    "purpose": "parent copy; only W_bg matched to the apsidal rate (43.0 arcsec/cy vs drag off; semic)",
-    "state": "W_bg 221.1206; residual 1.79e-5, h/2 1.97e-4 (fitted); period, e not matched"
+    "purpose": "parent copy; only W₀ matched to the apsidal rate (43.0 arcsec/cy vs drag off; semic)",
+    "state": "W₀ 221.1206; residual 1.79e-5, h/2 1.97e-4 (fitted); period, e not matched"
    }
   },
   "mercurySunInertial3d": {
@@ -436,14 +436,14 @@
   "plutoCharonInertialFit": {
    "purpose": "二体のケプラーの初期状態で引きずり OFF の基線を確かめる(周期は入力の整合)",
    "objective": "met",
-   "state": "引きずり OFF・a 19595.593 km(標的の P と GM から)・残差 +0.00437 s(軟化)・旧 W_bg は履歴",
+   "state": "引きずり OFF・a 19595.593 km(標的の P と GM から)・残差 +0.00437 s(軟化)・旧 W₀ は履歴",
    "evidence": [
     "tests/out/charonfix-w306e.json",
     "tests/out/charonaudit-w305e.json"
    ],
    "en": {
     "purpose": "two-body Kepler start, drag-off baseline (period = input check)",
-    "state": "drag off; a 19595.593 km from target P and GM; residual +0.00437 s (softening); old W_bg in history"
+    "state": "drag off; a 19595.593 km from target P and GM; residual +0.00437 s (softening); old W₀ in history"
    }
   },
   "boxBinaryToy": {
