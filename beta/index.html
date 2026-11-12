@@ -17617,15 +17617,17 @@ const BUILTIN_PRESETS = [
   activeParams:["D0","kFrame","dispMag"],
   camera:{scale:450}, world:{boundary:"none",size:0},
   timeRef:{basis:"orbit", pRef:23605.9488, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)", stepsPerOrbit:360, legacyTimeScale:100},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
-  physics:{G:6.674, D0:0.006, D0pull:0.001/* 第298便e: 周期優先(恒星月へ —— 探索範囲 [1e-5, 1e-3] で根を挟めず範囲の端。第298便b は 3.06883e-5〔近点回転の周期へ〕・第297便a は 3.14447e-5・第296便までは 3.24204e-5)*/, kFrame:1, q:8.2358, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
+  physics:{G:6.674, D0:0.006, D0pull:0.0000314447/* 第336便a: 第297便a の記録へ戻した(原仮定者の指示(2026-11-12 —— 第137報)—— 再フィットしない。第298便e の周期優先 1e-3・第298便b の 3.06883e-5・第296便までの 3.24204e-5 は履歴)*/, kFrame:1, q:8.2358, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:2, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:1, stepDt:65.5721, dispMag:10, stateCarry:"double"},
   bodies:[   // 第120便: 初速 −0.12%(f=0.99880 — D₀=0.006 の引きずり下で恒星月を 27.32日へ戻す共同フィット)
              // 第122便: q共通補正 → 第123便: qLock 自動算出 → 第172便: 厳密一致式 q_exact=8.2358(Δϖ比 0.9991→0.9992・初速較正 f は不変)
     // 第297便a(原仮定者の裁定(第87報)・R161): λ_PN=0 の再フィットで初速の係数 f を 0.99880 → 0.998777511(地球と月の速度に同じ倍率 —— 器 tests/exp-w297a-refit.mjs の段 emfit・記録は fitRecord)
     // 第298便b(原仮定者の裁定(第88報)・R166): 初速の係数 f=1 —— 地球と月の速度を 🌙 earthMoonReal の宣言(観測の初速)へ戻した(第297便a の f=0.998777511・第296便までの 0.99880 は履歴)
-    {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013146, spin:0.0072921, pinned:false, pnSource:true},
-    {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1068788, spin:0.00026617, pinned:false}
+    // 第336便a(原仮定者の指示(2026-11-12 —— 第137報)「『初速を観測の値に戻し』が余計なので記録に戻す」・統括の検証項目 R335): 初速を第297便a の記録の値
+    //   (初速の係数 f=0.998777511 を焼き込んだ速度 —— 正本 tests/out/refit-w297a.json の段 emfit の adopted)へ戻した。第298便b の f=1(観測の初速)は履歴
+    {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013130046017774757, spin:0.0072921, pinned:false, pnSource:true},
+    {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.10674855666868635, spin:0.00026617, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
