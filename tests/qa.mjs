@@ -4109,7 +4109,7 @@ lastAddAt = Date.now();
       add('lint.pn1RegionDecl', bad.length === 0,
         `**pn1 の領域の宣言から OBS_COMPARE_* を外した根拠**(第288便f・AN90): ${cases.join(' / ')} —— 閉包が掛かっていたのは器の局所名(λ_PN=0 の対照行)が html の関数名と同じ綴りで、`
         + `名前で数える下限の自動導出がそれを roots に入れていたから(器は html のその関数を呼ばない)。局所名と正本の鍵を lambda0Rows に改名して外した`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
   }
 }
@@ -4589,7 +4589,7 @@ lastAddAt = Date.now();
       + `**すべて違う数**である —— この差は残差ではなく**定義の差**である / `
       + `面外成分の最大 ${J && J.outOfPlane ? J.outOfPlane.map((o) => o.maxOutOfPlaneKm.toFixed(1) + ' km').join(' / ') : '—'}`
       + ` / **判定もしないし採用値も作らない**`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -4716,7 +4716,7 @@ lastAddAt = Date.now();
       + `④ **切断点 ${cut ? Object.values(cut).join('/') : '—'} と太陽系 4 値 `
       + `${four ? JSON.stringify(four) : '—'} は動いていない** / `
       + `⑤ 判定量名の行を宛先天体へ 1 行も足していない —— **転写で判定は 1 本も増えていない**`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -4851,7 +4851,7 @@ lastAddAt = Date.now();
       + `③ **sigma 列へ上げた既存行 ${nRaised} 行**(2of2 かつ verified の定義名の量だけ —— 判定量ではない)/ `
       + `④ **切断点 ${cut ? Object.values(cut).join('/') : '—'} と太陽系 4 値 ${four ? JSON.stringify(four) : '—'} は動いていない** / `
       + `⑤ 判定量名の行を宛先天体へ 1 行も足していない / ⑥ §5.28 に件数・禁止語なし / ⑦ 会計器と台帳の器が現行 CSV と一致`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -5055,7 +5055,7 @@ lastAddAt = Date.now();
       + ` \`period_column=absent\`)/ ④ 旧判定行は履歴の行(\`superseded_by=\`・\`superseded_on=2026-09-23\`)/ `
       + `⑤ σ 接続器が宣言行で読み、判定は**保留**(σ が無いので門へは入らない)/ ⑥ フォボスも同型・`
       + `天王星の衛星 5 本は第279便e(AM7′)で Jacobson 2014 Table 2 の λ̇ 由来へ差し替えた(検査は \`docs.uranusSwap\`)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -5187,7 +5187,7 @@ lastAddAt = Date.now();
       + `\`superseded_by=\`・\`superseded_on=2026-09-24\`)・NSSDC 値の候補行は候補のまま / ④ σ 接続器が宣言行で読み、`
       + `判定は**保留** —— **切断点 ${cut ? Object.values(cut).join('/') : '—'}・太陽系 4 値 ${four ? JSON.stringify(four) : '—'} は動いていない** / `
       + `⑤ 台帳に \`source-replacement\` の revision / ⑥ §5.31 に 5 本の新値・禁止語なし`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -5651,7 +5651,7 @@ lastAddAt = Date.now();
       + `⑤ 共同根の探索条件(刻み・履歴・目標 ω̇)つき / `
       + `⑥ 宣言リテラルが採用レコードの転写から相対差 0 で戻る。`
       + `**本ブロックは JSON の来歴を見るだけで、合否も σ 倍も判定しない**`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -7495,7 +7495,7 @@ if (!TARGET.startsWith('beta/')) {
       ` / md は正本の生成物と 1 字一致・禁止語 0・観測版と DFM 版をまたぐ候補 0・候補の本はすべて内蔵に残る(畳んでいない)` +
       (J && J.retired ? ` / 退役 ${J.retired.presets.length} 本は内蔵に残り署名が凍結の写しと同じ・名指しする器 ${J.retired.harnesses.length} 本(${Object.entries(J.retired.kindCounts).map(([k, v]) => k + ' ' + v).join('・')})` : '') +
       (cases6F ? ' / ' + cases6F : '') +
-      (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -8021,7 +8021,7 @@ if (!TARGET.startsWith('beta/')) {
     + `\`${mk && mk.measurementCodeSha256 ? mk.measurementCodeSha256.slice(0, 12) : '—'}…\`)を足した / `
     + `**第271便a までの保存物はこの 2 欄を持たないので \`--merge\` が止まる**(意図した動作 —— `
     + `通常走行 + \`--dt3-registry --merge\` で作り直す)`
-    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
 }
 
 // ---- 0a3y) 第272便a(第62報・統括の検証項目 R12・AG26): docs.adoptedUnitColumns ----
@@ -8424,7 +8424,7 @@ if (!TARGET.startsWith('beta/')) {
     + `(**e の小ささで一括して mapping-unresolved にはしない**)/ `
     + `📡 D68 の周期は **3 定義**(周回 / 径方向振動 / m=1 パターン速度)を宣言し、`
     + `**σ は 1 つも接続しない**(どれが観測側の「周期」かを照合していない)`
-    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
 }
 
 // ---- 0a4e) 第273便c(第63報・統括の検証項目 AH24): docs.nsLockLedgerRow ----
@@ -9741,7 +9741,7 @@ if (!TARGET.startsWith('beta/')) {
       + `h 段 20,700,000 步 = 第271便a の 3 段登録と同じ物理時間)。**kFrame<1・geoPN=3・f≠1 は器の中の診断コピーだけ**で、`
       + `**内蔵 124 本は 1 bit も変えていない**。**判定はしていない**(「合/否」「新発見」は書かない —— `
       + `次数が立ち・残差が観測 σ の 3 倍に入り・独立な観測量を予測できたときにだけ結論の語を使う)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 0a3z2) 第273便b(統括の検証項目 R21・裁定 AH1/AH20): docs.charonKScan ----
@@ -9879,7 +9879,7 @@ if (!TARGET.startsWith('beta/')) {
       + ` —— **宣言専用で力学には 1 bit も効かない**ことを同じ步数の突き合わせで実測した)/ `
       + `**判定はしていない**(「合/否」「新発見」は書かない —— 次数が立ち・残差が観測 σ の 3 倍に入り・`
       + `**独立な観測量を予測できた**ときにだけ結論の語を使う)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 0a3z2b) 第276便b(原仮定者の裁定〔第66報〕(2)): docs.charonFactors ----
@@ -10013,7 +10013,7 @@ if (!TARGET.startsWith('beta/')) {
       + '観測一致は達成していない**(ε を受理下限の 1/10 まで下げても残差は 3σ の外で、符号は負である)。'
       + '**残差ゼロになる ε・f・a を探索して採用していない**・**内蔵 ❄️ の物理入力は 1 bit も変えていない**'
       + '(本便が変えたのは obsCard と説明文の判定の書き方だけ)'
-      + (bad.length ? ' / **違反 ' + bad.length + ' 件**: ' + bad.slice(0, 5).join(' , ') : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 0a3z3) 第275便b(原仮定者の裁定〔第65報〕(2)): docs.d0audit-sync ----
@@ -10115,7 +10115,7 @@ if (!TARGET.startsWith('beta/')) {
       + `別鍵で持っているのと同じ理由)。**規則の値はすべて仮定つき**(質量・距離・銀河の参考値を`
       + `JSON に出典つきで並べてある)であって観測入力ではない。**内蔵 128 本の D₀ の値は 1 本も変えていない**`
       + `/ **判定はしていない**(「D₀ を較正した」「規則値が正しい」「新発見」は書かない)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 0a3z4) 第276便a(原仮定者の裁定〔第66報〕(1)): docs.d0sites-sync ----
@@ -10213,7 +10213,7 @@ if (!TARGET.startsWith('beta/')) {
       + `**本便は D₀ を 1 つも置き換えていない**(表に並べただけ)/ `
       + `**q_exact は有限参照点での LT 振幅の正規化規約**であって、環境から引きずり指数を予言する式`
       + `ではない —— **背景を変えても q は自動では動かない**(実測)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 0a3z5) 第276便a(原仮定者の裁定〔第66報〕(1)): docs.bgpredict-sync ----
@@ -10293,7 +10293,7 @@ if (!TARGET.startsWith('beta/')) {
       + `**これは概算条件からの計算であって特定時刻の環境値ではない**(仮定は出典つきで JSON に全部ある)。`
       + `**内蔵の D₀・D0pull は 1 本も変えていない**/ `
       + `**カロンの残差に合わせて選んだ背景は「事前予測」と呼ばない**`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 0a3z6) 第277便d(原仮定者の裁定〔第67報〕(3)・統括の読み R51): docs.selfInertia-sync ----
@@ -10378,7 +10378,7 @@ if (!TARGET.startsWith('beta/')) {
       + `自己並進写像 selfDrift(x,v,Δt)=x+vΔt は**既存の位置更新と同じ写像**で、足し増す新しい項ではない`
       + `(二重に足すと変位がちょうど 2 倍になる否定対照つき)。**エンジン未接続**で S._core には`
       + `1 命令も足していない。**慣性は導出していない** —— 置いたのは仮説と、その検算・否定対照である`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 0a3z7) 第277便d(統括の読み R52): docs.bgbudget-sync ----
@@ -10501,7 +10501,7 @@ if (!TARGET.startsWith('beta/')) {
       + `**一様な背景「速度」は参照系の取り替えで消えるが、一様な背景「重み」W₀ は消えない** ——`
       + `重み付き平均の分母を変えるからである(実測: 一様項の大半が W₀ の希釈から来る)。`
       + `**背景を無視してよいことを証明してはいない**`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 0a3z8) 第278便d(統括の読み R56): docs.bgEquivalence ----
@@ -10608,7 +10608,7 @@ if (!TARGET.startsWith('beta/')) {
       `**明示天体 ↔ 局所背景展開の一致試験**(第278便d・統括の読み R56 ①「同じ外部源を明示天体と局所背景展開に`
       + `分け直したときの一致」): ${cases.join(' / ')} —— **一致は「背景展開が明示天体の効果を再現する」ことであって、`
       + `効果が小さいことではない**(❄️ の ON/OFF 差そのものは 10³ s 級)。閾値 1e−3σ_Buie は**採用していない**`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 0a3z9) 第278便d(統括の読み R56 ③): docs.comovingAdvection ----
@@ -10760,7 +10760,7 @@ if (!TARGET.startsWith('beta/')) {
       + `適切に導入する/厳密には空間に対する加速と空間による引きずり(座標変換)は区別する」): ${cases.join(' / ')} —— `
       + `W=W_loc+W_bg・A=A_loc+A_bg・u=A/W(**閾値なし・D₀ なし・自己項なし**)と ẋ=v+u・v̇=a_space−Jᵀv・`
       + `ẍ=a_space+∂ₜu+Ju+(J−Jᵀ)v を**別々に**返す。**慣性は導出していない**(構成則の候補の検算である)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 0a3z11) 第279便c(統括の読み R63 ④・AM4/AM13): docs.bgbudget2-sync ----
@@ -10858,7 +10858,7 @@ if (!TARGET.startsWith('beta/')) {
       `**新契約での背景の誤差予算**(第279便c・統括の読み R63 ④「誤差予算をサンプルごとに出す(❄️・📻 で ON/OFF 差と刻み収束 2 段・`
       + `🌘 は最初の対象にしない)」): ${cases.join(' / ')} —— **閾値は置いていない**(差と収束を並べるだけ)。`
       + `**qLock は再 fit していない**(診断コピーの q は宣言値のまま)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 0a3z12) 第280便a(原仮定者の裁定(第70報)「mercuryReal: 観測値版で問題が出ている理由を調査する」・
@@ -10962,7 +10962,7 @@ if (!TARGET.startsWith('beta/')) {
     add('docs.mercuryDecomp', bad.length === 0,
       `**水星の近点移動の不足の分解**(第280便a・原仮定者の裁定(第70報)・統括の検証項目 R66)—— 判定器と同じ抽出器・同じ窓(59 近点)で `
       + `${cases.join(' / ')}。**外挿値(dt→0・ε→0)は外挿であって、そこで走らせた値ではない**(ε=0.01・dt=0.004 の実測でも観測換算に届かない)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 0a3z13) 第280便a(第70報・統括の検証項目 R66「名称『共通補正で 43″/世紀成立』は基線差引き推定器の値なので、
@@ -11118,7 +11118,7 @@ if (!TARGET.startsWith('beta/')) {
       `**表裏核の検算**(第280便b・原仮定者の裁定〔第70報〕「表側の引きずりと裏側の引きずりは逆転している。手前側の方が距離が近いので、`
       + `その差分が残る。潮汐力に良く似ている」・統括の読み R69): ${cases.join(' / ')} —— **弱場振幅(c² の抑制)は導出できていない**`
       + `(旧 q に合わせて再 fit していない)。密度は表面近くの振幅に効き、遠方の指数(角速度 r⁻² / 背景優勢で r⁻⁴)には効かない`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 0a3z15) 第281便b(原仮定者の裁定(第71報)「銀河の引きずり(座標変換)の分布を確認する」・統括の読み R72/R73):
@@ -11194,7 +11194,7 @@ if (!TARGET.startsWith('beta/')) {
       `**銀河の場の契約の一覧**(第281便b・原仮定者の裁定(第71報)・統括の読み R72): 読み手 5 つ(GF-disp=表示 p=2・D₀ 流用・disk/affine / `
       + `GF-api1=共通 API p=1 / GF-api2=対照 p=2 / GF-e6=E6′(自転項あり)/ GF-toy=geoPN=3 トイ(自転なし))/ ${cases.join(' / ')} —— `
       + `**どれを境界判定の正典にするかは決断事項**(本ブロックは数と宣言の一致だけを見る)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -11247,7 +11247,7 @@ if (!TARGET.startsWith('beta/')) {
     add('behavior.chainLedger', bad.length === 0,
       `**有限予算の交換模型の帳簿**(第281便b・統括の読み R73 —— **連鎖仮説を調べる構成則であって DFM の導出則ではない**・K と I は宣言値・`
       + `エンジン未接続): ${cases.join(' / ')} —— **差動回転の勾配が定常に残るのは外部トルクで両端を固定して仕事を払う開いた実験だけ**`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 0a3z17) 第281便b: docs.galaxyChain ----
@@ -12103,7 +12103,7 @@ if (!TARGET.startsWith('beta/')) {
     + `観測の自転周期は CSV の \`rotation_period\` 行から読んだ **${nSpinRows} 天体**で、`
     + `**P_spin/P_orb が 1% 以内の系は ${syncFlag.length} 本**`
     + `(**「潮汐ロックしている」は観測事実ではなく仮説である**・転写行が無い天体は null のまま)`
-    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
 }
 
 // ---- 0e3c) 第272便c ②: docs.twoBodyMesh — 2 天体思考実験のメッシュ応答 ----
@@ -20100,7 +20100,7 @@ if (!FAST) {
       add('docs.analogyLedger', bad.length === 0,
         `**アナロジーの質量台帳**(第282便d・AN19 —— DR は力学の質量要素・⟨m_DR⟩=1 M☉ が代表・0.1/10 M☉ は比較の列・η=1・f=1): ${cases.join(' / ')}`
         + ' —— **平坦回転を再現したとは書かない**(回転曲線は観測と突き合わせていない)'
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
   }
   })();   // 第310便c(heap)
@@ -21147,7 +21147,7 @@ if (!FAST) {
       add('behavior.bgTimeContract', bad.length === 0,
         `**背景場の時間発展の契約**(第287便c・統括の検証項目 R109 —— 時間微分のある背景は timeContract〔sources: 源の台帳から毎回作り直す/taylor: t₀・有効半径・有効幅〕を宣言し、`
         + `値を時間で動かして返す ∂ₜu と一致させる・v へ ∂ₜu を足さない): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
     // ---- ② behavior.loadSaveBgLaw
     {
@@ -21316,7 +21316,7 @@ if (!FAST) {
       add('behavior.bgRangeFlag', bad.length === 0,
         `**時間の契約の範囲外の旗**(第288便c・統括の検証項目 R115・第78報で閉じた AN86 —— 再展開は同じ近似軌道を幅の外へ延ばしただけなので時間の超過は out=true・`
         + `超えた步は数えて印すだけ〔再展開しない〕・超えた走行を含む観測比較は「契約範囲外」・判定は変えない): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
     // ---- ② behavior.composeCenterOnce
     {
@@ -21653,7 +21653,7 @@ if (!FAST) {
       }
       add('behavior.clusterAnalogy', bad.length === 0,
         `**球状星団アナロジー**(第283便f・原仮定者の裁定(第72報)⑥ の第 1 段 —— 形状の門は測る前に宣言・門の語は形状達成/未達だけ。第284便a の世代は 💮 の新しい宣言〔接触ばね 0・平衡初速〕の門と中心の引きずり支配の目標も): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
     // ---- ② behavior.rayLensExcluded
     {
@@ -21752,7 +21752,7 @@ if (!FAST) {
       }
       add('behavior.rayLensExcluded', bad.length === 0,
         `**rayHeavy の lens 除外**(第283便f・AN27/AN37 —— massLedger.darkRotor.lens:"excluded" の DR 代表粒子は光線の源から外れる・重力の源は不変): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
   }
   })();   // 第310便c(heap)
@@ -22088,7 +22088,7 @@ if (!FAST) {
       }
       add('behavior.clusterAnalogyW285', bad.length === 0,
         `**💮 の半径と走査**(第285便a・原仮定者の裁定(第75報)⑤・R96 —— 門は第283便f のまま・語は形状達成/未達だけ): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
   }
   })();   // 第310便c(heap)
@@ -22159,7 +22159,7 @@ if (!FAST) {
       }
       add('behavior.clusterScale', bad.length === 0,
         `**💮 の星団スケール**(第286便a・原仮定者の裁定(第76報)⑤・R101/R102 —— 単位の一組・同じ代表率・半径の 4 分離): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
     // ---- ② behavior.jeans2D
     {
@@ -22194,7 +22194,7 @@ if (!FAST) {
       }
       add('behavior.jeans2D', bad.length === 0,
         `**2D の動径 Jeans の初期分布**(第286便a・R103・AN60 —— 等方・定常・外縁の圧力 0・負の σ² は平衡解なし・検算は近似問題の検算で粒子系の安定化の証明ではない): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
     // ---- ③ behavior.clusterAnalogyW286
     {
@@ -22366,7 +22366,7 @@ if (!FAST) {
       }
       add('preset.layerAxisDecl', bad.length === 0,
         `**層の軸の宣言欄**(第289便e・原仮定者の裁定(第79報)AN105・R123 —— J ベクトルが正準状態・傾きと方位は J から導く値・0 は正準形に出ない・力には入らない): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
     // ---- ② behavior.tilt90LayersCopy
     {
@@ -22436,7 +22436,7 @@ if (!FAST) {
       } catch (e) { bad.push('投影線の確認: ' + String(e).slice(0, 120)); }
       add('behavior.tilt90LayersCopy', bad.length === 0,
         `**🛸 の層版の診断コピー 🪆**(第289便e・原仮定者の裁定(第79報)AN105・R123 —— 層は J の z 射影だけを読む・🛸 との差は層の近傍重力だけ): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
     // ---- ③ docs.layerReadsZ
     {
@@ -22558,7 +22558,7 @@ if (!FAST) {
       }
       add('behavior.spinAxisDecl', bad.length === 0,
         `**点粒子の自転軸の表示専用の宣言 spinAxis**(第288便e・原仮定者の裁定(第78報)⑦・R117 —— 観測記録に一次資料がある本だけ・物理/署名/セーブの力学に効かない): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
     // ---- ② behavior.tilt90Copy
     {
@@ -22622,7 +22622,7 @@ if (!FAST) {
       }
       add('behavior.tilt90Copy', bad.length === 0,
         `**🛸 軸 90° の原理コピー**(第288便e・原仮定者の裁定(第78報)⑦・R117 —— 現行法則の再測と歳差が担う面内の引きずりの候補〔場に足さない〕): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
     // ---- ③ ui.spinAxisGlyph
     {
@@ -22819,7 +22819,7 @@ if (!FAST) {
       }
       add('behavior.weakfieldCoeff', bad.length === 0,
         `**時計・光の弱場係数と r⁻³ 核の限定模型**(第289便a・原仮定者の裁定(第79報)⑤・R119 —— html の式は変えていない・🛰 の記録は再測しない): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
   }
   })();   // 第310便c(heap)
@@ -23076,7 +23076,7 @@ if (!FAST) {
     cases.push('「複素核」は言及の「」の外に 0(html・原稿・PHYSICS・AI_SPEC・README)・アナロジー 6 本の説明は「慣性決定力の核」・CHANGELOG の 1 行');
     add('docs.terminologyOpticalCamouflage', bad.length === 0,
       `**用語「光学迷彩矮星」(旧称: ダークローター)と「慣性決定力の核」**(第291便a・原仮定者の裁定(第81報)④・AN142・R132 —— 表示と文書の語だけ・ID と機械鍵は改名しない): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -23166,7 +23166,7 @@ if (!FAST) {
     add('docs.calCause', bad.length === 0,
       `**主因分類**(第292便a・原仮定者の裁定(第82報)④・R137 —— 物理は不変・正本を読むだけ): ${cases.join(' / ')}`
       + ' —— 主因が 1PN でない量を 1PN の是正で合にしない(分類は規則表で付ける・名前では付けない)'
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -24411,7 +24411,7 @@ if (!FAST) {
       }
       add('docs.coreCensus', bad.length === 0,
         `**引きずりとコア構造の棚卸し**(第293便c・統括の検証項目 R143 —— 正本 tests/out/corecensus-w293c.json と PHYSICS〔第293便c〕の転記一致): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
     // ---- ② behavior.coreRemovalGate
     {
@@ -24439,7 +24439,7 @@ if (!FAST) {
       }
       add('behavior.coreRemovalGate', bad.length === 0,
         `**コアなし対照の門**(第293便c —— 正本で A〔単層等価〕に分類した本を、いまの html でコアを外した対照と 2000 步走らせ直してビット同一・正本の行と同じ): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
   }
 }
@@ -25787,7 +25787,7 @@ if (!FAST) {
       }
       add('behavior.growthCopy', bad.length === 0,
         `**🌰 成長経路の原理コピー**(第287便a・原仮定者の裁定(第77報)④・R107 —— 門は測る前に宣言・語は形状達成/未達だけ・合体の回数は門にしない): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
     // ---- ② behavior.growthMinimal
     {
@@ -26055,7 +26055,7 @@ if (!FAST) {
       }
       add('behavior.fixedCaptureContract', bad.length === 0,
         `**固定中心の合体・離散の受理契約**(第288便a —— 別の版キー w288a-fixcap-1・🌰 の w287a-capture-1 は変えない): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
   }
   })();   // 第310便c(heap)
@@ -27471,7 +27471,7 @@ if (!FAST) {
       + `終点と閉じた式(PLU060 の同じ解の二体 P − Buie ${Number.isFinite(cf) ? sgn(cf, 4) : '—'} s)の差 ${Number.isFinite(tail - cf) ? (tail - cf).toExponential(2) : '—'} s / `
       + `Buie の a・P が含意する GM ${Number.isFinite(au.gmBuieImplied) ? au.gmBuieImplied.toFixed(3) : '—'} km³/s²(PLU060 975.4±0.5 と ${Number.isFinite(au.gmGapInPluSigma) ? au.gmGapInPluSigma.toFixed(2) : '—'}σ_GM)/ `
       + `出発点 ❄️ kF0 ${Number.isFinite(c0.resid) ? sgn(c0.resid, 4) : '—'} s / 要因 ${KEYS.length} 行 / 禁止語 0`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -47701,7 +47701,7 @@ if (!FAST) {
     add('docs.analogyKernelNote', bad.length === 0,
       `**アナロジー 6 本の説明の 1 文**(AN110・R124): ${pr.map((x) => (x.emoji || '') + x.id).join('・')} の descStruct.summary に ja 1 文・en 1 文` +
       `・宣言は share p=1・q 付き・kFrame=0・geoPN=3・原稿の状況の末尾に要旨・概要の字数(ja/en)${lens.join(' ')}(上限 120/200)・生成領域の概要 = 原稿` +
-      (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -50002,7 +50002,7 @@ if (!FAST) {
     add('docs.emgrid-sync', bad.length === 0,
       `**地球–月の 1 表**(第280便b・統括の読み R70「🌘 と 🧲 は法則以外も違う —— 一つの初期状態から一つずつ変える」): ${cases.join(' / ')} —— `
       + `同じ抽出器(近点検出器 B・位置だけ)・同じ窓(8/27 公転)。**正式の判定器の置換ではない**・コピーは器の中だけ(🌓 以外は内蔵に足していない)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 7n‴) 第279便c(統括の読み R63 ①②): preset.bgSources ----
@@ -50360,7 +50360,7 @@ if (!FAST) {
     add('docs.geo3-sync', bad.length === 0,
       `**geoPN=3 契約の検算の正本**(第280便c): ${cases.join(' / ')} —— **純粋な座標の変更は近点を変えない**を、`
       + `正式の判定器と同じ抽出器・同じ窓で測った。**較正ではない**(診断コピー・principle)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 7n⁗″) 第280便c: ui.geo3Hud ----
@@ -64143,7 +64143,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         + `回し直せば正本の刻印も動く(**不動点が無い**)。刻印が言えるのは`
         + `**どの走行から転記したか**までである / **捕まらないのはページの実行時だけ**`
         + `(ページは自分の SHA-256 を確かめられない)/ \`presetSig\` はこの表を見ない`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     } catch (e) {
       add('ui.assessedValuePanel', false, '正本が読めない: ' + String(e).slice(0, 120));
     }
@@ -64316,7 +64316,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       + `切替 ${Object.entries(sw).filter(([k]) => k !== 'all' && k !== 'mobile').map(([k, v]) => k + ' ' + v).join('・')} / `
       + `**欠測は空欄**(0 に置換しない)/ **帯の中でも「合格」と書かない**(合否は 3σ 門の正式判定の転記だけ・古い verdict を持たない)/ `
       + `モバイル 360 px ${sw.mobile ? '箱 ' + sw.mobile.bw + '/' + sw.mobile.cw : '—'}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   await op.close();
 }
@@ -68161,7 +68161,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + `点渦 ${e('pointVortex')}・平坦回転曲線 ${e('flatRotation')} / `
       + `**2D の埋め込みで (ω·∇)u === 0**: ${em ? em.nExactZero + '/' + em.n : '—'} 点(3D の対照 (ω·∇)U_z=2Ωa=${bg ? bg.stretchZ : '—'} を ${e('burgers3')} で再現)/ `
       + `材料線の RK4 輸送 ↔ t̂·S·t̂ ${e('materialLine')}(許容 1e−7)/ 足す診断量は「伸び」t̂·S·t̂ の 1 つ・粘性項なし・門なし`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -68277,7 +68277,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + `star n=3 ${cs ? f(cs.ratios['star-n3'], 4) : '—'}(ρ_c/ρ̄ ${cs ? f(cs.n3RhoC, 4) : '—'})—— **宣言した近似**(表裏核の厳密解ではない)/ `
       + `候補式 u=AΔΩ(R_drag/(R_drag+r))^q e_z×r(**現象論・未実証**): 同期で 0・逆回転で符号反転・遠方の誤差 ${ff ? ff.errs.map((e) => e.toExponential(1)).join('→') : '—'}・`
       + `縮退(A と R_drag)の差 ${dg ? Object.values(dg.relDiffAt).map((e) => e.toExponential(1)).join('→') : '—'}(10R→10⁴R)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -68534,7 +68534,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + `ラベル「引きずりが完全に消えている空間メッシュ状態(候補)」は **kF1 が 否(3σ)・`
       + `kF0 の 4 列がすべて ✓** の行にだけ付く**候補**であって、**較正完了ではない**。`
       + `**未測定は未測定と書く**(推定で埋めない)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 // ---- 0a4a′) 第282便a(原仮定者の裁定(第72報)②③⑤⑥・統括の検証項目 R77/R78): docs.calContract ----
@@ -68650,7 +68650,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       `**較正契約の 3 系統+アナロジー**(第282便a・原仮定者の裁定(第72報)②③⑤⑥・R77/R78): ${cases.join(' / ')} —— `
       + `**旧 4 値は旧契約(第281便まで)の履歴**として別欄に残し、新集計は系統ごとに母集団・法則版・観測量を明記して**数えるだけ**`
       + `(合否は 1 つも動かさない・DFM 版の許容幅は未裁定)。f は **基準質量との数値比較**で出す(台帳の有無を f=1 の根拠にしない)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -70678,7 +70678,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       `**geoPN=1 の自由連星の契約**(第282便b・R79・原仮定者の裁定〔第72報〕⑤): ${cases.join(' / ')} —— `
       + `第282便b 時点の geoPN=1 は「固定中心用の試験粒子 1PN を相互に当て、反作用を返さない」(第283便a から反作用を返す)。**Σm·v は状態変数の和で、相対論的な全運動量ではない**。`
       + `geoPN は**アプリのモード番号**(標準理論の 2PN・3PN ではない)。AN23 は第73報で閉じた(geoPN=1 に反作用を返す —— 第283便a。本正本は旧則の履歴)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -72482,7 +72482,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     add('docs.pn1', bad.length === 0,
       `**kF0 1PN 対照の文書**(第285便b・原仮定者の裁定(第75報)⑦・R97/R98): ${cases.join(' / ')} —— 旧 kF0 則の相対二体への還元(1−10ν/3)・`
       + `EIH 型への修正・制御二体・λ_PN=0 の対照・水星の ε/dt の分解を PHYSICS〔第285便b〕が正本の数で持つ`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -72693,7 +72693,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     add('docs.pn1Contract', bad.length === 0,
       `**kF0 の 1PN の源集合の文書**(第291便b・原仮定者の裁定(第81報)⑤・R133): ${cases.join(' / ')} —— 質点 1PN を採るのは天体の大きさの効果(J₂・潮汐・スピン結合)を`
       + `評価して省いたからではない・1.5PN は足さない`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -72768,7 +72768,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     } catch (e) { bad.push('正本・器が読めない: ' + String(e).slice(0, 160)); }
     add('behavior.pnSourceCompanion', bad.length === 0,
       `**伴星の 1PN 源と較正行の宣言**(第286便b・原仮定者の裁定(第76報)AN54・AN59・R104): ${cases.join(' / ')} —— 判定は鎖の calaudit(3σ 門)が付ける(この試験は前後の記録)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -74392,7 +74392,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       }
       add('behavior.coord3d298', bad.length === 0,
         `**三次元座標の土台**(第298便a・原仮定者の裁定(第88報)・R165 —— physics.coord:"3d" の本だけが別の步・二次元の本は不変): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
     // ---- ② preset.coord3d298
     {
@@ -74541,7 +74541,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       }
       add('behavior.drag3d298', bad.length === 0,
         `**三次元の慣性決定力 3 成分**(第298便c・原仮定者の裁定(第88報)・R167 —— 並進・回転引きずり〔赤道で最大・軸上で 0〕・軸引きずり〔軸上で最大・赤道で 0・姿勢だけ〕): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
     // ---- ② behavior.meshField298
     {
@@ -75356,7 +75356,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       }
       add('behavior.ref3d299', bad.length === 0,
         `**参照模型の三次元化**(第299便e・原仮定者の裁定(第89報)④・R174 —— 潜在だった面外 z を座標へ・二次元の經路は不変): ${cases.join(' / ')}`
-        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 5, stampMax: 5 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
     }
     // ---- ② preset.ref3d299
     {
@@ -81024,7 +81024,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     add('lint.canon303', bad.length === 0,
       `**第302便の正本 5 本を CANON へ**(第303便e・決断事項 AN312 ③・R194 —— 来歴の照合 lint.provenanceMeta の対象に): ${cases.join(' / ')}`
       + ` —— 不一致は FAIL のまま(AG10 —— 鎖で作り直す段)`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
 }
 
@@ -83051,7 +83051,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     } catch (e) { bad.push('正本・器が読めない: ' + String(e && e.stack || e).slice(0, 200)); }
     add('docs.charonAudit305', bad.length === 0,
       `**🟪 plutoCharonInertialFit の基線の監査**(第305便e・AN318・AN333・R203 —— 引きずり OFF の +7.221 s の内訳・宣言は変えない・観察者の時計の換算は記録だけ): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -91999,7 +91999,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
   add('docs.geo3Bin321b', bad.length === 0,
     `**連星の geoPN=3 版の S1 の正本と文書**(第321便b・原仮定者の予定(第123報)・R267 —— 正本 geo3bin-w321b.json・在位の本の宣言・エンジンの式・受理の判定は不変・内蔵の本は足さない・写しの比較で観測との照合ではない・周期だけの一致を系全体に広げない): ${cases.join(' / ')}`
-    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   })();   // 第310便c(heap)
 }
 // ==== 第321便b の塊(ここまで)====
@@ -94389,7 +94389,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('lint.htmlPhys325a', bad.length === 0,
       `**html の物理の部分の hash**(第325便a・原仮定者の指示(2026-11-03)「再生成の段の対象が宣言なしの場合、html全体にしない」・統括の検証項目 R284): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   // ---- docs.w325a
   {
@@ -96365,7 +96365,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.axialRadius326d', bad.length === 0,
       `**引きずる側の半径 R_src と引きずられる側の半径 R_d の独立の宣言**(第326便d・原仮定者の指示(第128報)「引きずり計算の補足」・R293 —— 在位の本と受理器は変えない): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   // ───── docs.axialHeat326d ─────
   {
@@ -96417,7 +96417,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.axialHeat326d', bad.length === 0,
       `**軸引きずりの帳簿と半径の文書**(第326便d・原仮定者の指示(第128報)・R293 —— 内部熱を観測の熱流に合わせていない・銀河場を同定したとは数えない): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -96714,7 +96714,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.axialSum327a', bad.length === 0,
       `**角速度の和の族 S と金星の受け手の R_d の写しの読み口**(第327便a・原仮定者の回答(2026-11-05 —— AN534・AN535)・R295 —— 在位の本と受理器は変えない): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   // ───── docs.axialSum327a ─────
   {
@@ -96771,7 +96771,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号(節・第326便d の節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.axialSum327a', bad.length === 0,
       `**角速度の和・金星の R_d・潮汐の法則の文書**(第327便a・原仮定者の回答(2026-11-05 —— AN534・AN535・AN537)・R295 —— 金星の逆回転・内部熱の説明ではない・格子の R_d は採らない・地球と土星で合わせていない): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -96856,7 +96856,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.galaxis327b', bad.length === 0,
       `**銀河の局所場の 2 つの経路の作り直し**(第327便b・原仮定者の回答(2026-11-05 —— AN536)・R296 —— 経路 1 は第326便d の器の関数・経路 2 は第321便c の場の API を呼ぶ): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   // ───── docs.galaxis327b ─────
   {
@@ -96913,7 +96913,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.galaxis327b', bad.length === 0,
       `**銀河の局所場の 2 つの経路と場に対する逆回転の読みの文書**(第327便b・原仮定者の回答(2026-11-05 —— AN536)・R296 —— 銀河場の同定とは数えない・腕より速い場は仮定・場の軸は反転しない): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -97568,7 +97568,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.axialDiff327e', bad.length === 0,
       `**軸引きずりの差分の型の写しの読み口**(第327便e・原仮定者の指示(2026-11-05)「軸引きずりについて」・R299 —— 在位の本と受理器は変えない・回転引きずりの場はエンジンの点の読み口): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   // ───── docs.axialDiff327e ─────
   {
@@ -97629,7 +97629,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・第327便a の節の更新の行・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.axialDiff327e', bad.length === 0,
       `**軸引きずりの差分の型・金星の別の半径・規則を固定した火星と地球–月の文書**(第327便e・原仮定者の指示(2026-11-05)「軸引きずりについて」・R299 —— 金星の逆回転・内部熱の説明ではない・零点の R_alt は採らない・火星と地球–月で合わせていない): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -97726,7 +97726,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.venusTide327f', bad.length === 0,
       `**金星の潮汐の口の写しの読み口**(第327便f・原仮定者の指示(2026-11-05)「R_dはK1で固定し、観測の自転もトルクの釣り合いで進める」・R300 —— 在位の本と受理器は変えない・銀河と K1 の口はエンジンの写しの読み口): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   // ───── docs.venusTide327f ─────
   {
@@ -97790,7 +97790,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・第327便e と第327便a の節の更新の行・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.venusTide327f', bad.length === 0,
       `**金星の潮汐の口の釣り合い・安定と解の枝・共鳴の大きさ・規則を固定した火星と地球–月の文書**(第327便f・原仮定者の指示(2026-11-05)「金星の逆行自転は、大気熱潮汐の影響と、地球との共鳴を採用する」・R300 —— 金星の逆回転・内部熱の説明ではない・解いた振幅と割合は採らない・火星と地球–月で合わせていない): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -97898,7 +97898,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.fieldContract328a', bad.length === 0,
       `**場の API の opt-in の契約と直接の滑りの作り直し**(第328便a・原仮定者の回答(2026-11-05 —— AN551・AN552・AN553)・R301 —— 古い呼び出しはビット同一・対照の列は第327便b の正本と同じ値): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   // ───── docs.fieldContract328a ─────
   {
@@ -97955,7 +97955,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列(節・更新の行・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.fieldContract328a', bad.length === 0,
       `**場の API の opt-in の契約と直接の滑りの宣言の型の文書**(第328便a・原仮定者の回答(2026-11-05 —— AN551・AN552・AN553)・R301 —— Ω_field は宣言の候補・g_T と Ω_field はランク 1・帳簿は第326便d の lib): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -98059,7 +98059,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.response328b', bad.length === 0,
       `**受け手の応答の演算の写しの読み口**(第328便b・原仮定者の回答(2026-11-05 —— AN559・AN561)・R302 —— 在位の本と受理器は変えない・既定の列はエンジンの銀河の一様軸の読み口と照合): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   // ───── docs.response328b ─────
   {
@@ -98121,7 +98121,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・第327便a と第327便f の節の更新の行・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.response328b', bad.length === 0,
       `**受け手の応答の演算の型ごとの判定・源の固定の列・金星の N_0 の記録し直し・局所の尺度の文書**(第328便b・原仮定者の回答(2026-11-05 —— AN559・AN561・AN562・AN563・AN550・AN566)・R302 —— p は 1 つでない・金星の逆回転・内部熱の説明ではない): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -98188,7 +98188,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('lint.venusCoverage328c', bad.length === 0,
       `**第327便f の器の検査の範囲の件数の門**(第328便c・統括の検証項目 R303 —— 版 1 は 45 360 条件の内 1 746 条件だけを帳簿まで評価していた・版 2 は全部 —— html を読まない): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   // ───── lint.resPower328c ─────
   {
@@ -98386,7 +98386,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.spinBias329a', bad.length === 0,
       `**比べる表・受動の口・s_d の作用箇所・偏りの列の写しの読み口**(第329便a・原仮定者の方針(2026-11-07)・R304 —— 在位の本と受理器は変えない・s_d は既存の dragCore.spin を写しで振る): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   // ───── docs.spinBias329a ─────
   {
@@ -98454,7 +98454,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・第327便f の節の更新の行・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.spinBias329a', bad.length === 0,
       `**金星・イオ・月・水星の比べる表・s_d の作用箇所・表裏の偏りの 3 列・式の形・A の範囲・AN574 の印・小さな位相の模型の文書**(第329便a・原仮定者の方針(2026-11-07)・原仮定者の回答(2026-11-07 —— AN570・AN571・AN574・AN575)・R304 —— 偏りの振幅は宣言したノブで表現できた要る振幅・金星の逆回転・内部熱の説明ではない): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -98565,7 +98565,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.galRot329b', bad.length === 0,
       `**銀河の既存の回転の理論のラベル・契約の版 2・DFM の OFF/ON の作り直し**(第329便b・原仮定者の方針(2026-11-07)・R305 —— 今の html の 🌃 の診断の写し・版 1 の呼び出しはビット同一): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -98640,7 +98640,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列(節・更新の行・AI_SPEC・CHANGELOG・器・lib 2 本・文書の lib・fixture の説明)');
     add('docs.galRot329b', bad.length === 0,
       `**銀河の既存の回転の理論のラベル・契約の版 2・寄与の度合いの文書**(第329便b・原仮定者の方針(2026-11-07)・原仮定者の回答(2026-11-07 —— AN568・AN569・AN570・AN572)・R305 —— κ_epi と κ_D を分ける・寄与の数は宣言の上の値・ハローの置き換えは主張しない): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -98696,7 +98696,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
     add('lint.contractSeam329c', bad.length === 0,
       `**契約の継ぎ目**(第329便c・原仮定者の回答(2026-11-07 —— AN569)・R306 —— Ω_arm は受け手の側の入力・作り手は第328便a の buildFieldContract・物理の塊は不変): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   // ───── lint.condSelect329c ─────
   {
@@ -98987,7 +98987,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.spinClass330a', bad.length === 0,
       `**自転の 3 分類・由来ごとのトルク・1 つの A・金星の符号・内部熱の帳簿の写しの読み口**(第330便a・原仮定者の整理(2026-11-08)・R307 —— 在位の本と受理器は変えない): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   // ───── docs.spinClass330a ─────
   {
@@ -99054,7 +99054,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・速度の数の字列(節・第329便a の節の更新の行・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.spinClass330a', bad.length === 0,
       `**自転の 3 分類・地球と火星の対照・金星の符号・AN577 C の 2 列・内部熱の帳簿・測地の歳差・歳差の窓の文書**(第330便a・原仮定者の整理(2026-11-08)・原仮定者の回答(2026-11-08 —— AN577・AN578・AN579)・R307 —— 3 分類は宣言の作業仮説・内部熱は宣言した範囲の収支で観測の熱流との比は別の欄): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -99120,7 +99120,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('lint.dragWeight330b', bad.length === 0,
       `**第132報の重みの式・連鎖の固定点・ジャイロ・密度波のラベルの純関数と回転する枠の欠測の修正**(第330便b・原仮定者の整理(2026-11-08)・R308 —— html を読まない・自己の重みは有限の宣言・連鎖は一度だけ計上・90° 回した別のトルクを足さない・棒は notClaim): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   // ───── behavior.dragWeight330b ─────
   {
@@ -99166,7 +99166,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.dragWeight330b', bad.length === 0,
       `**第132報の重みの式と今のエンジンの経路の対応・円盤の連鎖・ジャイロ・密度波の作り直し**(第330便b・原仮定者の整理(2026-11-08)・R308 —— 今の html の 🗺️ の写し・步を進めない読み口・速度の形は宣言した型の表の値): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -99248,7 +99248,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・コードの書式の外の κ_epi・km/s の数の字列(節・更新の行・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.dragWeight330b', bad.length === 0,
       `**第132報の重みの式と今のエンジンの経路の対応・連鎖と平坦な回転の低 N の試し・ジャイロ・密度波・枠の欠測の修正の文書**(第330便b・原仮定者の整理(2026-11-08)・原仮定者の回答(2026-11-08 —— AN578・AN580)・R308 —— κ_epi と κ_D を分ける・速度の形は宣言した型の表の値・棒は notClaim): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -99457,7 +99457,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('lint.coordTwist331a', bad.length === 0,
       `**座標変換の引きずり(並進 + 回転を 1 つ・m/r²)・口の登録と 4 条件・近点の一次の目安・通約・内部熱の 3 欄の純関数と lockTargets の宣言**(第331便a・原仮定者の決断(2026-11-09 —— AN586〜AN590)・R310 —— html を読まない・自己の重みは有限の宣言・同じ口の二度の登録を拒否): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   // ───── behavior.coordTwist331a ─────
   {
@@ -99501,7 +99501,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.coordTwist331a', bad.length === 0,
       `**座標変換の引きずりと今のエンジンの成分ごとの比べる表・近点の目安・4 条件・地球と火星・内部熱の 3 欄・lockTargets の作り直し**(第331便a・原仮定者の決断(2026-11-09 —— AN586〜AN590)・R310 —— 今の html の 🗺️ の写し・步を進めない読み口・座標則と今のエンジンは成分ごとの表と残差): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -99580,7 +99580,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・コードの書式の外の κ_epi・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.coordTwist331a', bad.length === 0,
       `**座標変換の引きずりと今のエンジンの成分ごとの比べる表・近点の目安・回転の自転の口と潮汐の口・内部熱の 3 欄・lockTargets・地球と火星の文書**(第331便a・原仮定者の決断(2026-11-09 —— AN586〜AN590)・原仮定者の回答(2026-11-09 —— AN591)・R310 —— 実装/診断/宣言を分ける・座標則と今のエンジンは成分ごとの表と残差): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -99677,7 +99677,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.centrifugal331b', bad.length === 0,
       `**NGC 3198 の要る枠の回転・円盤の枠の固定点(AN593 B の格子)・太陽系と土星の環の作り直し**(第331便b・原仮定者の追記(2026-11-09)・R311 —— 今の html の 🗺️ と 💍 の宣言を読むだけ・步を進めない・速度と残差は宣言した型の表の値): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -99754,7 +99754,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・コードの書式の外の κ_epi・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.centrifugal331b', bad.length === 0,
       `**遠心力を弱める関係・NGC 3198 の要る枠と円盤の枠の固定点(AN593 B)・太陽系と土星の環の文書**(第331便b・原仮定者の追記(2026-11-09)・原仮定者の決断(2026-11-09 —— AN593・AN595)・R311 —— 宣言の式と今のコードの実装を混ぜない・κ_epi と κ_D を分ける・速度と残差は宣言した型の表の値): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -99892,7 +99892,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.k1Scale331c', bad.length === 0,
       `**G_loc の基準表・K1 のスケールの読み・土星の環の候補の作り直し**(第331便c・原仮定者の整理(2026-11-09)・原仮定者の追記(2026-11-09)・R312 —— 今の html の在位の本の写し・写しの宣言は G_loc の law と n と K1 の有無だけ): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -99972,7 +99972,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・コードの書式の外の κ・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.k1Scale331c', bad.length === 0,
       `**G_loc の基準表(全近点移動の出所)・K1 の R_d のスケールの読み・土星の環の厚みとの関連の候補の文書**(第331便c・原仮定者の整理(2026-11-09)・原仮定者の追記(2026-11-09)・R312 —— 表と候補と残差・採るかは次の報の決断・関連の判定ではない): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -100465,7 +100465,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.eqBand332a', bad.length === 0,
       `**環の厚みと帯・帯の中の鉛直の振動・公転面の届く/届かないと揃える時間・太陽–木星の物差し・今の K1 の球の核との違いの作り直し**(第332便a・原仮定者の補足(2026-11-10)・R315 —— 今の html の 🗺️ と 💍 の宣言を読む・🗺️ の 2 体の写しの読み口・步を進めない・帯の力は宣言の型の表の値): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -100545,7 +100545,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・コードの書式の外のカッパ・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.eqBand332a', bad.length === 0,
       `**新しい回転引きずり(帯の力)の環・公転面・太陽–木星・今の K1 の球の核との違いの文書**(第332便a・原仮定者の補足(2026-11-10)・R315 —— 新しい仮定〔宣言・未接続〕と今のコードの実装を混ぜない・Y_k m と κ_D m の 2 列・帯の力は宣言した型の表の値と残差): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -100663,7 +100663,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.transGeo2332b', bad.length === 0,
       `**💫 の写しのエンジンとの照らしと窓・同じ入力の表・NGC 3198・違いの分解・近似として読める範囲の作り直し**(第332便b・原仮定者の補足(2026-11-10)・R316 —— 今の html の 💫 の写しを受理器に通して build・步は 2 步と 600 步の窓だけ・表は宣言した型の値): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -100742,7 +100742,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.transGeo2332b', bad.length === 0,
       `**並進引きずりと geoPN = 2 の同じ入力の比べる表・違いの分解・近似として読める範囲の文書**(第332便b・原仮定者の補足(2026-11-10)・R316 —— 宣言の式と今のコードの実装を混ぜない・同じとは書かない・物差しの内か外かの表): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -100854,7 +100854,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.rotDiff333a', bad.length === 0,
       `**3 列の表・s_d の表・源のモーメントの J 案との等価・応答率の 2 列と公転面の揃いの表の作り直し**(第333便a・原仮定者の整理(2026-11-10)・R317 —— 今の html の 🗺️ と 💍 の宣言を読む・🗺️ の 2 体の写しの読み口・步を進めない・宣言の型の表の値): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -100935,7 +100935,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・コードの書式の外のカッパ・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.rotDiff333a', bad.length === 0,
       `**回転引きずりの三次元の差分の 3 列・引きずり自転 s_d・源のモーメントの J 案との等価・応答率の 2 列と公転面の揃いの表の文書**(第333便a・原仮定者の整理(2026-11-10)・R317 —— 宣言〔未接続〕と今のコードの実装を混ぜない・尾は走行の前の宣言・宣言した型の表の値と残差): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -101036,7 +101036,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.axialField333b', bad.length === 0,
       `**🗺️ の写しの軸引きずりの新しい定義の表・今の軸の口の読み口・遠心の順行と逆行・次数と単位の作り直し**(第333便b・原仮定者の整理(2026-11-10)・R318 —— 今の html の 🗺️ の写しを受理器に通して build・步は進めない・表は宣言した型の値): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -101114,7 +101114,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・係数記号(κ_D だけ)・km/s の数の字列・説明に出さないコードの名前(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.axialField333b', bad.length === 0,
       `**軸引きずりの新しい定義の太陽系の表・今の軸の口との並べ・遠心の順行と逆行・次数と単位の文書**(第333便b・原仮定者の整理(2026-11-10)・R318 —— 宣言の式と今のコードの実装を混ぜない・重ねて足さない・条件つきの表): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -101241,7 +101241,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.mercury3d333c', bad.length === 0,
       `**水星の三次元の対照の作り直し**(第333便c・原仮定者の整理(2026-11-10)・R319 —— 今の html の 🌡️🌋🔴 の宣言を読む・步を進めない・効果は宣言の型の単独の一次の率): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -101319,7 +101319,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・係数の記号(κ₀ を使わない・コードの名前 D_bg・W_bg・m_d を説明に出さない)・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.mercury3d333c', bad.length === 0,
       `**水星の三次元の対照の文書**(第333便c・原仮定者の整理(2026-11-10)・原仮定者の回答(2026-11-10 —— AN597)・R319 —— 宣言した型の単独の一次の率・凍結の基準との差・残差): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -101428,7 +101428,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.nonCirc333d', bad.length === 0,
       `**非円軌道の低 N の対照の作り直し**(第333便d・原仮定者の整理(2026-11-10)・R320 —— html を読まない・族と組・腕と分散の比べ・離散化・∂U/∂t の差分の照らし・共鳴の半径・第332便b の円盤との起点の照合): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -101508,7 +101508,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.nonCirc333d', bad.length === 0,
       `**非円軌道と密度波の低 N の対照の文書**(第333便d・原仮定者の整理(2026-11-10)・R320 —— 宣言の式と今のコードの実装を混ぜない・3 つの族の差の表・残差): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -101788,7 +101788,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.heightLaw334a', bad.length === 0,
       `**回転引きずりの高さ則と扁平な源の作り直し**(第334便a・原仮定者の整理(2026-11-11)・R322 —— html を読まない・範囲の物差し・高さの分布と比例の範囲・厚みの対照・扁平の則と回転楕円体の求積と天体の表・比べる列は第333便a の lib): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -101871,7 +101871,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.heightLaw334a', bad.length === 0,
       `**回転引きずりの高さ則と扁平な源の文書**(第334便a・原仮定者の整理(2026-11-11)・R322 —— 宣言の式と今のコードの実装を混ぜない・読みの候補の表・範囲の 2 つの物差し・扁平の則 × 次数・条件付きの恒等式): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -101979,7 +101979,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.ledger334b', bad.length === 0,
       `**仕事とトルクの帳簿の作り直し**(第334便b・原仮定者の整理(2026-11-11)・R323 —— html を読まない・押し・軸の応答・潮汐の対応・自己の割合・窓 1 系): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -102060,7 +102060,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.ledger334b', bad.length === 0,
       `**仕事とトルクの帳簿の文書**(第334便b・原仮定者の整理(2026-11-11)・R323 —— 宣言した応答則と共役の角速度の帳簿・相殺しない・今の軸の口と並べる・読みの対応): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -102198,7 +102198,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.mercuryNode334c', bad.length === 0,
       `**水星の斜め軌道の交点の窓の積分の作り直し**(第334便c・原仮定者の整理(2026-11-11)・R324 —— 今の html の 🌡️🌋🔴 の宣言を読む・步を進めない・効果は宣言の型の窓ごとの一次の率): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -102279,7 +102279,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・係数の記号(カッパに添字 0 を使わない・コードの名前 D_bg・W_bg・m_d を説明に出さない)・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.mercuryNode334c', bad.length === 0,
       `**水星の斜め軌道の交点の窓の積分の文書**(第334便c・原仮定者の整理(2026-11-11)・原仮定者の回答(2026-11-11 —— AN633〜AN636)・R324 —— 宣言した型の窓ごとの一次の率・文献の値〔未照合〕との比・係数の上限): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -102409,7 +102409,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.binaryLaw334d', bad.length === 0,
       `**連星と冥王星–カロンの作り直し**(第334便d・原仮定者の整理(2026-11-11)・R325 —— 今の html の 10 本の宣言を読む・步を進めない・宣言の型の表): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -102489,7 +102489,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・係数の記号(旧い引きずり係数の記号を使わない・コードの名前 D_bg・W_bg・m_d を説明に出さない)・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.binaryLaw334d', bad.length === 0,
       `**連星と冥王星–カロンの文書**(第334便d・原仮定者の整理(2026-11-11)・原仮定者の回答(2026-11-11 —— AN637)・R325 —— 宣言した型の表・残差・条件付きの恒等式): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -102587,7 +102587,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.gridFloor334e', bad.length === 0,
       `**銀河の離散化の床の作り直し**(第334便e・原仮定者の回答(2026-11-11 —— AN638)・R326 —— html を読まない・格子の受け手・幅と分解・目標・腕の比べ・星の点の受け手と第333便d の照らし・高さの列): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -102666,7 +102666,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.gridFloor334e', bad.length === 0,
       `**銀河の離散化の床の文書**(第334便e・原仮定者の回答(2026-11-11 —— AN638)・R326 —— 宣言した格子と離散化の列の表・目標に届かない所・幅の内と幅を超える所): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -102948,7 +102948,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.carryLedger335b', bad.length === 0,
       `**定義を揃える器の作り直し**(第335便b・原仮定者の決断(2026-11-12)・R329 —— 正本の本の時刻の状態から・html を読まない): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -103032,7 +103032,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.carryLedger335b', bad.length === 0,
       `**定義を揃える文書**(第335便b・原仮定者の決断(2026-11-12)・R329 —— 自己を運ぶ式・熱の口・供給の帳簿・T1 の部位の則 —— 宣言した型の表と要る値): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -103160,7 +103160,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.mercuryCombo335c', bad.length === 0,
       `**水星の組み合わせの作り直し**(第335便c・原仮定者の決断(2026-11-12)・R330 —— 今の html の 🌡️🌋🔴 の宣言を読む・步を進めない・列は宣言の型の一次の率): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -103246,7 +103246,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・係数の記号(カッパに添字 0 を使わない・コードの名前 D_bg・W_bg・m_d を説明に出さない)・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.mercuryCombo335c', bad.length === 0,
       `**水星の組み合わせの文書**(第335便c・原仮定者の決断(2026-11-12)・原仮定者の補足(2026-11-12)・R330 —— 宣言した型の一次の率・位置の依存の型の有無・文献の値〔訂正・本環境では未照合〕との参考の比): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -103362,7 +103362,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.binaryTilt335d', bad.length === 0,
       `**連星の同期の型と傾きの組み合わせの作り直し**(第335便d・原仮定者の補足(2026-11-12)・R331 —— 今の html の 11 本の宣言を読む・步を進めない・宣言の型の表): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -103445,7 +103445,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・係数の記号(旧い引きずり係数の記号を使わない・コードの名前を説明に出さない)・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.binaryTilt335d', bad.length === 0,
       `**連星の同期の型と傾きの組み合わせの文書**(第335便d・原仮定者の補足(2026-11-12)・原仮定者の回答(2026-11-12 —— AN660)・R331 —— 宣言した型の表・条件付きの恒等式・族の判定): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -103545,7 +103545,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.moonApsis335e', bad.length === 0,
       `**月の近点と太陽の有無の作り直し**(第335便e・原仮定者の補足(2026-11-12)・R332 —— 今の html の 🌦️・🌔 の宣言を読む・步を進めない・宣言の型の表): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -103625,7 +103625,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・係数の記号(旧い引きずり係数の記号を使わない・コードの名前 D_bg・W_bg・m_d を説明に出さない)・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.moonApsis335e', bad.length === 0,
       `**月の近点と太陽の有無の文書**(第335便e・原仮定者の補足(2026-11-12)・R332 —— 4 列の表・減衰の時間の下限・釣り合いの有無): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -103723,7 +103723,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('behavior.elliptical335f', bad.length === 0,
       `**楕円銀河の型の模型の作り直し**(第335便f・原仮定者の回答(2026-11-12 —— AN665)・R333 —— html を読まない・重力だけの対照と引きずりの列の時系列・幅と効果・平衡の記録・対照の模型・h と h/2): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -103800,7 +103800,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
     add('docs.elliptical335f', bad.length === 0,
       `**楕円銀河の型の模型の文書**(第335便f・原仮定者の補足(2026-11-12)・原仮定者の回答(2026-11-12 —— AN665)・R333 —— 重力だけの対照との差と誤差の幅の比の表・宣言した型の表): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第336便b(R336): 種類の印
   }
   })();   // 第310便c(heap)
 }
@@ -103899,6 +103899,152 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第335便g の塊(ここまで)====
+
+// ==== 第336便b の塊(ここから —— lint.unmarkedFail336b・docs.unmarkedFail336b の 2 ブロック。root は SKIP)====
+// ---- 第336便b(統括の検証項目 R336 —— 道具と QA と文書だけ・html・エンジン・内蔵の本・受理器は変えない・段は足さない): **印のない FAIL を数の外に置かない**。
+// ----   第335便の統合の後の受け入れ(tools/post-merge-qa.sh)の ① は FAIL 8 件のうち種類の印 〔違反の種類 w320d: …〕 を出す 2 件だけを要約の数に入れ、印のない 6 件
+// ----   (うち 1 件は鎖で直らない型)が数の外にいた。世代切替 = beta 対象 ∧ tests/lib-w336b-unmarked.mjs がある。
+// ----   lint.unmarkedFail336b: ① 版(lib の版・種類の lib の版 2・末尾の字数)と刻印の型の語(版 2 で足した 6 つは刻印の型・「摂動の再走」などは刻印の型以外)
+// ----     (a) 合成のログの自己試験(selfTest336b —— 印あり PASS/FAIL・印なし FAIL〔刻印の文あり/なし〕・PASS だけ・空)
+// ----     (b) post-merge-qa.sh から kinds320 と unmarked336b を切り出して bash で実行: 「印のない FAIL n 件」と id・一覧のファイル・「1 件ずつ読むこと」の句・0 件なら句なし・
+// ----         ① と ④ の呼び出し(1-unmarked.txt・4-unmarked.txt)
+// ----     (c) 第335便の ① のログの抜粋(tests/data-w336b-pm335-preflight.txt —— 凍結・sha256)を summarizeLog と kinds320 に通して期待の要約と同じ
+// ----     (d) 印を付けた鍵(MARKED_KEYS_336B)の detail が lib の violationText を通る経路を持つ(静的 —— 判定の式は不変)
+// ----   docs.unmarkedFail336b: PHYSICS〔第336便b〕の位置と必須の語・AI_SPEC §228・CHANGELOG の行・tools/README.md の post-merge の節・post-merge の ③′ の塊・書かない語
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const fLib336b = path.join(ROOT, 'tests', 'lib-w336b-unmarked.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(fLib336b))) {
+    console.log('SKIP lint.unmarkedFail336b・docs.unmarkedFail336b(第336便b の印のない FAIL の一覧の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd336b = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const U336b = await import('file://' + fLib336b);
+  const LK336b = await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs'));
+  const PM336b = rd336b('tools/post-merge-qa.sh') || '';
+  // ───── lint.unmarkedFail336b ─────
+  {
+    const bad = [], cases = [];
+    const os336b = await import('node:os');
+    const tmp336b = fs.mkdtempSync(path.join(os336b.tmpdir(), 'qa-w336b-'));
+    try {
+      // ① 版と刻印の型の語
+      if (!(U336b.UNMARKED_VERSION_336B === 'w336b-unmarked-1' && LK336b.LINT_KINDS_VERSION === 'w336b-lintkinds-2' && U336b.TAIL_CHARS_336B === 120)) bad.push('① 版(w336b-unmarked-1・w336b-lintkinds-2・末尾 120 字)');
+      const POS = ['① meta.targetSha256 が検査対象の html と違う(器を再走する)', '② JSON の入力 hash a… が 現行 b… と不一致 —— **統合後は再走して入れ替える**', '生成領域に旧語が残る(鎖の samplestatus の再走待ち —— 手で直さない)',
+        '① meta.targetSha256 が検査対象の html と違う(別ソースの走行)', '①targetSha256 が現在の beta/index.html と違う(走行後に html が動いた)', '⑥正本の meta.targetSha256 が現行 beta/index.html と違う(html を動かしたら判定器を回し直すこと)', '① 正本の宣言が lib と違う(器を走らせ直す)', '④ x のコード y が刻印と違う —— 鎖で作り直す段 z'];
+      const NEG = ['k: 摂動の再走が決定論でない', '③ 走らせ直した門が偽: g', '② exp-a.mjs の宣言が下限を覆わない: preset p', 'AI_SPEC §5 に SYSTEM_PROMPT の逐語が無い', '①来歴が w272e-1/64 桁でない'];
+      const pBad = POS.filter((t) => LK336b.classifyViolation(t) !== 'stamp'), nBad = NEG.filter((t) => LK336b.classifyViolation(t) !== 'other');
+      if (pBad.length || nBad.length) bad.push('① 刻印の型の語: ' + pBad.concat(nBad).map((t) => t.slice(0, 40)).join(' , '));
+      cases.push(`① ${U336b.UNMARKED_VERSION_336B}・${LK336b.LINT_KINDS_VERSION}(刻印の型の語 ${LK336b.STAMP_PATTERNS.length} —— 刻印の型 ${POS.length} 例・刻印の型以外 ${NEG.length} 例)`);
+      // (a)
+      const st = U336b.selfTest336b();
+      if (!st.ok) bad.push('(a) ' + st.bad.slice(0, 3).join(' / '));
+      cases.push('(a) ' + st.cases.join(' / '));
+      // (b) post-merge-qa.sh の kinds320 と unmarked336b を切り出して実行
+      const fnOf = (name) => { const i = PM336b.indexOf('\n' + name + '() {'); if (i < 0) return ''; const e = PM336b.indexOf('\n}\n', i + 1); return e < 0 ? '' : PM336b.slice(i + 1, e + 2); };
+      const fK = fnOf('kinds320'), fU = fnOf('unmarked336b');
+      if (!fK || !fU) bad.push('(b) post-merge-qa.sh に kinds320() か unmarked336b() が無い');
+      const { execFileSync: ex336b } = await import('node:child_process');
+      const runSh = (log, out, label) => {
+        const sh = path.join(tmp336b, 'k.sh');
+        fs.writeFileSync(sh, 'ROOT=' + JSON.stringify(ROOT) + '\n' + fK + '\n' + fU + '\nkinds320 "$1"\nunmarked336b "$1" "$2" "$3"\n');
+        return ex336b('bash', [sh, log, out, label], { encoding: 'utf8', timeout: 60000 }).split('\n');
+      };
+      if (fK && fU) {
+        const S = '① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)', O = 'AI_SPEC §5 に SYSTEM_PROMPT の逐語が無い';
+        const syn = ['PASS lint.a  x', 'FAIL lint.b  y' + LK336b.violationText([S]), 'FAIL docs.d  文 / **違反 1 件**: ' + S, 'FAIL docs.e  文 / **違反 1 件**: ' + O + '  [0.2s]', 'SKIP docs.g'].join('\n') + '\n';
+        const fSyn = path.join(tmp336b, '1-preflight.log'), fOut = path.join(tmp336b, '1-unmarked.txt');
+        fs.writeFileSync(fSyn, syn);
+        const o1 = runSh(fSyn, fOut, '①');
+        const want1 = '・刻印の型以外の違反 0 件(刻印の型 1 件 —— 鎖で直る)・‼ 印のない FAIL 2 件(docs.d〔刻印の文〕・docs.e —— 種類を数えていない・理由の文を読んで分ける)';
+        if (o1[0] !== want1) bad.push('(b) kinds320 の出力: ' + String(o1[0]).slice(0, 120));
+        if (o1[1] !== '・‼ ① の印のない FAIL を 1 件ずつ読むこと(一覧 ' + fOut + ')') bad.push('(b) 要約の句: ' + String(o1[1]).slice(0, 120));
+        const ft = fs.existsSync(fOut) ? fs.readFileSync(fOut, 'utf8') : '';
+        if (!(/印のない FAIL 2 件/.test(ft) && ft.indexOf('1. docs.d 〔文に刻印の型の語〕') >= 0 && ft.indexOf('2. docs.e 〔文に刻印の型の語なし〕 文 / **違反 1 件**: ' + O + '\n') >= 0)) bad.push('(b) 一覧のファイル');
+        const fP = path.join(tmp336b, 'pass.log'); fs.writeFileSync(fP, 'PASS lint.a  x\nPASS lint.b  y' + LK336b.violationText([]) + '\n');
+        const o0 = runSh(fP, path.join(tmp336b, '0.txt'), '④');
+        if (!(o0[0] === '' && o0[1] === '')) bad.push('(b) PASS だけのログで句が出た: ' + JSON.stringify(o0.slice(0, 2)));
+        cases.push('(b) post-merge-qa.sh の kinds320・unmarked336b を bash で実行: 合成のログで「印のない FAIL 2 件」と id・一覧・「1 件ずつ読むこと」/ PASS だけは句なし');
+      }
+      if (!(/S1="\$S1\$\(unmarked336b "\$LOG\/1-preflight\.log" "\$LOG\/1-unmarked\.txt" ①\)"/.test(PM336b) && /S4="\$S4\$\(unmarked336b "\$LOG\/4-beta\.log" "\$LOG\/4-unmarked\.txt" ④\)"/.test(PM336b)
+        && PM336b.indexOf('S1="$S1$(unmarked336b') > PM336b.indexOf('S1="$S1$(kinds320') && PM336b.indexOf('S4="$S4$(unmarked336b') > PM336b.indexOf('S4="$S4$(kinds320'))) bad.push('(b) post-merge の ① と ④ の呼び出し(kinds320 の後に unmarked336b)');
+      // (c) 第335便の ① のログの抜粋(凍結)
+      const ex = rd336b(U336b.PM335_EXCERPT_FILE);
+      if (!ex) bad.push('(c) ' + U336b.PM335_EXCERPT_FILE + ' が無い');
+      else {
+        const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, U336b.PM335_EXCERPT_FILE))).digest('hex');
+        if (sha !== U336b.PM335_EXCERPT_SHA256) bad.push('(c) 抜粋の sha256 が凍結の値と違う(' + sha.slice(0, 12) + ')');
+        const E = U336b.PM335_EXPECT, s = LK336b.summarizeLog(ex);
+        const nF = ex.split('\n').filter((l) => /^FAIL /.test(l)).length, nP = ex.split('\n').filter((l) => /^PASS /.test(l)).length;
+        if (!(nF === E.nFail && nP === E.nPass && s.other === E.other && s.stamp === E.stamp && JSON.stringify(s.byLint) === JSON.stringify(E.byLint) && JSON.stringify(s.unmarked) === JSON.stringify(E.unmarked)))
+          bad.push('(c) summarizeLog の要約が期待と違う ' + JSON.stringify({ nF, nP, o: s.other, s: s.stamp, u: s.unmarked }).slice(0, 200));
+        const rows = U336b.unmarkedRows(ex);
+        if (JSON.stringify(rows.map((r) => [r.id, r.kind])) !== JSON.stringify(E.unmarked) || rows[5].tail.indexOf('SYSTEM_PROMPT の逐語が無い') < 0) bad.push('(c) 一覧の行');
+        if (fK && fU) {
+          const fEx = path.join(ROOT, U336b.PM335_EXCERPT_FILE), fOut2 = path.join(tmp336b, 'pm335-unmarked.txt');
+          const o2 = runSh(fEx, fOut2, '①');
+          if (o2[0] !== E.kinds320Now) bad.push('(c) kinds320 の今の出力が期待と違う: ' + String(o2[0]).slice(0, 160));
+          if (o2[1] !== '・‼ ① の印のない FAIL を 1 件ずつ読むこと(一覧 ' + fOut2 + ')') bad.push('(c) 要約の句');
+          if (!(o2[0].startsWith(E.summary335))) bad.push('(c) 第335便の要約の文が今の出力の頭に無い');
+        }
+        cases.push(`(c) 第335便の ① の抜粋(FAIL ${nF}・PASS ${nP}・sha256 ${sha.slice(0, 12)})→ 刻印の型以外 ${s.other}・刻印の型 ${s.stamp}(${s.byLint.map((z) => z[0]).join('・')})・印のない FAIL ${s.unmarked.length} 件(${s.unmarked.map((z) => z[0] + (z[1] === 'stamp' ? '〔刻印の文〕' : '')).join('・')})`);
+      }
+      // (d) 印を付けた鍵の経路(静的)
+      const qaSrc = rd336b('tests/qa.mjs') || '';
+      const M = U336b.markedPathStatic(qaSrc);
+      if (!M.ok) bad.push('(d) 印の経路が無い鍵 ' + M.missing.concat(M.noAdd).slice(0, 6).join(','));
+      if (new Set(U336b.MARKED_KEYS_336B).size !== U336b.MARKED_KEYS_336B.length || U336b.MARKED_KEYS_336B.length < 120) bad.push('(d) 印を付けた鍵の一覧(重複・数)');
+      for (const k of ['lint.calauditMergeKeyHash', 'docs.d0sites-sync', 'docs.selfInertia-sync', 'docs.kf0Ledger', 'lint.canon303']) if (!U336b.MARKED_KEYS_336B.includes(k)) bad.push('(d) 第335便の印のない刻印の型の鍵 ' + k + ' が一覧に無い');
+      const M0 = U336b.markedPathStatic(qaSrc, U336b.MARKED_KEYS_320D, { needLibPath: false });
+      if (!M0.ok) bad.push('(d) 第320便d の 5 本の経路');
+      const nTag = qaSrc.split('\n').filter((l) => l.indexOf('violationText(bad') >= 0 && l.endsWith('// 第336便b(R336): 種類の印')).length;
+      if (nTag !== U336b.MARKED_KEYS_336B.length) bad.push('(d) 印を付けた行の数 ' + nTag + ' が一覧の数 ' + U336b.MARKED_KEYS_336B.length + ' と違う');
+      cases.push(`(d) 印を付けた鍵 ${M.n} 本(第335便の 5 本を含む)と第320便d の 5 本の detail が lib の violationText を通る(静的・判定の式は不変)`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    finally { try { fs.rmSync(tmp336b, { recursive: true, force: true }); } catch (e) { /* 片付けの失敗は判定に入れない */ } }
+    add('lint.unmarkedFail336b', bad.length === 0,
+      `**印のない FAIL を数の外に置かない**(第336便b・R336 —— 第335便の post-merge の ① は種類の印のある 2 件だけを数え、印のない 6 件が数の外にいた): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.unmarkedFail336b ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const PH = rd336b('docs/PHYSICS.md') || '', AS = rd336b('docs/AI_SPEC.md') || '', CLx = rd336b('CHANGELOG.md') || '', TR = rd336b('tools/README.md') || '';
+      // ① PHYSICS〔第336便b〕
+      const i0 = PH.indexOf('\n〔第336便b — '), iG = PH.indexOf('\n〔第335便g — '), iA = PH.indexOf('\n〔第336便a — '), iT = PH.indexOf('\n〔第328便 — 統括'), i7 = PH.indexOf('\n## 7. 論文');
+      if (!(i0 >= 0 && iG >= 0 && iG < i0 && (iA < 0 || iA < i0) && (iT < 0 || i0 < iT) && (i7 < 0 || i0 < i7))) bad.push('① PHYSICS〔第336便b〕の位置(第335便g〔と第336便a〕の節の後・第328便の統括の節と「## 7.」の前)');
+      const sec = i0 >= 0 ? secUntilNext329c(PH, i0 + 1, [/\n〔第\d+便[a-z]* — /, '\n## ']) : '';
+      const wantP = ['R336', 'tools/post-merge-qa.sh', 'kinds320', '〔違反の種類 w320d:', '印のない FAIL', '1 件ずつ読む', '1-unmarked.txt', '4-unmarked.txt', 'tests/lib-w336b-unmarked.mjs', 'w336b-unmarked-1',
+        'tests/lib-w320d-lintkinds.mjs', 'w336b-lintkinds-2', 'violationText', 'summarizeLog', 'tests/data-w336b-pm335-preflight.txt', 'lint.unmarkedFail336b', 'docs.unmarkedFail336b',
+        'lint.calauditMergeKeyHash', 'docs.d0sites-sync', 'docs.selfInertia-sync', 'docs.kf0Ledger', 'lint.canon303', 'docs.uiText316', '判定は変えない', '数の外', '変えていない所'];
+      for (const w of wantP) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第336便b〕に「' + w + '」が無い');
+      if (sec.indexOf('印を付けた鍵 ' + U336b.MARKED_KEYS_336B.length + ' 本') < 0) bad.push('① PHYSICS〔第336便b〕の印を付けた鍵の数が ' + U336b.MARKED_KEYS_336B.length + ' でない');
+      cases.push(`① PHYSICS〔第336便b〕(第335便g の節の後・必須の語 ${wantP.length}・印を付けた鍵 ${U336b.MARKED_KEYS_336B.length} 本)`);
+      // ② AI_SPEC §228・CHANGELOG・tools/README.md・post-merge
+      const a228 = AS.search(/\n## 228\. 第336便b/), a226 = AS.search(/\n## 226\. 第335便g/), ai = a228 >= 0 ? secUntilNext329c(AS, a228 + 1, '\n## ') : '';
+      if (!(a228 >= 0 && a226 >= 0 && a226 < a228 && ['tools/post-merge-qa.sh', '印のない FAIL', '1-unmarked.txt', 'tests/lib-w336b-unmarked.mjs', 'lint.unmarkedFail336b', 'docs.unmarkedFail336b', 'SYSTEM_PROMPT には載せない'].every((w) => ai.indexOf(w) >= 0))) bad.push('② AI_SPEC §228(§226 の後・必須の語)');
+      const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl = clg.split('\n').find((l) => l.indexOf('**第336便b**') >= 0) || '';
+      if (!(['R336', 'tools/post-merge-qa.sh', '印のない FAIL', 'lint.unmarkedFail336b', 'docs.unmarkedFail336b'].every((w) => cl.indexOf(w) >= 0))) bad.push('② CHANGELOG の beta の節の第336便b の行');
+      const tp = TR.indexOf('post-merge-qa.sh'), trSec = TR.indexOf('第336便b');
+      if (!(tp >= 0 && trSec >= 0 && ['1-unmarked.txt', '4-unmarked.txt', '1 件ずつ読む', 'tests/lib-w336b-unmarked.mjs'].every((w) => TR.indexOf(w, trSec) >= 0 && TR.indexOf(w, trSec) < trSec + 1200))) bad.push('② tools/README.md の post-merge の節(第336便b の 3 行)');
+      if (!(PM336b.indexOf('# ==== 第336便b の塊(ここから)====') >= 0 && ['lint.unmarkedFail336b', 'docs.unmarkedFail336b', 'lint.violationKinds320'].every((k) => PM336b.indexOf(k) >= 0))) bad.push('② post-merge の ③′ に第336便b の塊');
+      cases.push('② AI_SPEC §228(§226 の後)・CHANGELOG の第336便b の行・tools/README.md の post-merge の節・post-merge の ③′');
+      // ③ 書かない語(要約の事実で書く)
+      const W = [];
+      for (const [nm, t] of [['PHYSICS〔第336便b〕', sec], ['AI_SPEC §228', ai], ['CHANGELOG の第336便b の行', cl]]) {
+        for (const w of ['見落とし', '統括の誤り', '取りこぼしは無くなった', '見逃しは無い', '完全に防ぐ']) if (t.indexOf(w) >= 0) W.push(nm + ' に「' + w + '」');
+      }
+      for (const b of W) bad.push('③ ' + b);
+      cases.push('③ 書かない語(節・AI_SPEC・CHANGELOG の行)' + W.length);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.unmarkedFail336b', bad.length === 0,
+      `**印のない FAIL の一覧と「1 件ずつ読む」の規則の文書**(第336便b・R336 —— PHYSICS の節・AI_SPEC・CHANGELOG・tools/README.md・post-merge の ③′): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第336便b の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
