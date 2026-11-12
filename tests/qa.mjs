@@ -23444,7 +23444,9 @@ if (!FAST) {
           const ab = vp && vp.preset && vp.preset.abBody;
           if (!(ab && ab.physicsPatch && JSON.stringify(ab.physicsPatch.relativeDrag) === JSON.stringify(c0))) bad.push('B 側(gain:0)の physicsPatch');
           const sum = (p.descStruct && p.descStruct.summary) || '';
-          if (!(sum.length <= 3000 && /宣言した本だけ/.test(sum) && /gain=0 で既定経路とビット同一|引きずり OFF\(W_bg を掛けない\)で既定経路とビット同一/.test(sum) && /較正ではない/.test(sum) && sum.indexOf('回転引きずり(手前/反対)と連鎖は未実装') >= 0)) bad.push('説明文の要件(宣言した本だけ・gain=0 でビット同一・未実装・較正ではない)');
+          // 第335便a(原仮定者の決断(2026-11-12)・AN641・R328 —— 世代): 説明文の記号を W_bg → W₀ に直した世代(🎱 の概要の中心重力の係数の注記の有無で判定)は期待の記号を W₀ に(検査は同じ数)
+          const w0g335a = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('引きずり係数 Y_k とは別の量') >= 0; } catch (e) { return false; } })() ? 'W₀' : 'W_bg';
+          if (!(sum.length <= 3000 && /宣言した本だけ/.test(sum) && (/gain=0 で既定経路とビット同一/.test(sum) || sum.indexOf('引きずり OFF(' + w0g335a + ' を掛けない)で既定経路とビット同一') >= 0) && /較正ではない/.test(sum) && sum.indexOf('回転引きずり(手前/反対)と連鎖は未実装') >= 0)) bad.push('説明文の要件(宣言した本だけ・gain=0 でビット同一・未実装・較正ではない)');
           const NG = [/1PN と同等が証明/, /回転引きずりが創発した/, /連鎖で円盤ができた/, /慣性決定力場を接続した/, /観測一致を達成/, /較正を完了/, /新発見/, /安定化した/, /普遍定数である/];
           const txt = JSON.stringify([p.name, p.descStruct, p.en]);
           const hit = NG.filter((re) => re.test(txt));
@@ -79170,7 +79172,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       && r.init && r.init.state === 'declared' && r.init.wbg === wantWu && r.init.on === true && r.init.unit === '[M/L³]' && r.init.lo < Number(wantWu) && r.init.hi > Number(wantWu)
       && r.num && r.off && r.onAgain && r.slide && r.widen && r.rejZero
       && r.unest && r.unest.state === 'unestimated' && r.unest.on === false && r.unest.rngDis && r.unest.note && r.unestOnRejected
-      && r.undecl && r.undecl.state === 'undeclared' && r.undecl.hidden && r.undecl.note.length > 0 && /Background inertial determinacy W_bg/.test(r.en || '') && errs.length === 0;
+      && r.undecl && r.undecl.state === 'undeclared' && r.undecl.hidden && r.undecl.note.length > 0 && new RegExp('Background inertial determinacy ' + ((() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('引きずり係数 Y_k とは別の量') >= 0; } catch (e) { return false; } })() ? 'W₀' : 'W_bg')).test(r.en || '') && errs.length === 0;   // 第335便a(R328 —— 世代): 説明文の記号を W₀ に直した世代は W₀
     add('ui.wbgSlider302', ok,
       `**パラメータタブ「引きずり・測地線」の背景慣性決定力 W_bg の行**(第302便a・原仮定者の裁定(第92報)AN304 ⑤・R186): 390×844・${r.book === 'mercurySunInertial3d' ? '🌡️(第304便c —— 🌦️ は引きずり OFF の宣言)' : '🌦️'} で行 ${r.rows} 本(カテゴリの中 ${r.inDrag})・`
       + `旧の欄 gain ${r.old && r.old.gainIn}・#bgcPanel ${r.old && r.old.bgc}・#wbgRow ${r.old && r.old.wbgRow}(全部 0)・D₀ の行 ${r.d0}・タブを開いても params/presetSig 不変 ${r.unchanged} / `
@@ -94462,7 +94464,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const byId = new Map(P.map((p) => [p.id, p]));
       const live = P.filter((p) => !RET.has(p.id)), scope = live.filter((p) => ((p.physics || {}).geoPN) !== 4);
       // ① 旧 gain 語と観測質量の f=1・f★=1
-      const GAIN = /(?<![A-Za-z])gains?(?![A-Za-z])|ゲイン/i, CONV = /W_bg = 1\/gain/g, F1 = /(?<![A-Za-z_.])f\s*=\s*1(?![0-9.])|f\s*★\s*=\s*1(?![0-9.])/;
+      // 第335便a(原仮定者の決断(2026-11-12)・AN641・R328 —— 世代): 説明文の記号を W_bg → W₀ に直した世代(🎱 の概要の中心重力の係数の注記の有無で判定)は期待の記号を W₀ に(検査は同じ数)
+      const GAIN = /(?<![A-Za-z])gains?(?![A-Za-z])|ゲイン/i, CONV = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('引きずり係数 Y_k とは別の量') >= 0; } catch (e) { return false; } })() ? /W₀ = 1\/gain/g : /W_bg = 1\/gain/g, F1 = /(?<![A-Za-z_.])f\s*=\s*1(?![0-9.])|f\s*★\s*=\s*1(?![0-9.])/;
       const DISP = ['name', 'descStruct', 'status', 'obsCard', 'failureFirst', 'parameterAudit', 'abBody', 'claims'];
       const hits = [], ex = { key: 0, speedF: 0, conv: 0, nStr: 0 };
       for (const p of scope) {
@@ -95132,13 +95135,16 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       nTxt += T.length;
       for (const s of T) for (const re of OLD) if (re.test(s)) { bad.push('① ' + id + ' の表示の欄に旧い係数の語 ' + re.source + ': ' + s.slice(Math.max(0, s.search(re) - 20), s.search(re) + 30)); break; }
       const fj = (p.parameterAudit && p.parameterAudit.fitted || []).join(' '), fe = ((p.en && p.en.parameterAudit && p.en.parameterAudit.fitted) || []).join(' ');
-      if (!(fj.indexOf('W_bg = 0.125 [M/L³](係数 1/W_bg = 8)') >= 0 && fe.indexOf('W_bg = 0.125 [M/L^3] (coefficient 1/W_bg = 8)') >= 0)) bad.push('① ' + id + ' の fitted に W_bg の宣言値と係数 1/W_bg の文が無い');
+      // 第335便a(原仮定者の決断(2026-11-12)・AN641・R328 —— 世代): 説明文の記号を W_bg → W₀ に直した世代(🎱 の概要の中心重力の係数の注記の有無で判定)は期待の記号を W₀ に(検査は同じ数)
+      const w0c335a = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('引きずり係数 Y_k とは別の量') >= 0; } catch (e) { return false; } })() ? 'W₀' : 'W_bg';
+      if (!(fj.indexOf(w0c335a + ' = 0.125 [M/L³](係数 1/' + w0c335a + ' = 8)') >= 0 && fe.indexOf(w0c335a + ' = 0.125 [M/L^3] (coefficient 1/' + w0c335a + ' = 8)') >= 0)) bad.push('① ' + id + ' の fitted に W_bg の宣言値と係数 1/W_bg の文が無い');
       const rd = (p.physics || {}).relativeDrag || {};
       if (!(p.physics.geoPN === 4 && rd.law === 'inertial' && rd.Wbg === 0.125 && rd.solver === 'network-pcg-v1' && rd.gain === undefined)) bad.push('① ' + id + ' の physics の宣言が旧 W_bg 則の連鎖でない(物理の欄は変えない)');
     }
     { const b = RAW.chainBurstShell3d;
       if (b) { const t = strsOf({ obsCard: b.obsCard, descStruct: b.descStruct }).join('\n'), te = strsOf({ obsCard: b.en.obsCard, descStruct: b.en.descStruct }).join('\n');
-        if (!(t.indexOf('引きずり OFF(W_bg を掛けない') >= 0 && te.indexOf('drag off (W_bg not applied') >= 0 && !/W_bg\s*=\s*0(?![.\d])/.test(t + te))) bad.push('① 🧨 の対照の文が「引きずり OFF(W_bg を掛けない)」でない(W_bg = 0 と書かない)');
+        const w0b335a = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('引きずり係数 Y_k とは別の量') >= 0; } catch (e) { return false; } })() ? 'W₀' : 'W_bg';   // 第335便a(R328 —— 世代): 説明文の記号を W₀ に直した世代は期待の記号を W₀ に(「= 0 と書かない」は両方の記号で見る)
+        if (!(t.indexOf('引きずり OFF(' + w0b335a + ' を掛けない') >= 0 && te.indexOf('drag off (' + w0b335a + ' not applied') >= 0 && !/(?:W_bg|W₀)\s*=\s*0(?![.\d])/.test(t + te))) bad.push('① 🧨 の対照の文が「引きずり OFF(W_bg を掛けない)」でない(W_bg = 0 と書かない)');
         if (!(b.abBody && b.abBody.physicsPatch && b.abBody.physicsPatch.relativeDrag && b.abBody.physicsPatch.relativeDrag.enabled === false)) bad.push('① 🧨 の対照の宣言が enabled:false でない'); } }
     { let SRC = null; try { SRC = JSON.parse(rd325c('tests/data-w279a-samplestatus-src.json')); } catch (e) { bad.push('① SAMPLE_STATUS の原稿が読めない'); }
       if (SRC) for (const id of CHAIN325) { const r = SRC.rows[id]; if (r && /\bgain\b/i.test(JSON.stringify(r))) bad.push('① SAMPLE_STATUS の原稿の ' + id + ' に gain'); } }
@@ -102761,6 +102767,81 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第334便f の塊(ここまで)====
+
+// ==== 第335便a の塊(ここから —— lint.appSymbols335a・docs.appSymbols335a の 2 ブロック。root は SKIP)====
+// ---- 第335便a(原仮定者の決断(2026-11-12)「AN641: A を進めて良い。以前は、説明文の変更で再生成の段が走っていた」・原仮定者の回答(2026-11-12 —— AN641)・統括の検証項目 R328):
+// ----   **アプリの説明文の記号**(beta/index.html の文字列の中だけ —— 画面の文言・受理の理由・本の説明。注釈・識別子・保存の鍵・物理の宣言の値・beta/sw.js・root は不変)。
+// ----   世代切替 = beta 対象 ∧ 照合の lib tests/lib-w335a-appsymbols.mjs がある。
+// ----   lint.appSymbols335a: ① lib の版と宣言(記号 3 つ・許可の一覧 22 項〔理由つき〕・形状の本 4 本・静止背景の本 4 本・注記の日英)② html の文字列の中の旧い記号を 1 件ずつ分類して
+// ----     許可の外 0・許可の件数がちょうど・注記が日英 1 か所ずつ・生成領域 sample-status は原稿 tests/data-w279a-samplestatus-src.json の遅れだけ・script の外 0 ③ 変異の自己試験(15 種以上)
+// ----   docs.appSymbols335a: ① PHYSICS〔第335便a〕の位置(第334便f の節の後・第328便の統括の節と「## 7.」の前)・表と必須の語・数が lib の走査と同じ ② AI_SPEC §220(§219 の後)・
+// ----     CHANGELOG・post-merge の ③′ ③ 書かない語・禁句・裸の係数記号・速度の数の字列(節・AI_SPEC・CHANGELOG の行)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const fLib335a = path.join(ROOT, 'tests', 'lib-w335a-appsymbols.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(fLib335a))) {
+    console.log('SKIP lint.appSymbols335a・docs.appSymbols335a(第335便a の説明文の記号の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd335a = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const AS335a = await import('file://' + fLib335a);
+  const SRC335a = { html: rd335a(TARGET), srcJson: rd335a('tests/data-w279a-samplestatus-src.json') };
+  let R335a = null;
+  // ───── lint.appSymbols335a ─────
+  {
+    const bad = [], cases = [];
+    try {
+      if (AS335a.APPSYM_VERSION_335A !== 'w335a-appsym-1' || AS335a.SYMBOLS_335A.map((s) => s.id + '→' + s.to).join('|') !== 'W_bg→W₀|D_bg→D₀|kappa0→Y_k'
+        || AS335a.ALLOW_335A.length !== 22 || AS335a.CORE_FIELD_IDS_335A.length !== 4 || AS335a.STATIC_BG_IDS_335A.length !== 4 || AS335a.ALLOW_335A.some((a) => !a.why || !(a.n > 0))) bad.push('① 版と宣言');
+      cases.push(`① ${AS335a.APPSYM_VERSION_335A}: 記号 ${AS335a.SYMBOLS_335A.map((s) => s.id + ' → ' + s.to).join('・')}・許可 ${AS335a.ALLOW_335A.length} 項(理由つき)・形状の本 ${AS335a.CORE_FIELD_IDS_335A.length} 本・静止背景の本 ${AS335a.STATIC_BG_IDS_335A.length} 本・注記 日英`);
+      R335a = AS335a.checkAppSymbols335a(SRC335a);
+      for (const b of R335a.bad) bad.push('② ' + b);
+      cases.push('② ' + R335a.cases.join(' / '));
+      const st = AS335a.selfTest335a(SRC335a);
+      if (!st.ok) bad.push('③ ' + st.bad.slice(0, 3).join(' / '));
+      if (st.n < 15) bad.push('③ 変異の種類が 15 より少ない(' + st.n + ')');
+      cases.push(`③ 変異の自己試験 ${st.n} 種: ` + st.cases.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.appSymbols335a', bad.length === 0,
+      `**アプリの説明文の記号**(第335便a・原仮定者の決断(2026-11-12)・AN641・R328 —— html の文字列の中に旧い記号を残さない〔許可の一覧の件数ちょうど・理由つき〕・注釈と識別子は数えない・形状の本の中心重力の係数は別の量・変異の自己試験): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.appSymbols335a ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const PH = rd335a('docs/PHYSICS.md'), AS = rd335a('docs/AI_SPEC.md'), CLx = rd335a('CHANGELOG.md'), PM = rd335a('tools/post-merge-qa.sh');
+      const TM = await import('file://' + path.join(ROOT, 'tests', 'lib-w334f-terms.mjs'));
+      const i0 = PH.indexOf('\n〔第335便a — '), iF = PH.indexOf('\n〔第334便f — '), iT = PH.indexOf('\n〔第328便 — 統括'), i7 = PH.indexOf('\n## 7. 論文');
+      if (!(i0 >= 0 && iF >= 0 && iF < i0 && (iT < 0 || i0 < iT) && (i7 < 0 || i0 < i7))) bad.push('① PHYSICS〔第335便a〕の位置(第334便f の節の後・第328便の統括の節と「## 7.」の前)');
+      const sec = i0 >= 0 ? secUntilNext329c(PH, i0 + 1, [/\n〔第\d+便[a-z]* — /, '\n## ']) : '';
+      for (let k = 1; k <= 4; k++) if (sec.indexOf('**表 ' + k + ' ') < 0) bad.push('① PHYSICS〔第335便a〕に表 ' + k + ' が無い');
+      const wantP = ['原仮定者の決断(2026-11-12)', '原仮定者の回答(2026-11-12 —— AN641)', 'R328', '`W₀`', '`D₀`', '`Y_k`', '中心重力の係数', 'fitRecord', 'code', 'presets', 'markup',
+        'tests/data-w279a-samplestatus-src.json', 'sample-status', '署名 186/186', '600 步', 'd0audit2', 'selfinertia', 'drag3d-298c', 'semic-302d', 'families', 'lint.appSymbols335a', 'docs.appSymbols335a',
+        'tests/lib-w335a-appsymbols.mjs', '注釈', '識別子', '置き換えなかった', '静止背景'];
+      for (const w of wantP) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第335便a〕に「' + w + '」が無い');
+      const nAllow = AS335a.ALLOW_335A.reduce((s, a) => s + a.n, 0);
+      if (R335a && sec.indexOf('許可 ' + nAllow + ' 件') < 0) bad.push('① PHYSICS〔第335便a〕の許可の件数が ' + nAllow + ' でない');
+      if (R335a && sec.indexOf('生成領域の原稿の遅れ ' + R335a.lagging + ' 件') < 0 && R335a.lagging > 0) bad.push('① PHYSICS〔第335便a〕の生成領域の遅れの件数が ' + R335a.lagging + ' でない');
+      for (const a of AS335a.ALLOW_335A) if (sec.indexOf(a.owner) < 0) bad.push('① PHYSICS〔第335便a〕の表に許可の持ち主 ' + a.owner + ' が無い');
+      cases.push(`① PHYSICS〔第335便a〕(第334便f の節の後・表 4 本・必須の語 ${wantP.length}・許可 ${nAllow} 件と持ち主 ${AS335a.ALLOW_335A.length} 項)`);
+      const a220 = AS.search(/\n## 220\. 第335便a/), a219 = AS.search(/\n## 219\. 第334便f/), ai = a220 >= 0 ? secUntilNext329c(AS, a220 + 1, '\n## ') : '';
+      if (!(a220 >= 0 && a219 >= 0 && a219 < a220 && ['`W₀`', '`D₀`', '`Y_k`', '中心重力の係数', 'lint.appSymbols335a', 'docs.appSymbols335a', 'SYSTEM_PROMPT'].every((w) => ai.indexOf(w) >= 0))) bad.push('② AI_SPEC §220(§219 の後・必須の語)');
+      const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl = clg.split('\n').find((l) => l.indexOf('**第335便a**') >= 0) || '';
+      if (!(['R328', 'AN641', 'lint.appSymbols335a', 'docs.appSymbols335a', '原仮定者の決断(2026-11-12)'].every((w) => cl.indexOf(w) >= 0))) bad.push('② CHANGELOG の beta の節の第335便a の行');
+      if (!(PM.indexOf('# ==== 第335便a の塊(ここから)====') >= 0 && ['lint.appSymbols335a', 'docs.appSymbols335a', 'lint.htmlPhys325a'].every((k) => PM.indexOf(k) >= 0))) bad.push('② post-merge の ③′ に第335便a の塊');
+      cases.push('② AI_SPEC §220(§219 の後)・CHANGELOG の第335便a の行・post-merge の ③′');
+      const W = [].concat(TM.wordAudit334f('PHYSICS〔第335便a〕', sec), TM.wordAudit334f('AI_SPEC §220', ai), TM.wordAudit334f('CHANGELOG の第335便a の行', cl));
+      for (const b of W) bad.push('③ ' + b);
+      cases.push('③ 書かない語・禁句・裸の係数記号・速度の数の字列(節・AI_SPEC・CHANGELOG の行)' + W.length);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.appSymbols335a', bad.length === 0,
+      `**アプリの説明文の記号の文書**(第335便a・原仮定者の決断(2026-11-12)・AN641・R328 —— PHYSICS の節〔分類の表・置き換えた数・置き換えなかった件と理由・物理の不変の実測・再生成の計画の前後〕・AI_SPEC・CHANGELOG・置き場所): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第335便a の塊(ここまで)====
 
 // ==== 第335便b の塊(ここから —— lint.carryLedger335b・behavior.carryLedger335b・docs.carryLedger335b の 3 ブロック。root は SKIP)====
 // ---- 第335便b(原仮定者の決断(2026-11-12)AN654「v を分けた方がシンプル」・AN653「エネルギーは相殺しない」・AN650「座標変換の基準なので観測値」・原仮定者の補足(2026-11-12)
