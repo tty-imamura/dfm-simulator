@@ -255,7 +255,7 @@
   "自己を運ぶ式は定義の恒等式(慣性の導出ではない —— 読みの対応)",
   "熱の比は文献の値との比(機構の同定ではない)・Γ と τ は単位の格子",
   "要る Γ は定常で損失を埋めるのに要る値(診断 —— 採用ではない・観測に合わせて選んでいない)",
-  "供給の口は宣言した受動の型の表(供給で熱が合ったとは書かない)",
+  "供給の口は宣言した受動の型の表(「供給で熱が合った」とは書かない)",
   "ω は局所の場の回転率(トルクでも熱でもない —— 応答 Γ を介す)",
   "T1 の s z は参照の腕を置いた速さの指標(受け手の中心の並進の速度ではない)・軌道や熱へ作用させる向きは決めない",
   "作った配置(環の試験点)は暦表の時刻ではない・銀河の源は宣言した 2 つの読み"
@@ -6681,28 +6681,28 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.009
+   "wallSec": 0.006
   },
   "book": {
-   "wallSec": 0.011
+   "wallSec": 0.015
   },
   "carry": {
-   "wallSec": 0.04
+   "wallSec": 0.047
   },
   "heat": {
-   "wallSec": 0.117
+   "wallSec": 0.14
   },
   "gal": {
-   "wallSec": 0.582
+   "wallSec": 0.655
   },
   "supply": {
-   "wallSec": 0.646
+   "wallSec": 0.718
   },
   "t1": {
-   "wallSec": 0.649
+   "wallSec": 0.725
   },
   "sync": {
-   "wallSec": 0.649
+   "wallSec": 0.725
   }
  },
  "gates": {
@@ -6719,13 +6719,13 @@
   "syncRead": true
  },
  "ok": true,
- "elapsedS": 2.657,
+ "elapsedS": 2.923,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第335便b",
   "target": "beta/index.html",
   "targetSha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
-  "generatedAt": "2026-11-12T15:24:46.782Z",
+  "generatedAt": "2026-11-12T15:30:42.058Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -6755,15 +6755,15 @@
   "code": [
    {
     "file": "tests/exp-w335b-carryledger.mjs",
-    "bytes": 28962,
-    "sha256": "a4e14449ffbae1b07003e23e06f6a8d95bcce3aef4ccc5bbd55bd3830ad82801",
-    "mtime": "2026-11-12T15:24:43.968Z"
+    "bytes": 28974,
+    "sha256": "6c57bcb0ffd07340159868dddaffd532aca756810cd5fb82a2189f34b0cd05d8",
+    "mtime": "2026-11-12T15:30:38.956Z"
    },
    {
     "file": "tests/lib-w335b-carryledger.mjs",
-    "bytes": 32533,
-    "sha256": "478e1d434ac39f6168d2cc5ae7d89b8ff7c0539e66821642aef0c768102ea39d",
-    "mtime": "2026-11-12T15:21:12.632Z"
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-12T15:30:38.955Z"
    },
    {
     "file": "tests/lib-w334b-ledger.mjs",
@@ -6850,7 +6850,7 @@
     "mtime": "2026-11-12T15:00:26.464Z"
    }
   ],
-  "codeSha256": "a733affa1b63a2e25ad094d365b2081034024003a0c5bf5da4807be525ab7512",
+  "codeSha256": "193d23649aabea5bbd1100c4efb15cfc82f561cec999a46c4c1606918ab7dd1e",
   "harnessVersion": "w335b-carryledger-1",
   "stage": "carryledger",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)・🗺️ solarSystem16Inertial3d の写し(受理器 → build —— 步は進めない)・純関数(lib)",
@@ -6858,7 +6858,7 @@
    "自己を運ぶ式は定義の恒等式(慣性の導出ではない —— 読みの対応)",
    "熱の比は文献の値との比(機構の同定ではない)・Γ と τ は単位の格子",
    "要る Γ は定常で損失を埋めるのに要る値(診断 —— 採用ではない・観測に合わせて選んでいない)",
-   "供給の口は宣言した受動の型の表(供給で熱が合ったとは書かない)",
+   "供給の口は宣言した受動の型の表(「供給で熱が合った」とは書かない)",
    "ω は局所の場の回転率(トルクでも熱でもない —— 応答 Γ を介す)",
    "T1 の s z は参照の腕を置いた速さの指標(受け手の中心の並進の速度ではない)・軌道や熱へ作用させる向きは決めない",
    "作った配置(環の試験点)は暦表の時刻ではない・銀河の源は宣言した 2 つの読み"
