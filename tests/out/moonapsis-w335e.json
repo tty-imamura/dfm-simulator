@@ -3,7 +3,7 @@
  "libVersion": "w335e-moonapsis-lib-1",
  "generator": "tests/exp-w335e-moonapsis.mjs",
  "target": "beta/index.html",
- "targetSha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
+ "targetSha256": "8c39b838ffd7ca9b7f563dd9b075d73cf9caeee9dec23f36302dd0e3f409d450",
  "reuseFrom": null,
  "ruling": "原仮定者の補足(2026-11-12)「太陽や惑星の自転は銀河の軸引きずりから供給される —— 供給が無いと減衰するのは想定内。同様に、月の近点移動の周期は太陽無しでは徐々に減衰するが、太陽有りだと安定する」・原仮定者の決断(2026-11-12)自己を運ぶ式(v を分けた形)・統括の検証項目 R332",
  "decl": {
@@ -4407,19 +4407,23 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.324
+   "wallSec": 0.366
   },
   "books": {
-   "wallSec": 0.324
+   "wallSec": 0.367
   },
   "runs": {
-   "wallSec": 24.256
+   "wallSec": 28.689
   },
   "judge": {
-   "wallSec": 24.258
+   "wallSec": 28.692
   },
-  "runsH": 15.803,
-  "runsHalf": 8.128
+  "runsH": {
+   "wallSec": 18.081
+  },
+  "runsHalf": {
+   "wallSec": 10.241
+  }
  },
  "gates": {
   "pure": true,
@@ -4431,108 +4435,108 @@
   "yearly": true
  },
  "ok": true,
- "elapsedS": 26.158,
+ "elapsedS": 30.724,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第335便e",
   "target": "beta/index.html",
-  "targetSha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
-  "generatedAt": "2026-11-12T15:44:10.597Z",
+  "targetSha256": "8c39b838ffd7ca9b7f563dd9b075d73cf9caeee9dec23f36302dd0e3f409d450",
+  "generatedAt": "2026-11-12T16:23:24.474Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
-    "mtime": "2026-11-12T15:00:28.400Z"
+    "bytes": 7669158,
+    "sha256": "8c39b838ffd7ca9b7f563dd9b075d73cf9caeee9dec23f36302dd0e3f409d450",
+    "mtime": "2026-11-12T16:03:26.392Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w335e-moonapsis.mjs",
-    "bytes": 26549,
-    "sha256": "434a26a175c025c1ef0c19c77487e5e3f98779b5b557ce33c128d95fe4fc41c4",
-    "mtime": "2026-11-12T15:43:31.322Z"
+    "bytes": 26575,
+    "sha256": "a221e1247758fd77bf61b3878a2ae1bd232e715e7b57a6d561b13e706a9fe48a",
+    "mtime": "2026-11-12T16:22:53.492Z"
    },
    {
     "file": "tests/lib-w335e-moonapsis.mjs",
     "bytes": 32724,
     "sha256": "3041a4828b7c4a1432fcbc87f2bc37a7706d2e218a0625b996b2f71b7968020a",
-    "mtime": "2026-11-12T15:43:31.323Z"
+    "mtime": "2026-11-12T16:08:39.748Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35614,
     "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
-    "mtime": "2026-11-12T15:00:28.708Z"
+    "mtime": "2026-11-10T21:32:27.079Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-12T15:00:28.704Z"
+    "mtime": "2026-11-09T20:28:10.251Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-12T15:00:28.704Z"
+    "mtime": "2026-11-10T04:53:08.019Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-12T15:00:28.704Z"
+    "mtime": "2026-11-08T17:01:18.701Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-12T15:00:28.688Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-12T15:00:28.688Z"
+    "mtime": "2026-10-21T18:25:03.634Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-12T15:00:28.688Z"
+    "mtime": "2026-10-20T16:19:56.684Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-12T15:00:28.684Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-12T15:00:28.672Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-12T15:00:28.672Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-12T15:00:28.668Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-12T15:00:28.680Z"
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "87187b434dea089c8b4d2213ee36a9063256ea704aa9b2d6ae6fe1a252ccc938",
+  "codeSha256": "2b0accf649e323d491303dff535ee2ccc6b81d4ac0d84a4680b74e22fd1bb6d0",
   "harnessVersion": "w335e-moonapsis-1",
   "stage": "moonapsis",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)・在位の 🌦️・🌔 の宣言の値を読む(步を進めない)・純関数(lib —— 点の質量 + 地球の J₂ + 多体の並進引きずりの RK4)",

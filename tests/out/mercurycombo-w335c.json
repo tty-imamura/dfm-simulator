@@ -334,7 +334,7 @@
   "今の組(G_loc 受け手 n = 2 + K1)は凍結の基準"
  ],
  "target": "beta/index.html",
- "targetSha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
+ "targetSha256": "8c39b838ffd7ca9b7f563dd9b075d73cf9caeee9dec23f36302dd0e3f409d450",
  "reuseFrom": null,
  "ruling": "原仮定者の決断(2026-11-12)「回転の並進引きずりが近点移動に効くのではないか —— 斜め軌道なので位置で影響が変化する」「回転引きずり有りの組み合わせも検証する」・原仮定者の補足(2026-11-12)「距離の変化による並進引きずりについて、水星での影響を組み合わせとして確認する」・原仮定者の回答(2026-11-12 —— AN646・AN650・AN655・AN657)・統括の検証項目 R330",
  "geom": {
@@ -20312,25 +20312,25 @@
  ],
  "timing": {
   "pure": {
-   "wallSec": 0.227
+   "wallSec": 0.172
   },
   "books": {
-   "wallSec": 0.228
+   "wallSec": 0.173
   },
   "decomp": {
-   "wallSec": 0.82
+   "wallSec": 0.659
   },
   "combos": {
-   "wallSec": 0.983
+   "wallSec": 0.817
   },
   "position": {
-   "wallSec": 3.116
+   "wallSec": 2.955
   },
   "mix": {
-   "wallSec": 7.197
+   "wallSec": 8.2
   },
   "controls": {
-   "wallSec": 8.98
+   "wallSec": 10.421
   }
  },
  "gates": {
@@ -20347,126 +20347,126 @@
   "controls": true
  },
  "ok": true,
- "elapsedS": 10.945,
+ "elapsedS": 12.347,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第335便c",
   "target": "beta/index.html",
-  "targetSha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
-  "generatedAt": "2026-11-12T15:25:16.982Z",
+  "targetSha256": "8c39b838ffd7ca9b7f563dd9b075d73cf9caeee9dec23f36302dd0e3f409d450",
+  "generatedAt": "2026-11-12T16:23:06.099Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
-    "mtime": "2026-11-12T15:00:26.876Z"
+    "bytes": 7669158,
+    "sha256": "8c39b838ffd7ca9b7f563dd9b075d73cf9caeee9dec23f36302dd0e3f409d450",
+    "mtime": "2026-11-12T16:03:26.392Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w335c-mercurycombo.mjs",
-    "bytes": 28524,
-    "sha256": "12683d6eaf8647f0e949e29326dc73cf8713923108c69b6156191270c03b2ed2",
-    "mtime": "2026-11-12T15:25:05.899Z"
+    "bytes": 28543,
+    "sha256": "68c53547dc135b2f431294fd55be4bb2672a34e48a2742d43abbd7daec27ee36",
+    "mtime": "2026-11-12T16:22:53.491Z"
    },
    {
     "file": "tests/lib-w335c-mercurycombo.mjs",
     "bytes": 23928,
     "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
-    "mtime": "2026-11-12T15:20:38.669Z"
+    "mtime": "2026-11-12T15:47:50.364Z"
    },
    {
     "file": "tests/lib-w334c-mercurynode.mjs",
     "bytes": 35987,
     "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
-    "mtime": "2026-11-12T15:12:15.428Z"
+    "mtime": "2026-11-12T15:47:50.364Z"
    },
    {
     "file": "tests/lib-w334a-heightlaw.mjs",
     "bytes": 40171,
     "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
-    "mtime": "2026-11-12T15:00:27.168Z"
+    "mtime": "2026-11-11T20:22:29.781Z"
    },
    {
     "file": "tests/exp-w333c-mercury3d.mjs",
     "bytes": 29178,
     "sha256": "c10bf270e3dd20cdf68cb1d4c93fb182f040391f5296e160c9eca48b617092d4",
-    "mtime": "2026-11-12T15:00:27.120Z"
+    "mtime": "2026-11-10T21:32:27.075Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35614,
     "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
-    "mtime": "2026-11-12T15:00:27.168Z"
+    "mtime": "2026-11-10T21:32:27.079Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-12T15:00:27.164Z"
+    "mtime": "2026-11-10T04:53:08.019Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-12T15:00:27.164Z"
+    "mtime": "2026-11-09T20:28:10.251Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-12T15:00:27.164Z"
+    "mtime": "2026-11-08T17:01:18.701Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-12T15:00:27.152Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-12T15:00:27.152Z"
+    "mtime": "2026-10-21T18:25:03.634Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-12T15:00:27.152Z"
+    "mtime": "2026-10-20T16:19:56.684Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-12T15:00:27.148Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-12T15:00:27.140Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-12T15:00:27.140Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-12T15:00:27.136Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-12T15:00:27.144Z"
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "bfee3c64793bb9e1fe1649412790b3bef5bbd917afaa772054f272d02830d059",
+  "codeSha256": "c55c1b181aebec929567ba6b31c5f9fadf10fbc54de0ab8a13c3859640bfd15f",
   "harnessVersion": "w335c-mercurycombo-1",
   "stage": "mercurycombo",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)・🌡️🌋🔴 の本の宣言を読む(步を進めない)・純関数(lib)",
@@ -20485,7 +20485,9 @@
    "version": "w327c-scope-8",
    "presets": [
     "marsSunInertial3d",
+    "mercury",
     "mercurySunInertial3d",
+    "saturn",
     "venusSunInertial3d"
    ],
    "roots": [
@@ -20506,7 +20508,7 @@
    "segments": 1161,
    "closureShare": 0.2874
   },
-  "scopeSha256": "eaa9f8e90a306b673cdc56eb75addc32b8dcdc0944ead51596c1879d66afe612",
+  "scopeSha256": "1496299374943baef44abfb160afb826f4cf699f2383799821f7869f6e7e181c",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

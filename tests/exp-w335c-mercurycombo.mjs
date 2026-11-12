@@ -18,7 +18,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import { readBooks, systemOf } from './exp-w333c-mercury3d.mjs';
 import * as L from './lib-w335c-mercurycombo.mjs';
 // 第281便a の領域 hash の宣言(版 8 —— 器と lib と import の閉包から deriveScope で引いた下限。器が引く本は 🌡️🌋🔴 の 3 本〔第333便c の器の readBooks〕・core:false・abBody:false)
-const REGEN_SCOPE = {"presets":["marsSunInertial3d","mercurySunInertial3d","venusSunInertial3d"],"roots":["HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","T","ch","ctx","cw"],"core":false,"consts":[],"complete":true,"abBody":false};
+const REGEN_SCOPE = {"presets":["marsSunInertial3d","mercury","mercurySunInertial3d","saturn","venusSunInertial3d"],"roots":["HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","T","ch","ctx","cw"],"core":false,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w335c-mercurycombo-1';

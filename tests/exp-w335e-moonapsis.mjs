@@ -215,7 +215,7 @@ export function runAll(HP) {
   const books = { G: BK.G, c: BK.c, pRef: BK.pRef, spo: BK.spo, copy: BK.copy, fitRecord: BK.fitRecord, dragOff: BK.dragOff, pinnedSun: BK.pinnedSun, j2: BK.j2, spins: BK.spins, masses: BK.masses };
   const compare = { S1: { apsPeriodYr: R.base.S1.w100.apsPeriodYr, bookAps: BK.fitRecord.aps.model, nodePeriodYr: -R.base.S1.w100.nodePeriodYr, bookNode: BK.fitRecord.node.model, sidDay: R.base.S1.w100.sidDay, bookSid: BK.fitRecord.sid.model, eMean: R.base.S1.w100.eMean, bookE: BK.fitRecord.e.model },
     S0: { apsPeriodYr: R.base.S0.w100.apsPeriodYr, sidDay: R.base.S0.w100.sidDay, eMean: R.base.S0.w100.eMean } };
-  const J = { pure, books, consts, base: R.base, diffs: R.diffs, band: R.band, yearly: R.yearly, judge, split, supply, compare, timing: Object.assign(tm, { runsH: R.timing.h, runsHalf: R.timing.half }) };
+  const J = { pure, books, consts, base: R.base, diffs: R.diffs, band: R.band, yearly: R.yearly, judge, split, supply, compare, timing: Object.assign(tm, { runsH: { wallSec: R.timing.h }, runsHalf: { wallSec: R.timing.half } }) };
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
   return J;
 }
