@@ -107,3 +107,28 @@ export function selfTest() {
   const d = dtDependence(rows, rows);
   return { ok: ok && d.every((z) => z.rel === 0), judge: j };
 }
+
+/**
+ * 文書の表(PHYSICS〔第336便a〕に逐語で載せる —— QA docs.emRecord336a が正本から作り直して照らす)。J = 正本。
+ */
+export function docTables(J) {
+  const R = J.remeasure, T = J.table, d = J.decl;
+  const same = (v) => (v.sameBits ? 'ビット同一' : '恒星月 ' + v.sidMeanDays + ' 日・近点 ' + v.apsPeriodYr + ' 年');
+  const t1 = ['| 刻み | 恒星月(日) | 近点回転の周期(年) | 記録との差 |', '|---|---|---|---|',
+    '| h = ' + R.h.dt + ' | ' + R.h.sidMeanDays + ' | ' + R.h.apsPeriodYr + ' | ' + same(R.vsRecord.h) + ' |',
+    '| h/2 = ' + R.half.dt + ' | ' + R.half.sidMeanDays + ' | ' + R.half.apsPeriodYr + ' | ' + same(R.vsRecord.half) + ' |'].join('\n');
+  const st = T.steady, rowOf = (rows, W) => rows.find((z) => z.orbits === W) || {};
+  const pct = (x) => (x >= 0 ? '+' : '−') + Math.abs(x * 100).toFixed(2) + '%';
+  const t2 = ['| 窓(最初の W 公転) | 周期 刻み ' + d.dtTable.h + '(年) | 周期 刻み ' + d.dtTable.half + '(年) | 8 公転窓との差(刻み ' + d.dtTable.h + ') | 離心率の代理 最小〜最大(刻み ' + d.dtTable.h + ') |', '|---|---|---|---|---|']
+    .concat(d.windows.map((W) => {
+      const a = rowOf(T.h.rows, W), b = rowOf(T.half.rows, W), c = W === 8 ? null : (st.rows.find((z) => z.orbits === W) || {});
+      return '| ' + W + ' | ' + a.apsPeriodYr.toFixed(4) + ' | ' + b.apsPeriodYr.toFixed(4) + ' | ' + (c ? pct(c.relTo8) : '—') + ' | ' + a.eMin.toFixed(4) + '〜' + a.eMax.toFixed(4) + ' |';
+    })).join('\n');
+  const k0 = rowOf(T.k0.rows, 118);
+  const t3 = 'kFrame=0 の写し(刻み ' + d.control.dt + '): 118 公転窓の近点の傾き ' + k0.slopeDegPerPeri.toExponential(2) + ' °/近点・離心率の代理 ' + k0.eMin.toFixed(5) + '〜' + k0.eMax.toFixed(5);
+  const g = J.fitRecord.gate, fr = J.fitRecord.fitRecord;
+  const t4 = '恒星月: 残差 ' + g[0].residual.toFixed(3) + ' 秒 + h/2 差 ' + g[0].h2.toFixed(3) + ' 秒 ≤ 許容 ' + g[0].tol + ' 秒・近点回転: 残差 ' + g[1].residual.toExponential(3) + ' 年 + h/2 差 '
+    + g[1].h2.toExponential(3) + ' 年 ≤ 許容 ' + g[1].tol + ' 年 → status ' + fr.status + '・cond.sig ' + fr.cond.sig;
+  const t5 = '定常の物差し(相対 ' + (d.steadyBand * 100) + '%): 帯の外 ' + st.nOutside + '/' + st.rows.length + ' 窓・窓を延ばすと周期は単調に延びる ' + (st.monotoneLonger ? '真' : '偽') + ' → 定常 ' + (st.steady ? '真' : '偽');
+  return { remeasure: t1, windows: t2, control: t3, gate: t4, steady: t5 };
+}

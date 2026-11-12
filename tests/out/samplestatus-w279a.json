@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.47-b335",
+  "betaBuild": "v1.47-b336",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,62 +13,62 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "27db447180a614987ccd00ca6a2778cc672a03b1e3565cf327a220be5343681d",
-  "generatedAt": "2026-11-12T21:58:40.522Z",
+  "targetSha256": "0a3712923e3cafaa3d4a15302a83dd45fbde7a3397ccbcddb5b18c1930ebca8e",
+  "generatedAt": "2026-11-12T23:41:21.188Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 127037,
-    "sha256": "8cd71e64ccd0c1e7cb9bdd4a965f14c993e8fc24f876cec42274cb1f4df2531f",
-    "mtime": "2026-11-12T16:03:26.456Z"
+    "bytes": 126943,
+    "sha256": "be71879cb2d32e6215f21148d66e4a7e7a0a60c28c362cf783e3c2a3b4c8fbdf",
+    "mtime": "2026-11-12T23:41:19.809Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 1734334,
     "sha256": "1b6489f70940e3e7393daae9f5553319e9c3bdd364c8025b1e1f0b31044b333d",
-    "mtime": "2026-11-12T17:50:39.905Z"
+    "mtime": "2026-11-12T23:21:03.800Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
     "bytes": 90727,
     "sha256": "64da8bb863b4e366c8b73099152dfcc25f1ce322e4237db7f2999105d4365d16",
-    "mtime": "2026-11-05T04:32:46.006Z"
+    "mtime": "2026-11-12T23:21:04.284Z"
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 111262,
-    "sha256": "10feef87778711b1e8d55804ce71fd98dc680ef79d19378b298a037a4a7d96f5",
-    "mtime": "2026-11-12T21:58:40.503Z"
+    "bytes": 111306,
+    "sha256": "2f610c31df580f0a1a8ca949bc6859dbc8c21f6113d4a0448615e02849990535",
+    "mtime": "2026-11-12T23:41:21.168Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-10-20T16:19:56.660Z"
+    "mtime": "2026-11-12T23:21:00.588Z"
    },
    {
     "file": "tests/fixtures/retired-w284b.json",
     "bytes": 244564,
     "sha256": "1fffd3f45fe2e8625b16e6243f9888ad74a32637a8f40bc43564c452ff92fb29",
-    "mtime": "2026-10-20T16:19:56.660Z"
+    "mtime": "2026-11-12T23:21:00.588Z"
    },
    {
     "file": "tests/fixtures/retired-w285f.json",
     "bytes": 64583,
     "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
-    "mtime": "2026-10-20T16:19:56.660Z"
+    "mtime": "2026-11-12T23:21:00.588Z"
    },
    {
     "file": "tests/fixtures/retired-w286f.json",
     "bytes": 71553,
     "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
-    "mtime": "2026-10-20T16:19:56.660Z"
+    "mtime": "2026-11-12T23:21:00.588Z"
    },
    {
     "file": "tests/fixtures/retired-w287b.json",
     "bytes": 56177,
     "sha256": "ae12f0fdfa73e2d98ec7293e46113325c8de8fd2218bb03c2d91330c4b0c33f0",
-    "mtime": "2026-10-20T16:19:56.660Z"
+    "mtime": "2026-11-12T23:21:00.588Z"
    }
   ],
   "code": [
@@ -76,37 +76,37 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 43934,
     "sha256": "48997d8eb54cabb6fdfb008f0aaba1418ea4aaedfd8d6a7025bb2e6393d80d20",
-    "mtime": "2026-11-05T03:10:54.234Z"
+    "mtime": "2026-11-12T23:21:00.072Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 31458,
     "sha256": "16a147e300ca0dfcf28c055b791689f434a1e2fdf9a86d8dadef8eaf8c89891b",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-12T23:21:00.604Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-12T23:21:00.600Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
     "bytes": 39201,
     "sha256": "c6e9b7ef66592b357bc0931831642147d75072bbc73ef16e99cb8ef0b4376c79",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "mtime": "2026-11-12T23:21:00.744Z"
    },
    {
     "file": "tests/lib-w288f-htmlstage.mjs",
     "bytes": 10343,
     "sha256": "c6425fa01e5360716b3e98872f9d0ac3c56cc75f79875bb4abb12d74e16160e1",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "mtime": "2026-11-12T23:21:00.748Z"
    },
    {
     "file": "tests/lib-w323d-recheck.mjs",
     "bytes": 15693,
     "sha256": "1e1564a63f02875f307f20e6a061413665af7af53381ecbe52a11316b740cd46",
-    "mtime": "2026-11-02T03:19:09.834Z"
+    "mtime": "2026-11-12T23:21:01.952Z"
    }
   ],
   "codeSha256": "fd485c9c33b0ac9b2ddd4e326949679abf7a9deb8bbdbff4c0f2fb296b0b8946",
@@ -362,7 +362,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -572,7 +572,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -626,7 +626,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -696,7 +696,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -906,7 +906,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -960,7 +960,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -1035,7 +1035,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -1245,7 +1245,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -1299,7 +1299,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -1362,7 +1362,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -1572,7 +1572,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -1626,7 +1626,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -1689,7 +1689,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -1899,7 +1899,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -1953,7 +1953,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -2017,7 +2017,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -2227,7 +2227,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -2281,7 +2281,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -2345,7 +2345,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -2555,7 +2555,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -2609,7 +2609,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -2690,7 +2690,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -2900,7 +2900,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -2954,7 +2954,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -3011,7 +3011,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -3221,7 +3221,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -3275,7 +3275,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -3332,7 +3332,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -3542,7 +3542,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -3596,7 +3596,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -3653,7 +3653,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -3863,7 +3863,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -3917,7 +3917,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -3980,7 +3980,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -4190,7 +4190,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -4244,7 +4244,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -4307,7 +4307,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -4517,7 +4517,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -4571,7 +4571,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -4628,7 +4628,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -4838,7 +4838,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -4892,7 +4892,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -4961,7 +4961,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -5171,7 +5171,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -5225,7 +5225,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -5288,7 +5288,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -5498,7 +5498,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -5552,7 +5552,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -5633,7 +5633,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -5843,7 +5843,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -5897,7 +5897,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -5966,7 +5966,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -6194,7 +6194,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -6284,7 +6284,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -6353,7 +6353,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -6563,7 +6563,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -6659,7 +6659,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -6722,7 +6722,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -6932,7 +6932,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -7052,7 +7052,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -7115,7 +7115,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -7325,7 +7325,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -7391,7 +7391,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -7454,7 +7454,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -7664,7 +7664,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -7724,7 +7724,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -7787,7 +7787,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -7997,7 +7997,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -8057,7 +8057,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -8120,7 +8120,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -8330,7 +8330,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -8390,7 +8390,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -8453,7 +8453,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -8663,7 +8663,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -8717,7 +8717,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -8792,7 +8792,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -9002,7 +9002,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -9056,7 +9056,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -9119,7 +9119,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -9329,7 +9329,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -9383,7 +9383,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -9446,7 +9446,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -9656,7 +9656,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -9710,7 +9710,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -9773,7 +9773,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -9983,7 +9983,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -10037,7 +10037,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -10106,7 +10106,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -10316,7 +10316,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -10370,7 +10370,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -10439,7 +10439,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -10655,7 +10655,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -10709,7 +10709,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -10766,7 +10766,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -10976,7 +10976,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -11030,7 +11030,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -11093,7 +11093,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -11303,7 +11303,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -11357,7 +11357,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -11427,7 +11427,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -11637,7 +11637,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -11691,7 +11691,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -11749,7 +11749,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -11959,7 +11959,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -12013,7 +12013,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -12071,7 +12071,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -12281,7 +12281,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -12335,7 +12335,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -12392,7 +12392,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -12602,7 +12602,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -12656,7 +12656,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -12725,7 +12725,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -12953,7 +12953,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -13007,7 +13007,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -13071,7 +13071,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -13311,7 +13311,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -13365,7 +13365,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -13422,7 +13422,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -13650,7 +13650,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -13704,7 +13704,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -13761,7 +13761,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -14037,7 +14037,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -14091,7 +14091,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -14148,7 +14148,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -14370,7 +14370,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -14424,7 +14424,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -14474,7 +14474,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -14696,7 +14696,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -14750,7 +14750,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -14807,7 +14807,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -15023,7 +15023,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -15077,7 +15077,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -15135,7 +15135,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -15381,7 +15381,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -15435,7 +15435,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -15485,7 +15485,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -15725,7 +15725,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -15779,7 +15779,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -15829,7 +15829,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -16057,7 +16057,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -16111,7 +16111,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -16163,7 +16163,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -16391,7 +16391,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -16445,7 +16445,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -16504,7 +16504,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -16732,7 +16732,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -16786,7 +16786,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -16845,7 +16845,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -17085,7 +17085,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -17139,7 +17139,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -17197,7 +17197,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -17419,7 +17419,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -17473,7 +17473,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -17550,7 +17550,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -17772,7 +17772,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -17826,7 +17826,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -17885,7 +17885,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -18113,7 +18113,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -18167,7 +18167,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -18226,7 +18226,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -18460,7 +18460,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -18514,7 +18514,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -18572,7 +18572,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -18794,7 +18794,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -18848,7 +18848,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -18924,7 +18924,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -19134,7 +19134,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -19188,7 +19188,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -19251,7 +19251,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -19461,7 +19461,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -19515,7 +19515,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -19578,7 +19578,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -19788,7 +19788,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -19842,7 +19842,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -19905,7 +19905,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -20115,7 +20115,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -20169,7 +20169,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -20232,7 +20232,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -20502,7 +20502,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -20574,7 +20574,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -20643,7 +20643,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -20853,7 +20853,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -20907,7 +20907,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -20976,7 +20976,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -21186,7 +21186,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -21240,7 +21240,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -21315,7 +21315,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -21525,7 +21525,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -21579,7 +21579,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -21636,7 +21636,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -21846,7 +21846,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -21900,7 +21900,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -21963,7 +21963,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -22173,7 +22173,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -22227,7 +22227,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -22302,7 +22302,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -22512,7 +22512,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -22566,7 +22566,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -22629,7 +22629,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -22839,7 +22839,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -22893,7 +22893,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -22956,7 +22956,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -23166,7 +23166,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -23220,7 +23220,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -23289,7 +23289,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -23499,7 +23499,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -23553,7 +23553,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -23622,7 +23622,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -23832,7 +23832,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -23886,7 +23886,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -23956,7 +23956,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -24166,7 +24166,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -24220,7 +24220,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -24289,7 +24289,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -24505,7 +24505,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -24577,7 +24577,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -24646,7 +24646,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -24862,7 +24862,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -24916,7 +24916,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -25002,7 +25002,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -25062,7 +25062,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -25260,7 +25260,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -25314,7 +25314,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -25371,7 +25371,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -25587,7 +25587,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -25641,7 +25641,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -25680,26 +25680,26 @@
    "group": "天体の機構",
    "sampleClass": "principle",
    "status": {
-    "purpose": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照",
+    "purpose": "二体 + 引きずりで近点移動 8.85 年にフィットできる記録を示す原理の参照",
     "objective": "partial",
-    "state": "朔望月 29.534 日(恒星月 27.324 日を恒星年で一様換算)は門の中・近点回転 293.850 年は照合だけ",
+    "state": "8 公転窓の記録 恒星月 27.3216 日・近点 8.850 年(118 公転 14.30 年 —— 恒久ではない)",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
-     "tests/out/synodic-w299b.json",
-     "tests/out/refit-w298b.json",
+     "tests/out/emrecord-w336a.json",
+     "tests/out/refit-w297a.json",
      "tests/out/emgrid-w280b.json",
      "tests/out/calaudit-w249.json"
     ],
     "en": {
-     "purpose": "Principle reference: kF1 q-drag apsidal mechanism",
-     "state": "Synodic month 29.534 d (sidereal 27.324 d via the sidereal year) inside the gate; apsides 293.850 yr, check only",
+     "purpose": "Principle reference: two-body + drag fit record of the 8.85-yr apsides",
+     "state": "8-orbit record 27.3216 d, apsides 8.850 yr (118 orbits: 14.30 yr; not permanent)",
      "mismatch": null,
      "outlook": null,
-     "brief": "Principle reference: kF1 q-drag apsidal mechanism. Partial: Synodic month 29.534 d (sidereal 27.324 d via the sidereal year) inside the gate; apsides 293.850 yr, check only. Out of calibration scope."
+     "brief": "Principle reference: two-body + drag fit record of the 8.85-yr apsides. Partial: 8-orbit record 27.3216 d, apsides 8.850 yr (118 orbits: 14.30 yr; not permanent). Out of calibration scope."
     },
-    "brief": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照。部分・朔望月 29.534 日(恒星月 27.324 日を恒星年で一様換算)は門の中・近点回転 293.850 年は照合だけ。較正対象外。"
+    "brief": "二体 + 引きずりで近点移動 8.85 年にフィットできる記録を示す原理の参照。部分・8 公転窓の記録 恒星月 27.3216 日・近点 8.850 年(118 公転 14.30 年 —— 恒久ではない)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -25713,7 +25713,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -25803,7 +25803,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -25983,7 +25983,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -26043,7 +26043,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -26100,7 +26100,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -26334,7 +26334,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -26430,7 +26430,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -26505,7 +26505,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -26565,7 +26565,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -26727,7 +26727,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -26781,7 +26781,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -26846,7 +26846,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -26918,7 +26918,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -27080,7 +27080,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -27134,7 +27134,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -27220,7 +27220,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -27460,7 +27460,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -27550,7 +27550,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -27613,7 +27613,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -27829,7 +27829,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -27919,7 +27919,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -27982,7 +27982,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -28204,7 +28204,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -28366,7 +28366,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -28418,7 +28418,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -28610,7 +28610,7 @@
      },
      {
       "key": "drag3d-298c",
-      "sec": 26,
+      "sec": 19,
       "share": 5,
       "always": false
      },
@@ -28664,7 +28664,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -28892,7 +28892,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -28945,7 +28945,7 @@
    "status": {
     "purpose": "🌦️ から太陽を外した地球と月だけの三次元の対照で太陽の有無の差を見る",
     "objective": "met",
-    "state": "恒星月 27.4903 日・朔望月(一様換算)29.7277 日・引きずり OFF の二体と地球の J₂(118 窓では近点の周期は読めない)",
+    "state": "恒星月 27.4903 日・引きずり OFF の二体と地球の J₂(118 窓では近点の周期は読めない)",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
@@ -28955,12 +28955,12 @@
     ],
     "en": {
      "purpose": "Earth-Moon-only 3D control of 🌦️ (no Sun): what the Sun changes",
-     "state": "sidereal 27.4903 d; synodic (uniform) 29.7277 d; drag-off two-body with the Earth J2",
+     "state": "sidereal 27.4903 d; drag-off two-body with the Earth J2",
      "mismatch": null,
      "outlook": null,
-     "brief": "Earth-Moon-only 3D control of 🌦️ (no Sun): what the Sun changes. Met: sidereal 27.4903 d; synodic (uniform) 29.7277 d; drag-off two-body with the Earth J2. Out of calibration scope."
+     "brief": "Earth-Moon-only 3D control of 🌦️ (no Sun): what the Sun changes. Met: sidereal 27.4903 d; drag-off two-body with the Earth J2. Out of calibration scope."
     },
-    "brief": "🌦️ から太陽を外した地球と月だけの三次元の対照で太陽の有無の差を見る。達・恒星月 27.4903 日・朔望月(一様換算)29.7277 日・引きずり OFF の二体と地球の J₂(118 窓では近点の周期は読めない)。較正対象外。"
+    "brief": "🌦️ から太陽を外した地球と月だけの三次元の対照で太陽の有無の差を見る。達・恒星月 27.4903 日・引きずり OFF の二体と地球の J₂(118 窓では近点の周期は読めない)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -28974,7 +28974,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -29190,7 +29190,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -29358,7 +29358,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -29428,7 +29428,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -29650,7 +29650,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -29704,7 +29704,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -29761,7 +29761,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -29821,7 +29821,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -29983,7 +29983,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -30037,7 +30037,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -30100,7 +30100,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -30160,7 +30160,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -30322,7 +30322,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -30376,7 +30376,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -30439,7 +30439,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -30661,7 +30661,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -30931,7 +30931,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -31018,7 +31018,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -31084,7 +31084,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -31276,7 +31276,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -31438,7 +31438,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -31495,7 +31495,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -31711,7 +31711,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -31801,7 +31801,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -31865,7 +31865,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -32093,7 +32093,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -32243,7 +32243,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -32326,7 +32326,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -32554,7 +32554,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -32890,7 +32890,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -32973,7 +32973,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -33201,7 +33201,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -33543,7 +33543,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -33602,7 +33602,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -33830,7 +33830,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -34136,7 +34136,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -34195,7 +34195,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -34417,7 +34417,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -34741,7 +34741,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -34812,7 +34812,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -35034,7 +35034,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -35304,7 +35304,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -35362,7 +35362,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -35578,7 +35578,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -35656,7 +35656,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -35739,7 +35739,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -35961,7 +35961,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -36231,7 +36231,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -36290,7 +36290,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -36512,7 +36512,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -36782,7 +36782,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -36839,7 +36839,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -37049,7 +37049,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -37223,7 +37223,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -37293,7 +37293,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -37515,7 +37515,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -37569,7 +37569,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -37626,7 +37626,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -37842,7 +37842,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -37896,7 +37896,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -37948,7 +37948,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -38008,7 +38008,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -38170,7 +38170,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -38224,7 +38224,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -38284,7 +38284,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -38506,7 +38506,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -38560,7 +38560,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -38646,7 +38646,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -38712,7 +38712,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -38892,7 +38892,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -39186,7 +39186,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -39272,7 +39272,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -39374,7 +39374,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -39554,7 +39554,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -39716,7 +39716,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -39802,7 +39802,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -39868,7 +39868,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -40048,7 +40048,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -40210,7 +40210,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -40275,7 +40275,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -40413,7 +40413,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -40581,7 +40581,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -40635,7 +40635,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -40704,7 +40704,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -40938,7 +40938,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -40992,7 +40992,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -41062,7 +41062,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -41290,7 +41290,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -41344,7 +41344,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -41438,7 +41438,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -41558,7 +41558,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -41732,7 +41732,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -41840,7 +41840,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -41897,7 +41897,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -42113,7 +42113,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -42203,7 +42203,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -42267,7 +42267,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -42477,7 +42477,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -42639,7 +42639,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -42720,7 +42720,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -42936,7 +42936,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -42990,7 +42990,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -43048,7 +43048,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -43270,7 +43270,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -43324,7 +43324,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -43400,7 +43400,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -43634,7 +43634,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -43796,7 +43796,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -43882,7 +43882,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -43984,7 +43984,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -44164,7 +44164,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -44326,7 +44326,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -44422,7 +44422,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -44524,7 +44524,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -44692,7 +44692,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -44758,7 +44758,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -44828,7 +44828,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -44894,7 +44894,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -45062,7 +45062,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -45116,7 +45116,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -45212,7 +45212,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -45314,7 +45314,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -45482,7 +45482,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -45548,7 +45548,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -45618,7 +45618,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -45684,7 +45684,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -45852,7 +45852,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -45906,7 +45906,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -45969,7 +45969,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -46179,7 +46179,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -46245,7 +46245,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -46308,7 +46308,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -46518,7 +46518,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -46596,7 +46596,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -46659,7 +46659,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -46869,7 +46869,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -46941,7 +46941,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -47004,7 +47004,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -47214,7 +47214,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -47286,7 +47286,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -47373,7 +47373,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -47457,7 +47457,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -47631,7 +47631,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -47697,7 +47697,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -47767,7 +47767,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -47869,7 +47869,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -48037,7 +48037,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -48091,7 +48091,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -48155,7 +48155,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -48365,7 +48365,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -48419,7 +48419,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -48477,7 +48477,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -48543,7 +48543,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -48705,7 +48705,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -48759,7 +48759,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -48846,7 +48846,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -48948,7 +48948,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -49122,7 +49122,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -49200,7 +49200,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -49287,7 +49287,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -49389,7 +49389,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -49563,7 +49563,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -49641,7 +49641,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -49699,7 +49699,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -49765,7 +49765,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -49927,7 +49927,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -49981,7 +49981,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -50039,7 +50039,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -50105,7 +50105,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -50267,7 +50267,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -50321,7 +50321,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -50379,7 +50379,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -50445,7 +50445,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -50607,7 +50607,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -50661,7 +50661,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -50719,7 +50719,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -50785,7 +50785,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -50947,7 +50947,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -51001,7 +51001,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -51059,7 +51059,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -51125,7 +51125,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -51287,7 +51287,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -51341,7 +51341,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -51399,7 +51399,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -51465,7 +51465,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -51627,7 +51627,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -51681,7 +51681,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -51762,7 +51762,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -51828,7 +51828,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -51996,7 +51996,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -52074,7 +52074,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -52138,7 +52138,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -52240,7 +52240,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -52408,7 +52408,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -52462,7 +52462,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -52520,7 +52520,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -52586,7 +52586,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -52748,7 +52748,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -52802,7 +52802,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -52859,7 +52859,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -53075,7 +53075,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -53141,7 +53141,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -53198,7 +53198,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -53396,7 +53396,7 @@
      },
      {
       "key": "drag3d-298c",
-      "sec": 26,
+      "sec": 19,
       "share": 5,
       "always": false
      },
@@ -53432,7 +53432,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -53504,7 +53504,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -53573,7 +53573,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -53759,7 +53759,7 @@
      },
      {
       "key": "drag3d-298c",
-      "sec": 26,
+      "sec": 19,
       "share": 5,
       "always": false
      },
@@ -53801,7 +53801,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -53855,7 +53855,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -53918,7 +53918,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -54098,7 +54098,7 @@
      },
      {
       "key": "drag3d-298c",
-      "sec": 26,
+      "sec": 19,
       "share": 5,
       "always": false
      },
@@ -54152,7 +54152,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -54272,7 +54272,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -54353,7 +54353,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -54533,7 +54533,7 @@
      },
      {
       "key": "drag3d-298c",
-      "sec": 26,
+      "sec": 19,
       "share": 5,
       "always": false
      },
@@ -54575,7 +54575,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -54659,7 +54659,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -54741,7 +54741,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -54957,7 +54957,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -55041,7 +55041,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -55110,7 +55110,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -55326,7 +55326,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -55386,7 +55386,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -55443,7 +55443,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -55659,7 +55659,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -55725,7 +55725,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -55794,7 +55794,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -56010,7 +56010,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -56076,7 +56076,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -56133,7 +56133,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -56343,7 +56343,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -56415,7 +56415,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -56478,7 +56478,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -56688,7 +56688,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -56760,7 +56760,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -56823,7 +56823,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -57039,7 +57039,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -57105,7 +57105,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -57162,7 +57162,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -57384,7 +57384,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -57438,7 +57438,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -57518,7 +57518,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -57746,7 +57746,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -57812,7 +57812,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -57876,7 +57876,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -57954,7 +57954,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -58122,7 +58122,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -58176,7 +58176,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -58262,7 +58262,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -58484,7 +58484,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -58538,7 +58538,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -58595,7 +58595,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -58805,7 +58805,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -58859,7 +58859,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -58916,7 +58916,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -59132,7 +59132,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -59186,7 +59186,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -59249,7 +59249,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -59465,7 +59465,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -59519,7 +59519,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -59576,7 +59576,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -59798,7 +59798,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -59858,7 +59858,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -59921,7 +59921,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -60155,7 +60155,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -60221,7 +60221,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -60278,7 +60278,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -60488,7 +60488,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -60542,7 +60542,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -60599,7 +60599,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -60809,7 +60809,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -60863,7 +60863,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -60920,7 +60920,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -61130,7 +61130,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -61184,7 +61184,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -61241,7 +61241,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -61475,7 +61475,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -61769,7 +61769,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -61850,7 +61850,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -62060,7 +62060,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -62114,7 +62114,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -62216,7 +62216,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -62282,7 +62282,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -62456,7 +62456,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -62510,7 +62510,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -62585,7 +62585,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -62795,7 +62795,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -62849,7 +62849,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -62906,7 +62906,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -63116,7 +63116,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -63170,7 +63170,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -63246,7 +63246,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -63306,7 +63306,7 @@
      },
      {
       "key": "mercury",
-      "sec": 330,
+      "sec": 255,
       "share": 35,
       "always": true
      },
@@ -63492,7 +63492,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -63774,7 +63774,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -63840,7 +63840,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -64062,7 +64062,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -64116,7 +64116,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -64173,7 +64173,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -64383,7 +64383,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -64449,7 +64449,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -64525,7 +64525,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -64735,7 +64735,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -64801,7 +64801,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -64864,7 +64864,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -65074,7 +65074,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -65128,7 +65128,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -65191,7 +65191,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -65401,7 +65401,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -65455,7 +65455,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -65524,7 +65524,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -65734,7 +65734,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -65788,7 +65788,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -65845,7 +65845,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -66055,7 +66055,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -66109,7 +66109,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -66166,7 +66166,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -66376,7 +66376,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -66430,7 +66430,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -66487,7 +66487,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -66697,7 +66697,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -66751,7 +66751,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -66808,7 +66808,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -67018,7 +67018,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -67072,7 +67072,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -67129,7 +67129,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -67339,7 +67339,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -67393,7 +67393,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -67456,7 +67456,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -67672,7 +67672,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -67726,7 +67726,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -67783,7 +67783,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -67993,7 +67993,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -68059,7 +68059,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -68116,7 +68116,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -68326,7 +68326,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -68380,7 +68380,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -68443,7 +68443,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -68653,7 +68653,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -68707,7 +68707,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -68764,7 +68764,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 26,
+      "sec": 19,
       "share": "all",
       "always": false
      },
@@ -68974,7 +68974,7 @@
      },
      {
       "key": "semic-302d",
-      "sec": 3,
+      "sec": 878,
       "share": "all",
       "always": false
      },
@@ -69028,7 +69028,7 @@
      },
      {
       "key": "timing294",
-      "sec": 180,
+      "sec": 161,
       "share": "all",
       "always": false
      }
@@ -69059,8 +69059,8 @@
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
   "regenSteps": 242,
-  "regenSecSum": 37711,
-  "alwaysSec": 914,
+  "regenSecSum": 38399,
+  "alwaysSec": 760,
   "undeclaredSteps": 32,
   "undeclaredSec": 1705,
   "qaTotal": 1525,
@@ -69072,8 +69072,8 @@
    "date": "2026-11-12T21:24:50.963Z",
    "betaBuild": "v1.47-b335",
    "targetSha256": "27db447180a614987ccd00ca6a2778cc672a03b1e3565cf327a220be5343681d",
-   "sameBuild": true,
-   "sameHtml": true,
+   "sameBuild": false,
+   "sameHtml": false,
    "rule": "鎖の常時群の段 samplestatus はゲートの QA の前に走る —— 保存 QA の時間は前の便のゲートの保存物(1 便遅れる)。版名が同じでも html の sha が違えば同じ便の中の前の html の QA"
   },
   "noHtmlSteps": {
@@ -69339,6 +69339,12 @@
      "presets": null
     },
     {
+     "key": "semic-302d",
+     "sec": 878,
+     "kind": "領域の宣言",
+     "presets": "all"
+    },
+    {
      "key": "charonInput",
      "sec": 853,
      "kind": "領域の宣言",
@@ -69503,12 +69509,6 @@
      "presets": null
     },
     {
-     "key": "calaudit",
-     "sec": 454,
-     "kind": "常時群",
-     "presets": null
-    },
-    {
      "key": "charonfactors",
      "sec": 450,
      "kind": "領域の宣言",
@@ -69536,54 +69536,18 @@
      "presets": "all"
     },
     {
+     "key": "calaudit",
+     "sec": 380,
+     "kind": "常時群",
+     "presets": null
+    },
+    {
      "key": "galaxydiag",
      "sec": 347,
      "kind": "領域の宣言",
      "presets": [
       "ngc3198",
       "ngc3198DFM"
-     ]
-    },
-    {
-     "key": "mercury",
-     "sec": 330,
-     "kind": "常時群",
-     "presets": [
-      "alphaCenAB",
-      "alphaCenABDFM",
-      "earthMoonReal",
-      "earthMoonRealKF1",
-      "emAuditDFM",
-      "emAuditNewton",
-      "gw150914DFM",
-      "jupiterGalilean",
-      "marsMoonsReal",
-      "mercuryReal",
-      "mercuryRealKF1",
-      "neptuneReal",
-      "plutoCharonDiagInput",
-      "plutoCharonReal",
-      "psrB1534",
-      "psrB1534CF",
-      "psrB1534DFM",
-      "psrDoubleAB",
-      "psrDoubleABCF",
-      "psrDoubleABDFM",
-      "psrDoubleABPN",
-      "psrDoubleABSpinCal",
-      "psrJ1757CF",
-      "psrJ1757DFM",
-      "psrJ1757PN",
-      "psrJ1946CF",
-      "psrJ1946DFM",
-      "psrJ1946PN",
-      "qLockRadialAudit",
-      "qLockRadialAuditQ3",
-      "saturnRingReal",
-      "saturnZonalD68",
-      "siriusAB",
-      "siriusABDFM",
-      "venusReal"
      ]
     },
     {
@@ -69634,14 +69598,50 @@
      ]
     },
     {
-     "key": "contact285",
-     "sec": 232,
-     "kind": "領域の宣言",
-     "presets": "all"
+     "key": "mercury",
+     "sec": 255,
+     "kind": "常時群",
+     "presets": [
+      "alphaCenAB",
+      "alphaCenABDFM",
+      "earthMoonReal",
+      "earthMoonRealKF1",
+      "emAuditDFM",
+      "emAuditNewton",
+      "gw150914DFM",
+      "jupiterGalilean",
+      "marsMoonsReal",
+      "mercuryReal",
+      "mercuryRealKF1",
+      "neptuneReal",
+      "plutoCharonDiagInput",
+      "plutoCharonReal",
+      "psrB1534",
+      "psrB1534CF",
+      "psrB1534DFM",
+      "psrDoubleAB",
+      "psrDoubleABCF",
+      "psrDoubleABDFM",
+      "psrDoubleABPN",
+      "psrDoubleABSpinCal",
+      "psrJ1757CF",
+      "psrJ1757DFM",
+      "psrJ1757PN",
+      "psrJ1946CF",
+      "psrJ1946DFM",
+      "psrJ1946PN",
+      "qLockRadialAudit",
+      "qLockRadialAuditQ3",
+      "saturnRingReal",
+      "saturnZonalD68",
+      "siriusAB",
+      "siriusABDFM",
+      "venusReal"
+     ]
     },
     {
-     "key": "timing294",
-     "sec": 180,
+     "key": "contact285",
+     "sec": 232,
      "kind": "領域の宣言",
      "presets": "all"
     },
@@ -69675,6 +69675,12 @@
       "galaxyMeshSpiralGeoToy",
       "gas"
      ]
+    },
+    {
+     "key": "timing294",
+     "sec": 161,
+     "kind": "領域の宣言",
+     "presets": "all"
     },
     {
      "key": "saturnring3d-300c",
@@ -69874,12 +69880,6 @@
      ]
     },
     {
-     "key": "d68three",
-     "sec": 49,
-     "kind": "常時群",
-     "presets": null
-    },
-    {
      "key": "spiral290",
      "sec": 49,
      "kind": "領域の宣言",
@@ -69931,6 +69931,12 @@
      "presets": null
     },
     {
+     "key": "d68three",
+     "sec": 44,
+     "kind": "常時群",
+     "presets": null
+    },
+    {
      "key": "fixcap288",
      "sec": 44,
      "kind": "領域の宣言",
@@ -69973,24 +69979,6 @@
      ]
     },
     {
-     "key": "d0audit",
-     "sec": 26,
-     "kind": "領域の宣言",
-     "presets": "all"
-    },
-    {
-     "key": "drag3d-298c",
-     "sec": 26,
-     "kind": "領域の宣言",
-     "presets": [
-      "chainDiskToy",
-      "chainDiskToy3d",
-      "chainDiskToy3dTilt",
-      "earthMoonSunInertial3d",
-      "inertialDragPair"
-     ]
-    },
-    {
      "key": "sync",
      "sec": 25,
      "kind": "html を読まない",
@@ -70007,6 +69995,24 @@
      "sec": 22,
      "kind": "常時群",
      "presets": null
+    },
+    {
+     "key": "d0audit",
+     "sec": 19,
+     "kind": "領域の宣言",
+     "presets": "all"
+    },
+    {
+     "key": "drag3d-298c",
+     "sec": 19,
+     "kind": "領域の宣言",
+     "presets": [
+      "chainDiskToy",
+      "chainDiskToy3d",
+      "chainDiskToy3dTilt",
+      "earthMoonSunInertial3d",
+      "inertialDragPair"
+     ]
     },
     {
      "key": "transgeo2-332b",
@@ -70383,12 +70389,6 @@
     },
     {
      "key": "wbglaw-301g",
-     "sec": 3,
-     "kind": "領域の宣言",
-     "presets": "all"
-    },
-    {
-     "key": "semic-302d",
      "sec": 3,
      "kind": "領域の宣言",
      "presets": "all"

@@ -36,6 +36,8 @@ import { pin303, gate303, pinChanges303, DECL303_DATA_FILE } from './lib-w304c-p
 const REGEN_SCOPE = {"presets":["earthMoonOnly3d","earthMoonSunInertial3d"],"roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.relDragStepOrderOf","HP.sim","HP.synodic","HP.validatePreset","T","ctx","cw","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+// 第336便a(R335): 第299便b の正本の段 sun3d の凍結の写し(段 synodic-299b は履歴 —— 現行の正本の入力に履歴の正本を置かない)
+const SUN3D299B_DATA_FILE = 'tests/data-w336a-sun3d299b.json';
 export const HARNESS_VERSION = 'w300b-emonly-1';
 export const EXTRACTOR_VERSION = 'w300b-em3-1';      // 第298便c の runEmx3(w298c-emx3-1)と同じ式 —— 中心と周回の番号を引数にした写し
 export const SRC_ID = 'earthMoonSunInertial3d';      // 🌦️(太陽・地球・月の三次元 —— 写しの元)
@@ -232,7 +234,8 @@ export async function main() {
       // 照合: 🌦️ の 118 窓の近点周期 = 第298便c の正本(写した抽出器が同じ数を出すか)。🌦️ の実際の太陽の方向の朔望月は第299便b の正本の段 sun3d を参照値として写す
       let m3 = null, syn = null;
       try { m3 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'moon3d-w298c.json'), 'utf8')); } catch (e) { /* 無い世代 */ }
-      try { syn = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'synodic-w299b.json'), 'utf8')); } catch (e) { /* 無い世代 */ }
+      // 第336便a(原仮定者の指示(2026-11-12 —— 第137報)・R335): 段 synodic-299b は履歴へ回した —— 参照値の段 sun3d は凍結の写し tests/data-w336a-sun3d299b.json から読む(値は同じ)
+      try { syn = JSON.parse(fs.readFileSync(path.join(ROOT, SUN3D299B_DATA_FILE), 'utf8')); } catch (e) { /* 無い世代 */ }
       const ref298 = m3 && m3.final && m3.final.h && m3.final.h.w118 ? m3.final.h.w118 : null;
       const wS = sunHsplit ? W(sunHsplit, 118) : null;
       const check = { moon3dT1: ref298 ? ref298.T1 : null, sunT1: W(sunH, 118) ? W(sunH, 118).T1 : null,
@@ -243,7 +246,7 @@ export async function main() {
         ...(pinChanges303(src) ? { decl303Pin: '第304便c: 照合の走り(sun3d-h-split)は第303便の 🌦️ の宣言(軟化 0.01・初期配置)へ戻してから第302便の欄を戻した写し —— tests/lib-w304c-pre.mjs の pin303' } : {}),
         ...(pinChanges302(src) ? { decl302Pin: '第303便a: 照合の走り(sun3d-h-split)は第302便の 🌦️ の宣言(W_bg 3.8560163495093223・初期配置)の写し —— tests/lib-w303a-pre.mjs の pin302' } : {}) };
       const sun3dSyn = syn && syn.parts && syn.parts.sun3d ? syn.parts.sun3d : null;
-      const realSun = sun3dSyn ? { source: 'tests/out/synodic-w299b.json の段 sun3d(第299便b —— 地心から太陽への方位で数えた合)', windows: sun3dSyn.real || sun3dSyn.windows || null } : null;
+      const realSun = sun3dSyn ? { source: 'tests/data-w336a-sun3d299b.json(第299便b の正本 synodic-w299b.json の段 sun3d の凍結の写し —— 地心から太陽への方位で数えた合)', windows: sun3dSyn.real || sun3dSyn.windows || null } : null;
       const c118 = W(ctrlH, 118), s118 = W(sunH, 118);
       const diff = (k) => (c118 && s118 && Number.isFinite(c118[k]) && Number.isFinite(s118[k])) ? s118[k] - c118[k] : null;
       return { short: !!REV, runs: Object.assign({ ctrlH, ctrlH2, ctrlG0, sunH }, sunHsplit ? { sunHsplit } : {}), check, realSunSynodic: realSun,
@@ -263,7 +266,7 @@ export async function main() {
   }
   out.timing = { wallSec: (Date.now() - t0All) / 1000 };
   const CODE = ['tests/exp-w300b-emonly.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303a-pre.mjs', 'tests/lib-w304c-pre.mjs'];
-  const INPUTS = [TARGET, 'tests/out/moon3d-w298c.json', 'tests/out/synodic-w299b.json', DECL302_DATA_FILE, DECL303_DATA_FILE];
+  const INPUTS = [TARGET, 'tests/out/moon3d-w298c.json', SUN3D299B_DATA_FILE, DECL302_DATA_FILE, DECL303_DATA_FILE];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第300便b', target: TARGET, code: CODE, inputs: INPUTS }), {
     harnessVersion: HARNESS_VERSION, extractorVersion: EXTRACTOR_VERSION, parts: Object.keys(out.parts),
     ruling: '原仮定者の裁定(第90報)③(🌦️ を地球の三次元版として採用・🌦️ の値で地球と月だけの対照を用意)',
