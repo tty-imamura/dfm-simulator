@@ -4947,6 +4947,16 @@ SYSTEM_PROMPT の規則 13(逐語):
 - QA `lint.terms334f`(用語の表と新しい項の照合・変異の自己試験)・`docs.terms334f`(更新した行・本節と PHYSICS〔第334便f〕・CHANGELOG・post-merge)。
 
 
+
+## 221. 第335便b —— 定義を揃える: 自己を運ぶ式(v を分けた形)・熱の口(物理の源ごと)・供給のある開いた帳簿(銀河の軸引きずり)・T1 の部位の速度の則(診断だけ)(原仮定者の決断(2026-11-12 —— AN654・AN653・AN650)・原仮定者の補足(2026-11-12)・原仮定者の回答(2026-11-12 —— AN646 = A・AN651 = A・AN652)・統括の検証項目 R329・**html・本の宣言・受理器・步・`S._core`・第329〜334便の lib の本文は不変・physics の鍵は足さない** —— 器と lib と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
+
+- **正本** `tests/out/carryledger-w335b.json`(器 `tests/exp-w335b-carryledger.mjs` —— 版 w335b-carryledger-1・html を読む〔🗺️ の写しの build で本の時刻の位置と速度 —— 第333便b の器の写しと同じ作り方〕・lib `tests/lib-w335b-carryledger.mjs`〔自己を運ぶ式 `carriedVelocity`・`carryRow`・源ごとにまとめる `groupBySource`・熱の口の 3 列 `heatColumns`・受け手の静止系の部 `partsAt`・`carryPartsAt`・銀河の源 `galaxySources`・銀河の口 `galaxyPortAt`・供給の帳簿 `supplyRow`・T1 の部位の速度 `lineTwistAtOffset`・`t1Row`〕・文書の lib `tests/lib-w335b-carryledgerdoc.mjs`・段 carryledger-335b)。
+- **自己を運ぶ式**: U_i = v_i + d_i・d_i = Σ_{j≠i} w_ij (C_{j→i} − v_i)/(w_ii + Σ_{j≠i} w_ij)・C_{j→i} = v_j + s_j × (p_i − p_j)(s は観測自転)。AI が本や説明を作るときは **v を分けた形**で書き、d を相対の差から直に作る(U − v の引き算をしない)・源の割合は Σw/W で持つ。単独の天体で d = 0 でも U = v(慣性の移動は消えない)。自己の項を外の供給源の口として足し直さない(受け手の静止系では自己は口にならない)。慣性を引きずりの式から作った量と書かない(定義の恒等式)。
+- **熱の口**: 受動の応答の熱は**物理の源ごとにまとめた口**を主にする(同じ源の自転の直接・モーメントの勾配・並進の通過は、独立の散逸の経路と宣言しない限り源ごとに足してから 1 つの口)。数式の分解ごとの口は比べる列(自己を運ぶ読みで熱を最大 1.6e6 倍にする —— 同じ場から熱が変わる対照)・相殺した 1 つの口は否定対照。トルクは向き付きで足す。帳簿が閉じることを熱の定義の根拠にしない。
+- **供給の口**: 銀河の軸引きずりの供給は開いた系の帳簿(Δ(E_spin + E_orb + E_internal) = ∫P_gal dt − ∫L_rad dt)で受動の型 N = Γ(T − s) の表として置く。観測自転を基準にした読みでは銀河の部は太陽と惑星の自転の 1e-5 倍以下・符号は向きで決まる(多くは減らす向き)。要る Γ は要る値で同定ではない。AI が本や説明を作るときも「供給で熱が合った」「銀河が自転を供給していることが出た」と書かない(宣言した型の表の値)。能動の駆動の型は置いていない。
+- **T1**: 捩れの率 s·r̂ = s z/r・部位の速度 Ω∥ × b⊥(受け手の中心で 0)。s z を受け手の中心の並進の速度と書かない(参照の腕を置いた速さの指標)。軌道や熱へ作用させる向きは未定。
+- QA `lint.carryLedger335b`(版・宣言・純関数の場面 8・呼ぶだけ)・`behavior.carryLedger335b`(正本の本の時刻の状態から表を作り直して正本と同じ —— html を読まない)・`docs.carryLedger335b`(正本の門・表 11 本が PHYSICS〔第335便b〕に逐語・本節・CHANGELOG・段の行・書かない語)。
+
 ## 222. 第335便c —— 水星の組み合わせ: 並進の分の動径/接線の分解(距離の変化による並進引きずり)・回転引きずり有りの組み合わせ(T1 を軌道へ作用させる向きの候補 × 結合の型)・軌道の位置の区間と型の判定・二次の結合・文献の値の訂正(診断だけ)(原仮定者の決断(2026-11-12)・原仮定者の補足(2026-11-12)・原仮定者の回答(2026-11-12 —— AN646・AN650・AN655・AN657)・統括の検証項目 R330・**html・本の宣言・受理器・步・`S._core`・第329〜334便の lib と器の本文は不変**〔文献の値の訂正で第334便c の lib の文献の値と注記・器の欄の名・文書の lib の表の見出しだけを直した〕・**physics の鍵は足さない** —— 器と lib と QA と文書だけ・**SYSTEM_PROMPT には載せない**)
 
 - **正本** `tests/out/mercurycombo-w335c.json`(器 `tests/exp-w335c-mercurycombo.mjs` —— 版 w335c-mercurycombo-1・lib `tests/lib-w335c-mercurycombo.mjs`〔分解 splitField・frameAt・T1 の列 t1Effect・t1Dir・t1Speed(第334便a の t1Twist を呼ぶ)・列の名 columnEffect・columnRates・区間 anomalyBins・binRates・調和の当てはめ harmonicFit・二次の結合 mixing(第334便c の integrateFrame を呼ぶ)〕・文書の lib `tests/lib-w335c-mercurycombodoc.mjs`・段 mercurycombo-335c)。器は 🌡️🌋🔴 の在位の本の宣言の値を読む(步を進めない)。

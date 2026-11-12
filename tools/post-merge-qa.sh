@@ -868,6 +868,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.gridFloor334e behavior.gridFloor334e do
 #   第333便の診断の式の項・変異の自己試験 / docs.terms334f —— 現象の一覧の更新した行と P33・PHYSICS〔第334便f〕・文書)と、直した文書を読む鍵(式の一覧・現象の一覧・記号)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.terms334f docs.terms334f lint.equations331d docs.equations331d lint.phenomena331e docs.phenomena331e lint.symbols333e docs.symbols333e lint.kappaSymbol315"
 # ==== 第334便f の塊(ここまで)====
+# ==== 第335便b の塊(ここから)====
+# 第335便b(原仮定者の決断(2026-11-12 —— AN654・AN653・AN650)・原仮定者の補足(2026-11-12)・統括の検証項目 R329 —— 診断だけ・html は変えない): 枝 b の新設 3 本(lint.carryLedger335b ——
+#   自己を運ぶ式・熱の口・供給の帳簿・T1 の部位の則の純関数と宣言 / behavior.carryLedger335b —— 正本の本の時刻の状態から表を作り直して正本と同じ / docs.carryLedger335b —— 正本の門と
+#   表 11 本が PHYSICS〔第335便b〕に逐語・文書)と、新しい段 carryledger-335b の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.carryLedger335b behavior.carryLedger335b docs.carryLedger335b docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.symbols333e lint.kappaSymbol315"
+# ==== 第335便b の塊(ここまで)====
 # ==== 第335便c の塊(ここから)====
 # 第335便c(原仮定者の決断(2026-11-12)・原仮定者の補足(2026-11-12)・原仮定者の回答(2026-11-12 —— AN646・AN650・AN655・AN657)・統括の検証項目 R330 —— 診断だけ・html は変えない): 枝 c の新設 3 本
 #   (lint.mercuryCombo335c —— 宣言と純関数の場面〔分解の閉じ・動径の成分・T1 の速さの指標・向きの基底・区間の和・当てはめ・単位の写し・入力の拒否〕と呼ぶだけの検査・文献の値の訂正 /
