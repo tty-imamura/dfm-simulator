@@ -1021,12 +1021,17 @@ fi
 # ==== 第320便d の塊(ここから)====
 # 第320便d(統括の検証項目 R265 —— 第319便の見落とし): lint の違反を種類で数える(tests/lib-w320d-lintkinds.mjs の印 〔違反の種類 w320d: …〕 を拾う)。
 #   刻印の型(targetSha256・meta.scope・「器を走らせ直す」—— 鎖で直る)とそれ以外を分け、**刻印の型以外が 1 件でもあれば ‼ で目立たせる**(判定は変えない —— fail は従来どおり)。
+#   第335便(統括): **印のない FAIL も id で並べる**(種類の印 〔違反の種類 w320d: …〕 を出さない鍵の FAIL は上の数に入らない —— 第335便の ① は
+#   FAIL 8 件のうち 6 件が印なしで、うち 1 件(AI_SPEC §5 の逐語の 1 箇所)は鎖で直らない型だった。ゲートの beta フルで初めて止まった)。
 kinds320() {
   [ -f "$1" ] || { echo ""; return; }
   node --input-type=module -e 'import fs from "node:fs"; const L = await import(process.argv[1]); const r = L.summarizeLog(fs.readFileSync(process.argv[2], "utf8"));
-if (!r.byLint.length) { console.log(""); process.exit(0); }
+const un = r.unmarked || [];
+const unIds = un.slice(0, 12).map((z) => z[0] + (z[1] === "stamp" ? "〔刻印の文〕" : "")).join("・") + (un.length > 12 ? "・ほか " + (un.length - 12) + " 件" : "");
+const unText = un.length ? "・‼ 印のない FAIL " + un.length + " 件(" + unIds + " —— 種類を数えていない・理由の文を読んで分ける)" : "";
+if (!r.byLint.length) { console.log(unText); process.exit(0); }
 const by = r.byLint.filter((z) => z[1] > 0).map((z) => z[0] + " " + z[1]).join("・");
-console.log(r.other > 0 ? "・‼ 刻印の型以外の違反 " + r.other + " 件(" + by + ")・刻印の型 " + r.stamp + " 件" : "・刻印の型以外の違反 0 件(刻印の型 " + r.stamp + " 件 —— 鎖で直る)");' "$ROOT/tests/lib-w320d-lintkinds.mjs" "$1" 2>/dev/null || echo ""
+console.log((r.other > 0 ? "・‼ 刻印の型以外の違反 " + r.other + " 件(" + by + ")・刻印の型 " + r.stamp + " 件" : "・刻印の型以外の違反 0 件(刻印の型 " + r.stamp + " 件 —— 鎖で直る)") + unText);' "$ROOT/tests/lib-w320d-lintkinds.mjs" "$1" 2>/dev/null || echo ""
 }
 [ "$S1" = "skip" ] || S1="$S1$(kinds320 "$LOG/1-preflight.log")"
 # ==== 第320便d の塊(ここまで)====

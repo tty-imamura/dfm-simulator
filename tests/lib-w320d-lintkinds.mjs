@@ -58,19 +58,23 @@ export function violationText(bad, o) {
 /**
  * post-merge の ① の要約(preflight のログの行 → lint ごとの刻印の型以外の数)。
  * @param {string} logText `PASS|FAIL <id>  <detail>` の行が並んだログ
- * @returns {{other:number, stamp:number, byLint:Array<[string, number, number]>}}
+ * @returns {{other:number, stamp:number, byLint:Array<[string, number, number]>, unmarked:Array<[string, string]>}}
+ *   unmarked(第335便 —— 統括): **印のない FAIL** の [id, 'stamp'|'other'](種類を数えていない行。文に刻印の印があれば 'stamp')。
+ *   第335便の post-merge では ① の FAIL 8 件のうち印のある 2 件だけが数に入り、印のない 6 件(うち 1 件は文書の逐語の違い)が
+ *   「刻印の型以外の違反 0 件」の外にいた —— 要約は印のない FAIL を id で並べ、理由の文を読んで分けるよう促す。
  */
 export function summarizeLog(logText) {
   const byLint = [];
+  const unmarked = [];
   let other = 0, stamp = 0;
   for (const line of String(logText || '').split('\n')) {
     const m = /^(PASS|FAIL) (\S+)/.exec(line);
     if (!m) continue;
     const k = MARKER_RE.exec(line);
-    if (!k) continue;
+    if (!k) { if (m[1] === 'FAIL') unmarked.push([m[2], classifyViolation(line)]); continue; }
     const o = +k[1], s = +k[2];
     other += o; stamp += s;
     byLint.push([m[2], o, s]);
   }
-  return { other, stamp, byLint };
+  return { other, stamp, byLint, unmarked };
 }
