@@ -1960,6 +1960,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/gridfloor-w334e.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第334便e: NGC 3198 の恒星の円盤(第333便d の 4 族)の統合した並進の場 U を星の点でない固定の受け手の格子(半径 7 × 方位 24・面内と高さ z の列)で読む —— 離散化 9 組(環の間隔 × 方位の数)・軟化 4・種 5・方位の位相 3 の誤差の幅(目標 1%)と分解・「腕あり − 円」の差 ÷ 幅(判定の比 3)・m = 2 の密度と U_φ の m = 2・星の点の受け手と第333便d の離散化の列の照らし・円盤の源の場の高さ z の偶奇と次数(薄い円盤と sech² の厚みの対照)' }),
   // ==== 第334便e の塊(ここまで)====
+  // ==== 第335便e の塊(ここから)====
+  // ---- 第335便e(原仮定者の補足(2026-11-12)「月の近点移動の周期は太陽無しでは徐々に減衰するが、太陽有りだと安定する」・統括の検証項目 R332): **月の近点と太陽の有無の 4 列の器 ——
+  //   太陽 無/有 × 引きずり 無/有(同じ初期状態)の長い窓 20 年・100 年・強さ 1 倍と拡大した対照 10³・10⁶ 倍・動径/接線の分解・e の強制と自由の成分・E と L の帳簿**(段 moonapsis-335e —— 正本
+  //   tests/out/moonapsis-w335e.json・lib tests/lib-w335e-moonapsis.mjs —— 第331便c・第333便c の lib を import して呼ぶ〔code の依存 —— 他の正本は読まない。import する第331便c の lib が
+  //   記録の値の出典の正本の名を書くだけ —— 順序だけ after に第333便c の段と同じ 10 段〕)。**診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(🌦️・🌔 の 2 本を .find で引く ——
+  //   宣言の値を読む・步を進めない)。1 プロセス。所要は第335便e の枝の実測 24〜27 s(点の質量 + 地球の J₂ + 多体の並進引きずりの RK4 —— 刻み 360/恒星月 × 100 年 × 22 本 + h/2 の 6 本。間引かない)
+  S('moonapsis-335e', 'node tests/exp-w335e-moonapsis.mjs', ['tests/out/moonapsis-w335e.json'], 27, { secSource: 'w335e-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: '本の宣言の値と純関数と多体の積分器だけ(窓が無く、全部を走らせても 30 s の内)',
+    volatilePaths: { 'tests/out/moonapsis-w335e.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/timing/runsH', '/timing/runsHalf']) },
+    note: '第335便e: 月の近点と太陽の有無 —— 4 列(太陽なし・ありの引きずりなし〔🌔・🌦️ の宣言の値 —— どちらも在位は引きずり OFF〕・引きずりあり〔多体の並進引きずり —— 観測自転・α = 1・自己の半径 Y_k m・W₀ = 0〕)の長い窓 20 年・100 年の近点の通過の角の調和の回帰・接触の要素・交点・恒星月・e の強制の成分と自由の成分・同じ刻みの差の傾き(e・a・ϖ・交点・傾き・|h|・E・L_z・面内の近点のベクトル)・強さ 1・10³・10⁶ 倍(拡大した対照)・動径だけ/接線だけ(二体の閉じた式 −πb/p・+2πb/p と照らす)・地球の自転軸の感度・h/2 の帯・判定(版 2 —— 帯と窓の安定)・年ごとの標本・供給の読みとの対応(月の側の数だけ)' }),
+  // ==== 第335便e の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

@@ -54,7 +54,10 @@ export const DECL = Object.freeze({
   sampleEvery: 12, harmonics: 3,
   /** 判定の物差し(走行の前): 減衰が読める = 差の e の傾き < 0 かつ |傾き| > max(帯 × bandFactor, floorRel × e/窓) / 線形 = 10⁶ と 10³ の傾きの比 ÷ 10³ が 1 ± linTol /
    *  太陽が保つ = 太陽なしで減衰が読め、かつ太陽ありの |差の自由の成分の傾き| < keepRatio × 太陽なしの |傾き| */
-  judge: Object.freeze({ bandFactor: 10, floorRel: 1e-12, linTol: 0.1, keepRatio: 0.1 }),
+  judge: Object.freeze({ bandFactor: 10, floorRel: 1e-12, linTol: 0.1, keepRatio: 0.1,
+    /** 版 2(走行の前の試走で変えた —— 理由: 刻みの帯 h/2 は決定論の周期の項の漏れ〔窓 T の一次の当てはめで傾き ∝ 1/T²〕を捉えない。版 1 は帯だけで「読める」とし、20 年と 100 年の傾きが 25〜32 倍違う列を
+     *  永年の減衰と数えた): **永年 = 帯で読める ∧ 20 年と 100 年の傾きが同じ符号で比 windowStable の内**。読めない列の時間の尺度は下限 e/max(閾, |100 年の傾き|) */
+    version: 2, windowStable: Object.freeze([0.5, 2]) }),
 });
 
 /* ───────── 単位と係数 ───────── */
@@ -207,7 +210,8 @@ export function runColumn(run) {
     for (let i = 0; i < M.n; i++) for (let j = i + 1; j < M.n; j++) { const r = Math.hypot(X[3 * j] - X[3 * i], X[3 * j + 1] - X[3 * i + 1], X[3 * j + 2] - X[3 * i + 2]); E -= G * M.m[i] * M.m[j] / r; } return E; };
   const Lzof = (X, W) => { let L = 0; for (let i = 0; i < M.n; i++) { if (M.pin[i]) continue; L += M.m[i] * (X[3 * i] * W[3 * i + 1] - X[3 * i + 1] * W[3 * i]); } return L; };
   const rel = (X, W) => [[X[3 * iM] - X[3 * iE], X[3 * iM + 1] - X[3 * iE + 1], X[3 * iM + 2] - X[3 * iE + 2]], [W[3 * iM] - W[3 * iE], W[3 * iM + 1] - W[3 * iE + 1], W[3 * iM + 2] - W[3 * iE + 2]]];
-  const obs = (t, X, W) => { const [x, w] = rel(X, W), q = elementsOf(x, w, mu); T.push(t);
+  let unboundT = null;
+  const obs = (t, X, W) => { const [x, w] = rel(X, W), q = elementsOf(x, w, mu); T.push(t); if (unboundT === null && !(q.a > 0 && q.e < 1 && isFin(q.e))) unboundT = t;
     col.e.push(q.e); col.a.push(q.a); col.inc.push(q.i); col.node.push(q.node); col.varpi.push(q.varpi); col.lonM.push(q.lon); col.hn.push(q.hn);
     col.sunLon.push(iS >= 0 ? Math.atan2(X[3 * iS + 1] - X[3 * iE + 1], X[3 * iS] - X[3 * iE]) : 0); col.E.push(energy(X, W)); col.Lz.push(Lzof(X, W));
     col.ex.push(q.e * Math.cos(q.varpi)); col.ey.push(q.e * Math.sin(q.varpi)); };
@@ -225,14 +229,14 @@ export function runColumn(run) {
   integrate(M, st, { h, steps, every, obs, stepHook: run.passages === false ? null : stepHook });
   col.varpi = Array.from(unwrap(col.varpi)); col.lonM = Array.from(unwrap(col.lonM)); col.node = Array.from(unwrap(col.node)); col.sunLon = Array.from(unwrap(col.sunLon));
   pass.plon = Array.from(unwrap(pass.plon)); pass.sunLon = Array.from(unwrap(pass.sunLon));
-  return { t: T, col, pass, mu, consts: M.K };
+  return { t: T, col, pass, mu, consts: M.K, bound: unboundT === null, unboundT };
 }
 /** 窓 [0, T] の標本の添字の上限 */
 export const windowEnd = (t, Tw) => { let k = t.length; while (k > 0 && t[k - 1] > Tw * (1 + 1e-12)) k--; return k; };
-/** 列の要約(窓ごと): 近点の率(通過の角の調和の回帰・接触の要素の一次)・周期・交点の率・恒星月・e の平均と振れ・e の強制の成分(調和の振幅)と自由の成分(一次の部分) */
-export function summarize(R, Tw, withSun) {
-  const k = windowEnd(R.t, Tw), t = R.t.slice(0, k), C = R.col, kp = windowEnd(R.pass.t, Tw);
-  const pt = R.pass.t.slice(0, kp), py = R.pass.plon.slice(0, kp), ps = R.pass.sunLon.slice(0, kp);
+/** 列の要約(窓ごと —— refPass を渡すと近点の通過の角はその走行の分を使う〔通過を数えない走行の e の強制の成分の位相〕): 近点の率(通過の角の調和の回帰・接触の要素の一次)・周期・交点の率・恒星月・e の平均と振れ・e の強制の成分(調和の振幅)と自由の成分(一次の部分) */
+export function summarize(R, Tw, withSun, refPass = null) {
+  const k = windowEnd(R.t, Tw), t = R.t.slice(0, k), C = R.col, PS = refPass || R.pass, kp = windowEnd(PS.t, Tw);
+  const pt = PS.t.slice(0, kp), py = PS.plon.slice(0, kp), ps = PS.sunLon.slice(0, kp);
   const hp = harmonicRate(pt, py, withSun ? ps : null), osc = linFit(t, C.varpi.slice(0, k)), nd = linFit(t, C.node.slice(0, k)), lm = linFit(t, C.lonM.slice(0, k));
   const es = C.e.slice(0, k), pl = linFit(pt, py);
   // e の強制の成分: e(t) を φ = 2(λ☉ − ϖ̄) の調和で回帰(ϖ̄ は通過の角の一次)。自由の成分 = 一次の部分(平均と傾き)
