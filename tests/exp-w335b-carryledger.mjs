@@ -59,7 +59,8 @@ export const NOT_CLAIM = Object.freeze(['自己を運ぶ式は定義の恒等式
 export const PLAN = Object.freeze({
   /** 16 体の本の添字の順(第333便b と同じ順)・主星 */
   keys: Object.freeze(['sun', MER, 'venus', 'earth', 'moon', 'mars', 'jupiter', 'io', 'europa', 'ganymede', 'callisto', SAT, 'titan', 'uranus', 'neptune', 'triton']),
-  primary: Object.freeze({ [MER]: 'sun', venus: 'sun', earth: 'sun', mars: 'sun', jupiter: 'sun', [SAT]: 'sun', uranus: 'sun', neptune: 'sun', moon: 'earth', io: 'jupiter', europa: 'jupiter', ganymede: 'jupiter', callisto: 'jupiter', titan: SAT, triton: 'neptune' }),
+  primary: Object.freeze([[MER, 'sun'], ['venus', 'sun'], ['earth', 'sun'], ['mars', 'sun'], ['jupiter', 'sun'], [SAT, 'sun'], ['uranus', 'sun'], ['neptune', 'sun'], ['moon', 'earth'], ['io', 'jupiter'], ['europa', 'jupiter'],
+    ['ganymede', 'jupiter'], ['callisto', 'jupiter'], ['titan', SAT], ['triton', 'neptune']].map((q) => Object.freeze(q))),   // 対の配列(本の id と同じ綴りの鍵を持つ容器を正本に置かない —— 名簿の判定)
   /** 写しの宣言(第333便b の器の写しと同じ —— kernel k1・rdRule kappaM・spinDrag の宣言・initMotion・orbitObs・obsCard を外す) */
   copyKernel: 'k1', copyRule: 'kappaM', spinDecl: Object.freeze({ rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel', axialGain: 1 }),
   /** 熱の口の受け手(第333便b の docBodies)と読み(自己なし・自己を運ぶ読み 2) */
@@ -107,7 +108,7 @@ export function checkVsAxf(B, AX) {
 /* ───────── C 自己を運ぶ式の太陽系の表 ───────── */
 export function partCarry(B) {
   return B.map((b, i) => {
-    const pk = PLAN.primary[b.key], P = pk ? B.find((q) => q.key === pk) : null, vRel = P ? nrm(sub(b.v, P.v)) : nrm(b.v), row = { key: b.key, primary: pk || null, vRel, cols: {} };
+    const pq = PLAN.primary.find((q) => q[0] === b.key), pk = pq ? pq[1] : undefined, P = pk ? B.find((q) => q.key === pk) : null, vRel = P ? nrm(sub(b.v, P.v)) : nrm(b.v), row = { key: b.key, primary: pk || null, vRel, cols: {} };
     for (const sr of L.SELF_RULES) {
       const r = L.carryRow({ at: b.p, v: b.v, s: b.s, m: b.m, R: b.R, sources: srcOf(B, i), selfRule: sr });
       const pc = dot(r.omegaCarry, b.sHat) / b.sObs, ps = dot(r.omegaStatic, b.sHat) / b.sObs;
@@ -250,6 +251,9 @@ export function runFrom(Bk, inputs) {
   return J;
 }
 
+/** 文献の値の出力の形(熱流は [鍵, 値] の対の配列 —— 本の id と同じ綴りの鍵を持つ容器を正本に置かない) */
+export const litOut = () => ({ note: L.LIT.note, lumSun: L.LIT.lumSun, heatFlowW: Object.entries(L.LIT.heatFlowW) });
+
 /* ───────── 走らせる ───────── */
 export async function main() {
   const TARGET = process.env.W335B_TARGET || 'beta/index.html';
@@ -265,7 +269,7 @@ export async function main() {
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w335b-carryledger.mjs', target: TARGET, targetSha256, reuseFrom: null,
     ruling: '原仮定者の決断(2026-11-12)「自分自身は分母に入る。分子にも入れた場合と、v として別途加算した場合が、同じになる想定。v を分けた方がシンプル」(AN654)「引きずりの運動は相殺するが、エネルギーは相殺しない」(AN653)「座標変換の基準なので観測値」(AN650)'
       + '・原仮定者の補足(2026-11-12)「太陽や惑星の自転は、銀河の軸引きずりから供給される。供給が無いと減衰するのは想定内」(作業仮説 —— 診断で検査)・原仮定者の回答(2026-11-12 —— AN646 = A・AN651 = A・AN652)・統括の検証項目 R329',
-    declText: L.DECL_TEXT, decl: L.DECL, plan: PLAN, lit: L.LIT, notClaim: NOT_CLAIM, ...R };
+    declText: L.DECL_TEXT, decl: L.DECL, plan: PLAN, lit: litOut(), notClaim: NOT_CLAIM, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w335b-carryledger.mjs', 'tests/lib-w335b-carryledger.mjs', 'tests/lib-w334b-ledger.mjs', 'tests/lib-w334a-heightlaw.mjs', 'tests/lib-w333a-rotdiff.mjs', 'tests/lib-w333b-axialfield.mjs', 'tests/lib-w332a-eqband.mjs',
     'tests/lib-w331a-coordtwist.mjs', 'tests/lib-w331b-centrifugal.mjs', 'tests/lib-w330a-spinclass.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w326d-axialheat.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs',

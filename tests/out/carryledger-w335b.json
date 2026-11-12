@@ -69,23 +69,68 @@
    "neptune",
    "triton"
   ],
-  "primary": {
-   "mercury": "sun",
-   "venus": "sun",
-   "earth": "sun",
-   "mars": "sun",
-   "jupiter": "sun",
-   "saturn": "sun",
-   "uranus": "sun",
-   "neptune": "sun",
-   "moon": "earth",
-   "io": "jupiter",
-   "europa": "jupiter",
-   "ganymede": "jupiter",
-   "callisto": "jupiter",
-   "titan": "saturn",
-   "triton": "neptune"
-  },
+  "primary": [
+   [
+    "mercury",
+    "sun"
+   ],
+   [
+    "venus",
+    "sun"
+   ],
+   [
+    "earth",
+    "sun"
+   ],
+   [
+    "mars",
+    "sun"
+   ],
+   [
+    "jupiter",
+    "sun"
+   ],
+   [
+    "saturn",
+    "sun"
+   ],
+   [
+    "uranus",
+    "sun"
+   ],
+   [
+    "neptune",
+    "sun"
+   ],
+   [
+    "moon",
+    "earth"
+   ],
+   [
+    "io",
+    "jupiter"
+   ],
+   [
+    "europa",
+    "jupiter"
+   ],
+   [
+    "ganymede",
+    "jupiter"
+   ],
+   [
+    "callisto",
+    "jupiter"
+   ],
+   [
+    "titan",
+    "saturn"
+   ],
+   [
+    "triton",
+    "neptune"
+   ]
+  ],
   "copyKernel": "k1",
   "copyRule": "kappaM",
   "spinDecl": {
@@ -171,16 +216,40 @@
  "lit": {
   "note": "文献の値・未照合(太陽の光度は IAU 2015 の決議 B3 の名目の値・月の熱流は Apollo 15・17 の 2 点の平均の全球への外挿〔Langseth, Keihm & Peters 1976〕・他は第330便a の lib の値)",
   "lumSun": 3.828e+26,
-  "heatFlowW": {
-   "earth": 47000000000000,
-   "jupiter": 335000000000000000,
-   "io": 100000000000000,
-   "saturn": 86000000000000000,
-   "venus": null,
-   "moon": 682781905788.8483,
-   "mercury": null,
-   "triton": null
-  }
+  "heatFlowW": [
+   [
+    "earth",
+    47000000000000
+   ],
+   [
+    "jupiter",
+    335000000000000000
+   ],
+   [
+    "io",
+    100000000000000
+   ],
+   [
+    "saturn",
+    86000000000000000
+   ],
+   [
+    "venus",
+    null
+   ],
+   [
+    "moon",
+    682781905788.8483
+   ],
+   [
+    "mercury",
+    null
+   ],
+   [
+    "triton",
+    null
+   ]
+  ]
  },
  "notClaim": [
   "自己を運ぶ式は定義の恒等式(慣性の導出ではない —— 読みの対応)",
@@ -6612,28 +6681,28 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.006
+   "wallSec": 0.009
   },
   "book": {
-   "wallSec": 0.008
+   "wallSec": 0.011
   },
   "carry": {
-   "wallSec": 0.032
+   "wallSec": 0.04
   },
   "heat": {
-   "wallSec": 0.079
+   "wallSec": 0.117
   },
   "gal": {
-   "wallSec": 0.498
+   "wallSec": 0.582
   },
   "supply": {
-   "wallSec": 0.534
+   "wallSec": 0.646
   },
   "t1": {
-   "wallSec": 0.536
+   "wallSec": 0.649
   },
   "sync": {
-   "wallSec": 0.537
+   "wallSec": 0.649
   }
  },
  "gates": {
@@ -6650,13 +6719,13 @@
   "syncRead": true
  },
  "ok": true,
- "elapsedS": 2.597,
+ "elapsedS": 2.657,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第335便b",
   "target": "beta/index.html",
   "targetSha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
-  "generatedAt": "2026-11-12T15:21:36.923Z",
+  "generatedAt": "2026-11-12T15:24:46.782Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -6686,9 +6755,9 @@
   "code": [
    {
     "file": "tests/exp-w335b-carryledger.mjs",
-    "bytes": 28443,
-    "sha256": "b2bd4cffea48dfb580c7503e69737c6453e3a09017804daac1b2d93a151b9559",
-    "mtime": "2026-11-12T15:21:34.179Z"
+    "bytes": 28962,
+    "sha256": "a4e14449ffbae1b07003e23e06f6a8d95bcce3aef4ccc5bbd55bd3830ad82801",
+    "mtime": "2026-11-12T15:24:43.968Z"
    },
    {
     "file": "tests/lib-w335b-carryledger.mjs",
@@ -6781,7 +6850,7 @@
     "mtime": "2026-11-12T15:00:26.464Z"
    }
   ],
-  "codeSha256": "e543094f79000d41a399b36dc6ca0e5474f6bbfcdcdb978ea90fabc4b7343806",
+  "codeSha256": "a733affa1b63a2e25ad094d365b2081034024003a0c5bf5da4807be525ab7512",
   "harnessVersion": "w335b-carryledger-1",
   "stage": "carryledger",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)・🗺️ solarSystem16Inertial3d の写し(受理器 → build —— 步は進めない)・純関数(lib)",
