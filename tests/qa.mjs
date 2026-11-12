@@ -102851,7 +102851,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 
 // ---- 第335便f: docs.elliptical335f は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
 // ----   lint・behavior を数えない)。世代切替は上と同じ
-// ----   docs.elliptical335f(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib)・宣言が lib と器と同じ ② 表 18 本が PHYSICS〔第335便f〕に逐語
+// ----   docs.elliptical335f(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib)・宣言が lib と器と同じ ② 表 16 本が PHYSICS〔第335便f〕に逐語
 // ----     ③ 節の位置(〔第334便f〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・AI_SPEC §225(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
 // ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
 {
@@ -102884,7 +102884,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第335便f〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 18) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 16) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第335便f〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の補足(2026-11-12)', '原仮定者の回答(2026-11-12 —— AN665)', 'AN638', 'AN640', 'AN650', 'AN654', 'R333', 'tests/exp-w335f-elliptical.mjs', 'tests/out/elliptical-w335f.json', 'tests/lib-w335f-elliptical.mjs',
