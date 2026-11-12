@@ -134,6 +134,7 @@ export function partPosition(S) {
   // e × ω × 傾きの格子(太陽の赤道面の要素 —— ŝ を z 軸に・a と μ は水星)
   const at = (k, e, om, iDeg) => { const orb = L.hypoOrbit({ a: S.orb.a, mu: S.orb.mu, e, iDeg, nodeDeg: 0, omegaDeg: om }), sys = { ...sysZ, orb }, B = L.binRates(orb, L.columnEffect(sys, k), z, { full: false });
     return { apsW: B.sumApsW === null ? null : asec(B.sumApsW), netOverGross: B.netOverGross, Lmag: asec(nrm(B.sumLdot)), dedt: B.per.reduce((s1, q) => s1 + q.dedt, 0) * L.CENTURY_S, deInCy: B.deInMag * L.CENTURY_S }; };
+  const transScale = Math.abs(asec(L.vectorRatesOf(S.orb, L.columnEffect(S, 'trans'), {}).apsW));
   const cols = DG.gridCols.map((k) => {
     const grid = [];
     for (const iDeg of DG.incGridDeg) for (const e of DG.eGrid) { const pts = DG.omegaGridDeg.map((om) => ({ omegaDeg: om, ...at(k, e, om, iDeg) }));
@@ -156,7 +157,9 @@ export function partPosition(S) {
     const Ae = [0.1, 0.2056, 0.4].map((e) => A(e, 3.381) * e), meanAe = Ae.reduce((s1, x) => s1 + x, 0) / 3, rowE = (e) => grid.find((r) => r.e === e && r.iDeg === 3.381);
     const postRead = { note: '走行の後に足した読み —— 宣言の型の判定(has)は変えない', AtimesE: Ae, AtimesESpread: meanAe !== 0 ? (Math.max(...Ae) - Math.min(...Ae)) / Math.abs(meanAe) : null,
       deInE0OverMerc: rowE(mE).deInMean > 0 ? rowE(0).deInMean / rowE(mE).deInMean : null, deInMercCy: rowE(mE).deInMean, incLinear: Aw > 0 ? Math.abs(A(mE, 7) / Aw - sI(7) / sI(3.381)) / (sI(7) / sI(3.381)) : null };
-    return { key: k, grid, scale, typeOf, postRead };
+    // 数値の残りの床(走行の後に足した照合の側の床 —— 比べる量ではない): 面内の回転の格子の最大が、並進の分の全周と、この列の L̂ の変化の格子の最大の大きい方の 1e-9 以下なら「対称で 0」
+    const belowFloor = scale <= 1e-9 * Math.max(transScale, ...grid.flatMap((r) => r.pts.map((p) => Math.abs(p.Lmag || 0))));
+    return { key: k, grid, scale, belowFloor, typeOf, postRead };
   });
   return { iSunDeg: g.i / DEG, omegaSunDeg: g.omega / DEG, mercury, cols,
     note: '区間は真近点角の中心 10k°(幅 10°)。寄与は全周の率への寄与(区間の和 = 全周)。格子は太陽の赤道面の要素(交点の経度 0・ŝ を z 軸に)。型の判定は lib の宣言(走行の前)。e = 0 は面内の回転が定まらない(null)' };
