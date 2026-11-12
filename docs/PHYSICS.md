@@ -50141,6 +50141,89 @@ QA: `lint.mercuryNode334c`(宣言・場面 9・呼ぶだけ・文献の出典と
 
 **⑧ 変えていない所。** html(beta と root)・エンジン・内蔵の本・受理器・`S._core`・既存の lib の本文・論文・README・アプリの説明文。PHYSICS の過去の節(第333便までの節の記号と用語は履歴 —— 本便の用語との対応は `docs/EQUATIONS.md` §2a と §1 の表で読む)。現象の一覧の段階は変えていない。
 
+〔第335便a — アプリの説明文の記号の置き換え(beta/index.html の文字列の中だけ —— 画面の文言・受理の理由・本の説明)・照合の lint(原仮定者の決断(2026-11-12)・原仮定者の回答(2026-11-12 —— AN641)・統括の検証項目 R328)(**物理は 1 bit も動かしていない** —— html の物理の部分〔code・presets・markup〕の hash は基点と同じ・署名 186/186・600 步 186/186 同じ。注釈・識別子・保存の鍵・物理の宣言の値・`beta/sw.js`・root の index.html は変えていない・照合の lib `tests/lib-w335a-appsymbols.mjs`〔`w335a-appsym-1`〕)〕
+
+**① 指示と読み。** 原仮定者の決断(2026-11-12)「AN641: A を進めて良い。以前は、説明文の変更で再生成の段が走っていた」。原仮定者の回答(2026-11-12 —— AN641)の A = アプリの説明文の旧い記号を、html の説明だけを変える 1 枝で置き換える(**注釈とコードの鍵は対象外**)。記号の規則は第333便からの恒久の規則のとおり: 背景慣性決定力は `W₀`(旧 `W_bg`)・背景決定力は `D₀`(旧 `D_bg`)・引きずり係数は `Y_k`(旧い記号 = カッパに添字 0)。コードの名前(`Wbg`・`physics.relativeDrag.Wbg` のような保存の鍵・関数の名前)は変えない。
+
+**② 分類**(表 1 —— html の inline script の**文字列の中**だけを数える。注釈と識別子は数えない・基点 → 本便)。カッパに添字 0 の記号は**量で分けた**: 文字列の中の 30 件のうち 29 件は形状の本(law:"coreField" の 4 本)の**中心重力の係数** G·M_c/r_c³(時間⁻²)で、引きずり係数(10G₀/(C₁c₀²) —— 長さ/質量)とは別の量 —— 置き換えると式の意味が変わるので置き換えなかった。引きずり係数の旧い記号は関数の中の 1 件(状態の鍵の表 `SIM_STATE_DERIVED` の注記)だけで、英語の文の `kappa0`・`k0` も形状の本の中心重力の係数(19 件)と規則の文字列の値 `"Rd=kappa0*md"`(物理の宣言の値)だけだった。注記を 🎱 shapeToyClusterCore の概要の 1 か所(日英)に足した: 〔(カッパに添字 0 の記号)は形状の本の中心重力の係数 [時間⁻²] —— 引きずり係数 `Y_k` とは別の量〕(英語の文は `k0` で同じ注記)。
+
+**表 1 分類(領域 × 記号 × 置き換えた/置き換えなかった)**
+
+| 領域 | `W_bg` 基点 | 置き換えた(→ `W₀`) | 置き換えなかった | `D_bg`(→ `D₀`) | カッパに添字 0 |
+|---|---|---|---|---|---|
+| 画面の文言(I18N の日英 —— 生成の印の i18n の範囲) | 94 | 94 | 0 | 0 | 0 |
+| 受理の理由(ACCEPT_REASONS) | 9 | 9 | 0 | 1 → 1 置き換えた | 0 |
+| AI の指示(SYSTEM_PROMPT) | 1 | 1 | 0 | 0 | 0 |
+| 退役の表(RETIRED_PRESETS —— 退役の理由の文の日英) | 10 | 10 | 0 | 0 | 0 |
+| 内蔵の本の表示の欄(name・descStruct・obsCard・parameterAudit・abBody.label・status ほか) | 251 | 251 | 0 | 0 | 29(中心重力の係数 —— 置き換えなかった)+ 注記 1 |
+| 内蔵の本の fitRecord(フィットの記録) | 8 | 0 | 8(presets の hash に入る欄) | 0 | 0 |
+| 関数の中の文字列(エラーの文・凡例・状態の注記) | 17 | 0 | 17(code の hash に入る) | 0 | 1(引きずり係数 —— code の hash に入る) |
+| 生成領域 sample-status | 12 | 原稿で 6(下の ④) | 12(鎖の samplestatus が原稿から書き直すまで) | 0 | 0 |
+| 計(文字列の中) | 402 | **365** | 37 | 1 | 30 → 30(置き換え 0) |
+
+注釈の中の `W_bg` 126 件・`D_bg` 2 件・カッパに添字 0 の 39 件は数えず、変えていない(コメントは対象外)。マークアップ(script の外)には 0 件。
+
+**③ 物理の不変の実測**(表 2 —— 置き換えの区切りごとに `tests/lib-w325a-htmlphys.mjs` で部分の hash を引いた)。置き換えの候補を領域ごとに 1 つずつ当てて部分の hash を比べ、**code・presets・markup が動く置き換えは戻した**: 関数の中の文字列(17 件 + 引きずり係数の 1 件 —— 置き換えると code の hash が動く)と、内蔵の本の fitRecord(8 件 —— 置き換えると presets の hash と本ごとの物理の写し 3 本〔earthMoonSunInertial3d・mercurySunInertialFit・plutoCharonInertialFit〕が動く)。
+
+**表 2 物理の不変**
+
+| 測り方 | 結果 |
+|---|---|
+| html の物理の部分の hash(code・presets・markup) | 基点と同じ(code 68897cd1…・presets 89c0f855…・markup e8d6c556…)—— 変わったのは text:I18N・text:ACCEPT_REASONS・text:SYSTEM_PROMPT・text:RETIRED_PRESETS と本の全体の写し(presetFull 24 本)だけ |
+| 署名(`tests/exp-w272d-sigsame.mjs` —— 基点 html と本便の html) | 署名 186/186 同じ |
+| 600 步(`tests/exp-w258c-bitsame.mjs`) | 600 步 186/186 ビット同一・ページのエラー 0 |
+| 規約の速い判定(`tools/conventions-check.mjs`) | OK(警告のある本の数は基点と同じ) |
+
+**④ 生成領域 sample-status は原稿の側から直した。** 原稿 `tests/data-w279a-samplestatus-src.json` の表示の欄(目的・状況の日英)の `W_bg` 6 件を `W₀` にした(mercurySunInertialFit 4・plutoCharonInertialFit 2 —— 退役の記録の欄 ruling の 1 件は画面に出ない記録なので変えていない)。html の生成領域(12 件)・`docs/SAMPLE_STATUS.md`・正本 `tests/out/samplestatus-w279a.json` は鎖の samplestatus の段(常に走る段)が原稿から書き直す —— 枝では手で書き換えていない。lint は生成領域の行が「新しい記号に置き換えると原稿と同じ・置き換える前は違う」(原稿の遅れ)だけを許す(本便の html で生成領域の原稿の遅れ 12 件)。
+
+**⑤ 再生成の計画の前後**(表 3 —— `node tools/regen-plan.mjs`・基点の html と本便の html。「以前は説明文の変更で再生成の段が走っていた」への答え)。物理の部分(code・presets・markup)で比べる段は 1 段も増えていない。増えたのは**文を読むと宣言した段**だけ:
+
+**表 3 再生成の計画の前後**
+
+| | 基点 | 本便 |
+|---|---|---|
+| 件数 | always 13・regen 7・reuse 198・recheck 19 | always 13・regen 12・reuse 192・recheck 20 |
+| 所要(下限 〜 上限) | 18.3 min 〜 2.71 h | 18.9 min 〜 2.72 h |
+
+| 増えた段 | 前 → 後 | 秒 | 理由 |
+|---|---|---|---|
+| d0audit2 | reuse → regen | 2 | 物理の部分の宣言が text:*・presetFull:* を読む(文が変わった) |
+| selfinertia | reuse → regen | 1 | 同上 |
+| families | recheck → regen | 5 | 領域 hash(RETIRED_PRESETS と本の name を読む —— 🟫 の name の `W_bg` を `W₀` に) |
+| drag3d-298c | reuse → regen | 26 | 領域 hash の consts に ACCEPT_REASONS(受理の理由の文が変わった) |
+| semic-302d | reuse → regen | 3 | 同上 |
+| wbgest-302c | reuse → recheck | 2 | 依存先 semic-302d が走る |
+| refit-303a | reuse → recheck | 3 | 依存先 wbgest-302c が走る |
+
+**⑥ QA の世代の直し。** 置き換えた文字列を固定していた html を読む鍵 4 本の期待を、世代の注記つきで新しい記号に直した(`preset.inertialDragPair`・`ui.wbgSlider302`・`preset.sampleWords325b`・`docs.words325c` の 5 か所 —— 世代は 🎱 の概要の注記の有無で判定・古い世代の html〔root〕は従来の期待のまま・検査の数は不変)。文書(PHYSICS・AI_SPEC・CHANGELOG の過去の行)を読む鍵は直していない(過去の節は書き換えない)。
+
+**⑦ 新しい QA(第335便a —— root は SKIP)。** `lint.appSymbols335a`: lib の版と宣言・html の文字列の中の旧い記号を 1 件ずつ領域と持ち主に分けて許可の外 0・**許可 56 件**(表 4 の 18 項 —— 件数ちょうど・理由つき)・注記が日英 1 か所ずつ・原稿の表示の欄 0・生成領域の原稿の遅れ 12 件・script の外 0・変異の自己試験 15 種(注釈と識別子と `Wbg` は数えない型を含む)。`docs.appSymbols335a`: 本節の位置と表と必須の語・AI_SPEC §220・CHANGELOG・post-merge の ③′・書かない語。
+
+**表 4 許可の一覧(置き換えなかった件 —— `ALLOW_335A`)**
+
+| 記号 | 領域 | 持ち主 | 件数 | 理由 |
+|---|---|---|---|---|
+| `W_bg` | 関数の中の文字列 | geoInertialSetWbg | 3 | code の hash(引きずりの調整の拒否の文) |
+| `W_bg` | 関数の中の文字列 | bgLawCrossCheck | 1 | code の hash(宣言の照合の拒否の文) |
+| `W_bg` | 関数の中の文字列 | relDragLegacyGainWarn | 1 | code の hash(旧宣言の読み替えの警告) |
+| `W_bg` | 関数の中の文字列 | validateWbgEnv | 1 | code の hash(推定の環境の受理の文) |
+| `W_bg` | 関数の中の文字列 | wbgEstimateOf | 4 | code の hash(推定の注記) |
+| `W_bg` | 関数の中の文字列 | inertialDragShellState | 1 | code の hash(状態の注記) |
+| `W_bg` | 関数の中の文字列 | inertialDragPairState | 2 | code の hash(状態の注記) |
+| `W_bg` | 関数の中の文字列 | dragShellSelfCheck | 2 | code の hash(自己照合の拒否の文) |
+| `W_bg` | 関数の中の文字列 | drawDragFieldOn | 1 | code の hash(場の図の凡例) |
+| `W_bg` | 関数の中の文字列 | drawProbeFieldOn | 1 | code の hash(場の図の凡例) |
+| カッパに添字 0 | 関数の中の文字列 | SIM_STATE_DERIVED | 1 | code の hash(引きずり係数の読み口の注記) |
+| `W_bg` | 本の fitRecord | earthMoonSunInertial3d | 1 | presets の hash |
+| `W_bg` | 本の fitRecord | mercurySunInertialFit | 6 | presets の hash |
+| `W_bg` | 本の fitRecord | plutoCharonInertialFit | 1 | presets の hash |
+| カッパに添字 0 | 本の表示の欄 | shapeToyClusterCore | 12 | 中心重力の係数(別の量 —— 注記 1 か所を含む) |
+| カッパに添字 0 | 本の表示の欄 | shapeToyDiskCore | 5 | 中心重力の係数 |
+| カッパに添字 0 | 本の表示の欄 | shapeToyArmCore | 5 | 中心重力の係数 |
+| カッパに添字 0 | 本の表示の欄 | shapeToySpiralCore | 8 | 中心重力の係数 |
+
+**⑧ 変えていない所。** 注釈・識別子・保存の鍵(`Wbg` ほか)・物理の宣言の値・エンジン・受理器・`S._core`・`beta/sw.js`・root の index.html・論文・`docs/EQUATIONS.md`(§1 の対応表の「アプリの説明文」の注記は本枝では触らない —— 統合の後の候補)。PHYSICS の過去の節は書き換えていない。置き換えなかった 37 件(`W_bg`)と 30 件(カッパに添字 0 —— 中心重力の係数 29・関数の中の引きずり係数 1)は表 4 と ④ のとおり。
+
 〔第328便 — 統括: 原仮定者の指示(第130報)「改めて残った決断事項をまとめる」・原仮定者の回答(2026-11-05 —— 第327便の残りの決断事項 17 項〔AN550〜AN557・AN559〜AN567〕を推奨どおり: AN553 = B・他は A)を受けた第328便の構成・統合・決断事項・次の便(統括の検証項目 R301〜R303)〕
 
 **① 第328便の構成。** 便の開始(統括)で beta の版名を v1.47-b328 に・段の見積りの秒を第327便の鎖 1・鎖 2 の実測で更新(a96bea2)。枝 a(場の API の opt-in の契約 —— 枠・定数の Ω_field の宣言・収束の印・由来・伝達の版と係数・帳簿の口座の参照と、直接の滑りの宣言の型 —— AN551・AN552・AN553)・枝 b(受け手の応答の演算と p の判定・源の自転を外部の口座に固定した比べる列・金星の熱潮汐の振幅の記録し直し・予言のやり直しの扱い・火星と地球の局所の尺度 —— AN559・AN561・AN562・AN563・AN550・AN566)・枝 c(第327便f の器の検査の範囲の直し・共鳴の口の仕事の契約 —— AN564)。**どの枝も `beta/index.html`・root の `index.html`・エンジン・内蔵の本・受理器を変えていない**(診断と契約と道具)。AN554(名指しの 6 段を条件で選ぶ)は次の便の道具の便へ。
