@@ -899,6 +899,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.binaryTilt335d behavior.binaryTilt335d 
 #   docs.moonApsis335e —— 正本の門と表 12 本が PHYSICS〔第335便e〕に逐語・文書)と、新しい段 moonapsis-335e の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.moonApsis335e behavior.moonApsis335e docs.moonApsis335e docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
 # ==== 第335便e の塊(ここまで)====
+# ==== 第335便f の塊(ここから)====
+# 第335便f(原仮定者の補足(2026-11-12)・原仮定者の回答(2026-11-12 —— AN665)・原仮定者の回答(2026-11-11 —— AN638・AN640)・統括の検証項目 R333 —— 診断だけ・html は変えない): 枝 f の新設 3 本
+#   (lint.elliptical335f —— 楕円銀河の型の模型の純関数の場面と呼ぶだけの検査・器の宣言〔模型・N・軟化・窓・作用の型・幅と効果の定義・判定の比〕/ behavior.elliptical335f —— 3 本の走行と
+#   幅・効果・平衡の記録・対照の模型・h と h/2 を作り直して正本と同じ / docs.elliptical335f —— 正本の門と表 16 本が PHYSICS〔第335便f〕に逐語・文書)と、新しい段 elliptical-335f の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.elliptical335f behavior.elliptical335f docs.elliptical335f docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
+# ==== 第335便f の塊(ここまで)====
 # ==== 第335便g の塊(ここから)====
 # 第335便g(原仮定者の決断(2026-11-12)・統括の検証項目 R334 —— 文書と QA だけ・html は変えない): 枝 g の新設 2 本(lint.terms335g —— 第334便の診断の式の項 EQ-34〜EQ-43 と
 #   用語の表の更新・第334便f の照合の世代の写し・変異の自己試験 / docs.terms335g —— 現象の一覧の欄「第334便の調べ」・PHYSICS〔第335便g〕・文書)と、直した文書を読む鍵

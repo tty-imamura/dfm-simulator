@@ -2010,6 +2010,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/moonapsis-w335e.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/timing/runsH', '/timing/runsHalf']) },
     note: '第335便e: 月の近点と太陽の有無 —— 4 列(太陽なし・ありの引きずりなし〔🌔・🌦️ の宣言の値 —— どちらも在位は引きずり OFF〕・引きずりあり〔多体の並進引きずり —— 観測自転・α = 1・自己の半径 Y_k m・W₀ = 0〕)の長い窓 20 年・100 年の近点の通過の角の調和の回帰・接触の要素・交点・恒星月・e の強制の成分と自由の成分・同じ刻みの差の傾き(e・a・ϖ・交点・傾き・|h|・E・L_z・面内の近点のベクトル)・強さ 1・10³・10⁶ 倍(拡大した対照)・動径だけ/接線だけ(二体の閉じた式 −πb/p・+2πb/p と照らす)・地球の自転軸の感度・h/2 の帯・判定(版 2 —— 帯と窓の安定)・年ごとの標本・供給の読みとの対応(月の側の数だけ)' }),
   // ==== 第335便e の塊(ここまで)====
+  // ==== 第335便f の塊(ここから)====
+  // ---- 第335便f(原仮定者の補足(2026-11-12)「まずは、楕円銀河の再現を目指す」・原仮定者の回答(2026-11-12 —— AN665)・統括の検証項目 R333):
+  //   **楕円銀河の型の模型の器**(段 elliptical-335f —— 正本 tests/out/elliptical-w335f.json・lib tests/lib-w335f-elliptical.mjs —— 第333便d の lib〔乱数〕・第334便e の lib〔受け手の場〕・
+  //   第330便b の lib〔引きずり半径〕・第329便b の lib〔単位の定数〕を import して呼ぶ〔code の依存 —— 他の正本は読まない〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数
+  //   tests/lib-w335f-elliptical.mjs —— 第317便d の satan の型・領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第335便f の枝の実測 42〜45 s
+  //   (直接の和 —— 52 本 × 500 步〔h/2 の 3 本は 1000 步〕・主の N 512。重い列 N 1024・2048 は器の任意の旗 --deep で正本の外へ)
+  S('elliptical-335f', 'node tests/exp-w335f-elliptical.mjs', ['tests/out/elliptical-w335f.json'], 45, { secSource: 'w335f-branch', node: true,
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 60 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/elliptical-w335f.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/runs/*/wallSec']) },
+    note: '第335便f: 分散で支える三次元の系(Plummer 球が主・Hernquist 球・扁平 0.7・回転の支え v_rot/σ 0.3 は対照)の重力だけの対照(N 256・512 × 軟化 0.02・0.05・0.1 × 種 3 —— 5 横断の時間)の量の推移と誤差の幅・平衡の記録・緩和の時間と窓の比・星どうしの並進引きずり(作用の型 速度の場/押し γ 0.01・0.1・1 ÷ t_cr × 重み α 2・1 × 自己の重み なし・R_d = Y_k m)を 1 つずつ足した差 ÷ 幅(判定の比 3)・引きずりの仕事と E の帳簿・h と h/2' }),
+  // ==== 第335便f の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
