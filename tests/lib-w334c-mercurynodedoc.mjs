@@ -60,9 +60,9 @@ export function tablesOf(J) {
   T.spin = ['| 自己の形 | α | 源の自転 | 倍率 s_d/s | s_d R_d/c | dL̂/dt の大きさ | 黄道の Ω_node | 今の組に足した黄道の ϖ | 一次外挿が壊れる |', '|---|---|---|---|---|---|---|---|---|']
     .concat(M.combos.spinRows.map((q) => `| ${q.shape} | ${q.alpha} | ${q.label} | ${fe(q.factor)} | ${q.sdRdOverC === null ? '—' : fe(q.sdRdOverC)} | ${fx(q.Lmag)} | ${fx(q.eclNode)} | ${fx(q.totalEclVarpi)} | ${tf(q.breaks)} |`)).join('\n');
   // 表 10 文献の値(未照合)との比と係数の上限・J₂ と Lense–Thirring の物差し
-  T.lit = ['| 惑星 | 物差し Δϖ・ΔΩ〔″/世紀 —— 値の絶対値 + 誤差・未照合〕 | 回転の分: ϖ | Ω_node(黄道) | ϖ ÷ 物差し | Ω ÷ 物差し | 係数の上限(倍率) | λ_J の上限 | 自己の半径の上限 ÷ Y_k m | J₂: ϖ・Ω | Lense–Thirring: ϖ・Ω | 回転の分 ÷ Lense–Thirring(dL̂/dt の大きさ) |', '|---|---|---|---|---|---|---|---|---|---|---|---|']
+  T.lit = ['| 惑星 | 比べる尺度 Δϖ・ΔΩ〔″/世紀 —— 値の絶対値 + 幅(近点: 表の ±・交点: 残差の変化が 5% 以内の区間)・本環境では未照合〕 | 回転の分: ϖ | Ω_node(黄道) | ϖ ÷ 物差し | Ω ÷ 物差し | 係数の上限(倍率) | λ_J の上限 | 自己の半径の上限 ÷ Y_k m | J₂: ϖ・Ω | Lense–Thirring: ϖ・Ω | 回転の分 ÷ Lense–Thirring(dL̂/dt の大きさ) |', '|---|---|---|---|---|---|---|---|---|---|---|---|']
     .concat(J.litRows.map((q) => { const r = q.rows.rot, j = q.rows.j2, l = q.rows.lt, vp = (x) => (x.ecl ? x.ecl.dvarpi : x.apsW), nd = (x) => (x.ecl ? x.ecl.dnode : null);
-      return `| ${q.ja} | ${fx(q.sigma.varpi)}・${fx(q.sigma.node)} | ${fx(vp(r))} | ${fx(nd(r))} | ${fx(q.ratio.rot.varpi)} | ${fx(q.ratio.rot.node)} | ${fe(q.kmax.min)} | ${fe(q.lambdaJmax)} | ${fe(q.RselfMaxOverYkm)} | ${fe(vp(j))}・${fe(nd(j))} | ${fe(vp(l))}・${fe(nd(l))} | ${fe(q.rotOverLt.Lmag)} |`; })).join('\n');
+      return `| ${q.ja} | ${fx(q.scale.varpi)}・${fx(q.scale.node)} | ${fx(vp(r))} | ${fx(nd(r))} | ${fx(q.ratio.rot.varpi)} | ${fx(q.ratio.rot.node)} | ${fe(q.kmax.min)} | ${fe(q.lambdaJmax)} | ${fe(q.RselfMaxOverYkm)} | ${fe(vp(j))}・${fe(nd(j))} | ${fe(vp(l))}・${fe(nd(l))} | ${fe(q.rotOverLt.Lmag)} |`; })).join('\n');
   // 表 11 純粋な積分器(永年の項と周期の項・二次の結合)
   { const N = J.numeric, s2 = N.second;
     T.numeric = ['| 型(単位の軌道・係数を上げた写し) | 一次: 交点〔rad/公転〕 | 傾き | 面内 | 数値(h/2・24 公転): 交点 | 傾き | 面内 | 一次との差 ÷ 尺度 | h・h/2・12・24 公転の差 ÷ 尺度 | 周期の項の振れ ÷ 1 公転の永年の分 |', '|---|---|---|---|---|---|---|---|---|---|']
