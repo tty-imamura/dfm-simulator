@@ -29,7 +29,7 @@
 //   距離の変化の並進で不足が埋まったとは書かない・T1 の向きの候補を採用と書かない。一次の率は無摂動の軌道の平均(写しの時間発展ではない)。
 import { stateAt, crossingAnomalies, transDragVelocity, pairAccel, cutAccel, bandWindows, dragSpin, weightOf, velocityToAccel, vec, C1, CENTURY_S, toArcsecCy, DECL as DECL333C } from './lib-w333c-mercury3d.mjs';
 import { t1Twist } from './lib-w334a-heightlaw.mjs';
-import { vectorRates, effectOf, selfAligned, eOfF, hypoOrbit, integrateFrame, splitAbout, kappaMRadius, LIT as LIT334C, DECL as DECL334C } from './lib-w334c-mercurynode.mjs';
+import { vectorRates, effectOf, selfAligned, eOfF, hypoOrbit, integrateFrame, splitAbout, kappaMRadius, anglesOnPlane, LIT as LIT334C, DECL as DECL334C } from './lib-w334c-mercurynode.mjs';
 import { k1Core } from './lib-w332a-eqband.mjs';
 
 export const LIB_VERSION = 'w335c-mercurycombo-lib-1';
@@ -155,13 +155,13 @@ export function anomalyBins(orb, pole, n = DECL.nBins) {
   return { bins, marks };
 }
 /** 区間ごとの面内の近点の回転 ω_W への寄与と L̂ の変化(rad/s —— 全周の率への寄与)。full = 一様な格子の全周 */
-export function binRates(orb, eff, pole, { n = DECL.nBins, gl = DECL.binGL } = {}) {
-  const B = anomalyBins(orb, pole, n), per = B.bins.map((b) => { const R = vectorRates(orb, eff, { windows: [b.E], gl }); return { k: b.k, apsW: R.apsW, Ldot: R.Ldot, dedt: R.dedt, eOut: R.eOut }; });
-  const full = vectorRates(orb, eff, {});
+export function binRates(orb, eff, pole, { n = DECL.nBins, gl = DECL.binGL, full: withFull = true } = {}) {
+  const B = anomalyBins(orb, pole, n), per = B.bins.map((b) => { const R = vectorRates(orb, eff, { windows: [b.E], gl }); return { k: b.k, apsW: R.apsW, Ldot: R.Ldot, de: R.de, dedt: R.dedt, eOut: R.eOut }; });
+  const full = withFull ? vectorRates(orb, eff, {}) : { apsW: null, Ldot: null, LdotMag: null, dedt: null, dlnA: null };
   const sumA = orb.e > 0 ? per.reduce((s, q) => s + q.apsW, 0) : null, gross = orb.e > 0 ? per.reduce((s, q) => s + Math.abs(q.apsW), 0) : null;
-  const sumL = per.reduce((s, q) => add(s, q.Ldot), [0, 0, 0]);
+  const sumL = per.reduce((s, q) => add(s, q.Ldot), [0, 0, 0]), sumDe = per.reduce((s, q) => add(s, q.de), [0, 0, 0]), deIn = sub(sumDe, scl(orb.W, dot(orb.W, sumDe)));
   return { marks: B.marks, per, full: { apsW: full.apsW, Ldot: full.Ldot, LdotMag: full.LdotMag, dedt: full.dedt, dlnA: full.dlnA },
-    sumApsW: sumA, grossApsW: gross, netOverGross: orb.e > 0 && gross > 0 ? Math.abs(sumA) / gross : null, sumLdot: sumL };
+    sumApsW: sumA, grossApsW: gross, netOverGross: orb.e > 0 && gross > 0 ? Math.abs(sumA) / gross : null, sumLdot: sumL, deInMag: nrm(deIn) };
 }
 /** ω の格子の上の値に 1・cos ω・sin ω・cos 2ω・sin 2ω を最小二乗で当てる(正規方程式 —— 5 × 5 の Gauss の消去)。戻り値 { coef, rms } */
 export function harmonicFit(omegaDeg, y) {
@@ -238,4 +238,7 @@ export function pureGates(S) {
     rejects: S.rejects.every(Boolean),
   };
 }
-export { splitAbout, hypoOrbit, kappaMRadius, CENTURY_S, DECL334C, vec };
+/** 第334便c の effectOf(統合した並進の格子の spec)と vectorRates の薄い包み(器が呼ぶ) */
+export const effectOfSpec = (sys, spec) => effectOf(sys, spec);
+export const vectorRatesOf = (orb, eff, poles) => vectorRates(orb, eff, poles && Object.keys(poles).length ? { poles } : {});
+export { splitAbout, hypoOrbit, kappaMRadius, anglesOnPlane, CENTURY_S, DECL334C, vec };

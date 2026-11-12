@@ -1960,6 +1960,19 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/gridfloor-w334e.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第334便e: NGC 3198 の恒星の円盤(第333便d の 4 族)の統合した並進の場 U を星の点でない固定の受け手の格子(半径 7 × 方位 24・面内と高さ z の列)で読む —— 離散化 9 組(環の間隔 × 方位の数)・軟化 4・種 5・方位の位相 3 の誤差の幅(目標 1%)と分解・「腕あり − 円」の差 ÷ 幅(判定の比 3)・m = 2 の密度と U_φ の m = 2・星の点の受け手と第333便d の離散化の列の照らし・円盤の源の場の高さ z の偶奇と次数(薄い円盤と sech² の厚みの対照)' }),
   // ==== 第334便e の塊(ここまで)====
+  // ==== 第335便c の塊(ここから)====
+  // ---- 第335便c(原仮定者の決断(2026-11-12)「回転の並進引きずりが近点移動に効くのではないか —— 斜め軌道なので位置で影響が変化する」「回転引きずり有りの組み合わせも検証する」・
+  //   原仮定者の補足(2026-11-12)「距離の変化による並進引きずり」・原仮定者の回答(2026-11-12 —— AN646・AN650・AN655・AN657)・統括の検証項目 R330): **水星の組み合わせの器 —— 並進の分の動径/接線/法線の分解・
+  //   回転引きずり有りの組み合わせ(R1〜R4 —— T1 の向き × 結合)・軌道の位置の区間と型の判定・二次の結合・文献の値(第335便c で訂正)との参考の比・金星・地球・火星の対照**(段 mercurycombo-335c ——
+  //   正本 tests/out/mercurycombo-w335c.json・lib tests/lib-w335c-mercurycombo.mjs —— 第333便c の器の readBooks・systemOf と第333便c・第334便a・第334便c・第332便a の lib を import して呼ぶ)。
+  //   **診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は 🌡️🌋🔴 を .find で引く 3 本 —— 宣言の値を読む・步を進めない)・他の正本は読まない(順序だけ after に mercurynode-334c と
+  //   その前の段と同じ段)。1 プロセス。所要は第335便c の枝の実測 10〜12 s
+  S('mercurycombo-335c', 'node tests/exp-w335c-mercurycombo.mjs', ['tests/out/mercurycombo-w335c.json'], 12, { secSource: 'w335c-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercury3d-333c', 'mercurynode-334c'],
+    quickVerify: false, quickVerifyWhy: '本の宣言の値と一次の区間の積分と純粋な積分器だけ(窓が無く、全部を走らせても十数秒)',
+    volatilePaths: { 'tests/out/mercurycombo-w335c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第335便c: 水星の組み合わせ —— 並進の分(K1 の代わりの統合した並進)の動径(距離の変化)・面内の横・法線の分解と閉じ・二重の否定対照(今の組 + 動径)・α × 自己の形 × 自己の半径の格子/基準(G_loc 受け手 n = 2 + 統合した並進の並進の分)に R1 座標変換の回転の分・R2 旧い回転の差分(α 2 × 振幅 2)・R3 切り口・R4 T1(s z)の向き 4 × 結合 3 を単独と和で/真近点角の 36 区間の面内の近点の回転と e 4 × 近点引数 5 × 傾き 3 の格子・ω の 12 点の形の当てはめと型の判定/二次の結合(並進 × 回転・T1 —— h と h/2・窓 2 つ)/文献の値(第335便c で訂正・本環境では未照合)との参考の比/金星・地球・火星の対照' }),
+  // ==== 第335便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
