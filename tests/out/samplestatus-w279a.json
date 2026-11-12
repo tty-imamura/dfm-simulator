@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.47-b334",
+  "betaBuild": "v1.47-b335",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,20 +13,20 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "64008166fa63729730721be6afc6c538226d4d1a47bf7d12233659ff2fa9f9b5",
-  "generatedAt": "2026-11-12T00:42:58.603Z",
+  "targetSha256": "27db447180a614987ccd00ca6a2778cc672a03b1e3565cf327a220be5343681d",
+  "generatedAt": "2026-11-12T21:58:40.522Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
     "bytes": 127037,
-    "sha256": "e8dbeacc7cefffb035817a116f0963380d6e632bfede3ae2e52a5fe8b37dc94c",
-    "mtime": "2026-11-04T02:48:51.071Z"
+    "sha256": "8cd71e64ccd0c1e7cb9bdd4a965f14c993e8fc24f876cec42274cb1f4df2531f",
+    "mtime": "2026-11-12T16:03:26.456Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734342,
-    "sha256": "7147e415626637d5323675039fea5a7c6d9bcf691c528cea8e2b9ed8a0d26e02",
-    "mtime": "2026-11-11T22:03:11.090Z"
+    "bytes": 1734334,
+    "sha256": "1b6489f70940e3e7393daae9f5553319e9c3bdd364c8025b1e1f0b31044b333d",
+    "mtime": "2026-11-12T17:50:39.905Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
@@ -36,9 +36,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 110385,
-    "sha256": "06bb39a5c13f85e94f8cf42e999b1c573d1d40b5cc9dca0c2657a2492c5fd3a7",
-    "mtime": "2026-11-12T00:42:58.582Z"
+    "bytes": 111262,
+    "sha256": "10feef87778711b1e8d55804ce71fd98dc680ef79d19378b298a037a4a7d96f5",
+    "mtime": "2026-11-12T21:58:40.503Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -112,9 +112,9 @@
   "codeSha256": "fd485c9c33b0ac9b2ddd4e326949679abf7a9deb8bbdbff4c0f2fb296b0b8946",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "06d7fa06f73f0a07ac28feb6424408d808c47d80",
-   "date": "2026-11-12T00:08:47.602Z",
-   "pass": 1501
+   "commit": "a5aa91a5abea38330648de734806d30c96ed53b5",
+   "date": "2026-11-12T21:24:50.963Z",
+   "pass": 1520
   }
  },
  "tally": {
@@ -362,7 +362,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -634,23 +634,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 14323,
+     "ms": 16246,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 13919,
+       "ms": 16023,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 211,
+       "ms": 201,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 193,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -696,7 +696,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -968,17 +968,17 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 82,
+     "ms": 70,
      "tests": [
       {
        "id": "preset.grcal",
-       "ms": 56,
+       "ms": 58,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.clocks",
-       "ms": 26,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       },
@@ -1035,7 +1035,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -1307,17 +1307,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 125,
+     "ms": 110,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 79,
+       "ms": 78,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalGps",
-       "ms": 46,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -1362,7 +1362,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -1634,17 +1634,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 128,
+     "ms": 107,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 79,
+       "ms": 78,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalLight",
-       "ms": 49,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -1689,7 +1689,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -1961,17 +1961,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 115,
+     "ms": 113,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 79,
+       "ms": 78,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 36,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -2017,7 +2017,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -2289,11 +2289,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 30,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.projectile",
-       "ms": 30,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       },
@@ -2345,7 +2345,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -2617,29 +2617,29 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 956,
+     "ms": 979,
      "tests": [
       {
-       "id": "echo.hud",
-       "ms": 380,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
        "id": "echo.leapfrog-return",
-       "ms": 330,
+       "ms": 465,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
+       "id": "echo.hud",
+       "ms": 303,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
        "id": "shot.regress-echo",
-       "ms": 161,
+       "ms": 151,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.echo",
-       "ms": 79,
+       "ms": 54,
        "pass": true,
        "via": "targetIds"
       },
@@ -2690,7 +2690,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -2962,11 +2962,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 241,
+     "ms": 278,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 241,
+       "ms": 278,
        "pass": true,
        "via": "targetIds"
       }
@@ -3011,7 +3011,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -3283,11 +3283,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 249,
+     "ms": 182,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 249,
+       "ms": 182,
        "pass": true,
        "via": "targetIds"
       }
@@ -3332,7 +3332,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -3604,11 +3604,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 336,
+     "ms": 246,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 336,
+       "ms": 246,
        "pass": true,
        "via": "targetIds"
       }
@@ -3653,7 +3653,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -3925,11 +3925,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 403,
+     "ms": 485,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 294,
+       "ms": 376,
        "pass": true,
        "via": "targetIds"
       },
@@ -3980,7 +3980,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -4252,17 +4252,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 360,
+     "ms": 475,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 321,
+       "ms": 416,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 39,
+       "ms": 59,
        "pass": true,
        "via": "targetIds"
       }
@@ -4307,7 +4307,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -4579,11 +4579,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 135,
+     "ms": 187,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 135,
+       "ms": 187,
        "pass": true,
        "via": "targetIds"
       }
@@ -4628,7 +4628,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -4900,23 +4900,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 170,
+     "ms": 199,
      "tests": [
       {
        "id": "shot.regress-boxredshift",
-       "ms": 131,
+       "ms": 138,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "box.photon-abc",
-       "ms": 22,
+       "ms": 47,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.boxredshift",
-       "ms": 17,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -4961,7 +4961,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -5233,17 +5233,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 219,
+     "ms": 168,
      "tests": [
       {
        "id": "behavior.probeH",
-       "ms": 143,
+       "ms": 113,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.probeH",
-       "ms": 76,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       }
@@ -5288,7 +5288,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -5560,35 +5560,35 @@
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 2254,
+     "ms": 2280,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 1257,
+       "ms": 1308,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.freebox",
-       "ms": 373,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "shot.regress-freebox",
-       "ms": 347,
+       "ms": 355,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.graph-measured",
-       "ms": 240,
+       "ms": 308,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "shot.regress-freebox",
+       "ms": 263,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.no-rail-badge",
-       "ms": 33,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -5633,7 +5633,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -5905,11 +5905,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4247,
+     "ms": 3077,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 4247,
+       "ms": 3077,
        "pass": true,
        "via": "targetIds"
       },
@@ -5966,7 +5966,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -6292,23 +6292,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 11252,
+     "ms": 9185,
      "tests": [
       {
        "id": "shot.regress-galaxy",
-       "ms": 7121,
+       "ms": 5583,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.galaxy",
-       "ms": 4131,
+       "ms": 3601,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxy-outerboost",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -6353,7 +6353,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -6667,17 +6667,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 77331,
+     "ms": 60178,
      "tests": [
       {
        "id": "claim.galaxystd-outerboost",
-       "ms": 73021,
+       "ms": 56641,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyStd",
-       "ms": 4310,
+       "ms": 3537,
        "pass": true,
        "via": "targetIds"
       }
@@ -6722,7 +6722,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -7060,17 +7060,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 120367,
+     "ms": 142280,
      "tests": [
       {
        "id": "claim.galaxygeo2-outerboost",
-       "ms": 114463,
+       "ms": 137248,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyGeo2",
-       "ms": 5904,
+       "ms": 5032,
        "pass": true,
        "via": "targetIds"
       }
@@ -7115,7 +7115,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -7399,17 +7399,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 8462,
+     "ms": 6315,
      "tests": [
       {
        "id": "behavior.geo2flat322a",
-       "ms": 8282,
+       "ms": 6194,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.geo2flat322a",
-       "ms": 180,
+       "ms": 121,
        "pass": true,
        "via": "targetIds"
       }
@@ -7454,7 +7454,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -7732,17 +7732,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 75009,
+     "ms": 67435,
      "tests": [
       {
        "id": "behavior.geo2thick324a",
-       "ms": 74865,
+       "ms": 67298,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.geo2thick324a",
-       "ms": 144,
+       "ms": 137,
        "pass": true,
        "via": "targetIds"
       }
@@ -7787,7 +7787,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -8065,17 +8065,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 75009,
+     "ms": 67435,
      "tests": [
       {
        "id": "behavior.geo2thick324a",
-       "ms": 74865,
+       "ms": 67298,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.geo2thick324a",
-       "ms": 144,
+       "ms": 137,
        "pass": true,
        "via": "targetIds"
       }
@@ -8120,7 +8120,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -8398,11 +8398,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3971,
+     "ms": 2925,
      "tests": [
       {
        "id": "preset.galaxyDB",
-       "ms": 3971,
+       "ms": 2925,
        "pass": true,
        "via": "targetIds"
       },
@@ -8453,7 +8453,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -8725,29 +8725,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 8556,
+     "ms": 6479,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 5133,
+       "ms": 3869,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 3376,
+       "ms": 2514,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.uphi",
-       "ms": 29,
+       "ms": 60,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.allfree",
-       "ms": 18,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -8792,7 +8792,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -9064,17 +9064,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1065,
+     "ms": 836,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 892,
+       "ms": 751,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 173,
+       "ms": 85,
        "pass": true,
        "via": "targetIds"
       }
@@ -9119,7 +9119,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -9391,17 +9391,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4986,
+     "ms": 3960,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 4745,
+       "ms": 3789,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 241,
+       "ms": 171,
        "pass": true,
        "via": "targetIds"
       }
@@ -9446,7 +9446,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -9718,17 +9718,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4545,
+     "ms": 3750,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 4191,
+       "ms": 3343,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 354,
+       "ms": 407,
        "pass": true,
        "via": "targetIds"
       }
@@ -9773,7 +9773,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -10045,23 +10045,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 27245,
+     "ms": 23839,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 20434,
+       "ms": 17764,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 6666,
+       "ms": 5882,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 145,
+       "ms": 193,
        "pass": true,
        "via": "targetIds"
       }
@@ -10106,7 +10106,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -10378,22 +10378,22 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 4010,
+     "ms": 2248,
      "tests": [
       {
        "id": "preset.bhCore",
-       "ms": 4009,
+       "ms": 2247,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "claim.bhcore-free",
+       "id": "claim.bhcore-selfdrive",
        "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
-       "id": "claim.bhcore-selfdrive",
+       "id": "claim.bhcore-free",
        "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
@@ -10439,7 +10439,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -10717,11 +10717,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2729,
+     "ms": 2334,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 2729,
+       "ms": 2334,
        "pass": true,
        "via": "targetIds"
       }
@@ -10766,7 +10766,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -11038,17 +11038,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 6622,
+     "ms": 5211,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 5970,
+       "ms": 4685,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 652,
+       "ms": 526,
        "pass": true,
        "via": "targetIds"
       }
@@ -11093,7 +11093,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -11365,23 +11365,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 29017,
+     "ms": 23203,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 27242,
+       "ms": 22070,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 1774,
+       "ms": 1133,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.collapse-cooling",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -11427,7 +11427,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -11699,11 +11699,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 7962,
+     "ms": 5061,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 7962,
+       "ms": 5061,
        "pass": true,
        "via": "targetIds"
       }
@@ -11749,7 +11749,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -12021,11 +12021,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6413,
+     "ms": 5166,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 6413,
+       "ms": 5166,
        "pass": true,
        "via": "targetIds"
       }
@@ -12071,7 +12071,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -12343,11 +12343,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6353,
+     "ms": 5311,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 6353,
+       "ms": 5311,
        "pass": true,
        "via": "targetIds"
       }
@@ -12392,7 +12392,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -12664,11 +12664,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1541,
+     "ms": 1054,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 1541,
+       "ms": 1054,
        "pass": true,
        "via": "targetIds"
       },
@@ -12725,7 +12725,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -13015,11 +13015,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4043,
+     "ms": 3138,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 4043,
+       "ms": 3138,
        "pass": true,
        "via": "targetIds"
       },
@@ -13071,7 +13071,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -13373,11 +13373,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 8489,
+     "ms": 6555,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 8489,
+       "ms": 6555,
        "pass": true,
        "via": "targetIds"
       }
@@ -13422,7 +13422,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -13712,11 +13712,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2153,
+     "ms": 1480,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 2153,
+       "ms": 1480,
        "pass": true,
        "via": "targetIds"
       }
@@ -13761,7 +13761,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -14099,11 +14099,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1817,
+     "ms": 1706,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 1817,
+       "ms": 1706,
        "pass": true,
        "via": "targetIds"
       }
@@ -14148,7 +14148,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -14474,7 +14474,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -14758,11 +14758,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 75,
+     "ms": 93,
      "tests": [
       {
        "id": "behavior.tilt90Copy",
-       "ms": 75,
+       "ms": 93,
        "pass": true,
        "via": "targetIds"
       }
@@ -14807,7 +14807,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -15085,11 +15085,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 9815,
+     "ms": 8253,
      "tests": [
       {
        "id": "behavior.tilt90LayersCopy",
-       "ms": 9815,
+       "ms": 8253,
        "pass": true,
        "via": "targetIds"
       }
@@ -15135,7 +15135,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -15485,7 +15485,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -15829,7 +15829,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -16163,7 +16163,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -16453,11 +16453,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 513,
+     "ms": 426,
      "tests": [
       {
        "id": "preset.shapeToyCluster",
-       "ms": 513,
+       "ms": 426,
        "pass": true,
        "via": "targetIds"
       }
@@ -16504,7 +16504,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -16794,11 +16794,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 951,
+     "ms": 648,
      "tests": [
       {
        "id": "preset.shapeToyDisk",
-       "ms": 951,
+       "ms": 648,
        "pass": true,
        "via": "targetIds"
       }
@@ -16845,7 +16845,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -17147,11 +17147,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 283,
+     "ms": 243,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 283,
+       "ms": 243,
        "pass": true,
        "via": "targetIds"
       }
@@ -17197,7 +17197,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -17481,29 +17481,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 6258,
+     "ms": 5603,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 4714,
+       "ms": 4311,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 1244,
+       "ms": 1006,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 170,
+       "ms": 167,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 130,
+       "ms": 119,
        "pass": true,
        "via": "targetIds"
       }
@@ -17550,7 +17550,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -17834,11 +17834,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 479,
+     "ms": 649,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 479,
+       "ms": 649,
        "pass": true,
        "via": "targetIds"
       }
@@ -17885,7 +17885,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -18175,11 +18175,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 652,
+     "ms": 653,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 652,
+       "ms": 653,
        "pass": true,
        "via": "targetIds"
       }
@@ -18226,7 +18226,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -18522,11 +18522,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 280,
+     "ms": 288,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 280,
+       "ms": 288,
        "pass": true,
        "via": "targetIds"
       }
@@ -18572,7 +18572,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -18856,29 +18856,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 6258,
+     "ms": 5603,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 4714,
+       "ms": 4311,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 1244,
+       "ms": 1006,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 170,
+       "ms": 167,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 130,
+       "ms": 119,
        "pass": true,
        "via": "targetIds"
       }
@@ -18924,7 +18924,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -19196,11 +19196,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 188,
+     "ms": 199,
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 150,
+       "ms": 161,
        "pass": true,
        "via": "targetIds"
       },
@@ -19251,7 +19251,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -19523,17 +19523,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 26,
+     "ms": 30,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 26,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "spinlens.kframe-control",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -19578,7 +19578,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -19850,17 +19850,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 72,
+     "ms": 71,
      "tests": [
       {
        "id": "preset.blens",
-       "ms": 53,
+       "ms": 48,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.blens",
-       "ms": 19,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -19905,7 +19905,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -20177,11 +20177,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 300,
+     "ms": 287,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 272,
+       "ms": 259,
        "pass": true,
        "via": "targetIds"
       },
@@ -20232,7 +20232,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -20582,23 +20582,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 29387,
+     "ms": 27022,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 25312,
+       "ms": 22716,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-gas",
-       "ms": 2049,
+       "ms": 2297,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gas",
-       "ms": 2026,
+       "ms": 2009,
        "pass": true,
        "via": "targetIds"
       }
@@ -20643,7 +20643,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -20915,23 +20915,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 16098,
+     "ms": 14547,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 12771,
+       "ms": 11040,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 2070,
+       "ms": 2199,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 1257,
+       "ms": 1308,
        "pass": true,
        "via": "targetIds"
       }
@@ -20976,7 +20976,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -21248,29 +21248,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 739,
+     "ms": 705,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 576,
+       "ms": 498,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 108,
+       "ms": 169,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-zero-cost",
-       "ms": 38,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-bath",
-       "ms": 17,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       }
@@ -21315,7 +21315,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -21587,11 +21587,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 971,
+     "ms": 798,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 971,
+       "ms": 798,
        "pass": true,
        "via": "targetIds"
       }
@@ -21636,7 +21636,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -21908,17 +21908,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 14,
+     "ms": 16,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 14,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "new.coolrace",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -21963,7 +21963,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -22235,23 +22235,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 3615,
+     "ms": 3450,
      "tests": [
       {
-       "id": "shot.regress-convection",
-       "ms": 1887,
+       "id": "preset.convection",
+       "ms": 1813,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "preset.convection",
-       "ms": 1710,
+       "id": "shot.regress-convection",
+       "ms": 1618,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "perf.convection-timescale",
-       "ms": 18,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       },
@@ -22302,7 +22302,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -22574,17 +22574,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2430,
+     "ms": 2117,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 2429,
+       "ms": 2117,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.buoyancy",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -22629,7 +22629,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -22901,17 +22901,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3398,
+     "ms": 1660,
      "tests": [
       {
        "id": "preset.cooling",
-       "ms": 3397,
+       "ms": 1660,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.collapse-cooling",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -22956,7 +22956,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -23228,11 +23228,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 875,
+     "ms": 893,
      "tests": [
       {
        "id": "preset.emergent",
-       "ms": 875,
+       "ms": 893,
        "pass": true,
        "via": "targetIds"
       },
@@ -23289,7 +23289,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -23561,11 +23561,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2077,
+     "ms": 2142,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 2077,
+       "ms": 2142,
        "pass": true,
        "via": "targetIds"
       },
@@ -23622,7 +23622,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -23894,11 +23894,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 886,
+     "ms": 901,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 886,
+       "ms": 901,
        "pass": true,
        "via": "targetIds"
       },
@@ -23956,7 +23956,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -24228,11 +24228,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1304,
+     "ms": 1307,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 1304,
+       "ms": 1307,
        "pass": true,
        "via": "targetIds"
       },
@@ -24289,7 +24289,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -24585,23 +24585,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 518,
+     "ms": 425,
      "tests": [
       {
        "id": "behavior.earthMoon",
-       "ms": 277,
+       "ms": 205,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-earthMoon",
-       "ms": 132,
+       "ms": 125,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoon",
-       "ms": 109,
+       "ms": 95,
        "pass": true,
        "via": "targetIds"
       }
@@ -24646,7 +24646,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -24924,17 +24924,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1120,
+     "ms": 945,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 1035,
+       "ms": 871,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 85,
+       "ms": 74,
        "pass": true,
        "via": "targetIds"
       }
@@ -24980,17 +24980,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 140.673,
+     "wallSec": 107.006,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 44.259,
+       "wallSec": 34.037,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 96.414,
+       "wallSec": 72.969,
        "reused": false,
        "reusedBy": null
       }
@@ -25002,7 +25002,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -25062,7 +25062,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -25322,11 +25322,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 14,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.earthMoonReal",
-       "ms": 14,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -25371,7 +25371,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -25649,23 +25649,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3421,
+     "ms": 2818,
      "tests": [
       {
        "id": "behavior.tideGate",
-       "ms": 3324,
+       "ms": 2742,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonTide",
-       "ms": 69,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonTide",
-       "ms": 28,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -25713,7 +25713,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -25803,7 +25803,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -26051,11 +26051,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 23,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 23,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -26100,7 +26100,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -26438,23 +26438,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 673,
+     "ms": 549,
      "tests": [
       {
        "id": "behavior.dragCoreGate",
-       "ms": 556,
+       "ms": 442,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonInertial",
-       "ms": 83,
+       "ms": 68,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonInertial",
-       "ms": 33,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       },
@@ -26505,7 +26505,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -26565,7 +26565,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -26789,11 +26789,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 28,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 28,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       },
@@ -26846,7 +26846,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -26918,7 +26918,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -27142,11 +27142,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 44,
+     "ms": 48,
      "tests": [
       {
        "id": "preset.emAuditDFM",
-       "ms": 44,
+       "ms": 48,
        "pass": true,
        "via": "targetIds"
       },
@@ -27198,17 +27198,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.2829999999999995,
+     "wallSec": 2.8899999999999997,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.633,
+       "wallSec": 0.988,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.65,
+       "wallSec": 1.902,
        "reused": false,
        "reusedBy": null
       }
@@ -27220,7 +27220,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -27558,11 +27558,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 14,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.emAuditSolar",
-       "ms": 14,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       },
@@ -27613,7 +27613,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -27927,11 +27927,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 309,
+     "ms": 303,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 305,
+       "ms": 299,
        "pass": true,
        "via": "targetIds"
       },
@@ -27982,7 +27982,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -28418,7 +28418,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -28879,6 +28879,12 @@
       "always": false
      },
      {
+      "key": "moonapsis-335e",
+      "sec": 27,
+      "share": 2,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 2,
       "share": 29,
@@ -28894,35 +28900,35 @@
     "qa": {
      "attributed": true,
      "n": 10,
-     "ms": 45058,
+     "ms": 44062,
      "tests": [
       {
        "id": "behavior.gLocNull307",
-       "ms": 34547,
+       "ms": 34143,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgDirect302",
-       "ms": 2665,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.shell304",
-       "ms": 2223,
+       "ms": 2935,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialR2_303",
-       "ms": 1588,
+       "ms": 1549,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.shell304",
+       "ms": 1530,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgEstimate302",
-       "ms": 1522,
+       "ms": 1493,
        "pass": true,
        "via": "targetIds"
       }
@@ -28968,7 +28974,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -29339,6 +29345,12 @@
       "always": false
      },
      {
+      "key": "moonapsis-335e",
+      "sec": 27,
+      "share": 2,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 2,
       "share": 29,
@@ -29354,23 +29366,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2548,
+     "ms": 2571,
      "tests": [
       {
        "id": "behavior.wbgEstimate302",
-       "ms": 1522,
+       "ms": 1493,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthReorg300",
-       "ms": 869,
+       "ms": 904,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.dragNorm301",
-       "ms": 157,
+       "ms": 174,
        "pass": true,
        "via": "targetIds"
       }
@@ -29416,7 +29428,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -29700,11 +29712,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 47,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 47,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -29749,7 +29761,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -29809,7 +29821,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -30033,17 +30045,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 757,
+     "ms": 892,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 718,
+       "ms": 855,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAudit",
-       "ms": 39,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       }
@@ -30088,7 +30100,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -30148,7 +30160,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -30372,17 +30384,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 752,
+     "ms": 895,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 718,
+       "ms": 855,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAuditQ3",
-       "ms": 34,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -30427,7 +30439,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -30900,6 +30912,18 @@
       "always": false
      },
      {
+      "key": "carryledger-335b",
+      "sec": 2,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "mercurycombo-335c",
+      "sec": 12,
+      "share": 5,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 2,
       "share": 29,
@@ -30915,17 +30939,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 437,
+     "ms": 369,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 425,
+       "ms": 353,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.mercury",
-       "ms": 12,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -30972,17 +30996,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.46,
+     "wallSec": 6.1,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.952,
+       "wallSec": 2.126,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.508,
+       "wallSec": 3.974,
        "reused": false,
        "reusedBy": null
       }
@@ -30994,7 +31018,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -31060,7 +31084,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -31422,11 +31446,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 15,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.mercuryReal",
-       "ms": 15,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -31471,7 +31495,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -31785,11 +31809,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 309,
+     "ms": 303,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 305,
+       "ms": 299,
        "pass": true,
        "via": "targetIds"
       },
@@ -31806,13 +31830,13 @@
   {
    "id": "mercurySunInertialFit",
    "emoji": "🟫",
-   "name": "水星と太陽(慣性決定力版・フィット)— 近点率に合わせた W_bg",
+   "name": "水星と太陽(慣性決定力版・フィット)— 近点率に合わせた W₀",
    "group": "現実較正",
    "sampleClass": "principle",
    "status": {
-    "purpose": "係数移送版の写しで W_bg だけを近点率(43.0″/世紀)に合わせる(semic)",
+    "purpose": "係数移送版の写しで W₀ だけを近点率(43.0″/世紀)に合わせる(semic)",
     "objective": "met",
-    "state": "W_bg 221.1206・残差 1.79e-5・h/2 差 1.97e-4・周期と離心率は未調整・核は同定不可",
+    "state": "W₀ 221.1206・残差 1.79e-5・h/2 差 1.97e-4・周期と離心率は未調整・核は同定不可",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
@@ -31821,13 +31845,13 @@
      "tests/out/fit-w297b.json"
     ],
     "en": {
-     "purpose": "parent copy; only W_bg matched to the apsidal rate (43.0 arcsec/cy vs drag off; semic)",
-     "state": "W_bg 221.1206; residual 1.79e-5, h/2 1.97e-4 (fitted); period, e not matched",
+     "purpose": "parent copy; only W₀ matched to the apsidal rate (43.0 arcsec/cy vs drag off; semic)",
+     "state": "W₀ 221.1206; residual 1.79e-5, h/2 1.97e-4 (fitted); period, e not matched",
      "mismatch": null,
      "outlook": null,
-     "brief": "parent copy; only W_bg matched to the apsidal rate (43.0 arcsec/cy vs drag off; semic). Met: W_bg 221.1206; residual 1.79e-5, h/2 1.97e-4 (fitted); period, e not matched. Out of calibration scope."
+     "brief": "parent copy; only W₀ matched to the apsidal rate (43.0 arcsec/cy vs drag off; semic). Met: W₀ 221.1206; residual 1.79e-5, h/2 1.97e-4 (fitted); period, e not matched. Out of calibration scope."
     },
-    "brief": "係数移送版の写しで W_bg だけを近点率(43.0″/世紀)に合わせる(semic)。達・W_bg 221.1206・残差 1.79e-5・h/2 差 1.97e-4・周期と離心率は未調整・核は同定不可。較正対象外。"
+    "brief": "係数移送版の写しで W₀ だけを近点率(43.0″/世紀)に合わせる(semic)。達・W₀ 221.1206・残差 1.79e-5・h/2 差 1.97e-4・周期と離心率は未調整・核は同定不可。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -31841,7 +31865,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -32227,35 +32251,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 56249,
+     "ms": 48097,
      "tests": [
       {
        "id": "ui.liveMeasure297",
-       "ms": 44996,
+       "ms": 37456,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.gLoc302",
-       "ms": 8071,
+       "ms": 7252,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ui.wbgSlider302",
-       "ms": 1261,
+       "ms": 1338,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.retire298",
-       "ms": 837,
+       "ms": 834,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.fitCond298",
-       "ms": 702,
+       "ms": 814,
        "pass": true,
        "via": "targetIds"
       }
@@ -32302,7 +32326,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -32853,6 +32877,12 @@
       "always": false
      },
      {
+      "key": "mercurycombo-335c",
+      "sec": 12,
+      "share": 5,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 2,
       "share": 29,
@@ -32868,35 +32898,35 @@
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 17485,
+     "ms": 16023,
      "tests": [
       {
        "id": "behavior.gLoc302",
-       "ms": 8071,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.shell304",
-       "ms": 2223,
+       "ms": 7252,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialR2_303",
-       "ms": 1588,
+       "ms": 1549,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.shell304",
+       "ms": 1530,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgEstimate302",
-       "ms": 1522,
+       "ms": 1493,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ui.softeningFloorSlider305",
-       "ms": 1319,
+       "ms": 1337,
        "pass": true,
        "via": "targetIds"
       }
@@ -32943,7 +32973,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -33500,6 +33530,12 @@
       "always": false
      },
      {
+      "key": "mercurycombo-335c",
+      "sec": 12,
+      "share": 5,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 2,
       "share": 29,
@@ -33515,11 +33551,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 191,
+     "ms": 178,
      "tests": [
       {
        "id": "preset.planets306",
-       "ms": 191,
+       "ms": 178,
        "pass": true,
        "via": "targetIds"
       }
@@ -33566,7 +33602,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -34087,6 +34123,12 @@
       "always": false
      },
      {
+      "key": "mercurycombo-335c",
+      "sec": 12,
+      "share": 5,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 2,
       "share": 29,
@@ -34102,11 +34144,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 191,
+     "ms": 178,
      "tests": [
       {
        "id": "preset.planets306",
-       "ms": 191,
+       "ms": 178,
        "pass": true,
        "via": "targetIds"
       }
@@ -34153,7 +34195,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -34707,23 +34749,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1459,
+     "ms": 1490,
      "tests": [
       {
        "id": "behavior.initObs309",
-       "ms": 873,
+       "ms": 904,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.invSq309",
-       "ms": 395,
+       "ms": 408,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.planets306",
-       "ms": 191,
+       "ms": 178,
        "pass": true,
        "via": "targetIds"
       }
@@ -34770,7 +34812,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -35270,11 +35312,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 191,
+     "ms": 178,
      "tests": [
       {
        "id": "preset.planets306",
-       "ms": 191,
+       "ms": 178,
        "pass": true,
        "via": "targetIds"
       }
@@ -35320,7 +35362,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -35622,35 +35664,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 10709,
+     "ms": 10168,
      "tests": [
       {
        "id": "behavior.wbgDirect302",
-       "ms": 2665,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.shell304",
-       "ms": 2223,
+       "ms": 2935,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialR2_303",
-       "ms": 1588,
+       "ms": 1549,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.shell304",
+       "ms": 1530,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgEstimate302",
-       "ms": 1522,
+       "ms": 1493,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ui.wbgSlider302",
-       "ms": 1261,
+       "ms": 1338,
        "pass": true,
        "via": "targetIds"
       }
@@ -35697,7 +35739,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -36197,11 +36239,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 191,
+     "ms": 178,
      "tests": [
       {
        "id": "preset.planets306",
-       "ms": 191,
+       "ms": 178,
        "pass": true,
        "via": "targetIds"
       }
@@ -36248,7 +36290,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -36748,11 +36790,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 191,
+     "ms": 178,
      "tests": [
       {
        "id": "preset.planets306",
-       "ms": 191,
+       "ms": 178,
        "pass": true,
        "via": "targetIds"
       }
@@ -36797,7 +36839,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -37174,6 +37216,12 @@
       "always": false
      },
      {
+      "key": "carryledger-335b",
+      "sec": 2,
+      "share": 3,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 180,
       "share": "all",
@@ -37183,23 +37231,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 8489,
+     "ms": 7772,
      "tests": [
       {
        "id": "behavior.solar16Builtin318c",
-       "ms": 6092,
+       "ms": 5612,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.solarSystem16Inertial3d",
-       "ms": 2254,
+       "ms": 1995,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.solar16Builtin318c",
-       "ms": 143,
+       "ms": 165,
        "pass": true,
        "via": "targetIds"
       }
@@ -37245,7 +37293,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -37529,11 +37577,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 20,
+     "ms": 35,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 20,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -37578,7 +37626,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -37900,7 +37948,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -37960,7 +38008,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -38184,11 +38232,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 38,
+     "ms": 50,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 38,
+       "ms": 50,
        "pass": true,
        "via": "targetIds"
       }
@@ -38236,7 +38284,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -38520,17 +38568,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1810,
+     "ms": 1571,
      "tests": [
       {
        "id": "behavior.solarInner",
-       "ms": 1770,
+       "ms": 1493,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.solarInner",
-       "ms": 40,
+       "ms": 78,
        "pass": true,
        "via": "targetIds"
       }
@@ -38576,17 +38624,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 44.311,
+     "wallSec": 40.259,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 15.106,
+       "wallSec": 12.871,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 29.205,
+       "wallSec": 27.388,
        "reused": false,
        "reusedBy": null
       }
@@ -38598,7 +38646,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -38664,7 +38712,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -39146,17 +39194,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 334,
+     "ms": 359,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 306,
+       "ms": 334,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.jupiterGalilean",
-       "ms": 28,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -39202,17 +39250,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 24.298000000000002,
+     "wallSec": 17.393,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.961,
+       "wallSec": 5.903,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 16.337,
+       "wallSec": 11.49,
        "reused": false,
        "reusedBy": null
       }
@@ -39224,7 +39272,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -39326,7 +39374,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -39676,17 +39724,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4318,
+     "ms": 3598,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 4290,
+       "ms": 3580,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 28,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -39732,17 +39780,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 17.812,
+     "wallSec": 14.429,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.585,
+       "wallSec": 4.946,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 12.227,
+       "wallSec": 9.483,
        "reused": false,
        "reusedBy": null
       }
@@ -39754,7 +39802,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -39820,7 +39868,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -40170,17 +40218,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 11,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.marsMoonsReal",
-       "ms": 10,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.marsMoonsReal",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -40227,7 +40275,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -40365,7 +40413,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -40595,17 +40643,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 19,
+     "ms": 29,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 19,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.plutoCharonReal",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -40656,7 +40704,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -40952,17 +41000,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 11323,
+     "ms": 9989,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 11249,
+       "ms": 9929,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 74,
+       "ms": 60,
        "pass": true,
        "via": "targetIds"
       }
@@ -41014,7 +41062,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -41304,11 +41352,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 43,
+     "ms": 44,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 43,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       }
@@ -41368,17 +41416,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 248.387,
+     "wallSec": 197.245,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 89.576,
+       "wallSec": 66.458,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 158.811,
+       "wallSec": 130.787,
        "reused": false,
        "reusedBy": null
       }
@@ -41390,7 +41438,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -41510,7 +41558,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -41773,6 +41821,12 @@
       "always": false
      },
      {
+      "key": "binarytilt-335d",
+      "sec": 11,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 2,
       "share": 29,
@@ -41794,11 +41848,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 27,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 27,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -41843,7 +41897,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -42157,11 +42211,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 309,
+     "ms": 303,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 305,
+       "ms": 299,
        "pass": true,
        "via": "targetIds"
       },
@@ -42184,7 +42238,7 @@
    "status": {
     "purpose": "二体のケプラーの初期状態で引きずり OFF の基線を確かめる(周期は入力の整合)",
     "objective": "met",
-    "state": "引きずり OFF・a 19595.593 km(標的の P と GM から)・残差 +0.00437 s(軟化)・旧 W_bg は履歴",
+    "state": "引きずり OFF・a 19595.593 km(標的の P と GM から)・残差 +0.00437 s(軟化)・旧 W₀ は履歴",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
@@ -42194,12 +42248,12 @@
     ],
     "en": {
      "purpose": "two-body Kepler start, drag-off baseline (period = input check)",
-     "state": "drag off; a 19595.593 km from target P and GM; residual +0.00437 s (softening); old W_bg in history",
+     "state": "drag off; a 19595.593 km from target P and GM; residual +0.00437 s (softening); old W₀ in history",
      "mismatch": null,
      "outlook": null,
-     "brief": "two-body Kepler start, drag-off baseline (period = input check). Met: drag off; a 19595.593 km from target P and GM; residual +0.00437 s (softening); old W_bg in history. Out of calibration scope."
+     "brief": "two-body Kepler start, drag-off baseline (period = input check). Met: drag off; a 19595.593 km from target P and GM; residual +0.00437 s (softening); old W₀ in history. Out of calibration scope."
     },
-    "brief": "二体のケプラーの初期状態で引きずり OFF の基線を確かめる(周期は入力の整合)。達・引きずり OFF・a 19595.593 km(標的の P と GM から)・残差 +0.00437 s(軟化)・旧 W_bg は履歴。較正対象外。"
+    "brief": "二体のケプラーの初期状態で引きずり OFF の基線を確かめる(周期は入力の整合)。達・引きずり OFF・a 19595.593 km(標的の P と GM から)・残差 +0.00437 s(軟化)・旧 W₀ は履歴。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -42213,7 +42267,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -42560,6 +42614,12 @@
       "always": false
      },
      {
+      "key": "binarytilt-335d",
+      "sec": 11,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "charonaudit-305e",
       "sec": 2,
       "share": 1,
@@ -42587,35 +42647,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 9199,
+     "ms": 8727,
      "tests": [
       {
        "id": "behavior.wbgDirect302",
-       "ms": 2665,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.shell304",
-       "ms": 2223,
+       "ms": 2935,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialR2_303",
-       "ms": 1588,
+       "ms": 1549,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.shell304",
+       "ms": 1530,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgEstimate302",
-       "ms": 1522,
+       "ms": 1493,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.retire298",
-       "ms": 837,
+       "ms": 834,
        "pass": true,
        "via": "targetIds"
       }
@@ -42660,7 +42720,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -42938,11 +42998,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 37,
      "tests": [
       {
        "id": "preset.plutoCharonSyncZero",
-       "ms": 25,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       }
@@ -42988,7 +43048,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -43272,11 +43332,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.charonGeoToy3",
-       "ms": 25,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -43324,11 +43384,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 59.175,
+     "wallSec": 52.783,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 59.175,
+       "wallSec": 52.783,
        "reused": false,
        "reusedBy": null
       }
@@ -43340,7 +43400,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -43744,11 +43804,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 34,
+     "ms": 31,
      "tests": [
       {
        "id": "preset.uranusReal",
-       "ms": 33,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       },
@@ -43800,17 +43860,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.535,
+     "wallSec": 5.519,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.843,
+       "wallSec": 1.797,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.692,
+       "wallSec": 3.722,
        "reused": false,
        "reusedBy": null
       }
@@ -43822,7 +43882,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -43924,7 +43984,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -44274,11 +44334,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 12,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.neptuneReal",
-       "ms": 12,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       },
@@ -44328,17 +44388,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.742,
+     "wallSec": 9.456,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.742,
+       "wallSec": 9.456,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 23.488,
+       "wallSec": 20.96,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -44349,8 +44409,8 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 53.024,
-     "reusedH2Sec": 23.488,
+     "reusedSec": 50.496,
+     "reusedH2Sec": 20.96,
      "reusedH4Sec": 29.536
     },
     "regenSteps": [
@@ -44362,7 +44422,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -44464,7 +44524,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -44706,17 +44766,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3047,
+     "ms": 2762,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3031,
+       "ms": 2740,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 16,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -44768,7 +44828,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -44834,7 +44894,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -45064,17 +45124,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3072,
+     "ms": 2784,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3031,
+       "ms": 2740,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 41,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       }
@@ -45118,17 +45178,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.824,
+     "wallSec": 5.672,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.824,
+       "wallSec": 5.672,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.64,
+       "wallSec": 11.302,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -45139,8 +45199,8 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 31.137,
-     "reusedH2Sec": 13.64,
+     "reusedSec": 28.799,
+     "reusedH2Sec": 11.302,
      "reusedH4Sec": 17.497
     },
     "regenSteps": [
@@ -45152,7 +45212,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -45254,7 +45314,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -45496,17 +45556,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2509,
+     "ms": 2298,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2491,
+       "ms": 2275,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 18,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -45558,7 +45618,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -45624,7 +45684,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -45854,17 +45914,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2543,
+     "ms": 2318,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2491,
+       "ms": 2275,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 52,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       }
@@ -45909,7 +45969,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -46178,6 +46238,12 @@
       "always": false
      },
      {
+      "key": "binarytilt-335d",
+      "sec": 11,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 180,
       "share": "all",
@@ -46187,17 +46253,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 449,
+     "ms": 625,
      "tests": [
       {
        "id": "behavior.binBooks322b",
-       "ms": 282,
+       "ms": 478,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.binBooks322b",
-       "ms": 167,
+       "ms": 147,
        "pass": true,
        "via": "targetIds"
       }
@@ -46242,7 +46308,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -46523,6 +46589,12 @@
       "always": false
      },
      {
+      "key": "binarytilt-335d",
+      "sec": 11,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 180,
       "share": "all",
@@ -46532,17 +46604,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 449,
+     "ms": 625,
      "tests": [
       {
        "id": "behavior.binBooks322b",
-       "ms": 282,
+       "ms": 478,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.binBooks322b",
-       "ms": 167,
+       "ms": 147,
        "pass": true,
        "via": "targetIds"
       }
@@ -46587,7 +46659,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -46862,6 +46934,12 @@
       "always": false
      },
      {
+      "key": "binarytilt-335d",
+      "sec": 11,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 180,
       "share": "all",
@@ -46871,17 +46949,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 808,
+     "ms": 807,
      "tests": [
       {
        "id": "behavior.obsSpin324b",
-       "ms": 639,
+       "ms": 646,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.obsSpin324b",
-       "ms": 169,
+       "ms": 161,
        "pass": true,
        "via": "targetIds"
       }
@@ -46926,7 +47004,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -47201,6 +47279,12 @@
       "always": false
      },
      {
+      "key": "binarytilt-335d",
+      "sec": 11,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 180,
       "share": "all",
@@ -47210,17 +47294,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 808,
+     "ms": 807,
      "tests": [
       {
        "id": "behavior.obsSpin324b",
-       "ms": 639,
+       "ms": 646,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.obsSpin324b",
-       "ms": 169,
+       "ms": 161,
        "pass": true,
        "via": "targetIds"
       }
@@ -47267,17 +47351,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 11.68,
+     "wallSec": 8.815999999999999,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.879,
+       "wallSec": 3.104,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.801,
+       "wallSec": 5.712,
        "reused": false,
        "reusedBy": null
       }
@@ -47289,7 +47373,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -47373,7 +47457,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -47621,11 +47705,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 22,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.psrDoubleAB",
-       "ms": 22,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       },
@@ -47683,7 +47767,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -47785,7 +47869,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -48015,17 +48099,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 8081,
+     "ms": 5966,
      "tests": [
       {
        "id": "behavior.psrF1",
-       "ms": 8035,
+       "ms": 5912,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 46,
+       "ms": 54,
        "pass": true,
        "via": "targetIds"
       }
@@ -48071,7 +48155,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -48343,11 +48427,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 40,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 21,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -48393,7 +48477,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -48459,7 +48543,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -48683,11 +48767,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 70,
+     "ms": 88,
      "tests": [
       {
        "id": "preset.psrDoubleABSpinCal",
-       "ms": 70,
+       "ms": 88,
        "pass": true,
        "via": "targetIds"
       }
@@ -48734,17 +48818,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.709,
+     "wallSec": 6.566,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.874,
+       "wallSec": 2.026,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.835,
+       "wallSec": 4.54,
        "reused": false,
        "reusedBy": null
       }
@@ -48762,7 +48846,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -48864,7 +48948,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -49109,6 +49193,12 @@
       "always": false
      },
      {
+      "key": "binarytilt-335d",
+      "sec": 11,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 180,
       "share": "all",
@@ -49118,11 +49208,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 17,
+     "ms": 29,
      "tests": [
       {
        "id": "preset.psrJ1757DFM",
-       "ms": 17,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -49169,17 +49259,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.468,
+     "wallSec": 2.25,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.095,
+       "wallSec": 0.863,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.373,
+       "wallSec": 1.387,
        "reused": false,
        "reusedBy": null
       }
@@ -49197,7 +49287,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -49299,7 +49389,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -49544,6 +49634,12 @@
       "always": false
      },
      {
+      "key": "binarytilt-335d",
+      "sec": 11,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 180,
       "share": "all",
@@ -49553,11 +49649,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 22,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.psrJ1946DFM",
-       "ms": 22,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -49603,7 +49699,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -49669,7 +49765,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -49893,11 +49989,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 26,
+     "ms": 33,
      "tests": [
       {
        "id": "preset.psrDoubleABPN",
-       "ms": 26,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -49943,7 +50039,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -50009,7 +50105,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -50233,11 +50329,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.psrJ1757PN",
-       "ms": 21,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -50283,7 +50379,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -50349,7 +50445,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -50573,11 +50669,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 38,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.psrJ1946PN",
-       "ms": 38,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -50623,7 +50719,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -50689,7 +50785,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -50913,11 +51009,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 52,
+     "ms": 64,
      "tests": [
       {
        "id": "preset.psrDoubleABCF",
-       "ms": 52,
+       "ms": 64,
        "pass": true,
        "via": "targetIds"
       }
@@ -50963,7 +51059,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -51029,7 +51125,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -51253,11 +51349,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 56,
+     "ms": 48,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 56,
+       "ms": 48,
        "pass": true,
        "via": "targetIds"
       }
@@ -51303,7 +51399,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -51369,7 +51465,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -51593,11 +51689,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 58,
+     "ms": 53,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 58,
+       "ms": 53,
        "pass": true,
        "via": "targetIds"
       }
@@ -51644,17 +51740,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 60.376,
+     "wallSec": 42.849999999999994,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 19.549,
+       "wallSec": 13.552,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 40.827,
+       "wallSec": 29.298,
        "reused": false,
        "reusedBy": null
       }
@@ -51666,7 +51762,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -51732,7 +51828,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -51971,6 +52067,12 @@
       "always": false
      },
      {
+      "key": "binarytilt-335d",
+      "sec": 11,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 180,
       "share": "all",
@@ -51980,11 +52082,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 17,
+     "ms": 29,
      "tests": [
       {
        "id": "preset.psrB1534",
-       "ms": 17,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -52036,7 +52138,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -52138,7 +52240,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -52368,11 +52470,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 41,
+     "ms": 39,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 41,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       }
@@ -52418,7 +52520,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -52484,7 +52586,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -52708,11 +52810,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 56,
+     "ms": 40,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 56,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -52757,7 +52859,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -53047,11 +53149,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 18,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.compactForceToy",
-       "ms": 18,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -53096,7 +53198,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -53410,23 +53512,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3010,
+     "ms": 2807,
      "tests": [
       {
        "id": "preset.inertialDragPair",
-       "ms": 2540,
+       "ms": 2379,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialDragGate",
-       "ms": 457,
+       "ms": 417,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.inertialDragPair",
-       "ms": 13,
+       "ms": 11,
        "pass": true,
        "via": "targetIds"
       }
@@ -53471,7 +53573,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -53761,17 +53863,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 294,
+     "ms": 652,
      "tests": [
       {
        "id": "behavior.chain296",
-       "ms": 248,
+       "ms": 588,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.chainContract296",
-       "ms": 46,
+       "ms": 64,
        "pass": true,
        "via": "targetIds"
       }
@@ -53816,7 +53918,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -54178,35 +54280,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 14204,
+     "ms": 13460,
      "tests": [
       {
        "id": "behavior.meshField298",
-       "ms": 3234,
+       "ms": 3040,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgDirect302",
-       "ms": 2665,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.shell304",
-       "ms": 2223,
+       "ms": 2935,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.sphereAxial307",
-       "ms": 1986,
+       "ms": 2165,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialR2_303",
-       "ms": 1588,
+       "ms": 1549,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.shell304",
+       "ms": 1530,
        "pass": true,
        "via": "targetIds"
       }
@@ -54251,7 +54353,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -54565,35 +54667,35 @@
     "qa": {
      "attributed": true,
      "n": 7,
-     "ms": 17493,
+     "ms": 17937,
      "tests": [
       {
        "id": "lint.stateContract302",
-       "ms": 10998,
+       "ms": 10892,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.wbgDirect302",
-       "ms": 2665,
+       "ms": 2935,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.sphereAxial307",
-       "ms": 1986,
+       "ms": 2165,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.bevel308",
-       "ms": 1375,
+       "ms": 1273,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.axisHold308",
-       "ms": 310,
+       "ms": 487,
        "pass": true,
        "via": "targetIds"
       }
@@ -54639,7 +54741,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -54947,17 +55049,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 29883,
+     "ms": 28363,
      "tests": [
       {
        "id": "behavior.geo4Stable299",
-       "ms": 29777,
+       "ms": 28252,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.approxMany301",
-       "ms": 98,
+       "ms": 103,
        "pass": true,
        "via": "targetIds"
       },
@@ -55008,7 +55110,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -55341,7 +55443,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -55631,23 +55733,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 6992,
+     "ms": 7707,
      "tests": [
       {
        "id": "ui.selEdit299",
-       "ms": 3274,
+       "ms": 3796,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ui.paramTab299",
-       "ms": 2411,
+       "ms": 2539,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ui.axisGizmo307",
-       "ms": 1307,
+       "ms": 1372,
        "pass": true,
        "via": "targetIds"
       }
@@ -55692,7 +55794,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -55982,11 +56084,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 3274,
+     "ms": 3796,
      "tests": [
       {
        "id": "ui.selEdit299",
-       "ms": 3274,
+       "ms": 3796,
        "pass": true,
        "via": "targetIds"
       }
@@ -56031,7 +56133,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -56306,6 +56408,12 @@
       "always": false
      },
      {
+      "key": "binarytilt-335d",
+      "sec": 11,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 180,
       "share": "all",
@@ -56315,17 +56423,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 449,
+     "ms": 625,
      "tests": [
       {
        "id": "behavior.binBooks322b",
-       "ms": 282,
+       "ms": 478,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.binBooks322b",
-       "ms": 167,
+       "ms": 147,
        "pass": true,
        "via": "targetIds"
       }
@@ -56370,7 +56478,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -56645,6 +56753,12 @@
       "always": false
      },
      {
+      "key": "binarytilt-335d",
+      "sec": 11,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 180,
       "share": "all",
@@ -56654,17 +56768,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 449,
+     "ms": 625,
      "tests": [
       {
        "id": "behavior.binBooks322b",
-       "ms": 282,
+       "ms": 478,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.binBooks322b",
-       "ms": 167,
+       "ms": 147,
        "pass": true,
        "via": "targetIds"
       }
@@ -56709,7 +56823,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -56999,11 +57113,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 24,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -57048,7 +57162,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -57332,11 +57446,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 30,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 30,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -57382,17 +57496,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.362,
+     "wallSec": 1.546,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.547,
+       "wallSec": 0.626,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.815,
+       "wallSec": 0.92,
        "reused": false,
        "reusedBy": null
       }
@@ -57404,7 +57518,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -57706,17 +57820,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4309,
+     "ms": 3263,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 4284,
+       "ms": 3246,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.gw150914",
-       "ms": 25,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -57762,7 +57876,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -57840,7 +57954,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -58070,17 +58184,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4336,
+     "ms": 3284,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 4284,
+       "ms": 3246,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 52,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -58126,17 +58240,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.202,
+     "wallSec": 0.175,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.109,
+       "wallSec": 0.066,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.093,
+       "wallSec": 0.109,
        "reused": false,
        "reusedBy": null
       }
@@ -58148,7 +58262,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -58432,11 +58546,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 14,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.gw150914Merge4s",
-       "ms": 14,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -58481,7 +58595,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -58753,11 +58867,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 11,
+     "ms": 12,
      "tests": [
       {
        "id": "preset.gw150914SpinDipole",
-       "ms": 11,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       }
@@ -58802,7 +58916,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -59080,17 +59194,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1123,
+     "ms": 940,
      "tests": [
       {
        "id": "preset.tuc47",
-       "ms": 1120,
+       "ms": 940,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.tuc47",
-       "ms": 3,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -59135,7 +59249,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -59413,11 +59527,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6191,
+     "ms": 5694,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 6191,
+       "ms": 5694,
        "pass": true,
        "via": "targetIds"
       }
@@ -59462,7 +59576,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -59752,11 +59866,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2120,
+     "ms": 1709,
      "tests": [
       {
        "id": "preset.ngc3198",
-       "ms": 2120,
+       "ms": 1709,
        "pass": true,
        "via": "targetIds"
       },
@@ -59807,7 +59921,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -60115,11 +60229,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5060,
+     "ms": 3954,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 5060,
+       "ms": 3954,
        "pass": true,
        "via": "targetIds"
       }
@@ -60164,7 +60278,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -60436,11 +60550,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 20,
+     "ms": 13,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 20,
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       }
@@ -60485,7 +60599,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -60757,11 +60871,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 38,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 38,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -60806,7 +60920,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -61078,11 +61192,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 354,
+     "ms": 220,
      "tests": [
       {
        "id": "preset.crabRemnant",
-       "ms": 354,
+       "ms": 220,
        "pass": true,
        "via": "targetIds"
       }
@@ -61127,7 +61241,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -61636,6 +61750,18 @@
       "always": false
      },
      {
+      "key": "carryledger-335b",
+      "sec": 2,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "mercurycombo-335c",
+      "sec": 12,
+      "share": 5,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 2,
       "share": 29,
@@ -61651,17 +61777,17 @@
     "qa": {
      "attributed": true,
      "n": 6,
-     "ms": 5606,
+     "ms": 4565,
      "tests": [
       {
-       "id": "preset.saturn",
-       "ms": 3018,
+       "id": "shot.regress-saturn",
+       "ms": 2390,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "shot.regress-saturn",
-       "ms": 2588,
+       "id": "preset.saturn",
+       "ms": 2175,
        "pass": true,
        "via": "targetIds"
       },
@@ -61724,7 +61850,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -61996,23 +62122,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 5462,
+     "ms": 5203,
      "tests": [
       {
        "id": "shot.regress-saturnLayered",
-       "ms": 2777,
+       "ms": 2782,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.saturnLayered",
-       "ms": 2663,
+       "ms": 2404,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "core.twolayer",
-       "ms": 21,
+       "ms": 16,
        "pass": true,
        "via": "claims"
       },
@@ -62062,17 +62188,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.534,
+     "wallSec": 6.33,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.534,
+       "wallSec": 6.33,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 12.178,
+       "wallSec": 14.22,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -62083,14 +62209,14 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 31.851,
-     "reusedH2Sec": 12.178,
-     "reusedH4Sec": 19.673
+     "reusedSec": 33.893,
+     "reusedH2Sec": 14.22,
+     "reusedH4Sec": 19.673000000000002
     },
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -62156,7 +62282,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -62392,23 +62518,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 9934,
+     "ms": 7855,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 9866,
+       "ms": 7779,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 41,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "zonal.analytic-d68",
-       "ms": 24,
+       "ms": 21,
        "pass": true,
        "via": "claims"
       },
@@ -62459,7 +62585,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -62731,11 +62857,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 20,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 19,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -62780,7 +62906,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -63052,11 +63178,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 14,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.saturnD68ObsOrbit",
-       "ms": 14,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -63104,11 +63230,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 131.315,
+     "wallSec": 128.507,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 131.315,
+       "wallSec": 128.507,
        "reused": false,
        "reusedBy": null
       }
@@ -63120,7 +63246,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -63180,7 +63306,7 @@
      },
      {
       "key": "mercury",
-      "sec": 287,
+      "sec": 330,
       "share": 35,
       "always": true
      },
@@ -63656,17 +63782,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 111,
+     "ms": 110,
      "tests": [
       {
        "id": "preset.saturnRingReal",
-       "ms": 77,
+       "ms": 69,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "wave121.ui",
-       "ms": 34,
+       "ms": 41,
        "pass": true,
        "via": "claims"
       }
@@ -63714,7 +63840,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -63998,11 +64124,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 344,
+     "ms": 309,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 344,
+       "ms": 309,
        "pass": true,
        "via": "targetIds"
       }
@@ -64047,7 +64173,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -64331,17 +64457,17 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4149,
+     "ms": 3751,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 4084,
+       "ms": 3691,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ai.obs-binary",
-       "ms": 65,
+       "ms": 60,
        "pass": true,
        "via": "targetIds"
       },
@@ -64399,7 +64525,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -64683,17 +64809,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 131,
+     "ms": 122,
      "tests": [
       {
        "id": "shot.regress-fig8",
-       "ms": 116,
+       "ms": 109,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.fig8",
-       "ms": 15,
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       }
@@ -64738,7 +64864,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -65010,11 +65136,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 821,
+     "ms": 871,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 821,
+       "ms": 871,
        "pass": true,
        "via": "targetIds"
       },
@@ -65065,7 +65191,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -65337,17 +65463,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2035,
+     "ms": 1671,
      "tests": [
       {
        "id": "shot.regress-spinup",
-       "ms": 1194,
+       "ms": 855,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.spinup",
-       "ms": 840,
+       "ms": 815,
        "pass": true,
        "via": "targetIds"
       },
@@ -65398,7 +65524,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -65670,11 +65796,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 228,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 228,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -65719,7 +65845,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -65991,11 +66117,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 125,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 125,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -66040,7 +66166,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -66312,11 +66438,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 75,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.whiteDwarfDFM",
-       "ms": 75,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -66361,7 +66487,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -66633,11 +66759,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 21,
      "tests": [
       {
        "id": "preset.whiteDwarfBareDFM",
-       "ms": 19,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -66682,7 +66808,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -66954,11 +67080,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 11,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.envelopeShedDFM",
-       "ms": 11,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -67003,7 +67129,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -67275,17 +67401,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 158,
+     "ms": 197,
      "tests": [
       {
        "id": "preset.lfbotTrap",
-       "ms": 80,
+       "ms": 113,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lfbotTrap",
-       "ms": 78,
+       "ms": 84,
        "pass": true,
        "via": "targetIds"
       }
@@ -67330,7 +67456,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -67608,11 +67734,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 27,
+     "ms": 21,
      "tests": [
       {
        "id": "preset.layeredCoreDFM",
-       "ms": 27,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -67657,7 +67783,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -67941,11 +68067,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 29,
+     "ms": 11,
      "tests": [
       {
        "id": "preset.spinDipoleBinary",
-       "ms": 29,
+       "ms": 11,
        "pass": true,
        "via": "targetIds"
       }
@@ -67990,7 +68116,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -68262,17 +68388,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 219,
+     "ms": 192,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 187,
+       "ms": 158,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gasCohSurface",
-       "ms": 32,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -68317,7 +68443,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -68589,11 +68715,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 16,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.mmPhaseToy",
-       "ms": 16,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -68638,7 +68764,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 22,
+      "sec": 26,
       "share": "all",
       "always": false
      },
@@ -68910,17 +69036,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 97,
+     "ms": 67,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 73,
+       "ms": 36,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
-       "ms": 24,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       }
@@ -68932,28 +69058,28 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 237,
-  "regenSecSum": 37495,
-  "alwaysSec": 799,
-  "undeclaredSteps": 31,
-  "undeclaredSec": 1660,
-  "qaTotal": 1506,
-  "qaDurationMs": 4812838,
+  "regenSteps": 242,
+  "regenSecSum": 37711,
+  "alwaysSec": 914,
+  "undeclaredSteps": 32,
+  "undeclaredSec": 1705,
+  "qaTotal": 1525,
+  "qaDurationMs": 4418557,
   "qaProvenance": {
    "since": "第320便d(R265)",
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "06d7fa06f73f0a07ac28feb6424408d808c47d80",
-   "date": "2026-11-12T00:08:47.602Z",
-   "betaBuild": "v1.47-b334",
-   "targetSha256": "64008166fa63729730721be6afc6c538226d4d1a47bf7d12233659ff2fa9f9b5",
+   "commit": "a5aa91a5abea38330648de734806d30c96ed53b5",
+   "date": "2026-11-12T21:24:50.963Z",
+   "betaBuild": "v1.47-b335",
+   "targetSha256": "27db447180a614987ccd00ca6a2778cc672a03b1e3565cf327a220be5343681d",
    "sameBuild": true,
    "sameHtml": true,
    "rule": "鎖の常時群の段 samplestatus はゲートの QA の前に走る —— 保存 QA の時間は前の便のゲートの保存物(1 便遅れる)。版名が同じでも html の sha が違えば同じ便の中の前の html の QA"
   },
   "noHtmlSteps": {
    "since": "第320便d(R265)",
-   "n": 24,
-   "sec": 1655,
+   "n": 25,
+   "sec": 1700,
    "keys": [
     "obsintake",
     "recordid",
@@ -68978,7 +69104,8 @@
     "noncirc-333d",
     "heightlaw-334a",
     "ledger-334b",
-    "gridfloor-334e"
+    "gridfloor-334e",
+    "elliptical-335f"
    ],
    "rule": "宣言の無い段のうち再生成表の htmlReadOf が none(html を読まない)の段"
   },
@@ -68986,7 +69113,7 @@
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 49.306
+    "sec": 46.482
    },
    "h4": {
     "n": 3,
@@ -69376,6 +69503,12 @@
      "presets": null
     },
     {
+     "key": "calaudit",
+     "sec": 454,
+     "kind": "常時群",
+     "presets": null
+    },
+    {
      "key": "charonfactors",
      "sec": 450,
      "kind": "領域の宣言",
@@ -69397,12 +69530,6 @@
      "presets": "all"
     },
     {
-     "key": "calaudit",
-     "sec": 389,
-     "kind": "常時群",
-     "presets": null
-    },
-    {
      "key": "compose293",
      "sec": 387,
      "kind": "領域の宣言",
@@ -69415,6 +69542,48 @@
      "presets": [
       "ngc3198",
       "ngc3198DFM"
+     ]
+    },
+    {
+     "key": "mercury",
+     "sec": 330,
+     "kind": "常時群",
+     "presets": [
+      "alphaCenAB",
+      "alphaCenABDFM",
+      "earthMoonReal",
+      "earthMoonRealKF1",
+      "emAuditDFM",
+      "emAuditNewton",
+      "gw150914DFM",
+      "jupiterGalilean",
+      "marsMoonsReal",
+      "mercuryReal",
+      "mercuryRealKF1",
+      "neptuneReal",
+      "plutoCharonDiagInput",
+      "plutoCharonReal",
+      "psrB1534",
+      "psrB1534CF",
+      "psrB1534DFM",
+      "psrDoubleAB",
+      "psrDoubleABCF",
+      "psrDoubleABDFM",
+      "psrDoubleABPN",
+      "psrDoubleABSpinCal",
+      "psrJ1757CF",
+      "psrJ1757DFM",
+      "psrJ1757PN",
+      "psrJ1946CF",
+      "psrJ1946DFM",
+      "psrJ1946PN",
+      "qLockRadialAudit",
+      "qLockRadialAuditQ3",
+      "saturnRingReal",
+      "saturnZonalD68",
+      "siriusAB",
+      "siriusABDFM",
+      "venusReal"
      ]
     },
     {
@@ -69453,48 +69622,6 @@
      "presets": [
       "earthMoonInertial",
       "earthMoonReal"
-     ]
-    },
-    {
-     "key": "mercury",
-     "sec": 287,
-     "kind": "常時群",
-     "presets": [
-      "alphaCenAB",
-      "alphaCenABDFM",
-      "earthMoonReal",
-      "earthMoonRealKF1",
-      "emAuditDFM",
-      "emAuditNewton",
-      "gw150914DFM",
-      "jupiterGalilean",
-      "marsMoonsReal",
-      "mercuryReal",
-      "mercuryRealKF1",
-      "neptuneReal",
-      "plutoCharonDiagInput",
-      "plutoCharonReal",
-      "psrB1534",
-      "psrB1534CF",
-      "psrB1534DFM",
-      "psrDoubleAB",
-      "psrDoubleABCF",
-      "psrDoubleABDFM",
-      "psrDoubleABPN",
-      "psrDoubleABSpinCal",
-      "psrJ1757CF",
-      "psrJ1757DFM",
-      "psrJ1757PN",
-      "psrJ1946CF",
-      "psrJ1946DFM",
-      "psrJ1946PN",
-      "qLockRadialAudit",
-      "qLockRadialAuditQ3",
-      "saturnRingReal",
-      "saturnZonalD68",
-      "siriusAB",
-      "siriusABDFM",
-      "venusReal"
      ]
     },
     {
@@ -69747,6 +69874,12 @@
      ]
     },
     {
+     "key": "d68three",
+     "sec": 49,
+     "kind": "常時群",
+     "presets": null
+    },
+    {
      "key": "spiral290",
      "sec": 49,
      "kind": "領域の宣言",
@@ -69792,6 +69925,12 @@
      ]
     },
     {
+     "key": "elliptical-335f",
+     "sec": 45,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
      "key": "fixcap288",
      "sec": 44,
      "kind": "領域の宣言",
@@ -69810,12 +69949,6 @@
      "presets": "all"
     },
     {
-     "key": "d68three",
-     "sec": 42,
-     "kind": "常時群",
-     "presets": null
-    },
-    {
      "key": "ledger-334b",
      "sec": 36,
      "kind": "html を読まない",
@@ -69829,6 +69962,21 @@
       "earthMoonOnly3d",
       "earthMoonSunInertial3d"
      ]
+    },
+    {
+     "key": "moonapsis-335e",
+     "sec": 27,
+     "kind": "領域の宣言",
+     "presets": [
+      "earthMoonOnly3d",
+      "earthMoonSunInertial3d"
+     ]
+    },
+    {
+     "key": "d0audit",
+     "sec": 26,
+     "kind": "領域の宣言",
+     "presets": "all"
     },
     {
      "key": "drag3d-298c",
@@ -69861,12 +70009,6 @@
      "presets": null
     },
     {
-     "key": "d0audit",
-     "sec": 22,
-     "kind": "領域の宣言",
-     "presets": "all"
-    },
-    {
      "key": "transgeo2-332b",
      "sec": 17,
      "kind": "領域の宣言",
@@ -69885,6 +70027,18 @@
      "sec": 12,
      "kind": "領域の宣言",
      "presets": "all"
+    },
+    {
+     "key": "mercurycombo-335c",
+     "sec": 12,
+     "kind": "領域の宣言",
+     "presets": [
+      "marsSunInertial3d",
+      "mercury",
+      "mercurySunInertial3d",
+      "saturn",
+      "venusSunInertial3d"
+     ]
     },
     {
      "key": "powerball2",
@@ -69906,6 +70060,24 @@
       "clusterAnalogyBH",
       "galaxyAnalogyBH",
       "gas"
+     ]
+    },
+    {
+     "key": "binarytilt-335d",
+     "sec": 11,
+     "kind": "領域の宣言",
+     "presets": [
+      "alphaCenABInertial3d",
+      "alphaCenABInertial3dJ",
+      "binaryCheckEqualInertial3d",
+      "binaryCheckRatio3Inertial3d",
+      "plutoCharonDiagInput",
+      "plutoCharonInertialFit",
+      "psrB1534",
+      "psrDoubleABInertial3d",
+      "psrJ1757DFM",
+      "psrJ1946DFM",
+      "siriusABInertial3d"
      ]
     },
     {
@@ -71534,6 +71706,16 @@
      "kind": "領域の宣言",
      "presets": [
       "saturnRingReal",
+      "solarSystem16Inertial3d"
+     ]
+    },
+    {
+     "key": "carryledger-335b",
+     "sec": 2,
+     "kind": "領域の宣言",
+     "presets": [
+      "mercury",
+      "saturn",
       "solarSystem16Inertial3d"
      ]
     },

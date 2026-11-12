@@ -1960,6 +1960,67 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/gridfloor-w334e.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第334便e: NGC 3198 の恒星の円盤(第333便d の 4 族)の統合した並進の場 U を星の点でない固定の受け手の格子(半径 7 × 方位 24・面内と高さ z の列)で読む —— 離散化 9 組(環の間隔 × 方位の数)・軟化 4・種 5・方位の位相 3 の誤差の幅(目標 1%)と分解・「腕あり − 円」の差 ÷ 幅(判定の比 3)・m = 2 の密度と U_φ の m = 2・星の点の受け手と第333便d の離散化の列の照らし・円盤の源の場の高さ z の偶奇と次数(薄い円盤と sech² の厚みの対照)' }),
   // ==== 第334便e の塊(ここまで)====
+  // ==== 第335便b の塊(ここから)====
+  // ---- 第335便b(原仮定者の決断(2026-11-12 —— AN654「v を分けた方がシンプル」・AN653「エネルギーは相殺しない」・AN650「座標変換の基準なので観測値」)・原仮定者の補足(2026-11-12)
+  //   「太陽や惑星の自転は、銀河の軸引きずりから供給される」・原仮定者の回答(2026-11-12 —— AN646 = A・AN651 = A・AN652)・統括の検証項目 R329): **定義を揃える器**(段 carryledger-335b ——
+  //   正本 tests/out/carryledger-w335b.json・lib tests/lib-w335b-carryledger.mjs —— 第334便b・第334便a・第333便b・第333便a・第330便a の lib を import して呼ぶ)。**診断だけ**。
+  //   html を読む(🗺️ の写しの build で本の時刻の位置と速度 —— 第333便b の器の写しと同じ作り方・領域の宣言は deriveScope の下限)・正本 3 本を読む(第333便b・第334便b・第334便d —— 順序だけ after)。
+  //   import する第332便a の lib が呼ぶ第331便c の lib が記録の値の出典の正本の名を書く 8 段も after(第334便b と同じ)。1 プロセス。所要は第335便b の枝の実測 1 s の桁
+  S('carryledger-335b', 'node tests/exp-w335b-carryledger.mjs', ['tests/out/carryledger-w335b.json'], 2, { secSource: 'w335b-branch', node: true,
+    after: ['obscompare', 'samplestatus', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'axialfield-333b', 'ledger-334b', 'binarylaw-334d'],
+    quickVerify: false, quickVerifyWhy: '全部を走らせても数秒(写しの build・純関数の表・正本 3 本の値)—— 簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/carryledger-w335b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第335便b: 自己を運ぶ式(v を分けた形 —— 分子に自己を入れた平均との恒等・本の時刻の 16 体 × 自己の 3 列の d と ω′)/熱の口の 3 列(物理の源ごと〔主〕・数式の分解ごと〔比〕・相殺〔否定対照〕× 受け手の静止系と重心系 × τ 3)/供給のある開いた帳簿(銀河の軸引きずりの読み 5 × 銀河の源 2 の符号・第334便b の押しの損失を埋める要る Γ と熱・供給なしの減衰の時間)/T1 の部位の速度の則(捩れの率・Ω∥ × b⊥ —— 土星の環の粒子・ガリレオ衛星・水星)/冥王星–カロンの同期の 0(読むだけ)' }),
+  // ==== 第335便b の塊(ここまで)====
+  // ==== 第335便c の塊(ここから)====
+  // ---- 第335便c(原仮定者の決断(2026-11-12)「回転の並進引きずりが近点移動に効くのではないか —— 斜め軌道なので位置で影響が変化する」「回転引きずり有りの組み合わせも検証する」・
+  //   原仮定者の補足(2026-11-12)「距離の変化による並進引きずり」・原仮定者の回答(2026-11-12 —— AN646・AN650・AN655・AN657)・統括の検証項目 R330): **水星の組み合わせの器 —— 並進の分の動径/接線/法線の分解・
+  //   回転引きずり有りの組み合わせ(R1〜R4 —— T1 の向き × 結合)・軌道の位置の区間と型の判定・二次の結合・文献の値(第335便c で訂正)との参考の比・金星・地球・火星の対照**(段 mercurycombo-335c ——
+  //   正本 tests/out/mercurycombo-w335c.json・lib tests/lib-w335c-mercurycombo.mjs —— 第333便c の器の readBooks・systemOf と第333便c・第334便a・第334便c・第332便a の lib を import して呼ぶ)。
+  //   **診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は 🌡️🌋🔴 を .find で引く 3 本 —— 宣言の値を読む・步を進めない)・他の正本は読まない(順序だけ after に mercurynode-334c と
+  //   その前の段と同じ段)。1 プロセス。所要は第335便c の枝の実測 10〜12 s
+  S('mercurycombo-335c', 'node tests/exp-w335c-mercurycombo.mjs', ['tests/out/mercurycombo-w335c.json'], 12, { secSource: 'w335c-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercury3d-333c', 'mercurynode-334c'],
+    quickVerify: false, quickVerifyWhy: '本の宣言の値と一次の区間の積分と純粋な積分器だけ(窓が無く、全部を走らせても十数秒)',
+    volatilePaths: { 'tests/out/mercurycombo-w335c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第335便c: 水星の組み合わせ —— 並進の分(K1 の代わりの統合した並進)の動径(距離の変化)・面内の横・法線の分解と閉じ・二重の否定対照(今の組 + 動径)・α × 自己の形 × 自己の半径の格子/基準(G_loc 受け手 n = 2 + 統合した並進の並進の分)に R1 座標変換の回転の分・R2 旧い回転の差分(α 2 × 振幅 2)・R3 切り口・R4 T1(s z)の向き 4 × 結合 3 を単独と和で/真近点角の 36 区間の面内の近点の回転と e 4 × 近点引数 5 × 傾き 3 の格子・ω の 12 点の形の当てはめと型の判定/二次の結合(並進 × 回転・T1 —— h と h/2・窓 2 つ)/文献の値(第335便c で訂正・本環境では未照合)との参考の比/金星・地球・火星の対照' }),
+  // ==== 第335便c の塊(ここまで)====
+  // ==== 第335便d の塊(ここから)====
+  // ---- 第335便d(原仮定者の補足(2026-11-12)「連星での自転軸の傾きの組み合わせは、ノブになる」「互いに潮汐ロックしている連星は、『距離の変化による並進引きずり』以外の、相互の引きずりが消える」・
+  //   原仮定者の回答(2026-11-12 —— AN660・AN661・AN662・AN663・AN664・AN650)・統括の検証項目 R331): **連星の器 —— 同期の型(円・相互同期/離心・瞬間の同期/離心・平均の同期)と一周の平均の永年の効き(求積)・
+  //   残差の族 G1〜G3(走行の前に宣言・近点の通過の角が主・窓の平均は補助)・自転軸の傾きの組み合わせの格子(天体 1 の軸 22 × 天体 2 の関係 4 × 自転 3)・重心と周期**(段 binarytilt-335d —— 正本
+  //   tests/out/binarytilt-w335d.json・lib tests/lib-w335d-binarytilt.mjs —— 第334便d の lib と器〔syncCase・twoBody・sysOfBook〕と第333便c の lib を import して呼ぶ〔code の依存 —— 他の正本は読まない。
+  //   順序だけ after に binarylaw-334d と、その段と同じ 10 段〕)。**診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(本は連星と冥王星–カロンの 11 本を .find で引く —— 宣言の値を読む・
+  //   步を進めない)。1 プロセス。所要は第335便d の枝の実測 8〜11 s
+  S('binarytilt-335d', 'node tests/exp-w335d-binarytilt.mjs', ['tests/out/binarytilt-w335d.json'], 11, { secSource: 'w335d-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'binarylaw-334d'],
+    quickVerify: false, quickVerifyWhy: '本の宣言の値と純関数と求積と二体の同時発展の積分器だけ(窓が無く、全部を走らせても 15 秒の内)',
+    volatilePaths: { 'tests/out/binarytilt-w335d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第335便d: 同期の型(e 6 × 位相 8 × 質量比 4 × 受け手 2 × 自己の重み 3 —— 残る d の動径・接線を閉じた式 −β ṙ・β r(Ω − ḟ) と照合)・一周の平均の永年の効き(求積 —— 動径・接線〔ḟ の分〕・接線〔Ω の分〕)・同期の型の同時発展(引きずりだけと今の型)・本の系の位置・残差の族 G1〜G3(設計 = 第334便d の格子の η・e × ε 3・検証 = 在位の本 6 本と設計に使っていない格子の 4 点 —— 物差し max(5%·|δ|, ε))・自転軸の傾きの組み合わせ(天体 1 の軸 22 × 天体 2 の関係 4 × 自転 3 —— 1 行に ρ・周期・面・e・重心・E と L)・重心と周期・刻みの感度。残差の族の判定は検証の系の本の全部で 1 つ(共有フィット —— 族の係数は格子に当て、本どうしで 1 つの判定 —— 本ごとに分けない)' }),
+  // ==== 第335便d の塊(ここまで)====
+  // ==== 第335便e の塊(ここから)====
+  // ---- 第335便e(原仮定者の補足(2026-11-12)「月の近点移動の周期は太陽無しでは徐々に減衰するが、太陽有りだと安定する」・統括の検証項目 R332): **月の近点と太陽の有無の 4 列の器 ——
+  //   太陽 無/有 × 引きずり 無/有(同じ初期状態)の長い窓 20 年・100 年・強さ 1 倍と拡大した対照 10³・10⁶ 倍・動径/接線の分解・e の強制と自由の成分・E と L の帳簿**(段 moonapsis-335e —— 正本
+  //   tests/out/moonapsis-w335e.json・lib tests/lib-w335e-moonapsis.mjs —— 第331便c・第333便c の lib を import して呼ぶ〔code の依存 —— 他の正本は読まない。import する第331便c の lib が
+  //   記録の値の出典の正本の名を書くだけ —— 順序だけ after に第333便c の段と同じ 10 段〕)。**診断だけ**(エンジン・在位の本・受理器は変えない)。html を読む(🌦️・🌔 の 2 本を .find で引く ——
+  //   宣言の値を読む・步を進めない)。1 プロセス。所要は第335便e の枝の実測 24〜27 s(点の質量 + 地球の J₂ + 多体の並進引きずりの RK4 —— 刻み 360/恒星月 × 100 年 × 22 本 + h/2 の 6 本。間引かない)
+  S('moonapsis-335e', 'node tests/exp-w335e-moonapsis.mjs', ['tests/out/moonapsis-w335e.json'], 27, { secSource: 'w335e-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: '本の宣言の値と純関数と多体の積分器だけ(窓が無く、全部を走らせても 30 s の内)',
+    volatilePaths: { 'tests/out/moonapsis-w335e.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第335便e: 月の近点と太陽の有無 —— 4 列(太陽なし・ありの引きずりなし〔🌔・🌦️ の宣言の値 —— どちらも在位は引きずり OFF〕・引きずりあり〔多体の並進引きずり —— 観測自転・α = 1・自己の半径 Y_k m・W₀ = 0〕)の長い窓 20 年・100 年の近点の通過の角の調和の回帰・接触の要素・交点・恒星月・e の強制の成分と自由の成分・同じ刻みの差の傾き(e・a・ϖ・交点・傾き・|h|・E・L_z・面内の近点のベクトル)・強さ 1・10³・10⁶ 倍(拡大した対照)・動径だけ/接線だけ(二体の閉じた式 −πb/p・+2πb/p と照らす)・地球の自転軸の感度・h/2 の帯・判定(版 2 —— 帯と窓の安定)・年ごとの標本・供給の読みとの対応(月の側の数だけ)' }),
+  // ==== 第335便e の塊(ここまで)====
+  // ==== 第335便f の塊(ここから)====
+  // ---- 第335便f(原仮定者の補足(2026-11-12)「まずは、楕円銀河の再現を目指す」・原仮定者の回答(2026-11-12 —— AN665)・統括の検証項目 R333):
+  //   **楕円銀河の型の模型の器**(段 elliptical-335f —— 正本 tests/out/elliptical-w335f.json・lib tests/lib-w335f-elliptical.mjs —— 第333便d の lib〔乱数〕・第334便e の lib〔受け手の場〕・
+  //   第330便b の lib〔引きずり半径〕・第329便b の lib〔単位の定数〕を import して呼ぶ〔code の依存 —— 他の正本は読まない〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数
+  //   tests/lib-w335f-elliptical.mjs —— 第317便d の satan の型・領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第335便f の枝の実測 42〜45 s
+  //   (直接の和 —— 52 本 × 500 步〔h/2 の 3 本は 1000 步〕・主の N 512。重い列 N 1024・2048 は器の任意の旗 --deep で正本の外へ)
+  S('elliptical-335f', 'node tests/exp-w335f-elliptical.mjs', ['tests/out/elliptical-w335f.json'], 45, { secSource: 'w335f-branch', node: true,
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 60 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/elliptical-w335f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec', '/runs/*/wallSec'] },   // 入力のファイルが無い器(meta.inputs が空)—— META_RUN の /meta/inputs/*/mtime は当たらないので外す(第335便 統合)
+    note: '第335便f: 分散で支える三次元の系(Plummer 球が主・Hernquist 球・扁平 0.7・回転の支え v_rot/σ 0.3 は対照)の重力だけの対照(N 256・512 × 軟化 0.02・0.05・0.1 × 種 3 —— 5 横断の時間)の量の推移と誤差の幅・平衡の記録・緩和の時間と窓の比・星どうしの並進引きずり(作用の型 速度の場/押し γ 0.01・0.1・1 ÷ t_cr × 重み α 2・1 × 自己の重み なし・R_d = Y_k m)を 1 つずつ足した差 ÷ 幅(判定の比 3)・引きずりの仕事と E の帳簿・h と h/2' }),
+  // ==== 第335便f の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

@@ -868,6 +868,48 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.gridFloor334e behavior.gridFloor334e do
 #   第333便の診断の式の項・変異の自己試験 / docs.terms334f —— 現象の一覧の更新した行と P33・PHYSICS〔第334便f〕・文書)と、直した文書を読む鍵(式の一覧・現象の一覧・記号)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.terms334f docs.terms334f lint.equations331d docs.equations331d lint.phenomena331e docs.phenomena331e lint.symbols333e docs.symbols333e lint.kappaSymbol315"
 # ==== 第334便f の塊(ここまで)====
+# ==== 第335便a の塊(ここから)====
+# 第335便a(原仮定者の決断(2026-11-12)・原仮定者の回答(2026-11-12 —— AN641)・統括の検証項目 R328 —— beta/index.html の文字列の中の記号だけ・物理の部分は不変): 枝 a の新設 2 本
+#   (lint.appSymbols335a —— html の文字列の中の旧い記号の分類と許可の一覧・変異の自己試験 / docs.appSymbols335a —— PHYSICS〔第335便a〕・AI_SPEC §220・CHANGELOG)と、
+#   物理の部分の hash・説明文を読む鍵(第335便a で期待の記号を世代の注記つきで直した鍵を含む)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.appSymbols335a docs.appSymbols335a lint.htmlPhys325a lint.symbols333e lint.kappaSymbol315 lint.presetText316b ui.wbgSlider302 behavior.wbgDirect302 docs.words325c"
+# ==== 第335便a の塊(ここまで)====
+# ==== 第335便b の塊(ここから)====
+# 第335便b(原仮定者の決断(2026-11-12 —— AN654・AN653・AN650)・原仮定者の補足(2026-11-12)・統括の検証項目 R329 —— 診断だけ・html は変えない): 枝 b の新設 3 本(lint.carryLedger335b ——
+#   自己を運ぶ式・熱の口・供給の帳簿・T1 の部位の則の純関数と宣言 / behavior.carryLedger335b —— 正本の本の時刻の状態から表を作り直して正本と同じ / docs.carryLedger335b —— 正本の門と
+#   表 11 本が PHYSICS〔第335便b〕に逐語・文書)と、新しい段 carryledger-335b の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.carryLedger335b behavior.carryLedger335b docs.carryLedger335b docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.symbols333e lint.kappaSymbol315"
+# ==== 第335便b の塊(ここまで)====
+# ==== 第335便c の塊(ここから)====
+# 第335便c(原仮定者の決断(2026-11-12)・原仮定者の補足(2026-11-12)・原仮定者の回答(2026-11-12 —— AN646・AN650・AN655・AN657)・統括の検証項目 R330 —— 診断だけ・html は変えない): 枝 c の新設 3 本
+#   (lint.mercuryCombo335c —— 宣言と純関数の場面〔分解の閉じ・動径の成分・T1 の速さの指標・向きの基底・区間の和・当てはめ・単位の写し・入力の拒否〕と呼ぶだけの検査・文献の値の訂正 /
+#   behavior.mercuryCombo335c —— 今の html の 🌡️🌋🔴 の宣言から分解・組み合わせ・区間・型・二次の結合・対照を作り直して正本と同じ / docs.mercuryCombo335c —— 正本の門と表が PHYSICS〔第335便c〕に逐語・文書)と、
+#   文献の値を訂正した第334便c の 3 本と、新しい段 mercurycombo-335c の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.mercuryCombo335c behavior.mercuryCombo335c docs.mercuryCombo335c lint.mercuryNode334c behavior.mercuryNode334c docs.mercuryNode334c docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
+# ==== 第335便c の塊(ここまで)====
+# ==== 第335便d の塊(ここから)====
+# 第335便d(原仮定者の補足(2026-11-12)・原仮定者の回答(2026-11-12 —— AN660〜AN664・AN650)・統括の検証項目 R331 —— 診断だけ・html は変えない): 枝 d の新設 3 本(lint.binaryTilt335d —— 同期の型・
+#   求積・近点の通過の角の同時発展の純関数の場面と呼ぶだけの検査・宣言 / behavior.binaryTilt335d —— 系の表・同期の型・求積・部分集合を今の html の 11 本から作り直して正本と同じ /
+#   docs.binaryTilt335d —— 正本の門と表 14 本が PHYSICS〔第335便d〕に逐語・文書)と、新しい段 binarytilt-335d の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.binaryTilt335d behavior.binaryTilt335d docs.binaryTilt335d docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
+# ==== 第335便d の塊(ここまで)====
+# ==== 第335便e の塊(ここから)====
+# 第335便e(原仮定者の補足(2026-11-12)・原仮定者の決断(2026-11-12)・統括の検証項目 R332 —— 診断だけ・html は変えない): 枝 e の新設 3 本(lint.moonApsis335e —— 月の近点と太陽の有無の
+#   純関数の場面と呼ぶだけの検査・宣言 / behavior.moonApsis335e —— 本の値と写しの規則・太陽なしの D0 と D1・判定と分解の表を今の html の 2 本から作り直して正本と同じ /
+#   docs.moonApsis335e —— 正本の門と表 12 本が PHYSICS〔第335便e〕に逐語・文書)と、新しい段 moonapsis-335e の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.moonApsis335e behavior.moonApsis335e docs.moonApsis335e docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
+# ==== 第335便e の塊(ここまで)====
+# ==== 第335便f の塊(ここから)====
+# 第335便f(原仮定者の補足(2026-11-12)・原仮定者の回答(2026-11-12 —— AN665)・原仮定者の回答(2026-11-11 —— AN638・AN640)・統括の検証項目 R333 —— 診断だけ・html は変えない): 枝 f の新設 3 本
+#   (lint.elliptical335f —— 楕円銀河の型の模型の純関数の場面と呼ぶだけの検査・器の宣言〔模型・N・軟化・窓・作用の型・幅と効果の定義・判定の比〕/ behavior.elliptical335f —— 3 本の走行と
+#   幅・効果・平衡の記録・対照の模型・h と h/2 を作り直して正本と同じ / docs.elliptical335f —— 正本の門と表 16 本が PHYSICS〔第335便f〕に逐語・文書)と、新しい段 elliptical-335f の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.elliptical335f behavior.elliptical335f docs.elliptical335f docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
+# ==== 第335便f の塊(ここまで)====
+# ==== 第335便g の塊(ここから)====
+# 第335便g(原仮定者の決断(2026-11-12)・統括の検証項目 R334 —— 文書と QA だけ・html は変えない): 枝 g の新設 2 本(lint.terms335g —— 第334便の診断の式の項 EQ-34〜EQ-43 と
+#   用語の表の更新・第334便f の照合の世代の写し・変異の自己試験 / docs.terms335g —— 現象の一覧の欄「第334便の調べ」・PHYSICS〔第335便g〕・文書)と、直した文書を読む鍵
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.terms335g docs.terms335g lint.terms334f docs.terms334f lint.equations331d docs.equations331d lint.phenomena331e docs.phenomena331e lint.symbols333e docs.symbols333e lint.kappaSymbol315"
+# ==== 第335便g の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
@@ -979,12 +1021,17 @@ fi
 # ==== 第320便d の塊(ここから)====
 # 第320便d(統括の検証項目 R265 —— 第319便の見落とし): lint の違反を種類で数える(tests/lib-w320d-lintkinds.mjs の印 〔違反の種類 w320d: …〕 を拾う)。
 #   刻印の型(targetSha256・meta.scope・「器を走らせ直す」—— 鎖で直る)とそれ以外を分け、**刻印の型以外が 1 件でもあれば ‼ で目立たせる**(判定は変えない —— fail は従来どおり)。
+#   第335便(統括): **印のない FAIL も id で並べる**(種類の印 〔違反の種類 w320d: …〕 を出さない鍵の FAIL は上の数に入らない —— 第335便の ① は
+#   FAIL 8 件のうち 6 件が印なしで、うち 1 件(AI_SPEC §5 の逐語の 1 箇所)は鎖で直らない型だった。ゲートの beta フルで初めて止まった)。
 kinds320() {
   [ -f "$1" ] || { echo ""; return; }
   node --input-type=module -e 'import fs from "node:fs"; const L = await import(process.argv[1]); const r = L.summarizeLog(fs.readFileSync(process.argv[2], "utf8"));
-if (!r.byLint.length) { console.log(""); process.exit(0); }
+const un = r.unmarked || [];
+const unIds = un.slice(0, 12).map((z) => z[0] + (z[1] === "stamp" ? "〔刻印の文〕" : "")).join("・") + (un.length > 12 ? "・ほか " + (un.length - 12) + " 件" : "");
+const unText = un.length ? "・‼ 印のない FAIL " + un.length + " 件(" + unIds + " —— 種類を数えていない・理由の文を読んで分ける)" : "";
+if (!r.byLint.length) { console.log(unText); process.exit(0); }
 const by = r.byLint.filter((z) => z[1] > 0).map((z) => z[0] + " " + z[1]).join("・");
-console.log(r.other > 0 ? "・‼ 刻印の型以外の違反 " + r.other + " 件(" + by + ")・刻印の型 " + r.stamp + " 件" : "・刻印の型以外の違反 0 件(刻印の型 " + r.stamp + " 件 —— 鎖で直る)");' "$ROOT/tests/lib-w320d-lintkinds.mjs" "$1" 2>/dev/null || echo ""
+console.log((r.other > 0 ? "・‼ 刻印の型以外の違反 " + r.other + " 件(" + by + ")・刻印の型 " + r.stamp + " 件" : "・刻印の型以外の違反 0 件(刻印の型 " + r.stamp + " 件 —— 鎖で直る)") + unText);' "$ROOT/tests/lib-w320d-lintkinds.mjs" "$1" 2>/dev/null || echo ""
 }
 [ "$S1" = "skip" ] || S1="$S1$(kinds320 "$LOG/1-preflight.log")"
 # ==== 第320便d の塊(ここまで)====

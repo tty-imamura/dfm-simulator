@@ -20,7 +20,9 @@ jobs:
     #          (PR #315 でも beta の 1 本が 60 分で打ち切り)。上限はハング防止のガードのまま(性能の門は perf)
     # 第326便: 75→90 分 — beta のフル(1408 件)が PR の run では 71 分 45 秒で通り、同じ commit の push の run では 75 分 23 秒で打ち切り
     #          (PR #329)。上限はハング防止のガードのまま(性能の門は perf)
-    timeout-minutes: 90
+    # 第335便: 90→120 分 — beta のフル(1506 件)が PR の run では 68 分で通り、同じ木の main の push の run では preflight 24 分 + 本体 65 分で
+    #          90 分に届いて打ち切り(PR #337 の squash の後)。検査の数と性能の門は変えない(上限はハング防止のガードのまま —— 長い独立の検査の分割は別の便)
+    timeout-minutes: 120
     strategy:
       fail-fast: false
       matrix:

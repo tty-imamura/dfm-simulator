@@ -74,17 +74,23 @@ export const DECL = Object.freeze({
 });
 /** 文献の値と出典(**この箱から一次資料に当たれない —— 記憶の値・未照合**。確かさの程度を書く) */
 export const LIT = Object.freeze({
-  note: '文献の値・未照合 —— この箱から論文と暦表のサイトに届かない。値は記憶の値(確かさ: 桁〔mas/世紀〕は中程度・個々の値と誤差は低い)。物差しには |値| + 誤差を使う',
-  /** 暦表の追加の近点の歳差 Δϖ(″/世紀)—— Pitjeva, E. V. & Pitjev, N. P. 2013, MNRAS 432, 3431(EPM2011)の表の型 */
-  dvarpi: Object.freeze({ src: 'Pitjeva & Pitjev 2013(MNRAS 432, 3431 —— EPM2011)の追加の近点の歳差(記憶の値・未照合)',
-    merc: Object.freeze([-0.0020, 0.0030]), venus: Object.freeze([0.0026, 0.0016]), earth: Object.freeze([0.00019, 0.00019]), mars: Object.freeze([-0.00020, 0.00037]) }),
-  /** 暦表の追加の交点の歳差 ΔΩ(″/世紀・黄道)—— Fienga, A. et al. 2011, Celest. Mech. Dyn. Astr. 111, 363(INPOP10a)の表の型 */
-  dnode: Object.freeze({ src: 'Fienga et al. 2011(Celest. Mech. Dyn. Astr. 111, 363 —— INPOP10a)の追加の交点の歳差(記憶の値・未照合 —— 確かさは近点より低い)',
+  note: '文献の値・本環境では未照合 —— この箱から論文と暦表のサイトに届かない(本環境から一次資料は未到達)。値は外の照合の記録 + 記憶の値(確かさ: 桁〔mas/世紀〕は中程度・個々の値と誤差は低い —— 近点の側は第335便c の訂正の後、リポジトリの転写の記録とも同じ値)。比べる尺度には |値| + 幅を使う(近点の側の幅 = 出典の表の ±・交点の側の幅 = フィットの後の残差の変化が 5% 以内になる区間の半幅 —— 1σ ではない)',
+  /** 暦表の追加の近点の歳差 Δϖ(″/世紀)—— Pitjeva, E. V. & Pitjev, N. P. 2013, MNRAS 432, 3431(EPM2011)の表の型。表の単位は mas/年(1 mas/年 = 0.1 ″/世紀)。
+   *  訂正(第335便c): 火星は −0.00020 ± 0.00037 mas/年 = −0.000020 ± 0.000037 ″/世紀(第334便c は換算を落として 10 倍の値を置いていた) */
+  dvarpi: Object.freeze({ src: 'Pitjeva & Pitjev 2013(MNRAS 432, 3431 —— EPM2011)の追加の近点の歳差(表の単位 mas/年 × 0.1 → ″/世紀・外の照合の記録 + 記憶の値・本環境では未照合 —— 火星は第335便c で 10 倍の誤りを訂正)',
+    merc: Object.freeze([-0.0020, 0.0030]), venus: Object.freeze([0.0026, 0.0016]), earth: Object.freeze([0.00019, 0.00019]), mars: Object.freeze([-0.000020, 0.000037]) }),
+  /** 暦表の追加の交点の歳差 ΔΩ(″/世紀・黄道)—— Fienga, A. et al. 2011, Celest. Mech. Dyn. Astr. 111, 363(INPOP10a)の表の型。幅は 1σ ではない(残差の変化が 5% 以内の区間) */
+  dnode: Object.freeze({ src: 'Fienga et al. 2011(Celest. Mech. Dyn. Astr. 111, 363 —— INPOP10a)の追加の交点の歳差(外の照合の記録 + 記憶の値・本環境では未照合 —— 幅はフィットの後の残差の変化が 5% 以内になる区間の半幅で 1σ ではない・確かさは近点より低い)',
     merc: Object.freeze([0.0014, 0.0018]), venus: Object.freeze([0.0002, 0.0015]), earth: null, mars: Object.freeze([-0.00005, 0.00013]) }),
   /** 太陽の J₂(日震学 —— Pijpers, F. P. 1998, MNRAS 297, L76 の型 2.18e-7・記憶の値・確かさ: 中程度)と太陽の角運動量(同 1.9e41 kg m²/s —— 本便は 0.07 M R² s〔本の自転〕で作る) */
   sunJ2: Object.freeze({ value: 2.2e-7, src: 'Pijpers 1998(MNRAS 297, L76)の日震学の J₂ ≈ 2.18e-7(記憶の値・未照合・確かさ中程度)' }),
   sunJlit: Object.freeze({ value: 1.9e41, src: 'Pijpers 1998 の太陽の角運動量 ≈ 1.9e41 kg m²/s(記憶の値・未照合 —— 本便は 0.07 M R² s で作り、比べる値)' }),
   /** 文献の式(物差し): J₂ の交点 dΩ/dt = −(3/2) n J₂ (R/p)² cos i・近点引数 dω/dt = (3/4) n J₂ (R/p)²(5cos²i − 1)/Lense–Thirring dΩ/dt = 2GJ/[c²a³(1−e²)^{3/2}]・dω/dt = −6GJ cos i/[c²a³(1−e²)^{3/2}] */
+  /** 幅の意味(第335便c —— 正本の欄 scale〔旧 sigma〕は |値| + 幅の比べる尺度で、統計の σ ではない) */
+  widthMeaning: Object.freeze({ dvarpi: '出典の表の ±(近点の側)', dnode: 'フィットの後の残差の変化が 5% 以内になる区間の半幅(交点の側 —— 1σ ではない)', scale: '比べる尺度 = |値| + 幅(統計の σ ではない —— 係数の比は特定の暦表・量・幅からの参考の比で、厳密な信頼の上限ではない)' }),
+  /** 訂正の記録(第335便c —— 統括の検証項目 R330) */
+  correction335c: Object.freeze({ key: 'dvarpi.mars', before: Object.freeze([-0.00020, 0.00037]), after: Object.freeze([-0.000020, 0.000037]), printed: '−0.00020 ± 0.00037 mas/年', conversion: '× 0.1(mas/年 → ″/世紀)',
+    basis: '外の照合の記録(出典の表を見た記録)と記憶の値(同じ表の mas/世紀の値 −0.020 ± 0.037)が同じ・リポジトリの一次の値の監査の表 paper/data/pn1-primary-audit-20261015.csv の火星の行(−0.00002・幅 0.000037)とも同じ —— 本環境から一次資料は未到達' }),
   formulaSrc: '太陽の J₂ の永年の率(Murray, C. D. & Dermott, S. F. 1999, Solar System Dynamics の型)・Lense, J. & Thirring, H. 1918(Physikalische Zeitschrift 19, 156)の交点と近点引数の率(いずれも太陽の赤道面の要素 —— 記憶の式を純関数の場面で Gauss の平均と照らす)',
 });
 
