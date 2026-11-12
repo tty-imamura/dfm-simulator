@@ -4407,19 +4407,19 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.31
+   "wallSec": 0.45
   },
   "books": {
-   "wallSec": 0.311
+   "wallSec": 0.452
   },
   "runs": {
-   "wallSec": 24.144
+   "wallSec": 27.77
   },
   "judge": {
-   "wallSec": 24.146
+   "wallSec": 27.771
   },
-  "runsH": 14.225,
-  "runsHalf": 9.607000000000001
+  "runsH": 17.236,
+  "runsHalf": 10.081
  },
  "gates": {
   "pure": true,
@@ -4431,13 +4431,13 @@
   "yearly": true
  },
  "ok": true,
- "elapsedS": 26.088,
+ "elapsedS": 30.347,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第335便e",
   "target": "beta/index.html",
   "targetSha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
-  "generatedAt": "2026-11-12T15:25:56.729Z",
+  "generatedAt": "2026-11-12T15:32:27.850Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -4449,9 +4449,9 @@
   "code": [
    {
     "file": "tests/exp-w335e-moonapsis.mjs",
-    "bytes": 26525,
-    "sha256": "4b4d902cb3f0b6210f31005802d78fb782769030f60efcd275196a7dcc825ae1",
-    "mtime": "2026-11-12T15:25:06.044Z"
+    "bytes": 26546,
+    "sha256": "612cd9f4e15b5fafa5adb0db681fbf77f268b96c766651b09158452f5f533644",
+    "mtime": "2026-11-12T15:30:24.316Z"
    },
    {
     "file": "tests/lib-w335e-moonapsis.mjs",
@@ -4532,7 +4532,7 @@
     "mtime": "2026-11-12T15:00:28.680Z"
    }
   ],
-  "codeSha256": "a91cfdb979cad1dbc5e8036c6ea213e68473c431850bbb52b0d7742fb62577f0",
+  "codeSha256": "a35e0e75a3392efecb9cf661449bca0d8e49e6382118d8153eff3b45e1de4889",
   "harnessVersion": "w335e-moonapsis-1",
   "stage": "moonapsis",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)・在位の 🌦️・🌔 の宣言の値を読む(步を進めない)・純関数(lib —— 点の質量 + 地球の J₂ + 多体の並進引きずりの RK4)",

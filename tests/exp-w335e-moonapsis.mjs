@@ -86,14 +86,14 @@ export function readBooks(HP) {
 
 /* ───────── 走らせる ───────── */
 const srcOf = (S) => (S ? [[1, 2], [2, 1], [1, 0], [2, 0]] : [[0, 1], [1, 0]]);
-function runOne(BK, { S, lam, part = 'both', axis = 'j2', half = false, passages = null }) {
+export function runOne(BK, { S, lam, part = 'both', axis = 'j2', half = false, passages = null }) {
   const id = S ? PLAN.idx.withSun : PLAN.idx.noSun, bodies = axis === 'z' ? (S ? BK.withSunZ : BK.noSunZ) : (S ? BK.withSun : BK.noSun);
   const spo = BK.spo * (half ? 2 : 1), h = BK.pRef / spo, Tmax = Math.max(...L.DECL.windowsYr) * PLAN.YEAR, steps = Math.ceil(Tmax / h - 1e-9), every = L.DECL.sampleEvery * (half ? 2 : 1);
   return L.runColumn({ G: BK.G, c: BK.c, bodies, iE: id.iE, iM: id.iM, iS: id.iS, drag: lam ? { lam, part, src: srcOf(S) } : null, h, steps, every, passages: passages === null ? !lam : passages });
 }
 const perYr = (x) => x * PLAN.YEAR;
 /** D0 の列の要約(窓ごと —— 年・日の単位) */
-function baseSummary(R, S) {
+export function baseSummary(R, S) {
   const out = {};
   for (const w of L.DECL.windowsYr) { const s = L.summarize(R, w * PLAN.YEAR, !!S);
     out['w' + w] = { nPass: s.nPass, apsRate: perYr(s.apsRate), apsPeriodYr: TAU / perYr(s.apsRate), apsRateOsc: perYr(s.apsRateOsc), apsPeriodOscYr: TAU / perYr(s.apsRateOsc), apsAmp: s.apsAmp, apsResid: s.apsResid,
@@ -101,7 +101,7 @@ function baseSummary(R, S) {
   return out;
 }
 /** D1 の列の差(窓ごと —— 年の単位): diffSlopes・自由の成分の傾きの差・近点と交点の周期のずれ */
-function diffSummary(on, off, S, base) {
+export function diffSummary(on, off, S, base) {
   const out = {};
   for (const w of L.DECL.windowsYr) { const Tw = w * PLAN.YEAR, d = L.diffSlopes(on, off, Tw), b = base['w' + w];
     const so = L.summarize(on, Tw, !!S, off.pass), sf = L.summarize(off, Tw, !!S);
