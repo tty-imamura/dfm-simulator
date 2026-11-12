@@ -1,6 +1,6 @@
 // 第335便f(原仮定者の補足(2026-11-12)「銀河の腕は密度波だが、単一の中心天体では安定しないと想定。まずは、楕円銀河の再現を目指す」・
-//   原仮定者の回答(2026-11-12 —— AN665)「楕円銀河を先に」・AN638「離散化の依存を先に測る」・AN640 = A「主列は W₀ = 0」・AN654「自己を運ぶ式 —— v を分けた形」・
-//   AN650「座標変換の基準は観測自転 —— 星は自転を持たない点として扱う」・統括の検証項目 R333):
+//   原仮定者の回答(2026-11-12 —— AN665)「楕円銀河を先に」・原仮定者の回答(2026-11-11 —— AN638「離散化の依存を先に測る」・AN640 = A「主列は W₀ = 0」)・
+//   原仮定者の回答(2026-11-12 —— AN654「自己を運ぶ式 —— v を分けた形」・AN650「座標変換の基準は観測自転 —— 星は自転を持たない点として扱う」)・統括の検証項目 R333):
 //   **楕円銀河の型の模型の器 —— 分散で支える三次元の系(Plummer 球が主・Hernquist 球・扁平・回転の支えは対照)の重力だけの対照を複数の横断の時間で測り、
 //   N・軟化・種を変えた誤差の幅を先に測ってから、星どうしの並進引きずりを 1 つずつ足した差(同じ初期条件・同じ乱数)を幅と比べる**
 //   (段 elliptical-335f —— 正本 tests/out/elliptical-w335f.json・lib tests/lib-w335f-elliptical.mjs)。**診断だけ** ——
@@ -45,7 +45,7 @@ const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPa
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
 export const NOT_CLAIM = Object.freeze(['模型は宣言した分布関数の標本と積分器の表 —— 楕円銀河の同定ではない', '軟化は離散化の依存を下げるための宣言の長さ(物理の大きさではない)',
   '引きずりの差は重力だけの対照との差と誤差の幅の比の表 —— 系が保たれる/崩れるの断定ではない', '主列は W₀ = 0(背景慣性決定力を分母に入れない —— AN640)', '星は自転 0 の点(座標変換の回転の項なし —— AN650 の宣言)',
-  '回転曲線・腕・棒・暗黒物質は扱わない', '観測の銀河の値に合わせない', 'κ_D と別の量を混ぜない']);
+  '回転曲線・腕・棒・暗黒物質は扱わない', '観測の銀河の値に合わせない', '速度の場の型の値は刻みで決まらない(向きだけを読む —— h と h/2 の表)']);
 /** 器の宣言(走行の前に置く —— 結果を見て変えない) */
 export const PLAN = Object.freeze({
   mainModel: 'plummer', variants: Object.freeze(['hernquist', 'oblate', 'rotate']), oblateQ: 0.7,
@@ -217,11 +217,11 @@ export async function main() {
   console.log('第335便f elliptical(版 ' + HARNESS_VERSION + ')');
   const R = runAll();
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w335f-elliptical.mjs', target: TARGET,
-    ruling: '原仮定者の補足(2026-11-12)「まずは、楕円銀河の再現を目指す」・原仮定者の回答(2026-11-12 —— AN665)楕円銀河を先に・AN638 離散化の依存を先に・AN640 = A 主列は W₀ = 0・AN654 自己を運ぶ式(v を分けた形)・AN650 星は自転 0 の点・統括の検証項目 R333',
+    ruling: '原仮定者の補足(2026-11-12)「まずは、楕円銀河の再現を目指す」・原仮定者の回答(2026-11-12 —— AN665 楕円銀河を先に・AN654 自己を運ぶ式〔v を分けた形〕・AN650 星は自転 0 の点)・原仮定者の回答(2026-11-11 —— AN638 離散化の依存を先に・AN640 = A 主列は W₀ = 0)・統括の検証項目 R333',
     decl: L.DECL, plan: PLAN, amend: AMEND, qkeys: L.QKEYS, qkind: L.QKIND, notClaim: NOT_CLAIM, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w335f-elliptical.mjs', 'tests/lib-w335f-elliptical.mjs', 'tests/lib-w333d-noncirc.mjs', 'tests/lib-w334e-gridfloor.mjs', 'tests/lib-w332a-eqband.mjs', 'tests/lib-w332b-transgeo2.mjs',
-    'tests/lib-w331a-coordtwist.mjs', 'tests/lib-w331b-centrifugal.mjs', 'tests/lib-w331c-k1scale.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w326d-axialheat.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w312a-decay.mjs',
+  const CODE = ['tests/exp-w335f-elliptical.mjs', 'tests/lib-w335f-elliptical.mjs', 'tests/lib-w333d-noncirc.mjs', 'tests/lib-w334e-gridfloor.mjs', 'tests/lib-w332b-transgeo2.mjs',
+    'tests/lib-w331a-coordtwist.mjs', 'tests/lib-w331b-centrifugal.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w326d-axialheat.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w312a-decay.mjs',
     'tests/lib-w310d-shell.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w329b-galrot.mjs', 'tests/lib-w272e-provenance.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第335便f', target: TARGET, code: CODE, inputs: [] }), {
     harnessVersion: HARNESS_VERSION, stage: 'elliptical', engine: 'Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の直接の和と蛙跳び)', notClaim: NOT_CLAIM });

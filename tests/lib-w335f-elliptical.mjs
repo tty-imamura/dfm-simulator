@@ -2,7 +2,7 @@
 //   **分散で支える三次元の系(楕円銀河の型の模型)の純関数** —— 等方の分布関数からの標本(Plummer 球〔主〕・Hernquist 球〔対照〕)・扁平の対照・回転の支えの対照・
 //   直接の和の重力(Plummer の軟化)・星どうしの並進引きずり d・蛙跳びの積分器(重力だけ/速度の場/押し)・量の測り(ラグランジュ半径・密度の傾き・軸比・速度分散と異方性・
 //   ビリアル比・脱落・E と L と重心)。器 tests/exp-w335f-elliptical.mjs と QA lint.elliptical335f・behavior.elliptical335f が読む —— html を読まない・状態を持たない。
-//   **診断だけ** —— エンジン・内蔵の本・受理器・第329〜334便の lib の本文は変えない(乱数は第333便d の `rngOf`・受け手の場は第334便e の `gridField`・引きずり半径は第332便a の `rdOf`・
+//   **診断だけ** —— エンジン・内蔵の本・受理器・第329〜334便の lib の本文は変えない(乱数は第333便d の `rngOf`・受け手の場は第334便e の `gridField`・引きずり半径 R_d = Y_k m は第330便b の `kappaMRadius`・
 //   単位の定数は第329便b の lib を呼ぶ —— 写さない)。
 //
 // ■ 単位: G = M = a = 1(a は模型の尺度の半径 —— Plummer の a・Hernquist の a)。星は等しい質量 m = 1/N の点(自転を持たない —— 回答 AN650 の宣言: 星は自転 0 の点として扱う)。
@@ -21,7 +21,7 @@
 //   引きずりの差は重力だけの対照との差と誤差の幅の比の表・回転曲線・腕・棒・暗黒物質は扱わない。
 import { rngOf } from './lib-w333d-noncirc.mjs';
 import { gridField } from './lib-w334e-gridfloor.mjs';
-import { rdOf } from './lib-w332a-eqband.mjs';
+import { kappaMRadius } from './lib-w330b-dragweight.mjs';
 import * as GR from './lib-w329b-galrot.mjs';
 
 export const LIB_VERSION = 'w335f-elliptical-lib-1';
@@ -258,7 +258,7 @@ export function selfWeights(S, alpha, galaxy = DECL.galaxy) {
   const aM = galaxy.aKpc * GR.KPC_M, out = new Float64Array(S.N);
   let RdModel = null;
   for (let i = 0; i < S.N; i++) {
-    const mKg = S.m[i] * galaxy.Msun * GR.MSUN_KG, Rd = rdOf(mKg, 'kappa0') / aM;
+    const mKg = S.m[i] * galaxy.Msun * GR.MSUN_KG, Rd = kappaMRadius(mKg) / aM;
     RdModel = Rd; out[i] = S.m[i] / (alpha === 1 ? Rd : Rd * Rd);
   }
   return { w: out, RdModel };

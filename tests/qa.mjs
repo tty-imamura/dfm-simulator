@@ -102752,6 +102752,181 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第334便f の塊(ここまで)====
 
+// ==== 第335便f の塊(ここから —— lint.elliptical335f・behavior.elliptical335f・docs.elliptical335f の 3 ブロック。root は SKIP)====
+// ---- 第335便f(原仮定者の補足(2026-11-12)「まずは、楕円銀河の再現を目指す」・原仮定者の回答(2026-11-12 —— AN665)・原仮定者の回答(2026-11-11 —— AN638・AN640)・統括の検証項目 R333):
+// ----   **楕円銀河の型の模型の器**(新設 —— 器 tests/exp-w335f-elliptical.mjs〔html を読まない〕・lib tests/lib-w335f-elliptical.mjs・文書の lib tests/lib-w335f-ellipticaldoc.mjs・
+// ----   正本 tests/out/elliptical-w335f.json。html・本の宣言・エンジン・受理器・第329〜334便の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   lint.elliptical335f(html を読まない): ① lib・器・文書の lib の版・一覧(模型・作用の型・自己の重み・量と型)・lib の宣言・器の宣言(模型・N・軟化・種・刻み・窓・測りの間隔・
+// ----     作用の型・重み・γ・幅と効果の定義・判定の比・平衡の記録・丸めの床〔版 2〕)② 純関数の場面 10 ③ 呼ぶだけ(lib の import は第333便d・第334便e・第330便b・第329便b の lib だけ・
+// ----     html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w335f が無い・文書の lib は import しない)
+// ----   behavior.elliptical335f(正本と照合 —— html を読まない): ① 3 本(重力だけ N 256・押し γ 0.1/t_cr・速度の場 —— 主の組の種 1)を作り直して量の時系列が正本と相対 1e-9 の内
+// ----     ② 幅・効果・平衡の記録・対照の模型・h と h/2 を正本の走行から作り直して同じ ③ 緩和の時間と単位の表・作り直した門が全部真
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w335f-elliptical.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w335f-elliptical.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w335f-ellipticaldoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'elliptical-w335f.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP lint.elliptical335f・behavior.elliptical335f(第335便f の楕円銀河の型の模型の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const cmp335 = (a, b, floor = 0) => (a === b ? 0 : (a === null || b === null || a === undefined || b === undefined) ? Infinity : Math.abs(a - b) <= floor ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── lint.elliptical335f ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else {
+      const js = (x) => JSON.stringify(x);
+      if (!(L.LIB_VERSION === 'w335f-elliptical-lib-1' && X.HARNESS_VERSION === 'w335f-elliptical-2' && D0.DOC_VERSION === 'w335f-ellipticaldoc-1' && X.AMEND.length === 1)) bad.push('① 版(lib・器・文書の lib・版の履歴)');
+      if (!(js(L.MODELS) === js(['plummer', 'hernquist']) && js(L.ACTIONS) === js(['grav', 'vel', 'push']) && js(L.SELF_RULES) === js(['none', 'Rd'])
+        && js(L.QKEYS) === js(['r10', 'r50', 'r90', 'conc', 'slope', 'ba', 'ca', 'sigR', 'sigT', 'beta', 'vir', 'esc', 'dE', 'dL', 'dCM', 'vrot'])
+        && L.QKEYS.filter((k) => L.QKIND[k] === 'abs').join() === 'beta,esc,dE,dL,dCM,vrot')) bad.push('① 一覧(模型・作用の型・自己の重み・量と型 —— 手で書いた一覧と違う)');
+      const DG = L.DECL, PL = X.PLAN;
+      if (!(DG.idTol === 1e-12 && DG.uMax.plummer === 0.99 && DG.uMax.hernquist === 0.99 && DG.hqGrid === 512 && DG.hqSafety === 1.5 && DG.innerFrac === 0.9 && DG.rotTarget === 0.3
+        && Math.abs(DG.rotFlip - 0.3 * Math.sqrt(Math.PI / 2)) <= 1e-15 && DG.galaxy.Msun === 1e11 && DG.galaxy.aKpc === 5)) bad.push('① lib の宣言(切り方・包み・測りの範囲・回転の反し・銀河の尺度)');
+      if (!(PL.mainModel === 'plummer' && js(PL.variants) === js(['hernquist', 'oblate', 'rotate']) && PL.oblateQ === 0.7 && js(PL.Ns) === js([256, 512]) && PL.mainN === 512 && js(PL.deepNs) === js([1024, 2048])
+        && js(PL.epsList) === js([0.02, 0.05, 0.1]) && PL.mainEps === 0.05 && js(PL.seeds) === js([1, 2, 3]) && PL.stepsPerTcr === 100 && PL.windowTcr === 5 && PL.every === 25
+        && js(PL.actions) === js(['vel', 'push']) && js(PL.alphas) === js([2, 1]) && PL.mainAlpha === 2 && js(PL.selfRules) === js(['none', 'Rd']) && js(PL.gammaTcr) === js([0.01, 0.1, 1]) && PL.mainGammaTcr === 0.1 && PL.W0 === 0
+        && PL.exceedRatio === 3 && PL.virTol === 0.1 && js(PL.driftKeys) === js(['r10', 'r50', 'r90', 'vir']) && PL.roundFloor === 1e-12 && js(PL.consKeys) === js(['dE', 'dL', 'dCM']) && js(PL.halfStepRuns) === js(['grav', 'push', 'vel'])))
+        bad.push('① 器の宣言(模型・N・軟化・種・刻み・窓・作用の型・重み・γ・W₀・判定の比・平衡の記録・丸めの床・h/2 の列)');
+      if (X.runList().length !== 52 || X.runList({ deep: true }).length !== 11) bad.push('① 走らせる組の数(正本 52・--deep 11)');
+      cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}(版の履歴 ${X.AMEND.length})・文書 ${D0.DOC_VERSION}・模型 ${L.MODELS.length}・量 ${L.QKEYS.length}・N ${PL.Ns.join('/')}・ε ${PL.epsList.join('/')}・種 ${PL.seeds.length}・窓 ${PL.windowTcr} t_cr・h = t_cr/${PL.stepsPerTcr}・判定の比 ${PL.exceedRatio}・組 ${X.runList().length}`);
+      let G1 = null;
+      try { G1 = L.pureGates(L.pureScenes()); } catch (e) { bad.push('② 純関数の場面が作れない: ' + String(e && e.message || e).slice(0, 120)); }
+      if (G1) {
+        for (const [k, v] of Object.entries(G1)) if (v !== true) bad.push('② 場面 ' + k);
+        if (Object.keys(G1).length !== 10) bad.push('② 場面の数 ' + Object.keys(G1).length);
+        cases.push(`② 純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}(Plummer の標本・gridField と同じ・引きずりの恒等・重力の保存と反転・測り・Hernquist の標本・回転・扁平・自己の重み R_d・拒否)`);
+      }
+      const tl = rd('tests/lib-w335f-elliptical.mjs'), th = rd('tests/exp-w335f-elliptical.mjs'), td = rd('tests/lib-w335f-ellipticaldoc.mjs'), base = rd('tests/lib-w333d-noncirc.mjs') + rd('tests/lib-w334e-gridfloor.mjs') + rd('tests/lib-w330b-dragweight.mjs') + rd('tests/lib-w329b-galrot.mjs');
+      const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+      if (!(js(imps) === js(['lib-w329b-galrot.mjs', 'lib-w330b-dragweight.mjs', 'lib-w333d-noncirc.mjs', 'lib-w334e-gridfloor.mjs']) && !/loadHtml|index\.html/.test(tl + td + th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/w335f/.test(base) && !/from '/.test(td) && !/Math\.random/.test(tl + th)))
+        bad.push('③ 呼ぶだけ(lib の import は 4 本だけ・html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w335f が無い・文書の lib は import しない・種を宣言しない乱数を使わない)');
+      cases.push('③ lib の import は第333便d(乱数)・第334便e(受け手の場)・第330便b(引きずり半径)・第329便b(単位)の lib だけ・器と lib と文書の lib は html を読まない・ネットへ取りに行かない・呼ぶ lib の本文は不変・Math.random を使わない');
+    }
+    add('lint.elliptical335f', bad.length === 0,
+      `**楕円銀河の型の模型の純関数と宣言**(第335便f・原仮定者の回答(2026-11-12 —— AN665)・R333 —— html を読まない・模型と N と軟化と窓と作用の型と幅の定義と判定の比を走行の前に): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.elliptical335f ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/elliptical-w335f.json が読めない');
+    else {
+      try {
+        // ① 3 本を作り直す
+        const pick = X.runList().filter((r) => (r.part === 'ensemble' && r.N === 256 && r.eps === 0.05 && r.seed === 1) || (r.part === 'drag' && r.seed === 1 && r.alpha === 2 && r.self === 'none' && (r.action === 'vel' || (r.action === 'push' && r.gammaTcr === 0.1))));
+        let dR = 0, nR = 0;
+        for (const r of pick) { const x = X.runOne(r), ref = J.runs.find((y) => y.key === r.key); if (!ref) { dR = Infinity; continue; }
+          for (const k of L.QKEYS) x.q[k].forEach((v, i) => { dR = Math.max(dR, cmp335(v, ref.q[k][i], 1e-13)); nR++; });
+          dR = Math.max(dR, cmp335(x.ledger.Wdrag, ref.ledger.Wdrag, 1e-13), cmp335(x.ledger.resid, ref.ledger.resid, 1e-13)); }
+        if (!(pick.length === 3 && nR > 0 && dR <= 1e-9)) bad.push(`① 3 本を作り直して正本と違う(${pick.length} 本・相対 ${dR})—— 器を走らせ直す`);
+        cases.push(`① 3 本(重力だけ N 256・押し γ 0.1/t_cr・速度の場 —— 種 1)の量の時系列 ${nR} 値と帳簿が正本と相対 1e-9 の内`);
+        // ② 解析を作り直す
+        const A = X.analyse(J.runs), RA = J.analysis;
+        let dA = 0;
+        const walk = (a, b) => { if (typeof a === 'number' || typeof b === 'number') { dA = Math.max(dA, cmp335(a, b, 1e-15)); return; } if (a === null || b === null || typeof a !== 'object') { if (a !== b) dA = Infinity; return; } for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) walk(a[k], b[k]); };
+        walk(JSON.parse(JSON.stringify(A)), RA);
+        if (!(dA <= 1e-12)) bad.push(`② 幅・効果・平衡・対照の模型・h と h/2 を正本の走行から作り直して違う(${dA})`);
+        const nEx = A.cells.map((c) => c.exceedStruct).join('・');
+        cases.push(`② 幅 ${L.QKEYS.length} 量・効果 ${A.cells.length} 列(幅を超える構造の量 ${nEx})・平衡の記録 ${A.equilibrium.allWithin ? '内' : '外'}・対照の模型 ${A.variants.length}・h と h/2 ${A.half.length} が正本と同じ`);
+        // ③ 表と門
+        const RL = X.relaxTable(), UT = X.unitsTable();
+        if (JSON.stringify(RL) !== JSON.stringify(J.relax) || JSON.stringify(UT) !== JSON.stringify(J.units)) bad.push('③ 緩和の時間と単位の表が正本と違う');
+        const J2 = Object.assign({}, J, { pure: { scenes: L.pureScenes(), gates: L.pureGates(L.pureScenes()) }, analysis: A }), G2 = X.gatesOf(J2);
+        if (!Object.values(G2).every((v) => v === true)) bad.push('③ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`③ 緩和の時間 ${RL.length} 行・単位の表・作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.elliptical335f', bad.length === 0,
+      `**楕円銀河の型の模型の作り直し**(第335便f・原仮定者の回答(2026-11-12 —— AN665)・R333 —— html を読まない・重力だけの対照と引きずりの列の時系列・幅と効果・平衡の記録・対照の模型・h と h/2): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第335便f: docs.elliptical335f は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を lint・behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に
+// ----   lint・behavior を数えない)。世代切替は上と同じ
+// ----   docs.elliptical335f(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib)・宣言が lib と器と同じ ② 表 18 本が PHYSICS〔第335便f〕に逐語
+// ----     ③ 節の位置(〔第334便f〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・AI_SPEC §225(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w335f-elliptical.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w335f-elliptical.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w335f-ellipticaldoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'elliptical-w335f.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.elliptical335f(第335便f の楕円銀河の型の模型の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.elliptical335f ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第335便f — '), i7 = PH.indexOf('\n## 7. 論文'), ib = PH.indexOf('〔第334便f — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ib >= 0 && ib < i0 && iu > i0)) bad.push('PHYSICS〔第335便f〕が無いか〔第334便f〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/elliptical-w335f.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'elliptical'
+        && J.target === 'tests/lib-w335f-elliptical.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0)) bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルなし)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN) || JSON.stringify(J.amend) !== JSON.stringify(X.AMEND) || JSON.stringify(J.qkeys) !== JSON.stringify(L.QKEYS)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第335便f〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 18) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第335便f〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の補足(2026-11-12)', '原仮定者の回答(2026-11-12 —— AN665)', 'AN638', 'AN640', 'AN650', 'AN654', 'R333', 'tests/exp-w335f-elliptical.mjs', 'tests/out/elliptical-w335f.json', 'tests/lib-w335f-elliptical.mjs',
+      'Plummer 球', 'Hernquist 球', '等方の分布関数', '走行の前', '誤差の幅', '(最大 − 最小)', '効果 ÷ 幅 > 3', '同じ初期条件', '重力だけの対照', '星は自転 0 の点', 'C_{j→i} = v_j', '自己を運ぶ式', '枝 b', 'W₀ = 0',
+      '版 2', '丸めの床', '速度の場', '押し', '刻みで決まらない', '縮む', '自己の重みが大きいと効かない', '運動量と角運動量を保存しない', '緩和の時間', '--deep', '計算の量', '閉じた系', '供給',
+      '第136報への枝の答え', '決断事項の候補', '次の便へ', 'lint.elliptical335f', 'behavior.elliptical335f', 'docs.elliptical335f'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第335便f〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 225. 第335便f'), ai = secUntilNext329c(AS, a0, '\n## ');   // 次の見出しまで(固定の字数の窓を持たない)
+    if (!(a0 >= 0 && ai.indexOf('tests/out/elliptical-w335f.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('誤差の幅') >= 0 && ai.indexOf('判定の比 3') >= 0
+      && ai.indexOf('軟化を物理の大きさと書かない') >= 0 && ai.indexOf('AN665') >= 0)) bad.push('③ AI_SPEC §225(正本・SYSTEM_PROMPT・幅・判定の比・軟化・AN665)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl335f = clg.split('\n').find((l) => l.indexOf('**第335便f**') >= 0) || '';
+    if (!(cl335f.indexOf('tests/exp-w335f-elliptical.mjs') >= 0 && cl335f.indexOf('elliptical-335f') >= 0 && cl335f.indexOf('原仮定者の補足(2026-11-12)') >= 0 && cl335f.indexOf('R333') >= 0 && cl335f.indexOf('AN665') >= 0)) bad.push('③ CHANGELOG の第335便f の行');
+    if (!(/S\('elliptical-335f', 'node tests\/exp-w335f-elliptical\.mjs', \['tests\/out\/elliptical-w335f\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)") >= 0
+      && RT.indexOf('// ==== 第335便f の塊(ここから)====') >= 0)) bad.push('③ 段の行 elliptical-335f(quickVerify と理由・塊)');
+    if (GI.indexOf('!tests/out/elliptical-w335f.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第335便f の塊(ここから)====') >= 0 && /lint\.elliptical335f/.test(PM) && /behavior\.elliptical335f/.test(PM) && /docs\.elliptical335f/.test(PM))) bad.push('③ post-merge の ③′ に第335便f の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §225(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT335 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第335便f の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・楕円銀河が出来た・安定した・崩れた・回転曲線が合った・暗黒物質が要らない・ハローが要らない・楕円銀河を得た
+    const W335 = ['ためか確', 'たし示', 'たし明説', 'た来出が河銀円楕', 'たし定安', 'たれ崩', 'たっ合が線曲転回', 'いなら要が質物黒暗', 'いなら要がーロハ', 'た得を河銀円楕'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第335便f〕', sec], ['AI_SPEC §225', ai], ['CHANGELOG の第335便f の行', cl335f], ['器', rd('tests/exp-w335f-elliptical.mjs')], ['lib', rd('tests/lib-w335f-elliptical.mjs')], ['文書の lib', rd('tests/lib-w335f-ellipticaldoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W335)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT335) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.elliptical335f', bad.length === 0,
+      `**楕円銀河の型の模型の文書**(第335便f・原仮定者の補足(2026-11-12)・原仮定者の回答(2026-11-12 —— AN665)・R333 —— 重力だけの対照との差と誤差の幅の比の表・宣言した型の表): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第335便f の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

@@ -3,7 +3,7 @@
  "libVersion": "w335f-elliptical-lib-1",
  "generator": "tests/exp-w335f-elliptical.mjs",
  "target": "tests/lib-w335f-elliptical.mjs",
- "ruling": "原仮定者の補足(2026-11-12)「まずは、楕円銀河の再現を目指す」・原仮定者の回答(2026-11-12 —— AN665)楕円銀河を先に・AN638 離散化の依存を先に・AN640 = A 主列は W₀ = 0・AN654 自己を運ぶ式(v を分けた形)・AN650 星は自転 0 の点・統括の検証項目 R333",
+ "ruling": "原仮定者の補足(2026-11-12)「まずは、楕円銀河の再現を目指す」・原仮定者の回答(2026-11-12 —— AN665 楕円銀河を先に・AN654 自己を運ぶ式〔v を分けた形〕・AN650 星は自転 0 の点)・原仮定者の回答(2026-11-11 —— AN638 離散化の依存を先に・AN640 = A 主列は W₀ = 0)・統括の検証項目 R333",
  "decl": {
   "idTol": 1e-12,
   "uMax": {
@@ -128,7 +128,7 @@
   "星は自転 0 の点(座標変換の回転の項なし —— AN650 の宣言)",
   "回転曲線・腕・棒・暗黒物質は扱わない",
   "観測の銀河の値に合わせない",
-  "κ_D と別の量を混ぜない"
+  "速度の場の型の値は刻みで決まらない(向きだけを読む —— h と h/2 の表)"
  ],
  "pure": {
   "scenes": {
@@ -256,7 +256,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 16352640,
-   "wallSec": 0.17
+   "wallSec": 0.21
   },
   {
    "key": "plummer|N256|e0.02|s2|grav|-|-|-|h1",
@@ -306,7 +306,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 16352640,
-   "wallSec": 0.174
+   "wallSec": 0.134
   },
   {
    "key": "plummer|N256|e0.02|s3|grav|-|-|-|h1",
@@ -356,7 +356,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 16352640,
-   "wallSec": 0.123
+   "wallSec": 0.12
   },
   {
    "key": "plummer|N256|e0.05|s1|grav|-|-|-|h1",
@@ -406,7 +406,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 16352640,
-   "wallSec": 0.161
+   "wallSec": 0.115
   },
   {
    "key": "plummer|N256|e0.05|s2|grav|-|-|-|h1",
@@ -456,7 +456,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 16352640,
-   "wallSec": 0.196
+   "wallSec": 0.117
   },
   {
    "key": "plummer|N256|e0.05|s3|grav|-|-|-|h1",
@@ -506,7 +506,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 16352640,
-   "wallSec": 0.192
+   "wallSec": 0.111
   },
   {
    "key": "plummer|N256|e0.1|s1|grav|-|-|-|h1",
@@ -556,7 +556,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 16352640,
-   "wallSec": 0.123
+   "wallSec": 0.104
   },
   {
    "key": "plummer|N256|e0.1|s2|grav|-|-|-|h1",
@@ -606,7 +606,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 16352640,
-   "wallSec": 0.162
+   "wallSec": 0.131
   },
   {
    "key": "plummer|N256|e0.1|s3|grav|-|-|-|h1",
@@ -656,7 +656,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 16352640,
-   "wallSec": 0.127
+   "wallSec": 0.139
   },
   {
    "key": "plummer|N512|e0.02|s1|grav|-|-|-|h1",
@@ -706,7 +706,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.608
+   "wallSec": 0.754
   },
   {
    "key": "plummer|N512|e0.02|s2|grav|-|-|-|h1",
@@ -756,7 +756,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.593
+   "wallSec": 0.673
   },
   {
    "key": "plummer|N512|e0.02|s3|grav|-|-|-|h1",
@@ -806,7 +806,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.525
+   "wallSec": 0.684
   },
   {
    "key": "plummer|N512|e0.05|s1|grav|-|-|-|h1",
@@ -856,7 +856,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.621
+   "wallSec": 0.537
   },
   {
    "key": "plummer|N512|e0.05|s2|grav|-|-|-|h1",
@@ -906,7 +906,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.566
+   "wallSec": 0.468
   },
   {
    "key": "plummer|N512|e0.05|s3|grav|-|-|-|h1",
@@ -956,7 +956,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.732
+   "wallSec": 0.792
   },
   {
    "key": "plummer|N512|e0.1|s1|grav|-|-|-|h1",
@@ -1006,7 +1006,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.606
+   "wallSec": 0.764
   },
   {
    "key": "plummer|N512|e0.1|s2|grav|-|-|-|h1",
@@ -1056,7 +1056,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.648
+   "wallSec": 0.739
   },
   {
    "key": "plummer|N512|e0.1|s3|grav|-|-|-|h1",
@@ -1106,7 +1106,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.742
+   "wallSec": 0.587
   },
   {
    "key": "plummer|N512|e0.05|s1|vel|a2|none|-|h1",
@@ -1156,7 +1156,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.147
+   "wallSec": 1.052
   },
   {
    "key": "plummer|N512|e0.05|s1|push|a2|none|g0.01|h1",
@@ -1206,7 +1206,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.04
+   "wallSec": 1.023
   },
   {
    "key": "plummer|N512|e0.05|s1|push|a2|none|g0.1|h1",
@@ -1256,7 +1256,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.363
+   "wallSec": 0.985
   },
   {
    "key": "plummer|N512|e0.05|s1|push|a2|none|g1|h1",
@@ -1306,7 +1306,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.928
+   "wallSec": 1.317
   },
   {
    "key": "plummer|N512|e0.05|s2|vel|a2|none|-|h1",
@@ -1356,7 +1356,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.058
+   "wallSec": 1.068
   },
   {
    "key": "plummer|N512|e0.05|s2|push|a2|none|g0.01|h1",
@@ -1406,7 +1406,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.058
+   "wallSec": 1.428
   },
   {
    "key": "plummer|N512|e0.05|s2|push|a2|none|g0.1|h1",
@@ -1456,7 +1456,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.947
+   "wallSec": 0.999
   },
   {
    "key": "plummer|N512|e0.05|s2|push|a2|none|g1|h1",
@@ -1506,7 +1506,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.948
+   "wallSec": 0.91
   },
   {
    "key": "plummer|N512|e0.05|s3|vel|a2|none|-|h1",
@@ -1556,7 +1556,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.042
+   "wallSec": 1.306
   },
   {
    "key": "plummer|N512|e0.05|s3|push|a2|none|g0.01|h1",
@@ -1606,7 +1606,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.037
+   "wallSec": 1.375
   },
   {
    "key": "plummer|N512|e0.05|s3|push|a2|none|g0.1|h1",
@@ -1656,7 +1656,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.059
+   "wallSec": 1.389
   },
   {
    "key": "plummer|N512|e0.05|s3|push|a2|none|g1|h1",
@@ -1706,7 +1706,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.19
+   "wallSec": 1.407
   },
   {
    "key": "plummer|N512|e0.05|s1|vel|a1|none|-|h1",
@@ -1756,7 +1756,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.482
+   "wallSec": 1.347
   },
   {
    "key": "plummer|N512|e0.05|s1|push|a1|none|g0.1|h1",
@@ -1806,7 +1806,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.941
+   "wallSec": 1.087
   },
   {
    "key": "plummer|N512|e0.05|s1|vel|a2|Rd|-|h1",
@@ -1856,7 +1856,7 @@
    "RdModel": 2.217109002439687e-8,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.103
+   "wallSec": 1.842
   },
   {
    "key": "plummer|N512|e0.05|s1|push|a2|Rd|g0.1|h1",
@@ -1906,7 +1906,7 @@
    "RdModel": 2.217109002439687e-8,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.193
+   "wallSec": 1.245
   },
   {
    "key": "hernquist|N512|e0.05|s1|grav|-|-|-|h1",
@@ -1956,7 +1956,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.702
+   "wallSec": 0.872
   },
   {
    "key": "hernquist|N512|e0.05|s2|grav|-|-|-|h1",
@@ -2006,7 +2006,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.617
+   "wallSec": 0.857
   },
   {
    "key": "hernquist|N512|e0.05|s3|grav|-|-|-|h1",
@@ -2056,7 +2056,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.904
+   "wallSec": 0.821
   },
   {
    "key": "hernquist|N512|e0.05|s1|push|a2|none|g0.1|h1",
@@ -2106,7 +2106,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.149
+   "wallSec": 1.554
   },
   {
    "key": "hernquist|N512|e0.05|s1|vel|a2|none|-|h1",
@@ -2156,7 +2156,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.137
+   "wallSec": 1.428
   },
   {
    "key": "oblate|N512|e0.05|s1|grav|-|-|-|h1",
@@ -2206,7 +2206,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.561
+   "wallSec": 0.716
   },
   {
    "key": "oblate|N512|e0.05|s2|grav|-|-|-|h1",
@@ -2256,7 +2256,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.488
+   "wallSec": 0.815
   },
   {
    "key": "oblate|N512|e0.05|s3|grav|-|-|-|h1",
@@ -2306,7 +2306,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.545
+   "wallSec": 0.486
   },
   {
    "key": "oblate|N512|e0.05|s1|push|a2|none|g0.1|h1",
@@ -2356,7 +2356,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.152
+   "wallSec": 0.976
   },
   {
    "key": "oblate|N512|e0.05|s1|vel|a2|none|-|h1",
@@ -2406,7 +2406,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.335
+   "wallSec": 1.1
   },
   {
    "key": "rotate|N512|e0.05|s1|grav|-|-|-|h1",
@@ -2456,7 +2456,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.736
+   "wallSec": 0.601
   },
   {
    "key": "rotate|N512|e0.05|s2|grav|-|-|-|h1",
@@ -2506,7 +2506,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.685
+   "wallSec": 0.65
   },
   {
    "key": "rotate|N512|e0.05|s3|grav|-|-|-|h1",
@@ -2556,7 +2556,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 0.639
+   "wallSec": 0.651
   },
   {
    "key": "rotate|N512|e0.05|s1|push|a2|none|g0.1|h1",
@@ -2606,7 +2606,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.339
+   "wallSec": 1.132
   },
   {
    "key": "rotate|N512|e0.05|s1|vel|a2|none|-|h1",
@@ -2656,7 +2656,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 65538816,
-   "wallSec": 1.057
+   "wallSec": 0.993
   },
   {
    "key": "plummer|N512|e0.05|s1|grav|-|-|-|h2",
@@ -2706,7 +2706,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 130946816,
-   "wallSec": 1.522
+   "wallSec": 1.192
   },
   {
    "key": "plummer|N512|e0.05|s1|push|a2|none|g0.1|h2",
@@ -2756,7 +2756,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 130946816,
-   "wallSec": 2.602
+   "wallSec": 2.673
   },
   {
    "key": "plummer|N512|e0.05|s1|vel|a2|none|-|h2",
@@ -2806,7 +2806,7 @@
    "RdModel": null,
    "envelopeMiss": 0,
    "pairs": 130946816,
-   "wallSec": 2.482
+   "wallSec": 2.405
   }
  ],
  "analysis": {
@@ -4358,13 +4358,13 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.733
+   "wallSec": 0.78
   },
   "runs": {
-   "wallSec": 44.991
+   "wallSec": 47.661
   },
   "analysis": {
-   "wallSec": 44.998
+   "wallSec": 47.666
   }
  },
  "gates": {
@@ -4378,26 +4378,26 @@
   "halfComplete": true
  },
  "ok": true,
- "elapsedS": 45.004,
+ "elapsedS": 47.671,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第335便f",
   "target": "tests/lib-w335f-elliptical.mjs",
-  "targetSha256": "8e7fc68d96fada82d5f2d8f39de2fbf651b0e3ab26a2a8608ba03f4903da8465",
-  "generatedAt": "2026-11-12T15:27:00.143Z",
+  "targetSha256": "f3a15402e75cfa8480601aeee342485289c68a634be049609f94de3dc7b951b8",
+  "generatedAt": "2026-11-12T15:50:10.359Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w335f-elliptical.mjs",
-    "bytes": 23492,
-    "sha256": "507812757c1073a1566dfc93c7c2c46f6479263522fdd739dc880d06110b7955",
-    "mtime": "2026-11-12T15:22:04.479Z"
+    "bytes": 23625,
+    "sha256": "6ddf96a199fa518d7255de594f3f9cf474ceb04e52f66f95bfb6f5e2ac11ab9f",
+    "mtime": "2026-11-12T15:37:38.059Z"
    },
    {
     "file": "tests/lib-w335f-elliptical.mjs",
-    "bytes": 34316,
-    "sha256": "8e7fc68d96fada82d5f2d8f39de2fbf651b0e3ab26a2a8608ba03f4903da8465",
-    "mtime": "2026-11-12T15:16:11.597Z"
+    "bytes": 34347,
+    "sha256": "f3a15402e75cfa8480601aeee342485289c68a634be049609f94de3dc7b951b8",
+    "mtime": "2026-11-12T15:30:21.658Z"
    },
    {
     "file": "tests/lib-w333d-noncirc.mjs",
@@ -4410,12 +4410,6 @@
     "bytes": 19560,
     "sha256": "2dbe2d3645fca112c2ae1296c83fef2153ab0fc3c948910a3459ddb9ab532d9b",
     "mtime": "2026-11-12T15:00:29.448Z"
-   },
-   {
-    "file": "tests/lib-w332a-eqband.mjs",
-    "bytes": 47971,
-    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-12T15:00:29.444Z"
    },
    {
     "file": "tests/lib-w332b-transgeo2.mjs",
@@ -4433,12 +4427,6 @@
     "file": "tests/lib-w331b-centrifugal.mjs",
     "bytes": 36773,
     "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
-    "mtime": "2026-11-12T15:00:29.440Z"
-   },
-   {
-    "file": "tests/lib-w331c-k1scale.mjs",
-    "bytes": 37022,
-    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
     "mtime": "2026-11-12T15:00:29.440Z"
    },
    {
@@ -4490,7 +4478,7 @@
     "mtime": "2026-11-12T15:00:29.408Z"
    }
   ],
-  "codeSha256": "eba3f1673e9aeab3a31da92b03ad3a75ef9aa9b8ea67c247f8df921734c9a991",
+  "codeSha256": "7c972838efdf65cf2a8fe08f5a71bb36ff71553f72bb98f2da5c6cc57353512a",
   "harnessVersion": "w335f-elliptical-2",
   "stage": "elliptical",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の直接の和と蛙跳び)",
@@ -4502,7 +4490,7 @@
    "星は自転 0 の点(座標変換の回転の項なし —— AN650 の宣言)",
    "回転曲線・腕・棒・暗黒物質は扱わない",
    "観測の銀河の値に合わせない",
-   "κ_D と別の量を混ぜない"
+   "速度の場の型の値は刻みで決まらない(向きだけを読む —— h と h/2 の表)"
   ]
  }
 }
