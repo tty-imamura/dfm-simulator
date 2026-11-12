@@ -103904,7 +103904,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ---- 第336便b(統括の検証項目 R336 —— 道具と QA と文書だけ・html・エンジン・内蔵の本・受理器は変えない・段は足さない): **印のない FAIL を数の外に置かない**。
 // ----   第335便の統合の後の受け入れ(tools/post-merge-qa.sh)の ① は FAIL 8 件のうち種類の印 〔違反の種類 w320d: …〕 を出す 2 件だけを要約の数に入れ、印のない 6 件
 // ----   (うち 1 件は鎖で直らない型)が数の外にいた。世代切替 = beta 対象 ∧ tests/lib-w336b-unmarked.mjs がある。
-// ----   lint.unmarkedFail336b: ① 版(lib の版・種類の lib の版 2・末尾の字数)と刻印の型の語(版 2 で足した 5 つは刻印の型・「摂動の再走」などは刻印の型以外)
+// ----   lint.unmarkedFail336b: ① 版(lib の版・種類の lib の版 2・末尾の字数)と刻印の型の語(版 2 で足した 6 つは刻印の型・「摂動の再走」などは刻印の型以外)
 // ----     (a) 合成のログの自己試験(selfTest336b —— 印あり PASS/FAIL・印なし FAIL〔刻印の文あり/なし〕・PASS だけ・空)
 // ----     (b) post-merge-qa.sh から kinds320 と unmarked336b を切り出して bash で実行: 「印のない FAIL n 件」と id・一覧のファイル・「1 件ずつ読むこと」の句・0 件なら句なし・
 // ----         ① と ④ の呼び出し(1-unmarked.txt・4-unmarked.txt)
@@ -103931,7 +103931,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       // ① 版と刻印の型の語
       if (!(U336b.UNMARKED_VERSION_336B === 'w336b-unmarked-1' && LK336b.LINT_KINDS_VERSION === 'w336b-lintkinds-2' && U336b.TAIL_CHARS_336B === 120)) bad.push('① 版(w336b-unmarked-1・w336b-lintkinds-2・末尾 120 字)');
       const POS = ['① meta.targetSha256 が検査対象の html と違う(器を再走する)', '② JSON の入力 hash a… が 現行 b… と不一致 —— **統合後は再走して入れ替える**', '生成領域に旧語が残る(鎖の samplestatus の再走待ち —— 手で直さない)',
-        '① meta.targetSha256 が検査対象の html と違う(別ソースの走行)', '①targetSha256 が現在の beta/index.html と違う(走行後に html が動いた)', '① 正本の宣言が lib と違う(器を走らせ直す)', '④ x のコード y が刻印と違う —— 鎖で作り直す段 z'];
+        '① meta.targetSha256 が検査対象の html と違う(別ソースの走行)', '①targetSha256 が現在の beta/index.html と違う(走行後に html が動いた)', '⑥正本の meta.targetSha256 が現行 beta/index.html と違う(html を動かしたら判定器を回し直すこと)', '① 正本の宣言が lib と違う(器を走らせ直す)', '④ x のコード y が刻印と違う —— 鎖で作り直す段 z'];
       const NEG = ['k: 摂動の再走が決定論でない', '③ 走らせ直した門が偽: g', '② exp-a.mjs の宣言が下限を覆わない: preset p', 'AI_SPEC §5 に SYSTEM_PROMPT の逐語が無い', '①来歴が w272e-1/64 桁でない'];
       const pBad = POS.filter((t) => LK336b.classifyViolation(t) !== 'stamp'), nBad = NEG.filter((t) => LK336b.classifyViolation(t) !== 'other');
       if (pBad.length || nBad.length) bad.push('① 刻印の型の語: ' + pBad.concat(nBad).map((t) => t.slice(0, 40)).join(' , '));

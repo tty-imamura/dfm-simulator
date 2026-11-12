@@ -51651,7 +51651,7 @@ QA: `lint.mercuryCombo335c`(宣言・純関数の場面 8・呼ぶだけ・文�
 | 所 | 足したこと | 変えていない所 |
 |---|---|---|
 | `tests/qa.mjs` の 130 本の鍵の detail | 刻印の型の FAIL を出しうるのに種類の印を出していなかった鍵の detail の末尾を `violationText`(違反の数・種類の印・刻印の型以外を先に)に通した —— 印を付けた鍵 130 本(行の末尾の注記 `// 第336便b(R336): 種類の印`) | 判定(`bad.length === 0`)・違反の文・違反の数・鍵の順 |
-| `tests/lib-w320d-lintkinds.mjs`(版 `w336b-lintkinds-2`) | 刻印の型の語に古い鍵の書き方 5 つ(「器を再走」「統合後は再走して」「再走待ち」「別ソースの走行」「走行後に html が動いた」) | `violationText`・`markerOf`・`summarizeLog` の形・印の正規表現 |
+| `tests/lib-w320d-lintkinds.mjs`(版 `w336b-lintkinds-2`) | 刻印の型の語に古い鍵の書き方 6 つ(「器を再走」「統合後は再走して」「再走待ち」「別ソースの走行」「走行後に html が動いた」「器を回し直す」) | `violationText`・`markerOf`・`summarizeLog` の形・印の正規表現 |
 | `tests/lib-w336b-unmarked.mjs`(新設・版 `w336b-unmarked-1`) | 印のない FAIL を全件(id・文に刻印の型の語があるか・理由の文の末尾 120 字)・一覧のファイルの本文・要約の句・印を付けた鍵の一覧 `MARKED_KEYS_336B` と静的な照合・合成のログの自己試験 | 判定しない・違反を足さない/消さない |
 | `tools/post-merge-qa.sh` | ① の印のない FAIL を `$LOG/1-unmarked.txt`・④ を `$LOG/4-unmarked.txt` に書き、1 件でもあれば要約に「‼ ① の印のない FAIL を 1 件ずつ読むこと(一覧 …)」(関数 `unmarked336b` —— `kinds320` の後) | `kinds320` の要約(id と件数)・終了コード・段の順 |
 | `tests/data-w336b-pm335-preflight.txt`(新設 —— 凍結) | 第335便の ① のログの抜粋(FAIL 8 行・PASS 4 行 —— 長い行は id・種類の印・文の末尾 120 字に切った) | 元のログの判定と数 |
@@ -51672,7 +51672,7 @@ QA: `lint.mercuryCombo335c`(宣言・純関数の場面 8・呼ぶだけ・文�
 
 **⑤ 印を付けなかった鍵。** 走査(`tests/qa.mjs` の `bad.push` の文に `targetSha256`・刻印・走らせ直しの語)に当たった 157 本のうち、既に印を出していた 4 本(lint.provenanceMeta・lint.regenScope・lint.stableHashPaths・lint.canon304 —— 第320便d の 5 本の残りの lint.scopeAll312 は走査の語に当たらない)と印を付けた 130 本を除き、刻印の型の文を持たない 22 本(刻印の版・64 桁の形・来歴の版・門の再計算の偽・決定論の再走 など —— 走らせ直しで直らない型)と、自己試験の文だけが当たった lint.violationKinds320 には付けていない。これらが FAIL したときは印のない FAIL として一覧に出る。lib が返す違反の並び(`r.bad` を足す鍵)は走査していない。
 
-**⑥ 新しい QA(第336便b —— root は SKIP)。** `lint.unmarkedFail336b`: ① 版と刻印の型の語(版 2 で足した 5 つは刻印の型・「摂動の再走が決定論でない」などは刻印の型以外)(a) 合成のログの自己試験(印あり PASS/FAIL・印なし FAIL〔刻印の文あり/なし〕・PASS だけ・空 —— `summarizeLog` が印のない FAIL を全件返す)(b) `tools/post-merge-qa.sh` から `kinds320` と `unmarked336b` を切り出して bash で実行(「印のない FAIL n 件」と id・一覧のファイル・「1 件ずつ読むこと」の句・PASS だけは句なし)と ① ④ の呼び出し (c) 第335便の抜粋(sha256 で凍結)を `summarizeLog` と `kinds320` に通して期待の要約(刻印の型以外 0・刻印の型 24・印のない FAIL 6 件と id)と同じ (d) 印を付けた鍵 130 本と第320便d の 5 本の detail が `violationText` を通る経路(静的)。`docs.unmarkedFail336b`: 本節・AI_SPEC §228・CHANGELOG・`tools/README.md` の post-merge の節・post-merge の ③′ の塊・書かない語。
+**⑥ 新しい QA(第336便b —— root は SKIP)。** `lint.unmarkedFail336b`: ① 版と刻印の型の語(版 2 で足した 6 つは刻印の型・「摂動の再走が決定論でない」などは刻印の型以外)(a) 合成のログの自己試験(印あり PASS/FAIL・印なし FAIL〔刻印の文あり/なし〕・PASS だけ・空 —— `summarizeLog` が印のない FAIL を全件返す)(b) `tools/post-merge-qa.sh` から `kinds320` と `unmarked336b` を切り出して bash で実行(「印のない FAIL n 件」と id・一覧のファイル・「1 件ずつ読むこと」の句・PASS だけは句なし)と ① ④ の呼び出し (c) 第335便の抜粋(sha256 で凍結)を `summarizeLog` と `kinds320` に通して期待の要約(刻印の型以外 0・刻印の型 24・印のない FAIL 6 件と id)と同じ (d) 印を付けた鍵 130 本と第320便d の 5 本の detail が `violationText` を通る経路(静的)。`docs.unmarkedFail336b`: 本節・AI_SPEC §228・CHANGELOG・`tools/README.md` の post-merge の節・post-merge の ③′ の塊・書かない語。
 
 **⑦ 変えていない所。** html(beta と root)・エンジン・内蔵の本・受理器・`S._core`・正本(`tests/out/`)・再生成表と段と名簿・各鍵の判定の式と違反の文・`kinds320` の要約の形・post-merge の終了コード。
 
