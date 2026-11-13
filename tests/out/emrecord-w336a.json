@@ -3,7 +3,7 @@
  "libVersion": "w336a-emrecord-1",
  "generator": "tests/exp-w336a-emrecord.mjs",
  "target": "beta/index.html",
- "targetSha256": "5c105a96d00c63ef68273ef858c08c9a8869b4f2d210ba25b9ffba4221229bbc",
+ "targetSha256": "9aaf387f5c38f753605cd8b4648083db5428a6f562483fcd854ea3eaa5417c9d",
  "ruling": "原仮定者の指示(2026-11-12 —— 第137報)「地球と月の 2 体だけでも、引きずりがあれば月の近点移動周期を 8.85 年にフィット出来る。ただし恒久ではない」「『初速を観測の値に戻し』が余計なので記録に戻す」「朔望月の換算は分かりにくかったので無くす」・統括の検証項目 R335",
  "decl": {
   "record": {
@@ -74,8 +74,8 @@
   ]
  },
  "notClaim": [
-  "8.85 年を月の近点移動の機構が分かったとは言わない —— 二体(太陽なし)+ 引きずりのフィットの記録(較正の 8 公転窓に固有)",
-  "観測と一致したとは言わない —— 実際の主因は太陽の摂動(三体の本 🔆・🌦️ は窓に依らない定常の率)",
+  "8.85 年は月の近点移動の機構の同定ではない —— 二体(太陽なし)+ 引きずりのフィットの記録(較正の 8 公転窓に固有)",
+  "観測の予言ではない —— 実際の主因は太陽の摂動(三体の本 🔆・🌦️ は窓に依らない定常の率)",
   "恒久ではない —— 窓を延ばすと近点回転の周期は定常ではない(窓の表)",
   "再フィットしていない —— 第297便a の記録の値を置き、今のエンジンで測り直しただけ",
   "窓・刻み・判定の物差しは走行の前に宣言した(結果を見て変えない)"
@@ -98,7 +98,7 @@
    0,
    0
   ],
-  "periodBasis": "synodic",
+  "periodBasis": "sidereal",
   "equalsRecord": true
  },
  "remeasure": {
@@ -111,7 +111,7 @@
    "nPeri": 8,
    "eProxy8": 0.05532290600147023,
    "nan": false,
-   "wallSec": 44.26
+   "wallSec": 44.171
   },
   "half": {
    "dt": 0.008,
@@ -122,7 +122,7 @@
    "nPeri": 8,
    "eProxy8": 0.05532292080529891,
    "nan": false,
-   "wallSec": 89.247
+   "wallSec": 84.662
   },
   "vsRecord": {
    "h": {
@@ -338,7 +338,7 @@
     0.0872143,
     0.0864425
    ],
-   "wallSec": 23.486
+   "wallSec": 21.696
   },
   "half": {
    "dt": 0.2,
@@ -527,7 +527,7 @@
     0.0872633,
     0.0864924
    ],
-   "wallSec": 44.134
+   "wallSec": 44.486
   },
   "k0": {
    "dt": 0.4,
@@ -716,7 +716,7 @@
     0.052331,
     0.052331
    ],
-   "wallSec": 16.963
+   "wallSec": 16.37
   },
   "steady": {
    "ok": true,
@@ -993,19 +993,19 @@
  },
  "timing": {
   "rec-half": {
-   "wallSec": 89.247
+   "wallSec": 84.662
   },
   "rec-h": {
-   "wallSec": 44.26
+   "wallSec": 44.171
   },
   "tab-half": {
-   "wallSec": 44.134
+   "wallSec": 44.486
   },
   "tab-h": {
-   "wallSec": 23.486
+   "wallSec": 21.696
   },
   "tab-k0": {
-   "wallSec": 16.963
+   "wallSec": 16.37
   }
  },
  "gates": {
@@ -1017,33 +1017,33 @@
   "self": true
  },
  "ok": true,
- "elapsedS": 91.763,
+ "elapsedS": 86.75,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第336便a",
   "target": "beta/index.html",
-  "targetSha256": "5c105a96d00c63ef68273ef858c08c9a8869b4f2d210ba25b9ffba4221229bbc",
-  "generatedAt": "2026-11-12T23:34:11.202Z",
+  "targetSha256": "9aaf387f5c38f753605cd8b4648083db5428a6f562483fcd854ea3eaa5417c9d",
+  "generatedAt": "2026-11-13T00:08:50.619Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7669600,
-    "sha256": "5c105a96d00c63ef68273ef858c08c9a8869b4f2d210ba25b9ffba4221229bbc",
-    "mtime": "2026-11-12T23:28:56.620Z"
+    "bytes": 7666011,
+    "sha256": "9aaf387f5c38f753605cd8b4648083db5428a6f562483fcd854ea3eaa5417c9d",
+    "mtime": "2026-11-13T00:05:13.260Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w336a-emrecord.mjs",
-    "bytes": 21026,
-    "sha256": "ccb5d7a9cbef8099ccd073381962628759f48ebb9754f550c45329ed9be09e57",
-    "mtime": "2026-11-12T23:32:21.848Z"
+    "bytes": 20960,
+    "sha256": "cba28030285e7e2b3be65e20b360b7a15c95a827498b033e5181fc5b33d0711c",
+    "mtime": "2026-11-13T00:06:16.805Z"
    },
    {
     "file": "tests/lib-w336a-emrecord.mjs",
-    "bytes": 7889,
-    "sha256": "3c71a935270b6b4682f8a1011fc40c9c88c68e8b7d65e78375083d6893eb1b53",
-    "mtime": "2026-11-12T23:29:47.880Z"
+    "bytes": 10440,
+    "sha256": "7a054ff5dcd08fb358a438dbabf84d15b74be93ec2fb14ccb0918e74ac5c2825",
+    "mtime": "2026-11-12T23:50:46.280Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -1070,13 +1070,13 @@
     "mtime": "2026-11-12T23:21:00.744Z"
    }
   ],
-  "codeSha256": "aebbea4dbbe491abf35c5d514243f018e67934e88728024a60919e2bb470f0c3",
+  "codeSha256": "cc0db3934bbda282a8235e83674bf96b767648b1d946fa3ffc8bb3300c623b1c",
   "harnessVersion": "w336a-emrecord-1",
   "stage": "emrecord",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・子プロセス最大 3 本)・🌘 の宣言(physics・bodies)の写しを走らせる",
   "notClaim": [
-   "8.85 年を月の近点移動の機構が分かったとは言わない —— 二体(太陽なし)+ 引きずりのフィットの記録(較正の 8 公転窓に固有)",
-   "観測と一致したとは言わない —— 実際の主因は太陽の摂動(三体の本 🔆・🌦️ は窓に依らない定常の率)",
+   "8.85 年は月の近点移動の機構の同定ではない —— 二体(太陽なし)+ 引きずりのフィットの記録(較正の 8 公転窓に固有)",
+   "観測の予言ではない —— 実際の主因は太陽の摂動(三体の本 🔆・🌦️ は窓に依らない定常の率)",
    "恒久ではない —— 窓を延ばすと近点回転の周期は定常ではない(窓の表)",
    "再フィットしていない —— 第297便a の記録の値を置き、今のエンジンで測り直しただけ",
    "窓・刻み・判定の物差しは走行の前に宣言した(結果を見て変えない)"
@@ -1108,9 +1108,9 @@
    "abBody": false,
    "names": 1324,
    "segments": 1161,
-   "closureShare": 0.2874
+   "closureShare": 0.2876
   },
-  "scopeSha256": "982c7515a724fe2b50dce0ef9f9b49d836479805dd06c63411f1ee662282f6e6",
+  "scopeSha256": "1291cfaea7e88d009883eba47336fab42121ca4c87e3a3cf7f471c1450fed8f7",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

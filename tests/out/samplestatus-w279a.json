@@ -13,8 +13,8 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "0a3712923e3cafaa3d4a15302a83dd45fbde7a3397ccbcddb5b18c1930ebca8e",
-  "generatedAt": "2026-11-12T23:41:21.188Z",
+  "targetSha256": "9aaf387f5c38f753605cd8b4648083db5428a6f562483fcd854ea3eaa5417c9d",
+  "generatedAt": "2026-11-13T00:08:57.481Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
@@ -36,9 +36,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 111306,
-    "sha256": "2f610c31df580f0a1a8ca949bc6859dbc8c21f6113d4a0448615e02849990535",
-    "mtime": "2026-11-12T23:41:21.168Z"
+    "bytes": 111152,
+    "sha256": "373ff4d0bf79579ecddc46c7096ff4a9409e6edd2b2145ac3986a41060c0ef14",
+    "mtime": "2026-11-13T00:08:57.460Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -25211,18 +25211,6 @@
       "always": false
      },
      {
-      "key": "refit-298b",
-      "sec": 1264,
-      "share": 2,
-      "always": false
-     },
-     {
-      "key": "synodic-299b",
-      "sec": 1488,
-      "share": 3,
-      "always": false
-     },
-     {
       "key": "timestd-297c",
       "sec": 406,
       "share": "all",
@@ -25934,18 +25922,6 @@
       "always": false
      },
      {
-      "key": "refit-298b",
-      "sec": 1264,
-      "share": 2,
-      "always": false
-     },
-     {
-      "key": "synodic-299b",
-      "sec": 1488,
-      "share": 3,
-      "always": false
-     },
-     {
       "key": "timestd-297c",
       "sec": 406,
       "share": "all",
@@ -26033,6 +26009,12 @@
       "key": "geo3bin-321b",
       "sec": 2,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "emrecord-336a",
+      "sec": 92,
+      "share": 1,
       "always": false
      },
      {
@@ -28588,12 +28570,6 @@
       "key": "refit-297a",
       "sec": 1657,
       "share": "all",
-      "always": false
-     },
-     {
-      "key": "synodic-299b",
-      "sec": 1488,
-      "share": 3,
       "always": false
      },
      {
@@ -69058,8 +69034,8 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 242,
-  "regenSecSum": 38399,
+  "regenSteps": 241,
+  "regenSecSum": 35739,
   "alwaysSec": 760,
   "undeclaredSteps": 32,
   "undeclaredSec": 1705,
@@ -69209,16 +69185,6 @@
      "presets": "all"
     },
     {
-     "key": "synodic-299b",
-     "sec": 1488,
-     "kind": "領域の宣言",
-     "presets": [
-      "earthMoonRealKF1",
-      "earthMoonReal",
-      "earthMoonSunInertial3d"
-     ]
-    },
-    {
      "key": "geo3",
      "sec": 1355,
      "kind": "領域の宣言",
@@ -69275,15 +69241,6 @@
       "psrJ1946DFM",
       "siriusAB",
       "venusReal"
-     ]
-    },
-    {
-     "key": "refit-298b",
-     "sec": 1264,
-     "kind": "領域の宣言",
-     "presets": [
-      "earthMoonRealKF1",
-      "earthMoonReal"
      ]
     },
     {
@@ -69773,6 +69730,14 @@
       "galaxyAnalogyBH",
       "galaxyAnalogyBHTilt90",
       "galaxyAnalogyBHTilt90Layers"
+     ]
+    },
+    {
+     "key": "emrecord-336a",
+     "sec": 92,
+     "kind": "領域の宣言",
+     "presets": [
+      "earthMoonRealKF1"
      ]
     },
     {

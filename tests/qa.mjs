@@ -94984,8 +94984,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       for (const w of ['Q.shadowTallyText(r)', "argv.includes('--allow-self')", 'outsOf, prevPath, curPath', 'process.exit(2); }']) if (RP.indexOf(w) < 0) bad.push('② regen-plan に「' + w + '」が無い');
       // ③
       const lr = RT.quickLongRows();
-      if (RT.QUICK_LONG_VERSION !== 'w324c-quicklong-1' || lr.missing.length || lr.rows.length < 30) bad.push('③ 長期の量の名簿: 版 ' + RT.QUICK_LONG_VERSION + '・行 ' + lr.rows.length + '・表に無い鍵 ' + lr.missing.join(','));
-      for (const k of ['timestd-297c', 'synodic-299b', 'satnext-318b', 'k1confirm-313d', 'solar16-318c']) if (!lr.rows.some((z) => z.key === k)) bad.push('③ 名簿に ' + k + ' が無い');
+      // 第336便a(R335): 段 refit-298b・synodic-299b を履歴へ回した(HISTORY_336A —— 計画は常に「履歴」)。名簿の鍵のうち履歴へ回した段は「表に無い鍵」に数えない
+      const hist336a = new Set((RT.HISTORY_336A || []).map((h) => h.key)), lrMissing = lr.missing.filter((k) => !hist336a.has(k));
+      if (RT.QUICK_LONG_VERSION !== 'w324c-quicklong-1' || lrMissing.length || lr.rows.length < 30) bad.push('③ 長期の量の名簿: 版 ' + RT.QUICK_LONG_VERSION + '・行 ' + lr.rows.length + '・表に無い鍵 ' + lrMissing.join(','));
+      for (const k of ['timestd-297c', 'synodic-299b', 'satnext-318b', 'k1confirm-313d', 'solar16-318c'].filter((k) => !hist336a.has(k))) if (!lr.rows.some((z) => z.key === k)) bad.push('③ 名簿に ' + k + ' が無い');
       for (const z of lr.rows) if (!z.why) bad.push('③ ' + z.key + ' に理由が無い');
       const longKeys = lr.rows.map((z) => z.key);
       const stepsL = RT.REGEN_STEPS.filter((z) => longKeys.includes(z.key));
