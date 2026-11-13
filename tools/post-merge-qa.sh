@@ -910,6 +910,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.elliptical335f behavior.elliptical335f 
 #   用語の表の更新・第334便f の照合の世代の写し・変異の自己試験 / docs.terms335g —— 現象の一覧の欄「第334便の調べ」・PHYSICS〔第335便g〕・文書)と、直した文書を読む鍵
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.terms335g docs.terms335g lint.terms334f docs.terms334f lint.equations331d docs.equations331d lint.phenomena331e docs.phenomena331e lint.symbols333e docs.symbols333e lint.kappaSymbol315"
 # ==== 第335便g の塊(ここまで)====
+# ==== 第336便a の塊(ここから)====
+# 第336便a(原仮定者の指示(2026-11-12 —— 第137報)・統括の検証項目 R335 —— 🌘 を第297便a の記録へ・朔望月の換算を外す): 枝 a の新設 3 本(lint.emRecord336a・behavior.emRecord336a・
+#   docs.emRecord336a)と、🌘 の値・朔望月の換算・SYSTEM_PROMPT を読む鍵(世代の条件を足した鍵を含む)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.emRecord336a behavior.emRecord336a docs.emRecord336a prompt.spec-sync docs.uiText316 docs.refit297 docs.refit298 behavior.synodicClock299 docs.synodic299 docs.approx300 preset.refit301 behavior.approxMany301 preset.approxMany301 docs.emgrid-sync behavior.fitCond298 preset.earthReorg300 preset.revived292b preset.fitRole308 behavior.framePull lint.quickWindows323 lint.quickBoundary324c preset.sampleWords325b"
+# ==== 第336便a の塊(ここまで)====
 # ==== 第336便b の塊(ここから)====
 # 第336便b(統括の検証項目 R336 —— 道具と QA だけ・html は変えない): 第335便の ① は FAIL 8 件のうち種類の印 〔違反の種類 w320d: …〕 を出す 2 件だけが要約の数に入り、
 #   印のない 6 件が数の外にいた。**印のない FAIL は理由の文の末尾つきの一覧 $LOG/1-unmarked.txt(④ は $LOG/4-unmarked.txt)に書き、1 件でもあれば要約に

@@ -4,7 +4,7 @@
  "generator": "tests/exp-w300b-emonly.mjs",
  "ruling": "原仮定者の裁定(第90報)③・統括の検証項目 R176",
  "target": "beta/index.html",
- "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+ "targetSha256": "0a3712923e3cafaa3d4a15302a83dd45fbde7a3397ccbcddb5b18c1930ebca8e",
  "parts": {
   "decl": {
    "rule": "🌦️ の地球→月の相対位置・相対速度を質量比で分け、地球–月の重心を原点・重心速度 0 に置いた(太陽を外す)・physics は 🌦️ の写しで relativeDrag.pairs を [[0,1]] へ",
@@ -123,7 +123,7 @@
    "momRel": 0,
    "relPosRel": 0,
    "relVelRel": 0,
-   "wallSec": 0.002
+   "wallSec": 0.003
   },
   "run": {
    "short": false,
@@ -176,7 +176,7 @@
        "synUniform": 29.727713690026132
       }
      ],
-     "wallSec": 9.726
+     "wallSec": 11.438
     },
     "ctrlH2": {
      "key": "ctrl-h2",
@@ -209,7 +209,7 @@
        "synUniform": 29.727709850259718
       }
      ],
-     "wallSec": 6.462
+     "wallSec": 8.51
     },
     "ctrlG0": {
      "key": "ctrl-gain0",
@@ -242,7 +242,7 @@
        "synUniform": 29.727713690026672
       }
      ],
-     "wallSec": 3.339
+     "wallSec": 3.959
     },
     "sunH": {
      "key": "sun3d-h",
@@ -271,7 +271,7 @@
        "synUniform": 29.521417538369015
       }
      ],
-     "wallSec": 3.728
+     "wallSec": 4.665
     },
     "sunHsplit": {
      "key": "sun3d-h-split",
@@ -302,7 +302,7 @@
        "synUniform": 29.530588764262017
       }
      ],
-     "wallSec": 5.138
+     "wallSec": 5.546
     }
    },
    "check": {
@@ -318,7 +318,7 @@
     "decl302Pin": "第303便a: 照合の走り(sun3d-h-split)は第302便の 🌦️ の宣言(W_bg 3.8560163495093223・初期配置)の写し —— tests/lib-w303a-pre.mjs の pin302"
    },
    "realSunSynodic": {
-    "source": "tests/out/synodic-w299b.json の段 sun3d(第299便b —— 地心から太陽への方位で数えた合)",
+    "source": "tests/data-w336a-sun3d299b.json(第299便b の正本 synodic-w299b.json の段 sun3d の凍結の写し —— 地心から太陽への方位で数えた合)",
     "windows": {
      "8": {
       "mean": 29.497844513646584,
@@ -357,101 +357,101 @@
     "sid": 0.000003283532173270487,
     "synUniform": 0.000003839766954172319
    },
-   "wallSec": 28.402
+   "wallSec": 34.124
   }
  },
  "timing": {
-  "wallSec": 30.164
+  "wallSec": 35.903
  },
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第300便b",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T05:05:13.891Z",
+  "targetSha256": "0a3712923e3cafaa3d4a15302a83dd45fbde7a3397ccbcddb5b18c1930ebca8e",
+  "generatedAt": "2026-11-12T23:52:43.693Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7665833,
+    "sha256": "0a3712923e3cafaa3d4a15302a83dd45fbde7a3397ccbcddb5b18c1930ebca8e",
+    "mtime": "2026-11-12T23:41:19.988Z"
    },
    {
     "file": "tests/out/moon3d-w298c.json",
     "bytes": 26635,
     "sha256": "fa1fffcd6f29ba7b71453ac14be8e1e917f4a01db6dc70424959d031e0a3ff4e",
-    "mtime": "2026-11-05T04:29:32.154Z"
+    "mtime": "2026-11-12T23:21:04.652Z"
    },
    {
-    "file": "tests/out/synodic-w299b.json",
-    "bytes": 35641,
-    "sha256": "56fecafca5bddc233392a802974734db2b684d71b01c176489a6ff21e443e420",
-    "mtime": "2026-11-05T04:49:57.738Z"
+    "file": "tests/data-w336a-sun3d299b.json",
+    "bytes": 4622,
+    "sha256": "fd425658637922b0607c20f21d2051a062be776bae1d33b55ef1c6e50668dba3",
+    "mtime": "2026-11-12T23:42:06.012Z"
    },
    {
     "file": "tests/data-w303a-decl302.json",
     "bytes": 36883,
     "sha256": "4fb1c2d8ef65f910bec604ef0f6b0cafd2849700e8a52312149627f753735e30",
-    "mtime": "2026-10-20T16:19:56.589Z"
+    "mtime": "2026-11-12T23:20:59.660Z"
    },
    {
     "file": "tests/data-w304c-decl303.json",
     "bytes": 10656,
     "sha256": "bacc58f1a21b80ed4f28e85352b23c9f544c5525467dfaf0fb0fb4077a9c289e",
-    "mtime": "2026-10-20T16:19:56.589Z"
+    "mtime": "2026-11-12T23:20:59.660Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w300b-emonly.mjs",
-    "bytes": 24268,
-    "sha256": "627cb051af4366cf361b6b91e82a68705fadec1a10b684621c20f38c470da258",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "bytes": 24746,
+    "sha256": "d541b67d27e99b40dc45a4ecad01c60f31cdfc9774cfde24b454711015a404b6",
+    "mtime": "2026-11-12T23:42:16.647Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-12T23:21:00.604Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-12T23:21:00.604Z"
    },
    {
     "file": "tests/lib-w297b-fit.mjs",
     "bytes": 10451,
     "sha256": "bdb1a2d808d1fe0d9782e8ad28f5c1bca87732265de755e8778995e52bd9f66c",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-12T23:21:00.748Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-12T23:21:00.600Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-12T23:21:00.744Z"
    },
    {
     "file": "tests/lib-w303a-pre.mjs",
     "bytes": 6401,
     "sha256": "6270beace409df900d7328c652b9d5cf73c47d75b84fdcc60700dad50e657b7e",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-12T23:21:00.796Z"
    },
    {
     "file": "tests/lib-w304c-pre.mjs",
     "bytes": 5643,
     "sha256": "558f04ceacc63ed500da325a3a117b5c55181474bb1906d2535bb23b8f19106f",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-12T23:21:00.796Z"
    }
   ],
-  "codeSha256": "0445329aa826df7461513ec6a287e35c735941580fd4836ff21e07201c79e2c2",
+  "codeSha256": "d3e07b42862dd0d18f6357c29e746304f0d3fe079bb436503d865cb3a91b6f52",
   "harnessVersion": "w300b-emonly-1",
   "extractorVersion": "w300b-em3-1",
   "parts": [
@@ -503,7 +503,7 @@
    "complete": true,
    "names": 1352,
    "segments": 1189,
-   "closureShare": 0.2908
+   "closureShare": 0.291
   },
   "scopeSha256": "f4c83a4aa147c29cc9f04dfb8b0679ff190092961a8123385ccef91c71820376",
   "scopeComplete": true,
@@ -523,20 +523,10 @@
     ]
    },
    {
-    "file": "tests/out/synodic-w299b.json",
-    "stableSha256": "dd8aa96d007ff8fb79be86b90c11421d44311793bea04a65e4e19c73d1e577f1",
+    "file": "tests/data-w336a-sun3d299b.json",
+    "stableSha256": "2d06000bbe5c9a16f0ba21bda7322f67cc97fe5680f422641d1b68f588c38b8e",
     "stableVersion": "w282e-stable-1",
-    "volatilePaths": [
-     "/elapsedS",
-     "/meta/code/*/mtime",
-     "/meta/generatedAt",
-     "/meta/inputs/*/mtime",
-     "/parts/*/wallSec",
-     "/parts/long/*/wallSec",
-     "/parts/longh2/*/wallSec",
-     "/parts/scan/rows/*/wallSec",
-     "/timing/wallSec"
-    ]
+    "volatilePaths": []
    },
    {
     "file": "tests/data-w303a-decl302.json",
@@ -553,5 +543,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 30.164
+ "elapsedS": 35.903
 }
