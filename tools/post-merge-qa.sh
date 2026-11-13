@@ -913,7 +913,7 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.terms335g docs.terms335g lint.terms334f
 # ==== 第336便a の塊(ここから)====
 # 第336便a(原仮定者の指示(2026-11-12 —— 第137報)・統括の検証項目 R335 —— 🌘 を第297便a の記録へ・朔望月の換算を外す): 枝 a の新設 3 本(lint.emRecord336a・behavior.emRecord336a・
 #   docs.emRecord336a)と、🌘 の値・朔望月の換算・SYSTEM_PROMPT を読む鍵(世代の条件を足した鍵を含む)
-DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.emRecord336a behavior.emRecord336a docs.emRecord336a prompt.spec-sync docs.uiText316 docs.refit297 docs.refit298 behavior.synodicClock299 docs.synodic299 docs.approx300 preset.refit301 behavior.approxMany301 preset.approxMany301 docs.emgrid-sync"
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.emRecord336a behavior.emRecord336a docs.emRecord336a prompt.spec-sync docs.uiText316 docs.refit297 docs.refit298 behavior.synodicClock299 docs.synodic299 docs.approx300 preset.refit301 behavior.approxMany301 preset.approxMany301 docs.emgrid-sync behavior.fitCond298 preset.earthReorg300 preset.revived292b preset.fitRole308 behavior.framePull lint.quickWindows323 lint.quickBoundary324c preset.sampleWords325b"
 # ==== 第336便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====

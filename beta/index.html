@@ -17589,8 +17589,8 @@ const BUILTIN_PRESETS = [
     { id:"earthMoonRealKF1.apsidal-period", kind:"semantic", prov:"calibrated", role:"fit_target",
       metric:"apsidalPrecessionPeriodYears",
       chain:{ax:["A4","A5"], eq:["E4","E6′"],
-        note:"運動引きずりが作る順行歳差 χ=w/(D₀+w) を D₀ で較正して、月の近点回転(実測 約8.85年で一周)に 8 公転窓で合わせた項目(exp-kf1b —— 記録は λ_PN=0 の 2×2 フィット)。純二体では原理的に出ない観測量。窓を延ばすと定常ではない(恒久ではない)。",
-        noteEn:"The prograde precession from motion dragging, χ=w/(D₀+w), calibrated through D₀ to the Moon's observed 8.85-year apsidal cycle in the 8-orbit window (exp-kf1b; the record is the λ_PN=0 2x2 fit) — an observable a pure two-body system can never produce. Not steady when the window is stretched (not permanent)."},
+        note:"運動引きずりが作る順行歳差 χ=w/(D₀+w) を D₀ で較正して、月の近点回転(実測 約8.85年で一周)に合わせた項目(exp-kf1b)。純二体では原理的に出ない観測量。",
+        noteEn:"The prograde precession from motion dragging, χ=w/(D₀+w), calibrated through D₀ to the Moon's observed 8.85-year apsidal cycle (exp-kf1b) — an observable a pure two-body system can never produce."},
       roleNote:"fit の対象 — D₀=0.006 のもとで D0pull と初速の係数の共同フィット(記録 —— D0pull=3.14447×10⁻⁵・f=0.998777511)が合わせにいった観測量そのもの(8 公転窓)。窓を延ばすと定常ではない(118 公転窓で 14.30 年 —— 恒久ではない)。さらに正直な明記として、実際の月の近点回転の主因は太陽摂動(第三体)であり、本サンプルは別機構でのフィットの記録であって機構の同定ではない。",
       roleNoteEn:"Fit target — this is the observation the joint fit (D0pull and the initial-speed factor at D₀=0.006; the record D0pull=3.14447×10⁻⁵, f=0.998777511) was tuned to, in the 8-orbit window. Not steady when the window is stretched (14.30 yr over 118 orbits — not permanent). Honest note: the real cause is solar perturbation (a third body); this is a fit record through a different mechanism, not a mechanism identification.",
       expected:{min:8.4, max:9.3},   // 第336便a: 第297便a の記録 8.8500 年(8 公転窓)へ戻した(第298便e〜第335便は 285〜305 —— 周期優先の照合)
