@@ -49934,9 +49934,10 @@ if (!FAST) {
       const ps = EG.physicsSourceSha(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
       // 第318便(統括の統合 —— ゲートの root で見つけた): root(リリース世代)が第318便a の前の受理器の本文(誤りの文が文字列 —— beta は表 ACCEPT_REASONS の reasonText)のとき、
       //   正本の対象(meta.target = beta)の本文が正本と一致し、かつ root と beta の関数本文が文字列と誤りの文(err の値)を除いて同じなら通す(場の経路の式は同じ)
-      let egRootOk = false;
+      let egRootOk = false, egBetaHtml336 = null;
       if (ps.sha !== J.meta.physicsSourceSha256 && !TARGET.startsWith('beta/') && String(J.meta.target || '').startsWith('beta/') && fs.existsSync(path.join(ROOT, J.meta.target))) {
         const bHtml = fs.readFileSync(path.join(ROOT, J.meta.target), 'utf8'), pb = EG.physicsSourceSha(bHtml);
+        egBetaHtml336 = bHtml;
         const { extractTopFunctions: xtf318 } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279c-bgcompose.mjs'));
         const norm318 = (t) => String(t || '').replace(/"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|`(?:[^`\\]|\\.)*`/g, 'S').replace(/err:[^}]*\}/g, 'err:E}');
         const fr = xtf318(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'), pb.names), fb = xtf318(bHtml, pb.names);
@@ -49953,9 +49954,16 @@ if (!FAST) {
       for (const z of R) if (!(z.run && z.run.revN >= 27 && !z.run.nan && z.run.windows.every((w) => w.complete))) bad.push('② ' + z.id + ' dt ' + z.dt + ' が 27 公転まで走っていない/NaN');
       const sig = await page.evaluate(() => Object.fromEntries(['earthMoonRealKF1', 'emAuditDFM', 'earthMoonDiagOne', 'emAuditSolar']
         .map((id) => [id, HP.presetSigHash(HP.allPresets().find((p) => p.id === id))])));
-      for (const [id, pid] of [['E0', 'earthMoonRealKF1'], ['E3', 'emAuditDFM'], ['E7', 'earthMoonDiagOne'], ['S0', 'emAuditSolar']])
+      // 第336便(統括 —— ゲートの root で見つけた): リリース世代(root)が対象のとき、正本は beta の 🌘(第336便a で第297便a の記録へ戻した)で作られている。
+      //   root の 🌘 は昇格まで前の世代(周期優先・朔望月)なので、E0 の署名は beta の対象で照合する(root では飛ばす)・8 公転窓の帯は正本の世代(7〜11 年)で見る
+      //   —— 昇格で root の 🌘 が記録へ戻れば、この分岐は立たず従来の照合に戻る
+      const reRec336 = /"parent":"earthMoonRealKF1"[^\n]*"procedure":"第297便a の記録/;
+      const e0Ahead336 = egRootOk && !!egBetaHtml336 && reRec336.test(egBetaHtml336) && !reRec336.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+      for (const [id, pid] of [['E0', 'earthMoonRealKF1'], ['E3', 'emAuditDFM'], ['E7', 'earthMoonDiagOne'], ['S0', 'emAuditSolar']]) {
+        if (id === 'E0' && e0Ahead336) continue;
         for (const z of R.filter((y) => y.id === id)) if (z.presetSigHash !== sig[pid]) bad.push(`② ${id}(dt ${z.dt})の署名がいまの内蔵 ${pid} と違う`);
-      cases.push(`行 ${R.length} 本(10 条件 × dt 0.016 + 3 条件 × dt 0.008)・全行 27 公転・内蔵そのままの 4 行の署名一致`);
+      }
+      cases.push(`行 ${R.length} 本(10 条件 × dt 0.016 + 3 条件 × dt 0.008)・全行 27 公転・内蔵そのままの ${e0Ahead336 ? '3 行の署名一致(E0 は正本が beta の 🌘 の世代 —— 第336便a・リリース世代の対象では飛ばす)' : '4 行の署名一致'}`);
       const d = (id) => at(id, 0.016).declared, rn = (id) => at(id, 0.016).run;
       if (!(d('E3').vyMoon === 0.1065368 && d('E3').frameWeight === 'share')) bad.push('③ E3 が 🧲 の宣言でない');
       if (!['E5', 'E6', 'E7', 'E8'].every((id) => d(id).kFrame === 0)) bad.push('③ E5〜E8 の kFrame が 0 でない');
@@ -49984,7 +49992,8 @@ if (!FAST) {
       // 第298便e(R166′): 🌘 が周期優先(標的 = 恒星月・D0pull は探索範囲の端)の世代では近点回転は照合だけ —— 窓を 285〜305 年(claims の窓と同じ)に
       const eg298e = /"parent":"earthMoonRealKF1"[^\n]*"procedure":"(周期優先\(第298便e\)|朔望月\(第299便b)/.test(   // 第299便b: 朔望月の世代も D0pull は同じ(近点回転は照合だけ)
         fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
-      const apLo = eg298e ? 285 : 7, apHi = eg298e ? 305 : 11;
+      const eg298eEff = eg298e && !e0Ahead336;   // 第336便(統括): 正本が beta の 🌘 の世代(記録 —— 8.85 年)なら、対象がリリース世代でも帯は 7〜11 年
+      const apLo = eg298eEff ? 285 : 7, apHi = eg298eEff ? 305 : 11;
       if (!(ap0 > apLo && ap0 < apHi)) bad.push(`⑤ E0 の 8 公転窓の近点回転の周期が ${apLo}〜${apHi} 年の外(` + ap0 + ')');
       cases.push(`E0 の 8 公転窓 ${ap0.toFixed(3)} 年・27 公転窓 ${w('E0', 0.016, 1).apsPeriodYr.toFixed(3)} 年`);
       const Pm = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
