@@ -1609,41 +1609,6 @@
    "wave": 335,
    "rev": "a924053"
   },
-  "refit-298b": {
-   "key": "refit-298b",
-   "harness": "tests/exp-w298b-refit.mjs",
-   "window": {
-    "source": "smoke",
-    "env": {
-     "W298B_PART": "qprobe"
-    },
-    "note": "段 qprobe だけ"
-   },
-   "mode": "knob",
-   "sec": 108.8,
-   "verdict": "ok",
-   "killed": false,
-   "files": [
-    {
-     "file": "tests/out/refit-w298b.json",
-     "as": "tests/out/refit-w298b.json",
-     "sha": "c4d50aa3c130d74937e1595a8cd0adf12575e5afc907b907d8ab00512c8746ec"
-    }
-   ],
-   "fingerprint": "67e9ec52cb19789b0bc2acef2b1e1e9c9fb1713a77673d90bc8a0c41ef1688f7",
-   "why": null,
-   "stdoutNormSha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-   "codeSha": "90f537af294fb6f07b9111469acad680d4ef47b16bf96f9dae77602c8f715700",
-   "codeFiles": 5,
-   "htmlSha": "27db447180a614987ccd00ca6a2778cc672a03b1e3565cf327a220be5343681d",
-   "canon": {
-    "tests/out/refit-w298b.json": "c4d50aa3c130d74937e1595a8cd0adf12575e5afc907b907d8ab00512c8746ec"
-   },
-   "node": "v22.22.0",
-   "at": "2026-11-12T18:28:01.837Z",
-   "wave": 335,
-   "rev": "a924053"
-  },
   "rotframe-306d": {
    "key": "rotframe-306d",
    "harness": "tests/exp-w306d-rotframe.mjs",
@@ -2112,41 +2077,6 @@
    },
    "node": "v22.22.0",
    "at": "2026-11-12T18:17:48.426Z",
-   "wave": 335,
-   "rev": "a924053"
-  },
-  "synodic-299b": {
-   "key": "synodic-299b",
-   "harness": "tests/exp-w299b-synodic.mjs",
-   "window": {
-    "source": "smoke",
-    "env": {
-     "W299B_PART": "sun3d"
-    },
-    "note": "段 sun3d だけ(約 30 s)"
-   },
-   "mode": "knob",
-   "sec": 24.4,
-   "verdict": "ok",
-   "killed": false,
-   "files": [
-    {
-     "file": "tests/out/synodic-w299b.json",
-     "as": "tests/out/synodic-w299b.json",
-     "sha": "df5911875b8c94a7fed6f41f9ff1b63ea3e94ded59e7c9cd526eaca0362e18ac"
-    }
-   ],
-   "fingerprint": "d2eb88459cca5913c45719da03e0a0b7070384e7de8752508ec2c29a8822416e",
-   "why": null,
-   "stdoutNormSha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-   "codeSha": "7476f60be45fb778bcf075df561c751ebc0e8f979f104983f5c67036e75f1c9c",
-   "codeFiles": 7,
-   "htmlSha": "27db447180a614987ccd00ca6a2778cc672a03b1e3565cf327a220be5343681d",
-   "canon": {
-    "tests/out/synodic-w299b.json": "df5911875b8c94a7fed6f41f9ff1b63ea3e94ded59e7c9cd526eaca0362e18ac"
-   },
-   "node": "v22.22.0",
-   "at": "2026-11-12T18:28:18.034Z",
    "wave": 335,
    "rev": "a924053"
   },

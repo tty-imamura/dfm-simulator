@@ -52,8 +52,7 @@ export const SMOKE_KNOBS = Object.freeze({
   'planet3-311d': { env: { W311D_PARTS: 'S' }, note: '段 S だけ(約 1 s —— 段 T・E のエンジンの走行は鎖 —— 子プロセス 2 本で約 2000 s)' },   // 第311便d
   'confirm-312d': { env: { W312D_PARTS: 'T,C' }, note: '段 T・C だけ(約 5 s —— 規則の表・受理の目安・t = 0 の β・標的。段 E のエンジンの走行は鎖 —— 子プロセス 2 本で約 900〜1230 s)' },   // 第312便d
   'k1confirm-313d': { env: { W313D_PARTS: 'P,T' }, note: '段 P・T だけ(約 5 s —— 全天体 κ₀m の写しの宣言と t = 0 の β・標的の列。段 E のエンジンの走行は鎖 —— 子プロセス 2 本)' },   // 第313便d
-  'synodic-299b': { env: { W299B_PART: 'sun3d' }, note: '段 sun3d だけ(約 30 s)' },
-  'refit-298b': { env: { W298B_PART: 'qprobe' }, note: '段 qprobe だけ' },
+  // 第336便(統括): 'synodic-299b'・'refit-298b' の窓は外した(第336便a で履歴の段へ回した —— 窓の表は現行の段だけ)
   'refit-297a': { env: { W297A_PART: 'geotoy' }, note: '段 geotoy だけ' },
   'fit-297b': { env: { W297B_PART: 'mer' }, note: '段 mer だけ(正本を書かない開発用の窓)' },
   'timestd-297c': { env: { W297C_ORBITS: '2', W297C_OBS_STEPS: '60' }, note: '在位の全本・2 公転/60 步' },
