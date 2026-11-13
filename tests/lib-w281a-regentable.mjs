@@ -2021,6 +2021,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/elliptical-w335f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec', '/runs/*/wallSec'] },   // 入力のファイルが無い器(meta.inputs が空)—— META_RUN の /meta/inputs/*/mtime は当たらないので外す(第335便 統合)
     note: '第335便f: 分散で支える三次元の系(Plummer 球が主・Hernquist 球・扁平 0.7・回転の支え v_rot/σ 0.3 は対照)の重力だけの対照(N 256・512 × 軟化 0.02・0.05・0.1 × 種 3 —— 5 横断の時間)の量の推移と誤差の幅・平衡の記録・緩和の時間と窓の比・星どうしの並進引きずり(作用の型 速度の場/押し γ 0.01・0.1・1 ÷ t_cr × 重み α 2・1 × 自己の重み なし・R_d = Y_k m)を 1 つずつ足した差 ÷ 幅(判定の比 3)・引きずりの仕事と E の帳簿・h と h/2' }),
   // ==== 第335便f の塊(ここまで)====
+  // ==== 第336便a の塊(ここから)====
+  // ---- 第336便a(原仮定者の指示(2026-11-12 —— 第137報)「地球と月の 2 体だけでも、引きずりがあれば月の近点移動周期を 8.85 年にフィット出来る。ただし恒久ではない」
+  //   「『初速を観測の値に戻し』が余計なので記録に戻す」・統括の検証項目 R335): **🌘 earthMoonRealKF1 の記録の測り直しと窓の表の器**(段 emrecord-336a —— 正本
+  //   tests/out/emrecord-w336a.json・lib tests/lib-w336a-emrecord.mjs)。本の宣言(第297便a の記録へ戻した physics.D0pull と bodies の速度)を記録と同じ抽出器で h・h/2(9 周)・
+  //   窓の表(8・20・27・40・118 公転 —— 刻み 0.4・0.2)・kFrame=0 の対照(刻み 0.4)と fitRecord(版 w298b-1 の標的 2 件 —— 本の記録の写し)。html だけを読む(🌘 の 1 本を .find —— 他の正本は読まない)。
+  //   子プロセス最大 3 本(W336A_WORKERS)。所要は第336便a の枝の実測 92 s(60 s を超える理由: 記録の刻み 0.016 と h/2 の 0.008 は記録と同じ抽出器・同じ刻みで測るため間引かない)
+  S('emrecord-336a', 'node tests/exp-w336a-emrecord.mjs', ['tests/out/emrecord-w336a.json'], 92, { secSource: 'w336a-branch', node: true, workers: 3,
+    quickVerify: false, quickVerifyWhy: '記録の値と同じ抽出器・同じ刻みで測り直す段(窓を縮めると記録と比べられない)—— 簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/emrecord-w336a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/remeasure/h/wallSec', '/remeasure/half/wallSec', '/table/h/wallSec', '/table/half/wallSec', '/table/k0/wallSec']) },
+    note: '第336便a: 🌘 の記録(第297便a —— D0pull 3.14447e-5・初速の係数 0.998777511)の測り直し(恒星月 = 同方向 1〜9 周の 8 間隔・近点回転 = 最初の 8 公転の検出器 B —— h 0.016・h/2 0.008 —— 記録との差と第297便a の門)・'
+      + '窓の表(最初の 8・20・27・40・118 公転の近点回転の周期と公転ごとの離心率の代理の最小〜最大 —— 刻み 0.4・0.2・定常の物差し 1%)・kFrame=0 の写しの対照・fitRecord(版 w298b-1 の標的 2 件 —— 本の記録の写し)' }),
+  // ==== 第336便a の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -2087,6 +2099,24 @@ for (const h of HISTORY_319C) {
   st.role = 'history'; st.secSource = HISTORY_SEC_SOURCE_319C; st.closedBy = h.closedBy.slice();
   st.note = '第319便c(R260): 閉じた探索の段 —— ' + h.why + '。**再生成しない**(計画は常に「履歴」)。元の注: ' + (st.note || '');
 }
+// ==== 第336便a の塊(履歴へ —— ここから)====
+// ---- 第336便a(原仮定者の指示(2026-11-12 —— 第137報)「『初速を観測の値に戻し』が余計なので記録に戻す」「朔望月の換算は分かりにくかったので無くす」・統括の検証項目 R335):
+//   🌘 earthMoonRealKF1 を第297便a の記録へ戻したので、今の 🌘 を読むと写しの照合が外れる 2 段を**履歴**(role:'history' —— 計画は常に「履歴」・鎖に乗らない)へ回した。
+//   正本は凍結の記録として残す(読む QA は世代の条件で形だけを見る)。現行の段 emonly-300b が参照値として読んでいた synodic-299b の段 sun3d は凍結の写し
+//   tests/data-w336a-sun3d299b.json へ移した(現行の正本の入力に履歴の正本を置かない —— QA lint.regenScope ④)。表の S(...) の行は書き換えない(元の秒は secMeasured)
+export const HISTORY_SEC_SOURCE_336A = '履歴(第336便a で登録 —— 走らせない)';
+export const HISTORY_336A = Object.freeze([
+  Object.freeze({ key: 'refit-298b', why: '🌘 の f=1 の再フィット(第298便b)と周期優先(第298便e)—— 本は第297便a の記録へ戻った(f=0.998777511)。器は f=1 の写しを本から作るので今の本では記録と照合しない。現行の段は正本を読まない' }),
+  Object.freeze({ key: 'synodic-299b', why: '🌘 の朔望月(第299便b)—— 朔望月の換算は内蔵の本から外した(公転周期は恒星月で読む)。器の段 fit は本の D0pull を写すので今の本では記録と照合しない。参照値の段 sun3d は凍結の写し tests/data-w336a-sun3d299b.json(現行の段 emonly-300b が読む)' }),
+]);
+for (const h of HISTORY_336A) {
+  const st = REGEN_STEPS.find((z) => z.key === h.key);
+  if (!st) continue;
+  st.secMeasured = { sec: st.sec, secSource: st.secSource };
+  st.role = 'history'; st.secSource = HISTORY_SEC_SOURCE_336A;
+  st.note = '第336便a(R335): ' + h.why + '。**再生成しない**(計画は常に「履歴」)。元の注: ' + (st.note || '');
+}
+// ==== 第336便a の塊(履歴へ —— ここまで)====
 // ---- 第319便c(R260): **presets "all" の段の絞り込み**と **AN454(領域の宣言の無い段に REGEN_SCOPE)** の記録(段ごとの扱いと根拠 —— QA docs.regenShort319c が器の宣言と照合する)
 //   ・絞った段(`NARROWED_319C`): 器と lib の下限(deriveScope)が名指しの本の集合で、器の REGEN_SCOPE だけが "all" だった段。'lib-find' は
 //     tests/lib-w299c-planets3d.mjs(太陽と惑星の元の本 2 本)・tests/lib-w300c-saturnring3d.mjs(💍 と 🟡)が allPresets() を変数に受けて .find で引いていた
@@ -2683,6 +2713,11 @@ export const EXTERNAL_VOLATILE = {
   //   正本 galrot-w329b の入力 —— 鎖の段はネットへ取りに行かない)
   'tests/fixtures/ngc3198-rotmod-w329b.json': [],
   // ==== 第329便b の塊(ここまで)====
+  // ==== 第336便a の塊(ここから)====
+  // 第336便a(原仮定者の指示(2026-11-12 —— 第137報)・R335): 第299便b の正本 synodic-w299b.json の段 sun3d の凍結の写し(段 synodic-299b は履歴 —— 書き換えない・除く欄は無い。
+  //   現行の正本 emonly-300b の入力)
+  'tests/data-w336a-sun3d299b.json': [],
+  // ==== 第336便a の塊(ここまで)====
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

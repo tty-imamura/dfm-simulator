@@ -356,7 +356,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 10. 時間: 時間経過倍率は timeScale=1 が標準。公転する系は physics.stepDt に「最内の公転周期 ÷ 360」を書き(1 公転 ≈360 步)、最上位に timeRef:{"pRef":その周期,"pair":[中心の番号,周回体の番号],"def":"osculating","stepsPerOrbit":360} を添える(番号は ring/disk を展開した後の粒子の並び)。公転しない系(気体・衝突・光線など)は timeRef:{"basis":"observe","tObs":観察したい時間} とし timeScale は 1〜4。stepDt を省くと刻みは既定のまま・timeRef を省くと取込時の整形が同じ規則で補う。
 11. 座標: 既定は二次元(physics.coord を書かない)。三次元で走らせるときだけ physics.coord:"3d" を書き、single に z,vz(既定 0)、ring/disk に incl(軌道面の傾き°)・node(昇交点の向き°)を足せる。右手系で +z=x×y(既定の視点では画面の奥)。三次元では kFrame・kRep・muF・kappaS・etaRad・gravityX・gravityY を 0 にし、geoPN は 0 か 1(1 は EIH の 1PN —— 二次元と同じ式の 3 成分・approxMany とは一緒にしない)にする(三次元の geoPN=4 は規則 12)。geoPN=2・光線・熱(tint)・融合・コア・層・壁(boundary)は三次元では受理で拒否される。自転軸は single の spinAxis:{"enable":true,"tiltDeg":+z からの傾き,"azimuthDeg":+x からの方位,"precessionRate":歳差の角速度(rad/時間・規定運動),"source":出所} で粒子ごとに有効化する(全粒子に付けなくてよい)。二次元の本に z・vz・incl を書くと警告が出る(走行は二次元のまま)。
 12. 三次元の慣性決定力: geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止(受理で拒否される)なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。慣性決定力の引きずりの強さは、受け手が感じる慣性決定力の総和(背景慣性決定力を含む —— 背景は分母にだけ入る)で割る(既定の合成則がその形。鍵 norm・background は書かない)。背景慣性決定力は鍵 Wbg [M/L³](正の数 —— 引きずりは W₀ が小さいほど強い。未推定は {Wbg:null, enabled:false}・引きずり無しは enabled:false)で直接書く(gain は廃止・書かない。旧 gain は Wbg = 1/gain として読まれる)。
-13. 近似の原則: 背景宇宙の近似として、直属の支配天体の方向を固定する。地球が支配天体の系で月の公転周期を目標にするなら朔望月(恒星月を恒星年で一様換算)で読み、公転周期にこだわらない系は恒星月でよい。天体表面の一様重力(gravityX/gravityY)は直属の支配天体の方向に固定した一定のベクトルとして書く(毎步回さない —— 三次元では一様重力を使わない)。宣言は任意で最上位に approximation:{"background":"dominant-direction-fixed","periodBasis":"synodic"|"sidereal"} か {"uniformGravity":"dominant-direction-fixed"} を書ける(力学は変わらない)。
+13. 近似の原則: 背景宇宙の近似として、直属の支配天体の方向を固定する。地球が支配天体の系でも月の公転周期は恒星月で読む(朔望月へ換算しない)。天体表面の一様重力(gravityX/gravityY)は直属の支配天体の方向に固定した一定のベクトルとして書く(毎步回さない —— 三次元では一様重力を使わない)。宣言は任意で最上位に approximation:{"background":"dominant-direction-fixed","periodBasis":"sidereal"} か {"uniformGravity":"dominant-direction-fixed"} を書ける(力学は変わらない)。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
 - single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。省略可の rMul(半径倍率 0.2〜40・既定1。R=radiusScale·rMul·√|m|)。省略可の dragQ(粒子別の引きずり減衰指数 0.5〜40・既定は physics.q)。
@@ -5010,3 +5010,16 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **式の一覧**: EQ-34〜EQ-43 が第334便の診断の式(ラベルは 診断 か 宣言〔未接続〕 —— エンジンに無い)。AI が本の説明を書くときに、これらの式をアプリの今の挙動として書かない。「主の候補」を採る・決めるの意の語に言い換えない。水星の文献の物差しは比べる尺度(参考の比)として扱う(厳密な上限としない)。
 - **現象の状況一覧**: `docs/PHENOMENA_STATUS.md` の 10 行に欄「第334便の調べ」(段階は変えていない —— 第335便の結果は次の便で足す)。
 - QA `lint.terms335g`(式の一覧の照合・第334便f の照合の世代の写し・変異の自己試験)・`docs.terms335g`(欄「第334便の調べ」・本節と PHYSICS〔第335便g〕・CHANGELOG・post-merge)。
+
+
+## 227. 第336便a —— 🌘 earthMoonRealKF1 を第297便a の記録へ戻した(二体 + 引きずりで月の近点移動の周期 8.85 年にフィットできる記録 —— ただし恒久ではない)・朔望月の換算を内蔵の本と近似の原則の文から外した(原仮定者の指示(2026-11-12 —— 第137報)・統括の検証項目 R335・**beta/index.html の 🌘・🌔 の本と SYSTEM_PROMPT の 13 番と表示の文だけ —— エンジンの式・受理器・他の本は不変・physics の鍵は足さない**)
+- **近似の原則(SYSTEM_PROMPT の 13 番 —— §5 の逐語の写しを同じコミットで直した)**: 地球が支配天体の系でも**月の公転周期は恒星月で読む**(朔望月へ換算しない)。AI が書く `approximation` の宣言は `{"background":"dominant-direction-fixed","periodBasis":"sidereal"}` か `{"uniformGravity":"dominant-direction-fixed"}`。`periodBasis:"synodic"` は旧い保存物と AI の旧い出力のために**受理だけ残す**(内蔵の本と原則の文では使わない —— 表示は「旧い宣言」)。
+- **🌘 の記録**: physics.D0pull 3.14447×10⁻⁵・初速の係数 0.998777511 を焼き込んだ bodies の速度・λ_PN=0 —— 8 公転窓の恒星月 27.32163 日・近点回転の周期 8.8500 年(今のエンジンで測り直した値は記録とビット同一 —— 再フィットはしない)。fitRecord は版 w298b-1 の標的 2 件(`orbitalPeriodMean`〔秒〕・`apsidalPeriod118` の推定器〔窓は 8 公転〕)—— 説明タブのアプリ内実測が同じ推定器で測る。claims は 2 件とも fit の対象・朔望月の claim は削った。
+- **恒久ではない(窓の表)**: 最初の 8・20・27・40・118 公転の窓で近点回転の周期は 8.8505・9.3005・9.6858・10.5093・14.2970 年(刻み 0.4)と延び、公転ごとの離心率の代理は 0.0541〜0.0553 から 0.0541〜0.1010 へ広がる。AI が本の説明を書くときは、8.85 年を「月の近点移動の機構の同定」「観測の予言」と書かない —— 二体 + 引きずりのフィットの記録(較正の窓に固有・実際の主因は太陽の摂動)。
+- 正本 `tests/out/emrecord-w336a.json`(器 `tests/exp-w336a-emrecord.mjs`・段 `emrecord-336a`)。段 `refit-298b`・`synodic-299b` は履歴。QA `lint.emRecord336a`・`behavior.emRecord336a`・`docs.emRecord336a`。
+
+## 228. 第336便b —— 統合の後の受け入れの要約で、種類の印の無い FAIL を数の外に置かない(印のない FAIL の一覧と「1 件ずつ読む」の規則)(統括の検証項目 R336・**道具と QA と文書だけ** —— html・本の宣言・エンジン・受理器・`S._core`・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
+- **何が起きたか**: 第335便の `tools/post-merge-qa.sh` の ① の要約は、種類の印 `〔違反の種類 w320d: …〕` のある行だけを数え(刻印の型以外 0 件・刻印の型 24 件)、印のない FAIL 6 件が数の外にいた(うち 1 件は鎖で直らない型)。
+- **道具**: 印のない FAIL を理由の文の末尾つきの一覧(① は `$LOG/1-unmarked.txt`・④ は `$LOG/4-unmarked.txt`)に書き、1 件でもあれば要約に「‼ ① の印のない FAIL を 1 件ずつ読むこと(一覧 …)」を出す(`tests/lib-w336b-unmarked.mjs`)。刻印の型の FAIL を出しうる鍵 130 本の detail に種類の印(判定は不変)。刻印の型の語は `tests/lib-w320d-lintkinds.mjs` の版 2。
+- **規則**: AI が受け入れの結果を読むとき、種類の数が 0 でも、印のない FAIL は 1 件ずつ理由の文を読んで分ける(一覧の「〔文に刻印の型の語〕」は参考 —— 刻印の型と決めたのではない)。
+- QA `lint.unmarkedFail336b`(合成のログ・post-merge の関数を切り出した実行・第335便のログの抜粋の凍結・印の経路)・`docs.unmarkedFail336b`(本節と PHYSICS〔第336便b〕・CHANGELOG・tools/README.md・post-merge)。

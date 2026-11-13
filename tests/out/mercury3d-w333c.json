@@ -3,7 +3,7 @@
  "libVersion": "w333c-mercury3d-lib-1",
  "generator": "tests/exp-w333c-mercury3d.mjs",
  "target": "beta/index.html",
- "targetSha256": "6dd99a739eb9858a45fde9ce757fa7b21358a677d39e7dc56b3b80754790aeb9",
+ "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
  "reuseFrom": null,
  "ruling": "原仮定者の整理(2026-11-10)「水星は絡む要素が多く難しい天体・軌道も公転面に対して斜め」「G_loc も次数を含めて選択肢のひとつ」「新しい解釈の引きずりも検証する」・原仮定者の回答(2026-11-10 —— AN597)今の G_loc n = 2 + K1 を凍結の基準の列に・原仮定者の回答(2026-11-10 —— AN598)K1 の +5/3 は相対の並進・原仮定者の回答(2026-11-10 —— AN600)連星の +33% は残差 + 対称の G_loc n = 2 の小さな診断・統括の検証項目 R319",
  "inposVersion": "w315c-inposk1-1",
@@ -2723,25 +2723,25 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.032
+   "wallSec": 0.04
   },
   "books": {
-   "wallSec": 0.032
+   "wallSec": 0.04
   },
   "geom": {
-   "wallSec": 0.033
+   "wallSec": 0.041
   },
   "merc3d": {
-   "wallSec": 0.208
+   "wallSec": 0.267
   },
   "numeric": {
-   "wallSec": 2.878
+   "wallSec": 2.872
   },
   "controls": {
-   "wallSec": 3.351
+   "wallSec": 3.419
   },
   "bin": {
-   "wallSec": 4.02
+   "wallSec": 4.126
   }
  },
  "gates": {
@@ -2756,25 +2756,25 @@
   "binary": true
  },
  "ok": true,
- "elapsedS": 5.815,
+ "elapsedS": 6.435,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第333便c",
   "target": "beta/index.html",
-  "targetSha256": "6dd99a739eb9858a45fde9ce757fa7b21358a677d39e7dc56b3b80754790aeb9",
-  "generatedAt": "2026-11-10T20:11:51.836Z",
+  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+  "generatedAt": "2026-11-13T08:34:01.985Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "6dd99a739eb9858a45fde9ce757fa7b21358a677d39e7dc56b3b80754790aeb9",
-    "mtime": "2026-11-10T19:46:47.451Z"
+    "bytes": 7665776,
+    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+    "mtime": "2026-11-13T00:35:24.745Z"
    },
    {
     "file": "tests/out/inposk1-w315c.json",
-    "bytes": 81462,
-    "sha256": "1e3ddbc42000d06e0abe0448cfebaa731d8844d14cc20c9bf760a52d0fedc30c",
-    "mtime": "2026-11-10T19:46:47.831Z"
+    "bytes": 81467,
+    "sha256": "90da06666e08f3e50a31bc705448b41cd82ede76f43243faedb4202955033be6",
+    "mtime": "2026-11-13T07:51:01.809Z"
    }
   ],
   "code": [
@@ -2782,79 +2782,79 @@
     "file": "tests/exp-w333c-mercury3d.mjs",
     "bytes": 29178,
     "sha256": "c10bf270e3dd20cdf68cb1d4c93fb182f040391f5296e160c9eca48b617092d4",
-    "mtime": "2026-11-10T20:11:33.488Z"
+    "mtime": "2026-11-10T21:32:27.075Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35614,
     "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
-    "mtime": "2026-11-10T20:11:09.040Z"
+    "mtime": "2026-11-10T21:32:27.079Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-10T19:46:47.719Z"
+    "mtime": "2026-11-10T04:53:08.019Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-10T19:46:47.719Z"
+    "mtime": "2026-11-09T20:28:10.251Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-10T19:46:47.719Z"
+    "mtime": "2026-11-08T17:01:18.701Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-10T19:46:47.703Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-10T19:46:47.703Z"
+    "mtime": "2026-10-21T18:25:03.634Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-10T19:46:47.703Z"
+    "mtime": "2026-10-20T16:19:56.684Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-10T19:46:47.703Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-10T19:46:47.691Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-10T19:46:47.691Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-10T19:46:47.687Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-10T19:46:47.695Z"
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
   "codeSha256": "7520844dbd7ef79c16ad8e0fc248713555dc8eaffc0913fc842af4aab2cc7f96",
@@ -2893,14 +2893,14 @@
    "abBody": false,
    "names": 1324,
    "segments": 1161,
-   "closureShare": 0.2874
+   "closureShare": 0.2876
   },
   "scopeSha256": "eaa9f8e90a306b673cdc56eb75addc32b8dcdc0944ead51596c1879d66afe612",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/inposk1-w315c.json",
-    "stableSha256": "c5545c32894db27b44928ea6860df97bdd459c1e8af19dee31af3df413ecaaf0",
+    "stableSha256": "0a8504ee13e005563ef917673ca4b32fa4718b96867061794fd9928a1d936da5",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/B/systems/*/wallSec",

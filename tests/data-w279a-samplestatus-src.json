@@ -263,14 +263,14 @@
   "earthMoonOnly3d": {
    "purpose": "🌦️ から太陽を外した地球と月だけの三次元の対照で太陽の有無の差を見る",
    "objective": "met",
-   "state": "恒星月 27.4903 日・朔望月(一様換算)29.7277 日・引きずり OFF の二体と地球の J₂(118 窓では近点の周期は読めない)",
+   "state": "恒星月 27.4903 日・引きずり OFF の二体と地球の J₂(118 窓では近点の周期は読めない)",
    "evidence": [
     "tests/out/emonly-w300b.json",
     "tests/out/j2-w305c.json"
    ],
    "en": {
     "purpose": "Earth-Moon-only 3D control of 🌦️ (no Sun): what the Sun changes",
-    "state": "sidereal 27.4903 d; synodic (uniform) 29.7277 d; drag-off two-body with the Earth J2"
+    "state": "sidereal 27.4903 d; drag-off two-body with the Earth J2"
    }
   },
   "mercurySunInertial": {
@@ -1589,18 +1589,18 @@
    }
   },
   "earthMoonRealKF1": {
-   "purpose": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照",
+   "purpose": "二体 + 引きずりで近点移動 8.85 年にフィットできる記録を示す原理の参照",
    "objective": "partial",
-   "state": "朔望月 29.534 日(恒星月 27.324 日を恒星年で一様換算)は門の中・近点回転 293.850 年は照合だけ",
+   "state": "8 公転窓の記録 恒星月 27.3216 日・近点 8.850 年(118 公転 14.30 年 —— 恒久ではない)",
    "evidence": [
-    "tests/out/synodic-w299b.json",
-    "tests/out/refit-w298b.json",
+    "tests/out/emrecord-w336a.json",
+    "tests/out/refit-w297a.json",
     "tests/out/emgrid-w280b.json",
     "tests/out/calaudit-w249.json"
    ],
    "en": {
-    "purpose": "Principle reference: kF1 q-drag apsidal mechanism",
-    "state": "Synodic month 29.534 d (sidereal 27.324 d via the sidereal year) inside the gate; apsides 293.850 yr, check only"
+    "purpose": "Principle reference: two-body + drag fit record of the 8.85-yr apsides",
+    "state": "8-orbit record 27.3216 d, apsides 8.850 yr (118 orbits: 14.30 yr; not permanent)"
    }
   },
   "emAuditNewton": {

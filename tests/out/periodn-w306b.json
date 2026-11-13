@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便b",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T09:37:22.200Z",
+  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+  "generatedAt": "2026-11-13T07:57:23.284Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7665776,
+    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+    "mtime": "2026-11-13T00:35:24.745Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -38,15 +38,15 @@
    },
    {
     "file": "tests/out/pairnorm-w305a.json",
-    "bytes": 74043,
-    "sha256": "ff2bc5a26e0d99333bcdae9ae5c1b689d1f322662349146940d66fe6f1714756",
-    "mtime": "2026-11-05T06:27:24.827Z"
+    "bytes": 74050,
+    "sha256": "ffc9268e8c9564f03646fb007aa90054526f1655db1d4ab939d7b8e4366947c4",
+    "mtime": "2026-11-13T04:46:21.632Z"
    },
    {
     "file": "paper/data/obs-time-standard-20261016.csv",
-    "bytes": 17529,
-    "sha256": "ab5580562b0d8838a348ffd66400b05a460583668d7cf7b15c1a74cc477d4907",
-    "mtime": "2026-10-20T16:19:56.570Z"
+    "bytes": 18205,
+    "sha256": "773096461f7de1e041e2389d84ea0d71585a5328c7a1a21828ec592eef9e26ec",
+    "mtime": "2026-11-13T02:03:07.609Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
@@ -124,12 +124,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "2dc551138ebaeabed24685f0c269cfea644b06cdcce7fec17e16e0e4c6721d1b",
+  "codeSha256": "57705f796d9f656c762493e703ff392e382dc17808ee2517f71326a12960e564",
   "harnessVersion": "w306b-periodn-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第97報)AN336(水星の標的を 1PN + A1 へ —— k は 1PN + A1 の値)・第95報・AN332 の裁定(アプリは絶対時間・慣性速度は絶対時間の慣性速度を維持・α = c_loc/c₀・n = 2 を先・n = +1 は次点・n = 0 は対照・近点では n は決まらない)",
@@ -256,7 +256,7 @@
    ],
    "names": 1396,
    "segments": 1233,
-   "closureShare": 0.3005
+   "closureShare": 0.3008
   },
   "scopeSha256": "0df755d32b7c5a2fb56c745b43c9da5c0a54f20540450891f5f6676ffea3fdf5",
   "scopeComplete": true,
@@ -293,7 +293,7 @@
    },
    {
     "file": "tests/out/pairnorm-w305a.json",
-    "stableSha256": "981e20060a0bcbb91847ce412ede0773053296d6b47a3cc99fe10900365da18b",
+    "stableSha256": "b7955a2d7390c8cc45f9e423d14dd402f1774488af787d8cb865522df71f6fe8",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -5206,9 +5206,9 @@
  "moon": {
   "transcribed": {
    "file": "tests/out/pairnorm-w305a.json",
-   "sha256": "ff2bc5a26e0d99333bcdae9ae5c1b689d1f322662349146940d66fe6f1714756",
+   "sha256": "ffc9268e8c9564f03646fb007aa90054526f1655db1d4ab939d7b8e4366947c4",
    "harnessVersion": "w305a-pairnorm-1",
-   "generatedAt": "2026-11-05T06:27:24.817Z",
+   "generatedAt": "2026-11-13T04:46:21.623Z",
    "wave": "第305便a",
    "base": "bdb7ae5",
    "declFile": "tests/data-w305a-decl304.json",
@@ -5379,7 +5379,7 @@
    "nodeOffY": 0.00000906843694536974,
    "eOff": -3.8744234077958684e-8,
    "offSidB1D": -0.000025257130523925753,
-   "wallSec": 143.082,
+   "wallSec": 187.987,
    "note": "刻み h だけ(h/2 は省く —— 転記の行の h と h/2 の差 |sidOff| の桁は 1e-7 日)。差 = n = 2・対 − 引きずり OFF(同じ刻み・同じ初期状態)"
   }
  },
@@ -5831,22 +5831,22 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 2.923
+   "wallSec": 2.96
   },
   "P": {
-   "wallSec": 457.117
+   "wallSec": 608.935
   },
   "R": {
-   "wallSec": 405.415
+   "wallSec": 575.573
   },
   "G": {
-   "wallSec": 0.002
+   "wallSec": 0.003
   },
   "E": {
-   "wallSec": 143.085
+   "wallSec": 187.992
   },
   "T": {
-   "wallSec": 0.072
+   "wallSec": 0.076
   }
  },
  "stats": {
@@ -5854,5 +5854,5 @@
   "memoHits": 70,
   "emRuns": 2
  },
- "elapsedS": 1010.739
+ "elapsedS": 1377.567
 }

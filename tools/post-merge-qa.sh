@@ -910,6 +910,22 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.elliptical335f behavior.elliptical335f 
 #   用語の表の更新・第334便f の照合の世代の写し・変異の自己試験 / docs.terms335g —— 現象の一覧の欄「第334便の調べ」・PHYSICS〔第335便g〕・文書)と、直した文書を読む鍵
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.terms335g docs.terms335g lint.terms334f docs.terms334f lint.equations331d docs.equations331d lint.phenomena331e docs.phenomena331e lint.symbols333e docs.symbols333e lint.kappaSymbol315"
 # ==== 第335便g の塊(ここまで)====
+# ==== 第336便a の塊(ここから)====
+# 第336便a(原仮定者の指示(2026-11-12 —— 第137報)・統括の検証項目 R335 —— 🌘 を第297便a の記録へ・朔望月の換算を外す): 枝 a の新設 3 本(lint.emRecord336a・behavior.emRecord336a・
+#   docs.emRecord336a)と、🌘 の値・朔望月の換算・SYSTEM_PROMPT を読む鍵(世代の条件を足した鍵を含む)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.emRecord336a behavior.emRecord336a docs.emRecord336a prompt.spec-sync docs.uiText316 docs.refit297 docs.refit298 behavior.synodicClock299 docs.synodic299 docs.approx300 preset.refit301 behavior.approxMany301 preset.approxMany301 docs.emgrid-sync behavior.fitCond298 preset.earthReorg300 preset.revived292b preset.fitRole308 behavior.framePull lint.quickWindows323 lint.quickBoundary324c preset.sampleWords325b"
+# ==== 第336便a の塊(ここまで)====
+# ==== 第336便b の塊(ここから)====
+# 第336便b(統括の検証項目 R336 —— 道具と QA だけ・html は変えない): 第335便の ① は FAIL 8 件のうち種類の印 〔違反の種類 w320d: …〕 を出す 2 件だけが要約の数に入り、
+#   印のない 6 件が数の外にいた。**印のない FAIL は理由の文の末尾つきの一覧 $LOG/1-unmarked.txt(④ は $LOG/4-unmarked.txt)に書き、1 件でもあれば要約に
+#   「‼ ① の印のない FAIL を 1 件ずつ読むこと(一覧 …)」を必ず出す**(tests/lib-w336b-unmarked.mjs —— 終了コードは従来どおり)。枝 b の新設 2 本(lint.unmarkedFail336b ——
+#   要約の lib と kinds320 と第335便のログの抜粋の凍結・印を付けた鍵の経路 / docs.unmarkedFail336b —— 文書)と、印の形と要約を読む鍵
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.unmarkedFail336b docs.unmarkedFail336b lint.violationKinds320 lint.postMergeQaScript lint.postMergeCounts324c lint.symbols333e lint.kappaSymbol315 docs.w320d lint.sectionLookup313"
+unmarked336b() {   # $1 = ログ・$2 = 一覧のファイル・$3 = 段の印(① か ④)→ 要約に足す句(0 件なら空)
+  [ -f "$1" ] || { echo ""; return; }
+  node "$ROOT/tests/lib-w336b-unmarked.mjs" --unmarked "$1" --out "$2" --label "$3" 2>/dev/null || echo "・‼ $3 の印のない FAIL の一覧が作れない(ログ $1 を 1 行ずつ読むこと)"
+}
+# ==== 第336便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
@@ -1035,6 +1051,10 @@ console.log((r.other > 0 ? "・‼ 刻印の型以外の違反 " + r.other + " �
 }
 [ "$S1" = "skip" ] || S1="$S1$(kinds320 "$LOG/1-preflight.log")"
 # ==== 第320便d の塊(ここまで)====
+# ==== 第336便b の塊(ここから)====
+# 第336便b(R336): ① の印のない FAIL の一覧($LOG/1-unmarked.txt —— id・文に刻印の型の語があるか・理由の文の末尾 120 字)と、1 件でもあれば要約に「‼ 1 件ずつ読むこと」
+[ "$S1" = "skip" ] || S1="$S1$(unmarked336b "$LOG/1-preflight.log" "$LOG/1-unmarked.txt" ①)"
+# ==== 第336便b の塊(ここまで)====
 
 # ② 接続契約
 say "② 接続契約(regen-chain --audit / --self-test)→ $LOG/2-*.log"
@@ -1098,6 +1118,9 @@ S4="beta $(qsum324c "$LOG/4-beta.log" beta "$(echo $IDS | wc -w)")"   # 第324�
 # ==== 第320便d の塊(ここから)====
 S4="$S4$(kinds320 "$LOG/4-beta.log")"   # 第320便d(R265): 常設集合の lint.regenScope・lint.provenanceMeta の違反の種類
 # ==== 第320便d の塊(ここまで)====
+# ==== 第336便b の塊(ここから)====
+S4="$S4$(unmarked336b "$LOG/4-beta.log" "$LOG/4-unmarked.txt" ④)"   # 第336便b(R336): ④ の印のない FAIL の一覧と「1 件ずつ読むこと」
+# ==== 第336便b の塊(ここまで)====
 if [ $NOROOT -eq 0 ]; then
   say "④ 常設集合 root → $LOG/4-root.log"
   # shellcheck disable=SC2086

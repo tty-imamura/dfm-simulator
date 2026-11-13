@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便a",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T07:23:33.806Z",
+  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+  "generatedAt": "2026-11-13T04:43:24.167Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7665776,
+    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+    "mtime": "2026-11-13T00:35:24.745Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -130,9 +130,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    },
    {
     "file": "tests/lib-w311c-h4carry.mjs",
@@ -141,7 +141,7 @@
     "mtime": "2026-10-21T20:13:23.994Z"
    }
   ],
-  "codeSha256": "5925d2caa85dee51997ef927954aa6bb6731ba607ec61cf257b542680af96054",
+  "codeSha256": "5d838ea5ed1174fc4c255128e6f888ac599d208c9a6013b66b123304b3da9536",
   "harnessVersion": "w306a-an336-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定〔第97報〕AN336「水星の標的を 1PN + A1 に替える」(派生した参照値 —— sigma null・原資料の幅は未確認・停止許容 0.0009 は宣言・43.0 は履歴の列)・第95報・AN332 の裁定(n = 2 を先・n = +1 は次点・n = 0 は対照・近点では n は決まらない)",
@@ -267,9 +267,9 @@
    ],
    "names": 1396,
    "segments": 1233,
-   "closureShare": 0.3005
+   "closureShare": 0.3008
   },
-  "scopeSha256": "f4de945414b7729eb0938d8a74d1c84d6cb513e3ec99f3ce59e3703945cac8ff",
+  "scopeSha256": "426eaa71969f3346dd680afdd13b0439b0271c3e1f11357e94caf55fc903f0db",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -3444,19 +3444,19 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.028
+   "wallSec": 0.02
   },
   "M": {
-   "wallSec": 78.497
+   "wallSec": 93.934
   },
   "T": {
-   "wallSec": 474.733
+   "wallSec": 541.488
   },
   "R": {
-   "wallSec": 0.056
+   "wallSec": 0.054
   },
   "G": {
-   "wallSec": 37.23
+   "wallSec": 44.208
   }
  },
  "stats": {
@@ -3510,11 +3510,11 @@
    }
   },
   "prev": {
-   "generatedAt": "2026-11-04T10:56:17.689Z",
-   "targetSha256": "f98480f3396e6bb2a09149a7d085ccb3cce25476d0c07a1f5de5e67352c0ab38",
-   "fileSha256": "a9ffd8dcbe22d01865cf2e49c7d13e74bc7b3c8da56e71f882011eb176b8b570"
+   "generatedAt": "2026-11-05T07:23:33.806Z",
+   "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+   "fileSha256": "3a896f1ead65810f7969be900ad53f065be2354474d43cb3dc0f0723f62deac3"
   },
   "env": "H4_CARRY=1 は比較の実験だけ(既定は全部測る)"
  },
- "elapsedS": 620.057
+ "elapsedS": 718.005
 }

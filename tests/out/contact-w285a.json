@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便a",
   "target": "beta/index.html",
-  "targetSha256": "d4039e385d15a3688fa45df35ca922265688e6b7bf5e83519b7ffca0fc62bf4e",
-  "generatedAt": "2026-11-08T20:11:55.520Z",
+  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+  "generatedAt": "2026-11-13T02:34:22.633Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "d4039e385d15a3688fa45df35ca922265688e6b7bf5e83519b7ffca0fc62bf4e",
-    "mtime": "2026-11-08T13:21:42.200Z"
+    "bytes": 7665776,
+    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+    "mtime": "2026-11-13T00:35:24.745Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734334,
-    "sha256": "5198850eb7047ace8dc11ec0b75e61aa1c23d241c86509e92a67e4092a0c1835",
-    "mtime": "2026-11-08T20:01:01.426Z"
+    "bytes": 1734337,
+    "sha256": "0239f484d9bb53fd01b94f71c12cc92853070094425bbfaad615fcce81995a4e",
+    "mtime": "2026-11-13T02:17:58.884Z"
    }
   ],
   "code": [
@@ -129,14 +129,14 @@
    ],
    "names": 1326,
    "segments": 1163,
-   "closureShare": 0.2877
+   "closureShare": 0.288
   },
-  "scopeSha256": "8f242bad6eaeebe4cb088caee77ee38e46d8ccf8c5b25b35794a44ad8cc6719f",
+  "scopeSha256": "dc682e33b68f6bbd0e53ac8fa7772f4465cbc69ea2663a8d22f2fed6c8f162bd",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "593d11db0a5cc94e53384d45c06a1dcb527b5497925c45d0a0a8826938fc8d42",
+    "stableSha256": "ac34b6bd4a853f2da4426bcfe7980f4cd83f4c37cece1dce148bb9498f600321",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -1749,7 +1749,7 @@
   "after": {
    "source": "canon",
    "file": "tests/out/calaudit-w249.json",
-   "targetSha256": "d4039e385d15a3688fa45df35ca922265688e6b7bf5e83519b7ffca0fc62bf4e"
+   "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea"
   },
   "table": [
    {
@@ -1951,7 +1951,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 141.548,
+      "wallSec": 138.21,
       "tags": [
        "dt"
       ],
@@ -1966,5 +1966,5 @@
   ],
   "note": null
  },
- "elapsedS": 229.713
+ "elapsedS": 220.068
 }

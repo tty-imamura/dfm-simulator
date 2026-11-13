@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便e",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T10:52:16.506Z",
+  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+  "generatedAt": "2026-11-13T04:29:00.297Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7665776,
+    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+    "mtime": "2026-11-13T00:35:24.745Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
@@ -76,12 +76,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "cbece5dcb0fd30b260bf75a6ebacd0bb3076447627b75627684aea978c43c11d",
+  "codeSha256": "c151a509b0f62f13674c27fd1df32c03a16836a6ee9e789d09e69299ada718b2",
   "harnessVersion": "w306e-charonfix-1",
   "loadErrors": 0,
   "ruling": "決断事項 AN339(案 (A) —— DECISIONS v65 §0)・AN334 ④",
@@ -117,7 +117,7 @@
    "complete": true,
    "names": 1351,
    "segments": 1188,
-   "closureShare": 0.2912
+   "closureShare": 0.2915
   },
   "scopeSha256": "44ff7b1932613c51cfe51505527bca1d2c9826a30cea020332e2343e9f0dd267",
   "scopeComplete": true,
@@ -293,11 +293,11 @@
    "M1_16": 551856.44309496,
    "late": 551856.4430958406,
    "eProxy": 3.989633641573282e-9,
-   "wallSec": 11.115,
+   "wallSec": 15.303,
    "steps": 2759283
   },
   "h2": {
-   "wallSec": 11.128,
+   "wallSec": 14.493,
    "dt": 0.08,
    "steps": 5518565,
    "revN": 8,
@@ -320,7 +320,7 @@
    }
   },
   "h4": {
-   "wallSec": 24.69,
+   "wallSec": 27.984,
    "dt": 0.04,
    "steps": 11037129,
    "revN": 8,
@@ -368,7 +368,7 @@
     "d": 0.0011411890154704452,
     "nan": false,
     "revN": 8,
-    "wallSec": 6.379
+    "wallSec": 6.65
    },
    {
     "eps": 0.0025,
@@ -376,7 +376,7 @@
     "d": 0.0003335564397275448,
     "nan": false,
     "revN": 8,
-    "wallSec": 6.085
+    "wallSec": 6.487
    }
   ],
   "extrapolated": 551856.4387835835,
@@ -573,5 +573,5 @@
   "「観測と一致した」",
   "「時計の換算で合った」"
  ],
- "elapsedS": 158.371
+ "elapsedS": 185.08
 }

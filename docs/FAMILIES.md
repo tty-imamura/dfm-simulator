@@ -1,4 +1,4 @@
-# 同一天体の家族の差分表と統廃合の候補(v1.47-b335・第283便b)
+# 同一天体の家族の差分表と統廃合の候補(v1.47-b336・第283便b)
 
 > **この文書は生成物である —— 手で直さない。** 器 `tests/exp-w283b-families.mjs` が、対象 html の内蔵プリセットを受理した後の実効 JSON(`validatePreset` の後)と、正本 `tests/out/calaudit-w249.json`(較正母集団)・凍結の写し `tests/fixtures/retired-w283b.json` から作る。QA `docs.families` が正本からこの文書を作り直して 1 字ずつ照合する。
 > 原仮定者の裁定(第73報)④「同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)」への対応(統括の検証項目 R85)。**ここに並ぶのは候補であって実行ではない** —— どの本を畳むかは原仮定者の裁定で決める。観測版と DFM 版は 1 ID にしない。
@@ -71,14 +71,14 @@
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 🌘 | `earthMoonRealKF1` | variant | 比較(上のどれでもない) | 基準 | principle | — | 2 | 1 | 0.006 | 0.001 | 8.2358 | — | — | — | kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照 | — |
-| 🌙 | `earthMoonReal` | primary | 主系列(較正母集団) | 同じ入力 | calibration・kf0 | ○ | 1 | 0 | 0.1 | — | 3 | — | — | — | 実単位の地球と月を kF0 で照合する | — |
+| 🌘 | `earthMoonRealKF1` | variant | 比較(上のどれでもない) | 基準 | principle | — | 2 | 1 | 0.006 | 0.0000314447 | 8.2358 | — | — | — | 二体 + 引きずりで近点移動 8.85 年にフィットできる記録を示す原理の参照 | — |
+| 🌙 | `earthMoonReal` | primary | 主系列(較正母集団) | 違う入力(速度) | calibration・kf0 | ○ | 1 | 0 | 0.1 | — | 3 | — | — | — | 実単位の地球と月を kF0 で照合する | — |
 | 🔆 | `emAuditSolar` | variant | 主系列(較正母集団) | 違う入力(本数・質量・位置・速度) | calibration・kf0 | ○ | 1 | 0 | 0.1 | — | 3 | — | — | — | 太陽摂動だけで月の近点回転を出す | `behavior.emAudit` |
 
 **鍵ごとの差**(physics の同じ鍵 19):
 
 - `physics.D0`: earthMoonRealKF1=0.006 / earthMoonReal=0.1 / emAuditSolar=0.1
-- `physics.D0pull`: earthMoonRealKF1=0.001 / earthMoonReal=— / emAuditSolar=—
+- `physics.D0pull`: earthMoonRealKF1=0.0000314447 / earthMoonReal=— / emAuditSolar=—
 - `physics.frameWeight`: earthMoonRealKF1=— / earthMoonReal=share / emAuditSolar=share
 - `physics.geoPN`: earthMoonRealKF1=2 / earthMoonReal=1 / emAuditSolar=1
 - `physics.kFrame`: earthMoonRealKF1=1 / earthMoonReal=0 / emAuditSolar=0
@@ -95,7 +95,7 @@
 - `calVariant`: earthMoonRealKF1=— / earthMoonReal=kf0 / emAuditSolar=kf0
 - `familyRole`: earthMoonRealKF1=variant / earthMoonReal=primary / emAuditSolar=variant
 - `gates(testId)`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=behavior.emAudit
-- `bodies(vs 基準)`: earthMoonRealKF1=基準 / earthMoonReal=同じ入力 / emAuditSolar=違う入力(本数・質量・位置・速度)
+- `bodies(vs 基準)`: earthMoonRealKF1=基準 / earthMoonReal=違う入力(速度) / emAuditSolar=違う入力(本数・質量・位置・速度)
 
 **統廃合の候補**: 規則に当たる組は無い。
 

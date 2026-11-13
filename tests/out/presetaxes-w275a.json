@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T10:26:27.134Z",
+  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+  "generatedAt": "2026-11-13T04:13:50.899Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7665776,
+    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+    "mtime": "2026-11-13T00:35:24.745Z"
    }
   ],
   "code": [
@@ -58,9 +58,9 @@
    "abBody": false,
    "names": 1326,
    "segments": 1163,
-   "closureShare": 0.2877
+   "closureShare": 0.288
   },
-  "scopeSha256": "c6abf9342660b4f4de48d6281c8764bde7166047b441a0c27b622cab642a5c7c",
+  "scopeSha256": "cb70d6a54fcdca9fb5865b2d82e6625712d5546c00bb5538773e4313e3e381b4",
   "scopeComplete": true
  },
  "nPresets": 186,
@@ -1667,16 +1667,16 @@
    "massFactor": 1,
    "massCalibrationDeclared": false,
    "D0": 0.006,
-   "D0pull": 0.001,
-   "D0eff": 0.001,
+   "D0pull": 0.0000314447,
+   "D0eff": 0.0000314447,
    "q": 8.2358,
    "frameWeight": "pull",
    "frameWeightDeclared": false,
    "softening": 0.1,
    "geoPN": 2,
    "nBodyDecl": 2,
-   "presetSigHash": "e06e5a8",
-   "bodiesSha256": "c61e669c32aa3688be07e4e89df3e255f504582f6b327aa8a25c86b294e734e6"
+   "presetSigHash": "6864454c",
+   "bodiesSha256": "eae2f24cba26af9c45520b6a1bc2f67e4abffb4e922d38fb680ff0c150f0fd3c"
   },
   {
    "id": "earthMoonInertial",
@@ -1975,7 +1975,7 @@
   {
    "id": "mercurySunInertialFit",
    "emoji": "🟫",
-   "name": "水星と太陽(慣性決定力版・フィット)— 近点率に合わせた W_bg",
+   "name": "水星と太陽(慣性決定力版・フィット)— 近点率に合わせた W₀",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
