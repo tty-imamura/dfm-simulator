@@ -105697,6 +105697,157 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第337便h の塊(ここまで)====
 
+// ==== 第337便i の塊(ここから —— behavior.rotring337i・docs.rotring337i の 2 ブロック。root は SKIP)====
+// ---- 第337便i(原仮定者の回答(2026-11-14 —— 第138報の回答)「回転引きずりは、源の引きずり半径が影響する。土星の環に影響する計算を求めてから、水星での影響を確認する」・統括の検証項目 R345):
+// ----   **回転引きずり(源の引きずり半径が効く型)の器**(新設 —— 器 tests/exp-w337i-rotring.mjs〔html を読まない〕・lib tests/lib-w337i-rotring.mjs・文書の lib tests/lib-w337i-rotringdoc.mjs・
+// ----   正本 tests/out/rotring-337i.json。html・本の宣言・エンジン・受理器・第337便b までの lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.rotring337i(正本と照合 —— html を読まない): ① 版・格子・純関数の場面 7(場の型が第333便a・第334便a と同じ・ω の微分・R_d の読み・λ = 0 で 0 と一次・閉じた式・座標を運ぶ場・拒否)を
+// ----     作り直して全部真・正本と同じ ② 器の runAll を走らせ直して、棚卸し・環の 240 組・惑星・代表・引きずり半径の格子・時間積分が正本と相対 1e-9 の内 ③ 対照(λ = 0)の環の行が 0・
+// ----     代表が環の物差しと 4 惑星の尺度を満たす ④ 作り直した門が全部真・呼ぶだけ(lib の import は第337便b・第333便a・第334便a・第332便a・第333便c の lib だけ・html を読まない・Math.random なし)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む
+  const wHarn = path.join(ROOT, 'tests', 'exp-w337i-rotring.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w337i-rotring.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w337i-rotringdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'rotring-337i.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.rotring337i(第337便i の回転引きずりの環と水星の候補の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const cmp337i = (a, b, floor = 0) => (a === b ? 0 : (a === null || b === null || a === undefined || b === undefined) ? Infinity : Math.abs(a - b) <= floor ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── behavior.rotring337i ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/rotring-337i.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        let dW = 0;
+        const walk = (a, b, floor) => { if (typeof a === 'number' || typeof b === 'number') { dW = Math.max(dW, cmp337i(a, b, floor)); return; } if (a === null || b === null || typeof a !== 'object') { if (a !== b) dW = Infinity; return; } for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) walk(a[k], b[k], floor); };
+        // ① 版・格子・純関数の場面
+        if (!(L.LIB_VERSION === 'w337i-rotring-lib-1' && X.HARNESS_VERSION === 'w337i-rotring-1' && D0.DOC_VERSION === 'w337i-rotringdoc-1' && X.AMEND.length === 0)) bad.push('① 版(lib・器・文書の lib・版の履歴)');
+        if (!(js(L.PROFILES) === js(['slice', 'lor2', 'lor4', 'lor8', 'ball', 'src']) && js(L.ACTIONS) === js(['vel', 'push', 'focus', 'damp', 'dampz']) && js(L.READINGS) === js(['Yk', 'Req', 'Robs', 'Rsrc']) && js(L.SPEEDS) === js(['obs', 'sd'])
+          && L.DECL.ringJudge.tThinYr === 1e7 && L.DECL.ringJudge.keplerTol === 1e-5 && L.DECL.ringJudge.driftTol === 1e-5 && L.DECL.ringJudge.eccTol === 1)) bad.push('① 格子(高さの型・作用の型・R_d の読み・速さ)と環の物差しの宣言');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
+        if (Object.keys(PG).length !== 7) bad.push('① 場面の数 ' + Object.keys(PG).length);
+        dW = 0; walk(JSON.parse(js(PS)), J.pure.scenes, 1e-300); if (!(dW <= 1e-9)) bad.push('① 場面の数が正本と違う(' + dW + ')');
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・格子 ${L.PROFILES.length} × ${L.ACTIONS.length} × ${L.READINGS.length} × ${L.SPEEDS.length}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}`);
+        // ② 器を走らせ直して正本と同じ
+        const R = X.runAll(), parts = ['inventory', 'ring', 'planets', 'reps', 'rdScan', 'integ'], diffs = {};
+        for (const k of parts) { dW = 0; walk(JSON.parse(js(R[k])), J[k], 1e-300); diffs[k] = dW; }
+        const badParts = parts.filter((k) => !(diffs[k] <= 1e-9));
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k]).join('・') + ')—— 器を走らせ直す');
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と相対 1e-9 の内(環 ${R.ring.sets.length} 組 × 点 ${R.ring.points.length}・環の物差しを満たす ${R.ring.pass.length} 組・4 惑星とも尺度の内 ${R.planets.narrowed.length} 組)`);
+        // ③ 対照と代表
+        const off = J.ring.controls.find((c) => c.key === 'off');
+        if (!(off && off.rows.every((q) => q.dlnI === 0 && q.dlnA === 0 && q.dOmOverOm === 0 && q.apsW === 0) && off.judge.thin === false)) bad.push('③ 対照(λ = 0)の環の行が 0 でない');
+        const repOk = J.reps.length > 0 && J.reps.every((k) => { const s = J.ring.sets.find((q) => q.key === k), p = J.planets.sets.find((q) => q.key === k); return s && s.judge.thin && s.judge.pass && p && J.plan.planets.every((pk) => p.per[pk] && p.per[pk].atNeed && p.per[pk].atNeed.insideScale); });
+        if (!repOk) bad.push('③ 代表が環の物差しか 4 惑星の尺度を満たさない');
+        cases.push(`③ 対照(λ = 0)の環の行が 0・代表 ${J.reps.length} 組が環の物差しと 4 惑星の尺度を満たす`);
+        // ④ 門と呼ぶだけ
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const tl = rd('tests/lib-w337i-rotring.mjs'), th = rd('tests/exp-w337i-rotring.mjs'), td = rd('tests/lib-w337i-rotringdoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        if (!(js(imps) === js(['lib-w332a-eqband.mjs', 'lib-w333a-rotdiff.mjs', 'lib-w333c-mercury3d.mjs', 'lib-w334a-heightlaw.mjs', 'lib-w337b-mercuryband.mjs']) && !/loadHtml|index\.html/.test(tl + td + th)
+          && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/from '/.test(td) && !/Math\.random/.test(tl + th) && !/w337i/.test(rd('tests/lib-w337b-mercuryband.mjs'))))
+          bad.push('④ 呼ぶだけ(lib の import は第337便b・第333便a・第334便a・第332便a・第333便c の lib だけ・html を読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random なし・呼ぶ lib の本文は不変)');
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・lib の import は 5 本の lib だけ・html を読まない`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.rotring337i', bad.length === 0,
+      `**回転引きずり(源の引きずり半径が効く型)の環と水星の候補の作り直し**(第337便i・原仮定者の回答(2026-11-14 —— 第138報の回答)・R345 —— html を読まない・場の型と作用の型の純関数・環の 240 組・同じノブの 4 惑星・引きずり半径の格子・時間積分): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第337便i: docs.rotring337i は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
+// ----   docs.rotring337i(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルなし)・宣言が lib と器と同じ ② 表 11 本が PHYSICS〔第337便i〕に逐語
+// ----     ③ 節の位置(〔第337便h〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語(ノブの表の列を含む)・ノブの表の状態の欄が 1 語・AI_SPEC §237(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w337i-rotring.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w337i-rotring.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w337i-rotringdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'rotring-337i.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.rotring337i(第337便i の回転引きずりの環と水星の候補の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.rotring337i ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第337便i — '), i7 = PH.indexOf('\n## 7. 論文'), ih = PH.indexOf('〔第337便h — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ih >= 0 && ih < i0 && iu > i0)) bad.push('PHYSICS〔第337便i〕が無いか〔第337便h〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/rotring-337i.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'rotring'
+        && J.target === 'tests/lib-w337i-rotring.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0)) bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルなし)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN) || JSON.stringify(J.lit) !== JSON.stringify(L.LIT)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第337便i〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 11) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第337便i〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の回答(2026-11-14 —— 第138報の回答)', 'R345', 'tests/exp-w337i-rotring.mjs', 'tests/out/rotring-337i.json', 'tests/lib-w337i-rotring.mjs', 'rotring-337i',
+      '源の引きずり半径', '並進引きずり(の回転の分)の型', '回転引きずり', '軸引きずり', '土星の環に効く計算', '同じ式・同じノブ', '鉛直へ寄せる場', '相対の速度の鉛直だけ', '座標を運ぶ方位の場', '方位の押し',
+      '環の物差し', '尺度の比', '文献の値・未照合', '赤道面を横切る 2 点', '1PN', '進める向き', '戻す向き', '第337便b の赤道帯の候補', 'Y_k m × 10^k', 'J 案',
+      'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '不用の見込み', '次に足すノブの候補', 'このノブの組では',
+      '第138報への枝の答え', '決断事項の候補', '次の便へ', 'behavior.rotring337i', 'docs.rotring337i'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第337便i〕に「' + w + '」が無い');
+    // ノブの表の状態の欄(最後の列)は「候補」「対照」「不用の見込み」の 1 語だけ
+    const kt = sec.indexOf('| ノブの名 |'), ktab = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n').slice(2) : [];
+    const states = ktab.map((l) => l.split('|').map((c) => c.trim()).filter((c, k, a) => k > 0 && k < a.length - 1).pop());
+    if (!(ktab.length >= 8 && states.every((x) => ['候補', '対照', '不用の見込み'].includes(x)))) bad.push('③ ノブの表の状態の欄が 1 語でない(' + states.filter((x) => !['候補', '対照', '不用の見込み'].includes(x)).join('・') + ')');
+    const a0 = AS.indexOf('\n## 237. 第337便i'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/rotring-337i.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R345') >= 0 && ai.indexOf('源の引きずり半径') >= 0))
+      bad.push('③ AI_SPEC §237(正本・SYSTEM_PROMPT・候補・R345・源の引きずり半径)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl337i = clg.split('\n').find((l) => l.indexOf('**第337便i**') >= 0) || '';
+    if (!(cl337i.indexOf('tests/exp-w337i-rotring.mjs') >= 0 && cl337i.indexOf('rotring-337i') >= 0 && cl337i.indexOf('第138報') >= 0 && cl337i.indexOf('R345') >= 0)) bad.push('③ CHANGELOG の第337便i の行');
+    if (!(/S\('rotring-337i', 'node tests\/exp-w337i-rotring\.mjs', \['tests\/out\/rotring-337i\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)") >= 0
+      && RT.indexOf('// ==== 第337便i の塊(ここから)====') >= 0)) bad.push('③ 段の行 rotring-337i(quickVerify と理由・塊)');
+    if (GI.indexOf('!tests/out/rotring-337i.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第337便i の塊(ここから)====') >= 0 && /behavior\.rotring337i/.test(PM) && /docs\.rotring337i/.test(PM))) bad.push('③ post-merge の ③′ に第337便i の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表の状態の欄・AI_SPEC §237(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT337 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第337便i の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・環は回転引きずりで薄くなる・近点移動は回転引きずりで出る・法則
+    const W337 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'るなく薄でりずき引転回は環', 'る出でりずき引転回は動移点近'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第337便i〕', sec], ['AI_SPEC §237', ai], ['CHANGELOG の第337便i の行', cl337i], ['器', rd('tests/exp-w337i-rotring.mjs')], ['lib', rd('tests/lib-w337i-rotring.mjs')], ['文書の lib', rd('tests/lib-w337i-rotringdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W337)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT337) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.rotring337i', bad.length === 0,
+      `**回転引きずり(源の引きずり半径が効く型)の環と水星の候補の文書**(第337便i・原仮定者の回答(2026-11-14 —— 第138報の回答)・R345 —— 候補の型の表・ノブの範囲・物差しとの比): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第337便i の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
