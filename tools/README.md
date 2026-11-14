@@ -31,6 +31,12 @@ Playwright は `PLAYWRIGHT_CORE_DIR`(未設定なら `/opt/node22/lib/node_modul
 1 件でもあれば最後の 1 行の ① か ④ に「‼ ① の印のない FAIL を 1 件ずつ読むこと(一覧 …)」が出る(終了コードは従来どおり)。**数が 0 でも、印のない FAIL は 1 件ずつ読む**。
 QA `lint.unmarkedFail336b` がこの関数と第335便の ① のログの抜粋(`tests/data-w336b-pm335-preflight.txt`)を照合する。
 
+第337便h(統括の検証項目 R344): ① は `tests/qa-preflight.mjs --resume "$LOG/1-ckpt"` で鍵(最上位の試験の文)ごとの済み印を残す。途中で止まったら
+`tools/post-merge-qa.sh --resume <前のログの置き場>` で同じ置き場から続き(契約〔対象の html・qa.mjs と preflight の指紋・鍵の一覧・Node の版・環境変数・作業の木〕が同じときだけ ——
+違えば最初から・要約の ① に理由を 1 行)。① が終わりの行を出さずに止まったら、残りの qa.mjs の鍵が `$LOG/1-remaining.txt`(preflight.* は入れない —— 部分 QA へ渡す一覧。
+`node tests/qa-preflight.mjs --remaining $LOG/1-ckpt` でも出る)。④ の root の集合には本便で直した・足した QA の鍵が足される(`--base-rev <便の基点>` ——
+既定は件名「第<便>便 開始: beta-build」のコミット・`POST_MERGE_ROOT_AUTO=0` で足さない・拾い方は `tests/lib-w337h-postmerge.mjs --changed-ids`)。
+
 ## preflight の heap の上限(第305便e —— 決断事項 AN328)
 
 `npm run test:preflight` と `tools/post-merge-qa.sh` の ① は `node --max-old-space-size=6144 tests/qa-preflight.mjs` で起動する

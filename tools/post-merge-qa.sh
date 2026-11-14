@@ -25,6 +25,8 @@
 #
 # 使い方:
 #   tools/post-merge-qa.sh [--base beta/_wNNN_base.html] [--failed "id id …"] [--no-root] [--no-preflight] [--wave N] [--all-waves]
+#   第337便h(R344): [--resume <前のログの置き場>](① の済み印 $LOG/1-ckpt から続き —— 契約が同じときだけ)・[--base-rev <便の基点>](④ の root に本便で直した鍵を足す ——
+#             既定は件名「第<便>便 開始: beta-build」のコミット・POST_MERGE_ROOT_AUTO=0 で足さない)
 #   第324便c(R281): ③′ の既定は**便の塊だけ**(--wave N か CHANGELOG の最新の便 —— 過去の便の新設を積まない・--all-waves で積み上げ)・
 #             ③〜④ は qapart の `# qapart-summary` の行で PASS・FAIL・SKIP・未実行の 4 つの数(未実行の鍵の名)・④ の後に部分 QA で覆えない鍵の数
 #   環境変数: PLAYWRIGHT_CORE_DIR(既定: /opt/node22/lib/node_modules/playwright があればそれ)・POST_MERGE_LOG(ログの置き場 ——
@@ -926,6 +928,28 @@ unmarked336b() {   # $1 = ログ・$2 = 一覧のファイル・$3 = 段の印(�
   node "$ROOT/tests/lib-w336b-unmarked.mjs" --unmarked "$1" --out "$2" --label "$3" 2>/dev/null || echo "・‼ $3 の印のない FAIL の一覧が作れない(ログ $1 を 1 行ずつ読むこと)"
 }
 # ==== 第336便b の塊(ここまで)====
+# ==== 第337便h の塊(ここから)====
+# 第337便h(統括の検証項目 R344 —— 道具と QA だけ・html は変えない): 第336便の post-merge は ① の途中でコンテナが再起動し(472/529 鍵)、root を対象にしても
+#   beta の正本を読む鍵(docs.emgrid-sync)が root の対象で落ちてゲートが 1 回止まった。
+#   (1) ① の済み印: tests/qa-preflight.mjs に --resume "$LOG/1-ckpt" を渡す(鍵ごとの結果を終わるたびに追記)。--resume <前のログの置き場> で同じ置き場から続き
+#       (契約〔対象の html・tests/qa.mjs と preflight の指紋・鍵の一覧・Node の版・環境変数・作業の木〕が同じときだけ —— 違えば最初から・理由を 1 行)。
+#       ① が途中で止まったら(終わりの行が無い)残りの qa.mjs の鍵を $LOG/1-remaining.txt に(preflight.* は入れない —— 部分 QA へ渡す一覧)。
+#   (2) ④ の root の集合に**本便で直した・足した QA の鍵**を自動で足す(tests/lib-w337h-postmerge.mjs --changed-ids <便の基点> —— 基点と今の tests/qa.mjs の
+#       add('<id>' の塊の差・静的。拾えなかった文と宣言の変更は数を出す)。root では beta 線の新設が SKIP になる(従来どおり SKIP の数を出す)。
+#   枝 h の新設 4 本(lint.preflightResume337h・lint.rootSetAuto337h・lint.historyLeftovers337h・docs.postmerge337h)と、直した鍵(docs.emgrid-sync・境界の 3 鍵)と、
+#   名残りの lint が包む鍵(docs.obsTime305・lint.harnessSmoke303・lint.regenQuick323)と、印と要約を読む鍵
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.preflightResume337h lint.rootSetAuto337h lint.historyLeftovers337h docs.postmerge337h docs.emgrid-sync docs.regenShort319c lint.quickWindows323 lint.qaEvidenceStamp308 docs.obsTime305 lint.harnessSmoke303 lint.regenQuick323 lint.violationKinds320 lint.unmarkedFail336b docs.unmarkedFail336b lint.postMergeQaScript lint.postMergeCounts324c"
+RESUME_LOG=""; BASE_REV="${POST_MERGE_BASE_REV:-}"
+rootadd337h() {   # $1 = 便の基点(空なら便の番号から引く)→ 1 行目: 足す鍵・2 行目: 要約の句
+  local rev="$1"
+  [ "${POST_MERGE_ROOT_AUTO:-1}" = "0" ] && { echo ""; echo "本便で直した鍵は足さない(POST_MERGE_ROOT_AUTO=0)"; return; }
+  local wv="${PMWAVE:-}"
+  [ -n "$wv" ] || wv=$(node "$ROOT/tests/lib-w324c-postmerge.mjs" --wave-of "$ROOT/CHANGELOG.md" 2>/dev/null || true)
+  [ -n "$rev" ] || { [ -n "$wv" ] && rev=$(node "$ROOT/tests/lib-w337h-postmerge.mjs" --wave-base "$wv" 2>/dev/null); }
+  [ -n "$rev" ] || { echo ""; echo "本便で直した鍵は拾えなかった(便の基点が引けない —— --base-rev で渡す)"; return; }
+  node "$ROOT/tests/lib-w337h-postmerge.mjs" --changed-ids "$rev" 2>/dev/null || { echo ""; echo "本便で直した鍵は拾えなかった(道具の誤り)"; }
+}
+# ==== 第337便h の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
@@ -975,6 +999,8 @@ while [ $# -gt 0 ]; do
     --no-preflight) NOPRE=1; shift ;;
     --wave) PMWAVE="${2:-}"; shift 2 ;;
     --all-waves) ALLW=1; shift ;;
+    --resume) RESUME_LOG="${2:-}"; shift 2 ;;   # 第337便h(R344): ① の済み印から続き
+    --base-rev) BASE_REV="${2:-}"; shift 2 ;;   # 第337便h(R344): ④ の root に足す「本便で直した鍵」の基点
     -h|--help) sed -n '2,30p' "$0"; exit 0 ;;
     *) echo "post-merge-qa: 知らない引数 $1" >&2; exit 2 ;;
   esac
@@ -1003,6 +1029,7 @@ fi
 qsum324c() { node tests/lib-w324c-postmerge.mjs --sum "$1" --target "${2:-beta}" ${3:+--requested "$3"} 2>/dev/null || echo "要約が読めない"; }
 # ==== 第324便c の塊(ここまで)====
 LOG="${POST_MERGE_LOG:-${TMPDIR:-/tmp}/post-merge-qa-$(date -u +%Y%m%dT%H%M%SZ)}"
+[ -n "$RESUME_LOG" ] && LOG="$RESUME_LOG"   # 第337便h(R344): 前のログの置き場をそのまま使う(① の済み印 $LOG/1-ckpt)
 mkdir -p "$LOG" || exit 2
 T0=$(date +%s); fail=0
 count() { grep -c "^$1 " "$2" 2>/dev/null || true; }
@@ -1030,9 +1057,17 @@ S1="skip"
 if [ $NOPRE -eq 0 ]; then
   say "① 静的受理(qa-preflight beta)→ $LOG/1-preflight.log"
   # 第305便e(決断事項 AN328): heap の上限 6144 MiB(第304便e の測定 —— 2048 MiB で heap out of memory・終了コード 134)
-  QA_TARGET=beta/index.html node --max-old-space-size=6144 tests/qa-preflight.mjs >"$LOG/1-preflight.log" 2>&1; rc=$?
+  # 第337便h(R344): 済み印 $LOG/1-ckpt(--resume で同じ置き場から続き —— 契約が同じときだけ)
+  QA_TARGET=beta/index.html node --max-old-space-size=6144 tests/qa-preflight.mjs --resume "$LOG/1-ckpt" >"$LOG/1-preflight.log" 2>&1; rc=$?
   p=$(count PASS "$LOG/1-preflight.log"); f=$(count FAIL "$LOG/1-preflight.log")
   S1="preflight ${p}/$((p + f))"; [ $rc -eq 0 ] || { S1="$S1 FAIL(rc $rc)"; fail=1; }
+  # ==== 第337便h の塊(ここから)====
+  S1="$S1・$(head -1 "$LOG/1-preflight.log" | sed -n 's/^\[preflight\] 済み印 [^:]*: //p')"
+  if ! grep -q '^\[preflight\] \(ALL PASS\|FAILED\)' "$LOG/1-preflight.log"; then
+    node tests/qa-preflight.mjs --remaining "$LOG/1-ckpt" >"$LOG/1-remaining.txt" 2>"$LOG/1-remaining.log" || true
+    S1="$S1・‼ ① が途中で止まった(残りの鍵 $(wc -w <"$LOG/1-remaining.txt") —— 一覧 $LOG/1-remaining.txt・--resume $LOG で続きから)"
+  fi
+  # ==== 第337便h の塊(ここまで)====
 fi
 # ==== 第320便d の塊(ここから)====
 # 第320便d(統括の検証項目 R265 —— 第319便の見落とし): lint の違反を種類で数える(tests/lib-w320d-lintkinds.mjs の印 〔違反の種類 w320d: …〕 を拾う)。
@@ -1122,11 +1157,17 @@ S4="$S4$(kinds320 "$LOG/4-beta.log")"   # 第320便d(R265): 常設集合の lint
 S4="$S4$(unmarked336b "$LOG/4-beta.log" "$LOG/4-unmarked.txt" ④)"   # 第336便b(R336): ④ の印のない FAIL の一覧と「1 件ずつ読むこと」
 # ==== 第336便b の塊(ここまで)====
 if [ $NOROOT -eq 0 ]; then
+  # ==== 第337便h の塊(ここから)====
+  # 第337便h(R344・AN710): root の集合に本便で直した・足した QA の鍵を足す(第336便は docs.emgrid-sync が root の対象で落ちてゲートが止まった)
+  RA337=$(rootadd337h "$BASE_REV"); RADD="$(echo "$RA337" | head -1)"; RSUM="$(echo "$RA337" | sed -n 2p)"
+  IDS="$(echo $IDS $RADD | tr -s ' ' '\n' | awk 'NF && !seen[$0]++' | tr '\n' ' ')"
+  # ==== 第337便h の塊(ここまで)====
   say "④ 常設集合 root → $LOG/4-root.log"
   # shellcheck disable=SC2086
   QA_TARGET=index.html node tests/exp-w258c-qapart.mjs $IDS >"$LOG/4-root.log" 2>&1; rr=$?
   S4="$S4・root $(qsum324c "$LOG/4-root.log" root "$(echo $IDS | wc -w)")"   # 第324便c: 4 つの数
   [ $rr -eq 0 ] || { S4="$S4 FAIL"; fail=1; }
+  S4="$S4〔root の集合 $(echo $IDS | wc -w) 鍵 —— ${RSUM:-本便で直した鍵の句なし}〕"   # 第337便h(R344)
 fi
 
 # ⑤ 影響サンプルの短走(情報)
