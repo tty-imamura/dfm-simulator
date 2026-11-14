@@ -47,11 +47,14 @@ export const DECL = Object.freeze({
   fitTol: 0.3,
   /** ずれの熱の Γ_d ∝ R^d の格子(T5 —— 熱の上限の則が主の組を満たさないときの代わりの格子) */
   shearD: Object.freeze([-2, 0, 2]),
+  /** 差分の読み(原仮定者の補足(2026-11-14 —— 第138報の補足)): 主 diff(近い面と遠い面の差分だけ)・α の格子・横の面の分の割合 λ の格子・角の置き方(原始太陽系 180°・今の太陽系 120°) */
+  axialMain: 'diff', axialAlphas: Object.freeze([1, 2, 3]), axialAlphaMain: 2, axialLambda: Object.freeze([0, 0.5, 1]), protoDeg: 180, nowDeg: 120,
   /** 恒等式の門の相対の許容・閉じた式と数値の積分の差の許容 */
   idTol: 1e-12, odeTol: 1e-9,
 });
 /** 宣言の文(正本の先頭 —— 何を測ったか) */
 export const DECL_TEXT = Object.freeze({
+  axial: '差分の読み(主 —— 原仮定者の補足): 源 j の項 F_j = w_j (C_j − v_i)/W(W は受け手の位置で固定)の diff = û × ∂_û F_j(近い面と遠い面の差分だけ)/ full = ½∇×F_j(回転率の全部 —— W 固定の EQ-31 の型)/ mix = (1 − λ) diff + λ full。EQ-31(`integratedField` の ω = ½∇×U —— W の勾配を含む)は比べる列。角は 原始太陽系 180°・今の太陽系 120°(傾き 60°)',
   t1: '読みは ±L̂ の向きの符号つきの角速度: orbit = Ω(第335便b の対照)・vortInertial = −B(ζ = −2B の半分)・shearCorot = −A(共回転の枠の ζ − 2Ω = −2A の半分)・epicycle = −ν_ep(ν_ep = √(−4ΩB))・dfmRigid = −B − s_field(ノブ)。受け手の軸 x̂ への射影 ω (L̂·x̂)',
   tilt: '傾き θ(逆向きからの角): 射影 cos θ・同じ大きさの 2 つの角速度(なす角 180° − θ)の合成の大きさ 2 sin(θ/2)(θ = 60° でちょうど 1)',
   t2: '一様な球の雲 L_c = (2/5) M R_c² |ω₀| と今の太陽系の角運動量 L_now(本の時刻の状態 —— 太陽の自転 + 惑星の公転 + 惑星の自転)を比べ、合う R_c = √(L_now/((2/5) M |ω₀|))',
@@ -114,6 +117,45 @@ export function tiltRow(thetaDeg) {
   const t = thetaDeg * DEG, sum = 2 * Math.sin(t / 2), c = Math.cos(t);
   return { thetaDeg, cos: c, betweenDeg: 180 - thetaDeg, sumOverOne: sum, kind: Math.abs(sum - 1) <= 1e-12 ? 'boundary' : sum < 1 ? 'lower' : 'higher' };
 }
+
+/* ───────── T1′ 軸引きずりの差分の読み(原仮定者の補足(2026-11-14 —— 第138報の補足))───────── */
+/**
+ * 「軸引きずりは、並進引きずりで引きずられる側の、近い面と遠い面の差分なので、赤道面では源の回転と逆回転になる」の読み。
+ *   源 j の項 F_j(p) = w_j(p) (C_j(p) − v_i)/W(C_j(p) = v_j + s_j × (p − p_j)・w = (m/r_ref²)(r_ref/r)^α —— 第330便b の `weightOf` と同じ形・W は受け手の位置の値で固定)。
+ *   読み(ノブ「差分の読み」): diff = û × ∂_û F_j(近い面と遠い面の差分だけ —— û は受け手から源への向き・線のまわりの回りは現れない)/
+ *   full = ½∇×F_j(回転率の全部 —— W を固定した EQ-31 の型)/ mix = (1 − λ) diff + λ full(横の面の分を入れる割合 λ)。
+ *   静止の受け手・赤道面: diff の係数 1 − α(α = 2 で −1 —— 源の回転と逆)・full の係数 1 − α/2(α = 2 で 0)。受け手が角速度 n で回る(v_i = n r φ̂)とき diff の係数は (1 − α) s + α n。
+ *   極の側(源の自転の軸の上): diff は 0・full は +1(同じ向き —— 線のまわりの捩れ)。
+ */
+export const AXIAL_READINGS = Object.freeze(['diff', 'full', 'mix']);
+const weight337 = (m, r, alpha, rRef) => (m / (rRef * rRef)) * Math.pow(rRef / r, alpha);
+export { weight337 };
+function axialTerm(src, p, vRecv, alpha, rRef, W) {
+  const d = [p[0] - src.p[0], p[1] - src.p[1], p[2] - src.p[2]], r = nrm(d), w = weight337(src.m, r, alpha, rRef);
+  const C = [src.v[0] + src.s[1] * d[2] - src.s[2] * d[1] - vRecv[0], src.v[1] + src.s[2] * d[0] - src.s[0] * d[2] - vRecv[1], src.v[2] + src.s[0] * d[1] - src.s[1] * d[0] - vRecv[2]];
+  return [C[0] * w / W, C[1] * w / W, C[2] * w / W];
+}
+/** 1 つの源の差分の読み: at・vRecv・src {p, v, s, m}・W(受け手の位置の重みの和 —— 固定)・α・r_ref・h(刻み ÷ 距離)→ diff・full(rad/s のベクトル)・share = w/W・u */
+export function axialAt({ at, vRecv, src, W, alpha, rRef, h = 1e-4 }) {
+  if (!v3(at) || !v3(vRecv) || !src || !v3(src.p) || !v3(src.v) || !v3(src.s) || !fin(src.m) || !(src.m >= 0) || !fin(W) || !(W > 0) || !fin(alpha) || !(alpha > 0) || !fin(rRef) || !(rRef > 0)) throw new RangeError('axialAt: 有限の 3 成分・W > 0・α > 0・r_ref > 0');
+  const dv = [src.p[0] - at[0], src.p[1] - at[1], src.p[2] - at[2]], r = nrm(dv);
+  if (!(r > 0)) throw new RangeError('axialAt: 受け手と源が一致');
+  const u = unit(dv), st = h * r, F = (p) => axialTerm(src, p, vRecv, alpha, rRef, W);
+  const fa = F([at[0] + st * u[0], at[1] + st * u[1], at[2] + st * u[2]]), fm = F([at[0] - st * u[0], at[1] - st * u[1], at[2] - st * u[2]]);
+  const dU = [(fa[0] - fm[0]) / (2 * st), (fa[1] - fm[1]) / (2 * st), (fa[2] - fm[2]) / (2 * st)];
+  const diff = [u[1] * dU[2] - u[2] * dU[1], u[2] * dU[0] - u[0] * dU[2], u[0] * dU[1] - u[1] * dU[0]];
+  const Jm = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+  for (let b = 0; b < 3; b++) { const a = at.slice(), m = at.slice(); a[b] += st; m[b] -= st; const A = F(a), M = F(m); for (let k = 0; k < 3; k++) Jm[k][b] = (A[k] - M[k]) / (2 * st); }
+  const full = [(Jm[2][1] - Jm[1][2]) / 2, (Jm[0][2] - Jm[2][0]) / 2, (Jm[1][0] - Jm[0][1]) / 2];
+  return { diff, full, share: weight337(src.m, r, alpha, rRef) / W, u, r };
+}
+/** 差分の読みの混ぜ(横の面の分の割合 λ) */
+export function axialMix(a, lambda) {
+  if (!a || !v3(a.diff) || !v3(a.full) || !fin(lambda) || lambda < 0 || lambda > 1) throw new RangeError('axialMix: λ は 0〜1');
+  return [0, 1, 2].map((k) => (1 - lambda) * a.diff[k] + lambda * a.full[k]);
+}
+/** 赤道面の係数(静止の受け手・W 固定 —— 閉じた式): diff 1 − α・full 1 − α/2・回る受け手の diff (1 − α) s + α n・極の側 diff 0・full 1 */
+export const axialCoef = (alpha) => ({ alpha, diff: 1 - alpha, full: 1 - alpha / 2, poleDiff: 0, poleFull: 1 });
 
 /* ───────── T2 起源の角運動量の帳簿 ───────── */
 /** 一様な球の雲(質量 M・半径 R_c・角速度 ω₀)と今の角運動量 L_now: L_c・比・合う R_c・密度 */
@@ -246,9 +288,15 @@ export function pureScenes() {
   { const rows = [[1, 2], [2, 1], [3, 5], [4, 3], [5, 4]].map(([m, r], i) => ({ key: 'b' + i, y: 0.7 + 1.5 * Math.log10(m) - 2 * Math.log10(r), x: { lm: Math.log10(m), lr: Math.log10(r) } }));
     const F = fitKnobs({ rows, knobs: ['lm', 'lr'], fitKeys: rows.map((r) => r.key) }), O = fitLoo({ rows, knobs: ['lm', 'lr'], fitKeys: rows.map((r) => r.key) }); S.fit = { coef: F.coef, maxAbs: F.maxAbs, nOk: F.nOk, looMax: O.maxAbs, looOk: O.nOk }; }
   { const h = shearHeatRow({ R: 2, Rnow: 1, sNow: 4, wEff: 0, d: 0 }); S.shear = { s: h.s, heatRel: h.heatRel }; }
+  { const src = { p: [0, 0, 0], v: [0, 0, 0], s: [0, 0, 1], m: 1 }, eq = (al) => { const W = weight337(1, 1, al, 1); return axialAt({ at: [1, 0, 0], vRecv: [0, 0, 0], src, W, alpha: al, rRef: 1 }); };
+    const a2 = eq(2), a1 = eq(1), a3 = eq(3), Wp = weight337(1, 1, 2, 1), po = axialAt({ at: [0, 0, 1], vRecv: [0, 0, 0], src, W: Wp, alpha: 2, rRef: 1 });
+    const mv = axialAt({ at: [1, 0, 0], vRecv: [0, 0.3, 0], src, W: Wp, alpha: 2, rRef: 1 });
+    S.axial = { d2: a2.diff[2], f2: a2.full[2], d1: a1.diff[2], f1: a1.full[2], d3: a3.diff[2], f3: a3.full[2], poleD: po.diff[2], poleF: po.full[2], moving: mv.diff[2], movingExpect: (1 - 2) * 1 + 2 * 0.3,
+      mixHalf: axialMix(a2, 0.5)[2], perp: Math.hypot(a2.diff[0], a2.diff[1]) }; }
   const rej = [() => localRates({ curve: 'disk', Omega: 1 }), () => localRates({ curve: 'oort' }), () => readingOmega('spin', localRates({ curve: 'flat', Omega: 1 })), () => tiltRow(200),
     () => cloudRow({ M: -1, Rc: 1, omega0: 1, Lnow: 1 }), () => odeRun({ I: 1, Gd: 0, Nin: 0, wEff: 0, s0: 1, tOff: 1 }, { tEnd: 2, steps: 100 }), () => bodyBudget({ I: 1, s: -1, wEff: 0, ageS: 1 }),
-    () => lsq([[1, 1], [1, 1]], [1, 2]), () => projectOn({ omega: 1, Lhat: [0, 0, 2], axis: [1, 0, 0] })];
+    () => lsq([[1, 1], [1, 1]], [1, 2]), () => projectOn({ omega: 1, Lhat: [0, 0, 2], axis: [1, 0, 0] }), () => axialAt({ at: [0, 0, 0], vRecv: [0, 0, 0], src: { p: [0, 0, 0], v: [0, 0, 0], s: [0, 0, 1], m: 1 }, W: 1, alpha: 2, rRef: 1 }),
+    () => axialMix({ diff: [0, 0, 0], full: [0, 0, 0] }, 2)];
   let n = 0; for (const f of rej) { try { f(); } catch (e) { if (e instanceof RangeError) n++; } }
   S.reject = { n, of: rej.length };
   return S;
@@ -267,6 +315,8 @@ export function pureGates(S) {
     cloud: Math.abs(S.cloud.ratioAtMatch - 1) <= t && relD(S.cloud.Lc, 60) <= t && relD(S.cloud.collapse.spinUp, 100) <= t && S.cloud.collapse.radiusRatio === 10,
     fit: Math.abs(S.fit.coef[0] - 0.7) <= 1e-10 && Math.abs(S.fit.coef[1] - 1.5) <= 1e-10 && Math.abs(S.fit.coef[2] + 2) <= 1e-10 && S.fit.maxAbs <= 1e-10 && S.fit.nOk === 5 && S.fit.looMax <= 1e-9 && S.fit.looOk === 5,
     shear: S.shear.s === 1 && S.shear.heatRel === 1 / 16,
+    axial: [[S.axial.d2, -1], [S.axial.f2, 0], [S.axial.d1, 0], [S.axial.f1, 0.5], [S.axial.d3, -2], [S.axial.f3, -0.5], [S.axial.poleD, 0], [S.axial.poleF, 1], [S.axial.moving, S.axial.movingExpect], [S.axial.mixHalf, -0.5], [S.axial.perp, 0]]
+      .every(([a, b]) => Math.abs(a - b) <= 1e-7),
     reject: S.reject.n === S.reject.of,
   };
 }

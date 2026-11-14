@@ -84,6 +84,20 @@ export function tablesOf(J) {
     ...T4.gamma.map((g) => `| ${knobsTxt(g.knobs)} | ${g.coef.map(f3).join('・')} | ${f3(g.rms)} | ${g.nOk}/${g.nFit} | ${g.rows.map((r) => f3(r.res) + (r.ok ? '' : ' ✗')).join(' | ')} |`)].join('\n');
   T.shear = ['| R ÷ 今の太陽の半径 | s [rad/s](I s = 一定) | ' + T5.dList.map((d) => 'ずれの熱の比(Γ_d ∝ R^' + d + ')').join(' | ') + ' |', '|---|---|' + T5.dList.map(() => '---|').join(''),
     ...T5.rows.map((r) => `| ${r.ROverNow} | ${f3(r.cols[0].s)} | ${r.cols.map((c) => f3(c.heatRel)).join(' | ')} |`)].join('\n');
+  const AX = J.axial, VJ = { 'center|obs': '中心の点(自転 = 観測の回転 Ω)', 'center|jd': '中心の点(自転 = J 等価の s_d)', inner: '半径の内の和(環の点 —— 自転 0・円軌道)' };
+  T.axCoef = ['| α | 差分だけ diff(赤道面・静止の受け手)1 − α | 回転率の全部 full 1 − α/2 | 極の側 diff | 極の側 full |', '|---|---|---|---|---|',
+    ...AX.coef.map((c) => `| ${c.alpha} | ${f3(c.diff)} | ${f3(c.full)} | ${f3(c.poleDiff)} | ${f3(c.poleFull)} |`)].join('\n');
+  const dirL = (q) => (q.mag === 0 ? '0' : q.alongLRel > 0.5 ? '順(銀河と同じ)' : q.alongLRel < -0.5 ? '逆(原始太陽系 180° の向き)' : '斜め(' + f3(q.alongLRel) + ')');
+  T.axGalaxy = ['| 銀河の源 | α | 重みの割合 w/W | diff の向き | diff·ŝ☉/s☉ | diff の 180° の軸への成分 [rad/s] | diff の今の黄道の北極への成分 [rad/s] | full の向き | full·ŝ☉/s☉ | mix(λ 0.5)·ŝ☉/s☉ | EQ-31 の向き | EQ-31·ŝ☉/s☉ |', '|---|---|---|---|---|---|---|---|---|---|---|---|',
+    ...AX.galaxy.map((g) => `| ${VJ[g.variant]} | ${g.alpha} | ${f3(g.share)} | ${dirL(g.diff)} | ${f3(g.diff.overS)} | ${f3(g.diff.proto)} | ${f3(g.diff.now)} | ${dirL(g.full)} | ${f3(g.full.overS)} | ${f3(g.mix.find((m) => m.lambda === 0.5).overS)} | ${dirL(g.eq31)} | ${f3(g.eq31.overS)} |`)].join('\n');
+  const ag = (q) => (q.agree ? '合う' : '合わない');
+  T.axPlanets = ['| 惑星 | 自転の向き(ŝ·ŝ☉) | 太陽の赤道面からの緯度 [deg] | s☉/n | α | diff の係数 (1 − α) s☉ + α n [rad/s] | diff·ŝ/s(惑星の自転に対して)| diff と自転の向き | full·ŝ/s | full と自転の向き | EQ-31·ŝ/s | EQ-31 と自転の向き |', '|---|---|---|---|---|---|---|---|---|---|---|---|',
+    ...AX.planets.flatMap((p) => p.cols.map((c) => `| ${nm(p.key)} | ${f3(p.spinDotSun)} | ${f2(p.latSun)} | ${f3(p.sOverN)} | ${c.alpha} | ${f3(c.coefDiff)} | ${f3(c.diff.overS)} | ${ag(c.diff)} | ${f3(c.full.overS)} | ${ag(c.full)} | ${f3(c.eq31.overS)} | ${ag(c.eq31)} |`))].join('\n');
+  const cnt = (al, k) => AX.planets.filter((p) => p.cols.find((c) => c.alpha === al)[k].agree).length;
+  T.axCount = ['| α | diff と自転の向きが合う惑星の数 | full | EQ-31 |', '|---|---|---|---|', ...J.decl.axialAlphas.map((al) => `| ${al} | ${cnt(al, 'diff')}/${AX.planets.length} | ${cnt(al, 'full')}/${AX.planets.length} | ${cnt(al, 'eq31')}/${AX.planets.length} |`)].join('\n');
+  const A0 = AX.angles;
+  T.axAngles = ['| 量 | 値 |', '|---|---|', `| 原始太陽系の軸と銀河の回転の軸のなす角(置いた値) | ${A0.protoDeg}° |`, `| 今の太陽系(黄道の北極)と銀河の回転の軸のなす角(置いた値 / 本の時刻の幾何) | ${A0.nowDeg}° / ${f2(A0.nowGeomDeg)}° |`,
+    `| 供給の向き(180°)からの傾き(本の時刻の幾何) | ${f2(A0.tiltFromSupplyDeg)}° |`, `| 原始太陽系の軸 −L̂ と今の黄道の北極の内積(= 射影 cos θ) | ${f3(A0.protoDotNow)} |`].join('\n');
   T.gates = ['| 門 | 値 |', '|---|---|', ...Object.entries(J.gates).map(([k, v]) => `| ${k} | ${tf(v)} |`)].join('\n');
   return T;
 }

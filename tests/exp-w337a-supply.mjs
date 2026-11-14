@@ -24,6 +24,8 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as L from './lib-w337a-supply.mjs';
 import * as S330 from './lib-w330a-spinclass.mjs';
+import * as B333 from './lib-w333b-axialfield.mjs';   // EQ-31 の `integratedField`(比べる列 —— 呼ぶだけ)
+import * as C335 from './lib-w335b-carryledger.mjs';   // 銀河の源の `galaxySources`(中心の点・半径の内の和 —— 呼ぶだけ)
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w337a-supply-1';
@@ -60,6 +62,8 @@ export const PLAN = Object.freeze({
   knobJa: Object.freeze({ lm: 'log10 M', lr: 'log10 R', lp: 'log10 主星までの距離', lmp: 'log10 主星の質量', lbr: 'log10 √(GM/R³)' }),
   /** 熱の上限の Γ_d の則の天体(観測の熱がある天体)とノブ */
   gammaFit: Object.freeze(['sun', 'earth', 'mars', 'jupiter', SAT, 'io']), gammaKnobSteps: Object.freeze([Object.freeze(['lm']), Object.freeze(['lm', 'lr'])]),
+  /** 差分の読みの太陽 → 惑星の表の受け手 */
+  axialPlanets: Object.freeze([MER, 'venus', 'earth', 'mars', 'jupiter', SAT, 'uranus', 'neptune']),
   /** T5 の半径の格子(÷ 今の半径) */
   shearRadii: Object.freeze([1e4, 1e3, 1e2, 10, 3, 1]),
   /** 太陽の銀河の中心からの距離(T4 の主星までの距離 —— 第335便b の正本の銀河の R₀)・銀河の質量(同じく M) */
@@ -114,6 +118,47 @@ export function partT1(B, CL) {
   const control = CL.galaxy.rows.map((g) => { const b = byKey(B, g.key), c = L.projectOn({ omega: flatOrbit.omega, Lhat, axis: b.sHat }).comp / b.s;
     return { key: g.key, parOverS: c, ref: g.readings.rotation.parOverS, rel: relD(c, g.readings.rotation.parOverS), sHatDotL: dot(b.sHat, Lhat), refSHatDotL: g.sHatDotL }; });
   return { Lhat, gal: { Omega: gal.Omega, sd: gal.sd, R0: gal.R0, M: gal.M }, rates, Lparts: Object.entries(parts).map(([k, v]) => ({ key: k, vec: v, mag: nrm(v) })), Ltot, LtotMag: nrm(Ltot), geom, readings, dfm, tilt, tiltGeom, control };
+}
+
+/* ───────── T1′ 軸引きずりの差分の読み(原仮定者の補足(2026-11-14 —— 第138報の補足))───────── */
+const AU = L.DECL.AU;
+const srcOfB = (b) => ({ key: b.key, p: b.p, v: b.v, s: scl(b.sHat, b.s), m: b.m });
+/** 受け手 recv の位置で、源の組 group(差分の読みを測る源)と重みの和を作る源の全部 all から: diff・full・mix(λ の格子)と EQ-31(`integratedField` の組の分の ω) */
+export function axialGroup({ recv, group, all, alpha }) {
+  const W = all.reduce((t, q) => t + L.weight337(q.m, nrm(sub(q.p, recv.p)), alpha, AU), 0);
+  let diff = [0, 0, 0], full = [0, 0, 0], share = 0;
+  for (const q of group) { const a = L.axialAt({ at: recv.p, vRecv: recv.v, src: q, W, alpha, rRef: AU }); diff = add(diff, a.diff); full = add(full, a.full); share += a.share; }
+  const F = B333.integratedField({ at: recv.p, sources: all, alpha, rRef: AU, parts: true }), idx = new Set(group.map((q) => all.indexOf(q)));
+  let J = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+  F.parts.forEach((pt, i) => { if (!idx.has(i)) return; for (const M of [pt.spinDirect, pt.spinGrad, pt.trans]) for (let a = 0; a < 3; a++) for (let c = 0; c < 3; c++) J[a][c] += M[a][c]; });
+  const eq31 = B333.localSpin(J).omega;
+  const mix = L.DECL.axialLambda.map((lam) => ({ lambda: lam, omega: L.axialMix({ diff, full }, lam) }));
+  return { W, share, diff, full, mix, eq31, eq31Total: F.omega };
+}
+export function partAxial(B, CL, T1) {
+  const Lhat = T1.Lhat, sun = byKey(B, 'sun'), protoAxis = scl(Lhat, -1), solar = B.filter((b) => b.key !== 'sun').map(srcOfB);
+  const nowAxis = [0, 0, 1];
+  const coef = [1, 1.5, 2, 3].map(L.axialCoef);
+  // 銀河の源 3 つ(中心の点 —— 自転は観測の回転 Ω/J 等価の s_d・半径の内の和)× α × 読み
+  const variants = [{ key: 'center|obs', srcs: C335.galaxySources({ variant: 'center', spin: 'obs' }) }, { key: 'center|jd', srcs: C335.galaxySources({ variant: 'center', spin: 'jd' }) }, { key: 'inner', srcs: C335.galaxySources({ variant: 'inner' }) }];
+  const comp = (w) => ({ alongL: dot(w, Lhat), overS: dot(w, sun.sHat) / sun.s, proto: dot(w, protoAxis), now: dot(w, nowAxis), mag: nrm(w), alongLRel: nrm(w) > 0 ? dot(w, Lhat) / nrm(w) : 0 });
+  const galaxy = [];
+  for (const v of variants) for (const al of L.DECL.axialAlphas) {
+    const group = v.srcs.map((q) => ({ key: q.key, p: q.p, v: q.v, s: q.s, m: q.m })), all = [...solar, ...group];
+    const R = axialGroup({ recv: { p: sun.p, v: sun.v }, group, all, alpha: al });
+    galaxy.push({ variant: v.key, alpha: al, nSrc: group.length, share: R.share, diff: comp(R.diff), full: comp(R.full), mix: R.mix.map((m) => Object.assign({ lambda: m.lambda }, comp(m.omega))), eq31: comp(R.eq31) });
+  }
+  // 太陽の軸引きずりが惑星の自転に与える向き(源 = 太陽・W は太陽系の 15 体)
+  const planets = PLAN.axialPlanets.map((k) => {
+    const b = byKey(B, k), all = B.filter((q) => q.key !== k).map(srcOfB), sunSrc = all.find((q) => q.key === 'sun'), rel = sub(b.p, sun.p), vr = sub(b.v, sun.v), n = nrm(crs(rel, vr)) / (nrm(rel) * nrm(rel));
+    const zSun = dot(rel, sun.sHat) / nrm(rel), cols = L.DECL.axialAlphas.map((al) => { const R = axialGroup({ recv: { p: b.p, v: b.v }, group: [sunSrc], all, alpha: al });
+      const one = (w) => ({ alongSun: dot(w, sun.sHat), alongSpin: dot(w, b.sHat), overS: dot(w, b.sHat) / b.s, agree: Math.sign(dot(w, b.sHat)) > 0 });
+      return { alpha: al, share: R.share, diff: one(R.diff), full: one(R.full), mix: one(R.mix.find((m) => m.lambda === 0.5).omega), eq31: one(R.eq31), coefDiff: (1 - al) * sun.s + al * n }; });
+    return { key: k, n, sOverN: sun.s / n, latSun: Math.asin(Math.max(-1, Math.min(1, zSun))) * 180 / Math.PI, spinDotSun: dot(b.sHat, sun.sHat), cols };
+  });
+  // 角の置き方: 原始太陽系 180°(軸 = −L̂)・今の太陽系 120°(黄道の北極)—— 差分の読みの向きの射影
+  const angles = { protoDeg: L.DECL.protoDeg, nowDeg: L.DECL.nowDeg, nowGeomDeg: 180 - T1.geom.find((g) => g.key === 'ecl').angleFromAntiDeg, protoDotNow: dot(protoAxis, nowAxis), tiltFromSupplyDeg: T1.geom.find((g) => g.key === 'ecl').angleFromAntiDeg };
+  return { coef, galaxy, planets, angles };
 }
 
 /* ───────── T2 ───────── */
@@ -207,6 +252,7 @@ export function gatesOf(J) {
       && T1.readings.filter((q) => q.retro).every((q) => q.proj.find((p) => p.key === 'ecl').sign === 1 && q.proj.find((p) => p.key === 'sun').sign === 1) && retroKeys.length > 0,
     t1Control: T1.control.length === 9 && T1.control.every((c) => c.rel <= t && relD(c.sHatDotL, c.refSHatDotL) <= t),
     t1Tilt: T1.tilt.find((q) => q.thetaDeg === 60).kind === 'boundary' && T1.tiltGeom.length === 3,
+    axial: J.axial.galaxy.length === 9 && J.axial.planets.length === 8 && J.axial.coef.every((c) => c.diff === 1 - c.alpha) && J.axial.galaxy.every((g) => [g.diff.mag, g.full.mag, g.eq31.mag].every(fin)),
     t2: J.t2.rows.every((r) => (fin(r.RcMatch) && r.RcMatch > 0) || (r.RcMatch === null && r.omega0 === 0)) && J.t2.comps.length === 5 && nrm(sub(J.t1.Lparts.reduce((a, q) => add(a, q.vec), [0, 0, 0]), J.t1.Ltot)) <= t * J.t2.Lnow,
     t3Ode: T3.ode.errRel <= L.DECL.odeTol && T3.ode.ledgerRel <= 1e-10 && Math.abs(T3.ode.decay1 - T3.ode.decay1Expect) <= 1e-9
       && [...T3.rows, ...T3.listed].every((r) => r.odeTau.errRel <= L.DECL.odeTol && r.odeTau.ledgerRel <= 1e-10 && Math.abs(r.odeTau.decay1 - r.odeTau.decay1Expect) <= 1e-9),
@@ -222,11 +268,12 @@ export function runFrom(CL) {
   const PS = L.pureScenes(), pure = { scenes: PS, gates: L.pureGates(PS) }; mark('pure');
   const B = bodiesOf(CL); mark('book');
   const t1 = partT1(B, CL); mark('t1');
+  const axial = partAxial(B, CL, t1); mark('axial');
   const t2 = partT2(B, t1); mark('t2');
   const t3 = partT3(B, CL, t1); mark('t3');
   const t4 = partT4(B, CL, t1, t3); mark('t4');
   const t5 = partT5(B, t3, t4); mark('t5');
-  const J = { inputs: { file: INPUT, version: CL.version, libVersion: CL.libVersion, n: CL.book.n }, pure, bodies: B.map((b) => ({ key: b.key, s: b.s, sHat: b.sHat, m: b.m, R: b.R, f: b.f, I: b.I })), t1, t2, t3, t4, t5, timing: tm };
+  const J = { inputs: { file: INPUT, version: CL.version, libVersion: CL.libVersion, n: CL.book.n }, pure, bodies: B.map((b) => ({ key: b.key, s: b.s, sHat: b.sHat, m: b.m, R: b.R, f: b.f, I: b.I })), t1, axial, t2, t3, t4, t5, timing: tm };
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
   return J;
 }
@@ -241,11 +288,13 @@ export async function main() {
   console.log('第337便a supply(版 ' + HARNESS_VERSION + ')');
   const R = runFrom(readJson(INPUT));
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w337a-supply.mjs', target: TARGET,
-    ruling: '原仮定者の指示(2026-11-14 —— 第138報)「安定した天体の運行は、偶然では無く、釣り合った結果と捉える。釣り合う為には、正と負、供給と減衰の両方が必要である。減衰とは、供給が止まるとピタリと止まるものでは無い意味を含む」'
+    ruling: '原仮定者の補足(2026-11-14 —— 第138報の補足)「軸引きずりは、並進引きずりで引きずられる側の、近い面と遠い面の差分なので、赤道面では源の回転と逆回転になる」「回転の向きを揃えると、１２０度の傾き」「原始太陽系は、銀河の「軸引きずり」により、銀河の回転と逆回転になる。回転の向きを揃えると、１８０度の傾き」・'
+      + '原仮定者の指示(2026-11-14 —— 第138報)「安定した天体の運行は、偶然では無く、釣り合った結果と捉える。釣り合う為には、正と負、供給と減衰の両方が必要である。減衰とは、供給が止まるとピタリと止まるものでは無い意味を含む」'
       + '「銀河の回転に対して、太陽系は逆向きに軸を60度傾けて回っている。供給の向きは合っていて、傾きはノブになる」「原始太陽系は、銀河の渦の中の、小さな渦が起源となる」(作業仮説 —— 探索の候補の表)・統括の検証項目 R337',
     declText: L.DECL_TEXT, decl: L.DECL, plan: PLAN, amend: AMEND, lit: litOut(), notClaim: NOT_CLAIM, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w337a-supply.mjs', 'tests/lib-w337a-supply.mjs', 'tests/lib-w330a-spinclass.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  const CODE = ['tests/exp-w337a-supply.mjs', 'tests/lib-w337a-supply.mjs', 'tests/lib-w330a-spinclass.mjs', 'tests/lib-w333b-axialfield.mjs', 'tests/lib-w335b-carryledger.mjs', 'tests/lib-w334b-ledger.mjs',
+    'tests/lib-w334a-heightlaw.mjs', 'tests/lib-w333a-rotdiff.mjs', 'tests/lib-w332b-transgeo2.mjs', 'tests/lib-w331b-centrifugal.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第337便a', target: TARGET, code: CODE, inputs: [INPUT] }), {
     harnessVersion: HARNESS_VERSION, stage: 'supply', engine: 'Node の純関数だけ(html を読まない —— 本の時刻の状態は第335便b の正本から読む・エンジンの步を進めない)', notClaim: NOT_CLAIM });
   Object.assign(out.meta, w281aStableInputs(ROOT, out.meta.inputs));
