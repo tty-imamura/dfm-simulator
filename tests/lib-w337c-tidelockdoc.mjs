@@ -8,7 +8,7 @@ const lt = (x, t) => (x === null || x === undefined ? '—' : Number.isFinite(x)
 const tf = (x) => (x === true ? '真' : x === false ? '偽' : '—');
 const MODE = Object.freeze({ circ: '円・相互同期(Ω = n)', instant: '離心・瞬間の同期(Ω = ḟ)', mean: '離心・平均の同期(Ω = n)' });
 const ST = Object.freeze({ locked: 'ロック', notLocked: 'ロックしていない', resonance: '共鳴(3:2)', star: '恒星(ロックしていない)' });
-const ROLE_JA = Object.freeze({ Sun: '太陽', Mercury: '水星', Venus: '金星', Earth: '地球', Moon: '月', Mars: '火星', Phobos: 'フォボス', Deimos: 'ダイモス', Jupiter: '木星', Io: 'イオ', Europa: 'エウロパ', Ganymede: 'ガニメデ', Callisto: 'カリスト', Pluto: '冥王星', Charon: 'カロン', galaxy: '銀河' });
+const ROLE_JA = Object.freeze({ Sun: '太陽', Mercury: '水星', Venus: '金星', Earth: '地球', Moon: '月', Mars: '火星', Phobos: 'フォボス', Deimos: 'ダイモス', Jupiter: '木星', Io: 'イオ', Europa: 'エウロパ', Ganymede: 'ガニメデ', Callisto: 'カリスト', Pluto: '冥王星', Charon: 'カロン', galaxy: '背景軸引きずり(銀河)' });
 const DAMP = Object.freeze({ inst: 'Γ (a/r)⁶ (s − ḟ)(瞬間)', mean: 'Γ (s − n)(平均)' });
 export function tablesOf(J) {
   const T = {}, D = J.decl, tol = D.frames.tol;
@@ -76,12 +76,12 @@ export function tablesOf(J) {
   T.sideHost = ['| 天体 | 状態 | 主の源(表 9 の最初の源)のロックへのトルク N/(I Γ₀): 差分の読み f = 0 | 回転率の全部 f = 1 | 比 X: f = 0 | f = 1 | 従来の列 |', '|---|---|---|---|---|---|---|']
     .concat(B.rows.map((r) => `| ${ROLE_JA[r.id]}${r.mutual ? '(相互)' : ''} | ${ST[r.state]} | ${fe(r.hostDiff)} | ${fe(r.hostFull)} | ${fe(r.Xdiff)} | ${fe(r.Xfull)} | ${fe(r.X)} |`)).join('\n');
   // 表 22・23 補足 2 の分類(目標の列)
-  const CT = B.classify, CJ = { lock: '潮汐ロック', sun: '太陽が強い', balance: '太陽と銀河の釣り合い', galaxy: '銀河の側' };
+  const CT = B.classify, CJ = { lock: '潮汐ロック', sun: '太陽が強い', balance: '太陽と背景軸引きずりの釣り合い', galaxy: '背景軸引きずり(銀河)の側' };
   T.classify = ['| α | 釣り合いの幅 tol | ロックのしきい T_g が引ける帯(惑星の最大 〜 衛星の最小) | T_g(帯の幾何平均) | 目標と合う行 | 合わない行 |', '|---|---|---|---|---|---|']
     .concat(CT.out.map((o) => `| ${o.alpha} | ${o.tol} | ${o.sepLock ? fe(o.lockBand[0]) + ' 〜 ' + fe(o.lockBand[1]) : '引けない'} | ${fe(o.Tg)} | ${o.nOk}/${o.n} | ${o.wrong.length ? o.wrong.map((w) => { const [a, b] = w.split('→'); return ROLE_JA[a] + ' → ' + CJ[b]; }).join('・') : '無し'} |`))
     .concat([`| 金星に地球が与える潮汐のトルク(最接近 ${CT.venusEarth.dMinAU} AU)| — | ${fe(CT.venusEarth.NEarth)} N m | 太陽の潮汐 ${fe(CT.venusEarth.NSun)} N m | 比 ${fe(CT.venusEarth.ratio)} | — |`]).join('\n');
   const o2 = CT.out.find((o) => o.alpha === 2 && o.tol === 1.5);
-  T.classRows = ['| 天体 | 目標の分類 | 太陽 ÷ 銀河の軸引きずり R(α 2・金星で 1) | 潮汐 N_tide/(I max(1, R)) [s⁻²] | 予測(α 2・tol 1.5) | 合う |', '|---|---|---|---|---|---|']
+  T.classRows = ['| 天体 | 目標の分類 | 太陽の軸引きずり ÷ 背景軸引きずり R(α 2・金星で 1) | 潮汐 N_tide/(I max(1, R)) [s⁻²] | 予測(α 2・tol 1.5) | 合う |', '|---|---|---|---|---|---|']
     .concat(o2.rows.map((q) => `| ${ROLE_JA[q.id]} | ${CJ[q.target]} | ${f4(q.R)} | ${fe(q.score)} | ${CJ[q.pred]} | ${tf(q.ok)} |`)).join('\n');
   // 表 21 逆回転の外部の軸引きずり(T2・T3)
   T.neg = ['| 列 | 設定 | 定常の解 | 結果 | 軌道へ入る割合(閉じた式) | ȧ | 帳簿の残り |', '|---|---|---|---|---|---|---|']

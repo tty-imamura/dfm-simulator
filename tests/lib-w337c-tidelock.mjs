@@ -85,8 +85,8 @@ export const KNOBS = Object.freeze([
   Object.freeze({ key: 'sigma', name: '自転と軌道の角運動量の比 σ = S/L', why: 'T3: トルクのうち軌道へ入る割合', grid: '0.01・0.1・0.5', state: '候補' }),
   Object.freeze({ key: 'react', name: '反作用の口(潮汐のトルクを軌道へ)', why: 'T3: 角運動量の帳簿を閉じる', grid: 'あり/なし', state: '対照(なしは帳簿が閉じない)' }),
   Object.freeze({ key: 'side', name: '差分の読み(横の面の分を入れる割合 f —— 係数 c = 1 − α + f α/2)', why: '補足の向き: 赤道面の軸引きずりの向き(f = 0 は近い面と遠い面の差分だけ c = 1 − α・f = 1 は回転率の全部 c = 1 − α/2)', grid: 'f 0・0.25・0.5・0.75・1(α = 2)', state: '候補(f = 0 が主の候補)' }),
-  Object.freeze({ key: 'Qsg', name: '太陽と銀河の軸引きずりの比のノブ Q(金星で釣り合う置き方)', why: '補足 2: 水星は太陽が強い・金星は釣り合い・地球より外は銀河の側', grid: 'α 1.5・2・3 × 幅 tol 1.5・2・3', state: '候補' }),
-  Object.freeze({ key: 'Tg', name: '軸引きずりのしきい T_g = Γ₀ |ω_銀河|(潮汐 N_tide/I と比べる)', why: '補足 2: 主要な衛星は潮汐ロック・惑星はしない', grid: '帯を読む', state: '候補' }),
+  Object.freeze({ key: 'Qsg', name: '太陽の軸引きずりと背景軸引きずりの比のノブ Q(金星で釣り合う置き方)', why: '補足 2・3: 水星は太陽が強い・金星は釣り合い・地球より外は背景軸引きずり(銀河 —— 背景慣性決定力に含まれる一様な項)の側', grid: 'α 1.5・2・3 × 幅 tol 1.5・2・3', state: '候補' }),
+  Object.freeze({ key: 'Tg', name: '軸引きずりのしきい T_g = Γ₀ |ω_背景|(潮汐 N_tide/I と比べる)', why: '補足 2: 主要な衛星は潮汐ロック・惑星はしない', grid: '帯を読む', state: '候補' }),
   Object.freeze({ key: 'cL', name: '層の結合 c', why: 'T3: 剛体でない天体が全体として回るまでの時間', grid: '0.01・0.1・1', state: '候補' }),
 ]);
 

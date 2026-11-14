@@ -396,14 +396,14 @@
   },
   {
    "key": "Qsg",
-   "name": "太陽と銀河の軸引きずりの比のノブ Q(金星で釣り合う置き方)",
-   "why": "補足 2: 水星は太陽が強い・金星は釣り合い・地球より外は銀河の側",
+   "name": "太陽の軸引きずりと背景軸引きずりの比のノブ Q(金星で釣り合う置き方)",
+   "why": "補足 2・3: 水星は太陽が強い・金星は釣り合い・地球より外は背景軸引きずり(銀河 —— 背景慣性決定力に含まれる一様な項)の側",
    "grid": "α 1.5・2・3 × 幅 tol 1.5・2・3",
    "state": "候補"
   },
   {
    "key": "Tg",
-   "name": "軸引きずりのしきい T_g = Γ₀ |ω_銀河|(潮汐 N_tide/I と比べる)",
+   "name": "軸引きずりのしきい T_g = Γ₀ |ω_背景|(潮汐 N_tide/I と比べる)",
    "why": "補足 2: 主要な衛星は潮汐ロック・惑星はしない",
    "grid": "帯を読む",
    "state": "候補"
@@ -8797,22 +8797,22 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.045
+   "wallSec": 0.047
   },
   "frames": {
-   "wallSec": 0.124
+   "wallSec": 0.137
   },
   "lock": {
-   "wallSec": 4.593
+   "wallSec": 4.913
   },
   "bodies": {
-   "wallSec": 4.596
+   "wallSec": 4.916
   },
   "ledger": {
-   "wallSec": 5.761
+   "wallSec": 6.087
   },
   "libr": {
-   "wallSec": 21.804
+   "wallSec": 23.054
   }
  },
  "gates": {
@@ -8827,13 +8827,13 @@
   "pass": true
  },
  "ok": true,
- "elapsedS": 21.806,
+ "elapsedS": 23.056,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第337便c",
   "target": "tests/lib-w337c-tidelock.mjs",
-  "targetSha256": "7fbba33f583ce92d0446b1e388c958c9c64343f049aa333c095ab9c39256ef5c",
-  "generatedAt": "2026-11-14T21:31:04.294Z",
+  "targetSha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+  "generatedAt": "2026-11-14T22:05:33.118Z",
   "inputs": [],
   "code": [
    {
@@ -8844,9 +8844,9 @@
    },
    {
     "file": "tests/lib-w337c-tidelock.mjs",
-    "bytes": 58176,
-    "sha256": "7fbba33f583ce92d0446b1e388c958c9c64343f049aa333c095ab9c39256ef5c",
-    "mtime": "2026-11-14T21:30:15.629Z"
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-14T22:05:09.961Z"
    },
    {
     "file": "tests/lib-w335b-carryledger.mjs",
@@ -8975,7 +8975,7 @@
     "mtime": "2026-11-14T20:18:49.994Z"
    }
   ],
-  "codeSha256": "fbe5a0e349255521966574703b4967bf7008780ce1aa76f7245586771ea4f705",
+  "codeSha256": "cc74ab387f294dbd93a9bf07b4e1bb72b03e943c3c275257e970223cbc1e09d6",
   "harnessVersion": "w337c-tidelock-1",
   "stage": "tidelock",
   "engine": "Node(html を読まない —— 純関数の lib の表・RK4 の積分・射撃・求積)・1 プロセス",
