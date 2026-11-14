@@ -2068,6 +2068,7 @@ export const REGEN_STEPS = [
   //   import して呼ぶ〔code の依存 —— 他の正本は読まない〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w337c-tidelock.mjs —— 第335便f の型・領域の宣言なし)・
   //   入力のファイルは無い。1 プロセス。所要は第337便c の枝の実測 23 s(T4 の秤動の周期の解の射撃 17 s —— 間引かない)
   S('tidelock-337c', 'node tests/exp-w337c-tidelock.mjs', ['tests/out/tidelock-337c.json'], 23, { secSource: 'w337c-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus'],   // 統合で統括が足した(import する第335便b の lib が第331便c の lib 経由で出典の正本の名を書く —— 第337便d の段と同じ並び)
     quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 60 s の内で、簡易一致の窓を持たない',
     volatilePaths: { 'tests/out/tidelock-337c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器(meta.inputs が空)—— META_RUN の /meta/inputs/*/mtime は当たらないので外す
     note: '第337便c: 2 つの座標系の読み(型 3 × e × 位相 8 × 質量比 3 × 受け手 2 × 自己の重み 3 × 背景の重み 4 = 4032 配置・第335便d の同期の型との照らし・E′ = E − Ω·L)/ロックの条件の最小の型(円 42 行・時定数 9・受動の型 8・離心 16・水星の離心 6)と実在の天体 15 行(比 X = N_tide/N_ax の 1 本のしきい・k₂/Q と年齢と初期の自転)/潮汐の反作用の口を入れた角運動量の帳簿(σ 3 × K 3 × Γ_t 4・反作用なしの対照・離心 3)と層の模型(層 3 × 結合 3)/同期の 3 列と秤動(e 3 × K 6 × Γ_t 4 の周期の解と求積・端の列 ±5/3・通過の角の同時発展の照らし 3)' }),
