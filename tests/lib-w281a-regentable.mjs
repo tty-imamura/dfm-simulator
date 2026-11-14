@@ -2033,6 +2033,20 @@ export const REGEN_STEPS = [
     note: '第336便a: 🌘 の記録(第297便a —— D0pull 3.14447e-5・初速の係数 0.998777511)の測り直し(恒星月 = 同方向 1〜9 周の 8 間隔・近点回転 = 最初の 8 公転の検出器 B —— h 0.016・h/2 0.008 —— 記録との差と第297便a の門)・'
       + '窓の表(最初の 8・20・27・40・118 公転の近点回転の周期と公転ごとの離心率の代理の最小〜最大 —— 刻み 0.4・0.2・定常の物差し 1%)・kFrame=0 の写しの対照・fitRecord(版 w298b-1 の標的 2 件 —— 本の記録の写し)' }),
   // ==== 第336便a の塊(ここまで)====
+  // ==== 第337便d の塊(ここから)====
+  // ---- 第337便d(原仮定者の指示(2026-11-14 —— 第138報)「慣性移動の、自分自身を除いた慣性決定力場に対する加減速は、加速の方がわずかに多くのエネルギーが必要と推測する」・
+  //   統括の検証項目 R340): **慣性移動の加減速の差の候補の器 —— 型(線形の抵抗 L1・L2/加減速の非対称 S0・S0a・S0d/速さの依存 S1・S2 —— どれもノブ)の 1 周の損失と永年の変化
+  //   (閉じた式・求積・RK4 の 2 刻み)・行き着く先・観測の目安からのノブの上限(5 系)・供給との釣り合いに要る仕事率・太陽–地球–月の 3 体の u**(段 accelloss-337d —— 正本
+  //   tests/out/accelloss-337d.json・lib tests/lib-w337d-accelloss.mjs —— 第335便b の lib〔coordVelocity・carriedVelocity〕を import して呼ぶ〔code の依存 —— 他の正本は読まない。
+  //   import する第335便b の lib が import する第331便c の lib が記録の値の出典の正本の名を書くだけ —— 順序だけ after に第335便e の段と同じ 10 段〕)。**診断だけ**。**html を読まない**
+  //   (来歴の対象は純関数 tests/lib-w337d-accelloss.mjs —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第337便d の枝の実測 9 s
+  S('accelloss-337d', 'node tests/exp-w337d-accelloss.mjs', ['tests/out/accelloss-337d.json'], 9, { secSource: 'w337d-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 10 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/accelloss-337d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第337便d: 応答の型 7 列(L1 A = 1・L2 A = |a₀|/c・S0 ε₊ = ε₋・S0a 加速だけ・S0d 減速だけ・S1 p = 1・S2 p = 2)× e 4 × 系 4(固定に近い源・動く源の受け手だけ/両方・自転する源)の 1 周の損失と ȧ・ė・ϖ̇(閉じた式・求積・RK4 1000/2000 步)・'
+      + '帳簿(ΔE_mech + Q − W_f)・長い走行 12 本(行き着く先 —— 同期の半径・相互にロックした連星)・型 2 の (a, e) の道・5 系(水星・地球・月・PSR B1913+16・PSR J0737−3039)× 読み 4 のノブの上限と合わせた上限・上限での熱の仕事率・太陽–地球–月の 1 年の u と損失' }),
+  // ==== 第337便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
