@@ -104649,6 +104649,209 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第337便b の塊(ここまで)====
 
+// ==== 第337便c の塊(ここから —— behavior.tidelock337c・docs.tidelock337c の 2 ブロック。root は SKIP)====
+// ---- 第337便c(原仮定者の指示(2026-11-14 —— 第138報)「潮汐ロックしている状態は、外部からの軸引きずりによる回転よりも、潮汐力が上回っている」
+// ----   「互いに潮汐ロックしていると、どちらかを基準にした座標系では、距離以外の引きずりが消え、遠方宇宙が回転している」「連星は、互いの潮汐力の反作用により、軸引きずりが連星同士の回転として現れる」・
+// ----   統括の検証項目 R339): **潮汐ロックと連星の探索の器**(新設 —— 器 tests/exp-w337c-tidelock.mjs〔html を読まない〕・lib tests/lib-w337c-tidelock.mjs・文書の lib tests/lib-w337c-tidelockdoc.mjs・
+// ----   正本 tests/out/tidelock-337c.json。html・本の宣言・エンジン・受理器・前の便の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.tidelock337c(html を読まない —— 正本と照合): ① 版・宣言・ノブの表・純関数の場面 9・呼ぶだけ(lib の import は第335便b・第335便d・第334便d の lib だけ)
+// ----     ② 2 つの座標系の表を作り直して正本と同じ・円軌道で片方の座標系の動径の分も接線の分も 0・第335便d の同期の型と 1e-13 の内 ③ ロックの判定の部分集合(器の PLAN.behaviorSubset)と
+// ----     定常の恒等式 sin 2δ* = N/K・\|N_ext\| > K の行はロックしない ④ 角運動量の帳簿の部分集合(残り ≤ 1e-7・円・ロックの閉じた式)⑤ 秤動の周期の解と求積の部分集合・端の列 ±5/3 と第335便d の求積
+// ----     ⑥ 実在の天体の値の写しが paper/data の CSV の行と同じ ⑦ 作り直した門が全部真
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら写しを手放す(本文は不変)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w337c-tidelock.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w337c-tidelock.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w337c-tidelockdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'tidelock-337c.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.tidelock337c(第337便c の潮汐ロックと連星の探索の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const cmp337 = (a, b, floor = 0) => (a === b ? 0 : (a === null || b === null || a === undefined || b === undefined) ? Infinity : Math.abs(a - b) <= floor ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── behavior.tidelock337c ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/tidelock-337c.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        // ① 版・宣言・ノブの表・純関数の場面・呼ぶだけ
+        if (!(L.LIB_VERSION === 'w337c-tidelock-lib-1' && X.HARNESS_VERSION === 'w337c-tidelock-1' && D0.DOC_VERSION === 'w337c-tidelockdoc-1' && X.AMEND.length === 4)) bad.push('① 版(lib・器・文書の lib・版の履歴)');
+        const DG = L.DECL;
+        if (!(js(DG.frames.modes) === js(['circ', 'instant', 'mean']) && js(DG.frames.e) === js([0, 0.1, 0.3, 0.6]) && DG.frames.nPhase === 8 && js(DG.frames.w0Ratios) === js([0, 1e-3, 1, 1e3]) && DG.frames.tol === 1e-13
+          && DG.lock.K === 1 && js(DG.lock.nOverK) === js([0, 0.5, 0.9, 0.99, 1.01, 1.1, 2]) && js(DG.lock.gammas) === js([0.1, 1, 10]) && DG.lock.lockDrift === 0.1 && DG.lock.lockMean === 1e-6
+          && DG.ledger.eta === 0.0974 && js(DG.ledger.sigma) === js([0.01, 0.1, 0.5]) && js(DG.libr.e) === js([0.1, 0.2, 0.4]) && js(DG.libr.K) === js([0, 0.01, 0.1, 1, 10, 100]) && js(DG.libr.gamma) === js([0, 0.1, 1, 10])
+          && DG.libr.nQuad === 4096 && DG.bodies.ageYr === 4.5e9 && L.BODY_ROWS.length === 15 && L.KNOBS.length === 17))
+          bad.push('① lib の宣言(走らせたノブの格子と物差し —— 正本の先頭の記録と違う)');
+        if (js(J.decl) !== js(L.DECL) || js(J.knobs) !== js(L.KNOBS) || js(J.plan) !== js(X.PLAN) || js(J.amend) !== js(X.AMEND)) bad.push('① 正本の宣言・ノブの表・器の PLAN・版の履歴が lib と器と違う(器を走らせ直す)');
+        const G1 = L.pureGates(L.pureScenes());
+        for (const [k, v] of Object.entries(G1)) if (v !== true) bad.push('① 純関数の場面 ' + k);
+        if (Object.keys(G1).length !== 9) bad.push('① 純関数の場面の数 ' + Object.keys(G1).length);
+        const tl = rd('tests/lib-w337c-tidelock.mjs'), th = rd('tests/exp-w337c-tidelock.mjs'), td = rd('tests/lib-w337c-tidelockdoc.mjs'), base = rd('tests/lib-w335b-carryledger.mjs') + rd('tests/lib-w335d-binarytilt.mjs') + rd('tests/lib-w334d-binarylaw.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        if (!(js(imps) === js(['lib-w334d-binarylaw.mjs', 'lib-w335b-carryledger.mjs', 'lib-w335d-binarytilt.mjs']) && !/loadHtml|index\.html/.test(tl + td + th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td)
+          && !/w337c/.test(base) && !/from '/.test(td) && !/Math\.random/.test(tl + th)))
+          bad.push('① 呼ぶだけ(lib の import は 3 本だけ・html を読まない・ネットへ取りに行かない・呼ぶ lib の本文に w337c が無い・文書の lib は import しない・乱数を使わない)');
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}(版の履歴 ${X.AMEND.length})・文書 ${D0.DOC_VERSION}・ノブ ${L.KNOBS.length}・天体 ${L.BODY_ROWS.length} 行・純関数の場面 ${Object.values(G1).filter(Boolean).length}/${Object.keys(G1).length}・lib の import は第335便b・第335便d・第334便d の lib だけ`);
+        // ② 2 つの座標系
+        const F = X.partFrames();
+        let dF = 0; const walk = (a, b) => { if (typeof a === 'number' || typeof b === 'number') { dF = Math.max(dF, cmp337(a, b, 1e-15)); return; } if (a === null || b === null || typeof a !== 'object') { if (a !== b) dF = Infinity; return; } for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) walk(a[k], b[k]); };
+        walk(JSON.parse(JSON.stringify(F)), J.frames);
+        if (!(dF <= 1e-9)) bad.push(`② 2 つの座標系の表を作り直して正本と違う(${dF})`);
+        const circ = F.summary.filter((q) => q.mode === 'circ'), inst = F.summary.filter((q) => q.mode === 'instant');
+        if (!(F.maxErr <= 1e-13 && circ.length === 1 && circ.every((q) => q.maxRadA <= 1e-13 && q.maxTanA <= 1e-13) && inst.every((q) => q.maxTanA <= 1e-13 && q.maxRadA > 0.05) && F.sync335d.maxErr <= 1e-13 && F.w0[0].maxNaive <= 1e-13 && F.energy.every((q) => q.err <= 1e-13)))
+          bad.push('② 2 つの座標系の恒等式(差・円軌道の動径と接線の 0・瞬間の同期は動径だけ・第335便d の同期の型・W₀ = 0 の 2 つの読み・E′ = E − Ω·L)');
+        cases.push(`② 2 つの座標系 ${F.n} 配置を作り直して正本と同じ(差 ${F.maxErr.toExponential(1)})・円軌道で片方の座標系の動径の分も接線の分も 0・瞬間の同期は動径だけ・第335便d の syncTypeCase と ${F.sync335d.n} 配置で 1e-13 の内・E′ = E − Ω·L`);
+        // ③ ロックの判定
+        const D = L.DECL.lock; let nL = 0;
+        for (const [G, N] of X.PLAN.behaviorSubset.lock) for (const s0 of D.s0) {
+          const r = L.lockRow({ K: D.K, G, N: N * D.K, s0 }), ref = J.lock.rows.find((q) => q.G === G && q.N === N * D.K && q.s0 === s0); nL++;
+          if (!ref || r.locked !== ref.locked || r.pred !== ref.pred || cmp337(r.meanSlip, ref.meanSlip, 1e-12) > 1e-9) bad.push(`③ ロックの行 Γ_t ${G}・N/K ${N}・初期 ${s0} n が正本と違う`);
+        }
+        if (!(J.lock.rows.filter((r) => r.locked).every((r) => r.pred && r.errDstar <= 1e-6) && J.lock.rows.filter((r) => !r.pred).every((r) => !r.locked) && J.lock.passive.filter((r) => !r.pred).every((r) => !r.locked)))
+          bad.push('③ 正本のロックの恒等式(ロックの行は sin 2δ* = N/K の点・|N_ext| > K の行はロックしない)');
+        cases.push(`③ ロックの判定 ${nL} 行を作り直して正本と同じ・ロックの行は sin 2δ* = N/K(差 ≤ 1e-6)・|N_ext| > K の ${J.lock.rows.filter((r) => !r.pred).length} 行はロックしない`);
+        // ④ 角運動量の帳簿
+        let nG = 0;
+        for (const [sigma, kTil, gTil] of X.PLAN.behaviorSubset.ledger) {
+          const r = L.ledgerRow({ sigma, kTil, gTil }), ref = J.ledger.rows.find((q) => q.sigma === sigma && q.kTil === kTil && q.gTil === gTil); nG++;
+          if (!ref || cmp337(r.fOrb, ref.fOrb, 1e-12) > 1e-9 || cmp337(r.adot, ref.adot, 1e-15) > 1e-9 || !(r.resRel <= 1e-7)) bad.push(`④ 帳簿の行 σ ${sigma}・K ${kTil}・Γ_t ${gTil} が正本と違うか残りが 1e-7 を超える`);
+        }
+        const r01 = J.ledger.rows.find((q) => q.sigma === 0.1 && q.kTil === 100 && q.gTil === 1);
+        if (!(r01 && Math.abs(r01.fOrb - 1 / 0.7) <= 5e-3 * (1 / 0.7) && J.ledger.control[0].resRel >= 0.5)) bad.push('④ ロックの閉じた式 1/(1 − 3σ)(σ 0.1)と反作用なしの対照の残り');
+        cases.push(`④ 帳簿 ${nG} 行を作り直して正本と同じ・残り ≤ 1e-7・σ 0.1 のロックで軌道へ ${r01 ? r01.fOrb.toPrecision(4) : '—'}(閉じた式 1.429)・反作用なしの残り ${J.ledger.control[0].resRel.toPrecision(4)}`);
+        // ⑤ 秤動の周期の解と求積・端の列
+        let nB = 0;
+        for (const [e, K, G] of X.PLAN.behaviorSubset.libr) {
+          const ref = J.libr.rows.find((q) => q.e === e && q.K === K && q.G === G); nB++;
+          if (!ref || !ref.ok) { bad.push(`⑤ 秤動の行 e ${e}・K ${K}・Γ_t ${G} が正本に無いか解けていない`); continue; }
+          const sl = L.periodicSpin(e, K, G, { d0: ref.d0, s0: ref.s0 });
+          const smp = (() => { const N = L.DECL.libr.nQuad, p = 1 - e * e, h = Math.sqrt(p), df = 2 * Math.PI / N, out = new Float64Array(N); let d = sl.d0, s = sl.s0, f = 0;
+            const rhs = (f0, d0, s0) => { const r = p / (1 + e * Math.cos(f0)), fd = h / (r * r), jac = 1 / fd; return [(s0 - fd) * jac, (-K * Math.sin(2 * d0) / (r * r * r) - G * (s0 - fd) / Math.pow(r, 6)) * jac]; };
+            for (let k = 0; k < N; k++) { out[k] = s; const a = rhs(f, d, s), b = rhs(f + df / 2, d + df / 2 * a[0], s + df / 2 * a[1]), c = rhs(f + df / 2, d + df / 2 * b[0], s + df / 2 * b[1]), q = rhs(f + df, d + df * c[0], s + df * c[1]);
+              d += df * (a[0] + 2 * b[0] + 2 * c[0] + q[0]) / 6; s += df * (a[1] + 2 * b[1] + 2 * c[1] + q[1]) / 6; f += df; } return out; })();
+          const Q = L.secularOfSpin(e, smp);
+          if (!(sl.ok && cmp337(Q.share, ref.share, 1e-12) <= 1e-7)) bad.push(`⑤ 秤動の行 e ${e}・K ${K}・Γ_t ${G} の近点の分担が正本と違う(${Q.share} / ${ref.share})`);
+        }
+        const E2 = L.endShares(0.2), S2 = L.secularTable().rows.find((q) => q.e === 0.2);
+        if (!(Math.abs(E2.instant.share + 5 / 3) <= 1e-6 && Math.abs(E2.mean.share - 5 / 3) <= 1e-6 && Math.abs(E2.instant.share - S2.instant.share) <= 1e-8 && Math.abs(E2.mean.share - S2.mean.share) <= 1e-8)) bad.push('⑤ 端の列(瞬間の同期 −5/3・平均の同期 +5/3)が第335便d の求積と違う');
+        if (!(J.libr.pass.every((q) => q.ok && Math.abs(q.d) <= L.DECL.libr.passTol))) bad.push('⑤ 正本の通過の角の照らしが物差しの外');
+        cases.push(`⑤ 秤動の周期の解と求積 ${nB} 行を作り直して正本と同じ・端の列 e 0.2 で ${E2.instant.share.toFixed(6)}・${E2.mean.share.toFixed(6)}(第335便d の求積と 1e-8 の内)・通過の角の照らし ${J.libr.pass.length} 行`);
+        // ⑥′ 補足の向き(差分の読み —— 赤道面で逆回転)
+        const BT = L.bodyTable();
+        if (!(BT.rows.filter((r) => r.state === 'locked').every((r) => r.hostDiff < 0) && js(BT.sepRead.map((q) => [q.f, q.c, q.sep.separable])) === js(J.bodies.sepRead.map((q) => [q.f, q.c, q.sep.separable]))
+          && BT.sepRead.every((q, i) => cmp337(q.sep.band[0], J.bodies.sepRead[i].sep.band[0]) <= 1e-12) && J.lock.neg.filter((r) => !r.pred).every((r) => !r.locked) && J.ledger.neg.every((r) => r.resRel <= 1e-7)))
+          bad.push('⑥′ 補足の向き(主星の項が差分の読みで逆回転・差分の読みの境目が正本と同じ・逆回転の N_ext の行・帳簿)');
+        cases.push(`⑥′ 補足の向き: 差分の読み f = 0(c = −1)で主星の項はロックの ${BT.rows.filter((r) => r.state === 'locked').length} 行の全部で逆回転・f ${BT.sepRead.length} 点の境目が正本と同じ・逆回転の N_ext ${J.lock.neg.length} 行・帳簿 ${J.ledger.neg.length} 行`);
+        // ⑥″ 補足 2 の分類(目標の列)
+        const CT = L.classTable();
+        if (!(js(CT.out.map((o) => [o.alpha, o.tol, o.nOk, o.wrong])) === js(J.bodies.classify.out.map((o) => [o.alpha, o.tol, o.nOk, o.wrong])) && CT.out.every((o) => Math.abs(o.rows.find((q) => q.id === 'Venus').R - 1) <= 1e-12)
+          && cmp337(CT.venusEarth.ratio, J.bodies.classify.venusEarth.ratio) <= 1e-12)) bad.push('⑥″ 補足 2 の分類の表(α × 幅の合う行・金星で R = 1・地球の潮汐の比)が正本と違う');
+        cases.push(`⑥″ 補足 2 の分類: α × 幅 ${CT.out.length} 組を作り直して正本と同じ(合う行の最大 ${Math.max(...CT.out.map((o) => o.nOk))}/${CT.out[0].n})`);
+        // ⑥ CSV の写し
+        const csvRows = (f) => { const t = rd(f).split('\n'), out = []; for (let i = 1; i < t.length; i++) { const m = t[i].match(/^([^,]*),([^,]*),([^,]*),([^,]*)/); if (m) out.push({ body: m[1], q: m[2], v: Number(m[3]), unit: m[4] }); } return out; };
+        const SOL = csvRows('paper/data/solar-observations.csv'), JOV = csvRows('paper/data/jovian-satellites.csv');
+        const QK = { M: 'mass', R: 'radius', spin: 'rotation_period', porb: 'orbital_period', a: 'semi_major_axis', aHel: 'semi_major_axis', e: 'eccentricity' };
+        const JK = { M: ['mass', 1e26], R: ['radius', 1e7], spin: ['rotation_period', 3600] };
+        let nC = 0;
+        for (const [body, o] of Object.entries(L.BODY_SRC)) for (const [k, [v, src]] of Object.entries(o)) {
+          if (src === 'csv') { nC++; if (!SOL.some((r) => r.body === body && r.q === QK[k] && Math.abs(r.v - v) <= 1e-9 * Math.abs(v))) bad.push(`⑥ ${body} の ${k}(${v})が paper/data/solar-observations.csv の行に無い`); }
+          else if (src === 'jov') { nC++; const [q, u] = JK[k]; if (!JOV.some((r) => r.body === body && r.q === q && Math.abs(r.v * u - v) <= 1e-6 * Math.abs(v))) bad.push(`⑥ ${body} の ${k}(${v})が paper/data/jovian-satellites.csv の行に無い`); }
+          else if (src !== 'lit') bad.push(`⑥ ${body} の ${k} の出どころの印 ${src}`);
+        }
+        cases.push(`⑥ 実在の天体の値の写し ${nC} 件が paper/data の CSV の行と同じ(他は文献の値・未照合)`);
+        // ⑦ 門
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('⑦ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`⑦ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.tidelock337c', bad.length === 0,
+      `**潮汐ロックと連星の探索の作り直し**(第337便c・原仮定者の指示(2026-11-14 —— 第138報)・R339 —— html を読まない・2 つの座標系・ロックの判定・角運動量の帳簿・秤動の周期の解と求積・CSV の写し): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第337便c: docs.tidelock337c は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に behavior を数えない)。
+// ----   世代切替は上と同じ
+// ----   docs.tidelock337c(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib)・宣言が lib と器と同じ ② 表 23 本が PHYSICS〔第337便c〕に逐語
+// ----     ③ 節の位置(〔第336便b〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・AI_SPEC §231(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w337c-tidelock.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w337c-tidelock.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w337c-tidelockdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'tidelock-337c.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.tidelock337c(第337便c の潮汐ロックと連星の探索の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.tidelock337c ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第337便c — '), i7 = PH.indexOf('\n## 7. 論文'), ib = PH.indexOf('〔第336便b — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ib >= 0 && ib < i0 && iu > i0)) bad.push('PHYSICS〔第337便c〕が無いか〔第336便b〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/tidelock-337c.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'tidelock'
+        && J.target === 'tests/lib-w337c-tidelock.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0)) bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルなし)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.knobs) !== JSON.stringify(L.KNOBS) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN) || JSON.stringify(J.amend) !== JSON.stringify(X.AMEND)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第337便c〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 23) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第337便c〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の指示(2026-11-14 —— 第138報)', 'R339', 'tests/exp-w337c-tidelock.mjs', 'tests/out/tidelock-337c.json', 'tests/lib-w337c-tidelock.mjs', 'tidelock-337c', '統括の参考の試作', '探索の出発点', '採った潮汐の則ではない',
+      '枝 d の題', '円軌道では (A) の動径の分も接線の分も 0(ṙ = 0)', '瞬間の同期', '平均の同期', '秤動する応答', '遠方宇宙が −Ω で回る', '共変', '素朴', 'E − Ω·L', '\\|N_ext\\| ≤ K', 'Γ_t/√(I K)', '初期の自転',
+      '1 本のしきい', '主の源が銀河', '文献の値・未照合', '反作用の口', '1/(1 − 3σ)', 'σ > 1/3', '層の模型', '−5/3', '+5/3', '第335便d', '解けない', 'ノブの表', '候補', 'このノブの組では', '未較正',
+      '原仮定者の補足(2026-11-14 —— 第138報の補足)', '赤道面では源の回転と逆回転', '差分の読み', 'c = 1 − α + f α/2', '補足への答え', '原仮定者の補足(2026-11-14 —— 第138報の補足 2)', '補足 2 への答え', '金星で釣り合う置き方', '目標の列', '原仮定者の補足(2026-11-14 —— 第138報の補足 3)', '背景軸引きずり', '慣性系の背景宇宙', '第138報への枝の答え', '決断事項の候補', '次の便へ', 'behavior.tidelock337c', 'docs.tidelock337c'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第337便c〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 231. 第337便c'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/tidelock-337c.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('ノブ') >= 0 && ai.indexOf('未較正') >= 0 && ai.indexOf('R339') >= 0)) bad.push('③ AI_SPEC §231(正本・SYSTEM_PROMPT・ノブ・未較正・R339)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl337c = clg.split('\n').find((l) => l.indexOf('**第337便c**') >= 0) || '';
+    if (!(cl337c.indexOf('tests/exp-w337c-tidelock.mjs') >= 0 && cl337c.indexOf('tidelock-337c') >= 0 && cl337c.indexOf('第138報') >= 0 && cl337c.indexOf('R339') >= 0)) bad.push('③ CHANGELOG の第337便c の行');
+    if (!(/S\('tidelock-337c', 'node tests\/exp-w337c-tidelock\.mjs', \['tests\/out\/tidelock-337c\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)") >= 0
+      && RT.indexOf('// ==== 第337便c の塊(ここから)====') >= 0)) bad.push('③ 段の行 tidelock-337c(quickVerify と理由・塊)');
+    if (GI.indexOf('!tests/out/tidelock-337c.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第337便c の塊(ここから)====') >= 0 && /behavior\.tidelock337c/.test(PM) && /docs\.tidelock337c/.test(PM))) bad.push('③ post-merge の ③′ に第337便c の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §231(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT337 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第337便c の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・潮汐ロックの条件が決まった・連星の回転は軸引きずりで出る・潮汐の則が決まった
+    const W337 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たっま決が件条のクッロ汐潮', 'る出でりずき引軸は転回の星連', 'たっま決が則の汐潮'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第337便c〕', sec], ['AI_SPEC §231', ai], ['CHANGELOG の第337便c の行', cl337c], ['器', rd('tests/exp-w337c-tidelock.mjs')], ['lib', rd('tests/lib-w337c-tidelock.mjs')], ['文書の lib', rd('tests/lib-w337c-tidelockdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W337)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT337) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.tidelock337c', bad.length === 0,
+      `**潮汐ロックと連星の探索の文書**(第337便c・原仮定者の指示(2026-11-14 —— 第138報)・R339 —— 候補の型の表・条件付きの恒等式・残差・ノブの表): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第337便c の塊(ここまで)====
+
 // ==== 第337便d の塊(ここから —— behavior.accelloss337d・docs.accelloss337d の 2 ブロック。root は SKIP)====
 // ---- 第337便d(原仮定者の指示(2026-11-14 —— 第138報)「慣性移動の、自分自身を除いた慣性決定力場に対する加減速は、加速の方がわずかに多くのエネルギーが必要と推測する」・統括の検証項目 R340):
 // ----   **慣性移動の加減速の差の候補の器**(新設 —— 器 tests/exp-w337d-accelloss.mjs〔html を読まない〕・lib tests/lib-w337d-accelloss.mjs・文書の lib tests/lib-w337d-accellossdoc.mjs・

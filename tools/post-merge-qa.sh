@@ -938,6 +938,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.supply337a docs.supply337a docs.w32
 #   (behavior.mercuryband337b —— html を読まない・恒等式と作り直し / docs.mercuryband337b —— 正本の門と表が PHYSICS〔第337便b〕に逐語・文書)と、新しい段 mercuryband-337b の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.mercuryband337b docs.mercuryband337b lint.regenScope lint.stableHashPaths lint.provenanceMeta lint.symbols333e lint.kappaSymbol315 docs.w320d lint.sectionLookup313"
 # ==== 第337便b の塊(ここまで)====
+# ==== 第337便c の塊(ここから)====
+# 第337便c(原仮定者の指示(2026-11-14 —— 第138報)・統括の検証項目 R339 —— 診断だけ・html は変えない): 枝 c の新設 2 本(behavior.tidelock337c —— 2 つの座標系・ロックの判定・
+#   角運動量の帳簿・秤動の周期の解と求積の部分集合を lib で作り直して正本と同じ・純関数の場面・呼ぶだけ・CSV の写しの値 / docs.tidelock337c —— 正本の門と表 23 本が PHYSICS〔第337便c〕に逐語・文書)と、
+#   新しい段 tidelock-337c の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.tidelock337c docs.tidelock337c docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
+# ==== 第337便c の塊(ここまで)====
 # ==== 第337便d の塊(ここから)====
 # 第337便d(原仮定者の指示(2026-11-14 —— 第138報)・統括の検証項目 R340 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.accelloss337d —— 慣性移動の加減速の差の候補の
 #   純関数の場面・T1 の行・長い走行の 1 本・5 系の上限を作り直して正本と同じ / docs.accelloss337d —— 正本の門と表 9 本が PHYSICS〔第337便d〕に逐語・文書)と、新しい段 accelloss-337d の lint 一式
