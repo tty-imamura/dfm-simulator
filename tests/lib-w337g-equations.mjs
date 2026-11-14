@@ -267,9 +267,11 @@ export function checkPolicy337g(inp) {
     for (const m of refs) { nRef++; if (ph.indexOf('\n〔第' + m[1] + '便' + m[2] + ' — ') < 0) bad.push('⑦ ノブ「' + r[0] + '」の出どころの節 ' + m[0] + ' の見出しが PHYSICS に無い'); }
     if (!/第3\d\d便/.test(r[1])) bad.push('⑦ ノブ「' + r[0] + '」の足した便の欄に便の名が無い');
   }
-  if (sec.indexOf('ノブ ' + tb.rows.length + ' 行') < 0 && sec.indexOf('ノブ 19 行') < 0) bad.push('⑦ 節の文のノブの行の数');
-  const stTxt = KNOB_STATES_337G.filter((x) => st[x]).map((x) => x + ' ' + st[x]).join('・');
-  if (sec.indexOf('(' + tb.rows.length + ' 行は' + KNOB_STATES_337G.filter((x) => st[x]).map((x) => x + ' ' + st[x]).join('・') + ')') < 0) bad.push('⑦ 節の文の状態の件数(' + tb.rows.length + ' 行は ' + stTxt + ')');
+  // 節の文の数は種の行(第333〜336便)だけで照らす —— 統合で第337便の枝の行が印の位置に足されても文は変えなくてよい
+  const seedRows = tb.rows.filter((r) => KNOB_SEED_337G.includes(r[0])), sst = Object.fromEntries(KNOB_STATES_337G.map((x) => [x, seedRows.filter((r) => r[6] === x).length]));
+  if (sec.indexOf('ノブ ' + KNOB_SEED_337G.length + ' 行') < 0) bad.push('⑦ 節の文の種のノブの行の数(' + KNOB_SEED_337G.length + ')');
+  const stTxt = KNOB_STATES_337G.filter((x) => sst[x]).map((x) => x + ' ' + sst[x]).join('・');
+  if (sec.indexOf('(' + seedRows.length + ' 行は' + stTxt + ')') < 0) bad.push('⑦ 節の文の種の行の状態の件数(' + seedRows.length + ' 行は ' + stTxt + ')');
   cases.push(`⑦ ノブの台帳: 8 欄・行 ${tb.rows.length}(種 ${KNOB_SEED_337G.length} を全部 —— ${stTxt})・出どころの節 ${nRef}(見出しの行)・表の末尾の印 ${KNOB_MARK_337G}`);
   // 書かない語(節)
   const s = stripCode(stripQ(sec));
