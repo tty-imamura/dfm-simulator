@@ -14,7 +14,8 @@
 //   T1 静的: Plummer 球(G = M = a = 1・切り 0.99)× N 256・512 × 種 3 × 軟化 ε 0.05 × 重み α 2(連続の場との比べはこれだけ)・1 × 読み none・A・B(解析の密度)・Bk(k 近傍の密度)・C ×
 //     速度の場 rigid(Ω 0.5)・shear(S 0.5)・diff(Ω₀ 0.5)・iso(分布関数の速度 —— 散らばり)。量: 自己の分け前 w_ii/(w_ii + W_i) の平均・全体の重み (w_ii + W_i)/W_連続 − 1 の平均と RMS・
 //     引きずりの大きさ RMS|d|/RMS|V|・線形の場の連続の引きずりとの差 RMS|d − d_連続|/RMS|d_連続|。N の依存 = ln(Q₅₁₂/Q₂₅₆)/ln 2(種の平均)。
-//     物差し: |傾き| < 0.1 を「この格子では N に依らない」・0.1〜0.5 を「弱く依る」・≥ 0.5 を「強く依る」(+1 は N に比例・−1/3 は要素の大きさに比例)。
+//     物差し: |傾き| < 0.1 を「この格子では N に依らない」・0.1〜0.5 を「弱く依る」・≥ 0.5 を「強く依る」(+1 は N に比例・−1/3 は要素の大きさに比例)。動的の効きが 2 つの N で
+//     どちらも 1e-9 より小さい(丸めの差が混沌で育った桁)ときは傾きを書かない(—)。格子と乱数の並び(一様な球 —— 格子の辺 6・8・12 の個数)で、全体の重みの連続の場との差を自己なしと B で。
 //   T1 動的: N 256・512 × 種 1 × 押し row γ 0.1/t_cr × 読み none・A・B(k 近傍・測りの間隔ごとに更新)・C と重力だけ × 窓 3 t_cr・刻み t_cr/100。効き = Q(T) の差(引きずり − 重力だけ・rel は ÷ |Q(0)|)。
 //   T2: N 512 × 種 1 × 窓 2 t_cr × γ 0.1・1 ÷ t_cr × 型 row・symFull・symCentral・symCentral + Π(h_sph 0.3・u₀ = 0)と重力だけ。帳簿: 運動量 |ΔP|/(M v_rms)・角運動量 |ΔL|/(M r_h v_rms)・
 //     E の残差 (E₁ + U₁ + Q − E₀ − U₀)/|E₀|・熱の口 Q/|E₀|・内部のエネルギー U/|E₀|・近傍の平均のまわりの散らばり σ²_pec と要素の中の σ²_int。物差し: |ΔP|・|ΔL| ≤ 1e-12 を「保存」。
@@ -24,7 +25,9 @@
 //     自己の重み B(k 近傍)。動的 N 256(回転の支え)× 押し γ 0.1/t_cr × 窓 3 t_cr。
 //   T5: 環 128 粒子(a 0.9〜1.1・σ_e 0.02・σ_i 0.02)× 20 周 × 刻み 公転/300 × 中心 単体・連星(質量比 1・離れ 0.25)× 中心の自転 s = 1 × 列 grav・T・R・A・TRA × γ 1e-3・1e-2 ×
 //     自己の重み none(B は γ 1e-2 の T・A だけ)。率 = ln σ の公転あたりの傾き(最小二乗)。物差し: > +1e-3 を「増える」・< −1e-3 を「減る」・その間を「平ら」。
-// ■ 言わないこと: 表は宣言した型とノブの組の測った数(銀河が流体で解けた・楕円銀河が出来た・環の安定を担う引きずりが分かったとは書かない)・B は解像度の依存を消す式ではない(測った N の依存)・
+//     軸引きずりの 2 つの読み(原仮定者の補足(2026-11-14 —— 第138報の補足)を受けて足した列 —— AMEND): X1 近い面と遠い面の差分だけ・X2 回転率の全部 ½∇×U × 自己の重み B(f ≈ 1)・K9(r = 1 で f = 0.1)。
+//     作用 a = c_ax ω_ax × u(c_ax 0.1・u は要素の固有の速度 —— 宣言の結合・仕事をしない回し)。連星は重心の 1 つの源とみなす(近似)。
+// ■ 言わないこと: 表は宣言した型とノブの組の測った数(銀河の解・楕円銀河の再現・環の安定の担い手の特定ではない)・B は解像度の依存を消す式ではない(測った N の依存)・
 //   N は解像の要素の数(実在の星の数ではない)・軟化と h_sph は宣言の長さ・観測の銀河の値に合わせない。
 import fs from 'node:fs';
 import os from 'node:os';
@@ -37,22 +40,26 @@ import * as E5 from './lib-w335f-elliptical.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w337e-fluid-1';
 /** 版の履歴(結果を見て変えた所・足した型とノブ —— 理由つき) */
-export const AMEND = Object.freeze([]);
+export const AMEND = Object.freeze([
+  '型を足した(走行の途中 —— 原仮定者の補足(2026-11-14 —— 第138報の補足)「軸引きずりは、並進引きずりで引きずられる側の、近い面と遠い面の差分なので、赤道面では源の回転と逆回転になる」): '
+  + 'T5 に軸引きずりの 2 つの読みの列 X1(差分だけ)・X2(回転率の全部 ½∇×U)× 自己の重み B・K9 を足した。既にあった列 A(環の要素どうしの保存する引きずり)は消さずに残す(軸引きずりの読みの候補の 1 つ)',
+]);
 export const OUT_MAIN = 'tests/out/fluid-337e.json';
 export const TARGET = 'tests/lib-w337e-fluid.mjs';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
-export const NOT_CLAIM = Object.freeze(['表は宣言した型とノブの組の測った数 —— 銀河が流体で解けたとは書かない', 'B(体積の内の積分)は解像度の依存を消す式ではない —— 測った N の依存を書く',
+export const NOT_CLAIM = Object.freeze(['表は宣言した型とノブの組の測った数 —— 銀河の解ではない', 'B(体積の内の積分)は解像度の依存を消す式ではない —— 測った N の依存を書く',
   'N は解像の要素の数(実在の星の数ではない)', '軟化 ε と h_sph は宣言の長さ(物理の大きさではない)', '星 1 個の R_d = Y_k m(C)は実在の星の規則として変えない —— 流体の要素には別の口',
-  '環の表は率の符号と桁 —— 長期の安定を担う引きずりが分かったとは書かない', '観測の銀河の値に合わせない', '主列は W₀ = 0']);
+  '環の表は率の符号と桁 —— 長期の安定の担い手の特定ではない', '観測の銀河の値に合わせない', '主列は W₀ = 0']);
 export const PLAN = Object.freeze({
   model: 'plummer', eps: 0.05, alphas: Object.freeze([2, 1]), stepsPerTcr: 100, every: 25,
   t1: Object.freeze({ Ns: Object.freeze([256, 512]), heavyNs: Object.freeze([1024, 2048]), seeds: Object.freeze([1, 2, 3]), rules: Object.freeze(['none', 'A', 'B', 'Bk', 'C']), fields: Object.freeze(['rigid', 'shear', 'diff', 'iso']),
-    dynRules: Object.freeze(['none', 'A', 'B', 'C']), dynGammaTcr: 0.1, dynWindowTcr: 3, slopeFlat: 0.1, slopeStrong: 0.5, arrange: Object.freeze({ nSides: Object.freeze([6, 8, 12]) }) }),
+    dynRules: Object.freeze(['none', 'A', 'B', 'C']), dynGammaTcr: 0.1, dynWindowTcr: 3, slopeFlat: 0.1, slopeStrong: 0.5, roundEff: 1e-9, arrange: Object.freeze({ nSides: Object.freeze([6, 8, 12]) }) }),
   t2: Object.freeze({ N: 512, windowTcr: 2, gammaTcr: Object.freeze([0.1, 1]), types: Object.freeze(['row', 'symFull', 'symCentral', 'symCentralPi']), consTol: 1e-12, u0: 0 }),
   t3: Object.freeze({ N: 256, windowTcr: 2, hdivs: Object.freeze([1, 2, 4]), heavyHdiv: 8, actions: Object.freeze(['grav', 'push', 'velE', 'velI']), gammaTcr: 0.1, keys: Object.freeze(['r10', 'r50', 'r90', 'vir', 'sigR', 'resid']) }),
   t4: Object.freeze({ N: 512, dynN: 256, readings: Object.freeze(['center0', 'centerL', 'inner', 'local']), gammaTcr: 0.1, windowTcr: 3 }),
   t5: Object.freeze({ centers: Object.freeze(['single', 'binary']), cols: Object.freeze(['grav', 'T', 'R', 'A', 'TRA']), gammas: Object.freeze([1e-3, 1e-2]), selfB: Object.freeze({ gamma: 1e-2, cols: Object.freeze(['T', 'A']) }),
+    axial: Object.freeze({ cols: Object.freeze(['X1', 'X2']), selfs: Object.freeze(['B', 'K9']) }),
     orbits: 20, stepsPerOrbit: 300, seed: 1, rateFlat: 1e-3, heavy: Object.freeze({ n: 256, orbits: 60 }) }),
   seedRule: '標本の種 = 種 × 10007 + N(第335便f の seedOf と同じ —— Plummer)・回転の支えの反しの乱数は種 + 500',
   structKeys: Object.freeze(['r10', 'r50', 'r90', 'vir', 'sigR', 'sigT', 'beta', 'vrot']),
@@ -156,13 +163,14 @@ export function t5List({ heavy = false } = {}) {
     out.push({ center, col: 'grav', self: 'none', gamma: 0 });
     for (const g of P.gammas) for (const col of P.cols) if (col !== 'grav') out.push({ center, col, self: 'none', gamma: g });
     for (const col of P.selfB.cols) out.push({ center, col, self: 'B', gamma: P.selfB.gamma });
+    for (const col of P.axial.cols) for (const self of P.axial.selfs) out.push({ center, col, self, gamma: 0 });   // 軸引きずりの 2 つの読み(強さは lib の c_ax —— γ の欄は 0)
   }
   return out.map((r) => Object.assign(r, { n: heavy ? P.heavy.n : L.DECL.ring.n, orbits: heavy ? P.heavy.orbits : P.orbits, stepsPerOrbit: P.stepsPerOrbit, seed: P.seed, key: [r.center, r.col, r.self, 'g' + r.gamma].join('|') }));
 }
 const trendOf = (x) => (x > PLAN.t5.rateFlat ? 'grow' : x < -PLAN.t5.rateFlat ? 'decay' : 'flat');
 export function t5Run(r) {
   const t0 = Date.now(), R = L.ringRun({ center: r.center, col: r.col, self: r.self, gamma: r.gamma, n: r.n, orbits: r.orbits, stepsPerOrbit: r.stepsPerOrbit, seed: r.seed });
-  return { key: r.key, spec: r, rateE: R.rateE, rateI: R.rateI, trendE: trendOf(R.rateE), trendI: trendOf(R.rateI), ratioE: R.ratioE, ratioI: R.ratioI, dA: R.dA, dHz: R.dHz, betaMin: R.betaMin, betaMax: R.betaMax,
+  return { key: r.key, spec: r, rateE: R.rateE, rateI: R.rateI, trendE: trendOf(R.rateE), trendI: trendOf(R.rateI), ratioE: R.ratioE, ratioI: R.ratioI, dA: R.dA, dHz: R.dHz, betaMin: R.betaMin, betaMax: R.betaMax, omegaZ: R.omegaZ,
     sigE: R.perOrbit.map((o) => o.sigE), sigI: R.perOrbit.map((o) => o.sigI), wallSec: (Date.now() - t0) / 1000 };
 }
 
@@ -175,7 +183,7 @@ export function analyse(runs, t1rows) {
     for (const self of P.t1.dynRules) { const D = runs.find((x) => x.spec.part === 't1' && x.spec.N === N && x.spec.self === self && x.spec.action === 'push'), eff = {}; for (const k of P.structKeys) eff[k] = effOf(D, G, k);
       A.t1dyn.push({ N, self, shareMean: D.shareMean, eff, Q: D.ledger.Q, resid: D.ledger.resid }); } }
   A.t1dynSlope = P.t1.dynRules.map((self) => { const a = A.t1dyn.find((x) => x.N === P.t1.Ns[0] && x.self === self), b = A.t1dyn.find((x) => x.N === P.t1.Ns[1] && x.self === self), s = {};
-    for (const k of P.structKeys) s[k] = slope2(a.eff[k], b.eff[k]); return { self, share: slope2(a.shareMean, b.shareMean), Q: slope2(a.Q, b.Q), eff: s, dependR50: dependOf(s.r50), dependVir: dependOf(s.vir) }; });
+    for (const k of P.structKeys) s[k] = Math.max(Math.abs(a.eff[k]), Math.abs(b.eff[k])) < P.t1.roundEff ? null : slope2(a.eff[k], b.eff[k]); return { self, share: slope2(a.shareMean, b.shareMean), Q: Math.max(Math.abs(a.Q), Math.abs(b.Q)) < P.t1.roundEff ? null : slope2(a.Q, b.Q), eff: s, dependR50: dependOf(s.r50), dependVir: dependOf(s.vir) }; });
   A.t1slopes = t1Slopes(t1rows);
   // T2
   const G2 = runs.find((x) => x.spec.part === 't2' && x.spec.action === 'grav');
@@ -196,7 +204,7 @@ export function analyse(runs, t1rows) {
       row.keys[k] = { vals: vals[k], e1, e2, order: e1 > 0 && e2 > 0 ? Math.log2(e1 / e2) : null, byStep: e2 <= e1 / 2 };
     }
     const pd = (a, b) => { let s = 0; for (let i = 0; i < a.posFinal.length; i++) s += (a.posFinal[i][0] - b.posFinal[i][0]) ** 2 + (a.posFinal[i][1] - b.posFinal[i][1]) ** 2 + (a.posFinal[i][2] - b.posFinal[i][2]) ** 2; return Math.sqrt(s / a.posFinal.length) / SC.rh; };
-    row.pos = { e1: pd(R[0], R[1]), e2: pd(R[1], R[2]) };
+    row.pos = R.every((x) => Array.isArray(x.posFinal)) ? { e1: pd(R[0], R[1]), e2: pd(R[1], R[2]) } : null;   // 位置の写しは正本に載せない —— 正本の走行から作り直すときは null
     row.nByStep = P.t3.keys.filter((k) => row.keys[k].byStep).length;
     row.evals = R.map((x) => x.evals); row.iterResid = R.map((x) => x.iterResid);
     A.t3.push(row);
@@ -212,7 +220,7 @@ export function t5Analyse(rings) {
   for (const center of P.centers) {
     const G = rings.find((x) => x.spec.center === center && x.spec.col === 'grav');
     for (const x of rings.filter((y) => y.spec.center === center)) rows.push({ center, col: x.spec.col, self: x.spec.self, gamma: x.spec.gamma, rateE: x.rateE, rateI: x.rateI, trendE: x.trendE, trendI: x.trendI, ratioE: x.ratioE, ratioI: x.ratioI,
-      dRateE: x.rateE - G.rateE, dRateI: x.rateI - G.rateI, dA: x.dA, betaMin: x.betaMin });
+      dRateE: x.rateE - G.rateE, dRateI: x.rateI - G.rateI, dA: x.dA, betaMin: x.betaMin, omegaZ: x.omegaZ });
   }
   return rows;
 }

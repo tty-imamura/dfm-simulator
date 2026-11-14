@@ -27,7 +27,7 @@
 //   T = 並進引きずり(源の座標の速度 c_k = v_k + s ẑ × (p − p_k) の重み m_k/r_k² の平均 U へ押す —— 第333便b の `integratedField` と同じ値)・
 //   R = 回転引きずり(第334便a の `t1Twist` の速さ β s z に向き φ̂〔中心の自転軸のまわりの方位 —— 第335便c の向きの候補 (a) を宣言として借りる〕)・
 //   A = 環の要素どうしの中心方向の保存する引きずり(要素の部位の差で起きる分 —— 軸引きずりの読みの候補として置く。点の試験の粒子には部位が無いので、軸引きずりは要素どうしの差で読む)。
-// ■ 言わないこと: 表は宣言した型とノブの組の測った数(銀河が流体で解けたとは書かない・楕円銀河が出来たとは書かない・環の安定を担う引きずりが分かったとは書かない)・
+// ■ 言わないこと: 表は宣言した型とノブの組の測った数(銀河の解・楕円銀河の再現・環の安定の担い手の特定ではない)・
 //   B は解像度の依存を消す式ではない(測った N の依存を書く)・N は解像の要素の数・軟化は宣言の長さ。
 import { rngOf } from './lib-w333d-noncirc.mjs';
 import * as E5 from './lib-w335f-elliptical.mjs';
@@ -38,7 +38,9 @@ export const LIB_VERSION = 'w337e-fluid-lib-1';
 export const SELF_READINGS = Object.freeze(['none', 'A', 'B', 'C']);
 export const DRAG_KINDS = Object.freeze(['none', 'row', 'symFull', 'symCentral', 'center', 'inner']);
 export const FIELDS = Object.freeze(['const', 'rigid', 'shear', 'diff', 'iso']);
-export const RING_COLS = Object.freeze(['grav', 'T', 'R', 'A', 'TR', 'TA', 'TRA']);
+export const RING_COLS = Object.freeze(['grav', 'T', 'R', 'A', 'TR', 'TA', 'TRA', 'X1', 'X2']);
+/** 軸引きずりの 2 つの読み(原仮定者の補足(2026-11-14 —— 第138報の補足)): X1 = 近い面と遠い面の差分だけ(動径の勾配の分 —— 赤道面の係数 f(1 − α(1 − f)))/X2 = 回転率の全部 ½∇×U(第333便b の `integratedField` の omega —— 赤道面の係数 f(1 − α(1 − f)/2)) */
+export const AXIAL_READINGS = Object.freeze(['X1', 'X2']);
 /** 宣言(走行の前に置く —— 結果を見て変えない。変えたら版を上げて理由を書く) */
 export const DECL = Object.freeze({
   idTol: 1e-12,
@@ -54,7 +56,9 @@ export const DECL = Object.freeze({
   /** 連続の場の求積(Gauss–Legendre の点の数と区間の数) */
   quad: Object.freeze({ gl: 8, panels: 24 }),
   /** 環: 試験の粒子の数・軌道の長半径の範囲・初期の e と傾きの散らばり(Rayleigh の σ)・中心の自転・連星の離れ・環の要素の軟化・環の質量(引きずりの重みだけ —— 重力は中心だけ) */
-  ring: Object.freeze({ n: 128, aMin: 0.9, aMax: 1.1, sigE: 0.02, sigI: 0.02, spin: 1, binarySep: 0.25, epsRing: 0.02, massRing: 1e-3 }),
+  ring: Object.freeze({ n: 128, aMin: 0.9, aMax: 1.1, sigE: 0.02, sigI: 0.02, spin: 1, binarySep: 0.25, epsRing: 0.02, massRing: 1e-3,
+    /** 軸引きずりの列: 結合の係数 c_ax(a = c_ax ω_ax × u —— u は要素の固有の速度 v − Ω_c(R) ẑ × p)・自己の重みが源の重みより大きい読みの K(r = 1 で f = W/(K + W) = 0.1 になる K = 9) */
+    cAx: 0.1, Kdom: 9 }),
 });
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
 
@@ -453,14 +457,26 @@ export function ringSelfB(n = DECL.ring.n, R = DECL.ring) {
   return selfWeightB(R.massRing / n, rho, R.epsRing, 2);
 }
 /**
+ * 軸引きずりの回転率(単一の源 —— 原点・質量 M・自転 s ẑ・重み W = M/r²・自己の重み K): f = W/(K + W)・f′ = −2 f (1 − f)/r。
+ * X2(回転率の全部 ½∇×U): ω = f s + (f′/(2r))(s r² − p (p·s))/X1(近い面と遠い面の差分だけ): ω = X2 − ½ f s(赤道面で ½ s (f + r f′))
+ */
+export function axialOmega(p, spin, M, K, reading) {
+  if (!AXIAL_READINGS.includes(reading)) throw new RangeError('axialOmega: 読みは X1・X2');
+  const r = Math.hypot(p[0], p[1], p[2]), W = M / (r * r), f = W / (K + W), fp = -2 * f * (1 - f) / r, ps = p[2] * spin, c = fp / (2 * r);
+  const o = [c * (-p[0] * ps), c * (-p[1] * ps), f * spin + c * (spin * r * r - p[2] * ps)];
+  if (reading === 'X1') o[2] -= 0.5 * f * spin;
+  return o;
+}
+/**
  * 環の 1 本: spec = { center: single|binary, col: RING_COLS, self: none|B, gamma, spin, n, orbits, stepsPerOrbit, seed }。
  * 戻り値 { perOrbit:[{ t, sigE, sigI, aMean, hzMean }], rateE, rateI(ln σ の公転あたりの傾き —— 最小二乗), betaMin, betaMax, dA, dHz }
  */
 export function ringRun({ center = 'single', col = 'grav', self = 'none', gamma = 0, spin = DECL.ring.spin, n = DECL.ring.n, orbits = 20, stepsPerOrbit = 400, seed = 1 }) {
   if (!RING_COLS.includes(col)) throw new RangeError('ringRun: 列は ' + RING_COLS.join('・'));
-  if (!['none', 'B'].includes(self)) throw new RangeError('ringRun: 自己の重みの読みは none・B');
-  const P = ringInit({ n, seed }), useT = col.includes('T'), useR = col.includes('R'), useA = col.includes('A'), R = DECL.ring;
-  const mE = R.massRing / n, e2 = R.epsRing * R.epsRing, sw = self === 'B' ? ringSelfB(n) : 0;
+  if (!['none', 'B', 'K9'].includes(self)) throw new RangeError('ringRun: 自己の重みの読みは none・B・K9');
+  const P = ringInit({ n, seed }), useT = col.includes('T'), useR = col.includes('R'), useA = col.includes('A'), useX = col === 'X1' || col === 'X2' ? col : null, R = DECL.ring;
+  const mE = R.massRing / n, e2 = R.epsRing * R.epsRing, sw = self === 'B' ? ringSelfB(n) : self === 'K9' ? R.Kdom : 0;
+  let wMin = Infinity, wMax = -Infinity, wEq = 0, nEq = 0;
   const ax = new Float64Array(n), ay = new Float64Array(n), az = new Float64Array(n), Wp = new Float64Array(n);
   let bMin = Infinity, bMax = -Infinity;
   const acc = (t) => {
@@ -476,6 +492,12 @@ export function ringRun({ center = 'single', col = 'grav', self = 'none', gamma 
       if (beta < bMin) bMin = beta; if (beta > bMax) bMax = beta;
       if (useT) { gx += gamma * (Ux / den - P.vx[k] * beta); gy += gamma * (Uy / den - P.vy[k] * beta); gz += gamma * (Uz / den - P.vz[k] * beta); }   // d = Σw(c − v)/(w_self + Σw)
       if (useR) { const Rr = Math.hypot(P.x[k], P.y[k]); if (Rr > 0) { const V = t1Twist({ rho: Rr, z: P.z[k], sd: spin, beta }).par; gx += gamma * V * (-P.y[k] / Rr); gy += gamma * V * (P.x[k] / Rr); } }
+      if (useX) {   // 軸引きずり: 連星は重心の 1 つの源(質量 1・自転 s)とみなして ω_ax を出す(宣言 —— 近似)
+        const o = axialOmega([P.x[k], P.y[k], P.z[k]], spin, 1, sw, useX), Rr = Math.hypot(P.x[k], P.y[k]), Oc = Math.pow(Rr, -1.5);
+        const ux = P.vx[k] + Oc * P.y[k], uy = P.vy[k] - Oc * P.x[k], uz = P.vz[k];
+        gx += R.cAx * (o[1] * uz - o[2] * uy); gy += R.cAx * (o[2] * ux - o[0] * uz); gz += R.cAx * (o[0] * uy - o[1] * ux);
+        if (o[2] < wMin) wMin = o[2]; if (o[2] > wMax) wMax = o[2]; wEq += o[2]; nEq++;
+      }
       ax[k] = gx; ay[k] = gy; az[k] = gz;
     }
     if (useA) {
@@ -501,7 +523,7 @@ export function ringRun({ center = 'single', col = 'grav', self = 'none', gamma 
   }
   const slope = (key) => { const ys = perOrbit.map((o) => Math.log(o[key])), xs = perOrbit.map((_, i) => i), nX = xs.length, mx = xs.reduce((a, b) => a + b, 0) / nX, my = ys.reduce((a, b) => a + b, 0) / nX; let sxy = 0, sxx = 0; for (let i = 0; i < nX; i++) { sxy += (xs[i] - mx) * (ys[i] - my); sxx += (xs[i] - mx) ** 2; } return sxy / sxx; };
   const L = perOrbit[perOrbit.length - 1], F0 = perOrbit[0];
-  return { perOrbit, rateE: slope('sigE'), rateI: slope('sigI'), betaMin: bMin, betaMax: bMax, dA: L.aMean - F0.aMean, dHz: L.hzMean - F0.hzMean, ratioE: L.sigE / F0.sigE, ratioI: L.sigI / F0.sigI };
+  return { perOrbit, rateE: slope('sigE'), rateI: slope('sigI'), betaMin: bMin, betaMax: bMax, dA: L.aMean - F0.aMean, dHz: L.hzMean - F0.hzMean, omegaZ: nEq ? { min: wMin / spin, max: wMax / spin, mean: wEq / nEq / spin } : null, ratioE: L.sigE / F0.sigE, ratioI: L.sigI / F0.sigI };
 }
 
 /* ───────── 純関数の場面(門) ───────── */
@@ -599,7 +621,9 @@ export function pureScenes() {
     U = U.map((x) => x / (sw + Ws));
     const G = integratedField({ at: p, sources: C.map((c) => ({ p: c.p, v: c.v, s: [0, 0, spin], m: c.m })), alpha: 2, rRef: 1, selfW: sw });
     const beta = Ws / (sw + Ws), V = t1Twist({ rho: Math.hypot(p[0], p[1]), z: p[2], sd: spin, beta }).par;
-    S.ringLib = { maxRel: Math.max(...U.map((x, k) => Math.abs(x - G.U[k]) / Math.max(Math.abs(G.U[k]), 1e-300))), twist: Math.abs(V - beta * spin * p[2]) };
+    const pa = [0.83, 0.31, 0.22], Ka = 2.5, oX2 = axialOmega(pa, spin, 1, Ka, 'X2'), Ga = integratedField({ at: pa, sources: [{ p: [0, 0, 0], v: [0, 0, 0], s: [0, 0, spin], m: 1 }], alpha: 2, rRef: 1, selfW: Ka });
+    const axRel = Math.max(...oX2.map((x, k) => Math.abs(x - Ga.omega[k]) / Math.max(Math.hypot(...Ga.omega), 1e-300)));
+    S.ringLib = { axRel, maxRel: Math.max(...U.map((x, k) => Math.abs(x - G.U[k]) / Math.max(Math.abs(G.U[k]), 1e-300))), twist: Math.abs(V - beta * spin * p[2]) };
   }
   // ⑨ k 近傍の密度(Plummer N 4096 —— 半質量の半径の殻 0.9〜1.4 の要素の推定 ÷ 解析の中央値)
   {
@@ -628,7 +652,7 @@ export function pureGates(S) {
     quad: S.quad.maxRel <= 1e-6,
     selfB: S.selfB.maxRel <= 1e-10 && S.selfB.lim <= 1e-15,
     pi: S.pi.dE <= 1e-3 && S.pi.Kgain > 0 && S.pi.px <= 1e-13,
-    ringLib: S.ringLib.maxRel <= 1e-12 && S.ringLib.twist <= 1e-15,
+    ringLib: S.ringLib.maxRel <= 1e-12 && S.ringLib.twist <= 1e-15 && S.ringLib.axRel <= 1e-12,
     knn: S.knn.n > 100 && S.knn.med > 0.8 && S.knn.med < 1.25,
     reject: S.reject.n === S.reject.of,
   };
