@@ -40,6 +40,9 @@ import { CHARON_INPUT_VERSION, OLD_INPUT, TARGETS, definitionMixAudit, oldUnitsP
 //   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
 //   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
+import { jr337fRead, jr337fMeta } from './lib-w337f-jsonread.mjs';   // 第337便f(AN702・R342): 上流の正本を読む経路を記録して meta.jsonRead337f へ(計画は読む経路の部分木で再利用を判定)
+// 第337便f(AN702・R342): 上流の正本の読む経路の宣言(calaudit の 🥶 と ❄️ の量の行 —— id で引く・❄️ は無くてよい(無いことも指紋に入る) —— 器が実際に読んだ経路は meta.jsonRead337f.rows[].readPaths・宣言の外を読めば QA lint.jsonPathInputs337f が FAIL)
+const JSON_READ_337F = [{"file":"tests/out/calaudit-w249.json","keyed":{"/presets":"id"},"paths":["/presets/plutoCharonDiagInput/quantities","/presets/plutoCharonReal/quantities"],"optional":["/presets/plutoCharonReal/quantities"]}];
 const REGEN_SCOPE = {"presets":["plutoCharonDFM","plutoCharonDiagInput","plutoCharonKF0Control","plutoCharonReal","plutoCharonSyncZero"],"roots":["$","HP.allPresets","HP.dfmRelativeDragStep","HP.relativeDragProbe","HP.sim","HP.validatePreset","SCALE_DIMS","T","applyQLock","ch","clamp","ctx","cv","dfmRelativeDragStep","isNum","validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -95,7 +98,7 @@ const HAS291B = HTML_TEXT_W291.indexOf('function pnOrbitalSource(') >= 0;
 const PN1_SOURCE_CONTRACT = (HTML_TEXT_W291.match(/const PN1_EIH_VERSION="([^"]+)"/) || [])[1] || null;
 const CHARON_FORMAL_HISTORY = HAS291B ? CHARON_FORMAL_HISTORY_W291 : CHARON_FORMAL_HISTORY_W289;
 try {
-  const ca = JSON.parse(fs.readFileSync(CALAUDIT, 'utf8'));
+  const ca = jr337fRead(ROOT, JSON_READ_337F[0]).data;   // 第337便f: 読む経路を記録(sha256 の来歴は下でファイルのバイトから)
   const pc = ca.presets.find((p) => p.id === 'plutoCharonReal');
   const row = pc ? pc.quantities.find((q) => q.kind === 'period' && q.version === 'obs') : null;
   if (!pc) {
@@ -478,13 +481,13 @@ const meta = withProvenance({
   wallSec: (Date.now() - T0) / 1000,
 }, { root: ROOT, wave: '第280便d', target: TARGET,
   code: ['tests/exp-w280d-charonInput.mjs', 'tests/lib-w280d-charoninput.mjs', 'tests/lib-w277b-charondfm.mjs',
-    'tests/lib-w276b-units.mjs', 'tests/lib-w276b-charonfactors.mjs', 'tests/lib-w272e-provenance.mjs'],
+    'tests/lib-w276b-units.mjs', 'tests/lib-w276b-charonfactors.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w337f-jsonread.mjs'],
   inputs: [TARGET, 'tests/out/calaudit-w249.json'] });
 const out = { meta, audit, factors, cleaned, sameDef, zero, pageErrors,
   runsSummary: Object.fromEntries(Object.entries(runs).map(([k, r]) => [k, { dt: r.dt, steps: r.steps, stop: r.stop,
     periodsA: r.periodsA, periodsB: r.periodsB, err: r.err || r.errors || null, wallMs: r.wallMs }])) };
 fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
-Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));   // 第281便a: 領域 hash の 3 欄 + JSON 入力の安定 hash
+Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs), jr337fMeta());   // 第337便f: 読む経路の刻印 / 第281便a: 領域 hash の 3 欄 + JSON 入力の安定 hash
 fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 1));
 try { fs.unlinkSync(OUT_PATH + '.partial'); } catch { /* 無ければよい */ }
 console.log('wrote', path.relative(ROOT, OUT_PATH), 'sha256', sha(fs.readFileSync(OUT_PATH)).slice(0, 16), 'wall', meta.wallSec, 's');

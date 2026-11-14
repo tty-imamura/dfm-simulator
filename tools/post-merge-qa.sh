@@ -938,6 +938,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.mercuryband337b docs.mercuryband337
 #   純関数の場面・T1 の行・長い走行の 1 本・5 系の上限を作り直して正本と同じ / docs.accelloss337d —— 正本の門と表 9 本が PHYSICS〔第337便d〕に逐語・文書)と、新しい段 accelloss-337d の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.accelloss337d docs.accelloss337d docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
 # ==== 第337便d の塊(ここまで)====
+# ==== 第337便f の塊(ここから)====
+# 第337便f(原仮定者の指示(恒久)「サンプルの変更だけでは、全行程を再実行しない」・決断事項 AN702・AN709・統括の検証項目 R342 —— 道具と QA だけ・html は変えない):
+#   入力の指紋を読む部分(JSON の経路 —— 器の JSON_READ_337F と meta.jsonRead337f)に絞る・id の列で読む関数の読みの宣言・文を読む段(器 pairnorm の ACCEPT_REASONS)。
+#   枝 f の新設 3 本(lint.jsonPathInputs337f・lint.pairnormTextRead337f・docs.regenPaths337f)と、計画と刻印と鎖の道具を読む lint の一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.jsonPathInputs337f lint.pairnormTextRead337f docs.regenPaths337f lint.regenScope lint.stableHashPaths lint.regenChain lint.scopeAll312 lint.scopeStop lint.regenTools312 lint.toolStamp318 lint.toolCheckProv330c lint.physKeysGuard330c lint.provenanceMeta lint.canon303 lint.canon304 docs.charonAudit305 lint.symbols333e lint.kappaSymbol315 docs.w320d lint.sectionLookup313"
+# ==== 第337便f の塊(ここまで)====
 # ==== 第337便h の塊(ここから)====
 # 第337便h(統括の検証項目 R344 —— 道具と QA だけ・html は変えない): 第336便の post-merge は ① の途中でコンテナが再起動し(472/529 鍵)、root を対象にしても
 #   beta の正本を読む鍵(docs.emgrid-sync)が root の対象で落ちてゲートが 1 回止まった。

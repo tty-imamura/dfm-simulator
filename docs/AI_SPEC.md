@@ -5038,6 +5038,13 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **AI が書くとき**: どれも候補の型(慣性移動の則ではない)・ノブの上限は観測の目安(文献の値・未照合・桁の目安)との比 —— 「慣性移動は減る」「連星の縮みの機構」と書かない。電磁波の抵抗は第138報の例え。行き着く先の走行は拡大したノブの数の表(このノブの組では u = 0 に達した走行は無い)。供給の式は枝 a・ロックの式は枝 c の題。
 - QA `behavior.accelloss337d`(純関数の場面 8・T1 の求積と閉じた式と数値・長い走行 2 本・5 系の上限を作り直して正本と同じ)・`docs.accelloss337d`(表 9 本が PHYSICS〔第337便d〕に逐語・書かない語)。root の対象では SKIP。
 
+
+## 234. 第337便f —— 入力の指紋を読む部分(JSON の経路)に絞る・本の表を全部回す関数の読みの宣言・文を読む段(原仮定者の指示(恒久)「サンプルの変更だけでは、全行程を再実行しない」・決断事項 AN702・AN709・統括の検証項目 R342・**道具と QA と文書だけ** —— html・本の宣言・エンジン・受理器・`S._core`・physics の鍵・物理の正本の値は不変・**SYSTEM_PROMPT には載せない**)
+- **経路の指紋**: 器は上流の正本の読む経路を本文の `const JSON_READ_337F = [...]` に宣言し、`tests/lib-w337f-jsonread.mjs` の `jr337fRead` で読み、正本の `meta.jsonRead337f` に経路の部分木の指紋と実際に読んだ経路を残す。計画と QA は、ファイルが変わっても読む経路の部分木が同じなら再利用にする。経路が無い・型が違う・id の重複や欠け・位置で読む配列の並べ替え・宣言の外の読みは**走らせる側**へ倒す。宣言を足した器は次の鎖で 1 回作り直す(`node tools/jsonpaths337f.mjs --compare <鎖の前の rev>` で物理の値が同じことを記録)。
+- **id の列の読み**: `inPositionK1State`(列 `IN_POSITION_K1_IDS`)・`auditRows`(列 `AUDIT_FAMILY`)は列の本だけで守りを照合する(`tests/lib-w330c-toolguard.mjs` の `REG_READS_337F`)。
+- **文を読む段**: 器 pairnorm の領域の consts に `ACCEPT_REASONS`(正本が受理の理由の文を写す)。同じ型の段 49(宣言なし)は段ごとに決める。
+- QA `lint.jsonPathInputs337f`・`lint.pairnormTextRead337f`・`docs.regenPaths337f`(本節と PHYSICS〔第337便f〕・CHANGELOG・tools/README.md・post-merge)。
+
 ## 236. 第337便h —— 受け入れの道具: ① 静的受理の鍵ごとの済み印と続きから・本便で直した鍵を root の対象へ・root の旧い E0 を凍結の入力で・名残りの lint を 1 本に・種類の印の境界の 3 鍵(統括の検証項目 R344・**道具と QA と文書だけ** —— html・本の宣言・エンジン・受理器・`S._core`・physics の鍵は不変・判定は変えない・**SYSTEM_PROMPT には載せない**)
 - **何が起きたか**: 第336便の受け入れは ① 静的受理(`tests/qa-preflight.mjs`)の途中でコンテナが再起動し、済みの鍵を手で数えて継いだ。root を対象にしても beta の正本を読む鍵(`docs.emgrid-sync`)が root の対象で落ちてゲートが 1 回止まった。段を履歴へ回したときの名残りと fitRecord の標的と記録の食い違いは、別々の鍵の印のない FAIL として出た。
 - **道具**: `tests/qa-preflight.mjs --resume <dir>` は鍵(最上位の試験の文)ごとの結果を終わるたびに追記し、契約(対象の html・`tests/qa.mjs` と preflight の指紋・鍵の一覧・Node の版・環境変数・作業の木)が同じときだけ続きから回す(違えば最初から・理由を 1 行)。`--remaining <dir>` は済んでいない qa.mjs の鍵(preflight.* は入れない)。`tools/post-merge-qa.sh` は ① に `--resume "$LOG/1-ckpt"` を渡し、`--resume <前のログの置き場>` で続き・④ の root の集合に本便で直した鍵を足す(`--base-rev`・`tests/lib-w337h-postmerge.mjs`)。

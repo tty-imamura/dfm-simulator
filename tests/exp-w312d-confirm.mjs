@@ -52,6 +52,7 @@ import { fileURLToPath } from 'node:url';
 import { loadHtmlMain } from './lib-w280b-emgrid.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
+import { jr337fRead, jr337fMeta } from './lib-w337f-jsonread.mjs';   // 第337便f(AN702・R342): 上流の正本を読む経路を記録して meta.jsonRead337f へ(計画は読む経路の部分木で再利用を判定)
 import * as AP from './lib-w304e-apsis.mjs';
 import * as P3 from './lib-w299c-planets3d.mjs';
 import * as AN from './lib-w306a-an336.mjs';
@@ -60,6 +61,8 @@ import * as PL3 from './exp-w311d-planet3.mjs';
 import * as EMX from './exp-w303c-earthmoon.mjs';
 import * as C from './lib-w312d-confirm.mjs';
 import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
+// 第337便f(AN702・R342): 上流の正本の読む経路の宣言(an336 の移送の表 —— id で引く・標的と刻み —— 器が実際に読んだ経路は meta.jsonRead337f.rows[].readPaths・宣言の外を読めば QA lint.jsonPathInputs337f が FAIL)
+const JSON_READ_337F = [{"file":"tests/out/an336-w306a.json","keyed":{"/transfer/table":"id"},"paths":["/transfer/table/*/h","/transfer/table/*/target/a1","/transfer/table/*/target/pn1","/transfer/table/*/target/recordId","/transfer/table/*/target/value"]}];
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 第319便c(R260): tests/lib-w299c-planets3d.mjs の allPresets() を .find で直に引く形にしたので presets は名指しの本 —— 下限 ∪ 器が読む凍結の写しの本)
 const REGEN_SCOPE = {"presets":["earthMoonOnly3d","earthMoonSunInertial3d","earthMoonSunInertialFit","jupiterGalilean","jupiterSunInertial3d","marsMoonsReal","marsSunInertial3d","mercury","mercuryReal","mercurySunInertial3d","mercurySunInertialFit","neptuneReal","neptuneSunInertial3d","plutoCharonInertialFit","saturn","saturnRingReal","saturnSunInertial3d","uranusReal","uranusSunInertial3d","venusReal","venusSunInertial3d"],"roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.FIT_COND_VERSION","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragIsqState","HP.inertialDragState","HP.sim","HP.validateFitRecord","HP.validatePreset","T","ab","ch","ctx","cw","dfmGaussLegendre01","dfmInertialDragStep","dragCoreAngular","dragCoreAvgK","dragCoreLookup","dragCoreTableBuild","fmt","inertialDragNormApply","pnSource","relDragCoefficientOf","validateFitRecord"],"core":true,"consts":[],"complete":true,"keepProse":["familyRole"]};
 
@@ -249,7 +252,7 @@ const qOf = (E, sys, kind, rk, kern, div, ex) => { const r = E.rows[specKey({ sy
 export const EXTRACT = Object.freeze({ jupiter: Object.freeze({ main: 'apsNew', sub: 'detB' }), earthmoon: Object.freeze({ main: 'emb', sub: 'earth' }) });
 export function targetTable(HP) {
   const recs = AN.readRecords(ROOT), out = {};
-  let live = null; try { live = JSON.parse(fs.readFileSync(path.join(ROOT, AN336_OUT), 'utf8')).transfer.table; } catch (e) { live = null; }
+  let live = null; try { live = jr337fRead(ROOT, JSON_READ_337F[0]).data.transfer.table; } catch (e) { live = null; }   // 第337便f: 読む経路を記録
   for (const s of C.SYSTEMS) {
     const base = baseOf(HP, s.key), t = C.targetOf(ROOT, s.key, base, recs), L = live && s.key === 'jupiter' ? live.find((z) => z.id === s.id) : null;
     out[s.key] = Object.assign({ id: s.id }, t, { gLocAnalytic: C.gLocAnalyticOf(s.key, base), h: hOf(s.key, base),
@@ -513,13 +516,13 @@ export async function main() {
     invSqVersion: HP.REL_DRAG_INVSQ_VERSION || null, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w312d-confirm.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w312d-confirm.mjs', 'tests/exp-w311d-planet3.mjs', 'tests/lib-w311d-planet3.mjs', 'tests/exp-w303c-earthmoon.mjs', 'tests/lib-w306a-an336.mjs',
-    'tests/lib-w304e-apsis.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+    'tests/lib-w304e-apsis.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w337f-jsonread.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第313便d', target: TARGET, code: CODE,
     inputs: [TARGET, LEGACY7_DATA_FILE, PL3.DECL_FILE, PLANET3_OUT, AN336_OUT, AN.CANDIDATE_FILE, AN.AUDIT_FILE] }), {
     harnessVersion: HARNESS_VERSION,
     engine: 'Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W312D_WORKERS)',
     notClaim: NOT_CLAIM });
-  Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));
+  Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs), jr337fMeta());   // 第337便f: 読む経路の刻印
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, JSON.stringify(out, null, 1) + '\n');
   const S = out.C && out.C.systems ? Object.fromEntries(Object.entries(out.C.systems).map(([k, v]) => [k, { r: v.r, band: v.band, verdict: v.verdict }])) : null;
