@@ -376,6 +376,7 @@ export function mutateHtml330c(htmlText) {
  * physics の鍵の集合の守りの計画の上の自己試験(QA lint.physKeysGuard330c ②③): 名指しの段 n(projectile・閉包は fastParams を持つ)と u(+ 宣言の表に無い読み inPositionK1State)を
  * 今の html で刻み、計画の候補の html を K(名指しでない本に鍵を足す)/ V(値だけ)にして planRegen —— K: n・u regen(physKeys)/ V: n reuse・u regen(tableRead)/
  * K で守りを切る(physKeys:false): n reuse(守りが無いと危ない reuse)。
+ * 第337便f(R342): u の読み inPositionK1State は id の列の読み —— V(列の外の本)は u reuse・V2(列の本 🌡️ の G)は u regen(tableRead)。
  */
 export async function physKeysPlanSelfTest330c(root, o) {
   const RT = await import('./lib-w281a-regentable.mjs');
@@ -405,11 +406,15 @@ export async function physKeysPlanSelfTest330c(root, o) {
       steps.push({ key: 'w330c-pk-' + k, cmd: 'node tests/exp-w330cN.mjs', outs: [out], sec: 1, secSource: 'w330c-selftest' });
     }
     const run = (html, pk) => { const p = RT.planRegen({ root: tmp, steps, html, baseHtml: real, orderOnly: false, htmlPhys: false, scopeMigrate: false, physKeys: pk }); return Object.fromEntries(p.steps.map((z) => [z.key.replace('w330c-pk-', ''), (z.ownStatus) + (z.causeKinds && z.causeKinds.length ? ':' + z.causeKinds.join('+') : '')])); };
-    const rK = run(fK, true), rV = run(fV, true), rKoff = run(fK, false), r0 = run(real, true);
-    const want = { K: { n: 'regen:physKeys', u: 'regen:physKeys' }, V: { n: 'reuse', u: 'regen:tableRead' }, Koff: { n: 'reuse', u: 'reuse' }, same: { n: 'reuse', u: 'reuse' } };
-    const got = { K: rK, V: rV, Koff: rKoff, same: r0 };
+    // 第337便f(R342): inPositionK1State は id の列の読み(REG_READS_337F)—— 値だけの写し V(列の外の 🧊 ❄️ の m)では u は走らない・列の本(🌡️ の G の末の桁)を変えた写し V2 で u が tableRead
+    const mV2 = /id:"mercurySunInertial3d"[\s\S]{0,20000}?physics:\{coord:"3d", G:6\.674/.exec(text);
+    const fV2 = path.join(tmp, 'V2.html');
+    if (mV2) fs.writeFileSync(fV2, text.slice(0, mV2.index) + mV2[0].slice(0, -1) + '5' + text.slice(mV2.index + mV2[0].length)); else bad.push('③ V2 の写し(🌡️ の G)が作れない');
+    const rK = run(fK, true), rV = run(fV, true), rKoff = run(fK, false), r0 = run(real, true), rV2 = mV2 ? run(fV2, true) : { n: null, u: null };
+    const want = { K: { n: 'regen:physKeys', u: 'regen:physKeys' }, V: { n: 'reuse', u: 'reuse' }, V2: { n: 'reuse', u: 'regen:tableRead' }, Koff: { n: 'reuse', u: 'reuse' }, same: { n: 'reuse', u: 'reuse' } };
+    const got = { K: rK, V: rV, V2: rV2, Koff: rKoff, same: r0 };
     for (const [c, w] of Object.entries(want)) for (const [k, v] of Object.entries(w)) if (got[c][k] !== v) bad.push(`③ ${c} の ${k}: ${got[c][k]}(期待 ${v})`);
-    cases.push(`③ 計画: 鍵を足した写し K → n ${rK.n}・u ${rK.u} / 値だけの写し V → n ${rV.n}・u ${rV.u} / K で守りを切る → n ${rKoff.n}(守りが無いと危ない reuse)/ 同じ html → n ${r0.n}・u ${r0.u}`);
+    cases.push(`③ 計画: 鍵を足した写し K → n ${rK.n}・u ${rK.u} / 値だけの写し V(id の列の外の本)→ n ${rV.n}・u ${rV.u} / 列の本の写し V2 → n ${rV2.n}・u ${rV2.u}(第337便f) / K で守りを切る → n ${rKoff.n}(守りが無いと危ない reuse)/ 同じ html → n ${r0.n}・u ${r0.u}`);
   } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
   finally { try { fs.rmSync(tmp, { recursive: true, force: true }); } catch { /* 残っても害は無い */ } }
   return { ok: bad.length === 0, bad, cases };

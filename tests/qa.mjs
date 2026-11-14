@@ -104368,7 +104368,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         }
         cases.push('④ 🌘 の D0pull の末の桁: ' + rows4.join(' / '));
       }
-      const fMer = mut(/id:"mercurySunInertial3d"[\s\S]{0,4000}?physics:\{G:(6\.674)/, 'mercury');
+      const fMer = mut(/id:"mercurySunInertial3d"[\s\S]{0,20000}?physics:\{coord:"3d", G:(6\.674)/, 'mercury');
       if (fMer) {
         const fpH = TG337f.htmlKeysOf330c(fMer, { tmpDir: tmp });
         if (!(fpH.idLists && fpH.idLists.inPositionK1State.ok && fpH.idLists.inPositionK1State.sha !== il.inPositionK1State.sha)) bad.push('④ 🌡️ の写しで inPositionK1State の列の指紋が変わらない(列の本の変更を見落とす)');
