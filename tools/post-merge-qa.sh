@@ -949,6 +949,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.tidelock337c docs.tidelock337c docs
 #   純関数の場面・T1 の行・長い走行の 1 本・5 系の上限を作り直して正本と同じ / docs.accelloss337d —— 正本の門と表 9 本が PHYSICS〔第337便d〕に逐語・文書)と、新しい段 accelloss-337d の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.accelloss337d docs.accelloss337d docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
 # ==== 第337便d の塊(ここまで)====
+# ==== 第337便e の塊(ここから)====
+# 第337便e(原仮定者の指示(2026-11-14 —— 第138報)・統括の検証項目 R341 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.fluid337e —— 純関数の場面〔1 要素 → 4 分割のビット同一・
+#   row の積分器が第335便f の integrate と同一〕・T1 の N 256 の行と T2 の 2 本と環の 1 本の作り直し・解析の作り直し・保存する型の帳簿・N の依存の桁 / docs.fluid337e —— 正本の門と表が
+#   PHYSICS〔第337便e〕に逐語・文書)と、新しい段 fluid-337e の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.fluid337e docs.fluid337e docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
+# ==== 第337便e の塊(ここまで)====
 # ==== 第337便f の塊(ここから)====
 # 第337便f(原仮定者の指示(恒久)「サンプルの変更だけでは、全行程を再実行しない」・決断事項 AN702・AN709・統括の検証項目 R342 —— 道具と QA だけ・html は変えない):
 #   入力の指紋を読む部分(JSON の経路 —— 器の JSON_READ_337F と meta.jsonRead337f)に絞る・id の列で読む関数の読みの宣言・文を読む段(器 pairnorm の ACCEPT_REASONS)。
