@@ -926,6 +926,11 @@ unmarked336b() {   # $1 = ログ・$2 = 一覧のファイル・$3 = 段の印(�
   node "$ROOT/tests/lib-w336b-unmarked.mjs" --unmarked "$1" --out "$2" --label "$3" 2>/dev/null || echo "・‼ $3 の印のない FAIL の一覧が作れない(ログ $1 を 1 行ずつ読むこと)"
 }
 # ==== 第336便b の塊(ここまで)====
+# ==== 第337便b の塊(ここから)====
+# 第337便b(原仮定者の指示(2026-11-14 —— 第138報)・統括の検証項目 R338 —— 水星の赤道帯: 幾何の表・寄与の分解・赤道帯の回転の候補のノブの格子・持ち出し・積分器): 枝 b の新設 2 本
+#   (behavior.mercuryband337b —— html を読まない・恒等式と作り直し / docs.mercuryband337b —— 正本の門と表が PHYSICS〔第337便b〕に逐語・文書)と、新しい段 mercuryband-337b の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.mercuryband337b docs.mercuryband337b lint.regenScope lint.stableHashPaths lint.provenanceMeta lint.symbols333e lint.kappaSymbol315 docs.w320d lint.sectionLookup313"
+# ==== 第337便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

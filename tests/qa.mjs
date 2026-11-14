@@ -104298,6 +104298,162 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第336便b の塊(ここまで)====
 
+// ==== 第337便b の塊(ここから —— behavior.mercuryband337b・docs.mercuryband337b の 2 ブロック。root は SKIP)====
+// ---- 第337便b(原仮定者の指示(2026-11-14 —— 第138報)「赤道面に近付くにつれて、引きずりで回転量が順方向に増す」「並進引きずりと、回転引きずりの、それぞれの近点移動への影響を精査する」・
+// ----   探索の方針(第138報)・統括の検証項目 R338): **水星の赤道帯の純関数と器**(新設 —— 器 tests/exp-w337b-mercuryband.mjs・lib tests/lib-w337b-mercuryband.mjs・
+// ----   文書の lib tests/lib-w337b-mercurybanddoc.mjs・正本 tests/out/mercuryband-337b.json。html・本の宣言・エンジン・受理器は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.mercuryband337b(html を読まない —— 正本と照合): ① 幾何の表の恒等式(高さの比 = (1 − e)/(1 + e)・4 天体)② 並進の和 = K1・閉じ・今の組 = 1PN
+// ----     ③ 帯の候補のノブ 0(λ_B = 0)で率が 0 ④ 一次と時間積分の差の桁(5% の内)⑤ 幾何・分解・格子の係数・持ち出しを lib から作り直して正本と相対 1e-9 の内 ⑥ 作り直した門
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む
+  const wHarn = path.join(ROOT, 'tests', 'exp-w337b-mercuryband.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w337b-mercuryband.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w337b-mercurybanddoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'mercuryband-337b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.mercuryband337b(第337便b の水星の赤道帯の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  let X = null, L = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── behavior.mercuryband337b ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/mercuryband-337b.json が読めない');
+    else {
+      try {
+        const deep = (a, b, sc) => { if (typeof a === 'number' && typeof b === 'number') return a === b ? 0 : (!Number.isFinite(a) || !Number.isFinite(b)) ? Infinity : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b), Math.abs(sc), 1e-300);
+          if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') return a === b ? 0 : Infinity;
+          const ka = Object.keys(a), kb = Object.keys(b); if (ka.length !== kb.length) return Infinity; let d = 0; for (const k of ka) d = Math.max(d, deep(a[k], b[k], sc)); return d; };
+        // ① 幾何の表の恒等式
+        const G = X.partGeometry(), badG = G.filter((g) => !(Math.abs(g.heightRatio - (1 - g.e) / (1 + g.e)) <= 1e-12 * g.heightRatio));
+        if (badG.length || G.length !== 4) bad.push('① 高さの比 ≠ (1 − e)/(1 + e): ' + badG.map((g) => g.key).join(','));
+        const dG = Math.max(...G.map((g, i) => deep(g, J.geometry[i], 1e-30)));
+        if (!(dG <= 1e-9)) bad.push(`① 幾何の表を作り直して正本と違う(相対 ${dG})`);
+        cases.push(`① 幾何 ${G.length} 天体(水星の高さの比 ${G[0].heightRatio.toFixed(4)} = (1 − e)/(1 + e)・交点の真近点角 ${G[0].asc.fDeg.toFixed(2)}°・${G[0].desc.fDeg.toFixed(2)}°)が正本と相対 1e-9 の内`);
+        // ② 並進の和 = K1・閉じ・今の組 = 1PN
+        const S = L.systemOfLit('merc'), D = X.partDecomp(S), now = D.sums.find((q) => q.key === 'now');
+        if (!(Math.abs(D.transOverK1 - 1) <= 1e-5 && D.closure <= 1e-9 && Math.abs(now.overQ - 1) <= 1e-3)) bad.push(`② 並進の和 ÷ K1 ${D.transOverK1}・閉じ ${D.closure}・今の組 ÷ q_1PN ${now.overQ}`);
+        const sc2 = Math.abs(D.rows.trans.apsW);
+        const dD = Math.max(...Object.keys(D.rows).map((k) => deep(D.rows[k], J.mercury.decomp.rows[k], Math.max(Math.abs(D.rows[k].apsW || 0), D.rows[k].Lmag, 1e-9 * sc2))), deep(D.sums, J.mercury.decomp.sums, D.q1cy));
+        if (!(dD <= 1e-9)) bad.push(`② 分解を作り直して正本と違う(相対 ${dD})`);
+        cases.push(`② 並進の動径 ${D.rows.transRadial.apsW.toFixed(2)}・接線 ${D.rows.transTangent.apsW.toFixed(2)}・和 ${D.rows.trans.apsW.toFixed(2)} = K1(比 ${D.transOverK1.toFixed(6)})・今の組 ÷ q_1PN ${now.overQ.toFixed(4)}・正本と相対 1e-9 の内`);
+        // ③ ノブ 0
+        const sp0 = { type: 'vel', H: { kind: 'Rsun', mult: 1 }, q: 2, p: 1, speed: 'obs', dir: 'phi', lambda: 0 }, R0 = L.contribRates(S, L.bandEffect(S, sp0));
+        const sp0r = { ...sp0, type: 'rel' }, R0r = L.contribRates(S, L.bandEffect(S, sp0r));
+        if (!(R0.apsW === 0 && R0.LdotMag === 0 && R0.dlnA === 0 && R0r.apsW === 0 && R0r.LdotMag === 0)) bad.push('③ λ_B = 0 で率が 0 でない');
+        cases.push('③ 帯の候補のノブ 0(λ_B = 0 —— 速度の場・相対の速度)で率が 0(今の組と同じ)');
+        // ④ 一次と時間積分の差の桁
+        const IG = J.mercury.integ;
+        if (!(IG.rows.length >= 1 && IG.rows.every((q) => q.relDiff <= 0.05 && q.stepSpread <= 1e-6))) bad.push('④ 一次と時間積分の差が 5% を超えるか刻みの差が 1e-6 を超える');
+        cases.push(`④ 一次と時間積分の差 ÷ 一次 ${IG.rows.map((q) => q.relDiff.toExponential(1)).join('・')}(5% の内)・刻みの差 ${IG.rows.map((q) => q.stepSpread.toExponential(1)).join('・')}`);
+        // ⑤ 格子の係数と持ち出し
+        const SC = X.partScan(S, D);
+        let dS = SC.rows.length === J.mercury.scan.rows.length ? 0 : Infinity;
+        SC.rows.forEach((r, i) => { const q = J.mercury.scan.rows[i] || {}; if (r.key !== q.key) dS = Infinity; dS = Math.max(dS, deep(r.unit, q.unit, Math.max(Math.abs(r.unit.apsW), r.unit.Lmag))); r.replace.forEach((z, k) => { if (z.match !== ((q.replace || [])[k] || {}).match) dS = Infinity; }); });
+        dS = Math.max(dS, deep(SC.summary, J.mercury.scan.summary, 1));
+        if (!(dS <= 1e-9)) bad.push(`⑤ 格子を作り直して正本と違う(相対 ${dS})`);
+        const reps = X.pickReps(SC), CA = X.partCarry(reps), dC = deep(CA.map((c) => c.reps.map((r) => [r.bandApsW, r.totalOverQ])), J.carry.map((c) => c.reps.map((r) => [r.bandApsW, r.totalOverQ])), 1e-9);
+        if (!(dC <= 1e-9)) bad.push(`⑤ 持ち出しを作り直して正本と違う(相対 ${dC})`);
+        const mg = SC.summary.find((q) => q.key === 'gloc');
+        cases.push(`⑤ 格子 ${SC.rows.length} 行(G_loc を候補で置き換える組の合う行 ${mg.match})・持ち出し ${CA.length} 天体 × ${reps.length} 組が正本と相対 1e-9 の内`);
+        // ⑥ 作り直した門
+        const J2 = Object.assign({}, J, { geometry: G, mercury: Object.assign({}, J.mercury, { decomp: D, scan: SC }), carry: CA, pure: { scenes: L.pureScenes(), gates: L.pureGates(L.pureScenes()) } }), G2 = X.gatesOf(J2);
+        if (!Object.values(G2).every((v) => v === true)) bad.push('⑥ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`⑥ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.mercuryband337b', bad.length === 0,
+      `**水星の赤道帯の作り直し**(第337便b・原仮定者の指示(2026-11-14 —— 第138報)・R338 —— html を読まない・候補の一次の率と判定の物差しとの比): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第337便b: docs.mercuryband337b は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の上限に behavior を数えない)。世代切替は上と同じ
+// ----   docs.mercuryband337b(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib)・宣言(yardstick・decl・plan・amend)が lib と器と同じで先頭
+// ----     ② 表 14 本が PHYSICS〔第337便b〕に逐語 ③ 節の位置(〔第336便b〕の節の後・統括の第328便の節の前)・必須の語・AI_SPEC §230(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・係数の記号・速度の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {
+  const wHarn = path.join(ROOT, 'tests', 'exp-w337b-mercuryband.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w337b-mercuryband.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w337b-mercurybanddoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'mercuryband-337b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.mercuryband337b(第337便b の水星の赤道帯の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.mercuryband337b ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第337便b — '), ie = PH.indexOf('〔第336便b — '), iz = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && ie >= 0 && ie < i0 && iz > i0)) bad.push('PHYSICS〔第337便b〕が無いか〔第336便b〕の節の前か〔第328便 — 統括〕の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/mercuryband-337b.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.target === X.TARGET && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'mercuryband'
+        && J.meta.target === 'tests/lib-w337b-mercuryband.mjs' && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0)) bad.push('① 版・来歴(target は lib・入力のファイルなし)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.yardstick) !== JSON.stringify(L.DECL.yardstick) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN) || JSON.stringify(J.amend) !== JSON.stringify(X.AMEND)
+        || JSON.stringify(J.literature) !== JSON.stringify(L.LIT) || JSON.stringify(J.notClaim) !== JSON.stringify(X.NOT_CLAIM)) bad.push('① 正本の宣言が lib の DECL・LIT・器の PLAN・AMEND・NOT_CLAIM と違う(器を走らせ直す)');
+      const ks = Object.keys(J);
+      if (!(ks.indexOf('yardstick') >= 0 && ks.indexOf('yardstick') < ks.indexOf('mercury') && ks.indexOf('decl') < ks.indexOf('mercury') && ks.indexOf('plan') < ks.indexOf('mercury'))) bad.push('① 走らせた格子と物差し(yardstick・decl・plan)が正本の先頭に無い');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target は lib・物差しと格子が先頭`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第337便b〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 14) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第337便b〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の指示(2026-11-14 —— 第138報)', 'R338', '探索', '候補', '未較正', 'このノブの組では', 'ノブの表', '何を満たすために足したか', '不用の見込み', '対照', '判定の物差し', '置き換えの組', '順方向', '逆向き',
+      '部分積分の読み', '距離の変化', '二重', '否定対照', '凍結の基準', '統括の参考の試作', '宣言(未接続)', '今のコードの実装', '未照合', '1σ ではない', '宣言の物差し', '合った範囲', '次に足すノブの候補', '走行の後に変えたもの',
+      'tests/exp-w337b-mercuryband.mjs', 'tests/out/mercuryband-337b.json', 'tests/lib-w337b-mercuryband.mjs', 'w337b-mercuryband-lib-1', '第138報への枝の答え', '決断事項の候補', '第338便への引き継ぎ', 'behavior.mercuryband337b', 'docs.mercuryband337b'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第337便b〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 230. 第337便b'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/mercuryband-337b.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('判定の物差し') >= 0 && ai.indexOf('未照合') >= 0 && ai.indexOf('候補') >= 0))
+      bad.push('③ AI_SPEC §230(正本・SYSTEM_PROMPT・判定の物差し・未照合・候補)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl337b = clg.split('\n').find((l) => l.indexOf('**第337便b**') >= 0) || '';
+    if (!(cl337b.indexOf('tests/exp-w337b-mercuryband.mjs') >= 0 && cl337b.indexOf('mercuryband-337b') >= 0 && cl337b.indexOf('原仮定者の指示(2026-11-14 —— 第138報)') >= 0 && cl337b.indexOf('R338') >= 0)) bad.push('③ CHANGELOG の第337便b の行');
+    if (!(/S\('mercuryband-337b', 'node tests\/exp-w337b-mercuryband\.mjs', \['tests\/out\/mercuryband-337b\.json'\]/.test(RT) && RT.indexOf('// ==== 第337便b の塊(ここから)====') >= 0)) bad.push('③ 段の行 mercuryband-337b と塊');
+    if (GI.indexOf('!tests/out/mercuryband-337b.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第337便b の塊(ここから)====') >= 0 && /behavior\.mercuryband337b/.test(PM) && /docs\.mercuryband337b/.test(PM))) bad.push('③ post-merge の ③′ に第337便b の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §230(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /同定した/, /一致した/, /棄却した/, /ので棄却/, /観測の余りに合っ/];
+    const NOT333 = [/\d\s*km\/s/, /D_bg|W_bg|Wbg/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 書かない語(否定の「と書かない」「とは書かない」を除いて —— 逆さの字で持つ): 近点が出た・近点の値が出た・確かめた・示した・説明した・法則・現実の宇宙
+    const W337 = ['たが出が点近', 'たが出が値の点近', 'ためか確', 'たし示', 'たし明説', '宙宇の実現'].map(rvC);
+    const negStrip = (t) => t.replace(/[^。・\n]*?(?:とは|と)書かない/g, '');
+    const K0 = String.fromCodePoint(0x3ba, 0x2080);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));
+    const texts = [['PHYSICS〔第337便b〕', sec], ['AI_SPEC §230', ai], ['CHANGELOG の第337便b の行', cl337b], ['器', rd('tests/exp-w337b-mercuryband.mjs')], ['lib', rd('tests/lib-w337b-mercuryband.mjs')], ['文書の lib', rd('tests/lib-w337b-mercurybanddoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+      const tn = negStrip(tx);
+      for (const w of W337) if (tn.indexOf(w) >= 0) bad.push('④ ' + nm + ' に書かない語(' + w.length + ' 字)');
+      for (const re of NOT333) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・記号 ' + re.source);
+      if (tx.indexOf(K0) >= 0) bad.push('④ ' + nm + ' にカッパに添字 0 の旧い記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) {
+        for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+        if (/κ/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外のカッパ');
+      } else if (/κ/.test(tx)) bad.push('④ ' + nm + ' に係数のカッパ(本枝の器・lib は Y_k・C₁ で書く)');
+    }
+    cases.push('④ 書かない語・禁句・係数の記号・km/s の数の字列(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.mercuryband337b', bad.length === 0,
+      `**水星の赤道帯の文書**(第337便b・原仮定者の指示(2026-11-14 —— 第138報)・R338 —— 候補・探索・未較正・判定の物差しとの比): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();
+}
+// ==== 第337便b の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
