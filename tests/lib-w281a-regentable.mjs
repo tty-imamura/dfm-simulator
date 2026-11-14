@@ -2033,6 +2033,18 @@ export const REGEN_STEPS = [
     note: '第336便a: 🌘 の記録(第297便a —— D0pull 3.14447e-5・初速の係数 0.998777511)の測り直し(恒星月 = 同方向 1〜9 周の 8 間隔・近点回転 = 最初の 8 公転の検出器 B —— h 0.016・h/2 0.008 —— 記録との差と第297便a の門)・'
       + '窓の表(最初の 8・20・27・40・118 公転の近点回転の周期と公転ごとの離心率の代理の最小〜最大 —— 刻み 0.4・0.2・定常の物差し 1%)・kFrame=0 の写しの対照・fitRecord(版 w298b-1 の標的 2 件 —— 本の記録の写し)' }),
   // ==== 第336便a の塊(ここまで)====
+  // ==== 第337便b の塊(ここから)====
+  // ---- 第337便b(原仮定者の指示(2026-11-14 —— 第138報)「赤道面に近付くにつれて、引きずりで回転量が順方向に増す」「並進引きずりと、回転引きずりの、それぞれの近点移動への影響を精査する」・
+  //   探索の方針(第138報)・統括の検証項目 R338): **水星の赤道帯の器**(段 mercuryband-337b —— 正本 tests/out/mercuryband-337b.json・lib tests/lib-w337b-mercuryband.mjs —— 第333便c・第334便c・
+  //   第335便c・第332便a の lib を import して呼ぶ〔code の依存 —— 他の正本は読まない〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w337b-mercuryband.mjs —— 第335便f の型・
+  //   領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第337便b の枝の実測 3〜4 s(一次の率の格子 896 行と RK4 の 3 組 × 刻み 2 —— 間引かない)
+  S('mercuryband-337b', 'node tests/exp-w337b-mercuryband.mjs', ['tests/out/mercuryband-337b.json'], 5, { secSource: 'w337b-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus'],   // 順序だけ(import する第331便c の lib が出典の正本の名を書く —— 第335便e と同じ 10 段)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 5 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/mercuryband-337b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec', '/mercury/integ/rows/*/runs/*/wallSec'] },   // 入力のファイルが無い器(meta.inputs が空)—— /meta/inputs/*/mtime は外す
+    note: '第337便b: 水星の赤道面を横切る幾何の表(4 天体)・寄与の分解(並進引きずりの動径/接線/和 = K1・源の回転・G_loc の次数 0〜2・第335便c の回転の列)と区間の効き・赤道帯の回転の候補のノブの格子'
+      + '(型 3 × 向き 2 × H 7 × q 4 × p 4 × 速さ —— 896 行)と判定の物差し(暦表の幅の参考・置き換えの組 5・面・周期・離心率)・金星/地球/火星への持ち出し・代表の候補の RK4(刻み 2)と二次の結合' }),
+  // ==== 第337便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
