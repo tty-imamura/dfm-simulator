@@ -48,6 +48,7 @@ export const DECL = Object.freeze({
   /** ずれの熱の Γ_d ∝ R^d の格子(T5 —— 熱の上限の則が主の組を満たさないときの代わりの格子) */
   shearD: Object.freeze([-2, 0, 2]),
   /** 差分の読み(原仮定者の補足(2026-11-14 —— 第138報の補足)): 主 diff(近い面と遠い面の差分だけ)・α の格子・横の面の分の割合 λ の格子・角の置き方(原始太陽系 180°・今の太陽系 120°) */
+  complementMain: 'static', rHalfAU: Object.freeze([0.2, 0.387, 0.5, 0.723, 1, 1.524, 5.2, 30.1]),
   axialMain: 'diff', axialAlphas: Object.freeze([1, 2, 3]), axialAlphaMain: 2, axialLambda: Object.freeze([0, 0.5, 1]), protoDeg: 180, nowDeg: 120,
   /** 恒等式の門の相対の許容・閉じた式と数値の積分の差の許容 */
   idTol: 1e-12, odeTol: 1e-9,
@@ -156,6 +157,36 @@ export function axialMix(a, lambda) {
 }
 /** 赤道面の係数(静止の受け手・W 固定 —— 閉じた式): diff 1 − α・full 1 − α/2・回る受け手の diff (1 − α) s + α n・極の側 diff 0・full 1 */
 export const axialCoef = (alpha) => ({ alpha, diff: 1 - alpha, full: 1 - alpha / 2, poleDiff: 0, poleFull: 1 });
+
+/* ───────── T1″ 補う重み(差分の相手)のノブ(原仮定者の補足(2026-11-14 —— 第138報の補足 2))───────── */
+/**
+ * 「並進引きずりの差分は、遠い面の方が遠方宇宙に対しての静止引きずりが強い為、速度は遠い面の方が確実に遅い」の読み。
+ *   U(p) = [Σ_j w_j(p) c_j(p) + K v_i] / [Σ_j w_j(p) + W₀ + K](c_j = s_j × (p − p_j) + 源の並進 —— 器は源の静止系で置く)。
+ *   補う重み: static(遠方宇宙の静止 W₀ —— 主の候補・K = 0)/ self(受け手自身 K が自分の速度 v_i で動く —— 途中版の列・W₀ = 0)/ both(K と W₀)。
+ *   1 つの自転する源・赤道面・静止の補い: U = s r f・f = w/(W₀ + w) → dU/dr = s f [1 − α(1 − f)](f < 1 − 1/α で逆)。
+ */
+export const COMPLEMENTS = Object.freeze(['static', 'self', 'both']);
+export const fShare = (w, W0) => w / (w + W0);
+export const staticRate = ({ s, f, alpha }) => s * f * (1 - alpha * (1 - f));
+export const fBoundary = (alpha) => 1 - 1 / alpha;
+/** 受け手自身の補い(途中版の列 —— 受け手は角速度 n で回る・f = w/(w + K)): dU/dr = f [s − α(1 − f)(s − n)](f → 0 で f[(1 − α)s + αn]) */
+export const selfRate = ({ s, n, f, alpha }) => f * (s - alpha * (1 - f) * (s - n));
+/** 静止の補いで f = ½ になる距離 r_½ から W₀(重みの形 weight337)*/
+export const W0FromHalf = ({ m, rHalf, alpha, rRef }) => weight337(m, rHalf, alpha, rRef);
+/** 数値の差分(源の組 srcs {p, v, s, m}・補う重み W₀・K と受け手の速度 vRecv・向き u・受け手の半径 R): 勾配の差分 û × ∂_û U と有限の半径の差分 û × [U(p + R û) − U(p − R û)]/(2R)・取り分 f */
+export function complementDiff({ at, vRecv, srcs, W0 = 0, K = 0, alpha, rRef, u, R, h = 1e-4 }) {
+  if (!v3(at) || !v3(vRecv) || !Array.isArray(srcs) || !srcs.length || !v3(u) || ![W0, K, alpha, rRef, R].every(fin) || W0 < 0 || K < 0 || !(W0 + K > 0) || !(alpha > 0) || !(R > 0)) throw new RangeError('complementDiff: 有限・W₀ + K > 0・α > 0・R > 0');
+  const uu = unit(u), U = (p) => { let P = [0, 0, 0], W = W0 + K; for (const q of srcs) { const d = [p[0] - q.p[0], p[1] - q.p[1], p[2] - q.p[2]], w = weight337(q.m, nrm(d), alpha, rRef);
+    P = [P[0] + w * (q.v[0] + q.s[1] * d[2] - q.s[2] * d[1]), P[1] + w * (q.v[1] + q.s[2] * d[0] - q.s[0] * d[2]), P[2] + w * (q.v[2] + q.s[0] * d[1] - q.s[1] * d[0])]; W += w; }
+    return [(P[0] + K * vRecv[0]) / W, (P[1] + K * vRecv[1]) / W, (P[2] + K * vRecv[2]) / W]; };
+  const at2 = (k) => [at[0] + k * uu[0], at[1] + k * uu[1], at[2] + k * uu[2]], rr = nrm(srcs.reduce((a, q) => [a[0] + q.p[0] - at[0], a[1] + q.p[1] - at[1], a[2] + q.p[2] - at[2]], [0, 0, 0])) / srcs.length || R;
+  const uo = [-uu[0], -uu[1], -uu[2]], st = h * Math.max(rr, R);   // uo: 源から外向き(遠い面の向き)
+  const g = (k) => { const A = U([at[0] + k * uo[0], at[1] + k * uo[1], at[2] + k * uo[2]]), B = U([at[0] - k * uo[0], at[1] - k * uo[1], at[2] - k * uo[2]]), dd = [(A[0] - B[0]) / (2 * k), (A[1] - B[1]) / (2 * k), (A[2] - B[2]) / (2 * k)];
+    return [uo[1] * dd[2] - uo[2] * dd[1], uo[2] * dd[0] - uo[0] * dd[2], uo[0] * dd[1] - uo[1] * dd[0]]; };   // [U(遠) − U(近)]/(面の間の距離) の回り
+  const wS = srcs.reduce((t, q) => t + weight337(q.m, nrm([at[0] - q.p[0], at[1] - q.p[1], at[2] - q.p[2]]), alpha, rRef), 0);
+  const gr = g(st), fr = g(R);
+  return { grad: gr, finite: fr, f: wS / (wS + W0 + K), fSelfShare: K / (wS + W0 + K) };
+}
 
 /* ───────── T2 起源の角運動量の帳簿 ───────── */
 /** 一様な球の雲(質量 M・半径 R_c・角速度 ω₀)と今の角運動量 L_now: L_c・比・合う R_c・密度 */
@@ -293,6 +324,11 @@ export function pureScenes() {
     const mv = axialAt({ at: [1, 0, 0], vRecv: [0, 0.3, 0], src, W: Wp, alpha: 2, rRef: 1 });
     S.axial = { d2: a2.diff[2], f2: a2.full[2], d1: a1.diff[2], f1: a1.full[2], d3: a3.diff[2], f3: a3.full[2], poleD: po.diff[2], poleF: po.full[2], moving: mv.diff[2], movingExpect: (1 - 2) * 1 + 2 * 0.3,
       mixHalf: axialMix(a2, 0.5)[2], perp: Math.hypot(a2.diff[0], a2.diff[1]) }; }
+  { const src = { p: [0, 0, 0], v: [0, 0, 0], s: [0, 0, 1], m: 1 }, W0 = weight337(1, 1, 2, 1) * (0.7 / 0.3);   // r = 1 で f = 0.3
+    const C = complementDiff({ at: [1, 0, 0], vRecv: [0, 0, 0], srcs: [src], W0, alpha: 2, rRef: 1, u: [-1, 0, 0], R: 1e-3 }), Wh = W0FromHalf({ m: 1, rHalf: 1, alpha: 2, rRef: 1 });
+    const C2 = complementDiff({ at: [1, 0, 0], vRecv: [0, 0, 0], srcs: [src], W0: Wh, alpha: 2, rRef: 1, u: [-1, 0, 0], R: 1e-3 });
+    const Ks = complementDiff({ at: [1, 0, 0], vRecv: [0, 0.4, 0], srcs: [src], K: W0, alpha: 2, rRef: 1, u: [-1, 0, 0], R: 1e-3 });
+    S.complement = { f: C.f, grad: C.grad[2], expect: staticRate({ s: 1, f: 0.3, alpha: 2 }), finite: C.finite[2], half: C2.grad[2], fHalf: C2.f, selfGrad: Ks.grad[2], selfExpect: selfRate({ s: 1, n: 0.4, f: 0.3, alpha: 2 }) }; }
   const rej = [() => localRates({ curve: 'disk', Omega: 1 }), () => localRates({ curve: 'oort' }), () => readingOmega('spin', localRates({ curve: 'flat', Omega: 1 })), () => tiltRow(200),
     () => cloudRow({ M: -1, Rc: 1, omega0: 1, Lnow: 1 }), () => odeRun({ I: 1, Gd: 0, Nin: 0, wEff: 0, s0: 1, tOff: 1 }, { tEnd: 2, steps: 100 }), () => bodyBudget({ I: 1, s: -1, wEff: 0, ageS: 1 }),
     () => lsq([[1, 1], [1, 1]], [1, 2]), () => projectOn({ omega: 1, Lhat: [0, 0, 2], axis: [1, 0, 0] }), () => axialAt({ at: [0, 0, 0], vRecv: [0, 0, 0], src: { p: [0, 0, 0], v: [0, 0, 0], s: [0, 0, 1], m: 1 }, W: 1, alpha: 2, rRef: 1 }),
@@ -315,6 +351,8 @@ export function pureGates(S) {
     cloud: Math.abs(S.cloud.ratioAtMatch - 1) <= t && relD(S.cloud.Lc, 60) <= t && relD(S.cloud.collapse.spinUp, 100) <= t && S.cloud.collapse.radiusRatio === 10,
     fit: Math.abs(S.fit.coef[0] - 0.7) <= 1e-10 && Math.abs(S.fit.coef[1] - 1.5) <= 1e-10 && Math.abs(S.fit.coef[2] + 2) <= 1e-10 && S.fit.maxAbs <= 1e-10 && S.fit.nOk === 5 && S.fit.looMax <= 1e-9 && S.fit.looOk === 5,
     shear: S.shear.s === 1 && S.shear.heatRel === 1 / 16,
+    complement: Math.abs(S.complement.f - 0.3) <= 1e-12 && Math.abs(S.complement.grad - S.complement.expect) <= 1e-7 && Math.abs(S.complement.finite - S.complement.expect) <= 1e-5 && Math.abs(S.complement.half) <= 1e-7
+      && Math.abs(S.complement.fHalf - 0.5) <= 1e-12 && Math.abs(S.complement.selfGrad - S.complement.selfExpect) <= 1e-6,
     axial: [[S.axial.d2, -1], [S.axial.f2, 0], [S.axial.d1, 0], [S.axial.f1, 0.5], [S.axial.d3, -2], [S.axial.f3, -0.5], [S.axial.poleD, 0], [S.axial.poleF, 1], [S.axial.moving, S.axial.movingExpect], [S.axial.mixHalf, -0.5], [S.axial.perp, 0]]
       .every(([a, b]) => Math.abs(a - b) <= 1e-7),
     reject: S.reject.n === S.reject.of,

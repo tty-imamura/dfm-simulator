@@ -189,6 +189,54 @@ export function partLocalFluid(T1) {
   return { rows, meas, dotL };
 }
 
+/* ───────── T1″ 補う重み(原仮定者の補足(2026-11-14 —— 第138報の補足 2))と釣り合いの表 ───────── */
+export function partComplement(B, CL, T1) {
+  const al = L.DECL.axialAlphaMain, Lhat = T1.Lhat, sun = byKey(B, 'sun'), gal = T1.gal, nEcl = [0, 0, 1], anti = scl(Lhat, -1), axes = CL.galaxy.axes;
+  const galFrame = C335.galaxySources({ variant: 'center' })[0].v;   // 銀河の静止系への換算: 本の重心系の速度 − 中心の点の速度
+  const wG = L.weight337(gal.M, gal.R0, al, AU), W0of = (rh) => L.W0FromHalf({ m: sun.m, rHalf: rh * AU, alpha: al, rRef: AU });
+  const rows = { galaxy: [], planets: [], moons: [] };
+  // ① 銀河 → 太陽の位置(源の静止系 = 銀河の静止系・自転の座標の速度だけ)× 補う重み × r_½
+  const pc = C335.galaxySources({ variant: 'center' })[0].p, inner = C335.galaxySources({ variant: 'inner' }), vSunG = sub(sun.v, galFrame), uG = unit(sub(pc, sun.p));
+  for (const rh of L.DECL.rHalfAU) {
+    const W0 = W0of(rh);
+    for (const [key, srcs] of [['center|obs', [{ p: pc, v: [0, 0, 0], s: scl(Lhat, gal.Omega), m: gal.M }]], ['center|jd', [{ p: pc, v: [0, 0, 0], s: scl(Lhat, gal.sd), m: gal.M }]], ['inner', inner.map((q) => ({ p: q.p, v: sub(q.v, galFrame), s: [0, 0, 0], m: q.m }))]]) {
+      const one = (W0x, Kx) => { const C = L.complementDiff({ at: sun.p, vRecv: vSunG, srcs, W0: W0x, K: Kx, alpha: al, rRef: AU, u: uG, R: sun.R }); return { alongL: dot(C.grad, Lhat), proto: dot(C.grad, anti), now: dot(C.grad, nEcl), finiteRel: relD(dot(C.finite, Lhat), dot(C.grad, Lhat)), f: C.f }; };
+      rows.galaxy.push({ rHalf: rh, source: key, static: one(W0, 0), self: one(0, W0), both: one(W0, W0) });
+    }
+  }
+  // 局所の流体(閉じた式 —— U = f V・f = 銀河の取り分): df/dR = 0(一様)と df/dR = −α f(1 − f)/R(中心の点の重みの形)
+  const fluid = T1.rates.map((r) => L.DECL.rHalfAU.map((rh) => { const f = L.fShare(wG, W0of(rh)), dV = -(r.A + r.B), V = r.Omega;
+    return { curve: r.curve, rHalf: rh, f, uniform: f * dV, centerLike: f * (dV - al * (1 - f) * V), boundary: L.fBoundary(al) }; })).flat();
+  // ② 太陽 → 8 惑星・③ 惑星 → 主要な衛星(閉じた式と数値の照らし・有限の半径の差分)
+  const pairRow = (src, recv, rh) => { const W0 = W0of(rh), S = { p: src.p, v: [0, 0, 0], s: scl(src.sHat, src.s), m: src.m }, vR = sub(recv.v, src.v), u = unit(sub(src.p, recv.p));
+    const st = L.complementDiff({ at: recv.p, vRecv: vR, srcs: [S], W0, alpha: al, rRef: AU, u, R: recv.R }), se = L.complementDiff({ at: recv.p, vRecv: vR, srcs: [S], K: W0, alpha: al, rRef: AU, u, R: recv.R });
+    const r = nrm(sub(recv.p, src.p)), f = L.fShare(L.weight337(src.m, r, al, AU), W0), n = nrm(crs(sub(recv.p, src.p), vR)) / (r * r);
+    return { key: recv.key, src: src.key, rHalf: rh, rAU: r / AU, f, scale: src.s * f, fBoundary: L.fBoundary(al), closed: L.staticRate({ s: src.s, f, alpha: al }), gradAlongSrc: dot(st.grad, src.sHat), finiteRel: relD(dot(st.finite, src.sHat), dot(st.grad, src.sHat)),
+      alongSpin: dot(st.grad, recv.sHat), agree: dot(st.grad, recv.sHat) > 0, selfAlongSrc: dot(se.grad, src.sHat), selfClosed: L.selfRate({ s: src.s, n, f: L.fShare(L.weight337(src.m, r, al, AU), W0), alpha: al }), selfAgree: dot(se.grad, recv.sHat) > 0 }; };
+  for (const rh of L.DECL.rHalfAU) for (const k of PLAN.axialPlanets) rows.planets.push(pairRow(sun, byKey(B, k), rh));
+  for (const [mk, pk] of PLAN.primary.filter((q) => q[1] !== 'sun')) rows.moons.push(pairRow(byKey(B, pk), byKey(B, mk), 0.723));
+  // ④ 釣り合いの表(閉じた式 —— 太陽の項 s☉ f☉[1 − α(1 − f☉)] ŝ☉・銀河の項 k Ω f_g[1 − α(1 − f_g)] L̂ —— 黄道の北極への射影で比べる)
+  const sunN = dot(sun.sHat, nEcl), galN = dot(Lhat, nEcl), ven = byKey(B, 'venus');
+  const sunTerm = (r, W0) => L.staticRate({ s: sun.s, f: L.fShare(L.weight337(sun.m, r, al, AU), W0), alpha: al });
+  const galTerm = (W0) => L.staticRate({ s: gal.Omega, f: L.fShare(wG, W0), alpha: al });
+  const balance = L.DECL.rHalfAU.map((rh) => {
+    const W0 = W0of(rh), rV = nrm(sub(ven.p, sun.p)), g1 = galTerm(W0) * galN, kNeed = -(sunTerm(rV, W0) * sunN) / g1;
+    // k = 1(観測の回転)で釣り合う距離(黄道の面の閉じた式 —— 1e-3〜1e7 AU の走査と二分)
+    const F = (rAU) => sunTerm(rAU * AU, W0) * sunN + g1, grid = Array.from({ length: 201 }, (_, i) => Math.pow(10, -3 + i * 0.05)), roots = [];
+    for (let i = 0; i + 1 < grid.length; i++) { let a = grid[i], b = grid[i + 1]; if (Math.sign(F(a)) !== Math.sign(F(b))) { for (let it = 0; it < 80; it++) { const m = Math.sqrt(a * b); if (Math.sign(F(m)) === Math.sign(F(a))) a = m; else b = m; } roots.push(Math.sqrt(a * b)); } }
+    const per = PLAN.axialPlanets.map((k) => { const b = byKey(B, k), r = nrm(sub(b.p, sun.p)), ws = scl(sun.sHat, sunTerm(r, W0)), wg = scl(Lhat, kNeed * galTerm(W0)), tot = add(ws, wg);
+      return { key: k, rAU: r / AU, sunN: dot(ws, nEcl), galN: dot(wg, nEcl), sunStrong: Math.abs(dot(ws, nEcl)) > Math.abs(dot(wg, nEcl)), totAlongSpin: dot(tot, b.sHat), agree: dot(tot, b.sHat) > 0, prograde: dot(b.sHat, nEcl) > 0,
+        axisFromAntiDeg: Math.acos(Math.max(-1, Math.min(1, dot(b.sHat, anti)))) * 180 / Math.PI }; });
+    return { rHalf: rh, W0, fGal: L.fShare(wG, W0), fSunVenus: L.fShare(L.weight337(sun.m, rV, al, AU), W0), kNeed, rootsK1AU: roots, nAgree: per.filter((q) => q.agree).length, per };
+  });
+  // 金星と地球の会合
+  const Pv = B330.spinDays.venus, Ov = B330.orbitDays.venus, Oe = B330.orbitDays.earth, syn = 1 / (1 / Ov - 1 / Oe), solarDay = 1 / Math.abs(1 / Pv - 1 / Ov);
+  const venusEarth = { synodicDays: syn, solarDayDays: solarDay, synOverSolarDay: syn / solarDay, synOverSidereal: syn / Math.abs(Pv) };
+  // 源の並進の項の桁(太陽が銀河の静止系で v_☉ で動く —— 静止の補いで û × v_☉ df/dr —— 公転の一周の平均は û の平均 0 で 0)
+  const vS = nrm(vSunG), rV = nrm(sub(ven.p, sun.p)), fV = L.fShare(L.weight337(sun.m, rV, al, AU), W0of(0.723)), trans = { vSun: vS, ratioAtVenus: (al * fV * (1 - fV) * vS / rV) / Math.abs(L.staticRate({ s: sun.s, f: fV, alpha: al }) || 1e-300), orbitMean: 0 };
+  return { alpha: al, wGal: wG, rows, fluid, balance, venusEarth, trans };
+}
+
 /* ───────── T2 ───────── */
 export function partT2(B, T1) {
   const M = B.reduce((t, b) => t + b.m, 0), Lnow = T1.LtotMag, sun = byKey(B, 'sun'), Lsun = sun.I * sun.s;
@@ -281,6 +329,7 @@ export function gatesOf(J) {
     t1Control: T1.control.length === 9 && T1.control.every((c) => c.rel <= t && relD(c.sHatDotL, c.refSHatDotL) <= t),
     t1Tilt: T1.tilt.find((q) => q.thetaDeg === 60).kind === 'boundary' && T1.tiltGeom.length === 3,
     axial: J.axial.galaxy.length === 9 && J.axial.planets.length === 8 && J.axial.coef.every((c) => c.diff === 1 - c.alpha) && J.axial.galaxy.every((g) => [g.diff.mag, g.full.mag, g.eq31.mag].every(fin)) && J.axial.localFluid.rows.length === 4 && J.axial.localFluid.meas.length === 24,
+    complement: J.complement.rows.galaxy.length === 24 && J.complement.rows.planets.length === 64 && J.complement.balance.length === 8 && J.complement.rows.planets.every((r) => Math.abs(r.gradAlongSrc - r.closed) <= 0.02 * r.scale && r.finiteRel <= 1e-4),
     t2: J.t2.rows.every((r) => (fin(r.RcMatch) && r.RcMatch > 0) || (r.RcMatch === null && r.omega0 === 0)) && J.t2.comps.length === 5 && nrm(sub(J.t1.Lparts.reduce((a, q) => add(a, q.vec), [0, 0, 0]), J.t1.Ltot)) <= t * J.t2.Lnow,
     t3Ode: T3.ode.errRel <= L.DECL.odeTol && T3.ode.ledgerRel <= 1e-10 && Math.abs(T3.ode.decay1 - T3.ode.decay1Expect) <= 1e-9
       && [...T3.rows, ...T3.listed].every((r) => r.odeTau.errRel <= L.DECL.odeTol && r.odeTau.ledgerRel <= 1e-10 && Math.abs(r.odeTau.decay1 - r.odeTau.decay1Expect) <= 1e-9),
@@ -297,11 +346,12 @@ export function runFrom(CL) {
   const B = bodiesOf(CL); mark('book');
   const t1 = partT1(B, CL); mark('t1');
   const axial = partAxial(B, CL, t1); mark('axial');
+  const complement = partComplement(B, CL, t1); mark('complement');
   const t2 = partT2(B, t1); mark('t2');
   const t3 = partT3(B, CL, t1); mark('t3');
   const t4 = partT4(B, CL, t1, t3); mark('t4');
   const t5 = partT5(B, t3, t4); mark('t5');
-  const J = { inputs: { file: INPUT, version: CL.version, libVersion: CL.libVersion, n: CL.book.n }, pure, bodies: B.map((b) => ({ key: b.key, s: b.s, sHat: b.sHat, m: b.m, R: b.R, f: b.f, I: b.I })), t1, axial, t2, t3, t4, t5, timing: tm };
+  const J = { inputs: { file: INPUT, version: CL.version, libVersion: CL.libVersion, n: CL.book.n }, pure, bodies: B.map((b) => ({ key: b.key, s: b.s, sHat: b.sHat, m: b.m, R: b.R, f: b.f, I: b.I })), t1, axial, complement, t2, t3, t4, t5, timing: tm };
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
   return J;
 }

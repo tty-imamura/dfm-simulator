@@ -100,6 +100,20 @@ export function tablesOf(J) {
     ...LF.rows.map((r) => { const R0 = J.t1.rates.find((q) => q.curve === r.curve); return `| ${CV[r.curve]} | ${f3(R0.Omega)} | ${sd(r.diff)} | ${sd(r.lateral)} | ${sd(r.zeta)} | ${sd(r.rate)} | ${sd(r.mixHalf)} | ${sd(r.corotDiff)} | ${f3(r.diff.value)} | ${f3(r.diff.proto)} | ${f3(r.diff.now)} |`; })].join('\n');
   T.axFluidMeas = ['| 回転曲線 | 要素の置き方 | 要素の自転 | α | 正規化した場 U の渦度 ÷ ζ | 正規化した場の動径の差分 ∂_x U_y ÷ dV/dR | 重みの勾配の項(W 固定の源ごとの差分の和)÷ ½ζ |', '|---|---|---|---|---|---|---|',
     ...LF.meas.map((m) => `| ${CV[m.curve]} | ${m.shape === 'ring' ? '面内の環(64 点)' : '球殻(512 点)'} | ${m.spin === 'zero' ? '0' : '½ζ'} | ${m.alpha} | ${f3(m.fieldZetaOverZeta)} | ${f3(m.fieldDiffOverDV)} | ${f3(m.weightTermOverHalfZeta)} |`)].join('\n');
+  const CP = J.complement, dS = (x) => (x > 0 ? '順' : x < 0 ? '逆' : '0');
+  T.cpGalaxy = ['| r_½ [AU](太陽の取り分が ½ の距離 —— W₀ のノブ) | 銀河の源 | 銀河の取り分 f | 静止の補い: L̂ の成分 [rad/s](向き) | 静止の補い: 180° の軸への成分 | 受け手自身の補い(途中版): L̂ の成分(向き) | 両方: L̂ の成分(向き) | 有限の半径 R☉ の差分と勾配の相対の差 |', '|---|---|---|---|---|---|---|---|',
+    ...CP.rows.galaxy.filter((g) => [0.387, 0.723, 5.2].includes(g.rHalf)).map((g) => `| ${g.rHalf} | ${VJ[g.source]} | ${f3(g.static.f)} | ${f3(g.static.alongL)}(${dS(g.static.alongL)}) | ${f3(g.static.proto)} | ${f3(g.self.alongL)}(${dS(g.self.alongL)}) | ${f3(g.both.alongL)}(${dS(g.both.alongL)}) | ${f3(g.static.finiteRel)} |`)].join('\n');
+  T.cpFluid = ['| 回転曲線(局所の流体 U = f V) | 銀河の取り分 f(r_½ 0.723 AU) | f 一様: f dV/dR [rad/s](向き) | 中心の点の重みの形: f[dV/dR − α(1 − f)V/R] [rad/s](向き) |', '|---|---|---|---|',
+    ...CP.fluid.filter((q) => q.rHalf === 0.723).map((q) => `| ${CV[q.curve]} | ${f3(q.f)} | ${f3(q.uniform)}(${dS(q.uniform)}) | ${f3(q.centerLike)}(${dS(q.centerLike)}) |`)].join('\n');
+  T.cpPlanets = ['| 天体(源) | 距離 [AU] | 取り分 f(境目 1 − 1/α = 0.5) | 静止の補い: 閉じた式 s f[1 − α(1 − f)] [rad/s] | 同 数値(源の自転の軸の成分) | 向き(源の回転に対して) | 有限の半径の差分と勾配の相対の差 | 受け手の自転と | 受け手自身の補い(途中版)の源の軸の成分(閉じた式 f[s − α(1 − f)(s − n)]) | 途中版と受け手の自転 |', '|---|---|---|---|---|---|---|---|---|---|',
+    ...[...CP.rows.planets.filter((r) => r.rHalf === 0.723), ...CP.rows.moons].map((r) => `| ${nm(r.key)}(${nm(r.src)}) | ${f3(r.rAU)} | ${f3(r.f)} | ${f3(r.closed)} | ${f3(r.gradAlongSrc)} | ${dS(r.gradAlongSrc)} | ${f3(r.finiteRel)} | ${r.agree ? '合う' : '合わない'} | ${f3(r.selfAlongSrc)}(${f3(r.selfClosed)}) | ${r.selfAgree ? '合う' : '合わない'} |`)].join('\n');
+  T.cpBalance = ['| r_½ [AU] | 銀河の取り分 f_g | 金星での太陽の取り分 | 観測の回転(k = 1)で釣り合う距離 [AU] | 金星で釣り合うのに要る銀河の倍率 k | 自転の向きが合う惑星の数 | 惑星ごと(S = 太陽が強い/G = 銀河が強い・+ 合う/− 合わない) |', '|---|---|---|---|---|---|---|',
+    ...CP.balance.map((b) => `| ${b.rHalf} | ${f3(b.fGal)} | ${f3(b.fSunVenus)} | ${b.rootsK1AU.map(f3).join('・') || '—'} | ${f3(b.kNeed)}${b.kNeed < 0 ? '(負 —— 銀河の向きが逆でないと釣り合わない)' : ''} | ${b.nAgree}/8 | ${b.per.map((q) => nm(q.key) + ' ' + (q.sunStrong ? 'S' : 'G') + (q.agree ? '+' : '−')).join('・')} |`)].join('\n');
+  const b0 = CP.balance[0];
+  T.cpAxis = ['| 惑星 | 自転の向き(黄道) | 自転の軸と 180° の軸のなす角 [deg](黄道の北極は 60.19°) |', '|---|---|---|', ...b0.per.map((q) => `| ${nm(q.key)} | ${q.prograde ? '順行' : '逆行'} | ${f2(q.axisFromAntiDeg)} |`)].join('\n');
+  const VE = CP.venusEarth;
+  T.cpVenus = ['| 量 | 値 |', '|---|---|', `| 金星と地球の会合の周期 [日] | ${f3(VE.synodicDays)} |`, `| 金星の太陽日 [日] | ${f3(VE.solarDayDays)} |`, `| 会合 ÷ 太陽日 | ${f3(VE.synOverSolarDay)} |`, `| 会合 ÷ 恒星の自転周期 | ${f3(VE.synOverSidereal)} |`,
+    `| 源の並進の項(太陽が銀河の静止系で ${f3(CP.trans.vSun)} m/s で動く —— û × v☉ df/dr)÷ 自転の項(金星・r_½ 0.723) | ${f3(CP.trans.ratioAtVenus)}(一周の平均は 0) |`].join('\n');
   const A0 = AX.angles;
   T.axAngles = ['| 量 | 値 |', '|---|---|', `| 原始太陽系の軸と銀河の回転の軸のなす角(置いた値) | ${A0.protoDeg}° |`, `| 今の太陽系(黄道の北極)と銀河の回転の軸のなす角(置いた値 / 本の時刻の幾何) | ${A0.nowDeg}° / ${f2(A0.nowGeomDeg)}° |`,
     `| 供給の向き(180°)からの傾き(本の時刻の幾何) | ${f2(A0.tiltFromSupplyDeg)}° |`, `| 原始太陽系の軸 −L̂ と今の黄道の北極の内積(= 射影 cos θ) | ${f3(A0.protoDotNow)} |`].join('\n');
