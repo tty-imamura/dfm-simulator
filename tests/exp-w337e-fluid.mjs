@@ -248,8 +248,8 @@ export function runAll() {
   const rings = t5List().map(t5Run); mark('rings');
   const analysis = analyse(runs, t1static); analysis.t5 = t5Analyse(rings); mark('analysis');
   const cost = { runs: runs.length, evals: runs.reduce((s, x) => s + x.evals, 0), rings: rings.length, wallByPart: {} };
-  for (const x of runs) { cost.wallByPart[x.spec.part] = (cost.wallByPart[x.spec.part] || 0) + x.wallSec; }
-  cost.wallByPart.t5 = rings.reduce((s, x) => s + x.wallSec, 0);
+  for (const x of runs) { const w = cost.wallByPart[x.spec.part] || (cost.wallByPart[x.spec.part] = { wallSec: 0 }); w.wallSec += x.wallSec; }
+  cost.wallByPart.t5 = { wallSec: rings.reduce((s, x) => s + x.wallSec, 0) };
   const J = { pure, t1static, t1arrange, t4static, runs: runs.map((r) => { const o = Object.assign({}, r); delete o.posFinal; return o; }), rings, analysis, cost, timing: tm };
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
   return J;

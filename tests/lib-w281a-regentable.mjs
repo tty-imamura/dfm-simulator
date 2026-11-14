@@ -2042,7 +2042,7 @@ export const REGEN_STEPS = [
   S('fluid-337e', 'node tests/exp-w337e-fluid.mjs', ['tests/out/fluid-337e.json'], 30, { secSource: 'w337e-branch', node: true,
     after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // 順序だけ(import する第334便a の lib が呼ぶ第331便c の lib が記録の値の出典の正本の名を書くだけ —— 正本は読まない・段 heightlaw-334a と同じ)
     quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 60 s の内で、簡易一致の窓を持たない',
-    volatilePaths: { 'tests/out/fluid-337e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec', '/runs/*/wallSec', '/rings/*/wallSec', '/cost/wallByPart/*'] },   // 入力のファイルが無い器(meta.inputs が空)—— /meta/inputs/*/mtime は外す
+    volatilePaths: { 'tests/out/fluid-337e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec', '/runs/*/wallSec', '/rings/*/wallSec', '/cost/wallByPart/*/wallSec'] },   // 入力のファイルが無い器(meta.inputs が空)—— /meta/inputs/*/mtime は外す
     note: '第337便e: 流体の要素の自己の重み(B 体積の内の積分・A 軟化の半径・C 星 1 個の R_d)の解像度の試し(N 256・512 × 種 3 —— 自己の分け前・全体の重みと連続の場・引きずりの大きさ・線形の場の連続の引きずりとの差・N の依存の傾き・格子と乱数の並び)・'
       + '押しの列の構造の量への効きの N の依存・保存する引きずり(行ごと〔第335便f〕・共通の分母の全成分・中心方向・中心方向 + 要素の中の散らばり Π)の帳簿(運動量・角運動量・E・熱の口・内部のエネルギー)・'
       + '押しと速度の場(陽・陰の中点)の刻み h・h/2・h/4・場の読み(中心の点・内の和・局所)・環のヒント(並進・回転・環の要素どうしの引きずり × 単体と連星 —— e と傾きの散らばりの率)' }),
