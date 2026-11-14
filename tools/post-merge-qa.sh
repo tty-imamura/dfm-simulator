@@ -961,6 +961,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.fluid337e docs.fluid337e docs.w320d
 #   枝 f の新設 3 本(lint.jsonPathInputs337f・lint.pairnormTextRead337f・docs.regenPaths337f)と、計画と刻印と鎖の道具を読む lint の一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.jsonPathInputs337f lint.pairnormTextRead337f docs.regenPaths337f lint.regenScope lint.stableHashPaths lint.regenChain lint.scopeAll312 lint.scopeStop lint.regenTools312 lint.toolStamp318 lint.toolCheckProv330c lint.physKeysGuard330c lint.provenanceMeta lint.canon303 lint.canon304 docs.charonAudit305 lint.symbols333e lint.kappaSymbol315 docs.w320d lint.sectionLookup313"
 # ==== 第337便f の塊(ここまで)====
+# ==== 第337便g の塊(ここから)====
+# 第337便g(原仮定者の指示(2026-11-14 —— 第138報)・統括の検証項目 R343 —— 文書と QA だけ・html は変えない): 枝 g の新設 2 本(docs.equations337g —— 第335便の診断の式の項 EQ-44〜EQ-52・
+#   §2a の第138報の用語・第335便g の照合の世代の写し / docs.policy337g —— 探索の方針の節・ノブの台帳・現象の一覧の欄「第335〜336便の調べ」・文書)と、直した文書を読む鍵
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations337g docs.policy337g lint.terms335g docs.terms335g lint.terms334f docs.terms334f lint.equations331d docs.equations331d lint.phenomena331e docs.phenomena331e lint.symbols333e docs.symbols333e lint.kappaSymbol315"
+# ==== 第337便g の塊(ここまで)====
 # ==== 第337便h の塊(ここから)====
 # 第337便h(統括の検証項目 R344 —— 道具と QA だけ・html は変えない): 第336便の post-merge は ① の途中でコンテナが再起動し(472/529 鍵)、root を対象にしても
 #   beta の正本を読む鍵(docs.emgrid-sync)が root の対象で落ちてゲートが 1 回止まった。
