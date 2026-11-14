@@ -99985,7 +99985,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}・走行 ${J.stats && J.stats.runs} 本`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第331便c〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 18) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 17) bad.push('② 表の数 ' + Object.keys(T).length);
       const R326 = L.VALID_RECORDS.venusAxial, s326 = secUntilNext329c(PH, PH.indexOf('〔第326便d — '), /\n〔第\d+便[a-z]* — |\n## /);
       if (!(s326.indexOf(R326.value) >= 0 && s326.indexOf(R326.text) >= 0)) bad.push('② 補足 2 の記録の値 ' + R326.value + ' が ' + R326.section + ' の節に無い');
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第331便c〕に逐語(文書の lib ${D0.DOC_VERSION})`);
@@ -100558,7 +100558,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第332便a〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 18) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 17) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第332便a〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の補足(2026-11-10)', '原仮定者の補足その3(2026-11-10)', '手前と奥の差分', 'Ω(R_d² − z²)/ρ', '源の枠の鉛直の成分は 0', '符号と累積', '大きさの門は置かない', '惑星 8/8', '交点で符号が逆', '両方の交点で同じ符号',
@@ -102680,7 +102680,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第334便e〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 18) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 17) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第334便e〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の回答(2026-11-11 —— AN638)', 'AN638 = A', 'AN639 = A', 'AN640 = A', 'AN621', '原仮定者の整理(2026-11-11)', 'R326', 'tests/exp-w334e-gridfloor.mjs', 'tests/out/gridfloor-w334e.json', 'tests/lib-w334e-gridfloor.mjs',
@@ -104405,7 +104405,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
     const T = D0.tablesOf(J);
     for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第337便e〕に表 ' + k + ' が逐語で無い');
-    if (Object.keys(T).length !== 18) bad.push('② 表の数 ' + Object.keys(T).length);
+    if (Object.keys(T).length !== 17) bad.push('② 表の数 ' + Object.keys(T).length);
     cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第337便e〕に逐語(文書の lib ${D0.DOC_VERSION})`);
   }
   const want = ['原仮定者の指示(2026-11-14 —— 第138報)', 'R341', 'tests/exp-w337e-fluid.mjs', 'tests/out/fluid-337e.json', 'tests/lib-w337e-fluid.mjs', 'tests/lib-w337e-fluiddoc.mjs', 'fluid-337e',

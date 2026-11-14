@@ -277,7 +277,9 @@ export async function main() {
     decl: L.DECL, plan: PLAN, amend: AMEND, notClaim: NOT_CLAIM, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w337e-fluid.mjs', 'tests/lib-w337e-fluid.mjs', 'tests/lib-w335f-elliptical.mjs', 'tests/lib-w333d-noncirc.mjs', 'tests/lib-w333b-axialfield.mjs', 'tests/lib-w334a-heightlaw.mjs',
-    'tests/lib-w334e-gridfloor.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w329b-galrot.mjs', 'tests/lib-w272e-provenance.mjs'];
+    'tests/lib-w334e-gridfloor.mjs', 'tests/lib-w333a-rotdiff.mjs', 'tests/lib-w332a-eqband.mjs', 'tests/lib-w332b-transgeo2.mjs', 'tests/lib-w331a-coordtwist.mjs', 'tests/lib-w331b-centrifugal.mjs',
+    'tests/lib-w331c-k1scale.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w329b-galrot.mjs', 'tests/lib-w326d-axialheat.mjs', 'tests/lib-w312a-decay.mjs', 'tests/lib-w310d-shell.mjs',
+    'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w272e-provenance.mjs'];   // import の閉包(呼ぶ lib の本文は読まない —— 来歴の sha だけ)
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第337便e', target: TARGET, code: CODE, inputs: [] }), {
     harnessVersion: HARNESS_VERSION, stage: 'fluid', engine: 'Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の直接の和と蛙跳び)', notClaim: NOT_CLAIM });
   writeJson(OUT, out);
