@@ -32,6 +32,41 @@ export const PHYSKEYS_KINDS_330C = Object.freeze({
 });
 const sha256 = (b) => crypto.createHash('sha256').update(b).digest('hex');
 
+// ==== 第337便f の塊(ここから)====
+// 第337便f(原仮定者の指示(恒久)「サンプルの変更だけでは、全行程を再実行しない」・決断事項 AN702 (i)・統括の検証項目 R342): **本の表を全部回す関数の読みの宣言**。
+//   閉包の本の表の読み(宣言の表 REG_READS_329C に無い行 —— 第330便c の守りでは「全本の中身」で照合して、どの本が動いても走り直した)のうち、
+//   **id の列で読む本を決めている関数**を宣言する(kind idList): 関数の本文に読む本を決める行(guard)が在ること・読む行が宣言と 1 字も違わないこと・
+//   id の列(listExpr —— html の最上位の定数)が文字の配列であることを今の html と刻印の html の両方で照合し、**列の本だけ**(説明の文を除く・表の順)の hash で比べる。
+//   照合が 1 つでも外れれば従来どおり全本の中身(安全側)。足す向きの守りを狭くするだけ(領域 hash・計画の status の規則は変えない)。
+export const IDLIST_READS_VERSION_337F = 'w337f-idlist-1';
+export const REG_READS_337F = Object.freeze({
+  // 在位の本の世代の印(第315便c)—— 全本を回すが inPositionK1Of が IN_POSITION_K1_IDS の外の本を id だけ見て null を返す(読むのは列の 7 本の中身・列の本の表の順)
+  inPositionK1State: Object.freeze({ kind: 'idList', listExpr: 'IN_POSITION_K1_IDS',
+    lines: Object.freeze(['function inPositionK1State(){ const out=[]; for(const p of BUILTIN_PRESETS){ const s=inPositionK1Of(p); if(s && s.migrated) out.push(p.id); } return {version:IN_POSITION_K1_VERSION, ids:IN_POSITION_K1_IDS.slice(), migrated:out}; }']),
+    guards: Object.freeze([['inPositionK1Of', 'if(!p || IN_POSITION_K1_IDS.indexOf(p.id)<0) return null;']]) }),
+  // 監査の表(第184〜186便)—— AUDIT_FAMILY の id を順に BUILTIN_PRESETS.find で引く(読むのは列の本だけ)
+  auditRows: Object.freeze({ kind: 'idList', listExpr: 'AUDIT_FAMILY',
+    lines: Object.freeze(['const p=BUILTIN_PRESETS.find(q=>q.id===id);']),
+    guards: Object.freeze([['auditRows', 'for(const id of AUDIT_FAMILY){']]) }),
+});
+const sqz337 = (t) => String(t).replace(/\s+/g, ' ');
+/** html の id の列の指紋(関数ごと —— ok:false は照合が外れた〔安全側で全本〕)。L = loadHtmlHeadless の戻り。 */
+function idListsOf337f(L, B) {
+  const out = {};
+  for (const [fn, d] of Object.entries(REG_READS_337F)) {
+    try {
+      let ok = true; const why = [];
+      for (const [g, line] of d.guards) { const src = L.evalExpr('String(' + g + ')'); if (typeof src !== 'string' || sqz337(src).indexOf(sqz337(line)) < 0) { ok = false; why.push(g + ' の本文に読む本を決める行が無い'); } }
+      const list = L.evalExpr(d.listExpr + '.slice()');
+      if (!Array.isArray(list) || !list.every((x) => typeof x === 'string')) { ok = false; why.push(d.listExpr + ' が文字の配列でない'); }
+      const books = ok ? B.filter((p) => p && list.includes(p.id)).map((p) => stripPresetProse(p, SCOPE_VERSION)) : null;
+      out[fn] = { ok, why, n: books ? books.length : null, sha: ok ? sha256(canonJson({ v: IDLIST_READS_VERSION_337F, list, books })) : null };
+    } catch (e) { out[fn] = { ok: false, why: ['評価できない: ' + String(e && e.message || e).slice(0, 60)], n: null, sha: null }; }
+  }
+  return out;
+}
+// ==== 第337便f の塊(ここまで)====
+
 const fpMemo = new Map();   // html の sha → 指紋(1 つの走行の中だけ)
 const pathMemo = new Map();   // html のパス|大きさ|更新時刻 → 指紋(同じファイルを正本ごとに読み直さない)
 /**
@@ -53,29 +88,31 @@ function htmlKeysOfBuf330(src, o) {
   if (fpMemo.has(s)) return fpMemo.get(s);
   const why = [];
   let file = typeof src === 'string' ? src : (src.path || null), tmp = null;
-  let template = null, tableSha = null, nBooks = null;
+  let template = null, tableSha = null, nBooks = null, idLists = null;   // 第337便f: idLists
   try {
     if (!file) { tmp = fs.mkdtempSync(path.join((o && o.tmpDir) || os.tmpdir(), 'w330c-keys-')); file = path.join(tmp, 'index.html'); fs.writeFileSync(file, buf); }
     const L = loadHtmlHeadless(file);
     try { const t = L.evalExpr('Object.keys(fastParams({}))'); if (Array.isArray(t)) template = t.map(String); else why.push('fastParams の雛形が配列でない'); } catch (e) { why.push('fastParams を評価できない: ' + String(e && e.message || e).slice(0, 80)); }
-    try { const B = L.evalExpr('BUILTIN_PRESETS'); if (Array.isArray(B)) { nBooks = B.length; tableSha = sha256(canonJson(B.map((p) => stripPresetProse(p, SCOPE_VERSION)))); } else why.push('BUILTIN_PRESETS が配列でない'); } catch (e) { why.push('BUILTIN_PRESETS を評価できない: ' + String(e && e.message || e).slice(0, 80)); }
+    try { const B = L.evalExpr('BUILTIN_PRESETS'); if (Array.isArray(B)) { nBooks = B.length; tableSha = sha256(canonJson(B.map((p) => stripPresetProse(p, SCOPE_VERSION)))); idLists = idListsOf337f(L, B); } else why.push('BUILTIN_PRESETS が配列でない'); } catch (e) { why.push('BUILTIN_PRESETS を評価できない: ' + String(e && e.message || e).slice(0, 80)); }   // 第337便f: idLists
   } catch (e) { why.push('html を読めない: ' + String(e && e.message || e).slice(0, 80)); }
   finally { if (tmp) { try { fs.rmSync(tmp, { recursive: true, force: true }); } catch { /* 残っても害は無い */ } } }
-  const r = { sha: s, template, templateSha: template ? sha256(JSON.stringify(template)) : null, tableSha, nBooks, why };
+  const r = { sha: s, template, templateSha: template ? sha256(JSON.stringify(template)) : null, tableSha, nBooks, idLists, why };   // 第337便f: idLists
   fpMemo.set(s, r);
   return r;
 }
 
 /** 閉包の本の表の読み(関数名 → 行)を宣言の表で分ける: 宣言の表と行が同じなら表の型・違えば(か表に無ければ)unknown。 */
 export function classifyReads330c(reads) {
-  const kinds = {}, unknown = [], physicsKeys = [];
+  const kinds = {}, unknown = [], physicsKeys = [], idList = [];   // 第337便f: idList
   for (const [fn, ls] of Object.entries(reads || {})) {
     const w = REG_READS_329C[fn];
-    const k = (w && JSON.stringify(ls) === JSON.stringify(w.lines)) ? w.kind : 'unknown';
+    let k = (w && JSON.stringify(ls) === JSON.stringify(w.lines)) ? w.kind : 'unknown';
+    const w337 = REG_READS_337F[fn];   // 第337便f: id の列で読む本を決めている関数の宣言(行が宣言と 1 字も違わないときだけ)
+    if (k === 'unknown' && w337 && JSON.stringify(ls) === JSON.stringify(w337.lines)) k = w337.kind;
     kinds[fn] = k;
-    if (k === 'unknown') unknown.push(fn); else if (k === 'physicsKeys') physicsKeys.push(fn);
+    if (k === 'unknown') unknown.push(fn); else if (k === 'physicsKeys') physicsKeys.push(fn); else if (k === 'idList') idList.push(fn);
   }
-  return { kinds, unknown, physicsKeys };
+  return { kinds, unknown, physicsKeys, idList };
 }
 
 /**
@@ -85,8 +122,8 @@ export function classifyReads330c(reads) {
  */
 export function physKeysDecide330c(o) {
   const c = classifyReads330c(o.reads);
-  const base = { physicsKeys: c.physicsKeys, unknown: c.unknown };
-  if (!c.physicsKeys.length && !c.unknown.length) return Object.assign({ applicable: false, need: false, kind: null, why: null }, base);
+  const base = { physicsKeys: c.physicsKeys, unknown: c.unknown, idList: c.idList };
+  if (!c.physicsKeys.length && !c.unknown.length && !c.idList.length) return Object.assign({ applicable: false, need: false, kind: null, why: null }, base);
   const S = o.stampFp, N = o.nowFp;
   if (!S) return Object.assign({ applicable: true, need: true, kind: 'physKeys', why: '刻印の html が引けない(候補のファイル・git の履歴に無い —— 保守側で走らせる)' }, base);
   if (c.physicsKeys.length) {
@@ -97,6 +134,16 @@ export function physKeysDecide330c(o) {
       return Object.assign({ applicable: true, need: true, kind: 'physKeys', why: 'fastParams の雛形が違う(' + (add.length ? '足す ' + add.slice(0, 3).join(',') : '') + (add.length && del.length ? '・' : '')
         + (del.length ? '消える ' + del.slice(0, 3).join(',') : '') + (!add.length && !del.length ? '鍵の並び' : '') + ' —— ' + c.physicsKeys.join(',') + ')' }, base);
     }
+  }
+  // 第337便f: id の列で読む関数 —— 列の照合が今と刻印の両方で通れば列の本だけ、外れれば全本の中身(安全側)
+  for (const fn of c.idList) {
+    const a = S.idLists && S.idLists[fn], b = N.idLists && N.idLists[fn];
+    if (!(a && a.ok && b && b.ok)) {
+      if (!S.tableSha || !N.tableSha) return Object.assign({ applicable: true, need: true, kind: 'tableRead', why: '全本の中身が引けない' }, base);
+      if (S.tableSha !== N.tableSha) return Object.assign({ applicable: true, need: true, kind: 'tableRead', why: 'id の列の読み ' + fn + ' の照合が外れた(' + ((a && a.why) || []).concat((b && b.why) || []).concat(a && b ? [] : ['列の指紋が無い']).slice(0, 1).join('') + ')—— 全本の中身が違う' }, base);
+      continue;
+    }
+    if (a.sha !== b.sha) return Object.assign({ applicable: true, need: true, kind: 'tableRead', why: 'id の列の読み ' + fn + '(' + REG_READS_337F[fn].listExpr + ')の本の中身か列が違う' }, base);
   }
   if (c.unknown.length) {
     if (!S.tableSha || !N.tableSha) return Object.assign({ applicable: true, need: true, kind: 'tableRead', why: '全本の中身が引けない' }, base);
@@ -119,7 +166,7 @@ export function physKeysGuard330c(o) {
   const nowFp = htmlKeysOf330c(o.html, { tmpDir: o.tmpDir });
   if (nowFp.sha === m.targetSha256) return Object.assign(physKeysDecide330c({ reads, stampFp: nowFp, nowFp }), { from: 'same' });
   const c = classifyReads330c(reads);
-  if (!c.physicsKeys.length && !c.unknown.length) return physKeysDecide330c({ reads, stampFp: null, nowFp });
+  if (!c.physicsKeys.length && !c.unknown.length && !c.idList.length) return physKeysDecide330c({ reads, stampFp: null, nowFp });   // 第337便f: idList
   let stampFp = null, from = null;
   const memo = fpMemo.get(m.targetSha256);
   if (memo) { stampFp = memo; from = 'memo'; }
@@ -155,6 +202,34 @@ export function physKeysSelfTest330c() {
   cases.push(`判定 ${rows.length} 例(鍵を足す・並び・刻印の html なし → physKeys / 値だけ → なし / 表に無い読み + 中身 → tableRead / byId だけ → 当てない)`);
   return { version: PHYSKEYS_GUARD_VERSION_330C, ok: bad.length === 0, bad, cases };
 }
+
+// ==== 第337便f の塊(ここから)====
+/**
+ * 第337便f(R342): id の列の読みの自己試験(純関数 —— QA lint.jsonPathInputs337f ④): 列の本が同じ → 走らせない・列の本の中身が違う → tableRead・
+ * 列の照合が外れた(関数の本文の guard が無い)→ 全本の中身で照合(違えば tableRead)・読む行が宣言と 1 字違う → unknown(全本)・列の外の本だけ違う → 走らせない。
+ */
+export function idListSelfTest337f() {
+  const bad = [], cases = [];
+  const R = { inPositionK1State: REG_READS_337F.inPositionK1State.lines.slice(), auditRows: REG_READS_337F.auditRows.lines.slice() };
+  const fp = (table, il) => ({ template: ['G'], templateSha: 't', tableSha: table, idLists: il, why: [] });
+  const ok = (sha) => ({ ok: true, why: [], n: 7, sha });
+  const ng = { ok: false, why: ['inPositionK1Of の本文に読む本を決める行が無い'], n: null, sha: null };
+  const rows = [
+    ['列の外の本だけ違う(全本の中身は違う・列の本は同じ)', { reads: R, stampFp: fp('a', { inPositionK1State: ok('x'), auditRows: ok('y') }), nowFp: fp('b', { inPositionK1State: ok('x'), auditRows: ok('y') }) }, false, null],
+    ['列の本の中身が違う(inPositionK1State)', { reads: R, stampFp: fp('a', { inPositionK1State: ok('x'), auditRows: ok('y') }), nowFp: fp('b', { inPositionK1State: ok('x2'), auditRows: ok('y') }) }, true, 'tableRead'],
+    ['列の本の中身が違う(auditRows)', { reads: R, stampFp: fp('a', { inPositionK1State: ok('x'), auditRows: ok('y') }), nowFp: fp('b', { inPositionK1State: ok('x'), auditRows: ok('y2') }) }, true, 'tableRead'],
+    ['列の照合が外れた + 全本の中身が違う', { reads: R, stampFp: fp('a', { inPositionK1State: ok('x'), auditRows: ok('y') }), nowFp: fp('b', { inPositionK1State: ng, auditRows: ok('y') }) }, true, 'tableRead'],
+    ['列の照合が外れた + 全本の中身が同じ', { reads: R, stampFp: fp('a', { inPositionK1State: ng, auditRows: ok('y') }), nowFp: fp('a', { inPositionK1State: ng, auditRows: ok('y') }) }, false, null],
+    ['刻印の html に列の指紋が無い(旧い指紋)+ 全本が違う', { reads: R, stampFp: fp('a', null), nowFp: fp('b', { inPositionK1State: ok('x'), auditRows: ok('y') }) }, true, 'tableRead'],
+    ['読む行が宣言と 1 字違う → unknown(全本)', { reads: { inPositionK1State: [R.inPositionK1State[0].replace('out.push(p.id)', 'out.push(p.name)')] }, stampFp: fp('a', { inPositionK1State: ok('x') }), nowFp: fp('b', { inPositionK1State: ok('x') }) }, true, 'tableRead'],
+  ];
+  for (const [nm, a, need, kind] of rows) { const r = physKeysDecide330c(a); if (r.need !== need || r.kind !== kind) bad.push(nm + ' → ' + r.need + '/' + r.kind + '(期待 ' + need + '/' + kind + ')'); }
+  const c = classifyReads330c(R);
+  if (c.kinds.inPositionK1State !== 'idList' || c.kinds.auditRows !== 'idList' || c.unknown.length) bad.push('宣言の行を idList に分けない');
+  cases.push(`id の列の読み ${rows.length} 例(列の外の本だけ → 走らせない / 列の本 → tableRead / 列の照合が外れた・旧い指紋 → 全本 / 行の 1 字違い → unknown)`);
+  return { version: IDLIST_READS_VERSION_337F, ok: bad.length === 0, bad, cases };
+}
+// ==== 第337便f の塊(ここまで)====
 
 // ---------------------------------------------------------------- 計画と lint の道具の照合の一致(R309)
 /**

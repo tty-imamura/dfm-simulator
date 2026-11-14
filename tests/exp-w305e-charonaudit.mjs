@@ -30,7 +30,7 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { pinDecl305, DECL305_DATA_FILE } from './lib-w306e-pre.mjs';   // 第306便e(AN339 の案 (A)・R208): 🟪 の宣言を直した世代では、この器は第305便の宣言の写しで測る(基線の監査の記録 —— 歴史の値を保つ)
-const REGEN_SCOPE = {"presets":["plutoCharonInertialFit"],"roots":["$","DT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","T","auditRows","ch","cw","fmt"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["plutoCharonInertialFit"],"roots":["$","DT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","T","ch","cw","fmt"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w305e-charonaudit-1';
@@ -287,8 +287,8 @@ export function breakdownRows(J) {
     r('数値の帯(h → 0 —— (M1(h) − M1(h/2))·4/3)', B.numerical, (x) => SE(x, 2)),
     r('残り(走行の差 − 上の 3 つ)', B.rest, (x) => SE(x, 1))];
 }
-/** 表 2: 監査の他の項目(秒・σ の倍) */
-export function auditRows(J) {
+/** 表 2: 監査の他の項目(秒・σ の倍)。第337便f(R342): 名を auditTableRows へ(html の最上位の関数と同じ名で、領域の下限が html の監査の表の関数を閉包に入れていた —— 器は読まない) */
+export function auditTableRows(J) {
   const sig = J.obs.sigma, W = J.window.diffs, M = J.mass, T = J.tide, K = J.clock, C = J.closed, band = J.band;
   const r = (label, x, fmt) => `| ${label} | ${fmt(x)} | ${PS(x, sig)} |`;
   return [

@@ -426,3 +426,10 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
   `--emit-html <dir>`(名指しでない本に physics の鍵を足した写し htmlK.html・値だけの写し htmlV.html —— `node tools/regen-plan.mjs --html <dir>/htmlK.html --base <基点 html>` で全段の広さ)。
 - **batchKeys**(`tests/lib-w322d-qapart.mjs` 版 w330c-batchkeys-2): 範囲は半開区間 —— 端が接するだけの塊は別の組(tools/qa-keys.mjs の束が隣の塊に引きずられて 50 を超えない)。統合で枝の塊の前に空行を置く手順は残してよい(害は無い)。
 - **§5.19 の窓**: docs.nsLockLedgerRow は CALIBRATION_VERDICT §5.19 を次の「### 」か「## 」の見出しまで読む(`secUntilNext329c`)。
+
+## 第337便f — 道具: 入力の経路の指紋(AN702)・id の列の読み・文を読む段(AN709)
+
+- **経路の指紋**(`tests/lib-w337f-jsonread.mjs` —— 版 w337f-jsonpaths-1): 器の本文の `const JSON_READ_337F = [{ file, paths, keyed?, optional?, exclude? }]` と `jr337fRead`(読み取りを記録する包み)・`jr337fMeta()`(正本の `meta.jsonRead337f`)。`planRegen` と `lint.provenanceMeta` は `pathsInputCheck337f` で、読む経路の部分木が刻印と同じなら再利用(計画の行「経路の指紋で再利用になった段 n」)。安全側(経路が無い・型が違う・id の重複や欠け・位置で読む配列の並べ替え・宣言の外の読み・除外の重なり)は走らせる。
+- **id の列の読み**(`tests/lib-w330c-toolguard.mjs` の `REG_READS_337F` —— 版 w337f-idlist-1): `inPositionK1State`・`auditRows` は列の本だけで守りを照合(照合が外れれば全本)。
+- **道具** `node tools/jsonpaths337f.mjs`: `--declared`(宣言と刻印の一覧)/ `--self-test`(変異の試し・id の列の試し)/ `--replay <刻印の rev> <今の rev>`(上流の 2 つの版で経路の指紋を引く試算)/ `--compare <鎖の前の rev> [--keys a,b]`(**鎖の後に回す**: 宣言を変えた段の正本の物理の値が鎖の前と同じか —— 違えば終了コード 1)。
+- **文を読む段**: 器 pairnorm の consts に `ACCEPT_REASONS`。同じ型の段の表は `tests/lib-w337f-textread.mjs` の `textReadSurvey337f`(QA `lint.pairnormTextRead337f` ③)。

@@ -101,6 +101,7 @@ import { scopeMigrate327c as w327cScopeMigrate, SCOPE_MIGRATE_VERSION_327C as W3
 // ==== 第330便c の塊(ここから)====
 import { toolStampRecheck as w330cToolRecheck, TOOL_CHECK_VERSION_330C as W330C_TOOLCHECK_VERSION } from './lib-w281a-scope.mjs';   // 第330便c(R309): 道具の照合は lint と同じ関数(対象が html でない刻印の領域も引き直す)
 import { physKeysGuard330c as w330cPhysKeysGuard, PHYSKEYS_GUARD_VERSION_330C as W330C_PHYSKEYS_VERSION } from './lib-w330c-toolguard.mjs';   // 第330便c(AN584): physics の鍵の集合の守り(最上位では呼ばない —— 循環 import)
+import { pathsInputCheck337f as w337fPathsCheck, JSONREAD_VERSION_337F as W337F_JSONREAD_VERSION } from './lib-w337f-jsonread.mjs';   // 第337便f(AN702・R342): 入力の指紋を読む部分(JSON の経路)に絞る
 // ==== 第330便c の塊(ここまで)====
 
 // ■ 第284便c(原仮定者の裁定(第74報)⑥・AN33・AN43・統括の検証項目 R93)
@@ -3015,8 +3016,14 @@ export function planRegen(o) {
         if (shaFile(abs(inp.file)) === inp.sha256) continue;
         const st2 = (m.inputsStable || []).find((z) => z.file === inp.file);
         if (st2 && stableInputOk(root, m.inputsStable, inp.file)) continue;   // 第282便e: 刻印の版で照合(第283便e: 随伴の行も)
-        why.push(out + ': 入力 ' + inp.file + ' が変わった');
-        cause('入力: ' + inp.file + (st2 ? '(安定 hash も違う)' : ''), 'input');
+        // ==== 第337便f の塊(ここから)====
+        // 第337便f(AN702・R342): 器が経路の刻印(meta.jsonRead337f —— 宣言した JSON の経路の部分木の指紋と実際に読んだ経路)を持つ入力は、ファイルの sha も安定 hash も
+        //   違っても、読む経路の部分木が刻印と同じなら再利用(安全側: 経路が無い・型が違う・keyed の重複や欠け・刻印の時に宣言の外を読んだ・除外の重なり → 走らせる)
+        const jr337 = w337fPathsCheck({ root, meta: m, file: inp.file, volatilePaths: volOf(inp.file) });
+        if (jr337.applicable && jr337.ok) { row.jsonPaths337f = (row.jsonPaths337f || []).concat([{ out, file: inp.file }]); continue; }
+        // ==== 第337便f の塊(ここまで)====
+        why.push(out + ': 入力 ' + inp.file + ' が変わった' + (jr337.applicable ? '(経路の指紋も違う —— ' + jr337.why + ')' : ''));
+        cause('入力: ' + inp.file + (st2 ? '(安定 hash も違う)' : '') + (jr337.applicable ? '(経路の指紋も違う)' : ''), 'input');
       }
       // inputs[] に載らない読み込み(❄️ 対照系列の calaudit・nslock の kjoint2 —— 安定 hash だけを刻んだ入力)
       const listed = new Set((m.inputs || []).map((z) => z.file));
@@ -3037,6 +3044,7 @@ export function planRegen(o) {
     else if (why.length) { row.status = 'regen'; row.reasons = why; }
     else row.status = 'reuse';
     if (row.htmlPhysUsed && row.status !== 'regen') row.reasons.push('html の物理の部分が同じ(刻印の html を ' + row.htmlPhys.map((z) => z.from === 'ledger' ? '台帳' : String(z.from || '').startsWith('git:') ? 'git の履歴 ' + String(z.from).slice(4, 11) : '基点の html').join('・') + ' から引いた —— 差は版名・説明の欄・文の表など段が読まない部分だけ)');   // 第325便a
+    if (row.jsonPaths337f && row.status === 'reuse') row.reasons.push('入力のファイルは変わったが、読む経路(JSON の経路)の部分木は刻印と同じ(第337便f): ' + row.jsonPaths337f.map((z) => z.file).join(', '));   // 第337便f
     if (row.toolChecked && row.status === 'reuse') row.reasons.push('道具の変更は刻印を今の道具で引き直して一致(走らせ直さない —— 第318便a の「道具」の照合): ' + row.toolChecked.slice(0, 3).join(', '));
     // 第283便e: 依存の伝播の前の**自分の判定**(鎖の --gate が上流の走行後に引き直す値)
     row.ownStatus = row.status;
@@ -3127,6 +3135,12 @@ export function planRegen(o) {
       only: list.filter((r) => r.status === 'regen' && (r.causeKinds || []).length && r.causeKinds.every((k) => k === 'physKeys' || k === 'tableRead')).map((r) => r.key),
       sec: list.filter((r) => r.status === 'regen' && (r.causeKinds || []).length && r.causeKinds.every((k) => k === 'physKeys' || k === 'tableRead')).reduce((a, r) => a + (Number(r.sec) || 0), 0) },
     // ==== 第330便c の塊(ここまで)====
+    // ==== 第337便f の塊(ここから)====
+    // 第337便f(AN702・R342): 経路の指紋で再利用になった段(ファイル丸ごとの判定〔sha も安定 hash も違う〕なら regen だった段)と、経路の刻印を持つ段
+    jsonPaths337f: { version: W337F_JSONREAD_VERSION, reused: list.filter((r) => r.jsonPaths337f && r.ownStatus === 'reuse').map((r) => r.key),
+      sec: list.filter((r) => r.jsonPaths337f && r.ownStatus === 'reuse').reduce((a, r) => a + (Number(r.sec) || 0), 0),
+      stamped: list.filter((r) => (r.outs || []).some((f) => { const mm = metaOfOut(f); return !!(mm && mm.jsonRead337f); })).map((r) => r.key) },
+    // ==== 第337便f の塊(ここまで)====
     html: htmlAbs.replace(root + '/', ''), htmlSha256: htmlSha,
     baseHtml: o.baseHtml ? o.baseHtml.replace(root + '/', '') : null, baseSha256: baseSha,
     count,

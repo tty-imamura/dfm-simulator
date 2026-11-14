@@ -51733,6 +51733,39 @@ QA: `lint.mercuryCombo335c`(宣言・純関数の場面 8・呼ぶだけ・文�
 
 **⑦ 変えていない所。** html(beta と root)・エンジン・内蔵の本・受理器・`S._core`・正本(`tests/out/`)・再生成表と段と名簿・各鍵の判定の式と違反の文・`kinds320` の要約の形・post-merge の終了コード。
 
+〔第337便f — 道具: 本を 1 本動かす便の鎖を短くする —— 入力の指紋を読む部分(JSON の経路)に絞る・本の表を全部回す関数の読みの宣言・文を読む段(原仮定者の指示(恒久)「サンプルの変更だけでは、全行程を再実行しない」・原仮定者の指示(2026-11-14 —— 第138報)・決断事項 AN702・AN709・統括の検証項目 R342)(**道具と QA と文書だけ —— html・エンジン・内蔵の本・受理器・`S._core` は 1 bit も変えていない**・beta/index.html と root の index.html は 1 byte も変えていない・**物理の正本の値は 1 つも変えていない** —— 変わるのは段の宣言・道具・器の meta の欄)〕
+
+**① 何が起きたか。** 第336便は本を 1 本(🌘)動かしただけで鎖が 106 段(直列で 13.9 時間分)走った。原因は 3 つ: (i) 閉包に本の表を全部回す関数(`inPositionK1State`・`auditRows`)があり、その読みの宣言が無いので、どの本が動いても守り(第330便c の tableRead)が走らせた(k1scale-331c・inposk1-315c・charonaudit-305e・charonfix-306e —— 4 段・計画の見積り 1.10 h)。(ii) 上流の正本をファイル丸ごとで入力に刻んでいた —— an336-306a の正本は物理の値が同じで meta の領域の欄と時刻だけが動いたのに、安定 hash が変わって K1 の段(k1confirm-313d・k1outer-314c・k1em-314c・planet3-311d・confirm-312d)が門で走り直した。calaudit の正本も 🌘 の行だけが動いたのに、🥶 の量の行しか読まない charon の族(charon-h・charon-h2・charon-h4・charonk・charoneps-h・charonfactors・charonInput)が走り直した。(iii) 器のコードの変更の下流(器 emonly を直した便で 8 段)。
+
+**② 入力の経路の指紋(AN702 (ii) —— `tests/lib-w337f-jsonread.mjs`・版 `w337f-jsonpaths-1`)。** 器は本文に 1 行の宣言 `const JSON_READ_337F = [{ file, paths, keyed?, optional?, exclude? }]` を持ち(JSON Pointer + 1 段の任意 `*`・`keyed` は配列を位置でなく id の欄で引く・`optional` は無くてよい経路 —— 無いことも、どこまで在ったかの深さつきで指紋に入る)、上流の正本を `jr337fRead` で読む(読み取りを記録する包み —— 値は元の JSON と同じ)。正本を書くとき `jr337fMeta()` で `meta.jsonRead337f` に、宣言の経路の部分木だけを正規化した指紋(pathsSha256)と**器が実際に読んだ経路**(readPaths)と宣言の外を読んだ経路(outside)を残す。計画(`planRegen`)と QA(`lint.provenanceMeta`・`lint.canon303`・`lint.canon304`)は同じ関数 `pathsInputCheck337f` で、入力のファイルの sha も安定 hash も違うとき、読む経路の部分木が刻印と同じなら再利用にする(段の `jsonPaths337f`・計画の行「経路の指紋で再利用になった段 n」)。**安全側の規則(迷う型は走らせる側)**: 経路が無い(optional でない)・途中の型が違う・keyed の配列が配列でない・要素が object でない・id の欄が欠ける/重複する → 指紋を作らない(走らせる)/位置で読む配列は Pointer に添字が入るので並べ替えで走らせる/値の型は正規化の JSON に入る/刻印の時に宣言の外を読んだ行・刻印の版が違う行・上流の安定 hash の除外(volatilePaths)が読む経路の内側に在って宣言の exclude に無い行 → 再利用しない。宣言の無い段は従来どおりファイル丸ごと。
+
+**表 1 経路の宣言を持つ器(8 本・段 12)**
+
+| 器 | 段 | 上流の正本 | 宣言の経路 |
+|---|---|---|---|
+| `tests/exp-w313d-k1confirm.mjs` | k1confirm-313d | an336-w306a.json | `/transfer/table`(id で引く)の `*/target/value`・`pn1`・`a1`・`recordId`・`*/h` |
+| `tests/exp-w314c-k1outer.mjs` | k1outer-314c・k1em-314c | an336-w306a.json | 同上 |
+| `tests/exp-w311d-planet3.mjs` | planet3-311d | an336-w306a.json | 同上 |
+| `tests/exp-w312d-confirm.mjs` | confirm-312d | an336-w306a.json | 同上 |
+| `tests/exp-w272b-charon.mjs` | charon-h・charon-h2・charon-h4・charoneps-h・charoneps-h2・charoneps-h4 | calaudit-w249.json | `/presets`(id で引く)の `plutoCharonDiagInput/quantities`・`plutoCharonReal/quantities`(無くてよい) |
+| `tests/exp-w273b-charonk.mjs` | charonk | calaudit-w249.json | 同上 |
+| `tests/exp-w276b-charonfactors.mjs` | charonfactors | calaudit-w249.json | 同上 |
+| `tests/exp-w280d-charonInput.mjs` | charonInput | calaudit-w249.json | 同上 |
+
+**初回は走らせる。** 宣言を足した器は本文が変わるので、次の鎖で 1 回作り直す(「走らせずに刻み直す」移行は作らない)。鎖の後に統括が `node tools/jsonpaths337f.mjs --compare <鎖の前の rev>` を回し、作り直した正本の**物理の値**(`tests/lib-w323b-quick.mjs` の physSha —— meta と壁時計の欄を除く)が鎖の前と同じであることを記録する(違う段があれば終了コード 1)。**来歴の欄**: charon の族の正本はファイル全体のバイトの sha256(obsSha256・FORMAL.sha256)を来歴として写すので、経路の指紋で再利用になったとき前の刻印のまま —— 第282便e からの安定 hash の再利用と同じ型(物理の値ではない)。
+
+**③ 本の表を全部回す関数の読みの宣言(AN702 (i) —— `tests/lib-w330c-toolguard.mjs` の `REG_READS_337F`・版 `w337f-idlist-1`)。** 閉包の本の表の読みのうち id の列で読む本を決めている関数を宣言した(kind idList): `inPositionK1State`(列 `IN_POSITION_K1_IDS` —— `inPositionK1Of` が列の外の本を id だけ見て null を返す)・`auditRows`(列 `AUDIT_FAMILY` —— id を順に `BUILTIN_PRESETS.find` で引く)。読む行が宣言と 1 字も違わない・関数の本文に読む本を決める行が在る・列が文字の配列 —— を刻印の html と今の html の両方で照合し、**列の本だけ**(説明の文を除く・表の順)の hash で比べる。照合が 1 つでも外れれば従来どおり全本の中身(安全側)。守りの版 `w330c-physkeys-1` と理由の種類は変えていない。加えて器 charonaudit の表の関数の名を `auditTableRows` へ直した(html の最上位の関数と同じ名で、領域の下限が html の監査の表の関数を閉包に入れていた —— 器は読まない)。charonaudit-305e・charonfix-306e の根から外し、本便で 2 段を作り直した(物理の値は前と同じ —— physSha 一致)。
+
+**④ 本を 1 本変えた写しでの計画(🌘 の D0pull の末の桁 —— html の写し)。** 基点の道具: always 13・regen 67・recheck 28・守りだけで走る段 4(inposk1-315c・k1scale-331c・charonaudit-305e・charonfix-306e —— 1.10 h)。本枝の道具では 4 段の守りの判定が「走らない」(QA ④ —— k1scale・inposk1 は列の 7 本に 🌘 が無い・charonaudit・charonfix は閉包から `auditRows` が外れた)。🌡️ の G の末の桁(列の本)では inPositionK1State の列の指紋が変わる(走らせる)。第336便の上流の正本の 2 つの版(4417091 → 0dafc87)で経路の指紋を引くと(`node tools/jsonpaths337f.mjs --replay`)、表 1 の 12 段は全部「経路の指紋で再利用(ファイル丸ごとなら走る)」になる —— 第336便の 106 段のうち、守りの 4 段と経路の 12 段の計 16 段(直列で約 5.9 時間分)が本枝の判定なら走らない見込み(試算 —— 器 emonly の変更の下流 (iii) は入れていない)。
+
+**⑤ 器のコードの変更の下流(AN702 (iii) —— 調べと提案だけ)。** code が変わっても再利用することは許さない(本便も実装しない)。将来の案: 入力の解決の後の ID・値・計算の中身(器が本に渡す宣言の写しと、走行の関数の本文の hash)が同じことを照合できる型だけを通す —— 器 emonly のように入力のファイルの置き場所だけを変えた便が候補。次の便の決断事項の候補に回す。
+
+**⑥ 文を読む段(AN709)。** 器 `tests/exp-w305a-pairnorm.mjs` の正本は受理の理由の文(`zero.gs.badDenomMsg`)を写すのに、領域の宣言の consts に文の出どころ `ACCEPT_REASONS` が無かった(文の登録簿は閉包を辿らない停止集合 —— consts に宣言しない限り領域 hash に入らない)。consts に `ACCEPT_REASONS` を足し、本便で段を作り直した(物理の値の差は文の 1 箇所だけ —— 前の正本は第335便の文のまま)。回帰の検査(QA): html の写しで受理の理由の文だけを変える(W₀ → W_bg)と、器の宣言の領域 hash と鎖の入力の契約(inputDigest の html:scope)が変わる・宣言から外した対照では変わらない(元の取りこぼしの再現)。**同じ型の段**(正本に文の登録簿の文が写っている段 —— `tests/lib-w337f-textread.mjs` の `textReadSurvey337f`): 52 段・宣言あり 3(drag3d-298c・semic-302d・pairnorm-305a)・宣言なし 49(実測秒の和 約 13,950 s —— 受理の警告の文を写す器が多い)。consts に足すと文の便のたびに走るので、本便は pairnorm だけを直し、残りは段ごとに「consts に足す/正本に写す文を安定 hash と簡易の指紋から外す」を決める(決断事項の候補)。
+
+**⑦ 新しい QA(第337便f —— root は SKIP)。** `lint.jsonPathInputs337f`(版・変異の試し 24 例〔読まない経路 → 再利用・読む経路・消す・型・並べ替え(位置)→ 走らせる・並べ替え(id)→ 再利用・id の重複と欠け・無くてよい経路の深さ・宣言の形・読みの記録の内と外と書き込み〕・id の列の読み 7 例と今の html の列の指紋・本を 1 本変えた写しでの 4 段の守り・計画の上の試し 6 例〔一時の root の 2 段〕・実物の正本の経路の刻印 ⊆ 器の宣言・計画と lint が同じ関数)・`lint.pairnormTextRead337f`(文だけの変異・正本の meta.scope・同じ型の段の表)・`docs.regenPaths337f`(本節・AI_SPEC §234・CHANGELOG・tools/README.md・post-merge の ③′)。道具 `tools/jsonpaths337f.mjs`(`--declared`・`--self-test`・`--replay`・`--compare`)。
+
+**⑧ 変えていない所。** html(beta と root)・エンジン・内蔵の本・受理器・`S._core`・物理の正本の値・段の数と名簿・守りの版と理由の種類・宣言の無い段の判定(ファイル丸ごと)。
+
 〔第328便 — 統括: 原仮定者の指示(第130報)「改めて残った決断事項をまとめる」・原仮定者の回答(2026-11-05 —— 第327便の残りの決断事項 17 項〔AN550〜AN557・AN559〜AN567〕を推奨どおり: AN553 = B・他は A)を受けた第328便の構成・統合・決断事項・次の便(統括の検証項目 R301〜R303)〕
 
 **① 第328便の構成。** 便の開始(統括)で beta の版名を v1.47-b328 に・段の見積りの秒を第327便の鎖 1・鎖 2 の実測で更新(a96bea2)。枝 a(場の API の opt-in の契約 —— 枠・定数の Ω_field の宣言・収束の印・由来・伝達の版と係数・帳簿の口座の参照と、直接の滑りの宣言の型 —— AN551・AN552・AN553)・枝 b(受け手の応答の演算と p の判定・源の自転を外部の口座に固定した比べる列・金星の熱潮汐の振幅の記録し直し・予言のやり直しの扱い・火星と地球の局所の尺度 —— AN559・AN561・AN562・AN563・AN550・AN566)・枝 c(第327便f の器の検査の範囲の直し・共鳴の口の仕事の契約 —— AN564)。**どの枝も `beta/index.html`・root の `index.html`・エンジン・内蔵の本・受理器を変えていない**(診断と契約と道具)。AN554(名指しの 6 段を条件で選ぶ)は次の便の道具の便へ。

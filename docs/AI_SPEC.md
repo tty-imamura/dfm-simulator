@@ -5023,3 +5023,9 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **道具**: 印のない FAIL を理由の文の末尾つきの一覧(① は `$LOG/1-unmarked.txt`・④ は `$LOG/4-unmarked.txt`)に書き、1 件でもあれば要約に「‼ ① の印のない FAIL を 1 件ずつ読むこと(一覧 …)」を出す(`tests/lib-w336b-unmarked.mjs`)。刻印の型の FAIL を出しうる鍵 130 本の detail に種類の印(判定は不変)。刻印の型の語は `tests/lib-w320d-lintkinds.mjs` の版 2。
 - **規則**: AI が受け入れの結果を読むとき、種類の数が 0 でも、印のない FAIL は 1 件ずつ理由の文を読んで分ける(一覧の「〔文に刻印の型の語〕」は参考 —— 刻印の型と決めたのではない)。
 - QA `lint.unmarkedFail336b`(合成のログ・post-merge の関数を切り出した実行・第335便のログの抜粋の凍結・印の経路)・`docs.unmarkedFail336b`(本節と PHYSICS〔第336便b〕・CHANGELOG・tools/README.md・post-merge)。
+
+## 234. 第337便f —— 入力の指紋を読む部分(JSON の経路)に絞る・本の表を全部回す関数の読みの宣言・文を読む段(原仮定者の指示(恒久)「サンプルの変更だけでは、全行程を再実行しない」・決断事項 AN702・AN709・統括の検証項目 R342・**道具と QA と文書だけ** —— html・本の宣言・エンジン・受理器・`S._core`・physics の鍵・物理の正本の値は不変・**SYSTEM_PROMPT には載せない**)
+- **経路の指紋**: 器は上流の正本の読む経路を本文の `const JSON_READ_337F = [...]` に宣言し、`tests/lib-w337f-jsonread.mjs` の `jr337fRead` で読み、正本の `meta.jsonRead337f` に経路の部分木の指紋と実際に読んだ経路を残す。計画と QA は、ファイルが変わっても読む経路の部分木が同じなら再利用にする。経路が無い・型が違う・id の重複や欠け・位置で読む配列の並べ替え・宣言の外の読みは**走らせる側**へ倒す。宣言を足した器は次の鎖で 1 回作り直す(`node tools/jsonpaths337f.mjs --compare <鎖の前の rev>` で物理の値が同じことを記録)。
+- **id の列の読み**: `inPositionK1State`(列 `IN_POSITION_K1_IDS`)・`auditRows`(列 `AUDIT_FAMILY`)は列の本だけで守りを照合する(`tests/lib-w330c-toolguard.mjs` の `REG_READS_337F`)。
+- **文を読む段**: 器 pairnorm の領域の consts に `ACCEPT_REASONS`(正本が受理の理由の文を写す)。同じ型の段 49(宣言なし)は段ごとに決める。
+- QA `lint.jsonPathInputs337f`・`lint.pairnormTextRead337f`・`docs.regenPaths337f`(本節と PHYSICS〔第337便f〕・CHANGELOG・tools/README.md・post-merge)。

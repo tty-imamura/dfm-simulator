@@ -926,6 +926,12 @@ unmarked336b() {   # $1 = ログ・$2 = 一覧のファイル・$3 = 段の印(�
   node "$ROOT/tests/lib-w336b-unmarked.mjs" --unmarked "$1" --out "$2" --label "$3" 2>/dev/null || echo "・‼ $3 の印のない FAIL の一覧が作れない(ログ $1 を 1 行ずつ読むこと)"
 }
 # ==== 第336便b の塊(ここまで)====
+# ==== 第337便f の塊(ここから)====
+# 第337便f(原仮定者の指示(恒久)「サンプルの変更だけでは、全行程を再実行しない」・決断事項 AN702・AN709・統括の検証項目 R342 —— 道具と QA だけ・html は変えない):
+#   入力の指紋を読む部分(JSON の経路 —— 器の JSON_READ_337F と meta.jsonRead337f)に絞る・id の列で読む関数の読みの宣言・文を読む段(器 pairnorm の ACCEPT_REASONS)。
+#   枝 f の新設 3 本(lint.jsonPathInputs337f・lint.pairnormTextRead337f・docs.regenPaths337f)と、計画と刻印と鎖の道具を読む lint の一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.jsonPathInputs337f lint.pairnormTextRead337f docs.regenPaths337f lint.regenScope lint.stableHashPaths lint.regenChain lint.scopeAll312 lint.scopeStop lint.regenTools312 lint.toolStamp318 lint.toolCheckProv330c lint.physKeysGuard330c lint.provenanceMeta lint.canon303 lint.canon304 docs.charonAudit305 lint.symbols333e lint.kappaSymbol315 docs.w320d lint.sectionLookup313"
+# ==== 第337便f の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

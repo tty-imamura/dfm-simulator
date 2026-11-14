@@ -40,7 +40,7 @@ import { recordsOf, runRevs, readRun, m1Of, m4Of, UNIT, CONST, TIDE, CSV_FILE } 
 import { DECL305, DECL305_DATA_FILE, LIB_VERSION as PRE_VERSION, pin305 } from './lib-w306e-pre.mjs';
 import { pinDecl306e, DECL306_DATA_FILE } from './lib-w307e-pre.mjs';   // 第307便e: 第306便の 🟪 の fitRecord(標的の役割なし)へ器の中だけで戻す(段 record の「本の記録と同じか」の門 —— 第306便の html では no-op)
 import { gateOf, statusOf, FITSTOP_VERSION } from './lib-w303e-fitstop.mjs';
-const REGEN_SCOPE = {"presets":["plutoCharonDiagInput","plutoCharonInertialFit"],"roots":["$","DT","HP.FIT_COND_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondInputsOf","HP.fitCondSig","HP.fitCondStateOf","HP.sim","HP.validateFitRecord","HP.validatePreset","T","ab","auditRows","ch","cw","fmt"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["plutoCharonDiagInput","plutoCharonInertialFit"],"roots":["$","DT","HP.FIT_COND_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondInputsOf","HP.fitCondSig","HP.fitCondStateOf","HP.sim","HP.validateFitRecord","HP.validatePreset","T","ab","ch","cw","fmt"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w306e-charonfix-1';
