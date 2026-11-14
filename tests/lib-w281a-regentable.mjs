@@ -2039,6 +2039,7 @@ export const REGEN_STEPS = [
   //   第335便c・第332便a の lib を import して呼ぶ〔code の依存 —— 他の正本は読まない〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w337b-mercuryband.mjs —— 第335便f の型・
   //   領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第337便b の枝の実測 3〜4 s(一次の率の格子 896 行と RK4 の 3 組 × 刻み 2 —— 間引かない)
   S('mercuryband-337b', 'node tests/exp-w337b-mercuryband.mjs', ['tests/out/mercuryband-337b.json'], 5, { secSource: 'w337b-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus'],   // 順序だけ(import する第331便c の lib が出典の正本の名を書く —— 第335便e と同じ 10 段)
     quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 5 s の内で、簡易一致の窓を持たない',
     volatilePaths: { 'tests/out/mercuryband-337b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec', '/mercury/integ/rows/*/runs/*/wallSec'] },   // 入力のファイルが無い器(meta.inputs が空)—— /meta/inputs/*/mtime は外す
     note: '第337便b: 水星の赤道面を横切る幾何の表(4 天体)・寄与の分解(並進引きずりの動径/接線/和 = K1・源の回転・G_loc の次数 0〜2・第335便c の回転の列)と区間の効き・赤道帯の回転の候補のノブの格子'
