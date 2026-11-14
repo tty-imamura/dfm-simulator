@@ -12,7 +12,7 @@ const PL = Object.freeze({ merc: '水星', venus: '金星', earth: '地球', mar
 const CT = Object.freeze({ off: '回転引きずり OFF(λ = 0)', k1: '並進引きずりの K1(実装)', rigid: '源の自転が運ぶ速度の剛体の場(並進引きずりの回転の分 —— 単位の λ)' });
 const nameOf = (s) => `${s.prof}・${ACT[s.action]}・${RD[s.reading]}・${SP[s.speed]}`;
 /** 例として並べる環の物差しを満たさない組(作用の型ごとに 1 つ) */
-export const FAIL_EXAMPLES = Object.freeze(['slice|push|Yk|obs', 'lor2|vel|Yk|obs', 'lor2|damp|Yk|obs', 'ball|focus|Yk|obs', 'lor8|focus|Robs|obs']);
+export const FAIL_EXAMPLES = Object.freeze(['slice|push|Req|obs', 'lor2|vel|Req|obs', 'lor2|damp|Req|obs', 'ball|focus|Req|obs', 'lor8|focus|Robs|obs']);
 
 export function tablesOf(J) {
   const T = {}, S = J.pure.scenes, G = J.pure.gates;
@@ -52,7 +52,7 @@ export function tablesOf(J) {
     `| 対照(λ = 0)の残差の帯の比 | 水星・金星・地球・火星 | 0 | 0 | 0 | — | 0 | 真 | ${PL.merc} ${tf(Object.values(P.base.merc).every((x) => x <= 1))}・${PL.venus} ${tf(Object.values(P.base.venus).every((x) => x <= 1))}・${PL.earth} ${tf(Object.values(P.base.earth).every((x) => x <= 1))}・${PL.mars} ${tf(Object.values(P.base.mars).every((x) => x <= 1))} | — | — |`].join('\n');
   const q1 = P.q1cy, cmpRow = (label, kind, rdIn, row, k = 1) => `| ${label} | ${kind} | ${rdIn} | ${fe(row.apsW * k)} | ${fe(row.ecl.dvarpi * k)} | ${row.apsW * k > 0 ? '進める' : row.apsW * k < 0 ? '戻す' : '0'} | ${fe(row.apsW * k / q1)} | ${fe(row.nearShare ? row.nearShare.apsW : null)} |`;
   const TR = Object.fromEntries(P.trans.map((t) => [t.key, t.row])), CR = Object.fromEntries(P.controls.map((c) => [c.key, c.row]));
-  const repA = P.sets.find((q) => q.key === 'slice|focus|Yk|obs'), repB = P.sets.find((q) => q.key === 'slice|dampz|Yk|obs'), repC = P.sets.find((q) => q.key === 'ball|focus|Yk|sd');
+  const [repA, repB, repC] = J.plan.mainSets.map((k) => P.sets.find((q) => q.key === k));
   T.compare = [`| 列(水星 —— 1PN の面内の近点の率 ${fe(q1)} ″/世紀) | 引きずりの種 | 源の引きずり半径の入り方 | 面内の近点の率 [″/世紀] | 黄道の ϖ の率 [″/世紀] | 向き | ÷ 1PN | 赤道面の近くの割合 |`, '|---|---|---|---|---|---|---|---|',
     cmpRow('並進引きずりの動径の分(第337便b の分解)', '並進', '入らない', TR.transRadial), cmpRow('並進引きずりの接線の分(同)', '並進', '入らない', TR.transTangent), cmpRow('座標変換に入る源の回転(同)', '並進(回転の分)', '入らない', TR.rot),
     cmpRow('第337便b の赤道帯の候補の代表(G_loc の置き換え)', '並進の型(源の自転が運ぶ速度の場を高さで重み付け)', '入らない(帯の厚みは開き角 1°)', P.bandB),
@@ -66,5 +66,19 @@ export function tablesOf(J) {
   T.integ = [`| 代表 | 読む量 | 一次の率 | 時間積分(${st[0]}・${st[1]} 步/周 × ${J.plan.integ.nOrb} 周) | 一次 ÷ 積分 − 1 | 刻みの差 |`, '|---|---|---|---|---|---|',
     `| 土星 B 環(z_max 1 m)・${nameOf(ig.ring.spec)} | d ln i/dt [1/s] | ${fe(ig.ring.first.dlnI)} | ${fe(ig.ring.runs[0].dlnI)}・${fe(ig.ring.runs[1].dlnI)} | ${fe(ig.ring.relDiff)} | ${fe(ig.ring.stepSpread)} |`,
     ...ig.planet.map((p) => `| 水星・${nameOf(p.spec)} | ${p.readKey === 'apsW' ? '面内の近点の率 [rad/s]' : 'd ln i/dt [1/s]'} | ${fe(p.first[p.readKey])} | ${fe(p.runs[0][p.readKey])}・${fe(p.runs[1][p.readKey])} | ${fe(p.relDiff)} | ${fe(p.stepSpread)} |`)].join('\n');
+  // 補足 4 —— 扁平の則の次数・一様厚みの区間・比べる相手
+  T.oblate = ['| 組 | 次数 q | 土星の R_eq ÷ Y_k m | 要る λ | 環の物差し | 水星の尺度の比の最大 |', '|---|---|---|---|---|---|',
+    ...J.oblate.flatMap((o) => { const s = R.sets.find((q) => q.key === o.key); return o.rows.map((r) => `| ${nameOf(s.spec)} | ${r.q === 1 / 3 ? '1/3(主)' : r.q === 0.5 ? '1/2' : String(r.q)} | ${fe(r.satFactor)} | ${fe(r.lambdaNeed)} | ${r.pass ? '満たす' : '満たさない'} | ${fe(r.mercScaleMax)} |`); })].join('\n');
+  const Uf = J.uniform, E = Uf.edges;
+  T.uniformEdges = [`| 土星の環(源の重力が支配的な範囲 —— 決定力の割合 ½ の半径 ${fe(E.rHalfD)} m・加速度の割合 ½ の半径 ${fe(E.rHalfA)} m・表面 ${fe(E.surface)} m・主の R_eq ${fe(E.RdMain)} m) | 半径 [m] | ÷ 表面の半径 | 決定力の割合 | 加速度の割合 | 区間の内 |`, '|---|---|---|---|---|---|',
+    ...Uf.ringPos.map((r) => `| ${r.name} | ${fe(r.r)} | ${fe(r.rOverSurface)} | ${fe(r.dShare)} | ${fe(r.aShare)} | ${tf(r.inside)} |`),
+    ...Uf.prop.map((q) => `| z に比例する高さの上限(B 環 —— 高さ則 ${q.law}・V/z が z → 0 の値の 10% の内) | ${fe(q.zMax)} | — | — | ÷ R_eq ${fe(q.zMaxOverRd)} | — |`)].join('\n');
+  const lawName = (k) => (R.sets.find((q) => q.key === k) ? nameOf(R.sets.find((q) => q.key === k).spec) : '高さ則 ' + k + '・鉛直へ寄せる場・R_eq・s');
+  T.uniformRates = [`| 組(単位の λ・高さの振れ ${J.decl.uniform.zMax} m) | D 環の d ln i/dt [1/s] | F 環の d ln i/dt [1/s] | 単位の高さあたりの率 a のべき(d log a/d log r) | 傾きの率のべき | 1 周あたりの率のべき | D〜F の率の一様さ(平均からの最大のずれ) | 厚みのべき(乱しの σ_z が一様) | 厚みのべき(乱しの注入率が一様) |`, '|---|---|---|---|---|---|---|---|---|',
+    ...Uf.rates.map((r) => `| ${lawName(r.key)} | ${fe(r.pts[0].dlnI)} | ${fe(r.pts[r.pts.length - 1].dlnI)} | ${z12(r.powSlope)} | ${z12(r.powRate)} | ${z12(r.powPerOrbit)} | ${z12(r.flatRate)} | ${z12(r.thickM1)} | ${z12(r.thickM2)} |`)].join('\n');
+  const short = (k) => { const s = R.sets.find((q) => q.key === k).spec; return `${s.prof}・${ACT[s.action]}・${SP[s.speed]}`; };
+  T.an719 = ['| 受け手 | 源 | n/s | 半長軸 ÷ 同期の半径 | 軸引きずり: 背景が静止の読み [rad/s] | 軸引きずり: 今の並進の式の形の読み [rad/s] | 2 つの読みの差 [rad/s] | ' + J.plan.mainSets.map((k) => short(k) + ': 傾きの e 分の 1 の時間 [年]・場の向きの回転率 [rad/s]・÷ 読みの差').join(' | ') + ' |',
+    '|---|---|---|---|---|---|---|' + J.plan.mainSets.map(() => '---|').join(''),
+    ...J.an719.map((r) => `| ${r.name} | ${r.host === 'saturn' ? '土星' : r.host === 'mars' ? '火星' : '木星'} | ${fe(r.nOverS)} | ${fe(r.aOverSync)} | ${fe(r.axStatic)} | ${fe(r.axSelf)} | ${fe(r.axDiff)} | ` + r.sets.map((q) => `${fe(q.tiltEfoldYr)}・${fe(q.spinField)}・${fe(q.vsAxialDiff)}`).join(' | ') + ' |')].join('\n');
   return T;
 }

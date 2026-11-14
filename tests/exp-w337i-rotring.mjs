@@ -21,6 +21,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import * as L from './lib-w337i-rotring.mjs';
 import { contribEffect, bandEffect } from './lib-w337b-mercuryband.mjs';
 import { stateAt as stateAt333 } from './lib-w333c-mercury3d.mjs';
+import * as A337 from './lib-w337a-supply.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w337i-rotring-1';
@@ -43,7 +44,9 @@ export const PLAN = Object.freeze({
     src: '第337便b の正本 tests/out/mercuryband-337b.json の代表の組(G_loc の置き換え)vel|obs|inPlane|angle1|q4|p3 の λ(写し)' }),
   transKeys: Object.freeze(['transRadial', 'transTangent', 'rot']),
   /** 代表(T3 の持ち出し・T4・時間積分)—— 環の物差しを満たした組から、高さの型ごとに 1 つ(R_d の読み Yk・速さ obs を優先) */
-  repPrefer: Object.freeze({ reading: 'Yk', speed: 'obs' }),
+  repPrefer: Object.freeze({ reading: 'Req', speed: 'obs' }),
+  /** 絞った 3 組(主の読み R_eq —— 原仮定者の補足(2026-11-14 —— 第138報の補足 4)で扁平の則を定義の一部に) */
+  mainSets: Object.freeze(['slice|focus|Req|obs', 'slice|dampz|Req|obs', 'ball|focus|Req|sd']),
   rdScanProfiles: Object.freeze(['slice', 'lor4', 'ball']),
   integ: L.DECL.integ,
   integRing: Object.freeze({ prof: 'slice', action: 'focus', reading: 'Yk', speed: 'obs', ring: 'satB', zMax: 1, efolds: 0.1 }),
@@ -137,7 +140,7 @@ export function representatives(ring, planets) {
   const pass = ring.sets.filter((s) => planets.narrowed.includes(s.key)), out = [];
   for (const prof of L.PROFILES) for (const action of L.ACTIONS) {
     const c = pass.filter((s) => s.spec.prof === prof && s.spec.action === action); if (!c.length) continue;
-    const pick = c.find((s) => s.spec.reading === PLAN.repPrefer.reading && s.spec.speed === PLAN.repPrefer.speed) || c[0];
+    const pick = c.find((s) => s.spec.reading === PLAN.repPrefer.reading && s.spec.speed === PLAN.repPrefer.speed) || c.find((s) => s.spec.reading === PLAN.repPrefer.reading) || c[0];
     out.push(pick.key);
   }
   return out;
@@ -147,7 +150,7 @@ export function partRdScan(ring) {
   const actions = [...new Set(ring.sets.filter((s) => s.judge.thin && s.judge.pass).map((s) => s.spec.action))];
   for (const prof of PLAN.rdScanProfiles) for (const action of actions) for (const speed of L.SPEEDS) {
     const scan = L.DECL.rdScan.map((k) => {
-      const kScale = Math.pow(10, k), spec = { prof, action, reading: 'Yk', speed, lambda: 1, kScale }, effS = L.effectOfSpec(sat, spec), RdS = effS.meta.Rd;
+      const kScale = Math.pow(10, k), spec = { prof, action, reading: L.DECL.mainReading, speed, lambda: 1, kScale }, effS = L.effectOfSpec(sat, spec), RdS = effS.meta.Rd;
       const rr = P.map((p) => L.ringRow(p.sys, effS, L.pointsOf(p.sys, RdS))), J = L.ringJudge(rr);
       const effU = L.effectOfSpec(sun, spec), RdU = effU.meta.Rd, u = L.planetRow(merc, effU, L.pointsOf(merc, RdU), RdU);
       const at = J.thin ? L.scalePlanetRow(u, J.lambdaNeed) : null;
@@ -181,6 +184,54 @@ export function partInteg() {
   return out;
 }
 
+/* ───────── 補足 4 —— 扁平の則の次数・一様厚みの区間・比べる相手への効きの予想 ───────── */
+const specOf = (key) => { const [prof, action, reading, speed] = key.split('|'); return { prof, action, reading, speed }; };
+/** 扁平の則の次数 q(R_eq = R_d/(1 − f_flat)^q —— 主 q = 1/3)を振った、絞った 3 組の要る λ と水星の尺度の比の最大 */
+export function partOblate() {
+  const sat = L.sourceOf('saturn'), sun = L.sourceOf('sun'), P = ringPoints(sat), merc = L.planetSys('merc');
+  return PLAN.mainSets.map((key) => ({ key, rows: L.DECL.oblateQs.map((q) => {
+    const spec = { ...specOf(key), lambda: 1, oblateQ: q }, eS = L.effectOfSpec(sat, spec), J = L.ringJudge(P.map((p) => L.ringRow(p.sys, eS, L.pointsOf(p.sys, eS.meta.Rd))));
+    const eU = L.effectOfSpec(sun, spec), u = L.planetRow(merc, eU, L.pointsOf(merc, eU.meta.Rd), eU.meta.Rd), at = J.thin ? L.scalePlanetRow(u, J.lambdaNeed) : null;
+    return { q, RdSat: eS.meta.Rd, RdSun: eU.meta.Rd, satFactor: eS.meta.Rd / L.rdOf(sat, 'Yk'), thin: J.thin, pass: J.thin && J.pass, lambdaNeed: J.lambdaNeed, mercScaleMax: at ? Math.max(...Object.values(L.planetScaleRatios(merc, at))) : null };
+  }) }));
+}
+/** 一様厚みの区間: 源の重力が支配的な範囲の端・環の半径の位置・z に比例する高さの範囲・鉛直の振幅を減らす率の半径の依存(べき) */
+export function partUniform() {
+  const U = L.DECL.uniform, sat = L.sourceOf('saturn'), sun = L.sourceOf('sun'), d = U.sunDistAU * 1.495978707e11;
+  const rings = [L.LIT.ringD, ...L.LIT.rings].filter((r) => U.rings.includes(r.key));
+  const edges = { rHalfD: sat.m * d / sun.m, rHalfA: d * Math.sqrt(sat.m / sun.m), surface: sat.Robs, RdMain: L.rdOf(sat, L.DECL.mainReading) };
+  const part = L.LIT.receivers[0];
+  const ringPos = rings.map((R) => { const D = L.dominance({ src: { m: sat.m, r: R.r }, others: [{ m: sun.m, r: d }], recv: { m: part.m, R: part.R } });
+    return { key: R.key, name: R.name, r: R.r, rOverSurface: R.r / sat.Robs, dShare: D.dShare, aShare: D.aShare, inside: R.r > sat.Robs && D.dShare > 0.5 && D.aShare > 0.5 }; });
+  const Rd = edges.RdMain, sp = sat.s, rB = rings.find((r) => r.key === 'satB').r;
+  const prop = U.laws.map((law) => { const pr = L.propRange((z) => L.heightLawV(law, rB, z, Rd, sp), rB); return { law, zMax: pr.zMax, zMaxOverRd: pr.zMax === null ? null : pr.zMax / Rd }; });
+  const cols = [...PLAN.mainSets.map((key) => ({ key, spec: { ...specOf(key), lambda: 1 } })), ...U.laws.map((law) => ({ key: law, spec: { law, reading: L.DECL.mainReading, speed: 'obs', lambda: 1 } }))];
+  const rates = cols.map((c) => {
+    const pts = rings.map((R) => { const sys = L.ringSys(sat, { r: R.r, zMax: U.zMax }), eff = c.spec.law ? L.heightLawEffect(sat, c.spec) : L.effectOfSpec(sat, c.spec);
+      const row = L.ringRow(sys, eff, L.pointsOf(sys, Rd)), P = L.periodOf(sys.orb);
+      return { key: R.key, r: R.r, slope: L.verticalRateAt(sat, c.spec, R.r, U.zMax / 2), dlnI: row.dlnI, perOrbit: row.dlnI * P }; });
+    const pw = (f) => { const a = pts[0], b = pts[pts.length - 1]; return Math.abs(f(a)) > 0 && Math.abs(f(b)) > 0 ? Math.log(Math.abs(f(b)) / Math.abs(f(a))) / Math.log(b.r / a.r) : null; };
+    const flat = (f) => { const v = pts.map((q) => Math.abs(f(q))), m = v.reduce((x, y) => x + y, 0) / v.length; return m > 0 ? Math.max(...v.map((x) => Math.abs(x / m - 1))) : null; };
+    const p = pw((q) => q.dlnI);
+    return { key: c.key, pts, powSlope: pw((q) => q.slope), powRate: p, powPerOrbit: pw((q) => q.perOrbit), flatRate: flat((q) => q.dlnI), thickM1: p === null ? null : -p, thickM2: p === null ? null : -p / 2 + 1.5 };
+  });
+  return { edges, ringPos, prop, rates, models: { M1: '乱しの速度の散らばり σ_z が一様・寄せる速さ a H が σ_z と釣り合う(H ∝ 1/a)', M2: '乱しの注入率が一様・σ_z² ∝ 1/a・H ~ σ_z/ν_z(ν_z ∝ r^−3/2 —— H ∝ a^−1/2 r^3/2)' } };
+}
+/** 比べる相手(源の自転の半分より速く公転する受け手)への効きの予想: 回転引きずり(絞った 3 組・要る λ)の傾きと場の向きの回転率・軸引きずりの 2 つの読み(第337便a の lib) */
+export function partAN719(ring) {
+  const AX = L.DECL.axial, AU = 1.495978707e11, sun = L.sourceOf('sun'), W0 = A337.W0FromHalf({ m: sun.m, rHalf: AX.rHalfAU * AU, alpha: AX.alpha, rRef: AU });
+  return L.LIT.receivers.map((R) => {
+    const src = L.sourceOf(R.host), n = Math.sqrt(L.DECL.G * src.m / R.a ** 3), rSync = Math.cbrt(L.DECL.G * src.m / (src.s * src.s));
+    const f = A337.fShare(A337.weight337(src.m, R.a, AX.alpha, AU), W0), axStatic = A337.staticRate({ s: src.s, f, alpha: AX.alpha }), axSelf = A337.selfRate({ s: src.s, n, f, alpha: AX.alpha });
+    const sys = L.ringSys(src, { r: R.a, zMax: R.a * Math.sin(R.iDeg * Math.PI / 180), e: R.e });
+    const sets = PLAN.mainSets.map((key) => { const lam = ring.sets.find((q) => q.key === key).judge.lambdaNeed, spec = { ...specOf(key), lambda: lam }, eff = L.effectOfSpec(src, spec), Rd = eff.meta.Rd;
+      const row = L.ringRow(sys, eff, L.pointsOf(sys, Rd)), Uf = (rho) => L.profileUW(spec.prof, rho, 0, Rd, eff.meta.sp, eff.meta.RK1).U;
+      const spinField = lam * (Uf(R.a + R.R) - Uf(R.a - R.R)) / (2 * R.R);
+      return { key, lambda: lam, Rd, dlnI: row.dlnI, tiltEfoldYr: row.dlnI !== 0 ? 1 / Math.abs(row.dlnI) / L.YR : null, dOmOverOm: row.dOmOverOm, spinField, spinVertical: 0, vsAxialDiff: Math.abs(spinField) / Math.abs(axStatic - axSelf) }; });
+    return { key: R.key, name: R.name, host: R.host, a: R.a, n, s: src.s, nOverS: n / src.s, rSync, aOverSync: R.a / rSync, f, axStatic, axSelf, axDiff: axStatic - axSelf, sets };
+  });
+}
+
 /* ───────── 門 ───────── */
 export function gatesOf(J) {
   const nSets = L.PROFILES.length * L.ACTIONS.length * L.READINGS.length * L.SPEEDS.length;
@@ -194,6 +245,9 @@ export function gatesOf(J) {
     rdScan: J.rdScan.every((r) => r.scan.length === L.DECL.rdScan.length),
     integRing: J.integ.ring.relDiff <= 1e-2 && J.integ.ring.stepSpread <= 1e-3,
     integPlanet: J.integ.planet.every((p) => p.relDiff <= 2e-2 && p.stepSpread <= 1e-3),
+    oblate: J.oblate.length === PLAN.mainSets.length && J.oblate.every((o) => o.rows.length === L.DECL.oblateQs.length && Math.abs(o.rows[0].satFactor - Math.pow(1 - L.LIT.saturn.f, -1 / 3)) <= 1e-12),
+    uniform: J.uniform.rates.length === PLAN.mainSets.length + L.DECL.uniform.laws.length && J.uniform.rates.find((r) => r.key === 'T1').flatRate <= 1e-6,
+    an719: J.an719.length === L.LIT.receivers.length && J.an719.every((r) => r.nOverS > 0.5 && r.sets.length === PLAN.mainSets.length),
   };
 }
 export function runAll() {
@@ -205,7 +259,10 @@ export function runAll() {
   const reps = representatives(ring, planets);
   const rdScan = partRdScan(ring); mark('rdScan');
   const integ = partInteg(); mark('integ');
-  const J = { pure, inventory, ring, planets, reps, rdScan, integ, timing: tm };
+  const oblate = partOblate(); mark('oblate');
+  const uniform = partUniform(); mark('uniform');
+  const an719 = partAN719(ring); mark('an719');
+  const J = { pure, inventory, ring, planets, reps, rdScan, integ, oblate, uniform, an719, timing: tm };
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
   return J;
 }
@@ -215,7 +272,7 @@ const writeJson = (OUT, out) => { fs.mkdirSync(path.dirname(OUT), { recursive: t
 export const CODE = Object.freeze(['tests/exp-w337i-rotring.mjs', 'tests/lib-w337i-rotring.mjs', 'tests/lib-w337b-mercuryband.mjs', 'tests/lib-w335c-mercurycombo.mjs', 'tests/lib-w334c-mercurynode.mjs',
   'tests/lib-w334a-heightlaw.mjs', 'tests/lib-w333c-mercury3d.mjs', 'tests/lib-w333b-axialfield.mjs', 'tests/lib-w333a-rotdiff.mjs', 'tests/lib-w332b-transgeo2.mjs', 'tests/lib-w332a-eqband.mjs',
   'tests/lib-w331c-k1scale.mjs', 'tests/lib-w331b-centrifugal.mjs', 'tests/lib-w331a-coordtwist.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w326d-axialheat.mjs', 'tests/lib-w312a-decay.mjs',
-  'tests/lib-w310d-shell.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w272e-provenance.mjs']);
+  'tests/lib-w310d-shell.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w337a-supply.mjs']);
 export async function main() {
   const t0 = Date.now();
   const OUT = process.env.W337I_OUT ? (path.isAbsolute(process.env.W337I_OUT) ? process.env.W337I_OUT : path.join(ROOT, process.env.W337I_OUT)) : path.join(ROOT, OUT_MAIN);

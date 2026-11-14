@@ -2107,8 +2107,8 @@ export const REGEN_STEPS = [
   //   同じ組の水星/金星/地球/火星・並進引きずりの分解と第337便b の赤道帯の候補との並べ・引きずり半径の効き・代表の時間積分**(段 rotring-337i —— 正本 tests/out/rotring-337i.json・
   //   lib tests/lib-w337i-rotring.mjs —— 第337便b・第333便a・第334便a・第332便a・第333便c の lib を import して呼ぶ〔code の依存 —— 他の正本は読まない。import する lib が呼ぶ
   //   第331便c の lib が記録の値の出典の正本の名を書くだけ —— 順序だけ after に段 accelloss-337d と同じ 10 段 + 第337便b の段〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数
-  //   tests/lib-w337i-rotring.mjs —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第337便i の枝の実測 6 s
-  S('rotring-337i', 'node tests/exp-w337i-rotring.mjs', ['tests/out/rotring-337i.json'], 6, { secSource: 'w337i-branch', node: true,
+  //   tests/lib-w337i-rotring.mjs —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第337便i の枝の実測 8 s(補足 4 の表を足した後)
+  S('rotring-337i', 'node tests/exp-w337i-rotring.mjs', ['tests/out/rotring-337i.json'], 8, { secSource: 'w337i-branch', node: true,
     after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b'],   // 順序だけ(器が第337便b の正本の名を比べる行の出典として書く —— 正本は読まない)
     quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 10 s の桁で、簡易一致の窓を持たない',
     volatilePaths: { 'tests/out/rotring-337i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す

@@ -24,7 +24,7 @@
 //   宣言の物差し(文献の値・未照合の目安)。一次の率は無摂動の軌道の平均(写しの時間発展ではない)。s_d R_d は物質の表面の速度ではない(J を表す等価なパラメータ)。
 import { ratesOn, quadSegments, quadPoints, anglesRates, rowOf, systemOfLit, contribEffect, LIT as LIT337B, DECL as DECL337B, kappaMRadius, nOf, periodOf, q1PNPerOrbit, CENTURY_S, vec } from './lib-w337b-mercuryband.mjs';
 import { sliceVel, farVel, tailVel, dragSpin as dragSpin333A, fObsOf } from './lib-w333a-rotdiff.mjs';
-import { t2Vort, oblateRule, LIT334A } from './lib-w334a-heightlaw.mjs';
+import { t1Twist, t2Vort, t3Scalar, propRange, dominance, oblateRule, LIT334A } from './lib-w334a-heightlaw.mjs';
 import { C1, LIT as LIT332A } from './lib-w332a-eqband.mjs';
 import { frameOfElements, anglesOn, stateAt, toArcsecCy } from './lib-w333c-mercury3d.mjs';
 
@@ -43,6 +43,12 @@ export const DECL = Object.freeze({
   profiles: PROFILES, actions: ACTIONS, readings: READINGS, speeds: SPEEDS,
   /** 引きずり自転の J 案(第333便a の dragSpin —— f_d = 2/5・λ_J = 1)と扁平の則(軸比 q = 1/3 —— 原仮定者の回答(2026-11-12 —— AN648・AN649)) */
   fD: 0.4, lambdaJ: 1, oblateQ: 1 / 3,
+  /** 主の読み(原仮定者の補足(2026-11-14 —— 第138報の補足 4)「回転引きずりは、AN648 の扁平率を適用し」—— 扁平の則は定義の一部・残すノブは次数 q)と次数の格子 */
+  mainReading: 'Req', oblateQs: Object.freeze([1 / 3, 1 / 2, 1, 2, 3]),
+  /** 一様厚みの区間(原仮定者の指示(2026-11-11 —— 第135報)—— 高さ則の型 T1〜T3 を鉛直へ寄せる場に置く)・環の半径の格子(D〜F)・測る高さの振れ [m]・T3 の宣言(第334便a の主: A = 1・ℓ = 4・H = R_d・β = 1) */
+  uniform: Object.freeze({ laws: Object.freeze(['T1', 'T2slice', 'T2ball', 'T3']), rings: Object.freeze(['satD', 'satC', 'satB', 'satCD', 'satA', 'satF']), zMax: 0.5, t3: Object.freeze({ A: 1, ell: 4, beta: 1 }), sunDistAU: 9.5826 }),
+  /** 軸引きずりの 2 つの読み(第337便a の lib を呼ぶ —— 重みのべき α = 2・背景慣性決定力 W₀ は太陽の取り分が ½ になる距離 0.723 AU〔金星の釣り合いの読み〕から) */
+  axial: Object.freeze({ alpha: 2, rHalfAU: 0.723 }),
   /** 環の粒子の点(土星の赤道面・半径は LIT の環の中央 + F 環・赤道面からの高さの振れ z_max〔m〕—— 主は 10 m〔文献の値・未照合の典型の厚み〕)と小さな離心率・近点引数・交点 */
   ring: Object.freeze({ keys: Object.freeze(['satC', 'satB', 'satCD', 'satA', 'satF']), zMax: Object.freeze([1, 10, 100]), zMain: 10, e: 1e-5, omegaDeg: 40, nodeDeg: 0 }),
   /** 環の物差し(宣言 —— 文献の幅ではない): 薄くなる時間 T_thin(若い環の下限 1e7 年 —— 第332便a の LIT.ringAge の下限)の内に全部の点の傾きが e 分の 1 になる強さ λ_need・
@@ -64,7 +70,19 @@ export const LIT = Object.freeze({
   sunFlat: Object.freeze({ value: 9e-6, src: LIT334A.bodiesSrc }),
   rings: Object.freeze([...LIT334A.rings.filter((r) => r.host === 'saturn').map((r) => Object.freeze({ key: r.key, name: r.name, r: r.r })),
     Object.freeze({ key: 'satF', name: '土星 F 環', r: 140180e3 })]),
-  ringsSrc: LIT334A.ringsSrc + '・F 環 140 180 km(NASA NSSDC の土星の環の表 —— 文献の値・未照合)',
+  ringsSrc: LIT334A.ringsSrc + '・F 環 140 180 km・D 環 66 900〜74 510 km(NASA NSSDC の土星の環の表 —— 文献の値・未照合)',
+  ringD: Object.freeze({ key: 'satD', name: '土星 D 環', r: 0.5 * (66900e3 + 74510e3) }),
+  /** 源の自転の半分より速く公転する受け手(原仮定者の補足(2026-11-14 —— 第138報の補足 4)の比べる相手)—— NASA NSSDC の衛星の表の値の記憶(文献の値・未照合) */
+  receivers: Object.freeze([
+    Object.freeze({ key: 'ringD', name: '土星 D 環の粒子', host: 'saturn', a: 0.5 * (66900e3 + 74510e3), e: 1e-5, iDeg: 10 / 70705e3 * 180 / Math.PI, m: 3.77e3, R: 1 }),
+    Object.freeze({ key: 'ringB', name: '土星 B 環の粒子', host: 'saturn', a: 0.5 * (92000e3 + 117580e3), e: 1e-5, iDeg: 10 / 104790e3 * 180 / Math.PI, m: 3.77e3, R: 1 }),
+    Object.freeze({ key: 'ringF', name: '土星 F 環の粒子', host: 'saturn', a: 140180e3, e: 1e-5, iDeg: 10 / 140180e3 * 180 / Math.PI, m: 3.77e3, R: 1 }),
+    Object.freeze({ key: 'phobos', name: 'フォボス', host: 'mars', a: 9376e3, e: 0.0151, iDeg: 1.08, m: 1.0659e16, R: 11.1e3 }),
+    Object.freeze({ key: 'metis', name: 'メティス(木星)', host: 'jupiter', a: 128000e3, e: 0.0002, iDeg: 0.06, m: 3.6e16, R: 21.5e3 }),
+    Object.freeze({ key: 'adrastea', name: 'アドラステア(木星)', host: 'jupiter', a: 129000e3, e: 0.0015, iDeg: 0.03, m: 2e15, R: 8.2e3 }),
+    Object.freeze({ key: 'pan', name: 'パン(土星)', host: 'saturn', a: 133584e3, e: 1.44e-5, iDeg: 1e-4, m: 4.95e15, R: 14.1e3 }),
+  ]),
+  receiversSrc: 'NASA NSSDC の衛星の表(半長軸・離心率・赤道面に対する傾き・質量・平均半径)の記憶の値 —— 文献の値・未照合。環の粒子は第334便a の LIT334A.particle の宣言(半径 1 m・密度 900 —— 文献の値ではない)・傾きは高さの振れ 10 m の宣言',
   thickness: LIT332A.thickness ? LIT332A.thickness : null,
   ringAge: LIT332A.ringAge,
   dvarpi: LIT337B.dvarpi, dnode: LIT337B.dnode,
@@ -75,13 +93,14 @@ export const LIT = Object.freeze({
 export function sourceOf(key) {
   if (key === 'saturn') { const S = LIT.saturn; return { key, ja: '土星', m: S.m, Robs: S.R, s: 2 * Math.PI / (S.P * 3600), fFlat: S.f, fObs: S.fObs, axis: [0, 0, 1] }; }
   if (key === 'sun') { const M = systemOfLit('merc'); return { key, ja: '太陽', m: M.M, Robs: M.Rsun, s: M.sSun, fFlat: LIT.sunFlat.value, fObs: fObsOf(0), axis: M.sunAxis }; }
+  if (key === 'mars' || key === 'jupiter') { const B = LIT334A.bodies.find((b) => b.key === key); return { key, ja: B.name, m: B.m, Robs: B.R, s: 2 * Math.PI / (B.P * 3600), fFlat: B.f, fObs: fObsOf(B.moi), axis: [0, 0, 1] }; }
   throw new RangeError('sourceOf: 源 ' + key);
 }
 /** 引きずり半径の読み(kScale は Y_k の倍 —— T4 の格子・Yk と Req にだけ掛ける) */
-export function rdOf(src, reading, kScale = 1) {
-  if (!(kScale > 0)) throw new RangeError('rdOf: 倍 > 0');
+export function rdOf(src, reading, kScale = 1, q = DECL.oblateQ) {
+  if (!(kScale > 0) || !(q > 0)) throw new RangeError('rdOf: 倍 > 0・次数 > 0');
   if (reading === 'Yk') return kappaMRadius(src.m) * kScale;
-  if (reading === 'Req') return oblateRule({ Rd: kappaMRadius(src.m) * kScale, fFlat: src.fFlat, q: DECL.oblateQ, law: 'axisRatio' }).Req;
+  if (reading === 'Req') return oblateRule({ Rd: kappaMRadius(src.m) * kScale, fFlat: src.fFlat, q, law: 'axisRatio' }).Req;
   if (reading === 'Robs') return src.Robs;
   if (reading === 'Rsrc') return src.Robs * Math.sqrt(2.5 * src.fObs);
   throw new RangeError('rdOf: 読み ' + reading);
@@ -115,9 +134,9 @@ export function bandShape(prof, rho, z, Rd, RK1 = null) {
 /* ───────── 作用の型 → 効果(第337便b の ratesOn の型: { kind:'vel', d(x, w) } か { kind:'acc', a(st) })───────── */
 /** spec = { prof, action, reading, speed, lambda, kScale }・src(源)。位置は源の中心から */
 export function effectOfSpec(src, spec) {
-  const { prof, action, reading, speed, lambda = 1, kScale = 1 } = spec;
+  const { prof, action, reading, speed, lambda = 1, kScale = 1, oblateQ = DECL.oblateQ } = spec;
   if (!PROFILES.includes(prof) || !ACTIONS.includes(action) || !isFin(lambda)) throw new RangeError('effectOfSpec: 宣言');
-  const k = unit(src.axis), Rd = rdOf(src, reading, kScale), sp = speedOf(src, speed, Rd), RK1 = kappaMRadius(src.m) * kScale, sAbs = Math.abs(src.s);
+  const k = unit(src.axis), Rd = rdOf(src, reading, kScale, oblateQ), sp = speedOf(src, speed, Rd), RK1 = kappaMRadius(src.m) * kScale, sAbs = Math.abs(src.s);
   const geo = (x) => { const z = dot(x, k), rv = sub(x, scl(k, z)), rho = nrm(rv); return { z, rho, phi: scl(crs(k, rv), 1 / rho) }; };
   const meta = { Rd, sp, RK1 };
   if (action === 'vel') return { kind: 'vel', d: (x) => { const g = geo(x); return scl(g.phi, lambda * profileUW(prof, g.rho, g.z, Rd, sp, RK1).U); }, meta };
@@ -127,6 +146,32 @@ export function effectOfSpec(src, spec) {
     return scl(sub(st.v, scl(g.phi, U)), -lambda * sAbs * S); }, meta };
   return { kind: 'acc', a: (st) => { const g = geo(st.x), S = bandShape(prof, g.rho, g.z, Rd, RK1); return scl(k, -lambda * sAbs * S * dot(st.v, k)); }, meta };
 }
+/* ───────── 一様厚みの区間(高さ則 T1〜T3 を鉛直へ寄せる場に置く —— 原仮定者の指示(2026-11-11 —— 第135報)・第334便a の関数を呼ぶ)───────── */
+/** 鉛直へ寄せる速さ V(z の奇関数 —— 赤道面へ向ける): T1 = s_* z・T2slice/T2ball = r ω_ρ(第334便a の t2Vort)・T3 = β A s_* ρ (z/r)/(1 + (|z|/H)^ℓ)(H = R_d) */
+export function heightLawV(law, rho, z, Rd, sp) {
+  const T3 = DECL.uniform.t3;
+  if (law === 'T1') return t1Twist({ rho, z, sd: sp }).par;
+  if (law === 'T2slice') return t2Vort({ rho, z, Rd, sd: sp, col: 'slice' }).V;
+  if (law === 'T2ball') return t2Vort({ rho, z, Rd, sd: sp, col: 'ball' }).V;
+  if (law === 'T3') return t3Scalar({ rho, z, sd: sp, beta: T3.beta, A: T3.A, H: Rd, ell: T3.ell });
+  throw new RangeError('heightLawV: 型 ' + law);
+}
+/** 高さ則の鉛直へ寄せる場 d = −λ V k̂(spec = { law, reading, speed, lambda }) */
+export function heightLawEffect(src, { law, reading = DECL.mainReading, speed = 'obs', lambda = 1 }) {
+  if (!DECL.uniform.laws.includes(law) || !isFin(lambda)) throw new RangeError('heightLawEffect: 宣言');
+  const k = unit(src.axis), Rd = rdOf(src, reading), sp = speedOf(src, speed, Rd);
+  return { kind: 'vel', d: (x) => { const z = dot(x, k), rho = nrm(sub(x, scl(k, z))); return scl(k, -lambda * heightLawV(law, rho, z, Rd, sp)); }, meta: { Rd, sp } };
+}
+/** 鉛直の振幅を減らす率(z → 0 の傾き a = ∂U_z/∂z の大きさ —— 単位の高さあたり [1/s])を点で: 場の型と作用の型の組(focus は −λ r ∂ω/∂z・dampz は γ S)か高さ則 */
+export function verticalRateAt(src, spec, rho, z) {
+  if (spec.law) { const e = heightLawEffect(src, spec), h = z * 1e-3, f = (zz) => -dot(e.d([rho, 0, zz]), [0, 0, 1]); return (f(z + h) - f(z - h)) / (2 * h); }
+  const e = effectOfSpec(src, spec);
+  if (spec.action === 'focus') { const h = z * 1e-3, f = (zz) => -dot(e.d([rho, 0, zz]), [0, 0, 1]); return (f(z + h) - f(z - h)) / (2 * h); }
+  if (spec.action === 'dampz') return (spec.lambda === undefined ? 1 : spec.lambda) * Math.abs(src.s) * bandShape(spec.prof, rho, z, e.meta.Rd, e.meta.RK1);
+  throw new RangeError('verticalRateAt: 作用の型は focus・dampz か高さ則');
+}
+export { propRange, dominance };
+
 /** 対照の効果: off(λ = 0 の回転引きずり —— 0)・k1(並進引きずりの K1 —— 実装)・rigid(源の自転が運ぶ速度の剛体の場 d = λ s k̂ × p —— 並進引きずりの回転の分・R_d が入らない) */
 export function controlEffect(sys, src, key, lambda = 1) {
   if (key === 'off') return { kind: 'acc', a: () => [0, 0, 0] };
@@ -282,7 +327,10 @@ export function pureScenes() {
   { const sys = ringSys(sat, { r: 1.2e8, zMax: 10 }), pts = pointsOf(sys, rdOf(sat, 'Yk')), R = ringRow(sys, effectOfSpec(sat, { prof: 'lor2', action: 'vel', reading: 'Yk', speed: 'obs', lambda: 1e-9 }), pts);
     const Rg = ringRow(sys, controlEffect(sys, sat, 'rigid', 1e-9), pts);
     S.vel = { dlnA: Math.abs(R.dlnA) / Math.abs(R.dnode), tilt: Math.abs(R.dlnI * sys.iRad) / Math.abs(R.dnode), rigid: Math.abs(Rg.dOmOverOm / (1e-9 * sat.s / nOf(sys.orb)) - 1) }; }
-  // ⑦ 入力の拒否
+  // ⑦ 高さ則 T1 の鉛直へ寄せる場は半径に依らず d ln i/dt = −λ s/2(小さい i —— 一様厚みの区間の恒等式)・主の読みは扁平の則(R_eq)
+  { const lam = 1e-9, a = [7.07e7, 1.40e8].map((r) => { const sys = ringSys(sat, { r, zMax: 0.5 }); return ringRow(sys, heightLawEffect(sat, { law: 'T1', lambda: lam }), pointsOf(sys, rdOf(sat, 'Req'))).dlnI; });
+    S.uniform = { t1: Math.max(...a.map((x) => Math.abs(x / (-lam * sat.s / 2) - 1))), main: DECL.mainReading === 'Req' ? 0 : 1 }; }
+  // ⑧ 入力の拒否
   const rejects = (f) => { try { f(); return false; } catch (e) { return e instanceof RangeError; } };
   S.rejects = [rejects(() => profileUW('box', 1, 0, 1, 1)), rejects(() => profileUW('slice', 0, 0, 1, 1)), rejects(() => rdOf(sat, 'Rx')), rejects(() => speedOf(sat, 'fast', 1)),
     rejects(() => effectOfSpec(sat, { prof: 'slice', action: 'spin', reading: 'Yk', speed: 'obs' })), rejects(() => sourceOf('moon')), rejects(() => ringSys(sat, { r: 1e8, zMax: 0 })), rejects(() => profileUW('src', 1, 0, 1, 1, null))];
@@ -296,6 +344,7 @@ export function pureGates(S) {
     zero: S.zero.zero === 0 && S.zero.lin <= 1e-9,
     closed: S.closed.focus <= 1e-6 && S.closed.dampz <= 1e-4,
     vel: S.vel.dlnA <= 1e-9 && S.vel.tilt <= 1e-6 && S.vel.rigid <= 1e-9,
+    uniform: S.uniform.t1 <= 1e-6 && S.uniform.main === 0,
     rejects: S.rejects.length === 8 && S.rejects.every(Boolean),
   };
 }

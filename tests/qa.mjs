@@ -96951,7 +96951,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       // ②
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第327便b〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 11) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 15) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第327便b〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     // ③
@@ -101357,7 +101357,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・領域 hash 完全 ${J.meta && J.meta.scopeComplete}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第333便c〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 11) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 15) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第333便c〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の整理(2026-11-10)', '原仮定者の回答(2026-11-10 —— AN597)', '原仮定者の回答(2026-11-10 —— AN598)', '原仮定者の回答(2026-11-10 —— AN600)', 'R319', '凍結の基準', '太陽の赤道面', '黄道', '近点引数 ω', '近点経度 ϖ = Ω_node + ω',
@@ -101905,7 +101905,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}・宣言は正本の先頭`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第334便a〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 11) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 15) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第334便a〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の整理(2026-11-11)', '原仮定者の回答(2026-11-11 —— AN623', 'AN624 = A', 'AN625 = A', 'AN627 = A', 'R322', 'tests/exp-w334a-heightlaw.mjs', 'tests/out/heightlaw-w334a.json', 'tests/lib-w334a-heightlaw.mjs',
@@ -103065,7 +103065,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}・入力 3 本`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第335便b〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 11) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 15) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第335便b〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の決断(2026-11-12)', '原仮定者の補足(2026-11-12)', '原仮定者の回答(2026-11-12 —— AN646 = A', 'AN651 = A', 'AN652', 'AN654', 'AN653', 'AN650', 'R329', 'tests/exp-w335b-carryledger.mjs', 'tests/out/carryledger-w335b.json',
@@ -105733,11 +105733,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           && L.DECL.ringJudge.tThinYr === 1e7 && L.DECL.ringJudge.keplerTol === 1e-5 && L.DECL.ringJudge.driftTol === 1e-5 && L.DECL.ringJudge.eccTol === 1)) bad.push('① 格子(高さの型・作用の型・R_d の読み・速さ)と環の物差しの宣言');
         const PS = L.pureScenes(), PG = L.pureGates(PS);
         for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
-        if (Object.keys(PG).length !== 7) bad.push('① 場面の数 ' + Object.keys(PG).length);
+        if (Object.keys(PG).length !== 8) bad.push('① 場面の数 ' + Object.keys(PG).length);
         dW = 0; walk(JSON.parse(js(PS)), J.pure.scenes, 1e-300); if (!(dW <= 1e-9)) bad.push('① 場面の数が正本と違う(' + dW + ')');
         cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・格子 ${L.PROFILES.length} × ${L.ACTIONS.length} × ${L.READINGS.length} × ${L.SPEEDS.length}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}`);
         // ② 器を走らせ直して正本と同じ
-        const R = X.runAll(), parts = ['inventory', 'ring', 'planets', 'reps', 'rdScan', 'integ'], diffs = {};
+        const R = X.runAll(), parts = ['inventory', 'ring', 'planets', 'reps', 'rdScan', 'integ', 'oblate', 'uniform', 'an719'], diffs = {};
         for (const k of parts) { dW = 0; walk(JSON.parse(js(R[k])), J[k], 1e-300); diffs[k] = dW; }
         const badParts = parts.filter((k) => !(diffs[k] <= 1e-9));
         if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k]).join('・') + ')—— 器を走らせ直す');
@@ -105748,6 +105748,13 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const repOk = J.reps.length > 0 && J.reps.every((k) => { const s = J.ring.sets.find((q) => q.key === k), p = J.planets.sets.find((q) => q.key === k); return s && s.judge.thin && s.judge.pass && p && J.plan.planets.every((pk) => p.per[pk] && p.per[pk].atNeed && p.per[pk].atNeed.insideScale); });
         if (!repOk) bad.push('③ 代表が環の物差しか 4 惑星の尺度を満たさない');
         cases.push(`③ 対照(λ = 0)の環の行が 0・代表 ${J.reps.length} 組が環の物差しと 4 惑星の尺度を満たす`);
+        // ③′ 補足 4: 主の読みが扁平の則(R_eq)・絞った 3 組が R_eq の読み・一様厚みの区間の恒等式(高さ則 T1 の率が D〜F で一様・帯の型のべき 0)・比べる相手は n/s > ½
+        const T1r = J.uniform.rates.find((r) => r.key === 'T1'), sl = J.uniform.rates.find((r) => r.key === 'slice|focus|Req|obs');
+        if (!(L.DECL.mainReading === 'Req' && js(X.PLAN.mainSets) === js(['slice|focus|Req|obs', 'slice|dampz|Req|obs', 'ball|focus|Req|sd']) && J.reps[0] === 'slice|focus|Req|obs'
+          && T1r && T1r.flatRate <= 1e-9 && Math.abs(T1r.powRate) <= 1e-9 && sl && Math.abs(sl.powRate) <= 1e-9 && Math.abs(T1r.powPerOrbit - 1.5) <= 1e-9
+          && J.oblate.every((o) => Math.abs(o.rows[0].satFactor - Math.pow(1 - L.LIT.saturn.f, -1 / 3)) <= 1e-12) && J.an719.every((r) => r.nOverS > 0.5)))
+          bad.push('③′ 補足 4(主の読み R_eq・3 組・一様厚みの区間の恒等式・比べる相手の n/s)');
+        cases.push(`③′ 補足 4: 主の読み R_eq・高さ則 T1 の率の D〜F の一様さ ${T1r ? T1r.flatRate.toExponential(1) : '—'}・比べる相手 ${J.an719.length}`);
         // ④ 門と呼ぶだけ
         const G2 = X.gatesOf(J);
         if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
@@ -105800,14 +105807,15 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第337便i〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 11) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 15) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第337便i〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の回答(2026-11-14 —— 第138報の回答)', 'R345', 'tests/exp-w337i-rotring.mjs', 'tests/out/rotring-337i.json', 'tests/lib-w337i-rotring.mjs', 'rotring-337i',
       '源の引きずり半径', '並進引きずり(の回転の分)の型', '回転引きずり', '軸引きずり', '土星の環に効く計算', '同じ式・同じノブ', '鉛直へ寄せる場', '相対の速度の鉛直だけ', '座標を運ぶ方位の場', '方位の押し',
       '環の物差し', '尺度の比', '文献の値・未照合', '赤道面を横切る 2 点', '1PN', '進める向き', '戻す向き', '第337便b の赤道帯の候補', 'Y_k m × 10^k', 'J 案',
       'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '不用の見込み', '次に足すノブの候補', 'このノブの組では',
-      '第138報への枝の答え', '決断事項の候補', '次の便へ', 'behavior.rotring337i', 'docs.rotring337i'];
+      '第138報への枝の答え', '決断事項の候補', '次の便へ', 'behavior.rotring337i', 'docs.rotring337i',
+      '原仮定者の補足(2026-11-14 —— 第138報の補足 4)', '原仮定者の指示(2026-11-11 —— 第135報)', '補足 4 への答え', '一様厚みの区間', '定義の一部', '軸引きずりの 2 つの読み', '予想'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第337便i〕に「' + w + '」が無い');
     // ノブの表の状態の欄(最後の列)は「候補」「対照」「不用の見込み」の 1 語だけ
     const kt = sec.indexOf('| ノブの名 |'), ktab = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n').slice(2) : [];
