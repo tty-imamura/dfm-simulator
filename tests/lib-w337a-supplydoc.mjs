@@ -114,6 +114,23 @@ export function tablesOf(J) {
   const VE = CP.venusEarth;
   T.cpVenus = ['| 量 | 値 |', '|---|---|', `| 金星と地球の会合の周期 [日] | ${f3(VE.synodicDays)} |`, `| 金星の太陽日 [日] | ${f3(VE.solarDayDays)} |`, `| 会合 ÷ 太陽日 | ${f3(VE.synOverSolarDay)} |`, `| 会合 ÷ 恒星の自転周期 | ${f3(VE.synOverSidereal)} |`,
     `| 源の並進の項(太陽が銀河の静止系で ${f3(CP.trans.vSun)} m/s で動く —— û × v☉ df/dr)÷ 自転の項(金星・r_½ 0.723) | ${f3(CP.trans.ratioAtVenus)}(一周の平均は 0) |`].join('\n');
+  const BG = J.background, dB = (x) => (x > 0 ? '順' : x < 0 ? '逆(180° の軸)' : '0');
+  T.bgGal = ['| R_½ [kpc](銀河の取り分が ½ の半径 —— 銀河の外の背景 W₀) | 太陽の位置の銀河の取り分 f | 中心の点(自転 Ω)の ω_bg [rad/s] | 局所の流体(オールトの量・中心の重みの形) | 半径の内の和 | 比べる列: 中心の点・補う重みが受け手の慣性の速度を運ぶ |', '|---|---|---|---|---|---|',
+    ...BG.galRows.map((g) => `| ${g.rHalfKpc}${g.rHalfKpc === BG.mainKpc ? '(主)' : ''} | ${f3(g.f)} | ${f3(g.center)}(${dB(g.center)}) | ${f3(g.fluidOort)}(${dB(g.fluidOort)}) | ${f3(g.inner)}(${dB(g.inner)}) | ${f3(g.centerSelf)}(${dB(g.centerSelf)}) |`)].join('\n');
+  const OC = BG.outcomes;
+  T.bgReadings = ['| 補足の帰結 | 読み (i) 慣性系の背景宇宙が静止(U = Σ w c/(W₀ + Σ w)) | 読み (ii) 今の計算の形(d = Σ w (c − v_i)/(W₀ + W_ii + Σ w)) |', '|---|---|---|',
+    '| 遠い面が確実に遅い(源の静止系・自転する源) | 出る(U = s r f —— f が r^−α で落ちる) | 受け手が公転すると出ないことがある(係数 (1 − α)s + αn) |',
+    `| 赤道面で逆回転(太陽 → 惑星・α = 2) | f < ½ で出る(公転によらない) | s > 2n で出る(全惑星 s☉/n ≥ 5.1 —— 出る) |`,
+    `| 原始太陽系は銀河と逆回転(銀河 → 太陽の位置・中心の点・R_½ ${BG.mainKpc} kpc) | 出る(${f3(OC.iGalaxy)} rad/s) | 出ない(${f3(OC.iiGalaxy)} rad/s —— 太陽は中心の点と共回転) |`,
+    `| 同(局所の流体・オールトの量) | 出る(${f3(OC.iFluid)} rad/s) | 差分だけ dV/dR(−0.125 Ω)で出る・渦度では出ない(⑤′ の表) |`].join('\n');
+  T.bgBalance = ['| 読み | 金星で釣り合う太陽の取り分 f☉ | W₀ [(kg/AU²)(重み α = 2)] | r_½ [AU] | 自転の向きが合う惑星 | 惑星ごと(S = 太陽の側/B = 背景の側・+ 合う/− 合わない) |', '|---|---|---|---|---|---|',
+    ...BG.balance.map((b) => `| ${b.reading === 'i' ? '(i) 慣性系の背景が静止' : '(ii) 今の計算の形'} | ${f3(b.f)} | ${f3(b.W0)} | ${f3(b.rHalfAU)} | ${b.nAgree}/8 | ${b.per.map((q) => nm(q.key) + ' ' + (q.sunSide ? 'S' : 'B') + (q.agree ? '+' : '−')).join('・')} |`)].join('\n');
+  T.bgCompare = ['| α | 解いた W₀ の桁と比べる量 | 太陽の距離の銀河の重み | 観測できる宇宙の重み(粗い桁・文献の値・未照合) | 金星の距離の太陽の重み |', '|---|---|---|---|---|',
+    ...BG.compare.map((c) => `| ${c.alpha} | ${c.alpha === 2 ? f3(BG.balance[0].W0) + '〜' + f3(BG.balance[1].W0) : '(釣り合い無し)'} | ${f3(c.galaxyAtSun)} | ${f3(c.universe)} | ${f3(c.sunAtVenus)} |`)].join('\n');
+  T.bgMoons = ['| 惑星 | 惑星の項と背景の項が釣り合う距離 [AU](読み i) | 衛星の距離 [AU] |', '|---|---|---|',
+    ...BG.balance[0].moonsBal.map((m) => `| ${nm(m.planet)} | ${f3(m.balanceAU)} | ${m.moons.map((x) => nm(x.key) + ' ' + f3(x.rAU) + (x.rAU < m.balanceAU ? '(内)' : '(外)')).join('・') || '—'} |`)].join('\n');
+  T.bgEq17 = ['| 項目 | EQ-17(銀河の一様軸引きずり) | 背景軸引きずり(本便の候補) |', '|---|---|---|', '| 向き | 宣言の 3 成分 ω_G | 180° の軸(銀河の系の差分の向き) |',
+    `| 大きさ | 宣言のノブ(内蔵の本の宣言 ${BG.eq17Declared} 本) | ω_bg = ${f3(BG.wbg)} rad/s(中心の点・R_½ ${BG.mainKpc} kpc)—— R_½ で符号が変わる |`, '| 受け手ごとの因子 | (R_d,i/R_ref)^q か (R_d,i/R_ref)(m_ref/m_i) | 背景の取り分 1 − f_i |', '| 分母 | 入れない | 背景慣性決定力 W₀ として分母に入る(取り分の計算) |'].join('\n');
   const A0 = AX.angles;
   T.axAngles = ['| 量 | 値 |', '|---|---|', `| 原始太陽系の軸と銀河の回転の軸のなす角(置いた値) | ${A0.protoDeg}° |`, `| 今の太陽系(黄道の北極)と銀河の回転の軸のなす角(置いた値 / 本の時刻の幾何) | ${A0.nowDeg}° / ${f2(A0.nowGeomDeg)}° |`,
     `| 供給の向き(180°)からの傾き(本の時刻の幾何) | ${f2(A0.tiltFromSupplyDeg)}° |`, `| 原始太陽系の軸 −L̂ と今の黄道の北極の内積(= 射影 cos θ) | ${f3(A0.protoDotNow)} |`].join('\n');

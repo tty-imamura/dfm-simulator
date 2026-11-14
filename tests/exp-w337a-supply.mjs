@@ -64,6 +64,8 @@ export const PLAN = Object.freeze({
   gammaFit: Object.freeze(['sun', 'earth', 'mars', 'jupiter', SAT, 'io']), gammaKnobSteps: Object.freeze([Object.freeze(['lm']), Object.freeze(['lm', 'lr'])]),
   /** 差分の読みの太陽 → 惑星の表の受け手 */
   axialPlanets: Object.freeze([MER, 'venus', 'earth', 'mars', 'jupiter', SAT, 'uranus', 'neptune']),
+  /** 背景軸引きずり(補足 3): 銀河の系の背景 W₀ を銀河の取り分が ½ の半径 R_½ [kpc] で置く格子と主 */
+  bgRHalfKpc: Object.freeze([1, 4, 8.2, 16, 30, 100]), bgMainKpc: 4,
   /** T5 の半径の格子(÷ 今の半径) */
   shearRadii: Object.freeze([1e4, 1e3, 1e2, 10, 3, 1]),
   /** 太陽の銀河の中心からの距離(T4 の主星までの距離 —— 第335便b の正本の銀河の R₀)・銀河の質量(同じく M) */
@@ -237,6 +239,44 @@ export function partComplement(B, CL, T1) {
   return { alpha: al, wGal: wG, rows, fluid, balance, venusEarth, trans };
 }
 
+/* ───────── T1‴ 背景軸引きずり(原仮定者の補足(2026-11-14 —— 第138報の補足 3))───────── */
+/** 文献の値・未照合(粗い桁): 観測できる宇宙の通常の物質の質量 ~1.5e53 kg・共動の半径 ~4.4e26 m(標準の宇宙論の模型の桁 —— 確かさ 低・並べるだけ) */
+export const UNIVERSE = Object.freeze({ M: 1.5e53, R: 4.4e26, src: '標準の宇宙論の模型の桁(通常の物質 ~1.5e53 kg・共動の半径 ~4.4e26 m)—— 文献の値・未照合・確かさ 低(並べるだけ)' });
+export function partBackground(B, CL, T1) {
+  const al = L.DECL.axialAlphaMain, Lhat = T1.Lhat, sun = byKey(B, 'sun'), gal = T1.gal, nEcl = [0, 0, 1], galN = dot(Lhat, nEcl), sunN = dot(sun.sHat, nEcl);
+  const oort = T1.rates.find((r) => r.curve === 'oort'), galFrame = C335.galaxySources({ variant: 'center' })[0].v, inner = C335.galaxySources({ variant: 'inner' }), pc = C335.galaxySources({ variant: 'center' })[0].p;
+  // ① 銀河の系(背景 = 銀河の外 —— W₀_gal を銀河の取り分が ½ の半径 R_½ で置く)→ 太陽の位置の背景軸引きずり ω_bg(L̂ の成分)
+  const wGal = (R) => L.weight337(gal.M, R, al, AU);
+  const galRows = PLAN.bgRHalfKpc.map((rk) => { const W0g = wGal(rk * C335.KPC), f = L.fShare(wGal(gal.R0), W0g), V = oort.Omega, dV = -(oort.A + oort.B);
+    const cin = L.complementDiff({ at: sun.p, vRecv: sub(sun.v, galFrame), srcs: inner.map((q) => ({ p: q.p, v: sub(q.v, galFrame), s: [0, 0, 0], m: q.m })), W0: W0g, alpha: al, rRef: AU, u: unit(sub(pc, sun.p)), R: sun.R });
+    return { rHalfKpc: rk, f, center: L.staticRate({ s: gal.Omega, f, alpha: al }), fluidOort: f * (dV - al * (1 - f) * V), inner: dot(cin.grad, Lhat), centerSelf: L.selfRate({ s: gal.Omega, n: gal.Omega, f, alpha: al }) }; });
+  const main = galRows.find((g) => g.rHalfKpc === PLAN.bgMainKpc), wbg = main.center;   // 主: 中心の点・R_½ = 4 kpc
+  // ② 太陽系の系: 各天体に (背景の取り分) × ω_bg L̂ と太陽の項(読み (i) 慣性系の背景が静止・(ii) 今の計算の形 —— 補う重みが受け手の慣性の速度を運ぶ)
+  const ven = byKey(B, 'venus'), rV = nrm(sub(ven.p, sun.p)), nV = nrm(crs(sub(ven.p, sun.p), sub(ven.v, sun.v))) / (rV * rV);
+  const T = { i: (f, n) => L.staticRate({ s: sun.s, f, alpha: al }), ii: (f, n) => L.selfRate({ s: sun.s, n, f, alpha: al }) };
+  const solve = (rd, w) => { const G = (f) => (1 - f) * w * galN + T[rd](f, nV) * sunN, xs = Array.from({ length: 999 }, (_, i) => (i + 1) / 1000), roots = [];
+    for (let i = 0; i + 1 < xs.length; i++) { let a = xs[i], b = xs[i + 1]; if (Math.sign(G(a)) !== Math.sign(G(b))) { for (let it = 0; it < 80; it++) { const m = (a + b) / 2; if (Math.sign(G(m)) === Math.sign(G(a))) a = m; else b = m; } roots.push((a + b) / 2); } }
+    return roots; };
+  const balance = ['i', 'ii'].map((rd) => { const roots = solve(rd, wbg), f = roots.length ? roots.reduce((a, b) => (Math.abs(b - 0.5) < Math.abs(a - 0.5) ? b : a)) : null;
+    if (f === null) return { reading: rd, roots, f: null };
+    const wV = L.weight337(sun.m, rV, al, AU), W0 = wV * (1 - f) / f, rHalfAU = (rV / AU) * Math.pow(f / (1 - f), 1 / al);
+    const per = PLAN.axialPlanets.map((k) => { const b = byKey(B, k), r = nrm(sub(b.p, sun.p)), fs = L.fShare(L.weight337(sun.m, r, al, AU), W0), n = nrm(crs(sub(b.p, sun.p), sub(b.v, sun.v))) / (r * r);
+      const ws = scl(sun.sHat, T[rd](fs, n)), wb = scl(Lhat, (1 - fs) * wbg), tot = add(ws, wb);
+      return { key: k, f: fs, sunN: dot(ws, nEcl), bgN: dot(wb, nEcl), sunSide: Math.abs(dot(ws, nEcl)) > Math.abs(dot(wb, nEcl)), agree: dot(tot, b.sHat) > 0 }; });
+    // 衛星: 惑星の項と背景の項が釣り合う距離(惑星の赤道面・読み (i)・太陽の重みは入れない)
+    const moonsBal = ['earth', 'mars', 'jupiter', SAT, 'uranus', 'neptune'].map((pk) => { const P = byKey(B, pk), G = (rAU) => { const fp = L.fShare(L.weight337(P.m, rAU * AU, al, AU), W0); return L.staticRate({ s: P.s, f: fp, alpha: al }) + (1 - fp) * wbg * dot(Lhat, P.sHat); };
+      let rb = null; const g = Array.from({ length: 241 }, (_, i) => Math.pow(10, -6 + i * 0.05)); for (let i = 0; i + 1 < g.length; i++) if (Math.sign(G(g[i])) !== Math.sign(G(g[i + 1]))) { let a = g[i], b = g[i + 1]; for (let it = 0; it < 80; it++) { const m = Math.sqrt(a * b); if (Math.sign(G(m)) === Math.sign(G(a))) a = m; else b = m; } rb = Math.sqrt(a * b); break; }
+      const ms = PLAN.primary.filter((q) => q[1] === pk).map((q) => ({ key: q[0], rAU: nrm(sub(byKey(B, q[0]).p, P.p)) / AU }));
+      return { planet: pk, balanceAU: rb, moons: ms }; });
+    return { reading: rd, roots, f, W0, rHalfAU, nAgree: per.filter((q) => q.agree).length, per, moonsBal }; });
+  // 並べる重み(α = 1・2): 銀河(中心の点・太陽の距離)・観測できる宇宙(粗い桁)
+  const compare = [1, 2].map((a) => ({ alpha: a, galaxyAtSun: L.weight337(gal.M, gal.R0, a, AU), universe: L.weight337(UNIVERSE.M, UNIVERSE.R, a, AU), sunAtVenus: L.weight337(sun.m, rV, a, AU) }));
+  // 補う重みの 2 つの読みと補足の帰結(表 —— 数は既に測った列から)
+  const CPg = (src) => galRows.find((g) => g.rHalfKpc === PLAN.bgMainKpc)[src];
+  const outcomes = { iGalaxy: main.center, iiGalaxy: main.centerSelf, iFluid: main.fluidOort };
+  return { alpha: al, mainKpc: PLAN.bgMainKpc, galRows, wbg, balance, compare, universe: UNIVERSE, outcomes, eq17Declared: 0 };
+}
+
 /* ───────── T2 ───────── */
 export function partT2(B, T1) {
   const M = B.reduce((t, b) => t + b.m, 0), Lnow = T1.LtotMag, sun = byKey(B, 'sun'), Lsun = sun.I * sun.s;
@@ -330,6 +370,7 @@ export function gatesOf(J) {
     t1Tilt: T1.tilt.find((q) => q.thetaDeg === 60).kind === 'boundary' && T1.tiltGeom.length === 3,
     axial: J.axial.galaxy.length === 9 && J.axial.planets.length === 8 && J.axial.coef.every((c) => c.diff === 1 - c.alpha) && J.axial.galaxy.every((g) => [g.diff.mag, g.full.mag, g.eq31.mag].every(fin)) && J.axial.localFluid.rows.length === 4 && J.axial.localFluid.meas.length === 24,
     complement: J.complement.rows.galaxy.length === 24 && J.complement.rows.planets.length === 64 && J.complement.balance.length === 8 && J.complement.rows.planets.every((r) => Math.abs(r.gradAlongSrc - r.closed) <= 0.02 * r.scale && r.finiteRel <= 1e-4),
+    background: J.background.galRows.length === 6 && J.background.wbg < 0 && J.background.balance.length === 2 && J.background.balance.every((b) => b.f !== null && b.f > 0 && b.f < 1),
     t2: J.t2.rows.every((r) => (fin(r.RcMatch) && r.RcMatch > 0) || (r.RcMatch === null && r.omega0 === 0)) && J.t2.comps.length === 5 && nrm(sub(J.t1.Lparts.reduce((a, q) => add(a, q.vec), [0, 0, 0]), J.t1.Ltot)) <= t * J.t2.Lnow,
     t3Ode: T3.ode.errRel <= L.DECL.odeTol && T3.ode.ledgerRel <= 1e-10 && Math.abs(T3.ode.decay1 - T3.ode.decay1Expect) <= 1e-9
       && [...T3.rows, ...T3.listed].every((r) => r.odeTau.errRel <= L.DECL.odeTol && r.odeTau.ledgerRel <= 1e-10 && Math.abs(r.odeTau.decay1 - r.odeTau.decay1Expect) <= 1e-9),
@@ -347,11 +388,12 @@ export function runFrom(CL) {
   const t1 = partT1(B, CL); mark('t1');
   const axial = partAxial(B, CL, t1); mark('axial');
   const complement = partComplement(B, CL, t1); mark('complement');
+  const background = partBackground(B, CL, t1); mark('background');
   const t2 = partT2(B, t1); mark('t2');
   const t3 = partT3(B, CL, t1); mark('t3');
   const t4 = partT4(B, CL, t1, t3); mark('t4');
   const t5 = partT5(B, t3, t4); mark('t5');
-  const J = { inputs: { file: INPUT, version: CL.version, libVersion: CL.libVersion, n: CL.book.n }, pure, bodies: B.map((b) => ({ key: b.key, s: b.s, sHat: b.sHat, m: b.m, R: b.R, f: b.f, I: b.I })), t1, axial, complement, t2, t3, t4, t5, timing: tm };
+  const J = { inputs: { file: INPUT, version: CL.version, libVersion: CL.libVersion, n: CL.book.n }, pure, bodies: B.map((b) => ({ key: b.key, s: b.s, sHat: b.sHat, m: b.m, R: b.R, f: b.f, I: b.I })), t1, axial, complement, background, t2, t3, t4, t5, timing: tm };
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
   return J;
 }

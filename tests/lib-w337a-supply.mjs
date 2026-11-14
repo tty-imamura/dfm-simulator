@@ -162,7 +162,7 @@ export const axialCoef = (alpha) => ({ alpha, diff: 1 - alpha, full: 1 - alpha /
 /**
  * 「並進引きずりの差分は、遠い面の方が遠方宇宙に対しての静止引きずりが強い為、速度は遠い面の方が確実に遅い」の読み。
  *   U(p) = [Σ_j w_j(p) c_j(p) + K v_i] / [Σ_j w_j(p) + W₀ + K](c_j = s_j × (p − p_j) + 源の並進 —— 器は源の静止系で置く)。
- *   補う重み: static(遠方宇宙の静止 W₀ —— 主の候補・K = 0)/ self(受け手自身 K が自分の速度 v_i で動く —— 途中版の列・W₀ = 0)/ both(K と W₀)。
+ *   補う重み: static(慣性系の背景宇宙の静止 —— 背景慣性決定力 W₀・主の候補・K = 0 —— 原仮定者の補足(2026-11-14 —— 第138報の補足 3)の語)/ self(受け手自身 K が自分の速度 v_i で動く —— 途中版の列・W₀ = 0)/ both(K と W₀)。
  *   1 つの自転する源・赤道面・静止の補い: U = s r f・f = w/(W₀ + w) → dU/dr = s f [1 − α(1 − f)](f < 1 − 1/α で逆)。
  */
 export const COMPLEMENTS = Object.freeze(['static', 'self', 'both']);

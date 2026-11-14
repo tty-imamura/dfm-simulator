@@ -252,6 +252,8 @@
    "uranus",
    "neptune"
   ],
+  "bgRHalfKpc": [1,4,8.2,16,30,100],
+  "bgMainKpc": 4,
   "shearRadii": [10000,1000,100,10,3,1],
   "sunPrimary": "milkyWayCenter"
  },
@@ -7564,6 +7566,364 @@
    "orbitMean": 0
   }
  },
+ "background": {
+  "alpha": 2,
+  "mainKpc": 4,
+  "galRows": [
+   {
+    "rHalfKpc": 1,
+    "f": 0.014654161781946076,
+    "center": -1.2930214392691131e-17,
+    "fluidOort": -2.7071151487675582e-17,
+    "inner": -2.495280357750135e-16,
+    "centerSelf": 1.3320619416625043e-17
+   },
+   {
+    "rHalfKpc": 4,
+    "f": 0.19221528111484867,
+    "center": -1.075544537880262e-16,
+    "fluidOort": -2.9491551694921735e-16,
+    "inner": -1.9181910509240223e-15,
+    "centerSelf": 1.7472351157914328e-16
+   },
+   {
+    "rHalfKpc": 8.2,
+    "f": 0.5,
+    "center": 0,
+    "fluidOort": -4.958392312849879e-16,
+    "inner": -2.34269790270614e-15,
+    "centerSelf": 4.544995344952463e-16
+   },
+   {
+    "rHalfKpc": 16,
+    "f": 0.7919811904467269,
+    "center": 4.204004538508568e-16,
+    "fluidOort": -3.777119187748315e-16,
+    "inner": -2.0173243646712645e-15,
+    "centerSelf": 7.199101647740568e-16
+   },
+   {
+    "rHalfKpc": 30,
+    "f": 0.9304826103138828,
+    "center": 7.28211121940211e-16,
+    "fluidOort": -2.1656474428093146e-16,
+    "inner": -1.809522241554463e-15,
+    "centerSelf": 8.458078264871629e-16
+   },
+   {
+    "rHalfKpc": 100,
+    "f": 0.9933209101998164,
+    "center": 8.908663110945513e-16,
+    "fluidOort": -1.2114703121109022e-16,
+    "inner": -1.7129680795635608e-15,
+    "centerSelf": 9.029277825804219e-16
+   }
+  ],
+  "wbg": -1.075544537880262e-16,
+  "balance": [
+   {
+    "reading": "i",
+    "roots": [0.4999999999905941],
+    "f": 0.4999999999905941,
+    "W0": 171298195.09007522,
+    "rHalfAU": 0.7202129239932329,
+    "nAgree": 3,
+    "per": [
+     {
+      "key": "mercury",
+      "f": 0.7044751340041683,
+      "sunN": 8.188850416703159e-7,
+      "bgN": 1.580183121582931e-17,
+      "sunSide": true,
+      "agree": true
+     },
+     {
+      "key": "venus",
+      "f": 0.4999999999905941,
+      "sunN": -2.6735485539894114e-17,
+      "bgN": 2.673519732913008e-17,
+      "sunSide": true,
+      "agree": true
+     },
+     {
+      "key": "earth",
+      "f": 0.34914694199054913,
+      "sunN": -2.9941884395419786e-7,
+      "bgN": 3.4801369875646154e-17,
+      "sunSide": true,
+      "agree": false
+     },
+     {
+      "key": "mars",
+      "f": 0.2113576557177779,
+      "sunN": -3.4681254191729907e-7,
+      "bgN": 4.216901739219263e-17,
+      "sunSide": true,
+      "agree": false
+     },
+     {
+      "key": "jupiter",
+      "f": 0.020605089381547197,
+      "sunN": -5.615451622754775e-8,
+      "bgN": 5.236863239607496e-17,
+      "sunSide": true,
+      "agree": false
+     },
+     {
+      "key": "saturn",
+      "f": 0.006112371647063624,
+      "sunN": -1.7161477220790428e-8,
+      "bgN": 5.314356373299399e-17,
+      "sunSide": true,
+      "agree": false
+     },
+     {
+      "key": "uranus",
+      "f": 0.0013049699937112257,
+      "sunN": -3.699579241921679e-9,
+      "bgN": 5.3400617396674674e-17,
+      "sunSide": true,
+      "agree": true
+     },
+     {
+      "key": "neptune",
+      "f": 0.000571408793210464,
+      "sunN": -1.6223221161010662e-9,
+      "bgN": 5.34398412035707e-17,
+      "sunSide": true,
+      "agree": false
+     }
+    ],
+    "moonsBal": [
+     {
+      "planet": "earth",
+      "balanceAU": 0.0012481706832124348,
+      "moons": [
+       {
+        "key": "moon",
+        "rAU": 0.002690202995704917
+       }
+      ]
+     },
+     {
+      "planet": "mars",
+      "balanceAU": 0.00040913901089171444,
+      "moons": []
+     },
+     {
+      "planet": "jupiter",
+      "balanceAU": 0.022252064850368857,
+      "moons": [
+       {
+        "key": "io",
+        "rAU": 0.002809078282312547
+       },
+       {
+        "key": "europa",
+        "rAU": 0.004444436183222744
+       },
+       {
+        "key": "ganymede",
+        "rAU": 0.007154569033848468
+       },
+       {
+        "key": "callisto",
+        "rAU": 0.01257828519526959
+       }
+      ]
+     },
+     {
+      "planet": "saturn",
+      "balanceAU": 0.012175965816780255,
+      "moons": [
+       {
+        "key": "titan",
+        "rAU": 0.008392570706654438
+       }
+      ]
+     },
+     {
+      "planet": "uranus",
+      "balanceAU": 0.004758745593866132,
+      "moons": []
+     },
+     {
+      "planet": "neptune",
+      "balanceAU": 0.0051686548107022405,
+      "moons": [
+       {
+        "key": "triton",
+        "rAU": 0.002371132499490678
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "reading": "ii",
+    "roots": [0.4357119805724655],
+    "f": 0.4357119805724655,
+    "W0": 221847283.4009597,
+    "rHalfAU": 0.632863787999279,
+    "nAgree": 3,
+    "per": [
+     {
+      "key": "mercury",
+      "f": 0.6479674199053999,
+      "sunN": 7.971797472273571e-7,
+      "bgN": 1.8823320989869748e-17,
+      "sunSide": true,
+      "agree": true
+     },
+     {
+      "key": "venus",
+      "f": 0.4357119805724655,
+      "sunN": -3.017261646476159e-17,
+      "bgN": 3.017270309915065e-17,
+      "sunSide": false,
+      "agree": true
+     },
+     {
+      "key": "earth",
+      "f": 0.2928930520165294,
+      "sunN": -2.602283301497956e-7,
+      "bgN": 3.7809287573562756e-17,
+      "sunSide": true,
+      "agree": false
+     },
+     {
+      "key": "mars",
+      "f": 0.17145582093865314,
+      "sunN": -2.845984551138599e-7,
+      "bgN": 4.430258424538098e-17,
+      "sunSide": true,
+      "agree": false
+     },
+     {
+      "key": "jupiter",
+      "f": 0.01598515972304867,
+      "sunN": -4.340925989222854e-8,
+      "bgN": 5.2615661858203626e-17,
+      "sunSide": true,
+      "agree": false
+     },
+     {
+      "key": "saturn",
+      "f": 0.00472621749954181,
+      "sunN": -1.3238769205403368e-8,
+      "bgN": 5.321768194231776e-17,
+      "sunSide": true,
+      "agree": false
+     },
+     {
+      "key": "uranus",
+      "f": 0.001007925312307423,
+      "sunN": -2.8547724973571216e-9,
+      "bgN": 5.341650049302017e-17,
+      "sunSide": true,
+      "agree": true
+     },
+     {
+      "key": "neptune",
+      "f": 0.0004412677004490829,
+      "sunN": -1.252103479686588e-9,
+      "bgN": 5.344679989916177e-17,
+      "sunSide": true,
+      "agree": false
+     }
+    ],
+    "moonsBal": [
+     {
+      "planet": "earth",
+      "balanceAU": 0.001096789574765936,
+      "moons": [
+       {
+        "key": "moon",
+        "rAU": 0.002690202995704917
+       }
+      ]
+     },
+     {
+      "planet": "mars",
+      "balanceAU": 0.0003595176587717572,
+      "moons": []
+     },
+     {
+      "planet": "jupiter",
+      "balanceAU": 0.019553281512818793,
+      "moons": [
+       {
+        "key": "io",
+        "rAU": 0.002809078282312547
+       },
+       {
+        "key": "europa",
+        "rAU": 0.004444436183222744
+       },
+       {
+        "key": "ganymede",
+        "rAU": 0.007154569033848468
+       },
+       {
+        "key": "callisto",
+        "rAU": 0.01257828519526959
+       }
+      ]
+     },
+     {
+      "planet": "saturn",
+      "balanceAU": 0.010699235729668313,
+      "moons": [
+       {
+        "key": "titan",
+        "rAU": 0.008392570706654438
+       }
+      ]
+     },
+     {
+      "planet": "uranus",
+      "balanceAU": 0.004181593612567963,
+      "moons": []
+     },
+     {
+      "planet": "neptune",
+      "balanceAU": 0.00454178806487573,
+      "moons": [
+       {
+        "key": "triton",
+        "rAU": 0.002371132499490678
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "compare": [
+   {
+    "alpha": 1,
+    "galaxyAtSun": 5298391650.704237,
+    "universe": 2278836518955151.5,
+    "sunAtVenus": 123371173.95826548
+   },
+   {
+    "alpha": 2,
+    "galaxyAtSun": 3.132600926997503,
+    "universe": 0.774793388429752,
+    "sunAtVenus": 171298195.08363035
+   }
+  ],
+  "universe": {
+   "M": 1.5e+53,
+   "R": 4.4e+26,
+   "src": "標準の宇宙論の模型の桁(通常の物質 ~1.5e53 kg・共動の半径 ~4.4e26 m)—— 文献の値・未照合・確かさ 低(並べるだけ)"
+  },
+  "outcomes": {
+   "iGalaxy": -1.075544537880262e-16,
+   "iiGalaxy": 1.7472351157914328e-16,
+   "iFluid": -2.9491551694921735e-16
+  },
+  "eq17Declared": 0
+ },
  "t2": {
   "M": 1.991167466113878e+30,
   "Lnow": 3.1547103718419377e+43,
@@ -11484,31 +11844,34 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.029
+   "wallSec": 0.037
   },
   "book": {
-   "wallSec": 0.029
+   "wallSec": 0.037
   },
   "t1": {
-   "wallSec": 0.031
+   "wallSec": 0.039
   },
   "axial": {
-   "wallSec": 0.162
+   "wallSec": 0.192
   },
   "complement": {
-   "wallSec": 0.206
+   "wallSec": 0.225
+  },
+  "background": {
+   "wallSec": 0.243
   },
   "t2": {
-   "wallSec": 0.207
+   "wallSec": 0.243
   },
   "t3": {
-   "wallSec": 0.259
+   "wallSec": 0.296
   },
   "t4": {
-   "wallSec": 0.263
+   "wallSec": 0.3
   },
   "t5": {
-   "wallSec": 0.263
+   "wallSec": 0.301
   }
  },
  "gates": {
@@ -11520,6 +11883,7 @@
   "t1Tilt": true,
   "axial": true,
   "complement": true,
+  "background": true,
   "t2": true,
   "t3Ode": true,
   "t3Budget": true,
@@ -11528,13 +11892,13 @@
   "t5": true
  },
  "ok": true,
- "elapsedS": 0.269,
+ "elapsedS": 0.307,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第337便a",
   "target": "tests/lib-w337a-supply.mjs",
-  "targetSha256": "f134b11a272dd98fca812aaf12c086df08764d0e9ff36bb0e14ed2645fb71588",
-  "generatedAt": "2026-11-14T21:33:47.914Z",
+  "targetSha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+  "generatedAt": "2026-11-14T22:08:02.869Z",
   "inputs": [
    {
     "file": "tests/out/carryledger-w335b.json",
@@ -11546,15 +11910,15 @@
   "code": [
    {
     "file": "tests/exp-w337a-supply.mjs",
-    "bytes": 42447,
-    "sha256": "d16071ba2926d1df36969524330fad557d59cfed1899f0b822fb997c74ed055b",
-    "mtime": "2026-11-14T21:32:55.851Z"
+    "bytes": 48429,
+    "sha256": "a7eac8935b52bac9871ff86b581d3aa7c29c70b4d8acb18464deec7f6ccbf690",
+    "mtime": "2026-11-14T22:06:28.163Z"
    },
    {
     "file": "tests/lib-w337a-supply.mjs",
-    "bytes": 40323,
-    "sha256": "f134b11a272dd98fca812aaf12c086df08764d0e9ff36bb0e14ed2645fb71588",
-    "mtime": "2026-11-14T21:31:39.782Z"
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-14T22:06:53.553Z"
    },
    {
     "file": "tests/lib-w330a-spinclass.mjs",
@@ -11623,7 +11987,7 @@
     "mtime": "2026-11-14T20:18:43.946Z"
    }
   ],
-  "codeSha256": "7f47df4086d4a5fcc5370b79399b371ae4b03e8c7caa5616abd9616f0dd557b3",
+  "codeSha256": "e0273be69249f6a84f9537d82ffc798e15384bb1465c62c9388af96ae2c856f9",
   "harnessVersion": "w337a-supply-1",
   "stage": "supply",
   "engine": "Node の純関数だけ(html を読まない —— 本の時刻の状態は第335便b の正本から読む・エンジンの步を進めない)",

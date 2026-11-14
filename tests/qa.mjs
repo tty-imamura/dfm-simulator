@@ -104379,6 +104379,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (!(CP.rows.galaxy.every((g) => g.static.alongL < 0) && CP.rows.planets.every((r) => (r.f < 0.5) === (r.closed < 0)) && bal(0.387).nAgree === 6 && bal(0.387).kNeed > 1e16 && bal(0.723).kNeed < 0
           && CP.balance.every((b) => b.rootsK1AU.length === 1 && Math.abs(b.rootsK1AU[0] / b.rHalf - 1) < 1e-3) && Math.abs(CP.venusEarth.synOverSolarDay - 5.0014) < 1e-3 && CP.rows.moons.filter((r) => r.agree).length === 5))
           bad.push('③ 補う重み(静止の補いで銀河 → 太陽の位置が逆・f < ½ で逆・釣り合いの距離 = r_½・r_½ 0.387 で 6/8・k > 1e16・0.723 で負・会合 ÷ 太陽日 5.001・衛星 5/7)');
+        const BG = J.background;
+        if (!(BG.wbg < 0 && BG.galRows.find((g) => g.rHalfKpc === 8.2).center === 0 && BG.galRows.every((g) => g.fluidOort < 0 && g.inner < 0) && Math.abs(BG.balance[0].f - 0.5) < 1e-3 && Math.abs(BG.balance[1].f - 0.436) < 2e-3
+          && BG.balance.every((b) => b.nAgree === 3) && BG.compare.find((c) => c.alpha === 2).galaxyAtSun < BG.balance[0].W0 * 1e-6))
+          bad.push('③ 背景軸引きずり(ω_bg < 0・R_½ = R₀ で 0・流体と内の和は逆・金星の釣り合い f☉ 0.500/0.436・向きが合う 3/8・W₀ は銀河の重みより 6 桁以上大きい)');
         cases.push(`③ 逆回転の読み ${retro.length} で黄道と太陽の軸に +・漸減の差 ${O.errRel < 1e-9 ? '< 1e-9' : O.errRel}・収支 ${O.ledgerRel < 1e-10 ? '< 1e-10' : O.ledgerRel}・対照 ${T1.control.length} + ${J.t3.passive.length} 行が第335便b と同じ・則 ${st.nOk}/${st.nFit}(1 つ抜き ${st.loo.nOk}/${st.loo.n})`);
       } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
     }
@@ -104391,7 +104395,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 
 // ---- 第337便a: docs.supply337a は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
 // ----   docs.supply337a(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・領域の宣言なし・入力は第335便b の正本 1 本)・宣言が lib と器と同じ
-// ----     ② 表 37 本が PHYSICS〔第337便a〕に逐語 ③ 節の位置(〔第336便b〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表の列・AI_SPEC §229(次の見出しまで)・CHANGELOG・段の行・
+// ----     ② 表 43 本が PHYSICS〔第337便a〕に逐語 ③ 節の位置(〔第336便b〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表の列・AI_SPEC §229(次の見出しまで)・CHANGELOG・段の行・
 // ----     .gitignore・post-merge の ③′ ④ 書かない語・禁句・裸の係数記号・速度の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
@@ -104424,12 +104428,12 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第337便a〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 37) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 43) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第337便a〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の指示(2026-11-14 —— 第138報)', 'R337', 'tests/exp-w337a-supply.mjs', 'tests/out/supply-337a.json', 'tests/lib-w337a-supply.mjs', 'tests/out/carryledger-w335b.json',
       '探索の方針', '対照', '慣性系の渦度', '共回転系のずれ', '周転円', 'ν_ep', 's_field > −B', '傾き θ', '60.19°', '+0.4971', '+0.3870', '−0.3870', '2 sin(θ/2)', '境目',
-      '原仮定者の補足(2026-11-14 —— 第138報の補足)', '差分の読み', '近い面と遠い面の差分', 'EQ-31', '比べる列', '1 − α/2', 's_源 > α n/(α − 1)', '差動回転する局所の流体', '重みの勾配の項', '原仮定者の補足(2026-11-14 —— 第138報の補足 2)', '補う重み', '遠方宇宙の静止', 's f [1 − α(1 − f)]', 'r_½', '釣り合いの表', '金星で釣り合うのに要るノブ', '補足 2 への答え', '180°', '120°', '補足への答え',
+      '原仮定者の補足(2026-11-14 —— 第138報の補足)', '差分の読み', '近い面と遠い面の差分', 'EQ-31', '比べる列', '1 − α/2', 's_源 > α n/(α − 1)', '差動回転する局所の流体', '重みの勾配の項', '原仮定者の補足(2026-11-14 —— 第138報の補足 2)', '補う重み', '慣性系の背景宇宙の静止', 's f [1 − α(1 − f)]', 'r_½', '釣り合いの表', '金星で釣り合うのに要るノブ', '補足 2 への答え', '原仮定者の補足(2026-11-14 —— 第138報の補足 3)', '慣性系の背景宇宙', '背景慣性決定力 W₀', '背景軸引きずり', 'EQ-17', 'EQ-10', '補足 3 への答え', '180°', '120°', '補足への答え',
       '一様な球', 'I s = 一定', 'ピタリと止まらない', 'e^{−t/τ}', '収支', '熱の上限', '年齢の窓', '受動の型', '1 つ抜き', '主星までの距離', '不用の見込み', 'このノブの組では', '次に足すノブの候補', '文献の値・未照合',
       'ノブの表', '第138報への枝の答え', '決断事項の候補', '次の便へ', '枝 c', 'behavior.supply337a', 'docs.supply337a'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第337便a〕に「' + w + '」が無い');
