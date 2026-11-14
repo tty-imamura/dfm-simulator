@@ -95,6 +95,11 @@ export function tablesOf(J) {
     ...AX.planets.flatMap((p) => p.cols.map((c) => `| ${nm(p.key)} | ${f3(p.spinDotSun)} | ${f2(p.latSun)} | ${f3(p.sOverN)} | ${c.alpha} | ${f3(c.coefDiff)} | ${f3(c.diff.overS)} | ${ag(c.diff)} | ${f3(c.full.overS)} | ${ag(c.full)} | ${f3(c.eq31.overS)} | ${ag(c.eq31)} |`))].join('\n');
   const cnt = (al, k) => AX.planets.filter((p) => p.cols.find((c) => c.alpha === al)[k].agree).length;
   T.axCount = ['| α | diff と自転の向きが合う惑星の数 | full | EQ-31 |', '|---|---|---|---|', ...J.decl.axialAlphas.map((al) => `| ${al} | ${cnt(al, 'diff')}/${AX.planets.length} | ${cnt(al, 'full')}/${AX.planets.length} | ${cnt(al, 'eq31')}/${AX.planets.length} |`)].join('\n');
+  const LF = AX.localFluid, sd = (q) => `${f3(q.overOmega)}(${q.dir > 0 ? '順' : q.dir < 0 ? '逆' : '0'})`;
+  T.axFluid = ['| 回転曲線(局所の流体・慣性系) | Ω [rad/s] | 近い面と遠い面の差分 dV/dR ÷ Ω | 横の面 V/R ÷ Ω | 渦度 ζ = dV/dR + V/R = −2B ÷ Ω | 回転率 ½ζ ÷ Ω | 混ぜ λ 0.5((dV/dR + ½ζ)/2)÷ Ω | 共回転系の差分 dV/dR − Ω = −2A ÷ Ω | dV/dR [rad/s] | dV/dR の 180° の軸への成分 [rad/s] | dV/dR の今の黄道の北極への成分 [rad/s] |', '|---|---|---|---|---|---|---|---|---|---|---|',
+    ...LF.rows.map((r) => { const R0 = J.t1.rates.find((q) => q.curve === r.curve); return `| ${CV[r.curve]} | ${f3(R0.Omega)} | ${sd(r.diff)} | ${sd(r.lateral)} | ${sd(r.zeta)} | ${sd(r.rate)} | ${sd(r.mixHalf)} | ${sd(r.corotDiff)} | ${f3(r.diff.value)} | ${f3(r.diff.proto)} | ${f3(r.diff.now)} |`; })].join('\n');
+  T.axFluidMeas = ['| 回転曲線 | 要素の置き方 | 要素の自転 | α | 正規化した場 U の渦度 ÷ ζ | 正規化した場の動径の差分 ∂_x U_y ÷ dV/dR | 重みの勾配の項(W 固定の源ごとの差分の和)÷ ½ζ |', '|---|---|---|---|---|---|---|',
+    ...LF.meas.map((m) => `| ${CV[m.curve]} | ${m.shape === 'ring' ? '面内の環(64 点)' : '球殻(512 点)'} | ${m.spin === 'zero' ? '0' : '½ζ'} | ${m.alpha} | ${f3(m.fieldZetaOverZeta)} | ${f3(m.fieldDiffOverDV)} | ${f3(m.weightTermOverHalfZeta)} |`)].join('\n');
   const A0 = AX.angles;
   T.axAngles = ['| 量 | 値 |', '|---|---|', `| 原始太陽系の軸と銀河の回転の軸のなす角(置いた値) | ${A0.protoDeg}° |`, `| 今の太陽系(黄道の北極)と銀河の回転の軸のなす角(置いた値 / 本の時刻の幾何) | ${A0.nowDeg}° / ${f2(A0.nowGeomDeg)}° |`,
     `| 供給の向き(180°)からの傾き(本の時刻の幾何) | ${f2(A0.tiltFromSupplyDeg)}° |`, `| 原始太陽系の軸 −L̂ と今の黄道の北極の内積(= 射影 cos θ) | ${f3(A0.protoDotNow)} |`].join('\n');

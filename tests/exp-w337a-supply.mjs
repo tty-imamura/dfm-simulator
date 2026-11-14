@@ -158,7 +158,35 @@ export function partAxial(B, CL, T1) {
   });
   // 角の置き方: 原始太陽系 180°(軸 = −L̂)・今の太陽系 120°(黄道の北極)—— 差分の読みの向きの射影
   const angles = { protoDeg: L.DECL.protoDeg, nowDeg: L.DECL.nowDeg, nowGeomDeg: 180 - T1.geom.find((g) => g.key === 'ecl').angleFromAntiDeg, protoDotNow: dot(protoAxis, nowAxis), tiltFromSupplyDeg: T1.geom.find((g) => g.key === 'ecl').angleFromAntiDeg };
-  return { coef, galaxy, planets, angles };
+  return { coef, galaxy, planets, angles, localFluid: partLocalFluid(T1) };
+}
+/**
+ * 源を「差動回転する局所の流体」と置いた読み(慣性系・受け手は局所の流れと一緒に動く —— 銀河の局所の枠: x̂ 動径の外向き・ŷ 回転の向き・ẑ = L̂)。
+ *   閉じた式: 近い面と遠い面の差分だけ = 動径の勾配 dV/dR = −(A + B)/横の面の分 = V/R = Ω/渦度 ζ = dV/dR + V/R = −2B(回転率は ½ζ = −B)/共回転系の差分 dV/dR − Ω = −2A。
+ *   測り: 受け手のまわりの一様な環(面内 —— 点 64)と球殻(点 16 × 32)に流れの相対の速度 u = (−Ω y, (dV/dR) x) の要素(自転 0 か ½ζ)を置き、
+ *   (a) 正規化した場 U = Σ w C/Σ w の動径の差分 ∂_x U_y(W の勾配を含む —— 対称なら流れの勾配と同じか)と、(b) W を固定した源ごとの差分の和(重みの勾配の項 —— 中心の点の αn に当たる)。
+ */
+export function partLocalFluid(T1) {
+  const Lz = T1.Lhat, ecl = [0, 0, 1], dotL = dot(ecl, Lz);
+  const rows = T1.rates.map((r) => { const dV = -(r.A + r.B), lat = r.Omega, zeta = -2 * r.B, co = dV - r.Omega;
+    const one = (x) => ({ value: x, overOmega: x / r.Omega, dir: x > 0 ? 1 : x < 0 ? -1 : 0, proto: -x, now: x * dotL });
+    return { curve: r.curve, diff: one(dV), lateral: one(lat), zeta: one(zeta), rate: one(zeta / 2), corotDiff: one(co), corotZeta: one(-2 * r.A), mixHalf: one(0.5 * dV + 0.5 * zeta / 2) }; });
+  const meas = [];
+  for (const r of T1.rates.filter((q) => ['flat', 'oort'].includes(q.curve))) {
+    const dV = -(r.A + r.B), Om = r.Omega, uOf = (d) => [-Om * d[1], dV * d[0], 0];
+    const ring = Array.from({ length: 64 }, (_, k) => { const t = 2 * Math.PI * (k + 0.5) / 64; return [Math.cos(t), Math.sin(t), 0]; });
+    const shell = []; for (let i = 0; i < 16; i++) { const ct = -1 + (2 * i + 1) / 16, st = Math.sqrt(1 - ct * ct); for (let k = 0; k < 32; k++) { const t = 2 * Math.PI * (k + 0.5) / 32; shell.push([st * Math.cos(t), st * Math.sin(t), ct]); } }
+    for (const [shape, pts] of [['ring', ring], ['shell', shell]]) for (const spin of ['zero', 'halfZeta']) for (const al of L.DECL.axialAlphas) {
+      const sv = spin === 'zero' ? [0, 0, 0] : [0, 0, -r.B], srcs = pts.map((d) => ({ p: d, v: uOf(d), s: sv, m: 1 }));
+      const Wof = (p) => srcs.reduce((t, q) => t + L.weight337(q.m, nrm(sub(q.p, p)), al, 1), 0), W = Wof([0, 0, 0]);
+      let diffSum = [0, 0, 0]; for (const q of srcs) diffSum = add(diffSum, L.axialAt({ at: [0, 0, 0], vRecv: [0, 0, 0], src: q, W, alpha: al, rRef: 1 }).diff);
+      const U = (p) => { let P = [0, 0, 0], w = 0; for (const q of srcs) { const ww = L.weight337(q.m, nrm(sub(p, q.p)), al, 1); P = add(P, scl(add(q.v, crs(q.s, sub(p, q.p))), ww)); w += ww; } return scl(P, 1 / w); };
+      const h = 1e-4, dUy = (U([h, 0, 0])[1] - U([-h, 0, 0])[1]) / (2 * h), dUx = (U([0, h, 0])[0] - U([0, -h, 0])[0]) / (2 * h);
+      meas.push({ curve: r.curve, shape, spin, alpha: al, n: pts.length, fieldDiff: dUy, fieldDiffOverDV: dV !== 0 ? dUy / dV : null, fieldZetaOverZeta: (dUy - dUx) / (-2 * r.B),
+        weightTerm: diffSum[2], weightTermOverHalfZeta: diffSum[2] / (-r.B), weightTermOverOmega: diffSum[2] / Om });
+    }
+  }
+  return { rows, meas, dotL };
 }
 
 /* ───────── T2 ───────── */
@@ -252,7 +280,7 @@ export function gatesOf(J) {
       && T1.readings.filter((q) => q.retro).every((q) => q.proj.find((p) => p.key === 'ecl').sign === 1 && q.proj.find((p) => p.key === 'sun').sign === 1) && retroKeys.length > 0,
     t1Control: T1.control.length === 9 && T1.control.every((c) => c.rel <= t && relD(c.sHatDotL, c.refSHatDotL) <= t),
     t1Tilt: T1.tilt.find((q) => q.thetaDeg === 60).kind === 'boundary' && T1.tiltGeom.length === 3,
-    axial: J.axial.galaxy.length === 9 && J.axial.planets.length === 8 && J.axial.coef.every((c) => c.diff === 1 - c.alpha) && J.axial.galaxy.every((g) => [g.diff.mag, g.full.mag, g.eq31.mag].every(fin)),
+    axial: J.axial.galaxy.length === 9 && J.axial.planets.length === 8 && J.axial.coef.every((c) => c.diff === 1 - c.alpha) && J.axial.galaxy.every((g) => [g.diff.mag, g.full.mag, g.eq31.mag].every(fin)) && J.axial.localFluid.rows.length === 4 && J.axial.localFluid.meas.length === 24,
     t2: J.t2.rows.every((r) => (fin(r.RcMatch) && r.RcMatch > 0) || (r.RcMatch === null && r.omega0 === 0)) && J.t2.comps.length === 5 && nrm(sub(J.t1.Lparts.reduce((a, q) => add(a, q.vec), [0, 0, 0]), J.t1.Ltot)) <= t * J.t2.Lnow,
     t3Ode: T3.ode.errRel <= L.DECL.odeTol && T3.ode.ledgerRel <= 1e-10 && Math.abs(T3.ode.decay1 - T3.ode.decay1Expect) <= 1e-9
       && [...T3.rows, ...T3.listed].every((r) => r.odeTau.errRel <= L.DECL.odeTol && r.odeTau.ledgerRel <= 1e-10 && Math.abs(r.odeTau.decay1 - r.odeTau.decay1Expect) <= 1e-9),

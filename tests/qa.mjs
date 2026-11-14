@@ -104371,6 +104371,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (!(c2.diff === -1 && c2.full === 0 && AX.planets.length === 8 && P2.every((c) => c.diff.alongSun < 0) && P2.filter((c) => c.diff.agree).length === 2
           && AX.galaxy.find((g) => g.variant === 'center|obs' && g.alpha === 2).diff.alongLRel > 0.99 && AX.galaxy.find((g) => g.variant === 'center|jd' && g.alpha === 2).diff.alongLRel < -0.99 && AX.angles.protoDeg === 180 && AX.angles.nowDeg === 120))
           bad.push('③ 差分の読み(α = 2 の係数 −1・0・太陽 → 惑星の diff が全部 −ŝ☉・向きが合う 2/8・銀河の中心の点 Ω で順・s_d で逆・角 180°・120°)');
+        const LF = AX.localFluid, lr = (c) => LF.rows.find((r) => r.curve === c);
+        if (!(lr('flat').diff.dir === 0 && lr('kepler').diff.dir === -1 && lr('rigid').diff.dir === 1 && lr('oort').diff.dir === -1 && LF.rows.every((r) => r.zeta.dir === 1 && Math.abs(r.zeta.value - r.diff.value - r.lateral.value) <= 1e-12 * Math.abs(r.zeta.value))
+          && LF.meas.filter((m) => m.spin === 'halfZeta').every((m) => Math.abs(m.fieldZetaOverZeta - 1) <= 1e-6) && LF.meas.filter((m) => m.spin === 'zero').every((m) => m.weightTermOverHalfZeta > 0)))
+          bad.push('③ 局所の流体の読み(差分だけ dV/dR の符号 平坦 0・ケプラー逆・剛体順・オールト逆・渦度 = 差分 + 横の面で順・自転 ½ζ の要素で場の渦度 = ζ・重みの勾配の項は消えない)');
         cases.push(`③ 逆回転の読み ${retro.length} で黄道と太陽の軸に +・漸減の差 ${O.errRel < 1e-9 ? '< 1e-9' : O.errRel}・収支 ${O.ledgerRel < 1e-10 ? '< 1e-10' : O.ledgerRel}・対照 ${T1.control.length} + ${J.t3.passive.length} 行が第335便b と同じ・則 ${st.nOk}/${st.nFit}(1 つ抜き ${st.loo.nOk}/${st.loo.n})`);
       } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
     }
@@ -104383,7 +104387,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 
 // ---- 第337便a: docs.supply337a は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
 // ----   docs.supply337a(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・領域の宣言なし・入力は第335便b の正本 1 本)・宣言が lib と器と同じ
-// ----     ② 表 29 本が PHYSICS〔第337便a〕に逐語 ③ 節の位置(〔第336便b〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表の列・AI_SPEC §229(次の見出しまで)・CHANGELOG・段の行・
+// ----     ② 表 31 本が PHYSICS〔第337便a〕に逐語 ③ 節の位置(〔第336便b〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表の列・AI_SPEC §229(次の見出しまで)・CHANGELOG・段の行・
 // ----     .gitignore・post-merge の ③′ ④ 書かない語・禁句・裸の係数記号・速度の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
@@ -104416,12 +104420,12 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第337便a〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 29) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 31) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第337便a〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の指示(2026-11-14 —— 第138報)', 'R337', 'tests/exp-w337a-supply.mjs', 'tests/out/supply-337a.json', 'tests/lib-w337a-supply.mjs', 'tests/out/carryledger-w335b.json',
       '探索の方針', '対照', '慣性系の渦度', '共回転系のずれ', '周転円', 'ν_ep', 's_field > −B', '傾き θ', '60.19°', '+0.4971', '+0.3870', '−0.3870', '2 sin(θ/2)', '境目',
-      '原仮定者の補足(2026-11-14 —— 第138報の補足)', '差分の読み', '近い面と遠い面の差分', 'EQ-31', '比べる列', '1 − α/2', 's_源 > α n/(α − 1)', '180°', '120°', '補足への答え',
+      '原仮定者の補足(2026-11-14 —— 第138報の補足)', '差分の読み', '近い面と遠い面の差分', 'EQ-31', '比べる列', '1 − α/2', 's_源 > α n/(α − 1)', '差動回転する局所の流体', '重みの勾配の項', '180°', '120°', '補足への答え',
       '一様な球', 'I s = 一定', 'ピタリと止まらない', 'e^{−t/τ}', '収支', '熱の上限', '年齢の窓', '受動の型', '1 つ抜き', '主星までの距離', '不用の見込み', 'このノブの組では', '次に足すノブの候補', '文献の値・未照合',
       'ノブの表', '第138報への枝の答え', '決断事項の候補', '次の便へ', '枝 c', 'behavior.supply337a', 'docs.supply337a'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第337便a〕に「' + w + '」が無い');

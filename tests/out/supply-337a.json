@@ -4140,6 +4140,533 @@
    "nowGeomDeg": 119.81143852269372,
    "protoDotNow": 0.4971471917158955,
    "tiltFromSupplyDeg": 60.18856147730628
+  },
+  "localFluid": {
+   "rows": [
+    {
+     "curve": "flat",
+     "diff": {
+      "value": 0,
+      "overOmega": 0,
+      "dir": 0,
+      "proto": 0,
+      "now": 0
+     },
+     "lateral": {
+      "value": 9.089990689904927e-16,
+      "overOmega": 1,
+      "dir": 1,
+      "proto": -9.089990689904927e-16,
+      "now": -4.51906334420987e-16
+     },
+     "zeta": {
+      "value": 9.089990689904927e-16,
+      "overOmega": 1,
+      "dir": 1,
+      "proto": -9.089990689904927e-16,
+      "now": -4.51906334420987e-16
+     },
+     "rate": {
+      "value": 4.544995344952463e-16,
+      "overOmega": 0.5,
+      "dir": 1,
+      "proto": -4.544995344952463e-16,
+      "now": -2.259531672104935e-16
+     },
+     "corotDiff": {
+      "value": -9.089990689904927e-16,
+      "overOmega": -1,
+      "dir": -1,
+      "proto": 9.089990689904927e-16,
+      "now": 4.51906334420987e-16
+     },
+     "corotZeta": {
+      "value": -9.089990689904927e-16,
+      "overOmega": -1,
+      "dir": -1,
+      "proto": 9.089990689904927e-16,
+      "now": 4.51906334420987e-16
+     },
+     "mixHalf": {
+      "value": 2.2724976724762317e-16,
+      "overOmega": 0.25,
+      "dir": 1,
+      "proto": -2.2724976724762317e-16,
+      "now": -1.1297658360524675e-16
+     }
+    },
+    {
+     "curve": "kepler",
+     "diff": {
+      "value": -4.544995344952462e-16,
+      "overOmega": -0.4999999999999999,
+      "dir": -1,
+      "proto": 4.544995344952462e-16,
+      "now": 2.2595316721049345e-16
+     },
+     "lateral": {
+      "value": 9.089990689904927e-16,
+      "overOmega": 1,
+      "dir": 1,
+      "proto": -9.089990689904927e-16,
+      "now": -4.51906334420987e-16
+     },
+     "zeta": {
+      "value": 4.544995344952463e-16,
+      "overOmega": 0.5,
+      "dir": 1,
+      "proto": -4.544995344952463e-16,
+      "now": -2.259531672104935e-16
+     },
+     "rate": {
+      "value": 2.2724976724762317e-16,
+      "overOmega": 0.25,
+      "dir": 1,
+      "proto": -2.2724976724762317e-16,
+      "now": -1.1297658360524675e-16
+     },
+     "corotDiff": {
+      "value": -1.363498603485739e-15,
+      "overOmega": -1.5,
+      "dir": -1,
+      "proto": 1.363498603485739e-15,
+      "now": 6.778595016314804e-16
+     },
+     "corotZeta": {
+      "value": -1.363498603485739e-15,
+      "overOmega": -1.5,
+      "dir": -1,
+      "proto": 1.363498603485739e-15,
+      "now": 6.778595016314804e-16
+     },
+     "mixHalf": {
+      "value": -1.1362488362381154e-16,
+      "overOmega": -0.12499999999999994,
+      "dir": -1,
+      "proto": 1.1362488362381154e-16,
+      "now": 5.648829180262335e-17
+     }
+    },
+    {
+     "curve": "rigid",
+     "diff": {
+      "value": 9.089990689904927e-16,
+      "overOmega": 1,
+      "dir": 1,
+      "proto": -9.089990689904927e-16,
+      "now": -4.51906334420987e-16
+     },
+     "lateral": {
+      "value": 9.089990689904927e-16,
+      "overOmega": 1,
+      "dir": 1,
+      "proto": -9.089990689904927e-16,
+      "now": -4.51906334420987e-16
+     },
+     "zeta": {
+      "value": 1.8179981379809854e-15,
+      "overOmega": 2,
+      "dir": 1,
+      "proto": -1.8179981379809854e-15,
+      "now": -9.03812668841974e-16
+     },
+     "rate": {
+      "value": 9.089990689904927e-16,
+      "overOmega": 1,
+      "dir": 1,
+      "proto": -9.089990689904927e-16,
+      "now": -4.51906334420987e-16
+     },
+     "corotDiff": {
+      "value": 0,
+      "overOmega": 0,
+      "dir": 0,
+      "proto": 0,
+      "now": 0
+     },
+     "corotZeta": {
+      "value": 0,
+      "overOmega": 0,
+      "dir": 0,
+      "proto": 0,
+      "now": 0
+     },
+     "mixHalf": {
+      "value": 9.089990689904927e-16,
+      "overOmega": 1,
+      "dir": 1,
+      "proto": -9.089990689904927e-16,
+      "now": -4.51906334420987e-16
+     }
+    },
+    {
+     "curve": "oort",
+     "diff": {
+      "value": -1.1018649584110846e-16,
+      "overOmega": -0.12500000000000006,
+      "dir": -1,
+      "proto": 1.1018649584110846e-16,
+      "now": 5.477890697242227e-17
+     },
+     "lateral": {
+      "value": 8.814919667288673e-16,
+      "overOmega": 1,
+      "dir": 1,
+      "proto": -8.814919667288673e-16,
+      "now": -4.3823125577937795e-16
+     },
+     "zeta": {
+      "value": 7.7130547088775885e-16,
+      "overOmega": 0.875,
+      "dir": 1,
+      "proto": -7.7130547088775885e-16,
+      "now": -3.834523488069557e-16
+     },
+     "rate": {
+      "value": 3.8565273544387943e-16,
+      "overOmega": 0.4375,
+      "dir": 1,
+      "proto": -3.8565273544387943e-16,
+      "now": -1.9172617440347784e-16
+     },
+     "corotDiff": {
+      "value": -9.916784625699758e-16,
+      "overOmega": -1.1250000000000002,
+      "dir": -1,
+      "proto": 9.916784625699758e-16,
+      "now": 4.930101627518002e-16
+     },
+     "corotZeta": {
+      "value": -9.916784625699758e-16,
+      "overOmega": -1.1250000000000002,
+      "dir": -1,
+      "proto": 9.916784625699758e-16,
+      "now": 4.930101627518002e-16
+     },
+     "mixHalf": {
+      "value": 1.3773311980138548e-16,
+      "overOmega": 0.15624999999999997,
+      "dir": 1,
+      "proto": -1.3773311980138548e-16,
+      "now": -6.84736337155278e-17
+     }
+    }
+   ],
+   "meas": [
+    {
+     "curve": "flat",
+     "shape": "ring",
+     "spin": "zero",
+     "alpha": 1,
+     "n": 64,
+     "fieldDiff": 0,
+     "fieldDiffOverDV": null,
+     "fieldZetaOverZeta": 0.5000000006233725,
+     "weightTerm": 4.544995390402732e-16,
+     "weightTermOverHalfZeta": 1.0000000100000692,
+     "weightTermOverOmega": 0.5000000050000346
+    },
+    {
+     "curve": "flat",
+     "shape": "ring",
+     "spin": "zero",
+     "alpha": 2,
+     "n": 64,
+     "fieldDiff": 0,
+     "fieldDiffOverDV": null,
+     "fieldZetaOverZeta": 0.9999999999999063,
+     "weightTerm": 9.089990871705914e-16,
+     "weightTermOverHalfZeta": 2.000000040000258,
+     "weightTermOverOmega": 1.000000020000129
+    },
+    {
+     "curve": "flat",
+     "shape": "ring",
+     "spin": "zero",
+     "alpha": 3,
+     "n": 64,
+     "fieldDiff": 0,
+     "fieldDiffOverDV": null,
+     "fieldZetaOverZeta": 1.4999999943742373,
+     "weightTerm": 1.3634986489355149e-15,
+     "weightTermOverHalfZeta": 3.000000099999609,
+     "weightTermOverOmega": 1.5000000499998045
+    },
+    {
+     "curve": "flat",
+     "shape": "ring",
+     "spin": "halfZeta",
+     "alpha": 1,
+     "n": 64,
+     "fieldDiff": 2.272497669637806e-16,
+     "fieldDiffOverDV": null,
+     "fieldZetaOverZeta": 1.0000000000000266,
+     "weightTerm": 4.544995390401649e-16,
+     "weightTermOverHalfZeta": 1.000000009999831,
+     "weightTermOverOmega": 0.5000000049999155
+    },
+    {
+     "curve": "flat",
+     "shape": "ring",
+     "spin": "halfZeta",
+     "alpha": 2,
+     "n": 64,
+     "fieldDiff": 2.8503762891893454e-28,
+     "fieldDiffOverDV": null,
+     "fieldZetaOverZeta": 1.0000000000002083,
+     "weightTerm": 4.54499548130187e-16,
+     "weightTermOverHalfZeta": 1.0000000299999003,
+     "weightTermOverOmega": 0.5000000149999502
+    },
+    {
+     "curve": "flat",
+     "shape": "ring",
+     "spin": "halfZeta",
+     "alpha": 3,
+     "n": 64,
+     "fieldDiff": -2.2724976469095885e-16,
+     "fieldDiffOverDV": null,
+     "fieldZetaOverZeta": 1.0000000000000648,
+     "weightTerm": 4.544995617651443e-16,
+     "weightTermOverHalfZeta": 1.0000000599998369,
+     "weightTermOverOmega": 0.5000000299999184
+    },
+    {
+     "curve": "flat",
+     "shape": "shell",
+     "spin": "zero",
+     "alpha": 1,
+     "n": 512,
+     "fieldDiff": 0,
+     "fieldDiffOverDV": null,
+     "fieldZetaOverZeta": 0.3339843749871141,
+     "weightTerm": 3.035914889683028e-16,
+     "weightTermOverHalfZeta": 0.6679687566797236,
+     "weightTermOverOmega": 0.3339843783398618
+    },
+    {
+     "curve": "flat",
+     "shape": "shell",
+     "spin": "zero",
+     "alpha": 2,
+     "n": 512,
+     "fieldDiff": 0,
+     "fieldDiffOverDV": null,
+     "fieldZetaOverZeta": 0.6679687503968095,
+     "weightTerm": 6.071829840083991e-16,
+     "weightTermOverHalfZeta": 1.3359375267187423,
+     "weightTermOverOmega": 0.6679687633593712
+    },
+    {
+     "curve": "flat",
+     "shape": "shell",
+     "spin": "zero",
+     "alpha": 3,
+     "n": 512,
+     "fieldDiff": 0,
+     "fieldDiffOverDV": null,
+     "fieldZetaOverZeta": 1.0019531248829137,
+     "weightTerm": 9.107744881561011e-16,
+     "weightTermOverHalfZeta": 2.003906316796518,
+     "weightTermOverOmega": 1.001953158398259
+    },
+    {
+     "curve": "flat",
+     "shape": "shell",
+     "spin": "halfZeta",
+     "alpha": 1,
+     "n": 512,
+     "fieldDiff": 3.027037915348919e-16,
+     "fieldDiffOverDV": null,
+     "fieldZetaOverZeta": 0.9999999999999059,
+     "weightTerm": 3.035914889682624e-16,
+     "weightTermOverHalfZeta": 0.6679687566796345,
+     "weightTermOverOmega": 0.33398437833981726
+    },
+    {
+     "curve": "flat",
+     "shape": "shell",
+     "spin": "halfZeta",
+     "alpha": 2,
+     "n": 512,
+     "fieldDiff": 1.5090804838248e-16,
+     "fieldDiffOverDV": null,
+     "fieldZetaOverZeta": 0.9999999999998224,
+     "weightTerm": 3.0359149504011057e-16,
+     "weightTermOverHalfZeta": 0.6679687700390502,
+     "weightTermOverOmega": 0.3339843850195251
+    },
+    {
+     "curve": "flat",
+     "shape": "shell",
+     "spin": "halfZeta",
+     "alpha": 3,
+     "n": 512,
+     "fieldDiff": -8.876943502321405e-19,
+     "fieldDiffOverDV": null,
+     "fieldZetaOverZeta": 0.999999999999874,
+     "weightTerm": 3.0359150414785124e-16,
+     "weightTermOverHalfZeta": 0.6679687900781042,
+     "weightTermOverOmega": 0.3339843950390521
+    },
+    {
+     "curve": "oort",
+     "shape": "ring",
+     "spin": "zero",
+     "alpha": 1,
+     "n": 64,
+     "fieldDiff": -5.509324798942253e-17,
+     "fieldDiffOverDV": 0.5000000006250158,
+     "fieldZetaOverZeta": 0.5000000006244996,
+     "weightTerm": 3.8565273930045276e-16,
+     "weightTermOverHalfZeta": 1.0000000100001192,
+     "weightTermOverOmega": 0.43750000437505215
+    },
+    {
+     "curve": "oort",
+     "shape": "ring",
+     "spin": "zero",
+     "alpha": 2,
+     "n": 64,
+     "fieldDiff": -1.1018649584107216e-16,
+     "fieldDiffOverDV": 0.9999999999996706,
+     "fieldZetaOverZeta": 0.99999999999905,
+     "weightTerm": 7.713054863139262e-16,
+     "weightTermOverHalfZeta": 2.0000000400001503,
+     "weightTermOverOmega": 0.8750000175000657
+    },
+    {
+     "curve": "oort",
+     "shape": "ring",
+     "spin": "zero",
+     "alpha": 3,
+     "n": 64,
+     "fieldDiff": -1.6527974314180768e-16,
+     "fieldDiffOverDV": 1.4999999943744922,
+     "fieldZetaOverZeta": 1.4999999943752869,
+     "weightTerm": 1.156958244896796e-15,
+     "weightTermOverHalfZeta": 3.0000000999996996,
+     "weightTermOverOmega": 1.3125000437498686
+    },
+    {
+     "curve": "oort",
+     "shape": "ring",
+     "spin": "halfZeta",
+     "alpha": 1,
+     "n": 64,
+     "fieldDiff": 1.3773311949160873e-16,
+     "fieldDiffOverDV": -1.2499999971886133,
+     "fieldZetaOverZeta": 1.000000000000179,
+     "weightTerm": 3.856527393004145e-16,
+     "weightTermOverHalfZeta": 1.00000001000002,
+     "weightTermOverOmega": 0.43750000437500874
+    },
+    {
+     "curve": "oort",
+     "shape": "ring",
+     "spin": "halfZeta",
+     "alpha": 2,
+     "n": 64,
+     "fieldDiff": -1.1018649584129364e-16,
+     "fieldDiffOverDV": 1.0000000000016807,
+     "fieldZetaOverZeta": 0.9999999999993121,
+     "weightTerm": 3.856527470134881e-16,
+     "weightTermOverHalfZeta": 1.000000030000069,
+     "weightTermOverOmega": 0.4375000131250302
+    },
+    {
+     "curve": "oort",
+     "shape": "ring",
+     "spin": "halfZeta",
+     "alpha": 3,
+     "n": 64,
+     "fieldDiff": -3.581061086943359e-16,
+     "fieldDiffOverDV": 3.2499999746859487,
+     "fieldZetaOverZeta": 0.9999999999991528,
+     "weightTerm": 3.856527585830002e-16,
+     "weightTermOverHalfZeta": 1.0000000599998875,
+     "weightTermOverOmega": 0.43750002624995077
+    },
+    {
+     "curve": "oort",
+     "shape": "shell",
+     "spin": "zero",
+     "alpha": 1,
+     "n": 512,
+     "fieldDiff": -3.680056794550112e-17,
+     "fieldDiffOverDV": 0.3339843749870076,
+     "fieldZetaOverZeta": 0.3339843749872611,
+     "weightTerm": 2.576039782045452e-16,
+     "weightTermOverHalfZeta": 0.6679687566796269,
+     "weightTermOverOmega": 0.29223633104733676
+    },
+    {
+     "curve": "oort",
+     "shape": "shell",
+     "spin": "zero",
+     "alpha": 2,
+     "n": 512,
+     "fieldDiff": -7.36011359375916e-17,
+     "fieldDiffOverDV": 0.667968750396838,
+     "fieldZetaOverZeta": 0.6679687503966586,
+     "weightTerm": 5.152079615612268e-16,
+     "weightTermOverHalfZeta": 1.3359375267187763,
+     "weightTermOverOmega": 0.5844726679394646
+    },
+    {
+     "curve": "oort",
+     "shape": "shell",
+     "spin": "zero",
+     "alpha": 3,
+     "n": 512,
+     "fieldDiff": -1.1040170382792006e-16,
+     "fieldDiffOverDV": 1.0019531248831248,
+     "fieldZetaOverZeta": 1.0019531248829996,
+     "weightTerm": 7.728119526458198e-16,
+     "weightTermOverHalfZeta": 2.0039063167964493,
+     "weightTermOverOmega": 0.8767090135984464
+    },
+    {
+     "curve": "oort",
+     "shape": "shell",
+     "spin": "halfZeta",
+     "alpha": 1,
+     "n": 512,
+     "fieldDiff": 2.2005017968910808e-16,
+     "fieldDiffOverDV": -1.9970703125583162,
+     "fieldZetaOverZeta": 0.9999999999998715,
+     "weightTerm": 2.576039782045371e-16,
+     "weightTermOverHalfZeta": 0.6679687566796059,
+     "weightTermOverOmega": 0.29223633104732755
+    },
+    {
+     "curve": "oort",
+     "shape": "shell",
+     "spin": "halfZeta",
+     "alpha": 2,
+     "n": 512,
+     "fieldDiff": 5.4447623724711016e-17,
+     "fieldDiffOverDV": -0.4941406232141712,
+     "fieldZetaOverZeta": 0.9999999999998731,
+     "weightTerm": 2.5760398335663254e-16,
+     "weightTermOverHalfZeta": 0.6679687700390221,
+     "weightTermOverOmega": 0.2922363368920722
+    },
+    {
+     "curve": "oort",
+     "shape": "shell",
+     "spin": "halfZeta",
+     "alpha": 3,
+     "n": 512,
+     "fieldDiff": -1.1115493178177746e-16,
+     "fieldDiffOverDV": 1.0087890619742144,
+     "fieldZetaOverZeta": 0.9999999999999112,
+     "weightTerm": 2.576039910847762e-16,
+     "weightTermOverHalfZeta": 0.6679687900781479,
+     "weightTermOverOmega": 0.2922363456591897
+    }
+   ],
+   "dotL": -0.4971471917158955
   }
  },
  "t2": {
@@ -8062,28 +8589,28 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.036
+   "wallSec": 0.023
   },
   "book": {
-   "wallSec": 0.037
+   "wallSec": 0.023
   },
   "t1": {
-   "wallSec": 0.04
+   "wallSec": 0.025
   },
   "axial": {
-   "wallSec": 0.116
+   "wallSec": 0.123
   },
   "t2": {
-   "wallSec": 0.117
+   "wallSec": 0.124
   },
   "t3": {
-   "wallSec": 0.168
+   "wallSec": 0.16
   },
   "t4": {
-   "wallSec": 0.172
+   "wallSec": 0.164
   },
   "t5": {
-   "wallSec": 0.172
+   "wallSec": 0.164
   }
  },
  "gates": {
@@ -8102,13 +8629,13 @@
   "t5": true
  },
  "ok": true,
- "elapsedS": 0.181,
+ "elapsedS": 0.17,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第337便a",
   "target": "tests/lib-w337a-supply.mjs",
   "targetSha256": "055e2dcf4cef4d4c4178f77a7170be40bb6dc5d6f1040ae8cdc93f0c7cd063fd",
-  "generatedAt": "2026-11-14T20:55:11.306Z",
+  "generatedAt": "2026-11-14T21:21:32.657Z",
   "inputs": [
    {
     "file": "tests/out/carryledger-w335b.json",
@@ -8120,9 +8647,9 @@
   "code": [
    {
     "file": "tests/exp-w337a-supply.mjs",
-    "bytes": 32394,
-    "sha256": "2e4cb345ca7617bbb1b084778ef00e89cdf0196d988d83f6f0963a8873bc2afd",
-    "mtime": "2026-11-14T20:53:30.479Z"
+    "bytes": 35728,
+    "sha256": "4016fc46394ccfd1a3233c22f144a92b028b306ff6f4a9427e6e8be9bd03d745",
+    "mtime": "2026-11-14T21:20:51.989Z"
    },
    {
     "file": "tests/lib-w337a-supply.mjs",
@@ -8197,7 +8724,7 @@
     "mtime": "2026-11-14T20:18:43.946Z"
    }
   ],
-  "codeSha256": "45732fdea04dac905b8c8d6c7337864e32bfa77bf54a8a141edc0dc9f5513e8d",
+  "codeSha256": "ce3ad1bbdf50934eb9e3cb911216a79b1886d120cf2deca344788bef0fd8a444",
   "harnessVersion": "w337a-supply-1",
   "stage": "supply",
   "engine": "Node の純関数だけ(html を読まない —— 本の時刻の状態は第335便b の正本から読む・エンジンの步を進めない)",
