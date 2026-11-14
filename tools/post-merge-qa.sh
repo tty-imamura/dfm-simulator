@@ -926,6 +926,11 @@ unmarked336b() {   # $1 = ログ・$2 = 一覧のファイル・$3 = 段の印(�
   node "$ROOT/tests/lib-w336b-unmarked.mjs" --unmarked "$1" --out "$2" --label "$3" 2>/dev/null || echo "・‼ $3 の印のない FAIL の一覧が作れない(ログ $1 を 1 行ずつ読むこと)"
 }
 # ==== 第336便b の塊(ここまで)====
+# ==== 第337便g の塊(ここから)====
+# 第337便g(原仮定者の指示(2026-11-14 —— 第138報)・統括の検証項目 R343 —— 文書と QA だけ・html は変えない): 枝 g の新設 2 本(docs.equations337g —— 第335便の診断の式の項 EQ-44〜EQ-52・
+#   §2a の第138報の用語・第335便g の照合の世代の写し / docs.policy337g —— 探索の方針の節・ノブの台帳・現象の一覧の欄「第335〜336便の調べ」・文書)と、直した文書を読む鍵
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations337g docs.policy337g lint.terms335g docs.terms335g lint.terms334f docs.terms334f lint.equations331d docs.equations331d lint.phenomena331e docs.phenomena331e lint.symbols333e docs.symbols333e lint.kappaSymbol315"
+# ==== 第337便g の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
