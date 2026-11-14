@@ -926,6 +926,11 @@ unmarked336b() {   # $1 = ログ・$2 = 一覧のファイル・$3 = 段の印(�
   node "$ROOT/tests/lib-w336b-unmarked.mjs" --unmarked "$1" --out "$2" --label "$3" 2>/dev/null || echo "・‼ $3 の印のない FAIL の一覧が作れない(ログ $1 を 1 行ずつ読むこと)"
 }
 # ==== 第336便b の塊(ここまで)====
+# ==== 第337便d の塊(ここから)====
+# 第337便d(原仮定者の指示(2026-11-14 —— 第138報)・統括の検証項目 R340 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.accelloss337d —— 慣性移動の加減速の差の候補の
+#   純関数の場面・T1 の行・長い走行の 1 本・5 系の上限を作り直して正本と同じ / docs.accelloss337d —— 正本の門と表 9 本が PHYSICS〔第337便d〕に逐語・文書)と、新しい段 accelloss-337d の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.accelloss337d docs.accelloss337d docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
+# ==== 第337便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
