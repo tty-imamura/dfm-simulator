@@ -104329,12 +104329,12 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       try {
         const js = (x) => JSON.stringify(x);
         // ① 版・宣言・ノブの表・純関数の場面・呼ぶだけ
-        if (!(L.LIB_VERSION === 'w337c-tidelock-lib-1' && X.HARNESS_VERSION === 'w337c-tidelock-1' && D0.DOC_VERSION === 'w337c-tidelockdoc-1' && X.AMEND.length === 3)) bad.push('① 版(lib・器・文書の lib・版の履歴)');
+        if (!(L.LIB_VERSION === 'w337c-tidelock-lib-1' && X.HARNESS_VERSION === 'w337c-tidelock-1' && D0.DOC_VERSION === 'w337c-tidelockdoc-1' && X.AMEND.length === 4)) bad.push('① 版(lib・器・文書の lib・版の履歴)');
         const DG = L.DECL;
         if (!(js(DG.frames.modes) === js(['circ', 'instant', 'mean']) && js(DG.frames.e) === js([0, 0.1, 0.3, 0.6]) && DG.frames.nPhase === 8 && js(DG.frames.w0Ratios) === js([0, 1e-3, 1, 1e3]) && DG.frames.tol === 1e-13
           && DG.lock.K === 1 && js(DG.lock.nOverK) === js([0, 0.5, 0.9, 0.99, 1.01, 1.1, 2]) && js(DG.lock.gammas) === js([0.1, 1, 10]) && DG.lock.lockDrift === 0.1 && DG.lock.lockMean === 1e-6
           && DG.ledger.eta === 0.0974 && js(DG.ledger.sigma) === js([0.01, 0.1, 0.5]) && js(DG.libr.e) === js([0.1, 0.2, 0.4]) && js(DG.libr.K) === js([0, 0.01, 0.1, 1, 10, 100]) && js(DG.libr.gamma) === js([0, 0.1, 1, 10])
-          && DG.libr.nQuad === 4096 && DG.bodies.ageYr === 4.5e9 && L.BODY_ROWS.length === 15 && L.KNOBS.length === 15))
+          && DG.libr.nQuad === 4096 && DG.bodies.ageYr === 4.5e9 && L.BODY_ROWS.length === 15 && L.KNOBS.length === 17))
           bad.push('① lib の宣言(走らせたノブの格子と物差し —— 正本の先頭の記録と違う)');
         if (js(J.decl) !== js(L.DECL) || js(J.knobs) !== js(L.KNOBS) || js(J.plan) !== js(X.PLAN) || js(J.amend) !== js(X.AMEND)) bad.push('① 正本の宣言・ノブの表・器の PLAN・版の履歴が lib と器と違う(器を走らせ直す)');
         const G1 = L.pureGates(L.pureScenes());
@@ -104396,6 +104396,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           && BT.sepRead.every((q, i) => cmp337(q.sep.band[0], J.bodies.sepRead[i].sep.band[0]) <= 1e-12) && J.lock.neg.filter((r) => !r.pred).every((r) => !r.locked) && J.ledger.neg.every((r) => r.resRel <= 1e-7)))
           bad.push('⑥′ 補足の向き(主星の項が差分の読みで逆回転・差分の読みの境目が正本と同じ・逆回転の N_ext の行・帳簿)');
         cases.push(`⑥′ 補足の向き: 差分の読み f = 0(c = −1)で主星の項はロックの ${BT.rows.filter((r) => r.state === 'locked').length} 行の全部で逆回転・f ${BT.sepRead.length} 点の境目が正本と同じ・逆回転の N_ext ${J.lock.neg.length} 行・帳簿 ${J.ledger.neg.length} 行`);
+        // ⑥″ 補足 2 の分類(目標の列)
+        const CT = L.classTable();
+        if (!(js(CT.out.map((o) => [o.alpha, o.tol, o.nOk, o.wrong])) === js(J.bodies.classify.out.map((o) => [o.alpha, o.tol, o.nOk, o.wrong])) && CT.out.every((o) => Math.abs(o.rows.find((q) => q.id === 'Venus').R - 1) <= 1e-12)
+          && cmp337(CT.venusEarth.ratio, J.bodies.classify.venusEarth.ratio) <= 1e-12)) bad.push('⑥″ 補足 2 の分類の表(α × 幅の合う行・金星で R = 1・地球の潮汐の比)が正本と違う');
+        cases.push(`⑥″ 補足 2 の分類: α × 幅 ${CT.out.length} 組を作り直して正本と同じ(合う行の最大 ${Math.max(...CT.out.map((o) => o.nOk))}/${CT.out[0].n})`);
         // ⑥ CSV の写し
         const csvRows = (f) => { const t = rd(f).split('\n'), out = []; for (let i = 1; i < t.length; i++) { const m = t[i].match(/^([^,]*),([^,]*),([^,]*),([^,]*)/); if (m) out.push({ body: m[1], q: m[2], v: Number(m[3]), unit: m[4] }); } return out; };
         const SOL = csvRows('paper/data/solar-observations.csv'), JOV = csvRows('paper/data/jovian-satellites.csv');
@@ -104423,7 +104428,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 
 // ---- 第337便c: docs.tidelock337c は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける —— tools/qa-keys.mjs の版名の鍵の束の 50 鍵の上限〔docs.w322d ⑤〕に behavior を数えない)。
 // ----   世代切替は上と同じ
-// ----   docs.tidelock337c(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib)・宣言が lib と器と同じ ② 表 21 本が PHYSICS〔第337便c〕に逐語
+// ----   docs.tidelock337c(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib)・宣言が lib と器と同じ ② 表 23 本が PHYSICS〔第337便c〕に逐語
 // ----     ③ 節の位置(〔第336便b〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・AI_SPEC §231(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
 // ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
 {
@@ -104456,13 +104461,13 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第337便c〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 21) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 23) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第337便c〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の指示(2026-11-14 —— 第138報)', 'R339', 'tests/exp-w337c-tidelock.mjs', 'tests/out/tidelock-337c.json', 'tests/lib-w337c-tidelock.mjs', 'tidelock-337c', '統括の参考の試作', '探索の出発点', '採った潮汐の則ではない',
       '枝 d の題', '円軌道では (A) の動径の分も接線の分も 0(ṙ = 0)', '瞬間の同期', '平均の同期', '秤動する応答', '遠方宇宙が −Ω で回る', '共変', '素朴', 'E′ = E − Ω·L', '\\|N_ext\\| ≤ K', 'Γ_t/√(I K)', '初期の自転',
       '1 本のしきい', '主の源が銀河', '文献の値・未照合', '反作用の口', '1/(1 − 3σ)', 'σ > 1/3', '層の模型', '−5/3', '+5/3', '第335便d', '解けない', 'ノブの表', '候補', 'このノブの組では', '未較正',
-      '原仮定者の補足(2026-11-14 —— 第138報の補足)', '赤道面では源の回転と逆回転', '差分の読み', 'c = 1 − α + f α/2', '補足への答え', '第138報への枝の答え', '決断事項の候補', '次の便へ', 'behavior.tidelock337c', 'docs.tidelock337c'];
+      '原仮定者の補足(2026-11-14 —— 第138報の補足)', '赤道面では源の回転と逆回転', '差分の読み', 'c = 1 − α + f α/2', '補足への答え', '原仮定者の補足(2026-11-14 —— 第138報の補足 2)', '補足 2 への答え', '金星で釣り合う置き方', '目標の列', '第138報への枝の答え', '決断事項の候補', '次の便へ', 'behavior.tidelock337c', 'docs.tidelock337c'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第337便c〕に「' + w + '」が無い');
     const a0 = AS.indexOf('\n## 231. 第337便c'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && ai.indexOf('tests/out/tidelock-337c.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('ノブ') >= 0 && ai.indexOf('未較正') >= 0 && ai.indexOf('R339') >= 0)) bad.push('③ AI_SPEC §231(正本・SYSTEM_PROMPT・ノブ・未較正・R339)');

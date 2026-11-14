@@ -31,6 +31,7 @@ export const AMEND = Object.freeze([
   '探索の記録 1(初走の後): T4 の周期の解は K の梯子(0 から 1/8 桁ずつ)で求め、解けない点は初期値 2 つ(n・近点の ḟ)を足して試した —— 解けない行は消さずに「解けない」で残す',
   '探索の記録 2(初走の後): 実在の天体の表に源ごとの比(主星・太陽・銀河)と、比のしきいで分けた後の 2 本目の読み(k₂/Q・年齢・初期の自転 —— ロックへ入る時間 < 年齢)を足した',
   '探索の記録 3(原仮定者の補足(2026-11-14 —— 第138報の補足)が走行中に届いた): 外部の軸引きずりの向きを「近い面と遠い面の差分 —— 赤道面では源の回転と逆回転」で置く列を足した(係数 c = 1 − α + f α/2・α = 2・f は差分の読みのノブ —— f = 0 が補足の読み・f = 1 が回転率の全部)。銀河は太陽系の軸と 120°。T2 に逆回転の N_ext の 5 行・T3 に逆回転の外部のトルクの 3 行。従来の列(向きを揃えた |ω_src − n|)は比べる列に残した',
+  '探索の記録 4(原仮定者の補足(2026-11-14 —— 第138報の補足 2)が走行中に届いた): 銀河の軸引きずりを全部の行の源に置き(180° の軸 —— 太陽系の中では順行・射影 +0.5)、太陽の軸引きずりは太陽の自転と逆回転、大きさは閉じた形 (α − 1) s f(源の取り分 f はノブ)。分類(主要な衛星 = 潮汐ロック/水星 = 太陽が強い/金星 = 釣り合い + 地球/ほかの惑星 = 銀河の側)を目標の列にして、α 3 × 幅 3 で 3 つの比の読みを足した。金星の行に地球の潮汐の物差し',
 ]);
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 export const NOT_CLAIM = Object.freeze([
@@ -64,7 +65,7 @@ export function partLock() {
   const agree = rows.filter((r) => r.agree).length, capFail = rows.filter((r) => r.pred && !r.locked).map((r) => ({ G: r.G, N: r.N, s0: r.s0, meanSlip: r.meanSlip }));
   return { rows, tau, passive, ecc, mercury, neg, mercuryE: eM, pseudoMercury: L.pseudoSync(eM), fdotPeriMercury: L.fdotPeri(eM), summary: { n: rows.length, agree, capFail, noLockBeyond: rows.filter((r) => !r.pred).every((r) => !r.locked), lockedHasFixed: rows.filter((r) => r.locked).every((r) => r.pred) } };
 }
-export function partBodies() { return L.bodyTable(); }
+export function partBodies() { return Object.assign(L.bodyTable(), { classify: L.classTable() }); }
 /* ───────── T3 ───────── */
 export function partLedger() {
   const D = L.DECL.ledger, rows = [];
@@ -99,7 +100,8 @@ export function gatesOf(J) {
       && J.lock.neg.length === D.lock.negN.length && J.lock.neg.every((r) => (r.pred || !r.locked) && (!r.locked || r.errDstar <= 1e-6) && (() => { const q = J.lock.rows.find((x) => x.G === 1 && x.s0 === 1 && Math.abs(x.N + r.N) < 1e-12); return !q || q.locked === r.locked; })())
       && J.lock.ecc.length === D.lock.ecc.e.length * D.lock.ecc.damp.length * D.lock.ecc.nOverK.length && J.lock.ecc.every((r) => Number.isFinite(r.meanS)) && J.lock.mercury.every((r) => Number.isFinite(r.meanS)),
     bodies: J.bodies.rows.length === L.BODY_ROWS.length && J.bodies.rows.every((r) => Number.isFinite(r.Ntide) && r.Ntide > 0 && Number.isFinite(r.X) && r.X > 0)
-      && J.bodies.rows.filter((r) => r.state === 'locked' && !r.mutual).every((r) => r.hostDiff < 0) && J.bodies.sepRead.length === L.DECL.bodies.sideScan.length,
+      && J.bodies.rows.filter((r) => r.state === 'locked' && !r.mutual).every((r) => r.hostDiff < 0) && J.bodies.sepRead.length === L.DECL.bodies.sideScan.length
+      && J.bodies.classify.out.length === L.DECL.classify.alphas.length * L.DECL.classify.tols.length && J.bodies.classify.out.every((o) => o.n === Object.keys(L.CLASS_TARGET).length && Math.abs(o.rows.find((q) => q.id === 'Venus').R - 1) <= 1e-12),
     ledger: lr.every((r) => Math.abs(r.dfOrb / r.cf.fOrb) <= 5e-3) && J.ledger.rows.concat(J.ledger.ecc, J.ledger.neg).every((r) => r.resRel <= 1e-7)
       && J.ledger.neg.filter((r) => r.kTil > 0).every((r) => Math.abs(r.dfOrb / r.cf.fOrb) <= 5e-3 && r.adot < 0) && J.ledger.control.every((r) => !r.react)
       && J.ledger.control[0].resRel >= 0.5 && J.ledger.rows.filter((r) => r.kTil === 0 && r.gTil === 0).every((r) => Math.abs(r.fOrb) <= 1e-8),
@@ -131,7 +133,7 @@ export async function main() {
   console.log('第337便c tidelock(版 ' + HARNESS_VERSION + ')');
   const R = runAll();
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w337c-tidelock.mjs', target: TARGET,
-    ruling: '原仮定者の補足(2026-11-14 —— 第138報の補足)「軸引きずりは、並進引きずりで引きずられる側の、近い面と遠い面の差分なので、赤道面では源の回転と逆回転になる」・原仮定者の指示(2026-11-14 —— 第138報)「潮汐ロックしている状態は、外部からの軸引きずりによる回転よりも、潮汐力が上回っている」「互いに潮汐ロックしていると、どちらかを基準にした座標系では、距離以外の引きずりが消え、遠方宇宙が回転している。遠方宇宙基準の通常の慣性系では、互いを自転速度で回す引きずりとなる」「連星は、互いの潮汐力の反作用により、軸引きずりが連星同士の回転として現れる」・統括の検証項目 R339',
+    ruling: '原仮定者の補足(2026-11-14 —— 第138報の補足 2)「銀河の軸引きずりの影響は、太陽だけでなく、惑星や衛星にも及んでいる。主要な衛星は、惑星に潮汐ロックしている。水星は太陽の影響が強い。金星は、太陽と銀河が釣り合っていて、さらに地球が影響を与えている」・原仮定者の補足(2026-11-14 —— 第138報の補足)「軸引きずりは、並進引きずりで引きずられる側の、近い面と遠い面の差分なので、赤道面では源の回転と逆回転になる」・原仮定者の指示(2026-11-14 —— 第138報)「潮汐ロックしている状態は、外部からの軸引きずりによる回転よりも、潮汐力が上回っている」「互いに潮汐ロックしていると、どちらかを基準にした座標系では、距離以外の引きずりが消え、遠方宇宙が回転している。遠方宇宙基準の通常の慣性系では、互いを自転速度で回す引きずりとなる」「連星は、互いの潮汐力の反作用により、軸引きずりが連星同士の回転として現れる」・統括の検証項目 R339',
     decl: L.DECL, knobs: L.KNOBS, plan: PLAN, amend: AMEND, notClaim: NOT_CLAIM, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w337c-tidelock.mjs', 'tests/lib-w337c-tidelock.mjs', 'tests/lib-w335b-carryledger.mjs', 'tests/lib-w335d-binarytilt.mjs', 'tests/lib-w334d-binarylaw.mjs', 'tests/lib-w334b-ledger.mjs', 'tests/lib-w334a-heightlaw.mjs',

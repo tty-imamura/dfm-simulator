@@ -64,6 +64,8 @@ export const DECL = Object.freeze({
     endTol: 1e-6,
   }),
   /** 実在の天体の表(年齢・初期の自転・k₂/Q の既定と振る範囲) */
+  /** 補足 2(原仮定者の補足(2026-11-14 —— 第138報の補足 2)): 分類を目標の列にした 3 つの比の読み(α・釣り合いの幅 tol —— 金星で太陽と銀河の軸引きずりが釣り合うように比のノブを置く) */
+  classify: Object.freeze({ alphas: Object.freeze([1.5, 2, 3]), tols: Object.freeze([1.5, 2, 3]), galProj: 0.5, au: 1.495978707e11, earthVenusMinAU: 0.277 }),
   bodies: Object.freeze({ alpha: 2, sideScan: Object.freeze([0, 0.25, 0.5, 0.75, 1]), galTiltDeg: 120, ageYr: 4.5e9, p0h: Object.freeze([5, 10, 24]), p0Main: 10, k2qSolid: 3e-3, k2qGas: 1e-5, k2qScan: Object.freeze([1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1]) }),
 });
 
@@ -83,6 +85,8 @@ export const KNOBS = Object.freeze([
   Object.freeze({ key: 'sigma', name: '自転と軌道の角運動量の比 σ = S/L', why: 'T3: トルクのうち軌道へ入る割合', grid: '0.01・0.1・0.5', state: '候補' }),
   Object.freeze({ key: 'react', name: '反作用の口(潮汐のトルクを軌道へ)', why: 'T3: 角運動量の帳簿を閉じる', grid: 'あり/なし', state: '対照(なしは帳簿が閉じない)' }),
   Object.freeze({ key: 'side', name: '差分の読み(横の面の分を入れる割合 f —— 係数 c = 1 − α + f α/2)', why: '補足の向き: 赤道面の軸引きずりの向き(f = 0 は近い面と遠い面の差分だけ c = 1 − α・f = 1 は回転率の全部 c = 1 − α/2)', grid: 'f 0・0.25・0.5・0.75・1(α = 2)', state: '候補(f = 0 が主の候補)' }),
+  Object.freeze({ key: 'Qsg', name: '太陽と銀河の軸引きずりの比のノブ Q(金星で釣り合う置き方)', why: '補足 2: 水星は太陽が強い・金星は釣り合い・地球より外は銀河の側', grid: 'α 1.5・2・3 × 幅 tol 1.5・2・3', state: '候補' }),
+  Object.freeze({ key: 'Tg', name: '軸引きずりのしきい T_g = Γ₀ |ω_銀河|(潮汐 N_tide/I と比べる)', why: '補足 2: 主要な衛星は潮汐ロック・惑星はしない', grid: '帯を読む', state: '候補' }),
   Object.freeze({ key: 'cL', name: '層の結合 c', why: 'T3: 剛体でない天体が全体として回るまでの時間', grid: '0.01・0.1・1', state: '候補' }),
 ]);
 
@@ -335,6 +339,36 @@ export function bodyTable(B = DECL.bodies) {
   const sepOf = (key) => { const rr = rows.filter((x) => x[key] !== null); return Object.assign(separate(rr, key, 'high'), { n: rr.length }); };
   const sepRead = B.sideScan.map((f) => { const rr = rows.map((x) => Object.assign({}, x, { Xf: x.readings.find((q) => q.f === f).X, Xn: x.readings.find((q) => q.f === f).Xnet })); return { f, c: 1 - B.alpha + f * B.alpha / 2, sep: separate(rr, 'Xf', 'high'), sepNet: separate(rr, 'Xn', 'high') }; });
   return { rows, sepRead, sepX: sepOf('X'), sepXdom: sepOf('Xdom'), sepXhost: sepOf('Xhost'), sepXsun: sepOf('Xsun'), sepXgal: sepOf('Xgal'), sepTide: sepOf('Ntide'), kq, scan };
+}
+
+/* ───────── 補足 2: 分類を目標の列にした 3 つの比 ───────── */
+/** 目標の分類(原仮定者の補足(2026-11-14 —— 第138報の補足 2)): 主要な衛星 = 潮汐ロック/水星 = 太陽が強い/金星 = 太陽と銀河の釣り合い(+ 地球)/ほかの惑星 = 銀河の側。太陽は分類の外 */
+export const CLASS_TARGET = Object.freeze({ Moon: 'lock', Io: 'lock', Europa: 'lock', Ganymede: 'lock', Callisto: 'lock', Phobos: 'lock', Deimos: 'lock', Charon: 'lock', Pluto: 'lock',
+  Mercury: 'sun', Venus: 'balance', Earth: 'galaxy', Mars: 'galaxy', Jupiter: 'galaxy' });
+/**
+ * 軸引きずりの角速度の閉じた形(補足 2 の読み —— 遠方宇宙の静止を補う重み・源の取り分 f が小さい側): ω = (α − 1) s f × 向き。
+ *   太陽: 太陽の自転と逆回転(−)・f_☉(d) = f₁ (1 AU/d)^α。銀河: 180° の軸 —— 太陽系の中では順行の向き・黄道の北極への射影 +0.5・取り分 f_g は太陽系の中で一定。
+ *   比 R(d) = |ω_☉|/|ω_g| = Q (1 AU/d)^α(Q = f₁ s_☉/(0.5 Ω_g f_g) —— ノブ)。金星で釣り合う置き方 Q = (d_金星/1 AU)^α → R(d) = (d_金星/d)^α。
+ * 分類の予測: 潮汐 N_tide/I > T_g max(1, R) なら lock(T_g = Γ₀ |ω_g| —— ノブ)・そうでなければ R > tol → sun・R < 1/tol → galaxy・間は balance。
+ */
+export function classTable(C = DECL.classify) {
+  const rows = BODY_ROWS.filter((r) => CLASS_TARGET[r.id]).map((r) => { const b = bodyRow(r), dS = helioOf(r.id); return { id: r.id, target: CLASS_TARGET[r.id], dAU: dS / C.au, tideI: b.Ntide / b.I, Ntide: b.Ntide, I: b.I }; });
+  const dV = helioOf('Venus') / C.au, out = [];
+  for (const alpha of C.alphas) {
+    const Rof = (d) => Math.pow(dV / d, alpha);
+    const z = rows.map((x) => Object.assign({}, x, { R: Rof(x.dAU), score: x.tideI / Math.max(1, Rof(x.dAU)) }));
+    const L = z.filter((x) => x.target === 'lock').map((x) => x.score), N = z.filter((x) => x.target !== 'lock').map((x) => x.score);
+    const lo = Math.max(...N), hi = Math.min(...L), sepLock = hi > lo, Tg = sepLock ? Math.sqrt(lo * hi) : null;
+    for (const tol of C.tols) {
+      const pred = z.map((x) => { const lock = Tg !== null && x.score > Tg; const c = lock ? 'lock' : x.R > tol ? 'sun' : x.R < 1 / tol ? 'galaxy' : 'balance'; return { id: x.id, target: x.target, R: x.R, score: x.score, pred: c, ok: c === x.target }; });
+      out.push({ alpha, tol, Tg, lockBand: [lo, hi], sepLock, nOk: pred.filter((q) => q.ok).length, n: pred.length, wrong: pred.filter((q) => !q.ok).map((q) => q.id + '→' + q.pred), rows: pred });
+    }
+  }
+  // 金星に地球が与える潮汐のトルクの物差し(最接近 0.277 AU)と太陽の潮汐の比
+  const V = bodyRow(BODY_ROWS.find((r) => r.id === 'Venus')), R = val('Venus', 'R'), dEV = C.earthVenusMinAU * C.au;
+  const NEV = G_SI * Math.pow(val('Earth', 'M'), 2) * Math.pow(R, 5) / Math.pow(dEV, 6);
+  const venusEarth = { NEarth: NEV, NSun: V.Ntide, ratio: NEV / V.Ntide, dMinAU: C.earthVenusMinAU };
+  return { rows, out, venusEarth, dVenusAU: dV };
 }
 
 /* ───────── T3 角運動量の帳簿(自転 2 つ + 相対の軌道 —— 平面)───────── */

@@ -928,7 +928,7 @@ unmarked336b() {   # $1 = ログ・$2 = 一覧のファイル・$3 = 段の印(�
 # ==== 第336便b の塊(ここまで)====
 # ==== 第337便c の塊(ここから)====
 # 第337便c(原仮定者の指示(2026-11-14 —— 第138報)・統括の検証項目 R339 —— 診断だけ・html は変えない): 枝 c の新設 2 本(behavior.tidelock337c —— 2 つの座標系・ロックの判定・
-#   角運動量の帳簿・秤動の周期の解と求積の部分集合を lib で作り直して正本と同じ・純関数の場面・呼ぶだけ・CSV の写しの値 / docs.tidelock337c —— 正本の門と表 21 本が PHYSICS〔第337便c〕に逐語・文書)と、
+#   角運動量の帳簿・秤動の周期の解と求積の部分集合を lib で作り直して正本と同じ・純関数の場面・呼ぶだけ・CSV の写しの値 / docs.tidelock337c —— 正本の門と表 23 本が PHYSICS〔第337便c〕に逐語・文書)と、
 #   新しい段 tidelock-337c の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.tidelock337c docs.tidelock337c docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
 # ==== 第337便c の塊(ここまで)====

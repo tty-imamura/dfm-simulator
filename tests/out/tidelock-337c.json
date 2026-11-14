@@ -3,7 +3,7 @@
  "libVersion": "w337c-tidelock-lib-1",
  "generator": "tests/exp-w337c-tidelock.mjs",
  "target": "tests/lib-w337c-tidelock.mjs",
- "ruling": "原仮定者の補足(2026-11-14 —— 第138報の補足)「軸引きずりは、並進引きずりで引きずられる側の、近い面と遠い面の差分なので、赤道面では源の回転と逆回転になる」・原仮定者の指示(2026-11-14 —— 第138報)「潮汐ロックしている状態は、外部からの軸引きずりによる回転よりも、潮汐力が上回っている」「互いに潮汐ロックしていると、どちらかを基準にした座標系では、距離以外の引きずりが消え、遠方宇宙が回転している。遠方宇宙基準の通常の慣性系では、互いを自転速度で回す引きずりとなる」「連星は、互いの潮汐力の反作用により、軸引きずりが連星同士の回転として現れる」・統括の検証項目 R339",
+ "ruling": "原仮定者の補足(2026-11-14 —— 第138報の補足 2)「銀河の軸引きずりの影響は、太陽だけでなく、惑星や衛星にも及んでいる。主要な衛星は、惑星に潮汐ロックしている。水星は太陽の影響が強い。金星は、太陽と銀河が釣り合っていて、さらに地球が影響を与えている」・原仮定者の補足(2026-11-14 —— 第138報の補足)「軸引きずりは、並進引きずりで引きずられる側の、近い面と遠い面の差分なので、赤道面では源の回転と逆回転になる」・原仮定者の指示(2026-11-14 —— 第138報)「潮汐ロックしている状態は、外部からの軸引きずりによる回転よりも、潮汐力が上回っている」「互いに潮汐ロックしていると、どちらかを基準にした座標系では、距離以外の引きずりが消え、遠方宇宙が回転している。遠方宇宙基準の通常の慣性系では、互いを自転速度で回す引きずりとなる」「連星は、互いの潮汐力の反作用により、軸引きずりが連星同士の回転として現れる」・統括の検証項目 R339",
  "decl": {
   "frames": {
    "modes": [
@@ -249,6 +249,21 @@
    "passTol": 0.002,
    "endTol": 0.000001
   },
+  "classify": {
+   "alphas": [
+    1.5,
+    2,
+    3
+   ],
+   "tols": [
+    1.5,
+    2,
+    3
+   ],
+   "galProj": 0.5,
+   "au": 149597870700,
+   "earthVenusMinAU": 0.277
+  },
   "bodies": {
    "alpha": 2,
    "sideScan": [
@@ -380,6 +395,20 @@
    "state": "候補(f = 0 が主の候補)"
   },
   {
+   "key": "Qsg",
+   "name": "太陽と銀河の軸引きずりの比のノブ Q(金星で釣り合う置き方)",
+   "why": "補足 2: 水星は太陽が強い・金星は釣り合い・地球より外は銀河の側",
+   "grid": "α 1.5・2・3 × 幅 tol 1.5・2・3",
+   "state": "候補"
+  },
+  {
+   "key": "Tg",
+   "name": "軸引きずりのしきい T_g = Γ₀ |ω_銀河|(潮汐 N_tide/I と比べる)",
+   "why": "補足 2: 主要な衛星は潮汐ロック・惑星はしない",
+   "grid": "帯を読む",
+   "state": "候補"
+  },
+  {
    "key": "cL",
    "name": "層の結合 c",
    "why": "T3: 剛体でない天体が全体として回るまでの時間",
@@ -442,7 +471,8 @@
  "amend": [
   "探索の記録 1(初走の後): T4 の周期の解は K の梯子(0 から 1/8 桁ずつ)で求め、解けない点は初期値 2 つ(n・近点の ḟ)を足して試した —— 解けない行は消さずに「解けない」で残す",
   "探索の記録 2(初走の後): 実在の天体の表に源ごとの比(主星・太陽・銀河)と、比のしきいで分けた後の 2 本目の読み(k₂/Q・年齢・初期の自転 —— ロックへ入る時間 < 年齢)を足した",
-  "探索の記録 3(原仮定者の補足(2026-11-14 —— 第138報の補足)が走行中に届いた): 外部の軸引きずりの向きを「近い面と遠い面の差分 —— 赤道面では源の回転と逆回転」で置く列を足した(係数 c = 1 − α + f α/2・α = 2・f は差分の読みのノブ —— f = 0 が補足の読み・f = 1 が回転率の全部)。銀河は太陽系の軸と 120°。T2 に逆回転の N_ext の 5 行・T3 に逆回転の外部のトルクの 3 行。従来の列(向きを揃えた |ω_src − n|)は比べる列に残した"
+  "探索の記録 3(原仮定者の補足(2026-11-14 —— 第138報の補足)が走行中に届いた): 外部の軸引きずりの向きを「近い面と遠い面の差分 —— 赤道面では源の回転と逆回転」で置く列を足した(係数 c = 1 − α + f α/2・α = 2・f は差分の読みのノブ —— f = 0 が補足の読み・f = 1 が回転率の全部)。銀河は太陽系の軸と 120°。T2 に逆回転の N_ext の 5 行・T3 に逆回転の外部のトルクの 3 行。従来の列(向きを揃えた |ω_src − n|)は比べる列に残した",
+  "探索の記録 4(原仮定者の補足(2026-11-14 —— 第138報の補足 2)が走行中に届いた): 銀河の軸引きずりを全部の行の源に置き(180° の軸 —— 太陽系の中では順行・射影 +0.5)、太陽の軸引きずりは太陽の自転と逆回転、大きさは閉じた形 (α − 1) s f(源の取り分 f はノブ)。分類(主要な衛星 = 潮汐ロック/水星 = 太陽が強い/金星 = 釣り合い + 地球/ほかの惑星 = 銀河の側)を目標の列にして、α 3 × 幅 3 で 3 つの比の読みを足した。金星の行に地球の潮汐の物差し"
  ],
  "notClaim": [
   "候補の型の表・条件付きの恒等式・残差(観測と比べた結果ではない)",
@@ -4840,7 +4870,1286 @@
      "Jupiter"
     ]
    }
-  ]
+  ],
+  "classify": {
+   "rows": [
+    {
+     "id": "Moon",
+     "target": "lock",
+     "dAU": 1.0000142334913595,
+     "tideI": 1.337713116893829e-16,
+     "Ntide": 11680817050488930000,
+     "I": 8.731929815872479e+34
+    },
+    {
+     "id": "Io",
+     "target": "lock",
+     "dAU": 5.204418995784543,
+     "tideI": 7.654202267974822e-12,
+     "Ntide": 8.575147949484129e+23,
+     "I": 1.1203189632657792e+35
+    },
+    {
+     "id": "Europa",
+     "target": "lock",
+     "dAU": 5.204418995784543,
+     "tideI": 6.036621102313273e-13,
+     "Ntide": 2.442236235100989e+22,
+     "I": 4.0457007218245117e+34
+    },
+    {
+     "id": "Ganymede",
+     "target": "lock",
+     "dAU": 5.204418995784543,
+     "tideI": 6.339266726734004e-14,
+     "Ntide": 2.0271357320764324e+22,
+     "I": 3.197744817279229e+35
+    },
+    {
+     "id": "Callisto",
+     "target": "lock",
+     "dAU": 5.204418995784543,
+     "tideI": 1.97935843387123e-15,
+     "Ntide": 439204628301857160000,
+     "I": 2.2189241765720046e+35
+    },
+    {
+     "id": "Phobos",
+     "target": "lock",
+     "dAU": 1.5236847886498694,
+     "tideI": 1.2932338085795314e-8,
+     "Ntide": 6755796323367878,
+     "I": 5.2239558528e+23
+    },
+    {
+     "id": "Deimos",
+     "target": "lock",
+     "dAU": 1.5236847886498694,
+     "tideI": 6.722418821690815e-11,
+     "Ntide": 1596237784527.303,
+     "I": 2.37449916e+22
+    },
+    {
+     "id": "Charon",
+     "target": "lock",
+     "dAU": 39.48184537896635,
+     "tideI": 7.020122144418526e-14,
+     "Ntide": 16355095757050814000,
+     "I": 2.329745184e+32
+    },
+    {
+     "id": "Pluto",
+     "target": "lock",
+     "dAU": 39.48184537896635,
+     "tideI": 9.537892424134884e-16,
+     "Ntide": 7016002064327613000,
+     "I": 7.355924928e+33
+    },
+    {
+     "id": "Earth",
+     "target": "galaxy",
+     "dAU": 1.0000142334913595,
+     "tideI": 1.7683829526469916e-20,
+     "Ntide": 1417620770952722000,
+     "I": 8.016480643125214e+37
+    },
+    {
+     "id": "Venus",
+     "target": "balance",
+     "dAU": 0.7233258033264239,
+     "tideI": 2.2664540452344694e-20,
+     "Ntide": 1332531754284081000,
+     "I": 5.8793680687500005e+37
+    },
+    {
+     "id": "Mars",
+     "target": "galaxy",
+     "dAU": 1.5236847886498694,
+     "tideI": 3.1381897892323737e-22,
+     "Ntide": 846779575107585.8,
+     "I": 2.698305813157065e+36
+    },
+    {
+     "id": "Jupiter",
+     "target": "galaxy",
+     "dAU": 5.204418995784543,
+     "tideI": 7.17661538811806e-20,
+     "Ntide": 1.7683347851580744e+23,
+     "I": 2.464023344605888e+42
+    },
+    {
+     "id": "Mercury",
+     "target": "sun",
+     "dAU": 0.3870977556634434,
+     "tideI": 8.897234170753252e-19,
+     "Ntide": 604870846446673000,
+     "I": 6.798414370557855e+35
+    }
+   ],
+   "out": [
+    {
+     "alpha": 1.5,
+     "tol": 1.5,
+     "Tg": 6.826121667995806e-18,
+     "lockBand": [
+      3.483253355134743e-19,
+      1.337713116893829e-16
+     ],
+     "sepLock": true,
+     "nOk": 14,
+     "n": 14,
+     "wrong": [],
+     "rows": [
+      {
+       "id": "Moon",
+       "target": "lock",
+       "R": 0.6151650660779822,
+       "score": 1.337713116893829e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Io",
+       "target": "lock",
+       "R": 0.051813455520875754,
+       "score": 7.654202267974822e-12,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Europa",
+       "target": "lock",
+       "R": 0.051813455520875754,
+       "score": 6.036621102313273e-13,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Ganymede",
+       "target": "lock",
+       "R": 0.051813455520875754,
+       "score": 6.339266726734004e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Callisto",
+       "target": "lock",
+       "R": 0.051813455520875754,
+       "score": 1.97935843387123e-15,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Phobos",
+       "target": "lock",
+       "R": 0.3270832009173101,
+       "score": 1.2932338085795314e-8,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Deimos",
+       "target": "lock",
+       "R": 0.3270832009173101,
+       "score": 6.722418821690815e-11,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Charon",
+       "target": "lock",
+       "R": 0.002479732145788924,
+       "score": 7.020122144418526e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Pluto",
+       "target": "lock",
+       "R": 0.002479732145788924,
+       "score": 9.537892424134884e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Earth",
+       "target": "galaxy",
+       "R": 0.6151650660779822,
+       "score": 1.7683829526469916e-20,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Venus",
+       "target": "balance",
+       "R": 1,
+       "score": 2.2664540452344694e-20,
+       "pred": "balance",
+       "ok": true
+      },
+      {
+       "id": "Mars",
+       "target": "galaxy",
+       "R": 0.3270832009173101,
+       "score": 3.1381897892323737e-22,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Jupiter",
+       "target": "galaxy",
+       "R": 0.051813455520875754,
+       "score": 7.17661538811806e-20,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Mercury",
+       "target": "sun",
+       "R": 2.5542885525790524,
+       "score": 3.483253355134743e-19,
+       "pred": "sun",
+       "ok": true
+      }
+     ]
+    },
+    {
+     "alpha": 1.5,
+     "tol": 2,
+     "Tg": 6.826121667995806e-18,
+     "lockBand": [
+      3.483253355134743e-19,
+      1.337713116893829e-16
+     ],
+     "sepLock": true,
+     "nOk": 13,
+     "n": 14,
+     "wrong": [
+      "Earth→balance"
+     ],
+     "rows": [
+      {
+       "id": "Moon",
+       "target": "lock",
+       "R": 0.6151650660779822,
+       "score": 1.337713116893829e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Io",
+       "target": "lock",
+       "R": 0.051813455520875754,
+       "score": 7.654202267974822e-12,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Europa",
+       "target": "lock",
+       "R": 0.051813455520875754,
+       "score": 6.036621102313273e-13,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Ganymede",
+       "target": "lock",
+       "R": 0.051813455520875754,
+       "score": 6.339266726734004e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Callisto",
+       "target": "lock",
+       "R": 0.051813455520875754,
+       "score": 1.97935843387123e-15,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Phobos",
+       "target": "lock",
+       "R": 0.3270832009173101,
+       "score": 1.2932338085795314e-8,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Deimos",
+       "target": "lock",
+       "R": 0.3270832009173101,
+       "score": 6.722418821690815e-11,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Charon",
+       "target": "lock",
+       "R": 0.002479732145788924,
+       "score": 7.020122144418526e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Pluto",
+       "target": "lock",
+       "R": 0.002479732145788924,
+       "score": 9.537892424134884e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Earth",
+       "target": "galaxy",
+       "R": 0.6151650660779822,
+       "score": 1.7683829526469916e-20,
+       "pred": "balance",
+       "ok": false
+      },
+      {
+       "id": "Venus",
+       "target": "balance",
+       "R": 1,
+       "score": 2.2664540452344694e-20,
+       "pred": "balance",
+       "ok": true
+      },
+      {
+       "id": "Mars",
+       "target": "galaxy",
+       "R": 0.3270832009173101,
+       "score": 3.1381897892323737e-22,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Jupiter",
+       "target": "galaxy",
+       "R": 0.051813455520875754,
+       "score": 7.17661538811806e-20,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Mercury",
+       "target": "sun",
+       "R": 2.5542885525790524,
+       "score": 3.483253355134743e-19,
+       "pred": "sun",
+       "ok": true
+      }
+     ]
+    },
+    {
+     "alpha": 1.5,
+     "tol": 3,
+     "Tg": 6.826121667995806e-18,
+     "lockBand": [
+      3.483253355134743e-19,
+      1.337713116893829e-16
+     ],
+     "sepLock": true,
+     "nOk": 12,
+     "n": 14,
+     "wrong": [
+      "Earth→balance",
+      "Mercury→balance"
+     ],
+     "rows": [
+      {
+       "id": "Moon",
+       "target": "lock",
+       "R": 0.6151650660779822,
+       "score": 1.337713116893829e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Io",
+       "target": "lock",
+       "R": 0.051813455520875754,
+       "score": 7.654202267974822e-12,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Europa",
+       "target": "lock",
+       "R": 0.051813455520875754,
+       "score": 6.036621102313273e-13,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Ganymede",
+       "target": "lock",
+       "R": 0.051813455520875754,
+       "score": 6.339266726734004e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Callisto",
+       "target": "lock",
+       "R": 0.051813455520875754,
+       "score": 1.97935843387123e-15,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Phobos",
+       "target": "lock",
+       "R": 0.3270832009173101,
+       "score": 1.2932338085795314e-8,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Deimos",
+       "target": "lock",
+       "R": 0.3270832009173101,
+       "score": 6.722418821690815e-11,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Charon",
+       "target": "lock",
+       "R": 0.002479732145788924,
+       "score": 7.020122144418526e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Pluto",
+       "target": "lock",
+       "R": 0.002479732145788924,
+       "score": 9.537892424134884e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Earth",
+       "target": "galaxy",
+       "R": 0.6151650660779822,
+       "score": 1.7683829526469916e-20,
+       "pred": "balance",
+       "ok": false
+      },
+      {
+       "id": "Venus",
+       "target": "balance",
+       "R": 1,
+       "score": 2.2664540452344694e-20,
+       "pred": "balance",
+       "ok": true
+      },
+      {
+       "id": "Mars",
+       "target": "galaxy",
+       "R": 0.3270832009173101,
+       "score": 3.1381897892323737e-22,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Jupiter",
+       "target": "galaxy",
+       "R": 0.051813455520875754,
+       "score": 7.17661538811806e-20,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Mercury",
+       "target": "sun",
+       "R": 2.5542885525790524,
+       "score": 3.483253355134743e-19,
+       "pred": "balance",
+       "ok": false
+      }
+     ]
+    },
+    {
+     "alpha": 2,
+     "tol": 1.5,
+     "Tg": 5.838424905773684e-18,
+     "lockBand": [
+      2.548170078462636e-19,
+      1.337713116893829e-16
+     ],
+     "sepLock": true,
+     "nOk": 14,
+     "n": 14,
+     "wrong": [],
+     "rows": [
+      {
+       "id": "Moon",
+       "target": "lock",
+       "R": 0.523185324144242,
+       "score": 1.337713116893829e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Io",
+       "target": "lock",
+       "R": 0.01931627632045071,
+       "score": 7.654202267974822e-12,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Europa",
+       "target": "lock",
+       "R": 0.01931627632045071,
+       "score": 6.036621102313273e-13,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Ganymede",
+       "target": "lock",
+       "R": 0.01931627632045071,
+       "score": 6.339266726734004e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Callisto",
+       "target": "lock",
+       "R": 0.01931627632045071,
+       "score": 1.97935843387123e-15,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Phobos",
+       "target": "lock",
+       "R": 0.22536042462912287,
+       "score": 1.2932338085795314e-8,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Deimos",
+       "target": "lock",
+       "R": 0.22536042462912287,
+       "score": 6.722418821690815e-11,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Charon",
+       "target": "lock",
+       "R": 0.00033563947208489997,
+       "score": 7.020122144418526e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Pluto",
+       "target": "lock",
+       "R": 0.00033563947208489997,
+       "score": 9.537892424134884e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Earth",
+       "target": "galaxy",
+       "R": 0.523185324144242,
+       "score": 1.7683829526469916e-20,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Venus",
+       "target": "balance",
+       "R": 1,
+       "score": 2.2664540452344694e-20,
+       "pred": "balance",
+       "ok": true
+      },
+      {
+       "id": "Mars",
+       "target": "galaxy",
+       "R": 0.22536042462912287,
+       "score": 3.1381897892323737e-22,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Jupiter",
+       "target": "galaxy",
+       "R": 0.01931627632045071,
+       "score": 7.17661538811806e-20,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Mercury",
+       "target": "sun",
+       "R": 3.491617080803781,
+       "score": 2.548170078462636e-19,
+       "pred": "sun",
+       "ok": true
+      }
+     ]
+    },
+    {
+     "alpha": 2,
+     "tol": 2,
+     "Tg": 5.838424905773684e-18,
+     "lockBand": [
+      2.548170078462636e-19,
+      1.337713116893829e-16
+     ],
+     "sepLock": true,
+     "nOk": 13,
+     "n": 14,
+     "wrong": [
+      "Earth→balance"
+     ],
+     "rows": [
+      {
+       "id": "Moon",
+       "target": "lock",
+       "R": 0.523185324144242,
+       "score": 1.337713116893829e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Io",
+       "target": "lock",
+       "R": 0.01931627632045071,
+       "score": 7.654202267974822e-12,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Europa",
+       "target": "lock",
+       "R": 0.01931627632045071,
+       "score": 6.036621102313273e-13,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Ganymede",
+       "target": "lock",
+       "R": 0.01931627632045071,
+       "score": 6.339266726734004e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Callisto",
+       "target": "lock",
+       "R": 0.01931627632045071,
+       "score": 1.97935843387123e-15,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Phobos",
+       "target": "lock",
+       "R": 0.22536042462912287,
+       "score": 1.2932338085795314e-8,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Deimos",
+       "target": "lock",
+       "R": 0.22536042462912287,
+       "score": 6.722418821690815e-11,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Charon",
+       "target": "lock",
+       "R": 0.00033563947208489997,
+       "score": 7.020122144418526e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Pluto",
+       "target": "lock",
+       "R": 0.00033563947208489997,
+       "score": 9.537892424134884e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Earth",
+       "target": "galaxy",
+       "R": 0.523185324144242,
+       "score": 1.7683829526469916e-20,
+       "pred": "balance",
+       "ok": false
+      },
+      {
+       "id": "Venus",
+       "target": "balance",
+       "R": 1,
+       "score": 2.2664540452344694e-20,
+       "pred": "balance",
+       "ok": true
+      },
+      {
+       "id": "Mars",
+       "target": "galaxy",
+       "R": 0.22536042462912287,
+       "score": 3.1381897892323737e-22,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Jupiter",
+       "target": "galaxy",
+       "R": 0.01931627632045071,
+       "score": 7.17661538811806e-20,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Mercury",
+       "target": "sun",
+       "R": 3.491617080803781,
+       "score": 2.548170078462636e-19,
+       "pred": "sun",
+       "ok": true
+      }
+     ]
+    },
+    {
+     "alpha": 2,
+     "tol": 3,
+     "Tg": 5.838424905773684e-18,
+     "lockBand": [
+      2.548170078462636e-19,
+      1.337713116893829e-16
+     ],
+     "sepLock": true,
+     "nOk": 13,
+     "n": 14,
+     "wrong": [
+      "Earth→balance"
+     ],
+     "rows": [
+      {
+       "id": "Moon",
+       "target": "lock",
+       "R": 0.523185324144242,
+       "score": 1.337713116893829e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Io",
+       "target": "lock",
+       "R": 0.01931627632045071,
+       "score": 7.654202267974822e-12,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Europa",
+       "target": "lock",
+       "R": 0.01931627632045071,
+       "score": 6.036621102313273e-13,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Ganymede",
+       "target": "lock",
+       "R": 0.01931627632045071,
+       "score": 6.339266726734004e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Callisto",
+       "target": "lock",
+       "R": 0.01931627632045071,
+       "score": 1.97935843387123e-15,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Phobos",
+       "target": "lock",
+       "R": 0.22536042462912287,
+       "score": 1.2932338085795314e-8,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Deimos",
+       "target": "lock",
+       "R": 0.22536042462912287,
+       "score": 6.722418821690815e-11,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Charon",
+       "target": "lock",
+       "R": 0.00033563947208489997,
+       "score": 7.020122144418526e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Pluto",
+       "target": "lock",
+       "R": 0.00033563947208489997,
+       "score": 9.537892424134884e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Earth",
+       "target": "galaxy",
+       "R": 0.523185324144242,
+       "score": 1.7683829526469916e-20,
+       "pred": "balance",
+       "ok": false
+      },
+      {
+       "id": "Venus",
+       "target": "balance",
+       "R": 1,
+       "score": 2.2664540452344694e-20,
+       "pred": "balance",
+       "ok": true
+      },
+      {
+       "id": "Mars",
+       "target": "galaxy",
+       "R": 0.22536042462912287,
+       "score": 3.1381897892323737e-22,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Jupiter",
+       "target": "galaxy",
+       "R": 0.01931627632045071,
+       "score": 7.17661538811806e-20,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Mercury",
+       "target": "sun",
+       "R": 3.491617080803781,
+       "score": 2.548170078462636e-19,
+       "pred": "sun",
+       "ok": true
+      }
+     ]
+    },
+    {
+     "alpha": 3,
+     "tol": 1.5,
+     "Tg": 4.271093180262806e-18,
+     "lockBand": [
+      1.3636882769637438e-19,
+      1.337713116893829e-16
+     ],
+     "sepLock": true,
+     "nOk": 14,
+     "n": 14,
+     "wrong": [],
+     "rows": [
+      {
+       "id": "Moon",
+       "target": "lock",
+       "R": 0.37842805852272815,
+       "score": 1.337713116893829e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Io",
+       "target": "lock",
+       "R": 0.00268463417301377,
+       "score": 7.654202267974822e-12,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Europa",
+       "target": "lock",
+       "R": 0.00268463417301377,
+       "score": 6.036621102313273e-13,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Ganymede",
+       "target": "lock",
+       "R": 0.00268463417301377,
+       "score": 6.339266726734004e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Callisto",
+       "target": "lock",
+       "R": 0.00268463417301377,
+       "score": 1.97935843387123e-15,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Phobos",
+       "target": "lock",
+       "R": 0.10698342032231345,
+       "score": 1.2932338085795314e-8,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Deimos",
+       "target": "lock",
+       "R": 0.10698342032231345,
+       "score": 6.722418821690815e-11,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Charon",
+       "target": "lock",
+       "R": 0.000006149071514858942,
+       "score": 7.020122144418526e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Pluto",
+       "target": "lock",
+       "R": 0.000006149071514858942,
+       "score": 9.537892424134884e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Earth",
+       "target": "galaxy",
+       "R": 0.37842805852272815,
+       "score": 1.7683829526469916e-20,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Venus",
+       "target": "balance",
+       "R": 1,
+       "score": 2.2664540452344694e-20,
+       "pred": "balance",
+       "ok": true
+      },
+      {
+       "id": "Mars",
+       "target": "galaxy",
+       "R": 0.10698342032231345,
+       "score": 3.1381897892323737e-22,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Jupiter",
+       "target": "galaxy",
+       "R": 0.00268463417301377,
+       "score": 7.17661538811806e-20,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Mercury",
+       "target": "sun",
+       "R": 6.524390009836392,
+       "score": 1.3636882769637438e-19,
+       "pred": "sun",
+       "ok": true
+      }
+     ]
+    },
+    {
+     "alpha": 3,
+     "tol": 2,
+     "Tg": 4.271093180262806e-18,
+     "lockBand": [
+      1.3636882769637438e-19,
+      1.337713116893829e-16
+     ],
+     "sepLock": true,
+     "nOk": 14,
+     "n": 14,
+     "wrong": [],
+     "rows": [
+      {
+       "id": "Moon",
+       "target": "lock",
+       "R": 0.37842805852272815,
+       "score": 1.337713116893829e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Io",
+       "target": "lock",
+       "R": 0.00268463417301377,
+       "score": 7.654202267974822e-12,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Europa",
+       "target": "lock",
+       "R": 0.00268463417301377,
+       "score": 6.036621102313273e-13,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Ganymede",
+       "target": "lock",
+       "R": 0.00268463417301377,
+       "score": 6.339266726734004e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Callisto",
+       "target": "lock",
+       "R": 0.00268463417301377,
+       "score": 1.97935843387123e-15,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Phobos",
+       "target": "lock",
+       "R": 0.10698342032231345,
+       "score": 1.2932338085795314e-8,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Deimos",
+       "target": "lock",
+       "R": 0.10698342032231345,
+       "score": 6.722418821690815e-11,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Charon",
+       "target": "lock",
+       "R": 0.000006149071514858942,
+       "score": 7.020122144418526e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Pluto",
+       "target": "lock",
+       "R": 0.000006149071514858942,
+       "score": 9.537892424134884e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Earth",
+       "target": "galaxy",
+       "R": 0.37842805852272815,
+       "score": 1.7683829526469916e-20,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Venus",
+       "target": "balance",
+       "R": 1,
+       "score": 2.2664540452344694e-20,
+       "pred": "balance",
+       "ok": true
+      },
+      {
+       "id": "Mars",
+       "target": "galaxy",
+       "R": 0.10698342032231345,
+       "score": 3.1381897892323737e-22,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Jupiter",
+       "target": "galaxy",
+       "R": 0.00268463417301377,
+       "score": 7.17661538811806e-20,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Mercury",
+       "target": "sun",
+       "R": 6.524390009836392,
+       "score": 1.3636882769637438e-19,
+       "pred": "sun",
+       "ok": true
+      }
+     ]
+    },
+    {
+     "alpha": 3,
+     "tol": 3,
+     "Tg": 4.271093180262806e-18,
+     "lockBand": [
+      1.3636882769637438e-19,
+      1.337713116893829e-16
+     ],
+     "sepLock": true,
+     "nOk": 13,
+     "n": 14,
+     "wrong": [
+      "Earth→balance"
+     ],
+     "rows": [
+      {
+       "id": "Moon",
+       "target": "lock",
+       "R": 0.37842805852272815,
+       "score": 1.337713116893829e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Io",
+       "target": "lock",
+       "R": 0.00268463417301377,
+       "score": 7.654202267974822e-12,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Europa",
+       "target": "lock",
+       "R": 0.00268463417301377,
+       "score": 6.036621102313273e-13,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Ganymede",
+       "target": "lock",
+       "R": 0.00268463417301377,
+       "score": 6.339266726734004e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Callisto",
+       "target": "lock",
+       "R": 0.00268463417301377,
+       "score": 1.97935843387123e-15,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Phobos",
+       "target": "lock",
+       "R": 0.10698342032231345,
+       "score": 1.2932338085795314e-8,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Deimos",
+       "target": "lock",
+       "R": 0.10698342032231345,
+       "score": 6.722418821690815e-11,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Charon",
+       "target": "lock",
+       "R": 0.000006149071514858942,
+       "score": 7.020122144418526e-14,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Pluto",
+       "target": "lock",
+       "R": 0.000006149071514858942,
+       "score": 9.537892424134884e-16,
+       "pred": "lock",
+       "ok": true
+      },
+      {
+       "id": "Earth",
+       "target": "galaxy",
+       "R": 0.37842805852272815,
+       "score": 1.7683829526469916e-20,
+       "pred": "balance",
+       "ok": false
+      },
+      {
+       "id": "Venus",
+       "target": "balance",
+       "R": 1,
+       "score": 2.2664540452344694e-20,
+       "pred": "balance",
+       "ok": true
+      },
+      {
+       "id": "Mars",
+       "target": "galaxy",
+       "R": 0.10698342032231345,
+       "score": 3.1381897892323737e-22,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Jupiter",
+       "target": "galaxy",
+       "R": 0.00268463417301377,
+       "score": 7.17661538811806e-20,
+       "pred": "galaxy",
+       "ok": true
+      },
+      {
+       "id": "Mercury",
+       "target": "sun",
+       "R": 6.524390009836392,
+       "score": 1.3636882769637438e-19,
+       "pred": "sun",
+       "ok": true
+      }
+     ]
+    }
+   ],
+   "venusEarth": {
+    "NEarth": 3810835450.3166485,
+    "NSun": 1332531754284081000,
+    "ratio": 2.8598458821449e-9,
+    "dMinAU": 0.277
+   },
+   "dVenusAU": 0.7233258033264239
+  }
  },
  "ledger": {
   "rows": [
@@ -7488,22 +8797,22 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.054
+   "wallSec": 0.045
   },
   "frames": {
-   "wallSec": 0.126
+   "wallSec": 0.124
   },
   "lock": {
-   "wallSec": 4.843
+   "wallSec": 4.593
   },
   "bodies": {
-   "wallSec": 4.845
+   "wallSec": 4.596
   },
   "ledger": {
-   "wallSec": 6.146
+   "wallSec": 5.761
   },
   "libr": {
-   "wallSec": 23.706
+   "wallSec": 21.804
   }
  },
  "gates": {
@@ -7518,26 +8827,26 @@
   "pass": true
  },
  "ok": true,
- "elapsedS": 23.708,
+ "elapsedS": 21.806,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第337便c",
   "target": "tests/lib-w337c-tidelock.mjs",
-  "targetSha256": "16846564e4e1acf71eb50c7952fcf8e071bc6caf33b9b8ca56b73b818041a1b8",
-  "generatedAt": "2026-11-14T20:52:32.767Z",
+  "targetSha256": "7fbba33f583ce92d0446b1e388c958c9c64343f049aa333c095ab9c39256ef5c",
+  "generatedAt": "2026-11-14T21:31:04.294Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w337c-tidelock.mjs",
-    "bytes": 16922,
-    "sha256": "079ba3d9ee209f95975d78bb90f9ac27d96497774884730a2c79cedeb0412b9f",
-    "mtime": "2026-11-14T20:52:08.945Z"
+    "bytes": 18190,
+    "sha256": "b75824b95c57cf2181086fcfbf3233ce6faaa83ec7306741abc22c9270fd5120",
+    "mtime": "2026-11-14T21:30:42.413Z"
    },
    {
     "file": "tests/lib-w337c-tidelock.mjs",
-    "bytes": 54087,
-    "sha256": "16846564e4e1acf71eb50c7952fcf8e071bc6caf33b9b8ca56b73b818041a1b8",
-    "mtime": "2026-11-14T20:51:39.538Z"
+    "bytes": 58176,
+    "sha256": "7fbba33f583ce92d0446b1e388c958c9c64343f049aa333c095ab9c39256ef5c",
+    "mtime": "2026-11-14T21:30:15.629Z"
    },
    {
     "file": "tests/lib-w335b-carryledger.mjs",
@@ -7666,7 +8975,7 @@
     "mtime": "2026-11-14T20:18:49.994Z"
    }
   ],
-  "codeSha256": "83c7173d687067c8ac8ba736e486c335d49189bdf50c71e2d9305ebeaa60089d",
+  "codeSha256": "fbe5a0e349255521966574703b4967bf7008780ce1aa76f7245586771ea4f705",
   "harnessVersion": "w337c-tidelock-1",
   "stage": "tidelock",
   "engine": "Node(html を読まない —— 純関数の lib の表・RK4 の積分・射撃・求積)・1 プロセス",
