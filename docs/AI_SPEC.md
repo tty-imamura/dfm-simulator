@@ -5023,3 +5023,10 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **道具**: 印のない FAIL を理由の文の末尾つきの一覧(① は `$LOG/1-unmarked.txt`・④ は `$LOG/4-unmarked.txt`)に書き、1 件でもあれば要約に「‼ ① の印のない FAIL を 1 件ずつ読むこと(一覧 …)」を出す(`tests/lib-w336b-unmarked.mjs`)。刻印の型の FAIL を出しうる鍵 130 本の detail に種類の印(判定は不変)。刻印の型の語は `tests/lib-w320d-lintkinds.mjs` の版 2。
 - **規則**: AI が受け入れの結果を読むとき、種類の数が 0 でも、印のない FAIL は 1 件ずつ理由の文を読んで分ける(一覧の「〔文に刻印の型の語〕」は参考 —— 刻印の型と決めたのではない)。
 - QA `lint.unmarkedFail336b`(合成のログ・post-merge の関数を切り出した実行・第335便のログの抜粋の凍結・印の経路)・`docs.unmarkedFail336b`(本節と PHYSICS〔第336便b〕・CHANGELOG・tools/README.md・post-merge)。
+
+## 236. 第337便h —— 受け入れの道具: ① 静的受理の鍵ごとの済み印と続きから・本便で直した鍵を root の対象へ・root の旧い E0 を凍結の入力で・名残りの lint を 1 本に・種類の印の境界の 3 鍵(統括の検証項目 R344・**道具と QA と文書だけ** —— html・本の宣言・エンジン・受理器・`S._core`・physics の鍵は不変・判定は変えない・**SYSTEM_PROMPT には載せない**)
+- **何が起きたか**: 第336便の受け入れは ① 静的受理(`tests/qa-preflight.mjs`)の途中でコンテナが再起動し、済みの鍵を手で数えて継いだ。root を対象にしても beta の正本を読む鍵(`docs.emgrid-sync`)が root の対象で落ちてゲートが 1 回止まった。段を履歴へ回したときの名残りと fitRecord の標的と記録の食い違いは、別々の鍵の印のない FAIL として出た。
+- **道具**: `tests/qa-preflight.mjs --resume <dir>` は鍵(最上位の試験の文)ごとの結果を終わるたびに追記し、契約(対象の html・`tests/qa.mjs` と preflight の指紋・鍵の一覧・Node の版・環境変数・作業の木)が同じときだけ続きから回す(違えば最初から・理由を 1 行)。`--remaining <dir>` は済んでいない qa.mjs の鍵(preflight.* は入れない)。`tools/post-merge-qa.sh` は ① に `--resume "$LOG/1-ckpt"` を渡し、`--resume <前のログの置き場>` で続き・④ の root の集合に本便で直した鍵を足す(`--base-rev`・`tests/lib-w337h-postmerge.mjs`)。
+- **QA の文の型**: 名残りの lint `lint.historyLeftovers337h` の理由の文は「段を履歴へ回したときの名残り」か「fitRecord の標的と記録の食い違い」で始まる —— AI が受け入れの結果を読むとき、この型の語で直す先(現行の表から外す・記録の行を直す)を分ける。境界の 3 鍵の刻印の文には「(器を走らせ直すこと)」が付き、種類の印が出る。
+- **root の旧い E0**: `docs.emgrid-sync` の root の分岐は、root の 🌘 の E0 の署名と 8 公転窓の帯を凍結の入力 `tests/data-w337h-emgrid-root-e0.json` と照合する(昇格で root が追いつけば立たない)。
+- QA `lint.preflightResume337h`・`lint.rootSetAuto337h`・`lint.historyLeftovers337h`・`docs.postmerge337h`(本節と PHYSICS〔第337便h〕・CHANGELOG・tools/README.md・post-merge)。

@@ -51733,6 +51733,53 @@ QA: `lint.mercuryCombo335c`(宣言・純関数の場面 8・呼ぶだけ・文�
 
 **⑦ 変えていない所。** html(beta と root)・エンジン・内蔵の本・受理器・`S._core`・正本(`tests/out/`)・再生成表と段と名簿・各鍵の判定の式と違反の文・`kinds320` の要約の形・post-merge の終了コード。
 
+〔第337便h — 道具と QA: 受け入れ(`tools/post-merge-qa.sh`)の ① 静的受理の鍵ごとの済み印と続きから・本便で直した鍵を ④ の root の集合へ自動で足す・root の旧い E0 を凍結の入力で照合・段を履歴へ回したときの名残りと fitRecord の標的と記録の食い違いの lint を 1 本に・種類の印の境界の 3 鍵(統括の検証項目 R344・決断事項 AN704・AN706・AN707・AN710)(**道具と QA と文書だけ —— html・エンジン・内蔵の本・受理器・`S._core`・論文・README は 1 bit も変えていない**・beta/index.html と root の index.html は 1 byte も変えていない・physics の鍵・器・段・名簿は足していない・**判定は変えない** —— beta の対象の照合はそのまま)〕
+
+**① 何が起きたか(第336便の受け入れ)。** (i) ① 静的受理(`tests/qa-preflight.mjs` —— 約 42 分)の途中でコンテナが再起動した(529 鍵のうち 472 鍵まで)。済みの鍵を手で数え、残り 57 鍵を部分 QA で回して継いだ(preflight 専用の項 `preflight.*` を残りの一覧に入れて 1 回落ちた)。(ii) root を対象にしても beta の正本を読む鍵 `docs.emgrid-sync` が root の対象で落ち、ゲートが 1 回止まった —— 本を beta だけで動かす便で、直した鍵を root の対象で回していなかった・④ の root の常設集合にこの鍵が無かった。そのときの直し(`e0Ahead336` の分岐)は「E0 の署名は beta の対象でだけ照合」で、root の旧い E0 そのものは照合していなかった。(iii) 段を履歴へ回したときの名残り(煙試験の窓の表 `SMOKE_KNOBS`・簡易の指紋の記録 `tests/data-w323b-quickfp.json`)と、fitRecord の標的を変えたのに観測の時間標準の記録(`paper/data/obs-time-standard-20261016.csv`)が旧いままだったことが、別々の鍵(`lint.harnessSmoke303`・`lint.regenQuick323`・`docs.obsTime305`)の印のない FAIL として出て、理由の文から型が読みにくかった。(iv) 境界の 3 鍵(`docs.regenShort319c`・`lint.quickWindows323`・`lint.qaEvidenceStamp308`)は「領域の刻印が宣言と違う」「刻印が古い」の文に走らせ直しの語が無く、刻印の型以外に数えられていた。
+
+**② 足したこと**(表 1)。
+
+**表 1 足した所**
+
+| 所 | 足したこと | 変えていない所 |
+|---|---|---|
+| `tests/qa-preflight.mjs` | `--resume <dir>`: 最上位の試験の文が終わるたびに、その文の結果(add の行と console の行)を `<dir>/done.jsonl` に 1 行で追記(書いて fsync)。契約(③)が同じときだけ、済みの文を走らせずに記録の行を同じ位置で出し直す。`--remaining <dir>`: 済んでいない qa.mjs の鍵の id を 1 行(preflight.* は入れない)。試験用の環境変数 `QA_PREFLIGHT_ONLY`(その id を出す文だけ)・`QA_PREFLIGHT_NO_BUILTINS=1`(② を飛ばす)・`QA_PREFLIGHT_STOP_AFTER`(N 文で終了コード 3 —— 再起動の合成)・`QA_PREFLIGHT_OUT`(結果 JSON の置き場) | 文の本文(qa.mjs をそのまま切り出す)・① と ② の判定・保存の既定の置き場・`fullQaStillRequired:true` |
+| `tests/lib-w337h-postmerge.mjs`(新設・版 `w337h-postmerge-1`・済み印の契約の版 `w337h-resume-1`) | 契約 `resumeContract`・`contractDiff`・済み印 `appendDone`・`readDone`(書きかけの行は読まない)・残り `remainingIds`・結果の形 `resultShape`・本便で直した鍵 `changedQaIds`・便の基点 `waveBaseRev`・名残り `historyLeftovers`・fitRecord と記録 `fitTargetMismatch`・root の E0 `checkRootE0`・自己試験 | 判定しない(道具と照合の補助) |
+| `tools/post-merge-qa.sh` | ① は `--resume "$LOG/1-ckpt"` で済み印を残す・`--resume <前のログの置き場>` で同じ置き場から続き・① が終わりの行を出さずに止まったら `$LOG/1-remaining.txt`(残りの鍵)。④ の root の集合に本便で直した・足した QA の鍵を足す(`--base-rev <便の基点>` —— 既定は件名「第<便>便 開始: beta-build」のコミット・`POST_MERGE_ROOT_AUTO=0` で足さない)・要約に「root の集合 n 鍵 —— 本便で直した鍵 k(拾えなかった文 u・宣言の変更 d)」 | ⓪〜⑤ の順・常設集合 9 本・終了コード |
+| `tests/qa.mjs` の `docs.emgrid-sync` | root の分岐(`e0Ahead336` —— 正本が beta の 🌘 の世代で対象がリリース世代)で、root の 🌘 の E0 の署名と 8 公転窓の帯(285〜305 年)を凍結の入力 `tests/data-w337h-emgrid-root-e0.json` と照合する | beta の対象の照合(正本の行と署名・帯 7〜11 年) |
+| `tests/data-w337h-emgrid-root-e0.json`(新設 —— 凍結) | 第336便の前の正本 emgrid(main `d4bfddf` の `tests/out/emgrid-w280b.json`)の E0 の 2 行(dt 0.016・0.008)の写し・sha256 を lib に固定 | —— |
+| `tests/qa.mjs` の境界の 3 鍵 | 「領域の刻印が宣言と違う」「刻印が古い」の文に「(器を走らせ直すこと)」・detail の末尾を `violationText`(種類の印) | 判定の式(違反の条件)・`tests/lib-w320d-lintkinds.mjs`(語の表は版 2 のまま —— 「走らせ直す」は既に刻印の型の語) |
+
+**③ 済み印の契約(AN707)。** 続きから回すのは、次の欄がすべて前の走行と同じときだけ: 対象の html の SHA-256・`tests/qa.mjs` と `tests/qa-preflight.mjs` の SHA-256・切り出しの lib(`tests/lib-w279b-qaorder.mjs`・`tests/lib-w279b-headless.mjs`・本 lib)の指紋・鍵の一覧(切り出した試験の文の行・id・本文の hash)・Node の版・環境変数(`QA_*` と器の `W###x_*` —— heap の `NODE_OPTIONS`・`QA_PREFLIGHT_OUT`・`QA_PREFLIGHT_STOP_AFTER` は外す)・作業の木(HEAD と追跡しているファイルの未コミットの差)。1 つでも違えば最初から(「最初から: 契約の欄 env が違う(QA_…)」のように理由を 1 行 —— 要約の ① にも出る)。preflight 専用の項 `preflight.builtinsAcceptBuildStep` は種類 'preflight' の済み印として別に持ち、`preflight.qaBlocks` は毎回まとめ直す。続きから回した結果の合計(PASS・FAIL・FAIL の id の並び・印のない FAIL の一覧 `1-unmarked.txt`)は通しで回したときと同じ形(所要の秒だけ違う)。試し: 絞った一覧 10 鍵(`QA_PREFLIGHT_ONLY`)で通し・3 文で止めた走行・続きから・契約の違う走行 —— QA `lint.preflightResume337h` が毎回回す。
+
+**④ 本便で直した鍵を root の集合へ(AN710)。** 便の基点と今の `tests/qa.mjs` を最上位の文で切り、`add('<id>'` の塊の本文が変わった(または新しい)鍵の id を拾う(静的)。id が式で作られる文(接頭辞だけ拾える)と試験の文でない宣言の変更は「拾えなかった」と数を出す(宣言の変更から読む鍵は拾わない)。root では beta 線の新設が SKIP になる(従来どおり SKIP の数を出す)。参考: 第336便の基点(`d4bfddf`)から今の木までで拾う鍵は 216(第336便b が 130 本の detail に種類の印を付けたため)・拾えなかった文 0。
+
+**⑤ root の旧い E0(AN710)。** `docs.emgrid-sync` の root の分岐は、root の 🌘 `earthMoonRealKF1`(昇格まで前の世代 —— 朔望月)の署名を凍結の入力の E0 の 2 行(署名 `e06e5a8`)と照合し、8 公転窓の近点回転の周期(293.850 年)が 285〜305 年(claims の窓と同じ)に入ることを見る。凍結の入力の sha256 は lib に固定(手で変えない)。**昇格で root の 🌘 が第297便a の記録へ戻れば `e0Ahead336` が偽になり、この枝は立たない**(従来の照合に戻る —— 凍結の入力は使われなくなる)。
+
+**⑥ 名残りの lint(AN706)。** `lint.historyLeftovers337h`: (a) 履歴の段(再生成表の role が履歴の段 —— 本便の木で 41 段)の名が、現行の表 —— 煙試験の窓の表 `SMOKE_KNOBS`・第323便c の窓の表・`W325D_KNOBS_323C`・簡易の窓の段 `QUICK_WINDOW_KEYS_323C`・簡易の指紋の記録・名簿の現行の行・post-merge の本文(コメントでない行)—— に残っていない(理由の文の型「段を履歴へ回したときの名残り」)。(b) 在位の本の fitRecord の標的と観測の時間標準の記録の行の対応を両向きで: 標的 → 行(本を持つ行で値が同じ量 —— 単位を換算して相対 1e-6 以内 —— か、注記が「fitRecord の標的 <値>」とその標的を名指す)・html の fitRecord を由来に持つ行 → 標的(本が在位・値が同じ標的が在る・量の名が同じ)(理由の文の型「fitRecord の標的と記録の食い違い」)。`docs.obsTime305` の ④ は同じ本の別の行の注記で覆うので、行を 1 つ消した写しを通す —— (b) はその向きを足した。記録に専用の行を持たない標的 2 件(🌥️ の交点の周期 18.599525 年・☿ の派生した参照値 42.978510382067476″/世紀)は凍結の表 `NOTE_ONLY_TARGETS_337H` に理由つきで置いた(記録の CSV は本便では変えない —— 行を足すかは次の便の決断)。歴史の文書(PHYSICS・CHANGELOG・AI_SPEC の過去の節)の中の名は対象にしない。合成の入力(履歴の段を 1 つ表に戻した写し・記録の行を 1 つ消した写し・第336便の前の 🌘 の行〔朔望月〕を戻した写し)で FAIL の経路を通す。
+
+**⑦ 境界の 3 鍵(AN704)。** `docs.regenShort319c` ③・`lint.quickWindows323` ③(「領域の刻印が宣言と違う」)と `lint.qaEvidenceStamp308`(`QA_EVIDENCE_STRICT=1` の「刻印が古い」)の文に「(器を走らせ直すこと)」を足し、detail の末尾を `violationText` に通した(種類の印 `〔違反の種類 w320d: …〕` が出る)。判定は変えない。
+
+**⑧ root を対象にしても beta の正本を読む鍵(走査 —— 表 2)。** 保存の root のフル QA で走った鍵のうち、正本の対象が beta の `tests/out/*.json` を読み、本ごとの署名か刻印を今の対象と比べる鍵。直したのは `docs.emgrid-sync` だけ(ほかは一覧と提案)。
+
+**表 2 同じ型の鍵(root の対象で走る・beta の正本を読む)**
+
+| 鍵 | 比べるもの | root の分岐 | 本を beta だけで動かす便での見込み |
+|---|---|---|---|
+| `docs.emgrid-sync` | presetSigHash・場の経路の関数の SHA-256 | あり(本便で凍結の入力) | 本便で直した |
+| `docs.rotorLedger`・`preset.massLedger` | presetSigHash | なし | 動かした本が台帳の本なら root で落ちうる |
+| `preset.earthMoonInertial` | presetSigHash | なし | 🌦️ の系の本を beta だけで動かすと落ちうる |
+| `behavior.calibrationForecast` | presetSigHash | なし | 較正の本を動かす便で落ちうる |
+| `docs.retired` | presetSigHash | なし | 退役の本の写しが動くと落ちうる |
+| `docs.sampleStatus-sync` | targetSha256 | あり(beta だけの本を除く) | 分岐あり |
+| `lint.provenanceMeta`・`lint.calauditMergeKeyHash`・`docs.charonDfm`・`docs.charonTwoColumns`・`ui.assessedValuePanel`・`lint.qaRecheck323` | targetSha256(正本の刻印) | なし | 刻印は正本の対象と比べる —— 本の世代の差では落ちにくい |
+
+提案: 本を beta だけで動かす便では、presetSigHash を比べる 4 行(表 2 の 2〜5 行目)を ④ の root の集合へ足す(本便の自動の追加は「本便で直した鍵」だけ —— 動かした本を読む鍵までは拾わない)。
+
+**⑨ 新しい QA(第337便h —— root は SKIP)。** `lint.preflightResume337h`(lib の自己試験・絞った一覧で通し/止めた走行/続きから/契約の違う走行を実際に回す・post-merge と preflight の呼び出し)・`lint.rootSetAuto337h`(今の qa.mjs の 1 文を変えた写しでその鍵だけ拾う・post-merge の `rootadd337h` を bash で実行・④ の位置・凍結の入力の sha256 と root の html の 🌘 の署名)・`lint.historyLeftovers337h`(⑥)・`docs.postmerge337h`(本節・AI_SPEC §236・CHANGELOG・tools/README.md・post-merge の ③′)。`docs.emgrid-sync` の root の分岐は root の対象で走る。
+
+**⑩ 変えていない所。** html(beta と root)・エンジン・内蔵の本・受理器・`S._core`・正本(`tests/out/`)・観測の時間標準の記録の CSV・再生成表と段と名簿(`tools/regen-plan.mjs`・`tools/regen-chain.mjs`・段の宣言)・煙試験の道具・各鍵の判定の式・`tests/lib-w320d-lintkinds.mjs`。**言わないこと**: 再起動の損が無くなる(済み印は契約が同じときだけ効く —— 木や環境が変われば最初から)・root の集合で root の FAIL をすべて拾う(宣言の変更から読む鍵と、動かした本を読む鍵は拾わない)。
+
 〔第328便 — 統括: 原仮定者の指示(第130報)「改めて残った決断事項をまとめる」・原仮定者の回答(2026-11-05 —— 第327便の残りの決断事項 17 項〔AN550〜AN557・AN559〜AN567〕を推奨どおり: AN553 = B・他は A)を受けた第328便の構成・統合・決断事項・次の便(統括の検証項目 R301〜R303)〕
 
 **① 第328便の構成。** 便の開始(統括)で beta の版名を v1.47-b328 に・段の見積りの秒を第327便の鎖 1・鎖 2 の実測で更新(a96bea2)。枝 a(場の API の opt-in の契約 —— 枠・定数の Ω_field の宣言・収束の印・由来・伝達の版と係数・帳簿の口座の参照と、直接の滑りの宣言の型 —— AN551・AN552・AN553)・枝 b(受け手の応答の演算と p の判定・源の自転を外部の口座に固定した比べる列・金星の熱潮汐の振幅の記録し直し・予言のやり直しの扱い・火星と地球の局所の尺度 —— AN559・AN561・AN562・AN563・AN550・AN566)・枝 c(第327便f の器の検査の範囲の直し・共鳴の口の仕事の契約 —— AN564)。**どの枝も `beta/index.html`・root の `index.html`・エンジン・内蔵の本・受理器を変えていない**(診断と契約と道具)。AN554(名指しの 6 段を条件で選ぶ)は次の便の道具の便へ。

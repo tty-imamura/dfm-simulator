@@ -49963,7 +49963,22 @@ if (!FAST) {
         if (id === 'E0' && e0Ahead336) continue;
         for (const z of R.filter((y) => y.id === id)) if (z.presetSigHash !== sig[pid]) bad.push(`② ${id}(dt ${z.dt})の署名がいまの内蔵 ${pid} と違う`);
       }
-      cases.push(`行 ${R.length} 本(10 条件 × dt 0.016 + 3 条件 × dt 0.008)・全行 27 公転・内蔵そのままの ${e0Ahead336 ? '3 行の署名一致(E0 は正本が beta の 🌘 の世代 —— 第336便a・リリース世代の対象では飛ばす)' : '4 行の署名一致'}`);
+      // 第337便h(統括の検証項目 R344・AN710): 上の分岐はリリース世代の E0 を照合していなかった —— root の 🌘(昇格まで前の世代)の E0 の署名と 8 公転窓の帯を、
+      //   **凍結の入力**(第336便の前の正本 emgrid の E0 の 2 行の写し tests/data-w337h-emgrid-root-e0.json —— 手で変えない・sha256 を lib に固定)と照合する。
+      //   beta の対象では立たない(従来どおり正本の行と照合)。昇格で root の 🌘 が第297便a の記録へ戻れば e0Ahead336 が偽になり、この枝は使われない
+      let e0Root337 = '';
+      if (e0Ahead336) {
+        const PM337h = await import('file://' + path.join(ROOT, 'tests', 'lib-w337h-postmerge.mjs'));
+        const fz337 = path.join(ROOT, PM337h.EMGRID_ROOT_E0_FILE);
+        const fzSha = fs.existsSync(fz337) ? crypto.createHash('sha256').update(fs.readFileSync(fz337)).digest('hex') : '';
+        if (fzSha !== PM337h.EMGRID_ROOT_E0_SHA256) bad.push('② root の E0 の凍結の入力 ' + PM337h.EMGRID_ROOT_E0_FILE + ' が無いか sha256 が凍結の値と違う(手で変えない)');
+        else {
+          const rz = PM337h.checkRootE0({ frozen: JSON.parse(fs.readFileSync(fz337, 'utf8')), rootSig: sig.earthMoonRealKF1 });
+          for (const b of rz.bad) bad.push('② ' + b);
+          e0Root337 = rz.cases.join('');
+        }
+      }
+      cases.push(`行 ${R.length} 本(10 条件 × dt 0.016 + 3 条件 × dt 0.008)・全行 27 公転・内蔵そのままの ${e0Ahead336 ? '3 行の署名一致(E0 は正本が beta の 🌘 の世代 —— 第336便a・リリース世代の対象では正本の E0 と照合しない)/ 第337便h: ' + (e0Root337 || 'root の E0 の凍結の入力を読めない') : '4 行の署名一致'}`);
       const d = (id) => at(id, 0.016).declared, rn = (id) => at(id, 0.016).run;
       if (!(d('E3').vyMoon === 0.1065368 && d('E3').frameWeight === 'share')) bad.push('③ E3 が 🧲 の宣言でない');
       if (!['E5', 'E6', 'E7', 'E8'].every((id) => d(id).kFrame === 0)) bad.push('③ E5〜E8 の kFrame が 0 でない');
@@ -85320,11 +85335,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           cases.push(`保存 QA ${nPass}/${(Q.results || []).length}・commit ${String(Q.commit || '').slice(0, 7)}・${Q.date}・刻印 ${String(Q.targetSha256).slice(0, 12)} / 今の html ${cur.slice(0, 12)} → **${fresh ? '同じ' : '古い(別の html の走行)'}**`);
           cases.push(`SAMPLE_STATUS の根拠の記録 ${ev ? String(ev.commit || '').slice(0, 7) + '・' + ev.date : 'なし'} → 保存 QA と${same ? '同じ' : '違う'}・状況の根拠 ID ${evid.length} 件のうち保存 QA に無い ${missing.length} 件`
             + `(退役の本の凍結の写しの履歴で裏づける ${histUsed9.length} 件${histUsed9.length ? ' —— ' + histUsed9.join('・') : ''} —— 第309便d: 生成器と同じ規則・写し ${FXS9.length} 本)` + (missing.length ? ' —— 欠け: ' + missing.slice(0, 4).join(',') : ''));
-          if (strict && !(fresh && same && missing.length === 0)) bad.push('QA_EVIDENCE_STRICT=1: 刻印が古い/根拠の記録が違う/根拠 ID が無い');
+          if (strict && !(fresh && same && missing.length === 0)) bad.push('QA_EVIDENCE_STRICT=1: 刻印が古い/根拠の記録が違う/根拠 ID が無い(器を走らせ直すこと —— フル QA の保存と samplestatus)');   // 第337便h(R344・AN704): 刻印の型の語(判定は不変)
         }
       } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 240)); }
       add('lint.qaEvidenceStamp308', bad.length === 0,
-        `**保存 QA の刻印と SAMPLE_STATUS の根拠**(第308便d・R217 —— ${strict ? '厳格(QA_EVIDENCE_STRICT=1)' : '情報 —— 古さは FAIL にしない'}): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+        `**保存 QA の刻印と SAMPLE_STATUS の根拠**(第308便d・R217 —— ${strict ? '厳格(QA_EVIDENCE_STRICT=1)' : '情報 —— 古さは FAIL にしない'}): ${cases.join(' / ')}` + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第337便h(R344): 種類の印
     }
     // ---- docs.w308d
     {
@@ -90862,7 +90877,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const d = declOf(z.key), st = stepOf(z.key);
       if (!d || d.complete !== true || harnessOf(z.key) !== z.harness) { bad.push('③ ' + z.key + ' の器に REGEN_SCOPE(complete)が無い'); continue; }
       for (const o of st.outs) { const m = (rj(o) || {}).meta || {}; const a = SC.normalizeScope(m.scope || {}), b = SC.normalizeScope(d); delete a.note; delete b.note;
-        if (!(m.scope && m.scopeComplete === true && JSON.stringify(a) === JSON.stringify(b))) bad.push('③ ' + o + ' の領域の刻印が宣言と違う'); }
+        if (!(m.scope && m.scopeComplete === true && JSON.stringify(a) === JSON.stringify(b))) bad.push('③ ' + o + ' の領域の刻印が宣言と違う(器を走らせ直すこと)'); }   // 第337便h(R344・AN704): 刻印の型の語(判定は不変)
       n454++;
     }
     cases.push(`③ AN454 ${n454} 段(${(RTm.AN454_319C || []).map((z) => z.key).join('・')})の器が宣言し正本が同じ宣言を刻む・付けない ${(RTm.AN454_SKIP_319C || []).length} 行は理由つき`);
@@ -90910,7 +90925,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
   add('docs.regenShort319c', bad.length === 0,
     `**再生成の段の短縮**(第319便c・原仮定者の指示(第121報)・AN454・R260 —— 閉じた探索の段の履歴化・presets "all" の段の絞り込み・html を読む宣言の無い段に REGEN_SCOPE・正本の値は不変): ${cases.join(' / ')}`
-    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第337便h(R344): 種類の印
   })();   // 第310便c(heap)
 }
 // ==== 第319便c の塊(ここまで)====
@@ -93196,7 +93211,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         for (const o of st.outs) {
           let m = null; try { m = (JSON.parse(rd323c(o)) || {}).meta || null; } catch (e) { m = null; }
           const a = SC.normalizeScope((m && m.scope) || {}), b = SC.normalizeScope(d); delete a.note; delete b.note;
-          if (!(m && m.scope && m.scopeComplete === true && JSON.stringify(a) === JSON.stringify(b))) bad.push('③ ' + o + ' の領域の刻印が宣言と違う');
+          if (!(m && m.scope && m.scopeComplete === true && JSON.stringify(a) === JSON.stringify(b))) bad.push('③ ' + o + ' の領域の刻印が宣言と違う(器を走らせ直すこと)');   // 第337便h(R344・AN704): 刻印の型の語(判定は不変)
         }
         n3++;
       }
@@ -93205,7 +93220,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     add('lint.quickWindows323', bad.length === 0,
       `**器の便の窓と宣言**(第323便c・AN517・AN518・AN480・R277 —— 器の本文は窓のために変えていない・synodic の子プロセス 3 本は値が同じ): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));   // 第337便h(R344): 種類の印
   }
   // ---- docs.w323c
   {
@@ -104297,6 +104312,234 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第336便b の塊(ここまで)====
+
+// ==== 第337便h の塊(ここから)====
+// ---- 第337便h(統括の検証項目 R344 —— 受け入れ〔post-merge〕の道具・**html は変えない**・判定の式は変えない): 第336便の受け入れは ① 静的受理の途中で
+// ----   コンテナが再起動し(472/529 鍵)、root を対象にしても beta の正本を読む鍵(docs.emgrid-sync)が root の対象で落ち、段を履歴へ回したときの名残りと
+// ----   fitRecord の標的と記録の食い違いが別々の鍵の印のない FAIL として出た。
+// ----   ① lint.preflightResume337h …… tests/qa-preflight.mjs の鍵ごとの済み印と続きから(契約: 対象の html・tests/qa.mjs と preflight の指紋・鍵の一覧・Node の版・
+// ----      環境変数・作業の木)—— lib の自己試験 / 絞った一覧(QA_PREFLIGHT_ONLY)で通し・途中で止めた走行(QA_PREFLIGHT_STOP_AFTER)・続きから・契約の違う走行を
+// ----      実際に回し、続きからの結果の並び・数・印のない FAIL の一覧が通しと同じ・残りの一覧に preflight.* が混ざらない・契約が違えば最初から / post-merge の呼び出し
+// ----   ② lint.rootSetAuto337h …… post-merge の ④ の root の集合に本便で直した鍵を足す(基点と今の tests/qa.mjs の add の塊の差)—— 今の qa.mjs の 1 文を変えた写しで
+// ----      その鍵だけが拾われる / post-merge の関数を切り出して実行 / ④ の呼び出しの位置 / root の旧い E0 の凍結の入力(sha256・root の html の 🌘 の署名と照合)
+// ----   ③ lint.historyLeftovers337h …… 履歴の段の名が現行の表(煙試験の窓の表・簡易の窓の表・簡易の指紋の記録・名簿・post-merge の本文)に無い・
+// ----      在位の本の fitRecord の標的 ↔ 観測の時間標準の記録の行(両向き)—— 理由の文に型の語・合成の入力で FAIL の経路
+// ----   ④ docs.postmerge337h …… PHYSICS〔第337便h〕・AI_SPEC §236・CHANGELOG・tools/README.md の post-merge の節・post-merge の ③′
+// ----   beta 線の運用の器なので root は SKIP(docs.emgrid-sync の root の分岐は docs.emgrid-sync の中で root の対象で走る)。
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const fLib337h = path.join(ROOT, 'tests', 'lib-w337h-postmerge.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(fLib337h))) {
+    console.log('SKIP lint.preflightResume337h・lint.rootSetAuto337h・lint.historyLeftovers337h・docs.postmerge337h(第337便h の受け入れの道具の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd337h = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const P7 = await import('file://' + fLib337h);
+  const PM337h = rd337h('tools/post-merge-qa.sh') || '';
+  const os337h = await import('node:os');
+  const { spawnSync: sp337h, execFileSync: ex337h } = await import('node:child_process');
+  const fnOf337h = (name) => { const i = PM337h.indexOf('\n' + name + '() {'); if (i < 0) return ''; const e = PM337h.indexOf('\n}\n', i + 1); return e < 0 ? '' : PM337h.slice(i + 1, e + 2); };
+  const body337h = PM337h.split('\n').filter((l) => !/^\s*#/.test(l)).join('\n');
+  const st337h = await P7.selfTest337h();
+  // ───── lint.preflightResume337h ─────
+  {
+    const bad = [], cases = [];
+    const tmp = fs.mkdtempSync(path.join(os337h.tmpdir(), 'qa-w337h-'));
+    try {
+      if (!(P7.POSTMERGE_337H_VERSION === 'w337h-postmerge-1' && P7.RESUME_337H_VERSION === 'w337h-resume-1')) bad.push('① 版(w337h-postmerge-1・w337h-resume-1)');
+      for (const b of st337h.bad.filter((x) => /^(契約|済み印)/.test(x))) bad.push('① ' + b);
+      cases.push('① ' + st337h.cases.filter((c) => /^(契約|済み印)/.test(c)).join(' / '));
+      // ② 実際に回す(絞った一覧 —— Chromium なし・② の全内蔵は飛ばす)
+      const ONLY = ['docs.intakeA-sync', 'docs.clusterGalaxySigma', 'docs.transientObs', 'lint.recordId', 'lint.solutionId', 'lint.externalNamesCsv', 'lint.nightlyPaper2', 'lint.legacyRecordBasis', 'docs.correctionsLedger', 'docs.plutoStatesFile'];
+      const env0 = { ...process.env, QA_TARGET: 'beta/index.html', QA_PREFLIGHT_ONLY: ONLY.join(' '), QA_PREFLIGHT_NO_BUILTINS: '1' };
+      delete env0.QA_PREFLIGHT_STOP_AFTER;
+      const run = (name, extraEnv, args) => {
+        const out = path.join(tmp, name + '.json');
+        const r = sp337h(process.execPath, ['--max-old-space-size=6144', path.join(ROOT, 'tests', 'qa-preflight.mjs')].concat(args || []),
+          { cwd: ROOT, env: { ...env0, QA_PREFLIGHT_OUT: out, ...(extraEnv || {}) }, encoding: 'utf8', timeout: 240000, maxBuffer: 1 << 28 });
+        let j = null; try { j = JSON.parse(fs.readFileSync(out, 'utf8')); } catch (e) { j = null; }
+        return { rc: r.status, log: String(r.stdout || '') + String(r.stderr || ''), j };
+      };
+      const ck = path.join(tmp, 'ck');
+      const full = run('full');
+      const a = run('a', { QA_PREFLIGHT_STOP_AFTER: '3' }, ['--resume', ck]);
+      const remR = sp337h(process.execPath, [path.join(ROOT, 'tests', 'qa-preflight.mjs'), '--remaining', ck], { cwd: ROOT, env: env0, encoding: 'utf8', timeout: 60000 });
+      const rem = String(remR.stdout || '').trim().split(/\s+/).filter(Boolean);
+      const b = run('b', {}, ['--resume', ck]);
+      const c = run('c', { QA_PROBE_CONTRACT337H: '1', QA_PREFLIGHT_STOP_AFTER: '1' }, ['--resume', ck]);
+      if (!(full.j && full.rc === (full.j.pass ? 0 : 1) && full.j.blocks.run >= 6 && full.j.blocks.onlyCut > 0)) bad.push('② 通しの走行(rc ' + full.rc + '・' + JSON.stringify(full.j && full.j.blocks) + ')');
+      if (!(a.rc === 3 && /QA_PREFLIGHT_STOP_AFTER=3: 3 文で止める/.test(a.log) && /最初から: 済み印の契約が無い/.test(a.log))) bad.push('② 途中で止めた走行(rc ' + a.rc + ')');
+      if (!(rem.length > 0 && rem.every((x) => !/^preflight\./.test(x)) && rem.every((x) => ONLY.includes(x)))) bad.push('② 残りの一覧 ' + rem.join(',').slice(0, 120));
+      if (b.j && full.j) {
+        const sF = await P7.resultShape(full.j.results.filter((r) => r.id !== 'preflight.qaBlocks')), sB = await P7.resultShape(b.j.results.filter((r) => r.id !== 'preflight.qaBlocks'));
+        if (!(b.rc === full.rc && b.j.resume.resumed && b.j.resume.skippedUnits === 3 && b.j.resume.ranUnits === full.j.blocks.run - 3)) bad.push('② 続きから(rc ' + b.rc + '・' + JSON.stringify(b.j.resume).slice(0, 160) + ')');
+        if (JSON.stringify(sF) !== JSON.stringify(sB)) bad.push('② 続きからの結果の形が通しと違う');
+        const lines = (t) => t.split('\n').filter((l) => /^(PASS|FAIL|SKIP) /.test(l) && !/preflight\.qaBlocks/.test(l)).map((l) => l.replace(/\s+\[[\d.]+s\]$/, ''));
+        const lF = lines(full.log), lB = lines(b.log);
+        if (JSON.stringify(lF.map((l) => l.split('  ')[0])) !== JSON.stringify(lB.map((l) => l.split('  ')[0]))) bad.push('② 続きからのログの行の並びが通しと違う');
+        cases.push(`② 絞った一覧 ${ONLY.length} 鍵(試験の文 ${full.j.blocks.run}・判定 ${sF.total}・FAIL ${sF.fail}・印のない FAIL ${sF.unmarked.length}): 通し rc ${full.rc} / 3 文で止めた走行 rc ${a.rc} / 残りの一覧 ${rem.length} 鍵(preflight.* なし)/ 続きから rc ${b.rc}(出し直し ${b.j.resume.skippedUnits}・走らせた ${b.j.resume.ranUnits})→ 結果の並び・数・印のない FAIL の一覧・ログの行の並びが通しと同じ`);
+      } else bad.push('② 続きからの結果 JSON が無い(rc ' + b.rc + ')');
+      if (!(c.j === null && /最初から: 契約の欄 env が違う\(QA_PROBE_CONTRACT337H\)/.test(c.log))) bad.push('② 契約の違う走行が最初からでない: ' + (c.log.split('\n').find((l) => /済み印/.test(l)) || '').slice(0, 120));
+      cases.push('② 環境変数を 1 つ変えた走行は「最初から: 契約の欄 env が違う(…)」');
+      // ③ post-merge の呼び出し
+      for (const w of ['tests/qa-preflight.mjs --resume "$LOG/1-ckpt"', '--resume) RESUME_LOG=', '[ -n "$RESUME_LOG" ] && LOG="$RESUME_LOG"', 'tests/qa-preflight.mjs --remaining "$LOG/1-ckpt" >"$LOG/1-remaining.txt"'])
+        if (body337h.indexOf(w) < 0) bad.push('③ post-merge に「' + w + '」が無い');
+      const PF = rd337h('tests/qa-preflight.mjs') || '';
+      for (const w of ["argOf('--resume')", "argOf('--remaining')", 'QA_PREFLIGHT_ONLY', 'QA_PREFLIGHT_STOP_AFTER', 'QA_PREFLIGHT_NO_BUILTINS', "kind: 'preflight', key: 'preflight.builtinsAcceptBuildStep'", 'PM7.resumeContract(', 'PM7.contractDiff('])
+        if (PF.indexOf(w) < 0) bad.push('③ preflight に「' + w + '」が無い');
+      cases.push('③ post-merge の ① は --resume "$LOG/1-ckpt"・--resume <置き場> で続き・止まったら $LOG/1-remaining.txt');
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    finally { try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) { /* 片付けの失敗は判定に入れない */ } }
+    add('lint.preflightResume337h', bad.length === 0,
+      `**① 静的受理の鍵ごとの済み印と続きから**(第337便h・R344・AN707 —— 第336便は ① の途中で再起動し、済みの鍵を手で数えて残りを部分 QA で継いだ): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── lint.rootSetAuto337h ─────
+  {
+    const bad = [], cases = [];
+    try {
+      for (const b of st337h.bad.filter((x) => /^(直した鍵|root E0)/.test(x))) bad.push('① ' + b);
+      cases.push('① ' + st337h.cases.filter((c) => /^(直した鍵|root E0)/.test(c)).join(' / '));
+      // ② 今の qa.mjs の 1 文を変えた写し → その文の鍵だけ
+      const qaSrc = rd337h('tests/qa.mjs') || '';
+      const tag = "add('docs.emgrid-sync', bad.length === 0,";
+      const mod = qaSrc.replace(tag, "add('docs.emgrid-sync', bad.length === 0 && true,");
+      const C0 = await P7.changedQaIds(qaSrc, qaSrc), C1 = await P7.changedQaIds(qaSrc, mod);
+      if (!(mod !== qaSrc && C0.ids.length === 0 && JSON.stringify(C1.ids) === JSON.stringify(['docs.emgrid-sync']) && C1.unpickedUnits === 0)) bad.push('② 1 文を変えた写し: ' + JSON.stringify({ c0: C0.ids.length, c1: C1.ids }).slice(0, 120));
+      cases.push(`② 今の tests/qa.mjs の docs.emgrid-sync の文だけを変えた写し → 拾った鍵 ${C1.ids.join('・')}(同じ写しは 0)`);
+      // ③ post-merge の関数と ④ の位置
+      const fR = fnOf337h('rootadd337h');
+      if (!fR) bad.push('③ post-merge-qa.sh に rootadd337h() が無い');
+      else {
+        const sh = path.join(os337h.tmpdir(), 'qa-w337h-ra-' + process.pid + '.sh');
+        fs.writeFileSync(sh, 'ROOT=' + JSON.stringify(ROOT) + '\nPMWAVE=""\n' + fR + '\nrootadd337h "$1"\n');
+        const o1 = ex337h('bash', [sh, '0000000000000000000000000000000000000000'], { encoding: 'utf8', timeout: 60000 }).split('\n');
+        const o2 = ex337h('bash', [sh, 'x'], { encoding: 'utf8', timeout: 60000, env: { ...process.env, POST_MERGE_ROOT_AUTO: '0' } }).split('\n');
+        try { fs.unlinkSync(sh); } catch (e) { /* 片付け */ }
+        if (!(o1[0] === '' && /^本便で直した鍵は拾えなかった\(基点 0{40} の tests\/qa\.mjs が読めない\)$/.test(o1[1]))) bad.push('③ 読めない基点の句: ' + JSON.stringify(o1.slice(0, 2)));
+        if (!(o2[0] === '' && o2[1] === '本便で直した鍵は足さない(POST_MERGE_ROOT_AUTO=0)')) bad.push('③ POST_MERGE_ROOT_AUTO=0 の句');
+        cases.push('③ post-merge の rootadd337h を bash で実行: 読めない基点 → 「拾えなかった」・POST_MERGE_ROOT_AUTO=0 → 足さない');
+      }
+      const iB = body337h.indexOf('node tests/exp-w258c-qapart.mjs $IDS >"$LOG/4-beta.log"'), iA = body337h.indexOf('RA337=$(rootadd337h "$BASE_REV")'), iR = body337h.indexOf('QA_TARGET=index.html node tests/exp-w258c-qapart.mjs $IDS');
+      if (!(iB >= 0 && iA > iB && iR > iA)) bad.push('③ ④ の root の集合に足す位置(beta の後・root の前)');
+      for (const w of ['--base-rev) BASE_REV=', 'tests/lib-w337h-postmerge.mjs" --changed-ids', '〔root の集合 $(echo $IDS | wc -w) 鍵']) if (body337h.indexOf(w) < 0) bad.push('③ post-merge に「' + w + '」が無い');
+      // ④ root の旧い E0 の凍結の入力
+      const fz = path.join(ROOT, P7.EMGRID_ROOT_E0_FILE);
+      const sha = fs.existsSync(fz) ? crypto.createHash('sha256').update(fs.readFileSync(fz)).digest('hex') : '';
+      if (sha !== P7.EMGRID_ROOT_E0_SHA256) bad.push('④ 凍結の入力の sha256 ' + sha.slice(0, 12) + ' が lib の値と違う');
+      else {
+        const F = JSON.parse(fs.readFileSync(fz, 'utf8'));
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+        const sigOf = (f) => { const H = loadHtmlHeadless(path.join(ROOT, f)).HP; return H.presetSigHash(H.allPresets().find((p) => p.id === 'earthMoonRealKF1')); };
+        const sR = sigOf('index.html'), sB = sigOf('beta/index.html');
+        if (sR === sB) cases.push(`④ root の 🌘 の署名 ${sR} が beta と同じ(昇格で追いついた —— docs.emgrid-sync の凍結の枝は立たない・凍結の入力は使われない)`);
+        else {
+          const rz = P7.checkRootE0({ frozen: F, rootSig: sR });
+          for (const x of rz.bad) bad.push('④ ' + x);
+          cases.push('④ ' + rz.cases.join('') + `(beta の 🌘 は ${sB} —— 正本と照合)`);
+        }
+        const EG = qaSrc.slice(qaSrc.indexOf("console.log('SKIP docs.emgrid-sync("), qaSrc.indexOf("add('docs.emgrid-sync'"));
+        if (!(EG.indexOf('if (e0Ahead336) {') >= 0 && EG.indexOf('PM337h.checkRootE0(') > EG.indexOf('if (e0Ahead336) {') && EG.indexOf('PM337h.EMGRID_ROOT_E0_SHA256') >= 0)) bad.push('④ docs.emgrid-sync の root の分岐が凍結の入力を読まない');
+      }
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.rootSetAuto337h', bad.length === 0,
+      `**本便で直した鍵を root の対象へ・root の旧い E0 を凍結の入力で**(第337便h・R344・AN710 —— 第336便は docs.emgrid-sync が root の対象で落ちてゲートが 1 回止まった): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── lint.historyLeftovers337h ─────
+  {
+    const bad = [], cases = [];
+    try {
+      for (const b of st337h.bad.filter((x) => /^(名残り|fitRecord)/.test(x))) bad.push('自己試験 ' + b);
+      const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+      const HS = await import('file://' + path.join(ROOT, 'tools', 'harness-smoke.mjs'));
+      const QW = await import('file://' + path.join(ROOT, 'tests', 'lib-w323c-quickwin.mjs'));
+      const hist = new Set(RT.REGEN_STEPS.filter((z) => z.role === 'history').map((z) => z.key));
+      const fp = JSON.parse(rd337h('tests/data-w323b-quickfp.json') || '{}'), ro = JSON.parse(rd337h('tests/data-w320d-perbook.json') || '{}');
+      const tables = {
+        'SMOKE_KNOBS(tools/harness-smoke.mjs)': Object.keys(HS.SMOKE_KNOBS || {}),
+        '第323便c の窓の表(knobs323cView)': Object.keys((HS.knobs323cView && HS.knobs323cView()) || {}),
+        'W325D_KNOBS_323C': Object.keys(HS.W325D_KNOBS_323C || {}),
+        '簡易の窓の段(QUICK_WINDOW_KEYS_323C)': QW.QUICK_WINDOW_KEYS_323C || [],
+        '簡易の指紋の記録(tests/data-w323b-quickfp.json)': Object.keys(fp.steps || {}),
+        '名簿の現行の行(tests/data-w320d-perbook.json)': (ro.rows || []).map((z) => z.key),
+        'post-merge の本文(tools/post-merge-qa.sh のコメントでない行)': P7.namesInText(body337h, hist),
+      };
+      const vA = P7.historyLeftovers(hist, tables);
+      for (const v of vA) bad.push('(a) ' + v);
+      cases.push(`(a) 履歴の段 ${hist.size} の名が現行の表 ${Object.keys(tables).length} 本(${Object.entries(tables).map(([k, v]) => k.split('(')[0] + ' ' + v.length).join('・')})に残っていない`);
+      // 合成: 履歴の段を 1 つ表に戻した写し
+      const h1 = [...hist].find((k) => k === 'synodic-299b') || [...hist][0];
+      const synA = P7.historyLeftovers(hist, { ...tables, 'SMOKE_KNOBS(tools/harness-smoke.mjs)': tables['SMOKE_KNOBS(tools/harness-smoke.mjs)'].concat([h1]) });
+      if (!(synA.length === vA.length + 1 && synA.some((s) => s.startsWith(P7.LEFTOVER_KIND) && s.indexOf(h1) >= 0))) bad.push('(a) 履歴の段を表に戻した合成で 1 件増えない');
+      cases.push(`(a) 合成: 煙試験の窓の表に履歴の段 ${h1} を戻した写し → 「${P7.LEFTOVER_KIND}」1 件`);
+      // (b) fitRecord の標的 ↔ 記録(docs.obsTime305 と同じ写しで読む)
+      const OBS = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+      const TF = 'paper/data/obs-time-standard-20261016.csv', txt = rd337h(TF) || '';
+      const ls = txt.split('\n').filter((l) => l.trim()), hd = OBS.parseCsvLine(ls[0]).map((x) => x.trim());
+      const rows = ls.slice(1).map((l) => { const c = OBS.parseCsvLine(l); const o = {}; hd.forEach((k, i) => { o[k] = c[i] === undefined ? '' : c[i]; }); return o; });
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const HP = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))).HP, live = HP.allPresets().filter((p) => p.familyRole !== 'retired');
+      const PRE6 = await import('file://' + path.join(ROOT, 'tests', 'lib-w306a-pre.mjs'));
+      const pinTarget = (id, v) => { const p = PRE6.pin305(live.find((q) => q.id === id)); return (p && p.fitRecord && (p.fitRecord.targets || []).find((t) => String(t.obs) === v)) || null; };
+      const M = P7.fitTargetMismatch({ live, rows, pinTarget });
+      for (const v of M.bad) bad.push('(b) ' + v);
+      cases.push(`(b) 在位の fitRecord の標的 ${M.nTargets}(行の値と同じ量 ${M.nStrict}・注記で名指し ${M.nNote}・凍結の表 ${M.nFrozen})と html を由来に持つ記録の行 ${M.nHtmlRows} が対応`);
+      const delRow = rows.find((r) => r.target_id === 'em-kf1-apsidal-period');
+      if (delRow) {
+        const d = P7.fitTargetMismatch({ live, rows: rows.filter((r) => r !== delRow), pinTarget }).bad;
+        if (!(d.length === M.bad.length + 1 && d.some((s) => s.startsWith(P7.FITREC_KIND) && s.indexOf('8.85') >= 0))) bad.push('(b) 記録の行を 1 つ消した合成で 1 件増えない');
+      } else bad.push('(b) 合成に使う行 em-kf1-apsidal-period が記録に無い');
+      const oldRow = { ...rows.find((r) => r.target_id === 'em-kf1-sidereal-month'), target_id: 'em-kf1-synodic', quantity: 'synodicMonthUniform', value: '29.530588857710324', unit: 'd' };
+      const o = P7.fitTargetMismatch({ live, rows: rows.concat([oldRow]), pinTarget }).bad;
+      if (!(o.length === M.bad.length + 1 && o.some((s) => s.indexOf('em-kf1-synodic') >= 0))) bad.push('(b) 旧い標的の行を戻した合成で 1 件増えない');
+      cases.push(`(b) 合成: 記録の行 em-kf1-apsidal-period を消した写し → 「${P7.FITREC_KIND}」1 件(docs.obsTime305 の ④ は同じ本の別の行の注記で覆う)・第336便の前の 🌘 の行(朔望月)を戻した写し → 1 件`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.historyLeftovers337h', bad.length === 0,
+      `**段を履歴へ回したときの名残りと fitRecord の標的と記録の食い違いを 1 本で**(第337便h・R344・AN706 —— 第336便は別々の鍵の印のない FAIL として出た・歴史の文書の中の名は見ない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 8, stampMax: 4 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}`) : ''));   // 第337便h(R344): 種類の印
+  }
+  // ───── docs.postmerge337h ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const PH = rd337h('docs/PHYSICS.md') || '', AS = rd337h('docs/AI_SPEC.md') || '', CLx = rd337h('CHANGELOG.md') || '', TR = rd337h('tools/README.md') || '';
+      // ① PHYSICS〔第337便h〕
+      const i0 = PH.indexOf('\n〔第337便h — '), iB = PH.indexOf('\n〔第336便b — '), iT = PH.indexOf('\n〔第328便 — 統括'), i7 = PH.indexOf('\n## 7. 論文');
+      const prev = ['a', 'b', 'c', 'd', 'e', 'f', 'g'].map((x) => PH.indexOf('\n〔第337便' + x + ' — ')).filter((z) => z >= 0);
+      if (!(i0 >= 0 && iB >= 0 && iB < i0 && prev.every((z) => z < i0) && (iT < 0 || i0 < iT) && (i7 < 0 || i0 < i7))) bad.push('① PHYSICS〔第337便h〕の位置(第336便b〔と第337便a〜g〕の節の後・第328便の統括の節と「## 7.」の前)');
+      const sec = i0 >= 0 ? secUntilNext329c(PH, i0 + 1, [/\n〔第\d+便[a-z]* — /, '\n## ']) : '';
+      const wantP = ['R344', 'AN704', 'AN706', 'AN707', 'AN710', 'tests/qa-preflight.mjs', '--resume', '--remaining', '1-ckpt', '1-remaining.txt', 'tests/lib-w337h-postmerge.mjs', 'w337h-postmerge-1', 'w337h-resume-1',
+        'QA_PREFLIGHT_ONLY', 'QA_PREFLIGHT_STOP_AFTER', '--base-rev', 'POST_MERGE_ROOT_AUTO', 'tests/data-w337h-emgrid-root-e0.json', 'd4bfddf', 'e0Ahead336', P7.LEFTOVER_KIND, P7.FITREC_KIND,
+        'NOTE_ONLY_TARGETS_337H', 'docs.regenShort319c', 'lint.quickWindows323', 'lint.qaEvidenceStamp308', '(器を走らせ直すこと)', 'lint.preflightResume337h', 'lint.rootSetAuto337h', 'lint.historyLeftovers337h',
+        'docs.postmerge337h', 'docs.emgrid-sync', '判定は変えない', '変えていない所', 'root を対象にしても beta の正本を読む鍵'];
+      for (const w of wantP) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第337便h〕に「' + w + '」が無い');
+      cases.push(`① PHYSICS〔第337便h〕(第336便b の節の後・必須の語 ${wantP.length})`);
+      // ② AI_SPEC §236・CHANGELOG・tools/README.md・post-merge
+      const a236 = AS.search(/\n## 236\. 第337便h/), a228 = AS.search(/\n## 228\. 第336便b/), ai = a236 >= 0 ? secUntilNext329c(AS, a236 + 1, '\n## ') : '';
+      const aPrev = [229, 230, 231, 232, 233, 234, 235].map((n) => AS.search(new RegExp('\\n## ' + n + '\\. 第337便'))).filter((z) => z >= 0);
+      if (!(a236 >= 0 && a228 >= 0 && a228 < a236 && aPrev.every((z) => z < a236) && ['tests/qa-preflight.mjs', '--resume', 'tests/lib-w337h-postmerge.mjs', P7.LEFTOVER_KIND, P7.FITREC_KIND, 'lint.historyLeftovers337h', 'docs.postmerge337h', 'SYSTEM_PROMPT には載せない'].every((w) => ai.indexOf(w) >= 0))) bad.push('② AI_SPEC §236(§228 の後・必須の語)');
+      const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl = clg.split('\n').find((l) => l.indexOf('**第337便h**') >= 0) || '';
+      if (!(['R344', 'tools/post-merge-qa.sh', 'tests/qa-preflight.mjs', '--resume', 'lint.preflightResume337h', 'lint.rootSetAuto337h', 'lint.historyLeftovers337h', 'docs.postmerge337h'].every((w) => cl.indexOf(w) >= 0))) bad.push('② CHANGELOG の beta の節の第337便h の行');
+      const trSec = TR.indexOf('第337便h');
+      if (!(trSec >= 0 && ['--resume', '1-ckpt', '1-remaining.txt', '--base-rev', 'POST_MERGE_ROOT_AUTO', 'tests/lib-w337h-postmerge.mjs'].every((w) => TR.indexOf(w, trSec) >= 0 && TR.indexOf(w, trSec) < trSec + 1600))) bad.push('② tools/README.md の post-merge の節(第337便h の行)');
+      if (!(PM337h.indexOf('# ==== 第337便h の塊(ここから)====') >= 0 && ['lint.preflightResume337h', 'lint.rootSetAuto337h', 'lint.historyLeftovers337h', 'docs.postmerge337h'].every((k) => PM337h.indexOf(k) >= 0))) bad.push('② post-merge の ③′ に第337便h の塊');
+      cases.push('② AI_SPEC §236(§228 の後)・CHANGELOG の第337便h の行・tools/README.md の post-merge の節・post-merge の ③′');
+      // ③ 書かない語(事実で書く)
+      const W = [];
+      for (const [nm, t] of [['PHYSICS〔第337便h〕', sec], ['AI_SPEC §236', ai], ['CHANGELOG の第337便h の行', cl]]) {
+        for (const w of ['見落とし', '統括の誤り', '取りこぼしは無くなった', '見逃しは無い', '完全に防ぐ', '二度と起きない']) if (t.indexOf(w) >= 0) W.push(nm + ' に「' + w + '」');
+      }
+      for (const b of W) bad.push('③ ' + b);
+      cases.push('③ 書かない語(節・AI_SPEC・CHANGELOG の行)' + W.length);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.postmerge337h', bad.length === 0,
+      `**受け入れの道具 4 つの文書**(第337便h・R344 —— PHYSICS の節・AI_SPEC・CHANGELOG・tools/README.md・post-merge の ③′): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第337便h の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
