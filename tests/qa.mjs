@@ -105702,7 +105702,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   **回転引きずり(源の引きずり半径が効く型)の器**(新設 —— 器 tests/exp-w337i-rotring.mjs〔html を読まない〕・lib tests/lib-w337i-rotring.mjs・文書の lib tests/lib-w337i-rotringdoc.mjs・
 // ----   正本 tests/out/rotring-337i.json。html・本の宣言・エンジン・受理器・第337便b までの lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
 // ----   behavior.rotring337i(正本と照合 —— html を読まない): ① 版・格子・純関数の場面 7(場の型が第333便a・第334便a と同じ・ω の微分・R_d の読み・λ = 0 で 0 と一次・閉じた式・座標を運ぶ場・拒否)を
-// ----     作り直して全部真・正本と同じ ② 器の runAll を走らせ直して、棚卸し・環の 240 組・惑星・代表・引きずり半径の格子・時間積分が正本と相対 1e-9 の内 ③ 対照(λ = 0)の環の行が 0・
+// ----     作り直して全部真・正本と同じ ② 器の runAll を走らせ直して、棚卸し・環の 240 組・惑星・代表・引きずり半径の格子・時間積分が正本と同じ(数でない欄は完全一致・数は葉ごとに相対 1e-6 の内か同じ行の最大の 1e-12 倍の内 —— 統括の直し: CI の Node 24)③ 対照(λ = 0)の環の行が 0・
 // ----     代表が環の物差しと 4 惑星の尺度を満たす ④ 作り直した門が全部真・呼ぶだけ(lib の import は第337便b・第333便a・第334便a・第332便a・第333便c の lib だけ・html を読まない・Math.random なし)
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む
@@ -105727,6 +105727,27 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const js = (x) => JSON.stringify(x);
         let dW = 0;
         const walk = (a, b, floor) => { if (typeof a === 'number' || typeof b === 'number') { dW = Math.max(dW, cmp337i(a, b, floor)); return; } if (a === null || b === null || typeof a !== 'object') { if (a !== b) dW = Infinity; return; } for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) walk(a[k], b[k], floor); };
+        // 第337便(統括 —— PR の CI は Node 24・手元の鎖とゲートは Node 22): 実行系の Math.pow の末尾の 1 bit が Node の版で違い、薄い環の幾何(高さ ÷ 半径 ≈ 1e-7)と公転の平均の打ち消しで増幅される
+        //   —— 葉ごとの相対 1e-9 は版が違うと通らない(打ち消しで 0 になる量は値そのものが版ごとに変わる)。比べ方: 数でない欄(真偽・文字列・null・構造)は完全一致/数は葉ごとに相対 1e-6 の内/
+        //   それを外れた葉は、差が同じ行(表の 1 行 = いちばん近い配列の要素・無ければ部の直下の子)の整数でない数の最大の 1e-12 倍の内なら丸めの残りとして通す。戻り値 = 通らなかった葉の数・その相対の差の最大・最初の道
+        const rowDiff337i = (A, B) => {
+          const maxNum = (o) => { let m = 0; const w = (v) => { if (typeof v === 'number') { if (Number.isFinite(v) && !Number.isInteger(v)) m = Math.max(m, Math.abs(v)); } else if (v && typeof v === 'object') for (const k of Object.keys(v)) w(v[k]); }; w(o); return m; };
+          const out = { n: 0, worst: 0, first: null }, sc = new Map(), scaleOf = (row) => { if (!sc.has(row)) sc.set(row, maxNum(row)); return sc.get(row); };
+          const hit = (pth, rel) => { out.n++; out.worst = Math.max(out.worst, rel); if (out.first === null) out.first = pth; };
+          const w = (x, y, pth, row, depth) => {
+            if (typeof x === 'number' || typeof y === 'number') {
+              if (x === y) return;
+              if (typeof x !== 'number' || typeof y !== 'number') { hit(pth, Infinity); return; }
+              const d = Math.abs(x - y), rel = d / Math.max(Math.abs(x), Math.abs(y));
+              if (rel <= 1e-6 || (row && d <= 1e-12 * scaleOf(row))) return;
+              hit(pth, rel); return;
+            }
+            if (x === null || y === null || typeof x !== 'object' || typeof y !== 'object') { if (x !== y) hit(pth, Infinity); return; }
+            const arr = Array.isArray(y);
+            for (const k of new Set([...Object.keys(x), ...Object.keys(y)])) { const c = y[k]; w(x[k], c, pth + '.' + k, c && typeof c === 'object' && !Array.isArray(c) && (arr || depth === 0) ? c : row, depth + 1); }
+          };
+          w(A, B, '', null, 0); return out;
+        };
         // ① 版・格子・純関数の場面
         if (!(L.LIB_VERSION === 'w337i-rotring-lib-1' && X.HARNESS_VERSION === 'w337i-rotring-1' && D0.DOC_VERSION === 'w337i-rotringdoc-1' && X.AMEND.length === 0)) bad.push('① 版(lib・器・文書の lib・版の履歴)');
         if (!(js(L.PROFILES) === js(['slice', 'lor2', 'lor4', 'lor8', 'ball', 'src']) && js(L.ACTIONS) === js(['vel', 'push', 'focus', 'damp', 'dampz']) && js(L.READINGS) === js(['Yk', 'Req', 'Robs', 'Rsrc']) && js(L.SPEEDS) === js(['obs', 'sd'])
@@ -105734,14 +105755,20 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const PS = L.pureScenes(), PG = L.pureGates(PS);
         for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
         if (Object.keys(PG).length !== 8) bad.push('① 場面の数 ' + Object.keys(PG).length);
-        dW = 0; walk(JSON.parse(js(PS)), J.pure.scenes, 1e-300); if (!(dW <= 1e-9)) bad.push('① 場面の数が正本と違う(' + dW + ')');
+        // 場面 vel の 3 つの数は打ち消しで 0 になる量(値そのものは Node の版で変わる)—— 場面の門(pureGates の vel)と同じ床の内に留まることを見る。ほかの場面は葉ごとに相対 1e-9
+        dW = 0; { const PSj = JSON.parse(js(PS)), velFloor = { dlnA: 1e-9, tilt: 1e-6, rigid: 1e-9 };
+          for (const sk of new Set([...Object.keys(PSj), ...Object.keys(J.pure.scenes)])) {
+            if (sk === 'vel') { const va = PSj.vel || {}, vb = J.pure.scenes.vel || {}; for (const q of new Set([...Object.keys(va), ...Object.keys(vb)])) if (!(velFloor[q] !== undefined && Math.abs(va[q]) <= velFloor[q] && Math.abs(vb[q]) <= velFloor[q])) dW = Infinity; }
+            else walk(PSj[sk], J.pure.scenes[sk], 1e-300);
+          } }
+        if (!(dW <= 1e-9)) bad.push('① 場面の数が正本と違う(' + dW + ')');
         cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・格子 ${L.PROFILES.length} × ${L.ACTIONS.length} × ${L.READINGS.length} × ${L.SPEEDS.length}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}`);
         // ② 器を走らせ直して正本と同じ
         const R = X.runAll(), parts = ['inventory', 'ring', 'planets', 'reps', 'rdScan', 'integ', 'oblate', 'uniform', 'an719'], diffs = {};
-        for (const k of parts) { dW = 0; walk(JSON.parse(js(R[k])), J[k], 1e-300); diffs[k] = dW; }
-        const badParts = parts.filter((k) => !(diffs[k] <= 1e-9));
-        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k]).join('・') + ')—— 器を走らせ直す');
-        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と相対 1e-9 の内(環 ${R.ring.sets.length} 組 × 点 ${R.ring.points.length}・環の物差しを満たす ${R.ring.pass.length} 組・4 惑星とも尺度の内 ${R.planets.narrowed.length} 組)`);
+        for (const k of parts) diffs[k] = rowDiff337i(JSON.parse(js(R[k])), J[k]);
+        const badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first).join('・') + ')—— 器を走らせ直す');
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(数でない欄は完全一致・数は葉ごとに相対 1e-6 の内か同じ行の最大の 1e-12 倍の内 —— 環 ${R.ring.sets.length} 組 × 点 ${R.ring.points.length}・環の物差しを満たす ${R.ring.pass.length} 組・4 惑星とも尺度の内 ${R.planets.narrowed.length} 組)`);
         // ③ 対照と代表
         const off = J.ring.controls.find((c) => c.key === 'off');
         if (!(off && off.rows.every((q) => q.dlnI === 0 && q.dlnA === 0 && q.dOmOverOm === 0 && q.apsW === 0) && off.judge.thin === false)) bad.push('③ 対照(λ = 0)の環の行が 0 でない');
@@ -105861,7 +105888,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   (新設 —— 器 tests/exp-w337j-spinorbit.mjs〔html を読まない〕・lib tests/lib-w337j-spinorbit.mjs・文書の lib tests/lib-w337j-spinorbitdoc.mjs・正本 tests/out/spinorbit-337j.json・
 // ----   入力 tests/out/supply-337a.json。html・本の宣言・エンジン・受理器・第337便i までの lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
 // ----   behavior.spinorbit337j(正本と照合 —— html を読まない): ① 版・格子・純関数の場面 6 を作り直して全部真・正本と同じ ② 器の runFrom を同じ入力で走らせ直して T1・T2・時間積分・T3 が正本と
-// ----     相対 1e-9 の内 ③ T1 の対照(第337便a の正本の W₀ と惑星 8 の太陽の項と同じ)・T2 の符号の表の恒等式(剛体の場に対する相対の速度の境目 n/s = χ・同期で 0・λ = 0 で 0・座標を運ぶ型は
+// ----     同じ(数でない欄は完全一致・数は葉ごとに相対 1e-6 の内か同じ行の最大の 1e-12 倍の内 —— 統括の直し: CI の Node 24)③ T1 の対照(第337便a の正本の W₀ と惑星 8 の太陽の項と同じ)・T2 の符号の表の恒等式(剛体の場に対する相対の速度の境目 n/s = χ・同期で 0・λ = 0 で 0・座標を運ぶ型は
 // ----     半長軸を動かさない)・一次と時間積分の差の桁 ④ 作り直した門が全部真・呼ぶだけ(lib の import は第337便a・第337便i・第334便a・第333便a・第333便c の lib だけ・Math.random なし)
 {
   await (async () => {   // 第310便c(heap)
@@ -105886,6 +105913,27 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const js = (x) => JSON.stringify(x);
         let dW = 0;
         const walk = (a, b, floor) => { if (typeof a === 'number' || typeof b === 'number') { dW = Math.max(dW, cmp337j(a, b, floor)); return; } if (a === null || b === null || typeof a !== 'object') { if (a !== b) dW = Infinity; return; } for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) walk(a[k], b[k], floor); };
+        // 第337便(統括 —— PR の CI は Node 24・手元の鎖とゲートは Node 22): 実行系の Math.pow の末尾の 1 bit が Node の版で違い、薄い環の幾何(高さ ÷ 半径 ≈ 1e-7)と公転の平均の打ち消しで増幅される
+        //   —— 葉ごとの相対 1e-9 は版が違うと通らない(打ち消しで 0 になる量は値そのものが版ごとに変わる)。比べ方: 数でない欄(真偽・文字列・null・構造)は完全一致/数は葉ごとに相対 1e-6 の内/
+        //   それを外れた葉は、差が同じ行(表の 1 行 = いちばん近い配列の要素・無ければ部の直下の子)の整数でない数の最大の 1e-12 倍の内なら丸めの残りとして通す。戻り値 = 通らなかった葉の数・その相対の差の最大・最初の道
+        const rowDiff337j = (A, B) => {
+          const maxNum = (o) => { let m = 0; const w = (v) => { if (typeof v === 'number') { if (Number.isFinite(v) && !Number.isInteger(v)) m = Math.max(m, Math.abs(v)); } else if (v && typeof v === 'object') for (const k of Object.keys(v)) w(v[k]); }; w(o); return m; };
+          const out = { n: 0, worst: 0, first: null }, sc = new Map(), scaleOf = (row) => { if (!sc.has(row)) sc.set(row, maxNum(row)); return sc.get(row); };
+          const hit = (pth, rel) => { out.n++; out.worst = Math.max(out.worst, rel); if (out.first === null) out.first = pth; };
+          const w = (x, y, pth, row, depth) => {
+            if (typeof x === 'number' || typeof y === 'number') {
+              if (x === y) return;
+              if (typeof x !== 'number' || typeof y !== 'number') { hit(pth, Infinity); return; }
+              const d = Math.abs(x - y), rel = d / Math.max(Math.abs(x), Math.abs(y));
+              if (rel <= 1e-6 || (row && d <= 1e-12 * scaleOf(row))) return;
+              hit(pth, rel); return;
+            }
+            if (x === null || y === null || typeof x !== 'object' || typeof y !== 'object') { if (x !== y) hit(pth, Infinity); return; }
+            const arr = Array.isArray(y);
+            for (const k of new Set([...Object.keys(x), ...Object.keys(y)])) { const c = y[k]; w(x[k], c, pth + '.' + k, c && typeof c === 'object' && !Array.isArray(c) && (arr || depth === 0) ? c : row, depth + 1); }
+          };
+          w(A, B, '', null, 0); return out;
+        };
         // ① 版・格子・純関数の場面
         if (!(L.LIB_VERSION === 'w337j-spinorbit-lib-1' && X.HARNESS_VERSION === 'w337j-spinorbit-1' && D0.DOC_VERSION === 'w337j-spinorbitdoc-1' && X.AMEND.length === 0)) bad.push('① 版(lib・器・文書の lib・版の履歴)');
         if (!(js(L.T2_ACTIONS) === js(['vel', 'push', 'damp', 'dampRig']) && js(L.DECL.t2.chi) === js([0.5, 1]) && js(L.DECL.t2.qFall) === js([0, 2, 3, 6]) && js(L.DECL.t2.pSize) === js([0, 0.5, 1, 1.5, 2])
@@ -105897,10 +105945,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・作用の型 ${L.T2_ACTIONS.length}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}`);
         // ② 器を走らせ直して正本と同じ(同じ入力)
         const R = X.runAll(), parts = ['t1', 't2', 'integ', 't3'], diffs = {};
-        for (const k of parts) { dW = 0; walk(JSON.parse(js(R[k])), J[k], 1e-300); diffs[k] = dW; }
-        const badParts = parts.filter((k) => !(diffs[k] <= 1e-9));
-        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k]).join('・') + ')—— 器を走らせ直す');
-        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と相対 1e-9 の内(T2 の組 ${R.t2.sets.length} × 受け手 ${R.t2.recvs.length}・同時に物差しの内の組 ${R.t2.simul.length})`);
+        for (const k of parts) diffs[k] = rowDiff337j(JSON.parse(js(R[k])), J[k]);
+        const badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first).join('・') + ')—— 器を走らせ直す');
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(数でない欄は完全一致・数は葉ごとに相対 1e-6 の内か同じ行の最大の 1e-12 倍の内 —— T2 の組 ${R.t2.sets.length} × 受け手 ${R.t2.recvs.length}・同時に物差しの内の組 ${R.t2.simul.length})`);
         // ③ 対照と恒等式
         const A = JSON.parse(rd('tests/out/supply-337a.json') || 'null'), C = J.t1.control;
         const bal = A ? Object.fromEntries(A.background.balance.map((b) => [b.reading === 'i' ? 'st' : 'se', b])) : null;
@@ -106016,7 +106064,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ---- 第337便k(原仮定者の回答(2026-11-15 —— 第138報の回答 2)AN729・AN732・原仮定者の指示(2026-11-08 —— 第132報)・統括の検証項目 R347): **回転引きずりの強さを 4 天体で決める表・環の側の補正のノブ・
 // ----   ジャイロの直交の読み・扁平率のべき**(新設 —— 器 tests/exp-w337k-gyrodrag.mjs〔html を読まない〕・lib tests/lib-w337k-gyrodrag.mjs・文書の lib tests/lib-w337k-gyrodragdoc.mjs・正本 tests/out/gyrodrag-337k.json・
 // ----   入力のファイルは無い。html・本の宣言・エンジン・受理器・第337便j までの lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
-// ----   behavior.gyrodrag337k(正本と照合 —— html を読まない): ① 版・格子・純関数の場面 6 を作り直して全部真・正本と同じ ② 器の runAll を走らせ直して T1〜T4 が正本と相対 1e-9 の内
+// ----   behavior.gyrodrag337k(正本と照合 —— html を読まない): ① 版・格子・純関数の場面 6 を作り直して全部真・正本と同じ ② 器の runAll を走らせ直して T1〜T4 が正本と同じ(数でない欄は完全一致・数は葉ごとに相対 1e-6 の内か同じ行の最大の 1e-12 倍の内 —— 統括の直し: CI の Node 24)
 // ----     ③ 4 天体の符号が第337便j の正本の表と同じ・補正のノブ 1(q 0・p 0・λ 1・基準 R_obs)の単位の率が第337便j の正本の数と同じ・直交の係数 0 で傾きの率 0・順行と逆行の符号・ノブ 0 で効き 0
 // ----     ④ 作り直した門が全部真・呼ぶだけ(lib の import は第337便j・第337便i・第337便b・第334便a・第333便a・第330便b の lib だけ・Math.random なし)
 {
@@ -106042,6 +106090,27 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const js = (x) => JSON.stringify(x);
         let dW = 0;
         const walk = (a, b, floor) => { if (typeof a === 'number' || typeof b === 'number') { dW = Math.max(dW, cmp337k(a, b, floor)); return; } if (a === null || b === null || typeof a !== 'object') { if (a !== b) dW = Infinity; return; } for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) walk(a[k], b[k], floor); };
+        // 第337便(統括 —— PR の CI は Node 24・手元の鎖とゲートは Node 22): 実行系の Math.pow の末尾の 1 bit が Node の版で違い、薄い環の幾何(高さ ÷ 半径 ≈ 1e-7)と公転の平均の打ち消しで増幅される
+        //   —— 葉ごとの相対 1e-9 は版が違うと通らない(打ち消しで 0 になる量は値そのものが版ごとに変わる)。比べ方: 数でない欄(真偽・文字列・null・構造)は完全一致/数は葉ごとに相対 1e-6 の内/
+        //   それを外れた葉は、差が同じ行(表の 1 行 = いちばん近い配列の要素・無ければ部の直下の子)の整数でない数の最大の 1e-12 倍の内なら丸めの残りとして通す。戻り値 = 通らなかった葉の数・その相対の差の最大・最初の道
+        const rowDiff337k = (A, B) => {
+          const maxNum = (o) => { let m = 0; const w = (v) => { if (typeof v === 'number') { if (Number.isFinite(v) && !Number.isInteger(v)) m = Math.max(m, Math.abs(v)); } else if (v && typeof v === 'object') for (const k of Object.keys(v)) w(v[k]); }; w(o); return m; };
+          const out = { n: 0, worst: 0, first: null }, sc = new Map(), scaleOf = (row) => { if (!sc.has(row)) sc.set(row, maxNum(row)); return sc.get(row); };
+          const hit = (pth, rel) => { out.n++; out.worst = Math.max(out.worst, rel); if (out.first === null) out.first = pth; };
+          const w = (x, y, pth, row, depth) => {
+            if (typeof x === 'number' || typeof y === 'number') {
+              if (x === y) return;
+              if (typeof x !== 'number' || typeof y !== 'number') { hit(pth, Infinity); return; }
+              const d = Math.abs(x - y), rel = d / Math.max(Math.abs(x), Math.abs(y));
+              if (rel <= 1e-6 || (row && d <= 1e-12 * scaleOf(row))) return;
+              hit(pth, rel); return;
+            }
+            if (x === null || y === null || typeof x !== 'object' || typeof y !== 'object') { if (x !== y) hit(pth, Infinity); return; }
+            const arr = Array.isArray(y);
+            for (const k of new Set([...Object.keys(x), ...Object.keys(y)])) { const c = y[k]; w(x[k], c, pth + '.' + k, c && typeof c === 'object' && !Array.isArray(c) && (arr || depth === 0) ? c : row, depth + 1); }
+          };
+          w(A, B, '', null, 0); return out;
+        };
         // ① 版・格子・純関数の場面
         if (!(L.LIB_VERSION === 'w337k-gyrodrag-lib-1' && X.HARNESS_VERSION === 'w337k-gyrodrag-1' && D0.DOC_VERSION === 'w337k-gyrodragdoc-1' && X.AMEND.length === 0)) bad.push('① 版(lib・器・文書の lib・版の履歴)');
         if (!(js(L.SAT4) === js(['phobos', 'moon', 'titan', 'triton']) && js(L.RINGS) === js(['ringD', 'ringC', 'ringB', 'ringA', 'ringF']) && js(L.DECL.t1.chi) === js([0.5, 1]) && L.DECL.t1.order1 === 100 && L.DECL.t1.order2 === 4
@@ -106054,10 +106123,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}`);
         // ② 器を走らせ直して正本と同じ
         const R = X.runAll(), parts = ['t1', 't2', 't3', 't4'], diffs = {};
-        for (const k of parts) { dW = 0; walk(JSON.parse(js(R[k])), J[k], 1e-300); diffs[k] = dW; }
-        const badParts = parts.filter((k) => !(diffs[k] <= 1e-9));
-        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k]).join('・') + ')—— 器を走らせ直す');
-        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と相対 1e-9 の内(T1 の組 ${R.t1.sets.length}・連続の解の S の最小 ${R.t1.summary.bestFitS.toFixed(2)})`);
+        for (const k of parts) diffs[k] = rowDiff337k(JSON.parse(js(R[k])), J[k]);
+        const badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first).join('・') + ')—— 器を走らせ直す');
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(数でない欄は完全一致・数は葉ごとに相対 1e-6 の内か同じ行の最大の 1e-12 倍の内 —— T1 の組 ${R.t1.sets.length}・連続の解の S の最小 ${R.t1.summary.bestFitS.toFixed(2)})`);
         // ③ 第337便j の正本と照らす・恒等式
         const Jj = JSON.parse(rd('tests/out/spinorbit-337j.json') || 'null');
         let signOk = !!Jj, ctlD = Jj ? 0 : Infinity;
