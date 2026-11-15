@@ -1,7 +1,7 @@
 // 第337便j(原仮定者の補足(2026-11-15 —— 第138報の補足 5)・統括の検証項目 R346): **正本 tests/out/spinorbit-337j.json から PHYSICS〔第337便j〕の表を作る文書の lib**
 // (QA docs.spinorbit337j が節の表と逐語で照合する —— 表の数は有効数字 3 桁の指数・丸めの程度の数〔恒等式の残差〕は「< 1e-x」の形で書く)。
-export const DOC_VERSION = 'w337j-spinorbitdoc-1';
-const fe = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toExponential(2));
+export const DOC_VERSION = 'w337j-spinorbitdoc-2';   // 第338便c: 0 と書いた葉(丸めの残り —— 正本の meta.recheck)を表で「0」と書く
+const fe = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : x === 0 ? '0' : Number(x).toExponential(2));
 const lt = (x, t) => (Number.isFinite(x) && Math.abs(x) <= t ? '< ' + t.toExponential(0) : '**' + fe(x) + '**');
 const tf = (x) => (x === true ? '真' : x === false ? '偽' : '—');
 const sg = (x) => (x > 0 ? '+' : x < 0 ? '−' : '0');

@@ -38,7 +38,7 @@ export const RINGS = Object.freeze(['ringD', 'ringC', 'ringB', 'ringA', 'ringF']
 export const DECL = Object.freeze({
   /** T1: 型は第337便j の剛体の場に対する相対の速度 a = −λ|s| g S (w − χ s_* k̂ × p)・帯の形は ball(S = ρ²/r² —— slice・lor の帯の形では傾いた衛星が帯の外で 0 になる)・
    *  g = (R_base/ρ)^q × size^p。格子: χ ½・1 × 速さ s・s_d × 落ち方の基準の半径 R_eq(主 —— 扁平の則の赤道の引きずり半径)・R_obs × 受け手の大きさの読み(半径 R [m]・質量 m [kg])。
-   *  q と p は 4 天体の対数の最小二乗で解く(連続)+ 離散の格子(q・p)。判定の物差し: 4 天体の 計算 ÷ 観測 の最大 ÷ 最小 S(λ は対数の中点 —— 各比は [S^−½, S^½] に入る)・
+   *  q と p は 4 天体の対数の最小二乗で解く(連続)+ 離散の格子(q・p)。判定の物差し: 4 天体の 観測 ÷ 計算(第338便c の訂正 —— 式は ln(観測/計算)・ratios も 観測 ÷ 計算)の最大 ÷ 最小 S(λ は対数の中点 —— 各比は [S^−½, S^½] に入る)・
    *  「1 桁の内」= S ≤ 100(全部が 1/10〜10 倍)・「2 倍の内」= S ≤ 4(全部が ½〜2 倍) */
   t1: Object.freeze({ prof: 'ball', chi: Object.freeze([0.5, 1]), speeds: Object.freeze(['obs', 'sd']), bases: Object.freeze(['Req', 'Robs']), sizes: Object.freeze(['R', 'm']),
     qGrid: Object.freeze([0, 1, 2, 3, 4, 6, 8]), pGrid: Object.freeze([-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2, 3]), order1: 100, order2: 4,

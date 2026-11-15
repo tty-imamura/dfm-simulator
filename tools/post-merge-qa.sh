@@ -1008,6 +1008,37 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.gyrodrag337k docs.gyrodrag337k"
 #   正本と同じ・原文の 3 点・赤道面の符号・並進 0 で回転の分だけ・ノブ 0 で 0 / docs.bevel337l —— 正本の門と表 12 本が PHYSICS〔第337便l〕に逐語・文書)と、新しい段 bevel-337l の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bevel337l docs.bevel337l"
 # ==== 第337便l の塊(ここまで)====
+# ==== 第338便a の塊(ここから)====
+# 第338便a(原仮定者の回答(2026-11-15 —— 第138報の回答 4)・同 回答 5・統括の検証項目 R349 —— 文書と QA だけ・html は変えない): 枝 a の新設 2 本(docs.equations338a —— 第337便の候補の型の式の項
+#   EQ-53〜EQ-62・「ノブの台帳」の欄・§2a の第338便の用語 / docs.policy338a —— ノブの台帳の 9 行の状態・印 knob-ledger:338・第338便の状態の更新・文書)と、世代の注記を足した鍵と文書を読む鍵
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations338a docs.policy338a docs.equations337g docs.policy337g lint.equations331d docs.equations331d lint.terms334f lint.terms335g docs.phenomena331e lint.symbols333e docs.symbols333e lint.kappaSymbol315 docs.w320d lint.sectionLookup313"
+# ==== 第338便a の塊(ここまで)====
+# ==== 第338便b の塊(ここから)====
+# 第338便b(原仮定者の回答(2026-11-15 —— 第138報の回答 5)・統括の検証項目 R350 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.bevelknob338b —— 純関数の場面・T2〜T4 を作り直して
+#   正本と同じ / docs.bevelknob338b —— 正本の門と表が PHYSICS〔第338便b〕に逐語・文書)と、直した 2 本(behavior.bevel337l・docs.bevel337l —— 第337便l の版 2)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bevelknob338b docs.bevelknob338b"
+# ==== 第338便b の塊(ここまで)====
+# ==== 第338便c の塊(ここから)====
+# 第338便c(原仮定者の指示(2026-11-15 —— 第139報)・統括の検証項目 R351 —— 道具・html は変えない): 枝 c の新設 5 本(lint.recheckScale338c —— 作り直しの照合を量ごとの尺度で・
+#   lint.jsonCompare338c —— 正本の値の比べで来歴の欄を除く・lint.checkOrderAdded338c —— 鎖の後に足した段・lint.qaTouched338c —— 既存の QA の鍵の書き換え・docs.tools338c —— 文書)と、
+#   照合を置き換えた 3 本(behavior.rotring337i・behavior.spinorbit337j・behavior.gyrodrag337k)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.recheckScale338c lint.jsonCompare338c lint.checkOrderAdded338c lint.qaTouched338c docs.tools338c behavior.rotring337i behavior.spinorbit337j behavior.gyrodrag337k"
+# ==== 第338便c の塊(ここまで)====
+# ==== 第338便d の塊(ここから)====
+# 第338便d(原仮定者の回答(2026-11-15 —— 第138報の回答 4)・統括の検証項目 R352 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.ringbook338d —— 純関数の場面・sets と T1〜T5 を作り直して
+#   正本と同じ〔数は葉ごとに相対 1e-9・0 と書いた欄は両方 0〕・帳簿の閉じ / docs.ringbook338d —— 正本の門と表 12 本が PHYSICS〔第338便d〕に逐語・文書)と、新しい段 ringbook-338d の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ringbook338d docs.ringbook338d"
+# ==== 第338便d の塊(ここまで)====
+# ==== 第338便e の塊(ここから)====
+# 第338便e(原仮定者の回答(2026-11-15 —— 第138報の回答 4)・統括の検証項目 R353 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.spinfield338e —— 純関数の場面・器を走らせ直して
+#   正本と照合〔数でない葉は完全一致・数は相対 1e-9・0 の葉は両方 0〕・k = 0 が第337便d と同じ / docs.spinfield338e —— 正本の門と表 11 本が PHYSICS〔第338便e〕に逐語・文書)と、新しい段 spinfield-338e の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spinfield338e docs.spinfield338e"
+# ==== 第338便e の塊(ここまで)====
+# ==== 第338便f の塊(ここから)====
+# 第338便f(原仮定者の回答(2026-11-15 —— 第138報の回答 4)・統括の検証項目 R354 —— 診断だけ・html は変えない): 枝 f の新設 2 本(behavior.heatlock338f —— 純関数の場面・T1〜T4 を作り直して
+#   正本と同じ〔数でない欄は完全一致・数は葉ごとに相対 1e-9・0 と書いた欄は両方 0〕・捕まる表の部分集合・呼ぶだけ / docs.heatlock338f —— 正本の門と表 16 本が PHYSICS〔第338便f〕に逐語・文書)と、新しい段 heatlock-338f の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.heatlock338f docs.heatlock338f"
+# ==== 第338便f の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

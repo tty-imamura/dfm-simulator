@@ -7,7 +7,7 @@
 //
 // ■ 走らせたノブの格子と判定の物差し(正本の先頭 —— 式の形の宣言ではなく、何を測ったかの記録)
 //   T1: χ ½・1 × 速さ s・s_d × 落ち方の基準の半径 R_eq(主)・R_obs × 受け手の大きさの読み 半径・質量 —— 各組で q・p を 4 天体の対数の最小二乗で(連続)と格子 q 7 × p 10 で。
-//     物差し: 計算 ÷ 観測 の最大 ÷ 最小 S(1 桁の内 = S ≤ 100・2 倍の内 = S ≤ 4)。4 つ目のノブ(源の質量のべき)で 4 式 4 未知(自由度 0 —— 比べる列)。潮汐は積まない。
+//     物差し: 観測 ÷ 計算(第338便c の訂正 —— lib の式 ln(観測/計算))の最大 ÷ 最小 S(1 桁の内 = S ≤ 100・2 倍の内 = S ≤ 4)。4 つ目のノブ(源の質量のべき)で 4 式 4 未知(自由度 0 —— 比べる列)。潮汐は積まない。
 //   T2: T1 の主の組(R_eq・半径の読み・速さ s・χ ½ と 1 —— 連続の解)と p ≥ 0 の格子の最良を、土星の D・C・B・A・F 環の粒子(半径 1 m・高さの振れ 10 m)へ。物差し: 1e7 年の |Δ ln a| ÷ 1e-5。
 //     補正のノブ: (a) 粒子の半径 (b) 集まりの係数 ε と光学的厚さ τ・半径のべき (c) 半長軸の率を粒子どうしで打ち消す読みで残る定常のずれ (d) 帯の外の落ち方(lor4)の環と 4 天体の因子。
 //   T3: 方位の作用の型 5(第337便i の座標を運ぶ方位の場 slice・lor4・ball〔R_eq・s・λ 6.56e-7〕・対照の剛体の場〔λ 同じ〕・T1 の組)× 受け手 9 × 直交の読み(c 1・符号 plus・minus・列 replace・add)。
@@ -17,11 +17,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
+import { settleRun } from './lib-w338c-recheck.mjs';
 import * as L from './lib-w337k-gyrodrag.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w337k-gyrodrag-1';
-export const AMEND = Object.freeze([]);
+export const HARNESS_VERSION = 'w337k-gyrodrag-2';
+export const AMEND = Object.freeze([
+  '第338便c(統括の検証項目 R351 —— 原仮定者の指示(2026-11-15 —— 第139報)): 正本へ書く出力を量ごとの数値の尺度で整える(tests/lib-w338c-recheck.mjs の settleRun —— Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大を葉ごとの尺度 σ とし、|値| ≤ 4 σ の葉〔丸めの残り —— 有効数字が 1 桁に満たない〕を 0 と書く・meta.recheck に係数と 0 と書いた葉の数)。式・格子・判定は不変',
+  '第338便c(統括の指摘): T1 の比 ratios は 観測 ÷ 計算(lib の式 ln(観測/計算))—— lib と器の注釈・文書の lib の列名の「計算 ÷ 観測」を直した(値は不変 —— S と範囲は逆数で対称)',
+]);
 export const OUT_MAIN = 'tests/out/gyrodrag-337k.json';
 export const TARGET = 'tests/lib-w337k-gyrodrag.mjs';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
@@ -135,22 +139,30 @@ export function runAll() {
   return J;
 }
 
+/** 第338便c: 正本へ書く形 —— 生の runAll を元のまま 1 回と、Math の関数を ±1〜2 ulp ずらして 2 回走らせ、葉ごとの尺度 σ の 4 倍の内の葉(丸めの残り —— 有効数字が 1 桁に満たない)を 0 と書く(壁時計は元のままの走行の値)。戻り値 { J, recheck } */
+export function runSettled() {
+  let tm = null;
+  const S = settleRun(() => { const R = runAll(); if (tm === null) tm = R.timing; delete R.timing; return R; });
+  const { gates, ok, ...rest } = S.value;
+  return { J: Object.assign(rest, { timing: tm, gates, ok }), recheck: S.meta };
+}
+
 const writeJson = (OUT, out) => { fs.mkdirSync(path.dirname(OUT), { recursive: true }); fs.writeFileSync(OUT, JSON.stringify(out, null, 1).replace(/\[\s*(-?[\d.eE+-]+(?:,\s*-?[\d.eE+-]+|,\s*null)*)\s*\]/g, (m, a) => '[' + a.replace(/\s+/g, '') + ']') + '\n'); };
 export const CODE = Object.freeze(['tests/exp-w337k-gyrodrag.mjs', 'tests/lib-w337k-gyrodrag.mjs', 'tests/lib-w337j-spinorbit.mjs', 'tests/lib-w337i-rotring.mjs', 'tests/lib-w337a-supply.mjs', 'tests/lib-w337b-mercuryband.mjs',
   'tests/lib-w335c-mercurycombo.mjs', 'tests/lib-w334c-mercurynode.mjs', 'tests/lib-w334a-heightlaw.mjs', 'tests/lib-w333c-mercury3d.mjs', 'tests/lib-w333b-axialfield.mjs', 'tests/lib-w333a-rotdiff.mjs', 'tests/lib-w332b-transgeo2.mjs',
   'tests/lib-w332a-eqband.mjs', 'tests/lib-w331c-k1scale.mjs', 'tests/lib-w331b-centrifugal.mjs', 'tests/lib-w331a-coordtwist.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w326d-axialheat.mjs', 'tests/lib-w312a-decay.mjs',
-  'tests/lib-w310d-shell.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w272e-provenance.mjs']);
+  'tests/lib-w310d-shell.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w338c-recheck.mjs']);
 export async function main() {
   const t0 = Date.now();
   const OUT = process.env.W337K_OUT ? (path.isAbsolute(process.env.W337K_OUT) ? process.env.W337K_OUT : path.join(ROOT, process.env.W337K_OUT)) : path.join(ROOT, OUT_MAIN);
   console.log('第337便k gyrodrag(版 ' + HARNESS_VERSION + ')');
-  const R = runAll();
+  const { J: R, recheck } = runSettled();
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w337k-gyrodrag.mjs', target: TARGET,
     ruling: '原仮定者の回答(2026-11-15 —— 第138報の回答 2)AN729「鉛直の型は有力。方位の型が同時に効いても良い」・AN732「回転引きずりは、４天体で合う結果を重視。環の方が近似なので、環をノブで補正する」・原仮定者の指示(2026-11-08 —— 第132報)「この直行を、物理現象と仮定する」・統括の検証項目 R347',
     decl: L.DECL, lit: L.LIT, plan: PLAN, amend: AMEND, notClaim: NOT_CLAIM, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第337便k', target: TARGET, code: CODE, inputs: [] }), {
-    harnessVersion: HARNESS_VERSION, stage: 'gyrodrag', engine: 'Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の求積と RK4)', notClaim: NOT_CLAIM });
+    harnessVersion: HARNESS_VERSION, stage: 'gyrodrag', engine: 'Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の求積と RK4)', notClaim: NOT_CLAIM, recheck });
   writeJson(OUT, out);
   console.log('→', path.relative(ROOT, OUT), 'ok=' + out.ok, JSON.stringify(out.gates), out.elapsedS + ' s');
 }

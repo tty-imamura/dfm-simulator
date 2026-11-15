@@ -439,3 +439,10 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
 - **id の列の読み**(`tests/lib-w330c-toolguard.mjs` の `REG_READS_337F` —— 版 w337f-idlist-1): `inPositionK1State`・`auditRows` は列の本だけで守りを照合(照合が外れれば全本)。
 - **道具** `node tools/jsonpaths337f.mjs`: `--declared`(宣言と刻印の一覧)/ `--self-test`(変異の試し・id の列の試し)/ `--replay <刻印の rev> <今の rev>`(上流の 2 つの版で経路の指紋を引く試算)/ `--compare <鎖の前の rev> [--keys a,b]`(**鎖の後に回す**: 宣言を変えた段の正本の物理の値が鎖の前と同じか —— 違えば終了コード 1)。
 - **文を読む段**: 器 pairnorm の consts に `ACCEPT_REASONS`。同じ型の段の表は `tests/lib-w337f-textread.mjs` の `textReadSurvey337f`(QA `lint.pairnormTextRead337f` ③)。
+
+## 第338便c — 道具: 作り直しの照合・正本の値の比べ・鎖の後に足した段・既存の QA の書き換え(統括の検証項目 R351)
+
+- **作り直しの照合**(`tests/lib-w338c-recheck.mjs`): 器は `settleRun(run)` で正本を書く(葉ごとの尺度 σ —— Math の関数を ±1〜2 ulp ずらした走り直し 2 回 —— の 4 倍の内の葉を 0 と書き、`meta.recheck` に係数と数)。QA は `recheckRun(run, 正本, 部)` で照合する(数でない欄は完全一致・0 と書いた葉は 128 σ′・ほかは max(1e-9 × 大きさ, 8 σ′))。変異の試し: `node tools/recheck-mutate338c.mjs [i j k] [--json f]`(1 分を超えるので番号札)。
+- **正本の値の比べ**: `node tools/jsonpaths337f.mjs --compare <rev>` は来歴の欄(mergeKey・wallSec・carried.fromGeneratedAt・carried.fromTargetSha256)を除いて比べ、除いた欄の数を出す。`--compare-self-test` で自己試験。
+- **鎖の後に足した段**: 鎖のシェルが timeline に `# chain-steps <段…>` を書く。`node tools/regen-chain.mjs --check-order <timeline> [--chain-steps <段,…|ファイル|鎖の --json>] [--base-rev <鎖を作った rev>]` —— 計画に無かった段の下流の欠落を `addedAfterChain` に分けて違反に数えない(ほかの rc の意味は不変)。
+- **既存の QA の鍵の書き換え**: `node tools/qa-touched338c.mjs --touched <基点の rev> [--json f]`(書き換えた既存の鍵・消えた行と足した行の数・新設・消えた鍵 —— rc 1 = 書き換えあり)/ `--self-test`。統合のたびに回す。

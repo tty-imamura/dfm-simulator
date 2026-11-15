@@ -1,5 +1,5 @@
 {
- "version": "w337k-gyrodrag-1",
+ "version": "w337k-gyrodrag-2",
  "libVersion": "w337k-gyrodrag-lib-1",
  "generator": "tests/exp-w337k-gyrodrag.mjs",
  "target": "tests/lib-w337k-gyrodrag.mjs",
@@ -182,7 +182,10 @@
    "triton"
   ]
  },
- "amend": [],
+ "amend": [
+  "第338便c(統括の検証項目 R351 —— 原仮定者の指示(2026-11-15 —— 第139報)): 正本へ書く出力を量ごとの数値の尺度で整える(tests/lib-w338c-recheck.mjs の settleRun —— Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大を葉ごとの尺度 σ とし、|値| ≤ 4 σ の葉〔丸めの残り —— 有効数字が 1 桁に満たない〕を 0 と書く・meta.recheck に係数と 0 と書いた葉の数)。式・格子・判定は不変",
+  "第338便c(統括の指摘): T1 の比 ratios は 観測 ÷ 計算(lib の式 ln(観測/計算))—— lib と器の注釈・文書の lib の列名の「計算 ÷ 観測」を直した(値は不変 —— S と範囲は逆数で対称)"
+ ],
  "notClaim": [
   "回転引きずりの強さを決めたとは書かない(このノブの組で 4 天体が何倍の内かまで)",
   "フォボスの軌道の縮みが回転引きずりで出るとは書かない(潮汐は積まない —— 照らすだけ)",
@@ -194,20 +197,20 @@
  "pure": {
   "scenes": {
    "orth": {
-    "plus": 2.8895075786992326e-16,
-    "minus": 2.8895075786992326e-16,
+    "plus": 0,
+    "minus": 0,
     "zero": 0,
-    "add": 3.762636147165811e-16,
-    "di": 1.1102230246251565e-16
+    "add": 0,
+    "di": 0
    },
    "eq23": {
-    "rel": 3.310268458869982e-16,
+    "rel": 0,
     "dL": 0
    },
    "field": {
-    "ldot": 2.1071510974435323e-15,
-    "integ": 1.3216405747584759e-10,
-    "steps": 2.120739139854777e-10,
+    "ldot": 0,
+    "integ": 0,
+    "steps": 0,
     "first": -1.5498414658827459e-10,
     "runs": [-1.5498414657588983e-10,-1.5498414660875793e-10]
    },
@@ -362,7 +365,7 @@
      "q": 3.8880269879588263,
      "p": 1.514799984388842,
      "km": -3.3549870876590027,
-     "maxRes": 1.3784529073745944e-12
+     "maxRes": 0
     },
     "key": "chi0.5|obs|Req|R"
    },
@@ -490,7 +493,7 @@
      "q": 3.927743736650295,
      "p": 0.48488182300017785,
      "km": -3.3185104967762675,
-     "maxRes": 5.755396159656812e-13
+     "maxRes": 0
     },
     "key": "chi0.5|obs|Req|m"
    },
@@ -618,7 +621,7 @@
      "q": 4.633002110552872,
      "p": 2.4306944777908024,
      "km": -1.6126410244998557,
-     "maxRes": 8.881784197001252e-13
+     "maxRes": 0
     },
     "key": "chi0.5|obs|Robs|R"
    },
@@ -746,7 +749,7 @@
      "q": 4.709416067201544,
      "p": 0.7828916757545659,
      "km": -1.525008598775071,
-     "maxRes": 3.907985046680551e-13
+     "maxRes": 0
     },
     "key": "chi0.5|obs|Robs|m"
    },
@@ -1154,7 +1157,7 @@
      "q": 3.9797498048401763,
      "p": 1.3801362028652118,
      "km": -3.4096074750192145,
-     "maxRes": 1.2505552149377763e-12
+     "maxRes": 0
     },
     "key": "chi1|obs|Req|R"
    },
@@ -1282,7 +1285,7 @@
      "q": 4.015935785361269,
      "p": 0.4417764489901999,
      "km": -3.3763736064202488,
-     "maxRes": 3.552713678800501e-13
+     "maxRes": 0
     },
     "key": "chi1|obs|Req|m"
    },
@@ -1410,7 +1413,7 @@
      "q": 4.742299706869005,
      "p": 2.3176376509412115,
      "km": -1.6261575590858168,
-     "maxRes": 6.892264536872972e-13
+     "maxRes": 0
     },
     "key": "chi1|obs|Robs|R"
    },
@@ -1538,7 +1541,7 @@
      "q": 4.815159486085223,
      "p": 0.7464777004752129,
      "km": -1.5426011059172051,
-     "maxRes": 2.2737367544323206e-13
+     "maxRes": 0
     },
     "key": "chi1|obs|Robs|m"
    },
@@ -1869,8 +1872,8 @@
       "ratio": 163683850.84503773,
       "sign": -1,
       "tiltEfoldYr": 73314.05323966828,
-      "dOmSteady": 4.386041678388717e-27,
-      "steadyRatio": 4.386041678388717e-22
+      "dOmSteady": 0,
+      "steadyRatio": 0
      },
      {
       "key": "ringC",
@@ -1881,8 +1884,8 @@
       "ratio": 148953047.22944596,
       "sign": -1,
       "tiltEfoldYr": 57103.572555342274,
-      "dOmSteady": -1.2417667313208853e-26,
-      "steadyRatio": 1.2417667313208851e-21
+      "dOmSteady": 0,
+      "steadyRatio": 0
      },
      {
       "key": "ringB",
@@ -1893,8 +1896,8 @@
       "ratio": 120800703.54811026,
       "sign": -1,
       "tiltEfoldYr": 40297.540871380734,
-      "dOmSteady": 1.5490912774215222e-26,
-      "steadyRatio": 1.549091277421522e-21
+      "dOmSteady": 0,
+      "steadyRatio": 0
      },
      {
       "key": "ringA",
@@ -1905,8 +1908,8 @@
       "ratio": 84114130.47511122,
       "sign": -1,
       "tiltEfoldYr": 29211.54119854567,
-      "dOmSteady": -2.9094937545683763e-27,
-      "steadyRatio": 2.909493754568376e-22
+      "dOmSteady": 0,
+      "steadyRatio": 0
      },
      {
       "key": "ringF",
@@ -1917,8 +1920,8 @@
       "ratio": 66893010.09349419,
       "sign": -1,
       "tiltEfoldYr": 25885.932122447226,
-      "dOmSteady": -4.924302460354717e-26,
-      "steadyRatio": 4.9243024603547165e-21
+      "dOmSteady": 0,
+      "steadyRatio": 0
      }
     ],
     "corr": {
@@ -1975,7 +1978,7 @@
      "collOne": 6.109338183561657e-9,
      "collPowTau": 0.08010730178746739,
      "collPowR": 1.2780139859361277,
-     "steadyMax": 4.9243024603547165e-21,
+     "steadyMax": 0,
      "height": {
       "prof": "lor4",
       "rings": [
@@ -2058,8 +2061,8 @@
       "ratio": 802352552.1012933,
       "sign": -1,
       "tiltEfoldYr": 4985.543237774737,
-      "dOmSteady": 5.355493229071127e-26,
-      "steadyRatio": 5.355493229071127e-21
+      "dOmSteady": 0,
+      "steadyRatio": 0
      },
      {
       "key": "ringC",
@@ -2070,8 +2073,8 @@
       "ratio": 577490994.8288075,
       "sign": -1,
       "tiltEfoldYr": 3901.144176750387,
-      "dOmSteady": -3.7118435156672795e-26,
-      "steadyRatio": 3.7118435156672796e-21
+      "dOmSteady": 0,
+      "steadyRatio": 0
      },
      {
       "key": "ringB",
@@ -2082,8 +2085,8 @@
       "ratio": 156629455.89131963,
       "sign": -1,
       "tiltEfoldYr": 2770.7796235950887,
-      "dOmSteady": 9.81681051478837e-26,
-      "steadyRatio": 9.816810514788369e-21
+      "dOmSteady": 0,
+      "steadyRatio": 0
      },
      {
       "key": "ringA",
@@ -2094,8 +2097,8 @@
       "ratio": 381811876.25802475,
       "sign": 1,
       "tiltEfoldYr": 2020.493060219577,
-      "dOmSteady": -8.840799251390358e-26,
-      "steadyRatio": 8.840799251390358e-21
+      "dOmSteady": 0,
+      "steadyRatio": 0
      },
      {
       "key": "ringF",
@@ -2106,8 +2109,8 @@
       "ratio": 632056934.9068918,
       "sign": 1,
       "tiltEfoldYr": 1794.4680587724122,
-      "dOmSteady": -3.6841455477577657e-25,
-      "steadyRatio": 3.684145547757765e-20
+      "dOmSteady": 0,
+      "steadyRatio": 0
      }
     ],
     "corr": {
@@ -2164,7 +2167,7 @@
      "collOne": 1.246334915220354e-9,
      "collPowTau": 0.15857992719197117,
      "collPowR": 0.6645666755686761,
-     "steadyMax": 3.684145547757765e-20,
+     "steadyMax": 0,
      "height": {
       "prof": "lor4",
       "rings": [
@@ -2247,8 +2250,8 @@
       "ratio": 131.3159628195158,
       "sign": -1,
       "tiltEfoldYr": 91385131739.25453,
-      "dOmSteady": 5.358516279191742e-33,
-      "steadyRatio": 5.358516279191742e-28
+      "dOmSteady": 0,
+      "steadyRatio": 0
      },
      {
       "key": "ringC",
@@ -2259,8 +2262,8 @@
       "ratio": 119.08476259451672,
       "sign": -1,
       "tiltEfoldYr": 71426024281.13545,
-      "dOmSteady": -8.199664790584599e-33,
-      "steadyRatio": 8.199664790584598e-28
+      "dOmSteady": 0,
+      "steadyRatio": 0
      },
      {
       "key": "ringB",
@@ -2271,8 +2274,8 @@
       "ratio": 96.1118721149876,
       "sign": -1,
       "tiltEfoldYr": 50649011245.93469,
-      "dOmSteady": 1.6843292240002466e-33,
-      "steadyRatio": 1.6843292240002464e-28
+      "dOmSteady": 0,
+      "steadyRatio": 0
      },
      {
       "key": "ringA",
@@ -2283,8 +2286,8 @@
       "ratio": 66.62527272660631,
       "sign": -1,
       "tiltEfoldYr": 36879449631.94226,
-      "dOmSteady": -3.336931256914803e-33,
-      "steadyRatio": 3.3369312569148025e-28
+      "dOmSteady": 0,
+      "steadyRatio": 0
      },
      {
       "key": "ringF",
@@ -2295,8 +2298,8 @@
       "ratio": 52.896008151407514,
       "sign": -1,
       "tiltEfoldYr": 32735701254.348846,
-      "dOmSteady": -3.2373146077469284e-32,
-      "steadyRatio": 3.237314607746928e-27
+      "dOmSteady": 0,
+      "steadyRatio": 0
      }
     ],
     "corr": {
@@ -2353,7 +2356,7 @@
      "collOne": 0.00761522040830959,
      "collPowTau": 0.08171704678553189,
      "collPowR": 1.299106754951434,
-     "steadyMax": 3.237314607746928e-27,
+     "steadyMax": 0,
      "height": {
       "prof": "lor4",
       "rings": [
@@ -2516,7 +2519,7 @@
       "pro": true,
       "dnode": 1.2334133650176112e-25,
       "dlnIown": -5.60794297837664e-36,
-      "dlnA": 1.6220928314546475e-43,
+      "dlnA": 0,
       "kepler": 3.9865982708981216e-22,
       "per": {
        "plus|replace": {
@@ -2547,7 +2550,7 @@
       "pro": true,
       "dnode": 8.880073555629856e-26,
       "dlnIown": -4.031156104854281e-36,
-      "dlnA": -3.2155803250746376e-44,
+      "dlnA": 0,
       "kepler": 3.6722264327063803e-22,
       "per": {
        "plus|replace": {
@@ -2578,7 +2581,7 @@
       "pro": true,
       "dnode": 5.615251629406163e-26,
       "dlnIown": -2.5528968798983304e-36,
-      "dlnA": -7.072905764843987e-44,
+      "dlnA": 0,
       "kepler": 3.2746705732755583e-22,
       "per": {
        "plus|replace": {
@@ -2609,7 +2612,7 @@
       "pro": true,
       "dnode": 3.678356647242207e-26,
       "dlnIown": -1.6704210173057042e-36,
-      "dlnA": -1.6674015115652386e-43,
+      "dlnA": 0,
       "kepler": 2.9460408899679863e-22,
       "per": {
        "plus|replace": {
@@ -2640,7 +2643,7 @@
       "pro": true,
       "dnode": 3.1378833297302034e-26,
       "dlnIown": -1.4211565777237083e-36,
-      "dlnA": 1.0526063729863074e-43,
+      "dlnA": 0,
       "kepler": 2.831291007197127e-22,
       "per": {
        "plus|replace": {
@@ -2670,8 +2673,8 @@
       "iDeg": 1.093000000000006,
       "pro": true,
       "dnode": 2.2798387350887287e-37,
-      "dlnIown": 5.294759394623816e-50,
-      "dlnA": -4.564675867516398e-62,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 1.0001566374738263e-33,
       "per": {
        "plus|replace": {
@@ -2701,13 +2704,13 @@
       "iDeg": 23.400000000000002,
       "pro": true,
       "dnode": 1.3143779967179146e-40,
-      "dlnIown": 2.3089140311632427e-53,
-      "dlnA": -1.851287164174589e-67,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 4.961752257427403e-35,
       "per": {
        "plus|replace": {
         "dlnIorth": -1.2781426161144812e-40,
-        "dnode": 5.134504536811854e-56,
+        "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
@@ -2717,7 +2720,7 @@
        },
        "minus|replace": {
         "dlnIorth": 1.2781426161144814e-40,
-        "dnode": 5.134504536811854e-56,
+        "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
@@ -2732,8 +2735,8 @@
       "iDeg": 0.3485000000000119,
       "pro": true,
       "dnode": 5.715280087795358e-34,
-      "dlnIown": 1.9597870857120315e-47,
-      "dlnA": 2.804392937826115e-57,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 1.2533657098007324e-28,
       "per": {
        "plus|replace": {
@@ -2763,13 +2766,13 @@
       "iDeg": 156.885,
       "pro": false,
       "dnode": 1.285022582898984e-36,
-      "dlnIown": 1.20710314043782e-48,
-      "dlnA": 5.179916005907099e-62,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 1.0385806999429848e-31,
       "per": {
        "plus|replace": {
         "dlnIorth": -1.2504471909935538e-36,
-        "dnode": 4.255150107378325e-52,
+        "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
@@ -2779,7 +2782,7 @@
        },
        "minus|replace": {
         "dlnIorth": 1.2504471909935538e-36,
-        "dnode": 4.255150107378325e-52,
+        "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
@@ -2808,7 +2811,7 @@
       "pro": true,
       "dnode": 1.8508938397674647e-25,
       "dlnIown": 4.027532611814772e-34,
-      "dlnA": 8.535900512831876e-43,
+      "dlnA": 0,
       "kepler": 7.114804922434326e-22,
       "per": {
        "plus|replace": {
@@ -2839,7 +2842,7 @@
       "pro": true,
       "dnode": 1.332568132221796e-25,
       "dlnIown": 2.8951132301484183e-34,
-      "dlnA": -2.6562582005908876e-43,
+      "dlnA": 0,
       "kepler": 6.553751575728695e-22,
       "per": {
        "plus|replace": {
@@ -2870,7 +2873,7 @@
       "pro": true,
       "dnode": 8.426400219409475e-26,
       "dlnIown": 1.832986887506787e-34,
-      "dlnA": 1.3897684260760077e-43,
+      "dlnA": 0,
       "kepler": 5.8442413132406875e-22,
       "per": {
        "plus|replace": {
@@ -2901,7 +2904,7 @@
       "pro": true,
       "dnode": 5.519842618818125e-26,
       "dlnIown": 1.1975572352929726e-34,
-      "dlnA": 1.5479094630402254e-44,
+      "dlnA": 0,
       "kepler": 5.2577422657883775e-22,
       "per": {
        "plus|replace": {
@@ -2932,7 +2935,7 @@
       "pro": true,
       "dnode": 4.708793572072397e-26,
       "dlnIown": 1.0223243504515686e-34,
-      "dlnA": 2.2039373290498417e-43,
+      "dlnA": 0,
       "kepler": 5.052950366703448e-22,
       "per": {
        "plus|replace": {
@@ -2962,8 +2965,8 @@
       "iDeg": 1.093000000000006,
       "pro": true,
       "dnode": 3.798396227886937e-37,
-      "dlnIown": 7.637355155945213e-50,
-      "dlnA": -2.0544416256923232e-62,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 1.6663420708696825e-33,
       "per": {
        "plus|replace": {
@@ -2993,13 +2996,13 @@
       "iDeg": 23.400000000000002,
       "pro": true,
       "dnode": 2.189860045406237e-40,
-      "dlnIown": -2.0716140947575733e-51,
-      "dlnA": -1.9920428980637145e-68,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 8.266680552228049e-35,
       "per": {
        "plus|replace": {
         "dlnIorth": -2.1294889707141092e-40,
-        "dnode": 5.134504536811854e-56,
+        "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
@@ -3009,7 +3012,7 @@
        },
        "minus|replace": {
         "dlnIorth": 2.129488970714109e-40,
-        "dnode": 5.134504536811854e-56,
+        "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
@@ -3024,8 +3027,8 @@
       "iDeg": 0.3485000000000119,
       "pro": true,
       "dnode": 9.52212014673461e-34,
-      "dlnIown": 1.9580987153095912e-47,
-      "dlnA": -5.19793858183796e-57,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 2.0882089229555663e-28,
       "per": {
        "plus|replace": {
@@ -3055,13 +3058,13 @@
       "iDeg": 156.885,
       "pro": false,
       "dnode": 2.1409518051158178e-36,
-      "dlnIown": 9.293124721293225e-49,
-      "dlnA": 1.75786087802458e-61,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 1.7303596480655547e-31,
       "per": {
        "plus|replace": {
         "dlnIorth": -2.083346399033755e-36,
-        "dnode": 8.51030021475665e-52,
+        "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
@@ -3071,7 +3074,7 @@
        },
        "minus|replace": {
         "dlnIorth": 2.083346399033755e-36,
-        "dnode": 8.51030021475665e-52,
+        "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
@@ -3100,7 +3103,7 @@
       "pro": true,
       "dnode": 1.153823553947807e-25,
       "dlnIown": 2.842099805996399e-34,
-      "dlnA": 1.0860562409616619e-42,
+      "dlnA": 0,
       "kepler": 7.044454582410371e-22,
       "per": {
        "plus|replace": {
@@ -3131,7 +3134,7 @@
       "pro": true,
       "dnode": 8.307059352420317e-26,
       "dlnIown": 2.0429877658500495e-34,
-      "dlnA": -9.662734272937852e-44,
+      "dlnA": 0,
       "kepler": 6.488948864085672e-22,
       "per": {
        "plus|replace": {
@@ -3162,7 +3165,7 @@
       "pro": true,
       "dnode": 5.252910155758635e-26,
       "dlnIown": 1.2934794937080473e-34,
-      "dlnA": -2.9286464499892288e-43,
+      "dlnA": 0,
       "kepler": 5.786454154203894e-22,
       "per": {
        "plus|replace": {
@@ -3193,7 +3196,7 @@
       "pro": true,
       "dnode": 3.440999311163877e-26,
       "dlnIown": 8.45077566467944e-35,
-      "dlnA": -1.9052715841015102e-43,
+      "dlnA": 0,
       "kepler": 5.205754339177775e-22,
       "per": {
        "plus|replace": {
@@ -3224,7 +3227,7 @@
       "pro": true,
       "dnode": 2.935401705598497e-26,
       "dlnIown": 7.214212253648412e-35,
-      "dlnA": -1.4424212429480878e-43,
+      "dlnA": 0,
       "kepler": 5.002987397894465e-22,
       "per": {
        "plus|replace": {
@@ -3255,7 +3258,7 @@
       "pro": true,
       "dnode": 3.392981858486737e-30,
       "dlnIown": 8.353080085102402e-39,
-      "dlnA": 5.361818957485294e-47,
+      "dlnA": 0,
       "kepler": 2.9769766394770033e-26,
       "per": {
        "plus|replace": {
@@ -3286,12 +3289,12 @@
       "pro": true,
       "dnode": 1.7956345099910376e-31,
       "dlnIown": 4.299010235128164e-40,
-      "dlnA": -1.4171210335657446e-48,
+      "dlnA": 0,
       "kepler": 1.3556973122766755e-25,
       "per": {
        "plus|replace": {
         "dlnIorth": -1.746131627215567e-31,
-        "dnode": 5.513132266692635e-47,
+        "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
@@ -3301,7 +3304,7 @@
        },
        "minus|replace": {
         "dlnIorth": 1.746131627215567e-31,
-        "dnode": 5.513132266692635e-47,
+        "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
@@ -3317,7 +3320,7 @@
       "pro": true,
       "dnode": 3.863577691102526e-28,
       "dlnIown": 9.512144576961934e-37,
-      "dlnA": -3.5211463732005435e-45,
+      "dlnA": 0,
       "kepler": 1.6945716475458757e-22,
       "per": {
        "plus|replace": {
@@ -3348,12 +3351,12 @@
       "pro": false,
       "dnode": 9.296160805633081e-29,
       "dlnIown": 2.2271509938180257e-37,
-      "dlnA": 4.858558391978346e-46,
+      "dlnA": 0,
       "kepler": 1.502668253301391e-23,
       "per": {
        "plus|replace": {
         "dlnIorth": -9.046034148445822e-29,
-        "dnode": 2.855582898556374e-44,
+        "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
@@ -3363,7 +3366,7 @@
        },
        "minus|replace": {
         "dlnIorth": 9.046034148445821e-29,
-        "dnode": 2.855582898556374e-44,
+        "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
@@ -3391,8 +3394,8 @@
       "iDeg": 0.000008099607985145754,
       "pro": true,
       "dnode": 5.372751074809494e-11,
-      "dlnIown": 3.971070708209511e-27,
-      "dlnA": 1.39463917277845e-28,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 3.280232994305253e-7,
       "per": {
        "plus|replace": {
@@ -3422,7 +3425,7 @@
       "iDeg": 0.000006883343194785021,
       "pro": true,
       "dnode": 5.372751074809494e-11,
-      "dlnIown": 4.1853568531593024e-27,
+      "dlnIown": 0,
       "dlnA": -2.7655112665005032e-28,
       "kepler": 4.196853000527505e-7,
       "per": {
@@ -3453,8 +3456,8 @@
       "iDeg": 0.0000054668187275950014,
       "pro": true,
       "dnode": 5.372751074809492e-11,
-      "dlnIown": -6.938266384915099e-27,
-      "dlnA": -5.857292217772381e-28,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 5.918467447754855e-7,
       "per": {
        "plus|replace": {
@@ -3484,8 +3487,8 @@
       "iDeg": 0.000004436338000413295,
       "pro": true,
       "dnode": 5.3727510748095065e-11,
-      "dlnIown": -1.0491784979715996e-26,
-      "dlnA": -3.892166864270496e-29,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 8.12822662246025e-7,
       "per": {
        "plus|replace": {
@@ -3515,8 +3518,8 @@
       "iDeg": 0.000004094554566467037,
       "pro": true,
       "dnode": 5.3727510748094917e-11,
-      "dlnIown": -1.364646250871362e-26,
-      "dlnA": 2.3999373846426707e-28,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 9.157113268811114e-7,
       "per": {
        "plus|replace": {
@@ -3546,8 +3549,8 @@
       "iDeg": 1.093000000000006,
       "pro": true,
       "dnode": 2.325154041691679e-11,
-      "dlnIown": -5.9651457972642754e-27,
-      "dlnA": 6.11949047121359e-29,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 2.04007258246405e-7,
       "per": {
        "plus|replace": {
@@ -3577,13 +3580,13 @@
       "iDeg": 23.400000000000002,
       "pro": true,
       "dnode": 2.392029725006579e-11,
-      "dlnIown": 2.700837012692498e-28,
-      "dlnA": -1.2497237587727134e-28,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 0.000018059734593125655,
       "per": {
        "plus|replace": {
         "dlnIorth": -2.3260851430698947e-11,
-        "dnode": 8.135947197455142e-27,
+        "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
@@ -3593,7 +3596,7 @@
        },
        "minus|replace": {
         "dlnIorth": 2.3260851430698947e-11,
-        "dnode": 8.135947197455142e-27,
+        "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
@@ -3608,8 +3611,8 @@
       "iDeg": 0.3485000000000119,
       "pro": true,
       "dnode": 5.372751074809493e-11,
-      "dlnIown": 1.9229909012799288e-26,
-      "dlnA": 2.5530536050257503e-28,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 0.000023564976207695304,
       "per": {
        "plus|replace": {
@@ -3639,13 +3642,13 @@
       "iDeg": 156.885,
       "pro": false,
       "dnode": 3.5538197053488523e-11,
-      "dlnIown": -3.133555940377624e-27,
-      "dlnA": 2.2665257248556757e-28,
+      "dlnIown": 0,
+      "dlnA": 0,
       "kepler": 0.000005744534930624682,
       "per": {
        "plus|replace": {
         "dlnIorth": -3.458199044117768e-11,
-        "dnode": 8.23065732983299e-27,
+        "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
@@ -3655,7 +3658,7 @@
        },
        "minus|replace": {
         "dlnIorth": 3.458199044117768e-11,
-        "dnode": 8.23065732983299e-27,
+        "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
@@ -3670,7 +3673,7 @@
     "efoldYrC1": 591.2604668284687,
     "cNeed": 0.00005912604668284687,
     "ringToward": true,
-    "ringPow": -0.0032777752220920554,
+    "ringPow": 0,
     "keplerMax": 9.157113268811114e-7,
     "passC1": true
    },
@@ -3875,7 +3878,7 @@
       "per": {
        "plus|replace": {
         "dlnIorth": 2.7814544839358333e-26,
-        "dnode": -7.22617272459937e-42,
+        "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
@@ -3885,7 +3888,7 @@
        },
        "minus|replace": {
         "dlnIorth": -2.7814545075143926e-26,
-        "dnode": -7.22617272459937e-42,
+        "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
@@ -3937,7 +3940,7 @@
       "per": {
        "plus|replace": {
         "dlnIorth": 1.6387939822279437e-26,
-        "dnode": -7.310292220304318e-42,
+        "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
@@ -3947,7 +3950,7 @@
        },
        "minus|replace": {
         "dlnIorth": -1.6387939822279437e-26,
-        "dnode": -7.310292220304318e-42,
+        "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
@@ -3995,7 +3998,7 @@
    }
   ],
   "eq23": {
-   "rel": 3.1798006553922514e-17,
+   "rel": 0,
    "dLsame": 0
   }
  },
@@ -4419,19 +4422,19 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.233
+   "wallSec": 0.273
   },
   "t1": {
-   "wallSec": 0.439
+   "wallSec": 0.538
   },
   "t2": {
-   "wallSec": 0.547
+   "wallSec": 0.688
   },
   "t3": {
-   "wallSec": 0.691
+   "wallSec": 0.825
   },
   "t4": {
-   "wallSec": 0.705
+   "wallSec": 0.843
   }
  },
  "gates": {
@@ -4446,162 +4449,168 @@
   "t4Complete": true
  },
  "ok": true,
- "elapsedS": 0.707,
+ "elapsedS": 3.377,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第337便k",
   "target": "tests/lib-w337k-gyrodrag.mjs",
-  "targetSha256": "abe184c716d4139c7cbba52a6e641da507f582625e7c13e67e3d65f6c9930791",
-  "generatedAt": "2026-11-15T02:32:12.798Z",
+  "targetSha256": "3b078ae7befdecc6b3845483c3becd5eb8c1a77bebcc2f3d8748f973a70ae9eb",
+  "generatedAt": "2026-11-15T11:19:09.820Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w337k-gyrodrag.mjs",
-    "bytes": 16191,
-    "sha256": "eebaf7b06ff8b30f18ca01c332f8e30384666565d743f33ba9516c41219c64e7",
-    "mtime": "2026-11-15T02:32:12.007Z"
+    "bytes": 17744,
+    "sha256": "de73e536254a9b9ded20b765a8984c23070ba62744be01f9dbd623c51bd35086",
+    "mtime": "2026-11-15T11:16:07.157Z"
    },
    {
     "file": "tests/lib-w337k-gyrodrag.mjs",
-    "bytes": 32683,
-    "sha256": "abe184c716d4139c7cbba52a6e641da507f582625e7c13e67e3d65f6c9930791",
-    "mtime": "2026-11-15T02:30:57.564Z"
+    "bytes": 32766,
+    "sha256": "3b078ae7befdecc6b3845483c3becd5eb8c1a77bebcc2f3d8748f973a70ae9eb",
+    "mtime": "2026-11-15T11:16:07.150Z"
    },
    {
     "file": "tests/lib-w337j-spinorbit.mjs",
-    "bytes": 40681,
-    "sha256": "1ab63f69a13c043a31e7255f918ddb26adc0240be1e9c8b221683694f024e815",
-    "mtime": "2026-11-15T02:20:54.327Z"
+    "bytes": 40914,
+    "sha256": "bf4a3bc4fb4243acd5279394f4a71c5552c994582293402cde0275c5dbeea108",
+    "mtime": "2026-11-15T10:50:21.117Z"
    },
    {
     "file": "tests/lib-w337i-rotring.mjs",
     "bytes": 38680,
     "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
-    "mtime": "2026-11-15T02:20:54.327Z"
+    "mtime": "2026-11-15T10:19:00.757Z"
    },
    {
     "file": "tests/lib-w337a-supply.mjs",
     "bytes": 40434,
     "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
-    "mtime": "2026-11-15T02:20:54.323Z"
+    "mtime": "2026-11-15T10:19:00.753Z"
    },
    {
     "file": "tests/lib-w337b-mercuryband.mjs",
     "bytes": 28361,
     "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
-    "mtime": "2026-11-15T02:20:54.323Z"
+    "mtime": "2026-11-15T10:19:00.753Z"
    },
    {
     "file": "tests/lib-w335c-mercurycombo.mjs",
     "bytes": 23928,
     "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
-    "mtime": "2026-11-15T02:20:54.323Z"
+    "mtime": "2026-11-15T10:19:00.753Z"
    },
    {
     "file": "tests/lib-w334c-mercurynode.mjs",
     "bytes": 35987,
     "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
-    "mtime": "2026-11-15T02:20:54.319Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w334a-heightlaw.mjs",
     "bytes": 40171,
     "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
-    "mtime": "2026-11-15T02:20:54.319Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35614,
     "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
-    "mtime": "2026-11-15T02:20:54.319Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w333b-axialfield.mjs",
     "bytes": 34735,
     "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
-    "mtime": "2026-11-15T02:20:54.319Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w333a-rotdiff.mjs",
     "bytes": 28077,
     "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
-    "mtime": "2026-11-15T02:20:54.319Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w332b-transgeo2.mjs",
     "bytes": 29461,
     "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
-    "mtime": "2026-11-15T02:20:54.319Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-15T02:20:54.319Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-15T02:20:54.315Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w331b-centrifugal.mjs",
     "bytes": 36773,
     "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
-    "mtime": "2026-11-15T02:20:54.315Z"
+    "mtime": "2026-11-15T10:19:00.745Z"
    },
    {
     "file": "tests/lib-w331a-coordtwist.mjs",
     "bytes": 33003,
     "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
-    "mtime": "2026-11-15T02:20:54.315Z"
+    "mtime": "2026-11-15T10:19:00.745Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-15T02:20:54.315Z"
+    "mtime": "2026-11-15T10:19:00.745Z"
    },
    {
     "file": "tests/lib-w326d-axialheat.mjs",
     "bytes": 32001,
     "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
-    "mtime": "2026-11-15T02:20:54.311Z"
+    "mtime": "2026-11-15T10:19:00.741Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-15T02:20:54.303Z"
+    "mtime": "2026-11-15T10:19:00.729Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-15T02:20:54.299Z"
+    "mtime": "2026-11-15T10:19:00.729Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-15T02:20:54.299Z"
+    "mtime": "2026-11-15T10:19:00.729Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-15T02:20:54.299Z"
+    "mtime": "2026-11-15T10:19:00.729Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-15T02:20:54.287Z"
+    "mtime": "2026-11-15T10:19:00.713Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-15T11:18:32.387Z"
    }
   ],
-  "codeSha256": "0e86e1bdac7dbae72b8e585e8019dd7b7c27b9d047a1671658049ed70fbf38d1",
-  "harnessVersion": "w337k-gyrodrag-1",
+  "codeSha256": "7c1ede2d7600552398c4e134246037f8c1daa3f93eda7380f321248c32eec627",
+  "harnessVersion": "w337k-gyrodrag-2",
   "stage": "gyrodrag",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の求積と RK4)",
   "notClaim": [
@@ -4611,6 +4620,65 @@
    "扁平率のべきは候補(観測の配置と並べる表まで)",
    "文献の値は未照合(出典と確かさを書く)",
    "環の補正のノブは近似の側(環)を直すノブ —— 4 天体の側の強さは動かさない"
-  ]
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [12345,20261115],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 123,
+   "kept": 1753,
+   "zeroPathsHead": [
+    "/pure/scenes/orth/plus",
+    "/pure/scenes/orth/minus",
+    "/pure/scenes/orth/add",
+    "/pure/scenes/orth/di",
+    "/pure/scenes/eq23/rel",
+    "/pure/scenes/field/ldot",
+    "/pure/scenes/field/integ",
+    "/pure/scenes/field/steps",
+    "/t1/sets/0/four/maxRes",
+    "/t1/sets/1/four/maxRes",
+    "/t1/sets/2/four/maxRes",
+    "/t1/sets/3/four/maxRes",
+    "/t1/sets/8/four/maxRes",
+    "/t1/sets/9/four/maxRes",
+    "/t1/sets/10/four/maxRes",
+    "/t1/sets/11/four/maxRes",
+    "/t2/sets/0/rows/0/dOmSteady",
+    "/t2/sets/0/rows/0/steadyRatio",
+    "/t2/sets/0/rows/1/dOmSteady",
+    "/t2/sets/0/rows/1/steadyRatio"
+   ],
+   "unstable": 0,
+   "unstableHead": []
+  }
  }
 }

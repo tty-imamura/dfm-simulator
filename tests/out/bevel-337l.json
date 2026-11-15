@@ -1,6 +1,6 @@
 {
- "version": "w337l-bevel-1",
- "libVersion": "w337l-bevel-lib-1",
+ "version": "w337l-bevel-2",
+ "libVersion": "w337l-bevel-lib-2",
  "generator": "tests/exp-w337l-bevel.mjs",
  "target": "tests/lib-w337l-bevel.mjs",
  "ruling": "原仮定者の回答(2026-11-15 —— 第138報の回答 3)「第101報、第103報の『２倍角の則』を、並進引きずりに対する軸引きずりの向きとして進める。回転だけでなく並進も考慮する」・原仮定者の指示(2026-10-18 —— 第101報・第103報)・統括の検証項目 R348",
@@ -166,7 +166,9 @@
    "diffTwist"
   ]
  },
- "amend": [],
+ "amend": [
+  "版 2(第338便b の訂正 —— 統括の検証項目 R350): 金星の釣り合いの式 venusBalance の太陽の項が、本体(bevelOmega・planetRows の振幅 f(α_e − 1)・f)と負号が 1 つ違っていた(符号つき P s☉ f(1 − α(1 − f))・取り分 −P s☉ f)。本体と同じ符号 P s☉ A(f) に直し、根の走査(0.001〜0.999 の格子)を閉じた形の 0 < f < 1 の全部の根に直した。数の変わり方: 符号つきの根は 0.5000000000094593 の 1 つ → 0.4999999999905406(零点合わせ)と 1.89e-11(有限の 2 項の拮抗)の 2 つ・取り分は根なし → 1.89e-11 の 1 つ(版 1 の「取り分の型では根が無い」は誤り・「背景の項を 5.29e10 倍」は f を 0.5 に固定したときの数)。ほかの表(T1・T2・T3 の惑星と衛星・T4)の数は変わらない"
+ ],
  "notClaim": [
   "自転の軸の傾きが 2 倍角の則で出るとは書かない(この則ではこの向き・この配置に当たる、まで)",
   "金星の逆行が軸引きずりで出るとは書かない(金星の大気の熱潮汐は本枝では扱わない)",
@@ -854,88 +856,254 @@
     "dir": "reflectP1",
     "amp": "signed",
     "P": -0.9943419751187984,
-    "f": 0.5000000000094593,
-    "df": 9.459322214411259e-12,
-    "W0": 169821574.02275428,
-    "nRoots": 1,
-    "bgFactorNeeded": null
+    "f": 0.4999999999905406,
+    "df": -9.45937772556249e-12,
+    "W0": 169821574.03560543,
+    "nRoots": 2,
+    "roots": [
+     {
+      "f": 1.891868054531447e-11,
+      "df": -0.4999999999810813,
+      "W0": 8976396298843696000,
+      "sun": -5.3470394656242705e-17,
+      "bg": 5.3470394656242705e-17,
+      "sumOverScale": 0,
+      "sumRel": 0,
+      "kindRatio": 0.9999999999621627,
+      "kind": "finitePair"
+     },
+     {
+      "f": 0.4999999999905406,
+      "df": -9.45937772556249e-12,
+      "W0": 169821574.03560543,
+      "sun": -2.6735197329132937e-17,
+      "bg": 2.6735197329132937e-17,
+      "sumOverScale": 0,
+      "sumRel": 0,
+      "kindRatio": 1.8918680545672388e-11,
+      "kind": "zeroNode"
+     }
+    ],
+    "bgFactorNeeded": null,
+    "bodyCheck": {
+     "body": -6.090748793984395e-9,
+     "formula": -6.090748793984375e-9,
+     "sameSign": true,
+     "rel": 0
+    }
    },
    {
     "dir": "reflectP1",
     "amp": "share",
     "P": -0.9943419751187984,
-    "f": null,
-    "df": null,
-    "W0": null,
-    "nRoots": 0,
-    "bgFactorNeeded": 52857808853.19645
+    "f": 1.891868054459864e-11,
+    "df": -0.4999999999810813,
+    "W0": 8976396299183338000,
+    "nRoots": 1,
+    "roots": [
+     {
+      "f": 1.891868054459864e-11,
+      "df": -0.4999999999810813,
+      "W0": 8976396299183338000,
+      "sun": -5.3470394656242705e-17,
+      "bg": 5.3470394656242705e-17,
+      "sumOverScale": 0,
+      "sumRel": 0,
+      "kindRatio": 1,
+      "kind": "finitePair"
+     }
+    ],
+    "bgFactorNeeded": 52857808853.19645,
+    "bodyCheck": {
+     "body": -0.0000014070467213216612,
+     "formula": -0.0000014070467213216614,
+     "sameSign": true,
+     "rel": 0
+    }
    },
    {
     "dir": "reflectP0",
     "amp": "signed",
     "P": -0.9954681846699407,
-    "f": 0.5000000000094487,
-    "df": 9.448664073374857e-12,
-    "W0": 169821574.0227615,
-    "nRoots": 1,
-    "bgFactorNeeded": null
+    "f": 0.49999999999055134,
+    "df": -9.448664073374857e-12,
+    "W0": 169821574.0355982,
+    "nRoots": 2,
+    "roots": [
+     {
+      "f": 1.889727715035554e-11,
+      "df": -0.4999999999811027,
+      "W0": 8986563126253116000,
+      "sun": -5.3470394656243845e-17,
+      "bg": 5.3470394656243845e-17,
+      "sumOverScale": 0,
+      "sumRel": 0,
+      "kindRatio": 0.9999999999622052,
+      "kind": "finitePair"
+     },
+     {
+      "f": 0.49999999999055134,
+      "df": -9.448664073374857e-12,
+      "W0": 169821574.0355982,
+      "sun": -2.6735197329132367e-17,
+      "bg": 2.6735197329132367e-17,
+      "sumOverScale": 0,
+      "sumRel": 0,
+      "kindRatio": 1.8897277150712646e-11,
+      "kind": "zeroNode"
+     }
+    ],
+    "bgFactorNeeded": null,
+    "bodyCheck": null
    },
    {
     "dir": "reflectP0",
     "amp": "share",
     "P": -0.9954681846699407,
-    "f": null,
-    "df": null,
-    "W0": null,
-    "nRoots": 0,
-    "bgFactorNeeded": 52917676555.32761
+    "f": 1.8897277149641324e-11,
+    "df": -0.4999999999811027,
+    "W0": 8986563126592761000,
+    "nRoots": 1,
+    "roots": [
+     {
+      "f": 1.8897277149641324e-11,
+      "df": -0.4999999999811027,
+      "W0": 8986563126592761000,
+      "sun": -5.3470394656243845e-17,
+      "bg": 5.3470394656243845e-17,
+      "sumOverScale": 0,
+      "sumRel": 0,
+      "kindRatio": 0.9999999999999999,
+      "kind": "finitePair"
+     }
+    ],
+    "bgFactorNeeded": 52917676555.32761,
+    "bodyCheck": null
    },
    {
     "dir": "diff",
     "amp": "signed",
     "P": -0.9977340923349709,
-    "f": 0.5000000000094271,
-    "df": 9.42712574669713e-12,
-    "W0": 169821574.0227761,
-    "nRoots": 1,
-    "bgFactorNeeded": null
+    "f": 0.49999999999057276,
+    "df": -9.427236768999592e-12,
+    "W0": 169821574.03558365,
+    "nRoots": 2,
+    "roots": [
+     {
+      "f": 1.8854360419862957e-11,
+      "df": -0.49999999998114564,
+      "W0": 9007018548721066000,
+      "sun": -5.347039465624614e-17,
+      "bg": 5.347039465624614e-17,
+      "sumOverScale": 0,
+      "sumRel": 0,
+      "kindRatio": 0.999999999962291,
+      "kind": "finitePair"
+     },
+     {
+      "f": 0.49999999999057276,
+      "df": -9.427236768999592e-12,
+      "W0": 169821574.03558365,
+      "sun": -2.6735197329131224e-17,
+      "bg": 2.6735197329131224e-17,
+      "sumOverScale": 0,
+      "sumRel": 0,
+      "kindRatio": 1.8854360420218448e-11,
+      "kind": "zeroNode"
+     }
+    ],
+    "bgFactorNeeded": null,
+    "bodyCheck": null
    },
    {
     "dir": "diff",
     "amp": "share",
     "P": -0.9977340923349709,
-    "f": null,
-    "df": null,
-    "W0": null,
-    "nRoots": 0,
-    "bgFactorNeeded": 53038128992.45102
+    "f": 1.8854360419151982e-11,
+    "df": -0.49999999998114564,
+    "W0": 9007018549060710000,
+    "nRoots": 1,
+    "roots": [
+     {
+      "f": 1.8854360419151982e-11,
+      "df": -0.49999999998114564,
+      "W0": 9007018549060710000,
+      "sun": -5.347039465624614e-17,
+      "bg": 5.347039465624614e-17,
+      "sumOverScale": 0,
+      "sumRel": 0,
+      "kindRatio": 0.9999999999999999,
+      "kind": "finitePair"
+     }
+    ],
+    "bgFactorNeeded": 53038128992.45102,
+    "bodyCheck": null
    },
    {
     "dir": "diffTwist",
     "amp": "signed",
     "P": -0.9945350659230877,
-    "f": 0.5000000000094575,
-    "df": 9.457545857571859e-12,
-    "W0": 169821574.02275547,
-    "nRoots": 1,
-    "bgFactorNeeded": null
+    "f": 0.49999999999054245,
+    "df": -9.457545857571859e-12,
+    "W0": 169821574.0356042,
+    "nRoots": 2,
+    "roots": [
+     {
+      "f": 1.8915007448841737e-11,
+      "df": -0.499999999981085,
+      "W0": 8978139421053557000,
+      "sun": -5.3470394656242896e-17,
+      "bg": 5.3470394656242896e-17,
+      "sumOverScale": 0,
+      "sumRel": 0,
+      "kindRatio": 0.9999999999621698,
+      "kind": "finitePair"
+     },
+     {
+      "f": 0.49999999999054245,
+      "df": -9.457545857571859e-12,
+      "W0": 169821574.0356042,
+      "sun": -2.6735197329132845e-17,
+      "bg": 2.6735197329132845e-17,
+      "sumOverScale": 0,
+      "sumRel": 0,
+      "kindRatio": 1.8915007449199515e-11,
+      "kind": "zeroNode"
+     }
+    ],
+    "bgFactorNeeded": null,
+    "bodyCheck": null
    },
    {
     "dir": "diffTwist",
     "amp": "share",
     "P": -0.9945350659230877,
-    "f": null,
-    "df": null,
-    "W0": null,
-    "nRoots": 0,
-    "bgFactorNeeded": 52868073286.43956
+    "f": 1.891500744812618e-11,
+    "df": -0.499999999981085,
+    "W0": 8978139421393200000,
+    "nRoots": 1,
+    "roots": [
+     {
+      "f": 1.891500744812618e-11,
+      "df": -0.499999999981085,
+      "W0": 8978139421393200000,
+      "sun": -5.3470394656242896e-17,
+      "bg": 5.3470394656242896e-17,
+      "sumOverScale": 0,
+      "sumRel": 0,
+      "kindRatio": 0.9999999999999999,
+      "kind": "finitePair"
+     }
+    ],
+    "bgFactorNeeded": 52868073286.43956,
+    "bodyCheck": null
    }
   ],
   "venusRef": {
    "galN": -0.4971471917158955,
    "sunN": 0.9920011458,
-   "W0": 169821574.03556916,
-   "f": 0.4999999999905941
+   "W0": 169821574.02279058,
+   "f": 0.5000000000094058
   },
   "galaxy": {
    "elDeg": 0.14533532412991879,
@@ -1264,19 +1432,19 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.003
-  },
-  "t1": {
-   "wallSec": 0.004
-  },
-  "t2": {
    "wallSec": 0.006
   },
+  "t1": {
+   "wallSec": 0.007
+  },
+  "t2": {
+   "wallSec": 0.009
+  },
   "t3": {
-   "wallSec": 0.036
+   "wallSec": 0.084
   },
   "t4": {
-   "wallSec": 0.036
+   "wallSec": 0.084
   }
  },
  "gates": {
@@ -1291,180 +1459,180 @@
   "t4Complete": true
  },
  "ok": true,
- "elapsedS": 0.04,
+ "elapsedS": 0.087,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第337便l",
   "target": "tests/lib-w337l-bevel.mjs",
-  "targetSha256": "b9def70afcf0a731a6218feca94e6c1622279d44a86191521113ee7a20456533",
-  "generatedAt": "2026-11-15T03:29:36.857Z",
+  "targetSha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+  "generatedAt": "2026-11-15T13:47:06.278Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w337l-bevel.mjs",
-    "bytes": 13956,
-    "sha256": "3cc8edf35c1bb11126f4c17a96fca2b7af0374c14d6dad62ccec6c0d3721b90d",
-    "mtime": "2026-11-15T03:22:28.775Z"
+    "bytes": 16258,
+    "sha256": "0eea459135755700af53e33a7c9a0913cce64592079707bdcca498b0effeda8f",
+    "mtime": "2026-11-15T11:12:40.741Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-15T03:11:34.403Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-15T03:11:34.419Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-15T03:11:34.419Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-15T03:11:34.419Z"
+    "mtime": "2026-10-20T16:19:56.684Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-15T03:11:34.419Z"
+    "mtime": "2026-10-21T18:25:03.634Z"
    },
    {
     "file": "tests/lib-w326d-axialheat.mjs",
     "bytes": 32001,
     "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
-    "mtime": "2026-11-15T03:11:34.431Z"
+    "mtime": "2026-11-05T02:28:43.830Z"
    },
    {
     "file": "tests/lib-w330a-spinclass.mjs",
     "bytes": 34905,
     "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
-    "mtime": "2026-11-15T03:11:34.435Z"
+    "mtime": "2026-11-08T15:32:48.994Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-15T03:11:34.435Z"
+    "mtime": "2026-11-08T17:01:18.701Z"
    },
    {
     "file": "tests/lib-w331a-coordtwist.mjs",
     "bytes": 33003,
     "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
-    "mtime": "2026-11-15T03:11:34.435Z"
+    "mtime": "2026-11-09T19:09:46.010Z"
    },
    {
     "file": "tests/lib-w331b-centrifugal.mjs",
     "bytes": 36773,
     "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
-    "mtime": "2026-11-15T03:11:34.435Z"
+    "mtime": "2026-11-09T17:55:42.487Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-15T03:11:34.435Z"
+    "mtime": "2026-11-09T20:28:10.251Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-15T03:11:34.435Z"
+    "mtime": "2026-11-10T04:53:08.019Z"
    },
    {
     "file": "tests/lib-w332b-transgeo2.mjs",
     "bytes": 29461,
     "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
-    "mtime": "2026-11-15T03:11:34.435Z"
+    "mtime": "2026-11-10T05:10:39.185Z"
    },
    {
     "file": "tests/lib-w333a-rotdiff.mjs",
     "bytes": 28077,
     "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
-    "mtime": "2026-11-15T03:11:34.435Z"
+    "mtime": "2026-11-10T21:32:25.259Z"
    },
    {
     "file": "tests/lib-w333b-axialfield.mjs",
     "bytes": 34735,
     "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
-    "mtime": "2026-11-15T03:11:34.435Z"
+    "mtime": "2026-11-10T21:35:44.639Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35614,
     "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
-    "mtime": "2026-11-15T03:11:34.435Z"
+    "mtime": "2026-11-10T21:32:27.079Z"
    },
    {
     "file": "tests/lib-w334a-heightlaw.mjs",
     "bytes": 40171,
     "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
-    "mtime": "2026-11-15T03:11:34.439Z"
+    "mtime": "2026-11-11T20:22:29.781Z"
    },
    {
     "file": "tests/lib-w334b-ledger.mjs",
     "bytes": 45562,
     "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
-    "mtime": "2026-11-15T03:11:34.439Z"
+    "mtime": "2026-11-11T20:17:45.497Z"
    },
    {
     "file": "tests/lib-w334c-mercurynode.mjs",
     "bytes": 35987,
     "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
-    "mtime": "2026-11-15T03:11:34.439Z"
+    "mtime": "2026-11-12T15:47:50.364Z"
    },
    {
     "file": "tests/lib-w335b-carryledger.mjs",
     "bytes": 32539,
     "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
-    "mtime": "2026-11-15T03:11:34.439Z"
+    "mtime": "2026-11-12T15:50:48.820Z"
    },
    {
     "file": "tests/lib-w335c-mercurycombo.mjs",
     "bytes": 23928,
     "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
-    "mtime": "2026-11-15T03:11:34.439Z"
+    "mtime": "2026-11-12T15:47:50.364Z"
    },
    {
     "file": "tests/lib-w337a-supply.mjs",
     "bytes": 40434,
     "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
-    "mtime": "2026-11-15T03:11:34.443Z"
+    "mtime": "2026-11-14T22:18:42.562Z"
    },
    {
     "file": "tests/lib-w337b-mercuryband.mjs",
     "bytes": 28361,
     "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
-    "mtime": "2026-11-15T03:11:34.443Z"
+    "mtime": "2026-11-14T22:04:34.230Z"
    },
    {
     "file": "tests/lib-w337i-rotring.mjs",
     "bytes": 38680,
     "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
-    "mtime": "2026-11-15T03:11:34.443Z"
+    "mtime": "2026-11-15T00:02:39.371Z"
    },
    {
     "file": "tests/lib-w337j-spinorbit.mjs",
-    "bytes": 40681,
-    "sha256": "1ab63f69a13c043a31e7255f918ddb26adc0240be1e9c8b221683694f024e815",
-    "mtime": "2026-11-15T03:11:34.443Z"
+    "bytes": 40914,
+    "sha256": "bf4a3bc4fb4243acd5279394f4a71c5552c994582293402cde0275c5dbeea108",
+    "mtime": "2026-11-15T11:46:26.753Z"
    },
    {
     "file": "tests/lib-w337l-bevel.mjs",
-    "bytes": 34048,
-    "sha256": "b9def70afcf0a731a6218feca94e6c1622279d44a86191521113ee7a20456533",
-    "mtime": "2026-11-15T03:24:10.786Z"
+    "bytes": 37324,
+    "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+    "mtime": "2026-11-15T11:12:40.749Z"
    }
   ],
-  "codeSha256": "a9f26fde2593bcd4cc9ebd2591845b88af8d7d0337095c981f1385106ed6432e",
-  "harnessVersion": "w337l-bevel-1",
+  "codeSha256": "27c419237b35de52b187a7988537cf914265f6bbdc808b7db6a84ef204f66fe1",
+  "harnessVersion": "w337l-bevel-2",
   "stage": "bevel",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない)",
   "notClaim": [

@@ -19,14 +19,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
+import { settleRun } from './lib-w338c-recheck.mjs';
 import * as L from './lib-w337j-spinorbit.mjs';
 import { staticRate, selfRate, fShare, weight337 } from './lib-w337a-supply.mjs';
 import { LIT334A } from './lib-w334a-heightlaw.mjs';
 import { fObsOf } from './lib-w333a-rotdiff.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w337j-spinorbit-1';
-export const AMEND = Object.freeze([]);
+export const HARNESS_VERSION = 'w337j-spinorbit-2';
+export const AMEND = Object.freeze([
+  '第338便c(統括の検証項目 R351 —— 原仮定者の指示(2026-11-15 —— 第139報)): 正本へ書く出力を量ごとの数値の尺度で整える(tests/lib-w338c-recheck.mjs の settleRun —— Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大を葉ごとの尺度 σ とし、|値| ≤ 4 σ の葉〔丸めの残り —— 有効数字が 1 桁に満たない〕を 0 と書く・meta.recheck に係数と 0 と書いた葉の数)。式・格子・判定は不変',
+]);
 export const OUT_MAIN = 'tests/out/spinorbit-337j.json';
 export const INPUT = 'tests/out/supply-337a.json';
 export const TARGET = 'tests/lib-w337j-spinorbit.mjs';
@@ -254,23 +257,30 @@ export function runFrom(A) {
 }
 export const readInput = (root = ROOT) => JSON.parse(fs.readFileSync(path.join(root, INPUT), 'utf8'));
 export const runAll = () => runFrom(readInput());
+/** 第338便c: 正本へ書く形 —— 生の runFrom を元のまま 1 回と、Math の関数を ±1〜2 ulp ずらして 2 回走らせ、葉ごとの尺度 σ の 4 倍の内の葉(丸めの残り —— 有効数字が 1 桁に満たない)を 0 と書く(壁時計は元のままの走行の値)。戻り値 { J, recheck } */
+export function runSettled(A = readInput()) {
+  const txt = JSON.stringify(A); let tm = null;
+  const S = settleRun(() => { const R = runFrom(JSON.parse(txt)); if (tm === null) tm = R.timing; delete R.timing; return R; });
+  const { gates, ok, ...rest } = S.value;
+  return { J: Object.assign(rest, { timing: tm, gates, ok }), recheck: S.meta };
+}
 
 const writeJson = (OUT, out) => { fs.mkdirSync(path.dirname(OUT), { recursive: true }); fs.writeFileSync(OUT, JSON.stringify(out, null, 1).replace(/\[\s*(-?[\d.eE+-]+(?:,\s*-?[\d.eE+-]+|,\s*null)*)\s*\]/g, (m, a) => '[' + a.replace(/\s+/g, '') + ']') + '\n'); };
 export const CODE = Object.freeze(['tests/exp-w337j-spinorbit.mjs', 'tests/lib-w337j-spinorbit.mjs', 'tests/lib-w337i-rotring.mjs', 'tests/lib-w337a-supply.mjs', 'tests/lib-w337b-mercuryband.mjs', 'tests/lib-w335c-mercurycombo.mjs',
   'tests/lib-w334c-mercurynode.mjs', 'tests/lib-w334a-heightlaw.mjs', 'tests/lib-w333c-mercury3d.mjs', 'tests/lib-w333b-axialfield.mjs', 'tests/lib-w333a-rotdiff.mjs', 'tests/lib-w332b-transgeo2.mjs', 'tests/lib-w332a-eqband.mjs',
   'tests/lib-w331c-k1scale.mjs', 'tests/lib-w331b-centrifugal.mjs', 'tests/lib-w331a-coordtwist.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w326d-axialheat.mjs', 'tests/lib-w312a-decay.mjs',
-  'tests/lib-w310d-shell.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w272e-provenance.mjs']);
+  'tests/lib-w310d-shell.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w338c-recheck.mjs']);
 export async function main() {
   const t0 = Date.now();
   const OUT = process.env.W337J_OUT ? (path.isAbsolute(process.env.W337J_OUT) ? process.env.W337J_OUT : path.join(ROOT, process.env.W337J_OUT)) : path.join(ROOT, OUT_MAIN);
   console.log('第337便j spinorbit(版 ' + HARNESS_VERSION + ')');
-  const R = runAll();
+  const { J: R, recheck } = runSettled();
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w337j-spinorbit.mjs', target: TARGET,
     ruling: '原仮定者の補足(2026-11-15 —— 第138報の補足 5)「主星にロックしていない観測値が有る固体天体は、地球、火星、冥王星、コンパクト天体など」「『源の自転の半分より速く公転するもの』に注目したのは、公転の速さに回転引きずりが影響していると見える為」「一様厚みについては、以前の …… 提案も参考にする」・統括の検証項目 R346',
     decl: L.DECL, lit: L.LIT, plan: PLAN, amend: AMEND, notClaim: NOT_CLAIM, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第337便j', target: TARGET, code: CODE, inputs: [INPUT] }), {
-    harnessVersion: HARNESS_VERSION, stage: 'spinorbit', engine: 'Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の求積と RK4)', notClaim: NOT_CLAIM });
+    harnessVersion: HARNESS_VERSION, stage: 'spinorbit', engine: 'Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の求積と RK4)', notClaim: NOT_CLAIM, recheck });
   writeJson(OUT, out);
   console.log('→', path.relative(ROOT, OUT), 'ok=' + out.ok, JSON.stringify(out.gates), out.elapsedS + ' s');
 }
