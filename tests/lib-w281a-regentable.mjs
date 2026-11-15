@@ -2131,6 +2131,20 @@ export const REGEN_STEPS = [
       + '回転引きずりの方位の作用の型(座標を運ぶ・押し・相対の速度の全部・剛体の場に対する相対の速度 × χ × 落ち方 q × 受け手の大きさ p)の受け手 17 の半長軸の率と符号・強さ λ の 3 つの読み・時間積分/'
       + '一様厚みの型の候補(統括の参考の試作の表・帯の幅 2 R_d・源の取り分 β で重みを付けた T1・場と重力の鉛直の速さが等しい高さ)' }),
   // ==== 第337便j の塊(ここまで)====
+  // ==== 第337便k の塊(ここから)====
+  // ---- 第337便k(原仮定者の回答(2026-11-15 —— 第138報の回答 2)AN729・AN732・原仮定者の指示(2026-11-08 —— 第132報)・統括の検証項目 R347): **回転引きずり(剛体の場に対する相対の速度の型)の
+  //   強さとノブを観測の公転の変化のある 4 天体で決める表・その組を土星の環へ持ち出した物差しの比と環の側の補正のノブ・ジャイロの直交の読み(交点の率を直交に回した傾きの率)・扁平率のべき**
+  //   (段 gyrodrag-337k —— 正本 tests/out/gyrodrag-337k.json・lib tests/lib-w337k-gyrodrag.mjs —— 第337便j・第337便i・第337便b・第334便a・第333便a・第330便b の lib を import して呼ぶ。
+  //   入力のファイルは無い〔第337便i の正本の値 2 つを lib の宣言に写した —— 出典の名を書くので順序だけ after に段 spinorbit-337j と同じ 13 段 + spinorbit-337j〕)。**診断だけ**。
+  //   **html を読まない**(来歴の対象は純関数 tests/lib-w337k-gyrodrag.mjs —— 領域の宣言なし)。1 プロセス。所要は第337便k の枝の実測 1 s
+  S('gyrodrag-337k', 'node tests/exp-w337k-gyrodrag.mjs', ['tests/out/gyrodrag-337k.json'], 1, { secSource: 'w337k-branch', node: true,
+    after: ['supply-337a', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b', 'rotring-337i', 'spinorbit-337j'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 2 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/gyrodrag-337k.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第337便k: 回転引きずり(剛体の場に対する相対の速度の型)の強さ λ・落ち方のべき q・受け手の大きさのべき p を 4 天体(フォボス・月・タイタン・トリトン)の対数の最小二乗で(χ 2 × 速さ 2 × 基準 2 × 大きさの読み 2)/'
+      + 'その組の土星の D〜F 環の物差しの比と補正のノブ 4 つ(粒子の半径・集まりの係数・半長軸の率の打ち消し・帯の外の落ち方)/'
+      + 'ジャイロの直交の読み(方位の作用の型 5 × 受け手 9 × 符号 2 × 列 2)/扁平率のべき k 0・1・2 の源 7 の表' }),
+  // ==== 第337便k の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
