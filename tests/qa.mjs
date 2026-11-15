@@ -106485,7 +106485,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 
 // ---- 第338便e: docs.spinfield338e は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
-// ----   docs.spinfield338e(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルなし・丸めの床を meta に)・宣言が lib と器と同じ ② 表 10 本が PHYSICS〔第338便e〕に逐語
+// ----   docs.spinfield338e(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルなし・丸めの床を meta に)・宣言が lib と器と同じ ② 表 11 本が PHYSICS〔第338便e〕に逐語
 // ----     ③ 節の位置(〔第337便l〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語(ノブの表の列・判定の条件の原文の文と読み)・AI_SPEC §245(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
 // ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
 {
@@ -106520,7 +106520,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第338便e〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 10) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 11) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第338便e〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の回答(2026-11-15 —— 第138報の回答 4)', 'R353', 'AN723', 'AN714', 'tests/exp-w338e-spinfield.mjs', 'tests/out/spinfield-338e.json', 'tests/lib-w338e-spinfield.mjs', 'spinfield-338e',

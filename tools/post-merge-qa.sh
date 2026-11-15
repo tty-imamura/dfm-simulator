@@ -1010,7 +1010,7 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bevel337l docs.bevel337l"
 # ==== 第337便l の塊(ここまで)====
 # ==== 第338便e の塊(ここから)====
 # 第338便e(原仮定者の回答(2026-11-15 —— 第138報の回答 4)・統括の検証項目 R353 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.spinfield338e —— 純関数の場面・器を走らせ直して
-#   正本と照合〔数でない葉は完全一致・数は相対 1e-9・0 の葉は両方 0〕・k = 0 が第337便d と同じ / docs.spinfield338e —— 正本の門と表 10 本が PHYSICS〔第338便e〕に逐語・文書)と、新しい段 spinfield-338e の lint 一式(第337便i の塊で足した一式)
+#   正本と照合〔数でない葉は完全一致・数は相対 1e-9・0 の葉は両方 0〕・k = 0 が第337便d と同じ / docs.spinfield338e —— 正本の門と表 11 本が PHYSICS〔第338便e〕に逐語・文書)と、新しい段 spinfield-338e の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spinfield338e docs.spinfield338e"
 # ==== 第338便e の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
