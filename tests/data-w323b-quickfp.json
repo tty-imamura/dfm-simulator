@@ -3,7 +3,7 @@
  "what": "簡易一致確認(AN517/AN518)の影の照合の材料 —— 段ごとに簡易の窓(煙試験の窓の表 SMOKE_KNOBS か段の宣言 quickWindow)の出力の物理の値の指紋・窓の秒・器と lib の sha・html の sha・その時点のフルの正本の物理の値の hash(meta・除外 Pointer・来歴と時刻・実行時刻と壁時計の欄名を除く —— tests/lib-w323b-quick.mjs の physSha)。正本ではない(lint は形だけ)。書くのは node tools/harness-smoke.mjs --fingerprint tests/data-w323b-quickfp.json(鎖の後に 1 回)",
  "tool": "node tools/harness-smoke.mjs --fingerprint tests/data-w323b-quickfp.json",
  "wave": 337,
- "rev": "5392c45",
+ "rev": "b6bded9",
  "steps": {
   "an336-306a": {
    "key": "an336-306a",
@@ -17,7 +17,7 @@
     "note": "段 A・M だけ(移送 T・対ごとの行 R・門 G はフル —— エンジンを走らせる段はどれも M の根を読む)"
    },
    "mode": "knob",
-   "sec": 105.4,
+   "sec": 104.8,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -37,9 +37,9 @@
     "tests/out/an336-w306a.json": "9aef51ad731e035a83a5ff80d150d07254d359c85bce39d45cd2341e9570801e"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:36:33.558Z",
+   "at": "2026-11-15T04:44:43.169Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "axialsign-302e": {
    "key": "axialsign-302e",
@@ -53,7 +53,7 @@
     "note": "步数 200/60(既定 2000/600)"
    },
    "mode": "knob",
-   "sec": 4.9,
+   "sec": 5.3,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -73,9 +73,9 @@
     "tests/out/axialsign-w302e.json": "8b3ec5aa452e553666348c3ad00e3a8baef88b0be86cf2cf1b0bdadec343e60d"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:25:37.966Z",
+   "at": "2026-11-15T04:33:25.427Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "baseline-304c": {
    "key": "baseline-304c",
@@ -89,7 +89,7 @@
     "note": "段 emo だけ(solve・measure・record はフル)"
    },
    "mode": "knob",
-   "sec": 24.9,
+   "sec": 24.6,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -109,9 +109,9 @@
     "tests/out/baseline-w304c.json": "01fe6779b4c36154396079a7b5ca88c8bdd204e86dd95737a51bd7367c7613ab"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:35:19.547Z",
+   "at": "2026-11-15T04:43:28.188Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "bgbudget": {
    "key": "bgbudget",
@@ -124,7 +124,7 @@
     "note": "2000 步"
    },
    "mode": "knob",
-   "sec": 4.3,
+   "sec": 4.7,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -144,9 +144,9 @@
     "tests/out/bgbudget-w277d.json": "cc1603bdede2e6fed611c4c307e904c3271064631a328d7e919e4a3770c1e8ec"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:31:31.192Z",
+   "at": "2026-11-15T04:39:25.935Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "bgbudget2": {
    "key": "bgbudget2",
@@ -159,7 +159,7 @@
     "note": "2000 步"
    },
    "mode": "knob",
-   "sec": 8.5,
+   "sec": 9.4,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -179,9 +179,9 @@
     "tests/out/bgbudget2-w279c.json": "15075c4db2d14e809be0fdcf1374c1b50696ab47267747c5b9779f26d9660c61"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:31:47.860Z",
+   "at": "2026-11-15T04:39:43.593Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "bgequiv": {
    "key": "bgequiv",
@@ -194,7 +194,7 @@
     "note": "2000 步"
    },
    "mode": "knob",
-   "sec": 8.2,
+   "sec": 8.3,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -214,9 +214,9 @@
     "tests/out/bgequiv-w278d.json": "43249f92c604de007afbc90903603dbd2ddff386ea6adff3e4485d377306c377"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:31:39.373Z",
+   "at": "2026-11-15T04:39:34.218Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "binbooks-322b": {
    "key": "binbooks-322b",
@@ -230,7 +230,7 @@
     "note": "試走(窓 3 公転・刻み h・h/2 —— 約 13〜19 s。正本は子プロセス 2 本・8 公転・h・h/2・h/4)"
    },
    "mode": "knob",
-   "sec": 7.8,
+   "sec": 11.6,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -250,9 +250,9 @@
     "tests/out/binbooks-w322b.json": "87215cb2ce8f1dd7914f26c18031ac7763e1fda6c07a343da1ede3abffa0c451"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:30:08.957Z",
+   "at": "2026-11-15T04:38:11.958Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "chain-296c": {
    "key": "chain-296c",
@@ -265,7 +265,7 @@
     "note": "200 步"
    },
    "mode": "knob",
-   "sec": 5.1,
+   "sec": 6.2,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -285,9 +285,9 @@
     "tests/out/chain-w296c.json": "abc8ec1a4e1b225598b47acd39d53b3787284a4438289bea5a710ffc651d9744"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:31:26.853Z",
+   "at": "2026-11-15T04:39:21.241Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "chainburst-301d": {
    "key": "chainburst-301d",
@@ -302,7 +302,7 @@
     "note": "仕事 9 本だけ(器の W301D_ONLY —— 門と判断は出さない・h/2 より細かい刻みと長い仕事はフル)"
    },
    "mode": "knob",
-   "sec": 45.5,
+   "sec": 49.8,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -322,9 +322,9 @@
     "tests/out/chainburst-w301d.json": "b9a05fabd376b45abdf446014fa86cea401c0a03a7d1ee983a21902eb32af239"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:26:21.239Z",
+   "at": "2026-11-15T04:34:12.917Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "clone-301f": {
    "key": "clone-301f",
@@ -338,7 +338,7 @@
     "note": "在位の全本・3 步/3 步"
    },
    "mode": "knob",
-   "sec": 49.8,
+   "sec": 56.6,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -350,7 +350,7 @@
    ],
    "fingerprint": "594b047be36e8ce5369f8c2017862f68cf61ab91d157b3951f3063d117d7bd57",
    "why": null,
-   "stdoutNormSha": "ce552260eb1e58d057fdf1ce49116bc785975fb441dbf188f045a20e7cbc2f3f",
+   "stdoutNormSha": "73ef50d86f4518df0ef61d14dc8ebf4dea823cd52ca805894266e2c8bdbdfd67",
    "codeSha": "952e9953d3a79c2d46fe13a0dbf3dc36d69cd732612411519c15013486cc1270",
    "codeFiles": 4,
    "htmlSha": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
@@ -358,9 +358,9 @@
     "tests/out/clone-w301f.json": "c8603d65ecbf2df4d029d22b7b6b7b60a6f32a9ab32ded5b66b5924fc2b61443"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:33:57.471Z",
+   "at": "2026-11-15T04:42:11.625Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "confirm-312d": {
    "key": "confirm-312d",
@@ -373,7 +373,7 @@
     "note": "段 T・C だけ(約 5 s —— 規則の表・受理の目安・t = 0 の β・標的。段 E のエンジンの走行は鎖 —— 子プロセス 2 本で約 900〜1230 s)"
    },
    "mode": "knob",
-   "sec": 2.2,
+   "sec": 2,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -393,9 +393,9 @@
     "tests/out/confirm-w312d.json": "cc4e6bae8638921e18e4c38633abe5d0e9ade104cc5327a998420260df50345b"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:37:54.700Z",
+   "at": "2026-11-15T04:46:07.868Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "corefield": {
    "key": "corefield",
@@ -408,7 +408,7 @@
     "note": "SMOKE"
    },
    "mode": "knob",
-   "sec": 48.1,
+   "sec": 46.5,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -420,7 +420,7 @@
    ],
    "fingerprint": "2bd3c3bd12fb551a90696b63ae32dfb520751fd1dc1c1fa56446beabbaa9746c",
    "why": null,
-   "stdoutNormSha": "4da7cbd9ba972381ce6d5fabb329521b8822a3253edabf5fff36a4b590222d3f",
+   "stdoutNormSha": "19cf515bb4c1c0db9202e5c2c3317e4d3b8237b469a093eefacd543cb63b5c24",
    "codeSha": "43252bbb48082d18e100abc5fcf97d6681f86ee5ad47b3ff4c670e3fcc6de9b5",
    "codeFiles": 4,
    "htmlSha": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
@@ -428,9 +428,9 @@
     "tests/out/corefield-w276d.json": "d367561298e7a4a07d893fe5a596f83987ba0144fea5314b761a1d04687c91fe"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:33:07.679Z",
+   "at": "2026-11-15T04:41:14.987Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "dragcore292": {
    "key": "dragcore292",
@@ -443,7 +443,7 @@
     "note": "窓の器 tests/exp-w323c-dragcorequick.mjs(器の関数をそのまま —— 27 公転のフィット・118 公転・感度・h/2 はフル)"
    },
    "mode": "knob",
-   "sec": 39.1,
+   "sec": 37.4,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -463,9 +463,9 @@
     "tests/out/dragcore-w292c.json": "b56a7958e83cb41cf3664ce1c310b799510ceb9a74538af58915b17618f43f75"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:36:15.980Z",
+   "at": "2026-11-15T04:44:24.811Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "dragest-318d": {
    "key": "dragest-318d",
@@ -479,7 +479,7 @@
     "note": "試走(B の格子を 16×32 だけ・D の走行を 2 公転 —— 約 15 s。正本は 1 プロセスで約 71 s〔並走の秒〕)"
    },
    "mode": "knob",
-   "sec": 12.2,
+   "sec": 13.9,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -499,9 +499,9 @@
     "tests/out/dragest-w318d.json": "1c0071ce4d968c4b786e26934003cd386c3758bb0d0ddd1064b410c22dc7c39e"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:28:59.140Z",
+   "at": "2026-11-15T04:36:55.580Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "dyncenter": {
    "key": "dyncenter",
@@ -514,7 +514,7 @@
     "note": "SMOKE"
    },
    "mode": "knob",
-   "sec": 0.2,
+   "sec": 0.4,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -526,7 +526,7 @@
    ],
    "fingerprint": "a52d727d6e272401c658f1c6f9ba22b1393f607c8996aa4f57789af8d0cde53b",
    "why": null,
-   "stdoutNormSha": "6edcb0e93c1469e8a2bf6394a9206351e55e13307c5ef5bc69e59ba2c5f6e5d7",
+   "stdoutNormSha": "34bde21c81cf7b8cc3eef73b5c374e933bbcd5518af10cce1391283827e02dfe",
    "codeSha": "2e7f6735440bf17a94b99ca260c88e80c74f380c9ccf7ea308ad987f6dbb45f8",
    "codeFiles": 3,
    "htmlSha": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
@@ -534,9 +534,9 @@
     "tests/out/dyncenter-w275d.json": "7bbbf55adb7a98a19dd9c9e4cfcb6fcbd0fb59b919713eced611f29193455f68"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:31:21.792Z",
+   "at": "2026-11-15T04:39:15.049Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "earthmoon-303c": {
    "key": "earthmoon-303c",
@@ -551,7 +551,7 @@
     "note": "長窓 118 公転(既定 1062)・段 audit だけ(radius・sunbg・ident はフル)"
    },
    "mode": "knob",
-   "sec": 69.4,
+   "sec": 72.5,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -571,9 +571,9 @@
     "tests/out/earthmoon-w303c.json": "d94e67db919040d9cb36fcfa2870b4f1fde5759ae4f86f89a4730330edb5ad16"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:26:56.140Z",
+   "at": "2026-11-15T04:34:47.301Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "emresolve-306c": {
    "key": "emresolve-306c",
@@ -588,7 +588,7 @@
     "note": "長窓 118 公転(既定 1062)・段 solve・measure・phase・attrib だけ(ledger・emo・record はフル)"
    },
    "mode": "knob",
-   "sec": 58,
+   "sec": 60.5,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -608,9 +608,9 @@
     "tests/out/emresolve-w306c.json": "fd1b3b867ea597a1984243f3a1202601371cb7d50730133a9c043f47a3142360"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:37:31.557Z",
+   "at": "2026-11-15T04:45:43.630Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "fieldcontract-322c": {
    "key": "fieldcontract-322c",
@@ -625,7 +625,7 @@
     "note": "試走(走行 1 公転・刻み h と h/2・k_F の列 2 場面・グループの受け手 2 体 × R_cut 2 つ・J だけ —— 1 プロセスで約 20 s〔並走の秒〕。正本は子プロセス 2 本)"
    },
    "mode": "knob",
-   "sec": 13.2,
+   "sec": 13.8,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -645,9 +645,9 @@
     "tests/out/fieldcontract-w322c.json": "d189a8dff79d7af2798edeb42200c7fbcea1192010325172466c2377b18db7a7"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:30:22.123Z",
+   "at": "2026-11-15T04:38:25.793Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "fit-297b": {
    "key": "fit-297b",
@@ -660,7 +660,7 @@
     "note": "段 mer だけ(正本を書かない開発用の窓)"
    },
    "mode": "knob",
-   "sec": 45.1,
+   "sec": 46.7,
    "verdict": "ok",
    "killed": false,
    "files": [],
@@ -674,9 +674,9 @@
     "tests/out/fit-w297b.json": "755aa43fd733566f9d88af5645ed975358bb1173694c9aa7025eb0fddcf49a92"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:34:42.572Z",
+   "at": "2026-11-15T04:42:58.354Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "galaxial-311b": {
    "key": "galaxial-311b",
@@ -689,7 +689,7 @@
     "note": "QUICK(水星の 1/4 公転 —— 約 35 s・全段 A・B・D)"
    },
    "mode": "knob",
-   "sec": 25.3,
+   "sec": 26.5,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -709,9 +709,9 @@
     "tests/out/galaxial-w311b.json": "428c0ed140fe3ab6b25bf5cda4f604000b503f8a5ab099725732aa0e527ebd34"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:27:21.426Z",
+   "at": "2026-11-15T04:35:13.816Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "galaxialrd-312b": {
    "key": "galaxialrd-312b",
@@ -724,7 +724,7 @@
     "note": "QUICK(水星の 1/4 公転 —— 約 60 s・全段 A・B・N・X)"
    },
    "mode": "knob",
-   "sec": 29.3,
+   "sec": 31,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -744,9 +744,9 @@
     "tests/out/galaxialrd-w312b.json": "0efe208683891662f122c6b412fb6b51f2d3856d792e40d494a15a5a1a686883"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:27:44.085Z",
+   "at": "2026-11-15T04:35:37.189Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "galaxialrdm-313b": {
    "key": "galaxialrdm-313b",
@@ -759,7 +759,7 @@
     "note": "QUICK(水星の 1/4 公転 —— 約 25 s・全段 A・B・N・X)"
    },
    "mode": "knob",
-   "sec": 17.9,
+   "sec": 18.9,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -779,9 +779,9 @@
     "tests/out/galaxialrdm-w313b.json": "d358a89b59738d580313e34802bb12e67de4b4d02a001de132bf7239798f07d9"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:27:39.315Z",
+   "at": "2026-11-15T04:35:32.708Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "galfield-321c": {
    "key": "galfield-321c",
@@ -796,7 +796,7 @@
     "note": "試走(G0 の窓を 200 步・40 步に・場の表 R 2 × z 3・分割 2 × 2・格子 2 段・復元の点 4 —— 1 プロセスで約 23 s。正本は子プロセス 2 本〔並走の秒〕)"
    },
    "mode": "knob",
-   "sec": 27.4,
+   "sec": 28.4,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -816,9 +816,9 @@
     "tests/out/galfield-w321c.json": "adfdee6380224191b16046d84eed5d9317af4fbdfff28f4088831b6aaeab8851"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:29:38.978Z",
+   "at": "2026-11-15T04:37:37.432Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "geo2flat-322a": {
    "key": "geo2flat-322a",
@@ -833,7 +833,7 @@
     "note": "試走(gate を 600 步・trial を 300 步・退化と照合の步を縮める —— 1 プロセス。正本は gate と trial の 4 行を子プロセス 2 本〔12000 步 × A と B〕)"
    },
    "mode": "knob",
-   "sec": 22.2,
+   "sec": 22.9,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -853,9 +853,9 @@
     "tests/out/geo2flat-w322a.json": "57af2252abc7d9b9b38d0d2d215d72b3f623dafc6cf12112a40752f370a49790"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:30:01.193Z",
+   "at": "2026-11-15T04:38:00.346Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "geo2thick-324a": {
    "key": "geo2thick-324a",
@@ -870,7 +870,7 @@
     "note": "試走(平面の写しの門 600 步・対の本 300 步・h/2 600 步・AN510 の小さい系 12 体 × 60 步・保存と復帰 6 步 —— 1 プロセスで約 40 s。正本は flat と pair の 7 行を子プロセス 2 本〔12000 步・h/2 は 24000 步〕)"
    },
    "mode": "knob",
-   "sec": 36.2,
+   "sec": 37,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -890,9 +890,9 @@
     "tests/out/geo2thick-w324a.json": "bc7d3d8426b32db2f79c2279b4618c7ab4dc094a34a7246f0565629c37f96383"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:30:58.346Z",
+   "at": "2026-11-15T04:39:02.813Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "geo2v3-321a": {
    "key": "geo2v3-321a",
@@ -907,7 +907,7 @@
     "note": "試走(base を 600 步・h/2 なし・退化と共変の步を縮める —— 約 10 s〔並走の秒〕。正本は base の 12000 步と h/2 〔子プロセス 1 本〕)"
    },
    "mode": "knob",
-   "sec": 7.4,
+   "sec": 8,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -927,9 +927,9 @@
     "tests/out/geo2v3-w321a.json": "23f1d32e0d121b2a8bfa88e390893a95db409c83a67bfd8c3367e3524aa6fcf2"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:29:11.567Z",
+   "at": "2026-11-15T04:37:09.067Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "geo3bin-321b": {
    "key": "geo3bin-321b",
@@ -943,7 +943,7 @@
     "note": "試走(窓 3 公転・刻み h・h/2・玩具 2 つ —— 約 13 s。正本は子プロセス 2 本で約 80〜110 s〔並走の秒〕)"
    },
    "mode": "knob",
-   "sec": 11,
+   "sec": 17,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -963,9 +963,9 @@
     "tests/out/geo3bin-w321b.json": "1c8da9d89222cbe4f08cc457c18b6615609b53c4b77e3ffc8b82af9ba8d04a54"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:32:03.797Z",
+   "at": "2026-11-15T04:40:06.038Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "geo4-295b": {
    "key": "geo4-295b",
@@ -978,7 +978,7 @@
     "note": "200 步"
    },
    "mode": "knob",
-   "sec": 18.7,
+   "sec": 18.9,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -998,9 +998,9 @@
     "tests/out/geo4-w295b.json": "d160eee0702e3e4224514ac88a86d8ab2358d146d32004cba0ae7c480f7468b7"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:33:16.295Z",
+   "at": "2026-11-15T04:41:16.535Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "gfamily-305b": {
    "key": "gfamily-305b",
@@ -1014,7 +1014,7 @@
     "note": "段 Z・D だけ(水星の k の根 M・移送 T・周期 P・太陽 S はフル)"
    },
    "mode": "knob",
-   "sec": 106.3,
+   "sec": 106,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1034,9 +1034,9 @@
     "tests/out/gfamily-w305b.json": "8d5e9d01948994cd849e9e4177d40f3653c013988fe681b4cddfb9dd95adfade"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:39:17.900Z",
+   "at": "2026-11-15T04:47:29.659Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "gloc-302b": {
    "key": "gloc-302b",
@@ -1049,7 +1049,7 @@
     "note": "QUICK"
    },
    "mode": "knob",
-   "sec": 8.8,
+   "sec": 9.3,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1069,9 +1069,9 @@
     "tests/out/gloc-w302b.json": "30651500df05e5fb50e2b7c1a46d6c02b0d7932a42c2bd72cfedf7c3ded80d69"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:25:46.745Z",
+   "at": "2026-11-15T04:33:34.742Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "inertialr2-303b": {
    "key": "inertialr2-303b",
@@ -1086,7 +1086,7 @@
     "note": "QUICK(h・h/2)・段 Z・M・K だけ(移送 T・G_loc の表 N・地球–月 E はフル)"
    },
    "mode": "knob",
-   "sec": 57.8,
+   "sec": 56.9,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1106,9 +1106,9 @@
     "tests/out/inertialr2-w303b.json": "44100de4da276e9ba7fb72f6795678e8e32538845e26d3064ff338424c121c8f"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:38:52.479Z",
+   "at": "2026-11-15T04:47:04.790Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "inposk1-315c": {
    "key": "inposk1-315c",
@@ -1121,7 +1121,7 @@
     "note": "段 P・B・T だけ(在位の 7 本の K1 + rdRule の宣言の印字・凍結の写し + 変換と移行した本のビット同一〔20000 步 × 7 本〕・標的の列 —— 段 E の走行は鎖)"
    },
    "mode": "knob",
-   "sec": 56.1,
+   "sec": 58.5,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1141,9 +1141,9 @@
     "tests/out/inposk1-w315c.json": "98abb204f2e10455d61c24fda7c2ad767ff063469a5929637477bcc075d7012a"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:37:52.508Z",
+   "at": "2026-11-15T04:46:05.845Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "jexplore-320b": {
    "key": "jexplore-320b",
@@ -1157,7 +1157,7 @@
     "note": "試走(求積の格子を 2 段・分割の n を 3 つ —— 約 1.5 s。正本は 1 プロセスで約 2.5 s)"
    },
    "mode": "knob",
-   "sec": 2.6,
+   "sec": 3,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1177,9 +1177,9 @@
     "tests/out/jexplore-w320b.json": "321a49bcb1d3c82f18fda6727f44446d980ae5d868ed91d150981ff8ef5e24d5"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:25:35.751Z",
+   "at": "2026-11-15T04:33:23.102Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "k1confirm-313d": {
    "key": "k1confirm-313d",
@@ -1212,9 +1212,9 @@
     "tests/out/k1confirm-w313d.json": "383d1b2e2d0953a4f46a912ddb20acd590e3c11afd4d67a953c7fdc296ee0603"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:40:06.939Z",
+   "at": "2026-11-15T04:48:17.355Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "k1em-314c": {
    "key": "k1em-314c",
@@ -1227,7 +1227,7 @@
     "note": "段 T だけ(約 3 s —— 🌦️ の標的の列。段 E のエンジンの走行〔h/4 と月の 354 公転〕は鎖 —— 子プロセス 2 本)"
    },
    "mode": "knob",
-   "sec": 1.8,
+   "sec": 2,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1247,9 +1247,9 @@
     "tests/out/k1em-w314c.json": "f9055fea8826bf59fbc73caff80eac912ef0fc05df7be28ea104c0e602eb7d62"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:40:04.885Z",
+   "at": "2026-11-15T04:48:15.371Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "k1outer-314c": {
    "key": "k1outer-314c",
@@ -1262,7 +1262,7 @@
     "note": "段 P・T だけ(約 5 s —— 外惑星 3 本の全天体 κ₀ × エンジンの質量の写しと規則の鍵の写しの照合・t = 0 の β・標的の列。段 E のエンジンの走行は鎖 —— 子プロセス 2 本)"
    },
    "mode": "knob",
-   "sec": 2,
+   "sec": 2.3,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1282,9 +1282,9 @@
     "tests/out/k1outer-w314c.json": "067b8bdaddd357dcd9841acd32acc5cbf628322b3564c3dd3b782b549857d5e4"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:40:00.337Z",
+   "at": "2026-11-15T04:48:10.913Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "mdsweep-310d": {
    "key": "mdsweep-310d",
@@ -1297,7 +1297,7 @@
     "note": "段 K・P・E・S・Z だけ(段 R のエンジンの近点は鎖 —— 約 1200 s)"
    },
    "mode": "knob",
-   "sec": 3.1,
+   "sec": 3.4,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1317,9 +1317,9 @@
     "tests/out/mdsweep-w310d.json": "22a103ca4fed848062a83b5d42456660bcb4dc0aa7cd50506a3c66d5e77fc278"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:36:56.439Z",
+   "at": "2026-11-15T04:45:07.303Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "nbcompose-320c": {
    "key": "nbcompose-320c",
@@ -1333,7 +1333,7 @@
     "note": "試走(格子 48 と 96・軟化の幅 2 つ・R_cut 3 つ・λ_c 3 つ —— 約 3 s。正本は 1 プロセスで約 43 s〔並走の秒〕)"
    },
    "mode": "knob",
-   "sec": 4.9,
+   "sec": 5.4,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1353,9 +1353,9 @@
     "tests/out/nbcompose-w320c.json": "299969d088e9a253306ecd1a4c2b2c278236cde17eff25ad834852a722abc735"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:31:52.788Z",
+   "at": "2026-11-15T04:39:49.001Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "nslock": {
    "key": "nslock",
@@ -1370,7 +1370,7 @@
     "note": "⚡ の 2 変種だけ(器の --only・--variants・--out —— 器の本文は変えない〔AN516 の影の照合の門 G1〕)"
    },
    "mode": "knob",
-   "sec": 12,
+   "sec": 11.7,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1390,9 +1390,9 @@
     "tests/out/nslock-w272c.json": "23a455bce40cc507c6f769064de134f7f97d95f947ff0b16554ae175f22e89af"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:34:54.608Z",
+   "at": "2026-11-15T04:43:03.594Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "obsspin-324b": {
    "key": "obsspin-324b",
@@ -1407,7 +1407,7 @@
     "note": "試走(窓 3 公転・刻み h・h/2・列を減らす —— 1 プロセス・約 8〜15 s。正本は子プロセス 2 本・8 公転・h・h/2・h/4)"
    },
    "mode": "knob",
-   "sec": 11.4,
+   "sec": 11.8,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1427,9 +1427,9 @@
     "tests/out/obsspin-w324b.json": "b7f91a7178c495d972cd226bb7202d44770e1d7225ac8fa34256cbf3edfbbbb9"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:31:09.776Z",
+   "at": "2026-11-15T04:39:14.692Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "pairnorm-305a": {
    "key": "pairnorm-305a",
@@ -1442,7 +1442,7 @@
     "note": "段 Z・K だけ(約 5 s —— 三体の長窓 M は鎖)"
    },
    "mode": "knob",
-   "sec": 2.7,
+   "sec": 2.5,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1462,9 +1462,9 @@
     "tests/out/pairnorm-w305a.json": "c8a811a4e954bb1a857373ba85fdf9107711f92a0cec5a147db0aec304fc5fac"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:40:03.037Z",
+   "at": "2026-11-15T04:48:13.411Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "periodn-306b": {
    "key": "periodn-306b",
@@ -1479,7 +1479,7 @@
     "note": "段 Z・P だけ・水星の 1 本(器の W306B_PLANETS —— 6 本の移送・再フィット R・共通の GM G・月 E・時系 T はフル)"
    },
    "mode": "knob",
-   "sec": 65.9,
+   "sec": 63.8,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1499,9 +1499,9 @@
     "tests/out/periodn-w306b.json": "cacf4c3c3312e73387bf2da3faed8b68709228698adb551d9096c46f0f92f502"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:39:58.367Z",
+   "at": "2026-11-15T04:48:08.604Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "planet3-311d": {
    "key": "planet3-311d",
@@ -1514,7 +1514,7 @@
     "note": "段 S だけ(約 1 s —— 段 T・E のエンジンの走行は鎖 —— 子プロセス 2 本で約 2000 s)"
    },
    "mode": "knob",
-   "sec": 2.6,
+   "sec": 2.8,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1534,9 +1534,9 @@
     "tests/out/planet3-w311d.json": "a1d427f059d8dcc6800c9e9999511e40ecef598605ac1fa67c873a435321f692"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:39:20.535Z",
+   "at": "2026-11-15T04:47:32.445Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "rdscale-314b": {
    "key": "rdscale-314b",
@@ -1550,7 +1550,7 @@
     "note": "QUICK(段 P は水星の 1 公転 × a = 1・C₁/5 —— 約 30 s・段 K・S・R は全部)"
    },
    "mode": "knob",
-   "sec": 26.9,
+   "sec": 27.6,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1570,9 +1570,9 @@
     "tests/out/rdscale-w314b.json": "d416f8abdbcf08bb9feb90f326136a77c376a41227962bdcd0aec5a80c7dcbfd"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:28:06.265Z",
+   "at": "2026-11-15T04:36:00.331Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "refit-297a": {
    "key": "refit-297a",
@@ -1585,7 +1585,7 @@
     "note": "段 geotoy だけ"
    },
    "mode": "knob",
-   "sec": 141.2,
+   "sec": 128,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1597,7 +1597,7 @@
    ],
    "fingerprint": "434cb800ce461a84105036e5ab8c42a7c4b1483461d0b2390ddb26b51e3273f3",
    "why": null,
-   "stdoutNormSha": "f7b320a2b0336ea8a08f078404371867d826545fed66091575afc1aefd4b35cd",
+   "stdoutNormSha": "df176738f61f7e8748254423492c8dfa3270d6a4121d78cabebf396431946f5d",
    "codeSha": "aecd2faa271681aedde589a5fa509aa859cc860f12a1dcf8a64a70011b173aa6",
    "codeFiles": 5,
    "htmlSha": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
@@ -1605,9 +1605,9 @@
     "tests/out/refit-w297a.json": "b086a9c9f030058c2909cd2cef1dcad9a4fe913966d56fe4ec4b533d457192a3"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:41:41.730Z",
+   "at": "2026-11-15T04:49:40.418Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "rotframe-306d": {
    "key": "rotframe-306d",
@@ -1621,7 +1621,7 @@
     "note": "QUICK・步 40(既定 400 —— h/4 と 🍥 を縮める)"
    },
    "mode": "knob",
-   "sec": 69.8,
+   "sec": 74.1,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1641,9 +1641,9 @@
     "tests/out/rotframe-w306d.json": "3adf8ff70332aa6f82d7efc9cef0b4a212924d865b57267f72e25610b3e6dfdb"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:32:19.615Z",
+   "at": "2026-11-15T04:40:28.490Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "satcut-317c": {
    "key": "satcut-317c",
@@ -1659,7 +1659,7 @@
     "note": "試走(8 公転・S 360・h と h/2・イオとトリトンの V0・V2・V6b f=0・V1a —— 約 60 s。正本の 64 公転 × h/4 の走行は鎖 —— 子プロセス 2 本)"
    },
    "mode": "knob",
-   "sec": 60.7,
+   "sec": 62.2,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1679,9 +1679,9 @@
     "tests/out/satcut-w317c.json": "de4a3c6085f54b7b234bf12e462f447090dc404da82907a5c48ce0721e5b25f5"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:28:46.883Z",
+   "at": "2026-11-15T04:36:41.671Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "sath-316d": {
    "key": "sath-316d",
@@ -1697,7 +1697,7 @@
     "note": "試走(8 公転・h と h/2・イオとトリトンの二体と三体 —— 約 20 s。正本の 64 公転 × h/4 の走行は鎖 —— 子プロセス 2 本で約 1210 s)"
    },
    "mode": "knob",
-   "sec": 17.2,
+   "sec": 19.1,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1717,9 +1717,9 @@
     "tests/out/sath-w316d.json": "fc914c1b342a67e549b255590bc4e01caab7d73dc56f67f261750bb311030310"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:35:36.908Z",
+   "at": "2026-11-15T04:43:47.414Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "satk1-315d": {
    "key": "satk1-315d",
@@ -1733,7 +1733,7 @@
     "note": "段 P・T だけ(約 10 s —— 6 衛星の二体と三体の q11 の写しの全天体 r_d = Y_k × エンジンの質量の照合・t = 0 の β・近似要素の種。段 E のエンジンの走行は鎖 —— 子プロセス 2 本で約 830 s)"
    },
    "mode": "knob",
-   "sec": 2,
+   "sec": 2.1,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1753,9 +1753,9 @@
     "tests/out/satk1-w315d.json": "d69b26935ce8a2ca0f634edc295e10d9e3e8ecd421ce9edb69b90ce26373d918"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:27:46.093Z",
+   "at": "2026-11-15T04:35:39.339Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "satnext-318b": {
    "key": "satnext-318b",
@@ -1770,7 +1770,7 @@
     "note": "試走(S 360・h と h/2・窓は P_母 の 1/32 —— カリストの V1a・V0 とトリトンの V3V1a・V1a・1 ulp の列 —— 約 50 s。正本の 1.5 P_母 × h/4 の走行は鎖 —— 子プロセス 2 本)"
    },
    "mode": "knob",
-   "sec": 33.4,
+   "sec": 30.7,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1790,9 +1790,9 @@
     "tests/out/satnext-w318b.json": "923ae35e0065189265cee3f6118c866c7641dff87a3b54d6480a6cf10a6ee59a"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:40:49.062Z",
+   "at": "2026-11-15T04:48:56.439Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "semic-302d": {
    "key": "semic-302d",
@@ -1805,7 +1805,7 @@
     "note": "段 gates だけ(約 55 s —— fit・chain は鎖)"
    },
    "mode": "knob",
-   "sec": 37.3,
+   "sec": 39,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1817,7 +1817,7 @@
    ],
    "fingerprint": "c9326c11c989fccaaaf86172e62adf19b671d4c86012241d44aa5df0ac3936c8",
    "why": null,
-   "stdoutNormSha": "281755be68b88bdccb2be025c6761a73cf6efb378ea63579e1ab92466435b3b8",
+   "stdoutNormSha": "e47db117748d9b111e6626109fbd495a62131fa97f97b59150780bc80e7b6137",
    "codeSha": "809b857e77a42f18e034e9eb4023925bca3bd3ede34f4018f2d0f85408ce7ce3",
    "codeFiles": 17,
    "htmlSha": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
@@ -1825,9 +1825,9 @@
     "tests/out/semic-w302d.json": "3d45845bd04f7fc25f4c24e89f4151000e11e37cd18c7e4d922249268f33100d"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:36:53.292Z",
+   "at": "2026-11-15T04:45:03.859Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "shapecrit": {
    "key": "shapecrit",
@@ -1840,7 +1840,7 @@
     "note": "SMOKE"
    },
    "mode": "knob",
-   "sec": 31.7,
+   "sec": 31.1,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1852,7 +1852,7 @@
    ],
    "fingerprint": "5a46bb4449a2713a00b129fd2cae38e7d2fae54bcad727103f3c655ca73ce105",
    "why": null,
-   "stdoutNormSha": "724cab9c6bfd7cad1aa746b2f9b4f1569e9198d9f4499cbd16ca196068780be2",
+   "stdoutNormSha": "c37a6c7f091faa151687a96626480391b4d6f9fbbef44dc753e53a1e1bc50aab",
    "codeSha": "3b98741baeb82acc50d53ffbafb5d35bf9ec2cd1c0f220fa8c6eb3890820dabe",
    "codeFiles": 3,
    "htmlSha": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
@@ -1860,9 +1860,9 @@
     "tests/out/shapecrit-w275d.json": "234916e3cc0b8a049be5acfeebe8b11a1a95e6c84a8cf85c2cd6f89170508129"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:32:35.563Z",
+   "at": "2026-11-15T04:40:37.190Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "shapetoy": {
    "key": "shapetoy",
@@ -1875,7 +1875,7 @@
     "note": "SMOKE"
    },
    "mode": "knob",
-   "sec": 22,
+   "sec": 20.4,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1887,7 +1887,7 @@
    ],
    "fingerprint": "c62e023b236adbe0bf30da3b2c87247a3858b819b62e581bc1daf0f5bfafbcbc",
    "why": null,
-   "stdoutNormSha": "789628893d4219b8c8396072442e0b539a5128def62f7f8775cad4ce69ddc49c",
+   "stdoutNormSha": "484e887bb42f5657714f0abe94bc5a74a0ea0b00f68c399d19b53cb24f8c479e",
    "codeSha": "0557a54fb14475c7ff0074749e7333e0611d29d3aacab472a833bbf4a8e88d21",
    "codeFiles": 3,
    "htmlSha": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
@@ -1895,9 +1895,9 @@
     "tests/out/shapetoy-w274d.json": "ae963cd338a98109a2e4377ffe2659a05dfa2e278f858cb2ad1e3ad430f04b01"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:32:57.585Z",
+   "at": "2026-11-15T04:40:57.646Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "shell-304b": {
    "key": "shell-304b",
@@ -1911,7 +1911,7 @@
     "note": "段 Z・A だけ(水星の根 M・移送 T・地球–月 E・多体 K〔M の根を読む —— M なしでは門 manyBodyReadout が偽〕・P はフル)"
    },
    "mode": "knob",
-   "sec": 8.6,
+   "sec": 8.4,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1931,9 +1931,9 @@
     "tests/out/shell-w304b.json": "b460da67fafcf540538722bfc8c4fd421ef9bb8789ae54747137ce3efc2e99df"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:40:15.607Z",
+   "at": "2026-11-15T04:48:25.742Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "solar16-318c": {
    "key": "solar16-318c",
@@ -1948,7 +1948,7 @@
     "note": "試走(地球 1 年の窓を 1/32 に・イオ 1 公転の刻みの列はそのまま —— 子プロセス 1 本で約 4 分)"
    },
    "mode": "knob",
-   "sec": 195.3,
+   "sec": 194,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -1968,9 +1968,9 @@
     "tests/out/solar16-w318c.json": "daef75720a4afcd64dcae54258078250531693545c8eb42849e72474d250f65f"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:31:21.563Z",
+   "at": "2026-11-15T04:39:14.363Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "spinavg-305d": {
    "key": "spinavg-305d",
@@ -1984,7 +1984,7 @@
     "note": "QUICK・步 40(既定 600 —— 走査を縮める)"
    },
    "mode": "knob",
-   "sec": 53.5,
+   "sec": 53.2,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -2004,9 +2004,9 @@
     "tests/out/spinavg-w305d.json": "e78fd9e3ace18b9d0cfe9b6974d1402853420925240b62b14af4afe387182896"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:27:14.731Z",
+   "at": "2026-11-15T04:35:06.149Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "srcheat-320a": {
    "key": "srcheat-320a",
@@ -2020,7 +2020,7 @@
     "note": "試走(步を 2 に・🗺️ と obs/capObs と −ĝ を外す —— 約 2 s。正本は 1 プロセスで約 6 s〔並走の秒〕)"
    },
    "mode": "knob",
-   "sec": 2.3,
+   "sec": 2.4,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -2040,9 +2040,9 @@
     "tests/out/srcheat-w320a.json": "8c2ec89a9b952c2cf10226cf8ab2d025552951acbcb97caf859582d6b106b7a6"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:29:04.187Z",
+   "at": "2026-11-15T04:37:01.052Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "srcradius-319b": {
    "key": "srcradius-319b",
@@ -2056,7 +2056,7 @@
     "note": "試走(分布した銀河の格子を 1 段・加法性の N を 2 つ —— 約 2 s。正本は 1 プロセスで約 5 s〔並走の秒〕)"
    },
    "mode": "knob",
-   "sec": 2.7,
+   "sec": 3.1,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -2076,9 +2076,9 @@
     "tests/out/srcradius-w319b.json": "7038fe7f15344298f1caf164465740fb408e60d67d7a6c54fdb4413988d955d8"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:29:01.894Z",
+   "at": "2026-11-15T04:36:58.665Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   },
   "timestd-297c": {
    "key": "timestd-297c",
@@ -2092,7 +2092,7 @@
     "note": "在位の全本・2 公転/60 步"
    },
    "mode": "knob",
-   "sec": 91.9,
+   "sec": 95.3,
    "verdict": "ok",
    "killed": false,
    "files": [
@@ -2112,15 +2112,15 @@
     "tests/out/timestd-w297c.json": "e467e1ec3de3242f41c6373885377ed0b1c4a3b189d055119597526738dcc0a3"
    },
    "node": "v22.22.0",
-   "at": "2026-11-15T03:34:48.183Z",
+   "at": "2026-11-15T04:42:51.828Z",
    "wave": 337,
-   "rev": "5392c45"
+   "rev": "b6bded9"
   }
  },
  "html": "beta/index.html",
  "htmlSha": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
  "node": "v22.22.0",
- "at": "2026-11-15T03:41:41.732Z",
+ "at": "2026-11-15T04:49:40.420Z",
  "env": {
   "node": "v22.22.0",
   "platform": "linux/x64",
@@ -2128,6 +2128,6 @@
   "heapMb": 6192,
   "nodeOptionsHeap": 6144,
   "tool": "tools/regen-chain.mjs --env",
-  "when": "2026-11-15T03:25:32.727Z"
+  "when": "2026-11-15T04:33:19.735Z"
  }
 }
