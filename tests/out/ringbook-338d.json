@@ -1,0 +1,4213 @@
+{
+ "version": "w338d-ringbook-1",
+ "libVersion": "w338d-ringbook-lib-1",
+ "generator": "tests/exp-w338d-ringbook.mjs",
+ "target": "tests/lib-w338d-ringbook.mjs",
+ "ruling": "原仮定者の指示(2026-11-15 —— 第139報)・原仮定者の回答(2026-11-15 —— 第138報の回答 4)AN742「土星の輪が先。木星と天王星は、土星程にはクッキリしていないので、参考」・同 回答 3 AN736・AN737・統括の検証項目 R352",
+ "decl": {
+  "k4": {
+   "speed": "obs",
+   "base": "Req",
+   "size": "R",
+   "chi": {
+    "half": 0.5,
+    "one": 1
+   }
+  },
+  "t1": {
+   "rMinKm": 66900,
+   "rMaxKm": 140180,
+   "nGrid": 74,
+   "uniformPow": 0.1,
+   "ref10m": 10,
+   "sameOrder": [0.3333333333333333,3],
+   "dp": 2,
+   "kd": [1,2.5],
+   "QT": 2,
+   "kg": 1,
+   "kc": 3,
+   "gammas": [
+    "yard",
+    "k4half",
+    "focus337i"
+   ],
+   "tYardYr": 10000000,
+   "focus337i": {
+    "prof": "slice",
+    "action": "focus",
+    "reading": "Req",
+    "speed": "obs",
+    "lambda": 6.5606e-7,
+    "zMax": 10
+   },
+   "ringCenters": [
+    "ringD",
+    "ringC",
+    "ringB",
+    "ringA",
+    "ringF"
+   ],
+   "refRings": [
+    "jupiterMain",
+    "uranusEps"
+   ]
+  },
+  "t2": {
+   "nMain": 96,
+   "nF": 2,
+   "nuGrid": [0.001,0.01,0.1,1],
+   "nuMain": 0.01,
+   "tEndYr": 10000000,
+   "checkYr": [1000,10000,100000,1000000,10000000],
+   "dlnStep": 0.001,
+   "viscCfl": 0.25,
+   "outerExit": 2,
+   "closeTol": 1e-9,
+   "drift": 0.00001,
+   "cases": [
+    {
+     "key": "nuOnly",
+     "set": "half",
+     "strength": "zero",
+     "nu": 0.01
+    },
+    {
+     "key": "dragOnlyHalf",
+     "set": "half",
+     "strength": "k4",
+     "nu": 0
+    },
+    {
+     "key": "dragOnlyOne",
+     "set": "one",
+     "strength": "k4",
+     "nu": 0
+    },
+    {
+     "key": "k4Half|nu0.001",
+     "set": "half",
+     "strength": "k4",
+     "nu": 0.001
+    },
+    {
+     "key": "k4Half|nu0.01",
+     "set": "half",
+     "strength": "k4",
+     "nu": 0.01
+    },
+    {
+     "key": "k4Half|nu0.1",
+     "set": "half",
+     "strength": "k4",
+     "nu": 0.1
+    },
+    {
+     "key": "k4Half|nu1",
+     "set": "half",
+     "strength": "k4",
+     "nu": 1
+    },
+    {
+     "key": "k4One|nu0.001",
+     "set": "one",
+     "strength": "k4",
+     "nu": 0.001
+    },
+    {
+     "key": "k4One|nu0.01",
+     "set": "one",
+     "strength": "k4",
+     "nu": 0.01
+    },
+    {
+     "key": "k4One|nu0.1",
+     "set": "one",
+     "strength": "k4",
+     "nu": 0.1
+    },
+    {
+     "key": "k4One|nu1",
+     "set": "one",
+     "strength": "k4",
+     "nu": 1
+    },
+    {
+     "key": "epsHalf",
+     "set": "half",
+     "strength": "eps",
+     "nu": 0.01
+    },
+    {
+     "key": "epsOne",
+     "set": "one",
+     "strength": "eps",
+     "nu": 0.01
+    },
+    {
+     "key": "epsHalfNu0",
+     "set": "half",
+     "strength": "eps",
+     "nu": 0
+    }
+   ]
+  },
+  "t3": {
+   "k2qGrid": [0.00001,0.0001,0.001,0.01,0.1],
+   "fGrid": [1,0.5,0.1]
+  },
+  "t4": {
+   "bodies": [
+    "deimos",
+    "amalthea",
+    "thebe",
+    "pan",
+    "daphnis",
+    "atlas",
+    "prometheus",
+    "pandora",
+    "janus",
+    "ringAedge",
+    "puck",
+    "mab",
+    "proteus"
+   ],
+   "baseYr": 20,
+   "driftKm": 1
+  },
+  "t5": {
+   "recv": [
+    "ringD",
+    "ringC",
+    "ringB",
+    "ringA",
+    "ringF",
+    "phobos",
+    "moon",
+    "titan",
+    "triton"
+   ],
+   "c": 1,
+   "tThinYr": 10000000,
+   "kPow": [0,1,2],
+   "hosts": [
+    "saturn",
+    "jupiter",
+    "uranus",
+    "neptune"
+   ],
+   "rOverR": 2,
+   "iRad": 0.00001
+  },
+  "snap": {
+   "round": 1e-12,
+   "ecc2": 1e-7
+  }
+ },
+ "lit": {
+  "note": "文献の値・未照合(この環境から一次資料のサイトに届かない —— 出典の名と値は記憶の値とリポジトリの中の値〔第337便j・k の LIT〕の写し)",
+  "regions": [
+   {
+    "key": "ringD",
+    "r0": 66900,
+    "r1": 74510,
+    "sigma": 0.01,
+    "tau": 0.001
+   },
+   {
+    "key": "ringC",
+    "r0": 74510,
+    "r1": 92000,
+    "sigma": 10,
+    "tau": 0.1
+   },
+   {
+    "key": "ringB",
+    "r0": 92000,
+    "r1": 117580,
+    "sigma": 1000,
+    "tau": 2
+   },
+   {
+    "key": "ringCD",
+    "r0": 117580,
+    "r1": 122170,
+    "sigma": 10,
+    "tau": 0.1
+   },
+   {
+    "key": "ringA",
+    "r0": 122170,
+    "r1": 136775,
+    "sigma": 400,
+    "tau": 0.5
+   },
+   {
+    "key": "ringF",
+    "r0": 140130,
+    "r1": 140230,
+    "sigma": 50,
+    "tau": 0.5
+   }
+  ],
+  "regionsSrc": "環の縁の半径は Esposito 2002 Rep. Prog. Phys. 65, 1741 の表の桁(D 環の内縁 66 900 km・F 環の芯 140 180 km は第337便i・j の LIT と同じ)・Σ は Esposito 2002・Cuzzi et al. 2010 Science 327, 1470 の環ごとの桁(B 環 500〜2000・A 環 300〜600・C 環とカッシーニの間隙 5〜20 の中央の桁・D 環は塵の環で宣言の小さい値・F 環の芯は宣言)—— 記憶の値・文献の値・未照合・確かさ 低(桁)",
+  "ringMass": 15400000000000000000,
+  "ringMassSrc": "Iess et al. 2019 Science 364, eaat2965(環の全質量 1.54e19 kg の桁)—— 記憶の値・文献の値・未照合・確かさ 中",
+  "nuRing": 0.01,
+  "nuRingSrc": "A 環の粘性 ν ≈ 1e-2 m²/s の桁(密度波の減衰から —— Tiscareno et al. 2007 Icarus 189, 14 の桁)—— 記憶の値・文献の値・未照合・確かさ 低",
+  "refRings": {
+   "jupiterMain": {
+    "host": "jupiter",
+    "rKm": 125750,
+    "sigma": 0.00001,
+    "tau": 0.000001,
+    "H": 30000,
+    "kind": "上限",
+    "note": "塵の環(衝突が少ない —— 床の型は当てない)"
+   },
+   "uranusEps": {
+    "host": "uranus",
+    "rKm": 51149,
+    "sigma": 25,
+    "tau": 1,
+    "H": 150,
+    "kind": "上限",
+    "note": "狭い環(粒子 cm〜m)"
+   }
+  },
+  "refRingsSrc": "木星の主環の半径 122 500〜129 000 km の中央・τ 1e-6 の桁・厚みの上限 < 30 km は第337便j の LIT(Ockert-Bell et al. 1999 Icarus 138, 188)・天王星の ε 環の半径 51 149 km・τ 0.5〜2.3・厚みの上限 約 150 m は第337便j の LIT(Lane et al. 1986)・Σ はどちらも記憶の値の桁 —— 文献の値・未照合・確かさ 低",
+  "k2q": {
+   "mars": 0.0017,
+   "earth": 0.025,
+   "saturn": 0.000159,
+   "neptune": 0.0000012,
+   "neptuneHi": 0.000034,
+   "jupiter": 0.000011,
+   "uranus": 0.00001
+  },
+  "k2qSrc": "火星 k₂ 0.169(Konopliv et al. 2016)÷ Q 99.5(Jacobson & Lainey 2014 —— フォボスの公転から推した値)・地球 k₂ 0.30 ÷ 実効の Q 約 12(月のレーザー測距から推した値)・土星 1.59e-4(Lainey et al. 2017 —— 内側の衛星の位置から)・海王星 Q 1.2e4〜3.3e5 × k₂ 0.41(Banfield & Murray 1992 の範囲)・木星 1.1e-5(Lainey et al. 2009 —— イオから)・天王星 Q > 1e4 の桁 —— 記憶の値・文献の値・未照合・確かさ 低",
+  "fifth": {
+   "deimos": {
+    "name": "ダイモス",
+    "host": "mars",
+    "a": 23463200,
+    "iDeg": 0.93,
+    "R": 6200,
+    "m": 1476200000000000
+   },
+   "amalthea": {
+    "name": "アマルテア",
+    "host": "jupiter",
+    "a": 181366000,
+    "iDeg": 0.374,
+    "R": 83500,
+    "m": 2080000000000000000
+   },
+   "thebe": {
+    "name": "テーベ",
+    "host": "jupiter",
+    "a": 221889000,
+    "iDeg": 1.076,
+    "R": 49300,
+    "m": 430000000000000000
+   },
+   "pan": {
+    "name": "パン",
+    "host": "saturn",
+    "a": 133584000,
+    "iDeg": 0.0001,
+    "R": 14100,
+    "m": 4950000000000000
+   },
+   "daphnis": {
+    "name": "ダフニス",
+    "host": "saturn",
+    "a": 136505000,
+    "iDeg": 0.0036,
+    "R": 3800,
+    "m": 77000000000000
+   },
+   "atlas": {
+    "name": "アトラス",
+    "host": "saturn",
+    "a": 137670000,
+    "iDeg": 0.003,
+    "R": 15100,
+    "m": 6600000000000000
+   },
+   "prometheus": {
+    "name": "プロメテウス",
+    "host": "saturn",
+    "a": 139380000,
+    "iDeg": 0.007,
+    "R": 43100,
+    "m": 160000000000000000
+   },
+   "pandora": {
+    "name": "パンドラ",
+    "host": "saturn",
+    "a": 141720000,
+    "iDeg": 0.05,
+    "R": 40700,
+    "m": 137000000000000000
+   },
+   "janus": {
+    "name": "ヤヌス",
+    "host": "saturn",
+    "a": 151460000,
+    "iDeg": 0.165,
+    "R": 89500,
+    "m": 1900000000000000000
+   },
+   "ringAedge": {
+    "name": "A 環の外縁の粒子",
+    "host": "saturn",
+    "a": 136775000,
+    "iDeg": null,
+    "R": 1,
+    "m": null
+   },
+   "puck": {
+    "name": "パック",
+    "host": "uranus",
+    "a": 86004000,
+    "iDeg": 0.32,
+    "R": 81000,
+    "m": 1900000000000000000
+   },
+   "mab": {
+    "name": "マブ",
+    "host": "uranus",
+    "a": 97736000,
+    "iDeg": 0.13,
+    "R": 12000,
+    "m": 100000000000000
+   },
+   "proteus": {
+    "name": "プロテウス",
+    "host": "neptune",
+    "a": 117647000,
+    "iDeg": 0.524,
+    "R": 210000,
+    "m": 44000000000000000000
+   }
+  },
+  "fifthSrc": "NASA NSSDC の衛星の表と JPL の平均の要素の記憶の値(半長軸・傾き・平均の半径・質量 —— ダイモスとパンは第337便j の LIT と同じ値・A 環の外縁は Esposito 2002 の桁・粒子は第337便i の宣言の半径 1 m)—— 文献の値・未照合・確かさ 中(質量は 低)",
+  "fifthObs": "公転の変化(永年の加速・半長軸の率)の測定値はこの環境の記録に無い(未収載)—— 観測なし・予測だけ。プロメテウスとパンドラの位置の不規則なずれ(両者の相互作用)は永年の率ではない —— 記憶の記述・未照合",
+  "obsNote": "トリトンの値は観測ではなく潮汐の見積り(Chyba et al. 1989 —— ロッシュ限界までの時間)・フォボス・月・タイタンの値から推した k₂/Q は同じ観測を使う —— 確かさは第337便j の LIT のとおり"
+ },
+ "plan": {
+  "t1Types": [
+   "band",
+   "zeq",
+   "rateOnly",
+   "drag|yard",
+   "drag|k4half",
+   "drag|focus337i",
+   "floor|1",
+   "floor|2.5",
+   "grav"
+  ],
+  "snapNote": "丸めの残り(同じ行の尺度の 1e-12 以下)と O(e²) の残り(1e-9 以下 —— 環の離心率 1e-5 の 2 乗の桁)は 0 と書く"
+ },
+ "amend": [],
+ "notClaim": [
+  "環の厚みの値を決めたとは書かない(このノブの組で何 m の桁か・要るノブまで)",
+  "環の中のやり取りで外からのトルクが消えるとは書かない(帳簿の行き先まで)",
+  "潮汐の残りを回転引きずりの寄与とは書かない(k₂/Q が自由・文献の値が未照合)",
+  "5 つ目の天体は予測だけ(観測の値はこの環境の記録に無い)",
+  "文献の値は未照合(出典と確かさを書く)"
+ ],
+ "pure": {
+  "scenes": {
+   "fast": {
+    "closedBelow1e12": true,
+    "numericBelow1e3": true
+   },
+   "ledger": {
+    "amClosedVisc": true,
+    "enClosedVisc": true,
+    "heatPos": true,
+    "extZero": true,
+    "amClosedExt": true,
+    "enClosedExt": true,
+    "cross": 0
+   },
+   "linear": {
+    "homogBelow1e12": true,
+    "free": true,
+    "noBal": true
+   },
+   "tide": {
+    "below1e12": true
+   },
+   "twist": {
+    "powerBelow1e12": true,
+    "zero": 0
+   },
+   "rejects": [
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "gates": {
+   "fast": true,
+   "ledger": true,
+   "linear": true,
+   "tide": true,
+   "twist": true,
+   "rejects": true
+  }
+ },
+ "sets": {
+  "half": {
+   "chi": 0.5,
+   "q": -0.021092769591055188,
+   "p": -1.119501078380138,
+   "lambda": 1.492884970740871e-8,
+   "S": 8.001004310979425,
+   "obsOverCalc": {
+    "phobos": 0.7849090009561271,
+    "moon": 0.8115772921681166,
+    "titan": 0.3535312003355584,
+    "triton": 2.8286046579505335
+   },
+   "eps": 6.109338183561657e-9
+  },
+  "one": {
+   "chi": 1,
+   "q": 0.006988182264871167,
+   "p": -1.2970522215276423,
+   "lambda": 1.7411265279710816e-7,
+   "S": 8.267306211405197,
+   "obsOverCalc": {
+    "phobos": 0.7822542278237961,
+    "moon": 0.8083514590119018,
+    "titan": 0.34779071879054024,
+    "triton": 2.8752923697261115
+   },
+   "eps": 1.246334915220354e-9
+  }
+ },
+ "t1": {
+  "nGrid": 74,
+  "rMinKm": 66900,
+  "rMaxKm": 140180,
+  "rSyncKm": 112238.71982884278,
+  "Req": 5.1807360976510655,
+  "Pref": {
+   "yard": 5.1847158715404826e-21,
+   "k4half": 1.2913879721572701e-18,
+   "focus337i": 5.724591216309752e-18
+  },
+  "types": [
+   {
+    "type": "band",
+    "at": {
+     "ringD": 10.361472195302131,
+     "ringC": 10.361472195302131,
+     "ringB": 10.361472195302131,
+     "ringA": 10.361472195302131,
+     "ringF": 10.361472195302131
+    },
+    "ratio10": {
+     "ringD": 1.036147219530213,
+     "ringC": 1.036147219530213,
+     "ringB": 1.036147219530213,
+     "ringA": 1.036147219530213,
+     "ringF": 1.036147219530213
+    },
+    "sameOrder": true,
+    "nDefined": 74,
+    "width": 0.917808219178082,
+    "covered": 0.917808219178082,
+    "nPairs": 67,
+    "powMin": 0,
+    "powMax": 0
+   },
+   {
+    "type": "zeq",
+    "at": {
+     "ringD": null,
+     "ringC": null,
+     "ringB": null,
+     "ringA": 7.207630575551357,
+     "ringF": 8.218323122993313
+    },
+    "ratio10": {
+     "ringD": null,
+     "ringC": null,
+     "ringB": null,
+     "ringA": 0.7207630575551357,
+     "ringF": 0.8218323122993313
+    },
+    "sameOrder": true,
+    "nDefined": 28,
+    "width": 0,
+    "covered": 0.3150684931506848,
+    "nPairs": 23,
+    "powMin": 1.3795844888084663,
+    "powMax": 22.343138832985215
+   },
+   {
+    "type": "rateOnly",
+    "at": {
+     "ringD": null,
+     "ringC": null,
+     "ringB": null,
+     "ringA": null,
+     "ringF": null
+    },
+    "ratio10": {
+     "ringD": null,
+     "ringC": null,
+     "ringB": null,
+     "ringA": null,
+     "ringF": null
+    },
+    "sameOrder": true,
+    "nDefined": 0,
+    "width": 0,
+    "covered": 0,
+    "nPairs": 0,
+    "powMin": null,
+    "powMax": null
+   },
+   {
+    "type": "drag|yard",
+    "at": {
+     "ringD": 5.546800631445945,
+     "ringC": 7.018529365135306,
+     "ringB": 10,
+     "ringA": 13.630518174052261,
+     "ringF": 15.415631951507757
+    },
+    "ratio10": {
+     "ringD": 0.5546800631445945,
+     "ringC": 0.7018529365135306,
+     "ringB": 1,
+     "ringA": 1.3630518174052262,
+     "ringF": 1.5415631951507758
+    },
+    "sameOrder": true,
+    "nDefined": 71,
+    "width": 0,
+    "covered": 0.8904109589041093,
+    "nPairs": 65,
+    "powMin": 1.4999999999999494,
+    "powMax": 1.500000000000025
+   },
+   {
+    "type": "drag|k4half",
+    "at": {
+     "ringD": 7.478610161516454,
+     "ringC": 8.398545750957085,
+     "ringB": 10,
+     "ringA": 11.649584529458442,
+     "ringF": 12.378246438033925
+    },
+    "ratio10": {
+     "ringD": 0.7478610161516455,
+     "ringC": 0.8398545750957085,
+     "ringB": 1,
+     "ringA": 1.1649584529458443,
+     "ringF": 1.2378246438033924
+    },
+    "sameOrder": true,
+    "nDefined": 71,
+    "width": 0,
+    "covered": 0.8904109589041093,
+    "nPairs": 65,
+    "powMin": 0.7394536152038667,
+    "powMax": 0.7394536152049193
+   },
+   {
+    "type": "drag|focus337i",
+    "at": {
+     "ringD": 5.546800631445961,
+     "ringC": 7.018529365135317,
+     "ringB": 10,
+     "ringA": 13.630518174052241,
+     "ringF": 15.41563195150773
+    },
+    "ratio10": {
+     "ringD": 0.5546800631445961,
+     "ringC": 0.7018529365135316,
+     "ringB": 1,
+     "ringA": 1.3630518174052242,
+     "ringF": 1.5415631951507731
+    },
+    "sameOrder": true,
+    "nDefined": 71,
+    "width": 0,
+    "covered": 0.8904109589041093,
+    "nPairs": 65,
+    "powMin": 1.4999999999999072,
+    "powMax": 1.5000000000000868
+   },
+   {
+    "type": "floor|1",
+    "at": {
+     "ringD": null,
+     "ringC": 4,
+     "ringB": 4,
+     "ringA": 4,
+     "ringF": 4
+    },
+    "ratio10": {
+     "ringD": null,
+     "ringC": 0.4,
+     "ringB": 0.4,
+     "ringA": 0.4,
+     "ringF": 0.4
+    },
+    "sameOrder": true,
+    "nDefined": 63,
+    "width": 0.7945205479452051,
+    "covered": 0.7945205479452051,
+    "nPairs": 58,
+    "powMin": 0,
+    "powMax": 0
+   },
+   {
+    "type": "floor|2.5",
+    "at": {
+     "ringD": null,
+     "ringC": 10,
+     "ringB": 10,
+     "ringA": 10,
+     "ringF": 10
+    },
+    "ratio10": {
+     "ringD": null,
+     "ringC": 1,
+     "ringB": 1,
+     "ringA": 1,
+     "ringF": 1
+    },
+    "sameOrder": true,
+    "nDefined": 63,
+    "width": 0.7945205479452051,
+    "covered": 0.7945205479452051,
+    "nPairs": 58,
+    "powMin": 0,
+    "powMax": 0
+   },
+   {
+    "type": "grav",
+    "at": {
+     "ringD": 0.00008433573988635219,
+     "ringC": 0.13502643124436942,
+     "ringB": 27.41110522250679,
+     "ringA": 20.370949418691673,
+     "ringF": 3.2570109379862475
+    },
+    "ratio10": {
+     "ringD": 0.000008433573988635219,
+     "ringC": 0.013502643124436942,
+     "ringB": 2.741110522250679,
+     "ringA": 2.0370949418691673,
+     "ringF": 0.3257010937986248
+    },
+    "sameOrder": false,
+    "nDefined": 71,
+    "width": 0,
+    "covered": 0.8904109589041093,
+    "nPairs": 65,
+    "powMin": 2.999999999999925,
+    "powMax": 3.0000000000000733
+   }
+  ],
+  "pTab": [
+   {
+    "key": "ringD",
+    "n": 0.0003275835030095135,
+    "tau": 0.001,
+    "pColl": 4.2183956862364877e-13,
+    "gam|yard": 3.168808781402895e-15,
+    "pNeed|yard": 1.70023942638198e-20,
+    "ratio|yard": 4.03053566532275e-8,
+    "dHrel|yard": 3.2244285322581994e-9,
+    "gam|k4half": 4.322239245242462e-13,
+    "pNeed|k4half": 2.3191180288774783e-18,
+    "ratio|k4half": 0.000005497630382195176,
+    "dHrel|k4half": 4.39810430575614e-7,
+    "gam|focus337i": 3.4987712664752684e-12,
+    "pNeed|focus337i": 1.8772823674516687e-17,
+    "ratio|focus337i": 0.00004450228255203147,
+    "dHrel|focus337i": 0.000003560182604162517
+   },
+   {
+    "key": "ringC",
+    "n": 0.00025637857239735887,
+    "tau": 0.1,
+    "pColl": 2.0222107780389516e-11,
+    "gam|yard": 3.168808781402895e-15,
+    "pNeed|yard": 1.0414285684669903e-20,
+    "ratio|yard": 5.149950637079091e-10,
+    "dHrel|yard": 4.119960509663273e-11,
+    "gam|k4half": 5.541736184719926e-13,
+    "pNeed|k4half": 1.8212908319193416e-18,
+    "ratio|k4half": 9.006434204082064e-8,
+    "dHrel|k4half": 7.205147363265651e-9,
+    "gam|focus337i": 3.498771266475277e-12,
+    "pNeed|focus337i": 1.1498706936256464e-17,
+    "ratio|focus337i": 5.686205939129347e-7,
+    "dHrel|focus337i": 4.5489647513034776e-8
+   },
+   {
+    "key": "ringB",
+    "n": 0.0001815588620614153,
+    "tau": 2,
+    "pColl": 1.4363609779161802e-10,
+    "gam|yard": 3.168808781402895e-15,
+    "pNeed|yard": 5.222770488414205e-21,
+    "ratio|yard": 3.636112766020147e-11,
+    "dHrel|yard": 2.9088902128161178e-12,
+    "gam|k4half": 7.863528922315405e-13,
+    "pNeed|k4half": 1.2960519117243234e-18,
+    "ratio|k4half": 9.023162921096533e-9,
+    "dHrel|k4half": 7.218530336877226e-10,
+    "gam|focus337i": 3.4987712664752886e-12,
+    "pNeed|focus337i": 5.766608393507665e-18,
+    "ratio|focus337i": 4.014734793111443e-8,
+    "dHrel|focus337i": 3.211787834489154e-9
+   },
+   {
+    "key": "ringA",
+    "n": 0.00013219983458540136,
+    "tau": 0.5,
+    "pColl": 1.3862577451424576e-11,
+    "gam|yard": 3.168808781402895e-15,
+    "pNeed|yard": 2.7690312736721874e-21,
+    "ratio|yard": 1.9974866025997427e-10,
+    "dHrel|yard": 1.5979892820797937e-11,
+    "gam|k4half": 1.08477973136202e-12,
+    "pNeed|k4half": 9.479237178386352e-19,
+    "ratio|k4half": 6.83800484549302e-8,
+    "dHrel|k4half": 5.470403876394415e-9,
+    "gam|focus337i": 3.498771266475297e-12,
+    "pNeed|focus337i": 3.0573656299975856e-18,
+    "ratio|focus337i": 2.2054813693274608e-7,
+    "dHrel|focus337i": 1.7643850954619685e-8
+   },
+   {
+    "key": "ringF",
+    "n": 0.00011734595646226083,
+    "tau": 0.5,
+    "pColl": 9.695174671100782e-12,
+    "gam|yard": 3.168808781402895e-15,
+    "pNeed|yard": 2.181736491058067e-21,
+    "ratio|yard": 2.2503323200162153e-10,
+    "dHrel|yard": 1.8002658560129726e-11,
+    "gam|k4half": 1.224143201184953e-12,
+    "pNeed|k4half": 8.428270926223106e-19,
+    "ratio|k4half": 8.693263620454366e-8,
+    "dHrel|k4half": 6.954610896363495e-9,
+    "gam|focus337i": 3.498771266475299e-12,
+    "pNeed|focus337i": 2.40891687461026e-18,
+    "ratio|focus337i": 2.4846554665907363e-7,
+    "dHrel|focus337i": 1.9877243732725892e-8
+   }
+  ],
+  "ref": [
+   {
+    "key": "jupiterMain",
+    "host": "jupiter",
+    "nOverS": 1.4353377230352278,
+    "band": 34.193025192062734,
+    "zeq": null,
+    "floor": null,
+    "grav": 1.4079381236862484e-7,
+    "litH": 30000,
+    "litKind": "上限"
+   },
+   {
+    "key": "uranusEps",
+    "host": "uranus",
+    "nOverS": 2.055368310011172,
+    "band": 1.541101985073238,
+    "zeq": null,
+    "floor": 4,
+    "grav": 0.5179239032458142,
+    "litH": 150,
+    "litKind": "上限"
+   }
+  ]
+ },
+ "t2": {
+  "ringMass": 21725221475867406000,
+  "ringMassOverLit": 1.4107286672641173,
+  "rSyncKm": 112238.71982884278,
+  "sigmaSync": 1000,
+  "carry": [
+   {
+    "set": "half",
+    "Tin": -49992970541345650000,
+    "Tout": -28191026207597216000,
+    "opposite": false,
+    "nuNeed": null
+   },
+   {
+    "set": "one",
+    "Tin": -82418215484238790000,
+    "Tout": 72387709006133625000,
+    "opposite": true,
+    "nuNeed": 3722.417999700863
+   }
+  ],
+  "cases": [
+   {
+    "key": "nuOnly",
+    "set": "half",
+    "strength": "zero",
+    "lamScale": 0,
+    "nu": 0.01,
+    "M0": 21725221475867406000,
+    "L0": 4.442346223696109e+31,
+    "E0": -3.771310725513518e+27,
+    "nAnnuli": 98,
+    "Tnet0": 0,
+    "Tabs0": 0,
+    "cancel": null,
+    "netRate": 0,
+    "dlnLnet1e7": 0,
+    "tDrift1e5Yr": null,
+    "steps": 76268,
+    "crossings": 0,
+    "checks": [
+     {
+      "tYr": 1000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.9999999999999996,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": 0,
+      "Wext": 0,
+      "heat": 1.203333572932336e-7,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.9999806207976883,
+      "rOutMain": 1.0000095172973125,
+      "dlnMean": -3.9197071276605924e-8,
+      "dlnMax": 0.00011367495369599096,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 1,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": 0,
+      "Wext": 0,
+      "heat": 0.0000012034464910073944,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.999807458117176,
+      "rOutMain": 1.0000945601541822,
+      "dlnMean": -3.920070061974605e-7,
+      "dlnMax": 0.0005752013252033556,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 100000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.9999999999999992,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": 0,
+      "Wext": 0,
+      "heat": 0.000012045064551023119,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.998180380402574,
+      "rOutMain": 1.0008937580260833,
+      "dlnMean": -0.000003923468154303149,
+      "dlnMax": 0.0021484842071330217,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 1000000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.9999999999999994,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": 0,
+      "Wext": 0,
+      "heat": 0.00012045694047403087,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.9867034564407203,
+      "rOutMain": 1.0065338132428334,
+      "dlnMean": -0.0000392298343679394,
+      "dlnMax": 0.01524592692060751,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 1.0000000000000013,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": 0,
+      "Wext": 0,
+      "heat": 0.0012081812202271935,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.9228088036575918,
+      "rOutMain": 1.0354479978280922,
+      "dlnMean": -0.00039273568407988276,
+      "dlnMax": 0.08058738306210213,
+      "amClosed": true,
+      "enClosed": true
+     }
+    ],
+    "tilt": [
+     {
+      "key": "ringD",
+      "efoldYr": null
+     },
+     {
+      "key": "ringC",
+      "efoldYr": null
+     },
+     {
+      "key": "ringB",
+      "efoldYr": null
+     },
+     {
+      "key": "ringA",
+      "efoldYr": null
+     },
+     {
+      "key": "ringF",
+      "efoldYr": null
+     }
+    ],
+    "tiltMaxYr": null,
+    "tiltOk": false,
+    "dlnMeanMinusCtl": null
+   },
+   {
+    "key": "dragOnlyHalf",
+    "set": "half",
+    "strength": "k4",
+    "lamScale": 1,
+    "nu": 0,
+    "M0": 21725221475867406000,
+    "L0": 4.442346223696109e+31,
+    "E0": -3.771310725513518e+27,
+    "nAnnuli": 98,
+    "Tnet0": -78183996748942850000,
+    "Tabs0": 78183996748942850000,
+    "cancel": 1,
+    "netRate": -1.7599708084862512e-12,
+    "dlnLnet1e7": -555.4045478588572,
+    "tDrift1e5Yr": 0.061093381923543626,
+    "steps": 1186,
+    "crossings": 0,
+    "checks": [
+     {
+      "tYr": 1000,
+      "nAlive": 92,
+      "M": 0.9999991274457951,
+      "Msat": 8.725542047764761e-7,
+      "Mout": 0,
+      "L": 0.9419479986417661,
+      "Lsat": 6.449701607029409e-7,
+      "Lout": 0,
+      "extL": -0.05805135638807271,
+      "Wext": -0.1305390590259127,
+      "heat": 0,
+      "heatDirectBelow1e3": null,
+      "rIn": 0.8995446850014333,
+      "rOutMain": 0.9218966721556006,
+      "dlnMean": -0.12066302609896566,
+      "dlnMax": 0.1687719940794578,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392041738507307,
+      "Lout": 0,
+      "extL": -0.26079582614926766,
+      "Wext": -0.8138675495189192,
+      "heat": 0,
+      "heatDirectBelow1e3": null,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 100000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392041738507307,
+      "Lout": 0,
+      "extL": -0.26079582614926766,
+      "Wext": -0.8138675495189192,
+      "heat": 0,
+      "heatDirectBelow1e3": null,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 1000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392041738507307,
+      "Lout": 0,
+      "extL": -0.26079582614926766,
+      "Wext": -0.8138675495189192,
+      "heat": 0,
+      "heatDirectBelow1e3": null,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 10000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392041738507307,
+      "Lout": 0,
+      "extL": -0.26079582614926766,
+      "Wext": -0.8138675495189192,
+      "heat": 0,
+      "heatDirectBelow1e3": null,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     }
+    ],
+    "tilt": [
+     {
+      "key": "ringD",
+      "efoldYr": 73314.05323966828
+     },
+     {
+      "key": "ringC",
+      "efoldYr": 57180.79453403363
+     },
+     {
+      "key": "ringB",
+      "efoldYr": 40297.540871380734
+     },
+     {
+      "key": "ringA",
+      "efoldYr": 29211.54119854567
+     },
+     {
+      "key": "ringF",
+      "efoldYr": 25885.932122447226
+     }
+    ],
+    "tiltMaxYr": 73314.05323966828,
+    "tiltOk": true,
+    "dlnMeanMinusCtl": null
+   },
+   {
+    "key": "dragOnlyOne",
+    "set": "one",
+    "strength": "k4",
+    "lamScale": 1,
+    "nu": 0,
+    "M0": 21725221475867406000,
+    "L0": 4.442346223696109e+31,
+    "E0": -3.771310725513518e+27,
+    "nAnnuli": 98,
+    "Tnet0": -10030506478105200000,
+    "Tabs0": 154805924490372480000,
+    "cancel": 0.06479407368371749,
+    "netRate": -2.2579299255427342e-13,
+    "dlnLnet1e7": -71.25484941830739,
+    "tDrift1e5Yr": 0.012463349216043397,
+    "steps": 6288,
+    "crossings": 0,
+    "checks": [
+     {
+      "tYr": 1000,
+      "nAlive": 21,
+      "M": 0.47807239687072794,
+      "Msat": 0.3014723095341071,
+      "Mout": 0.220455293595165,
+      "L": 0.47212191377376134,
+      "Lsat": 0.22290322130314613,
+      "Lout": 0.3516741685819808,
+      "extL": 0.04669930365888984,
+      "Wext": -0.17881164391243906,
+      "heat": 0,
+      "heatDirectBelow1e3": null,
+      "rIn": 0.8978125049729272,
+      "rOutMain": 1.9477593647604683,
+      "dlnMean": -0.06708755286289998,
+      "dlnMax": 0.816028364881659,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43999235485322985,
+      "Lout": 0.6459176024178243,
+      "extL": 0.08590995727105623,
+      "Wext": -0.23667290774114202,
+      "heat": 0,
+      "heatDirectBelow1e3": null,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 100000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43999235485322985,
+      "Lout": 0.6459176024178243,
+      "extL": 0.08590995727105623,
+      "Wext": -0.23667290774114202,
+      "heat": 0,
+      "heatDirectBelow1e3": null,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 1000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43999235485322985,
+      "Lout": 0.6459176024178243,
+      "extL": 0.08590995727105623,
+      "Wext": -0.23667290774114202,
+      "heat": 0,
+      "heatDirectBelow1e3": null,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 10000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43999235485322985,
+      "Lout": 0.6459176024178243,
+      "extL": 0.08590995727105623,
+      "Wext": -0.23667290774114202,
+      "heat": 0,
+      "heatDirectBelow1e3": null,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     }
+    ],
+    "tilt": [
+     {
+      "key": "ringD",
+      "efoldYr": 4985.543237774737
+     },
+     {
+      "key": "ringC",
+      "efoldYr": 3906.3222927067036
+     },
+     {
+      "key": "ringB",
+      "efoldYr": 2770.7796235950887
+     },
+     {
+      "key": "ringA",
+      "efoldYr": 2020.493060219577
+     },
+     {
+      "key": "ringF",
+      "efoldYr": 1794.4680587724122
+     }
+    ],
+    "tiltMaxYr": 4985.543237774737,
+    "tiltOk": true,
+    "dlnMeanMinusCtl": null
+   },
+   {
+    "key": "k4Half|nu0.001",
+    "set": "half",
+    "strength": "k4",
+    "lamScale": 1,
+    "nu": 0.001,
+    "M0": 21725221475867406000,
+    "L0": 4.442346223696109e+31,
+    "E0": -3.771310725513518e+27,
+    "nAnnuli": 98,
+    "Tnet0": -78183996748942850000,
+    "Tabs0": 78183996748942850000,
+    "cancel": 1,
+    "netRate": -1.7599708084862512e-12,
+    "dlnLnet1e7": -555.4045478588572,
+    "tDrift1e5Yr": 0.061093381923543626,
+    "steps": 1187,
+    "crossings": 0,
+    "checks": [
+     {
+      "tYr": 1000,
+      "nAlive": 92,
+      "M": 0.9999991274457951,
+      "Msat": 8.725542047764761e-7,
+      "Mout": 0,
+      "L": 0.9419479992820956,
+      "Lsat": 6.449700544630018e-7,
+      "Lout": 0,
+      "extL": -0.058051355747849254,
+      "Wext": -0.13053906054613956,
+      "heat": 1.4585859488958393e-8,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.8995446008886451,
+      "rOutMain": 0.92189762018471,
+      "dlnMean": -0.12066302980994968,
+      "dlnMax": 0.16877208758542084,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392041718855489,
+      "Lout": 0,
+      "extL": -0.26079582811445173,
+      "Wext": -0.8138674381083827,
+      "heat": 1.209456003114034e-7,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 100000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392041718855489,
+      "Lout": 0,
+      "extL": -0.26079582811445173,
+      "Wext": -0.8138674381083827,
+      "heat": 1.209456003114034e-7,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 1000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392041718855489,
+      "Lout": 0,
+      "extL": -0.26079582811445173,
+      "Wext": -0.8138674381083827,
+      "heat": 1.209456003114034e-7,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 10000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392041718855489,
+      "Lout": 0,
+      "extL": -0.26079582811445173,
+      "Wext": -0.8138674381083827,
+      "heat": 1.209456003114034e-7,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     }
+    ],
+    "tilt": [
+     {
+      "key": "ringD",
+      "efoldYr": 73314.05323966828
+     },
+     {
+      "key": "ringC",
+      "efoldYr": 57180.79453403363
+     },
+     {
+      "key": "ringB",
+      "efoldYr": 40297.540871380734
+     },
+     {
+      "key": "ringA",
+      "efoldYr": 29211.54119854567
+     },
+     {
+      "key": "ringF",
+      "efoldYr": 25885.932122447226
+     }
+    ],
+    "tiltMaxYr": 73314.05323966828,
+    "tiltOk": true,
+    "dlnMeanMinusCtl": null
+   },
+   {
+    "key": "k4Half|nu0.01",
+    "set": "half",
+    "strength": "k4",
+    "lamScale": 1,
+    "nu": 0.01,
+    "M0": 21725221475867406000,
+    "L0": 4.442346223696109e+31,
+    "E0": -3.771310725513518e+27,
+    "nAnnuli": 98,
+    "Tnet0": -78183996748942850000,
+    "Tabs0": 78183996748942850000,
+    "cancel": 1,
+    "netRate": -1.7599708084862512e-12,
+    "dlnLnet1e7": -555.4045478588572,
+    "tDrift1e5Yr": 0.061093381923543626,
+    "steps": 1187,
+    "crossings": 0,
+    "checks": [
+     {
+      "tYr": 1000,
+      "nAlive": 92,
+      "M": 0.9999991274457951,
+      "Msat": 8.725542047764761e-7,
+      "Mout": 0,
+      "L": 0.9419480050450765,
+      "Lsat": 6.449690982877385e-7,
+      "Lout": 0,
+      "extL": -0.058051349985824716,
+      "Wext": -0.13053907422816755,
+      "heat": 1.4585870071382387e-7,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.8995438437925034,
+      "rOutMain": 0.921906145822315,
+      "dlnMean": -0.12066306320879769,
+      "dlnMax": 0.16877292922958104,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392046815965442,
+      "Lout": 0,
+      "extL": -0.26079531840345654,
+      "Wext": -0.8138638480790331,
+      "heat": 0.000001209449693516094,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 100000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392046815965442,
+      "Lout": 0,
+      "extL": -0.26079531840345654,
+      "Wext": -0.8138638480790331,
+      "heat": 0.000001209449693516094,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 1000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392046815965442,
+      "Lout": 0,
+      "extL": -0.26079531840345654,
+      "Wext": -0.8138638480790331,
+      "heat": 0.000001209449693516094,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 10000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392046815965442,
+      "Lout": 0,
+      "extL": -0.26079531840345654,
+      "Wext": -0.8138638480790331,
+      "heat": 0.000001209449693516094,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     }
+    ],
+    "tilt": [
+     {
+      "key": "ringD",
+      "efoldYr": 73314.05323966828
+     },
+     {
+      "key": "ringC",
+      "efoldYr": 57180.79453403363
+     },
+     {
+      "key": "ringB",
+      "efoldYr": 40297.540871380734
+     },
+     {
+      "key": "ringA",
+      "efoldYr": 29211.54119854567
+     },
+     {
+      "key": "ringF",
+      "efoldYr": 25885.932122447226
+     }
+    ],
+    "tiltMaxYr": 73314.05323966828,
+    "tiltOk": true,
+    "dlnMeanMinusCtl": null
+   },
+   {
+    "key": "k4Half|nu0.1",
+    "set": "half",
+    "strength": "k4",
+    "lamScale": 1,
+    "nu": 0.1,
+    "M0": 21725221475867406000,
+    "L0": 4.442346223696109e+31,
+    "E0": -3.771310725513518e+27,
+    "nAnnuli": 98,
+    "Tnet0": -78183996748942850000,
+    "Tabs0": 78183996748942850000,
+    "cancel": 1,
+    "netRate": -1.7599708084862512e-12,
+    "dlnLnet1e7": -555.4045478588572,
+    "tDrift1e5Yr": 0.061093381923543626,
+    "steps": 1190,
+    "crossings": 0,
+    "checks": [
+     {
+      "tYr": 1000,
+      "nAlive": 92,
+      "M": 0.9999991274457951,
+      "Msat": 8.725542047764761e-7,
+      "Mout": 0,
+      "L": 0.9419480626763217,
+      "Lsat": 6.449595349910801e-7,
+      "Lout": 0,
+      "extL": -0.05805129236414286,
+      "Wext": -0.130539211046581,
+      "heat": 0.000001458597064191205,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.8995362647680051,
+      "rOutMain": 0.9219907596543317,
+      "dlnMean": -0.12066339719663388,
+      "dlnMax": 0.16878135467374258,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7391931436861064,
+      "Lout": 0,
+      "extL": -0.26080685631389217,
+      "Wext": -0.8139095893434173,
+      "heat": 0.000012094169856079173,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 100000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7391931436861064,
+      "Lout": 0,
+      "extL": -0.26080685631389217,
+      "Wext": -0.8139095893434173,
+      "heat": 0.000012094169856079173,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 1000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7391931436861064,
+      "Lout": 0,
+      "extL": -0.26080685631389217,
+      "Wext": -0.8139095893434173,
+      "heat": 0.000012094169856079173,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 10000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7391931436861064,
+      "Lout": 0,
+      "extL": -0.26080685631389217,
+      "Wext": -0.8139095893434173,
+      "heat": 0.000012094169856079173,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     }
+    ],
+    "tilt": [
+     {
+      "key": "ringD",
+      "efoldYr": 73314.05323966828
+     },
+     {
+      "key": "ringC",
+      "efoldYr": 57180.79453403363
+     },
+     {
+      "key": "ringB",
+      "efoldYr": 40297.540871380734
+     },
+     {
+      "key": "ringA",
+      "efoldYr": 29211.54119854567
+     },
+     {
+      "key": "ringF",
+      "efoldYr": 25885.932122447226
+     }
+    ],
+    "tiltMaxYr": 73314.05323966828,
+    "tiltOk": true,
+    "dlnMeanMinusCtl": null
+   },
+   {
+    "key": "k4Half|nu1",
+    "set": "half",
+    "strength": "k4",
+    "lamScale": 1,
+    "nu": 1,
+    "M0": 21725221475867406000,
+    "L0": 4.442346223696109e+31,
+    "E0": -3.771310725513518e+27,
+    "nAnnuli": 98,
+    "Tnet0": -78183996748942850000,
+    "Tabs0": 78183996748942850000,
+    "cancel": 1,
+    "netRate": -1.7599708084862512e-12,
+    "dlnLnet1e7": -555.4045478588572,
+    "tDrift1e5Yr": 0.061093381923543626,
+    "steps": 1198,
+    "crossings": 0,
+    "checks": [
+     {
+      "tYr": 1000,
+      "nAlive": 92,
+      "M": 0.9999991274457951,
+      "Msat": 8.725542047764761e-7,
+      "Mout": 0,
+      "L": 0.9419486083615498,
+      "Lsat": 6.450504531311524e-7,
+      "Lout": 0,
+      "extL": -0.058050746587995854,
+      "Wext": -0.130540649811737,
+      "heat": 0.000014586909081246932,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.8994523114872242,
+      "rOutMain": 0.9227831289187004,
+      "dlnMean": -0.12066680167761389,
+      "dlnMax": 0.16887468854139462,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392218986585678,
+      "Lout": 0,
+      "extL": -0.26077810134143414,
+      "Wext": -0.8136598294991219,
+      "heat": 0.0001208060295269511,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 100000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392218986585678,
+      "Lout": 0,
+      "extL": -0.26077810134143414,
+      "Wext": -0.8136598294991219,
+      "heat": 0.0001208060295269511,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 1000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392218986585678,
+      "Lout": 0,
+      "extL": -0.26077810134143414,
+      "Wext": -0.8136598294991219,
+      "heat": 0.0001208060295269511,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 10000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 1,
+      "Mout": 0,
+      "L": 0,
+      "Lsat": 0.7392218986585678,
+      "Lout": 0,
+      "extL": -0.26077810134143414,
+      "Wext": -0.8136598294991219,
+      "heat": 0.0001208060295269511,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     }
+    ],
+    "tilt": [
+     {
+      "key": "ringD",
+      "efoldYr": 73314.05323966828
+     },
+     {
+      "key": "ringC",
+      "efoldYr": 57180.79453403363
+     },
+     {
+      "key": "ringB",
+      "efoldYr": 40297.540871380734
+     },
+     {
+      "key": "ringA",
+      "efoldYr": 29211.54119854567
+     },
+     {
+      "key": "ringF",
+      "efoldYr": 25885.932122447226
+     }
+    ],
+    "tiltMaxYr": 73314.05323966828,
+    "tiltOk": true,
+    "dlnMeanMinusCtl": null
+   },
+   {
+    "key": "k4One|nu0.001",
+    "set": "one",
+    "strength": "k4",
+    "lamScale": 1,
+    "nu": 0.001,
+    "M0": 21725221475867406000,
+    "L0": 4.442346223696109e+31,
+    "E0": -3.771310725513518e+27,
+    "nAnnuli": 98,
+    "Tnet0": -10030506478105200000,
+    "Tabs0": 154805924490372480000,
+    "cancel": 0.06479407368371749,
+    "netRate": -2.2579299255427342e-13,
+    "dlnLnet1e7": -71.25484941830739,
+    "tDrift1e5Yr": 0.012463349216043397,
+    "steps": 6288,
+    "crossings": 0,
+    "checks": [
+     {
+      "tYr": 1000,
+      "nAlive": 21,
+      "M": 0.47807239687072794,
+      "Msat": 0.3014723095341071,
+      "Mout": 0.220455293595165,
+      "L": 0.47212204688670595,
+      "Lsat": 0.2229032154047115,
+      "Lout": 0.3516737211392962,
+      "extL": 0.04669898343071334,
+      "Wext": -0.17881178876378453,
+      "heat": 1.497094094412285e-8,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.8978125121120724,
+      "rOutMain": 1.9477760086894607,
+      "dlnMean": -0.06708717641247469,
+      "dlnMax": 0.816036910012121,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43999237124406365,
+      "Lout": 0.6459172742107944,
+      "extL": 0.08590964545485728,
+      "Wext": -0.2366729687387018,
+      "heat": 1.8810903611418687e-8,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 100000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43999237124406365,
+      "Lout": 0.6459172742107944,
+      "extL": 0.08590964545485728,
+      "Wext": -0.2366729687387018,
+      "heat": 1.8810903611418687e-8,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 1000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43999237124406365,
+      "Lout": 0.6459172742107944,
+      "extL": 0.08590964545485728,
+      "Wext": -0.2366729687387018,
+      "heat": 1.8810903611418687e-8,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 10000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43999237124406365,
+      "Lout": 0.6459172742107944,
+      "extL": 0.08590964545485728,
+      "Wext": -0.2366729687387018,
+      "heat": 1.8810903611418687e-8,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     }
+    ],
+    "tilt": [
+     {
+      "key": "ringD",
+      "efoldYr": 4985.543237774737
+     },
+     {
+      "key": "ringC",
+      "efoldYr": 3906.3222927067036
+     },
+     {
+      "key": "ringB",
+      "efoldYr": 2770.7796235950887
+     },
+     {
+      "key": "ringA",
+      "efoldYr": 2020.493060219577
+     },
+     {
+      "key": "ringF",
+      "efoldYr": 1794.4680587724122
+     }
+    ],
+    "tiltMaxYr": 4985.543237774737,
+    "tiltOk": true,
+    "dlnMeanMinusCtl": null
+   },
+   {
+    "key": "k4One|nu0.01",
+    "set": "one",
+    "strength": "k4",
+    "lamScale": 1,
+    "nu": 0.01,
+    "M0": 21725221475867406000,
+    "L0": 4.442346223696109e+31,
+    "E0": -3.771310725513518e+27,
+    "nAnnuli": 98,
+    "Tnet0": -10030506478105200000,
+    "Tabs0": 154805924490372480000,
+    "cancel": 0.06479407368371749,
+    "netRate": -2.2579299255427342e-13,
+    "dlnLnet1e7": -71.25484941830739,
+    "tDrift1e5Yr": 0.012463349216043397,
+    "steps": 6288,
+    "crossings": 0,
+    "checks": [
+     {
+      "tYr": 1000,
+      "nAlive": 21,
+      "M": 0.47807239687072794,
+      "Msat": 0.3014723095341071,
+      "Mout": 0.220455293595165,
+      "L": 0.4721232448433056,
+      "Lsat": 0.2229031587637433,
+      "Lout": 0.3516698276444378,
+      "extL": 0.04669623125148699,
+      "Wext": -0.1788130447091409,
+      "heat": 1.497093595944578e-7,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.8978125766522252,
+      "rOutMain": 1.9479257892165094,
+      "dlnMean": -0.06708378850809492,
+      "dlnMax": 0.8161138052853696,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43999251521774124,
+      "Lout": 0.6459144537586574,
+      "extL": 0.08590696897639774,
+      "Wext": -0.2366734700406812,
+      "heat": 1.8810867709852595e-7,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 100000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43999251521774124,
+      "Lout": 0.6459144537586574,
+      "extL": 0.08590696897639774,
+      "Wext": -0.2366734700406812,
+      "heat": 1.8810867709852595e-7,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 1000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43999251521774124,
+      "Lout": 0.6459144537586574,
+      "extL": 0.08590696897639774,
+      "Wext": -0.2366734700406812,
+      "heat": 1.8810867709852595e-7,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 10000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43999251521774124,
+      "Lout": 0.6459144537586574,
+      "extL": 0.08590696897639774,
+      "Wext": -0.2366734700406812,
+      "heat": 1.8810867709852595e-7,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     }
+    ],
+    "tilt": [
+     {
+      "key": "ringD",
+      "efoldYr": 4985.543237774737
+     },
+     {
+      "key": "ringC",
+      "efoldYr": 3906.3222927067036
+     },
+     {
+      "key": "ringB",
+      "efoldYr": 2770.7796235950887
+     },
+     {
+      "key": "ringA",
+      "efoldYr": 2020.493060219577
+     },
+     {
+      "key": "ringF",
+      "efoldYr": 1794.4680587724122
+     }
+    ],
+    "tiltMaxYr": 4985.543237774737,
+    "tiltOk": true,
+    "dlnMeanMinusCtl": null
+   },
+   {
+    "key": "k4One|nu0.1",
+    "set": "one",
+    "strength": "k4",
+    "lamScale": 1,
+    "nu": 0.1,
+    "M0": 21725221475867406000,
+    "L0": 4.442346223696109e+31,
+    "E0": -3.771310725513518e+27,
+    "nAnnuli": 98,
+    "Tnet0": -10030506478105200000,
+    "Tabs0": 154805924490372480000,
+    "cancel": 0.06479407368371749,
+    "netRate": -2.2579299255427342e-13,
+    "dlnLnet1e7": -71.25484941830739,
+    "tDrift1e5Yr": 0.012463349216043397,
+    "steps": 6289,
+    "crossings": 0,
+    "checks": [
+     {
+      "tYr": 1000,
+      "nAlive": 21,
+      "M": 0.47807239687072794,
+      "Msat": 0.3014723095341071,
+      "Mout": 0.220455293595165,
+      "L": 0.47213523924895795,
+      "Lsat": 0.22290037614801236,
+      "Lout": 0.3516675619298683,
+      "extL": 0.0467031773268384,
+      "Wext": -0.17881856575049793,
+      "heat": 0.0000014971253078225785,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.8978131973763037,
+      "rOutMain": 1.9494236641509541,
+      "dlnMean": -0.06704987309590749,
+      "dlnMax": 0.8168824687199001,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.4399843861685101,
+      "Lout": 0.6458892088410629,
+      "extL": 0.08587359500957419,
+      "Wext": -0.23672397060431058,
+      "heat": 0.0000018812178561670252,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 100000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.4399843861685101,
+      "Lout": 0.6458892088410629,
+      "extL": 0.08587359500957419,
+      "Wext": -0.23672397060431058,
+      "heat": 0.0000018812178561670252,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 1000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.4399843861685101,
+      "Lout": 0.6458892088410629,
+      "extL": 0.08587359500957419,
+      "Wext": -0.23672397060431058,
+      "heat": 0.0000018812178561670252,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 10000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.4399843861685101,
+      "Lout": 0.6458892088410629,
+      "extL": 0.08587359500957419,
+      "Wext": -0.23672397060431058,
+      "heat": 0.0000018812178561670252,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     }
+    ],
+    "tilt": [
+     {
+      "key": "ringD",
+      "efoldYr": 4985.543237774737
+     },
+     {
+      "key": "ringC",
+      "efoldYr": 3906.3222927067036
+     },
+     {
+      "key": "ringB",
+      "efoldYr": 2770.7796235950887
+     },
+     {
+      "key": "ringA",
+      "efoldYr": 2020.493060219577
+     },
+     {
+      "key": "ringF",
+      "efoldYr": 1794.4680587724122
+     }
+    ],
+    "tiltMaxYr": 4985.543237774737,
+    "tiltOk": true,
+    "dlnMeanMinusCtl": null
+   },
+   {
+    "key": "k4One|nu1",
+    "set": "one",
+    "strength": "k4",
+    "lamScale": 1,
+    "nu": 1,
+    "M0": 21725221475867406000,
+    "L0": 4.442346223696109e+31,
+    "E0": -3.771310725513518e+27,
+    "nAnnuli": 98,
+    "Tnet0": -10030506478105200000,
+    "Tabs0": 154805924490372480000,
+    "cancel": 0.06479407368371749,
+    "netRate": -2.2579299255427342e-13,
+    "dlnLnet1e7": -71.25484941830739,
+    "tDrift1e5Yr": 0.012463349216043397,
+    "steps": 6291,
+    "crossings": 0,
+    "checks": [
+     {
+      "tYr": 1000,
+      "nAlive": 21,
+      "M": 0.47807239687072794,
+      "Msat": 0.3014723095341071,
+      "Mout": 0.220455293595165,
+      "L": 0.4722552608053721,
+      "Lsat": 0.2228982991387878,
+      "Lout": 0.35165871941919047,
+      "extL": 0.04681227936335067,
+      "Wext": -0.17874067877689478,
+      "heat": 0.000014969798108208506,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.8978199965547697,
+      "rOutMain": 1.9643137855820978,
+      "dlnMean": -0.06671066953201252,
+      "dlnMax": 0.8244916624723908,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43998729446138535,
+      "Lout": 0.645904632245641,
+      "extL": 0.08589192670702715,
+      "Wext": -0.23668522658735552,
+      "heat": 0.000018810229725058855,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 100000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43998729446138535,
+      "Lout": 0.645904632245641,
+      "extL": 0.08589192670702715,
+      "Wext": -0.23668522658735552,
+      "heat": 0.000018810229725058855,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 1000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43998729446138535,
+      "Lout": 0.645904632245641,
+      "extL": 0.08589192670702715,
+      "Wext": -0.23668522658735552,
+      "heat": 0.000018810229725058855,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     },
+     {
+      "tYr": 10000000,
+      "nAlive": 0,
+      "M": 0,
+      "Msat": 0.5950987013016444,
+      "Mout": 0.40490129869835556,
+      "L": 0,
+      "Lsat": 0.43998729446138535,
+      "Lout": 0.645904632245641,
+      "extL": 0.08589192670702715,
+      "Wext": -0.23668522658735552,
+      "heat": 0.000018810229725058855,
+      "heatDirectBelow1e3": true,
+      "rIn": null,
+      "rOutMain": null,
+      "dlnMean": null,
+      "dlnMax": null,
+      "amClosed": true,
+      "enClosed": true,
+      "emptyBefore": true
+     }
+    ],
+    "tilt": [
+     {
+      "key": "ringD",
+      "efoldYr": 4985.543237774737
+     },
+     {
+      "key": "ringC",
+      "efoldYr": 3906.3222927067036
+     },
+     {
+      "key": "ringB",
+      "efoldYr": 2770.7796235950887
+     },
+     {
+      "key": "ringA",
+      "efoldYr": 2020.493060219577
+     },
+     {
+      "key": "ringF",
+      "efoldYr": 1794.4680587724122
+     }
+    ],
+    "tiltMaxYr": 4985.543237774737,
+    "tiltOk": true,
+    "dlnMeanMinusCtl": null
+   },
+   {
+    "key": "epsHalf",
+    "set": "half",
+    "strength": "eps",
+    "lamScale": 6.109338183561657e-9,
+    "nu": 0.01,
+    "M0": 21725221475867406000,
+    "L0": 4.442346223696109e+31,
+    "E0": -3.771310725513518e+27,
+    "nAnnuli": 98,
+    "Tnet0": -477652476681.77704,
+    "Tabs0": 477652476681.77704,
+    "cancel": 1,
+    "netRate": -1.0752256862238935e-20,
+    "dlnLnet1e7": -0.0000033931542115579143,
+    "tDrift1e5Yr": 10000000.014392238,
+    "steps": 76267,
+    "crossings": 0,
+    "checks": [
+     {
+      "tYr": 1000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.999999999660684,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": -3.3931539838773767e-10,
+      "Wext": -6.962610021765162e-10,
+      "heat": 1.2033335741658255e-7,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.9999806197747261,
+      "rOutMain": 1.0000095168510785,
+      "dlnMean": -3.9881702194150755e-8,
+      "dlnMax": 0.00011367536264461,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.9999999966068484,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": -3.393151204493759e-9,
+      "Wext": -6.962615392076582e-9,
+      "heat": 0.000001203446506691261,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.9998074478873833,
+      "rOutMain": 1.00009455569171,
+      "dlnMean": -3.9885331554943354e-7,
+      "dlnMax": 0.0005752054181750362,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 100000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.9999999660687616,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": -3.3931237779186e-8,
+      "Wext": -6.9626722338815e-8,
+      "heat": 0.000012045066103674952,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.9981802780939212,
+      "rOutMain": 1.0008937133921068,
+      "dlnMean": -0.000003991931263825271,
+      "dlnMax": 0.0021485252534497053,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 1000000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.9999996607216738,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": -3.3927832544360647e-7,
+      "Wext": -6.9633774778178e-7,
+      "heat": 0.00012045707304732617,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.9867024349993473,
+      "rOutMain": 1.0065333681945958,
+      "dlnMean": -0.00003991445544670778,
+      "dlnMax": 0.015246913946716336,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.9999966106310664,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": -0.000003389368937172132,
+      "Wext": -0.000006970467077874984,
+      "heat": 0.001208194301822542,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.9227986661306028,
+      "rOutMain": 1.0354436454152092,
+      "dlnMean": -0.0003995808839377615,
+      "dlnMax": 0.0805977890740773,
+      "amClosed": true,
+      "enClosed": true
+     }
+    ],
+    "tilt": [
+     {
+      "key": "ringD",
+      "efoldYr": 12000326555327.018
+     },
+     {
+      "key": "ringC",
+      "efoldYr": 9359572643709.508
+     },
+     {
+      "key": "ringB",
+      "efoldYr": 6596056669412.896
+     },
+     {
+      "key": "ringA",
+      "efoldYr": 4781457552496.424
+     },
+     {
+      "key": "ringF",
+      "efoldYr": 4237109052515.422
+     }
+    ],
+    "tiltMaxYr": 12000326555327.018,
+    "tiltOk": false,
+    "dlnMeanMinusCtl": -0.000006845199857878734
+   },
+   {
+    "key": "epsOne",
+    "set": "one",
+    "strength": "eps",
+    "lamScale": 1.246334915220354e-9,
+    "nu": 0.01,
+    "M0": 21725221475867406000,
+    "L0": 4.442346223696109e+31,
+    "E0": -3.771310725513518e+27,
+    "nAnnuli": 98,
+    "Tnet0": -12501370441.006416,
+    "Tabs0": 192940028775.31693,
+    "cancel": 0.06479407368371727,
+    "netRate": -2.8141369023247945e-22,
+    "dlnLnet1e7": -8.880740670880494e-8,
+    "tDrift1e5Yr": 10000000.051222075,
+    "steps": 76262,
+    "crossings": 0,
+    "checks": [
+     {
+      "tYr": 1000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.999999999991119,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": -8.880674594384742e-12,
+      "Wext": -7.071007402170231e-11,
+      "heat": 1.2033335722160933e-7,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.9999806197252139,
+      "rOutMain": 1.0000095179738928,
+      "dlnMean": -3.9232847825844e-8,
+      "dlnMax": 0.00011367416649258146,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.9999999999112005,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": -8.879867973477258e-11,
+      "Wext": -7.071088795586642e-10,
+      "heat": 0.000001203446493976562,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.9998074473925448,
+      "rOutMain": 1.0000945669193042,
+      "dlnMean": -3.9236476434365553e-7,
+      "dlnMax": 0.0005751934574430794,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 100000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.9999999991128087,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": -8.8719083678322e-10,
+      "Wext": -7.071970562362845e-9,
+      "heat": 0.000012045064844693118,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.9981802731615426,
+      "rOutMain": 1.0008938256322133,
+      "dlnMean": -0.000003927044986825914,
+      "dlnMax": 0.002148405692450524,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 1000000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.9999999912269164,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": -8.773083027520337e-9,
+      "Wext": -7.082921911834943e-8,
+      "heat": 0.00012045696594970866,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.9867023832117257,
+      "rOutMain": 1.0065344958539353,
+      "dlnMean": -0.00003926550806901252,
+      "dlnMax": 0.015246860363568626,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.9999999221784559,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": -7.78215489088893e-8,
+      "Wext": -7.193018655397278e-7,
+      "heat": 0.0012081837716411093,
+      "heatDirectBelow1e3": true,
+      "rIn": 0.9227980932589139,
+      "rOutMain": 1.0354553111623566,
+      "dlnMean": -0.000393082931086536,
+      "dlnMax": 0.08059747539322348,
+      "amClosed": true,
+      "enClosed": true
+     }
+    ],
+    "tilt": [
+     {
+      "key": "ringD",
+      "efoldYr": 4000163340439.905
+     },
+     {
+      "key": "ringC",
+      "efoldYr": 3134247660883.3984
+     },
+     {
+      "key": "ringB",
+      "efoldYr": 2223142102301.7803
+     },
+     {
+      "key": "ringA",
+      "efoldYr": 1621147763370.13
+     },
+     {
+      "key": "ringF",
+      "efoldYr": 1439796026620.2986
+     }
+    ],
+    "tiltMaxYr": 4000163340439.905,
+    "tiltOk": false,
+    "dlnMeanMinusCtl": -3.4724700665323804e-7
+   },
+   {
+    "key": "epsHalfNu0",
+    "set": "half",
+    "strength": "eps",
+    "lamScale": 6.109338183561657e-9,
+    "nu": 0,
+    "M0": 21725221475867406000,
+    "L0": 4.442346223696109e+31,
+    "E0": -3.771310725513518e+27,
+    "nAnnuli": 98,
+    "Tnet0": -477652476681.77704,
+    "Tabs0": 477652476681.77704,
+    "cancel": 1,
+    "netRate": -1.0752256862238935e-20,
+    "dlnLnet1e7": -0.0000033931542115579143,
+    "tDrift1e5Yr": 10000000.014392238,
+    "steps": 5,
+    "crossings": 0,
+    "checks": [
+     {
+      "tYr": 1000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.999999999660684,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": -3.3931542115579144e-10,
+      "Wext": -6.962609352205775e-10,
+      "heat": 0,
+      "heatDirectBelow1e3": null,
+      "rIn": 0.9999999989770424,
+      "rOutMain": 0.9999999995537687,
+      "dlnMean": -6.846309101467829e-10,
+      "dlnMax": 1.0229576080336985e-9,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.9999999966068454,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": -3.3931542134213435e-9,
+      "Wext": -6.962609209056638e-9,
+      "heat": 0,
+      "heatDirectBelow1e3": null,
+      "rIn": 0.9999999897704227,
+      "rOutMain": 0.9999999955376889,
+      "dlnMean": -6.846309065996742e-9,
+      "dlnMax": 1.0229577348672228e-8,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 100000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.9999999660684575,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": -3.393154230378552e-8,
+      "Wext": -6.962609557137705e-8,
+      "heat": 0,
+      "heatDirectBelow1e3": null,
+      "rIn": 0.9999998977042309,
+      "rOutMain": 0.9999999553768932,
+      "dlnMean": -6.846309198415944e-8,
+      "dlnMax": 1.0229577430993296e-7,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 1000000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.9999996606845596,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": -3.3931543997829115e-7,
+      "Wext": -6.96261323479373e-7,
+      "heat": 0,
+      "heatDirectBelow1e3": null,
+      "rIn": 0.9999989770425538,
+      "rOutMain": 0.9999995537689368,
+      "dlnMean": -6.846310615786644e-7,
+      "dlnMax": 0.000001022957969416397,
+      "amClosed": true,
+      "enClosed": true
+     },
+     {
+      "tYr": 10000000,
+      "nAlive": 98,
+      "M": 1,
+      "Msat": 0,
+      "Mout": 0,
+      "L": 0.9999966068439052,
+      "Lsat": 0,
+      "Lout": 0,
+      "extL": -0.0000033931560938080155,
+      "Wext": -0.000006962650009625898,
+      "heat": 0,
+      "heatDirectBelow1e3": null,
+      "rIn": 0.9999897704496697,
+      "rOutMain": 0.9999955376897409,
+      "dlnMean": -0.000006846324786188988,
+      "dlnMax": 0.00001022960265246088,
+      "amClosed": true,
+      "enClosed": true
+     }
+    ],
+    "tilt": [
+     {
+      "key": "ringD",
+      "efoldYr": 12000326555327.018
+     },
+     {
+      "key": "ringC",
+      "efoldYr": 9359572643709.508
+     },
+     {
+      "key": "ringB",
+      "efoldYr": 6596056669412.896
+     },
+     {
+      "key": "ringA",
+      "efoldYr": 4781457552496.424
+     },
+     {
+      "key": "ringF",
+      "efoldYr": 4237109052515.422
+     }
+    ],
+    "tiltMaxYr": 12000326555327.018,
+    "tiltOk": false,
+    "dlnMeanMinusCtl": null
+   }
+  ]
+ },
+ "t3": {
+  "rows": [
+   {
+    "key": "phobos",
+    "host": "mars",
+    "nOverS": 3.215865972805707,
+    "obs": -6.509472380119704e-17,
+    "tideUnit": -7.082935898069829e-14,
+    "tideClosed": -7.082935898069829e-14,
+    "kqNeed": 0.000919035901749951,
+    "kqLit": 0.0017,
+    "tideLit": -1.2040991026718707e-16,
+    "resLit": 5.531518646599004e-17,
+    "resLitSign": 1,
+    "cand": {
+     "half": -8.293282880168615e-17,
+     "one": -8.321428186113908e-17
+    },
+    "candOverRes": {
+     "half": -1.4992777589690767,
+     "one": -1.5043659287364513
+    },
+    "kqJoint": {
+     "half": -0.00025184620130968817,
+     "one": -0.00025581987922380895
+    }
+   },
+   {
+    "key": "moon",
+    "host": "earth",
+    "nOverS": 0.03632722267412091,
+    "obs": 3.157267854519534e-18,
+    "tideUnit": 1.2293138239056505e-16,
+    "tideClosed": 1.2293138239056508e-16,
+    "kqNeed": 0.025683172133284766,
+    "kqLit": 0.025,
+    "tideLit": 3.0732845597641264e-18,
+    "resLit": 8.398329475540773e-20,
+    "resLitSign": 1,
+    "cand": {
+     "half": 3.8902860947291176e-18,
+     "one": 3.9058107946991995e-18
+    },
+    "candOverRes": {
+     "half": 46.32214187427578,
+     "one": 46.50699649346279
+    },
+    "kqJoint": {
+     "half": -0.005962824349283836,
+     "one": -0.006089111873821373
+    }
+   },
+   {
+    "key": "titan",
+    "host": "saturn",
+    "nOverS": 0.027840469441499364,
+    "obs": 2.9305522870561284e-18,
+    "tideUnit": 9.452974549645447e-16,
+    "tideClosed": 9.452974549645451e-16,
+    "kqNeed": 0.0031001377097392533,
+    "kqLit": 0.000159,
+    "tideLit": 1.503022953393626e-19,
+    "resLit": 2.780249991716766e-18,
+    "resLitSign": 1,
+    "cand": {
+     "half": 8.289373849534534e-18,
+     "one": 8.426194630055892e-18
+    },
+    "candOverRes": {
+     "half": 2.9815210409967343,
+     "one": 3.030732723733535
+    },
+    "kqJoint": {
+     "half": -0.005668926256317276,
+     "one": -0.005813664592174204
+    }
+   },
+   {
+    "key": "triton",
+    "host": "neptune",
+    "nOverS": 0.11420593797810843,
+    "obs": -8.802246615008041e-18,
+    "tideUnit": -1.2849443818369124e-14,
+    "tideClosed": -1.284944381836913e-14,
+    "kqNeed": 0.0006850293864411977,
+    "kqLit": 0.0000012,
+    "tideLit": -1.5419332582042948e-20,
+    "resLit": -8.786827282425998e-18,
+    "resLitSign": -1,
+    "cand": {
+     "half": -3.111868811453389e-18,
+     "one": -3.0613396772052475e-18
+    },
+    "candOverRes": {
+     "half": 0.35415158525731466,
+     "one": 0.3484010301793513
+    },
+    "kqJoint": {
+     "half": 0.0004428501251875107,
+     "one": 0.0004467825237381706
+    }
+   }
+  ],
+  "grid": [
+   {
+    "key": "phobos",
+    "res": [
+     {
+      "kq": 0.00001,
+      "res": -6.438643021139006e-17,
+      "sign": -1,
+      "candOverRes": {
+       "half": 1.2880482506858286,
+       "one": 1.2924195608909275
+      }
+     },
+     {
+      "kq": 0.0001,
+      "res": -5.80117879031272e-17,
+      "sign": -1,
+      "candOverRes": {
+       "half": 1.4295858100456087,
+       "one": 1.4344374629531682
+      }
+     },
+     {
+      "kq": 0.001,
+      "res": 5.734635179501244e-18,
+      "sign": 1,
+      "candOverRes": {
+       "half": -14.461744506108065,
+       "one": -14.510824011716197
+      }
+     },
+     {
+      "kq": 0.01,
+      "res": 6.431988660057858e-16,
+      "sign": 1,
+      "candOverRes": {
+       "half": -0.1289380830483929,
+       "one": -0.12937566631280495
+      }
+     },
+     {
+      "kq": 0.1,
+      "res": 7.017841174268632e-15,
+      "sign": 1,
+      "candOverRes": {
+       "half": -0.01181742743135378,
+       "one": -0.01185753279316859
+      }
+     }
+    ]
+   },
+   {
+    "key": "moon",
+    "res": [
+     {
+      "kq": 0.00001,
+      "res": 3.1560385406956286e-18,
+      "sign": 1,
+      "candOverRes": {
+       "half": 1.2326484751582445,
+       "one": 1.2375675215418351
+      }
+     },
+     {
+      "kq": 0.0001,
+      "res": 3.1449747162804775e-18,
+      "sign": 1,
+      "candOverRes": {
+       "half": 1.2369848554236107,
+       "one": 1.24192120670482
+      }
+     },
+     {
+      "kq": 0.001,
+      "res": 3.034336472128969e-18,
+      "sign": 1,
+      "candOverRes": {
+       "half": 1.282087906355221,
+       "one": 1.287204247312356
+      }
+     },
+     {
+      "kq": 0.01,
+      "res": 1.9279540306138835e-18,
+      "sign": 1,
+      "candOverRes": {
+       "half": 2.017831355393056,
+       "one": 2.0258837776622416
+      }
+     },
+     {
+      "kq": 0.1,
+      "res": -9.135870384536972e-18,
+      "sign": -1,
+      "candOverRes": {
+       "half": -0.42582544749252005,
+       "one": -0.42752476012685414
+      }
+     }
+    ]
+   },
+   {
+    "key": "titan",
+    "res": [
+     {
+      "kq": 0.00001,
+      "res": 2.921099312506483e-18,
+      "sign": 1,
+      "candOverRes": {
+       "half": 2.8377583103882014,
+       "one": 2.884597108348808
+      }
+     },
+     {
+      "kq": 0.0001,
+      "res": 2.836022541559674e-18,
+      "sign": 1,
+      "candOverRes": {
+       "half": 2.9228871520096535,
+       "one": 2.9711310494104524
+      }
+     },
+     {
+      "kq": 0.001,
+      "res": 1.9852548320915836e-18,
+      "sign": 1,
+      "candOverRes": {
+       "half": 4.175470934782306,
+       "one": 4.24438943245306
+      }
+     },
+     {
+      "kq": 0.01,
+      "res": -6.522422262589319e-18,
+      "sign": -1,
+      "candOverRes": {
+       "half": -1.2709042002815312,
+       "one": -1.2918811893529258
+      }
+     },
+     {
+      "kq": 0.1,
+      "res": -9.159919320939835e-17,
+      "sign": -1,
+      "candOverRes": {
+       "half": -0.09049614477045437,
+       "one": -0.0919898345697584
+      }
+     }
+    ]
+   },
+   {
+    "key": "triton",
+    "res": [
+     {
+      "kq": 0.00001,
+      "res": -8.67375217682435e-18,
+      "sign": -1,
+      "candOverRes": {
+       "half": 0.35876847159273023,
+       "one": 0.35294294957895267
+      }
+     },
+     {
+      "kq": 0.0001,
+      "res": -7.517302233171129e-18,
+      "sign": -1,
+      "candOverRes": {
+       "half": 0.41396084857701215,
+       "one": 0.4072391374257464
+      }
+     },
+     {
+      "kq": 0.001,
+      "res": 4.047197203361084e-18,
+      "sign": 1,
+      "candOverRes": {
+       "half": -0.768894782015828,
+       "one": -0.7564098123666647
+      }
+     },
+     {
+      "kq": 0.01,
+      "res": 1.196921915686832e-16,
+      "sign": 1,
+      "candOverRes": {
+       "half": -0.025998929175490113,
+       "one": -0.025576770189294707
+      }
+     },
+     {
+      "kq": 0.1,
+      "res": 1.2761421352219045e-15,
+      "sign": 1,
+      "candOverRes": {
+       "half": -0.002438497033805937,
+       "one": -0.0023989018093763673
+      }
+     }
+    ]
+   }
+  ],
+  "combos": [
+   {
+    "setKey": "half",
+    "fMax": 0.35353120033555796,
+    "limiting": "titan",
+    "list": [
+     {
+      "f": 1,
+      "kq": {
+       "phobos": -0.00025184620130968817,
+       "moon": -0.005962824349283836,
+       "titan": -0.005668926256317276,
+       "triton": 0.0004428501251875107
+      },
+      "allNonNeg": false
+     },
+     {
+      "f": 0.5,
+      "kq": {
+       "phobos": 0.0003335948502201314,
+       "moon": 0.009860173892000465,
+       "titan": -0.0012843942732890115,
+       "triton": 0.0005639397558143542
+      },
+      "allNonNeg": false
+     },
+     {
+      "f": 0.1,
+      "kq": {
+       "phobos": 0.000801947691443987,
+       "moon": 0.022518572485027907,
+       "titan": 0.0022232313131336,
+       "triton": 0.0006608114603158289
+      },
+      "allNonNeg": true
+     },
+     {
+      "f": 0.35353120033555796,
+      "kq": {
+       "phobos": 0.0005050925464038543,
+       "moon": 0.014495325010987442,
+       "titan": 0,
+       "triton": 0.000599411461513803
+      },
+      "allNonNeg": true
+     }
+    ]
+   },
+   {
+    "setKey": "one",
+    "fMax": 0.3477907187905402,
+    "limiting": "titan",
+    "list": [
+     {
+      "f": 1,
+      "kq": {
+       "phobos": -0.00025581987922380895,
+       "moon": -0.006089111873821373,
+       "titan": -0.005813664592174204,
+       "triton": 0.0004467825237381706
+      },
+      "allNonNeg": false
+     },
+     {
+      "f": 0.5,
+      "kq": {
+       "phobos": 0.00033160801126307104,
+       "moon": 0.009797030129731696,
+       "titan": -0.0013567634412174757,
+       "triton": 0.0005659059550896841
+      },
+      "allNonNeg": false
+     },
+     {
+      "f": 0.1,
+      "kq": {
+       "phobos": 0.000801550323652575,
+       "moon": 0.02250594373257415,
+       "titan": 0.0022087574795479075,
+       "triton": 0.000661204700170895
+      },
+      "allNonNeg": true
+     },
+     {
+      "f": 0.3477907187905402,
+      "kq": {
+       "phobos": 0.0005104319652098656,
+       "moon": 0.014633066640836136,
+       "titan": 0,
+       "triton": 0.0006021693388121208
+      },
+      "allNonNeg": true
+     }
+    ]
+   }
+  ]
+ },
+ "t4": {
+  "rows": [
+   {
+    "key": "deimos",
+    "name": "ダイモス",
+    "host": "mars",
+    "nOverS": 0.8123505420963075,
+    "pred": {
+     "half": {
+      "dlnA": -7.375588805076489e-17,
+      "sign": -1,
+      "driftKm": -29.77109227321063
+     },
+     "one": {
+      "dlnA": 5.88169607906543e-17,
+      "sign": 1,
+      "driftKm": 23.74108987370835
+     }
+    },
+    "opposite": true,
+    "tide": 4.292282388341534e-20,
+    "tideSign": 1,
+    "tideDriftKm": 0.01732552321219967,
+    "visible": true,
+    "candOverTide": {
+     "half": -1718.3372708910454,
+     "one": 1370.2956951390188
+    },
+    "obs": null
+   },
+   {
+    "key": "amalthea",
+    "name": "アマルテア",
+    "host": "jupiter",
+    "nOverS": 0.8286712608909841,
+    "pred": {
+     "half": {
+      "dlnA": -9.056167376842884e-18,
+      "sign": -1,
+      "driftKm": -71.50865899853495
+     },
+     "one": {
+      "dlnA": 4.673163697873927e-18,
+      "sign": 1,
+      "driftKm": 36.89989985941454
+     }
+    },
+    "opposite": true,
+    "tide": 5.015042094219261e-20,
+    "tideSign": 1,
+    "tideDriftKm": 0.39599415520502856,
+    "visible": true,
+    "candOverTide": {
+     "half": -180.58008700030152,
+     "one": 93.18294064292282
+    },
+    "obs": null
+   },
+   {
+    "key": "thebe",
+    "name": "テーベ",
+    "host": "jupiter",
+    "nOverS": 0.6123679184335432,
+    "pred": {
+     "half": {
+      "dlnA": -7.594284167365899e-18,
+      "sign": -1,
+      "driftKm": -54.21395462521563
+     },
+     "one": {
+      "dlnA": 2.828554044633701e-17,
+      "sign": 1,
+      "driftKm": 201.9243647606757
+     }
+    },
+    "opposite": true,
+    "tide": 2.7951837679715886e-21,
+    "tideSign": 1,
+    "tideDriftKm": 0.019954213277551397,
+    "visible": true,
+    "candOverTide": {
+     "half": -2716.917669022143,
+     "one": 10119.384911448338
+    },
+    "obs": null
+   },
+   {
+    "key": "pan",
+    "name": "パン",
+    "host": "saturn",
+    "nOverS": 0.7701625403309856,
+    "pred": {
+     "half": {
+      "dlnA": -5.567409185304106e-17,
+      "sign": -1,
+      "driftKm": -280.28659088152625
+     },
+     "one": {
+      "dlnA": 6.272433606150836e-17,
+      "sign": 1,
+      "driftKm": 315.78045972252437
+     }
+    },
+    "opposite": true,
+    "tide": 9.795860267808934e-21,
+    "tideSign": 1,
+    "tideDriftKm": 0.04931644482793636,
+    "visible": true,
+    "candOverTide": {
+     "half": -5683.430585060176,
+     "one": 6403.147283310329
+    },
+    "obs": null
+   },
+   {
+    "key": "daphnis",
+    "name": "ダフニス",
+    "host": "saturn",
+    "nOverS": 0.7455747952166759,
+    "pred": {
+     "half": {
+      "dlnA": -2.269785397742367e-16,
+      "sign": -1,
+      "driftKm": -1130.4124175925378
+     },
+     "one": {
+      "dlnA": 3.9281540965499477e-16,
+      "sign": 1,
+      "driftKm": 1956.3233481780783
+     }
+    },
+    "opposite": true,
+    "tide": 1.323934063853477e-22,
+    "tideSign": 1,
+    "tideDriftKm": 0.0006593537465446298,
+    "visible": true,
+    "candOverTide": {
+     "half": -1714424.8038575808,
+     "one": 2967031.5190142933
+    },
+    "obs": null
+   },
+   {
+    "key": "atlas",
+    "name": "アトラス",
+    "host": "saturn",
+    "nOverS": 0.7361309679445096,
+    "pred": {
+     "half": {
+      "dlnA": -4.718134640582524e-17,
+      "sign": -1,
+      "driftKm": -233.97910500919386
+     },
+     "one": {
+      "dlnA": 6.891949404980487e-17,
+      "sign": 1,
+      "driftKm": 341.78171595096416
+     }
+    },
+    "opposite": true,
+    "tide": 1.073815507587718e-20,
+    "tideSign": 1,
+    "tideDriftKm": 0.05325206051757498,
+    "visible": true,
+    "candOverTide": {
+     "half": -4393.803784023959,
+     "one": 6418.187627465882
+    },
+    "obs": null
+   },
+   {
+    "key": "prometheus",
+    "name": "プロメテウス",
+    "host": "saturn",
+    "nOverS": 0.7226256392844341,
+    "pred": {
+     "half": {
+      "dlnA": -1.4009230029151383e-17,
+      "sign": -1,
+      "driftKm": -69.04630427916705
+     },
+     "one": {
+      "dlnA": 1.8932872512966048e-17,
+      "sign": 1,
+      "driftKm": 93.313113832004
+     }
+    },
+    "opposite": true,
+    "tide": 2.4024715760712615e-19,
+    "tideSign": 1,
+    "tideDriftKm": 1.1840892263050002,
+    "visible": true,
+    "candOverTide": {
+     "half": -58.311740994915496,
+     "one": 78.80581273692648
+    },
+    "obs": null
+   },
+   {
+    "key": "pandora",
+    "name": "パンドラ",
+    "host": "saturn",
+    "nOverS": 0.704802346614095,
+    "pred": {
+     "half": {
+      "dlnA": -1.40938348534962e-17,
+      "sign": -1,
+      "driftKm": -68.88743400497427
+     },
+     "one": {
+      "dlnA": 2.225011466348449e-17,
+      "sign": 1,
+      "driftKm": 108.75346003530572
+     }
+    },
+    "opposite": true,
+    "tide": 1.846117759009327e-19,
+    "tideSign": 1,
+    "tideDriftKm": 0.9023400416645181,
+    "visible": true,
+    "candOverTide": {
+     "half": -76.34309775048858,
+     "one": 120.52381033062841
+    },
+    "obs": null
+   },
+   {
+    "key": "janus",
+    "name": "ヤヌス",
+    "host": "saturn",
+    "nOverS": 0.6379213363965537,
+    "pred": {
+     "half": {
+      "dlnA": -4.346242549102497e-18,
+      "sign": -1,
+      "driftKm": -20.54903275665113
+     },
+     "one": {
+      "dlnA": 1.0844919467833357e-17,
+      "sign": 1,
+      "driftKm": 51.274774214745676
+     }
+    },
+    "opposite": true,
+    "tide": 1.662103930463729e-18,
+    "tideSign": 1,
+    "tideDriftKm": 7.858426612456481,
+    "visible": true,
+    "candOverTide": {
+     "half": -2.614904200298648,
+     "one": 6.524814284512047
+    },
+    "obs": null
+   },
+   {
+    "key": "ringAedge",
+    "name": "A 環の外縁の粒子",
+    "host": "saturn",
+    "nOverS": 0.7433681878437411,
+    "pred": {
+     "half": {
+      "dlnA": -2.2958407423288717e-12,
+      "sign": -1,
+      "driftKm": -11422595.519777136
+     },
+     "one": {
+      "dlnA": 1.747376111962593e-11,
+      "sign": 1,
+      "driftKm": 86937957.75931205
+     }
+    },
+    "opposite": true,
+    "tide": null,
+    "tideSign": null,
+    "tideDriftKm": null,
+    "visible": true,
+    "candOverTide": null,
+    "obs": null
+   },
+   {
+    "key": "puck",
+    "name": "パック",
+    "host": "uranus",
+    "nOverS": 0.942686747002716,
+    "pred": {
+     "half": {
+      "dlnA": -6.711517833376263e-18,
+      "sign": -1,
+      "driftKm": -16.457963525579117
+     },
+     "one": {
+      "dlnA": 8.093992393986936e-19,
+      "sign": 1,
+      "driftKm": 1.984806341929058
+     }
+    },
+    "opposite": true,
+    "tide": 1.4525250675742858e-19,
+    "tideSign": 1,
+    "tideDriftKm": 0.3561877532865185,
+    "visible": true,
+    "candOverTide": {
+     "half": -46.20586579331457,
+     "one": 5.572359868118412
+    },
+    "obs": null
+   },
+   {
+    "key": "mab",
+    "name": "マブ",
+    "host": "uranus",
+    "nOverS": 0.7781503837424065,
+    "pred": {
+     "half": {
+      "dlnA": -4.343958894127741e-17,
+      "sign": -1,
+      "driftKm": -99.92475653746848
+     },
+     "one": {
+      "dlnA": 4.514933000888123e-17,
+      "sign": 1,
+      "driftKm": 103.85770028961528
+     }
+    },
+    "opposite": true,
+    "tide": 3.329558255479219e-24,
+    "tideSign": 1,
+    "tideDriftKm": 0.000007659034216595315,
+    "visible": true,
+    "candOverTide": {
+     "half": -13046652.320857264,
+     "one": 13560156.196270833
+    },
+    "obs": null
+   },
+   {
+    "key": "proteus",
+    "name": "プロテウス",
+    "host": "neptune",
+    "nOverS": 0.5980225112620423,
+    "pred": {
+     "half": {
+      "dlnA": -8.657918206730755e-19,
+      "sign": -1,
+      "driftKm": -1.971618498356218
+     },
+     "one": {
+      "dlnA": 2.7808173851011598e-18,
+      "sign": 1,
+      "driftKm": 6.332597358974467
+     }
+    },
+    "opposite": true,
+    "tide": 4.1409419238764114e-20,
+    "tideSign": 1,
+    "tideDriftKm": 0.09429931656534317,
+    "visible": true,
+    "candOverTide": {
+     "half": -20.908088946647,
+     "one": 67.15422327145284
+    },
+    "obs": null
+   }
+  ],
+  "nOpposite": 13,
+  "nVisible": 13,
+  "inRange": 13
+ },
+ "t5": {
+  "rows": [
+   {
+    "key": "ringD",
+    "host": "saturn",
+    "iDeg": 0.000008103497562135988,
+    "twist": {
+     "own": 0,
+     "node": 0.00008189420278346854,
+     "orth": -0.00008193352984810699,
+     "toPlane": 1,
+     "dlnA": 0
+    },
+    "focus": {
+     "own": -0.000005335563587162063,
+     "node": 0,
+     "orth": 0,
+     "toPlane": 0,
+     "dlnA": 0
+    }
+   },
+   {
+    "key": "ringC",
+    "host": "saturn",
+    "iDeg": 0.000006875851085826359,
+    "twist": {
+     "own": 0,
+     "node": 0.00008189420278346847,
+     "orth": -0.00008180506582298642,
+     "toPlane": 1,
+     "dlnA": 0
+    },
+    "focus": {
+     "own": -0.000005327197928121583,
+     "node": 0,
+     "orth": 0,
+     "toPlane": 0,
+     "dlnA": 0
+    }
+   },
+   {
+    "key": "ringB",
+    "host": "saturn",
+    "iDeg": 0.000005467676258524899,
+    "twist": {
+     "own": 0,
+     "node": 0.00008189420278346837,
+     "orth": -0.0000819070487941676,
+     "toPlane": 1,
+     "dlnA": 0
+    },
+    "focus": {
+     "own": -0.000005333839124083171,
+     "node": 0,
+     "orth": 0,
+     "toPlane": 0,
+     "dlnA": 0
+    }
+   },
+   {
+    "key": "ringA",
+    "host": "saturn",
+    "iDeg": 0.0000044253242590575125,
+    "twist": {
+     "own": 0,
+     "node": 0.00008189420278346844,
+     "orth": -0.00008169089059943029,
+     "toPlane": 1,
+     "dlnA": 0
+    },
+    "focus": {
+     "own": -0.000005319762764929055,
+     "node": 0,
+     "orth": 0,
+     "toPlane": 0,
+     "dlnA": 0
+    }
+   },
+   {
+    "key": "ringF",
+    "host": "saturn",
+    "iDeg": 0.000004087300578761761,
+    "twist": {
+     "own": 0,
+     "node": 0.00008189420278346854,
+     "orth": -0.00008174911751705396,
+     "toPlane": 1,
+     "dlnA": 0
+    },
+    "focus": {
+     "own": -0.000005323554538846782,
+     "node": 0,
+     "orth": 0,
+     "toPlane": 0,
+     "dlnA": 0
+    }
+   },
+   {
+    "key": "phobos",
+    "host": "mars",
+    "iDeg": 1.093,
+    "twist": {
+     "own": 0,
+     "node": 0.000035441179749771133,
+     "orth": -0.00003543903021697063,
+     "toPlane": 1,
+     "dlnA": 0
+    },
+    "focus": {
+     "own": 0,
+     "node": 0,
+     "orth": 0,
+     "toPlane": 0,
+     "dlnA": 0
+    }
+   },
+   {
+    "key": "moon",
+    "host": "earth",
+    "iDeg": 23.4,
+    "twist": {
+     "own": 0,
+     "node": 0.000036460532906918483,
+     "orth": -0.000035455372070245,
+     "toPlane": 1,
+     "dlnA": 0
+    },
+    "focus": {
+     "own": 0,
+     "node": 0,
+     "orth": 0,
+     "toPlane": 0,
+     "dlnA": 0
+    }
+   },
+   {
+    "key": "titan",
+    "host": "saturn",
+    "iDeg": 0.3485,
+    "twist": {
+     "own": 0,
+     "node": 0.00008189420278346854,
+     "orth": -0.00008189369781831646,
+     "toPlane": 1,
+     "dlnA": 0
+    },
+    "focus": {
+     "own": 0,
+     "node": 0,
+     "orth": 0,
+     "toPlane": 0,
+     "dlnA": 0
+    }
+   },
+   {
+    "key": "triton",
+    "host": "neptune",
+    "iDeg": 156.885,
+    "twist": {
+     "own": 0,
+     "node": 0.00005416912631040593,
+     "orth": -0.00005271162758915252,
+     "toPlane": -1,
+     "dlnA": 0
+    },
+    "focus": {
+     "own": 0,
+     "node": 0,
+     "orth": 0,
+     "toPlane": 0,
+     "dlnA": 0
+    }
+   }
+  ],
+  "lamNeedTw": 3.8790234237267507e-11,
+  "efold337iTw": 591.2604675985048,
+  "twistRingPow": -0.0032923083473204583,
+  "flat": [
+   {
+    "key": "saturn",
+    "fFlat": 0.09796,
+    "orth": -0.00008189419949937348,
+    "hBand": 10.361472195302131,
+    "litH": 10,
+    "litKind": "典型"
+   },
+   {
+    "key": "jupiter",
+    "fFlat": 0.06487,
+    "orth": -0.00008792590326098979,
+    "hBand": 34.193025192062734,
+    "litH": 30000,
+    "litKind": "上限"
+   },
+   {
+    "key": "uranus",
+    "fFlat": 0.02293,
+    "orth": -0.00005061859569984485,
+    "hBand": 1.541101985073238,
+    "litH": 150,
+    "litKind": "上限"
+   },
+   {
+    "key": "neptune",
+    "fFlat": 0.01708,
+    "orth": -0.000054169124138133105,
+    "hBand": 1.8144188088060824,
+    "litH": null,
+    "litKind": null
+   }
+  ],
+  "flatK": [
+   {
+    "k": 0,
+    "times": [
+     {
+      "key": "saturn",
+      "tYr": 10000000
+     },
+     {
+      "key": "jupiter",
+      "tYr": 9314001.501501502
+     },
+     {
+      "key": "uranus",
+      "tYr": 16178678.678678652
+     },
+     {
+      "key": "neptune",
+      "tYr": 15118243.243243234
+     }
+    ]
+   },
+   {
+    "k": 1,
+    "times": [
+     {
+      "key": "saturn",
+      "tYr": 10000000
+     },
+     {
+      "key": "jupiter",
+      "tYr": 14065046.818052832
+     },
+     {
+      "key": "uranus",
+      "tYr": 69117460.24262369
+     },
+     {
+      "key": "neptune",
+      "tYr": 86708612.88689151
+     }
+    ]
+   },
+   {
+    "k": 2,
+    "times": [
+     {
+      "key": "saturn",
+      "tYr": 10000000
+     },
+     {
+      "key": "jupiter",
+      "tYr": 21239586.654793516
+     },
+     {
+      "key": "uranus",
+      "tYr": 295278953.5703191
+     },
+     {
+      "key": "neptune",
+      "tYr": 497305369.9297361
+     }
+    ]
+   }
+  ]
+ },
+ "timing": {
+  "pure": {
+   "wallSec": 0.038
+  },
+  "sets": {
+   "wallSec": 0.197
+  },
+  "t1": {
+   "wallSec": 0.327
+  },
+  "t2": {
+   "wallSec": 10.081
+  },
+  "t3": {
+   "wallSec": 10.088
+  },
+  "t4": {
+   "wallSec": 10.106
+  },
+  "t5": {
+   "wallSec": 10.128
+  }
+ },
+ "gates": {
+  "pure": true,
+  "t1Complete": true,
+  "t1Band": true,
+  "t2Complete": true,
+  "t2Closed": true,
+  "t2Control": true,
+  "t3Complete": true,
+  "t4Complete": true,
+  "t4Opposite": true,
+  "t5Complete": true
+ },
+ "ok": true,
+ "elapsedS": 10.132,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第338便d",
+  "target": "tests/lib-w338d-ringbook.mjs",
+  "targetSha256": "a20dd7108b188fc53bb0ebe4308de09018ea029dfffab006c9570cdf7fedf78c",
+  "generatedAt": "2026-11-15T10:55:31.142Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w338d-ringbook.mjs",
+    "bytes": 17029,
+    "sha256": "6837cf290c17885e68961a095f7aae40f869446a1ece84f134fb57a8b0d76409",
+    "mtime": "2026-11-15T10:55:09.652Z"
+   },
+   {
+    "file": "tests/lib-w338d-ringbook.mjs",
+    "bytes": 39367,
+    "sha256": "a20dd7108b188fc53bb0ebe4308de09018ea029dfffab006c9570cdf7fedf78c",
+    "mtime": "2026-11-15T10:55:09.651Z"
+   },
+   {
+    "file": "tests/lib-w337k-gyrodrag.mjs",
+    "bytes": 32683,
+    "sha256": "abe184c716d4139c7cbba52a6e641da507f582625e7c13e67e3d65f6c9930791",
+    "mtime": "2026-11-15T10:19:01.465Z"
+   },
+   {
+    "file": "tests/lib-w337j-spinorbit.mjs",
+    "bytes": 40681,
+    "sha256": "1ab63f69a13c043a31e7255f918ddb26adc0240be1e9c8b221683694f024e815",
+    "mtime": "2026-11-15T10:19:01.465Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-15T10:19:01.465Z"
+   },
+   {
+    "file": "tests/lib-w292d-tide.mjs",
+    "bytes": 11080,
+    "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
+    "mtime": "2026-11-15T10:19:01.437Z"
+   },
+   {
+    "file": "tests/lib-w337a-supply.mjs",
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-15T10:19:01.461Z"
+   },
+   {
+    "file": "tests/lib-w337b-mercuryband.mjs",
+    "bytes": 28361,
+    "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
+    "mtime": "2026-11-15T10:19:01.461Z"
+   },
+   {
+    "file": "tests/lib-w335c-mercurycombo.mjs",
+    "bytes": 23928,
+    "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
+    "mtime": "2026-11-15T10:19:01.461Z"
+   },
+   {
+    "file": "tests/lib-w334c-mercurynode.mjs",
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-15T10:19:01.457Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-15T10:19:01.457Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35614,
+    "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
+    "mtime": "2026-11-15T10:19:01.457Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-15T10:19:01.457Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-15T10:19:01.457Z"
+   },
+   {
+    "file": "tests/lib-w332b-transgeo2.mjs",
+    "bytes": 29461,
+    "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
+    "mtime": "2026-11-15T10:19:01.457Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-15T10:19:01.457Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-15T10:19:01.457Z"
+   },
+   {
+    "file": "tests/lib-w331b-centrifugal.mjs",
+    "bytes": 36773,
+    "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
+    "mtime": "2026-11-15T10:19:01.453Z"
+   },
+   {
+    "file": "tests/lib-w331a-coordtwist.mjs",
+    "bytes": 33003,
+    "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
+    "mtime": "2026-11-15T10:19:01.453Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-15T10:19:01.453Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-15T10:19:01.449Z"
+   },
+   {
+    "file": "tests/lib-w312a-decay.mjs",
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-11-15T10:19:01.441Z"
+   },
+   {
+    "file": "tests/lib-w310d-shell.mjs",
+    "bytes": 20604,
+    "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
+    "mtime": "2026-11-15T10:19:01.441Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-11-15T10:19:01.441Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-11-15T10:19:01.441Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-15T10:19:01.429Z"
+   }
+  ],
+  "codeSha256": "0aec5f4d6dfe4116231a537b4d2a70b01886e4ac86ae8bf206bd3c428265f745",
+  "harnessVersion": "w338d-ringbook-1",
+  "stage": "ringbook",
+  "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の求積と輪の列の時間の発展)",
+  "notClaim": [
+   "環の厚みの値を決めたとは書かない(このノブの組で何 m の桁か・要るノブまで)",
+   "環の中のやり取りで外からのトルクが消えるとは書かない(帳簿の行き先まで)",
+   "潮汐の残りを回転引きずりの寄与とは書かない(k₂/Q が自由・文献の値が未照合)",
+   "5 つ目の天体は予測だけ(観測の値はこの環境の記録に無い)",
+   "文献の値は未照合(出典と確かさを書く)"
+  ],
+  "snap": {
+   "round": 1e-12,
+   "ecc2": 1e-7,
+   "scale": "T5 の T1 の捩れは同じ行の交点の率・第337便i の鉛直の場は同じ行の自分の傾きの率・純関数の場面の丸めの差は真偽で書く・帳簿の残りは閉じの真偽だけ(値を書かない)"
+  }
+ }
+}

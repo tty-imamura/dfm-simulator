@@ -106408,6 +106408,164 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第337便l の塊(ここまで)====
 
+// ==== 第338便d の塊(ここから —— behavior.ringbook338d・docs.ringbook338d の 2 ブロック。root は SKIP)====
+// ---- 第338便d(原仮定者の指示(2026-11-15 —— 第139報)・原仮定者の回答(2026-11-15 —— 第138報の回答 4)AN742・同 回答 3 AN736・AN737・統括の検証項目 R352): **回転引きずり: 土星の環を先に ——
+// ----   一様厚みの絶対値を同じ帳簿で・環の中のやり取りの収支・4 天体から潮汐の分を積んだ残り・5 つ目の天体・ジャイロの直交を高さ則 T1 に**(新設 —— 器 tests/exp-w338d-ringbook.mjs〔html を読まない〕・
+// ----   lib tests/lib-w338d-ringbook.mjs・文書の lib tests/lib-w338d-ringbookdoc.mjs・正本 tests/out/ringbook-338d.json・入力のファイルは無い。html・本の宣言・エンジン・受理器・第337便までの lib の本文は変えない)。
+// ----   世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.ringbook338d(正本と照合 —— html を読まない): ① 版・格子・純関数の場面 6 を作り直して全部真・正本の場面と完全一致 ② 器の runAll を走らせ直して sets と T1〜T5 が正本と同じ
+// ----     (数でない欄は完全一致・数は葉ごとに相対 1e-9・0 と書いた欄は両方 0 —— 第337便の教訓 2 の型) ③ 帳簿の閉じ(全部の例・全部の節目)・粘性だけの対照で正味のトルク 0・T1 の捩れで半長軸の率 0・
+// ----     ½〜1 の受け手で χ ½ と χ 1 の符号が逆・4 天体の強さの組が第337便k の正本の主の組と相対 1e-9 の内 ④ 作り直した門が全部真・呼ぶだけ(lib の import は第337便i・j・k と第292便d の lib だけ)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w338d-ringbook.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w338d-ringbook.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w338d-ringbookdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'ringbook-338d.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.ringbook338d(第338便d の回転引きずりの土星の環の帳簿の候補の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  // 葉ごとの照合: 同じなら 0・片方だけ 0 か null なら Infinity(0 と書いた欄は両方 0)・ほかは相対の差
+  const cmp338d = (a, b) => (a === b ? 0 : (a === null || b === null || a === undefined || b === undefined || a === 0 || b === 0) ? Infinity : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── behavior.ringbook338d ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/ringbook-338d.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        let dW = 0, worst = '';
+        const walk = (a, b, p) => { if (typeof a === 'number' || typeof b === 'number') { const d = cmp338d(a, b); if (d > dW) { dW = d; worst = p; } return; } if (a === null || b === null || typeof a !== 'object') { if (a !== b) { dW = Infinity; worst = p; } return; } for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) walk(a[k], b[k], p + '/' + k); };
+        // ① 版・格子・純関数の場面
+        if (!(L.LIB_VERSION === 'w338d-ringbook-lib-1' && X.HARNESS_VERSION === 'w338d-ringbook-1' && D0.DOC_VERSION === 'w338d-ringbookdoc-1' && X.AMEND.length === 0)) bad.push('① 版(lib・器・文書の lib・版の履歴)');
+        if (!(L.DECL.t1.nGrid === 74 && L.DECL.t1.uniformPow === 0.1 && L.DECL.t2.nMain === 96 && L.DECL.t2.nF === 2 && L.DECL.t2.tEndYr === 1e7 && L.DECL.t2.cases.length === 14 && L.DECL.t2.closeTol === 1e-9
+          && js(L.DECL.t4.bodies.length) === '13' && L.DECL.snap.round === 1e-12 && L.DECL.snap.ecc2 === 1e-7 && js(L.SETS) === js(['half', 'one'])))
+          bad.push('① 格子(半径 74 点・輪 96 + 2・1e7 年・例 14・受け手 13・床)の宣言');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
+        if (Object.keys(PG).length !== 6) bad.push('① 場面の数 ' + Object.keys(PG).length);
+        if (js(L.pureView(PS)) !== js(J.pure.scenes) || js(PG) !== js(J.pure.gates)) bad.push('① 場面の値が正本と違う');
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}`);
+        // ② 器を走らせ直して正本と同じ
+        const R = X.runAll(), parts = ['sets', 't1', 't2', 't3', 't4', 't5'], diffs = {};
+        for (const k of parts) { dW = 0; worst = ''; walk(JSON.parse(js(R[k])), J[k], k); diffs[k] = [dW, worst]; }
+        const badParts = parts.filter((k) => !(diffs[k][0] <= 1e-9));
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k][0] + ' ' + diffs[k][1]).join('・') + ')—— 器を走らせ直す');
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(数は葉ごとに相対 1e-9・0 は両方 0 —— 厚みの型 ${R.t1.types.length}・例 ${R.t2.cases.length}・受け手 ${R.t4.rows.length})`);
+        // ③ 帳簿の閉じ・対照・恒等式・第337便k の組
+        if (!J.t2.cases.every((c) => c.checks.every((k) => k.amClosed === true && k.enClosed === true) && c.crossings === 0)) bad.push('③ 帳簿の閉じ(角運動量・エネルギー)か輪の順');
+        const ctl = J.t2.cases.find((c) => c.key === 'nuOnly');
+        if (!(ctl && ctl.Tnet0 === 0 && ctl.checks.every((k) => k.extL === 0 && k.Wext === 0 && k.heat > 0))) bad.push('③ 粘性だけの対照(正味のトルク 0・外の仕事 0・熱 > 0)');
+        if (!J.t5.rows.every((r) => r.twist.dlnA === 0)) bad.push('③ T1 の捩れの型で半長軸の率が 0 でない');
+        if (!J.t4.rows.filter((r) => r.nOverS > 0.5 && r.nOverS < 1).every((r) => r.opposite === true)) bad.push('③ ½〜1 の受け手で χ ½ と χ 1 の符号が逆でない');
+        const Jk = JSON.parse(rd('tests/out/gyrodrag-337k.json') || 'null'), mk = (key) => Jk && Jk.t2.sets.find((s) => s.key === key);
+        const kOk = Jk && [['half', 'mainHalf'], ['one', 'mainOne']].every(([a, b]) => { const s = J.sets[a], p = mk(b) && mk(b).pick; return p && ['q', 'p', 'lambda'].every((f) => cmp338d(s[f], p[f]) <= 1e-9); });
+        if (!kOk) bad.push('③ 4 天体の強さの組が第337便k の正本の主の組(q・p・λ)と違う');
+        cases.push('③ 帳簿の閉じ(例 ' + J.t2.cases.length + ' × 節目 ' + L.DECL.t2.checkYr.length + ')・粘性だけの対照・T1 の捩れで半長軸の率 0・½〜1 で符号が逆・第337便k の主の組と同じ');
+        // ④ 門と呼ぶだけ
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const tl = rd('tests/lib-w338d-ringbook.mjs'), th = rd('tests/exp-w338d-ringbook.mjs'), td = rd('tests/lib-w338d-ringbookdoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        if (!(js(imps) === js(['lib-w292d-tide.mjs', 'lib-w337i-rotring.mjs', 'lib-w337j-spinorbit.mjs', 'lib-w337k-gyrodrag.mjs']) && !/loadHtml|index\.html/.test(tl + td + th)
+          && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/from '/.test(td) && !/Math\.random/.test(tl + th)
+          && !/w338d/.test(rd('tests/lib-w337i-rotring.mjs') + rd('tests/lib-w337j-spinorbit.mjs') + rd('tests/lib-w337k-gyrodrag.mjs') + rd('tests/lib-w292d-tide.mjs'))))
+          bad.push('④ 呼ぶだけ(lib の import は 4 本の lib だけ・html を読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random なし・呼ぶ lib の本文は不変)');
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・lib の import は 4 本の lib だけ・html を読まない`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.ringbook338d', bad.length === 0,
+      `**回転引きずり: 土星の環を先に(一様厚みの帳簿・環の中のやり取りの収支・4 天体の潮汐の残り・5 つ目の天体・ジャイロの直交)の作り直し**(第338便d・原仮定者の回答(2026-11-15 —— 第138報の回答 4)・R352 —— html を読まない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第338便d: docs.ringbook338d は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
+// ----   docs.ringbook338d(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い)・宣言が lib と器と同じ ② 表 12 本が
+// ----     PHYSICS〔第338便d〕に逐語 ③ 節の位置(〔第337便l〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表の状態の欄が 1 語・AI_SPEC §244・CHANGELOG・段の行・.gitignore・post-merge
+// ----     ④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w338d-ringbook.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w338d-ringbook.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w338d-ringbookdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'ringbook-338d.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.ringbook338d(第338便d の回転引きずりの土星の環の帳簿の候補の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.ringbook338d ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第338便d — '), i7 = PH.indexOf('\n## 7. 論文'), il = PH.indexOf('〔第337便l — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && il >= 0 && il < i0 && iu > i0)) bad.push('PHYSICS〔第338便d〕が無いか〔第337便l〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/ringbook-338d.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'ringbook'
+        && J.target === 'tests/lib-w338d-ringbook.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.snap && J.meta.snap.round === 1e-12))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルは無い・床の宣言)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN) || JSON.stringify(J.lit) !== JSON.stringify(L.LIT)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第338便d〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 12) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第338便d〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の指示(2026-11-15 —— 第139報)', '原仮定者の回答(2026-11-15 —— 第138報の回答 4)', 'R352', 'tests/exp-w338d-ringbook.mjs', 'tests/out/ringbook-338d.json', 'tests/lib-w338d-ringbook.mjs', 'ringbook-338d',
+      '一様厚み', '扁平の則', '土星の環', '木星の主環', '天王星の ε 環', '参考の列', '粘性', '土星へ返る', '熱になる', '正味のトルク', '潮汐', 'k₂/Q', '5 つ目', '観測なし —— 予測だけ', 'ジャイロの直交', '高さ則 T1', '扁平率のべき',
+      '回転引きずり', '文献の値・未照合', 'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '次に足すノブの候補', 'このノブの組では',
+      '第139報と回答への枝の答え', '題カードの恒久の条件との照合', '決断事項の候補', '次の便へ', 'behavior.ringbook338d', 'docs.ringbook338d', '書かないこと'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第338便d〕に「' + w + '」が無い');
+    const kt = sec.indexOf('| ノブの名 |'), ktab = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n').slice(2) : [];
+    const states = ktab.map((l) => l.split('|').map((c) => c.trim()).filter((c, k, a) => k > 0 && k < a.length - 1).pop());
+    if (!(ktab.length >= 8 && states.every((x) => ['候補', '対照', '不用の見込み', '廃止'].includes(x)))) bad.push('③ ノブの表の状態の欄が 1 語でない(' + states.filter((x) => !['候補', '対照', '不用の見込み', '廃止'].includes(x)).join('・') + ')');
+    const a0 = AS.indexOf('\n## 244. 第338便d'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/ringbook-338d.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R352') >= 0))
+      bad.push('③ AI_SPEC §244(正本・SYSTEM_PROMPT・候補・R352)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl338d = clg.split('\n').find((l) => l.indexOf('**第338便d**') >= 0) || '';
+    if (!(cl338d.indexOf('tests/exp-w338d-ringbook.mjs') >= 0 && cl338d.indexOf('ringbook-338d') >= 0 && cl338d.indexOf('第138報の回答 4') >= 0 && cl338d.indexOf('R352') >= 0)) bad.push('③ CHANGELOG の第338便d の行');
+    if (!(/S\('ringbook-338d', 'node tests\/exp-w338d-ringbook\.mjs', \['tests\/out\/ringbook-338d\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 15 s の内") >= 0
+      && RT.indexOf('// ==== 第338便d の塊(ここから)====') >= 0)) bad.push('③ 段の行 ringbook-338d(quickVerify と理由・塊)');
+    if (GI.indexOf('!tests/out/ringbook-338d.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第338便d の塊(ここから)====') >= 0 && /behavior\.ringbook338d/.test(PM) && /docs\.ringbook338d/.test(PM))) bad.push('③ post-merge の ③′ に第338便d の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表の状態の欄・AI_SPEC §244(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT338 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第338便d の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・環の厚みが決まった・金星の釣り合いが解けた・2 倍角の則が確かめられた・イオの熱が説明できた・共鳴の原因は潮汐
+    const W338 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たっま決がみ厚の環', 'たけ解がい合り釣の星金', 'たれらめか確が則の角倍 2', 'たきで明説が熱のオイ', '汐潮は因原の鳴共'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第338便d〕', sec], ['AI_SPEC §244', ai], ['CHANGELOG の第338便d の行', cl338d], ['器', rd('tests/exp-w338d-ringbook.mjs')], ['lib', rd('tests/lib-w338d-ringbook.mjs')], ['文書の lib', rd('tests/lib-w338d-ringbookdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W338)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT338) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.ringbook338d', bad.length === 0,
+      `**回転引きずり: 土星の環を先に(一様厚みの帳簿・環の中のやり取りの収支・4 天体の潮汐の残り・5 つ目の天体・ジャイロの直交)の文書**(第338便d・原仮定者の回答(2026-11-15 —— 第138報の回答 4)・R352 —— 候補の表・ノブの範囲・配置): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第338便d の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

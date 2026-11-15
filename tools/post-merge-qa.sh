@@ -1008,6 +1008,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.gyrodrag337k docs.gyrodrag337k"
 #   正本と同じ・原文の 3 点・赤道面の符号・並進 0 で回転の分だけ・ノブ 0 で 0 / docs.bevel337l —— 正本の門と表 12 本が PHYSICS〔第337便l〕に逐語・文書)と、新しい段 bevel-337l の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bevel337l docs.bevel337l"
 # ==== 第337便l の塊(ここまで)====
+# ==== 第338便d の塊(ここから)====
+# 第338便d(原仮定者の回答(2026-11-15 —— 第138報の回答 4)・統括の検証項目 R352 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.ringbook338d —— 純関数の場面・sets と T1〜T5 を作り直して
+#   正本と同じ〔数は葉ごとに相対 1e-9・0 と書いた欄は両方 0〕・帳簿の閉じ / docs.ringbook338d —— 正本の門と表 12 本が PHYSICS〔第338便d〕に逐語・文書)と、新しい段 ringbook-338d の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ringbook338d docs.ringbook338d"
+# ==== 第338便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

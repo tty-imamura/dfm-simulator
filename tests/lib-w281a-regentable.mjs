@@ -2159,6 +2159,20 @@ export const REGEN_STEPS = [
       + '並進の分(c の 1 つの式・第337便a の数値の差分との照合 6 配置・公転する受け手 n/s 7 点・ロックした連星・近づく/遠ざかる分・第333便b の通過)/'
       + '太陽 → 8 惑星・金星の釣り合い(向きの因子 4 × 振幅 2)・銀河 → 太陽系・衛星 7 と冥王星 – カロン・比べる天体 8/合成の 60° の規則' }),
   // ==== 第337便l の塊(ここまで)====
+  // ==== 第338便d の塊(ここから)====
+  // ---- 第338便d(原仮定者の指示(2026-11-15 —— 第139報)・原仮定者の回答(2026-11-15 —— 第138報の回答 4)AN742・同 回答 3 AN736・AN737・統括の検証項目 R352): **回転引きずり: 土星の環を先に ——
+  //   一様厚みの絶対値を同じ帳簿で・環の中のやり取りの収支(輪の列)・4 天体から潮汐の分を積んだ残り・5 つ目の天体・ジャイロの直交を高さ則 T1 に・扁平率のべき**
+  //   (段 ringbook-338d —— 正本 tests/out/ringbook-338d.json・lib tests/lib-w338d-ringbook.mjs —— 第337便k・第337便j・第337便i・第292便d の lib を import して呼ぶ。
+  //   入力のファイルは無い〔第337便k の 4 天体の強さの組は lib の t1Set を呼んで作り直す —— 順序だけ after に段 gyrodrag-337k と同じ一式 + gyrodrag-337k〕)。**診断だけ**。
+  //   **html を読まない**(来歴の対象は純関数 tests/lib-w338d-ringbook.mjs —— 領域の宣言なし)。1 プロセス。所要は第338便d の枝の実測 14 s(輪の列の時間の発展が大半)
+  S('ringbook-338d', 'node tests/exp-w338d-ringbook.mjs', ['tests/out/ringbook-338d.json'], 14, { secSource: 'w338d-branch', node: true,
+    after: ['supply-337a', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b', 'rotring-337i', 'spinorbit-337j', 'gyrodrag-337k'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 15 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/ringbook-338d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第338便d: 一様厚みの型 9 × D〜F 環の半径 74 点(帯の幅・等しい高さ・率だけ・鉛直の減衰と乱しの釣り合い 3・粒子の大きさの床 2・自己重力の床)/'
+      + '輪の列 98 本 × 例 14 × 1e7 年の角運動量とエネルギーの帳簿(土星へ返る分・外へ出る分・熱)/4 天体の潮汐の分を積んだ残り/5 つ目の候補 13 の χ ½・1 の予測/'
+      + 'ジャイロの直交を高さ則 T1 の捩れの率と第337便i の鉛直の場に・扁平率のべき k 0・1・2' }),
+  // ==== 第338便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
