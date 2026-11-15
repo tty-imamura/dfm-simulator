@@ -988,6 +988,11 @@ rootadd337h() {   # $1 = 便の基点(空なら便の番号から引く)→ 1 �
   node "$ROOT/tests/lib-w337h-postmerge.mjs" --changed-ids "$rev" 2>/dev/null || { echo ""; echo "本便で直した鍵は拾えなかった(道具の誤り)"; }
 }
 # ==== 第337便h の塊(ここまで)====
+# ==== 第337便i の塊(ここから)====
+# 第337便i(原仮定者の回答(2026-11-14 —— 第138報の回答)・統括の検証項目 R345 —— 診断だけ・html は変えない): 枝 i の新設 2 本(behavior.rotring337i —— 回転引きずりの純関数の場面・
+#   環の 12 組の行と判定・水星の代表の行・対照・時間積分を作り直して正本と同じ / docs.rotring337i —— 正本の門と表 11 本が PHYSICS〔第337便i〕に逐語・文書)と、新しい段 rotring-337i の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rotring337i docs.rotring337i docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
+# ==== 第337便i の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
