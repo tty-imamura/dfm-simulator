@@ -2159,6 +2159,18 @@ export const REGEN_STEPS = [
       + '並進の分(c の 1 つの式・第337便a の数値の差分との照合 6 配置・公転する受け手 n/s 7 点・ロックした連星・近づく/遠ざかる分・第333便b の通過)/'
       + '太陽 → 8 惑星・金星の釣り合い(向きの因子 4 × 振幅 2)・銀河 → 太陽系・衛星 7 と冥王星 – カロン・比べる天体 8/合成の 60° の規則' }),
   // ==== 第337便l の塊(ここまで)====
+  // ==== 第338便f の塊(ここから)====
+  // ---- 第338便f(原仮定者の回答(2026-11-15 —— 第138報の回答 4)・原仮定者の指示(2026-11-15 —— 第139報)・統括の検証項目 R354): **熱と共鳴 —— イオの内部熱を熱の帳簿で読む・
+  //   金星と地球の共鳴を潮汐力で読む(次点は地球磁場)**(段 heatlock-338f —— 正本 tests/out/heatlock-338f.json・lib tests/lib-w338f-heatlock.mjs —— 第337便c・第326便d・第337便d・第337便a・
+  //   第335便b の lib と第337便d の器の t3Rows・jointOf を import して呼ぶ。入力のファイルは無い〔第337便d の合わせた上限と第337便c の比のしきいの帯は呼んで作り直す —— 順序だけ after に
+  //   accelloss-337d・tidelock-337c・supply-337a・axialheat-326d〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w338f-heatlock.mjs —— 領域の宣言なし)。1 プロセス。所要は第338便f の枝の実測 1.4 s
+  S('heatlock-338f', 'node tests/exp-w338f-heatlock.mjs', ['tests/out/heatlock-338f.json'], 2, { secSource: 'w338f-branch', node: true,
+    after: ['accelloss-337d', 'tidelock-337c', 'supply-337a', 'axialheat-326d', 'bevel-337l'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 2 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/heatlock-338f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第338便f: イオと 4 天体の熱の帳簿(離心軌道の潮汐・第337便c の秤動の分・軸引きずりの源ごとの熱と第337便a の熱の上限・第337便d の加減速の差)/'
+      + '金星と地球の共鳴(共鳴の調和の成分・永久の変形の復元・正味の外部のトルクの残り ε・定常の解と捕まる範囲の 2 段・月の対照)/地球磁場(尾の届き方・誘導のトルクの上限の桁)/3 つの 1 表' }),
+  // ==== 第338便f の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
