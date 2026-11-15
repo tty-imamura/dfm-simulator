@@ -993,6 +993,11 @@ rootadd337h() {   # $1 = 便の基点(空なら便の番号から引く)→ 1 �
 #   環の 12 組の行と判定・水星の代表の行・対照・時間積分を作り直して正本と同じ / docs.rotring337i —— 正本の門と表 11 本が PHYSICS〔第337便i〕に逐語・文書)と、新しい段 rotring-337i の lint 一式
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rotring337i docs.rotring337i docs.w320d lint.regenScope lint.provenanceMeta lint.stableHashPaths lint.scopeStop lint.scopeAll312 lint.regenChain lint.canon304 lint.harnessSmoke303 lint.quickBoundary324c lint.narrowScope327c lint.qaHeapRelease310 lint.sectionLookup313 lint.kappaSymbol315 lint.fixedWindow329c lint.symbols333e"
 # ==== 第337便i の塊(ここまで)====
+# ==== 第337便j の塊(ここから)====
+# 第337便j(原仮定者の補足(2026-11-15 —— 第138報の補足 5)・統括の検証項目 R346 —— 診断だけ・html は変えない): 枝 j の新設 2 本(behavior.spinorbit337j —— 純関数の場面・T1 の対照〔第337便a の数〕・
+#   T2 の符号の表の恒等式・時間積分を作り直して正本と同じ / docs.spinorbit337j —— 正本の門と表 18 本が PHYSICS〔第337便j〕に逐語・文書)と、新しい段 spinorbit-337j の lint 一式
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spinorbit337j docs.spinorbit337j"
+# ==== 第337便j の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
