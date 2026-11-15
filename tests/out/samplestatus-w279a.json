@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.47-b337",
+  "betaBuild": "v1.47-b338",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,62 +13,62 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
-  "generatedAt": "2026-11-15T07:05:46.725Z",
+  "targetSha256": "8afeeef7fe1879b290d8ac06b7d949b9015ac360a02884afbf547703266439ee",
+  "generatedAt": "2026-11-15T11:14:29.881Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 126943,
-    "sha256": "be71879cb2d32e6215f21148d66e4a7e7a0a60c28c362cf783e3c2a3b4c8fbdf",
-    "mtime": "2026-11-13T00:35:24.805Z"
+    "bytes": 128027,
+    "sha256": "86f5add32acc026cf0d618d75e4dc74789d0a663f8f54eda3f6f4141826f0eb4",
+    "mtime": "2026-11-15T11:08:08.265Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 1749470,
     "sha256": "42bdc01885eccce079e353f748e8a2b9d46fc929a92ae962f5895e8edda165f1",
-    "mtime": "2026-11-15T03:50:46.755Z"
+    "mtime": "2026-11-15T10:19:03.889Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
     "bytes": 90727,
     "sha256": "64da8bb863b4e366c8b73099152dfcc25f1ce322e4237db7f2999105d4365d16",
-    "mtime": "2026-11-05T04:32:46.006Z"
+    "mtime": "2026-11-15T10:19:03.909Z"
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 111842,
-    "sha256": "dd37f65f52b1c41a86cd9a6dea80af7a6bc8b8e1fd92507b1e24699596e2dd98",
-    "mtime": "2026-11-15T07:05:46.700Z"
+    "bytes": 112484,
+    "sha256": "c23622efd41cf9aae0254b852043f6158e8a5c5aba4a5da9fc7f35dca1556ab1",
+    "mtime": "2026-11-15T11:14:29.861Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-10-20T16:19:56.660Z"
+    "mtime": "2026-11-15T10:19:03.793Z"
    },
    {
     "file": "tests/fixtures/retired-w284b.json",
     "bytes": 244564,
     "sha256": "1fffd3f45fe2e8625b16e6243f9888ad74a32637a8f40bc43564c452ff92fb29",
-    "mtime": "2026-10-20T16:19:56.660Z"
+    "mtime": "2026-11-15T10:19:03.793Z"
    },
    {
     "file": "tests/fixtures/retired-w285f.json",
     "bytes": 64583,
     "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
-    "mtime": "2026-10-20T16:19:56.660Z"
+    "mtime": "2026-11-15T10:19:03.793Z"
    },
    {
     "file": "tests/fixtures/retired-w286f.json",
     "bytes": 71553,
     "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
-    "mtime": "2026-10-20T16:19:56.660Z"
+    "mtime": "2026-11-15T10:19:03.793Z"
    },
    {
     "file": "tests/fixtures/retired-w287b.json",
     "bytes": 56177,
     "sha256": "ae12f0fdfa73e2d98ec7293e46113325c8de8fd2218bb03c2d91330c4b0c33f0",
-    "mtime": "2026-10-20T16:19:56.660Z"
+    "mtime": "2026-11-15T10:19:03.793Z"
    }
   ],
   "code": [
@@ -76,37 +76,37 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 43934,
     "sha256": "48997d8eb54cabb6fdfb008f0aaba1418ea4aaedfd8d6a7025bb2e6393d80d20",
-    "mtime": "2026-11-05T03:10:54.234Z"
+    "mtime": "2026-11-15T10:19:03.725Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 31458,
     "sha256": "16a147e300ca0dfcf28c055b791689f434a1e2fdf9a86d8dadef8eaf8c89891b",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-15T10:19:03.809Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-15T10:19:03.805Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
     "bytes": 39201,
     "sha256": "c6e9b7ef66592b357bc0931831642147d75072bbc73ef16e99cb8ef0b4376c79",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "mtime": "2026-11-15T10:19:03.817Z"
    },
    {
     "file": "tests/lib-w288f-htmlstage.mjs",
     "bytes": 10343,
     "sha256": "c6425fa01e5360716b3e98872f9d0ac3c56cc75f79875bb4abb12d74e16160e1",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "mtime": "2026-11-15T10:19:03.817Z"
    },
    {
     "file": "tests/lib-w323d-recheck.mjs",
     "bytes": 15693,
     "sha256": "1e1564a63f02875f307f20e6a061413665af7af53381ecbe52a11316b740cd46",
-    "mtime": "2026-11-02T03:19:09.834Z"
+    "mtime": "2026-11-15T10:19:03.833Z"
    }
   ],
   "codeSha256": "fd485c9c33b0ac9b2ddd4e326949679abf7a9deb8bbdbff4c0f2fb296b0b8946",
@@ -119,7 +119,7 @@
  },
  "tally": {
   "objective": {
-   "met": 84,
+   "met": 85,
    "partial": 35,
    "unmet": 2,
    "n/a": 0
@@ -130,7 +130,7 @@
    "fail": 1,
    "hold": 16,
    "hold-definition": 0,
-   "out-of-scope": 102
+   "out-of-scope": 103
   },
   "four": {
    "合": 0,
@@ -152,7 +152,7 @@
    {
     "group": "天体の機構",
     "icon": "🪐",
-    "n": 15
+    "n": 16
    },
    {
     "group": "時計と重力",
@@ -210,13 +210,13 @@
     "n": 0
    }
   ],
-  "n": 121,
+  "n": 122,
   "scope": "listed",
   "predictionEligible": 0,
   "builtin": {
-   "n": 186,
+   "n": 187,
    "objective": {
-    "met": 118,
+    "met": 119,
     "partial": 60,
     "unmet": 8,
     "n/a": 0
@@ -227,7 +227,7 @@
     "fail": 1,
     "hold": 16,
     "hold-definition": 2,
-    "out-of-scope": 165
+    "out-of-scope": 166
    },
    "four": {
     "合": 0,
@@ -362,7 +362,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -621,6 +621,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -696,7 +702,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -955,6 +961,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -1035,7 +1047,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -1294,6 +1306,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -1362,7 +1380,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -1621,6 +1639,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -1689,7 +1713,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -1948,6 +1972,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -2017,7 +2047,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -2276,6 +2306,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -2345,7 +2381,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -2604,6 +2640,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -2690,7 +2732,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -2949,6 +2991,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -3011,7 +3059,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -3270,6 +3318,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -3332,7 +3386,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -3591,6 +3645,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -3653,7 +3713,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -3912,6 +3972,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -3980,7 +4046,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -4239,6 +4305,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -4307,7 +4379,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -4566,6 +4638,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -4628,7 +4706,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -4887,6 +4965,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -4961,7 +5045,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -5220,6 +5304,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -5288,7 +5378,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -5547,6 +5637,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -5633,7 +5729,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -5896,6 +5992,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -5966,7 +6068,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -6283,6 +6385,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -6353,7 +6461,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -6658,6 +6766,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -6722,7 +6836,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -7051,6 +7165,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -7115,7 +7235,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -7390,6 +7510,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -7454,7 +7580,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -7720,6 +7846,12 @@
       "key": "geo2thick-324a",
       "sec": 2,
       "share": 4,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -7787,7 +7919,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -8056,6 +8188,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -8120,7 +8258,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -8389,6 +8527,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -8453,7 +8597,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -8712,6 +8856,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -8792,7 +8942,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -9051,6 +9201,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -9119,7 +9275,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -9378,6 +9534,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -9446,7 +9608,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -9705,6 +9867,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -9773,7 +9941,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -10032,6 +10200,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -10106,7 +10280,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -10369,6 +10543,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -10439,7 +10619,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -10708,6 +10888,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -10766,7 +10952,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -11025,6 +11211,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -11093,7 +11285,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -11352,6 +11544,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -11427,7 +11625,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -11686,6 +11884,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -11749,7 +11953,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -12008,6 +12212,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -12071,7 +12281,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -12330,6 +12540,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -12392,7 +12608,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -12651,6 +12867,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -12725,7 +12947,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -13006,6 +13228,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -13071,7 +13299,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -13364,6 +13592,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -13422,7 +13656,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -13703,6 +13937,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -13761,7 +14001,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -14090,6 +14330,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -14148,7 +14394,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -14423,6 +14669,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -14474,7 +14726,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -14749,6 +15001,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -14807,7 +15065,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -15076,6 +15334,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -15135,7 +15399,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -15434,6 +15698,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -15485,7 +15755,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -15778,6 +16048,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -15829,7 +16105,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -16110,6 +16386,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -16163,7 +16445,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -16444,6 +16726,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -16504,7 +16792,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -16785,6 +17073,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -16845,7 +17139,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -17138,6 +17432,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -17197,7 +17497,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -17468,6 +17768,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -17550,7 +17856,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -17825,6 +18131,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -17885,7 +18197,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -18166,6 +18478,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -18226,7 +18544,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -18513,6 +18831,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -18572,7 +18896,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -18847,6 +19171,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -18924,7 +19254,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -19183,6 +19513,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -19251,7 +19587,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -19510,6 +19846,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -19578,7 +19920,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -19837,6 +20179,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -19905,7 +20253,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -20168,6 +20516,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -20232,7 +20586,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -20532,7 +20886,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -20569,6 +20923,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -20643,7 +21003,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -20902,6 +21262,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -20976,7 +21342,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -21235,6 +21601,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -21315,7 +21687,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -21574,6 +21946,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -21636,7 +22014,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -21895,6 +22273,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -21963,7 +22347,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -22222,6 +22606,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -22302,7 +22692,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -22561,6 +22951,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -22629,7 +23025,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -22888,6 +23284,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -22956,7 +23358,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -23215,6 +23617,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -23289,7 +23697,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -23548,6 +23956,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -23622,7 +24036,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -23881,6 +24295,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -23956,7 +24376,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -24219,6 +24639,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -24289,7 +24715,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -24535,7 +24961,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -24572,6 +24998,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -24646,7 +25078,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -24915,6 +25347,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -25002,7 +25440,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -25062,7 +25500,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -25301,6 +25739,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -25359,7 +25803,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -25628,6 +26072,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -25701,7 +26151,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -25791,7 +26241,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -26018,6 +26468,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 718,
       "share": 29,
@@ -26082,7 +26538,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -26358,7 +26814,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -26401,6 +26857,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -26487,7 +26949,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -26547,7 +27009,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -26762,6 +27224,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -26828,7 +27296,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -26900,7 +27368,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -27111,6 +27579,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -27202,7 +27676,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -27478,7 +27952,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -27521,6 +27995,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -27595,7 +28075,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -27847,7 +28327,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -27890,6 +28370,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -27964,7 +28450,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -28228,7 +28714,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -28276,13 +28762,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -28300,7 +28786,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -28324,7 +28810,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -28336,8 +28822,14 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -28400,7 +28892,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -28688,7 +29180,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -28766,13 +29258,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -28808,7 +29300,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -28832,7 +29324,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -28850,7 +29342,7 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
       "always": false
      },
@@ -28858,6 +29350,12 @@
       "key": "moonapsis-335e",
       "sec": 27,
       "share": 2,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -28950,7 +29448,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -29208,7 +29706,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -29268,7 +29766,7 @@
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -29292,7 +29790,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -29324,6 +29822,12 @@
       "key": "moonapsis-335e",
       "sec": 27,
       "share": 2,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -29404,7 +29908,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -29679,6 +30183,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -29737,7 +30247,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -29797,7 +30307,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -30008,6 +30518,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -30076,7 +30592,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -30136,7 +30652,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -30351,6 +30867,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -30415,7 +30937,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -30679,7 +31201,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -30733,13 +31255,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -30775,7 +31297,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -30799,7 +31321,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -30883,7 +31405,7 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
       "always": false
      },
@@ -30897,6 +31419,12 @@
       "key": "mercurycombo-335c",
       "sec": 12,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -30994,7 +31522,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -31060,7 +31588,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -31294,7 +31822,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -31336,13 +31864,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -31366,7 +31894,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -31390,7 +31918,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -31402,8 +31930,14 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -31471,7 +32005,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -31723,7 +32257,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -31766,6 +32300,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -31841,7 +32381,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -32111,7 +32651,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -32147,13 +32687,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -32171,7 +32711,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -32195,7 +32735,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -32207,8 +32747,14 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -32302,7 +32848,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -32578,7 +33124,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -32674,13 +33220,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -32716,7 +33262,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -32740,7 +33286,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -32836,7 +33382,7 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
       "always": false
      },
@@ -32856,6 +33402,12 @@
       "key": "mercurycombo-335c",
       "sec": 12,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -32949,7 +33501,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -33219,7 +33771,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -33321,13 +33873,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -33363,7 +33915,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -33387,7 +33939,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -33489,7 +34041,7 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
       "always": false
      },
@@ -33509,6 +34061,12 @@
       "key": "mercurycombo-335c",
       "sec": 12,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -33578,7 +34136,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -33848,7 +34406,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -33920,13 +34478,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -33962,7 +34520,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -33986,7 +34544,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -34082,7 +34640,7 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
       "always": false
      },
@@ -34102,6 +34660,12 @@
       "key": "mercurycombo-335c",
       "sec": 12,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -34171,7 +34735,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -34435,7 +34999,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -34537,13 +35101,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -34579,7 +35143,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -34603,7 +35167,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -34705,8 +35269,14 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -34788,7 +35358,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -35052,7 +35622,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -35112,13 +35682,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -35148,7 +35718,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -35172,7 +35742,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -35268,8 +35838,14 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -35338,7 +35914,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -35631,6 +36207,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -35715,7 +36297,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -35979,7 +36561,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -36039,13 +36621,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -36075,7 +36657,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -36099,7 +36681,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -36195,8 +36777,14 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -36266,7 +36854,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -36530,7 +37118,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -36590,13 +37178,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -36626,7 +37214,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -36650,7 +37238,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -36746,8 +37334,14 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -36815,7 +37409,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -37198,6 +37792,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -37269,7 +37869,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -37544,6 +38144,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -37602,7 +38208,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -37871,6 +38477,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -37924,7 +38536,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -37984,7 +38596,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -38199,6 +38811,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -38260,7 +38878,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -38535,6 +39153,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -38622,7 +39246,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -38688,7 +39312,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -38910,7 +39534,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -38988,13 +39612,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -39018,7 +39642,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -39042,7 +39666,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -39150,8 +39774,14 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -39248,43 +39878,43 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
      {
       "key": "charon-h",
-      "sec": 706,
+      "sec": 530,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1322,
+      "sec": 1022,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 636,
+      "sec": 498,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 273,
+      "sec": 215,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 496,
+      "sec": 410,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 968,
+      "sec": 777,
       "share": 10,
       "always": false
      },
@@ -39350,7 +39980,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -39572,7 +40202,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -39614,13 +40244,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -39644,7 +40274,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -39668,7 +40298,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -39680,8 +40310,14 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -39778,7 +40414,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -39844,7 +40480,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -40066,7 +40702,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -40108,13 +40744,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -40138,7 +40774,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -40162,7 +40798,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -40174,8 +40810,14 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -40251,55 +40893,55 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
      {
       "key": "charon-h",
-      "sec": 706,
+      "sec": 530,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1322,
+      "sec": 1022,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 636,
+      "sec": 498,
       "share": 10,
       "always": false
      },
      {
       "key": "charonk",
-      "sec": 959,
+      "sec": 737,
       "share": 2,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 273,
+      "sec": 215,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 496,
+      "sec": 410,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 968,
+      "sec": 777,
       "share": 10,
       "always": false
      },
      {
       "key": "charonfactors",
-      "sec": 366,
+      "sec": 299,
       "share": 2,
       "always": false
      },
@@ -40359,7 +41001,7 @@
      },
      {
       "key": "charonInput",
-      "sec": 694,
+      "sec": 529,
       "share": 5,
       "always": false
      },
@@ -40389,7 +41031,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -40610,6 +41252,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -40680,7 +41328,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -40734,7 +41382,7 @@
      },
      {
       "key": "charonInput",
-      "sec": 694,
+      "sec": 529,
       "share": 5,
       "always": false
      },
@@ -40967,6 +41615,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -41038,7 +41692,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -41092,7 +41746,7 @@
      },
      {
       "key": "charonInput",
-      "sec": 694,
+      "sec": 529,
       "share": 5,
       "always": false
      },
@@ -41319,6 +41973,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -41414,55 +42074,55 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
      {
       "key": "charon-h",
-      "sec": 706,
+      "sec": 530,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1322,
+      "sec": 1022,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 636,
+      "sec": 498,
       "share": 10,
       "always": false
      },
      {
       "key": "charonk",
-      "sec": 959,
+      "sec": 737,
       "share": 2,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 273,
+      "sec": 215,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 496,
+      "sec": 410,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 968,
+      "sec": 777,
       "share": 10,
       "always": false
      },
      {
       "key": "charonfactors",
-      "sec": 366,
+      "sec": 299,
       "share": 2,
       "always": false
      },
@@ -41504,7 +42164,7 @@
      },
      {
       "key": "charonInput",
-      "sec": 694,
+      "sec": 529,
       "share": 5,
       "always": false
      },
@@ -41534,7 +42194,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -41744,7 +42404,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -41800,6 +42460,12 @@
       "key": "binarytilt-335d",
       "sec": 11,
       "share": 11,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -41873,7 +42539,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -42125,7 +42791,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -42168,6 +42834,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -42243,7 +42915,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -42495,7 +43167,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -42537,7 +43209,7 @@
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -42555,7 +43227,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -42593,6 +43265,12 @@
       "key": "binarytilt-335d",
       "sec": 11,
       "share": 11,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -42696,7 +43374,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -42738,7 +43416,7 @@
      },
      {
       "key": "charonInput",
-      "sec": 694,
+      "sec": 529,
       "share": 5,
       "always": false
      },
@@ -42965,6 +43643,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -43024,7 +43708,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -43299,6 +43983,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -43376,7 +44066,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -43652,7 +44342,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -43694,13 +44384,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -43724,7 +44414,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -43748,7 +44438,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -43760,8 +44450,14 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -43858,43 +44554,43 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
      {
       "key": "charon-h",
-      "sec": 706,
+      "sec": 530,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1322,
+      "sec": 1022,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 636,
+      "sec": 498,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 273,
+      "sec": 215,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 496,
+      "sec": 410,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 968,
+      "sec": 777,
       "share": 10,
       "always": false
      },
@@ -43960,7 +44656,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -44182,7 +44878,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -44224,13 +44920,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -44254,7 +44950,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -44278,7 +44974,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -44290,8 +44986,14 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -44398,43 +45100,43 @@
      },
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
      {
       "key": "charon-h",
-      "sec": 706,
+      "sec": 530,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1322,
+      "sec": 1022,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 636,
+      "sec": 498,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 273,
+      "sec": 215,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 496,
+      "sec": 410,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 968,
+      "sec": 777,
       "share": 10,
       "always": false
      },
@@ -44500,7 +45202,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -44733,6 +45435,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -44804,7 +45512,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -44870,7 +45578,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -45087,6 +45795,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -45188,43 +45902,43 @@
      },
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
      {
       "key": "charon-h",
-      "sec": 706,
+      "sec": 530,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1322,
+      "sec": 1022,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 636,
+      "sec": 498,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 273,
+      "sec": 215,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 496,
+      "sec": 410,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 968,
+      "sec": 777,
       "share": 10,
       "always": false
      },
@@ -45290,7 +46004,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -45523,6 +46237,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -45594,7 +46314,7 @@
      },
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -45660,7 +46380,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -45881,6 +46601,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -45945,7 +46671,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -46217,6 +46943,12 @@
       "key": "binarytilt-335d",
       "sec": 11,
       "share": 11,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -46284,7 +47016,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -46571,6 +47303,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -46635,7 +47373,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -46913,6 +47651,12 @@
       "key": "binarytilt-335d",
       "sec": 11,
       "share": 11,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -46980,7 +47724,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -47258,6 +48002,12 @@
       "key": "binarytilt-335d",
       "sec": 11,
       "share": 11,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -47349,7 +48099,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -47433,7 +48183,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -47672,6 +48422,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -47743,43 +48499,43 @@
      },
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
      {
       "key": "charon-h",
-      "sec": 706,
+      "sec": 530,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1322,
+      "sec": 1022,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 636,
+      "sec": 498,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 273,
+      "sec": 215,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 496,
+      "sec": 410,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 968,
+      "sec": 777,
       "share": 10,
       "always": false
      },
@@ -47845,7 +48601,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -48066,6 +48822,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -48131,7 +48893,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -48394,6 +49156,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -48453,7 +49221,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -48519,7 +49287,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -48730,6 +49498,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -48822,43 +49596,43 @@
      },
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
      {
       "key": "charon-h",
-      "sec": 706,
+      "sec": 530,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1322,
+      "sec": 1022,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 636,
+      "sec": 498,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 273,
+      "sec": 215,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 496,
+      "sec": 410,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 968,
+      "sec": 777,
       "share": 10,
       "always": false
      },
@@ -48924,7 +49698,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -49172,6 +49946,12 @@
       "key": "binarytilt-335d",
       "sec": 11,
       "share": 11,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -49263,43 +50043,43 @@
      },
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
      {
       "key": "charon-h",
-      "sec": 706,
+      "sec": 530,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1322,
+      "sec": 1022,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 636,
+      "sec": 498,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 273,
+      "sec": 215,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 496,
+      "sec": 410,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 968,
+      "sec": 777,
       "share": 10,
       "always": false
      },
@@ -49365,7 +50145,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -49616,6 +50396,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -49675,7 +50461,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -49741,7 +50527,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -49952,6 +50738,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -50015,7 +50807,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -50081,7 +50873,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -50292,6 +51084,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -50355,7 +51153,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -50421,7 +51219,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -50632,6 +51430,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -50695,7 +51499,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -50761,7 +51565,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -50972,6 +51776,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -51035,7 +51845,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -51101,7 +51911,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -51312,6 +52122,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -51375,7 +52191,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -51441,7 +52257,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -51652,6 +52468,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -51738,7 +52560,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -51804,7 +52626,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -52049,6 +52871,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -52114,43 +52942,43 @@
      },
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
      {
       "key": "charon-h",
-      "sec": 706,
+      "sec": 530,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h2",
-      "sec": 1322,
+      "sec": 1022,
       "share": 10,
       "always": false
      },
      {
       "key": "charon-h4",
-      "sec": 636,
+      "sec": 498,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h",
-      "sec": 273,
+      "sec": 215,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h2",
-      "sec": 496,
+      "sec": 410,
       "share": 10,
       "always": false
      },
      {
       "key": "charoneps-h4",
-      "sec": 968,
+      "sec": 777,
       "share": 10,
       "always": false
      },
@@ -52216,7 +53044,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -52437,6 +53265,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -52496,7 +53330,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -52562,7 +53396,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -52777,6 +53611,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -52835,7 +53675,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -53116,6 +53956,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -53174,7 +54020,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -53479,6 +54325,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -53549,7 +54401,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -53830,6 +54682,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -53894,7 +54752,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -54164,7 +55022,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -54238,6 +55096,12 @@
       "key": "galfield-321c",
       "sec": 2,
       "share": 18,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -54329,7 +55193,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -54634,6 +55498,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -54717,7 +55587,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -55016,6 +55886,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -55086,7 +55962,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -55361,6 +56237,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -55419,7 +56301,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -55697,6 +56579,12 @@
       "key": "obsspin-324b",
       "sec": 2,
       "share": 18,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -55770,7 +56658,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -56051,6 +56939,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -56109,7 +57003,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -56387,6 +57281,12 @@
       "key": "binarytilt-335d",
       "sec": 11,
       "share": 11,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -56454,7 +57354,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -56735,6 +57635,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -56799,7 +57705,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -57080,6 +57986,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -57138,7 +58050,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -57413,6 +58325,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -57494,7 +58412,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -57787,6 +58705,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -57852,7 +58776,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -57930,7 +58854,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -58151,6 +59075,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -58238,7 +59168,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -58513,6 +59443,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -58571,7 +59507,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -58834,6 +59770,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -58892,7 +59834,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -59157,6 +60099,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -59225,7 +60173,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -59494,6 +60442,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -59552,7 +60506,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -59833,6 +60787,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -59897,7 +60857,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -60196,6 +61156,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -60254,7 +61220,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -60513,6 +61479,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -60575,7 +61547,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -60834,6 +61806,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -60896,7 +61874,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -61159,6 +62137,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -61217,7 +62201,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -61493,7 +62477,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -61547,13 +62531,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -61589,7 +62573,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -61613,7 +62597,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -61721,7 +62705,7 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
       "always": false
      },
@@ -61735,6 +62719,12 @@
       "key": "mercurycombo-335c",
       "sec": 12,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -61826,7 +62816,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -62089,6 +63079,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -62192,7 +63188,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -62258,7 +63254,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -62485,6 +63481,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -62561,7 +63563,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -62820,6 +63822,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -62882,7 +63890,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -63141,6 +64149,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -63222,7 +64236,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -63282,7 +64296,7 @@
      },
      {
       "key": "mercury",
-      "sec": 322,
+      "sec": 258,
       "share": 35,
       "always": true
      },
@@ -63510,7 +64524,7 @@
      },
      {
       "key": "periodn-306b",
-      "sec": 1378,
+      "sec": 1033,
       "share": 30,
       "always": false
      },
@@ -63552,13 +64566,13 @@
      },
      {
       "key": "planet3-311d",
-      "sec": 1821,
+      "sec": 1523,
       "share": 19,
       "always": false
      },
      {
       "key": "confirm-312d",
-      "sec": 1216,
+      "sec": 1002,
       "share": 21,
       "always": false
      },
@@ -63582,7 +64596,7 @@
      },
      {
       "key": "k1em-314c",
-      "sec": 2954,
+      "sec": 2458,
       "share": 21,
       "always": false
      },
@@ -63606,7 +64620,7 @@
      },
      {
       "key": "inposk1-315c",
-      "sec": 1003,
+      "sec": 785,
       "share": 19,
       "always": false
      },
@@ -63720,7 +64734,7 @@
      },
      {
       "key": "k1scale-331c",
-      "sec": 2565,
+      "sec": 2133,
       "share": 19,
       "always": false
      },
@@ -63740,6 +64754,12 @@
       "key": "axialfield-333b",
       "sec": 6,
       "share": 2,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -63816,7 +64836,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -64091,6 +65111,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -64149,7 +65175,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -64421,6 +65447,12 @@
       "key": "obsspin-324b",
       "sec": 2,
       "share": 18,
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
       "always": false
      },
      {
@@ -64501,7 +65533,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -64776,6 +65808,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -64840,7 +65878,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -65099,6 +66137,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -65167,7 +66211,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -65426,6 +66470,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -65500,7 +66550,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -65759,6 +66809,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -65821,7 +66877,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -66080,6 +67136,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -66142,7 +67204,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -66401,6 +67463,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -66463,7 +67531,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -66722,6 +67790,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -66784,7 +67858,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -67043,6 +68117,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -67105,7 +68185,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -67364,6 +68444,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -67432,7 +68518,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -67701,6 +68787,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -67759,7 +68851,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -68034,6 +69126,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -68092,7 +69190,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -68351,6 +69449,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -68419,7 +69523,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -68678,6 +69782,12 @@
      {
       "key": "geo3bin-321b",
       "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
       "share": "all",
       "always": false
      },
@@ -68740,7 +69850,7 @@
     "regenSteps": [
      {
       "key": "d0audit",
-      "sec": 23,
+      "sec": 20,
       "share": "all",
       "always": false
      },
@@ -69003,6 +70113,12 @@
       "always": false
      },
      {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 161,
       "share": "all",
@@ -69029,14 +70145,334 @@
      ]
     }
    }
+  },
+  {
+   "id": "saturnRotVertExplore3d",
+   "emoji": "🛟",
+   "name": "土星の環と回転引きずりの鉛直の型(探索用・未較正)",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "回転引きずりの鉛直の型(探索用・未較正)を見える倍率で傾いた環の粒子に当てる",
+    "objective": "met",
+    "state": "3000 步の傾きの比が目安の 5% の内・鍵 OFF の写しは不変・lib との点の照合 8/8",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/rotvert-w339a.json"
+    ],
+    "en": {
+     "purpose": "Vertical rotational-drag form (exploratory, uncalibrated) on tilted ring particles",
+     "state": "tilt ratio near the guide at 3000 steps; key-off copy flat; lib match 8/8",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Vertical rotational-drag form (exploratory, uncalibrated) on tilted ring particles. Met: tilt ratio near the guide at 3000 steps; key-off copy flat; lib match 8/8. Out of calibration scope."
+    },
+    "brief": "回転引きずりの鉛直の型(探索用・未較正)を見える倍率で傾いた環の粒子に当てる。達・3000 步の傾きの比が目安の 5% の内・鍵 OFF の写しは不変・lib との点の照合 8/8。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "d0audit",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "qsplit",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "nslockledger",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 75,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "presetaxes",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgpredict",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 186,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotorledger",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 4,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 182,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 339,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 553,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 11,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 232,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 53,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 9,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 169,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 475,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 186,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 638,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 13,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 1926,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 406,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 117,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 258,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "statecontract-302e",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 264,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "semic-302d",
+      "sec": 878,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbgest-302c",
+      "sec": 562,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-303a",
+      "sec": 417,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-310a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1x3d-314d",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "symbols-315a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rsexcess-315b",
+      "sec": 14,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3bin-321b",
+      "sec": 59,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 161,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
   }
  ],
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 250,
-  "regenSecSum": 63740,
-  "alwaysSec": 882,
+  "regenSteps": 251,
+  "regenSecSum": 60150,
+  "alwaysSec": 686,
   "undeclaredSteps": 41,
   "undeclaredSec": 1807,
   "qaTotal": 1557,
@@ -69048,8 +70484,8 @@
    "date": "2026-11-15T06:27:31.289Z",
    "betaBuild": "v1.47-b337",
    "targetSha256": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
-   "sameBuild": true,
-   "sameHtml": true,
+   "sameBuild": false,
+   "sameHtml": false,
    "rule": "鎖の常時群の段 samplestatus はゲートの QA の前に走る —— 保存 QA の時間は前の便のゲートの保存物(1 便遅れる)。版名が同じでも html の sha が違えば同じ便の中の前の html の QA"
   },
   "noHtmlSteps": {
@@ -69198,34 +70634,6 @@
      ]
     },
     {
-     "key": "k1em-314c",
-     "sec": 2954,
-     "kind": "領域の宣言",
-     "presets": [
-      "earthMoonOnly3d",
-      "earthMoonSunInertial3d",
-      "earthMoonSunInertialFit",
-      "jupiterGalilean",
-      "jupiterSunInertial3d",
-      "marsMoonsReal",
-      "marsSunInertial3d",
-      "mercury",
-      "mercuryReal",
-      "mercurySunInertial3d",
-      "mercurySunInertialFit",
-      "neptuneReal",
-      "neptuneSunInertial3d",
-      "plutoCharonInertialFit",
-      "saturn",
-      "saturnRingReal",
-      "saturnSunInertial3d",
-      "uranusReal",
-      "uranusSunInertial3d",
-      "venusReal",
-      "venusSunInertial3d"
-     ]
-    },
-    {
      "key": "pairnorm-305a",
      "sec": 2579,
      "kind": "領域の宣言",
@@ -69262,10 +70670,23 @@
      ]
     },
     {
-     "key": "k1scale-331c",
-     "sec": 2565,
+     "key": "emgrid",
+     "sec": 2540,
      "kind": "領域の宣言",
      "presets": [
+      "earthMoonDiagOne",
+      "earthMoonRealKF1",
+      "emAuditDFM",
+      "emAuditSolar",
+      "gas"
+     ]
+    },
+    {
+     "key": "k1em-314c",
+     "sec": 2458,
+     "kind": "領域の宣言",
+     "presets": [
+      "earthMoonOnly3d",
       "earthMoonSunInertial3d",
       "earthMoonSunInertialFit",
       "jupiterGalilean",
@@ -69278,6 +70699,7 @@
       "mercurySunInertialFit",
       "neptuneReal",
       "neptuneSunInertial3d",
+      "plutoCharonInertialFit",
       "saturn",
       "saturnRingReal",
       "saturnSunInertial3d",
@@ -69285,18 +70707,6 @@
       "uranusSunInertial3d",
       "venusReal",
       "venusSunInertial3d"
-     ]
-    },
-    {
-     "key": "emgrid",
-     "sec": 2540,
-     "kind": "領域の宣言",
-     "presets": [
-      "earthMoonDiagOne",
-      "earthMoonRealKF1",
-      "emAuditDFM",
-      "emAuditSolar",
-      "gas"
      ]
     },
     {
@@ -69328,6 +70738,32 @@
      ]
     },
     {
+     "key": "k1scale-331c",
+     "sec": 2133,
+     "kind": "領域の宣言",
+     "presets": [
+      "earthMoonSunInertial3d",
+      "earthMoonSunInertialFit",
+      "jupiterGalilean",
+      "jupiterSunInertial3d",
+      "marsMoonsReal",
+      "marsSunInertial3d",
+      "mercury",
+      "mercuryReal",
+      "mercurySunInertial3d",
+      "mercurySunInertialFit",
+      "neptuneReal",
+      "neptuneSunInertial3d",
+      "saturn",
+      "saturnRingReal",
+      "saturnSunInertial3d",
+      "uranusReal",
+      "uranusSunInertial3d",
+      "venusReal",
+      "venusSunInertial3d"
+     ]
+    },
+    {
      "key": "refit-297a",
      "sec": 1926,
      "kind": "領域の宣言",
@@ -69335,7 +70771,7 @@
     },
     {
      "key": "planet3-311d",
-     "sec": 1821,
+     "sec": 1523,
      "kind": "領域の宣言",
      "presets": [
       "earthMoonSunInertial3d",
@@ -69357,60 +70793,6 @@
       "uranusSunInertial3d",
       "venusReal",
       "venusSunInertial3d"
-     ]
-    },
-    {
-     "key": "periodn-306b",
-     "sec": 1378,
-     "kind": "領域の宣言",
-     "presets": [
-      "chainDiskToy3d",
-      "earthMoon",
-      "earthMoonInertial",
-      "earthMoonOnly3d",
-      "earthMoonSunInertial",
-      "earthMoonSunInertial3d",
-      "earthMoonSunInertialFit",
-      "emAuditSolar",
-      "gas",
-      "jupiterGalilean",
-      "jupiterSunInertial3d",
-      "marsMoonsReal",
-      "marsSunInertial3d",
-      "mercury",
-      "mercuryReal",
-      "mercurySunInertial",
-      "mercurySunInertial3d",
-      "mercurySunInertialFit",
-      "neptuneReal",
-      "neptuneSunInertial3d",
-      "plutoCharonDiagInput",
-      "plutoCharonInertial",
-      "plutoCharonInertialFit",
-      "saturn",
-      "saturnRingReal",
-      "saturnSunInertial3d",
-      "uranusReal",
-      "uranusSunInertial3d",
-      "venusReal",
-      "venusSunInertial3d"
-     ]
-    },
-    {
-     "key": "charon-h2",
-     "sec": 1322,
-     "kind": "領域の宣言",
-     "presets": [
-      "alphaCenAB",
-      "neptuneReal",
-      "plutoCharonDiagInput",
-      "plutoCharonReal",
-      "psrB1534DFM",
-      "psrDoubleABDFM",
-      "psrJ1757DFM",
-      "psrJ1946DFM",
-      "siriusAB",
-      "venusReal"
      ]
     },
     {
@@ -69438,34 +70820,6 @@
       "neptuneSunInertial3d",
       "plutoCharonDiagInput",
       "plutoCharonInertial",
-      "plutoCharonInertialFit",
-      "saturn",
-      "saturnRingReal",
-      "saturnSunInertial3d",
-      "uranusReal",
-      "uranusSunInertial3d",
-      "venusReal",
-      "venusSunInertial3d"
-     ]
-    },
-    {
-     "key": "confirm-312d",
-     "sec": 1216,
-     "kind": "領域の宣言",
-     "presets": [
-      "earthMoonOnly3d",
-      "earthMoonSunInertial3d",
-      "earthMoonSunInertialFit",
-      "jupiterGalilean",
-      "jupiterSunInertial3d",
-      "marsMoonsReal",
-      "marsSunInertial3d",
-      "mercury",
-      "mercuryReal",
-      "mercurySunInertial3d",
-      "mercurySunInertialFit",
-      "neptuneReal",
-      "neptuneSunInertial3d",
       "plutoCharonInertialFit",
       "saturn",
       "saturnRingReal",
@@ -69556,22 +70910,33 @@
      ]
     },
     {
-     "key": "inposk1-315c",
-     "sec": 1003,
+     "key": "periodn-306b",
+     "sec": 1033,
      "kind": "領域の宣言",
      "presets": [
+      "chainDiskToy3d",
+      "earthMoon",
+      "earthMoonInertial",
+      "earthMoonOnly3d",
+      "earthMoonSunInertial",
       "earthMoonSunInertial3d",
       "earthMoonSunInertialFit",
+      "emAuditSolar",
+      "gas",
       "jupiterGalilean",
       "jupiterSunInertial3d",
       "marsMoonsReal",
       "marsSunInertial3d",
       "mercury",
       "mercuryReal",
+      "mercurySunInertial",
       "mercurySunInertial3d",
       "mercurySunInertialFit",
       "neptuneReal",
       "neptuneSunInertial3d",
+      "plutoCharonDiagInput",
+      "plutoCharonInertial",
+      "plutoCharonInertialFit",
       "saturn",
       "saturnRingReal",
       "saturnSunInertial3d",
@@ -69582,8 +70947,8 @@
      ]
     },
     {
-     "key": "charoneps-h4",
-     "sec": 968,
+     "key": "charon-h2",
+     "sec": 1022,
      "kind": "領域の宣言",
      "presets": [
       "alphaCenAB",
@@ -69599,12 +70964,31 @@
      ]
     },
     {
-     "key": "charonk",
-     "sec": 959,
+     "key": "confirm-312d",
+     "sec": 1002,
      "kind": "領域の宣言",
      "presets": [
-      "plutoCharonReal",
-      "plutoCharonDiagInput"
+      "earthMoonOnly3d",
+      "earthMoonSunInertial3d",
+      "earthMoonSunInertialFit",
+      "jupiterGalilean",
+      "jupiterSunInertial3d",
+      "marsMoonsReal",
+      "marsSunInertial3d",
+      "mercury",
+      "mercuryReal",
+      "mercurySunInertial3d",
+      "mercurySunInertialFit",
+      "neptuneReal",
+      "neptuneSunInertial3d",
+      "plutoCharonInertialFit",
+      "saturn",
+      "saturnRingReal",
+      "saturnSunInertial3d",
+      "uranusReal",
+      "uranusSunInertial3d",
+      "venusReal",
+      "venusSunInertial3d"
      ]
     },
     {
@@ -69667,6 +71051,32 @@
      ]
     },
     {
+     "key": "inposk1-315c",
+     "sec": 785,
+     "kind": "領域の宣言",
+     "presets": [
+      "earthMoonSunInertial3d",
+      "earthMoonSunInertialFit",
+      "jupiterGalilean",
+      "jupiterSunInertial3d",
+      "marsMoonsReal",
+      "marsSunInertial3d",
+      "mercury",
+      "mercuryReal",
+      "mercurySunInertial3d",
+      "mercurySunInertialFit",
+      "neptuneReal",
+      "neptuneSunInertial3d",
+      "saturn",
+      "saturnRingReal",
+      "saturnSunInertial3d",
+      "uranusReal",
+      "uranusSunInertial3d",
+      "venusReal",
+      "venusSunInertial3d"
+     ]
+    },
+    {
      "key": "sath-316d",
      "sec": 778,
      "kind": "領域の宣言",
@@ -69674,6 +71084,32 @@
       "jupiterGalilean",
       "saturn",
       "saturnRingReal"
+     ]
+    },
+    {
+     "key": "charoneps-h4",
+     "sec": 777,
+     "kind": "領域の宣言",
+     "presets": [
+      "alphaCenAB",
+      "neptuneReal",
+      "plutoCharonDiagInput",
+      "plutoCharonReal",
+      "psrB1534DFM",
+      "psrDoubleABDFM",
+      "psrJ1757DFM",
+      "psrJ1946DFM",
+      "siriusAB",
+      "venusReal"
+     ]
+    },
+    {
+     "key": "charonk",
+     "sec": 737,
+     "kind": "領域の宣言",
+     "presets": [
+      "plutoCharonReal",
+      "plutoCharonDiagInput"
      ]
     },
     {
@@ -69725,35 +71161,6 @@
      ]
     },
     {
-     "key": "charon-h",
-     "sec": 706,
-     "kind": "領域の宣言",
-     "presets": [
-      "alphaCenAB",
-      "neptuneReal",
-      "plutoCharonDiagInput",
-      "plutoCharonReal",
-      "psrB1534DFM",
-      "psrDoubleABDFM",
-      "psrJ1757DFM",
-      "psrJ1946DFM",
-      "siriusAB",
-      "venusReal"
-     ]
-    },
-    {
-     "key": "charonInput",
-     "sec": 694,
-     "kind": "領域の宣言",
-     "presets": [
-      "plutoCharonDFM",
-      "plutoCharonDiagInput",
-      "plutoCharonKF0Control",
-      "plutoCharonReal",
-      "plutoCharonSyncZero"
-     ]
-    },
-    {
      "key": "nslock",
      "sec": 682,
      "kind": "領域の宣言",
@@ -69774,23 +71181,6 @@
      "sec": 638,
      "kind": "領域の宣言",
      "presets": "all"
-    },
-    {
-     "key": "charon-h4",
-     "sec": 636,
-     "kind": "領域の宣言",
-     "presets": [
-      "alphaCenAB",
-      "neptuneReal",
-      "plutoCharonDiagInput",
-      "plutoCharonReal",
-      "psrB1534DFM",
-      "psrDoubleABDFM",
-      "psrJ1757DFM",
-      "psrJ1946DFM",
-      "siriusAB",
-      "venusReal"
-     ]
     },
     {
      "key": "j2-305c",
@@ -69816,8 +71206,37 @@
      "presets": "all"
     },
     {
-     "key": "charoneps-h2",
-     "sec": 496,
+     "key": "charon-h",
+     "sec": 530,
+     "kind": "領域の宣言",
+     "presets": [
+      "alphaCenAB",
+      "neptuneReal",
+      "plutoCharonDiagInput",
+      "plutoCharonReal",
+      "psrB1534DFM",
+      "psrDoubleABDFM",
+      "psrJ1757DFM",
+      "psrJ1946DFM",
+      "siriusAB",
+      "venusReal"
+     ]
+    },
+    {
+     "key": "charonInput",
+     "sec": 529,
+     "kind": "領域の宣言",
+     "presets": [
+      "plutoCharonDFM",
+      "plutoCharonDiagInput",
+      "plutoCharonKF0Control",
+      "plutoCharonReal",
+      "plutoCharonSyncZero"
+     ]
+    },
+    {
+     "key": "charon-h4",
+     "sec": 498,
      "kind": "領域の宣言",
      "presets": [
       "alphaCenAB",
@@ -69845,16 +71264,27 @@
      "presets": null
     },
     {
-     "key": "calaudit",
-     "sec": 435,
-     "kind": "常時群",
-     "presets": null
-    },
-    {
      "key": "refit-303a",
      "sec": 417,
      "kind": "領域の宣言",
      "presets": "all"
+    },
+    {
+     "key": "charoneps-h2",
+     "sec": 410,
+     "kind": "領域の宣言",
+     "presets": [
+      "alphaCenAB",
+      "neptuneReal",
+      "plutoCharonDiagInput",
+      "plutoCharonReal",
+      "psrB1534DFM",
+      "psrDoubleABDFM",
+      "psrJ1757DFM",
+      "psrJ1946DFM",
+      "siriusAB",
+      "venusReal"
+     ]
     },
     {
      "key": "timestd-297c",
@@ -69873,15 +71303,6 @@
      ]
     },
     {
-     "key": "charonfactors",
-     "sec": 366,
-     "kind": "領域の宣言",
-     "presets": [
-      "plutoCharonReal",
-      "plutoCharonDiagInput"
-     ]
-    },
-    {
      "key": "galaxydiag",
      "sec": 347,
      "kind": "領域の宣言",
@@ -69897,8 +71318,50 @@
      "presets": "all"
     },
     {
+     "key": "calaudit",
+     "sec": 316,
+     "kind": "常時群",
+     "presets": null
+    },
+    {
+     "key": "geo4stable-299d",
+     "sec": 314,
+     "kind": "領域の宣言",
+     "presets": [
+      "chainDiskToy3d",
+      "chainSpreadToy3d",
+      "mercuryGeoToy3",
+      "mercuryMeshMigrate3d",
+      "mercurySunInertialFit"
+     ]
+    },
+    {
+     "key": "charonfactors",
+     "sec": 299,
+     "kind": "領域の宣言",
+     "presets": [
+      "plutoCharonReal",
+      "plutoCharonDiagInput"
+     ]
+    },
+    {
+     "key": "geo3-294a",
+     "sec": 292,
+     "kind": "領域の宣言",
+     "presets": [
+      "earthMoonInertial",
+      "earthMoonReal"
+     ]
+    },
+    {
+     "key": "wbglaw-301g",
+     "sec": 264,
+     "kind": "領域の宣言",
+     "presets": "all"
+    },
+    {
      "key": "mercury",
-     "sec": 322,
+     "sec": 258,
      "kind": "常時群",
      "presets": [
       "alphaCenAB",
@@ -69939,50 +71402,6 @@
      ]
     },
     {
-     "key": "geo4stable-299d",
-     "sec": 314,
-     "kind": "領域の宣言",
-     "presets": [
-      "chainDiskToy3d",
-      "chainSpreadToy3d",
-      "mercuryGeoToy3",
-      "mercuryMeshMigrate3d",
-      "mercurySunInertialFit"
-     ]
-    },
-    {
-     "key": "geo3-294a",
-     "sec": 292,
-     "kind": "領域の宣言",
-     "presets": [
-      "earthMoonInertial",
-      "earthMoonReal"
-     ]
-    },
-    {
-     "key": "charoneps-h",
-     "sec": 273,
-     "kind": "領域の宣言",
-     "presets": [
-      "alphaCenAB",
-      "neptuneReal",
-      "plutoCharonDiagInput",
-      "plutoCharonReal",
-      "psrB1534DFM",
-      "psrDoubleABDFM",
-      "psrJ1757DFM",
-      "psrJ1946DFM",
-      "siriusAB",
-      "venusReal"
-     ]
-    },
-    {
-     "key": "wbglaw-301g",
-     "sec": 264,
-     "kind": "領域の宣言",
-     "presets": "all"
-    },
-    {
      "key": "clone-301f",
      "sec": 258,
      "kind": "領域の宣言",
@@ -70002,6 +71421,23 @@
      "sec": 232,
      "kind": "領域の宣言",
      "presets": "all"
+    },
+    {
+     "key": "charoneps-h",
+     "sec": 215,
+     "kind": "領域の宣言",
+     "presets": [
+      "alphaCenAB",
+      "neptuneReal",
+      "plutoCharonDiagInput",
+      "plutoCharonReal",
+      "psrB1534DFM",
+      "psrDoubleABDFM",
+      "psrJ1757DFM",
+      "psrJ1946DFM",
+      "siriusAB",
+      "venusReal"
+     ]
     },
     {
      "key": "charonaudit-305e",
@@ -70263,12 +71699,6 @@
      "presets": "all"
     },
     {
-     "key": "kf0",
-     "sec": 55,
-     "kind": "常時群",
-     "presets": null
-    },
-    {
      "key": "bgtime287",
      "sec": 53,
      "kind": "領域の宣言",
@@ -70359,6 +71789,12 @@
      ]
     },
     {
+     "key": "kf0",
+     "sec": 45,
+     "kind": "常時群",
+     "presets": null
+    },
+    {
      "key": "elliptical-335f",
      "sec": 45,
      "kind": "html を読まない",
@@ -70419,12 +71855,6 @@
      "presets": null
     },
     {
-     "key": "d0audit",
-     "sec": 23,
-     "kind": "領域の宣言",
-     "presets": "all"
-    },
-    {
      "key": "galaxyprof2",
      "sec": 23,
      "kind": "物理の部分(htmlPhys)",
@@ -70443,8 +71873,14 @@
      "presets": null
     },
     {
+     "key": "d0audit",
+     "sec": 20,
+     "kind": "領域の宣言",
+     "presets": "all"
+    },
+    {
      "key": "dt3",
-     "sec": 22,
+     "sec": 19,
      "kind": "常時群",
      "presets": null
     },
@@ -70480,6 +71916,12 @@
     },
     {
      "key": "statecontract-302e",
+     "sec": 15,
+     "kind": "領域の宣言",
+     "presets": "all"
+    },
+    {
+     "key": "rotvert-339a",
      "sec": 15,
      "kind": "領域の宣言",
      "presets": "all"

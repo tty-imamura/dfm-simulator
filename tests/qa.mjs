@@ -106408,6 +106408,168 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ==== 第337便l の塊(ここまで)====
 
+// ==== 第339便a の塊(ここから —— behavior.rotvert339a・docs.rotvert339a の 2 ブロック。root は SKIP)====
+// ---- 第339便a(原仮定者の回答(2026-11-14 —— AN712)「2 つ以上の量を同じノブで満たした候補だけを、既定 OFF の設定と『探索用・未較正』の本として入れる」・統括の検証項目 R355):
+// ----   **回転引きずりの鉛直の型 physics.rotDragVert(既定 OFF・探索用・未較正)と本 🛟 saturnRotVertExplore3d**(新設 —— 器 tests/exp-w339a-rotvert.mjs〔html を読む —— loadHtmlHeadless〕・
+// ----   lib tests/lib-w339a-rotvert.mjs・正本 tests/out/rotvert-w339a.json)。世代切替 = beta 対象 ∧ 器・lib がある ∧ 対象の html に鍵の読み口 HP.rotDragVert がある。
+// ----   behavior.rotvert339a: ① 版・候補の宣言(slice|focus|Req|obs・倍 1e5・2e6)・lib の自己試験(照合の検出力の変異を含む) ② 対象の html で器の measure を作り直して正本と相対 1e-9 の内
+// ----     (鍵の既定 OFF と受理の表・点の照合 8 組・1 步・ON と鍵 OFF の写しの 600・3000 步)・候補の測り直し(要る λ・2 つの判定)が正本と同じ
+// ----     ③ physics の鍵の集合の守り(lint.physKeysGuard330c の判定の型 —— 雛形に鍵 rotDragVert が足されたら名指しの段の regen になる)・既定 OFF(DEFAULT_PHYSICS に無い・内蔵で宣言するのは 🛟 だけ・
+// ----       三次元の許可の表・SYSTEM_PROMPT に載せない)④ 門が全部真
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w339a-rotvert.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w339a-rotvert.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'rotvert-w339a.json');
+  const htmlTx339a = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && htmlTx339a.indexOf('window.HP.rotDragVert=') >= 0)) {
+    console.log('SKIP behavior.rotvert339a(第339便a の回転引きずりの鉛直の型〔既定 OFF の鍵と探索用の本〕の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const cmp339a = (a, b) => (a === b ? 0 : (typeof a !== 'number' || typeof b !== 'number') ? Infinity : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let X = null, L = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── behavior.rotvert339a ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/rotvert-w339a.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        let dW = 0;
+        const walk = (a, b) => { if (typeof a === 'number' || typeof b === 'number') { dW = Math.max(dW, cmp339a(a, b)); return; } if (a === null || b === null || typeof a !== 'object') { if (a !== b) dW = Infinity; return; } for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) walk(a[k], b[k]); };
+        // ① 版・候補の宣言・自己試験
+        if (!(L.LIB_VERSION === 'w339a-rotvert-lib-1' && X.HARNESS_VERSION === 'w339a-rotvert-1' && X.BOOK_ID === 'saturnRotVertExplore3d')) bad.push('① 版(lib・器・本の id)');
+        if (!(L.DECL.candidate.key === 'slice|focus|Req|obs' && js(L.DECL.candidate.spec) === js({ prof: 'slice', action: 'focus', reading: 'Req', speed: 'obs' }) && L.DECL.visibility.lambdaScale === 1e5
+          && L.DECL.visibility.rdScale === 2e6 && L.DECL.matchTol === 1e-12 && js(L.DECL.steps) === js([600, 3000]))) bad.push('① 候補の宣言(型・見えるようにした倍・照合の許容・步の数)');
+        const ST = L.selfTest();
+        if (!(ST.ok && ST.cases === 10)) bad.push('① lib の自己試験: ' + ST.bad.slice(0, 3).join(' / '));
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・候補 ${L.DECL.candidate.key}・自己試験 ${ST.cases} 例(照合の検出力の変異 —— 1e-9 のずれ・帯の厚み 1% —— を含む)`);
+        // ② 作り直し
+        const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(path.join(ROOT, TARGET));
+        if (H.errors.length) bad.push('② html の読み込みのエラー: ' + H.errors[0].slice(0, 120));
+        const M = X.measure(H), C = L.candidateCheck();
+        const parts = ['key', 'book', 'match', 'step', 'run'], diffs = {};
+        for (const k of parts) { dW = 0; walk(JSON.parse(js(M[k])), J[k]); diffs[k] = dW; }
+        dW = 0; walk(JSON.parse(js(C)), J.candidate); diffs.candidate = dW;
+        const badParts = Object.keys(diffs).filter((k) => !(diffs[k] <= 1e-9));
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k]).join('・') + ')—— 器を走らせ直す');
+        const last = M.run.rows[M.run.rows.length - 1];
+        cases.push(`② 対象の html で作り直して鍵・本・点の照合 ${M.match.length} 組・1 步 ${M.step.sameBits}/${M.step.n}・走行 ${M.run.steps.join('・')} 步・候補の測り直し(要る λ ${C.lambdaNeed.toExponential(3)}・環 ${C.ringPass}・4 惑星 ${Object.values(C.planets).every((p) => p.insideScale)})が正本と相対 1e-9 の内・3000 步の傾きの比 ON ${last.ratioOn.map((x) => x.toFixed(3)).join('/')}・鍵 OFF ${last.ratioOff.map((x) => x.toFixed(3)).join('/')}`);
+        // ③ physics の鍵の集合の守り・既定 OFF
+        const TG = await import('file://' + path.join(ROOT, 'tests', 'lib-w330c-toolguard.mjs')), SC = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
+        const T1 = H.evalExpr('Object.keys(fastParams({}))'), T0 = T1.filter((k) => k !== 'rotDragVert');
+        const fp = (t) => ({ template: t, templateSha: crypto.createHash('sha256').update(JSON.stringify(t)).digest('hex'), tableSha: 'x', why: [] });
+        const dec = TG.physKeysDecide330c({ reads: { fastParams: SC.REG_READS_329C.fastParams.lines.slice() }, stampFp: fp(T0), nowFp: fp(T1) });
+        if (!(T1.indexOf('rotDragVert') >= 0 && T1.length === T0.length + 1 && dec.need === true && dec.kind === 'physKeys' && /rotDragVert/.test(dec.why))) bad.push('③ 守りの型: 雛形に足した鍵 rotDragVert を physKeys の regen と判定しない(' + js(dec).slice(0, 120) + ')');
+        const allow = H.evalExpr('COORD3D_PHYS_EXTRA_ALLOW'), sp = H.evalExpr('SYSTEM_PROMPT');
+        if (!(allow.indexOf('rotDragVert') >= 0 && sp.indexOf('rotDragVert') < 0 && M.key.inDefault === false && M.key.liveDeclaringOnlyBook === true)) bad.push('③ 既定 OFF(DEFAULT_PHYSICS に無い・内蔵で宣言するのは 🛟 だけ・三次元の許可の表・SYSTEM_PROMPT に載せない)');
+        cases.push('③ physics の鍵の集合の守り(雛形 ' + T0.length + ' → ' + T1.length + ' 鍵・足した rotDragVert を physKeys と判定)・既定 OFF(DEFAULT_PHYSICS に無い・宣言は 🛟 だけ・三次元の許可・SYSTEM_PROMPT に載せない)');
+        // ④ 門
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.rotvert339a', bad.length === 0,
+      `**回転引きずりの鉛直の型(既定 OFF の鍵 physics.rotDragVert と探索用・未較正の本 🛟)の作り直し**(第339便a・原仮定者の回答(2026-11-14 —— AN712)・R355): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第339便a: docs.rotvert339a は別の最上位のブロック。世代切替は上と同じ
+// ----   docs.rotvert339a: ① 正本の門・版・来歴(target は beta/index.html・領域の宣言が完全・入力は対象の html)② 本の文(名前と説明に「探索用・未較正」・見えるようにした倍 1e5・2e6 と候補の値・
+// ----     A/B の鍵 OFF の写し・アプリ内の説明に便名・決断事項を書かない)③ PHYSICS〔第339便a〕の位置と必須の語・ノブの表の状態の欄が 1 語・AI_SPEC §247・CHANGELOG・段の行・.gitignore・post-merge
+// ----     ④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・本の文)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w339a-rotvert.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w339a-rotvert.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'rotvert-w339a.json');
+  const htmlTx339a = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && htmlTx339a.indexOf('window.HP.rotDragVert=') >= 0)) {
+    console.log('SKIP docs.rotvert339a(第339便a の回転引きずりの鉛直の型〔既定 OFF の鍵と探索用の本〕の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.rotvert339a ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第339便a — '), i7 = PH.indexOf('\n## 7. 論文'), il = PH.indexOf('〔第337便l — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && il >= 0 && il < i0 && iu > i0)) bad.push('PHYSICS〔第339便a〕が無いか〔第337便l〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    let book = null;
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/rotvert-w339a.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'rotvert-339a'
+        && J.target === 'beta/index.html' && J.meta.scope && J.meta.scopeComplete === true && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 1))
+        bad.push('① 版・来歴(target は beta/index.html・領域の宣言が完全・入力は対象の html)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL)) bad.push('① 正本の宣言が lib と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      try {
+        const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(path.join(ROOT, TARGET));
+        book = H.HP.allPresets().find((q) => q.id === X.BOOK_ID) || null;
+      } catch (e) { bad.push('② 本が読めない: ' + String(e && e.message || e).slice(0, 120)); }
+    }
+    if (book) {
+      const ds = book.descStruct || {}, en = (book.en && book.en.descStruct) || {}, txt = [book.name, ds.summary, ds.observe, ds.control].join('\n'), txtEn = [book.en && book.en.name, en.summary, en.observe, en.control].join('\n');
+      const okBook = book.name.indexOf('探索用・未較正') >= 0 && ds.summary.indexOf('探索用・未較正') >= 0 && ['1e5', '2e6', '6.56e-7', '5.18 m', '0.0656'].every((w) => ds.summary.indexOf(w) >= 0)
+        && /exploratory, uncalibrated/.test(book.en.name) && ['1e5', '2e6', '6.56e-7', '5.18 m'].every((w) => en.summary.indexOf(w) >= 0)
+        && book.abBody && book.abBody.physicsPatch && book.abBody.physicsPatch.rotDragVert === null && book.sampleClass === 'principle' && !book.fitRecord && !book.claims
+        && book.physics.rotDragVert && book.physics.rotDragVert.rdScale === L.DECL.visibility.rdScale && Math.abs(book.physics.rotDragVert.lambda / 6.56e-7 / L.DECL.visibility.lambdaScale - 1) < 1e-9
+        && !/第\d+便|決断事項/.test(txt + txtEn) && (book.notClaim || []).indexOf('rotvert_explore') >= 0;
+      if (!okBook) bad.push('② 本の文(探索用・未較正・倍と候補の値・A/B の鍵 OFF の写し・原理の分類・fitRecord と claims なし・便名と決断事項を書かない・notClaim)');
+      cases.push('② 本 🛟 の名前と説明(探索用・未較正・倍 1e5・2e6・候補 6.56e-7・5.18 m)・A/B の null・原理の分類・fitRecord と claims なし・アプリ内に便名なし');
+    }
+    const want = ['原仮定者の回答(2026-11-14 —— AN712)', 'R355', 'tests/exp-w339a-rotvert.mjs', 'tests/out/rotvert-w339a.json', 'tests/lib-w339a-rotvert.mjs', 'rotvert-339a', 'physics.rotDragVert',
+      'saturnRotVertExplore3d', '既定 OFF', '探索用・未較正', 'slice|focus|Req|obs', '扁平の則', '一様厚みの区間', '観測自転', '加速度の割合', '文献の値・未照合', '6.560e-7', '1e5', '2e6', '署名', '600 步',
+      'validateRotDragVert', 'rotDragVertFieldAt', 'rotDragVertStep3', 'dfmStep3', 'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態',
+      'このノブの組では', '決断事項の候補', '次の便へ', 'behavior.rotvert339a', 'docs.rotvert339a', '書かないこと', '再生成'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第339便a〕に「' + w + '」が無い');
+    const kt = sec.indexOf('| ノブの名 |'), ktab = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n').slice(2) : [];
+    const states = ktab.map((l) => l.split('|').map((c) => c.trim()).filter((c, k, a) => k > 0 && k < a.length - 1).pop());
+    if (!(ktab.length >= 4 && states.every((x) => ['候補', '対照', '不用の見込み', '廃止'].includes(x)))) bad.push('③ ノブの表の状態の欄が 1 語でない(' + states.filter((x) => !['候補', '対照', '不用の見込み', '廃止'].includes(x)).join('・') + ')');
+    const a0 = AS.indexOf('\n## 247. 第339便a'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/rotvert-w339a.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('既定 OFF') >= 0 && ai.indexOf('R355') >= 0 && ai.indexOf('physics.rotDragVert') >= 0))
+      bad.push('③ AI_SPEC §247(正本・SYSTEM_PROMPT・既定 OFF・R355・鍵)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl339a = clg.split('\n').find((l) => l.indexOf('**第339便a**') >= 0) || '';
+    if (!(cl339a.indexOf('tests/exp-w339a-rotvert.mjs') >= 0 && cl339a.indexOf('rotvert-339a') >= 0 && cl339a.indexOf('AN712') >= 0 && cl339a.indexOf('R355') >= 0 && cl339a.indexOf('physics.rotDragVert') >= 0)) bad.push('③ CHANGELOG の第339便a の行');
+    if (!(/S\('rotvert-339a', 'node tests\/exp-w339a-rotvert\.mjs', \['tests\/out\/rotvert-w339a\.json'\]/.test(RT) && RT.indexOf('// ==== 第339便a の塊(ここから)====') >= 0)) bad.push('③ 段の行 rotvert-339a(塊)');
+    if (GI.indexOf('!tests/out/rotvert-w339a.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第339便a の塊(ここから)====') >= 0 && /behavior\.rotvert339a/.test(PM) && /docs\.rotvert339a/.test(PM))) bad.push('③ post-merge の ③′ に第339便a の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表の状態の欄・AI_SPEC §247・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT339 = [/κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第339便a の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・環の厚みが決まった・土星の環が回転引きずりで薄くなることが分かった
+    const W339 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たっま決がみ厚の環', 'たっか分がとこるなく薄でりずき引転回は環の星土'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const bookTx = book ? [book.name, (book.descStruct || {}).summary, (book.descStruct || {}).observe, (book.descStruct || {}).control].join('\n') : '';
+    const texts = [['PHYSICS〔第339便a〕', sec], ['AI_SPEC §247', ai], ['CHANGELOG の第339便a の行', cl339a], ['器', rd('tests/exp-w339a-rotvert.mjs')], ['lib', rd('tests/lib-w339a-rotvert.mjs')], ['本の文', bookTx]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W339)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT339) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG|本の文/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・本の文)');
+    add('docs.rotvert339a', bad.length === 0,
+      `**回転引きずりの鉛直の型(既定 OFF の鍵 physics.rotDragVert と探索用・未較正の本 🛟)の文書**(第339便a・原仮定者の回答(2026-11-14 —— AN712)・R355 —— 候補の式・鍵・本・ノブの表・見えるようにした倍率): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第339便a の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
