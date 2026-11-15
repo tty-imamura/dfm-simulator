@@ -2159,6 +2159,19 @@ export const REGEN_STEPS = [
       + '並進の分(c の 1 つの式・第337便a の数値の差分との照合 6 配置・公転する受け手 n/s 7 点・ロックした連星・近づく/遠ざかる分・第333便b の通過)/'
       + '太陽 → 8 惑星・金星の釣り合い(向きの因子 4 × 振幅 2)・銀河 → 太陽系・衛星 7 と冥王星 – カロン・比べる天体 8/合成の 60° の規則' }),
   // ==== 第337便l の塊(ここまで)====
+  // ==== 第338便e の塊(ここから)====
+  // ---- 第338便e(原仮定者の回答(2026-11-15 —— 第138報の回答 4)「⑩は、パルサー以外でどうなるか、パルサーは軸を傾けたらどうなるか、を検証してから判断」・原仮定者の回答(AN723 = A)・
+  //   統括の検証項目 R353): **慣性移動の加減速の差 —— 源の自転を場の速度に入れる読み(⑩)の検証 2 つ(連星パルサー以外の系 25・パルサーの軸の角 0°〜180° と R_d の外で剛体でない場の型)と
+  //   源の詰まり具合のべきのノブ(単独・⑩ と同時)**(段 spinfield-338e —— 正本 tests/out/spinfield-338e.json・lib tests/lib-w338e-spinfield.mjs —— 第337便d の lib と器
+  //   〔器の t3Rows・jointOf を呼んで k = 0 を照らす —— 第337便d の正本は読まない〕・第330便b・第331便c・第332便a の lib を import して呼ぶ。順序だけ after に段 accelloss-337d と同じ 10 段)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w338e-spinfield.mjs —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第338便e の枝の実測 11 s
+  S('spinfield-338e', 'node tests/exp-w338e-spinfield.mjs', ['tests/out/spinfield-338e.json'], 11, { secSource: 'w338e-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 11 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/spinfield-338e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第338便e: ⑩ の場の型 5(なし・剛体・(R_d/r)¹・(R_d/r)²・K1 の球の核の回転の項)× 系 25(惑星 8・衛星 7・恒星の連星・白色矮星を含む連星 2・中性子星と白色矮星 2・二重中性子星 5)× 列 3 の求積/'
+      + '二重中性子星 5 の軸の角 13 × 射影の向き 2/詰まり具合 (Ξ/Ξ_ref)^k の 9 点 × 列 3 の 5 系の上限・k* と帯/⑩ と k を同時に(場の型 4 × 列 2)' }),
+  // ==== 第338便e の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
