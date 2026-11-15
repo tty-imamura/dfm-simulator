@@ -43,7 +43,7 @@ export const PLAN = Object.freeze({
   t3: Object.freeze({ cols: Object.freeze(['L1', 'S0', 'S0a']), ks: Object.freeze([0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]), nQ: 4096, kRange: Object.freeze([-8, 8]), kStep: 0.05, bisect: 50 }),
   t4: Object.freeze({ fields: Object.freeze(['rigid', 'pow1', 'pow2', 'sphere']), cols: Object.freeze(['L1', 'S0']), nQ: 2048 }),
   judge: Object.freeze({ sameOrder: 10, zeroFloor: E.DECL.zeroFloor,
-    zeroNote: '正本の値: 解析的に 0 の量・打ち消しの残りは、同じ単位の尺度(ȧ: L 系 a・型 2 a n/ė・ϖ̇・面の傾きの率: L 系 1・型 2 n/熱: μGM/a × P〔型 2 は × n〕—— 詰まり具合の因子の平均と amp = max(1, |u| の最大 ÷ √(GM/a))〔熱は amp²〕を掛ける)に対して 1e-12 より小さければ 0 と書く・場の速さの成分は |U_s| の最大に対して' }),
+    zeroNote: '正本の値: 解析的に 0 の量・打ち消しの残りは、同じ単位の尺度(ȧ: L 系 a・型 2 a n/ė・ϖ̇・面の傾きの率: L 系 1・型 2 n/熱: μGM/a × P〔型 2 は × n〕—— 詰まり具合の因子の平均と amp = max(1, |u| の最大 ÷ √(GM/a))〔熱は amp²〕を掛ける)に対して 1e-12 より小さければ 0 と書く・場の速さの成分は |U_s| の最大に対して・水星 ÷ J0737 の比の log10 は 1e-6 の格子に寄せる(k* で 0)' }),
 });
 
 /* ───────── 小さな道具 ───────── */
@@ -65,7 +65,7 @@ function boundTable(field, col, k, nQ) {
   const mn = ok.reduce((a, b) => (b.kMax < a.kMax ? b : a)), mx = ok.reduce((a, b) => (b.kMax > a.kMax ? b : a));
   const m = per.find((p) => p.key === 'mercury'), j = per.find((p) => p.key === 'j0737');
   const ratioMJ = fin(m.kMax) && fin(j.kMax) ? m.kMax / j.kMax : null;
-  return { field, col, k, perSystem: per, joint: mn.kMax, binding: mn.key, loosest: mx.key, spread: mx.kMax / mn.kMax, ratioMJ, log10MJ: ratioMJ === null ? null : Math.log10(ratioMJ),
+  return { field, col, k, perSystem: per, joint: mn.kMax, binding: mn.key, loosest: mx.key, spread: mx.kMax / mn.kMax, ratioMJ, log10MJ: ratioMJ === null ? null : Math.round(Math.log10(ratioMJ) * 1e6) / 1e6,   // k* では解析的に 0 —— 1e-6 の格子に寄せて書く(k* の 1e-9 の丸めの残りを値のまま書かない)
     sameOrderMJ: ratioMJ !== null && Math.abs(Math.log10(ratioMJ)) <= Math.log10(PLAN.judge.sameOrder), sameOrderAll: mx.kMax / mn.kMax <= PLAN.judge.sameOrder };
 }
 /** 水星 ÷ J0737 の上限の比の log10 を k の関数で(速い形 adotOfK) */
