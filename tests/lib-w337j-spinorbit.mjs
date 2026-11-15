@@ -175,7 +175,8 @@ export function bodyAxial({ srcs, W0, wbg, Lhat, sObs, sHatObs, alpha = DECL.alp
 /** 2 倍角の則(原仮定者の指示(2026-10-18 —— 第101報・第103報)「源の軸回転が、軸方向に対する角度差の、２倍の角度差で傾いた軸で作用する」—— 仰角 45° で 90° 傾いた回転・赤道面で逆回転・軸方向で順回転):
  *  源の軸 ŝ と受け手への向き û の角 θ → 作用の軸 â = cos 2θ ŝ + sin 2θ ê(ê = û の ŝ に垂直な成分の向き)。円の軌道(法線 ŵ)の上で平均した â と受け手の自転の向き ŝ_r の内積・仰角の最大 */
 export function twoAngleMean({ sSrc, wOrb, sRecv, nPts = 720 }) {
-  const s = unit(sSrc), w = unit(wOrb), u0 = unit(sub(s, scl(w, dot(s, w)))), e1 = nrm(u0) > 1e-12 ? u0 : unit(crs(w, [1, 0, 0])), e2 = crs(w, e1);
+  // 第338便c: 長さの判定は正規化の前に(軸と法線が平行のとき、丸めの残りを正規化して向きを作らない —— 平行でない場合と、平行で残りが 0 の場合の値は前と同じ bit)
+  const s = unit(sSrc), w = unit(wOrb), v0 = sub(s, scl(w, dot(s, w))), e1 = nrm(v0) > 1e-12 ? unit(v0) : unit(crs(w, [1, 0, 0])), e2 = crs(w, e1);
   let pr = 0, ax = 0;
   for (let k = 0; k < nPts; k++) { const ph = 2 * Math.PI * (k + 0.5) / nPts, u = add(scl(e1, Math.cos(ph)), scl(e2, Math.sin(ph))), c = Math.max(-1, Math.min(1, dot(u, s))), th = Math.acos(c);
     const ep = sub(u, scl(s, c)), en = nrm(ep) > 1e-15 ? scl(ep, 1 / nrm(ep)) : [0, 0, 0], a = add(scl(s, Math.cos(2 * th)), scl(en, Math.sin(2 * th)));

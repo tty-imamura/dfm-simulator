@@ -1008,6 +1008,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.gyrodrag337k docs.gyrodrag337k"
 #   正本と同じ・原文の 3 点・赤道面の符号・並進 0 で回転の分だけ・ノブ 0 で 0 / docs.bevel337l —— 正本の門と表 12 本が PHYSICS〔第337便l〕に逐語・文書)と、新しい段 bevel-337l の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bevel337l docs.bevel337l"
 # ==== 第337便l の塊(ここまで)====
+# ==== 第338便c の塊(ここから)====
+# 第338便c(原仮定者の指示(2026-11-15 —— 第139報)・統括の検証項目 R351 —— 道具・html は変えない): 枝 c の新設 5 本(lint.recheckScale338c —— 作り直しの照合を量ごとの尺度で・
+#   lint.jsonCompare338c —— 正本の値の比べで来歴の欄を除く・lint.checkOrderAdded338c —— 鎖の後に足した段・lint.qaTouched338c —— 既存の QA の鍵の書き換え・docs.tools338c —— 文書)と、
+#   照合を置き換えた 3 本(behavior.rotring337i・behavior.spinorbit337j・behavior.gyrodrag337k)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.recheckScale338c lint.jsonCompare338c lint.checkOrderAdded338c lint.qaTouched338c docs.tools338c behavior.rotring337i behavior.spinorbit337j behavior.gyrodrag337k"
+# ==== 第338便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

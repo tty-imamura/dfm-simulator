@@ -39,6 +39,8 @@
 //   node tools/regen-chain.mjs --check-order <段,段,…|列のファイル(1 行 1 段)|timeline.txt>
 //       実際に走った列を表の依存で照合する(入力より先の走行・後段の再走の欠落・無駄な先走り)。timeline.txt(第284便f)なら
 //       加えて ready queue の順序違反(依存の end より前の start)・書込の重なり・worker 予算の超過も見る。違反があれば 1。
+//       第338便c(BL-092): [--chain-steps <段,…|ファイル|鎖の --json>] [--base-rev <鎖を作った rev>] —— 鎖の計画に無かった段(鎖の後に足した段)は addedAfterChain に分けて違反に数えない
+//       (timeline に `# chain-steps` 行があればそれを使う —— 鎖のシェルが第338便c から書く)。
 //   node tools/regen-chain.mjs --audit [--lanes 4]  表の依存の完全性(入力の書き手 ⊆ after の閉包・書き手の全順序・循環)と、
 //       全段 regen の鎖の ready queue の模擬(順序違反・書込の重なり・予算超過 0 —— 第284便f)。
 //   node tools/regen-chain.mjs --self-test    dry-run の自己試験(QA `lint.regenChain` と同じ関数)。違反があれば 1。
@@ -75,6 +77,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { execFileSync } from 'node:child_process';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const argv = process.argv.slice(2);
@@ -342,6 +345,19 @@ if (argv.includes('--gate')) {
 
 if (argv.includes('--check-order')) {
   const a = getArg('--check-order', '');
+  // 第338便c(BL-092): 鎖の計画に無かった段(鎖の後に統合で足した段)を「下流が走っていない」から分ける —— 鎖の計画の段の一覧は timeline の `# chain-steps` 行
+  //   (第338便c から鎖のシェルが書く)・無ければ --chain-steps <段,段,…|ファイル> か --base-rev <鎖を作った rev>(その rev の表の段の名)。分けた段は addedAfterChain に出し、
+  //   違反に数えない(順序・書込・予算・失敗・下流の欠落〔計画に在った段〕が 0 なら rc 0 —— 既存の rc の意味は変えない)。一覧が取れなければ従来どおり
+  const T338 = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w338c-tools.mjs')).href);
+  const plannedArg = (() => {
+    const cs = getArg('--chain-steps', null), br = getArg('--base-rev', null);
+    if (cs) { const txt = fs.existsSync(resolve(cs)) ? fs.readFileSync(resolve(cs), 'utf8') : cs;
+      try { const j = JSON.parse(txt); if (j && j.steps) return Array.isArray(j.steps) ? j.steps.map((z) => z.key) : Object.keys(j.steps); } catch { /* 1 行 1 段か , 区切り */ }
+      return txt.split(/[\s,]+/).filter(Boolean); }
+    if (br) { try { const src = execFileSync('git', ['-C', ROOT, 'show', br + ':tests/lib-w281a-regentable.mjs'], { encoding: 'utf8', maxBuffer: 256 << 20 }); return T338.stepKeysOfTableSource338c(src).concat(T.REGEN_STEPS.filter((z) => z.role === 'history').map((z) => z.key)); } catch (e) { console.error('--base-rev の表が読めない: ' + br); process.exit(2); } }
+    return null;
+  })();
+  const splitPlanned = (r, planned) => { if (!planned) return { added: [] }; const sp = T338.splitAdded338c(r.downstream, planned); r.downstream = sp.missing; return { added: sp.added }; };
   const seq = (fs.existsSync(resolve(a)) ? fs.readFileSync(resolve(a), 'utf8').split(/\r?\n/) : a.split(','))
     .map((z) => z.trim()).filter((z) => z && !z.startsWith('#'));
   const f = resolve(a);
@@ -359,10 +375,13 @@ if (argv.includes('--check-order')) {
       const tc = T.checkTimeline(tl.events, { rows, lanes: Number(getArg('--lanes', String(tl.lanes || 4))) || 4 });
       const ends = tl.events.filter((e) => Number.isFinite(e.end)).sort((x, y) => x.end - y.end).map((e) => e.key);
       const r = T.checkOrder(ends, { root: ROOT });
+      const planned = T338.chainStepsOfTimeline338c(t) || plannedArg, ad = splitPlanned(r, planned);
       const failed = tl.events.filter((e) => e.rc !== 0).map((e) => e.key + ' rc=' + e.rc);
       const ranOk = tl.events.filter((e) => e.rc === 0).map((e) => e.key);
       return { ok: tc.ok && !r.order.length && !r.downstream.length,
-        timeline: { events: tl.events.length, lanes: tl.lanes, order: tc.order, writes: tc.writes, budget: tc.budget, failed }, order: r.order, downstream: r.downstream, wasted: r.wasted, ranOk };
+        timeline: { events: tl.events.length, lanes: tl.lanes, order: tc.order, writes: tc.writes, budget: tc.budget, failed }, order: r.order, downstream: r.downstream, wasted: r.wasted, ranOk,
+        plannedSource: T338.chainStepsOfTimeline338c(t) ? 'timeline' : plannedArg ? 'arg' : null,
+        addedAfterChain: ad.added.map((z) => ({ step: z.step, dep: z.dep, note: '鎖の後に足した段 —— 別の鎖か器の直走で作ること' })) };
     };
     const blocks = text.split(/^(?=# ready-queue )/m).filter((t) => /^start /m.test(t));
     if (blocks.length <= 1) { const one = checkOne(text); console.log(JSON.stringify(one, null, 1)); process.exit(one.ok ? 0 : 1); }
@@ -388,6 +407,8 @@ if (argv.includes('--check-order')) {
     process.exit(okAll ? 0 : 1);
   }
   const r = T.checkOrder(seq, { root: ROOT });
+  const ad = splitPlanned(r, plannedArg);
+  if (plannedArg) r.addedAfterChain = ad.added.map((z) => ({ step: z.step, dep: z.dep, note: '鎖の後に足した段 —— 別の鎖か器の直走で作ること' }));
   console.log(JSON.stringify(r, null, 1));
   process.exit(r.order.length || r.downstream.length ? 1 : 0);
 }
