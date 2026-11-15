@@ -2116,6 +2116,49 @@ export const REGEN_STEPS = [
       + '× R_d の読み 4(Y_k m・軸比の R_eq・観測半径・R_src)× 速さ 2(s・s_d)の土星の環の粒子 15 点の一次の率と環の物差し・同じ組の水星/金星/地球/火星の一次の率と物差しの比・'
       + '並進引きずりの分解と第337便b の赤道帯の候補・引きずり半径 Y_k m × 10^k の効き・代表の時間積分(RK4 2000/4000 步)' }),
   // ==== 第337便i の塊(ここまで)====
+  // ==== 第337便j の塊(ここから)====
+  // ---- 第337便j(原仮定者の補足(2026-11-15 —— 第138報の補足 5)・統括の検証項目 R346): **軸引きずりの 2 つの読みを主星にロックしていない天体で比べる表・回転引きずりの方位の作用の型の
+  //   公転の速さと半長軸の率(n/s の関数・剛体の場に対する相対の速度の型・強さ λ の 3 つの読み)・一様厚みの型の候補(帯の幅・源の取り分で重みを付けた T1・釣り合いの高さ)**
+  //   (段 spinorbit-337j —— 正本 tests/out/spinorbit-337j.json・lib tests/lib-w337j-spinorbit.mjs —— 第337便a・第337便i・第334便a・第333便a・第333便c の lib を import して呼ぶ。
+  //   入力の正本は第337便a の tests/out/supply-337a.json の 1 本 —— after に supply-337a。第337便i の lib が呼ぶ lib の出典の名と、器が第337便i の正本の値を写した名を書くので
+  //   順序だけ after に段 rotring-337i と同じ 11 段 + rotring-337i)。**診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w337j-spinorbit.mjs —— 領域の宣言なし)。
+  //   1 プロセス。所要は第337便j の枝の実測 1 s
+  S('spinorbit-337j', 'node tests/exp-w337j-spinorbit.mjs', ['tests/out/spinorbit-337j.json'], 1, { secSource: 'w337j-branch', node: true,
+    after: ['supply-337a', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b', 'rotring-337i'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・正本 1 本を読む)—— 全部を走らせても 2 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/spinorbit-337j.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第337便j: 軸引きずりの 2 つの読み(背景が静止・今の並進の式の形 —— W₀ は第337便a の金星で釣り合う解)を地球・火星・冥王星・コンパクト天体 4 行と比べる行で/'
+      + '回転引きずりの方位の作用の型(座標を運ぶ・押し・相対の速度の全部・剛体の場に対する相対の速度 × χ × 落ち方 q × 受け手の大きさ p)の受け手 17 の半長軸の率と符号・強さ λ の 3 つの読み・時間積分/'
+      + '一様厚みの型の候補(統括の参考の試作の表・帯の幅 2 R_d・源の取り分 β で重みを付けた T1・場と重力の鉛直の速さが等しい高さ)' }),
+  // ==== 第337便j の塊(ここまで)====
+  // ==== 第337便k の塊(ここから)====
+  // ---- 第337便k(原仮定者の回答(2026-11-15 —— 第138報の回答 2)AN729・AN732・原仮定者の指示(2026-11-08 —— 第132報)・統括の検証項目 R347): **回転引きずり(剛体の場に対する相対の速度の型)の
+  //   強さとノブを観測の公転の変化のある 4 天体で決める表・その組を土星の環へ持ち出した物差しの比と環の側の補正のノブ・ジャイロの直交の読み(交点の率を直交に回した傾きの率)・扁平率のべき**
+  //   (段 gyrodrag-337k —— 正本 tests/out/gyrodrag-337k.json・lib tests/lib-w337k-gyrodrag.mjs —— 第337便j・第337便i・第337便b・第334便a・第333便a・第330便b の lib を import して呼ぶ。
+  //   入力のファイルは無い〔第337便i の正本の値 2 つを lib の宣言に写した —— 出典の名を書くので順序だけ after に段 spinorbit-337j と同じ 13 段 + spinorbit-337j〕)。**診断だけ**。
+  //   **html を読まない**(来歴の対象は純関数 tests/lib-w337k-gyrodrag.mjs —— 領域の宣言なし)。1 プロセス。所要は第337便k の枝の実測 1 s
+  S('gyrodrag-337k', 'node tests/exp-w337k-gyrodrag.mjs', ['tests/out/gyrodrag-337k.json'], 1, { secSource: 'w337k-branch', node: true,
+    after: ['supply-337a', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b', 'rotring-337i', 'spinorbit-337j'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 2 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/gyrodrag-337k.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第337便k: 回転引きずり(剛体の場に対する相対の速度の型)の強さ λ・落ち方のべき q・受け手の大きさのべき p を 4 天体(フォボス・月・タイタン・トリトン)の対数の最小二乗で(χ 2 × 速さ 2 × 基準 2 × 大きさの読み 2)/'
+      + 'その組の土星の D〜F 環の物差しの比と補正のノブ 4 つ(粒子の半径・集まりの係数・半長軸の率の打ち消し・帯の外の落ち方)/'
+      + 'ジャイロの直交の読み(方位の作用の型 5 × 受け手 9 × 符号 2 × 列 2)/扁平率のべき k 0・1・2 の源 7 の表' }),
+  // ==== 第337便k の塊(ここまで)====
+  // ==== 第337便l の塊(ここから)====
+  // ---- 第337便l(原仮定者の回答(2026-11-15 —— 第138報の回答 3)・原仮定者の指示(2026-10-18 —— 第101報・第103報)・統括の検証項目 R348): **軸引きずりの向き —— 2 倍角の則を並進引きずりに対する
+  //   向きとして置く(回転の分と並進の分を並進引きずりが運ぶ速度 c の 1 つの式から)・強さの仰角の依存の候補・天体への当てはめの向きの表・金星の釣り合いの読み・合成の 60° の規則**
+  //   (段 bevel-337l —— 正本 tests/out/bevel-337l.json・lib tests/lib-w337l-bevel.mjs —— 第337便a・第337便j・第333便b・第332便a・第335便b の lib を import して呼ぶ。
+  //   入力のファイルは無い〔第337便a の正本の値 W₀・ω_bg・自転のベクトルを lib の宣言に写した —— 出どころを書くので順序だけ after に段 gyrodrag-337k と同じ一式 + gyrodrag-337k〕)。**診断だけ**。
+  //   **html を読まない**(来歴の対象は純関数 tests/lib-w337l-bevel.mjs —— 領域の宣言なし)。1 プロセス。所要は第337便l の枝の実測 0.1 s
+  S('bevel-337l', 'node tests/exp-w337l-bevel.mjs', ['tests/out/bevel-337l.json'], 1, { secSource: 'w337l-branch', node: true,
+    after: ['supply-337a', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b', 'rotring-337i', 'spinorbit-337j', 'gyrodrag-337k'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/bevel-337l.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第337便l: 2 倍角の則(半回転 2(s·r̂)r̂ − s)と差分の読みの閉じた形 f[(1 − α_e) s⊥ + α_e Ω_app] の向きと強さの候補(仰角 7 点 × 候補 7)/'
+      + '並進の分(c の 1 つの式・第337便a の数値の差分との照合 6 配置・公転する受け手 n/s 7 点・ロックした連星・近づく/遠ざかる分・第333便b の通過)/'
+      + '太陽 → 8 惑星・金星の釣り合い(向きの因子 4 × 振幅 2)・銀河 → 太陽系・衛星 7 と冥王星 – カロン・比べる天体 8/合成の 60° の規則' }),
+  // ==== 第337便l の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
