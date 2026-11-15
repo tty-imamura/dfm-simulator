@@ -1,6 +1,6 @@
 // 第337便l(原仮定者の回答(2026-11-15 —— 第138報の回答 3)・統括の検証項目 R348): **正本 tests/out/bevel-337l.json から PHYSICS〔第337便l〕の表を作る文書の lib**
 // (QA docs.bevel337l が節の表と逐語で照合する —— 表の数は有効数字 3 桁の指数・角は小数 2 桁・丸めの程度の数〔恒等式の残差〕は「< 1e-x」の形で書く)。
-export const DOC_VERSION = 'w337l-beveldoc-1';
+export const DOC_VERSION = 'w337l-beveldoc-2';   // 版 2 = 第338便b の訂正(金星の釣り合いの表を根ごとの行に)
 const fe = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toExponential(2));
 const f2 = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toFixed(2));
 const f3 = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toFixed(3));
@@ -39,8 +39,10 @@ export function tablesOf(J) {
   const t3 = J.t3;
   T.t3Planets = ['| 惑星 | 取り分 f(背景が静止・第337便a の W₀) | α_e = α(1 − f) | n/s | 太陽の赤道面に対する傾き [°] | 自転軸の傾き [°] | 軌道の平均の向きの因子(半回転 × cos el) | 太陽の項 [rad/s]: 符号つきの半回転・差分の読み・取り分の半回転 | 今の形の公転の分を入れた太陽の項 [rad/s]: 差分の読み・半回転(重み 1) | 背景の項 [rad/s] | 太陽の項 ÷ 背景の項(符号つき) | 2 倍角の則で自転の向きになる仰角 el* [°] | 実際の仰角の範囲に入る |', '|---|---|---|---|---|---|---|---|---|---|---|---|---|',
     ...t3.planets.map((p) => `| ${NM[p.key]} | ${f3(p.f)} | ${f3(p.alphaE)} | ${fe(p.nOverS)} | ${f2(p.iSunDeg)} | ${f2(p.obliqDeg)} | ${f3(p.dirMean.reflectP1)} | ${fe(p.sunRefSigned)}・${fe(p.sunDiffStatic)}・${fe(p.sunRefShare)} | ${fe(p.selfDiff)}・${fe(p.selfRef1)} | ${fe(p.bg)} | ${fe(p.ratioSigned)} | ${f2(p.elNeededDeg)} | ${tf(p.inRange)} |`)].join('\n');
-  T.t3Venus = ['| 向きの因子(金星の軌道の平均) | 振幅 | 因子 P | 釣り合いの根の数 | 根 f | f − 0.5 | W₀(金星の平均の半長軸で) | 背景の項に要る倍(取り分の振幅 —— f 0.5 のまま) |', '|---|---|---|---|---|---|---|---|',
-    ...t3.venus.map((v) => `| ${DIRP[v.dir]} | ${v.amp === 'signed' ? '符号つき f(α_e − 1)' : '取り分 f'} | ${f3(v.P)} | ${v.nRoots} | ${v.f === null ? '—' : v.f.toFixed(6)} | ${fe(v.df)} | ${fe(v.W0)} | ${fe(v.bgFactorNeeded)} |`)].join('\n');
+  // 版 2(第338便b の訂正): 根を全部 1 行ずつ(太陽の項は本体の振幅と同じ符号 —— 根では背景の項と逆の値)・和 ÷ 尺度(< 1e-12 は 0)・読みの区別・f 0.5 に固定したときの倍
+  const KIND = { zeroNode: '零点合わせ', finitePair: '有限の 2 項の拮抗' }, fr = (x) => (x < 1e-6 ? fe(x) : x.toFixed(13));
+  T.t3Venus = ['| 向きの因子(金星の軌道の平均) | 振幅 | 因子 P | 釣り合いの根の数 | 根 f | f − 0.5 | W₀(金星の平均の半長軸で) | 太陽の項 [rad/s](根では背景の項と逆) | 背景の項 [rad/s] | 和 ÷ 打ち消しの前の尺度 | 読み(\\|背景の項\\| ÷ (\\|P s☉ (ŝ☉·n̂)\\| f)) | 背景の項に要る倍(f 0.5 に固定したら —— 取り分の振幅) |', '|---|---|---|---|---|---|---|---|---|---|---|---|',
+    ...t3.venus.flatMap((v) => v.roots.map((r, k) => `| ${DIRP[v.dir]} | ${v.amp === 'signed' ? '符号つき f(α_e − 1)' : '取り分 f'} | ${f3(v.P)} | ${k === 0 ? v.nRoots : '〃'} | ${fr(r.f)} | ${fe(r.df)} | ${fe(r.W0)} | ${fe(r.sun)} | ${fe(r.bg)} | ${r.sumOverScale === 0 ? '0(< 1e-12)' : fe(r.sumOverScale)} | ${KIND[r.kind]}(${fe(r.kindRatio)}) | ${k === 0 ? fe(v.bgFactorNeeded) : '〃'} |`))].join('\n');
   const g = t3.galaxy;
   T.t3Galaxy = ['| 銀河 → 太陽系 | 値 |', '|---|---|',
     `| 太陽の銀河面からの仰角 [°](z☉ ÷ R₀) | ${fe(g.elDeg)} |`, `| 半回転の向きの銀河の軸からの角 [°] | ${f2(g.reflectAngDeg)} |`,

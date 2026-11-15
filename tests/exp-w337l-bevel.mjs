@@ -22,8 +22,13 @@ import * as L from './lib-w337l-bevel.mjs';
 import { galacticAxes } from './lib-w335b-carryledger.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w337l-bevel-1';
-export const AMEND = Object.freeze([]);
+export const HARNESS_VERSION = 'w337l-bevel-2';
+export const AMEND = Object.freeze([
+  '版 2(第338便b の訂正 —— 統括の検証項目 R350): 金星の釣り合いの式 venusBalance の太陽の項が、本体(bevelOmega・planetRows の振幅 f(α_e − 1)・f)と負号が 1 つ違っていた'
+  + '(符号つき P s☉ f(1 − α(1 − f))・取り分 −P s☉ f)。本体と同じ符号 P s☉ A(f) に直し、根の走査(0.001〜0.999 の格子)を閉じた形の 0 < f < 1 の全部の根に直した。'
+  + '数の変わり方: 符号つきの根は 0.5000000000094593 の 1 つ → 0.4999999999905406(零点合わせ)と 1.89e-11(有限の 2 項の拮抗)の 2 つ・取り分は根なし → 1.89e-11 の 1 つ'
+  + '(版 1 の「取り分の型では根が無い」は誤り・「背景の項を 5.29e10 倍」は f を 0.5 に固定したときの数)。ほかの表(T1・T2・T3 の惑星と衛星・T4)の数は変わらない',
+]);
 export const OUT_MAIN = 'tests/out/bevel-337l.json';
 export const TARGET = 'tests/lib-w337l-bevel.mjs';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
@@ -80,7 +85,11 @@ export function partT2() {
 export function partT3() {
   const planets = L.planetRows(), ven = planets.find((p) => p.key === 'venus');
   const venus = [];
-  for (const k of PLAN.venusP) for (const amp of ['signed', 'share']) { const P = ven.dirMean[k], v = L.venusBalance({ P, amp }); venus.push({ dir: k, amp, P, f: v.f, df: v.df, W0: v.W0, nRoots: v.roots.length, bgFactorNeeded: v.bgFactorNeeded }); }
+  // 版 2(第338便b): 根を全部(rows)・根ごとの太陽の項と背景の項・和 ÷ 尺度・読みの区別(零点合わせ/有限の 2 項の拮抗)。f・df・W0 は 0.5 に最も近い根(版 1 の欄の名前のまま)
+  for (const k of PLAN.venusP) for (const amp of ['signed', 'share']) { const P = ven.dirMean[k], v = L.venusBalance({ P, amp });
+    venus.push({ dir: k, amp, P, f: v.f, df: v.df, W0: v.W0, nRoots: v.roots.length, roots: v.rows, bgFactorNeeded: v.bgFactorNeeded,
+      // 独立の照合: 本体の planetRows の金星の行の太陽の項(符号つき・取り分 —— ampOf の振幅)× (ŝ☉·n̂)と、この式の太陽の項を金星の取り分で比べる(符号と値)
+      bodyCheck: k === 'reflectP1' ? (() => { const b = (amp === 'signed' ? ven.sunRefSigned : ven.sunRefShare) * v.sunN, t = v.sunTermAt(ven.f); return { body: b, formula: t, sameSign: Math.sign(b) === Math.sign(t), rel: Math.abs(b - t) / Math.max(Math.abs(b), 1e-300) <= 1e-12 ? 0 : Math.abs(b - t) / Math.abs(b) }; })() : null }); }
   const v0 = L.venusBalance({ P: 1, amp: 'signed' });
   const galaxy = L.galaxyRow(), moons = L.moonRows(), compare = L.compareRows();
   return { planets, venus, venusRef: { galN: v0.galN, sunN: v0.sunN, W0: v0.W0, f: v0.f }, galaxy, moons, compare,
@@ -107,7 +116,10 @@ export function gatesOf(J) {
     t2Closed: t2.orbit.every((o) => Math.abs(o.selfDiff - o.selfDiffClosed) <= 1e-12 && Math.abs(o.ref1 - o.ref1Closed) <= 1e-12 && Math.abs(o.staticDiff - o.staticDiffClosed) <= 1e-12),
     t2Zero: t2.radial.every((r) => r.mag === 0) && Math.abs(t2.locked.ref1) <= 1e-15 && Math.abs(t2.passing.ratio - 2) <= 1e-9,
     t3Complete: t3.planets.length === 8 && t3.planets.every((p) => fin(p.f) && fin(p.sunRefSigned) && fin(p.bg)) && t3.venus.length === PLAN.venusP.length * 2 && t3.moons.moons.length === 7 && t3.compare.length >= 7,
-    t3Venus: t3.venus.filter((v) => v.amp === 'signed').every((v) => v.nRoots >= 1 && Math.abs(v.df) <= 1e-9) && t3.venus.filter((v) => v.amp === 'share').every((v) => v.nRoots === 0),
+    // 版 2(第338便b): 符号つきは根 2 つ(0.5 の近くの零点合わせ + 小さい f の有限の 2 項の拮抗)・取り分は根 1 つ(小さい f の拮抗)・どの根も和 ÷ 尺度が 0(< 1e-12)・本体の振幅と同じ符号
+    t3Venus: t3.venus.filter((v) => v.amp === 'signed').every((v) => v.nRoots === 2 && Math.abs(v.df) <= 1e-9 && v.roots.filter((r) => r.kind === 'zeroNode').length === 1 && v.roots.filter((r) => r.kind === 'finitePair' && r.f < 1e-9).length === 1)
+      && t3.venus.filter((v) => v.amp === 'share').every((v) => v.nRoots === 1 && v.roots[0].kind === 'finitePair' && v.roots[0].f < 1e-9)
+      && t3.venus.every((v) => v.roots.every((r) => r.sumOverScale === 0)) && t3.venus.filter((v) => v.bodyCheck).every((v) => v.bodyCheck.sameSign && v.bodyCheck.rel === 0),
     t4Complete: t4.rows.length === 8 && t4.equal.length === 6 && Math.abs(t4.equal.find((e) => e.angDeg === 120).vecSum - 1) <= 1e-12,
   };
 }
