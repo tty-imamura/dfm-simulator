@@ -1,7 +1,7 @@
 // 第337便i(原仮定者の回答(2026-11-14 —— 第138報の回答)・統括の検証項目 R345): **正本 tests/out/rotring-337i.json から PHYSICS〔第337便i〕の表を作る文書の lib**
 // (QA docs.rotring337i が節の表と逐語で照合する —— 表の数は有効数字 3 桁の指数・丸めの程度の数〔恒等式の残差〕は「< 1e-x」の形で書き、数そのものは載せない)。
-export const DOC_VERSION = 'w337i-rotringdoc-1';
-const fe = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toExponential(2));
+export const DOC_VERSION = 'w337i-rotringdoc-2';   // 第338便c: 0 と書いた葉(丸めの残り —— 正本の meta.recheck)を表で「0」と書く
+const fe = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : x === 0 ? '0' : Number(x).toExponential(2));
 const lt = (x, t) => (Number.isFinite(x) && Math.abs(x) <= t ? '< ' + t.toExponential(0) : '**' + fe(x) + '**');
 const z12 = (x) => (Number.isFinite(x) && Math.abs(x) < 1e-12 ? '0(< 1e-12)' : fe(x));   // べきの丸め(R_d が消える列)
 const tf = (x) => (x === true ? '真' : x === false ? '偽' : '—');

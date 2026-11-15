@@ -5123,6 +5123,12 @@ SYSTEM_PROMPT の規則 13(逐語):
 - QA `behavior.bevelknob338b`・`docs.bevelknob338b`(本節と PHYSICS〔第338便b〕・CHANGELOG —— root は SKIP)。直した QA `behavior.bevel337l`・`docs.bevel337l`(版 2)。
 
 
+
+## 243. 第338便c —— 道具: 作り直しの照合を量ごとの尺度で・正本の値の比べで来歴の欄を除く・鎖の後に足した段・既存の QA の鍵の書き換え(原仮定者の指示(2026-11-15 —— 第139報)・統括の検証項目 R351・**道具と照合だけ** —— html・本の宣言・エンジン・受理器・`S._core`・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
+- **何をしたか**: 「器を走らせ直して正本と同じ」の照合を、葉ごとに測る数値の尺度 σ(Math の関数の戻り値を ±1〜2 ulp ずらした走り直し 2 回の差の最大 —— `tests/lib-w338c-recheck.mjs`)で行う型に置き換えた。器 `exp-w337i/j/k` は |値| ≤ 4 σ の葉(丸めの残り)を正本に 0 と書き、QA は数でない欄を完全一致・0 と書いた葉を 128 σ′ の内・ほかの数を max(1e-9 × 大きさ, 8 σ′) の内で比べる(σ′ は作り直しの側で測る)。道具: `tools/jsonpaths337f.mjs --compare` が来歴の欄(mergeKey・wallSec・carried の 2 欄)を除く・`tools/regen-chain.mjs --check-order` が鎖の後に足した段を `addedAfterChain` に分ける(timeline の `# chain-steps`)・`tools/qa-touched338c.mjs --touched <rev>` が既存の QA の鍵の書き換えを出す・`tools/recheck-mutate338c.mjs` が変異の試し。
+- **AI が読むときの要点**: σ は数値の尺度で、物理の不確かさではない。正本の 0 は「この計算の精度では 0 と区別できない」—— 物理の量が 0 だという主張ではない。拾えない変異(尺度が値の 1e-5 ÷ 8 を超える葉)は PHYSICS〔第338便c〕の受け入れの表に数で書いた。
+- QA `lint.recheckScale338c`・`lint.jsonCompare338c`・`lint.checkOrderAdded338c`・`lint.qaTouched338c`・`docs.tools338c`(本節と PHYSICS〔第338便c〕・CHANGELOG・tools/README.md —— docs は root で SKIP)と、照合を置き換えた `behavior.rotring337i`・`behavior.spinorbit337j`・`behavior.gyrodrag337k`。
+
 ## 244. 第338便d —— 回転引きずり: 土星の環を先に(一様厚みの絶対値を同じ帳簿で・環の中のやり取りの収支・4 天体から潮汐の分を積んだ残り・5 つ目の天体・ジャイロの直交を高さ則 T1 に)(原仮定者の指示(2026-11-15 —— 第139報)・原仮定者の回答(2026-11-15 —— 第138報の回答 4)・同 回答 3・統括の検証項目 R352・**診断だけ** —— html・本の宣言・エンジン・受理器・`S._core`・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
 - **何をしたか**: 第337便k の 4 天体の強さの組(χ ½・1)を作り直して土星の環に持ち出し、厚みの型 9 を D〜F 環の半径 74 点で同じ帳簿に並べ(帯の幅 2 R_eq 10.4 m は一様・鉛直の減衰と乱しの釣り合いは乱しの宣言なしでは厚みを決めない)、環を輪の列 98 本に分けて角運動量とエネルギーの行き先を 1e7 年追い(粘性のやり取りは再分配だけ —— 正味のトルクは土星へ返る輪と外へ出る輪へ)、4 天体の観測の公転の変化から潮汐の分(`ctlPair` を呼ぶ・k₂/Q は自由)を引いた残りと候補を比べ、公転 ÷ 源の自転が ½〜1 の受け手 13 で χ ½ と χ 1 の予測の符号が逆になることを表にし、ジャイロの直交を高さ則 T1 の捩れの率に当てた(交点の率 s/2 の桁が半径に依らず、直交で赤道面へ寄せる率になる)。正本 `tests/out/ringbook-338d.json`・段 `ringbook-338d`・器 `tests/exp-w338d-ringbook.mjs`。
 - **AI が読むときの要点**: どれも候補の表(このノブの組では)。厚みの値・環の中の打ち消し・潮汐の残りの担い手は決めていない。5 つ目の天体は観測なし —— 予測だけ。木星の主環・天王星の ε 環は参考の列。文献の値は未照合。

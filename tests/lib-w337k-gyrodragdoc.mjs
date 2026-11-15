@@ -1,7 +1,7 @@
 // 第337便k(原仮定者の回答(2026-11-15 —— 第138報の回答 2)・統括の検証項目 R347): **正本 tests/out/gyrodrag-337k.json から PHYSICS〔第337便k〕の表を作る文書の lib**
 // (QA docs.gyrodrag337k が節の表と逐語で照合する —— 表の数は有効数字 3 桁の指数・丸めの程度の数〔恒等式の残差〕は「< 1e-x」の形で書く)。
-export const DOC_VERSION = 'w337k-gyrodragdoc-1';
-const fe = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toExponential(2));
+export const DOC_VERSION = 'w337k-gyrodragdoc-2';   // 第338便c: 0 と書いた葉(丸めの残り —— 正本の meta.recheck)を表で「0」と書く・T1 の比の列名を「観測 ÷ 計算」に(lib の式 ln(観測/計算) —— 値は不変)
+const fe = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : x === 0 ? '0' : Number(x).toExponential(2));
 const f2 = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toFixed(2));
 const lt = (x, t) => (Number.isFinite(x) && Math.abs(x) <= t ? '< ' + t.toExponential(0) : '**' + fe(x) + '**');
 const tf = (x) => (x === true ? '真' : x === false ? '偽' : '—');
@@ -24,7 +24,7 @@ export function tablesOf(J) {
     `| ⑥ 入力の拒否 | ${S.rejects.filter(Boolean).length}/${S.rejects.length} | ${tf(G.rejects)} |`].join('\n');
   const t1 = J.t1, d1 = J.decl.t1;
   const rt = (r) => (r ? ['phobos', 'moon', 'titan', 'triton'].map((k) => f2(r[k])).join('・') : '—');
-  T.t1Sets = ['| 組(χ・速さ・落ち方の基準・大きさの読み) | 符号(観測と同じ数/4) | q = p = 0 の S | 連続の解 q・p | 連続の解の S | 連続の解の λ | 連続の解の 計算 ÷ 観測(フォボス・月・タイタン・トリトン) | 1 桁の内(S ≤ 100)・2 倍の内(S ≤ 4) | p ≥ 0 の格子の最良 q・p・S | 4 つ目のノブ(源の質量のべき k_m)で 4 式: q・p・k_m |', '|---|---|---|---|---|---|---|---|---|---|',
+  T.t1Sets = ['| 組(χ・速さ・落ち方の基準・大きさの読み) | 符号(観測と同じ数/4) | q = p = 0 の S | 連続の解 q・p | 連続の解の S | 連続の解の λ | 連続の解の 観測 ÷ 計算(フォボス・月・タイタン・トリトン) | 1 桁の内(S ≤ 100)・2 倍の内(S ≤ 4) | p ≥ 0 の格子の最良 q・p・S | 4 つ目のノブ(源の質量のべき k_m)で 4 式: q・p・k_m |', '|---|---|---|---|---|---|---|---|---|---|',
     ...t1.sets.map((s) => { const nm = `χ ${s.spec.chi}・${SPD[s.spec.speed]}・${BASE[s.spec.base]}・${SIZE[s.spec.size]}`;
       if (!s.ok) return `| ${nm} | ${s.nMatch}/4 | — | — | — | — | —(${s.why}) | — | — | — |`;
       return `| ${nm} | ${s.nMatch}/4 | ${fe(s.q0.S)} | ${f2(s.fitQP.q)}・${f2(s.fitQP.p)} | ${fe(s.fitQP.S)} | ${fe(s.fitQP.lambda)} | ${rt(s.fitQP.ratios)} | ${tf(s.fitQP.S <= d1.order1)}・${tf(s.fitQP.S <= d1.order2)} | ${s.gridPos.q}・${s.gridPos.p}・${fe(s.gridPos.S)} | ${f2(s.four.q)}・${f2(s.four.p)}・${f2(s.four.km)} |`; })].join('\n');

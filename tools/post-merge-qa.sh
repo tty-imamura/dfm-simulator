@@ -1018,6 +1018,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations338a docs.policy338a docs.equa
 #   正本と同じ / docs.bevelknob338b —— 正本の門と表が PHYSICS〔第338便b〕に逐語・文書)と、直した 2 本(behavior.bevel337l・docs.bevel337l —— 第337便l の版 2)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bevelknob338b docs.bevelknob338b"
 # ==== 第338便b の塊(ここまで)====
+# ==== 第338便c の塊(ここから)====
+# 第338便c(原仮定者の指示(2026-11-15 —— 第139報)・統括の検証項目 R351 —— 道具・html は変えない): 枝 c の新設 5 本(lint.recheckScale338c —— 作り直しの照合を量ごとの尺度で・
+#   lint.jsonCompare338c —— 正本の値の比べで来歴の欄を除く・lint.checkOrderAdded338c —— 鎖の後に足した段・lint.qaTouched338c —— 既存の QA の鍵の書き換え・docs.tools338c —— 文書)と、
+#   照合を置き換えた 3 本(behavior.rotring337i・behavior.spinorbit337j・behavior.gyrodrag337k)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.recheckScale338c lint.jsonCompare338c lint.checkOrderAdded338c lint.qaTouched338c docs.tools338c behavior.rotring337i behavior.spinorbit337j behavior.gyrodrag337k"
+# ==== 第338便c の塊(ここまで)====
 # ==== 第338便d の塊(ここから)====
 # 第338便d(原仮定者の回答(2026-11-15 —— 第138報の回答 4)・統括の検証項目 R352 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.ringbook338d —— 純関数の場面・sets と T1〜T5 を作り直して
 #   正本と同じ〔数は葉ごとに相対 1e-9・0 と書いた欄は両方 0〕・帳簿の閉じ / docs.ringbook338d —— 正本の門と表 12 本が PHYSICS〔第338便d〕に逐語・文書)と、新しい段 ringbook-338d の lint 一式(第337便i の塊で足した一式)

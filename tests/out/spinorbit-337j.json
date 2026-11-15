@@ -1,5 +1,5 @@
 {
- "version": "w337j-spinorbit-1",
+ "version": "w337j-spinorbit-2",
  "libVersion": "w337j-spinorbit-lib-1",
  "generator": "tests/exp-w337j-spinorbit.mjs",
  "target": "tests/lib-w337j-spinorbit.mjs",
@@ -540,7 +540,9 @@
    }
   ]
  },
- "amend": [],
+ "amend": [
+  "第338便c(統括の検証項目 R351 —— 原仮定者の指示(2026-11-15 —— 第139報)): 正本へ書く出力を量ごとの数値の尺度で整える(tests/lib-w338c-recheck.mjs の settleRun —— Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大を葉ごとの尺度 σ とし、|値| ≤ 4 σ の葉〔丸めの残り —— 有効数字が 1 桁に満たない〕を 0 と書く・meta.recheck に係数と 0 と書いた葉の数)。式・格子・判定は不変"
+ ],
  "notClaim": [
   "2 つの読みのどちらが正しいかは決めない(向きと率の差を見分けるのに要る精度の桁まで)",
   "受動の応答の係数 Γ は置かない(ω_ax の向きと大きさ・s との比まで)",
@@ -581,7 +583,7 @@
    "t3": {
     "width": 0,
     "half": 0,
-    "zeq": 7.771561172376096e-16
+    "zeq": 0
    },
    "rejects": [
     true,
@@ -1793,7 +1795,7 @@
     "rows": [
      {
       "key": "ringD",
-      "dlnA": 8.115312689419447e-37,
+      "dlnA": 0,
       "dOm": 6.076575726150226e-16,
       "dlnI": -8.543812209468923e-30,
       "tiltSignif": false,
@@ -1804,7 +1806,7 @@
      },
      {
       "key": "ringC",
-      "dlnA": -6.283635075286035e-37,
+      "dlnA": 0,
       "dOm": 5.597394190632532e-16,
       "dlnI": -6.151193142460479e-30,
       "tiltSignif": false,
@@ -1815,7 +1817,7 @@
      },
      {
       "key": "ringB",
-      "dlnA": -2.077508991067816e-37,
+      "dlnA": 0,
       "dOm": 4.991419341638808e-16,
       "dlnI": -3.890653331496859e-30,
       "tiltSignif": false,
@@ -1826,7 +1828,7 @@
      },
      {
       "key": "ringA",
-      "dlnA": -1.5512330140474126e-37,
+      "dlnA": 0,
       "dOm": 4.490505273859073e-16,
       "dlnI": -2.5524861917934947e-30,
       "tiltSignif": false,
@@ -1837,7 +1839,7 @@
      },
      {
       "key": "ringF",
-      "dlnA": 1.6960786275095151e-37,
+      "dlnA": 0,
       "dOm": 4.3155976697209463e-16,
       "dlnI": -2.1700432708495415e-30,
       "tiltSignif": false,
@@ -1848,7 +1850,7 @@
      },
      {
       "key": "phobos",
-      "dlnA": 2.391853297109855e-56,
+      "dlnA": 0,
       "dOm": 1.524489585516304e-27,
       "dlnI": 8.070541018602667e-44,
       "tiltSignif": false,
@@ -1859,9 +1861,9 @@
      },
      {
       "key": "metis",
-      "dlnA": -1.3706790488399127e-43,
+      "dlnA": 0,
       "dOm": 6.909583670885633e-19,
-      "dlnI": 3.26314201338163e-38,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 1.2764211354011195e-14,
@@ -1870,9 +1872,9 @@
      },
      {
       "key": "adrastea",
-      "dlnA": -1.1881061211219071e-42,
+      "dlnA": 0,
       "dOm": 1.365878935675439e-18,
-      "dlnI": 4.4453659649971585e-38,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 1.271464141391807e-14,
@@ -1881,7 +1883,7 @@
      },
      {
       "key": "pan",
-      "dlnA": 4.453063989166977e-40,
+      "dlnA": 0,
       "dOm": 1.8418812782054336e-17,
       "dlnI": -1.1330417068891353e-33,
       "tiltSignif": false,
@@ -1892,9 +1894,9 @@
      },
      {
       "key": "deimos",
-      "dlnA": 2.873531673597921e-57,
+      "dlnA": 0,
       "dOm": 4.525905532497373e-28,
-      "dlnI": 2.7364682038783607e-44,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 7.171151582592323e-20,
@@ -1903,9 +1905,9 @@
      },
      {
       "key": "moon",
-      "dlnA": -3.6129068580303704e-61,
+      "dlnA": 0,
       "dOm": 7.562955000194179e-29,
-      "dlnI": 3.5193639631963374e-47,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 5.166056860265024e-19,
@@ -1914,9 +1916,9 @@
      },
      {
       "key": "io",
-      "dlnA": 1.6648630407954317e-45,
+      "dlnA": 0,
       "dOm": 1.3865727292952243e-19,
-      "dlnI": 1.7436177974200886e-39,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 7.032296461887173e-15,
@@ -1925,9 +1927,9 @@
      },
      {
       "key": "europa",
-      "dlnA": 3.352610192144519e-48,
+      "dlnA": 0,
       "dOm": 7.348661267811113e-21,
-      "dlnI": -3.3808636308484985e-40,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 5.574766849072555e-15,
@@ -1936,9 +1938,9 @@
      },
      {
       "key": "ganymede",
-      "dlnA": 3.832208012381649e-48,
+      "dlnA": 0,
       "dOm": 8.571610684798324e-21,
-      "dlnI": 3.5764671299172187e-40,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 4.413910136159165e-15,
@@ -1947,9 +1949,9 @@
      },
      {
       "key": "callisto",
-      "dlnA": -3.2107949314853323e-49,
+      "dlnA": 0,
       "dOm": 3.8680350609338535e-21,
-      "dlnI": 8.444407225988014e-41,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 3.328184335833185e-15,
@@ -1958,9 +1960,9 @@
      },
      {
       "key": "titan",
-      "dlnA": 5.2714196713731935e-51,
+      "dlnA": 0,
       "dOm": 1.9104437243555966e-22,
-      "dlnI": 2.987209776165301e-41,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 6.457380571415021e-16,
@@ -1971,7 +1973,7 @@
       "key": "triton",
       "dlnA": 9.696406876388557e-56,
       "dOm": 1.5830574946544286e-25,
-      "dlnI": 2.7108987714006204e-43,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 5.726108304835119e-17,
@@ -1992,21 +1994,21 @@
        "lambda": 6.5606e-7,
        "ring": {
         "kepler": 3.9865982708981173e-22,
-        "drift": 1.6801682936082443e-28,
+        "drift": 0,
         "ok": true
        },
        "sat": {
         "phobos": {
-         "pred": 1.5691992741018914e-62,
-         "ratio": -2.4106397300253006e-46
+         "pred": 0,
+         "ratio": 0
         },
         "moon": {
-         "pred": -2.3702836732794048e-67,
-         "ratio": -7.507388610967596e-50
+         "pred": 0,
+         "ratio": 0
         },
         "titan": {
-         "pred": 3.4583675896010974e-57,
-         "ratio": 1.1801077922670963e-39
+         "pred": 0,
+         "ratio": 0
         },
         "triton": {
          "pred": 6.361424695323477e-62,
@@ -2021,21 +2023,21 @@
        "lambda": 16456636847.238691,
        "ring": {
         "kepler": 0.00001,
-        "drift": 4.2145412691149576e-12,
+        "drift": 0,
         "ok": true
        },
        "sat": {
         "phobos": {
-         "pred": 3.9361861102407395e-46,
-         "ratio": -6.0468589163417825e-30
+         "pred": 0,
+         "ratio": 0
         },
         "moon": {
-         "pred": -5.945629612550396e-51,
-         "ratio": -1.8831565411972905e-33
+         "pred": 0,
+         "ratio": 0
         },
         "titan": {
-         "pred": 8.674983920117897e-41,
-         "ratio": 2.9601873880340516e-23
+         "pred": 0,
+         "ratio": 0
         },
         "triton": {
          "pred": 1.5957024668779455e-45,
@@ -2539,7 +2541,7 @@
       "key": "ringD",
       "dlnA": -0.00007415291754772849,
       "dOm": 0,
-      "dlnI": -9.658163936601501e-20,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003275768115604964,
       "closedDOm": 0,
@@ -2550,7 +2552,7 @@
       "key": "ringC",
       "dlnA": -0.00007415291754777652,
       "dOm": 0,
-      "dlnI": -9.57199966168825e-20,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003275768115604965,
       "closedDOm": 0,
@@ -2561,7 +2563,7 @@
       "key": "ringB",
       "dlnA": -0.00007415291754777648,
       "dOm": 0,
-      "dlnI": -4.3877622778606234e-20,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003275768115604966,
       "closedDOm": 0,
@@ -2572,7 +2574,7 @@
       "key": "ringA",
       "dlnA": -0.00007415291754778892,
       "dOm": 0,
-      "dlnI": -1.9221384496871186e-20,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00032757681156049664,
       "closedDOm": 0,
@@ -2583,7 +2585,7 @@
       "key": "ringF",
       "dlnA": -0.000074152917547788,
       "dOm": 0,
-      "dlnI": -3.673306065474512e-20,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003275768115604967,
       "closedDOm": 0,
@@ -2594,7 +2596,7 @@
       "key": "phobos",
       "dlnA": -1.905113031091941e-12,
       "dOm": 0,
-      "dlnI": 1.9536593131941018e-27,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00014176471918371348,
       "closedDOm": 0,
@@ -2627,7 +2629,7 @@
       "key": "pan",
       "dlnA": -0.000003089463869514628,
       "dOm": 0,
-      "dlnI": -4.521457079059759e-22,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00032757681156049664,
       "closedDOm": 0,
@@ -2638,7 +2640,7 @@
       "key": "deimos",
       "dlnA": -8.947150478018796e-13,
       "dOm": 0,
-      "dlnI": -7.374057430015741e-28,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00014176471918371348,
       "closedDOm": 0,
@@ -2649,7 +2651,7 @@
       "key": "moon",
       "dlnA": -2.1350858177347978e-14,
       "dOm": 0,
-      "dlnI": 9.791444059300931e-30,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00014584213181761304,
       "closedDOm": 0,
@@ -2660,7 +2662,7 @@
       "key": "io",
       "dlnA": -6.934614583071256e-9,
       "dOm": 0,
-      "dlnI": -1.5595739129549184e-23,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003517036276059078,
       "closedDOm": 0,
@@ -2671,7 +2673,7 @@
       "key": "europa",
       "dlnA": -4.636159467726279e-10,
       "dOm": 0,
-      "dlnI": -1.1273179182010893e-24,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003517036276059083,
       "closedDOm": 0,
@@ -2682,7 +2684,7 @@
       "key": "ganymede",
       "dlnA": -6.829922815786212e-10,
       "dOm": 0,
-      "dlnI": -8.740006887147947e-25,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003517036276059087,
       "closedDOm": 0,
@@ -2693,7 +2695,7 @@
       "key": "callisto",
       "dlnA": -4.0875198528135247e-10,
       "dOm": 0,
-      "dlnI": -6.295707155375697e-25,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00035170362760590906,
       "closedDOm": 0,
@@ -2704,7 +2706,7 @@
       "key": "titan",
       "dlnA": -9.691500342848557e-11,
       "dOm": 0,
-      "dlnI": -5.362191628613441e-26,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003275768115604971,
       "closedDOm": 0,
@@ -2715,7 +2717,7 @@
       "key": "triton",
       "dlnA": -5.990305207508827e-13,
       "dOm": 0,
-      "dlnI": -8.717712351925515e-29,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00021667650552381493,
       "closedDOm": 0,
@@ -2936,7 +2938,7 @@
     "rows": [
      {
       "key": "ringD",
-      "dlnA": 1.8813911727712158e-36,
+      "dlnA": 0,
       "dOm": 1.0844747313407847e-15,
       "dlnI": 6.136023864784298e-28,
       "tiltSignif": false,
@@ -2947,7 +2949,7 @@
      },
      {
       "key": "ringC",
-      "dlnA": -7.410167118422611e-37,
+      "dlnA": 0,
       "dOm": 9.989561283615377e-16,
       "dlnI": 4.417687203511995e-28,
       "tiltSignif": false,
@@ -2958,7 +2960,7 @@
      },
      {
       "key": "ringB",
-      "dlnA": -1.8386449282670352e-37,
+      "dlnA": 0,
       "dOm": 8.908089676615981e-16,
       "dlnI": 2.7934932981916162e-28,
       "tiltSignif": false,
@@ -2969,7 +2971,7 @@
      },
      {
       "key": "ringA",
-      "dlnA": 3.579170181998211e-37,
+      "dlnA": 0,
       "dOm": 8.014118016322261e-16,
       "dlnI": 1.8299205371073507e-28,
       "tiltSignif": false,
@@ -2980,7 +2982,7 @@
      },
      {
       "key": "ringF",
-      "dlnA": -2.643457164987813e-37,
+      "dlnA": 0,
       "dOm": 7.701963794017984e-16,
       "dlnI": 1.561044022314401e-28,
       "tiltSignif": false,
@@ -2991,9 +2993,9 @@
      },
      {
       "key": "phobos",
-      "dlnA": 1.5726224280443288e-55,
+      "dlnA": 0,
       "dOm": 2.5399232857813042e-27,
-      "dlnI": 1.1641245612846518e-43,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 1.134414773264686e-19,
@@ -3002,9 +3004,9 @@
      },
      {
       "key": "metis",
-      "dlnA": 1.3995487238297979e-43,
+      "dlnA": 0,
       "dOm": 1.1511926850344652e-18,
-      "dlnI": 7.77048335074145e-39,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 1.2764211354011197e-14,
@@ -3013,9 +3015,9 @@
      },
      {
       "key": "adrastea",
-      "dlnA": 1.919406595284928e-43,
+      "dlnA": 0,
       "dOm": 2.275665140407587e-18,
-      "dlnI": -5.944558696598308e-38,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 1.2714641413918071e-14,
@@ -3024,7 +3026,7 @@
      },
      {
       "key": "pan",
-      "dlnA": 4.0438319525386896e-40,
+      "dlnA": 0,
       "dOm": 3.069329375899196e-17,
       "dlnI": -7.666640334070894e-33,
       "tiltSignif": false,
@@ -3035,9 +3037,9 @@
      },
      {
       "key": "deimos",
-      "dlnA": 8.321532273098282e-57,
+      "dlnA": 0,
       "dOm": 7.540525766572722e-28,
-      "dlnI": 3.2224805728229363e-44,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 7.171151582592323e-20,
@@ -3046,9 +3048,9 @@
      },
      {
       "key": "moon",
-      "dlnA": -6.77665262408473e-61,
+      "dlnA": 0,
       "dOm": 1.2600494699003223e-28,
-      "dlnI": -3.1576595168101875e-45,
+      "dlnI": 0,
       "tiltSignif": true,
       "closedDlnA": 0,
       "closedDOm": 5.166056860265023e-19,
@@ -3057,9 +3059,9 @@
      },
      {
       "key": "io",
-      "dlnA": 5.5717178284571743e-45,
+      "dlnA": 0,
       "dOm": 2.3101426225633947e-19,
-      "dlnI": 2.379399415161078e-39,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 7.032296461887175e-15,
@@ -3068,9 +3070,9 @@
      },
      {
       "key": "europa",
-      "dlnA": 8.22285383007714e-48,
+      "dlnA": 0,
       "dOm": 1.2243465662519831e-20,
-      "dlnI": -3.6198738454531393e-40,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 5.5747668490725554e-15,
@@ -3079,9 +3081,9 @@
      },
      {
       "key": "ganymede",
-      "dlnA": -4.798308775753069e-48,
+      "dlnA": 0,
       "dOm": 1.42809985744317e-20,
-      "dlnI": 1.3313344844855838e-40,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 4.4139101361591656e-15,
@@ -3090,9 +3092,9 @@
      },
      {
       "key": "callisto",
-      "dlnA": 7.755352789609975e-49,
+      "dlnA": 0,
       "dOm": 6.444460116052003e-21,
-      "dlnI": 9.762961047019981e-41,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 3.3281843358331854e-15,
@@ -3101,9 +3103,9 @@
      },
      {
       "key": "titan",
-      "dlnA": -2.3150365568356156e-51,
+      "dlnA": 0,
       "dOm": 3.1829541855250545e-22,
-      "dlnI": 2.9846292676112254e-41,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 6.457380571415022e-16,
@@ -3112,9 +3114,9 @@
      },
      {
       "key": "triton",
-      "dlnA": 1.4038756170689512e-55,
+      "dlnA": 0,
       "dOm": 2.637502131002593e-25,
-      "dlnI": 2.087039697956837e-43,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": 0,
       "closedDOm": 5.726108304835119e-17,
@@ -3135,25 +3137,25 @@
        "lambda": 6.5606e-7,
        "ring": {
         "kepler": 7.114804922434352e-22,
-        "drift": 3.89517190198467e-28,
+        "drift": 0,
         "ok": true
        },
        "sat": {
         "phobos": {
-         "pred": 1.0317346701427623e-61,
-         "ratio": -1.5849743418433393e-45
+         "pred": 0,
+         "ratio": 0
         },
         "moon": {
-         "pred": -4.445890720557028e-67,
-         "ratio": -1.4081449295449764e-49
+         "pred": 0,
+         "ratio": 0
         },
         "titan": {
-         "pred": -1.518802883477574e-57,
-         "ratio": -5.182650690744985e-40
+         "pred": 0,
+         "ratio": 0
         },
         "triton": {
-         "pred": 9.21026637334256e-62,
-         "ratio": -1.0463540475722228e-44
+         "pred": 0,
+         "ratio": 0
         }
        },
        "satOk": true,
@@ -3164,25 +3166,25 @@
        "lambda": 9221053945.292532,
        "ring": {
         "kepler": 0.00001,
-        "drift": 5.474741675210859e-12,
+        "drift": 0,
         "ok": true
        },
        "sat": {
         "phobos": {
-         "pred": 1.4501236244573677e-45,
-         "ratio": -2.2277130000368805e-29
+         "pred": 0,
+         "ratio": 0
         },
         "moon": {
-         "pred": -6.248787941519349e-51,
-         "ratio": -1.9791757397378864e-33
+         "pred": 0,
+         "ratio": 0
         },
         "titan": {
-         "pred": -2.1347076975905492e-41,
-         "ratio": -7.284318751176281e-24
+         "pred": 0,
+         "ratio": 0
         },
         "triton": {
-         "pred": 1.2945212797473641e-45,
-         "ratio": -1.4706714505591952e-28
+         "pred": 0,
+         "ratio": 0
         }
        },
        "satOk": true,
@@ -3682,7 +3684,7 @@
       "key": "ringD",
       "dlnA": -0.00013233927952321743,
       "dOm": 0,
-      "dlnI": -1.289490560121457e-19,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003275768115604964,
       "closedDOm": 0,
@@ -3693,7 +3695,7 @@
       "key": "ringC",
       "dlnA": -0.00013233927952321735,
       "dOm": 0,
-      "dlnI": -3.330359207362853e-20,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003275768115604965,
       "closedDOm": 0,
@@ -3704,7 +3706,7 @@
       "key": "ringB",
       "dlnA": -0.00013233927952321713,
       "dOm": 0,
-      "dlnI": -2.4089141089955235e-19,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003275768115604966,
       "closedDOm": 0,
@@ -3715,7 +3717,7 @@
       "key": "ringA",
       "dlnA": -0.00013233927952321724,
       "dOm": 0,
-      "dlnI": -1.214683179827785e-19,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00032757681156049664,
       "closedDOm": 0,
@@ -3726,7 +3728,7 @@
       "key": "ringF",
       "dlnA": -0.00013233927952321716,
       "dOm": 0,
-      "dlnI": -9.71893190468488e-20,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003275768115604967,
       "closedDOm": 0,
@@ -3737,7 +3739,7 @@
       "key": "phobos",
       "dlnA": -3.174072814723122e-12,
       "dOm": 0,
-      "dlnI": -1.0716047087908642e-27,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00014176471918371348,
       "closedDOm": 0,
@@ -3759,7 +3761,7 @@
       "key": "adrastea",
       "dlnA": -6.294787673090183e-8,
       "dOm": 0,
-      "dlnI": -1.0430558263708856e-22,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00035170362760590575,
       "closedDOm": 0,
@@ -3770,7 +3772,7 @@
       "key": "pan",
       "dlnA": -0.000005148313478557061,
       "dOm": 0,
-      "dlnI": 1.220793411346135e-20,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00032757681156049664,
       "closedDOm": 0,
@@ -3781,7 +3783,7 @@
       "key": "deimos",
       "dlnA": -1.4906678504992242e-12,
       "dOm": 0,
-      "dlnI": -2.3175609065763755e-27,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00014176471918371348,
       "closedDOm": 0,
@@ -3792,7 +3794,7 @@
       "key": "moon",
       "dlnA": -3.55722565155995e-14,
       "dOm": 0,
-      "dlnI": -5.12794845170161e-29,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00014584213181761304,
       "closedDOm": 0,
@@ -3803,7 +3805,7 @@
       "key": "io",
       "dlnA": -1.1553630315191126e-8,
       "dOm": 0,
-      "dlnI": -2.5621571427116518e-23,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003517036276059078,
       "closedDOm": 0,
@@ -3814,7 +3816,7 @@
       "key": "europa",
       "dlnA": -7.724217674545292e-10,
       "dOm": 0,
-      "dlnI": -2.0667495167019972e-24,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003517036276059083,
       "closedDOm": 0,
@@ -3825,7 +3827,7 @@
       "key": "ganymede",
       "dlnA": -1.1379205330534254e-9,
       "dOm": 0,
-      "dlnI": -4.370003443573973e-25,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003517036276059087,
       "closedDOm": 0,
@@ -3836,7 +3838,7 @@
       "key": "callisto",
       "dlnA": -6.810139579931301e-10,
       "dOm": 0,
-      "dlnI": -1.047965341434617e-26,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00035170362760590906,
       "closedDOm": 0,
@@ -3847,7 +3849,7 @@
       "key": "titan",
       "dlnA": -1.6146825570950724e-10,
       "dOm": 0,
-      "dlnI": 1.3941698234394947e-25,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003275768115604971,
       "closedDOm": 0,
@@ -3858,7 +3860,7 @@
       "key": "triton",
       "dlnA": -9.980334134111395e-13,
       "dOm": 0,
-      "dlnI": 1.3725897475082176e-29,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00021667650552381493,
       "closedDOm": 0,
@@ -4079,7 +4081,7 @@
     "rows": [
      {
       "key": "ringD",
-      "dlnA": 2.5422978212077583e-36,
+      "dlnA": 0,
       "dOm": 1.0737515749185101e-15,
       "dlnI": 4.3299940239371065e-28,
       "tiltSignif": false,
@@ -4090,7 +4092,7 @@
      },
      {
       "key": "ringC",
-      "dlnA": -5.5123867616801795e-37,
+      "dlnA": 0,
       "dOm": 9.890785696560797e-16,
       "dlnI": 3.117419165976798e-28,
       "tiltSignif": false,
@@ -4101,7 +4103,7 @@
      },
      {
       "key": "ringB",
-      "dlnA": -4.2069538586678486e-37,
+      "dlnA": 0,
       "dOm": 8.820007551449398e-16,
       "dlnI": 1.9712780906015201e-28,
       "tiltSignif": false,
@@ -4112,7 +4114,7 @@
      },
      {
       "key": "ringA",
-      "dlnA": 1.0185292109603535e-37,
+      "dlnA": 0,
       "dOm": 7.934875375998802e-16,
       "dlnI": 1.2913159419393427e-28,
       "tiltSignif": false,
@@ -4123,7 +4125,7 @@
      },
      {
       "key": "ringF",
-      "dlnA": -4.0487445276976926e-38,
+      "dlnA": 0,
       "dOm": 7.625807697305824e-16,
       "dlnI": 1.101578601617435e-28,
       "tiltSignif": false,
@@ -4134,7 +4136,7 @@
      },
      {
       "key": "phobos",
-      "dlnA": 1.1031001388571151e-41,
+      "dlnA": 0,
       "dOm": 4.537659115747038e-20,
       "dlnI": 1.2732189922852511e-32,
       "tiltSignif": true,
@@ -4145,7 +4147,7 @@
      },
      {
       "key": "metis",
-      "dlnA": 4.469196545324689e-36,
+      "dlnA": 0,
       "dOm": 5.105684567132905e-15,
       "dlnI": 1.544768309192095e-27,
       "tiltSignif": true,
@@ -4156,7 +4158,7 @@
      },
      {
       "key": "adrastea",
-      "dlnA": -3.452881615754011e-36,
+      "dlnA": 0,
       "dOm": 5.08585659099651e-15,
       "dlnI": 1.520911535287982e-27,
       "tiltSignif": false,
@@ -4167,7 +4169,7 @@
      },
      {
       "key": "pan",
-      "dlnA": 2.1661366678624456e-37,
+      "dlnA": 0,
       "dOm": 7.811809703520381e-16,
       "dlnI": 1.21304990236821e-28,
       "tiltSignif": false,
@@ -4178,7 +4180,7 @@
      },
      {
       "key": "deimos",
-      "dlnA": 9.956046874045026e-42,
+      "dlnA": 0,
       "dOm": 2.8684606473792335e-20,
       "dlnI": 2.033192478905649e-33,
       "tiltSignif": true,
@@ -4189,7 +4191,7 @@
      },
      {
       "key": "moon",
-      "dlnA": -2.928792403663766e-42,
+      "dlnA": 0,
       "dOm": 2.0664227544381225e-19,
       "dlnI": 6.5527696261391705e-34,
       "tiltSignif": true,
@@ -4200,7 +4202,7 @@
      },
      {
       "key": "io",
-      "dlnA": -6.535802795254775e-37,
+      "dlnA": 0,
       "dOm": 2.812918598819465e-15,
       "dlnI": 1.423233446521605e-28,
       "tiltSignif": true,
@@ -4211,7 +4213,7 @@
      },
      {
       "key": "europa",
-      "dlnA": -2.0429880338999413e-37,
+      "dlnA": 0,
       "dOm": 2.2299067507785566e-15,
       "dlnI": 5.620687671531905e-29,
       "tiltSignif": true,
@@ -4222,7 +4224,7 @@
      },
      {
       "key": "ganymede",
-      "dlnA": 5.596346634030862e-38,
+      "dlnA": 0,
       "dOm": 1.7655640632914855e-15,
       "dlnI": 2.2089230768881866e-29,
       "tiltSignif": true,
@@ -4233,7 +4235,7 @@
      },
      {
       "key": "callisto",
-      "dlnA": -9.418180845126363e-39,
+      "dlnA": 0,
       "dOm": 1.3312737409896431e-15,
       "dlnI": 7.140295885726468e-30,
       "tiltSignif": true,
@@ -4244,7 +4246,7 @@
      },
      {
       "key": "titan",
-      "dlnA": -7.877784399274103e-39,
+      "dlnA": 0,
       "dOm": 2.582952241480769e-16,
       "dlnI": 1.4498895646875871e-30,
       "tiltSignif": true,
@@ -4255,7 +4257,7 @@
      },
      {
       "key": "triton",
-      "dlnA": 1.0365679865596047e-39,
+      "dlnA": 0,
       "dOm": 2.2904433333862594e-17,
       "dlnI": 5.001711193092302e-32,
       "tiltSignif": true,
@@ -4278,25 +4280,25 @@
        "lambda": 6.5606e-7,
        "ring": {
         "kepler": 7.044454582410377e-22,
-        "drift": 5.26349181550535e-28,
+        "drift": 0,
         "ok": true
        },
        "sat": {
         "phobos": {
-         "pred": 7.236998770985989e-48,
-         "ratio": -1.1117642641956962e-31
+         "pred": 0,
+         "ratio": 0
         },
         "moon": {
-         "pred": -1.92146354434765e-48,
-         "ratio": -6.085842674377889e-31
+         "pred": 0,
+         "ratio": 0
         },
         "titan": {
-         "pred": -5.1682992329877684e-45,
-         "ratio": -1.763592226562713e-27
+         "pred": 0,
+         "ratio": 0
         },
         "triton": {
-         "pred": 6.800507932622942e-46,
-         "ratio": -7.725877528843504e-29
+         "pred": 0,
+         "ratio": 0
         }
        },
        "satOk": true,
@@ -4307,25 +4309,25 @@
        "lambda": 9313141171.186573,
        "ring": {
         "kepler": 0.00001,
-        "drift": 7.471823054474658e-12,
+        "drift": 0,
         "ok": true
        },
        "sat": {
         "phobos": {
-         "pred": 1.0273327319131824e-31,
-         "ratio": -1.578211983893986e-15
+         "pred": 0,
+         "ratio": 0
         },
         "moon": {
-         "pred": -2.72762571164195e-32,
-         "ratio": -8.639196410711355e-15
+         "pred": 0,
+         "ratio": 0
         },
         "titan": {
-         "pred": -7.336691822661094e-29,
-         "ratio": -2.50351848525833e-11
+         "pred": 0,
+         "ratio": 0
         },
         "triton": {
-         "pred": 9.653703992362224e-30,
-         "ratio": -1.0967318247937325e-12
+         "pred": 0,
+         "ratio": 0
         }
        },
        "satOk": true,
@@ -4825,7 +4827,7 @@
       "key": "ringD",
       "dlnA": -0.00032757681156049345,
       "dOm": 0,
-      "dlnI": -2.1474155649611714e-19,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003275768115604969,
       "closedDOm": 0,
@@ -4836,7 +4838,7 @@
       "key": "ringC",
       "dlnA": -0.00032757681156049453,
       "dOm": 0,
-      "dlnI": -2.6642873658902826e-19,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00032757681156049697,
       "closedDOm": 0,
@@ -4858,7 +4860,7 @@
       "key": "ringA",
       "dlnA": -0.00032757681156049616,
       "dOm": 0,
-      "dlnI": -4.566405194396989e-19,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.000327576811560497,
       "closedDOm": 0,
@@ -4869,7 +4871,7 @@
       "key": "ringF",
       "dlnA": -0.00032757681156049605,
       "dOm": 0,
-      "dlnI": -4.319525290971057e-20,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.000327576811560497,
       "closedDOm": 0,
@@ -4880,7 +4882,7 @@
       "key": "phobos",
       "dlnA": -0.0001417389274495763,
       "dOm": 0,
-      "dlnI": 8.353247224173961e-20,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00014176471918371348,
       "closedDOm": 0,
@@ -4891,7 +4893,7 @@
       "key": "metis",
       "dlnA": -0.0003517034347628856,
       "dOm": 0,
-      "dlnI": -4.989161096642528e-19,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00035170362760590846,
       "closedDOm": 0,
@@ -4902,7 +4904,7 @@
       "key": "adrastea",
       "dlnA": -0.00035170357939513964,
       "dOm": 0,
-      "dlnI": -3.2800409954388756e-19,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00035170362760590846,
       "closedDOm": 0,
@@ -4913,7 +4915,7 @@
       "key": "pan",
       "dlnA": -0.000327576811559998,
       "dOm": 0,
-      "dlnI": 5.787465061196492e-20,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.000327576811560497,
       "closedDOm": 0,
@@ -4924,7 +4926,7 @@
       "key": "deimos",
       "dlnA": -0.00014174604590161554,
       "dOm": 0,
-      "dlnI": -8.483393437699128e-20,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00014176471918371348,
       "closedDOm": 0,
@@ -4935,7 +4937,7 @@
       "key": "moon",
       "dlnA": -0.00013434055117277096,
       "dOm": 0,
-      "dlnI": -6.272127527359304e-20,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00014584213181761304,
       "closedDOm": 0,
@@ -4957,7 +4959,7 @@
       "key": "europa",
       "dlnA": -0.00035169179480487144,
       "dOm": 0,
-      "dlnI": 2.4626635695742194e-20,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003517036276059095,
       "closedDOm": 0,
@@ -4968,7 +4970,7 @@
       "key": "ganymede",
       "dlnA": -0.00035170148491358037,
       "dOm": 0,
-      "dlnI": -5.040508803933925e-19,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.0003517036276059096,
       "closedDOm": 0,
@@ -4979,7 +4981,7 @@
       "key": "callisto",
       "dlnA": -0.00035170169382531616,
       "dOm": 0,
-      "dlnI": -7.823417720554761e-20,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00035170362760590976,
       "closedDOm": 0,
@@ -4990,7 +4992,7 @@
       "key": "titan",
       "dlnA": -0.0003275707520422135,
       "dOm": 0,
-      "dlnI": -3.598505887465579e-19,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00032757681156049724,
       "closedDOm": 0,
@@ -5001,7 +5003,7 @@
       "key": "triton",
       "dlnA": -0.00019997969385152607,
       "dOm": 0,
-      "dlnI": 4.8213678710431635e-21,
+      "dlnI": 0,
       "tiltSignif": false,
       "closedDlnA": -0.00021667650552381496,
       "closedDOm": 0,
@@ -18268,19 +18270,19 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.032
+   "wallSec": 0.039
   },
   "t1": {
-   "wallSec": 0.043
+   "wallSec": 0.058
   },
   "t2": {
-   "wallSec": 0.545
+   "wallSec": 0.502
   },
   "integ": {
-   "wallSec": 0.786
+   "wallSec": 0.708
   },
   "t3": {
-   "wallSec": 0.821
+   "wallSec": 0.727
   }
  },
  "gates": {
@@ -18296,163 +18298,169 @@
   "t3": true
  },
  "ok": true,
- "elapsedS": 0.827,
+ "elapsedS": 2.478,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第337便j",
   "target": "tests/lib-w337j-spinorbit.mjs",
-  "targetSha256": "1ab63f69a13c043a31e7255f918ddb26adc0240be1e9c8b221683694f024e815",
-  "generatedAt": "2026-11-15T01:07:46.730Z",
+  "targetSha256": "bf4a3bc4fb4243acd5279394f4a71c5552c994582293402cde0275c5dbeea108",
+  "generatedAt": "2026-11-15T11:19:06.346Z",
   "inputs": [
    {
     "file": "tests/out/supply-337a.json",
     "bytes": 294341,
     "sha256": "20fb2e3b10edba8692c2cc75df4f1c5fec6e50118fe3981051eb9c7f4a95d13b",
-    "mtime": "2026-11-15T00:32:55.451Z"
+    "mtime": "2026-11-15T10:19:01.005Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w337j-spinorbit.mjs",
-    "bytes": 32688,
-    "sha256": "a14db71324a03dc418ece9c587015a23258fe4434b56938adeb37afd2bf8e844",
-    "mtime": "2026-11-15T00:59:49.815Z"
+    "bytes": 34004,
+    "sha256": "36fae62f34796393432992dffd82dfdbf2c8ae2090ee31e4ab50d684feda8b95",
+    "mtime": "2026-11-15T10:45:25.655Z"
    },
    {
     "file": "tests/lib-w337j-spinorbit.mjs",
-    "bytes": 40681,
-    "sha256": "1ab63f69a13c043a31e7255f918ddb26adc0240be1e9c8b221683694f024e815",
-    "mtime": "2026-11-15T01:07:45.705Z"
+    "bytes": 40914,
+    "sha256": "bf4a3bc4fb4243acd5279394f4a71c5552c994582293402cde0275c5dbeea108",
+    "mtime": "2026-11-15T10:50:21.117Z"
    },
    {
     "file": "tests/lib-w337i-rotring.mjs",
     "bytes": 38680,
     "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
-    "mtime": "2026-11-15T00:32:55.215Z"
+    "mtime": "2026-11-15T10:19:00.757Z"
    },
    {
     "file": "tests/lib-w337a-supply.mjs",
     "bytes": 40434,
     "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
-    "mtime": "2026-11-15T00:32:55.211Z"
+    "mtime": "2026-11-15T10:19:00.753Z"
    },
    {
     "file": "tests/lib-w337b-mercuryband.mjs",
     "bytes": 28361,
     "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
-    "mtime": "2026-11-15T00:32:55.211Z"
+    "mtime": "2026-11-15T10:19:00.753Z"
    },
    {
     "file": "tests/lib-w335c-mercurycombo.mjs",
     "bytes": 23928,
     "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
-    "mtime": "2026-11-15T00:32:55.211Z"
+    "mtime": "2026-11-15T10:19:00.753Z"
    },
    {
     "file": "tests/lib-w334c-mercurynode.mjs",
     "bytes": 35987,
     "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
-    "mtime": "2026-11-15T00:32:55.207Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w334a-heightlaw.mjs",
     "bytes": 40171,
     "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
-    "mtime": "2026-11-15T00:32:55.207Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35614,
     "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
-    "mtime": "2026-11-15T00:32:55.207Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w333b-axialfield.mjs",
     "bytes": 34735,
     "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
-    "mtime": "2026-11-15T00:32:55.207Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w333a-rotdiff.mjs",
     "bytes": 28077,
     "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
-    "mtime": "2026-11-15T00:32:55.207Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w332b-transgeo2.mjs",
     "bytes": 29461,
     "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
-    "mtime": "2026-11-15T00:32:55.207Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-15T00:32:55.207Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-15T00:32:55.203Z"
+    "mtime": "2026-11-15T10:19:00.749Z"
    },
    {
     "file": "tests/lib-w331b-centrifugal.mjs",
     "bytes": 36773,
     "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
-    "mtime": "2026-11-15T00:32:55.203Z"
+    "mtime": "2026-11-15T10:19:00.745Z"
    },
    {
     "file": "tests/lib-w331a-coordtwist.mjs",
     "bytes": 33003,
     "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
-    "mtime": "2026-11-15T00:32:55.203Z"
+    "mtime": "2026-11-15T10:19:00.745Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-15T00:32:55.203Z"
+    "mtime": "2026-11-15T10:19:00.745Z"
    },
    {
     "file": "tests/lib-w326d-axialheat.mjs",
     "bytes": 32001,
     "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
-    "mtime": "2026-11-15T00:32:55.199Z"
+    "mtime": "2026-11-15T10:19:00.741Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-15T00:32:55.187Z"
+    "mtime": "2026-11-15T10:19:00.729Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-15T00:32:55.187Z"
+    "mtime": "2026-11-15T10:19:00.729Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-15T00:32:55.183Z"
+    "mtime": "2026-11-15T10:19:00.729Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-15T00:32:55.183Z"
+    "mtime": "2026-11-15T10:19:00.729Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-15T00:32:55.135Z"
+    "mtime": "2026-11-15T10:19:00.713Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-15T11:18:32.387Z"
    }
   ],
-  "codeSha256": "f8d0a705e740bc9163c11b53cd0727165b8abec88bef8dcab6f98871c6d97ab9",
-  "harnessVersion": "w337j-spinorbit-1",
+  "codeSha256": "77c2c9f3e8d9ec8b62a3b87d8b618fd4a6cd70fd0953b498a41a90c727cc5e62",
+  "harnessVersion": "w337j-spinorbit-2",
   "stage": "spinorbit",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の求積と RK4)",
   "notClaim": [
@@ -18462,6 +18470,73 @@
    "一様厚みの型は候補(厚みが決まったとは書かない)",
    "文献の値は未照合(出典と確かさを書く)",
    "背景慣性決定力 W₀ を太陽系の外にも同じ値で置くのはノブ(コンパクト天体の行)"
-  ]
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [12345,20261115],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 168,
+   "kept": 6160,
+   "zeroPathsHead": [
+    "/pure/scenes/t3/zeq",
+    "/t2/sets/0/rows/0/dlnA",
+    "/t2/sets/0/rows/1/dlnA",
+    "/t2/sets/0/rows/2/dlnA",
+    "/t2/sets/0/rows/3/dlnA",
+    "/t2/sets/0/rows/4/dlnA",
+    "/t2/sets/0/rows/5/dlnA",
+    "/t2/sets/0/rows/6/dlnA",
+    "/t2/sets/0/rows/6/dlnI",
+    "/t2/sets/0/rows/7/dlnA",
+    "/t2/sets/0/rows/7/dlnI",
+    "/t2/sets/0/rows/8/dlnA",
+    "/t2/sets/0/rows/9/dlnA",
+    "/t2/sets/0/rows/9/dlnI",
+    "/t2/sets/0/rows/10/dlnA",
+    "/t2/sets/0/rows/10/dlnI",
+    "/t2/sets/0/rows/11/dlnA",
+    "/t2/sets/0/rows/11/dlnI",
+    "/t2/sets/0/rows/12/dlnA",
+    "/t2/sets/0/rows/12/dlnI"
+   ],
+   "unstable": 7,
+   "unstableHead": [
+    "/t2/sets/0/rows/10/tiltSignif",
+    "/t2/sets/0/lam/0/lamII",
+    "/t2/sets/0/lam/0/iiOverIII",
+    "/t2/sets/3/lam/0/lamII",
+    "/t2/sets/3/lam/0/iiOverIII",
+    "/t2/sets/6/lam/0/lamII",
+    "/t2/sets/6/lam/0/iiOverIII"
+   ]
+  }
  }
 }

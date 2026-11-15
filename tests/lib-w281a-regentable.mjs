@@ -2108,9 +2108,10 @@ export const REGEN_STEPS = [
   //   lib tests/lib-w337i-rotring.mjs —— 第337便b・第333便a・第334便a・第332便a・第333便c の lib を import して呼ぶ〔code の依存 —— 他の正本は読まない。import する lib が呼ぶ
   //   第331便c の lib が記録の値の出典の正本の名を書くだけ —— 順序だけ after に段 accelloss-337d と同じ 10 段 + 第337便b の段〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数
   //   tests/lib-w337i-rotring.mjs —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第337便i の枝の実測 8 s(補足 4 の表を足した後)
-  S('rotring-337i', 'node tests/exp-w337i-rotring.mjs', ['tests/out/rotring-337i.json'], 8, { secSource: 'w337i-branch', node: true,
+  S('rotring-337i', 'node tests/exp-w337i-rotring.mjs', ['tests/out/rotring-337i.json'], 32, { secSource: 'w338c-branch',   // 第338便c: 正本へ書く形の尺度の走り直し 2 回を含む実測 31 s
+  node: true,
     after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b'],   // 順序だけ(器が第337便b の正本の名を比べる行の出典として書く —— 正本は読まない)
-    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 10 s の桁で、簡易一致の窓を持たない',
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 30 s の桁(第338便c の尺度の走り直し 2 回を含む)で、簡易一致の窓を持たない',
     volatilePaths: { 'tests/out/rotring-337i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第337便i: 回転引きずりの場の高さの型 6(切り口・帯 + 落ち方のべき 2・4・8・球の遠方・源のモーメント)× 作用の型 5(座標を運ぶ方位の場・方位の押し・鉛直へ寄せる場・相対の速度の全部・鉛直だけ)'
       + '× R_d の読み 4(Y_k m・軸比の R_eq・観測半径・R_src)× 速さ 2(s・s_d)の土星の環の粒子 15 点の一次の率と環の物差し・同じ組の水星/金星/地球/火星の一次の率と物差しの比・'
@@ -2123,9 +2124,10 @@ export const REGEN_STEPS = [
   //   入力の正本は第337便a の tests/out/supply-337a.json の 1 本 —— after に supply-337a。第337便i の lib が呼ぶ lib の出典の名と、器が第337便i の正本の値を写した名を書くので
   //   順序だけ after に段 rotring-337i と同じ 11 段 + rotring-337i)。**診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w337j-spinorbit.mjs —— 領域の宣言なし)。
   //   1 プロセス。所要は第337便j の枝の実測 1 s
-  S('spinorbit-337j', 'node tests/exp-w337j-spinorbit.mjs', ['tests/out/spinorbit-337j.json'], 1, { secSource: 'w337j-branch', node: true,
+  S('spinorbit-337j', 'node tests/exp-w337j-spinorbit.mjs', ['tests/out/spinorbit-337j.json'], 3, { secSource: 'w338c-branch',   // 第338便c: 尺度の走り直し 2 回を含む実測 2.6 s
+  node: true,
     after: ['supply-337a', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b', 'rotring-337i'],
-    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・正本 1 本を読む)—— 全部を走らせても 2 s の内で、簡易一致の窓を持たない',
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・正本 1 本を読む)—— 全部を走らせても 3 s の内(第338便c の尺度の走り直し 2 回を含む)で、簡易一致の窓を持たない',
     volatilePaths: { 'tests/out/spinorbit-337j.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第337便j: 軸引きずりの 2 つの読み(背景が静止・今の並進の式の形 —— W₀ は第337便a の金星で釣り合う解)を地球・火星・冥王星・コンパクト天体 4 行と比べる行で/'
       + '回転引きずりの方位の作用の型(座標を運ぶ・押し・相対の速度の全部・剛体の場に対する相対の速度 × χ × 落ち方 q × 受け手の大きさ p)の受け手 17 の半長軸の率と符号・強さ λ の 3 つの読み・時間積分/'
@@ -2137,9 +2139,10 @@ export const REGEN_STEPS = [
   //   (段 gyrodrag-337k —— 正本 tests/out/gyrodrag-337k.json・lib tests/lib-w337k-gyrodrag.mjs —— 第337便j・第337便i・第337便b・第334便a・第333便a・第330便b の lib を import して呼ぶ。
   //   入力のファイルは無い〔第337便i の正本の値 2 つを lib の宣言に写した —— 出典の名を書くので順序だけ after に段 spinorbit-337j と同じ 13 段 + spinorbit-337j〕)。**診断だけ**。
   //   **html を読まない**(来歴の対象は純関数 tests/lib-w337k-gyrodrag.mjs —— 領域の宣言なし)。1 プロセス。所要は第337便k の枝の実測 1 s
-  S('gyrodrag-337k', 'node tests/exp-w337k-gyrodrag.mjs', ['tests/out/gyrodrag-337k.json'], 1, { secSource: 'w337k-branch', node: true,
+  S('gyrodrag-337k', 'node tests/exp-w337k-gyrodrag.mjs', ['tests/out/gyrodrag-337k.json'], 4, { secSource: 'w338c-branch',   // 第338便c: 尺度の走り直し 2 回を含む実測 3.1 s
+  node: true,
     after: ['supply-337a', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b', 'rotring-337i', 'spinorbit-337j'],
-    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 2 s の内で、簡易一致の窓を持たない',
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 4 s の内(第338便c の尺度の走り直し 2 回を含む)で、簡易一致の窓を持たない',
     volatilePaths: { 'tests/out/gyrodrag-337k.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第337便k: 回転引きずり(剛体の場に対する相対の速度の型)の強さ λ・落ち方のべき q・受け手の大きさのべき p を 4 天体(フォボス・月・タイタン・トリトン)の対数の最小二乗で(χ 2 × 速さ 2 × 基準 2 × 大きさの読み 2)/'
       + 'その組の土星の D〜F 環の物差しの比と補正のノブ 4 つ(粒子の半径・集まりの係数・半長軸の率の打ち消し・帯の外の落ち方)/'
@@ -4973,6 +4976,7 @@ export function chainShell(chain, o) {
   L.push('for k in "${K[@]}"; do STATE[$k]=pending; done');
   L.push('free=$REGEN_LANES; nrun=0; stop=0');
   L.push('echo "# ready-queue $(date -u +%FT%TZ) lanes=$REGEN_LANES fastgate=$FG_EFF" >>"$REGEN_LOG/timeline.txt"');   // 第324便c: 見出しに速い判定の実効値
+  L.push('echo "# chain-steps ${K[*]}" >>"$REGEN_LOG/timeline.txt"');   // 第338便c(BL-092): 鎖の計画の段の一覧 —— --check-order が鎖の後に足した段を分ける
   L.push('while :; do');
   L.push('  for k in "${K[@]}"; do   # 終わった段を回収(rc はファイルで受ける)');
   L.push('    [ "${STATE[$k]}" = running ] && [ -f "$ST/$k.rc" ] || continue');
