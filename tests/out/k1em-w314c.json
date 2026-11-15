@@ -10,7 +10,7 @@
  "emxVersion": "w303c-emx4-1",
  "generator": "tests/exp-w314c-k1outer.mjs --stage em",
  "target": "beta/index.html",
- "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+ "targetSha256": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
  "reuseFrom": null,
  "ruling": "原仮定者の裁定(第116報)の補足(太陽系の各天体の検証の後に 16 体の三次元サンプル)・決断事項 AN410(推奨 —— 外惑星の相対の門と数値の帯の門・裁定で変わる)・AN405(有限質量比は既知の寄与)・AN401(比例定数は 1PN だけ・A1 は暦表ごとの列)・AN396′(ε_fit・ε_num)・AN336・統括の検証項目 R240。κ は一次の値 κ₀ = 10G/(C₁c²) に固定(合わせない)。確認の材料(在位へ入れない)",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -171,7 +171,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 21.902
+    "wallSec": 17.452
    },
    "confirm:earthmoon|q10|-|div=4|N=118": {
     "key": "confirm:earthmoon|q10|-|div=4|N=118",
@@ -212,7 +212,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 23.954
+    "wallSec": 18.843
    },
    "confirm:earthmoon|q11|kappa0|kernel=k1|div=1|N=354": {
     "key": "confirm:earthmoon|q11|kappa0|kernel=k1|div=1|N=354",
@@ -256,7 +256,7 @@
     },
     "betaMax": 1.0076462786787211e-7,
     "isqSteps": 5222781,
-    "wallSec": 2202.592
+    "wallSec": 1834.482
    },
    "confirm:earthmoon|q00|-|div=1|N=354": {
     "key": "confirm:earthmoon|q00|-|div=1|N=354",
@@ -297,7 +297,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 16.711
+    "wallSec": 13.272
    },
    "confirm:earthmoon|q10|-|div=1|N=354": {
     "key": "confirm:earthmoon|q10|-|div=1|N=354",
@@ -338,7 +338,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 18.425
+    "wallSec": 13.887
    },
    "confirm:earthmoon|q11|kappa0|kernel=k1|div=4|N=118": {
     "key": "confirm:earthmoon|q11|kappa0|kernel=k1|div=4|N=118",
@@ -382,7 +382,7 @@
     },
     "betaMax": 1.0076157849255032e-7,
     "isqSteps": 6963437,
-    "wallSec": 2928.367
+    "wallSec": 2438.165
    }
   }
  },
@@ -694,22 +694,22 @@
    "nodrag|h/4|N=118": {
     "n": 2,
     "steps": 13926871,
-    "wallSec": 45.856
+    "wallSec": 36.295
    },
    "drag|h/1|N=354": {
     "n": 1,
     "steps": 5222781,
-    "wallSec": 2202.592
+    "wallSec": 1834.482
    },
    "nodrag|h/1|N=354": {
     "n": 2,
     "steps": 10445560,
-    "wallSec": 35.135999999999996
+    "wallSec": 27.159
    },
    "drag|h/4|N=118": {
     "n": 1,
     "steps": 6963437,
-    "wallSec": 2928.367
+    "wallSec": 2438.165
    }
   }
  },
@@ -722,10 +722,10 @@
  "ok": true,
  "timing": {
   "T": {
-   "wallSec": 0.011
+   "wallSec": 0.009
   },
   "E": {
-   "wallSec": 2951.27
+   "wallSec": 2456.449
   },
   "K": {
    "wallSec": 0.001
@@ -741,19 +741,19 @@
   "runs": 6,
   "steps": 36558649
  },
- "elapsedS": 2953.036,
+ "elapsedS": 2458.078,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便c",
   "target": "beta/index.html",
-  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-  "generatedAt": "2026-11-13T06:13:29.062Z",
+  "targetSha256": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
+  "generatedAt": "2026-11-15T02:19:29.909Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7665776,
-    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-    "mtime": "2026-11-13T00:35:24.745Z"
+    "sha256": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
+    "mtime": "2026-11-14T20:06:57.558Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -789,9 +789,9 @@
   "code": [
    {
     "file": "tests/exp-w314c-k1outer.mjs",
-    "bytes": 58205,
-    "sha256": "93a1bf8706d8a47ec1e4996fb753ff515c8c0e756f6c58f68b6b5a2e8abb6ef8",
-    "mtime": "2026-11-05T03:10:54.294Z"
+    "bytes": 59056,
+    "sha256": "0fb4b3a6cec94345e0546fcb1767fcd45183fe713e1ab06e9fc0cc31cfcdeb9a",
+    "mtime": "2026-11-14T22:15:41.742Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -801,15 +801,15 @@
    },
    {
     "file": "tests/exp-w313d-k1confirm.mjs",
-    "bytes": 36289,
-    "sha256": "1f19e40d39213e91ecfe36680c3808358a74047e6f05531cfc8d1c80dd5a552f",
-    "mtime": "2026-11-05T03:10:54.294Z"
+    "bytes": 37140,
+    "sha256": "2c70ad05268b59f30506eaa77f28f41991411ec2d44b790ed557510b97702523",
+    "mtime": "2026-11-14T22:15:41.742Z"
    },
    {
     "file": "tests/exp-w312d-confirm.mjs",
-    "bytes": 51293,
-    "sha256": "c5cb8906ff5ebd4d20276c537b512ccefb7858cd83b3ac0cc3810294c11d7e92",
-    "mtime": "2026-11-05T03:10:54.290Z"
+    "bytes": 52144,
+    "sha256": "9ada64437dca1d0b0a9dbd5a799c30b8ba670019b184b7dd8088dd6ad8178f9e",
+    "mtime": "2026-11-14T22:15:41.742Z"
    },
    {
     "file": "tests/lib-w312d-confirm.mjs",
@@ -819,9 +819,9 @@
    },
    {
     "file": "tests/exp-w311d-planet3.mjs",
-    "bytes": 65522,
-    "sha256": "ddc866e1587855e0f2e7fb5fcb953d9d1d5f0c265672ca331c254aeaf5aec979",
-    "mtime": "2026-11-05T03:10:54.290Z"
+    "bytes": 66373,
+    "sha256": "1e643e00f24f926a75fa9e311f08a0de5235cfccb6c4a009697b8a15ca4f7c13",
+    "mtime": "2026-11-14T22:15:41.742Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
@@ -876,9 +876,15 @@
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
     "mtime": "2026-11-08T18:31:46.797Z"
+   },
+   {
+    "file": "tests/lib-w337f-jsonread.mjs",
+    "bytes": 26506,
+    "sha256": "2c2cf9533fac811574b301b5a2a8107a3f4de2345a0b7578b168e58f56d882a5",
+    "mtime": "2026-11-14T22:15:41.746Z"
    }
   ],
-  "codeSha256": "c7abb37d8dfe63fef3167e0783b4e3d463e6d429e94d83a8b0051abbd5138cec",
+  "codeSha256": "c4ce5e266555413699d714c95d2ac93a41f41554c185c3ba23756787d72127c9",
   "harnessVersion": "w314c-k1outer-1",
   "stage": "em",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W314C_WORKERS)",
@@ -999,6 +1005,57 @@
     ]
    }
   ],
-  "stableHashVersion": "w282e-stable-1"
+  "stableHashVersion": "w282e-stable-1",
+  "jsonRead337f": {
+   "version": "w337f-jsonpaths-1",
+   "rows": [
+    {
+     "file": "tests/out/an336-w306a.json",
+     "decl": {
+      "file": "tests/out/an336-w306a.json",
+      "paths": [
+       "/transfer/table/*/h",
+       "/transfer/table/*/target/a1",
+       "/transfer/table/*/target/pn1",
+       "/transfer/table/*/target/recordId",
+       "/transfer/table/*/target/value"
+      ],
+      "keyed": {
+       "/transfer/table": "id"
+      },
+      "optional": [],
+      "exclude": []
+     },
+     "declSha256": "5f1f354457d27caa9ede4d485ed488e8929047f9c2012475d17ae60e4cf41f19",
+     "pathsSha256": "730633a84ee1ccbb2504ebde0bd8061c87ac079266eeca227ad1264ab6f57bd8",
+     "picked": 35,
+     "unsafe": null,
+     "readPaths": [
+      "/transfer/table/#length",
+      "/transfer/table/jupiterSunInertial3d/id",
+      "/transfer/table/jupiterSunInertial3d/target/a1",
+      "/transfer/table/jupiterSunInertial3d/target/pn1",
+      "/transfer/table/jupiterSunInertial3d/target/recordId",
+      "/transfer/table/jupiterSunInertial3d/target/value",
+      "/transfer/table/marsSunInertial3d/id",
+      "/transfer/table/marsSunInertial3d/target/a1",
+      "/transfer/table/marsSunInertial3d/target/pn1",
+      "/transfer/table/marsSunInertial3d/target/recordId",
+      "/transfer/table/marsSunInertial3d/target/value",
+      "/transfer/table/mercurySunInertial3d/id",
+      "/transfer/table/mercurySunInertial3d/target/a1",
+      "/transfer/table/mercurySunInertial3d/target/pn1",
+      "/transfer/table/mercurySunInertial3d/target/recordId",
+      "/transfer/table/mercurySunInertial3d/target/value",
+      "/transfer/table/venusSunInertial3d/id",
+      "/transfer/table/venusSunInertial3d/target/a1",
+      "/transfer/table/venusSunInertial3d/target/pn1",
+      "/transfer/table/venusSunInertial3d/target/recordId",
+      "/transfer/table/venusSunInertial3d/target/value"
+     ],
+     "outside": []
+    }
+   ]
+  }
  }
 }
