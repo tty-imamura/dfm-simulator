@@ -1,0 +1,591 @@
+{
+ "version": "w339a-rotvert-1",
+ "libVersion": "w339a-rotvert-lib-1",
+ "generator": "tests/exp-w339a-rotvert.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "ruling": "原仮定者の回答(2026-11-14 —— AN712)「2 つ以上の量を同じノブで満たした候補だけを、既定 OFF の設定と『探索用・未較正』の本として入れる」・統括の検証項目 R355",
+ "decl": {
+  "candidate": {
+   "key": "slice|focus|Req|obs",
+   "spec": {
+    "prof": "slice",
+    "action": "focus",
+    "reading": "Req",
+    "speed": "obs"
+   },
+   "from": "tests/out/rotring-337i.json の reps[0](第337便i)"
+  },
+  "visibility": {
+   "lambdaScale": 100000,
+   "rdScale": 2000000,
+   "why": "正本の λ(1e7 年で薄くなる強さ)と帯の厚み R_eq(土星で 5.18 m)のままでは画面で見えない —— 帯の内の率 λ s r/ρ は R_d に依らない(一様厚みの区間)ので、帯を広げても帯の内の傾きの減り方は候補の率 × 強さの倍"
+  },
+  "units": {
+   "L": 1000000,
+   "T": 100,
+   "M": 1e+25
+  },
+  "matchTol": 1e-12,
+  "edgeGap": 1e-9,
+  "steps": [
+   600,
+   3000
+  ],
+  "runJudge": {
+   "rateTol": 0.05,
+   "offTol": 0.05,
+   "spreadTol": 0.05
+  },
+  "mercQ1Max": 1e-10
+ },
+ "notClaim": [
+  "土星の環を回転引きずりで薄くしたとは主張しない —— 探索用・未較正の候補(このノブの組では)",
+  "環の厚みを決めたとは主張しない —— 率が半径に依らないところまで(厚みの絶対の値は出していない)",
+  "法則ではない —— 2 つの量(土星の環の物差し・4 惑星の尺度)を同じノブで満たした組を、既定 OFF の鍵として入れただけ",
+  "見えるようにした倍率(強さ 1e5 倍・帯の厚み 2e6 倍)は表示のための宣言で、候補の値ではない",
+  "4 天体の公転の変化(相対の速度の型)は同じノブで満たせていない —— 入れていない"
+ ],
+ "candidate": {
+  "key": "slice|focus|Req|obs",
+  "ringPoints": 15,
+  "ringThin": true,
+  "ringPass": true,
+  "lambdaNeed": 6.56013429774167e-7,
+  "ringKeplerTol": 0.00001,
+  "ringDriftTol": 0.00001,
+  "tThinYr": 10000000,
+  "RdSatYk": 5.005722102751185,
+  "ReqSat": 5.1807360976510655,
+  "ReqOverYk": 1.0349627868482134,
+  "satSpin": 0.00016378840578024865,
+  "planets": {
+   "merc": {
+    "insideScale": true,
+    "scaleMaxBelow1e9": true,
+    "q1Below": true
+   },
+   "venus": {
+    "insideScale": true,
+    "scaleMaxBelow1e9": true,
+    "q1Below": true
+   },
+   "earth": {
+    "insideScale": true,
+    "scaleMaxBelow1e9": true,
+    "q1Below": true
+   },
+   "mars": {
+    "insideScale": true,
+    "scaleMaxBelow1e9": true,
+    "q1Below": true
+   }
+  },
+  "bothMet": true
+ },
+ "key": {
+  "version": "w339a-rotvert-1",
+  "name": "rotDragVert",
+  "forms": [
+   "sliceFocus"
+  ],
+  "inDefault": false,
+  "templateHasKey": true,
+  "templateValueUndefined": true,
+  "declaring": [
+   "saturnRotVertExplore3d"
+  ],
+  "nPresets": 187,
+  "liveDeclaringOnlyBook": true,
+  "accept": {
+   "rows": [
+    {
+     "name": "正準形(既定の oblateQ・rdScale は書かない)",
+     "ok": true
+    },
+    {
+     "name": "倍を書いた形",
+     "ok": true
+    },
+    {
+     "name": "null は「なし」",
+     "ok": true
+    },
+    {
+     "name": "未知の鍵",
+     "ok": true
+    },
+    {
+     "name": "form の外",
+     "ok": true
+    },
+    {
+     "name": "λ の外",
+     "ok": true
+    },
+    {
+     "name": "扁平率の外",
+     "ok": true
+    },
+    {
+     "name": "源の添字が整数でない",
+     "ok": true
+    },
+    {
+     "name": "倍の外",
+     "ok": true
+    },
+    {
+     "name": "二次元の本は拒否",
+     "ok": true
+    },
+    {
+     "name": "較正の本は拒否",
+     "ok": true
+    },
+    {
+     "name": "A/B の physicsPatch は null だけ(値は警告して無視)",
+     "ok": true
+    },
+    {
+     "name": "本の A/B は null を運ぶ",
+     "ok": true
+    }
+   ],
+   "ok": true
+  }
+ },
+ "book": {
+  "id": "saturnRotVertExplore3d",
+  "decl": {
+   "form": "sliceFocus",
+   "source": 0,
+   "lambda": 0.0656,
+   "fFlat": 0.09796,
+   "rdScale": 2000000
+  },
+  "spin": 0.016528,
+  "m": 56.834,
+  "axisDeclared": {
+   "enable": true,
+   "tiltDeg": 90,
+   "azimuthDeg": 90,
+   "source": "見やすさの向き —— 自転軸を +y に置き、上から見て赤道面を真横の線にした(土星の実の極ではない)"
+  },
+  "nBodies": 121,
+  "groups": [
+   [
+    1,
+    40
+   ],
+   [
+    41,
+    80
+   ],
+   [
+    81,
+    120
+   ]
+  ],
+  "lambdaOverNeed": 99997.95282023851,
+  "rdScale": 2000000
+ },
+ "match": [
+  {
+   "axis": "bookY",
+   "rdScale": 1,
+   "lambda": 6.56013429774167e-7,
+   "ReqApp": 0.0000051807360976510644,
+   "ReqRelToLibBelowTol": true,
+   "n": 72,
+   "inBand": 45,
+   "zeroBoth": 22,
+   "worstOverAllow": "≤ 1",
+   "wellConditionedRows": 0,
+   "wellConditionedMaxRelBelowTol": true,
+   "tol": 1e-12,
+   "bad": [],
+   "ok": true
+  },
+  {
+   "axis": "bookY",
+   "rdScale": 1,
+   "lambda": 0.0656,
+   "ReqApp": 0.0000051807360976510644,
+   "ReqRelToLibBelowTol": true,
+   "n": 72,
+   "inBand": 45,
+   "zeroBoth": 22,
+   "worstOverAllow": "≤ 1",
+   "wellConditionedRows": 0,
+   "wellConditionedMaxRelBelowTol": true,
+   "tol": 1e-12,
+   "bad": [],
+   "ok": true
+  },
+  {
+   "axis": "bookY",
+   "rdScale": 2000000,
+   "lambda": 6.56013429774167e-7,
+   "ReqApp": 10.361472195302131,
+   "ReqRelToLibBelowTol": true,
+   "n": 72,
+   "inBand": 45,
+   "zeroBoth": 22,
+   "worstOverAllow": "≤ 1",
+   "wellConditionedRows": 45,
+   "wellConditionedMaxRelBelowTol": true,
+   "tol": 1e-12,
+   "bad": [],
+   "ok": true
+  },
+  {
+   "axis": "bookY",
+   "rdScale": 2000000,
+   "lambda": 0.0656,
+   "ReqApp": 10.361472195302131,
+   "ReqRelToLibBelowTol": true,
+   "n": 72,
+   "inBand": 45,
+   "zeroBoth": 22,
+   "worstOverAllow": "≤ 1",
+   "wellConditionedRows": 45,
+   "wellConditionedMaxRelBelowTol": true,
+   "tol": 1e-12,
+   "bad": [],
+   "ok": true
+  },
+  {
+   "axis": "saturnPole",
+   "rdScale": 1,
+   "lambda": 6.56013429774167e-7,
+   "ReqApp": 0.0000051807360976510644,
+   "ReqRelToLibBelowTol": true,
+   "n": 72,
+   "inBand": 45,
+   "zeroBoth": 20,
+   "worstOverAllow": "≤ 1",
+   "wellConditionedRows": 0,
+   "wellConditionedMaxRelBelowTol": true,
+   "tol": 1e-12,
+   "bad": [],
+   "ok": true
+  },
+  {
+   "axis": "saturnPole",
+   "rdScale": 1,
+   "lambda": 0.0656,
+   "ReqApp": 0.0000051807360976510644,
+   "ReqRelToLibBelowTol": true,
+   "n": 72,
+   "inBand": 45,
+   "zeroBoth": 20,
+   "worstOverAllow": "≤ 1",
+   "wellConditionedRows": 0,
+   "wellConditionedMaxRelBelowTol": true,
+   "tol": 1e-12,
+   "bad": [],
+   "ok": true
+  },
+  {
+   "axis": "saturnPole",
+   "rdScale": 2000000,
+   "lambda": 6.56013429774167e-7,
+   "ReqApp": 10.361472195302131,
+   "ReqRelToLibBelowTol": true,
+   "n": 72,
+   "inBand": 45,
+   "zeroBoth": 20,
+   "worstOverAllow": "≤ 1",
+   "wellConditionedRows": 45,
+   "wellConditionedMaxRelBelowTol": true,
+   "tol": 1e-12,
+   "bad": [],
+   "ok": true
+  },
+  {
+   "axis": "saturnPole",
+   "rdScale": 2000000,
+   "lambda": 0.0656,
+   "ReqApp": 10.361472195302131,
+   "ReqRelToLibBelowTol": true,
+   "n": 72,
+   "inBand": 45,
+   "zeroBoth": 20,
+   "worstOverAllow": "≤ 1",
+   "wellConditionedRows": 45,
+   "wellConditionedMaxRelBelowTol": true,
+   "tol": 1e-12,
+   "bad": [],
+   "ok": true
+  }
+ ],
+ "step": {
+  "n": 120,
+  "sameBits": 120,
+  "ok": true,
+  "sourceUnmoved": true
+ },
+ "run": {
+  "steps": [
+   600,
+   3000
+  ],
+  "dt": 0.58,
+  "sameStart": true,
+  "rows": [
+   {
+    "steps": 600,
+    "t": 347.99999999999994,
+    "on": [
+     6.447348741284116,
+     6.619798622177759,
+     6.65014532915809
+    ],
+    "off": [
+     7.84288374164181,
+     7.886668452887268,
+     8.087657775309326
+    ],
+    "ratioOn": [
+     0.8199303088285048,
+     0.8513706545465115,
+     0.8073993237885188
+    ],
+    "ratioOff": [
+     0.9974050336711963,
+     1.0143024684211692,
+     0.9819288294627994
+    ],
+    "guide": 0.8280703255349738,
+    "judge": null,
+    "halt": null,
+    "onKeyPresent": true,
+    "offKeyAbsent": true
+   },
+   {
+    "steps": 3000,
+    "t": 1739.9999999999418,
+    "on": [
+     3.042730486029183,
+     3.08884033346245,
+     3.149016768266903
+    ],
+    "off": [
+     7.7801287947673465,
+     7.995929240236544,
+     8.073214242725939
+    ],
+    "ratioOn": [
+     0.386953932104954,
+     0.39725498713501123,
+     0.38232457840425677
+    ],
+    "ratioOff": [
+     0.9894242829725693,
+     1.0283544711105228,
+     0.980175228922701
+    ],
+    "guide": 0.38934635065752793,
+    "judge": {
+     "ratioOn": [
+      0.386953932104954,
+      0.39725498713501123,
+      0.38232457840425677
+     ],
+     "ratioOff": [
+      0.9894242829725693,
+      1.0283544711105228,
+      0.980175228922701
+     ],
+     "guide": 0.38934635065752793,
+     "onNearGuide": true,
+     "offNearOne": true,
+     "spreadOk": true,
+     "spread": 0.037583942843441784,
+     "ok": true
+    },
+    "halt": null,
+    "onKeyPresent": true,
+    "offKeyAbsent": true
+   }
+  ],
+  "h0": [
+   7.863288711080727,
+   7.775460179214001,
+   8.236500989317097
+  ],
+  "ReqApp": 10.361472128537791,
+  "inBandAtStart": true
+ },
+ "selfTest": {
+  "ok": true,
+  "bad": [],
+  "cases": 10
+ },
+ "pageErrors": [],
+ "timing": {
+  "candidate": {
+   "wallSec": 0.087
+  },
+  "measure": {
+   "wallSec": 12.856
+  }
+ },
+ "gates": {
+  "candidate": true,
+  "defaultOff": true,
+  "accept": true,
+  "match": true,
+  "step": true,
+  "run": true,
+  "visibility": true,
+  "self": true
+ },
+ "ok": true,
+ "elapsedS": 15.091,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第339便a",
+  "target": "beta/index.html",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-15T18:09:44.752Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:05:02.503Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w339a-rotvert.mjs",
+    "bytes": 15977,
+    "sha256": "5612b6866724b6e6f0ac4a065b0f0046e01d057891d2153edd7cbf54a8877dca",
+    "mtime": "2026-11-15T18:05:43.447Z"
+   },
+   {
+    "file": "tests/lib-w339a-rotvert.mjs",
+    "bytes": 13499,
+    "sha256": "fba4b0d8628e7ca572a56b4c2e9bb760f65f79c97aa31894d682fbb410c7e8e8",
+    "mtime": "2026-11-15T16:56:53.839Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-15T12:12:18.190Z"
+   },
+   {
+    "file": "tests/lib-w337b-mercuryband.mjs",
+    "bytes": 28361,
+    "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
+    "mtime": "2026-11-15T12:12:18.190Z"
+   },
+   {
+    "file": "tests/lib-w335c-mercurycombo.mjs",
+    "bytes": 23928,
+    "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
+    "mtime": "2026-11-15T12:12:18.186Z"
+   },
+   {
+    "file": "tests/lib-w334c-mercurynode.mjs",
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-15T12:12:18.182Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-15T12:12:18.182Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35614,
+    "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
+    "mtime": "2026-11-15T12:12:18.182Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-15T12:12:18.182Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-15T12:12:18.182Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-15T12:12:18.182Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-15T12:12:18.178Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-11-15T12:12:18.150Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-15T12:12:18.146Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-15T12:12:18.158Z"
+   }
+  ],
+  "codeSha256": "901e2d806329d482481ef3acf243400bc7d2a444688998519e9d96eb145edaa3",
+  "harnessVersion": "w339a-rotvert-1",
+  "stage": "rotvert-339a",
+  "engine": "Node(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文の受理器・build・步をそのまま実行)・🛟 の宣言の写しと鍵 OFF の写しを走らせる",
+  "notClaim": [
+   "土星の環を回転引きずりで薄くしたとは主張しない —— 探索用・未較正の候補(このノブの組では)",
+   "環の厚みを決めたとは主張しない —— 率が半径に依らないところまで(厚みの絶対の値は出していない)",
+   "法則ではない —— 2 つの量(土星の環の物差し・4 惑星の尺度)を同じノブで満たした組を、既定 OFF の鍵として入れただけ",
+   "見えるようにした倍率(強さ 1e5 倍・帯の厚み 2e6 倍)は表示のための宣言で、候補の値ではない",
+   "4 天体の公転の変化(相対の速度の型)は同じノブで満たせていない —— 入れていない"
+  ],
+  "scope": {
+   "version": "w327c-scope-8",
+   "presets": "all",
+   "roots": [
+    "DEFAULT_PHYSICS",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.validatePreset",
+    "T",
+    "appStepDt",
+    "ch",
+    "ctx",
+    "cw",
+    "fastParams"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1355,
+   "segments": 1186,
+   "closureShare": 0.2908
+  },
+  "scopeSha256": "4aaa46142d0a99216eda8873655687c523760140a47f61021f8a4ba33a5c6468",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

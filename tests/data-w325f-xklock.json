@@ -36,20 +36,20 @@
   "X_k を維持して c_0 を合わせる"
  ],
  "tally": {
-  "builtin": 186,
+  "builtin": 187,
   "retired": 61,
-  "live": 125,
+  "live": 126,
   "bySat": {
    "live:ng:gZeroXNonZero": 31,
    "live:ng:mismatch": 38,
-   "live:ok:within": 55,
+   "live:ok:within": 56,
    "retired:ng:mismatch": 25,
    "retired:ok:within": 36,
    "live:ok:zeroExact": 1
   },
   "byClass": {
    "X_k を維持して G_0 を合わせる": 8,
-   "X_k = G_0/c_0²": 116,
+   "X_k = G_0/c_0²": 117,
    "X_k を維持して c_0 を合わせる": 1
   },
   "undecided": [
@@ -19692,6 +19692,49 @@
    "calibrationPopulation": false,
    "class": null,
    "reason": "退役 —— 棚卸しだけ(分類しない)"
+  },
+  {
+   "id": "saturnRotVertExplore3d",
+   "emoji": "🛟",
+   "group": "天体の機構",
+   "retired": false,
+   "sampleClass": "principle",
+   "scaleTier": "planetary",
+   "realUnits": true,
+   "G": 6.674,
+   "c": 29979.2458,
+   "X": 7.425826474101849e-9,
+   "declared": {
+    "G": true,
+    "c": true,
+    "X": true
+   },
+   "lock": {
+    "ok": true,
+    "reason": "within",
+    "tgt": 7.425826474101849e-9,
+    "rel": 0,
+    "bitSame": true
+   },
+   "builtSame": true,
+   "lockAfterLoad": true,
+   "uses": {
+    "activeParams": [],
+    "rays": false,
+    "photonEmit": false,
+    "qLock": false,
+    "geoPN": 0,
+    "claims": 0,
+    "obsCard": 4,
+    "observedGc": false
+   },
+   "objective": "met",
+   "calibration": "out-of-scope",
+   "calibrationPopulation": false,
+   "class": "X_k = G_0/c_0²",
+   "basis": "satisfied",
+   "reason": "実単位の写し(G・c の標準参照値の段の換算)で X_k = G_0/c_0² —— 既に満たす(読み込みで自動 ON・値は 1 bit も変わらない)",
+   "undecided": false
   }
  ]
 }

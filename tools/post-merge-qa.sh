@@ -1039,6 +1039,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spinfield338e docs.spinfield338e"
 #   正本と同じ〔数でない欄は完全一致・数は葉ごとに相対 1e-9・0 と書いた欄は両方 0〕・捕まる表の部分集合・呼ぶだけ / docs.heatlock338f —— 正本の門と表 16 本が PHYSICS〔第338便f〕に逐語・文書)と、新しい段 heatlock-338f の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.heatlock338f docs.heatlock338f"
 # ==== 第338便f の塊(ここまで)====
+# ==== 第339便a の塊(ここから)====
+# 第339便a(原仮定者の回答(2026-11-14 —— AN712)・統括の検証項目 R355 —— beta の html を変える: 既定 OFF の physics の鍵 rotDragVert と探索用・未較正の本 🛟): 枝 a の新設 2 本
+#   (behavior.rotvert339a —— 対象の html で器の measure を作り直して正本と同じ・候補の測り直し・physics の鍵の集合の守り・既定 OFF / docs.rotvert339a —— 正本の門・本の文・PHYSICS〔第339便a〕・文書)と、
+#   新しい段 rotvert-339a の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rotvert339a docs.rotvert339a"
+# ==== 第339便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
