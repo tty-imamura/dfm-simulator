@@ -2159,6 +2159,18 @@ export const REGEN_STEPS = [
       + '並進の分(c の 1 つの式・第337便a の数値の差分との照合 6 配置・公転する受け手 n/s 7 点・ロックした連星・近づく/遠ざかる分・第333便b の通過)/'
       + '太陽 → 8 惑星・金星の釣り合い(向きの因子 4 × 振幅 2)・銀河 → 太陽系・衛星 7 と冥王星 – カロン・比べる天体 8/合成の 60° の規則' }),
   // ==== 第337便l の塊(ここまで)====
+  // ==== 第338便b の塊(ここから)====
+  // ---- 第338便b(原仮定者の回答(2026-11-15 —— 第138報の回答 5)・原仮定者の指示(2026-11-15 —— 第139報)・統括の検証項目 R350): **軸引きずりの向きの補正のノブ(捩れの型 ⑪ を
+  //   2 倍角の則に対する補正として q で振る)・AN747 の 3 列・合成の規則の一般の比**(段 bevelknob-338b —— 正本 tests/out/bevelknob-338b.json・lib tests/lib-w338b-bevelknob.mjs ——
+  //   第337便l〔版 2〕・第337便j・第337便i・第335便b の lib を import して呼ぶ。入力のファイルは無い —— 順序だけ after に段 bevel-337l)。**診断だけ**。
+  //   **html を読まない**(来歴の対象は純関数 tests/lib-w338b-bevelknob.mjs —— 領域の宣言なし)。1 プロセス。所要は第338便b の枝の実測 0.2 s
+  S('bevelknob-338b', 'node tests/exp-w338b-bevelknob.mjs', ['tests/out/bevelknob-338b.json'], 1, { secSource: 'w338b-branch', node: true,
+    after: ['bevel-337l'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/bevelknob-338b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第338便b: 補正のノブ q(0〜1・μ = 2^{q/2})と全体に掛ける型 p の向きと強さ(仰角 9 点)・2 つの置き方の比べ(差分の読みと回転引きずりの高さの型)・q を振ったときの天体の読み/'
+      + 'AN747 の 3 列(列 A・列 B・列 B′)の天体の符号・金星の根と 3 成分の残り・赤道面の有限差分/合成の規則の一般の比の 3 列' }),
+  // ==== 第338便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

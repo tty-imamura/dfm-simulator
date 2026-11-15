@@ -15,6 +15,7 @@
 // ■ 2 倍角の則の候補(向き): reflect = s∥ − s⊥ = 2(s·r̂)r̂ − s(赤道面 −s・軸の方向 +s・仰角 45° で s から 90° —— 今のコードの EQ-16〔axialModel:"bevel"〕の向きと同じ)。
 //   並進の分は「受け手に対する源の実効の自転」S_eff = s + r̂ × v_rel / r(S_eff × r r̂ = (c − v_ref) の線に垂直な分)に同じ則を当てる:
 //   reflect(S_eff) = s∥ − s⊥ + Ω_app(並進の分は見かけの回りの向き —— 最も近い表面の移動の向きに受け手の近い面が運ばれる読みと同じ)。
+// ■ 版 2(第338便b —— 統括の検証項目 R350): `venusBalance` の太陽の項を本体の振幅と同じ符号に直し、根を閉じた形で全部返す(版 1 の誤りと数の変わり方は器の AMEND)。
 // ■ 言わないこと: 向きの則は候補の表(この則ではこの向き・この配置に当たる)—— 自転の軸の傾きや逆行の原因の同定ではない。文献の値は未照合。
 import { axialAt, complementDiff, staticRate, weight337, DECL as A337 } from './lib-w337a-supply.mjs';
 import { LIT as LITJ, angleDeg, eclOfRaDec, orbitNormal, aKepler } from './lib-w337j-spinorbit.mjs';
@@ -22,7 +23,7 @@ import { integratedField } from './lib-w333b-axialfield.mjs';
 import { LIT as LIT332A } from './lib-w332a-eqband.mjs';
 import { galacticAxes } from './lib-w335b-carryledger.mjs';
 
-export const LIB_VERSION = 'w337l-bevel-lib-1';
+export const LIB_VERSION = 'w337l-bevel-lib-2';   // 版 2 = 第338便b の訂正(金星の釣り合いの太陽の項の符号を本体と揃え・0 < f < 1 の根を閉じた形で全部 —— `venusBalance`)
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
 const v3 = (a) => Array.isArray(a) && a.length === 3 && a.every(fin);
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], nrm = (a) => Math.hypot(a[0], a[1], a[2]);
@@ -253,17 +254,47 @@ export function planetRows({ alpha = DECL.alpha } = {}) {
       elMaxDeg: elMax, elNeededDeg: eln, inRange: eln <= elMax, prograde: obl < 90 };
   });
 }
-/** 金星の釣り合い(第337便a の型: G(f) = (1 − f) ω_bg (L̂·n̂) + T(f) (ŝ☉·n̂) = 0・n̂ = 黄道の北)を向きの則の因子 P で読む: T(f) = P · s☉ f(1 − α(1 − f))(符号つき)/ P · s☉ f(share) */
+/** 金星の釣り合い(第337便a の型: G(f) = (1 − f) ω_bg (L̂·n̂) + T(f) (ŝ☉·n̂) = 0・n̂ = 黄道の北)を向きの則の因子 P で読む。
+ *  **版 2(第338便b の訂正 —— 統括の検証項目 R350)**: 太陽の項を本体(`bevelOmega`・`planetRows` の振幅 `ampOf`)と同じ符号で T(f) = P · s☉ · A(f)(A = 符号つき f(α_e − 1)・取り分 f)と書く。
+ *  版 1 は T(f) = P · s☉ f(1 − α(1 − f))(符号つき)/ −P · s☉ f(取り分)で、本体と負号が 1 つ違っていた(根 f 0.5000000000094593 では本体の符号の太陽の項と背景の項が同じ符号で和が 0 にならない)。
+ *  G(f) は f の 1 次式(取り分)か 2 次式(符号つき)なので、0 < f < 1 の根を閉じた形で全部返す(数値的に安定な 2 次式の解の形 —— 判別式が負なら根なし)。版 1 の 0.001〜0.999 の格子の走査は小さい f の根を落としていた。 */
+export const ampCoef = (amp, alpha = DECL.alpha) => {
+  // A(f) = c0 + c1 f + c2 f²(符号つき f(α(1 − f) − 1) = (α − 1) f − α f²・取り分 f・1)
+  if (amp === 'signed') return [0, alpha - 1, -alpha];
+  if (amp === 'share') return [0, 1, 0];
+  if (amp === 'unit') return [1, 0, 0];
+  if (Array.isArray(amp) && amp.length === 3 && amp.every(fin)) return amp.slice();   // 係数を直に(第338便b の列 B′ などを同じ根の式で読む)
+  throw new RangeError('ampCoef: ' + amp);
+};
+/** 2 次以下の多項式 c0 + c1 f + c2 f² の実根(数値的に安定な形)のうち 0 < f < 1 のもの(昇順) */
+export function polyRoots01([c0, c1, c2]) {
+  const out = [];
+  if (c2 === 0) { if (c1 !== 0) out.push(-c0 / c1); }
+  else { const D = c1 * c1 - 4 * c2 * c0; if (D >= 0) { const q = -0.5 * (c1 + (c1 >= 0 ? 1 : -1) * Math.sqrt(D)); if (q !== 0) out.push(q / c2, c0 / q); else out.push(0); } }
+  return out.filter((f) => f > 0 && f < 1).sort((a, b) => a - b);
+}
+/** 根の読みの区別のしきい: |背景の項| ÷ (|P s☉ (ŝ☉·n̂)| f)(根では太陽の項の大きさに等しい)がこれより小さければ「零点合わせ」(太陽の項そのものが節の近く) */
+export const ZERO_NODE_RATIO = 1e-6;
 export function venusBalance({ P, amp = 'signed', alpha = DECL.alpha }) {
   const sun = DECL.spins.sun, L = galacticAxes().Lhat, nE = [0, 0, 1], galN = dot(L, nE), sunN = dot(sun.sHat, nE);
-  const T = amp === 'signed' ? (f) => P * sun.s * f * (1 - alpha * (1 - f)) : (f) => -P * sun.s * f;
-  const Gf = (f) => (1 - f) * DECL.wbg * galN + T(f) * sunN, roots = [];
-  for (let i = 1; i < 999; i++) { let a = i / 1000, b = (i + 1) / 1000; if (Math.sign(Gf(a)) !== Math.sign(Gf(b))) { for (let it = 0; it < 100; it++) { const m = (a + b) / 2; if (Math.sign(Gf(m)) === Math.sign(Gf(a))) a = m; else b = m; } roots.push((a + b) / 2); } }
-  const f = roots.length ? roots.reduce((x, y) => (Math.abs(y - 0.5) < Math.abs(x - 0.5) ? y : x)) : null;
+  const B = DECL.wbg * galN, C = P * sun.s * sunN, [a0, a1, a2] = ampCoef(amp, alpha);
+  const A = (f) => a0 + a1 * f + a2 * f * f, T = (f) => P * sun.s * A(f);
+  // G(f) = B(1 − f) + C A(f) = (B + C a0) + (C a1 − B) f + C a2 f²
+  const roots = polyRoots01([B + C * a0, C * a1 - B, C * a2]);
   const wV = weight337(MSUN, LIT.planets[1].aAU * AU, alpha, AU);
-  // 背景の項を太陽の項に釣り合わせるのに要る背景の項の倍(share の型 —— f = 0.5 のまま)
-  const need = amp === 'share' ? Math.abs(T(0.5) * sunN / (0.5 * DECL.wbg * galN)) : null;
-  return { P, amp, roots, f, df: f === null ? null : f - 0.5, W0: f === null ? null : wV * (1 - f) / f, galN, sunN, bgFactorNeeded: need };
+  const rows = roots.map((f) => {
+    const bg = (1 - f) * B, sun0 = T(f) * sunN, sum = sun0 + bg;
+    // 打ち消しの前の尺度(同じ角速度の単位): |C| f (1 + α(1 − f)) + |B|(1 − f) —— 和はこの尺度の 1e-12 より小さければ 0 と書く
+    const scale = Math.abs(C) * (Math.abs(a0) + Math.abs(a1) * f + Math.abs(a2) * f * f) + Math.abs(bg), floor = 1e-12 * scale;
+    const kindRatio = Math.abs(bg) / (Math.abs(C) * f);
+    return { f, df: f - 0.5, W0: wV * (1 - f) / f, sun: -bg, bg, sumOverScale: Math.abs(sum) < floor ? 0 : sum / scale, sumRel: Math.abs(sum) < floor ? 0 : sum / (Math.abs(sun0) + Math.abs(bg)),
+      kindRatio, kind: kindRatio < ZERO_NODE_RATIO ? 'zeroNode' : 'finitePair' };
+  });
+  const near = rows.length ? rows.reduce((x, y) => (Math.abs(y.f - 0.5) < Math.abs(x.f - 0.5) ? y : x)) : null;
+  // f を 0.5 に固定したときに要る背景の項の倍(この振幅でこの f に固定したら要る数 —— 定数として採らない)。太陽の項と背景の項が同じ符号なら倍率では釣り合わない(負の数で書く)
+  const need = (ff) => { const t = T(ff) * sunN, b = (1 - ff) * B; return t === 0 ? 0 : (Math.sign(t) === Math.sign(b) ? -1 : 1) * Math.abs(t / b); };
+  return { P, amp, roots: rows.map((r) => r.f), rows, f: near ? near.f : null, df: near ? near.df : null, W0: near ? near.W0 : null, galN, sunN, B, C,
+    bgFactorNeeded: amp === 'share' ? need(0.5) : null, bgFactorAt: need, sunTermAt: (ff) => T(ff) * sunN };
 }
 /** 銀河 → 太陽系の位置: 銀河面からの仰角・2 倍角の則の向きの源の軸からの角・120° に要る仰角と高さ・今の形の公転の分 */
 export function galaxyRow({ alpha = DECL.alpha, sFieldOverOmega = [0, 0.5, 1, 2] } = {}) {
