@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第288便c",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T05:06:49.563Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-15T20:01:05.940Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "55302bc96ca15ff77179387f26dee056c261213f3bbd2a2a824cf1ad57821bf9",
+  "codeSha256": "0a0eb8627c86bbf07c7d74f031fe034a648d0b3a8c8c8fcbe46f5efb1dc055bb",
   "harnessVersion": "w288c-compose-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第78報)⑧と第78報で閉じた AN84(背景の台帳に中心を 1 源として足す・中心は 1 回だけ・A_spin は別に構成)/AN85(complex-p2 は既定にしない)・統括の検証項目 R115",
@@ -87,11 +87,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1325,
-   "segments": 1162,
-   "closureShare": 0.2878
+   "names": 1340,
+   "segments": 1171,
+   "closureShare": 0.2884
   },
-  "scopeSha256": "32f93d986efeaab7482ea7610cb8a1d4dcf5a47296b678eb0f249ecc28391578",
+  "scopeSha256": "7525231fde9fc6739c170c589449db4c9cb7a07e7af262c0f4068e93d762d981",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -444,6 +444,6 @@
   },
   "ok": true
  },
- "elapsedS": 2.104,
+ "elapsedS": 2.032,
  "ok": true
 }

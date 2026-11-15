@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第295便c",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T05:21:13.719Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-15T20:04:53.842Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    },
    {
     "file": "tests/out/swing-w293d.json",
     "bytes": 538409,
-    "sha256": "ce104f4966014988ecd123c4fc600fbb811729c7cc2e798e419933e405c6b419",
-    "mtime": "2026-11-05T05:19:56.866Z"
+    "sha256": "0275eeb67dccd3ee4b26cd35ed1708c13cd16075f82cf2bc0453b05d910eaaaa",
+    "mtime": "2026-11-15T20:03:43.618Z"
    }
   ],
   "code": [
@@ -52,9 +52,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    },
    {
     "file": "tests/lib-w302h-splitrec.mjs",
@@ -63,7 +63,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "3dbd467caecc3a4aefe5b12c8dec5599b1bb3faf89f9db8d279944e05a25b811",
+  "codeSha256": "aa8a1c500aa2ed6b197e30e0335f0d0fade70e9279d95c7d6e8593d4e19dd4c5",
   "harnessVersion": "w295c-inertial3-1",
   "swingVersion": "w293d-swing-1",
   "engineVersion": "w290c-inertial-1",
@@ -118,16 +118,16 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1363,
-   "segments": 1200,
-   "closureShare": 0.2958
+   "names": 1378,
+   "segments": 1209,
+   "closureShare": 0.2963
   },
-  "scopeSha256": "56616d4e5e08de6d7a1d108c6738e3444baa2b389aa38f7479ec8e8067285a27",
+  "scopeSha256": "a5b06c1651ef205824374d9391c4012fa7e2a9df18b9dfc0359db11f935f2700",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/swing-w293d.json",
-    "stableSha256": "2ab318ea30bbe823f9ecbe068ad98e0e1c109a8146ef62339362a798bd18e528",
+    "stableSha256": "e36d2244129c1de22c0539a16c9b8833b0eae1dcdca78923523dd94b2d0d2f5e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1967,49 +1967,49 @@
  "ok": true,
  "timing": {
   "em-G0-0.008": {
-   "wallSec": 14.809
+   "wallSec": 11.859
   },
   "em-A2-0.008": {
-   "wallSec": 15.944
+   "wallSec": 14.341
   },
   "em-A1-0.008": {
-   "wallSec": 16.178
+   "wallSec": 14.643
   },
   "em-A1-0.016": {
-   "wallSec": 9.039
+   "wallSec": 6.984
   },
   "em-G0-0.016": {
-   "wallSec": 8.863
+   "wallSec": 5.722
   },
   "em-A2-0.016": {
-   "wallSec": 9.457
+   "wallSec": 6.695
   },
   "mer-gain0-h2": {
-   "wallSec": 3.097
+   "wallSec": 2.062
   },
   "mer-gain-h2": {
-   "wallSec": 3.252
+   "wallSec": 2.518
   },
   "mer-gain0-h": {
-   "wallSec": 3.162
+   "wallSec": 2.451
   },
   "mer-gain-h": {
-   "wallSec": 3.415
-  },
-  "plu-gain-h2": {
-   "wallSec": 24.095
-  },
-  "plu-gain0-h2": {
-   "wallSec": 25.092
+   "wallSec": 2.576
   },
   "plu-gain0-h": {
-   "wallSec": 25.907
+   "wallSec": 20.141
+  },
+  "plu-gain0-h2": {
+   "wallSec": 21.667
+  },
+  "plu-gain-h2": {
+   "wallSec": 21.255
   },
   "plu-gain-h": {
-   "wallSec": 18.6
+   "wallSec": 20.849
   }
  },
  "inputMapping": "🟤・🟣 は親の vx/vy を力学速度 v にそのまま与えた(ẋ=v+u)—— 観測の座標速度と同一の比較ではない(🌤️ も 🔆 の状態を v に与えた)。gain 0 の行だけが親と同じ座標速度で始まる",
  "notTarget": "合否・年数の約束は書かない(値の記録)。gain はフィットしない —— 8.85 年・43″/世紀・公転周期のどれにも合わせない",
- "elapsedS": 73.575
+ "elapsedS": 66.628
 }

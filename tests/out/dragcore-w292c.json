@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第292便c",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T05:03:09.839Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-15T19:54:18.627Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -52,9 +52,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    },
    {
     "file": "tests/lib-w302h-splitrec.mjs",
@@ -63,7 +63,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "f445579e2086d7ee878193ad128f7a8edad302d5383bf721d628f07cb2081cdf",
+  "codeSha256": "f247a684eb1669a6fba4453aa529f5d2058286b4c39e97887ce8e763382106c4",
   "harnessVersion": "w292c-dragcore-1",
   "libVersion": "w292c-dragcore-lib-1",
   "engineVersion": "w292c-dragcore-1",
@@ -122,11 +122,11 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1362,
-   "segments": 1199,
-   "closureShare": 0.2957
+   "names": 1377,
+   "segments": 1208,
+   "closureShare": 0.2962
   },
-  "scopeSha256": "d9c26f9904d6b091624e13c1805c40049c4275ef786bd6c0135cc02c0d824968",
+  "scopeSha256": "f6f82b7bf98af4afe0b9b06213168132501c69d300ca38fd057640acdd0bd758",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -686,7 +686,7 @@
     "summary": {
      "dt": 0.016,
      "steps": 39596879,
-     "wallSec": 111.445,
+     "wallSec": 133.903,
      "nan": false,
      "osc0": {
       "r": 363.62532000000004,
@@ -817,7 +817,7 @@
     "summary": {
      "dt": 0.016,
      "steps": 39596916,
-     "wallSec": 108.177,
+     "wallSec": 121.513,
      "nan": false,
      "osc0": {
       "r": 363.62532000000004,
@@ -1336,7 +1336,7 @@
    "dL": 4.2670135686037976e-19,
    "sumMuMax": 8.047216424703663e-10
   },
-  "wallSec": 481.331,
+  "wallSec": 615.097,
   "stationary": {
    "chunks": [
     {
@@ -1412,5 +1412,5 @@
   "refKf1Dw8": 0.05308
  },
  "ok": true,
- "elapsedS": 788.823
+ "elapsedS": 916.749
 }
