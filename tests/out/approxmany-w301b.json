@@ -5,7 +5,8 @@
  "accept": {
   "books": [
    "saturnRingInertial3d",
-   "chainSpreadToy3d"
+   "chainSpreadToy3d",
+   "saturnRotVertExplore3d"
   ],
   "rows": [
    {
@@ -86,6 +87,44 @@
       "gravity": 0,
       "drag": 0,
       "contact": 3160
+     },
+     "dragEdges": null
+    }
+   },
+   {
+    "id": "saturnRotVertExplore3d",
+    "emoji": "🛟",
+    "retired": false,
+    "ok": true,
+    "warnings": 0,
+    "decl": {
+     "version": "v1",
+     "governor": 0,
+     "groups": [
+      {
+       "kind": "body",
+       "rows": [
+        1,
+        3
+       ],
+       "spinZero": "declared"
+      }
+     ]
+    },
+    "state": {
+     "n": 121,
+     "governor": 0,
+     "dust": 0,
+     "body": 120,
+     "pairs": {
+      "dustDust": 0,
+      "bodyBody": 7140,
+      "dustBody": 0
+     },
+     "masked": {
+      "gravity": 0,
+      "drag": 0,
+      "contact": 7140
      },
      "dragEdges": null
     }
@@ -357,7 +396,7 @@
     ],
     "resMax": 6.07834e-16,
     "fail": 0,
-    "wallSec": 0.998
+    "wallSec": 0.766
    },
    "B": {
     "bands": [
@@ -575,9 +614,12 @@
    "minParticles": 16,
    "massRatio": 0.9
   },
-  "n": 26,
+  "n": 27,
   "moved": [
    "saturnRingInertial3d"
+  ],
+  "declared": [
+   "saturnRotVertExplore3d"
   ],
   "notMoved": 25,
   "byReason": {
@@ -1119,6 +1161,24 @@
      "core2d",
      "governorFree"
     ]
+   },
+   {
+    "id": "saturnRotVertExplore3d",
+    "emoji": "🛟",
+    "group": "天体の機構",
+    "coord": "3d",
+    "n": 121,
+    "groups": 3,
+    "governorRow": 0,
+    "governorMass": 56.834,
+    "governorPinned": true,
+    "ratio": 37889300,
+    "relativeDrag": null,
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "declared",
+    "reasons": []
    }
   ]
  },
@@ -1133,93 +1193,93 @@
  "ok": true,
  "timing": {
   "accept": {
-   "wallSec": 0.033
+   "wallSec": 0.025
   },
   "zero": {
-   "wallSec": 1.83
+   "wallSec": 1.53
   },
   "effect": {
-   "wallSec": 2.583
+   "wallSec": 2.16
   },
   "remeasure": {
-   "wallSec": 0.002
+   "wallSec": 0.003
   },
   "audit": {
    "wallSec": 0.001
   }
  },
- "elapsedS": 4.449,
+ "elapsedS": 3.719,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第301便b",
   "target": "beta/index.html",
-  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-  "generatedAt": "2026-11-13T02:39:04.873Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-15T18:06:55.182Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7665776,
-    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-    "mtime": "2026-11-13T00:35:24.745Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:05:02.503Z"
    },
    {
     "file": "tests/out/geo4stable-w299d.json",
     "bytes": 36233,
     "sha256": "06ec377e03a38e572ad1fe7908a2d48cdc2e73a6c9a95eb938cdf525a4ffd07d",
-    "mtime": "2026-11-05T05:29:30.638Z"
+    "mtime": "2026-11-15T12:12:18.478Z"
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
     "bytes": 41412,
     "sha256": "5859da82673038b85345e4dd6830159cd8953df549e7223a2c1ad85a848b25fe",
-    "mtime": "2026-11-05T05:29:12.142Z"
+    "mtime": "2026-11-15T12:12:18.894Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w301b-approxmany.mjs",
-    "bytes": 30429,
-    "sha256": "53987d268fa44f3dca9c0ef548aa1fad417a493d1f29c12cda620e54a71124e9",
-    "mtime": "2026-11-05T03:10:54.273Z"
+    "bytes": 31284,
+    "sha256": "f06213ea9a1f0cf849e558969f5a579189635159532813ef86f71455cb5dceb4",
+    "mtime": "2026-11-15T18:06:48.738Z"
    },
    {
     "file": "tests/lib-w301b-approxmany.mjs",
     "bytes": 5302,
     "sha256": "98d22edfa3bbdeab91f6b2d61ad1a2c2ff9bfbda45eaf9affe4ebfd2c840c23b",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-15T12:12:18.162Z"
    },
    {
     "file": "tests/exp-w299d-geo4stable.mjs",
     "bytes": 43512,
     "sha256": "e32e764b6be9e75e40f0cb0e3ea72be75815795145ae6f4734425c111b3ba136",
-    "mtime": "2026-11-05T03:10:54.273Z"
+    "mtime": "2026-11-15T12:12:18.090Z"
    },
    {
     "file": "tests/lib-w299d-spread.mjs",
     "bytes": 6222,
     "sha256": "0d43db47b972cb19f98afbc826c795dff216d2609ce0934c3afd9bae1ca7d986",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-15T12:12:18.162Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-15T12:12:18.150Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-15T12:12:18.146Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-15T12:12:18.158Z"
    }
   ],
-  "codeSha256": "de58c35662560ec306bcd467e72d6e3af5bd2166dc013a9a36235695a8ea97b7",
+  "codeSha256": "5389dcecccfc09837a31eeda10ad586a6f7634084850b4218b4b5aab5ed35f6b",
   "harnessVersion": "w301b-approxmany-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第91報)①③「近似多粒子のサンプルでは支配天体は固定する。近似多粒子同士は接触判定を切る。塵は重力も引きずりも無し・天体は自転を設定して重力も引きずりも有り」「chainSpreadToy3d を近似多粒子のフォーマットに合わせる」",
@@ -1269,11 +1329,11 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1396,
-   "segments": 1231,
-   "closureShare": 0.302
+   "names": 1411,
+   "segments": 1240,
+   "closureShare": 0.3023
   },
-  "scopeSha256": "585bd047df0c8e112d00ee40f61332b7ba456b3a5a4dc7ca5f976b665a812122",
+  "scopeSha256": "064f22a300338ce2f1bb8167c87c946dd2c081da01168c49841bc8ccd50adb88",
   "scopeComplete": true,
   "inputsStable": [
    {

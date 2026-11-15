@@ -25,8 +25,8 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as L from './lib-w339a-rotvert.mjs';
 // 第281便a の領域 hash の宣言(版 8 —— 器と lib と import の閉包から deriveScope で引いた下限。器が引く本は 🛟 の 1 本〔.find —— physics と bodies を読む〕と、
-//   既定 OFF の照合で全本の physics の鍵を読む〔presets "all"〕・エンジンを走らせる〔core:true〕・ワンタップ対照 A/B は走らせない〔abBody:false —— 鍵 OFF の写しは器が鍵を消して作る〕)
-const REGEN_SCOPE = {"presets":"all","roots":["DEFAULT_PHYSICS","HP.allPresets","HP.coord3d","HP.validatePreset","T","appStepDt","ch","ctx","cw","fastParams"],"core":true,"consts":[],"complete":true,"abBody":false};
+//   既定 OFF の照合で全本の physics の鍵を読む〔presets "all"〕・エンジンを走らせる〔core:true〕・本の abBody を読む〔abBody:false を宣言しない —— 受理の表で A/B の physicsPatch が null だけ通ることと本の A/B の null を見るので、領域に本の abBody を残す。A/B そのものは走らせず、鍵 OFF の写しは器が鍵を消して作る〕)
+const REGEN_SCOPE = {"presets":"all","roots":["DEFAULT_PHYSICS","HP.allPresets","HP.coord3d","HP.validatePreset","T","appStepDt","ch","ctx","cw","fastParams"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w339a-rotvert-1';
@@ -125,7 +125,7 @@ export function measure(H) {
     const hA = heights(SA, groups), hB = heights(SB, groups), t = SA.t;
     const guide = L.tiltRatioGuide(decl.lambda, SA.spin[0], t);
     const final = N === L.DECL.steps[L.DECL.steps.length - 1], jd = L.runJudge(groups.map((g, j) => ({ r0: h0A[j], rN: hA[j] })), groups.map((g, j) => ({ r0: h0B[j], rN: hB[j] })), guide);
-    run.rows.push({ steps: N, t, on: hA, off: hB, ratioOn: jd.ratioOn, ratioOff: jd.ratioOff, guide, judge: final ? jd : null, halt: SA.coord3dHalt || SB.coord3dHalt || null, nSteps: SA.rotDragVertN || 0, offNSteps: SB.rotDragVertN || 0 });
+    run.rows.push({ steps: N, t, on: hA, off: hB, ratioOn: jd.ratioOn, ratioOff: jd.ratioOff, guide, judge: final ? jd : null, halt: SA.coord3dHalt || SB.coord3dHalt || null, onKeyPresent: !!SA.params.rotDragVert, offKeyAbsent: SB.params.rotDragVert === undefined });   // 第339便の継ぎ目: 步の数えの鍵はエンジンに置かない(状態の契約 —— 宣言した本でも步で変えるのは位置だけ)
   }
   run.h0 = h0A; run.ReqApp = Req1; run.inBandAtStart = h0A.every((x) => x < Req1);
   return { key, book: { id: BOOK_ID, decl, spin: b0.spin, m: b0.m, axisDeclared: b0.spinAxis, nBodies: S1.n, groups, lambdaOverNeed: decl.lambda / lamNeed, rdScale: decl.rdScale }, match, step, run };
@@ -139,7 +139,7 @@ export function gatesOf(J) {
     accept: J.key.accept.ok === true,
     match: J.match.length === 8 && J.match.every((m) => m.ok && m.ReqRelToLibBelowTol),
     step: J.step.ok && J.step.sourceUnmoved,
-    run: J.run.sameStart && J.run.inBandAtStart && J.run.rows.every((r) => r.halt === null && r.offNSteps === 0) && last.judge.ok,
+    run: J.run.sameStart && J.run.inBandAtStart && J.run.rows.every((r) => r.halt === null && r.onKeyPresent && r.offKeyAbsent) && last.judge.ok,
     visibility: Math.abs(J.book.lambdaOverNeed / L.DECL.visibility.lambdaScale - 1) < 1e-3 && J.book.rdScale === L.DECL.visibility.rdScale,
     self: J.selfTest.ok === true,
   };

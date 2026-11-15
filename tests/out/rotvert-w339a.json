@@ -3,7 +3,7 @@
  "libVersion": "w339a-rotvert-lib-1",
  "generator": "tests/exp-w339a-rotvert.mjs",
  "target": "beta/index.html",
- "targetSha256": "8afeeef7fe1879b290d8ac06b7d949b9015ac360a02884afbf547703266439ee",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "ruling": "原仮定者の回答(2026-11-14 —— AN712)「2 つ以上の量を同じノブで満たした候補だけを、既定 OFF の設定と『探索用・未較正』の本として入れる」・統括の検証項目 R355",
  "decl": {
   "candidate": {
@@ -360,8 +360,8 @@
     "guide": 0.8280703255349738,
     "judge": null,
     "halt": null,
-    "nSteps": 600,
-    "offNSteps": 0
+    "onKeyPresent": true,
+    "offKeyAbsent": true
    },
    {
     "steps": 3000,
@@ -406,8 +406,8 @@
      "ok": true
     },
     "halt": null,
-    "nSteps": 3000,
-    "offNSteps": 0
+    "onKeyPresent": true,
+    "offKeyAbsent": true
    }
   ],
   "h0": [
@@ -426,10 +426,10 @@
  "pageErrors": [],
  "timing": {
   "candidate": {
-   "wallSec": 0.097
+   "wallSec": 0.087
   },
   "measure": {
-   "wallSec": 12.152
+   "wallSec": 12.856
   }
  },
  "gates": {
@@ -443,114 +443,114 @@
   "self": true
  },
  "ok": true,
- "elapsedS": 14.425,
+ "elapsedS": 15.091,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第339便a",
   "target": "beta/index.html",
-  "targetSha256": "8afeeef7fe1879b290d8ac06b7d949b9015ac360a02884afbf547703266439ee",
-  "generatedAt": "2026-11-15T11:15:02.980Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-15T18:09:44.752Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687936,
-    "sha256": "8afeeef7fe1879b290d8ac06b7d949b9015ac360a02884afbf547703266439ee",
-    "mtime": "2026-11-15T11:14:28.705Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:05:02.503Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w339a-rotvert.mjs",
-    "bytes": 15622,
-    "sha256": "f8c7de6ffaec2c0e7bb079d60846db263e121f66878e9768374b7067911d7339",
-    "mtime": "2026-11-15T11:11:24.226Z"
+    "bytes": 15977,
+    "sha256": "5612b6866724b6e6f0ac4a065b0f0046e01d057891d2153edd7cbf54a8877dca",
+    "mtime": "2026-11-15T18:05:43.447Z"
    },
    {
     "file": "tests/lib-w339a-rotvert.mjs",
     "bytes": 13499,
     "sha256": "fba4b0d8628e7ca572a56b4c2e9bb760f65f79c97aa31894d682fbb410c7e8e8",
-    "mtime": "2026-11-15T11:11:24.226Z"
+    "mtime": "2026-11-15T16:56:53.839Z"
    },
    {
     "file": "tests/lib-w337i-rotring.mjs",
     "bytes": 38680,
     "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
-    "mtime": "2026-11-15T10:19:03.853Z"
+    "mtime": "2026-11-15T12:12:18.190Z"
    },
    {
     "file": "tests/lib-w337b-mercuryband.mjs",
     "bytes": 28361,
     "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
-    "mtime": "2026-11-15T10:19:03.849Z"
+    "mtime": "2026-11-15T12:12:18.190Z"
    },
    {
     "file": "tests/lib-w335c-mercurycombo.mjs",
     "bytes": 23928,
     "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
-    "mtime": "2026-11-15T10:19:03.845Z"
+    "mtime": "2026-11-15T12:12:18.186Z"
    },
    {
     "file": "tests/lib-w334c-mercurynode.mjs",
     "bytes": 35987,
     "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
-    "mtime": "2026-11-15T10:19:03.845Z"
+    "mtime": "2026-11-15T12:12:18.182Z"
    },
    {
     "file": "tests/lib-w334a-heightlaw.mjs",
     "bytes": 40171,
     "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
-    "mtime": "2026-11-15T10:19:03.845Z"
+    "mtime": "2026-11-15T12:12:18.182Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35614,
     "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
-    "mtime": "2026-11-15T10:19:03.845Z"
+    "mtime": "2026-11-15T12:12:18.182Z"
    },
    {
     "file": "tests/lib-w333b-axialfield.mjs",
     "bytes": 34735,
     "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
-    "mtime": "2026-11-15T10:19:03.845Z"
+    "mtime": "2026-11-15T12:12:18.182Z"
    },
    {
     "file": "tests/lib-w333a-rotdiff.mjs",
     "bytes": 28077,
     "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
-    "mtime": "2026-11-15T10:19:03.841Z"
+    "mtime": "2026-11-15T12:12:18.182Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-15T10:19:03.841Z"
+    "mtime": "2026-11-15T12:12:18.182Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-15T10:19:03.841Z"
+    "mtime": "2026-11-15T12:12:18.178Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-15T10:19:03.809Z"
+    "mtime": "2026-11-15T12:12:18.150Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-15T10:19:03.805Z"
+    "mtime": "2026-11-15T12:12:18.146Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-15T10:19:03.813Z"
+    "mtime": "2026-11-15T12:12:18.158Z"
    }
   ],
-  "codeSha256": "9b511de1358bdcf6a88f47e2bb5611187ef2c8032a7e3609628601ca43defb55",
+  "codeSha256": "901e2d806329d482481ef3acf243400bc7d2a444688998519e9d96eb145edaa3",
   "harnessVersion": "w339a-rotvert-1",
   "stage": "rotvert-339a",
   "engine": "Node(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文の受理器・build・步をそのまま実行)・🛟 の宣言の写しと鍵 OFF の写しを走らせる",
@@ -579,12 +579,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "abBody": false,
    "names": 1355,
    "segments": 1186,
    "closureShare": 0.2908
   },
-  "scopeSha256": "50b6d2854c2a402cb5c6e064265028d510e5b443103a69fe1d775965c1b383e2",
+  "scopeSha256": "4aaa46142d0a99216eda8873655687c523760140a47f61021f8a4ba33a5c6468",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

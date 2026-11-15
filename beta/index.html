@@ -11974,7 +11974,6 @@ function rotDragVertStep3(S, dt){
     if(d[0]===0 && d[1]===0 && d[2]===0) continue;
     S.x[i]+=d[0]*dt; S.y[i]+=d[1]*dt; S.z[i]+=d[2]*dt;
   }
-  S.rotDragVertN=(S.rotDragVertN||0)+1;
 }
 // build(三次元の本だけ): 宣言を S._gLoc に置き、帳簿を 0 にする(宣言の無い本は S._gLoc = null・帳簿の鍵を作らない)
 function gLocPrepare(S, preset){

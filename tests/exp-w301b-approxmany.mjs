@@ -44,6 +44,8 @@ export const BEFORE = Object.freeze({
     planeMaxDegH: 1.4787793334710982e-06, lostH: 0, lostH2: 0, outsideBandH: 1, outsideBandH2: 0, grainsEccVs2dMax: 0.00068132, cInVs2dSec: 0.09485714843685855 } });
 /** 監査の候補の規則(宣言から): 在位・粒子 ≥ 16・最も重い single が支配天体の候補で、残り全部の質量の 0.9 倍以上か pinned */
 export const AUDIT_RULE = Object.freeze({ minParticles: 16, massRatio: 0.9 });
+// 第339便(継ぎ目 —— 第339便a の本 🛟 が近似多粒子を宣言した): 監査の「移した」(moved)は第301便b で近似多粒子の契約へ移した本だけ。後の便で新しく作った本が宣言したものは「新しく宣言した」(declared)に分ける(原仮定者の裁定(第91報)の分け —— 🍥 は天体型・🍩 の帯は塵・二次元の本は移さない —— は変えない)
+export const MOVED_301B = Object.freeze(['chainSpreadToy3d', 'saturnRingInertial3d']);
 
 function simOf(HP, preset) {
   const v = HP.validatePreset(clone(preset));
@@ -275,7 +277,7 @@ export function auditOf(HP) {
     const c3 = ph.coord === '3d', rd = ph.relativeDrag && ph.relativeDrag.law, tp = B.some((b) => b.testParticle === true);
     const reasons = [];
     let cls;
-    if (ph.approxMany) cls = 'moved';
+    if (ph.approxMany) cls = MOVED_301B.indexOf(p.id) >= 0 ? 'moved' : 'declared';   // 第339便(継ぎ目): 第301便b で移した本と、後の便で新しく宣言した本を分ける
     else {
       if (p.sampleClass === 'calibration') reasons.push('calibration');                  // 較正母集団・5 区分の判定語を動かさない(帯は試験粒子)
       if (!c3) reasons.push('core2d');                                                   // 二次元の核 S._core にマスクを入れない(未対応)
@@ -291,7 +293,7 @@ export function auditOf(HP) {
       relativeDrag: rd || null, contactMode: ph.contactMode || null, testParticle: tp, sampleClass: p.sampleClass, cls, reasons });
   }
   const count = (f) => rows.filter(f).length;
-  return { rule: AUDIT_RULE, n: rows.length, moved: rows.filter((r) => r.cls === 'moved').map((r) => r.id), notMoved: count((r) => r.cls === 'notMoved'),
+  return { rule: AUDIT_RULE, n: rows.length, moved: rows.filter((r) => r.cls === 'moved').map((r) => r.id), declared: rows.filter((r) => r.cls === 'declared').map((r) => r.id), notMoved: count((r) => r.cls === 'notMoved'),
     byReason: Object.fromEntries(['calibration', 'core2d', 'testParticle', 'governorFree', 'referenceModel', 'contactPurpose', 'chainZeroTest', 'purposeOther'].map((k) => [k, count((r) => r.reasons.indexOf(k) >= 0)])),
     rows };
 }
@@ -310,7 +312,7 @@ export async function runAll(HP) {
     effect: !!(effect.ring && effect.ring.maxGrainPosDiff > 0),
     remeasureSpread: !!(remeasure.spread && remeasure.spread.declApprox && remeasure.spread.measuredApprox && remeasure.spread.htmlSame),
     remeasureRing: !!(remeasure.ring && remeasure.ring.declApprox && remeasure.ring.measuredApprox && remeasure.ring.ok === true),
-    audit: audit.moved.length === accept.rows.filter((r) => !r.retired).length && audit.moved.every((id) => accept.books.indexOf(id) >= 0),
+    audit: audit.moved.length + audit.declared.length === accept.rows.filter((r) => !r.retired).length && audit.moved.concat(audit.declared).every((id) => accept.books.indexOf(id) >= 0),   // 第339便(継ぎ目): 新しく宣言した本も数える
   };
   return { version: HARNESS_VERSION, lib: SPA.LIB_VERSION, stateVersion: HP.APPROX_MANY_STATE_VERSION, accept, zero, effect, remeasure, audit, gates, ok: Object.values(gates).every(Boolean), timing: T, elapsedS: (Date.now() - t0) / 1000 };
 }

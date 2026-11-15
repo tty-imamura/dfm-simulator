@@ -78260,7 +78260,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         // 第325便c(AN525): 正本の受理の行は退役の本も含む(器は宣言した全部の本を受理する)—— 照合は今の在位の本だけ(🍥 chainSpreadToy3d の退役の後も鎖の前後で同じ)
         const liveId325 = (id) => (all.find((q) => q.id === id) || {}).familyRole !== 'retired';
         if (JSON.stringify(decl) !== JSON.stringify((J.accept.books || []).filter(liveId325).sort())) bad.push('宣言した本 ' + decl.join(',') + ' ≠ 正本の受理の行');
-        if (JSON.stringify(decl) !== JSON.stringify((J.audit.moved || []).filter(liveId325).sort())) bad.push('監査の「移した」が宣言した本と違う');
+        // 第339便(継ぎ目): 監査は第301便b で移した本(moved)と後の便で新しく宣言した本(declared —— 🛟 ほか)を分ける。宣言した在位の本 = 両方の和・「移した」は第301便b の本だけ
+        if (JSON.stringify(decl) !== JSON.stringify((J.audit.moved || []).concat(J.audit.declared || []).filter(liveId325).sort())) bad.push('監査の「移した」と「新しく宣言した」の和が宣言した本と違う');
+        if ((J.audit.moved || []).some((id) => ['chainSpreadToy3d', 'saturnRingInertial3d'].indexOf(id) < 0)) bad.push('監査の「移した」に第301便b の本でない本');
         for (const id of decl) {
           const p = all.find((q) => q.id === id), am = p.physics.approxMany, v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
           if (!v.ok || (v.warnings || []).length) bad.push(id + ' の受理 ' + JSON.stringify(v.errors || v.warnings).slice(0, 100));
@@ -78291,7 +78293,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const au = J.audit || { rows: [] };
         if (au.rows.some((r) => r.cls === 'moved' && r.coord !== '3d')) bad.push('監査: 二次元の本を移した');
         if (!au.rows.filter((r) => r.cls === 'notMoved').every((r) => r.reasons && r.reasons.length)) bad.push('監査: 移さない本に理由が無い');
-        cases.push(`監査 ${au.n} 本(移した ${au.moved.length}・移さない ${au.notMoved} —— 二次元の核 ${au.byReason.core2d}・較正 ${au.byReason.calibration}・参照模型 ${au.byReason.referenceModel}・零試験の写し ${au.byReason.chainZeroTest})`);
+        cases.push(`監査 ${au.n} 本(移した ${au.moved.length}・新しく宣言した ${(au.declared || []).length}・移さない ${au.notMoved} —— 二次元の核 ${au.byReason.core2d}・較正 ${au.byReason.calibration}・参照模型 ${au.byReason.referenceModel}・零試験の写し ${au.byReason.chainZeroTest})`);
       }
       const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'), a = Pd.indexOf('〔第301便b — ');
       const e = (a >= 0) ? [Pd.indexOf('\n〔第', a + 10), Pd.indexOf('\n## 7. ', a)].filter((k) => k > a) : [];
@@ -107415,7 +107417,7 @@ function view337gOf338a(eq) {
 // ----     ③ physics の鍵の集合の守り(lint.physKeysGuard330c の判定の型 —— 雛形に鍵 rotDragVert が足されたら名指しの段の regen になる)・既定 OFF(DEFAULT_PHYSICS に無い・内蔵で宣言するのは 🛟 だけ・
 // ----       三次元の許可の表・SYSTEM_PROMPT に載せない)④ 門が全部真
 {
-  await (async () => {   // 第310便c(heap)
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const wHarn = path.join(ROOT, 'tests', 'exp-w339a-rotvert.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w339a-rotvert.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'rotvert-w339a.json');
   const htmlTx339a = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
   if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && htmlTx339a.indexOf('window.HP.rotDragVert=') >= 0)) {
@@ -107481,7 +107483,7 @@ function view337gOf338a(eq) {
 // ----     A/B の鍵 OFF の写し・アプリ内の説明に便名・決断事項を書かない)③ PHYSICS〔第339便a〕の位置と必須の語・ノブの表の状態の欄が 1 語・AI_SPEC §247・CHANGELOG・段の行・.gitignore・post-merge
 // ----     ④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・本の文)
 {
-  await (async () => {   // 第310便c(heap)
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const wHarn = path.join(ROOT, 'tests', 'exp-w339a-rotvert.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w339a-rotvert.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'rotvert-w339a.json');
   const htmlTx339a = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
   if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && htmlTx339a.indexOf('window.HP.rotDragVert=') >= 0)) {
