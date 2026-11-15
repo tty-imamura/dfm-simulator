@@ -74436,7 +74436,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const has298cP = html298a.indexOf('REL_DRAG_SPIN3_VERSION = "w298c') >= 0;
         // 第299便e(R174): 三次元の参照模型(W299E_IDS —— physics.shapeToy を宣言した三次元の本)は preset.ref3d299 が照合する(宣言から除く)
         // 第322便a(R270): 三次元の geoPN=2(v−u 則)の本(🫓 galaxyGeo2Flat3d —— behavior.geo2flat322a・docs.geo2flat322a が照合する)は宣言から除く
-        const b3 = all.filter((p) => (p.physics || {}).coord === '3d' && !(has298cP && (p.physics || {}).relativeDrag) && W299E_IDS.indexOf(p.id) < 0 && (p.physics || {}).geoPN !== 2).map((p) => p.id);
+        // 第339便a(R355): 回転引きずりの鉛直の型の探索用の本(🛟 saturnRotVertExplore3d —— physics.rotDragVert を宣言した三次元の本・behavior.rotvert339a・docs.rotvert339a が照合する)は宣言から除く
+        const b3 = all.filter((p) => (p.physics || {}).coord === '3d' && !(has298cP && (p.physics || {}).relativeDrag) && W299E_IDS.indexOf(p.id) < 0 && (p.physics || {}).geoPN !== 2 && !(p.physics || {}).rotDragVert).map((p) => p.id);
         const want = [J298.part8.kepler.id, J298.part8.spin.id];
         if (JSON.stringify(b3.slice().sort()) !== JSON.stringify(want.slice().sort())) bad.push('三次元の内蔵 ' + b3.join(',') + ' ≠ 正本 ' + want.join(','));
         const src = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8'));
@@ -88682,6 +88683,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       // ==== 第324便b の塊(ここから)====
       NEW322B.push('alphaCenABInertial3dJ', 'psrDoubleABInertial3d');   // 第324便b(R280): 後半に足した本 🔸📟 も並びの照合の外(表示の欄の検査は同じ規則で見る —— 下の走査に足す)
       // ==== 第324便b の塊(ここまで)====
+      // ==== 第339便a の塊(ここから)====
+      NEW322B.push('saturnRotVertExplore3d');   // 第339便a(R355): 後半に足した本 🛟 も並びの照合の外(表示の欄の検査は同じ規則で見る —— 下の走査に足す)
+      // ==== 第339便a の塊(ここまで)====
       const all = HP.allPresets(), ids = all.map((p) => p.id).filter((id) => !NEW322B.includes(id));
       const i0 = ids.indexOf('plutoCharonKF0Control');
       if (i0 < 0 || ids.slice(i0).join(',') !== C_IDS.join(',')) bad.push('後半の本の並びが固定の一覧と違う(' + (i0 < 0 ? '先頭が無い' : ids.length - i0 + ' 本') + ')');
