@@ -106427,7 +106427,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const r = T338.qaTouchedSelfTest338c(QO.splitTopLevel);
     for (const [k, v] of Object.entries(r.gates)) if (v !== true) bad.push('自己試験 ' + k);
     const src = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8'), B = T338.keyBlocks338c(src, QO.splitTopLevel);
-    if (!(B.has('lint.qaTouched338c') && B.get('lint.qaTouched338c').text.indexOf("add('lint.qaTouched338c'") >= 0 && B.size > 1000)) bad.push('今の qa.mjs で鍵の文が取れない(' + B.size + ')');
+    if (!(B.has('lint.qaTouched338c') && B.get('lint.qaTouched338c').text.indexOf("add('" + 'lint.qaTouched338c' + "'") >= 0 && B.size > 1000)) bad.push('今の qa.mjs で鍵の文が取れない(' + B.size + ')');
     if (!fs.existsSync(path.join(ROOT, 'tools', 'qa-touched338c.mjs'))) bad.push('道具 tools/qa-touched338c.mjs が無い');
     cases.push(`自己試験 ${Object.values(r.gates).filter(Boolean).length}/${Object.keys(r.gates).length}・今の qa.mjs の鍵 ${B.size} の文・道具 tools/qa-touched338c.mjs --touched <rev>`);
   } catch (e) { bad.push('読めない: ' + String(e && e.stack || e).slice(0, 200)); }
