@@ -103,6 +103,9 @@ import { unitChangeSpec, ACCEPT_LIMITS, epsFloorMeters, acceptedDynamicRange, UN
 //   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
 //   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
+import { jr337fRead, jr337fMeta } from './lib-w337f-jsonread.mjs';   // 第337便f(AN702・R342): 上流の正本を読む経路を記録して meta.jsonRead337f へ(計画は読む経路の部分木で再利用を判定)
+// 第337便f(AN702・R342): 上流の正本の読む経路の宣言(calaudit の 🥶 と ❄️ の量の行 —— id で引く・❄️ は無くてよい(無いことも指紋に入る) —— 器が実際に読んだ経路は meta.jsonRead337f.rows[].readPaths・宣言の外を読めば QA lint.jsonPathInputs337f が FAIL)
+const JSON_READ_337F = [{"file":"tests/out/calaudit-w249.json","keyed":{"/presets":"id"},"paths":["/presets/plutoCharonDiagInput/quantities","/presets/plutoCharonReal/quantities"],"optional":["/presets/plutoCharonReal/quantities"]}];
 const REGEN_SCOPE = {"presets":["alphaCenAB","neptuneReal","plutoCharonDiagInput","plutoCharonReal","psrB1534DFM","psrDoubleABDFM","psrJ1757DFM","psrJ1946DFM","siriusAB","venusReal"],"roots":["$","DT","HP.allPresets","HP.dfmBinaryChi","HP.dfmBinaryMassFactor","HP.dfmBinaryMassFactorLinear","HP.sim","HP.validatePreset","SCALE_DIMS","T","applyQLock","ch","clamp","ctx","isNum","scaleExpT","validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -155,7 +158,7 @@ const PROBE_OUT = path.join(ROOT, 'tests', 'out', 'charon-w272b-probe.json');
 // ---- 観測値・σ は **calaudit の正本から読む**(手で打ち直さない) ----------------
 let OBS = null;
 try {
-  const ca = JSON.parse(fs.readFileSync(CALAUDIT, 'utf8'));
+  const ca = jr337fRead(ROOT, JSON_READ_337F[0]).data;   // 第337便f: 読む経路を記録(sha256 の来歴は下でファイルのバイトから)
   // 第290便b(原仮定者の裁定(第80報)⑤): ❄️ plutoCharonReal は退役して較正母集団の外 —— 観測行は同じ量(Charon|orbital_period・同じ record_id)を
   //   宣言する 🥶 plutoCharonDiagInput の行から引く(❄️ の行が正本に残っていればそれを優先 —— 値は同一)。走らせる本(❄️ の JSON の複製)は変えない。
   const pc = ca.presets.find((p) => p.id === 'plutoCharonReal') || ca.presets.find((p) => p.id === 'plutoCharonDiagInput');
@@ -490,7 +493,7 @@ if (D0ARG) {
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第275便b', target: TARGET,
     code: ['tests/exp-w272b-charon.mjs', 'tests/lib-w273b-charonpage.mjs',
       'tests/lib-w273b-mergekey.mjs', 'tests/lib-w272b-pairlock.mjs',
-      'tests/lib-w275b-dsplit.mjs', 'tests/lib-w272e-provenance.mjs'],
+      'tests/lib-w275b-dsplit.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w337f-jsonread.mjs'],
     inputs: [TARGET, 'tests/out/calaudit-w249.json'] }), out.meta, {
     wave: '第275便b', series: 'D',
     ruling: '第65報 (2): D₀ は「何を背景とするか」でサンプル毎に変わる。**D₀ の補正は冥王星とカロンで検証する**',
@@ -511,7 +514,7 @@ if (EPS_MODE) {
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第276便b', target: TARGET,
     code: ['tests/exp-w272b-charon.mjs', 'tests/lib-w273b-charonpage.mjs',
       'tests/lib-w273b-mergekey.mjs', 'tests/lib-w272b-pairlock.mjs',
-      'tests/lib-w276b-units.mjs', 'tests/lib-w272e-provenance.mjs'],
+      'tests/lib-w276b-units.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w337f-jsonread.mjs'],
     inputs: [TARGET, 'tests/out/calaudit-w249.json'] }), out.meta, {
     wave: '第276便b', series: 'E',
     ruling: '第66報 (2): plutoCharonReal の kF0 版に問題がないか確認し、問題があれば解決する / '
@@ -531,12 +534,12 @@ if (EPS_MODE) {
     notClaim: ['ε を小さくすれば ❄️ が観測と合う', '残差ゼロの ε を採用した', 'ε の既定を変えた',
       'カロンの合否', '単位を変えたら物理が変わった', '新発見'] });
 }
-Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, ['tests/out/calaudit-w249.json']));   // 第281便a: 領域 hash の 3 欄 + 観測入力の安定 hash
+Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, ['tests/out/calaudit-w249.json']), jr337fMeta());   // 第337便f: 読む経路の刻印 / 第281便a: 領域 hash の 3 欄 + 観測入力の安定 hash
 // 第281便a: 器と lib の刻印(再生成計画 tools/regen-plan.mjs が「コードが変わったか」を読む —— D/E 系列の正本は既に持つ)
 if (!EPS_MODE && !D0ARG) {
   const pm = provenanceMeta({ root: ROOT, target: TARGET, code: ['tests/exp-w272b-charon.mjs', 'tests/lib-w273b-charonpage.mjs',
     'tests/lib-w273b-mergekey.mjs', 'tests/lib-w272b-pairlock.mjs', 'tests/lib-w275b-dsplit.mjs', 'tests/lib-w276b-units.mjs',
-    'tests/lib-w272e-provenance.mjs'] });   // 領域 hash の lib は刻まない(領域は lint が今の lib で引き直して照合する)
+    'tests/lib-w272e-provenance.mjs', 'tests/lib-w337f-jsonread.mjs'] });   // 領域 hash の lib は刻まない(領域は lint が今の lib で引き直して照合する)
   out.meta.code = pm.code; out.meta.codeSha256 = pm.codeSha256;
 }
 if (CARRY) out.meta.carriedStages = [...new Set(Object.values(merged).flatMap((z) => Object.keys(z).filter((k) => z[k].carried)))].sort();

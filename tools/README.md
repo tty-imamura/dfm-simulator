@@ -31,6 +31,12 @@ Playwright は `PLAYWRIGHT_CORE_DIR`(未設定なら `/opt/node22/lib/node_modul
 1 件でもあれば最後の 1 行の ① か ④ に「‼ ① の印のない FAIL を 1 件ずつ読むこと(一覧 …)」が出る(終了コードは従来どおり)。**数が 0 でも、印のない FAIL は 1 件ずつ読む**。
 QA `lint.unmarkedFail336b` がこの関数と第335便の ① のログの抜粋(`tests/data-w336b-pm335-preflight.txt`)を照合する。
 
+第337便h(統括の検証項目 R344): ① は `tests/qa-preflight.mjs --resume "$LOG/1-ckpt"` で鍵(最上位の試験の文)ごとの済み印を残す。途中で止まったら
+`tools/post-merge-qa.sh --resume <前のログの置き場>` で同じ置き場から続き(契約〔対象の html・qa.mjs と preflight の指紋・鍵の一覧・Node の版・環境変数・作業の木〕が同じときだけ ——
+違えば最初から・要約の ① に理由を 1 行)。① が終わりの行を出さずに止まったら、残りの qa.mjs の鍵が `$LOG/1-remaining.txt`(preflight.* は入れない —— 部分 QA へ渡す一覧。
+`node tests/qa-preflight.mjs --remaining $LOG/1-ckpt` でも出る)。④ の root の集合には本便で直した・足した QA の鍵が足される(`--base-rev <便の基点>` ——
+既定は件名「第<便>便 開始: beta-build」のコミット・`POST_MERGE_ROOT_AUTO=0` で足さない・拾い方は `tests/lib-w337h-postmerge.mjs --changed-ids`)。
+
 ## preflight の heap の上限(第305便e —— 決断事項 AN328)
 
 `npm run test:preflight` と `tools/post-merge-qa.sh` の ① は `node --max-old-space-size=6144 tests/qa-preflight.mjs` で起動する
@@ -426,3 +432,10 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
   `--emit-html <dir>`(名指しでない本に physics の鍵を足した写し htmlK.html・値だけの写し htmlV.html —— `node tools/regen-plan.mjs --html <dir>/htmlK.html --base <基点 html>` で全段の広さ)。
 - **batchKeys**(`tests/lib-w322d-qapart.mjs` 版 w330c-batchkeys-2): 範囲は半開区間 —— 端が接するだけの塊は別の組(tools/qa-keys.mjs の束が隣の塊に引きずられて 50 を超えない)。統合で枝の塊の前に空行を置く手順は残してよい(害は無い)。
 - **§5.19 の窓**: docs.nsLockLedgerRow は CALIBRATION_VERDICT §5.19 を次の「### 」か「## 」の見出しまで読む(`secUntilNext329c`)。
+
+## 第337便f — 道具: 入力の経路の指紋(AN702)・id の列の読み・文を読む段(AN709)
+
+- **経路の指紋**(`tests/lib-w337f-jsonread.mjs` —— 版 w337f-jsonpaths-1): 器の本文の `const JSON_READ_337F = [{ file, paths, keyed?, optional?, exclude? }]` と `jr337fRead`(読み取りを記録する包み)・`jr337fMeta()`(正本の `meta.jsonRead337f`)。`planRegen` と `lint.provenanceMeta` は `pathsInputCheck337f` で、読む経路の部分木が刻印と同じなら再利用(計画の行「経路の指紋で再利用になった段 n」)。安全側(経路が無い・型が違う・id の重複や欠け・位置で読む配列の並べ替え・宣言の外の読み・除外の重なり)は走らせる。
+- **id の列の読み**(`tests/lib-w330c-toolguard.mjs` の `REG_READS_337F` —— 版 w337f-idlist-1): `inPositionK1State`・`auditRows` は列の本だけで守りを照合(照合が外れれば全本)。
+- **道具** `node tools/jsonpaths337f.mjs`: `--declared`(宣言と刻印の一覧)/ `--self-test`(変異の試し・id の列の試し)/ `--replay <刻印の rev> <今の rev>`(上流の 2 つの版で経路の指紋を引く試算)/ `--compare <鎖の前の rev> [--keys a,b]`(**鎖の後に回す**: 宣言を変えた段の正本の物理の値が鎖の前と同じか —— 違えば終了コード 1)。
+- **文を読む段**: 器 pairnorm の consts に `ACCEPT_REASONS`。同じ型の段の表は `tests/lib-w337f-textread.mjs` の `textReadSurvey337f`(QA `lint.pairnormTextRead337f` ③)。

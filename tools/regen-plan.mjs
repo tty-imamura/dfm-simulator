@@ -46,6 +46,8 @@
 //   第330便c(R309・AN584): 道具の照合は lint.provenanceMeta と同じ関数(tests/lib-w281a-scope.mjs の toolStampRecheck → toolRecheck330c —— 対象が html でない正本の領域の刻印も
 //     beta/index.html で引き直す)。名指しの段の閉包の fastParams が読む全本の physics の鍵の名(雛形)・宣言の表に無い本の表の読みを刻印の html と比べ、違えば regen を足す
 //     (tests/lib-w330c-toolguard.mjs —— 理由の種類 physKeys / tableRead・`--no-physkeys` で切る)。
+//   第337便f(AN702・R342): 器が経路の刻印(meta.jsonRead337f —— tests/lib-w337f-jsonread.mjs)を持つ入力は、ファイルの sha も安定 hash も違っても読む経路の部分木が同じなら
+//     再利用(段の jsonPaths337f・件数の行「経路の指紋で再利用になった段 n」)。閉包の id の列で読む関数(inPositionK1State・auditRows)は列の本だけで照合(tests/lib-w330c-toolguard.mjs の REG_READS_337F)。
 // 終了コード: 0(計画を出した)/ 2(表に無い正本が lint の CANON にある等、表が壊れている)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -316,6 +318,14 @@ if (!QUIET) {
       + `physKeys ${g.physKeys.length} 段・tableRead ${g.tableRead.length} 段・守りだけで走る段 ${g.only.length}(${fmt(g.sec)})${g.only.length ? ': ' + g.only.slice(0, 6).join(',') + (g.only.length > 6 ? ` 他 ${g.only.length - 6}` : '') : ''}`);
   }
   // ==== 第330便c の塊(ここまで)====
+  // ==== 第337便f の塊(ここから)====
+  // 第337便f(AN702・R342): 入力の指紋を読む部分(JSON の経路)に絞った判定 —— 経路の刻印を持つ段と、経路の指紋で再利用になった段(ファイル丸ごとの判定なら regen)
+  if (plan.jsonPaths337f) {
+    const g = plan.jsonPaths337f;
+    console.log(`  入力の経路の指紋(${g.version} —— AN702): 経路の刻印を持つ段 ${g.stamped.length}・**経路の指紋で再利用になった段 ${g.reused.length}**(${fmt(g.sec)} —— ファイル丸ごとの判定なら regen)`
+      + (g.reused.length ? ': ' + g.reused.slice(0, 8).join(',') + (g.reused.length > 8 ? ` 他 ${g.reused.length - 8}` : '') : ''));
+  }
+  // ==== 第337便f の塊(ここまで)====
   // 第320便d(AN478): 領域の差の分類の要約
   if (plan.classify320) {
     const c = plan.classify320;

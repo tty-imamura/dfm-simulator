@@ -1,0 +1,206 @@
+{
+ "version": "w337h-emgrid-root-e0-1",
+ "what": "第337便h(R344・AN710): root(リリース世代 —— 昇格まで 🌘 earthMoonRealKF1 は朔望月の世代)の E0 の署名と 8 公転窓の帯を照合する凍結の入力。第336便の前の正本 tests/out/emgrid-w280b.json(main d4bfddf —— 第335便)の E0 の 2 行の写し(手で変えない)。docs.emgrid-sync の root の分岐(正本が beta の 🌘 の世代・対象がリリース世代)だけが読む。昇格で root の 🌘 が第297便a の記録へ戻ればこの分岐は立たない(使われなくなる)",
+ "source": {
+  "rev": "d4bfddf",
+  "file": "tests/out/emgrid-w280b.json",
+  "fileSha256": "b03d801059eeae0545eadcc2e063d67053feefd778b973315bcc0522016a80f5",
+  "generatedAt": "2026-11-05T05:04:41.768Z",
+  "target": "beta/index.html",
+  "physicsSourceSha256": "be037671bd8f279756b5dd96a3cc730dce9c278db27b61d87254c195360a60e8"
+ },
+ "rows": [
+  {
+   "id": "E0",
+   "label": "🌘 そのまま(kF1・pull・q_exact 8.2358)",
+   "axis": "baseline",
+   "dt": 0.016,
+   "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+   "wallS": 97.365,
+   "run": {
+    "ok": true,
+    "warnings": [],
+    "hasMeshVelocity": false,
+    "meshVelDeny": null,
+    "kernel": false,
+    "dt": 0.016,
+    "osc0": {
+     "r": 363.62532000000004,
+     "a": 384.7480770842912,
+     "P": 23606.0010086057
+    },
+    "yearUnits": 315576,
+    "dayUnits": 864,
+    "steps": 39838923,
+    "tEnd": 637422.768,
+    "revN": 27,
+    "sidMeanDays": 27.324364032799913,
+    "nan": false,
+    "meshVel": null,
+    "windows": [
+     {
+      "orbits": 8,
+      "complete": true,
+      "tCut": 188866.01841781283,
+      "eProxy": 0.054939963862017896,
+      "B": {
+       "nPeri": 8,
+       "slopeDegPerPeri": 0.09167170481620908,
+       "slopeDegPerTime": 0.0000038821522048882865,
+       "seDegPerTime": 9.187466570765118e-12,
+       "periMean": 23613.629771981363,
+       "residRmsDeg": 0.0000012176256783249703,
+       "apsPeriodYr": 293.8501895594455,
+       "anomDays": 27.33059001386732
+      },
+      "A": {
+       "nPeri": 7,
+       "slopeDegPerPeri": 0.09167144767112757,
+       "slopeDegPerTime": 0.0000038821413396248,
+       "seDegPerTime": 9.194999236444311e-12,
+       "periMean": 23613.629612450095,
+       "residRmsDeg": 9.71022832845485e-7,
+       "apsPeriodYr": 293.85101198177784,
+       "anomDays": 27.330589829224646
+      }
+     },
+     {
+      "orbits": 27,
+      "complete": true,
+      "tCut": 637422.7668717246,
+      "eProxy": 0.054939963862017896,
+      "B": {
+       "nPeri": 27,
+       "slopeDegPerPeri": 0.09167021890252801,
+       "slopeDegPerTime": 0.000003882089541322061,
+       "seDegPerTime": 3.9908119649641496e-12,
+       "periMean": 23613.628139469554,
+       "residRmsDeg": 0.000003670025287999392,
+       "apsPeriodYr": 293.8549328041898,
+       "anomDays": 27.330588124386058
+      },
+      "A": {
+       "nPeri": 26,
+       "slopeDegPerPeri": 0.09167016573930332,
+       "slopeDegPerTime": 0.000003882087303786357,
+       "seDegPerTime": 4.0935989869791445e-12,
+       "periMean": 23613.628035908925,
+       "residRmsDeg": 0.000003551688747410996,
+       "apsPeriodYr": 293.8551021746476,
+       "anomDays": 27.33058800452422
+      }
+     }
+    ]
+   },
+   "declared": {
+    "kFrame": 1,
+    "q": 8.2358,
+    "D0": 0.006,
+    "D0pull": 0.001,
+    "frameWeight": "pull(既定)",
+    "geoPN": 2,
+    "vyEarth": -0.0013146,
+    "vyMoon": 0.1068788,
+    "meshVelocity": false,
+    "kernel": false
+   },
+   "presetSigHash": "e06e5a8"
+  },
+  {
+   "id": "E0",
+   "label": "🌘 そのまま(kF1・pull・q_exact 8.2358)",
+   "axis": "baseline",
+   "dt": 0.008,
+   "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+   "wallS": 193.744,
+   "run": {
+    "ok": true,
+    "warnings": [],
+    "hasMeshVelocity": false,
+    "meshVelDeny": null,
+    "kernel": false,
+    "dt": 0.008,
+    "osc0": {
+     "r": 363.62532000000004,
+     "a": 384.7480770842912,
+     "P": 23606.0010086057
+    },
+    "yearUnits": 315576,
+    "dayUnits": 864,
+    "steps": 79677852,
+    "tEnd": 637422.816,
+    "revN": 27,
+    "sidMeanDays": 27.324365874680137,
+    "nan": false,
+    "meshVel": null,
+    "windows": [
+     {
+      "orbits": 8,
+      "complete": true,
+      "tCut": 188866.02230469073,
+      "eProxy": 0.05493996484573671,
+      "B": {
+       "nPeri": 8,
+       "slopeDegPerPeri": 0.09167098745170206,
+       "slopeDegPerTime": 0.000003882121773243002,
+       "seDegPerTime": 1.5710784276661765e-11,
+       "periMean": 23613.63007635246,
+       "residRmsDeg": 0.000002082168623167152,
+       "apsPeriodYr": 293.85249302782125,
+       "anomDays": 27.33059036614868
+      },
+      "A": {
+       "nPeri": 7,
+       "slopeDegPerPeri": 0.09167074134548094,
+       "slopeDegPerTime": 0.000003882111361108679,
+       "seDegPerTime": 1.932239017350768e-11,
+       "periMean": 23613.629965220305,
+       "residRmsDeg": 0.0000020405093990448535,
+       "apsPeriodYr": 293.8532811637977,
+       "anomDays": 27.330590237523502
+      }
+     },
+     {
+      "orbits": 27,
+      "complete": true,
+      "tCut": 637422.8082427653,
+      "eProxy": 0.05493996484573671,
+      "B": {
+       "nPeri": 27,
+       "slopeDegPerPeri": 0.0916706608745302,
+       "slopeDegPerTime": 0.000003882107992804609,
+       "seDegPerTime": 4.9354926008262665e-12,
+       "periMean": 23613.629677684145,
+       "residRmsDeg": 0.0000045387715710009105,
+       "apsPeriodYr": 293.8535361250726,
+       "anomDays": 27.33058990472702
+      },
+      "A": {
+       "nPeri": 26,
+       "slopeDegPerPeri": 0.09167061334830409,
+       "slopeDegPerTime": 0.000003882105984316765,
+       "seDegPerTime": 5.20091245095722e-12,
+       "periMean": 23613.62963479431,
+       "residRmsDeg": 0.000004512416481350534,
+       "apsPeriodYr": 293.85368815627874,
+       "anomDays": 27.330589855086007
+      }
+     }
+    ]
+   },
+   "declared": {
+    "kFrame": 1,
+    "q": 8.2358,
+    "D0": 0.006,
+    "D0pull": 0.001,
+    "frameWeight": "pull(既定)",
+    "geoPN": 2,
+    "vyEarth": -0.0013146,
+    "vyMoon": 0.1068788,
+    "meshVelocity": false,
+    "kernel": false
+   },
+   "presetSigHash": "e06e5a8"
+  }
+ ]
+}

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便b",
   "target": "beta/index.html",
-  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-  "generatedAt": "2026-11-13T07:57:23.284Z",
+  "targetSha256": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
+  "generatedAt": "2026-11-15T02:05:31.071Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7665776,
-    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-    "mtime": "2026-11-13T00:35:24.745Z"
+    "sha256": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
+    "mtime": "2026-11-14T20:06:57.558Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -38,9 +38,9 @@
    },
    {
     "file": "tests/out/pairnorm-w305a.json",
-    "bytes": 74050,
-    "sha256": "ffc9268e8c9564f03646fb007aa90054526f1655db1d4ab939d7b8e4366947c4",
-    "mtime": "2026-11-13T04:46:21.632Z"
+    "bytes": 74071,
+    "sha256": "42c67d3bf0ca0450c4ed6f1a2dee3a471725a696e91e12842c00047703dbaece",
+    "mtime": "2026-11-14T22:15:41.750Z"
    },
    {
     "file": "paper/data/obs-time-standard-20261016.csv",
@@ -293,7 +293,7 @@
    },
    {
     "file": "tests/out/pairnorm-w305a.json",
-    "stableSha256": "b7955a2d7390c8cc45f9e423d14dd402f1774488af787d8cb865522df71f6fe8",
+    "stableSha256": "696bcc7ac0b0b807ce4b693630926fe03e28ff4a48a007e01d630eebaef9563c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -5206,9 +5206,9 @@
  "moon": {
   "transcribed": {
    "file": "tests/out/pairnorm-w305a.json",
-   "sha256": "ffc9268e8c9564f03646fb007aa90054526f1655db1d4ab939d7b8e4366947c4",
+   "sha256": "42c67d3bf0ca0450c4ed6f1a2dee3a471725a696e91e12842c00047703dbaece",
    "harnessVersion": "w305a-pairnorm-1",
-   "generatedAt": "2026-11-13T04:46:21.623Z",
+   "generatedAt": "2026-11-14T21:21:13.318Z",
    "wave": "第305便a",
    "base": "bdb7ae5",
    "declFile": "tests/data-w305a-decl304.json",
@@ -5379,7 +5379,7 @@
    "nodeOffY": 0.00000906843694536974,
    "eOff": -3.8744234077958684e-8,
    "offSidB1D": -0.000025257130523925753,
-   "wallSec": 187.987,
+   "wallSec": 139.32,
    "note": "刻み h だけ(h/2 は省く —— 転記の行の h と h/2 の差 |sidOff| の桁は 1e-7 日)。差 = n = 2・対 − 引きずり OFF(同じ刻み・同じ初期状態)"
   }
  },
@@ -5831,22 +5831,22 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 2.96
+   "wallSec": 2.513
   },
   "P": {
-   "wallSec": 608.935
+   "wallSec": 459.538
   },
   "R": {
-   "wallSec": 575.573
+   "wallSec": 428.766
   },
   "G": {
-   "wallSec": 0.003
+   "wallSec": 0.002
   },
   "E": {
-   "wallSec": 187.992
+   "wallSec": 139.323
   },
   "T": {
-   "wallSec": 0.076
+   "wallSec": 0.058
   }
  },
  "stats": {
@@ -5854,5 +5854,5 @@
   "memoHits": 70,
   "emRuns": 2
  },
- "elapsedS": 1377.567
+ "elapsedS": 1032.274
 }

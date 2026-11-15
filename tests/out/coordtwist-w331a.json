@@ -139,7 +139,7 @@
  "w330bLibVersion": "w330b-dragweight-lib-1",
  "generator": "tests/exp-w331a-coordtwist.mjs",
  "target": "beta/index.html",
- "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+ "targetSha256": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
  "reuseFrom": null,
  "ruling": "原仮定者の決断(2026-11-09 —— AN586)「並進引きずりと回転引きずりは一緒に処理しても構わない座標変換であり、m/r² の重み付けをする。先に検証を行う」・原仮定者の決断(2026-11-09 —— AN587)「慣性由来の引きずりは重力由来の潮汐力と別ルート」・原仮定者の決断(2026-11-09 —— AN588・AN589)「金星は太陽と地球の両方にロック・水星は太陽だけにロックしていない・シミュレーションの時間スケールでは無視かノブ」・原仮定者の決断(2026-11-09 —— AN590)「地球と火星は合成後の引きずりの影響が近い —— 比較の対象」・原仮定者の回答(2026-11-09 —— AN591)・原仮定者の整理(2026-11-09)・統括の検証項目 R310",
  "decl": {
@@ -12259,28 +12259,28 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.032
+   "wallSec": 0.024
   },
   "inputs": {
-   "wallSec": 0.04
+   "wallSec": 0.03
   },
   "engine": {
-   "wallSec": 0.273
+   "wallSec": 0.207
   },
   "apsis": {
-   "wallSec": 0.369
+   "wallSec": 0.274
   },
   "rotTide": {
-   "wallSec": 0.388
+   "wallSec": 0.292
   },
   "heat": {
-   "wallSec": 0.388
+   "wallSec": 0.292
   },
   "lock": {
-   "wallSec": 0.395
+   "wallSec": 0.293
   },
   "earthMars": {
-   "wallSec": 0.413
+   "wallSec": 0.307
   }
  },
  "gates": {
@@ -12297,19 +12297,19 @@
   "earthMarsRows": true
  },
  "ok": true,
- "elapsedS": 2.699,
+ "elapsedS": 2.297,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第331便a",
   "target": "beta/index.html",
-  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-  "generatedAt": "2026-11-13T08:34:20.559Z",
+  "targetSha256": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
+  "generatedAt": "2026-11-15T03:08:41.736Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7665776,
-    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-    "mtime": "2026-11-13T00:35:24.745Z"
+    "sha256": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
+    "mtime": "2026-11-14T20:06:57.558Z"
    },
    {
     "file": "tests/out/spinclass-w330a.json",
@@ -12319,9 +12319,9 @@
    },
    {
     "file": "tests/out/inposk1-w315c.json",
-    "bytes": 81467,
-    "sha256": "90da06666e08f3e50a31bc705448b41cd82ede76f43243faedb4202955033be6",
-    "mtime": "2026-11-13T07:51:01.809Z"
+    "bytes": 81457,
+    "sha256": "3491a7daee59b8921b8e7220426f77e4c2e3f9383e3c03978f25b7181d870b67",
+    "mtime": "2026-11-15T02:32:36.767Z"
    }
   ],
   "code": [
@@ -12443,7 +12443,7 @@
    },
    {
     "file": "tests/out/inposk1-w315c.json",
-    "stableSha256": "0a8504ee13e005563ef917673ca4b32fa4718b96867061794fd9928a1d936da5",
+    "stableSha256": "d3bbe8f264d66d9d105dcffa02f82a5ec885f2bd8c2e8ee9b174759d4fccc7a1",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/B/systems/*/wallSec",
