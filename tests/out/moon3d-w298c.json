@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便c",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T04:29:32.142Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-15T19:38:47.303Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -46,9 +46,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    },
    {
     "file": "tests/lib-w302h-splitrec.mjs",
@@ -57,7 +57,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "0065cd98697d679aec8e1e21c171f4489f91262f59f9f8f31ca79ed3507d389a",
+  "codeSha256": "6e111669118fe307e9ddee156a841da01d082c5566db3c3453f145102b4d8a40",
   "harnessVersion": "w298c-moon3d-1",
   "extractorVersion": "w298c-emx3-1",
   "loadErrors": 0,
@@ -102,11 +102,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1378,
-   "segments": 1215,
-   "closureShare": 0.2985
+   "names": 1393,
+   "segments": 1224,
+   "closureShare": 0.299
   },
-  "scopeSha256": "1237d441d563a450e4239f5a067bfeeb47e14c29ee65d31ef76e46f181309c1d",
+  "scopeSha256": "b1bf1897ef7723decca3fa55240288a5be100a046b949eef7d70bfa9fc6e0c5a",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -128,7 +128,7 @@
    "eMean": 0.05494176955119052,
    "revN": 354,
    "kind": "ref3d",
-   "wallSec": 2.633
+   "wallSec": 2.744
   },
   "incl": {
    "key": "ref3d-inc",
@@ -139,7 +139,7 @@
    "eMean": 0.05518676069409869,
    "revN": 354,
    "kind": "ref3d",
-   "wallSec": 2.196
+   "wallSec": 3.007
   },
   "rp": 3.5704925,
   "e0": 0.0755658
@@ -922,242 +922,242 @@
  },
  "ok": true,
  "timing": {
-  "ref3d-inc": {
-   "wallSec": 2.196
-  },
   "ref3d-0": {
-   "wallSec": 2.633
+   "wallSec": 2.744
+  },
+  "ref3d-inc": {
+   "wallSec": 3.007
   },
   "flat-2d": {
-   "wallSec": 10.624
+   "wallSec": 17.109
   },
   "flat-3d": {
-   "wallSec": 11.75
-  },
-  "ic-g0-it0": {
-   "wallSec": 4.85
-  },
-  "ic-g0-it0-dr": {
-   "wallSec": 5.015
+   "wallSec": 17.864
   },
   "ic-g0-it0-de": {
-   "wallSec": 5.404
+   "wallSec": 10.689
+  },
+  "ic-g0-it0": {
+   "wallSec": 11.231
+  },
+  "ic-g0-it0-dr": {
+   "wallSec": 11.824
   },
   "ic-g0-it0-di": {
-   "wallSec": 3.15
-  },
-  "ic-g0-it1": {
-   "wallSec": 5.046
+   "wallSec": 4.15
   },
   "ic-g0-it1-dr": {
-   "wallSec": 5.568
+   "wallSec": 10.313
+  },
+  "ic-g0-it1": {
+   "wallSec": 10.524
   },
   "ic-g0-it1-de": {
-   "wallSec": 5.625
+   "wallSec": 10.608
   },
   "ic-g0-it1-di": {
-   "wallSec": 3.55
-  },
-  "ic-g0-it2-dr": {
-   "wallSec": 4.321
-  },
-  "ic-g0-it2-de": {
-   "wallSec": 5.175
+   "wallSec": 3.578
   },
   "ic-g0-it2": {
-   "wallSec": 5.474
+   "wallSec": 9.342
+  },
+  "ic-g0-it2-de": {
+   "wallSec": 10.768
+  },
+  "ic-g0-it2-dr": {
+   "wallSec": 12.822
   },
   "ic-g0-it2-di": {
-   "wallSec": 3.323
+   "wallSec": 5.241
   },
   "fix-h": {
-   "wallSec": 5.337
+   "wallSec": 11.181
   },
   "fix-h2": {
-   "wallSec": 9.662
+   "wallSec": 22.29
   },
   "fix-h4": {
-   "wallSec": 17.621
+   "wallSec": 34.92
   },
   "fix-long": {
-   "wallSec": 13.997
+   "wallSec": 23.816
   },
   "fix-inc0": {
-   "wallSec": 12.034
+   "wallSec": 17.418
   },
   "grid0-h": {
-   "wallSec": 5.418
+   "wallSec": 7.008
   },
   "grid1-h": {
-   "wallSec": 6.63
+   "wallSec": 9.101
   },
   "grid0-h2": {
-   "wallSec": 10.298
+   "wallSec": 14.184
   },
   "grid2-h": {
-   "wallSec": 6.018
+   "wallSec": 8.596
   },
   "grid1-h2": {
-   "wallSec": 11.754
+   "wallSec": 19.314
   },
   "grid3-h": {
-   "wallSec": 5.956
+   "wallSec": 10.166
   },
   "grid2-h2": {
-   "wallSec": 12.047
+   "wallSec": 21.571
   },
   "grid4-h": {
-   "wallSec": 6.051
+   "wallSec": 9.757
   },
   "grid3-h2": {
-   "wallSec": 11.684
+   "wallSec": 20.853
   },
   "grid5-h": {
-   "wallSec": 5.696
+   "wallSec": 9.743
   },
   "grid4-h2": {
-   "wallSec": 10.43
+   "wallSec": 19.248
   },
   "grid6-h": {
-   "wallSec": 6.553
+   "wallSec": 8.508
   },
   "grid5-h2": {
-   "wallSec": 9.302
-  },
-  "grid6-h2": {
-   "wallSec": 10.553
+   "wallSec": 18.284
   },
   "grid7-h": {
-   "wallSec": 6.464
+   "wallSec": 8.048
+  },
+  "grid6-h2": {
+   "wallSec": 18.778
   },
   "grid8-h": {
-   "wallSec": 6.592
+   "wallSec": 9.349
   },
   "grid7-h2": {
-   "wallSec": 13.29
-  },
-  "grid8-h2": {
-   "wallSec": 11.566
+   "wallSec": 18.003
   },
   "grid9-h": {
-   "wallSec": 6.406
+   "wallSec": 9.294
   },
-  "grid9-h2": {
-   "wallSec": 10.954
+  "grid8-h2": {
+   "wallSec": 18.779
   },
   "grid10-h": {
-   "wallSec": 7.4
+   "wallSec": 9.638
+  },
+  "grid9-h2": {
+   "wallSec": 17.661
   },
   "grid11-h": {
-   "wallSec": 6.306
+   "wallSec": 10.087
   },
   "grid10-h2": {
-   "wallSec": 12.866
+   "wallSec": 17.653
   },
   "grid12-h": {
-   "wallSec": 4.868
+   "wallSec": 8.846
   },
   "grid11-h2": {
-   "wallSec": 11.977
+   "wallSec": 18.402
   },
   "grid13-h": {
-   "wallSec": 5.453
+   "wallSec": 9.076
   },
   "grid12-h2": {
-   "wallSec": 11.331
+   "wallSec": 17.051
   },
   "grid13-h2": {
-   "wallSec": 9.125
+   "wallSec": 11.599
   },
   "o0-it0": {
-   "wallSec": 3.654
-  },
-  "ic-o0-it0": {
-   "wallSec": 5.865
-  },
-  "ic-o0-it0-de": {
-   "wallSec": 5.886
+   "wallSec": 4.594
   },
   "ic-o0-it0-dr": {
-   "wallSec": 6.395
+   "wallSec": 8.059
+  },
+  "ic-o0-it0": {
+   "wallSec": 9.381
+  },
+  "ic-o0-it0-de": {
+   "wallSec": 9.815
   },
   "ic-o0-it0-di": {
-   "wallSec": 4.013
-  },
-  "ic-o0-it1-dr": {
-   "wallSec": 5.624
+   "wallSec": 4.349
   },
   "ic-o0-it1-de": {
-   "wallSec": 5.914
+   "wallSec": 8.259
+  },
+  "ic-o0-it1-dr": {
+   "wallSec": 9.069
   },
   "ic-o0-it1": {
-   "wallSec": 6.284
+   "wallSec": 9.061
   },
   "ic-o0-it1-di": {
-   "wallSec": 3.929
-  },
-  "ic-o0-it2-dr": {
-   "wallSec": 6.191
+   "wallSec": 4.359
   },
   "ic-o0-it2-de": {
-   "wallSec": 6.829
+   "wallSec": 8.779
+  },
+  "ic-o0-it2-dr": {
+   "wallSec": 8.776
   },
   "ic-o0-it2": {
-   "wallSec": 7.406
+   "wallSec": 8.83
   },
   "ic-o0-it2-di": {
-   "wallSec": 3.962
+   "wallSec": 3.919
   },
   "o0-br-0.2353464": {
-   "wallSec": 3.682
+   "wallSec": 5.196
   },
   "o0-br-0.28764560000000006": {
-   "wallSec": 3.721
+   "wallSec": 4.846
   },
   "o1-it0": {
-   "wallSec": 3.823
-  },
-  "ic-o1-it0-de": {
-   "wallSec": 4.609
-  },
-  "ic-o1-it0": {
-   "wallSec": 5.894
+   "wallSec": 4.67
   },
   "ic-o1-it0-dr": {
-   "wallSec": 5.959
+   "wallSec": 6.159
+  },
+  "ic-o1-it0": {
+   "wallSec": 6.355
+  },
+  "ic-o1-it0-de": {
+   "wallSec": 6.933
   },
   "ic-o1-it0-di": {
-   "wallSec": 4.06
-  },
-  "ic-o1-it1-de": {
-   "wallSec": 5.249
-  },
-  "ic-o1-it1": {
-   "wallSec": 5.497
+   "wallSec": 4.277
   },
   "ic-o1-it1-dr": {
-   "wallSec": 5.696
+   "wallSec": 5.046
+  },
+  "ic-o1-it1": {
+   "wallSec": 5.76
+  },
+  "ic-o1-it1-de": {
+   "wallSec": 6.428
   },
   "ic-o1-it1-di": {
-   "wallSec": 3.898
+   "wallSec": 4.073
   },
   "o1-br-0.23340149999999998": {
-   "wallSec": 4.117
+   "wallSec": 4.428
   },
   "o1-br-0.2852685": {
-   "wallSec": 4.049
+   "wallSec": 4.001
   },
   "final-h": {
-   "wallSec": 5.487
+   "wallSec": 5.59
   },
   "final-h2": {
-   "wallSec": 11.765
+   "wallSec": 10.288
   },
   "final-h4": {
-   "wallSec": 19.917
+   "wallSec": 19.276
   },
   "final-long": {
-   "wallSec": 17.141
+   "wallSec": 13.408
   }
  },
  "notClaim": [
@@ -1167,5 +1167,5 @@
   "「gain は普遍定数」",
   "「参照積分で fitted」"
  ],
- "elapsedS": 252.85
+ "elapsedS": 359.897
 }
