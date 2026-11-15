@@ -5110,5 +5110,5 @@ SYSTEM_PROMPT の規則 13(逐語):
 
 ## 247. 第339便a —— 候補のアプリ入り: 回転引きずりの鉛直の型を既定 OFF の physics の鍵 `physics.rotDragVert` と「探索用・未較正」の本 🛟 `saturnRotVertExplore3d` として beta に入れる(原仮定者の回答(2026-11-14 —— AN712)・統括の検証項目 R355・**beta/index.html を変える** —— 受理器・三次元の步・内蔵の本 1 本・在位の 186 本の宣言と既定の挙動は不変・**SYSTEM_PROMPT には載せない**)
 - **何をしたか**: 第337便i の代表 `slice|focus|Req|obs`(土星の環の物差しと 4 惑星の尺度を同じノブで満たした組 —— 要る λ 6.560e-7)を既定 OFF の鍵 `physics.rotDragVert = {form:"sliceFocus", source, lambda, fFlat, oblateQ?, rdScale?}` にした。式: R_eq = rdScale · Y_k · m_源 (1 − f_flat)^(−1/3) の帯 |z| < R_eq の内で d = −λ r (s z/ρ) k̂(s = 源の観測自転・k̂ = 源の自転軸)を位置へ足す(x += d·dt —— `dfmStep3` の末尾)。三次元の本だけ・較正の本は拒否・A/B の physicsPatch は null だけ。本 🛟 は見えるように強さ 1e5 倍・帯の厚み 2e6 倍(倍と候補の値を本の文に書いた)。器 `tests/exp-w339a-rotvert.mjs`・正本 `tests/out/rotvert-w339a.json`・段 `rotvert-339a`。
-- **AI が読むときの要点**: 鍵は探索用・未較正の候補で、**AI は既定では使わない**(SYSTEM_PROMPT に載せない —— 利用者が明示したときだけ)。鍵が無い本の計算は 1 bit も変わらない(署名と 600 步が 186/186 同じ)。この鍵で土星の環を回転引きずりで薄くしたとも、環の厚みを決めたとも読まない(このノブの組では)。
+- **AI が読むときの要点**: 鍵は探索用・未較正の候補で、**AI は既定では使わない**(SYSTEM_PROMPT に載せない —— 利用者が自分で書いたときだけ)。鍵が無い本の計算は 1 bit も変わらない(署名と 600 步が 186/186 同じ)。この鍵で土星の環を回転引きずりで薄くしたとも、環の厚みを決めたとも読まない(このノブの組では)。
 - QA `behavior.rotvert339a`・`docs.rotvert339a`(本節と PHYSICS〔第339便a〕・CHANGELOG —— root は SKIP)。
