@@ -1045,6 +1045,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.heatlock338f docs.heatlock338f"
 #   新しい段 rotvert-339a の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rotvert339a docs.rotvert339a"
 # ==== 第339便a の塊(ここまで)====
+# ==== 第340便b の塊(ここから)====
+# 第340便b(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R357 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.axialsplit340b —— 純関数の場面・T1〜T4 を作り直して
+#   正本と同じ〔第338便c の recheckRun〕・独立の照合 / docs.axialsplit340b —— 正本の門と表が PHYSICS〔第340便b〕に逐語・文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axialsplit340b docs.axialsplit340b"
+# ==== 第340便b の塊(ここまで)====
 # ==== 第340便f の塊(ここから)====
 # 第340便f(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R361 —— 診断だけ・html は変えない): 枝 f の新設 2 本(behavior.heatsource340f —— 純関数の場面・器を走らせ直して
 #   第338便c の recheckRun で正本と照合・ρ = 1 の窓が第337便c の帯と同じ・呼ぶだけ / docs.heatsource340f —— 正本の門と表 14 本が PHYSICS〔第340便f〕に逐語・文書)と、新しい段 heatsource-340f の lint 一式(第337便i の塊で足した一式)

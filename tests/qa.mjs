@@ -107582,6 +107582,175 @@ function view337gOf338a(eq) {
 }
 // ==== 第339便a の塊(ここまで)====
 
+// ==== 第340便b の塊(ここから —— behavior.axialsplit340b・docs.axialsplit340b の 2 ブロック。root は SKIP)====
+// ---- 第340便b(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R357): **軸引きずりの回転成分の二重計上の切り分け(軸方向で 0 になる候補の列)・赤道面の見え方(並進は順・軸は逆)・
+// ----   合成の規則の主の列・金星の 3 成分**(新設 —— 器 tests/exp-w340b-axialsplit.mjs〔html を読まない〕・lib tests/lib-w340b-axialsplit.mjs・文書の lib tests/lib-w340b-axialsplitdoc.mjs・
+// ----   正本 tests/out/axialsplit-340b.json・入力のファイルは無い)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.axialsplit340b(正本と照合 —— html を読まない): ① 版・格子・純関数の場面 7 を作り直して全部真 ② 器を作り直して pure・T1〜T4 が正本と同じ(第338便c の recheckRun —— 数でない欄は完全一致・
+// ----     数は |差| ≤ max(1e-9 × 大きさ, 8 σ′)・0 と書いた葉は 128 σ′ の内)③ 独立の照合: 列 (iii) を ½∇×u の数値の差分(この塊で書いた式)と照らす・和(B′)= −第338便b の列 A・
+// ----     q 0 と q 1 の行が第338便b の twistAxis と同じ・金星の根を第337便l の venusBalance で照らす ④ 作り直した門が全部真・呼ぶだけ(lib の import は 4 本・Math.random なし・呼ぶ lib の本文は不変)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w340b-axialsplit.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w340b-axialsplit.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w340b-axialsplitdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'axialsplit-340b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.axialsplit340b(第340便b の軸引きずりの二重計上の切り分け・赤道面の見え方の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, K = null, D0 = null, B = null, L = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); K = await import('file://' + wLib); D0 = await import('file://' + wDoc); B = await import('file://' + path.join(ROOT, 'tests', 'lib-w338b-bevelknob.mjs')); L = await import('file://' + path.join(ROOT, 'tests', 'lib-w337l-bevel.mjs')); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── behavior.axialsplit340b ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/axialsplit-340b.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
+        // ① 版・格子・純関数の場面
+        if (!(K.LIB_VERSION === 'w340b-axialsplit-lib-1' && X.HARNESS_VERSION === 'w340b-axialsplit-1' && D0.DOC_VERSION === 'w340b-axialsplitdoc-1' && X.AMEND.length === 0 && B.LIB_VERSION === 'w338b-bevelknob-lib-1'
+          && L.LIB_VERSION === 'w337l-bevel-lib-2' && J.lib338bVersion === B.LIB_VERSION && J.lib337Version === L.LIB_VERSION && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION))
+          bad.push('① 版(lib・器・文書の lib・版の履歴・第338便b と第337便l〔版 2〕の lib・第338便c の照合の版)');
+        if (!(js(K.DECL.elevDeg) === js([0, 15, 30, 45, 60, 75, 90]) && js(K.DECL.fGrid) === js([0.1, 0.5, 0.9]) && js(K.DECL.rOverR) === js([1e-2, 1e-3, 1e-4]) && K.DECL.nPts === 400 && js(K.DECL.w0Frac) === js([0, 0.5])
+          && js(K.DECL.qCols) === js([0, 0.25, 0.5, 0.75, 1]) && js(K.DECL.venusCols) === js(['A', 'B', 'Bp', 'Bh']) && js(K.DECL.ruleConfigs) === js([120, 180]) && K.DECL.alpha === 2 && K.FLOOR === 1e-12 && js(J.decl) === js(K.DECL)))
+          bad.push('① 格子(仰角・f・R/r・点の数・W₀ の割合・q・金星の列・配置・α・丸めの床)の宣言が lib と正本で違う');
+        const PS = K.pureScenes(), PG = K.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
+        if (Object.keys(PG).length !== 7) bad.push('① 場面の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${K.LIB_VERSION}・器 ${X.HARNESS_VERSION}・第338便b ${B.LIB_VERSION}・第337便l ${L.LIB_VERSION}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}`);
+        // ② 器を走らせ直して正本と同じ(第338便c の量ごとの尺度の照合)
+        const parts = ['pure', 't1', 't2', 't3', 't4'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), R = RC.base, diffs = RC.diffs;
+        const badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(第338便c の量ごとの尺度の照合 —— 数でない欄は完全一致・数は |差| ≤ max(1e-9 × 大きさ, 8 σ′)・0 と書いた葉 ${RC.nZero} は 128 σ′ の内・葉 ${RC.nLeaves} —— 仰角 ${R.t1.rows.length}・寄り方 ${R.t1.converge.length}・天体 ${R.t2.bodies.planets.length + R.t2.bodies.moons.length}・金星の行 ${R.t4.venus.rows.length})`);
+        // ③ 独立の照合(同じ式で作った値を同じ式で照らさない)
+        //   列 (iii): ½∇×u を u = f Ω × p(f = 1/(1 + r²))の中心差分で(この塊の式)出し、座標の回転 f(p) ŝ を引いたものと lib の閉じた形
+        const uF = (p) => { const r2 = p[0] * p[0] + p[1] * p[1] + p[2] * p[2], f = 1 / (1 + r2); return [-p[1] * f, p[0] * f, 0]; };
+        let dC = 0;
+        for (const [el, f] of [[10, 0.2], [40, 0.5], [70, 0.8], [0, 0.35]]) {
+          const r = Math.sqrt((1 - f) / f), p = [r * Math.cos(el * Math.PI / 180), 0, r * Math.sin(el * Math.PI / 180)], h = 1e-5 * r;
+          const d = (i, j) => { const a = p.slice(), b = p.slice(); a[j] += h; b[j] -= h; return (uF(a)[i] - uF(b)[i]) / (2 * h); };
+          const curlHalf = [(d(2, 1) - d(1, 2)) / 2, (d(0, 2) - d(2, 0)) / 2, (d(1, 0) - d(0, 1)) / 2], fc = 1 / (1 + r * r), w2 = [curlHalf[0], curlHalf[1], curlHalf[2] - fc];
+          const c = K.col3At(el, f); dC = Math.max(dC, Math.hypot(w2[0] - c.rotClosed[0], w2[1] - c.rotClosed[1], w2[2] - c.rotClosed[2]) / (f * (1 - f)));
+        }
+        if (!(dC <= 1e-6)) bad.push('③ 列 (iii) の閉じた形が ½∇×u の数値の差分(座標の回転を引いたもの)と違う(' + dC + ')');
+        let dV = 0; for (const x of R.t2.scan) dV = Math.max(dV, Math.abs(x.sumBp + B.colAmp('A', x.f)));
+        if (!(dV <= 1e-12)) bad.push('③ 和(B′)が第338便b の列 A の符号を変えた値と違う(' + dV + ')');
+        let dQ = 0; for (const rw of R.t1.rows.filter((x) => x.elDeg < 90)) for (const q of [0, 1]) { const rh = [Math.cos(rw.elDeg * Math.PI / 180), 0, Math.sin(rw.elDeg * Math.PI / 180)], hq = B.twistAxis([0, 0, 1], rh, q); dQ = Math.max(dQ, Math.abs(Math.hypot(...hq) - rw.q[q].mag)); }
+        if (!(dQ <= 1e-12)) bad.push('③ q 0・q 1 の強さが第338便b の twistAxis と違う(' + dQ + ')');
+        let dR = 0, nR = 0;
+        for (const v of R.t4.venus.rows) { const coef = v.col === 'Bh' ? [0, 1, -1] : B.colCoef(v.col), vb = L.venusBalance({ P: v.P, amp: coef }), fs0 = vb.roots.filter((f) => 1 - f > 1e-9);
+          if (fs0.length !== v.roots.length) dR = Infinity; else v.roots.forEach((x, k) => { dR = Math.max(dR, Math.abs(x.f - fs0[k]) / fs0[k]); nR++; }); }
+        if (!(dR <= 1e-12 && nR >= 8)) bad.push('③ 金星の根が第337便l の venusBalance と違う(根 ' + nR + '・相対 ' + dR + ')');
+        cases.push(`③ 独立の照合: 列 (iii) = ½∇×u の差分 − 座標の回転(配置 4・差 ÷ f(1 − f) ≤ 1e-6)・和(B′)= −第338便b の列 A(距離 ${R.t2.scan.length})・q 0 と q 1 = 第338便b の twistAxis・金星の根 ${nR} = 第337便l の venusBalance`);
+        // ④ 門と呼ぶだけ
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const tl = rd('tests/lib-w340b-axialsplit.mjs'), th = rd('tests/exp-w340b-axialsplit.mjs'), td = rd('tests/lib-w340b-axialsplitdoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        if (!(js(imps) === js(['lib-w330a-spinclass.mjs', 'lib-w335b-carryledger.mjs', 'lib-w337l-bevel.mjs', 'lib-w338b-bevelknob.mjs']) && /from '\.\/lib-w338c-recheck\.mjs'/.test(th) && !/loadHtml|index\.html/.test(tl + td + th)
+          && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/from '/.test(td) && !/Math\.random/.test(tl + th) && !/Math\.acos/.test(tl)
+          && !/w340b/.test(rd('tests/lib-w338b-bevelknob.mjs') + rd('tests/lib-w337l-bevel.mjs') + rd('tests/lib-w330a-spinclass.mjs') + rd('tests/lib-w335b-carryledger.mjs') + rd('tests/lib-w338c-recheck.mjs'))))
+          bad.push('④ 呼ぶだけ(lib の import は 4 本の lib だけ・器は第338便c の照合を呼ぶ・html を読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random と Math.acos なし・呼ぶ lib の本文は不変)');
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・lib の import は 4 本の lib だけ・薄い角は atan2・html を読まない`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.axialsplit340b', bad.length === 0,
+      `**軸引きずりの回転成分の二重計上の切り分け・赤道面の見え方・合成の規則の主の列・金星の 3 成分の作り直し**(第340便b・原仮定者の指示(2026-11-17 —— 第140報)・R357 —— html を読まない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第340便b: docs.axialsplit340b は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
+// ----   docs.axialsplit340b(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い)・宣言が lib と器と同じ ② 表 14 本が
+// ----     PHYSICS〔第340便b〕に逐語 ③ 節の位置(〔第339便a〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表の状態の欄が 1 語・AI_SPEC §249・CHANGELOG・段の行・.gitignore・post-merge
+// ----     ④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w340b-axialsplit.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w340b-axialsplit.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w340b-axialsplitdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'axialsplit-340b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.axialsplit340b(第340便b の軸引きずりの二重計上の切り分け・赤道面の見え方の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, K = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); K = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.axialsplit340b ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第340便b — '), i7 = PH.indexOf('\n## 7. 論文'), ia = PH.indexOf('〔第339便a — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ia >= 0 && ia < i0 && iu > i0)) bad.push('PHYSICS〔第340便b〕が無いか〔第339便a〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/axialsplit-340b.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === K.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'axialsplit'
+        && J.target === 'tests/lib-w340b-axialsplit.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.floor === 1e-12 && J.meta.recheck))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルは無い・丸めの床・第338便c の照合の meta)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(K.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第340便b〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 14) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第340便b〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の指示(2026-11-17 —— 第140報)', '原仮定者の指示(2026-10-18 —— 第101報・第103報)', '原仮定者の指示(2026-10-30 —— 第121報)', 'R357',
+      'tests/exp-w340b-axialsplit.mjs', 'tests/out/axialsplit-340b.json', 'tests/lib-w340b-axialsplit.mjs', 'axialsplit-340b', '二重計上', '並進引きずりの回転成分', '部位差分', '座標の回転',
+      '軸方向で 0', '2 倍角の則', '補正のノブ', '向き × 強さ', '向きの種類', '統括の参考の試作', '有限の受け手', '天体が 1 つ', '零試験', 'q 1 だけが軸で 0 になる型ではない', '旧い型との違い',
+      '見え方', '和', '差分だけ', '源の回転の速さ', '境目', '潮汐ロック', 'AN747 = C', 'AN758 = B', '主の列', '比べる列', '持ち上げ', '120°', '180°', 'cos θ ≥ −B/(2A)',
+      '金星で釣り合う', '3 成分', '歳差', 'ジャイロトルク', '文献の値・未照合', '零点合わせ', '有限の 2 項の拮抗', '背景軸引きずり', '軸引きずり', '回転引きずり', '光速', 'W₀',
+      'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '次に足すノブの候補', 'このノブの組では', '第140報と外の照合への枝の答え',
+      '題カードの恒久の条件との照合', '食い違いの候補', '決断事項の候補', '原文の文', '読み', '次の便へ', 'behavior.axialsplit340b', 'docs.axialsplit340b', '書かないこと'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第340便b〕に「' + w + '」が無い');
+    const kt = sec.indexOf('| ノブの名 |'), ktab = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n').slice(2) : [];
+    const states = ktab.map((l) => l.split('|').map((c) => c.trim()).filter((c, k, a) => k > 0 && k < a.length - 1).pop());
+    if (!(ktab.length >= 6 && states.every((x) => ['候補', '対照', '不用の見込み', '廃止'].includes(x)) && states.filter((x) => x === '候補').length >= 4)) bad.push('③ ノブの表の状態の欄が 1 語でない(' + states.join('・') + ')');
+    if (PH.indexOf('<!-- knob-ledger:') >= 0 && sec.indexOf('<!-- knob-ledger:') >= 0) bad.push('③ 節にノブの台帳の印(台帳は枝 a と統括だけが触る)');
+    const a0 = AS.indexOf('\n## 249. 第340便b'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/axialsplit-340b.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R357') >= 0))
+      bad.push('③ AI_SPEC §249(正本・SYSTEM_PROMPT・候補・R357)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl340b = clg.split('\n').find((l) => l.indexOf('**第340便b**') >= 0) || '';
+    if (!(cl340b.indexOf('tests/exp-w340b-axialsplit.mjs') >= 0 && cl340b.indexOf('axialsplit-340b') >= 0 && cl340b.indexOf('第140報') >= 0 && cl340b.indexOf('R357') >= 0)) bad.push('③ CHANGELOG の第340便b の行');
+    if (!(/S\('axialsplit-340b', 'node tests\/exp-w340b-axialsplit\.mjs', \['tests\/out\/axialsplit-340b\.json'\]/.test(RT) && RT.indexOf('// ==== 第340便b の塊(ここから)====') >= 0)) bad.push('③ 段の行 axialsplit-340b(塊)');
+    if (GI.indexOf('!tests/out/axialsplit-340b.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第340便b の塊(ここから)====') >= 0 && /behavior\.axialsplit340b/.test(PM) && /docs\.axialsplit340b/.test(PM))) bad.push('③ post-merge の第340便b の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表の状態の欄・AI_SPEC §249(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT340 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第340便b の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・軸方向で 0 が確かめられた・q = 1 に決まった・q 1 に決まった・見え方の反転が観測と合った・
+    //   金星の釣り合いが 3 成分で解けた・光速を超えないことが分かった・回転引きずりの機構が導けた
+    const W340 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たれらめか確が 0 で向方軸', 'たっま決に 1 = q', 'たっま決に 1 q', 'たっ合と測観が転反の方え見', 'たけ解でみ成 3 がい合り釣の星金',
+      'たっか分がとこいなえ超を速光', 'たけ導が構機のりずき引転回'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第340便b〕', sec], ['AI_SPEC §249', ai], ['CHANGELOG の第340便b の行', cl340b], ['器', rd('tests/exp-w340b-axialsplit.mjs')], ['lib', rd('tests/lib-w340b-axialsplit.mjs')], ['文書の lib', rd('tests/lib-w340b-axialsplitdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W340)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT340) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.axialsplit340b', bad.length === 0,
+      `**軸引きずりの回転成分の二重計上の切り分け・赤道面の見え方・合成の規則の主の列・金星の 3 成分の文書**(第340便b・原仮定者の指示(2026-11-17 —— 第140報)・R357 —— 候補の表・ノブの範囲・決断事項の候補): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第340便b の塊(ここまで)====
+
 // ==== 第340便f の塊(ここから —— behavior.heatsource340f・docs.heatsource340f の 2 ブロック。root は SKIP)====
 // ---- 第340便f(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R361): **熱と共鳴(第2段)—— 源ごとの応答の係数(銀河の項と主星の項を分ける)でロックの有無の分類と
 // ----   イオの熱を同じ平面で読む・金星と地球の共鳴の 2 つの読みを 1 つの表に**(新設 —— 器 tests/exp-w340f-heatsource.mjs〔html を読まない〕・lib tests/lib-w340f-heatsource.mjs・
