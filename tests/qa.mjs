@@ -107648,7 +107648,7 @@ function view337gOf338a(eq) {
 }
 
 // ---- 第340便g: docs.fluidconv340g は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
-// ----   docs.fluidconv340g(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルなし・0 と書く床を meta に)・宣言が lib と器と同じ ② 表 7 本が PHYSICS〔第340便g〕に逐語
+// ----   docs.fluidconv340g(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルなし・0 と書く床を meta に)・宣言が lib と器と同じ ② 表 6 本が PHYSICS〔第340便g〕に逐語
 // ----     ③ 節の位置(〔第339便a〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語(ノブの表の列・判定の条件の原文の文と読み)・AI_SPEC §254(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
 // ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
 {
@@ -107682,7 +107682,7 @@ function view337gOf338a(eq) {
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第340便g〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 7) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 6) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第340便g〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の指示(2026-11-17 —— 第140報)', 'R362', 'AN725 = A', 'tests/exp-w340g-fluidconv.mjs', 'tests/out/fluidconv-340g.json', 'tests/lib-w340g-fluidconv.mjs', 'fluidconv-340g',

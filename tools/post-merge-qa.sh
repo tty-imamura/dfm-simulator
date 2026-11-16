@@ -1047,7 +1047,7 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rotvert339a docs.rotvert339a"
 # ==== 第339便a の塊(ここまで)====
 # ==== 第340便g の塊(ここから)====
 # 第340便g(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R362 —— 診断だけ・html は変えない): 枝 g の新設 2 本(behavior.fluidconv340g —— 純関数の場面・器を走らせ直して
-#   正本と照合〔第338便c の recheckRun —— 数でない欄は完全一致・数は量ごとの尺度〕・呼ぶだけ / docs.fluidconv340g —— 正本の門と表 7 本が PHYSICS〔第340便g〕に逐語・文書)と、新しい段 fluidconv-340g の lint 一式(第337便i の塊で足した一式)
+#   正本と照合〔第338便c の recheckRun —— 数でない欄は完全一致・数は量ごとの尺度〕・呼ぶだけ / docs.fluidconv340g —— 正本の門と表 6 本が PHYSICS〔第340便g〕に逐語・文書)と、新しい段 fluidconv-340g の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.fluidconv340g docs.fluidconv340g"
 # ==== 第340便g の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
