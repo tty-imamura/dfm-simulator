@@ -2237,6 +2237,20 @@ export const REGEN_STEPS = [
     note: '第340便b: 軸方向で 0 になる候補の列 4 本(q 0・q 1・場の勾配の第 2 項・有限の受け手)と比べる列・有限の受け手の寄り方・天体が 1 つの零試験/'
       + '赤道面の見え方(順の分・逆の分 2 つ・和 —— 距離の走査と天体 15)/合成の規則の主の列と 120° の列の差/金星の 3 成分(q 0・q 1 × 4 列)・歳差の読み・3 成分の定常の有無' }),
   // ==== 第340便b の塊(ここまで)====
+  // ==== 第340便d の塊(ここから)====
+  // ---- 第340便d(原仮定者の指示(2026-11-17 —— 第140報)の回転引きずり・ジャイロトルク・軸引きずりの文・統括の検証項目 R359): **回転引きずりの経路「軸引きずり + 公転 + ジャイロ」を
+  //   受け手の部位ごとの力で数える・土星の環の帳簿に環の外の受け取り手(主の列)と方向別の係数(比べる列)**(段 gyropath-340d —— 正本 tests/out/gyropath-340d.json・
+  //   lib tests/lib-w340d-gyropath.mjs —— 第338便b・第338便d・第339便a・第337便l・第337便i・第337便a の lib を import して呼ぶ。入力のファイルは無い〔4 天体の強さの組は第338便d の lib の
+  //   k4Sets を呼んで作り直す —— 順序だけ after に段 ringbook-338d と同じ一式 + ringbook-338d・bevelknob-338b・rotvert-339a〕)。**診断だけ**。
+  //   **html を読まない**(来歴の対象は純関数 tests/lib-w340d-gyropath.mjs —— 領域の宣言なし)。1 プロセス。所要は第340便d の枝の実測 2.3 s(第338便c の settleRun の 3 回の走行を含む)
+  S('gyropath-340d', 'node tests/exp-w340d-gyropath.mjs', ['tests/out/gyropath-340d.json'], 3, { secSource: 'w340d-branch', node: true,
+    after: ['supply-337a', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b', 'rotring-337i', 'spinorbit-337j', 'gyrodrag-337k',
+      'ringbook-338d', 'bevel-337l', 'bevelknob-338b', 'rotvert-339a'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 3 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/gyropath-340d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第340便d: 部位の和の作用の型 4(drag・corV・corS・drag90)× q 2 × p 5 × 体 2 × 仰角 9・対照 8・赤道面の上の軸の傾き 4・部位の大きさ 4・アプリの型(第339便a)との比べ/'
+      + '土星の環: 4 天体の強さの組 2 × 中心 5 の要る口の幅・口(土星の自転・ミマス)の帳簿 12(第338便d の輪の列)・口の熱の符号・方向別の係数 16 組・第140報の赤道面の列 3' }),
+  // ==== 第340便d の塊(ここまで)====
   // ==== 第340便f の塊(ここから)====
   // ---- 第340便f(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R361): **熱と共鳴(第2段)—— 源ごとの応答の係数(銀河の項と主星の項を分ける)で
   //   ロックの有無の分類とイオの熱を同じ平面で読む・金星と地球の共鳴の 2 つの読みを 1 つの表に**(段 heatsource-340f —— 正本 tests/out/heatsource-340f.json・lib tests/lib-w340f-heatsource.mjs ——
