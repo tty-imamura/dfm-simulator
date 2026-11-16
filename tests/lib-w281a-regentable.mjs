@@ -2225,6 +2225,18 @@ export const REGEN_STEPS = [
     note: '第339便a: 候補 slice|focus|Req|obs の測り直し(要る λ・環の判定・4 惑星の尺度の内 —— 第337便i の lib)/鍵の既定 OFF と受理の表/'
       + 'html の点の場と lib の effectOfSpec の点ごとの照合(倍 2 × λ 2 × 軸 2)/1 步の照合/🛟 の ON と鍵 OFF の写しの 600・3000 步の傾きの比' }),
   // ==== 第339便a の塊(ここまで)====
+  // ==== 第340便f の塊(ここから)====
+  // ---- 第340便f(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R361): **熱と共鳴(第2段)—— 源ごとの応答の係数(銀河の項と主星の項を分ける)で
+  //   ロックの有無の分類とイオの熱を同じ平面で読む・金星と地球の共鳴の 2 つの読みを 1 つの表に**(段 heatsource-340f —— 正本 tests/out/heatsource-340f.json・lib tests/lib-w340f-heatsource.mjs ——
+  //   第338便f・第337便c・第326便d・第338便b の lib を import して呼ぶ。入力のファイルは無い〔順序だけ after に heatlock-338f・tidelock-337c・bevelknob-338b〕)。**診断だけ**。
+  //   **html を読まない**(来歴の対象は純関数 tests/lib-w340f-heatsource.mjs —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第340便f の枝の実測 0.2 s
+  S('heatsource-340f', 'node tests/exp-w340f-heatsource.mjs', ['tests/out/heatsource-340f.json'], 1, { secSource: 'w340f-branch', node: true,
+    after: ['heatlock-338f', 'tidelock-337c', 'bevelknob-338b'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/heatsource-340f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第340便f: ρ = Γ_bg/Γ_host の平面で第337便c の分類・イオの熱・金星で釣り合う比の窓/遮りの係数 σ の試し/物差しの領域(全球・領域・総量)/'
+      + '金星と地球の共鳴の読み B(先に)と読み A・保つ力と入る減衰・第338便b の 3 成分の残りと定常の解の表' }),
+  // ==== 第340便f の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
