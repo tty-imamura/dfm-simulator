@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便b",
   "target": "beta/index.html",
-  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-  "generatedAt": "2026-11-13T02:37:14.884Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-15T23:57:44.726Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7665776,
-    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-    "mtime": "2026-11-13T00:35:24.745Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -122,11 +122,11 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1332,
-   "segments": 1169,
-   "closureShare": 0.2899
+   "names": 1347,
+   "segments": 1178,
+   "closureShare": 0.2902
   },
-  "scopeSha256": "8774e0340a233e918c15b9cb97ac112f917865b345828f2484bc5b19a8e27194",
+  "scopeSha256": "d3c6eedddfa15f824d806fb2a9833360285bb70f2d366ef114850273472ddc97",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -177,9 +177,9 @@
   "pn1Version": "w285b-eih-1",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+ "nowSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "A": {
-  "n": 186,
+  "n": 187,
   "kf0Books": 28,
   "increased": [
    "gclock",
@@ -280,7 +280,8 @@
    "coord3dKeplerTilt",
    "coord3dSpinPrecess",
    "binaryCheckEqualInertial3d",
-   "binaryCheckRatio3Inertial3d"
+   "binaryCheckRatio3Inertial3d",
+   "saturnRotVertExplore3d"
   ],
   "changedByInertialLaw": [
    "inertialDragPair"
@@ -6352,6 +6353,35 @@
    "coord3d299": false,
    "realMass325": false,
    "xkLock326": false
+  },
+  {
+   "id": "saturnRotVertExplore3d",
+   "emoji": "🛟",
+   "role": null,
+   "cls": "principle",
+   "n": 121,
+   "geoPN": 0,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 6.674,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 1,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": false,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false,
+   "realMass325": false,
+   "xkLock326": false
   }
  ],
  "verdict": {
@@ -6380,13 +6410,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.089,
+   "wallSec": 0.08,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.129,
+   "wallSec": 0.12,
    "errors": 0
   }
  },
- "elapsedS": 169.77
+ "elapsedS": 132.56
 }
