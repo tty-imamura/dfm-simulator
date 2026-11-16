@@ -107695,8 +107695,8 @@ function view337gOf338a(eq) {
     else {
       const i339a = PH.indexOf('〔第339便a — '), iG = PH.indexOf('〔第328便 — 統括');
       if (!(i339a >= 0 && i339a < a0 && iG > a0)) bad.push('節の位置(〔第339便a〕の後・〔第328便 — 統括〕の前)');
-      for (const [b, k] of [['a', PH.indexOf('〔第340便a — ')], ['b', PH.indexOf('〔第340便b — ')]]) if (k >= 0 && k > a0) bad.push('〔第340便' + b + '〕が〔第340便c〕の後');
-      for (const b of ['d', 'e', 'f', 'g', 'h']) { const k = PH.indexOf('〔第340便' + b + ' — '); if (k >= 0 && k < a0) bad.push('〔第340便' + b + '〕が〔第340便c〕の前'); }
+      for (const [b, k] of [['a', PH.indexOf('〔第340便a — ')], ['b', PH.indexOf('〔第340便b — ')]]) if (k >= 0 && k > a0) bad.push('節 ' + b + ' が節 c の後');
+      for (const [b, k] of [['d', PH.indexOf('〔第340便d — ')], ['e', PH.indexOf('〔第340便e — ')], ['f', PH.indexOf('〔第340便f — ')], ['g', PH.indexOf('〔第340便g — ')], ['h', PH.indexOf('〔第340便h — ')]]) if (k >= 0 && k < a0) bad.push('節 ' + b + ' が節 c の前');
       const W = ['原仮定者の指示(2026-11-17 —— 第140報)', 'R358', 'AN770', 'BL-091', 'w340c-vcal-4', 'w340c-vdiag-4', 'w324c-vcal-3', 'provenancePaths', 'V_CALAUDIT_PROV340C', 'tests/lib-w340c-chaintools.mjs',
         'tests/data-w340c-provpairs.json', 'freshThisRun', 'skippedBy', 'reusedFrom', 'calibrateFlags340c', '--estimate', 'solar16-318c', '見積り', 'lint.provenanceExclude340c', 'docs.chainTools340c', '一度だけ', '書かないこと'];
       for (const w of W) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第340便c〕に「' + w + '」が無い');
