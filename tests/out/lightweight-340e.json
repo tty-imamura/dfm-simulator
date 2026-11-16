@@ -1,0 +1,2429 @@
+{
+ "version": "w340e-lightweight-1",
+ "libVersion": "w340e-lightweight-lib-1",
+ "generator": "tests/exp-w340e-lightweight.mjs",
+ "target": "tests/lib-w340e-lightweight.mjs",
+ "ruling": "原仮定者の指示(2026-11-17 —— 第140報)「引きずりの計算で、光速を超えるか超えないかは判断基準にならない」「引きずられる側の重みが有るので、計算結果は簡単には光速を超えないのではないか」(後の文は予想 —— 数で確かめる題)・原仮定者の回答 AN756 = A・AN765・統括の検証項目 R360",
+ "decl": {
+  "G": 6.674e-11,
+  "c": 299792458,
+  "yearS": 31557600,
+  "speedTypes": [
+   "rigid",
+   "pow1",
+   "pow2",
+   "selfRd",
+   "selfRobs",
+   "pow1selfRd",
+   "pow1selfRobs"
+  ],
+  "nOrbitT1": 720,
+  "effFields": [
+   "none",
+   "rigid",
+   "pow1",
+   "pow2",
+   "selfRd",
+   "selfRobs",
+   "pow1selfRobs"
+  ],
+  "effCols": [
+   "L1",
+   "S0"
+  ],
+  "nQuad": 4096,
+  "kGrid": {
+   "from": -4,
+   "to": 4,
+   "step": 0.05
+  },
+  "jGrid": {
+   "from": -8,
+   "to": 8,
+   "step": 0.01
+  },
+  "eRef": 0.1,
+  "spreadGoal": 10,
+  "zeroFloor": 1e-12
+ },
+ "recvR": {
+  "mercury": {
+   "R": 2439700,
+   "src": "lit(水星の平均半径 2439.7 km の桁)"
+  },
+  "venus": {
+   "R": 6050000,
+   "src": "csv(Venus radius —— 本の宣言の写し)"
+  },
+  "earth": {
+   "R": 6371000,
+   "src": "lit(地球の平均半径)"
+  },
+  "mars": {
+   "R": 3389500,
+   "src": "csv SOL-115bcbaf"
+  },
+  "jupiter": {
+   "R": 69911000,
+   "src": "lit(木星の平均半径の桁)"
+  },
+  "saturn": {
+   "R": 58232000,
+   "src": "lit(土星の平均半径の桁)"
+  },
+  "uranus": {
+   "R": 25559000,
+   "src": "csv(Uranus radius —— NSSDC)"
+  },
+  "neptune": {
+   "R": 24764000,
+   "src": "csv(Neptune radius —— NSSDC)"
+  },
+  "moon": {
+   "R": 1737400,
+   "src": "lit(月の平均半径)"
+  },
+  "phobos": {
+   "R": 11080,
+   "src": "csv(Phobos radius)"
+  },
+  "io": {
+   "R": 1821600,
+   "src": "lit(イオの平均半径の桁)"
+  },
+  "ganymede": {
+   "R": 2634100,
+   "src": "lit(ガニメデの平均半径の桁)"
+  },
+  "titan": {
+   "R": 2574700,
+   "src": "lit(タイタンの平均半径の桁)"
+  },
+  "triton": {
+   "R": 1353400,
+   "src": "csv(Triton radius —— NSSDC)"
+  },
+  "charon": {
+   "R": 606000,
+   "src": "csv(Charon radius —— NSSDC)"
+  },
+  "alphacen": {
+   "R": 597933600,
+   "src": "csv(Alpha Centauri B radius —— Akeson et al. 2021)"
+  },
+  "sirius": {
+   "R": 5636208,
+   "src": "csv(Sirius B radius —— Bond et al. 2017)"
+  },
+  "j0651": {
+   "R": 26000000,
+   "src": "lit(0.26 太陽質量の白色矮星の半径の桁 —— Brown et al. 2011・未照合)"
+  },
+  "j0348": {
+   "R": 45000000,
+   "src": "lit(0.172 太陽質量の白色矮星の半径の桁 —— Antoniadis et al. 2013・未照合)"
+  },
+  "j1141": {
+   "R": 7000000,
+   "src": "lit(1.0 太陽質量の白色矮星の半径の桁 —— 未照合)"
+  },
+  "b1913": {
+   "R": 11750,
+   "src": "csv(中性子星の半径 1.175e4 m —— Dietrich et al. 2020 の行と同じ値)"
+  },
+  "b1534": {
+   "R": 11750,
+   "src": "同上"
+  },
+  "j1757": {
+   "R": 11750,
+   "src": "csv(PSR J1757−1854 radius)"
+  },
+  "j1946": {
+   "R": 11750,
+   "src": "csv(PSR J1946+2052 radius)"
+  },
+  "j0737": {
+   "R": 11750,
+   "src": "csv(PSR J0737−3039 B radius)"
+  }
+ },
+ "plan": {
+  "pairs": [
+   {
+    "key": "sunMercury",
+    "mi": 3.3011e+23,
+    "mj": 1.98847e+30,
+    "a": 57909050000,
+    "e": 0.20563593,
+    "Robs": 2439700
+   },
+   {
+    "key": "earthMoon",
+    "mi": 7.342e+22,
+    "mj": 5.9722e+24,
+    "a": 384399000,
+    "e": 0.0549,
+    "Robs": 1737400
+   },
+   {
+    "key": "j0737",
+    "mi": 2.483370041e+30,
+    "mj": 2.660982861e+30,
+    "a": 878836719.6901313,
+    "e": 0.087777036,
+    "Robs": 11750
+   }
+  ],
+  "scans": [
+   {
+    "col": "S0",
+    "field": "none"
+   },
+   {
+    "col": "S0",
+    "field": "pow1"
+   },
+   {
+    "col": "L1",
+    "field": "none"
+   },
+   {
+    "col": "L1",
+    "field": "pow1"
+   }
+  ]
+ },
+ "amend": [],
+ "notClaim": [
+  "光速を超えないことが分かったとは書かない(この 25 系・この型で何桁下がるかまで —— 受け手の重みが有っても入力が光速を超えれば平均も超え得る)",
+  "⑩ が正しい・誤りとは書かない(落ちる型・自己の重みの型での効きの表まで)",
+  "重力が引きずりから導けた・導けないとは書かない(静止の 2 体で読みの候補 3 つが出す数まで)",
+  "光速との比は判定に使わない(表に残すだけ)・光速で切り詰める処理は持たない",
+  "文献の値は未照合(行の出どころを書く)"
+ ],
+ "pure": {
+  "scenes": {
+   "mean10c": 9.900990099009901,
+   "meanBound": true,
+   "speedSame": 0,
+   "adotSame": 0,
+   "dUfd": -6,
+   "shareOne": true,
+   "shareHalf": true,
+   "single": true,
+   "staticPair": true,
+   "reject": {
+    "n": 5,
+    "of": 5
+   }
+  },
+  "gates": {
+   "mean10c": true,
+   "speedSame": true,
+   "adotSame": true,
+   "dUfd": true,
+   "share": true,
+   "single": true,
+   "staticPair": true,
+   "reject": true
+  }
+ },
+ "t1": {
+  "rows": [
+   {
+    "key": "mercury",
+    "name": "水星",
+    "kind": "planet",
+    "mode": "recv",
+    "dir": "fwd",
+    "a": 57909050000,
+    "e": 0.20563593,
+    "mRecv": 3.3011e+23,
+    "mSrc": 1.98847e+30,
+    "RdRecv": 0.0029074830617925773,
+    "RobsRecv": 2439700,
+    "RdSrc": 17513.685874050123,
+    "equatorOverC": 0.000006652165488639214,
+    "omegaAOverC": 0.0005534778504164981,
+    "fRd": 1.51845479909245e-20,
+    "fRobs": 0.010578441849542842,
+    "gA": 3.024343496232475e-7,
+    "maxOverC": {
+     "rigid": 0.0006672927829212955,
+     "pow1": 1.6739071372158674e-10,
+     "pow2": 6.372984825126758e-17,
+     "selfRd": 1.0579923361290811e-23,
+     "selfRobs": 0.000007325279425599416,
+     "pow1selfRd": 4.0280425080603035e-30,
+     "pow1selfRobs": 2.7889178306991098e-12
+    },
+    "log10fRd": -19.818598131501332,
+    "log10fRobs": -1.9755782969492277,
+    "log10OmegaAOverC": -3.256899754431814,
+    "marginRd": -23.075497885933146,
+    "marginRobs": -5.232478051381042,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 6.600585066664987,
+     "pow2": 13.019973543409712,
+     "selfRd": 19.79983390600745,
+     "selfRobs": 1.9594922321093096,
+     "pow1selfRd": 26.219222382752175,
+     "pow1selfRobs": 8.378880708854034
+    }
+   },
+   {
+    "key": "venus",
+    "name": "金星",
+    "kind": "planet",
+    "mode": "recv",
+    "dir": "fwd",
+    "a": 108208000000,
+    "e": 0.007,
+    "mRecv": 4.8675e+24,
+    "mSrc": 1.98847e+30,
+    "RdRecv": 0.04287108479984057,
+    "RobsRecv": 6050000,
+    "RdSrc": 17513.685874050123,
+    "equatorOverC": 0.000006652165488639214,
+    "omegaAOverC": 0.0010342205793026898,
+    "fRd": 6.412439618608093e-20,
+    "fRobs": 0.0012754129836727484,
+    "gA": 1.6185204304718803e-7,
+    "maxOverC": {
+     "rigid": 0.0010414601233578085,
+     "pow1": 1.6739071372158676e-10,
+     "pow2": 2.7283513598152853e-17,
+     "selfRd": 6.678627408963122e-23,
+     "selfRobs": 0.0000013283328829833317,
+     "pow1selfRd": 1.0885694772322551e-29,
+     "pow1selfRobs": 2.165089536330449e-13
+    },
+    "log10fRd": -19.192976711303718,
+    "log10fRobs": -2.894349166219135,
+    "log10OmegaAOverC": -2.9853868247261244,
+    "marginRd": -22.178363536029842,
+    "marginRobs": -5.879735990945259,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 6.793911284711103,
+     "pow2": 13.581742347363969,
+     "selfRd": 19.19295543035272,
+     "selfRobs": 2.8943357220555925,
+     "pow1selfRd": 25.980786493005585,
+     "pow1selfRobs": 9.682166784708459
+    }
+   },
+   {
+    "key": "earth",
+    "name": "地球",
+    "kind": "planet",
+    "mode": "recv",
+    "dir": "fwd",
+    "a": 149597870700,
+    "e": 0.0167086,
+    "mRecv": 5.9722e+24,
+    "mSrc": 1.98847e+30,
+    "RdRecv": 0.052600861354208085,
+    "RobsRecv": 6371000,
+    "RdSrc": 17513.685874050123,
+    "equatorOverC": 0.000006652165488639214,
+    "omegaAOverC": 0.0014298129204661659,
+    "fRd": 4.116419129391634e-20,
+    "fRobs": 0.0006035133820932525,
+    "gA": 1.1707175905713023e-7,
+    "maxOverC": {
+     "rigid": 0.001453703092629067,
+     "pow1": 1.6739071372158674e-10,
+     "pow2": 1.9929723076205756e-17,
+     "selfRd": 5.985722296827008e-23,
+     "selfRobs": 8.775561168430386e-7,
+     "pow1selfRd": 7.126667013634247e-30,
+     "pow1selfRobs": 1.0448279957514022e-13
+    },
+    "log10fRd": -19.385480412258765,
+    "log10fRobs": -3.2193130955669282,
+    "log10OmegaAOverC": -2.844720782761713,
+    "marginRd": -22.23020119502048,
+    "marginRobs": -6.064033878328641,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 6.938744353247097,
+     "pow2": 13.862974450149267,
+     "selfRd": 19.38535915016424,
+     "selfRobs": 3.2192008166261656,
+     "pow1selfRd": 26.30958924706641,
+     "pow1selfRobs": 10.143430913528336
+    }
+   },
+   {
+    "key": "mars",
+    "name": "火星",
+    "kind": "planet",
+    "mode": "recv",
+    "dir": "fwd",
+    "a": 227940000000,
+    "e": 0.0934,
+    "mRecv": 6.4171e+23,
+    "mSrc": 1.98847e+30,
+    "RdRecv": 0.005651937098491155,
+    "RobsRecv": 3389500,
+    "RdSrc": 17513.685874050123,
+    "equatorOverC": 0.000006652165488639214,
+    "omegaAOverC": 0.0021785841975293426,
+    "fRd": 1.90517023549351e-21,
+    "fRobs": 0.0006847199044304734,
+    "gA": 7.683463136812373e-8,
+    "maxOverC": {
+     "rigid": 0.002382063961578583,
+     "pow1": 1.6739071372158674e-10,
+     "pow2": 1.4186414938501258e-17,
+     "selfRd": 4.578175345962296e-24,
+     "selfRobs": 0.0000016451562976737615,
+     "pow1selfRd": 3.8800178143133174e-31,
+     "pow1selfRobs": 1.3942750681084347e-13
+    },
+    "log10fRd": -20.72006621209741,
+    "log10fRobs": -3.1644870472478046,
+    "log10OmegaAOverC": -2.661825650869028,
+    "marginRd": -23.381891862966437,
+    "marginRobs": -5.8263126981168325,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 7.15322205757012,
+     "pow2": 14.225080760307371,
+     "selfRd": 20.716260996375617,
+     "selfRobs": 3.1607462543988625,
+     "pow1selfRd": 27.78811969911287,
+     "pow1selfRobs": 10.232604957136113
+    }
+   },
+   {
+    "key": "jupiter",
+    "name": "木星",
+    "kind": "planet",
+    "mode": "recv",
+    "dir": "fwd",
+    "a": 778570000000,
+    "e": 0.0489,
+    "mRecv": 1.898e+27,
+    "mSrc": 1.98847e+30,
+    "RdRecv": 16.716860595808402,
+    "RobsRecv": 69911000,
+    "RdSrc": 17513.685874050123,
+    "equatorOverC": 0.000006652165488639214,
+    "omegaAOverC": 0.007441345523692289,
+    "fRd": 4.829886731489112e-19,
+    "fRobs": 0.000008447240600625668,
+    "gA": 2.249468368168581e-8,
+    "maxOverC": {
+     "rigid": 0.007805227319800842,
+     "pow1": 1.6739071372158674e-10,
+     "pow2": 3.9589960639456604e-18,
+     "selfRd": 3.778872464441939e-21,
+     "selfRobs": 6.609061090032864e-8,
+     "pow1selfRd": 8.937497714336445e-29,
+     "pow1selfRobs": 1.5631241578511925e-15
+    },
+    "log10fRd": -18.31606305402407,
+    "log10fRobs": -5.073285135740884,
+    "log10OmegaAOverC": -2.1283485294163462,
+    "marginRd": -20.444411583440417,
+    "marginRobs": -7.20163366515723,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 7.668654194878778,
+     "pow2": 15.294800486020568,
+     "selfRd": 18.31502332111011,
+     "selfRobs": 5.072245789759245,
+     "pow1selfRd": 25.9411696122519,
+     "pow1selfRobs": 12.698392080901034
+    }
+   },
+   {
+    "key": "saturn",
+    "name": "土星",
+    "kind": "planet",
+    "mode": "recv",
+    "dir": "fwd",
+    "a": 1433530000000,
+    "e": 0.0565,
+    "mRecv": 5.6834e+26,
+    "mSrc": 1.98847e+30,
+    "RdRecv": 5.005722102751185,
+    "RobsRecv": 58232000,
+    "RdSrc": 17513.685874050123,
+    "equatorOverC": 0.000006652165488639214,
+    "omegaAOverC": 0.013701262633518637,
+    "fRd": 4.2660969373417044e-20,
+    "fRobs": 0.000005773220614157127,
+    "gA": 1.221717429984034e-8,
+    "maxOverC": {
+     "rigid": 0.01447538397231244,
+     "pow1": 1.673907137215867e-10,
+     "pow2": 2.1675055916388986e-18,
+     "selfRd": 6.195115480505373e-22,
+     "selfRobs": 8.38371547907043e-8,
+     "pow1selfRd": 8.021918986006707e-30,
+     "pow1selfRobs": 1.085588906073905e-15
+    },
+    "log10fRd": -19.36996928042098,
+    "log10fRobs": -5.238581846332928,
+    "log10OmegaAOverC": -1.8632394087923272,
+    "marginRd": -21.23320868921331,
+    "marginRobs": -7.101821255125256,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 7.936898731479614,
+     "pow2": 15.824669866071847,
+     "selfRd": 19.368580686310263,
+     "selfRobs": 5.237193561501967,
+     "pow1selfRd": 27.2563518209025,
+     "pow1selfRobs": 13.1249646960942
+    }
+   },
+   {
+    "key": "uranus",
+    "name": "天王星",
+    "kind": "planet",
+    "mode": "recv",
+    "dir": "fwd",
+    "a": 2872460000000,
+    "e": 0.0457,
+    "mRecv": 8.6811e+25,
+    "mSrc": 1.98847e+30,
+    "RdRecv": 0.76459820083389,
+    "RobsRecv": 25559000,
+    "RdSrc": 17513.685874050123,
+    "equatorOverC": 0.000006652165488639214,
+    "omegaAOverC": 0.027454136895828443,
+    "fRd": 1.622941434961941e-21,
+    "fRobs": 0.0000018135236899648372,
+    "gA": 6.097103484139074e-9,
+    "maxOverC": {
+     "rigid": 0.028708790951967805,
+     "pow1": 1.6739071372158674e-10,
+     "pow2": 1.0694734400549224e-18,
+     "selfRd": 4.6690198396057204e-23,
+     "selfRobs": 5.217302608514857e-8,
+     "pow1selfRd": 2.9830763000706794e-31,
+     "pow1selfRobs": 3.3333788024922783e-16
+    },
+    "log10fRd": -20.789697151727538,
+    "log10fRobs": -5.741476766880456,
+    "log10OmegaAOverC": -1.5613922051059828,
+    "marginRd": -22.35108935683352,
+    "marginRobs": -7.302868971986438,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 8.23428354179651,
+     "pow2": 16.428844899401163,
+     "selfRd": 20.788789183573446,
+     "selfRobs": 5.740568875966867,
+     "pow1selfRd": 28.983350541178098,
+     "pow1selfRobs": 13.935130233571519
+    }
+   },
+   {
+    "key": "neptune",
+    "name": "海王星",
+    "kind": "planet",
+    "mode": "recv",
+    "dir": "fwd",
+    "a": 4495060000000,
+    "e": 0.0113,
+    "mRecv": 1.02409e+26,
+    "mSrc": 1.98847e+30,
+    "RdRecv": 0.9019794398082944,
+    "RobsRecv": 24764000,
+    "RdSrc": 17513.685874050123,
+    "equatorOverC": 0.000006652165488639214,
+    "omegaAOverC": 0.042962475576670385,
+    "fRd": 7.818135766026729e-22,
+    "fRobs": 5.893201170231452e-7,
+    "gA": 3.896207364095279e-9,
+    "maxOverC": {
+     "rigid": 0.04344795155068676,
+     "pow1": 1.6739071372158674e-10,
+     "pow2": 6.596428962103881e-19,
+     "selfRd": 3.397253635106873e-23,
+     "selfRobs": 2.5608021433634557e-8,
+     "pow1selfRd": 1.3387685476689441e-31,
+     "pow1selfRobs": 1.0091449548865852e-16
+    },
+    "log10fRd": -21.106896792086904,
+    "log10fRobs": -6.229648733581544,
+    "log10OmegaAOverC": -1.3669107017425925,
+    "marginRd": -22.473807493829497,
+    "marginRobs": -7.596559435324137,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 8.41423794438165,
+     "pow2": 16.81866041567881,
+     "selfRd": 21.10684133348368,
+     "selfRobs": 6.229593280862071,
+     "pow1selfRd": 29.51126380478084,
+     "pow1selfRobs": 14.634015752159229
+    }
+   },
+   {
+    "key": "moon",
+    "name": "月",
+    "kind": "moon",
+    "mode": "recv",
+    "dir": "fwd",
+    "a": 384399000,
+    "e": 0.0549,
+    "mRecv": 7.342e+22,
+    "mSrc": 5.9722e+24,
+    "RdRecv": 0.0006466553766829573,
+    "RobsRecv": 1737400,
+    "RdSrc": 0.052600861354208085,
+    "equatorOverC": 0.000001549674421726113,
+    "omegaAOverC": 0.00009350075310580696,
+    "fRd": 2.30197843286219e-22,
+    "fRobs": 0.0016589527879593336,
+    "gA": 1.368392252690774e-10,
+    "maxOverC": {
+     "rigid": 0.00009863394445131574,
+     "pow1": 1.279457061707391e-14,
+     "pow2": 1.852501461105592e-24,
+     "selfRd": 2.277396223742885e-26,
+     "selfRobs": 1.6409118315985345e-7,
+     "pow1selfRd": 3.297398528067916e-36,
+     "pow1selfRobs": 2.3758449240377338e-17
+    },
+    "log10fRd": -21.637898749573655,
+    "log10fRobs": -2.7801659733611115,
+    "log10OmegaAOverC": -4.029184891069952,
+    "marginRd": -25.667083640643607,
+    "marginRobs": -6.809350864431064,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 9.887000685616778,
+     "pow2": 19.72626784207054,
+     "selfRd": 21.636587805068416,
+     "selfRobs": 2.778941154806045,
+     "pow1selfRd": 31.47585496152218,
+     "pow1selfRobs": 12.618208311259808
+    }
+   },
+   {
+    "key": "phobos",
+    "name": "フォボス",
+    "kind": "moon",
+    "mode": "recv",
+    "dir": "fwd",
+    "a": 9376000,
+    "e": 0.0151,
+    "mRecv": 10638000000000000,
+    "mSrc": 6.4171e+23,
+    "RdRecv": 9.369544943003676e-11,
+    "RobsRecv": 11080,
+    "RdSrc": 0.005651937098491155,
+    "equatorOverC": 8.01404731584261e-7,
+    "omegaAOverC": 0.000002216837516841431,
+    "fRd": 6.0239397739943764e-27,
+    "fRobs": 0.9882685463598203,
+    "gA": 6.028089908800292e-10,
+    "maxOverC": {
+     "rigid": 0.0000022503117633457367,
+     "pow1": 1.3363295864721734e-15,
+     "pow2": 8.179018067868995e-25,
+     "selfRd": 1.3558834084865493e-32,
+     "selfRobs": 0.00000222311876009969,
+     "pow1selfRd": 8.298697423299332e-42,
+     "pow1selfRobs": 1.3211170224571075e-15
+    },
+    "log10fRd": -26.22011937876497,
+    "log10fRobs": -0.005125026713146937,
+    "log10OmegaAOverC": -5.654266137343408,
+    "marginRd": -31.874385516108376,
+    "marginRobs": -5.659391164056555,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 9.22632910659377,
+     "pow2": 18.43954152286125,
+     "selfRd": 26.220020343989262,
+     "selfRobs": 0.005280026887946803,
+     "pow1selfRd": 35.43323276025674,
+     "pow1selfRobs": 9.231301401994918
+    }
+   },
+   {
+    "key": "io",
+    "name": "イオ",
+    "kind": "moon",
+    "mode": "recv",
+    "dir": "fwd",
+    "a": 421700000,
+    "e": 0.004,
+    "mRecv": 8.9319e+22,
+    "mSrc": 1.898e+27,
+    "RdRecv": 0.0007866877089341468,
+    "RobsRecv": 1821600,
+    "RdSrc": 16.716860595808402,
+    "equatorOverC": 0.00004193567095140488,
+    "omegaAOverC": 0.00024736015834229616,
+    "fRd": 7.395199316996068e-20,
+    "fRobs": 0.2839278399206024,
+    "gA": 3.964159496278967e-8,
+    "maxOverC": {
+     "rigid": 0.0002483495989756653,
+     "pow1": 9.805751206936826e-12,
+     "pow2": 3.9027672454947326e-19,
+     "selfRd": 1.8366241707078187e-23,
+     "selfRobs": 0.00007035372640395247,
+     "pow1selfRd": 7.309910790569159e-31,
+     "pow1selfRobs": 2.800134464084744e-12
+    },
+    "log10fRd": -19.131050116311442,
+    "log10fRobs": -0.5467920215949241,
+    "log10OmegaAOverC": -3.606670249757389,
+    "marginRd": -22.73772036606883,
+    "marginRobs": -4.153462271352313,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 7.4035825929896255,
+     "pow2": 14.803690811593949,
+     "selfRd": 19.131043167544142,
+     "selfRobs": 0.5477763575308308,
+     "pow1selfRd": 26.531151386148466,
+     "pow1selfRobs": 7.947884576135154
+    }
+   },
+   {
+    "key": "ganymede",
+    "name": "ガニメデ",
+    "kind": "moon",
+    "mode": "recv",
+    "dir": "fwd",
+    "a": 1070400000,
+    "e": 0.001,
+    "mRecv": 1.4819e+23,
+    "mSrc": 1.898e+27,
+    "RdRecv": 0.001305201038826579,
+    "RobsRecv": 2634100,
+    "RdSrc": 16.716860595808402,
+    "equatorOverC": 0.00004193567095140488,
+    "omegaAOverC": 0.0006278736388181025,
+    "fRd": 1.904320009553187e-20,
+    "fRobs": 0.07197924932944816,
+    "gA": 1.5617395922840434e-8,
+    "maxOverC": {
+     "rigid": 0.0006285015124569206,
+     "pow1": 9.805751206936826e-12,
+     "pow2": 1.5329359251211496e-19,
+     "selfRd": 1.1968692030753588e-23,
+     "selfRobs": 0.000045232590911842796,
+     "pow1selfRd": 1.8710690903185576e-31,
+     "pow1selfRobs": 7.071224032894125e-13
+    },
+    "log10fRd": -19.720260069236623,
+    "log10fRobs": -1.1427926869103704,
+    "log10OmegaAOverC": -3.2021277503485046,
+    "marginRd": -22.92238781958513,
+    "marginRobs": -4.344920437258875,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 7.806825457068828,
+     "pow2": 15.61278232488432,
+     "selfRd": 19.720259634941925,
+     "selfRobs": 1.1428548623897665,
+     "pow1selfRd": 27.526216502757414,
+     "pow1selfRobs": 8.948811730205257
+    }
+   },
+   {
+    "key": "titan",
+    "name": "タイタン",
+    "kind": "moon",
+    "mode": "recv",
+    "dir": "fwd",
+    "a": 1221870000,
+    "e": 0.029,
+    "mRecv": 1.3452e+23,
+    "mSrc": 5.6834e+26,
+    "RdRecv": 0.0011848008890137757,
+    "RobsRecv": 2574700,
+    "RdSrc": 5.005722102751185,
+    "equatorOverC": 0.00003292643443589593,
+    "omegaAOverC": 0.0006675486567363801,
+    "fRd": 3.9724835113895135e-21,
+    "fRobs": 0.018414201573679963,
+    "gA": 4.0967714263802085e-9,
+    "maxOverC": {
+     "rigid": 0.0006869075677817352,
+     "pow1": 2.734794262636093e-12,
+     "pow2": 1.1538441804527364e-20,
+     "selfRd": 2.7310257795422128e-24,
+     "selfRobs": 0.000012645384424058682,
+     "pow1selfRd": 1.152254209921346e-32,
+     "pow1selfRobs": 5.3352471250336714e-14
+    },
+    "log10fRd": -20.400937896745482,
+    "log10fRobs": -1.7348471070921174,
+    "log10OmegaAOverC": -3.1755170736607945,
+    "marginRd": -23.576454970406274,
+    "marginRobs": -4.910364180752912,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 8.399973640985273,
+     "pow2": 16.77475113711612,
+     "selfRd": 20.40057250141592,
+     "selfRobs": 1.7349662645181183,
+     "pow1selfRd": 28.775349997546765,
+     "pow1selfRobs": 10.109743760648964
+    }
+   },
+   {
+    "key": "triton",
+    "name": "トリトン",
+    "kind": "moon",
+    "mode": "recv",
+    "dir": "fwd",
+    "a": 354760000,
+    "e": 0.000016,
+    "mRecv": 2.14e+22,
+    "mSrc": 1.02409e+26,
+    "RdRecv": 0.00018848304359868275,
+    "RobsRecv": 1353400,
+    "RdSrc": 0.9019794398082944,
+    "equatorOverC": 0.000008949152721500006,
+    "omegaAOverC": 0.0001282022863624351,
+    "fRd": 1.3508266862783327e-21,
+    "fRobs": 0.06511283450087196,
+    "gA": 2.542506031706772e-9,
+    "maxOverC": {
+     "rigid": 0.0001282022863600004,
+     "pow1": 3.2595508634889987e-13,
+     "pow2": 8.287427731075796e-22,
+     "selfRd": 1.7317906965698527e-25,
+     "selfRobs": 0.000008347614254392101,
+     "pow1selfRd": 4.403088291682522e-34,
+     "pow1selfRobs": 2.1223859592153348e-14
+    },
+    "log10fRd": -20.869400368240253,
+    "log10fRobs": -1.1863333984744358,
+    "log10OmegaAOverC": -3.8921042295306574,
+    "marginRd": -24.76150459777091,
+    "marginRobs": -5.078437628005093,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 8.594738008106747,
+     "pow2": 17.189476016213494,
+     "selfRd": 20.869400368240253,
+     "selfRobs": 1.1863333984744358,
+     "pow1selfRd": 29.464138376347,
+     "pow1selfRobs": 9.781071406581184
+    }
+   },
+   {
+    "key": "charon",
+    "name": "カロン(冥王星と相互ロック)",
+    "kind": "moon",
+    "mode": "both",
+    "dir": "fwd",
+    "a": 19596000,
+    "e": 0,
+    "mRecv": 1.586e+21,
+    "mSrc": 1.303e+22,
+    "RdRecv": 0.000013968883511565926,
+    "RobsRecv": 606000,
+    "RdSrc": 0.00011476327374256243,
+    "equatorOverC": 4.5118156706906974e-8,
+    "omegaAOverC": 7.442217161856474e-7,
+    "fRd": 4.17474316755672e-24,
+    "fRobs": 0.007795657369642003,
+    "gA": 5.856464265286917e-12,
+    "maxOverC": {
+     "rigid": 7.442217161856476e-7,
+     "pow1": 4.3585078862917475e-18,
+     "pow2": 2.5525445686038835e-29,
+     "selfRd": 3.1069345247933695e-30,
+     "selfRobs": 5.801697506430264e-9,
+     "pow1selfRd": 1.8195651019038558e-41,
+     "pow1selfRobs": 3.397743412441306e-20
+    },
+    "log10fRd": -23.379370237388486,
+    "log10fRobs": -2.108147257002313,
+    "log10OmegaAOverC": -6.1282976615356715,
+    "marginRd": -29.507667898924158,
+    "marginRobs": -8.236444918537984,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 11.232364502328743,
+     "pow2": 22.464729004657485,
+     "selfRd": 23.379370237388486,
+     "selfRobs": 2.108147257002313,
+     "pow1selfRd": 34.61173473971723,
+     "pow1selfRobs": 13.340511759331056
+    }
+   },
+   {
+    "key": "alphacen",
+    "name": "ケンタウルス座α AB(恒星の連星)",
+    "kind": "starBinary",
+    "mode": "both",
+    "dir": "fwd",
+    "a": 3485456443248.09,
+    "e": 0.51947,
+    "mRecv": 1.8079442e+30,
+    "mSrc": 2.1451938e+30,
+    "RdRecv": 15923.683433298393,
+    "RobsRecv": 597933600,
+    "RdSrc": 18894.04937070205,
+    "equatorOverC": 0.000012927856064388367,
+    "omegaAOverC": 0.053175056311225564,
+    "fRd": 2.4765623214475444e-17,
+    "fRobs": 3.4919506157507906e-8,
+    "gA": 5.420824984716987e-9,
+    "maxOverC": {
+     "rigid": 0.08079790281321791,
+     "pow1": 2.882526738156244e-10,
+     "pow2": 3.2517580507589788e-18,
+     "selfRd": 2.740543585233652e-18,
+     "selfRobs": 3.864163507631091e-9,
+     "pow1selfRd": 3.0915878589350186e-26,
+     "pow1selfRobs": 4.359135555989896e-17
+    },
+    "log10fRd": -16.6061507387414,
+    "log10fRobs": -7.456931906850368,
+    "log10OmegaAOverC": -1.2742920415166,
+    "marginRd": -17.880442780258,
+    "marginRobs": -8.731223948366969,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 8.447626743915906,
+     "pow2": 16.39528186424094,
+     "selfRd": 16.46956337496886,
+     "selfRobs": 7.320344593589186,
+     "pow1selfRd": 24.41721849529389,
+     "pow1selfRobs": 15.26799971391422
+    }
+   },
+   {
+    "key": "sirius",
+    "name": "シリウス AB(A 型星と白色矮星)",
+    "kind": "wdBinary",
+    "mode": "both",
+    "dir": "fwd",
+    "a": 2959463603605.15,
+    "e": 0.59142,
+    "mRecv": 2.024293e+30,
+    "mSrc": 4.1022755e+30,
+    "RdRecv": 17829.201204463003,
+    "RobsRecv": 5636208,
+    "RdSrc": 36131.27906169664,
+    "equatorOverC": 0.00013338502875497304,
+    "omegaAOverC": 0.33082528275212486,
+    "fRd": 7.355110734253733e-17,
+    "fRobs": 7.350205264997728e-12,
+    "gA": 1.2208725600707625e-8,
+    "maxOverC": {
+     "rigid": 0.5264819714773865,
+     "pow1": 4.038955098897207e-9,
+     "pow2": 1.2068748963731686e-16,
+     "selfRd": 5.955398179873411e-17,
+     "selfRobs": 5.9514262445294415e-12,
+     "pow1selfRd": 1.7795247496458003e-24,
+     "pow1selfRobs": 1.7783379008348386e-19
+    },
+    "log10fRd": -16.133410784403026,
+    "log10fRobs": -11.133700532451714,
+    "log10OmegaAOverC": -0.48040130764381206,
+    "marginRd": -16.61381209204684,
+    "marginRobs": -11.614101840095525,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 8.11511447892394,
+     "pow2": 15.639721250231513,
+     "selfRd": 15.946472700203925,
+     "selfRobs": 10.94676244826854,
+     "pow1selfRd": 23.471079471511498,
+     "pow1selfRobs": 18.47136921957611
+    }
+   },
+   {
+    "key": "j0651",
+    "name": "SDSS J0651+2844(白色矮星どうし)",
+    "kind": "wdBinary",
+    "mode": "both",
+    "dir": "fwd",
+    "a": 114398065.65828115,
+    "e": 0,
+    "mRecv": 5.1701e+29,
+    "mSrc": 9.9425e+29,
+    "RdRecv": 4553.627026680138,
+    "RobsRecv": 26000000,
+    "RdSrc": 8756.975051307958,
+    "equatorOverC": 0.00027378772331178075,
+    "omegaAOverC": 0.00313207859478524,
+    "fRd": 3.047012282952796e-9,
+    "fRobs": 0.09035987081002068,
+    "gA": 0.00007654827903704201,
+    "maxOverC": {
+     "rigid": 0.003132078594785241,
+     "pow1": 2.397552262395671e-7,
+     "pow2": 1.835284995877552e-11,
+     "selfRd": 9.543481949484164e-12,
+     "selfRobs": 0.00028301421719162547,
+     "pow1selfRd": 7.305371192540876e-16,
+     "pow1selfRobs": 2.1664251269034567e-8
+    },
+    "log10fRd": -8.516125795069131,
+    "log10fRobs": -1.0440243986739328,
+    "log10OmegaAOverC": -2.5041673485127944,
+    "marginRd": -11.020293143581926,
+    "marginRobs": -3.5481917471867273,
+    "superluminal": {
+     "rigid": false,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 4.116064568690315,
+     "pow2": 8.23212913738063,
+     "selfRd": 8.516125795069131,
+     "selfRobs": 1.0440243986739328,
+     "pow1selfRd": 12.632190363759447,
+     "pow1selfRobs": 5.160088967364247
+    }
+   },
+   {
+    "key": "j0348",
+    "name": "PSR J0348+0432(中性子星と白色矮星)",
+    "kind": "nsWd",
+    "mode": "both",
+    "dir": "fwd",
+    "a": 831277696.6026111,
+    "e": 0,
+    "mRecv": 3.4202199999999995e+29,
+    "mSrc": 3.996885e+30,
+    "RdRecv": 3012.3994176499373,
+    "RobsRecv": 45000000,
+    "RdSrc": 35203.039706257994,
+    "equatorOverC": 0.006294617179822472,
+    "omegaAOverC": 445.3255208713232,
+    "fRd": 1.5346186207704464e-10,
+    "fRobs": 0.03311134671764523,
+    "gA": 0.000042348110445078696,
+    "maxOverC": {
+     "rigid": 445.3255208713233,
+     "pow1": 0.018858694341871,
+     "pow2": 7.986300708395338e-7,
+     "selfRd": 6.83404836633431e-8,
+     "selfRobs": 14.745327723786344,
+     "pow1selfRd": 2.8940903500453504e-12,
+     "pow1selfRobs": 0.0006244367669957852
+    },
+    "log10fRd": -9.813999536456679,
+    "log10fRobs": -1.4800231550936649,
+    "log10OmegaAOverC": 2.648677584545084,
+    "marginRd": -7.1653219519115945,
+    "marginRobs": 1.168654429451419,
+    "superluminal": {
+     "rigid": true,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": true,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 4.373165962938545,
+     "pow2": 8.74633192587709,
+     "selfRd": 9.813999536456679,
+     "selfRobs": 1.4800231550936649,
+     "pow1selfRd": 14.187165499395224,
+     "pow1selfRobs": 5.85318911803221
+    }
+   },
+   {
+    "key": "j1141",
+    "name": "PSR J1141−6545(中性子星と白色矮星・離心)",
+    "kind": "nsWd",
+    "mode": "both",
+    "dir": "fwd",
+    "a": 1309395850.891198,
+    "e": 0.171876,
+    "mRecv": 2.02827e+30,
+    "mSrc": 2.525395e+30,
+    "RdRecv": 17864.229104668233,
+    "RobsRecv": 7000000,
+    "RdSrc": 22242.716630322215,
+    "equatorOverC": 0.0006251886013691866,
+    "omegaAOverC": 69.66973282189652,
+    "fRd": 2.317555738077944e-10,
+    "fRobs": 0.00003558297492615988,
+    "gA": 0.000016987007111091293,
+    "maxOverC": {
+     "rigid": 81.6442878203928,
+     "pow1": 0.0011834802468733872,
+     "pow2": 2.427630085527565e-8,
+     "selfRd": 1.9497501467726892e-8,
+     "selfRobs": 0.002993532297413855,
+     "pow1selfRd": 3.9994517255965247e-13,
+     "pow1selfRobs": 6.14052417554021e-8
+    },
+    "log10fRd": -9.634969812113955,
+    "log10fRobs": -4.448757745403161,
+    "log10OmegaAOverC": 1.8430441450515993,
+    "marginRd": -7.791925667062356,
+    "marginRobs": -2.605713600351562,
+    "superluminal": {
+     "rigid": true,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 4.838764791415246,
+     "pow2": 9.52674329401039,
+     "selfRd": 9.621946843351196,
+     "selfRobs": 4.435741856918936,
+     "pow1selfRd": 14.309925345946342,
+     "pow1selfRobs": 9.123720359514081
+    }
+   },
+   {
+    "key": "b1913",
+    "name": "PSR B1913+16",
+    "kind": "nsNs",
+    "mode": "both",
+    "dir": "fwd",
+    "a": 1949032339.058177,
+    "e": 0.617134,
+    "mRecv": 2.764015e+30,
+    "mSrc": 2.859463e+30,
+    "RdRecv": 24344.39064263612,
+    "RobsRecv": 11750,
+    "RdSrc": 25185.060247561687,
+    "equatorOverC": 0.0041718073874186445,
+    "omegaAOverC": 691.9989370553825,
+    "fRd": 1.6140010468051484e-10,
+    "fRobs": 3.759947047709003e-11,
+    "gA": 0.000012921827792622344,
+    "maxOverC": {
+     "rigid": 1119.055009076119,
+     "pow1": 0.008941891097307364,
+     "pow2": 3.0179116688290045e-7,
+     "selfRd": 2.91717469753372e-7,
+     "selfRobs": 6.795796335609846e-8,
+     "pow1selfRd": 9.845541020233164e-12,
+     "pow1selfRobs": 2.2935990650118948e-12
+    },
+    "log10fRd": -9.792096187940125,
+    "log10fRobs": -10.424818271308967,
+    "log10OmegaAOverC": 2.840105427359451,
+    "marginRd": -6.9519907605806734,
+    "marginRobs": -7.584712843949515,
+    "superluminal": {
+     "rigid": true,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 5.097422059225423,
+     "pow2": 9.569144911273519,
+     "selfRd": 9.583888997544472,
+     "selfRobs": 10.216611080600293,
+     "pow1selfRd": 14.055611849592568,
+     "pow1selfRobs": 14.688333932648389
+    }
+   },
+   {
+    "key": "b1534",
+    "name": "PSR B1534+12",
+    "kind": "nsNs",
+    "mode": "both",
+    "dir": "fwd",
+    "a": 2282957055.0484285,
+    "e": 0.2736775,
+    "mRecv": 2.67552675e+30,
+    "mSrc": 2.6506705e+30,
+    "RdRecv": 23565.019863069716,
+    "RobsRecv": 11750,
+    "RdSrc": 23346.095486787017,
+    "equatorOverC": 0.0064976725614596985,
+    "omegaAOverC": 1262.4602055811924,
+    "fRd": 1.0555688936148468e-10,
+    "fRobs": 2.624379861612403e-11,
+    "gA": 0.000010226252585505502,
+    "maxOverC": {
+     "rigid": 1607.9671584941395,
+     "pow1": 0.012910236941422484,
+     "pow2": 1.8176959119634908e-7,
+     "selfRd": 1.8347410720611497e-7,
+     "selfRobs": 4.561575800744802e-8,
+     "pow1selfRd": 2.583222415923845e-12,
+     "pow1selfRobs": 6.422467475032903e-13
+    },
+    "log10fRd": -9.976513416415681,
+    "log10fRobs": -10.5809733034952,
+    "log10OmegaAOverC": 3.1012176974688144,
+    "marginRd": -6.875295718946867,
+    "marginRobs": -7.4797556060263855,
+    "superluminal": {
+     "rigid": true,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 5.095342961427697,
+     "pow2": 9.94675594388881,
+     "selfRd": 9.942702391289794,
+     "selfRobs": 10.547162278338465,
+     "pow1selfRd": 14.794115373750907,
+     "pow1selfRobs": 15.398575260799579
+    }
+   },
+   {
+    "key": "j1757",
+    "name": "PSR J1757−1854",
+    "kind": "nsNs",
+    "mode": "both",
+    "dir": "fwd",
+    "a": 1321967445.7986195,
+    "e": 0.6058142,
+    "mRecv": 2.7731621e+30,
+    "mSrc": 2.6614084e+30,
+    "RdRecv": 24424.954813108154,
+    "RobsRecv": 11750,
+    "RdSrc": 23440.670817341146,
+    "equatorOverC": 0.011455511636990955,
+    "omegaAOverC": 1288.8351880058974,
+    "fRd": 3.2761387286126276e-10,
+    "fRobs": 7.581767794008226e-11,
+    "gA": 0.000017731655111355863,
+    "maxOverC": {
+     "rigid": 2069.62984635954,
+     "pow1": 0.022853181049100075,
+     "pow2": 0.0000010280043689042478,
+     "selfRd": 0.000001071170718657423,
+     "selfRobs": 2.4789449838579957e-7,
+     "pow1selfRd": 4.8184459583822206e-11,
+     "pow1selfRobs": 1.1151035246271074e-11
+    },
+    "log10fRd": -9.484637716253713,
+    "log10fRobs": -10.120229520796576,
+    "log10OmegaAOverC": 3.1101973847576647,
+    "marginRd": -6.374440331496048,
+    "marginRobs": -7.0100321360389115,
+    "superluminal": {
+     "rigid": true,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 4.9569460185174465,
+     "pow2": 9.303897718395683,
+     "selfRd": 9.286033986396804,
+     "selfRobs": 9.92162579034525,
+     "pow1selfRd": 13.632985686275042,
+     "pow1selfRobs": 14.268577490223487
+    }
+   },
+   {
+    "key": "j1946",
+    "name": "PSR J1946+2052",
+    "kind": "nsNs",
+    "mode": "both",
+    "dir": "fwd",
+    "a": 731490288.9635589,
+    "e": 0.063848,
+    "mRecv": 2.481648e+30,
+    "mSrc": 2.5528363e+30,
+    "RdRecv": 21857.409728064664,
+    "RobsRecv": 11750,
+    "RdSrc": 22484.409141738313,
+    "equatorOverC": 0.01452000261728739,
+    "omegaAOverC": 903.9353966188241,
+    "fRd": 9.184659120700478e-10,
+    "fRobs": 2.654247330372967e-10,
+    "gA": 0.00003073780948424653,
+    "maxOverC": {
+     "rigid": 961.6498638221428,
+     "pow1": 0.02778499400733625,
+     "pow2": 9.122982724156256e-7,
+     "selfRd": 8.868579551187705e-7,
+     "selfRobs": 2.562904435620834e-7,
+     "pow1selfRd": 2.911927856163232e-11,
+     "pow1selfRobs": 8.415093731407245e-12
+    },
+    "log10fRd": -9.036936957457897,
+    "log10fRobs": -9.576058610781512,
+    "log10OmegaAOverC": 2.9561373929814114,
+    "marginRd": -6.080799564476485,
+    "marginRobs": -6.6199212178001,
+    "superluminal": {
+     "rigid": true,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 4.539206666986766,
+     "pow2": 9.02288012198189,
+     "selfRd": 9.035162908438894,
+     "selfRobs": 9.574284561722504,
+     "pow1selfRd": 13.518836363434016,
+     "pow1selfRobs": 14.057958016717627
+    }
+   },
+   {
+    "key": "j0737",
+    "name": "PSR J0737−3039",
+    "kind": "nsNs",
+    "mode": "both",
+    "dir": "fwd",
+    "a": 878836719.6901313,
+    "e": 0.087777036,
+    "mRecv": 2.483370041e+30,
+    "mSrc": 2.660982861e+30,
+    "RdRecv": 21872.57680885353,
+    "RobsRecv": 11750,
+    "RdSrc": 23436.922832019183,
+    "equatorOverC": 0.010848833804058001,
+    "omegaAOverC": 811.434341516744,
+    "fRd": 6.637188488997834e-10,
+    "fRobs": 1.9154022098470443e-10,
+    "gA": 0.000026668119693818434,
+    "maxOverC": {
+     "rigid": 882.6596429236956,
+     "pow1": 0.021639428143243284,
+     "pow2": 6.326116340015694e-7,
+     "selfRd": 5.903866579674773e-7,
+     "selfRobs": 1.7037754936707618e-7,
+     "pow1selfRd": 1.7259488832940768e-11,
+     "pow1selfRobs": 4.980853430544253e-12
+    },
+    "log10fRd": -9.178015848687732,
+    "log10fRobs": -9.717740015859412,
+    "log10OmegaAOverC": 2.9092533839643333,
+    "marginRd": -6.268762464723399,
+    "marginRobs": -6.808486631895079,
+    "superluminal": {
+     "rigid": true,
+     "pow1": false,
+     "pow2": false,
+     "selfRd": false,
+     "selfRobs": false,
+     "pow1selfRd": false,
+     "pow1selfRobs": false
+    },
+    "dropFromRigid": {
+     "pow1": 4.610547490519105,
+     "pow2": 9.1446560956573,
+     "selfRd": 9.174656735783918,
+     "selfRobs": 9.714380902914234,
+     "pow1selfRd": 13.708765340922112,
+     "pow1selfRobs": 14.24848950805243
+    }
+   }
+  ],
+  "summary": {
+   "rigid": {
+    "min": 7.442217161856476e-7,
+    "max": 2069.62984635954,
+    "nOver": 7,
+    "over": [
+     "j0348",
+     "j1141",
+     "b1913",
+     "b1534",
+     "j1757",
+     "j1946",
+     "j0737"
+    ]
+   },
+   "pow1": {
+    "min": 4.3585078862917475e-18,
+    "max": 0.02778499400733625,
+    "nOver": 0,
+    "over": []
+   },
+   "pow2": {
+    "min": 2.5525445686038835e-29,
+    "max": 0.0000010280043689042478,
+    "nOver": 0,
+    "over": []
+   },
+   "selfRd": {
+    "min": 1.3558834084865493e-32,
+    "max": 0.000001071170718657423,
+    "nOver": 0,
+    "over": []
+   },
+   "selfRobs": {
+    "min": 5.9514262445294415e-12,
+    "max": 14.745327723786344,
+    "nOver": 1,
+    "over": [
+     "j0348"
+    ]
+   },
+   "pow1selfRd": {
+    "min": 8.298697423299332e-42,
+    "max": 4.8184459583822206e-11,
+    "nOver": 0,
+    "over": []
+   },
+   "pow1selfRobs": {
+    "min": 3.397743412441306e-20,
+    "max": 0.0006244367669957852,
+    "nOver": 0,
+    "over": []
+   }
+  },
+  "plane": {
+   "aboveRd": [],
+   "aboveRobs": [
+    "j0348"
+   ],
+   "rigidAbove": [
+    "j0348",
+    "j1141",
+    "b1913",
+    "b1534",
+    "j1757",
+    "j1946",
+    "j0737"
+   ],
+   "maxMarginRd": -6.080799564476485,
+   "maxMarginRobs": 1.168654429451419
+  },
+  "drops": {
+   "pow1": {
+    "min": 4.116064568690315,
+    "max": 11.232364502328743
+   },
+   "pow2": {
+    "min": 8.23212913738063,
+    "max": 22.464729004657485
+   },
+   "selfRd": {
+    "min": 8.516125795069131,
+    "max": 26.220020343989262
+   },
+   "selfRobs": {
+    "min": 0.005280026887946803,
+    "max": 10.94676244826854
+   },
+   "pow1selfRd": {
+    "min": 12.632190363759447,
+    "max": 35.43323276025674
+   },
+   "pow1selfRobs": {
+    "min": 5.160088967364247,
+    "max": 18.47136921957611
+   }
+  }
+ },
+ "eff": {
+  "rows": [
+   {
+    "key": "mercury",
+    "cols": {
+     "L1": {
+      "none": -115818099999.99992,
+      "rigid": 277040109693.82043,
+      "pow1": -115817981186.18271,
+      "pow2": -115818099999.96341,
+      "selfRd": -115818099999.99992,
+      "selfRobs": -111576552898.60027,
+      "pow1selfRobs": -115818098661.2237,
+      "ratio": {
+       "rigid": -2.392027754675829,
+       "pow1": 0.9999989741342915,
+       "pow2": 0.9999999999996847,
+       "selfRd": 1,
+       "selfRobs": 0.9633775109296417,
+       "pow1selfRobs": 0.9999999884406994
+      }
+     },
+     "S0": {
+      "none": -13087.379308962401,
+      "rigid": 55433.778157666755,
+      "pow1": -13087.379118088864,
+      "pow2": -13087.379308958067,
+      "selfRd": -13087.379308962401,
+      "selfRobs": -12595.430154491567,
+      "pow1selfRobs": -13087.378992935359,
+      "ratio": {
+       "rigid": -4.235666809145282,
+       "pow1": 0.99999998541545,
+       "pow2": 0.9999999999996688,
+       "selfRd": 1,
+       "selfRobs": 0.9624104151903092,
+       "pow1selfRobs": 0.9999999758525343
+      }
+     }
+    }
+   },
+   {
+    "key": "earth",
+    "cols": {
+     "L1": {
+      "none": -299195741399.99945,
+      "rigid": 4006111284773.919,
+      "pow1": -299195237370.1335,
+      "pow2": -299195741399.9407,
+      "selfRd": -299195741399.99945,
+      "selfRobs": -296597069319.6318,
+      "pow1selfRobs": -299195741095.68317,
+      "ratio": {
+       "rigid": -13.389599952287043,
+       "pow1": 0.9999983153842243,
+       "pow2": 0.9999999999998036,
+       "selfRd": 1,
+       "selfRobs": 0.9913144750382878,
+       "pow1selfRobs": 0.9999999989828856
+      }
+     },
+     "S0": {
+      "none": -633.8141441774407,
+      "rigid": 9752.312313692146,
+      "pow1": -633.8141440780727,
+      "pow2": -633.8141441773163,
+      "selfRd": -633.8141441774407,
+      "selfRobs": -628.3139856302545,
+      "pow1selfRobs": -633.8141428884193,
+      "ratio": {
+       "rigid": -15.386706660433754,
+       "pow1": 0.9999999998432222,
+       "pow2": 0.9999999999998038,
+       "selfRd": 1,
+       "selfRobs": 0.9913221271602826,
+       "pow1selfRobs": 0.9999999979662471
+      }
+     }
+    }
+   },
+   {
+    "key": "moon",
+    "cols": {
+     "L1": {
+      "none": -768797999.9999986,
+      "rigid": 20233662903.651573,
+      "pow1": -768797997.1260381,
+      "pow2": -768797999.9999986,
+      "selfRd": -768797999.9999986,
+      "selfRobs": -733903720.4460335,
+      "pow1selfRobs": -768797999.9952095,
+      "ratio": {
+       "rigid": -26.318568601442266,
+       "pow1": 0.9999999962617482,
+       "pow2": 1,
+       "selfRd": 1,
+       "selfRobs": 0.9546119012354803,
+       "pow1selfRobs": 0.9999999999937706
+      }
+     },
+     "S0": {
+      "none": -71.8316299845901,
+      "rigid": 2030.06792551557,
+      "pow1": -71.83162998432012,
+      "pow2": -71.8316299845901,
+      "selfRd": -71.8316299845901,
+      "selfRobs": -68.57048695401932,
+      "pow1selfRobs": -71.83162998369343,
+      "ratio": {
+       "rigid": -28.261476538275364,
+       "pow1": 0.9999999999962416,
+       "pow2": 1,
+       "selfRd": 1,
+       "selfRobs": 0.9546001805712834,
+       "pow1selfRobs": 0.9999999999875172
+      }
+     }
+    }
+   },
+   {
+    "key": "b1913",
+    "cols": {
+     "L1": {
+      "none": -7796129356.232688,
+      "rigid": 1450050615306209,
+      "pow1": 10941275725.58119,
+      "pow2": -7795821649.506086,
+      "selfRd": -7795831920.662643,
+      "selfRobs": -7796060066.191262,
+      "pow1selfRobs": -7796129354.786582,
+      "ratio": {
+       "rigid": -185996.22313179713,
+       "pow1": -1.4034240872150339,
+       "pow2": 0.9999605308336302,
+       "selfRd": 0.9999618483023494,
+       "selfRobs": 0.9999911122509313,
+       "pow1selfRobs": 0.9999999998145097
+      }
+     },
+     "S0": {
+      "none": -1113813.9881605227,
+      "rigid": 149721229710.3411,
+      "pow1": -23575.248509873203,
+      "pow2": -1113745.0808239756,
+      "selfRd": -1113747.380959739,
+      "selfRobs": -1113798.4716243953,
+      "pow1selfRobs": -1113813.9874830905,
+      "ratio": {
+       "rigid": -134422.11293970866,
+       "pow1": 0.021166234901402174,
+       "pow2": 0.9999381338919429,
+       "selfRd": 0.9999401989905929,
+       "selfRobs": 0.9999860690058733,
+       "pow1selfRobs": 0.9999999993917906
+      }
+     }
+    }
+   },
+   {
+    "key": "j0737",
+    "cols": {
+     "L1": {
+      "none": -3515346878.76053,
+      "rigid": 687014862021290.2,
+      "pow1": 14796213825.89716,
+      "pow2": -3514856899.700085,
+      "selfRd": -3514889124.851015,
+      "selfRobs": -3515214915.598488,
+      "pow1selfRobs": -3515346875.2156796,
+      "ratio": {
+       "rigid": -195433.02146715138,
+       "pow1": -4.2090337984267805,
+       "pow2": 0.9998606171517794,
+       "selfRd": 0.9998697841421339,
+       "selfRobs": 0.9999624608419615,
+       "pow1selfRobs": 0.9999999989916072
+      }
+     },
+     "S0": {
+      "none": -140794.092625711,
+      "rigid": 27374540557.6004,
+      "pow1": -4.570681603205332,
+      "pow2": -140774.29124074033,
+      "selfRd": -140775.5935484153,
+      "selfRobs": -140788.75964128136,
+      "pow1selfRobs": -140794.09233883116,
+      "ratio": {
+       "rigid": -194429.61027046258,
+       "pow1": 0.000032463589330811606,
+       "pow2": 0.9998593592628684,
+       "selfRd": 0.9998686089952304,
+       "selfRobs": 0.9999621221009335,
+       "pow1selfRobs": 0.9999999979624157
+      }
+     }
+    }
+   }
+  ],
+  "eff": {
+   "L1|rigid": {
+    "min": 3.392027754675829,
+    "max": 195434.02146715138
+   },
+   "L1|pow1": {
+    "min": 3.738251819207505e-9,
+    "max": 5.2090337984267805
+   },
+   "L1|pow2": {
+    "min": 0,
+    "max": 0.00013938284822057057
+   },
+   "L1|selfRd": {
+    "min": 0,
+    "max": 0.00013021585786610057
+   },
+   "L1|selfRobs": {
+    "min": 0.000008887749068708928,
+    "max": 0.04538809876451966
+   },
+   "L1|pow1selfRobs": {
+    "min": 6.229350368869291e-12,
+    "max": 1.1559300627794755e-8
+   },
+   "S0|rigid": {
+    "min": 5.235666809145282,
+    "max": 194430.61027046258
+   },
+   "S0|pow1": {
+    "min": 3.7584380052635424e-12,
+    "max": 0.9999675364106692
+   },
+   "S0|pow2": {
+    "min": 0,
+    "max": 0.0001406407371316032
+   },
+   "S0|selfRd": {
+    "min": 0,
+    "max": 0.00013139100476955434
+   },
+   "S0|selfRobs": {
+    "min": 0.00001393099412672072,
+    "max": 0.045399819428716626
+   },
+   "S0|pow1selfRobs": {
+    "min": 1.2482792577372948e-11,
+    "max": 2.4147465693680203e-8
+   }
+  }
+ },
+ "scan": [
+  {
+   "col": "S0",
+   "field": "none",
+   "keys": [
+    "mercury",
+    "earth",
+    "moon",
+    "b1913",
+    "j0737"
+   ],
+   "y": [0.3130989996103171,-0.7770599377634837,-0.26042765554990815,0.7903794738258634,-0.05661908822763273],
+   "best": {
+    "k": -0.6,
+    "j": -1.95,
+    "log10Spread": 2.194654079195571,
+    "spread": 156.55036308086844,
+    "loosest": "b1913",
+    "tightest": "j0737"
+   },
+   "bestJ0": {
+    "k": -0.7,
+    "log10Spread": 3.4373191885044942,
+    "spread": 2737.279774761144
+   },
+   "atK0": {
+    "log10SpreadJ0": 5.003319458312971,
+    "jBest": -2.5,
+    "log10SpreadBest": 3.2022173344733442
+   },
+   "reach": false,
+   "nK": 161,
+   "atKstar338e": 4.859156771145207
+  },
+  {
+   "col": "S0",
+   "field": "pow1",
+   "keys": [
+    "mercury",
+    "earth",
+    "moon",
+    "b1913",
+    "j0737"
+   ],
+   "y": [0.3130989996103171,-0.7770599377634837,-0.26042765554990815,0.7903794738258634,-0.05661908822763273],
+   "best": {
+    "k": -0.05,
+    "j": -1.71,
+    "log10Spread": 0.9225781427595479,
+    "spread": 8.367161328416692,
+    "loosest": "b1913",
+    "tightest": "j0737"
+   },
+   "bestJ0": {
+    "k": -0.4,
+    "log10Spread": 2.5578787421535605,
+    "spread": 361.3089687390957
+   },
+   "atK0": {
+    "log10SpreadJ0": 2.728235575416491,
+    "jBest": -2.34,
+    "log10SpreadBest": 1.348379255659843
+   },
+   "reach": true,
+   "nK": 161,
+   "atKstar338e": 4.859156771132913
+  },
+  {
+   "col": "L1",
+   "field": "none",
+   "keys": [
+    "mercury",
+    "earth",
+    "moon",
+    "b1913",
+    "j0737"
+   ],
+   "y": [0.3130989996103171,-0.7770599377634837,-0.26042765554990815,0.7903794738258634,-0.05661908822763273],
+   "best": {
+    "k": 0,
+    "j": 0.19,
+    "log10Spread": 1.3713282564856613,
+    "spread": 23.514094351051313,
+    "loosest": "b1913",
+    "tightest": "mercury"
+   },
+   "bestJ0": {
+    "k": 0.05,
+    "log10Spread": 1.428195862550215,
+    "spread": 26.803768759484655
+   },
+   "atK0": {
+    "log10SpreadJ0": 1.4620115465866164,
+    "jBest": 0.19,
+    "log10SpreadBest": 1.3713282564856613
+   },
+   "reach": false,
+   "nK": 161,
+   "atKstar338e": 6.185767786287201
+  },
+  {
+   "col": "L1",
+   "field": "pow1",
+   "keys": [
+    "mercury",
+    "earth",
+    "moon",
+    "b1913",
+    "j0737"
+   ],
+   "y": [0.3130989996103171,-0.7770599377634837,-0.26042765554990815,0.7903794738258634,-0.05661908822763273],
+   "best": {
+    "k": -0.1,
+    "j": 0.33,
+    "log10Spread": 1.3525281129821884,
+    "spread": 22.517911761750906,
+    "loosest": "earth",
+    "tightest": "j0737"
+   },
+   "bestJ0": {
+    "k": -0.15,
+    "log10Spread": 1.6140257048965765,
+    "spread": 41.11740568358508
+   },
+   "atK0": {
+    "log10SpreadJ0": 1.6645489163056304,
+    "jBest": 0.05,
+    "log10SpreadBest": 1.6221989882029533
+   },
+   "reach": false,
+   "nK": 161,
+   "atKstar338e": 5.881287053727753
+  }
+ ],
+ "t2": {
+  "single": {
+   "m": 1.98847e+30,
+   "Rd": 17513.685874050123,
+   "sMag": 0.0000036343121770150676,
+   "points": [106301.45812734649,45825756.9495584,6782329983.125268,58008620049.092705,1095445115010.3322],
+   "strain": {
+    "rigid": [0,0,0,0,0],
+    "pow1": [0.9910564469798477,0.45003848461177837,0.7816191376050993,0.856323887343406,0.5586470323837661],
+    "pow2": [14.85407504590363,1.0079154460064499,2.506173334703447,3.316266114704453,1.3471040497064881],
+    "selfZero": [0,0,0,0,0]
+   },
+   "strainMax": {
+    "rigid": 0,
+    "pow1": 0.9910564469798477,
+    "pow2": 14.85407504590363,
+    "selfZero": 0
+   },
+   "relSpeed": 0,
+   "heatRest": 0,
+   "heatRot": 0,
+   "ctlHeatRest": 1.3208225000000002e-11,
+   "ctlHeatRot": 1.3208225000000002e-11,
+   "ctlHeatRel": 0,
+   "transOnly": 0
+  },
+  "pairs": [
+   {
+    "key": "sunMercury",
+    "mi": 3.3011e+23,
+    "mj": 1.98847e+30,
+    "a": 57909050000,
+    "e": 0.20563593,
+    "selfW": 3.9050292742037926e+28,
+    "selfWobs": 55460761482.68983,
+    "rows": [
+     {
+      "scene": "static",
+      "r": 57909050000,
+      "D": 34337810756695196000,
+      "dDdtOverDn": 0,
+      "dragRd": 0,
+      "dragRobs": 0,
+      "dragRadialShare": 0,
+      "gAcc": 0.039574220089983125,
+      "gOverGM_r2": 1
+     },
+     {
+      "scene": "uniform",
+      "r": 57909050000,
+      "D": 34337810756695196000,
+      "dDdtOverDn": 0,
+      "dragRd": 0,
+      "dragRobs": 0,
+      "dragRadialShare": 0,
+      "gAcc": 0.039574220089983125,
+      "gOverGM_r2": 1
+     },
+     {
+      "scene": "circular",
+      "r": 57909050000,
+      "D": 34337810756695196000,
+      "dDdtOverDn": 0,
+      "dragRd": 1.51845479909245e-20,
+      "dragRobs": 0.010578441849542842,
+      "dragRadialShare": 0,
+      "gAcc": 0.039574220089983125,
+      "gOverGM_r2": 1
+     },
+     {
+      "scene": "eccentric",
+      "r": 57909050000,
+      "D": 34337810756695196000,
+      "dDdtOverDn": -0.20563593000000002,
+      "dragRd": 1.51845479909245e-20,
+      "dragRobs": 0.010578441849542842,
+      "dragRadialShare": -0.20563593000000002,
+      "gAcc": 0.039574220089983125,
+      "gOverGM_r2": 1
+     }
+    ]
+   },
+   {
+    "key": "earthMoon",
+    "mi": 7.342e+22,
+    "mj": 5.9722e+24,
+    "a": 384399000,
+    "e": 0.0549,
+    "selfW": 1.7557739222383738e+29,
+    "selfWobs": 24322865922.94132,
+    "rows": [
+     {
+      "scene": "static",
+      "r": 384399000,
+      "D": 15536460812853312,
+      "dDdtOverDn": 0,
+      "dragRd": 0,
+      "dragRobs": 0,
+      "dragRadialShare": 0,
+      "gAcc": 0.002697466420697843,
+      "gOverGM_r2": 1
+     },
+     {
+      "scene": "uniform",
+      "r": 384399000,
+      "D": 15536460812853312,
+      "dDdtOverDn": 0,
+      "dragRd": 0,
+      "dragRobs": 0,
+      "dragRadialShare": 0,
+      "gAcc": 0.002697466420697843,
+      "gOverGM_r2": 1
+     },
+     {
+      "scene": "circular",
+      "r": 384399000,
+      "D": 15536460812853312,
+      "dDdtOverDn": 0,
+      "dragRd": 2.30197843286219e-22,
+      "dragRobs": 0.0016589527879593336,
+      "dragRadialShare": 0,
+      "gAcc": 0.002697466420697843,
+      "gOverGM_r2": 1
+     },
+     {
+      "scene": "eccentric",
+      "r": 384399000.00000006,
+      "D": 15536460812853310,
+      "dDdtOverDn": -0.054899999999999984,
+      "dragRd": 2.3019784328621893e-22,
+      "dragRobs": 0.001658952787959333,
+      "dragRadialShare": -0.054899999999999984,
+      "gAcc": 0.002697466420697842,
+      "gOverGM_r2": 1
+     }
+    ]
+   },
+   {
+    "key": "j0737",
+    "mi": 2.483370041e+30,
+    "mj": 2.660982861e+30,
+    "a": 878836719.6901313,
+    "e": 0.087777036,
+    "selfW": 5.190886547009826e+21,
+    "selfWobs": 1.7987288662743324e+22,
+    "rows": [
+     {
+      "scene": "static",
+      "r": 878836719.6901313,
+      "D": 3.0278466993712267e+21,
+      "dDdtOverDn": 0,
+      "dragRd": 0,
+      "dragRobs": 0,
+      "dragRadialShare": 0,
+      "gAcc": 229.9386042805385,
+      "gOverGM_r2": 1
+     },
+     {
+      "scene": "uniform",
+      "r": 878836719.6901313,
+      "D": 3.0278466993712267e+21,
+      "dDdtOverDn": 0,
+      "dragRd": 0,
+      "dragRobs": 0,
+      "dragRadialShare": 0,
+      "gAcc": 229.9386042805385,
+      "gOverGM_r2": 1
+     },
+     {
+      "scene": "circular",
+      "r": 878836719.6901313,
+      "D": 3.0278466993712267e+21,
+      "dDdtOverDn": 0,
+      "dragRd": 6.637188488997834e-10,
+      "dragRobs": 1.9154022098470443e-10,
+      "dragRadialShare": 0,
+      "gAcc": 229.9386042805385,
+      "gOverGM_r2": 1
+     },
+     {
+      "scene": "eccentric",
+      "r": 878836719.6901312,
+      "D": 3.027846699371227e+21,
+      "dDdtOverDn": -0.08777703599999999,
+      "dragRd": 6.637188488997837e-10,
+      "dragRobs": 1.915402209847045e-10,
+      "dragRadialShare": -0.08777703600000002,
+      "gAcc": 229.93860428053856,
+      "gOverGM_r2": 1
+     }
+    ]
+   }
+  ],
+  "readings": [
+   {
+    "key": "r1",
+    "name": "(1) 第140報の文は読み(解釈)で、計算は決定力の勾配(今のアプリ)",
+    "central": {
+     "static": 1,
+     "uniform": 1,
+     "circular": 1,
+     "eccentric": 1
+    },
+    "note": "中心向き G₀ m/r²(今のアプリの重力 —— G_loc つき)。時間差分の量は計算に入らない"
+   },
+   {
+    "key": "r2",
+    "name": "(2) 「差分」を時間だけでなく空間の差分(勾配)も含む量と読む",
+    "central": {
+     "static": 1,
+     "uniform": 1,
+     "circular": 1,
+     "eccentric": 1
+    },
+    "note": "空間の差分 G₀ ∇D が中心向きの 1 を出す(数は (1) と同じ)。時間の差分の部分 d/dt(m/r) は静止・等速・円で 0・離心で 0 でない —— この部分を加速度へ写す係数と向きは式が立たない(スカラーの率 —— 質量/長さ/時間)"
+   },
+   {
+    "key": "r3",
+    "name": "(3) 自分自身の引きずり(慣性)との差として現れる加速度と読む(a = (U − v)/τ の形)",
+    "central": {
+     "static": 0,
+     "uniform": 0,
+     "circular": 0,
+     "eccentric": null
+    },
+    "note": "相対の速度の型の引きずり d = U − v は静止・等速で 0・円では接線の向き(中心向きの成分 0)—— 中心向きの G m/r² は出ない。応答の時間 τ を置かない限り大きさの式が立たない・離心では動径の成分が出るが τ に依る"
+   }
+  ],
+  "double": {
+   "mercury": {
+    "periodS": 7600582.372787197,
+    "periodS2": 5374423.336764767,
+    "periodRatio": 0.7071067811865476,
+    "pn1Cy": 42.979865300937696,
+    "pn1Cy2": 121.56541683510974,
+    "pnRatio": 2.82842712474619,
+    "dragCy": 71.63310883489616,
+    "dragCy2": 143.26621766979233,
+    "dragExtraOverPN": 1.6666666666666667
+   },
+   "moon": {
+    "periodS": 2357434.9509634697,
+    "periodS2": 1666958.2400324454,
+    "periodRatio": 0.7071067811865475,
+    "pn1Cy": 0.06096840632928366,
+    "pn1Cy2": 0.17244469421429323,
+    "pnRatio": 2.8284271247461907,
+    "dragCy": 0.10161401054880613,
+    "dragCy2": 0.20322802109761226,
+    "dragExtraOverPN": 1.666666666666667
+   }
+  },
+  "dims": [
+   {
+    "q": "D = m/r(決定力)",
+    "unit": "質量/長さ",
+    "code": "時間と光(D_loc = ΣD + D₀)",
+    "map": "—"
+   },
+   {
+    "q": "dD/dt = −(m/r²) r̂·(v − v_j)",
+    "unit": "質量/長さ/時間",
+    "code": "置いていない(この節の零試験だけ)",
+    "map": "X_k dD/dt は 1/時間(角速度の次元)—— 置く式は無い"
+   },
+   {
+    "q": "w = m/r²(並進引きずりの重み)",
+    "unit": "質量/長さ²",
+    "code": "並進引きずりの重み(比 w/Σw だけを使う —— 係数なしで速度へ)",
+    "map": "速度 U = Σ w C/Σ w(重みの比は次元なし)"
+   },
+   {
+    "q": "w_self = m/R_self²(自己の重み)",
+    "unit": "質量/長さ²",
+    "code": "R_self = Y_k m のとき 1/(Y_k² m)",
+    "map": "同上(分母に入る)"
+   },
+   {
+    "q": "Y_k = 10G/(C₁c₀²)",
+    "unit": "長さ/質量",
+    "code": "R_d = Y_k m(K1)",
+    "map": "近点の回り π b/p・b = 10GM/c₀² = C₁ Y_k M"
+   },
+   {
+    "q": "X_k = G₀/c₀²",
+    "unit": "長さ/質量",
+    "code": "物理対応のロック(AN530)",
+    "map": "X_k D は次元なし(場の強さの比)"
+   },
+   {
+    "q": "G₀",
+    "unit": "長さ³/(質量 時間²)",
+    "code": "重力 a = G₀ ∇D(G_loc つき)",
+    "map": "加速度 G₀ m/r²(長さ/時間²)"
+   }
+  ]
+ },
+ "timing": {
+  "pure": {
+   "wallSec": 0.053
+  },
+  "t1": {
+   "wallSec": 0.164
+  },
+  "eff": {
+   "wallSec": 0.363
+  },
+  "scan": {
+   "wallSec": 1.56
+  },
+  "t2": {
+   "wallSec": 1.561
+  }
+ },
+ "gates": {
+  "pure": true,
+  "t1Complete": true,
+  "t1Order": true,
+  "effComplete": true,
+  "scanComplete": true,
+  "single": true,
+  "staticPair": true,
+  "double": true
+ },
+ "ok": true,
+ "elapsedS": 6.466,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第340便e",
+  "target": "tests/lib-w340e-lightweight.mjs",
+  "targetSha256": "f626083db1f727ab48beb6bd9237dec6102d1f812baab229d3822a12dd668872",
+  "generatedAt": "2026-11-16T18:54:16.190Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w340e-lightweight.mjs",
+    "bytes": 11437,
+    "sha256": "faa3deb80d08211f17f89299684688d533fcb949f6e7a28e27c337a8bcdfab76",
+    "mtime": "2026-11-16T18:52:45.458Z"
+   },
+   {
+    "file": "tests/lib-w340e-lightweight.mjs",
+    "bytes": 31469,
+    "sha256": "f626083db1f727ab48beb6bd9237dec6102d1f812baab229d3822a12dd668872",
+    "mtime": "2026-11-16T18:54:09.644Z"
+   },
+   {
+    "file": "tests/lib-w338e-spinfield.mjs",
+    "bytes": 32965,
+    "sha256": "6734aa8682f34a491239662983c04b8a271729e461f4b4b0645a811a03129ca8",
+    "mtime": "2026-11-16T18:34:30.178Z"
+   },
+   {
+    "file": "tests/lib-w337d-accelloss.mjs",
+    "bytes": 28896,
+    "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
+    "mtime": "2026-11-16T18:34:30.174Z"
+   },
+   {
+    "file": "tests/lib-w335b-carryledger.mjs",
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-16T18:34:30.170Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-16T18:34:30.154Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35614,
+    "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
+    "mtime": "2026-11-16T18:34:30.166Z"
+   },
+   {
+    "file": "tests/lib-w335e-moonapsis.mjs",
+    "bytes": 32724,
+    "sha256": "3041a4828b7c4a1432fcbc87f2bc37a7706d2e218a0625b996b2f71b7968020a",
+    "mtime": "2026-11-16T18:34:30.170Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-16T18:34:30.158Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-16T18:34:30.162Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-16T18:34:30.162Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-16T18:34:30.110Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-16T18:34:30.178Z"
+   }
+  ],
+  "codeSha256": "694f23099ee63d0979afbb8e2ea700ed5051673938f81efac3f4052eb57109a2",
+  "harnessVersion": "w340e-lightweight-1",
+  "stage": "lightweight",
+  "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の求積)",
+  "notClaim": [
+   "光速を超えないことが分かったとは書かない(この 25 系・この型で何桁下がるかまで —— 受け手の重みが有っても入力が光速を超えれば平均も超え得る)",
+   "⑩ が正しい・誤りとは書かない(落ちる型・自己の重みの型での効きの表まで)",
+   "重力が引きずりから導けた・導けないとは書かない(静止の 2 体で読みの候補 3 つが出す数まで)",
+   "光速との比は判定に使わない(表に残すだけ)・光速で切り詰める処理は持たない",
+   "文献の値は未照合(行の出どころを書く)"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [12345,20261115],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 0,
+   "kept": 1130,
+   "zeroPathsHead": [],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}
