@@ -107582,6 +107582,153 @@ function view337gOf338a(eq) {
 }
 // ==== 第339便a の塊(ここまで)====
 
+// ==== 第340便d の塊(ここから —— behavior.gyropath340d・docs.gyropath340d の 2 ブロック。root は SKIP)====
+// ---- 第340便d(原仮定者の指示(2026-11-17 —— 第140報)の回転引きずり・ジャイロトルク・軸引きずりの文・統括の検証項目 R359): **回転引きずりの経路「軸引きずり + 公転 + ジャイロ」を
+// ----   受け手の部位ごとの力で数える・土星の環の帳簿に環の外の受け取り手(主の列)と方向別の係数(比べる列)**(新設 —— 器 tests/exp-w340d-gyropath.mjs〔html を読まない〕・
+// ----   lib tests/lib-w340d-gyropath.mjs・正本 tests/out/gyropath-340d.json・入力のファイルは無い。html・本の宣言・エンジン・受理器・既存の lib の本文は変えない)。
+// ----   世代切替 = beta 対象 ∧ 器・lib がある。
+// ----   behavior.gyropath340d(正本と照合 —— html を読まない): ① 版・格子・純関数の場面 6 を作り直して全部真 ② 器の runAll を走らせ直して pure・t1・t2 が正本と同じ
+// ----     (第338便c の recheckRun —— 数でない欄は完全一致・数は |差| ≤ max(1e-9 × 大きさ, 8 σ′)・0 と書いた葉は 128 σ′ の内)③ 恒等式と対照(drag の合力は方位の向きだけ・受け手の自転 0 で
+// ----     corS と drag90 が 0・公転 0 で corV が 0・点の受け手で drag と corS が 0・源の自転の反転で corV の向きが逆・赤道面の上の corS は歳差だけ・口の帳簿の閉じ・第140報の列は 2 つの分と行き先・
+// ----     4 天体の強さの組が第338便d の正本の組と相対 1e-9 の内)④ 作り直した門が全部真・呼ぶだけ(lib の import は 6 本の lib だけ・html を読まない・Math.random なし・呼ぶ lib の本文は不変)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w340d-gyropath.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w340d-gyropath.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'gyropath-340d.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib))) {
+    console.log('SKIP behavior.gyropath340d(第340便d の回転引きずりの経路の部位の和の候補の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/gyropath-340d.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
+        // ① 版・格子・純関数の場面
+        if (!(L.LIB_VERSION === 'w340d-gyropath-lib-1' && X.HARNESS_VERSION === 'w340d-gyropath-1' && X.AMEND.length === 0 && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・版の履歴・照合の lib)');
+        if (!(js(L.ACTIONS) === js(['drag', 'corV', 'corS', 'drag90']) && js(L.DECL.t1.qGrid) === js([1, 0]) && L.DECL.t1.qMain === 1 && js(L.DECL.t1.pGrid) === js([0, 1, 2, 3, 4]) && L.DECL.t1.zOverR.length === 9
+          && L.DECL.t1.controls.length === 8 && L.DECL.t2.tYr === 1e7 && js(L.DECL.t2.ports) === js(['spin', 'mimas']) && js(L.DECL.t2.cols) === js(['A', 'B', 'Bp']) && L.DECL.floor === 1e-12))
+          bad.push('① 格子(作用の型 4・q 主 1・p 0〜4・仰角 9・対照 8・1e7 年・口 2・列 3・床)の宣言');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
+        if (Object.keys(PG).length !== 6) bad.push('① 場面の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・作用の型 ${L.ACTIONS.length}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}`);
+        // ② 器を走らせ直して正本と同じ(第338便c の量ごとの尺度の照合)
+        const parts = ['pure', 't1', 't2'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), diffs = RC.diffs;
+        const badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(第338便c の量ごとの尺度の照合・葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero})`);
+        // ③ 恒等式と対照
+        const c = (k) => J.t1.controls.find((x) => x.ctl === k);
+        if (!J.t1.summaries.filter((s) => s.action === 'drag').every((s) => s.zs.every((z) => z.Fel === 0))) bad.push('③ drag の合力に鉛直の成分(∇×Ω は方位の向き —— 0 のはず)');
+        if (!(c('spin0').by.corS.pullUp === 0 && c('spin0').by.drag90.pullUp === 0 && c('orbit0').by.corV.pullUp === 0 && c('point').by.drag.pullUp === 0 && c('point').by.corS.pullUp === 0
+          && Math.sign(c('sFlip').by.corV.pullUp) === -Math.sign(c('base').by.corV.pullUp) && c('base').by.corV.pullUp > 0)) bad.push('③ 対照(自転 0・公転 0・点の受け手・源の自転の反転)');
+        if (!J.t1.eqTilt.filter((r) => r.action === 'corS' && r.tiltDeg > 0).every((r) => r.dTheta === 0 && r.dPhiL > 0)) bad.push('③ 赤道面の上の corS が歳差だけでない');
+        if (!J.t2.ports.every((p) => p.amClosed === true && p.enClosed === true)) bad.push('③ 口の帳簿(第338便d の輪の列)の閉じ');
+        if (!J.t2.eqCols.every((r) => r.fwdDest === '源の自転' && r.backDest === '背景宇宙' && typeof r.fwdRate === 'number' && typeof r.backRate === 'number')) bad.push('③ 第140報の赤道面の列の 2 つの分と行き先');
+        const Jd = JSON.parse(rd('tests/out/ringbook-338d.json') || 'null');
+        const cmp = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+        if (!(Jd && L.SETS.every((k) => ['q', 'p', 'lambda'].every((f) => cmp(J.t2.sets[k][f], Jd.sets[k][f]) <= 1e-9)))) bad.push('③ 4 天体の強さの組が第338便d の正本の組(q・p・λ)と違う');
+        cases.push('③ drag の合力は方位の向きだけ・対照 ' + J.t1.controls.length + '・赤道面の上の corS は歳差だけ・口の帳簿の閉じ ' + J.t2.ports.length + '・第140報の列の 2 つの分・第338便d の組と同じ');
+        // ④ 門と呼ぶだけ
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const tl = rd('tests/lib-w340d-gyropath.mjs'), th = rd('tests/exp-w340d-gyropath.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        const called = ['lib-w337a-supply.mjs', 'lib-w337i-rotring.mjs', 'lib-w337l-bevel.mjs', 'lib-w338b-bevelknob.mjs', 'lib-w338d-ringbook.mjs', 'lib-w339a-rotvert.mjs'];
+        if (!(js(imps) === js(called) && !/loadHtml|index\.html/.test(tl + th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl) && !/Math\.random/.test(tl + th)
+          && !/w340d/.test(called.map((f) => rd('tests/' + f)).join('\n')) && !/Math\.acos/.test(tl)))
+          bad.push('④ 呼ぶだけ(lib の import は 6 本の lib だけ・html を読まない・ネットへ取りに行かない・Math.random なし・呼ぶ lib の本文は不変・薄い角を acos で求めない)');
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・lib の import は 6 本の lib だけ・html を読まない・acos なし`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.gyropath340d', bad.length === 0,
+      `**回転引きずりの経路(軸引きずり + 公転 + ジャイロ)の部位の和・土星の環の口と方向別の係数の作り直し**(第340便d・原仮定者の指示(2026-11-17 —— 第140報)・R359 —— html を読まない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第340便d: docs.gyropath340d は別の最上位のブロック。世代切替は上と同じ
+// ----   docs.gyropath340d: ① 正本の門・版・来歴(target は lib・入力のファイルなし)② PHYSICS〔第340便d〕の位置(〔第339便a〕の節の後・〔第328便 — 統括〕と「## 7.」の前)と必須の語・
+// ----     ノブの表の状態の欄が 1 語 ③ AI_SPEC §251・CHANGELOG・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w340d-gyropath.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w340d-gyropath.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'gyropath-340d.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib))) {
+    console.log('SKIP docs.gyropath340d(第340便d の回転引きずりの経路の部位の和の候補の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/gyropath-340d.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'gyropath'
+        && J.target === 'tests/lib-w340d-gyropath.mjs' && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0)) bad.push('① 版・来歴(target は lib・入力のファイルなし)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL)) bad.push('① 正本の宣言が lib と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+    }
+    const i0 = PH.indexOf('〔第340便d — '), i7 = PH.indexOf('\n## 7. 論文'), ia = PH.indexOf('〔第339便a — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ia >= 0 && ia < i0 && iu > i0)) bad.push('② PHYSICS〔第340便d〕が無いか〔第339便a〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    const want = ['原仮定者の指示(2026-11-17 —— 第140報)', 'R359', 'tests/exp-w340d-gyropath.mjs', 'tests/out/gyropath-340d.json', 'tests/lib-w340d-gyropath.mjs', 'gyropath-340d',
+      '部位', '合力', '合トルク', 'dL/dt = N', '歳差', 'drag90', 'corS', 'corV', '第339便a', '扁平の則', '一様厚みの区間', '引きずり半径', '環の外の受け取り手', '方向別の係数', '行き先',
+      '文献の値・未照合', 'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', 'このノブの組では', '決断事項の候補', '次の便へ',
+      'behavior.gyropath340d', 'docs.gyropath340d', '書かないこと', 'atan2'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('② PHYSICS〔第340便d〕に「' + w + '」が無い');
+    const kt = sec.indexOf('| ノブの名 |'), ktab = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n').slice(2) : [];
+    const states = ktab.map((l) => l.split('|').map((x) => x.trim()).filter((x, k, a) => k > 0 && k < a.length - 1).pop());
+    if (!(ktab.length >= 5 && states.every((x) => ['候補', '対照', '不用の見込み', '廃止'].includes(x)))) bad.push('② ノブの表の状態の欄が 1 語でない(' + states.filter((x) => !['候補', '対照', '不用の見込み', '廃止'].includes(x)).join('・') + ')');
+    cases.push('② 節の位置・必須の語 ' + want.length + '・ノブの表 ' + ktab.length + ' 行の状態の欄');
+    const a0 = AS.indexOf('\n## 251. 第340便d'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/gyropath-340d.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('R359') >= 0)) bad.push('③ AI_SPEC §251(正本・SYSTEM_PROMPT・R359)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl340d = clg.split('\n').find((l) => l.indexOf('**第340便d**') >= 0) || '';
+    if (!(cl340d.indexOf('tests/exp-w340d-gyropath.mjs') >= 0 && cl340d.indexOf('gyropath-340d') >= 0 && cl340d.indexOf('第140報') >= 0 && cl340d.indexOf('R359') >= 0)) bad.push('③ CHANGELOG の第340便d の行');
+    if (!(/S\('gyropath-340d', 'node tests\/exp-w340d-gyropath\.mjs', \['tests\/out\/gyropath-340d\.json'\]/.test(RT) && RT.indexOf('// ==== 第340便d の塊(ここから)====') >= 0)) bad.push('③ 段の行 gyropath-340d(塊)');
+    if (GI.indexOf('!tests/out/gyropath-340d.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第340便d の塊(ここから)====') >= 0 && /behavior\.gyropath340d/.test(PM) && /docs\.gyropath340d/.test(PM))) bad.push('③ post-merge の ③′ に第340便d の塊');
+    cases.push('③ AI_SPEC §251・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT340 = [/κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第340便d の書かない語(引用符「」の外で —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・回転引きずりの機構が導けた・環が薄い理由が分かった・軸引きずりは軸方向で 0 と確かめられた・光速を超えないことが分かった
+    const W340 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たけ導が構機のりずき引転回', 'たっか分が由理い薄が環', 'たれらめか確と0で向方軸はりずき引軸', 'たっか分がとこいなえ超を速光'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第340便d〕', sec], ['AI_SPEC §251', ai], ['CHANGELOG の第340便d の行', cl340d], ['器', rd('tests/exp-w340d-gyropath.mjs')], ['lib', rd('tests/lib-w340d-gyropath.mjs')]];
+    for (const [nm, tx] of texts) {
+      const doc = /PHYSICS|AI_SPEC|CHANGELOG/.test(nm);
+      for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+      if (doc) for (const w of W340) if (strip(tx).indexOf(w) >= 0) bad.push('④ ' + nm + ' に書かない語(' + w.length + ' 字)');
+      for (const re of NOT340) if (re.test(tx)) bad.push('④ ' + nm + ' に旧い記号 ' + re.source);
+      if (doc) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (doc && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib)');
+    add('docs.gyropath340d', bad.length === 0,
+      `**回転引きずりの経路(軸引きずり + 公転 + ジャイロ)の部位の和・土星の環の口と方向別の係数の文書**(第340便d・原仮定者の指示(2026-11-17 —— 第140報)・R359): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第340便d の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

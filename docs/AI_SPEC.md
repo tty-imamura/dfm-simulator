@@ -5148,3 +5148,8 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **何をしたか**: 第337便i の代表 `slice|focus|Req|obs`(土星の環の物差しと 4 惑星の尺度を同じノブで満たした組 —— 要る λ 6.560e-7)を既定 OFF の鍵 `physics.rotDragVert = {form:"sliceFocus", source, lambda, fFlat, oblateQ?, rdScale?}` にした。式: R_eq = rdScale · Y_k · m_源 (1 − f_flat)^(−1/3) の帯 |z| < R_eq の内で d = −λ r (s z/ρ) k̂(s = 源の観測自転・k̂ = 源の自転軸)を位置へ足す(x += d·dt —— `dfmStep3` の末尾)。三次元の本だけ・較正の本は拒否・A/B の physicsPatch は null だけ。本 🛟 は見えるように強さ 1e5 倍・帯の厚み 2e6 倍(倍と候補の値を本の文に書いた)。器 `tests/exp-w339a-rotvert.mjs`・正本 `tests/out/rotvert-w339a.json`・段 `rotvert-339a`。
 - **AI が読むときの要点**: 鍵は探索用・未較正の候補で、**AI は既定では使わない**(SYSTEM_PROMPT に載せない —— 利用者が自分で書いたときだけ)。鍵が無い本の計算は 1 bit も変わらない(署名と 600 步が 186/186 同じ)。この鍵で土星の環を回転引きずりで薄くしたとも、環の厚みを決めたとも読まない(このノブの組では)。
 - QA `behavior.rotvert339a`・`docs.rotvert339a`(本節と PHYSICS〔第339便a〕・CHANGELOG —— root は SKIP)。
+
+## 251. 第340便d —— 回転引きずりの経路「軸引きずり + 公転 + ジャイロ」を受け手の部位ごとの力で数える・土星の環の帳簿に環の外の受け取り手と方向別の係数(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R359・**診断だけ** —— html・本の宣言・エンジン・受理器・`S._core`・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
+- **何をしたか**: 受け手(有限の球・輪・点)の部位ごとに作用の型 4 つ(drag・corV・corS・drag90)の力を足し、合力と合トルクの両方を出した。ジャイロの 90° のずれは dL/dt = N と歳差で書いた(実のトルクに 1 度だけ)。土星の環の帳簿(第338便d)に、環の外の受け取り手の口(主の列 —— 土星の自転・ミマス)と方向別の係数(比べる列)と第140報の赤道面の列(順の分と逆の分 —— 行き先つき)を足した。器 `tests/exp-w340d-gyropath.mjs`・lib `tests/lib-w340d-gyropath.mjs`・正本 `tests/out/gyropath-340d.json`・段 `gyropath-340d`。
+- **AI が読むときの要点**: 表は「この型・このノブの組ではこうなる」の候補の表で、回転引きずりの機構や環が薄い理由を述べたものではない。アプリの鍵 `physics.rotDragVert`(第339便a)の式・説明は変えていない(経路の型との違いは PHYSICS〔第340便d〕⑤ の表)。
+- QA `behavior.gyropath340d`・`docs.gyropath340d`(本節と PHYSICS〔第340便d〕・CHANGELOG —— root は SKIP)。
