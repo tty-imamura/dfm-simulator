@@ -106461,6 +106461,7 @@ function view337gOf338a(eq) {
   // ── 照合の本体(写しを引数に —— 変異の自己試験も同じ関数)──
   const ledgerOf = (ph) => T37.parseKnobLedger337g(T37.policySection337g(ph));
   const checkEq = (eq, ph) => {
+    eq = view338aOf340a(eq);   // 第340便a(世代の注記 —— R356): EQ-63 以降の項と §2a の EQ-63 以降の参照を外した写しで読む(照合の中身は外していない)
     const bad = [], cases = [];
     const all = T34.eqItems334f(eq), ids = new Set(all.map((z) => z.id)), nw = all.filter((z) => z.num >= 53);
     if (nw.map((z) => z.id).join('|') !== IDS.join('|')) bad.push('① EQ-53 以降の項の番号: ' + nw.map((z) => z.id).join('・'));
@@ -107581,6 +107582,224 @@ function view337gOf338a(eq) {
   })();   // 第310便c(heap)
 }
 // ==== 第339便a の塊(ここまで)====
+
+// ==== 第340便a の塊(ここから —— docs.dfmSummary340a の 1 ブロック。root は SKIP)====
+// ---- 第340便a(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R356): **文書と QA だけ**(PHYSICS〔第340便a〕の表 1〜表 4・ノブの台帳の ⑩ の状態と第340便の状態の更新・
+// ----   docs/EQUATIONS.md の EQ-63〜EQ-69〔第338便の候補の型の式と第339便a のアプリの鍵の式〕と §2a の第140報の用語・AI_SPEC §248・CHANGELOG —— html・エンジン・内蔵の本・受理器・
+// ----   既存の lib の本文・physics の鍵は変えない・器と段と lib は足さない)。世代切替 = beta 対象 ∧ 計算式の一覧に「### EQ-63 」がある。
+// ----   view338aOf340a(下の関数 —— 宣言は hoist される): 第338便a の照合(docs.equations338a)は EQ-53 以降の項を EQ-53〜EQ-62 に固定しているので、EQ-63 以降の項と、
+// ----   §2a(見出し「## 2a. 」から次の「## 」まで)の EQ-63 以降の参照の字を外した写しを渡す(第338便a の塊の checkEq の先頭に 1 行 —— 照合の中身は外していない)。
+// ----   docs.dfmSummary340a: ① 節の位置 ② 表 1 の 13 行(原文の字・当たる所の項の実在)③ 表 2 の 4 件 ④ 表 3 の 6 行(台帳の今の状態)⑤ 台帳の ⑩ の 2 行と第340便の状態の更新
+// ----     ⑥ EQ-63〜EQ-69(番号・ラベル・6 つの部分・出どころ・節・抜粋の断片・台帳の欄)⑦ §2a・§3・§6・§7・冒頭 ⑧ AI_SPEC・CHANGELOG・post-merge ⑨ 書かない語 ⑩ 変異の自己試験
+function view338aOf340a(eq) {
+  let s = String(eq || '');
+  if (s.indexOf('\n### EQ-63 ') < 0) return s;
+  s = s.replace(/\n### EQ-(\d\d) [^\n]*[\s\S]*?(?=\n### |\n## )/g, (m, n) => (Number(n) >= 63 ? '' : m));
+  const i = s.indexOf('\n## 2a. '), j = i >= 0 ? s.indexOf('\n## ', i + 1) : -1;
+  if (i < 0 || j < 0) return s;
+  return s.slice(0, i) + s.slice(i, j).replace(/EQ-(\d\d)/g, (m, n) => (Number(n) >= 63 ? '' : m)) + s.slice(j);
+}
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む
+  const rd340a = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const EQ0 = rd340a('docs/EQUATIONS.md') || '';
+  if (!(TARGET.startsWith('beta/') && EQ0.indexOf('\n### EQ-63 ') >= 0)) {
+    console.log('SKIP docs.dfmSummary340a(第340便a の第140報のまとめと EQ-63 以降の項の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const T34 = await import('file://' + path.join(ROOT, 'tests', 'lib-w334f-terms.mjs'));
+  const T37 = await import('file://' + path.join(ROOT, 'tests', 'lib-w337g-equations.mjs'));
+  const stripQ = (t) => String(t || '').replace(/「[^」]*」/g, '').replace(/『[^』]*』/g, '');
+  const stripCode = (t) => String(t || '').replace(/```[\s\S]*?```/g, ' ').replace(/`[^`\n]*`/g, ' ');
+  const norm = (t) => String(t || '').replace(/\s+/g, ' ').trim();
+  const cells = (l) => l.split(' | ').map((c) => c.replace(/^\| ?/, '').replace(/ ?\|$/, ''));
+  const physSecOf = (ph, head) => { const i = ph.indexOf('\n' + head); if (i < 0) return ''; const m = /\n〔第\d+便[a-z]* — |\n〔第\d+便 — |\n## /g; m.lastIndex = i + 2; const z = m.exec(ph); return ph.slice(i + 1, z ? z.index : ph.length); };
+  // 第140報の原文(13 項 —— 言葉を変えずに引く)
+  const SRC140 = [
+    ['決定力', '質量に比例し、質点からの距離に反比例して減衰するスカラーが決定力。空間上の座標を決定する力'],
+    ['決定力場', '決定力を合成した場が決定力場。座標空間。光速は決定力場の強さを屈折率とし、時間の流れる速度も連動する。光は空間を刻む波長を保持する'],
+    ['慣性決定力', '決定力場の時間差分が慣性決定力。空間を座標変換で引きずる。差分なので、合成の重みは、質点からの距離の二乗に反比例する'],
+    ['慣性', '慣性決定力による自分自身の引きずりが慣性。慣性は、慣性系における慣性移動と慣性回転に現れる'],
+    ['重力', '慣性決定力による、自分以外からの引きずりが、重みに応じた加速度として現れる。これが、質量に比例し、質点からの距離の二乗に反比例する重力'],
+    ['並進引きずり', '物質による座標空間の引きずりが、並進引きずりである。宇宙に天体が１つなら、移動も回転も検知出来ず、完全な座標変換になる'],
+    ['軸引きずり', '並進引きずりの、引きずられる側の部位差分による回転が、軸引きずりである。宇宙に天体が２つなら、相手の回転軸との相対角度に応じて、ギアやベベルギアの様に逆回転する。赤道面では、軸引きずりは軸を起き上がらせる力になる為、ジャイロトルクで歳差運動を引き起こす'],
+    ['回転引きずり', '軸引きずりに公転が組み合わさって発生する力が回転引きずり。公転している天体の回転軸は遠方宇宙を向くが、赤道面から離れて公転すると、軸引きずりで軸を倒れ込ませる力が働く。実際には、ジャイロトルクで90度回転方向にズレて倒れる力が働き、赤道面から遠い部位の倒れる力が大きいと、赤道面へ引き寄せる力になる'],
+    ['ジャイロトルク', '回転体の軸に対して、軸を傾ける力が、90度回転方向にズレて現れる力が、ジャイロトルク'],
+    ['二重計上', '回転成分は並進引きずりに含まれるので、二重計上を避けると、軸方向では軸引きずりがゼロになる'],
+    ['赤道面の見え方', '赤道面での引きずりは、並進引きずりは順回転だが、軸引きずりでは逆回転となる。その為、源の回転速度や、距離によって、引きずりの見え方が変化する'],
+    ['判断基準', '宇宙に天体が１つの場合、その天体が回転すると、どんな距離の座標も天体に合わせて回転する。つまり、引きずりの計算で、光速を超えるか超えないかは判断基準にならない'],
+    ['受け手の重み', '引きずられる側の重みが有るので、計算結果は簡単には光速を超えないのではないか'],
+  ];
+  const CONFLICT = [['1 回転引きずりの定義', '軸引きずりに公転が組み合わさって発生する力が回転引きずり', '引きずる側の回転による空間の捩れで発生する'],
+    ['2 軸の方向の軸引きずり', '軸方向では軸引きずりがゼロになる', '２倍の角度差で傾いた軸で作用する'],
+    ['3 重力の読み', '自分以外からの引きずりが、重みに応じた加速度として現れる', 'AN587'],
+    ['4 光速', '光速を超えるか超えないかは判断基準にならない', 'AN650']];
+  const LIGHT_ROWS = ['引きずり自転 s_d の J 案の係数 λ_J', '線形の抵抗 η と関数 A', '速さの依存のべき p(加減速の差)', '⑩ の場の型(剛体)', '⑩ の場の型(R_d の外で落ちる)', '軸の角 θ・射影の向き φ'];
+  const R10 = [['⑩ の場の型(剛体)', '対照'], ['⑩ の場の型(R_d の外で落ちる)', '候補']];
+  const IDS = ['EQ-63', 'EQ-64', 'EQ-65', 'EQ-66', 'EQ-67', 'EQ-68', 'EQ-69'];
+  const SRC = {
+    'EQ-63': { secs: ['〔第338便b〕'], paths: ['tests/exp-w338b-bevelknob.mjs', 'tests/lib-w338b-bevelknob.mjs', 'tests/out/bevelknob-338b.json'], label: '診断' },
+    'EQ-64': { secs: ['〔第338便b〕'], paths: ['tests/exp-w338b-bevelknob.mjs', 'tests/lib-w338b-bevelknob.mjs', 'tests/out/bevelknob-338b.json'], label: '診断' },
+    'EQ-65': { secs: ['〔第338便d〕'], paths: ['tests/exp-w338d-ringbook.mjs', 'tests/lib-w338d-ringbook.mjs', 'tests/out/ringbook-338d.json'], label: '診断' },
+    'EQ-66': { secs: ['〔第338便e〕'], paths: ['tests/exp-w338e-spinfield.mjs', 'tests/lib-w338e-spinfield.mjs', 'tests/out/spinfield-338e.json'], label: '診断' },
+    'EQ-67': { secs: ['〔第338便f〕'], paths: ['tests/exp-w338f-heatlock.mjs', 'tests/lib-w338f-heatlock.mjs', 'tests/out/heatlock-338f.json'], label: '診断' },
+    'EQ-68': { secs: ['〔第338便f〕'], paths: ['tests/exp-w338f-heatlock.mjs', 'tests/lib-w338f-heatlock.mjs', 'tests/out/heatlock-338f.json'], label: '診断' },
+    'EQ-69': { secs: ['〔第339便a〕'], paths: ['tests/exp-w339a-rotvert.mjs', 'tests/lib-w339a-rotvert.mjs', 'tests/out/rotvert-w339a.json', 'beta/index.html'], label: '実装〔opt-in〕' },
+  };
+  // 項の中の数(出どころの節に同じ字)
+  const NUMS = [['EQ-64', '104.48°', '〔第338便b — '], ['EQ-64', '0.134', '〔第338便b — '], ['EQ-65', '10.4 m', '〔第338便d — '], ['EQ-66', '82〜2070', '〔第338便e — '], ['EQ-66', '0.028 c', '〔第338便e — '],
+    ['EQ-67', '0.0160', '〔第338便f — '], ['EQ-68', '3.35e-2', '〔第338便f — '], ['EQ-69', '6.560e-7', '〔第339便a — ']];
+  const TERMS140 = ['**ジャイロトルク**', '**部位差分**', '**座標変換(天体が 1 つの場合)**', '**回転成分の二重計上**', '**回転引きずり(2 つの文を並べて置く)**'];
+  const NOT340 = [/回転引きずりの機構が導けた/, /軸引きずりは軸方向で 0 と確かめられた/, /光速を超えないことが分かった/, /環が薄い理由が分かった/, /イオの熱が合った/, /金星の自転が解けた/];
+  const UPD_MUST = ['**第340便の状態の更新(第340便a —— 原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R356)。**', '**判定の理由には使わない**', '82〜2070 倍', '「原文の文」(引用)と「読み」(数に直したもの)',
+    '**光速が出る行の一覧(状態は変えていない —— ⑩ の 2 行のほか)**', '光速を超えることだけを理由に候補を「不用の見込み」にしない'];
+  const SEC_MUST = ['原仮定者の指示(2026-11-17 —— 第140報)', 'R356', '**表 1 第140報の文と、今の診断・アプリの当たる所**', '**表 2 第140報の文と過去の指示**', '**表 3 光速が出る台帳の行(状態は ⑩ の剛体の 1 行のほかは不変)**',
+    '**表 4 EQ-63〜EQ-69**', '**第340便a の注(2 倍角の則・〔第337便l〕・〔第338便b〕へ)。**', '**帯の量の呼び方(注)。**', '5.18 m', '10.4 m', '達 85・部分 35・未達 2', '合 0・量限定合 2・否 1・保留 16', '観測と合ったことではない',
+    '環の厚みを観測と合わせた判定ではない', 'view338aOf340a', 'docs.dfmSummary340a', '変えていない所', '未着手'];
+  const ledgerOf = (ph) => T37.parseKnobLedger337g(T37.policySection337g(ph));
+  const check = (eq, ph, as, cl, pm) => {
+    const bad = [], cases = [];
+    const all = T34.eqItems334f(eq), ids = new Set(all.map((z) => z.id)), nw = all.filter((z) => z.num >= 63);
+    const tb = ledgerOf(ph), st = new Map(tb.rows.map((r) => [r[0], r[6]]));
+    // ① 節の位置
+    const sec = physSecOf(ph, '〔第340便a — '), iA = ph.indexOf('\n〔第340便a — '), iP = ph.indexOf('\n〔第339便a — '), iT = ph.indexOf('\n〔第328便 — 統括'), i7 = ph.indexOf('\n## 7. 論文');
+    if (!(iA >= 0 && iP >= 0 && iP < iA && (iT < 0 || iA < iT) && (i7 < 0 || iA < i7))) bad.push('① PHYSICS〔第340便a〕の位置(第339便a の節の後・第328便の統括の節と「## 7.」の前)');
+    for (const w of SEC_MUST) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第340便a〕に「' + w.slice(0, 30) + '」が無い');
+    cases.push(`① PHYSICS〔第340便a〕の位置と必須の語 ${SEC_MUST.length}`);
+    // ② 表 1
+    const L = sec.split('\n'), t1 = L.filter((l) => /^\| (決定力場力学のまとめ|引きずりの思考実験|並進引きずりと軸引きずり|引きずりでの光速) \| /.test(l)).map(cells);
+    if (t1.length !== SRC140.length) bad.push('② 表 1 の行の数 ' + t1.length + '(' + SRC140.length + ' のはず)');
+    let nRef = 0;
+    SRC140.forEach(([k, tx], i) => {
+      const r = t1[i];
+      if (!r || r[1] !== k) { bad.push('② 表 1 の ' + (i + 1) + ' 行目の項が「' + k + '」でない'); return; }
+      if (r[2] !== '「' + tx + '」') bad.push('② 表 1 の「' + k + '」の原文の字が第140報の文と違う');
+      const refs = [...(r[3] || '').matchAll(/EQ-\d\d/g)].map((m) => m[0]);
+      if (!refs.length && !/§2a|台帳/.test(r[3] || '')) bad.push('② 表 1 の「' + k + '」の当たる所に項が無い');
+      for (const id of refs) { nRef++; if (!ids.has(id)) bad.push('② 表 1 の「' + k + '」が無い項 ' + id + ' を指す'); }
+      if (!r[4]) bad.push('② 表 1 の「' + k + '」のまだ当たっていない所が空');
+    });
+    cases.push(`② 表 1 の ${t1.length} 行(原文の字・当たる所の項の参照 ${nRef} が実在)`);
+    // ③ 表 2
+    for (const [nm, a, b] of CONFLICT) { const l = L.find((x) => x.startsWith('| ' + nm + ' |')) || ''; if (!l || l.indexOf(a) < 0 || l.indexOf(b) < 0) bad.push('③ 表 2 の「' + nm + '」に両方の文が無い'); }
+    if (/(誤り|間違い)(だった|である|とする)/.test(stripQ(sec))) bad.push('③ PHYSICS〔第340便a〕にどちらかを誤りとする文');
+    cases.push(`③ 表 2 の ${CONFLICT.length} 件(両方の文)`);
+    // ④ 表 3
+    for (const nm of LIGHT_ROWS) { const l = L.find((x) => x.startsWith('| ' + nm + ' |')); if (!l) { bad.push('④ 表 3 に「' + nm + '」の行が無い'); continue; } const c = cells(l); if (!st.has(nm)) bad.push('④ 表 3 の「' + nm + '」が台帳に無い'); else if (!(c[1] || '').startsWith(st.get(nm))) bad.push('④ 表 3 の「' + nm + '」の状態「' + c[1] + '」が台帳の「' + st.get(nm) + '」と違う'); }
+    cases.push(`④ 表 3 の ${LIGHT_ROWS.length} 行(台帳の今の状態と同じ)`);
+    // ⑤ 台帳
+    for (const [nm, want] of R10) if (st.get(nm) !== want) bad.push('⑤ 台帳の「' + nm + '」の状態「' + st.get(nm) + '」が「' + want + '」でない');
+    for (const r of tb.rows) if (T37.KNOB_STATES_337G.indexOf(r[6]) < 0) bad.push('⑤ 台帳の行「' + r[0].slice(0, 20) + '」の状態が語彙の外');
+    if (tb.after !== T37.KNOB_MARK_337G) bad.push('⑤ 台帳の表の末尾の次の行が印 knob-ledger:337 でない');
+    const g = T37.policySection337g(ph), ui = g.indexOf('**第340便の状態の更新(第340便a'), upd = ui >= 0 ? g.slice(ui, (g.indexOf('\n**④ ', ui) + 1 || g.length + 1) - 1) : '';
+    for (const w of UPD_MUST) if (upd.indexOf(w) < 0) bad.push('⑤ 第340便の状態の更新に「' + w.slice(0, 30) + '」が無い');
+    for (const nm of LIGHT_ROWS.filter((x) => x.indexOf('⑩') < 0)) if (upd.indexOf('「' + nm + '」') < 0) bad.push('⑤ 第340便の状態の更新の一覧に「' + nm + '」が無い');
+    cases.push(`⑤ 台帳の ⑩ の 2 行(剛体 対照・落ちる型 候補)・語彙 ${T37.KNOB_STATES_337G.length} 語(${tb.rows.length} 行)・第340便の状態の更新(必須の語 ${UPD_MUST.length})`);
+    // ⑥ EQ-63〜EQ-69
+    if (nw.map((z) => z.id).join('|') !== IDS.join('|')) bad.push('⑥ EQ-63 以降の項の番号: ' + nw.map((z) => z.id).join('・'));
+    const fc = new Map(), rd = (f) => { if (!fc.has(f)) fc.set(f, rd340a(f)); return fc.get(f); };
+    let nB = 0, nF = 0, nK = 0;
+    for (const it of nw) {
+      const S = SRC[it.id]; if (!S) continue;
+      if (it.label !== S.label) bad.push('⑥ ' + it.id + ' のラベル「' + it.label + '」が「' + S.label + '」でない');
+      for (const part of ['\n- **数式版**: ', '\n- **解説**: ', '\n- **出どころ**: ', '\n- **ノブの台帳**: ', '\n- **プログラム版 1**', '\n- **PHYSICS の節**: ']) if (it.text.indexOf(part) < 0) bad.push('⑥ ' + it.id + ' に「' + part.replace(/[\n*:-]/g, '').trim() + '」が無い');
+      const srcLine = (/\n- \*\*出どころ\*\*: ([^\n]+)/.exec(it.text) || [])[1] || '';
+      for (const p of S.paths) { if (srcLine.indexOf('`' + p + '`') < 0) bad.push('⑥ ' + it.id + ' の出どころに ' + p + ' が無い'); else if (!fs.existsSync(path.join(ROOT, p))) bad.push('⑥ ' + it.id + ' の出どころの経路 ' + p + ' が実在しない'); }
+      for (const sc of S.secs) if (!it.physRefs.some((r) => r.ref === sc)) bad.push('⑥ ' + it.id + ' が ' + sc + ' を指さない');
+      for (const r of it.physRefs) if (ph.indexOf('\n' + r.head) < 0) bad.push('⑥ ' + it.id + ' の節 ' + r.ref + ' の見出しが PHYSICS に無い');
+      if (S.label === '診断' && T37.IMPL_MARK_337G.test(stripCode(it.text).replace(/\n- \*\*ラベル\*\*: [^\n]*/, ''))) bad.push('⑥ ' + it.id + ' に実装の印');
+      if (!it.blocks.length) bad.push('⑥ ' + it.id + ' にプログラム版が無い');
+      for (const b of it.blocks) {
+        nB++;
+        const where = it.id + ' の抜粋 ' + b.k + '(' + b.file + ' · ' + b.name + ')';
+        if (S.paths.indexOf(b.file) < 0 || /\.json$|exp-w/.test(b.file)) { bad.push('⑥ ' + where + ' が出どころの lib か本体でない'); continue; }
+        const span = T34.defSpan334f(rd(b.file), b.name);
+        if (!span) { bad.push('⑥ ' + where + ': 名の定義が無い'); continue; }
+        const ns = norm(span);
+        b.frags.forEach((f, mi) => { nF++; const nf = norm(f); if (!nf || ns.indexOf(nf) < 0) bad.push('⑥ ' + where + ' の断片 ' + (mi + 1) + ' が定義の範囲に無い: «' + nf.slice(0, 50) + '»'); });
+      }
+      const kl = (/\n- \*\*ノブの台帳\*\*: ([^\n]+)/.exec(it.text) || [])[1] || '';
+      const pairs = [...kl.matchAll(/「([^」]+)」\(([^)]+)\)/g)];
+      if (!pairs.length) bad.push('⑥ ' + it.id + ' のノブの台帳の欄に行が無い');
+      for (const m of pairs) { nK++; if (!st.has(m[1])) bad.push('⑥ ' + it.id + ' の台帳の行「' + m[1].slice(0, 24) + '」が表 2 に無い'); else if (st.get(m[1]) !== m[2]) bad.push('⑥ ' + it.id + ' の台帳の行「' + m[1].slice(0, 24) + '」の状態「' + m[2] + '」が表 2 の「' + st.get(m[1]) + '」と違う'); }
+    }
+    let nN = 0;
+    for (const [id, t, head] of NUMS) { nN++; const it = nw.find((z) => z.id === id); if (!it || stripCode(it.text).indexOf(t) < 0) bad.push('⑥ ' + id + ' に「' + t + '」が無い'); else if (physSecOf(ph, head).indexOf(t) < 0) bad.push('⑥ ' + id + ' の「' + t + '」が出どころの節 ' + head.replace(' — ', '〕') + ' に無い'); }
+    for (const id of IDS) if (!sec.split('\n').some((l) => l.startsWith('| ' + id + ' |') && l.indexOf('| ' + SRC[id].label + ' |') >= 0)) bad.push('⑥ PHYSICS〔第340便a〕の表 4 に ' + id + ' の行が無い');
+    cases.push(`⑥ EQ-63 以降の項 ${nw.length}(ラベル 診断 6・実装〔opt-in〕1)—— 6 つの部分・出どころの経路・節の見出し・抜粋 ${nB}・断片 ${nF}(名指しの定義の範囲)・台帳の欄 ${nK} 行・項の中の数 ${nN}(出どころの節に同じ字)`);
+    // ⑦ §2a・§3・§6・§7・冒頭
+    const s2a = T34.termSection334f(eq);
+    for (const w of TERMS140.concat(['- **第338〜339便の式**(第340便a', '**第340便で探索中**', '**帯の量の呼び方**'])) if (s2a.indexOf(w) < 0) bad.push('⑦ §2a に「' + w + '」が無い');
+    for (const [k, tx] of SRC140.filter(([k]) => ['ジャイロトルク', '二重計上'].includes(k))) if (s2a.indexOf('「' + tx + '」') < 0) bad.push('⑦ §2a の用語に第140報の「' + k + '」の文が無い');
+    const refs = [...new Set([...s2a.matchAll(/EQ-\d\d/g)].map((m) => m[0]))];
+    for (const id of refs) if (!ids.has(id)) bad.push('⑦ §2a が無い項 ' + id + ' を指す');
+    const s3i = eq.indexOf('\n## 3. '), s3 = s3i >= 0 ? eq.slice(s3i, eq.indexOf('\n## ', s3i + 1)) : '';
+    for (const id of IDS) { const it = nw.find((z) => z.id === id); if (!s3.split('\n').some((l) => it && l === '| ' + id + ' | ' + it.title + ' | ' + it.label + ' |')) bad.push('⑦ §3 の一覧に ' + id + ' の行が無い'); }
+    const s6i = eq.indexOf('\n## 6. '), s6 = s6i >= 0 ? eq.slice(s6i, eq.indexOf('\n## ', s6i + 1)) : '';
+    if (s6.indexOf('第339便a のアプリの鍵の式は EQ-69 が拾う(第340便a —— 項は ' + all.length + ')') < 0) bad.push('⑦ §6 の件数の文(EQ-63〜EQ-69・項は ' + all.length + ')');
+    const s7i = eq.indexOf('\n## 7. '), s7 = s7i >= 0 ? eq.slice(s7i) : '';
+    if (!/\n11\. \*\*第338〜339便の式と第140報の用語\*\*\(第340便a —— `docs\.dfmSummary340a`\)/.test(s7) || s7.indexOf('view338aOf340a') < 0) bad.push('⑦ §7 の規則 11');
+    if (eq.indexOf('- **第338〜339便の式・第140報のまとめの用語(第340便a)**: ') < 0) bad.push('⑦ 冒頭の第340便a の 1 行');
+    const e62 = (all.find((z) => z.id === 'EQ-62') || { text: '' }).text;
+    if (!e62 || e62.indexOf('第340便') >= 0) bad.push('⑦ EQ-62 の本文に第340便の字(本文は書き換えない)');
+    cases.push(`⑦ §2a(第140報の用語 ${TERMS140.length}・項の参照 ${refs.length})・§3 の ${IDS.length} 行・§6 の件数の文(項 ${all.length})・§7 の規則 11・冒頭の 1 行・EQ-62 の本文は不変`);
+    // ⑧ AI_SPEC・CHANGELOG・post-merge
+    const a248 = as.search(/\n## 248\. 第340便a/), a247 = as.search(/\n## 247\. 第339便a/), ai = a248 >= 0 ? secUntilNext329c(as, a248 + 1, '\n## ') : '';
+    if (!(a248 >= 0 && a247 >= 0 && a247 < a248 && ['第140報', 'EQ-63〜EQ-68', 'EQ-69', '光速を超えることだけを理由に候補を落とさない', 'docs.dfmSummary340a', 'view338aOf340a', 'SYSTEM_PROMPT には載せない', '現実の宇宙の主張ではない'].every((w) => ai.indexOf(w) >= 0))) bad.push('⑧ AI_SPEC §248(§247 の後・必須の語)');
+    const cb = cl.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(cl, cb, '\n## ') : '', cln = clg.split('\n').find((l) => l.indexOf('**第340便a**') >= 0) || '';
+    if (!(['R356', '第140報', 'EQ-63〜EQ-69', 'docs.dfmSummary340a', 'view338aOf340a', '⑩'].every((w) => cln.indexOf(w) >= 0))) bad.push('⑧ CHANGELOG の beta の節の第340便a の行');
+    if (!(pm.indexOf('# ==== 第340便a の塊(ここから)====') >= 0 && ['docs.dfmSummary340a', 'docs.equations338a'].every((k) => pm.indexOf(k) >= 0))) bad.push('⑧ post-merge の ③′ に第340便a の塊');
+    cases.push('⑧ AI_SPEC §248(§247 の後)・CHANGELOG の第340便a の行・post-merge の ③′');
+    // ⑨ 書かない語
+    const i340 = s2a.indexOf('- **第338〜339便の式**(第340便a'), new2a = i340 >= 0 ? s2a.slice(i340) : '';
+    let nW = 0;
+    for (const [nm, tx] of [['PHYSICS〔第340便a〕', sec], ['第340便の状態の更新', upd], ['AI_SPEC §248', ai], ['CHANGELOG の第340便a の行', cln], ['§2a の追記', new2a]].concat(nw.map((z) => [z.id, z.text]))) {
+      const s = stripQ(tx);
+      for (const re of NOT340) if (re.test(s)) bad.push('⑨ ' + nm + ' に書かない語 ' + re.source);
+      for (const b of T37.wordAudit337g(nm, tx)) bad.push('⑨ ' + b);
+      if (nm === '§2a の追記' || /^EQ-/.test(nm)) for (const w of T34.DECIDE_WORDS_334F) if (stripCode(s).indexOf(w) >= 0) bad.push('⑨ ' + nm + ' に主の型を決めた語(' + w.length + ' 字)');
+      nW++;
+    }
+    cases.push(`⑨ 書かない語(第340便の禁句 ${NOT340.length}・第337便までの禁句・裸の係数記号・主の型を決めた語)—— ${nW} 本`);
+    return { bad, cases };
+  };
+  const PH = rd340a('docs/PHYSICS.md') || '', AS = rd340a('docs/AI_SPEC.md') || '', CLx = rd340a('CHANGELOG.md') || '', PM = rd340a('tools/post-merge-qa.sh') || '';
+  {
+    let bad = [], cases = [];
+    try {
+      const R = check(EQ0, PH, AS, CLx, PM); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      // ⑩ 変異の自己試験
+      const MUT = [
+        ['表 1 の原文の字を 1 字変える', EQ0, PH.replace('「回転体の軸に対して、軸を傾ける力が、90度回転方向にズレて現れる力が、ジャイロトルク」 | EQ-23', '「回転体の軸に対して、軸を傾ける力が、90度回転方向にずれて現れる力が、ジャイロトルク」 | EQ-23'), /^② 表 1 の「ジャイロトルク」の原文/],
+        ['台帳の ⑩ の剛体を候補に戻す', EQ0, PH.replace('(数は残す —— 光速を超えるかは判断基準にしない) | 太陽系の観測の目安の内外(3 系とも内) | 対照 |', '(数は残す —— 光速を超えるかは判断基準にしない) | 太陽系の観測の目安の内外(3 系とも内) | 候補 |'), /^⑤ 台帳の「⑩ の場の型\(剛体\)」の状態/],
+        ['EQ-66 の台帳の欄の状態を候補に(台帳は対照)', EQ0.replace('「⑩ の場の型(剛体)」(対照)', '「⑩ の場の型(剛体)」(候補)'), PH, /^⑥ EQ-66 の台帳の行「⑩ の場の型\(剛体\)」の状態「候補」/],
+        ['EQ-65 の抜粋の断片の 1 字違い', EQ0.replace('const den = 2 * Gam - A;', 'const den = 2 * Gam + A;'), PH, /^⑥ EQ-65 の抜粋 3\(tests\/lib-w338d-ringbook\.mjs · linearLedger\) の断片 1/],
+        ['EQ-67 のラベルを実装〔既定〕に', EQ0.replace('### EQ-67 熱の帳簿(離心軌道の潮汐・軸引きずりの源ごとの口・加減速の差)\n\n- **ラベル**: 診断', '### EQ-67 熱の帳簿(離心軌道の潮汐・軸引きずりの源ごとの口・加減速の差)\n\n- **ラベル**: 実装〔既定〕'), PH, /^⑥ EQ-67 のラベル/],
+        ['§2a の第140報の用語を 1 つ消す', EQ0.replace('  - **部位差分**: ', '  - 部位差分: '), PH, /^⑦ §2a に「\*\*部位差分\*\*」/],
+        ['節に第340便の禁句', EQ0, PH.replace('**⑪ 書かないこと。** 第140報の文を', '**⑪ 書かないこと。** 光速を超えないことが分かった。第140報の文を'), /^⑨ PHYSICS〔第340便a〕 に書かない語 光速を超えないことが分かった/],
+        ['禁句を「」の中に置く(数えない)', EQ0, PH.replace('**⑪ 書かないこと。** 第140報の文を', '**⑪ 書かないこと。** 「金星の自転が解けた」とは書かない。第140報の文を'), null],
+      ];
+      const sc = [];
+      for (const [nm, e, p, re] of MUT) {
+        const r = check(e, p, AS, CLx, PM);
+        if (re === null) { if (r.bad.length) bad.push('⑩ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
+        const hit = r.bad.some((b) => re.test(b));
+        if (!hit) bad.push('⑩ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+        sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+      }
+      cases.push(`⑩ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+      // 第338便a の照合の世代の写し
+      const V = view338aOf340a(EQ0);
+      if ((/\n### EQ-(6[3-9]|[7-9]\d) /).test(V)) bad.push('⑪ 世代の写しに EQ-63 以降の項が残る');
+      cases.push('⑪ 第338便a の照合の世代の写し(view338aOf340a —— EQ-63 以降の項と §2a の参照を外す)');
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.dfmSummary340a', bad.length === 0,
+      `**第140報の決定力場力学のまとめ・過去の指示との照合・ノブの台帳の ⑩・計算式の一覧の EQ-63〜EQ-69 と第140報の用語**(第340便a・原仮定者の指示(2026-11-17 —— 第140報)・R356 —— 原文は言葉を変えずに引く・どちらも消さない・光速を超えることだけを理由に落とさない・文書): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第340便a の塊(ここまで)====
 
 // ==== 第340便b の塊(ここから —— behavior.axialsplit340b・docs.axialsplit340b の 2 ブロック。root は SKIP)====
 // ---- 第340便b(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R357): **軸引きずりの回転成分の二重計上の切り分け(軸方向で 0 になる候補の列)・赤道面の見え方(並進は順・軸は逆)・

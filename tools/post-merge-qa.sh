@@ -1045,6 +1045,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.heatlock338f docs.heatlock338f"
 #   新しい段 rotvert-339a の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rotvert339a docs.rotvert339a"
 # ==== 第339便a の塊(ここまで)====
+# ==== 第340便a の塊(ここから)====
+# 第340便a(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R356 —— 文書と QA だけ・html は変えない): 枝 a の新設 1 本(docs.dfmSummary340a —— PHYSICS〔第340便a〕の表 1〜表 4・
+#   ノブの台帳の ⑩ の状態と第340便の状態の更新・docs/EQUATIONS.md の EQ-63〜EQ-69 と §2a の第140報の用語・AI_SPEC §248・CHANGELOG)と、世代の写しで読むように直した docs.equations338a・計算式の一覧を読む既存の鍵
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.dfmSummary340a docs.equations338a docs.policy338a docs.equations337g docs.policy337g lint.equations331d docs.equations331d"
+# ==== 第340便a の塊(ここまで)====
 # ==== 第340便b の塊(ここから)====
 # 第340便b(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R357 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.axialsplit340b —— 純関数の場面・T1〜T4 を作り直して
 #   正本と同じ〔第338便c の recheckRun〕・独立の照合 / docs.axialsplit340b —— 正本の門と表が PHYSICS〔第340便b〕に逐語・文書)
