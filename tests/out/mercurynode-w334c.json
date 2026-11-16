@@ -3,7 +3,7 @@
  "libVersion": "w334c-mercurynode-lib-1",
  "generator": "tests/exp-w334c-mercurynode.mjs",
  "target": "beta/index.html",
- "targetSha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "reuseFrom": null,
  "ruling": "原仮定者の整理(2026-11-11)「水星の近点移動について: 斜め軌道の交点での並進の回転が有望」「引き続き、様々な組み合わせを調べる」・原仮定者の回答(2026-11-11 —— AN633)交点・傾き・ベクトルの変化を比べる量に・原仮定者の回答(2026-11-11 —— AN634)今の受け手 n = 2 + K1 は凍結の基準・原仮定者の回答(2026-11-11 —— AN635)統合した並進の回転の分を先に・原仮定者の回答(2026-11-11 —— AN636)自己の半径は Y_k m を基準・次数と自己の形を揃えた格子・統括の検証項目 R324",
  "decl": {
@@ -13822,28 +13822,28 @@
  ],
  "timing": {
   "pure": {
-   "wallSec": 0.157
+   "wallSec": 0.317
   },
   "books": {
-   "wallSec": 0.158
+   "wallSec": 0.319
   },
   "windows": {
-   "wallSec": 0.4
+   "wallSec": 0.617
   },
   "hypo": {
-   "wallSec": 1.032
+   "wallSec": 1.416
   },
   "combos": {
-   "wallSec": 1.494
+   "wallSec": 1.906
   },
   "lit": {
-   "wallSec": 1.614
+   "wallSec": 1.997
   },
   "numeric": {
-   "wallSec": 6.12
+   "wallSec": 6.298
   },
   "controls": {
-   "wallSec": 7.687
+   "wallSec": 7.641
   }
  },
  "gates": {
@@ -13861,19 +13861,19 @@
   "rotNode": true
  },
  "ok": true,
- "elapsedS": 9.684,
+ "elapsedS": 9.627,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第334便c",
   "target": "beta/index.html",
-  "targetSha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
-  "generatedAt": "2026-11-12T15:12:40.577Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:09:39.035Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
-    "mtime": "2026-11-12T15:00:26.876Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -13881,91 +13881,91 @@
     "file": "tests/exp-w334c-mercurynode.mjs",
     "bytes": 33823,
     "sha256": "a803d279f2fa2904bc528f0881b6c1e235584c0dde68c633d627833193da3932",
-    "mtime": "2026-11-12T15:12:24.513Z"
+    "mtime": "2026-11-12T15:47:50.356Z"
    },
    {
     "file": "tests/lib-w334c-mercurynode.mjs",
     "bytes": 35987,
     "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
-    "mtime": "2026-11-12T15:12:15.428Z"
+    "mtime": "2026-11-12T15:47:50.364Z"
    },
    {
     "file": "tests/exp-w333c-mercury3d.mjs",
     "bytes": 29178,
     "sha256": "c10bf270e3dd20cdf68cb1d4c93fb182f040391f5296e160c9eca48b617092d4",
-    "mtime": "2026-11-12T15:00:27.120Z"
+    "mtime": "2026-11-10T21:32:27.075Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35614,
     "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
-    "mtime": "2026-11-12T15:00:27.168Z"
+    "mtime": "2026-11-10T21:32:27.079Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-12T15:00:27.164Z"
+    "mtime": "2026-11-10T04:53:08.019Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-12T15:00:27.164Z"
+    "mtime": "2026-11-09T20:28:10.251Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-12T15:00:27.164Z"
+    "mtime": "2026-11-08T17:01:18.701Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-12T15:00:27.152Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-12T15:00:27.152Z"
+    "mtime": "2026-10-21T18:25:03.634Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-12T15:00:27.152Z"
+    "mtime": "2026-10-20T16:19:56.684Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-12T15:00:27.148Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-12T15:00:27.140Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-12T15:00:27.140Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-12T15:00:27.136Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-12T15:00:27.144Z"
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
   "codeSha256": "960625d60d838ff7ce4ffaf941027d4b3e85a20d0f65c32b9f80679c171a89e9",
@@ -14004,11 +14004,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1324,
-   "segments": 1161,
-   "closureShare": 0.2874
+   "names": 1339,
+   "segments": 1170,
+   "closureShare": 0.2879
   },
-  "scopeSha256": "eaa9f8e90a306b673cdc56eb75addc32b8dcdc0944ead51596c1879d66afe612",
+  "scopeSha256": "f082ff9231ce3c20303bfe54794e54c0816fcd7a0bb6859d4ae37813e1333b1c",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
