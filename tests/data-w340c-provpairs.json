@@ -1,0 +1,136 @@
+{
+ "version": "w340c-provpairs-1",
+ "what": "第340便c(R358・AN770): 鎖の前後の常時群の正本の組(git の rev)を、前の世代の宣言(w324c)と今の宣言(w340c)の安定 hash(先頭 16 桁)で比べた記録。前の世代では組ごとに違い(読み手の段が門で走った)、今の宣言では同じ(読み手は再利用)。物理の値の葉の差は 0(違ったのは転記の来歴の欄だけ)。",
+ "tool": "tests/lib-w340c-chaintools.mjs の realPairCompare340c(QA lint.provenanceExclude340c が git の履歴があれば引き直す)",
+ "decl": {
+  "calaudit": {
+   "prev": "w324c-vcal-3",
+   "prevFp": "53a87bd8d16a3e37",
+   "cur": "w340c-vcal-4",
+   "curFp": "870255262afcad86"
+  },
+  "diag": {
+   "prev": "w324c-vdiag-3",
+   "prevFp": "a1a6237c37d2e7ed",
+   "cur": "w340c-vdiag-4",
+   "curFp": "3b58b6e2c3fdf89b"
+  }
+ },
+ "diffKinds": {
+  "cal": [
+   "/h2Reuse/fresh",
+   "/h2Reuse/reused",
+   "/h2Reuse/refused",
+   "/h4Reuse/fresh",
+   "/h4Reuse/reused",
+   "/h4Reuse/refused",
+   "/presets/*/run/h2Reuse/{reused,reason,diff,reusedFrom}",
+   "/presets/*/run/h4Reuse/{reused,reason,diff,reusedFrom}",
+   "/presets/*/run/dtHalf/{reusedFrom,skippedBy}",
+   "/presets/*/run/dtQuarter/{reusedFrom,skippedBy}",
+   "/presets/*/run/stopRuleStages/*/{reusedFrom,skippedBy}",
+   "/presets/*/run/timeBudget/*/{reused,reusedFrom,skippedBy}"
+  ],
+  "diag": [
+   "/h2Store/freshThisRun",
+   "/h2Store/reusedThisRun"
+  ]
+ },
+ "diffLeaves": {
+  "第339便 鎖 1 → 鎖 2": {
+   "cal": 241,
+   "diag": 2
+  },
+  "第339便 鎖 2 → 鎖 3": {
+   "cal": 199,
+   "diag": 2
+  },
+  "第337便 鎖 1 → 鎖 2": {
+   "cal": 199,
+   "diag": 2
+  }
+ },
+ "pairs": [
+  {
+   "name": "第339便 鎖 1 → 鎖 2",
+   "a": "9e1aebc",
+   "b": "b5e5064",
+   "prev": {
+    "cal": [
+     "b64659cb9cd06cc9",
+     "963a597eb6be5045"
+    ],
+    "diag": [
+     "314fb747d355eebf",
+     "9d8bb886d18f5c87"
+    ]
+   },
+   "cur": {
+    "cal": [
+     "ccee422edc98c33e",
+     "ccee422edc98c33e"
+    ],
+    "diag": [
+     "8d6018965f8d29fc",
+     "8d6018965f8d29fc"
+    ]
+   },
+   "prevSame": false,
+   "curSame": true
+  },
+  {
+   "name": "第339便 鎖 2 → 鎖 3",
+   "a": "b5e5064",
+   "b": "0f1a201",
+   "prev": {
+    "cal": [
+     "963a597eb6be5045",
+     "f973aee9135dba9e"
+    ],
+    "diag": [
+     "9d8bb886d18f5c87",
+     "314fb747d355eebf"
+    ]
+   },
+   "cur": {
+    "cal": [
+     "ccee422edc98c33e",
+     "ccee422edc98c33e"
+    ],
+    "diag": [
+     "8d6018965f8d29fc",
+     "8d6018965f8d29fc"
+    ]
+   },
+   "prevSame": false,
+   "curSame": true
+  },
+  {
+   "name": "第337便 鎖 1 → 鎖 2",
+   "a": "c0e0e40",
+   "b": "c416a9c",
+   "prev": {
+    "cal": [
+     "ac34b6bd4a853f2d",
+     "17eac3c21130ea6b"
+    ],
+    "diag": [
+     "98fa85f106f2cc68",
+     "134bd9a74bd407bf"
+    ]
+   },
+   "cur": {
+    "cal": [
+     "002370e5f8d4606d",
+     "002370e5f8d4606d"
+    ],
+    "diag": [
+     "73de8dbf1c9e0382",
+     "73de8dbf1c9e0382"
+    ]
+   },
+   "prevSame": false,
+   "curSame": true
+  }
+ ]
+}

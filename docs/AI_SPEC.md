@@ -5162,6 +5162,12 @@ SYSTEM_PROMPT の規則 13(逐語):
 - QA `behavior.axialsplit340b`・`docs.axialsplit340b`(本節と PHYSICS〔第340便b〕・CHANGELOG —— root は SKIP)。
 
 
+
+## 250. 第340便c —— 鎖の道具: 常時群の転記の来歴の欄を安定 hash の除外へ・見積りの秒の取りこぼし・鎖の所要の見積り(原仮定者の指示(2026-11-17 —— 第140報)・決断事項 AN770・統括の検証項目 R358・**道具と宣言だけ** —— html・本の宣言・エンジン・受理器・`S._core`・physics の鍵・正本の数は不変・**SYSTEM_PROMPT には載せない**)
+- **何をしたか**: 常時群(`tests/out/calaudit-w249.json`・`tests/out/calaudit-w249-diag.json`)の安定 hash の除外の宣言を w340c-vcal-4・w340c-vdiag-4 に上げ、転記の来歴の欄(h/2・h/4 を今回走らせたか転記したか —— fresh・reused・refused・reason・diff・reusedFrom・skippedBy・freshThisRun・reusedThisRun)を**具体の Pointer の許可の一覧** `provenancePaths` で足した。同じ便の鎖 2・鎖 3 で読み手の段(Charon 系・pn1・geo3・pnsource286 ほか)が走り直していた元(BL-091)。`tools/regen-chain.mjs --calibrate` に後段(確かめの秒を見積りに書かない・表の本文へ戻す・2 倍の一覧)と `--estimate <鎖の JSON>`(模擬・最長の経路・秒の和 ÷ レーン)を足した。lib `tests/lib-w340c-chaintools.mjs`・記録 `tests/data-w340c-provpairs.json`。
+- **AI が読むときの要点**: 安定 hash の一致は「実行時刻・所要・転記の来歴以外が同じ」ことだけを意味する(結果が正しいことの保証ではない)。物理の値・契約・署名の欄は除外していない(対照で 1 つ変えると門は走る)。見積りは見積り —— 鎖の実測ではない。
+- QA `lint.provenanceExclude340c`・`docs.chainTools340c`(本節と PHYSICS〔第340便c〕・CHANGELOG —— root は SKIP)。
+
 ## 251. 第340便d —— 回転引きずりの経路「軸引きずり + 公転 + ジャイロ」を受け手の部位ごとの力で数える・土星の環の帳簿に環の外の受け取り手と方向別の係数(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R359・**診断だけ** —— html・本の宣言・エンジン・受理器・`S._core`・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
 - **何をしたか**: 受け手(有限の球・輪・点)の部位ごとに作用の型 4 つ(drag・corV・corS・drag90)の力を足し、合力と合トルクの両方を出した。ジャイロの 90° のずれは dL/dt = N と歳差で書いた(実のトルクに 1 度だけ)。土星の環の帳簿(第338便d)に、環の外の受け取り手の口(主の列 —— 土星の自転・ミマス)と方向別の係数(比べる列)と第140報の赤道面の列(順の分と逆の分 —— 行き先つき)を足した。器 `tests/exp-w340d-gyropath.mjs`・lib `tests/lib-w340d-gyropath.mjs`・正本 `tests/out/gyropath-340d.json`・段 `gyropath-340d`。
 - **AI が読むときの要点**: 表は「この型・このノブの組ではこうなる」の候補の表で、回転引きずりの機構や環が薄い理由を述べたものではない。アプリの鍵 `physics.rotDragVert`(第339便a)の式・説明は変えていない(経路の型との違いは PHYSICS〔第340便d〕⑤ の表)。

@@ -3102,7 +3102,9 @@ lastAddAt = Date.now();
           // 第324便c(R281): 正本ごとの語彙の拡張(VOLATILE_DECL の runtimeKeys —— 壁時計の数・provenanceParents —— 物理の欄の下でも転記の元の同一性 meta の写しの親の鍵)
           const dcl324c = ((RT.VOLATILE_DECL || {})[f]) || {};
           const isRt324c = (dcl324c.runtimeKeys || []).includes(last);
-          if (!SC.STABLE_RUNTIME_KEYS.includes(last) && !isMeta && !isRt324c) bad.push(`② ${f} ${ptr} の最後の鍵 ${last} は実行時刻・所要・非物理 meta の欄でない`);
+          // 第340便c(R358・AN770): 転記の来歴の欄は**具体の Pointer の許可の一覧**(VOLATILE_DECL の provenancePaths —— Pointer → 値の種類)で通す(最後の鍵の語彙は広げない)
+          const prov340c = ((dcl324c.provenancePaths || {})[ptr]) || null;
+          if (!SC.STABLE_RUNTIME_KEYS.includes(last) && !isMeta && !isRt324c && !prov340c) bad.push(`② ${f} ${ptr} の最後の鍵 ${last} は実行時刻・所要・非物理 meta の欄でない`);
           if (isMeta && toks[0] === 'presets' && !(dcl324c.provenanceParents || []).includes(toks[toks.length - 2])) bad.push(`② ${f} ${ptr} は物理の欄(/presets)の下の非物理 meta —— 置かない`);
           let vals = valuesAt(J, ptr);
           // 第285便f(AN52): 改名した欄(VOLATILE_DECL の renamed —— 新 → 旧)は、改名前の世代の正本(鎖で再生成する前)では旧名の位置に当たる。
@@ -3115,9 +3117,9 @@ lastAddAt = Date.now();
           if (isMeta) nMeta++;
           const isTime = SC.STABLE_TIME_KEYS.includes(last);
           const isBool = (SC.STABLE_BOOL_KEYS || []).includes(last);   // 第285便f(AN52): 真偽値の診断(wallNearBudget)
-          const badV = vals.filter((v) => (isMeta ? !SC.stableMetaValueOk(last, v) : isBool ? typeof v !== 'boolean'
+          const badV = vals.filter((v) => (prov340c ? !RT.provenanceValueOk340c(prov340c, v) : isMeta ? !SC.stableMetaValueOk(last, v) : isBool ? typeof v !== 'boolean'
             : isTime ? !(typeof v === 'string' && /^\d{4}-\d\d-\d\dT/.test(v) && !Number.isNaN(Date.parse(v))) : !(typeof v === 'number' && Number.isFinite(v))));
-          if (badV.length) bad.push(`② ${f} ${ptr}${viaOld ? '(改名前の ' + ren[last] + ')' : ''} の値 ${badV.length} 件が${isMeta ? '非物理 meta の型' : isBool ? '真偽値' : isTime ? ' ISO 日時' : '有限の数'}でない`);
+          if (badV.length) bad.push(`② ${f} ${ptr}${viaOld ? '(改名前の ' + ren[last] + ')' : ''} の値 ${badV.length} 件が${prov340c ? '来歴の種類 ' + prov340c : isMeta ? '非物理 meta の型' : isBool ? '真偽値' : isTime ? ' ISO 日時' : '有限の数'}でない`);
           if (toks[0] !== 'meta') { nOutsideMeta++; outsideMeta.push(f.replace('tests/out/', '') + ptr); }
         }
       }
@@ -3129,7 +3131,10 @@ lastAddAt = Date.now();
         if (!((SC.STABLE_DECL_HISTORY || []).map((z) => z.version).join(',') === 'w282e-decl-1,w285f-decl-2')) bad.push('⑦ 語彙の方式の版の履歴が無い');
         const VD = RT.VOLATILE_DECL || {};
         // 第324便c(R281): 宣言の版の世代 —— h/2 の転記の来歴(calaudit w324c-vcal-3)・置き場の行の html の sha(diag w324c-vdiag-3)
-        const want = { 'tests/out/calaudit-w249.json': 'w324c-vcal-3', 'tests/out/calaudit-w249-diag.json': 'w324c-vdiag-3' };
+        // 第340便c(R358・AN770): 世代 w340c-vcal-4・w340c-vdiag-4(転記の来歴の欄 —— 具体の Pointer の許可の一覧)。w324c の版は history に指紋つきで残す(下で照合)
+        const want = { 'tests/out/calaudit-w249.json': 'w340c-vcal-4', 'tests/out/calaudit-w249-diag.json': 'w340c-vdiag-4' };
+        for (const [f, v] of Object.entries({ 'tests/out/calaudit-w249.json': 'w324c-vcal-3', 'tests/out/calaudit-w249-diag.json': 'w324c-vdiag-3' }))
+          if (!((VD[f] || {}).history || []).some((h) => h.version === v && /^[0-9a-f]{16}$/.test(String(h.fp || '')))) bad.push(`⑦ ${f} の宣言の履歴に ${v}(指紋つき)が無い`);
         for (const [f, v] of Object.entries(want)) {
           const d = VD[f];
           if (!d || d.version !== v) { bad.push(`⑦ ${f} の宣言の版が ${v} でない`); continue; }
@@ -95074,11 +95079,15 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (RT && SC) {
       const f = 'tests/out/calaudit-w249.json', fd = 'tests/out/calaudit-w249-diag.json';
       const VD = RT.VOLATILE_DECL || {};
-      if (!(VD[f] && VD[f].version === 'w324c-vcal-3' && VD[fd] && VD[fd].version === 'w324c-vdiag-3')) bad.push('宣言の版(w324c-vcal-3・w324c-vdiag-3)');
+      // 第340便c(R358・AN770): 世代 —— 今の版が w324c(第324便c)か、後の版で history に w324c の版を持つ(w340c-vcal-4・w340c-vdiag-4)
+      const gen340c = (d, v) => !!d && (d.version === v || (d.history || []).some((h) => h.version === v));
+      if (!(gen340c(VD[f], 'w324c-vcal-3') && gen340c(VD[fd], 'w324c-vdiag-3'))) bad.push('宣言の版(w324c-vcal-3・w324c-vdiag-3 —— 今の版か履歴に)');
       const vp = RT.volatilePathsOf(f), vd = RT.volatilePathsOf(fd);
       for (const p of RT.V_CALAUDIT_H2P || []) if (!vp.includes(p)) bad.push('calaudit の除外に ' + p + ' が無い');
       for (const p of RT.V_CALAUDIT_DIAG_STOREP || []) if (!vd.includes(p)) bad.push('diag の除外に ' + p + ' が無い');
-      if (vp.some((p) => /\/(reused|reason|diff|contractSha|hSig|stable|skippedBy|dtHalf|h2Reuse)$/.test(p))) bad.push('転記の可否・実測の欄を除外に入れた');
+      // 第340便c(R358・AN770): 転記の来歴の欄(reused・reason・diff・skippedBy —— 具体の Pointer の許可の一覧 provenancePaths)は第340便c の世代で除外へ移した。契約・署名・実測の欄は今も除かない
+      const prov340c = Object.keys(((VD[f] || {}).provenancePaths) || {});
+      if (vp.some((p) => !prov340c.includes(p) && /\/(reused|reason|diff|contractSha|hSig|stable|skippedBy|dtHalf|h2Reuse)$/.test(p))) bad.push('転記の可否・実測の欄を除外に入れた');
       let J = null, D = null; try { J = JSON.parse(rd324c(f)); D = JSON.parse(rd324c(fd)); } catch { J = null; }
       if (J && D) {
         const clone = (x) => JSON.parse(JSON.stringify(x));
@@ -95092,7 +95101,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (pr) { const k = Object.keys(pr.run.dtHalf).find((q) => typeof pr.run.dtHalf[q] === 'number'); if (k) { pr.run.dtHalf[k] = pr.run.dtHalf[k] * (1 + 1e-12) + 1e-300; phys = '/presets/' + pr.id + '/run/dtHalf/' + k; } }
         if (!phys || SC.stableValueSha(K2, vp) === h0) bad.push('h/2 の実測の欄(' + phys + ')を変えても安定 hash が変わらない');
         const K3 = clone(J); const pr3 = (K3.presets || []).find((z) => z.run && z.run.h2Reuse && z.run.h2Reuse.reusedFrom);
-        if (pr3) { pr3.run.h2Reuse.reused = !pr3.run.h2Reuse.reused; if (SC.stableValueSha(K3, vp) === h0) bad.push('転記の可否(h2Reuse.reused)を変えても安定 hash が変わらない'); }
+        // 第340便c(R358・AN770): 転記したか(h2Reuse.reused)は来歴の欄へ移した —— 世代 w340c 以降は契約(h2Reuse.contractSha)を変えて「違う」を見る
+        if (pr3) { if (prov340c.includes('/presets/*/run/h2Reuse/reused')) pr3.run.h2Reuse.contractSha = 'd'.repeat(64); else pr3.run.h2Reuse.reused = !pr3.run.h2Reuse.reused; if (SC.stableValueSha(K3, vp) === h0) bad.push('転記の可否(h2Reuse の契約・reused)を変えても安定 hash が変わらない'); }
         const d0 = SC.stableValueSha(D, vd), DK = clone(D), nD = set(DK, '/h2Store/entries/*/targetSha256', () => 'e'.repeat(64));
         const DK2 = clone(D); const e2 = Object.values((DK2.h2Store || {}).entries || {})[0]; if (e2) e2.hSig = 'x';
         if (SC.stableValueSha(DK, vd) !== d0) bad.push('diag の置き場の html の sha だけを書き換えた写しの安定 hash が変わった');
@@ -95105,7 +95115,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const n = R.stableSha16.calaudit.new, o = R.stableSha16.calaudit.old, dn = R.stableSha16.diag.new;
         if (!(n.base === n.run1 && n.run1 === n.run2TargetNameRestored && dn.run1 === dn.run2 && dn.base === dn.run1)) bad.push('記録: 新しい宣言で走行の間の hash が同じでない');
         if (!(o.base !== o.run1 && o.run1 !== o.run2)) bad.push('記録: 旧の宣言で走行の間の hash が動いていない(動く理由の記録と合わない)');
-        if (R.decl.calaudit.fpNew !== (VD[f] || {}).fp || R.decl.diag.fpNew !== (VD[fd] || {}).fp) bad.push('記録の宣言の指紋が今の宣言と違う(宣言を変えたら走らせ直して記録を取り直す)');
+        // 第340便c(R358): 記録は w324c の世代の宣言の指紋と照合する(今の版なら fp・後の版なら history の fp —— 第340便c の記録は tests/data-w340c-provpairs.json)
+        if (R.decl.calaudit.fpNew !== RT.volatileDeclFpOf340c(f, 'w324c-vcal-3') || R.decl.diag.fpNew !== RT.volatileDeclFpOf340c(fd, 'w324c-vdiag-3')) bad.push('記録の宣言の指紋が w324c の世代の宣言と違う(宣言を変えたら走らせ直して記録を取り直す)');
         cases.push(`2 回の走行の記録: calaudit 旧 ${o.base}/${o.run1}/${o.run2} → 新 ${n.base}/${n.run1}/${n.run2TargetNameRestored}・diag 新 ${dn.base}/${dn.run1}/${dn.run2}(判定の値は同じ —— 器のコードは不変)`);
       }
     }
@@ -107969,6 +107980,141 @@ function view338aOf340a(eq) {
   })();   // 第310便c(heap)
 }
 // ==== 第340便b の塊(ここまで)====
+
+// ==== 第340便c の塊(ここから —— lint.provenanceExclude340c・docs.chainTools340c の 2 ブロック。root は SKIP)====
+// ---- 第340便c(原仮定者の指示(2026-11-17 —— 第140報)・決断事項 AN770・統括の検証項目 R358 —— 鎖の道具): **常時群の転記の来歴の欄を安定 hash の除外へ**(BL-091 —— 鎖 2・鎖 3 が毎回 52 分)
+// ----   と見積りの秒の取りこぼし・鎖の所要の見積り(lib tests/lib-w340c-chaintools.mjs・宣言は tests/lib-w281a-regentable.mjs の「第340便c の塊」・記録 tests/data-w340c-provpairs.json)。
+// ----   lint.provenanceExclude340c: ① 宣言の版(w340c-vcal-4・w340c-vdiag-4)・許可の一覧(provenancePaths)の Pointer が宣言にあり種類が既知・前の世代(w324c)の指紋 = 今の宣言から足した Pointer を除いた並びの指紋
+// ----     ② `*` は配列と決まった容器だけ(PROV_STAR_CONTAINERS_340C —— 今の正本で配列)③ 対照(一時の root で門〔stableInputOk〕と済み印の契約〔semanticSha〕を引く): (a) 物理の値の欄 1 つ → 走る・
+// ----     (b) 来歴の欄だけ → 再利用・前の世代の宣言では (b) も走る ④ 実物の組(第339便の鎖 1〜3・第337便の鎖 1〜2): 前の世代では違い・今の宣言では同じ(記録 —— git の履歴があれば引き直す)
+// ----     ⑤ 見積りの秒の後段の自己試験(calibrateFlags340c)と鎖の所要の見積りの合成の試し(chainEstimate340c)・道具の口(regen-chain --estimate・--calibrate の後段)
+// ----   docs.chainTools340c: PHYSICS〔第340便c〕(〔第339便a〕の後・〔第328便 — 統括〕の前)・AI_SPEC §250・CHANGELOG の第340便c の行・書かない語・禁句
+{
+  await (async () => {
+  const rd340c = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.provenanceExclude340c・docs.chainTools340c(beta 対象でない: ' + TARGET + ' —— 再生成の道具は beta 線)');
+    return;
+  }
+  // ───── lint.provenanceExclude340c ─────
+  {
+    const bad = [], cases = [];
+    let RT = null, SC = null, C = null;
+    try { RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs')); SC = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs')); C = await import('file://' + path.join(ROOT, 'tests', 'lib-w340c-chaintools.mjs')); }
+    catch (e) { bad.push('lib が読めない: ' + String(e && e.message || e).slice(0, 120)); }
+    if (RT && SC && C) {
+      const F = C.CAL_FILE_340C, FD = C.DIAG_FILE_340C, VD = RT.VOLATILE_DECL || {};
+      // ①
+      const want = { [F]: ['w340c-vcal-4', 'w324c-vcal-3'], [FD]: ['w340c-vdiag-4', 'w324c-vdiag-3'] };
+      for (const [f, [v, pv]] of Object.entries(want)) {
+        const d = VD[f] || {}, vp = RT.volatilePathsOf(f), pp = d.provenancePaths || {};
+        if (d.version !== v) bad.push(`① ${f} の宣言の版が ${v} でない`);
+        if (!Object.keys(pp).length) bad.push(`① ${f} に許可の一覧(provenancePaths)が無い`);
+        for (const [p, k] of Object.entries(pp)) { if (!vp.includes(p)) bad.push(`① ${f} の許可の一覧の ${p} が宣言に無い`); if (!RT.PROV_KINDS_340C || !RT.PROV_KINDS_340C[k]) bad.push(`① ${f} ${p} の種類 ${k} が未知`); }
+        const prev = C.previousDecl340c(f), fpPrev = crypto.createHash('sha256').update(prev.slice().sort().join('\n')).digest('hex').slice(0, 16);
+        if (fpPrev !== RT.volatileDeclFpOf340c(f, pv)) bad.push(`① ${f} の前の世代の指紋 ${fpPrev} ≠ 履歴の ${pv} の指紋 ${RT.volatileDeclFpOf340c(f, pv)}(足した Pointer の外を変えた)`);
+        if (vp.some((p) => /\/(contractSha|hSig|stable|entries|complete|stoppedBy|resourceExceeded)$/.test(p))) bad.push(`① ${f} の除外に契約・署名・置き場の行・停止状態の欄がある`);
+        cases.push(`① ${f.replace('tests/out/', '')} ${d.version}(指紋 ${d.fp})・許可の一覧 ${Object.keys(pp).length} 本・前の世代 ${pv} の指紋 ${fpPrev}`);
+      }
+      // ②
+      let J = null, D = null; try { J = JSON.parse(rd340c(F)); D = JSON.parse(rd340c(FD)); } catch { J = null; }
+      if (!J || !D) bad.push('② 常時群の正本が読めない');
+      else {
+        let nStar = 0;
+        for (const [f, X] of [[F, J], [FD, D]]) {
+          const allow = (RT.PROV_STAR_CONTAINERS_340C || {})[f] || [];
+          for (const p of Object.keys(RT.provenancePathsOf340c(f))) {
+            const toks = SC.parsePointer(p);
+            toks.forEach((t, i) => { if (t !== '*') return; nStar++; if (!allow.includes(toks[i - 1])) bad.push(`② ${f} ${p} の \`*\` の容器 ${toks[i - 1]} が許可の容器でない`); });
+            const walk = (x, i) => { if (!x || typeof x !== 'object' || i >= toks.length) return; if (toks[i] === '*') { if (!Array.isArray(x)) bad.push(`② ${f} ${p} の \`*\` の容器 ${toks[i - 1]} が配列でない`); for (const v of Object.values(x)) walk(v, i + 1); } else if (Object.prototype.hasOwnProperty.call(x, toks[i])) walk(x[toks[i]], i + 1); };
+            walk(X, 0);
+          }
+        }
+        cases.push(`② \`*\` ${nStar} か所(容器 ${(RT.PROV_STAR_CONTAINERS_340C[F] || []).join('・')} —— 今の正本で配列)`);
+      }
+      // ③
+      const os = await import('node:os');
+      const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w340c-prov-'));
+      try {
+        const pr = C.provenanceExcludeProbe340c({ root: ROOT, tmpDir: tmp });
+        if (!pr.ok) bad.push('③ ' + pr.bad.slice(0, 4).join(' / '));
+        cases.push('③ 対照 ' + pr.cases.map((z) => z.name.replace(/\(.*?\)/g, '') + ' → ' + z.gate + (z.semSame === null ? '' : '・済み印の契約 ' + (z.semSame ? '同じ' : '違う'))).join(' / '));
+      } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+      // ④
+      let R = null; try { R = JSON.parse(rd340c(C.REAL_PAIRS_FILE_340C) || 'null'); } catch { R = null; }
+      if (!R || R.version !== 'w340c-provpairs-1' || !Array.isArray(R.pairs) || R.pairs.length !== C.REAL_PAIRS_340C.length) bad.push('④ 記録 ' + C.REAL_PAIRS_FILE_340C + ' の形');
+      else {
+        if (R.decl.calaudit.curFp !== (VD[F] || {}).fp || R.decl.diag.curFp !== (VD[FD] || {}).fp) bad.push('④ 記録の宣言の指紋が今の宣言と違う(宣言を変えたら記録を取り直す)');
+        for (const z of R.pairs) if (!(z.prevSame === false && z.curSame === true)) bad.push(`④ 記録 ${z.name}: 前の世代 ${z.prevSame ? '同じ' : '違う'}・今 ${z.curSame ? '同じ' : '違う'}`);
+        const { execFileSync } = await import('node:child_process');
+        const show = (rev, f) => { try { return execFileSync('git', ['-C', ROOT, 'show', rev + ':' + f], { encoding: 'utf8', maxBuffer: 256 << 20, stdio: ['ignore', 'pipe', 'ignore'] }); } catch { return null; } };
+        let nRe = 0;
+        for (const p of C.REAL_PAIRS_340C) {
+          const t = [show(p.a, F), show(p.b, F), show(p.a, FD), show(p.b, FD)];
+          if (t.some((x) => x === null)) continue;
+          const x = C.realPairCompare340c(...t), rec = R.pairs.find((z) => z.name === p.name) || {};
+          nRe++;
+          if (!(x.prevSame === false && x.curSame === true) || JSON.stringify(x.cur) !== JSON.stringify(rec.cur) || JSON.stringify(x.prev) !== JSON.stringify(rec.prev)) bad.push(`④ ${p.name} を git の履歴で引き直すと記録と違う`);
+        }
+        cases.push(`④ 実物の組 ${R.pairs.length}(${R.pairs.map((z) => z.name + ': 前の世代 ' + z.prev.cal.join('/') + ' → 今 ' + z.cur.cal.join('/')).join(' / ')})・git の履歴で引き直した組 ${nRe}`);
+      }
+      // ⑤
+      const cf = C.calibrateFlagsSelfTest340c();
+      if (!cf.ok) bad.push('⑤ 見積りの秒の後段の自己試験: ' + JSON.stringify(cf.gates));
+      const syn = { steps: { a: { key: 'a', mode: 'run', sec: 100, deps: [], writes: ['a'], workers: 1 }, b: { key: 'b', mode: 'gate', sec: 50, deps: ['a'], writes: ['b'], workers: 1 }, c: { key: 'c', mode: 'run', sec: 30, deps: [], writes: ['c'], workers: 1 } } };
+      syn.priority = RT.chainPriority(syn);
+      const e = C.chainEstimate340c(syn, { lanes: 2 });
+      if (!(e.all.simSec === 150 && e.all.longestPathSec === 150 && e.all.sumPerLaneSec === 90 && e.all.tellSec === 180 && e.reuse.simSec === 102 && e.runSumSec === 130)) bad.push('⑤ 見積りの合成の試し: ' + JSON.stringify({ all: [e.all.simSec, e.all.longestPathSec, e.all.sumPerLaneSec, e.all.tellSec], reuse: e.reuse.simSec, run: e.runSumSec }));
+      const RC = rd340c('tools/regen-chain.mjs');
+      for (const w of ["argv.includes('--estimate')", 'chainEstimate340c', 'calibrateFlags340c(T.calibrateSec(', 'flags340c']) if (RC.indexOf(w) < 0) bad.push('⑤ tools/regen-chain.mjs に「' + w + '」が無い');
+      cases.push(`⑤ 見積りの秒の後段(${cf.version}): ${Object.entries(cf.gates).map(([k, v]) => k + ' ' + v).join('・')} / 見積りの合成(2 レーン・a 100 s → b 50 s・c 30 s): 模擬 ${e.all.simSec}・最長の経路 ${e.all.longestPathSec}・秒の和 ÷ 2 ${e.all.sumPerLaneSec}・伝える ${e.all.tellSec}・gate 再利用の模擬 ${e.reuse.simSec}`);
+    }
+    add('lint.provenanceExclude340c', bad.length === 0,
+      `**常時群の転記の来歴の欄を安定 hash の除外へ・見積りの秒の取りこぼし・鎖の所要の見積り**(第340便c・決断事項 AN770・統括の検証項目 R358 —— 具体の Pointer の許可の一覧・物理の値の欄は門に残る): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.chainTools340c ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd340c('docs/PHYSICS.md'), a0 = PH.indexOf('〔第340便c — ');
+    const nxt = (() => { const e = [PH.indexOf('\n〔第', a0 + 10), PH.indexOf('\n## 7.', a0)].filter((k) => k > a0); return e.length ? Math.min(...e) : undefined; })();
+    const sec = a0 < 0 ? '' : PH.slice(a0, nxt);
+    if (!sec) bad.push('PHYSICS〔第340便c〕が無い');
+    else {
+      const i339a = PH.indexOf('〔第339便a — '), iG = PH.indexOf('〔第328便 — 統括');
+      if (!(i339a >= 0 && i339a < a0 && iG > a0)) bad.push('節の位置(〔第339便a〕の後・〔第328便 — 統括〕の前)');
+      for (const [b, k] of [['a', PH.indexOf('〔第340便a — ')], ['b', PH.indexOf('〔第340便b — ')]]) if (k >= 0 && k > a0) bad.push('節 ' + b + ' が節 c の後');
+      for (const [b, k] of [['d', PH.indexOf('〔第340便d — ')], ['e', PH.indexOf('〔第340便e — ')], ['f', PH.indexOf('〔第340便f — ')], ['g', PH.indexOf('〔第340便g — ')], ['h', PH.indexOf('〔第340便h — ')]]) if (k >= 0 && k < a0) bad.push('節 ' + b + ' が節 c の前');
+      const W = ['原仮定者の指示(2026-11-17 —— 第140報)', 'R358', 'AN770', 'BL-091', 'w340c-vcal-4', 'w340c-vdiag-4', 'w324c-vcal-3', 'provenancePaths', 'V_CALAUDIT_PROV340C', 'tests/lib-w340c-chaintools.mjs',
+        'tests/data-w340c-provpairs.json', 'freshThisRun', 'skippedBy', 'reusedFrom', 'calibrateFlags340c', '--estimate', 'solar16-318c', '見積り', 'lint.provenanceExclude340c', 'docs.chainTools340c', '一度だけ', '書かないこと'];
+      for (const w of W) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第340便c〕に「' + w + '」が無い');
+      cases.push('PHYSICS〔第340便c〕の位置と必須の語 ' + W.length);
+    }
+    const AS = rd340c('docs/AI_SPEC.md'), m = /\n## 250\. 第340便c[^\n]*/.exec(AS);
+    const ai = m ? (() => { const r = AS.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })() : '';
+    if (!(ai && ['R358', 'AN770', 'provenancePaths', '--estimate', 'lint.provenanceExclude340c', 'SYSTEM_PROMPT には載せない'].every((w) => ai.indexOf(w) >= 0))) bad.push('AI_SPEC §250(R358・AN770・provenancePaths・--estimate・鍵・SYSTEM_PROMPT)');
+    const i247 = AS.indexOf('\n## 247. '), i250 = m ? m.index : -1;
+    if (!(i247 >= 0 && i250 > i247)) bad.push('AI_SPEC §250 の位置(§247 の後)');
+    const CL = rd340c('CHANGELOG.md'), cb = CL.indexOf('## v1.47-b340('), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+    const cl = clb.split('\n').find((l) => l.indexOf('**第340便c**') >= 0) || '';
+    if (!(cl && ['R358', 'AN770', 'lint.provenanceExclude340c', 'docs.chainTools340c', 'w340c-vcal-4'].every((w) => cl.indexOf(w) >= 0))) bad.push('CHANGELOG の v1.47-b340 の節に第340便c の行(R358・AN770・鍵・版)');
+    cases.push('AI_SPEC §250・CHANGELOG の行');
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])]
+      .concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /鎖が\s*\d+\s*分になった/];
+    for (const [nm, tx] of [['PHYSICS〔第340便c〕', sec], ['AI_SPEC §250', ai], ['CHANGELOG の第340便c の行', cl], ['lib', rd340c('tests/lib-w340c-chaintools.mjs')]]) {
+      for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push('禁句が ' + nm + ' に(' + w.length + ' 字)');
+      if (nm !== 'lib') for (const re of NOT) if (re.test(tx.replace(/「[^」]*」/g, ''))) bad.push(nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push(nm + ' に裸の係数記号');
+    }
+    cases.push('書かない語・禁句・裸の係数記号(節・AI_SPEC・CHANGELOG・lib)');
+    add('docs.chainTools340c', bad.length === 0,
+      `**鎖の道具の文書**(第340便c・原仮定者の指示(2026-11-17 —— 第140報)・AN770・R358): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第340便c の塊(ここまで)====
 
 // ==== 第340便d の塊(ここから —— behavior.gyropath340d・docs.gyropath340d の 2 ブロック。root は SKIP)====
 // ---- 第340便d(原仮定者の指示(2026-11-17 —— 第140報)の回転引きずり・ジャイロトルク・軸引きずりの文・統括の検証項目 R359): **回転引きずりの経路「軸引きずり + 公転 + ジャイロ」を

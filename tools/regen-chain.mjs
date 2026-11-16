@@ -45,6 +45,7 @@
 //       全段 regen の鎖の ready queue の模擬(順序違反・書込の重なり・予算超過 0 —— 第284便f)。
 //   node tools/regen-chain.mjs --self-test    dry-run の自己試験(QA `lint.regenChain` と同じ関数)。違反があれば 1。
 //   node tools/regen-chain.mjs --env          鎖を回す環境の版(Node・Chromium)を 1 行の JSON で(第288便f —— chainShell が $REGEN_LOG/env.json に書く)。
+//   node tools/regen-chain.mjs --estimate <chain.json> [--lanes 4]   第340便c: 鎖の所要の見積り(模擬・最長の経路・run の秒の和 ÷ レーン —— gate も走る/再利用の 2 行)。
 //   node tools/regen-chain.mjs --scope-all [--write] [--check]   第312便c: 領域の宣言が presets:"all" の段の理由の一覧(tests/data-w312c-scopeall.json)。
 //   node tools/regen-chain.mjs --nslock-shadow <REGEN_LOG> [--append <記録> --wave N] / --streak   第324便c(AN516): nslock の影の照合の記録と数。
 //
@@ -154,12 +155,18 @@ if (argv.includes('--calibrate')) {
       return Object.assign({}, z, { sec: (m && Number.isFinite(m.sec) && m.sec >= 0 && z.role !== 'history') ? m.sec : tbl, secTable: tbl }); });
   }
   const source = getArg('--source', null) || ('chain ' + ((text.match(/^# ready-queue (\S+)/m) || [])[1] || 'measured'));
-  const r = T.calibrateSec(text, { marks, tol: Number(getArg('--tol', '0.1')), source, steps });
+  // 第340便c(R358): 規則 w312c-calibrate-2 の後段(lib-w340c-chaintools の calibrateFlags340c)—— 済み印なしの確かめの秒を書かない・reuse が続く段の確かめの秒の見積りを表の本文へ戻す・2 倍の一覧
+  const C340 = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w340c-chaintools.mjs')).href);
+  const r = C340.calibrateFlags340c(T.calibrateSec(text, { marks, tol: Number(getArg('--tol', '0.1')), source, steps }), { source });
   const fmt = (x) => (x === null || x === undefined ? '—' : String(x));
   console.log(`regen-chain --calibrate(規則 ${r.rule}): ${r.header || '(見出しなし)'} —— 回 ${r.runs}(再起動 ${r.restarts})・段 ${r.rows.length}・更新 ${Object.keys(r.apply).length}・`
     + `許容の内 ${r.rows.filter((z) => z.action === 'keep').length}・飛ばした ${r.rows.filter((z) => z.action === 'skip').length}・済み印の秒 ${r.rows.filter((z) => z.from === 'mark').length}`
     + `(出所の名 ${source}${baseSec ? '・今の見積り ' + baseSec : ''})`);
   for (const z of r.rows) console.log(`  ${z.action.padEnd(6)} ${z.key.padEnd(22)} 見積り ${fmt(z.sec).padStart(6)} s(表 ${fmt(z.secTable).padStart(6)})・実測 ${fmt(z.measured).padStart(8)} s(${fmt(z.from)})・比 ${fmt(z.ratio).padStart(6)}  ${z.why}`);
+  // 第340便c(R358): 後段の一覧(確かめの秒の疑い・表の本文へ戻す段・見積りか表の本文と実測が 2 倍以上違う段)
+  const F340 = r.flags340c;
+  console.log(`  第340便c(${F340.version}): 確かめの秒の疑いで書かない ${F340.suspect.length}(${F340.suspect.join('・') || 'なし'})・表の本文へ戻す ${F340.restore.length}(${F340.restore.join('・') || 'なし'})・2 倍以上違う ${F340.ratio2x.length}`);
+  for (const z of F340.ratio2x) console.log(`    2 倍 ${z.key.padEnd(22)} 見積り ${fmt(z.est).padStart(6)} s・表 ${fmt(z.table).padStart(6)} s・実測 ${fmt(z.measured).padStart(8)} s(実測 ÷ 見積り ${fmt(z.vsEst)}・実測 ÷ 表 ${fmt(z.vsTable)})`);
   const js = getArg('--json', null);
   if (js) fs.writeFileSync(resolve(js), JSON.stringify(r, null, 1) + '\n');
   if (argv.includes('--apply')) {
@@ -180,6 +187,22 @@ if (argv.includes('--calibrate')) {
   }
   process.exit(0);
 }
+
+// ==== 第340便c の塊(ここから)====
+// 第340便c(統括の検証項目 R358 —— 運用の正本 追記 57 ⑪・59 ⑤): **鎖の所要の見積りを 1 本で**(走らせない)。
+//   node tools/regen-chain.mjs --estimate <chain.json> [--lanes 4] [--json <file>]
+//   模擬(ready queue —— 鎖のシェルと同じ規則・同じ rows[].sec)・最長の経路(依存だけ)・run の秒の和 ÷ レーン数を、gate も走る場合と gate は再利用(2 s)の場合の 2 行で。
+//   伝える見積り = max(模擬 × 1.2, 最長の経路)。見積りが確かめの秒の疑いの段(見積り ≤ 5 s・表の本文 ≥ 30 s)も出す(見積りは見積り —— 実測は鎖で出る)。
+if (argv.includes('--estimate')) {
+  const src = getArg('--estimate', null);
+  if (!src || !fs.existsSync(resolve(src))) { console.error('--estimate <鎖の --json の出力>'); process.exit(2); }
+  const C340 = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w340c-chaintools.mjs')).href);
+  const e = C340.chainEstimate340c(JSON.parse(fs.readFileSync(resolve(src), 'utf8')), { lanes: Number(getArg('--lanes', '4')) || 4 });
+  console.log(C340.chainEstimateText340c(e));
+  const js = getArg('--json', null); if (js) fs.writeFileSync(resolve(js), JSON.stringify(e, null, 1) + '\n');
+  process.exit(0);
+}
+// ==== 第340便c の塊(ここまで)====
 
 // 第311便c(R228): 鎖の計画(--json の出力)と実測の timeline で、旧の規則(greedy)と予約(easy)の壁時計を模擬する(走らせない)。
 //   node tools/regen-chain.mjs --simulate <chain.json> [--timeline <timeline.txt>] [--lanes 4] [--workers 段=n,段=n]

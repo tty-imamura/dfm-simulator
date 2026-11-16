@@ -1055,6 +1055,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.dfmSummary340a docs.equations338a docs.
 #   正本と同じ〔第338便c の recheckRun〕・独立の照合 / docs.axialsplit340b —— 正本の門と表が PHYSICS〔第340便b〕に逐語・文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axialsplit340b docs.axialsplit340b"
 # ==== 第340便b の塊(ここまで)====
+# ==== 第340便c の塊(ここから)====
+# 第340便c(原仮定者の指示(2026-11-17 —— 第140報)・決断事項 AN770・統括の検証項目 R358 —— 鎖の道具・html は変えない): 枝 c の新設 2 本(lint.provenanceExclude340c —— 常時群の転記の来歴の欄の
+#   除外〔具体の Pointer の許可の一覧〕の対照と実物の組・見積りの秒の後段・鎖の所要の見積り / docs.chainTools340c —— PHYSICS〔第340便c〕・AI_SPEC §250・CHANGELOG)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.provenanceExclude340c docs.chainTools340c"
+# ==== 第340便c の塊(ここまで)====
 # ==== 第340便d の塊(ここから)====
 # 第340便d(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R359): 枝 d の新設 2 本(behavior.gyropath340d —— 器を走らせ直して正本と同じ〔第338便c の量ごとの尺度の照合〕・
 #   恒等式と対照・口の帳簿の閉じ / docs.gyropath340d —— 正本の門・PHYSICS〔第340便d〕・文書)と、新しい段 gyropath-340d の lint 一式(第337便i の塊で足した一式)
