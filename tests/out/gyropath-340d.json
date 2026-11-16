@@ -15974,16 +15974,16 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.015
+   "wallSec": 0.018
   },
   "t1": {
-   "wallSec": 0.252
+   "wallSec": 0.331
   },
   "t2": {
-   "wallSec": 0.704
+   "wallSec": 0.986
   },
   "t4": {
-   "wallSec": 8.111
+   "wallSec": 7.541
   }
  },
  "gates": {
@@ -15999,101 +15999,101 @@
   "t4SphereControl": true
  },
  "ok": true,
- "elapsedS": 35.09,
+ "elapsedS": 34.465,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第340便d",
   "target": "tests/lib-w340d-gyropath.mjs",
   "targetSha256": "1831624f848439e65f53a2d3725a1322ea8afcbab8853e949f61e175fa57af50",
-  "generatedAt": "2026-11-16T20:15:09.905Z",
+  "generatedAt": "2026-11-16T21:43:30.636Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w340d-gyropath.mjs",
     "bytes": 12796,
     "sha256": "938b934791b20ab75661d5af5a98f33738f08fdee1ce86d1cd66dc766c37ca86",
-    "mtime": "2026-11-16T20:14:34.728Z"
+    "mtime": "2026-11-16T21:05:57.459Z"
    },
    {
     "file": "tests/lib-w340d-gyropath.mjs",
     "bytes": 38635,
     "sha256": "1831624f848439e65f53a2d3725a1322ea8afcbab8853e949f61e175fa57af50",
-    "mtime": "2026-11-16T20:12:40.801Z"
+    "mtime": "2026-11-16T21:05:57.467Z"
    },
    {
     "file": "tests/lib-w338b-bevelknob.mjs",
     "bytes": 22798,
     "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
-    "mtime": "2026-11-16T18:34:29.278Z"
+    "mtime": "2026-11-15T11:12:40.749Z"
    },
    {
     "file": "tests/lib-w338d-ringbook.mjs",
     "bytes": 39367,
     "sha256": "a20dd7108b188fc53bb0ebe4308de09018ea029dfffab006c9570cdf7fedf78c",
-    "mtime": "2026-11-16T18:34:29.278Z"
+    "mtime": "2026-11-15T11:13:56.861Z"
    },
    {
     "file": "tests/lib-w339a-rotvert.mjs",
     "bytes": 13499,
     "sha256": "fba4b0d8628e7ca572a56b4c2e9bb760f65f79c97aa31894d682fbb410c7e8e8",
-    "mtime": "2026-11-16T18:34:29.282Z"
+    "mtime": "2026-11-15T18:32:47.847Z"
    },
    {
     "file": "tests/lib-w337l-bevel.mjs",
     "bytes": 37324,
     "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
-    "mtime": "2026-11-16T18:34:29.278Z"
+    "mtime": "2026-11-15T11:12:40.749Z"
    },
    {
     "file": "tests/lib-w337k-gyrodrag.mjs",
-    "bytes": 32766,
-    "sha256": "3b078ae7befdecc6b3845483c3becd5eb8c1a77bebcc2f3d8748f973a70ae9eb",
-    "mtime": "2026-11-16T18:34:29.278Z"
+    "bytes": 33127,
+    "sha256": "24961ec05e36eacff731d2ad0db89bf1e4cd0cfa4b0f709c7ca56ee439556e11",
+    "mtime": "2026-11-16T19:50:17.226Z"
    },
    {
     "file": "tests/lib-w337j-spinorbit.mjs",
-    "bytes": 40914,
-    "sha256": "bf4a3bc4fb4243acd5279394f4a71c5552c994582293402cde0275c5dbeea108",
-    "mtime": "2026-11-16T18:34:29.278Z"
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-16T19:50:17.226Z"
    },
    {
     "file": "tests/lib-w337i-rotring.mjs",
     "bytes": 38680,
     "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
-    "mtime": "2026-11-16T18:34:29.278Z"
+    "mtime": "2026-11-15T00:02:39.371Z"
    },
    {
     "file": "tests/lib-w337a-supply.mjs",
     "bytes": 40434,
     "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
-    "mtime": "2026-11-16T18:34:29.274Z"
+    "mtime": "2026-11-14T22:18:42.562Z"
    },
    {
     "file": "tests/lib-w335b-carryledger.mjs",
     "bytes": 32539,
     "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
-    "mtime": "2026-11-16T18:34:29.270Z"
+    "mtime": "2026-11-12T15:50:48.820Z"
    },
    {
     "file": "tests/lib-w292d-tide.mjs",
     "bytes": 11080,
     "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
-    "mtime": "2026-11-16T18:34:29.246Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w338c-recheck.mjs",
     "bytes": 13023,
     "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
-    "mtime": "2026-11-16T18:34:29.278Z"
+    "mtime": "2026-11-15T11:46:26.753Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-16T18:34:29.230Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
-  "codeSha256": "377a57277160e1c43ce994f312ff802728190f108ce2b9ac4a96e85f98a2613a",
+  "codeSha256": "b5746e998203df9d010db72f29f92b3a1764524977e9e3257626b4b31e6602f6",
   "harnessVersion": "w340d-gyropath-1",
   "stage": "gyropath",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 部位の和と第338便d の輪の列)",
