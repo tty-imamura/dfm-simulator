@@ -19,15 +19,18 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { settleRun } from './lib-w338c-recheck.mjs';
+import { sigmaOf, settle, recheckTree, LIB_VERSION as R338_VERSION, DECL as R338_DECL } from './lib-w338c-recheck.mjs';   // 第340便h: 3 値の判定は尺度を測った後に書く
+import { judge3, at as at340h, LIB_VERSION as THIN_VERSION, DECL as THIN_DECL } from './lib-w340h-thin.mjs';
 import * as L from './lib-w337i-rotring.mjs';
 import { contribEffect, bandEffect } from './lib-w337b-mercuryband.mjs';
 import { stateAt as stateAt333 } from './lib-w333c-mercury3d.mjs';
 import * as A337 from './lib-w337a-supply.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w337i-rotring-2';
+export const HARNESS_VERSION = 'w337i-rotring-3';
 export const AMEND = Object.freeze([
   '第338便c(統括の検証項目 R351 —— 原仮定者の指示(2026-11-15 —— 第139報)): 正本へ書く出力を量ごとの数値の尺度で整える(tests/lib-w338c-recheck.mjs の settleRun —— Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大を葉ごとの尺度 σ とし、|値| ≤ 4 σ の葉〔丸めの残り —— 有効数字が 1 桁に満たない〕を 0 と書く・meta.recheck に係数と 0 と書いた葉の数)。式・格子・判定は不変',
+  '第340便h(統括の検証項目 R363 —— 原仮定者の指示(2026-11-17 —— 第140報)): ① 傾きを桁を失わない形で(tests/lib-w333c-mercury3d.mjs の anglesOn —— atan2(|k̂ × Ŵ|, k̂·Ŵ)・lib-2)② 惑星の必要な λ での近点の向き atNeed.advance を 3 値に(近点の率 row.apsW が葉ごとの尺度の 4 倍より大きい → 「正」〔進める〕・−4 倍より小さい → 「負」〔戻す〕・その間 → 「未解決」—— tests/lib-w340h-thin.mjs の judge3。旧は真偽で、尺度の内の率の符号で決めていた —— ずらした走行で 2 組が反転した)。式・格子は不変',
 ]);
 export const OUT_MAIN = 'tests/out/rotring-337i.json';
 export const TARGET = 'tests/lib-w337i-rotring.mjs';   // html を読まない器の来歴の対象(純関数)
@@ -121,7 +124,7 @@ export function partPlanets(ring) {
       const sys = pk === 'merc' ? merc : L.planetSys(pk), u = L.planetRow(sys, eff, planetPts(sys, Rd), Rd);
       const rec = { unit: u };
       if (s.judge.thin) { const lam = s.judge.lambdaNeed, r = L.scalePlanetRow(u, lam), lw = lambdaWindow(sys, u);
-        rec.atNeed = { row: r, ratios: L.planetRatios(sys, r), scaleRatios: L.planetScaleRatios(sys, r), q1Ratio: r.apsW / L.q1cyOf(sys), advance: r.apsW > 0, lambdaMax: lw, window: lw === null ? null : lw / Math.abs(lam) };
+        rec.atNeed = { row: r, ratios: L.planetRatios(sys, r), scaleRatios: L.planetScaleRatios(sys, r), q1Ratio: r.apsW / L.q1cyOf(sys), advance: null, lambdaMax: lw, window: lw === null ? null : lw / Math.abs(lam) };
         rec.atNeed.inside = Object.values(rec.atNeed.ratios).every((x) => x <= 1); rec.atNeed.insideScale = Object.values(rec.atNeed.scaleRatios).every((x) => x <= 1); }
       per[pk] = rec;
     }
@@ -273,9 +276,26 @@ export function runAll() {
 /** 第338便c: 正本へ書く形 —— 生の runAll を元のまま 1 回と、Math の関数を ±1〜2 ulp ずらして 2 回走らせ、葉ごとの尺度 σ の 4 倍の内の葉(丸めの残り —— 有効数字が 1 桁に満たない)を 0 と書く(壁時計は元のままの走行の値)。戻り値 { J, recheck } */
 export function runSettled() {
   let tm = null;
-  const S = settleRun(() => { const R = runAll(); if (tm === null) tm = R.timing; delete R.timing; return R; });
+  const run = () => { const R = runAll(); if (tm === null) tm = R.timing; delete R.timing; return R; };
+  // 第340便h: 尺度を測る → 3 値の判定を書く → 0 と書く(settleRun と同じ meta の形に judge340h の数を足す)
+  const { base, sigma, unstable } = sigmaOf(run), j3 = judge340h(base, sigma), S = settle(base, sigma);
   const { gates, ok, ...rest } = S.value;
-  return { J: Object.assign(rest, { timing: tm, gates, ok }), recheck: S.meta };
+  return { J: Object.assign(rest, { timing: tm, gates, ok }), recheck: { version: R338_VERSION, decl: R338_DECL, zeroed: S.zeroed, kept: S.kept, zeroPathsHead: S.zeroPaths, unstable: unstable.length, unstableHead: unstable.slice(0, 20), judge3: j3 } };
+}
+/** 第340便h: 3 値の判定(尺度を測った後 —— base を書き換える)。惑星の必要な λ での近点の向き atNeed.advance = judge3(row.apsW, σ(row.apsW))。戻り値は数え */
+export function judge340h(base, sigma) {
+  const cnt = { version: THIN_VERSION, factor: THIN_DECL.JUDGE_FACTOR, advance: { [THIN_DECL.POS]: 0, [THIN_DECL.NEG]: 0, [THIN_DECL.UNRESOLVED]: 0 } };
+  (base.planets && base.planets.sets || []).forEach((s, si) => { for (const pk of Object.keys(s.per)) { const a = s.per[pk].atNeed; if (!a) continue;
+    a.advance = judge3(a.row.apsW, at340h(sigma, ['planets', 'sets', si, 'per', pk, 'atNeed', 'row', 'apsW'])); cnt.advance[a.advance]++; } });
+  return cnt;
+}
+/** 第340便h: QA の作り直しの照合(recheckRun と同じ戻りの形 —— 尺度を測り、3 値の判定を書いてから正本と比べる) */
+export function recheck340h(canon, parts) {
+  const { base, sigma, unstable } = sigmaOf(() => { const q = runAll(); delete q.timing; return q; });
+  judge340h(base, sigma);
+  const diffs = {}; let nLeaves = 0, nZero = 0;
+  for (const k of parts) { diffs[k] = recheckTree(base[k], sigma[k], canon[k]); nLeaves += diffs[k].nLeaves; nZero += diffs[k].nZero; }
+  return { diffs, unstable, nLeaves, nZero, base, sigma };
 }
 
 /* ───────── 走らせる ───────── */
@@ -283,7 +303,7 @@ const writeJson = (OUT, out) => { fs.mkdirSync(path.dirname(OUT), { recursive: t
 export const CODE = Object.freeze(['tests/exp-w337i-rotring.mjs', 'tests/lib-w337i-rotring.mjs', 'tests/lib-w337b-mercuryband.mjs', 'tests/lib-w335c-mercurycombo.mjs', 'tests/lib-w334c-mercurynode.mjs',
   'tests/lib-w334a-heightlaw.mjs', 'tests/lib-w333c-mercury3d.mjs', 'tests/lib-w333b-axialfield.mjs', 'tests/lib-w333a-rotdiff.mjs', 'tests/lib-w332b-transgeo2.mjs', 'tests/lib-w332a-eqband.mjs',
   'tests/lib-w331c-k1scale.mjs', 'tests/lib-w331b-centrifugal.mjs', 'tests/lib-w331a-coordtwist.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w326d-axialheat.mjs', 'tests/lib-w312a-decay.mjs',
-  'tests/lib-w310d-shell.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w338c-recheck.mjs', 'tests/lib-w337a-supply.mjs']);
+  'tests/lib-w310d-shell.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w338c-recheck.mjs', 'tests/lib-w337a-supply.mjs', 'tests/lib-w340h-thin.mjs']);
 export async function main() {
   const t0 = Date.now();
   const OUT = process.env.W337I_OUT ? (path.isAbsolute(process.env.W337I_OUT) ? process.env.W337I_OUT : path.join(ROOT, process.env.W337I_OUT)) : path.join(ROOT, OUT_MAIN);

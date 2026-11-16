@@ -20,15 +20,18 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { settleRun } from './lib-w338c-recheck.mjs';
+import { sigmaOf, settle, recheckTree, LIB_VERSION as R338_VERSION, DECL as R338_DECL } from './lib-w338c-recheck.mjs';   // 第340便h: 3 値の判定は尺度を測った後に書く
+import { judge3, at as at340h, LIB_VERSION as THIN_VERSION, DECL as THIN_DECL } from './lib-w340h-thin.mjs';
 import * as L from './lib-w337j-spinorbit.mjs';
 import { staticRate, selfRate, fShare, weight337 } from './lib-w337a-supply.mjs';
 import { LIT334A } from './lib-w334a-heightlaw.mjs';
 import { fObsOf } from './lib-w333a-rotdiff.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w337j-spinorbit-2';
+export const HARNESS_VERSION = 'w337j-spinorbit-3';
 export const AMEND = Object.freeze([
   '第338便c(統括の検証項目 R351 —— 原仮定者の指示(2026-11-15 —— 第139報)): 正本へ書く出力を量ごとの数値の尺度で整える(tests/lib-w338c-recheck.mjs の settleRun —— Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大を葉ごとの尺度 σ とし、|値| ≤ 4 σ の葉〔丸めの残り —— 有効数字が 1 桁に満たない〕を 0 と書く・meta.recheck に係数と 0 と書いた葉の数)。式・格子・判定は不変',
+  '第340便h(統括の検証項目 R363 —— 原仮定者の指示(2026-11-17 —— 第140報)): ① 軸と法線の角の最大を桁を失わない形で(tests/lib-w337j-spinorbit.mjs の twoAngleMean —— atan2・lib-2)・傾きの式(第333便c の anglesOn・lib-2)② 丸めの残りに依って反転していた判定を 3 値に(tests/lib-w340h-thin.mjs の judge3 —— 葉ごとの尺度の 4 倍より大きい → 「正」・−4 倍より小さい → 「負」・その間 → 「未解決」): T2 の行の傾きの率が有意か tiltSignif(余裕 tiltMargin = |d ln i/dt| − 旧の床〔同じ行の率の最大の 1e-12 倍 ÷ i〕で読む —— 正 = 有意・負 = 丸めの程度)と、λ (ii)(フォボスの公転の変化を全部担う強さ)の有無 lamIIjudge(フォボスの d ln a/dt × 観測の符号 phDlnASigned で読む —— 正のときだけ lamII・atII・iiOverIII を書く)・同時に置ける組 simul は 3 値の後に数える。環の判定(ringJudge)へは旧の真偽を渡したまま(判定に使った環の行の 3 値は meta.recheck.judge3 に数える)。式・格子は不変',
 ]);
 export const OUT_MAIN = 'tests/out/spinorbit-337j.json';
 export const INPUT = 'tests/out/supply-337a.json';
@@ -158,25 +161,27 @@ export function partT2() {
   const sets = t2Specs().map((spec) => {
     const rows = recvs.map((rc) => { const src = getSrc(rc.host), eff = L.t2Effect(src, { ...spec, lambda: 1, reading: L.DECL.t2.reading, speed: L.DECL.t2.speed }), H0 = spec.prof === 'ball' ? null : eff.meta.Rd;
       const R = L.ringRow(rc.sys, eff, ptsOf(rc, H0)), C = L.t2Closed(src, { ...spec, reading: L.DECL.t2.reading, speed: L.DECL.t2.speed }, rc.a);
-      return { key: rc.key, dlnA: R.dlnA, dOm: R.dOmOverOm, dlnI: R.dlnI, tiltSignif: R.tiltSignif, closedDlnA: C.dlnA, closedDOm: C.dOm, signA: Math.abs(R.dlnA) <= 1e-12 * Math.abs(R.dOmOverOm) * rc.n ? 0 : Math.sign(R.dlnA), signOm: Math.sign(R.dOmOverOm) }; });
+      const big = Math.max(Math.abs(R.dlnI * rc.sys.iRad), Math.abs(R.dnode), Math.abs(R.apsW), Math.abs(R.dlnA), rc.n * Math.abs(R.dOmOverOm));   // 第340便h: lib-w337i の ringRow の旧の床と同じ量
+      return { key: rc.key, dlnA: R.dlnA, dOm: R.dOmOverOm, dlnI: R.dlnI, tiltSignif: null, tiltMargin: Math.abs(R.dlnI) - 1e-12 * big / rc.sys.iRad, tiltRaw: R.tiltSignif, closedDlnA: C.dlnA, closedDOm: C.dOm, signA: Math.abs(R.dlnA) <= 1e-12 * Math.abs(R.dOmOverOm) * rc.n ? 0 : Math.sign(R.dlnA), signOm: Math.sign(R.dOmOverOm) }; });
     const bound = L.signBoundary(getSrc('saturn'), { ...spec, reading: L.DECL.t2.reading, speed: L.DECL.t2.speed }), boundMars = L.signBoundary(getSrc('mars'), { ...spec, reading: L.DECL.t2.reading, speed: L.DECL.t2.speed });
     // 受け手の大きさのべき p(dampRig だけ —— 率は R^p に比例)
     const ps = spec.action === 'dampRig' ? L.DECL.t2.pSize : [0];
     const lam = ps.map((p) => {
       const sc = (q) => Math.pow(recvs.find((r) => r.key === q.key).R, p), rr = rows.map((q) => ({ ...q, dlnA: q.dlnA * sc(q), dOm: q.dOm * sc(q), dlnI: q.dlnI * sc(q) }));
-      const ringRows = rr.filter((q) => PLAN.t2Rings.includes(q.key)), J = L.ringJudge(ringRows.map((q) => ({ dlnI: q.dlnI, dlnA: q.dlnA, dOmOverOm: q.dOm, dlnE: 0, tiltSignif: q.tiltSignif })));
+      const ringRows = rr.filter((q) => PLAN.t2Rings.includes(q.key)), J = L.ringJudge(ringRows.map((q) => ({ dlnI: q.dlnI, dlnA: q.dlnA, dOmOverOm: q.dOm, dlnE: 0, tiltSignif: q.tiltRaw })));
       const lamI = J.thin ? J.lambdaNeed : PLAN.lambdaMain337i, lamIfrom = J.thin ? 'ring' : 'main337i';
       const ph = rr.find((q) => q.key === 'phobos'), phObs = recvs.find((r) => r.key === 'phobos').obsDlnA;
-      const lamII = ph.dlnA !== 0 && Math.sign(ph.dlnA) === Math.sign(phObs) ? phObs / ph.dlnA : null;
+      const lamII = ph.dlnA !== 0 ? phObs / ph.dlnA : null;   // 第340便h: 候補の値(符号の有無は 3 値の判定 lamIIjudge が尺度を測った後に決める —— 正でなければ null に)
       const lim = ringRows.map((q) => Math.min(q.dOm !== 0 ? tol.kepler / Math.abs(q.dOm) : Infinity, q.dlnA !== 0 ? tol.drift / (Math.abs(q.dlnA) * T) : Infinity)), lamIII = Math.min(...lim);
       const at = (lmb) => { if (lmb === null || !fin(lmb)) return null;
         const ring = { kepler: Math.max(...ringRows.map((q) => Math.abs(lmb * q.dOm))), drift: Math.max(...ringRows.map((q) => Math.abs(lmb * q.dlnA) * T)) }; ring.ok = ring.kepler <= tol.kepler * (1 + 1e-9) && ring.drift <= tol.drift * (1 + 1e-9);
         const sat = Object.fromEntries(PLAN.t2Sat.map((k) => { const q = rr.find((x) => x.key === k), o = recvs.find((r) => r.key === k).obsDlnA; return [k, { pred: lmb * q.dlnA, ratio: lmb * q.dlnA / o }]; }));
         const satOk = Object.values(sat).every((v) => Math.abs(v.ratio) <= L.DECL.t2.satTol);
         return { lambda: lmb, ring, sat, satOk, all: ring.ok && satOk }; };
-      return { p, lamI, lamIfrom, lamII, lamIII: fin(lamIII) ? lamIII : null, atI: at(lamI), atII: at(lamII), atIII: at(fin(lamIII) ? lamIII : null), iiOverIII: lamII !== null && fin(lamIII) ? lamII / lamIII : null };
+      return { p, lamI, lamIfrom, phDlnASigned: ph.dlnA * Math.sign(phObs), lamIIjudge: null, lamII, lamIII: fin(lamIII) ? lamIII : null, atI: at(lamI), atII: at(lamII), atIII: at(fin(lamIII) ? lamIII : null), iiOverIII: lamII !== null && fin(lamIII) ? lamII / lamIII : null };
     });
     const signs = rows.map((q) => { const rc = recvs.find((r) => r.key === q.key); return { key: q.key, obs: rc.obsSign, pred: q.signA, match: rc.obsSign === null ? null : rc.obsSign === q.signA }; });
+    for (const q of rows) delete q.tiltRaw;
     return { key: spec.key, spec, rows, boundSat: bound, boundMars, lam, signs, nMatch: signs.filter((x) => x.match === true).length, nObs: signs.filter((x) => x.match !== null).length };
   });
   // 遠心力の読み(原仮定者の指示(2026-11-09 —— 第133報の追記)・(2026-11-10 —— 第134報)): 源の回転で空間を引きずると、順行の公転では遠心力を下げ・逆行では上げる ——
@@ -185,7 +190,7 @@ export function partT2() {
   const centrifugal = recvs.map((rc) => { const q = velBall.rows.find((x) => x.key === rc.key), r1 = rigOne.rows.find((x) => x.key === rc.key);
     return { key: rc.key, pro: rc.pro, nOverS: rc.nOverS, velBallDOm: q.dOm, signOm: Math.sign(q.dOm), signAbsOm: Math.sign(q.dOm) * (rc.pro ? 1 : -1), rigidChi1: (rc.pro ? 1 : -1) / rc.nOverS, rigidChiHalf: (rc.pro ? 0.5 : -0.5) / rc.nOverS, dampRigSignA: r1.signA }; });
   // 同時に置ける組(λ を (ii) フォボスを全部担う値にして環と月とタイタンとトリトンが物差しの内)
-  const simul = []; for (const s of sets) for (const l of s.lam) { if (l.atII && l.atII.all) simul.push(s.key + '|p' + l.p); }
+  const simul = null;   // 第340便h: λ (ii) の 3 値の後に judge340h が数える
   const simulIII = []; for (const s of sets) for (const l of s.lam) { if (l.atIII && l.atIII.satOk) simulIII.push(s.key + '|p' + l.p); }
   return { recvs: recvs.map(({ sys, ...r }) => r), sets, centrifugal, simul, simulIII, tol: { ...tol, T } };
 }
@@ -260,16 +265,39 @@ export const runAll = () => runFrom(readInput());
 /** 第338便c: 正本へ書く形 —— 生の runFrom を元のまま 1 回と、Math の関数を ±1〜2 ulp ずらして 2 回走らせ、葉ごとの尺度 σ の 4 倍の内の葉(丸めの残り —— 有効数字が 1 桁に満たない)を 0 と書く(壁時計は元のままの走行の値)。戻り値 { J, recheck } */
 export function runSettled(A = readInput()) {
   const txt = JSON.stringify(A); let tm = null;
-  const S = settleRun(() => { const R = runFrom(JSON.parse(txt)); if (tm === null) tm = R.timing; delete R.timing; return R; });
+  const run = () => { const R = runFrom(JSON.parse(txt)); if (tm === null) tm = R.timing; delete R.timing; return R; };
+  // 第340便h: 尺度を測る → 3 値の判定を書く → 0 と書く(settleRun と同じ meta の形に judge340h の数を足す)
+  const { base, sigma, unstable } = sigmaOf(run), j3 = judge340h(base, sigma), S = settle(base, sigma);
   const { gates, ok, ...rest } = S.value;
-  return { J: Object.assign(rest, { timing: tm, gates, ok }), recheck: S.meta };
+  return { J: Object.assign(rest, { timing: tm, gates, ok }), recheck: { version: R338_VERSION, decl: R338_DECL, zeroed: S.zeroed, kept: S.kept, zeroPathsHead: S.zeroPaths, unstable: unstable.length, unstableHead: unstable.slice(0, 20), judge3: j3 } };
+}
+/** 第340便h: 3 値の判定(尺度を測った後 —— base を書き換える): T2 の行の tiltSignif = judge3(tiltMargin, σ)・λ (ii) の有無 lamIIjudge = judge3(phDlnASigned, σ)(正でなければ lamII・atII・iiOverIII を null)・simul を数え直す。戻り値は数え */
+export function judge340h(base, sigma) {
+  const P = THIN_DECL.POS, N = THIN_DECL.NEG, U = THIN_DECL.UNRESOLVED, z = () => ({ [P]: 0, [N]: 0, [U]: 0 });
+  const cnt = { version: THIN_VERSION, factor: THIN_DECL.JUDGE_FACTOR, tiltSignif: z(), tiltSignifRingJudge: z(), lamII: z() };
+  const t2 = base.t2; if (!t2) return cnt;
+  t2.sets.forEach((s, si) => {
+    s.rows.forEach((q, ri) => { q.tiltSignif = judge3(q.tiltMargin, at340h(sigma, ['t2', 'sets', si, 'rows', ri, 'tiltMargin'])); cnt.tiltSignif[q.tiltSignif]++; if (PLAN.t2Rings.includes(q.key)) cnt.tiltSignifRingJudge[q.tiltSignif]++; });
+    s.lam.forEach((l, li) => { l.lamIIjudge = judge3(l.phDlnASigned, at340h(sigma, ['t2', 'sets', si, 'lam', li, 'phDlnASigned'])); cnt.lamII[l.lamIIjudge]++;
+      if (l.lamIIjudge !== P) { l.lamII = null; l.atII = null; l.iiOverIII = null; } });
+  });
+  t2.simul = []; for (const s of t2.sets) for (const l of s.lam) { if (l.atII && l.atII.all) t2.simul.push(s.key + '|p' + l.p); }
+  return cnt;
+}
+/** 第340便h: QA の作り直しの照合(recheckRun と同じ戻りの形 —— 尺度を測り、3 値の判定を書いてから正本と比べる) */
+export function recheck340h(canon, parts) {
+  const { base, sigma, unstable } = sigmaOf(() => { const q = runAll(); delete q.timing; return q; });
+  judge340h(base, sigma);
+  const diffs = {}; let nLeaves = 0, nZero = 0;
+  for (const k of parts) { diffs[k] = recheckTree(base[k], sigma[k], canon[k]); nLeaves += diffs[k].nLeaves; nZero += diffs[k].nZero; }
+  return { diffs, unstable, nLeaves, nZero, base, sigma };
 }
 
 const writeJson = (OUT, out) => { fs.mkdirSync(path.dirname(OUT), { recursive: true }); fs.writeFileSync(OUT, JSON.stringify(out, null, 1).replace(/\[\s*(-?[\d.eE+-]+(?:,\s*-?[\d.eE+-]+|,\s*null)*)\s*\]/g, (m, a) => '[' + a.replace(/\s+/g, '') + ']') + '\n'); };
 export const CODE = Object.freeze(['tests/exp-w337j-spinorbit.mjs', 'tests/lib-w337j-spinorbit.mjs', 'tests/lib-w337i-rotring.mjs', 'tests/lib-w337a-supply.mjs', 'tests/lib-w337b-mercuryband.mjs', 'tests/lib-w335c-mercurycombo.mjs',
   'tests/lib-w334c-mercurynode.mjs', 'tests/lib-w334a-heightlaw.mjs', 'tests/lib-w333c-mercury3d.mjs', 'tests/lib-w333b-axialfield.mjs', 'tests/lib-w333a-rotdiff.mjs', 'tests/lib-w332b-transgeo2.mjs', 'tests/lib-w332a-eqband.mjs',
   'tests/lib-w331c-k1scale.mjs', 'tests/lib-w331b-centrifugal.mjs', 'tests/lib-w331a-coordtwist.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w326d-axialheat.mjs', 'tests/lib-w312a-decay.mjs',
-  'tests/lib-w310d-shell.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w338c-recheck.mjs']);
+  'tests/lib-w310d-shell.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w338c-recheck.mjs', 'tests/lib-w340h-thin.mjs']);
 export async function main() {
   const t0 = Date.now();
   const OUT = process.env.W337J_OUT ? (path.isAbsolute(process.env.W337J_OUT) ? process.env.W337J_OUT : path.join(ROOT, process.env.W337J_OUT)) : path.join(ROOT, OUT_MAIN);

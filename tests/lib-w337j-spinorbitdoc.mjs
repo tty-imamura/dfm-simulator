@@ -1,6 +1,7 @@
 // 第337便j(原仮定者の補足(2026-11-15 —— 第138報の補足 5)・統括の検証項目 R346): **正本 tests/out/spinorbit-337j.json から PHYSICS〔第337便j〕の表を作る文書の lib**
 // (QA docs.spinorbit337j が節の表と逐語で照合する —— 表の数は有効数字 3 桁の指数・丸めの程度の数〔恒等式の残差〕は「< 1e-x」の形で書く)。
-export const DOC_VERSION = 'w337j-spinorbitdoc-2';   // 第338便c: 0 と書いた葉(丸めの残り —— 正本の meta.recheck)を表で「0」と書く
+export const DOC_VERSION = 'w337j-spinorbitdoc-3';   // 第340便h: λ (ii) の有無の 3 値(lamIIjudge が未解決のとき「—(未解決: 効きが尺度の内)」)
+// (旧 'w337j-spinorbitdoc-2')   // 第338便c: 0 と書いた葉(丸めの残り —— 正本の meta.recheck)を表で「0」と書く
 const fe = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : x === 0 ? '0' : Number(x).toExponential(2));
 const lt = (x, t) => (Number.isFinite(x) && Math.abs(x) <= t ? '< ' + t.toExponential(0) : '**' + fe(x) + '**');
 const tf = (x) => (x === true ? '真' : x === false ? '偽' : '—');
@@ -54,7 +55,7 @@ export function tablesOf(J) {
   const atStr = (a) => (a === null ? '—' : `${a.ring.ok ? '環 内' : '環 外(' + fe(Math.max(a.ring.kepler / J.decl.t2.ringTol.kepler, a.ring.drift / J.decl.t2.ringTol.drift)) + ' 倍)'}・フォボス ${fe(a.sat.phobos.ratio)}・月 ${fe(a.sat.moon.ratio)}・タイタン ${fe(a.sat.titan.ratio)}・トリトン ${fe(a.sat.triton.ratio)}`);
   T.t2Lambda = ['| 組(受け手の大きさのべき p = 0) | λ (i)(環で要る値 —— 傾きを減らさない型は第337便i の主の組の値) | λ (ii)(フォボスを全部担う) | λ (iii)(環の物差しの上限) | (ii) ÷ (iii) | λ (i) で(環・予測 ÷ 観測) | λ (ii) で | λ (iii) で |', '|---|---|---|---|---|---|---|---|',
     ...t2.sets.filter((s) => s.spec.action !== 'dampRig' || s.spec.qFall === 0).map((s) => { const l = s.lam[0];
-      return `| ${setName(s)} | ${fe(l.lamI)}${l.lamIfrom === 'main337i' ? '(第337便i)' : ''} | ${l.lamII === null ? '—(符号が逆か効きが 0)' : fe(l.lamII)} | ${fe(l.lamIII)} | ${fe(l.iiOverIII)} | ${atStr(l.atI)} | ${atStr(l.atII)} | ${atStr(l.atIII)} |`; })].join('\n');
+      return `| ${setName(s)} | ${fe(l.lamI)}${l.lamIfrom === 'main337i' ? '(第337便i)' : ''} | ${l.lamII === null ? (l.lamIIjudge === '未解決' ? '—(未解決: 効きが尺度の内)' : '—(符号が逆か効きが 0)') : fe(l.lamII)} | ${fe(l.lamIII)} | ${fe(l.iiOverIII)} | ${atStr(l.atI)} | ${atStr(l.atII)} | ${atStr(l.atIII)} |`; })].join('\n');
   T.t2Size = ['| 組 | 受け手の大きさのべき p | λ (ii) | λ (iii) | (ii) ÷ (iii) | λ (ii) で(環・予測 ÷ 観測) | 同時に物差しの内 |', '|---|---|---|---|---|---|---|',
     ...T2_SIZE_SETS.flatMap((k) => { const s = t2.sets.find((q) => q.key === k); return s.lam.map((l) => `| ${setName(s)} | ${l.p} | ${fe(l.lamII)} | ${fe(l.lamIII)} | ${fe(l.iiOverIII)} | ${atStr(l.atII)} | ${tf(l.atII ? l.atII.all : null)} |`); })].join('\n');
   T.t2Centrifugal = ['| 受け手 | 順行/逆行 | n/s | 遠心力の読み: 座標を運ぶ方位の場(ball・単位の λ)の δΩ/Ω | 公転の速さ |Ω| の変化の向き | 剛体の場(χ s)で遠心力を下げる/上げる読みの δΩ/Ω ÷ λ(χ 1・χ ½) | 同期へ寄せる型(剛体の場に対する相対の速度・χ 1)の半長軸の向き |', '|---|---|---|---|---|---|---|',
