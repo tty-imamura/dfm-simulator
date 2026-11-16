@@ -24,8 +24,8 @@ import { settleRun } from './lib-w338c-recheck.mjs';
 import * as K from './lib-w340b-axialsplit.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w340b-axialsplit-1';
-export const AMEND = Object.freeze([]);
+export const HARNESS_VERSION = 'w340b-axialsplit-2';
+export const AMEND = Object.freeze(['版 2(第340便b 追加の依頼 1 —— 統括の検証項目 R357): T5 を足した(和〔見え方〕= 座標の回転 f s + 部位差分 —— 置き方 (a) 半分の渦度・(b) 角速度の勾配 × 仰角 7 × f 6・f → 0 の極限と第338便b の q 0 の差・α 1・2・3 の 45°・有限の受け手のずれの率)。T1〜T4 の式・格子・値は不変']);
 export const OUT_MAIN = 'tests/out/axialsplit-340b.json';
 export const TARGET = 'tests/lib-w340b-axialsplit.mjs';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
@@ -33,13 +33,15 @@ export const NOT_CLAIM = Object.freeze(['どの列(q 0・q 1・場の勾配の�
   '軸方向で 0 になる列は q 1 だけではない(q > 0・p > 0・場の勾配の第 2 項・有限の受け手も 0 へ寄る)', '和と差分だけのどちらを受け手の自転の式に入れるかを決めない',
   '合成の規則のどれを採るかを決めない(原仮定者の規則は書き換えない —— 主の列は普通のベクトル和の読み)', '金星の根は黄道の北の 1 成分の式(3 成分の定常ではない)・歳差の読みは桁の比べ',
   '光速を超えるかどうかを判定に使わない', '文献の値は未照合']);
-export const PLAN = Object.freeze({ parts: Object.freeze(['t1', 't2', 't3', 't4']), floor: K.FLOOR,
+export const PLAN = Object.freeze({ parts: Object.freeze(['t1', 't2', 't3', 't4', 't5']), floor: K.FLOOR,
   floorNote: '解析的に 0 になる量は、同じ単位の尺度 × 1e-12 より小さければ 0 と書く(列 (iii) の数値は s/h × 1e-2・列 (iv) は (s r + |v|)/R × 1e-1 の尺度 —— 差分の刻みと受け手の半径で割る増幅)。正本へ書くときに第338便c の settleRun で丸めの残りを 0 に' });
 
 export function partT1() { const rows = K.t1Rows(); return { rows, axisZero: K.t1AxisZero(rows), converge: K.t1Converge(), null: K.t1Null() }; }
 export function partT2() { return { scan: K.t2Scan(), bodies: K.t2Bodies() }; }
 export function partT3() { return K.t3Rule(); }
 export function partT4() { return { venus: K.t4Venus(), steady: K.t4Steady() }; }
+/** T5(追加の依頼 1): 和(見え方)= 座標の回転 f s + 部位差分(置き方 (a) 半分の渦度・(b) 角速度の勾配)の仰角 × f の表・f → 0 の極限と第338便b の q 0 の差・α 1・2・3 の 45°・有限の受け手のずれの率 */
+export function partT5() { return { rows: K.t5Rows(), limit: K.t5Limit(), shear: K.t5Shear() }; }
 
 export function gatesOf(J) {
   const t1 = J.t1, t2 = J.t2, t3 = J.t3, t4 = J.t4, r = (el) => t1.rows.find((x) => x.elDeg === el), az = (c) => t1.axisZero.find((x) => x.col === c), kmin = K.DECL.rOverR[K.DECL.rOverR.length - 1];
@@ -66,6 +68,12 @@ export function gatesOf(J) {
     t4Venus: t4.venus.rows.length === K.DECL.venusQ.length * K.DECL.venusCols.length && t4.venus.rows.every((v) => v.nRoots >= 1 && v.roots.every((x) => x.north === 0))
       && t4.venus.rows.filter((v) => v.col !== 'Bh').every((v) => v.roots.every((x) => x.perpRel > 0.1)) && t4.steady.possible === false && t4.steady.minRel > 0.1
       && Math.abs(t4.steady.minRel - t4.steady.minClosed) <= 1e-6,
+    // T5: 数値と閉じた形が同じ・f 1e-6 の (b) の和が第338便b の q 0 と向き 1e-3° 強さ 1e-5 の内・(a) は 45° で 45° の側・α 2 の (b) だけが 45° で 90°・f ½ の (b) の赤道の和は 0・f 0.7 の (b) は全仰角で順の側・
+    //   ずれの率 − 座標の回転 = (b) の大きさ・列 (iv) の回転 = (a) の大きさ(相対 1e-6)
+    t5Sum: J.t5.rows.length === K.DECL.elevDeg.length * K.T5.fGrid.length && J.t5.rows.every((r) => r.a.dNum <= 1e-6 && r.b.dNum <= 1e-6)
+      && J.t5.limit.vsQ0.every((r) => Math.abs(r.b.dAng) <= 1e-3 && Math.abs(r.b.dMag) <= 1e-5) && J.t5.limit.vsQ0.filter((r) => r.elDeg > 0 && r.elDeg < 90).every((r) => Math.abs(r.a.dAng) > 10)
+      && J.t5.limit.alphas.every((o) => (o.alpha === 2) === (Math.abs(o.b.ang45 - 90) <= 1e-9)) && J.t5.rows.find((r) => r.elDeg === 0 && r.f === 0.5).b.magOverF === 0
+      && J.t5.rows.filter((r) => r.f === 0.7).every((r) => r.b.kind === '順の側') && J.t5.shear.every((x) => x.relB <= 1e-6 && x.relA <= 1e-6),
   };
 }
 export function runAll() {
@@ -75,7 +83,8 @@ export function runAll() {
   const t2 = partT2(); mark('t2');
   const t3 = partT3(); mark('t3');
   const t4 = partT4(); mark('t4');
-  const J = { pure, t1, t2, t3, t4, timing: tm };
+  const t5 = partT5(); mark('t5');
+  const J = { pure, t1, t2, t3, t4, t5, timing: tm };
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
   return J;
 }
@@ -94,7 +103,7 @@ export async function main() {
   const OUT = process.env.W340B_OUT ? (path.isAbsolute(process.env.W340B_OUT) ? process.env.W340B_OUT : path.join(ROOT, process.env.W340B_OUT)) : path.join(ROOT, OUT_MAIN);
   console.log('第340便b axialsplit(版 ' + HARNESS_VERSION + ')');
   const { J: R, recheck } = runSettled();
-  const out = { version: HARNESS_VERSION, libVersion: K.LIB_VERSION, lib338bVersion: K.K338_VERSION, lib337Version: K.L337_VERSION, generator: 'tests/exp-w340b-axialsplit.mjs', target: TARGET,
+  const out = { version: HARNESS_VERSION, libVersion: K.LIB_VERSION, t5Decl: K.T5, lib338bVersion: K.K338_VERSION, lib337Version: K.L337_VERSION, generator: 'tests/exp-w340b-axialsplit.mjs', target: TARGET,
     ruling: '原仮定者の指示(2026-11-17 —— 第140報)「回転成分は並進引きずりに含まれるので、二重計上を避けると、軸方向では軸引きずりがゼロになる」「赤道面での引きずりは、並進引きずりは順回転だが、軸引きずりでは逆回転となる」・原仮定者の指示(2026-10-18 —— 第101報・第103報)・原仮定者の指示(2026-10-30 —— 第121報)・統括の検証項目 R357',
     decl: K.DECL, plan: PLAN, amend: AMEND, notClaim: NOT_CLAIM, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
