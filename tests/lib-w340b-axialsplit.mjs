@@ -21,7 +21,7 @@ import { splitSpin, venusBalance, planetRows, moonRows, shareSun, DECL as L337, 
 import { galacticAxes } from './lib-w335b-carryledger.mjs';
 import { DECL as D330 } from './lib-w330a-spinclass.mjs';
 
-export const LIB_VERSION = 'w340b-axialsplit-lib-1';
+export const LIB_VERSION = 'w340b-axialsplit-lib-2';   // 版 2 = 追加の依頼 1(T5 —— 和〔見え方〕と 2 倍角の則・部位差分の大きさの置き方 2 つ)を足した。版 1 の関数と値は不変
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], nrm = (a) => Math.hypot(a[0], a[1], a[2]);
 const scl = (a, k) => [a[0] * k, a[1] * k, a[2] * k], add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]], sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
@@ -192,6 +192,47 @@ export function t1Null() {
   // 列 (i)(ii) は取り分を掛ける前の向きの型 —— 強さの係数 f(1 − f) の側が 0。第338便b の 3 列の f 1 の値(列 A は座標の回転 −f を含む)
   const f = 1, coef = { ff: f * (1 - f), A: colAmp('A', f), B: colAmp('B', f), Bp: colAmp('Bp', f), Bh: (DECL.alpha / 2) * f * (1 - f) };
   return { rows, coef };
+}
+
+/* ───────── T5 和(見え方)と 2 倍角の則(追加の依頼 1 —— 統括の検証項目 R357)───────── */
+/** 和 = 並進引きずりの回転成分(座標の回転 f s)+ 部位差分。部位差分の大きさの置き方 k: (a) k 1 = 列 (iii)(半分の渦度 −(α/2) f(1 − f) s⊥)/(b) k 2 = 列 B′ の大きさ
+ *  (運ばれる角速度の勾配 −α f(1 − f) s⊥ —— 列 (iii) の 2 倍)。閉じた形 = f[s∥ + (1 − k(α/2)(1 − f)) s⊥]。数値 = 列 (iii) の数値の回転 × k + 座標の回転 f ŝ */
+export const T5 = Object.freeze({ fGrid: Object.freeze([1e-6, 0.01, 0.1, 0.3, 0.5, 0.7]), ks: Object.freeze({ a: 1, b: 2 }), alphas: Object.freeze([1, 2, 3]), shearR: 1e-4 });
+export function sumClosed(elDeg, f, k, alpha = DECL.alpha) {
+  const ce = elDeg === 90 ? 0 : Math.cos(elDeg * D2R), se = elDeg === 90 ? 1 : Math.sin(elDeg * D2R), sPar = [se * ce, 0, se * se], sPerp = [-se * ce, 0, ce * ce], c = 1 - k * (alpha / 2) * (1 - f);
+  return scl(add(sPar, scl(sPerp, c)), f);
+}
+export function t5Rows() {
+  const s = [0, 0, 1], rows = [];
+  for (const el of DECL.elevDeg) for (const f of T5.fGrid) {
+    const c3 = col3At(el, f), row = { elDeg: el, f };
+    for (const [nm, k] of Object.entries(T5.ks)) {
+      const num = add([0, 0, c3.coordRot], scl(c3.rotNum, k)), cl = sumClosed(el, f, k), m = z12(nrm(cl), f);
+      row[nm] = { ang: m === 0 ? null : angDeg(cl, s), magOverF: z12(m / f), kind: kindOf(m === 0 ? null : angDeg(cl, s)), dNum: z12(nrm(sub(num, cl)) / f, 1e3) };
+    }
+    rows.push(row);
+  }
+  return rows;
+}
+/** f → 0 の極限で (b) の和が 2 倍角の則(第338便b の twistAxis の q 0)と同じ形か: f 1e-6 の和 ÷ f と q 0 の向きの角の差・強さの差。α 1・2・3 の極限(f → 0)の 45° の角 */
+export function t5Limit() {
+  const s = [0, 0, 1], f = T5.fGrid[0];
+  const vsQ0 = DECL.elevDeg.map((el) => {
+    const h = el === 90 ? [0, 0, 1] : twistAxis(s, at(el), 0), out = { elDeg: el, q0Ang: angDeg(h, s), q0Mag: nrm(h) };
+    for (const [nm, k] of Object.entries(T5.ks)) { const v = scl(sumClosed(el, f, k), 1 / f); out[nm] = { dAng: angDeg(v, s) - out.q0Ang, dMag: nrm(v) - out.q0Mag }; }
+    return out;
+  });
+  // f → 0 の極限の和 ÷ f = s∥ + (1 − k α/2) s⊥ を仰角 45° で(α 2 の (b) だけが 90°)
+  const alphas = T5.alphas.map((a) => { const o = { alpha: a }; for (const [nm, k] of Object.entries(T5.ks)) { const h = 0.5, w = add([h, 0, h], scl([-h, 0, h], 1 - k * (a / 2))); o[nm] = { ang45: angDeg(w, s), mag45: nrm(w) }; } return o; });
+  return { f, vsQ0, alphas };
+}
+/** 有限の受け手(赤道面)で近い面と遠い面の速度の差 ÷ 受け手の直径(ずれの率)から座標の回転 f s を引いた量 —— (b) の大きさ −α f(1 − f) s と比べる(列 (iv) の最小二乗の回転は (a) へ寄る) */
+export function t5Shear() {
+  return DECL.fGrid.map((f) => {
+    const r = rOfF(f), R = T5.shearR * r, U = (x) => scl(crs([0, 0, 1], [x, 0, 0]), fOfR(x)), du = (U(r + R)[1] - U(r - R)[1]) / (2 * R), fc = fOfR(r);
+    const shear = du - fc, want = -DECL.alpha * fc * (1 - fc), c4 = col4At(0, f, T5.shearR);
+    return { f, shearMinusCoord: shear, wantB: want, relB: Math.abs(shear - want) / Math.abs(want), rotFitZ: c4.om[2], wantA: want / 2, relA: Math.abs(c4.om[2] - want / 2) / Math.abs(want / 2) };
+  });
 }
 
 /* ───────── T2 赤道面の見え方 ───────── */

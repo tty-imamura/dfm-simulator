@@ -1,6 +1,6 @@
 // 第340便b(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R357): **正本 tests/out/axialsplit-340b.json から PHYSICS〔第340便b〕の表を作る文書の lib**
 // (QA docs.axialsplit340b が節の表と逐語で照合する —— 数は有効数字 3 桁の指数・角は小数 2 桁・正本で 0 と書いた量〔丸めの残り〕は「0」)。
-export const DOC_VERSION = 'w340b-axialsplitdoc-1';
+export const DOC_VERSION = 'w340b-axialsplitdoc-2';
 const fe = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : x === 0 ? '0' : Number(x).toExponential(2));
 const f2 = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toFixed(2));
 const f3 = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toFixed(3));
@@ -56,5 +56,16 @@ export function tablesOf(J) {
     `| 太陽の自転軸 ŝ☉ と背景軸引きずりの向き L̂ の角 | ${f2(st.thDeg)}° |`, `| 和 a ŝ☉ + b L̂ の大きさ ÷ (a と b の大きさの和) の最小(比 t = a/b を 10^±8 で走査)・そのときの t | ${f4(st.minRel)}・${f3(st.tAtMin)} |`,
     `| 閉じた形 min(sin(θ/2), cos(θ/2)) | ${f4(st.minClosed)} |`, `| 3 成分とも 0 になる組が今のノブ(f・W₀・q・背景の大きさ)に在るか | ${tf(st.possible)} |`,
     `| 背景の軸の向きを ŝ☉ の線に重ねるのに要る角 | ${f2(st.tiltNeedDeg)}° |`, `| 金星の歳差の文献の値(第330便a の lib の表 —— 文献の値・未照合) | ${t4.venus.precLitArcsecPerYr}″/年(周期 ${fe(t4.venus.precLitYr)} 年) |`].join('\n');
+  // T5(追加の依頼 1)
+  const t5 = J.t5, FG = [...new Set(t5.rows.map((r) => r.f))], c5 = (c) => (c.ang === null ? '—(強さ 0)' : `${f2(c.ang)}°・${c.magOverF > 0 && c.magOverF < 1e-3 ? fe(c.magOverF) : f3(c.magOverF)}`);
+  const grid = (nm) => ['| 仰角 el [°] | ' + FG.map((f) => `f ${f < 1e-3 ? fe(f) : f}: 角・強さ ÷ f`).join(' | ') + ' |', '|---|' + FG.map(() => '---|').join(''),
+    ...D.elevDeg.map((el) => `| ${el} | ` + FG.map((f) => c5(t5.rows.find((r) => r.elDeg === el && r.f === f)[nm])).join(' | ') + ' |')].join('\n');
+  T.t5A = grid('a');
+  T.t5B = grid('b');
+  T.t5Lim = ['| 仰角 el [°] | 2 倍角の則(第338便b の q 0): 角・強さ | (b) の和 ÷ f(f 1e-6)− q 0: 角の差・強さの差 | (a) の和 ÷ f(f 1e-6)− q 0: 角の差・強さの差 |', '|---|---|---|---|',
+    ...t5.limit.vsQ0.map((r) => `| ${r.elDeg} | ${f2(r.q0Ang)}°・${f3(r.q0Mag)} | ${fe(r.b.dAng)}°・${fe(r.b.dMag)} | ${f2(r.a.dAng)}°・${f3(r.a.dMag)} |`),
+    ...t5.limit.alphas.map((o) => `| α ${o.alpha}(f → 0 の極限・45°) | — | (b) ${f2(o.b.ang45)}°・${f3(o.b.mag45)} | (a) ${f2(o.a.ang45)}°・${f3(o.a.mag45)} |`)].join('\n');
+  T.t5Shear = ['| f | 近い面と遠い面の速度の差 ÷ 直径 − 座標の回転 f s(R/r 1e-4)| (b) の大きさ −α f(1 − f) s | 相対の差 | 列 (iv) の回転(最小二乗)| (a) の大きさ −(α/2) f(1 − f) s | 相対の差 |', '|---|---|---|---|---|---|---|',
+    ...t5.shear.map((x) => `| ${x.f} | ${f4(x.shearMinusCoord)} | ${f4(x.wantB)} | ${fe(x.relB)} | ${f4(x.rotFitZ)} | ${f4(x.wantA)} | ${fe(x.relA)} |`)].join('\n');
   return T;
 }
