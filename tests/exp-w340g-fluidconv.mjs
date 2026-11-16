@@ -121,7 +121,7 @@ export function gatesOf(J) {
     pure: Object.values(J.pure.gates).every(Boolean),
     t1Complete: J.t1.rows.length === P.t1.arrangements.length * P.t1.Ns.length * P.t1.seeds.length * P.t1.fields.length && J.t1.rows.every((r) => P.t1.rules.every((k) => fin(r[k].dOverV) && fin(r[k].torqueRate))),
     t1Quality: J.t1.summary.arrStats.every((s) => s.arr !== 'glass' || s.cv < J.t1.summary.arrStats.find((x) => x.field === s.field && x.N === s.N && x.arr === 'random').cv),
-    t1SymConserve: J.t1.summary.arrStats.every((s) => s.symB.torqueRate <= 1e-13 && s.symB.momRate <= 1e-13),
+    t1SymConserve: J.t1.summary.arrStats.every((s) => s.symB.torqueRate === 0 && s.symB.momRate === 0),
     t2Complete: J.t2.rows.length === P.t2.arrangements.length * P.t2.actions.length && J.t2.rows.every((r) => P.t2.keys.every((k) => r.conv[k].q.every(fin))),
   };
 }
@@ -158,7 +158,8 @@ export async function main() {
     decl: L.DECL, plan: PLAN, amend: AMEND, notClaim: NOT_CLAIM, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第340便g', target: TARGET, code: CODE, inputs: [] }), {
-    harnessVersion: HARNESS_VERSION, stage: 'fluidconv', engine: 'Node の純関数だけ(html を読まない・エンジンの步を進めない —— 第337便e の積分器を呼ぶ)', notClaim: NOT_CLAIM, recheck });
+    harnessVersion: HARNESS_VERSION, stage: 'fluidconv', engine: 'Node の純関数だけ(html を読まない・エンジンの步を進めない —— 第337便e の積分器を呼ぶ)', notClaim: NOT_CLAIM, recheck,
+    zeroFloor: { floor: L.DECL.zeroFloor, scales: 'symCentral の角運動量の率(÷ Σ m |p × V|)と運動量の率(÷ Σ m |V|)・重力だけの L_z の比 − 1 —— 1e-12 より小さければ 0 と書く(解析的に 0 の量)' } });
   writeJson(OUT, out);
   console.log('→', path.relative(ROOT, OUT), 'ok=' + out.ok, JSON.stringify(out.gates), out.elapsedS + ' s');
 }

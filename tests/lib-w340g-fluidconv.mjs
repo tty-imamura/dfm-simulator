@@ -32,6 +32,8 @@ export const DECL = Object.freeze({
   uMax: E5.DECL.uMax.plummer,
   /** 外縁 = 半径の順の外側の割合 */
   outerFrac: 0.2,
+  /** 解析的に 0 の量(symCentral の角運動量の率と運動量の率・重力だけの L_z の比 − 1)を 0 と書く床(同じ単位の尺度 —— Σ m |p × V|・Σ m |V|・L_z(0) —— に対して) */
+  zeroFloor: 1e-12,
   /** 種の写し(random は第337便e と同じ) */
   seedRule: 'random: 種 × 10007 + N(第337便e の seedOf)・quasi: 回転と平行移動の乱数の種 = 種 × 7919 + N・glass: 初めの点の乱数の種 = 種 × 7919 + N + 1',
   glass: GLASS,
@@ -156,7 +158,8 @@ export function staticRow({ arr, N, seed, field, eps, table }) {
     out[rule] = Object.assign({ shareMean: R.shareMean, wTotBias: R.wTotBias, wTotRms: R.wTotRms, dOverV: R.dOverV, contErr: R.contErr }, carryOf(V, F));
   }
   const swB = F7.selfWeightsOf(V, 'B', { eps }), FS = F7.evalForces(V, { drag: 'symCentral', eps, selfW: swB }), C = carryOf(V, FS);
-  out.symB = { torqueRate: C.torqueRate, momRate: C.momRate, outerRatio: C.outerRatio };
+  const z = (x) => (Math.abs(x) <= DECL.zeroFloor ? 0 : x);   // 解析的に 0(対ごとに等大・逆向き・中心方向)—— 丸めの残りを値のまま書かない
+  out.symB = { torqueRate: z(C.torqueRate), momRate: z(C.momRate), outerRatio: C.outerRatio };
   return out;
 }
 
@@ -175,7 +178,8 @@ export function finalOf(R, S0) {
     let s = 0, m = 0; for (let k = Math.floor(N * (1 - DECL.outerFrac)); k < N; k++) { const i = idx[k], Rr = Math.hypot(T.x[i], T.y[i]); if (!(Rr > 0)) continue; s += T.m[i] * (T.x[i] * T.vy[i] - T.y[i] * T.vx[i]) / Rr; m += T.m[i]; } return s / m; };
   const Lz = (T) => { let s = 0; for (let i = 0; i < T.N; i++) s += T.m[i] * (T.x[i] * T.vy[i] - T.y[i] * T.vx[i]); return s; };
   const q0 = R.series[0].q, q1 = R.series[R.series.length - 1].q;
-  return { vphiOuterRatio: vphiOuter(R.state) / vphiOuter(S0), LzRatio: Lz(R.state) / Lz(S0), r50: (q1.r50 - q0.r50) / q0.r50, vir: q1.vir, dE: q1.dE };
+  const lr = Lz(R.state) / Lz(S0);
+  return { vphiOuterRatio: vphiOuter(R.state) / vphiOuter(S0), LzRatio: Math.abs(lr - 1) <= DECL.zeroFloor ? 1 : lr, r50: (q1.r50 - q0.r50) / q0.r50, vir: q1.vir, dE: q1.dE };
 }
 
 /* ───────── 純関数の場面(門) ───────── */
@@ -215,11 +219,11 @@ export function pureScenes() {
     }
     S.ident = { zero: zero <= 1e-15 ? 0 : zero, torqueSym: tq <= 1e-13 ? 0 : tq };
   }
-  // ⑥ 速度の写し: random の並びに写すと元の速度の組と同じ(回転の支え 0)
+  // ⑥ 速度の写し: random の並びに写すと、速さの組(並べ替えた |v| の列)が元の標本と同じ(回転の支え 0 —— 半径の近い 2 点の順位の入れ替わりに依らない読み)
   {
-    const A = arrangementOf('random', 64, 3).S, W = withRankVelocities(A, 64, 3, 0);
-    let d = 0; for (let i = 0; i < 64; i++) d = Math.max(d, Math.abs(W.vx[i] - A.vx[i]), Math.abs(W.vy[i] - A.vy[i]), Math.abs(W.vz[i] - A.vz[i]));
-    S.rankVel = { maxD: d <= 1e-15 ? 0 : d };
+    const A = arrangementOf('random', 64, 3).S, W = withRankVelocities(A, 64, 3, 0), sp = (T) => Array.from({ length: 64 }, (_, i) => Math.hypot(T.vx[i], T.vy[i], T.vz[i])).sort((p, q) => p - q);
+    const a = sp(A), b = sp(W); let d = 0; for (let i = 0; i < 64; i++) d = Math.max(d, Math.abs(a[i] - b[i]));
+    S.rankVel = { maxD: d <= 1e-12 ? 0 : d };
   }
   // ⑦ 入力の拒否
   {

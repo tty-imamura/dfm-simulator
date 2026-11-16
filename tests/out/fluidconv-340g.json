@@ -7,6 +7,7 @@
  "decl": {
   "uMax": 0.99,
   "outerFrac": 0.2,
+  "zeroFloor": 1e-12,
   "seedRule": "random: 種 × 10007 + N(第337便e の seedOf)・quasi: 回転と平行移動の乱数の種 = 種 × 7919 + N・glass: 初めの点の乱数の種 = 種 × 7919 + N + 1",
   "glass": {
    "steps": 60,
@@ -446,7 +447,7 @@
      "momRate": 0.037308024391589985
     },
     "symB": {
-     "torqueRate": -3.7583736369901366e-35,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1
     }
@@ -638,7 +639,7 @@
      "momRate": 0.05308097548435161
     },
     "symB": {
-     "torqueRate": -4.239152750124296e-35,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1
     }
@@ -766,8 +767,8 @@
      "momRate": 0.043230398001648664
     },
     "symB": {
-     "torqueRate": -4.833474477489181e-35,
-     "momRate": 1.8841126606996822e-35,
+     "torqueRate": 0,
+     "momRate": 0,
      "outerRatio": 1
     }
    },
@@ -799,7 +800,7 @@
     },
     "symB": {
      "torqueRate": 0,
-     "momRate": 7.972137495224898e-19,
+     "momRate": 0,
      "outerRatio": 1.0061677302285765
     }
    },
@@ -830,7 +831,7 @@
      "momRate": 0.04168480733017145
     },
     "symB": {
-     "torqueRate": -4.461162257459327e-35,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1
     }
@@ -894,7 +895,7 @@
      "momRate": 0.027893075498307225
     },
     "symB": {
-     "torqueRate": -4.1279208116255445e-35,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1
     }
@@ -1055,7 +1056,7 @@
     },
     "symB": {
      "torqueRate": 0,
-     "momRate": 1.3018272362090145e-18,
+     "momRate": 0,
      "outerRatio": 1.0084420855119387
     }
    },
@@ -1086,7 +1087,7 @@
      "momRate": 0.197814445893639
     },
     "symB": {
-     "torqueRate": -4.059515375142875e-35,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1
     }
@@ -1118,7 +1119,7 @@
      "momRate": 0.005467312086221354
     },
     "symB": {
-     "torqueRate": -2.741657816572934e-19,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1.0067097421727793
     }
@@ -1183,7 +1184,7 @@
     },
     "symB": {
      "torqueRate": 0,
-     "momRate": 2.495647850659404e-18,
+     "momRate": 0,
      "outerRatio": 1.0063185356853785
     }
    },
@@ -1470,7 +1471,7 @@
      "momRate": 0.03113496225171595
     },
     "symB": {
-     "torqueRate": -3.8605552934488144e-35,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1
     }
@@ -1534,7 +1535,7 @@
      "momRate": 0.015976444494994357
     },
     "symB": {
-     "torqueRate": -5.260397771070609e-35,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1
     }
@@ -1598,8 +1599,8 @@
      "momRate": 0.010379395686598333
     },
     "symB": {
-     "torqueRate": -4.628046607805412e-35,
-     "momRate": 2.5121320114851627e-35,
+     "torqueRate": 0,
+     "momRate": 0,
      "outerRatio": 1
     }
    },
@@ -1662,7 +1663,7 @@
      "momRate": 0.030886108301407054
     },
     "symB": {
-     "torqueRate": -5.382099429543134e-35,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1
     }
@@ -1790,7 +1791,7 @@
      "momRate": 0.0014537853004490525
     },
     "symB": {
-     "torqueRate": -1.1556238288645735e-34,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1
     }
@@ -1855,7 +1856,7 @@
     },
     "symB": {
      "torqueRate": 0,
-     "momRate": 6.83485201814193e-35,
+     "momRate": 0,
      "outerRatio": 1
     }
    },
@@ -1982,7 +1983,7 @@
      "momRate": 0.0027035899466297942
     },
     "symB": {
-     "torqueRate": -1.1600891148982778e-34,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1
     }
@@ -2046,7 +2047,7 @@
      "momRate": 0.0044025967948193665
     },
     "symB": {
-     "torqueRate": -1.4218535769979282e-34,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1
     }
@@ -2174,7 +2175,7 @@
      "momRate": 0.0020137859589752748
     },
     "symB": {
-     "torqueRate": -1.3620319576374117e-34,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1
     }
@@ -2302,7 +2303,7 @@
      "momRate": 0.0035571292759880094
     },
     "symB": {
-     "torqueRate": -1.024044699338263e-34,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1
     }
@@ -2366,7 +2367,7 @@
      "momRate": 0.0016912631198266709
     },
     "symB": {
-     "torqueRate": -1.1596775241851437e-34,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1
     }
@@ -2430,7 +2431,7 @@
      "momRate": 0.0007617111278018827
     },
     "symB": {
-     "torqueRate": -1.2932287156808364e-34,
+     "torqueRate": 0,
      "momRate": 0,
      "outerRatio": 1
     }
@@ -3208,7 +3209,7 @@
      },
      "symB": {
       "torqueRate": 0,
-      "momRate": 2.495647850659404e-18
+      "momRate": 0
      },
      "momRateRow": 0.060248114732271596
     },
@@ -3459,7 +3460,7 @@
       "shareMean": 0.1921610305300279
      },
      "symB": {
-      "torqueRate": 7.186850410401619e-35,
+      "torqueRate": 0,
       "momRate": 0
      },
      "momRateRow": 0.22881302086674501
@@ -3543,7 +3544,7 @@
       "shareMean": 0.1517071513688568
      },
      "symB": {
-      "torqueRate": 4.715794252079763e-35,
+      "torqueRate": 0,
       "momRate": 0
      },
      "momRateRow": 0.06226519356759491
@@ -3599,7 +3600,7 @@
       "shareMean": 0.11148587847188064
      },
      "symB": {
-      "torqueRate": 5.493888094001151e-35,
+      "torqueRate": 0,
       "momRate": 0
      },
      "momRateRow": 0.05648069979994236
@@ -3627,8 +3628,8 @@
       "shareMean": 0.11874982130202906
      },
      "symB": {
-      "torqueRate": 7.123662462920062e-35,
-      "momRate": 3.03948780635106e-35
+      "torqueRate": 0,
+      "momRate": 0
      },
      "momRateRow": 0.03431298828589389
     },
@@ -3655,7 +3656,7 @@
       "shareMean": 0.11863508783371014
      },
      "symB": {
-      "torqueRate": 1.3620319576374117e-34,
+      "torqueRate": 0,
       "momRate": 0
      },
      "momRateRow": 0.0047447561221674525
@@ -3683,7 +3684,7 @@
       "shareMean": 0.08359878231492425
      },
      "symB": {
-      "torqueRate": 4.833474477489181e-35,
+      "torqueRate": 0,
       "momRate": 0
      },
      "momRateRow": 0.04718572787172826
@@ -3711,8 +3712,8 @@
       "shareMean": 0.09014754917817906
      },
      "symB": {
-      "torqueRate": 5.382099429543134e-35,
-      "momRate": 2.5121320114851627e-35
+      "torqueRate": 0,
+      "momRate": 0
      },
      "momRateRow": 0.032404162543594996
     },
@@ -3739,8 +3740,8 @@
       "shareMean": 0.08844400161772685
      },
      "symB": {
-      "torqueRate": 1.2932287156808364e-34,
-      "momRate": 3.270398041255767e-35
+      "torqueRate": 0,
+      "momRate": 0
      },
      "momRateRow": 0.0039814690725594815
     }
@@ -3866,7 +3867,7 @@
       "decides": true
      },
      "LzRatio": {
-      "q": [0.9999999999999999,1.0000000000000002,1.0000000000000002],
+      "q": [1,1,1],
       "e1": 0,
       "e2": 0,
       "p": null,
@@ -4058,12 +4059,12 @@
       "decides": true
      },
      "LzRatio": {
-      "q": [1,1,0.9999999999999987],
+      "q": [1,1,1],
       "e1": 0,
       "e2": 0,
       "p": null,
       "extrap": null,
-      "decides": false
+      "decides": true
      },
      "r50": {
       "q": [-0.050792972335126904,-0.053488158826192865,-0.0535160857019731],
@@ -4090,8 +4091,8 @@
       "decides": true
      }
     },
-    "decidesAll": false,
-    "nDecides": 0
+    "decidesAll": true,
+    "nDecides": 5
    },
    {
     "arr": "quasi",
@@ -4250,7 +4251,7 @@
       "decides": true
      },
      "LzRatio": {
-      "q": [1.0000000000000004,1.0000000000000009,1.0000000000000009],
+      "q": [1,1,1],
       "e1": 0,
       "e2": 0,
       "p": null,
@@ -4433,13 +4434,13 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.058
+   "wallSec": 0.052
   },
   "t1": {
-   "wallSec": 1.036
+   "wallSec": 0.968
   },
   "t2": {
-   "wallSec": 3.821
+   "wallSec": 3.589
   }
  },
  "gates": {
@@ -4450,26 +4451,26 @@
   "t2Complete": true
  },
  "ok": true,
- "elapsedS": 24.347,
+ "elapsedS": 23.909,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第340便g",
   "target": "tests/lib-w340g-fluidconv.mjs",
-  "targetSha256": "5f6079a8342a842d9ddd8d6b92c34de4f96279ff2324c7ae932d8ae9c9cd950d",
-  "generatedAt": "2026-11-16T18:50:40.472Z",
+  "targetSha256": "8c9addde907cfc11a9abe99da9abfddc5d04fcb6b22172139a36370faba5ddbe",
+  "generatedAt": "2026-11-16T18:53:32.211Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w340g-fluidconv.mjs",
-    "bytes": 15357,
-    "sha256": "cf24b2f514f40e430661afbf0b4c84912bc15909210fae2fdb8ad9e0e61dea5c",
-    "mtime": "2026-11-16T18:50:16.050Z"
+    "bytes": 15593,
+    "sha256": "32d0981fb93543b2f501aedcda1b3782b66a99082288dc775cdae775b1490409",
+    "mtime": "2026-11-16T18:52:25.026Z"
    },
    {
     "file": "tests/lib-w340g-fluidconv.mjs",
-    "bytes": 19571,
-    "sha256": "5f6079a8342a842d9ddd8d6b92c34de4f96279ff2324c7ae932d8ae9c9cd950d",
-    "mtime": "2026-11-16T18:48:44.278Z"
+    "bytes": 20243,
+    "sha256": "8c9addde907cfc11a9abe99da9abfddc5d04fcb6b22172139a36370faba5ddbe",
+    "mtime": "2026-11-16T18:53:08.245Z"
    },
    {
     "file": "tests/lib-w337e-fluid.mjs",
@@ -4514,7 +4515,7 @@
     "mtime": "2026-11-16T18:34:31.710Z"
    }
   ],
-  "codeSha256": "5fa788f17d047aa7bfdcca3e97c7b67671d586ad395615eca4ac54c623395e46",
+  "codeSha256": "0222a70385840b1db82f075afbf81cddf6617f8982714e767de9b0c7a28e4658",
   "harnessVersion": "w340g-fluidconv-1",
   "stage": "fluidconv",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 第337便e の積分器を呼ぶ)",
@@ -4559,44 +4560,15 @@
     "TOL_FACTOR": 8,
     "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
    },
-   "zeroed": 160,
-   "kept": 2469,
-   "zeroPathsHead": [
-    "/t1/rows/0/symB/torqueRate",
-    "/t1/rows/0/symB/momRate",
-    "/t1/rows/1/symB/torqueRate",
-    "/t1/rows/1/symB/momRate",
-    "/t1/rows/2/symB/torqueRate",
-    "/t1/rows/2/symB/momRate",
-    "/t1/rows/3/symB/torqueRate",
-    "/t1/rows/3/symB/momRate",
-    "/t1/rows/4/symB/torqueRate",
-    "/t1/rows/4/symB/momRate",
-    "/t1/rows/5/symB/torqueRate",
-    "/t1/rows/5/symB/momRate",
-    "/t1/rows/6/symB/torqueRate",
-    "/t1/rows/6/symB/momRate",
-    "/t1/rows/7/symB/torqueRate",
-    "/t1/rows/7/symB/momRate",
-    "/t1/rows/8/symB/torqueRate",
-    "/t1/rows/8/symB/momRate",
-    "/t1/rows/9/symB/momRate",
-    "/t1/rows/10/symB/torqueRate"
-   ],
-   "unstable": 11,
-   "unstableHead": [
-    "/pure/gates/rankVel",
-    "/t2/rows/0/conv/LzRatio/p",
-    "/t2/rows/0/conv/LzRatio/extrap",
-    "/t2/rows/4/conv/LzRatio/p",
-    "/t2/rows/4/conv/LzRatio/extrap",
-    "/t2/rows/4/conv/LzRatio/decides",
-    "/t2/rows/4/decidesAll",
-    "/t2/rows/8/conv/LzRatio/p",
-    "/t2/rows/8/conv/LzRatio/extrap",
-    "/gates/pure",
-    "/ok"
-   ]
+   "zeroed": 0,
+   "kept": 2434,
+   "zeroPathsHead": [],
+   "unstable": 0,
+   "unstableHead": []
+  },
+  "zeroFloor": {
+   "floor": 1e-12,
+   "scales": "symCentral の角運動量の率(÷ Σ m |p × V|)と運動量の率(÷ Σ m |V|)・重力だけの L_z の比 − 1 —— 1e-12 より小さければ 0 と書く(解析的に 0 の量)"
   }
  }
 }
