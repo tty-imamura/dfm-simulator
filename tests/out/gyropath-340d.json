@@ -10180,13 +10180,13 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.018
+   "wallSec": 0.012
   },
   "t1": {
-   "wallSec": 0.273
+   "wallSec": 0.327
   },
   "t2": {
-   "wallSec": 0.971
+   "wallSec": 0.872
   }
  },
  "gates": {
@@ -10200,13 +10200,13 @@
   "t2EqColTwoParts": true
  },
  "ok": true,
- "elapsedS": 3.372,
+ "elapsedS": 2.603,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第340便d",
   "target": "tests/lib-w340d-gyropath.mjs",
-  "targetSha256": "1b741cd0bb12410900ef14633118615079b5823b25471ec5692980d81307c0bc",
-  "generatedAt": "2026-11-16T19:00:38.216Z",
+  "targetSha256": "cb3c2473cff2072726afebcb5e7b9b78dc6959b606482d5f2c5af8b275179ddf",
+  "generatedAt": "2026-11-16T19:12:01.806Z",
   "inputs": [],
   "code": [
    {
@@ -10217,9 +10217,9 @@
    },
    {
     "file": "tests/lib-w340d-gyropath.mjs",
-    "bytes": 31734,
-    "sha256": "1b741cd0bb12410900ef14633118615079b5823b25471ec5692980d81307c0bc",
-    "mtime": "2026-11-16T18:58:31.505Z"
+    "bytes": 31741,
+    "sha256": "cb3c2473cff2072726afebcb5e7b9b78dc6959b606482d5f2c5af8b275179ddf",
+    "mtime": "2026-11-16T19:11:59.127Z"
    },
    {
     "file": "tests/lib-w338b-bevelknob.mjs",
@@ -10294,7 +10294,7 @@
     "mtime": "2026-11-16T18:34:29.230Z"
    }
   ],
-  "codeSha256": "b653b40b920869895665a73373dc3b1b54bfbe91da04ccdcf76570a45e467ba2",
+  "codeSha256": "acf11403db5ea9abd0fa2da89a43aa8bb23055ed7de82491b7c770c6a2d96263",
   "harnessVersion": "w340d-gyropath-1",
   "stage": "gyropath",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 部位の和と第338便d の輪の列)",

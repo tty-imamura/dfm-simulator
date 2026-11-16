@@ -20,7 +20,7 @@
 // ■ T2(土星の環 —— 第338便d の lib の帳簿を呼ぶ): (A) 主の列 = 正味のトルクの行き先を環の外に置く口(土星の自転へ返す・共鳴の衛星〔ミマス〕—— 口の強さ η はノブ・η 一様)/
 //   (B) 比べる列 = 半長軸の率と傾きの率に別の係数 c_a・c_i(消した分の角運動量と仕事は「行き先の未定の穴」の欄に書く)/第140報の赤道面の列(並進引きずりの順の分と軸引きずりの逆の分
 //   —— 第338便b の 3 列〔A・B・B′〕の振幅 A(f)・行き先は順の分 = 源の自転・逆の分 = 背景宇宙)。
-// ■ 薄い角(1e-3 rad より小さい傾き・ほぼ平行な 2 つの向きのなす角)は `Math.atan2(|外積|, 内積)` で求める(`Math.acos` を使わない)。
+// ■ 薄い角(1e-3 rad より小さい傾き・ほぼ平行な 2 つの向きのなす角)は `Math.atan2(|外積|, 内積)` で求める(逆余弦で内積から戻さない)。
 // ■ 言わないこと: 回転引きずりの機構が導けたとは書かない(この型・このノブの組ではこうなる、の表)。環が薄い理由が分かったとは書かない。アプリの型が経路から出た/出ない、とは書かない。
 //   光速を超えるかどうかを判定に使わない。打ち消されたと仮定した後の値を結果と書かない(行き先を帳簿に置いた値だけ)。文献の値は未照合。
 import { twistAxis, muOf, colAmp, COL_JA } from './lib-w338b-bevelknob.mjs';
@@ -147,8 +147,8 @@ export function closedForms({ q, p, sSign = 1, ROverR = DECL.t1.ROverR, h = DECL
   const rc = recvOf(rcSpec), R = ROverR * rc.r, parts = partsOf('sphere', R, rc.Lhat), fp = { q, p, sSign };
   const I0 = parts.reduce((s, pt) => s + pt.m * pt.xi[0] * pt.xi[0], 0), Om = (x) => fieldOmega(x, fp), X = rc.X, L = rc.Lhat;
   const J = [0, 1, 2].map((j) => { const e = [0, 0, 0]; e[j] = h; return scl(sub(Om(add(X, e)), Om(sub(X, e))), 1 / (2 * h)); });   // J[j][k] = ∂_j Ω_k
-  const curl = [J[1][2] - J[2][1], J[2][0] - J[0][2], J[0][1] - J[1][0]], div = J[0][0] + J[1][1] + J[2][2], gradLO = [0, 1, 2].map((j) => dot(J[j], L));
-  return { I0, dragF: scl(curl, -I0), corSF: scl(sub(gradLO, scl(L, div)), 2 * rc.omegaS * I0), corSN: scl(crs(L, Om(X)), 2 * rc.omegaS * I0), corVPoint: scl(crs(rc.V, Om(X)), 2) };
+  const rot = [J[1][2] - J[2][1], J[2][0] - J[0][2], J[0][1] - J[1][0]], div = J[0][0] + J[1][1] + J[2][2], gradLO = [0, 1, 2].map((j) => dot(J[j], L));
+  return { I0, dragF: scl(rot, -I0), corSF: scl(sub(gradLO, scl(L, div)), 2 * rc.omegaS * I0), corSN: scl(crs(L, Om(X)), 2 * rc.omegaS * I0), corVPoint: scl(crs(rc.V, Om(X)), 2) };
 }
 /** 作用の型 × q × p × 体の要約(仰角の格子の引き寄せ・z のべき・r のべき・上下の比・赤道面の上の量) */
 export function summaryRow({ action, q, p, body }) {
