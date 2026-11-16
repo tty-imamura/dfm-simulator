@@ -2225,6 +2225,18 @@ export const REGEN_STEPS = [
     note: '第339便a: 候補 slice|focus|Req|obs の測り直し(要る λ・環の判定・4 惑星の尺度の内 —— 第337便i の lib)/鍵の既定 OFF と受理の表/'
       + 'html の点の場と lib の effectOfSpec の点ごとの照合(倍 2 × λ 2 × 軸 2)/1 步の照合/🛟 の ON と鍵 OFF の写しの 600・3000 步の傾きの比' }),
   // ==== 第339便a の塊(ここまで)====
+  // ==== 第340便e の塊(ここから)====
+  // ---- 第340便e(原仮定者の指示(2026-11-17 —— 第140報)「引きずりでの光速」・原仮定者の回答 AN756 = A・AN765・統括の検証項目 R360): **引きずりでの光速と受け手の重み —— 受け手の自己の重みを
+  //   分母に入れた型の速さの表(25 系 × 速さの型 7)・⑩ の効き(5 系)・詰まり具合のべきと離心率の依存のノブ・共通の零試験(天体が 1 つ・離して静止させた 2 体・二重に足さない・次元)**
+  //   (段 lightweight-340e —— 正本 tests/out/lightweight-340e.json・lib tests/lib-w340e-lightweight.mjs —— 第338便e・第337便d・第335便b・第326便d・第333便c・第335便e の lib を import して呼ぶ。
+  //   他の正本は読まない —— 順序だけ after に段 spinfield-338e と同じ 10 段と spinfield-338e)。**診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第340便e の枝の実測 7 s
+  S('lightweight-340e', 'node tests/exp-w340e-lightweight.mjs', ['tests/out/lightweight-340e.json'], 7, { secSource: 'w340e-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'spinfield-338e'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 7 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/lightweight-340e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第340便e: 速さの型 7(剛体・(R_d/r)¹・(R_d/r)²・自己の重み R_d と R_obs・その両方 2)× 系 25 の速さの最大と取り分の平面/⑩ の効き(5 系 × 列 2 × 場の型 7)/'
+      + '詰まり具合のべき × 離心率の依存の走査(列 2 × 場の型 2)/零試験(天体が 1 つ・静止と等速と円と離心の 2 体・二重に足さない・次元)' }),
+  // ==== 第340便e の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

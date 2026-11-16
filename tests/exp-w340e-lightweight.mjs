@@ -27,8 +27,8 @@ export const OUT_MAIN = 'tests/out/lightweight-340e.json';
 export const TARGET = 'tests/lib-w340e-lightweight.mjs';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
-export const NOT_CLAIM = Object.freeze(['光速を超えないことが分かったとは書かない(この 25 系・この型で何桁下がるかまで —— 受け手の重みが有っても入力が光速を超えれば平均も超え得る)',
-  '⑩ が正しい・誤りとは書かない(落ちる型・自己の重みの型での効きの表まで)', '重力が引きずりから導けた・導けないとは書かない(静止の 2 体で読みの候補 3 つが出す数まで)',
+export const NOT_CLAIM = Object.freeze(['速さが光速の内に収まると結論しない(この 25 系・この型で何桁下がるかまで —— 受け手の重みが有っても入力が光速を超えれば平均も超え得る)',
+  '⑩ の当否を結論しない(落ちる型・自己の重みの型での効きの表まで)', '重力を引きずりから出せるかどうかを結論しない(静止の 2 体で読みの候補 3 つが出す数まで)',
   '光速との比は判定に使わない(表に残すだけ)・光速で切り詰める処理は持たない', '文献の値は未照合(行の出どころを書く)']);
 /** 器の宣言 */
 export const PLAN = Object.freeze({

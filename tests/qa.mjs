@@ -107582,6 +107582,147 @@ function view337gOf338a(eq) {
 }
 // ==== 第339便a の塊(ここまで)====
 
+// ==== 第340便e の塊(ここから —— behavior.lightweight340e・docs.lightweight340e の 2 ブロック。root は SKIP)====
+// ---- 第340便e(原仮定者の指示(2026-11-17 —— 第140報)「引きずりでの光速」・原仮定者の回答 AN756 = A・AN765・統括の検証項目 R360): **引きずりでの光速と受け手の重み・⑩ を落ちる型で候補に・
+// ----   共通の零試験(天体が 1 つ・離して静止させた 2 体・二重に足さない・次元)**(新設 —— 器 tests/exp-w340e-lightweight.mjs〔html を読まない〕・lib tests/lib-w340e-lightweight.mjs・
+// ----   文書の lib tests/lib-w340e-lightweightdoc.mjs・正本 tests/out/lightweight-340e.json・入力のファイルは無い)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.lightweight340e: ① 版・宣言・純関数の場面 ② 器を走らせ直して第338便c の recheckRun で正本と照合(pure・t1・eff・scan・t2)③ 門 ④ 呼ぶだけ(lib の import・html を読まない)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w340e-lightweight.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w340e-lightweight.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w340e-lightweightdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'lightweight-340e.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.lightweight340e(第340便e の引きずりでの光速と零試験の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── behavior.lightweight340e ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/lightweight-340e.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
+        // ① 版・宣言・純関数の場面
+        if (!(L.LIB_VERSION === 'w340e-lightweight-lib-1' && X.HARNESS_VERSION === 'w340e-lightweight-1' && D0.DOC_VERSION === 'w340e-lightweightdoc-1' && X.AMEND.length === 0
+          && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・照合の lib)');
+        if (!(js(L.DECL.speedTypes) === js(['rigid', 'pow1', 'pow2', 'selfRd', 'selfRobs', 'pow1selfRd', 'pow1selfRobs']) && js(L.DECL.effCols) === js(['L1', 'S0']) && L.DECL.nQuad === 4096 && L.DECL.nOrbitT1 === 720
+          && L.DECL.eRef === 0.1 && L.DECL.spreadGoal === 10 && js(J.decl) === js(L.DECL) && js(J.plan) === js(X.PLAN) && js(J.recvR) === js(L.RECV_R))) bad.push('① 宣言(速さの型・列・求積の点・e_ref・物差し)が lib・器・正本で同じでない');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
+        if (Object.keys(PG).length !== 8) bad.push('① 場面の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・速さの型 ${L.DECL.speedTypes.length}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(重みつきの平均 10c → 9.90c・第338便e と同じ速さと ȧ・dU の差分・取り分・天体が 1 つ・静止の 2 体・拒否)`);
+        // ② 器を走らせ直して正本と照合(第338便c の量ごとの尺度 —— 数でない欄は完全一致・0 と書いた葉は 128 σ′ の内・ほかは |差| ≤ max(1e-9 × 大きさ, 8 σ′))
+        const parts = ['pure', 't1', 'eff', 'scan', 't2'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), R = RC.base, diffs = RC.diffs;
+        const badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(第338便c の recheckRun —— 葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero} —— T1 ${R.t1.rows.length} 系・⑩ の効き ${R.eff.rows.length} 系・走査 ${R.scan.length} 組・零試験の 2 体 ${R.t2.pairs.length} 系)`);
+        // ③ 門・要の数(光速を超える系の数は記録 —— 判定ではない)
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('③ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const sm = J.t1.summary;
+        if (!(sm.rigid.nOver === 7 && sm.selfRd.nOver === 0 && sm.pow1.nOver === 0 && js(sm.selfRobs.over) === js(['j0348']))) bad.push('③ 光速を超える系の記録(剛体 7・(iii) R_d 0・(ii) 0・(iii) R_obs は J0348 だけ)が正本と違う');
+        if (!(J.t2.single.strainMax.pow1 > 0.1 && J.t2.single.strainMax.rigid === 0 && J.t2.readings.length === 3 && J.t2.readings[2].central.eccentric === null)) bad.push('③ 零試験の表(落ちる型の歪み・読みの候補 3・式が立たない欄)');
+        cases.push(`③ 門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・光速を超える系の記録(剛体 ${sm.rigid.nOver}・(iii) R_d ${sm.selfRd.nOver}・(iii) R_obs ${sm.selfRobs.nOver} —— 判定には使わない)`);
+        // ④ 呼ぶだけ
+        const tl = rd('tests/lib-w340e-lightweight.mjs'), th = rd('tests/exp-w340e-lightweight.mjs'), td = rd('tests/lib-w340e-lightweightdoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        if (!(js(imps) === js(['lib-w326d-axialheat.mjs', 'lib-w333c-mercury3d.mjs', 'lib-w335b-carryledger.mjs', 'lib-w335e-moonapsis.mjs', 'lib-w337d-accelloss.mjs', 'lib-w338e-spinfield.mjs'])
+          && !/loadHtml|index\.html/.test(tl + td + th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/from '/.test(td) && !/Math\.random/.test(tl + th)
+          && !/Math\.acos\(/.test(tl) && !/w340e/.test(rd('tests/lib-w338e-spinfield.mjs') + rd('tests/lib-w337d-accelloss.mjs'))))
+          bad.push('④ 呼ぶだけ(lib の import は第338便e・第337便d・第335便b・第326便d・第333便c・第335便e の lib だけ・html を読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random と Math.acos なし・呼ぶ lib の本文は不変)');
+        cases.push('④ lib の import は 6 本の既存の lib だけ・html を読まない・薄い角を acos で求めない');
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.lightweight340e', bad.length === 0,
+      `**引きずりでの光速と受け手の重み・⑩ の効き・詰まり具合 × 離心率のノブ・共通の零試験の作り直し**(第340便e・原仮定者の指示(2026-11-17 —— 第140報)・R360 —— html を読まない・光速との比は判定に使わない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第340便e: docs.lightweight340e は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
+// ----   docs.lightweight340e(正本): ① 門・版・来歴(html を読まない —— target は lib・入力のファイルなし・照合の lib を meta に)② 表 12 本が PHYSICS〔第340便e〕に逐語
+// ----     ③ 節の位置(〔第339便a〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・AI_SPEC §252(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w340e-lightweight.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w340e-lightweight.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w340e-lightweightdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'lightweight-340e.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.lightweight340e(第340便e の引きずりでの光速と零試験の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.lightweight340e ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第340便e — '), i7 = PH.indexOf('\n## 7. 論文'), ia = PH.indexOf('〔第339便a — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ia >= 0 && ia < i0 && iu > i0)) bad.push('PHYSICS〔第340便e〕が無いか〔第339便a〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/lightweight-340e.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'lightweight'
+        && J.target === 'tests/lib-w340e-lightweight.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルなし・照合の lib の meta・判定が反転する葉 0)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第340便e〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 12) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第340便e〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の指示(2026-11-17 —— 第140報)', 'R360', 'AN756', 'AN765', 'tests/exp-w340e-lightweight.mjs', 'tests/out/lightweight-340e.json', 'tests/lib-w340e-lightweight.mjs', 'lightweight-340e',
+      '光速を超えるか超えないかは判断基準にならない', '引きずられる側の重みが有るので', '座標を運ぶ速さ', '判定には使わない', '切り詰める処理', '取り分 f', 'w_self', 'R_self', 'R_obs', 'R_d = Y_k m', '剛体',
+      '重みつきの平均は入力の最大を超えない', '9.90c', '「受け手の重みが有れば必ず光速以下」とは書かない', '天体が 1 つ', '剛体の座標変換', '離して静止させた 2 体', 'd/dt(m/r)', 'G₀ m/r²', '読みの候補', '式が立たない',
+      '二重に足さない', '次元', '質量/長さ/時間', '局所で測る速さ', 'c_loc', 'c₀', '原文の文', '読み', '離心率の依存', 'このノブの組では満たせない', '次に足すノブの候補',
+      'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '第140報への枝の答え', '決断事項の候補', '次の便へ', 'behavior.lightweight340e', 'docs.lightweight340e'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第340便e〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 252. 第340便e'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/lightweight-340e.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('⑩') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R360') >= 0))
+      bad.push('③ AI_SPEC §252(正本・SYSTEM_PROMPT・⑩・候補・R360)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl340e = clg.split('\n').find((l) => l.indexOf('**第340便e**') >= 0) || '';
+    if (!(cl340e.indexOf('tests/exp-w340e-lightweight.mjs') >= 0 && cl340e.indexOf('lightweight-340e') >= 0 && cl340e.indexOf('第140報') >= 0 && cl340e.indexOf('R360') >= 0)) bad.push('③ CHANGELOG の第340便e の行');
+    if (!(/S\('lightweight-340e', 'node tests\/exp-w340e-lightweight\.mjs', \['tests\/out\/lightweight-340e\.json'\]/.test(RT) && RT.indexOf('// ==== 第340便e の塊(ここから)====') >= 0)) bad.push('③ 段の行 lightweight-340e(塊)');
+    if (GI.indexOf('!tests/out/lightweight-340e.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第340便e の塊(ここから)====') >= 0 && /behavior\.lightweight340e/.test(PM) && /docs\.lightweight340e/.test(PM))) bad.push('③ post-merge の ③′ に第340便e の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §252(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT340 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第340便e の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・光速を超えないことが分かった・重力が引きずりから導けた・⑩ が正しい・⑩ が誤り
+    const W340 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たっか分がとこいなえ超を速光', 'たけ導らかりずき引が力重', 'いし正が⑩', 'り誤が⑩'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第340便e〕', sec], ['AI_SPEC §252', ai], ['CHANGELOG の第340便e の行', cl340e], ['器', rd('tests/exp-w340e-lightweight.mjs')], ['lib', rd('tests/lib-w340e-lightweight.mjs')], ['文書の lib', rd('tests/lib-w340e-lightweightdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W340)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT340) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.lightweight340e', bad.length === 0,
+      `**引きずりでの光速と受け手の重み・共通の零試験の文書**(第340便e・原仮定者の指示(2026-11-17 —— 第140報)・R360 —— 候補の表・ノブの範囲・判定の条件を原文の文と読みに分ける・読みの候補は決めない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第340便e の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

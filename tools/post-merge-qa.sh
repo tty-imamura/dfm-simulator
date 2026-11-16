@@ -1045,6 +1045,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.heatlock338f docs.heatlock338f"
 #   新しい段 rotvert-339a の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rotvert339a docs.rotvert339a"
 # ==== 第339便a の塊(ここまで)====
+# ==== 第340便e の塊(ここから)====
+# 第340便e(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R360 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.lightweight340e —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・門・呼ぶだけ / docs.lightweight340e —— 正本の門と表 12 本が PHYSICS〔第340便e〕に逐語・文書)と、新しい段 lightweight-340e の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.lightweight340e docs.lightweight340e"
+# ==== 第340便e の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
