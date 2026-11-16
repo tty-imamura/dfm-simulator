@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第292便d",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T05:32:23.735Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-15T20:00:34.244Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -40,9 +40,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    },
    {
     "file": "tests/lib-w302h-splitrec.mjs",
@@ -51,7 +51,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "80eb07ded99f7bd0114052936999ecf39ef630398d94947814f59cb7446d399e",
+  "codeSha256": "1f762f3670db3bb06f26fe7f892320fe68d57751c27cf60306dd02d857d7fee2",
   "harnessVersion": "w292d-tide-1",
   "libVersion": "w292d-tide-lib-1",
   "engineVersion": "w292d-tide-1",
@@ -98,11 +98,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1368,
-   "segments": 1205,
-   "closureShare": 0.297
+   "names": 1383,
+   "segments": 1214,
+   "closureShare": 0.2975
   },
-  "scopeSha256": "152ab766c35c8d0f6057f1c6ee55bbf992eac60c0a347531d20a8d0b1869d455",
+  "scopeSha256": "cbfb7529788314c8092bb297a4b045bd424a44d76795e376a7ae21f080220935",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -373,7 +373,7 @@
    "dt": 0.016,
    "steps": 1475370,
    "T": 23605.920000000002,
-   "wallSec": 4.046,
+   "wallSec": 4.483,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -423,7 +423,7 @@
    "dt": 0.008,
    "steps": 2950740,
    "T": 23605.920000000002,
-   "wallSec": 8,
+   "wallSec": 8.277,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -502,7 +502,7 @@
    "gain": 0,
    "tide": false,
    "velocity": "v",
-   "wallSec": 3.959,
+   "wallSec": 4.59,
    "dJEarth": 0,
    "dJMoon": 0,
    "tideHeat": 0,
@@ -520,7 +520,7 @@
    "gain": 0,
    "tide": true,
    "velocity": "v",
-   "wallSec": 5.689,
+   "wallSec": 5.615,
    "dJEarth": -1.074392193823668e-12,
    "dJMoon": 5.87666900494468e-16,
    "tideHeat": 7.543641534915281e-15,
@@ -744,71 +744,71 @@
     "gain": 0,
     "tide": false,
     "velocity": "v",
-    "wallSec": 3.959
+    "wallSec": 4.59
    },
    {
     "gain": 0,
     "tide": true,
     "velocity": "v",
-    "wallSec": 5.689
+    "wallSec": 5.615
    },
    {
     "gain": 100,
     "tide": false,
     "velocity": "v",
-    "wallSec": 4.589
+    "wallSec": 5.291
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "v",
-    "wallSec": 6.144
+    "wallSec": 6.669
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 5.628
+    "wallSec": 6.555
    },
    {
     "gain": 1000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 4.61
+    "wallSec": 4.826
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 5.941
+    "wallSec": 6.503
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 6.451
+    "wallSec": 7.233
    },
    {
     "gain": 10000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 4.846
+    "wallSec": 5.207
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 5.62
+    "wallSec": 6.644
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 5.972
+    "wallSec": 6.839
    }
   ],
   "ok": true
  },
  "ok": true,
- "elapsedS": 73.829
+ "elapsedS": 81.163
 }

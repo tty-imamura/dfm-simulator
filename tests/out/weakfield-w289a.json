@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便a",
   "target": "beta/index.html",
-  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-  "generatedAt": "2026-11-13T02:38:55.852Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-15T20:14:10.261Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7665776,
-    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-    "mtime": "2026-11-13T00:35:24.745Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -96,11 +96,11 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1327,
-   "segments": 1164,
-   "closureShare": 0.2881
+   "names": 1342,
+   "segments": 1173,
+   "closureShare": 0.2884
   },
-  "scopeSha256": "82e8a34d5c20876d8152c791af1210ac49c1a10d576839151a9222d3236056f0",
+  "scopeSha256": "a7fafd23b1009b0f2c1a9db3e54d7040e2cdf976ad5e3254c4cbaef321ab3a08",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -423,7 +423,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.00002945243112740431,
-    "wallSec": 0.062
+    "wallSec": 0.049
    },
    {
     "b": 20000,
@@ -435,7 +435,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.000014726215563702155,
-    "wallSec": 0.035
+    "wallSec": 0.031
    }
   ],
   "clocksOk": true,
@@ -491,11 +491,11 @@
   "frameDefault": "pull"
  },
  "census": {
-  "n": 186,
+  "n": 187,
   "tally": {
    "active:default(pull)": 4,
    "active:pull": 18,
-   "active:share": 99,
+   "active:share": 100,
    "retired:default(pull)": 2,
    "retired:pull": 16,
    "retired:share": 47
@@ -593,5 +593,5 @@
   "shapiroMicros": 280.9977454260266
  },
  "recordNote": "HP.grSI() の式レベル出力の引用(🛰 grcal —— 再測ではない)",
- "elapsedS": 1.749
+ "elapsedS": 1.554
 }

@@ -3,7 +3,7 @@
  "libVersion": "w333c-mercury3d-lib-1",
  "generator": "tests/exp-w333c-mercury3d.mjs",
  "target": "beta/index.html",
- "targetSha256": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "reuseFrom": null,
  "ruling": "原仮定者の整理(2026-11-10)「水星は絡む要素が多く難しい天体・軌道も公転面に対して斜め」「G_loc も次数を含めて選択肢のひとつ」「新しい解釈の引きずりも検証する」・原仮定者の回答(2026-11-10 —— AN597)今の G_loc n = 2 + K1 を凍結の基準の列に・原仮定者の回答(2026-11-10 —— AN598)K1 の +5/3 は相対の並進・原仮定者の回答(2026-11-10 —— AN600)連星の +33% は残差 + 対称の G_loc n = 2 の小さな診断・統括の検証項目 R319",
  "inposVersion": "w315c-inposk1-1",
@@ -2723,25 +2723,25 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.039
+   "wallSec": 0.061
   },
   "books": {
-   "wallSec": 0.04
+   "wallSec": 0.062
   },
   "geom": {
-   "wallSec": 0.041
+   "wallSec": 0.063
   },
   "merc3d": {
-   "wallSec": 0.291
+   "wallSec": 0.336
   },
   "numeric": {
-   "wallSec": 2.486
+   "wallSec": 3.181
   },
   "controls": {
-   "wallSec": 2.827
+   "wallSec": 3.55
   },
   "bin": {
-   "wallSec": 3.332
+   "wallSec": 4.107
   }
  },
  "gates": {
@@ -2756,25 +2756,25 @@
   "binary": true
  },
  "ok": true,
- "elapsedS": 5.051,
+ "elapsedS": 6.169,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第333便c",
   "target": "beta/index.html",
-  "targetSha256": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
-  "generatedAt": "2026-11-15T03:08:21.514Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:08:59.323Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7665776,
-    "sha256": "53df43f58f93cbfa180c5c6b10d2bca3e98f38ce87c6c21ae7b7b28301e6876e",
-    "mtime": "2026-11-14T20:06:57.558Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    },
    {
     "file": "tests/out/inposk1-w315c.json",
-    "bytes": 81457,
-    "sha256": "3491a7daee59b8921b8e7220426f77e4c2e3f9383e3c03978f25b7181d870b67",
-    "mtime": "2026-11-15T02:32:36.767Z"
+    "bytes": 81460,
+    "sha256": "08f783a3f3fe005e166102a5a78899b16f363cf23377388040cc21a1c3cb7162",
+    "mtime": "2026-11-16T00:16:10.019Z"
    }
   ],
   "code": [
@@ -2891,16 +2891,16 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1324,
-   "segments": 1161,
-   "closureShare": 0.2876
+   "names": 1339,
+   "segments": 1170,
+   "closureShare": 0.2879
   },
-  "scopeSha256": "eaa9f8e90a306b673cdc56eb75addc32b8dcdc0944ead51596c1879d66afe612",
+  "scopeSha256": "f082ff9231ce3c20303bfe54794e54c0816fcd7a0bb6859d4ae37813e1333b1c",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/inposk1-w315c.json",
-    "stableSha256": "d3bbe8f264d66d9d105dcffa02f82a5ec885f2bd8c2e8ee9b174759d4fccc7a1",
+    "stableSha256": "9700bbfdba7053038fa5b837e26f192894911201cba7910f868b58f59d533008",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/B/systems/*/wallSec",

@@ -3,7 +3,7 @@
  "libVersion": "w327b-galaxis-lib-1",
  "generator": "tests/exp-w327b-galaxis.mjs",
  "target": "beta/index.html",
- "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "reuseFrom": null,
  "ruling": "原仮定者の回答(2026-11-05 —— AN536)「銀河の局所場の大きさは、太陽の自転と、APIの模型の、両方を検証する。「銀河の回転と逆向き」の解釈については、銀河は腕を引きずって回転しているが、腕が引きずられるという事はその腕より慣性決定力場の方が早く回転しており、見た目は順回転だが場に対して逆回転になる」・統括の検証項目 R296",
  "decl": {
@@ -1268,16 +1268,16 @@
  },
  "timing": {
   "path1": {
-   "wallSec": 0.416
+   "wallSec": 0.569
   },
   "path2": {
-   "wallSec": 6.154
+   "wallSec": 10.373
   },
   "grid": {
-   "wallSec": 7.385
+   "wallSec": 12.827
   },
   "TRH": {
-   "wallSec": 7.387
+   "wallSec": 12.828
   }
  },
  "gates": {
@@ -1295,19 +1295,19 @@
   "handoff": true
  },
  "ok": true,
- "elapsedS": 9.312,
+ "elapsedS": 15.305,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第327便b",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T10:25:51.638Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:59:51.776Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -1379,12 +1379,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "d7fc93935df79c2ba8dde896b30458f28772e4f8e7acbdb70889738ab26a0844",
+  "codeSha256": "ebc83df53a254ed55881337690ec0e1e1f27d49dbb2c2d05497056103e177b5e",
   "harnessVersion": "w327b-galaxis-1",
   "stage": "galaxis",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)と第321便c の場の API の純関数",
@@ -1435,11 +1435,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1349,
-   "segments": 1186,
-   "closureShare": 0.2935
+   "names": 1364,
+   "segments": 1195,
+   "closureShare": 0.294
   },
-  "scopeSha256": "174ea5eddf23300227e202517f158a1828afdb5f5a403bca3a5b107fc254c2f5",
+  "scopeSha256": "f886b9a4a5631b81be1e00f68796754b437e4b01164fa58e812b71652b2e3fab",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

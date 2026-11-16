@@ -2,7 +2,7 @@
  "version": "w311b-galaxial-1",
  "generator": "tests/exp-w311b-galaxial.mjs",
  "target": "beta/index.html",
- "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "ruling": "原仮定者の裁定(第110報)太陽系における天の川銀河による一様軸引きずりを検討・一様並進引きずりと一様回転引きずりは慣性系では無視できる・背景慣性決定力は引きずりの分母に入れない・(第113報)・決断事項 AN389・AN382・AN390・AN395・統括の検証項目 R227",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -1050,28 +1050,28 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.204
+   "wallSec": 0.116
   },
   "B": {
-   "wallSec": 0.243
+   "wallSec": 0.148
   },
   "D": {
-   "wallSec": 221.912
+   "wallSec": 198.057
   }
  },
- "elapsedS": 224.729,
+ "elapsedS": 200.196,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第311便b",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T10:53:03.342Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:50:08.964Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1113,12 +1113,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "04ee86f6780bc8715160761a4fb21dca2d3c8b9fdc8f49c4885f2c42861920a8",
+  "codeSha256": "ef08116de09f49adf19ace673eb08b91b0d1360a8c151d00b2728872c93fc4ee",
   "harnessVersion": "w311b-galaxial-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1189,11 +1189,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1376,
-   "segments": 1213,
-   "closureShare": 0.2992
+   "names": 1391,
+   "segments": 1222,
+   "closureShare": 0.2997
   },
-  "scopeSha256": "3cce100c347b9fb0562dc26cf54f155862b0dc0f72db9985a09a6c169322b4d4",
+  "scopeSha256": "4468544be13eb0bca57c7191c54dd4bc225d81e6eafc86ef854ec9862edcbb22",
   "scopeComplete": true,
   "inputsStable": [
    {

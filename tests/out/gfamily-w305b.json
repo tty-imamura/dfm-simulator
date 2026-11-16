@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第305便b",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T07:13:11.286Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-15T22:02:03.444Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -106,12 +106,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "20dff1d297d897edc0617ace000829f80ef6ab7c4b594c0bb897d4e9cd508972",
+  "codeSha256": "6a2ba2fd0e197c59d2ab76260065fb607b88861bc09d3ce77d483c5f18843092",
   "harnessVersion": "w305b-gfamily-1",
   "loadErrors": 0,
   "ruling": "第95報・AN332 の裁定(アプリは絶対時間・慣性速度は絶対時間の慣性速度を維持・観察者の時計の率 α = c_loc/c₀・読み (ii) n = 2 を先に確認・読み (i) n = +1 は次点・n = 0 は対照・近点では n は決まらない)",
@@ -230,11 +230,11 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1396,
-   "segments": 1233,
-   "closureShare": 0.3005
+   "names": 1411,
+   "segments": 1242,
+   "closureShare": 0.301
   },
-  "scopeSha256": "f9c146f01b57a7ac88a87b8034e8f6c6c04ea1262bb6a5b8d2b3b1b58a2dde29",
+  "scopeSha256": "782c726d4d83821331b93446135a543f0bc442bff88eae23a69173a8b56f9887",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -4376,22 +4376,22 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 36.478
+   "wallSec": 31.518
   },
   "M": {
-   "wallSec": 172.385
+   "wallSec": 145.672
   },
   "T": {
-   "wallSec": 860.242
+   "wallSec": 749.988
   },
   "P": {
-   "wallSec": 0.003
+   "wallSec": 0.001
   },
   "S": {
-   "wallSec": 31.13
+   "wallSec": 34.306
   },
   "D": {
-   "wallSec": 75.676
+   "wallSec": 82.555
   }
  },
  "stats": {
@@ -4399,5 +4399,5 @@
   "memoHits": 18,
   "measures2d": 21
  },
- "elapsedS": 1177.589
+ "elapsedS": 1045.895
 }

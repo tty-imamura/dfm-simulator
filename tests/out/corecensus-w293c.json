@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第293便c",
   "target": "beta/index.html",
-  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-  "generatedAt": "2026-11-13T02:38:49.863Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-15T20:13:52.020Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7665776,
-    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-    "mtime": "2026-11-13T00:35:24.745Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -85,11 +85,11 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1329,
-   "segments": 1166,
-   "closureShare": 0.2902
+   "names": 1344,
+   "segments": 1175,
+   "closureShare": 0.2904
   },
-  "scopeSha256": "046c84e61a69182df45a64a58ba20d15720548298bb5675e437a63c821934d8f",
+  "scopeSha256": "263c24dab5193359814c12674fe5b686680da4448896783ec2bf2d17f9535b70",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -145,7 +145,7 @@
   "notSame": "「変換可能」(coreV2MigrateReport)・「置換可」(coreV2ReplaceReport の 6 項)・「同等性確認済み」は別の判定。本器のコアなし対照は 2000 步の短期一致であって、光線・描画・帳簿・長期イベントまで不変とは判定しない"
  },
  "census": {
-  "nPresets": 186,
+  "nPresets": 187,
   "nRetired": 65,
   "rows": [
    {
@@ -9399,23 +9399,71 @@
     },
     "coupleSinkCore": false,
     "strayCore": [],
-    "textHits": 17
+    "textHits": 2
+   },
+   {
+    "id": "saturnRotVertExplore3d",
+    "emoji": "🛟",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 4,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 1,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 1,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 15
    }
   ],
   "totals": {
    "spinAxis:enable3d": {
-    "books": 16,
-    "active": 11,
+    "books": 17,
+    "active": 12,
     "retired": 5,
-    "decl": 119,
-    "declActive": 34
+    "decl": 120,
+    "declActive": 35
    },
    "coreTextOnly": {
-    "books": 7,
-    "active": 4,
+    "books": 8,
+    "active": 5,
     "retired": 3,
-    "decl": 7,
-    "declActive": 4
+    "decl": 8,
+    "declActive": 5
    },
    "coreV2": {
     "books": 30,
@@ -9579,7 +9627,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.15400000000000003,
+    "wallSec": 0.16699999999999998,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -9649,7 +9697,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.067,
+    "wallSec": 0.07100000000000001,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -9719,7 +9767,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.993,
+    "wallSec": 1.013,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -9791,7 +9839,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.044,
+    "wallSec": 0.32899999999999996,
     "cls": "C",
     "why": "差 0・軸の鍵(tilt)",
     "removable": false,
@@ -9865,7 +9913,7 @@
      "desc": 90,
      "physics": []
     },
-    "wallSec": 1.203,
+    "wallSec": 1.501,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -9937,7 +9985,7 @@
      "desc": 80,
      "physics": []
     },
-    "wallSec": 0.206,
+    "wallSec": 0.214,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -10011,7 +10059,7 @@
      "desc": 89,
      "physics": []
     },
-    "wallSec": 0.152,
+    "wallSec": 0.24,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -10083,7 +10131,7 @@
      "desc": 38,
      "physics": []
     },
-    "wallSec": 0.1,
+    "wallSec": 0.126,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -10157,7 +10205,7 @@
      "desc": 29,
      "physics": []
     },
-    "wallSec": 0.868,
+    "wallSec": 1.288,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
     "removable": false,
@@ -10223,7 +10271,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.122
+    "wallSec": 0.11
    }
   ]
  },
@@ -10264,7 +10312,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.164
+    "wallSec": 0.144
    },
    {
     "id": "earthMoonOnly3d",
@@ -10301,7 +10349,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.089
+    "wallSec": 0.114
    },
    {
     "id": "plutoCharonInertialFit",
@@ -10338,7 +10386,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.132
+    "wallSec": 0.15999999999999998
    }
   ]
  },
@@ -10372,6 +10420,12 @@
    "strayCore": [
     "/massCalibration/history/core"
    ]
+  },
+  {
+   "id": "saturnRotVertExplore3d",
+   "emoji": "🛟",
+   "textHits": 15,
+   "strayCore": []
   }
  ],
  "classes": {
@@ -10464,5 +10518,5 @@
   "rule": "A ∧ 在位 ∧ 較正の在位でない ∧ 主張・説明・本の宣言がコアを読まない ∧ 観測層(T_obs・Q・lSw)の差 0(QA・samplestatus の参照は器の外で文書に書く)"
  },
  "ok": true,
- "elapsedS": 4.981
+ "elapsedS": 6.208
 }

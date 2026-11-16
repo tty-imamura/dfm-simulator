@@ -3,7 +3,7 @@
  "libVersion": "w335b-carryledger-lib-1",
  "generator": "tests/exp-w335b-carryledger.mjs",
  "target": "beta/index.html",
- "targetSha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "reuseFrom": null,
  "ruling": "原仮定者の決断(2026-11-12)「自分自身は分母に入る。分子にも入れた場合と、v として別途加算した場合が、同じになる想定。v を分けた方がシンプル」(AN654)「引きずりの運動は相殺するが、エネルギーは相殺しない」(AN653)「座標変換の基準なので観測値」(AN650)・原仮定者の補足(2026-11-12)「太陽や惑星の自転は、銀河の軸引きずりから供給される。供給が無いと減衰するのは想定内」(作業仮説 —— 診断で検査)・原仮定者の回答(2026-11-12 —— AN646 = A・AN651 = A・AN652)・統括の検証項目 R329",
  "declText": {
@@ -6681,28 +6681,28 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.006
+   "wallSec": 0.011
   },
   "book": {
-   "wallSec": 0.015
+   "wallSec": 0.013
   },
   "carry": {
-   "wallSec": 0.047
+   "wallSec": 0.041
   },
   "heat": {
    "wallSec": 0.14
   },
   "gal": {
-   "wallSec": 0.655
+   "wallSec": 0.573
   },
   "supply": {
-   "wallSec": 0.718
+   "wallSec": 0.635
   },
   "t1": {
-   "wallSec": 0.725
+   "wallSec": 0.636
   },
   "sync": {
-   "wallSec": 0.725
+   "wallSec": 0.637
   }
  },
  "gates": {
@@ -6719,37 +6719,37 @@
   "syncRead": true
  },
  "ok": true,
- "elapsedS": 2.923,
+ "elapsedS": 3.049,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第335便b",
   "target": "beta/index.html",
-  "targetSha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
-  "generatedAt": "2026-11-12T15:30:42.058Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:09:33.173Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "6417a41541b089adbad09003363c8c8a776b08d45a31eadf99ad5750a299a58f",
-    "mtime": "2026-11-12T15:00:26.216Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    },
    {
     "file": "tests/out/axialfield-w333b.json",
-    "bytes": 1450944,
-    "sha256": "cadd45d408a75c71a2568fc24d31eda31b70d7aeec0542c89bc3fe130e7ada36",
-    "mtime": "2026-11-12T15:00:26.492Z"
+    "bytes": 1450946,
+    "sha256": "89cc737fcf751aa1ef36b6eb65831aecfaede43320c3e9bc2f043d3b659b1fd4",
+    "mtime": "2026-11-16T00:00:16.139Z"
    },
    {
     "file": "tests/out/ledger-w334b.json",
-    "bytes": 520479,
-    "sha256": "b76c32c1f9c339035ed13f672a96f99cbbf56ace0e756ae747153b06cead6627",
-    "mtime": "2026-11-12T15:00:26.612Z"
+    "bytes": 520478,
+    "sha256": "8d7c26d418606fb0b291619a4ce4deccfaf22425dfa456a1c31756bcadaf49e6",
+    "mtime": "2026-11-16T01:08:19.923Z"
    },
    {
     "file": "tests/out/binarylaw-w334d.json",
-    "bytes": 670417,
-    "sha256": "b81a3849792c5eea0b69422ad3aed45888948602c92208614eb6d268123469ab",
-    "mtime": "2026-11-12T15:00:26.500Z"
+    "bytes": 670415,
+    "sha256": "2e426b219ddac2984254c9ff5b055ca2a6ffb5a38c0bf3b9a4c1431e2b4f82f7",
+    "mtime": "2026-11-16T00:27:12.207Z"
    }
   ],
   "code": [
@@ -6757,97 +6757,97 @@
     "file": "tests/exp-w335b-carryledger.mjs",
     "bytes": 28974,
     "sha256": "6c57bcb0ffd07340159868dddaffd532aca756810cd5fb82a2189f34b0cd05d8",
-    "mtime": "2026-11-12T15:30:38.956Z"
+    "mtime": "2026-11-12T15:50:48.812Z"
    },
    {
     "file": "tests/lib-w335b-carryledger.mjs",
     "bytes": 32539,
     "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
-    "mtime": "2026-11-12T15:30:38.955Z"
+    "mtime": "2026-11-12T15:50:48.820Z"
    },
    {
     "file": "tests/lib-w334b-ledger.mjs",
     "bytes": 45562,
     "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
-    "mtime": "2026-11-12T15:00:26.484Z"
+    "mtime": "2026-11-11T20:17:45.497Z"
    },
    {
     "file": "tests/lib-w334a-heightlaw.mjs",
     "bytes": 40171,
     "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
-    "mtime": "2026-11-12T15:00:26.484Z"
+    "mtime": "2026-11-11T20:22:29.781Z"
    },
    {
     "file": "tests/lib-w333a-rotdiff.mjs",
     "bytes": 28077,
     "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
-    "mtime": "2026-11-12T15:00:26.484Z"
+    "mtime": "2026-11-10T21:32:25.259Z"
    },
    {
     "file": "tests/lib-w333b-axialfield.mjs",
     "bytes": 34735,
     "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
-    "mtime": "2026-11-12T15:00:26.484Z"
+    "mtime": "2026-11-10T21:35:44.639Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-12T15:00:26.480Z"
+    "mtime": "2026-11-10T04:53:08.019Z"
    },
    {
     "file": "tests/lib-w331a-coordtwist.mjs",
     "bytes": 33003,
     "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
-    "mtime": "2026-11-12T15:00:26.480Z"
+    "mtime": "2026-11-09T19:09:46.010Z"
    },
    {
     "file": "tests/lib-w331b-centrifugal.mjs",
     "bytes": 36773,
     "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
-    "mtime": "2026-11-12T15:00:26.480Z"
+    "mtime": "2026-11-09T17:55:42.487Z"
    },
    {
     "file": "tests/lib-w330a-spinclass.mjs",
     "bytes": 34905,
     "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
-    "mtime": "2026-11-12T15:00:26.480Z"
+    "mtime": "2026-11-08T15:32:48.994Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-12T15:00:26.480Z"
+    "mtime": "2026-11-08T17:01:18.701Z"
    },
    {
     "file": "tests/lib-w326d-axialheat.mjs",
     "bytes": 32001,
     "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
-    "mtime": "2026-11-12T15:00:26.476Z"
+    "mtime": "2026-11-05T02:28:43.830Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-12T15:00:26.460Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-12T15:00:26.456Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-12T15:00:26.456Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-12T15:00:26.464Z"
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
   "codeSha256": "193d23649aabea5bbd1100c4efb15cfc82f561cec999a46c4c1606918ab7dd1e",
@@ -6885,16 +6885,16 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1340,
-   "segments": 1177,
-   "closureShare": 0.2903
+   "names": 1355,
+   "segments": 1186,
+   "closureShare": 0.2908
   },
-  "scopeSha256": "a907317edef0352e585df679c24d395119c24bafa1d0347558b3eddaf0555aac",
+  "scopeSha256": "831f177af89b075927f0a8e6c6ff5910e2c5fa7ca970973eac24135ae5d694e5",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/axialfield-w333b.json",
-    "stableSha256": "f34fb1d59b151d457b313a17d5a239906b7997a453566c1a2d3a804446936f1c",
+    "stableSha256": "79ce6627a2deb4baf1b3e2eff94344409d633fbb305bea2856fbff5f32a1cd11",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -6906,7 +6906,7 @@
    },
    {
     "file": "tests/out/ledger-w334b.json",
-    "stableSha256": "6da9710e0bff6c457d7bb2792c05ef5c6ab9309edbd025c778fc2c4f9e015b62",
+    "stableSha256": "046b4e8f8cba5797491a693c744fc7c7ae0aeda99496a129bf9699f66636235b",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -6918,7 +6918,7 @@
    },
    {
     "file": "tests/out/binarylaw-w334d.json",
-    "stableSha256": "1a908b22be6b56ef58a7452d3dc9818f8c026d6fb38f255b6750df51808dea0e",
+    "stableSha256": "409dffe118a1242e1716940a57d09647d18bfd50f9e7c6a7b99d695e91660978",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

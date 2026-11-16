@@ -2213,6 +2213,18 @@ export const REGEN_STEPS = [
     note: '第338便f: イオと 4 天体の熱の帳簿(離心軌道の潮汐・第337便c の秤動の分・軸引きずりの源ごとの熱と第337便a の熱の上限・第337便d の加減速の差)/'
       + '金星と地球の共鳴(共鳴の調和の成分・永久の変形の復元・正味の外部のトルクの残り ε・定常の解と捕まる範囲の 2 段・月の対照)/地球磁場(尾の届き方・誘導のトルクの上限の桁)/3 つの 1 表' }),
   // ==== 第338便f の塊(ここまで)====
+  // ==== 第339便a の塊(ここから)====
+  // ---- 第339便a(原仮定者の回答(2026-11-14 —— AN712)「2 つ以上の量を同じノブで満たした候補だけを、既定 OFF の設定と『探索用・未較正』の本として入れる」・統括の検証項目 R355):
+  //   **回転引きずりの鉛直の型 physics.rotDragVert(既定 OFF・探索用・未較正)と本 🛟 saturnRotVertExplore3d の器**(段 rotvert-339a —— 正本 tests/out/rotvert-w339a.json・
+  //   lib tests/lib-w339a-rotvert.mjs —— 第337便i の lib を import して呼ぶ)。html を読む(loadHtmlHeadless —— 受理器・build・步をそのまま)・既定 OFF の照合で全本の physics の鍵を読む(presets "all")。
+  //   他の正本は読まない(候補の要る λ は lib で測り直す —— 出典の名に第337便i の正本を書くので順序だけ after に rotring-337i)。1 プロセス。所要は第339便a の枝の実測 15 s
+  S('rotvert-339a', 'node tests/exp-w339a-rotvert.mjs', ['tests/out/rotvert-w339a.json'], 15, { secSource: 'w339a-branch', node: true,
+    after: ['rotring-337i'],   // 順序だけ(器が候補の出典として第337便i の正本の名を書く —— 正本は読まない)
+    quickVerify: false, quickVerifyWhy: '鍵の受理・点の照合・1 步・3000 步の走行を全部走らせても 15 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/rotvert-w339a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第339便a: 候補 slice|focus|Req|obs の測り直し(要る λ・環の判定・4 惑星の尺度の内 —— 第337便i の lib)/鍵の既定 OFF と受理の表/'
+      + 'html の点の場と lib の effectOfSpec の点ごとの照合(倍 2 × λ 2 × 軸 2)/1 步の照合/🛟 の ON と鍵 OFF の写しの 600・3000 步の傾きの比' }),
+  // ==== 第339便a の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

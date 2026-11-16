@@ -5,7 +5,8 @@
  "accept": {
   "books": [
    "saturnRingInertial3d",
-   "chainSpreadToy3d"
+   "chainSpreadToy3d",
+   "saturnRotVertExplore3d"
   ],
   "rows": [
    {
@@ -86,6 +87,44 @@
       "gravity": 0,
       "drag": 0,
       "contact": 3160
+     },
+     "dragEdges": null
+    }
+   },
+   {
+    "id": "saturnRotVertExplore3d",
+    "emoji": "🛟",
+    "retired": false,
+    "ok": true,
+    "warnings": 0,
+    "decl": {
+     "version": "v1",
+     "governor": 0,
+     "groups": [
+      {
+       "kind": "body",
+       "rows": [
+        1,
+        3
+       ],
+       "spinZero": "declared"
+      }
+     ]
+    },
+    "state": {
+     "n": 121,
+     "governor": 0,
+     "dust": 0,
+     "body": 120,
+     "pairs": {
+      "dustDust": 0,
+      "bodyBody": 7140,
+      "dustBody": 0
+     },
+     "masked": {
+      "gravity": 0,
+      "drag": 0,
+      "contact": 7140
      },
      "dragEdges": null
     }
@@ -357,7 +396,7 @@
     ],
     "resMax": 6.07834e-16,
     "fail": 0,
-    "wallSec": 0.998
+    "wallSec": 0.685
    },
    "B": {
     "bands": [
@@ -575,9 +614,12 @@
    "minParticles": 16,
    "massRatio": 0.9
   },
-  "n": 26,
+  "n": 27,
   "moved": [
    "saturnRingInertial3d"
+  ],
+  "declared": [
+   "saturnRotVertExplore3d"
   ],
   "notMoved": 25,
   "byReason": {
@@ -1119,6 +1161,24 @@
      "core2d",
      "governorFree"
     ]
+   },
+   {
+    "id": "saturnRotVertExplore3d",
+    "emoji": "🛟",
+    "group": "天体の機構",
+    "coord": "3d",
+    "n": 121,
+    "groups": 3,
+    "governorRow": 0,
+    "governorMass": 56.834,
+    "governorPinned": true,
+    "ratio": 37889300,
+    "relativeDrag": null,
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "declared",
+    "reasons": []
    }
   ]
  },
@@ -1133,13 +1193,13 @@
  "ok": true,
  "timing": {
   "accept": {
-   "wallSec": 0.033
+   "wallSec": 0.042
   },
   "zero": {
-   "wallSec": 1.83
+   "wallSec": 1.551
   },
   "effect": {
-   "wallSec": 2.583
+   "wallSec": 1.974
   },
   "remeasure": {
    "wallSec": 0.002
@@ -1148,39 +1208,39 @@
    "wallSec": 0.001
   }
  },
- "elapsedS": 4.449,
+ "elapsedS": 3.57,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第301便b",
   "target": "beta/index.html",
-  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-  "generatedAt": "2026-11-13T02:39:04.873Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:41:47.780Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7665776,
-    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-    "mtime": "2026-11-13T00:35:24.745Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    },
    {
     "file": "tests/out/geo4stable-w299d.json",
-    "bytes": 36233,
-    "sha256": "06ec377e03a38e572ad1fe7908a2d48cdc2e73a6c9a95eb938cdf525a4ffd07d",
-    "mtime": "2026-11-05T05:29:30.638Z"
+    "bytes": 36231,
+    "sha256": "db63a492c96c16987e1f5b8bcb466316689d45c7d9fa048036ab868753bca078",
+    "mtime": "2026-11-16T01:39:51.679Z"
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
-    "bytes": 41412,
-    "sha256": "5859da82673038b85345e4dd6830159cd8953df549e7223a2c1ad85a848b25fe",
-    "mtime": "2026-11-05T05:29:12.142Z"
+    "bytes": 41413,
+    "sha256": "a277d5d4a34c312b3be1e2d6e576c28313fde5069aabb67b49881dab2fbbb812",
+    "mtime": "2026-11-16T00:26:32.631Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w301b-approxmany.mjs",
-    "bytes": 30429,
-    "sha256": "53987d268fa44f3dca9c0ef548aa1fad417a493d1f29c12cda620e54a71124e9",
-    "mtime": "2026-11-05T03:10:54.273Z"
+    "bytes": 31284,
+    "sha256": "f06213ea9a1f0cf849e558969f5a579189635159532813ef86f71455cb5dceb4",
+    "mtime": "2026-11-15T18:32:47.843Z"
    },
    {
     "file": "tests/lib-w301b-approxmany.mjs",
@@ -1219,7 +1279,7 @@
     "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "de58c35662560ec306bcd467e72d6e3af5bd2166dc013a9a36235695a8ea97b7",
+  "codeSha256": "5389dcecccfc09837a31eeda10ad586a6f7634084850b4218b4b5aab5ed35f6b",
   "harnessVersion": "w301b-approxmany-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第91報)①③「近似多粒子のサンプルでは支配天体は固定する。近似多粒子同士は接触判定を切る。塵は重力も引きずりも無し・天体は自転を設定して重力も引きずりも有り」「chainSpreadToy3d を近似多粒子のフォーマットに合わせる」",
@@ -1269,16 +1329,16 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1396,
-   "segments": 1231,
-   "closureShare": 0.302
+   "names": 1411,
+   "segments": 1240,
+   "closureShare": 0.3023
   },
-  "scopeSha256": "585bd047df0c8e112d00ee40f61332b7ba456b3a5a4dc7ca5f976b665a812122",
+  "scopeSha256": "064f22a300338ce2f1bb8167c87c946dd2c081da01168c49841bc8ccd50adb88",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/geo4stable-w299d.json",
-    "stableSha256": "0cd06237b425b331c709e0c5084881e967a916f12d925f3f1508aef68483acc0",
+    "stableSha256": "bae863475cb441ea425e9969192c08d76742a98acf505d884049c5f2902808de",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1292,7 +1352,7 @@
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
-    "stableSha256": "687c60bc663bf7a0ab5de65575a4bc3656bd6b2893ee653723f99a39a8a50f41",
+    "stableSha256": "9edd436a32be5adbe7162a5c2f34d5041138cc0cc56ed0b8fcf79b98a1957415",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

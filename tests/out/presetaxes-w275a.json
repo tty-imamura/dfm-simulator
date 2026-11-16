@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-  "generatedAt": "2026-11-13T04:13:50.899Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:44:49.188Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7665776,
-    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-    "mtime": "2026-11-13T00:35:24.745Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -56,14 +56,14 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1326,
-   "segments": 1163,
-   "closureShare": 0.288
+   "names": 1341,
+   "segments": 1172,
+   "closureShare": 0.2883
   },
-  "scopeSha256": "cb70d6a54fcdca9fb5865b2d82e6625712d5546c00bb5538773e4313e3e381b4",
+  "scopeSha256": "51d6e1db2f77fc38d1c6878585ebae609034a76ba255b6e69f7a17cede7e81ec",
   "scopeComplete": true
  },
- "nPresets": 186,
+ "nPresets": 187,
  "kFrameValues": [
   0,
   1
@@ -3987,6 +3987,27 @@
    "nBodyDecl": 3,
    "presetSigHash": "12a2fb3a",
    "bodiesSha256": "6d27dd51347b6b3a48c796cd643b20878736076b25a4f0df773fc0a0516bd682"
+  },
+  {
+   "id": "saturnRotVertExplore3d",
+   "emoji": "🛟",
+   "name": "土星の環と回転引きずりの鉛直の型(探索用・未較正)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 0,
+   "nBodyDecl": 4,
+   "presetSigHash": "74220ddc",
+   "bodiesSha256": "20e476383ebe5ec61e08303cd52e933bff60609f052338557d1f85d3c07cd4bf"
   }
  ],
  "pageErrors": []

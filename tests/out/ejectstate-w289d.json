@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便d",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T10:55:04.446Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:20:09.751Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    },
    {
     "file": "tests/out/fixcap-w288a.json",
-    "bytes": 885063,
-    "sha256": "fa8823932cdc77e22fb4a9b242f3b344ba419e9d58230c29fc47fc695343dbf9",
-    "mtime": "2026-11-05T10:55:01.936Z"
+    "bytes": 885066,
+    "sha256": "04c80ebe56f5d09e27d77f547780ec37d137641c521c490215b3223b9854f1fb",
+    "mtime": "2026-11-16T01:18:55.531Z"
    }
   ],
   "code": [
@@ -112,12 +112,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "071c1e728e93015319723987eba7a07a1a29d62fe1f32dc6bb2f818f73df51f4",
+  "codeSha256": "35465ecc4aeafdfb9d974788f8af8d9def00d0e64c8181cf8e29d5c16a3b252f",
   "harnessVersion": "w289d-ejectstate-1",
   "libVersion": "w288d-spinprec-1",
   "fixcapHarnessVersion": "w288a-fixcap-1",
@@ -187,16 +187,16 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1328,
-   "segments": 1165,
-   "closureShare": 0.2888
+   "names": 1343,
+   "segments": 1174,
+   "closureShare": 0.2893
   },
-  "scopeSha256": "8ef60ba0b711c3a9708a6405d587cbe11f0323d53eb3a87dbf7e46bfe924946a",
+  "scopeSha256": "4154e48dc7c7cf6af0889d4a199632d81761388e7efacfab7af6db45d6b4d088",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/fixcap-w288a.json",
-    "stableSha256": "6a40798be787188296db9763c6d6eeaa34487d3a9dfcfc77f9c10660739fcdae",
+    "stableSha256": "2281b31f28c1c812eb425a96c0266bc0b43fee7da723feba1d4dd360af5ebe2f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1038,5 +1038,5 @@
   },
   "ok": true
  },
- "elapsedS": 0.19
+ "elapsedS": 0.138
 }

@@ -3,7 +3,7 @@
  "libVersion": "w320c-nbcompose-lib-1",
  "generator": "tests/exp-w320c-nbcompose.mjs",
  "target": "beta/index.html",
- "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "reuseFrom": null,
  "ruling": "原仮定者の指示(第122報)・決断事項 AN472「中心１体の影響が大きいが、銀河の渦の中では半渦度は無視出来ない。太陽系近傍においては合成された影響になる」・AN473・統括の検証項目 R264。エンジン・在位の本・受け手の R_d = Y_k m・規則は変えない(器・lib・正本・文書だけ)。半渦度を受け手の軸へ直結する項はエンジンに足さない",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -9284,13 +9284,13 @@
  "ok": true,
  "timing": {
   "F": {
-   "wallSec": 3.011
+   "wallSec": 3.876
   },
   "N": {
-   "wallSec": 41.673
+   "wallSec": 43.099
   },
   "P": {
-   "wallSec": 3.519
+   "wallSec": 3.004
   },
   "Shape": {
    "wallSec": 0.005
@@ -9299,28 +9299,28 @@
    "wallSec": 0.001
   },
   "B": {
-   "wallSec": 0.001
+   "wallSec": 0
   },
   "Rload": {
-   "wallSec": 0.298
+   "wallSec": 0.241
   },
   "R": {
-   "wallSec": 0.018
+   "wallSec": 0.019
   }
  },
- "elapsedS": 50.253,
+ "elapsedS": 52.413,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第320便c",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T09:48:39.944Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:08:50.365Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    },
    {
     "file": "tests/data-w318c-solar16-input.json",
@@ -9392,12 +9392,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "aa10f84d971267fec29c477ad0cea3f2b331e41b6e558e02d4947fbec4ce818d",
+  "codeSha256": "f3d47c90b6c6b4ee5c189266788498df5477c0c9e527a5ab60f993067365f6dd",
   "harnessVersion": "w320c-nbcompose-1",
   "stage": "nbcompose",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス・步は進めない)",
@@ -9455,11 +9455,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1349,
-   "segments": 1186,
-   "closureShare": 0.2935
+   "names": 1364,
+   "segments": 1195,
+   "closureShare": 0.294
   },
-  "scopeSha256": "8219fd22de89b473f46b30d1a6445cb6eeadcc73103f7f6994fcc367cb52823f",
+  "scopeSha256": "5a2dd5ecd73b4e57736e142d960da2fca18111a3223662d3b6c83f51efdd4a10",
   "scopeComplete": true,
   "inputsStable": [
    {

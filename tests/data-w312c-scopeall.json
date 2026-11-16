@@ -3,10 +3,10 @@
  "what": "再生成表の現行の段のうち、器の領域の宣言(REGEN_SCOPE)が presets:\"all\" の段の理由の一覧(決断事項 AN394 —— 絞らない・記録だけ)。理由は器と lib の本文の allPresets() / BUILTIN_PRESETS の使い方(行は書いた時点の行 —— 照合は段・種類・見込みだけ)。namedIds は本文が文字列で名指す内蔵の本の ID(絞るときの候補)",
  "tool": "node tools/regen-chain.mjs --scope-all --write",
  "counts": {
-  "steps": 45,
-  "harnesses": 45,
+  "steps": 46,
+  "harnesses": 46,
   "byProspect": {
-   "enumerates": 39,
+   "enumerates": 40,
    "narrow-now": 6
   },
   "byKind": {
@@ -15,7 +15,7 @@
    "iterate": 10,
    "map": 2,
    "declared-wide": 6,
-   "value": 12,
+   "value": 13,
    "find-via-var": 1
   }
  },
@@ -475,7 +475,7 @@
    "reasons": [
     {
      "file": "tests/exp-w283b-families.mjs",
-     "line": 277,
+     "line": 291,
      "use": "filter",
      "kind": "filter",
      "via": "harness",
@@ -483,7 +483,7 @@
     },
     {
      "file": "tests/exp-w283b-families.mjs",
-     "line": 440,
+     "line": 453,
      "use": "filter",
      "kind": "filter",
      "via": "harness",
@@ -514,6 +514,8 @@
     "galaxyDB",
     "galaxyGeo2",
     "galaxyGeo2Flat3d",
+    "galaxyGeo2Thick3d",
+    "galaxyGeo2ThickTilt3d",
     "galaxyMeshSpiral",
     "galaxyMeshSpiralGeoToy",
     "galaxyMeshSpiralGeoToyLite",
@@ -526,7 +528,6 @@
     "gw150914DFM",
     "gw150914Merge4s",
     "gw150914SpinDipole",
-    "massLadder",
     "mercury",
     "mercuryGeoToy3",
     "mercuryReal",
@@ -567,7 +568,6 @@
     "saturnRingReal",
     "saturnRingRealKF1",
     "saturnZonalD68",
-    "selfRotor",
     "shapeToyArm",
     "shapeToyArmCore",
     "shapeToyCluster",
@@ -1205,7 +1205,7 @@
    "reasons": [
     {
      "file": "tests/exp-w301b-approxmany.mjs",
-     "line": 99,
+     "line": 101,
      "use": "(値)",
      "kind": "value",
      "via": "harness",
@@ -1220,7 +1220,7 @@
     },
     {
      "file": "tests/exp-w301b-approxmany.mjs",
-     "line": 240,
+     "line": 242,
      "use": "(値)",
      "kind": "value",
      "via": "harness",
@@ -1235,7 +1235,7 @@
     },
     {
      "file": "tests/exp-w301b-approxmany.mjs",
-     "line": 265,
+     "line": 267,
      "use": "(値)",
      "kind": "value",
      "via": "harness",
@@ -1720,6 +1720,37 @@
     "spinDipoleBinary"
    ],
    "nNamed": 15,
+   "prospect": "enumerates"
+  },
+  {
+   "key": "rotvert-339a",
+   "harness": "tests/exp-w339a-rotvert.mjs",
+   "derivedAll": true,
+   "kinds": [
+    "value"
+   ],
+   "reasons": [
+    {
+     "file": "tests/exp-w339a-rotvert.mjs",
+     "line": 90,
+     "use": "(値)",
+     "kind": "value",
+     "via": "harness",
+     "text": "const presets = HP.allPresets(), book = clone(presets.find((q) => q.id === BOOK_ID));",
+     "var": "presets",
+     "varUses": [
+      ".find",
+      ".filter",
+      ".length"
+     ]
+    }
+   ],
+   "namedIds": [
+    "mercury",
+    "saturn",
+    "saturnRotVertExplore3d"
+   ],
+   "nNamed": 3,
    "prospect": "enumerates"
   },
   {

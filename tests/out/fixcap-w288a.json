@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第288便a",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T10:54:21.961Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:18:16.587Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    },
    {
     "file": "tests/out/growth-w287a.json",
-    "bytes": 307669,
-    "sha256": "5ce45a8f3a37f8e7726ef3b2ff67b7d5c53f7f3e78532ca534c2dbca148f48e5",
-    "mtime": "2026-11-05T10:54:18.132Z"
+    "bytes": 307658,
+    "sha256": "2c67988ecc497f350f189600939e3d6beb3f7eb112926157eeba18be86aa2de3",
+    "mtime": "2026-11-16T01:18:12.895Z"
    }
   ],
   "code": [
@@ -88,12 +88,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "54e6126512bdff1a2a0f7e5d47a41ad6f7e78517125e0f2d4e73687c2a1d2cc9",
+  "codeSha256": "5f9d0a46d61030395b7de4dbd7b694bf61aea4aa3dfe8d9f12dff974fc76af39",
   "harnessVersion": "w288a-fixcap-1",
   "libVersion": "w288a-fixcap-1",
   "loadErrors": 0,
@@ -170,16 +170,16 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1328,
-   "segments": 1165,
-   "closureShare": 0.2888
+   "names": 1343,
+   "segments": 1174,
+   "closureShare": 0.2893
   },
-  "scopeSha256": "8ef60ba0b711c3a9708a6405d587cbe11f0323d53eb3a87dbf7e46bfe924946a",
+  "scopeSha256": "4154e48dc7c7cf6af0889d4a199632d81761388e7efacfab7af6db45d6b4d088",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/growth-w287a.json",
-    "stableSha256": "4a2c8538bf36047255efe2386df6facd70f85952e0c088045d89b748db39b56e",
+    "stableSha256": "d4b0585a647ca06dd45973f90d636dfc4afb256c8991d84ed83e563b80053707",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -5697,8 +5697,8 @@
     "tailMeanAbs": 0.1357076145079671,
     "restored": false
    },
-   "wallSec": 4.424,
-   "spentSec": 9.655
+   "wallSec": 5.344,
+   "spentSec": 11.141
   },
   {
    "key": "pro-seed1",
@@ -9406,8 +9406,8 @@
     "tailMeanAbs": 0.08417860099750202,
     "restored": false
    },
-   "wallSec": 3.892,
-   "spentSec": 9.13
+   "wallSec": 3.961,
+   "spentSec": 8.287
   },
   {
    "key": "pro-seed2",
@@ -13000,8 +13000,8 @@
     "tailMeanAbs": 0.1418169579946401,
     "restored": false
    },
-   "wallSec": 2.818,
-   "spentSec": 6.081
+   "wallSec": 3.305,
+   "spentSec": 6.237
   },
   {
    "key": "retro-seed0",
@@ -18642,8 +18642,8 @@
     "tailMeanAbs": 0.08760592202452086,
     "restored": false
    },
-   "wallSec": 6.109,
-   "spentSec": 12.561
+   "wallSec": 6.427,
+   "spentSec": 13.335
   },
   {
    "key": "retro-seed1",
@@ -21047,8 +21047,8 @@
     "tailMeanAbs": 0.10442861224486913,
     "restored": false
    },
-   "wallSec": 4.803,
-   "spentSec": 11.155
+   "wallSec": 4.826,
+   "spentSec": 10.869
   },
   {
    "key": "retro-seed2",
@@ -26882,8 +26882,8 @@
     "tailMeanAbs": 0.04362416824497073,
     "restored": false
    },
-   "wallSec": 7.352,
-   "spentSec": 15.92
+   "wallSec": 7.144,
+   "spentSec": 15.271
   },
   {
    "key": "head-seed0",
@@ -29771,8 +29771,8 @@
     "tailMeanAbs": 0.056718869068373506,
     "restored": false
    },
-   "wallSec": 3.421,
-   "spentSec": 7.558
+   "wallSec": 2.994,
+   "spentSec": 7.41
   },
   {
    "key": "head-seed1",
@@ -33644,8 +33644,8 @@
     "tailMeanAbs": 0.03887194016749712,
     "restored": false
    },
-   "wallSec": 6.561,
-   "spentSec": 13.642
+   "wallSec": 5.861,
+   "spentSec": 12.894
   },
   {
    "key": "head-seed2",
@@ -36572,8 +36572,8 @@
     "tailMeanAbs": 0.06955880669673714,
     "restored": false
    },
-   "wallSec": 3.246,
-   "spentSec": 7.435
+   "wallSec": 2.634,
+   "spentSec": 5.812
   }
  ],
  "radiusRun": {
@@ -38157,8 +38157,8 @@
    "tailMeanAbs": 0.03952324561151227,
    "restored": false
   },
-  "wallSec": 4.905,
-  "spentSec": 11.701
+  "wallSec": 4.306,
+  "spentSec": 10.707
  },
  "radiusReplay": {
   "RI0.01": {
@@ -38644,6 +38644,6 @@
   "nPass": 0,
   "verdict": "未達"
  },
- "elapsedS": 40.12,
+ "elapsedS": 39.098,
  "verdict": "未達"
 }

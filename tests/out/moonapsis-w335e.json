@@ -3,7 +3,7 @@
  "libVersion": "w335e-moonapsis-lib-1",
  "generator": "tests/exp-w335e-moonapsis.mjs",
  "target": "beta/index.html",
- "targetSha256": "8c39b838ffd7ca9b7f563dd9b075d73cf9caeee9dec23f36302dd0e3f409d450",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "reuseFrom": null,
  "ruling": "原仮定者の補足(2026-11-12)「太陽や惑星の自転は銀河の軸引きずりから供給される —— 供給が無いと減衰するのは想定内。同様に、月の近点移動の周期は太陽無しでは徐々に減衰するが、太陽有りだと安定する」・原仮定者の決断(2026-11-12)自己を運ぶ式(v を分けた形)・統括の検証項目 R332",
  "decl": {
@@ -4407,22 +4407,22 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.366
+   "wallSec": 0.426
   },
   "books": {
-   "wallSec": 0.367
+   "wallSec": 0.426
   },
   "runs": {
-   "wallSec": 28.689
+   "wallSec": 23.739
   },
   "judge": {
-   "wallSec": 28.692
+   "wallSec": 23.74
   },
   "runsH": {
-   "wallSec": 18.081
+   "wallSec": 14.218
   },
   "runsHalf": {
-   "wallSec": 10.241
+   "wallSec": 9.094000000000001
   }
  },
  "gates": {
@@ -4435,19 +4435,19 @@
   "yearly": true
  },
  "ok": true,
- "elapsedS": 30.724,
+ "elapsedS": 25.541,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第335便e",
   "target": "beta/index.html",
-  "targetSha256": "8c39b838ffd7ca9b7f563dd9b075d73cf9caeee9dec23f36302dd0e3f409d450",
-  "generatedAt": "2026-11-12T16:23:24.474Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:09:26.999Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7669158,
-    "sha256": "8c39b838ffd7ca9b7f563dd9b075d73cf9caeee9dec23f36302dd0e3f409d450",
-    "mtime": "2026-11-12T16:03:26.392Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -4569,11 +4569,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1324,
-   "segments": 1161,
-   "closureShare": 0.2874
+   "names": 1339,
+   "segments": 1170,
+   "closureShare": 0.2879
   },
-  "scopeSha256": "58adbb6a1468f8ba2fec6591d766eb7f2adfa377d48d852b80d31bc173490a02",
+  "scopeSha256": "fcf1a94547f81592cd181f1f32cdf62e0eea0b965608505762877c2fdfaf49e6",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

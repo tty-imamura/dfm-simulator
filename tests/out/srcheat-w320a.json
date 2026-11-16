@@ -3,7 +3,7 @@
  "libVersion": "w320a-srcheat-lib-1",
  "generator": "tests/exp-w320a-srcheat.mjs",
  "target": "beta/index.html",
- "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "reuseFrom": null,
  "ruling": "原仮定者の回答(2026-10-30 —— AN475)「減速させる側の引きずりを背景宇宙が補う分も熱に数える」・原仮定者の裁定(第122報)AN471「案3(J)を確かめる。案2bは次点。様々な可能性を探索する」・決断事項 AN471・AN474・AN475・統括の検証項目 R262。balance:\"background\" の版を上げた読み (b) と源のモーメントの半径 invSq.sourceMoment(J・obs・capObs)を在位の本の写しで測る(在位の本の宣言は変えない)",
  "balanceVersion": "w320a-axishold-balance-2",
@@ -12969,46 +12969,46 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.005
+   "wallSec": 0.002
   },
   "A": {
-   "wallSec": 0.022
+   "wallSec": 0.012
   },
   "Q": {
-   "wallSec": 0.246
+   "wallSec": 0.194
   },
   "B": {
-   "wallSec": 4.203
+   "wallSec": 5.304
   },
   "R": {
-   "wallSec": 0.493
+   "wallSec": 0.981
   },
   "F": {
    "wallSec": 0.001
   },
   "TS": {
-   "wallSec": 0.038
+   "wallSec": 0.091
   }
  },
- "elapsedS": 6.794,
+ "elapsedS": 8.313,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第320便a",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T10:25:35.960Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:53:08.358Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    },
    {
     "file": "tests/out/srcradius-w319b.json",
-    "bytes": 133031,
-    "sha256": "8fcf9c3dd48d64612225a2b94883b49c8ec792f2bc487b598b1acdfdcac0fe81",
-    "mtime": "2026-11-05T09:43:38.407Z"
+    "bytes": 133029,
+    "sha256": "d237bf0773d071a4297ca2806539b63b785a5d0e3b90220016520164e83cf7b8",
+    "mtime": "2026-11-16T01:20:21.275Z"
    }
   ],
   "code": [
@@ -13044,12 +13044,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "550bce510f250446fe83d4fd6445450d2c0f82b450aeef85f9ca10e139d472d1",
+  "codeSha256": "3fcc599f91a78c6b706c5f517c45c428d60e465de4ab4ebed87033cd4ecc7c5d",
   "harnessVersion": "w320a-srcheat-1",
   "stage": "srcheat",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
@@ -13103,16 +13103,16 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1363,
-   "segments": 1200,
-   "closureShare": 0.296
+   "names": 1378,
+   "segments": 1209,
+   "closureShare": 0.2965
   },
-  "scopeSha256": "1a0714b06e9300bdb5d3f7d5df87cfa02d43fe1956fb3a38cbbbad3f07cde0e8",
+  "scopeSha256": "64583e61ada1ccb8e3d93ea75d5f52bd114a18d1b3bcbcfa059d37c370e0278f",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/srcradius-w319b.json",
-    "stableSha256": "bb4d7173d03f05c91388a00b9f0189dda878c22dd3f0c557275c0fe52ebeb413",
+    "stableSha256": "b940b51e617a08da14593c4678812e667a8d9662157f8659c20eb06e80941080",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

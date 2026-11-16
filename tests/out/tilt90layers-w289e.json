@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便e",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T05:32:53.655Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-15T20:13:33.456Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -40,12 +40,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "530f3cf9456214b8e13e527b766a0708e2487bafa4540a312ffdff848854616e",
+  "codeSha256": "2d522c76246ed2c07efd1ac7527ffa76b39e796f5952395309071e227d0dbba9",
   "harnessVersion": "w289e-tilt90layers-1",
   "layerAxisVersion": "w289e-layeraxis-1",
   "loadErrors": 0,
@@ -89,11 +89,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1329,
-   "segments": 1166,
-   "closureShare": 0.2896
+   "names": 1344,
+   "segments": 1175,
+   "closureShare": 0.2902
   },
-  "scopeSha256": "a7feb4e100f41315eebb1e0ef1bd199b514e3d9d9a83cabca19086107047e669",
+  "scopeSha256": "4abedfc19c942db1e56f2df3776b56045abdaf08681882df1f5cd09fd180a6c5",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -360,7 +360,7 @@
    "kickSteps": 0,
    "insideSteps": 58530,
    "insideMax": 29,
-   "wallSec": 7.319
+   "wallSec": 9.153
   },
   {
    "key": "spin0",
@@ -413,7 +413,7 @@
    "kickSteps": 0,
    "insideSteps": 58530,
    "insideMax": 29,
-   "wallSec": 8.281
+   "wallSec": 8.241
   },
   {
    "key": "upright",
@@ -465,7 +465,7 @@
    "kickSteps": 0,
    "insideSteps": 64885,
    "insideMax": 31,
-   "wallSec": 7.739
+   "wallSec": 8.814
   },
   {
    "key": "layers",
@@ -550,7 +550,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 7.234
+   "wallSec": 8.354
   },
   {
    "key": "layers-noLF",
@@ -636,7 +636,7 @@
    "kickSteps": 0,
    "insideSteps": 58530,
    "insideMax": 29,
-   "wallSec": 7.434
+   "wallSec": 9.767
   },
   {
    "key": "layers-tilt0",
@@ -706,7 +706,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 8.036
+   "wallSec": 9.61
   },
   {
    "key": "layers-noJ",
@@ -775,7 +775,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 7.659
+   "wallSec": 9.2
   },
   {
    "key": "layers-om0",
@@ -865,7 +865,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 7.12
+   "wallSec": 9.702
   },
   {
    "key": "layers-om2x",
@@ -956,7 +956,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 7.711
+   "wallSec": 9.506
   },
   {
    "key": "layers-az90",
@@ -1048,7 +1048,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 7.933
+   "wallSec": 10.519
   },
   {
    "key": "layers-shell-noLF",
@@ -1135,7 +1135,7 @@
    "kickSteps": 0,
    "insideSteps": 64885,
    "insideMax": 31,
-   "wallSec": 7.784
+   "wallSec": 8.73
   }
  ],
  "same": [
@@ -1539,7 +1539,7 @@
    "warns": 0
   }
  },
- "elapsedS": 88.69,
+ "elapsedS": 106.764,
  "docRows": {
   "runs": [
    "| tilt90 | — | 58530 | — | 0 | 0 |",

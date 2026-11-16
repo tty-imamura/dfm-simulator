@@ -3,7 +3,7 @@
  "libVersion": "w336a-emrecord-1",
  "generator": "tests/exp-w336a-emrecord.mjs",
  "target": "beta/index.html",
- "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "ruling": "原仮定者の指示(2026-11-12 —— 第137報)「地球と月の 2 体だけでも、引きずりがあれば月の近点移動周期を 8.85 年にフィット出来る。ただし恒久ではない」「『初速を観測の値に戻し』が余計なので記録に戻す」「朔望月の換算は分かりにくかったので無くす」・統括の検証項目 R335",
  "decl": {
   "record": {
@@ -111,7 +111,7 @@
    "nPeri": 8,
    "eProxy8": 0.05532290600147023,
    "nan": false,
-   "wallSec": 42.988
+   "wallSec": 41.533
   },
   "half": {
    "dt": 0.008,
@@ -122,7 +122,7 @@
    "nPeri": 8,
    "eProxy8": 0.05532292080529891,
    "nan": false,
-   "wallSec": 85.933
+   "wallSec": 82.888
   },
   "vsRecord": {
    "h": {
@@ -338,7 +338,7 @@
     0.0872143,
     0.0864425
    ],
-   "wallSec": 21.814
+   "wallSec": 22.903
   },
   "half": {
    "dt": 0.2,
@@ -527,7 +527,7 @@
     0.0872633,
     0.0864924
    ],
-   "wallSec": 43.152
+   "wallSec": 40.615
   },
   "k0": {
    "dt": 0.4,
@@ -716,7 +716,7 @@
     0.052331,
     0.052331
    ],
-   "wallSec": 16.279
+   "wallSec": 16.322
   },
   "steady": {
    "ok": true,
@@ -993,19 +993,19 @@
  },
  "timing": {
   "rec-half": {
-   "wallSec": 85.933
+   "wallSec": 82.888
   },
   "rec-h": {
-   "wallSec": 42.988
+   "wallSec": 41.533
   },
   "tab-half": {
-   "wallSec": 43.152
+   "wallSec": 40.615
   },
   "tab-h": {
-   "wallSec": 21.814
+   "wallSec": 22.903
   },
   "tab-k0": {
-   "wallSec": 16.279
+   "wallSec": 16.322
   }
  },
  "gates": {
@@ -1017,19 +1017,19 @@
   "self": true
  },
  "ok": true,
- "elapsedS": 88.099,
+ "elapsedS": 85.184,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第336便a",
   "target": "beta/index.html",
-  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-  "generatedAt": "2026-11-13T00:22:52.027Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:44:39.311Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7665776,
-    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-    "mtime": "2026-11-13T00:21:02.076Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -1037,37 +1037,37 @@
     "file": "tests/exp-w336a-emrecord.mjs",
     "bytes": 20960,
     "sha256": "cba28030285e7e2b3be65e20b360b7a15c95a827498b033e5181fc5b33d0711c",
-    "mtime": "2026-11-13T00:06:16.805Z"
+    "mtime": "2026-11-13T00:35:24.809Z"
    },
    {
     "file": "tests/lib-w336a-emrecord.mjs",
     "bytes": 10440,
     "sha256": "7a054ff5dcd08fb358a438dbabf84d15b74be93ec2fb14ccb0918e74ac5c2825",
-    "mtime": "2026-11-12T23:50:46.280Z"
+    "mtime": "2026-11-13T00:35:24.813Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-12T23:21:00.604Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-12T23:21:00.604Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-12T23:21:00.600Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-12T23:21:00.744Z"
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
   "codeSha256": "cc0db3934bbda282a8235e83674bf96b767648b1d946fa3ffc8bb3300c623b1c",
@@ -1106,11 +1106,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1324,
-   "segments": 1161,
-   "closureShare": 0.2876
+   "names": 1339,
+   "segments": 1170,
+   "closureShare": 0.2879
   },
-  "scopeSha256": "1291cfaea7e88d009883eba47336fab42121ca4c87e3a3cf7f471c1450fed8f7",
+  "scopeSha256": "578ee96c80dd588ee3f0aeeb568d69b41a68ef0bd685d0e87207425a03c74549",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

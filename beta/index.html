@@ -2327,6 +2327,7 @@ ja: {
   nc_planet3d_seed:"初期状態を現実の軌道の精密な状態とは主張しない —— JPL SSD の近似要素(Table 1・T=0)の種から作った太陽と惑星の二体で、惑星どうしの摂動は入っていない(周期の差・近点率は種と二体の範囲の量)。自転軸の極(IAU WGCCRE 2009)は一定の近似で、力には入らない。",
   nc_planet3d_no_target:"この惑星の近点率は観測に合わせていない —— 出典と不確かさを書ける観測の行を本便では確かめられなかった(標的の観測行なし —— 次の見直し)。gain 0 の三次元の基準の本で、移送の診断の値は本に宣言していない。",
   nc_ring3d_grains:"帯の粒を実際の環粒子・試験粒子とは主張しない —— 三次元の受理の門は試験粒子を拒否するので、各帯 40 粒を数値の質量の有限粒子(源になる)として置き、合計を実環の総質量 1.5×10¹⁹ kg に合わせた代表粒である(二次元の 💍〔試験粒子〕との差は tests/out/saturnring3d-w300c.json に実測)。土星は pinned の局所の近似(土星の公転・太陽の潮汐は入れない)。",
+  nc_rotvert_explore:"探索用・未較正の候補の本です —— 回転引きずりの鉛直の型(既定 OFF)を、見えるように強さと帯の厚みを拡大して入れました。土星の環を回転引きずりで薄くした・環の厚みを決めた・法則である、とは主張しません(このノブの組では)。",
   nc_single_quantity_fit:"宣言した 1 つの観測量だけに合わせた —— 他の量(周期・離心率・軌道の形)は合わせておらず、構造核 dragCore の値は内部核の測定値ではない(1 量では W₀ と分けて決められない)。",
   nc_period_input_consistency:"周期の一致は入力の整合の確かめで、独立な結果ではない —— 初期の距離 a は標的の公転周期(Buie 2012)と本の GM(PLU060)から作った合成の二体のケプラー状態で、走行の残差は軟化 1 km の分。",   // 第306便e(AN339 の案 (A)): 🟪
   nc_charon_drag_off_record:"引きずり OFF の宣言は引きずりを無くしたことを示すのではない —— この探索範囲で引きずりで埋める差が観測の 1σ の内で 0 だったことの記録。旧 W₀ 0.0001486103 は入力の定義の混在(平均の要素の a と二体の P)を埋めていた量で、引きずりの物理の量とは読まない。",   // 第306便e: 🟪
@@ -3672,6 +3673,7 @@ en: {
   nc_planet3d_seed:"The initial state is not claimed to be the precise state of the real orbit - it is a two-body Sun-planet system built from the JPL SSD approximate elements (Table 1, T=0) as a seed, with no planet-planet perturbations (the period gap and the apsidal rate are quantities of the seed and of the two-body system). The spin-axis poles (IAU WGCCRE 2009) are held fixed and enter no force.",
   nc_planet3d_no_target:"This planet's apsidal rate is not matched to an observation - no observational row with a source and an uncertainty could be confirmed in this wave (no observational target row - next review). It is the gain-0 3D baseline sample; the transfer diagnostic is not declared in the sample.",
   nc_ring3d_grains:"The band grains are not claimed to be real ring particles or test particles - the 3D acceptance gate refuses test particles, so each band has 40 finite-mass grains (sources) whose sum equals the real ring mass 1.5e19 kg (the difference from 2D 💍 with test particles is measured in tests/out/saturnring3d-w300c.json). Saturn is pinned as a local approximation (no Saturn orbit, no solar tide).",
+  nc_rotvert_explore:"An exploratory, uncalibrated candidate book - the vertical form of rotational drag (default off), with the strength and the band thickness scaled up so that it can be seen. It does not claim that rotational drag thins Saturn's rings, that the ring thickness is settled, or any law (only this knob set).",
   nc_single_quantity_fit:"Matched to one declared observed quantity only — the other quantities (period, eccentricity, orbit shape) are not matched, and the structure-core dragCore values are not measurements of an internal core (one quantity cannot separate them from W₀).",
   nc_period_input_consistency:"The period agreement is an input-consistency check, not an independent result - the initial distance a is a synthetic two-body Kepler state built from the target orbital period (Buie 2012) and the sample's GM (PLU060); the run residual is the 1 km softening.",   // wave 306e (AN339 option (A)): 🟪
   nc_charon_drag_off_record:"Declaring the drag off does not show that the drag is gone - it records that, in this search range, the gap the drag would fill is zero within the observed 1 sigma. The old W₀ 0.0001486103 was filling a mix of input definitions (a mean-element a with a two-body P) and is not read as a physical drag quantity.",   // wave 306e: 🟪
@@ -4666,6 +4668,16 @@ const ACCEPT_REASONS = {
   "validateGLoc/physics.gLoc.pair": 'physics.gLoc.pair は "receiver"(受け手ごとの G_i —— 既定)か "symmetric"(G_ij = G·e^(−n(ψ_i+ψ_j)))',
   "validateGLoc/physics.gLoc.kappa": 'physics.gLoc.kappa は "lock"(X_k = G/c₀² —— 既定)か "kappaT"(光学側に保存された X_k —— 比較用)',
   "validateGLoc/physics.gLoc.ref": 'physics.gLoc.ref は "background"(背景に対する比 —— 遠方で G_loc → G)だけ(背景 D₀ を含める絶対の基準は未対応)',
+  "validateRotDragVert/msg": 'physics.rotDragVert は {form:"sliceFocus", source, lambda, fFlat, oblateQ?, rdScale?}(回転引きずりの鉛直の型 —— 探索用・未較正の候補・既定 OFF)',
+  "validateRotDragVert/key": (a0,a1)=>'physics.rotDragVert に未知の鍵 '+a0+'('+a1+' だけ)',
+  "validateRotDragVert/form": (a0)=>'physics.rotDragVert.form は '+a0+'(帯の型 × 鉛直へ寄せる作用 × 扁平の則の R_eq × 観測自転 —— 探索の候補の 1 つだけ)',
+  "validateRotDragVert/source": 'physics.rotDragVert.source は源の粒子の添字(0 から —— 組み上げた粒子の番号)',
+  "validateRotDragVert/lambda": (a0,a1)=>'physics.rotDragVert.lambda(強さ λ —— 無次元・未較正)は '+a0+'〜'+a1,
+  "validateRotDragVert/fFlat": (a0)=>'physics.rotDragVert.fFlat(源の扁平率 —— 扁平の則 R_eq = R_d/(1 − f)^q)は 0〜'+a0,
+  "validateRotDragVert/oblateQ": (a0,a1)=>'physics.rotDragVert.oblateQ(扁平の則の次数 q —— 既定 1/3)は '+a0+'〜'+a1,
+  "validateRotDragVert/rdScale": (a0,a1)=>'physics.rotDragVert.rdScale(引きずり半径 R_d = Y_k m に掛ける倍 —— 既定 1)は '+a0+'〜'+a1,
+  "validateRotDragVert/coord": 'physics.rotDragVert は三次元の本(physics.coord:"3d")だけ',
+  "validateRotDragVert/calibration": 'physics.rotDragVert は較正の本(sampleClass が "calibration" の本)では使えない —— 探索用・未較正の候補',
   "validateJ2Body/j2": 'j2 は {J2:<数>, req:<本の長さ>, axis?:"spin"|{tiltDeg, azimuthDeg?}}(三次元の J₂)',
   "validateJ2Body/j2#2": (a0)=>'j2 に未知の鍵 '+a0+'(J2・req・axis だけ)',
   "validateJ2Body/j2.J2": (a0)=>'j2.J2 は |J2| ≤ '+a0+' の有限数',
@@ -5047,6 +5059,7 @@ const ACCEPT_REASONS = {
   "validatePreset/abBody.physicsPatch.relativeDrag#2": (a0)=>"abBody.physicsPatch.relativeDrag が不正 — 無視します("+a0+")",
   "validatePreset/abBody.physicsPatch#3": (a0)=>"abBody.physicsPatch: "+a0,
   "validatePreset/abBody.physicsPatch.gLoc": "abBody.physicsPatch.gLoc は null だけ(B 側で局所重力 G_loc を切る)—— 無視します",
+  "validatePreset/abBody.physicsPatch.rotDragVert": "abBody.physicsPatch.rotDragVert は null だけ(B 側で回転引きずりの鉛直の型を切る)—— 無視します",
   "validatePreset/abBody.physicsPatch#4": (a0)=>"abBody.physicsPatch の未知キー "+a0+" を無視",
   "validatePreset/abBody.targets": "abBody.targets は数値配列(1件以上)が必要 — 無視します",
   "validatePreset/abBody.patch": "abBody.patch はオブジェクトが必要 — 無視します",
@@ -6998,7 +7011,7 @@ const APP_VERSION = "1.46";            // エクスポートの appVersion に�
 //   BETA_BUILD・beta/sw.js の CACHE 接尾辞・CHANGELOG の beta 節の見出しの 3 か所を同じ値へ書き換える
 //   (QA lint.betaBuild300 が形・beta 線・CHANGELOG の便・SW・見出し・生成文書の見出しの一致を見る)。
 //   第219便〜第299便は "v1.4x-b1" の固定だった(v1.43.0 昇格に伴う次期プレビュー線の 1 番)。
-const BETA_BUILD = "v1.47-b338";   // 第219便: v1.43.0 昇格に伴い次期プレビュー線へ —— 第300便d: 便名(上の注記)
+const BETA_BUILD = "v1.47-b339";   // 第219便: v1.43.0 昇格に伴い次期プレビュー線へ —— 第300便d: 便名(上の注記)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 // 第297便c(原仮定者の裁定(第87報)「時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す」・統括の検証項目 R163):
 // **画面の時間の標準**。物理の入力(G・c・質量・速度・scaleExp)は 1 つも動かさず、本ごとに**画面の積分刻み** `physics.stepDt` を宣言する
@@ -11431,7 +11444,7 @@ const COORD3D_REJECTED=Object.freeze(["kFrame","kRep","muF","kappaS","etaRad","g
   "relativeDragLaw","thermal","phaseChange","fusion","universeBox","measureBox","photonEmit","rays","echoFlipAt",
   "capture","qLock","boundary","overlays","core","layers","pulse","spinDipole","zonal","testParticle","rail","lightSweepAuto",   // 第307便b(R210): tide を開けた(COORD3D_SUPPORTED へ)
   "dragQ","densityClass","spinAxisDisplay","vModeEq"]);   // box/grid の incl・node は拒否ではなく警告して落とす(受理器 coord3dBodyKeys —— 面内に置く)
-const COORD3D_PHYS_EXTRA_ALLOW=["coord","contactK","contactCap","contactMode","massFloor","softeningFloor","radiusFloor","stateCarry","massPrecision","stepDt","frameWeight","relativeDrag","approxMany","gLoc","tide"];   // 第307便b: tide(三次元の明示潮汐)   // 第300便c: radiusFloor / 第301便b: approxMany(近似多粒子の契約 —— 三次元だけ)
+const COORD3D_PHYS_EXTRA_ALLOW=["coord","contactK","contactCap","contactMode","massFloor","softeningFloor","radiusFloor","stateCarry","massPrecision","stepDt","frameWeight","relativeDrag","approxMany","gLoc","tide","rotDragVert"];   // 第339便a: rotDragVert(回転引きずりの鉛直の型 —— 三次元だけ・探索用・既定 OFF)   // 第307便b: tide(三次元の明示潮汐)   // 第300便c: radiusFloor / 第301便b: approxMany(近似多粒子の契約 —— 三次元だけ)
 // ===== 第322便a(原仮定者の予定(第123報)「geoPN=2の予定: 3D対応する …… 引きずり近似としての需要が有る」・原仮定者の回答(2026-11-01 —— AN499・AN500)・
 //   DECISIONS v81 の AN504・統括の検証項目 R270): **geoPN=2(v−u 則)の三次元の範囲**(受理の門 coord3dDenyOf と走行中の門 coord3dRuntimeWhy が同じ条件で読む)=====
 // 範囲: geoPN:2 の宣言 ∧ λ_PN = 0 ∧ contactMode:"none" ∧ frameWeight:"share" ∧ kFrame ≥ 0(kFrame > 0 は輸送の 3 成分 dfmCore3G2・kFrame = 0 は輸送の消えた
@@ -11893,6 +11906,74 @@ function gLocCrossCheck(g, ph, sampleClass){
   if(sampleClass==="calibration") return 'physics.gLoc は較正の本(sampleClass が "calibration" の本)では使えない —— EIH の 1PN と二重計上になる';
   if(g.kappa==="lock" && !(typeof ph.cLight==="number" && ph.cLight>0)) return 'physics.gLoc(kappa:"lock")は physics.cLight > 0 が要る(X_k = G/c₀²)';
   return null;
+}
+// ===== 第339便a(原仮定者の回答(2026-11-14 —— AN712)「2 つ以上の量を同じノブで満たした候補だけを、既定 OFF の設定と『探索用・未較正』の本として入れる」・統括の検証項目 R355):
+//   **回転引きずりの鉛直の型(探索用・未較正の候補 —— 既定 OFF)** physics.rotDragVert = {form:"sliceFocus", source, lambda, fFlat, oblateQ?, rdScale?}。
+//   候補 = 器 tests/exp-w337i-rotring.mjs の代表 reps[0](帯の型 slice × 鉛直へ寄せる作用 focus × 扁平の則の R_eq × 観測自転)—— 土星の環の物差し(1e7 年で傾きが e 分の 1・
+//   ケプラーからのずれと漂い ≤ 1e-5)と、同じノブでの 4 惑星の尺度の内(水星の近点は 1PN の 1e-10 倍以下)の 2 つを同じノブで満たした組(このノブの組では —— 法則ではない)。
+//   式(lib tests/lib-w337i-rotring.mjs の effectOfSpec と同じ): R_d = rdScale · Y_k · m_源(Y_k = 10G/(C₁c²) = invSqKappa0)・R_eq = R_d (1 − f_flat)^(−q)(扁平の則・q = 1/3)。
+//   受け手の源からの位置 p で z = p·k̂・ρ = |p − z k̂|・r = |p|・|z| < R_eq なら d = −λ r (s z/ρ) k̂(帯の外は 0)・s = 源の観測自転・k̂ = 源の自転軸。
+//   d は座標を運ぶ速度の場(ẋ = v + d —— 速度は変えない)で、三次元の步の核・引きずり・潮汐の後に x += d·dt。受け手は源以外の pinned でない粒子(近似多粒子の塵は除く)。
+//   鍵が無い本は真偽の読み 1 つ(内蔵の在位の本は 1 本も宣言しない —— 状態は 1 bit も変わらない)。三次元の本だけ・較正の本は拒否。※ SYSTEM_PROMPT には載せない(AI は既定では使わない)
+const ROT_DRAG_VERT_KEY="rotDragVert", ROT_DRAG_VERT_VERSION="w339a-rotvert-1";
+const ROT_DRAG_VERT_FORMS=["sliceFocus"], ROT_DRAG_VERT_KEYS=["form","source","lambda","fFlat","oblateQ","rdScale"];
+const ROT_DRAG_VERT_LAMBDA_RANGE=[0,10], ROT_DRAG_VERT_FFLAT_MAX=0.9, ROT_DRAG_VERT_Q_RANGE=[0.01,3], ROT_DRAG_VERT_Q_DEFAULT=1/3, ROT_DRAG_VERT_RDSCALE_RANGE=[1e-2,1e9];
+// 形の受理(physics の段)。戻り値 {ok, rotDragVert|null, err}。正準形は鍵の順 form・source・lambda・fFlat(既定の oblateQ・rdScale は書かない)
+function validateRotDragVert(a){
+  if(a===undefined || a===null) return {ok:true, rotDragVert:null};
+  if(typeof a!=="object" || Array.isArray(a)) return {ok:false, err:reasonText("validateRotDragVert/msg")};
+  for(const k of Object.keys(a)) if(ROT_DRAG_VERT_KEYS.indexOf(k)<0) return {ok:false, err:reasonText("validateRotDragVert/key", k, ROT_DRAG_VERT_KEYS.join("・"))};
+  if(ROT_DRAG_VERT_FORMS.indexOf(a.form)<0) return {ok:false, err:reasonText("validateRotDragVert/form", ROT_DRAG_VERT_FORMS.join("/"))};
+  const fin=(v)=>(typeof v==="number" && Number.isFinite(v));
+  if(!(fin(a.source) && Math.floor(a.source)===a.source && a.source>=0 && a.source<1e6)) return {ok:false, err:reasonText("validateRotDragVert/source")};
+  if(!(fin(a.lambda) && a.lambda>=ROT_DRAG_VERT_LAMBDA_RANGE[0] && a.lambda<=ROT_DRAG_VERT_LAMBDA_RANGE[1])) return {ok:false, err:reasonText("validateRotDragVert/lambda", ROT_DRAG_VERT_LAMBDA_RANGE[0], ROT_DRAG_VERT_LAMBDA_RANGE[1])};
+  if(!(fin(a.fFlat) && a.fFlat>=0 && a.fFlat<=ROT_DRAG_VERT_FFLAT_MAX)) return {ok:false, err:reasonText("validateRotDragVert/fFlat", ROT_DRAG_VERT_FFLAT_MAX)};
+  if(a.oblateQ!==undefined && !(fin(a.oblateQ) && a.oblateQ>=ROT_DRAG_VERT_Q_RANGE[0] && a.oblateQ<=ROT_DRAG_VERT_Q_RANGE[1])) return {ok:false, err:reasonText("validateRotDragVert/oblateQ", ROT_DRAG_VERT_Q_RANGE[0], ROT_DRAG_VERT_Q_RANGE[1])};
+  if(a.rdScale!==undefined && !(fin(a.rdScale) && a.rdScale>=ROT_DRAG_VERT_RDSCALE_RANGE[0] && a.rdScale<=ROT_DRAG_VERT_RDSCALE_RANGE[1])) return {ok:false, err:reasonText("validateRotDragVert/rdScale", ROT_DRAG_VERT_RDSCALE_RANGE[0], ROT_DRAG_VERT_RDSCALE_RANGE[1])};
+  const o={form:a.form, source:a.source, lambda:a.lambda, fFlat:a.fFlat};
+  if(a.oblateQ!==undefined && a.oblateQ!==ROT_DRAG_VERT_Q_DEFAULT) o.oblateQ=a.oblateQ;
+  if(a.rdScale!==undefined && a.rdScale!==1) o.rdScale=a.rdScale;
+  return {ok:true, rotDragVert:o};
+}
+// 本との突き合わせ(physics の確定後)。null = 受理 / 文字列 = 拒否の理由
+function rotDragVertCrossCheck(v, ph, sampleClass){
+  if(!v) return null;
+  if(coordOf(ph)!=="3d") return reasonText("validateRotDragVert/coord");
+  if(sampleClass==="calibration") return reasonText("validateRotDragVert/calibration");
+  return null;
+}
+// 赤道面の向きの引きずり半径 R_eq(本の G・c₀ と源の質量から —— 純関数)
+function rotDragVertReq(G, c, m, v){
+  const q=(v.oblateQ!==undefined)? v.oblateQ : ROT_DRAG_VERT_Q_DEFAULT, k=(v.rdScale!==undefined)? v.rdScale : 1;
+  const Rd=invSqKappa0(G,c)*m*k;
+  return Rd*Math.pow(1-v.fFlat,-q);
+}
+// 点の場 d(純関数 —— 源の中心からの位置 (px,py,pz)・源の単位の自転軸 (ax,ay,az)・観測自転 s・λ・R_eq)。帯の外・軸の上(ρ = 0)は 0。out に [dx,dy,dz] を書いて返す
+function rotDragVertFieldAt(px, py, pz, ax, ay, az, s, lambda, Req, out){
+  const o=out||[0,0,0];
+  const z=px*ax+py*ay+pz*az;
+  const qx=px-ax*z, qy=py-ay*z, qz=pz-az*z, rho=Math.sqrt(qx*qx+qy*qy+qz*qz);
+  if(!(Math.abs(z)/Req<1) || !(rho>0)){ o[0]=0; o[1]=0; o[2]=0; return o; }
+  const r=Math.sqrt(px*px+py*py+pz*pz), om=s*z/rho, dm=-lambda*r*om;
+  o[0]=ax*dm; o[1]=ay*dm; o[2]=az*dm;
+  return o;
+}
+// 三次元の步(dfmStep3 の末尾 —— 鍵を宣言した本だけ): x += d·dt。源の添字が範囲の外なら何もしない
+const _rdvOut=[0,0,0];
+function rotDragVertStep3(S, dt){
+  const v=S.params[ROT_DRAG_VERT_KEY], n=S.n, j=v.source;
+  if(!(j>=0 && j<n) || !S.z) return;
+  const p=S.params, Req=rotDragVertReq(p.G, p.cLight, S.m[j], v);
+  if(!(Req>0)) return;
+  const ax=S.sax[j], ay=S.say[j], az=S.saz[j], s=S.spin[j], lam=v.lambda, AMK=S._amKind||null;
+  const xj=S.x[j], yj=S.y[j], zj=S.z[j];
+  for(let i=0;i<n;i++){
+    if(i===j || S.pinned[i]) continue;
+    if(AMK!==null && AMK[i]===AM_DUST) continue;
+    const d=rotDragVertFieldAt(S.x[i]-xj, S.y[i]-yj, S.z[i]-zj, ax, ay, az, s, lam, Req, _rdvOut);
+    if(d[0]===0 && d[1]===0 && d[2]===0) continue;
+    S.x[i]+=d[0]*dt; S.y[i]+=d[1]*dt; S.z[i]+=d[2]*dt;
+  }
 }
 // build(三次元の本だけ): 宣言を S._gLoc に置き、帳簿を 0 にする(宣言の無い本は S._gLoc = null・帳簿の鍵を作らない)
 function gLocPrepare(S, preset){
@@ -26776,6 +26857,53 @@ const BUILTIN_PRESETS = [
      core:{mode:"rigid", massFrac:0.3, radius:3, pump:2.5}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,trailTargets:"all",monitor:true} },
+// ==== 第339便a の本(ここから)====
+// 第339便a(原仮定者の回答(2026-11-14 —— AN712)「2 つ以上の量を同じノブで満たした候補だけを、既定 OFF の設定と『探索用・未較正』の本として入れる」・統括の検証項目 R355):
+// 🛟 saturnRotVertExplore3d —— 回転引きずりの鉛直の型(physics.rotDragVert —— 器 tests/exp-w337i-rotring.mjs の代表 reps[0])を宣言した探索用・未較正の本。
+// 見えるように強さ λ を 1e5 倍(0.0656 —— 候補の要る λ は 6.56e-7)・帯の厚み R_eq を rdScale 2e6 倍(約 10.36 本の長さ = 10 360 km —— 土星の Y_k m の R_eq は 5.18 m)。
+// 帯の内の率 λ s r/ρ は R_d に依らない(一様厚みの区間)ので、拡大した帯の内の粒子の傾きの減り方は候補の率 × 1e5 の縮図。自転軸を +y に置き、上から見て赤道面を真横にした
+// (土星の実の極ではない —— 見やすさの向き)。粒子・半径・質量は 🍩 の帯の写し(各 40 粒)。較正母集団に入れない・fitRecord なし・claims なし(値は器 tests/exp-w339a-rotvert.mjs の正本)。
+{ id:"saturnRotVertExplore3d",
+  name:"土星の環と回転引きずりの鉛直の型(探索用・未較正)",
+  emoji:"🛟",
+  group:"天体の機構",
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:2, M:25},
+  sampleClass:"principle",
+  notClaim:["rotvert_explore", "ring3d_grains"],
+  seed:20261115,
+  abBody:{label:{ja:"回転引きずりの鉛直の型を切る(鍵 OFF の写し —— 環の傾きは減らない)", en:"turn the vertical form of rotational drag off (the key-off copy - the ring tilt does not decay)"}, physicsPatch:{rotDragVert:null}},
+  obsCard:[{q:"何を置いたか", model:"土星(固定・自転軸 +y)と、赤道面から 3.5〜5° 傾けた環の粒子 3 群(各 40 粒)・三次元", obs:"—(探索用・未較正の候補の本 —— 較正母集団の外)"},
+    {q:"候補の型(既定 OFF の鍵 rotDragVert)", model:"帯の型 × 赤道面へ寄せる作用 × 扁平の則の R_eq × 観測自転", obs:"土星の環と 4 惑星の尺度を同じノブで満たした組(このノブの組では)"},
+    {q:"見えるようにした倍率", model:"強さ λ を 1e5 倍(0.0656)・帯の厚み R_eq を 2e6 倍(約 10 360 km)", obs:"実際の候補: λ = 6.56e-7・R_eq = 5.18 m"},
+    {q:"鍵 OFF の写し(おすすめA/B)", model:"同じ初期状態のまま、環の傾きは減らない", obs:"—(対照)"}],
+  descStruct:{
+    summary:"**探索用・未較正の候補の本**。回転引きずり(源の回転による空間の捩れ —— 関連する原理 A8)の候補のうち、土星の環の物差し(1e7 年の内に全部の粒子の傾きが e 分の 1・ケプラーからのずれと半長軸の漂いが 1e-5 の内)と、同じノブでの水星・金星・地球・火星の尺度の内(水星の近点は 1PN の 1e-10 倍以下)の 2 つを満たした組を、既定 OFF の鍵 physics.rotDragVert として入れた。式: 源の引きずり半径 R_d = Y_k m を扁平の則で赤道の向きへ広げた R_eq = R_d/(1 − f)^{1/3} の帯(赤道面からの高さ |z| < R_eq)の中で、粒子の位置を赤道面へ向けて運ぶ速度 d = −λ r (s z/ρ)(s = 土星の観測自転・ρ = 自転軸からの距離・r = 中心からの距離)。速度ではなく位置を運ぶ(座標を運ぶ場)。見えるように強さ λ を 1e5 倍(0.0656 —— 実際の候補は 6.56e-7)・帯の厚み R_eq を 2e6 倍(約 10 360 km —— 実際は 5.18 m)にしてある。帯の内の率 λ s r/ρ は R_d に依らない(一様厚みの区間)ので、拡大した帯の中の傾きの減り方は候補の率の 1e5 倍の縮図になる。自転軸を +y に置いて、上から見ると赤道面が真横の線になる向きにした(土星の実の極ではない)。",
+    observe:"上から見ると、3 群の粒子は赤道面(横の線)のまわりの細い楕円に並ぶ。鍵 ON では、どの群も同じ速さで楕円の縦の幅が縮み、粒子が赤道面の線へ寄っていく(傾きの e 分の 1 の時間は半径に依らず約 2/(λ s) —— この本の倍率で C 環の内縁の約 18 公転)。鍵 OFF の写しでは幅は変わらない。値(傾きの比・lib との点ごとの照合)は器 tests/exp-w339a-rotvert.mjs の正本 tests/out/rotvert-w339a.json に置く(説明には測った値を書かない)。",
+    control:"おすすめA/B で鍵を切った写し(physicsPatch の rotDragVert:null)を並べる —— 同じ初期状態で、ON の側だけ環の傾きが減る。土星の環を回転引きずりで薄くした・環の厚みを決めた・法則である、とは主張しない(探索用・このノブの組では)。"},
+  en:{name:"Saturn's rings and the vertical form of rotational drag (exploratory, uncalibrated)",
+    obsCard:[{q:"What is placed", model:"Saturn (fixed, spin axis +y) and 3 groups of ring particles (40 each) tilted 3.5-5 deg from the equator, 3D", obs:"- (an exploratory, uncalibrated candidate book; outside calibration)"},
+      {q:"Candidate form (key rotDragVert, off by default)", model:"band form x pull toward the equator x oblate rule R_eq x observed spin", obs:"the set that met Saturn's rings and 4 planets with one knob set"},
+      {q:"Scaling for visibility", model:"strength lambda x1e5 (0.0656), band thickness R_eq x2e6 (about 10 360 km)", obs:"actual candidate: lambda = 6.56e-7, R_eq = 5.18 m"},
+      {q:"Key-off copy (suggested A/B)", model:"same initial state; the ring tilt does not decay", obs:"- (control)"}],
+    descStruct:{
+    summary:"**An exploratory, uncalibrated candidate book.** Among the rotational-drag candidates (the twist of space by the source's rotation - related principle A8), the set that met both Saturn's ring yardstick (every particle's tilt falls by 1/e within 1e7 years, with the Kepler offset and the semi-major-axis drift within 1e-5) and, with the same knobs, the scale of Mercury, Venus, Earth and Mars (Mercury's perihelion within 1e-10 of 1PN) is added as the default-off key physics.rotDragVert. Formula: inside the band |z| < R_eq, where R_eq = R_d/(1 - f)^{1/3} widens the source's drag radius R_d = Y_k m toward the equator by the oblate rule, a velocity d = -lambda r (s z/rho) carries the particle position toward the equator (s = Saturn's observed spin, rho = distance from the spin axis, r = distance from the centre). It moves positions, not velocities (a coordinate-carrying field). For visibility the strength lambda is scaled by 1e5 (0.0656; the actual candidate is 6.56e-7) and the band thickness R_eq by 2e6 (about 10 360 km; actually 5.18 m). Inside the band the rate lambda s r/rho does not depend on R_d (the uniform-thickness section), so the tilt decay inside the enlarged band is a 1e5-times-faster miniature of the candidate rate. The spin axis is set to +y so that, seen from above, the equator is an edge-on line (not Saturn's real pole).",
+    observe:"Seen from above, the three groups lie on thin ellipses around the equator (the horizontal line). With the key on, every group's ellipse narrows at the same rate and the particles close in on the equator line (the 1/e time of the tilt is about 2/(lambda s), independent of radius - about 18 inner C-ring orbits at this book's scaling). In the key-off copy the width does not change. The values (tilt ratios, point-by-point check against the lib) are in the record tests/out/rotvert-w339a.json of the harness tests/exp-w339a-rotvert.mjs (no measured values in this text).",
+    control:"Put the key-off copy (physicsPatch rotDragVert:null) next to it with the suggested A/B - from the same initial state only the ON side loses its ring tilt. It does not claim that rotational drag thins Saturn's rings, that the ring thickness is settled, or any law (exploratory; only this knob set)."}},
+  activeParams:["dispMag"],
+  camera:{scale:1300}, world:{boundary:"none",size:0},
+  timeRef:{basis:"observe", tObs:348, note:"観察の基準 600 步 —— 環の粒子群(傾きの e 分の 1 は約 3200 步)"},
+  physics:{coord:"3d", G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9, cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-9, geoPN:0, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.58, dispMag:1, stateCarry:"double", frameWeight:"share", contactMode:"none",
+    approxMany:{version:"v1", governor:0, groups:[{kind:"body", rows:[1, 3], spinZero:"declared"}]},
+    rotDragVert:{form:"sliceFocus", source:0, lambda:0.0656, fFlat:0.09796, rdScale:2000000}},
+  bodies:[   // 0=土星(pinned・自転軸 +y —— 見やすさの向き), 1〜3=C/B/A 帯(🍩 の帯の半径と質量・赤道面〔xz 面〕から δ = 5°・4°・3.5° 傾けた —— incl = −90° + δ)
+    {type:"single", m:56.834, radius:60.3, x:0, y:0, z:0, vx:0, vy:0, vz:0, spin:0.016528, pinned:true, pnSource:true, spinAxis:{enable:true, tiltDeg:90, azimuthDeg:90, source:"見やすさの向き —— 自転軸を +y に置き、上から見て赤道面を真横の線にした(土星の実の極ではない)"}},
+    {type:"ring", n:40, cx:0, cy:0, rIn:74.658, rOut:92, mMin:1.25e-8, mMax:1.25e-8, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false, particleRadius:0.1, incl:-85, node:0},
+    {type:"ring", n:40, cx:0, cy:0, rIn:92, rOut:117.58, mMin:1.25e-8, mMax:1.25e-8, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false, particleRadius:0.1, incl:-86, node:0},
+    {type:"ring", n:40, cx:0, cy:0, rIn:122.17, rOut:136.775, mMin:1.25e-8, mMax:1.25e-8, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false, particleRadius:0.1, incl:-86.5, node:0}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
+// ==== 第339便a の本(ここまで)====
 ];
 
 // <<< w275a-generated: builtin-presets
@@ -26983,7 +27111,8 @@ const SAMPLE_STATUS={
 "ngc3198DFM":{"purpose":"ハローなしの DFM で外縁速度を支える","objective":"unmet","state":"恒星質量を観測の値(倍率 1)へ戻した後も外縁 51 km/s で未達 —— 次の見直しへ","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.ngc3198"],"en":{"purpose":"Support the outer speed with halo-free DFM","state":"not yet reached at 51 km/s in the outskirts with the observed stellar mass (multiplier 1; next revision)","mismatch":null,"outlook":null,"brief":"Support the outer speed with halo-free DFM. Unmet: not yet reached at 51 km/s in the outskirts with the observed stellar mass (multiplier 1; next revision). Out of calibration scope."},"brief":"ハローなしの DFM で外縁速度を支える。未達・恒星質量を観測の値(倍率 1)へ戻した後も外縁 51 km/s で未達 —— 次の見直しへ。較正対象外。"},
 "supernovaProg":{"purpose":"ベテルギウスの前駆星状態を転写する","objective":"met","state":"静止の保持と転写を検査で確認","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.supernovaObs"],"en":{"purpose":"Transcribe Betelgeuse's progenitor state","state":"the static hold and the transcription are checked","mismatch":null,"outlook":null,"brief":"Transcribe Betelgeuse's progenitor state. Met: the static hold and the transcription are checked. Out of calibration scope."},"brief":"ベテルギウスの前駆星状態を転写する。達・静止の保持と転写を検査で確認。較正対象外。"},
 "supernovaProgDFM":{"purpose":"質量台帳 f=2 の前駆星を比べる","objective":"met","state":"台帳 f=2 と光球半径の逆算を確認","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.dfm-star-structure"],"en":{"purpose":"Compare a progenitor with an f=2 mass ledger","state":"the f=2 ledger and the photosphere back-calculation are checked","mismatch":null,"outlook":null,"brief":"Compare a progenitor with an f=2 mass ledger. Met: the f=2 ledger and the photosphere back-calculation are checked. Out of calibration scope."},"brief":"質量台帳 f=2 の前駆星を比べる。達・台帳 f=2 と光球半径の逆算を確認。較正対象外。"},
-"crabRemnant":{"purpose":"かに星雲とパルサーの残骸状態を転写する","objective":"met","state":"膨張速度の転写と自由膨張を確認","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.supernovaObs"],"en":{"purpose":"Transcribe the Crab Nebula and pulsar remnant state","state":"the expansion-speed transcription and free expansion are checked","mismatch":null,"outlook":null,"brief":"Transcribe the Crab Nebula and pulsar remnant state. Met: the expansion-speed transcription and free expansion are checked. Out of calibration scope."},"brief":"かに星雲とパルサーの残骸状態を転写する。達・膨張速度の転写と自由膨張を確認。較正対象外。"}
+"crabRemnant":{"purpose":"かに星雲とパルサーの残骸状態を転写する","objective":"met","state":"膨張速度の転写と自由膨張を確認","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.supernovaObs"],"en":{"purpose":"Transcribe the Crab Nebula and pulsar remnant state","state":"the expansion-speed transcription and free expansion are checked","mismatch":null,"outlook":null,"brief":"Transcribe the Crab Nebula and pulsar remnant state. Met: the expansion-speed transcription and free expansion are checked. Out of calibration scope."},"brief":"かに星雲とパルサーの残骸状態を転写する。達・膨張速度の転写と自由膨張を確認。較正対象外。"},
+"saturnRotVertExplore3d":{"purpose":"回転引きずりの鉛直の型(探索用・未較正)を見える倍率で傾いた環の粒子に当てる","objective":"met","state":"3000 步の傾きの比が目安の 5% の内・鍵 OFF の写しは不変・lib との点の照合 8/8","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/rotvert-w339a.json"],"en":{"purpose":"Vertical rotational-drag form (exploratory, uncalibrated) on tilted ring particles","state":"tilt ratio near the guide at 3000 steps; key-off copy flat; lib match 8/8","mismatch":null,"outlook":null,"brief":"Vertical rotational-drag form (exploratory, uncalibrated) on tilted ring particles. Met: tilt ratio near the guide at 3000 steps; key-off copy flat; lib match 8/8. Out of calibration scope."},"brief":"回転引きずりの鉛直の型(探索用・未較正)を見える倍率で傾いた環の粒子に当てる。達・3000 步の傾きの比が目安の 5% の内・鍵 OFF の写しは不変・lib との点の照合 8/8。較正対象外。"}
 };
 // <<< w275a-generated: sample-status
 // 第279便a(原仮定者の裁定(第69報)「各サンプルの状況確認」「『説明』タブの『概要』を全サンプルで専用に
@@ -28041,6 +28170,13 @@ function validatePreset(obj, opts){
         const glv=validateGLoc(p.physics[k]);
         if(!glv.ok){ bad(glv.err); continue; }
         if(glv.gLoc!==null) ph[k]=glv.gLoc;
+        continue;
+      }
+      // 第339便a(AN712・R355): rotDragVert — 回転引きずりの鉛直の型(探索用・未較正 —— 形だけここで受理・二次元/較正の本の拒否は下の rotDragVertCrossCheck)。null/未宣言は「なし」
+      if(k===ROT_DRAG_VERT_KEY){
+        const rvv=validateRotDragVert(p.physics[k]);
+        if(!rvv.ok){ bad(rvv.err); continue; }
+        if(rvv.rotDragVert!==null) ph[k]=rvv.rotDragVert;
         continue;
       }
       // 第300便c(R177): radiusFloor — single の明示半径の下限の引き下げ宣言(softeningFloor と同じ型。適用は bodies の radius の受理で読む)
@@ -29227,6 +29363,8 @@ function validatePreset(obj, opts){
     { const thx=thickCrossCheck(p, warnings); if(thx) bad(thx); }   // 第324便a(AN513・R279): disk の有限厚の中心の参照・再抽選の上限・中心の軸(宣言の無い本は null —— 受理・正準形は従来どおり)
     // 第302便b(R187): 局所重力は三次元の本だけ・較正の本では拒否(未宣言は null —— 受理・正準形は従来どおり)
     if(p.physics[GLOC_KEY]){ const glx=gLocCrossCheck(p.physics[GLOC_KEY], p.physics, p.sampleClass); if(glx) bad(glx); }
+    // 第339便a(R355): 回転引きずりの鉛直の型は三次元の本だけ・較正の本では拒否(未宣言は null —— 受理・正準形は従来どおり)
+    if(p.physics[ROT_DRAG_VERT_KEY]){ const rvx=rotDragVertCrossCheck(p.physics[ROT_DRAG_VERT_KEY], p.physics, p.sampleClass); if(rvx) bad(rvx); }
     // 第303便b(R192): 源の慣性決定力 r⁻² の宣言の突き合わせ(lambdaRs は c₀・G が要る —— 未宣言は null)
     if(p.physics[REL_DRAG_KEY] && p.physics[REL_DRAG_KEY][REL_DRAG_I2_KEY]){ const i2x=inertialR2CrossCheck(p.physics[REL_DRAG_KEY][REL_DRAG_I2_KEY], p.physics); if(i2x) bad(i2x); }
     // 第304便a(R195): 引きずり核の殻の自己の項は殻を宣言した天体が要る(未宣言は null —— 受理・正準形は従来どおり)
@@ -29795,6 +29933,12 @@ function validatePreset(obj, opts){
             //   宣言の差し替え(別の law・n)は受けない(B 側の cross check〔三次元・較正の本・cLight〕を A と別に持たない)。A 側に gLoc が無い本では素通り(no-op)
             if(k===GLOC_KEY){
               if(A.physicsPatch[k]!==null){ warnings.push(reasonText("validatePreset/abBody.physicsPatch.gLoc")); continue; }
+              physicsPatch[k]=null;
+              continue;
+            }
+            // 第339便a(R355): rotDragVert は null だけ(B 側で回転引きずりの鉛直の型を切る —— 鍵 OFF の写し)
+            if(k===ROT_DRAG_VERT_KEY){
+              if(A.physicsPatch[k]!==null){ warnings.push(reasonText("validatePreset/abBody.physicsPatch.rotDragVert")); continue; }
               physicsPatch[k]=null;
               continue;
             }
@@ -44159,6 +44303,7 @@ function abStart(key, valB, bodyPatch){
           if(rv===null) delete ab.simB.params[k]; else if(rv && rv.law==="inertial"){ const vv=validateRelativeDrag(rv); if(vv.ok) ab.simB.params[k]=vv.relativeDrag; } continue; }
         // 第307便e(AN340 ④): gLoc:null —— B 側の局所重力 G_loc を切る(検証器が通すのは null だけ)
         if(k===GLOC_KEY){ if(bodyPatch.physicsPatch[k]===null) gLocDetach(ab.simB); continue; }
+        if(k===ROT_DRAG_VERT_KEY){ if(bodyPatch.physicsPatch[k]===null) delete ab.simB.params[k]; continue; }   // 第339便a(R355): B 側の回転引きずりの鉛直の型を切る
         if(!(k in CLAMPS)) continue;
         ab.simB.params[k]=clamp(bodyPatch.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
       }
@@ -44539,6 +44684,7 @@ $("#btnReset").addEventListener("click",()=>{
           if(k===REL_DRAG_KEY){ const rv=ab.bodyPatch.physicsPatch[k];   // 第290便c(abStart と同じ扱い)
             if(rv===null) delete ab.simB.params[k]; else if(rv && rv.law==="inertial"){ const vv=validateRelativeDrag(rv); if(vv.ok) ab.simB.params[k]=vv.relativeDrag; } continue; }
           if(k===GLOC_KEY){ if(ab.bodyPatch.physicsPatch[k]===null) gLocDetach(ab.simB); continue; }   // 第307便e: build で戻った G_loc を B 側で切り直す(abStart と同じ扱い)
+          if(k===ROT_DRAG_VERT_KEY){ if(ab.bodyPatch.physicsPatch[k]===null) delete ab.simB.params[k]; continue; }   // 第339便a: build で戻った宣言を B 側で切り直す(abStart と同じ扱い)
           if(k in CLAMPS) ab.simB.params[k]=clamp(ab.bodyPatch.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
         }
         if(!isNum(ab.bodyPatch.physicsPatch.kappaT) && isNum(ab.bodyPatch.physicsPatch.Kt))
@@ -60171,6 +60317,7 @@ function dfmStep3(S,dt){
   if(S.hasSpiral) dfmShapeToySpiralStep3(S,dt);
   if(S.hasRelativeDrag) dfmInertialDragStep3(S,dt);   // 二次元と同じ位置(核の後)・慣性決定力の並進(z へ広げた solve)
   if(S.hasTide) dfmTideStep3(S,(S.tide.split==="half")? dt*0.5 : dt);   // 第307便b(R210): 三次元の明示潮汐(二次元と同じ位置 —— 引きずりの直後・未宣言は真偽値 1 つ)
+  if(S.params[ROT_DRAG_VERT_KEY]) rotDragVertStep3(S,dt);   // 第339便a(AN712・R355): 回転引きずりの鉛直の型(探索用・未較正 —— 既定 OFF・未宣言は真偽値 1 つ)
   if(S.hasSpinAx3) coord3dSpinAxisStep(S);
 }
 // 自転軸の歳差(**規定運動** —— 宣言した軸 p̂ のまわりに角 Ω_p·t だけ初期の軸を回す: â(t)=R(p̂, Ω_p t)·â₀。時刻の関数として毎步書き直す
@@ -66891,6 +67038,9 @@ window.HP.obsSpin={ version:OBS_SPIN_VERSION, key:OBS_SPIN_KEY, srcKind:OBS_SPIN
 Object.assign(window.HP.obsSpin, { axisRefs:OBS_SPIN_AXIS_REFS, axisKeys:OBS_SPIN_AXIS_KEYS, axisBases:OBS_SPIN_AXIS_BASES, axisComps:OBS_SPIN_AXIS_COMPS, axisCompKeys:OBS_SPIN_AXIS_COMP_KEYS,
   axisTiltOf:obsSpinAxisTiltOf, axisResolve:obsSpinAxisResolve, orbitNormal:obsSpinOrbitNormal, axisInfo:obsSpinAxisInfo, knobsOf:obsSpinKnobsOf, withKnob:obsSpinWithKnob });
 // ==== 第324便e の塊(ここまで)====
+// 第339便a(AN712・R355): 回転引きずりの鉛直の型(探索用・未較正 —— 既定 OFF)の読み口(器 tests/exp-w339a-rotvert.mjs と QA behavior.rotvert339a が lib と点ごとに照合する)
+window.HP.rotDragVert={ version:ROT_DRAG_VERT_VERSION, key:ROT_DRAG_VERT_KEY, forms:ROT_DRAG_VERT_FORMS, keys:ROT_DRAG_VERT_KEYS, qDefault:ROT_DRAG_VERT_Q_DEFAULT,
+  validate:validateRotDragVert, crossCheck:rotDragVertCrossCheck, req:rotDragVertReq, fieldAt:rotDragVertFieldAt, step3:rotDragVertStep3 };
 
 // ===== 起動 =====
 applyUiScale();   // v1.17: 文字サイズ設定の反映(hp_uiscale 永続)
