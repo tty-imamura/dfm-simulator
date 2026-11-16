@@ -3,7 +3,7 @@
  "libVersion": "w331b-centrifugal-lib-1",
  "generator": "tests/exp-w331b-centrifugal.mjs",
  "target": "beta/index.html",
- "targetSha256": "60dca011e60350b5a32283b2df914a78c6fe1c799345f5c95ef05eeaf91ab4c1",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "reuseFrom": null,
  "ruling": "原仮定者の追記(2026-11-09)「回転引きずりで空間を引きずる事による大きな影響は、遠心力を弱める事で有る」(作業仮説 —— 診断で検査)・原仮定者の整理(2026-11-09)「引きずりは、相対的な移動回転に、m/r^2 の重みが付く」「慣性力は、自分自身の引きずり」・原仮定者の決断(2026-11-09 —— AN593 = B〔自己の重み × 離散化の 2 次元の表・速度の絶対値と残差〕・AN595 = A〔Ω_p は格子〕)・統括の検証項目 R311",
  "decl": {
@@ -61646,22 +61646,22 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.009
+   "wallSec": 0.011
   },
   "inputs": {
-   "wallSec": 0.009
+   "wallSec": 0.011
   },
   "required": {
-   "wallSec": 0.01
+   "wallSec": 0.012
   },
   "disk": {
-   "wallSec": 2.92
+   "wallSec": 2.412
   },
   "solar": {
-   "wallSec": 2.923
+   "wallSec": 2.416
   },
   "rings": {
-   "wallSec": 2.926
+   "wallSec": 2.421
   }
  },
  "gates": {
@@ -61677,25 +61677,25 @@
   "ringTable": true
  },
  "ok": true,
- "elapsedS": 5.433,
+ "elapsedS": 4.293,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第331便b",
   "target": "beta/index.html",
-  "targetSha256": "60dca011e60350b5a32283b2df914a78c6fe1c799345f5c95ef05eeaf91ab4c1",
-  "generatedAt": "2026-11-09T16:43:55.467Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:42:13.104Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "60dca011e60350b5a32283b2df914a78c6fe1c799345f5c95ef05eeaf91ab4c1",
-    "mtime": "2026-11-09T15:44:24.781Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    },
    {
     "file": "tests/fixtures/ngc3198-rotmod-w329b.json",
     "bytes": 10020,
     "sha256": "8184df5268f5ef370e9150be42cf1f59756b96ab632b8bfb91b1fca048deeacc",
-    "mtime": "2026-11-09T15:44:25.020Z"
+    "mtime": "2026-11-07T21:35:38.913Z"
    }
   ],
   "code": [
@@ -61703,73 +61703,73 @@
     "file": "tests/exp-w331b-centrifugal.mjs",
     "bytes": 30724,
     "sha256": "a122eaaf5404bbc415232ca993f022eb5c1c7a2570879f0cfa665086a4a834c0",
-    "mtime": "2026-11-09T16:43:16.893Z"
+    "mtime": "2026-11-09T17:55:42.482Z"
    },
    {
     "file": "tests/lib-w331b-centrifugal.mjs",
     "bytes": 36773,
     "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
-    "mtime": "2026-11-09T16:43:06.328Z"
+    "mtime": "2026-11-09T17:55:42.487Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-09T15:44:25.065Z"
+    "mtime": "2026-11-08T17:01:18.701Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-09T15:44:25.049Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-09T15:44:25.049Z"
+    "mtime": "2026-10-21T18:25:03.634Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-09T15:44:25.049Z"
+    "mtime": "2026-10-20T16:19:56.684Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-09T15:44:25.049Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w329b-galrot.mjs",
     "bytes": 26983,
     "sha256": "5a6ad742c267f48b9c02737e306e8d7349054d659e2f80c4226744576044ada3",
-    "mtime": "2026-11-09T15:44:25.061Z"
+    "mtime": "2026-11-07T21:35:38.919Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-09T15:44:25.037Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-09T15:44:25.037Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-09T15:44:25.033Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-09T15:44:25.041Z"
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
   "codeSha256": "78db5e60787a05ba87ad52b4132f3b9422665fe2d0c1386fb4e5f001cdee23f7",
@@ -61805,11 +61805,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1324,
-   "segments": 1161,
-   "closureShare": 0.2874
+   "names": 1339,
+   "segments": 1170,
+   "closureShare": 0.2879
   },
-  "scopeSha256": "97ba02ff325473fa096954a42fa095e307f6aeae0e2a73569ed5e3de18bfc2ff",
+  "scopeSha256": "cfec46e31adf2456bfdec3b6fb57075e735d97aa67b5fa13dc2a943448e5f380",
   "scopeComplete": true,
   "inputsStable": [
    {

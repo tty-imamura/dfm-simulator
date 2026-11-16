@@ -4,9 +4,9 @@
   "section": "AA7 / R∥ + 正準運動量(AH26)",
   "harness": "w273d-rpar-2",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
   "libSha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
-  "at": "2026-11-05T10:54:35.373Z",
+  "at": "2026-11-16T01:44:42.551Z",
   "definition": "R∥ = −(a₂−a₁)·n̂ /(G(m₁+m₂)/r²)、n̂ は 1→2。静止(v=0)なので計量の微分項は落ちる。",
   "claim": "**「比が 1 になる」と先に結論していない。** 実装(HP.dfmMeshV2Solve)と独立な解析式(lib-w272c-binlock.restTwoBodyAnalytic)の 2 列を並べた記録である。**mesh-v2 は候補の則であって確立則ではない**(第265便b)。",
   "touched": "内蔵プリセットは 1 bit も動かしていない。`S._core` には 1 命令も足していない。",
@@ -68,11 +68,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1324,
-   "segments": 1161,
-   "closureShare": 0.2874
+   "names": 1339,
+   "segments": 1170,
+   "closureShare": 0.2879
   },
-  "scopeSha256": "5a50ab91cd915af81848b192fa884b9fc7e9385996c8a15ad51d54bbf8a62cf0",
+  "scopeSha256": "e6425eb665c0743a67583752d0ccdd658bb5ab414f5898debb4742d871c0efb8",
   "scopeComplete": true
  },
  "cases": [
