@@ -344,7 +344,7 @@
    "a": 57909226541.52439,
    "e": 0.20563593,
    "periodDays": 87.97010566569152,
-   "iSunDeg": 3.381043915346226,
+   "iSunDeg": 3.3810439153464458,
    "omegaSunDeg": 109.57779428367911,
    "prograde": true,
    "LdotS": 0.9982593945720125,
@@ -366,9 +366,9 @@
     "periSideF": true,
     "periSideM": true
    },
-   "zPeri": 2556117083.283735,
-   "zApo": -3879514083.3769994,
-   "heightRatio": 0.6588755778039894,
+   "zPeri": 2556117083.2839003,
+   "zApo": -3879514083.3772516,
+   "heightRatio": 0.6588755778039892,
    "heightRatioExpect": 0.6588755778039893,
    "zMax": 4068841698.5428877,
    "zMaxOverRsun": 5.848557853302986,
@@ -396,7 +396,7 @@
    "a": 108209474537.37917,
    "e": 0.00677672,
    "periodDays": 224.7040519023045,
-   "iSunDeg": 3.857863776928577,
+   "iSunDeg": 3.8578637769286432,
    "omegaSunDeg": -123.36219968403996,
    "prograde": true,
    "LdotS": 0.9977340285603326,
@@ -418,8 +418,8 @@
     "periSideF": true,
     "periSideM": true
    },
-   "zPeri": -6039546904.235002,
-   "zApo": 6121962045.162561,
+   "zPeri": -6039546904.235105,
+   "zApo": 6121962045.162666,
    "heightRatio": 0.9865377896302571,
    "heightRatioExpect": 0.986537789630257,
    "zMax": 7321657183.926873,
@@ -448,7 +448,7 @@
    "a": 149598261150.4425,
    "e": 0.01671123,
    "periodDays": 365.260466356474,
-   "iSunDeg": 7.251733438903144,
+   "iSunDeg": 7.251733438903241,
    "omegaSunDeg": -152.82793209019042,
    "prograde": true,
    "LdotS": 0.992001131174814,
@@ -470,9 +470,9 @@
     "periSideF": true,
     "periSideM": true
    },
-   "zPeri": -8479373030.107122,
-   "zApo": 8767591013.033775,
-   "heightRatio": 0.9671268901003489,
+   "zPeri": -8479373030.107234,
+   "zApo": 8767591013.033894,
+   "heightRatio": 0.9671268901003486,
    "heightRatioExpect": 0.9671268901003484,
    "zMax": 19025658108.639168,
    "zMaxOverRsun": 27.34750339031072,
@@ -500,7 +500,7 @@
    "a": 227943822427.57306,
    "e": 0.0933941,
    "periodDays": 686.9975261497827,
-   "iSunDeg": 5.651192447389983,
+   "iSunDeg": 5.651192447390037,
    "omegaSunDeg": 72.01952823383775,
    "prograde": true,
    "LdotS": 0.9951398146950622,
@@ -522,9 +522,9 @@
     "periSideF": false,
     "periSideM": false
    },
-   "zPeri": 19355921059.488506,
-   "zApo": -23343825455.482353,
-   "heightRatio": 0.8291666289401046,
+   "zPeri": 19355921059.488693,
+   "zApo": -23343825455.48257,
+   "heightRatio": 0.829166628940105,
    "heightRatioExpect": 0.8291666289401048,
    "zMax": 24430722694.04758,
    "zMaxOverRsun": 35.11674959615866,
@@ -631,7 +631,7 @@
      "sun": {
       "di": -2.2076229071339048e-16,
       "dnode": 1.5385277672621003e-16,
-      "dvarpi": 2.677969782805399e-19
+      "dvarpi": 2.677969782805684e-19
      },
      "breaks": false
     },
@@ -715,7 +715,7 @@
      "sun": {
       "di": -0.09564433617339917,
       "dnode": 239.7794109332626,
-      "dvarpi": 0.4174238609958079
+      "dvarpi": 0.4174238609958736
      },
      "breaks": false
     },
@@ -827,7 +827,7 @@
      "sun": {
       "di": -0.002488027263699503,
       "dnode": 0.0002901518903123864,
-      "dvarpi": 5.050399554059552e-7
+      "dvarpi": 5.050399554060179e-7
      },
      "breaks": false
     },
@@ -939,7 +939,7 @@
      "sun": {
       "di": 13.906341477575836,
       "dnode": -1.6217472074839172,
-      "dvarpi": -0.0028228219921690193
+      "dvarpi": -0.0028228219921692757
      },
      "breaks": false
     },
@@ -88791,13 +88791,13 @@
        "steps": 2000,
        "apsCy": -28.653029230251278,
        "dlnAcy": -2.0196224243779174e-12,
-       "wallSec": 0.169
+       "wallSec": 0.104
       },
       {
        "steps": 4000,
        "apsCy": -28.653029119940054,
        "dlnAcy": -2.2556756096660992e-12,
-       "wallSec": 0.24
+       "wallSec": 0.196
       }
      ],
      "relDiff": 1.3839743921843465e-7,
@@ -88815,13 +88815,13 @@
        "steps": 2000,
        "apsCy": -28.652936311497317,
        "dlnAcy": 1.1771759598725843e-11,
-       "wallSec": 0.168
+       "wallSec": 0.137
       },
       {
        "steps": 4000,
        "apsCy": -28.652936232616963,
        "dlnAcy": 1.4127225932621637e-11,
-       "wallSec": 0.219
+       "wallSec": 0.229
       }
      ],
      "relDiff": 0.0000031034006761835327,
@@ -88839,13 +88839,13 @@
        "steps": 2000,
        "apsCy": 143.26676214447087,
        "dlnAcy": 7.510812179917671e-10,
-       "wallSec": 0.16
+       "wallSec": 0.106
       },
       {
        "steps": 4000,
        "apsCy": 143.26676333809243,
        "dlnAcy": 7.491046524774306e-10,
-       "wallSec": 0.197
+       "wallSec": 0.223
       }
      ],
      "relDiff": 0.00001173577112635006,
@@ -89316,28 +89316,28 @@
  ],
  "timing": {
   "pure": {
-   "wallSec": 0.105
+   "wallSec": 0.066
   },
   "geometry": {
-   "wallSec": 0.124
+   "wallSec": 0.075
   },
   "decomp": {
-   "wallSec": 0.218
+   "wallSec": 0.127
   },
   "scan": {
-   "wallSec": 0.937
+   "wallSec": 0.753
   },
   "bins": {
-   "wallSec": 0.955
+   "wallSec": 0.778
   },
   "carry": {
-   "wallSec": 0.995
+   "wallSec": 0.813
   },
   "integ": {
-   "wallSec": 2.155
+   "wallSec": 1.813
   },
   "mix": {
-   "wallSec": 4.339
+   "wallSec": 3.547
   }
  },
  "gates": {
@@ -89354,101 +89354,101 @@
   "carry": true
  },
  "ok": true,
- "elapsedS": 4.342,
+ "elapsedS": 3.548,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第337便b",
   "target": "tests/lib-w337b-mercuryband.mjs",
   "targetSha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
-  "generatedAt": "2026-11-14T20:43:37.720Z",
+  "generatedAt": "2026-11-16T18:51:36.422Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w337b-mercuryband.mjs",
     "bytes": 25618,
     "sha256": "e3729cc5a00a14bb48cd2e5ecf065401d935ea93c2707a02df55a850a74eeb60",
-    "mtime": "2026-11-14T20:43:33.312Z"
+    "mtime": "2026-11-16T18:42:14.082Z"
    },
    {
     "file": "tests/lib-w337b-mercuryband.mjs",
     "bytes": 28361,
     "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
-    "mtime": "2026-11-14T20:33:38.642Z"
+    "mtime": "2026-11-16T18:42:14.162Z"
    },
    {
     "file": "tests/lib-w335c-mercurycombo.mjs",
     "bytes": 23928,
     "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
-    "mtime": "2026-11-14T20:18:49.346Z"
+    "mtime": "2026-11-16T18:42:14.162Z"
    },
    {
     "file": "tests/lib-w334c-mercurynode.mjs",
     "bytes": 35987,
     "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
-    "mtime": "2026-11-14T20:18:49.342Z"
+    "mtime": "2026-11-16T18:42:14.158Z"
    },
    {
     "file": "tests/lib-w334a-heightlaw.mjs",
     "bytes": 40171,
     "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
-    "mtime": "2026-11-14T20:18:49.342Z"
+    "mtime": "2026-11-16T18:42:14.158Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
-    "bytes": 35614,
-    "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
-    "mtime": "2026-11-14T20:18:49.342Z"
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-16T18:48:19.670Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-14T20:18:49.342Z"
+    "mtime": "2026-11-16T18:42:14.154Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-14T20:18:49.338Z"
+    "mtime": "2026-11-16T18:42:14.150Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-14T20:18:49.338Z"
+    "mtime": "2026-11-16T18:42:14.150Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-14T20:18:49.322Z"
+    "mtime": "2026-11-16T18:42:14.122Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-14T20:18:49.326Z"
+    "mtime": "2026-11-16T18:42:14.122Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-14T20:18:49.326Z"
+    "mtime": "2026-11-16T18:42:14.122Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-14T20:18:49.322Z"
+    "mtime": "2026-11-16T18:42:14.122Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-14T20:18:49.310Z"
+    "mtime": "2026-11-16T18:42:14.102Z"
    }
   ],
-  "codeSha256": "aa5d4a7041dc97c3d551392cbcb388ff8794caaf355db9b50c1719e6be3d7818",
+  "codeSha256": "a3fc1e3cb378c6c3f4ba03f917bf7b61cc8d291139f75eb32f9f5e7e75e00904",
   "harnessVersion": "w337b-mercuryband-1",
   "stage": "mercuryband",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 一次の率と自前の RK4)",

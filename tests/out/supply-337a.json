@@ -11844,34 +11844,34 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.042
+   "wallSec": 0.021
   },
   "book": {
-   "wallSec": 0.042
+   "wallSec": 0.021
   },
   "t1": {
-   "wallSec": 0.044
+   "wallSec": 0.023
   },
   "axial": {
-   "wallSec": 0.221
+   "wallSec": 0.166
   },
   "complement": {
-   "wallSec": 0.258
+   "wallSec": 0.226
   },
   "background": {
-   "wallSec": 0.273
+   "wallSec": 0.239
   },
   "t2": {
-   "wallSec": 0.274
+   "wallSec": 0.24
   },
   "t3": {
-   "wallSec": 0.336
+   "wallSec": 0.307
   },
   "t4": {
-   "wallSec": 0.343
+   "wallSec": 0.311
   },
   "t5": {
-   "wallSec": 0.344
+   "wallSec": 0.312
   }
  },
  "gates": {
@@ -11892,19 +11892,19 @@
   "t5": true
  },
  "ok": true,
- "elapsedS": 0.349,
+ "elapsedS": 0.316,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第337便a",
   "target": "tests/lib-w337a-supply.mjs",
   "targetSha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
-  "generatedAt": "2026-11-16T01:09:34.154Z",
+  "generatedAt": "2026-11-16T18:51:32.777Z",
   "inputs": [
    {
     "file": "tests/out/carryledger-w335b.json",
-    "bytes": 198107,
-    "sha256": "603aade942078a08cbd8e8e908550445a5b3f6fe3cf90dc72757433682c263eb",
-    "mtime": "2026-11-16T01:09:33.279Z"
+    "bytes": 198106,
+    "sha256": "a5e9f6ffd51b700a39223f1f9c3f7a59ce64c52fdee441938c99a4fb8cb7f4c7",
+    "mtime": "2026-11-16T18:50:44.122Z"
    }
   ],
   "code": [
@@ -11912,79 +11912,79 @@
     "file": "tests/exp-w337a-supply.mjs",
     "bytes": 48429,
     "sha256": "a7eac8935b52bac9871ff86b581d3aa7c29c70b4d8acb18464deec7f6ccbf690",
-    "mtime": "2026-11-14T22:18:42.558Z"
+    "mtime": "2026-11-16T18:42:14.082Z"
    },
    {
     "file": "tests/lib-w337a-supply.mjs",
     "bytes": 40434,
     "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
-    "mtime": "2026-11-14T22:18:42.562Z"
+    "mtime": "2026-11-16T18:42:14.162Z"
    },
    {
     "file": "tests/lib-w330a-spinclass.mjs",
     "bytes": 34905,
     "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
-    "mtime": "2026-11-08T15:32:48.994Z"
+    "mtime": "2026-11-16T18:42:14.150Z"
    },
    {
     "file": "tests/lib-w333b-axialfield.mjs",
     "bytes": 34735,
     "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
-    "mtime": "2026-11-10T21:35:44.639Z"
+    "mtime": "2026-11-16T18:42:14.154Z"
    },
    {
     "file": "tests/lib-w335b-carryledger.mjs",
     "bytes": 32539,
     "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
-    "mtime": "2026-11-12T15:50:48.820Z"
+    "mtime": "2026-11-16T18:42:14.158Z"
    },
    {
     "file": "tests/lib-w334b-ledger.mjs",
     "bytes": 45562,
     "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
-    "mtime": "2026-11-11T20:17:45.497Z"
+    "mtime": "2026-11-16T18:42:14.158Z"
    },
    {
     "file": "tests/lib-w334a-heightlaw.mjs",
     "bytes": 40171,
     "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
-    "mtime": "2026-11-11T20:22:29.781Z"
+    "mtime": "2026-11-16T18:42:14.158Z"
    },
    {
     "file": "tests/lib-w333a-rotdiff.mjs",
     "bytes": 28077,
     "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
-    "mtime": "2026-11-10T21:32:25.259Z"
+    "mtime": "2026-11-16T18:42:14.154Z"
    },
    {
     "file": "tests/lib-w332b-transgeo2.mjs",
     "bytes": 29461,
     "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
-    "mtime": "2026-11-10T05:10:39.185Z"
+    "mtime": "2026-11-16T18:42:14.154Z"
    },
    {
     "file": "tests/lib-w331b-centrifugal.mjs",
     "bytes": 36773,
     "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
-    "mtime": "2026-11-09T17:55:42.487Z"
+    "mtime": "2026-11-16T18:42:14.150Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-08T17:01:18.701Z"
+    "mtime": "2026-11-16T18:42:14.150Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-16T18:42:14.102Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-16T18:42:14.114Z"
    }
   ],
   "codeSha256": "e0273be69249f6a84f9537d82ffc798e15384bb1465c62c9388af96ae2c856f9",
@@ -12003,7 +12003,7 @@
   "inputsStable": [
    {
     "file": "tests/out/carryledger-w335b.json",
-    "stableSha256": "ed6a53fee7b192e01d9eafa0e481d9f35780b7ae8dc89cdcf4ef786ce33dee76",
+    "stableSha256": "c1844c40291bfc2d64d0bbc47876415a8ffc5d3dcfb100c8a536fd8617cd7659",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

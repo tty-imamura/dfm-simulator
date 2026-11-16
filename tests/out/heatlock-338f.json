@@ -4567,19 +4567,19 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.011
+   "wallSec": 0.009
   },
   "heat": {
-   "wallSec": 0.868
+   "wallSec": 0.615
   },
   "res": {
-   "wallSec": 1.674
+   "wallSec": 1.249
   },
   "mag": {
-   "wallSec": 1.681
+   "wallSec": 1.255
   },
   "joint": {
-   "wallSec": 1.681
+   "wallSec": 1.255
   }
  },
  "gates": {
@@ -4591,179 +4591,179 @@
   "joint": true
  },
  "ok": true,
- "elapsedS": 1.685,
+ "elapsedS": 1.256,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第338便f",
   "target": "tests/lib-w338f-heatlock.mjs",
   "targetSha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
-  "generatedAt": "2026-11-15T10:45:26.144Z",
+  "generatedAt": "2026-11-16T18:52:42.480Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w337d-accelloss.mjs",
     "bytes": 22878,
     "sha256": "fcaf93b287f7b19584862fabd3bb0575e4f4c23dc358263e3943edf7a532c1e7",
-    "mtime": "2026-11-15T10:19:02.961Z"
+    "mtime": "2026-11-16T18:42:14.082Z"
    },
    {
     "file": "tests/exp-w338f-heatlock.mjs",
     "bytes": 17387,
     "sha256": "e7491077f43398179717becd1756aa239f2d32fb534fab1293309c700e8a343c",
-    "mtime": "2026-11-15T10:45:24.381Z"
+    "mtime": "2026-11-16T18:42:14.086Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-15T10:19:02.977Z"
+    "mtime": "2026-11-16T18:42:14.102Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-15T10:19:02.993Z"
+    "mtime": "2026-11-16T18:42:14.122Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-15T10:19:02.997Z"
+    "mtime": "2026-11-16T18:42:14.122Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-15T10:19:02.997Z"
+    "mtime": "2026-11-16T18:42:14.122Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-15T10:19:02.997Z"
+    "mtime": "2026-11-16T18:42:14.122Z"
    },
    {
     "file": "tests/lib-w326d-axialheat.mjs",
     "bytes": 32001,
     "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
-    "mtime": "2026-11-15T10:19:03.009Z"
+    "mtime": "2026-11-16T18:42:14.142Z"
    },
    {
     "file": "tests/lib-w330a-spinclass.mjs",
     "bytes": 34905,
     "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
-    "mtime": "2026-11-15T10:19:03.013Z"
+    "mtime": "2026-11-16T18:42:14.150Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-15T10:19:03.017Z"
+    "mtime": "2026-11-16T18:42:14.150Z"
    },
    {
     "file": "tests/lib-w331a-coordtwist.mjs",
     "bytes": 33003,
     "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
-    "mtime": "2026-11-15T10:19:03.017Z"
+    "mtime": "2026-11-16T18:42:14.150Z"
    },
    {
     "file": "tests/lib-w331b-centrifugal.mjs",
     "bytes": 36773,
     "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
-    "mtime": "2026-11-15T10:19:03.017Z"
+    "mtime": "2026-11-16T18:42:14.150Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-15T10:19:03.017Z"
+    "mtime": "2026-11-16T18:42:14.150Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-15T10:19:03.017Z"
+    "mtime": "2026-11-16T18:42:14.154Z"
    },
    {
     "file": "tests/lib-w332b-transgeo2.mjs",
     "bytes": 29461,
     "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
-    "mtime": "2026-11-15T10:19:03.017Z"
+    "mtime": "2026-11-16T18:42:14.154Z"
    },
    {
     "file": "tests/lib-w333a-rotdiff.mjs",
     "bytes": 28077,
     "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
-    "mtime": "2026-11-15T10:19:03.021Z"
+    "mtime": "2026-11-16T18:42:14.154Z"
    },
    {
     "file": "tests/lib-w333b-axialfield.mjs",
     "bytes": 34735,
     "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
-    "mtime": "2026-11-15T10:19:03.021Z"
+    "mtime": "2026-11-16T18:42:14.154Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
-    "bytes": 35614,
-    "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
-    "mtime": "2026-11-15T10:19:03.021Z"
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-16T18:48:19.670Z"
    },
    {
     "file": "tests/lib-w334a-heightlaw.mjs",
     "bytes": 40171,
     "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
-    "mtime": "2026-11-15T10:19:03.021Z"
+    "mtime": "2026-11-16T18:42:14.158Z"
    },
    {
     "file": "tests/lib-w334b-ledger.mjs",
     "bytes": 45562,
     "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
-    "mtime": "2026-11-15T10:19:03.021Z"
+    "mtime": "2026-11-16T18:42:14.158Z"
    },
    {
     "file": "tests/lib-w334d-binarylaw.mjs",
     "bytes": 34686,
     "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
-    "mtime": "2026-11-15T10:19:03.021Z"
+    "mtime": "2026-11-16T18:42:14.158Z"
    },
    {
     "file": "tests/lib-w335b-carryledger.mjs",
     "bytes": 32539,
     "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
-    "mtime": "2026-11-15T10:19:03.025Z"
+    "mtime": "2026-11-16T18:42:14.158Z"
    },
    {
     "file": "tests/lib-w335d-binarytilt.mjs",
     "bytes": 37252,
     "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
-    "mtime": "2026-11-15T10:19:03.025Z"
+    "mtime": "2026-11-16T18:42:14.162Z"
    },
    {
     "file": "tests/lib-w337a-supply.mjs",
     "bytes": 40434,
     "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
-    "mtime": "2026-11-15T10:19:03.025Z"
+    "mtime": "2026-11-16T18:42:14.162Z"
    },
    {
     "file": "tests/lib-w337c-tidelock.mjs",
     "bytes": 58274,
     "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
-    "mtime": "2026-11-15T10:19:03.029Z"
+    "mtime": "2026-11-16T18:42:14.166Z"
    },
    {
     "file": "tests/lib-w337d-accelloss.mjs",
     "bytes": 28896,
     "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
-    "mtime": "2026-11-15T10:19:03.029Z"
+    "mtime": "2026-11-16T18:42:14.166Z"
    },
    {
     "file": "tests/lib-w338f-heatlock.mjs",
     "bytes": 24261,
     "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
-    "mtime": "2026-11-15T10:45:24.380Z"
+    "mtime": "2026-11-16T18:42:14.170Z"
    }
   ],
-  "codeSha256": "68c4d0b35eb183c20da4f47ba4fc2a6f9184b1ccb9100d9c175e6eeb4293de42",
+  "codeSha256": "b8e25a45362ae7581c7ccabdec5c312b5d997c7eda2a94582121fc04b0f34932",
   "harnessVersion": "w338f-heatlock-1",
   "stage": "heatlock",
   "engine": "Node(html を読まない —— 純関数の lib の表・射撃と RK4・求積)・1 プロセス",

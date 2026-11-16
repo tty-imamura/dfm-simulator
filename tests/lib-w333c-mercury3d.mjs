@@ -36,7 +36,7 @@ import { harmonicSelf, kappaMRadius, pointWeight, selfWeight } from './lib-w330b
 import { C1, gLocShare, apsidalNumeric } from './lib-w331c-k1scale.mjs';
 import { bandForce, k1Core, glNodes, orbitRates, DECL as DECL332A } from './lib-w332a-eqband.mjs';
 
-export const LIB_VERSION = 'w333c-mercury3d-lib-1';
+export const LIB_VERSION = 'w333c-mercury3d-lib-2';   // 第340便h: anglesOn の傾きを atan2 に(lib-1 → lib-2)
 const isFin = Number.isFinite;
 const D2R = Math.PI / 180;
 export const ARCSEC_PER_RAD = 180 / Math.PI * 3600;
@@ -141,7 +141,8 @@ export function stateAt(orb, M) {
 }
 /** 基準面(法線 pole)に対する傾き i・昇交点の向き N̂・交点の経度(基準の向き xRef から)・近点引数 ω */
 export function anglesOn(orb, pole, xRef = null) {
-  const k = unit(pole), ci = Math.max(-1, Math.min(1, dot(orb.W, k))), i = Math.acos(ci), Nv = crs(k, orb.W), Nn = nrm(Nv);
+  // 第340便h(統括の検証項目 R363): 傾きは桁を失わない形 i = atan2(|k̂ × Ŵ|, k̂·Ŵ)(旧 acos(k̂·Ŵ) は 1e-3 rad より小さい傾きで桁を失い、1e-8 rad で 0 を返した)
+  const k = unit(pole), ci = Math.max(-1, Math.min(1, dot(orb.W, k))), Nv = crs(k, orb.W), Nn = nrm(Nv), i = Math.atan2(Nn, ci);
   if (!(Nn > 1e-14)) return { i, sinI: Nn, N: null, node: null, omega: null, degenerate: true };
   const N = scl(Nv, 1 / Nn), xr = xRef ? unit(sub(xRef, scl(k, dot(xRef, k)))) : null, yr = xr ? crs(k, xr) : null;
   const node = xr ? Math.atan2(dot(N, yr), dot(N, xr)) : null, omega = Math.atan2(dot(orb.P, crs(orb.W, N)), dot(orb.P, N));

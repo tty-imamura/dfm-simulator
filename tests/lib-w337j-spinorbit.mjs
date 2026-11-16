@@ -19,7 +19,7 @@ import { fObsOf } from './lib-w333a-rotdiff.mjs';
 import { LIT334A } from './lib-w334a-heightlaw.mjs';
 import { frameOfElements } from './lib-w333c-mercury3d.mjs';
 
-export const LIB_VERSION = 'w337j-spinorbit-lib-1';
+export const LIB_VERSION = 'w337j-spinorbit-lib-2';   // 第340便h: twoAngleMean の仰角の最大を atan2 に(lib-1 → lib-2)
 const isFin = Number.isFinite;
 const D2R = Math.PI / 180, AU = 1.495978707e11, G = 6.674e-11, MSUN = 1.98847e30, DAY = 86400, CY = 100 * 365.25 * DAY;
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], nrm = (a) => Math.hypot(a[0], a[1], a[2]);
@@ -181,7 +181,7 @@ export function twoAngleMean({ sSrc, wOrb, sRecv, nPts = 720 }) {
   for (let k = 0; k < nPts; k++) { const ph = 2 * Math.PI * (k + 0.5) / nPts, u = add(scl(e1, Math.cos(ph)), scl(e2, Math.sin(ph))), c = Math.max(-1, Math.min(1, dot(u, s))), th = Math.acos(c);
     const ep = sub(u, scl(s, c)), en = nrm(ep) > 1e-15 ? scl(ep, 1 / nrm(ep)) : [0, 0, 0], a = add(scl(s, Math.cos(2 * th)), scl(en, Math.sin(2 * th)));
     pr += dot(a, unit(sRecv)) / nPts; ax += dot(a, s) / nPts; }
-  return { proj: pr, axisComp: ax, elevMaxDeg: Math.acos(Math.min(1, Math.abs(dot(s, w)))) * 180 / Math.PI };
+  return { proj: pr, axisComp: ax, elevMaxDeg: Math.atan2(nrm(crs(s, w)), Math.abs(dot(s, w))) * 180 / Math.PI };   // 第340便h: 軸と法線の角を atan2 で(旧 acos —— ほぼ平行な軸〔コンパクト連星の行〕で桁を失う)
 }
 /** 2 つのベクトルの角 [deg](原仮定者の指示(2026-10-30 —— 第121報)「逆向き回転でも６０°以上違えば減速しない」の読みに使う) */
 export const angleDeg = (a, b) => (nrm(a) > 0 && nrm(b) > 0 ? Math.acos(Math.max(-1, Math.min(1, dot(a, b) / (nrm(a) * nrm(b))))) * 180 / Math.PI : null);

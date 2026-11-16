@@ -21,10 +21,11 @@ import { settleRun } from './lib-w338c-recheck.mjs';
 import * as L from './lib-w337k-gyrodrag.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w337k-gyrodrag-2';
+export const HARNESS_VERSION = 'w337k-gyrodrag-3';
 export const AMEND = Object.freeze([
   '第338便c(統括の検証項目 R351 —— 原仮定者の指示(2026-11-15 —— 第139報)): 正本へ書く出力を量ごとの数値の尺度で整える(tests/lib-w338c-recheck.mjs の settleRun —— Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大を葉ごとの尺度 σ とし、|値| ≤ 4 σ の葉〔丸めの残り —— 有効数字が 1 桁に満たない〕を 0 と書く・meta.recheck に係数と 0 と書いた葉の数)。式・格子・判定は不変',
   '第338便c(統括の指摘): T1 の比 ratios は 観測 ÷ 計算(lib の式 ln(観測/計算))—— lib と器の注釈・文書の lib の列名の「計算 ÷ 観測」を直した(値は不変 —— S と範囲は逆数で対称)',
+  '第340便h(統括の検証項目 R363 —— 原仮定者の指示(2026-11-17 —— 第140報)): T3 の行の傾き i と赤道面からの角 δ を桁を失わない形で(tests/lib-w337k-gyrodrag.mjs の orthRow —— sin i = |Ŵ × k̂|・i = atan2(sin i, cos i)・δ = atan2(sin i, |cos i|)・lib-2。旧 acos と min(i, π − i) の差は土星の環〔z/r ≈ 1e-7〕で δ の相対の誤差 1e-4〜2.5e-3 —— δ は傾きの率の分母)・傾きの式(第333便c の anglesOn・lib-2)。式・格子・判定は不変',
 ]);
 export const OUT_MAIN = 'tests/out/gyrodrag-337k.json';
 export const TARGET = 'tests/lib-w337k-gyrodrag.mjs';
