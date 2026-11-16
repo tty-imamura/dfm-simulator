@@ -2,7 +2,7 @@
  "version": "w315b-rsexcess-1",
  "generator": "tests/exp-w315b-rsexcess.mjs",
  "target": "beta/index.html",
- "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "ruling": "決断事項 AN415 観測半径を超えた R_d の表示を、観測半径を超えたシュヴァルツシルト半径 r_s の表示に変更(r_s は全質量と本の G_0・c_0 から・DFM による地平面の判定ではない・R_d の受理と警告と読み口は残す)・原仮定者の裁定(第117報)AN414 の記号・K1 の境界の 1 点・統括の検証項目 R243",
  "units": {
   "book": {
@@ -21,7 +21,7 @@
  },
  "quick": false,
  "rsVersion": "w315b-rs-excess-1",
- "nBuiltin": 186,
+ "nBuiltin": 187,
  "P": {
   "rows": [
    {
@@ -841,9 +841,9 @@
   "ok": true
  },
  "B": {
-  "nPresets": 186,
-  "judged": 1222,
-  "nSame": 186,
+  "nPresets": 187,
+  "judged": 1343,
+  "nSame": 187,
   "excess": [
    {
     "id": "massLadder",
@@ -1378,40 +1378,40 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.028
+   "wallSec": 0.021
   },
   "E": {
-   "wallSec": 0.006
+   "wallSec": 0.026
   },
   "F": {
    "wallSec": 0.016
   },
   "V": {
-   "wallSec": 0.014
+   "wallSec": 0.017
   },
   "Z": {
-   "wallSec": 0.109
+   "wallSec": 0.095
   },
   "B": {
-   "wallSec": 11.233
+   "wallSec": 10.693
   },
   "K": {
-   "wallSec": 0.14
+   "wallSec": 0.153
   }
  },
- "elapsedS": 13.685,
+ "elapsedS": 13.032,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便b",
   "target": "beta/index.html",
-  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-  "generatedAt": "2026-11-13T04:25:31.733Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:19:46.470Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7665776,
-    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-    "mtime": "2026-11-13T00:35:24.745Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -1480,11 +1480,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1351,
-   "segments": 1188,
-   "closureShare": 0.2936
+   "names": 1366,
+   "segments": 1197,
+   "closureShare": 0.2939
   },
-  "scopeSha256": "9ad59cf32e9719a3cb5468c5ddeadbedf1d77052deba00af7d05978dfb98bd59",
+  "scopeSha256": "c86aa885acf88d6d678a31a700fb7dae8b0f64b0684c3555ec31a32874c3bce2",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

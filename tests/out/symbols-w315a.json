@@ -2,7 +2,7 @@
  "version": "w315a-symbols-2",
  "generator": "tests/exp-w315a-symbols.mjs",
  "target": "beta/index.html",
- "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "ruling": "原仮定者の裁定(第117報)・決断事項 AN414(記号の体系: 時空係数 X_k・引きずり係数 Y_k・決定力定数 κ_D = 2G/c²・r_s = κ_D m・r_d = Y_k m・光速定数 c・重力定数 G・基準光速 c_0・基準重力 G_0・局所光速 c_loc・局所重力 G_loc・物理対応ロックの読込時の自動 ON)・統括の推奨 AN417・AN419・AN420・統括の検証項目 R242。保存形式の鍵とエンジンの式は変えない(表示の文とロックのフラグだけ)",
  "physLockAutoVersion": "w315a-physlock-auto-1",
  "quick": false,
@@ -470,13 +470,13 @@
   "version": "w315a-physlock-auto-1"
  },
  "P": {
-  "n": 186,
-  "on": 121,
+  "n": 187,
+  "on": 122,
   "off": 65,
   "byRole": {
    "none": {
-    "n": 39,
-    "on": 39
+    "n": 40,
+    "on": 40
    },
    "primary": {
     "n": 30,
@@ -495,7 +495,7 @@
   "retiredOutsideLock": 37,
   "flagEqJudge": true,
   "allBitSame": true,
-  "onDerivedBitSame": 121,
+  "onDerivedBitSame": 122,
   "onIds": [
    "gclock",
    "grcal",
@@ -617,7 +617,8 @@
    "layeredCoreDFM",
    "spinDipoleBinary",
    "gasCohSurface",
-   "mmPhaseToy"
+   "mmPhaseToy",
+   "saturnRotVertExplore3d"
   ],
   "rows": [
    {
@@ -3037,6 +3038,19 @@
     "cLight": 30,
     "bitSame": true,
     "derivedBitSame": null
+   },
+   {
+    "id": "saturnRotVertExplore3d",
+    "emoji": "🛟",
+    "role": null,
+    "on": true,
+    "judge": true,
+    "reason": "within",
+    "kappaT": 7.425826474101849e-9,
+    "G": 6.674,
+    "cLight": 29979.2458,
+    "bitSame": true,
+    "derivedBitSame": true
    }
   ]
  },
@@ -3056,28 +3070,28 @@
    "wallSec": 0.047
   },
   "F": {
-   "wallSec": 0
-  },
-  "L": {
    "wallSec": 0.001
   },
+  "L": {
+   "wallSec": 0
+  },
   "P": {
-   "wallSec": 2.79
+   "wallSec": 2.262
   }
  },
- "elapsedS": 4.876,
+ "elapsedS": 4.323,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便a",
   "target": "beta/index.html",
-  "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-  "generatedAt": "2026-11-13T04:25:15.710Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:20:23.197Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7665776,
-    "sha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-    "mtime": "2026-11-13T00:35:24.745Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -3164,11 +3178,11 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1344,
-   "segments": 1181,
-   "closureShare": 0.2908
+   "names": 1359,
+   "segments": 1190,
+   "closureShare": 0.291
   },
-  "scopeSha256": "da49a5e47dbe592c8fa6a8e136c8cbcc02d9895128ab4fafef9d6d364f45a55d",
+  "scopeSha256": "1c4611f492e74f96213b80ee8fa55419308f3c03abfef6956b96967e4749e125",
   "scopeComplete": true,
   "inputsStable": [
    {

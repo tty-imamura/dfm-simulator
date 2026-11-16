@@ -334,7 +334,7 @@
   "今の組(G_loc 受け手 n = 2 + K1)は凍結の基準"
  ],
  "target": "beta/index.html",
- "targetSha256": "8c39b838ffd7ca9b7f563dd9b075d73cf9caeee9dec23f36302dd0e3f409d450",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "reuseFrom": null,
  "ruling": "原仮定者の決断(2026-11-12)「回転の並進引きずりが近点移動に効くのではないか —— 斜め軌道なので位置で影響が変化する」「回転引きずり有りの組み合わせも検証する」・原仮定者の補足(2026-11-12)「距離の変化による並進引きずりについて、水星での影響を組み合わせとして確認する」・原仮定者の回答(2026-11-12 —— AN646・AN650・AN655・AN657)・統括の検証項目 R330",
  "geom": {
@@ -20312,25 +20312,25 @@
  ],
  "timing": {
   "pure": {
-   "wallSec": 0.172
+   "wallSec": 0.238
   },
   "books": {
-   "wallSec": 0.173
+   "wallSec": 0.238
   },
   "decomp": {
-   "wallSec": 0.659
+   "wallSec": 0.863
   },
   "combos": {
-   "wallSec": 0.817
+   "wallSec": 1.043
   },
   "position": {
-   "wallSec": 2.955
+   "wallSec": 3.136
   },
   "mix": {
-   "wallSec": 8.2
+   "wallSec": 7.169
   },
   "controls": {
-   "wallSec": 10.421
+   "wallSec": 9.635
   }
  },
  "gates": {
@@ -20347,19 +20347,19 @@
   "controls": true
  },
  "ok": true,
- "elapsedS": 12.347,
+ "elapsedS": 11.63,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第335便c",
   "target": "beta/index.html",
-  "targetSha256": "8c39b838ffd7ca9b7f563dd9b075d73cf9caeee9dec23f36302dd0e3f409d450",
-  "generatedAt": "2026-11-12T16:23:06.099Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:20:00.219Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7669158,
-    "sha256": "8c39b838ffd7ca9b7f563dd9b075d73cf9caeee9dec23f36302dd0e3f409d450",
-    "mtime": "2026-11-12T16:03:26.392Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -20504,11 +20504,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1324,
-   "segments": 1161,
-   "closureShare": 0.2874
+   "names": 1339,
+   "segments": 1170,
+   "closureShare": 0.2879
   },
-  "scopeSha256": "1496299374943baef44abfb160afb826f4cf699f2383799821f7869f6e7e181c",
+  "scopeSha256": "a559492ba5fb8d369d9360f792c7956bd0575a4abf053abbb2250fd8ec808b73",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
