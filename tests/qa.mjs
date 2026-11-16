@@ -107595,6 +107595,7 @@ function view337gOf338a(eq) {
   const wLib = path.join(ROOT, 'tests', 'lib-w340h-thin.mjs');
   if (!(TARGET.startsWith('beta/') && fs.existsSync(wLib))) {
     console.log('SKIP behavior.thinAngle340h(第340便h の薄い角と 3 値の判定の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP docs.thinAngle340h(第340便h の薄い角と 3 値の判定の前の世代か beta 対象でない — ' + TARGET + ')');
     return;
   }
   const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };

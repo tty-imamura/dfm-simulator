@@ -93540,31 +93540,31 @@
  ],
  "timing": {
   "pure": {
-   "wallSec": 0.081
+   "wallSec": 0.044
   },
   "inventory": {
-   "wallSec": 0.088
+   "wallSec": 0.048
   },
   "ring": {
-   "wallSec": 2.735
+   "wallSec": 1.522
   },
   "planets": {
-   "wallSec": 3.677
+   "wallSec": 2.055
   },
   "rdScan": {
-   "wallSec": 6.574
+   "wallSec": 3.812
   },
   "integ": {
-   "wallSec": 7.046
+   "wallSec": 4.062
   },
   "oblate": {
-   "wallSec": 7.426
+   "wallSec": 4.326
   },
   "uniform": {
-   "wallSec": 7.521
+   "wallSec": 4.385
   },
   "an719": {
-   "wallSec": 7.592
+   "wallSec": 4.421
   }
  },
  "gates": {
@@ -93582,13 +93582,13 @@
   "an719": true
  },
  "ok": true,
- "elapsedS": 30.159,
+ "elapsedS": 16.786,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第337便i",
   "target": "tests/lib-w337i-rotring.mjs",
   "targetSha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
-  "generatedAt": "2026-11-16T19:13:44.835Z",
+  "generatedAt": "2026-11-16T19:47:03.905Z",
   "inputs": [],
   "code": [
    {
@@ -93731,12 +93731,12 @@
    },
    {
     "file": "tests/lib-w340h-thin.mjs",
-    "bytes": 6291,
-    "sha256": "855bd52150a526570ad1f527425398a8f6329571b37cfb5d38d2d467ef6cc44e",
-    "mtime": "2026-11-16T19:10:57.072Z"
+    "bytes": 6425,
+    "sha256": "2fbbbfeb5c94fe1e5f95c4ef3bb0104604e8e9e0f18ab669566c28f7b681f787",
+    "mtime": "2026-11-16T19:37:30.652Z"
    }
   ],
-  "codeSha256": "99aee4e10be214d0b24431ce55b2ba31507166636595021a2a4613bc16db6e34",
+  "codeSha256": "e74612a56b7cb53b553e8796a7ef8cd1214c995b0231ed711fda57bd1ed13a61",
   "harnessVersion": "w337i-rotring-3",
   "stage": "rotring",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の求積と RK4)",

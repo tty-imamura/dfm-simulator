@@ -18874,19 +18874,19 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.037
+   "wallSec": 0.021
   },
   "t1": {
-   "wallSec": 0.053
+   "wallSec": 0.029
   },
   "t2": {
-   "wallSec": 0.489
+   "wallSec": 0.327
   },
   "integ": {
-   "wallSec": 0.682
+   "wallSec": 0.446
   },
   "t3": {
-   "wallSec": 0.706
+   "wallSec": 0.461
   }
  },
  "gates": {
@@ -18902,13 +18902,13 @@
   "t3": true
  },
  "ok": true,
- "elapsedS": 2.296,
+ "elapsedS": 1.396,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第337便j",
   "target": "tests/lib-w337j-spinorbit.mjs",
   "targetSha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
-  "generatedAt": "2026-11-16T19:13:47.287Z",
+  "generatedAt": "2026-11-16T19:47:05.393Z",
   "inputs": [
    {
     "file": "tests/out/supply-337a.json",
@@ -19064,12 +19064,12 @@
    },
    {
     "file": "tests/lib-w340h-thin.mjs",
-    "bytes": 6291,
-    "sha256": "855bd52150a526570ad1f527425398a8f6329571b37cfb5d38d2d467ef6cc44e",
-    "mtime": "2026-11-16T19:10:57.072Z"
+    "bytes": 6425,
+    "sha256": "2fbbbfeb5c94fe1e5f95c4ef3bb0104604e8e9e0f18ab669566c28f7b681f787",
+    "mtime": "2026-11-16T19:37:30.652Z"
    }
   ],
-  "codeSha256": "e52cef92199660fe62ae7d13eeaeee93d2dba0e03d97a6a21f0ec20322b32e55",
+  "codeSha256": "c7599af3c01de2c7060b733b713cc2684e32143d27f5645912f3a8fb7164d00a",
   "harnessVersion": "w337j-spinorbit-3",
   "stage": "spinorbit",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の求積と RK4)",
