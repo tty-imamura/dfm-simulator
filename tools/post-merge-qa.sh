@@ -1045,6 +1045,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.heatlock338f docs.heatlock338f"
 #   新しい段 rotvert-339a の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rotvert339a docs.rotvert339a"
 # ==== 第339便a の塊(ここまで)====
+# ==== 第340便a の塊(ここから)====
+# 第340便a(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R356 —— 文書と QA だけ・html は変えない): 枝 a の新設 1 本(docs.dfmSummary340a —— PHYSICS〔第340便a〕の表 1〜表 4・
+#   ノブの台帳の ⑩ の状態と第340便の状態の更新・docs/EQUATIONS.md の EQ-63〜EQ-69 と §2a の第140報の用語・AI_SPEC §248・CHANGELOG)と、世代の写しで読むように直した docs.equations338a・計算式の一覧を読む既存の鍵
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.dfmSummary340a docs.equations338a docs.policy338a docs.equations337g docs.policy337g lint.equations331d docs.equations331d"
+# ==== 第340便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
