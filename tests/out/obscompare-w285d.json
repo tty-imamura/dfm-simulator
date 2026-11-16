@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便d",
   "target": "beta/index.html",
-  "targetSha256": "75c295b8e158f1bdb0cfd8435ef30e6bc17e1d2633c0d19a518ad5f6fb8091ff",
-  "generatedAt": "2026-11-16T06:33:39.214Z",
+  "targetSha256": "e740255d01c4294b10f9779775695e4f813d5f4e2aa082270224e13705163f0b",
+  "generatedAt": "2026-11-16T21:22:08.859Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734350,
-    "sha256": "8aa308ebcb97af5d2e7781e6b5b24f15f57cfedff7c3419c08efcb892135fead",
-    "mtime": "2026-11-16T06:28:05.221Z"
+    "bytes": 1734323,
+    "sha256": "8b81a3609f3324271f602508e935e3bf80c84e1383a15c7fce41f4f38d5e53d5",
+    "mtime": "2026-11-16T21:16:16.063Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "bytes": 56468,
-    "sha256": "72c6a6c930a492ae70dffd3d26499ec1d291824ff23eef4894a93c8b53135c9f",
-    "mtime": "2026-11-16T06:33:34.441Z"
+    "bytes": 57386,
+    "sha256": "27f9173f583753ec0f91ed2697221ad75ff2b51e82d2133f343bcd07c515e4a9",
+    "mtime": "2026-11-16T21:22:06.999Z"
    },
    {
     "file": "beta/index.html",
     "bytes": 7687948,
-    "sha256": "75c295b8e158f1bdb0cfd8435ef30e6bc17e1d2633c0d19a518ad5f6fb8091ff",
-    "mtime": "2026-11-16T06:18:35.712Z"
+    "sha256": "e740255d01c4294b10f9779775695e4f813d5f4e2aa082270224e13705163f0b",
+    "mtime": "2026-11-16T18:30:09.918Z"
    }
   ],
   "code": [
@@ -143,7 +143,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "f973aee9135dba9e545f4d1831dc6bb2745a326a78036f550b2faa4a66d8c276",
+    "stableSha256": "ccee422edc98c33ece407a1ab4a0772bb2c5e2a16d9584d0773b017c68b7615d",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -153,30 +153,53 @@
      "/diagnosticsSplit/sha256",
      "/fourValues/current/targetSha256",
      "/fourValues/current/when",
+     "/h2Reuse/fresh",
+     "/h2Reuse/refused",
+     "/h2Reuse/reused",
      "/h2Reuse/reusedSec",
+     "/h4Reuse/fresh",
+     "/h4Reuse/refused",
+     "/h4Reuse/reused",
      "/kf0Runs/charonCitation/citedTargetSha256",
      "/kf0Runs/charonCitation/fileSha256",
      "/mergeKey/targetSha256",
      "/meta/target",
      "/meta/targetSha256",
      "/meta/when",
+     "/presets/*/run/dtHalf/reusedFrom",
      "/presets/*/run/dtHalf/reusedFrom/generatedAt",
      "/presets/*/run/dtHalf/reusedFrom/targetSha256",
      "/presets/*/run/dtHalf/reusedFrom/wallSec",
+     "/presets/*/run/dtHalf/skippedBy",
+     "/presets/*/run/dtQuarter/reusedFrom",
+     "/presets/*/run/dtQuarter/skippedBy",
+     "/presets/*/run/h2Reuse/diff",
+     "/presets/*/run/h2Reuse/reason",
+     "/presets/*/run/h2Reuse/reused",
+     "/presets/*/run/h2Reuse/reusedFrom",
      "/presets/*/run/h2Reuse/reusedFrom/generatedAt",
      "/presets/*/run/h2Reuse/reusedFrom/targetSha256",
      "/presets/*/run/h2Reuse/reusedFrom/wallSec",
+     "/presets/*/run/h4Reuse/diff",
+     "/presets/*/run/h4Reuse/reason",
+     "/presets/*/run/h4Reuse/reused",
+     "/presets/*/run/h4Reuse/reusedFrom",
      "/presets/*/run/stopRule/rateStepsPerSec",
      "/presets/*/run/stopRule/wallSec",
      "/presets/*/run/stopRuleStages/*/rateStepsPerSec",
+     "/presets/*/run/stopRuleStages/*/reusedFrom",
      "/presets/*/run/stopRuleStages/*/reusedFrom/generatedAt",
      "/presets/*/run/stopRuleStages/*/reusedFrom/targetSha256",
      "/presets/*/run/stopRuleStages/*/reusedFrom/wallSec",
+     "/presets/*/run/stopRuleStages/*/skippedBy",
      "/presets/*/run/stopRuleStages/*/wallSec",
      "/presets/*/run/timeBudget/*/rateStepsPerSec",
+     "/presets/*/run/timeBudget/*/reused",
+     "/presets/*/run/timeBudget/*/reusedFrom",
      "/presets/*/run/timeBudget/*/reusedFrom/generatedAt",
      "/presets/*/run/timeBudget/*/reusedFrom/targetSha256",
      "/presets/*/run/timeBudget/*/reusedFrom/wallSec",
+     "/presets/*/run/timeBudget/*/skippedBy",
      "/presets/*/run/timeBudget/*/wallNearBudget",
      "/presets/*/run/timeBudget/*/wallSec",
      "/presets/*/run/wallSec"
@@ -184,7 +207,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "314fb747d355eebf0ba7114ac5a5031a17ed158b8a7b356535ba9e654fc22de0",
+    "stableSha256": "8d6018965f8d29fcf37f1d8da6d422c8e391f7e4fcb52d27c7a2f3b1b76a142f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -198,6 +221,8 @@
      "/h2Store/entries/*/run/timeBudget/wallSec",
      "/h2Store/entries/*/run/wallSec",
      "/h2Store/entries/*/targetSha256",
+     "/h2Store/freshThisRun",
+     "/h2Store/reusedThisRun",
      "/h4Store/carriedFrom",
      "/h4Store/entries/*/generatedAt",
      "/h4Store/entries/*/run/rateStepsPerSec",
@@ -214,7 +239,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "ff105c8bf2584ea8dcb3c9fd2a96d9c071510b546aa97fcb75a70e437d66bd48",
+    "stableSha256": "5b91672161f3a5a98082bec16a5a3ee09b4c8bcd898a0a0bd0ac303c9aab3311",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -278,5 +303,5 @@
   "較正した",
   "帯の中なら合格"
  ],
- "elapsedS": 3.64
+ "elapsedS": 3.363
 }
