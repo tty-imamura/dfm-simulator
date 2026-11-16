@@ -2251,6 +2251,18 @@ export const REGEN_STEPS = [
     note: '第340便d: 部位の和の作用の型 4(drag・corV・corS・drag90)× q 2 × p 5 × 体 2 × 仰角 9・対照 8・赤道面の上の軸の傾き 4・部位の大きさ 4・アプリの型(第339便a)との比べ/'
       + '土星の環: 4 天体の強さの組 2 × 中心 5 の要る口の幅・口(土星の自転・ミマス)の帳簿 12(第338便d の輪の列)・口の熱の符号・方向別の係数 16 組・第140報の赤道面の列 3' }),
   // ==== 第340便d の塊(ここまで)====
+  // ==== 第340便e の塊(ここから)====
+  // ---- 第340便e(原仮定者の指示(2026-11-17 —— 第140報)「引きずりでの光速」・原仮定者の回答 AN756 = A・AN765・統括の検証項目 R360): **引きずりでの光速と受け手の重み —— 受け手の自己の重みを
+  //   分母に入れた型の速さの表(25 系 × 速さの型 7)・⑩ の効き(5 系)・詰まり具合のべきと離心率の依存のノブ・共通の零試験(天体が 1 つ・離して静止させた 2 体・二重に足さない・次元)**
+  //   (段 lightweight-340e —— 正本 tests/out/lightweight-340e.json・lib tests/lib-w340e-lightweight.mjs —— 第338便e・第337便d・第335便b・第326便d・第333便c・第335便e の lib を import して呼ぶ。
+  //   他の正本は読まない —— 順序だけ after に段 spinfield-338e と同じ 10 段と spinfield-338e)。**診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第340便e の枝の実測 7 s
+  S('lightweight-340e', 'node tests/exp-w340e-lightweight.mjs', ['tests/out/lightweight-340e.json'], 7, { secSource: 'w340e-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'spinfield-338e'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 7 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/lightweight-340e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第340便e: 速さの型 7(剛体・(R_d/r)¹・(R_d/r)²・自己の重み R_d と R_obs・その両方 2)× 系 25 の速さの最大と取り分の平面/⑩ の効き(5 系 × 列 2 × 場の型 7)/'
+      + '詰まり具合のべき × 離心率の依存の走査(列 2 × 場の型 2)/零試験(天体が 1 つ・静止と等速と円と離心の 2 体・二重に足さない・次元)' }),
+  // ==== 第340便e の塊(ここまで)====
   // ==== 第340便f の塊(ここから)====
   // ---- 第340便f(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R361): **熱と共鳴(第2段)—— 源ごとの応答の係数(銀河の項と主星の項を分ける)で
   //   ロックの有無の分類とイオの熱を同じ平面で読む・金星と地球の共鳴の 2 つの読みを 1 つの表に**(段 heatsource-340f —— 正本 tests/out/heatsource-340f.json・lib tests/lib-w340f-heatsource.mjs ——
