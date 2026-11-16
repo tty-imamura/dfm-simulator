@@ -77,6 +77,9 @@ export const DECL = Object.freeze({
     /** 第140報の赤道面の列(第338便b の 3 列 A・B・B′) */
     cols: Object.freeze(['A', 'B', 'Bp']),
   }),
+  /** T4 扁平の源(部位の和): 扁平率(0 = 球 —— 対照・負 = 長球 —— 対照・0.098 = 土星〔文献の値・未照合〕)・距離 r/R_eq・高さ z/r・向きの型・経路の型・源の部位の区切り・受け手の立方の格子 */
+  t4: Object.freeze({ fGrid: Object.freeze([0, 0.05, 0.098, 0.2, 0.3, -0.1]), rOverReq: Object.freeze([1.1, 1.5, 2, 2.3, 5]), zOverR: Object.freeze([0.001, 0.01, 0.1, 0.3]),
+    kinds: Object.freeze(['h1', 'h0', 'rotU']), pathKinds: Object.freeze(['h1']), pathActions: Object.freeze(['corV', 'corS', 'drag90']), nu: 6, nw: 8, nphi: 24, recvCubeK: 2, pointCheckR: Object.freeze([1.1, 1.5, 2, 5]) }),
   /** 丸めの残り(同じ単位の尺度の 1e-12 以下)を 0 と書く(正本は第338便c の settleRun で整える) */
   floor: 1e-12,
 });
@@ -110,7 +113,7 @@ export function recvOf({ zOverR, r = DECL.t1.rMain, vSign = 1, orbit = true, ome
 }
 /** 部位の力(作用の型ごと) */
 function partForce(action, rc, pt, fp) {
-  const x = add(rc.X, pt.xi), Om = fieldOmega(x, fp), w = scl(crs(rc.Lhat, pt.xi), rc.omegaS);
+  const x = add(rc.X, pt.xi), Om = fp.field ? fp.field(x) : fieldOmega(x, fp), w = scl(crs(rc.Lhat, pt.xi), rc.omegaS);
   if (action === 'drag') return scl(sub(crs(Om, pt.xi), w), pt.m);
   if (action === 'corV') return scl(crs(rc.V, Om), 2 * pt.m);
   if (action === 'corS') return scl(crs(w, Om), 2 * pt.m);
@@ -118,8 +121,8 @@ function partForce(action, rc, pt, fp) {
   throw new RangeError('partForce: 型 ' + action);
 }
 /** 1 つの受け手の合力・合トルク・仕事・歳差・部位の上下の分け */
-export function gyroRow({ action, q, p, sSign = 1, body = 'sphere', ROverR = DECL.t1.ROverR, ...rcSpec }) {
-  const rc = recvOf(rcSpec), R = ROverR * rc.r, parts = partsOf(body, R, rc.Lhat), fp = { q, p, sSign };
+export function gyroRow({ action, q, p, sSign = 1, body = 'sphere', ROverR = DECL.t1.ROverR, field = null, cubeK = DECL.t1.cubeK, ...rcSpec }) {
+  const rc = recvOf(rcSpec), R = ROverR * rc.r, parts = partsOf(body, R, rc.Lhat, { cubeK }), fp = { q, p, sSign, field };
   const up = Math.sign(rc.z) || 1;   // 赤道面から遠い側(z > 0 なら上の部位・z < 0 なら下の部位)
   let F = [0, 0, 0], N = [0, 0, 0], P = 0, Fs = 0, Ffar = [0, 0, 0], Fnear = [0, 0, 0], Nfar = [0, 0, 0], Nnear = [0, 0, 0], IL = 0;
   for (const pt of parts) {
@@ -198,6 +201,64 @@ export function sizeScanRows({ q = DECL.t1.qMain } = {}) {
     const g = gyroRow({ action: a, q, p, body: 'sphere', zOverR: 0.01, ROverR });
     out.push({ p, action: a, ROverR, farOverNear: nrm(g.Fnear) > 0 ? nrm(g.Ffar) / nrm(g.Fnear) : null, farMinusNearEl: dot(sub(g.Ffar, g.Fnear), g.rc.el), pull: g.pull, FelOverScale: g.Fscale > 0 ? g.Fel / g.Fscale : null });
   }
+  return out;
+}
+
+/* ───────── T4 扁平の源(原仮定者の回答(2026-11-17 —— 第140報の回答)の予想「扁平の則は、赤道面から離れた際の、軸引きずりの軸の傾きに効くのではないか」を数える)───────── */
+/** 源を体積を保つ回転楕円体の部位の和で置く(R_d = 1・赤道の半径 R_eq = (1 − f)^(−1/3)・極の半径 R_pol = (1 − f)^(2/3)・f < 0 は長球 —— 対照)。
+ *  単位の球の中を円柱の座標の区切り(半径 nu・高さ nw・方位 nphi —— 方位は半目ずらして受け手の方位 0 に部位を置かない)の中点で埋め、質量は体積の重み(和 1)。 */
+export function spheroidParts(f, { nu = DECL.t4.nu, nw = DECL.t4.nw, nphi = DECL.t4.nphi } = {}) {
+  if (!(f < 1)) throw new RangeError('spheroidParts: f < 1');
+  const a = Math.pow(1 - f, -1 / 3), c = Math.pow(1 - f, 2 / 3), out = [];
+  for (let i = 0; i < nu; i++) for (let k = 0; k < nw; k++) { const u = (i + 0.5) / nu, w = -1 + (k + 0.5) * 2 / nw; if (u * u + w * w > 1) continue;
+    for (let j = 0; j < nphi; j++) { const ph = 2 * Math.PI * (j + 0.5) / nphi; out.push({ y: [a * u * Math.cos(ph), a * u * Math.sin(ph), c * w], m: u }); } }
+  const M = out.reduce((t, q) => t + q.m, 0); for (const q of out) q.m /= M;
+  const I = out.reduce((t, q) => t + q.m * (q.y[0] * q.y[0] + q.y[1] * q.y[1]), 0);
+  return { parts: out, Req: a, Rpol: c, I };
+}
+/** 部位の和の場: 向きの型 'h1'・'h0' = Σ m_j |x − y_j|^(−p) h_q(s ŝ, (x − y_j)^)(源の部位ごとに 2 倍角の則の型を置く)/'rotU' = ½ ∇ × Σ m_j |x − y_j|^(−p) (s ŝ × y_j)(自転で運ぶ座標の速度の重みつき和の回転 —— 部位差分の型) */
+export function spheroidField(src, kind, { p = DECL.t1.pMain, sSign = 1, h = 1e-6, Iref = null } = {}) {
+  const S = [0, 0, sSign], P = src.parts, jk = kind === 'rotU' && Iref ? Iref / src.I : 1;   // rotU は J 固定(AN649 —— 自転の速さを I_球/I で縮める)
+  if (kind === 'h1' || kind === 'h0') { const q = kind === 'h1' ? 1 : 0;
+    return (x) => { let o = [0, 0, 0]; for (const pt of P) { const d = sub(x, pt.y), r = nrm(d); o = add(o, scl(twistAxis(S, scl(d, 1 / r), q), pt.m * Math.pow(r, -p))); } return o; }; }
+  if (kind === 'rotU') {
+    const U = (x) => { let o = [0, 0, 0]; for (const pt of P) { const d = sub(x, pt.y), r = nrm(d); o = add(o, scl(crs(S, pt.y), jk * pt.m * Math.pow(r, -p))); } return o; };
+    return (x) => { const J = [0, 1, 2].map((j) => { const e = [0, 0, 0]; e[j] = h; return scl(sub(U(add(x, e)), U(sub(x, e))), 1 / (2 * h)); }); return scl([J[1][2] - J[2][1], J[2][0] - J[0][2], J[0][1] - J[1][0]], 0.5); };
+  }
+  throw new RangeError('spheroidField: 型 ' + kind);
+}
+/** T4 の行: 扁平率 f・距離 r/R_eq・高さ z/r で、場の向きの球の源からの傾き(atan2)・強さの比・場の向きと源の軸の角・経路の型の寄せる力と球の源との比 */
+export function oblateRows() {
+  const D = DECL.t4, out = [], cache = {}, src0 = spheroidParts(0);
+  const fieldsOf = (src) => Object.fromEntries(D.kinds.map((k) => [k, spheroidField(src, k, { Iref: src0.I })]));
+  const F0 = fieldsOf(src0);
+  for (const f of D.fGrid) { const src = f === 0 ? src0 : spheroidParts(f), F = f === 0 ? F0 : fieldsOf(src);
+    for (const rOverReq of D.rOverReq) for (const zr of D.zOverR) {
+      const r = rOverReq * src.Req, se = zr, ce = Math.sqrt(1 - se * se), x = [r * ce, 0, r * se];
+      const row = { f, rOverReq, zOverR: zr, Req: src.Req, Rpol: src.Rpol, field: {}, path: {} };
+      for (const k of D.kinds) { const a = F[k](x), b = F0[k](x);
+        const ta = angleAtan2(a, [0, 0, -1]), tb = angleAtan2(b, [0, 0, -1]);   // 軸の傾き = 源の軸の逆向き(赤道の逆回転の向き)からの角
+        row.field[k] = { tiltFromSphere: angleAtan2(a, b), magRatio: nrm(a) / nrm(b), axisTilt: ta, axisTiltSphere: tb, axisTiltRatio: tb > 0 ? ta / tb : null }; }
+      for (const k of D.pathKinds) for (const a of D.pathActions) { const g = gyroRow({ action: a, q: 1, p: DECL.t1.pMain, body: 'sphere', zOverR: zr, r, field: F[k], cubeK: D.recvCubeK }),
+          ck = [k, a, rOverReq, zr].join('|'), g0 = cache[ck] || (cache[ck] = gyroRow({ action: a, q: 1, p: DECL.t1.pMain, body: 'sphere', zOverR: zr, r, field: F0[k], cubeK: D.recvCubeK }));
+        row.path[k + '|' + a] = { pull: g.pull, pullSphere: g0.pull, ratio: g0.pull ? g.pull / g0.pull : null }; }
+      out.push(row); } }
+  return out;
+}
+/** 部位の区切りの粗さの照らし: 球の源(f = 0)の部位の和と点の源(T1 の場)の、寄せる力の比(h1・高さ 0.01) */
+export function oblatePointCheck() {
+  const D = DECL.t4, src0 = spheroidParts(0), F = spheroidField(src0, 'h1');
+  return D.pointCheckR.map((rr) => { const o = { rOverReq: rr };
+    for (const a of D.pathActions) { const g = gyroRow({ action: a, q: 1, p: DECL.t1.pMain, body: 'sphere', zOverR: 0.01, r: rr, field: F, cubeK: D.recvCubeK }), g0 = gyroRow({ action: a, q: 1, p: DECL.t1.pMain, body: 'sphere', zOverR: 0.01, r: rr, cubeK: D.recvCubeK });
+      o[a] = g0.pull ? g.pull / g0.pull : null; }
+    return o; });
+}
+/** 扁平の効きの距離のべき(|比 − 1| の r/R_eq 2 と 5 の間のべき —— 高さ z/r 0.01・向きの型ごと・扁平率 0.098) */
+export function oblatePow(rows) {
+  const D = DECL.t4, pick = (f, rr, k, sel) => { const r = rows.find((x) => x.f === f && x.rOverReq === rr && x.zOverR === 0.01); return sel(r, k); };
+  const sl = (a, b) => (a > 0 && b > 0 ? Math.log(b / a) / Math.log(5 / 2) : null), out = {};
+  for (const k of D.kinds) out['field|' + k] = sl(pick(0.098, 2, k, (r, kk) => Math.abs(r.field[kk].magRatio - 1)), pick(0.098, 5, k, (r, kk) => Math.abs(r.field[kk].magRatio - 1)));
+  for (const k of D.pathKinds) for (const a of D.pathActions) { const key = k + '|' + a; out['path|' + key] = sl(pick(0.098, 2, key, (r, kk) => (r.path[kk].ratio === null ? 0 : Math.abs(r.path[kk].ratio - 1))), pick(0.098, 5, key, (r, kk) => (r.path[kk].ratio === null ? 0 : Math.abs(r.path[kk].ratio - 1)))); }
   return out;
 }
 
@@ -289,7 +350,7 @@ export function pureScenes() {
   { const P = partsOf('sphere', 1, [0, 0, 1]), sx = P.reduce((s, q) => add(s, scl(q.xi, q.m)), [0, 0, 0]), I = [0, 1, 2].map((i) => P.reduce((s, q) => s + q.m * q.xi[i] * q.xi[i], 0)), off = P.reduce((s, q) => s + q.m * Math.abs(q.xi[0] * q.xi[1]), 0);
     const offs = P.reduce((s, q) => s + q.m * q.xi[0] * q.xi[1], 0); S.sym = { sum: nrm(sx), iso: Math.max(Math.abs(I[0] - I[1]), Math.abs(I[1] - I[2])) / I[0], off: Math.abs(offs) / off, n: P.length }; }
   // ⑤ 薄い角: 1e-9 rad の傾きを atan2 で(内積は 1 に丸まり、内積から角を戻す求め方では 0 になる —— 桁を失う)
-  { const t = 1e-9, a = [0, 0, 1], b = [Math.sin(t), 0, Math.cos(t)]; S.thin = { atan2: Math.abs(angleAtan2(a, b) / t - 1), acosLost: dot(a, b) === 1 }; }
+  { const t = 1e-9, a = [0, 0, 1], b = [Math.sin(t), 0, Math.cos(t)]; S.thin = { atan2: Math.abs(angleAtan2(a, b) / t - 1), acosLost: Math.abs(1 - dot(a, b)) <= 4.5e-16 }; }
   // ⑥ 入力の拒否
   const rejects = (f) => { try { f(); return false; } catch (e) { return e instanceof RangeError; } };
   S.rejects = [rejects(() => fieldOmega([0, 0, 0], { q: 1, p: 2 })), rejects(() => partsOf('cube', 1, [0, 0, 1])), rejects(() => recvOf({ zOverR: 1 })), rejects(() => controlRow('x')), rejects(() => portLedger({ set: {}, setKey: 'half', eta: 0, port: 'x' }))];

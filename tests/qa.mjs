@@ -108168,7 +108168,7 @@ function view338aOf340a(eq) {
         if (Object.keys(PG).length !== 6) bad.push('① 場面の数 ' + Object.keys(PG).length);
         cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・作用の型 ${L.ACTIONS.length}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}`);
         // ② 器を走らせ直して正本と同じ(第338便c の量ごとの尺度の照合)
-        const parts = ['pure', 't1', 't2'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), diffs = RC.diffs;
+        const parts = ['pure', 't1', 't2', 't4'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), diffs = RC.diffs;
         const badParts = parts.filter((k) => diffs[k].n > 0);
         if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
         cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(第338便c の量ごとの尺度の照合・葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero})`);
@@ -108183,6 +108183,9 @@ function view338aOf340a(eq) {
         const Jd = JSON.parse(rd('tests/out/ringbook-338d.json') || 'null');
         const cmp = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
         if (!(Jd && L.SETS.every((k) => ['q', 'p', 'lambda'].every((f) => cmp(J.t2.sets[k][f], Jd.sets[k][f]) <= 1e-9)))) bad.push('③ 4 天体の強さの組が第338便d の正本の組(q・p・λ)と違う');
+        // ③′ T4(原仮定者の回答(2026-11-17 —— 第140報の回答)の扁平の則の予想): 球の源(f 0)の対照・格子の数・部位の区切りの照らしの行
+        if (!(J.t4 && J.t4.rows.length === L.DECL.t4.fGrid.length * L.DECL.t4.rOverReq.length * L.DECL.t4.zOverR.length && J.t4.rows.filter((r) => r.f === 0).every((r) => Object.values(r.field).every((v) => v.tiltFromSphere <= 1e-7 && Math.abs(v.magRatio - 1) <= 1e-7))
+          && J.t4.pointCheck.length === L.DECL.t4.pointCheckR.length && js(L.DECL.t4.fGrid) === js([0, 0.05, 0.098, 0.2, 0.3, -0.1]))) bad.push('③′ T4 の扁平の源(格子・球の源の対照・部位の区切りの照らし)');
         cases.push('③ drag の合力は方位の向きだけ・対照 ' + J.t1.controls.length + '・赤道面の上の corS は歳差だけ・口の帳簿の閉じ ' + J.t2.ports.length + '・第140報の列の 2 つの分・第338便d の組と同じ');
         // ④ 門と呼ぶだけ
         const G2 = X.gatesOf(J);
@@ -108236,7 +108239,7 @@ function view338aOf340a(eq) {
     const want = ['原仮定者の指示(2026-11-17 —— 第140報)', 'R359', 'tests/exp-w340d-gyropath.mjs', 'tests/out/gyropath-340d.json', 'tests/lib-w340d-gyropath.mjs', 'gyropath-340d',
       '部位', '合力', '合トルク', 'dL/dt = N', '歳差', 'drag90', 'corS', 'corV', '第339便a', '扁平の則', '一様厚みの区間', '引きずり半径', '環の外の受け取り手', '方向別の係数', '行き先',
       '文献の値・未照合', 'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', 'このノブの組では', '決断事項の候補', '次の便へ',
-      'behavior.gyropath340d', 'docs.gyropath340d', '書かないこと', 'atan2'];
+      'behavior.gyropath340d', 'docs.gyropath340d', '書かないこと', 'atan2', '原仮定者の回答(2026-11-17 —— 第140報の回答)', '源の扁平率(部位の和)', '軸の傾き'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('② PHYSICS〔第340便d〕に「' + w + '」が無い');
     const kt = sec.indexOf('| ノブの名 |'), ktab = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n').slice(2) : [];
     const states = ktab.map((l) => l.split('|').map((x) => x.trim()).filter((x, k, a) => k > 0 && k < a.length - 1).pop());
