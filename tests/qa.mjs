@@ -95660,7 +95660,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (b1.length) bad.push('③ 分類 1 の移行(X_k := G_0/c_0²)が違う: ' + b1.slice(0, 8).join(','));
       if (b2.length) bad.push('③ 分類 2 の移行(G_0 := X_k c_0²)が違う: ' + b2.slice(0, 8).join(','));
       if (bR.length) bad.push('③ 退役の 3 本(宣言は基点のまま・familyRole retired)が違う: ' + bR.join(','));
-      if (!(c56.length === 56 && c1.length === 59 && c2.length === 7 && cR.length === 3)) bad.push(`③ 数(満たす ${c56.length}・分類 1 ${c1.length}・分類 2 ${c2.length}・退役 ${cR.length})`);
+      // 第339便a(世代の注記 —— AN712・R355): 第325便f の棚卸しのデータに 🛟 saturnRotVertExplore3d の 1 行(はじめから X_k = G_0/c_0² を満たす本)が足された —— 満たす本は棚卸しの 56 本 + 後から足した 🛟 の 1 本
+      const added339 = c56.filter((id) => id === 'saturnRotVertExplore3d').length;
+      if (!(c56.length - added339 === 56 && added339 <= 1 && c1.length === 59 && c2.length === 7 && cR.length === 3)) bad.push(`③ 数(満たす ${c56.length}・分類 1 ${c1.length}・分類 2 ${c2.length}・退役 ${cR.length})`);
       const RP = (() => { try { return H.evalExpr('RETIRED_PRESETS'); } catch (e) { return null; } })();
       const seeBad = [];
       if (RP) { for (const id of RET3) { const e = RP[id]; if (!(e && e.ja && e.en && Array.isArray(e.see) && e.see.length && e.see.every((s) => byP.get(s) && !cx.retiredOf(byP.get(s))))) seeBad.push(id); }
