@@ -107745,6 +107745,149 @@ function view337gOf338a(eq) {
 }
 // ==== 第340便f の塊(ここまで)====
 
+// ==== 第340便g の塊(ここから —— behavior.fluidconv340g・docs.fluidconv340g の 2 ブロック。root は SKIP)====
+// ---- 第340便g(原仮定者の指示(2026-11-17 —— 第140報)・原仮定者の回答(2026-11-14 —— AN725 = A)・統括の検証項目 R362):
+// ----   **銀河を流体と見る探索の続き —— 標本の並び(乱数・準一様・ガラス)と刻みの収束の器**(新設 —— 器 tests/exp-w340g-fluidconv.mjs〔html を読まない〕・lib tests/lib-w340g-fluidconv.mjs・
+// ----   文書の lib tests/lib-w340g-fluidconvdoc.mjs・正本 tests/out/fluidconv-340g.json。html・本の宣言・エンジン・受理器・第339便までの lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.fluidconv340g(正本と照合 —— html を読まない): ① 版・並び・純関数の場面 7 を作り直して全部真 ② 器の runAll を作り直して正本と照合(第338便c の recheckRun ——
+// ----     数でない欄は完全一致・数は |差| ≤ max(1e-9 × 大きさ, 8 σ′)・0 と書いた葉は 128 σ′ の内・σ′ は作り直しの側で測る)③ 作り直した門が全部真 ④ 呼ぶだけ(lib の import は
+// ----     第333便d・第335便f・第337便e の lib だけ・html を読まない・ネットへ取りに行かない・Math.random なし・呼ぶ lib の本文に本枝の名が無い)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む
+  const wHarn = path.join(ROOT, 'tests', 'exp-w340g-fluidconv.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w340g-fluidconv.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w340g-fluidconvdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'fluidconv-340g.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.fluidconv340g(第340便g の標本の並びと刻みの収束の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── behavior.fluidconv340g ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/fluidconv-340g.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
+        // ① 版・並び・宣言・純関数の場面
+        if (!(L.LIB_VERSION === 'w340g-fluidconv-lib-1' && X.HARNESS_VERSION === 'w340g-fluidconv-1' && D0.DOC_VERSION === 'w340g-fluidconvdoc-1' && X.AMEND.length === 0 && R338.LIB_VERSION === 'w338c-recheck-lib-1' && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION))
+          bad.push('① 版(lib・器・文書の lib・版の履歴・量ごとの尺度の lib)');
+        if (!(js(L.ARRANGEMENTS) === js(['random', 'quasi', 'glass']) && L.DECL.outerFrac === 0.2 && L.DECL.zeroFloor === 1e-12 && L.GLASS.steps === 60 && js(X.PLAN.t1.Ns) === js([64, 128, 256, 512]) && js(X.PLAN.t1.seeds) === js([1, 2, 3])
+          && js(X.PLAN.t2.hdivs) === js([1, 2, 4]) && js(X.PLAN.t2.actions) === js(['grav', 'velE', 'inert0.1', 'inert0.03']) && X.PLAN.t2.N === 256))
+          bad.push('① 並び・宣言(外縁の割合・0 と書く床・ガラスの步・N・種・刻み・作用)');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
+        if (Object.keys(PG).length !== 7) bad.push('① 場面の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・並び ${L.ARRANGEMENTS.length}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}`);
+        // ② 器を作り直して正本と照合(第338便c の量ごとの尺度 —— 時間の欄 timing は除く)
+        const parts = ['pure', 't1', 't2', 'gates', 'ok'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), diffs = RC.diffs;
+        const badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        for (const [k, v] of [['decl', L.DECL], ['plan', X.PLAN], ['notClaim', X.NOT_CLAIM]]) if (js(v) !== js(J[k])) bad.push('② 正本の ' + k + ' が lib と器と違う');
+        cases.push(`② 器を作り直して ${parts.join('・')} が正本と同じ(第338便c の量ごとの尺度の照合 —— 数でない欄は完全一致・0 と書いた葉 ${RC.nZero}・葉 ${RC.nLeaves} —— T1 ${J.t1.rows.length} 本・T2 ${J.t2.rows.length} 本)`);
+        // ③ 門
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('③ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`③ 門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+        // ④ 呼ぶだけ
+        const tl = rd('tests/lib-w340g-fluidconv.mjs'), th = rd('tests/exp-w340g-fluidconv.mjs'), td = rd('tests/lib-w340g-fluidconvdoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        const called = ['tests/lib-w337e-fluid.mjs', 'tests/lib-w335f-elliptical.mjs', 'tests/lib-w333d-noncirc.mjs', 'tests/lib-w338c-recheck.mjs'].map(rd).join('\n');
+        if (!(js(imps) === js(['lib-w333d-noncirc.mjs', 'lib-w335f-elliptical.mjs', 'lib-w337e-fluid.mjs']) && !/loadHtml|index\.html/.test(tl + td + th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td)
+          && !/from '/.test(td) && !/Math\.random/.test(tl + th) && !/w340g/.test(called)))
+          bad.push('④ 呼ぶだけ(lib の import は第333便d・第335便f・第337便e の lib だけ・html を読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random なし・呼ぶ lib の本文は不変)');
+        cases.push('④ lib の import は第333便d・第335便f・第337便e の lib だけ・html を読まない');
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.fluidconv340g', bad.length === 0,
+      `**銀河を流体と見る探索の続き —— 標本の並びと刻みの収束の作り直し**(第340便g・原仮定者の指示(2026-11-17 —— 第140報)・AN725 = A・R362 —— html を読まない・並び 3 × N 4 × 種 3・刻み 3 × 作用 4): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第340便g: docs.fluidconv340g は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
+// ----   docs.fluidconv340g(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルなし・0 と書く床を meta に)・宣言が lib と器と同じ ② 表 6 本が PHYSICS〔第340便g〕に逐語
+// ----     ③ 節の位置(〔第339便a〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語(ノブの表の列・判定の条件の原文の文と読み)・AI_SPEC §254(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′
+// ----     ④ 書かない語・禁句・裸の係数記号・速度の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w340g-fluidconv.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w340g-fluidconv.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w340g-fluidconvdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'fluidconv-340g.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.fluidconv340g(第340便g の標本の並びと刻みの収束の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.fluidconv340g ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第340便g — '), i7 = PH.indexOf('\n## 7. 論文'), il = PH.indexOf('〔第339便a — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && il >= 0 && il < i0 && iu > i0)) bad.push('PHYSICS〔第340便g〕が無いか〔第339便a〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/fluidconv-340g.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'fluidconv'
+        && J.target === 'tests/lib-w340g-fluidconv.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.zeroFloor && J.meta.zeroFloor.floor === 1e-12))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルなし・0 と書く床を meta に)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第340便g〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 6) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第340便g〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の指示(2026-11-17 —— 第140報)', 'R362', 'AN725 = A', 'tests/exp-w340g-fluidconv.mjs', 'tests/out/fluidconv-340g.json', 'tests/lib-w340g-fluidconv.mjs', 'fluidconv-340g',
+      '乱数', '準一様', 'ガラス', 'van der Corput', 'Fibonacci', 'CV_nn', '外縁の速さの比', '角運動量の率', '揃いの割合', '補正の向き', '体積の内の積分', 'W₀ = 0', '中心の 1 体からの外挿',
+      '慣性の項の列', '見かけの次数', '外挿', '刻みで決まる', '混沌の床', '第337便e', '軸方向の軸引きずりは 0', '光速',
+      'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '原文の文', '読み', 'このノブの組', '次に足すノブの候補',
+      '第140報と AN725 への枝の答え', '決断事項の候補', '次の便へ', 'behavior.fluidconv340g', 'docs.fluidconv340g'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第340便g〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 254. 第340便g'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/fluidconv-340g.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R362') >= 0))
+      bad.push('③ AI_SPEC §254(正本・SYSTEM_PROMPT・候補・R362)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl340g = clg.split('\n').find((l) => l.indexOf('**第340便g**') >= 0) || '';
+    if (!(cl340g.indexOf('tests/exp-w340g-fluidconv.mjs') >= 0 && cl340g.indexOf('fluidconv-340g') >= 0 && cl340g.indexOf('第140報') >= 0 && cl340g.indexOf('R362') >= 0)) bad.push('③ CHANGELOG の第340便g の行');
+    if (!(/S\('fluidconv-340g', 'node tests\/exp-w340g-fluidconv\.mjs', \['tests\/out\/fluidconv-340g\.json'\]/.test(RT) && RT.indexOf('// ==== 第340便g の塊(ここから)====') >= 0)) bad.push('③ 段の行 fluidconv-340g(塊)');
+    if (GI.indexOf('!tests/out/fluidconv-340g.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第340便g の塊(ここから)====') >= 0 && /behavior\.fluidconv340g/.test(PM) && /docs\.fluidconv340g/.test(PM))) bad.push('③ post-merge の ③′ に第340便g の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・AI_SPEC §254(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT340 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第340便g の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・銀河の回転曲線が出た・流体の計算が収束した・geoPN=4 が出来た
+    const W340 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'た出が線曲転回の河銀', 'たし束収が算計の体流', 'た来出が4=NPoeg'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第340便g〕', sec], ['AI_SPEC §254', ai], ['CHANGELOG の第340便g の行', cl340g], ['器', rd('tests/exp-w340g-fluidconv.mjs')], ['lib', rd('tests/lib-w340g-fluidconv.mjs')], ['文書の lib', rd('tests/lib-w340g-fluidconvdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W340)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT340) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.fluidconv340g', bad.length === 0,
+      `**標本の並びと刻みの収束の文書**(第340便g・原仮定者の指示(2026-11-17 —— 第140報)・AN725 = A・R362 —— 候補の表・ノブの範囲・判定の条件を原文の文と読みに分ける): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第340便g の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
