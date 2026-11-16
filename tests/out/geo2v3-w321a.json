@@ -21,7 +21,7 @@
   "shellPoints": 12
  },
  "target": "beta/index.html",
- "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "ruling": "原仮定者の予定(第123報)・統括の検証項目 R266",
  "parts": {
   "base": {
@@ -167,7 +167,7 @@
       0
      ],
      "nan": false,
-     "wallSec": 170.312
+     "wallSec": 207.943
     },
     "h2": {
      "n": 381,
@@ -210,7 +210,7 @@
       0
      ],
      "nan": false,
-     "wallSec": 295.508
+     "wallSec": 385.851
     }
    },
    "frozen": {
@@ -290,7 +290,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.013
+     "wallSec": 0.017
     },
     {
      "key": "b5-semi",
@@ -317,7 +317,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.011
+     "wallSec": 0.008
     },
     {
      "key": "b5-leapfrog",
@@ -344,7 +344,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.014
+     "wallSec": 0.018
     },
     {
      "key": "b5-generic",
@@ -371,7 +371,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.018
+     "wallSec": 0.014
     },
     {
      "key": "b5-q15",
@@ -398,7 +398,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.011
+     "wallSec": 0.009
     },
     {
      "key": "b5-double",
@@ -425,7 +425,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.01
+     "wallSec": 0.013
     },
     {
      "key": "b5-work",
@@ -452,7 +452,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.017
+     "wallSec": 0.022
     },
     {
      "key": "gal4",
@@ -479,7 +479,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.016
+     "wallSec": 0.008
     }
    ],
    "allSame": true,
@@ -1196,28 +1196,28 @@
  ],
  "timing": {
   "base": {
-   "wallSec": 296.198
+   "wallSec": 386.207
   },
   "degen": {
-   "wallSec": 0.153
+   "wallSec": 0.152
   },
   "d3": {
-   "wallSec": 0.016
+   "wallSec": 0.032
   },
   "cov": {
-   "wallSec": 0.046
+   "wallSec": 0.093
   },
   "field": {
-   "wallSec": 0.007
+   "wallSec": 0.009
   },
   "hist": {
-   "wallSec": 0.007
+   "wallSec": 0.002
   },
   "ledger": {
-   "wallSec": 0.08
+   "wallSec": 0.068
   }
  },
- "elapsedS": 296.513,
+ "elapsedS": 386.565,
  "gates": {
   "baseInWindow": true,
   "baseClampZero": true,
@@ -1240,14 +1240,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第321便a",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T10:49:14.384Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:59:30.491Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -1283,12 +1283,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "e0473ff124bbd5800f143e97091da5f6e0447634112fa4d68eb18a0920ce97e5",
+  "codeSha256": "b7a0e861b91058676cbf3a64f9ca8adb30a92a357a058f97a6703f02ebf92419",
   "harnessVersion": "w321a-geo2v3-2",
   "stage": "geo2v3",
   "parts": [
@@ -1337,11 +1337,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1340,
-   "segments": 1177,
-   "closureShare": 0.2903
+   "names": 1355,
+   "segments": 1186,
+   "closureShare": 0.2908
   },
-  "scopeSha256": "c277833510a2c8894428be97d6efe6ca033df0decd6fe4ef8f85999568d6aa64",
+  "scopeSha256": "42b8f4a698b11d7d1bfe09001937b36da8639673d8b5c1eb651cbcf2545b3c42",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

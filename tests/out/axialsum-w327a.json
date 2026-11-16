@@ -4,7 +4,7 @@
  "w326dLibVersion": "w326d-axialheat-lib-2",
  "generator": "tests/exp-w327a-axialsum.mjs",
  "target": "beta/index.html",
- "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "reuseFrom": null,
  "ruling": "原仮定者の回答(2026-11-05 —— AN534「金星の逆回転と内部熱がまだ解決していないので、金星に影響する項目は検証対象。「角速度の和」は依頼したイメージ」・AN535「両方K1が成立する太陽と木星は、密度が低い恒星と気体惑星である。金星は固体惑星なので、金星の引きずり半径でのフィットを検証する」・AN537「潮汐の応答は、天体ごとに自由。法則を探す検証は行う」)・統括の検証項目 R295",
  "decl": {
@@ -20682,22 +20682,22 @@
  },
  "timing": {
   "I": {
-   "wallSec": 0.42
+   "wallSec": 0.907
   },
   "S": {
-   "wallSec": 0.454
+   "wallSec": 0.97
   },
   "V": {
-   "wallSec": 43.392
+   "wallSec": 69.913
   },
   "solid": {
-   "wallSec": 47.612
+   "wallSec": 77.584
   },
   "tidal": {
-   "wallSec": 47.655
+   "wallSec": 77.634
   },
   "H": {
-   "wallSec": 47.663
+   "wallSec": 77.635
   }
  },
  "gates": {
@@ -20719,19 +20719,19 @@
   "scaleNotIdentified": true
  },
  "ok": true,
- "elapsedS": 49.479,
+ "elapsedS": 80.515,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第327便a",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T09:49:31.247Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:59:42.289Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T03:18:58.814Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -20785,12 +20785,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T03:10:54.318Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "189ad6d2e89c4f63995afa14ef517f9504d8b1193010b5e80c6eb66bb4004d0b",
+  "codeSha256": "174ece33793022828e7f385dcfb4035c21922b20ff9719f3a5a9349bc6d82439",
   "harnessVersion": "w327a-axialsum-1",
   "stage": "axialsum",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
@@ -20824,11 +20824,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1348,
-   "segments": 1185,
-   "closureShare": 0.293
+   "names": 1363,
+   "segments": 1194,
+   "closureShare": 0.2935
   },
-  "scopeSha256": "5649ff6cbc6d27335b4b27e1f65a51dc24fedcb047e9ca7b7d6d9bd0dbb39a0f",
+  "scopeSha256": "cedec0fc46801a303b11b55713c1159fef3308be4aca7376d175dc00d72b3b4f",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

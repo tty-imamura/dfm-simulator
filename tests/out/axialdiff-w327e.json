@@ -5,7 +5,7 @@
  "w326dLibVersion": "w326d-axialheat-lib-2",
  "generator": "tests/exp-w327e-axialdiff.mjs",
  "target": "beta/index.html",
- "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
+ "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
  "reuseFrom": null,
  "ruling": "原仮定者の指示(2026-11-05)「軸引きずりについて」(引きずる側の回転引きずりによる、引きずられる側の近い位置と遠い方位置の差分が軸引きずり・密度差を考慮して R_d を使う/十分に離れているか密度が低い場合は観測半径が影響しない勾配とみなせたので K1 が適用できた/金星では銀河の軸引きずりは勾配とみなせるが太陽の軸引きずりは観測半径を無視できない —— 銀河に対しては K1・太陽に対しては別の半径/固体惑星は 太陽–金星 → 太陽–火星 → 太陽–地球–月 の順に検証)・統括の検証項目 R299",
  "decl": {
@@ -17756,19 +17756,19 @@
  },
  "timing": {
   "I": {
-   "wallSec": 0.472
+   "wallSec": 0.607
   },
   "K": {
-   "wallSec": 7.252
+   "wallSec": 12.988
   },
   "V": {
-   "wallSec": 7.931
+   "wallSec": 13.473
   },
   "ML": {
-   "wallSec": 8.157
+   "wallSec": 13.806
   },
   "H": {
-   "wallSec": 8.158
+   "wallSec": 13.812
   }
  },
  "gates": {
@@ -17788,19 +17788,19 @@
   "moonPortsSame": true
  },
  "ok": true,
- "elapsedS": 9.912,
+ "elapsedS": 16.456,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第327便e",
   "target": "beta/index.html",
-  "targetSha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-  "generatedAt": "2026-11-05T05:12:06.310Z",
+  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+  "generatedAt": "2026-11-16T01:59:59.349Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7668923,
-    "sha256": "e3c27e81d7a3ebbc2667b807a6a7d656efe553179b546b9f57292e023922d849",
-    "mtime": "2026-11-05T04:44:06.414Z"
+    "bytes": 7687896,
+    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+    "mtime": "2026-11-15T18:32:47.739Z"
    }
   ],
   "code": [
@@ -17808,70 +17808,70 @@
     "file": "tests/exp-w327e-axialdiff.mjs",
     "bytes": 30736,
     "sha256": "841402bccd3636b4ab807fda8b8ee8ecb75b90726824207e0ec8a5ccae2e6caf",
-    "mtime": "2026-11-05T05:11:56.218Z"
+    "mtime": "2026-11-05T10:59:59.303Z"
    },
    {
     "file": "tests/lib-w327e-axialdiff.mjs",
     "bytes": 18180,
     "sha256": "461e2e95fcd15ee815de77f9fdb9bc74e831ef86b44074d1991593b0387a031d",
-    "mtime": "2026-11-05T05:07:31.554Z"
+    "mtime": "2026-11-05T10:59:59.309Z"
    },
    {
     "file": "tests/exp-w327a-axialsum.mjs",
     "bytes": 34897,
     "sha256": "5873cc77e5e3d831b2ac0ff056a40f473bd21a2535054c27a1fbf9ec1d15389c",
-    "mtime": "2026-11-05T04:44:06.602Z"
+    "mtime": "2026-11-05T02:28:43.827Z"
    },
    {
     "file": "tests/lib-w327a-axialsum.mjs",
     "bytes": 32833,
     "sha256": "54cbf074c981ae647b16f02f61b59a8a61d369468bdd1ac3e85913de87ebda9d",
-    "mtime": "2026-11-05T04:44:06.642Z"
+    "mtime": "2026-11-05T02:28:43.832Z"
    },
    {
     "file": "tests/exp-w326d-axialheat.mjs",
     "bytes": 38720,
     "sha256": "c1dc3ade3425c332b8c5c4a2665b7d81467eeefdda857905de4b4d9f17f564bb",
-    "mtime": "2026-11-05T04:44:06.602Z"
+    "mtime": "2026-11-05T03:10:54.314Z"
    },
    {
     "file": "tests/lib-w326d-axialheat.mjs",
     "bytes": 32001,
     "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
-    "mtime": "2026-11-05T04:44:06.642Z"
+    "mtime": "2026-11-05T02:28:43.830Z"
    },
    {
     "file": "tests/lib-w319a-axisheat.mjs",
     "bytes": 14679,
     "sha256": "8e9e99edcfe249d94ff151b0cd8d4cd6d7df50050aaeb618781e33aef5f9f70b",
-    "mtime": "2026-11-05T04:44:06.630Z"
+    "mtime": "2026-10-30T11:12:10.075Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-05T04:44:06.618Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-05T04:44:06.618Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-05T04:44:06.614Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 109301,
-    "sha256": "f3b8084fc2fb84adc9d29af4b6503a5bf67a04dded2b856022193b05dee20ca8",
-    "mtime": "2026-11-05T04:44:06.622Z"
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
-  "codeSha256": "d268e05bbe345a05a8dec6c31a43cc8e006debcf036d0d501973df414d61cbab",
+  "codeSha256": "47a91f656a159c8c9cb177da5bd01b32fbf8cd7f2da1375433c781ba94418aff",
   "harnessVersion": "w327e-axialdiff-1",
   "stage": "axialdiff",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
@@ -17905,11 +17905,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1350,
-   "segments": 1187,
-   "closureShare": 0.294
+   "names": 1365,
+   "segments": 1196,
+   "closureShare": 0.2945
   },
-  "scopeSha256": "8530c7fdcf9ed89ad574f97ec1e0bf26365c9750cac184d6ad62054b5841f143",
+  "scopeSha256": "fbfa40bb5a67c0be7671e920492f2fbc0eb39fece4b56a0f77f8884ff3f2917b",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
