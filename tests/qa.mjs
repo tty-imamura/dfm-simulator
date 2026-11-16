@@ -21985,7 +21985,17 @@ if (!FAST) {
         // 第318便c(原仮定者の指示(第120報)・R256): 🗺️ solarSystem16Inertial3d(太陽系 16 体 —— 全天体 free・天体どうしの接触判定なし)は入力の宣言どおり none
         //   (中心 pinned の契約の外の天体力学の本 —— 器の適用表は変えない・表の外の新しい本として許す。宣言の照合は behavior.solar16Builtin318c)
         const new318 = r.nDeclNone.filter((id) => id === 'solarSystem16Inertial3d');
-        const extra = r.nDeclNone.filter((id) => !EC.APPLIED.some((a) => a.id === id) && !copies.includes(id) && !new296.includes(id) && !new318.includes(id));
+        // 第339便a(AN712・R355): 🛟 saturnRotVertExplore3d(回転引きずりの鉛直の型の探索用・未較正の本 —— 近似多粒子の契約: 土星が支配天体で pinned 1 個・粒子どうしの接触なし)は
+        //   契約どおり none を宣言する(器の適用表は変えない —— 表の外の新しい本として、中心の固定 1 個・接触なしの旗・合体と相変化なしを build で確かめてから許す)
+        const new339 = r.nDeclNone.filter((id) => id === 'saturnRotVertExplore3d');
+        if (new339.length) {
+          const z339 = await page.evaluate((id) => { const p = HP.allPresets().find((q) => q.id === id), v = HP.validatePreset(JSON.parse(JSON.stringify(p))); HP.sim.build(v.preset); const S = HP.sim;
+            let nPin = 0; for (let i = 0; i < S.n; i++) if (S.pinned[i] === 1) nPin++;
+            return { nPin, pinRows: p.bodies.filter((b) => b.pinned).length, flag: S.contactNone === true, fusion: !!p.fusion, phase: !!p.phaseChange }; }, new339[0]);
+          if (!(z339.nPin === 1 && z339.pinRows === 1 && z339.flag && !z339.fusion && !z339.phase)) bad.push('saturnRotVertExplore3d: 契約(中心の固定 1 個・接触なし)を満たさない ' + JSON.stringify(z339));
+          else cases.push('第339便a の 🛟 は契約(none・中心 pinned 1 個)を宣言する新しい本(近似多粒子 —— 土星が支配天体)');
+        }
+        const extra = r.nDeclNone.filter((id) => !EC.APPLIED.some((a) => a.id === id) && !copies.includes(id) && !new296.includes(id) && !new318.includes(id) && !new339.includes(id));
         if (new296.length) cases.push('第296便c の 🔗 は契約(none・中心 pinned)を宣言する新しい本');
         if (new318.length) cases.push('第318便c の 🗺️ は入力の宣言どおり none(全天体 free —— 接触判定なし)');
         if (extra.length) bad.push('適用表の外で none を宣言した本 ' + extra.join(','));
