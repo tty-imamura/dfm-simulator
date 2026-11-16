@@ -61,6 +61,15 @@ export function partT2() {
   return { sets: Object.fromEntries(L.SETS.map((k) => [k, { chi: sets[k].chi, q: sets[k].q, p: sets[k].p, lambda: sets[k].lambda }])), need, bMin, thinAll, ports, portHeat, coef, coefBoth, eqCols };
 }
 
+/* ───────── T4 扁平の源(原仮定者の回答(2026-11-17 —— 第140報の回答)の予想を数える)───────── */
+export function partT4() {
+  const rows = L.oblateRows(), pow = L.oblatePow(rows), pointCheck = L.oblatePointCheck();
+  // 要約(高さ 0.01・土星の扁平率 0.098): 距離ごとの強さの比・軸の傾きの比・経路の型の寄せる力の比
+  const sat = rows.filter((r) => r.f === 0.098 && r.zOverR === 0.01).map((r) => ({ rOverReq: r.rOverReq, mag: Object.fromEntries(Object.entries(r.field).map(([k, v]) => [k, v.magRatio])),
+    tilt: Object.fromEntries(Object.entries(r.field).map(([k, v]) => [k, v.axisTiltRatio])), path: Object.fromEntries(Object.entries(r.path).map(([k, v]) => [k, v.ratio])) }));
+  return { nRows: rows.length, rows, pow, pointCheck, sat };
+}
+
 export function gatesOf(J) {
   const t1 = J.t1, t2 = J.t2, c = (k) => t1.controls.find((x) => x.ctl === k);
   return {
@@ -73,6 +82,8 @@ export function gatesOf(J) {
     t2Complete: t2.need.length === L.SETS.length * D2.centers.length && t2.ports.length === L.SETS.length * D2.ports.length * D2.etaPts.length && t2.eqCols.length === L.SETS.length * D2.centers.length * D2.cols.length,
     t2Closed: t2.ports.every((p) => p.amClosed && p.enClosed),
     t2EqColTwoParts: t2.eqCols.every((r) => fin(r.fwdRate) && fin(r.backRate) && r.fwdDest && r.backDest),
+    t4Complete: J.t4.rows.length === L.DECL.t4.fGrid.length * L.DECL.t4.rOverReq.length * L.DECL.t4.zOverR.length && J.t4.pointCheck.length === L.DECL.t4.pointCheckR.length,
+    t4SphereControl: J.t4.rows.filter((r) => r.f === 0).every((r) => Object.values(r.field).every((v) => v.tiltFromSphere <= 1e-7 && Math.abs(v.magRatio - 1) <= 1e-7)),   // rotU の差分の刻み 1e-6 が丸めを 1e-9 の桁に増やす(ulp の揺らしで測った)
   };
 }
 export function runAll() {
@@ -80,7 +91,8 @@ export function runAll() {
   const PS = L.pureScenes(), pure = { scenes: L.pureView(PS), gates: L.pureGates(PS) }; mark('pure');
   const t1 = partT1(); mark('t1');
   const t2 = partT2(); mark('t2');
-  const J = { pure, t1, t2, timing: tm };
+  const t4 = partT4(); mark('t4');
+  const J = { pure, t1, t2, t4, timing: tm };
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
   return J;
 }

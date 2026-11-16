@@ -2230,14 +2230,14 @@ export const REGEN_STEPS = [
   //   受け手の部位ごとの力で数える・土星の環の帳簿に環の外の受け取り手(主の列)と方向別の係数(比べる列)**(段 gyropath-340d —— 正本 tests/out/gyropath-340d.json・
   //   lib tests/lib-w340d-gyropath.mjs —— 第338便b・第338便d・第339便a・第337便l・第337便i・第337便a の lib を import して呼ぶ。入力のファイルは無い〔4 天体の強さの組は第338便d の lib の
   //   k4Sets を呼んで作り直す —— 順序だけ after に段 ringbook-338d と同じ一式 + ringbook-338d・bevelknob-338b・rotvert-339a〕)。**診断だけ**。
-  //   **html を読まない**(来歴の対象は純関数 tests/lib-w340d-gyropath.mjs —— 領域の宣言なし)。1 プロセス。所要は第340便d の枝の実測 2.3 s(第338便c の settleRun の 3 回の走行を含む)
-  S('gyropath-340d', 'node tests/exp-w340d-gyropath.mjs', ['tests/out/gyropath-340d.json'], 3, { secSource: 'w340d-branch', node: true,
+  //   **html を読まない**(来歴の対象は純関数 tests/lib-w340d-gyropath.mjs —— 領域の宣言なし)。1 プロセス。所要は第340便d の枝の実測 35〜39 s(第338便c の settleRun の 3 回の走行を含む —— 大半は T4 の扁平の源の部位の和 960 点)
+  S('gyropath-340d', 'node tests/exp-w340d-gyropath.mjs', ['tests/out/gyropath-340d.json'], 39, { secSource: 'w340d-branch', node: true,
     after: ['supply-337a', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b', 'rotring-337i', 'spinorbit-337j', 'gyrodrag-337k',
       'ringbook-338d', 'bevel-337l', 'bevelknob-338b', 'rotvert-339a'],
-    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 3 s の内で、簡易一致の窓を持たない',
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 40 s の内で、簡易一致の窓を持たない',
     volatilePaths: { 'tests/out/gyropath-340d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第340便d: 部位の和の作用の型 4(drag・corV・corS・drag90)× q 2 × p 5 × 体 2 × 仰角 9・対照 8・赤道面の上の軸の傾き 4・部位の大きさ 4・アプリの型(第339便a)との比べ/'
-      + '土星の環: 4 天体の強さの組 2 × 中心 5 の要る口の幅・口(土星の自転・ミマス)の帳簿 12(第338便d の輪の列)・口の熱の符号・方向別の係数 16 組・第140報の赤道面の列 3' }),
+      + '土星の環: 4 天体の強さの組 2 × 中心 5 の要る口の幅・口(土星の自転・ミマス)の帳簿 12(第338便d の輪の列)・口の熱の符号・方向別の係数 16 組・第140報の赤道面の列 3/T4 扁平の源の部位の和(扁平率 6 × 距離 5 × 高さ 4 × 向きの型 3・経路の型 3)' }),
   // ==== 第340便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
