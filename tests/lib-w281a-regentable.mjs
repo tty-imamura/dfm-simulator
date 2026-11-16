@@ -213,6 +213,67 @@ const V_STORE_WALL = ['h2Store', 'h4Store'].flatMap((k) => ['/' + k + '/carriedF
 //   転記の可否の判定(同一便 —— H2_REUSE_RULE)は器が生のファイルで読む(安定 hash の除外は読み手の照合だけに効く)
 export const V_CALAUDIT_DIAG_STOREP = ['/h2Store/entries/*/targetSha256', '/h4Store/entries/*/targetSha256'];
 const V_CALAUDIT_DIAG = ['/when', '/carriedOverFrom'].concat(V_STORE_WALL, V_CALAUDIT_DIAG_STOREP);
+// ==== 第340便c の塊(ここから)====
+// 第340便c(統括の検証項目 R358・決断事項 AN770・BL-091 —— 鎖 2・鎖 3 が毎回 52 分かかる元): **常時群の転記の来歴の欄を安定 hash の除外へ**。
+//   第339便の鎖 1(9e1aebc)・鎖 2(b5e5064)・鎖 3(0f1a201)と第337便の鎖 1・2(c0e0e40・c416a9c)の calaudit と diag を、今の宣言(w324c-vcal-3・w324c-vdiag-3)で
+//   除いた後に葉ごとに比べた。違ったのは**転記の来歴の欄だけ**(h/2・h/4 を今回走らせたか前回の置き場から転記したか —— 物理の値の葉の差は 0):
+//   頂の h2Reuse/h4Reuse の fresh・reused・refused(本の ID の並び)/ presets[].run の h2Reuse・h4Reuse の reused・reason・diff・reusedFrom /
+//   dtHalf・dtQuarter・stopRuleStages[]・timeBudget[] の reusedFrom・skippedBy(timeBudget は reused も)/ diag の h2Store の freshThisRun・reusedThisRun。
+//   **除外は具体の Pointer の許可の一覧**で宣言する(統括の裁定 —— 「最後の鍵の名前の語彙」を広げない: 同じ名前〔reused・reason・diff〕の物理の欄まで除かない)。
+//   `*` は配列と決まった容器(presets・timeBudget・stopRuleStages)だけ。値の型は Pointer ごとの種類(PROV_KINDS_340C)で `lint.stableHashPaths` ② が照合する。
+//   **残すもの**: h/2・h/4 の実測値(dtHalf・dtQuarter の数の欄)・契約(contractSha)・h の署名(hSig)・安定の部(stable)・停止の判定・置き場の行(entries)の中身。
+//   転記の可否の判定そのもの(同一便・契約)は器が生のファイルで読む —— 安定 hash の除外は読み手の照合(門と済み印の契約)だけに効く。
+//   第324便c の宣言(V_CALAUDIT_H2P —— reusedFrom の 3 つの葉)は残す(reusedFrom の丸ごとの Pointer が包むので hash は同じ —— 世代の記録として)。
+export const PROV_VERSION_340C = 'w340c-prov-1';
+/** 来歴の欄の値の種類(lint.stableHashPaths ② の型の照合 —— 種類ごとに 1 行)。 */
+export const PROV_KINDS_340C = Object.freeze({
+  idList: '本の ID(文字列)の並び',
+  refusedList: '{ id, reason, diff? } の並び(転記しなかった本と理由)',
+  bool: '真偽値(転記したか)',
+  reasonOrNull: '文字列か null(転記しなかった理由の名)',
+  strList: '文字列の並び(契約の違った鍵の名)',
+  refOrNull: 'null か 転記の元の同一性の写し(generatedAt・targetSha256・contractSha・wallSec の部分集合)',
+  skippedBy: "'reuse' で始まる文字列(転記で走らせなかった印)",
+  count: '非負の整数(今回走らせた本・転記した本の数)',
+});
+const PROV_REF_KEYS_340C = ['generatedAt', 'targetSha256', 'contractSha', 'wallSec'];
+/** 種類 kind の値として正しいか。 */
+export function provenanceValueOk340c(kind, v) {
+  const str = (x) => typeof x === 'string' && x.length > 0;
+  switch (kind) {
+    case 'idList': return Array.isArray(v) && v.every(str);
+    case 'refusedList': return Array.isArray(v) && v.every((z) => z && typeof z === 'object' && !Array.isArray(z) && str(z.id) && str(z.reason) && (z.diff === undefined || (Array.isArray(z.diff) && z.diff.every(str))));
+    case 'bool': return typeof v === 'boolean';
+    case 'reasonOrNull': return v === null || str(v);
+    case 'strList': return Array.isArray(v) && v.every(str);
+    case 'refOrNull': return v === null || (!!v && typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length > 0 && Object.keys(v).every((k) => PROV_REF_KEYS_340C.includes(k)));
+    case 'skippedBy': return typeof v === 'string' && /^reuse/.test(v);
+    case 'count': return Number.isInteger(v) && v >= 0;
+    default: return false;
+  }
+}
+const PR340 = (ptr, kind) => Object.freeze({ ptr, kind });
+/** calaudit の来歴の Pointer(実物の差に出た欄だけ —— 第339便の鎖 1〜3・第337便の鎖 1〜2)。 */
+export const V_CALAUDIT_PROV340C = Object.freeze([
+  ...['h2Reuse', 'h4Reuse'].flatMap((k) => [PR340('/' + k + '/fresh', 'idList'), PR340('/' + k + '/reused', 'idList'), PR340('/' + k + '/refused', 'refusedList')]),
+  ...['h2Reuse', 'h4Reuse'].flatMap((k) => [PR340('/presets/*/run/' + k + '/reused', 'bool'), PR340('/presets/*/run/' + k + '/reason', 'reasonOrNull'),
+    PR340('/presets/*/run/' + k + '/diff', 'strList'), PR340('/presets/*/run/' + k + '/reusedFrom', 'refOrNull')]),
+  ...['dtHalf', 'dtQuarter'].flatMap((k) => [PR340('/presets/*/run/' + k + '/reusedFrom', 'refOrNull'), PR340('/presets/*/run/' + k + '/skippedBy', 'skippedBy')]),
+  PR340('/presets/*/run/stopRuleStages/*/reusedFrom', 'refOrNull'), PR340('/presets/*/run/stopRuleStages/*/skippedBy', 'skippedBy'),
+  PR340('/presets/*/run/timeBudget/*/reused', 'bool'), PR340('/presets/*/run/timeBudget/*/reusedFrom', 'refOrNull'), PR340('/presets/*/run/timeBudget/*/skippedBy', 'skippedBy'),
+]);
+/** diag の来歴の Pointer(h2Store の今回の数 —— h4Store は実物の差に出ていない)。 */
+export const V_CALAUDIT_DIAG_PROV340C = Object.freeze([PR340('/h2Store/freshThisRun', 'count'), PR340('/h2Store/reusedThisRun', 'count')]);
+/** `*` を当ててよい容器(配列と決まった容器 —— 正本ごと)。lint.provenanceExclude340c が今の正本で配列か照合する。 */
+export const PROV_STAR_CONTAINERS_340C = Object.freeze({ 'tests/out/calaudit-w249.json': ['presets', 'timeBudget', 'stopRuleStages'], 'tests/out/calaudit-w249-diag.json': [] });
+V_CALAUDIT.push(...V_CALAUDIT_PROV340C.map((z) => z.ptr));
+V_CALAUDIT_DIAG.push(...V_CALAUDIT_DIAG_PROV340C.map((z) => z.ptr));
+/** 正本 file の来歴の Pointer の許可の一覧(Pointer → 種類)。無ければ空。 */
+export function provenancePathsOf340c(file) {
+  const L = file === 'tests/out/calaudit-w249.json' ? V_CALAUDIT_PROV340C : file === 'tests/out/calaudit-w249-diag.json' ? V_CALAUDIT_DIAG_PROV340C : [];
+  return Object.fromEntries(L.map((z) => [z.ptr, z.kind]));
+}
+// ==== 第340便c の塊(ここまで)====
 /**
  * 第285便f(原仮定者の裁定(第75報)AN52): **除外 Pointer の宣言の版**(正本ごと)。`fp` は宣言した Pointer の並び(sort)の sha256 の先頭 16 桁 ——
  * Pointer を足し引きしたら版と fp を上げる(`lint.stableHashPaths` ⑦ が照合)。`renamed` は改名した欄(新 → 旧)で、改名前の世代の正本
@@ -220,18 +281,33 @@ const V_CALAUDIT_DIAG = ['/when', '/carriedOverFrom'].concat(V_STORE_WALL, V_CAL
  */
 export const VOLATILE_DECL = {
   // 第324便c(R281): w285f-vcal-2 → w324c-vcal-3(h/2 の転記の来歴 V_CALAUDIT_H2P —— 語彙の拡張はこの正本だけ: runtimeKeys・provenanceParents・optional)
-  'tests/out/calaudit-w249.json': { version: 'w324c-vcal-3', since: '第324便c(R281)', fp: '53a87bd8d16a3e37',
-    added: V_CALAUDIT_H2P.slice(), renamed: { wallNearBudget: 'budgetHit' },
+  // 第340便c(R358・AN770): w324c-vcal-3 → w340c-vcal-4(転記の来歴の欄 V_CALAUDIT_PROV340C —— 具体の Pointer の許可の一覧 provenancePaths・世代で当たらない走行があるので optional)
+  'tests/out/calaudit-w249.json': { version: 'w340c-vcal-4', since: '第340便c(R358・AN770)', fp: '870255262afcad86',
+    added: V_CALAUDIT_PROV340C.map((z) => z.ptr), renamed: { wallNearBudget: 'budgetHit' },
     runtimeKeys: ['reusedSec'], provenanceParents: ['reusedFrom'],
-    optional: V_CALAUDIT_H2P.slice(),
+    provenancePaths: provenancePathsOf340c('tests/out/calaudit-w249.json'),
+    optional: V_CALAUDIT_H2P.concat(V_CALAUDIT_PROV340C.map((z) => z.ptr)),
     history: [{ version: 'w283e-vcal-1', since: '第282便e・第283便e(AN29)', note: '実行時刻・壁時計・非物理の同一性 meta(budgetHit は未宣言 —— 第284便f の分割照合で見つかった)' },
-      { version: 'w285f-vcal-2', since: '第285便f(AN52)', fp: 'afc6f3285acdc4bf', note: '壁時計近接の診断 wallNearBudget(旧 budgetHit)を足した' }] },
+      { version: 'w285f-vcal-2', since: '第285便f(AN52)', fp: 'afc6f3285acdc4bf', note: '壁時計近接の診断 wallNearBudget(旧 budgetHit)を足した' },
+      { version: 'w324c-vcal-3', since: '第324便c(R281)', fp: '53a87bd8d16a3e37', added: V_CALAUDIT_H2P.slice(), note: 'h/2 の転記の来歴(reusedFrom の generatedAt・targetSha256・wallSec と /h2Reuse/reusedSec)を足した' }] },
   // 第324便c(R281): w285f-vdiag-2 → w324c-vdiag-3(置き場の行の html の sha V_CALAUDIT_DIAG_STOREP)
-  'tests/out/calaudit-w249-diag.json': { version: 'w324c-vdiag-3', since: '第324便c(R281)', fp: 'a1a6237c37d2e7ed',
-    added: V_CALAUDIT_DIAG_STOREP.slice(), renamed: { wallNearBudget: 'budgetHit' },
+  // 第340便c(R358・AN770): w324c-vdiag-3 → w340c-vdiag-4(h2Store の今回の数 freshThisRun・reusedThisRun —— 具体の Pointer の許可の一覧)
+  'tests/out/calaudit-w249-diag.json': { version: 'w340c-vdiag-4', since: '第340便c(R358・AN770)', fp: '3b58b6e2c3fdf89b',
+    added: V_CALAUDIT_DIAG_PROV340C.map((z) => z.ptr), renamed: { wallNearBudget: 'budgetHit' },
+    provenancePaths: provenancePathsOf340c('tests/out/calaudit-w249-diag.json'),
+    optional: V_CALAUDIT_DIAG_PROV340C.map((z) => z.ptr),
     history: [{ version: 'w283e-vdiag-1', since: '第283便e', note: '/when・/carriedOverFrom だけ(h2Store/h4Store の壁時計と時刻は未宣言)' },
-      { version: 'w285f-vdiag-2', since: '第285便f(AN52)', fp: '2461f5b121a2fc1c', note: 'h2Store/h4Store の壁時計と時刻(V_STORE_WALL)を足した' }] },
+      { version: 'w285f-vdiag-2', since: '第285便f(AN52)', fp: '2461f5b121a2fc1c', note: 'h2Store/h4Store の壁時計と時刻(V_STORE_WALL)を足した' },
+      { version: 'w324c-vdiag-3', since: '第324便c(R281)', fp: 'a1a6237c37d2e7ed', added: V_CALAUDIT_DIAG_STOREP.slice(), note: '置き場の行の html の sha(V_CALAUDIT_DIAG_STOREP)を足した' }] },
 };
+/** 第340便c: 宣言の版 v の Pointer の指紋(今の版なら fp・過去の版なら history の fp —— 世代つきの照合)。無ければ null。 */
+export function volatileDeclFpOf340c(file, v) {
+  const d = VOLATILE_DECL[file];
+  if (!d) return null;
+  if (d.version === v) return d.fp;
+  const h = (d.history || []).find((z) => z.version === v);
+  return h && h.fp ? h.fp : null;
+}
 /** 宣言した Pointer の並びの指紋(sort して改行で連ねた sha256 の先頭 16 桁)。 */
 export function volatileDeclFp(file) {
   return crypto.createHash('sha256').update(volatilePathsOf(file).slice().sort().join('\n')).digest('hex').slice(0, 16);

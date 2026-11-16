@@ -1045,6 +1045,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.heatlock338f docs.heatlock338f"
 #   新しい段 rotvert-339a の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rotvert339a docs.rotvert339a"
 # ==== 第339便a の塊(ここまで)====
+# ==== 第340便c の塊(ここから)====
+# 第340便c(原仮定者の指示(2026-11-17 —— 第140報)・決断事項 AN770・統括の検証項目 R358 —— 鎖の道具・html は変えない): 枝 c の新設 2 本(lint.provenanceExclude340c —— 常時群の転記の来歴の欄の
+#   除外〔具体の Pointer の許可の一覧〕の対照と実物の組・見積りの秒の後段・鎖の所要の見積り / docs.chainTools340c —— PHYSICS〔第340便c〕・AI_SPEC §250・CHANGELOG)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.provenanceExclude340c docs.chainTools340c"
+# ==== 第340便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

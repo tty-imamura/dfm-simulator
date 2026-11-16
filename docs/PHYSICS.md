@@ -56109,6 +56109,53 @@ QA `behavior.spinfield338e`(器を走らせ直して正本と照合 —— 数�
 
 **⑭ 書かないこと。** 土星の環を回転引きずりで薄くしたとは書かない・環の厚みを決めたとは書かない(率が半径に依らないところまで)・法則とは書かない(探索用・未較正・このノブの組では)。見えるようにした倍率は候補の値ではない。
 
+〔第340便c — 鎖の道具: 常時群の転記の来歴の欄を安定 hash の除外へ(BL-091 —— 鎖 2・鎖 3 が毎回 52 分かかる元)・見積りの秒の取りこぼし・鎖の所要の見積り(原仮定者の指示(2026-11-17 —— 第140報)・決断事項 AN770・統括の検証項目 R358)(**道具と宣言だけ —— beta/index.html と root の index.html は 1 byte も変えていない・エンジン・内蔵の本・受理器・`S._core`・physics の鍵・器の本文・正本の数は不変**・宣言 `tests/lib-w281a-regentable.mjs` の「第340便c の塊」(`V_CALAUDIT_PROV340C`・版 w340c-vcal-4・w340c-vdiag-4)・lib `tests/lib-w340c-chaintools.mjs`(版 w340c-chaintools-1)・記録 `tests/data-w340c-provpairs.json`)〕
+
+**① 何が鎖 2・鎖 3 を長くしていたか(済み印と門の記録から)。** 第339便の鎖 2(52 分)・鎖 3(52 分)で走り直した重い段は charon-h・charon-h2・charon-h4・charonk・charonInput・charoneps-h・charoneps-h2・charoneps-h4・charonfactors・geo3・pnsource286・pn1・mercury・contact285・timing294(ほかに d0audit・calcontract・tpsign・calcause292・obscompare・eihdiag287 の短い段)。門の記録(`*.gate` の cause)と済み印の契約(`done/<段>.done` の `in json:` の行)を鎖 1 → 2 → 3 で比べると、変わった入力は**常時群の 2 本(`tests/out/calaudit-w249.json` と随伴の `tests/out/calaudit-w249-diag.json`)の安定 hash だけ**だった(pnsource286 の鎖 3 は `tests/data-w286b-clight.json` も —— 鎖 3 の前の直し)。2 本を今の宣言(w324c-vcal-3・w324c-vdiag-3)で除いた後に葉ごとに比べると、違う葉は**転記の来歴の欄だけ**(h/2・h/4 を今回走らせたか、前回の置き場から転記したか)で、物理の値の葉の差は 0:
+
+| 組 | calaudit の違う葉 | diag の違う葉 | 欄 |
+|---|---|---|---|
+| 第339便 鎖 1(9e1aebc)→ 鎖 2(b5e5064) | 241 | 2 | 頂の `/h2Reuse`・`/h4Reuse` の fresh・reused・refused / `presets[].run` の h2Reuse・h4Reuse の reused・reason・diff・reusedFrom / dtHalf・dtQuarter・stopRuleStages[]・timeBudget[] の reusedFrom・skippedBy(timeBudget は reused も)/ diag の `/h2Store/freshThisRun`・`/h2Store/reusedThisRun` |
+| 第339便 鎖 2 → 鎖 3(0f1a201) | 199 | 2 | 同じ型(h/2 の転記 → 便の html が違うので走らせ直し `other-flight`) |
+| 第337便 鎖 1(c0e0e40)→ 鎖 2(c416a9c) | 199 | 2 | 同じ型 |
+
+**② 直し —— 除外は具体の Pointer の許可の一覧(AN770・統括の裁定)。** 宣言の版を w324c-vcal-3 → **w340c-vcal-4**・w324c-vdiag-3 → **w340c-vdiag-4** に上げ、上の欄だけを `VOLATILE_DECL` の `provenancePaths`(Pointer → 値の種類)に足した(calaudit 23 本・diag 2 本)。「最後の鍵の名前の語彙」は広げていない —— 同じ名前(reused・reason・diff)の別の欄は除かない(`lint.stableHashPaths` ② は許可の一覧の Pointer だけを通し、値の種類〔本の ID の並び・真偽値・理由の名か null・転記の元の写し・'reuse' で始まる印・数〕を照合する)。`*` は配列と決まった容器(presets・timeBudget・stopRuleStages)だけ。**残すもの**: h/2・h/4 の実測値・量の実測(`quantities[].meas`)・契約(contractSha)・h の署名(hSig)・安定の部(stable)・停止の判定・置き場の行(entries)の中身。転記の可否の判定そのもの(同一便・契約)は器が生のファイルで読む —— 除外は読み手の照合(門と済み印の契約)だけに効く。第324便c の宣言(reusedFrom の 3 つの葉)は世代の記録として残した(reusedFrom の丸ごとの Pointer が包むので hash は同じ)。
+
+**③ 対照(`lint.provenanceExclude340c` ③ —— 一時の root で門〔`stableInputOk`〕と済み印の契約〔`semanticSha`〕を引く)。**
+
+| 写し | 門 | 済み印の契約 |
+|---|---|---|
+| (b) 来歴の欄だけを型を保って入れ替え(257 葉 —— 転記した世代の欄も作る) | 再利用 | 同じ |
+| (a) 物理の値 1 つ(`/presets[id=earthMoonReal]/quantities/0/meas` × (1 + 1e-12)) | 走る | 違う |
+| (a) h/2 の契約 1 つ(`/presets[id=earthMoonReal]/run/h2Reuse/contractSha`) | 走る | 違う |
+| (a) 来歴の外の同じ名の欄(`/presets[id=earthMoonReal]/run/stopRule/reason` を足す) | 走る | 違う |
+| (a) diag の置き場の h の署名 1 つ | 走る | 違う |
+| 前の世代の宣言(w324c)で (b) | 走る | — |
+
+実物の組(`tests/data-w340c-provpairs.json` —— git の履歴があれば QA が引き直す): 前の世代の宣言では 3 組とも違い(第339便の鎖 1 → 2 で calaudit b64659cb… → 963a597e… ほか)、新しい宣言では 3 組とも同じ(第339便の 3 版とも calaudit ccee422e…・diag 8d601896…)。
+
+**④ 宣言を変えたことで本便の鎖で一度だけ走り直す段(見積り —— 実測は統括の鎖で出る)。** 読み手の正本の刻印の Pointer が今の宣言と違うので(AN43 の `stampedDeclDrift`)、計画は regen 7・recheck 20 → **regen 22・recheck 5** になる(`node tools/regen-plan.mjs` —— 本枝の木の前後の比べ)。走り直す段と `tests/data-w311c-regensec.json` の秒: charon-h2 1071・geo3 966・charoneps-h4 910・charonk 823・charonInput 668・charon-h4 657・charon-h 585・pnsource286 553・charoneps-h2 454・charonfactors 382・pn1 324・mercury 277・charoneps-h 215・contact285 194・d0audit 23・eihdiag287 11・obscompare 6・calcontract 4・tpsign 3・families 3・calcause292 2(和 8131 s)。鎖の計画は run 37・gate 147 で、`--estimate` の見積りは gate が再利用なら模擬 3270 s・最長の経路 2735 s → 伝える見積り 3924 s(1 h 05 min)。この段は第339便までの鎖 1 でも走っていた段で、本便の鎖 1 に吸収される見込み。同じ便の鎖 2・鎖 3 では、常時群の来歴だけが変わっても読み手は再利用になる見込み(残る短い段: calcontract・d0audit は calaudit をバイトの sha で読むので毎回走る —— 約 30 s)。
+
+**⑤ 見積りの秒の取りこぼし(運用の正本 追記 59 ⑤)。** (a) 第339便の鎖 1 の模擬(21541 s)と ready queue の EST は、どちらも鎖の JSON の `rows[].sec`(= `tests/data-w311c-regensec.json` の見積り)を使う —— 出どころは同じで、solar16-318c の見積りは 2 s(表の本文 4187 s・実測 2414 s)だった。2 s の出どころを辿ると、第327便の鎖 2(見出し 2026-11-05T11:36:42Z)の timeline で gate の再利用が 1.97 s(済み印 `reuse … fast`)。`--log` なしの calibrate は「所要 < 1 s」だけを確かめの秒として飛ばすので、2 s を実測として書く(同じ timeline で 52 段が確かめの秒 1.6〜2.9 s を見積りに書く —— 本枝で再現)。以後の calibrate は済み印が reuse の段を飛ばすので、再利用が続く間は直らなかった。(b) 直し(`calibrateFlags340c` —— 規則 w312c-calibrate-2 は変えず後段に足した): (i) 済み印のない段の実測 ≤ 5 s で表の本文 ≥ 30 s は書かない(確かめの秒の疑い —— 第327便の鎖 2 で 52 段を拾う)(ii) 飛ばした段で見積り ≤ 5 s・表の本文 ≥ 30 s・表の本文 ≥ 見積りの 10 倍は表の本文へ戻す(restore)(iii) 見積りか表の本文と実測が 2 倍以上違う段の一覧を出す(第339便の鎖 1 で 102 段・鎖 2 で 12 段・鎖 3 で 14 段)。(c) 既存の鍵 `lint.readyQueue311` ほか(規則の版 w312c-calibrate-2)は変えていない。
+
+**⑥ 鎖の所要の見積りを 1 本で(運用の正本 追記 57 ⑪・59 ⑤)。** `node tools/regen-chain.mjs --estimate <鎖の --json>`: 模擬(鎖のシェルと同じ規則・同じ秒)・最長の経路(依存だけ)・run の秒の和 ÷ レーン数を、gate も走る場合と gate は再利用(2 s)の場合の 2 行で出し、伝える見積り = max(模擬 × 1.2, 最長の経路) を添える。見積りが確かめの秒の疑いの段も出す。第339便の鎖の JSON での値:
+
+| 鎖 | gate も走る: 模擬・最長の経路 → 伝える | gate は再利用: 模擬・最長の経路 → 伝える | 実測(統括の鎖) |
+|---|---|---|---|
+| 鎖 1(run 219・gate 18) | 21541・16028 → 25849 s(7 h 11 min) | 21541・16028 → 25849 s | 7 h 08 min(再起動を除く) |
+| 鎖 2(run 20・gate 164) | 18505・15668 → 22206 s | 879・790 → 1055 s(18 min) | 52 min |
+| 鎖 3(run 23・gate 161) | 18505・15668 → 22206 s | 1105・1018 → 1326 s(22 min) | 52 min |
+
+鎖 2・鎖 3 の実測が 2 つの見積りの間にあるのは、① の連鎖(gate が走りに変わった)のため。第339便の鎖の JSON には見積りが確かめの秒の疑いの段が 29 段あった(solar16-318c 2/4187 s ほか —— 今の秒の表では tpsign 3/153 s・tide3d-307b 4/30 s の 2 段)。
+
+**⑦ 正本の値の比べとの関係。** `tools/jsonpaths337f.mjs --compare` の物理の値(`tests/lib-w323b-quick.mjs` の `physSha`)は、もとから同じ宣言(`volatilePathsOf`)を読む —— 除外の一覧を 2 か所に持っていない(第338便c の `PROV_KEYS_338C` は下流の正本の別の欄 —— 合流の鍵・壁時計・持ち越しの刻印 —— で、常時群の欄とは重ならない)。
+
+**⑧ 文を読む宣言の整理(AN726 —— 表まで)。** 領域の宣言で文を読む(`keepProse`)段は 56 段で、全部が `familyRole`。器と import の本文で宣言の行の外に `familyRole` を名指ししない段は 5 段(pairnorm-305a・confirm-312d・k1confirm-313d・inposk1-315c・k1scale-331c)—— 文を正本と照合しない候補。名指しが 1 か所だけの段は 22 段(読み方は次の便で 1 段ずつ読む)。直しは次の便。
+
+**⑨ 新しい QA(root は SKIP)。** `lint.provenanceExclude340c`(① 宣言の版・許可の一覧・前の世代の指紋 ② `*` の容器 ③ 対照 ④ 実物の組 ⑤ 見積りの秒の後段の自己試験と見積りの合成の試し・道具の口)・`docs.chainTools340c`(本節・AI_SPEC §250・CHANGELOG)。既存の鍵の世代の注記: `lint.stableHashPaths` ②(許可の一覧の Pointer を通す)・⑦(版 w340c-vcal-4・w340c-vdiag-4 と、履歴の w324c の版の指紋)・`lint.calVolatile324c`(w324c の版は今の版か履歴に・転記したかの欄は許可の一覧なら除外でよい・記録の指紋は w324c の世代で照合)。
+
+**⑩ 書かないこと。** 「鎖が N 分になった」は実測なしに書かない(④⑥ の数は見積り)。除外は物理の値の欄を門から外していない(③ の対照)。「来歴だけが違った」は第339便・第337便の 3 組の実物の読みで、ほかの便の連鎖の原因を言い切らない。
+
 〔第328便 — 統括: 原仮定者の指示(第130報)「改めて残った決断事項をまとめる」・原仮定者の回答(2026-11-05 —— 第327便の残りの決断事項 17 項〔AN550〜AN557・AN559〜AN567〕を推奨どおり: AN553 = B・他は A)を受けた第328便の構成・統合・決断事項・次の便(統括の検証項目 R301〜R303)〕
 
 **① 第328便の構成。** 便の開始(統括)で beta の版名を v1.47-b328 に・段の見積りの秒を第327便の鎖 1・鎖 2 の実測で更新(a96bea2)。枝 a(場の API の opt-in の契約 —— 枠・定数の Ω_field の宣言・収束の印・由来・伝達の版と係数・帳簿の口座の参照と、直接の滑りの宣言の型 —— AN551・AN552・AN553)・枝 b(受け手の応答の演算と p の判定・源の自転を外部の口座に固定した比べる列・金星の熱潮汐の振幅の記録し直し・予言のやり直しの扱い・火星と地球の局所の尺度 —— AN559・AN561・AN562・AN563・AN550・AN566)・枝 c(第327便f の器の検査の範囲の直し・共鳴の口の仕事の契約 —— AN564)。**どの枝も `beta/index.html`・root の `index.html`・エンジン・内蔵の本・受理器を変えていない**(診断と契約と道具)。AN554(名指しの 6 段を条件で選ぶ)は次の便の道具の便へ。
