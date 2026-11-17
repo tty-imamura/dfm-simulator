@@ -213,6 +213,67 @@ const V_STORE_WALL = ['h2Store', 'h4Store'].flatMap((k) => ['/' + k + '/carriedF
 //   転記の可否の判定(同一便 —— H2_REUSE_RULE)は器が生のファイルで読む(安定 hash の除外は読み手の照合だけに効く)
 export const V_CALAUDIT_DIAG_STOREP = ['/h2Store/entries/*/targetSha256', '/h4Store/entries/*/targetSha256'];
 const V_CALAUDIT_DIAG = ['/when', '/carriedOverFrom'].concat(V_STORE_WALL, V_CALAUDIT_DIAG_STOREP);
+// ==== 第340便c の塊(ここから)====
+// 第340便c(統括の検証項目 R358・決断事項 AN770・BL-091 —— 鎖 2・鎖 3 が毎回 52 分かかる元): **常時群の転記の来歴の欄を安定 hash の除外へ**。
+//   第339便の鎖 1(9e1aebc)・鎖 2(b5e5064)・鎖 3(0f1a201)と第337便の鎖 1・2(c0e0e40・c416a9c)の calaudit と diag を、今の宣言(w324c-vcal-3・w324c-vdiag-3)で
+//   除いた後に葉ごとに比べた。違ったのは**転記の来歴の欄だけ**(h/2・h/4 を今回走らせたか前回の置き場から転記したか —— 物理の値の葉の差は 0):
+//   頂の h2Reuse/h4Reuse の fresh・reused・refused(本の ID の並び)/ presets[].run の h2Reuse・h4Reuse の reused・reason・diff・reusedFrom /
+//   dtHalf・dtQuarter・stopRuleStages[]・timeBudget[] の reusedFrom・skippedBy(timeBudget は reused も)/ diag の h2Store の freshThisRun・reusedThisRun。
+//   **除外は具体の Pointer の許可の一覧**で宣言する(統括の裁定 —— 「最後の鍵の名前の語彙」を広げない: 同じ名前〔reused・reason・diff〕の物理の欄まで除かない)。
+//   `*` は配列と決まった容器(presets・timeBudget・stopRuleStages)だけ。値の型は Pointer ごとの種類(PROV_KINDS_340C)で `lint.stableHashPaths` ② が照合する。
+//   **残すもの**: h/2・h/4 の実測値(dtHalf・dtQuarter の数の欄)・契約(contractSha)・h の署名(hSig)・安定の部(stable)・停止の判定・置き場の行(entries)の中身。
+//   転記の可否の判定そのもの(同一便・契約)は器が生のファイルで読む —— 安定 hash の除外は読み手の照合(門と済み印の契約)だけに効く。
+//   第324便c の宣言(V_CALAUDIT_H2P —— reusedFrom の 3 つの葉)は残す(reusedFrom の丸ごとの Pointer が包むので hash は同じ —— 世代の記録として)。
+export const PROV_VERSION_340C = 'w340c-prov-1';
+/** 来歴の欄の値の種類(lint.stableHashPaths ② の型の照合 —— 種類ごとに 1 行)。 */
+export const PROV_KINDS_340C = Object.freeze({
+  idList: '本の ID(文字列)の並び',
+  refusedList: '{ id, reason, diff? } の並び(転記しなかった本と理由)',
+  bool: '真偽値(転記したか)',
+  reasonOrNull: '文字列か null(転記しなかった理由の名)',
+  strList: '文字列の並び(契約の違った鍵の名)',
+  refOrNull: 'null か 転記の元の同一性の写し(generatedAt・targetSha256・contractSha・wallSec の部分集合)',
+  skippedBy: "'reuse' で始まる文字列(転記で走らせなかった印)",
+  count: '非負の整数(今回走らせた本・転記した本の数)',
+});
+const PROV_REF_KEYS_340C = ['generatedAt', 'targetSha256', 'contractSha', 'wallSec'];
+/** 種類 kind の値として正しいか。 */
+export function provenanceValueOk340c(kind, v) {
+  const str = (x) => typeof x === 'string' && x.length > 0;
+  switch (kind) {
+    case 'idList': return Array.isArray(v) && v.every(str);
+    case 'refusedList': return Array.isArray(v) && v.every((z) => z && typeof z === 'object' && !Array.isArray(z) && str(z.id) && str(z.reason) && (z.diff === undefined || (Array.isArray(z.diff) && z.diff.every(str))));
+    case 'bool': return typeof v === 'boolean';
+    case 'reasonOrNull': return v === null || str(v);
+    case 'strList': return Array.isArray(v) && v.every(str);
+    case 'refOrNull': return v === null || (!!v && typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length > 0 && Object.keys(v).every((k) => PROV_REF_KEYS_340C.includes(k)));
+    case 'skippedBy': return typeof v === 'string' && /^reuse/.test(v);
+    case 'count': return Number.isInteger(v) && v >= 0;
+    default: return false;
+  }
+}
+const PR340 = (ptr, kind) => Object.freeze({ ptr, kind });
+/** calaudit の来歴の Pointer(実物の差に出た欄だけ —— 第339便の鎖 1〜3・第337便の鎖 1〜2)。 */
+export const V_CALAUDIT_PROV340C = Object.freeze([
+  ...['h2Reuse', 'h4Reuse'].flatMap((k) => [PR340('/' + k + '/fresh', 'idList'), PR340('/' + k + '/reused', 'idList'), PR340('/' + k + '/refused', 'refusedList')]),
+  ...['h2Reuse', 'h4Reuse'].flatMap((k) => [PR340('/presets/*/run/' + k + '/reused', 'bool'), PR340('/presets/*/run/' + k + '/reason', 'reasonOrNull'),
+    PR340('/presets/*/run/' + k + '/diff', 'strList'), PR340('/presets/*/run/' + k + '/reusedFrom', 'refOrNull')]),
+  ...['dtHalf', 'dtQuarter'].flatMap((k) => [PR340('/presets/*/run/' + k + '/reusedFrom', 'refOrNull'), PR340('/presets/*/run/' + k + '/skippedBy', 'skippedBy')]),
+  PR340('/presets/*/run/stopRuleStages/*/reusedFrom', 'refOrNull'), PR340('/presets/*/run/stopRuleStages/*/skippedBy', 'skippedBy'),
+  PR340('/presets/*/run/timeBudget/*/reused', 'bool'), PR340('/presets/*/run/timeBudget/*/reusedFrom', 'refOrNull'), PR340('/presets/*/run/timeBudget/*/skippedBy', 'skippedBy'),
+]);
+/** diag の来歴の Pointer(h2Store の今回の数 —— h4Store は実物の差に出ていない)。 */
+export const V_CALAUDIT_DIAG_PROV340C = Object.freeze([PR340('/h2Store/freshThisRun', 'count'), PR340('/h2Store/reusedThisRun', 'count')]);
+/** `*` を当ててよい容器(配列と決まった容器 —— 正本ごと)。lint.provenanceExclude340c が今の正本で配列か照合する。 */
+export const PROV_STAR_CONTAINERS_340C = Object.freeze({ 'tests/out/calaudit-w249.json': ['presets', 'timeBudget', 'stopRuleStages'], 'tests/out/calaudit-w249-diag.json': [] });
+V_CALAUDIT.push(...V_CALAUDIT_PROV340C.map((z) => z.ptr));
+V_CALAUDIT_DIAG.push(...V_CALAUDIT_DIAG_PROV340C.map((z) => z.ptr));
+/** 正本 file の来歴の Pointer の許可の一覧(Pointer → 種類)。無ければ空。 */
+export function provenancePathsOf340c(file) {
+  const L = file === 'tests/out/calaudit-w249.json' ? V_CALAUDIT_PROV340C : file === 'tests/out/calaudit-w249-diag.json' ? V_CALAUDIT_DIAG_PROV340C : [];
+  return Object.fromEntries(L.map((z) => [z.ptr, z.kind]));
+}
+// ==== 第340便c の塊(ここまで)====
 /**
  * 第285便f(原仮定者の裁定(第75報)AN52): **除外 Pointer の宣言の版**(正本ごと)。`fp` は宣言した Pointer の並び(sort)の sha256 の先頭 16 桁 ——
  * Pointer を足し引きしたら版と fp を上げる(`lint.stableHashPaths` ⑦ が照合)。`renamed` は改名した欄(新 → 旧)で、改名前の世代の正本
@@ -220,18 +281,33 @@ const V_CALAUDIT_DIAG = ['/when', '/carriedOverFrom'].concat(V_STORE_WALL, V_CAL
  */
 export const VOLATILE_DECL = {
   // 第324便c(R281): w285f-vcal-2 → w324c-vcal-3(h/2 の転記の来歴 V_CALAUDIT_H2P —— 語彙の拡張はこの正本だけ: runtimeKeys・provenanceParents・optional)
-  'tests/out/calaudit-w249.json': { version: 'w324c-vcal-3', since: '第324便c(R281)', fp: '53a87bd8d16a3e37',
-    added: V_CALAUDIT_H2P.slice(), renamed: { wallNearBudget: 'budgetHit' },
+  // 第340便c(R358・AN770): w324c-vcal-3 → w340c-vcal-4(転記の来歴の欄 V_CALAUDIT_PROV340C —— 具体の Pointer の許可の一覧 provenancePaths・世代で当たらない走行があるので optional)
+  'tests/out/calaudit-w249.json': { version: 'w340c-vcal-4', since: '第340便c(R358・AN770)', fp: '870255262afcad86',
+    added: V_CALAUDIT_PROV340C.map((z) => z.ptr), renamed: { wallNearBudget: 'budgetHit' },
     runtimeKeys: ['reusedSec'], provenanceParents: ['reusedFrom'],
-    optional: V_CALAUDIT_H2P.slice(),
+    provenancePaths: provenancePathsOf340c('tests/out/calaudit-w249.json'),
+    optional: V_CALAUDIT_H2P.concat(V_CALAUDIT_PROV340C.map((z) => z.ptr)),
     history: [{ version: 'w283e-vcal-1', since: '第282便e・第283便e(AN29)', note: '実行時刻・壁時計・非物理の同一性 meta(budgetHit は未宣言 —— 第284便f の分割照合で見つかった)' },
-      { version: 'w285f-vcal-2', since: '第285便f(AN52)', fp: 'afc6f3285acdc4bf', note: '壁時計近接の診断 wallNearBudget(旧 budgetHit)を足した' }] },
+      { version: 'w285f-vcal-2', since: '第285便f(AN52)', fp: 'afc6f3285acdc4bf', note: '壁時計近接の診断 wallNearBudget(旧 budgetHit)を足した' },
+      { version: 'w324c-vcal-3', since: '第324便c(R281)', fp: '53a87bd8d16a3e37', added: V_CALAUDIT_H2P.slice(), note: 'h/2 の転記の来歴(reusedFrom の generatedAt・targetSha256・wallSec と /h2Reuse/reusedSec)を足した' }] },
   // 第324便c(R281): w285f-vdiag-2 → w324c-vdiag-3(置き場の行の html の sha V_CALAUDIT_DIAG_STOREP)
-  'tests/out/calaudit-w249-diag.json': { version: 'w324c-vdiag-3', since: '第324便c(R281)', fp: 'a1a6237c37d2e7ed',
-    added: V_CALAUDIT_DIAG_STOREP.slice(), renamed: { wallNearBudget: 'budgetHit' },
+  // 第340便c(R358・AN770): w324c-vdiag-3 → w340c-vdiag-4(h2Store の今回の数 freshThisRun・reusedThisRun —— 具体の Pointer の許可の一覧)
+  'tests/out/calaudit-w249-diag.json': { version: 'w340c-vdiag-4', since: '第340便c(R358・AN770)', fp: '3b58b6e2c3fdf89b',
+    added: V_CALAUDIT_DIAG_PROV340C.map((z) => z.ptr), renamed: { wallNearBudget: 'budgetHit' },
+    provenancePaths: provenancePathsOf340c('tests/out/calaudit-w249-diag.json'),
+    optional: V_CALAUDIT_DIAG_PROV340C.map((z) => z.ptr),
     history: [{ version: 'w283e-vdiag-1', since: '第283便e', note: '/when・/carriedOverFrom だけ(h2Store/h4Store の壁時計と時刻は未宣言)' },
-      { version: 'w285f-vdiag-2', since: '第285便f(AN52)', fp: '2461f5b121a2fc1c', note: 'h2Store/h4Store の壁時計と時刻(V_STORE_WALL)を足した' }] },
+      { version: 'w285f-vdiag-2', since: '第285便f(AN52)', fp: '2461f5b121a2fc1c', note: 'h2Store/h4Store の壁時計と時刻(V_STORE_WALL)を足した' },
+      { version: 'w324c-vdiag-3', since: '第324便c(R281)', fp: 'a1a6237c37d2e7ed', added: V_CALAUDIT_DIAG_STOREP.slice(), note: '置き場の行の html の sha(V_CALAUDIT_DIAG_STOREP)を足した' }] },
 };
+/** 第340便c: 宣言の版 v の Pointer の指紋(今の版なら fp・過去の版なら history の fp —— 世代つきの照合)。無ければ null。 */
+export function volatileDeclFpOf340c(file, v) {
+  const d = VOLATILE_DECL[file];
+  if (!d) return null;
+  if (d.version === v) return d.fp;
+  const h = (d.history || []).find((z) => z.version === v);
+  return h && h.fp ? h.fp : null;
+}
 /** 宣言した Pointer の並びの指紋(sort して改行で連ねた sha256 の先頭 16 桁)。 */
 export function volatileDeclFp(file) {
   return crypto.createHash('sha256').update(volatilePathsOf(file).slice().sort().join('\n')).digest('hex').slice(0, 16);
@@ -2225,6 +2301,68 @@ export const REGEN_STEPS = [
     note: '第339便a: 候補 slice|focus|Req|obs の測り直し(要る λ・環の判定・4 惑星の尺度の内 —— 第337便i の lib)/鍵の既定 OFF と受理の表/'
       + 'html の点の場と lib の effectOfSpec の点ごとの照合(倍 2 × λ 2 × 軸 2)/1 步の照合/🛟 の ON と鍵 OFF の写しの 600・3000 步の傾きの比' }),
   // ==== 第339便a の塊(ここまで)====
+  // ==== 第340便b の塊(ここから)====
+  // ---- 第340便b(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R357): **軸引きずりの回転成分の二重計上の切り分け(軸方向で 0 になる候補の列)・赤道面の見え方(並進は順・軸は逆)・
+  //   合成の規則の主の列・金星の 3 成分**(段 axialsplit-340b —— 正本 tests/out/axialsplit-340b.json・lib tests/lib-w340b-axialsplit.mjs —— 第338便b・第337便l・第330便a・第335便b の lib を
+  //   import して呼ぶ。入力のファイルは無い —— 順序だけ after に段 bevelknob-338b)。**診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w340b-axialsplit.mjs —— 領域の宣言なし)。
+  //   正本へ書く形は第338便c の settleRun(3 回走らせる)。1 プロセス。所要は第340便b の枝の実測 0.3 s
+  S('axialsplit-340b', 'node tests/exp-w340b-axialsplit.mjs', ['tests/out/axialsplit-340b.json'], 1, { secSource: 'w340b-branch', node: true,
+    after: ['bevelknob-338b'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/axialsplit-340b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第340便b: 軸方向で 0 になる候補の列 4 本(q 0・q 1・場の勾配の第 2 項・有限の受け手)と比べる列・有限の受け手の寄り方・天体が 1 つの零試験/'
+      + '赤道面の見え方(順の分・逆の分 2 つ・和 —— 距離の走査と天体 15)/合成の規則の主の列と 120° の列の差/金星の 3 成分(q 0・q 1 × 4 列)・歳差の読み・3 成分の定常の有無' }),
+  // ==== 第340便b の塊(ここまで)====
+  // ==== 第340便d の塊(ここから)====
+  // ---- 第340便d(原仮定者の指示(2026-11-17 —— 第140報)の回転引きずり・ジャイロトルク・軸引きずりの文・統括の検証項目 R359): **回転引きずりの経路「軸引きずり + 公転 + ジャイロ」を
+  //   受け手の部位ごとの力で数える・土星の環の帳簿に環の外の受け取り手(主の列)と方向別の係数(比べる列)**(段 gyropath-340d —— 正本 tests/out/gyropath-340d.json・
+  //   lib tests/lib-w340d-gyropath.mjs —— 第338便b・第338便d・第339便a・第337便l・第337便i・第337便a の lib を import して呼ぶ。入力のファイルは無い〔4 天体の強さの組は第338便d の lib の
+  //   k4Sets を呼んで作り直す —— 順序だけ after に段 ringbook-338d と同じ一式 + ringbook-338d・bevelknob-338b・rotvert-339a〕)。**診断だけ**。
+  //   **html を読まない**(来歴の対象は純関数 tests/lib-w340d-gyropath.mjs —— 領域の宣言なし)。1 プロセス。所要は第340便d の枝の実測 35〜39 s(第338便c の settleRun の 3 回の走行を含む —— 大半は T4 の扁平の源の部位の和 960 点)
+  S('gyropath-340d', 'node tests/exp-w340d-gyropath.mjs', ['tests/out/gyropath-340d.json'], 39, { secSource: 'w340d-branch', node: true,
+    after: ['supply-337a', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b', 'rotring-337i', 'spinorbit-337j', 'gyrodrag-337k',
+      'ringbook-338d', 'bevel-337l', 'bevelknob-338b', 'rotvert-339a'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 40 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/gyropath-340d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第340便d: 部位の和の作用の型 4(drag・corV・corS・drag90)× q 2 × p 5 × 体 2 × 仰角 9・対照 8・赤道面の上の軸の傾き 4・部位の大きさ 4・アプリの型(第339便a)との比べ/'
+      + '土星の環: 4 天体の強さの組 2 × 中心 5 の要る口の幅・口(土星の自転・ミマス)の帳簿 12(第338便d の輪の列)・口の熱の符号・方向別の係数 16 組・第140報の赤道面の列 3/T4 扁平の源の部位の和(扁平率 6 × 距離 5 × 高さ 4 × 向きの型 3・経路の型 3)' }),
+  // ==== 第340便d の塊(ここまで)====
+  // ==== 第340便e の塊(ここから)====
+  // ---- 第340便e(原仮定者の指示(2026-11-17 —— 第140報)「引きずりでの光速」・原仮定者の回答 AN756 = A・AN765・統括の検証項目 R360): **引きずりでの光速と受け手の重み —— 受け手の自己の重みを
+  //   分母に入れた型の速さの表(25 系 × 速さの型 7)・⑩ の効き(5 系)・詰まり具合のべきと離心率の依存のノブ・共通の零試験(天体が 1 つ・離して静止させた 2 体・二重に足さない・次元)**
+  //   (段 lightweight-340e —— 正本 tests/out/lightweight-340e.json・lib tests/lib-w340e-lightweight.mjs —— 第338便e・第337便d・第335便b・第326便d・第333便c・第335便e の lib を import して呼ぶ。
+  //   他の正本は読まない —— 順序だけ after に段 spinfield-338e と同じ 10 段と spinfield-338e)。**診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第340便e の枝の実測 7 s
+  S('lightweight-340e', 'node tests/exp-w340e-lightweight.mjs', ['tests/out/lightweight-340e.json'], 7, { secSource: 'w340e-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'spinfield-338e'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 7 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/lightweight-340e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第340便e: 速さの型 7(剛体・(R_d/r)¹・(R_d/r)²・自己の重み R_d と R_obs・その両方 2)× 系 25 の速さの最大と取り分の平面/⑩ の効き(5 系 × 列 2 × 場の型 7)/'
+      + '詰まり具合のべき × 離心率の依存の走査(列 2 × 場の型 2)/零試験(天体が 1 つ・静止と等速と円と離心の 2 体・二重に足さない・次元)' }),
+  // ==== 第340便e の塊(ここまで)====
+  // ==== 第340便f の塊(ここから)====
+  // ---- 第340便f(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R361): **熱と共鳴(第2段)—— 源ごとの応答の係数(銀河の項と主星の項を分ける)で
+  //   ロックの有無の分類とイオの熱を同じ平面で読む・金星と地球の共鳴の 2 つの読みを 1 つの表に**(段 heatsource-340f —— 正本 tests/out/heatsource-340f.json・lib tests/lib-w340f-heatsource.mjs ——
+  //   第338便f・第337便c・第326便d・第338便b の lib を import して呼ぶ。入力のファイルは無い〔順序だけ after に heatlock-338f・tidelock-337c・bevelknob-338b〕)。**診断だけ**。
+  //   **html を読まない**(来歴の対象は純関数 tests/lib-w340f-heatsource.mjs —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第340便f の枝の実測 0.2 s
+  S('heatsource-340f', 'node tests/exp-w340f-heatsource.mjs', ['tests/out/heatsource-340f.json'], 1, { secSource: 'w340f-branch', node: true,
+    after: ['heatlock-338f', 'tidelock-337c', 'bevelknob-338b'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/heatsource-340f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第340便f: ρ = Γ_bg/Γ_host の平面で第337便c の分類・イオの熱・金星で釣り合う比の窓/遮りの係数 σ の試し/物差しの領域(全球・領域・総量)/'
+      + '金星と地球の共鳴の読み B(先に)と読み A・保つ力と入る減衰・第338便b の 3 成分の残りと定常の解の表' }),
+  // ==== 第340便f の塊(ここまで)====
+  // ==== 第340便g の塊(ここから)====
+  // ---- 第340便g(原仮定者の指示(2026-11-17 —— 第140報)・原仮定者の回答(2026-11-14 —— AN725 = A)・統括の検証項目 R362):
+  //   **銀河を流体と見る探索の続きの器 —— 標本の並び(乱数・準一様・ガラス)と刻みの収束**(段 fluidconv-340g —— 正本 tests/out/fluidconv-340g.json・lib tests/lib-w340g-fluidconv.mjs ——
+  //   第337便e の lib〔自己の重み・引きずり・積分〕・第335便f の lib〔標本・力〕・第333便d の lib〔乱数〕・第338便c の lib〔量ごとの尺度〕を import して呼ぶ〔code の依存 —— 他の正本は読まない〕)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w340g-fluidconv.mjs —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第340便g の枝の実測 24 s(尺度の走り直し 2 回を含む)
+  S('fluidconv-340g', 'node tests/exp-w340g-fluidconv.mjs', ['tests/out/fluidconv-340g.json'], 24, { secSource: 'w340g-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // 順序だけ(import する第337便e の lib が呼ぶ第334便a の lib が呼ぶ第331便c の lib が記録の値の出典の正本の名を書くだけ —— 正本は読まない・段 fluid-337e と同じ)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 24 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/fluidconv-340g.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第340便g: 並び 3(乱数・準一様・ガラス)× N 64・128・256・512 × 種 3 × 速度の場 2 × 自己の重み none・B の静的な引きずり(大きさ・全体の重み・外縁の速さの比・角運動量の率)と補正の向きの揃いの割合/'
+      + '並び 3 × N 256 の刻み h・h/2・h/4 × 作用 4(重力だけ・速度の場・慣性の項 τ 0.1・0.03 t_cr)の見かけの次数と外挿' }),
+  // ==== 第340便g の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

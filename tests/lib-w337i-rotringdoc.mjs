@@ -1,6 +1,7 @@
 // 第337便i(原仮定者の回答(2026-11-14 —— 第138報の回答)・統括の検証項目 R345): **正本 tests/out/rotring-337i.json から PHYSICS〔第337便i〕の表を作る文書の lib**
 // (QA docs.rotring337i が節の表と逐語で照合する —— 表の数は有効数字 3 桁の指数・丸めの程度の数〔恒等式の残差〕は「< 1e-x」の形で書き、数そのものは載せない)。
-export const DOC_VERSION = 'w337i-rotringdoc-2';   // 第338便c: 0 と書いた葉(丸めの残り —— 正本の meta.recheck)を表で「0」と書く
+export const DOC_VERSION = 'w337i-rotringdoc-3';   // 第340便h: 近点の向き atNeed.advance の 3 値(正 → 進める・負 → 戻す・未解決 → 未解決(尺度の内))
+// (旧 'w337i-rotringdoc-2')   // 第338便c: 0 と書いた葉(丸めの残り —— 正本の meta.recheck)を表で「0」と書く
 const fe = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : x === 0 ? '0' : Number(x).toExponential(2));
 const lt = (x, t) => (Number.isFinite(x) && Math.abs(x) <= t ? '< ' + t.toExponential(0) : '**' + fe(x) + '**');
 const z12 = (x) => (Number.isFinite(x) && Math.abs(x) < 1e-12 ? '0(< 1e-12)' : fe(x));   // べきの丸め(R_d が消える列)
@@ -48,7 +49,7 @@ export function tablesOf(J) {
   const P = J.planets;
   T.planets = ['| 組(要る λ で) | 惑星 | 黄道の ϖ の率 [″/世紀] | 黄道の交点の率 [″/世紀] | 面内の近点 ÷ 1PN | 向き | 尺度の比の最大 | 尺度の内 | 残差の帯の内(第337便b の比) | 尺度の内に留まる λ ÷ 要る λ | 赤道面の近くの割合 |', '|---|---|---|---|---|---|---|---|---|---|---|',
     ...J.reps.flatMap((k) => { const s = P.sets.find((q) => q.key === k); return Object.entries(s.per).map(([pk, p]) => { const a = p.atNeed;
-      return `| ${nameOf(s.spec)} | ${PL[pk]} | ${fe(a.row.ecl.dvarpi)} | ${fe(a.row.ecl.dnode)} | ${fe(a.q1Ratio)} | ${a.advance ? '進める' : '戻す'} | ${fe(Math.max(...Object.values(a.scaleRatios)))} | ${tf(a.insideScale)} | ${tf(a.inside)} | ${fe(a.window)} | ${fe(a.row.nearShare.apsW)} |`; }); }),
+      return `| ${nameOf(s.spec)} | ${PL[pk]} | ${fe(a.row.ecl.dvarpi)} | ${fe(a.row.ecl.dnode)} | ${fe(a.q1Ratio)} | ${a.advance === '正' ? '進める' : a.advance === '負' ? '戻す' : '未解決(尺度の内)'} | ${fe(Math.max(...Object.values(a.scaleRatios)))} | ${tf(a.insideScale)} | ${tf(a.inside)} | ${fe(a.window)} | ${fe(a.row.nearShare.apsW)} |`; }); }),
     `| 対照(λ = 0)の残差の帯の比 | 水星・金星・地球・火星 | 0 | 0 | 0 | — | 0 | 真 | ${PL.merc} ${tf(Object.values(P.base.merc).every((x) => x <= 1))}・${PL.venus} ${tf(Object.values(P.base.venus).every((x) => x <= 1))}・${PL.earth} ${tf(Object.values(P.base.earth).every((x) => x <= 1))}・${PL.mars} ${tf(Object.values(P.base.mars).every((x) => x <= 1))} | — | — |`].join('\n');
   const q1 = P.q1cy, cmpRow = (label, kind, rdIn, row, k = 1) => `| ${label} | ${kind} | ${rdIn} | ${fe(row.apsW * k)} | ${fe(row.ecl.dvarpi * k)} | ${row.apsW * k > 0 ? '進める' : row.apsW * k < 0 ? '戻す' : '0'} | ${fe(row.apsW * k / q1)} | ${fe(row.nearShare ? row.nearShare.apsW : null)} |`;
   const TR = Object.fromEntries(P.trans.map((t) => [t.key, t.row])), CR = Object.fromEntries(P.controls.map((c) => [c.key, c.row]));

@@ -1045,6 +1045,46 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.heatlock338f docs.heatlock338f"
 #   新しい段 rotvert-339a の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rotvert339a docs.rotvert339a"
 # ==== 第339便a の塊(ここまで)====
+# ==== 第340便a の塊(ここから)====
+# 第340便a(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R356 —— 文書と QA だけ・html は変えない): 枝 a の新設 1 本(docs.dfmSummary340a —— PHYSICS〔第340便a〕の表 1〜表 4・
+#   ノブの台帳の ⑩ の状態と第340便の状態の更新・docs/EQUATIONS.md の EQ-63〜EQ-69 と §2a の第140報の用語・AI_SPEC §248・CHANGELOG)と、世代の写しで読むように直した docs.equations338a・計算式の一覧を読む既存の鍵
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.dfmSummary340a docs.equations338a docs.policy338a docs.equations337g docs.policy337g lint.equations331d docs.equations331d"
+# ==== 第340便a の塊(ここまで)====
+# ==== 第340便b の塊(ここから)====
+# 第340便b(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R357 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.axialsplit340b —— 純関数の場面・T1〜T4 を作り直して
+#   正本と同じ〔第338便c の recheckRun〕・独立の照合 / docs.axialsplit340b —— 正本の門と表が PHYSICS〔第340便b〕に逐語・文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axialsplit340b docs.axialsplit340b"
+# ==== 第340便b の塊(ここまで)====
+# ==== 第340便c の塊(ここから)====
+# 第340便c(原仮定者の指示(2026-11-17 —— 第140報)・決断事項 AN770・統括の検証項目 R358 —— 鎖の道具・html は変えない): 枝 c の新設 2 本(lint.provenanceExclude340c —— 常時群の転記の来歴の欄の
+#   除外〔具体の Pointer の許可の一覧〕の対照と実物の組・見積りの秒の後段・鎖の所要の見積り / docs.chainTools340c —— PHYSICS〔第340便c〕・AI_SPEC §250・CHANGELOG)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.provenanceExclude340c docs.chainTools340c"
+# ==== 第340便c の塊(ここまで)====
+# ==== 第340便d の塊(ここから)====
+# 第340便d(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R359): 枝 d の新設 2 本(behavior.gyropath340d —— 器を走らせ直して正本と同じ〔第338便c の量ごとの尺度の照合〕・
+#   恒等式と対照・口の帳簿の閉じ / docs.gyropath340d —— 正本の門・PHYSICS〔第340便d〕・文書)と、新しい段 gyropath-340d の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.gyropath340d docs.gyropath340d"
+# ==== 第340便d の塊(ここまで)====
+# ==== 第340便e の塊(ここから)====
+# 第340便e(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R360 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.lightweight340e —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・門・呼ぶだけ / docs.lightweight340e —— 正本の門と表 12 本が PHYSICS〔第340便e〕に逐語・文書)と、新しい段 lightweight-340e の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.lightweight340e docs.lightweight340e"
+# ==== 第340便e の塊(ここまで)====
+# ==== 第340便f の塊(ここから)====
+# 第340便f(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R361 —— 診断だけ・html は変えない): 枝 f の新設 2 本(behavior.heatsource340f —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・ρ = 1 の窓が第337便c の帯と同じ・呼ぶだけ / docs.heatsource340f —— 正本の門と表 14 本が PHYSICS〔第340便f〕に逐語・文書)と、新しい段 heatsource-340f の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.heatsource340f docs.heatsource340f"
+# ==== 第340便f の塊(ここまで)====
+# ==== 第340便g の塊(ここから)====
+# 第340便g(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R362 —— 診断だけ・html は変えない): 枝 g の新設 2 本(behavior.fluidconv340g —— 純関数の場面・器を走らせ直して
+#   正本と照合〔第338便c の recheckRun —— 数でない欄は完全一致・数は量ごとの尺度〕・呼ぶだけ / docs.fluidconv340g —— 正本の門と表 6 本が PHYSICS〔第340便g〕に逐語・文書)と、新しい段 fluidconv-340g の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.fluidconv340g docs.fluidconv340g"
+# ==== 第340便g の塊(ここまで)====
+# ==== 第340便h の塊(ここから)====
+# 第340便h(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R363 —— 診断だけ・html は変えない): 枝 h の新設 2 本(behavior.thinAngle340h —— 薄い角の回帰の試験・3 つの lib の式の形・
+#   正本の 3 値の判定・変異の試しの記録 / docs.thinAngle340h —— PHYSICS〔第340便h〕・AI_SPEC §255・CHANGELOG・訂正の行)。段は足していない(作り直した段は既存の段)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.thinAngle340h docs.thinAngle340h"
+# ==== 第340便h の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

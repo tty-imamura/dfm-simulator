@@ -4,6 +4,7 @@
 //   変異: ① 第337便の 19 件(統括の変異の試し)② 統括の検証項目の 1 件(環の行の交点の率 /ring/sets/17/rows/0/dnode → 1e-5)
 //   ③ 数の葉の種類(道の添字を # にした形 = 行の型 × 欄)ごとに、最初の 0 でない葉を相対 1e-5 変える総当たり ④ 真偽・文字列の葉の種類ごとに 1 つ反転/書き換え・配列の種類ごとに 1 つ要素を除く。
 //   拾えない種類は、その種類の葉の σ′/|値|(打ち消しで桁を失った量)とともに出す —— 許容を広げて通さない。
+//   第340便(統括): 器に judge340h(3 値の判定を尺度から書く口 —— 第340便h)が在れば、尺度を測った後に呼んでから正本と比べる。
 // 使い方: node tools/recheck-mutate338c.mjs [i j k] [--json <出力>]   (i は 30 s 前後 —— 番号札の対象)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -24,6 +25,7 @@ const report = { node: process.version, decl: R338.DECL, sets: {} };
 for (const w of (which.length ? which : ['i', 'j', 'k'])) {
   const c = CFG[w], X = await import('file://' + path.join(ROOT, 'tests', c.harness)), J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', c.out), 'utf8'));
   const { base, sigma } = R338.sigmaOf(() => { const R = X.runAll(); delete R.timing; return R; });
+  if (typeof X.judge340h === 'function') X.judge340h(base, sigma);   // 第340便(統括 —— 第340便h の引き継ぎ): 器 i・j は 3 値の判定(正・負・未解決)を尺度から書く —— 正本と同じ形にしてから変異を数える
   const caughtBy = (Jm, parts = c.parts) => parts.reduce((s, k) => s + R338.recheckTree(base[k], sigma[k], Jm[k]).n, 0);
   const base0 = caughtBy(J);
   const res = { base: base0, named: [], kinds: { num: 0, numCaught: 0, missed: [] }, nonNum: { n: 0, caught: 0, missed: [] }, arrays: { n: 0, caught: 0, missed: [] }, leaves: { nonzero: 0, catchable: 0, zero: 0 } };

@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便e",
   "target": "beta/index.html",
-  "targetSha256": "75c295b8e158f1bdb0cfd8435ef30e6bc17e1d2633c0d19a518ad5f6fb8091ff",
-  "generatedAt": "2026-11-16T06:34:22.829Z",
+  "targetSha256": "e740255d01c4294b10f9779775695e4f813d5f4e2aa082270224e13705163f0b",
+  "generatedAt": "2026-11-16T21:26:06.621Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7687948,
-    "sha256": "75c295b8e158f1bdb0cfd8435ef30e6bc17e1d2633c0d19a518ad5f6fb8091ff",
-    "mtime": "2026-11-16T06:18:35.712Z"
+    "sha256": "e740255d01c4294b10f9779775695e4f813d5f4e2aa082270224e13705163f0b",
+    "mtime": "2026-11-16T18:30:09.918Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734350,
-    "sha256": "8aa308ebcb97af5d2e7781e6b5b24f15f57cfedff7c3419c08efcb892135fead",
-    "mtime": "2026-11-16T06:28:05.221Z"
+    "bytes": 1734323,
+    "sha256": "8b81a3609f3324271f602508e935e3bf80c84e1383a15c7fce41f4f38d5e53d5",
+    "mtime": "2026-11-16T21:16:16.063Z"
    }
   ],
   "code": [
@@ -103,7 +103,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "f973aee9135dba9e545f4d1831dc6bb2745a326a78036f550b2faa4a66d8c276",
+    "stableSha256": "ccee422edc98c33ece407a1ab4a0772bb2c5e2a16d9584d0773b017c68b7615d",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -113,30 +113,53 @@
      "/diagnosticsSplit/sha256",
      "/fourValues/current/targetSha256",
      "/fourValues/current/when",
+     "/h2Reuse/fresh",
+     "/h2Reuse/refused",
+     "/h2Reuse/reused",
      "/h2Reuse/reusedSec",
+     "/h4Reuse/fresh",
+     "/h4Reuse/refused",
+     "/h4Reuse/reused",
      "/kf0Runs/charonCitation/citedTargetSha256",
      "/kf0Runs/charonCitation/fileSha256",
      "/mergeKey/targetSha256",
      "/meta/target",
      "/meta/targetSha256",
      "/meta/when",
+     "/presets/*/run/dtHalf/reusedFrom",
      "/presets/*/run/dtHalf/reusedFrom/generatedAt",
      "/presets/*/run/dtHalf/reusedFrom/targetSha256",
      "/presets/*/run/dtHalf/reusedFrom/wallSec",
+     "/presets/*/run/dtHalf/skippedBy",
+     "/presets/*/run/dtQuarter/reusedFrom",
+     "/presets/*/run/dtQuarter/skippedBy",
+     "/presets/*/run/h2Reuse/diff",
+     "/presets/*/run/h2Reuse/reason",
+     "/presets/*/run/h2Reuse/reused",
+     "/presets/*/run/h2Reuse/reusedFrom",
      "/presets/*/run/h2Reuse/reusedFrom/generatedAt",
      "/presets/*/run/h2Reuse/reusedFrom/targetSha256",
      "/presets/*/run/h2Reuse/reusedFrom/wallSec",
+     "/presets/*/run/h4Reuse/diff",
+     "/presets/*/run/h4Reuse/reason",
+     "/presets/*/run/h4Reuse/reused",
+     "/presets/*/run/h4Reuse/reusedFrom",
      "/presets/*/run/stopRule/rateStepsPerSec",
      "/presets/*/run/stopRule/wallSec",
      "/presets/*/run/stopRuleStages/*/rateStepsPerSec",
+     "/presets/*/run/stopRuleStages/*/reusedFrom",
      "/presets/*/run/stopRuleStages/*/reusedFrom/generatedAt",
      "/presets/*/run/stopRuleStages/*/reusedFrom/targetSha256",
      "/presets/*/run/stopRuleStages/*/reusedFrom/wallSec",
+     "/presets/*/run/stopRuleStages/*/skippedBy",
      "/presets/*/run/stopRuleStages/*/wallSec",
      "/presets/*/run/timeBudget/*/rateStepsPerSec",
+     "/presets/*/run/timeBudget/*/reused",
+     "/presets/*/run/timeBudget/*/reusedFrom",
      "/presets/*/run/timeBudget/*/reusedFrom/generatedAt",
      "/presets/*/run/timeBudget/*/reusedFrom/targetSha256",
      "/presets/*/run/timeBudget/*/reusedFrom/wallSec",
+     "/presets/*/run/timeBudget/*/skippedBy",
      "/presets/*/run/timeBudget/*/wallNearBudget",
      "/presets/*/run/timeBudget/*/wallSec",
      "/presets/*/run/wallSec"
@@ -144,7 +167,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "314fb747d355eebf0ba7114ac5a5031a17ed158b8a7b356535ba9e654fc22de0",
+    "stableSha256": "8d6018965f8d29fcf37f1d8da6d422c8e391f7e4fcb52d27c7a2f3b1b76a142f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -158,6 +181,8 @@
      "/h2Store/entries/*/run/timeBudget/wallSec",
      "/h2Store/entries/*/run/wallSec",
      "/h2Store/entries/*/targetSha256",
+     "/h2Store/freshThisRun",
+     "/h2Store/reusedThisRun",
      "/h4Store/carriedFrom",
      "/h4Store/entries/*/generatedAt",
      "/h4Store/entries/*/run/rateStepsPerSec",
@@ -186,15 +211,15 @@
  "after": {
   "source": "canon",
   "file": "tests/out/calaudit-w249.json",
-  "targetSha256": "75c295b8e158f1bdb0cfd8435ef30e6bc17e1d2633c0d19a518ad5f6fb8091ff",
-  "when": "2026-11-16T06:28:05.006Z",
+  "targetSha256": "e740255d01c4294b10f9779775695e4f813d5f4e2aa082270224e13705163f0b",
+  "when": "2026-11-16T21:16:15.813Z",
   "canonFourValues": {
    "合": 0,
    "量限定合": 2,
    "否": 1,
    "保留": 16
   },
-  "wallSec": 0.017
+  "wallSec": 0.014
  },
  "signed": {
   "solarInner": {
@@ -567,7 +592,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 48.314,
+      "wallSec": 55.748,
       "tags": [
        "dt"
       ],
@@ -782,7 +807,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 114.46,
+      "wallSec": 137.202,
       "tags": [
        "dt"
       ],
@@ -950,5 +975,5 @@
    "decideNext": "必要な窓(近点数)と誤差予算"
   }
  ],
- "elapsedS": 0.155
+ "elapsedS": 0.134
 }

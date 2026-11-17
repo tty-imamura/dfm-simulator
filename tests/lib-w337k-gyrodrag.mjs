@@ -24,7 +24,7 @@ import { gyroResponse } from './lib-w330b-dragweight.mjs';
 import { LIT334A } from './lib-w334a-heightlaw.mjs';
 import { fObsOf } from './lib-w333a-rotdiff.mjs';
 
-export const LIB_VERSION = 'w337k-gyrodrag-lib-1';
+export const LIB_VERSION = 'w337k-gyrodrag-lib-2';   // 第340便h: orthRow の傾き・δ を atan2 に(lib-1 → lib-2)
 const isFin = Number.isFinite;
 const D2R = Math.PI / 180;
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], nrm = (a) => Math.hypot(a[0], a[1], a[2]);
@@ -203,7 +203,8 @@ export function orthLdot(Ldot, W, k, { c = DECL.t3.c, sign = 'plus', mode = 'rep
 }
 /** 受け手 1 つの方位の作用の行(単位の λ・源の赤道面を基準): 交点と傾きの率・直交の読みの傾きの率(符号 2 × 列 2)・赤道面から離れる/寄る */
 export function orthRow(sys, eff, pts, k, opts = {}) {
-  const R = ratesOn(sys.orb, eff, pts), base = anglesRates(sys.orb, R, k), W = sys.orb.W, iRad = Math.acos(Math.max(-1, Math.min(1, dot(W, k)))), del = Math.min(iRad, Math.PI - iRad);
+  const R = ratesOn(sys.orb, eff, pts), base = anglesRates(sys.orb, R, k), W = sys.orb.W, sinI = nrm(crs(W, k)), cosI = dot(W, k), iRad = Math.atan2(sinI, cosI), del = Math.atan2(sinI, Math.abs(cosI));
+  // 第340便h(統括の検証項目 R363): 傾きと赤道面からの角 δ を桁を失わない形で(旧 acos と min(i, π − i) の差は、土星の環〔z/r ≈ 1e-7〕で δ の有効数字を 1〜2 桁に落としていた —— δ は傾きの率の分母)
   const per = {};
   for (const sign of DECL.t3.signs) for (const mode of ['replace', 'add']) {
     const L2 = orthLdot(R.Ldot, W, k, { c: opts.c === undefined ? DECL.t3.c : opts.c, sign, mode }), a = anglesRates(sys.orb, Object.assign({}, R, { Ldot: L2 }), k);

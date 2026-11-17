@@ -1,6 +1,6 @@
 {
- "version": "w337k-gyrodrag-2",
- "libVersion": "w337k-gyrodrag-lib-1",
+ "version": "w337k-gyrodrag-3",
+ "libVersion": "w337k-gyrodrag-lib-2",
  "generator": "tests/exp-w337k-gyrodrag.mjs",
  "target": "tests/lib-w337k-gyrodrag.mjs",
  "ruling": "原仮定者の回答(2026-11-15 —— 第138報の回答 2)AN729「鉛直の型は有力。方位の型が同時に効いても良い」・AN732「回転引きずりは、４天体で合う結果を重視。環の方が近似なので、環をノブで補正する」・原仮定者の指示(2026-11-08 —— 第132報)「この直行を、物理現象と仮定する」・統括の検証項目 R347",
@@ -184,7 +184,8 @@
  },
  "amend": [
   "第338便c(統括の検証項目 R351 —— 原仮定者の指示(2026-11-15 —— 第139報)): 正本へ書く出力を量ごとの数値の尺度で整える(tests/lib-w338c-recheck.mjs の settleRun —— Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大を葉ごとの尺度 σ とし、|値| ≤ 4 σ の葉〔丸めの残り —— 有効数字が 1 桁に満たない〕を 0 と書く・meta.recheck に係数と 0 と書いた葉の数)。式・格子・判定は不変",
-  "第338便c(統括の指摘): T1 の比 ratios は 観測 ÷ 計算(lib の式 ln(観測/計算))—— lib と器の注釈・文書の lib の列名の「計算 ÷ 観測」を直した(値は不変 —— S と範囲は逆数で対称)"
+  "第338便c(統括の指摘): T1 の比 ratios は 観測 ÷ 計算(lib の式 ln(観測/計算))—— lib と器の注釈・文書の lib の列名の「計算 ÷ 観測」を直した(値は不変 —— S と範囲は逆数で対称)",
+  "第340便h(統括の検証項目 R363 —— 原仮定者の指示(2026-11-17 —— 第140報)): T3 の行の傾き i と赤道面からの角 δ を桁を失わない形で(tests/lib-w337k-gyrodrag.mjs の orthRow —— sin i = |Ŵ × k̂|・i = atan2(sin i, cos i)・δ = atan2(sin i, |cos i|)・lib-2。旧 acos と min(i, π − i) の差は土星の環〔z/r ≈ 1e-7〕で δ の相対の誤差 1e-4〜2.5e-3 —— δ は傾きの率の分母)・傾きの式(第333便c の anglesOn・lib-2)。式・格子・判定は不変"
  ],
  "notClaim": [
   "回転引きずりの強さを決めたとは書かない(このノブの組で 4 天体が何倍の内かまで)",
@@ -2515,30 +2516,30 @@
     "rows": [
      {
       "key": "ringD",
-      "iDeg": 0.000008099607985145754,
+      "iDeg": 0.000008103497562135987,
       "pro": true,
       "dnode": 1.2334133650176112e-25,
-      "dlnIown": -5.60794297837664e-36,
+      "dlnIown": -5.605251236224072e-36,
       "dlnA": 0,
       "kepler": 3.9865982708981216e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -1.2340056722320817e-25,
+        "dlnIorth": -1.233413365017607e-25,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -1.2340056722320817e-25,
+        "dlnIorth": -1.233413365017607e-25,
         "dnode": 1.2334133650176112e-25,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 1.2340056722320817e-25,
+        "dlnIorth": 1.233413365017607e-25,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 1.2340056722320817e-25,
+        "dlnIorth": 1.233413365017607e-25,
         "dnode": 1.2334133650176112e-25,
         "toPlane": -1
        }
@@ -2546,30 +2547,30 @@
      },
      {
       "key": "ringC",
-      "iDeg": 0.000006883343194785021,
+      "iDeg": 0.0000068758510858263586,
       "pro": true,
       "dnode": 8.880073555629856e-26,
-      "dlnIown": -4.031156104854281e-36,
+      "dlnIown": -4.0355485590232205e-36,
       "dlnA": 0,
       "kepler": 3.6722264327063803e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -8.870408124638377e-26,
+        "dlnIorth": -8.880073555629835e-26,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -8.870408124638377e-26,
+        "dlnIorth": -8.880073555629835e-26,
         "dnode": 8.880073555629856e-26,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 8.870408124638377e-26,
+        "dlnIorth": 8.880073555629835e-26,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 8.870408124638377e-26,
+        "dlnIorth": 8.880073555629835e-26,
         "dnode": 8.880073555629856e-26,
         "toPlane": -1
        }
@@ -2577,30 +2578,30 @@
      },
      {
       "key": "ringB",
-      "iDeg": 0.0000054668187275950014,
+      "iDeg": 0.000005467676258524899,
       "pro": true,
       "dnode": 5.615251629406163e-26,
-      "dlnIown": -2.5528968798983304e-36,
+      "dlnIown": -2.5524964926164503e-36,
       "dlnA": 0,
       "kepler": 3.2746705732755583e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -5.616132443676996e-26,
+        "dlnIorth": -5.615251629406154e-26,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -5.616132443676996e-26,
+        "dlnIorth": -5.615251629406154e-26,
         "dnode": 5.615251629406163e-26,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 5.616132443676996e-26,
+        "dlnIorth": 5.615251629406154e-26,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 5.616132443676996e-26,
+        "dlnIorth": 5.615251629406154e-26,
         "dnode": 5.615251629406163e-26,
         "toPlane": -1
        }
@@ -2608,30 +2609,30 @@
      },
      {
       "key": "ringA",
-      "iDeg": 0.000004436338000413295,
+      "iDeg": 0.000004425324259057512,
       "pro": true,
       "dnode": 3.678356647242207e-26,
-      "dlnIown": -1.6704210173057042e-36,
+      "dlnIown": -1.6745783589970422e-36,
       "dlnA": 0,
       "kepler": 2.9460408899679863e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -3.669224685537916e-26,
+        "dlnIorth": -3.6783566472422036e-26,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -3.669224685537916e-26,
+        "dlnIorth": -3.6783566472422036e-26,
         "dnode": 3.678356647242207e-26,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 3.669224685537916e-26,
+        "dlnIorth": 3.6783566472422036e-26,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 3.669224685537916e-26,
+        "dlnIorth": 3.6783566472422036e-26,
         "dnode": 3.678356647242207e-26,
         "toPlane": -1
        }
@@ -2639,30 +2640,30 @@
      },
      {
       "key": "ringF",
-      "iDeg": 0.000004094554566467037,
+      "iDeg": 0.000004087300578761761,
       "pro": true,
       "dnode": 3.1378833297302034e-26,
-      "dlnIown": -1.4211565777237083e-36,
+      "dlnIown": -1.4236787930938348e-36,
       "dlnA": 0,
       "kepler": 2.831291007197127e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -3.132324198272808e-26,
+        "dlnIorth": -3.1378833297302e-26,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -3.132324198272808e-26,
+        "dlnIorth": -3.1378833297302e-26,
         "dnode": 3.1378833297302034e-26,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 3.132324198272808e-26,
+        "dlnIorth": 3.1378833297302e-26,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 3.132324198272808e-26,
+        "dlnIorth": 3.1378833297302e-26,
         "dnode": 3.1378833297302034e-26,
         "toPlane": -1
        }
@@ -2670,7 +2671,7 @@
      },
      {
       "key": "phobos",
-      "iDeg": 1.093000000000006,
+      "iDeg": 1.093,
       "pro": true,
       "dnode": 2.2798387350887287e-37,
       "dlnIown": 0,
@@ -2678,22 +2679,22 @@
       "kepler": 1.0001566374738263e-33,
       "per": {
        "plus|replace": {
-        "dlnIorth": -2.279700461245264e-37,
+        "dlnIorth": -2.2797004612452765e-37,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -2.279700461245264e-37,
+        "dlnIorth": -2.2797004612452765e-37,
         "dnode": 2.2798387350887287e-37,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 2.2797004612452644e-37,
+        "dlnIorth": 2.279700461245277e-37,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 2.2797004612452644e-37,
+        "dlnIorth": 2.279700461245277e-37,
         "dnode": 2.2798387350887287e-37,
         "toPlane": -1
        }
@@ -2701,7 +2702,7 @@
      },
      {
       "key": "moon",
-      "iDeg": 23.400000000000002,
+      "iDeg": 23.4,
       "pro": true,
       "dnode": 1.3143779967179146e-40,
       "dlnIown": 0,
@@ -2709,22 +2710,22 @@
       "kepler": 4.961752257427403e-35,
       "per": {
        "plus|replace": {
-        "dlnIorth": -1.2781426161144812e-40,
+        "dlnIorth": -1.2781426161144814e-40,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -1.2781426161144812e-40,
+        "dlnIorth": -1.2781426161144814e-40,
         "dnode": 1.3143779967179146e-40,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 1.2781426161144814e-40,
+        "dlnIorth": 1.2781426161144816e-40,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 1.2781426161144814e-40,
+        "dlnIorth": 1.2781426161144816e-40,
         "dnode": 1.3143779967179146e-40,
         "toPlane": -1
        }
@@ -2732,7 +2733,7 @@
      },
      {
       "key": "titan",
-      "iDeg": 0.3485000000000119,
+      "iDeg": 0.3484999999999999,
       "pro": true,
       "dnode": 5.715280087795358e-34,
       "dlnIown": 0,
@@ -2740,22 +2741,22 @@
       "kepler": 1.2533657098007324e-28,
       "per": {
        "plus|replace": {
-        "dlnIorth": -5.715244846994659e-34,
+        "dlnIorth": -5.715244846994856e-34,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -5.715244846994659e-34,
+        "dlnIorth": -5.715244846994856e-34,
         "dnode": 5.715280087795358e-34,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 5.715244846994659e-34,
+        "dlnIorth": 5.715244846994856e-34,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 5.715244846994659e-34,
+        "dlnIorth": 5.715244846994856e-34,
         "dnode": 5.715280087795358e-34,
         "toPlane": -1
        }
@@ -2771,33 +2772,33 @@
       "kepler": 1.0385806999429848e-31,
       "per": {
        "plus|replace": {
-        "dlnIorth": -1.2504471909935538e-36,
+        "dlnIorth": -1.2504471909935535e-36,
         "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
-        "dlnIorth": -1.2504471909935538e-36,
+        "dlnIorth": -1.2504471909935535e-36,
         "dnode": 1.285022582898984e-36,
         "toPlane": -1
        },
        "minus|replace": {
-        "dlnIorth": 1.2504471909935538e-36,
+        "dlnIorth": 1.2504471909935535e-36,
         "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
-        "dlnIorth": 1.2504471909935538e-36,
+        "dlnIorth": 1.2504471909935535e-36,
         "dnode": 1.285022582898984e-36,
         "toPlane": 1
        }
       }
      }
     ],
-    "ringOrthSlow": 3.132324198272808e-26,
-    "efoldYrC1": 1011647767223521900,
-    "cNeed": 101164776722.35219,
+    "ringOrthSlow": 3.1378833297302e-26,
+    "efoldYrC1": 1009855513549432700,
+    "cNeed": 100985551354.94327,
     "ringToward": true,
-    "ringPow": -2.003277775221348,
+    "ringPow": -1.9999999999992553,
     "keplerMax": 3.9865982708981216e-22,
     "passC1": false
    },
@@ -2807,30 +2808,30 @@
     "rows": [
      {
       "key": "ringD",
-      "iDeg": 0.000008099607985145754,
+      "iDeg": 0.000008103497562135987,
       "pro": true,
       "dnode": 1.8508938397674647e-25,
-      "dlnIown": 4.027532611814772e-34,
+      "dlnIown": 4.025599446776564e-34,
       "dlnA": 0,
       "kepler": 7.114804922434326e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -1.85178267217808e-25,
+        "dlnIorth": -1.8508938397674587e-25,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -1.85178267217808e-25,
+        "dlnIorth": -1.8508938397674587e-25,
         "dnode": 1.8508938397674647e-25,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 1.85178267217808e-25,
+        "dlnIorth": 1.8508938397674587e-25,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 1.85178267217808e-25,
+        "dlnIorth": 1.8508938397674587e-25,
         "dnode": 1.8508938397674647e-25,
         "toPlane": -1
        }
@@ -2838,30 +2839,30 @@
      },
      {
       "key": "ringC",
-      "iDeg": 0.000006883343194785021,
+      "iDeg": 0.0000068758510858263586,
       "pro": true,
       "dnode": 1.332568132221796e-25,
-      "dlnIown": 2.8951132301484183e-34,
+      "dlnIown": 2.898267821994168e-34,
       "dlnA": 0,
       "kepler": 6.553751575728695e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -1.331117711204138e-25,
+        "dlnIorth": -1.3325681322217927e-25,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -1.331117711204138e-25,
+        "dlnIorth": -1.3325681322217927e-25,
         "dnode": 1.332568132221796e-25,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 1.331117711204138e-25,
+        "dlnIorth": 1.3325681322217927e-25,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 1.331117711204138e-25,
+        "dlnIorth": 1.3325681322217927e-25,
         "dnode": 1.332568132221796e-25,
         "toPlane": -1
        }
@@ -2869,30 +2870,30 @@
      },
      {
       "key": "ringB",
-      "iDeg": 0.0000054668187275950014,
+      "iDeg": 0.000005467676258524899,
       "pro": true,
       "dnode": 8.426400219409475e-26,
-      "dlnIown": 1.832986887506787e-34,
+      "dlnIown": 1.8326994083518749e-34,
       "dlnA": 0,
       "kepler": 5.8442413132406875e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -8.427721993401961e-26,
+        "dlnIorth": -8.426400219409463e-26,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -8.427721993401961e-26,
+        "dlnIorth": -8.426400219409463e-26,
         "dnode": 8.426400219409475e-26,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 8.427721993401961e-26,
+        "dlnIorth": 8.426400219409463e-26,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 8.427721993401961e-26,
+        "dlnIorth": 8.426400219409463e-26,
         "dnode": 8.426400219409475e-26,
         "toPlane": -1
        }
@@ -2900,30 +2901,30 @@
      },
      {
       "key": "ringA",
-      "iDeg": 0.000004436338000413295,
+      "iDeg": 0.000004425324259057512,
       "pro": true,
       "dnode": 5.519842618818125e-26,
-      "dlnIown": 1.1975572352929726e-34,
+      "dlnIown": 1.2005377142084484e-34,
       "dlnA": 0,
       "kepler": 5.2577422657883775e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -5.506138947248769e-26,
+        "dlnIorth": -5.519842618818119e-26,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -5.506138947248769e-26,
+        "dlnIorth": -5.519842618818119e-26,
         "dnode": 5.519842618818125e-26,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 5.506138947248769e-26,
+        "dlnIorth": 5.519842618818119e-26,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 5.506138947248769e-26,
+        "dlnIorth": 5.519842618818119e-26,
         "dnode": 5.519842618818125e-26,
         "toPlane": -1
        }
@@ -2931,30 +2932,30 @@
      },
      {
       "key": "ringF",
-      "iDeg": 0.000004094554566467037,
+      "iDeg": 0.000004087300578761761,
       "pro": true,
       "dnode": 4.708793572072397e-26,
-      "dlnIown": 1.0223243504515686e-34,
+      "dlnIown": 1.0241387333495415e-34,
       "dlnA": 0,
       "kepler": 5.052950366703448e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -4.7004513873184667e-26,
+        "dlnIorth": -4.708793572072392e-26,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -4.7004513873184667e-26,
+        "dlnIorth": -4.708793572072392e-26,
         "dnode": 4.708793572072397e-26,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 4.7004513873184667e-26,
+        "dlnIorth": 4.708793572072392e-26,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 4.7004513873184667e-26,
+        "dlnIorth": 4.708793572072392e-26,
         "dnode": 4.708793572072397e-26,
         "toPlane": -1
        }
@@ -2962,7 +2963,7 @@
      },
      {
       "key": "phobos",
-      "iDeg": 1.093000000000006,
+      "iDeg": 1.093,
       "pro": true,
       "dnode": 3.798396227886937e-37,
       "dlnIown": 0,
@@ -2970,22 +2971,22 @@
       "kepler": 1.6663420708696825e-33,
       "per": {
        "plus|replace": {
-        "dlnIorth": -3.798165852449698e-37,
+        "dlnIorth": -3.798165852449719e-37,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -3.798165852449698e-37,
+        "dlnIorth": -3.798165852449719e-37,
         "dnode": 3.798396227886937e-37,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 3.798165852449699e-37,
+        "dlnIorth": 3.79816585244972e-37,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 3.798165852449699e-37,
+        "dlnIorth": 3.79816585244972e-37,
         "dnode": 3.798396227886937e-37,
         "toPlane": -1
        }
@@ -2993,7 +2994,7 @@
      },
      {
       "key": "moon",
-      "iDeg": 23.400000000000002,
+      "iDeg": 23.4,
       "pro": true,
       "dnode": 2.189860045406237e-40,
       "dlnIown": 0,
@@ -3001,22 +3002,22 @@
       "kepler": 8.266680552228049e-35,
       "per": {
        "plus|replace": {
-        "dlnIorth": -2.1294889707141092e-40,
+        "dlnIorth": -2.1294889707141096e-40,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -2.1294889707141092e-40,
+        "dlnIorth": -2.1294889707141096e-40,
         "dnode": 2.189860045406237e-40,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 2.129488970714109e-40,
+        "dlnIorth": 2.1294889707141092e-40,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 2.129488970714109e-40,
+        "dlnIorth": 2.1294889707141092e-40,
         "dnode": 2.189860045406237e-40,
         "toPlane": -1
        }
@@ -3024,7 +3025,7 @@
      },
      {
       "key": "titan",
-      "iDeg": 0.3485000000000119,
+      "iDeg": 0.3484999999999999,
       "pro": true,
       "dnode": 9.52212014673461e-34,
       "dlnIown": 0,
@@ -3032,22 +3033,22 @@
       "kepler": 2.0882089229555663e-28,
       "per": {
        "plus|replace": {
-        "dlnIorth": -9.522061432702547e-34,
+        "dlnIorth": -9.522061432702873e-34,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -9.522061432702547e-34,
+        "dlnIorth": -9.522061432702873e-34,
         "dnode": 9.52212014673461e-34,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 9.522061432702547e-34,
+        "dlnIorth": 9.522061432702873e-34,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 9.522061432702547e-34,
+        "dlnIorth": 9.522061432702873e-34,
         "dnode": 9.52212014673461e-34,
         "toPlane": -1
        }
@@ -3063,33 +3064,33 @@
       "kepler": 1.7303596480655547e-31,
       "per": {
        "plus|replace": {
-        "dlnIorth": -2.083346399033755e-36,
+        "dlnIorth": -2.0833463990337543e-36,
         "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
-        "dlnIorth": -2.083346399033755e-36,
+        "dlnIorth": -2.0833463990337543e-36,
         "dnode": 2.1409518051158178e-36,
         "toPlane": -1
        },
        "minus|replace": {
-        "dlnIorth": 2.083346399033755e-36,
+        "dlnIorth": 2.0833463990337543e-36,
         "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
-        "dlnIorth": 2.083346399033755e-36,
+        "dlnIorth": 2.0833463990337543e-36,
         "dnode": 2.1409518051158178e-36,
         "toPlane": 1
        }
       }
      }
     ],
-    "ringOrthSlow": 4.7004513873184667e-26,
-    "efoldYrC1": 674149889083450500,
-    "cNeed": 67414988908.34504,
+    "ringOrthSlow": 4.708793572072392e-26,
+    "efoldYrC1": 672955552818652800,
+    "cNeed": 67295555281.86527,
     "ringToward": true,
-    "ringPow": -2.0032777752221023,
+    "ringPow": -1.9999999999999958,
     "keplerMax": 7.114804922434326e-22,
     "passC1": false
    },
@@ -3099,30 +3100,30 @@
     "rows": [
      {
       "key": "ringD",
-      "iDeg": 0.000008099607985145754,
+      "iDeg": 0.000008103497562135987,
       "pro": true,
       "dnode": 1.153823553947807e-25,
-      "dlnIown": 2.842099805996399e-34,
-      "dlnA": 0,
+      "dlnIown": 2.8407356338072193e-34,
+      "dlnA": 1.0860562409616619e-42,
       "kepler": 7.044454582410371e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -1.1543776407078607e-25,
+        "dlnIorth": -1.1538235539478034e-25,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -1.1543776407078607e-25,
+        "dlnIorth": -1.1538235539478034e-25,
         "dnode": 1.153823553947807e-25,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 1.1543776407078607e-25,
+        "dlnIorth": 1.1538235539478034e-25,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 1.1543776407078607e-25,
+        "dlnIorth": 1.1538235539478034e-25,
         "dnode": 1.153823553947807e-25,
         "toPlane": -1
        }
@@ -3130,30 +3131,30 @@
      },
      {
       "key": "ringC",
-      "iDeg": 0.000006883343194785021,
+      "iDeg": 0.0000068758510858263586,
       "pro": true,
       "dnode": 8.307059352420317e-26,
-      "dlnIown": 2.0429877658500495e-34,
+      "dlnIown": 2.0452138592822525e-34,
       "dlnA": 0,
       "kepler": 6.488948864085672e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -8.298017613248906e-26,
+        "dlnIorth": -8.307059352420296e-26,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -8.298017613248906e-26,
+        "dlnIorth": -8.307059352420296e-26,
         "dnode": 8.307059352420317e-26,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 8.298017613248906e-26,
+        "dlnIorth": 8.307059352420296e-26,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 8.298017613248906e-26,
+        "dlnIorth": 8.307059352420296e-26,
         "dnode": 8.307059352420317e-26,
         "toPlane": -1
        }
@@ -3161,30 +3162,30 @@
      },
      {
       "key": "ringB",
-      "iDeg": 0.0000054668187275950014,
+      "iDeg": 0.000005467676258524899,
       "pro": true,
       "dnode": 5.252910155758635e-26,
-      "dlnIown": 1.2934794937080473e-34,
+      "dlnIown": 1.2932766289771091e-34,
       "dlnA": 0,
       "kepler": 5.786454154203894e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -5.253734132765182e-26,
+        "dlnIorth": -5.252910155758629e-26,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -5.253734132765182e-26,
+        "dlnIorth": -5.252910155758629e-26,
         "dnode": 5.252910155758635e-26,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 5.253734132765182e-26,
+        "dlnIorth": 5.252910155758629e-26,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 5.253734132765182e-26,
+        "dlnIorth": 5.252910155758629e-26,
         "dnode": 5.252910155758635e-26,
         "toPlane": -1
        }
@@ -3192,30 +3193,30 @@
      },
      {
       "key": "ringA",
-      "iDeg": 0.000004436338000413295,
+      "iDeg": 0.000004425324259057512,
       "pro": true,
       "dnode": 3.440999311163877e-26,
-      "dlnIown": 8.45077566467944e-35,
+      "dlnIown": 8.471807944344829e-35,
       "dlnA": 0,
       "kepler": 5.205754339177775e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -3.432456617524423e-26,
+        "dlnIorth": -3.440999311163874e-26,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -3.432456617524423e-26,
+        "dlnIorth": -3.440999311163874e-26,
         "dnode": 3.440999311163877e-26,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 3.432456617524423e-26,
+        "dlnIorth": 3.440999311163874e-26,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 3.432456617524423e-26,
+        "dlnIorth": 3.440999311163874e-26,
         "dnode": 3.440999311163877e-26,
         "toPlane": -1
        }
@@ -3223,30 +3224,30 @@
      },
      {
       "key": "ringF",
-      "iDeg": 0.000004094554566467037,
+      "iDeg": 0.000004087300578761761,
       "pro": true,
       "dnode": 2.935401705598497e-26,
-      "dlnIown": 7.214212253648412e-35,
+      "dlnIown": 7.22701576686766e-35,
       "dlnA": 0,
       "kepler": 5.002987397894465e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -2.930201294287129e-26,
+        "dlnIorth": -2.9354017055984943e-26,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -2.930201294287129e-26,
+        "dlnIorth": -2.9354017055984943e-26,
         "dnode": 2.935401705598497e-26,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 2.930201294287129e-26,
+        "dlnIorth": 2.9354017055984943e-26,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 2.930201294287129e-26,
+        "dlnIorth": 2.9354017055984943e-26,
         "dnode": 2.935401705598497e-26,
         "toPlane": -1
        }
@@ -3254,30 +3255,30 @@
      },
      {
       "key": "phobos",
-      "iDeg": 1.093000000000006,
+      "iDeg": 1.093,
       "pro": true,
       "dnode": 3.392981858486737e-30,
-      "dlnIown": 8.353080085102402e-39,
+      "dlnIown": 8.353080085102447e-39,
       "dlnA": 0,
       "kepler": 2.9769766394770033e-26,
       "per": {
        "plus|replace": {
-        "dlnIorth": -3.392776071719823e-30,
+        "dlnIorth": -3.392776071719842e-30,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -3.392776071719823e-30,
+        "dlnIorth": -3.392776071719842e-30,
         "dnode": 3.392981858486737e-30,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 3.392776071719823e-30,
+        "dlnIorth": 3.392776071719842e-30,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 3.392776071719823e-30,
+        "dlnIorth": 3.392776071719842e-30,
         "dnode": 3.392981858486737e-30,
         "toPlane": -1
        }
@@ -3285,7 +3286,7 @@
      },
      {
       "key": "moon",
-      "iDeg": 23.400000000000002,
+      "iDeg": 23.4,
       "pro": true,
       "dnode": 1.7956345099910376e-31,
       "dlnIown": 4.299010235128164e-40,
@@ -3293,22 +3294,22 @@
       "kepler": 1.3556973122766755e-25,
       "per": {
        "plus|replace": {
-        "dlnIorth": -1.746131627215567e-31,
+        "dlnIorth": -1.7461316272155672e-31,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -1.746131627215567e-31,
+        "dlnIorth": -1.7461316272155672e-31,
         "dnode": 1.7956345099910376e-31,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 1.746131627215567e-31,
+        "dlnIorth": 1.7461316272155672e-31,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 1.746131627215567e-31,
+        "dlnIorth": 1.7461316272155672e-31,
         "dnode": 1.7956345099910376e-31,
         "toPlane": -1
        }
@@ -3316,30 +3317,30 @@
      },
      {
       "key": "titan",
-      "iDeg": 0.3485000000000119,
+      "iDeg": 0.3484999999999999,
       "pro": true,
       "dnode": 3.863577691102526e-28,
-      "dlnIown": 9.512144576961934e-37,
+      "dlnIown": 9.512144576962261e-37,
       "dlnA": 0,
       "kepler": 1.6945716475458757e-22,
       "per": {
        "plus|replace": {
-        "dlnIorth": -3.863553868023114e-28,
+        "dlnIorth": -3.863553868023247e-28,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -3.863553868023114e-28,
+        "dlnIorth": -3.863553868023247e-28,
         "dnode": 3.863577691102526e-28,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 3.8635538680231137e-28,
+        "dlnIorth": 3.8635538680232464e-28,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 3.8635538680231137e-28,
+        "dlnIorth": 3.8635538680232464e-28,
         "dnode": 3.863577691102526e-28,
         "toPlane": -1
        }
@@ -3350,38 +3351,38 @@
       "iDeg": 156.885,
       "pro": false,
       "dnode": 9.296160805633081e-29,
-      "dlnIown": 2.2271509938180257e-37,
+      "dlnIown": 2.227150993818025e-37,
       "dlnA": 0,
       "kepler": 1.502668253301391e-23,
       "per": {
        "plus|replace": {
-        "dlnIorth": -9.046034148445822e-29,
+        "dlnIorth": -9.04603414844582e-29,
         "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
-        "dlnIorth": -9.046034148445822e-29,
+        "dlnIorth": -9.04603414844582e-29,
         "dnode": 9.296160805633081e-29,
         "toPlane": -1
        },
        "minus|replace": {
-        "dlnIorth": 9.046034148445821e-29,
+        "dlnIorth": 9.046034148445818e-29,
         "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
-        "dlnIorth": 9.046034148445821e-29,
+        "dlnIorth": 9.046034148445818e-29,
         "dnode": 9.296160805633081e-29,
         "toPlane": 1
        }
       }
      }
     ],
-    "ringOrthSlow": 2.930201294287129e-26,
-    "efoldYrC1": 1081430408068199200,
-    "cNeed": 108143040806.8199,
+    "ringOrthSlow": 2.9354017055984943e-26,
+    "efoldYrC1": 1079514526192186600,
+    "cNeed": 107951452619.21866,
     "ringToward": true,
-    "ringPow": -2.0032777752220947,
+    "ringPow": -1.9999999999999964,
     "keplerMax": 7.044454582410371e-22,
     "passC1": false
    },
@@ -3391,7 +3392,7 @@
     "rows": [
      {
       "key": "ringD",
-      "iDeg": 0.000008099607985145754,
+      "iDeg": 0.000008103497562135987,
       "pro": true,
       "dnode": 5.372751074809494e-11,
       "dlnIown": 0,
@@ -3399,22 +3400,22 @@
       "kepler": 3.280232994305253e-7,
       "per": {
        "plus|replace": {
-        "dlnIorth": -5.375331166215526e-11,
+        "dlnIorth": -5.372751074809479e-11,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -5.375331166215526e-11,
+        "dlnIorth": -5.372751074809479e-11,
         "dnode": 5.372751074809494e-11,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 5.375331166215526e-11,
+        "dlnIorth": 5.372751074809479e-11,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 5.375331166215526e-11,
+        "dlnIorth": 5.372751074809479e-11,
         "dnode": 5.372751074809494e-11,
         "toPlane": -1
        }
@@ -3422,30 +3423,30 @@
      },
      {
       "key": "ringC",
-      "iDeg": 0.000006883343194785021,
+      "iDeg": 0.0000068758510858263586,
       "pro": true,
       "dnode": 5.372751074809494e-11,
       "dlnIown": 0,
-      "dlnA": -2.7655112665005032e-28,
+      "dlnA": 0,
       "kepler": 4.196853000527505e-7,
       "per": {
        "plus|replace": {
-        "dlnIorth": -5.3669031553724935e-11,
+        "dlnIorth": -5.372751074809481e-11,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -5.3669031553724935e-11,
+        "dlnIorth": -5.372751074809481e-11,
         "dnode": 5.372751074809494e-11,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 5.3669031553724935e-11,
+        "dlnIorth": 5.372751074809481e-11,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 5.3669031553724935e-11,
+        "dlnIorth": 5.372751074809481e-11,
         "dnode": 5.372751074809494e-11,
         "toPlane": -1
        }
@@ -3453,7 +3454,7 @@
      },
      {
       "key": "ringB",
-      "iDeg": 0.0000054668187275950014,
+      "iDeg": 0.000005467676258524899,
       "pro": true,
       "dnode": 5.372751074809492e-11,
       "dlnIown": 0,
@@ -3461,22 +3462,22 @@
       "kepler": 5.918467447754855e-7,
       "per": {
        "plus|replace": {
-        "dlnIorth": -5.3735938501885246e-11,
+        "dlnIorth": -5.372751074809485e-11,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -5.3735938501885246e-11,
+        "dlnIorth": -5.372751074809485e-11,
         "dnode": 5.372751074809492e-11,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 5.3735938501885246e-11,
+        "dlnIorth": 5.372751074809485e-11,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 5.3735938501885246e-11,
+        "dlnIorth": 5.372751074809485e-11,
         "dnode": 5.372751074809492e-11,
         "toPlane": -1
        }
@@ -3484,7 +3485,7 @@
      },
      {
       "key": "ringA",
-      "iDeg": 0.000004436338000413295,
+      "iDeg": 0.000004425324259057512,
       "pro": true,
       "dnode": 5.3727510748095065e-11,
       "dlnIown": 0,
@@ -3492,22 +3493,22 @@
       "kepler": 8.12822662246025e-7,
       "per": {
        "plus|replace": {
-        "dlnIorth": -5.3594125756461274e-11,
+        "dlnIorth": -5.372751074809502e-11,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -5.3594125756461274e-11,
+        "dlnIorth": -5.372751074809502e-11,
         "dnode": 5.3727510748095065e-11,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 5.3594125756461274e-11,
+        "dlnIorth": 5.372751074809502e-11,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 5.3594125756461274e-11,
+        "dlnIorth": 5.372751074809502e-11,
         "dnode": 5.3727510748095065e-11,
         "toPlane": -1
        }
@@ -3515,7 +3516,7 @@
      },
      {
       "key": "ringF",
-      "iDeg": 0.000004094554566467037,
+      "iDeg": 0.000004087300578761761,
       "pro": true,
       "dnode": 5.3727510748094917e-11,
       "dlnIown": 0,
@@ -3523,22 +3524,22 @@
       "kepler": 9.157113268811114e-7,
       "per": {
        "plus|replace": {
-        "dlnIorth": -5.363232610808698e-11,
+        "dlnIorth": -5.372751074809485e-11,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -5.363232610808698e-11,
+        "dlnIorth": -5.372751074809485e-11,
         "dnode": 5.3727510748094917e-11,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 5.363232610808698e-11,
+        "dlnIorth": 5.372751074809485e-11,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 5.363232610808698e-11,
+        "dlnIorth": 5.372751074809485e-11,
         "dnode": 5.3727510748094917e-11,
         "toPlane": -1
        }
@@ -3546,7 +3547,7 @@
      },
      {
       "key": "phobos",
-      "iDeg": 1.093000000000006,
+      "iDeg": 1.093,
       "pro": true,
       "dnode": 2.325154041691679e-11,
       "dlnIown": 0,
@@ -3554,22 +3555,22 @@
       "kepler": 2.04007258246405e-7,
       "per": {
        "plus|replace": {
-        "dlnIorth": -2.3250130194425864e-11,
+        "dlnIorth": -2.325013019442599e-11,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -2.3250130194425864e-11,
+        "dlnIorth": -2.325013019442599e-11,
         "dnode": 2.325154041691679e-11,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 2.3250130194425864e-11,
+        "dlnIorth": 2.325013019442599e-11,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 2.3250130194425864e-11,
+        "dlnIorth": 2.325013019442599e-11,
         "dnode": 2.325154041691679e-11,
         "toPlane": -1
        }
@@ -3577,7 +3578,7 @@
      },
      {
       "key": "moon",
-      "iDeg": 23.400000000000002,
+      "iDeg": 23.4,
       "pro": true,
       "dnode": 2.392029725006579e-11,
       "dlnIown": 0,
@@ -3585,22 +3586,22 @@
       "kepler": 0.000018059734593125655,
       "per": {
        "plus|replace": {
-        "dlnIorth": -2.3260851430698947e-11,
+        "dlnIorth": -2.326085143069895e-11,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -2.3260851430698947e-11,
+        "dlnIorth": -2.326085143069895e-11,
         "dnode": 2.392029725006579e-11,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 2.3260851430698947e-11,
+        "dlnIorth": 2.326085143069895e-11,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 2.3260851430698947e-11,
+        "dlnIorth": 2.326085143069895e-11,
         "dnode": 2.392029725006579e-11,
         "toPlane": -1
        }
@@ -3608,7 +3609,7 @@
      },
      {
       "key": "titan",
-      "iDeg": 0.3485000000000119,
+      "iDeg": 0.3484999999999999,
       "pro": true,
       "dnode": 5.372751074809493e-11,
       "dlnIown": 0,
@@ -3616,22 +3617,22 @@
       "kepler": 0.000023564976207695304,
       "per": {
        "plus|replace": {
-        "dlnIorth": -5.372717946065683e-11,
+        "dlnIorth": -5.372717946065867e-11,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": -5.372717946065683e-11,
+        "dlnIorth": -5.372717946065867e-11,
         "dnode": 5.372751074809493e-11,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": 5.372717946065683e-11,
+        "dlnIorth": 5.372717946065867e-11,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": 5.372717946065683e-11,
+        "dlnIorth": 5.372717946065867e-11,
         "dnode": 5.372751074809493e-11,
         "toPlane": -1
        }
@@ -3647,31 +3648,31 @@
       "kepler": 0.000005744534930624682,
       "per": {
        "plus|replace": {
-        "dlnIorth": -3.458199044117768e-11,
+        "dlnIorth": -3.458199044117767e-11,
         "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
-        "dlnIorth": -3.458199044117768e-11,
+        "dlnIorth": -3.458199044117767e-11,
         "dnode": 3.5538197053488523e-11,
         "toPlane": -1
        },
        "minus|replace": {
-        "dlnIorth": 3.458199044117768e-11,
+        "dlnIorth": 3.458199044117767e-11,
         "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
-        "dlnIorth": 3.458199044117768e-11,
+        "dlnIorth": 3.458199044117767e-11,
         "dnode": 3.5538197053488523e-11,
         "toPlane": 1
        }
       }
      }
     ],
-    "ringOrthSlow": 5.3594125756461274e-11,
-    "efoldYrC1": 591.2604668284687,
-    "cNeed": 0.00005912604668284687,
+    "ringOrthSlow": 5.372751074809479e-11,
+    "efoldYrC1": 589.7925917804155,
+    "cNeed": 0.00005897925917804154,
     "ringToward": true,
     "ringPow": 0,
     "keplerMax": 9.157113268811114e-7,
@@ -3683,30 +3684,30 @@
     "rows": [
      {
       "key": "ringD",
-      "iDeg": 0.000008099607985145754,
+      "iDeg": 0.000008103497562135987,
       "pro": true,
       "dnode": -1.0742679313787163e-20,
-      "dlnIown": -4.3243148620310006e-13,
+      "dlnIown": -4.3222392452424583e-13,
       "dlnA": -5.1868282393159694e-12,
       "kepler": 0,
       "per": {
        "plus|replace": {
-        "dlnIorth": 1.0747838177933112e-20,
+        "dlnIorth": 1.0742679350679683e-20,
         "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
-        "dlnIorth": 1.0747838177933112e-20,
+        "dlnIorth": 1.0742679350679683e-20,
         "dnode": -1.0742679313787163e-20,
         "toPlane": -1
        },
        "minus|replace": {
-        "dlnIorth": -1.0747838177933112e-20,
+        "dlnIorth": -1.0742679350679683e-20,
         "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
-        "dlnIorth": -1.0747838177933112e-20,
+        "dlnIorth": -1.0742679350679683e-20,
         "dnode": -1.0742679313787163e-20,
         "toPlane": 1
        }
@@ -3714,30 +3715,30 @@
      },
      {
       "key": "ringC",
-      "iDeg": 0.000006883343194785021,
+      "iDeg": 0.0000068758510858263586,
       "pro": true,
       "dnode": -1.3792295646993445e-20,
-      "dlnIown": -5.543190347283229e-13,
+      "dlnIown": -5.549230353900891e-13,
       "dlnA": -4.720037240773886e-12,
       "kepler": 0,
       "per": {
        "plus|replace": {
-        "dlnIorth": 1.3777283601625248e-20,
+        "dlnIorth": 1.3792295693744368e-20,
         "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
-        "dlnIorth": 1.3777283601625248e-20,
+        "dlnIorth": 1.3792295693744368e-20,
         "dnode": -1.3792295646993445e-20,
         "toPlane": -1
        },
        "minus|replace": {
-        "dlnIorth": -1.3777283601625248e-20,
+        "dlnIorth": -1.3792295693744368e-20,
         "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
-        "dlnIorth": -1.3777283601625248e-20,
+        "dlnIorth": -1.3792295693744368e-20,
         "dnode": -1.3792295646993445e-20,
         "toPlane": 1
        }
@@ -3745,30 +3746,30 @@
      },
      {
       "key": "ringB",
-      "iDeg": 0.0000054668187275950014,
+      "iDeg": 0.000005467676258524899,
       "pro": true,
       "dnode": -1.954435285829892e-20,
-      "dlnIown": -7.864762403724797e-13,
+      "dlnIown": -7.863528922315401e-13,
       "dlnA": -3.827943302029001e-12,
       "kepler": 0,
       "per": {
        "plus|replace": {
-        "dlnIorth": 1.954741863564199e-20,
+        "dlnIorth": 1.9544352887911666e-20,
         "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
-        "dlnIorth": 1.954741863564199e-20,
+        "dlnIorth": 1.9544352887911666e-20,
         "dnode": -1.954435285829892e-20,
         "toPlane": -1
        },
        "minus|replace": {
-        "dlnIorth": -1.954741863564199e-20,
+        "dlnIorth": -1.9544352887911666e-20,
         "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
-        "dlnIorth": -1.954741863564199e-20,
+        "dlnIorth": -1.9544352887911666e-20,
         "dnode": -1.954435285829892e-20,
         "toPlane": 1
        }
@@ -3776,30 +3777,30 @@
      },
      {
       "key": "ringA",
-      "iDeg": 0.000004436338000413295,
+      "iDeg": 0.000004425324259057512,
       "pro": true,
       "dnode": -2.696158188993617e-20,
-      "dlnIown": -1.0820866355275502e-12,
+      "dlnIown": -1.0847797313620212e-12,
       "dlnA": -2.6654159528960145e-12,
       "kepler": 0,
       "per": {
        "plus|replace": {
-        "dlnIorth": 2.6894646563844744e-20,
+        "dlnIorth": 2.696158192581356e-20,
         "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
-        "dlnIorth": 2.6894646563844744e-20,
+        "dlnIorth": 2.696158192581356e-20,
         "dnode": -2.696158188993617e-20,
         "toPlane": -1
        },
        "minus|replace": {
-        "dlnIorth": -2.6894646563844744e-20,
+        "dlnIorth": -2.696158192581356e-20,
         "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
-        "dlnIorth": -2.6894646563844744e-20,
+        "dlnIorth": -2.696158192581356e-20,
         "dnode": -2.696158188993617e-20,
         "toPlane": 1
        }
@@ -3807,30 +3808,30 @@
      },
      {
       "key": "ringF",
-      "iDeg": 0.000004094554566467037,
+      "iDeg": 0.000004087300578761761,
       "pro": true,
       "dnode": -3.042538137829538e-20,
-      "dlnIown": -1.2219744867163224e-12,
+      "dlnIown": -1.2241432011849525e-12,
       "dlnA": -2.1197115779873686e-12,
       "kepler": 0,
       "per": {
        "plus|replace": {
-        "dlnIorth": 3.037147918984474e-20,
+        "dlnIorth": 3.0425381351525473e-20,
         "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
-        "dlnIorth": 3.037147918984474e-20,
+        "dlnIorth": 3.0425381351525473e-20,
         "dnode": -3.042538137829538e-20,
         "toPlane": -1
        },
        "minus|replace": {
-        "dlnIorth": -3.037147918984474e-20,
+        "dlnIorth": -3.0425381351525473e-20,
         "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
-        "dlnIorth": -3.037147918984474e-20,
+        "dlnIorth": -3.0425381351525473e-20,
         "dnode": -3.042538137829538e-20,
         "toPlane": 1
        }
@@ -3838,30 +3839,30 @@
      },
      {
       "key": "phobos",
-      "iDeg": 1.093000000000006,
+      "iDeg": 1.093,
       "pro": true,
       "dnode": -9.486749234129555e-26,
-      "dlnIown": -3.817044372313815e-18,
+      "dlnIown": -3.817044372313836e-18,
       "dlnA": -8.293282880168611e-17,
       "kepler": 0,
       "per": {
        "plus|replace": {
-        "dlnIorth": 9.486173865675305e-26,
+        "dlnIorth": 9.486173865675357e-26,
         "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
-        "dlnIorth": 9.486173865675305e-26,
+        "dlnIorth": 9.486173865675357e-26,
         "dnode": -9.486749234129555e-26,
         "toPlane": -1
        },
        "minus|replace": {
-        "dlnIorth": -9.486173865675305e-26,
+        "dlnIorth": -9.486173865675357e-26,
         "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
-        "dlnIorth": -9.486173865675305e-26,
+        "dlnIorth": -9.486173865675357e-26,
         "dnode": -9.486749234129555e-26,
         "toPlane": 1
        }
@@ -3869,30 +3870,30 @@
      },
      {
       "key": "moon",
-      "iDeg": 23.400000000000002,
+      "iDeg": 23.4,
       "pro": true,
       "dnode": -2.8603088125007507e-26,
-      "dlnIown": -1.1675191871723592e-18,
+      "dlnIown": -1.1675191871723594e-18,
       "dlnA": 3.890286094729114e-18,
       "kepler": 0,
       "per": {
        "plus|replace": {
-        "dlnIorth": 2.7814544839358333e-26,
+        "dlnIorth": 2.781454483935834e-26,
         "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
-        "dlnIorth": 2.7814544839358333e-26,
+        "dlnIorth": 2.781454483935834e-26,
         "dnode": -2.8603088125007507e-26,
         "toPlane": -1
        },
        "minus|replace": {
-        "dlnIorth": -2.7814545075143926e-26,
+        "dlnIorth": -2.781454507514393e-26,
         "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
-        "dlnIorth": -2.7814545075143926e-26,
+        "dlnIorth": -2.781454507514393e-26,
         "dnode": -2.8603088125007507e-26,
         "toPlane": 1
        }
@@ -3900,30 +3901,30 @@
      },
      {
       "key": "titan",
-      "iDeg": 0.3485000000000119,
+      "iDeg": 0.3484999999999999,
       "pro": true,
       "dnode": -5.454504487558727e-26,
-      "dlnIown": -2.194587398247471e-18,
+      "dlnIown": -2.1945873982475464e-18,
       "dlnA": 8.289373849534539e-18,
       "kepler": 0,
       "per": {
        "plus|replace": {
-        "dlnIorth": 5.454470854988859e-26,
+        "dlnIorth": 5.454470854989047e-26,
         "dnode": 0,
         "toPlane": -1
        },
        "plus|add": {
-        "dlnIorth": 5.454470854988859e-26,
+        "dlnIorth": 5.454470854989047e-26,
         "dnode": -5.454504487558727e-26,
         "toPlane": -1
        },
        "minus|replace": {
-        "dlnIorth": -5.454470830251669e-26,
+        "dlnIorth": -5.454470830251857e-26,
         "dnode": 0,
         "toPlane": 1
        },
        "minus|add": {
-        "dlnIorth": -5.454470830251669e-26,
+        "dlnIorth": -5.454470830251857e-26,
         "dnode": -5.454504487558727e-26,
         "toPlane": 1
        }
@@ -3934,38 +3935,38 @@
       "iDeg": 156.885,
       "pro": false,
       "dnode": -1.6841073266413143e-26,
-      "dlnIown": -6.871785057474e-19,
+      "dlnIown": -6.871785057473998e-19,
       "dlnA": -3.1118688114533868e-18,
       "kepler": 0,
       "per": {
        "plus|replace": {
-        "dlnIorth": 1.6387939822279437e-26,
+        "dlnIorth": 1.638793982227943e-26,
         "dnode": 0,
         "toPlane": 1
        },
        "plus|add": {
-        "dlnIorth": 1.6387939822279437e-26,
+        "dlnIorth": 1.638793982227943e-26,
         "dnode": -1.6841073266413143e-26,
         "toPlane": 1
        },
        "minus|replace": {
-        "dlnIorth": -1.6387939822279437e-26,
+        "dlnIorth": -1.638793982227943e-26,
         "dnode": 0,
         "toPlane": -1
        },
        "minus|add": {
-        "dlnIorth": -1.6387939822279437e-26,
+        "dlnIorth": -1.638793982227943e-26,
         "dnode": -1.6841073266413143e-26,
         "toPlane": -1
        }
       }
      }
     ],
-    "ringOrthSlow": 1.0747838177933112e-20,
-    "efoldYrC1": 2948322005730.347,
-    "cNeed": 294832.2005730347,
+    "ringOrthSlow": 1.0742679350679683e-20,
+    "efoldYrC1": 2949737842824.478,
+    "cNeed": 294973.78428244777,
     "ringToward": false,
-    "ringPow": 1.5178149846015212,
+    "ringPow": 1.521092759823617,
     "keplerMax": 0,
     "passC1": false
    }
@@ -4013,7 +4014,7 @@
     "spinOverBreak": 0.39347406543804897,
     "Req": 5.1807360976510655,
     "hlDlnI": -0.00008189420288466482,
-    "orthDlnI": -6.051492835536646e-20,
+    "orthDlnI": -6.051493085913236e-20,
     "layout": {
      "group": "with",
      "ring": true,
@@ -4030,7 +4031,7 @@
     "spinOverBreak": 0.29865519976323324,
     "Req": 17.096512596031367,
     "hlDlnI": -0.00008792590689561574,
-    "orthDlnI": -5.028251667657768e-19,
+    "orthDlnI": -5.028251875698418e-19,
     "layout": {
      "group": "with",
      "ring": true,
@@ -4047,7 +4048,7 @@
     "spinOverBreak": 0.1718582597198286,
     "Req": 0.770550992536619,
     "hlDlnI": -0.00005061859779228468,
-    "orthDlnI": -4.600713029629278e-21,
+    "orthDlnI": -4.600713219980795e-21,
     "layout": {
      "group": "with",
      "ring": true,
@@ -4064,7 +4065,7 @@
     "spinOverBreak": 0.16148878793927898,
     "Req": 0.9072094044030412,
     "hlDlnI": -0.00005416912637734242,
-    "orthDlnI": -7.269847656202448e-21,
+    "orthDlnI": -7.269847956987679e-21,
     "layout": {
      "group": "mixed",
      "ring": true,
@@ -4081,7 +4082,7 @@
     "spinOverBreak": 0.06778998659498227,
     "Req": 0.005663077508383789,
     "hlDlnI": -0.000035441179793565623,
-    "orthDlnI": -9.854319721200667e-24,
+    "orthDlnI": -9.854320128916751e-24,
     "layout": {
      "group": "with",
      "ring": false,
@@ -4098,7 +4099,7 @@
     "spinOverBreak": 0.0588341822762771,
     "Req": 0.052659783343019136,
     "hlDlnI": -0.00003646053295197257,
-    "orthDlnI": -2.48541252349323e-22,
+    "orthDlnI": -2.485412626325561e-22,
     "layout": {
      "group": "without",
      "ring": false,
@@ -4115,7 +4116,7 @@
     "spinOverBreak": 0.004564097258253974,
     "Req": 17513.738415422995,
     "hlDlnI": -0.0000014326645421903495,
-    "orthDlnI": -9.079422070832922e-17,
+    "orthDlnI": -9.07942244648812e-17,
     "layout": {
      "group": "without",
      "ring": false,
@@ -4275,12 +4276,12 @@
      {
       "key": "jupiter",
       "group": "with",
-      "tYr": 1203498.399744084
+      "tYr": 1203498.3997440843
      },
      {
       "key": "uranus",
       "group": "with",
-      "tYr": 131533803.49011403
+      "tYr": 131533803.49011402
      },
      {
       "key": "neptune",
@@ -4290,7 +4291,7 @@
      {
       "key": "mars",
       "group": "with",
-      "tYr": 61409544308.95329
+      "tYr": 61409544308.9533
      },
      {
       "key": "earth",
@@ -4304,7 +4305,7 @@
      }
     ],
     "split": false,
-    "margin": 1.085346583110951e-7,
+    "margin": 1.0853465831109509e-7,
     "mixedSideWith": true,
     "mixedSideWithout": true,
     "ageSplit": false
@@ -4321,12 +4322,12 @@
      {
       "key": "jupiter",
       "group": "with",
-      "tYr": 1817399.4641426003
+      "tYr": 1817399.4641426008
      },
      {
       "key": "uranus",
       "group": "with",
-      "tYr": 561929846.9206966
+      "tYr": 561929846.9206965
      },
      {
       "key": "neptune",
@@ -4336,7 +4337,7 @@
      {
       "key": "mars",
       "group": "with",
-      "tYr": 1021337684296.2759
+      "tYr": 1021337684296.276
      },
      {
       "key": "earth",
@@ -4350,7 +4351,7 @@
      }
     ],
     "split": false,
-    "margin": 0.00007102990416137224,
+    "margin": 0.00007102990416137222,
     "mixedSideWith": true,
     "mixedSideWithout": true,
     "ageSplit": false
@@ -4367,12 +4368,12 @@
      {
       "key": "jupiter",
       "group": "with",
-      "tYr": 2744449.6918052896
+      "tYr": 2744449.69180529
      },
      {
       "key": "uranus",
       "group": "with",
-      "tYr": 2400638805.248646
+      "tYr": 2400638805.2486453
      },
      {
       "key": "neptune",
@@ -4382,7 +4383,7 @@
      {
       "key": "mars",
       "group": "with",
-      "tYr": 16986458328295.955
+      "tYr": 16986458328295.957
      },
      {
       "key": "earth",
@@ -4396,7 +4397,7 @@
      }
     ],
     "split": false,
-    "margin": 0.046485126167831396,
+    "margin": 0.04648512616783139,
     "mixedSideWith": true,
     "mixedSideWithout": false,
     "ageSplit": false
@@ -4422,19 +4423,19 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.273
+   "wallSec": 0.149
   },
   "t1": {
-   "wallSec": 0.538
+   "wallSec": 0.372
   },
   "t2": {
-   "wallSec": 0.688
+   "wallSec": 0.468
   },
   "t3": {
-   "wallSec": 0.825
+   "wallSec": 0.581
   },
   "t4": {
-   "wallSec": 0.843
+   "wallSec": 0.592
   }
  },
  "gates": {
@@ -4449,168 +4450,168 @@
   "t4Complete": true
  },
  "ok": true,
- "elapsedS": 3.377,
+ "elapsedS": 2.122,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第337便k",
   "target": "tests/lib-w337k-gyrodrag.mjs",
-  "targetSha256": "3b078ae7befdecc6b3845483c3becd5eb8c1a77bebcc2f3d8748f973a70ae9eb",
-  "generatedAt": "2026-11-15T11:19:09.820Z",
+  "targetSha256": "24961ec05e36eacff731d2ad0db89bf1e4cd0cfa4b0f709c7ca56ee439556e11",
+  "generatedAt": "2026-11-16T19:33:54.387Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w337k-gyrodrag.mjs",
-    "bytes": 17744,
-    "sha256": "de73e536254a9b9ded20b765a8984c23070ba62744be01f9dbd623c51bd35086",
-    "mtime": "2026-11-15T11:16:07.157Z"
+    "bytes": 18283,
+    "sha256": "4245e3372b61fddeac510421596d812b68dc1a44147199bd10375d4d69d4534d",
+    "mtime": "2026-11-16T19:07:49.016Z"
    },
    {
     "file": "tests/lib-w337k-gyrodrag.mjs",
-    "bytes": 32766,
-    "sha256": "3b078ae7befdecc6b3845483c3becd5eb8c1a77bebcc2f3d8748f973a70ae9eb",
-    "mtime": "2026-11-15T11:16:07.150Z"
+    "bytes": 33127,
+    "sha256": "24961ec05e36eacff731d2ad0db89bf1e4cd0cfa4b0f709c7ca56ee439556e11",
+    "mtime": "2026-11-16T18:48:19.671Z"
    },
    {
     "file": "tests/lib-w337j-spinorbit.mjs",
-    "bytes": 40914,
-    "sha256": "bf4a3bc4fb4243acd5279394f4a71c5552c994582293402cde0275c5dbeea108",
-    "mtime": "2026-11-15T10:50:21.117Z"
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-16T18:48:19.672Z"
    },
    {
     "file": "tests/lib-w337i-rotring.mjs",
     "bytes": 38680,
     "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
-    "mtime": "2026-11-15T10:19:00.757Z"
+    "mtime": "2026-11-16T18:42:14.166Z"
    },
    {
     "file": "tests/lib-w337a-supply.mjs",
     "bytes": 40434,
     "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
-    "mtime": "2026-11-15T10:19:00.753Z"
+    "mtime": "2026-11-16T18:42:14.162Z"
    },
    {
     "file": "tests/lib-w337b-mercuryband.mjs",
     "bytes": 28361,
     "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
-    "mtime": "2026-11-15T10:19:00.753Z"
+    "mtime": "2026-11-16T18:42:14.162Z"
    },
    {
     "file": "tests/lib-w335c-mercurycombo.mjs",
     "bytes": 23928,
     "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
-    "mtime": "2026-11-15T10:19:00.753Z"
+    "mtime": "2026-11-16T18:42:14.162Z"
    },
    {
     "file": "tests/lib-w334c-mercurynode.mjs",
     "bytes": 35987,
     "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
-    "mtime": "2026-11-15T10:19:00.749Z"
+    "mtime": "2026-11-16T18:42:14.158Z"
    },
    {
     "file": "tests/lib-w334a-heightlaw.mjs",
     "bytes": 40171,
     "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
-    "mtime": "2026-11-15T10:19:00.749Z"
+    "mtime": "2026-11-16T18:42:14.158Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
-    "bytes": 35614,
-    "sha256": "ac744a875234f5c131504e53e38a8887715bce125b74e3815f522716d3518d7b",
-    "mtime": "2026-11-15T10:19:00.749Z"
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-16T18:48:19.670Z"
    },
    {
     "file": "tests/lib-w333b-axialfield.mjs",
     "bytes": 34735,
     "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
-    "mtime": "2026-11-15T10:19:00.749Z"
+    "mtime": "2026-11-16T18:42:14.154Z"
    },
    {
     "file": "tests/lib-w333a-rotdiff.mjs",
     "bytes": 28077,
     "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
-    "mtime": "2026-11-15T10:19:00.749Z"
+    "mtime": "2026-11-16T18:42:14.154Z"
    },
    {
     "file": "tests/lib-w332b-transgeo2.mjs",
     "bytes": 29461,
     "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
-    "mtime": "2026-11-15T10:19:00.749Z"
+    "mtime": "2026-11-16T18:42:14.154Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-15T10:19:00.749Z"
+    "mtime": "2026-11-16T18:42:14.154Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-15T10:19:00.749Z"
+    "mtime": "2026-11-16T18:42:14.150Z"
    },
    {
     "file": "tests/lib-w331b-centrifugal.mjs",
     "bytes": 36773,
     "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
-    "mtime": "2026-11-15T10:19:00.745Z"
+    "mtime": "2026-11-16T18:42:14.150Z"
    },
    {
     "file": "tests/lib-w331a-coordtwist.mjs",
     "bytes": 33003,
     "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
-    "mtime": "2026-11-15T10:19:00.745Z"
+    "mtime": "2026-11-16T18:42:14.150Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-15T10:19:00.745Z"
+    "mtime": "2026-11-16T18:42:14.150Z"
    },
    {
     "file": "tests/lib-w326d-axialheat.mjs",
     "bytes": 32001,
     "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
-    "mtime": "2026-11-15T10:19:00.741Z"
+    "mtime": "2026-11-16T18:42:14.142Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-15T10:19:00.729Z"
+    "mtime": "2026-11-16T18:42:14.122Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-15T10:19:00.729Z"
+    "mtime": "2026-11-16T18:42:14.122Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-15T10:19:00.729Z"
+    "mtime": "2026-11-16T18:42:14.122Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-15T10:19:00.729Z"
+    "mtime": "2026-11-16T18:42:14.122Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-15T10:19:00.713Z"
+    "mtime": "2026-11-16T18:42:14.102Z"
    },
    {
     "file": "tests/lib-w338c-recheck.mjs",
     "bytes": 13023,
     "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
-    "mtime": "2026-11-15T11:18:32.387Z"
+    "mtime": "2026-11-16T18:42:14.170Z"
    }
   ],
-  "codeSha256": "7c1ede2d7600552398c4e134246037f8c1daa3f93eda7380f321248c32eec627",
-  "harnessVersion": "w337k-gyrodrag-2",
+  "codeSha256": "7594d22f57f5772c1f1abfed6753ea3e12663ed2fcf4ef1c07247e7fbee9f605",
+  "harnessVersion": "w337k-gyrodrag-3",
   "stage": "gyrodrag",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の求積と RK4)",
   "notClaim": [
