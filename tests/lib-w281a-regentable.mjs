@@ -2433,7 +2433,7 @@ export const REGEN_STEPS = [
   S('oblateapprox-342c', 'node tests/exp-w342c-oblateapprox.mjs', ['tests/out/oblateapprox-342c.json'], 1, { secSource: 'w342c-branch', node: true,
     after: ['oblatering-341d'],   // 入力の書き手(第341便d の正本を読む —— after の閉包に第341便d の after の一式が入る)
     quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない)—— 全部を走らせても 1 s の内で、簡易一致の窓を持たない',
-    volatilePaths: { 'tests/out/oblateapprox-342c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/timing/*/wallSec', '/timing/bench'] },
+    volatilePaths: { 'tests/out/oblateapprox-342c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
     note: '第342便c: 一番近い表面の接線の列(K_t・1 + k (K_t − 1)・1 + k f (a/r)^n g〔g 4 × n 4 × 係数 2〕・参考の試作の実効の傾きの比)× 参照 42 点/'
       + '弦の向きの積分(向き 32・128・512)× 参照 42 点の軸の傾きの比と場の強さの比/1 点あたりの核の評価の回数' }),
   // ==== 第342便c の塊(ここまで)====

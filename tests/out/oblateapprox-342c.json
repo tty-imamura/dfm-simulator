@@ -26904,24 +26904,25 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.007
+   "wallSec": 0.008
   },
   "t1": {
-   "wallSec": 0.013
+   "wallSec": 0.012
   },
   "t2": {
-   "wallSec": 0.048
+   "wallSec": 0.052
   },
   "t3": {
-   "wallSec": 0.048
+   "wallSec": 0.052
   },
-  "bench": {
-   "perPointSec": {
-    "tangent": 0.000008047029762164605,
-    "chord128": 0.00005042964880939984
-   },
-   "refT1WallSec": 7.371,
-   "note": "1 点あたりの秒(この機械・この走り —— 照合しない)。参照の秒は第341便d の T1 全体(並び 5 × 区切り 4 × 全部の点 —— 1 点あたりではない)"
+  "benchTangentPerPoint": {
+   "wallSec": 0.000005134333333346928
+  },
+  "benchChord128PerPoint": {
+   "wallSec": 0.0000329906059521688
+  },
+  "ref341dT1": {
+   "wallSec": 7.371
   }
  },
  "gates": {
@@ -26934,13 +26935,13 @@
   "t2SelfSettled": true
  },
  "ok": true,
- "elapsedS": 0.241,
+ "elapsedS": 0.214,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第342便c",
   "target": "tests/lib-w342c-oblateapprox.mjs",
   "targetSha256": "a7177a22ab99ca5a127c9ea78d84f54fbc68c4c869d5cf37283c16e9cfda3fa6",
-  "generatedAt": "2026-11-18T15:23:37.848Z",
+  "generatedAt": "2026-11-18T15:29:34.464Z",
   "inputs": [
    {
     "file": "tests/out/oblatering-341d.json",
@@ -26952,9 +26953,9 @@
   "code": [
    {
     "file": "tests/exp-w342c-oblateapprox.mjs",
-    "bytes": 13302,
-    "sha256": "ec30adf837f3a84f44a04c71319f0cb28659ab169561d34db399946fa1735524",
-    "mtime": "2026-11-18T15:23:37.533Z"
+    "bytes": 13332,
+    "sha256": "330be17d56e9aa8804c6235c41558c061258e711a8ea74e51fa0dc330fa260b3",
+    "mtime": "2026-11-18T15:29:34.061Z"
    },
    {
     "file": "tests/lib-w342c-oblateapprox.mjs",
@@ -26987,7 +26988,7 @@
     "mtime": "2026-11-18T15:04:53.789Z"
    }
   ],
-  "codeSha256": "fe8fd728beec5418ff76bea6778a2a1720172663605d490ac8a451b33052cf3e",
+  "codeSha256": "ffbb4bf58ad48cf93bec84e25d4151f135709e3aca5585479edfd5b09f1cda53",
   "harnessVersion": "w342c-oblateapprox-1",
   "stage": "oblateapprox",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 最近点の Newton・弦の長さの閉じた形と向きの求積)",

@@ -113,13 +113,14 @@ export function wallBench(ref) {
   const reps = 20, now = () => Number(process.hrtime.bigint()) / 1e9;
   let t = now(); for (let k = 0; k < reps; k++) for (const r of ref.tilt) L.tangentRow(r.f, r.d, r.s); const tan = (now() - t) / (reps * ref.tilt.length);
   t = now(); for (let k = 0; k < reps; k++) for (const r of ref.tilt) L.chordRow(r.f, r.d, r.s, D.dirLevels[D.dirMain]); const ch = (now() - t) / (reps * ref.tilt.length);
-  return { perPointSec: { tangent: tan, chord128: ch }, refT1WallSec: ref.refT1WallSec, note: '1 点あたりの秒(この機械・この走り —— 照合しない)。参照の秒は第341便d の T1 全体(並び 5 × 区切り 4 × 全部の点 —— 1 点あたりではない)' };
+  // 1 点あたりの秒(この機械・この走り —— 照合しない)。参照の秒は第341便d の T1 全体(並び 5 × 区切り 4 × 全部の点 —— 1 点あたりではない)
+  return { benchTangentPerPoint: { wallSec: tan }, benchChord128PerPoint: { wallSec: ch }, ref341dT1: { wallSec: ref.refT1WallSec } };
 }
 export function runSettled(ref) {
   let tm = null;
   const S = settleRun(() => { const R = runAll(ref); if (tm === null) tm = R.timing; delete R.timing; return R; });
   const { gates, ok, ...rest } = S.value, g2 = gatesOf(S.value);
-  return { J: Object.assign(rest, { timing: Object.assign({}, tm, { bench: wallBench(ref) }), gates: g2, ok: Object.values(g2).every(Boolean) }), recheck: S.meta };
+  return { J: Object.assign(rest, { timing: Object.assign({}, tm, wallBench(ref)), gates: g2, ok: Object.values(g2).every(Boolean) }), recheck: S.meta };
 }
 
 const writeJson = (OUT, out) => { fs.mkdirSync(path.dirname(OUT), { recursive: true }); fs.writeFileSync(OUT, JSON.stringify(out, null, 1).replace(/\[\s*(-?[\d.eE+-]+(?:,\s*-?[\d.eE+-]+|,\s*null)*)\s*\]/g, (m, a) => '[' + a.replace(/\s+/g, '') + ']') + '\n'); };
