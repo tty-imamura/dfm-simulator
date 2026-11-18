@@ -110203,26 +110203,26 @@ function view340aOf341a(eq) {
 }
 // ==== 第342便a の塊(ここまで)====
 
-// ==== 第342便a2 の塊(ここから —— behavior.surfclockAccept342a2・lint.tauSurfPairs342a2・docs.surfclockAccept342a2 の 3 ブロック。root は SKIP)====
-// ---- 第342便a2(原仮定者の回答(2026-11-18 —— 第142報)AN827「B。中身を足してから進める」・原仮定者の回答(2026-11-18 —— 第141報の回答)AN804「表面の時計は、近似で良い。
+// ==== 第342便g の塊(ここから —— behavior.surfclockAccept342g・lint.tauSurfPairs342g・docs.surfclockAccept342g の 3 ブロック。root は SKIP)====
+// ---- 第342便g(原仮定者の回答(2026-11-18 —— 第142報)AN827「B。中身を足してから進める」・原仮定者の回答(2026-11-18 —— 第141報の回答)AN804「表面の時計は、近似で良い。
 // ----   正確には、周囲の決定力場により、表面の位置で変わる」・統括の検証項目 R372): 第342便a の表面の時計 tauSurf(設計 B)の**受け入れの条件 11 個**を今の実装で数える。
 // ----   世代切替 = beta 対象 ∧ 対象の html に `S.clockSelfW=function(` がある(root の html に表面の時計は無い)。器・正本・段は無い(対象の html を loadHtmlHeadless で読み、その場で測る)。
-// ----   behavior.surfclockAccept342a2: (1) 質量 0 → tauSurf = tau(全步のビット)(2) 静止 → tauSurf ÷ tau = e^(−X_k m/√(R²+ε²))(步の数 × 2 × 2^−24 の内)
+// ----   behavior.surfclockAccept342g: (1) 質量 0 → tauSurf = tau(全步のビット)(2) 静止 → tauSurf ÷ tau = e^(−X_k m/√(R²+ε²))(步の数 × 2 × 2^−24 の内)
 // ----     (3) 質量・radiusScale を途中で変える → 步ごとの和(最後の係数を全部に掛けた値と区別できる)(4) 表面の時計だけが止まる帯 → tauSurf は増えず tau は増える・NaN なし
 // ----     (5) X_k 0・G₀ 0 の本 → 全步でビット同一/枠が無い → 速さの項が 2 つとも落ちる(6) 初めから・再読込・チェックポイント・複製・保存形式
 // ----     (8) 表示の倍率に依らない・自己の項は物理の半径と mEff と軟化だけ(9) 三次元(clockAdvanced:false)で 2 つの時計は進まない(11) ⏱️ の数(200 步)
-// ----   lint.tauSurfPairs342a2: (7) tau を書く・写す・並べ替える所の種類ごとに tauSurf と対(数字を決め打ちしない)・時計の関数の外で tau を積む行 0
-// ----   docs.surfclockAccept342a2: PHYSICS〔第342便a2〕・AI_SPEC §264・CHANGELOG・post-merge・(10) ヘルプの文の「積んだ平均・瞬間の率」(ja/en)・書かない語
+// ----   lint.tauSurfPairs342g: (7) tau を書く・写す・並べ替える所の種類ごとに tauSurf と対(数字を決め打ちしない)・時計の関数の外で tau を積む行 0
+// ----   docs.surfclockAccept342g: PHYSICS〔第342便g〕・AI_SPEC §264・CHANGELOG・post-merge・(10) ヘルプの文の「積んだ平均・瞬間の率」(ja/en)・書かない語
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
-  const htmlTx342a2 = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
-  if (!(TARGET.startsWith('beta/') && htmlTx342a2.indexOf('S.clockSelfW=function(') >= 0)) {
-    console.log('SKIP behavior.surfclockAccept342a2(第342便a の表面の時計の前の世代か beta 対象でない — ' + TARGET + ')');
-    console.log('SKIP lint.tauSurfPairs342a2(第342便a の表面の時計の前の世代か beta 対象でない — ' + TARGET + ')');
-    console.log('SKIP docs.surfclockAccept342a2(第342便a の表面の時計の前の世代か beta 対象でない — ' + TARGET + ')');
+  const htmlTx342g = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
+  if (!(TARGET.startsWith('beta/') && htmlTx342g.indexOf('S.clockSelfW=function(') >= 0)) {
+    console.log('SKIP behavior.surfclockAccept342g(第342便a の表面の時計の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP lint.tauSurfPairs342g(第342便a の表面の時計の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP docs.surfclockAccept342g(第342便a の表面の時計の前の世代か beta 対象でない — ' + TARGET + ')');
     return;
   }
-  // ───── behavior.surfclockAccept342a2 ─────
+  // ───── behavior.surfclockAccept342g ─────
   {
     const bad = [], cases = [];
     try {
@@ -110316,7 +110316,14 @@ function view340aOf341a(eq) {
       load('saturnRotVertExplore3d'); run(20); const st9 = H.evalExpr('coord3dState')(S);
       const ok9 = S.coord3d === true && st9 && st9.clockAdvanced === false && S.t > 0 && Array.from(S.tau.subarray(0, S.n)).every((v) => v === 0) && Array.from(S.tauSurf.subarray(0, S.n)).every((v) => v === 0);
       if (!ok9) bad.push('(9) 三次元の本で clockAdvanced:false なのに時計が進んだか宣言が無い');
-      cases.push(`(9) 🛟(三次元)20 步: clockAdvanced:false・t ${S.t.toFixed(2)} > 0・tau と tauSurf は全部 0(弧と情報行は 0.0% —— 便の開始の基準 html も「時計τ/t=0.0%」の前からの表示・本便は表示を変えていない)`);
+      const t9 = S.t;
+      // 表示: 三次元の経路(S.coord3d === true —— 既に在る宣言)では弧を描かず情報行の時計は「—」・二次元では今までどおり %(描画の行を文字で照合)
+      const drw = (() => { const i = htx.indexOf('// 選択粒子の固有時計'); const j = htx.indexOf('} else selInfoLines=0;', i); return i >= 0 && j > i ? htx.slice(i, j) : ''; })();
+      const ok9d = drw.indexOf('const clk3d=(sim.coord3d===true);') >= 0 && drw.indexOf('if(!clk3d){ ctx.beginPath(); ctx.arc(sx,sy,Math.max(10,') >= 0 && drw.indexOf('if(!clk3d) ctx.stroke();') >= 0
+        && drw.indexOf('${T("hudClock")}=${clk3d? "—" : (frac*100).toFixed(1)+"%"}・${T("hudClockPt")}=${clk3d? "—" : (fracPt*100).toFixed(1)+"%"}') >= 0;
+      load('gclock'); const ok9e = S.coord3d !== true;
+      if (!(ok9d && ok9e)) bad.push('(9) 三次元の本の時計の表示が「—」・弧なしの形でないか二次元の本が三次元と読まれる(' + ok9d + '・' + ok9e + ')');
+      cases.push(`(9) 🛟(三次元)20 步: clockAdvanced:false・t ${t9.toFixed(2)} > 0・tau と tauSurf は全部 0 → 弧を描かず情報行は「時計τ/t(表面)=—・点=—」(S.coord3d の宣言を読むだけ —— 描画の行を文字で照合)/二次元の ⏱️ は S.coord3d が true でなく今までどおり %`);
       // (11) ⏱️ gclock の数(200 步)
       load('gclock'); run(200);
       const g11s = [0, 1, 2, 3].map((i) => S.tauSurf[i] / S.t), g11p = [0, 1, 2, 3].map((i) => S.tau[i] / S.t);
@@ -110325,11 +110332,11 @@ function view340aOf341a(eq) {
       if (!(got11[0] === want11[0] && got11[1] === want11[1])) bad.push('(11) ⏱️ の数が違う(表面 ' + got11[0] + '・点 ' + got11[1] + ')');
       cases.push(`(11) ⏱️ 200 步: 表面 ${got11[0]}・点 ${got11[1]}(中心・時計 3 個の順)`);
     } catch (e) { bad.push('測れない: ' + String(e && e.stack || e).slice(0, 200)); }
-    add('behavior.surfclockAccept342a2', bad.length === 0,
-      `**表面の時計 tauSurf の受け入れの条件**(第342便a2・統括の検証項目 R372 —— 条件 1〜6・8・9・11 を今の実装で数える。7 は lint.tauSurfPairs342a2・10 は docs.surfclockAccept342a2): ${cases.join(' / ')}`
+    add('behavior.surfclockAccept342g', bad.length === 0,
+      `**表面の時計 tauSurf の受け入れの条件**(第342便g・統括の検証項目 R372 —— 条件 1〜6・8・9・11 を今の実装で数える。7 は lint.tauSurfPairs342g・10 は docs.surfclockAccept342g): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
   }
-  // ───── lint.tauSurfPairs342a2 ─────
+  // ───── lint.tauSurfPairs342g ─────
   {
     const bad = [], cases = [];
     const htx = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
@@ -110363,31 +110370,31 @@ function view340aOf341a(eq) {
     const direct = lines.filter((ln) => /\.tau\[[^\]]*\]\s*\+=/.test(ln) && ln.indexOf('S.tau[i]+= rad>0') < 0).length;
     if (direct !== 0) bad.push('tauUpdate の外で tau を積む行 ' + direct);
     cases.push('tauUpdate の外で tau を積む行 0');
-    add('lint.tauSurfPairs342a2', bad.length === 0,
-      `**粒子の時計の配列の対の検査**(第342便a2・統括の検証項目 R372 —— 受け入れの条件 7: 粒子の生成・削除・合体・分裂・添字の詰め直しで tauSurf が tau と同じ扱い): ${cases.join(' / ')}`
+    add('lint.tauSurfPairs342g', bad.length === 0,
+      `**粒子の時計の配列の対の検査**(第342便g・統括の検証項目 R372 —— 受け入れの条件 7: 粒子の生成・削除・合体・分裂・添字の詰め直しで tauSurf が tau と同じ扱い): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
   }
-  // ───── docs.surfclockAccept342a2 ─────
+  // ───── docs.surfclockAccept342g ─────
   {
     const bad = [], cases = [];
     const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
     const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
     const SEP = /\n〔第\d+便[a-z0-9]* — |\n## /;
-    const i0 = PH.indexOf('〔第342便a2 — '), ia = PH.indexOf('〔第342便a — '), iu = PH.indexOf('〔第328便 — 統括'), i7 = PH.indexOf('\n## 7. 論文');
+    const i0 = PH.indexOf('〔第342便g — '), ia = PH.indexOf('〔第342便a — '), iu = PH.indexOf('〔第328便 — 統括'), i7 = PH.indexOf('\n## 7. 論文');
     const sec = i0 >= 0 ? secUntilNext329c(PH, i0, SEP) : '';
-    if (!(i0 >= 0 && ia >= 0 && ia < i0 && iu > i0 && (i7 < 0 || i0 < i7))) bad.push('PHYSICS〔第342便a2〕が無いか〔第342便a〕の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (!(i0 >= 0 && ia >= 0 && ia < i0 && iu > i0 && (i7 < 0 || i0 < i7))) bad.push('PHYSICS〔第342便g〕が無いか〔第342便a〕の前か〔第328便 — 統括〕・「## 7.」の後ろ');
     const want = ['原仮定者の回答(2026-11-18 —— 第142報)', 'AN827', 'AN804', 'R372', 'tauSurf', 'clockSelfW', 'tauUpdate', 'clockAdvanced:false', '点の時計', '表面の時計',
-      '予算', '步ごとの和', '表面の時計だけが止まる', 'G₀ 0', '枠が無い', 'チェックポイント', 'cloneSimState', '対', 'dispMag', '三次元', '前からの表示', '積んだ平均', '瞬間の率',
+      '予算', '步ごとの和', '表面の時計だけが止まる', 'G₀ 0', '枠が無い', 'チェックポイント', 'cloneSimState', '対', 'dispMag', '三次元', '— に直した', '積んだ平均', '瞬間の率',
       '0.898', '0.929', '0.962', '0.977', '0.9998', '0.931', '0.965', '0.979', 'この実装・この近似の範囲', '決断事項の候補', '次の便へ', '書かないこと',
       '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |',
-      'behavior.surfclockAccept342a2', 'lint.tauSurfPairs342a2', 'docs.surfclockAccept342a2'];
-    for (const w of want) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第342便a2〕に「' + w + '」が無い');
-    const a0 = AS.indexOf('\n## 264. 第342便a2'), a3 = AS.indexOf('\n## 263. 第342便a'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
+      'behavior.surfclockAccept342g', 'lint.tauSurfPairs342g', 'docs.surfclockAccept342g'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第342便g〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 264. 第342便g'), a3 = AS.indexOf('\n## 263. 第342便a'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
     if (!(a0 > a3 && a3 >= 0 && ai.indexOf('tauSurf') >= 0 && ai.indexOf('R372') >= 0 && ai.indexOf('積んだ平均') >= 0 && ai.indexOf('clockAdvanced:false') >= 0)) bad.push('AI_SPEC §264(§263 の後・tauSurf・R372・積んだ平均・clockAdvanced:false)');
     const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cll = clg.split('\n');
-    const ka = cll.findIndex((l) => l.indexOf('- **第342便a**') === 0), k2 = cll.findIndex((l) => l.indexOf('- **第342便a2**') === 0), cl = k2 >= 0 ? cll[k2] : '';
-    if (!(ka >= 0 && k2 === ka + 1 && cl.indexOf('R372') >= 0 && cl.indexOf('tauSurf') >= 0 && cl.indexOf('behavior.surfclockAccept342a2') >= 0)) bad.push('CHANGELOG の第342便a2 の行(第342便a の行の直後・R372・tauSurf・鍵)');
-    if (!(PM.indexOf('# ==== 第342便a2 の塊(ここから)====') > PM.indexOf('# ==== 第342便a の塊(ここまで)====') && /behavior\.surfclockAccept342a2 lint\.tauSurfPairs342a2 docs\.surfclockAccept342a2/.test(PM))) bad.push('post-merge の第342便a2 の塊');
+    const ka = cll.findIndex((l) => l.indexOf('- **第342便a**') === 0), k2 = cll.findIndex((l) => l.indexOf('- **第342便g**') === 0), cl = k2 >= 0 ? cll[k2] : '';
+    if (!(ka >= 0 && k2 === ka + 1 && cl.indexOf('R372') >= 0 && cl.indexOf('tauSurf') >= 0 && cl.indexOf('behavior.surfclockAccept342g') >= 0)) bad.push('CHANGELOG の第342便g の行(第342便a の行の直後・R372・tauSurf・鍵)');
+    if (!(PM.indexOf('# ==== 第342便g の塊(ここから)====') > PM.indexOf('# ==== 第342便a の塊(ここまで)====') && /behavior\.surfclockAccept342g lint\.tauSurfPairs342g docs\.surfclockAccept342g/.test(PM))) bad.push('post-merge の第342便g の塊');
     // 条件 10: 操作の説明(ヘルプ)の ja/en に「積んだ平均」と「瞬間の率」(アプリの中に便名・決断事項を書かない)
     let H = null; try { H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { bad.push('html が読めない'); }
     if (H) {
@@ -110401,20 +110408,20 @@ function view340aOf341a(eq) {
     const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
     const NGC = [cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));
     const W340 = ['ためか確', 'たし示', 'たし明説', 'たし定同'].map(rvC);
-    for (const [nm, tx] of [['PHYSICS〔第342便a2〕', sec], ['AI_SPEC §264', ai], ['CHANGELOG の第342便a2 の行', cl]]) {
+    for (const [nm, tx] of [['PHYSICS〔第342便g〕', sec], ['AI_SPEC §264', ai], ['CHANGELOG の第342便g の行', cl]]) {
       for (const w of NGC.concat(W340)) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句か書かない語(' + w.length + ' 字)');
       for (const re of NOT) if (re.test(strip(tx))) bad.push(nm + ' に書かない語 ' + re.source);
       if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push(nm + ' に裸の係数記号');
       if (/\\\|/.test(tx)) bad.push(nm + ' に \\| ');
     }
     cases.push(`節の位置・必須の語 ${want.length}・AI_SPEC §264・CHANGELOG の行の位置・post-merge の塊・書かない語`);
-    add('docs.surfclockAccept342a2', bad.length === 0,
-      `**表面の時計の受け入れの条件の文書**(第342便a2・R372 —— PHYSICS〔第342便a2〕・AI_SPEC §264・CHANGELOG・ヘルプの文): ${cases.join(' / ')}`
+    add('docs.surfclockAccept342g', bad.length === 0,
+      `**表面の時計の受け入れの条件の文書**(第342便g・R372 —— PHYSICS〔第342便g〕・AI_SPEC §264・CHANGELOG・ヘルプの文): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
   }
   })();   // 第310便c(heap)
 }
-// ==== 第342便a2 の塊(ここまで)====
+// ==== 第342便g の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

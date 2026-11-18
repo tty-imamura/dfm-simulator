@@ -41295,8 +41295,9 @@ function render(){
     ctx.beginPath(); ctx.arc(sx,sy,Math.max(6,sim.R[i]*(sim.params.dispMag||1)*z+5),0,7); ctx.stroke();
     // 第342便a(原仮定者の補足 4(2026-11-18 —— 第141報)): 弧は**表面の時計** tauSurf(自己の表面の項を含む)。点の時計 tau(外部だけ)は文字で併記
     const frac=sim.t>0? (sim.tauSurf? sim.tauSurf[i] : sim.tau[i])/sim.t : 1, fracPt=sim.t>0? sim.tau[i]/sim.t : 1;
-    ctx.beginPath(); ctx.arc(sx,sy,Math.max(10,sim.R[i]*(sim.params.dispMag||1)*z+9),-Math.PI/2,-Math.PI/2+frac*Math.PI*2);
-    ctx.strokeStyle="#ffd166"; ctx.stroke(); ctx.lineWidth=1;
+    const clk3d=(sim.coord3d===true);   // 三次元の経路は 2 つの時計を進めない(coord3dState の clockAdvanced:false)—— 弧を描かず、情報行の時計は「—」(表示だけ)
+    if(!clk3d){ ctx.beginPath(); ctx.arc(sx,sy,Math.max(10,sim.R[i]*(sim.params.dispMag||1)*z+9),-Math.PI/2,-Math.PI/2+frac*Math.PI*2); }
+    ctx.strokeStyle="#ffd166"; if(!clk3d) ctx.stroke(); ctx.lineWidth=1;
     // 温度 T=Is² と放射ピーク波長 λ=b_m/T(A12 分光温度計)を併記
     const Ti=obsTemp(sim,i);   // 第36便 D: 観測温度
     const lam=(Ti>1e-12)? fmt(sim.params.bM/Ti) : "—";
@@ -41318,7 +41319,7 @@ function render(){
     const lh=12*uiFontScale, yb=ch-10;
     selInfoLines=2+convLines.length;   // drawScaleBar の被り回避オフセットに使う(第94便)
     ctx.fillText(`m=${fmt(sim.m[i])}${mcTxt} s=${fmt(sim.spin[i])}${scTxt} R=${fmt(sim.R[i])}${fTxt}`,8,yb-(selInfoLines-1)*lh);
-    ctx.fillText(`T=${fmt(Ti)}${coreTTxt} λ=${lam} ${T("hudClock")}=${(frac*100).toFixed(1)}%・${T("hudClockPt")}=${(fracPt*100).toFixed(1)}%`,8,yb-(selInfoLines-2)*lh);
+    ctx.fillText(`T=${fmt(Ti)}${coreTTxt} λ=${lam} ${T("hudClock")}=${clk3d? "—" : (frac*100).toFixed(1)+"%"}・${T("hudClockPt")}=${clk3d? "—" : (fracPt*100).toFixed(1)+"%"}`,8,yb-(selInfoLines-2)*lh);
     convLines.forEach((cl,ci)=>ctx.fillText(cl,8,yb-(convLines.length-1-ci)*lh));
   } else selInfoLines=0;
   // v1.21: スロット配置 — 複数グラフは右下から縦に積み、互いを隠さない(🌠merger)

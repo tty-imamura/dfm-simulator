@@ -1126,11 +1126,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutocontrol341g docs.plutocontrol3
 #   解析値・点の時計の不変・質量 0・軟化 0・表示の倍率・動く時計・合体と分裂の追随・説明の文の数 / docs.surfclock342a —— PHYSICS〔第342便a〕・AI_SPEC §263・CHANGELOG・🛟 の説明の文)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfclock342a docs.surfclock342a"
 # ==== 第342便a の塊(ここまで)====
-# ==== 第342便a2 の塊(ここから)====
-# 第342便a2(原仮定者の回答(2026-11-18 —— 第142報)AN827・統括の検証項目 R372 —— html はヘルプの文 2 行だけ): 新設 3 本(behavior.surfclockAccept342a2 —— 表面の時計の受け入れの条件 1〜6・8・9・11 /
-#   lint.tauSurfPairs342a2 —— tau と tauSurf を書く所の対 / docs.surfclockAccept342a2 —— PHYSICS〔第342便a2〕・AI_SPEC §264・CHANGELOG・ヘルプの文)。段は足していない
-DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfclockAccept342a2 lint.tauSurfPairs342a2 docs.surfclockAccept342a2"
-# ==== 第342便a2 の塊(ここまで)====
+# ==== 第342便g の塊(ここから)====
+# 第342便g(原仮定者の回答(2026-11-18 —— 第142報)AN827・統括の検証項目 R372 —— html はヘルプの文と三次元の時計の表示だけ): 新設 3 本(behavior.surfclockAccept342g —— 表面の時計の受け入れの条件 1〜6・8・9・11 /
+#   lint.tauSurfPairs342g —— tau と tauSurf を書く所の対 / docs.surfclockAccept342g —— PHYSICS〔第342便g〕・AI_SPEC §264・CHANGELOG・ヘルプの文)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfclockAccept342g lint.tauSurfPairs342g docs.surfclockAccept342g"
+# ==== 第342便g の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
