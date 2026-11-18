@@ -2438,6 +2438,18 @@ export const REGEN_STEPS = [
     note: '第342便b: 時計の型 4(F・U1・U2・U3)× x 8 の表と低速の展開/型 × 駆動のべき 2 の到達の時間(x 6)と同じ絶対時間の速さと粒子の時計(T 6)/取り違えの恒等式(x 6)/'
       + '第341便e の曲線 10 本との重なり/衝突径数 2 × 列 34 の曲がり ÷ 光/水星の近点(型 8 行・型の間の差 6 行 × 誇張した μ 3)' }),
   // ==== 第342便b の塊(ここまで)====
+  // ==== 第342便c の塊(ここから)====
+  // ---- 第342便c(原仮定者の回答(2026-11-18 —— 第142報)AN800「扁平率は、源の区切りを細かくしないで計算する近似を検証する。一番近い源の表面の接線方向から求められるのではないか」・
+  //   統括の検証項目 R374): **扁平の源を区切らない近似の候補 —— 一番近い表面の接線・弦の向きの積分を、第341便d の 61440 点の表と並べる**(段 oblateapprox-342c —— 正本 tests/out/oblateapprox-342c.json・
+  //   lib tests/lib-w342c-oblateapprox.mjs —— 第338便b・第340便h の lib を import して呼ぶ。入力のファイルは第341便d の正本 tests/out/oblatering-341d.json〔参照の 42 点 —— 読むだけ〕)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)。1 プロセス。所要は第342便c の枝の実測 0.3 s
+  S('oblateapprox-342c', 'node tests/exp-w342c-oblateapprox.mjs', ['tests/out/oblateapprox-342c.json'], 1, { secSource: 'w342c-branch', node: true,
+    after: ['oblatering-341d'],   // 入力の書き手(第341便d の正本を読む —— after の閉包に第341便d の after の一式が入る)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない)—— 全部を走らせても 1 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/oblateapprox-342c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
+    note: '第342便c: 一番近い表面の接線の列(K_t・1 + k (K_t − 1)・1 + k f (a/r)^n g〔g 4 × n 4 × 係数 2〕・参考の試作の実効の傾きの比)× 参照 42 点/'
+      + '弦の向きの積分(向き 32・128・512)× 参照 42 点の軸の傾きの比と場の強さの比/1 点あたりの核の評価の回数' }),
+  // ==== 第342便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
