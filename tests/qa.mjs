@@ -108929,6 +108929,7 @@ function view340aOf341a(eq) {
     return { s2a, g140: L.find((l) => l.startsWith('  - **重力(第140報の文と修正の文)**')) || '', g141: L.find((l) => l.startsWith('  - **重力(第141報の修正の文')) || '', i140: L.findIndex((l) => l.startsWith('  - **重力(第140報の文と修正の文)**')), i141: L.findIndex((l) => l.startsWith('  - **重力(第141報の修正の文')) };
   };
   const check = (eq, ph, as, cl, pm) => {
+    eq = view341aOf342f(eq);   // 第342便f(世代の注記 —— R377): EQ-78 以降の項と §2a の EQ-78 以降の参照を外した写しで読む(照合の中身は外していない)
     const bad = [], cases = [];
     const all = T34.eqItems334f(eq), ids = new Set(all.map((z) => z.id)), nw = all.filter((z) => z.num >= 70);
     const tb = ledgerOf(ph), st = new Map(tb.rows.map((r) => [r[0], r[6]]));
@@ -110502,6 +110503,277 @@ function view340aOf341a(eq) {
   })();   // 第310便c(heap)
 }
 // ==== 第342便c の塊(ここまで)====
+
+// ==== 第342便f の塊(ここから —— docs.report142_342f・lint.equations342f の 2 ブロック。root は SKIP)====
+// ---- 第342便f(原仮定者の回答(2026-11-18 —— 第142報)・統括の検証項目 R377): **文書と照合の鍵だけ**(PHYSICS〔第342便f〕の表 1〜表 4・docs/EQUATIONS.md の EQ-78〔表面の時計 —— アプリ〕と
+// ----   EQ-79〜EQ-83〔第341便 b・d・e・f・g の候補の型の式〕と §2a の第142報の用語・AI_SPEC §269・CHANGELOG —— html・エンジン・内蔵の本・受理器・既存の lib の本文・physics の鍵は変えない・
+// ----   器と段と lib は足さない)。世代切替 = beta 対象 ∧ 計算式の一覧に「### EQ-78 」がある。
+// ----   view341aOf342f(下の関数 —— 宣言は hoist される): 第341便a の照合(docs.report141_341a)は EQ-70 以降の項を EQ-70〜EQ-77 に固定しているので、EQ-78 以降の項と、
+// ----   §2a(見出し「## 2a. 」から次の「## 」まで)の EQ-78 以降の参照の字を外した写しを渡す(第341便a の塊の check の先頭に 1 行 —— 照合の中身は外していない)。
+function view341aOf342f(eq) {
+  let s = String(eq || '');
+  if (s.indexOf('\n### EQ-78 ') < 0) return s;
+  s = s.replace(/\n### EQ-(\d\d) [^\n]*[\s\S]*?(?=\n### |\n## )/g, (m, n) => (Number(n) >= 78 ? '' : m));
+  const i = s.indexOf('\n## 2a. '), j = i >= 0 ? s.indexOf('\n## ', i + 1) : -1;
+  if (i < 0 || j < 0) return s;
+  return s.slice(0, i) + s.slice(i, j).replace(/EQ-(\d\d)/g, (m, n) => (Number(n) >= 78 ? '' : m)) + s.slice(j);
+}
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む
+  const rd342f = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const EQ0 = rd342f('docs/EQUATIONS.md') || '';
+  if (!(TARGET.startsWith('beta/') && EQ0.indexOf('\n### EQ-78 ') >= 0)) {
+    console.log('SKIP docs.report142_342f(第342便f の第142報の文書と EQ-78 以降の項の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP lint.equations342f(第342便f の EQ-78 以降の項の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const T34 = await import('file://' + path.join(ROOT, 'tests', 'lib-w334f-terms.mjs'));
+  const T37 = await import('file://' + path.join(ROOT, 'tests', 'lib-w337g-equations.mjs'));
+  const stripQ = (t) => String(t || '').replace(/「[^」]*」/g, '').replace(/『[^』]*』/g, '');
+  const stripCode = (t) => String(t || '').replace(/```[\s\S]*?```/g, ' ').replace(/`[^`\n]*`/g, ' ');
+  const norm = (t) => String(t || '').replace(/\s+/g, ' ').trim();
+  const cells = (l) => l.split(' | ').map((c) => c.replace(/^\| ?/, '').replace(/ ?\|$/, ''));
+  const physSecOf = (ph, head) => { const i = ph.indexOf('\n' + head); if (i < 0) return ''; const m = /\n〔第\d+便[a-z]* — |\n〔第\d+便 — |\n## /g; m.lastIndex = i + 2; const z = m.exec(ph); return ph.slice(i + 1, z ? z.index : ph.length); };
+  // 第142報の回答 3 項(原文の言葉 —— 言葉を変えずに引く)
+  const A142 = [
+    ['AN827', 'B。中身を足してから進める'],
+    ['AN806', '局所光速に近づくと、時間の進みが局所時間からさらに遅くなり、絶対時間側から見ると加速しにくく見える。速度が局所光速に達した時に時間が止まる場合と、速度が無限になった時に時間が止まる場合を、比較する'],
+    ['AN800', '扁平率は、源の区切りを細かくしないで計算する近似を検証する。一番近い源の表面の接線方向から求められるのではないか'],
+  ];
+  const BRANCH142 = { AN827: ['枝 a2', '枝 b', '枝 c', '枝 d', '枝 e', '鎖'], AN806: ['枝 b'], AN800: ['枝 c', '枝 d'] };
+  // 訂正の鎖(AN800)
+  const Q140A = '扁平の則は、赤道面から離れた際の、軸引きずりの軸の傾きに効くのではないか。扁平で傾きが強くなるので、回転引きずりも強くなる';
+  const CHAIN = [['起点', Q140A, '原仮定者の回答(2026-11-17 —— 第140報の回答)'], ['閉じた読み', '扁平の源の区切りを細かくして環の範囲を測り直す', '原仮定者の指示(2026-11-18 —— 第141報)'], ['今の読み', A142[2][1], '原仮定者の回答(2026-11-18 —— 第142報 AN800)']];
+  // 並べて読む所 4 つ(過去の文の原文の字・第142報の文の原文の字)
+  const SIDE = [
+    ['1 加速しにくさの中身', ['「局所光速に近付くにつれて、自分自身の放つ電磁波が抵抗となり、エネルギーを多く必要とする」', '「質量の有る物体は、局所光速に近付くにつれて加速しにくくなる」'], '時間の進みが局所時間からさらに遅くなり、絶対時間側から見ると加速しにくく見える', ['主の列', '比べる列', '廃止と書かない']],
+    ['2 光の経路と「無限で止まる」場合', ['「質量ゼロの慣性移動が光の経路で有り、光が決定力場による座標空間の物差しになる」'], '速度が無限になった時に時間が止まる場合', ['寄せない', '決断事項の候補 (A)']],
+    ['3 光速と速度', ['「宇宙に天体が１つの場合、その天体が回転すると、どんな距離の座標も天体に合わせて回転する。つまり、引きずりの計算で、光速を超えるか超えないかは判断基準にならない」'], '速度が局所光速に達した時に時間が止まる場合', ['場に対する相対の速さ w', '光速で切らない']],
+    ['4 扁平', ['R_eq = R_d/(1 − f_flat)^{1/3}', '「' + Q140A + '」'], '一番近い源の表面の接線方向から求められるのではないか', ['軸の傾きの比の近似の候補', '天体の特性の係数 C_b とは別のノブ']],
+  ];
+  // 用語 4 つ(原文の字)
+  const Q_SUPP4 = 'gclockなどの時間のサンプルで、粒子の時間の進みの表示の計算に自分自身が含まれていない為、質量の大きな粒子の時間の進みが速く見えている。粒子自身を含んだ、粒子の表面の時間を表示する';
+  const Q_AN803 = '軸引きずりも含めてゼロ。ただし、軸引きずりの回転軸に自転軸を向ける力により、ジャイロトルクが発生して継続的な歳差運動に繋がる。ジャイロトルクで動かなかった分のエネルギーは消えない。熱になるか、自転速度を増す。自転速度を増す経路が「パワーボール効果」';
+  const TERMS142 = [['**点の時計**', Q_SUPP4, '原仮定者の補足(2026-11-18 —— 第141報)'], ['**パワーボール効果**', Q_AN803, '原仮定者の回答(2026-11-18 —— 第141報の回答 AN803)'],
+    ['**時計が止まる速さの 2 つの場合**', A142[1][1], '原仮定者の回答(2026-11-18 —— 第142報 AN806)'], ['**一番近い表面の接線**', A142[2][1], '原仮定者の回答(2026-11-18 —— 第142報 AN800)']];
+  const IDS = ['EQ-78', 'EQ-79', 'EQ-80', 'EQ-81', 'EQ-82', 'EQ-83'];
+  const SECOF = { 'EQ-78': '〔第342便a〕', 'EQ-79': '〔第341便b〕', 'EQ-80': '〔第341便d〕', 'EQ-81': '〔第341便e〕', 'EQ-82': '〔第341便f〕', 'EQ-83': '〔第341便g〕' };
+  const SEC_MUST = ['原仮定者の回答(2026-11-18 —— 第142報)', 'R377', '**表 1 回答(原仮定者の回答(2026-11-18 —— 第142報))**', '**表 2 AN800 の訂正の鎖', '**表 3 第142報の文と過去の指示を並べて読む所(統括の読み —— 寄せない)**',
+    '**表 4 計算式の一覧に足した項(EQ-78〜EQ-83)**', '61440 点', '点はこれ以上増やさない', 'どちらも廃止と書かない', '本便の枝 b〜e の結果はまだ出ていない', 'view341aOf342f', 'docs.report142_342f', 'lint.equations342f',
+    'ψ_s = ψ + X_k × mEff_i/√(R_i² + ε²)', '正確には、周囲の決定力場により、表面の位置で変わる', '**④ 決断事項の候補。**', '**⑤ 次の便へ。**', '**⑥ 書かないこと。**'];
+  const NOT342 = [/時間が止まる速さが決まった/, /光速を超えられ(る|ない)と分かった/, /接線で求まると分かった/, /扁平の効きが導けた/, /パワーボール効果で自転が説明できた/, /内部熱が解決した/, /表面の時計が正しくなった/,
+    /定義が確定した/, /式が正しいと分かった/, /時計が正しくなった/, /時計の表示が直った/];
+  const s2aNewOf = (eq) => { const s2a = T34.termSection334f(eq), i = s2a.indexOf('- **表面の時計と第341便の式**(第342便f'); return i >= 0 ? s2a.slice(i) : ''; };
+  const check = (eq, ph, as, cl, pm) => {
+    const bad = [], cases = [];
+    const all = T34.eqItems334f(eq), nw = all.filter((z) => z.num >= 78);
+    // ① 節の位置と必須の語
+    const sec = physSecOf(ph, '〔第342便f — '), iF = ph.indexOf('\n〔第342便f — '), iA = ph.indexOf('\n〔第342便a — '), iT = ph.indexOf('\n〔第328便 — 統括'), i7 = ph.indexOf('\n## 7. 論文');
+    if (!(iF >= 0 && iA >= 0 && iA < iF && (iT < 0 || iF < iT) && (i7 < 0 || iF < i7))) bad.push('① PHYSICS〔第342便f〕の位置(第342便a の節の後・第328便の統括の節と「## 7.」の前)');
+    for (const w of SEC_MUST) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第342便f〕に「' + w.slice(0, 30) + '」が無い');
+    cases.push(`① PHYSICS〔第342便f〕の位置と必須の語 ${SEC_MUST.length}`);
+    const L = sec.split('\n');
+    // ② 表 1 の回答 3 項(原文の字・今の当たり所の枝の字・まだ当たっていない所)
+    for (const [k, tx] of A142) { const l = L.find((x) => x.startsWith('| ' + k + ' |')); if (!l) { bad.push('② 表 1 に「' + k + '」の行が無い'); continue; } const c = cells(l);
+      if (c[1] !== '「' + tx + '」') bad.push('② 表 1 の「' + k + '」の原文の字が第142報の文と違う');
+      for (const b of BRANCH142[k]) if ((c[2] || '').indexOf(b) < 0) bad.push('② 表 1 の「' + k + '」の当たり所に「' + b + '」が無い');
+      if (!c[3]) bad.push('② 表 1 の「' + k + '」のまだ当たっていない所が空'); }
+    cases.push(`② 表 1 の回答 ${A142.length} 項(原文の字・当たり所の枝・まだ当たっていない所)`);
+    // ③ 表 2 の訂正の鎖(順・原文・出どころ)と〔第341便d〕の 61440 点の表が残る
+    const t2 = CHAIN.map(([k]) => L.findIndex((x) => x.startsWith('| ' + k + ' |')));
+    if (!(t2.every((x) => x >= 0) && t2[0] < t2[1] && t2[1] < t2[2])) bad.push('③ 表 2 の行の順(起点 → 閉じた読み → 今の読み)');
+    CHAIN.forEach(([k, tx, src], n) => { if (t2[n] < 0) return; const c = cells(L[t2[n]]); if (c[1] !== '「' + tx + '」') bad.push('③ 表 2 の「' + k + '」の文が違う'); if ((c[2] || '').indexOf(src) < 0) bad.push('③ 表 2 の「' + k + '」の出どころ'); if (!c[3]) bad.push('③ 表 2 の「' + k + '」の当たり所が空'); });
+    const s341d = physSecOf(ph, '〔第341便d — ');
+    if (!(s341d.indexOf('61440') >= 0 && s341d.indexOf('960 → 3840 → 15360 → 61440 点') >= 0)) bad.push('③ 〔第341便d〕の 61440 点の表(当時の文)が無い(消さない)');
+    cases.push('③ 表 2 の訂正の鎖 3 行(順・原文・出どころ)・〔第341便d〕の 61440 点の表が残る');
+    // ④ 表 3 の並べて読む所 4 つ
+    for (const [k, past, now, must] of SIDE) { const l = L.find((x) => x.startsWith('| ' + k + ' |')); if (!l) { bad.push('④ 表 3 に「' + k + '」の行が無い'); continue; } const c = cells(l);
+      if (c.length !== 4) { bad.push('④ 表 3 の「' + k + '」の欄が 4 つでない'); continue; }
+      for (const p of past) if (c[1].indexOf(p) < 0) bad.push('④ 表 3 の「' + k + '」の過去の文に「' + p.slice(0, 20) + '」が無い');
+      if (c[2] !== '「' + now + '」') bad.push('④ 表 3 の「' + k + '」の第142報の文が原文と違う');
+      for (const w of must) if (c[3].indexOf(w) < 0) bad.push('④ 表 3 の「' + k + '」の読みに「' + w + '」が無い'); }
+    if (/(誤り|間違い)(だった|である|とする)/.test(stripQ(sec))) bad.push('④ PHYSICS〔第342便f〕にどちらかを誤りとする文');
+    cases.push(`④ 表 3 の並べて読む所 ${SIDE.length}(過去の文と第142報の文の原文の字・読みの必須の語)`);
+    // ⑤ 表 4 と計算式の一覧の項
+    if (nw.slice(0, IDS.length).map((z) => z.id).join('|') !== IDS.join('|')) bad.push('⑤ EQ-78 以降の項の番号: ' + nw.map((z) => z.id).join('・'));
+    for (const id of IDS) { const it = all.find((z) => z.id === id), l = L.find((x) => x.startsWith('| ' + id + ' |'));
+      if (!it || !l) { bad.push('⑤ 表 4 か計算式の一覧に ' + id + ' が無い'); continue; } const c = cells(l);
+      if (c[2] !== it.label || c[3] !== SECOF[id] || !it.physRefs.some((r) => r.ref === SECOF[id])) bad.push('⑤ 表 4 の ' + id + ' のラベルか出どころの節が計算式の一覧と違う'); }
+    cases.push(`⑤ 表 4 の ${IDS.length} 行(ラベルと出どころの節が計算式の一覧の項と同じ)`);
+    // ⑥ §2a の第142報の用語・第342便で探索中・第341便a の表面の時計の項が残る
+    const s2a = T34.termSection334f(eq), n2a = s2aNewOf(eq);
+    if (!n2a) bad.push('⑥ §2a に第342便f の追記(「表面の時計と第341便の式」)が無い');
+    const ti = n2a.indexOf('- **第142報の用語**(');
+    if (ti < 0) bad.push('⑥ §2a に「第142報の用語」が無い');
+    for (const [h, q, src] of TERMS142) { const l = n2a.split('\n').find((x) => x.startsWith('  - ' + h + ': ')) || '';
+      if (!l) { bad.push('⑥ §2a に用語「' + h + '」が無い'); continue; }
+      if (l.indexOf('原文の文: 「' + q + '」(' + src + ')') < 0) bad.push('⑥ 用語「' + h + '」の原文の文か出どころが違う');
+      if (l.indexOf('今の読み: ') < 0) bad.push('⑥ 用語「' + h + '」に「今の読み」が無い(原文と読みを分ける)'); }
+    if (n2a.indexOf('\n- **第342便で探索中**(') < 0) bad.push('⑥ §2a に「第342便で探索中」の 1 行が無い');
+    if (s2a.indexOf('  - **表面の時計(表示)**: 「粒子自身を含んだ、粒子の表面の時間を表示する」(原仮定者の補足(2026-11-18 —— 第141報))。今のアプリの時計(EQ-04)は外部の決定力だけで積む点の時計') < 0) bad.push('⑥ 第341便a の「表面の時計(表示)」の項の文が無い(直さない)');
+    if (s2a.indexOf('- **第341便で探索中**') < 0 || s2a.indexOf('- **第341便で探索中**') > s2a.indexOf('- **表面の時計と第341便の式**(第342便f')) bad.push('⑥ §2a の第341便で探索中の行の後ろに第342便f の追記');
+    const refs = [...new Set([...s2a.matchAll(/EQ-\d\d/g)].map((m) => m[0]))], ids = new Set(all.map((z) => z.id));
+    for (const id of refs) if (!ids.has(id)) bad.push('⑥ §2a が無い項 ' + id + ' を指す');
+    cases.push(`⑥ §2a の第142報の用語 ${TERMS142.length}(原文の文・出どころ・今の読み)・第342便で探索中の 1 行・第341便a の表面の時計の項の文・項の参照 ${refs.length}`);
+    // ⑦ 冒頭・§3・§6・§7
+    if (eq.indexOf('- **表面の時計・第341便の式・第142報の用語(第342便f)**: ') < 0) bad.push('⑦ 冒頭の第342便f の 1 行');
+    const s3i = eq.indexOf('\n## 3. '), s3 = s3i >= 0 ? eq.slice(s3i, eq.indexOf('\n## ', s3i + 1)) : '';
+    for (const id of IDS) { const it = all.find((z) => z.id === id); if (!s3.split('\n').some((l) => it && l === '| ' + id + ' | ' + it.title + ' | ' + it.label + ' |')) bad.push('⑦ §3 の一覧に ' + id + ' の行が無い'); }
+    const s6i = eq.indexOf('\n## 6. '), s6 = s6i >= 0 ? eq.slice(s6i, eq.indexOf('\n## ', s6i + 1)) : '';
+    if (s6.indexOf('は EQ-78〜EQ-83 が拾う(第342便f —— 項は ' + Math.min(all.length, 83) + ')') < 0 || all.length < 83) bad.push('⑦ §6 の件数の文(EQ-78〜EQ-83・項は 83)');
+    const s7i = eq.indexOf('\n## 7. '), s7 = s7i >= 0 ? eq.slice(s7i) : '';
+    if (!/\n13\. \*\*表面の時計と第341便の式と第142報の用語\*\*\(第342便f —— `docs\.report142_342f`・`lint\.equations342f`\)/.test(s7) || s7.indexOf('view341aOf342f') < 0) bad.push('⑦ §7 の規則 13');
+    cases.push(`⑦ 冒頭の 1 行・§3 の ${IDS.length} 行・§6 の件数の文(項 ${all.length})・§7 の規則 13`);
+    // ⑧ AI_SPEC §269・CHANGELOG・post-merge
+    const a269 = as.search(/\n## 269\. 第342便f/), a263 = as.search(/\n## 263\. 第342便a/), ai = a269 >= 0 ? secUntilNext329c(as, a269 + 1, '\n## ') : '';
+    if (!(a269 >= 0 && a263 >= 0 && a263 < a269 && ['第142報', 'EQ-78', 'EQ-79〜EQ-83', '点の時計', '表面の時計', 'docs.report142_342f', 'lint.equations342f', 'view341aOf342f', 'SYSTEM_PROMPT には載せない', '現実の宇宙の主張ではない'].every((w) => ai.indexOf(w) >= 0))) bad.push('⑧ AI_SPEC §269(§263 の後・必須の語)');
+    const cbg = cl.search(/## v1\.47(?:-b\d+|\.0)[((]/), clg = cbg >= 0 ? secUntilNext329c(cl, cbg, '\n## ') : '', cln = clg.split('\n').find((l) => l.indexOf('**第342便f**') >= 0) || '';
+    if (!(['R377', '第142報', 'AN827', 'AN806', 'AN800', 'EQ-78', 'EQ-79〜EQ-83', 'docs.report142_342f', 'lint.equations342f', 'view341aOf342f'].every((w) => cln.indexOf(w) >= 0))) bad.push('⑧ CHANGELOG の beta の節の第342便f の行');
+    if (!(pm.indexOf('# ==== 第342便f の塊(ここから)====') >= 0 && ['docs.report142_342f', 'lint.equations342f'].every((k) => pm.indexOf(k) >= 0))) bad.push('⑧ post-merge の ③′ に第342便f の塊');
+    cases.push('⑧ AI_SPEC §269(§263 の後)・CHANGELOG の第342便f の行・post-merge の ③′');
+    // ⑨ 書かない語(第342便の禁句・第337便までの禁句・裸の係数記号・主の型を決めた語)
+    let nW = 0;
+    for (const [nm, tx] of [['PHYSICS〔第342便f〕', sec], ['§2a の第342便f の追記', n2a], ['AI_SPEC §269', ai], ['CHANGELOG の第342便f の行', cln]].concat(nw.filter((z) => IDS.indexOf(z.id) >= 0).map((z) => [z.id, z.text]))) {
+      const s = stripQ(tx);
+      for (const re of NOT342) if (re.test(s)) bad.push('⑨ ' + nm + ' に書かない語 ' + re.source);
+      for (const b of T37.wordAudit337g(nm, tx)) bad.push('⑨ ' + b);
+      if (nm === '§2a の第342便f の追記' || /^EQ-(79|8\d)/.test(nm)) for (const w of T34.DECIDE_WORDS_334F) if (stripCode(s).indexOf(w) >= 0) bad.push('⑨ ' + nm + ' に主の型を決めた語(' + w.length + ' 字)');
+      nW++;
+    }
+    cases.push(`⑨ 書かない語(第342便の禁句 ${NOT342.length}・第337便までの禁句・裸の係数記号・主の型を決めた語)—— ${nW} 本`);
+    return { bad, cases };
+  };
+  // ───── lint.equations342f の照合(EQ-78 の字と html・番号の連続・EQ-79 以降と各節の同じ字の式)─────
+  const PSI_S = 'ψ_s = ψ + X_k × mEff_i/√(R_i² + ε²)', DTS = 'dτ_s/dt = √(e^(−2ψ_s) − e^(+2ψ_s) w²/c₀²)';
+  const HTML_FN = { 'S.tauUpdate': 'S.tauUpdate=function(', 'S.clockSelfW': 'S.clockSelfW=function(' };
+  const htmlBody = (html, name) => { const k = HTML_FN[name]; if (!k) return ''; const a = html.indexOf(k); if (a < 0) return ''; const z = html.indexOf('\n  };', a); return z > a ? html.slice(a, z) : ''; };
+  const P_B = ['tests/exp-w341b-bodycoef.mjs', 'tests/lib-w341b-bodycoef.mjs', 'tests/out/bodycoef-341b.json'], P_D = ['tests/exp-w341d-oblatering.mjs', 'tests/lib-w341d-oblatering.mjs', 'tests/out/oblatering-341d.json'],
+    P_E = ['tests/exp-w341e-lightmass.mjs', 'tests/lib-w341e-lightmass.mjs', 'tests/out/lightmass-341e.json'], P_F = ['tests/exp-w341f-gyroheat.mjs', 'tests/lib-w341f-gyroheat.mjs', 'tests/out/gyroheat-341f.json'],
+    P_G = ['tests/exp-w341g-plutocontrol.mjs', 'tests/lib-w341g-plutocontrol.mjs', 'tests/out/plutocontrol-341g.json'];
+  // 各項が出どころの節と同じ字で持つ式(節の本文から写した字 —— 作った式ではない)
+  const ANCHOR = {
+    'EQ-79': { head: '〔第341便b — ', paths: P_B, eqs: ['C_b × (−α f(1 − f) s⊥)', 'f[s∥ + (1 − C_b α (1 − f)) s⊥]', 'sin² el* = 1 − 1/(C_b α (1 − f))', 'f₀ = 1 − 1/(C_b α)', 'C_b α (1 − f) = 2'] },
+    'EQ-80': { head: '〔第341便d — ', paths: P_D, eqs: ['R_eq = R_d/(1 − f_flat)^{1/3}', '(ii) 扁平の源 ÷ 球の源(同じ点で比べる)'] },
+    'EQ-81': { head: '〔第341便e — ', paths: P_E, eqs: ['c_loc = c₀ N/A = c₀ e^(−2ψ)', 'H = u·P + N √(m² c₀⁴ + c₀² P²/A²)', 'dv/dt = (F/m) max(0, 1 − w²/c_loc²)^p', '1/(1 + ε₊ g(β))', 'R2 = β²/(1 − β²)'] },
+    'EQ-82': { head: '〔第341便f — ', paths: P_F, eqs: ['熱 = (1 − μ) × 保つ仕事率 P_hold・P_hold = N⊥²/(I ω)', 'I_d θ̈ + G θ̇ + Γ θ̇ + K θ = N(t)', 'Γ ν² N² / ((K − I_d ν² − g ν)² + Γ² ν²)', 'F = x / (χ (x² (r² + c_g − 1)² + 1))', 'N_j = k I β_j abs(c) ω_j sin θ_j'] },
+    'EQ-83': { head: '〔第341便g — ', paths: P_G, eqs: ['自己 m/R²・相互 m/a²・太陽 m/D²・背景 W₀', 'α f_S(1 − f_S)(a/D) V_rel', 'ρ₁ = (4/3)η', '3ε/(1 − e²)'] },
+  };
+  const ledgerOf = (ph) => T37.parseKnobLedger337g(T37.policySection337g(ph));
+  const lintEq = (eq, ph, html) => {
+    const bad = [], cases = [];
+    const all = T34.eqItems334f(eq), nums = all.map((z) => z.num);
+    // ① 番号の連続(EQ-01 から重複も欠けも無い・EQ-78〜EQ-83 が在る)
+    const gap = nums.filter((n, k) => n !== k + 1);
+    if (gap.length || !IDS.every((id) => all.some((z) => z.id === id))) bad.push('① 項の番号が EQ-01 から連続でない(最初の外れ ' + (gap.length ? 'EQ-' + String(gap[0]).padStart(2, '0') : '—') + '・項 ' + all.length + ')');
+    cases.push(`① 項の番号 EQ-01〜EQ-${String(nums[nums.length - 1] || 0).padStart(2, '0')} の連続(${all.length} 項)・EQ-78〜EQ-83 が在る`);
+    // ② EQ-78 の字と html の実装(clockSelfW・tauSurf)と〔第342便a〕の式
+    const e78 = all.find((z) => z.id === 'EQ-78') || { text: '', blocks: [], label: '', physRefs: [] }, s342a = physSecOf(ph, '〔第342便a — ');
+    if (e78.label !== '実装〔既定〕') bad.push('② EQ-78 のラベル「' + e78.label + '」が 実装〔既定〕でない');
+    for (const w of [PSI_S, DTS]) { if (e78.text.indexOf(w) < 0) bad.push('② EQ-78 に「' + w.slice(0, 24) + '」の字が無い'); if (s342a.indexOf(w) < 0) bad.push('② 〔第342便a〕に「' + w.slice(0, 24) + '」の字が無い(EQ-78 と同じ字のはず)'); }
+    if (!e78.physRefs.some((r) => r.ref === '〔第342便a〕')) bad.push('② EQ-78 が〔第342便a〕を指さない');
+    const names = new Set(e78.blocks.map((b) => b.name)), allFr = e78.blocks.map((b) => b.frags.join('\n')).join('\n');
+    if (!(names.has('S.tauUpdate') && names.has('S.clockSelfW') && e78.blocks.every((b) => b.file === 'beta/index.html'))) bad.push('② EQ-78 の抜粋が beta/index.html の S.tauUpdate と S.clockSelfW でない');
+    if (!(allFr.indexOf('clockSelfW') >= 0 && allFr.indexOf('tauSurf') >= 0)) bad.push('② EQ-78 の抜粋に clockSelfW と tauSurf の字が無い');
+    let nF = 0;
+    for (const b of e78.blocks) { const body = norm(htmlBody(html, b.name)); if (!body) { bad.push('② html に ' + b.name + ' の定義が無い'); continue; }
+      b.frags.forEach((f, mi) => { nF++; if (body.indexOf(norm(f)) < 0) bad.push('② EQ-78 の抜粋 ' + b.k + '(' + b.name + ')の断片 ' + (mi + 1) + ' が html の実装に無い: «' + norm(f).slice(0, 50) + '»'); }); }
+    const tu = htmlBody(html, 'S.tauUpdate');
+    if (tu.indexOf('S.tau[i]+= rad>0 ? dt*Math.sqrt(rad) : 0;') < 0 || tu.indexOf('S.clockSelfW(i)') < 0) bad.push('② html の S.tauUpdate に点の時計の行か自己の項の呼び出しが無い');
+    cases.push(`② EQ-78(実装〔既定〕)の ψ_s と dτ_s/dt の字が〔第342便a〕と同じ・抜粋 ${e78.blocks.length}(S.tauUpdate・S.clockSelfW —— clockSelfW・tauSurf の字)・断片 ${nF} が html の実装の中・点の時計の行が残る`);
+    // ③ EQ-79〜EQ-83 と各節の同じ字の式・出どころ・lib の定義の範囲・ノブの台帳
+    const tb = ledgerOf(ph), st = new Map(tb.rows.map((r) => [r[0], r[6]])), fc = new Map(), rd = (f) => { if (!fc.has(f)) fc.set(f, rd342f(f)); return fc.get(f); };
+    let nA = 0, nB = 0, nG = 0, nK = 0;
+    for (const id of Object.keys(ANCHOR)) {
+      const A = ANCHOR[id], it = all.find((z) => z.id === id), ps = physSecOf(ph, A.head);
+      if (!it) { bad.push('③ ' + id + ' が無い'); continue; }
+      if (it.label !== '診断') bad.push('③ ' + id + ' のラベル「' + it.label + '」が 診断 でない');
+      if (T37.IMPL_MARK_337G.test(stripCode(it.text).replace(/\n- \*\*ラベル\*\*: [^\n]*/, ''))) bad.push('③ ' + id + ' に実装の印');
+      if (!it.physRefs.some((r) => r.head === A.head)) bad.push('③ ' + id + ' が ' + A.head.replace(' — ', '〕') + ' を指さない');
+      if (!ps) bad.push('③ ' + id + ' の出どころの節 ' + A.head.replace(' — ', '〕') + ' が PHYSICS に無い');
+      for (const w of A.eqs) { nA++; if (stripCode(it.text).indexOf(w) < 0) bad.push('③ ' + id + ' に式「' + w.slice(0, 24) + '」が無い'); else if (ps.indexOf(w) < 0) bad.push('③ ' + id + ' の式「' + w.slice(0, 24) + '」が出どころの節に同じ字で無い'); }
+      const srcLine = (/\n- \*\*出どころ\*\*: ([^\n]+)/.exec(it.text) || [])[1] || '';
+      for (const p of A.paths) { if (srcLine.indexOf('`' + p + '`') < 0) bad.push('③ ' + id + ' の出どころに ' + p + ' が無い'); else if (!fs.existsSync(path.join(ROOT, p))) bad.push('③ ' + id + ' の出どころの経路 ' + p + ' が実在しない'); }
+      if (!it.blocks.length) bad.push('③ ' + id + ' にプログラム版が無い');
+      for (const b of it.blocks) { nB++;
+        const where = id + ' の抜粋 ' + b.k + '(' + b.file + ' · ' + b.name + ')';
+        if (b.file !== A.paths[1]) { bad.push('③ ' + where + ' が出どころの lib でない'); continue; }
+        const span = T34.defSpan334f(rd(b.file), b.name);
+        if (!span) { bad.push('③ ' + where + ': 名の定義が無い'); continue; }
+        const ns = norm(span);
+        b.frags.forEach((f, mi) => { nG++; const nf = norm(f); if (!nf || ns.indexOf(nf) < 0) bad.push('③ ' + where + ' の断片 ' + (mi + 1) + ' が定義の範囲に無い: «' + nf.slice(0, 50) + '»'); }); }
+      const kl = (/\n- \*\*ノブの台帳\*\*: ([^\n]+)/.exec(it.text) || [])[1] || '', pairs = [...kl.matchAll(/「([^」]+)」\(([^)]+)\)/g)];
+      if (!pairs.length) bad.push('③ ' + id + ' のノブの台帳の欄に行が無い');
+      for (const m of pairs) { nK++; if (!st.has(m[1])) bad.push('③ ' + id + ' の台帳の行「' + m[1].slice(0, 24) + '」が表 2 に無い'); else if (st.get(m[1]) !== m[2]) bad.push('③ ' + id + ' の台帳の行「' + m[1].slice(0, 24) + '」の状態「' + m[2] + '」が表 2 の「' + st.get(m[1]) + '」と違う'); }
+    }
+    cases.push(`③ EQ-79〜EQ-83(診断)—— 出どころの節と同じ字の式 ${nA}・出どころの経路・抜粋 ${nB}・断片 ${nG}(lib の名指しの定義の範囲)・台帳の欄 ${nK} 行`);
+    return { bad, cases };
+  };
+  const PH = rd342f('docs/PHYSICS.md') || '', AS = rd342f('docs/AI_SPEC.md') || '', CLx = rd342f('CHANGELOG.md') || '', PM = rd342f('tools/post-merge-qa.sh') || '', HT = rd342f(TARGET) || '';
+  // ───── docs.report142_342f ─────
+  {
+    let bad = [], cases = [];
+    try {
+      const R = check(EQ0, PH, AS, CLx, PM); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const MUT = [
+        ['表 1 の AN806 の字を 1 字変える', EQ0, PH.replace('| AN806 | 「局所光速に近づくと、', '| AN806 | 「局所光速に近付くと、'), /^② 表 1 の「AN806」の原文の字/],
+        ['表 1 の AN800 の当たり所から枝 c を消す', EQ0, PH.replace('| 枝 c(扁平の源の近似 —— 接線・弦の向きの積分。', '| 扁平の源の近似 —— 接線・弦の向きの積分。'), /^② 表 1 の「AN800」の当たり所に「枝 c」/],
+        ['表 2 の閉じた読みを消す', EQ0, PH.replace('| 閉じた読み | 「扁平の源の区切りを細かくして環の範囲を測り直す」', '| 閉じたもの | 「扁平の源の区切りを細かくして環の範囲を測り直す」'), /^③ 表 2 の行の順/],
+        ['〔第341便d〕の 61440 点の表を消す', EQ0, PH.split('960 → 3840 → 15360 → 61440 点').join('960 → 3840 → 15360 点'), /^③ 〔第341便d〕の 61440 点の表/],
+        ['表 3 の 3 の第140報の文を 1 字変える', EQ0, PH.replace('| 3 光速と速度 | 原仮定者の指示(2026-11-17 —— 第140報)「宇宙に天体が１つの場合、', '| 3 光速と速度 | 原仮定者の指示(2026-11-17 —— 第140報)「宇宙に天体が1つの場合、'), /^④ 表 3 の「3 光速と速度」の過去の文/],
+        ['§2a の用語の原文を 1 字変える', EQ0.replace('原文の文: 「扁平率は、源の区切りを細かくしないで計算する近似を検証する。', '原文の文: 「扁平率は、源の区切りを細かくせずに計算する近似を検証する。'), PH, /^⑥ 用語「\*\*一番近い表面の接線\*\*」の原文の文/],
+        ['§2a の第341便a の表面の時計の項を書き換える', EQ0.replace('  - **表面の時計(表示)**: 「粒子自身を含んだ、粒子の表面の時間を表示する」(原仮定者の補足(2026-11-18 —— 第141報))。今のアプリの時計(EQ-04)は外部の', '  - **表面の時計(表示)**: 「粒子自身を含んだ、粒子の表面の時間を表示する」(原仮定者の補足(2026-11-18 —— 第141報))。アプリの時計(EQ-04)は外部の'), PH, /^⑥ 第341便a の「表面の時計\(表示\)」の項の文/],
+        ['節に第342便の禁句', EQ0, PH.replace('**⑥ 書かないこと。** 第142報の文は', '**⑥ 書かないこと。** 時間が止まる速さが決まった。第142報の文は'), /^⑨ PHYSICS〔第342便f〕 に書かない語 時間が止まる速さが決まった/],
+        ['禁句を「」の中に置く(数えない)', EQ0, PH.replace('**⑥ 書かないこと。** 第142報の文は', '**⑥ 書かないこと。** 「接線で求まると分かった」とは書かない。第142報の文は'), null],
+      ];
+      const sc = [];
+      for (const [nm, e, p, re] of MUT) {
+        const r = check(e, p, AS, CLx, PM);
+        if (re === null) { if (r.bad.length) bad.push('⑩ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
+        const hit = r.bad.some((b) => re.test(b));
+        if (!hit) bad.push('⑩ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+        sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+      }
+      cases.push(`⑩ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+      const V = view341aOf342f(EQ0);
+      if ((/\n### EQ-(7[89]|[89]\d) /).test(V)) bad.push('⑪ 世代の写しに EQ-78 以降の項が残る');
+      if (/EQ-(7[89]|8\d)/.test(T34.termSection334f(V))) bad.push('⑪ 世代の写しの §2a に EQ-78 以降の参照が残る');
+      if (!(/\n### EQ-77 /).test(V)) bad.push('⑪ 世代の写しで EQ-77 まで消えた');
+      cases.push('⑪ 第341便a の照合の世代の写し(view341aOf342f —— EQ-78 以降の項と §2a の参照を外す・EQ-77 までは残る)');
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.report142_342f', bad.length === 0,
+      `**第142報の回答 3 項・AN800 の訂正の鎖・並べて読む所 4 つ・計算式の一覧の EQ-78〜EQ-83 と第142報の用語**(第342便f・原仮定者の回答(2026-11-18 —— 第142報)・R377 —— 原文は言葉を変えずに引く・どの文も消さない・本便のほかの枝の結果の数は書かない・文書): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  // ───── lint.equations342f ─────
+  {
+    let bad = [], cases = [];
+    try {
+      const R = lintEq(EQ0, PH, HT); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const MUT = [
+        ['EQ-78 の ψ_s の字を変える', EQ0.replace('**ψ_s = ψ + X_k × mEff_i/√(R_i² + ε²)**', '**ψ_s = ψ + X_k × m_i/√(R_i² + ε²)**'), PH, HT, /^② EQ-78 に「ψ_s = ψ \+ X_k × mEff_i/],
+        ['html の自己の項の式を変える(写し)', EQ0, PH, HT.replace('const w=S.mEff[i]/Math.sqrt(d2);', 'const w=S.m[i]/Math.sqrt(d2);'), /^② EQ-78 の抜粋 2\(S\.clockSelfW\)の断片 1/],
+        ['html の表面の時計の積算を変える(写し)', EQ0, PH, HT.replace('S.tauSurf[i]+= radS>0 ? dt*Math.sqrt(radS) : 0;', 'S.tauSurf[i]+= radS>0 ? dt*radS : 0;'), /^② EQ-78 の抜粋 1\(S\.tauUpdate\)の断片 1/],
+        ['EQ-83 の番号を EQ-85 に', EQ0.replace('\n### EQ-83 ', '\n### EQ-85 '), PH, HT, /^① 項の番号が EQ-01 から連続でない/],
+        ['EQ-80 の式の字を節と違える', EQ0.replace('扁平の則 **R_eq = R_d/(1 − f_flat)^{1/3}**', '扁平の則 **R_eq = R_d/(1 − f_flat)^{1/2}**'), PH, HT, /^③ EQ-80 に式「R_eq = R_d\/\(1 − f_flat\)/],
+        ['EQ-81 のラベルを実装〔opt-in〕に', EQ0.replace(/(### EQ-81 [^\n]*\n\n- \*\*ラベル\*\*: )診断/, '$1実装〔opt-in〕'), PH, HT, /^③ EQ-81 のラベル/],
+        ['EQ-82 の抜粋の断片の 1 字違い', EQ0.replace('return Nperp * Nperp / (I * Math.abs(omega));', 'return Nperp / (I * Math.abs(omega));'), PH, HT, /^③ EQ-82 の抜粋 3\(tests\/lib-w341f-gyroheat\.mjs · holdPower\) の断片 1/],
+        ['EQ-79 の台帳の欄の状態を対照に(台帳は候補)', EQ0.replace('「要る C_b の読み(釣り合い/速さの一致)」(候補)', '「要る C_b の読み(釣り合い/速さの一致)」(対照)'), PH, HT, /^③ EQ-79 の台帳の行「要る C_b の読み/],
+      ];
+      const sc = [];
+      for (const [nm, e, p, h, re] of MUT) {
+        const r = lintEq(e, p, h), hit = r.bad.some((b) => re.test(b));
+        if (!hit) bad.push('④ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+        sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+      }
+      cases.push(`④ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.equations342f', bad.length === 0,
+      `**計算式の一覧の EQ-78(表面の時計 —— html の実装と同じ字)と EQ-79〜EQ-83(第341便の節と同じ字の式)**(第342便f・R377 —— 表面の時計の式を変える便は EQ-78 と〔第342便a〕を同じ便で直す): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第342便f の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
