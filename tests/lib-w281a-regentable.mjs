@@ -2363,6 +2363,18 @@ export const REGEN_STEPS = [
     note: '第340便g: 並び 3(乱数・準一様・ガラス)× N 64・128・256・512 × 種 3 × 速度の場 2 × 自己の重み none・B の静的な引きずり(大きさ・全体の重み・外縁の速さの比・角運動量の率)と補正の向きの揃いの割合/'
       + '並び 3 × N 256 の刻み h・h/2・h/4 × 作用 4(重力だけ・速度の場・慣性の項 τ 0.1・0.03 t_cr)の見かけの次数と外挿' }),
   // ==== 第340便g の塊(ここまで)====
+  // ==== 第341便g の塊(ここから)====
+  // ---- 第341便g(原仮定者の補足(2026-11-18 —— 第141報)「冥王星とカロンは、引きずりの影響が少ない、理想的な連星」・統括の検証項目 R370): **冥王星とカロンを候補の型の対照の表に ——
+  //   項ごとの大きさ(7 系)・斜め軌道で赤道面から離れる時間(9 天体)・対照の段 (1)〜(4)・天体の特性の係数の入口**(段 plutocontrol-341g —— 正本 tests/out/plutocontrol-341g.json・
+  //   lib tests/lib-w341g-plutocontrol.mjs —— 第340便b・第334便d・第331便c・第340便e・第340便h・第337便l・第337便j・第337便c・第337便i の lib を import して呼ぶ。他の正本は読まない)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第341便g の枝の実測 1 s
+  S('plutocontrol-341g', 'node tests/exp-w341g-plutocontrol.mjs', ['tests/out/plutocontrol-341g.json'], 1, { secSource: 'w341g-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'charonInput', 'supply-337a'],   // 順序だけ(lib が値の出典の正本の名を書く —— charoninput-w280d・supply-337a は読まない)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/plutocontrol-341g.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第341便g: 7 系 × 項 6 の指数と順位(外の取り分・外の 2 体の間の差・相互の部位差分〔円・同期/系の離心率〕・外の源の部位差分・G_loc の型の残差)/'
+      + '9 天体 × 帯の半幅 3 の赤道面から離れる時間と 🛟 の型の掛かる時間/冥王星–カロンの対照の段 (1)〜(4)・二体の RK4 の刻み 4/係数 1・0.5 の 4 点 × 系 2' }),
+  // ==== 第341便g の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
