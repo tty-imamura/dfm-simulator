@@ -109013,7 +109013,7 @@ function view338aOf340a(eq) {
               ctx.font = (10 * uiFontScale) + 'px sans-serif';
               const z = zoom(), target = 140 / z, kk = Math.pow(10, Math.floor(Math.log10(target))); let L = kk; for (const m of [2, 5, 10]) if (m * kk <= target) L = m * kk;
               const barR = 10 + Math.max(L * z, ctx.measureText(T('hudViewW') + ' ' + sciFmt(cw / z) + ' ≈ 0.000 au').width);
-              const selW = (() => { const ls = []; const i = 0; ls.push(`m=${fmt(sim.m[i])} s=${fmt(sim.spin[i])} R=${fmt(sim.R[i])} f=0.0000`); ls.push(`T=${fmt(obsTemp(sim, i))} λ=0.000 ${T('hudClock')}=100.0%`);
+              const selW = (() => { const ls = []; const i = 0; ls.push(`m=${fmt(sim.m[i])} s=${fmt(sim.spin[i])} R=${fmt(sim.R[i])} f=0.0000`); ls.push(`T=${fmt(obsTemp(sim, i))} λ=0.000 ${T('hudClock')}=100.0%` + (T('hudClockPt') ? `・${T('hudClockPt')}=100.0%` : ''));   // 第342便a: 情報行の 2 行目に点の時計を併記した形(前の世代は従来の形)
                 return 8 + Math.max(...ls.map((t) => ctx.measureText(t).width)); })();
               o.uz.push({ uz, R: +G.R.toFixed(2), cx: +G.cx.toFixed(1), slots: slots.length, nSlotHit, barR: +barR.toFixed(1), selR: +selW.toFixed(1), gzL: +gz.l.toFixed(1) });
               if (!(inCv && slots.length >= 4 && nSlotHit === 0 && barR < gz.l && selW < gz.l)) o.bad.push('置き場所 ' + JSON.stringify(o.uz[o.uz.length - 1]));
