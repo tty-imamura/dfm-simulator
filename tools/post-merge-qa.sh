@@ -1126,6 +1126,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutocontrol341g docs.plutocontrol3
 #   解析値・点の時計の不変・質量 0・軟化 0・表示の倍率・動く時計・合体と分裂の追随・説明の文の数 / docs.surfclock342a —— PHYSICS〔第342便a〕・AI_SPEC §263・CHANGELOG・🛟 の説明の文)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfclock342a docs.surfclock342a"
 # ==== 第342便a の塊(ここまで)====
+# ==== 第342便c の塊(ここから)====
+# 第342便c(原仮定者の回答(2026-11-18 —— 第142報)AN800・統括の検証項目 R374 —— 診断だけ・html は変えない): 枝 c の新設 2 本(behavior.oblateapprox342c —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・球の源で比 1・上下の対称・弦の体積の零試験・呼ぶだけ / docs.oblateapprox342c —— PHYSICS〔第342便c〕・AI_SPEC §266・CHANGELOG・段の行)と、新しい段 oblateapprox-342c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.oblateapprox342c docs.oblateapprox342c"
+# ==== 第342便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
