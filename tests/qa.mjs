@@ -108109,9 +108109,9 @@ function view338aOf340a(eq) {
     if (!(ai && ['R358', 'AN770', 'provenancePaths', '--estimate', 'lint.provenanceExclude340c', 'SYSTEM_PROMPT には載せない'].every((w) => ai.indexOf(w) >= 0))) bad.push('AI_SPEC §250(R358・AN770・provenancePaths・--estimate・鍵・SYSTEM_PROMPT)');
     const i247 = AS.indexOf('\n## 247. '), i250 = m ? m.index : -1;
     if (!(i247 >= 0 && i250 > i247)) bad.push('AI_SPEC §250 の位置(§247 の後)');
-    const CL = rd340c('CHANGELOG.md'), cb = CL.indexOf('## v1.47-b340('), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+    const CL = rd340c('CHANGELOG.md'), cb = CL.search(/^## v1\.47-b\d+[((]/m), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
     const cl = clb.split('\n').find((l) => l.indexOf('**第340便c**') >= 0) || '';
-    if (!(cl && ['R358', 'AN770', 'lint.provenanceExclude340c', 'docs.chainTools340c', 'w340c-vcal-4'].every((w) => cl.indexOf(w) >= 0))) bad.push('CHANGELOG の v1.47-b340 の節に第340便c の行(R358・AN770・鍵・版)');
+    if (!(cl && ['R358', 'AN770', 'lint.provenanceExclude340c', 'docs.chainTools340c', 'w340c-vcal-4'].every((w) => cl.indexOf(w) >= 0))) bad.push('CHANGELOG の v1.47 の開発中の節に第340便c の行(R358・AN770・鍵・版)');   // 第341便(統括 —— 継ぎ目): 見出しの版名を数字に依らずに探す(便の開始で b340 → b341 に動いて落ちていた)
     cases.push('AI_SPEC §250・CHANGELOG の行');
     const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
     const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])]
