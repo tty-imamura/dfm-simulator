@@ -110278,7 +110278,7 @@ function view340aOf341a(eq) {
 
 // ---- 第342便e: docs.powerball342e は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
 // ----   docs.powerball342e(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い・settleRun の meta.recheck)・宣言が lib と器と同じ
-// ----     ② 表 7 本が PHYSICS〔第342便e〕に逐語 ③ 節の位置(〔第342便a〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表(6 列・状態の欄が 1 語・行に縦棒の逃がしなし)・
+// ----     ② 表 6 本が PHYSICS〔第342便e〕に逐語 ③ 節の位置(〔第342便a〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表(6 列・状態の欄が 1 語・行に縦棒の逃がしなし)・
 // ----     AI_SPEC §268・CHANGELOG・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
 {
   await (async () => {   // 第310便c(heap)
@@ -110311,7 +110311,7 @@ function view340aOf341a(eq) {
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第342便e〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 7) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 6) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第342便e〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の回答(2026-11-18 —— 第141報の回答)', 'AN803', 'パワーボール効果', 'R376', 'tests/exp-w342e-powerball.mjs', 'tests/out/powerball-342e.json', 'tests/lib-w342e-powerball.mjs', 'powerball-342e',
