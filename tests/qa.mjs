@@ -108835,6 +108835,7 @@ function view338aOf340a(eq) {
 
 // ==== 第342便a の塊(ここから —— behavior.surfclock342a・docs.surfclock342a の 2 ブロック。root は SKIP)====
 // ---- 第342便a(原仮定者の補足 4(2026-11-18 —— 第141報)「粒子自身を含んだ、粒子の表面の時間を表示する」・原仮定者の回答(2026-11-18 —— 第141報)AN778「推奨で進める」・
+// ----   原仮定者の回答(2026-11-18 —— 第141報の回答)AN804「表面の時計は、近似で良い。正確には、周囲の決定力場により、表面の位置で変わる」と、次の便で表面の時計を別に積む形を進める・
 // ----   統括の検証項目 R371): **粒子の表面の時計 tauSurf(表示用)**と 🛟 の説明の文の直し。世代切替 = beta 対象 ∧ 対象の html に `S.clockSelfW=function(` がある。
 // ----   器・正本・段は無い(対象の html を loadHtmlHeadless で読み、その場で測る)。基準の html(点の時計の不変の照合)は beta/_w341_base.html があればそれ・無ければ (ii) を SKIP の印にする。
 // ----   behavior.surfclock342a: (i) ⏱️ gclock の 4 体で tauSurf/t が解析値 e^(−X_k(W_ext + W_self))と Float32 の予算(步の数 × 2 × 2^−24)の内・中心の天体が 3 つの時計より遅い
@@ -108954,7 +108955,8 @@ function view338aOf340a(eq) {
     if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ih >= 0 && ih < i0 && iu > i0)) bad.push('PHYSICS〔第342便a〕が無いか〔第340便h〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
     const want = ['原仮定者の補足 4(2026-11-18 —— 第141報)', '原仮定者の回答(2026-11-18 —— 第141報)', 'AN778', 'R371', 'tauSurf', 'clockSelfW', 'tauUpdate', 'mEff', '点の時計', '表面の時計',
       '外部の決定力だけ', '自転による表面の速さ', '質量 0', '空洞の重み', '三次元', '帯の半幅', '10.4 m', '|z| < R_eq', '見えるようにした倍率', '受け手の自転も公転の速さも入れていない', '31', '28', '21',
-      '探索用・未較正', '署名', '600 步', 'regen', 'behavior.surfclock342a', 'docs.surfclock342a', '決断事項の候補', '次の便へ', '書かないこと', 'この近似の範囲'];
+      '探索用・未較正', '署名', '600 步', 'regen', 'behavior.surfclock342a', 'docs.surfclock342a', '決断事項の候補', '次の便へ', '書かないこと', 'この近似の範囲',
+      '原仮定者の回答(2026-11-18 —— 第141報の回答)', '正確には、周囲の決定力場により、表面の位置で変わる', '近似の範囲', 'ψ_s = ψ + X_k × mEff_i/√(R_i² + ε²)', '実装はしていない', 'w342a-C'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第342便a〕に「' + w + '」が無い');
     const a0 = AS.indexOf('\n## 263. 第342便a'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
     if (!(a0 >= 0 && ai.indexOf('tauSurf') >= 0 && ai.indexOf('R371') >= 0 && ai.indexOf('点の時計') >= 0 && ai.indexOf('表面の時計') >= 0)) bad.push('AI_SPEC §263(tauSurf・R371・点の時計・表面の時計)');
@@ -108973,6 +108975,8 @@ function view338aOf340a(eq) {
       const appTx = [gc, bk('grcal'), bk('grcalGps'), bk('boxtrans'), bk('boxcomoving'), bk('boxbreath'), rv].filter(Boolean).map((q) => q.description + q.en.description).join('\n') + H.evalExpr('I18N.ja.hudClock+I18N.ja.hudClockPt+I18N.en.hudClock+I18N.en.hudClockPt');
       if (/第\d+便|決断事項/.test(appTx)) bad.push('アプリの中の文に便名か決断事項');
       if (!(gc && gc.descStruct.observe.indexOf('点の時計') >= 0 && gc.descStruct.observe.indexOf('表面の時計') >= 0 && /重いほど必ず遅いわけではない/.test(gc.descStruct.observe) && /heavier is not always slower/.test(gc.en.descStruct.observe))) bad.push('⏱️ の説明に点の時計・表面の時計・「重いほど必ず遅いわけではない」');
+      const nRange = [gc, bk('grcal'), bk('grcalGps'), bk('boxtrans'), bk('boxcomoving'), bk('boxbreath')].filter((q) => q && q.descStruct.observe.indexOf('正確には、周囲の決定力場により、表面の位置で変わる') >= 0 && /strictly, it varies over the surface position/.test(q.en.descStruct.observe)).length;
+      if (nRange !== 6) bad.push('時計の本 6 本の説明に近似の範囲の文(原仮定者の回答の言葉 —— ja/en)が無い本がある(' + nRange + '/6)');
       cases.push('🛟 の説明の文(ja/en —— 帯の半幅・全幅 10.4 m・|z| < R_eq・見えるようにした倍率・経路の型 31/28/21)・⏱️ ほか 6 本の時計の文・アプリの中に便名なし');
     }
     const strip = (t) => t.replace(/「[^」]*」/g, '');
