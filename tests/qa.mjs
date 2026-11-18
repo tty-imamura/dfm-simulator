@@ -108833,6 +108833,167 @@ function view338aOf340a(eq) {
 }
 // ==== 第340便h の塊(ここまで)====
 
+// ==== 第342便a の塊(ここから —— behavior.surfclock342a・docs.surfclock342a の 2 ブロック。root は SKIP)====
+// ---- 第342便a(原仮定者の補足 4(2026-11-18 —— 第141報)「粒子自身を含んだ、粒子の表面の時間を表示する」・原仮定者の回答(2026-11-18 —— 第141報)AN778「推奨で進める」・
+// ----   統括の検証項目 R371): **粒子の表面の時計 tauSurf(表示用)**と 🛟 の説明の文の直し。世代切替 = beta 対象 ∧ 対象の html に `S.clockSelfW=function(` がある。
+// ----   器・正本・段は無い(対象の html を loadHtmlHeadless で読み、その場で測る)。基準の html(点の時計の不変の照合)は beta/_w341_base.html があればそれ・無ければ (ii) を SKIP の印にする。
+// ----   behavior.surfclock342a: (i) ⏱️ gclock の 4 体で tauSurf/t が解析値 e^(−X_k(W_ext + W_self))と Float32 の予算(步の数 × 2 × 2^−24)の内・中心の天体が 3 つの時計より遅い
+// ----     (ii) 点の時計 tau・位置・速度が基準の html と同じビット(5 本 × 200 步)(iii) 宣言の質量 0 → 自己の項 0・tauSurf = tau(iv) 軟化 0 → 自己の項 = mEff/R
+// ----     (v) 表示の倍率 dispMag を変えても tauSurf が同じビット (vi) 動く時計(🛰️ grcal の衛星)で表面の時計の積算が 1 步ごとの式どおり(静止だけの式とは区別できる)
+// ----     (vii) 合体・分裂で配列が追随する(自己の項を 0 にした写しで tauSurf = tau が全步でビット同一・配列の一覧 4 つに tauSurf)(viii) 説明の文の数が測った値と同じ(3 桁)
+// ----   docs.surfclock342a: PHYSICS〔第342便a〕・AI_SPEC §263・CHANGELOG・post-merge・🛟 の説明の文(帯の半幅・全幅・経路の型の注記)・書かない語
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const htmlTx342a = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
+  if (!(TARGET.startsWith('beta/') && htmlTx342a.indexOf('S.clockSelfW=function(') >= 0)) {
+    console.log('SKIP behavior.surfclock342a(第342便a の表面の時計の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP docs.surfclock342a(第342便a の表面の時計の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  // ───── behavior.surfclock342a ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const LH = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless;
+      const H = LH(path.join(ROOT, TARGET));
+      if (H.errors.length) bad.push('html の読み込みのエラー: ' + H.errors[0].slice(0, 120));
+      const F32 = Math.pow(2, -24);
+      // (i) gclock の 4 体
+      H.HP.loadPreset('gclock', false); let S = H.HP.sim, p = S.params; const NST = 1000;
+      for (let k = 0; k < NST; k++) S.step(0.016);
+      const ext = (i) => { let w = p.D0; for (let j = 0; j < S.n; j++) { if (j === i) continue; w += S.mEff[j] / Math.hypot(Math.hypot(S.x[i] - S.x[j], S.y[i] - S.y[j]), p.softening); } return w; };
+      const selfW = (i) => S.mEff[i] / Math.hypot(S.R[i], p.softening);
+      const budget = NST * 2 * F32;
+      const gi = [0, 1, 2, 3].map((i) => { const th = Math.exp(-p.kappaT * (ext(i) + selfW(i))), r = S.tauSurf[i] / S.t; return { r, th, rel: Math.abs(r - th) / th, pt: S.tau[i] / S.t }; });
+      if (!(S.n === 4 && gi.every((q) => q.rel <= budget))) bad.push('(i) gclock の表面の時計が解析値と予算 ' + budget.toExponential(1) + ' の外(' + gi.map((q) => q.rel.toExponential(1)).join('・') + ')');
+      if (!(gi[0].r < gi[1].r && gi[0].r < gi[2].r && gi[0].r < gi[3].r && gi[1].r < gi[2].r && gi[2].r < gi[3].r)) bad.push('(i) 中心の天体が 3 つの時計より遅い・時計は内側ほど遅い、が成り立たない');
+      if (!(gi.every((q) => q.r < q.pt))) bad.push('(i) 正の質量で表面の時計が点の時計より遅い、が成り立たない');
+      cases.push(`(i) ⏱️ ${NST} 步: 表面 ${gi.map((q) => q.r.toFixed(4)).join('/')}(解析値との相対の差の最大 ${Math.max(...gi.map((q) => q.rel)).toExponential(1)} ≤ 予算 ${budget.toExponential(1)})・点 ${gi.map((q) => q.pt.toFixed(4)).join('/')}・中心が最も遅い`);
+      const gSurf = gi.map((q) => q.r), gPt = gi.map((q) => q.pt);
+      // (iv) 軟化 0
+      const sp = p.softening; p.softening = 0; const iv = [0, 1].every((i) => S.clockSelfW(i) === S.mEff[i] / S.R[i]); p.softening = sp;
+      if (!iv) bad.push('(iv) 軟化 0 で自己の項が mEff/R でない');
+      // (iii) 質量 0
+      H.HP.loadPreset('gclock', false); S = H.HP.sim; S.m[3] = 0;
+      for (let k = 0; k < 300; k++) S.step(0.016);
+      const iii = S.clockSelfW(3) === 0 && S.tau[3] === S.tauSurf[3] && S.tau[3] > 0;
+      if (!iii) bad.push('(iii) 宣言の質量 0 で tauSurf ≠ tau(か自己の項 ≠ 0)');
+      cases.push('(iii) 宣言の質量 0 → 自己の項 0・tauSurf = tau(300 步のビット)/(iv) 軟化 0 → 自己の項 = mEff/R(ビット)');
+      // (v) 表示の倍率
+      H.HP.loadPreset('gclock', false); S = H.HP.sim; for (let k = 0; k < 300; k++) S.step(0.016);
+      const a1 = JSON.stringify(Array.from(S.tauSurf.subarray(0, S.n)));
+      H.HP.loadPreset('gclock', false); S = H.HP.sim; S.params.dispMag = 5; for (let k = 0; k < 300; k++) S.step(0.016);
+      if (a1 !== JSON.stringify(Array.from(S.tauSurf.subarray(0, S.n)))) bad.push('(v) 表示の倍率 dispMag 5 で tauSurf が変わった');
+      cases.push('(v) dispMag 1 と 5 で tauSurf が同じビット(300 步)');
+      // (vi) 動く時計
+      H.HP.loadPreset('grcal', false); S = H.HP.sim; p = S.params;
+      let eSum = 0, eStatic = 0, pT = S.tau[2], pS = S.tauSurf[2], tPrev = 0; const NV = 600;
+      for (let k = 0; k < NV; k++) {
+        S.step(0.016); const dt = S.t - tPrev; tPrev = S.t;
+        const dT = S.tau[2] - pT; pT = S.tau[2]; pS = S.tauSurf[2];
+        const psi = (p.D0 + S.sumW[2]) * p.kappaT, N = Math.exp(-psi), A = Math.exp(psi), w2c2 = (N * N - (dT / dt) * (dT / dt)) / (A * A);
+        const psiS = psi + p.kappaT * S.clockSelfW(2), Ns = Math.exp(-psiS), As = Math.exp(psiS);
+        eSum += dt * Math.sqrt(Math.max(0, Ns * Ns - As * As * w2c2)); eStatic += dt * Ns;
+      }
+      const budV = NV * 2 * F32, relV = Math.abs(S.tauSurf[2] - eSum) / eSum, relSt = Math.abs(S.tauSurf[2] - eStatic) / eStatic, vMov = Math.hypot(S.vx[2], S.vy[2]);
+      if (!(relV <= budV && relSt > 10 * budV && vMov > 0)) bad.push('(vi) 動く時計の表面の時計が 1 步ごとの式と違う(' + relV.toExponential(1) + ' / 予算 ' + budV.toExponential(1) + '・静止の式との差 ' + relSt.toExponential(1) + ')');
+      cases.push(`(vi) 🛰️ の衛星(速さ ${vMov.toFixed(3)})${NV} 步: 1 步ごとの式との相対の差 ${relV.toExponential(1)} ≤ 予算 ${budV.toExponential(1)}・静止だけの式との差 ${relSt.toExponential(1)}(区別できる)・表面 ${(S.tauSurf[2] / S.t).toFixed(4)}・点 ${(S.tau[2] / S.t).toFixed(4)}`);
+      const rSurf = [0, 1, 2].map((i) => S.tauSurf[i] / S.t);
+      // (vii) 合体・分裂で配列が追随する
+      let fusOk = true, nFus = 0, nFis = 0, nLe = 0;
+      for (const fis of [false, true]) {
+        const P = JSON.parse(JSON.stringify(H.HP.allPresets().find((q) => q.id === 'selfRotor')));
+        if (fis) P.fusion.fission = { Tcrit: 0.05, frac: 0.4 };
+        for (const zero of [true, false]) {
+          const T = H.evalExpr('makeSim()'); T.build(P);
+          if (zero) T.clockSelfW = () => 0;
+          for (let k = 0; k < 300; k++) { T.step(0.016);
+            for (let i = 0; i < T.n; i++) { if (zero ? T.tau[i] !== T.tauSurf[i] : !(T.tauSurf[i] <= T.tau[i] && T.tauSurf[i] > 0)) fusOk = false; } }
+          if (zero) { nFus += T.fusN; nFis += T.fisN; } else nLe++;
+          if (!(T.tauSurf.length === T.tau.length)) fusOk = false;
+        }
+      }
+      const lists = ['"lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau","tauSurf",', 'for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","tauSurf",', 'const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","tauSurf",'];
+      const nList = (htmlTx342a.split(lists[0]).length - 1) + (htmlTx342a.split(lists[1]).length - 1) + (htmlTx342a.split(lists[2]).length - 1);
+      const ops = ['S.tauSurf[i]=S.tauSurf[i]*wi+S.tauSurf[j]*wj;', 'S.tauSurf[j]=S.tauSurf[i];', 'S.tauSurf[jj]=S.tauSurf[i];', 'if(S.tauSurf) S.tauSurf[i]/=k;', 'S.tau.fill(0); S.tauSurf.fill(0);'].filter((w) => htmlTx342a.indexOf(w) < 0);
+      if (!(fusOk && nFus > 0 && nFis > 0 && nList === 4 && ops.length === 0)) bad.push('(vii) 合体・分裂で配列が追随しない(ビット ' + fusOk + '・合体 ' + nFus + '・分裂 ' + nFis + '・一覧 ' + nList + '/4・操作の欠け ' + ops.join(' '));
+      cases.push(`(vii) 🌀 selfRotor(分裂の宣言なし/あり × 300 步): 自己の項 0 の写しで tauSurf = tau が全步でビット同一(合体 ${nFus}・分裂 ${nFis})・自己の項ありでは 0 < tauSurf ≤ tau・配列の一覧 ${nList}/4(_compact・_grow・cloneSimState・CK_ARRS)・合体/分裂/放出/時間の尺度/リセットの操作`);
+      // (viii) 説明の文の数
+      const bk = (id) => H.HP.allPresets().find((q) => q.id === id);
+      const g = bk('gclock'), gr = bk('grcal'), f3 = (x) => x.toFixed(3);
+      const wantG = [gPt.slice(1).map(f3).join('/'), gSurf.slice(1).map(f3).join('/'), f3(gSurf[0]), gPt[0].toFixed(4)];
+      const okG = wantG.every((w) => g.descStruct.observe.indexOf(w) >= 0 && g.en.descStruct.observe.indexOf(w) >= 0);
+      const okR = [f3(rSurf[0])].every((w) => gr.descStruct.observe.indexOf(w) >= 0 && gr.en.descStruct.observe.indexOf(w) >= 0) && f3(rSurf[1]) === '0.993' && f3(rSurf[2]) === '0.996';
+      if (!(okG && okR)) bad.push('(viii) 説明の文の数が測った値と違う(⏱️ ' + wantG.join(' ') + '・🛰️ 中心 ' + f3(rSurf[0]) + '・地上 ' + f3(rSurf[1]) + '・衛星 ' + f3(rSurf[2]) + ')');
+      cases.push(`(viii) 説明の文の数が測った値と 3 桁で同じ(⏱️ 点 ${wantG[0]}・表面 ${wantG[1]}・中心 ${wantG[2]}〔点 ${wantG[3]}〕/🛰️ 中心の表面 ${f3(rSurf[0])}・地上 ${f3(rSurf[1])}・衛星 ${f3(rSurf[2])})`);
+      // (ii) 基準の html と点の時計が同じビット
+      const basePath = path.join(ROOT, 'beta', '_w341_base.html');
+      if (fs.existsSync(basePath)) {
+        const B = LH(basePath); const diffIds = [];
+        for (const id of ['gclock', 'grcal', 'grcalGps', 'lensing', 'selfRotor']) {
+          H.HP.loadPreset(id, false); B.HP.loadPreset(id, false); const a = H.HP.sim, b = B.HP.sim;
+          for (let k = 0; k < 200; k++) { a.step(0.016); b.step(0.016); }
+          let same = a.n === b.n; for (let i = 0; i < a.n && same; i++) if (a.tau[i] !== b.tau[i] || a.x[i] !== b.x[i] || a.y[i] !== b.y[i] || a.vx[i] !== b.vx[i] || a.vy[i] !== b.vy[i]) same = false;
+          if (!same) diffIds.push(id);
+        }
+        if (diffIds.length) bad.push('(ii) 点の時計・位置・速度が基準の html と違う: ' + diffIds.join(','));
+        cases.push('(ii) 点の時計 tau・位置・速度が基準の html(beta/_w341_base.html)と同じビット(⏱️ 🛰️ 🕰️ 🔭 🌀 × 200 步)');
+      } else cases.push('(ii) 基準の html が無い(統合の後の木 —— 在位の全本の署名と 600 步は枝の報告と鎖で見る)');
+    } catch (e) { bad.push('測れない: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('behavior.surfclock342a', bad.length === 0,
+      `**粒子の表面の時計 tauSurf(表示用 —— 自己の表面の項を含む)**(第342便a・原仮定者の補足 4(2026-11-18 —— 第141報)・R371): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  // ───── docs.surfclock342a ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第342便a — '), i7 = PH.indexOf('\n## 7. 論文'), ih = PH.indexOf('〔第340便h — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ih >= 0 && ih < i0 && iu > i0)) bad.push('PHYSICS〔第342便a〕が無いか〔第340便h〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    const want = ['原仮定者の補足 4(2026-11-18 —— 第141報)', '原仮定者の回答(2026-11-18 —— 第141報)', 'AN778', 'R371', 'tauSurf', 'clockSelfW', 'tauUpdate', 'mEff', '点の時計', '表面の時計',
+      '外部の決定力だけ', '自転による表面の速さ', '質量 0', '空洞の重み', '三次元', '帯の半幅', '10.4 m', '|z| < R_eq', '見えるようにした倍率', '受け手の自転も公転の速さも入れていない', '31', '28', '21',
+      '探索用・未較正', '署名', '600 步', 'regen', 'behavior.surfclock342a', 'docs.surfclock342a', '決断事項の候補', '次の便へ', '書かないこと', 'この近似の範囲'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第342便a〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 263. 第342便a'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
+    if (!(a0 >= 0 && ai.indexOf('tauSurf') >= 0 && ai.indexOf('R371') >= 0 && ai.indexOf('点の時計') >= 0 && ai.indexOf('表面の時計') >= 0)) bad.push('AI_SPEC §263(tauSurf・R371・点の時計・表面の時計)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl = clg.split('\n').find((l) => l.indexOf('**第342便a**') >= 0) || '';
+    if (!(cl.indexOf('tauSurf') >= 0 && cl.indexOf('R371') >= 0 && cl.indexOf('AN778') >= 0)) bad.push('CHANGELOG の第342便a の行');
+    if (!(PM.indexOf('# ==== 第342便a の塊(ここから)====') >= 0 && /behavior\.surfclock342a/.test(PM) && /docs\.surfclock342a/.test(PM))) bad.push('post-merge の ③′ に第342便a の塊');
+    // 本の文(アプリの中 —— 便名・決断事項を書かない)
+    let H = null; try { H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { bad.push('html が読めない'); }
+    if (H) {
+      const bk = (id) => H.HP.allPresets().find((q) => q.id === id) || null, rv = bk('saturnRotVertExplore3d'), gc = bk('gclock');
+      const sj = rv ? rv.descStruct.summary + rv.obsCard.map((c) => c.model + c.obs).join('') : '', se = rv ? rv.en.descStruct.summary + rv.en.obsCard.map((c) => c.model + c.obs).join('') : '';
+      const okRv = rv && ['帯の半幅', '全幅 10.4 m', '|z| < R_eq', '見えるようにした倍率', '受け手の自転も公転の速さも入れていない', '赤道面へ寄せる組 31', '離す組 28', '鉛直の力 0 の組 21', '探索用・未較正', '1e5', '2e6', '6.56e-7', '5.18 m', '0.0656'].every((w) => sj.indexOf(w) >= 0)
+        && ['half-width', 'full width 10.4 m', '|z| < R_eq', 'neither the receiver\'s spin nor its orbital speed', '31 that pull', '28 that push', '21 with zero vertical force', '1e5', '2e6', '6.56e-7', '5.18 m'].every((w) => se.indexOf(w) >= 0)
+        && sj.indexOf('帯の厚み R_eq') < 0 && se.indexOf('band thickness R_eq') < 0;
+      if (!okRv) bad.push('🛟 の説明の文(帯の半幅・全幅・式・見えるようにした倍率・経路の型の注記・旧い「帯の厚み R_eq」が残っていない)');
+      const appTx = [gc, bk('grcal'), bk('grcalGps'), bk('boxtrans'), bk('boxcomoving'), bk('boxbreath'), rv].filter(Boolean).map((q) => q.description + q.en.description).join('\n') + H.evalExpr('I18N.ja.hudClock+I18N.ja.hudClockPt+I18N.en.hudClock+I18N.en.hudClockPt');
+      if (/第\d+便|決断事項/.test(appTx)) bad.push('アプリの中の文に便名か決断事項');
+      if (!(gc && gc.descStruct.observe.indexOf('点の時計') >= 0 && gc.descStruct.observe.indexOf('表面の時計') >= 0 && /重いほど必ず遅いわけではない/.test(gc.descStruct.observe) && /heavier is not always slower/.test(gc.en.descStruct.observe))) bad.push('⏱️ の説明に点の時計・表面の時計・「重いほど必ず遅いわけではない」');
+      cases.push('🛟 の説明の文(ja/en —— 帯の半幅・全幅 10.4 m・|z| < R_eq・見えるようにした倍率・経路の型 31/28/21)・⏱️ ほか 6 本の時計の文・アプリの中に便名なし');
+    }
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /一致した/, /新しい結果/, /時計が正しくなった/, /重い天体ほど遅いことが確かめられた/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    const NGC = [cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));
+    const W340 = ['ためか確', 'たし示', 'たし明説', 'たし定同'].map(rvC);
+    for (const [nm, tx] of [['PHYSICS〔第342便a〕', sec], ['AI_SPEC §263', ai], ['CHANGELOG の第342便a の行', cl]]) {
+      for (const w of NGC.concat(W340)) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT) if (re.test(strip(tx))) bad.push(nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push(nm + ' に裸の係数記号');
+    }
+    cases.push(`節の位置・必須の語 ${want.length}・AI_SPEC §263・CHANGELOG・post-merge の ③′・書かない語`);
+    add('docs.surfclock342a', bad.length === 0,
+      `**表面の時計と 🛟 の説明の直しの文書**(第342便a・R371 —— PHYSICS〔第342便a〕・AI_SPEC §263・CHANGELOG・本の文): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第342便a の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
