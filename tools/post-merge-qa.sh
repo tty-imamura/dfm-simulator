@@ -1126,6 +1126,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutocontrol341g docs.plutocontrol3
 #   解析値・点の時計の不変・質量 0・軟化 0・表示の倍率・動く時計・合体と分裂の追随・説明の文の数 / docs.surfclock342a —— PHYSICS〔第342便a〕・AI_SPEC §263・CHANGELOG・🛟 の説明の文)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfclock342a docs.surfclock342a"
 # ==== 第342便a の塊(ここまで)====
+# ==== 第342便f の塊(ここから)====
+# 第342便f(原仮定者の回答(2026-11-18 —— 第142報)・統括の検証項目 R377 —— 文書と照合の鍵だけ・html は変えない): 新設 2 本(docs.report142_342f —— PHYSICS〔第342便f〕の
+#   回答 3 項の原文・AN800 の訂正の鎖・並べて読む所 4 つ・用語 4 つ・AI_SPEC §269・CHANGELOG / lint.equations342f —— EQ-78 の字と html の表面の時計の実装・EQ の番号の連続・
+#   EQ-79〜EQ-83 と第341便の節の同じ字の式・抜粋は lib の定義の範囲)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report142_342f lint.equations342f"
+# ==== 第342便f の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
